@@ -1,279 +1,106 @@
 Received: from o1.ptr9745.em.honeycomb.io (o1.ptr9745.em.honeycomb.io [149.72.141.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D9F242D88
-	for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 05:04:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232F61DED42
+	for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 05:05:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.141.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790485483; cv=none; b=lB/QxO1bvNy6NF1RuPJgnMt7ZnGdBf6VoAmIth7Wsq6Xj2konzefSoG+WHRBKfBx3H13yb828Kfc00tdY2gOW2k03HCJWJxRUfwsPyY4xRQe+GqGM3Gzj86HnKZ0gXu+3HF5Ajq1dOZyW1ubCscbZmGFMdkDf9bpJXkEPzDEIB0=
+	t=1790485540; cv=none; b=Ywn/n82XQOWbhztJHhCQGUoB0dOlUZpBkbYy45tuOqsydBWmaEXALtdZjNi4WbQFzzr+X4K0vnNIE3oPbHoiYtH2Qql2uCRYgdfMcSqYgISsNfYybVqibyJcU+ZKlaA0XHRnTJqTfaSItVRcIUEgY35lUFxaUFP2zdF6CgvzA+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790485483; c=relaxed/simple;
-	bh=TvjgwKfxRWoop+S5G5ZIakPAQZmM9hjcQdoUj56GMq0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kh2DjfW2+KxOKnT+W4gYxb7m0uuJ6e7kW12Yd68IPMhwloTnF3WcJEZmd5wx6yV4PCL5tKNTXf8F4dpWk+bb3V0ciiBFi9r7ha9kfhtw7GnsqD69CDXDHvfznq/axkA3vTRl6+0udbwEQi6YvOdxxiBnBSs2rUbjZs/wEbXEqLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=kknxETGX; arc=none smtp.client-ip=149.72.141.136
+	s=arc-20240116; t=1790485540; c=relaxed/simple;
+	bh=zn6BbkJEhFs23Eo8RTaeJTaWbmcol9R1A4YoAun3TPQ=;
+	h=From:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
+	 To:Cc:Content-Type; b=gkL8vAoIIDP/3gzJuuAGgvQhDrbzLRmhT9MwtRlTE6nvB0zuShWDjyy52KM+iZa0u/ygDKt8IwoxgFOIMruf1AQ/iYd0Pkh7eJLuC1d89o1Q2buYfLE/58pVEkuwhtcglV0JWduj8zQxPXnZVDGumMgvNvrp+1kC/tkkVFrQGcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=Lj8ltAs+; arc=none smtp.client-ip=149.72.141.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em.honeycomb.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="kknxETGX"
+	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="Lj8ltAs+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=honeycomb.io;
-	h=from:date:subject:mime-version:content-type:content-transfer-encoding:
-	to:cc:cc:content-type:date:from:subject:to;
-	s=s1; t=1790485479;
-	bh=+4jro1MTzUF06io04gLz+PFvy0PpidJfPQA84CrpgNI=;
-	b=kknxETGXBLiN+fC0CeXE1ukNhZOsuMLR5UzCAlEaXRQeDgkRzLcNF0OOkTfPgNQWiICR
-	3AUVExFJIvOhYg/aoVp3N7mjOGkoFtcXAMSIy+UiilUxqSuFbn4T/fxxwYuap5EVqd9pxA
-	3LJk4TGrz8g5yBaYzJwiFmFMU6mBsODIiSEHZmtFv78lXQ7Qcr1MF8FXuwRdNesa9fUy0y
-	XrndeTaWyntZUDlINYJGdOWidPHEmmQOJeSdd7AcA4bkeZXrfnycHeWqYK5Mr/udkFgw7U
-	x2ssd1dkBi2d5Xfd3XGrjdzwZe6kSRxSc2AhR7FzcyrLEldwwSgBSOKwSvEfOE8w==
-Received: by recvd-859f4b9877-dwngx with SMTP id recvd-859f4b9877-dwngx-1-6AB8A3E7-47
-	2026-09-27 05:04:39.464940507 +0000 UTC m=+206322.744621825
-Received: from [127.0.1.1] (unknown)
-	by geopod-ismtpd-20 (SG) with ESMTP
-	id CwOn27KUQ7m8N7Fcb1r4_Q
-	Sun, 27 Sep 2026 05:04:39.406 +0000 (UTC)
+	h=from:subject:date:in-reply-to:references:mime-version:to:cc:
+	content-type:content-transfer-encoding:cc:content-type:date:from:subject:to;
+	s=s1; t=1790485538;
+	bh=dIu+uxKxmBTiRyBhXA1GHtsbpyALmF82c9dDMDeUaVQ=;
+	b=Lj8ltAs+d5EL+778uG8F9Mx1M0sZ2Ak8Ji2qpHMKj7CMjfifTKYdmPt6L+LuvU8ZjHgq
+	tPSbPX1nycDrJQCIkmkBGTpQwLN6JeSbhdWpLUZ+Gw5IT+1IfaNFPFdgxhG0gaLg0PhiYC
+	leNkSNhy5qgTbyy5YwoMl6iUe/S16UZei/2huaXSsYfjRHKtWe3a5tEaCMqOVRiL5wXizg
+	hbdSvamDV3H4VhnxUxJY/SfaSJrgKuPP4KVgMwzNywW6lI5qYw3xZiQ40ZpjlRQAJahDy4
+	Ic5dHk3gJNDUnIlPqU5zZDHWIMoiK860jMzHU1AON6WK+Wg/ddJSot2wf4oBhPoA==
+Received: by recvd-54ddf9bf54-45v4w with SMTP id recvd-54ddf9bf54-45v4w-1-6AB8A422-13
+	2026-09-27 05:05:38.117618214 +0000 UTC m=+206484.562045752
+Received: from daisy.dens.ffj.family (unknown)
+	by geopod-ismtpd-11 (SG)
+	with ESMTP
+	id nWB_4sVCTZa2RdD_Lk-VsA
+	Sun, 27 Sep 2026 05:05:38.057 +0000 (UTC)
 From: Liz Fong-Jones <lizf@honeycomb.io>
-Date: Sun, 27 Sep 2026 05:04:39 +0000 (UTC)
-Subject: [PATCH] writeback: let foreign flushes reach dying cgwbs
+Subject: Re: [PATCH v2] writeback: size foreign flushes by target wb dirty
+ pages
+Date: Sun, 27 Sep 2026 05:05:38 +0000 (UTC)
+Message-ID: <20260927050537.1117140-1-lizf@honeycomb.io>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260924065443.1650126-1-yinxin.x@bytedance.com>
+References: <20260924065443.1650126-1-yinxin.x@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260926-wb-dying-cgwb-flush-v1-1-a8d898085a3a@honeycomb.io>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMywqDMBBFf0Vm3YE0i4D+inSRxxhHJC2ZWlvEf
- 3esu3u4nLOBUGUS6JoNKn1Y+FkU7rcG4uhLJuSkDNZYZ1rrcA2YflwyxqxzmBcZ0TjSl6wPPoG
- ar0oDf//V/nGxLGGi+D5TsO8HW4+owXcAAAA=
-X-Change-ID: 20260926-wb-dying-cgwb-flush-06e260e2abad
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8522; i=lizf@honeycomb.io;
- s=gpg; h=from:subject:message-id;
- bh=TvjgwKfxRWoop+S5G5ZIakPAQZmM9hjcQdoUj56GMq0=;
- b=owEBbQGS/pANAwAKAaXO1OOXra/CAcsmYgBquKPn1sNIzpCLby9DFncuje+MLA0Jh6n64I/7x
- T0INynFIhiJATMEAAEKAB0WIQSfW1LPQ0gyJmoTHwelztTjl62vwgUCarij5wAKCRClztTjl62v
- wgqtB/9JY2u8FDB4jdu0zx08IpYZbBst2X/t92lMZU/EhRadpIbqbAcbQhiTHD48+MH6n3ERy24
- tsVF1Vr+QV3T2zpzzxgarSuCPtGS/ZRPmWY0G3Fa+KQC8pDqJ1+LohkTEUZ1JxzKavSeOGbelC3
- r3pPpQqhEaZXeZeTMxhqLKDhBX+ei6plsi5qAmvLRh+N/sF0eg4qLWJt9z47Btll94kTwD6FT0H
- ZVsAi4tFOGbUPxG7CDcv7PQARoNdQh7LTkv1QrBtQy1Ba4HqUoiAK8EBnugu58XeesHkWZ2loLs
- 1YxiVg8idpW15lSEMAL4gLK4AEnVs8ITAXJ+Cd0gmhKn3Syn
-X-Developer-Key: i=lizf@honeycomb.io; a=openpgp;
- fpr=1F7714D7EC3441D2CECC24606A3F8B00FBDDD2A4
 X-SG-EID: 
  =?us-ascii?Q?u001=2ECuH7N2XAoeMR1zrzr=2F6NZrhli2vbKPOHff5fJuZuba6ZIE8QPyIf9mn4Y?=
- =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmeUj22rDtwFPn?=
- =?us-ascii?Q?6t5WoqjriadbwirARoiyHWAvFOS2kX70JYRV+VB?=
- =?us-ascii?Q?yTo5789UNL2v4=2FqF1gmk28QYLOV8QYCFeeMV9rI?=
- =?us-ascii?Q?WISgza=2FvLjhudRMEuAPmYZyra+sbLljgxfO3Utt?=
- =?us-ascii?Q?8v+D24IrbEITLx=2FmKiqVcV4519XhP9CZowacJYq?= =?us-ascii?Q?xz9F?=
-To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Tejun Heo
-	<tj@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
-	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner
-	<hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt
-	<shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ian@honeycomb.io, stable@vger.kernel.org,
-	Liz Fong-Jones <lizf@honeycomb.io>
+ =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmeQ2gdCcmbq0l?=
+ =?us-ascii?Q?lGZMO8UHa=2F9Ew5Yxmb+YDm=2FpHpETUS9Pt5VXOiF?=
+ =?us-ascii?Q?sk2Sy4Vnub50aQIlZ2SvrmetiPadB77p=2FkUPPLG?=
+ =?us-ascii?Q?I4M4aPNcAiRbW0IHSBpbUMb691qG37Flv=2FxCGNv?=
+ =?us-ascii?Q?1FSeM16bUGYFjZQZNvloacNtOQWNOyFo0suGhP3?= =?us-ascii?Q?TyQC?=
+To: Xin Yin <yinxin.x@bytedance.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+	<brauner@kernel.org>, Jan Kara <jack@suse.cz>, Tejun Heo <tj@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ian@honeycomb.io
 X-Entity-ID: u001.GRlkmHQ+Ka/CKxmoC/CxTw==
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-cgwb_kill() takes an offline memcg's wbs out of bdi->cgwb_tree, but
-inodes that are still being dirtied stay attached to them. When a
-replacement container keeps appending to those files, its foreign
-flushes fail with -ENOENT in wb_get_lookup(), and it sleeps in
-balance_dirty_pages() for seconds to minutes.
+On Thu, Sep 24, 2026 at 02:54:43PM +0800, Xin Yin wrote:
+> Use the target wb's WB_RECLAIMABLE counter and keep the existing 25%
+> headroom.
 
-Fall back to searching bdi->wb_list, where killed wbs stay until they
-are released. With commit 168a8c13159c ("writeback: size foreign
-flushes by target wb dirty pages"), the flush is then sized from the
-wb's own dirty pages and writes out what the replacement dirtied.
-
-Test, on top of that commit: a cgroup appends to 1000 files at
-250MiB/s and is removed, then a second cgroup keeps appending to the
-same files under a 4G parent limit. Worst lag of the second writer
-behind schedule over 120s, in three runs:
-
-  without this patch   85.3s  46.9s  52.1s
-  with this patch       1.0s   1.0s   1.1s
-
-Fixes: d62241c7a406 ("writeback, memcg: Implement cgroup_writeback_by_id()")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-5-5 checkpatch sparse
-Signed-off-by: Liz Fong-Jones <lizf@honeycomb.io>
----
 At Honeycomb, a container that reads from Kafka and writes columnar
 files to a host volume stalls for 30-60s after each deploy replaces it
-(v6.18). This is likely the cause: the stall looks the same as in the
+(v6.18). This is likely the cause: the stall looks the same as in our
 reproducer (little CPU use, lag growing linearly and then recovering),
 though we haven't traced it in production yet.
 
-Based on vfs-7.4.misc, next to Xin Yin's 168a8c13159c, which fixes the
-sizing but not the lookup of a removed cgroup's wb. Each helps without
-the other; this one also applies cleanly to mainline. On mainline
-(fd179f8a05be), without 168a8c13159c, the test from the changelog gave
-52.8s, 73.3s and 5.2s worst lag before this patch and 1.0s, 1.0s and
-1.0s after.
+I tested with a reproducer where one cgroup appends to 1000 files at
+250MiB/s and stops, then a sibling keeps appending to the same files
+under a 4G parent limit. With the old cgroup kept alive, worst lag
+behind schedule over 120s, three runs each, arm64 KVM guest:
 
-Trigger: a cgroup dirties files and is removed while they are still
-dirty; a sibling keeps appending to the same files under a parent memory
-limit. Symptom: cgroup_writeback_by_id() returns -ENOENT and the sibling
-stalls in balance_dirty_pages(). Minimal recipe below; the harness that
-produced the numbers (paced writer, lag per second, MODE=alive control)
-is at https://gist.github.com/lizthegrey/2209d831930588f63076bdc0ac7b78e2.
+  b53f422491af (parent)  9.4s  3.0s  10.7s
+  168a8c13159c           1.0s  1.1s   1.1s
 
-On ext4, syncing before the removal doesn't reliably help: writeback can
-leave inodes I_DIRTY_SYNC after syncfs, and cleanup_offline_cgwbs_workfn()
-then skips the dying wb entirely (2 of 3 runs at 5000 files; a second
-syncfs avoided it in 5 of 5). On XFS one syncfs left the wb clean in 5
-of 5 runs.
+Tested-by: Liz Fong-Jones <lizf@honeycomb.io>
 
-Harness settings for all numbers: MEM_MAX=max POD_MAX=4G RATE_MBPS=250,
-plus NFILES=5000 SYNC_OLD=1 (or 2) for the syncfs runs and
-NFILES=500000 OLD_SECS=120 SYNC_OLD=1 POD_HOP=10 for the 500k-file runs.
+When the old cgroup is removed, which is what a restart does, this patch
+alone doesn't help: wb_get_lookup() can't find the dying wb, so the
+flush fails with -ENOENT before the sizing matters. My follow-up fixes
+the lookup. Worst lag in each run, this patch alone and with the
+follow-up on top:
 
-Also reproduced unpatched on bare-metal arm64 with Ubuntu's 7.0 kernel
-(ext4 on a loop device): 12.9s worst lag with the old cgroup removed,
-2.5s with it kept.
+                                       this patch         + follow-up
+  old cgroup removed, 1000 files       85.3  46.9  52.1s  1.1  1.0  1.1s
+  500k files, synced before removal   115.3 115.3s        1.5  1.0s
+  500k files, pod cgroup removed too  115.9  47.5s        1.0  1.0s
 
-Tested: arm64 KVM guests (virtme-ng), ext4 and XFS on virtio. No lockdep,
-PROVE_RCU, DEBUG_ATOMIC_SLEEP or DEBUG_PAGEALLOC reports. W=1, sparse
-and checkpatch --strict clean.
-No new warnings building arm64 defconfig with and without
-CGROUP_WRITEBACK, allnoconfig, arm multi_v7_defconfig with
-CGROUP_WRITEBACK, and the touched files (W=1) under arm64 allmodconfig
-and x86_64 defconfig with CGROUP_WRITEBACK.
+  https://lore.kernel.org/all/20260926-wb-dying-cgwb-flush-v1-1-a8d898085a3a@honeycomb.io/
 
-Not tested: x86, production, linux-next.
+Christian, could this one get Cc: stable as well? Both bugs date back
+to v5.4.
 
-Workaround until this lands: lowering vm.dirty_expire_centisecs from
-3000 to 500 cut the worst lag on unpatched mainline to 4.8s, 4.6s and
-14.3s, but did not remove the stall.
+Debugged with Claude Opus 5.5, which ran the tests; I designed the
+experiments and reviewed the results.
 
-Stable: please take 168a8c13159c too. Without it the flush is sized from
-the dead memcg's own dirty pages, so this only helps while it has some.
-f6988c90671e (already in mainline and tagged for stable) also matters:
-on XFS with 500k synced inodes and the pod cgroup removed 10s later, the
-handover was slow enough without it that the replacement fell 21-22s
-behind (vfs-7.4.misc), against 1.0-1.2s with it (mainline).
-Before 5.14 there is no offline_cgwbs cleanup, but the bdi->wb_list walk
-should still apply.
-
-Not covered: after a blkcg association change, wb_get_lookup() finds the
-new clean wb, so the fallback doesn't run.
-
-Developed with Claude Opus 5.5, which wrote the code, the reproducers
-and first drafts of this text, and ran the builds and VM tests. I drove
-the investigation from the production symptoms, designed the
-experiments and controls (repeated runs, parent-commit baselines,
-testing this patch on its own), and reviewed the analysis, code and
-results.
-
-Minimal recipe:
-	#!/bin/bash
-	# As root, cgroup v2, in a directory on ext4/xfs/btrfs ($DIR).
-	cg=/sys/fs/cgroup/wbmini
-	mkdir $cg && echo +memory > $cg/cgroup.subtree_control
-	echo 4G > $cg/memory.max
-	mkdir $cg/old $cg/new
-	append() {  # append $1 blocks of $2 to each of 1000 files
-		for i in $(seq 1000); do
-			dd if=/dev/zero of=$DIR/f$i bs=$2 count=$1 \
-			   oflag=append conv=notrunc status=none
-		done
-	}
-	(echo $BASHPID > $cg/old/cgroup.procs
-	 append 8 1M            # old owner writes the files...
-	 append 1 64k)          # ...and exits with all of them dirty
-	rmdir $cg/old           # its cgroup goes away while they are dirty
-	bpftrace -e 'kretprobe:cgroup_writeback_by_id { @ret[(int32)retval] = count(); }' &
-	sleep 3
-	time (echo $BASHPID > $cg/new/cgroup.procs
-	      append 4 1M)      # replacement keeps appending to the same files
-	kill -INT $!; wait
-	rmdir $cg/new $cg
-	# Unpatched: many @ret[-2] (-ENOENT) and the append stalls.
-	# Patched: @ret[0] only.
----
- fs/fs-writeback.c           |  2 ++
- include/linux/backing-dev.h |  2 ++
- mm/backing-dev.c            | 31 +++++++++++++++++++++++++++++++
- 3 files changed, 35 insertions(+)
-
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index d26b2cf05283..5fb70c16488d 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -1189,6 +1189,8 @@ int cgroup_writeback_by_id(u64 bdi_id, int memcg_id,
- 	 * there's nothing to flush, don't create one.
- 	 */
- 	wb = wb_get_lookup(bdi, memcg_css);
-+	if (!wb)
-+		wb = wb_get_lookup_dying(bdi, memcg_css);
- 	if (!wb) {
- 		ret = -ENOENT;
- 		goto out_css_put;
-diff --git a/include/linux/backing-dev.h b/include/linux/backing-dev.h
-index c2284466e7aa..2bbc74b3b180 100644
---- a/include/linux/backing-dev.h
-+++ b/include/linux/backing-dev.h
-@@ -151,6 +151,8 @@ static inline void bdi_wb_stat_mod(struct inode *inode, enum wb_stat_item item,
- 
- struct bdi_writeback *wb_get_lookup(struct backing_dev_info *bdi,
- 				    struct cgroup_subsys_state *memcg_css);
-+struct bdi_writeback *wb_get_lookup_dying(struct backing_dev_info *bdi,
-+					  struct cgroup_subsys_state *memcg_css);
- struct bdi_writeback *wb_get_create(struct backing_dev_info *bdi,
- 				    struct cgroup_subsys_state *memcg_css,
- 				    gfp_t gfp);
-diff --git a/mm/backing-dev.c b/mm/backing-dev.c
-index cecbcf9060a6..1437f80ed7e3 100644
---- a/mm/backing-dev.c
-+++ b/mm/backing-dev.c
-@@ -807,6 +807,37 @@ struct bdi_writeback *wb_get_lookup(struct backing_dev_info *bdi,
- 	return wb;
- }
- 
-+/**
-+ * wb_get_lookup_dying - get a killed wb for a given memcg
-+ * @bdi: target bdi
-+ * @memcg_css: cgroup_subsys_state of the target memcg (must have positive ref)
-+ *
-+ * wb_get_lookup() only finds wbs that are still in @bdi->cgwb_tree.  A
-+ * killed wb leaves the tree but stays on @bdi->wb_list until it is
-+ * released, and inodes attached to it can keep collecting dirty pages from
-+ * other memcgs until they are written back and switched away, so foreign
-+ * flushes still need to reach it.  Returns a wb of @memcg_css on @bdi which
-+ * has dirty IO, with a reference held, or %NULL.  If there are several,
-+ * the first one found is returned; this is best effort.
-+ */
-+struct bdi_writeback *wb_get_lookup_dying(struct backing_dev_info *bdi,
-+					  struct cgroup_subsys_state *memcg_css)
-+{
-+	struct bdi_writeback *wb;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(wb, &bdi->wb_list, bdi_node) {
-+		if (wb->memcg_css == memcg_css && wb_has_dirty_io(wb) &&
-+		    wb_tryget(wb)) {
-+			rcu_read_unlock();
-+			return wb;
-+		}
-+	}
-+	rcu_read_unlock();
-+
-+	return NULL;
-+}
-+
- /**
-  * wb_get_create - get wb for a given memcg, create if necessary
-  * @bdi: target bdi
-
----
-base-commit: 168a8c13159c6e3f0f08da6f8fa2f633a91ba9fd
-change-id: 20260926-wb-dying-cgwb-flush-06e260e2abad
-
-Best regards,
---  
-Liz Fong-Jones <lizf@honeycomb.io>
-
+Thanks,
+Liz
