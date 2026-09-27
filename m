@@ -1,130 +1,162 @@
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7202D3CBE66
-	for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 08:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484463C09F7;
+	Sun, 27 Sep 2026 09:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790496747; cv=none; b=W2V2sRVBg94U9Uq80dCnU5ceq2fvlfEtMwc+9PqnnG5eiX7XqporDwIH28op1ZgX1aXLLcX554jr8Lo0C1d8QKvWV107Lb9b114J8ztVa/dMkeKiqBXSqGygkOeHI/lng+qeO0Epqk0/XfkDJNsCeIHtEk+6xrZkR5EqZzG47c8=
+	t=1790502538; cv=none; b=ucTSZtwFSyX2dmEBabjl/2W82MJVKE/zqBaLmbAG1Diig1+9iP7BOKK2SR6OFXKYb92og6PgynGU12BJH34Q3UGUGEhoB+MmVpndZIzBoY79iKa6RSEx3zMtx0/C9k7h0u+Fl5c8uTHWODaX+/TszfYu/Ps83yB07JD8pC2zJ+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790496747; c=relaxed/simple;
-	bh=lLMJealxkAdXTURrDg7UpeKv4UMlYxrVStomrTmBkek=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=fjJBGIPgVnbuDWP8ZclIPWBxvltKTVfSNJj8dCZ7y2BVwSxfPu/ORJtjHN8P7qO5Kt3cszS9oZtJMti5nd23XNjzmmk+lN+RM5eN2AP7wZKi3TP+QMK99Tx7U43B5b9HuUg4XtQyWyvnd4UwC+0aaalUbZNJeU96xFVeQoUmgRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4e937c5bd4fso147991b6e.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 01:12:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790496744; x=1791101544;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=K9X8BY6U+YIcepRPV0MZIBm8qRqdDSo7Q6FIIDDCDBA=;
-        b=pes49NR5y4fjJ0UJ9Hzs9Hv2LrUU6OYyruOBfKwnK/6SeI90ADm3jXO0Uk56GFRSt1
-         wD88xYW7xZFMeJ5nWh3/tJQdZvpXDo1Hh0tw2EYdYNPN73SYb7qMUnbli9RAn72/BgBu
-         +vhcQN35vLRYi8aGcIUiEeL02HQfXBq4WzOkrdQOHoUoLh0ERcgt35P66Km+Elb9rW2V
-         K6LWkgIw9/7I+AGtXwG+4Ktulkc+7YFatt90CibhjI6zuMiCwup5gDUmpGFu2xMYr+iS
-         vq2LKCv2mSsp49JNKu0V7pOTXcJA10LxQ5C57EgZ2rajgfF1MIGoRjmd1m/wnpsr69hr
-         Xnuw==
-X-Forwarded-Encrypted: i=1; AKwUvBwRG//KHUd+bE3aAuhUFOn/XCuB7IJTDQa9O98X83QONAWDy7+JQ4YrtT+5VqR3K0lP7iYHWIl7rH39jwpA@vger.kernel.org
-X-Gm-Message-State: AFuF++mst+sOZx73dMH6tXDxnL1J6Fz+3jW/IMRSfUAbEk9etsu7Afb3
-	vwBRAuXvpER5/Mj1lOMXLisdKPaLbXZdaQhnVnVzkYGCnFWlky6ANGQkUc2xhd4FR8fmtX5VBeQ
-	iTGYeHRb4QoEc8zbnCun4AdAnD3nk6oPl9lS/JR2ecq6J8rgMisOrsFCREUU=
+	s=arc-20240116; t=1790502538; c=relaxed/simple;
+	bh=0N09YfjQnytfrMmqji3ExZ4+D2Biz5G2uK3SgMkwFnI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ukCvYm99I4LAuwgpazA2JH58UvIva5ShaDSV6Ctkpz+D+rQetHkPmxJgpyr7BqeqHxN/2MR5diwHOHj5I67kvYgg6qHKJYxLql3DLDxh8RjwgGkkrGORFgRxVSCOnvZupUcJDdZyzgdUCjG+UPyvcuaEs0c8pCTCEeQ6Ptz3zz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JaHG2EPc; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JaHG2EPc"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 97ABFC2BCB3;
+	Sun, 27 Sep 2026 09:48:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790502537;
+	bh=0N09YfjQnytfrMmqji3ExZ4+D2Biz5G2uK3SgMkwFnI=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=JaHG2EPc2JDja1JrDblw01EeC6ifrHk4Qe6H+OIqITBVjCASUWn3wPXXsaFpAAi8g
+	 rSYedDMguEc9sEtUagUtu4wf0NHfFJc94fIs07m9U+LGqJw0X713yP/AW5arCOqsPM
+	 NLdMSHcIf6cj9ltm0inIta+dD0PqbYZOXtwWqGs6XmXX+FYqZdj1hRuRHUFzlLWmQ8
+	 43VBMyYqicixTRfVWjHSyergkX6QRUkeIsXh7JmaYbWXpZh2gE2KTXtUPiGGxNUh+G
+	 X/EVkwHw4i27rU6TTjACnfkd9NngtZ83ghCzkkR+VpaLY161lKlUdrMmUOLX2cMiJW
+	 T8xk6upSCGzjg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BFB3C9832F;
+	Sun, 27 Sep 2026 09:48:57 +0000 (UTC)
+From: Henrik Ma Johansson via B4 Relay <devnull+dahankzter.gmail.com@kernel.org>
+Subject: [PATCH RFC] io_uring: add IORING_OP_COPY_FILE_RANGE
+Date: Sun, 27 Sep 2026 11:48:56 +0200
+Message-Id: <20260927-cfr-rfc-v1-0-5b9ddbe0490f@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:10c6:b0:4d3:6be7:c64a with SMTP id
- 5614622812f47-4dc478167f9mr6530733b6e.0.1790496744441; Sun, 27 Sep 2026
- 01:12:24 -0700 (PDT)
-Date: Sun, 27 Sep 2026 01:12:24 -0700
-In-Reply-To: <6ab7dca9.80e1c6cc.1e8e5f.0046.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ab8cfe8.dc2998a4.2261f5.0062.GAE@google.com>
-Subject: Re: [syzbot] [fuse?] WARNING in fuse_iomap_writeback_range
-From: syzbot <syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com>
-To: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDSyNz3eS0It2itGRd41RDY7PE5MQ0M5NUJaDqgqLUtMwKsEnRSkFuzkq
+ xEMHi0qSs1OQSkBlKtbUAphQPf3AAAAA=
+X-Change-ID: 20260927-cfr-rfc-3e136acaf64e
+To: Jens Axboe <axboe@kernel.dk>, io-uring@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Henrik Ma Johansson <dahankzter@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4464;
+ i=dahankzter@gmail.com; h=from:subject:message-id;
+ bh=0N09YfjQnytfrMmqji3ExZ4+D2Biz5G2uK3SgMkwFnI=;
+ b=owGbwMvMwCXG83nVLZlv8sKMp9WSGLJ2POt4o3KH8QV/mvbRZTFcFw6aCWq6XFtS69Ancfv2h
+ 4iHi67XdZSyMIhxMciKKbJcqnFdeI7hRq5jyocEmDmsTCBDGLg4BWAi/cYM/93M/p6NSuZmWRvu
+ wHSkLmUe9zunf81fmoTmbIuSZFaaLMLwP1/voLGa6OIfj60OcpUkMHTdMlqxkS+tb7OM1yfWPVP
+ msQIA
+X-Developer-Key: i=dahankzter@gmail.com; a=openpgp;
+ fpr=D27C45A1CE00D86D4164F0600CF3AADA1CF61F13
+X-Endpoint-Received: by B4 Relay for dahankzter@gmail.com/default with
+ auth_id=1067
+X-Original-From: Henrik Ma Johansson <dahankzter@gmail.com>
+Reply-To: dahankzter@gmail.com
 
-syzbot has found a reproducer for the following issue on:
+Hi,
 
-HEAD commit:    fd179f8a05be Merge tag 'ata-7.3-rc5' of git://git.kernel.o..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=13490605580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9d4242cb1c54cdf7
-dashboard link: https://syzkaller.appspot.com/bug?extid=e8200299b0556976e13c
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1523f2c9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14385315580000
+This adds IORING_OP_COPY_FILE_RANGE, a thin io_uring front end for
+vfs_copy_file_range(). A liburing helper, man page and test follow
+separately.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/c4cebd01ff3c/disk-fd179f8a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/9fd8641fa35c/vmlinux-fd179f8a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c6e8e6332600/bzImage-fd179f8a.xz
+Why not splice: copy_file_range lets the filesystem choose how to copy.
+XFS and Btrfs share extents (reflink); NFS, CIFS and Ceph copy server
+side. IORING_OP_SPLICE needs a pipe on one end, so today's io_uring
+alternative is two linked splices through a pipe, which always moves
+every byte. It has been asked for in liburing issues #831 and #1383.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com
+4 GiB copy + fsync, virtme-ng guest (relative numbers only):
 
-------------[ cut here ]------------
-!ff
-WARNING: fs/fuse/file.c:2043 at fuse_write_file_get fs/fuse/file.c:2043 [inline], CPU#0: syz-executor122/5774
-WARNING: fs/fuse/file.c:2043 at fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227, CPU#0: syz-executor122/5774
-Modules linked in:
-CPU: 0 UID: 0 PID: 5774 Comm: syz-executor122 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-RIP: 0010:fuse_write_file_get fs/fuse/file.c:2043 [inline]
-RIP: 0010:fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227
-Code: fe 48 83 3b 00 74 5b e8 e6 f0 6c fe 4c 8b 3c 24 e9 08 0b 00 00 e8 d8 f0 6c fe eb 5c e8 d1 f0 6c fe 4c 89 f7 e8 39 63 8e 08 90 <0f> 0b 90 48 b8 00 00 00 00 00 fc ff df 48 8b 4c 24 58 80 3c 01 00
-RSP: 0018:ffffc90003e172b8 EFLAGS: 00010286
-RAX: 8000000000000000 RBX: ffff88806e4ea880 RCX: ffffffff9a9ec501
-RDX: 0000000000000001 RSI: 0000000000000004 RDI: 00000000ffffffff
-RBP: 0000000000001000 R08: ffff88806e4eae63 R09: 1ffff1100dc9d5cc
-R10: dffffc0000000000 R11: ffffed100dc9d5cd R12: ffff88806e4ead08
-R13: 0000000000001000 R14: ffff88806e4eae60 R15: ffff88806e4ead08
-FS:  00007f6a3f53e6c0(0000) GS:ffff888124cc8000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000020000000b000 CR3: 0000000078090000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- iomap_writeback_range fs/iomap/buffered-io.c:1896 [inline]
- iomap_writeback_folio+0x1526/0x2490 fs/iomap/buffered-io.c:2022
- fuse_launder_folio+0x17b/0x240 fs/fuse/file.c:2331
- folio_launder mm/truncate.c:612 [inline]
- folio_unmap_invalidate+0x4cd/0x830 mm/truncate.c:634
- invalidate_inode_pages2_range+0x629/0xb30 mm/truncate.c:726
- fuse_open+0x5a6/0x770 fs/fuse/file.c:297
- do_dentry_open+0x816/0x1380 fs/open.c:996
- vfs_open+0x3b/0x340 fs/open.c:1101
- do_open fs/namei.c:4837 [inline]
- path_openat+0x1443/0x1d60 fs/namei.c:5000
- do_file_open+0x23e/0x4a0 fs/namei.c:5029
- do_sys_openat2+0x115/0x200 fs/open.c:1417
- do_sys_open fs/open.c:1423 [inline]
- __do_sys_openat fs/open.c:1439 [inline]
- __se_sys_openat fs/open.c:1434 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1434
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f6a3f58fae9
-Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f6a3f53e1d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007f6a3f644b98 RCX: 00007f6a3f58fae9
-RDX: 0000000000000040 RSI: 000020000000c380 RDI: 00000000ffffff9c
-RBP: 00007f6a3f644b90 R08: 31203a6b63617473 R09: 31203a6b63617473
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6a3f6117f4
-R13: 000020000000e3c0 R14: 00002000000062c0 R15: 00007ffe0b2d2af8
- </TASK>
+                  this op            two linked splices
+  xfs             0.010 s, 0 MiB     3.17 s, 4+ GiB written
+  btrfs           0.010 s, 0 MiB     2.29 s, 4.0 GiB written
+  ext4            3.27 s             3.22 s   (no reflink; both copy)
 
+On loopback NFSv4.2 the copies show up as nfsd COPY operations.
+
+Semantics are the syscall's: the SQE is packed like splice, -1 offsets
+use and advance f_pos, and all checks are vfs_copy_file_range()'s, so
+there are no fs/ changes. The length is clamped to MAX_RW_COUNT since
+cqe->res is 32 bits.
+
+There's no nonblocking path, so it's always punted to io-wq, like
+splice, fallocate and ftruncate. This is not a throughput win: for
+cheap reflinks it is 1.6x (xfs) and 1.2x (btrfs) slower than a
+synchronous call in my runs, because of the punt.
+
+The point is what the punt buys a userspace runtime. Thread-per-core
+runtimes (I'm working on glommio) keep a per-shard blocking thread for
+syscalls the ring can't express, and copy_file_range is one of the last
+runtime-internal users of it, so user work queues behind runtime copies.
+Modelling that with 30 queued 16 MiB copies and a probe task:
+
+                  probe wait, p50     p90
+  thread pool     51-83 ms            52-87 ms
+  this op         28-40 us            45 us - 0.6 ms
+
+Userspace could split its queues instead (Seastar did), but on the ring
+the copy also links with open/fsync/close, completes on the same CQ,
+works with fixed files and can be cancelled: queued copies get
+-ECANCELED, a running byte copy stops early with a short count. One
+caveat: io-wq workers inherit a pinned submitter's CPU mask, which shows
+up as ~3 ms tails, so pinned runtimes want IORING_REGISTER_IOWQ_AFF.
+
+Questions I'd like opinions on:
+
+ 1. Should a short copy break an IOSQE_IO_LINK chain (as read/write/
+    splice do, and as this patch does), or only errors? EOF on the
+    source gives a short count in normal use.
+ 2. audit_skip: set as for the other data transfer ops, since the
+    syscall is in no audit class. Right for an op that can allocate
+    blocks?
+ 3. How should this fit with the thread identity handoff RFC? The issue
+    path works inline or from io-wq unchanged; cheap reflinks look like
+    a good fit for blocking inline issue, long byte copies less so.
+ 4. Only -ERESTARTSYS is mapped to -EINTR (as in net.c). Would you
+    rather reuse rw.c's io_fixup_restart_res()?
+
+Testing: the liburing test passes on xfs, btrfs, ext4, tmpfs and
+NFSv4.2, on release and KASAN+lockdep kernels, and checks error parity
+with copy_file_range(2). No new failures in the liburing suite. Base:
+for-7.4/io_uring at 8dc68de64261.
+
+AI assistance (Documentation/process/generated-content.rst): the patch,
+test, man page, benchmarks and this letter were drafted with an LLM
+(Claude) in a long interactive session: prior-art research, design,
+implementation, and running the tests and benchmarks above. I reviewed
+all of it, and I'm responsible for it.
+
+This is my first time submitting a patch to the kernel and while I have
+been coding a long time this is still a major milestone. I got the idea
+to implement copy_file_range when I was working on glommio that uses
+io_uring heavily. We are currently using a thread pool for this and it
+works but it kept nagging me in the back of my head until finally I
+decided to give it a try.
 
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Henrik Ma Johansson (1):
+      io_uring: add support for copy_file_range
+
+ include/uapi/linux/io_uring.h |  1 +
+ io_uring/opdef.c              | 11 ++++++++
+ io_uring/splice.c             | 58 +++++++++++++++++++++++++++++++++++++++++++
+ io_uring/splice.h             |  3 +++
+ 4 files changed, 73 insertions(+)
+---
+base-commit: 8dc68de64261e599631aa7ed6cdf3aec07c7ae3d
+change-id: 20260927-cfr-rfc-3e136acaf64e
+
+Best regards,
+--  
+Henrik Ma Johansson <dahankzter@gmail.com>
+
+
