@@ -1,272 +1,279 @@
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+Received: from o1.ptr9745.em.honeycomb.io (o1.ptr9745.em.honeycomb.io [149.72.141.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A9D3A7820
-	for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 20:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D9F242D88
+	for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 05:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.141.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790453594; cv=none; b=nZ68FEy8jMhpiHEOyGYmBZcet90jzCx8cIQZJMq6l3tCKKUGRbGqiKdI1GRJ/7/8Tdk4/Lrq6nHkgGIXT7DRjOdYtAbpQIorw3qOEum/B+EsDbdkYzmTTMmbsy6ZFuJrbAegup913F5FdolcITENJ5SUUpifFk4nfJI8I2dY99E=
+	t=1790485483; cv=none; b=lB/QxO1bvNy6NF1RuPJgnMt7ZnGdBf6VoAmIth7Wsq6Xj2konzefSoG+WHRBKfBx3H13yb828Kfc00tdY2gOW2k03HCJWJxRUfwsPyY4xRQe+GqGM3Gzj86HnKZ0gXu+3HF5Ajq1dOZyW1ubCscbZmGFMdkDf9bpJXkEPzDEIB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790453594; c=relaxed/simple;
-	bh=U3L+YHQPZ9Fdg5xPpvxHXwBpO4HqEwdZylo0vbzA2J8=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=CYa7gmXTqa4tbXEv+lRDlAi/yZAXP5eqdqp0pXb0nCZBOr0Znl/M+Z11HzxBDp0nUpd92x9Rfb0kBRGPSX++fFORCgPlABMGUWH/ivAkRVuEBOo7C3TgYvGgkTTBNc6YehrXdnAzv9RLT0EbBiE9RYra7Kn+Seb+l5FznjSEe7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4ab8b4887d4so1904321b6e.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 13:13:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790453578; x=1791058378;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ZBbSho+P85GL1kTDFS5QcK1B7GkOen3bl7RXC8pXvK4=;
-        b=Lv4vFCzdjCDYJlyBWwaDNALGqvOEsIdiOMgjQjK6eR0PZzCGwnCKWievQaP030TTzU
-         caiLxqQDXFmQ2FFo5Nx6bsyo3p68WdC9s/JkN2h30hA6ZkWgXvQd/FOjiNtn3ayloJVA
-         0V23bBbD9oKQJP+9jr5ZMrybcwaAd/z92FxsEL23VzDxOFnwg1SuoamkXIy1H8fZNNby
-         zYrfdXwIqSIYWPE0BA9GOSjuypi6I1bG06DPsUaNsESC2/vaaV2dDTtUYjNPTVXkG3sg
-         ElO3ctFfUiu9lVEwJUUiKb8MoNN+ppOHvVD2nKO8cJJEFa6GpBsFtt4ZxVDzzvH9eGS+
-         iY0A==
-X-Forwarded-Encrypted: i=1; AKwUvBxgMRqVZ39EqHw39/9oHnFihxFcccSkpPjw1p//meu5vfF7VuPNhNgS7dY/ehO0/WCaf9NDj+EOXchs5Bpy@vger.kernel.org
-X-Gm-Message-State: AFuF++kBlAZt76ZFcEsFPlXA3HC9C6yYvcvaiA8bR9S92fkarEHHpmF0
-	QxH6nak5XJt8AGoP98JswYlYez5Dtsx/1M6qa8e6QQ6bboyK8vRGLTA9HDDjDABaXbNKatPZOBM
-	AbOhnDjcmLusZMCNDmz3JvfFZpT7u3UUbJaYVQZPy1auCDnvgX/FY0EhTLqM=
+	s=arc-20240116; t=1790485483; c=relaxed/simple;
+	bh=TvjgwKfxRWoop+S5G5ZIakPAQZmM9hjcQdoUj56GMq0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kh2DjfW2+KxOKnT+W4gYxb7m0uuJ6e7kW12Yd68IPMhwloTnF3WcJEZmd5wx6yV4PCL5tKNTXf8F4dpWk+bb3V0ciiBFi9r7ha9kfhtw7GnsqD69CDXDHvfznq/axkA3vTRl6+0udbwEQi6YvOdxxiBnBSs2rUbjZs/wEbXEqLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=kknxETGX; arc=none smtp.client-ip=149.72.141.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em.honeycomb.io
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="kknxETGX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=honeycomb.io;
+	h=from:date:subject:mime-version:content-type:content-transfer-encoding:
+	to:cc:cc:content-type:date:from:subject:to;
+	s=s1; t=1790485479;
+	bh=+4jro1MTzUF06io04gLz+PFvy0PpidJfPQA84CrpgNI=;
+	b=kknxETGXBLiN+fC0CeXE1ukNhZOsuMLR5UzCAlEaXRQeDgkRzLcNF0OOkTfPgNQWiICR
+	3AUVExFJIvOhYg/aoVp3N7mjOGkoFtcXAMSIy+UiilUxqSuFbn4T/fxxwYuap5EVqd9pxA
+	3LJk4TGrz8g5yBaYzJwiFmFMU6mBsODIiSEHZmtFv78lXQ7Qcr1MF8FXuwRdNesa9fUy0y
+	XrndeTaWyntZUDlINYJGdOWidPHEmmQOJeSdd7AcA4bkeZXrfnycHeWqYK5Mr/udkFgw7U
+	x2ssd1dkBi2d5Xfd3XGrjdzwZe6kSRxSc2AhR7FzcyrLEldwwSgBSOKwSvEfOE8w==
+Received: by recvd-859f4b9877-dwngx with SMTP id recvd-859f4b9877-dwngx-1-6AB8A3E7-47
+	2026-09-27 05:04:39.464940507 +0000 UTC m=+206322.744621825
+Received: from [127.0.1.1] (unknown)
+	by geopod-ismtpd-20 (SG) with ESMTP
+	id CwOn27KUQ7m8N7Fcb1r4_Q
+	Sun, 27 Sep 2026 05:04:39.406 +0000 (UTC)
+From: Liz Fong-Jones <lizf@honeycomb.io>
+Date: Sun, 27 Sep 2026 05:04:39 +0000 (UTC)
+Subject: [PATCH] writeback: let foreign flushes reach dying cgwbs
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1599:b0:4cb:d056:b14f with SMTP id
- 5614622812f47-4dc57e2b419mr5560159b6e.1.1790453578422; Sat, 26 Sep 2026
- 13:12:58 -0700 (PDT)
-Date: Sat, 26 Sep 2026 13:12:58 -0700
-In-Reply-To: <20260924070410.2629558-1-benquike@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ab8274a.80e1c6cc.1e8e5f.004a.GAE@google.com>
-Subject: [syzbot ci] Re: hfs: validate allocation block parameters in hfs_mdb_get()
-From: syzbot ci <syzbot+cie54066e4e095b471@syzkaller.appspotmail.com>
-To: benquike@gmail.com, frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	slava@dubeyko.com, stable@vger.kernel.org
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260926-wb-dying-cgwb-flush-v1-1-a8d898085a3a@honeycomb.io>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMywqDMBBFf0Vm3YE0i4D+inSRxxhHJC2ZWlvEf
+ 3esu3u4nLOBUGUS6JoNKn1Y+FkU7rcG4uhLJuSkDNZYZ1rrcA2YflwyxqxzmBcZ0TjSl6wPPoG
+ ar0oDf//V/nGxLGGi+D5TsO8HW4+owXcAAAA=
+X-Change-ID: 20260926-wb-dying-cgwb-flush-06e260e2abad
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8522; i=lizf@honeycomb.io;
+ s=gpg; h=from:subject:message-id;
+ bh=TvjgwKfxRWoop+S5G5ZIakPAQZmM9hjcQdoUj56GMq0=;
+ b=owEBbQGS/pANAwAKAaXO1OOXra/CAcsmYgBquKPn1sNIzpCLby9DFncuje+MLA0Jh6n64I/7x
+ T0INynFIhiJATMEAAEKAB0WIQSfW1LPQ0gyJmoTHwelztTjl62vwgUCarij5wAKCRClztTjl62v
+ wgqtB/9JY2u8FDB4jdu0zx08IpYZbBst2X/t92lMZU/EhRadpIbqbAcbQhiTHD48+MH6n3ERy24
+ tsVF1Vr+QV3T2zpzzxgarSuCPtGS/ZRPmWY0G3Fa+KQC8pDqJ1+LohkTEUZ1JxzKavSeOGbelC3
+ r3pPpQqhEaZXeZeTMxhqLKDhBX+ei6plsi5qAmvLRh+N/sF0eg4qLWJt9z47Btll94kTwD6FT0H
+ ZVsAi4tFOGbUPxG7CDcv7PQARoNdQh7LTkv1QrBtQy1Ba4HqUoiAK8EBnugu58XeesHkWZ2loLs
+ 1YxiVg8idpW15lSEMAL4gLK4AEnVs8ITAXJ+Cd0gmhKn3Syn
+X-Developer-Key: i=lizf@honeycomb.io; a=openpgp;
+ fpr=1F7714D7EC3441D2CECC24606A3F8B00FBDDD2A4
+X-SG-EID: 
+ =?us-ascii?Q?u001=2ECuH7N2XAoeMR1zrzr=2F6NZrhli2vbKPOHff5fJuZuba6ZIE8QPyIf9mn4Y?=
+ =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmeUj22rDtwFPn?=
+ =?us-ascii?Q?6t5WoqjriadbwirARoiyHWAvFOS2kX70JYRV+VB?=
+ =?us-ascii?Q?yTo5789UNL2v4=2FqF1gmk28QYLOV8QYCFeeMV9rI?=
+ =?us-ascii?Q?WISgza=2FvLjhudRMEuAPmYZyra+sbLljgxfO3Utt?=
+ =?us-ascii?Q?8v+D24IrbEITLx=2FmKiqVcV4519XhP9CZowacJYq?= =?us-ascii?Q?xz9F?=
+To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Tejun Heo
+	<tj@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
+	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner
+	<hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt
+	<shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ian@honeycomb.io, stable@vger.kernel.org,
+	Liz Fong-Jones <lizf@honeycomb.io>
+X-Entity-ID: u001.GRlkmHQ+Ka/CKxmoC/CxTw==
 
-syzbot ci has tested the following series
+cgwb_kill() takes an offline memcg's wbs out of bdi->cgwb_tree, but
+inodes that are still being dirtied stay attached to them. When a
+replacement container keeps appending to those files, its foreign
+flushes fail with -ENOENT in wb_get_lookup(), and it sleeps in
+balance_dirty_pages() for seconds to minutes.
 
-[v2] hfs: validate allocation block parameters in hfs_mdb_get()
-https://lore.kernel.org/all/20260924070410.2629558-1-benquike@gmail.com
-* [PATCH v2] hfs: validate allocation block parameters in hfs_mdb_get()
+Fall back to searching bdi->wb_list, where killed wbs stay until they
+are released. With commit 168a8c13159c ("writeback: size foreign
+flushes by target wb dirty pages"), the flush is then sized from the
+wb's own dirty pages and writes out what the replacement dirtied.
 
-and found the following issue:
-KASAN: invalid-free in hfs_mdb_put
+Test, on top of that commit: a cgroup appends to 1000 files at
+250MiB/s and is removed, then a second cgroup keeps appending to the
+same files under a 4G parent limit. Worst lag of the second writer
+behind schedule over 120s, in three runs:
 
-Full report is available here:
-https://ci.syzbot.org/series/cf0561b3-479e-4e81-9209-dcf5e7c97d22
+  without this patch   85.3s  46.9s  52.1s
+  with this patch       1.0s   1.0s   1.1s
 
-***
+Fixes: d62241c7a406 ("writeback, memcg: Implement cgroup_writeback_by_id()")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-5-5 checkpatch sparse
+Signed-off-by: Liz Fong-Jones <lizf@honeycomb.io>
+---
+At Honeycomb, a container that reads from Kafka and writes columnar
+files to a host volume stalls for 30-60s after each deploy replaces it
+(v6.18). This is likely the cause: the stall looks the same as in the
+reproducer (little CPU use, lag growing linearly and then recovering),
+though we haven't traced it in production yet.
 
-KASAN: invalid-free in hfs_mdb_put
+Based on vfs-7.4.misc, next to Xin Yin's 168a8c13159c, which fixes the
+sizing but not the lookup of a removed cgroup's wb. Each helps without
+the other; this one also applies cleanly to mainline. On mainline
+(fd179f8a05be), without 168a8c13159c, the test from the changelog gave
+52.8s, 73.3s and 5.2s worst lag before this patch and 1.0s, 1.0s and
+1.0s after.
 
-tree:      vfs
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
-base:      84086827932b58e7645d93d970bbc566c4ee408b
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/23fc2a96-ed2b-4fed-8d8d-653b871c6c0f/config
-syz repro: https://ci.syzbot.org/findings/d2c81756-7cff-47d8-b984-468d9efaef7b/syz_repro
+Trigger: a cgroup dirties files and is removed while they are still
+dirty; a sibling keeps appending to the same files under a parent memory
+limit. Symptom: cgroup_writeback_by_id() returns -ENOENT and the sibling
+stalls in balance_dirty_pages(). Minimal recipe below; the harness that
+produced the numbers (paced writer, lag per second, MODE=alive control)
+is at https://gist.github.com/lizthegrey/2209d831930588f63076bdc0ac7b78e2.
 
-loop1: detected capacity change from 0 to 64
-hfs: inconsistent allocation block parameters in MDB
-hfs: can't find a HFS filesystem on dev loop1
-==================================================================
-BUG: KASAN: double-free in hfs_mdb_put+0x15b/0x270 fs/hfs/mdb.c:467
-Free of addr ffff888117e9bc00 by task syz.1.18/5837
+On ext4, syncing before the removal doesn't reliably help: writeback can
+leave inodes I_DIRTY_SYNC after syncfs, and cleanup_offline_cgwbs_workfn()
+then skips the dying wb entirely (2 of 3 runs at 5000 files; a second
+syncfs avoided it in 5 of 5). On XFS one syncfs left the wb clean in 5
+of 5 runs.
 
-CPU: 0 UID: 0 PID: 5837 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report_invalid_free+0xea/0x110 mm/kasan/report.c:557
- check_slab_allocation mm/kasan/common.c:-1 [inline]
- __kasan_slab_pre_free+0x104/0x120 mm/kasan/common.c:261
- kasan_slab_pre_free include/linux/kasan.h:199 [inline]
- slab_free_hook mm/slub.c:2693 [inline]
- slab_free mm/slub.c:6508 [inline]
- kfree+0x173/0x650 mm/slub.c:6801
- hfs_mdb_put+0x15b/0x270 fs/hfs/mdb.c:467
- hfs_fill_super+0x4d2/0x7b0 fs/hfs/super.c:403
- get_tree_bdev_flags+0x430/0x4f0 fs/super.c:1897
- vfs_get_tree+0x92/0x2a0 fs/super.c:1957
- fc_mount fs/namespace.c:1209 [inline]
- do_new_mount_fc fs/namespace.c:3785 [inline]
- do_new_mount+0x319/0xdc0 fs/namespace.c:3861
- do_mount fs/namespace.c:4194 [inline]
- __do_sys_mount fs/namespace.c:4408 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4385
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f0f2619f3ca
-Code: 48 c7 c2 e8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f0f27037e58 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007f0f27037ee0 RCX: 00007f0f2619f3ca
-RDX: 0000200000000180 RSI: 00002000000000c0 RDI: 00007f0f27037ea0
-RBP: 0000200000000180 R08: 00007f0f27037ee0 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00002000000000c0
-R13: 00007f0f27037ea0 R14: 0000000000000305 R15: 0000200000001800
- </TASK>
+Harness settings for all numbers: MEM_MAX=max POD_MAX=4G RATE_MBPS=250,
+plus NFILES=5000 SYNC_OLD=1 (or 2) for the syncfs runs and
+NFILES=500000 OLD_SECS=120 SYNC_OLD=1 POD_HOP=10 for the 500k-file runs.
 
-Allocated by task 5837:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5414 [inline]
- __kmalloc_node_track_caller_noprof+0x4b4/0x720 mm/slub.c:5545
- kmemdup_noprof+0x2b/0x70 mm/util.c:138
- kmemdup_noprof include/linux/fortify-string.h:715 [inline]
- hfs_mdb_get+0x895/0x2350 fs/hfs/mdb.c:194
- hfs_fill_super+0x482/0x7b0 fs/hfs/super.c:352
- get_tree_bdev_flags+0x430/0x4f0 fs/super.c:1897
- vfs_get_tree+0x92/0x2a0 fs/super.c:1957
- fc_mount fs/namespace.c:1209 [inline]
- do_new_mount_fc fs/namespace.c:3785 [inline]
- do_new_mount+0x319/0xdc0 fs/namespace.c:3861
- do_mount fs/namespace.c:4194 [inline]
- __do_sys_mount fs/namespace.c:4408 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4385
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Also reproduced unpatched on bare-metal arm64 with Ubuntu's 7.0 kernel
+(ext4 on a loop device): 12.9s worst lag with the old cgroup removed,
+2.5s with it kept.
 
-Freed by task 5837:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2748 [inline]
- slab_free mm/slub.c:6508 [inline]
- kfree+0x1c5/0x650 mm/slub.c:6801
- hfs_mdb_put+0x15b/0x270 fs/hfs/mdb.c:467
- hfs_mdb_get+0x1935/0x2350 fs/hfs/mdb.c:318
- hfs_fill_super+0x482/0x7b0 fs/hfs/super.c:352
- get_tree_bdev_flags+0x430/0x4f0 fs/super.c:1897
- vfs_get_tree+0x92/0x2a0 fs/super.c:1957
- fc_mount fs/namespace.c:1209 [inline]
- do_new_mount_fc fs/namespace.c:3785 [inline]
- do_new_mount+0x319/0xdc0 fs/namespace.c:3861
- do_mount fs/namespace.c:4194 [inline]
- __do_sys_mount fs/namespace.c:4408 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4385
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Tested: arm64 KVM guests (virtme-ng), ext4 and XFS on virtio. No lockdep,
+PROVE_RCU, DEBUG_ATOMIC_SLEEP or DEBUG_PAGEALLOC reports. W=1, sparse
+and checkpatch --strict clean.
+No new warnings building arm64 defconfig with and without
+CGROUP_WRITEBACK, allnoconfig, arm multi_v7_defconfig with
+CGROUP_WRITEBACK, and the touched files (W=1) under arm64 allmodconfig
+and x86_64 defconfig with CGROUP_WRITEBACK.
 
-The buggy address belongs to the object at ffff888117e9bc00
- which belongs to the cache kmalloc-512 of size 512
-The buggy address is located 0 bytes inside of
- 512-byte region [ffff888117e9bc00, ffff888117e9be00)
+Not tested: x86, production, linux-next.
 
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888117e9b400 pfn:0x117e98
-head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0x17ff00000000240(workingset|head|node=0|zone=2|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 017ff00000000240 ffff888100041c80 ffffea00045caa10 ffffea000440b710
-raw: ffff888117e9b400 000000000010000c 00000000f5000000 0000000000000000
-head: 017ff00000000240 ffff888100041c80 ffffea00045caa10 ffffea000440b710
-head: ffff888117e9b400 000000000010000c 00000000f5000000 0000000000000000
-head: 017ff00000000002 ffffffffffffff01 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000004
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 2, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5611, tgid 5611 (syz-executor), ts 59180259569
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
- prep_new_page mm/page_alloc.c:1879 [inline]
- get_page_from_freelist+0x2209/0x2280 mm/page_alloc.c:3943
- __alloc_frozen_pages_noprof+0x217/0x5a0 mm/page_alloc.c:5436
- alloc_slab_page mm/slub.c:3347 [inline]
- allocate_slab+0x7d/0x620 mm/slub.c:3462
- new_slab mm/slub.c:3513 [inline]
- refill_objects+0x2d5/0x350 mm/slub.c:7417
- refill_sheaf mm/slub.c:2885 [inline]
- __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4774
- alloc_from_pcs mm/slub.c:4850 [inline]
- slab_alloc_node mm/slub.c:4984 [inline]
- __kmalloc_cache_noprof+0x39b/0x600 mm/slub.c:5559
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- device_private_init drivers/base/core.c:3606 [inline]
- device_add+0xb6/0xb80 drivers/base/core.c:3657
- netdev_register_kobject+0x197/0x350 net/core/net-sysfs.c:2340
- register_netdevice+0x1433/0x1eb0 net/core/dev.c:11503
- __ip_tunnel_create+0x3e8/0x550 net/ipv4/ip_tunnel.c:268
- ip_tunnel_init_net+0x2e5/0x820 net/ipv4/ip_tunnel.c:1137
- ops_init+0x35d/0x5d0 net/core/net_namespace.c:137
- setup_net+0x118/0x350 net/core/net_namespace.c:443
- copy_net_ns+0x53b/0x780 net/core/net_namespace.c:582
- create_new_namespaces+0x3f0/0x6b0 kernel/nsproxy.c:132
-page last free pid 5575 tgid 5575 ts 47941916741 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1418 [inline]
- __free_frozen_pages+0xc93/0xd90 mm/page_alloc.c:2962
- __slab_free+0x274/0x2c0 mm/slub.c:5823
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:350
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4683 [inline]
- slab_alloc_node mm/slub.c:4996 [inline]
- kmem_cache_alloc_noprof+0x2b9/0x600 mm/slub.c:5010
- alloc_buffer_head+0x2a/0x280 fs/buffer.c:2881
- folio_alloc_buffers+0x1a4/0x630 fs/buffer.c:749
- create_empty_buffers+0x3a/0x520 fs/buffer.c:1587
- ext4_block_write_begin+0x610/0x1560 fs/ext4/inode.c:1193
- ext4_da_write_begin+0x879/0xd70 fs/ext4/inode.c:3167
- generic_perform_write+0x2d5/0x8f0 mm/filemap.c:4374
- ext4_buffered_write_iter+0xd4/0x380 fs/ext4/file.c:354
- ext4_file_write_iter+0xae4/0x1cd0 fs/ext4/file.c:-1
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x612/0xba0 fs/read_write.c:687
- ksys_write+0x150/0x270 fs/read_write.c:739
+Workaround until this lands: lowering vm.dirty_expire_centisecs from
+3000 to 500 cut the worst lag on unpatched mainline to 4.8s, 4.6s and
+14.3s, but did not remove the stall.
 
-Memory state around the buggy address:
- ffff888117e9bb00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888117e9bb80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff888117e9bc00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                   ^
- ffff888117e9bc80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888117e9bd00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+Stable: please take 168a8c13159c too. Without it the flush is sized from
+the dead memcg's own dirty pages, so this only helps while it has some.
+f6988c90671e (already in mainline and tagged for stable) also matters:
+on XFS with 500k synced inodes and the pod cgroup removed 10s later, the
+handover was slow enough without it that the replacement fell 21-22s
+behind (vfs-7.4.misc), against 1.0-1.2s with it (mainline).
+Before 5.14 there is no offline_cgwbs cleanup, but the bdi->wb_list walk
+should still apply.
 
+Not covered: after a blkcg association change, wb_get_lookup() finds the
+new clean wb, so the fallback doesn't run.
 
-***
+Developed with Claude Opus 5.5, which wrote the code, the reproducers
+and first drafts of this text, and ran the builds and VM tests. I drove
+the investigation from the production symptoms, designed the
+experiments and controls (repeated runs, parent-commit baselines,
+testing this patch on its own), and reviewed the analysis, code and
+results.
 
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
+Minimal recipe:
+	#!/bin/bash
+	# As root, cgroup v2, in a directory on ext4/xfs/btrfs ($DIR).
+	cg=/sys/fs/cgroup/wbmini
+	mkdir $cg && echo +memory > $cg/cgroup.subtree_control
+	echo 4G > $cg/memory.max
+	mkdir $cg/old $cg/new
+	append() {  # append $1 blocks of $2 to each of 1000 files
+		for i in $(seq 1000); do
+			dd if=/dev/zero of=$DIR/f$i bs=$2 count=$1 \
+			   oflag=append conv=notrunc status=none
+		done
+	}
+	(echo $BASHPID > $cg/old/cgroup.procs
+	 append 8 1M            # old owner writes the files...
+	 append 1 64k)          # ...and exits with all of them dirty
+	rmdir $cg/old           # its cgroup goes away while they are dirty
+	bpftrace -e 'kretprobe:cgroup_writeback_by_id { @ret[(int32)retval] = count(); }' &
+	sleep 3
+	time (echo $BASHPID > $cg/new/cgroup.procs
+	      append 4 1M)      # replacement keeps appending to the same files
+	kill -INT $!; wait
+	rmdir $cg/new $cg
+	# Unpatched: many @ret[-2] (-ENOENT) and the append stalls.
+	# Patched: @ret[0] only.
+---
+ fs/fs-writeback.c           |  2 ++
+ include/linux/backing-dev.h |  2 ++
+ mm/backing-dev.c            | 31 +++++++++++++++++++++++++++++++
+ 3 files changed, 35 insertions(+)
+
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index d26b2cf05283..5fb70c16488d 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -1189,6 +1189,8 @@ int cgroup_writeback_by_id(u64 bdi_id, int memcg_id,
+ 	 * there's nothing to flush, don't create one.
+ 	 */
+ 	wb = wb_get_lookup(bdi, memcg_css);
++	if (!wb)
++		wb = wb_get_lookup_dying(bdi, memcg_css);
+ 	if (!wb) {
+ 		ret = -ENOENT;
+ 		goto out_css_put;
+diff --git a/include/linux/backing-dev.h b/include/linux/backing-dev.h
+index c2284466e7aa..2bbc74b3b180 100644
+--- a/include/linux/backing-dev.h
++++ b/include/linux/backing-dev.h
+@@ -151,6 +151,8 @@ static inline void bdi_wb_stat_mod(struct inode *inode, enum wb_stat_item item,
+ 
+ struct bdi_writeback *wb_get_lookup(struct backing_dev_info *bdi,
+ 				    struct cgroup_subsys_state *memcg_css);
++struct bdi_writeback *wb_get_lookup_dying(struct backing_dev_info *bdi,
++					  struct cgroup_subsys_state *memcg_css);
+ struct bdi_writeback *wb_get_create(struct backing_dev_info *bdi,
+ 				    struct cgroup_subsys_state *memcg_css,
+ 				    gfp_t gfp);
+diff --git a/mm/backing-dev.c b/mm/backing-dev.c
+index cecbcf9060a6..1437f80ed7e3 100644
+--- a/mm/backing-dev.c
++++ b/mm/backing-dev.c
+@@ -807,6 +807,37 @@ struct bdi_writeback *wb_get_lookup(struct backing_dev_info *bdi,
+ 	return wb;
+ }
+ 
++/**
++ * wb_get_lookup_dying - get a killed wb for a given memcg
++ * @bdi: target bdi
++ * @memcg_css: cgroup_subsys_state of the target memcg (must have positive ref)
++ *
++ * wb_get_lookup() only finds wbs that are still in @bdi->cgwb_tree.  A
++ * killed wb leaves the tree but stays on @bdi->wb_list until it is
++ * released, and inodes attached to it can keep collecting dirty pages from
++ * other memcgs until they are written back and switched away, so foreign
++ * flushes still need to reach it.  Returns a wb of @memcg_css on @bdi which
++ * has dirty IO, with a reference held, or %NULL.  If there are several,
++ * the first one found is returned; this is best effort.
++ */
++struct bdi_writeback *wb_get_lookup_dying(struct backing_dev_info *bdi,
++					  struct cgroup_subsys_state *memcg_css)
++{
++	struct bdi_writeback *wb;
++
++	rcu_read_lock();
++	list_for_each_entry_rcu(wb, &bdi->wb_list, bdi_node) {
++		if (wb->memcg_css == memcg_css && wb_has_dirty_io(wb) &&
++		    wb_tryget(wb)) {
++			rcu_read_unlock();
++			return wb;
++		}
++	}
++	rcu_read_unlock();
++
++	return NULL;
++}
++
+ /**
+  * wb_get_create - get wb for a given memcg, create if necessary
+  * @bdi: target bdi
 
 ---
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+base-commit: 168a8c13159c6e3f0f08da6f8fa2f633a91ba9fd
+change-id: 20260926-wb-dying-cgwb-flush-06e260e2abad
 
-To test a fix for this bug, please reply with `#syz test`
-(on a separate line) and attach the patch to the email.
+Best regards,
+--  
+Liz Fong-Jones <lizf@honeycomb.io>
 
-Notes:
-- The patch will be applied on top of the tested series (as an
-  incremental fix).
-- To test a new version of the whole series, please send it directly
-  to syzbot@lists.linux.dev.
-- Arguments like custom git repos and branches are not supported.
