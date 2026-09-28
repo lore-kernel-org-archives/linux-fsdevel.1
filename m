@@ -1,116 +1,163 @@
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B553FC5AE;
-	Mon, 28 Sep 2026 08:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A205B47ACE2
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 08:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790585096; cv=none; b=cNA6/xLPW9ioG5KbsFcNMOkFKQxD/6BIb1iJzKOX8GU0ztWKA9r1V8M9Foc1+bA80Tmi/0JNx7BGa7Cs9GzPgPzn7cpJJpezGF4h17Yhwu4wJt6S4iuz5f6XWlx0KTYsvp952DtNe/MoWA6bvr1ccIdYfjiMbKn+gN24XHPvSnU=
+	t=1790585303; cv=none; b=MKCDTKmjNRS6r9TdVJGsYtHJCLUJ69VooG33FzcGRpHgxKfXr30pMo2Vk1mhHWGg2JPDEkkAur1pRaTnGHytW7lVkppGWU6oSdKaJ1MU0Tmj7ZGM3WW4CYh76GwaUcOTv7Zp6kJLXlE60QxLlubj9WGWlv1NWC1DfhrmQo3dWxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790585096; c=relaxed/simple;
-	bh=iDGp7P3BEvSWs1L7iNJIWjF45NYDB+xMs1LHa1Er8uQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=pfVyHmoq/Q2gQ9ebu3eQEWsXTWUPT4NHNHmPcFjQ+8UGE6UQNtsJfEr6vEGPjXVoCQA9YwGRQqHNObSz9szPhIhfNHxaXKrgFh8SO7NBcG+M39TySQxTEXDQ2VVV5Ep8S+kp14dgFxn4MLU5vPNGlv4KjAcCQ6+WDhfWt0ZEqHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Il61np93; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1790585303; c=relaxed/simple;
+	bh=nGNK4CJ7IAGxiLKQK5N1I+NN+hh0tDC50qXrF7zVWV0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KtwcyWF/0uaf7EJYWc3MNAdbhANLUfb3+c4YZAiRhApLZ3DO+Au1/ixhj8m2ncLHUT+Lc2SVgylIdGfGNy4LU9eTAMWK2+/g2KCH7MidiwqHgqfxjyPb0cwIDzP6KraswQhm3AcS90YcZ7YrJFHNA6FrNmSIZnW++Hw43krsw/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hJJpx8b+; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Il61np93"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=iDGp7P3BEvSWs1L7iNJIWjF45NYDB+xMs1LHa1Er8uQ=;
-	b=Il61np93Mzpfh1Yw6ZTaudK8+nCQ4+DjNBs7VntEmE0tZXcn7sPEF3AumdIjHPSk2gTjz273a
-	wBOH1W7k/4xR4wPV7l62M9UPquFd63zSevJQns1zbf6BGnLBtZpCHWpqVhapwho/G5mndn+Ez1O
-	jCI6EYJd4AynyN7whX7Q3xA=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4htZM82gK2zcb3G;
-	Mon, 28 Sep 2026 16:33:08 +0800 (CST)
-Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
-	by mail.maildlp.com (Postfix) with ESMTPS id A9A0740579;
-	Mon, 28 Sep 2026 16:44:41 +0800 (CST)
-Received: from [10.67.109.91] (10.67.109.91) by whupemk100010.china.huawei.com
- (7.152.184.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 28 Sep
- 2026 16:44:37 +0800
-Message-ID: <f697efa0-81c9-4ace-b9cc-d672b98dfc9d@huawei.com>
-Date: Mon, 28 Sep 2026 16:44:35 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJJpx8b+"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ff23af865so21114205e9.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 01:48:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790585300; x=1791190100; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DlTyxrC5JLY4QSgeol6426LcGC8kkaxi4wrrxLeCtIs=;
+        b=hJJpx8b+vD0TBgD70aw8kyrK35e9qxFjpsoSa7cSUq9slEeIEJDqY76u6bCmf7cCa6
+         m3mZvs0nrJ0U2n+Xwmpl/4/x51CWtvg5d3GGJONzOqErG7sgTQegRZ5NzCGi2rm+15v8
+         P7Yh4lEmPzI/aj1jCHFRDOXx4AbnL3UnimiEkhItQ/t7SMxTPT9MYwb6GPkyN2/YIibO
+         S59G9QM4x0bFDBK/o4b4CWoWl0hNdNiAlxNOU+CuG8+7WA71rdVdT3Q1s15Q0HrFGhvT
+         0ZSqWVnjER0SZMvv+GxxXRfGPS2xl0By6375Lrk8lpkUzXXDQCM9MVKxIx/Ko0wZHP5N
+         PkWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790585300; x=1791190100;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DlTyxrC5JLY4QSgeol6426LcGC8kkaxi4wrrxLeCtIs=;
+        b=ab61Vj9cQL8947CbencInYxFG6kxwn382lqA6TeIKTbmC0ucFtAv1lWrVSP2TKkjYz
+         kL2pHexvk+V2F5Nxr7Hl4UCTebGA/Nhz309pd6+iivIa+UlGpTGhIJiC4aDg7ZKS0UNn
+         OOM89NErvcprBPbItQtBP6IEE4AgdG08kpdjGNCCzDzUlfO27xrZKoMawN5GvKnNjV5m
+         bBaz7bgKe3TvyFeuDFV4dmDjHVK+bpSDdXW+/qEK7pbidUiFhm/vyWs/rOGC4QdnXuNx
+         CfUsJXUnY6sns8jLk9dNhcwrD2GSQcDJHZWuRPgPhiphtruwfttw2/SBN0mso9SMrtIZ
+         ttXw==
+X-Forwarded-Encrypted: i=1; AKwUvByrcljx0oehqbzqcza5R2Za3P3Ybp87ovUfUss607cAkveHoGGOsmo4UfcvDFrm3G0QdhmQeZ36isKwmb/G@vger.kernel.org
+X-Gm-Message-State: AFuF++lCzFJTeQM1PWStKd3jt0g2TLbgE9OiQu3X1cUUvISTct5QrmU+
+	LTu9IAtR5ka24A6W9dimrXhH4XP2q8dhYJv1zM/FBezRJhv+f+PY1OPt
+X-Gm-Gg: AYBFou0LmqFp0H+wf+IWbAJrGIPmJuhhyYZL9cf1vad8pqVSoviLo60hl7ribdf/vmK
+	F+SXvi3Ja5aPFVgKm7XQrFKSNU6g+MkbLvoLu7qJxWeTsn0unO16BtA91HSfcDBrtjCNwbNjxMz
+	+y/lr0tcbJ1JDMgfwxFhGJHIEpE1P408CeWSHpKHoMiIAnqXv/SJhpo8DR4wiBVreOnKkXBWndx
+	RlTa4GY6iDKbw7IMjU6N2IHbYnfsg8y1yJ2FPq8zAKaaokU/73OgAkmN1pJRenVj5ejm0n7QPsm
+	7G0P/oskMOqcVdmhcQ6bcD39rkqANYpq89XBrtb3KY8nDYn/t7C5H4hfpIi2Ubgy3Q3P90bs45I
+	FyklRyrPsaSwZLSCG0Mh5IBDvTIBmUwS7woQXwMWS4MUMHT61G+XDn99FULFSflHPSauTl6bvfB
+	Y0fU8ogKiObsNC/gHPMMbzX7UVCynsplK2a3W3oBuzr9i7v48LgTgbYVD9qGOq2yhVnw3Ni4LXy
+	Jx4xFg9Tm+7z0prBLuP8f70+RTxNMXFVtnGc1NfV9iu/VmLE42rfUGvXCbXYulnAo682IPdQaYj
+	PabL4Q==
+X-Received: by 2002:a05:600c:310b:b0:49e:7862:c09e with SMTP id 5b1f17b1804b1-49fe66c6289mr211174025e9.14.1790585299451;
+        Mon, 28 Sep 2026 01:48:19 -0700 (PDT)
+Received: from andreayoga.localdomain (93-42-14-189.ip84.fastwebnet.it. [93.42.14.189])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0017652d1sm182584705e9.5.2026.09.28.01.48.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 01:48:18 -0700 (PDT)
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Christian Brauner <brauner@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Pankaj Raghav <p.raghav@samsung.com>,
+	Dave Chinner <dchinner@redhat.com>
+Cc: Andrea Parri <parri.andrea@gmail.com>,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v3 0/4] iomap: fix error handling regressions
+Date: Mon, 28 Sep 2026 10:48:05 +0200
+Message-ID: <cover.1790342457.git.parri.andrea@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC -next 03/12] fs: pass struct path to xattr helpers
-To: Amir Goldstein <amir73il@gmail.com>
-CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
-	<jmorris@namei.org>, <serge@hallyn.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
-	<gregkh@linuxfoundation.org>, <rafael@kernel.org>, <dakr@kernel.org>,
-	<dlemoal@kernel.org>, <hch@lst.de>, <axboe@kernel.dk>,
-	<viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
-	<dhowells@redhat.com>, <code@tyhicks.com>, <linkinjeon@kernel.org>,
-	<sj1557.seo@samsung.com>, <yuezhang.mo@sony.com>,
-	<hirofumi@mail.parknet.co.jp>, <cel@kernel.org>, <jlayton@kernel.org>,
-	<neil@brown.name>, <okorniev@redhat.com>, <Dai.Ngo@oracle.com>,
-	<tom@talpey.com>, <miklos@szeredi.hu>, <senozhatsky@chromium.org>,
-	<chenxiaosong@chenxiaosong.com>, <zohar@linux.ibm.com>,
-	<roberto.sassu@huawei.com>, <dmitry.kasatkin@gmail.com>,
-	<eric.snowberg@oracle.com>, <stephen.smalley.work@gmail.com>,
-	<omosnacek@gmail.com>, <casey@schaufler-ca.com>, <nanx95726@gmail.com>,
-	<djwong@kernel.org>, <daniel@iogearbox.net>,
-	<linux-security-module@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>,
-	<linux-block@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<netfs@lists.linux.dev>, <ecryptfs@vger.kernel.org>, <exfat@lists.linux.dev>,
-	<linux-nfs@vger.kernel.org>, <linux-unionfs@vger.kernel.org>,
-	<linux-cifs@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
-	<selinux@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<xiujianfeng@huawei.com>, <lujialin4@huawei.com>
-References: <20260924104831.1081137-1-caixinchen1@huawei.com>
- <20260924104831.1081137-4-caixinchen1@huawei.com>
- <CAOQ4uxhMhcxq5+crz84f8xj+Wi1bHhNqa_TecP-RvipheBR+ug@mail.gmail.com>
-Content-Language: en-US
-From: Cai Xinchen <caixinchen1@huawei.com>
-In-Reply-To: <CAOQ4uxhMhcxq5+crz84f8xj+Wi1bHhNqa_TecP-RvipheBR+ug@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- whupemk100010.china.huawei.com (7.152.184.41)
 
-Thank you for review
+Fix three independent error handling regressions in iomap:
 
-I will switched to ovl_path_real in the next version.
+ - clear the writeback context after a failed ->writeback_submit() call,
+   preventing an already completed ioend from being submitted again;
+ - preserve an iomap iteration error when iomap_fiemap() has a pending
+   extent to emit; and
+ - preserve a direct I/O data path error when sub-block tail zeroing
+   succeeds.
 
-ovl_creds is a prepare_creds() clone of the mounter, so unless
-the mounter itself was sandboxed, the clone carries no Landlock
-domain and every check short-circuits. The new rights are also
-enforced at the security_inode_*xattr() call sites in fs/xattr.c,
-which run with the user-visible overlay path.
+The three fixes have no ordering dependencies and can be applied or
+backported independently.  Each issue was reproduced before and after
+its respective fix.
 
-The exception is an unprivileged overlay mount by an already
-sandboxed mounter: the domain is inherited into
-creator_cred through the cred_prepare hook, so the internal
-real-path calls *do* get checked there.  For this series that
-means:
+Patch 2 is not a fix and carries no stable tag: it adds an XFS error
+tag (requested by Christoph) that lets patch 1's ->writeback_submit()
+failure be injected without the boot-param hack used for the original
+reproduction.  The corresponding xfstest (list corruption caught via
+CONFIG_LIST_HARDENED on an unfixed kernel, clean writeback failure on a
+fixed one) was posted to fstests@vger.kernel.org:
 
-- ovl_xattr_get/set/ovl_listxattr() forwarding and the
-   ovl_setattr() -> ovl_do_notify_change() forwarding would be
-   checked against the upper/lower paths;
-- copy-up would newly require the metadata rights on the backing
-   directories too (ovl_copy_xattr() calls the security-checking
-   vfs_listxattr()/vfs_setxattr());
-- stat() is unaffected: ovl_getattr() goes through the _nosec
-   variant.
+  https://lore.kernel.org/all/20260924091338.198407-1-parri.andrea@gmail.com/
 
-This is not Landlock-specific: every LSM
-that keeps its state in the cred blob inherits the mounter's
-context into creator_cred through cred_prepare.
+Changes since v2:
+ - Patch 1: no code change; picked up Christoph's Reviewed-by.
+ - Patch 2: fixed the alignment of the new XFS_ERRTAG_WB_COW_CONVERT_ERROR
+   define; picked up Reviewed-by tags from Darrick and Christoph.
+ - Patch 3: no change.
+ - Patch 4: dropped the reformatting of the iomap_dio_zero() prototype,
+   keeping the iomap two-tab indent style (Christoph); added the
+   "# v6.12" stable version tag (Darrick); picked up Reviewed-by tags
+   from Darrick and Pankaj.
 
-On 9/24/2026 7:12 PM, Amir Goldstein wrote:
-> that's ovl_path_real()
->
-> I have no technical issue with the ovl patch bits in this series.
-> Anyway, I guess landlock is not going to enforce anything on the
-> private mnt with ovl_creds anyway?
+Changes since v1:
+ - Patch 1: reworded the added comment to fit 80 columns (Christoph);
+   described the reproducer in the commit message (fault-injected
+   ->writeback_submit() failure on a reflinked XFS file, reliably hits
+   list_add double add on the unfixed kernel); documented why the final
+   ->writeback_submit() call in iomap_writepages() needs no equivalent
+   fix, since wpc is never reused after it; picked up the version-scoped
+   stable tag Darrick suggested; picked up Brian's Reviewed-by.
+ - Patch 2: new, added per Christoph's request.
+ - Patch 3 (was 2/3): no code change; picked up the version-scoped
+   stable tag Darrick suggested; picked up Reviewed-by tags from Brian,
+   Darrick, and Christoph.
+ - Patch 4 (was 3/3): reworked per Christoph's suggestion to make
+   iomap_dio_zero() return void and drop the handling of its return
+   value, since it can only fail via a can't-happen WARN_ON_ONCE()
+   assert; this also resolves Darrick's question about the local
+   variable's type.  Brian's v1 Reviewed-by was dropped due to the
+   rework.
+
+v2: https://lore.kernel.org/all/20260924091203.198225-1-parri.andrea@gmail.com/
+v1: https://lore.kernel.org/all/20260921083133.2960-1-parri.andrea@gmail.com/
+
+Andrea Parri (4):
+  iomap: don't resubmit an ioend after ->writeback_submit() failed
+  xfs: add an error tag to inject a ->writeback_submit() failure
+  iomap: don't lose a fiemap iteration error when emitting the last
+    extent
+  iomap: don't lose a failed direct I/O bio's error when zeroing the
+    tail
+
+ fs/iomap/direct-io.c         | 16 +++++-----------
+ fs/iomap/fiemap.c            |  8 ++++----
+ fs/iomap/ioend.c             | 10 +++++++++-
+ fs/xfs/libxfs/xfs_errortag.h |  6 ++++--
+ fs/xfs/xfs_reflink.c         |  5 +++++
+ 5 files changed, 27 insertions(+), 18 deletions(-)
+
+
+base-commit: 93f51579e7df248780214094418f205253383cc5
+-- 
+2.53.0
+
