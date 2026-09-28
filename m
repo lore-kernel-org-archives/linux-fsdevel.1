@@ -1,70 +1,69 @@
-Received: from mail-ej2-f42.google.com (mail-ej2-f42.google.com [74.125.228.170])
+Received: from mail-ej2-f43.google.com (mail-ej2-f43.google.com [74.125.228.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F5A48F85A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 09:27:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12AB248FF6F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 09:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790587669; cv=none; b=YhShuCiV3b0DOILWrrH6oyy1mNeipoVgkcj+6uOEe05xFO6Zp1AXwyWNviCiLUWaxWHwnj/tP2E/qVwCYHFAHVw85VCJsZrDwZOPhalbrbLQmK5iNDJzGpMsM5uu2e/x3KdyEyl85Yu8ZNZGcgcA6um3rcTzGgzMRYV+gAEBls4=
+	t=1790587670; cv=none; b=SRA29bqM3fZAzBTGZoNOGT9rlwWSxE0Il7RRmS9ZCGfOAqvwljdJ4I8y/ucVikIWoMQrLptoSRrJkmY+5n+927WNJdYxObQJygn2f66pJ2w76AAgP004OK6+HiqgV69cM1ghdw0QcKROv740BVq13ThhpLSDvAThepyxDeSW/lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790587669; c=relaxed/simple;
-	bh=c1qhLL0thzNwLIlM1QYszVXFAVtnDo+nY3WMBxk8jRE=;
+	s=arc-20240116; t=1790587670; c=relaxed/simple;
+	bh=K47S0o1IDTs57pfVqb5rYlm9JcVvnUglkwthK/H1mRU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KcZOm8Tk8iJFbUpI8oCi8WjZbHxpCzn3AM5527bK8s2mvuIbnxcLtZ0qnoYnTGt56gddO1LgCvHQjevxGq0c/i9xmmyEWTzHH/0LUkN5MtmaWf5uK44VliOkES62ikRzo+vBUKOe75UgARub1PpjXP97HHecfuDwcJQRQBiCftk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com; spf=pass smtp.mailfrom=amutable.com; dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b=zaCzK2fr; arc=none smtp.client-ip=74.125.228.170
+	 In-Reply-To:To:Cc; b=c/8JZB9pdYen1GVTnzJTjheuoLC98CGnntWl2ONctEGewU0WjC9blxniCuVF3duUArhisjQo5hRFNf9Tpkwryu5eB/tt3ZFvsnAo9WTZFiE/FPwCp22csCcM8j9Z+nHDReJEFMZtckmD1yYqX8Kx0BeXqBHJpeQrE+Mxz2yYOB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com; spf=pass smtp.mailfrom=amutable.com; dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b=k9Z2m/Bd; arc=none smtp.client-ip=74.125.228.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b="zaCzK2fr"
-Received: by mail-ej2-f42.google.com with SMTP id a640c23a62f3a-c2dc50c6eccso138676566b.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 02:27:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b="k9Z2m/Bd"
+Received: by mail-ej2-f43.google.com with SMTP id a640c23a62f3a-c2a4fbc5586so419527966b.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 02:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20251104.gappssmtp.com; s=20251104; t=1790587663; x=1791192463; darn=vger.kernel.org;
+        d=amutable-com.20251104.gappssmtp.com; s=20251104; t=1790587665; x=1791192465; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=C1t18H5a7fnu/1Aac6tNpx9pwjEGhHPfRk234flruY8=;
-        b=zaCzK2frgoD8gXPylRA1NVkeXlcGny/7NdgdJvl8KJC//CFzPuDBzf4nG6EYUttNc6
-         6lphYiUWXmuvthgEfwLHXaAhdeI8lTdL9OF9Zfjv54hvtTk7xbS364cmtkJ6yoIoXjlN
-         Lj7XIPYOlvrVOR+swb3kLdeu72e0FuvvyO3WQ7ehwJiQ9M/0Js35+DYPzN9FwQzd0gIS
-         XYed6iFjw81CmU6mYUnV4bVM8ZYz1QI4IsFlT8A5eNXbYroDO+voSzo6mx8G2rvVa16L
-         ZU7ZEven+ydINacwqcQ6cSSDxTetvQOxP+hwGu2yJZqtg07KgE6dql/8D8zp0zng8icf
-         hUWA==
+        bh=+LAF+kkW3AoPDUIK7HIdkMlRTlUPB1ATHdV+Y8MxEC4=;
+        b=k9Z2m/BdqTzFMoyHfv/JOARWm/8AnlceIYR0N7n5+Wmg5ipNyzKzyIJjnxQDOwjjXT
+         s5UefAkoWyfXD4/hKaXSDdDAyUwTXVdL+7mFELQWXHAKNozgGjjeTzjDgtAQ8JvRyRSx
+         v0s4msjOmS5GzYSDXMG8TICnot+7vHlUL0sIARwOkLbCoAAyNndCYAW3qEwcYIuntI3t
+         8yoE9yseKi4a4IIWsWFftPkoet8D4rSWcclWmrwXEc/D+2/sX+E1d8LaHjwfyEEZUpZR
+         kdGenezbQx3d0FzoZsfj/MfuWlH+Exv8H84BxPl8hg/KKol6YQmlQ712okDC06NG97Yg
+         NCRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790587663; x=1791192463;
+        d=1e100.net; s=20260707; t=1790587665; x=1791192465;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=C1t18H5a7fnu/1Aac6tNpx9pwjEGhHPfRk234flruY8=;
-        b=piHJOMmAB2zpTm3XABfWeZfFeaLJ9NWSR5Y9RJvHGgkSLtfzq7DKqvPsBVNoht1iRc
-         E4bAI5buWwuNexUhCpoZx/Z1tX215FfkhqyOVoOg5hXHtisI2It8ykFa2hN5u2IrryK2
-         WudAHdsVIXAArQ41ky2ULJqWs4dMw2vzDsUmmTszjIIfcthWoUOqUFMGkzvkteBA5Z1h
-         wiBBxfWFUqSFlUhkWUIFWlAiRTeFJMhUEfjdw8eM1bMYa43AuFi5QY1GuEUZt6sXmrbz
-         O5YrgG9Q6T8Q9lNUP1QnFP8EOWxzLRycmnb0t6e1JQj5oAUhLPw0C0UDy2MUIwuEY5C5
-         +ZOg==
-X-Forwarded-Encrypted: i=1; AKwUvBw9Mxqq/mo+AARli8VgjqND6ZYMeNy55QWE/50+YYbfUfc/BJ4TgF3yctW4PymjSByCtvuRHH97UKcYzxyC@vger.kernel.org
-X-Gm-Message-State: AFuF++lp5RQlDWuOs+A9zuCtoyp5xvR9rTSehpASvNd2DPVpnvjmwfiI
-	jsI4zS90/saHvc0O8VMyGskdkYqkGAjmblYYF6qTzFPg9P0EqUga2WHYWp+m/1kFghNK8be2hjW
-	vv2Y7Hvnu
-X-Gm-Gg: AYBFou1w88NgJKns/TMps6QcRq9xbX4Ssr2cvhF4KXyx6+N03mHF0Guhggwo5WTHZWC
-	lcK8AGBIIj517r7vvRlkTxwFi4jEfDyhNuMO3XWOjaHaKqiVjSDaYNCntmfcIqEn4K66dRl8NH8
-	WZiRbIhjLSvGFV5kyP80JizNPkJP63XIyqTAsrLtNyAKSjfT8PgCJlsLHzzB2/e7/5LHF3OUAZ9
-	uaKVVy/rVXQawlpME4Nj/FqIUMh01GgOYn2Eh/KFaLiWIOKZhqruAXwnvUo1YocBXHVABq1liGY
-	ID10UZl9RTttTITxYqaoSLehcuFSmx9KMswpBh33uAvs3KlZsK8me50KjeY1uB4/dxT0BKl9VbQ
-	HhRSaYH4vdLitppiRAF34d9GeUIK9tprEqvesb4RQKu6awe0OHGAO+7FrEaOw1YCruhK67VvytJ
-	98ySbfGi4MdZ3x7upC8YrNXtZ/5/0aySOI6afrEqnVhy/Y55mJvo0+VSokkAS+29s89tDbvRgZb
-	YtpNWOxdra0Hl3tmp8S1G3FR1c8PWIQ+B3X9iYgWw==
-X-Received: by 2002:a17:907:1c9e:b0:c29:53eb:9919 with SMTP id a640c23a62f3a-c2ac256d4f5mr1002327466b.40.1790587662789;
-        Mon, 28 Sep 2026 02:27:42 -0700 (PDT)
+        bh=+LAF+kkW3AoPDUIK7HIdkMlRTlUPB1ATHdV+Y8MxEC4=;
+        b=V9DSscro5CctKuk7h5WITqaWEaC5OeHW/lVCjXZoC+7DbborOWY1hSGcbyiU6XWVvE
+         c9F2UIpt7Qc5m6SnBxhVHFXjfI+YPRr1arbp+lurC3EdKG8nfwmh2sPBv3RC+wrjRt5z
+         jp710B99iTID9GlhYQCm/ZlR4C2VoGiSAZmscLSD9/YsAyAHWexyf9VfFJX8NpdzXSv8
+         9wfgyPwRWiq8sTmucwfgFLUCTU1VEwyZL/+veucBie+CO0N2f4qUNlvOc3TOmm9TLwnU
+         JNHEhcZf19GGbvzjXkbvZBtRlCaiFO82LTxsSTXQ0Ab49h2XDni2IJm5D0f6c9t0btMe
+         WgDw==
+X-Forwarded-Encrypted: i=1; AKwUvBwhvu5L9ASv02MmV6V5l9EDWBTG4QBJMPijQFkpckorDIAZOpVYHltyC6hqhVOmBXD90UNpBnf9o4CWmeWc@vger.kernel.org
+X-Gm-Message-State: AFuF++mxNhX9ED3oFtV0RkeRD5UJYjplgXh9gOOFhHftjPG5aN7ynzJs
+	f0UQpBbUmJcNxvffVOXHtoVZFJa7qcrU775Tdi5S8Zkr4gdDCDdH5FFT7cxzn9bLMIFI
+X-Gm-Gg: AYBFou3P+h2IzUgleaHOsc+hmGT7Bi1u9gki1Szv3li/hjT1sK8af20junXEZjz6nzq
+	a8FUpWgLaxP1pk4+uF8IP68G5O+UkiXZegA4gL732xTis5ac0o9IdHbNCHPQ3VWEISm5C9uqqTp
+	yo3dSyEYYPsxblOST+wV1CcVp8vRk9qGAVbMpn6SkHc1a4UxDgb+MbP8tES2js7CFR0dUGoQZN1
+	9XuKAyPiRRq3nlarr7SkC6Knj+suVsAAz0vSDkhO9OD1xLeJv9VGjOvXcLBlgchSWh1nX7WuWpy
+	13M0pI6UCPNGoMWkWb5rXyzyaEzTeij34N4ZmYHXS+AtLjpucRaUc+neFcZ0KnK2s8i2Y/6Im51
+	zx0bqzzRgwbyI1ODZXL9cmab9cXbVqs9OQB6IzJ52CqOhpZ0YnRO6EEm7nwnOZutc73NyhNwDzH
+	iuRYROZSV+TcHN7KsocWEpMACQSU+hMXAiS2JypLj1BECX+t3YBzLfzH/iyKPkcI3Ma7tW4zl5O
+	e4AdV1OAf0/9MbRONh8fprnOh6DaJWrx2EctDSCtLxsguxLAqrS
+X-Received: by 2002:a17:906:9fc4:b0:c29:f5d8:9c76 with SMTP id a640c23a62f3a-c2ac229852bmr1018769466b.37.1790587665531;
+        Mon, 28 Sep 2026 02:27:45 -0700 (PDT)
 Received: from [169.254.24.37] (tmo-085-169.customers.d1-online.com. [80.187.85.169])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2dc8b71b4dsm205609466b.1.2026.09.28.02.27.41
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2dc8b71b4dsm205609466b.1.2026.09.28.02.27.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 02:27:42 -0700 (PDT)
+        Mon, 28 Sep 2026 02:27:45 -0700 (PDT)
 From: Andrew Halaney <andrew@amutable.com>
-Date: Mon, 28 Sep 2026 11:27:14 +0200
-Subject: [PATCH v3 07/10] net: add SO_PEERPIDFD_THREAD to get a
- thread-specific pidfd
+Date: Mon, 28 Sep 2026 11:27:16 +0200
+Subject: [PATCH v3 09/10] pidfs: record the coredump on the dumping
+ thread's pid too
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,7 +72,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260928-work-unix-passpidfd-v3-7-532018a91b21@amutable.com>
+Message-Id: <20260928-work-unix-passpidfd-v3-9-532018a91b21@amutable.com>
 References: <20260928-work-unix-passpidfd-v3-0-532018a91b21@amutable.com>
 In-Reply-To: <20260928-work-unix-passpidfd-v3-0-532018a91b21@amutable.com>
 To: Jakub Kicinski <kuba@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
@@ -92,208 +91,139 @@ X-Mailer: b4 0.14.3
 
 From: Christian Brauner <brauner@kernel.org>
 
-SO_PEERPIDFD hands out a pidfd for the thread-group that called
-connect() or socketpair(). Enable workloads such as the coredump server
-or a broker to get a pidfd of the specific thread that connected to the
-socket.
+If a thread-group coredumps only the thread-group leader pidfd will
+return coredump information. A pidfd for the thread that took the fatal
+signal cannot be used to retrieve it.
+
+Record both the thread-group leader and the specific thread that took
+the signal and register both in pidfs. Mark both the thread-group leader
+and the specific thread with the coredump information so retrieval works
+for both pidfds.
+
+Now that both SO_PEERPIDFD and SO_PEERPIDFD_THREAD are available it's
+easy to get the coredump information for the specific thread.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 Reviewed-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
 Signed-off-by: Andrew Halaney <andrew@amutable.com>
 ---
- arch/alpha/include/uapi/asm/socket.h  |  2 +
- arch/mips/include/uapi/asm/socket.h   |  2 +
- arch/parisc/include/uapi/asm/socket.h |  2 +
- arch/sparc/include/uapi/asm/socket.h  |  2 +
- include/uapi/asm-generic/socket.h     |  2 +
- net/core/sock.c                       | 87 ++++++++++++++++++++---------------
- net/unix/af_unix.c                    |  1 +
- 7 files changed, 61 insertions(+), 37 deletions(-)
+ fs/coredump.c            | 22 +++++++++++++---------
+ fs/pidfs.c               | 11 +++++++++--
+ include/linux/coredump.h |  4 +++-
+ 3 files changed, 25 insertions(+), 12 deletions(-)
 
-diff --git a/arch/alpha/include/uapi/asm/socket.h b/arch/alpha/include/uapi/asm/socket.h
-index bb3d534826bb..5d3524c26b2b 100644
---- a/arch/alpha/include/uapi/asm/socket.h
-+++ b/arch/alpha/include/uapi/asm/socket.h
-@@ -159,6 +159,8 @@
+diff --git a/fs/coredump.c b/fs/coredump.c
+index 9b267d3c0ed7..870ad720b215 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -454,7 +454,7 @@ static bool coredump_parse(struct core_name *cn, struct coredump_params *cprm,
+ 				 * leader we know that the thread-group leader
+ 				 * cannot be reaped until @current has exited.
+ 				 */
+-				cprm->pid = task_tgid(current);
++				task_pids(cprm->pid, current);
+ 				err = cn_printf(cn, "%d", COREDUMP_PIDFD_NUMBER);
+ 				break;
+ 			}
+@@ -626,13 +626,17 @@ static int umh_coredump_setup(struct subprocess_info *info, struct cred *new)
+ 	struct coredump_params *cp = (struct coredump_params *)info->data;
+ 	int err;
  
- #define SO_PASSPIDFD_THREAD    86
+-	if (cp->pid) {
++	if (cp->pid[PIDTYPE_TGID]) {
+ 		struct file *pidfs_file __free(fput) = NULL;
  
-+#define SO_PEERPIDFD_THREAD    87
+-		pidfs_file = pidfs_alloc_file(cp->pid, 0);
++		pidfs_file = pidfs_alloc_file(cp->pid[PIDTYPE_TGID], 0);
+ 		if (IS_ERR(pidfs_file))
+ 			return PTR_ERR(pidfs_file);
+ 
++		err = pidfs_register_pids(cp->pid);
++		if (err)
++			return err;
 +
- #if !defined(__KERNEL__)
+ 		pidfs_coredump(cp);
  
- #if __BITS_PER_LONG == 64
-diff --git a/arch/mips/include/uapi/asm/socket.h b/arch/mips/include/uapi/asm/socket.h
-index 269badcaa086..245a43f52fb1 100644
---- a/arch/mips/include/uapi/asm/socket.h
-+++ b/arch/mips/include/uapi/asm/socket.h
-@@ -170,6 +170,8 @@
+ 		/*
+@@ -695,12 +699,12 @@ static bool coredump_sock_connect(struct core_name *cn, struct coredump_params *
+ 		return false;
  
- #define SO_PASSPIDFD_THREAD    86
+ 	/*
+-	 * Set the thread-group leader pid which is used for the peer
+-	 * credentials during connect() below. Then immediately register
+-	 * it in pidfs...
++	 * Set the pids of the dumping thread and its thread-group leader
++	 * which are used for the peer credentials during connect() below.
++	 * Then immediately register them in pidfs...
+ 	 */
+-	cprm->pid = task_tgid(current);
+-	retval = pidfs_register_pid(cprm->pid);
++	task_pids(cprm->pid, current);
++	retval = pidfs_register_pids(cprm->pid);
+ 	if (retval)
+ 		return false;
  
-+#define SO_PEERPIDFD_THREAD    87
-+
- #if !defined(__KERNEL__)
- 
- #if __BITS_PER_LONG == 64
-diff --git a/arch/parisc/include/uapi/asm/socket.h b/arch/parisc/include/uapi/asm/socket.h
-index 313aee10a52c..f23710e1c671 100644
---- a/arch/parisc/include/uapi/asm/socket.h
-+++ b/arch/parisc/include/uapi/asm/socket.h
-@@ -151,6 +151,8 @@
- 
- #define SO_PASSPIDFD_THREAD	0x4054
- 
-+#define SO_PEERPIDFD_THREAD	0x4055
-+
- #if !defined(__KERNEL__)
- 
- #if __BITS_PER_LONG == 64
-diff --git a/arch/sparc/include/uapi/asm/socket.h b/arch/sparc/include/uapi/asm/socket.h
-index bd3e69bcce7a..b35b25bdefc2 100644
---- a/arch/sparc/include/uapi/asm/socket.h
-+++ b/arch/sparc/include/uapi/asm/socket.h
-@@ -152,6 +152,8 @@
- 
- #define SO_PASSPIDFD_THREAD      0x005f
- 
-+#define SO_PEERPIDFD_THREAD      0x0060
-+
- #if !defined(__KERNEL__)
- 
- 
-diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic/socket.h
-index d1e5c6de146d..56fed7ab27ab 100644
---- a/include/uapi/asm-generic/socket.h
-+++ b/include/uapi/asm-generic/socket.h
-@@ -154,6 +154,8 @@
- 
- #define SO_PASSPIDFD_THREAD	86
- 
-+#define SO_PEERPIDFD_THREAD	87
-+
- #if !defined(__KERNEL__)
- 
- #if __BITS_PER_LONG == 64 || (defined(__x86_64__) && defined(__ILP32__))
-diff --git a/net/core/sock.c b/net/core/sock.c
-index dfe98463ad0e..c970f8beae3b 100644
---- a/net/core/sock.c
-+++ b/net/core/sock.c
-@@ -1736,6 +1736,50 @@ static int groups_to_user(sockptr_t dst, const struct group_info *src)
- 	return 0;
- }
- 
-+/* Hand out a pidfd for @type of the socket's peer via SO_PEERPIDFD*. */
-+static int sk_getsockopt_peerpidfd(struct sock *sk, enum pid_type type,
-+				   sockptr_t optval, sockptr_t optlen, int len)
-+{
-+	struct file *pidfd_file = NULL;
-+	unsigned int flags = 0;
-+	struct pid *peer_pid;
-+	int pidfd;
-+
-+	if (len > sizeof(pidfd))
-+		len = sizeof(pidfd);
-+
-+	spin_lock(&sk->sk_peer_lock);
-+	peer_pid = get_pid(sk->sk_peer_pid[type]);
-+	spin_unlock(&sk->sk_peer_lock);
-+
-+	if (!peer_pid)
-+		return -ENODATA;
-+
-+	/* The use of PIDFD_STALE requires stashing of struct pid on pidfs
-+	 * with pidfs_register_pid() and only AF_UNIX is prepared for this.
-+	 */
-+	if (sk_is_unix(sk))
-+		flags |= PIDFD_STALE;
-+	if (type == PIDTYPE_PID)
-+		flags |= PIDFD_THREAD;
-+
-+	pidfd = pidfd_prepare(peer_pid, flags, &pidfd_file);
-+	put_pid(peer_pid);
-+	if (pidfd < 0)
-+		return pidfd;
-+
-+	if (copy_to_sockptr(optval, &pidfd, len) ||
-+	    copy_to_sockptr(optlen, &len, sizeof(int))) {
-+		put_unused_fd(pidfd);
-+		fput(pidfd_file);
-+
-+		return -EFAULT;
-+	}
-+
-+	fd_install(pidfd, pidfd_file);
-+	return 0;
-+}
-+
- int sk_getsockopt(struct sock *sk, int level, int optname,
- 		  sockptr_t optval, sockptr_t optlen)
- {
-@@ -1931,45 +1975,14 @@ int sk_getsockopt(struct sock *sk, int level, int optname,
+@@ -722,7 +726,7 @@ static bool coredump_sock_connect(struct core_name *cn, struct coredump_params *
  	}
  
- 	case SO_PEERPIDFD:
--	{
--		struct pid *peer_pid;
--		struct file *pidfd_file = NULL;
--		unsigned int flags = 0;
--		int pidfd;
-+		return sk_getsockopt_peerpidfd(sk, PIDTYPE_TGID, optval, optlen, len);
+ 	/* ... and validate that @sk_peer_pid matches @cprm.pid. */
+-	if (WARN_ON_ONCE(unix_peer(socket->sk)->sk_peer_pid[PIDTYPE_TGID] != cprm->pid))
++	if (WARN_ON_ONCE(!pids_equal(unix_peer(socket->sk)->sk_peer_pid, cprm->pid)))
+ 		return false;
  
--		if (len > sizeof(pidfd))
--			len = sizeof(pidfd);
-+	case SO_PEERPIDFD_THREAD:
-+		/* Only AF_UNIX records the peer's connecting thread. */
-+		if (!sk_is_unix(sk))
-+			return -EOPNOTSUPP;
+ 	cprm->limit = RLIM_INFINITY;
+diff --git a/fs/pidfs.c b/fs/pidfs.c
+index 586af2e5811c..29299b2c7ca7 100644
+--- a/fs/pidfs.c
++++ b/fs/pidfs.c
+@@ -793,9 +793,9 @@ void pidfs_exit(struct task_struct *tsk)
+ }
  
--		spin_lock(&sk->sk_peer_lock);
--		peer_pid = get_pid(sk->sk_peer_pid[PIDTYPE_TGID]);
--		spin_unlock(&sk->sk_peer_lock);
--
--		if (!peer_pid)
--			return -ENODATA;
--
--		/* The use of PIDFD_STALE requires stashing of struct pid
--		 * on pidfs with pidfs_register_pid() and only AF_UNIX
--		 * were prepared for this.
--		 */
--		if (sk->sk_family == AF_UNIX)
--			flags = PIDFD_STALE;
--
--		pidfd = pidfd_prepare(peer_pid, flags, &pidfd_file);
--		put_pid(peer_pid);
--		if (pidfd < 0)
--			return pidfd;
--
--		if (copy_to_sockptr(optval, &pidfd, len) ||
--		    copy_to_sockptr(optlen, &len, sizeof(int))) {
--			put_unused_fd(pidfd);
--			fput(pidfd_file);
--
--			return -EFAULT;
--		}
--
--		fd_install(pidfd, pidfd_file);
--		return 0;
--	}
-+		return sk_getsockopt_peerpidfd(sk, PIDTYPE_PID, optval, optlen, len);
+ #ifdef CONFIG_COREDUMP
+-void pidfs_coredump(const struct coredump_params *cprm)
++static void pidfs_coredump_pid(struct pid *pid,
++			       const struct coredump_params *cprm)
+ {
+-	struct pid *pid = cprm->pid;
+ 	struct pidfs_attr *attr;
  
- 	case SO_PEERGROUPS:
- 	{
-diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
-index 634db1b40ecb..54f122952979 100644
---- a/net/unix/af_unix.c
-+++ b/net/unix/af_unix.c
-@@ -1057,6 +1057,7 @@ static bool unix_bpf_bypass_getsockopt(int level, int optname)
- 	if (level == SOL_SOCKET) {
- 		switch (optname) {
- 		case SO_PEERPIDFD:
-+		case SO_PEERPIDFD_THREAD:
- 			return true;
- 		default:
- 			return false;
+ 	attr = READ_ONCE(pid->attr);
+@@ -814,6 +814,13 @@ void pidfs_coredump(const struct coredump_params *cprm)
+ 	smp_wmb();
+ 	set_bit(PIDFS_ATTR_BIT_COREDUMP, &attr->attr_mask);
+ }
++
++void pidfs_coredump(const struct coredump_params *cprm)
++{
++	/* The dumping thread's pidfd reports the coredump as well. */
++	for (enum pid_type type = PIDTYPE_PID; type <= pids_last(cprm->pid); type++)
++		pidfs_coredump_pid(cprm->pid[type], cprm);
++}
+ #endif
+ 
+ static struct vfsmount *pidfs_mnt __ro_after_init;
+diff --git a/include/linux/coredump.h b/include/linux/coredump.h
+index 7b38ee2e7913..0bbb7de6a402 100644
+--- a/include/linux/coredump.h
++++ b/include/linux/coredump.h
+@@ -5,6 +5,7 @@
+ #include <linux/types.h>
+ #include <linux/mm.h>
+ #include <linux/fs.h>
++#include <linux/pid_types.h>
+ #include <linux/sched/coredump.h>
+ #include <asm/siginfo.h>
+ 
+@@ -32,7 +33,8 @@ struct coredump_params {
+ 	int vma_count;
+ 	size_t vma_data_size;
+ 	struct core_vma_metadata *vma_meta;
+-	struct pid *pid;
++	/* Dumping thread and its thread-group leader by pid type. */
++	DECLARE_PIDS(pid, PIDTYPE_TGID);
+ };
+ 
+ extern unsigned int core_file_note_size_limit;
 
 -- 
 2.55.0
