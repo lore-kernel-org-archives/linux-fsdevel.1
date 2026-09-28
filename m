@@ -1,147 +1,173 @@
-Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C333CEB83
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 18:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.205
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790621956; cv=pass; b=Hm13fS9KPQw/RlXkpFeFoQf+WTRTq4OZATG1nnYxlq/xioWDTiQCx/66YFwQg7lDryJ8bNIEflbSVYfLPOYSbrYU04TOsn3NaO8QUL+HVNvKQEOwVi36HmyHwXBXGyOELQc9bYsaWkdU5szR7jP9AVtOOVzysM3UutQoh0fAb44=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790621956; c=relaxed/simple;
-	bh=ZckUBzuxfDct7Xtg49y5TXXNnoeTTdLGKQnVGpqLnmQ=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=BvQslehMV7lU6MUibsjFG7iI3qLnRsyuQUMy73Wc2rKc6rVIQ8XkmTlOBhUB6uwFtg2ITqYuBAnrGpZgeeAGRd8YYDXhJzkFj2EillFuNdAN5vOv6S5XZ/zgSKT/hnf6xlrke816GMnaDvC/VVYgL2QaF4+x8UOsOPWEufWlXtk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3SffaIu; arc=pass smtp.client-ip=74.125.229.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09EC439768D;
+	Mon, 28 Sep 2026 19:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790622160; cv=none; b=oomXNBUZec/XLhOjjRR27MLkrzs/HkiSwio6nEk4JXGn9tCVEgKhKRRUIeVG5J8DHr0GCsL6Q6tn74E4e4JYyIGz9vX0L1ZqCj/kpfPZV2edcgE9AKa/8OhF0NV49uVBrRyF1BtB11QljV1OcXcU0J0nXXz8pnsYYTus6iMbVGs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790622160; c=relaxed/simple;
+	bh=8IfPv+STfMcZJKjf6yggHH5WDwdE237pEfnwfgqDUzg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AghzlHEbe0TV9oqltfh46/6WMcSsOgNKBTy90Rz2xeHpTlBwJNZM5NL/GEaYYzjvy8poDbzj+IEVMsoN0gGs3moMS2IbrF3GfQvxWAX0In7COVIjHgdcHXqS45eMOX4AlalbHKuwqNpiRBCKF6kbCnzReD6ucslRkjrd3/5KC3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JpdScsI+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3SffaIu"
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8eb15037aso1185714e87.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 11:59:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790621950; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IOi/N9OEShIHxtXNcCUyq+3TRMZKfFOqJCYratla0QDY2jllOVCk2N9PpMWaIEDxVr
-         VhDQrV2GLklPT2yyhbD0LMkHJjI0o8fA2hXbDFMbJtq0xJy2XxzgIwnszBqxcJk4/N0m
-         EMZWVoTsl9ejELK80+irsFFLK5zpFtyt8hj5iUKWoY3+MW4NvZWGRO428pq+mLlAZZgP
-         HaigL04bhfyt5j+iWqDfAEX19GB55Uok1hcN9mb8tMr2xrdML9IM/QItpuW8WnTYUovA
-         25L0WB00nCVdlciGfXIMWVIoW0ynBBvqX6JXbIcEMIKZA0Nk60RizAd8mPRqT4X376YF
-         jhRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:sender:mime-version
-         :dkim-signature;
-        bh=Pu/ssd8DugN/kj01xDDdGW2HkDyQcHTA/d4qIgsVPkw=;
-        fh=iwSNYB5TTTpVJ7mIYOQ+y13SNI8qU+/J0C2fWIhfZi4=;
-        b=Pw9Frn1Y/Vh7MAF9tZ2E1U/829F64JURplYk6nJoPYcUQW7Qn9M/RqZxWPqjgd5C1Y
-         8EZtaL7cbzJ/8AgvYEK7XwiaOd6ULUA4bFlYqIvt9X5kjZ/FcmUXBemFLsUKjugdM5VQ
-         TVaNWocsr4DKDt0vjjBWc1ot/S3K/5hf01cliGPlQLa570bidqx8xv156RzTSyvCDoC8
-         0eIxTNskh9Db9J8XFg0OZ4MLqblNJGVhVOxMRFc4CxQu6SIAdCQ5M2MWrNmPT7aYdwpx
-         RwOh7LAUlFOU09WGLpkvhNAF70pH++eVmEOdzBcd6NeTjYPMKeiPR3eH6uulSQz8tkOZ
-         L8gA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790621950; x=1791226750; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:sender:mime-version
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Pu/ssd8DugN/kj01xDDdGW2HkDyQcHTA/d4qIgsVPkw=;
-        b=h3SffaIuXFZFlrN3ssHMWUrw9m8vbhLctkQmnh/rvdVVzzlksx4S5ogP1wK1h5TGAI
-         wgUF7yo0fNaktuyNZJoMC5eSIIc4tibqykGmSyVkpCCmpVbQZ173yEv6wm4D/oZjZfMa
-         HUgJkW25BBx/4ngNI5m39GxRf7pVm5kHjXAqSsx33ReLW1N4uKQK+qESkc7n/62N6pxZ
-         iDq8jbO7ge5JdBa1+TCocUuJzCYbOqF5oFo7g3LUp1Uu87AonWLkTyO39Hg7C0A+uSe8
-         fv8S5qeTXQlSYWymNgOix5a2Fr+3Oj6wp1fnhd2CmeBa/jTbmIMltZqWrGYpyNbo70wa
-         qq9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790621950; x=1791226750;
-        h=content-type:cc:to:subject:message-id:date:from:sender:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Pu/ssd8DugN/kj01xDDdGW2HkDyQcHTA/d4qIgsVPkw=;
-        b=FLRNxdoN6eyXXaQim4WUvrIBIHE724MwTTwFhf/dpPao5MRZqXQe48EIlC2ZUNHk/b
-         Nb63XsvbswznJ0oNn2AJ3AkDaOhARgwsT7wgsWaWz0e36l3JyLIf8pDIbSXyuoGhMBJj
-         23fmpW+gotrLobLD2PnS5/68fHBYTKmG5NqcykQi5w7KmcZQrOIEDs+VW9iOJCf2E7RY
-         tv65fKHwsNxPh7wcL1WWn8eag9tARR1SshbpMOyeXtmoVmPBSOBdjIU9P6Ezf0n9T2ka
-         lbokdLu5V/O94Xv9Fv072jJtpJFKEF3Am6Csi8ZAtm3cZZj3wmeXZQNU6MFkr5nWZO0s
-         zE3A==
-X-Gm-Message-State: AFq9FYIrO6cpYbaL9OZeU8hoGPUK7S0yGPILCKKzR91/q4Mc+4vqvGeB
-	kkgM2syfirw9mJ+77foXn4Uzm0RONsCJCrTPOpGxzmR3y4tJd1tfFKalmFqAMKoKhpYxjtuiBYk
-	CcuStBf8D3rJTh+BYE1SmkClojmUg4qe3cX4yqP4=
-X-Gm-Gg: AYBFou2fRwI50nX3toDNepdR7WHCuS/tV10EdWVGiBGgvEJBwfBv7ou2My0gXyTn2xU
-	3Kbggu1x8nInNIhvnP/MslQb2PYcV978tzxR0vPfEyB3Gobll7OEqX/dz918vLfXx/IMaSPMScY
-	e54IBUT2E1mzksc4bsgHwGlW23bqz5iQmmJ3UR6+wSmVCOaltuvbmQV7OjeueoLVoHa2XtkJe/X
-	gR0i34cQgUqZW2iJnF7e3H6mFjd8jVdkobbYsjMJJMAC+G0gtsLKvE2PJN7f1w0Kq2LZ8RoNSAn
-	tvt0KKQHzBCW9N0jIM6Kyjr1tJbJ1dLl7e4cYnk6qqDVmWHemlFPya6+N72CW/6oAkUO8S3C9yk
-	/kKvrjpRaU8v1
-X-Received: by 2002:a05:6512:134c:b0:5b6:10bc:b864 with SMTP id
- 2adb3069b0e04-5ba2e6289cemr39499e87.18.1790621950325; Mon, 28 Sep 2026
- 11:59:10 -0700 (PDT)
-Received: from 254448290189 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 28 Sep 2026 11:59:09 -0700
-Received: from 254448290189 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 28 Sep 2026 11:59:09 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JpdScsI+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263B61F000FF;
+	Mon, 28 Sep 2026 19:02:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790622158;
+	bh=vTZRqeA3eh/91cOEVB9Z7b7RmqYVnV8/9o2vIx4X17c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=JpdScsI+6Qzm+N9kvlK8qVUWrOLKhvaCARl3eGaAFGaYO8jR3uleE7yaCCC2auyT3
+	 jbZr+S2DpOD9UfDIEdqk6cBuN8esD48o0Gr0bbRqDa5fkW8kfvg3bc0OO4tZNii7iv
+	 hCZnw+aYEBCML2hR563F9EUvHTG9YIPr8zh9JQIGynl/nYmoSEYCFmA30prsHWWp4o
+	 ouiSZ/rTdzjzBicvJB2pHHx6risqXhJCsl//LUsmZ2yWFCPYtCei5xUflJxZAWNDrU
+	 5hcJqUpuoB8o2R/tjhS4cb6OcUdgWl32Akkvgb7W7xFukQg2PHNhQGjorZFNvgDrDy
+	 5AZH3hA8QW+cQ==
+Message-ID: <7d4816f0-9c18-413f-9a7d-aaa003bf3135@kernel.org>
+Date: Mon, 28 Sep 2026 21:02:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Sender: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
-From: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
-Date: Mon, 28 Sep 2026 11:59:09 -0700
-X-Google-Sender-Auth: ZwCvM-sC4hIxe8N8dJb-AWb4nUQ
-X-Gm-Features: AclHuK-2bu843UqJ0hkn0uiGUfhhfw492ZeGe05OpMyUNCkLbPWCoP_36qHDt24
-Message-ID: <CAANnmVBmovjCL0Ky4F3ay8pnmm4jp0+HyXC9QYyHo_1Bi1FucQ@mail.gmail.com>
-Subject: [PATCH] ufs: verify cylinder summary size against cylinder group count
-To: linux-fsdevel@vger.kernel.org
-Cc: brauner@kernel.org, marco.crivellari@suse.com, ali@iusegentoo.com, 
-	kees@kernel.org, jack@suse.cz, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/12] CRASH_MEMACTION: describe pages to a kdump
+ kernel (was: CRASH_WIPE_SECRETS)
+To: =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Rob Herring <robh@kernel.org>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Baoquan He
+ <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>, Mimi Zohar <zohar@linux.ibm.com>,
+ David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ kexec@lists.infradead.org, driver-core@lists.linux.dev, linux-mm@kvack.org,
+ linux-arm-kernel@lists.infradead.org, dm-devel@lists.linux.dev,
+ linux-crypto@vger.kernel.org, linux-integrity@vger.kernel.org,
+ keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org
+References: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The cylinder summary buffer is allocated with the on-disc fs_cssize
-value in ufs_read_cylinder_structures(), but it is indexed through
-fs_cs(i), which expands to s_csp[i], with the independent on-disc
-cylinder group count uspi->s_ncg as the only upper bound - see for
-example ufs_new_inode(), ufs_free_inode() and the block allocation
-paths.
+On 9/28/26 19:17, Jan Sebastian Götte wrote:
+> I'm using linux on an embedded target in a Hardware Security Module-like
+> application. One requirement is that I want the system to be able to
+> quickly erase its memory when it detects physical tampering. I'm
+> approaching that by using kdump to load into a small payload that
+> instead of dumping RAM, erases RAM frmo start to end. However, writing
+> all of RAM, especially on an embedded target, is rather slow. For this
+> reason, I propose a new crash_memaction mechanism that lets the old
+> kernel indicate marked memory areas to the kdump kernel at page
+> granularity.
+> 
+> I will be using this mechanism to indicate "secret" memory ranges for
+> early wiping by my kdump payload. After discussion with Baoquan He early
+> August, the patchset includes a second flag that can be used to indicate
+> "cache" memory that the kdump kernel may want to skip when creating the
+> dumpfile.
+> 
+> The record is a bitmap with one bit per page, allocated at boot. It
+> reaches the kdump kernel as a PT_NOTE named MEMACTION. Marking is a
+> lock-free atomic bitmap update with no allocation, so it is safe in any
+> context.
 
-Nothing requires cssize to be large enough to hold ncg entries of
-struct ufs_csum, so on a crafted filesystem image where cssize is
-small and ncg is large, every fs_cs() access is an out-of-bounds
-access: a read when scanning for free inodes, and a 32-bit
-increment or decrement past the end of the kmalloc()ed buffer when
-an inode or block is allocated or freed.
+This is all rather messy.
 
-Since the summary arrays are only set up for writable mounts,
-triggering the out-of-bounds writes requires nothing more than
-mounting a crafted image read-write and then creating or deleting
-a file.
+So, in general, kdump has access to the memmap, and it can figure out certain
+things about pages to be dumped. That's what makedumpfile does.
 
-Validate at mount time that cssize covers all ncg cylinder group
-summary entries, and reject the image otherwise.
+It can identify user pages, kernel pages, etc. If you could identify relevant
+pages through the memmap from the second kernel, you might be able to clean them.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
----
- fs/ufs/super.c | 5 +++++
- 1 file changed, 5 insertions(+)
+I'd assume you could identify secretmem pages that way.
 
-diff --git a/fs/ufs/super.c b/fs/ufs/super.c
-index 3569ac92b065..2052d5225d03 100644
---- a/fs/ufs/super.c
-+++ b/fs/ufs/super.c
-@@ -1139,6 +1139,11 @@ static int ufs_fill_super(struct super_block
-*sb, struct fs_context *fc)
- 		uspi->s_csaddr = fs32_to_cpu(sb, usb1->fs_csaddr);
+But all these madvise/mmap thingies are really not appropriate to reduce the
+zeroing.
 
- 	uspi->s_cssize = fs32_to_cpu(sb, usb1->fs_cssize);
-+	if (uspi->s_cssize < (u64)uspi->s_ncg * sizeof(struct ufs_csum)) {
-+		pr_err("%s(): cylinder summary size %u is too small for %u cylinder
-groups\n",
-+		       __func__, uspi->s_cssize, uspi->s_ncg);
-+		goto failed;
-+	}
- 	uspi->s_cgsize = fs32_to_cpu(sb, usb1->fs_cgsize);
- 	uspi->s_ntrak = fs32_to_cpu(sb, usb1->fs_ntrak);
- 	uspi->s_nsect = fs32_to_cpu(sb, usb1->fs_nsect);
 -- 
-2.47.3
+Cheers,
+
+David
