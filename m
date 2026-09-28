@@ -1,117 +1,138 @@
-Received: from mail-pz2-f38.google.com (mail-pz2-f38.google.com [74.125.228.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA06030FF36
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 07:28:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F61945D18C;
+	Mon, 28 Sep 2026 07:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790580493; cv=none; b=hakmJqNJKSeGuLa2jnerMksGQ36b0fRqNRiEa6iaUn1eFJBWyPU55uQc74+oR7BWlPINgQ12F91KuYB5ukNPYPn6u3BSUsrhlmyx50gvu8KtY/0Q4rpdo0ABenv82XExDin7tNlY8KKvLcnAuVZh2yulPBdzYwCOVZ7vw9EMeKU=
+	t=1790580505; cv=none; b=L1xY9A0p1UR5hqZsZSum/fdKpjR+JFA46YKj4EDSgWsoSXAj+TbIAGgEGJECq9JAjpMAa8M0pnCaBoJx0zoQ+5QrSfEPJsA4FTY0wW8v5Nhunxo1tVyZPKg/BXTNMf4f4Cygs/KYoUAakzZr7h1PtP/7+g6Yqe8V33QHMNu3bVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790580493; c=relaxed/simple;
-	bh=DZEBm7AqqCnArM9eNi1XRjIHVWMaI8eGfrCgZqmx5vI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KLwZyFs9WepAlhZZrSBmZW3+KmfxO/d9LSN4S0boBM2hMabXW1MAluoPDk6u6dtoTQTth0kA+DKgYAd3zN3DYBkYtiCA6QlUxTXbjnEnFEi9qKymrk2snQ9XixH4aO3rwR7iZ+oLVXrVM635Uq7e811vw6F2Iy1EbmSvX6Vtcqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wh8/+rcv; arc=none smtp.client-ip=74.125.228.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790580505; c=relaxed/simple;
+	bh=csRyCxe/qJkiN65GCK4ubCkbvG2vCXI+W2GLfeoaQhM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ix+Lp5mXzyOIj4Yl5cVqHQW3pEsu+nd0S6jRIEipjIVzlOYdNmyc7LHTcgRyR7txhaNmGMfjHeuUiaTuT1K7xg6QZCH+Hwt+Cewg3F3rLJo4WLkwc0/dnQ8xhqeZM1vYqbA0dAn1NWj159wDc0q6om9hGUHGh6fPim0xoeZSGnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dkt6xH2J; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wh8/+rcv"
-Received: by mail-pz2-f38.google.com with SMTP id 41be03b00d2f7-cc79a5bdf9fso225863a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 00:28:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790580489; x=1791185289; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Bye6SXDJtZqYyoJ8pMJ9LL8Wd0RgcztWGshO/EITHjg=;
-        b=Wh8/+rcv28soGebdBSKzhwOn68goxvLuv1hRTAzaC25X3bk+4LR3vyn6wNS5bB6Lw/
-         SYZ/dtiW2vJr/9/5NzMwQrvtUuMWc7BJG5HgPefwbZiieOB7zVsjflE0zpu1t1w1JfbL
-         f/1Zk6XfITsyZNYSqnpFyxRocH4ZYaDzA0woOUuyUtPX/li8QQgFTxh+QyZEsYUW06L2
-         P9+TIqlSgIxoM8yGpla3NGZorhmjnU124OCf4AwIF3hrb73P8iFzRugadFwz2VTm2QJi
-         OZcB51w33G942eiIkaN1CbEvGw1C0rr8AfkhkOv8rsIZktNffD8XY04Hw1HXrpjFJw2b
-         lP7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790580489; x=1791185289;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Bye6SXDJtZqYyoJ8pMJ9LL8Wd0RgcztWGshO/EITHjg=;
-        b=q0ejUwfusiGfyDciqQBxUr9RhbJ2hswkBCDcsQSAo9kZ9X6GvpkCV++4Et4Gnm04Wg
-         Ol/yWAfT9+Ikh+KU3hJolrckKnJmAXcTO1bTDLK6EmRrWYjHNALx6vRjo6rGUgzNQNUp
-         1eJK29jnDGMjDqdslBk8zK1usob6SL1IoMlEz79iz0jXrhzcSV+Kjb6LdOSpyOPG9aJN
-         WoilX04ScQHPK9XAMiBgFlNZN7o18EDGqy5L+GewWvAT9+/DTu/K/zRDucCh1DObOFnH
-         XD7hjqLBpijlbLDk6ZJ0bMC7miMi90gsW8QpEJN3n+FJiyYr1L99Ylp+kJjOSFNJO3l1
-         +3PA==
-X-Forwarded-Encrypted: i=1; AKwUvBwhAZNAELIMAGuTg+bBFGKf3LjAltUxOwvBnjaAnJSFpGYnJVtiF4GL4Jfx2Ogi4S8az5ErhOvOIOvamILH@vger.kernel.org
-X-Gm-Message-State: AFq9FYLVoNQHCLO3B8FCHHiI2UTfs1p4jrIgg6V7SBYe1zxtIOSVXDZa
-	bLK3iikgSr03QWDU02GAGjlNLs8Uq6hIFxJRVAa3/K1I5d0HNFUwOr8OSeeZNg==
-X-Gm-Gg: AYBFou2g2VTpyvyKepVl46GTTPevwJHPZnqqNzjmCc6SQqDY/RiunHjLjlNAFKubquX
-	FRGHvuBh/8ZnqVsq/TSX5CCZiy1A0uZ95TybUDawKH8mqoRnzB9XjlD2k/P/edlsfgks3/EtofQ
-	Usxz+yCOqSFy+fk99tgssFV4xd76qxi7ljViXWp8LJxQBTISqzOuVUN2BcvpKYmTSD46q9qc2Jc
-	f6OnTn5gUEObfCuXMKfAHX6x/7yTab12RXSkZeFkH9Q9c+RjgJktA0A70emCvpX0N3Pg0kaTkG0
-	soQnPsfKe8U/1MgeBPOzUPsn33s+zuU8Hatx31paZK2+e+cBNh9dapfUnO89hIQI5kSGRAY0H2x
-	xyqoahusKjR6bYrgASYXvHG8rJ//2HmIVNxZtdXVYC5xe3h3+s75GiUUK95Qu85Y8aZyS5zqQ+Y
-	xAvl7thmjGQEVSIse9NFMi+wYZKZvVV/ngsiZq+pWFrdSirqyPu1E74PDOBt2ZXZ6cgac+MO8hI
-	/OBAPYzPYs=
-X-Received: by 2002:a17:90b:5247:b0:39e:6c68:fd8f with SMTP id 98e67ed59e1d1-3a098b628d9mr7264933a91.36.1790580488646;
-        Mon, 28 Sep 2026 00:28:08 -0700 (PDT)
-Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0974ec5dfsm25102399a91.3.2026.09.28.00.28.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 00:28:08 -0700 (PDT)
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
-X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
-To: Zhenyan Wang <maximwang110@gmail.com>
-Cc: Zhan Xusheng <zhanxusheng@xiaomi.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Christian Brauner <brauner@kernel.org>,
-	ntfs3@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] fs/ntfs3: keep PrintName not changed when creating symlink
-Date: Mon, 28 Sep 2026 15:28:00 +0800
-Message-ID: <20260928072801.13714-1-zhanxusheng@xiaomi.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260927180359.3867508-3-maximwang110@gmail.com>
-References: <20260927180359.3867508-1-maximwang110@gmail.com> <20260927180359.3867508-3-maximwang110@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dkt6xH2J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAF2B1F000FF;
+	Mon, 28 Sep 2026 07:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790580501;
+	bh=+LksHqZozTtq7yO6KkjuEVP0ofhwJNDCQXPtObKD/1k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Dkt6xH2JXFEogH+25ymBukI9dCfxA3hNo12nOX8K2n5a6a4QY62Q+ke8no/A5HEVB
+	 qZ/L/nhs6YtNxqoHfgLG/Sf2dgwVZrYX0LSF4B9KXmr+XJcClAUwyIu5ELJKVvR+s8
+	 n/2gaj3xYxQWF8eiji3ZzJMe9XyxijisYWdV6bSTlX7mWI7PrQOY+SkCFPa3Ya5Xhl
+	 Cp9NLzhGBwux1m6QmGi1Wd1JYxXgtzvHpZnD4pjRp59Mo9zpbYS6NBLwVZLIyEl71R
+	 fp/89MDqsFlPFFStUrxWH+ltvJYMqlt9WzAZ4YlEs5MMHdOMEHPBy24QJ6zAyFygMI
+	 PGgXai9Hc1Zxw==
+Message-ID: <655c509e-318f-48bc-8183-2b1274dd05ac@kernel.org>
+Date: Mon, 28 Sep 2026 09:28:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 10/13] mm/sparse: remove SECTION_MARKED_PRESENT
+To: David Carlier <devnexen@gmail.com>
+Cc: akpm@linux-foundation.org, axelrasmussen@google.com, baohua@kernel.org,
+ baolin.wang@linux.alibaba.com, baoquan.he@linux.dev,
+ brendan.jackman@linux.dev, dakr@kernel.org, driver-core@lists.linux.dev,
+ gregkh@linuxfoundation.org, hannes@cmpxchg.org, jan.kiszka@siemens.com,
+ kasong@tencent.com, kbingham@kernel.org, liam@infradead.org,
+ linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org,
+ mhocko@suse.com, osalvador@suse.de, qi.zheng@linux.dev, rafael@kernel.org,
+ rppt@kernel.org, shakeel.butt@linux.dev, surenb@google.com,
+ vbabka@kernel.org, weixugc@google.com, yuanchu@google.com, ziy@nvidia.com,
+ devel@lists.crash-utility.osci.io
+References: <20260921-b4-sparsemem_cleanups-v2-10-54d81d65e125@kernel.org>
+ <20260927192013.144672-1-devnexen@gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260927192013.144672-1-devnexen@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Sep 27, 2026 at 06:03:59PM +0000, Zhenyan Wang wrote:
-> -	/* Translate Windows '\' into Linux '/'. */
-> -	for (i = 0; i < err; i++) {
-> -		if (buffer[i] == '\\')
-> -			buffer[i] = '/';
-> -	}
+On 9/27/26 21:20, David Carlier wrote:
+> On Mon, Sep 21, 2026 at 09:59:02PM +0200, David Hildenbrand (Arm) wrote:
+>>  enum {
+>> -	SECTION_MARKED_PRESENT_BIT,
+>>  	SECTION_HAS_MEM_MAP_BIT,
+>>  	SECTION_IS_ONLINE_BIT,
+>>  	SECTION_IS_EARLY_BIT,
+> 
+> Hi David,
 
-ntfs_readlink_hlp() reads PrintName, for both tags:
+Hi!
 
-	case IO_REPARSE_TAG_MOUNT_POINT:
-		... MountPointReparseBuffer.PrintNameOffset ...
-	case IO_REPARSE_TAG_SYMLINK:
-		... SymbolicLinkReparseBuffer.PrintNameOffset ...
+> 
+> It seems dropping SECTION_MARKED_PRESENT_BIT shifts the other section flags down
+> one bit. crash hardcodes SECTION_HAS_MEM_MAP as (1UL << 1) in
+> pfn_to_map(), so it now tests SECTION_IS_ONLINE: offline and
+> ZONE_DEVICE sections no longer resolve to a struct page. makedumpfile
+> only checks bit 0 and is fine.
 
-On a volume written by Windows that PrintName is the display form, so
-its separator is '\' - "C:\Users\foo".  Without this loop readlink()
-hands that back verbatim and the whole string becomes one component.
-The loop is after the switch, so junctions and mount points lose it too.
+Thanks. To be expected when relying on kernel internals.
 
-Keeping it, the first hunk alone already fixes the '/' case:
+Which makes me wonder why makedumpfile
+(https://github.com/makedumpfile/makedumpfile) not require any such information.
 
-	symlink target   PrintName   readlink
-	a/b              a/b         a/b
-	a\b              a\b         a/b
+> 
+> Keep bit 0 reserved, or export the bits via vmcoreinfo?
+We could export it, or crash can simply detect the change based on the kernel
+version. I remember the latter was done in makedumpfile in the past (although we
+export it).
 
-The second row cannot be fixed this way.  A '\' in PrintName is either a
-Windows separator or a literal character from Linux, and nothing in the
-buffer tells them apart, so a round trip for the literal one needs a
-different encoding, not a missing conversion.
+I can send a separate patch to export it.
 
-Also, after the first hunk the is_absolute block still decorates through
-rp_name while the copy is at sub_name; both point into the same buffer,
-which is easy to get wrong later.
+-- 
+Cheers,
+
+David
