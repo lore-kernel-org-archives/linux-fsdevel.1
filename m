@@ -1,133 +1,108 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146924E9C16;
-	Mon, 28 Sep 2026 21:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BCA314A9E;
+	Mon, 28 Sep 2026 21:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790631148; cv=none; b=G/+rHFzcICPZlTgN394CQ/prFSbx307pCKiLFkjQ+AtmsxxbFvBOp/JQzbo0aCwEdzTBd86Pn58e2nD0lD1174RwtpZDohM+uZmgmZvC3sYg1vaM3LmjfK5LofpIq3GP5vfAYlqMhdV2XXKA6jSSvvbUvaH7KLnQ4G+YHRMrCys=
+	t=1790632144; cv=none; b=kzIN/R2bmA+OIxWTfxMAZbsXriQHaQduZ7YPeI11aEcqKZCjYL5BdgGZTIJ96HMlR0wgnLmDgEW+CQpg3xh3CkEftMeZmU41KCQvfeNCRhKwVDvSR6oNWs20fzaYtcNjrMGfopbf708otS0gPiG3u3uXG6jBY8AodYU5BxySXHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790631148; c=relaxed/simple;
-	bh=1Fyfk0g9lSYGHNXSGDZ36Re3tqLELZTlXFUeAhmRxgw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hs+oeBEumLmAhRHzomvlE6oYE5yZcV3YCl3n03k0CYnH25Zh59aF0tPx5dBsvClAdlsx2OEi6EABl3ESssqQI6762NOvr0ZyFKpjBDu5Zc4kxw3Z1LK2nJoyN7DQkDg4cKr2nNFI51+Xq8hA0XTJYdQ1ae3CFjzJ21NUB1lUj0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 538B01F828;
-	Mon, 28 Sep 2026 21:32:22 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E09E1133F1;
-	Mon, 28 Sep 2026 21:32:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pF8PG+XcumqkMwAAD6G6ig
-	(envelope-from <krisman@suse.de>); Mon, 28 Sep 2026 21:32:21 +0000
-From: Gabriel Krisman Bertazi <krisman@suse.de>
-To: linux-fsdevel@vger.kernel.org
-Cc: Gabriel Krisman Bertazi <krisman@suse.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	Hugh Dickins <hughd@google.com>,
-	Daniel Tang <danielzgtg.opensource@gmail.com>,
-	linux-ext4@vger.kernel.org,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	linux-unionfs@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 4/4] ovl: Expose the filesystem encoding through sysfs
-Date: Mon, 28 Sep 2026 17:31:55 -0400
-Message-ID: <20260928213155.2612039-5-krisman@suse.de>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260928213155.2612039-1-krisman@suse.de>
-References: <20260928213155.2612039-1-krisman@suse.de>
+	s=arc-20240116; t=1790632144; c=relaxed/simple;
+	bh=GkUe7x1Gfs2UOgJi1TE93T6PLIDHRRPQLINRi151jQA=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=Pu+G3yUfPykYSsiAWrIUgGDNLVMV3xUBZ7gnJVy64kLX9odMbH09xiJky/LzQoWjsMEYWHZgYk43w7DnC0cmNney1+/ib4n8pgqmyi/GZRDcqGhOJwabYTftwGtlnylVg3sxw1sE8xuJX7gOMayhOusEVEkoOsKvKxgOwQpUadU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=feAestUu; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="feAestUu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CC331F000FF;
+	Mon, 28 Sep 2026 21:49:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1790632143;
+	bh=3WIlg48jq+OdGmyFTLD0q+UgVG01A/J3xfyeSMGXSDw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=feAestUulsqsuBSPGIlO2VX//eoNiX6ebVnMrzOQrXC75XaMaoleISH7l/f/opQWS
+	 QyQ459/S4JGQ3RVgtFsXV3jfjtlNz/3L6ancyAJo3rjmIY4c88NqNg04H3na4WNZes
+	 fycVDEgUJtOlEWNKO3tSDXJ4ZMptbzGbPlhHp4Zg=
+Date: Mon, 28 Sep 2026 14:49:01 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, david@kernel.org,
+ ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, hughd@google.com,
+ baolin.wang@linux.alibaba.com, willy@infradead.org, jack@suse.cz,
+ ziy@nvidia.com, bfoster@redhat.com, joannelkoong@gmail.com,
+ djwong@kernel.org, yi.zhang@huawei.com, yizhang089@gmail.com,
+ yangerkun@huawei.com, chengzhihao1@huawei.com, wangkefeng.wang@huawei.com,
+ yukuai@fnnas.com
+Subject: Re: [PATCH v5 0/4] mm/truncate: fix data loss when truncating
+ straddling large folios
+Message-Id: <20260928144901.83cc90357c9a488e94fd6785@linux-foundation.org>
+In-Reply-To: <20260928120833.3440834-1-yi.zhang@huaweicloud.com>
+References: <20260928120833.3440834-1-yi.zhang@huaweicloud.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 538B01F828
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[];
-	TAGGED_RCPT(0.00)[]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This patch reproduces the same interface from ext4/f2fs to have feature
-parity, so users don't need to rely on parsing dmesg or trying +F on a
-temporary directory just to check for support.  Note there is no
-encoding_flags file, as none are supported by ovl.
+On Mon, 28 Sep 2026 20:08:29 +0800 Zhang Yi <yi.zhang@huaweicloud.com> wrote:
 
-Assisted-by: LLM
-Signed-off-by: Gabriel Krisman Bertazi <krisman@suse.de>
----
- Documentation/ABI/testing/sysfs-fs-overlay |  7 +++++++
- fs/overlayfs/sysfs.c                       | 15 +++++++++++++++
- 2 files changed, 22 insertions(+)
+> From: Zhang Yi <yi.zhang@huawei.com>
+> 
+> Hello,
+> 
+> This is the fifth version fixing data loss when truncating straddling
+> large folios caught on the upcomming ext4 + iomap buffered I/O
+> conversion.
 
-diff --git a/Documentation/ABI/testing/sysfs-fs-overlay b/Documentation/ABI/testing/sysfs-fs-overlay
-index 9060c39679ae..7f3c6403c4f8 100644
---- a/Documentation/ABI/testing/sysfs-fs-overlay
-+++ b/Documentation/ABI/testing/sysfs-fs-overlay
-@@ -4,3 +4,10 @@ Contact:	linux-unionfs@vger.kernel.org
- Description:
- 		A directory is created for every mounted overlayfs instance.
- 		<volume> is set to the device major:minor.
-+
-+What:		/sys/fs/overlay/<volume>/encoding
-+Date:		September 2026
-+Contact:	linux-unionfs@vger.kernel.org
-+Description:
-+		Displays name and version of the encoding set for the
-+		overlay.  If no encoding is set, displays (none)
-diff --git a/fs/overlayfs/sysfs.c b/fs/overlayfs/sysfs.c
-index be83b57f637c..2144cbb418bc 100644
---- a/fs/overlayfs/sysfs.c
-+++ b/fs/overlayfs/sysfs.c
-@@ -22,7 +22,22 @@ struct ovl_sysfs_attr {
- 		.show	= ovl_##_name##_show,				\
- 	}
- 
-+static ssize_t ovl_encoding_show(struct ovl_fs *ofs, char *buf)
-+{
-+	struct unicode_map *um = sb_encoding(ofs->sb);
-+
-+	if (!um)
-+		return sysfs_emit(buf, "(none)\n");
-+
-+	return sysfs_emit(buf, "UTF-8 (%d.%d.%d)\n",
-+			  unicode_major(um->version),
-+			  unicode_minor(um->version),
-+			  unicode_rev(um->version));
-+}
-+OVL_SYSFS_ATTR_RO(encoding);
-+
- static struct attribute *ovl_sysfs_attrs[] = {
-+	&ovl_sysfs_attr_encoding.attr,
- 	NULL,
- };
- ATTRIBUTE_GROUPS(ovl_sysfs);
--- 
-2.55.0
+Thanks.
+
+> When truncate_inode_pages_range() punches a hole or truncates a file,
+> truncate_inode_partial_folio() splits a large folio so that the caller
+> can drop the in-range sub-folios while keeping the out-of-range tail
+> intact.  This series fixes three distinct problems in that path that
+> can each lose the valid out-of-range tail of a straddling folio, plus a
+> follow-up that clarifies the return value semantics.
+> 
+> Patch 01 aligns the truncation boundaries inwards to the mapping minimum
+> folio order in truncate_inode_pages_range().  With a non-zero min_order,
+> folio_split() stops at min_order instead of order 0, so a boundary
+> computed at page granularity can land inside a min-order-aligned
+> sub-folio and the truncate loop drops that whole chunk, valid tail
+> included, causing data loss.
+> 
+> Patch 02 looks the end-edge straddler up by its page index through
+> __filemap_get_folio() in truncate_inode_partial_folio().  After the
+> first split the straddler is unlocked and only transiently ref'd in the
+> page cache, so the page pointer derived from the original folio can be
+> freed and reallocated as a different folio in the same mapping, and the
+> mapping check cannot catch it, which may cause incorrect splitting and
+> potential data loss.
+> 
+> Patch 03 reworks the contract between truncate_inode_partial_folio() and
+> its callers.  If the second split of the straddler fails, the function
+> reported success unconditionally, and the leftover incorrect end
+> position could cause the truncate loop to drop that valid tail.  After
+> rework, it tells the caller the exact page range safe to discard via new
+> pstart/pend out-parameters, so the truncate loop never touches a
+> straddling folio that still holds valid out-of-range data.
+> 
+> Patch 04 clarifies the return value semantics to "at least one split
+> succeeded", which is all the shmem caller needs to decide whether to
+> reset its scan loop.
+> 
+> The second patch fixes a pre-existing race issue that is reachable
+> today, so it is Cc'd to stable.  Patches 01 and 03 require a dirty large
+> folio that carries no filesystem private data, so they are not reachable
+> on current filesystems.  They were found while developing the upcoming
+> ext4 iomap buffered I/O path. [1]
+
+Can you confirm that [2/4] will work correctly when backported into
+-stable kernels?  That is has no dependency on the other three?
+
 
