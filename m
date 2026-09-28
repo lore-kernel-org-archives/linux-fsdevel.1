@@ -1,114 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954DD4F3909
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 17:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317B94F3922
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 17:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790614815; cv=none; b=HNPUe7ec3X0X7KjzwGoky907fL0bQRV4Xtr0NxxDfLx0Wuv8JtAiaeEE1Z8VvEql/PEDUrtRl/WYf3qBea/39V1QQSF6fJ8R6sKtcMXUWl2+ffmcTRje+YvpYekH1aQqwqjdD2rJ4uw65oRXWHEklMB9CSB0HmwrS6YAqprc2c8=
+	t=1790615650; cv=none; b=i0UpdMRBemwmyMOAzffjN4FsabUNzI9mdFKswPhIXaFV/I1WzEIUaY4x58dO7Alb5Q5fbnrwqijKAo5D8bgooVOU7SHUbGyojMTe1Gxm01W8t5dV8FKVWg8ed6d0g/3Pnz32TcJuxOettgaVtm8Goo1CfPxdghKhkoVWJ6XLMkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790614815; c=relaxed/simple;
-	bh=aNjWnh0AOl3s0eUeng1gZliNevLqt7fbAwztduu9NnU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZlyCPkoJVQzsLx17Yy7uwJUw7pNT1ih0Z4sR1dA68iuN1ju0y3X6fpQhJEoHMNW1wrC262ywp136FSVs6vdFy9yxgp2Aq21rrg4JWnQRAp6pcU9E3VwG3z9In+GGR63+5h049Mr5e2M0iZM1XoeUlFZuTCJ5rXMU29sZZoI6HCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FATkbUle; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790615650; c=relaxed/simple;
+	bh=MbYUL73La3phT6CWXVxz3A2hkcPLAKJyAdn49kkRKFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BNmtwJS2i20UhVtldQEt/1LkOY6xsWQdgUMZulAv2OmHrBCHZj1547NA8aQ7fJI79KPzO9Hx8YmafTVuCRHzj6IcqF/NLkKVCvCv6qhmCYQpr46j+zPHAKkn3S0vop09VmN+A60Drf6ZlbenUfmrBF0WGFmbWlXfyddyxif3ENY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DpEt8Q/R; arc=none smtp.client-ip=74.125.224.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FATkbUle"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40CC61F00893
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 17:00:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790614814;
-	bh=aNjWnh0AOl3s0eUeng1gZliNevLqt7fbAwztduu9NnU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=FATkbUleVm8J6SK8B6WrYRtkZiBUSfQcPdIiz+umpBT8tc5HlMUIfbm0E7WUBg8Mn
-	 uUg5sekK9oDpiYfiN54M1dXDmnF9FOpXK0o7C3w2EHcRSTYNpf+C6yf8VDfuEBo8np
-	 Xb1vs+fbmhE2LYrcTbKnYcX63IpAv3FL3CK01bh+7oJottb2ZNDibTPwDRfz6DX/ZK
-	 KNUvREaPPfsKkKV8LGvg2Fwl5sjtzCjomy52prJMm7Fymz5hL3Hduve2JR7XP7gKEi
-	 QEF3Gcug0aRNDEF2GMVw4SAcFw/NyX9cueTx813LSZ+C5LHUL2emFYZhBNsaFLYfin
-	 8XlAN6M7hmHLw==
-Received: by mail-qk2-f40.google.com with SMTP id af79cd13be357-93c61451de5so154903885a.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 10:00:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwLo5rK1reKEr5RZKhlEqv4xPR4MT5myYvyrQL4//dy51KvPyDMJA3igUQQF3wM4egvsSnz9unfflXRqduA@vger.kernel.org
-X-Gm-Message-State: AFuF++nF2DNWtgtx6mFkLzDkUS/QHzfUxPyhWS4GdXHu7WQj3xsbOvrV
-	yiV5UmLlvIoCeTaNdSxojSrcCtfIB+XeZhsqlj3AOlkjWdMN1h8wnh8ABDJRvmZQkIdPKmFsAxE
-	CN8N3cq1tWMQPVOhE+zlMw0x3zGe5/B0=
-X-Received: by 2002:a05:620a:4050:b0:937:5ab5:53f7 with SMTP id
- af79cd13be357-93c43dc8b4fmr2164543285a.43.1790614813372; Mon, 28 Sep 2026
- 10:00:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DpEt8Q/R"
+Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e4ab20f4bso3502741d50.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 10:14:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790615647; x=1791220447; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MmJ/EW0KwY0F0cm8LaUC3Fhj6N704NFs3EmzLQEffnQ=;
+        b=DpEt8Q/Rtt6CU3VVCy088mlM94gI41xgFL8/OIpF7pLSuO5iZe0mNZsHnYrtDAxXH0
+         hJUBdhVhN4oej1WlPQhTfYlrf8FVZLn/Kqq6kzE7jSdpa5rY1Prk7NIoKnPW7z9n+klw
+         mWAtVjQboIZziiPgP+TY2Bge/YSusfHHOvkSn59MNZR1OAL3agPO+Lq0bqe90fr4z29l
+         BZDEZFONCqNi35OL8P0pUwsiDVQddf++iE7GOXMf2O6JOD4jkWmv+EUpdgqp/9MwXfbE
+         bhVWF7vK2Q+15ah7ydijagIGn6QwcNK70wA1I1/gAJIHvjji3tEm5JUboSICRcvCP8nh
+         fHZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790615647; x=1791220447;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=MmJ/EW0KwY0F0cm8LaUC3Fhj6N704NFs3EmzLQEffnQ=;
+        b=Y/J1jdt2h8arfQDyS87hpSmN1To10hcGU+c7VGYawd4BUJ12nVSgTwYmaE3/1aFXAF
+         Se8+tZLYgNShJN9dDyfEMtjfky8Ju4lEd92vmKOF+qCQtwo9LDLMt9FkaZNJe9QNinY+
+         lkSmCdz+Nt+ik3lfdsb00Pq9LGWqVMVCGKxn5GiIzJAC31DhjJwtIy3wDhc4DIiVv6Nq
+         E9i0HgTJpZeUqDG9vx8vFob1EA9o43cAsp3kIMEhNHFHGpmXsOC0w5IWv8Qt1Aq6aSsJ
+         G42NVU14Kn7ljaZ+fCs5GRlAKjcxtq7SqLbjbqxYdxf/as52UYQ13qaZump00lRkWrI5
+         jIfw==
+X-Forwarded-Encrypted: i=1; AKwUvByHvNlfhKSukTJvbZI4GG1fKg+ymb7tj8aNrGyyWydea415B4XVnVSPdfoWxC75NVXWr2QnwgtTNcscIH/o@vger.kernel.org
+X-Gm-Message-State: AFq9FYKo3q+K4krRONYTIafirWF7+9K4sGH+OJfR4lMrqRhB4txzTVY/
+	oJaAjJoE1/WAlboil1ch7RVUGKtHcIjigVEbd1IhNYcMKZ8RxfI4U6qW
+X-Gm-Gg: AYBFou3N2biy7lQ/X8N1oVabtZjC//jkzwY52DD/g/r20Xk8SqJhPKCWM6AdxDFezwf
+	W+Ol5+hilIPRXI/IBtTkQD2o59Nmt9DEz0V7r2/49aP0AydmFtdiQjJfxW9mPKkSCS1Jtjr6hDz
+	RZXNZC7IdZBapicllLuQQ7zknIhphlnyHbS+Zb7NIkGcGtXcUdXncz2yBKEchKZQfMuFUbgoUY3
+	iESSQ+2cgi1fsUC9NQhZI1ClxOc7J1pnyX5/+8O9naQfXiDdHy0etL2HC3gyAw6PlB0PGGQpHxP
+	PPPThdUPqIHFIOoEAAuIKOERfUXGrBEiBKsZ7gmDAwjuFf/WlwnIl1IGMflTvxuwFfqS+F0NTeP
+	Y8uA3T5+STXApXpKWNI8EcklxJsukKi4a0iqyOqeRW9lExrH/vWrYgKW6dY6wX202Qa6ptbohrR
+	vaAeWkQ9TCow3XVNP6L8oBS/ag0M86uXakWSxcp/fSuQZwbl2HMSexO0xuqgj7wdyTt5V7s7cmY
+	+A=
+X-Received: by 2002:a53:ac98:0:b0:671:1398:648d with SMTP id 956f58d0204a3-674111a8a77mr3399078d50.9.1790615647178;
+        Mon, 28 Sep 2026 10:14:07 -0700 (PDT)
+Received: from suesslenovo ([71.132.185.69])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6740ee940a0sm4752038d50.3.2026.09.28.10.14.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 10:14:06 -0700 (PDT)
+Date: Mon, 28 Sep 2026 13:13:35 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
+Cc: Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net, 
+	gnoack@google.com, paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, 
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, dlemoal@kernel.org, 
+	hch@lst.de, axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org, 
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com, hirofumi@mail.parknet.co.jp, 
+	cel@kernel.org, jlayton@kernel.org, neil@brown.name, okorniev@redhat.com, 
+	Dai.Ngo@oracle.com, tom@talpey.com, miklos@szeredi.hu, amir73il@gmail.com, 
+	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com, zohar@linux.ibm.com, 
+	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
+	stephen.smalley.work@gmail.com, omosnacek@gmail.com, casey@schaufler-ca.com, nanx95726@gmail.com, 
+	djwong@kernel.org, daniel@iogearbox.net, linux-security-module@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev, 
+	ecryptfs@vger.kernel.org, exfat@lists.linux.dev, linux-nfs@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, xiujianfeng@huawei.com, 
+	lujialin4@huawei.com
+Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <arqcbjWLN1CLkL_Y@suesslenovo>
+References: <20260924104831.1081137-1-caixinchen1@huawei.com>
+ <araxO4ze0KZBz756@suesslenovo>
+ <20260926.255b951d3013@gnoack.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260706235053.4104951-1-song@kernel.org> <CAPhsuW7E-mW5CvmSXjUsc1GBjvgpy=pnaYOzTJsLXDvx8+RMJQ@mail.gmail.com>
- <20260928-hinein-lacke-nachfahren-45ac39a36146@brauner> <CAHC9VhRPd8z=67=RWM-0DqjTXysk75FtF=haY9-Vv1oGcX1PAg@mail.gmail.com>
-In-Reply-To: <CAHC9VhRPd8z=67=RWM-0DqjTXysk75FtF=haY9-Vv1oGcX1PAg@mail.gmail.com>
-From: Song Liu <song@kernel.org>
-Date: Mon, 28 Sep 2026 10:00:00 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW7iFP4Y6C1ZhTvtEgTzgKjnpF9+8YfVg4o3P4BHEnR+LA@mail.gmail.com>
-X-Gm-Features: AclHuK_nonVI-hneqRocC_bdGS7S6tjPJjqMlAvwButNtrovBaChNzu1f_vNOHQ
-Message-ID: <CAPhsuW7iFP4Y6C1ZhTvtEgTzgKjnpF9+8YfVg4o3P4BHEnR+LA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/8] lsm: Replace security_sb_mount with granular mount hooks
-To: Paul Moore <paul@paul-moore.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-security-module@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, jmorris@namei.org, serge@hallyn.com, 
-	viro@zeniv.linux.org.uk, jack@suse.cz, john.johansen@canonical.com, 
-	stephen.smalley.work@gmail.com, omosnace@redhat.com, mic@digikod.net, 
-	gnoack@google.com, takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
-	herton@canonical.com, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260926.255b951d3013@gnoack.org>
 
-Hi Christian and Paul,
-
-Thanks for your replies.
-
-On Mon, Sep 28, 2026 at 8:46=E2=80=AFAM Paul Moore <paul@paul-moore.com> wr=
-ote:
->
-> On Mon, Sep 28, 2026 at 10:13=E2=80=AFAM Christian Brauner <brauner@kerne=
-l.org> wrote:
-> > On Thu, Jul 23, 2026 at 11:19:30AM -0700, Song Liu wrote:
-> > > Hi Christian and folks,
+On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
+> Hello!
+> 
+> On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
+> > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
+> > > This series adds two new Landlock filesystem access rights,
+> > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
+> > > which control access to file and directory metadata such as inode
+> > > attributes (mode, ownership, timestamps), extended attributes and POSIX
+> > > ACLs.  It picks up the work from the "landlock: add chmod and chown
+> > > support" series [1] and follows the coarse-grained grouping discussed in
+> > > that thread [2]: instead of separate chmod/chown rights, metadata
+> > > operations are grouped into one read and one write right.
+> > > 
+> > > Landlock evaluates access rights on a per-path basis, but the metadata
+> > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
+> > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
+> > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
+> > > object.  Patches 1-7 therefore first pass struct path instead of dentry
+> > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
+> > > refactoring with no behavior change, split so that every patch builds
+> > > and works on its own:
 > > >
-> > > Could you please help review this set? Does this set address
-> > > concerns from earlier versions?
+> > I like these patches, but is the ability to read metadata already
+> > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
+> > directory?
+> > 
+> > The one case I see this being different is:
+> > 
+> > 1. if you wanted to grant read access to the file, but not metadata
+> > read access, but I can't think of any usecase for being able to read
+> > the contents of a file, but not the metadata. (see below)
+> > 
+> > 2. If you had the absolute path already and didn't need READ_DIR.
+> > 
+> > I see introducing this READ_METADATA as causing potential
+> > hard-to-diagnose issues.
+> > 
+> > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
+> > 
+> > The program can technically open the file with the READ_FILE permission,
+> > but it may error out because the stat() on it beforehand failed.
+> > It's pretty common for programs to do that kind of thing (stat before
+> > open), like for checking for config files (strace bash and you see it
+> > stat .profile, /etc/profile)
+> > 
+> > There may be other bugs, because being able to set permissions to read
+> > a file *but not read it's metadata* isn't possible currently in posix
+> > acl and userspace may not work well if that assumption no longer holds.
 > >
-> > I just realized something while looking at this. This doesn't cover the
-> > new mount api at all fsopen, fsconfig, fsmount, fspick, open_tree,
-> > open_tree_attr and mount_setattr. Without this the series is not very
-> > useful imho.
+* posix acl and linux DAC.
 
-Yes, I am fully aware that this does not cover the new mount APIs. I think
-those are orthogonal to the optimization here. This series is very useful
-without covering the new APIs. Users from multiple companies have
-repeatedly requested this change. ([1] and users requested this set).
-
-If we can land this set without covering the new APIs, I am more than
-happy to draft new patch set that covers the new APIs as a follow-up
-work. Therefore, could you please review this set as-is, and see whether
-we can land it without the orthogonal work covering the new mount APIs?
-
-> Thanks Christian.
+> > So maybe WRITE_METADATA is good enough?
+> 
+> The existing use cases are the combinations of (a) READ_DIR
+> allowed/denied and (b) READ_METADATA allowed/denied.  Because these
+> two access rights overlap slightly, it seems likely that for a given
+> directory or file, users will want to either grant both, or deny both.
+> 
+> At the moment, where the (not yet existing) READ_METADATA is
+> implicitly always allowed, the problematic case is the one where the
+> Landlock user wants to deny READ_DIR, but where much of the same
+> metadata is still available through stat() and the various
+> get-attribute syscalls.  (c.f. the warning box in the Landlock docs
+> [1])
+> 
+> In my view the READ_METADATA right closes a gap that READ_DIR left
+> open (which is also potentially surprising to callers if they did not
+> read the docs closely).  Also, if its implementation is symmetric to
+> WRITE_METADATA, I feel that it's worth having it in the same patch
+> set.
+> 
+> –Günther
+> 
+> P.S.: I know, even after we can control stat(), there are likely ways
+> to infer the presence of a file by observing Landlock error codes.
+> This would be nice to fix as well, but is harder to do without
+> controlling the path walk itself [2].  But also, the fact that this is
+> currently not controllable is not an excuse for leaving READ_METADATA
+> open IMHO.
 >
-> Song, I'm still open to reworking the LSM mount hooks, but any rework
-> should really take into account everything.
+I'm still sort of concerned about the case where read access is allowed,
+but metadata isn't, due to how many applications will not cleanly handle
+such an unexpected condition. You can reproduce this with a seccomp
+policy forbidding stat().
 
-There is another question here. These new hooks do not have any in-tree
-user at the moment. This appears to violate the "New LSM Hooks" policy
-in [2]. Could you please give more specific guidance on this?
-
-Do we need at least one in-tree user hook that uses the new mount APIs?
-Or will we make an exception for these new hooks?
-Or will we revise the "New LSM hooks" policy to allow reasonable hooks
-without an in-tree user?
+Would it make sense to have the existing READ rights
+(READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
+if READ_METADATA is handled? Reading a file's contents should always
+imply that you can read the metadata.
 
 Thanks,
-Song
-
-[1] https://lore.kernel.org/all/20241231014632.589049-1-enlightened@chromiu=
-m.org/
-[2] https://github.com/LinuxSecurityModule/kernel/blob/main/README.md#new-l=
-sm-hooks
+Justin
+> [1] https://docs.kernel.org/userspace-api/landlock.html#filesystem-flags
+> [2] https://github.com/landlock-lsm/linux/issues/9
