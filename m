@@ -1,32 +1,54 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32378258EDA;
-	Mon, 28 Sep 2026 05:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0079D64AA4;
+	Mon, 28 Sep 2026 05:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790573083; cv=none; b=cwKLpA0XcYOgAiy8OH3BSy4sf+xUIDUGqR4ZFKzdyeXxrZmlVVIukpm4lTYYZ5zcEEjJZ3a3RbUbcmYX4/m/YOXEzXiaIdvBI+zu++aqkmWd3eaaLZAopYQeaOSvOJxj6JRwISbNRvucsAJW0Zmj+KEBL7oKt/b9NYfQcSc6l9o=
+	t=1790573339; cv=none; b=NPnilEAwtlh0/9v3p6ZlWGGgyPO+USmS7Ip84bQIEynI8ZbOTS9hDqPyX8d6ZwOw7sYSrMWW1ZQhQ5TE1JCX7kKROpIzd8dzPqwwQY7kKN3ge1hS0cv0qKClhwYyP9iV7jDk0/1vHZH1IUMPuq5V5vIRddP/wwpesXEzxAFm/OU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790573083; c=relaxed/simple;
-	bh=fxPNveahY4s0pefiAbkaRuHe6RiakOLjxH2H3LlXS/U=;
+	s=arc-20240116; t=1790573339; c=relaxed/simple;
+	bh=BGt0h3pILZoHJhXj5GhkaOsKh5M4jgkgHFwCJ3CPnhg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jn0Z2nywl+a7gKhu0inO8sjLdrYZ0OeJbcf2xLv+8SZILnN/FwjjR2WRJ1DqguYPppIn88vAsZWR84SyM0eVL/7HGRUiJy2ejEPAkeiMXGlg/a9DNfvgT8tFecjRdO2bhlIIvlfVtK+sdLdtBSKv7e8SORje36NZmp8a64l0l54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B715F68BFE; Mon, 28 Sep 2026 07:24:36 +0200 (CEST)
-Date: Mon, 28 Sep 2026 07:24:36 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Dave Chinner <dgc@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: support for RT data checksums
-Message-ID: <20260928052436.GA18925@lst.de>
-References: <20260924100032.2733101-1-hch@lst.de> <arWpyhFyV3ouYAEx@dread> <20260925062710.GA3798@lst.de> <armf05yfzhSBUsUh@dread>
+	 Content-Type:Content-Disposition:In-Reply-To; b=johy5NCrqCleDNClKSjW1rRQ3ZhtHje8hiMnVUBKAkJ1L38qat5u6mMuSt5REqlPnfMis/E01vcKcx2qR25H9o5fueXFPBIH7n3cXD3b2632/vENEYnOS45iJxRh+MW6PSaHJVLNkAiPILmQyWaMaVrBF2KyCsttlgviw5htmTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yrlsk9ze; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yrlsk9ze"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=pbDd44Ecj3LGY4qmWrBA0K5RozmdVMC9pzx6cttne00=; b=yrlsk9zetyTGXZXZ7gF9+MTHBn
+	9qPV6avqEL3nD6pU6zN/CRh9W400Eh/qDj2yOxHDjzzIXmyL7x1bIMawQEHS79H5+qtHPVAmfxtxF
+	uu+fvw9AI1LcTXmWdkpAAZDkhc/hgmivhsgllCS96VdQjIrV1fcH3h2MwodKzDLiM6aG3YPUfiRam
+	nJskiPxFR90cJepCOetdaTTeSInVnanplZ4PBJ5H0fv4UN3Ri1XiKV73AIN75Lne4PrniHremK7kS
+	C25/zvyoIRhd9YbzL1CP455mqmps7QJJc71eE7yMNAKMIFjuzM0CQrQuF3lhryuad3/z1+zmign4q
+	LICFq/8w==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xB3v2-0000000HMUe-3wk1;
+	Mon, 28 Sep 2026 05:28:52 +0000
+Date: Sun, 27 Sep 2026 22:28:52 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Hao Ge <hao.ge@linux.dev>, David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>, Harry Yoo <harry@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Christoph Hellwig <hch@infradead.org>, netfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, Erhard Furtner <erhard_f@mailbox.org>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] netfs: Fix missing alloc tagging of direct mempool
+ allocations
+Message-ID: <arn7FHZpYhNDvjIS@infradead.org>
+References: <20260923063759.34667-1-hao.ge@linux.dev>
+ <0d798541-6486-44ff-ae57-f631d1465688@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,68 +57,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <armf05yfzhSBUsUh@dread>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <0d798541-6486-44ff-ae57-f631d1465688@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, Sep 28, 2026 at 08:59:31AM +1000, Dave Chinner wrote:
-> You haven't answered any of my concerns - you're just handwaving
-> them away and....
+On Thu, Sep 24, 2026 at 11:36:19AM +0200, Vlastimil Babka (SUSE) wrote:
+> > Closes: https://lore.kernel.org/all/0b004319-9ef7-437c-a4dd-174d6a9a83db@mailbox.org/
+> > Tested-by: Erhard Furtner <erhard_f@mailbox.org>
+> > Suggested-by: Suren Baghdasaryan <surenb@google.com>
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Hao Ge <hao.ge@linux.dev>
 > 
-> > > and there's a
-> > > whole new buffer cache interface to "read a buffer", and that is
-> > > used to open code reading checksum buffers and joining them to a
-> > > transaction rather than using the existing xfs_trans_read_buf...()
-> > > interfaces.  That in itself needs careful consideration, and clear
-> > > justification for why it must be duplicated to stand outside all the
-> > > existing BLI/transaction APIs, especially given all the "use the new
-> > > async buf read interface to do sync buffer reads" behaviour across
-> > > the patchset that could just use the existing interfaces.
-> > 
-> > I'm not sure what to make of this.  The paragraph almost reads like
-> > AI slop to me.
+> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 > 
-> ... calling the concerns of an experienced engineer "AI slop".
+> Seems ok enough as a hotfix. The naming perhaps isn't ideal, we have
+> mempool_alloc_preallocated() already for the opposite case. Maybe
+> mempool_alloc_no_preallocated() to complement it? Rather long though.
 
-No, I call your meandering writing style slop.
-
-> I'm so disappointed right now.
-> 
-> You're better than this, Christoph. You know better than to attack
-> the person instead of addressing the technical concerns they've
-> raised. Calling the concerns of an experienced engineer "AI Slop" is
-> also pretty insulting.
-
-Stop this bullshit.   Replay to technical details in the patches if you
-want, or wait for the requested document, but don't write weirdly
-halluscinated high-level concerns.
-
-> You also know this has a chilling effect - how many people are going
-> to be willing to say anything negative about your code, if all they
-> get from it is a bunch of insults in return?
-
-They don't that response to technical concerns.  They get detailed
-answers like Darrick did.  But that requires actually expressing
-technical concerns.
-
-<lots of ramblings snipped>
-
-> > The buffer payload is somewhat new.  It is is the standard rt format,
-> > a xfs_rtbuf_blkinfo followed by the real payload, which is an array
-> > of checksums.
-> 
-> Yes, the buffer payload is new, and it uses a new BLF flag that
-> indicates it contains regions with some new on-disk format. And
-> there are interactions with fsync and data integrity requirements.
-> Document them!
-
-No, as explained before and clearly visible even from the full diff
-it does not use any new BLF flag.   See why this discussion is so
-hard?
-
-> Documenting the design helps -everyone-, not just now, but well into
-> the future as well.
-
-And I've not disagree with this.  But next time you think you need one
-just request it, and don't generate pages full of rambling and incorrect
-text.
+None of this is ok.  Directly alling into mempool->alloc, using a
+wrapper and not is stupid and broken.  Just switch the code to use
+mempool_alloc undconditionally or to use a manually
+kmalloc/kmem_cache_allow if the subsystem has a really good reason
+to not use a mempool for non-writeback requests, but it'd better be
+a really good and well-documented reason.
 
