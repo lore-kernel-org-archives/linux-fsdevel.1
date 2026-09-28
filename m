@@ -1,218 +1,161 @@
-Received: from mail-ej2-f42.google.com (mail-ej2-f42.google.com [74.125.228.170])
+Received: from mail-dy2-f12.google.com (mail-dy2-f12.google.com [74.125.229.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C25490C18
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 09:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6B8492E23
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 09:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790587671; cv=none; b=BBdEfS5t95aBM/I0v3jRwUNwZ2cOXnSSphHNIgVj2o5iGpAV3odkfv6hn0SKdHY+R6ay16wq7E+YFGQGIL6JET97IxUnybBv0z6BQsRMUv08Q+aqu0ekvr4XF7qM+1O/P3VMjSihXmz+KBNzYFQXY/gGMZ8WURymsjQKQXxoers=
+	t=1790589088; cv=none; b=gqO4H3GbcI738FvGbJEPzNm1+7VPwJ1eZKMU+nhKpfa8nGT8jehunIAEMDNGv4IFF1kupF9ggmNZQIMfLrV8kcUi4c9rA/AbfC45AhsunouHv1Wcf2diNmDxVRGu2DQ9DVMMKk8ftkNYviUP31KGee57bS+qaXh8A6g/ClQLA+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790587671; c=relaxed/simple;
-	bh=sj6IvvpiH4G5HeXtQ/w8rgZEYm6Vebo2GQ/VGeptjoQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Zxd/jINhEEeTGwkrD5JfE+NHswrMNWhgFsXeQsJt6WA8I7/X3MZL865Nu8YFsoLA4i0M8wxRzmgI9jx5pyAaGVM1pTKH6deU7SnhSSjpqx9gyifimAFgoFcHg5iPKG8oB1Y/WO1YJuI4YXr6pB3igk5xCBn48PEq0mVAhCtIwaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com; spf=pass smtp.mailfrom=amutable.com; dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b=TLpvnLLE; arc=none smtp.client-ip=74.125.228.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	s=arc-20240116; t=1790589088; c=relaxed/simple;
+	bh=E2s8ZRF2N2knlArU5QNYleJvF1AGn/GBRND9jJ+/r3c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RD8Ka2jRnhVTgV8vY1YitRMl9LbiSRCK87hnwIgef5amNU+3VlBj3O74DDeHAP5eV2v2EVSiPZvi5Mq5OKgmvdlyKFRY+UYz1iZF3uDbXxQi9WI6VGGAOPV/uLowF+9ND2OqjqVAwsb3OdAQSMqN2ioJlzzVoEINcXpLFzi5Kgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=SL9Q6y6r; arc=none smtp.client-ip=74.125.229.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b="TLpvnLLE"
-Received: by mail-ej2-f42.google.com with SMTP id a640c23a62f3a-c2dbbf409b8so207699866b.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 02:27:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="SL9Q6y6r"
+Received: by mail-dy2-f12.google.com with SMTP id 5a478bee46e88-328664b7528so2688699eec.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 02:51:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20251104.gappssmtp.com; s=20251104; t=1790587664; x=1791192464; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OiZ06e1bwcFWfpqrqmzoNBYBcxZ/+ZVmZd6FQIzN/qM=;
-        b=TLpvnLLEc4sXSf+c1+e6flJLJdV1JWGsCkJrUOcu9rMp9yd2TsK5x7NmIwJfhBtI5c
-         Um+he7cRiHtyWb9I5TeImcCl/mr1w3o0JO0EaX/eAHD9ZyWyS0hj1BLLEJg8Pl7QIuGN
-         sJcF+pIW5SXNHl9/6B9nJuIoHwM9M6vY90MlFablsMUY/sp8vqcuwrRQt85OEZxWUxV7
-         H4BGD/SYOoBv+T+4ehwx8eUoKCbVQp2h9PuWobrvrwIxCYpfb0KbgTOAvJ+FlWIA1pql
-         2QEvphupFFteC1snavDIeRpM0Zs1GE59FR774bzZa3C5nHkzXMCpa0tF378x730EEe17
-         NGtQ==
+        d=bytedance.com; s=google; t=1790589085; x=1791193885; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=u1HXVH+r86enel9+rQTBOES9ysvhe0ZUHDob7OwbV1g=;
+        b=SL9Q6y6r1IRGJA6IKsml37/T81TpVgG3173W9MG788C5CO582zt/wuIj8C5X6PFGYZ
+         ciYPHBUDcGKtkaUt0mf6bjBO3ectA1iRXQ6muBn0gZ4wvPMjwIEoDDK0qzCOBowro5jR
+         6gl4qycYsKve47k0qOThCXRfUOaWP1MiI0fvsgHDsdcd5cm+Gce6O3Mv6HegtXqr+XWm
+         oV5bc7iM/YZhcP0hjKURad6GM0bTMfhczOfh98i7aUBrPMmCT7/ilae96XlYwcXDp6dv
+         tTwELQ/0nUY59T2OIdrqF6JExaTxB+Ky5y3cWTNLF7q+YAAnPlQGVVl9/V980i042m+d
+         mLlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790587664; x=1791192464;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1790589085; x=1791193885;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=OiZ06e1bwcFWfpqrqmzoNBYBcxZ/+ZVmZd6FQIzN/qM=;
-        b=ADNdJYyhEdJjv6eBJq61v3L6N4Ai6Fuagfy6exc47tfdhKjLQe1DKahFJ8XQvsso93
-         h/XTunocB4UJEiEQ0VRs7StjKv/0ucLTg/vYJzAcQmfBpHAVHx8MkoLjc42wTAdNu6mN
-         0+/b7MfHo1rQvY+RwcT59p9//435v3uFWVqhSrITTnH3bI4EncNwp61w0sIiTAzTpjLX
-         eYUejIzYro+TyDCx29ZRU/bB3oOhCerCm/OYbi1AotBZOa+uZfYMOp6x8/AHkS5iSdQO
-         rohbAAVrdJOwa9dbjteJsDQIaKYcZ4csZbkbayZ2tKzSEPB2ei2gCorsGGYehoFrANXo
-         iz7Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxLkl6Tx60Dv7tE0uWuPFYrWNXXITO8l89iaPL/OGtjyxG/UbyMGdB32OmA1nAg6F7EUpS+Z/F5alTRT+kH@vger.kernel.org
-X-Gm-Message-State: AFuF++nbY48iPFrTBDWRKHM9AQ+7pldhR1S0Xe4wusk/Wpr2YqQaYVqp
-	2+sWyRd9S1HaUNTg1n9ghx1rK7NEL7eYO5IPs1a/X7FqGko5DmRafE67c+08szJa3f+s
-X-Gm-Gg: AYBFou3cZpazjxmJP2SuAt4ASFTHRe4B5kfkDBTd2Nt7du2iifwOMCJ7Cv7x7fCX4aL
-	6RKwrNRKopX4OBn3fDNr5/wncyTmQxu/mKbvwTZOzj/O3ZrwrJ8B0GBAfTCSr8h0CphnSiV7mEF
-	MYhHQv47oqJWwCkwYs0jozPw/V02DHOPbP0BcJvfBjWOx4OHDhwDFeGvGh7rqbQqGGkfb9BqOkh
-	6b3MCqgbSW2Tj6g2noHtdZcNoZ/DKRsy6xS/6LkvidbUYvAyzrZ69LUEbYhlfAXTADf/Nbxdaa5
-	qZzhK8skiD/K8VgxE75tzDhCKTyTMA6wWE2eF/KOJxMCVujhQlRP/1jYxmqB8w32MMzraRL0eDV
-	S7zLd6XuXI4ousRNwPZvVsg4xujNxHFn9ecJsegww9yTj+MFuzjtG22t4oUGt3REsfZkZZAaCE3
-	GbYQt8s8RN0BHff4OslhJC50z4+zRPCzA99M7mddw0DVcq3xitl/RkHFW9r8FK4+sE34Ka+1Lup
-	4E0aY6r3bpVxGrmGuPlRB6Nv8443IEweeFIr0D7CQ==
-X-Received: by 2002:a17:907:6d07:b0:c2d:c17f:205b with SMTP id a640c23a62f3a-c2dc17f4e1cmr359352966b.40.1790587664162;
-        Mon, 28 Sep 2026 02:27:44 -0700 (PDT)
-Received: from [169.254.24.37] (tmo-085-169.customers.d1-online.com. [80.187.85.169])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2dc8b71b4dsm205609466b.1.2026.09.28.02.27.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 02:27:43 -0700 (PDT)
-From: Andrew Halaney <andrew@amutable.com>
-Date: Mon, 28 Sep 2026 11:27:15 +0200
-Subject: [PATCH v3 08/10] selftests/net: SO_PEERPIDFD_THREAD
+        bh=u1HXVH+r86enel9+rQTBOES9ysvhe0ZUHDob7OwbV1g=;
+        b=WlTJAoIW3fiZLsmP8cYQz8SmKroXS0KGv4UNe7csk5uAzbgW5x3OkQ6IPEiVPRZ2SF
+         Y0c9HNaMWh/+6VbPAMVLLE+qmJSe1weGIMs1Q0PwDxEqPWuuZ4EOM6xKc3oGQ1VA/Et2
+         HbLZbMLUm2MIgKTxHo9wICRxfeUGQgdLrOrYl7032PG54ryeB7H5/t361iGEmbR3G/Ul
+         874diX1qTz+rEs1A4RXugqciOjaURFePupeNhmQ5w7Xf8XMkL1/rq6zeCNAbonJB7ecQ
+         u9jCP+y7Nl6B7++rLF5KOiMaKJDoyFpeKsqxEZ+lG9P/cHCJEe1CndWz+C2ZW68F+8zY
+         Llkw==
+X-Forwarded-Encrypted: i=1; AKwUvBz/rPoVC2u196zw9Gv0BguLPdVMUTnJiKDiu1EKqQDgs51NcoAJPFeAsNINVEkGHej/o1AG8cO7cdeLMrOu@vger.kernel.org
+X-Gm-Message-State: AFq9FYIneZqhtATw7NFS+8gupjYN5t5/X50NUZOJ9yptPhWGYV9pqaZp
+	rvKaGOhVZSHW3Cq4FB55cQZH7fZKyW+gcVVHYT7/6PEv46y4QxQiadIK82O+sRehg14=
+X-Gm-Gg: AYBFou02tRZii5qzdoa4WKlLDIToim+4UtsZLkWAexhQFcKcQjk5kzR6e1rwbR0OiQ+
+	J9yRIi8/Nac+51g4ZPVcP34jNFBvFomJney5KaeOCXsC1dJfLB9rqmM8rKwkV+BLuAUr9J9cP/k
+	Lgj1qrxkqRfeIGtsaPGaPFzQKJOs77fzIqmWTPMcFgat57ZHDAYwn0X96+wxW3E18oeP8h1noJP
+	K3vtGR13K4GZ8YbI1rXrT9BZ1zI6yZeZ11+lf74ktbVatS4u15qaW6vjODU/esG9+evPmb6sQXs
+	CmmmslsSx3T2+7dVQ+yodfi3CzVO/CA6QZWn30fzb+5mhGhCeoj935S+1n61ClQS4XOXwCDGJWT
+	fsx99klf3zejd6bN057lhJowlQM7ppLLdvKIbaa3LGveD/y+yyh82Nu7UUAAGw32sce7IMXcLeX
+	VbjR6oQOv6m4ugipzAvGINXTNphA2vUYq8LjvFChGJS4/KDCnFqw3JcGUlYyccDgT7W9oqR+h9R
+	i+mApyXkC2WhEssMksg
+X-Received: by 2002:a05:7300:8189:b0:342:e7a0:2829 with SMTP id 5a478bee46e88-342e7a0534dmr11613300eec.26.1790589085183;
+        Mon, 28 Sep 2026 02:51:25 -0700 (PDT)
+Received: from [10.255.210.72] ([139.177.225.225])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-341f2b18cbfsm25480102eec.30.2026.09.28.02.51.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Sep 2026 02:51:24 -0700 (PDT)
+Message-ID: <9e9c02fe-e94d-4f70-a21b-47b46bab2c3b@bytedance.com>
+Date: Mon, 28 Sep 2026 17:51:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 1/3] block: introduce bdev_flush_by_dev()
+To: Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>
+Cc: linux-block@vger.kernel.org, cgroups@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, axboe@kernel.dk, hannes@cmpxchg.org,
+ mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+ muchun.song@linux.dev, willy@infradead.org, tj@kernel.org,
+ akpm@linux-foundation.org, Boris Burkov <boris@bur.io>
+References: <20260925064444.3944820-1-sunjunchao@bytedance.com>
+ <20260925064444.3944820-2-sunjunchao@bytedance.com>
+ <arYaMbJUh6unvz_t@infradead.org>
+ <3w6vfwfkojmfqy2qs5j4q2s2366ajqiwmqf624lyn3odrv42v2@va2r7a6ngfz6>
+ <aroIAqoCNDBPlB2A@infradead.org>
+From: Julian Sun <sunjunchao@bytedance.com>
+In-Reply-To: <aroIAqoCNDBPlB2A@infradead.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260928-work-unix-passpidfd-v3-8-532018a91b21@amutable.com>
-References: <20260928-work-unix-passpidfd-v3-0-532018a91b21@amutable.com>
-In-Reply-To: <20260928-work-unix-passpidfd-v3-0-532018a91b21@amutable.com>
-To: Jakub Kicinski <kuba@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
- Oleg Nesterov <oleg@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Willem de Bruijn <willemb@google.com>, 
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- linux-fsdevel@vger.kernel.org, 
- Alexander Mikhalitsyn <alexander@mihalicyn.com>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, 
- Andrew Halaney <andrew@amutable.com>, 
- Alexander Mikhalitsyn <alexander@mihalicyn.com>
-X-Mailer: b4 0.14.3
 
-From: Christian Brauner <brauner@kernel.org>
+On 9/28/26 2:24 PM, Christoph Hellwig wrote:
 
-Add tests for SO_PEERPIDFD_THREAD.
+Hi, Christoph.
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-Reviewed-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
-Signed-off-by: Andrew Halaney <andrew@amutable.com>
----
- tools/testing/selftests/net/af_unix/scm_pidfd.c | 97 +++++++++++++++++++++++++
- 1 file changed, 97 insertions(+)
+Thanks for your review and suggestions.
 
-diff --git a/tools/testing/selftests/net/af_unix/scm_pidfd.c b/tools/testing/selftests/net/af_unix/scm_pidfd.c
-index d73ae9d27a48..cbe53fab44fc 100644
---- a/tools/testing/selftests/net/af_unix/scm_pidfd.c
-+++ b/tools/testing/selftests/net/af_unix/scm_pidfd.c
-@@ -36,6 +36,10 @@
- #define SO_PASSPIDFD_THREAD 86
- #endif
- 
-+#ifndef SO_PEERPIDFD_THREAD
-+#define SO_PEERPIDFD_THREAD 87
-+#endif
-+
- #define CHILD_EXIT_CODE_OK 123
- 
- static void child_die()
-@@ -1058,4 +1062,97 @@ TEST(scm_pidfd_thread_creds)
- 	EXPECT_EQ(msg.ids.pid, msg.thread_info.tgid);
- }
- 
-+static void *peer_connect_thread(void *arg)
-+{
-+	struct sock_addr *sa = arg;
-+	struct thread_ids ids = {
-+		.pid = getpid(),
-+		.tid = gettid(),
-+	};
-+	int fd;
-+	char sync;
-+
-+	fd = socket(AF_UNIX, SOCK_STREAM, 0);
-+	if (fd < 0)
-+		return (void *)1;
-+
-+	if (connect(fd, (struct sockaddr *)&sa->listen_addr, sa->addrlen))
-+		return (void *)1;
-+
-+	if (send(fd, &ids, sizeof(ids), 0) != sizeof(ids))
-+		return (void *)1;
-+
-+	/* stay alive until the server has looked at our pidfd */
-+	if (read(fd, &sync, 1) != 1)
-+		return (void *)1;
-+
-+	close(fd);
-+	return NULL;
-+}
-+
-+static int peer_pidfd_info(int fd, int optname, struct pidfd_info *info)
-+{
-+	int pidfd;
-+	socklen_t len = sizeof(pidfd);
-+
-+	if (getsockopt(fd, SOL_SOCKET, optname, &pidfd, &len)) {
-+		log_err("getsockopt(SO_PEERPIDFD*)");
-+		return -1;
-+	}
-+
-+	info->mask = PIDFD_INFO_PID;
-+	if (ioctl(pidfd, PIDFD_GET_INFO, info)) {
-+		log_err("ioctl(PIDFD_GET_INFO)");
-+		close(pidfd);
-+		return -1;
-+	}
-+
-+	close(pidfd);
-+	return 0;
-+}
-+
-+/* SO_PEERPIDFD_THREAD returns a pidfd for the peer's connecting thread. */
-+TEST(so_peerpidfd_thread)
-+{
-+	struct sock_addr sa;
-+	struct thread_ids ids;
-+	struct pidfd_info info;
-+	pthread_t thread;
-+	void *tret;
-+	int server, cfd;
-+
-+	server = socket(AF_UNIX, SOCK_STREAM, 0);
-+	ASSERT_LE(0, server);
-+
-+	fill_sockaddr(&sa, true);
-+	ASSERT_EQ(0, bind(server, (struct sockaddr *)&sa.listen_addr, sa.addrlen));
-+	ASSERT_EQ(0, listen(server, 1));
-+
-+	ASSERT_EQ(0, pthread_create(&thread, NULL, peer_connect_thread, &sa));
-+
-+	cfd = accept(server, NULL, NULL);
-+	ASSERT_LE(0, cfd);
-+
-+	ASSERT_EQ(sizeof(ids), recv(cfd, &ids, sizeof(ids), MSG_WAITALL));
-+	ASSERT_NE(ids.pid, ids.tid);
-+
-+	/* SO_PEERPIDFD refers to the peer's thread-group. */
-+	ASSERT_EQ(0, peer_pidfd_info(cfd, SO_PEERPIDFD, &info));
-+	EXPECT_EQ(ids.pid, info.pid);
-+	EXPECT_EQ(ids.pid, info.tgid);
-+
-+	/* SO_PEERPIDFD_THREAD refers to the connecting thread. */
-+	ASSERT_EQ(0, peer_pidfd_info(cfd, SO_PEERPIDFD_THREAD, &info));
-+	EXPECT_EQ(ids.tid, info.pid);
-+	EXPECT_EQ(ids.pid, info.tgid);
-+
-+	/* release the connecting thread */
-+	ASSERT_EQ(1, write(cfd, "x", 1));
-+	ASSERT_EQ(0, pthread_join(thread, &tret));
-+	ASSERT_EQ(NULL, tret);
-+
-+	close(cfd);
-+	close(server);
-+}
-+
- TEST_HARNESS_MAIN
+> On Fri, Sep 25, 2026 at 12:34:52PM +0200, Jan Kara wrote:
+>> On Thu 24-09-26 23:52:33, Christoph Hellwig wrote:
+>>> On Fri, Sep 25, 2026 at 02:44:42PM +0800, Julian Sun wrote:
+>>>> Add bdev_flush_by_dev() to submit page-cache writeback for a device
+>>>> identified by dev_t without requiring callers to hold a persistent
+>>>> device reference.
+>>>
+>>> This isn't really a flush is it?  This is writeback.
+>>
+>> So bdev_writeback_by_dev()? Fine by me.
+> 
+> Yes.
+> 
+>> Well, Julian is explaining that in the cover letter. We don't want memcgs
+>> to hold bdev references just for foreign flush tracking. There's no easy
+>> way to get rid of them so they could pin bdevs for a long time leading to
+>> strange artifacts.
+> 
+> I have to admit I didn't get it when flying over the cover letter.
+> But this also really belongs into the patch where it is more obvious,
+> or even better into code comments.
+> 
+>>
+>> As you write, we could just hold a reference to the bdev inode. Those get
+>> unhashed when the device dies (__del_gendisk()) so memcgs would be just
+>> wasting some memory by holding these inodes alive. But still, transitioning
+>> from inode to proper bdev reference verifying bdev is still alive will add
+>> a bit of hairy code (essentially what blkdev_get_no_open() does plus
+>> verification inode is still hashed). Plus when replacing foreign flush
+>> entries you're under irqsafe xa_lock so doing iput() from there is kind of
+>> a nogo.
+>>
+>> So I think tracking devices by dev_t is a good way of dealing with these
+>> problems. But then when flushing you have to transition from dev_t to
+>> struct block_device and blkdev_get_no_open() is the canonical way of doing
+>> that (and note this use is just internal to block/bdev.c).
+> 
+> I'd really prefer not to grow more blkdev_get_no_open users.
+> 
+> But the more I look at this I wonder why we even bother.  Trying to
+> attribute individual bits of dirty metadata to cgroups is pretty much
+> insane.  Why don't we bypass memcg accounting for buffer_heads like we
+> always did for the XFS buffer cache, and what btrfs switched to last
+> year? See commit b55102826d7d ("btrfs: set AS_KERNEL_FILE on the
+> btree_inode") for the btrfs side.
 
+That sounds reasonable. However, IMHO, the main difference is that ext4
+stores this metadata in the bdev page cache rather than a separate metadata
+cache as btrfs and XFS do. The same bdev->bd_mapping is also used for buffered
+reads of the raw block device from userspace. Setting AS_KERNEL_FILE on that
+mapping would therefore also charge newly allocated page-cache folios from
+those reads to the root memcg rather than the reader's memcg, bypassing its
+memory limits.
+
+If we pass a flag from ext4's metadata buffer-cache allocation sites and
+check it in grow_buffers() to charge new folios to the root memcg, accounting
+them as kernel-file pages would still require persistent per-folio state.
+When a folio is removed from the page cache, the allocation context is gone,
+so we cannot tell whether it was counted as a kernel-file folio.
+
+Separating ext4's metadata cache from the bdev page cache would address this,
+but that seems like a much larger, longer-term change.
+
+
+Thanks,
 -- 
-2.55.0
-
+Julian Sun <sunjunchao@bytedance.com>
