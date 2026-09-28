@@ -1,46 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6434D17BF;
-	Mon, 28 Sep 2026 23:39:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F60470429;
+	Mon, 28 Sep 2026 23:56:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790638801; cv=none; b=BRAeJ3uTCb0EWsSjVp3urwZCQm2rFlWgHAhYpqJ+0Qlerf+i09tJXO/Ut5r/cuk9xOk1gb9DDY7oEsoYEYCpc+7S65jncaZMSZyzYFCmD9tOzvY+8ACTrB+OHlezXgEWK3YdwtNfI/g8mgoPNwCqsvucu00eTTZKLJ2y30R/f4I=
+	t=1790639775; cv=none; b=Td2/20MDoze8b44v4lVDQUOEvOK+fE2PzBNoWK0eTCXrDybULsjYAb7BZ5IfC4i1wO2+S49FOJAIA+V/fFwcrZEsvGRSSCrFxbwF6vlySvLn7F87Xcc6dADefAGSX5okNTI1TyYDU8pYsYfrymFCwQ6gaFyNH0siiEo9OWhBZ28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790638801; c=relaxed/simple;
-	bh=3Id3YZxHTEU6p1kro3m9VhN/Bchm+cOhsdhBMPdVY30=;
+	s=arc-20240116; t=1790639775; c=relaxed/simple;
+	bh=adJsT+7K2CBz4z10c9Dy0gf9OCNeDTK2rTAS2WkT0FM=;
 	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=sWPQFsPzPhbZFNiczSpgVrkZSKi07PUNA2nbNeTN/d1vZJuE3ipahbbYEHbuKfdac4oXzOqCXl/0ICvIJrI7JgqODjclTAqh+hYv0bDC/jSe/CWMUP/4tuIKhJfd2cf6h2Z+n/cvZgbJXc37XHcsggdQzCu3qjaaTzeldIhY19M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=YbM3qQSO; arc=none smtp.client-ip=100.103.45.18
+	 Mime-Version:Content-Type; b=oGKb3btmX8Bti/eaV87KiWmgbL+IsIIxQ4Bmi7UAsHK3cLGplzb23zd/rgKqHV0C3LdMDbYSDM16gkvawd9ItITa6693aH9UnXuaSwTbrmhdBPlw6LKyn+byR1+eRIbzwmGJ1P9otkelqoxOy04GOS6c32MBwa85quhBRaki7ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=0mtG3IS3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="YbM3qQSO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 391A51F000FF;
-	Mon, 28 Sep 2026 23:39:58 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="0mtG3IS3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50F541F000FF;
+	Mon, 28 Sep 2026 23:56:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1790638798;
-	bh=1HFLO5rBdRNtlKvRCci2EuPZ1UPk8TFVkIuVr0KdXBc=;
+	d=linux-foundation.org; s=korg; t=1790639773;
+	bh=NduKmuGz5k+Yl2Dj4XUx7MOPCMJ1dsEeFTs5x7PbkCU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=YbM3qQSOZprYyJJo1LOb+4d+Unzi6Iot229rfqkh1ZIpP15t4Xir0u6Ip6jr0ONa1
-	 W32A/o6ob8UZY2av8Rs4ZiZzDO14UDp3WmYDpngemwMM5JwE5Lo9QT8cA9uKHVYhR7
-	 gCT5kHe5AejMLxykgr9gbhIZ/9JtumReda/umMW0=
-Date: Mon, 28 Sep 2026 16:39:57 -0700
+	b=0mtG3IS3AjRMlLkBODaCosQqWqMIEqMxHMaiGV2+i4KKWXI63nOdL+oIMrqqRh5sI
+	 rnT5XPmaIqHNErbK/3zuzUHkeruyLbjNI4ZgW0BSJV6/xkZNUC5+sp32RrTnT1CdXx
+	 LXQfIs/IM2vM+hz/+FTr67ojsO5jGmDveB9Go0GM=
+Date: Mon, 28 Sep 2026 16:56:12 -0700
 From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro
- Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
- Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 0/6] mm: make MAP_PRIVATE-/dev/zero mappings truly
- anonymous
-Message-Id: <20260928163957.832a27ee9596a25a282c2707@linux-foundation.org>
-In-Reply-To: <20260926-map-private-dev-zero-v3-0-d4781e84ccfc@kernel.org>
-References: <20260926-map-private-dev-zero-v3-0-d4781e84ccfc@kernel.org>
+To: Liz Fong-Jones <lizf@honeycomb.io>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Tejun
+ Heo <tj@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe
+ <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin
+ <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Xin Yin
+ <yinxin.x@bytedance.com>, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+ ian@honeycomb.io
+Subject: Re: [PATCH v2] writeback: let foreign flushes reach dying cgwbs
+Message-Id: <20260928165612.dca65d7bacfc726508ad7d97@linux-foundation.org>
+In-Reply-To: <20260928-wb-dying-cgwb-flush-v2-1-56b54cda74f2@honeycomb.io>
+References: <20260928-wb-dying-cgwb-flush-v2-1-56b54cda74f2@honeycomb.io>
 X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -51,79 +47,33 @@ Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 26 Sep 2026 11:41:05 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+On Mon, 28 Sep 2026 22:12:59 +0000 (UTC) Liz Fong-Jones <lizf@honeycomb.io> wrote:
 
-> Historically anonymous memory was obtained in linux by MAP_PRIVATE-mapping
-> /dev/zero.
+> ---
+> At Honeycomb, a container that reads from Kafka and writes columnar
+> files to a host volume stalls for 30-60s after each deploy replaces it
+> (v6.18). We're increasingly confident this is the cause: the stall
+> looks the same as in the reproducer (little CPU use, lag growing
+> linearly and then recovering), and the mitigation it predicts, moving
+> our final syncfs after the last write, worked in production (below).
+> We haven't caught it with probes in production yet.
 > 
-> The canonical way of doing these now is mmap() specifying MAP_PRIVATE |
-> MAP_ANON, but we must continue to support the legacy means of obtaining these
-> mappings.
-> 
-> As-is these mappings are an unusual edge-case - they satisfy
-> vma_is_anonymous() but have non-NULL vma->vm_file, and their page offset is
-> the offset into the /dev/zero file.
-> 
-> Commit 93c0c8dc87f6 ("mm/rmap: use anon pgoff to track MAP_PRIVATE
-> file-backed anon folios") causes all other anonymous folios to be tracked
-> by their anon index (vma->vm_start >> PAGE_SHIFT at the point of first
-> fault), leaving MAP_PRIVATE-/dev/zero as the outlier.
-> 
-> This series remedies the situation by making MAP_PRIVATE-/dev/zero mappings
-> truly anonymous with !vma->vm_file and correct anonymous page offset.
-> 
-> It starts by bringing the memory character driver into mm/ - this file
-> implements /dev/zero, /dev/mem among other things and is already (as
-> clearly indicated by its name) within the remit of memory management.
-> 
-> By doing this, the file_is_dev_zero() function can be provided, internal to
-> mm, which allows for positive identification of these mappings.
-> 
-> Using this, first prevent any other mappings from mapping memory
-> anonymously, then make these mappings truly anonymous and eliminate all
-> code in the kernel that previously had to account for these strange beasts.
-> 
-> Finally, it adds userland VMA tests to assert the behaviour and selftests
-> to assert expected merge behaviour.
+> ...
+>
+> Trigger: a cgroup dirties files and is removed while they are still
+> dirty; a sibling keeps appending to the same files under a parent memory
+> limit. Symptom: cgroup_writeback_by_id() returns -ENOENT and the sibling
+> stalls in balance_dirty_pages(). Minimal recipe below; the harness that
+> produced the numbers (paced writer, lag per second, MODE=alive control)
+> is at https://gist.github.com/lizthegrey/2209d831930588f63076bdc0ac7b78e2.
 
-Thanks, I've updated mm-unstable to this version.
+IMO the above two paragraphs are the most important part of the patch
+description yet they're in the throw-away section.  They should be right at
+the start of everything.  Thanks for at least including them - many do not.
 
-> v3:
-> * Added tags (thanks David! :)
-> * Moved the reworked mmap_prepare vm_ops comment to 3/6 where it is introduced
->   and fixed a typo in it, as per David.
+This is what people want to know!  What problem does this solve?  What
+benefit is this to our users?  Downstream people want to know "what
+benefit is this to me?".  Maintainers want to know "why should I spend
+time on this person's patch rather than the billion others"?
 
-Here's how v3 altered mm.git.  Includes a merge fix for the
-recently-added hotfix "mm/vma: predicate setting mmap_prepare VMA
-fields on new vma alloc", per yourself.
-
-And...  really?  I already had David's tags so we did a full resend for
-a single comment typo?  Little -fixes had their role...
-
-
-
- mm/vma.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
---- a/mm/vma.c~b
-+++ a/mm/vma.c
-@@ -2816,7 +2816,7 @@ static int call_mmap_prepare(struct mmap
- 	if (err)
- 		return err;
- 
--	/* It's invalid for mmap_preprare hooks to clear vm_ops. */
-+	/* It's invalid for mmap_prepare hooks to clear vm_ops. */
- 	if (!desc->vm_ops)
- 		return -EINVAL;
- 
-@@ -2932,7 +2932,7 @@ static unsigned long __mmap_region(struc
- 		allocated_new = true;
- 	}
- 
--	if (have_mmap_prepare && allocated_new)
-+	if (have_mmap_prepare && !map_is_anon(&map) && allocated_new)
- 		set_vma_user_defined_fields(vma, &map);
- 
- 	__mmap_complete(&map, vma);
-_
-
+But I keep saying that, to no observable effect, sigh.
