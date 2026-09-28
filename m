@@ -1,246 +1,212 @@
-Received: from mail-ed2-f35.google.com (mail-ed2-f35.google.com [74.125.228.99])
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6495C32470F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 20:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.99
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790627425; cv=pass; b=aw/quxkFM4bMtNzPbnn/PMKxQQW/FgAx622mJZHyMY1b3A4pxVccCaVVcr361FNxreJQAHJs1xA90+VWNpttZc00mG4nJfypatFg+g519wk5ZycZDQvNJ/494BeDbKazKU1YjEIvIwJQdffDweYJv7xjWOm3UdtBVDjKhT667IU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790627425; c=relaxed/simple;
-	bh=ETQ1IROJ2AuDJmeUFJNBEq75XtvGR4u4RMC6LRpJ1y8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qgt1IdClbe0FF1oMXwSlCzGKSIbf9q9T1B5YPWtoOUyKyxQbiqSdPhGZfFtjFL++HC7bP89xsfwIHi1+ikFxjkNLfMow5Yq+vGH2yZg0MYZXeiibKrV0qcuNKckO5I5Thw3Lwzo6NITNaenzZMA5jNRIYkltuRiaG7dw8Xdis6Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AceXEHXe; arc=pass smtp.client-ip=74.125.228.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F60A4F799F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 20:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790629025; cv=none; b=m3sl4InWyL1XVTx3HIo+X//hTMepANjNbs0QkzXs9HJ7Li+2TZTgADNbcBfyMZZrKZDx750rvru5wcmHfNcm1wf1ilLSW8DaJu/x7o5WV0TXxhoSl0isKSdeWgNDMCg5AV5eYQy7f+KW/Q42XVNiEmxj5LXXZoRuzm7gah3XpuA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790629025; c=relaxed/simple;
+	bh=zpC1ExKteyur5CkRIV5diCeaDt5y/APvhpo27XSbxjY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=i4tnLTJjMM9Ey0eXof8ypJMO6btcC0A4qy5TWAbTrZCJm9Alq6ktV89ulg3qBH1/J5DdWXecEXzlfqQWuaAomJ4uhPM8qjjCFNrIkrgL4GW7/PYhidjQ5qxHSi/OymeAvUjACYVebwdUmCN+mvG9w7J41zJEqhThhrFIR/G+r/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=ZSbFc+5F; arc=none smtp.client-ip=74.125.224.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AceXEHXe"
-Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6aaeeacce15so5051632a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 13:30:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790627421; cv=none;
-        d=google.com; s=arc-20260327;
-        b=D1zxbApdGNZ7WkYyCmh2brp5QlsNskSEBr9Nri+EcjRoJmzKi0YUha9omEDFenGXUK
-         1Oa98JRFEVZd5stqtMwelGSuNc5t21uZ+WAlsPGf69oT+reCw7qC4jIdsXo7LBeU81jq
-         d6mA3ihS8CIAE6dUFADz2H8JXknZSfDfqs7sf4MjIGLjX+vl/y9Kuk4hYsukrtYOrtQ7
-         0sqz6azfTBt31i3PrPxs3OnlpgAVi5Eh3Fo2lGNjGf+iAjWLIUYnmS9YT2yjALLnNgc1
-         T/+oyO000nl2z8agnuTbmy0ZDOmROBVtkJrupwH4Ru9XopSMzc/BdYIx3FJzdFGghwFW
-         rrSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sQTC6j5DLlv+U5D0JiGxRJATLsn/7sTeYAzE/ml8ntk=;
-        fh=k5lzDAiBrxR43cfXTEir5uq9HczPGvHI/YPbSqumvic=;
-        b=JJ66VK3rMYbxYSer7o7uNYecEiFMxolYdoq3o1Pa3F3Lc9Jhz5GniZopkCJ7F6CObv
-         92U6lQXY08c+bgfcDV6+HQmbi7i+o4KjqJKDRUqO4kpiRK3wgGgquWacFCUGMyxQids5
-         72vZv4A2xYVqmdwOpV8fkz1Dyv9S44i11NBOXNuTZIcyZ35HRYHQ6DX7n1Co8goDDk/A
-         rJvCzaqiWjBmIGW5VyanXZ1CUelwWE5HvIkBZmBomXcqakQaDKAEx5GCQPBGdcgZSbUy
-         +v8Asiz/EGi5bPcO5us5BZisRH4Fd2dnEtbPlC0v1GZKQmWVpzAQMKQAQg9bC9++Y+Sm
-         zOBA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="ZSbFc+5F"
+Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e56a1b327so2871726d50.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 13:57:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790627421; x=1791232221; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=sQTC6j5DLlv+U5D0JiGxRJATLsn/7sTeYAzE/ml8ntk=;
-        b=AceXEHXeIH5ei4MZJ+09335zWAC8UPwstV/AH0IZBaCMxH0Dj5uZ9cBYJSFS+XTK0M
-         TkmtzidubtZgljV6hs8Lg8O/a29EMbUuXo6snG2PE7s2eiwb0Hjp7EGS3oTkcaG/xMXr
-         ougANTqqam95hdn5wubHH36PFeBuBh/EBjkpFEm1dqAj5H+E77kb+DBfaECX9O7D/Nyx
-         EJYnO6Gad9AsGNtafj7sOuLMeo7iSoyD64KiA9bRxM0VX6bBvcXeNGB3/O6iqbusRgwL
-         SjEPWQo7vte2Nu/qjXzK8kndpZ8HqOvSTw5QeHjvgT8nqv8spJWtf6RH2lJyE5CeK9Hr
-         5IqQ==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790629023; x=1791233823; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QU+Dw9OV8hXvUAg+6qx9gdzK2zTaZ+3agVUM3ninEK4=;
+        b=ZSbFc+5FSaazAp5vkAGJlw/4f2ubI9ADRpqF6e/r36IAPOOODbXHw/ehTdH3tws7bZ
+         Zmn+yqA6qYIm96EWoDUvIf+P4i2G9GYclgCF6crI59mYCgBAdIBziNwumYLKOI7EUdxi
+         KN/M6gtTkJclYGq0G615cFlpKOOJuzndshSYiyfm+ttAN33Bm+LnUsYpat/k5rfB1wxk
+         SvA+Pi+Z3VQn4xAYHdcdXcLHPCK07q+9Kf2M0H82gfiy3GANybGS3M9IIeXnjaVTGJLQ
+         nIStUhACWkx2Llp1h1jvJ8ttjb4LdZdqKVjffunrkYwci+hP64RY1JlDrAR9uylT7nIV
+         CYIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790627421; x=1791232221;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sQTC6j5DLlv+U5D0JiGxRJATLsn/7sTeYAzE/ml8ntk=;
-        b=WCVNG3zOETB6yU7qlMtU16pmErzmy7Jh7FxmKn/GQGqLKHWKwgocd7kmFl8GRIs44c
-         hA9KaJOupQJ9RHfCkc3/O81Ry9ztWFrIl1eWfqdXaYuxLDjWuuFQrqFuIjrHCl9oa7Oe
-         AZzw4l0TOO4I8i7hiThF0V29URclfcNe2Z2hzlWLLqifEknbPqilyCaNLt9mCElmUk2U
-         ZdwQjfIoYUHFsY0a1iWUoOsmIa0qtKzduh478eUHzqsv7t9GYZORjCvSVjgyiRmajBFT
-         JkyzOXKioOkayRRqxT0i8mu34/7YF2McTPvaeD0chEuKZnKBOHhszxuZm+iZBpD+zwuA
-         C+5Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwHiTpwqhVUds+RmBBAnXF2BAJaCk103nY9OPqiWZ0L8F14eysD9I2wPy5j8N2UrQvabq7JWtzZUQbXeAf/@vger.kernel.org
-X-Gm-Message-State: AFq9FYJTk3geE19ozgOjfuC7shFnNvfUEYj6u/xBC7C3A8eOXQC/uA+J
-	qNbtMMKRFs4zK7iRkmFXmQs+LANcEZ0JXIkMgXPQS2jCc2nMFZd2JC0XQfM7BzkxGh8exTwaAD9
-	qIaAuJ51j6Edde95XYi7xukvTJO4pLqQ=
-X-Gm-Gg: AYBFou129+OKNSWNldlJ5cIYeuKNn9Jt+047/bWH842JGNvXupKmk0FwphthQdVnzOd
-	flN4jznOmeT4lYozQin2468te5sRIHa8NrFzDk04QDh7xISlobaiNAXrC7DD1kLUBI+ZqwCDdj5
-	sY7ycKV/RcUtzuWT6XcaK7V1wqw4Psi9Zz05Iz6n1i72MOHwlwJubzBQm4DYt0hNFzyzZ0FqbFM
-	1N+XqwGL+RnUATg6GTvghk+S6J8u0cLbvSt3TOudeMY/nvwSSZHb63GxWy7EiIVL/uruAKWKBTv
-	sS2NXkS4a24Yp/T+Iwj6aXj9xZgFfCQVWSrHuQNwdql0K+dI7iWiFEY5NRw4ZTEP+gE=
-X-Received: by 2002:a05:6402:2813:b0:6ac:a5a0:a1c6 with SMTP id
- 4fb4d7f45d1cf-6aca5a0a2damr696487a12.8.1790627421250; Mon, 28 Sep 2026
- 13:30:21 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790629023; x=1791233823;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=QU+Dw9OV8hXvUAg+6qx9gdzK2zTaZ+3agVUM3ninEK4=;
+        b=YxMIegYZEZBzjdqiNFsl9j2LWYbUI8PD0z9gErjSQM9InH7VJZwka1qsTDR2+bbMXJ
+         B0CiTeatPFnb93jVZQzI0Gm3F1Xlhjxiw50QpWogtnv8pC9v5k+QN/PJns0nXjGkcpZR
+         bIn/dSpRStGl+H10DB0ElojQ3o1P9aPytB+uhTDc/iJpteeIMNCYgoxMl2sqEG29dNGF
+         v/wZIr3IXXIX6i2eXxyzAvQVZqbZNLHY5aUVv9TKiiGt1AGn9GTeE0JEwqcwQHaAmWYG
+         Jkzt6Jx82aTtMmYMdv8oaoUv776z3AGH7tN64Qyk9QVjyPdAsQQhDup3WBrTU3RPGtBU
+         Cdew==
+X-Forwarded-Encrypted: i=1; AKwUvBxkqJ3sjlAuEE4Rtk+0Pg+hW1vUyihzpxl5HZBi0Pnq+O/ui5I1ff6W/ZEF32rxv1yEz/CXZ3eCp7WCYJ7f@vger.kernel.org
+X-Gm-Message-State: AFq9FYKOTSNpBQPZovQj3bJN6wwsG04vlk7mnSh+pnCGf63NmK3zKNrh
+	ts6E2BAkJfoahIMOj5/NMPOrFjfgN7eAbF8AZk//UxmOeZJu20mhvhCLDz6fn9BO7FrXoD5vTNS
+	EpkI7YOQ=
+X-Gm-Gg: AYBFou2hdgzxqk4n4K0QKHEqHO07tBUs9UZrWQlt+zOXnHmNiOcVeYHEclGcLF66cSw
+	s1fN36nvBDcYvKDlnwHa34iDbBxZUS+EOcn/fcYtwKSyASyF/q8/8bm9avGVn603ggcIRN97mXC
+	zV6L+pLOWZSi28zzVwpcHoq7Vbc6dy1SDkS8ddaL7wqk2SqSsxTfaGUfLwOquJi5hpweyCcu54P
+	Y+W8wDFjgXq4z0gzOnu0RefkBHtSbS2KwJ/PM4Uy72FOPkyzG8bCYdv0rawE/ISd9Ido89ciGKV
+	rCCsC2oH9hXp2/SrZxJxaePUMNkWaNnu+Ulqg62dbppEnapARcdHExP9Kvy/E53O28gQegALmLW
+	f84kNxoXvMVuDaTel7hu1O28ARsYRJdUm+blTk+f1tEo7TrSSKjz1WjAxcIbawK34U/+iSQGPGY
+	fm7UqUS3sLN8cB8PQMqc76h8cF/n2HKINgC37+euRNf6UPoF4k3VdS+i2u5rntRSwG7S5PdaEW9
+	d9QrZwSWv/AqUlE+imeSjg6ZO4R1G/9nIVkYiJz4OCiiAgXpMzBJlsnP5fKd4KQ2FXmbfg4bjE5
+	G8va9D7wpjCeDCwA788+HMJsOR3xECB7JZlkbVuphZZzBbY4sNS1PpRmfarGoLPeyABEH9NJ
+X-Received: by 2002:a05:690e:d89:b0:674:2095:58dc with SMTP id 956f58d0204a3-674209582a9mr4161618d50.86.1790629022900;
+        Mon, 28 Sep 2026 13:57:02 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:9da4:6df:559d:f4cd? ([2600:1700:6476:1430:9da4:6df:559d:f4cd])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6740ef87db6sm5265370d50.17.2026.09.28.13.57.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 13:57:02 -0700 (PDT)
+Message-ID: <a30d61829abae665aec2faf5db93ab6e59bf1c3c.camel@dubeyko.com>
+Subject: Re: [PATCH 1/2] hfs: bound the partition-table hop in hfs_mdb_get()
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Matthias Goergens <matthias.goergens@gmail.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
+	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 28 Sep 2026 13:57:01 -0700
+In-Reply-To: <20260926084010.569552-2-matthias.goergens@gmail.com>
+References: <20260926084010.569552-1-matthias.goergens@gmail.com>
+	 <20260926084010.569552-2-matthias.goergens@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKLmikMHpPdXmyPMPhad=wc_HerzCv3wEtp4s-E+NrjvuHj3pA@mail.gmail.com>
- <CAOQ4uxhx=bhNQ1G_fzUTtJexUpZANP1yBu5rK1Q0u4fk53umMw@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhx=bhNQ1G_fzUTtJexUpZANP1yBu5rK1Q0u4fk53umMw@mail.gmail.com>
-From: Mitar <mmitar@gmail.com>
-Date: Mon, 28 Sep 2026 22:30:09 +0200
-X-Gm-Features: AclHuK_SmDulH_Heag_Imv0Hs-aJLaXnLOS5RVdDhPv6uBy74iFk2y60X_H66Z8
-Message-ID: <CAKLmikNsbZhrhFd92sXQw1AV00qwwww52m7Yv_mxcVcMC06=QQ@mail.gmail.com>
-Subject: Re: [RFC] fuse: temporarily detaching a passthrough backing file
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi!
+On Sat, 2026-09-26 at 16:40 +0800, Matthias Goergens wrote:
+> hfs_mdb_get() loops "while (1)" around hfs_part_find(), rereading the
+> volume header wherever the partition table points.=C2=A0 A partition entr=
+y
+> with a zero start (pdStart or pmPyPartStart) leaves part_start where
+> it
+> was, and the loop reads the same blocks forever.
+>=20
+> An Apple partition map sits at the start of the raw device: the boot
+> ROM
+> reads it from block 1 (TN1189), and nothing Apple documents nests one
+> inside a partition.=C2=A0 Follow at most one partition-table hop and fail
+> with -EIO after that, as for a table that cannot be parsed.=C2=A0 A zero
+> start is caught on the second pass, when the loop comes round again.
+>=20
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+> ---
+> A partition entry pointing at its own table hangs the mount forever
+> without this patch and fails at once with it:
+>=20
+> =C2=A0 img=3Dhfs-partmap-loop.img
+> =C2=A0 put() { printf "$2" | dd of=3D$img bs=3D1 seek=3D$1 conv=3Dnotrunc
+> status=3Dnone; }
+> =C2=A0 truncate --size=3D64K $img
+> =C2=A0 put $((512+0x00)) '\x50\x4d'=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 # pmSig 'PM'
+> =C2=A0 put $((512+0x04)) '\x00\x00\x00\x01'=C2=A0 # pmMapBlkCnt 1
+> =C2=A0 put $((512+0x08)) '\x00\x00\x00\x00'=C2=A0 # pmPyPartStart 0 (self=
+)
+> =C2=A0 put $((512+0x0c)) '\x00\x00\x00\x64'=C2=A0 # pmPartBlkCnt 100
+> =C2=A0 put $((512+0x30)) 'Apple_HFS'=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 # pmPartType
+> =C2=A0 mount -o ro,loop -t hfs $img /mnt
+> ---
+> =C2=A0fs/hfs/mdb.c | 10 +++++++++-
+> =C2=A01 file changed, 9 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
+> index 277de712f9d4..1704f332e28d 100644
+> --- a/fs/hfs/mdb.c
+> +++ b/fs/hfs/mdb.c
+> @@ -134,6 +134,7 @@ int hfs_mdb_get(struct super_block *sb)
+> =C2=A0	sector_t part_start, part_size;
+> =C2=A0	loff_t off;
+> =C2=A0	__be16 attrib;
+> +	bool part_hop_done =3D false;
+> =C2=A0
+> =C2=A0	/* set the device driver to 512-byte blocks */
+> =C2=A0	size =3D sb_min_blocksize(sb, HFS_SECTOR_SIZE);
+> @@ -152,11 +153,18 @@ int hfs_mdb_get(struct super_block *sb)
+> =C2=A0			break;
+> =C2=A0		brelse(bh);
+> =C2=A0
+> -		/* check for a partition block
+> +		/*
+> +		 * check for a partition block
+> =C2=A0		 * (should do this only for cdrom/loop though)
+> +		 *
+> +		 * The partition map is at the start of the device:
+> follow
+> +		 * it once, or an entry pointing at itself loops
+> forever.
+> =C2=A0		 */
+> +		if (part_hop_done)
+> +			return -EIO;
+> =C2=A0		if (hfs_part_find(sb, &part_start, &part_size))
 
-Thank you for your reply. I think I will have to process this for a
-bit. I might figure out another approach to it.
+If I understood the problem correctly, then we  have issue in
+hfs_part_find(). This method should have the proper sanity check.
 
+Thanks,
+Slava.
 
-Mitar
-
-On Thu, Sep 24, 2026 at 12:14=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
-> wrote:
->
-> On Wed, Sep 23, 2026 at 11:23=E2=80=AFAM Mitar <mmitar@gmail.com> wrote:
-> >
-> > Hi!
-> >
-> > I am writing a FUSE filesystem which stages what a command writes in
-> > layers, so that the changes can be reviewed before they land on disk,
-> > and I have been looking at whether FUSE_PASSTHROUGH can serve its data
-> > path.  It cannot, and the reason seems general enough to ask about
-> > here rather than work around locally.
-> >
-> > Once FOPEN_PASSTHROUGH has been granted for an open file, the server
-> > cannot take it back.  FUSE_DEV_IOC_BACKING_CLOSE removes the id from
-> > fc->backing_files_map and drops one reference (fuse_backing_close() in
-> > fs/fuse/backing.c), while each open file keeps the reference it took
-> > in fuse_passthrough_open(), released only when the file is closed.
-> > None of the FUSE_NOTIFY_* messages reach it.  Granting passthrough is
-> > therefore a promise that the backing file stays the correct target for
-> > the entire life of every descriptor which gets it.
-> >
-> > There are two situations where a server cannot make that promise.
-> >
-> > 1) Quiescing, to make a consistent copy.  A server which snapshots,
-> > backs up, or tiers the files it serves needs, at an instant of its
-> > choosing, to stop writes reaching the backing file so that it can copy
-> > it, and then let them continue.  With passthrough the server is not in
-> > the write path, so its copy is torn; fsync does not help, since it
-> > flushes rather than stops writers, and the only remaining option is to
-> > freeze the whole workload from outside the filesystem, with the cgroup
-> > freezer or similar.
->
-> How does one make a consistent copy of a file in FUSE server
-> regardless of FUSE passthrough?
->
-> What counts as a torn write?
-> FUSE server can gets part of the write while other are still in-flight.
-> I think you'd have to at least have fsfreeze support in FUSE, or somethin=
-g
-> like this to even begin discussing this use case.
->
-> >
-> > 2) Re-targeting.  The file which ought to receive writes changes while
-> > descriptors are open: a cache evicting or promoting a file, or a
-> > stacking filesystem redirecting writes to a new layer.
-> >
->
-> I acknowledge the need, but as you write this is complicated.
->
-> > Of the two, (1) seems the more general, and it is the one which does
-> > not depend on any particular stacking design.
-> >
-> > What both would need is a way for the server to detach the backing
-> > from the open files holding it, letting io fall back to ordinary
-> > requests, and later to attach a backing again, either the same id or
-> > another one.
-> >
-> > The io path looks mechanically simple, because it re-dispatches on
-> > every call: fuse_file_write_iter() reads ff->passthrough per write, so
-> > clearing it would send the next write through the connection.  What I
->
-> Certainly doable but I wouldn't call it simple,
-> It also brings odd semantics that the same open file (same inode number)
-> can read two different contents - not sane semantics).
->
-> > cannot judge is the rest.  fuse_file_passthrough() is a plain read of
-> > ff->passthrough, so a detach would need something to serialise against
-> > io already in flight, and the io mode transitions in fs/fuse/iomode.c
-> > would have to be driven in both directions: out of uncached io mode on
-> > detach, and back into it on attach, with the page cache invalidated in
-> > between.  The kernel does already perform one such transition at
-> > runtime by itself, when the first mmap of a FOPEN_DIRECT_IO file
-> > enters caching io mode.
-> >
-> > mmap is the part I expect to be contentious.  A mapping is bound once:
-> > backing_file_mmap() sets the vma's file and then runs the backing
-> > filesystem's own ->mmap, so the vma ends up with that filesystem's
-> > vm_ops and page tables into its address space, and nothing in the
-> > fault
-> > or writeback path consults the fuse file again.  A detach which
-> > covered only the io path would therefore leave existing mappings
-> > writing to the backing file.
-> >
-> > For (1) that is a bounded loss: only a process which mapped that file
-> > MAP_SHARED for writing can still store into it during the copy, so the
-> > copy of that one file may be inconsistent while every other file gets
-> > a clean cut.  overlayfs documents a comparable deviation, in
-> > "Non-standard
-> > behavior" (b) of Documentation/filesystems/overlayfs.rst, where a
-> > lower-layer file mapped MAP_SHARED does not see later changes.  For
-> > (2) it is worse, since the mapping goes on writing to a file which
-> > nothing resolves to any more.
-> >
-> > So my questions are:
-> >
-> >  - Is an interface of this kind of interest at all, or is "a backing
-> > is forever" meant to be part of the contract, in which case it would
-> > be worth saying so in fuse-passthrough.rst?
->
-> It's like that because it's too complicated to deal with the consequences=
-.
-> Unless you prove otherwise...
->
-> >
-> >  - If it is of interest, would a detach which explicitly does not
-> > affect existing mappings be acceptable, documented the way overlayfs
-> > documents its deviation?  Or would mappings have to be handled, by
-> > walking the backing inode's i_mmap, zapping and re-pointing the vmas,
-> > for such an interface to be considered at all?
->
-> No, I don't think we want to go there.
-> and asI wrote, even the semantics without mmap can produce
-> undesired no-standard behavior.
->
-> >
-> >  - What shape would be preferred: an ioctl beside
-> > FUSE_DEV_IOC_BACKING_OPEN and _CLOSE taking a backing_id, a
-> > FUSE_NOTIFY_* message on the connection, or something keyed by nodeid
-> > rather than by backing_id?
->
-> notify would have been enough if you managed to make the
-> detach safe for races.
->
-> >
-> >  - Is there an existing way to get either of the two behaviours which
-> > I have missed?
-> >
->
-> Not that I know of.
->
-> Thanks,
-> Amir.
-
-
-
---=20
-https://mitar.tnode.com/
-https://noc.social/@mitar
-https://bsky.app/profile/mitar.bsky.social
+> =C2=A0			return -EIO;
+> +		part_hop_done =3D true;
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	HFS_SB(sb)->alloc_blksz =3D size =3D be32_to_cpu(mdb-
+> >drAlBlkSiz);
+>=20
+> base-commit: 6812ce4e4379ffc99c52401ec28f0d7ffbc36206
