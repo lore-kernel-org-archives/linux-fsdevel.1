@@ -1,301 +1,117 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f38.google.com (mail-pz2-f38.google.com [74.125.228.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92689448BA3;
-	Mon, 28 Sep 2026 07:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA06030FF36
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 07:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790580169; cv=none; b=HLIHxsiJhNMMjoKCJhhODSDK89MJAg/sT8n12Un2NpmVf/dTo+dBQllOSLZEGks+afFW6X4XYOPjuZl0DCseEHTG4KwnuwCspFU0hfMNjclBUMhSzFY7C6vnn7UEkCadsYv2MNrBamUuhLi+Fy+34FD5Fs3jjHDMoVpx/OUPrhw=
+	t=1790580493; cv=none; b=hakmJqNJKSeGuLa2jnerMksGQ36b0fRqNRiEa6iaUn1eFJBWyPU55uQc74+oR7BWlPINgQ12F91KuYB5ukNPYPn6u3BSUsrhlmyx50gvu8KtY/0Q4rpdo0ABenv82XExDin7tNlY8KKvLcnAuVZh2yulPBdzYwCOVZ7vw9EMeKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790580169; c=relaxed/simple;
-	bh=BM42dP6biGLp+7pQuwYJLZMZOnYanD/7h0L+4WgxWuA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lYs6xHXJOHJinC/7yQhsOwd40tFzowZ7euF/FfE3FMwcDIZd5z9kYjZnIw2laniA/4g+kLTavM5vNYHCbziIz0PpVCRVqvAeaj6+XspB2HElHfvYFEjJWUbp5s3EpsGjzjEQZ5Oz+y+Nei71yFa7nhv0OHbc+4qxlD7nUkWyDAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=VdVbm0/a; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1790580493; c=relaxed/simple;
+	bh=DZEBm7AqqCnArM9eNi1XRjIHVWMaI8eGfrCgZqmx5vI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KLwZyFs9WepAlhZZrSBmZW3+KmfxO/d9LSN4S0boBM2hMabXW1MAluoPDk6u6dtoTQTth0kA+DKgYAd3zN3DYBkYtiCA6QlUxTXbjnEnFEi9qKymrk2snQ9XixH4aO3rwR7iZ+oLVXrVM635Uq7e811vw6F2Iy1EbmSvX6Vtcqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wh8/+rcv; arc=none smtp.client-ip=74.125.228.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="VdVbm0/a"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68RNK0JG3561189;
-	Mon, 28 Sep 2026 07:22:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=aAtXoF
-	B0noFysjucdBRQnw8AHU5+6B2BxlOaL9AtvMs=; b=VdVbm0/ax+ndBCt4/jUx3a
-	zq3XI1XBM9GS30uzJyw0JfQ2wMhN54Yb/+USdxKRjiRv4KwT94NdUEqnTUQHhA37
-	vkxeHfHxvlijAz3nOET+GsRAl++4bE37HVB/RXvdEYU+wTx9z4O0TpaHWNrqnlm2
-	FkPvbxmwr63gG0jt34SCl6GAxMjMyckjy4SxCcZNKkTscjvKXF7BFOQw4WzTMe3k
-	c6amC7YP0RMJU5xwlyclJmdGCEAi4f1vYgPNR0tqJKdomi46b0T7kEQ6uyYmTa06
-	ct3dvD130fhO0Lu1N+Asz1GleDpt8JvXwZFfuakYXQSvE6pTasgef8trlKqAC+eQ
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx3fjyvp5-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 28 Sep 2026 07:22:23 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68S42p13879670;
-	Mon, 28 Sep 2026 07:22:22 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4gxtkg40xv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Sep 2026 07:22:22 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68S7MKb741746854
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Sep 2026 07:22:20 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 98DDD2004E;
-	Mon, 28 Sep 2026 07:22:20 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 87CCE20040;
-	Mon, 28 Sep 2026 07:22:17 +0000 (GMT)
-Received: from [9.124.213.127] (unknown [9.124.213.127])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 28 Sep 2026 07:22:17 +0000 (GMT)
-Message-ID: <95790639-84d0-4cc2-92a8-c97c920b2d22@linux.ibm.com>
-Date: Mon, 28 Sep 2026 12:52:15 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wh8/+rcv"
+Received: by mail-pz2-f38.google.com with SMTP id 41be03b00d2f7-cc79a5bdf9fso225863a12.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 00:28:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790580489; x=1791185289; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Bye6SXDJtZqYyoJ8pMJ9LL8Wd0RgcztWGshO/EITHjg=;
+        b=Wh8/+rcv28soGebdBSKzhwOn68goxvLuv1hRTAzaC25X3bk+4LR3vyn6wNS5bB6Lw/
+         SYZ/dtiW2vJr/9/5NzMwQrvtUuMWc7BJG5HgPefwbZiieOB7zVsjflE0zpu1t1w1JfbL
+         f/1Zk6XfITsyZNYSqnpFyxRocH4ZYaDzA0woOUuyUtPX/li8QQgFTxh+QyZEsYUW06L2
+         P9+TIqlSgIxoM8yGpla3NGZorhmjnU124OCf4AwIF3hrb73P8iFzRugadFwz2VTm2QJi
+         OZcB51w33G942eiIkaN1CbEvGw1C0rr8AfkhkOv8rsIZktNffD8XY04Hw1HXrpjFJw2b
+         lP7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790580489; x=1791185289;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Bye6SXDJtZqYyoJ8pMJ9LL8Wd0RgcztWGshO/EITHjg=;
+        b=q0ejUwfusiGfyDciqQBxUr9RhbJ2hswkBCDcsQSAo9kZ9X6GvpkCV++4Et4Gnm04Wg
+         Ol/yWAfT9+Ikh+KU3hJolrckKnJmAXcTO1bTDLK6EmRrWYjHNALx6vRjo6rGUgzNQNUp
+         1eJK29jnDGMjDqdslBk8zK1usob6SL1IoMlEz79iz0jXrhzcSV+Kjb6LdOSpyOPG9aJN
+         WoilX04ScQHPK9XAMiBgFlNZN7o18EDGqy5L+GewWvAT9+/DTu/K/zRDucCh1DObOFnH
+         XD7hjqLBpijlbLDk6ZJ0bMC7miMi90gsW8QpEJN3n+FJiyYr1L99Ylp+kJjOSFNJO3l1
+         +3PA==
+X-Forwarded-Encrypted: i=1; AKwUvBwhAZNAELIMAGuTg+bBFGKf3LjAltUxOwvBnjaAnJSFpGYnJVtiF4GL4Jfx2Ogi4S8az5ErhOvOIOvamILH@vger.kernel.org
+X-Gm-Message-State: AFq9FYLVoNQHCLO3B8FCHHiI2UTfs1p4jrIgg6V7SBYe1zxtIOSVXDZa
+	bLK3iikgSr03QWDU02GAGjlNLs8Uq6hIFxJRVAa3/K1I5d0HNFUwOr8OSeeZNg==
+X-Gm-Gg: AYBFou2g2VTpyvyKepVl46GTTPevwJHPZnqqNzjmCc6SQqDY/RiunHjLjlNAFKubquX
+	FRGHvuBh/8ZnqVsq/TSX5CCZiy1A0uZ95TybUDawKH8mqoRnzB9XjlD2k/P/edlsfgks3/EtofQ
+	Usxz+yCOqSFy+fk99tgssFV4xd76qxi7ljViXWp8LJxQBTISqzOuVUN2BcvpKYmTSD46q9qc2Jc
+	f6OnTn5gUEObfCuXMKfAHX6x/7yTab12RXSkZeFkH9Q9c+RjgJktA0A70emCvpX0N3Pg0kaTkG0
+	soQnPsfKe8U/1MgeBPOzUPsn33s+zuU8Hatx31paZK2+e+cBNh9dapfUnO89hIQI5kSGRAY0H2x
+	xyqoahusKjR6bYrgASYXvHG8rJ//2HmIVNxZtdXVYC5xe3h3+s75GiUUK95Qu85Y8aZyS5zqQ+Y
+	xAvl7thmjGQEVSIse9NFMi+wYZKZvVV/ngsiZq+pWFrdSirqyPu1E74PDOBt2ZXZ6cgac+MO8hI
+	/OBAPYzPYs=
+X-Received: by 2002:a17:90b:5247:b0:39e:6c68:fd8f with SMTP id 98e67ed59e1d1-3a098b628d9mr7264933a91.36.1790580488646;
+        Mon, 28 Sep 2026 00:28:08 -0700 (PDT)
+Received: from osman.mioffice.cn ([43.224.245.178])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0974ec5dfsm25102399a91.3.2026.09.28.00.28.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 00:28:08 -0700 (PDT)
+From: Zhan Xusheng <zhanxusheng1024@gmail.com>
+X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+To: Zhenyan Wang <maximwang110@gmail.com>
+Cc: Zhan Xusheng <zhanxusheng@xiaomi.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Christian Brauner <brauner@kernel.org>,
+	ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] fs/ntfs3: keep PrintName not changed when creating symlink
+Date: Mon, 28 Sep 2026 15:28:00 +0800
+Message-ID: <20260928072801.13714-1-zhanxusheng@xiaomi.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260927180359.3867508-3-maximwang110@gmail.com>
+References: <20260927180359.3867508-1-maximwang110@gmail.com> <20260927180359.3867508-3-maximwang110@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ovl: fix wrong layer paths in mountinfo for detached
- mount FDs
-To: Amir Goldstein <amir73il@gmail.com>, brauner@kernel.org
-Cc: miklos@szeredi.hu, viro@zeniv.linux.org.uk, jack@suse.cz, shuah@kernel.org,
-        linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-References: <20260924112858.51392-1-disgoel@linux.ibm.com>
- <20260924112858.51392-2-disgoel@linux.ibm.com>
- <CAOQ4uxgj3RL2roivmha9yeWToR-s9kaBm8WUK1vJ_q7pWOjxOQ@mail.gmail.com>
-Content-Language: en-GB
-From: Disha Goel <disgoel@linux.ibm.com>
-In-Reply-To: <CAOQ4uxgj3RL2roivmha9yeWToR-s9kaBm8WUK1vJ_q7pWOjxOQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: Z0dqrZ_78sEseHnG83uc_Tt8V1lCtiYg
-X-Proofpoint-GUID: U_2rTDYtnpPqzDe_5sLVt3Uj5cDiAAi8
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDAyOCBTYWx0ZWRfX81WPtjMvj/zz
- mVBe0vR4Uz9jft8ovIsuqH/hkGZFVR7QomBFTFSXbjB/QK8fz4seSWG2ukkpBAzh9to86/k4Xje
- 1MvCLnDoO3x1iIpbQ4BeLcRQ0NMbx/k=
-X-Authority-Analysis: v=2.4 cv=Vv62kO2n c=1 sm=1 tr=0 ts=6aba15af cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
- a=VwQbUJbxAAAA:8 a=AlhcxhPrcBOVSj21lkEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDAyOCBTYWx0ZWRfX0zgh6nELTyON
- y1xGnLZsVqyhlc+kAXPau6KJT/xIWswAzZuPrxaCPqIDkqgAIkH7tAw71TnlieOsz1jVZ6wSDiW
- nw1t8cn8L52tSyqJXyRarpnO1IiwYuj4tvS2YTl+jk2iEUrCzc/9AAT7RfGIr+uCZxq5Eg01WYu
- L8gLPvummwdZstm7L7R6kSs4y370KEe11hyx7K/zF1X7DHTSTSiq0oHqAcZtRppuWt+qKa52s+P
- wC3pjcKL+oXq+KQRnYTq7GckP1dGD1LzR5UdzsuZ4eMrHYV3kN5QT5NlcVvLz6fkBRJQgKkaXe8
- SC4EoD4gNvYy7EjGCa/j1gq9D8OzWdtvzSGV+9B5NJmjRTpuF6zpHI4jA/YoYzCNhjcn1R7VrZr
- rdAoBNlxhZO/Qqv+6yGg8RUY+MZ0vbYhBoCsahsF9AeOyoR3Ghh+wgz9gTzEHViRsDBHf5XnhRL
- NFaVwWJSw4MmLzKwjhQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-26_05,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 phishscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 clxscore=1015 lowpriorityscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609280028
 
-On 25/09/26 9:27 pm, Amir Goldstein wrote:
-> On Thu, Sep 24, 2026 at 1:29 PM Disha Goel <disgoel@linux.ibm.com> wrote:
->>
->> When overlayfs layers are passed as detached mount file descriptors
->> (opened with open_tree(OPEN_TREE_CLONE)), ovl_parse_layer() uses d_path()
->> to record the layer's path for display in mountinfo.
->>
->> d_path() walks up the mount tree to the process's filesystem root.  For
->> detached mounts this walk stops at the anonymous namespace root instead
->> of the real system root, producing a short incorrect path like "/l1"
->> instead of the full absolute path.
->>
->> Export mnt_is_anon() from fs/namespace.c to detect detached mounts.  In
->> ovl_parse_layer(), use dentry_path_raw() for detached mounts instead of
->> d_path().  dentry_path_raw() walks the dentry chain independent of mount
->> namespace and returns the correct fs-relative path.  The path is
->> display-only; the actual layer_path used for mounting is always correct.
->>
->> Also fix the set_layers_via_detached_mount_fds selftest: the mountinfo
->> check strings were copy-pasted from the regular (non-detached) test and
->> expected absolute /tmp/ paths, causing the test to always fail.
->>
->> Fixes: a08557d19ef4 ("ovl: specify layers via file descriptors")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Disha Goel <disgoel@linux.ibm.com>
-> 
-> Disha,
-> 
-> Thanks for the report!
-> 
->> ---
->>   fs/namespace.c                                |  9 ++++++++
->>   fs/overlayfs/params.c                         | 14 ++++++++++-
->>   include/linux/mount.h                         |  1 +
->>   .../overlayfs/set_layers_via_fds.c            | 23 +++++++++++--------
->>   4 files changed, 37 insertions(+), 10 deletions(-)
->>
->> diff --git a/fs/namespace.c b/fs/namespace.c
->> index ae5dc64f8b45..9feefa0a517d 100644
->> --- a/fs/namespace.c
->> +++ b/fs/namespace.c
->> @@ -363,6 +363,15 @@ bool __mnt_is_readonly(const struct vfsmount *mnt)
->>   }
->>   EXPORT_SYMBOL_GPL(__mnt_is_readonly);
->>
->> +bool mnt_is_anon(struct vfsmount *mnt)
->> +{
->> +       struct mount *m = real_mount(mnt);
->> +       struct mnt_namespace *ns = READ_ONCE(m->mnt_ns);
->> +
->> +       return !IS_ERR_OR_NULL(ns) && is_anon_ns(ns);
->> +}
->> +EXPORT_SYMBOL_GPL(mnt_is_anon);
->> +
->>   static inline void mnt_inc_writers(struct mount *mnt)
->>   {
->>   #ifdef CONFIG_SMP
->> diff --git a/fs/overlayfs/params.c b/fs/overlayfs/params.c
->> index c93fcaa45d4a..2758ff8426b7 100644
->> --- a/fs/overlayfs/params.c
->> +++ b/fs/overlayfs/params.c
->> @@ -477,7 +477,19 @@ static int ovl_parse_layer(struct fs_context *fc, struct fs_parameter *param,
->>                  layer_path = param->file->f_path;
->>                  path_get(&layer_path);
->>
->> -               layer_name = d_path(&layer_path, buf, PATH_MAX);
->> +               /*
->> +                * For detached mounts (open_tree(OPEN_TREE_CLONE)), d_path()
->> +                * resolves against the anonymous namespace root and returns a
->> +                * short fs-relative path rather than a full system path.  Use
->> +                * dentry_path_raw() instead, which gives the path relative to
->> +                * the filesystem root regardless of mount namespace.  The name
->> +                * is display-only; layer_path itself is always correct.
->> +                */
->> +               if (mnt_is_anon(layer_path.mnt))
->> +                       layer_name = dentry_path_raw(layer_path.dentry,
->> +                                                    buf, PATH_MAX);
->> +               else
->> +                       layer_name = d_path(&layer_path, buf, PATH_MAX);
->>                  if (IS_ERR(layer_name))
->>                          return PTR_ERR(layer_name);
->>
->> diff --git a/include/linux/mount.h b/include/linux/mount.h
->> index acfe7ef86a1b..51e9f228c9d1 100644
->> --- a/include/linux/mount.h
->> +++ b/include/linux/mount.h
->> @@ -78,6 +78,7 @@ extern void mnt_make_shortterm(struct vfsmount *mnt);
->>   extern struct vfsmount *mnt_clone_internal(const struct path *path);
->>   extern bool __mnt_is_readonly(const struct vfsmount *mnt);
->>   extern bool mnt_may_suid(struct vfsmount *mnt);
->> +extern bool mnt_is_anon(struct vfsmount *mnt);
->>
->>   extern struct vfsmount *clone_private_mount(const struct path *path);
->>   int mnt_get_write_access(struct vfsmount *mnt);
->> diff --git a/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c b/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c
->> index 7a293544233d..12d930fe46be 100644
->> --- a/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c
->> +++ b/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c
->> @@ -686,23 +686,28 @@ TEST_F(set_layers_via_fds, set_layers_via_detached_mount_fds)
->>          while (getline(&line, &len, f_mountinfo) != -1) {
->>                  char *haystack = line;
->>
->> -               if (strstr(haystack, "workdir=/tmp/w"))
->> +               /*
->> +                * Detached mount FDs are resolved via dentry_path_raw(),
->> +                * which gives a path relative to the underlying fs root
->> +                * (e.g. "/u/upper", "/l1") rather than a full system path.
->> +                */
->> +               if (strstr(haystack, "upperdir=/u/upper"))
->>                          layers_found[0] = true;
->> -               if (strstr(haystack, "upperdir=/tmp/u"))
->> +               if (strstr(haystack, "workdir=/u/work"))
->>                          layers_found[1] = true;
->> -               if (strstr(haystack, "lowerdir+=/tmp/l1"))
->> +               if (strstr(haystack, "lowerdir+=/l1"))
->>                          layers_found[2] = true;
->> -               if (strstr(haystack, "lowerdir+=/tmp/l2"))
->> +               if (strstr(haystack, "lowerdir+=/l2"))
->>                          layers_found[3] = true;
->> -               if (strstr(haystack, "lowerdir+=/tmp/l3"))
->> +               if (strstr(haystack, "lowerdir+=/l3"))
->>                          layers_found[4] = true;
->> -               if (strstr(haystack, "lowerdir+=/tmp/l4"))
->> +               if (strstr(haystack, "lowerdir+=/l4"))
->>                          layers_found[5] = true;
->> -               if (strstr(haystack, "datadir+=/tmp/d1"))
->> +               if (strstr(haystack, "datadir+=/d1"))
->>                          layers_found[6] = true;
->> -               if (strstr(haystack, "datadir+=/tmp/d2"))
->> +               if (strstr(haystack, "datadir+=/d2"))
->>                          layers_found[7] = true;
->> -               if (strstr(haystack, "datadir+=/tmp/d3"))
->> +               if (strstr(haystack, "datadir+=/d3"))
->>                          layers_found[8] = true;
->>          }
->>          free(line);
->> --
->> 2.45.1
->>
-> 
-> Christian,
-> 
-> I confirm that the test is failing on upstream:
-> 
-> # Starting 1 tests from 1 test cases.
-> #  RUN           set_layers_via_fds.set_layers_via_detached_mount_fds ...
-> # set_layers_via_fds.c:717:set_layers_via_detached_mount_fds:Expected
-> layers_found[i] (0) == true (1)
-> # set_layers_via_fds.c:39:set_layers_via_detached_mount_fds:Expected
-> rmdir("/set_layers_via_fds") (-1) == 0 (0)
-> # set_layers_via_detached_mount_fds: Test terminated by assertion
-> #          FAIL  set_layers_via_fds.set_layers_via_detached_mount_fds
-> not ok 1 set_layers_via_fds.set_layers_via_detached_mount_fds
-> # FAILED: 0 / 1 tests passed.
-> 
-> I could not find a point of regression.
-> Could it be that the test was merged failing?
-> That would be strange.
-> 
-> This is how mountinfo of detached layers look like on upstream:
-> / /set_layers_via_fds rw,relatime - overlay none
-> rw,lowerdir+=/,lowerdir+=/,lowerdir+=/,lowerdir+=/,datadir+=/,datadir+=/,datadir+=/,upperdir=/upper,workdir=/work,uuid=on,metacopy=on
-> 
+On Sun, Sep 27, 2026 at 06:03:59PM +0000, Zhenyan Wang wrote:
+> -	/* Translate Windows '\' into Linux '/'. */
+> -	for (i = 0; i < err; i++) {
+> -		if (buffer[i] == '\\')
+> -			buffer[i] = '/';
+> -	}
 
-Hi Amir,
+ntfs_readlink_hlp() reads PrintName, for both tags:
 
-Thanks for looking into this!
+	case IO_REPARSE_TAG_MOUNT_POINT:
+		... MountPointReparseBuffer.PrintNameOffset ...
+	case IO_REPARSE_TAG_SYMLINK:
+		... SymbolicLinkReparseBuffer.PrintNameOffset ...
 
-On my ppc64le system (7.3.0-rc4) I saw dentry_path_raw() giving per-
-directory names like lowerdir+=/l1, upperdir=/u/upper etc., which is why
-I went with the kernel fix. But your observation of lowerdir+=/ for all
-layers is a valid outcome too depending on how d_path() terminates.
+On a volume written by Windows that PrintName is the display form, so
+its separator is '\' - "C:\Users\foo".  Without this loop readlink()
+hands that back verbatim and the whole string becomes one component.
+The loop is after the switch, so junctions and mount points lose it too.
 
-You are right that the test strings (/tmp/l1 etc.) never matched
-detached mount output.
+Keeping it, the first hunk alone already fixes the '/' case:
 
-> Whether the suggested solution is what we want for it, I am not sure.
-> I also don't recall if we discussed this at the time and whether
-> there were any decisions about how to present this mountinfo.
-> 
-> Maybe this mountinfo is fine and then we only need to fix the test.
+	symlink target   PrintName   readlink
+	a/b              a/b         a/b
+	a\b              a\b         a/b
 
-Happy to send a v2 with just the selftest fix if that is the preferred
-direction.
+The second row cannot be fixed this way.  A '\' in PrintName is either a
+Windows separator or a literal character from Linux, and nothing in the
+buffer tells them apart, so a round trip for the literal one needs a
+different encoding, not a missing conversion.
 
-> Thanks,
-> Amir.
-
--- 
-Regards,
-Disha
-
+Also, after the first hunk the is_absolute block still decorates through
+rp_name while the copy is at sub_name; both point into the same buffer,
+which is easy to get wrong later.
