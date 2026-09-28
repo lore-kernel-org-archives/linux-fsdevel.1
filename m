@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09EC439768D;
-	Mon, 28 Sep 2026 19:02:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1424D3D9540
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 19:12:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790622160; cv=none; b=oomXNBUZec/XLhOjjRR27MLkrzs/HkiSwio6nEk4JXGn9tCVEgKhKRRUIeVG5J8DHr0GCsL6Q6tn74E4e4JYyIGz9vX0L1ZqCj/kpfPZV2edcgE9AKa/8OhF0NV49uVBrRyF1BtB11QljV1OcXcU0J0nXXz8pnsYYTus6iMbVGs=
+	t=1790622756; cv=none; b=GuxLY9wyph47af29GaZaB0BGDEukjxScuxf8o24KXTkNXua0Xr0YemNG68lhPRrJd3BHJTFLKuinuQX8ASzFX+RODf45SuReMxcHoiMYGEgrEkJCIAWzXdS65dNq6Efj78oMV0qqVhiXYBwpqMnfUGiYk7IcjSp4RSD3s8zEKjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790622160; c=relaxed/simple;
-	bh=8IfPv+STfMcZJKjf6yggHH5WDwdE237pEfnwfgqDUzg=;
+	s=arc-20240116; t=1790622756; c=relaxed/simple;
+	bh=bRSdQjCyV5tSJh7453xUdn38fyIT36XliIQQvgY0gqg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AghzlHEbe0TV9oqltfh46/6WMcSsOgNKBTy90Rz2xeHpTlBwJNZM5NL/GEaYYzjvy8poDbzj+IEVMsoN0gGs3moMS2IbrF3GfQvxWAX0In7COVIjHgdcHXqS45eMOX4AlalbHKuwqNpiRBCKF6kbCnzReD6ucslRkjrd3/5KC3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JpdScsI+; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=XNgaTvY8gbko8gwZ1+aLeOdBOiGbdz2JBkcxWMbyKiLKeetDUUsrdIFRURK+N0AgYyoLcvCeGMeiuoOSUIo227vgLBH/0bkU5ihVFjMiGuUvaTPtqfQMDLlNZr7vrthvLkP+mnoAFJblZ0Psffx5QzI9eE7nq7sIlcF0HDRlC/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HF4S1Z78; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JpdScsI+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263B61F000FF;
-	Mon, 28 Sep 2026 19:02:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HF4S1Z78"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 342441F000FF;
+	Mon, 28 Sep 2026 19:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790622158;
-	bh=vTZRqeA3eh/91cOEVB9Z7b7RmqYVnV8/9o2vIx4X17c=;
+	s=k20260515; t=1790622754;
+	bh=3+/0gNUnAEU8rNmsasP2G1qveGjqqxqRYFGhYDQK2wU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=JpdScsI+6Qzm+N9kvlK8qVUWrOLKhvaCARl3eGaAFGaYO8jR3uleE7yaCCC2auyT3
-	 jbZr+S2DpOD9UfDIEdqk6cBuN8esD48o0Gr0bbRqDa5fkW8kfvg3bc0OO4tZNii7iv
-	 hCZnw+aYEBCML2hR563F9EUvHTG9YIPr8zh9JQIGynl/nYmoSEYCFmA30prsHWWp4o
-	 ouiSZ/rTdzjzBicvJB2pHHx6risqXhJCsl//LUsmZ2yWFCPYtCei5xUflJxZAWNDrU
-	 5hcJqUpuoB8o2R/tjhS4cb6OcUdgWl32Akkvgb7W7xFukQg2PHNhQGjorZFNvgDrDy
-	 5AZH3hA8QW+cQ==
-Message-ID: <7d4816f0-9c18-413f-9a7d-aaa003bf3135@kernel.org>
-Date: Mon, 28 Sep 2026 21:02:17 +0200
+	b=HF4S1Z78mScB4lUcYE6JWgmNHRRxIQxkpRj14G/OgV77GYc4NE9XRSxU/WrA7/o8T
+	 jHkuFt25YUOT+mG7iVW/hfP8bxMYMWq+WXAe+owB06S0SeE7wPQfrkwVXLE/DAcWtM
+	 ARw16ifk79EF7PM9ra6qxCAQxqKbrhfgbt8qls/bYL6rB77cjM4/+zlUULjLLBP+6h
+	 LFlEEaVZ0FA6vtFPLORpsHWqiw8cLu9tB3uLGAvnMpvEPc5eo9P2DMndfHhT7A5ikY
+	 TB/6cHvErfozrqwxtPPtJqT7/S6cCELTRktjxG3EPzSnTXaoCjxGwaMJKZBMkp8Q/E
+	 RSAYk6NBbI7bw==
+Message-ID: <85aff663-2131-47da-ac04-8f0799a49b91@kernel.org>
+Date: Mon, 28 Sep 2026 21:12:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,53 +35,16 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/12] CRASH_MEMACTION: describe pages to a kdump
- kernel (was: CRASH_WIPE_SECRETS)
-To: =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Baoquan He
- <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Mimi Zohar <zohar@linux.ibm.com>,
- David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- James Bottomley <James.Bottomley@HansenPartnership.com>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Lance Yang <lance.yang@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- kexec@lists.infradead.org, driver-core@lists.linux.dev, linux-mm@kvack.org,
- linux-arm-kernel@lists.infradead.org, dm-devel@lists.linux.dev,
- linux-crypto@vger.kernel.org, linux-integrity@vger.kernel.org,
- keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org
-References: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
+Subject: Re: [RFC] madvise: best-effort deferred writeback for shared file
+ mappings
+To: =?UTF-8?B?5aSp54u8?= <rockeet@gmail.com>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ "Lorenzo Stoakes (Arm)" <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>
+References: <CAAE3jtcL_CZJdcattCwe0RraKnHcZO=UknxEUQVG858ouZCUQA@mail.gmail.com>
+ <7ebe4591-2306-4b5c-b83e-6a2e34b52bd8@kernel.org>
+ <CAAE3jtfeKJLSypScqRAEEgvO8En5kJfpbcFn5X+LQ2YL+xz_vA@mail.gmail.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -128,44 +91,66 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
+In-Reply-To: <CAAE3jtfeKJLSypScqRAEEgvO8En5kJfpbcFn5X+LQ2YL+xz_vA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 9/28/26 19:17, Jan Sebastian Götte wrote:
-> I'm using linux on an embedded target in a Hardware Security Module-like
-> application. One requirement is that I want the system to be able to
-> quickly erase its memory when it detects physical tampering. I'm
-> approaching that by using kdump to load into a small payload that
-> instead of dumping RAM, erases RAM frmo start to end. However, writing
-> all of RAM, especially on an embedded target, is rather slow. For this
-> reason, I propose a new crash_memaction mechanism that lets the old
-> kernel indicate marked memory areas to the kdump kernel at page
-> granularity.
+On 9/28/26 15:09, 天狼 wrote:
+> Hi David,
+
+Hi,
+
 > 
-> I will be using this mechanism to indicate "secret" memory ranges for
-> early wiping by my kdump payload. After discussion with Baoquan He early
-> August, the patchset includes a second flag that can be used to indicate
-> "cache" memory that the kdump kernel may want to skip when creating the
-> dumpfile.
+> The use case is a concurrent, lock-free, relocatable data structure that
+> uses offsets rather than absolute pointers. It implements copy-on-write
+> at the data-structure level and is designed to remain recoverable after
+> a process crash. We therefore build it directly in a file-backed
+> MAP_SHARED mapping, so its state is not lost when the constructing
+> process exits unexpectedly.
+
+What is supposed to happen if the process crashes when updating the MAP_SHARED
+region halfway through?
+
+It would be helpful if the use case + data structure would be explained in a
+bit more detail.
+
 > 
-> The record is a bitmap with one bit per page, allocated at boot. It
-> reaches the kdump kernel as a PT_NOTE named MEMACTION. Marking is a
-> lock-free atomic bitmap update with no allocation, so it is safe in any
-> context.
+> Building it in anonymous memory and calling write() only after
+> construction would lose that state if the process crashed before the
+> write. It would also require copying the entire structure into the
+> file's page cache.
 
-This is all rather messy.
+Yes. Unless to would try to bypass the page cache of course (if possible for
+your use case).
 
-So, in general, kdump has access to the memmap, and it can figure out certain
-things about pages to be dumped. That's what makedumpfile does.
+> 
+> During construction, writes are scattered throughout the mapping,
+> dirtying pages rapidly and repeatedly redirtying pages that may already
+> have been written back. The goal is to reduce writeback of these
+> intermediate states while retaining the same page-cache pages for
+> subsequent readers.
 
-It can identify user pages, kernel pages, etc. If you could identify relevant
-pages through the memmap from the second kernel, you might be able to clean them.
+What exactly is the poblem with writeback here? Unnecessary I/O? Is writeback
+the problem or actual reclaim after writeback?
 
-I'd assume you could identify secretmem pages that way.
+(I recall that in a fuse server you can in theory delay the writeback request.
+So maybe you could get something going by serving your file through fuse and
+enlightening the fuse server about it. Just a random idea.)
 
-But all these madvise/mmap thingies are really not appropriate to reduce the
-zeroing.
+> 
+> The hint would remain strictly best-effort: memory pressure and explicit
+> synchronization could override it. By "process crash," I mean termination
+> of the process while the kernel remains running; recovery after a system
+> crash or power loss is a separate durability concern.
+> 
+> Regarding the interface, madvise was only a suggestion. A file-level
+> advisory interface would also work for this use case: deferring background
+> writeback for the entire file, rather than individual mapped ranges, is
+> acceptable.
+
+So fadvise would be an option. However, this "defer mode" is really odd. It
+sounds more like you would want to have a custom policy there, instead of
+hardcoding something that really not a lot might want. Hmmm
 
 -- 
 Cheers,
