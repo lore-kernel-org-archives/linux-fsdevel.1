@@ -1,90 +1,76 @@
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C957E356A38;
-	Mon, 28 Sep 2026 01:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6DD17557E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 02:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790558926; cv=none; b=Hsd3FbSXF81GrrxQSLtVwwJk88JtMRc1YGJRVm+ZDGKiFCuM5iOBU0Pgj9X0d2w5AMyVCBld8gbhhe9DTVM2FTRSpopcHGPrumXLkomnXQsFVRJAwr2tezIL0gO01JtkmxYD8W7Ha0dsy4TYRdwqR3XryHrg9S8qs7tWb0fn4o8=
+	t=1790560935; cv=none; b=cZaTs2EMNna9OAK+ENTQRNOsa2QIxVN0x2htdepLT2I8OcB4fqaoeeL08PKmHlnh2XxtyfyFZ//3X/uKNWB2aqHYE/YEJo4NYUEL0omMcBAAH/hZRTOegulHtIXt/6qtNrQuOcRC3QVUnufxcFtKNpxSSEESxhIyW5Q3oHaYps4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790558926; c=relaxed/simple;
-	bh=qZ72wdExjBx4qrtjfaaWj2pii5nFIYx2zoF3b1K23B4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OMgOqthEcvOq3zBrv4zEz2VRSaPTqWSwFCGBbPmuej3SFgiwDvZxmir8aiDBNXuNuNwq4EHZ/cg0bdRudoWY1ZpyQOuaTApjvqq4ARkiq9UU4pyfDkt5pYn22sNT77pv2i87MdCWAS5QL4QhwXYndCrBYKG9d0ePZ5gOWfUKyqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=ln5ic326; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZoS30Oou; arc=none smtp.client-ip=202.12.124.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1790560935; c=relaxed/simple;
+	bh=urQbLGCXrd0ZFZeVKewiensfGBXy6svoBuruqY3dA68=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MUf4U7eRjGXdb6o8DEgOxUkEU5DFyqQOqfGsvBygGrUm1JQeoCjgNIey5b9awyuTIGpZ6OIRatixDmW84uyP0LWY27XXIDDTWkI2KMjAUliM3+99FgMw6sdABfkG5UbG6lZYgOc2W8u0YhZyHOKISitRN/ZtoHVMOj/KGHmXMZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sDS3JOxU; arc=none smtp.client-ip=74.125.228.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="ln5ic326";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZoS30Oou"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id D65037A0063;
-	Sun, 27 Sep 2026 21:28:43 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Sun, 27 Sep 2026 21:28:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1790558923;
-	 x=1790645323; bh=erGK+AQzk4TXbJHojiBGhbq9S7OkazCWMpV38tG+cyY=; b=
-	ln5ic326jEvIO1PS1LR0Iyi40LcclgKcudtnMSdgMUuCTZcJtF82CkhTZhlyzU0W
-	xJgqlsT0w6zqnBGY3Ztl1O2me5jxpx7T7RtSR5fhHh3XYxfGqWPQyB2p9FjYGSqo
-	X1x8SVx6sgwrN7voV8w8qLaV+L/IgIGnoRHIjKUFuQVmV/R+xP1j0vW6OZbiFMpn
-	/cJkGRDe/XmeNjV3Q7Q54OX9kfnatE4Xq8zJOK3Nbl/hfNiRp5uXEWMsPX80hOA4
-	zIbJEw/ScYKearCqz5irNcdm1Tngt8Mf2egvMXOCyU0XOIM2nP4zBIyUCokIYlm8
-	vWnSGvwGnBWVZKrRPdYbfA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1790558923; x=1790645323; bh=e
-	rGK+AQzk4TXbJHojiBGhbq9S7OkazCWMpV38tG+cyY=; b=ZoS30OouA8InCvTI7
-	/IA/d8wWAgPRsOKlPmCgTtQ9iLUx40qH9IzWzIdPpeV5Al2OC24dvulgzxL0wdtQ
-	jFhgRBbEzIzyd+KqPO6kMRNSLZVQl9vnnRr9F5k0UkEDrMLt16oX9M9hgMvsKS7Y
-	yUfY0n9DnNRxMLIB8rw8fhz0D+zIG+EO7JEuZv80tMhE862q/4WvfPh5M9vL0A5N
-	G3ETq+N+0CtXWWI4IKhU+afcgFWeZK3TTvbCiBQK7lMN/H2jTDDyfPni7l4G7bIW
-	r+hydagPOyUt7He7TD43NuxPYmAApv5AGWdtwvvB5hi4fMBY5vqZrlBhXV305EdP
-	p9kVg==
-X-ME-Sender: <xms:y8K5ar9Au_6CZy_qlw7KKBIC9GCfvwtYFHjB5rzGN3gN-yDRhQXi0w>
-    <xme:y8K5aqwsbzQB1MD6Ruirb7zmcbH3PndEkGIrNMV_CFEB-gJ8j5CV1FYdBXdP8bHZL
-    JcHMd73W8CkRPIxAT0ZfnP48rCK-rOLrvgTbTY7DuicsjbamACT>
-X-ME-Received: <xmr:y8K5ajplJujKyWWe2ejg_oJdvUYi10w47WYSRiU1LXBkT9iB6bXXCaFKfXNC_Muo0zi2kuA9z7d_0rPj5ysm6l99hDAUhpo>
-X-ME-Proxy-Cause: dmFkZTEo5XpDuYcFbgku1MpxLrtlAwn9oABQiqTHUUsYGNkTkpjNR1FoAv+g+LSQLaDYOj
-    FwGH3NvRNteiumxt1F6Cp/2rGUKUvMZuLPGG0GnGBjAOs/QgYPZC/bBdtw9Zv0Ksy2JF90
-    tuPjd78+GZH8BIhKu53k5StZKk1mRgGOhpyEXB3DuVVMf4LwggW9Ea8/JevZ7QwaWWJV6o
-    SiS5wQHhkj0btG9M0UWaWiU6MPJn3I037+6FShebRcIBMY/3oesNf2QiHKI9HbGig861FF
-    EAdciql9mo1y6FQjW/1ajz0TvW9Xg4e9YuQA1XOaiJlH/3OXtturskljpXM2Qfspbb2SFs
-    MtL4dCKtuCyI68qLSifEBP0NNdZ37NpPz/TNBcUgfebQBfWQ3bD0GL4PWBl4Pjo/+m2z22
-    tUoci3jDoX3xXh1oqClwu6B0Ky2YAx604/v+oEK5dTwRXBhcL3AKZKmurIylLkvuUQ91VC
-    f5ez6PP2NsJQPoqHlp2oeiLaOp0SdhtBB1yrK1DUwfsw0UtCFHS4DttuD6UpWQBFKZIW2H
-    LZiRppaAA02TB0HvsRXoWbx3U1Qd/LPDTDdrvQl+WVVLVVu6jJjie2GIYkaiHC1Q9OqHvg
-    Hd3vMqwfnzkJLd6z/d4xX30TFe8ExHo0vwPu49aG4hpBlGLtDJ0YKsIGVZnQ
-X-ME-Proxy: <xmx:y8K5ajqtxc3SKbqNzu3qL_wm15JpQjFrElIxoGHECVI5EdnaMQjSLg>
-    <xmx:y8K5arBGBcgFezMFvMP-DD1peIxWkEP5fPKlk_36MI8FIODdfQHa0g>
-    <xmx:y8K5aptJc3TqmfbVIDMk-jIvVnSxkBBz9NavNFmlHGkdxm0Ri51e5g>
-    <xmx:y8K5aiJblvfZZYnYcmQgbWCDMQhrYxvAyjGzSD09s0FF6i6bLuh3YQ>
-    <xmx:y8K5audScpVyZEZHM-4mnyjDD4nnRl3untylIzaatfGpUFMFM_vrUjDz>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 27 Sep 2026 21:28:40 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>,
-	Jan Kara <jack@suse.cz>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sDS3JOxU"
+Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc797656e69so549730a12.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 19:02:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790560933; x=1791165733; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ASjAUGOmT1ysmFExBD7PO6pvYBzwb00czBt2hidD9U8=;
+        b=sDS3JOxUXnhYUEQ8AWzYnafjzU5CaYdRWCy5KO7z9GP32l3d+CQ3JouXbIIaHnijmV
+         ybagc3WuN7c+zt4SawiNjSPmNy0Kje7D9rUg2h17YVQDjoV+RFq+OXlljp2fYsdjI0DZ
+         SMfJmOH87mNfgFqzg9nUAZaGHlkqVsi1uXWIosbiGe1H+ccbmTxp+uJQHCDt41i7eyU0
+         nMP1kJEmy79W+A+m0lXhaG657Z86k51ZyWicXgmFCSMEoT7GYTOJRxvOdGNKd3UNvIpN
+         w2cnNWjhh7EZ3+jkK2L9pHMED/elCkFnxF3g811t74ozGFbnaqoFE7bpa6An/XFPYOI9
+         Gwsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790560933; x=1791165733;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ASjAUGOmT1ysmFExBD7PO6pvYBzwb00czBt2hidD9U8=;
+        b=Oo7ZY5Rr3bhPjeQYBlhTR7IIGrSTzzMQQhF+hrZ3WrLrR2jegEGygxmlWY/pPh7tPv
+         GYMbKARy1/zzpH/j0r4jOo4+4lMTzd2UQfC0xyPj4cmor0YJBqQfLUpQzu1kxCh+Xt3m
+         QpXPmzaII6LoKDvDzn6wqOOsLm6ZGPxblYDv73LvMCR4SrPfo0KhUJ6kelBWnEbTxjKG
+         NnAlUB9w64ZIJIkvHDwcvuVsVauqZKodyv2xgUZA3XIej7d/zcu0ONvWI3x21vv/mFhk
+         RJIzIOrmWHk2BUjSCwnWd7/3++kInmonHa8tcXHF5Vp7RZb8tfclrgNY+QnbNvIdwded
+         Zmuw==
+X-Forwarded-Encrypted: i=1; AKwUvBwKkKrGKHEFDWq3/ZruvymkdCZaNo+Np6KadhFhntQM8iIRKMphJaDX+R3+hQRTaN7obKYaNObyUm7duJUa@vger.kernel.org
+X-Gm-Message-State: AFq9FYKMaNj1y0Qdi9Jv+YTb8Q8VUx8O50WxeU0k76drFr5qzoIGp+9x
+	9LSMLIcZFw1ZR2WlReIhdLxYA7b0wkIyyDoNmm0Yo8Gc9Awvgjw4z6gKQ1B1lg==
+X-Gm-Gg: AYBFou0L9j7jBw5CZBgKyLw5+2mqdq9XzgqiD3MIwWqSYXYTXx74HVFU/EFKKcCOcl3
+	E1+HkZ4Q9lKSNU1hQy9y5vI+dL12YosPtAYtVeAqK5EpQ563E2p+D/bD8GjUJjR1a+hMcXv2vYO
+	OAzZb0qhHUw13pXt8WVNJY2A9VKP0YjC1atSPeYrnWCATyq4nkEQUJAsuRG8zc7uig1VvryLCJB
+	wW3vEOpQeeFvD5hoS5IomcMtVJbB8Gm3m8PUphWWJoECmlNCy1J6KkVlJr912965xuxbHEE1+qa
+	KluhEm9E2ATRxCLTvK9sNE5B5N2cYl74dGoc3I1RhrBU1+MwytTXVWh0y5AC8GiBPo+n35DxJGz
+	+IVLJpzLhHb228gwm7Psonrers/ss5v20Qog9Q+17218/eht1+MQMaShNKgGoj5+7r+eCP+a5nO
+	Of9fKdzsuoSWC82QCneP6S4Rfo8syY1mGW3ekSK8ElbLNxtSTBm15t+pxdRxOKnQAZ4DxzRmTfY
+	J+pS6r0UhXDX6djl3H1eA==
+X-Received: by 2002:a17:90b:2b83:b0:39e:6c6a:208f with SMTP id 98e67ed59e1d1-3a09896d0aamr8645055a91.48.1790560933535;
+        Sun, 27 Sep 2026 19:02:13 -0700 (PDT)
+Received: from osman.mioffice.cn ([43.224.245.178])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0e05d674dsm4631129a91.4.2026.09.27.19.02.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Sep 2026 19:02:13 -0700 (PDT)
+From: Zhan Xusheng <zhanxusheng1024@gmail.com>
+X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+To: Joel Granados <joel.granados@kernel.org>
+Cc: Zhan Xusheng <zhanxusheng@xiaomi.com>,
+	Kees Cook <kees@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] smb/client: Use d_alloc_trylock() in cifs_prime_dcache()
-Date: Mon, 28 Sep 2026 11:25:04 +1000
-Message-ID: <20260928012812.2890035-4-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260928012812.2890035-1-neilb@ownmail.net>
-References: <20260928012812.2890035-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	stable@vger.kernel.org
+Subject: [PATCH v2 0/2] sysctl: Two jiffies converter regressions from 2dc164a48e6f
+Date: Mon, 28 Sep 2026 10:02:03 +0800
+Message-ID: <20260928020206.977522-1-zhanxusheng@xiaomi.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -93,93 +79,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: NeilBrown <neil@brown.name>
+Yes, the fixes; the tests are already in sysctl-next.
 
-cifs uses the results of readdir to prime the dcache.  Using
-d_alloc_parallel() can block if there is a concurrent lookup.  Blocking
-in that case is pointless as the lookup will add info to the dcache and
-there is no value in the readdir waiting to see if it should add the
-info too.
+Only the changelogs changed.  1/2 now also names
+proc_dointvec_userhz_jiffies(), and 2/2 labels its reproducer with the
+CONFIG_HZ it needs.  The code is identical to v1.
 
-Also this call to d_alloc_parallel() is made while the parent
-directory is locked.  A proposed change to locking will lock the parent
-later, after d_alloc_parallel().  This means it won't be safe to wait in
-d_alloc_parallel() while holding the directory lock.
+Based on v7.3-rc4+ (62f4c998b297); applies to sysctl-fixes as well.
 
-So change to use d_alloc_trylock().  As d_alloc_trylock() includes a
-try_lookup we don't need both.   Rearrange the code so we can choose
-either a try_lookup or d_alloc_trylock.
+Link to v1: https://lore.kernel.org/r/20260922031229.2300283-1-zhanxusheng@xiaomi.com
 
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/smb/client/readdir.c | 50 ++++++++++++++++++++---------------------
- 1 file changed, 24 insertions(+), 26 deletions(-)
+Zhan Xusheng (2):
+  sysctl: Negate before converting in the int read path
+  time/jiffies: Saturate in mult_hz() instead of wrapping
 
-diff --git a/fs/smb/client/readdir.c b/fs/smb/client/readdir.c
-index 32a75afca8f5..19d0c77046ab 100644
---- a/fs/smb/client/readdir.c
-+++ b/fs/smb/client/readdir.c
-@@ -77,36 +77,34 @@ cifs_prime_dcache(struct dentry *parent, struct qstr *name,
- 
- 	cifs_dbg(FYI, "%s: for %s\n", __func__, name->name);
- 
--	dentry = try_lookup_noperm(name, parent);
--	if (!dentry) {
--		/*
--		 * If we know that the inode will need to be revalidated
--		 * immediately, then don't create a new dentry for it.
--		 * We'll end up doing an on the wire call either way and
--		 * this spares us an invalidation.
--		 */
--retry:
--		if (posix) {
--			switch (fattr->cf_mode & S_IFMT) {
--			case S_IFLNK:
--			case S_IFBLK:
--			case S_IFCHR:
--				reparse_need_reval = true;
--				break;
--			default:
--				break;
--			}
--		} else if (fattr->cf_cifsattrs & ATTR_REPARSE_POINT) {
-+	/*
-+	 * If we know that the inode will need to be revalidated
-+	 * immediately, then don't create a new dentry for it.
-+	 * We'll end up doing an on the wire call either way and
-+	 * this spares us an invalidation.
-+	 */
-+	if (posix) {
-+		switch (fattr->cf_mode & S_IFMT) {
-+		case S_IFLNK:
-+		case S_IFBLK:
-+		case S_IFCHR:
- 			reparse_need_reval = true;
-+			break;
-+		default:
-+			break;
- 		}
-+	} else if (fattr->cf_cifsattrs & ATTR_REPARSE_POINT) {
-+		reparse_need_reval = true;
-+	}
- 
--		if (reparse_need_reval ||
--		    (fattr->cf_flags & CIFS_FATTR_NEED_REVAL))
--			return;
-+retry:
-+	if (reparse_need_reval ||
-+	    (fattr->cf_flags & CIFS_FATTR_NEED_REVAL))
-+		dentry = try_lookup_noperm(name, parent);
-+	else
-+		dentry = d_alloc_trylock(parent, name);
- 
--		dentry = d_alloc_parallel(parent, name);
--	}
--	if (IS_ERR(dentry))
-+	if (!dentry || IS_ERR(dentry))
- 		return;
- 	if (!d_in_lookup(dentry)) {
- 		inode = d_inode(dentry);
+ kernel/sysctl.c       | 2 +-
+ kernel/time/jiffies.c | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+
+base-commit: 62f4c998b297cf233997a2b4cd6fc2d2df0319c9
 -- 
-2.50.0.107.gf914562f5916.dirty
+2.43.0
 
