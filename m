@@ -1,161 +1,222 @@
-Received: from mail-dy2-f12.google.com (mail-dy2-f12.google.com [74.125.229.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6B8492E23
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 09:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2495140926C;
+	Mon, 28 Sep 2026 10:20:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790589088; cv=none; b=gqO4H3GbcI738FvGbJEPzNm1+7VPwJ1eZKMU+nhKpfa8nGT8jehunIAEMDNGv4IFF1kupF9ggmNZQIMfLrV8kcUi4c9rA/AbfC45AhsunouHv1Wcf2diNmDxVRGu2DQ9DVMMKk8ftkNYviUP31KGee57bS+qaXh8A6g/ClQLA+s=
+	t=1790590851; cv=none; b=Q8yVV5MPzmRplC26N+r7BKzFG/rGBGjhEAMulGuZF+EBOr0E9bGQuv+/x7yOvh8DDulxf2t2ZngFIehfMZXQsYiDTk4M+hExPAjpGTzTqJd4LoLOjzzFTQ4+UQllKzWwr/tS4FcaocwIkn4uTaKlQKjedxniDLkvTsnrovSXRIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790589088; c=relaxed/simple;
-	bh=E2s8ZRF2N2knlArU5QNYleJvF1AGn/GBRND9jJ+/r3c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RD8Ka2jRnhVTgV8vY1YitRMl9LbiSRCK87hnwIgef5amNU+3VlBj3O74DDeHAP5eV2v2EVSiPZvi5Mq5OKgmvdlyKFRY+UYz1iZF3uDbXxQi9WI6VGGAOPV/uLowF+9ND2OqjqVAwsb3OdAQSMqN2ioJlzzVoEINcXpLFzi5Kgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=SL9Q6y6r; arc=none smtp.client-ip=74.125.229.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1790590851; c=relaxed/simple;
+	bh=Yi2ldhXj2zmHK8UgM+DF+OqJLA8sZCii+W/CVyBFxE4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YD/f0PfeC5byK8Ia0QGVcioKp8nSPzNRr6CMiAlb7YAa6739NbQu92mHBaCDRu0rjVk9wlKbyf/1TAHpX4YIc+jIvjmvxZ7cDmgxI5E+aEFICUKCj/R3sbrZql51uK4o2m/++8IxVt5p4iU6b3tWhQmgVtPhGqjnkMlkCeCKIYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=B2rtiYie; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="SL9Q6y6r"
-Received: by mail-dy2-f12.google.com with SMTP id 5a478bee46e88-328664b7528so2688699eec.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 02:51:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1790589085; x=1791193885; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=u1HXVH+r86enel9+rQTBOES9ysvhe0ZUHDob7OwbV1g=;
-        b=SL9Q6y6r1IRGJA6IKsml37/T81TpVgG3173W9MG788C5CO582zt/wuIj8C5X6PFGYZ
-         ciYPHBUDcGKtkaUt0mf6bjBO3ectA1iRXQ6muBn0gZ4wvPMjwIEoDDK0qzCOBowro5jR
-         6gl4qycYsKve47k0qOThCXRfUOaWP1MiI0fvsgHDsdcd5cm+Gce6O3Mv6HegtXqr+XWm
-         oV5bc7iM/YZhcP0hjKURad6GM0bTMfhczOfh98i7aUBrPMmCT7/ilae96XlYwcXDp6dv
-         tTwELQ/0nUY59T2OIdrqF6JExaTxB+Ky5y3cWTNLF7q+YAAnPlQGVVl9/V980i042m+d
-         mLlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790589085; x=1791193885;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=u1HXVH+r86enel9+rQTBOES9ysvhe0ZUHDob7OwbV1g=;
-        b=WlTJAoIW3fiZLsmP8cYQz8SmKroXS0KGv4UNe7csk5uAzbgW5x3OkQ6IPEiVPRZ2SF
-         Y0c9HNaMWh/+6VbPAMVLLE+qmJSe1weGIMs1Q0PwDxEqPWuuZ4EOM6xKc3oGQ1VA/Et2
-         HbLZbMLUm2MIgKTxHo9wICRxfeUGQgdLrOrYl7032PG54ryeB7H5/t361iGEmbR3G/Ul
-         874diX1qTz+rEs1A4RXugqciOjaURFePupeNhmQ5w7Xf8XMkL1/rq6zeCNAbonJB7ecQ
-         u9jCP+y7Nl6B7++rLF5KOiMaKJDoyFpeKsqxEZ+lG9P/cHCJEe1CndWz+C2ZW68F+8zY
-         Llkw==
-X-Forwarded-Encrypted: i=1; AKwUvBz/rPoVC2u196zw9Gv0BguLPdVMUTnJiKDiu1EKqQDgs51NcoAJPFeAsNINVEkGHej/o1AG8cO7cdeLMrOu@vger.kernel.org
-X-Gm-Message-State: AFq9FYIneZqhtATw7NFS+8gupjYN5t5/X50NUZOJ9yptPhWGYV9pqaZp
-	rvKaGOhVZSHW3Cq4FB55cQZH7fZKyW+gcVVHYT7/6PEv46y4QxQiadIK82O+sRehg14=
-X-Gm-Gg: AYBFou02tRZii5qzdoa4WKlLDIToim+4UtsZLkWAexhQFcKcQjk5kzR6e1rwbR0OiQ+
-	J9yRIi8/Nac+51g4ZPVcP34jNFBvFomJney5KaeOCXsC1dJfLB9rqmM8rKwkV+BLuAUr9J9cP/k
-	Lgj1qrxkqRfeIGtsaPGaPFzQKJOs77fzIqmWTPMcFgat57ZHDAYwn0X96+wxW3E18oeP8h1noJP
-	K3vtGR13K4GZ8YbI1rXrT9BZ1zI6yZeZ11+lf74ktbVatS4u15qaW6vjODU/esG9+evPmb6sQXs
-	CmmmslsSx3T2+7dVQ+yodfi3CzVO/CA6QZWn30fzb+5mhGhCeoj935S+1n61ClQS4XOXwCDGJWT
-	fsx99klf3zejd6bN057lhJowlQM7ppLLdvKIbaa3LGveD/y+yyh82Nu7UUAAGw32sce7IMXcLeX
-	VbjR6oQOv6m4ugipzAvGINXTNphA2vUYq8LjvFChGJS4/KDCnFqw3JcGUlYyccDgT7W9oqR+h9R
-	i+mApyXkC2WhEssMksg
-X-Received: by 2002:a05:7300:8189:b0:342:e7a0:2829 with SMTP id 5a478bee46e88-342e7a0534dmr11613300eec.26.1790589085183;
-        Mon, 28 Sep 2026 02:51:25 -0700 (PDT)
-Received: from [10.255.210.72] ([139.177.225.225])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-341f2b18cbfsm25480102eec.30.2026.09.28.02.51.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2026 02:51:24 -0700 (PDT)
-Message-ID: <9e9c02fe-e94d-4f70-a21b-47b46bab2c3b@bytedance.com>
-Date: Mon, 28 Sep 2026 17:51:09 +0800
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="B2rtiYie"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68S9Zl3j577538;
+	Mon, 28 Sep 2026 10:20:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=bG2rFCLcIEP9Op6TfbYnLLa2KS56lC
+	MzlG08uXjUzZk=; b=B2rtiYieNC0Vfr3kFQ0gexz9rFTv9p023pnfbYUrHRMbGp
+	RpDaFAa2g9gqUbv6KqbvHrRxZXN7uvTX/g7sLLSwh6siVk8Z9BIxvQODo8fmXPN3
+	gPd5wu684E7EACyMabeYPYyhC/L7Y8kNcG5Ir5wK1sUDq7C0oWX4AAeSDVQCNvI0
+	pd5nqyflCODEj06oaO3g79AueZkR7kZ8Kb/ueI2bx2Tsvz7gjxEnO6ntFzvALT8O
+	aCHjkhd4NviHB37mIiRR6xmLDn+Ciq3vrx4KJU5U58Np3Pe3uvExHcSIhXX5SATz
+	wPgQ0Xtxn2ddWA97H/GLmmWwSO9JUXS1a3jPDU2g==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx3fk0mae-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 28 Sep 2026 10:20:02 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68S9Hc234087076;
+	Mon, 28 Sep 2026 10:20:01 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gxrrw4ueu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 28 Sep 2026 10:20:01 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68SAJxDv48628072
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 28 Sep 2026 10:19:59 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 795AE2004E;
+	Mon, 28 Sep 2026 10:19:59 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C4E6120043;
+	Mon, 28 Sep 2026 10:19:53 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.20.95])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon, 28 Sep 2026 10:19:53 +0000 (GMT)
+Date: Mon, 28 Sep 2026 15:49:50 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+        libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
+        djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+        yizhang089@gmail.com, chengzhihao1@huawei.com, yangerkun@huawei.com,
+        wangkefeng.wang@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH v6 07/31] ext4: allow ext4_map_blocks() to start its own
+ transaction handle
+Message-ID: <aro_RkJFBFOnRlAd@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <20260903123543.2302999-1-yi.zhang@huaweicloud.com>
+ <20260903123543.2302999-8-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/3] block: introduce bdev_flush_by_dev()
-To: Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>
-Cc: linux-block@vger.kernel.org, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, axboe@kernel.dk, hannes@cmpxchg.org,
- mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
- muchun.song@linux.dev, willy@infradead.org, tj@kernel.org,
- akpm@linux-foundation.org, Boris Burkov <boris@bur.io>
-References: <20260925064444.3944820-1-sunjunchao@bytedance.com>
- <20260925064444.3944820-2-sunjunchao@bytedance.com>
- <arYaMbJUh6unvz_t@infradead.org>
- <3w6vfwfkojmfqy2qs5j4q2s2366ajqiwmqf624lyn3odrv42v2@va2r7a6ngfz6>
- <aroIAqoCNDBPlB2A@infradead.org>
-From: Julian Sun <sunjunchao@bytedance.com>
-In-Reply-To: <aroIAqoCNDBPlB2A@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260903123543.2302999-8-yi.zhang@huaweicloud.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: fzhzKIO0yxQVMaqCCRP72reNIG5R74Fb
+X-Proofpoint-GUID: xwB_VIr2ioAc6L9ggwZwJi6l0QHuDpHm
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDA0MCBTYWx0ZWRfX9K3FALQejMdn
+ +SYquqw6M5fu3zinA2a3J3rk1DXbyuVdmMGmt0EcMCao+vZLoLQ+f2s2iWf7Ba47CHycbaQS2zN
+ Wt/VH/KdiIW1OWb7ZJoQbU3EXHvS82c=
+X-Authority-Analysis: v=2.4 cv=Vv62kO2n c=1 sm=1 tr=0 ts=6aba3f52 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=i0EeH86SAAAA:8
+ a=VnNF1IyMAAAA:8 a=AugjVe7HrIh2vsyYFhQA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDA0MCBTYWx0ZWRfX7Z9gjML5Wfqd
+ lZ+uryqZ07Y1VA/1bQhjpySp6l0Ke9LGsa3sfBjD3bXlZ5GQZpC1nuBD2cX9/9zcT+asxG7O4aa
+ lDt8+gyrU+PF9QdohN/aYVb5ohBjhpLj4yrR7frv6LS8iN1hG6lfEDVxDuJTii13cOt5PeflMtz
+ ZWMN/YB0creDVU1hbPaIGIes/4VstnrXNdKjLvATMB3UPEUtShGr1hoTPBiSjqBhd51rCuHgOKF
+ HcteSuqs48CI1v9X/jt1AgdxmRwpH5bHLGyfh5V/D5eHL/8JUSp6LVpsdrr/awv753E5VbUAyfZ
+ Z/Aoz1nINaFwbC/oziQWLVwVvxDHCj+A3BeW77FliXqOVUyFD50Yw2jiSjyGTN23RbeMtaTFp1u
+ FnUTVuo5mW7ZIbm2fvQ7zjDgbNWn3eLIhEBKeH0+lqyotckbXmtAZapqI1jHE3Dtoi2j2Y6MmL1
+ B7I0ksX6QxlJtPIIvqw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-28_02,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 phishscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 malwarescore=0 clxscore=1015 lowpriorityscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609280040
 
-On 9/28/26 2:24 PM, Christoph Hellwig wrote:
-
-Hi, Christoph.
-
-Thanks for your review and suggestions.
-
-> On Fri, Sep 25, 2026 at 12:34:52PM +0200, Jan Kara wrote:
->> On Thu 24-09-26 23:52:33, Christoph Hellwig wrote:
->>> On Fri, Sep 25, 2026 at 02:44:42PM +0800, Julian Sun wrote:
->>>> Add bdev_flush_by_dev() to submit page-cache writeback for a device
->>>> identified by dev_t without requiring callers to hold a persistent
->>>> device reference.
->>>
->>> This isn't really a flush is it?  This is writeback.
->>
->> So bdev_writeback_by_dev()? Fine by me.
+On Thu, Sep 03, 2026 at 08:35:19PM +0800, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> Yes.
+> Make ext4_map_blocks() start its own transaction handle when the caller
+> does not provide one. The handle is started after the lookup path
+> confirms that allocation is actually needed, and is stopped at the
+> unified out_handle exit path. This avoids unnecessarily starting a
+> handle for pure mapping queries. This prepares for the buffered iomap
+> writeback conversion, which improves performance for fragile overwrite
+> cases.
 > 
->> Well, Julian is explaining that in the cover letter. We don't want memcgs
->> to hold bdev references just for foreign flush tracking. There's no easy
->> way to get rid of them so they could pin bdevs for a long time leading to
->> strange artifacts.
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+
+Looks good Zhang,
+
+Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+
+Regards,
+ojaswin
+
+> ---
+>  fs/ext4/inode.c | 36 +++++++++++++++++++++++++++---------
+>  1 file changed, 27 insertions(+), 9 deletions(-)
 > 
-> I have to admit I didn't get it when flying over the cover letter.
-> But this also really belongs into the patch where it is more obvious,
-> or even better into code comments.
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index 73af6d386985..c9dea4ca5caf 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -703,6 +703,7 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
+>  	struct extent_status es;
+>  	int retval;
+>  	int ret = 0;
+> +	bool internal_handle = false;
+>  	unsigned int orig_mlen;
+>  #ifdef ES_AGGRESSIVE_TEST
+>  	struct ext4_map_blocks orig_map;
+> @@ -787,13 +788,15 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
+>  	retval = ext4_map_query_blocks(handle, inode, map, flags);
+>  	up_read((&EXT4_I(inode)->i_data_sem));
+>  	if (retval < 0)
+> -		return retval;
+> +		goto out_handle;
+>  
+>  found:
+>  	if (retval > 0 && map->m_flags & EXT4_MAP_MAPPED) {
+>  		ret = check_block_validity(inode, map);
+> -		if (ret != 0)
+> -			return ret;
+> +		if (ret != 0) {
+> +			retval = ret;
+> +			goto out_handle;
+> +		}
+>  	}
+>  
+>  	/* If it is only a block(s) look up */
+> @@ -813,8 +816,15 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
+>  		 * ext4_ext_map_blocks()
+>  		 */
+>  		if (!(flags & EXT4_GET_BLOCKS_CONVERT_UNWRITTEN))
+> -			return retval;
+> +			goto out_handle;
+>  
+> +	if (!handle) {
+> +		handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS,
+> +				ext4_chunk_trans_blocks(inode, orig_mlen));
+> +		if (IS_ERR(handle))
+> +			return PTR_ERR(handle);
+> +		internal_handle = true;
+> +	}
+>  
+>  	ext4_fc_track_inode(handle, inode);
+>  	/*
+> @@ -843,12 +853,14 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
+>  	if (retval < 0)
+>  		ext_debug(inode, "failed with err %d\n", retval);
+>  	if (retval <= 0)
+> -		return retval;
+> +		goto out_handle;
+>  
+>  	if (map->m_flags & EXT4_MAP_MAPPED) {
+>  		ret = check_block_validity(inode, map);
+> -		if (ret != 0)
+> -			return ret;
+> +		if (ret != 0) {
+> +			retval = ret;
+> +			goto out_handle;
+> +		}
+>  
+>  		/*
+>  		 * Inodes with freshly allocated blocks where contents will be
+> @@ -869,12 +881,18 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
+>  			else
+>  				ret = ext4_jbd2_inode_add_write(handle, inode,
+>  						start_byte, length);
+> -			if (ret)
+> -				return ret;
+> +			if (ret) {
+> +				retval = ret;
+> +				goto out_handle;
+> +			}
+>  		}
+>  	}
+>  	ext4_fc_track_range(handle, inode, map->m_lblk, map->m_lblk +
+>  			    map->m_len - 1);
+> +
+> +out_handle:
+> +	if (internal_handle)
+> +		ext4_journal_stop(handle);
+>  	return retval;
+>  }
+>  
+> -- 
+> 2.52.0
 > 
->>
->> As you write, we could just hold a reference to the bdev inode. Those get
->> unhashed when the device dies (__del_gendisk()) so memcgs would be just
->> wasting some memory by holding these inodes alive. But still, transitioning
->> from inode to proper bdev reference verifying bdev is still alive will add
->> a bit of hairy code (essentially what blkdev_get_no_open() does plus
->> verification inode is still hashed). Plus when replacing foreign flush
->> entries you're under irqsafe xa_lock so doing iput() from there is kind of
->> a nogo.
->>
->> So I think tracking devices by dev_t is a good way of dealing with these
->> problems. But then when flushing you have to transition from dev_t to
->> struct block_device and blkdev_get_no_open() is the canonical way of doing
->> that (and note this use is just internal to block/bdev.c).
-> 
-> I'd really prefer not to grow more blkdev_get_no_open users.
-> 
-> But the more I look at this I wonder why we even bother.  Trying to
-> attribute individual bits of dirty metadata to cgroups is pretty much
-> insane.  Why don't we bypass memcg accounting for buffer_heads like we
-> always did for the XFS buffer cache, and what btrfs switched to last
-> year? See commit b55102826d7d ("btrfs: set AS_KERNEL_FILE on the
-> btree_inode") for the btrfs side.
-
-That sounds reasonable. However, IMHO, the main difference is that ext4
-stores this metadata in the bdev page cache rather than a separate metadata
-cache as btrfs and XFS do. The same bdev->bd_mapping is also used for buffered
-reads of the raw block device from userspace. Setting AS_KERNEL_FILE on that
-mapping would therefore also charge newly allocated page-cache folios from
-those reads to the root memcg rather than the reader's memcg, bypassing its
-memory limits.
-
-If we pass a flag from ext4's metadata buffer-cache allocation sites and
-check it in grow_buffers() to charge new folios to the root memcg, accounting
-them as kernel-file pages would still require persistent per-folio state.
-When a folio is removed from the page cache, the allocation context is gone,
-so we cannot tell whether it was counted as a kernel-file folio.
-
-Separating ext4's metadata cache from the bdev page cache would address this,
-but that seems like a much larger, longer-term change.
-
-
-Thanks,
--- 
-Julian Sun <sunjunchao@bytedance.com>
