@@ -1,78 +1,78 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+Received: from mail-yx2-f39.google.com (mail-yx2-f39.google.com [74.125.224.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F60A4F799F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 20:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A35C47141C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 21:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790629025; cv=none; b=m3sl4InWyL1XVTx3HIo+X//hTMepANjNbs0QkzXs9HJ7Li+2TZTgADNbcBfyMZZrKZDx750rvru5wcmHfNcm1wf1ilLSW8DaJu/x7o5WV0TXxhoSl0isKSdeWgNDMCg5AV5eYQy7f+KW/Q42XVNiEmxj5LXXZoRuzm7gah3XpuA=
+	t=1790629213; cv=none; b=VVdqLCYUzze9N/Rdixvxk7IPsfKM6bpwaPZCvyLaYC2xF50knVDHtXYEkf3aulPA01KVNHKtzx8hXVa96Dmwqwg1ru6TrmbTRbyG1HJx8HXjJxDUIeile3FQByAotgGVQYTQyioHQiXs+8VAIoeuguvIfUnCUB3/Pau1dK98JHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790629025; c=relaxed/simple;
-	bh=zpC1ExKteyur5CkRIV5diCeaDt5y/APvhpo27XSbxjY=;
+	s=arc-20240116; t=1790629213; c=relaxed/simple;
+	bh=4LuBzUkR8PJIag45F2rrrn8Atg8tUTl5+vC4vphpMHc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=i4tnLTJjMM9Ey0eXof8ypJMO6btcC0A4qy5TWAbTrZCJm9Alq6ktV89ulg3qBH1/J5DdWXecEXzlfqQWuaAomJ4uhPM8qjjCFNrIkrgL4GW7/PYhidjQ5qxHSi/OymeAvUjACYVebwdUmCN+mvG9w7J41zJEqhThhrFIR/G+r/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=ZSbFc+5F; arc=none smtp.client-ip=74.125.224.140
+	 Content-Type:MIME-Version; b=TR40suuoW5hS/pU5LVfKTGeP65DGQuVZ812xkXwqnqaBF1StKaGgfCY/SWVBAUvAb2JqmufDRlTswCc9cnEticOGb4dZ3+/7iQhqj/KCoMLlm+H01a72HbJK3/BgiDf6ArRC10ka3yrgU1gQo1002tMNNtvZi4eJBMJo7RhaSSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=aqjvEhIJ; arc=none smtp.client-ip=74.125.224.167
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="ZSbFc+5F"
-Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e56a1b327so2871726d50.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 13:57:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="aqjvEhIJ"
+Received: by mail-yx2-f39.google.com with SMTP id 00721157ae682-8aa1a918093so16442547b3.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 14:00:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790629023; x=1791233823; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790629209; x=1791234009; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QU+Dw9OV8hXvUAg+6qx9gdzK2zTaZ+3agVUM3ninEK4=;
-        b=ZSbFc+5FSaazAp5vkAGJlw/4f2ubI9ADRpqF6e/r36IAPOOODbXHw/ehTdH3tws7bZ
-         Zmn+yqA6qYIm96EWoDUvIf+P4i2G9GYclgCF6crI59mYCgBAdIBziNwumYLKOI7EUdxi
-         KN/M6gtTkJclYGq0G615cFlpKOOJuzndshSYiyfm+ttAN33Bm+LnUsYpat/k5rfB1wxk
-         SvA+Pi+Z3VQn4xAYHdcdXcLHPCK07q+9Kf2M0H82gfiy3GANybGS3M9IIeXnjaVTGJLQ
-         nIStUhACWkx2Llp1h1jvJ8ttjb4LdZdqKVjffunrkYwci+hP64RY1JlDrAR9uylT7nIV
-         CYIg==
+        bh=otlHemocIxoxSM0PMaZCLOGZnqEjuQVINl8oyxq3M3k=;
+        b=aqjvEhIJSSnEblSfS1OGYYMeGFnFVXckYmCIh+rCYWv0MsW3AGT27jFc93pIhcznY4
+         2j6kALtvz9APrPEUTg5AVZz1vkh/oOLW4kinIHjbJyz69JSsNdIdbRnQBrfd5Aw1XdCI
+         1M4lkUP6rha+qf+KIJTeg8VhVvzKs1rWzbpGK4bzNfjqGOp3YJAruQt3KQgzdA1xm4s7
+         5tHqxWxXYDhjtwUsIIjnsgsMSjMqZLTwxZTKScrA8xUKgCtD4e3LAkdRfEJ+7FxyKeAt
+         2A45NYRklZ8J8tz11GOWXe2TgTuVqw34sV3xAIQAO89eqfwRamvl3MbP3GCssLHSMJyr
+         YKyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790629023; x=1791233823;
+        d=1e100.net; s=20260707; t=1790629209; x=1791234009;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=QU+Dw9OV8hXvUAg+6qx9gdzK2zTaZ+3agVUM3ninEK4=;
-        b=YxMIegYZEZBzjdqiNFsl9j2LWYbUI8PD0z9gErjSQM9InH7VJZwka1qsTDR2+bbMXJ
-         B0CiTeatPFnb93jVZQzI0Gm3F1Xlhjxiw50QpWogtnv8pC9v5k+QN/PJns0nXjGkcpZR
-         bIn/dSpRStGl+H10DB0ElojQ3o1P9aPytB+uhTDc/iJpteeIMNCYgoxMl2sqEG29dNGF
-         v/wZIr3IXXIX6i2eXxyzAvQVZqbZNLHY5aUVv9TKiiGt1AGn9GTeE0JEwqcwQHaAmWYG
-         Jkzt6Jx82aTtMmYMdv8oaoUv776z3AGH7tN64Qyk9QVjyPdAsQQhDup3WBrTU3RPGtBU
-         Cdew==
-X-Forwarded-Encrypted: i=1; AKwUvBxkqJ3sjlAuEE4Rtk+0Pg+hW1vUyihzpxl5HZBi0Pnq+O/ui5I1ff6W/ZEF32rxv1yEz/CXZ3eCp7WCYJ7f@vger.kernel.org
-X-Gm-Message-State: AFq9FYKOTSNpBQPZovQj3bJN6wwsG04vlk7mnSh+pnCGf63NmK3zKNrh
-	ts6E2BAkJfoahIMOj5/NMPOrFjfgN7eAbF8AZk//UxmOeZJu20mhvhCLDz6fn9BO7FrXoD5vTNS
-	EpkI7YOQ=
-X-Gm-Gg: AYBFou2hdgzxqk4n4K0QKHEqHO07tBUs9UZrWQlt+zOXnHmNiOcVeYHEclGcLF66cSw
-	s1fN36nvBDcYvKDlnwHa34iDbBxZUS+EOcn/fcYtwKSyASyF/q8/8bm9avGVn603ggcIRN97mXC
-	zV6L+pLOWZSi28zzVwpcHoq7Vbc6dy1SDkS8ddaL7wqk2SqSsxTfaGUfLwOquJi5hpweyCcu54P
-	Y+W8wDFjgXq4z0gzOnu0RefkBHtSbS2KwJ/PM4Uy72FOPkyzG8bCYdv0rawE/ISd9Ido89ciGKV
-	rCCsC2oH9hXp2/SrZxJxaePUMNkWaNnu+Ulqg62dbppEnapARcdHExP9Kvy/E53O28gQegALmLW
-	f84kNxoXvMVuDaTel7hu1O28ARsYRJdUm+blTk+f1tEo7TrSSKjz1WjAxcIbawK34U/+iSQGPGY
-	fm7UqUS3sLN8cB8PQMqc76h8cF/n2HKINgC37+euRNf6UPoF4k3VdS+i2u5rntRSwG7S5PdaEW9
-	d9QrZwSWv/AqUlE+imeSjg6ZO4R1G/9nIVkYiJz4OCiiAgXpMzBJlsnP5fKd4KQ2FXmbfg4bjE5
-	G8va9D7wpjCeDCwA788+HMJsOR3xECB7JZlkbVuphZZzBbY4sNS1PpRmfarGoLPeyABEH9NJ
-X-Received: by 2002:a05:690e:d89:b0:674:2095:58dc with SMTP id 956f58d0204a3-674209582a9mr4161618d50.86.1790629022900;
-        Mon, 28 Sep 2026 13:57:02 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:9da4:6df:559d:f4cd? ([2600:1700:6476:1430:9da4:6df:559d:f4cd])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6740ef87db6sm5265370d50.17.2026.09.28.13.57.01
+        bh=otlHemocIxoxSM0PMaZCLOGZnqEjuQVINl8oyxq3M3k=;
+        b=oTiOZsA0/SnGSYe1Tu6tsO+2ExLfO+1Dm20M80mLblbasBW1KunufAB00vFyr3gOyv
+         a0ICl/nuLFZrw13dNLKigGAXCzScHWvWdOC9Ly7sjk/+XWmK+FbeWKNeoFflbG0IuRRV
+         18DWx/Af2e86DHn1MLSlaZCY7WfLX1uRu10teXOqLo1I5qjFLTCOMWmmUEpVbMeTmR9z
+         u5fbMyl3EAMNVep9rfEf3V21qsSIGJ1DZuduw8qDCZXcMlcBzjoNcXNmpAFuGPxvJGPR
+         ifHNYxL86e4GKIYYuTgLGSoYEaciMo1OBE690zJR53lbhl0O18i4rPD+nXTdHlSwzBhQ
+         QJLg==
+X-Forwarded-Encrypted: i=1; AKwUvBxg3F79wKlfClA1CvHpk8E7ARw5Q6Fn1CkXR+6hZvl+AJ6HfktiB9nX2Xyw7MDASVqb3UsfrtKMMTuEQPvM@vger.kernel.org
+X-Gm-Message-State: AFq9FYLyr4buNuclFYRP6Nxyg8UymwIlUyFE7BAAyr9lQRyBE3r8j2b5
+	c3TW8IxznW1v1Lu+bPfGCvDiCjWf14rB0CzhJik7OIYlz6RYK+p89t6wLstFmzeZSc8=
+X-Gm-Gg: AYBFou12v0LoOWJ2iF5to2NfL6Hx+4Uc0VFtCO5lIFLVdP0sBGjefvVxP4GOX4kANui
+	fPXC6v8SlyVhoQv626V6fge1Fg/6VCqfBF7/wJkcEbCrmfRGDJ8OqjDZ4/u/ZxZ6RoDSXCOfhb2
+	Z1boKdDlAM21jXwGyUIP07XAxC98HjLy1p18hnTWOUUxAtV8u+4g0ROkTtOg4v++uHOaigts9s8
+	2/pZ0v3+VRdw0NnALj8T6F31fjZvbeePmRtJQ60WW6aFg69fRGPTdqm1+1Avf6T/JfBjkSzMO+L
+	zcM2WHwW6btcs5+WRAb0xgrbZp2ocKi98r0nKV0XERNao4B9JKYhGlQzoAXIgY+f3XgctvAvEoF
+	HSWrD3iV8le9dJdrvebJ5A1KeLkgAMATUT0rj4I7ogBGNFThISRaayHNyNXyDn2Fqq6acGBm6Dx
+	AM33T6UXfC1x6dJdDZQkxZF0REaYAZ+OTuwTxQWSRPgrBKFsqUJV3xyk37kx8a99aMTfEkL/oJI
+	/f/MTFfJIVr4QaiCjyMFrJVECfcnq+yPeH95stvovpsiYfm/XaNObZw65iOQ+gWVtvxYb8KFTYa
+	z/7Ov2GGLHbEJQyKCRdz39c/CXgeSXMuFTTw3Q==
+X-Received: by 2002:a05:690c:600c:b0:8ab:3938:dfb7 with SMTP id 00721157ae682-8ab3938e378mr8897887b3.25.1790629209379;
+        Mon, 28 Sep 2026 14:00:09 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:9da4:6df:559d:f4cd])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a860326244sm49004057b3.6.2026.09.28.14.00.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 13:57:02 -0700 (PDT)
-Message-ID: <a30d61829abae665aec2faf5db93ab6e59bf1c3c.camel@dubeyko.com>
-Subject: Re: [PATCH 1/2] hfs: bound the partition-table hop in hfs_mdb_get()
+        Mon, 28 Sep 2026 14:00:08 -0700 (PDT)
+Message-ID: <c2d61b16570fb6dd6b0c4130fe4bfc707e2334b1.camel@dubeyko.com>
+Subject: Re: [PATCH 2/2] hfsplus: bound the wrapper and partition-table hops
+ in hfsplus_read_wrapper()
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: Matthias Goergens <matthias.goergens@gmail.com>
 Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
 	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Date: Mon, 28 Sep 2026 13:57:01 -0700
-In-Reply-To: <20260926084010.569552-2-matthias.goergens@gmail.com>
+Date: Mon, 28 Sep 2026 14:00:07 -0700
+In-Reply-To: <20260926084010.569552-3-matthias.goergens@gmail.com>
 References: <20260926084010.569552-1-matthias.goergens@gmail.com>
-	 <20260926084010.569552-2-matthias.goergens@gmail.com>
+	 <20260926084010.569552-3-matthias.goergens@gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -128,28 +128,56 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Sat, 2026-09-26 at 16:40 +0800, Matthias Goergens wrote:
-> hfs_mdb_get() loops "while (1)" around hfs_part_find(), rereading the
-> volume header wherever the partition table points.=C2=A0 A partition entr=
-y
-> with a zero start (pdStart or pmPyPartStart) leaves part_start where
-> it
-> was, and the loop reads the same blocks forever.
+> hfsplus_read_wrapper() rereads the volume header through a bare "goto
+> reread", following an HFS wrapper's embedded-volume descriptor or, if
+> the header matches neither signature, the partition-table fallback it
+> shares with hfs, with no bound on either.=C2=A0 A descriptor or partition
+> entry with a zero offset leaves part_start where it was, and the
+> mount
+> loops forever.
 >=20
-> An Apple partition map sits at the start of the raw device: the boot
-> ROM
-> reads it from block 1 (TN1189), and nothing Apple documents nests one
-> inside a partition.=C2=A0 Follow at most one partition-table hop and fail
-> with -EIO after that, as for a table that cannot be parsed.=C2=A0 A zero
-> start is caught on the second pass, when the loop comes round again.
+> TN1150 ("HFS Plus Volume Format") requires a wrapper's embedded
+> volume
+> to be HFS Plus: "When an HFS Plus volume is embedded, drEmbedSigWord
+> must be kHFSPlusSigWord ('H+')".=C2=A0 So there is at most one wrapper
+> hop,
+> and Apple's hfs code, GRUB and 7-Zip all follow it once.=C2=A0 A partitio=
+n
+> map sits at the start of the raw device (previous patch), so a
+> partition-table hop only makes sense before any wrapper hop.=C2=A0 Allow
+> one
+> of each, in that order, and fail with -EINVAL otherwise.=C2=A0 A zero
+> offset
+> is caught on the second pass.
 >=20
 > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
 > ---
-> A partition entry pointing at its own table hangs the mount forever
-> without this patch and fails at once with it:
+> A wrapper whose embedded-volume descriptor points back at itself
+> hangs the mount forever without this patch and fails at once with it:
 >=20
-> =C2=A0 img=3Dhfs-partmap-loop.img
+> =C2=A0 img=3Dhfsplus-wrapper-loop.img
+> =C2=A0 put() { printf "$2" | dd of=3D$img bs=3D1 seek=3D$1 conv=3Dnotrunc
+> status=3Dnone; }
+> =C2=A0 truncate --size=3D64K $img
+> =C2=A0 put $((1024 + 0x00)) '\x42\x44'=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 # drSigWord 'BD'
+> =C2=A0 put $((1024 + 0x0a)) '\x82\x00'=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 # drAtrb: SLOCK | SPARED
+> =C2=A0 put $((1024 + 0x14)) '\x00\x00\x02\x00'=C2=A0 # drAlBlkSiz 512
+> =C2=A0 put $((1024 + 0x7c)) '\x48\x2b'=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 # drEmbedSigWord 'H+'
+> =C2=A0 put $((1024 + 0x7e)) '\x00\x00\x00\x64'=C2=A0 # drEmbedExtent: sta=
+rt 0,
+> count 100
+> =C2=A0 mount -o ro,loop -t hfsplus $img /mnt
+>=20
+> The same partition-table entry as the hfs patch hangs an hfsplus
+> mount
+> the same way:
+>=20
+> =C2=A0 img=3Dhfsplus-partmap-loop.img
 > =C2=A0 put() { printf "$2" | dd of=3D$img bs=3D1 seek=3D$1 conv=3Dnotrunc
 > status=3Dnone; }
 > =C2=A0 truncate --size=3D64K $img
@@ -161,52 +189,70 @@ y
 > =C2=A0 put $((512+0x0c)) '\x00\x00\x00\x64'=C2=A0 # pmPartBlkCnt 100
 > =C2=A0 put $((512+0x30)) 'Apple_HFS'=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0 # pmPartType
-> =C2=A0 mount -o ro,loop -t hfs $img /mnt
+> =C2=A0 mount -o ro,loop -t hfsplus $img /mnt
 > ---
-> =C2=A0fs/hfs/mdb.c | 10 +++++++++-
-> =C2=A01 file changed, 9 insertions(+), 1 deletion(-)
+> =C2=A0fs/hfsplus/wrapper.c | 15 +++++++++++++++
+> =C2=A01 file changed, 15 insertions(+)
 >=20
-> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
-> index 277de712f9d4..1704f332e28d 100644
-> --- a/fs/hfs/mdb.c
-> +++ b/fs/hfs/mdb.c
-> @@ -134,6 +134,7 @@ int hfs_mdb_get(struct super_block *sb)
+> diff --git a/fs/hfsplus/wrapper.c b/fs/hfsplus/wrapper.c
+> index 30cf4fe78b3d..df8079a4d8f5 100644
+> --- a/fs/hfsplus/wrapper.c
+> +++ b/fs/hfsplus/wrapper.c
+> @@ -137,6 +137,7 @@ int hfsplus_read_wrapper(struct super_block *sb)
+> =C2=A0	struct hfsplus_wd wd;
 > =C2=A0	sector_t part_start, part_size;
-> =C2=A0	loff_t off;
-> =C2=A0	__be16 attrib;
-> +	bool part_hop_done =3D false;
+> =C2=A0	u32 blocksize;
+> +	bool part_hop_done =3D false, wrapper_hop_done =3D false;
+> =C2=A0	int error =3D 0;
 > =C2=A0
-> =C2=A0	/* set the device driver to 512-byte blocks */
-> =C2=A0	size =3D sb_min_blocksize(sb, HFS_SECTOR_SIZE);
-> @@ -152,11 +153,18 @@ int hfs_mdb_get(struct super_block *sb)
-> =C2=A0			break;
-> =C2=A0		brelse(bh);
-> =C2=A0
-> -		/* check for a partition block
+> =C2=A0	error =3D -EINVAL;
+> @@ -172,21 +173,35 @@ int hfsplus_read_wrapper(struct super_block
+> *sb)
+> =C2=A0	case cpu_to_be16(HFSPLUS_VOLHEAD_SIG):
+> =C2=A0		break;
+> =C2=A0	case cpu_to_be16(HFSP_WRAP_MAGIC):
 > +		/*
-> +		 * check for a partition block
+> +		 * The embedded volume must be HFS Plus (TN1150), so
+> a
+> +		 * second wrapper is corrupt; a descriptor pointing
+> at
+> +		 * itself would otherwise loop forever.
+> +		 */
+> +		if (wrapper_hop_done)
+> +			goto out_free_backup_vhdr;
+> =C2=A0		if (!hfsplus_read_mdb(sbi->s_vhdr, &wd))
+
+Ditto. We need to have a proper sanity check in hfsplus_read_mdb().
+
+> =C2=A0			goto out_free_backup_vhdr;
+> =C2=A0		wd.ablk_size >>=3D HFSPLUS_SECTOR_SHIFT;
+> =C2=A0		part_start +=3D (sector_t)wd.ablk_start +
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (sector_t)wd.embed_start *
+> wd.ablk_size;
+> =C2=A0		part_size =3D (sector_t)wd.embed_count * wd.ablk_size;
+> +		wrapper_hop_done =3D true;
+> =C2=A0		goto reread;
+> =C2=A0	default:
+> =C2=A0		/*
+> =C2=A0		 * Check for a partition block.
+> =C2=A0		 *
 > =C2=A0		 * (should do this only for cdrom/loop though)
 > +		 *
 > +		 * The partition map is at the start of the device:
 > follow
-> +		 * it once, or an entry pointing at itself loops
-> forever.
+> +		 * it at most once, and not from inside a wrapper.
 > =C2=A0		 */
-> +		if (part_hop_done)
-> +			return -EIO;
+> +		if (part_hop_done || wrapper_hop_done)
+> +			goto out_free_backup_vhdr;
 > =C2=A0		if (hfs_part_find(sb, &part_start, &part_size))
 
-If I understood the problem correctly, then we  have issue in
-hfs_part_find(). This method should have the proper sanity check.
+Ditto. We need to have a proper sanity check in hfs_part_find().
 
 Thanks,
 Slava.
 
-> =C2=A0			return -EIO;
+> =C2=A0			goto out_free_backup_vhdr;
 > +		part_hop_done =3D true;
+> =C2=A0		goto reread;
 > =C2=A0	}
 > =C2=A0
-> =C2=A0	HFS_SB(sb)->alloc_blksz =3D size =3D be32_to_cpu(mdb-
-> >drAlBlkSiz);
->=20
-> base-commit: 6812ce4e4379ffc99c52401ec28f0d7ffbc36206
