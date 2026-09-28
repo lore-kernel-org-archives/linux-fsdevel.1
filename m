@@ -1,291 +1,187 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f39.google.com (mail-pz2-f39.google.com [74.125.228.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D615049CF28;
-	Mon, 28 Sep 2026 12:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631864B95C1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 12:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790597161; cv=none; b=ppAnPffWL/57fzqVG+YzE72WT+CZhfOU/HsX3kDjPaCzV+4QS668CINJ1IMEAKdEiyE/v/Ro1kdhrDO44CrqS3bMFCVCSWIA5bNZDPC+w1ttikcyqTjkmccUnr9M3OBQcx9FssKW1NwugPTU3BQRhodZkfGeQ4mzgrgrKIxsoL8=
+	t=1790597424; cv=none; b=KZkhpeGcl6tkoTS2gPYxHQPRQbx80hVyDROrRib+EWOgYvLTSWAuGaX6VGX/BmYdBIEWGQiR/rScEt9Aob7lEs+8NGkmI/Av3hrqMQWtBaNVdwg9SIYk1WVylbUmft24ts2Y9NFriMovypzPf5qYiiPeCd7C063FwgfE5MV6JKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790597161; c=relaxed/simple;
-	bh=A9V4pbu5h7ab/1ykkp0OIsq+kCP60ETlvv8m6UoUE88=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mVOvMHb/IueSbp47McxxVy4GPw0QkFVyunB2XJ13gcKuFP8BtSulxYcT1qhDeaK5i+cpN/v/bEz5nBkko/QCrLlqKttaIz1YhuCWvCCJHwH09Dp61Iz2jIa8GcGX5HDv0yPrkO9/zATPywNSUTW+guInR/hGSXu+yp/Fk9+bCZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=TCCDprzJ; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1790597424; c=relaxed/simple;
+	bh=dRu7Kn49A03hqpkganvlzxpNEYuOOLrk6BWNQL5j5yg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jz084FHzp+M5bWYq81loQSg7v1/4Q1n8i9H5EQWqmbZ0W0lNf7rwK7vU/O6dbudvt4IZA+lS1TgrJ6c6ar7lOptuwH1Rixa8v+SLlHPx5u5gTf+qWpb3mhrjioGvWIqpRRYdBj6zV/t7Id02hbwl0O9i1988xe/W3qTCsLODDtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jyCQClIo; arc=none smtp.client-ip=74.125.228.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="TCCDprzJ"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68SBa4ai824443;
-	Mon, 28 Sep 2026 12:04:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=NCIXR0
-	Hs9RwjT7rq+PiaxtNUAk0tz5yF4FzPUq4siPY=; b=TCCDprzJrsGWb3BiDfno8s
-	p0DfGH898yK51mcnul2/CUF1ZzOh2rLJUntPENGJ+o7S8LeKpNAN7N+8FtkyirAo
-	lLYMJctv3hwSyFAeyMw+PLx/Rpw7QTlBhJORnlr1BZFeTjF7Lf+gixXLe39Edq6/
-	9nbL4GS+HH5Y8FsSAMlNrGGRFjmbl+ivLmzVXiOCTKTWc8fLEB8DMZ97OE78/ND+
-	wIG5Mmo2kM0ftctCKDoEBAbmEUAG1pGnDvKq9mYQ4ZkmmjljfAU5wqrf1vo3nNiL
-	RsqFrjsWbmrEBZAtEOzgNPQpKR+HgNMIi+R03Rn12ibDGLQ938h29PoyuHCJmOBA
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx3fk128w-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 28 Sep 2026 12:04:19 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68SBHrjS076685;
-	Mon, 28 Sep 2026 12:04:18 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gxsvhd1mx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Sep 2026 12:04:18 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68SC4GcB49938724
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Sep 2026 12:04:16 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 49A9220040;
-	Mon, 28 Sep 2026 12:04:16 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 91AB72004B;
-	Mon, 28 Sep 2026 12:04:11 +0000 (GMT)
-Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.20.95])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 28 Sep 2026 12:04:11 +0000 (GMT)
-From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: "Darrick J . Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>,
-        Christoph Hellwig <hch@lst.de>, Dave Chinner <dchinner@redhat.com>,
-        Daniel Gomez <da.gomez@kernel.org>,
-        Pankaj Raghav <pankaj.raghav@linux.dev>, Theodore Tso <tytso@mit.edu>,
-        linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Andres Freund <andres@anarazel.de>
-Subject: [RFC PATCH v4 10/12] xfs: Implement RWF_NOSERIAL to parallelize RWF_WRITETHROUGH writes
-Date: Mon, 28 Sep 2026 17:33:11 +0530
-Message-ID: <6503684dc469fc75724393242184358d520ea4f4.1790596383.git.ojaswin@linux.ibm.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1790596383.git.ojaswin@linux.ibm.com>
-References: <cover.1790596383.git.ojaswin@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jyCQClIo"
+Received: by mail-pz2-f39.google.com with SMTP id d2e1a72fcca58-8807e5b8fa9so1654373b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 05:10:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790597422; x=1791202222; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=N2gttpqyYU6mN3+vG6WWAdW+b+2S6eD72/pblRbqkM0=;
+        b=jyCQClIo3AElUAT17p/0KgHrvYT2Om0M9F60+rFRfvS5uy6jckKuetSU+twm+bXrt6
+         8uyyghCQptypfw/PRpca5BDL/I3OhN/7kOAZWtFcZ8HjRtSXHyv/YapZo+Jv38+duMxm
+         6s8sCXXqPLJINgxS+Q3H/tz4FRu8Kf5WFksl3Z8P6QFgXdKj0M37QfovK3Auco/jOjMb
+         WuSK45TTsnPrRP4EucIhnoLvc+czM6Wia1Eq/QPsv7suTKCvuEZWgeEGU3bfJFeSXySD
+         C0f4OoEry1feLkS8kGu+uADBnWPx4mmfWbP7oyQv2qX1sZnvTLFYdkKXMsHqhHXRR1vY
+         2Ijg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790597422; x=1791202222;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=N2gttpqyYU6mN3+vG6WWAdW+b+2S6eD72/pblRbqkM0=;
+        b=G3k2v3D2ifl0eGbMDaakyCqELpP4HtimFrjCKMSg02QZzm9/z+m0a+6mrv6OAL9aRl
+         EkO2U5YeOePUslswLvCarm5KkkscEImgXdpSS58vmy1EA5hRS3wtmqTvd549ad1SE7Wd
+         W7iNCcbjKx1r+zi8NrQmCy+6Emug1sZkAioRBh1uo/kbU2lvgsa5UDiDgjkuuPPk4KSX
+         EE3BPEY8i39Lrxc6VZ4qoOEF8LaRHZa2zaYzh7EH4ShyH3UQSOQUwzelmJfDPGWrT7EK
+         aFfcFjzpgmi0iGVFq+VO4XcIhoyCaHgFaOnSkUtxhkXV0h4qobODHbKnovEK90zSZU2j
+         1FJw==
+X-Forwarded-Encrypted: i=1; AKwUvBwYmmlH7sg+Nfno2x9+e8tFwpATYdvFfuXcUrAGgCborB/mxDdFjjOztZOvxo0kOBYfMss5Y3qsYUZrkbYe@vger.kernel.org
+X-Gm-Message-State: AFuF++mlWib6oyBfyAD+fJmfbwBhomSIUYGaunUsd6k0FmpnDVc60Gc3
+	ivk+CVM+KZS2j/nqv1FPIOcpRlFALGgVcczNwO2OmwcRuD2vVUcU2XO5
+X-Gm-Gg: AYBFou1eeQaqprqgM2W0b1MR8BPF46yazQlUU/Jf+t9+A3YumuE5m4siIIuzD19fGaX
+	DLcZJw3BMsn/OA45HslRExXmccgOkxy8RKeRhPmWvPH+JpbwhihwZMxl2eASZ6fmZ6erHnMUZt1
+	cf8cfDOc6GXRfjDMxNZ4nBSFn5roAd4TIp2TkmSFqN+Q0eyYke9j7yUnmdpR+YTPfjaYgxureWY
+	a+3zq7L78NaHWOa2uihzXEsLMhzriwqdRLP5Qri8EEO1DyaH06WvRR+4yOw7Ad1gMrLVCD2aRCT
+	eWJZ2BqedErjLnRFaemEXTvibW/Cw4Usvli3Kkerk2N/W33EzUknnVUYUAdkxLYfWxb+iIkbCkX
+	lGYUWajvAyHBg+58MNz30d12lzPGL0bY5nM9FYcZKyYd/UTRm/hjPJdHku7iU+LE0fkGnZsJfOj
+	kjwFioFS2miH1+wj5C/3zurHnfvqdYN3x7eBJjtdsTsjaUYffqXJWk5DQapb/03/0G66uSDmeg1
+	mpJwNAaFLbM6imIvOJ5Yz5XXIOanA==
+X-Received: by 2002:a05:6a20:2d2a:b0:3dd:a196:69df with SMTP id adf61e73a8af0-3de26f28bffmr7894235637.58.1790597421493;
+        Mon, 28 Sep 2026 05:10:21 -0700 (PDT)
+Received: from [100.125.248.95] ([124.70.231.46])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87feaf85551sm4001370b3a.40.2026.09.28.05.10.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Sep 2026 05:10:21 -0700 (PDT)
+Message-ID: <e3b38169-dc4a-4a42-8a42-b017ecff73d4@gmail.com>
+Date: Mon, 28 Sep 2026 20:10:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: rbFL-4xRFsTynGGcC5o_AFrPPoAnm0ek
-X-Proofpoint-GUID: czNHwlDBvkAmDd0aNLajzXAhI8YcO-nS
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDA0NiBTYWx0ZWRfX/kkxyLuyqH8c
- fwL5pa63SFtfWhkfyo/0jjVr8V3L689JTjLx6h1PLFKUOnCen8kWAS3Nr0PxrgZjW9ur0BU18nb
- 5IKfZOMdSPdgfsd4t1Kr6InfjnQvzpc=
-X-Authority-Analysis: v=2.4 cv=Vv62kO2n c=1 sm=1 tr=0 ts=6aba57c3 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=pGLkceISAAAA:8
- a=VnNF1IyMAAAA:8 a=7CW_VmIZYsy9TsuLaD4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDA0NiBTYWx0ZWRfXw21nDKiTZzoh
- sWh8kzUMvfdxsqcdqVjqUtKq40zKlWV3gbj19oyd6e3fJATfkKJaUKNGd8XdWT8NhtnHK42qn3Z
- WrcHI6H4oXX1vuJgYtBxwN6aYjQzVXSCKT6dm/emA9HE4leQtIcaaImvZTTJ8wCNUOAGjRfnNQ3
- cTevKMS8p2tTLnnwapgNQZt1JRYZhsHDPemRpqGWcgGw8unIURigNCNBvAVJwhPvhG++1WCCD5n
- 9rBuJOocy45Fqnc3x1TmVc79dFN5nAsc0e8OLGeBG6w/1TZNVqkSvICL+buIAN6frctSGX2Jbu5
- SsfG4XXCFh0cPNAOag/UrYtaTlGdfCZD1PBjlkCANDOyiwNq9i29Z8FTzTImFe0Hn2JY6wyE3sC
- 7/oZOTkZ2E2gGQ+A/yJx1QRBo5Zlu5ZNzKCRmaMn1n6/i+D7SWn3yUsG1KESvMjDA2CqjIZMLDL
- iHXbHlKf78sVVpE0JYQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-28_03,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 phishscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 clxscore=1011 lowpriorityscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609280046
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 09/31] ext4: skip block allocation for holes in the
+ data submission path
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>, Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
+ djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+ chengzhihao1@huawei.com, yangerkun@huawei.com, wangkefeng.wang@huawei.com,
+ yukuai@fnnas.com
+References: <20260903123543.2302999-1-yi.zhang@huaweicloud.com>
+ <20260903123543.2302999-10-yi.zhang@huaweicloud.com>
+ <arpDP43MIAGjaWYx@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Language: en-US
+From: Zhang Yi <yizhang089@gmail.com>
+In-Reply-To: <arpDP43MIAGjaWYx@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In xfs, buffered writethrough writes take an exclusive inode lock
-similar to regular buffered write path. However, since writethrough also
-submits the write under the inode lock, the increased critical section
-really hurts performance when we have parallel writers writing to the
-same file.
+On 9/28/2026 6:36 PM, Ojaswin Mujoo wrote:
+> On Thu, Sep 03, 2026 at 08:35:21PM +0800, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> When ext4_map_blocks() is called from the data submission path and I/O
+>> end extent conversion path (EXT4_GET_BLOCKS_IO_SUBMIT), it should not
+>> allocate blocks if the lookup returns a hole.
+>>
+>> The writeback path can legitimately encounter dirty ranges that map to
+>> holes. For example, when a folio straddles i_size and the tail beyond
+>> i_size is dirtied via a mmap write. Allocating blocks for such ranges is
+>> wrong because there is no data to write back, the dirty bits should
+>> simply be discarded without submitting I/O. This prepares for the
+>> buffered iomap writeback conversion, mirrors the existing buffer_head
+>> writeback path, where mpage_add_bh_to_extent() skip unmapped buffers and
+>> ext4_bio_write_folio() clears their dirty bits.
+> 
+> Looks good, checking the iomap vs bh head logic. If we consider
+> a 1k bs FS with 4k page size, with hte following ops:
+> 
+>    ftruncate(fd, 0);
+>    pwrite(fd, buf, 1024, 0);
+>    map = mmap(NULL, 1024, PROT_WRITE, MAP_SHARED, fd, 0);
+>    map[0] = 'a';  ---->  mkwrite allocates 1 block and dirties the whole
+>                          page
+>    ftruncate(fd, 10000);
+> 
+> Here both non-iomap path (ext4) and iomap path (xfs) will allocate a
+> single block but both will mark the whole page range dirty in bh/ifs.
+> 
+> In both iomap and ext4, while writeback, we skip bhs which are holes,
+> and we clear dirty on them as well.. The only difference is that in
+> iomap xfs_map_blocks() shall detect a hole and inform about the hole but
+> in ext4, we filter holes out before the map block call.
 
-To mitigate this, implement RWF_NOSERIAL flag which allows us to perform
-the write under a shared inode lock, instead of an exclusive lock. This
-gives significant performance boost to single file, multiple writer
-workloads at the cost of losing write-write serialization and read-write
-serialization guarantees which XFS has historically provided.
+Yeah. In the writeback path, almost all of the work is done by a single
+call to ext4_map_blocks() now. This makes the writeback code look very
+simple and clear. :)
 
-Let's look at each of the guarantees and what changes with the NOSERIAL
-flag:
+> 
+> So with this change we will be closer to iomap's behavior. Looks good
+> althought it's unfortunate that IO_SUBMIT has yet another implicit
+> behavior added to it's scope :)
+> 
+> Feel free to add:
+> 
+> Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+> 
+>>
+>> In the ioend extent conversion path, holes are also not expected because
+>> we should wait for folio writeback before punching hole. If one is
+>> encountered, it likely indicates a failure in the concurrency
+>> protection, so ext4_map_blocks() returns zero, and we keep warning and
+>> bail out with -EINVAL to surface the failure rather than continuing
+>> conversion on torn data. Atomic writes in
+>> ext4_convert_unwritten_extents_atomic() already bail out similarly.
+> 
+> Ahh that's right we do bail out but we don't seem to be returning an
+> error in the atomic write path. I think ideally that would be the right
+> thing to do. I'll fix it, thanks!
 
-Write-write guarantee:
+Indeed, thanks for fixing this.
 
-Image 2 writers trying to write the same 3 folios. One is write As to
-all 3 folios (denoted by AAA) and the other is writing BBB. Then under
-exclusive lock the final state of the 3 folios could only be either AAA
-or BBB.
+Yi.
 
-However, with NOSERIAL writes, we could end up with mixed data in the
-3 folios, like AAB, ABA, BAA etc. Note that this mixing will always
-happen at the inter folio level, data contained within the same folio
-will not be mixed as it is protected by the folio lock.
-
-Read-write guarantee:
-
-In XFS, reads also take a shared lock, however they don't take a folio
-lock when copying from the folio to the user buffer. Due to the shared
-lock of read and exclusive lock of write, we are able to guarantee that
-the read always reads either completely old data or completely new data.
-
-However, with the NOSERIAL flag, writethrough will take a shared lock for
-writes, ie a read can race with a write which is still in middle of
-copying data to the folio, hence the read can read a mix of old and new
-data.
-
-Despite the above changes in behavior, there might be applications
-who would be okay to lose the guarantees because of the nature of their
-workloads for example, if they never have multiple readers/writes doing
-IO to the same range in the file. Such applications would benefit
-significantly by using NOSERIAL writes.
-
-Below are some fio performance numbers of RWF_WRITETHROUGH with and without
-NOSERIAL writes.
-
-** Multiple writes, single file (Pure overwrites, DSYNC) **
-  Fio Workload:
-    libaio, buffered randwrite, bs=4k, size=2G (pre written), O_DSYNC
-    iodepth=32
-
-  numjobs  baseline BW  RWF_NOSERIAL BW  Δ%
-     1        350           392         +12.0%
-     2        526           798         +51.7%
-     4        597          1591        +166.5%
-     8        630          1839        +191.9%
-    16        570          1836        +222.1%
-
-** Multiple writes, single file (Preallocated file, sync_file_range) **
-  Fio Workload:
-    libaio, buffered randwrite, bs=16k, size=5G (fallocated)
-    sync_file_range=wait_before,write:16
-
-  numjobs  baseline BW  RWF_NOSERIAL BW  Δ%
-     1       1099          1279        +16.4%
-     2       1482          2456        +65.7%
-     4       2065          2479        +20.1%
-     8       1778          2500        +40.6%
-    16       1787          2508        +40.3%
-
-* Multiple writes, single file (Truncated file, DSYNC) *
-  Fio Workload:
-    libaio, buffered randwrite, bs=4k, size=6.5G (truncated), O_DSYNC
-    iodepth=32
-
-  numjobs  baseline BW  RWF_NOSERIAL BW  Δ%
-     1        78            80         +2.6%
-     2        97            88         -9.3%
-     4       100            96         -4.0%
-     8       109            97        -11.0%
-    16       106           107         +0.9%
-
-Co-developed-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-Signed-off-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-Signed-off-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
----
- fs/xfs/xfs_file.c | 57 ++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 51 insertions(+), 6 deletions(-)
-
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index 3e25baca22c2..ef3265f3b6b6 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -508,6 +508,45 @@ xfs_file_write_checks(
- 	return kiocb_modified(iocb);
- }
- 
-+STATIC ssize_t
-+xfs_file_writethrough_checks(
-+	struct kiocb		*iocb,
-+	struct iov_iter		*from,
-+	unsigned int		*iolock,
-+	struct xfs_zone_alloc_ctx *ac)
-+{
-+	struct inode		*inode = iocb->ki_filp->f_mapping->host;
-+	size_t			orig_count = iov_iter_count(from);
-+	xfs_fsize_t		isize = i_size_read(inode);
-+	ssize_t		error;
-+
-+restart:
-+	error =  xfs_file_write_checks(iocb, from, iolock, ac);
-+	if (error < 0)
-+		return error;
-+
-+	if (*iolock == XFS_IOLOCK_EXCL)
-+		return 0;
-+
-+	 /* Extending IO needs exclusive lock for i_size change */
-+	if (iocb->ki_pos + iov_iter_count(from) > isize)
-+		goto upgrade_excl;
-+
-+	return 0;
-+
-+upgrade_excl:
-+	xfs_iunlock(XFS_I(inode), *iolock);
-+	*iolock = XFS_IOLOCK_EXCL;
-+	error = xfs_ilock_iocb(iocb, *iolock);
-+	if (error) {
-+		*iolock = 0;
-+		return error;
-+	}
-+	iov_iter_reexpand(from, orig_count);
-+	goto restart;
-+
-+}
-+
- static ssize_t
- xfs_zoned_write_space_reserve(
- 	struct xfs_mount		*mp,
-@@ -1108,23 +1147,29 @@ xfs_file_buffered_write(
- 	unsigned int		iolock;
- 
- write_retry:
--	iolock = XFS_IOLOCK_EXCL;
-+	if (iocb->ki_flags & IOCB_NOSERIAL)
-+		iolock = XFS_IOLOCK_SHARED;
-+	else
-+		iolock = XFS_IOLOCK_EXCL;
- 	ret = xfs_ilock_iocb(iocb, iolock);
- 	if (ret)
- 		return ret;
- 
--	ret = xfs_file_write_checks(iocb, from, &iolock, NULL);
--	if (ret)
--		goto out;
--
- 	trace_xfs_file_buffered_write(iocb, from);
- 	if (iocb->ki_flags & IOCB_WRITETHROUGH) {
-+		ret = xfs_file_writethrough_checks(iocb, from, &iolock, NULL);
-+		if (ret)
-+			goto out;
- 		ret = iomap_file_writethrough_write(iocb, from,
- 						    &xfs_writethrough_ops, NULL);
--	} else
-+	} else {
-+		ret = xfs_file_write_checks(iocb, from, &iolock, NULL);
-+		if (ret)
-+			goto out;
- 		ret = iomap_file_buffered_write(iocb, from,
- 						&xfs_buffered_write_iomap_ops,
- 						&xfs_iomap_write_ops, NULL);
-+	}
- 
- 	/*
- 	 * If we hit a space limit, try to free up some lingering preallocated
--- 
-2.55.0
+> 
+> Regards,
+> ojaswin
+> 
+>>
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>> ---
+>>   fs/ext4/inode.c | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+>> index 7a5c74af8ff3..2881596bff8b 100644
+>> --- a/fs/ext4/inode.c
+>> +++ b/fs/ext4/inode.c
+>> @@ -825,6 +825,13 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
+>>   			map->m_flags |= EXT4_MAP_MAPPED;
+>>   			goto out_handle;
+>>   		}
+>> +	} else if (retval == 0) {
+>> +		/*
+>> +		 * Do not allocate blocks for holes in the context of
+>> +		 * data submission path.
+>> +		 */
+>> +		if (!map->m_flags && (flags & EXT4_GET_BLOCKS_IO_SUBMIT))
+>> +			goto out_handle;
+>>   	}
+>>   
+>>   	if (!handle) {
+>> -- 
+>> 2.52.0
+>>
 
