@@ -1,63 +1,65 @@
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A205B47ACE2
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 08:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB462931E9
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 08:48:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790585303; cv=none; b=MKCDTKmjNRS6r9TdVJGsYtHJCLUJ69VooG33FzcGRpHgxKfXr30pMo2Vk1mhHWGg2JPDEkkAur1pRaTnGHytW7lVkppGWU6oSdKaJ1MU0Tmj7ZGM3WW4CYh76GwaUcOTv7Zp6kJLXlE60QxLlubj9WGWlv1NWC1DfhrmQo3dWxk=
+	t=1790585309; cv=none; b=Y2qAD4RXjLHfdf52wGmjUWyJEZ4P0Ilj4s3bpwUFIwtEnfExxF9J1V7pVB7HbYK2d/dXfz6NdbwqrK7EALKoonKHNh4TjoRnti/8FINArtrYfawfx37pn2EYUmJLlQCbv5MEzSWdlUiubthn/3aP6CopV7/9BnoyuETQfD3Q7dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790585303; c=relaxed/simple;
-	bh=nGNK4CJ7IAGxiLKQK5N1I+NN+hh0tDC50qXrF7zVWV0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KtwcyWF/0uaf7EJYWc3MNAdbhANLUfb3+c4YZAiRhApLZ3DO+Au1/ixhj8m2ncLHUT+Lc2SVgylIdGfGNy4LU9eTAMWK2+/g2KCH7MidiwqHgqfxjyPb0cwIDzP6KraswQhm3AcS90YcZ7YrJFHNA6FrNmSIZnW++Hw43krsw/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hJJpx8b+; arc=none smtp.client-ip=74.125.225.140
+	s=arc-20240116; t=1790585309; c=relaxed/simple;
+	bh=s1sH/1IcCUCWkTuphEUbN/Is/vUMXm3bT7doJt8rKZY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OcALLlvEx9nW3k0ZwK8wNKezZFAtLT0mXCITnqCbPxDIqXDXkdGCjiHtsWIOlHbHSDorZXWAu/aWW2EbjnhLZq3+RO46Kw152Qs2m731RzaBNgXoGA8qfYp1Tv743rP2UC6j6oVO5bYYx3BxAPzaUECZLKIpyE/Q+P48l2vHy6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dmSUHuyO; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJJpx8b+"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ff23af865so21114205e9.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 01:48:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmSUHuyO"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccf3ca626so16684175e9.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 01:48:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790585300; x=1791190100; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DlTyxrC5JLY4QSgeol6426LcGC8kkaxi4wrrxLeCtIs=;
-        b=hJJpx8b+vD0TBgD70aw8kyrK35e9qxFjpsoSa7cSUq9slEeIEJDqY76u6bCmf7cCa6
-         m3mZvs0nrJ0U2n+Xwmpl/4/x51CWtvg5d3GGJONzOqErG7sgTQegRZ5NzCGi2rm+15v8
-         P7Yh4lEmPzI/aj1jCHFRDOXx4AbnL3UnimiEkhItQ/t7SMxTPT9MYwb6GPkyN2/YIibO
-         S59G9QM4x0bFDBK/o4b4CWoWl0hNdNiAlxNOU+CuG8+7WA71rdVdT3Q1s15Q0HrFGhvT
-         0ZSqWVnjER0SZMvv+GxxXRfGPS2xl0By6375Lrk8lpkUzXXDQCM9MVKxIx/Ko0wZHP5N
-         PkWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790585300; x=1791190100;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1790585304; x=1791190104; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DlTyxrC5JLY4QSgeol6426LcGC8kkaxi4wrrxLeCtIs=;
-        b=ab61Vj9cQL8947CbencInYxFG6kxwn382lqA6TeIKTbmC0ucFtAv1lWrVSP2TKkjYz
-         kL2pHexvk+V2F5Nxr7Hl4UCTebGA/Nhz309pd6+iivIa+UlGpTGhIJiC4aDg7ZKS0UNn
-         OOM89NErvcprBPbItQtBP6IEE4AgdG08kpdjGNCCzDzUlfO27xrZKoMawN5GvKnNjV5m
-         bBaz7bgKe3TvyFeuDFV4dmDjHVK+bpSDdXW+/qEK7pbidUiFhm/vyWs/rOGC4QdnXuNx
-         CfUsJXUnY6sns8jLk9dNhcwrD2GSQcDJHZWuRPgPhiphtruwfttw2/SBN0mso9SMrtIZ
-         ttXw==
-X-Forwarded-Encrypted: i=1; AKwUvByrcljx0oehqbzqcza5R2Za3P3Ybp87ovUfUss607cAkveHoGGOsmo4UfcvDFrm3G0QdhmQeZ36isKwmb/G@vger.kernel.org
-X-Gm-Message-State: AFuF++lCzFJTeQM1PWStKd3jt0g2TLbgE9OiQu3X1cUUvISTct5QrmU+
-	LTu9IAtR5ka24A6W9dimrXhH4XP2q8dhYJv1zM/FBezRJhv+f+PY1OPt
-X-Gm-Gg: AYBFou0LmqFp0H+wf+IWbAJrGIPmJuhhyYZL9cf1vad8pqVSoviLo60hl7ribdf/vmK
-	F+SXvi3Ja5aPFVgKm7XQrFKSNU6g+MkbLvoLu7qJxWeTsn0unO16BtA91HSfcDBrtjCNwbNjxMz
-	+y/lr0tcbJ1JDMgfwxFhGJHIEpE1P408CeWSHpKHoMiIAnqXv/SJhpo8DR4wiBVreOnKkXBWndx
-	RlTa4GY6iDKbw7IMjU6N2IHbYnfsg8y1yJ2FPq8zAKaaokU/73OgAkmN1pJRenVj5ejm0n7QPsm
-	7G0P/oskMOqcVdmhcQ6bcD39rkqANYpq89XBrtb3KY8nDYn/t7C5H4hfpIi2Ubgy3Q3P90bs45I
-	FyklRyrPsaSwZLSCG0Mh5IBDvTIBmUwS7woQXwMWS4MUMHT61G+XDn99FULFSflHPSauTl6bvfB
-	Y0fU8ogKiObsNC/gHPMMbzX7UVCynsplK2a3W3oBuzr9i7v48LgTgbYVD9qGOq2yhVnw3Ni4LXy
-	Jx4xFg9Tm+7z0prBLuP8f70+RTxNMXFVtnGc1NfV9iu/VmLE42rfUGvXCbXYulnAo682IPdQaYj
-	PabL4Q==
-X-Received: by 2002:a05:600c:310b:b0:49e:7862:c09e with SMTP id 5b1f17b1804b1-49fe66c6289mr211174025e9.14.1790585299451;
-        Mon, 28 Sep 2026 01:48:19 -0700 (PDT)
+        bh=DW1aw9XilMAGHwwMkE5gUpMp3JZrQpWAH61R3Ws3XHs=;
+        b=dmSUHuyO7LYFvNU6p60O9dadqqst5WT2+e8G68CWxSDA1NnzcP9OssEU9gkRR6jbh6
+         rjifG3zE8DY+g+A6qJL3gHZTAdWXoZokb79xdkYUVpfEiv2YKZ2NwE0Cqhz/MBTpDFXq
+         69+aNfL/Es00juBasCQ/H3Xki9y6/fGOPUYoX0UH9MBOah6NREFSPZ9ndEeQEkRyWcqs
+         Qy5gT4QPJnaj+uby1BskFbCz639B2FgZ5e0AMibD04J4iw63e1GP/SUA9jzhZGFbTFF6
+         WIzOWwODvRxV/aN9MnfbhBlU8GhfoTQhg88AXq4sSJ/ONUC6feXOLuoSSQgpOgkeGOto
+         KXUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790585304; x=1791190104;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DW1aw9XilMAGHwwMkE5gUpMp3JZrQpWAH61R3Ws3XHs=;
+        b=YV8cIzueC5qzMMUFhdS1XAWOGxxrpR9SJeu3BwkizUbAJAGhKO9F2DW/S46dMxGrjT
+         RYfS94N0dGG7Cofs+BoB1nc9Vnz0cBvl4iDvKmedYARGBuUnqhzLfY/sCZKqlQ7qvvXn
+         ZiNm5IZsShuk/oqL2srjrM8WykL1V0gUEtRU8GHJpNI1L7JIbAsmZMeDfv8FOna+qG0z
+         aHKbcXu1lvr36zN8zSMVyvWcRvGQKk8O9B9+fsCWGgwdYcxKacGiGFZrYqwPf6lehfwP
+         tUKFrmey1WWgIuUa4CFVoLbB1+jcOiAKMlFAhxSEbzt/3zn51pxYPf9KbE+rknhSc98K
+         F27w==
+X-Forwarded-Encrypted: i=1; AKwUvBynpRQ2k4ijkfBuuknLSQ24BHPpU0O9RXoNy4hgSGry7Od+PzqWi8N33RLXVbWfZvowAE+pH6V8yLjCDkDK@vger.kernel.org
+X-Gm-Message-State: AFuF++nD+sXrrzfF0hARl/V/5FzZz49kcGjVV9vtYJQ76vpnQrIlbmaM
+	lCWCgtZ9tcR1HDQqUnQnIH52NVLl5rP/LFYe2+GZkwI5vXdw0TWx7Dc7
+X-Gm-Gg: AYBFou3iYY6aJvAUOSfLXLL5yxU/cMkod1yKK/remU9t7P8lqpSL2dssviej87dR3qH
+	YV09oJqIcrZ8iWjGlZnPtAU0Nyn39L+ZHnAcFNQTXVwjLL6m6/mWp5mNKYZmhklU4eMrQPaZN/p
+	gJ/T6gqcnjkABpTHXvACGnw2mabezI1RIuf3+G9jbgX82WLbB0dmIc3IO3Fot84dPeQFSHWip1e
+	7SuPK57L2N3eRfUpnh8RrXjDE50KqUfFNtqkJTPVFohaNAhmXFgIQfw7756iSJgN2OLgOtSpszN
+	YO8LaDPzUJ0viq4DKNXr+A6EW9ZPFzL3cE5LSHdYc3OTCodxTWA1rVGBbUOgTkfgkb4oEs7Irfk
+	XT72uYZdKuX2pQSMgu28kQ/suXHECcxaSdw/PAErgP8SV1lDIF/vBt7IeMcZz3ZK2vKCXohDU+S
+	zeREDztN+gkreqSeiXKzWNe7HeZ09TXpWyA1/oStHxUn76m0D7n/63Ltbrg29FyE9P8ZQH1HEkI
+	v4DwCHQShxHaGmtkhswNryP4dimUiy89/Rbc7LRARzD2LW17doyHBb2qWqcw7q0iKHI+7PYBAZ9
+	bLxR
+X-Received: by 2002:a05:600c:3494:b0:49f:ff73:9971 with SMTP id 5b1f17b1804b1-49fff7399f4mr69817225e9.18.1790585303613;
+        Mon, 28 Sep 2026 01:48:23 -0700 (PDT)
 Received: from andreayoga.localdomain (93-42-14-189.ip84.fastwebnet.it. [93.42.14.189])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0017652d1sm182584705e9.5.2026.09.28.01.48.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0017652d1sm182584705e9.5.2026.09.28.01.48.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 01:48:18 -0700 (PDT)
+        Mon, 28 Sep 2026 01:48:23 -0700 (PDT)
 From: Andrea Parri <parri.andrea@gmail.com>
 To: Christian Brauner <brauner@kernel.org>,
 	Carlos Maiolino <cem@kernel.org>,
@@ -74,11 +76,14 @@ Cc: Andrea Parri <parri.andrea@gmail.com>,
 	linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v3 0/4] iomap: fix error handling regressions
-Date: Mon, 28 Sep 2026 10:48:05 +0200
-Message-ID: <cover.1790342457.git.parri.andrea@gmail.com>
+	stable@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: [PATCH v3 1/4] iomap: don't resubmit an ioend after ->writeback_submit() failed
+Date: Mon, 28 Sep 2026 10:48:06 +0200
+Message-ID: <90fbd42df4f51306e57a95830d2d53873f630eb9.1790342457.git.parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1790342457.git.parri.andrea@gmail.com>
+References: <cover.1790342457.git.parri.andrea@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -87,77 +92,62 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix three independent error handling regressions in iomap:
+iomap_add_to_ioend() submits the pending ioend through
+->writeback_submit() before allocating a new one for the current range.
+When the submission fails the helper completes the ioend with an error,
+but iomap_add_to_ioend() returns the error without clearing
+wpc->wb_ctx.  iomap_writepages() then submits whatever wpc->wb_ctx
+points to, so the already completed ioend is submitted a second time.
 
- - clear the writeback context after a failed ->writeback_submit() call,
-   preventing an already completed ioend from being submitted again;
- - preserve an iomap iteration error when iomap_fiemap() has a pending
-   extent to emit; and
- - preserve a direct I/O data path error when sub-block tail zeroing
-   succeeds.
+For XFS the second bio_endio() lands in xfs_end_bio(), which
+list_add_tail()s the already linked ioend into ip->i_ioend_list.  This
+corrupts the list and leaves a use-after-free/double-free window against
+the ioend completion worker.  Reproduced with a fault-injected
+->writeback_submit() failure on a reflinked XFS file with several
+CoW writeback ranges in flight: the unfixed kernel hits repeated
+"list_add double add" warnings from __list_add_valid_or_report(),
+the fixed kernel fails writeback cleanly.
 
-The three fixes have no ordering dependencies and can be applied or
-backported independently.  Each issue was reproduced before and after
-its respective fix.
+Clear wpc->wb_ctx when ->writeback_submit() fails.  The old
+iomap_submit_ioend() cleared the context unconditionally; that clear was
+lost when submission moved to iomap_ioend_writeback_submit().  The final
+->writeback_submit() call in iomap_writepages() needs no equivalent fix:
+it is the last thing the function does before returning, and every
+caller allocates its iomap_writepage_ctx on the stack for a single call,
+so wpc->wb_ctx is never read again afterwards.
 
-Patch 2 is not a fix and carries no stable tag: it adds an XFS error
-tag (requested by Christoph) that lets patch 1's ->writeback_submit()
-failure be injected without the boot-param hack used for the original
-reproduction.  The corresponding xfstest (list corruption caught via
-CONFIG_LIST_HARDENED on an unfixed kernel, clean writeback failure on a
-fixed one) was posted to fstests@vger.kernel.org:
+Fixes: f4fa7981fa26 ("iomap: hide ioends from the generic writeback code")
+Cc: <stable@vger.kernel.org> # v6.17
+Reviewed-by: Brian Foster <bfoster@redhat.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Assisted-by: LLM
+Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
+---
+ fs/iomap/ioend.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-  https://lore.kernel.org/all/20260924091338.198407-1-parri.andrea@gmail.com/
-
-Changes since v2:
- - Patch 1: no code change; picked up Christoph's Reviewed-by.
- - Patch 2: fixed the alignment of the new XFS_ERRTAG_WB_COW_CONVERT_ERROR
-   define; picked up Reviewed-by tags from Darrick and Christoph.
- - Patch 3: no change.
- - Patch 4: dropped the reformatting of the iomap_dio_zero() prototype,
-   keeping the iomap two-tab indent style (Christoph); added the
-   "# v6.12" stable version tag (Darrick); picked up Reviewed-by tags
-   from Darrick and Pankaj.
-
-Changes since v1:
- - Patch 1: reworded the added comment to fit 80 columns (Christoph);
-   described the reproducer in the commit message (fault-injected
-   ->writeback_submit() failure on a reflinked XFS file, reliably hits
-   list_add double add on the unfixed kernel); documented why the final
-   ->writeback_submit() call in iomap_writepages() needs no equivalent
-   fix, since wpc is never reused after it; picked up the version-scoped
-   stable tag Darrick suggested; picked up Brian's Reviewed-by.
- - Patch 2: new, added per Christoph's request.
- - Patch 3 (was 2/3): no code change; picked up the version-scoped
-   stable tag Darrick suggested; picked up Reviewed-by tags from Brian,
-   Darrick, and Christoph.
- - Patch 4 (was 3/3): reworked per Christoph's suggestion to make
-   iomap_dio_zero() return void and drop the handling of its return
-   value, since it can only fail via a can't-happen WARN_ON_ONCE()
-   assert; this also resolves Darrick's question about the local
-   variable's type.  Brian's v1 Reviewed-by was dropped due to the
-   rework.
-
-v2: https://lore.kernel.org/all/20260924091203.198225-1-parri.andrea@gmail.com/
-v1: https://lore.kernel.org/all/20260921083133.2960-1-parri.andrea@gmail.com/
-
-Andrea Parri (4):
-  iomap: don't resubmit an ioend after ->writeback_submit() failed
-  xfs: add an error tag to inject a ->writeback_submit() failure
-  iomap: don't lose a fiemap iteration error when emitting the last
-    extent
-  iomap: don't lose a failed direct I/O bio's error when zeroing the
-    tail
-
- fs/iomap/direct-io.c         | 16 +++++-----------
- fs/iomap/fiemap.c            |  8 ++++----
- fs/iomap/ioend.c             | 10 +++++++++-
- fs/xfs/libxfs/xfs_errortag.h |  6 ++++--
- fs/xfs/xfs_reflink.c         |  5 +++++
- 5 files changed, 27 insertions(+), 18 deletions(-)
-
-
-base-commit: 93f51579e7df248780214094418f205253383cc5
+diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
+index 7bbbb417f9152..32ae292a84cbe 100644
+--- a/fs/iomap/ioend.c
++++ b/fs/iomap/ioend.c
+@@ -246,8 +246,16 @@ ssize_t iomap_add_to_ioend(struct iomap_writepage_ctx *wpc, struct folio *folio,
+ new_ioend:
+ 		if (ioend) {
+ 			error = wpc->ops->writeback_submit(wpc, 0);
+-			if (error)
++			if (error) {
++				/*
++				 * ->writeback_submit() completed the ioend
++				 * with an error, so drop the stale context;
++				 * iomap_writepages() would otherwise submit
++				 * it a second time.
++				 */
++				wpc->wb_ctx = NULL;
+ 				return error;
++			}
+ 		}
+ 		wpc->wb_ctx = ioend = iomap_alloc_ioend(wpc, pos, ioend_flags);
+ 	}
 -- 
 2.53.0
 
