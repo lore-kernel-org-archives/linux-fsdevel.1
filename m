@@ -1,163 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500683BE14A;
-	Mon, 28 Sep 2026 18:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790621927; cv=none; b=PzgnRDguIdUrkYpPCIDSLtrQ+ChVGcJAvPrhnStzyUGzszvGgZSx3/kffFQ+14OokuNqfgC5hDQTe17rd1/XDOgxgcImIsahQD4sCRoNrVRC9xWJrrEXVxQiT3jTPI1Yf21vUl/0mCyridRC6lXXvUqNCCTDlUkFF6R6NmdiFjQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790621927; c=relaxed/simple;
-	bh=KJz1UrlxroTw9zwWWy6KGkUgPX8Gomb04xBPCt5j6RY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C27S9Psq6FtMnJRjc/eN3vZNRLsb9F/muD5AHsVH89rrFaQjDo7W/f8mqVzlgi7fcufEOeb4PSoqbLHOXx4VUaPpx6vqcjTDOt6z3T0cs0RLxj1ZzzCVxtkAWGFl7ZkaZQDAC9GbZg0fG1xPpJsytP3FAcqNMjSPB+hXLgsDR7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nOYYg7oC; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B683CE4B5
+	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 18:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790621954; cv=pass; b=q/3158DFjq2fkLgcbnsnvC0rJj2/4jjy87839gdb8W3u91qEOagwelgK6oi8QXMuB7ZcL8QoEhBB1z7u2Up9EvxjZslYK+dTC65dRZMCiQG5CKvVIKfxOJpA90sQOiHycL+6tyGivqSY2BxmWabAsccGiuZgrOrWFqbehspzV7c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790621954; c=relaxed/simple;
+	bh=zbxh97DfahtmVFw2yx/P+OI0PpzLVE463PD6gyDR+VQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=SkYtdhGngOORO0yPDF65OWDdLpoAxCndnBNV6POZmKO0kQKuVTzZ6z0rQt5Z90lBd3A8TPTjntIEHEVZ/Y41eZJ4hYSAWJ4z9k87YRWNSxrG7ts4nn5Po3g7tjJ6zoHB50DjJYt/UY9TZmKC7DmWhfnoQW+r7d2IOe9uBI3VwCw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ALNlkfXN; arc=pass smtp.client-ip=74.125.229.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nOYYg7oC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE8331F000FF;
-	Mon, 28 Sep 2026 18:58:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790621925;
-	bh=BQJlLat4qxj8pgDrowtyIAkoQQPKp9J5TEk8suVVKjQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=nOYYg7oCN+CEi6+HSLYl5pLYDPIkgl9oIzaKeRsIwnLQLz8gmq2Wlu8L8C67dnJeG
-	 8Jqjug8DQ2jWcrnxQaDVIw6DTaQKfwBEz5XUeHMtQu+4oXvZNYq/hQmhg9GTUYuIaX
-	 BDacpyX/6tMbFS4fZj3+80NIoy+Z1ibgbEcH6aPXMhaAGIYuRy/vAvhAZDbjQBVPe9
-	 7bwsvipBELhLtcU85W+9CT0n5D9xfPhyUfHWMBbm0bGZocbd8ObHRV61EiYsQnAK5O
-	 OCs1pBsYyjVxK8UZ3AoZWY14OtJ41S0GCn9WpAN4rU+kY6M4c63VqlKaID+AO+oIJZ
-	 sntZfdjPV6lGA==
-Message-ID: <9d4517d0-0e78-4eee-970e-0cac9d0a856f@kernel.org>
-Date: Mon, 28 Sep 2026 20:58:22 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ALNlkfXN"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b8f35f74caso1703290e87.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 11:59:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790621950; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BmCTbUAOvlgA8aT+Z94RufATNPiL4M30vJyDj8TeX6LmDcYVR1mEn4mzT36aD4C5fA
+         ZcIJjp4w8PWFZbrLOjbCcTyz4C5sg8WJnhnwGJVQrien2upPO6tYFMBHOoRD7oGIn3rd
+         i6o+he25d2Rh2xat2E51jIRbr4yI21TzTiJKOVwkAXDzYOxzoAN3MbKCciN20r2kaUob
+         2bYiHWWlIs1kaI7GJ/yBf5wy9MpTfB+N9rtRvKtIs4MWx4Iaj69NyeHIeTqT0/XkRHrX
+         0eMughY8GBZKMiOM2gqXnXr/ZGlCZ1NdOZ3dZvL/NoX0cq73RlBzEwgJZ6akAAWb0dsE
+         m99A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:sender:mime-version
+         :dkim-signature;
+        bh=2mj3lyrm7aE/R7y/QOz0OagCVKj44YeS0Sz+Yo0D/po=;
+        fh=p0l7L6X+X8bd1tkIAbrP210B8ITAXRlx9/SGiWL0ui8=;
+        b=VLbGepA6RVoCfIrq5Yx/fosFOACRpG47f4KwJPUzLDX858qa0hrai7g5HSR80maQ5+
+         oWhUFtLQpGsDsZ7aDGX2HdZ1zUEIN6hkr/qtxXuLZkseV9OCGgh3SHNH6GmXd6th3fki
+         wMWm5MfjtS659cr/Bkj5eY696uyy8p6b10XtGdZVC1TIERTbCzMR8vCITqBavCXjLXlH
+         wIGOgZknybUepHym+wPwicRyrNuSYrXAjuAIsMyhCGS88vDZSaaMdRsZHP3PG1kiEobU
+         BcqY/pb2RPAh5BEqjgjtuG6i+gxU6yHvqnM0EXKFN/mrJS8NrpwFx/6IoyeaqhT/OmEt
+         wa1g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790621950; x=1791226750; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:sender:mime-version
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2mj3lyrm7aE/R7y/QOz0OagCVKj44YeS0Sz+Yo0D/po=;
+        b=ALNlkfXNuHGvk48OfekmkexPjAHnoMbcsmSB3p+GYTqQ/2wliYgKPKzGrseWFJNf6a
+         5qOYy+y/brxPI6LgihssK3ElXOsT+OCYvaWcIgETehpKUIX/SFwoaXpkwcRNUIGDeySX
+         +1p9YXd0w7CLVCkYd2X+RVRUwm11tnWty/dnVv9uzJtFBBr7Ulin5dikMzZwJDnKzFqi
+         A8dbUJl7jQzgVOovGH2WaXL3ClgPnPimSBmDQjwv6/ECl45EfrEU6LPzPm+f8I1s+0ft
+         qXJWynVqFiJbAf6aBJX/oDRl20hV58+2IYhqihGcGvbVWIzAmyJzrRLVq1fKvz1jAPUc
+         DlqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790621950; x=1791226750;
+        h=content-type:cc:to:subject:message-id:date:from:sender:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=2mj3lyrm7aE/R7y/QOz0OagCVKj44YeS0Sz+Yo0D/po=;
+        b=GT0zYaP+Zqj/qIk2DFTf3wndG1DzJmYIyAUgBrKJQ6oofQ17NRocX+yx1lq28QcRux
+         5YbzG9J3bktCu1x7/o/xRhjALm9VVBx+YhjBWa+pfvqCn29HbKTC/mHFptnTudqD4BEP
+         NATRv09BLWtaeEvagHV2T5rDhy6j6Aed5l8aIQDB2Qtp/MVMEqulv5hu2H86qkeVC3AW
+         uVfS3VniT3HFI1ld1p8y2yf6nAKt7RwzlKBu1jZ+Qnt3myNaPMZwI/Si1LsU3bYpG/cP
+         gmgV9J7BXmedPRcrmlkHddNaYR5WOEQnmom9ACc/FLXwSI2pdzCwsiEBf1PssRimmOC5
+         I71A==
+X-Gm-Message-State: AFq9FYK/lQUBiDSXhVduNPJyBJ7NHW/627Pb06LOK7PBYl8SraUU+9Xs
+	Gvsk6uVF/ICUiV1yJyxG26vlkuZM6Qk+ifR+aZgERNRobiI1zE2Qnm767NWq+eorAuXo87/VMeu
+	u/3WyX7pQXWk18wMz0ClMrf8hz8KP9NR8Z+AA
+X-Gm-Gg: AYBFou0CSuZZOZCiIgR79wdVId/wDZWgewJ1B48KLOFzXy4dOkaxAcuQFIbSC3U8jIR
+	e/a8lCcROdRZYBjBVPaQVfDycyxkwpO3lATV2sY3ZzpOKyp6bfV0gwOb+XgIwbFyiUhG2/xVSbC
+	nkuPq12+v/yCDBqUXsUIZaF45d7LaHf5JnXrpfiOafNzEW1bv+kupLfEW1JaIrO3LLHf5U6MyjZ
+	gcaCiwhhG8W7T98H//NvjA++DyyFFkyPKwI8bWbylKP8P245ysWq+zHc1Y2lxw1fe/Q7ABA908A
+	sRKe1c+6seA1C5b5/GJQQsJd1+3iurmYnUNpcp+z8IrF/oj2RxfTkKZb6x4qXhRoKECjV6J5f9E
+	o2QnXziF6bo6t
+X-Received: by 2002:a05:6512:230f:b0:5b8:f30f:7cfe with SMTP id
+ 2adb3069b0e04-5b8f30f7de0mr2381443e87.36.1790621949786; Mon, 28 Sep 2026
+ 11:59:09 -0700 (PDT)
+Received: from 254448290189 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 28 Sep 2026 11:59:08 -0700
+Received: from 254448290189 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 28 Sep 2026 11:59:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/12] CRASH_MEMACTION: describe pages to a kdump
- kernel (was: CRASH_WIPE_SECRETS)
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Baoquan He
- <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Mimi Zohar <zohar@linux.ibm.com>,
- David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- "Liam R. Howlett" <liam@infradead.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>,
- Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
- Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- kexec@lists.infradead.org, driver-core@lists.linux.dev, linux-mm@kvack.org,
- linux-arm-kernel@lists.infradead.org, dm-devel@lists.linux.dev,
- linux-crypto@vger.kernel.org, linux-integrity@vger.kernel.org,
- keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org
-References: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
- <arqli0H0v5qPG22z@gremlin>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
- ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
- AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
- 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
- g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
- ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
- 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
- /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
- jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
- DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
- HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
- 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
- LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <arqli0H0v5qPG22z@gremlin>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Sender: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
+From: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
+Date: Mon, 28 Sep 2026 11:59:08 -0700
+X-Google-Sender-Auth: yJdVTHyK8StYuaczuakEtPmSH0s
+X-Gm-Features: AclHuK-Xz52AgVCzLAZuF5oizm1zR161dvYMBuInRdqEcsrUcYBfED0bFxZLpG4
+Message-ID: <CAANnmVB6Wu+vtdmg+S5uZKkdYMA1gOSQBQ25SpSpasKG9U-1-g@mail.gmail.com>
+Subject: [PATCH] fs/adfs: check name length of big directory entries
+To: linux-fsdevel@vger.kernel.org
+Cc: brauner@kernel.org, rmk+kernel@armlinux.org.uk, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/28/26 19:49, Lorenzo Stoakes (ARM) wrote:
-> On Mon, Sep 28, 2026 at 07:17:48PM +0200, Jan Sebastian Götte wrote:
->> I'm using linux on an embedded target in a Hardware Security Module-like
->> application. One requirement is that I want the system to be able to
->> quickly erase its memory when it detects physical tampering. I'm
->> approaching that by using kdump to load into a small payload that
->> instead of dumping RAM, erases RAM frmo start to end. However, writing
->> all of RAM, especially on an embedded target, is rather slow. For this
->> reason, I propose a new crash_memaction mechanism that lets the old
->> kernel indicate marked memory areas to the kdump kernel at page
->> granularity.
-> 
-> Sorry this all seems really invasive for what seems to be a very specific
-> use case.
-> 
-> In general, with big changes like this, you should send the series as an
-> RFC.
-> 
-> Please send any future revisions of this as an RFC.
-> 
-> The bar for a new VMA flag, a new madvise() flag, 
+The F+ (big directory) entry format stores the object name length on
+disc as a 32-bit value, bigdirobnamelen.  adfs_fplus_getnext() stores
+this value in struct object_info::name_len and then copies that many
+bytes from the directory buffers into the fixed-size obj->name array
+with adfs_dir_copyfrom(), which only validates the source range, not
+the destination.
 
-It's actually three new madvise modes. Way to invasive indeed. This won't fly.
+Nothing validates bigdirobnamelen, so a corrupt or maliciously
+crafted filesystem image can specify a name length greater than
+sizeof(obj->name), causing up to 4MB of attacker-controlled data to
+be written past the end of the array.  Both callers of ->getnext()
+instantiate struct object_info on their stacks - adfs_fplus_iterate()
+via readdir() and adfs_lookup() via path resolution - so this is a
+stack buffer overflow which is trivially triggered by listing or
+stat'ing files on a crafted image.
 
+adfs_object_fixup() also appends a four character ",xxx" filetype
+suffix to the names of non-directory objects when the ftsuffix mount
+option is enabled, so name lengths greater than ADFS_FPLUS_NAME_LEN
+could still overflow the buffer by up to four bytes even when the
+initial copy itself fits.
+
+Reject entries whose name length exceeds the maximum defined for the
+F+ format, which also leaves room for the filetype suffix.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
+---
+ fs/adfs/dir_fplus.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/fs/adfs/dir_fplus.c b/fs/adfs/dir_fplus.c
+index 4a15924014da..ec663bc12a92 100644
+--- a/fs/adfs/dir_fplus.c
++++ b/fs/adfs/dir_fplus.c
+@@ -192,6 +192,11 @@ adfs_fplus_getnext(struct adfs_dir *dir, struct
+object_info *obj)
+ 	obj->indaddr  = le32_to_cpu(bde.bigdirindaddr);
+ 	obj->attr     = le32_to_cpu(bde.bigdirattr);
+ 	obj->name_len = le32_to_cpu(bde.bigdirobnamelen);
++	if (obj->name_len > ADFS_FPLUS_NAME_LEN) {
++		adfs_error(dir->sb, "object name length %u exceeds maximum",
++			   obj->name_len);
++		return -ENAMETOOLONG;
++	}
+
+ 	offset = adfs_fplus_offset(h, le32_to_cpu(h->bigdirentries));
+ 	offset += le32_to_cpu(bde.bigdirobnameptr);
 -- 
-Cheers,
-
-David
+2.47.3
