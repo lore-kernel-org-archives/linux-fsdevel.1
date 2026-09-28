@@ -1,193 +1,341 @@
-Received: from mail-qk2-f39.google.com (mail-qk2-f39.google.com [74.125.230.231])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015323644DE
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 07:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.231
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790579264; cv=pass; b=PMKtNu9j27oFn8A4isKbGk6uFBw5gdXpcBEtC8Aki6PL1LH06t4OefG5rjaOIBq+wdqkpnam/1mDlrduZVdRhR4VuJH6klqPmmYUhLEHW5t28oCtqTS/pz5LIahcUqsuvHY1F7//7iuigzKCV1zItcq6ggCVaODtv8IfxjTMtYA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790579264; c=relaxed/simple;
-	bh=lkqhvR63AeSANfuhqGFgzdDGmzAD7hceqVurmTwRt/U=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Rbh1wTrbwlXL2mD5NFYcWn7cUK4cR+CAgDWOP47IvfV9u4Aaq1TvUHg3RDNOT/Y4b5v/rT7Dmd5ruwJCfzM1DKccxCxOjR+sNspQ2Njx4Zxy0bHgHIcNRq/DNUtSa3/V5+T+zrD3vaeq8qmiQrLCXSyHwSF3lDNLu8L3kwMA0U8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aT/0ll/I; arc=pass smtp.client-ip=74.125.230.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC90359A91;
+	Mon, 28 Sep 2026 07:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790579415; cv=none; b=pi6O/5t2TpjOGEBZeWlxACoTpHpSpYWpKW0qnFyRlZ6fNYQfu/Q4Luoz/LjhnmzQwt2P0wJxCjW++tqPEJ1SSR0j3ND+SqOfXBS0OZeGHv2NEqF5Ezy9fYv5puBBo8YPlkWbJJIvamXpg8h5LimnhJErbbfijHIX75zJIlqYp4o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790579415; c=relaxed/simple;
+	bh=S8m7waj7GQq7vgANU2A02JA1/sDnhqqyj+WsYzKQ15U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Opt445CJ+9BxTwPxb/OTNHWmfQxFmO3eej/RcQdQRIj6y5W3CvVD8QLuOrlfihdjWnvsYUopGzN8eiAE0NTOIB6FcgZN29nkBg8mLOcXI8U0TMROjSAUQfMdiqtJiLDoohO7weUy7sOLFgIgacgrhC16XOp+FqUZ1ZUryFi1YW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=JYy+c8Ji; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aT/0ll/I"
-Received: by mail-qk2-f39.google.com with SMTP id d75a77b69052e-5332bdd8296so27887021cf.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 00:07:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790579262; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BgX4yPN8fZ/dCBYMSDozLowLFQSs4cipTlnId5t1nBq0tEHUwVbIQhOjXsAdv6X7bO
-         pJUnyop6z5p9s55n+wEELjvTOCGEVv+MtLOjQ69mCR2UUipElrnsqz8SYlF4MsFa6GOa
-         /VKXPPM5xHgcUTBXVBMooxcnh9ck2I2GRNUxGj6vOt/0RVnFFsTfYmAk7+13A91a0eBj
-         GNce43LadestV9dbeiZEM4n88K3UhLDgvXpIZkcXzzLFU8jhfhQt6aXeOYaBamzO4mHg
-         UeiJVGIWxzSnWn5F2BsuupY5Q7wuPsi0JRZrQO0xnx7wOKDf6PIr72X0w6VIiJcuqQgP
-         iV1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=I+r4UsyqICfyWYrYGf3Z5Y+xllxggueQsNYbHXj5tk8=;
-        fh=vLbkg4fLvTEQqhJk+PrLrfBdso3R2OEKAAZ6Ojs3pMI=;
-        b=WbMi3gv+ZzGvTipl04B2SHX/QmhP3e8LekFWIzKT6kLPqFtwm/2HVJUNBYmAurGPSI
-         8Z+DSjbrnqBB6opZ6oNSqbhUkTYNfpBF5831F04FlcS77JagNzB6pEfAJ7sS9MnTsfS3
-         wq96IHNwRpXYA1ADVm0SQxbeOBKB72WkxloCmX94U8sbNbtfaatrBAB6gD/hd2A7/PP0
-         cOya8ZmS/8B80I+oWDk5XHnCAPG9Q1k1ETV/IQiCYUhnYG/lW5YY0vdtjGA0ICGYslap
-         AOVTGyl0N5prI2g9BV80l8p7wnVBo/a8bH3DT+DWEtNt+uJAe3yuQNKWv1ggmyf5G085
-         8MEA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790579262; x=1791184062; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=I+r4UsyqICfyWYrYGf3Z5Y+xllxggueQsNYbHXj5tk8=;
-        b=aT/0ll/IJVlrDfPKX//4AfqpLYrrj5/SZyMlwWIT18pooKa9cHmNjs5tKFSR22Ntrj
-         qTfPsyzmBAQDi+1E/romBFj3nWab8X8IDJz7Pafb47yLLlYvPNrNk0rFb372qxbMniTS
-         WTEJ4TCHdqeh4vmjDUgb4kYsv2B55DZO5z+XSG2RlWeAltWcv/nEzNLsNg3lTFgMQrj5
-         SD4EyO1CdUDTw+CfIAiECg2EhYLxRqmsgI/voOzG/63lq++5vWRyNOxmIAubwFf5s8sy
-         8ty3y7cldqwqFWaQsyFSaNsnfMvXpaoWqZcdqGe3wreuYqiV5yJuMr3LtEnP7NrivKNP
-         /HYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790579262; x=1791184062;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=I+r4UsyqICfyWYrYGf3Z5Y+xllxggueQsNYbHXj5tk8=;
-        b=tQ5KiWQESi5FxiJU6dfRitKPJ4uMbkl9WfxI5gzFDfoub7CCoc97NhPUgdLiupS3Mm
-         XJvbOafPLNCXlrBt1VNoq1iVVKfh1okkLeqes9dqFPw7rB3UF8TvotSJrokW4E0buN88
-         Aqwzq33qnp1JDCKEwOPcT++2JCZTdiDn5RfZtiGcjdD2xMfuvaUDC1EDPXLwRmTLCVcs
-         B/hv/pqeHsGlHCIBwh4Fw9c7I9w6HcDTqjxNmk2F6dDdLlzk6RF7s+ieV9yn7mlA9CrO
-         qPdy2FdPuO4vWSztJGjMi4urlQdtU4eAEdqg6O7mTdMvts9302xLGyioEFpj776DDiuZ
-         AIhQ==
-X-Gm-Message-State: AFuF++kcjGqj/eMTq6AM4sNeUR9VQ/RcCecQm/AFpybUbkPnmzC0elmA
-	rOBzp+tQ6ykmOkGKW3ZJ0UuFs9o1h5AUossplEF+o8wxekjw+TSI/HTNmy5iDDER4CDjb2PgBKo
-	LnFwqo/aOsaNJ1QOF3cuZDoWhcLcGEGy3aerQ
-X-Gm-Gg: AYBFou0x9Sv2JxrMiL/j7JXkH3hi6EXZwJgA5aCDvQekg1tPA8b/RqWTB7MGf6HTIwy
-	Yb5TCO8itsjsKMzG9A7cahOIK1zm8+o0Xlgd7xRIbai3E2K34g5iD0YkpgOowGelneU1Sz7/gew
-	4EEYav764Jyq8TxhFjAQVE2QTjArp4nh5wuSZkXt5EnJmE7SmQway7PM9esM6wFTtIfbzdlLFdM
-	ghp7KorgUBn39japnQKduH6Mr73+qAgp3XS0ZYUI7ZVfjr6fcnEp+YZvL7x0WVIYnnDZSLVDC5U
-	sP0Xnr0oAhC+vZZ14IrDnJ7O52J1pWUHHBHcPqXotwujsa0xjoemh0KbHwy8g8p5YGnUC5Z0QVf
-	74yq54DZkVVaJ9LORNNoN+dgshKwoIxHa83qM
-X-Received: by 2002:ac8:5984:0:b0:533:3f82:3b80 with SMTP id
- d75a77b69052e-5333f82434dmr56559711cf.39.1790579261761; Mon, 28 Sep 2026
- 00:07:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="JYy+c8Ji"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68R9anIw371552;
+	Mon, 28 Sep 2026 07:09:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=U0Sqv66/lUO5fAJlL+QxeO6e18NIiL
+	tdJqIDVEF6pVo=; b=JYy+c8JiVYKn8nouxfqxB62qRnE0w0KFaFzXksbh7vvAEL
+	eXgYsBXTK2Q0/JC4VwMEh9Wwlyt0fkmlrYPk1hebyUUZnJr+feU7zZpKKCD/32/6
+	GK32iuw74mDOqGX9iyfseMbRfLesf50WlGakV+9f53EZhKFMhbtEbO51ZWCt+ock
+	/PE0Naan+UboeuNsatwP0qFylAPQ++Gg00G3nbQ/ri9MiOMUdZAZg7Or0NU9fxZX
+	ewY6U6oBpIPo40E24MB0d6khSx9MkPg5zQ/6dsPbXRMVmqVFlHA8hhWnrPeRjvWF
+	fheZ3R2ZDqUdhLBF01FckKKwv6/BTpjfJaIy8tMw==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx5qqyugb-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 28 Sep 2026 07:09:36 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68S2DNPO2055623;
+	Mon, 28 Sep 2026 07:09:35 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4gxrcpmaf5-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 28 Sep 2026 07:09:35 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68S79W8M49217996
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 28 Sep 2026 07:09:32 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 602C620043;
+	Mon, 28 Sep 2026 07:09:32 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DAF6620040;
+	Mon, 28 Sep 2026 07:09:30 +0000 (GMT)
+Received: from tuxmaker (unknown [9.87.85.9])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon, 28 Sep 2026 07:09:30 +0000 (GMT)
+Date: Mon, 28 Sep 2026 09:09:29 +0200
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: Muhammad Usama Anjum <usama.anjum@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+        "Liam R. Howlett" <liam@infradead.org>,
+        Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Xu Xin <xu.xin16@zte.com.cn>,
+        Chengming Zhou <chengming.zhou@linux.dev>,
+        Jann Horn <jannh@google.com>, Muchun Song <muchun.song@linux.dev>,
+        Oscar Salvador <osalvador@suse.de>, Pedro Falcato <pfalcato@suse.de>,
+        Arnd Bergmann <arnd@arndb.de>, Will Deacon <will@kernel.org>,
+        "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+        Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>,
+        Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+        Lance Yang <lance.yang@linux.dev>, Chris Li <chrisl@kernel.org>,
+        Kairui Song <kasong@tencent.com>,
+        Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
+        Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
+        Youngjun Park <youngjun.park@lge.com>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Eduard Zingerman <eddyz87@gmail.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+        Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+        Emil Tsalapatis <emil@etsalapatis.com>,
+        Ihor Solodrai <ihor.solodrai@linux.dev>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Ian Rogers <irogers@google.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        James Clark <james.clark@linaro.org>, SJ Park <sj@kernel.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>, Zi Yan <ziy@nvidia.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+        Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>,
+        Kiryl Shutsemau <kas@kernel.org>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Naoya Horiguchi <nao.horiguchi@gmail.com>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+        Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+        Ying Huang <ying.huang@linux.alibaba.com>,
+        Alistair Popple <apopple@nvidia.com>, Dennis Zhou <dennis@kernel.org>,
+        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+        Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
+        Shakeel Butt <shakeel.butt@linux.dev>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, damon@lists.linux.dev,
+        kasan-dev@googlegroups.com, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v3 0/9] mm: distinguish HW PTE pointers from SW PTE value
+ pointers
+Message-ID: <20260928070929.80522Ae0-agordeev@linux.ibm.com>
+References: <20260922-pte0-v3-0-5670b8cb9059@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: =?UTF-8?B?5aSp54u8?= <rockeet@gmail.com>
-Date: Mon, 28 Sep 2026 15:07:30 +0800
-X-Gm-Features: AclHuK-URrHmhApGmTC_eE0sCs90t8I1v1YfjciG5WiKRhbdAvEXlzFVRK9XjuU
-Message-ID: <CAAE3jtcL_CZJdcattCwe0RraKnHcZO=UknxEUQVG858ouZCUQA@mail.gmail.com>
-Subject: [RFC] madvise: best-effort deferred writeback for shared file mappings
-To: linux-mm@kvack.org
-Cc: linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260922-pte0-v3-0-5670b8cb9059@arm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDAyOCBTYWx0ZWRfX1pNoJaF/6NGg
+ RzCzEVkloQ8W8G9Mfqxa0HS4wxj4F16KoDkDBS2dSFD87AGlB8fAZ5HRatX+2wTRelFy0SakY1h
+ egIU9IaRjEc5iG2YlsUx0niBoZ+ODc3IrDwlpj2sQjhlsLXHTrd+qFnF3VG6du2x8khckao6ph2
+ atPiU8Bg+BUSTPHs0ZaAiWTtqPgIcgw1J/zTT9ypdxsSKELJ2V/SZShJa+6icCLTewI4Ua3C4in
+ kRH925yDQf0TwuALYn9JOVxlJg9GFQA8H7rd/AWjQSWzeO4KnjJldGVe8O6q0dQwbLjnHqb67yV
+ kQCihC/eqkUdKjZb9B04fM4h3PeGZZ9U5PrYd77rO5XeLtrpndiXWd9UC7Kz/QDkx6I810b7lBL
+ UUjG/EFop9zPSO7uVx3xr52sSy3HItoA1LAdosRDqEku61TDVHKyGnttYQJE2xIBCzlH/T5Qbjp
+ rkSOVaMpWaw5iTTVXqA==
+X-Authority-Analysis: v=2.4 cv=SPbXx+vH c=1 sm=1 tr=0 ts=6aba12b0 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
+ a=7CQSdrXTAAAA:8 a=VnNF1IyMAAAA:8 a=B2JZ75edH0TnST5CdBoA:9 a=CjuIK1q_8ugA:10
+ a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: PXCQtZdXSg0cuRLIZWyjDDo_C9n9y6sW
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDAyOCBTYWx0ZWRfX2//Hh8riVMNP
+ 1wV4C8msuSw0uoDVUiQbJPMpuXHL+T9TmtiZ8EIuMk20HeRVXU+DWNrh28iJ859A2ROV6UZN+vb
+ jTDaorfXlivhY+gjSY6oV8TolRxUfmE=
+X-Proofpoint-GUID: PXCQtZdXSg0cuRLIZWyjDDo_C9n9y6sW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-26_05,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 clxscore=1015 spamscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 bulkscore=0 impostorscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609280028
 
-Hello,
+On Tue, Sep 22, 2026 at 06:12:28PM +0100, Muhammad Usama Anjum wrote:
+> Hi,
+> 
+> pte_t currently describes both a software PTE value and an element stored
+> in a PTE table. Consequently, pte_t * can point either to a software PTE
+> value, often a stack copy, or to a PTE-table slot. The compiler cannot
+> distinguish these cases. A value pointer can therefore be passed to an
+> interface that expects table storage, while table storage can be read by
+> direct dereference instead of the architecture accessor.
+> 
+> This series begins a staged conversion at the PTE level. It introduces
+> hw_pte_t as the element type for PTE-table storage and converts generic
+> MM to use hw_pte_t *. Software PTE values remain pte_t. Interfaces that
+> intentionally return a value through pte_t *, such as install_pte,
+> remain value interfaces; the relevant parameters are named ptentp to
+> make that distinction explicit.
+> 
+> The generic definition aliases hw_pte_t to pte_t unless an architecture
+> selects ARCH_HAS_HW_PTE_T, which enables a distinct generic wrapper named
+> __hw_pte_t. Some architectures define pgtable_t in headers parsed before
+> the generic hw_pte_t typedef is visible. The structure tag allows those
+> headers to define pgtable_t as struct __hw_pte_t * without creating an
+> include-order dependency. This is required when converting s390, m68k,
+> powerpc and sparc.
+> 
+> No architecture selects ARCH_HAS_HW_PTE_T in this series, so the
+> representation and behavior of every architecture are preserved. ptep_get()
+> keeps its existing READ_ONCE() semantics and converts the stored element
+> through __pte_from_hw(). An architecture can later select the option and
+> convert its PTE interfaces to make the distinction compiler-enforced.
+> Architecture PTE implementations and most architecture code are
+> deliberately left for those later opt-in conversions.
+> 
+> Here, hw_pte_t identifies PTE-table storage rather than table lifetime:
+> complete PTE tables use hw_pte_t whether or not they are currently
+> linked into a page-table hierarchy, while software PTE values use
+> pte_t. The distinction between complete but unlinked tables and
+> hardware-reachable tables was raised during discussion and remains an
+> important point for review.
+> 
+> PMD, PUD, P4D and PGD storage are deliberately out of scope. They can be
+> converted in later series after the PTE boundary is agreed, avoiding the
+> PMD-specific cases that made an all-level conversion difficult to
+> review.
+> 
+> Most mechanical pointer conversions were generated with the Coccinelle
+> script included below, then audited and fixed by hand.
+> 
+> This series does not add a second ptep_get_once() accessor and does not
+> remove or replace STRICT_MM_TYPECHECKS.
+> 
+> The design discussion is available at [1]; while the original idea came
+> from [2].
+> 
+> I've the patches here [3] for arm64 conversion which I used to find
+> usages in generic code which I missed during development.
+> 
+> [1] https://lore.kernel.org/all/6110202c-057b-4701-8c04-1a76ee7bb9ab@arm.com/
+> [2] https://lore.kernel.org/all/a063f6c5-2785-4a9f-8079-25edb3e54cef@arm.com
+> [3] https://lore.kernel.org/all/20260914-pte0_arm-v1-0-bb53b663e396@arm.com 
+> 
+> Testing:
+> Testing was performed with and without the series on both x86_64 and
+> arm64. KUnit and the MM kselftests produced matching before-and-after
+> results problems or regressions. Fastpath performance testing was also
+> completed on arm64. No regression was found.
+> 
+> Thanks,
+> Usama
+...
+> Muhammad Usama Anjum (9):
+>       mm: introduce hw_pte_t for PTE table storage
+>       mm: rename pointers to software PTE values as ptentp
+>       mm: use hw_pte_t for generic PTE table storage
+>       mm: convert PTE table entries in ptep_get()
+>       mm: convert PTE table entry to pte
+>       mm: add hw_pte_val for HW PTE storage
+>       mm/kasan: use hw_pte_t for the early shadow PTE table
+>       drm/i915: use hw_pte_t for PTE range callbacks
+>       xen: use hw_pte_t for PTE range callbacks
+> 
+>  MAINTAINERS                                        |  1 +
+>  drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  4 +--
+>  drivers/gpu/drm/i915/i915_mm.c                     |  4 +--
+>  drivers/xen/gntdev.c                               |  2 +-
+>  drivers/xen/privcmd.c                              |  2 +-
+>  drivers/xen/xenbus/xenbus_client.c                 |  2 +-
+>  drivers/xen/xlate_mmu.c                            |  4 +--
+>  fs/hugetlbfs/inode.c                               |  3 +-
+>  fs/proc/task_mmu.c                                 | 33 ++++++++++----------
+>  include/asm-generic/hugetlb.h                      | 15 ++++-----
+>  include/asm-generic/pgalloc.h                      |  6 ++--
+>  include/asm-generic/tlb.h                          |  5 +--
+>  include/linux/hugetlb.h                            | 53 +++++++++++++++++--------------
+>  include/linux/kasan.h                              |  2 +-
+>  include/linux/mm.h                                 | 26 ++++++++--------
+>  include/linux/page_table_check.h                   | 10 ++++--
+>  include/linux/pagewalk.h                           | 10 +++---
+>  include/linux/pgtable.h                            | 81 +++++++++++++++++++++++++-----------------------
+>  include/linux/pgtable_types.h                      | 23 ++++++++++++++
+>  include/linux/rmap.h                               |  2 +-
+>  include/linux/swapops.h                            |  6 ++--
+>  include/linux/vmalloc.h                            |  4 +--
+>  include/trace/events/xen.h                         | 10 +++---
+>  kernel/bpf/arena.c                                 |  9 +++---
+>  kernel/events/core.c                               |  3 +-
+>  mm/Kconfig                                         |  3 ++
+>  mm/damon/ops-common.c                              |  2 +-
+>  mm/damon/ops-common.h                              |  2 +-
+>  mm/damon/vaddr.c                                   | 20 ++++++------
+>  mm/debug_vm_pgtable.c                              |  2 +-
+>  mm/filemap.c                                       |  4 +--
+>  mm/gup.c                                           |  9 +++---
+>  mm/highmem.c                                       | 15 ++++-----
+>  mm/hmm.c                                           |  6 ++--
+>  mm/huge_memory.c                                   |  4 +--
+>  mm/hugetlb.c                                       | 60 ++++++++++++++++++-----------------
+>  mm/hugetlb_vmemmap.c                               | 13 ++++----
+>  mm/internal.h                                      | 16 +++++-----
+>  mm/kasan/init.c                                    | 14 ++++-----
+>  mm/kasan/shadow.c                                  |  6 ++--
+>  mm/khugepaged.c                                    | 50 ++++++++++++++++++------------
+>  mm/ksm.c                                           | 11 ++++---
+>  mm/madvise.c                                       | 18 ++++++-----
+>  mm/mapping_dirty_helpers.c                         |  4 +--
+>  mm/memory-failure.c                                |  6 ++--
+>  mm/memory.c                                        | 78 +++++++++++++++++++++++-----------------------
+>  mm/mempolicy.c                                     |  4 +--
+>  mm/migrate.c                                       |  4 +--
+>  mm/migrate_device.c                                |  4 +--
+>  mm/mincore.c                                       |  4 +--
+>  mm/mlock.c                                         |  4 +--
+>  mm/mprotect.c                                      | 19 ++++++------
+>  mm/mremap.c                                        |  4 +--
+>  mm/page_table_check.c                              |  4 +--
+>  mm/pagewalk.c                                      |  9 +++---
+>  mm/percpu.c                                        |  2 +-
+>  mm/pgtable-generic.c                               | 20 ++++++------
+>  mm/ptdump.c                                        |  4 +--
+>  mm/rmap.c                                          |  6 ++--
+>  mm/sparse-vmemmap.c                                | 22 ++++++-------
+>  mm/swap_state.c                                    |  3 +-
+>  mm/swapfile.c                                      |  5 +--
+>  mm/userfaultfd.c                                   | 32 ++++++++++---------
+>  mm/util.c                                          |  2 +-
+>  mm/vmalloc.c                                       | 11 ++++---
+>  mm/vmscan.c                                        |  6 ++--
+>  66 files changed, 457 insertions(+), 375 deletions(-)
+> ---
+> base-commit: ead700ca770c82167af32622cf8b68c9f87c3c7c
+> change-id: 20260914-pte0-6c88f5592d79
 
-I would like to request feedback on a mapping-scoped, best-effort hint
-to defer background writeback while an application is still constructing
-data in a writable MAP_SHARED mapping of a regular disk-backed file.
-This is a feature request, not a patch submission or a benchmark report.
+I backported this series to the Linus master and tested on s390
+with the lazy mmu series applied on top. In case it still counts:
 
-Motivation
-----------
+Tested-by: Alexander Gordeev <agordeev@linux.ibm.com>
 
-Consider an application building a large data structure, for example
-10 GiB, through multiple passes that repeatedly modify the same pages.
-After construction, it persists the file and publishes it for other
-processes to mmap and read.
+> Best regards,
+> --  
+> Usama
 
-Building directly in MAP_SHARED keeps the data in the file's page cache,
-which also serves the consumers. However, background writeback can write
-intermediate contents that subsequent construction passes dirty again.
-The application knows when construction ends, but cannot express that
-knowledge as a mapping-local writeback scheduling hint.
-
-Building in private memory and then doing buffered writes adds a bulk
-copy into the file's page cache. Direct I/O does not itself populate that
-cache for subsequent file-mapped consumers. A memfd can share the build
-buffer, but requires a separate object for persistence and changes the
-consumer interface. Global dirty/writeback tuning is broader than this
-particular mapping and construction phase.
-
-Proposed interface and behavior
--------------------------------
-
-Tentatively, a pair of madvise operations could express this:
-
-    madvise(addr, len, MADV_DEFER_WRITEBACK);
-    /* Construct and repeatedly update the shared file mapping. */
-    madvise(addr, len, MADV_ALLOW_WRITEBACK);
-    /* Use existing synchronization calls if durability is required. */
-
-The names are placeholders for discussion, not existing constants.
-
-The requested behavior is deliberately advisory:
-
-* Prefer to defer ordinary background writeback for the corresponding
-  file pages while the hint is active, including pages faulted in later
-  within the advised range.
-* The kernel may override or ignore the hint for memory pressure, dirty
-  limits, fairness, filesystem constraints, or forward progress. It must
-  not reserve or pin memory, exempt pages from dirty accounting, or
-  promise that intermediate data will never reach storage.
-* Explicit synchronization, including msync(MS_SYNC), fsync, fdatasync,
-  syncfs, and sync, retains its existing semantics and must not wait for
-  the application to revoke the hint. In-flight I/O need not be canceled.
-* Shared-memory visibility, data contents, and existing durability
-  guarantees remain unchanged. This is not an atomic publication,
-  transaction, or crash-consistency mechanism.
-* Revoking the hint restores normal scheduling; it does not itself
-  require an immediate writeback or imply durability.
-
-Automatic lifetime cleanup is an important part of the request:
-
-* munmap removes this mapping's hint for the unmapped portion.
-* Mapping teardown on process exit, including abnormal termination,
-  automatically removes its hints. No application cleanup handler is
-  required, and no persistent per-file setting should remain behind.
-* Independently advised mappings may refer to the same file pages.
-  Removing one mapping must not remove another mapping's own hint.
-  Once no applicable hints remain, the pages have normal policy.
-
-An initial scope could be ordinary page-cache-backed regular files with
-writable MAP_SHARED mappings. Unsupported mappings could be rejected.
-Details such as fork inheritance, VMA splits/merges, mremap, and interaction
-with unadvised aliases would need explicit definitions; the lifetime rule
-should apply consistently to every mapping that actually owns a hint.
-
-Implementation and evaluation questions
----------------------------------------
-
-Although the proposed API is mapping-scoped, writeback acts on file-cache
-folios shared by mappings. An implementation would need an inexpensive
-way to connect those scopes and retire the hint without leaving stale
-writeback state. This request does not assume that adding a VMA flag
-alone is sufficient, or mandate a particular accounting mechanism.
-
-Useful evaluation would compare repeated-update construction with and
-without the hint, followed by explicit synchronization and a consumer
-mmap/read pass. Metrics should include device bytes written, total time
-through final synchronization, dirty throttling, peak memory, and consumer
-read I/O. Memory-pressure cases, competing writers, partial unmap, and
-process termination should also be covered. There are no measured results
-attached to this request; the expected benefit is a hypothesis to test.
-
-Is there an existing per-mapping or per-range mechanism that already
-provides this behavior? If not, would a best-effort madvise extension be
-an appropriate interface, or would an fd/range advisory API fit the
-writeback subsystem better while retaining automatic lifetime cleanup?
-
-Pointers to prior discussions and feedback on whether this is worth
-prototyping would be appreciated.
-
-This proposal was developed with AI assistance from an application-use
-case discussion; no implementation or performance results are claimed.
-
-Regards,
-Peng Lei
+Thanks!
