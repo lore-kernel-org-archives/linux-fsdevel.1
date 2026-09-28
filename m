@@ -1,167 +1,155 @@
-Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C1A4B7A5D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 11:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC7D4B8260;
+	Mon, 28 Sep 2026 12:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790596664; cv=none; b=TefUoh0qzpiBfzfF4PfRqZKn5lzvy3FANSnISNkhDc50RSVMAPpVy/SdcRkispPBH205guKshdrmKneetJXGw1RD3iQPyALlHrazB5wlO4aU/9R7UEuug9MTVRuM6GqIawQB3KAmlRBXOil3P+6tX7SOPr4M35Dpzbj43Uaxlbc=
+	t=1790597044; cv=none; b=Lv85mkLZEP13aBpGBcNlYycyPOJmgwi2N+gv3Y8GkHAPX9U1Sh1SLBlgXC8TxYfc83KCSoWWzL95LsM7VgDBZT2UCaQkU8b8N7+LHoiSHLqMwFVV1ugpdr8rNjFhn9gaZnccYvyYwSShUBZZ4QT6R5a0sMXA6fYdA54awuh/ZCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790596664; c=relaxed/simple;
-	bh=r3puRPhMmBtKKfqB3F2kZ+pMBLHUDRnlSFFiHevX7BM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IYME836Psuu93WZnC9HYkczx7e6zhORFuYzIUXO6VbfGE5MxqK3hA/YVGjU1ni+wzNrXfUac+fhW99QVwhG03S7VJfTsbG+zMuZ+7Op/eQQWxDREegNd4lvcUNVcpk8h3s+gVZV9mFrxC21rZZTsG4kmRPPTcp2MkR0L7ltU8CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nJhlIgvm; arc=none smtp.client-ip=74.125.228.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790597044; c=relaxed/simple;
+	bh=W59qrVbm7k4cR5jhTZh/JOnJSdO7tRvTmtmCiPogzDg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iwg3qMr6ng0umFjb3x+MP2ApU0NAidjNIMCAlmfpQK1DpnXBzKeaxostMIfkHDgO5n4m1FpJ/QmMcN8NK0yQ4jXIInVx4Lq+yrFKHmUv4fWPiO+XjhXavkAQJ0zHSbx3S/sxp/umvcqeLZVB2p87DUj2W7v1nYyWHJuO1BMaN/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=mRJwI6Mh; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJhlIgvm"
-Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc797656e69so720406a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 04:57:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790596662; x=1791201462; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uznnGClxpoNxhfkd79ZikolqPxxdalAG+z6oc7/n6sw=;
-        b=nJhlIgvmMM6qT8Rn+B/S3jByqrCvylSpJWrbeVoYGvYQL4hXRq5tKVN01FO6SFVOUS
-         O6BPMo58k+SA+PJGrOC/2/LUyUt5eXvJpgCJEwgFb0uNPuC7X8zqTq5V0//kMQMNqRKI
-         pVOF58DkFPDrPq2uKIPd3AL56DehROE75ACnRU7aPVzXcQAJgHgpdFDW+G5Gm0AvN5hi
-         vjjmjPbhtTOuDz6RN/0eCs9NgxWKygYX6QUw9obJzazw4s2EDswQsgKUIJ3WEtGY4b6k
-         hoYSaa/uXvGDxgGcL7TYYUQ8bw35NkPAmEc70PENBfePsejaG+SUrTMVMideE1Ed4RNc
-         nuRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790596662; x=1791201462;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uznnGClxpoNxhfkd79ZikolqPxxdalAG+z6oc7/n6sw=;
-        b=sQuq516upRvEhd77S80Vd/08+3VK8MFk0BrNe25Ef0Iomgq+G95ScQQY7FQJsznLAg
-         A0cwL6RwUtiU4zGC9TOvR/f862jGMQdxqeFRz+nLQ/nYrxzx3ySQvx0iL6euKCEIxIV4
-         oeaeSLXafk+9ZI0rT5Z2IYLXCXkMQMWRAMjWAt1cWlotnigOQ/T/bFtmmFVnlM1hbsaH
-         KBhiMkhwMrhc+NKiDF5z0RSXTdxuTFCxCQu1XpLksGCXdqd4iFRl1jdUgvboX4VRY46d
-         Ua6xlK7VKjFcQHOtn8L/fhvEQ/EOpGL4gP2JklPmaHlIA5YRIm5eTrZ+GwLSgfyV54Om
-         Eolw==
-X-Forwarded-Encrypted: i=1; AKwUvBwBbNG1+pot/LeYDsL+xLi/hcBvgYPo1yESDxa7VWTahFETk6WwRV/k+VZupLexTR9BtUZk5uls6viOeVD1@vger.kernel.org
-X-Gm-Message-State: AFq9FYKg71Pqwv5ITFTUj+ty9LU2UT7imZ3/GY62t2H5R1SExr5G86I1
-	Km+mRNF86O1ccx95x9IB3ZXBtQzfqvay8kJwa6GTXbU5o9jeTf8awRZs
-X-Gm-Gg: AYBFou38FScoB9jP7+WNyhSJMcfjpnQ5efJjFjLymVjzcY9p7HS716qPNvEfs6ktHxT
-	I4fNY4bQFN27VANtsP82dP20tifvYiQc55nYESyiin4X1QcZOnM385xxqTAeAq5NOaVYImGHkU6
-	Eu/xKoUZy3RCALKHtG88Mam9mEbppcOhwIVXFu5rAMLoxJJo/ktmlHt90cSamz5gReKVu01iyb+
-	IT4RXGLK+zoYyMZApvwxpJnDhzJW0udnc3f+YNsiSMlQWc0LdtahvAS+bDJO99XcDLy6Zrxb0Or
-	la1WZj46mUsCYiT11gsGY+5hDWZAqrsR5Hens+l4LLrL8eUVcsAyeOqy+3kpzJTX+OAfaPRriIc
-	EZIpwEYzrnvSM1eG5iwfwJEmztmQ7yCIh8NJDwgd5AcRx/LVq1D+0/8Gp+0ahMLhOUQ08z/qRVd
-	JfcFYZUxOBiEjO0O7yhomEeJgGlQY+QS3TbZCDPhg+2i5GrVGLo7B4+PRUH1fbTrCust0Zx6K9Z
-	nEfpmrW9aH5uFx2X0U=
-X-Received: by 2002:a17:90b:53cc:b0:39e:6c6a:2096 with SMTP id 98e67ed59e1d1-3a098970bd7mr10676652a91.55.1790596662346;
-        Mon, 28 Sep 2026 04:57:42 -0700 (PDT)
-Received: from [100.125.248.95] ([124.70.231.46])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b99e5711sm19979522a91.17.2026.09.28.04.57.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2026 04:57:42 -0700 (PDT)
-Message-ID: <214177f4-11d1-47f9-94fc-2fc679911b13@gmail.com>
-Date: Mon, 28 Sep 2026 19:57:26 +0800
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="mRJwI6Mh"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68SBZW223971195;
+	Mon, 28 Sep 2026 12:03:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=UPrT8PQRwKFYocNOz
+	dGCoruRwlJo+jhllToPk78w6Qw=; b=mRJwI6MhuRRVCv4eYXKFL5hRHURKCG+Vr
+	IFkY+2QjfQYbI+nbv7z+YxOjTU8IdKbUrj3jJGZg5857b956vGh5y/a+CTBPXYmQ
+	4J1Iq/kq5Cu6SHXdpHtvrO0Z0uuMEMQ4kIUwJAss6BnUSC8AJvCyJa3BZnd/I6sT
+	Kqb2JCqrfwmZUPL6dFGKqLkRGIbdj+56q3HsStpruXT1EaAbw25+yHafgFXZ6iWv
+	/W0MYBFAsHvEzAlbFDqEPm/BhSEX61vzmBREwCoCXIsjJGp9NpMohPNydjnsQbDz
+	Ng5gvqMFQBqT18AEENhjmY2yVgEO/suduQkhitoLbP2QHn+qn6b6w==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx4fe0v2t-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 28 Sep 2026 12:03:28 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68SBHXdf027129;
+	Mon, 28 Sep 2026 12:03:27 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gxrrw5616-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 28 Sep 2026 12:03:27 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68SC3PcF11207118
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 28 Sep 2026 12:03:25 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 98EFE20043;
+	Mon, 28 Sep 2026 12:03:25 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DF67F20040;
+	Mon, 28 Sep 2026 12:03:20 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.20.95])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 28 Sep 2026 12:03:20 +0000 (GMT)
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: "Darrick J . Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>,
+        Christoph Hellwig <hch@lst.de>, Dave Chinner <dchinner@redhat.com>,
+        Daniel Gomez <da.gomez@kernel.org>,
+        Pankaj Raghav <pankaj.raghav@linux.dev>, Theodore Tso <tytso@mit.edu>,
+        linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, Andres Freund <andres@anarazel.de>
+Subject: [RFC PATCH v4 01/12] xfs: reexpand iter to original count when upgrading to excl ILOCK
+Date: Mon, 28 Sep 2026 17:33:02 +0530
+Message-ID: <c11cc6fcf1e4f591b3b537c2146d594f5965487b.1790596383.git.ojaswin@linux.ibm.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1790596383.git.ojaswin@linux.ibm.com>
+References: <cover.1790596383.git.ojaswin@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 08/31] ext4: avoid unnecessary transaction in
- ext4_map_blocks() for unwritten extents
-To: Ojaswin Mujoo <ojaswin@linux.ibm.com>, Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
- libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
- djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
- chengzhihao1@huawei.com, yangerkun@huawei.com, wangkefeng.wang@huawei.com,
- yukuai@fnnas.com
-References: <20260903123543.2302999-1-yi.zhang@huaweicloud.com>
- <20260903123543.2302999-9-yi.zhang@huaweicloud.com>
- <aro_npJ95b4Nf978@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-Content-Language: en-US
-From: Zhang Yi <yizhang089@gmail.com>
-In-Reply-To: <aro_npJ95b4Nf978@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=FYWiV5+6 c=1 sm=1 tr=0 ts=6aba5790 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8 a=6jV8uY8xD7bpsU2DslwA:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDA0NiBTYWx0ZWRfX28VdEaHGb8Km
+ yS5Vi4dq2fW60Z4UnerhNQ6wM56dYgeyxuh2nW755aW1X+8LODUYWTS6AXKVKeKYJAVh+W9lalf
+ vFoyTcPvy0yq7EdXJO1sJ5/tmcpn0lQ=
+X-Proofpoint-ORIG-GUID: YNVLW5hGbG0aAVPqOH93EEeN_KZYshBc
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDA0NiBTYWx0ZWRfX3Fb88wBxXVML
+ Ts/ECfXnvbjO6rc3IYYItgYSicJWBiOxZaKU3JPbHpejyP1qEiMtXCL07dU/Af7NLOuwIZq8ZC9
+ 4uUtX5rMoLH/Mhlo3Dq2dXxlWFszWCIzHnhB76OyVC8Nm1HPCiZ+X+V4UioeBgb+PWq5CuceoKk
+ biw2z5GcckxqfalbZy446yR37oBqSKdn4IxfrIKSaQ+EzFPN/5yW9mea6vGiI2IwhOT+dLx9Rhq
+ xsWNxk72l14CSK2dRHjwD//fr44xxvSuaSW9EsWeRpugLB8D3rUI2CAT1iT4EMDovAocKlM054M
+ khhFSweBArz9Mf45BpuhdSn1XtYqyh2xnNBacP8gEMwTeHG8nAlV9zSZc2qsdXKIR6BhOhtT8wV
+ B7sMvXF7m7FYolJ+cE0XJckr9Wo1hzfcHEDw4vySL4laeNhqPWUfRa0hm2FLR7XGy0QCUVu5Gyx
+ oN+c7aZLTS0jRnOyOsw==
+X-Proofpoint-GUID: z8O8q2NLobKGJbo2TX7Si6d9-UpkKZhC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-28_03,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 impostorscore=0 spamscore=0 phishscore=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609280046
 
-On 9/28/2026 6:21 PM, Ojaswin Mujoo wrote:
-> On Thu, Sep 03, 2026 at 08:35:20PM +0800, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> When ext4_map_blocks() finds an unwritten extent in the extent cache and
->> the caller is willing to accept unwritten extents without conversion,
->> there is no need to start a journal transaction since no metadata update
->> is required. This avoids unnecessary transaction overhead in the
->> upcoming iomap writeback path when overwriting already-allocated
->> unwritten extents.
->>
->> One thing to be careful about, as the comment in ext4_map_blocks()
->> states, if the flags contain EXT4_GET_BLOCKS_CREATE, the function will
->> mark @map as mapped.
->>
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-> 
-> Yeahh, I had something similar in one of my WIP branches :)
-> 
-> Thanks for taking care of this. Feel free to add:
-> 
-> Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-> 
-> Regards,
-> ojaswin
+In xfs_file_write_checks() when we upgrade to an exclusive lock, we
+correctly redo the write checks, but we should also reexpand the iter to
+the original count incase it was trimmed. This is because a parallel
+truncation/expansion, in the window where inode was unlocked, could have
+changed the isize so its good to recalculate limits based on the original
+count.
 
-Hi ojaswin,
+Also, s/count/orig_count/ while we are at it to better indicate its purpose
 
-Thank you for the review! The fast path implemented in the current
-version is missing check_block_validity(), I'll add it in the next
-iteration.
+Signed-off-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+---
+ fs/xfs/xfs_file.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Thanks,
-Yi.
-
-> 
->> ---
->>   fs/ext4/inode.c | 19 ++++++++++++++-----
->>   1 file changed, 14 insertions(+), 5 deletions(-)
->>
->> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
->> index c9dea4ca5caf..7a5c74af8ff3 100644
->> --- a/fs/ext4/inode.c
->> +++ b/fs/ext4/inode.c
->> @@ -809,14 +809,23 @@ int ext4_map_blocks(handle_t *handle, struct inode *inode,
->>   	 * Note that if blocks have been preallocated
->>   	 * ext4_ext_map_blocks() returns with buffer head unmapped
->>   	 */
->> -	if (retval > 0 && map->m_flags & EXT4_MAP_MAPPED)
->> +	if (retval > 0) {
->>   		/*
->> -		 * If we need to convert extent to unwritten
->> -		 * we continue and do the actual work in
->> -		 * ext4_ext_map_blocks()
->> +		 * If we need to convert written extent to unwritten or
->> +		 * convert unwritten extent to written, continue and do
->> +		 * the actual work in ext4_ext_map_blocks().
->>   		 */
->> -		if (!(flags & EXT4_GET_BLOCKS_CONVERT_UNWRITTEN))
->> +		if (map->m_flags & EXT4_MAP_MAPPED &&
->> +		    !(flags & EXT4_GET_BLOCKS_CONVERT_UNWRITTEN))
->>   			goto out_handle;
->> +		if (map->m_flags & EXT4_MAP_UNWRITTEN &&
->> +		    (flags & EXT4_GET_BLOCKS_UNWRIT_EXT) &&
->> +		    !(flags & EXT4_GET_BLOCKS_CONVERT)) {
->> +			/* Contains EXT4_GET_BLOCKS_CREATE - mark mapped. */
->> +			map->m_flags |= EXT4_MAP_MAPPED;
->> +			goto out_handle;
->> +		}
->> +	}
->>   
->>   	if (!handle) {
->>   		handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS,
->> -- 
->> 2.52.0
->>
+diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+index d8202da15aca..d53a329b6a58 100644
+--- a/fs/xfs/xfs_file.c
++++ b/fs/xfs/xfs_file.c
+@@ -450,7 +450,7 @@ xfs_file_write_checks(
+ 	struct xfs_zone_alloc_ctx *ac)
+ {
+ 	struct inode		*inode = iocb->ki_filp->f_mapping->host;
+-	size_t			count = iov_iter_count(from);
++	size_t			orig_count = iov_iter_count(from);
+ 	bool			drained_dio = false;
+ 	ssize_t			error;
+ 
+@@ -482,6 +482,7 @@ xfs_file_write_checks(
+ 			*iolock = 0;
+ 			return error;
+ 		}
++		iov_iter_reexpand(from, orig_count);
+ 		goto restart;
+ 	}
+ 
+@@ -496,7 +497,7 @@ xfs_file_write_checks(
+ 	 * the slow path when we are at or beyond the current EOF.
+ 	 */
+ 	if (iocb->ki_pos > i_size_read(inode)) {
+-		error = xfs_file_write_zero_eof(iocb, from, iolock, count,
++		error = xfs_file_write_zero_eof(iocb, from, iolock, orig_count,
+ 				&drained_dio, ac);
+ 		if (error == 1)
+ 			goto restart;
+-- 
+2.55.0
 
