@@ -1,142 +1,134 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26233AF660;
-	Tue, 29 Sep 2026 08:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47934B44CA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 08:50:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790670926; cv=none; b=B5nUCzoNpc19NqE2JICmJ3Jib8rphkAS0Rfgujvr5BkaplAQS+sjnYuLQqoONwjjT/jC6rCOavnBfihpfx8EodXXA5u2pCBFrv40+OJ0SKVQob21HLGjM/yKDjetJz35FKZC9grBLuQdVWEgU0jfgLYCQ5bVIWfrMHDPVxrdELQ=
+	t=1790671814; cv=none; b=j4XrGFwFub/UIuZrreVlmezDDQfam2MMFBQabYuu86GnVvF/Qmlp44ZOVOjVCuHfKgltowjqs/GowzABR1t6nb+pRf86Ugto40MZufD3pm0MRFJUpekFqGXolTejU+x1Fypy7VM5waPLiQSKiBwG2aLUqT+xozV5/apX/yQROc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790670926; c=relaxed/simple;
-	bh=CPji5eXNFFWkxIfKfD0A1KEgC6WOI5sgEbOR3s5XkSA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m2prT4K16agrcg4Xoaq0hPSgtBGY3FfQPJAVBXPumqPStKMi57brEcDoG4CSzOWfexpbjJWi8xaxELYNaFkWRdK+17YQih5V1R4aEGm6dtzDcVHeXC+shXv7mY3WvpwKtEd5fgFepREkR6AgOpUKvqe8jn4PTW+NelKFaesQTIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hvBLY4qcYzKHMcY;
-	Tue, 29 Sep 2026 16:34:45 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 135C440579;
-	Tue, 29 Sep 2026 16:35:21 +0800 (CST)
-Received: from [10.174.178.176] (unknown [10.174.178.176])
-	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgBXdCdGeLtqQxpoCA--.31456S3;
-	Tue, 29 Sep 2026 16:35:20 +0800 (CST)
-Message-ID: <f05f6de8-121e-4897-9a0f-f9bf9edaae4e@huaweicloud.com>
-Date: Tue, 29 Sep 2026 16:35:17 +0800
+	s=arc-20240116; t=1790671814; c=relaxed/simple;
+	bh=uxSCt0FV6gaua+FWWnEppijMyYUOY9i8SVsu0cEASms=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=p/FKEPNe5jXV89wdwnJmTqy2vlLJVfjCioWbjiwzh3KLqJwgHYyk92I9ktUWP1FIGrgxxvKmZBPNlBfZ8frudyoTe6nTOqBRqYmuqYdYONDZIkMK+XmVkxiijK+P/wXiARBPyKqcN+Ma4amGBSf9QlM1S1H2yHXwLTVUsq+tDW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fSg5KjJL; arc=none smtp.client-ip=209.85.218.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fSg5KjJL"
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-c2d93b92937so216604566b.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 01:50:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1790671797; x=1791276597; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/Aobrvi+EUy84a4OEPy4ev1haJ3JzGtFESlBQNCRjoU=;
+        b=fSg5KjJLQxm29mm+s/bVY/Vph7tovPU7SNDHdlZfb8vH1mDG2JLAdubsjafXtpvgWf
+         uigPeQiBqhi+EADdw4M3Kx7mfc6vcvp8Vr+uSN5L+/4aAG/EUaBeXq727DjSil944MTC
+         hyJxsVlU09G9Csg1FUAqVWnOpsy6y+CgP+xnRvwx84x06sQ9ekCkn8nbeXksX/r3cwa4
+         5H5Ki6Sapwaguvdui0/0LUaVSQNkXerHJefTt7GjDb5OE+AXdCCzQQFWL0rP8PpTN0Qu
+         caLafThIxPKtlEekm9olxNM6ZGzGoaZVkViJj9UnptxRYzHtO6FMwSdz5BF90hNnQ7cq
+         tDGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790671797; x=1791276597;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/Aobrvi+EUy84a4OEPy4ev1haJ3JzGtFESlBQNCRjoU=;
+        b=zImb8Z0MDsPvCFtVoGcmqxT439/XtR+1Y4W/+9ETWkFTu0htlaZ5A9HdqksQ3AqLoH
+         FzBZJ+gcDvIl+hbAdrwQpAq5RAJ3AUG1HNfqmNVO5GW2qxDTXseVCFAtt6fckKaHdSRR
+         +x69kykZd5F8KXJPcwTBnWxc2bZBsL85zKAWCrOHIg3RKFI7wSeAyKg58CjYtaZHtEBt
+         2LCQBPSdQQVCx0BjhYrR0jki2DXMNtWdiL13TnMFsY+wUtZLLauJxNdl/u85pwlBO4GY
+         QExPlS4BN1V/wjPoUusRGGk+jVDIbRw4M0LckRKwE8Km+7ER36gOc8QeNV9YdbcIp2fC
+         wpzA==
+X-Forwarded-Encrypted: i=1; AKwUvBwYSqNutZz22MMWYMUpYHMbzQXFPgG/JgVgaT1QOhCsCpmCTlMlsCBqsRZWDYIwCUgqIEqnxOdJM/ZkWkE7@vger.kernel.org
+X-Gm-Message-State: AFuF++nAhrluS4rOXEgiV+HeHemHzQb35d0/oyZTwwasBtbsTBYT2/Es
+	sfsWxn0K/pLMX3Knk26EZlJ/jc4Hm6Mn7db8NpFKpydcp2BxNFc8kw7TT8nxAPA2+xiyCamrvTE
+	admAtYFkRfCjTjPaW7Q==
+X-Received: from ejmc17.prod.google.com ([2002:a17:906:5291:b0:c2a:b946:e518])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:3d08:b0:c25:2a78:15ed with SMTP id a640c23a62f3a-c2ac22db502mr1246008766b.6.1790671797146;
+ Tue, 29 Sep 2026 01:49:57 -0700 (PDT)
+Date: Tue, 29 Sep 2026 08:49:55 +0000
+In-Reply-To: <20260929044843.GA3909609@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/4] mm/truncate: fix data loss when truncating
- straddling large folios
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, david@kernel.org,
- ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hughd@google.com,
- baolin.wang@linux.alibaba.com, willy@infradead.org, jack@suse.cz,
- ziy@nvidia.com, bfoster@redhat.com, joannelkoong@gmail.com,
- djwong@kernel.org, yi.zhang@huawei.com, yizhang089@gmail.com,
- yangerkun@huawei.com, chengzhihao1@huawei.com, wangkefeng.wang@huawei.com,
- yukuai@fnnas.com
-References: <20260928120833.3440834-1-yi.zhang@huaweicloud.com>
- <20260928144901.83cc90357c9a488e94fd6785@linux-foundation.org>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <20260928144901.83cc90357c9a488e94fd6785@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgBXdCdGeLtqQxpoCA--.31456S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxWw4xXF1xXFW5Jr15Kr1DGFg_yoW5ZF1rpF
-	W3Was8Kr4kGws7Cr1xZF4UWw1rtay3XrWDAFy5G3Z7CFsagr1IkFWftw10gFWUGrs7Cw10
-	9r4jv398u3Z8AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7
-	CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
-	rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4
-	IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
-	e7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
-	WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
-	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
-	jxCztUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Mime-Version: 1.0
+References: <20260923022339.3340694-1-georgeandrout13@gmail.com>
+ <arThye_219ruNbM2@google.com> <20260925-stellen-brummen-festrede-266af0305ac7@brauner>
+ <20260929044843.GA3909609@ZenIV>
+Message-ID: <art7swUNAa3AyUrL@google.com>
+Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
+ descriptor APIs
+From: Alice Ryhl <aliceryhl@google.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Georgios Androutsopoulos <georgeandrout13@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	"Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, linux-fsdevel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-On 9/29/2026 5:49 AM, Andrew Morton wrote:
-> On Mon, 28 Sep 2026 20:08:29 +0800 Zhang Yi <yi.zhang@huaweicloud.com> wrote:
+On Tue, Sep 29, 2026 at 05:48:43AM +0100, Al Viro wrote:
+> On Fri, Sep 25, 2026 at 06:00:42PM +0200, Christian Brauner wrote:
+> > On Thu, Sep 24, 2026 at 08:39:37AM +0000, Alice Ryhl wrote:
 > 
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> Hello,
->>
->> This is the fifth version fixing data loss when truncating straddling
->> large folios caught on the upcomming ext4 + iomap buffered I/O
->> conversion.
+> > > This looks like it should ideally be on the C side instead.
+> > 
+> > Where is this godforsaken broken code, that tries to fd_install() after
+> > exit_files(). It is _a bug in the program_ that is not something the
+> > apis need to work around.
 > 
-> Thanks.
+> 	More to the point, papering over that at runtime is wrong, and not
+> just for modifying descriptor tables - fdget() is just as wrong in anything
+> that can be called from tail of do_exit().
 > 
->> When truncate_inode_pages_range() punches a hole or truncates a file,
->> truncate_inode_partial_folio() splits a large folio so that the caller
->> can drop the in-range sub-folios while keeping the out-of-range tail
->> intact.  This series fixes three distinct problems in that path that
->> can each lose the valid out-of-range tail of a straddling folio, plus a
->> follow-up that clarifies the return value semantics.
->>
->> Patch 01 aligns the truncation boundaries inwards to the mapping minimum
->> folio order in truncate_inode_pages_range().  With a non-zero min_order,
->> folio_split() stops at min_order instead of order 0, so a boundary
->> computed at page granularity can land inside a min-order-aligned
->> sub-folio and the truncate loop drops that whole chunk, valid tail
->> included, causing data loss.
->>
->> Patch 02 looks the end-edge straddler up by its page index through
->> __filemap_get_folio() in truncate_inode_partial_folio().  After the
->> first split the straddler is unlocked and only transiently ref'd in the
->> page cache, so the page pointer derived from the original folio can be
->> freed and reallocated as a different folio in the same mapping, and the
->> mapping check cannot catch it, which may cause incorrect splitting and
->> potential data loss.
->>
->> Patch 03 reworks the contract between truncate_inode_partial_folio() and
->> its callers.  If the second split of the straddler fails, the function
->> reported success unconditionally, and the leftover incorrect end
->> position could cause the truncate loop to drop that valid tail.  After
->> rework, it tells the caller the exact page range safe to discard via new
->> pstart/pend out-parameters, so the truncate loop never touches a
->> straddling folio that still holds valid out-of-range data.
->>
->> Patch 04 clarifies the return value semantics to "at least one split
->> succeeded", which is all the shmem caller needs to decide whether to
->> reset its scan loop.
->>
->> The second patch fixes a pre-existing race issue that is reachable
->> today, so it is Cc'd to stable.  Patches 01 and 03 require a dirty large
->> folio that carries no filesystem private data, so they are not reachable
->> on current filesystems.  They were found while developing the upcoming
->> ext4 iomap buffered I/O path. [1]
+> 	It's exactly the same as with "what if it gets called from an
+> rcu callback?" - it's a bug, that's what.  Don't use these primitives
+> in such context.
 > 
-> Can you confirm that [2/4] will work correctly when backported into
-> -stable kernels?  That is has no dependency on the other three?
+> 	In particular, ->release() mentioned upthread should not be allowed
+> to access _anything_ hanging off current, not just descriptor table.  Note
+> that the last reference to an opened file might be sitting in an SCM_RIGHTS
+> datagram pruned by AF_UNIX garbage collector; as far as the method is concerned,
+> it might be called from random thread.
 > 
+> 	If it tries to access (let alone modify) the current descriptor table,
+> you have no memory safety whatsoever and checking if current->files happens
+> to be NULL is nowhere near enough to resolve that.
+> 
+> 	I don't know how to express that gracefully in terms of typechecking -
+> sure, we could pass an empty token to each syscall, have fdget() et.al.
+> require that as an argument and propagate the damn thing to all such callsites,
+> but that would cause an insane amount of churn - if nothing else, ->ioctl()
+> signature would have to be changed and there's a _lot_ of instances out there.
+> And then there's the joy of dealing with ->sendmsg() and ->recvmsg(),
+> thanks to SCM_RIGHTS datagrams, again (reading descriptor table on sendmsg()
+> side, inserting into it on recvmsg()), especially when you consider the
+> fact that ->sendmsg() and ->recvmsg() *are* callable from contexts where
+> one shouldn't be allowed to access descriptor tables.  None of such
+> call chains is going to trigger descriptor table access (e.g. knbd is
+> not going to try and send SCM_RIGHTS datagrams, etc.), so it should be
+> safe, but having compiler prove that without inflicting overhead on
+> the code paths where it really wouldn't be welcome is not going to be trivial.
 
-I confirmed the 6.18 and 7.2 versions that need to be backport. The 7.2
-version applies cleanly, and the 6.18 version also applies smoothly with
-only minor adaptation.
+So, I previously wrote some code that could invoke filp_close() to close
+a given fd ... from a workqueue. This was in the scenario where the
+process dies and the usual cleanup function gets called deferred from a
+workqueue instead of from the ioctl like usual.
 
-From a code analysis perspective, I did not find any obvious issues.
-After merging both versions, I ran local xfstests on ext4, LTP, and mm
-self tests, and did not find any regressions, so I believe it works
-correctly.
+In this case the correct behavior was just to do nothing.
 
-Cheers,
-Yi.
+It was a very easy mistake to make, and if such mistakes lead to null
+ptr derefs or worse, then I think it's worth doing something to reduce
+the bad consequences from this kind of mistake.
 
-
+Alice
