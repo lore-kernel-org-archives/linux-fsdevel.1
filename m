@@ -1,262 +1,132 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB2B3E16B9
-	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 21:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790716521; cv=pass; b=ggd3Ki4jBpJzx2xr42nK9dW02kGd+pCkko+QN2fggpuAQN5uMES7zbpaIqXVsdT4YU8+LH7qnllW/gLao0SXuMd1U4VlDIQCYy133cmGfEcYLGPRFz5xBa/zpkFftnWJl1dXCBfU1YZnIYsJer6nr4+IWIoiFptCeh+7sxd8SmI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790716521; c=relaxed/simple;
-	bh=N0Dp988DA5FrqQKAGAPeuZua2WfO2cuDyzKra12FUPA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HN1Z5mn/Hjjp18khAjX/STmKO/bBF7VtT0hjgG8a3inOzZEplcVWwxMkVmw3Ja1TEh7LzuWHB2Fg8eomdk37CUosz2yA2wvbmuldcJDMvVv+UCu3UdOXw1tyGFcR9f5h9FQppN6T7JpTBYEnG8S4WiT6AF2oEBJAesVRvxBbIoQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WxKTWzOa; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=e4HnSqW6; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694044E0B91
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 21:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790717090; cv=none; b=JSYq6FyxO0bfX6fMBCp09MagGgXMFepQv448x9ftSxThFNSwghTc8J/30rH63K4eae8g71e5ZYASU5q18d9Xgg6DJTDGJyu0SuIc+TBNQc+Ewcoks/96maaIqvHQupDb5pBHHj/B9wlUoW7D97s4UfhxcEkoADYjFCHqjhT7xdk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790717090; c=relaxed/simple;
+	bh=hl/GJq+lBD80Hn/PMYx2ViilH0jQaejr1LEgM8N0frA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=nQzvRgcPfb8IbwKpjSbuaIH9zcMlJjtlZoUzXDILj9JsQehnaEsHQYmEvxWLSLvLUMxD7G0vEDh9KiFeH9bPXPxJCHGreSirB8Eb0xEYO+ytDeyo18sAWGds/qQiA1aYjtxvnBFfea241LFYtbn23j6p8GjyANveUQYgYZjhxuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ctj7u5wo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WxKTWzOa";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="e4HnSqW6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790716516;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2FSuhGLAGqzfcOIaBu8CiLsYRpspmlLc9U2mEqKrqN4=;
-	b=WxKTWzOa72ufoGIZOIDJvl15a92bQErKPv/urMgGUY9kYSH7m/ZOlYRaw/Z49syviDlzUb
-	zhoUl3/imcfpOTxHntO5ssnHVd9YGX3l2dfzSFUIRDaMoGL6kXKVeLXspYC4ojaxUR3f7o
-	qiZZeBBZiI5Sc7f4+OXcPLf69oPLick=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-192-GDcG0fppOnms0ldmLOeIRw-1; Tue, 29 Sep 2026 17:15:14 -0400
-X-MC-Unique: GDcG0fppOnms0ldmLOeIRw-1
-X-Mimecast-MFC-AGG-ID: GDcG0fppOnms0ldmLOeIRw_1790716514
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-879b1d03d5fso75742997b3.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 14:15:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790716514; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PwQy/pulpw1qCveLNPaQIu1bj2xfypD040YDfGIPaGT3EGINhb5FG+EoUI866jxKMU
-         voZkhf5fGJSzKo3xUEQG8A/0TM+LmXoz22fGdWRHlL7vtOIDIsGw4LqsRyt97UEsa1S2
-         mJjyC0PZttOciSo9yXaoULa/lCY7MTZflNnDjpwSfB/HRFJeGHAAVCqmO4JdyW08FNK4
-         GyaZtk0Bh5+2ELdYOUyE1re7sqL+zHfaTDetOCFtcTfC9UyTTZjzL0pHJoZZ/v4p4FZP
-         IurIywJaWsMWz/MNus1xiJJRU9VdcUSzILT/hzOYAsWmFGZLgrqG96DDGR2tg74VE1a5
-         yTxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2FSuhGLAGqzfcOIaBu8CiLsYRpspmlLc9U2mEqKrqN4=;
-        fh=Vx3pF/PWY4sxoML3nifIZQ9xQpTIerRUyNk4zdFZGok=;
-        b=p2/gAvm/xdA9D5f1gnte5wXkEcQMMdYbVqEZfWqQhuhMNWZ0Kbj7caZgB1K4+b7vol
-         PkAxkobv1+kJR/Lwefi1e046ZREr0pfgIv+p8ClBAdQYmfJkkRBk1F4KNwsindYoCqvk
-         eTwWMeqcP5q8Fw6j1c84kWBESTFTvxCVY4fOLWsqiXzzffbEfTDIgxCPpUT20/tgmNgR
-         PfBFf3uX/F1Q5XXXCPgDlKhY9cbnhbFDSLs181UR8uPxCPDIpbOg79HbTkdG20+xKFjb
-         20ecCwC0ODvwztCC9pytx7E2wB5t9DE9h7+JLlB8/tDpE5ayTbNWIMHUk08a+73AvxLn
-         TWUQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1790716514; x=1791321314; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2FSuhGLAGqzfcOIaBu8CiLsYRpspmlLc9U2mEqKrqN4=;
-        b=e4HnSqW6orNhRpzA1tPsFNsaaDh2ZLjfDpLIgJPo5l41x7dmQgfG+T7l/nZdxpIEPI
-         4t0O6iJexA92kVqw3L3AAjU6I5sYnSCi6sTZ6rAbImD8ux/JZrixJDQwhkHVUCDt6wvi
-         zViehRS83+ySFxuX3SDC9gWfBd42vonKzsE/uwTVkyCHCpNc1kM3b3l1sRynpUQ7m81q
-         Z48ZrLB489Hgm+gTaw4SK+tdraFHQvSJAsSUuJ01Q3DJEZXQCTskr/HQDCU6K6RMM4MK
-         2gTtwe68jlFFPq5Z3fWcCuVUJ2drp5tCigu512tOOvDvlcJcKRBYA6aBJUCy1uPrLwe1
-         i5Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790716514; x=1791321314;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2FSuhGLAGqzfcOIaBu8CiLsYRpspmlLc9U2mEqKrqN4=;
-        b=wcYigCFPNyW924SxyZIZpq1xfJzbLThLStNChWA9DftgF5MrKVWa+mF/O8bSxvOdpC
-         q6vcrJR0ue1osuDOZfDzaf9FIoYaF+Vv+QcPWWkJZpTJaXWxpWdTxJe1m2KW0QsyCPAc
-         aI7WhpGdcW+18fv3zpL+2epBYwk4ftbZSAKTpDyBz+8CEuBthH5HJRDlNlXQ8QNJvCzj
-         4J4/4tGVGo+ml944VYpQZHYTyxUS63SOlgD2fEzNJ8ZkgQg9NjcopqTpE4c78fwi9Ku9
-         1N7vAb/GPvqaTKvmdto/bykvxbiEqJOd2k1oShATsU4sX1S7M93a6PYE4x2CQLSYTjl1
-         xz/g==
-X-Forwarded-Encrypted: i=1; AKwUvBw494glt/pu6zHA0+ZqZNEMUVbFIp4IY5Pt23HXXlyEF4QY7fUzbsM0c/s1+Eu3KA9zEhxQWJFVYVC/DjtG@vger.kernel.org
-X-Gm-Message-State: AFq9FYI5Wi4wOmqkD6Qu4z3BmKILID4rAfpFB22Fjjyf5FmrLGiKEcQn
-	Ckg5Omt7F4PSUEukRjLAeVMzFBdfkeDymC3SbIcKX60OOs0Hpgnx44pyc7XyCdq+eXPE/Kdah84
-	d+a3JglQen9j7nLWALc9w7/0TqqmOuMnYAICzCLRsJxFw3Zbjel8M1CUHZVao18HRulJO/EWSDx
-	WFTSfIQztrvyPL38O8llHhMdeWdPfR03tX1gF9kT9/VA==
-X-Gm-Gg: AYBFou1akKRTiAcbpCjkvWPvA9UdezE7VfstVFIaoA5q31XajoOPcRKBO8TUkCKwuJ7
-	8qPFl5uYuf/JkMPNwuwYKl5h9ThLghrTJGjE7a6mbOx8/wv+5ZPojzj5/eEhylme5lrJrDVuJzk
-	kl68Zya6q6Qn/3uITCo17K9guAweqOOTKmcAPyQR3E9TfsmvY4yM/DLDbdiXDuOZYIbVEghWesq
-	t++cIG4L0b/LFhwgZ1W4Q0e9ee9mTWz19sv8RFt6DSBfw==
-X-Received: by 2002:a53:c841:0:b0:675:3ad8:5725 with SMTP id 956f58d0204a3-67644063cc1mr146752d50.61.1790716513829;
-        Tue, 29 Sep 2026 14:15:13 -0700 (PDT)
-X-Received: by 2002:a53:c841:0:b0:675:3ad8:5725 with SMTP id
- 956f58d0204a3-67644063cc1mr146746d50.61.1790716513294; Tue, 29 Sep 2026
- 14:15:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ctj7u5wo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E21801F00893;
+	Tue, 29 Sep 2026 21:24:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790717089;
+	bh=xrUvbY2XS9zfmj593JZTmLqFqRTgjCWGJ4x+Rrl6zwg=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=Ctj7u5woYiswL4CpuhbxlzRiM2H9NAHfrGWOvo/pDYZJI3eKOy/gqbjDnnE5gg1dh
+	 FtvoR593w4HcTf8cnu6U1Os0QzZtQ5m5FfFDcPltbuLk5U2eMuvGKcJJAoD6eXW1XA
+	 NkGBYNnzBYdgP1qi/R5pycy64TFPayWqegpxYkLJXrJg0vIQ/2MPmmaozAF1rdX0o9
+	 oRrirBxdbebHOLS8mf5hOdy8MamP8XPQmvjOAUpDiI87+Skymf4OYGb46Hq4VKsPys
+	 M/j1s7JikWKuudPv+4KrCW0uKmNntOLFvFOxIRrtvDhghKVGVjWJ3k0htZ0WiwCOt/
+	 IvqTp2io4hygg==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id E7581F40066;
+	Tue, 29 Sep 2026 17:24:47 -0400 (EDT)
+Received: from phl-imap-04 ([10.202.2.82])
+  by phl-compute-02.internal (MEProxy); Tue, 29 Sep 2026 17:24:47 -0400
+X-ME-Sender: <xms:nyy8ajUGHxxkmrO8o9Ab5bEq3_iMhsRq9bbFPsx2HPNR3N_tpx2pGA>
+    <xme:nyy8amYWNGPOtlELasc3wmTEXOuWadrc_-o7Z-8ja6zSnmO8__p71FpzGsaRNFBuw
+    cY-1Hu27sr2QggmSlHQPBiIHkf_XkADfyNXOcxJA28YOG6T5GKPv2xo>
+X-ME-Proxy-Cause: dmFkZTEDV3/1yCe+FQo+fajx7AqOIr5Rxrx3oIgqUFxFLnj0QtPLZEH8zROozvhnMD7F/z
+    bxLh2IuyMIL/XFrFtL85b172Pv70LA4koJij1gAHBougsg20/EGxhfDwp9eZHd0SewJgFV
+    ut76SDPp5jQjxDbA0x9nKTNLzMdN/gk/fN/3mNXiQQcw4ID0b97l5sEsHIdqTt4UJ6wBDv
+    M2OLSORoquyKzLfw2+GZwznTxEsHUpNWshe4Gfjr732LA3ChvX8lH/EySiZwG9pYRpQ6P4
+    hGLLR5zvCUgZBx5CV1J7SZZxuzuYvLqirgRn4S1NL04m2EkKAEZ+fTHu68U/pJ7bSOuAVQ
+    Q8RNTYYMKw/Q0G31exTYs7VIzRA8xc/g7maAD4lddSVmAUD2XDn56e/9Rz2aZNXLb/eCV6
+    m8/VHDblDdbvqltGwMl2muz96Sg23FCUUAb57Nc0/CCr0Lz6g96Jwi1VdwOvK1BLJNkDnd
+    7QaQX61rT6fDSDJdYVv/25/wCJ02rHxZAE7xw0l8Rldy9Vgr+bp0vq6Y26uD/J4r/jbcvY
+    lYg6KQhhSQML3q5xiQ/Zcbb4sEWAQfPdmb0ZgZ9Fhq54C2v5hcqOdY9XJTcuVAInzIo9P2
+    rMOYJWouMLdjzZmKkO0tIq4Ccn/RStHFmod88WxKT40cxJSg0cZ1WZDrZNbA
+X-ME-Proxy: <xmx:nyy8ahhaC2jkq1l2rC5skmWScn_X9B4SYIipVuaqXfcwvws50DNvfA>
+    <xmx:nyy8asBj6TagPUgqZd_ApjbzUUg3BZd2IqM6eayipYaAc6kVXyLP4Q>
+    <xmx:nyy8ar5hvhkwFFpM7CP3DDo7evSaK6s10VEqFVg6wtDoWaLwjUBTuQ>
+    <xmx:nyy8apFieqMq8XXqonrD-HsdwKS5xUjcz9eK23gho_H7FCa3cs-gQg>
+    <xmx:nyy8auD_0LS3b8KVLuI0CjYACmMO2l_DXKfFjxiBBeq-Gkk1De2l7pwA>
+Feedback-ID: i20964851:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id BB3D8B6006E; Tue, 29 Sep 2026 17:24:47 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260921211712.1563575-1-agruenba@redhat.com> <rhj2uhowkjekxgi7tkxko5odxw3zikthtnlef5f5owrfjzrt3r@nul7b7ldcb2g>
- <CAHc6FU4Rf9-r8m8SSb=e0k0zyoFhQAdjupHMWvT6rStBshntug@mail.gmail.com> <v6c2tacifzt7e46fmlathfn5lgf54ae2qliq33ydhqkeudqnxc@r7dsaeww4yav>
-In-Reply-To: <v6c2tacifzt7e46fmlathfn5lgf54ae2qliq33ydhqkeudqnxc@r7dsaeww4yav>
-From: Andreas Gruenbacher <agruenba@redhat.com>
-Date: Tue, 29 Sep 2026 23:15:02 +0200
-X-Gm-Features: AclHuK_m6BXsIjSqEKF55PqZUMBSueUTteabMNeQfNqLlUUx7SCdfvrnfRnhWCs
-Message-ID: <CAHc6FU4X_2+J9R0rdBnuH5szyvJ0=Jm5U6-gTcU2-2ewnMO4uQ@mail.gmail.com>
-Subject: Re: [PATCH] fs/gfs2: prevent premature evict in prune_icache_sb
-To: Jan Kara <jack@suse.cz>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Christoph Hellwig <hch@infradead.org>, Matthew Wilcox <willy@infradead.org>, gfs2@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: AFvboQk2emfF
+Date: Tue, 29 Sep 2026 17:24:15 -0400
+From: "Anna Schumaker" <anna@kernel.org>
+To: NeilBrown <neil@brown.name>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>
+Cc: "Jeff Layton" <jlayton@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <68919e69-d97b-47a4-8695-8021f24f119c@app.fastmail.com>
+In-Reply-To: <20260929022547.1428036-1-neilb@ownmail.net>
+References: <20260929022547.1428036-1-neilb@ownmail.net>
+Subject: Re: [PATCH v2 0/9] nfs: prepare for VFS locking changes.
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 24, 2026 at 11:53=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
-> On Wed 23-09-26 23:01:52, Andreas Gruenbacher wrote:
-> > On Tue, Sep 22, 2026 at 1:22=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
-> > > Hello Andreas!
-> > >
-> > > On Mon 21-09-26 23:17:11, Andreas Gruenbacher wrote:
-> > > > Introduce a new I_NOPRUNE i_state flag for preventing prune_icache_=
-sb()
-> > > > from pruning specific inodes.
-> > > >
-> > > > prune_icache_sb() prunes clean inodes under memory pressure ("direc=
-t
-> > > > reclaim").  An inode is considered clean when none of the i_state f=
-lags
-> > > > are set; the assumption is that evicting inodes that don't have any
-> > > > i_state flags set will be fairly cheap.
-> > > >
-> > > > Unfortunately, on gfs2, inodes can be clean in the sense that they =
-won't
-> > > > require writing back to disk, but they may still have outstanding
-> > > > revokes (as indicated by the GLF_LFLUSH inode glock flag).  To evic=
-t one
-> > > > of those inodes, those outstanding revokes need to be written out f=
-irst.
-> > > >
-> > > > This requires flushing the log, which is already an expensive opera=
-tion.
-> > > > When in data=3Dordered mode, all the ordered data needs to be writt=
-en out
-> > > > before the log can be flushed, which makes things even worse.
-> > > >
-> > > > As previously discussed [*], we are currently also running into the
-> > > > following warning in iomap_writepages() when flushing ordered data:
-> > > >
-> > > >     /*
-> > > >      * Writeback from reclaim context should never happen except in=
- the case
-> > > >      * of a VM regression so warn about it and refuse to write the =
-data.
-> > > >      */
-> > > >     if (WARN_ON_ONCE((current->flags & (PF_MEMALLOC | PF_KSWAPD)) =
-=3D=3D
-> > > >                     PF_MEMALLOC))
-> > > >             return -EIO;
-> > > >
-> > > > So we need to prevent prune_icache_sb() from evicting inodes that h=
-ave
-> > > > any outstanding revokes.  This patch achieves that by introducing a=
- new
-> > > > I_NOPRUNE i_state flag.  When that new flag (or any other flag) is =
-set,
-> > > > prune_icache_sb() will skip those inodes.
-> > > >
-> > > > In the filesystem code, we set and clear the I_NOPRUNE flag in sync=
- with
-> > > > the GLF_LFLUSH inode glock flag.
-> > > >
-> > > > An alternative approach might be to allow filesystems to refuse evi=
-cting
-> > > > inodes that prune_icache_sb() has already selected.  This could be
-> > > > achieved by changing the ->evict_inode super operation to return a
-> > > > lru_status code or similar.  prune_icache_sb() would then have to
-> > > > resurrect inodes that were already marked I_FREEING and put them ba=
-ck
-> > > > onto the lru list.  This approach doesn't seem obviously better tha=
-n
-> > > > introducing I_NOPRUNE, so I haven't pursued this any further.
-> > >
-> > > So for situations like this I've written a patch set to allow filesys=
-tem
-> > > to mark inode for deferred reclaim (from a workqueue) [1]. Would that=
- work
-> > > for you? It will definitely solve your problems with warnings in memo=
-ry
-> > > allocator.
-> > >
-> > > I don't want to have two different mechanisms for the same issue so i=
-f my
-> > > solution doesn't quite work for you, let's discuss how to make it bet=
-ter
-> > > :).
-> >
-> > thanks, this would solve some of my problems. In the gfs2 case, inodes
-> > are only in "deferred reclaim" state for a while (while they have
-> > outstanding revokes) before becoming directly reclaimable again. So
-> > I'd also need a way to clear the I_DEFER_RECLAIM flag again.
+
+
+On Mon, Sep 28, 2026, at 10:21 PM, NeilBrown wrote:
+> sashiko reported some problem with the previous posting.  A lot
+> were false positives as it used the wrong base.  However:
+> 3/9 had inverted the return code from nfs_neg_need_reval() - it returns
+>     1 for "must revalidate" unlike d_revalidate which returns 0.
+> 8/9 didn't handle and error from nfs_lookup() correctly - it
+>     should be fatal rather than triggering a retry.
 >
-> Well, that's kind of the case for other filesystems as well. But since
-> deferred reclaim is relatively cheap my current thinking was that if
-> somebody did something expensive to the inode like allocating blocks
-> (that's what triggers this for ext4, not sure what exactly triggers the
-> state for GFS2), then we can afford also the additional small cost of
-> offloading the reclaim to a workqueue (regardless whether it is really
-> needed at the time reclaim actually happens). We just don't want to
-> unconditionally offload because if someone is just statting millions of
-> inodes on some filesystem, he's basically bound by the speed of reclaim o=
-n
-> sufficiently fast storage and the additional delay of reclaim and the cos=
-t
-> of offloading would become visible.
-
-Fair enough, let's see if we can get away without clearing I_DEFER_RECLAIM.
-
-> > The I_DEFER_RECLAIM flag setting and clearing code would be racy and
-> > ugly though, so I'm wondering if we can change the ->evict_inode()
-> > super operation to return a DIRECT / DEFERRED status code instead. The
-> > filesystem could then look at the filesystem-internal state and return
-> > how to proceed with the inode. For example, fs2_evict_inode() would
-> > probably request a DEFERED evict when GLF_LFLUSH is set, PF_MEMALLOC
-> > is set, and PF_KSWAPD is not set.
+> Original intro below.
+> Thanks,
+> NeilBrown
 >
-> Right, but I really want filesystems to mess with process reclaim flags a=
-s
-> little as possible because that smells with layering violation and
-> generally tends to be fragile. In some code paths such as iput_final()
-> or evict_inodes() I really prefer to be sure that the filesystem just fre=
-es
-> the inode without having to check details of all the implementations maki=
-ng
-> sure they don't do something stupid and offload when they shouldn't.
+> I am working on changes to directory locking.  The medium term goal is
+> to lift d_alloc_parallel() locking above i_rwsem, so d_alloc_paralle()
+> can be run unlocked, and consequently cannot be called when ->i_rwsem is
+> held.
 >
-> So if we do something like this, I'd probably prefer explicit flag to
-> ->evict() telling that offloading is possible and in that case filesystem
-> can return special value meaning it requests offloading and prune_icache(=
-)
-> would handle that.
+> The requires:
+>  1/ the d_alloc_parallel() not be called while i_rwsem is held.  NFS does
+>     this in a few places. New interfaces d_alloc_trylock() and d_duplicate()
+>     are now available and can be used instead.
 >
-> Another problem I see with this scheme is that VFS is completely obliviou=
-s
-> to the number of inodes for which reclaim will be deferred and so there's
-> no chance for throttling places that create such inodes when the reclaim =
-is
-> getting overloaded.
+>  2/ a dentry must not be d_drop()ed while an operation is ongoing, as an
+>     unlocked d_alloc_parallel() would then be able to create a new
+>     dentry with the same name.  In particular d_rehash() must be phased
+>     out as it won't be safe.  Various techiniques are used to avoid the
+>     need for d_drop(), particularly that d_splice_alias() is now able to
+>     splice a hashed alias.
 >
-> So overall I'd prefer we avoid all this complexity at least until we have=
- a
-> real-world case where the performance impact of unnecessary offloading is
-> visible.
+> Further, the first two patches here fixes bugs that I found while
+> developing and reviewing these changes.
+>
+> The patches depend on patches recently added to the vfs tree.  I would
+> prefer these land in that tree too with an Acked-by or similar from NFS
+> maintainers.
 
-Works for me.
+These look okay to me:
 
-Thanks,
-Andreas
+Acked-by: Anna Schumaker <anna.schumaker@hammerspace.com>
 
+>
+> Thanks,
+> NeilBrown
+>
+>  [PATCH v2 1/9] nfs: fix open-blocking with d_fsdata
+>  [PATCH v2 2/9] nfs: fix nfs_call_unlink()
+>  [PATCH v2 3/9] nfs: remove d_drop()/d_alloc_parallel() from
+>  [PATCH v2 4/9] nfs: use d_splice_alias() in nfs_link()
+>  [PATCH v2 5/9] nfs: don't d_drop() before d_splice_alias()
+>  [PATCH v2 6/9] nfs: don't d_drop() before d_splice_alias() in
+>  [PATCH v2 7/9] nfs: Use d_alloc_trylock() in nfs_prime_dcache()
+>  [PATCH v2 8/9] nfs: use d_alloc_trylock() in silly-rename
+>  [PATCH v2 9/9] nfs: use d_duplicate()
