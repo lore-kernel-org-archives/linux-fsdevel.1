@@ -1,216 +1,249 @@
-Received: from flow-b2-smtp.messagingengine.com (flow-b2-smtp.messagingengine.com [202.12.124.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f41.google.com (mail-qk2-f41.google.com [74.125.230.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180D93B0ACC;
-	Tue, 29 Sep 2026 03:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.137
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790653423; cv=none; b=ds3qtCMRunBKl8dC2U8ycYt4qIZC0VnhuGzHjJ+vj10s9hqOIJEHKF/Z0feNNFHFB0pK0/kSeeeZApsmybo8l/8CDvxwRaA2+pzPc1q3XNEFzVIf1PePQrZsI6uCloZrSM1QazfzTuuoiVaJYv8NRupM7tvYFD+/4WrHYwtaCuk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790653423; c=relaxed/simple;
-	bh=f8w3SErdLZoqKSpgTvGjysbRqiIsz6+aTtn2pHqlj/Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dV4+63KUKer+UpWfpyKweAN4obBKDJU3c3Ofik7MOcFJLpJa975L0O8jrT8ycQm9V5kQq0L7EbOYDOmmG4SsQJ3hrCkDYJ3e+PiQ6oEhQCFo08H0aSm6gYNuk+Snry+Gjt93d3CyuGsH7qTMRD/8S1ZNIHm+6xGvg5MOntaar1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=ENz0LQ8U; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MBqEHp1D; arc=none smtp.client-ip=202.12.124.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC2635DA4C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 04:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.233
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790654790; cv=pass; b=t7YfT4d8xVjuHNrlaPrfFegVNYryB3OwoTjrIfzBD7HCz+fs4GYkiP9r5VT7tPHFHpFvm9MXazsj/NHsYq4xWOZjT4Gc0zBDKsddoFTEjwoNNeXEPf89yJk3Da0VR2BTkF3hgURVRT7DggfVYG+v/mnzCf8U944FjxEvkZ71uR4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790654790; c=relaxed/simple;
+	bh=OUqW22UO8+f58aBt4HLAJFHAQ6hQs2WZWeoUhs/jE28=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Wq5B0lA6SihQl4I2UO0VoVPieilCdLqeS+lf2Il37OJjwZpELs847VUhCJycV32LXRpV5P+U/s+UjRT5mz/2R/aCBMo1EskhsQEXG1rUghKatXmilmFTpwSEIEBX0w/6WUtWN1y69XwUKgnxCj1JKD2/2nj8D8Fi4nHo3HHVIVo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p/w+Sxkq; arc=pass smtp.client-ip=74.125.230.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="ENz0LQ8U";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MBqEHp1D"
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailflow.stl.internal (Postfix) with ESMTP id CE76D1301955;
-	Mon, 28 Sep 2026 23:43:40 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Mon, 28 Sep 2026 23:43:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1790653420;
-	 x=1790660620; bh=i1h0p2e7++gwnGP3KptyQMr+okjQyilzEhg1TYCoO3w=; b=
-	ENz0LQ8UiLytL9lxt2KLIu/JNlkCZgQg5KbWdIfShIfvXN4eiMi1oOV6uaWVsSaw
-	7q0g0qWVASWqp4Yp/KTNwfQSA3h0cOHcxTz7RyjwNqlGWiUDJS1GAgPSrb/wBHGr
-	mTqKik/rvyE6Hjkq8mF3ayKb86dVK9xrmyD0R3lcUVEx5T3eBsinJANz3c0kf7Rb
-	FSliw6iT0xXXrPOMxToToJmFmN4706WbEaG6FbJoRwBeO4d5eFLKGG1WwVcsgyOS
-	uN4pfVfZnL76h+QN3GdfFkhZ/+BiUmW21ulm2Lh/C18UpTMU6B+8wnp1O1BdwZai
-	Sb735Bd6K7Se9wZQuV5xMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1790653420; x=1790660620; bh=i
-	1h0p2e7++gwnGP3KptyQMr+okjQyilzEhg1TYCoO3w=; b=MBqEHp1DGEc92QRHP
-	mEyLf8MBy8u3uSRt3Wmm+6ljMc7tpYqKju8ufrZIGS+2Px2FyF4z7y26rzlGHscV
-	k1/VNf13ydunNphWNAmABkXMi/SNk4WObEZ+b00Sz30BCH1klrtbI0tD9soHaXmf
-	8Czb81FkK/uNcQC8GR8QPkP312sJ1JeV/UF5em3yLmpuDlcY+0MdGgU1Wm1PBnKg
-	mGEnrOmWrDJnPCmGZs/NJzu3btV7Fpm3Vobj5ZhQTNxmtdHKGfcD5GXjiSsju0ie
-	OQ/x1gn/JgFiqHKD5OciQ+DhV9qQ8etMRbmzDxv5adBXTzdTzjjWm+m5SRlMIrI+
-	Hfwgg==
-X-ME-Sender: <xms:7DO7ahHAZEi-pepqf3MJNQOw2CubXU7pOlpQaONtAIRVr5bea8Npmw>
-    <xme:7DO7apQrIjW9l1JqUMAmP4g9Y8kLQs7y-vdFmmvloyjV-UnJgi6cTnBnO7URAFUxB
-    sW_usVk5FHdbcnZEx04GtjLwvPqVhCNteVThQ9rPC68opAJTKQ>
-X-ME-Received: <xmr:7DO7arXa6zMudk8WwOv8NgR-Aex29IvcHdFyOdbT5GB-bBril_20BQ2vFUchRBLOxBhxGFpWyjVlIUzWrSl0qLeRmzglQi0>
-X-ME-Proxy-Cause: dmFkZTGoJB+17Zq7ThrEPjmxn4ZGYu519RzWwVi/88aejzKjstMboztaed73ef7D6avpE+
-    +4ud1a3y7i3orjwLfnXoctNyz4isc8MlqqkCj9w/LgYTxltRiENCW6GCIqrBIGfd6BoOtn
-    3U4T9DnMQq0t334tHmkLT0tBGbfhvTaaBwaOBKtxwtl6WpY46qwankbHLMumQlIvXZxJZX
-    MK4M+NdZABlSsm1lFGpu8Zoavf0+po6/QQ3FmqOSdXOPNwreWLw4U6EONlQdAFPuoTNGlS
-    rFYPmLdcGE1rV4M0fAMpJKofG+st3+8PfQ+b7I9sMwGW86B3jq8HWH1QNmIbUmtd6GqsrP
-    W5DEzAjl8MzRdbpR2RjUySxpkFifkTYA4HtUzAozr33P7xxEhulDMO4Vuyht7+pxV2ybSP
-    JYC5qfcc1bajC548ieTni/xNlOrLA0ulGdRzvMr5I5O/80no2OBjM2tO72eJ0ppQFNY3p4
-    y223n3aGNuk7lcg29mHuvCm2DT0nk5zQvihiqGq72NwvikkdPZQzPIiU9sISkq+KAFQj1O
-    lB1vaJ+/hD0gmX6ZdXcK6c+jU9+h7ARfmJ6jVckDlNQ3ui+02FwkiVqCHeucbEWrG2Slvb
-    e+pvTNkLQO/+XqNqxqB4VQ6dsAUSeRjqoL7T48qDuKx9jFLdUe5vfDp/fA4A
-X-ME-Proxy: <xmx:7DO7al5hwDNCW7TEj4z_Vz0XIzH8IWkZERl08e0c63_0yjxko1P89g>
-    <xmx:7DO7amFG30MoCf0PW1RMMg0W51xjdLOvLLXN8GPq2Y5urMY1AQ-ckw>
-    <xmx:7DO7ajQz5ffRarsm-qSyfp-XWWeOgNGZKKvgGnc3q9qMPPNq6WPNnw>
-    <xmx:7DO7ajOiGGIJBon54IWtCwW3CvWFM9QSCs7GsV16xX5GDG8lKCIBFg>
-    <xmx:7DO7amehbzF3LBUlRg2h5TxJyigFtAfQ2KW-F6-2xRNbYijnrA_WpSCk>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Sep 2026 23:43:32 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	Joel Granados <joel.granados@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Breno Leitao <leitao@debian.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Jan Harkes <jaharkes@cs.cmu.edu>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	Carlos Maiolino <cem@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	codalist@coda.cs.cmu.edu,
-	coda@cs.cmu.edu,
-	linux-mm@kvack.org,
-	ntfs@lists.linux.dev,
-	linux-xfs@vger.kernel.org
-Subject: [PATCH 7/7] ovl: stop using lookup_one() in ovl_iterate().
-Date: Tue, 29 Sep 2026 13:36:07 +1000
-Message-ID: <20260929034158.1455429-8-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260929034158.1455429-1-neilb@ownmail.net>
-References: <20260929034158.1455429-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p/w+Sxkq"
+Received: by mail-qk2-f41.google.com with SMTP id d75a77b69052e-533245fd18dso20869841cf.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 21:06:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790654788; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Zm9rKfXNCLcG10UBPpbikO4Lv2psSZrlwd2x9ht+FwDVGq8RipUsuF5Fb1g7uXCfZl
+         cCwRrRwXeM25iQyh6bESkP63Ad1fCtAN5IVQHkLWk8xS8tqfQNmB0AVQW5s9dC05YI81
+         VPg8GaQA3HIZEFnUlfsqSu4X9MGY7Ql74B2ON1gyOvU/cX9/NVvSyAiMoyPas+DEh/0Z
+         hT1IajNXmsuorln4D8QUhG35D3HWhcJXh42b0H675ZDgdUPM+kcm7V8S6YMaiFva781E
+         a6j/gN0mkxB2A7k5ui+gcx2Wac1Nsnz1dEQE+UMjoiOYNxLRcCpcSfO9lAF7jxaveOkG
+         oAQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=OUqW22UO8+f58aBt4HLAJFHAQ6hQs2WZWeoUhs/jE28=;
+        fh=x5ORzegaAJxMSIQ3+f0M1G+kH/63RJpm5xsqE2vDhpw=;
+        b=oSIKBKwb0+/irQrXGao2ZLKrBFYDRQDpfHFWZRP76ODTJNhiRlTqG5ch6PGi9QnjVP
+         TPPP34hEnKU+IttfvsqL3ffSzG/btUnOrALPZ/YBmtXl/KdDdT6qouc2e/EZGSXKhJw3
+         vMEc86IfGO8Y5SAyJzun7kOFyQ6rWkw4Pv6bEymbbualJiFDvPDng7lfx+zI/2kyeXmm
+         qnpI9TXsNl89cZChqtLzg0mzTji965vtRaCp8Z4gr0N6ncqXqYUXLEqwkTH4WFzV9ML8
+         3r6Hd6r7tk3spvPDWRS2FxzJzJIsX00exME1b7T3H3jeoDgORn/dStAend9PRVGwDPiV
+         ihzw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790654788; x=1791259588; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OUqW22UO8+f58aBt4HLAJFHAQ6hQs2WZWeoUhs/jE28=;
+        b=p/w+SxkqHl+mU9k2R5WVG17CQZKshheL98TcoOfto53ekEWDhXkcCzAHNR0YRGmkqb
+         Ea9LWL/z1LSBiSVUcY5PTE0Q5Cp+bNymyZI6ZQ67zmnSZ/cZlpPdw3B+rrEqRyWwxzMW
+         SLdn/njkWN9pL81uW39ulty1A0k8tR/NUvTQq3UpOnp3Ktpi9LJOCOeqrFIzNmF404l6
+         DirKRbvw+QcK0umxFirHSIOGxZLQdWv7w5xeZZSs7ZDfA18q/Zk738N1Jj1xXxtLXgpI
+         AdPqEpd/Rr4UOB+E7NXKJs5GHR37ooU6lRNOZsl5OBvUCtPpFSfeKmEYD/qOrXegNeqK
+         Rygg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790654788; x=1791259588;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OUqW22UO8+f58aBt4HLAJFHAQ6hQs2WZWeoUhs/jE28=;
+        b=KgM/YxE9rN/9j26UrsH569CzpdIeE5fJjYLk1tY2TaXpg0/FZ4V/CqGFdPYrWLFXRF
+         8jUCRgNZbk23N91vnAoHXZtbd/RDJK/YVgqJ81+AB9xv7GcK/r1zj8cfY+bT21vRM1eF
+         dtqdOj3s7i3ncCXENsPDa8E0qDNIp1wsDpfVzpADwTiBGI8aVJ1Dtn8FplTgy87Qqs0R
+         zw82tBMXwTnpojlP/8DnaySg5iKWWHviY2MkoyW79dnrLPbogMdFsTE9bWzXiRnEEKFt
+         CxLgH8nrDSZgSkoHXV2TSxdjL7bWK1jW4U6eHQmFYiD+X3gkRr3SkVNGKN4h5MI+1ieh
+         gQHQ==
+X-Forwarded-Encrypted: i=1; AKwUvBym5RZQl3hKHUr0Wp5ElCxzQL1YgGk3n7C982XaDnHBWVInefaZCmbI5viii4H7haSVayMgOfP7mBW6FJN4@vger.kernel.org
+X-Gm-Message-State: AFuF++niUvI+tanxJm+MptRK2QfFSsCzUmEXUavAQ0S+KBYG7KX4Vaj6
+	AJ1ukPGPUZEJLypWOfPmrWfsnhHlSIzFb9DVUVJGrXZ+jpVgNmdWanPHprbvsx2yOkf8kZfat0N
+	tqU1hXOZ7gT/GLhnQoIu4xNoYC/18fHA=
+X-Gm-Gg: AYBFou3ulyNJRFAldLDeoX1cOV0WVEFvbXHmCovU2E7sGYzXQAsWso3S2omBy+jmXyY
+	+Rve+aJpcU02ZsAsTSrCLFgR/Mj46bmSrbQMu45W7xPwl7Tz6b9/V24M+3TjvtUdfon8AmFvqGi
+	qbRGSyMIoR8Yke8+vHqam4zGf1Ww57rY20jgkEvcCAbOVqYyTstNeqeR4oibOtEj9bt7ER0R1zv
+	qDfCCHw9tReEWw05D64m48VtcYcY4TWjNCcgEg0JhDTqwsu+pjsIar000Flg+7VRGf3qPAwALPV
+	oVgPkIXaTyHNuWR24b1y9symnBrjtyMaIQ4GC+FkRRYEHtr+Y9zdpAGVt2fcTHo8irY2Yw38NVb
+	YV4T9Q06DNsqlmgV83unnILRts9HZbQNOAwl87g==
+X-Received: by 2002:a05:622a:4d9a:b0:533:33c6:e636 with SMTP id
+ d75a77b69052e-53333c6feb6mr144083901cf.6.1790654787333; Mon, 28 Sep 2026
+ 21:06:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAAE3jtcL_CZJdcattCwe0RraKnHcZO=UknxEUQVG858ouZCUQA@mail.gmail.com>
+ <7ebe4591-2306-4b5c-b83e-6a2e34b52bd8@kernel.org> <CAAE3jtfeKJLSypScqRAEEgvO8En5kJfpbcFn5X+LQ2YL+xz_vA@mail.gmail.com>
+ <85aff663-2131-47da-ac04-8f0799a49b91@kernel.org>
+In-Reply-To: <85aff663-2131-47da-ac04-8f0799a49b91@kernel.org>
+From: =?UTF-8?B?5aSp54u8?= <rockeet@gmail.com>
+Date: Tue, 29 Sep 2026 12:06:16 +0800
+X-Gm-Features: AclHuK9HdKWxBr-sSsUZ5a8tjbRFwN_-vuhBxXzXtHCDYVNfVrksHL5LNaPEO2I
+Message-ID: <CAAE3jtcRQ407P9LTbg=JOwhABQRViSaq2XBefnDdNWiD7PxvUg@mail.gmail.com>
+Subject: Re: [RFC] madvise: best-effort deferred writeback for shared file mappings
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	"Lorenzo Stoakes (Arm)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: NeilBrown <neil@brown.name>
+Hi David,
 
-lookup_one() is expected to be removed as it does not fit well with
-proposed changes to directory locking.
-Specifically d_alloc_parallel() will be ordered outside of i_rwsem
-and as iterate_shared() is called with i_rwsem held it is not safe
-to call d_alloc_parallel().
+> What is supposed to happen if the process crashes when updating the
+> MAP_SHARED region halfway through?
 
-We can instead call d_alloc_trylock() and then call the ->lookup, but
-that can fail if there is a lookup attempt concurrent with the
-readdir().
+The data structure survives an interrupted update through its
+application-level copy-on-write and lock-free concurrency design. A
+file-backed MAP_SHARED mapping preserves the latest userspace writes after
+the process dies, even if they have not yet reached disk, provided the
+kernel remains running.
 
-ovl cannot afford for the lookup to fail as that could produce incorrect
-results, and it cannot safely drop i_rwsem temporarily as that could
-introduce races with handling of the directory cache.
+This does not depend on preventing writeback. Deferring writeback is purely
+a performance optimization, not a correctness requirement.
 
-Instead we rely on the fact that ovl_iterate() has an exclusive lock on
-the directory, so any concurrent lookup will wait for the ovl_iterate()
-call to complete.  We allocate a separate dentry and if the lookup is
-successful, it is hashed with the result.
+> It would be helpful if the use case + data structure would be explained
+> in a bit more detail.
 
-When the concurrent lookup gets i_rwsem it mustn't do its own lookup -
-it must use the existing dentry.  This is found, if it exists, using
-try_lookup_noperm().
+The data structure originally used uint32_t offsets instead of pointers to
+reduce pointer overhead. On that basis, we implemented lock-free concurrent
+reads and writes, obtaining crash safety for free at the same time. We use
+a file-backed MAP_SHARED mapping to turn that capability into an actual
+feature that survives process crashes.
 
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/overlayfs/namei.c   | 12 ++++++++++++
- fs/overlayfs/readdir.c | 26 ++++++++++++++++++++++++--
- 2 files changed, 36 insertions(+), 2 deletions(-)
+A concurrent skiplist using offsets as pointers is a simple example of such
+a data structure.
 
-diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
-index ca899fdfaafd..f56e33fd4d6b 100644
---- a/fs/overlayfs/namei.c
-+++ b/fs/overlayfs/namei.c
-@@ -1385,6 +1385,7 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
- 	struct ovl_fs *ofs = OVL_FS(dentry->d_sb);
- 	struct ovl_entry *poe = OVL_E(dentry->d_parent);
- 	bool check_redirect = (ovl_redirect_follow(ofs) || ofs->numdatalayer);
-+	struct dentry *alias;
- 	int err;
- 	struct ovl_lookup_ctx ctx = {
- 		.dentry = dentry,
-@@ -1399,6 +1400,17 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
- 	if (dentry->d_name.len > ofs->namelen)
- 		return ERR_PTR(-ENAMETOOLONG);
- 
-+	/*
-+	 * The existence of this in-lookup dentry might have forced
-+	 * readdir to do the lookup with a new dentry.  If so we must
-+	 * return that one.
-+	 */
-+	alias = try_lookup_noperm(&QSTR_LEN(dentry->d_name.name,
-+					    dentry->d_name.len),
-+				  dentry->d_parent);
-+	if (alias && !IS_ERR(alias))
-+		return alias;
-+
- 	with_ovl_creds(dentry->d_sb)
- 		err = ovl_lookup_layers(&ctx, &d);
- 
-diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-index e7fe29cb6028..bc41da4bace8 100644
---- a/fs/overlayfs/readdir.c
-+++ b/fs/overlayfs/readdir.c
-@@ -574,8 +574,30 @@ static int ovl_cache_update(const struct path *path, struct ovl_cache_entry *p,
- 		}
- 	}
- 	/* This checks also for xwhiteouts */
--	this = lookup_one(mnt_idmap(path->mnt), &QSTR_LEN(p->name, p->len), dir);
--	if (IS_ERR_OR_NULL(this) || !this->d_inode) {
-+	this = d_alloc_trylock(dir, &QSTR_LEN(p->name, p->len));
-+	if (this == ERR_PTR(-EWOULDBLOCK)) {
-+		/*
-+		 * Some other thread is looking up this name and will
-+		 * block on i_rwsem before it can complete the lookup.
-+		 * We will do the lookup in a new dentry and when that
-+		 * lookup gets a turn it will find and return this
-+		 * dentry.
-+		 */
-+		this = d_alloc_name(dir, p->name);
-+		if (!this)
-+			this = ERR_PTR(-ENOMEM);
-+	}
-+	if (!IS_ERR(this) && d_unhashed(this)) {
-+		/* Either we got an in-lookup or we made our own unhashed */
-+		struct dentry *alias = ovl_lookup(dir->d_inode, this, 0);
-+
-+		d_lookup_done(this);
-+		if (alias) {
-+			dput(this);
-+			this = alias;
-+		}
-+	}
-+	if (IS_ERR(this) || !this->d_inode) {
- 		/* Mark a stale entry */
- 		p->is_whiteout = true;
- 		if (IS_ERR(this)) {
--- 
-2.50.0.107.gf914562f5916.dirty
+During construction, writes are scattered throughout a large mapping,
+dirtying pages rapidly and repeatedly modifying pages.
 
+> Unless you would try to bypass the page cache of course (if possible for
+> your use case).
+
+The page cache is useful here: it preserves the latest shared-mapping
+writes across a process crash, and subsequent consumer processes can map
+the file and read the same pages. Building directly in MAP_SHARED gives us
+both properties without a separate copy of the completed structure.
+
+> What exactly is the problem with writeback here? Unnecessary I/O? Is
+> writeback the problem or actual reclaim after writeback?
+
+Unnecessary I/O. Reclaim after writeback is not the problem I am trying to
+address.
+
+During construction, background writeback can write intermediate contents
+that the application will soon overwrite. Those repeated writes waste disk
+bandwidth. Delaying writeback would avoid that waste where possible; it is
+not required for correctness.
+
+> In a fuse server you can in theory delay the writeback request.
+
+Thanks for the suggestion. That sounds like a possible way to experiment
+with delayed writeback. The feature I am requesting would make this
+advisory behavior available to applications using ordinary file-backed
+shared mappings.
+
+> So fadvise would be an option. However, this "defer mode" is really odd.
+> It sounds more like you would want to have a custom policy there [...]
+
+madvise is not the only option, deferring writeback for the entire file
+would also be acceptable.
+
+The application only wants to indicate that it is still modifying the data
+and would prefer background writeback to happen later. The kernel would
+retain control over the actual timing. Memory pressure could override the
+hint, and explicit synchronization would keep its normal semantics.
+
+The hint should also expire automatically when the owning mapping or handle
+is released, including on process exit.
+
+Thanks,
+Peng
+
+David Hildenbrand (Arm) <david@kernel.org> =E4=BA=8E2026=E5=B9=B49=E6=9C=88=
+29=E6=97=A5=E5=91=A8=E4=BA=8C 03:12=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On 9/28/26 15:09, =E5=A4=A9=E7=8B=BC wrote:
+> > Hi David,
+>
+> Hi,
+>
+> >
+> > The use case is a concurrent, lock-free, relocatable data structure tha=
+t
+> > uses offsets rather than absolute pointers. It implements copy-on-write
+> > at the data-structure level and is designed to remain recoverable after
+> > a process crash. We therefore build it directly in a file-backed
+> > MAP_SHARED mapping, so its state is not lost when the constructing
+> > process exits unexpectedly.
+>
+> What is supposed to happen if the process crashes when updating the MAP_S=
+HARED
+> region halfway through?
+>
+> It would be helpful if the use case + data structure would be explained i=
+n a
+> bit more detail.
+>
+> >
+> > Building it in anonymous memory and calling write() only after
+> > construction would lose that state if the process crashed before the
+> > write. It would also require copying the entire structure into the
+> > file's page cache.
+>
+> Yes. Unless to would try to bypass the page cache of course (if possible =
+for
+> your use case).
+>
+> >
+> > During construction, writes are scattered throughout the mapping,
+> > dirtying pages rapidly and repeatedly redirtying pages that may already
+> > have been written back. The goal is to reduce writeback of these
+> > intermediate states while retaining the same page-cache pages for
+> > subsequent readers.
+>
+> What exactly is the poblem with writeback here? Unnecessary I/O? Is write=
+back
+> the problem or actual reclaim after writeback?
+>
+> (I recall that in a fuse server you can in theory delay the writeback req=
+uest.
+> So maybe you could get something going by serving your file through fuse =
+and
+> enlightening the fuse server about it. Just a random idea.)
+>
+> >
+> > The hint would remain strictly best-effort: memory pressure and explici=
+t
+> > synchronization could override it. By "process crash," I mean terminati=
+on
+> > of the process while the kernel remains running; recovery after a syste=
+m
+> > crash or power loss is a separate durability concern.
+> >
+> > Regarding the interface, madvise was only a suggestion. A file-level
+> > advisory interface would also work for this use case: deferring backgro=
+und
+> > writeback for the entire file, rather than individual mapped ranges, is
+> > acceptable.
+>
+> So fadvise would be an option. However, this "defer mode" is really odd. =
+It
+> sounds more like you would want to have a custom policy there, instead of
+> hardcoding something that really not a lot might want. Hmmm
+>
+> --
+> Cheers,
+>
+> David
