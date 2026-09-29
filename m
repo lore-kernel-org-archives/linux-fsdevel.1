@@ -1,59 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3043B51C051;
-	Tue, 29 Sep 2026 15:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257D33D1A81;
+	Tue, 29 Sep 2026 15:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790695492; cv=none; b=Cj1CpaS5I7XUGVc4eDFgggu8UwdzEME74qrgKzdmg2v+zStLeC/uFkbdiFf5tFq9L8oOjuRjqfmyU4yKjTOG5ewcNtsaZUxiYBOuS7t5FaZB8Ko7N1H1T+kAVG19smQrDcvRL4fLCRowjs9UEY2hAi1ihABYXdAjN5dRVQjjAfw=
+	t=1790696118; cv=none; b=LoK/pSS0/8Fb8MUed0xppT7Z9QYBBtZlRSi9erzBREepfF4PkMskjNv3AdqXGJfkTLVgq09W3m9rG9CqHtMjGaVJbmK1voJ8dncDD5tm8ZUGDJ6vDn8BGYqoVTAit0mO/lldiU8Z7+lILsprk+Zjcy1Im1+3jl9NEJGGdZ2M7Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790695492; c=relaxed/simple;
-	bh=ZDqZqmnMst3K8Jzxe3rL6b+elVo2g/TGtXfuKVsq5yA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fZWrN6f6+auiEqbx2zw7ngasod+5qFbYrcKG9b8K12k472zHj7ZXcUa+5fQTuNxmw1koIIELKE06EKKDnbP060F+6UYGcfB6uw8cphtY9UWlPZiLDvwfmmR0UhPkAcszcwkCGuO0nduBAQAalQ5bJzedLKK+XT54Mot+uOqSeuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TGCnxWEh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790696118; c=relaxed/simple;
+	bh=NCwgTAxyTUQwY75TVp+kWH1Jkd0gXgr3HqPSTeusEJg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=GI8cyVIpzbwMENR0woSkXNOJ1zyESgVDVlDO7ja4c6ZN8hKuE+YGAnL2aWAv0c+6pvFsQrG7BC3FhadaB2yEePxqLOo8kR3ejLP56fYbMKkZWc1+hCYjTst6hQXXDcVqVyM12UOYz+Q+n60XNnZwsEtoDL+hQHbA4VgUJVqAQZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BvDyLXUQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aGjaaqRn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OCgd65Hc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rUuRO2JE; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TGCnxWEh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9A441F000FF;
-	Tue, 29 Sep 2026 15:24:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790695481;
-	bh=pteoo/CBdjXRMEqghzMR/7447w1JwyP7h5pRKHXM3i8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=TGCnxWEh3M5kkR4lxN7gvH7QxY5HOe211BrA1GhdsIbT02tDvlF31R3HuuoI4sXmo
-	 +GH45QI8hh/J+M6ShB4ov1NaAxh7jYPbNDliqgno0128KzgA1YeKA7cfC7KxJtToDI
-	 b4APFUCP8q9HzyypcpSAuyomcvRAtM/A4YadqK+VKUroHSD8KrEPSWt9cxS1jF76jd
-	 sSL65MpW7KTIkZs6Bkfgy8L0FTFKYPBnRUA06OioTdAqpX8+lvGiEaWfxuclmEXmm+
-	 hvl/O8nl20vZdbKUqmcfgZ5Ai8pb6XKMF1Sz5pkPuzYm2urJbVj7TS0GO1n2wUaCBu
-	 GHVI6aktNtY6g==
-Date: Tue, 29 Sep 2026 17:24:37 +0200
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 3/3] iomap: use bio_complete_in_task for buffered simple
- dio read failures
-Message-ID: <arvYJ6euWIjtdHqy@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20260928091111.3986811-1-hch@lst.de>
- <20260928091111.3986811-4-hch@lst.de>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BvDyLXUQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aGjaaqRn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OCgd65Hc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rUuRO2JE"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BE74A21DA4;
+	Tue, 29 Sep 2026 15:35:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790696110; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bgCIe29fZ+5xH49B4VEfi+E+Krs4iRnCTa3+DRXXnsU=;
+	b=BvDyLXUQEKOGEmmc7ABTO2Ab1MeHkFQs6eRhvrTo2mv+85vXvxQbPIupfN0klUfeud27z/
+	n1ict7cfP4H/beOYMkLPc5TrpLEkL+99h39AD8XQCVTLSkJ/vcR4WD8tvD+9hpJomelbcB
+	+HpvYhMtG7ZSj7dCN79u8sc+crSfJng=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790696110;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bgCIe29fZ+5xH49B4VEfi+E+Krs4iRnCTa3+DRXXnsU=;
+	b=aGjaaqRnIbkSxibQRfUrlU77mFAX5Hu9yUsfgBrzXQeh6DyqajLxiKuwE8ISV9Wbe3rFwz
+	GaCR+oaHprWFqICQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790696106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bgCIe29fZ+5xH49B4VEfi+E+Krs4iRnCTa3+DRXXnsU=;
+	b=OCgd65HcH9IRQ4saD6ZiSUkH+3eIak1dcIu4ZXAvMIaW/smQjsPBeCoEd1XpdDtaXvrgbD
+	OA9KmHtVLkQZCeVS6nNDaV+JL0yG90ZGjOlZMbvcYP5XzegSWPiE5GSEt496LWwItpoESH
+	MScSlPFhlwi+KzHY9gkQajObTK9ulT4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790696106;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bgCIe29fZ+5xH49B4VEfi+E+Krs4iRnCTa3+DRXXnsU=;
+	b=rUuRO2JEncH5woRLbU/2tZDBOq1hmwYAJhQJW9r+6UUcj5ToyWB/02Y0cCarpr5067pN5u
+	tCBYKQerH33UJkDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4BF61136E4;
+	Tue, 29 Sep 2026 15:35:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gN/3BKrau2oKKAAAD6G6ig
+	(envelope-from <krisman@suse.de>); Tue, 29 Sep 2026 15:35:06 +0000
+From: Gabriel Krisman Bertazi <krisman@suse.de>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Theodore Ts'o <tytso@mit.edu>, Hugh Dickins
+ <hughd@google.com>, Daniel Tang <danielzgtg.opensource@gmail.com>,
+ linux-ext4@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+ linux-unionfs@vger.kernel.org, linux-mm@kvack.org, Chuck Lever
+ <cel@kernel.org>, Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>
+Subject: Re: [PATCH 4/4] ovl: Expose the filesystem encoding through sysfs
+In-Reply-To: <CAOQ4uxj7Vx-UGvgGGr9hPC0qUgJZ_WRAv1ZLi=gJ6r=ZJW0QAQ@mail.gmail.com>
+Organization: SUSE
+References: <20260928213155.2612039-1-krisman@suse.de>
+ <20260928213155.2612039-5-krisman@suse.de>
+ <CAOQ4uxj7Vx-UGvgGGr9hPC0qUgJZ_WRAv1ZLi=gJ6r=ZJW0QAQ@mail.gmail.com>
+Date: Tue, 29 Sep 2026 11:35:04 -0400
+Message-ID: <87mrt0xe8n.fsf@mailhost.krisman.be>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260928091111.3986811-4-hch@lst.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,mailhost.krisman.be:mid,suse.de:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,suse.cz,mit.edu,google.com,gmail.com,szeredi.hu,kvack.org];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,mailhost.krisman.be:mid]
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On 2026-09-28 11:11:09, Christoph Hellwig wrote:
-> Use bio_complete_in_task to defer the bio completion handler to task
-> context instead of the homegrown deferral.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Amir Goldstein <amir73il@gmail.com> writes:
 
-Looks good to me
-Reviewed-by: Andrey Albershteyn <aalbersh@kernel.org>
+> On Mon, Sep 28, 2026 at 11:32=E2=80=AFPM Gabriel Krisman Bertazi
+> <krisman@suse.de> wrote:
 
--- 
-- Andrey
+> I am not ok with this API.
+> It is wrong in several ways.
+> It is not generic, we have already file_getattr() to get casefold status.
+> There was a suggestion by Pali [1] to get the supported xflags - statx st=
+yle,
+> which can be a way to say if a fs could return FS_XFLAG_CASEFOLD.
+> In Chuck's v2 [2] FILEATTR_CASEFOLD_TYPE was already suggested
+> as an extension to file_getattr(). I think we can still do that if we inc=
+lude
+> proper versioning in the casefold type.
+
+Ok. I'm not fond of the overlay part of this series at all, in
+particular due to the major:minor design.  I was looking for an
+alternative way to do it and didn't find it, thus /sys/fs.
+
+> TBH, I don't think anyone requested this - you only mentioned
+> the need to know if tmpfs was mounted with casefold on and that
+> doesn't mean that etx4/ovl patches are justified, but ext4 can decide
+> for themselves.
+
+There is a need for a proper probing API when deciding to fallback to
+userspace casefolding workarounds, and that is not shmem specific at
+all.  I'm sure the Wine folks that right now use ext4/overlayfs will
+also benefit from a smarter way to fetch the information.
+
+> The point is that this sysfs is not going to be the standard for all the
+> fs that can return the FS_XFLAG_CASEFOLD, so I see no reason
+> to add this sysfs interface to ovl.
+
+Ack.  I'll drop patches 3 and 4 and wait on ext4 people to see if they want
+patch 2 to match f2fs. Will also keep an eye on FS_XFLAG_CASEFOLD.
+
+> Thanks,
+> Amir.
+>
+> [1] https://lore.kernel.org/linux-fsdevel/20250216164029.20673-4-pali@ker=
+nel.org/
+> [2] https://lore.kernel.org/linux-fsdevel/20251211152116.480799-2-cel@ker=
+nel.org/
+
+--=20
+Gabriel Krisman Bertazi
