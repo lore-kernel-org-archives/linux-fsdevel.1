@@ -1,88 +1,93 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD8B383984;
-	Tue, 29 Sep 2026 05:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A04175A8B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 06:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790658479; cv=none; b=pKOWwEG1jRtYXkz7OSiKFFwlTm5gCUxbbUgkN1OaRqxJYZrJ+kHov2xZgf1M+znNjjDDlFYg8v/YLnS8m7pnhf6yL5VK9q9GaLyOB/7JlxnS/JK/KSSJyAZB4BBS5RE0GPFiDp7888gQRTLjuU+rLCKbS0dHyoU1+BmlemQwKwA=
+	t=1790662886; cv=none; b=gQPiqGmoNqWRoktJ2HsJQcYE+EY6QQozuROxBpgwqk2EVGhluHwleWLzxp3HQKpjV6qcMI4neAoVMRPW9CKTJy8oK+YrBVLJp1nImB2M0wjli0mYIY2SeD4+pP+aNwYM3Wd0qKxDGt7Rh+uBNpN4muUkdR8McXUgbRDW6gDzeRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790658479; c=relaxed/simple;
-	bh=zVdfo8ZneJrRJ94k14YIO1Y9VXCvy8Lfs7ITB4fmUcs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HZ8B9IGRQWtXgrN/vuWVGoO0nrV+6Ybyx27OY4oxs1opuCBTfmEOrj649CwEJfTyj+kzVcsl1ZyzG8XLdqymgB9Z/NTzry2STdJdmsPfjylnq2UEYtk5VxKqURuCcDJ0NWAd95EDWcHf0JayJe3x84+EQRGNCkQKIiEI7+eCkns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Vt8Wl6v9; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1790662886; c=relaxed/simple;
+	bh=IsXEP/d/2pA2babj2pZZQMHHOf3036cos9HcMQkednU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d1oGm71n5MbI0fl/ATIOaxcigbvcnfRNndl8+yeK87UmF1j/7cRtdVVnGZungGjlS1sR4bc1Ij/LiUVzBXz1nGy0Xtl+6LH+KPE4TqUNbY2zeh4LR4LDgw2QSgwjTRilu7Ek6EMfN+kJueAyMZg1so1p5ouhmUKgG8tm7Fs2BUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IftGd0wF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Vt8Wl6v9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Ql48WTI1DDC42vkQ5aONYMMkjcdFwpalboLPZ35vz1E=; b=Vt8Wl6v9GXqlPdcfnYCxm8QiYp
-	IjYDbFvkRSA9EwCbUBHheJvuYZdpImQ8ElWTyxGfzBNWSOW2pO6W+4J4Y1tks26kT+/1ZOyOUbTV2
-	LxknNqO7/ieWoGqNfhU/6OiIm+u03J7GX8QRDAzb//I2WHU4oI0/7on5fhJYoFcx/TY3YdWmGFgOj
-	4/WzgK4OYYFLnJJZ1H6/D8CD8OvFCYz5m/CT5EO8CcQq6t3LkWaAWZ3HXS+H7Eiz8dY3BcMEfr7b2
-	xJxllWNFBc/BuTHZelPBr7MOyE8q5XDulXQDCXIxkADODbw48afqLDdAfkvjLTsbKv4uPDjyQv6ee
-	sAjeP0QA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xBQ43-00000002j2z-3GyS;
-	Tue, 29 Sep 2026 05:07:40 +0000
-Date: Tue, 29 Sep 2026 06:07:39 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: NeilBrown <neil@brown.name>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	Joel Granados <joel.granados@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Breno Leitao <leitao@debian.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Jan Harkes <jaharkes@cs.cmu.edu>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>, Carlos Maiolino <cem@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-um@lists.infradead.org, codalist@coda.cs.cmu.edu,
-	coda@cs.cmu.edu, linux-mm@kvack.org, ntfs@lists.linux.dev,
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 4/7] configfs: remove d_add() calls before
- configfs_attach_group()
-Message-ID: <20260929050739.GB3909609@ZenIV>
-References: <20260929034158.1455429-1-neilb@ownmail.net>
- <20260929034158.1455429-5-neilb@ownmail.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IftGd0wF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 021111F00899
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 06:21:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790662885;
+	bh=TCb5F6pVFcLzpGgoOVyjtPcXWhK4BpG0X0ULeKDemwE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=IftGd0wF4n28DwwQgZGyjpIPqaozc0XiCTyjiT7HuwBpIawuuiNpSM1a2CeZLvCTq
+	 c+wdPmDNRUToos9/fmi/511dxAYY2zjofCYgDKhkKaJ6kBUDERYArVE3FwKjXhxAQc
+	 RseAOKDTDdzVbZC6aBvYHOUqSYOhs5PUTqfLQQAHn4AfL43JcVrC5cq6Bd38RD3vLH
+	 lCeeMpjpPKZb1Np+dXkU4EM7Xlq7uxmZn8bYWSz43YhpkydL9/vQL9oQPqXUVacfth
+	 RhslLA5wvxg2eFvMHg2ZMxj6+lJPrILJljFkamw5qNrgqCSahf+gNmiwqu48IvPz0q
+	 BfUVXNUnQI9AQ==
+Received: by mail-qk2-f40.google.com with SMTP id af79cd13be357-93c5d67aa05so323439685a.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 28 Sep 2026 23:21:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzXO7mg8nmlYDKn1Ug3ymFam8ohBnLGGM18fb9tqusp2yyybRAXFhiOFXKDy1bbGGzHOz0VtdKySB/jxjLJ@vger.kernel.org
+X-Gm-Message-State: AFuF++lZD4GIhTAj6UeLkhztILHthGhePA7XWl8TdXt5AkCnIy6gZwtb
+	0i5XGNXEbOfqYnOTu+NnYTh3/xa8dCKGpoEI2FMoKJ2EipBnzHkF1hxP16PSryuQn7OctItsQ/l
+	0sMHsmUmpEeWsWpr8dBwEELPEaPwWZvw=
+X-Received: by 2002:a05:620a:1b92:b0:93c:3d7e:6e90 with SMTP id
+ af79cd13be357-93c4749a6c1mr2259266085a.32.1790662884039; Mon, 28 Sep 2026
+ 23:21:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260929034158.1455429-5-neilb@ownmail.net>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+References: <20260706235053.4104951-1-song@kernel.org> <CAPhsuW7E-mW5CvmSXjUsc1GBjvgpy=pnaYOzTJsLXDvx8+RMJQ@mail.gmail.com>
+ <20260928-hinein-lacke-nachfahren-45ac39a36146@brauner> <CAHC9VhRPd8z=67=RWM-0DqjTXysk75FtF=haY9-Vv1oGcX1PAg@mail.gmail.com>
+ <CAPhsuW7iFP4Y6C1ZhTvtEgTzgKjnpF9+8YfVg4o3P4BHEnR+LA@mail.gmail.com> <CAHC9VhQVVfKkRaHOp90E-WVGEVy_MYFBreUYPMc9Y79rLaviRQ@mail.gmail.com>
+In-Reply-To: <CAHC9VhQVVfKkRaHOp90E-WVGEVy_MYFBreUYPMc9Y79rLaviRQ@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Mon, 28 Sep 2026 23:21:11 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW5jQCe89LT_22dvQWVnw2cvpceODjvKiHEiYT9Wm_Npgg@mail.gmail.com>
+X-Gm-Features: AclHuK8OEJxYJWi3BrbNbV3RDX7RWScOTzHknH4jcYOLuT7EbqRyduXneh3vTXE
+Message-ID: <CAPhsuW5jQCe89LT_22dvQWVnw2cvpceODjvKiHEiYT9Wm_Npgg@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] lsm: Replace security_sb_mount with granular mount hooks
+To: Paul Moore <paul@paul-moore.com>
+Cc: Christian Brauner <brauner@kernel.org>, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, jmorris@namei.org, serge@hallyn.com, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, john.johansen@canonical.com, 
+	stephen.smalley.work@gmail.com, omosnace@redhat.com, mic@digikod.net, 
+	gnoack@google.com, takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
+	herton@canonical.com, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 29, 2026 at 01:36:04PM +1000, NeilBrown wrote:
-> From: NeilBrown <neil@brown.name>
-> 
-> These d_add() calls cannot be necessary.  The inode given is NULL so all
-> they do is attach the dentry to the hash table.
-> 
-> If configfs_attach_group() fails, then d_drop() is called so the dentry
-> will be detached.
-> If configfs_attach_group() succeeds, then
->  configfs_attach_group -> configfs_attach_item ->configfs_create_dir
-> must have succeeded, so d_instantiate() will have been called and the
-> dentry hashed there.
+On Mon, Sep 28, 2026 at 3:35=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
+[...]
+> >
+> > There is another question here. These new hooks do not have any in-tree
+> > user at the moment. This appears to violate the "New LSM Hooks" policy
+> > in [2]. Could you please give more specific guidance on this?
+>
+> There are LSMs which implement mount level access controls, you've
+> been updating those in your patchset :)  I believe that some of those
+> LSMs do have some (full? needs verification) coverage on the new mount
+> API.  I would expect that a patchset that adds, or modifies the
+> existing, mount hooks would also update those LSMs accordingly.  From
+> what I've seen, you've done a good job updating the individual LSMs
+> thus far, but if you have any questions or are unsure of what to do
+> for any one LSM, please ask and I'm sure the associated devs will be
+> happy to help.
 
-Neither in mainline, nor in -next...
+I don't think the scope here, adding hooks for fsopen, fsconfig, fsmount,
+fspick, open_tree, open_tree_attr and mount_setattr and using them
+properly in all LSMs, is a reasonable ask for a single patchset. Given
+how much time this simple refactoring patchset has taken, I don't foresee
+this work landing in any reasonable timeframe.
 
-d_add() _is_ wrong there, but this is not the right solution.  What
-we really ought to do is build the subtree first, then either dissolve
-it (without any pathname resolution having ever seen it) or move it
-in place once we are sure that everything worked.
+Please consider reviewing this set and landing it before asking for more
+work.
+
+Thanks,
+Song
