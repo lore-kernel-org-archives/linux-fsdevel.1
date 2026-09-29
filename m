@@ -1,195 +1,240 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C104A519DFE
-	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 12:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4488F51D519
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 12:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790683315; cv=none; b=lG2beTue8JfLbJwX/U+ZygRd9ITxGmOL9Ae0NbPNMC8XOOOIRo2U9GT0q2MGo/8UQpxH/w0fyHLFjIsalBROSZXV54rDpgGlJlhNZ/JxekhMS+XigYPsya5/NCDI4Pbq2CpthbWtw7YPBlkrDHqqlnJLk4vvt07702mD+VXe3Wc=
+	t=1790683974; cv=none; b=Vl7E+29RMQML1tD3b1zAhnFW/Qd39hP3c5LM4pBfIeMIgtfyJdffqtsetvjhrPoC41gxt2K7oYGyR95C6W8JKkcWsiYV4tO28Yb5Y+fcKTW2kYjGkKgdvSMuehWKHoNbLAnED7lLx5oiEoeaFfLRdnziYBxfOgFB2aIJNXdAmxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790683315; c=relaxed/simple;
-	bh=4z3WesXtvPEfT3EC6yJHIgFg+44oS4N+21ZtI0C7mDQ=;
-	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type; b=Qu1K3kYmV/EaYiDgC2yQGlEBl1LGwYNHu/lYjCwvdxpQGFE2lc84Z6d4LDDavjssdE0TjAwvSu3fuQ8I5INxZ/owcdyq0iEjYrPKaMKQJ5pMbPhbQSR7Ukqhy4eHnEZd8+/6vvoiwDsIaupK/8C1on0M5oag477GOLtj7nGhv0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UutDbD4F; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790683974; c=relaxed/simple;
+	bh=aOHR2S9JoDTNHa4EinckRR5sM8LP9tsgVirzxTuKr0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RABLvqygCtd48XiFNkx1lJen1hWyMC5aonsJIECCO9mb9vsjtGAqHNgOV57q2idQHA2ERjU5DXUMQWr0n67uiz3/HMdBED3yad+ooQkagA28w9IhPcQaNSwXGpg2Wpx12fO/Pm7it1j6FVjMOxVchIfFgoL6JbcuoLc8pV84zBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Bsn3FYPi; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UutDbD4F"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d3931so31111435e9.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 05:01:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bsn3FYPi"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912df756so32428925e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 05:12:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790683312; x=1791288112; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :user-agent:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JSYB+5afeObNRoom5GcEGYbJu0YT9xClMXnlfklAzYE=;
-        b=UutDbD4Frd1QZ4k6W15Br2pOPclGgXO3PuUtASOqGYdX/UyzqCZ7zsEj60x4IOXXPE
-         EcClMWEYyCINb29qCsJphuIK1usibHFysr+NMcl5LCLm0Sde4bT3Xe4PKcyn9rw+KoO6
-         gS3aJfL4+aFld++0ZFevHSZyMq4n1zwpI2RC5SWsP7emC0fEUuRjxvQi+7jnAID37P+5
-         NHWkC7OVHleqNSaS2h+y8TRIpSGb5XJVkFaWoWOCY+uUk2XEGWP3kH+lpbvaLcw/CFTS
-         Vup6cOk/E1+9C+Z5wCJTwQEOe/QmgEItfW7yPI870brBdPJh0jdx+wXF5b9QQpkeB3E9
-         1+fw==
+        d=google.com; s=20251104; t=1790683969; x=1791288769; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=paQ2/onKT319WLEUhupq6lCWp4YbjzVGMuOnFcHWo94=;
+        b=Bsn3FYPiNhIp2HBDQV/+jwpbyP000Xi2mEKEkhMsMnM8swD4yjc/vttTBIclQvIwHT
+         2rvOWBKPZgVT1YMjv+XgD5tacsIjNUp2H+6ZMJ75vXTIGrkaRMl+DIjzqMUe6gwPaGs+
+         t8hWrrlLb5EKIyvR3AonglQ2WH6k+2BNm60aimiPsoPgV/Mq9puUSJhAsdgXzQaJLrTQ
+         NY3UPjbA6SjgoKYK5kqyvr5QZqMSplltvmh/pNTiwfdxt0mtx8yBQJRBi6pRmkhujNwG
+         S+kmXuMdgu2jlS4TX/K6ndqUmW8B2TlzQqpcGrez9r+TvVVRIZxi8U7Qz3ykH0bKNVVS
+         Z5KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790683312; x=1791288112;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :user-agent:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JSYB+5afeObNRoom5GcEGYbJu0YT9xClMXnlfklAzYE=;
-        b=jy1cZRfh/lh2Qr541tmeXseOYnMI14laABIq2wPqYV0fKk5WX8BbxWfUuZk4ZAjVuN
-         ZKNN00r3tQEU01ScQrCEn1UYjHChjAF7R08tl4deXlEvw49Rd8LBiju+cxWEIanpK4l1
-         bbMv4ZNUo96GiLm28eEo/v/v2S6LMs3Jrkcm6jz8NX+qhwnn+7IBZ8JEKk9wgDmZhb4B
-         K1uLcNALgdjvQ3j/BAScwrRQ7VixK7kcr9aUOzEGV7DRmFyjFjonTPbUzh8m61fhmRZl
-         1F+C+g29sM800BaX/iNKL8BxHXw28CWGmfCq3qLZRpjFblPbj1ZjSY5+VCueCPToAHUy
-         MKPQ==
-X-Gm-Message-State: AFuF++mANyUkjzhOb6o8fChEHQZ9OMWTgJAdn2uZZFFf1d7FwmMirscm
-	uI97m20ERWQG9iO5LMh3+0kNg0mDXetYBx3G6QO5/Xt0gZH8itmJqiP5
-X-Gm-Gg: AYBFou0JtULjBXCSV8bhg8AQGPW/qHL1Oscd5iVweLixEitOCQK8D7KiN3DFlpsGCtd
-	1i2gmAwyTfw1UbiSDNnUqnq71pPHck+q2Ly5kTUXjS8xKwMY8n/WQIGbiRWkWw68wmQWYbR4AdT
-	LthmF2yCqr2DPpIZ6kvUq8k2sFjBT7p0laCu/K4eSeSJldCHzhUn4EM3BUiNdbRpjGmpNQB43NZ
-	C5GuUx3WV9wi2xPSGzGQ9ulYvJKhGVTQIGW1y22Tq82m0+R9qxh85CUCyvMuJtQZEaeAw5h7xJX
-	qqdPzidlxIYRPHjfniEUzufK/6xEKbJRlHH/X37wScybKB/xIX6Aw9cgxPPaP+Vh2TgzuFnEcUn
-	asQ9UokRBsiv8xw5C5sBvVQJ1gMm9TtrY/Z+STcVm0nhLAbYJH3+wGGV+LhuhGeZery+A+jOcSe
-	Cd1mxCwnBZv3doQ12sqvTVP2N1TFkix10PndibBwyNxBuUE2VBVXXjannCrA5+7Ggw6PHpr1DFI
-	b0=
-X-Received: by 2002:a05:600c:6290:b0:49e:799a:8969 with SMTP id 5b1f17b1804b1-49fe6707bb7mr300304815e9.30.1790683311594;
-        Tue, 29 Sep 2026 05:01:51 -0700 (PDT)
-Received: from ehlo.thunderbird.net ([2a09:bac1:6180:3380::3a0:3f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a00d453badsm47098415e9.2.2026.09.29.05.01.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2026 05:01:51 -0700 (PDT)
-Date: Tue, 29 Sep 2026 15:01:49 +0300
-From: =?UTF-8?B?0JzQsNGA0YLRi9C90LXQvdC60L4g0JDRgNGC0ZHQvA==?= <amartynenko140@gmail.com>
-To: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com
-CC: linux-fsdevel@vger.kernel.org
-Subject: =?US-ASCII?Q?=5BBUG=5D_hfsplus=3A_nls=5Futf8_refcount_un?=
- =?US-ASCII?Q?derflow_after_failed_mount_=286=2E18=2E53=29?=
-User-Agent: Thunderbird for Android
-Message-ID: <9AD67E49-86E9-4508-BBC0-26919C72FB6A@gmail.com>
+        d=1e100.net; s=20260707; t=1790683970; x=1791288770;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=paQ2/onKT319WLEUhupq6lCWp4YbjzVGMuOnFcHWo94=;
+        b=ANuR8Zav1KLcFk1s/Rw9ZUP1jGpqduNRK/qWNE3NOBPflUXee2sAiBQuPMO0lLzBNK
+         tR0VFD5AoLBY2oIFtG0JV+D7W43N0Mdxmi29OpQBRyPo66058aci6QGdF0cTcYG/uAbr
+         D/pNzuuHX+v8qv2RgxAUaigsYiuTTXAt33VByWTkZwYJX5Z90ck7vPRe4hF5zz4QFCfh
+         3/TSJSdQjkEBVd5ElByUAoR5HS+jPHYERg8NFrN7kbMx0vIFwf4Av6a4Qrn2l107d4DR
+         A7mr0s9QAXI+6pHTFjm8w6N2gxu3yAqyiunqJm2pvp2HaRvw+WycWDtaMXrm7yVW/yRa
+         9RIg==
+X-Forwarded-Encrypted: i=1; AKwUvBwX6uM/mnYK8a6UBfwxiUv+FsdUi+/SEcXkn5uheFcAsKmG0ywYWzTIe/gUg5oAkGgagGSIwlnsf+dTSgT2@vger.kernel.org
+X-Gm-Message-State: AFuF++k/zgliyFkicHWbcRZA9Fnkb7aOJu86sztxbIKtGoU0dM9ZeQPo
+	ubRpc1kGWDoAn5tCviBLwHM4/N0Fgqd184GKV5QMDlFrEoQDeO9ntdqEOwzF4tWq7Q==
+X-Gm-Gg: AYBFou2/eOYClu6OQ+s//+Du5RKhNwFp/SM5t52ZtoORA2kmwo0aHlTKdSgmb+DhcDQ
+	qI48m8dbz1KzhwyTMgCTm/qTyGkELTKd82qVvh8IphFbOdPcMW+aQv6blePCFetpZcepIkwU5O1
+	p1prmdwi0MzgvTmMIlQYtaz8/U5+pFHy71v6UDXZ+X4G1puzt+mR2O/ZOaqliYbFLvh5LSqWNmS
+	HaqZiCs9Jj30RtQeElHi7B+LTssIkFb+NHoFrSNoh/XT9NGaL9TpgEgKDGpScO6E445LPT9Y0im
+	DVRkZOjLnThAUrRk01UxFBc+wP4Pr1y7yAG5UZzjJwMTLxT7hMnZtMh3OGLPAm0pydiVX/gflJ1
+	7xRddRlv51TAluhs1GFpMWuvRGaWjfRov+VphUdxIf0bZPXQwl6Wl4Sb8EfFuEZNO1N0lVWL7wb
+	oM3SzgXc6YiL404aCmfu9ttuEmZ/scOXIqOx/GVljT7sO6nkoJ96g8BY3S1tjB3cel3tWYtL9j+
+	al07uG4pGx2gQdtB4iHnPpcqWuSwg==
+X-Received: by 2002:a05:600c:1d28:b0:49c:fc6e:8cbd with SMTP id 5b1f17b1804b1-49fe66fc677mr302281505e9.33.1790683968737;
+        Tue, 29 Sep 2026 05:12:48 -0700 (PDT)
+Received: from google.com ([2a00:79e0:288a:8:ce20:1d4f:298a:2070])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a013b8f6f5sm4087715e9.10.2026.09.29.05.12.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 05:12:48 -0700 (PDT)
+Date: Tue, 29 Sep 2026 14:12:42 +0200
+From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>,
+	Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net,
+	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org,
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org,
+	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com,
+	tom@talpey.com, miklos@szeredi.hu, amir73il@gmail.com,
+	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com,
+	zohar@linux.ibm.com, roberto.sassu@huawei.com,
+	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+	stephen.smalley.work@gmail.com, omosnacek@gmail.com,
+	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org,
+	daniel@iogearbox.net, linux-security-module@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
+	ecryptfs@vger.kernel.org, exfat@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org,
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	xiujianfeng@huawei.com, lujialin4@huawei.com
+Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <arurOphe6QIx2Zr8@google.com>
+References: <20260924104831.1081137-1-caixinchen1@huawei.com>
+ <araxO4ze0KZBz756@suesslenovo>
+ <20260926.255b951d3013@gnoack.org>
+ <arqcbjWLN1CLkL_Y@suesslenovo>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <arqcbjWLN1CLkL_Y@suesslenovo>
 
-Hi,
+On Mon, Sep 28, 2026 at 01:13:35PM -0400, Justin Suess wrote:
+> On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
+> > Hello!
+> > 
+> > On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
+> > > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
+> > > > This series adds two new Landlock filesystem access rights,
+> > > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
+> > > > which control access to file and directory metadata such as inode
+> > > > attributes (mode, ownership, timestamps), extended attributes and POSIX
+> > > > ACLs.  It picks up the work from the "landlock: add chmod and chown
+> > > > support" series [1] and follows the coarse-grained grouping discussed in
+> > > > that thread [2]: instead of separate chmod/chown rights, metadata
+> > > > operations are grouped into one read and one write right.
+> > > > 
+> > > > Landlock evaluates access rights on a per-path basis, but the metadata
+> > > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
+> > > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
+> > > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
+> > > > object.  Patches 1-7 therefore first pass struct path instead of dentry
+> > > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
+> > > > refactoring with no behavior change, split so that every patch builds
+> > > > and works on its own:
+> > > >
+> > > I like these patches, but is the ability to read metadata already
+> > > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
+> > > directory?
+> > > 
+> > > The one case I see this being different is:
+> > > 
+> > > 1. if you wanted to grant read access to the file, but not metadata
+> > > read access, but I can't think of any usecase for being able to read
+> > > the contents of a file, but not the metadata. (see below)
+> > > 
+> > > 2. If you had the absolute path already and didn't need READ_DIR.
+> > > 
+> > > I see introducing this READ_METADATA as causing potential
+> > > hard-to-diagnose issues.
+> > > 
+> > > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
+> > > 
+> > > The program can technically open the file with the READ_FILE permission,
+> > > but it may error out because the stat() on it beforehand failed.
+> > > It's pretty common for programs to do that kind of thing (stat before
+> > > open), like for checking for config files (strace bash and you see it
+> > > stat .profile, /etc/profile)
+> > > 
+> > > There may be other bugs, because being able to set permissions to read
+> > > a file *but not read it's metadata* isn't possible currently in posix
+> > > acl and userspace may not work well if that assumption no longer holds.
+> > >
+> * posix acl and linux DAC.
+> 
+> > > So maybe WRITE_METADATA is good enough?
+> > 
+> > The existing use cases are the combinations of (a) READ_DIR
+> > allowed/denied and (b) READ_METADATA allowed/denied.  Because these
+> > two access rights overlap slightly, it seems likely that for a given
+> > directory or file, users will want to either grant both, or deny both.
+> > 
+> > At the moment, where the (not yet existing) READ_METADATA is
+> > implicitly always allowed, the problematic case is the one where the
+> > Landlock user wants to deny READ_DIR, but where much of the same
+> > metadata is still available through stat() and the various
+> > get-attribute syscalls.  (c.f. the warning box in the Landlock docs
+> > [1])
+> > 
+> > In my view the READ_METADATA right closes a gap that READ_DIR left
+> > open (which is also potentially surprising to callers if they did not
+> > read the docs closely).  Also, if its implementation is symmetric to
+> > WRITE_METADATA, I feel that it's worth having it in the same patch
+> > set.
+> > 
+> > –Günther
+> > 
+> > P.S.: I know, even after we can control stat(), there are likely ways
+> > to infer the presence of a file by observing Landlock error codes.
+> > This would be nice to fix as well, but is harder to do without
+> > controlling the path walk itself [2].  But also, the fact that this is
+> > currently not controllable is not an excuse for leaving READ_METADATA
+> > open IMHO.
+> >
+> I'm still sort of concerned about the case where read access is allowed,
+> but metadata isn't, due to how many applications will not cleanly handle
+> such an unexpected condition. You can reproduce this with a seccomp
+> policy forbidding stat().
+> 
+> Would it make sense to have the existing READ rights
+> (READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
+> if READ_METADATA is handled? Reading a file's contents should always
+> imply that you can read the metadata.
 
-After a single failed "mount -t hfsplus", the refcount of the nls_utf8
-module becomes -1=2E Afterwards, filesystems that need nls_utf8 fail to
-mount because the NLS table cannot be loaded (seen with hfsplus and
-vfat)=2E
+I am wary of situations where the handling of access rights implicity
+implies other access rights.  We have discussed such schemes in the
+past (e.g. we considered a design for RESOLVE_UNIX where we'd have
+both a "scoped" and a "access_fs" right that would interact with each
+other), but in the end we always settled for approaches where such
+interactions would not be necessary.  One of the concerns was that it
+would complicate "best effort" fallback logic in all Landlock
+libraries and in the countless places where people use the syscalls
+directly.
 
-System:
-Kernel 6=2E18=2E53-0-lts (Alpine linux-lts), Alpine Linux 3=2E25=2E0_alpha=
-20260805 (edge)
+To throw another option in the mix.  (To be clear, I have only 70%
+confidence, so feel free to push back, but it feels like it might
+work?):
 
-Steps to reproduce (right after boot):
+Is this similar to the "truncate" right?
+----------------------------------------
 
-  modprobe nls_utf8
-  cat /sys/module/nls_utf8/refcnt        # 0
-  fallocate -l 128M dummy=2Eimg
-  mount -t hfsplus dummy=2Eimg /mnt        # fails, as expected (no valid =
-HFS+ volume)
-  cat /sys/module/nls_utf8/refcnt        # -1
+With "truncate", there was an existing common operation (open(2) with
+O_TRUNC, a.k.a. creat(2)) which called the truncation hook and checked
+for the truncation access right.  But that was in fact OK.  The way we
+resolved it at the time was by documenting very loudly that WRITE_FILE
+and TRUNCATE access rights should always be requested in lockstep, if
+TRUNCATE is handled.
 
-On a clean boot, a failed mount of the same dummy=2Eimg with vfat or
-exfat leaves refcnt at 0; only hfsplus changes it (to -1)=2E
+If READ_DIR and READ_FILE do in fact read and return metadata to the
+user, maybe the right thing would be to do it the same way here and
+*require* that we have READ_METADATA to do these operations?
 
-dmesg after the failed hfsplus mount:
-[   75=2E017663] loop0: detected capacity change from 0 to 262144
-[   75=2E068872] hfsplus: unable to find HFS+ superblock
+(READ_METADATA is automatically allowed as long as it's not handled,
+so that approach does not break existing programs.  Programs who
+consciously start handling READ_METADATA must simply take into account
+that reading directories and opening files for reading requires
+READ_METADATA.)
 
-Consequences:
-- The next mount of hfsplus fails with
-  "hfsplus: unable to load nls for utf8"=2E
-- vfat, which uses nls_utf8, also fails to mount:
-  FAT-fs (loop0): utf8 is not a recommended IO charset for FAT filesystems=
-, filesystem will be case sensitive!
-  FAT-fs (loop0): IO charset utf8 not found
-- exfat and ext4 still mount fine (they don't seem to use nls_utf8),
-  refcnt stays at -1=2E
-- "rmmod -f nls_utf8" triggers "kernel BUG at kernel/module/main=2Ec:736",
-  after which lsmod hangs=2E
+(BTW, I can see it for reading directories, but I am not sure I fully
+follow the argument why opening files for reading means that you can
+read the metadata?  Can't that be guarded on fstat()-like operations?)
 
-Full oops:
-[ 1480=2E472851] kernel BUG at kernel/module/main=2Ec:736!
-[ 1480=2E472860] Oops: invalid opcode: 0000 [#1] SMP NOPTI
-[ 1480=2E473648] CPU: 1 UID: 0 PID: 2459 Comm: rmmod Tainted: G S         =
-         6=2E18=2E53-0-lts #1-Alpine PREEMPT(voluntary)
-[ 1480=2E474438] Tainted: [S]=3DCPU_OUT_OF_SPEC
-[ 1480=2E475221] Hardware name: System manufacturer System Product Name/P8=
-H61-M LE/USB3, BIOS 3605 03/08/2012
-[ 1480=2E476019] RIP: 0010:__do_sys_delete_module=2Eisra=2E0+0x2c2/0x2e0
-[ 1480=2E476825] Code: a8 48 c7 c7 80 e9 dd a8 e8 eb df 58 00 e9 e8 fe ff =
-ff 48 c7 c3 ff ff ff ff e9 41 fe ff ff 48 c7 c3 fc ff ff ff e9 35 fe ff ff =
-<0f> 0b 48 c7 c3 fe ff ff ff e9 27 fe ff ff e8 bb 06 bf 00 66 66 2e
-[ 1480=2E478556] RSP: 0018:ffffd0c58007bdc0 EFLAGS: 00010297
-[ 1480=2E479443] RAX: 00000000ffffffff RBX: ffffffffc153b080 RCX: 00000000=
-00000000
-[ 1480=2E480340] RDX: ffffffffc153b548 RSI: 0000000000000000 RDI: 00000000=
-00000000
-[ 1480=2E481234] RBP: 0000559707f5bc70 R08: 0000000000000000 R09: 00000000=
-00000000
-[ 1480=2E482124] R10: 0000000000000000 R11: 0000000000000000 R12: ffffd0c5=
-8007bf48
-[ 1480=2E483020] R13: 00000000000000b0 R14: 0000000000000000 R15: 00000000=
-00000000
-[ 1480=2E483921] FS:  00007f9e8a289b28(0000) GS:ffff88c0afc72000(0000) knl=
-GS:0000000000000000
-[ 1480=2E484835] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 1480=2E485750] CR2: 00007f9e8a0d5058 CR3: 0000000102578004 CR4: 00000000=
-000626f0
-[ 1480=2E486679] Call Trace:
-[ 1480=2E487601]  <TASK>
-[ 1480=2E488518]  do_syscall_64+0x88/0xd80
-[ 1480=2E489445]  ? count_memcg_events+0xf9/0x1c0
-[ 1480=2E490372]  ? handle_mm_fault+0x1e2/0x2e0
-[ 1480=2E491300]  ? do_user_addr_fault+0x223/0x670
-[ 1480=2E492225]  ? exc_page_fault+0x7e/0x1b0
-[ 1480=2E493146]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[ 1480=2E494065] RIP: 0033:0x7f9e8a22752a
-[ 1480=2E494981] Code: e9 e6 32 01 00 48 83 ec 08 b8 af 00 00 00 0f 05 48 =
-89 c7 e8 49 eb ff ff 48 83 c4 08 c3 48 83 ec 08 89 f6 b8 b0 00 00 00 0f 05 =
-<48> 89 c7 e8 2f eb ff ff 48 83 c4 08 c3 48 83 ec 08 49 89 ca b8 a5
-[ 1480=2E496975] RSP: 002b:00007ffdce7a6f90 EFLAGS: 00000206 ORIG_RAX: 000=
-00000000000b0
-[ 1480=2E498007] RAX: ffffffffffffffda RBX: 0000559707f5bc10 RCX: 00007f9e=
-8a22752a
-[ 1480=2E499044] RDX: 0000000000000000 RSI: 0000000000000a00 RDI: 00005597=
-07f5bc70
-[ 1480=2E500078] RBP: 00000000fffffffe R08: 0000000000000000 R09: 00007ffd=
-ce7a6ff0
-[ 1480=2E501105] R10: 00000000fffffffe R11: 0000000000000206 R12: 00000000=
-00000200
-[ 1480=2E502134] R13: 0000000000000003 R14: 0000000000000002 R15: 00000000=
-00000200
-[ 1480=2E503171]  </TASK>
-[ 1480=2E504199] Modules linked in: hfsplus cdrom exfat vfat fat nls_utf8 =
-radeon drm_ttm_helper drm_exec drm_suballoc_helper af_packet tun fuse snd_h=
-da_codec_alc882 snd_hda_codec_realtek_lib snd_hda_codec_generic coretemp in=
-tel_rapl_msr intel_rapl_common mousedev snd_hda_intel snd_hda_codec x86_pkg=
-_temp_thermal intel_powerclamp snd_hda_core kvm_intel iTCO_wdt r8169 intel_=
-pmc_bxt snd_intel_dspcfg eeepc_wmi ppdev iTCO_vendor_support kvm asus_wmi s=
-nd_intel_sdw_acpi realtek snd_hwdep sparse_keymap snd_pcm battery irqbypass=
- mdio_devres rfkill psmouse snd_timer ghash_clmulni_intel libphy snd mdio_b=
-us rapl intel_cstate serio_raw parport_pc joydev soundcore wmi_bmof at24 in=
-put_leds pcspkr parport thermal lpc_ich fan evdev uas hid_generic usbhid hi=
-d i915 drm_buddy ttm hwmon i2c_algo_bit drm_display_helper cec intel_gtt vi=
-deo xhci_pci xhci_hcd ehci_pci ehci_hcd i2c_i801 i2c_mux i2c_smbus ata_gene=
-ric pata_acpi ata_piix libata button wmi loop ext4 crc16 mbcache jbd2 usb_s=
-torage usbcore usb_common sd_mod scsi_mod scsi_common
-[ 1480=2E511897] ---[ end trace 0000000000000000 ]---
-
-
-Kernel config: https://gist=2Egithub=2Ecom/Artem-coderh/1a88659aad75595b9c=
-add2f40afee913
-Hardware: ASUS P8H61-M LE, BIOS 3605=2E
-
-I have not tested other kernel versions=2E I can test patches or bisect
-if needed=2E
-
-Thanks,
-Artem Martynenko
+—Günther
