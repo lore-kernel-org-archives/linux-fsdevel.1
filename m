@@ -1,86 +1,92 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC5B5349D9
-	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 10:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038EB4FE2C4;
+	Tue, 29 Sep 2026 10:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790678297; cv=none; b=qTL3j70BD7RTc51hguwzhbf1OCK4Str934YkVd5LXoti9qdlBMFgKmuvKk73moZ3jZpdC5U3pn4n97698yINBYL5HNXiQfjm2mFw1ik2rxnI/4sPfH65pxgCHWBLZaRhXdmIOrp2CZ8B8+FTzXRiIkpqFR/UBuF3NLmIYmjj38A=
+	t=1790679488; cv=none; b=JORXCtlkE1l7sXr6A8RORK6bRKTwq9nNNi1SAlIECVNwfJbhLDiCCmA4jSX+sxTs+V4cR6vzZBV34Gzv4pdred/a6UXb7eEJbyXXG00vbTehuWXVNHWQysoN/1n9wzsIK5SqgF2OBwHwlBZ88bDE3aT52OsuTixLV5WmVjG0njk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790678297; c=relaxed/simple;
-	bh=9cWefy7dHrVtjKr+IbVznag4O7/L71yh5wTTtbcOYIY=;
+	s=arc-20240116; t=1790679488; c=relaxed/simple;
+	bh=Qa7OBGpxl+kQdR4zeETbPJkdXlexsIGL9/D/7cSJMOg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UNq0+P2pZDjElKPQbtZGIJ50Ym6SNOg07jRlMTZueV4AO3hyESUGKZHTWyVR/QZqRzZlj3OuzsbaBD01mAczgrnJdDZCxi0+Rs9h+MxmFDzuzdfC/iv9KVxx1EMHOLAjH9b4BPq6aJWFwyQzI5NQQmabNHrH0laN1Rq3M7K+/jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GyRdH2US; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xfr4CAhk; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SKB8A/72; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=3lFcBPR3; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=p9BFZ8M4j9wrhjjFaGvwFvPQviQO3B0+NVzlOWcPwhKqLcD6lEHulniNs4mwTBQDFOzhFGtJ5BsRsoJvIgJ6du1nFLjJ+3MHBd7SjroETpIFSgfNw5cc4kOS91CgKWY3FW5j3JKDhu4FCLB74r9KxM0l8V6qW/y3WK3/XqAZZJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=i9nKF+cw; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SQd4oAST; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=x4zqbyCj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Eonhaonq; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GyRdH2US";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xfr4CAhk";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SKB8A/72";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="3lFcBPR3"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="i9nKF+cw";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SQd4oAST";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="x4zqbyCj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Eonhaonq"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D1CB021BF6;
-	Tue, 29 Sep 2026 10:37:56 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D6B841F7D9;
+	Tue, 29 Sep 2026 10:57:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790678281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790679472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G3kx3aUxxfT1+0stFtzxC2Kua9DU5Q56H9l9MHd9/TI=;
-	b=GyRdH2US9jOkxJWDH3nyD8AxxpX8qEVO9JAzNDrod7NIrqv0VHYBADf58mXldggRI2Hypc
-	35HoSWMqNIc96vU8LFweWFE0rWq/LdLDwoAaVF3+zJA8qOZNFp1jucrIKYJxKhGzWW+E04
-	jOQT0r0fH6RNbp14XlBxNvi+jnTbe4M=
+	bh=G/gMs4OvWesls8mrP38XACVxq+iHXgQgPEhCSwmqIvY=;
+	b=i9nKF+cwQxGhhWjTQdOGMXFOd/OF5JPE1DmBgZ9X7REMsnZQne1VMAN8TExtzB3dEQ+qmE
+	K487QBQHnyMOtmV94Pgfz+3Y7jiUeVHlwvyOPpwQ84KKSDayMwovQYGHj5jVjj6DrNJaDA
+	P3XnJXLaE/8TSk01XddaP2/hnAaujAg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790678281;
+	s=susede2_ed25519; t=1790679472;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G3kx3aUxxfT1+0stFtzxC2Kua9DU5Q56H9l9MHd9/TI=;
-	b=xfr4CAhk9IoMoE9bKdv3PZOq8cXQ2KGSp1Tr+BWFz8UA0b36AJvqtvPw4+2Yy8/Qk/HDB/
-	HjVjU+Dy4CnNvxAQ==
-Authentication-Results: smtp-out1.suse.de;
+	bh=G/gMs4OvWesls8mrP38XACVxq+iHXgQgPEhCSwmqIvY=;
+	b=SQd4oAST4RTwRx1DttxouDhk/f0ps1NjAAwN/NCqPE/lhA7/q/CXnizlCFGTjD2f32vW/u
+	bi6cKSQ92c7YNkAg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790678276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790679467; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G3kx3aUxxfT1+0stFtzxC2Kua9DU5Q56H9l9MHd9/TI=;
-	b=SKB8A/72t+jDiG7Ei0pxRSq3F3khsAZGIrHKtb3x4FOVyWW8KPoa0BoDtKh65iKjOvilAz
-	SwK+PBuj/qMk49hXAlnToEr6aY5Dxg0ijAVqXcSOCBsUmeLyisKbljKD7FB83Q6caY9cgT
-	zn3ZBb47NOwJO6jo0bFnblF69NbY8LQ=
+	bh=G/gMs4OvWesls8mrP38XACVxq+iHXgQgPEhCSwmqIvY=;
+	b=x4zqbyCjFcpZM/1Aq8fatSXsnIILny35LISlZLy4k3V1IAl2FH1cxOMYie+fgii/1zhLKi
+	qC5u2CK5R+jEq5f/BkPfNeGw3yyl/rs9IouwEnm/V/I/pf5jzrWNIDGZVMfSosRNnlXBPV
+	TpgUSCW0WvFzd6KaXAn6PqldMpW/TuY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790678276;
+	s=susede2_ed25519; t=1790679467;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G3kx3aUxxfT1+0stFtzxC2Kua9DU5Q56H9l9MHd9/TI=;
-	b=3lFcBPR3mHLv1HMJUeXokuQxSiSdeLubn5Sn5jei3nq36hGaK62B+bp+4kPFwDkR8d0kZ8
-	c/71CrT4dGhU2vCA==
+	bh=G/gMs4OvWesls8mrP38XACVxq+iHXgQgPEhCSwmqIvY=;
+	b=Eonhaonq7/xRW2BMy2QvJeslU2/7AVvxxbmAXH7HnediQK7s7wbuDVKrIxk+ibWI+UrlVj
+	YK+FxfItvIqEwyAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 74AA7136D1;
-	Tue, 29 Sep 2026 10:37:56 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA8E2136D1;
+	Tue, 29 Sep 2026 10:57:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TfxEFASVu2pHXQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 29 Sep 2026 10:37:56 +0000
+	id it/PIKuZu2oXdQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 29 Sep 2026 10:57:47 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id EC50BA132A; Tue, 29 Sep 2026 12:37:55 +0200 (CEST)
-Date: Tue, 29 Sep 2026 12:37:55 +0200
+	id 38FCFA132A; Tue, 29 Sep 2026 12:57:47 +0200 (CEST)
+Date: Tue, 29 Sep 2026 12:57:47 +0200
 From: Jan Kara <jack@suse.cz>
 To: Matthias Goergens <matthias.goergens@gmail.com>
-Cc: jack@suse.cz, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	brauner@kernel.org, hch@infradead.org, xyzzy@yandex-team.ru, tytso@mit.edu, 
-	djwong@kernel.org, agruenba@redhat.com, Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [PATCH v2 0/5] fs: Deferred inode reclaim
-Message-ID: <cxgitt74gb6d42l4mdiztrz42xuaykfggsxoussgdmo3h2qur7@injom55qowrs>
-References: <20260911081309.14137-1-jack@suse.cz>
- <20260926024829.3051410-1-matthias.goergens@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Hui Peng <benquike@gmail.com>, 
+	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] isofs: bound empty directory blocks in
+ isofs_read_level3_size()
+Message-ID: <cm3n7vjwbdnafttuz5ftkzz5wdbalgews4dfs5zlwvkyuzotuq@jo2nhsplhstc>
+References: <20260919222553.3792320-1-benquike@gmail.com>
+ <20260923175215.1577791-1-matthias.goergens@gmail.com>
+ <w3rnunloyshklgq4ocr4jsullzhaey6u7odstfoyhd4usbfppo@m33jyem5jgrf>
+ <20260924151356.3287733-1-matthias.goergens@gmail.com>
+ <20260925043804.2091174-1-matthias.goergens@gmail.com>
+ <cmlro2xzle2aa7ebflvxhbcv74mea7p6qvxhin6egpdvyzyuxh@s45tpgxdal3n>
+ <20260926083517.556576-1-matthias.goergens@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,7 +95,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260926024829.3051410-1-matthias.goergens@gmail.com>
+In-Reply-To: <20260926083517.556576-1-matthias.goergens@gmail.com>
 X-Spamd-Result: default: False [-1.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -102,143 +108,99 @@ X-Spamd-Result: default: False [-1.30 / 50.00];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,kvack.org,kernel.org,infradead.org,yandex-team.ru,mit.edu,redhat.com,gmail.com];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,kernel.org,zeniv.linux.org.uk,vger.kernel.org];
 	RCVD_COUNT_THREE(0.00)[3];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,syzkaller.appspot.com:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
 X-Spam-Flag: NO
 X-Spam-Score: -1.30
 X-Spam-Level: 
 
-Hi Matthias!
-
-On Sat 26-09-26 10:48:29, Matthias Goergens wrote:
-> I ran v2 against its base in QEMU, on syzbot's disk image with a config
-> close to syzbot's (KASAN, lockdep):
+On Sat 26-09-26 16:35:17, Matthias Goergens wrote:
+> isofs_read_level3_size() walks the sections of a level-3 (multi-extent)
+> directory record and, on a zero length byte, moves on to the next
+> block with no limit.  A crafted image can put a long run of empty
+> blocks between two sections of a multi-extent file, and the walk reads
+> every one of them before it gives up, all the way to the end of the
+> device if it has to.
 > 
-> - Lazytime churn on ext4 under memory pressure: the PF_MEMALLOC warning
->   fired with the sync_lazytime() stack in all 5 base runs, four times
->   from kswapd, and in none of 5 runs with the series, which evicted as
->   many inodes in reclaim context without reading ext4 metadata there.
->   The workload also runs drop_caches=2 under memalloc_noreclaim_save()
->   from a debug patch.
+> Real discs do have trailing empty directory blocks, written by tools
+> such as Easy CD Creator and Nero, but always at the end of the
+> directory, never between two sections of a multi-extent record, so
+> they do not exercise this path [1].
 > 
-> - Hibernation cycles with /sys/power/pm_test set to devices under that
->   load, with inodes that 5/5 defers queued in each cycle, and with
->   freeze_filesystems 0 and 1: no freezer timeouts and no hang involving
->   the queue.  The stalls in throttle_direct_reclaim() from
->   hibernate_preallocate_memory(), and lockdep's warning in
->   __set_task_frozen() with freeze_filesystems=1, happen on the base
->   kernel too.
+> Jan Kara suggested treating an empty block like a section: count it
+> towards the existing 100-section limit rather than adding a separate
+> one [2].  Do that: both the section count and the empty-block count
+> are checked against their combined total, so neither one alone can
+> reach 100 while the other keeps growing.  Only a zero length byte at
+> the start of a block counts as an empty block; the same byte later in
+> a block still just ends that block's records, as it does today, and
+> is not counted.
 > 
-> - One path the series does not cover, see below: with the series
->   applied, unlinked ext4 inodes under an overlay are still deleted in
->   reclaim context, and the warning fired in 2 of 3 runs, as without it.
+> Hui Peng's earlier patch for this function added its own, separate
+> limit on the number of empty blocks [3]; this uses the combined limit
+> Jan suggested instead.
 > 
-> The reproducers and the debug patch are at
-> https://github.com/matthiasgoergens/linux/tree/deferred-reclaim-repro
-> and I can post them here if you prefer.  The Tested-by below covers the
-> lazytime and hibernation runs.
-
-Thanks for testing!
-
-> > @@ -988,13 +1013,27 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
-> >  	inode_state_set(inode, I_FREEING);
-> > -	list_lru_isolate_move(lru, &inode->i_lru, freeable);
-> > +	/* Inode will take long time to cleanup. Offload that to worker. */
-> > +	if (inode_state_read(inode) & I_DEFER_RECLAIM) {
-> > +		list_lru_isolate_move(lru, &inode->i_lru, &lists->deferred);
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
 > 
-> This is the only place I_DEFER_RECLAIM queues an inode, also with
-> Andreas's simplification folded in.  An inode that ->drop_inode() drops
-> on its last iput(), which for ext4 means every unlinked inode, never
-> gets here: iput_final() calls evict() directly, in whatever context the
-> iput() came from.
+> [1] https://lore.kernel.org/all/20260925043804.2091174-1-matthias.goergens@gmail.com/
+> [2] https://lore.kernel.org/all/cmlro2xzle2aa7ebflvxhbcv74mea7p6qvxhin6egpdvyzyuxh@s45tpgxdal3n/
+> [3] https://lore.kernel.org/all/20260919222553.3792320-1-benquike@gmail.com/
+> ---
+> Tested with fs/isofs built as a userspace program under ASan and UBSan,
+> and in a KASAN VM on Jan's for_next:
 > 
-> syzbot hits that under reclaim with overlayfs on top of ext4, in the
-> same bug as the lazytime trace in your 2/5:
+> - The real discs from [1] (DM_BXL2, Comdex_05, ITSOFTCD_39, each with
+>   trailing empty directory blocks) and the level-3 images from the
+>   earlier patches list and read the same with and without this patch.
+> - A crafted multi-extent file with 150 empty blocks between two sections
+>   now stops with "More than 100 file sections/empty blocks ?!?" instead
+>   of reading all of them.
+> - A crafted file with 60 sections and 50 empty blocks interleaved (110
+>   in all) is rejected; without this patch it is accepted.
 > 
->   https://syzkaller.appspot.com/bug?extid=7f94fe3ce0f6613e12b8
->   https://syzkaller.appspot.com/text?tag=CrashReport&x=12764a15580000
->   https://syzkaller.appspot.com/text?tag=CrashReport&x=13530905580000
-> 
-> Direct reclaim prunes overlayfs dentries, and dropping the overlay inode
-> puts the last reference to an unlinked lower ext4 inode, so
-> ext4_evict_inode() runs its deletion path under PF_MEMALLOC.  My
-> reproducer above does the same: stat files through an overlay on ext4,
-> unlink them in the lower or upper directory, then apply memory pressure.
+> The image generators are at
+> https://github.com/matthiasgoergens/linux/tree/reproducer/2026-09-26-isofs-empty-blocks
 
-This is an interesting case. When I was writing the patch set I was
-thinking whether unlinked inodes should be marked for deferred reclaim and
-decided for "no" - unlink or file close should be happening from context
-where synchronous ->evict() should be possible (and is desirable!
-Offloading to async context always has these inconvenient questions about
-throttling associated with it and space being freed later than userspace
-expects it etc.). But I didn't think of overlayfs - I assume syzkaller
-unlinked upper layer inode under the overlayfs' hands - which can indeed
-lead to overlayfs dentry being effectively the last holder of inode
-reference and thus responsible for inode deletion.
+Thanks for the patch and the generator. Just one question below:
 
-Inherently it is kind of nasty that overlayfs dentries can be the last
-thing protecting the inode from deletion but at the same time I don't see
-an easy way around it. Amir, maybe you have an idea?
+> diff --git a/fs/isofs/inode.c b/fs/isofs/inode.c
+> index 184350d2e6ad..e884618c0c53 100644
+> --- a/fs/isofs/inode.c
+> +++ b/fs/isofs/inode.c
+> @@ -1175,6 +1175,7 @@ static int isofs_read_level3_size(struct inode *inode)
+>  	struct buffer_head *bh = NULL;
+>  	unsigned long block, offset, block_saved, offset_saved;
+>  	int i = 0;
+> +	int empty_blocks = 0;
+>  	int more_entries = 0;
+>  	struct iso_inode_info *ei = ISOFS_I(inode);
+>  
+> @@ -1202,9 +1203,14 @@ static int isofs_read_level3_size(struct inode *inode)
+>  
+>  		/*
+>  		 * If we are at the end of a block (or at its zero-padded
+> -		 * tail), move on to the next block.
+> +		 * tail), move on to the next block.  A zero length byte at
+> +		 * the start of a block means the whole block is empty;
+> +		 * count that towards the same limit as sections below, or a
+> +		 * chain of empty blocks could be walked without bound.
+>  		 */
+>  		if (offset >= bufsize || de->length[0] == 0) {
+> +			if (offset == 0 && ++empty_blocks + i > 100)
+> +				goto out_toomany;
 
-Anyway, if we cannot change how overlayfs behaves, what we could do is to
-mark unlinked inodes for deferred reclaim but offload the reclaim from
-iput_final() only if PF_MEMALLOC is set in VFS. At least then we know we
-are in async context anyway so nobody can be relying on when exactly the
-inode gets deleted when somebody left it to memory reclaim.
-
-> Is that path meant to be covered?  Handing such inodes to the queue from
-> iput_final() under PF_MEMALLOC, as gfs2_drop_inode() does for gfs2,
-> mostly just delays things: blocks and quota come back later, lookups by
-> inode number wait in __wait_on_freeing_inode(), and umount would need
-> the inode counted in s_deferred_reclaim_count, as 3/5 does for its own.
-> But it does not work as is with freezing: ext4_evict_inode() takes
-> sb_start_intwrite() on the deletion path, so a worker evicting an
-> unlinked inode of a frozen filesystem sleeps until the thaw, holding a
-> batch of up to 16 inodes taken from any queue, and enough of those stop
-> the queue.  XFS keeps inodegc per mount and stops it in xfs_fs_sync_fs()
-> before SB_FREEZE_FS; this queue would need something like that before it
-> could take unlinked inodes.
-> 
-> On Ted's question (https://lore.kernel.org/r/aqQV6Uwma_KjUH0O@mit.edu):
-> with this WQ_FREEZABLE queue I would not wait either.  A non-freezable
-> queue would need draining before anything is frozen, because an eviction
-> after the hibernation snapshot writes to disk behind the image, and
-> draining later can wait on kjournald2 or on sb_start_intwrite().
-> Freezing the workers with the kernel threads avoids both.
-> 
-> One catch: a work item already blocked on something frozen earlier keeps
-> freeze_workqueues_busy() true until the freezer times out, and the
-> suspend or hibernation is aborted.  With /sys/power/freeze_filesystems=1
-> the filesystems are frozen before the freezer runs, so an eviction
-> waiting in sb_start_intwrite() is enough.  ext4 only takes that on the
-> deletion path, so 5/5 is not affected, but unlinked inodes routed
-> through the queue would be.
-
-You (and Ted) have a good point here that if ->evict() is going to write to
-the filesystem (and currently ext4 doesn't offload such case but I
-would like the mechanism to be usable in such situations since e.g. XFS
-needs it even if we solve the overlayfs case differently) we need to
-be careful about interactions with filesystem freezing / system suspend.
-Also in that case Sashiko's concern about possible deadlocks of throttling
-with ext4 transaction machinery becomes real.
-
-So as the patch set currently is, it is correct but I think we need to
-somehow deal with the overlayfs issues you reported as well. At this point
-I don't have a clear picture in my mind how to cleanly deal with the
-lockups that would be created by it. I'll think about it more and also
-maybe Amir will come up with some clever idea from overlayfs side :).
-
-> Tested-by: Matthias Goergens <matthias.goergens@gmail.com>
+Any reason why don't you do just "++i > 100" here and completely remove the
+empty_blocks variable?
 
 								Honza
 -- 
