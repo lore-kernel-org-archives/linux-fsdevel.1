@@ -1,139 +1,164 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B99444B690
-	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 20:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF0C23394A;
+	Tue, 29 Sep 2026 20:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790713268; cv=none; b=BsT+8ChaPSS5HfIn7v6fvtYdPs5AEfOmwKOjgioUWz20T43xsmU8dGIvCRZvUyQGkp6JqvhKXns58gYHeNH2lJVpJC22V9O1gqFOjhFTy4470Iql4uGvxFFmX1F72xM/4FAj5W3sbwcfmdozQg4WuZcGehF9u8qon6Y1MEEcWY4=
+	t=1790713575; cv=none; b=KStxF4KHYdX+YbbWpi283VlLAfnJ+G9Nl7XGdI8b/Z4w4XTNQ+aFGMLXVnjv5g8Z1N8PjIdWactmhAXW7dUZKjUfWalYuEJJn5nY3iMuGhvHiX9ZbPY0W7kfhC5IAE+QIBQP0HqfrDLCNJWaOZmyK9Xj9s3FOdfbum79md2ZelQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790713268; c=relaxed/simple;
-	bh=iRjbTkx4Of1Zb8zkJkx1sStZme1vCcPBa5+tPQr/yso=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OSJ5F6b1J+gf0T02pzuUKO51UZmD7LuvV3kmjO6rK/7shyLkI5H5awdCpKFZWPiOhTJ62/m5fs5kpFAto0iVZDX6sVdwbOrNRcancI09cI1ezBD0CYFX6wiey1XOphLpTeV8YdULnh5ZAX17ikN5G/JWjf1OhY8G2dUN+hXwLz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i9mXL/t6; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790713575; c=relaxed/simple;
+	bh=eHEBuXgfQ2Ol4zZixiwa8F6XnZA89yB1qhegzPe2F1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dBMXxmLr3kURErUxqSxTCAZX+Q4KsZx6iFTQlkNb22PGr9K1RuQccKk4deTpW9xTo6vG9VMeV+lI+if8pvgQ7caPIcxPQAzsy/2lticJhf8YKTiDN1N+ilrzKUp8t/vkr735YCgZExiLrymsrxkXHgDOOoU0egsQBA/UEvDsrmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZewUDrHu; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ozW3JUPN; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=h2+jbMi9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jETJYb7z; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i9mXL/t6"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e4b11so27494705e9.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 13:21:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790713263; x=1791318063; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zKv2477Z43K69h4lwRjf4ZEKr1l8Bu4ddjI08syiTdw=;
-        b=i9mXL/t6WsFf5SYQqq7la7dFae/STcArk8ZWZM9t5DbPjTvFwWtuGdQIFfyesY1QUX
-         PeGSS6eTmRoth3rT63hHOWeSbkOlWqDU2SFj2LaYideja3E82OTRPnwsXIhLWZv/VGL8
-         psywNfNg8+TswrY2HBzAIkNz/wWCk/BnVNZ+hy/HmNz5jbhgSgA5d614O/FNY13p20pq
-         bgcNOiopmB2GSfp+uSFugHFVV72TV4xWkshXty5E7J4bOI6agiUuD8H6LcQh6putAaMQ
-         wS2eaLg2HqYRj6NAbnS5+d7gcmYkXpXS7rJtvazO+QwvNd+LXq/6n8GWtzENuzAFTAof
-         i+PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790713263; x=1791318063;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zKv2477Z43K69h4lwRjf4ZEKr1l8Bu4ddjI08syiTdw=;
-        b=ZLxuz2EdIW0F/QaklxnBbOOSj++wWUeyrxfDG0UV6bqdUq06GNR7JhmJTAXOmhwmrT
-         7yjO3HmimOVZCitPsSLMLV7QeUUDXAfkiaTs3nig5rdrtiGULTjP92YTgV4pSW6tZ2kd
-         KgLzDgbXjP0NlBUhErbLh2u6oEUziWYAcF3/qB0X/Qf4Xr4osSbaVbhgeYc/XSQEhiZU
-         LpWwXIl9OuMlHjtPbeU2NFQBQRKu3H24FOIw4ntGWeEV5cHyi55ffO2glj72DMiwPDr3
-         d+zkDvz1+TJVq3iF8rF4UOXkAWKG+d5g6JbhXHKv5LIQ8QbGvK35h0f+4fZh5rGX2UQh
-         GUxQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzoOQqPyRCgh1hAkSK5Vk23iBu01jgLcpYnUAjNhSNH4K7zRWMAKJ51EMjekeFWpZ0RHglUNVgqrqcG8L0Y@vger.kernel.org
-X-Gm-Message-State: AFuF++mTV8kTxFpMYfXSd9maVal1hBq4HvCxiAlJyLSvfZh3naPUodx+
-	FEWJHcTXhAh+SNW62Xql31UBPFDo2+QHlQ0QZs8Qb1tKRmh9UQyC6OyL9yp+0gboxpzM
-X-Gm-Gg: AYBFou0Ch6fuAEeNxaZhCVh7f7oVbC5WwHwsJVGJS/q09kc8LVXMwuzFgCu+vrqoWO+
-	6n9+9ZtLwOuKqiD7alt1kokY2khyAAjIO+6EUFf3kL5q1TyAt61AURvxnX9k6wqT4AHxypZ5oKz
-	Avw+pybQXYoFIpjdYCRGsYpLdEfHTYhP+UjA6UVgzuMzEhw4OTnWtMMIJLDpgX3PpilHUlWHunr
-	E163PICQz5VE7Oo+fLtLn5JqCkt5umNSfLqNJloWlzaylK1NWWjSO7mIMb7ksH00c+PJ/xYTG7O
-	SgHxe+qNlHx1MhWilKtGeBzSgTujWjteZF5hXXQ7vfzn3stsz8MguBH2Eg3PIfaHkacO3tPAcyP
-	RrPDB36QofWMdOoxo19vINixE3/C9yLX8cB4ULXlaq9N4qfWyWC4L8WOckYP0XK2b4EzMJExCaw
-	GKtxGhm/oo2rZCpcHrJz9QYGS4VD9Bsyj56RU/BbYyr9/HEmZY2DmTZSZ5VvuC1XNvs8OBVBbGc
-	J9EgwHZVPZtg1BJCnNdwZVthuP4uaS2m9UPN3+oCBcL4F3NoUmMLl7IDIYuHwZp0M+vsnJnr6vu
-	6M8f6Aw=
-X-Received: by 2002:a05:600c:c494:b0:4a0:1d2:1a8a with SMTP id 5b1f17b1804b1-4a015027518mr3741815e9.16.1790713263399;
-        Tue, 29 Sep 2026 13:21:03 -0700 (PDT)
-Received: from Ubuntu-2604-resolute-amd64-base ([2a01:4f8:13b:86d::2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a00cfe13a1sm102947985e9.5.2026.09.29.13.21.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 13:21:02 -0700 (PDT)
-From: Mohammed EL Kadiri <med08elkadiri@gmail.com>
-To: hughd@google.com,
-	baolin.wang@linux.alibaba.com,
-	akpm@linux-foundation.org
-Cc: gabriel@krisman.be,
-	krisman@suse.de,
-	brauner@kernel.org,
-	andrealmeid@igalia.com,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] shmem: fix unicode_map leak with repeated casefold= option
-Date: Tue, 29 Sep 2026 22:20:35 +0200
-Message-ID: <3a57ec70731165b4b1244fa89bba95c82a666df8.1790712330.git.med08elkadiri@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZewUDrHu";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ozW3JUPN";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="h2+jbMi9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jETJYb7z"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4DF851F460;
+	Tue, 29 Sep 2026 20:26:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790713567; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4O5nG7LIgYjapwrvh2Gb45eHxs3a8B3lm20PFzYTcTA=;
+	b=ZewUDrHuApLPNaV3ZGaniPPGNOdE/IqqpZ2/KTcHHBiWZ6M2Je6qDWr8JFM4meTdekCiVF
+	qkvlqyoc+g8hgfcZCftWeRd4fGM3TIW7E5XbXYlw+6DctP/pT58DlOttBhQQlXDXs2YMzc
+	qWbUBf8kMwUlYeHH9ysY3kS/j9+AAFw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790713567;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4O5nG7LIgYjapwrvh2Gb45eHxs3a8B3lm20PFzYTcTA=;
+	b=ozW3JUPNvW3ktufIlI4HO6mE6GHL2t/918CI1+95ku5xHklp3gY7Ftaj59Hr3E3CmiRx9G
+	GKWdn4LI3ouNxqDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790713563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4O5nG7LIgYjapwrvh2Gb45eHxs3a8B3lm20PFzYTcTA=;
+	b=h2+jbMi9mtk2Km9/8zGcEbNIDV+r+QL45rJMk3FoTNcqsj1OD3xMsI9p7hAC2D9WiZd9us
+	Uk9pg0AodiMdYjtKI+2zGwM+skxxXGeHs11zwq0XvmOkYxJrDypIXPwXMenwX1bPOJRXUh
+	HtntGeZjS4pEAvPaDHkXJshlhQUYEUI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790713563;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4O5nG7LIgYjapwrvh2Gb45eHxs3a8B3lm20PFzYTcTA=;
+	b=jETJYb7zQPx18K48LrL/Qd4LBhx51V2tMAtOWpPcSeegcO1ZL9Sc0SchxwTbDIialMM1uY
+	sXITWQUh8bxnXZDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1A689136D1;
+	Tue, 29 Sep 2026 20:26:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WmchONoevGr9XAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 29 Sep 2026 20:26:03 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 97644A133D; Tue, 29 Sep 2026 22:25:58 +0200 (CEST)
+Date: Tue, 29 Sep 2026 22:25:58 +0200
+From: Jan Kara <jack@suse.cz>
+To: Matthias Goergens <matthias.goergens@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kdev_t: shift in dev_t in MKDEV()
+Message-ID: <nm2fu2l6lo74444qkqpakt4ehd5jfnhv7c5a2it5z33ve4irpf@haivvqpxkhfi>
+References: <20260927224958.508964-1-matthias.goergens@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260927224958.508964-1-matthias.goergens@gmail.com>
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
-Each casefold= option makes shmem_parse_opt_casefold() allocate a
-unicode_map with utf8_load() and store it in ctx->encoding.  When the
-option is given more than once in the same mount, the later call
-overwrites ctx->encoding and the earlier map is never freed.
+On Mon 28-09-26 06:49:58, Matthias Goergens wrote:
+> MKDEV(ma, mi) evaluates ((ma) << MINORBITS) in whatever type the
+> caller passes, usually int.  For majors >= 2048 (legal: majors go up
+> to 4095) the result exceeds INT_MAX, which C11 leaves undefined for
+> a signed left shift; shifting a negative ma is undefined regardless
+> of the major's value.  In practice, on the compilers and two's
+> complement targets the kernel supports, both cases wrap to the
+> intended bit pattern; this patch makes the macro well defined
+> regardless by casting the major to dev_t before shifting.  For major and
+> minor numbers in range, the device number it produces is unchanged.
+> 
+> isofs feeds the Rock Ridge 'PN' entry's dev_high and dev_low into
+> MKDEV() while holding them in int variables (fs/isofs/rock.c), so a
+> crafted image can drive this exact shift.  Fixing the macro covers
+> every caller instead of just that one.
+> 
+> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
 
-Reproducer:
+Fair cleanup. Feel free to add:
 
-  mount -t tmpfs -o casefold,casefold tmpfs /t; umount /t
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Repeating this 50000 times grows kmalloc-32 by about 50000 objects,
-and kmemleak reports them as allocated from:
+								Honza
 
-  utf8_load+0x21/0x110
-  shmem_parse_opt_casefold.isra.0+0x65/0x100
-  shmem_parse_one+0x368/0x510
-
-Free the old map before storing the new one, so only the last
-casefold= is kept.  On a normal mount with a single casefold=,
-ctx->encoding is still NULL at that point and utf8_unload(NULL)
-does nothing, so nothing changes there.
-
-With this patch the same loop leaves kmalloc-32 flat and kmemleak
-reports nothing.
-
-Fixes: 58e55efd6c72 ("tmpfs: Add casefold lookup support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Mohammed EL Kadiri <med08elkadiri@gmail.com>
----
-This is a separate leak from the remount one fixed in
-https://lore.kernel.org/all/ba38f80f629fd093c77f3a49fdab7b71ee7bbc5f.1790687276.git.med08elkadiri@gmail.com/
-which Gabriel has reviewed; I found it while testing that patch.
-The two apply in either order.  Tested on mm-unstable, alone and
-together: kmalloc-32 stays flat for duplicate casefold=, single
-casefold= and remount, and kmemleak is clean.
-
- mm/shmem.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 07b2855dfb7b..262f1bcb6144 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -4731,6 +4731,7 @@ static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *
- 	pr_info("tmpfs: Using encoding : utf8-%u.%u.%u\n",
- 		unicode_major(version), unicode_minor(version), unicode_rev(version));
- 
-+	utf8_unload(ctx->encoding);
- 	ctx->encoding = encoding;
- 
- 	return 0;
-
-base-commit: 90ddfbd1963659ca4a5d3d7f20717a4222682a8e
+> ---
+>  include/linux/kdev_t.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/kdev_t.h b/include/linux/kdev_t.h
+> index 4856706fbfeb..2dbbd47f1e68 100644
+> --- a/include/linux/kdev_t.h
+> +++ b/include/linux/kdev_t.h
+> @@ -9,7 +9,7 @@
+>  
+>  #define MAJOR(dev)	((unsigned int) ((dev) >> MINORBITS))
+>  #define MINOR(dev)	((unsigned int) ((dev) & MINORMASK))
+> -#define MKDEV(ma,mi)	(((ma) << MINORBITS) | (mi))
+> +#define MKDEV(ma, mi)	(((dev_t)(ma) << MINORBITS) | (mi))
+>  
+>  #define print_dev_t(buffer, dev)					\
+>  	sprintf((buffer), "%u:%u\n", MAJOR(dev), MINOR(dev))
+> -- 
+> 2.55.0
+> 
 -- 
-2.53.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
