@@ -1,170 +1,151 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4C83E44F8;
-	Tue, 29 Sep 2026 22:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4F6280A56;
+	Tue, 29 Sep 2026 22:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790720143; cv=none; b=oJ8xp8ifqDgMl4hDCGEtEWAK4KAjMo4K1cvFW62LATYmGLsEmIFr+oBhJuu69L2UiWc82tzTifzuCfRIEBw0gHZDb6aQkypNgIrXECbp+Dnx3RQzrYR/IYI3VDq/g0h7Orq7QqqNmVSQwFUFjEJZbkNWuHPwqPskBrWXQn2KCZE=
+	t=1790721285; cv=none; b=BgXV5WEpF0qzJzP7N9CDe3fCZNlJ+BBK1e6SHRYrVZNXWpiYdfnnLNw4sM5DHsgnp1DcznOQYLDJTfDf0Ub7PYBcjPCds5dDVZVEKEezs2cPMH3BQbW3DZupIa2izgW1Zf2ZX65ZWBksIZPNs+apa//X1SeGwiFf6fQUyaTT6N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790720143; c=relaxed/simple;
-	bh=lA8OIGpr+3IoFNeyfse31X5HT+AJVfGcyMWh/vW1LT0=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=a3ELxzoSWV38ryPd+O719lnP5Ipa2+fbl1Utz1UmghTjb08D/ftHkZgKyWnOAzWKAQgJyUP+8JcmtEIujNGowfZR6vgUG7m0Km9kU0iFsQKltUrwQJCP5dWdooEXxz5LAB0cB0b+lJAmfvTYUZS3xeRTPfQOhk/yTJudTm6hq2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=egL6wDpx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JjMrI3GO; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1790721285; c=relaxed/simple;
+	bh=hjiyCzqQvSUxQc6HxHqYpELnZBmj+6fiYQGh3i6wxHI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FYWP7XInuoLLjv1gszrKXyfk9ERYtXws/Sm88RraRuF9J4EHkZkNLW7T6mwV8xzY+/al1IyplIh2HvpRBfMcl6ILUsiIMcpqVYPnV7K7Z6NeEqlI1/JwgI3O88io9YynR13lmWYgBDa1VLWfuE3W+Iz/e9Bqz3mF9JsIhUkZpl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sandeen.net; spf=pass smtp.mailfrom=sandeen.net; dkim=pass (2048-bit key) header.d=sandeen.net header.i=@sandeen.net header.b=bN6FyHVh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vq4IaGJ6; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sandeen.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sandeen.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="egL6wDpx";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JjMrI3GO"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 422F5EC03D1;
-	Tue, 29 Sep 2026 18:15:41 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=sandeen.net header.i=@sandeen.net header.b="bN6FyHVh";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vq4IaGJ6"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id 47C791D00713;
+	Tue, 29 Sep 2026 18:34:43 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Tue, 29 Sep 2026 18:15:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+  by phl-compute-06.internal (MEProxy); Tue, 29 Sep 2026 18:34:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sandeen.net; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1790720141; x=1790806541; bh=ECZwRXFI7wxFvuUVQQBk9tWmQ4CQX/umKjr
-	mqyu1z/A=; b=egL6wDpxYbbEaZ2Wu1NSMbYrtJszLskmRKFQc7Apn7ZwcVN+d2b
-	7d/atozANqH6yHKOBjczc03tuU7xUFMO4WZ9CC9EfjgapzMFkOuxPJpbHNt2rUeq
-	reX0Cz1tZei1ibrLtyZuriwJb/pabatPqq9UHqXRsC16maS9o5Kar77C3kHh56tX
-	xBDW15NY11kKRLThDkYNXIZ1IatesyyVCIWutW2yWFdcbidsplyp6oGbOPhf26G+
-	J46UyNaVdvUWxurBfzEGykChueIDu0lBMlB16Uqv/5p1NLzN9LOPNCov5iAOzkjG
-	h6CIqrw9j15rvgdKYudIFChWrT6sJZy9lmA==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1790721283;
+	 x=1790807683; bh=tQAdlWKXz5EQMHwvsvgdi9y+wBZ+lxzMIjOPtdt65Po=; b=
+	bN6FyHVh9gMvmDQVOn+mhDd1hU1zVCuU4Y1OiD0XdDEvA2WZ175JbooIaGE2A/NV
+	/hGYNNK6mluLocBCfI/kb0j8zJk0u7MM/mTkNCXDAa9J6F3Fy9eMUxis753oPVrP
+	RH28VEd6TkFVGFXHhU5wd4clNFyyZJ8zqLc1L+4yNwenAoalfZoCLbupi29ofTwo
+	i8SC6POy91T//NRJXNUNV0Gt06Zc7FkQsuXsFXCanTKRbrf+Rvai/dxGGplC3aYq
+	2BAb63a2n5d/FELCDYhgQv0gEVZePBCDPqIA+7unKqb+TABtZlz1efGZ0KDgRbYK
+	bVeb7InqLlQiTB0P7LwhTQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790720141; x=
-	1790806541; bh=ECZwRXFI7wxFvuUVQQBk9tWmQ4CQX/umKjrmqyu1z/A=; b=J
-	jMrI3GO/sP7zgRMSqyODMbjxD5lwdJnVwxnijglxgWUq8ckSs9vZyM9TmTEwTByg
-	5Hs3DYXzIf+eBWunOD67TG5o9dwrzZkxpXM+a5rZyDaZgVqFq18U+h3FjcNFy2Me
-	fT7AOVHrjxdAhYPGOFEY82tsEo8LDYqec7AVeLv263uKcYZsDXyy6Lc81tSUxrsk
-	pKoCjqIwQTTI4EwcPL/Tw3Mc9VfJlGCbZrvHW+xfF5vkOd4LKaQ4EQaoB4Aa3PWP
-	SJnjmxBMDdDu/teEzra1cWV/CwakEMzgkLF7J/vzBQyiNuVhFnoj8kdwNnSqOGJn
-	aLEuUjlbZO7fXXncrpdCw==
-X-ME-Sender: <xms:jDi8aq4U2CAFQbh-yk-WUXf8QfmRm2_hA1Jugr9Npd1QcnW5jdrtvQ>
-    <xme:jDi8agcJyYp-LCWyMkiCvQDTymumBxyid4M_lW99eWpQGhvLJAd_Vs4rR_VhlZVyn
-    DVoKxLcyR44flc-YFe06qTpnheS0C_AbCiCvTUNqKWh-nel3bs>
-X-ME-Received: <xmr:jDi8at5az42ryhWom9BZVG4L8GPBEmzjXwq7tbWVtv1ccZ8nO-rJmz6rXeD946rk4h2lsp3vKJRlWkHUJ3bsdUcG42In7us>
-X-ME-Proxy-Cause: dmFkZTE8marj7DVr8hg1dxlC9utcvKFkho3si1jq9DAv1zFhVKum0yYAwPlc3PrSQ2jgD4
-    b5aTj2x/l8XyGdReNrwPtKAeEUtcZlsWCYt6f68RbEckrAiHLyLes3uBHOy1WFPKXioaGd
-    2uXbprb6PKe+QKDMWlHyDbk94bTJ/o1eRm73JZ7+GGH+BPsYTMEdeb11OsWFFiJtz0ropY
-    A5BJe+4UilyOJf2kQslC0vvWvvKItw7nCNKM3QCdpLFRvVK//KyRxOd1OaF6MLTzzKXk9K
-    DYO8WEh+Y23Y95oi4bGvUDdYtD8x5VOgRxqf/RsAX7zpZMZUUOo8jcGJDBGTRAy1zQNMdZ
-    /72w5NpzSUDnAtlCiyaXcmmHmQzNeZ8Cot1STLMho1mEOhPwTFNsNE0mHjpHwqjp1AfYcT
-    p++ekDTpNjzK5vunCKjT442JOHxtvoT+sO22UzPODaTYChCAD7IRlIopghtQHNUXA7yf4N
-    NRO1AYJnAiCMOupisgTl/iH/G5WpnXkvXwG0ExaR4yiL6HpCirnAUU4eY1k8nvoo+Vr/rP
-    JiGYnp8ln18TYO7965wZ8OVr+BZbFg3Of3lFfqyjgbbRHRmivaZJHeCX6mk6WBIGqEoD8b
-    hrMhHatjMqljiH06Vnk5iffMOgpe59XbfqYrQbx2atLtQ2kwUVVW9TP7wSFA
-X-ME-Proxy: <xmx:jDi8at8lCiY0LfqOE1qMyp7kmhr1u8yMw07dEcZUc0Hms0l2ilWuHQ>
-    <xmx:jDi8avFRCvgUjGMXEFaWqZ3BcMBD7SBO3NGRAnwoNe5Fak3-fAio1Q>
-    <xmx:jDi8aiXhMUPCA4NGy6fajk7vV49cpL03WZJhxB9sT5EQS-DcWF9oxQ>
-    <xmx:jDi8ar-DYKSmHeTXT_NYbTuvn46ZaTIjhBZ7b2RlOft5EdlX1DMlaw>
-    <xmx:jTi8atwIepATOJfUFycg2qPMfoILpMnJVKlN4kolCjeMhCqxacL_7j6j>
-Feedback-ID: i9d664b8f:Fastmail
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790721283; x=
+	1790807683; bh=tQAdlWKXz5EQMHwvsvgdi9y+wBZ+lxzMIjOPtdt65Po=; b=v
+	q4IaGJ6GNAK5+guJj9FevcyWd8oSPfrItT/76Lfo4hYIYI7iaeTMmieKzpNh7RiD
+	V87ptlxhrom25NPLhwzFOVAoIYOn2VSKrDwaQnMYFWSikkQGInPn1FRXjHrTI6P1
+	GbFzlzMZcIazpnD78YXgEc4PnW1nRaCYDaUUAnxBKeeCMSePEdRRgz2HQWOFSzgE
+	JOvodTxiMjsVhlUERm6/SHQNjS/vqzTpxg9MCvgR98iUtNNS8qU3TsUunFB0OfuP
+	I+IP+F95CuK9ZAbodtwapc9q7Pxk4WDFzOHy7hZt5bGyEocXZFRv2PO7Z4ffi/Ez
+	+BJEkDM6y2Dmk8lLYjSaA==
+X-ME-Sender: <xms:Aj28avryL6aAfOcSIrNcut_hdSAS8gmafm2DjayNN-wPlrouR-Fe_Q>
+    <xme:Aj28arI60Cbou1qqDaVJ89r9oT5zF_j2ttji_A2g-BcYUTKrWSdUY9gpx5wi_4Zna
+    iIefZll1b3fz4hR1L9nQr494KY8RPJD3ZFJrRHrqGSYff63irlhY2Dt>
+X-ME-Received: <xmr:Aj28asSmkkiQS2uTMF0mD3PHd_xdJYSer19MSLzmRk1-szPQKayPdyUsNp76J-vHEpzhtprMVhtt0kEFpsic2UMZawEKvA>
+X-ME-Proxy-Cause: dmFkZTFdD0qsqzxhN/w3zhKEVysFSuExtFBanCI989UljJcKvuZMzeOTX4qkkEgiLaELeg
+    IbtTUi8R/xvtJ9oPMVy4zfNuOJdkLzuHn1t1RHpW6uoRYnj/F46R9M+/QnHm4S/H/4sG+m
+    uDSjB+IAL4+CGpnBFeKvhldOBkOeXgUZLRioFT01gJ+DqNkFupJMlM8Pzlz7XRdwkeee1W
+    EGi1EEsK3ZuPr/R7xGW6C5vFSy0fsolnZPPTPNiaoQkSbVvbPhT+fiaz41Pb3TCH3ATfYO
+    PoEm74CaGru64WuZQ8WhKZ19MIN88wJ8ROML9GzlBVvxXeW/6Df5aiby0BQE7fIgoSgtjG
+    2bKvNQ8qDw/EpJ4FiRPnSeDsZAmvfEzfozHNfFfssBDaIQkMndDi6s+ntLziBasd8+lH5P
+    rsvWvBubfPSgBCvmdmQUHLs1MvBuwOjplqoOwfTYeL4wg+3RcHXaA35Ingmk6/bUGk7fUu
+    8WGRnBx2ol48EkTQeZ7SWRrPr3IyTpAbbKHk/4a+ONSW/iG0jj3sF25q5Pq26vGzrKT/DD
+    2c/tCE6Q332dlMCVsp8bgI3uoRkKTKEvO/LpWTi7Q7E4Etc5vvFK3VVhxYvepkTn4D4c+r
+    mRYB6Ip/D5hH5mFU3JFnhETazgDn37Rb2xFXXkQPwrj4fXogDN7qrhcZzWwA
+X-ME-Proxy: <xmx:Aj28aitz8WB6Tfi_WogOoP3ANoCd3qMxizdbaZTmhnI2EMBQ6sX7kw>
+    <xmx:Aj28albzIwDDel2AW8Ze4UJlIkE9cIUvmVuUh_W2_mzRGKV4BPYyuw>
+    <xmx:Aj28agEhpzrpuLfD8JE9--GmPDVI7f1e5Bcc6CojZftaM0nj0RxTrA>
+    <xmx:Aj28ahxOf7QD9btGjijP9aNNjPu3-WP3xOMSN-Eqpb4eNy8qavfM2Q>
+    <xmx:Az28apjQRUDy2mCWuBOzmYf7N7IExbO_nLUkLL6v6q2zWtVBJ2I_nZGz>
+Feedback-ID: i2b59495a:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Sep 2026 18:15:37 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ 29 Sep 2026 18:34:42 -0400 (EDT)
+Message-ID: <21ce40af-eb29-4c78-a5e2-1021c3de075e@sandeen.net>
+Date: Tue, 29 Sep 2026 17:34:39 -0500
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jori Koolstra" <jkoolstra@xs4all.nl>
-Cc: "Christian Brauner" <brauner@kernel.org>,
- "Jeff Layton" <jlayton@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>,
- "Aleksa Sarai" <aleksa@amutable.com>, "Amir Goldstein" <amir73il@gmail.com>,
- "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 07/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-In-reply-to: <1010887891.582666.1790682845752@kpc.webmail.kpnmail.nl>
-References: <20260913185016.523376-1-jkoolstra@xs4all.nl>
-  <20260913185016.523376-8-jkoolstra@xs4all.nl>
-  <20260918-reklamieren-syndikat-gemildert-763b72008b46@brauner>
-  <178972607557.207413.4312278359822083538@noble.neil.brown.name>
-  <178977609418.207413.15011378414000392029@noble.neil.brown.name>
-  <1010887891.582666.1790682845752@kpc.webmail.kpnmail.nl>
-Date: Wed, 30 Sep 2026 08:15:34 +1000
-Message-id: <179072013439.37859.465558431050704411@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] MXFS: a shared-disk clustered filesystem derived from XFS
+To: Steve Shoecraft <spshoecraft@gmail.com>, Carlos Maiolino <cem@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
+ linux-xfs@vger.kernel.org
+References: <56847E8D-EA83-4984-82F3-9BC93E4C02FF@gmail.com>
+ <ardhDI-Ko7b5RccH@infradead.org>
+ <BC228018-42A4-4715-B186-057AFDE8A4D0@gmail.com>
+ <arj3Mp6Cq2_qwaIb@cronus.toxiclabs.cc>
+ <1B01BE22-06A8-412D-B141-CD94026E0A39@gmail.com>
+Content-Language: en-US
+From: Eric Sandeen <sandeen@sandeen.net>
+In-Reply-To: <1B01BE22-06A8-412D-B141-CD94026E0A39@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 29 Sep 2026, Jori Koolstra wrote:
-> > Op 19-09-2026 02:01 CEST schreef NeilBrown <neilb@ownmail.net>:
-> > 
-> > > 
-> > > nfsd_create_locked() used to do that before vfs_mkdir() could return a
-> > > dentry, but it doesn't any more.  The reason was because
-> > > d_splice_alias() on might return a different dentry. 
-> > > In this case we want the same dentry, but we need to do a lookup on it.
-> > > 
-> > > I'd rather fix this in kernfs, but maybe that is a longer-term goal.
-> > > 
-> > > The comment in kernfs_dop_revalidate() suggests the we should d_drop()
-> > > the negative dentry and d_alloc_parallel() a new one and ->lookup that.
-> > > I'm not certain that is needed if we keep the parent locked, but we
-> > > would need to be certain.
-> > > We at least need to d_drop() the dentry before ->lookup as ->lookup
-> > > cannot handle hashed dentries and a hashed-negative dentry is passed
-> > > to ->mkdir.
-> > > 
-> > > I wonder if we could just disable O_CREATE|O_DIRECTORY on kernfs ....
-> > > probably not.
-> > > 
-> > > Summary: I think that if vfs_mkdir() returns NULL (success) but the
-> > > dentry is negative, we need to d_drop() and call ->lookup with a big
-> > > comment about kernfs.  But we need to double-check that this will do the
-> > > right thing with ->d_time (I think it will).
-> > > We also need to think carefully about races with
-> > > kernfs_dop_revalidate(), which could happen concurrently with the
-> > > ->lookup.
-> > 
-> > I've thought a bit more about this ...  I think that doing a lookup after
-> > the vfs_mkdir() results in a negative is a bit ugly.  It assumes things
-> > about the fs that I would rather not assume.
-> > 
-> > I would rather have the current proposed code check for a negative
-> > dentry, and fail with -EIO or similar.
-> > 
-> 
-> I just noticed that there's precedent for this in overlayfs in super.c:
-> 
-> 		/* Weird filesystem returning with hashed negative (kernfs)? */
-> 		err = -EINVAL;
-> 		if (d_really_is_negative(work))
-> 			goto out_dput;
-> 
-> Shall we just do this for current kernel release, then we can add support
-> later if wanted.
-> 
-> (But let's do EOPNOTSUPP instead of EINVAL)
-> 
-> What do you think?
+On 9/29/26 8:19 AM, Steve Shoecraft wrote:
+> I’m disappointed in your responses. I would have thought that you’d at least be interested in how well the AI did.
+Not trying to pile on here, but still echoing the other "disappointing"
+responses:
 
-The problem with this approach is that open(.., O_CREAT|O_DIRECTORY)
-might create the directory, then return -EOPNOTSUPP.  This is weird and
-I'd rather it not be visible.
+This developer community, like many others, is already oversubscribed.
+This was true before the LLM onslaught, it is /far/ worse after it.
 
-Currently O_DIRECTORY|O_CREAT results in -EINVAL.  I would rather it
-remain a -EINVAL on any filesystem which doesn't completely support
-the functionality.
+Review has been a community bottleneck here for /years/ - for the actual,
+shipping XFS project code.
 
-To do that we need some way to detect kernfs and tracefs.  I think
-the only way we can do that is to make some change to those two
-filesystems.
-Maybe a new  SB_I_ flag in sb->s_iflags would be ok in the short term.
+We've been victims of turn-the-crank work generation for a long time, whether
+it's running xfstests and throwing un-triaged failures over the wall, or
+fsfuzzer,  husyzkaller, now AI-found flaws and exploits, etc. Generating work
+for humans is getting easier and easier, and the human workforce is not growing.
 
-NeilBrown
+(FWIW, many of us do use LLMs as a force multiplier, both for coding and for
+code review. It's still a struggle.)
 
+I ran cloc on your repo:
 
-> 
-> Thanks,
-> Jori.
-> 
+github.com/AlDanial/cloc v 2.10  T=1.87 s (1565.8 files/s, 466746.3 lines/s)
+--------------------------------------------------------------------------------
+Language                      files          blank        comment           code
+--------------------------------------------------------------------------------
+C                               306          39193         121404         284212
+Markdown                       1195          22872            715         143738
+Bourne Shell                   1046           6436          42299          82939
+C/C++ Header                    222           5834          23461          37391
+JSON                             34              0              0          32925
+Python                          103           2306           3392          15533
+Text                              6             85              0           6819
+make                              9            102             45            424
+Perl                              1             53             20            190
+Bourne Again Shell                3             16             84            152
+JavaScript                        1             10             13             72
+Expect                            1              4              7             30
+Snakemake                         1              0              5              1
+--------------------------------------------------------------------------------
+SUM:                           2928          76911         191445         604426
+--------------------------------------------------------------------------------
+
+a quarter million lines of C, never mind the rest.
+
+Your project sounds interesting, but the humans here are not going to be a
+review workforce for it.
+
+I'd suggest that maybe you continue your AI-only approach, and continue using
+AI to design a comprehensive test suite as well, and let any potential users know
+that it's AI-turtles all the way down. If they trust it enough to use it, and
+it works without eating anyone's data, then your AI-only experiment might just
+be a success.
+
+And if it's not a success, thank you for changing the magic number. ;)
+
+-Eric
 
