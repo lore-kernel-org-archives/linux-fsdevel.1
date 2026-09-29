@@ -1,181 +1,87 @@
-Received: from smtp.smtpout.orange.fr (smtp-78.smtpout.orange.fr [80.12.242.78])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89AB4E9C1F;
-	Tue, 29 Sep 2026 16:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E2A530E04;
+	Tue, 29 Sep 2026 17:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790698439; cv=none; b=HgkeDUz3eKo+6uI6IEOT2xsv9mQUmkRP/zMrVy/gQYXULv0eXowV0DCDb23XVHy5MBFkHQMetEgW8fPlOb1zjEbjJezDE3HRbudMULN6H1w9tLG+zHXQ7IqumSJERSsz7+IFsTCbElBW4Ag15cAFaAiVIXzZvLJLJ+7qcWVDo4A=
+	t=1790701359; cv=none; b=Hp9GllxDsYK9TXnQWs+SoL+eRJBGI2qd6o4TqXoZC0Ej9/OcUHgpDGQ+m702h6+RT7cqnwYa9RzSSjxUWr++dr7sJFWa/BhUMUaunEUbG+M9m9ZXFIgmuLAxFwt+yaM2kDscVAu3UTIAPoSMt0lLvMbznuScj1B4dJ96SR69aNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790698439; c=relaxed/simple;
-	bh=SPsJ46zQ3cpUQvCQs2LGwEVPCihPlg7Yokg21P/WkrE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
-	 In-Reply-To:Content-Type; b=YV1/jkVOoWFhZbDbDZ42ymFFjvKs639474O6KmfTtnYHMlAJ/ePWbpLNsdm8aVpPfX0MZ1q/PNsNPtJ0igc7mH89Oa5SNZA4jVJktbHPAszwTFG1oSFuFoM3sHxRMzd+pDurq99GbKdH0IOG5U5+N4aOvMQ7UhTO5JmWMRQKZYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=eORPkq/K; arc=none smtp.client-ip=80.12.242.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1790701359; c=relaxed/simple;
+	bh=sztxa51NDpnXgGK1FzhpqrWF9TVbYB1X0GV7fb1ZENU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fOeiWWsueHvgd07lKo/TQquc7u0/XKlQ3c9gqkJ6Efmko8KUecallxaYB+mOpV+Idq4eywvff6hvrHfamp1g64ah7J2IROpWAZwGL333HUxnt0Ojh+OHd++llJHlgX9TKexYVKJeBftxEGoC65gN2yaBaz+ssrKzNHbWKRzEpRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=VqnY939g; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="eORPkq/K"
-Received: from [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e] ([10.65.86.61])
-	by smtp.orange.fr with ESMTP
-	id BaRhx92f8ikczBaRhxXw2o; Tue, 29 Sep 2026 18:12:45 +0200
-Received: from [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e]
- ([IPv6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e])
-	by smtp.orange.fr with ESMTPSA
-	id BaRRx1oDtLJYiBaRSxYYGg; Tue, 29 Sep 2026 18:12:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1790698358;
-	bh=/CYIGon90Dpyxdyj2gt7ks36c8ww0+aJ1J2OviNXcD4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=eORPkq/KW8MQ+EAJSBy1x5irQF+H5qrTe5xccMDxElj9P2uXgSBHPxUwVpHTVCll6
-	 5SVS/MDDhsDAZGN4AAL0A+pqjb3JpY0oiJi4RmA5a2LsMfvbHjAfYgoydzIlArDdd3
-	 1gNGXNA6SYakaOVh4qsBVXhu7PPIDqHRVc+uJ/UQNcK+k5bW0OlHVkqB8NEKLzVQbj
-	 WrWFK64mS0JYUGD9+lH3bZ6lo+erqhiqIDJbsj/gkK48oHXui/eMVQUzABmKt1pdft
-	 A2BL3SeatpaJfbpiuXOHSGDlcAsarPXrMFwp14ziu6eev4OWwWLbbyK8angPUWfxcq
-	 OziQJNEFIbFpw==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 29 Sep 2026 18:12:38 +0200
-X-ME-IP: 2a01:cb10:785:b00:26fb:aefb:6cd2:db0e
-Message-ID: <2620af49-ddd9-4df6-848a-d7c93e8a1c03@wanadoo.fr>
-Date: Tue, 29 Sep 2026 18:12:29 +0200
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="VqnY939g"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=sztxa51NDpnXgGK1FzhpqrWF9TVbYB1X0GV7fb1ZENU=; b=VqnY939gtSRzhLUZI4XEXXKxCB
+	1fmHMvR5qwP47km1BXCICgcZEgKYcm5EItdNqjBR1dVDg+K0RRd1lPiBHGTfiuqOtRLREoLM4HN8Z
+	6cSghE00wSNuOfm9SI6Io5Mxn2U4jh+twZY/ho77nuAx0zLAkVbWK3f0/1aYcroayESnizNPHZPxJ
+	+T6rkD5OkWUCAbLvP5DrE+aHHGzTKCfRzCsjny1Ko0xzZ9Mdvk9eqPlAL3ZRP3Kbqdv2WxkE9rtfO
+	zNVhy1FRMBLz9I8Q9/Ele9dK5ree8WigAhLzWvWjYbL6RcrDCyM9cr9sucFPvBlZ0ToNR6bDD/qCe
+	TVMXd0Dg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xBbDe-0000000El5m-34dN;
+	Tue, 29 Sep 2026 17:02:19 +0000
+Date: Tue, 29 Sep 2026 18:02:18 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Gary Guo <gary@garyguo.net>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Georgios Androutsopoulos <georgeandrout13@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Jan Kara <jack@suse.cz>,
+	Boqun Feng <boqun@kernel.org>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	linux-fsdevel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Al Viro <viro@ftp.linux.org.uk>
+Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
+ descriptor APIs
+Message-ID: <20260929170218.GD989762@ZenIV>
+References: <20260923022339.3340694-1-georgeandrout13@gmail.com>
+ <arThye_219ruNbM2@google.com>
+ <20260925-stellen-brummen-festrede-266af0305ac7@brauner>
+ <20260929044843.GA3909609@ZenIV>
+ <DLRSQRUVOGT2.10ZY01VEJVHCE@garyguo.net>
+ <20260929135154.GB989762@ZenIV>
+ <DLRXHGLDR2QQ.WZVRWGY995BT@garyguo.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 01/13] dma-buf: introduce initial file I/O
- infrastructure
-To: Pavel Begunkov <asml.silence@gmail.com>
-References: <cover.1790602223.git.asml.silence@gmail.com>
- <c33046bbadce5a2f14aa1874270ec2d10def58ef.1790602223.git.asml.silence@gmail.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Content-Language: en-US, fr-FR
-Cc: agk@redhat.com, akpm@linux-foundation.org, anuj20.g@samsung.com,
- axboe@kernel.dk, bmarzins@redhat.com, brauner@kernel.org,
- christian.koenig@amd.com, dm-devel@lists.linux.dev,
- dri-devel@lists.freedesktop.org, hch@lst.de, io-uring@vger.kernel.org,
- jack@suse.cz, joshi.k@samsung.com, kbusch@kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-nvme@lists.infradead.org,
- matthew.brost@intel.com, mpatocka@redhat.com, nj.shetty@samsung.com,
- phil.cayton@intel.com, sagi@grimberg.me, snitzer@kernel.org,
- sumit.semwal@linaro.org, tushar.gohad@intel.com, viro@zeniv.linux.org.uk,
- william.power@intel.com
-In-Reply-To: <c33046bbadce5a2f14aa1874270ec2d10def58ef.1790602223.git.asml.silence@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DLRXHGLDR2QQ.WZVRWGY995BT@garyguo.net>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Le 28/09/2026 à 15:32, Pavel Begunkov a écrit :
-> The goal is to be able to natively use dma-buf in the read-write / IO
-> path. This patch adds basic building blocks serving as a glue and API
-> between drivers and upper layer subsystems providing the uAPI. Later
-> patches implement it for NVMe raw block devices and expose it to the
-> user space via io_uring.
-> 
-> There are two main objects. struct dma_buf_io_ctx and struct
-> dma_buf_io_map. The ctx is used during initial registration and serves
-> as an interface between the upper layer user like io_uring and to the
-> importer subsystem / driver. The map represents the actual dma map
-> established for the target device[s] with dma_buf_map_attachment() and
-> stored in a device specific format. The context is created via a new
-> file operation ->init_dma_buf_io_ctx.
-> 
-> The ctx-map separation exists to support map invalidation (see
-> dma_buf_io_invalidate_mappings()). A ctx can create
-> multiple maps during its lifetime, but there can only be no more than
-> one (active) map attached to it. Invalidation drops the active map
-> if present, and the next map will only be attempted to be created
-> once there is a new request that wants to use the dma-buf IO ctx.
-> 
-> The primary task of the dma_buf_io_map object is to count requests
-> using it and to wait for their completion when we want to destroy the
-> DMA map.
-> 
-> [un]mapping and any work with dma addresses is delegated to the
-> importer driver via an ops table stored in the ctx, see struct
-> dma_buf_io_ops. Only the target driver / subsystem knows about devices
-> it wants to use the dma-buf with, especially in case of multi-device
-> filesystems or stacking in the future.
-> 
-> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
-> ---
+On Tue, Sep 29, 2026 at 05:07:40PM +0100, Gary Guo wrote:
 
-Hi,
-a few nitpicks below, should it help
+> The reproducer that Georgios posted on GitHub is some cleanup job being added to
+> task_work, which drops FileDescriptorReservation. And since exit_task_work()
+> happens after exit_files(), put_unused_fd in that cleanup observe that
+> current->files is NULL.
+>
+> So it's not from random thread, it's from the current task. And I find that
+> particular case of doing per-task cleanup not unrealistic.
 
+FWIW, descriptor reservation ought to be tied to specific files_struct
+instance; note that dup_fd() can be called when there are outstanding
+reservations and the copy does *NOT* have those reserved.
 
-> +static void dma_buf_io_kill_maps(struct dma_buf_io_ctx *ctx, bool final)
-> +{
-> +	struct dma_buf_io_map *map;
-> +
-> +	scoped_guard(mutex, &ctx->map_mutex) {
-
-guard() is enough. This saves indentation.
-
-> +		if (final)
-> +			ctx->maps_killed = true;
-> +
-> +		map = rcu_dereference_protected(ctx->map,
-> +					lockdep_is_held(&ctx->map_mutex));
-> +		if (!map)
-> +			return;
-> +		rcu_assign_pointer(ctx->map, NULL);
-> +		percpu_ref_kill(&map->refs);
-> +	}
-> +}
-
-...
-
-> +int dma_buf_io_ctx_create(struct file *file,
-> +			   struct dma_buf *dmabuf,
-> +			   enum dma_data_direction dir,
-> +			   struct dma_buf_io_ctx **out_ctx)
-> +{
-> +	struct dma_buf_io_ctx *ctx;
-> +	int ret;
-> +
-> +	if (!file->f_op->init_dma_buf_io_ctx)
-> +		return -EOPNOTSUPP;
-> +
-> +	ctx = kmalloc_obj(*ctx);
-
-kzalloc_obj() and save the memset() below
-
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +
-> +	memset(ctx, 0, sizeof(*ctx));
-> +	ctx->dir = dir;
-> +	ctx->dmabuf = dmabuf;
-> +	get_dma_buf(dmabuf);
-> +	mutex_init(&ctx->map_mutex);
-> +	mutex_init(&ctx->map_create_mutex);
-> +	atomic_set(&ctx->active_maps, 0);
-> +	atomic_set(&ctx->all_maps, 0);
-> +	refcount_set(&ctx->refs, 1);
-> +	init_waitqueue_head(&ctx->maps_wq);
-> +
-> +	ret = file->f_op->init_dma_buf_io_ctx(file, ctx);
-> +	if (ret) {
-> +		kfree(ctx);
-> +		dma_buf_put(dmabuf);
-> +		return ret;
-> +	}
-> +
-> +	if (WARN_ON_ONCE(!ctx->dev_ops ||
-> +			 !ctx->dev_ops->map ||
-> +			 !ctx->dev_ops->unmap ||
-> +			 !ctx->dev_ops->release))
-> +		return -EINVAL;
-> +
-> +	*out_ctx = ctx;
-> +	return 0;
-> +}
-...
-
-CJ
-
+What rules would you suggest for such delayed put_unused_fd() wrt e.g.
+files_struct unsharing?
