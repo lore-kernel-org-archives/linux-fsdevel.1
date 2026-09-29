@@ -1,197 +1,181 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020132.outbound.protection.outlook.com [52.101.195.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-78.smtpout.orange.fr [80.12.242.78])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2DC4ED1AF;
-	Tue, 29 Sep 2026 16:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.132
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790698070; cv=fail; b=eZh4EExlxkaK0TjxtXkJGT7jOHeYX6D+Flt3IZDgejMnjIiYCYSYlw0WFIhyn5YednQGd+5ZgbZoYhziHHSVsvhNxsyBDICcNN6cBE/MeUTb6lf5skb+7GP/Zw6pdln+QWQJCs7Bhfy/MsdCFMydYRnEg8Qvwp0Vl6V78x/d94k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790698070; c=relaxed/simple;
-	bh=NNHvMa1Tz2DFZmlNwkpnXggLzcIrlCKY+u8TlM3PfPs=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=JVJUKZgo5IMpkhNYoOFNpvAOSWLknNQ/c7JArlu7Rwr0v9LqHQpqkreFixls7kPfzr1wbhg35xHDVwXbEuqvNgCOq6V8npCqQHFkNXTyHoRHXABbFHQ49vpEvgGxHjBmNws3kh34u/tEmGAK4fz7mudAmBq4hRtOWsAxFwA5YXM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=I0Bs+KAT; arc=fail smtp.client-ip=52.101.195.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89AB4E9C1F;
+	Tue, 29 Sep 2026 16:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.78
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790698439; cv=none; b=HgkeDUz3eKo+6uI6IEOT2xsv9mQUmkRP/zMrVy/gQYXULv0eXowV0DCDb23XVHy5MBFkHQMetEgW8fPlOb1zjEbjJezDE3HRbudMULN6H1w9tLG+zHXQ7IqumSJERSsz7+IFsTCbElBW4Ag15cAFaAiVIXzZvLJLJ+7qcWVDo4A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790698439; c=relaxed/simple;
+	bh=SPsJ46zQ3cpUQvCQs2LGwEVPCihPlg7Yokg21P/WkrE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
+	 In-Reply-To:Content-Type; b=YV1/jkVOoWFhZbDbDZ42ymFFjvKs639474O6KmfTtnYHMlAJ/ePWbpLNsdm8aVpPfX0MZ1q/PNsNPtJ0igc7mH89Oa5SNZA4jVJktbHPAszwTFG1oSFuFoM3sHxRMzd+pDurq99GbKdH0IOG5U5+N4aOvMQ7UhTO5JmWMRQKZYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=eORPkq/K; arc=none smtp.client-ip=80.12.242.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="I0Bs+KAT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sHERDb70rVBgnq4fDDYyCxOtxAD265LWPIO4n7ktzVfUg3PEhUOMVO0k18uZeQb9RObuCiFghuEvPpimmSCJ06PKCWULszO8GfbWCox5kdIMnMqCsFXfOrItXFpwtMvJOi+4iRFNqAH5DCNjl9yW0ObJVU6SuxsvJLm+++QO/B3E6CEBJEUh0fqgUqchy3S/LA5Nn1IAzgDGZHmmMsQt94upjWkA6XdK/mJL7msXQn5cEWq1J8mUXjkm92e+lbsjo+bxied5pyamXS2dXVDpgCmwbEE+W23ZsohByhOxLNsnGoC14GWJATbewxMUoPHuh6bdb9tZ/kNiDO3LReS7oA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xQWy8knEoKwak4VX2NrxuTb69omxvj60BURZtq89k5k=;
- b=vD+UyZr3MJoHVGjlNffdiWIPbvdEaWfgfy32TPupPI0AKxV7W+k5CnqoyandRJaqmF66aBOvKblDv8PMgdyLAUGRUmnDrAfo/vSSpD7Pkkm8eNsazS3Tc7a7BQ5w9zNF97niez/ydLQVIihEgOC98nlnGNpUnUHtuo0aApZyRaLhBhVgSDYTCk4DnrU0GTY+zIkhmKKFP+Imb4v0SyJPXjRLQ8oy2Nw/iAE0CLqdvVmBFPxtQSEDVwE+uFcJDc41b9TLah1OwqKa1XcT0XHt6UlAR9oOfd58hRKkwWpHX7Gqij7tFUYWltj4UABK12c2mcka0rkBSdy373G8qT4CYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xQWy8knEoKwak4VX2NrxuTb69omxvj60BURZtq89k5k=;
- b=I0Bs+KATZyOuTGxpWnYSbDsiprtSHRMZpC6HB2LfsvVFvYYP2yAApNFhTTQBfV2IwX/FXu9OzftYn1PWpPUmSDam5LzUgPBkNJglkLK2s2Np24ErHKUdGTxt0RKIBDIn4ia5Y8f/AMJR1m1xhGQhwH9mIxJhX9bP3X6TI38asC8=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by CW1P265MB7557.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1d9::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.25; Tue, 29 Sep
- 2026 16:07:41 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%6]) with mapi id 15.21.0451.024; Tue, 29 Sep 2026
- 16:07:41 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 29 Sep 2026 17:07:40 +0100
-Message-Id: <DLRXHGLDR2QQ.WZVRWGY995BT@garyguo.net>
-Cc: "Christian Brauner" <brauner@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Georgios Androutsopoulos"
- <georgeandrout13@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Jan Kara"
- <jack@suse.cz>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
- <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- <linux-fsdevel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Al Viro" <viro@ftp.linux.org.uk>
-Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
- descriptor APIs
-From: "Gary Guo" <gary@garyguo.net>
-To: "Al Viro" <viro@zeniv.linux.org.uk>, "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.22.0
-References: <20260923022339.3340694-1-georgeandrout13@gmail.com>
- <arThye_219ruNbM2@google.com>
- <20260925-stellen-brummen-festrede-266af0305ac7@brauner>
- <20260929044843.GA3909609@ZenIV> <DLRSQRUVOGT2.10ZY01VEJVHCE@garyguo.net>
- <20260929135154.GB989762@ZenIV>
-In-Reply-To: <20260929135154.GB989762@ZenIV>
-X-ClientProxiedBy: LO4P265CA0108.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c3::10) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="eORPkq/K"
+Received: from [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e] ([10.65.86.61])
+	by smtp.orange.fr with ESMTP
+	id BaRhx92f8ikczBaRhxXw2o; Tue, 29 Sep 2026 18:12:45 +0200
+Received: from [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e]
+ ([IPv6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e])
+	by smtp.orange.fr with ESMTPSA
+	id BaRRx1oDtLJYiBaRSxYYGg; Tue, 29 Sep 2026 18:12:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1790698358;
+	bh=/CYIGon90Dpyxdyj2gt7ks36c8ww0+aJ1J2OviNXcD4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=eORPkq/KW8MQ+EAJSBy1x5irQF+H5qrTe5xccMDxElj9P2uXgSBHPxUwVpHTVCll6
+	 5SVS/MDDhsDAZGN4AAL0A+pqjb3JpY0oiJi4RmA5a2LsMfvbHjAfYgoydzIlArDdd3
+	 1gNGXNA6SYakaOVh4qsBVXhu7PPIDqHRVc+uJ/UQNcK+k5bW0OlHVkqB8NEKLzVQbj
+	 WrWFK64mS0JYUGD9+lH3bZ6lo+erqhiqIDJbsj/gkK48oHXui/eMVQUzABmKt1pdft
+	 A2BL3SeatpaJfbpiuXOHSGDlcAsarPXrMFwp14ziu6eev4OWwWLbbyK8angPUWfxcq
+	 OziQJNEFIbFpw==
+X-ME-Helo: [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 29 Sep 2026 18:12:38 +0200
+X-ME-IP: 2a01:cb10:785:b00:26fb:aefb:6cd2:db0e
+Message-ID: <2620af49-ddd9-4df6-848a-d7c93e8a1c03@wanadoo.fr>
+Date: Tue, 29 Sep 2026 18:12:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CW1P265MB7557:EE_
-X-MS-Office365-Filtering-Correlation-Id: 914d330b-46c4-4b91-b90e-08df1e43ca56
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|10070799003|376014|7416014|1800799024|23010399003|10067099003|56012099006|5023799004|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	AgqVkwB/xkCuf9A7AA8a+p9hkwGbdbdOWD3ZjvFhX2KuqRPhOD5opUuKXkePtk91dRSxTJx/4uD2bSm4xzObPfFcG1QBPMKww+LwI3hoXkupwNIfexyfzzFp2tpy4y0hBmHWjmULHvjV/g6BlIDvjY1tenHGU5KkP8vtFTmcCeoIXg749RzLnwf2bB3RO851nCo++bxc9ZX93H1sjKpcTJ1TsObxVPsg8Vi6TKWQ9IcnwT/lYQ2Lwg1ZWhC2djUs0drv0Sp0oa/kmJT+e4NnLT77IFACsqRglJBGrMNz/xg+bsLWMcsIXfbDilObGcJ0D4lNJTMzSnlFVSnRofxXkhN42kWpdpLE+6woB6IXEUNTX/WCi0BRAHfBkax0C6Sc3m8DiFJ4ozL1NXuq3HQAeeujY64AjSn4poe5cxe1tCs6PFVLJgi1qfJYPUMyESQIMgc6rphMzXgjXh6YHi1rRJ2MUbIttj+XU2Ht9qT8eqIInZVaiYld01mL1TkrJ094zWWfr8SkpsyMV2KXI/8NVEcoOLBL0DHCzb4P5paGEh/no6r8Fg6cOH83BXaxaumE1yy9DO97WQj3c+jV5iGHR8p9pejtYDps9KivADLwr1WdOY3W9C//LNL0Et2nXVZgI4x4dD2HQDmKAftefPJ4mQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(376014)(7416014)(1800799024)(23010399003)(10067099003)(56012099006)(5023799004)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d0Fwclg5K1ZDUklHRmZOVnVrWlRoZlR2SWZqcGVyalBRbzgzZGtNQTNKeUgy?=
- =?utf-8?B?alhuY0xwRHRFZWpRT2U3VzlDSE5HZmVFNFh1eEhnZUtzMGN2TTZ5eDY4bk5u?=
- =?utf-8?B?eWJBLzFhUnUyRTFuck1qRksvWkRSV2ZrTXZ3WmVPNllzeVBMY3U5c0lsckhF?=
- =?utf-8?B?SEFTUmV3clN3MEZCY1ZTbVZXYXhTc1luS0EvWXlJMFNWU2NsdVNtcEVPeUZS?=
- =?utf-8?B?dlozQXBmUENTVGs2dDN3ZjJ1UHgzaGZvSURUM28xNFd1dXlPUm1yaDY3ZVhB?=
- =?utf-8?B?S2JrMHJ6aW1TYXFVeUsybkZBMUJHdThUZDBDTTZoTDJUUFpTaUsxNFMrUEc2?=
- =?utf-8?B?L3REcTFHR3EvN2xwdDIrWTFoOVppZVhOQVRCaWdyMEFodlNBL1oyVDErVU83?=
- =?utf-8?B?Vm9UNUZEak96c0tNTEtGdnpRYlJ3SkNlNGYyNnNzTUZpWml5c0lJUTFlaXNR?=
- =?utf-8?B?NUZidkNDMEUrTVIrVjQyOGczdjB3OXlxNC95YU52b2tBcTcrRit2azhNbnJv?=
- =?utf-8?B?RGdiQS9qSjErWkk4RlA3aFlIeDVzY2VIc3RMVWpzVWYraTRSRndwOHJmWUpG?=
- =?utf-8?B?ZllEUUpEWDZjaHlYc2N2eHhRTWZwYStqU0RabEI2Uk5yNmdSaHA2Ymd2dVpp?=
- =?utf-8?B?S09GM3NvbGU1WjJZTG0xV3BtYko2eEVtTUhMWUJHYmgrODA2NmVaQUtxNFBC?=
- =?utf-8?B?RmNzOTVMdncra0x1VFc1REQ4dFg4cHh3MVEzYXRRSkZGSTZqQWVnRFlHR3dB?=
- =?utf-8?B?VVpyakU5QVd6a0FTWGlvaGlaN0FRcmkyVXRZWEcweFVVdVMvT3dMeXlVU2Er?=
- =?utf-8?B?dWMyR1V2dEFRL0RzRkRiNzA1dkVCK1JFZjZUZXdBK0dvZFg2eVN2dHp1N2Iw?=
- =?utf-8?B?ZFc2aEJhTklxajhpczNPS2FTZEhwd3Q0dHczbEVUakM4TXdJcGZuUU9UMXdI?=
- =?utf-8?B?Ui9WR1NGS1Q1T2hHdU5Pa3YrQlhXUnVLNkRFNlJBOUMvZDE3bWk0cTdoTUpr?=
- =?utf-8?B?V3RLS1lRWDZwN3EvL0VrQVNaK2ttTVJQVEIzQjNHOVovUjZDVUpOZmtxcEJn?=
- =?utf-8?B?Tk9EdUxWNHpNa2RqNy9wRjJkYmZjcmtBZjlXTUhySUxqZHhCWjdmalJFcFZC?=
- =?utf-8?B?L0NpMUZqK3diRVFjVHd1Vm5md0tVQXRrVUU5YXlXWkZhZDVjZHdubWlIS3N6?=
- =?utf-8?B?ZVpwTjhKdEJ6R0JuZTRvek5ka0xUSHFKdjZDS1R4YzlpWlJwcXpFckJBcjhi?=
- =?utf-8?B?bHhlb3Voa0RVZm1OTHVleUt1cUd2QkRyOUFoMVVPOUZqWVNtZkY1TncvdC9k?=
- =?utf-8?B?ZGlPbGo3WS95bFdiemRBRjNRQjNMYXJxU1pyanhtQTBmQkgwOXMyZmVlMU1l?=
- =?utf-8?B?dEt4b2U1RFhyNGhPTzVPVXg5dnZkTHowUFBqbTJLc0JqUWVYK3FrMGJBRXAr?=
- =?utf-8?B?RzA3djU3czJKLzY3V2ZyVmdINHRWYlZVL0NsMWFndlQ3U2tadWhWQzMwOVZB?=
- =?utf-8?B?RHZQVG44aFg1VGs1NExjTk1aTmRwSnFjYlZicHFUMEVUcWlsT1M1YTFER1E0?=
- =?utf-8?B?M3VrUFR4RnI3NC9HR2dNR3dzK3FDQmNFZyttcDJuYVF4cVBJVEgzVG13VUls?=
- =?utf-8?B?bTVpRWlTTWJBLyt5ZDVhNENRdUs0cUZxd2E3MFgvNjVxQ0FqajA4MWRYK2Zr?=
- =?utf-8?B?T0UvSXpzd2FIT1ZmTkFNbE05N0dWV0ExdnUwNUdvVU92Wm9CT1BKeXNkaUdI?=
- =?utf-8?B?SjlCMEZwcEN5UEQyOFdHVGNvd1VQWlV4ekIwZFM4eXFJUHlYOUtqOERUN0ZX?=
- =?utf-8?B?ciszMngzQ1lSQVJLVXQ3RWtsSU1uM0NkVGVmT1Frb3dKTzZoRXhUK2UxSHhs?=
- =?utf-8?B?b3RuMDQrMXcyY1E5dFV4aTZ6K0pBY3NQejBoZnRIT1dYTzdzZUNQZGhSY09Q?=
- =?utf-8?B?RVFFSVR1Y0UrWkwwUExqS1NZRHNVcHdjOFBiSkcybmZBNzVQVXgvWE4yZSta?=
- =?utf-8?B?L2VkOHAzbmFLcE44TFJkZWxCZ0NmUWlWMFFDQU1oazUzc0w3emJwTytMS2Vk?=
- =?utf-8?B?T3AwemthZGMyVW9VeFl6eXk0U1RRTDBUQmtNSWoxQmtLcUFSQmVqQnRWZUgr?=
- =?utf-8?B?VFdkZTkyMEVUYVJ2VEZHUjN6dU1sYVJIQUsxUlkxTFVBbWhRbnRVbjJPMGsx?=
- =?utf-8?B?d2V1YW5ydEloL2FqT0ZuaW5xcU54N2NnWWdFWE94czhsYkJyUkoyQmZtRzI4?=
- =?utf-8?B?cXdyMHZlb3dmSlV2WUR2dDFEMHlOS20rdnRyMnlVVEh0SU9Sb1FvK203bGlm?=
- =?utf-8?B?d2lzT285WHR1cGpvLzBwUmRQOWV6NXNraVVYR2xKN3NXNHFzS2lOQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 914d330b-46c4-4b91-b90e-08df1e43ca56
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 16:07:41.6960
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b8Z9FgZkutqPFZSPemAo9PEiTmHoVcHDzsqFZC/ctkdFcMFn5BJOwPfnJNSelKJb1FKxNaCb/S5KZaLUn5K7jA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB7557
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 01/13] dma-buf: introduce initial file I/O
+ infrastructure
+To: Pavel Begunkov <asml.silence@gmail.com>
+References: <cover.1790602223.git.asml.silence@gmail.com>
+ <c33046bbadce5a2f14aa1874270ec2d10def58ef.1790602223.git.asml.silence@gmail.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Content-Language: en-US, fr-FR
+Cc: agk@redhat.com, akpm@linux-foundation.org, anuj20.g@samsung.com,
+ axboe@kernel.dk, bmarzins@redhat.com, brauner@kernel.org,
+ christian.koenig@amd.com, dm-devel@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, hch@lst.de, io-uring@vger.kernel.org,
+ jack@suse.cz, joshi.k@samsung.com, kbusch@kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-nvme@lists.infradead.org,
+ matthew.brost@intel.com, mpatocka@redhat.com, nj.shetty@samsung.com,
+ phil.cayton@intel.com, sagi@grimberg.me, snitzer@kernel.org,
+ sumit.semwal@linaro.org, tushar.gohad@intel.com, viro@zeniv.linux.org.uk,
+ william.power@intel.com
+In-Reply-To: <c33046bbadce5a2f14aa1874270ec2d10def58ef.1790602223.git.asml.silence@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue Sep 29, 2026 at 2:51 PM BST, Al Viro wrote:
-> On Tue, Sep 29, 2026 at 01:24:45PM +0100, Gary Guo wrote:
->
->> > 	In particular, ->release() mentioned upthread should not be allowed
->> > to access _anything_ hanging off current, not just descriptor table.  =
-Note
->> > that the last reference to an opened file might be sitting in an SCM_R=
-IGHTS
->> > datagram pruned by AF_UNIX garbage collector; as far as the method is =
-concerned,
->> > it might be called from random thread.
->>=20
->> This part is protected -- we mark FileDescriptionReservation as `!Send` =
-which
->> prevents it being moved to another task. We also take care to make sure =
-that
->> the task returned `current!()` is not allowed to be used outside the cur=
-rent
->> task.
->
-> Not the point - ->release() can't make any assumptions regarding which th=
-read
-> it will be run in.  current won't change under it, but there's nothing
-> useful you could want with it.  If it has non-NULL ->files (or ->mm, or..=
-.),
-> that reference will also remain stable, but any attempt to do anything wi=
-th
-> it would be a bug.
+Le 28/09/2026 à 15:32, Pavel Begunkov a écrit :
+> The goal is to be able to natively use dma-buf in the read-write / IO
+> path. This patch adds basic building blocks serving as a glue and API
+> between drivers and upper layer subsystems providing the uAPI. Later
+> patches implement it for NVMe raw block devices and expose it to the
+> user space via io_uring.
+> 
+> There are two main objects. struct dma_buf_io_ctx and struct
+> dma_buf_io_map. The ctx is used during initial registration and serves
+> as an interface between the upper layer user like io_uring and to the
+> importer subsystem / driver. The map represents the actual dma map
+> established for the target device[s] with dma_buf_map_attachment() and
+> stored in a device specific format. The context is created via a new
+> file operation ->init_dma_buf_io_ctx.
+> 
+> The ctx-map separation exists to support map invalidation (see
+> dma_buf_io_invalidate_mappings()). A ctx can create
+> multiple maps during its lifetime, but there can only be no more than
+> one (active) map attached to it. Invalidation drops the active map
+> if present, and the next map will only be attempted to be created
+> once there is a new request that wants to use the dma-buf IO ctx.
+> 
+> The primary task of the dma_buf_io_map object is to count requests
+> using it and to wait for their completion when we want to destroy the
+> DMA map.
+> 
+> [un]mapping and any work with dma addresses is delegated to the
+> importer driver via an ops table stored in the ctx, see struct
+> dma_buf_io_ops. Only the target driver / subsystem knows about devices
+> it wants to use the dma-buf with, especially in case of multi-device
+> filesystems or stacking in the future.
+> 
+> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+> ---
 
-What I am saying is that due to FileDescriptorReservation being `!Send`, it
-cannot make its way to ->release() from another thread. So
-FileDescriptorReservation::drop will guarantee that it is on the same task =
-that
-created it.
+Hi,
+a few nitpicks below, should it help
 
-The reproducer that Georgios posted on GitHub is some cleanup job being add=
-ed to
-task_work, which drops FileDescriptorReservation. And since exit_task_work(=
-)
-happens after exit_files(), put_unused_fd in that cleanup observe that
-current->files is NULL.
 
-So it's not from random thread, it's from the current task. And I find that
-particular case of doing per-task cleanup not unrealistic.
+> +static void dma_buf_io_kill_maps(struct dma_buf_io_ctx *ctx, bool final)
+> +{
+> +	struct dma_buf_io_map *map;
+> +
+> +	scoped_guard(mutex, &ctx->map_mutex) {
 
-For fget/get_unused_fd_flags I already mentioned that I agree it's a bug, b=
-ut
-checking that statically would require codify the concept of syscall contex=
-t in
-a static analysis.
+guard() is enough. This saves indentation.
 
-Best,
-Gary
+> +		if (final)
+> +			ctx->maps_killed = true;
+> +
+> +		map = rcu_dereference_protected(ctx->map,
+> +					lockdep_is_held(&ctx->map_mutex));
+> +		if (!map)
+> +			return;
+> +		rcu_assign_pointer(ctx->map, NULL);
+> +		percpu_ref_kill(&map->refs);
+> +	}
+> +}
+
+...
+
+> +int dma_buf_io_ctx_create(struct file *file,
+> +			   struct dma_buf *dmabuf,
+> +			   enum dma_data_direction dir,
+> +			   struct dma_buf_io_ctx **out_ctx)
+> +{
+> +	struct dma_buf_io_ctx *ctx;
+> +	int ret;
+> +
+> +	if (!file->f_op->init_dma_buf_io_ctx)
+> +		return -EOPNOTSUPP;
+> +
+> +	ctx = kmalloc_obj(*ctx);
+
+kzalloc_obj() and save the memset() below
+
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	memset(ctx, 0, sizeof(*ctx));
+> +	ctx->dir = dir;
+> +	ctx->dmabuf = dmabuf;
+> +	get_dma_buf(dmabuf);
+> +	mutex_init(&ctx->map_mutex);
+> +	mutex_init(&ctx->map_create_mutex);
+> +	atomic_set(&ctx->active_maps, 0);
+> +	atomic_set(&ctx->all_maps, 0);
+> +	refcount_set(&ctx->refs, 1);
+> +	init_waitqueue_head(&ctx->maps_wq);
+> +
+> +	ret = file->f_op->init_dma_buf_io_ctx(file, ctx);
+> +	if (ret) {
+> +		kfree(ctx);
+> +		dma_buf_put(dmabuf);
+> +		return ret;
+> +	}
+> +
+> +	if (WARN_ON_ONCE(!ctx->dev_ops ||
+> +			 !ctx->dev_ops->map ||
+> +			 !ctx->dev_ops->unmap ||
+> +			 !ctx->dev_ops->release))
+> +		return -EINVAL;
+> +
+> +	*out_ctx = ctx;
+> +	return 0;
+> +}
+...
+
+CJ
+
