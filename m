@@ -1,252 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42F3525A8C;
-	Tue, 29 Sep 2026 13:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B62346771;
+	Tue, 29 Sep 2026 13:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790686996; cv=none; b=uG1gpRfKp6Vh+kep+w3PoU3w79KK3FdI+ww48848wxEYTy/ODz8+A/XQfQYoYR/xYHZKxItz/vbjNzoPHhR/aLNkH/4x8g7x2onereRVmd+Xr0j8cCqHmn3Z2RJTiF5n8XWteBqhWKrP7J8CQc+7LY3oKq2xC5ll/40hT5qC+44=
+	t=1790688537; cv=none; b=F6eiqzgPedtsknwuuNcoyzwc02vp+lQRckTKcwEgvIuApLZqPd1ljG17KFIeobj8oBJwwO6NwUsz2jAtTp4746o7z0zc5EgN2dYiLSYmaRRprrPTlkMFpKhEfS+EqRWYi1Q4+awr9kNZTBsXcGTJAF77UEuPzZUx4drqypc3WXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790686996; c=relaxed/simple;
-	bh=oh9escWT2Ml6SMrHcKlnYWGnlyGHBRpaRkTdW44k0So=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aC5ou0GD1afMYuutZUJmaNuNFFCHr6Yirdg3eaONFCvJWcQtrVkwfzseNvJ8smpxhnpLA0AGjC59EE1bO/cBlftlvHgOP1YNGBxiPS5rDP4m37MjNPeISFyJP9R84MFkWUHgA3jbCTIBJJreykj+1Aa9ljXEYdShxsTt1p3HJm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SKeB3Kqc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790688537; c=relaxed/simple;
+	bh=Q6I7gu/AJYVtMGvHRAkWSS1JvEZWBGbBeUPBS52sG7A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NVyda9Zld0Rdjz9mp1xssjIhZGwZtIN/ooPBhINWso9dNSXeKzT+1F26tu+jBMfDlEY957naVieTCIABN5ncK7dcDkfNfZEJV2PFMEZI2ltuWUin5v+VEmLPvISbrgTERjy95+eR+B1K969DUw4IWxkXG9ipPfzXGqG+fgy/Dv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=DsZvHfN+; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SKeB3Kqc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 907B11F00893;
-	Tue, 29 Sep 2026 13:03:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790686995;
-	bh=ax6pfWAI5PeWYzSSMLzWnxZ9aR7qY8aLr0uqVOIlNTQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=SKeB3KqcCHnmbbQoi66DiEFHMwh+Nk3H7U2rN+2IxvofJxNO+xnpDnp2sGaV7zYO1
-	 gJC1I3r+/pi6PHe56OvrC5Fa/I1wmtluKnhUCYSOmiejXnyszHcdeAw/CdlCWjX1BC
-	 LKkErhWxrYDoZT698cMyAaP6I4+NcvbCCQGOUGRGP1v3sfnSCPVfl51/j4jacqaPnx
-	 FHFaXiBu4UcsQDOzjuqikhA6X+FUtNZyfL08H+v9tEJwJ1bNyBgpkRmVcZhHOAkmlM
-	 +dHXZoAG4DPEOlmCDZzkLYV6C3eewvawaVFljDFt+MF5ADT5bmKjYXN7Ghm3mkwhiW
-	 JK9QrwHRoKrYA==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: Alejandro Colomar <alx@kernel.org>,
-	linux-man@vger.kernel.org
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	linux-api@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	djwong@kernel.org
-Subject: [PATCH v5 3/3] man/man2: introduce man page for file_setattr(2) syscall
-Date: Tue, 29 Sep 2026 15:02:32 +0200
-Message-ID: <20260929130234.3547891-4-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260916115141.3500780-1-aalbersh@kernel.org>
-References: <20260916115141.3500780-1-aalbersh@kernel.org>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="DsZvHfN+"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=3+B5gTPq64xpJqdo/qwWrQuCpe/ndMdyOtlqxcyH5Y8=; b=DsZvHfN+rsjhBsxOl3JqdnWPg5
+	SndOkgWSJb432XlG43Pc2tTQf4e53zuD2GovBRMvfpMqHPdTf35PtZcDFPaUTdVzGH52WtfIskVqy
+	CmFsO9zOTkuLPNJlFJLCMQQQwWDvKubXHDsTVQ6N0D0Mua8SpGgEU929pfkZYi+vXkzt5yv63MwI1
+	OjbwN5JCIZYFb+4ZUfTn67T/LpBuXyyTrLIcQucY1PL5cRKWXQHzuPx5DvFDkc23Iw9rsgUHlZxa8
+	G0IKQunIhWDZ0VD6ZF+y+m6SlGsQrqmZyN4j21DXDiuz0j4mvvfENJ//WaMcAKQOiEgKIKi5NEf46
+	7T2qxagA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xBXst-0000000Bh2q-1gTy;
+	Tue, 29 Sep 2026 13:28:40 +0000
+Date: Tue, 29 Sep 2026 14:28:39 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Georgios Androutsopoulos <georgeandrout13@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Jan Kara <jack@suse.cz>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	linux-fsdevel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
+ descriptor APIs
+Message-ID: <20260929132839.GA989762@ZenIV>
+References: <20260923022339.3340694-1-georgeandrout13@gmail.com>
+ <arThye_219ruNbM2@google.com>
+ <20260925-stellen-brummen-festrede-266af0305ac7@brauner>
+ <20260929044843.GA3909609@ZenIV>
+ <art7swUNAa3AyUrL@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <art7swUNAa3AyUrL@google.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Add manual pages for file_setattr() syscall.
+On Tue, Sep 29, 2026 at 08:49:55AM +0000, Alice Ryhl wrote:
 
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-Link: https://lore.kernel.org/all/20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org/
----
- man/man2/file_setattr.2 | 183 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 183 insertions(+)
- create mode 100644 man/man2/file_setattr.2
+> So, I previously wrote some code that could invoke filp_close() to close
+> a given fd ... from a workqueue. This was in the scenario where the
+> process dies and the usual cleanup function gets called deferred from a
+> workqueue instead of from the ioctl like usual.
 
-diff --git a/man/man2/file_setattr.2 b/man/man2/file_setattr.2
-new file mode 100644
-index 000000000000..b11c9ff9277f
---- /dev/null
-+++ b/man/man2/file_setattr.2
-@@ -0,0 +1,183 @@
-+.\" Copyright, the authors of the Linux man-pages project
-+.\"
-+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-+.\"
-+.TH file_setattr 2 (date) "Linux man-pages (unreleased)"
-+.SH NAME
-+file_setattr \- set filesystem file attributes
-+.SH SYNOPSIS
-+.nf
-+.BR "#include <linux/fcntl.h>" "      /* Definition of " AT_* " constants */"
-+.BR "#include <linux/fs.h>" "         /* Definition of " FS_XFLAG_* " constants */"
-+.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
-+.B #include <unistd.h>
-+.P
-+.B long syscall(SYS_file_setattr,
-+.BI "               int " dirfd ", const char *" path ,
-+.BI "               const struct file_attr *" fattr ", size_t " size ,
-+.BI "               unsigned int " flags );
-+.fi
-+.SH DESCRIPTION
-+The
-+.BR file_setattr ()
-+system call sets filesystem file attributes
-+on the file specified by path.
-+.P
-+The
-+.IR dirfd ,
-+.IR path ,
-+.IR size ,
-+and
-+.I flags
-+arguments behave in the same way as in
-+.BR file_getattr (2).
-+The
-+.IR fattr ,
-+is read-only argument with
-+file attributes to set.
-+User-space applications should use
-+.BR file_getattr (2)
-+to initialize
-+.I fattr
-+argument beforehand.
-+.SH RETURN VALUE
-+On success,
-+zero is returned.
-+On error,
-+\-1 is returned,
-+and
-+.I errno
-+is set to indicate the error.
-+.SH ERRORS
-+The errors are the same as returned by
-+.BR file_getattr (2)
-+with the addition of following ones:
-+.TP
-+.B E2BIG
-+.I size
-+indicates a version which the kernel doesn't support
-+(the size is larger than the kernel expects)
-+and new fields are non-zero.
-+.TP
-+.B EINVAL
-+Invalid combination of parameters provided in
-+.I fattr
-+for this type of file or filesystem.
-+.TP
-+.B EPERM
-+The caller does not have the necessary permissions
-+to change the file attributes.
-+.TP
-+.B EROFS
-+The file is on a read-only filesystem.
-+.SH HISTORY
-+Linux 6.17
-+.SH NOTES
-+This system call is designed to be extensible.
-+The
-+.I size
-+argument allows user-space applications to indicate
-+which version of the
-+.I file_attr
-+structure they are using,
-+enabling the kernel to support both old and new versions
-+of the structure simultaneously.
-+.P
-+If
-+.I size
-+is smaller than the structure size the kernel expects,
-+the kernel treats the missing fields as having zero values
-+(which is a no-op).
-+If
-+.I size
-+is larger than expected,
-+the kernel checks that all unknown (to the kernel) fields are zero;
-+if not,
-+the call fails with
-+.BR E2BIG .
-+.SH EXAMPLES
-+The program below demonstrates the use of
-+.BR file_setattr ()
-+to set the
-+.B FS_XFLAG_NODUMP
-+flag on a file.
-+.P
-+.in +4n
-+.\" SRC BEGIN (file_setattr.c)
-+.EX
-+#define _GNU_SOURCE
-+#include <fcntl.h>
-+#include <linux/fs.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/syscall.h>
-+#include <unistd.h>
-+\&
-+#ifndef SYS_file_getattr
-+#define SYS_file_getattr 467
-+#endif
-+\&
-+#ifndef SYS_file_setattr
-+#define SYS_file_setattr 468
-+#endif
-+\&
-+int
-+main(int argc, char *argv[])
-+{
-+    struct file_attr fa;
-+    int dfd;
-+    long ret;
-+\&
-+    if (argc != 2) {
-+        fprintf(stderr, "Usage: %s <filename>\[rs]n", argv[0]);
-+        exit(EXIT_FAILURE);
-+    }
-+\&
-+    dfd = open(argv[1], O_RDONLY);
-+    if (dfd == \-1) {
-+        perror("open");
-+        exit(EXIT_FAILURE);
-+    }
-+\&
-+    ret = syscall(SYS_file_getattr, dfd, "", &fa, sizeof(fa),
-+                  AT_EMPTY_PATH);
-+    if (ret == \-1) {
-+        perror("file_getattr");
-+        exit(EXIT_FAILURE);
-+    }
-+\&
-+    printf("Current flags: 0x%w64x\[rs]n", fa.fa_xflags);
-+\&
-+    fa.fa_xflags |= FS_XFLAG_NODUMP;
-+\&
-+    ret = syscall(SYS_file_setattr, dfd, "", &fa, sizeof(fa),
-+                  AT_EMPTY_PATH);
-+    if (ret == \-1) {
-+        perror("file_setattr");
-+        exit(EXIT_FAILURE);
-+    }
-+\&
-+    ret = syscall(SYS_file_getattr, dfd, "", &fa, sizeof(fa),
-+                  AT_EMPTY_PATH);
-+    if (ret == \-1) {
-+        perror("file_getattr");
-+        exit(EXIT_FAILURE);
-+    }
-+\&
-+    if (fa.fa_xflags & FS_XFLAG_NODUMP)
-+        printf("flags 0x%w64x (NODUMP flag is set)\[rs]n", fa.fa_xflags);
-+\&
-+    exit(EXIT_SUCCESS);
-+}
-+.EE
-+.\" SRC END
-+.in
-+.SH SEE ALSO
-+.BR file_getattr (2),
-+.BR ioctl (2),
-+.BR ioctl_fs (2),
-+.BR openat (2),
-+.BR file_attr (2type),
-+.BR path_resolution (7),
-+.BR ioctl_xfs_fssetxattr (2)
--- 
-2.55.0
+Huh?
 
+1) filp_close(file, NULL) doesn't do _anything_ to any descriptor tables;
+the only requirements are that it should happen in _some_ thread context
+(workqueue is fine) and that caller should not be holding any locks that
+might be taken by ->flush() of the file in question (for a workqueue
+callback it's fine as long as the callback itself is not holding any
+of those).
+
+2) any caller of filp_close(file, files_struct) must obviously guarantee
+that files_struct won't be freed under it; passing current->files from
+workqueue is safe in that respect, but obviously bogus.  Note that
+descriptor table in question will *still* not be accessed; it serves
+only as an opaque tag that identifies POSIX locks (and dnotify_struct
+instances) related to the descriptor table in question.  IF you have
+just manually removed the file in question from descriptor table
+(file_close_fd()), you must call filp_close() passing it the same
+descriptor table while that descriptor table is still guaranteed to
+be alive.
+
+Rationale is memory safety, actually - for POSIX locks descriptor table
+serves as lock owner; the reference is opaque, but we don't want to have
+it outlive freeing and reuse of the object it's pointing to.  So anything
+that removes some file reference from a descriptor table is responsible
+for corresponding filp_close() call done *before* the descriptor table
+is gone.
+
+Note that we only need to take care of the reference we remove from
+descriptor table; files_struct destructor will call filp_close() for
+anything still referenced from it.
+
+Places where file reference is removed from the table:
+	* do_close_on_exec(); filp_close() called in the same loop as
+clearing the descriptor table slot.
+	* do_dup2() in case the new slot had already been in use;
+filp_close() called just before return.
+	* file_close_fd_locked() callers. Three of those call filp_close()
+as soon as they drop ->files_lock (close_fd(), __range_close() and
+io_uring io_close()).  Remaining caller (close_fd_locked()) leaves that to
+_its_ callers (binder_deferred_fd_close() and its equivalent Rust-side).
+
+Again, normally both removal from descriptor table and filp_close() are
+done by the same primitive...
+
+> In this case the correct behavior was just to do nothing.
+
+... leaking an opened file?  IDGI...
+
+> It was a very easy mistake to make, and if such mistakes lead to null
+> ptr derefs or worse, then I think it's worth doing something to reduce
+> the bad consequences from this kind of mistake.
