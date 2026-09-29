@@ -1,163 +1,93 @@
-Received: from mail-yx2-f40.google.com (mail-yx2-f40.google.com [74.125.224.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.ms.icloud.com (ms-2001d-snip4-1.eps.apple.com [57.103.73.162])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907503AF664
-	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 23:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2AC4F96BE
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 23:58:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.73.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790724559; cv=none; b=MAZlfyAs2bkBXI8ah6kErAXMogDHbrRqtBF+FVjGaiwbSJKxyfos/WAFbUuJSxuz/IulrLtK/+2m5w6vnq1Rg5SCxmjwXQX3xekDwRbYFzEa8vrmKb1OB3UH28tOyVRV7qC7m/TI8C8j0E9uk+PuZdlw8BI6clZNEIf063NrSy4=
+	t=1790726311; cv=none; b=F1LuxmQ6tqTUtkixDiVOX3uDyoEkbcmSuF7XVZ4TAoq0PNJAspF3qiTo/opkExU5vWrCydysgFNEHVJlJx0GeGNcE82bXljlaKX7ATXknOphaSFY6TXBvcCwqV5Coy52K9bH8/8HlpW6ChpkeKZyUnIEgl53XkFquIqVDKVGjxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790724559; c=relaxed/simple;
-	bh=NEVRE+VNh4fb0HQhp8MrdEoxzZKRMgUGcTk95yadVPU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mFm1hGUqzOLiBDvcrnhVpDrhqinuQrkAhVl6DrnT0ELieDNxfhBJhW2YIN8xuPnDHdu+Ws+eLgWeXweEN0pFSunohg1zOEX0mvN7A+/Wt2g5mNobKMNsZvN4JNY4j9qGNsiq7lpOAW4gsVQioZZ4adheFXzVpe0/bd8513yu3DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=MxpYokDi; arc=none smtp.client-ip=74.125.224.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1790726311; c=relaxed/simple;
+	bh=PCFVVhpbKgBlB2d8gVhCP5nHYxJqOizJFbpI9n5pD9c=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=e3pLJYsImYQ5PP2EzfOt75cHgmFK222eYbt+U/HPf+VZbz+mpHd02i4DNnCM2KIcr7aVKKTFSRbV0ufGsmAblLD4QScj/oUWQnFgVmtW1M7j3GV7Al9Hk19KaWXbmoLJWLs4r2brRsVpInOqv6UEUzZ32XYhRJeB7hx8Eyr9C/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=qbCj9kkJ; arc=none smtp.client-ip=57.103.73.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="MxpYokDi"
-Received: by mail-yx2-f40.google.com with SMTP id 956f58d0204a3-675686b026dso499126d50.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 16:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790724556; x=1791329356; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NEVRE+VNh4fb0HQhp8MrdEoxzZKRMgUGcTk95yadVPU=;
-        b=MxpYokDiPrsYK6g/WlOk2rDo/CRKcDzGxmRZLk3q9T9V1W0tgbFCAhLn0TTUYyBWoU
-         uF87UsGyW6JkxdyFBjRy01S6XqYjiwKBV5lFsfiw710YFyTc+GlIEWjvqtUcP1R+XPSV
-         DlDatLfrre+NhvU2jvth5VB4ClEt6bR/MQQdpRCKjKNNGMRrJMOx+5LOz1tTv5zX9FoV
-         J8N4DMVFvcpQgMWglb2RDrRr22fea5AMBgqqGmxCZBzY0I6HAvy8pyYMIFSWmM/4GGJN
-         xW3MejKXWsBUPbV13TZJJ9E44mTSRaVFqPwPu/sJzAl/i9y3GGFi77+u8AZixNHFTrII
-         vDLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790724556; x=1791329356;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=NEVRE+VNh4fb0HQhp8MrdEoxzZKRMgUGcTk95yadVPU=;
-        b=YA/jFZ02zXcSOFjxTvF7uv4NnVvosWhMlZblGkZ6R4rFbLPzPP0XNzl5o5vXfCld6X
-         etWi8+vECrIp18/312h5wLgyOhlC7pXVXllkXn9nIqDY9ZQXOCubrWEJlmiVWg9HOZls
-         IrSlLH2l+tQOgaGxC+pWF9M74zyrA5M8vlOKzJSDgzNwunsyY8mbmiVQcE0i+XkXs82x
-         SlPaL9DXlcALdUxRB9oQDTEy9To3QO0jsL5XeGhodfuJbu04gelqXSSMk62pUIAvElFG
-         +ayMPa8nGQW2tMDtz4j0MOjOIbS9AEWGrSXDX0SWsEr8a/QyMrtJldd3Jab7qHRPCDyD
-         2joA==
-X-Gm-Message-State: AFq9FYJcNfoTsFrGTGmgg4S/CfPYkbu8xZWhxpZk+rXwCgnNOOITSDqT
-	5MUVD24w7U/WMdxIfm53/RWzONxkf/PxeGEUOMWXq/fYnAkOI8W/CFEqiobnyqx2hQbajrQWLGR
-	tb4MrZLo=
-X-Gm-Gg: AYBFou2PuLrrRz5uvheOIpIzb3/6S4lXAzIza45UwnnuYGdqgQSpi4Yux0/3s8i8Ojt
-	gsrBRMWpGCF/2u0xdjJe2faDYilOAs3xefxEUoTrpNLNCYRLamD3O+i7sKX9CGs1ndQRG++58dm
-	gWdjaEO1xR2mpmr78FpRdrjySIQxA6yK6oX47HZhn9iQoWKYYo2ViJDnLs64JH4mGmxl6wlwwfB
-	Jpk+IcRYFvCeCb6yfhiFV0N3VXpQApEm1nrzNJC/GrVeF9mTJTAwAMuLd27JaawEW1+8yELuonF
-	lxYIVoAC7U0WwW00NA4JlDIbF9o6Q/Dv4fcl7pgOLLon+JP3GtRxaKKA/6ls97AxSR9N6qOAUBM
-	+NK9faSVQsQy9Gntk8Tdm9YHgDzkgDJXo/r+obPYaG6XHEuSgVGwJkpCjqXcRLjiemGV20aZHHQ
-	Yqsb41TLgSCnJCmiy0TIVN76zrQRfiDHn6puxkEigjV5VBLLg4t1u1KCovhMDsPNVpwWrsUYTV0
-	rI3cEgOivLNTphrulfIQNbPDCFv7AxWSsSjMyl8FqQ6pqbOXIA3P3W60eQeCPAGO/OrCTInBTNy
-	xP3LqX99MeqfYw5XvO+my1/L/iVkeM7TJbD2FGzy1voR3CHqaQSE3xXsUacleA==
-X-Received: by 2002:a53:a003:0:b0:66f:c1bc:4052 with SMTP id 956f58d0204a3-67644166a76mr219775d50.51.1790724556384;
-        Tue, 29 Sep 2026 16:29:16 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:ace4:86e:1afc:3c4e? ([2600:1700:6476:1430:ace4:86e:1afc:3c4e])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-676815219e3sm19210d50.12.2026.09.29.16.29.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 16:29:15 -0700 (PDT)
-Message-ID: <6a2706d05c76e71e38aee80746a0ffbff374a561.camel@dubeyko.com>
-Subject: Re: [BUG] hfsplus: nls_utf8 refcount underflow after failed mount
- (6.18.53)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To:
- =?UTF-8?Q?=D0=9C=D0=B0=D1=80=D1=82=D1=8B=D0=BD=D0=B5=D0=BD=D0=BA=D0=BE_?=
- =?UTF-8?Q?=D0=90=D1=80=D1=82=D1=91=D0=BC?=	 <amartynenko140@gmail.com>,
- glaubitz@physik.fu-berlin.de, frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org
-Date: Tue, 29 Sep 2026 16:29:14 -0700
-In-Reply-To: <021B832C-57F7-4A31-9283-FAA5AEB8CD66@gmail.com>
-References: <9AD67E49-86E9-4508-BBC0-26919C72FB6A@gmail.com>
-	 <debe2b6208864733c943a4d1edb93e54685897c9.camel@dubeyko.com>
-	 <021B832C-57F7-4A31-9283-FAA5AEB8CD66@gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="qbCj9kkJ"
+Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-3a-20-percent-1 (Postfix) with ESMTPS id C1B601800115
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 23:58:28 +0000 (UTC)
+X-ICL-RepId: 01a0ef9b-0381-7c49-a50f-b1165e07c0ae
+X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhMCkMFWRxIDVYCXgFLVxQEE1wJTkVBE1EKUgB3AlEcVg1XQ1QEX1BfHA4EVAddBV1WUAJaS0ATBEkTBVIHXU1WDUcPWB5cFBcVQENeCF4fTBwdDlgGEgBNCg42BlkFXglWA0MFNhIUXUVaDlsERxQXG1wAFwZbFARECl0EU1EWWEAeCQBYAF0NGVdVGgpUQVpVUFsFXgNAXEpQXFIPchlaFFwYU0VRH1RGExlOG1dNUBtfAkIP
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1790726309; x=1793318309; bh=W2hlmbzwZKn7CvC099iBnA07VriMtxRhjOW0JJpHQhU=; h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type:x-icloud-hme; b=qbCj9kkJ9SirGxfulNyQBLK6fjLSPv6hv1RREzFD31dK+DPUrrHkFUT9nB7jY26z1ZYna+p+xjGARhrjHMiVruoB2BRNutL4vdjEENyM7JIofNaJd2i/PSt1sMqmkc62wucMHR2bhEA3oMrN3Rzng9AKUPIUs8ivJejLUDe5xruMRR5uIeTPO1P48Pr+tDQZK71x8R17MQ1IfKR8/cbiFPSkjGAIHqZYHV0r0FeryjlFR6ExJzU8LjZWqWpazOpRm+yt5iVCN9iMLg4Hii5LI5PVuMFMb5CwSOEeQC7aYHA6sUHwYCuuN1rkEZgUVYyMMabmHkJnDBybaviVwdMI4w==
+Received: from [10.2.0.2] (unknown [17.156.208.39])
+	by p00-icloudmta-asmtp-us-west-3a-20-percent-1 (Postfix) with ESMTPSA id 2AEAF180042E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 23:58:28 +0000 (UTC)
+Message-ID: <9038cfa8-d732-4ad8-af1c-c62510e2c1ed@icloud.com>
+Date: Tue, 29 Sep 2026 16:58:26 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: linux-fsdevel@vger.kernel.org
+Content-Language: en-US
+From: Kody Schram <kody.schram@icloud.com>
+Subject: Question about Multi-file Compression in Btrfs
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: JMppDubIzahzEIINi14tKU4eMUP5TtD0
+X-Proofpoint-ORIG-GUID: JMppDubIzahzEIINi14tKU4eMUP5TtD0
+X-Authority-Info-Out: v=2.4 cv=J46nLQnS c=1 sm=1 tr=0 ts=6abc50a4
+ cx=c_apl:c_pps:t_out a=kRaGL2Q7qLiahLf3O6OaIA==:117
+ a=kRaGL2Q7qLiahLf3O6OaIA==:17 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
+ a=x7bEGLp0ZPQA:10 a=FaSUDvCwAnsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Y0nWq5sZCA44W3C5C2oA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI5MDA5NSBTYWx0ZWRfX10zF5+V4t02u
+ yeajnYp4i8MNprVBToVpyqCbghq4e0CvTfgkuUrqY0yy9qaC2JLnytqRyHbQzRIlgCeNISElcDw
+ wyjolhnWo/jZ6wa63jOwL9dS5A4bC2zIyX/wLeIyqFvpc97YO8F0u+9NEFCMGdQcqfB5fqXs0od
+ udxyXRgGWHdNYmnKVGX6PpliyAgZOgPTpOEU4VNLNJ1ATPpBrRIIxMyeDK/eu6eZgEVEch8NLXt
+ kH6IySdP22Kvrc9do8+8/uR1NWdXEdaG9RluQPcF4GDqtQmmRoEhMOevZudIfDxjM8k8UyhREqa
+ dZkQzaRzeEMWx3IuOTU1gSENQoPp/uig+CwHFwu9NMATdwerN18BohMeC7eK+w=
+X-JNJ: AAAAAAABKs6icr3NYSRpdY7D+FJoJ2mrmbXuATD8EcqTXWBIIe/Q9UxccvMV904DwtwL5ZzBdp1t8f/dWbAiaxbQjMvKQzvsL/J8TSgfhfUabvPZdLDto6zNq96ghGAouL0fRC13ST24RHPP9u7KALan7TBt9qRZRBrQKFKl4fRpzcQrJdNCeZJwPI5XDtZ7WtILdIxSvd0Ooy7BGZffiP+rlcVTqVVGkK5x/T5AYOIxWF5Zbqe+ITeyhnxsohgF1X1Klwz1Vp9wVH81DDPW0FfrA1yjWZbWkmWtizJg7jPVIk3zb3sigGIGr55FozW1ekgMjxAF6ewzjV6EYvsf19Odz2/dOUHoFQUxl9wO11XlAqKXG8aparx5jqkSWCfdZ/dPKMy/l7LOA6uS4YmFmwe4qxnuXyA1XBTg7cVbiXZi4ix81R3RXjJzjK9GcgqCT4WQGl/Vp4WUmvaKHyUpKVJDaf2c6OkkAMx32nyqmi7wXZPE7SC3+PoXYlv4MhyQc49sidJvyy0A/kkQagczQYswtnIhaM58cmDfvXM4cL/YL9SGoYi7u/XBMo6XAlD3VR9wdJ9cNBWD8BjyM6TZmS3VvKLOKIaC0vI+b6+Q0zbpc/veeJklpa2bnQwxkTYXVXW3eB9pJvDQ+sgwjC+Oq2pZSb77U29wOitX80Q7rASgb8V0/u8zYqMF8Envv/D42gwd0BsULZ6415gIxEkkTFzwhXPmdoZ2Q9KX+DBpQf1co3DnVajYp9j1hI2HOhmJWCLqmI4oPL1P1ybIPkfn4oq/QhoOXnS8+S7z1FF2yTTt7tmPu8uHCqHU4FzgBdyCDtxS3GilDsUbu0kRWq4lVzn8+T/elhI3EMK9/1r7R8nvFOkfXagDF2wRknvcNV2RXEIuP1xe2zESEobIhSrUSVLXBrfX7BAYueRlmrLLtDhS3yqqhkXruMGO0wfVaWv+Ac/u6jVJAYG8+BAbelqzWfrC7aaG2L2
+ Ff+aGArkTTvTuWIpkFiNfcGm2yHJyr9ERZXn7R8dznE4cZJbWVGwJIBscKEu8yIjIKi6k5Vf6YDaMOMTiX616A1j119Eccpxk2DjYU1PDC46iO77M7wZKF54RsDl3SmJ7k1nhKQu3zCKd+Ku7gux3e7djc6XJNKdflCHRE5ri9NaI1o51o/I8cqQuYVjC1xP+ldh4WCRWoqYSGd1P6xb9t/c+TA==
 
-Hi Artem,
+Hello,
 
-On Tue, 2026-09-29 at 22:43 +0300, =D0=9C=D0=B0=D1=80=D1=82=D1=8B=D0=BD=D0=
-=B5=D0=BD=D0=BA=D0=BE =D0=90=D1=80=D1=82=D1=91=D0=BC wrote:
-> > HFS/HFS+ code has a long list of issues. Another bug? OK. What's
-> > about
-> > to fix the issue? ;)
->=20
-> Hi Slava,
->=20
-> Thanks for the reply. It turns out this is already fixed in mainline
-> by
-> commit
-> ebebb04baefdace1e0dc17f7779e5549063ca592 ("hfsplus: avoid double
-> unload_nls() on mount
-> failure"), merged for v7.0. That fix is not in the 6.18 stable
-> branch,
-> and I can still reproduce the problem on 6.18.54.
->=20
-> I tested the upstream fix on 6.18.53 (removing one line from the
-> upstream patch was needed to make it apply): after a failed
-> "mount -t hfsplus", the nls_utf8 refcnt now stays at 0, and vfat
-> mounts work afterwards. I will prepare the backport against 6.18.54
-> and retest it there.
->=20
-> Would you like me to send the backport to stable@vger.kernel.org?
->=20
+I'm an undergrad CS student and I was hoping to have a question answered 
+relating to Btrfs compression.
 
-Sounds great!
+I understand Btrfs uses Zstd compression for files. However, I have been 
+trying to learn more about this and have found ZAR files (Zstd archive 
+files). These utilize the same underlying Zstd compression, but compress 
+a group of files into a singular archive file with an internal file 
+system mapping. This allows random access to files in the archive 
+through decompressing specific blocks of the file, unlike other archive 
+formats like .zip.
+
+I would imagine this also enables more compression than compressing each 
+file individually. I was wondering if Btrfs has ever considered enabling 
+compression similar to this while still providing a standard file system 
+interface for applications. This could enable more contextual based 
+compression where folders known to be largely cold can be compressed 
+into a single archive, and any writes afterwards can go through Btrfs's 
+current copy on write system. After enough new changes have built up, 
+using a command similar to `btrfs defrag` could garbage collect those 
+changes into the compressed archive.
+
+An example I've thought of is ~/.config in the user directory. These 
+files are largely .toml/.yaml/.ini/etc, and I would imagine follow 
+similar layouts and would compress nicely. Additionally these are are 
+largely stagnant files, and wouldn't cause many new writes. And 
+something like NixOS could heavily utilize this since most of its system 
+is immutable by design as I understand it.
+
+Let me know if this has been considered before, and what things I might 
+have overlooked or trivialized.
 
 Thanks,
-Slava.
+Kody
+
