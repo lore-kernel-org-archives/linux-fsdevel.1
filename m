@@ -1,82 +1,64 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEC03DAADE
-	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 08:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4393EC815;
+	Tue, 29 Sep 2026 08:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790670130; cv=none; b=sRnh6UnwNKUWeHZJEsRqr5x9w95u76q8A/zXASnmif3jhAZ+mtd4DaFt4vV59Qz70ylZotTTKKqQeqxWQ/Ppg4QTE4xqTUsiIiaPuzFSPhcQe1AP0/NbbBS5oIz5tGcYLhmbiuTweuefV53Fqa4UBV/UOuKbbeEs4IjBWU0btfk=
+	t=1790670577; cv=none; b=DEYbISmyBwAzXo2Ev2P4ZWHwpStNLjxtcuunyMqPeKBReuAwVdaNe6eY2n74xbVwqp7KUSxUYedbSU/MSgbScJalR+qNhxYR+1PfkD4ZbsLwPJm3FagC2qzMmtBV4IvRR5gP9G2tusBcVjpx2YRhj9cYWnotM1UK9UYM/Dk+hSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790670130; c=relaxed/simple;
-	bh=r15FT8O0+h/Lmn4AjtALBT+TFXMGfpyHuzC/5T4v9fk=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=OK1+sUgvpAXfprXUU9zquTPddIOJ7GAt1WPRWgEl2TE4SH3JaYHW3H8F3o0fxS9JJymjCz2MMxyQOWqSSceKKlNCU4ohYy4WfFvxTZY9RgbL6JGXrjhIPFVl0AA/DXMgedyI7FhZgTWkanuIAtgVVb145V/c6cZ8CGOaG9uo3K0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gkVGBCvw; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790670577; c=relaxed/simple;
+	bh=u0sg1Ti+E4aZiwfKlS9ydD3fFdToUW4lWf8TY7zxPwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LANDpVaoXD23XEXpCE0LE6gYwIK+XRWmEmRgrIWg5W7tIcLxP+ay0yPaMaWS3vZIwKP5RL6ZMSda4ETGW/iHVP+PWOIpjSO962U7OE+e7S7BO5Es01zZSm/laXDVRTh8oMIKoC7Gl3Tx63/+CUlF/On4ndNSJ2EDcie8GH8So70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F4Ec+mUu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gkVGBCvw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790670124;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CL2aoSvWGvZB1oNYcZBn9qxNqNpbwole8e0uMT7sFzo=;
-	b=gkVGBCvw4eav7p56HQiqnj0iVDU29l+X345ZM+Ik3vsu4GkkuSQDfQ1WIhvjji7X+nYFIq
-	VuDbqJcQKZmzEqDXclvM83wJ5XgZq71tyfNM6X0/Vam30tI/gXtKXHMHvTOSXz5G2g4mvf
-	vhSBLd2uB+kyzPbVvMRmWN34jRWJFbU=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-271-oWsLDKbZPAqV-_pEJzYFOA-1; Tue,
- 29 Sep 2026 04:21:58 -0400
-X-MC-Unique: oWsLDKbZPAqV-_pEJzYFOA-1
-X-Mimecast-MFC-AGG-ID: oWsLDKbZPAqV-_pEJzYFOA_1790670116
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F3F5D1955E9E;
-	Tue, 29 Sep 2026 08:21:55 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.32.54])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 49C70180034C;
-	Tue, 29 Sep 2026 08:21:51 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20260929075913.2740968-1-dhowells@redhat.com>
-References: <20260929075913.2740968-1-dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: dhowells@redhat.com, Paulo Alcantara <pc@manguebit.org>,
-    Matthew Wilcox <willy@infradead.org>,
-    Namjae Jeon <linkinjeon@kernel.org>,
-    Marc Dionne <marc.dionne@auristor.com>,
-    Stefan Metzmacher <metze@samba.org>,
-    Eric Van Hensbergen <ericvh@kernel.org>,
-    Dominique Martinet <asmadeus@codewreck.org>,
-    Ilya Dryomov <idryomov@gmail.com>, netfs@lists.linux.dev,
-    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
-    linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-    v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v12 00/10] netfs, cachefiles: Changes for next, primarily occupancy tracking-related
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F4Ec+mUu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EED61F000FF;
+	Tue, 29 Sep 2026 08:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790670576;
+	bh=SvYs8oTTLWW30Z0Y3Id5dc1cjq+MB+XC02/n2Rslonc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=F4Ec+mUuo6iSWS/a0bAmilxDGLqrNdoBVhLiAsG3fhr3cnyvAYAVsgsy+OEso/Y2c
+	 HecQdvqIl+OFkZ+V2NG04p9XlOoKsVba8tehPWO4+IxNAPnlcCOrXio4on1Fv9jJwU
+	 UoIEQsGTvndst4632zx3z5vux1mj/MihB8mVGvUzzz5Lw6+wQiIIawM38OFLtOqy24
+	 OdACzt4BCLi700IPhZvFOVHM5L8xhGFgKJmhVraaYazdN7ltNsQKMklIcR/LsrBshu
+	 7B8lshGy80lC4jWykyXRtZvxcrAuFQP//zwRSVeFpHEg5pUCn+kBqzOA1lIrS73VCY
+	 l7oRVr4zjCx0w==
+Date: Tue, 29 Sep 2026 09:29:28 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 0/6] mm: make MAP_PRIVATE-/dev/zero mappings truly
+ anonymous
+Message-ID: <art2jydFy43SQB14@gremlin>
+References: <20260926-map-private-dev-zero-v3-0-d4781e84ccfc@kernel.org>
+ <20260928163957.832a27ee9596a25a282c2707@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2741972.1790670109.1@warthog.procyon.org.uk>
-Date: Tue, 29 Sep 2026 09:21:49 +0100
-Message-ID: <2741973.1790670109@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260928163957.832a27ee9596a25a282c2707@linux-foundation.org>
 
-I forgot to change the cover subject line.  It should be something like:
+On Mon, Sep 28, 2026 at 04:39:57PM -0700, Andrew Morton wrote:
+> And...  really?  I already had David's tags so we did a full resend for
+> a single comment typo?  Little -fixes had their role...
 
-	netfs, iov_iter: Use a chain of bio_vec arrays instead of folio_queue
+You kinda asked me for one ;) unless I misunderstood what you said!
 
-David
+In any case, yes this is very much stabilised!
 
+--
+Cheers, Lorenzo
