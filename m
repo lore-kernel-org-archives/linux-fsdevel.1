@@ -1,191 +1,238 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022141.outbound.protection.outlook.com [52.101.96.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f41.google.com (mail-yx2-f41.google.com [74.125.224.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF1F3F4DFD;
-	Tue, 29 Sep 2026 18:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.141
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790706156; cv=fail; b=uoyIftOPLO3D0Y5m+XSqW+WPCSDV+tzDxJv4pfHsLBfA6tiasN0YDuN2rH/YbyRiwdLI2MANmvQC/Pr3Zfvd0yaS31cjP3QvI5WDC+TnxxHNZJFd1AeLFfToV9ffZGs5hYwen97BRgVuPvDU9sZ0usjIuu/TqXggcaJr0FAfXG4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790706156; c=relaxed/simple;
-	bh=59tzm676w1BblGkzyFM/oipojvXuXJYeJjRs2fnDiyo=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=iHKGJxADifdGhk9LO0yr23hXx7fi797RT3Tquc28iAGEaEKCVBq8Z0y/+VPFhtOao8zOb1/UJQgHN21uii+CNSYO/Y8VvoL4KzXqy4TmDb5UvbGjk7Hwn97ZC45h+eq849bcpejmk9P0ju2gC8gTz5ibDnaDnOI13ZFHi0GcqyY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=o6A2P3U0; arc=fail smtp.client-ip=52.101.96.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6876F5505F0
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 18:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790707305; cv=none; b=t8NnyfWnS1Kdbw9huzo8nB3vcxswqPU3zlYQxXY+fFRxmvYZlaEklrZ0x0WvGgG3KWyhPLA7KvIc/Qz24Nohx4txc///cv/FVzjFXESj7APDWbypaPrksvFsk77BO5Y6wxtqjrupi2+jq3Tf4HB8OaEckTxE6MXRBZ/nj0BU1II=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790707305; c=relaxed/simple;
+	bh=1MiRCRcVjQo2tPKimMHxz9ZnzdJexnBq/Q+79QbFSIQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SyUkniMGO6EIYBVCfGhlsg6rKLN97RyQk1dbVMt8V0belJZ/7MlMuu8CXrknbI5vqe/ByLv5J0r6a7196tQciUzTeqqWtmQqxbaRWvQcotpENY6XzdIMaZY9kzrldUZ+RJRjmSmLQciF8n5NkfkKPGXugGePhETckLlzT1845UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=TO2aFk7f; arc=none smtp.client-ip=74.125.224.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="o6A2P3U0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CsUCxyUPtYlgJ+9CaChsczpcsUrQZ88SBimMkcPaCDL8uaL4KSAyVpqs6xCCEcYZuQv1NR3i29gINGq51DveuAymgGxZ1IkC4YmuBLoLE4e+uR7ntZ1YqmEUuHdTd/Iz3sVaGiIEnT0T57dLblMZ+AIiSFGQiTUeo0oM+0M82R1MeesTWQoqcdQqZQO/EXY5FJmeIimvgcXA+ectTKh+EFNAkFfbcUJRopnaB/13DWIe+XNCF6TnbU1/N0AhkDNto9ewFFLcWK0PPrenuTlohnwBT8tDuIWQp8UWjUVv169FvhbcLFm7cugfPvo9EMWr6ISEIePlBDhNM2LiXJgOnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wKWxIWLJlUKGYnOfeeqI0Zpx9QjvEE+OeuXYII3uI/k=;
- b=PSV8anacKh085/qu9qfZAdF6yW+S08eHpK5d60nRNG7HUIwYAQE8XsYGvhm7Ro3pULyjXEJe2SYBZkpyg3RaPHwza+WNDc1q2HfEnR+ojzwobnz61TyzJx/FoyZoR0pUBQgte3rId4BX5hoF0RDE1zTsT2LPlM/bNIHo1L3WghjfEwbiSUp+G9oVD67LaRiPomv/CLlVGp/UysSSa6S3iLwwpIdhF6C95qVt/kG0hEfYuvnufjeSFro1ShmlMG4y+mzBllkwaKTnW0HYkZ5r9Y6i8Cno2q+3ayjJ3vO2M47n/abq7bKALxxj2wGYCJmEcAC30uFcaRScWd8AP9IcqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wKWxIWLJlUKGYnOfeeqI0Zpx9QjvEE+OeuXYII3uI/k=;
- b=o6A2P3U0uEKgcn6P5pULNklp0bj2eMTGpVCDcubY3nr9l2CgAUvvj1l2Ts1smlqd3hVmiZKgG/KiGHcmv97FVPiWk2VAMLRFt0JvRyPvQA6RSljvsq77Zqq99EcVnJW1sPWCDIziEnGcEzxJvCs+ubLl0e2NYpLKsb2BTyWZZSs=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by CWXP265MB5178.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:195::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Tue, 29 Sep
- 2026 18:22:30 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%6]) with mapi id 15.21.0451.024; Tue, 29 Sep 2026
- 18:22:30 +0000
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="TO2aFk7f"
+Received: by mail-yx2-f41.google.com with SMTP id 00721157ae682-8a860e532bbso41545197b3.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 11:41:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790707301; x=1791312101; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0STZbLia+9vH0OMcQlA8OjMvk50duMe8TRp0A+I9r+g=;
+        b=TO2aFk7fJTqECAcqlOvp4rb0cOCJln0kQkthnVTl2LEIIH7u4LLGwPkQKkfEZJ7UtZ
+         SxYlguISFgB9W8noy3LfDozIF84mSPHZskAHmFIMQbHZwgxMxDWNEz+Fm+8HHVdcaAGq
+         U4P/lTzLyl+6W/wnMGseyCz6Hnmj7lsH90OlRJSJD/cnUDAWXrv+jEeFN/K88PRVFERx
+         zdZrmlZGoBtvKpylZK/IoRa3F9n0Iv7WXu/62dzxwOmRD7bQIMlBVdtho0uKoSQJ07qg
+         v5tjmEOaRLIhVZmerv4lVJZNp6dj7E4lM9yVwT6bf1xbeXaLlgnkMRU90M6uATwRrN+S
+         J+fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790707301; x=1791312101;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=0STZbLia+9vH0OMcQlA8OjMvk50duMe8TRp0A+I9r+g=;
+        b=MUvng8iDN2uRwm949clPXODxWYscLzr5zbwLFx35HdE27BaRGbdJEEmGuLhuBpMRHO
+         mOHbvHzos2QwhAwfsFTG0Hy7xpse+zcuHFDYZM4JzSidCE7zXDhumPvmKtT6z5Hnr/T6
+         77+lUKZ7StuSb71Oq3CD0i6Bbjfh4j15M648AP5r9dA0fLBvnTV3HRUdsTYHF3U/V6t+
+         ZHaSxfB0xmryuDSmDMXsYT9532cvadue/GiWT++nqEK1qiXvDC4CGdCNtjDPmAVdlte/
+         s5n3uFgJ7SJyPkSmuCB6P5Co1YDTVLnuJXtgysyA2opTOghwsbMswFjNEl1sZem5OKfu
+         pgcA==
+X-Forwarded-Encrypted: i=1; AKwUvBxcFTwg0o/OlgoMzBP9LFbrsY/U322UMEVO96RBzPo76JDb+dW+rVXzzXvqUUKsyPsl+2Mxf2C42HwDbQvo@vger.kernel.org
+X-Gm-Message-State: AFq9FYKOILn4wNUPotb3bSrwcxq/HTdYJzQOOUa8lhivYFnFtOGD2o7s
+	aPpQY1P8FNA7T3OdvMpuRioUvXm2aq4619mL26Gs/0IfyDwxiRKtVmW9dMwmdoEXodo=
+X-Gm-Gg: AYBFou2WhWTLPhoOLfrEHKysQdI7WpzZU6RJMkdGA7BJBXkH+PBEmYnvTOSzUlVBD6E
+	+LzqdZePD9TgfkuPoK7uhGQOACQTmBq/q8/YemQwwp3jVOL2LVlpi0Qy8/l+kN6KQShrRUtOT+d
+	XPwmslJo0QpSoPdRbjXnV42E4tiUEu7UZSAgfvvO8gxMYTz6kbqhxMj8Uct/GZNcW0SYkr1tKM3
+	bv/OI4L78+KOFGm563TZHLs442Gky6p5IQtua0ZCPstY3ONKNw/CEgXDjN0Gokl7k2Hx4IwqqPH
+	Pu7z7GV9DNMg9iWUSWzyxMrzd8qZTn63PI2BiMIYPe9VXtnGq3FLPz5zZ0L4Z7xLZZOSBOe5x19
+	V2G87esyTAucM5KI2ApqkAVhIwYRoz9icGrYt4CKOImOHxSdYB6nkle0wEQ2zhAUk/ernGITBH0
+	X6ZrqNW4RkiPmXnMIscT+zPFJghLECEeHzIlImKujFFBwZHy5mxoMswQNwc3NTzr8AR49x0ymO5
+	glueN19DVYBt8Y8QdHjnlafkjJhSOaPppIDAJCDFWxDrtE4CPMGtRZs6y2hexesxQ7uf5yhC2+g
+	FOXzd+1N6QeRVYgzF1TYZxdCHb/+6l2Hh75IclSxuRZebLzOUty8Q3B6qms38r6IiEqbeFMr
+X-Received: by 2002:a05:690c:5706:b0:8ab:43f7:f061 with SMTP id 00721157ae682-8ac1acc0d26mr296187b3.34.1790707301224;
+        Tue, 29 Sep 2026 11:41:41 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:ace4:86e:1afc:3c4e? ([2600:1700:6476:1430:ace4:86e:1afc:3c4e])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8abcea3142esm2052677b3.43.2026.09.29.11.41.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 11:41:40 -0700 (PDT)
+Message-ID: <533efce8b12245de484c3fdb9b1931f988c79119.camel@dubeyko.com>
+Subject: Re: [PATCH v6] hfs: handle extent B-tree write errors
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Davy Felipe <davyfelipe34@gmail.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
+	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 29 Sep 2026 11:41:39 -0700
+In-Reply-To: <20260929020329.32911-1-davyfelipe34@gmail.com>
+References: <20260924231054.2175660-1-davyfelipe34@gmail.com>
+	 <20260929020329.32911-1-davyfelipe34@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 29 Sep 2026 19:22:28 +0100
-Message-Id: <DLS0CO1HEGJN.2XX8QX8LW8XJM@garyguo.net>
-Cc: "Christian Brauner" <brauner@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Georgios Androutsopoulos"
- <georgeandrout13@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Jan Kara"
- <jack@suse.cz>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
- <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- <linux-fsdevel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Al Viro" <viro@ftp.linux.org.uk>
-Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
- descriptor APIs
-From: "Gary Guo" <gary@garyguo.net>
-To: "Al Viro" <viro@zeniv.linux.org.uk>, "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.22.0
-References: <20260923022339.3340694-1-georgeandrout13@gmail.com>
- <arThye_219ruNbM2@google.com>
- <20260925-stellen-brummen-festrede-266af0305ac7@brauner>
- <20260929044843.GA3909609@ZenIV> <DLRSQRUVOGT2.10ZY01VEJVHCE@garyguo.net>
- <20260929135154.GB989762@ZenIV> <DLRXHGLDR2QQ.WZVRWGY995BT@garyguo.net>
- <20260929170218.GD989762@ZenIV>
-In-Reply-To: <20260929170218.GD989762@ZenIV>
-X-ClientProxiedBy: LO4P123CA0301.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:196::18) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CWXP265MB5178:EE_
-X-MS-Office365-Filtering-Correlation-Id: e769b40f-f41f-4b2a-1455-08df1e569f45
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|18002099003|22082099003|4143699003|10067099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	bjs1POFsjNloBqouBf9coijdnMwCJZgbPiR06GY5JKPKO8xYo+X5WaieycMfsPGVmUvdhby+iQHCoX59y/7z1vZUrFPqDUlS5Evn1yNSjfJe3K2qCBYNaLWcCufCyqvmIssbTZ/WfDIpuwCZ+IIK0zjUv3d2VHga8UnKK0+IloHK0hcvubo8PWCaw491pcVPeqsFQxsnl0p7mSd7DEVTN9bDlDF5B0galldeDim9KiGwalhSRM6nOT/z9j4yJcBcEYCy9IsCK9Bi24zd78jFbDTBh6nL5xI3cwZ2eOFzMJFQpeSWvxvVTdQYUze8bjCB9Elwg9G4cC9B4cJ9vemeZ/UIl03wbcFNL8f0bNB8kYM8bYWY3OClDCq643V9+jl+yjHsEodf7JS70UxTiuu/hw2k/6YhXAZpFPokV6IGIVD0AT8+Ee65q60cZlQaJC9U4Sc1co/ioQQcLauM2AC/xFxz6qr1MbAqXKFEmSuDxDFWR2+0QndylbekaAWz4P578LkNQX00Tajz1GvTlX9bf2g3HMyfrO5af7l+P/8Bfpj1cDCh4nJMucxbP2/OEKXlmuV47kiUORwhz9+6o+Rqy53yf58clGScruc5qYWSUy4zO3czJKcLhUwnad6t06NoQJt+88SdYzUfH31dTJ/WRdhi/KsZ3cG8Ks+S78tvsx4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(18002099003)(22082099003)(4143699003)(10067099003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZVg5T1J0NlZKODdRdEluSVhPQ2NGTnhSOVo0QTZHTmFKVW5RdFVrcjR2SVpQ?=
- =?utf-8?B?NUhtODg3MjA1YUVCSUUrbWtkUmJXdG5GblpkdmFCVDVwbUVzdThPOTlMNWFI?=
- =?utf-8?B?aW4wM1JWU2dLaDM2MTBGc0NJamZZZTdlYVZIYWVuRXdSckdLaEkzSlR2alk1?=
- =?utf-8?B?YUxhTGluZ1lGT3VISjJsNDk1WjJVK2xOV3NvMG1uZDlPWkVSUzhLK3QyUWhP?=
- =?utf-8?B?SFBVQlVaMnk1WjNVL1NkQkVEdWR1dDBBWVRPQ21KaEt5TnVQZFRQcC9IYTAw?=
- =?utf-8?B?Rm9CanQ5OEJ3MDFwUHpUaGZ4Zi90dFYyVGJzSllMR0RNQnh3NEgrSGZ6Qys0?=
- =?utf-8?B?TjdZNTlVT1lSY25LRVU4ZXVkQStwN0xLVHduN1F3STdUN2JVNTU0enYxR3py?=
- =?utf-8?B?WUZRYXpBemlBOFZCRVN0LzgveVlrTEE1Q2VEbkpHWU1xWU8ya3MrQ2ZJRUxs?=
- =?utf-8?B?cmMvUm1pUXpDbEpEUHUrVjYySWNmN1Nmc1ExY1ROaXdma1Nha1lFTi94U2Fx?=
- =?utf-8?B?Sm5kdVBGVEZFS3A1K29IZTU0VEdqQ3B3VmhxbU4yRWNnWHNyVVR1cERtaHV6?=
- =?utf-8?B?M21hYzBWTS9RMWNFNEZjdU4zTjNVUmN2VlJhNkZxaU5xZE5MRGplQ3Q3UWFN?=
- =?utf-8?B?dEEwSEp1cVJRNVQwK0VEai9DUFUzczJPVkFmZFlzZ1dGRytLK3pLdGsycklx?=
- =?utf-8?B?eGRERU1IREtjZFFOVU1KVG16MTJidVFNK3hVV01NbGlaR1NWbEhibTN1aG91?=
- =?utf-8?B?Mlg5ZHlmemp5S2EzdjJKSzNHbERlWWFYMS90OGNGdkdGakRFalo1NGN4L0xq?=
- =?utf-8?B?VUpHcDlhYVdkMmdUbU5PanQzbUR3Z21LQi9hZEN0MFdSQUNKc3JhOG9iU1Nl?=
- =?utf-8?B?enkwRGlrSEc4RTVLcitIK1NWeU40K0tWVzB0TWtuQVhCL2ppUTFQMkgwTzQz?=
- =?utf-8?B?YWdONjlzTmRKT0hEQ1puY09RN0x0RGo2Njl0QVZjTUZiYVYyZnFOY1dlRlVI?=
- =?utf-8?B?bXBDclBocFNCY2dibFpPdDI2ZDVYWElBYy9hUVdmSWk3NEppVldUNUFOOUhY?=
- =?utf-8?B?cEEyS0tiN0lMRm9SZ0t4QkxIQW1FNjI3MkZXRGxqa0hCeFVvNktRNU5XelU4?=
- =?utf-8?B?eDM2akVuUkFDcEwyTWRoTWh5aEdXeXZoNmpzTnlNMDZoejZneUJESU9NQndn?=
- =?utf-8?B?ZzUxN2pSNW9EWkVvQlpvNVRRZWoyTmRJekVYWUlTeEJnWDNkNUozekNYOWlJ?=
- =?utf-8?B?ck45UWlBY28yazZwN09vK3oyZ0Q3N0tmYmUzZTVONjNxYUxIV2lWcUJ6K09E?=
- =?utf-8?B?TURrNzUrZ1poQ1NpZ29LNHBoU1JhT2xNNDVwK2FPWG14aFZQTWU3SFArRjVN?=
- =?utf-8?B?aFgwYUpNZHhuMmM5aEZLY0NoZFJDZTA0R2h4RnZFOVc4clRUOGhFRHRrd3pM?=
- =?utf-8?B?K213Q2RNbThmeVI4NTBWcm9VVjh6cXJhZGtDRzFBM05RVnErR0FONGZkaDV2?=
- =?utf-8?B?OG1pYXlHZ0JSTW1UQzhxYmFXcFUvQk1lRGdtdnFiMHVRUzFRUThZQmFGR0RG?=
- =?utf-8?B?VHRMYWpHM0ZzVitGWEtIUVJoZTdkaDE5L0tTRjRjNnlmZkhSbnY3a2M1TlMr?=
- =?utf-8?B?WTZqUmNDUlRJSXRqdEJlRURWMEJiSmV5VUtXMnpkd0VKSUxiUDhyaTNXamFl?=
- =?utf-8?B?RDE1c2Z6REk2QWtEdWZ2bzVZdlhCTDBTVFBUb0dkUTNNQXdwcGk0bVQ1bnZr?=
- =?utf-8?B?RGZ0VEJ2UWFzaXROU0FPWmV5S1FFallvUEZxV3JpOGJITjg0bk41endYUUlK?=
- =?utf-8?B?U3J6MDVlWEh1dmsyTEd5WUZEWW1JMjNKMzM2Qk1PZkNYMEFYSWxUTEhhK0Nv?=
- =?utf-8?B?a0dtYkhzelZ5NnlhcFFLN2JLNnZ5RzlHSzhkR1laaGM0R3J2RjRTckRKT0do?=
- =?utf-8?B?cWJyaXZaa3krTExNZi8zblNBMUNxUFFrbUQ1V3dDajRuV1lUWWMvYUdqNkQx?=
- =?utf-8?B?SFNCRFl0aE9RUDNnMGNrRFkxUFJxQUtpYzZsZ0xkbWhObFZBQ0NSQ21sTHpO?=
- =?utf-8?B?RHUvdG1RSTlOQVIyY3BrSFV6L1FTaTNLQ3BBNjNVN1VtRGZKblVIR3VMd1FL?=
- =?utf-8?B?ZVdTR1VyZXZPakxhRks3UU9PcFlKbjJKaWs1VE12L2I1NkhOaVBZanpwTm9n?=
- =?utf-8?B?ckcwaU1DWmxqRmdMWHBJUFphbjRQNHZPVFRqaHA1OGRDbXBoNUdLdmx0ZGVV?=
- =?utf-8?B?SlVKTFFMOXNwWU9lWUdNZUNDMGJSem5JQXRGUGQ5TG9BbUFMSTFzL21hdE1t?=
- =?utf-8?Q?pxXuXOiVX9ec4dZYOW?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: e769b40f-f41f-4b2a-1455-08df1e569f45
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 18:22:29.9081
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M7BAPtniIiWOjmtGnUEvgD6RLTI0+l/QPui3BbQxSoSTllcIaQd/0s8QTnNLnxpgBKgaXGRYoOPNNQ5DVFHqkg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB5178
 
-On Tue Sep 29, 2026 at 6:02 PM BST, Al Viro wrote:
-> On Tue, Sep 29, 2026 at 05:07:40PM +0100, Gary Guo wrote:
->
->> The reproducer that Georgios posted on GitHub is some cleanup job being =
-added to
->> task_work, which drops FileDescriptorReservation. And since exit_task_wo=
-rk()
->> happens after exit_files(), put_unused_fd in that cleanup observe that
->> current->files is NULL.
->>
->> So it's not from random thread, it's from the current task. And I find t=
-hat
->> particular case of doing per-task cleanup not unrealistic.
->
-> FWIW, descriptor reservation ought to be tied to specific files_struct
-> instance; note that dup_fd() can be called when there are outstanding
-> reservations and the copy does *NOT* have those reserved.
->
-> What rules would you suggest for such delayed put_unused_fd() wrt e.g.
-> files_struct unsharing?
+On Mon, 2026-09-28 at 23:03 -0300, Davy Felipe wrote:
+> hfs_brec_insert() may fail while inserting a new extent record, but
+> __hfs_ext_write_extent() currently ignores its return value and
+> clears
+> HFS_FLG_EXT_DIRTY and HFS_FLG_EXT_NEW as if the insertion had
+> succeeded.
+>=20
+> Propagate errors returned by hfs_brec_insert() and only clear the
+> extent flags after a successful insertion.
+>=20
+> When updating an existing extent record, hfs_bnode_write() returns
+> void. Validate the extent write parameters before calling it so an
+> invalid update is reported as -ERANGE instead of being treated as
+> successful.
+>=20
+> Use a reusable B-tree node range helper that takes the find data and
+> the expected record size. The helper validates the bnode and tree
+> pointers, entry offset and entry length, and ensures that the write
+> range fits within the node.
+>=20
+> Negative-path testing in QEMU confirmed that an insertion error is
+> propagated to the caller. Testing the existing-record path also
+> confirmed that invalid write parameters are rejected before
+> HFS_FLG_EXT_DIRTY is cleared.
+>=20
+> Signed-off-by: Davy Felipe <davyfelipe34@gmail.com>
+> Changes in v6:
+> - Rename hfs_bnode_is_valid_range() to is_hfs_bnode_range_valid().
+> - Use size_t for the expected record size.
+> - Drop the redundant expected_len validity check.
+> - Return -ERANGE for invalid find-data/range parameters.
+> - Incorporate the final review feedback from Viacheslav Dubeyko.
+>=20
+> ---
+> =C2=A0fs/hfs/btree.h=C2=A0 | 19 +++++++++++++++++++
+> =C2=A0fs/hfs/extent.c | 10 ++++++++--
+> =C2=A02 files changed, 27 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+> index b4c3f2a31471..1f703f2c53d8 100644
+> --- a/fs/hfs/btree.h
+> +++ b/fs/hfs/btree.h
+> @@ -84,6 +84,25 @@ struct hfs_find_data {
+> =C2=A0	int entryoffset, entrylength;
+> =C2=A0};
+> =C2=A0
+> +static inline bool is_hfs_bnode_range_valid(struct hfs_find_data
+> *fd,
+> +					=C2=A0=C2=A0=C2=A0 size_t expected_len)
+> +{
+> +	struct hfs_bnode *node;
+> +
+> +	if (!fd)
+> +		return false;
+> +
+> +	node =3D fd->bnode;
+> +	if (!node || !node->tree)
+> +		return false;
+> +
+> +	if (fd->entryoffset < 0 || fd->entrylength !=3D expected_len)
+> +		return false;
+> +
+> +	return (u64)fd->entryoffset + fd->entrylength <=3D
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node->tree->node_size;
+> +}
+> +
+> =C2=A0
+> =C2=A0/* btree.c */
+> =C2=A0extern struct hfs_btree *hfs_btree_open(struct super_block *sb, u32
+> id,
+> diff --git a/fs/hfs/extent.c b/fs/hfs/extent.c
+> index f066a99a863b..26357086517f 100644
+> --- a/fs/hfs/extent.c
+> +++ b/fs/hfs/extent.c
+> @@ -121,12 +121,18 @@ static int __hfs_ext_write_extent(struct inode
+> *inode, struct hfs_find_data *fd)
+> =C2=A0		res =3D hfs_bmap_reserve(fd->tree, fd->tree->depth +
+> 1);
+> =C2=A0		if (res)
+> =C2=A0			return res;
+> -		hfs_brec_insert(fd, HFS_I(inode)->cached_extents,
+> sizeof(hfs_extent_rec));
+> +		res =3D hfs_brec_insert(fd, HFS_I(inode)-
+> >cached_extents,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(hfs_extent_rec));
+> +		if (res)
+> +			return res;
+> =C2=A0		HFS_I(inode)->flags &=3D
+> ~(HFS_FLG_EXT_DIRTY|HFS_FLG_EXT_NEW);
+> =C2=A0	} else {
+> =C2=A0		if (res)
+> =C2=A0			return res;
+> -		hfs_bnode_write(fd->bnode, HFS_I(inode)-
+> >cached_extents, fd->entryoffset, fd->entrylength);
+> +		if (!is_hfs_bnode_range_valid(fd,
+> sizeof(hfs_extent_rec)))
+> +			return -ERANGE;
+> +		hfs_bnode_write(fd->bnode, HFS_I(inode)-
+> >cached_extents,
+> +				fd->entryoffset, fd->entrylength);
+> =C2=A0		HFS_I(inode)->flags &=3D ~HFS_FLG_EXT_DIRTY;
+> =C2=A0	}
+> =C2=A0	return 0;
 
-Ah, is this about `unshare(CLONE_FILES)`? For that case indeed our existing
-abstraction break down.
+Looks good.
 
-So put_unused_fd must be called in the same syscall context as
-get_unused_fd_flags.. I think we can address this by give it a lifetime
-parameter
+Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
 
-    struct FileDescriptorReservation<'a>(..);
-
-and require `current!()` to be passed in:
-
-    impl<'a> FileDescriptorReservation<'a> {
-        pub fn get_unused_fd_flags(_current: &'a CurrentTask, flags: u32);
-    }
-
-    // User
-    FileDescriptorReservation::get_unused_fd_flags(current!(), flags)
-
-I checked binder I think its current use can work with this, although it ne=
-eds
-some changes to pass this `&CurrentTask` token in.
-
-Best,
-Gary
-
+Thanks,
+Slava.
