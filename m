@@ -1,126 +1,118 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta-202a.earthlink-vadesecure.net (mta-202b.earthlink-vadesecure.net [51.81.232.241])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B62346771;
-	Tue, 29 Sep 2026 13:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3A33DD526;
+	Tue, 29 Sep 2026 13:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.81.232.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790688537; cv=none; b=F6eiqzgPedtsknwuuNcoyzwc02vp+lQRckTKcwEgvIuApLZqPd1ljG17KFIeobj8oBJwwO6NwUsz2jAtTp4746o7z0zc5EgN2dYiLSYmaRRprrPTlkMFpKhEfS+EqRWYi1Q4+awr9kNZTBsXcGTJAF77UEuPzZUx4drqypc3WXc=
+	t=1790688930; cv=none; b=QiINCBEgkOKcZ09bJ8hOm4DSVUndqINOvrLjfBeH32etD+EIxW9n1+hvbEWQ31lA/Frz8p/9tzDS8TaqzmhqFEpjmpdzT7Miy4QaCFm3ow1q/hFvuKyfrmuqeqkLmA0WYSGaL3v0iEy83WcNDXtcc4muQnuu8rLgGEuIsWcXBew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790688537; c=relaxed/simple;
-	bh=Q6I7gu/AJYVtMGvHRAkWSS1JvEZWBGbBeUPBS52sG7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NVyda9Zld0Rdjz9mp1xssjIhZGwZtIN/ooPBhINWso9dNSXeKzT+1F26tu+jBMfDlEY957naVieTCIABN5ncK7dcDkfNfZEJV2PFMEZI2ltuWUin5v+VEmLPvISbrgTERjy95+eR+B1K969DUw4IWxkXG9ipPfzXGqG+fgy/Dv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=DsZvHfN+; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1790688930; c=relaxed/simple;
+	bh=pkOk2e7X7lgxbqSq7Tboa7FmmRyyDOoeNcRyOH/IJ2o=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=V/WUZInf1R7rDhF05V9PRMwCwG+bIP6Uc9XvfVTVKTWWf4KvUd4ZNHfNzwdN/KwnHIaX9/hPzk+/QTjCrkj0MezqM8SO9U7ZkPcX+sGYi9Nt32mBz0W6sGkf0civIfts/mGQcwj49UH8XXSuk2AaECTRRv89a0/GTS04Gc99Dfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=earthlink.net header.i=@earthlink.net header.b=bqAtQtf9; arc=none smtp.client-ip=51.81.232.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="DsZvHfN+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=3+B5gTPq64xpJqdo/qwWrQuCpe/ndMdyOtlqxcyH5Y8=; b=DsZvHfN+rsjhBsxOl3JqdnWPg5
-	SndOkgWSJb432XlG43Pc2tTQf4e53zuD2GovBRMvfpMqHPdTf35PtZcDFPaUTdVzGH52WtfIskVqy
-	CmFsO9zOTkuLPNJlFJLCMQQQwWDvKubXHDsTVQ6N0D0Mua8SpGgEU929pfkZYi+vXkzt5yv63MwI1
-	OjbwN5JCIZYFb+4ZUfTn67T/LpBuXyyTrLIcQucY1PL5cRKWXQHzuPx5DvFDkc23Iw9rsgUHlZxa8
-	G0IKQunIhWDZ0VD6ZF+y+m6SlGsQrqmZyN4j21DXDiuz0j4mvvfENJ//WaMcAKQOiEgKIKi5NEf46
-	7T2qxagA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xBXst-0000000Bh2q-1gTy;
-	Tue, 29 Sep 2026 13:28:40 +0000
-Date: Tue, 29 Sep 2026 14:28:39 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Georgios Androutsopoulos <georgeandrout13@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Jan Kara <jack@suse.cz>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	linux-fsdevel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
- descriptor APIs
-Message-ID: <20260929132839.GA989762@ZenIV>
-References: <20260923022339.3340694-1-georgeandrout13@gmail.com>
- <arThye_219ruNbM2@google.com>
- <20260925-stellen-brummen-festrede-266af0305ac7@brauner>
- <20260929044843.GA3909609@ZenIV>
- <art7swUNAa3AyUrL@google.com>
+	dkim=pass (2048-bit key) header.d=earthlink.net header.i=@earthlink.net header.b="bqAtQtf9"
+DKIM-Signature: v=1; a=rsa-sha256; bh=xcuEx3ZPmxQThn6FCLcEuqA+fR38H0R3e75qJ9
+ 87ejk=; c=relaxed/relaxed; d=earthlink.net; h=from:reply-to:subject:
+ date:to:cc:resent-date:resent-from:resent-to:resent-cc:in-reply-to:
+ references:list-id:list-help:list-unsubscribe:list-unsubscribe-post:
+ list-subscribe:list-post:list-owner:list-archive; q=dns/txt;
+ s=dk12062016; t=1790687995; x=1791292795; b=bqAtQtf95f1diT4pUMbNEI2tIIW
+ /aTNgi5UP59i2Dwa1So4EgICtrMpQV2Bz921Y48P6ClE9ka6UxmVsGSeKNkPt3GqU9H5TqG
+ VGSK7HsRQVWiiyld22FKRyZNzGy+KxtknA3zAxo+pqB7IthxPXwmInwPpqQhsQLG15JsuQe
+ ap84S3UY+IulhPw/Vqg5gNrDNcNPnmiTFEt9/9lrV5NEDn8njpwZi820TomIIdy6cFmCgKl
+ Vvhd/QpbooE2mZVgb8OoszQIBuX6JG1NsU+g7WaMYWAJCNLd6IgF8BQwm0ZBr5kJ/mTxOy1
+ 0UUerMgnajDQ4jBo++iZmJ5uBtX0y6g==
+Received: from smtpclient.apple ([98.27.167.98])
+ by vsel2nmtao02p.internal.vadesecure.com with ngmta
+ id eec61a03-18d9cd3d92cb3ff3; Tue, 29 Sep 2026 13:19:55 +0000
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <art7swUNAa3AyUrL@google.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.1\))
+Subject: Re: [RFC] MXFS: a shared-disk clustered filesystem derived from XFS
+From: Steve Shoecraft <spshoecraft@gmail.com>
+In-Reply-To: <arj3Mp6Cq2_qwaIb@cronus.toxiclabs.cc>
+Date: Tue, 29 Sep 2026 09:19:39 -0400
+Cc: Christoph Hellwig <hch@infradead.org>,
+ linux-fsdevel@vger.kernel.org,
+ linux-xfs@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <1B01BE22-06A8-412D-B141-CD94026E0A39@gmail.com>
+References: <56847E8D-EA83-4984-82F3-9BC93E4C02FF@gmail.com>
+ <ardhDI-Ko7b5RccH@infradead.org>
+ <BC228018-42A4-4715-B186-057AFDE8A4D0@gmail.com>
+ <arj3Mp6Cq2_qwaIb@cronus.toxiclabs.cc>
+To: Carlos Maiolino <cem@kernel.org>
+X-Mailer: Apple Mail (2.3864.700.51.1.1)
 
-On Tue, Sep 29, 2026 at 08:49:55AM +0000, Alice Ryhl wrote:
+I=E2=80=99m disappointed in your responses. I would have thought that =
+you=E2=80=99d at least be interested in how well the AI did.
 
-> So, I previously wrote some code that could invoke filp_close() to close
-> a given fd ... from a workqueue. This was in the scenario where the
-> process dies and the usual cleanup function gets called deferred from a
-> workqueue instead of from the ioctl like usual.
+It=E2=80=99s going to get better =E2=80=94 not worse.
 
-Huh?
+Since the initial 2-node TCP/DLM release (0.89.77 on September 23), =
+Fable and Astra have completed 2-node CAW (0.90.7 on September 26), and =
+4-node TCP and CAW (0.90.24) have now been released on:
+=E2=80=A2 Proxmox VE 9 (kernels 6.17 and 7.0)
+=E2=80=A2 RHEL / AlmaLinux / Rocky 9.8
+=E2=80=A2 Ubuntu 24.04 LTS (GA kernel 6.8)
+=E2=80=A2 Debian 13 (kernel 6.12)
 
-1) filp_close(file, NULL) doesn't do _anything_ to any descriptor tables;
-the only requirements are that it should happen in _some_ thread context
-(workqueue is fine) and that caller should not be holding any locks that
-might be taken by ->flush() of the file in question (for a workqueue
-callback it's fine as long as the callback itself is not holding any
-of those).
+All are distributed as native DEB/RPM packages, with the kernel module =
+built against the target kernel via DKMS.
 
-2) any caller of filp_close(file, files_struct) must obviously guarantee
-that files_struct won't be freed under it; passing current->files from
-workqueue is safe in that respect, but obviously bogus.  Note that
-descriptor table in question will *still* not be accessed; it serves
-only as an opaque tag that identifies POSIX locks (and dnotify_struct
-instances) related to the descriptor table in question.  IF you have
-just manually removed the file in question from descriptor table
-(file_close_fd()), you must call filp_close() passing it the same
-descriptor table while that descriptor table is still guaranteed to
-be alive.
+The 0.90.24 release passed the complete release criteria: 4-node TCP =
+31/31, 4-node CAW 30/30, 2-node TCP 31/31, and 2-node CAW 30/30. All =
+four platforms passed their packaged installation and validation runs.
 
-Rationale is memory safety, actually - for POSIX locks descriptor table
-serves as lock owner; the reference is opaque, but we don't want to have
-it outlive freeing and reuse of the object it's pointing to.  So anything
-that removes some file reference from a descriptor table is responsible
-for corresponding filp_close() call done *before* the descriptor table
-is gone.
+The goal is full 32-node support for both TCP and CAW DLM.
 
-Note that we only need to take care of the reference we remove from
-descriptor table; files_struct destructor will call filp_close() for
-anything still referenced from it.
 
-Places where file reference is removed from the table:
-	* do_close_on_exec(); filp_close() called in the same loop as
-clearing the descriptor table slot.
-	* do_dup2() in case the new slot had already been in use;
-filp_close() called just before return.
-	* file_close_fd_locked() callers. Three of those call filp_close()
-as soon as they drop ->files_lock (close_fd(), __range_close() and
-io_uring io_close()).  Remaining caller (close_fd_locked()) leaves that to
-_its_ callers (binder_deferred_fd_close() and its equivalent Rust-side).
 
-Again, normally both removal from descriptor table and filp_close() are
-done by the same primitive...
+The next project is OSN =E2=80=94 a fully AI-written OS from scratch.
 
-> In this case the correct behavior was just to do nothing.
 
-... leaking an opened file?  IDGI...
+> On Sep 27, 2026, at 7:03=E2=80=AFAM, Carlos Maiolino <cem@kernel.org> =
+wrote:
+>=20
+> On Sat, Sep 26, 2026 at 07:32:27AM -0500, Steve Shoecraft wrote:
+>>=20
+>> Good catch on the magic - I had it changed in previous attempts and =
+forgot on this one - release 0.90.0 has MXFS unique magic.
+>>=20
+>> I=E2=80=99ve been writing device drivers since the 90s on FreeBSD.  =
+This was a research project to see if an LLM could do it with the right =
+harness.
+>>=20
+>> Release conditions of course included 100% data integrity and 100% =
+stability.   XFS was the right choice for the base.
+>>=20
+>> Intent is a good clustered FS for Proxmox to compete with vSphere and =
+VMFS.  Yes, I=E2=80=99m aware of the differences in implementations.
+>=20
+> If you are not even bothering reviewing your own project source code =
+as
+> you stated, don't expect anybody else to spend their time or have
+> interest on it.
+>=20
+>=20
+>>=20
+>>=20
+>>> On Sep 26, 2026, at 1:07=E2=80=AFAM, Christoph Hellwig =
+<hch@infradead.org> wrote:
+>>>=20
+>>> I don't think too many people are going to care about your LLM dump,
+>>> or even review it.  But please make sure you use different magic =
+numbers
+>>> so that a mxfs image left in the wild is not mistaken for an xfs =
+one.
 
-> It was a very easy mistake to make, and if such mistakes lead to null
-> ptr derefs or worse, then I think it's worth doing something to reduce
-> the bad consequences from this kind of mistake.
