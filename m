@@ -1,54 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2616D4F3903;
-	Tue, 29 Sep 2026 09:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D81713FEE
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 09:48:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790672951; cv=none; b=Ixs3n7NMmqMqj9hHVvhhd98B+5sFk40p4rZGGBVGNAluR+bGH1O7CdjoetXCt+7NouBbIhVZR6jnGywxyvrvcu4S5s9pZKmXZ1CQkO6zp/z2YfvCME8e4KjL5yfr9fGc3t3oqFU4b3umUpdfbtpoB9tqGvbTM8DAF5ZSrglspyw=
+	t=1790675304; cv=none; b=kjoh/AeMyky4D4qNs9zsttyR1a+aUTG1S/kCmwnDWLyKeKrV+GZogPzRAQd2NYnfnSEBXW7jzSzUBa2kJLjrCRCMLZbo8MYzYVukoFde09AmJI/GfzQN1R4hO7THyfLcEoEXthHaTB2N0/DYki+itlffQf3vrHE9JnpoIBiQtaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790672951; c=relaxed/simple;
-	bh=+5lWwUcl+c4c5RGmHpivw5aoH1wMUoZfhSqoS/58h2A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LBSK/rXJRttEELKjmDXnz/NFQURDYsoM5fQ2HxmuM7yz62w4S6xHn+45TTnb4byd9l/LJe32dT4eRAdN1CPisAT3TiKhj2HVJpR+63BXNZQjGjP9P4wSTc6Mqgf9dI5KoRXZq3uf7Q6dy0IsmLYpVKhQS9FIE6Us2tRJ5Yb/rhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ilhN34JV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790675304; c=relaxed/simple;
+	bh=kb8hjY/3GbCIKHPmXiRjeyjyJtS8xD8BUXG7R2aM3sk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k3h9V83Xyd7OhEHpe7W1TP0BkHb+wTdEI2wBwJgwtp0Kgwi/DbY7RsDnUteXlH1twgJ+GRnFIJaduVXTzdcIr7dc0M0Zbt/69Xxw0zRyLeL/hGZnQGJpF63iZxB6UiJWZrU9l8SHtjOfqYNgRHr4VSHRssjyeWg4rdRb1xAb9iA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T9fDjAYD; arc=none smtp.client-ip=74.125.229.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ilhN34JV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 404D91F0089B;
-	Tue, 29 Sep 2026 09:08:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790672934;
-	bh=5/5sbJj2UOjTM0MY6dPTxrHU4W58D8Vo5wYa7xw7MQQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ilhN34JVzpNBWeHqaumUjwnaZLjwOPszZnZLA6oEzjeco2LKYfxM28ZmsXzuR6Saz
-	 T+RW5zb3ayvVsR8AvmoHjOiqoDKX0iF3OHCj3fXe9cj+SUsQmCzSTrDZDGflmf2T/7
-	 kw1XmKkNkE1wQYUhQ8c0iB7v89Il7txrv60k8Gi5ECsXEVjGqrvS1EZMzoSih5ux/c
-	 Fk+DkULaDsXlOyS8kTUEKlTPHqPH9s7/SS0L5WDvKWtQ1mNxFFsRcN0tvgbsCKXYsd
-	 mY0BmsrzpqvtCuaHDHfaFsGMLtvslm+hRemFNkR8UhnUjx9c8B8wFwZ8v17GcaK/WN
-	 nMl5Iuh0Fy2pg==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wentao Guan <guanwentao@uniontech.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Soheil Hassas Yeganeh <soheil@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T9fDjAYD"
+Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-34ac03639e7so630167eec.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 02:48:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790675302; x=1791280102; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hd2pDaQuHkOifvuoX51kyffsT4qd3/Uun46tkq8lzb8=;
+        b=T9fDjAYDs/3PAClv3G8qeBFrijeSUvX7d5d3aLtMX97NghYY3mbhnLPnPLQxHbVpH/
+         dE3lx+KXGxCDqb+9FuB+x/0w97QQixM9U2SOCFCc/jcxhYQc6e8H1FXC4S3E9daB1vU0
+         8YMRFSYPDmz6XVjeB3KarnDetJjeltCz9/I8C/Q8rWOvx97une483VNtmE3DKOAcq3/n
+         U2U8ykwtXFXgQA5j8ltETNSX6rHo5VYWq1nX1643al0xmlY8Go/PZyad+TxE7x5LQl6g
+         sMnOqGLikLSLJrTqT6HIXE7E7f84UpZOaGJ1jVw2Kz1jUksH3EO7njLaCb05WTZ85rB/
+         h6yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790675302; x=1791280102;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hd2pDaQuHkOifvuoX51kyffsT4qd3/Uun46tkq8lzb8=;
+        b=poSAcCWw8cSUHmI4vvX5tMtlv+bpINmewhxhtnT+/P+fsVEhupfqxxa7mAzHZSckbC
+         pOZujXHGbV4bXeyzmbV9hL36RnLomXERWw1A/NFrNekXQq6rR8jIWCX4Chvz3o0010T1
+         19DJe19MYe7T83Ca2pzNLooMZfrEXQru9Uekwaywqayu8SbYkpqJSr8oItdWuqc4r5ir
+         FkqdBe8/aAvgZSbhluTiOjFhywMhHesRWRjDEIMFpNC2Yo7IfUyBWM8EcRA6A/o0YIgH
+         lgYXoN50XElVy9smYKRpwJicYmf//BjWj+TjqO3C9ZzpaTNkUbeoKvA3oRYr3L1kyqzF
+         9rog==
+X-Forwarded-Encrypted: i=1; AKwUvBxNBqXHMCjIdkL187iIzg0Q8Z67EPIxVgJy1CbM3FsIi37fk8FCBiRPnH5SBEGdvIAuOd9ZkReUyfbGN8BB@vger.kernel.org
+X-Gm-Message-State: AFq9FYIxR6hYpFZRzQZvfc/JWtg3iVS0MoKun3AqsK7JHKL42T9XtuvX
+	+JLcc3+NIVx2pjD8euwmmqCjLLCm/Z5+z6FI83m4VDge8ySN9D0POjke
+X-Gm-Gg: AYBFou0TiaQJsYrns9WmVjqK0LWi6tnV1y+Tz8/J7mwiRUffcO+Izb6cpHjnltAmh9H
+	JrPF7xCs/+NKo4G6+2yik9eXP8PloQ2Ge3JWDxs1/QaQS52O4NRiqNwnjQunB3WM1kpApXTlkNZ
+	2sxGsB4m3DIjAFGC+9qiilbuU/GB/FO8TyTQp0ZtZf4oKjp+9o7UtIQpI1Wz6O3U7VgLkvU6Ae9
+	pLh/lwP6p4jrXAXUnDov0uqiQNNy90i9bzTqyNcmlDpLRoWnwUvDUsxmCSgbPpE0TRbwbuWuFoY
+	TBhb8PwAmaE8DDS1nqumI5d7ELNVxkRmnVZWTKQ8kRi+mtZxdXOw8QR0bm4a288d8kAcDNyUA5R
+	Vg44AZZc2FOn8X7wvfjzPL18nkM8dwzrPvPq3ZPdgf18sFRMeL0qoKDFofyihnbbYq6vEWjw1K/
+	wh4dE9ZHOthkEKWG/mjxeEUR2SbjnxJgrSCRZA697hq9YgCtSbUDA3/E0mNTC9hMdPvu6oc8Svf
+	jzoj8Xe8Vr+HT9JG45JeeNwJ64U8SbjqtEklN2L964Zk1dMjaP6AQUBXJevhmLF96+dHqnIfuKH
+	nDNW
+X-Received: by 2002:a05:7300:cc1b:b0:327:e68e:3230 with SMTP id 5a478bee46e88-342702c203bmr16200118eec.10.1790675302090;
+        Tue, 29 Sep 2026 02:48:22 -0700 (PDT)
+Received: from Mac ([2401:4900:88cd:edb4:3499:f422:21b4:55c7])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3421dbb2971sm31447320eec.10.2026.09.29.02.48.17
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 29 Sep 2026 02:48:21 -0700 (PDT)
+From: Tarun Khandelwal <tkhandelwal32@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org,
-	Jaeyoung Chung <jjy600901@snu.ac.kr>
-Subject: [STABLE v5.15.y v2 9/9] eventpoll: fix ep_remove struct eventpoll / struct file UAF
-Date: Tue, 29 Sep 2026 09:07:16 +0000
-Message-ID: <20260929090724.1461557-9-lee@kernel.org>
-X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-In-Reply-To: <20260929090724.1461557-1-lee@kernel.org>
-References: <20260929090724.1461557-1-lee@kernel.org>
+	virtualization@lists.linux.dev,
+	German Maglione <gmaglione@redhat.com>,
+	Vivek Goyal <vgoyal@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	Tarun Khandelwal <tarun@supabase.io>
+Subject: [PATCH] fuse: propagate SB_POSIXACL to submounts
+Date: Tue, 29 Sep 2026 15:18:12 +0530
+Message-ID: <20260929094812.93374-1-tkhandelwal32@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -57,101 +81,70 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Christian Brauner <brauner@kernel.org>
+From: Tarun Khandelwal <tarun@supabase.io>
 
-[ Upstream commit a6dc643c69311677c574a0f17a3f4d66a5f3744b ]
+fuse_fill_super_common() always sets SB_POSIXACL on the superblock, but
+fuse_fill_super_submount() never does. Submount superblocks are created
+from an fs_context with no sb_flags, so the superblock of an automounted
+FUSE_ATTR_SUBMOUNT directory (e.g. a virtiofs export containing another
+host mount) lacks SB_POSIXACL, even though it shares the fuse_conn, and
+thus fc->posix_acl, with its parent.
 
-ep_remove() (via ep_remove_file()) cleared file->f_ep under
-file->f_lock but then kept using @file inside the critical section
-(is_file_epoll(), hlist_del_rcu() through the head, spin_unlock).
-A concurrent __fput() taking the eventpoll_release() fastpath in
-that window observed the transient NULL, skipped
-eventpoll_release_file() and ran to f_op->release / file_free().
+Since IS_POSIXACL() is false on such a submount, the VFS:
 
-For the epoll-watches-epoll case, f_op->release is
-ep_eventpoll_release() -> ep_clear_and_put() -> ep_free(), which
-kfree()s the watched struct eventpoll. Its embedded ->refs
-hlist_head is exactly where epi->fllink.pprev points, so the
-subsequent hlist_del_rcu()'s "*pprev = next" scribbles into freed
-kmalloc-192 memory.
+ - fails setting POSIX ACLs with -EOPNOTSUPP and hides existing ACLs,
+   without sending any request to the server;
+ - applies the umask itself on create, so default ACLs on the server are
+   not honoured for new files;
+ - skips ACL checks in acl_permission_check(), so with
+   default_permissions (implied by FUSE_POSIX_ACL) access is decided by
+   the mode bits alone and restrictive ACL entries are not enforced.
 
-In addition, struct file is SLAB_TYPESAFE_BY_RCU, so the slot
-backing @file could be recycled by alloc_empty_file() --
-reinitializing f_lock and f_ep -- while ep_remove() is still
-nominally inside that lock. The upshot is an attacker-controllable
-kmem_cache_free() against the wrong slab cache.
+Copy SB_POSIXACL from the parent superblock, as is already done for the
+other superblock fields inherited from it. It cannot be set in
+fuse_sb_defaults(), because fuse_fill_super_common() checks whether the
+flag was passed at mount time to decide fc->dont_mask before setting it.
 
-Pin @file via epi_fget() at the top of ep_remove() and gate the
-critical section on the pin succeeding. With the pin held @file
-cannot reach refcount zero, which holds __fput() off and
-transitively keeps the watched struct eventpoll alive across the
-hlist_del_rcu() and the f_lock use, closing both UAFs.
+Reproducer, with virtiofsd 1.10.0 started with --posix-acl and an export
+containing a nested mount:
 
-If the pin fails @file has already reached refcount zero and its
-__fput() is in flight. Because we bailed before clearing f_ep,
-that path takes the eventpoll_release() slow path into
-eventpoll_release_file() and blocks on ep->mtx until the waiter
-side's ep_clear_and_put() drops it. The bailed epi's share of
-ep->refcount stays intact, so the trailing ep_refcount_dec_and_test()
-in ep_clear_and_put() cannot free the eventpoll out from under
-eventpoll_release_file(); the orphaned epi is then cleaned up
-there.
+  host# mount -t tmpfs none /srv/share
+  host# mkdir /srv/share/child
+  host# mount -t tmpfs none /srv/share/child
+  host# touch /srv/share/rootfile /srv/share/child/childfile
+  guest# mount -t virtiofs <tag> /mnt
+  guest# setfacl -m u:12345:rw /mnt/rootfile           # works
+  guest# setfacl -m u:12345:rw /mnt/child/childfile
+  setfacl: /mnt/child/childfile: Operation not supported
 
-A successful pin also proves we are not racing
-eventpoll_release_file() on this epi, so drop the now-redundant
-re-check of epi->dying under f_lock. The cheap lockless
-READ_ONCE(epi->dying) fast-path bailout stays.
+With this patch the second setfacl succeeds, ACLs set on the host are
+reported by getfacl on the submount, and default ACLs and ACL-based
+access checks behave the same as on the root mount. Tested on v7.3-rc5
+in a QEMU guest.
 
-Fixes: 58c9b016e128 ("epoll: use refcount to reduce ep_mutex contention")
-Reported-by: Jaeyoung Chung <jjy600901@snu.ac.kr>
-Link: https://patch.msgid.link/20260423-work-epoll-uaf-v1-6-2470f9eec0f5@kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-(cherry picked from commit a6dc643c69311677c574a0f17a3f4d66a5f3744b)
-Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-(cherry picked from commit 3e1144d2515d28e4312e663ea05eac203101491d)
-Signed-off-by: Lee Jones <lee@kernel.org>
+Signed-off-by: Tarun Khandelwal <tarun@supabase.io>
 ---
- fs/eventpoll.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+I wasn't sure whether leaving SB_POSIXACL off submount superblocks was
+intentional. I would have opened an issue first, but since the fix is a
+one-liner I'm sending the patch directly. If there is a reason for the
+current behaviour, I'm happy to rework this or drop it.
 
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 95d31d23db60..50df3717f908 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -794,22 +794,26 @@ static bool ep_remove_epi(struct eventpoll *ep, struct epitem *epi)
-  */
- static void ep_remove(struct eventpoll *ep, struct epitem *epi)
- {
--	struct file *file = epi->ffd.file;
-+	struct file *file __free(fput) = NULL;
+ fs/fuse/inode.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index e9552be36..ef3c7fac4 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1629,6 +1629,8 @@ static int fuse_fill_super_submount(struct super_block *sb,
+ 	WARN_ON(sb->s_bdi != &noop_backing_dev_info);
+ 	sb->s_bdi = bdi_get(parent_sb->s_bdi);
  
- 	lockdep_assert_irqs_enabled();
- 	lockdep_assert_held(&ep->mtx);
- 
- 	ep_unregister_pollwait(ep, epi);
- 
--	/* sync with eventpoll_release_file() */
-+	/* cheap sync with eventpoll_release_file() */
- 	if (unlikely(READ_ONCE(epi->dying)))
- 		return;
- 
--	spin_lock(&file->f_lock);
--	if (epi->dying) {
--		spin_unlock(&file->f_lock);
-+	/*
-+	 * If we manage to grab a reference it means we're not in
-+	 * eventpoll_release_file() and aren't going to be.
-+	 */
-+	file = epi_fget(epi);
-+	if (!file)
- 		return;
--	}
++	sb->s_flags |= parent_sb->s_flags & SB_POSIXACL;
 +
-+	spin_lock(&file->f_lock);
- 	ep_remove_file(ep, epi, file);
- 
- 	if (ep_remove_epi(ep, epi))
+ 	sb->s_xattr = parent_sb->s_xattr;
+ 	sb->s_export_op = parent_sb->s_export_op;
+ 	sb->s_time_gran = parent_sb->s_time_gran;
 -- 
-2.56.0.rc1.315.gc6ed9934b7-goog
+2.43.0
 
