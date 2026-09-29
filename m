@@ -1,70 +1,73 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A98940F721;
-	Tue, 29 Sep 2026 03:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B4041E6B9;
+	Tue, 29 Sep 2026 03:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790652585; cv=none; b=pIoTfG0G2Pv4Qo5bgiXP290efjuKDqQEqT2z0Nl2tNGGU1LeQCKBiz9Nw9pm8oxnyP/+KvLqxKxtJpRcAF3YZ8ht2UdHyd9aTfYxKiJxnemfQcw+doz8KWvQNXjo5Fax/RZP5xHOHKjBwdQ4BlAYXAcJeo89bgH6iC9/DnIl9Xg=
+	t=1790652590; cv=none; b=PyCsOLa9EZNvQ1DR/eGSPbVuQZOTTehCW6FHujymXLH3gJGkDCG2vvif3JgsPtn5rYNsv1X0LcmqXuiKL1bl5rjbZ5tjOOQOqfHeiYulT9d3tbkx8PWibeV+hU1XVzEkZpiz6FMFQ75U2o1DQGWDfgRxKBgFN1y2tpMi1/pZqDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790652585; c=relaxed/simple;
-	bh=7f8Aa5fo7eEpQYWHh5EnbL2cq+jY/fb/np0MlKfS5mE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cHP2dxo/i4zKyoGWuAuhnyq1hUbSVxiIxlR0JI1+I/uOsgA16oYfG3bKjiNy+/Scm6QjI2VMnqPQtIaGPUXGGT/7/RRBRXRU4B+X61N/i1Ccp/pRU0dXwqeHldva3OkQacc9jzrXZLP2B1b4s0E8k2sJuNiiIpB6B2J6KkYzx8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=UQgOCDje; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=x+dzQojf; arc=none smtp.client-ip=202.12.124.151
+	s=arc-20240116; t=1790652590; c=relaxed/simple;
+	bh=EQ8fGc5LppRg+Iurni3Y4Lsj1lKpxBmuwurzzDKRrlo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Ov8bzIG143XBnZaswXKCNTstMqF8NIKFQ2Bb2Y3qVFU4I/5vYDcMnS9DHtSscOVwzjxOiBfX64HxW0ZZ4hJXkvni10bgxScRe2S7Q7wsa94kg7msTJOKPNdmk4mwh5Nl54Wp/B68pDZmrHkpfhSdyNqhX7+EDSESzqtCAZgq9+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=liQ3tWv7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=laxXNgb0; arc=none smtp.client-ip=202.12.124.155
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="UQgOCDje";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="x+dzQojf"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 44A4C1D00103;
-	Mon, 28 Sep 2026 23:29:43 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="liQ3tWv7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="laxXNgb0"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 9BA4B7A00BA;
+	Mon, 28 Sep 2026 23:29:48 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Mon, 28 Sep 2026 23:29:43 -0400
+  by phl-compute-02.internal (MEProxy); Mon, 28 Sep 2026 23:29:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
-	:subject:to:to; s=fm1; t=1790652583; x=1790738983; bh=9hJKAXpF2s
-	LzODfI9vGGcsByD6WcWqX1LcRMl5/KGko=; b=UQgOCDjeZG4VJg5oVRejslHW4Y
-	EyCZ9KYeN1C5EEVPoH4fnhzX28xuQv4A+hN2JJ0iGh4z3ZyO0nhpeJ0Rs0iyTfmu
-	7KmapBGqkNmo+TwRRtBrDc/fQ3dwFolzdBh5oBHIUOmXlA9tZexiFLwsfq6nVfIS
-	OvjqeMBF5TbqjXd9Gz8gwv3OnG9GbqZWAZvX09jDSds0VA2UM6Eox4mdEU+mhNfs
-	KP23GlV2GJn5Uq140Y2+OBNgQkb0d3nlbtFVZ5ofszXRdmC8s1t8pGVvlgB1WAgn
-	Ji/VVDkexCWjwpkLWXCUM+SyBKn7mYijbJeFEFTHRC0nWCmqsjBP6xMKyIKQ==
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1790652588;
+	 x=1790738988; bh=jUSRJySOKfIoNiSPbV/qCfdX1PjfHutdoJs3Lxmel8k=; b=
+	liQ3tWv7txiLusbr4URinSvNzQS4oqnulDTTjwSH2eid+Na6sMlzz6P7BtYDSc04
+	nCaV0dQax0oRRgsOkS+CEk+RYhUIlyZ4l1jOxCHh4570m0b/ipW0hIXy3NTQ9R9u
+	ACdqnCPQn+7NeEITTlQHScISA/mek0ghOz1pyjOn5QxUoqM8GA/Ir4rv9sxI986/
+	zxcTGENl2VIJhFO7hGIS9GdFefm7OiAPfPhyhp12WuB8joP7I2ADqNAVaFtpEEE5
+	Bm46UO1/xGSWhCKHb8Kw8hZmYtIRFQR3v0we3uhrXK4Tk8ul2/cBD5273lgXONGs
+	qzTOlJrmtGpNOhm1bwwH5w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1790652583; x=1790738983; bh=9hJKAXpF2sLzODfI9vGGcsByD6Wc
-	WqX1LcRMl5/KGko=; b=x+dzQojfVPAlXqYQJ5DnmOhG3zz5FyVgHs1//sG+ESR5
-	wLem9SKQ08pfubwQ5KMFgpPhGqa8be1xFEMxZmWklEckWGJxRw+rraM4Uo7P1DFE
-	VQTP0vc007Dy8Se7PTG1etkMvuowEnhkBHBiW4pfb48aCeYlOCjdDZnXuSCiSCPG
-	+zxXiB5JJ5gMC18dvAcI6o+RMzfeArsKzyAgfWXyfC3dNGhPktt/ZBcBpEy9VsDp
-	9/lkh76pHumwE4dOOYFtLHjxHtzRnHTr+xXuF8QjSscb3ZjpmM1yoQCzchLZhQmB
-	iyXMX62/oL8bDylkVNHU1E8yx7e6oncTjBB8yTWl2g==
-X-ME-Sender: <xms:pjC7ahMZ6v9izReFO24K7P3vcaQpDMcVDMYiwkA8vH7W6iLXStB0Fg>
-    <xme:pjC7ao50RO4uuJwFAhsndEi-hKj5JeuuWPmVIBTVxWg8Cx8VjvUi_USvaxtvv8t4r
-    eABtqSEzc54tABX4QnZoGL8-i8Fvvyg3EcDB3oGjRAvThigOPo>
-X-ME-Received: <xmr:pjC7akhkRQwuBRWyV-amAfvCQRYyccIukiXkP_YfeSuE5J-Yo_4o4hG46g0Z4cQ-wAneXLuaUvTJpjBvJdRJ3hIuw8FBJ9I>
-X-ME-Proxy-Cause: dmFkZTGOx/+Pvc5ych3eC+UU4wDR+ryhvnN5NAcpBNOGBHPYXabDq5OhbMpHIr5C9IfkR1
-    lvqc1KgQ5z6ZtrHK1SfezsFnqLzd2zmx0B5tPTL0kgNl6/19majMbeGZPuZMJ+G8DxfADU
-    dbP0gyawezda0oyLmKOSUFyKwEN7A+yRluSLoC4ICaVANsLb+gUOKg3D/u9y3ozLXD9s6I
-    zxb3D6wilw6aguHY4sKXyW6gCoWn9nqeOrsF1vbqzEVnBSl+dUCiXjepnwG6NzieDN8ZjY
-    OTw9WbOYGhdly37TfcVbrN13T4YY/pi+7GKAHqSIU3wv8I6KhUJbQIMZ2JLloHlgPoMrmt
-    vh5Qp7gKQBfgYcdSZzUmi6fGW6gHcLPHLRJPcP+2xJKEdQT/0JwR82ByUwst84rt9itafQ
-    4L7QfconP/9XB/Ch4bADMQafZ+Kuw53oCZj78JRlvc22YB0XgTUWlGg4AyIRdef9SyBxtP
-    zF0fOJYuF8hBPblu2yj0SidOnHMzR+1BPm9msDrLl6JFFQ+eTS/8dpkjMoOs6blB3ed9jr
-    GM0KlSLUDVaJT5PAWGcJh7QxViiIieeBErMVN6YPzXF1uSG89QSpPBuDUnHDJF5uzdFX9E
-    jhlow0VPuhLdk1ZiZjk9tu3UmjQWBIOeZYMWlMcjbNRAvQ7wdP/92bsAv3kQ
-X-ME-Proxy: <xmx:pjC7atcYpoXfAquGmy-SX1Pd_AMffrpgS3TsDVQxxQtFVFJkxP-cDw>
-    <xmx:pjC7asy5REOJfyiIUKiQV9vnjJR4bqGPyzKNHazo2kHiMipAQZgfEA>
-    <xmx:pjC7as1KDAsrkP34fdalfnT1eTNsxiExL3ILSPYhCZc4j6BMPKmvIw>
-    <xmx:pjC7aixAEu763atouj7ItlkNJ70DvbkkmEVrm7zGSYWWOSsHbE42Ww>
-    <xmx:pzC7ak23Z3Qlw_9mv69KZj6foxIAT3it_hAGDyp_qwuD23cBhZowMbbl>
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1790652588; x=1790738988; bh=j
+	USRJySOKfIoNiSPbV/qCfdX1PjfHutdoJs3Lxmel8k=; b=laxXNgb0sHwJpCj55
+	jRWWJa3zqvnGMI5FxJPJBHBOmQN6PSMJHLBvhDjWXz+ElR457a7i/oHxKmWG0ZKT
+	Gl/qcClXhdzAlb+k2SG7uVNSHYx3yA5hQujJk/7ZjlCkohLQub2KeCKEWE63xy+G
+	FY0aeGrcpAuCaEvooxUut9GiMX3CT3YOWqBQhc3K22+FRhjp+k8mUX/va0JutT2T
+	gCPZQZhMEp2OZIqItd3mxkt3i0XORbAlPJwOzIU5j5HFCNkddm9x8wT3T+FxRe2v
+	Fgvy1IzMz6AoTMYcvua9YZx8wivlFmVC8PCRj84wcmTDU2WllgtCfH5axm+pKeZ7
+	HCoOQ==
+X-ME-Sender: <xms:rDC7aqSDGPXSvjwqOHP9gr9IwIeN075SMD8scmAAx3BCKMWUheO-Nw>
+    <xme:rDC7aksacgJNzjvUpLP1u0mivnCr1l9MIk0BEzaWjZfN3CdkFs-njG5vlRODv-F26
+    -nTZgDUqbqesd9aM1n9jW_14Ewh3GNaQRs0Qm1uJUxoAo_UkLYk>
+X-ME-Received: <xmr:rDC7asHD2Fbl5EQuwC9kqmlb_AxswcB60zkwJsaKbmOjAk9silhxUjLSLHoowpvDOmHnLsfYPTsqHxplGYgBQ7lB4_kDwmM>
+X-ME-Proxy-Cause: dmFkZTFj85xp6bLK+q7zY5LvEf0n2NtUow0VP2D+b+pxbXXAHePfaRLwkQCmGIoHNnnUU7
+    XFZF/r1REEi95X1KcsQLYtxMFZmwq/KPz7uBc3KWLa6uoFYyPUDlje/SOhfoa6ewH1w8eT
+    ziheSO585jMLS4z9M66AAVSHCLK2fdf1UcidnBLU1fyUN+VYr/DQbrVJ3YNYarCTeGR9nk
+    Xdl/eTqCqBUCKAATrp+xGoHUD1XQLuMDbxWchpf3h6PqkS/2Z3ESZHYvfVv+yfzfZDDOcA
+    poLwBeSX5N2ha2W2chvibHb/wQiSQ/Ol0pyNoXUB/4iunx0x6/alrS7Bjm1C1X3PKlP4jZ
+    66riFIxEt3K9tNy6ItRkmKnDyl4p4niAoYly5XQcvN//ZiFxsDVrG5draLpSaZjXeTy/ad
+    6sKp1dhDUvRd3gDqzSJ8g5HupIzaCc7dzlOaeLHWQqsF1aZPfvnwAZ9XNBXFRAN+W8gW5U
+    lE1StJ9YryhyUBNpVdRsmshbJOUHi47zj9pSRE0mvVgVlpUQFgwg0M/oJLCD7oaNM7j8lF
+    w8Cv0bKZ7DXF8XSZR9GjbiVBzL1gtPvkKE+VPVwNt0HUJHGvzdUHdnX1+3UgSOZcKJf6Bk
+    yiCDZgpZEpKy+BRHP0Y0sjIzkUwCoJe2jihTCAup82M7L3iOi2DbHcUFYo8A
+X-ME-Proxy: <xmx:rDC7alx1uJ-gxzBEMvmvL0LdAXRoKWSFU9Ns7zCn3WUOZUgBasQRcg>
+    <xmx:rDC7am2c0XytJGfBUa3zAcngKTNCUysp26EGvDnxtVDzaPIWv6UtdA>
+    <xmx:rDC7alpvEapqhxxVCBa9vFwWRiXJTyh7sG4816LmMJxPeTVThjzmig>
+    <xmx:rDC7ajV-FTrbcMQK9TGrVrSxCI106w-Ic5xFuOVT1sh3NhGL5cwbrg>
+    <xmx:rDC7aq5ROnR6IxbE8gS9_r80DrHLRw9_rFFwfjT9ngMCJLaDcDQVqcCG>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Sep 2026 23:29:39 -0400 (EDT)
+ 28 Sep 2026 23:29:45 -0400 (EDT)
 From: NeilBrown <neilb@ownmail.net>
 To: Miklos Szeredi <miklos@szeredi.hu>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -74,10 +77,12 @@ Cc: Jeff Layton <jlayton@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] fuse: prepare for VFS locking changes.
-Date: Tue, 29 Sep 2026 13:26:14 +1000
-Message-ID: <20260929032927.1451259-1-neilb@ownmail.net>
+Subject: [PATCH 1/2] fuse: don't d_drop() before d_splice_alias()
+Date: Tue, 29 Sep 2026 13:26:15 +1000
+Message-ID: <20260929032927.1451259-2-neilb@ownmail.net>
 X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+In-Reply-To: <20260929032927.1451259-1-neilb@ownmail.net>
+References: <20260929032927.1451259-1-neilb@ownmail.net>
 Reply-To: NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -87,30 +92,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-I am working on changes to directory locking.  The medium term goal is
-to lift d_alloc_parallel() locking above i_rwsem, so d_alloc_paralle()
-can be run unlocked, and consequently cannot be called when ->i_rwsem is
-held.
+From: NeilBrown <neil@brown.name>
 
-The requires:
- 1/ the d_alloc_parallel() not be called while i_rwsem is held.  fuse
-    does this when priming the dcache from readdir results.  A new
-    interface d_alloc_trylock() is now available and can be used
-    instead.
+create_new_entry() is used to finalise the creation of various
+objects (mknod, mkdir, symlink etc).
 
- 2/ a dentry must not be d_drop()ed while an operation is ongoing, as an
-    unlocked d_alloc_parallel() would then be able to create a new
-    dentry with the same name. Now that d_splice_alias() is able to
-    splice a hashed alias, create_new_entry() doesn't need to d_drop()
-    any more
+It currently uses d_drop() which will be a problem for a proposed
+new locking scheme.
 
-The patches depend on patches recently added to the vfs tree.  I would
-prefer these land in that tree too with an Acked-by or similar from fuse
-maintainers.
+d_splice_alias() now works on hashed dentries so the d_drop() isn't
+needed.  Drop it.
 
-Thanks,
-NeilBrown
+Signed-off-by: NeilBrown <neil@brown.name>
+---
+ fs/fuse/dir.c | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index e49b4e874b15..519b4f85618c 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -1031,7 +1031,6 @@ static struct dentry *create_new_entry(struct mnt_idmap *idmap, struct fuse_moun
+ 	}
+ 	kfree(forget);
+ 
+-	d_drop(entry);
+ 	d = d_splice_alias(inode, entry);
+ 	if (IS_ERR(d))
+ 		return d;
 
- [PATCH 1/2] fuse: don't d_drop() before d_splice_alias()
- [PATCH 2/2] fuse: Use d_alloc_trylock() in fuse_direntplus_link()
+base-commit: 3879f51857325da9bf3cfb073280257cd16ae067
+-- 
+2.50.0.107.gf914562f5916.dirty
+
