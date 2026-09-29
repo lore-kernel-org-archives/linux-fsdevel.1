@@ -1,91 +1,112 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2C54CDDEF;
-	Tue, 29 Sep 2026 14:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D713DDDA1;
+	Tue, 29 Sep 2026 15:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790693654; cv=none; b=PRF+8Sx+JAy4f6LmsVD20MgGwwyi70jZeFJV5CBqmyDN/XZXzKsp3xMP20ZVtxL30EujaLQ3fk08u51BykMiOYagr5/3m2/Fy2wMGGM9ajX13QPrzaRG6SYjKzd9OLFjZPCjnEPIWjXpj9TYuIoczRF1DYUlPOZKMFXWLbqVbiM=
+	t=1790694077; cv=none; b=h5LQMKZ7yJoqRIWJmMpS6dOQLBW4TAiLiNc/ExP3KclsuPetyhA3WPk4LcRAqATr37g+pHJJMB0AsKDu9AqDjRNlYIilQw3NHqijyJFRyrCj3hwVbWJKpSkt6Eesw+BfNz/nhFVbAU+S8G9+drdV8Y2AnAPajSGc1c062Vj5rnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790693654; c=relaxed/simple;
-	bh=YjJznT4b0xAdGZ2PiRCaweISyYHg5n6lSKL0jyLHXAE=;
+	s=arc-20240116; t=1790694077; c=relaxed/simple;
+	bh=19zJL66XvCJ/TaYGHp0xcb/QRzdhe4G2rZ5ROWvlZVU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rGxO9AHjd4p4TqT8paBBqn3MaLxAKsUfAD09UY9j6aM69EcPJbyLnnO3E14uDYl0U0yppOLb/Ttxy+Pf8J+z0AzEe9HLhsXRdLitn9JMvpKfVX5OrrdgNhrHoxlUIv995q9vAXC4o33G/3m/y8xmjUME+37k7738zgafj8XO+wM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=W4NvXe3S; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=UNPue5u7VaJ6in9kqyUiJOVNlQSHHDZK3QWxzgIqfDOh5ZbLENyA23s2CiTkxISqk0ovHje/5wcBFcYi8lVkNGa8RBxNv32jhDsvtA3a/aekPVxiImbsHzq4YEMgzkG7Z3uPvzsgy0+/U8Qh6+b0YXfIHxx0c0EhX5FOjc0/rb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gR8PMQaV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="W4NvXe3S"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=cSs4Fxg3+Gv+8PrdKz5gHVkl12+opkOvD2Y/1wSCg1U=; b=W4NvXe3SsF07/exlGJuu7PFGcr
-	oqJNY4ii6Pa+mC1AsWqbfSQb1SkF+u8EyvwtRxE/mrN7nTHS9Az3CRxSfukMnzPQm1Y7qkMuBMEFO
-	HTd8ZV7WYtilYUrqoUQaHMTiQxYs8c5jQBZgVn8JtHIhrjnN1AhT49SknvhGLuLhba/XnOGN7M3XQ
-	TFTrFl6IrOEH1jA+33xeoUtX+U3f0wUa0QdUJO2DHpXn54Mft0Tbn3lZdMjdOWgx3nIjRDihdOdsD
-	+5Au6QmfFGbZkFkviLoDr8Z3+YjtjLDq93Wcout5uxJKzL4GxRF7h5dE/yPBWZXKRUo2BmvYBMWbd
-	I8aN0YxA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xBZDS-0000000D1nR-1pym;
-	Tue, 29 Sep 2026 14:53:59 +0000
-Date: Tue, 29 Sep 2026 15:53:58 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Georgios Androutsopoulos <georgeandrout13@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Jan Kara <jack@suse.cz>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	linux-fsdevel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
- descriptor APIs
-Message-ID: <20260929145358.GC989762@ZenIV>
-References: <20260923022339.3340694-1-georgeandrout13@gmail.com>
- <arThye_219ruNbM2@google.com>
- <20260925-stellen-brummen-festrede-266af0305ac7@brauner>
- <20260929044843.GA3909609@ZenIV>
- <art7swUNAa3AyUrL@google.com>
- <20260929132839.GA989762@ZenIV>
- <CAH5fLgis-9ibYAEK-shQtwg_08Le-JDYChS77LugEhgZ=T+z8Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gR8PMQaV"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id AD2A41F000FF;
+	Tue, 29 Sep 2026 15:00:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790694056;
+	bh=sP+JRMUCh1L3/Op/O8+puBriEmtt0jW98gKpRGY5Sdg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gR8PMQaV3MtQSoZ0SVepw5NSSxcOfO0XbaAXVkB4uCf+Gm56J7DY/RHrp8bLpPiqR
+	 utlfm38IWHa+VHbuuRHXPU1R0m/ytrRqrv5kVqflU7kdxMw2Lo+4es5a81NCM7gaVm
+	 kQknz1MuXCvEhjXAB5c9QG13xpZhkzK51lPGjoN3GVm+aWLIr0bD9OQgaJfMuJ/Ao6
+	 TQdNhTKgvb+jw6qnS5FFGpg4BEIG6uu8B9oX2jt6yp/0Y4L6P1X3N6hSw1IAsFNSDW
+	 IdMJivbpqpXFk7CFfFMip6fESUBh7cli15EcTy9q+2nlmNayhhqxH5X1qC/UF97EXL
+	 eNx2G8GpxBKYw==
+Date: Tue, 29 Sep 2026 08:00:56 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Steve Shoecraft <spshoecraft@gmail.com>
+Cc: Carlos Maiolino <cem@kernel.org>, Christoph Hellwig <hch@infradead.org>,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [RFC] MXFS: a shared-disk clustered filesystem derived from XFS
+Message-ID: <20260929150056.GG6244@frogsfrogsfrogs>
+References: <56847E8D-EA83-4984-82F3-9BC93E4C02FF@gmail.com>
+ <ardhDI-Ko7b5RccH@infradead.org>
+ <BC228018-42A4-4715-B186-057AFDE8A4D0@gmail.com>
+ <arj3Mp6Cq2_qwaIb@cronus.toxiclabs.cc>
+ <1B01BE22-06A8-412D-B141-CD94026E0A39@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAH5fLgis-9ibYAEK-shQtwg_08Le-JDYChS77LugEhgZ=T+z8Q@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1B01BE22-06A8-412D-B141-CD94026E0A39@gmail.com>
 
-On Tue, Sep 29, 2026 at 03:35:13PM +0200, Alice Ryhl wrote:
+On Tue, Sep 29, 2026 at 09:19:39AM -0400, Steve Shoecraft wrote:
+> I’m disappointed in your responses. I would have thought that you’d at
+> least be interested in how well the AI did.
 
-> Sorry I mixed it up ... the code called file_close_fd() and then
-> filp_close() with current->files. The important call here is the
-> file_close_fd() one, not the filp_close() one.
+And I'm disappointed every time someone unfamiliar to the (xfs)
+community appears out of nowhere with a giant pile of code (LLM
+generated or otherwise) and a request that we read it.
 
-Er...  But that would *not* see NULL ->files in case of workqueue -
-you'd get init_files instead.  vhost_task_create() is the only
-thing that creates threads with NULL ->files; it might or might
-not make sense to have the same for workqueue worker threads,
-but that wouldn't change anything in that bug anyway.
+If you want people to review your code, start by watching the mailing
+list for a month or two to familiarize yourself with community norms,
+and to ask questions when others post patches.
 
-When you want to change the state of a thread component, be it
-descriptor table, cwd, umask, etc., you'd better do that in
-a thread that *does* share that component with the thread you
-want to have affected.
+> It’s going to get better — not worse.
+> 
+> Since the initial 2-node TCP/DLM release (0.89.77 on September 23), Fable and Astra have completed 2-node CAW (0.90.7 on September 26), and 4-node TCP and CAW (0.90.24) have now been released on:
+> • Proxmox VE 9 (kernels 6.17 and 7.0)
+> • RHEL / AlmaLinux / Rocky 9.8
+> • Ubuntu 24.04 LTS (GA kernel 6.8)
+> • Debian 13 (kernel 6.12)
+> 
+> All are distributed as native DEB/RPM packages, with the kernel module built against the target kernel via DKMS.
+> 
+> The 0.90.24 release passed the complete release criteria: 4-node TCP 31/31, 4-node CAW 30/30, 2-node TCP 31/31, and 2-node CAW 30/30. All four platforms passed their packaged installation and validation runs.
+> 
+> The goal is full 32-node support for both TCP and CAW DLM.
+> 
+> 
+> 
+> The next project is OSN — a fully AI-written OS from scratch.
 
-It's not a matter of race with exiting thread - closing a descriptor
-via schedule_work() is _always_ wrong.
+Good luck with that when you can't even be bothered to llmcode a test
+to make sure the magic numbers do not match standard xfs.
 
-I really don't get it...
+--D
+
+> > On Sep 27, 2026, at 7:03 AM, Carlos Maiolino <cem@kernel.org> wrote:
+> > 
+> > On Sat, Sep 26, 2026 at 07:32:27AM -0500, Steve Shoecraft wrote:
+> >> 
+> >> Good catch on the magic - I had it changed in previous attempts and forgot on this one - release 0.90.0 has MXFS unique magic.
+> >> 
+> >> I’ve been writing device drivers since the 90s on FreeBSD.  This was a research project to see if an LLM could do it with the right harness.
+> >> 
+> >> Release conditions of course included 100% data integrity and 100% stability.   XFS was the right choice for the base.
+> >> 
+> >> Intent is a good clustered FS for Proxmox to compete with vSphere and VMFS.  Yes, I’m aware of the differences in implementations.
+> > 
+> > If you are not even bothering reviewing your own project source code as
+> > you stated, don't expect anybody else to spend their time or have
+> > interest on it.
+> > 
+> > 
+> >> 
+> >> 
+> >>> On Sep 26, 2026, at 1:07 AM, Christoph Hellwig <hch@infradead.org> wrote:
+> >>> 
+> >>> I don't think too many people are going to care about your LLM dump,
+> >>> or even review it.  But please make sure you use different magic numbers
+> >>> so that a mxfs image left in the wild is not mistaken for an xfs one.
+> 
+> 
