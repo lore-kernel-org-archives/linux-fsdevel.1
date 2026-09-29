@@ -1,167 +1,161 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pj2-f38.google.com (mail-pj2-f38.google.com [74.125.227.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF113DA7DD;
-	Tue, 29 Sep 2026 15:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790696164; cv=none; b=BwEamMNQpzm3WOTJmuWsVHccxnhFR95NJgNXy6Dd4+pdudUwQwRt3PfXqUkKsItdzHoxfpBUAOitIjE12mEi5PnqKAzpa7t0FsaleqvksGlSZI4sk7MCgrcCXHR5Ax2ThFwd+/VChcr8Phhn0yjdDu35uedGc4nbhsZ5P4dID3U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790696164; c=relaxed/simple;
-	bh=dJ+teJJ6nyP49pH9Qv+qmG4wRUKs0zIMYBw7U2m7jiw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FwuyCxK1wvk7qN9vevCB1qqKTfbzHVRkPU9ngTPtEoy8SzG0h0Uzt1xrGRhiKIl711YhaCBGRkYyRpfRLrLWaeCX2wpqEZ4gDErZjVn9NlBuXgYmxRQUqbRxUS04rzilO2cIbGjGdDRhfryyLFPOkdB7+PsAlBXo+6GmRDLHzwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sTGZSRl2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ie2AEQyS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gamWqDUt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/GQdw1NJ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513DD3D9539
+	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 15:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.166
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790696485; cv=pass; b=WMgLtOoKhJfGc+LhAnnKfJ+ibJ51LJ1iROySG50/5fcrAOCnBpSVoodb7Ets2GuI2O2DAniXV21V5mRf0UBsmg/8JlnBsLw5K+VNFJPrlsfG62ioihd/+icVRb+hxmQpU7PBit8xhWltxbHYcAKtna6F8MI6p+kOuH43nd0YrBA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790696485; c=relaxed/simple;
+	bh=Ff6kC5hPrRqY3srb5EBpmjAqOlTQzd0IBH6PRPcDfLE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MBZXmaaQYXy5Z0Ccak3o9XVMYeosf8PHHRy0E4uWhgCtOZMte07yCHN08+ABcwDMGu08cjhFGqoXKEvqH4syi3L0uimjrPxSdRPuz75MhPZzT/E6sJXHIA6ZeKADsChK7HpJB/N7Jc27FnNXHpyjsDn6nzSwkva5kn3MIxB9/K4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=VdY5z8Yo; arc=pass smtp.client-ip=74.125.227.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sTGZSRl2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ie2AEQyS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gamWqDUt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/GQdw1NJ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D0C771F79C;
-	Tue, 29 Sep 2026 15:35:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790696156; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yMrm96DArMa2on1T2OU8poCiT/Ajlmru9xAu5CV6dbY=;
-	b=sTGZSRl2gb/ZI0qsUPV3bN/ycC4DOfvy0k8jSRYRu3cJDqFnn4MGY45KEk8RogeTeiPdHa
-	vUG0ZFjm2qoCr3arXbNQjJBU5OdETEhnTgwrFFv8W8eImBLyPjUvWmTsj0Snpba2OSetfS
-	DCf6sEK6IK/dVrdrB9H/QNdXJVoOAcM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790696156;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yMrm96DArMa2on1T2OU8poCiT/Ajlmru9xAu5CV6dbY=;
-	b=ie2AEQySndq9FaLcpcsC0PYLPt1l6WpyPcbdBBy6ica2ycsMHWP7daV1brC11IQSohKNlj
-	rpUOyuMe3Gf/ZSCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=gamWqDUt;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/GQdw1NJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790696151; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yMrm96DArMa2on1T2OU8poCiT/Ajlmru9xAu5CV6dbY=;
-	b=gamWqDUtEANmJfk8jCSlqDWHELAoBaqUUJIOvWZRf9sxyxjNCDZfHorSql8Qs4cn8rB66v
-	O0wOZpdI8SgwF9UUxlIsxTf9iDK8SGWZNBPSN0Bm/u9kPcNbyVPjtXnXlXYUkiJdCn1qFF
-	PEDwWkmRpXJUUALVhl0Ugus0ZHAvrfE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790696151;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yMrm96DArMa2on1T2OU8poCiT/Ajlmru9xAu5CV6dbY=;
-	b=/GQdw1NJ6k1WzzehfohpLY+HtIMSmnqQG0xeAHCPbhqYk1is3nMa5jvQtPH4QQ2G+7HlG5
-	5P9GjvlmBt2ykUAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4D37C136E4;
-	Tue, 29 Sep 2026 15:35:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id y8YsBdfau2rwKAAAD6G6ig
-	(envelope-from <krisman@suse.de>); Tue, 29 Sep 2026 15:35:51 +0000
-From: Gabriel Krisman Bertazi <krisman@suse.de>
-To: Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>, Amir Goldstein
- <amir73il@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Theodore Ts'o <tytso@mit.edu>, Hugh Dickins
- <hughd@google.com>, Daniel Tang <danielzgtg.opensource@gmail.com>,
- linux-ext4@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
- linux-unionfs@vger.kernel.org, linux-mm@kvack.org, Chuck Lever
- <cel@kernel.org>
-Subject: Re: [PATCH 4/4] ovl: Expose the filesystem encoding through sysfs
-In-Reply-To: <20260929144043.5rg4zf7uth333qke@pali>
-Organization: SUSE
-References: <20260928213155.2612039-1-krisman@suse.de>
- <20260928213155.2612039-5-krisman@suse.de>
- <CAOQ4uxj7Vx-UGvgGGr9hPC0qUgJZ_WRAv1ZLi=gJ6r=ZJW0QAQ@mail.gmail.com>
- <20260929144043.5rg4zf7uth333qke@pali>
-Date: Tue, 29 Sep 2026 11:35:49 -0400
-Message-ID: <87jyo4xe7e.fsf@mailhost.krisman.be>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="VdY5z8Yo"
+Received: by mail-pj2-f38.google.com with SMTP id 98e67ed59e1d1-3a4b4770191so279821a91.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 08:41:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790696483; cv=none;
+        d=google.com; s=arc-20260327;
+        b=atfLIdrb3JXLG++kq7GEjvNNxHKw4nnWrux1cGd3Bn/LovLulTdDnoq7zvx0hCtovb
+         lnJpuiL5dcLVrdHu5UtaLG7OxAEtPFuArml3Hunjps21fNX4JPSC+fWKyGCgggRWk3X7
+         k2yy94SZN6oShI2U+M2DbDQuWjgRQp9UOg6XGr2VAvgaEvYO64mPKGEcMYZ+1LDLPwJR
+         mNR2TmZUz2iNf/bhalLO1yYvqR8ZDxBWkeQ0DXp3eHF7ST5w6zshYh9GqbHNua+GdM+D
+         X290Psupn4955JLULI+a3VRx53ELDx0QvUR6LNVBgJIFo7Y0tLQNDhCeN2pGXwbQ2E86
+         WI+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DloQ75v9I8tL4sabQ6zmS9+wLTDkp28GIOajsDW+cZA=;
+        fh=lh7DfPOzNnKu2WwVP1//6PIQxbXuMng7GAKDmxn5acQ=;
+        b=LmR8zr2Ms3JzxqwL3VKzZ99Qij4DP7pQjSzFZ7VDIdVO/4R6j/sviuc8Wr541GkOja
+         M7DXnWqF8LTWuXIbEtsdnKjMuAMGX+6j0YH/TcIAHrfO6eZU5T1WA+azsCTL4gdvzZzx
+         AKTNwotAyQtuHzUuYryHKJlqQrVaB2NMxVTCfpMdgg52bTI3EQo3J8rcLWpsOOEkevW1
+         s+h4oFnB4y/ohc2Q31mIj1vYSkUcgOTQbO4VOyyfC1fpE6qhipTRz2hhOb0cOaqhBRrS
+         5+rmcnXdUGzZejRc1bth7m8zSSnIOT4AMEzX9TXxROEgGgZ7pv650dFCBMZWQCLe5mmG
+         2QkA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1790696483; x=1791301283; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DloQ75v9I8tL4sabQ6zmS9+wLTDkp28GIOajsDW+cZA=;
+        b=VdY5z8YoInDCnVPmPUm5T8INxeOb6a4PvVutNsPnGQMjPCHakCxQ7YRxDTJiehtUM2
+         nSN/kYHZA3i5bIxkbPnO9xP4sdyyoMERSXUeQTn+/fW7jwDDC/n6ma9RIyHsAbhpJkpE
+         Migw9a1iex6kLad5GdRNo2cpwj9g9EoeWdXQ7qv9gP4J07Tfb3hFB/xBwZD4Bykok7ky
+         Vb4fzSZm4jEQuF83TmfGMBsOgeZ7wV+J9INpJeVL6R+lzdOJ8tbUynrrK+jWj+ZOorrL
+         x03MuKlVvaRdTxLwhGuYpgaKsiQ2IlPvoM5B3FWeKYUYj+uTNOpPS6mBvowOQwbGIEQA
+         4Rpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790696483; x=1791301283;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DloQ75v9I8tL4sabQ6zmS9+wLTDkp28GIOajsDW+cZA=;
+        b=aphX9+5Dc2+sXnIY2uK05N09DdjvYtkVnXQ+xD2HxCkWiYe0mZHYBX9XRXId9vib4L
+         j9zpmasbG9mvOp+eArH6YN/+Ri2KpU40+6wCp8YVjnot5z/Tx90VYUq7SdmKw1IwSe9I
+         8LBcS3/Vd9y+E0ISQxzVwSWvRjv7+dk0ToUPXPIkwE86VhPkXqQ5tg7k6PMA8Yq3/N8A
+         tSC4tLnVQTz+xybAb+XW7I4fh3ujRdUZ5lAFGsxPrAiwEo/kNGp/mOvlEDRtVHOCHtUZ
+         mNdr5KB6JJroUKTfOlpV/RovsBeOYD7zYz0kbCWlVW7GsWWN5y4U/UTp0k9AFy9a+TEX
+         IC2A==
+X-Forwarded-Encrypted: i=1; AKwUvBzDDBEYNcXFFDLZYN7FHlZD5Qn6R+omCyW7O/9OT0LAzWg68GILsdkhm1jfg3ev88NqItOsMLrGyeBAzZdu@vger.kernel.org
+X-Gm-Message-State: AFq9FYI0E7QP83vNN4pc4Fe0w00ZxbCbyJ0TBcF4nh8Od+NbX+1WK5Hy
+	+++JZ9cVDk+p23uWmUJ5cumNJDBmfz18isyW4802X9RNnP4rnrM6VKeJEgP1iEjqYKSC/rtd0JA
+	y4x5L8Ca20NH/DSR6FgWWXWNlehZWq4t2Ynyct4qP
+X-Gm-Gg: AYBFou2SorFtRVQzEMQ4CXpCf0yV9Z64sG4KOv7AM+rzoNsA6tWe5zs/afD4j3I/0GN
+	dHyTaIywn6YeluPmS6pkka6FATU5m8dVtxenW01r4WUGCx3uzMvhVoPL4nw/CHu083VJp1sKDNX
+	wB5kzWwY4PFGea22l4gdgKO40CUXPdFzAvW1qTOWtgMd65Q7Wx9lvdO1lS928Oyt3qyR+eokt6R
+	/xvlKEzuMYwXARdegstzJ6nqXzRaIHDa5LTyvpC14EES9UQ0s18pQQ4DP3ewdKCjVzYAbSoVeip
+	2w2nm/KupjJu/f/qJoi490Pm8OQxs6s2GbL+IPWkzyxqsscIbisTDtRVp4i8Twfs/hOE2y8/VBi
+	TSdh/0oeRUQU=
+X-Received: by 2002:a17:90a:ec87:b0:3a4:a2f9:f2f9 with SMTP id
+ 98e67ed59e1d1-3a4a2f9f6b7mr1995395a91.52.1790696482601; Tue, 29 Sep 2026
+ 08:41:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20260706235053.4104951-1-song@kernel.org> <CAPhsuW7E-mW5CvmSXjUsc1GBjvgpy=pnaYOzTJsLXDvx8+RMJQ@mail.gmail.com>
+ <20260928-hinein-lacke-nachfahren-45ac39a36146@brauner> <CAHC9VhRPd8z=67=RWM-0DqjTXysk75FtF=haY9-Vv1oGcX1PAg@mail.gmail.com>
+ <CAPhsuW7iFP4Y6C1ZhTvtEgTzgKjnpF9+8YfVg4o3P4BHEnR+LA@mail.gmail.com>
+ <CAHC9VhQVVfKkRaHOp90E-WVGEVy_MYFBreUYPMc9Y79rLaviRQ@mail.gmail.com> <CAPhsuW5jQCe89LT_22dvQWVnw2cvpceODjvKiHEiYT9Wm_Npgg@mail.gmail.com>
+In-Reply-To: <CAPhsuW5jQCe89LT_22dvQWVnw2cvpceODjvKiHEiYT9Wm_Npgg@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 29 Sep 2026 11:41:10 -0400
+X-Gm-Features: AclHuK-k4dcV8AsNHD2Yr0ha3qdtOhv_YrLUXKayEeb-M3C-kGGNkoHEhnTeD88
+Message-ID: <CAHC9VhRdn-jrNJY1K=1RsZQiO80QKR3nD+DHyUM5n_a3TrxLhA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] lsm: Replace security_sb_mount with granular mount hooks
+To: Song Liu <song@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, jmorris@namei.org, serge@hallyn.com, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, john.johansen@canonical.com, 
+	stephen.smalley.work@gmail.com, omosnace@redhat.com, mic@digikod.net, 
+	gnoack@google.com, takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
+	kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email,mailhost.krisman.be:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,suse.cz,mit.edu,google.com,gmail.com,szeredi.hu,kvack.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email,mailhost.krisman.be:mid]
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: D0C771F79C
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
 
-Pali Roh=C3=A1r <pali@kernel.org> writes:
-
-> On Tuesday 29 September 2026 16:15:04 Amir Goldstein wrote:
->> On Mon, Sep 28, 2026 at 11:32=E2=80=AFPM Gabriel Krisman Bertazi
->> <krisman@suse.de> wrote:
->> >
->> > This patch reproduces the same interface from ext4/f2fs to have feature
->> > parity, so users don't need to rely on parsing dmesg or trying +F on a
->> > temporary directory just to check for support.  Note there is no
->> > encoding_flags file, as none are supported by ovl.
->> >
->>=20
->> Gabriel,
->>=20
->> I am not ok with this API.
->> It is wrong in several ways.
->> It is not generic, we have already file_getattr() to get casefold status.
->> There was a suggestion by Pali [1] to get the supported xflags - statx s=
-tyle,
->> which can be a way to say if a fs could return FS_XFLAG_CASEFOLD.
+On Tue, Sep 29, 2026 at 2:21=E2=80=AFAM Song Liu <song@kernel.org> wrote:
+> On Mon, Sep 28, 2026 at 3:35=E2=80=AFPM Paul Moore <paul@paul-moore.com> =
+wrote:
+> [...]
+> > >
+> > > There is another question here. These new hooks do not have any in-tr=
+ee
+> > > user at the moment. This appears to violate the "New LSM Hooks" polic=
+y
+> > > in [2]. Could you please give more specific guidance on this?
+> >
+> > There are LSMs which implement mount level access controls, you've
+> > been updating those in your patchset :)  I believe that some of those
+> > LSMs do have some (full? needs verification) coverage on the new mount
+> > API.  I would expect that a patchset that adds, or modifies the
+> > existing, mount hooks would also update those LSMs accordingly.  From
+> > what I've seen, you've done a good job updating the individual LSMs
+> > thus far, but if you have any questions or are unsure of what to do
+> > for any one LSM, please ask and I'm sure the associated devs will be
+> > happy to help.
 >
-> Yea, sorry for that. I have not finished it, I did not have time. But I
-> would like to address this as this is something was was asked more
-> times...
+> I don't think the scope here, adding hooks for fsopen, fsconfig, fsmount,
+> fspick, open_tree, open_tree_attr and mount_setattr and using them
+> properly in all LSMs, is a reasonable ask for a single patchset. Given
+> how much time this simple refactoring patchset has taken, I don't foresee
+> this work landing in any reasonable timeframe.
+>
+> Please consider reviewing this set and landing it before asking for more
+> work.
 
-please cc me when sending it.=20
+[NOTE: dropped herton@canonical due to bounces]
+
+I suspect there is a misunderstanding regarding the new mount API and
+the LSM hooks.  I believe that we have all of the necessary LSM hooks
+already in place for the new mount API, but since I haven't looked at
+that in several years, verifying this would be good.  Beyond ensuring
+the hooks are still complete, I was suggesting that if you are going
+to create per-operation LSM hooks for the legacy mount API, it would
+be good if we had similar (same?) LSM hooks for the new mount API.
+Alternatively, if it doesn't make sense to have per-operation hooks
+with the new API, it would be good to document that in your patchset's
+commit descriptions.  Either way, I think your patchset needs to
+address the new mount API in some way.  I don't want to speak for
+Christian, but I believe these comments are in keeping with his
+previous comments in this thread.
+
+With all that said, you did identify a potential issue with resolving
+dev_path multiple times in both AppArmor and TOMOYO.  That does look
+like something that we should fix regardless (I see Tetsuo has already
+ACK'd your patch, but we are waiting on the AppArmor folks).  However,
+what that fix will look like will likely be determined by what you
+want to do with respect to both the legacy and new mount APIs.
 
 --=20
-Gabriel Krisman Bertazi
+paul-moore.com
