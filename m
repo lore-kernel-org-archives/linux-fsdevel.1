@@ -1,97 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB001B4F0A;
-	Tue, 29 Sep 2026 11:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931AD3B05A2;
+	Tue, 29 Sep 2026 11:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790680919; cv=none; b=W1itpTjoP8RL4MxFML9jGF+zMEzoho4alShnOgXKjwyOv2LoMYlOHcXQWkmhXNaZggs+UMQFsAVgrMqbHhiP9L54k4h7XgvQiX5WMxYOqyBWA4C39uiOto2ku/OdOb5uwnhDfeP8YTsuCtYPo2qK/UyNzqBTMcVOgK4vtDlKAFE=
+	t=1790681831; cv=none; b=Vs2kkrnrgtU8L9OQGMI02mR/DcljA+zlvFbRxfyhQGXk+VLDrW4KTp477EScMUnhtbZR8LOeLrgH1e5W8Ij98hYO8dVjn/JZWtoV9uzmP832dGrgEaT/T6/GGfH66ofHm4GWdi2OCVbFbs6kJ67moZ6lwh95fFkqaeSDMrLNEyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790680919; c=relaxed/simple;
-	bh=0tGRycjpiixLeY+PMc8Qd7H5Nd0F7yLxzp9vsJVm2so=;
+	s=arc-20240116; t=1790681831; c=relaxed/simple;
+	bh=E2VdD3LVvVOFZSHMDA7l64rewSvb9FFLhGPbZ3Sum8A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=er16aexfYAxunUHCjRUGq3e9PBScTphIalUfja9EoSQS3p3U181trxu+MIok+RKYpi3k5X9/JThrpgBgsDr50GFYqDMs1e2MYnga8sEZpI8oaQW6qfbGr6d+DsZycd7aGHF0XNIt7ElxQnwZo6PZ3RO5uwz4wQlIzpNWVP4Do0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R7ZIalgU; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kOVVD+bBPmcqkN5fwKFRHXaP18LmmWENOJboAdhzGXPe3z/hB0ooLYvr1VDjp8cp7J1v7LxL9ho2viXZWUP4xT5cssfu+Wf8Ymm7PN/cBy8FNCZqkwfdGSGbHHLAhLpi26HFOKnThE0+BsRMUCQOr48Un1hGUUEdyiYhqkJ/wTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JPwLFWNj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7dEXyztx; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yAE4SSEI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pH+rGGY5; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R7ZIalgU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3D1B1F000FF;
-	Tue, 29 Sep 2026 11:21:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790680917;
-	bh=2fPL1r0q3ZFaPVm8LMil7KkezedSBA8/3rMeLvpxPeA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R7ZIalgU2YxoignykHVl41GbwXVq+ymjE2Si4HRcFErNll2DzNwd43/xyUICNL9Gh
-	 ZKbhOo6icKbcmsuOqmHY4vcYGDVk0I9HhEjHuNVoiCF/g/yVcf+z3KLnyerzZ1MiXd
-	 W5Z9bZBV7t1tkUZVxlpq6Ci9stfsy0TAMMeCuz+nSAiebkXEgWtguADRz3DWyBpZ+H
-	 mIWJYnCrwO2dvpBgpuGcPLGHOAHxCMNlWV4hSF1En76lTAsSQsZ+wBOPbyH1ksC26r
-	 xgTJ+Vceyq3XFJSuuzXLjQ/8jCstGixi8blBDf2nxCsI5axooCKVBfsc28vfxzNygJ
-	 YWOKPhtuzPNAg==
-Date: Tue, 29 Sep 2026 12:21:22 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Doug Gilbert <dgilbert@interlog.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 09/40] docs: filesystems: update mmap_prepare docs for
- discontig kernel pgs
-Message-ID: <arudePFfTLNBMKzQ@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-9-4583d8a23bca@kernel.org>
- <DLOP8IH392ZU.2X2GPOP2NYK4X@nvidia.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JPwLFWNj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7dEXyztx";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yAE4SSEI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pH+rGGY5"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 65C1821BD4;
+	Tue, 29 Sep 2026 11:36:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790681823; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OM+puQbJwXJ7Jjzc1ZxVb2OjX3bMtx8ZbdLyyKyi3IY=;
+	b=JPwLFWNjmVzd4nvBxIrmxgryaAAIeFSjpaaXz6BOg4NJATjLgImZgkag3LtcaUJEmeynei
+	We7RZh6XH9eGxfb7jGzY0VsmXDIZVGUlOVxlgh+XSa3ubX0XooGBg0BxnEMI1NTlXymBjv
+	Wxw5GfutzoEb9Ek+pVyAJwKyWRfrF/A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790681823;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OM+puQbJwXJ7Jjzc1ZxVb2OjX3bMtx8ZbdLyyKyi3IY=;
+	b=7dEXyztxC9Gr1BpItmAFLsaueFOF7q0qaWdv/aEIu+z1FlobdfOtOQWsdlhkIt943yDaGN
+	yrsiD8ObFRyL8gBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790681819; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OM+puQbJwXJ7Jjzc1ZxVb2OjX3bMtx8ZbdLyyKyi3IY=;
+	b=yAE4SSEIsc7AM4nobFsy3oCAy1O8qgLuBELql/y+n/7mY7PVRKyslt80ZhLQIL6j9A/b/J
+	lVdqym8KAC89I6UPcqAi155dEtaJuNRb/vqF7FQ34RL/0Z/X5t4RqguUbUqzz0Z5mMYX7f
+	mhEjP5CkNuOBtacoBSRfqDB/oOQ6hlc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790681819;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OM+puQbJwXJ7Jjzc1ZxVb2OjX3bMtx8ZbdLyyKyi3IY=;
+	b=pH+rGGY5UuW5hm9zWCLScH22nsW92/mzI5SffjIoiwsX5jQ/1iSr5cZFlawE0c/S6Mr+X4
+	va4t/ChLRZCbRVDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3F1E9133F1;
+	Tue, 29 Sep 2026 11:36:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WlJdBtuiu2q2IAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 29 Sep 2026 11:36:59 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id B4BE4A132A; Tue, 29 Sep 2026 13:36:54 +0200 (CEST)
+Date: Tue, 29 Sep 2026 13:36:54 +0200
+From: Jan Kara <jack@suse.cz>
+To: Matthias Goergens <matthias.goergens@gmail.com>
+Cc: jack@suse.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] udf: don't let a stale metadata buffer overwrite
+ expanded file data
+Message-ID: <do3w2kv2vbyhbwivuenxawlkqxzzuqpy3awd4b7ameimenuo5k@6zasrnoiii2y>
+References: <20260926023512.3035718-1-matthias.goergens@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -100,26 +88,131 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DLOP8IH392ZU.2X2GPOP2NYK4X@nvidia.com>
+In-Reply-To: <20260926023512.3035718-1-matthias.goergens@gmail.com>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-On Fri, Sep 25, 2026 at 05:01:51PM -0400, Zi Yan wrote:
-> On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
+On Sat 26-09-26 10:35:12, Matthias Goergens wrote:
+> Since commit 62333e480d12 ("udf: Fix data loss when converting inline
+> inodes to out of line"), udf_expand_file_adinicb() allocates the data
+> block itself with udf_map_block() and then writes the folio with
+> filemap_fdatawrite().  Writeback maps the block through
+> udf_get_block_wb(), which does not allocate, so the buffer is never new
+> and nothing calls clean_bdev_aliases() for the block, as the generic
+> code does for every block get_block() reports as new.
+> 
+> A recently freed block can still have a dirty buffer in the block device
+> page cache.  The common case is the file entry of a deleted file:
+> udf_evict_inode() updates it with sync_inode_metadata(), which for an
+> inode that is not IS_SYNC only marks the buffer dirty, and then frees
+> the block.  If that block becomes the data block of an expanded file,
+> the next writeback of the block device writes the old file entry over
+> the file's data.
+> 
+> On a fresh mkudffs image, creating 20 small files, deleting them and
+> then creating five files with "printf hello >f; truncate -s 3000 f"
+> leaves all five with a deleted file's extended file entry as their first
+> block after sync and remount.  This happened in 400 of 400 runs, on
+> bitmap and table images alike.  When the file is extended by writing
+> instead of truncating, the write dirties the data again and the outcome
+> depends on writeback order: the data was corrupted in about 7% of runs.
+> 
+> Clean the aliases of the new block, as block_write_begin() and
+> mpage_writepages() would have done.
+> 
+> Fixes: 62333e480d12 ("udf: Fix data loss when converting inline inodes to out of line")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
 
-> >  Documentation/filesystems/mmap_prepare.rst | 81 ++++++++++++++++++++++++++++++
+Thanks for the fix! The problematic commit was actually merged in 7.3-rc1
+so there's no need to CC stable, I'll push it to Linus for rc6.
 
-> > +* ``discontig_kernel_map_page()`` - Maps a single page, correctly handling
-> > +  compound pages (if the compound page is bigger than the remaining pages in the
-> > +  VMA, then only those pages that fit will be mapped). For a compound page, the
-> > +  head page must be passed.
-> > +* ``discontig_kernel_map_page_range()`` - Map an array of pages of a specified
-> > +  size. Note that if the number of pages specified exceeds the VMA size then an
-> > +  error will arise.
->
-> Why do mapping a compound page and a page range have different behaviors
-> on the bound? Either both do partial mappings or give errors when a
-> given input cannot be mapped as a whole in the VMA.
+								Honza
 
-Ack, yeah similar to Suren's point on patch 8, will clamp for both.
-
---
-Cheers, Lorenzo
+> ---
+> This is a regression in v7.3-rc1, and 62333e480d12 is also in 7.2.6 and
+> 6.18.52.  On 7.2.7 and 6.18.54 the truncate case corrupts the data in
+> 400 of 400 runs, as on mainline, and the write case in 10 and 7 of 400
+> runs; with this patch, which applies cleanly to both, there was no
+> corruption in 400 runs of either case.  Before 62333e480d12, extending
+> the file by writing was safe (no corruption in 400 runs with it
+> reverted): the write allocated the block through udf_get_block(), which
+> marks it new, so block_write_begin() cleaned the alias.  Truncating up
+> lost the data before 62333e480d12 as well, which is what that commit
+> fixed.
+> 
+> To reproduce, run this as root in a VM; cmp reports every corrupted
+> file:
+> 
+> #!/bin/sh
+> img=/tmp/udf.img mnt=/tmp/udf.mnt
+> truncate -s 1M $img
+> mkudffs $img >/dev/null
+> mkdir -p $mnt
+> mount -t udf -o loop $img $mnt
+> for i in $(seq 20); do echo small >$mnt/s$i; done
+> rm $mnt/s*
+> for i in $(seq 5); do
+> 	printf hello >$mnt/f$i
+> 	truncate -s 3000 $mnt/f$i
+> done
+> sync
+> umount $mnt
+> mount -t udf -o loop $img $mnt
+> printf hello >/tmp/expect
+> truncate -s 3000 /tmp/expect
+> for i in $(seq 5); do cmp $mnt/f$i /tmp/expect && echo "f$i ok"; done
+> umount $mnt
+> 
+>  fs/udf/inode.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/fs/udf/inode.c b/fs/udf/inode.c
+> index e45e546a739a..804554d26595 100644
+> --- a/fs/udf/inode.c
+> +++ b/fs/udf/inode.c
+> @@ -442,6 +442,13 @@ int udf_expand_file_adinicb(struct inode *inode)
+>  	err = udf_map_block(inode, &map);
+>  	if (err < 0)
+>  		goto restore;
+> +	/*
+> +	 * The block may have held metadata that is still dirty in the block
+> +	 * device page cache (e.g. the file entry of a deleted inode). Make
+> +	 * sure writeback of that buffer cannot overwrite our data.
+> +	 */
+> +	if (map.oflags & UDF_BLK_NEW)
+> +		clean_bdev_aliases(inode->i_sb->s_bdev, map.pblk, 1);
+>  
+>  	folio_mark_dirty(folio);
+>  	folio_unlock(folio);
+> 
+> base-commit: 165768bb70265b5c38cf0b73fafd75be235f8b14
+> -- 
+> 2.55.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
