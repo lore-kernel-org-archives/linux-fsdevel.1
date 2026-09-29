@@ -1,240 +1,224 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020075.outbound.protection.outlook.com [52.101.195.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4488F51D519
-	for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 12:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790683974; cv=none; b=Vl7E+29RMQML1tD3b1zAhnFW/Qd39hP3c5LM4pBfIeMIgtfyJdffqtsetvjhrPoC41gxt2K7oYGyR95C6W8JKkcWsiYV4tO28Yb5Y+fcKTW2kYjGkKgdvSMuehWKHoNbLAnED7lLx5oiEoeaFfLRdnziYBxfOgFB2aIJNXdAmxs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790683974; c=relaxed/simple;
-	bh=aOHR2S9JoDTNHa4EinckRR5sM8LP9tsgVirzxTuKr0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RABLvqygCtd48XiFNkx1lJen1hWyMC5aonsJIECCO9mb9vsjtGAqHNgOV57q2idQHA2ERjU5DXUMQWr0n67uiz3/HMdBED3yad+ooQkagA28w9IhPcQaNSwXGpg2Wpx12fO/Pm7it1j6FVjMOxVchIfFgoL6JbcuoLc8pV84zBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Bsn3FYPi; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBE05218B2;
+	Tue, 29 Sep 2026 12:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.75
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790684706; cv=fail; b=OJxUaV56lbpf0t5TDzA5wMP1SCjv3sTlUoCH3aYRxmV6KY2Q1aPpkBZLq9Ppb+8nHSHnyGXextZNz1SghiNhMuXK+vYbHpupr9W07NGXGQbj3JzQEIZgqNo/5WIdI8iyiK+B76UWyNnlEiLZ1tN5Fi+g3vAQMl0hX0acpbEINbk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790684706; c=relaxed/simple;
+	bh=8q1hyOviadi2CGcfJ2YziIyBAn+/KGbdD25KimJg5Q4=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=KJOopyWwFRm82ddOYLYvTWBHRhqAjUPOmsWl0Vwx9HigIugTFsOrJq4ccCMeglK8KIzVV2X6oUrPq0ttYBN4xjwCQt3udNGn3y2+JkE5Z9dQ2wZleRfBJjLtmPbph8K5zIKiZNXJl6ev3RTXFkCB6RLZbrAmDlwX48I1OfH3jiE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=xu41qmqd; arc=fail smtp.client-ip=52.101.195.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bsn3FYPi"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912df756so32428925e9.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 05:12:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790683969; x=1791288769; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=paQ2/onKT319WLEUhupq6lCWp4YbjzVGMuOnFcHWo94=;
-        b=Bsn3FYPiNhIp2HBDQV/+jwpbyP000Xi2mEKEkhMsMnM8swD4yjc/vttTBIclQvIwHT
-         2rvOWBKPZgVT1YMjv+XgD5tacsIjNUp2H+6ZMJ75vXTIGrkaRMl+DIjzqMUe6gwPaGs+
-         t8hWrrlLb5EKIyvR3AonglQ2WH6k+2BNm60aimiPsoPgV/Mq9puUSJhAsdgXzQaJLrTQ
-         NY3UPjbA6SjgoKYK5kqyvr5QZqMSplltvmh/pNTiwfdxt0mtx8yBQJRBi6pRmkhujNwG
-         S+kmXuMdgu2jlS4TX/K6ndqUmW8B2TlzQqpcGrez9r+TvVVRIZxi8U7Qz3ykH0bKNVVS
-         Z5KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790683970; x=1791288770;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=paQ2/onKT319WLEUhupq6lCWp4YbjzVGMuOnFcHWo94=;
-        b=ANuR8Zav1KLcFk1s/Rw9ZUP1jGpqduNRK/qWNE3NOBPflUXee2sAiBQuPMO0lLzBNK
-         tR0VFD5AoLBY2oIFtG0JV+D7W43N0Mdxmi29OpQBRyPo66058aci6QGdF0cTcYG/uAbr
-         D/pNzuuHX+v8qv2RgxAUaigsYiuTTXAt33VByWTkZwYJX5Z90ck7vPRe4hF5zz4QFCfh
-         3/TSJSdQjkEBVd5ElByUAoR5HS+jPHYERg8NFrN7kbMx0vIFwf4Av6a4Qrn2l107d4DR
-         A7mr0s9QAXI+6pHTFjm8w6N2gxu3yAqyiunqJm2pvp2HaRvw+WycWDtaMXrm7yVW/yRa
-         9RIg==
-X-Forwarded-Encrypted: i=1; AKwUvBwX6uM/mnYK8a6UBfwxiUv+FsdUi+/SEcXkn5uheFcAsKmG0ywYWzTIe/gUg5oAkGgagGSIwlnsf+dTSgT2@vger.kernel.org
-X-Gm-Message-State: AFuF++k/zgliyFkicHWbcRZA9Fnkb7aOJu86sztxbIKtGoU0dM9ZeQPo
-	ubRpc1kGWDoAn5tCviBLwHM4/N0Fgqd184GKV5QMDlFrEoQDeO9ntdqEOwzF4tWq7Q==
-X-Gm-Gg: AYBFou2/eOYClu6OQ+s//+Du5RKhNwFp/SM5t52ZtoORA2kmwo0aHlTKdSgmb+DhcDQ
-	qI48m8dbz1KzhwyTMgCTm/qTyGkELTKd82qVvh8IphFbOdPcMW+aQv6blePCFetpZcepIkwU5O1
-	p1prmdwi0MzgvTmMIlQYtaz8/U5+pFHy71v6UDXZ+X4G1puzt+mR2O/ZOaqliYbFLvh5LSqWNmS
-	HaqZiCs9Jj30RtQeElHi7B+LTssIkFb+NHoFrSNoh/XT9NGaL9TpgEgKDGpScO6E445LPT9Y0im
-	DVRkZOjLnThAUrRk01UxFBc+wP4Pr1y7yAG5UZzjJwMTLxT7hMnZtMh3OGLPAm0pydiVX/gflJ1
-	7xRddRlv51TAluhs1GFpMWuvRGaWjfRov+VphUdxIf0bZPXQwl6Wl4Sb8EfFuEZNO1N0lVWL7wb
-	oM3SzgXc6YiL404aCmfu9ttuEmZ/scOXIqOx/GVljT7sO6nkoJ96g8BY3S1tjB3cel3tWYtL9j+
-	al07uG4pGx2gQdtB4iHnPpcqWuSwg==
-X-Received: by 2002:a05:600c:1d28:b0:49c:fc6e:8cbd with SMTP id 5b1f17b1804b1-49fe66fc677mr302281505e9.33.1790683968737;
-        Tue, 29 Sep 2026 05:12:48 -0700 (PDT)
-Received: from google.com ([2a00:79e0:288a:8:ce20:1d4f:298a:2070])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a013b8f6f5sm4087715e9.10.2026.09.29.05.12.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 05:12:48 -0700 (PDT)
-Date: Tue, 29 Sep 2026 14:12:42 +0200
-From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-To: Justin Suess <utilityemal77@gmail.com>
-Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>,
-	Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org,
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
-	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org,
-	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com,
-	tom@talpey.com, miklos@szeredi.hu, amir73il@gmail.com,
-	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com,
-	zohar@linux.ibm.com, roberto.sassu@huawei.com,
-	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
-	stephen.smalley.work@gmail.com, omosnacek@gmail.com,
-	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org,
-	daniel@iogearbox.net, linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
-	ecryptfs@vger.kernel.org, exfat@lists.linux.dev,
-	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org,
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	xiujianfeng@huawei.com, lujialin4@huawei.com
-Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <arurOphe6QIx2Zr8@google.com>
-References: <20260924104831.1081137-1-caixinchen1@huawei.com>
- <araxO4ze0KZBz756@suesslenovo>
- <20260926.255b951d3013@gnoack.org>
- <arqcbjWLN1CLkL_Y@suesslenovo>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="xu41qmqd"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FyOEXdfCBp3T8Rq05QNSBOxAczkbWDOGeq80/PoSEzN0Y+ZWn4dVtSUYKPcO6JT6B37GFCDyXVlfjp0ldFUMRgBadOgTNzbcoMnUnQP/qDg8UDUEbQlaN24bPMm3D/iVLnDoDlVZ0ihzTJ6r1a3oiRe4zQh1jYZ3qBOQY7gf53q6p+da9R3kfgnZwD3zUsFD5mUuUyFHwWcbY43cRElIvl+SmcqMukzqd793ytkjyJYdvZJjSN2zfbjm/se6NV+Nzt9/VnxJldn2pkK+zAowljDklK0wksE7VbCQj2/jeEWqwfPEfmKPf/uOVlRKz283K+UBl4SBA5OpYhPXKpmBjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X98e94RtKJNgHJqdimhJnpAzy/32rRdTwUupsIcXaMA=;
+ b=uZ8jsztceU7Cl+M09pu2GmPs6JHzukYVU7J7qI1PhZhsd8PPro2OUFDI265BHAjTezOvN9o3bn56bA0wJc2MYy4uIyweKRtHFIDZjOLSJjFE6Yu64u/05scKDb/qtSIT7d/lzvHRPrya9+KqybkSN+skPjQpGXYZ0CftVGMgHGp2FBVM2DycE6rbWWBMS0RfJgW1H7y/fS+WEvG04tz4VD+3rwjSONz3yeR8cMvv82qxlKzY6HegpS6bXvYbo6R//o2vkJ48HQC5LxPWNFYEUnXqvcT1vtLQuGppLtGxIT7AAS/H9D8HxXWE5yWVXVIwfMCH69FAEmQRF4m6GjxJtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X98e94RtKJNgHJqdimhJnpAzy/32rRdTwUupsIcXaMA=;
+ b=xu41qmqdlec3ajdMM3+gvHo3/d8X0hZt30Fnw65dFxnLrGicSNP8xk3ulgQylO+nKkuzo8ZFT2IahMMiL/EAcSeP533j8nFNvIkCnF+ofaB7wBqB/6YD1KiVgBWNqULwwRpGTmYWLaOnC58AdMEVVJlNqFffsbTR/JR89cJEj+0=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
+ by LO7P265MB918778.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:607::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Tue, 29 Sep
+ 2026 12:24:46 +0000
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1%6]) with mapi id 15.21.0451.024; Tue, 29 Sep 2026
+ 12:24:46 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 29 Sep 2026 13:24:45 +0100
+Message-Id: <DLRSQRUVOGT2.10ZY01VEJVHCE@garyguo.net>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Georgios Androutsopoulos"
+ <georgeandrout13@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Jan Kara"
+ <jack@suse.cz>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Tamir Duberstein" <tamird@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, <linux-fsdevel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Al Viro"
+ <viro@ftp.linux.org.uk>
+Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
+ descriptor APIs
+From: "Gary Guo" <gary@garyguo.net>
+To: "Al Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
+ <brauner@kernel.org>
+X-Mailer: aerc 0.22.0
+References: <20260923022339.3340694-1-georgeandrout13@gmail.com>
+ <arThye_219ruNbM2@google.com>
+ <20260925-stellen-brummen-festrede-266af0305ac7@brauner>
+ <20260929044843.GA3909609@ZenIV>
+In-Reply-To: <20260929044843.GA3909609@ZenIV>
+X-ClientProxiedBy: LO4P265CA0136.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c4::12) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:4ab::19)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <arqcbjWLN1CLkL_Y@suesslenovo>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO7P265MB918778:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2dfb44db-9cd9-41f8-33bb-08df1e24a5c9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|10070799003|23010399003|6133799003|4143699003|10067099003|5023799004|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	693TTLaBEzVECKj8sxGgEDa4xAuH67U9cg2riKDC4lQbZSL+mPGKW5W5kaQVP8XdDU1YKztT7/prkRRFTKRRmAPWgg0wUdy73JKoMR3uHAa1yRVmKihcZCpuydjrRaaV7nrsOJ4PMEmDK6bBpz3G+U/Wr2X0YaZpWoIF14B1UhSybyNcL9qff6WRp1O2l7yw89q4HwpkDEcaMG1aJSX25r3n02ixnTxyu7MAVegSG6e8Ijbzh9lhFxHNg+6S8i3pnW+A4RAZkEIkFylsJfPKl5+1O9/dZTvHQzbPrhlLXNedSDUCyQR59uV3t9620QfgKvOIf2asLPIPbj+8qEbridDv5s8QGqpE1QsWxikvE0UgVkzhF7lrDSLkdmkva2GN1hf4E9U/c79ve7H4UPGMJs4U+NQPI7r6f3ZbWE9xeNU5iCV6VPoFxUk5Ukl6+Fe/VvqAn7C+A7TjJXKK9cShv7ZKvyUF8kb1DTzzacoBua1UvqVkoep8zM9r+k4DMCQ3p9KQ/Qz7mafka8qkGzz5hBH3e1hpcoVtvGeBmPs3RXcB7sh51WioePLFtTJ4CBPibK9t9nHsxjqmP43sRwOFdYkPxOuYXHitFxuB8x2YQpXukN+Aw682fI7OnUnWCWkTWCqkk6A5RIsTBqoXtlMS0EqmqHrXzLBwlTJu91048j4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(10070799003)(23010399003)(6133799003)(4143699003)(10067099003)(5023799004)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UkJ0MzNGaENpWWNMRzBFbkk4K2wrektFR09sajk0T3BoQU1DVlhxRTE2YlZD?=
+ =?utf-8?B?anJ1clJRUys5aGpJS3Q0djdWaHIxaEJQbDcxbEdMQ29XZW12amhvWiszTlVr?=
+ =?utf-8?B?KzUxR2NDeEN4eldteWJkRHdrenlvM2dSeEJ2WXBONzQxNEZON0tSWEkyQkpN?=
+ =?utf-8?B?NnFoVHVETFg1M21aUU1PcS8wb0dqVEV0UFpLMGpXa3JqY3EyYk5iUGtWekJr?=
+ =?utf-8?B?Sys5eGhTU3J6M0JRQ3NyTWwxVWpoUndUVmsyU2dBbFJMbHRTQlBRSFRlc1Ur?=
+ =?utf-8?B?RnBHZ2tkaXlKNG1TNWIzanoyRnpyT1BTRTFlR0FUMGIzV2l5MnJvTHRUdXN6?=
+ =?utf-8?B?VVo2dTE3d0lJQnNIQTAyR1RJNlV0a0EveVRGTlVETm03UjlwYmtURi9DVlQ3?=
+ =?utf-8?B?ZEhXd2l1R25aQVI2b1I0ZG5tQ3prcy9lOXNEZ2RWRUExL2dMVXdtMzBLUVk4?=
+ =?utf-8?B?ZEp5S1dOOVJ1Mmd5SWIzRjl3MkZZV1B4dUwxTzZBSnFoOUFwVVZ1VDBGd2RM?=
+ =?utf-8?B?YWtUNCtxbWt4Tng5RjJZNFFxazJ1TlhiQnYyekRYNW5OZ1B0VmNram1XU0JY?=
+ =?utf-8?B?TmdkYlVTQURNQWZMcUszU0daWGhWdDNtVVd1c3JpZHhnQWhMZGdRWWxoUDkr?=
+ =?utf-8?B?YVpPVnp4a3d3eXlEVjZyOHJLaVp5anppaThLSHJmS2NmVnNWTkFvQ1MxQitX?=
+ =?utf-8?B?SU1NZG9VYVRJNXBpQXROSkZvS0dqUDltY2ZKcFlaMm41NUkxZ2dML3Q4bnJp?=
+ =?utf-8?B?RVdMbGFRM1B2eVN1dFc4ZXV0Y0I0OWZhM1p4ZytyRGpmRXVCZUE0dllJWEN6?=
+ =?utf-8?B?clF4a3hqV3pTYjVoMXplODREL3NEQ2VDWStubXRpYWJETmRtN21vV1NyYTZY?=
+ =?utf-8?B?NFErdmYzdGMwVE9KTnhZMCsvMHlOSkx3aXIrY1pOYVc4UEIrMEI0Qy9YS1pL?=
+ =?utf-8?B?MklOR2xDSDErdndQMnVidDR2d0pBWllSY2p2R0tFYkNTK2pzU1MrSXJVbUt5?=
+ =?utf-8?B?SHY0Y20yd1pJMm5DZHhpUFNaMk52cDZTb1FUcjJFL1J3TmZtczNjREYzVHRC?=
+ =?utf-8?B?Z0N6bHpOVnZubk9KdUc5TkdGQno5a3dUNFd1U3J3YW9JWnNYT0UrSStUWktY?=
+ =?utf-8?B?MFlxSWFLSVgxMStSQWlGN0FhR3JiL0xIY3NFbGtOVkcrRUxZckVnL1NrUVRy?=
+ =?utf-8?B?Q0hBL0VHZ0N5ajhmV0pQdUhKMk5ZNTBqbnovamkwZUNWQ0F3b1JJajdFRGxB?=
+ =?utf-8?B?QnV5T0JDb0ZlNFIrV0h6UGYrcGI5cXMzYjlXckxjU3VhdjI4R0h4L01qRER6?=
+ =?utf-8?B?aGkrS0pKOTA3UnRkNlZtVFY5Q1p2TkJGU1N1ZzlnbFlRR0xFUGtSYjdvYlVr?=
+ =?utf-8?B?TVI0aExTVE5kTGw4emExQTc2WktCQk1MMy9JRnFHeDVNckc2SGJhRDhscE85?=
+ =?utf-8?B?aHlwc2dEdGhCMWJ1eVBNazM0dG1MSVA5NHNXRm80VzZYZ09td0F1VXJKeFB1?=
+ =?utf-8?B?djVKRWxKcmxaZDNONHlWZTl2RDV6Wks0WGlvMnJ6eG9hMklDclpTdTllQ1lN?=
+ =?utf-8?B?SHZ2ZHB1VE1CZVcvR3R3b2pBQWp0OW1EVG4vZ29DU1N6VDVYU3NLV0tSaWtN?=
+ =?utf-8?B?R3djV0toczFFS2hrdFYyNmd5OVNjZk9mMmVWbHgyaDZocFFOQ281bFYxR1hl?=
+ =?utf-8?B?TDM0cU42T1d4KzVNVHJ1VGtvRTdiK3VrakpyaGswTjNrZ2lFUlFkakhnQ2c5?=
+ =?utf-8?B?bVo0SzhTNUNxQ2FKU1NYVzNlN1E4eHJTeGxqSGVhYittRnhaU2d6WGMxNCtz?=
+ =?utf-8?B?YlFMd3BIUXpjU2J1U3g1T2pVellMWlF2RHJDMitSN2JXWE5TZDFmYkdNaWhI?=
+ =?utf-8?B?T24yUjdnR29TNk9ETlZGWVFlWWZiUmZVVjA4QWFyNFJVVU9NUk1aOTd4VjFL?=
+ =?utf-8?B?VXJKM2h4cVMxcDJQMndOMkNVOWsxdlNqRENEUitnMDFidkw2UUV5azZrV2pN?=
+ =?utf-8?B?WkEvVEVwYWNITWlMQ09vMWxQZ0hid05FSVR2R1NlTHpPRjBKNHVqUmk3NURx?=
+ =?utf-8?B?SG5RNjJnbG1GTk4vZDBwdk45djJ0Ti90TXhqbE5zb3piTlpHay82Nlk1RGFt?=
+ =?utf-8?B?dHRtdzZTZmMxTjF2aTBsUjBJelBRVk44b3A1eVRTY1FwendYdnZ4SEpTQm1h?=
+ =?utf-8?B?WnJCOHZxQ2xsVDBtVm9Yc01MYmdYRXVNYS9aajdyQVNUV09Ldlp2Ty9nSnkv?=
+ =?utf-8?B?RGVDUW9CdXBIZEJRTzVra1cxWmJKdjRlZFN1OS9DUzNMb3pJU3FHQlczRThz?=
+ =?utf-8?B?a0lJb1NLSlhVcUE3eEZoU0Z4OTVKb1U3b3UrZjJnN0JCS1htZ3RlQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dfb44db-9cd9-41f8-33bb-08df1e24a5c9
+X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 12:24:46.0052
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g12fkrzC4U9uVS6uah8QPsFdoLcjmhZ090VXRYevxkWt1ZC0bN+u6bsKzlyBGVe8wzAxvdgMnSuVuiHParPKkg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB918778
 
-On Mon, Sep 28, 2026 at 01:13:35PM -0400, Justin Suess wrote:
-> On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
-> > Hello!
-> > 
-> > On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
-> > > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
-> > > > This series adds two new Landlock filesystem access rights,
-> > > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
-> > > > which control access to file and directory metadata such as inode
-> > > > attributes (mode, ownership, timestamps), extended attributes and POSIX
-> > > > ACLs.  It picks up the work from the "landlock: add chmod and chown
-> > > > support" series [1] and follows the coarse-grained grouping discussed in
-> > > > that thread [2]: instead of separate chmod/chown rights, metadata
-> > > > operations are grouped into one read and one write right.
-> > > > 
-> > > > Landlock evaluates access rights on a per-path basis, but the metadata
-> > > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
-> > > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
-> > > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
-> > > > object.  Patches 1-7 therefore first pass struct path instead of dentry
-> > > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
-> > > > refactoring with no behavior change, split so that every patch builds
-> > > > and works on its own:
-> > > >
-> > > I like these patches, but is the ability to read metadata already
-> > > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
-> > > directory?
-> > > 
-> > > The one case I see this being different is:
-> > > 
-> > > 1. if you wanted to grant read access to the file, but not metadata
-> > > read access, but I can't think of any usecase for being able to read
-> > > the contents of a file, but not the metadata. (see below)
-> > > 
-> > > 2. If you had the absolute path already and didn't need READ_DIR.
-> > > 
-> > > I see introducing this READ_METADATA as causing potential
-> > > hard-to-diagnose issues.
-> > > 
-> > > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
-> > > 
-> > > The program can technically open the file with the READ_FILE permission,
-> > > but it may error out because the stat() on it beforehand failed.
-> > > It's pretty common for programs to do that kind of thing (stat before
-> > > open), like for checking for config files (strace bash and you see it
-> > > stat .profile, /etc/profile)
-> > > 
-> > > There may be other bugs, because being able to set permissions to read
-> > > a file *but not read it's metadata* isn't possible currently in posix
-> > > acl and userspace may not work well if that assumption no longer holds.
-> > >
-> * posix acl and linux DAC.
-> 
-> > > So maybe WRITE_METADATA is good enough?
-> > 
-> > The existing use cases are the combinations of (a) READ_DIR
-> > allowed/denied and (b) READ_METADATA allowed/denied.  Because these
-> > two access rights overlap slightly, it seems likely that for a given
-> > directory or file, users will want to either grant both, or deny both.
-> > 
-> > At the moment, where the (not yet existing) READ_METADATA is
-> > implicitly always allowed, the problematic case is the one where the
-> > Landlock user wants to deny READ_DIR, but where much of the same
-> > metadata is still available through stat() and the various
-> > get-attribute syscalls.  (c.f. the warning box in the Landlock docs
-> > [1])
-> > 
-> > In my view the READ_METADATA right closes a gap that READ_DIR left
-> > open (which is also potentially surprising to callers if they did not
-> > read the docs closely).  Also, if its implementation is symmetric to
-> > WRITE_METADATA, I feel that it's worth having it in the same patch
-> > set.
-> > 
-> > –Günther
-> > 
-> > P.S.: I know, even after we can control stat(), there are likely ways
-> > to infer the presence of a file by observing Landlock error codes.
-> > This would be nice to fix as well, but is harder to do without
-> > controlling the path walk itself [2].  But also, the fact that this is
-> > currently not controllable is not an excuse for leaving READ_METADATA
-> > open IMHO.
-> >
-> I'm still sort of concerned about the case where read access is allowed,
-> but metadata isn't, due to how many applications will not cleanly handle
-> such an unexpected condition. You can reproduce this with a seccomp
-> policy forbidding stat().
-> 
-> Would it make sense to have the existing READ rights
-> (READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
-> if READ_METADATA is handled? Reading a file's contents should always
-> imply that you can read the metadata.
+On Tue Sep 29, 2026 at 5:48 AM BST, Al Viro wrote:
+> On Fri, Sep 25, 2026 at 06:00:42PM +0200, Christian Brauner wrote:
+>> On Thu, Sep 24, 2026 at 08:39:37AM +0000, Alice Ryhl wrote:
+>
+>> > This looks like it should ideally be on the C side instead.
+>>=20
+>> Where is this godforsaken broken code, that tries to fd_install() after
+>> exit_files(). It is _a bug in the program_ that is not something the
+>> apis need to work around.
+>
+> 	More to the point, papering over that at runtime is wrong, and not
+> just for modifying descriptor tables - fdget() is just as wrong in anythi=
+ng
+> that can be called from tail of do_exit().
+>
+> 	It's exactly the same as with "what if it gets called from an
+> rcu callback?" - it's a bug, that's what.  Don't use these primitives
+> in such context.
+>
+> 	In particular, ->release() mentioned upthread should not be allowed
+> to access _anything_ hanging off current, not just descriptor table.  Not=
+e
+> that the last reference to an opened file might be sitting in an SCM_RIGH=
+TS
+> datagram pruned by AF_UNIX garbage collector; as far as the method is con=
+cerned,
+> it might be called from random thread.
 
-I am wary of situations where the handling of access rights implicity
-implies other access rights.  We have discussed such schemes in the
-past (e.g. we considered a design for RESOLVE_UNIX where we'd have
-both a "scoped" and a "access_fs" right that would interact with each
-other), but in the end we always settled for approaches where such
-interactions would not be necessary.  One of the concerns was that it
-would complicate "best effort" fallback logic in all Landlock
-libraries and in the countless places where people use the syscalls
-directly.
+This part is protected -- we mark FileDescriptionReservation as `!Send` whi=
+ch
+prevents it being moved to another task. We also take care to make sure tha=
+t
+the task returned `current!()` is not allowed to be used outside the curren=
+t
+task.
 
-To throw another option in the mix.  (To be clear, I have only 70%
-confidence, so feel free to push back, but it feels like it might
-work?):
+> 	If it tries to access (let alone modify) the current descriptor table,
+> you have no memory safety whatsoever and checking if current->files happe=
+ns
+> to be NULL is nowhere near enough to resolve that.
 
-Is this similar to the "truncate" right?
-----------------------------------------
+So at least for this part, I think checking for `current->files` would be a
+sufficient protection for Rust code. If we don't want to add these checks t=
+o the
+C implementation, I think adding these checks to Rust wrappers would be ide=
+al
+until we figure out how to check things statically.
 
-With "truncate", there was an existing common operation (open(2) with
-O_TRUNC, a.k.a. creat(2)) which called the truncation hook and checked
-for the truncation access right.  But that was in fact OK.  The way we
-resolved it at the time was by documenting very loudly that WRITE_FILE
-and TRUNCATE access rights should always be requested in lockstep, if
-TRUNCATE is handled.
+Calling fget/get_unused_fd_flags is still broken code -- so we could still
+`WARN` on them.
 
-If READ_DIR and READ_FILE do in fact read and return metadata to the
-user, maybe the right thing would be to do it the same way here and
-*require* that we have READ_METADATA to do these operations?
+>
+> 	I don't know how to express that gracefully in terms of typechecking -
+> sure, we could pass an empty token to each syscall, have fdget() et.al.
+> require that as an argument and propagate the damn thing to all such call=
+sites,
+> but that would cause an insane amount of churn - if nothing else, ->ioctl=
+()
+> signature would have to be changed and there's a _lot_ of instances out t=
+here.
+> And then there's the joy of dealing with ->sendmsg() and ->recvmsg(),
+> thanks to SCM_RIGHTS datagrams, again (reading descriptor table on sendms=
+g()
+> side, inserting into it on recvmsg()), especially when you consider the
+> fact that ->sendmsg() and ->recvmsg() *are* callable from contexts where
+> one shouldn't be allowed to access descriptor tables.  None of such
+> call chains is going to trigger descriptor table access (e.g. knbd is
+> not going to try and send SCM_RIGHTS datagrams, etc.), so it should be
+> safe, but having compiler prove that without inflicting overhead on
+> the code paths where it really wouldn't be welcome is not going to be tri=
+vial.
 
-(READ_METADATA is automatically allowed as long as it's not handled,
-so that approach does not break existing programs.  Programs who
-consciously start handling READ_METADATA must simply take into account
-that reading directories and opening files for reading requires
-READ_METADATA.)
+I think for the simpler case, it is possible to check it statically by decl=
+aring
+some functions to be only callable from "syscall context" and define ->rele=
+ase
+to be not of that context.
 
-(BTW, I can see it for reading directories, but I am not sure I fully
-follow the argument why opening files for reading means that you can
-read the metadata?  Can't that be guarded on fstat()-like operations?)
-
-—Günther
+Best,
+Gary
