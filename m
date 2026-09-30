@@ -1,171 +1,219 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f34.google.com (mail-ed2-f34.google.com [74.125.228.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C06C30C147;
-	Wed, 30 Sep 2026 09:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790760761; cv=none; b=Kf9Zr2uNjv45FwLGm/pDi1s5K2fOqWiFNkJULWX0rtrHJR2A2ylYuyTTb6Y6CNrBQsxkHIzSVOLDvh1Wl1jHIMaDPkjhtJGP530xZog4U5RaDZ5MftPSguEzABYKK+nl4CKzV3ZyZm2VikY0kM9frmh5EZYnmgWPqK9zzcQien8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790760761; c=relaxed/simple;
-	bh=TlzHEJQt+34xYjujqXxuq3JcjM0wYp8ZviYUagsVkog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=garWEN3pTPZ7+NgDU1WHoJtjfajbeOywY3CMAhthbp1Wn6S/ZR7JDL1COPGG16xzzNMad5wxSVwPmmJwNRV0wutckgUP6s9N+LHPXG14nlYHw3+dWd5gAqMX8XpHnmCS89rzNhvWXYrh3iR4CfWqOLZv34HFKanSM5TiA59WRWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/WFPBAH; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165182868AB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 09:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.98
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790761541; cv=pass; b=Mqak5J6mFIzUbu6jWWAw15bTDfTRHJtWHax6ftoCM8BNyjVTVIv+dbiytTWtscDOZ2y/h0vVORaSRQyw58fCdgL6dlUuiiVzqH/Deb/npkT4rBpELBMc0GJLQT2cbyRigvJQV8pd5EB+iTC1lG0ILHoqJIUfyky1KmKqZqwT1NQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790761541; c=relaxed/simple;
+	bh=MfkGYre0cHCVfMk8gcn5Fzn+7h5AeTZ619u3NXLb8CU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D1vd8+NKNOJM5YLRj+aEBQ540YVVdOukMe8hpgtNug2fxRGPIQ4vY5Re4IpiFV2CThmTuGuIPghpvy0yJcK1SuGBzUWbvFNMNqLbd9NJgfFcETwzhDPtq0ZbLsOVdTZSiJ8iQd/5Apl7cIYBQw2WI6JZelI7fQnG7VT1vsjUKHI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aDJcnY7q; arc=pass smtp.client-ip=74.125.228.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/WFPBAH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD21A1F000FF;
-	Wed, 30 Sep 2026 09:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790760760;
-	bh=GUhUebTYwdNTDsFDAgKX2XUga1p/xniYtUmuBOcAkD0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=A/WFPBAH7Qma+9hcX287RuSKWlORpntiWFjFLaPigU8Y75ISxg3KEjLTfteawEyBe
-	 2g/cYh4OEqr71nkWwJpVQnorMprUQRkz1eix+QLOCr/CPst8lLD0ChCfFd8YGM4jfy
-	 Fksx04sLagSxxR88vp09QnJZCikrL8s15UEcYtyj8cHuNrsfav7blbRqRE5dyxX7SB
-	 IKNdTpYGGoAU9JjY6jjqMsEYQfRaLoK1HI3j102H2WUj2d2AjX7kJd1tm0yEuZtXim
-	 rxv3PmM3a58m4CHKDbt2tmNwqyH0M2+G0zuIAT/AqLpxmsAoL5566Xt1IaKFXihiLq
-	 k8Bhh/EDc3Mrg==
-Date: Wed, 30 Sep 2026 10:32:09 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Doug Gilbert <dgilbert@interlog.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 34/40] mm: eliminate VMA_SPECIAL_FLAGS usage when
- hugetlb explicitly tested
-Message-ID: <arzXDWOaouPMGtxL@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-34-4583d8a23bca@kernel.org>
- <DLSAZ4ZQY8Q3.3OKOCCOQAFVCC@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aDJcnY7q"
+Received: by mail-ed2-f34.google.com with SMTP id 4fb4d7f45d1cf-6aaf8415866so6830203a12.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 02:45:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790761538; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YYMxBi08Lmlda7XBq+YCL0eMGnkKlqd+DQlId+t3upL4UPrb1YwrE/5D2lUOOaXQGm
+         hCJgmclkFsUHRpPsH9/IH+FiXYxKkciMxGKqDXswwmvCKM206oGBhijafWDdgsQgk/E8
+         +7GnYcJlBGlriyxOBME4Jthr5EJLfnKD+tQZSaSkJ9xPLFmYELLp2uDNJwTo9jXP5P+X
+         HRIJf4CHCDeVQrkDpucd5rZqlfN4oHiOzhto/DWSc1PMtWkdFUgC1jLULxdn/ihGjUo1
+         Qw4Ag3MgMe8hUb26eykW11QQYfkSqpMGBm+PlPhXPvopBq+Nh7Qg3V8DWbHNL86f9bpr
+         3w6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FHARCqAQXbn4+WxBdhSm8GRSqop6wznDNIi8Um122T8=;
+        fh=F0m/w5hYSNjx4eT87tWXRXC6TvgpWxDQkPWtuo4ri6o=;
+        b=NcMAU4s/GwpZ8GnFt/N5/c5WDWE6mEPsR21X2wfAqfHdXuJayaEj8/f8qhKv02c+e1
+         ViQbde41asVyZsRxn0vBRnyX+a1tEkYbM4Fo6o4KqRd4QWdAoRRaq9kh613k2kEUG+IT
+         h5iV0YoIlEdUMV/z76pkc/op/dGTkWDB9JIT2mg7TPnO5pd3dazlQcHJBuJrTyIU8S/7
+         snsxUbaAEPdyPQVGF+yzA6ai9El2nKK7Xf0ZBp0ZTH5NI8W9mMfezrZOsQV9Dcp6/Qnv
+         XF9sn5lgfy8++2dXQvXq7ZhFneZR8f5dNjoD+B/ZD2hUu+sjK074XIrCauauY0xHo9r2
+         ViNA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790761538; x=1791366338; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FHARCqAQXbn4+WxBdhSm8GRSqop6wznDNIi8Um122T8=;
+        b=aDJcnY7qKkXcbhOiGzogMZjoij3sYu12Vp4wFVRW9b2ZhHCsLJhFOG3UbGkLnhK8zx
+         KTpeLOIsFc3eRdd/Dnlw27uRR6BQIcH3e6VPUH9X7lZGMHywPnAc+YrztUgBcdB6P2tY
+         GkJvsO03vXfcT8GKU8ERW6/IhO2uJJgezW6V5xGaQgNKxa7RT35NZsGNYLtvBa/Gwm7a
+         SCMOi7oAC3TPfoti8ZxIqM8CXFqk236Zqy7FyJ7ug7ZK3bePtpik0rL+rCpO06B0BkUv
+         nEo3awzTni/nnUTMv5z0p6BDCo9wZFhTaot+4WlJsSd2HyuCZ8+zR9iBB9Wt7wo3Afy+
+         7hEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790761538; x=1791366338;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FHARCqAQXbn4+WxBdhSm8GRSqop6wznDNIi8Um122T8=;
+        b=Z6NBRKRwjPCo0nM4rQew6WJFEgBJ3BuBOjh48XKVefl1L+Dha0A93cnIIPI3SIBZP0
+         ObefrFHNLyqap0Maa5A+o0Jddz4coVJzXdiFNnrmjgovv24iGYR8GiPraL7+L3tPu1ri
+         UH/Dmgaq4pUXdyCnfCmz+yP5DKM2J9QRkrpQKxjo6bHi5Y5rQrkl/9RYsUrboGat8J9q
+         aU9on6buVpHhrn7Y+OF33IdnPwrOmiV0nKG6Cwq27P1s3wwc4ojpCFcEebYmDDKZv95d
+         Uz5z6W/k/5CPgOkaDB5DWXmQVekc8nwo6VoUqFMY3uOo8TFgWoS+3L0/eboG98BZmUJq
+         elrQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwAtRs/HGuygL6RBU36/CPogXH9wQ1nVcIlhoHLpHNvV6kZuD+Al+al6hwzEuOgJLRRY7QloYeLf4xyMn9B@vger.kernel.org
+X-Gm-Message-State: AFq9FYKj1UwOqQ+IVbIhrkAfsKXtC7bhmOtiTTn74hQ1cfQ0+/OeUDOa
+	ZSf11y66uqij4StvbedYM1tTCWhINj4s5ovTWEf2H9ih2n6w7jHmfFuLj+Czoh/qwYGf1SgO94+
+	dXcPkDR/4yCYCNsb1OBDlgXggjpaJVfM=
+X-Gm-Gg: AYBFou1x/B/Ss9f0SbgMjWrYhlbcBgOs9GHGJKda1l437s9+FNg1bdkPY4ToeTxln/k
+	R83Q6C9bUFllJeTos6w1TgWdp7dWHA9xPAELEY9Lyg/myVhDIMnU7oRpiD3HuRW7CD6aMdnBwga
+	6axOrBxI0lVMP31HEC9cfKzQnch0vF1MNs2lgXzctb0c1YsWpKsB4aKmX6USWJJoCtsKV0RrtaZ
+	oQmApA4x6A/3ex3SPneoyya1u+X5xfMuJDbwQnTxjSrxdV/kNmRmQeOuxC/j6zxtsQdHoEAF6XL
+	F89K6pjweazXrywuLxYtUPvv3Eabfbv1rySryL2LKNlft87gyh5N5uOC
+X-Received: by 2002:a05:6402:27d0:b0:6ab:7700:9371 with SMTP id
+ 4fb4d7f45d1cf-6ae19949151mr494749a12.25.1790761537887; Wed, 30 Sep 2026
+ 02:45:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DLSAZ4ZQY8Q3.3OKOCCOQAFVCC@nvidia.com>
+References: <20260913185016.523376-1-jkoolstra@xs4all.nl> <20260913185016.523376-8-jkoolstra@xs4all.nl>
+ <20260918-reklamieren-syndikat-gemildert-763b72008b46@brauner>
+ <178972607557.207413.4312278359822083538@noble.neil.brown.name>
+ <178977609418.207413.15011378414000392029@noble.neil.brown.name>
+ <1010887891.582666.1790682845752@kpc.webmail.kpnmail.nl> <179072013439.37859.465558431050704411@noble.neil.brown.name>
+In-Reply-To: <179072013439.37859.465558431050704411@noble.neil.brown.name>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 30 Sep 2026 11:45:26 +0200
+X-Gm-Features: AclHuK8Amj1Yr5P1E2teJ2-t4xn3JttqZscbtcEuqEUsIh1tIwH5q_lJG3Wg0dM
+Message-ID: <CAOQ4uxis4tsea6fx+9iAffVX+qwBC9KzHg5GcP7ahthKd1T9KQ@mail.gmail.com>
+Subject: Re: [PATCH v6 07/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+To: NeilBrown <neil@brown.name>, Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Aleksa Sarai <aleksa@amutable.com>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Theodore Tso <tytso@mit.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 29, 2026 at 10:42:00PM -0400, Zi Yan wrote:
-> On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
-> > It is now an invariant that VMA_IO_BIT is not set except by kernel-owned
-> > mappings, so each existing VMA_SPECIAL_FLAGS test need only test for
-> > VMA_DONTEXPAND_BIT, VMA_PFNMAP_BIT and VMA_MIXEDMAP_BIT.
-> >
-> > This is precisely a test for a kernel-owned or fixed mapping.
-> >
-> > Update a number of callsites which already explicitly handle hugetlb
-> > mappings.
-> >
-> > vma_supports_mlock() and ksm_compatible() also explicitly bail on droppable
-> > mappings - detecting kernel-owned, fixed or droppable mappings is handled
-> > by vma_is_persistent(), so in these cases use this predicate.
-> >
-> > should_skip_vma() tests for locked, kernel-owned or fixed memory (having
-> > already excluded hugetlb mappings) so simply test for those there.
-> >
-> > No functional change intended.
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > ---
-> >  mm/internal.h | 4 +---
-> >  mm/ksm.c      | 4 +---
-> >  mm/vmscan.c   | 3 ++-
-> >  3 files changed, 4 insertions(+), 7 deletions(-)
-> >
+On Wed, Sep 30, 2026 at 12:15=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrot=
+e:
 >
-> <snip>
->
-> > diff --git a/mm/vmscan.c b/mm/vmscan.c
-> > index 12ed3388ee41..09ff20c3df5b 100644
-> > --- a/mm/vmscan.c
-> > +++ b/mm/vmscan.c
-> > @@ -3477,7 +3477,8 @@ static int should_skip_vma(unsigned long start, unsigned long end, struct mm_wal
-> >  	if (!vma_has_recency(vma))
-> >  		return true;
+> On Tue, 29 Sep 2026, Jori Koolstra wrote:
+> > > Op 19-09-2026 02:01 CEST schreef NeilBrown <neilb@ownmail.net>:
+> > >
+> > > >
+> > > > nfsd_create_locked() used to do that before vfs_mkdir() could retur=
+n a
+> > > > dentry, but it doesn't any more.  The reason was because
+> > > > d_splice_alias() on might return a different dentry.
+> > > > In this case we want the same dentry, but we need to do a lookup on=
+ it.
+> > > >
+> > > > I'd rather fix this in kernfs, but maybe that is a longer-term goal=
+.
+> > > >
+> > > > The comment in kernfs_dop_revalidate() suggests the we should d_dro=
+p()
+> > > > the negative dentry and d_alloc_parallel() a new one and ->lookup t=
+hat.
+> > > > I'm not certain that is needed if we keep the parent locked, but we
+> > > > would need to be certain.
+> > > > We at least need to d_drop() the dentry before ->lookup as ->lookup
+> > > > cannot handle hashed dentries and a hashed-negative dentry is passe=
+d
+> > > > to ->mkdir.
+> > > >
+> > > > I wonder if we could just disable O_CREATE|O_DIRECTORY on kernfs ..=
+..
+> > > > probably not.
+> > > >
+> > > > Summary: I think that if vfs_mkdir() returns NULL (success) but the
+> > > > dentry is negative, we need to d_drop() and call ->lookup with a bi=
+g
+> > > > comment about kernfs.  But we need to double-check that this will d=
+o the
+> > > > right thing with ->d_time (I think it will).
+> > > > We also need to think carefully about races with
+> > > > kernfs_dop_revalidate(), which could happen concurrently with the
+> > > > ->lookup.
+> > >
+> > > I've thought a bit more about this ...  I think that doing a lookup a=
+fter
+> > > the vfs_mkdir() results in a negative is a bit ugly.  It assumes thin=
+gs
+> > > about the fs that I would rather not assume.
+> > >
+> > > I would rather have the current proposed code check for a negative
+> > > dentry, and fail with -EIO or similar.
+> > >
 > >
-> > -	if (vma->vm_flags & (VM_LOCKED | VM_SPECIAL))
-> > +	if (vma_test(vma, VMA_LOCKED_BIT) || vma_is_kernel_owned(vma) ||
+> > I just noticed that there's precedent for this in overlayfs in super.c:
+> >
+> >               /* Weird filesystem returning with hashed negative (kernf=
+s)? */
+> >               err =3D -EINVAL;
+> >               if (d_really_is_negative(work))
+> >                       goto out_dput;
+> >
+> > Shall we just do this for current kernel release, then we can add suppo=
+rt
+> > later if wanted.
+> >
+> > (But let's do EOPNOTSUPP instead of EINVAL)
+> >
+> > What do you think?
 >
-> At this point, mmap_lock is held, there is no mlock WIP, so
-> VMA_LOCKED_BIT is enough.
+> The problem with this approach is that open(.., O_CREAT|O_DIRECTORY)
+> might create the directory, then return -EOPNOTSUPP.  This is weird and
+> I'd rather it not be visible.
+>
+> Currently O_DIRECTORY|O_CREAT results in -EINVAL.  I would rather it
+> remain a -EINVAL on any filesystem which doesn't completely support
+> the functionality.
+>
 
-Yes indeed :)
+Joining late to this party so apologies in advance if my questions
+have already been addressed.
 
->
-> > +	    vma_is_fixed_mapping(vma))
-> >  		return true;
-> >
-> >  	if (vma == get_gate_vma(vma->vm_mm))
->
-> LGTM.
->
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
+I agree with Neil's statement above, but IMO, the atomic_open() fs
+match the description of "doesn't completely support the functionality."
+Therefore, I think that rather than success if directory exists, they
+should also return -EINVAL/-EOPNOTSUPP consistently (see below).
 
-Thanks!
-
->
->
-> --
-> Best Regards,
-> Yan, Zi
+> To do that we need some way to detect kernfs and tracefs.  I think
+> the only way we can do that is to make some change to those two
+> filesystems.
+> Maybe a new  SB_I_ flag in sb->s_iflags would be ok in the short term.
 >
 
---
-Cheers, Lorenzo
+Maybe, but then I think we should also exclude all the atomic_open fs.
+
+Food for thought:
+
+If you agree that tracefs/kernfs and <network>fs should have consistent
+"API not supported" behavior, then gating the flag combination on
+sb->s_d_flags & DCACHE_OP_REVALIDATE covers all the fs that we
+want to exclude, plus some fs that we shouldn't really care about.
+
+My agent tells me that the list is:
+afs, coda, ecryptfs, exfat, hfs, jfs, ocfs2, orangefs, proc, ubifs, vfat
+
+Two exceptions that we MAY care about:
+1. overlayfs DCACHE_OP_REVALIDATE is derived from underlying
+    layers per dentry (If any of them have the flag) but always has it
+    in sb default_d_op, but it could technically derive sb->s_d_flags
+    layers at sb fill time, without any behavior change
+2. encrypted/casefolded directories with fscrypt_d_revalidate (ext4/f2fs)
+    with CONFIG_FS_ENCRYPTION=3Dy
+    ecrypted/casefold is the non common configuration, technically
+    sb->s_d_flags could be set according to sb features at sb fill time
+    without any behavior change
+
+Thanks,
+Amir.
