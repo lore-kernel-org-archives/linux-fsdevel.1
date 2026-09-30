@@ -1,65 +1,65 @@
 Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C64353A8C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 03:16:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA0D372EDD
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 03:16:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790738168; cv=none; b=LhuBmjaWyrSbjKymBn+BTaYjki+SfVlFDes5WfCJt/DBHt739WKcZ3fRr75yjTfRr96MdsjVmo2uglxwCe5H8MRYfLDC7O5U6JWrng5U4ECS4ATdi1oiV/Bl/z4wVM7yT9H+kYVCWaZ2+3IgOld/Fb08S403MJzpgCqxmUcdXhM=
+	t=1790738170; cv=none; b=UE6VjsN4ji3n9FxqQm1OCQJz1vP84BAlYf+FL95lCzwY+WHYIB/0OZp2EG8YfeSNutPZHp8DOPFDG6gTkz8qcxeJJGxq2Pq3ShBhyT1yyYRDvcABmmo5uRi0VwAs0v7h1qQdzPRHC9M/NkkPDPFNaNiG5Sp1/SSR6+hh0+JkRfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790738168; c=relaxed/simple;
-	bh=3/qhAeYGHEUQqsjsUGUSrWP8BuoOwlBxWj6GYtC6W54=;
+	s=arc-20240116; t=1790738170; c=relaxed/simple;
+	bh=0DvFLtWh/YNSEWIGblWeCEsGRSgydftqKVETMB0AC28=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Olvz28P5S/DYcl3l1Pwp2dRGGr+9TwHW4Ypcljqsyy+mmIpOR+YAcE/VRflb8iFQeScHTQ6s4UNLyq9LuSySG2orvadjbwZgNhrpso58C1eSjFoTr2lEmQyA3i+aWe8qQGd2KbL+yWmaCMdP+ZwBQLTb81AAd3Em0RrXP8BQC7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U0i4I3CO; arc=none smtp.client-ip=74.125.227.168
+	 MIME-Version; b=hAAkBUFHJkrT20kExFoPzhUFL7D+SsMdE4wvpJ2+RlzUXsPgqrVLSW4K3C+ocVhSJEB87bXzyGHDCBo2sXNz3azIoI3xSEDLLZXhk3FEEnlBrthDGoSkbU9LU0F4lByDNS/w/ZotJhZK6C3D2/UeM/LqGDBEO1t8hmGyx+HJvMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q3NaAPR5; arc=none smtp.client-ip=74.125.227.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U0i4I3CO"
-Received: by mail-pj2-f40.google.com with SMTP id 98e67ed59e1d1-3a0d31bda43so2936863a91.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 20:16:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q3NaAPR5"
+Received: by mail-pj2-f40.google.com with SMTP id 98e67ed59e1d1-3a0eeda3e03so1818262a91.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 20:16:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790738167; x=1791342967; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790738168; x=1791342968; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oHMd/eoEVRL0G22GCKAq4L3I8Lox1g3RZutdH67x6BY=;
-        b=U0i4I3COqKdwCyqKUSQy6JsHyBi65+Fe4PVu84hakcwhMjwBGRopjXkmQj8aMpYkAT
-         B0zZjk09HIo5JUIn1KL0x2mI9S27nS954MHk8Vx2HGul8H0WIH8ObBgu5h9ya5XMmr+z
-         eqizir5uF86wcurwEbwkEj+np6Jr6PKzhootNKZAHsov7tFUnkeOAJY4uTIOS1BxcQHl
-         9Lr4r6heTXDs+o13D5uJeN/54kH9sFolbP6KZ1QacCA0M8yeHczEL7FE1c+PNHaJI2mW
-         kzPOGARp5G+GSJpbLMRXBPhCIyf4lFkE0UB85ifiOkhrkF//MN8dsDPTWjDdSi7yJr27
-         LDWQ==
+        bh=L9oO5px/tUz63X6zzeE/TZluG5rtkY3Gx9MGMQ40YwY=;
+        b=Q3NaAPR5L3yrx6gadDW56BAR7O7xiVZUQIOnQSmfZfrPqI6SVjVQRnHg6GZ14xfwLQ
+         ep+UIMAbZk/gL4SDdoDC7Dcn1TjFvuDf68PykqhMynzxVgKmfrnFkxcdEPdEBLSpR7jm
+         2Kvwv9okV3vODZePEN8Xnj7fzwCxVPRnWVD7FTj8LFON48qoPc6HnOF/fT1Di3+xkxTh
+         5CH2H3Fyfp3aMGyR2w11nQhFusU4+DewxwXb6o9IDI4ruRFMwhsINyjy8OMZ/KAr31nT
+         p33zIGQ3PcIaJe0kTPQ5S8gK+vmJ6456VzlNRlJLCyf2cNynGk3TizAxhkO+Hr8GwWYM
+         6BMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790738167; x=1791342967;
+        d=1e100.net; s=20260707; t=1790738168; x=1791342968;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oHMd/eoEVRL0G22GCKAq4L3I8Lox1g3RZutdH67x6BY=;
-        b=TYCSygoi+srtpCYmWLXY6ghNBtjib3weBBfQM64pBP2KK1g1A6YiGnfbSvMEoEWJP2
-         x/oEW1riaT/H6Lv3O4AAqFhCe8D9CE74cAdBcxzbljX8AmfH7gFcr4Cc9lmt/oKbLxjE
-         4kcC9lcQ543YJJYESpChQqV9XPfW2vXR42Aw7Sycxfa0LnjtuAcHbKe15H+a+GqJN/R6
-         kNAIiAmy6ncMiaPBbJQzsLRz/CzoDxwdB4hkDTuZm/kxK/uQfJZgMazOq8uqkRAnGQfx
-         0j27Hw/iyGKZFx29dVwIyQC3IqR6n0qwthRZK3mTuG8GvAEaiEVKICxZIUY4aGZRxZ1H
-         tzCA==
-X-Forwarded-Encrypted: i=1; AKwUvBx4o1ZxZoQ7XJepfBwtwklYDJv+HjJmdbC0A3sm+/ecZuUAQTyHnObDz0/fhB4Fotd1G394CMup9FNRpsnP@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ72YUJnmSOrPSR0VSErEWBAjDVtWOsXOh2yA7XuEUrbj5Rg5+9
-	o6nbogsPRHlKstz42zgCCYDVK9LnsepI/I9Sa0eq5XUSXAsK5uZbvpbw
-X-Gm-Gg: AYBFou3IqGaUU7ekwcjVHHs495GU5QTBFpgNbZjdiry3HKIrA/Fz1Wp4ySsJFfZGRLi
-	y/EEO/hupAK2lyaHnbqf+bP1xY+najjh8wkhq2zVHb/d0f9ELX4ebOFjfAY6EK1Dx6O8iVWJdcx
-	3YXDC90CzGDRxKNucjdNleI9hPNaedds1gs009K1yPWZEP5Y5SwHcF6bZLL7ba7Vt+SHYtDw1N1
-	EwriTOfs3xL8Q9zgbPzcUmXVTWJQZn3Jq3pFVsbFXZ7/4FcpcCE6dalISFXJPfTT2SeXJBv1GBy
-	r9Htnq59aZBb2qcsTmSoKvrCa0J93to7LneYJWOg+t3alj1pDUeDohyvk9/vWVpXtEfjt22Zt/q
-	AFP+BhY2QnNLkVtPTVJMOokwv+loLZXdejpPVjRt2hBfCPMMPyJz45+UAt5CT6vRIQQJkT+xRoX
-	K11BQPoWbVokUAGkreFuLPbOr2nR+JCtkqwUnzGvCkARFuM78llc11gKI2bZ0A4Org9PsNHm0PD
-	UkGAocg45PIeTNRCb+uCZ3HmbkfbvIalhKO24bS3NOVZtBbFtlVMhuz3hlGQ/HBQIQZD6/f9cSw
-	nOFrEgavf5XCZgbJPn0E
-X-Received: by 2002:a17:90b:3ec9:b0:3a4:963a:b477 with SMTP id 98e67ed59e1d1-3a4d1b07f0cmr70286a91.35.1790738166803;
-        Tue, 29 Sep 2026 20:16:06 -0700 (PDT)
+        bh=L9oO5px/tUz63X6zzeE/TZluG5rtkY3Gx9MGMQ40YwY=;
+        b=PyOciIh9u7w+DazeoYcv5J3LdjEBcO8T1Hzb1h0WIhE6qsQlpaqTWmgoMARjyyecDt
+         KFEIZqPqA+64Cff45hJLxaVL4EoLsZi+CbHvWyMqELzxlyitnPGrojQxhmHQ7tEgv6aN
+         jPqNu8x6kCaCK4pVg6pVBKfdzdL/qUADtvng3hOxz8DvfTVIja0tedm1xpLfXie9CdCf
+         5oKvljLZBrgXPRsE7Qywo/UO+DKAWCXh8/rb+CFWJJZX4muOfiGUhDFiKqEZ+c/r7a+W
+         YHfriNPE2bgGZOV8kU5uaSvaP0wGA0ayCEwHMIEFKuQjnejoaIHWB+ulQ7/56OqJyg5t
+         gAjA==
+X-Forwarded-Encrypted: i=1; AKwUvBwgyg+2t5P3tM826hUeWh45kangkQsInkEYB+SkSFiZMcSt1O1tMJFXWL3+U02KHS6ZosL5zrGbjERzXTMg@vger.kernel.org
+X-Gm-Message-State: AFq9FYJoPT/sxRg36WTnBFaCvi1IVAqPh8aroIu67UbEXWE+L1WYBJJ8
+	VDJO1PLXYNCq5PuMTyZGJ0JJBlJx+vFhh70m85ij7lLxz7KH+pZPJNcjgyLuYw==
+X-Gm-Gg: AYBFou1YdBExha3tlsib5bOgWPcoU5bS4upspphiRrBC8q/L8eBUtl38pOm6aYgs8YR
+	IbW8uXaY8gtLLKbJABekL45gKbk5DSOVcrCV2rg0k8INHwbdC0t/wWw7I4OAtmOF9iR/Q/KiN4K
+	iSJTBF9XbcX1LPwnEGR/IneTrrWy17uRNRAZrqL454DMuoQA5kKXShP6Lf2luMJY9tKpYBrsCXu
+	K21ejcqlNmTRDeYFfN00ELBczTtf63EA6Icn6HnQ/97AqJMTntW+u8L3AAT5nG9txFxXIPRl52l
+	+tC63JZtCePSxyItiwQunbMjo5wRk5BhSTeCll4TnRq3+y358jJj8xM9NJSbUxPwte21oxbfis4
+	94+BHrGNbwNDHfk6glcihSxa3jOodRwpZyWlRnpqS6CL9KosEmo453LQbCJ7f8Pi/0yWMMUgL+a
+	zIsq1Qs++1k1B+IQUnvrEan/OYRRKTFN75gZxyRekNtR/gShdtjnBmyUr6m0q31SUAhmG5WQDdf
+	wfxnIgR4KhpkAXyqWmHVbO8ywUV2ymcqPj90woNYiPg2OW4oc3IXuhtDlc7wOIn4JMkBodWyhKW
+	4pQEizOut7/OU0ax3o4x
+X-Received: by 2002:a17:90b:3c8d:b0:3a0:becb:914a with SMTP id 98e67ed59e1d1-3a4d0f038femr58495a91.3.1790738167868;
+        Tue, 29 Sep 2026 20:16:07 -0700 (PDT)
 Received: from phui-2.c.googlers.com.com (25.187.82.34.bc.googleusercontent.com. [34.82.187.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4ce1c9045sm588743a91.12.2026.09.29.20.16.06
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4ce1c9045sm588743a91.12.2026.09.29.20.16.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 20:16:06 -0700 (PDT)
+        Tue, 29 Sep 2026 20:16:07 -0700 (PDT)
 From: Hui Peng <benquike@gmail.com>
 To: Anders Larsen <al@alarsen.net>
 Cc: Matthias Goergens <matthias.goergens@gmail.com>,
@@ -67,9 +67,9 @@ Cc: Matthias Goergens <matthias.goergens@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	Hui Peng <benquike@gmail.com>
-Subject: [PATCH v4 0/6] fs/qnx6: fix buffer head leaks, double free, and inode validation
-Date: Wed, 30 Sep 2026 03:15:58 +0000
-Message-ID: <20260930031604.70544-1-benquike@gmail.com>
+Subject: [PATCH v4 2/6] qnx6: release bh on error path in qnx6_block_map()
+Date: Wed, 30 Sep 2026 03:16:00 +0000
+Message-ID: <20260930031604.70544-3-benquike@gmail.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
 In-Reply-To: <20260924073920.2782917-1-benquike@gmail.com>
 References: <20260924073920.2782917-1-benquike@gmail.com>
@@ -81,45 +81,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series fixes buffer head leaks, double free issues, and inode/
-superblock validation defects in fs/qnx6/:
+In qnx6_block_map(), if qnx6_check_blockptr(ptr) returns false while
+traversing indirect tree levels, the function returns 0 without calling
+brelse(bh), leaking the allocated buffer head.
 
-1. Validate di_filelevels against QNX6_PTR_MAX_LEVELS (5) in qnx6_iget()
-   before accessing level pointers.
-2. Release buffer_head on error path in qnx6_block_map().
-3. Avoid double brelse() and fix sbi->sb_buf leak on error path in
-   qnx6_fill_super().
-4. Clear bh pointers when selecting active superblock in
-   qnx6_mmi_fill_super().
-5. Abort mount on superblock magic mismatch when silent is set in
-   qnx6_mmi_fill_super().
-6. Validate sb_blocksize before dividing in qnx6_mmi_fill_super().
+Call brelse(bh) before returning 0 on qnx6_check_blockptr() failure.
 
+Tested in QEMU against tip of mainline commit 62f4c998b297 ("Merge tag 'parisc-for-7.3-rc5' of git://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux")
+using a loop-device reproducer reading a file whose indirect block
+contains an invalid block pointer: on the unfixed kernel, check_bh_leaked()
+detected indirect block 5's buffer_head leaked and pinned in page cache
+(indirect_page5_leaked=1); whereas with this fix applied, brelse(bh) is
+called on error and the buffer_head is cleanly evicted
+(indirect_page5_leaked=0).
+
+Fixes: 5d026c724220 ("fs: initial qnx6fs addition")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Hui Peng <benquike@gmail.com>
+---
 Changes in v4:
-- Rebased cleanly and tested for applicability against tip of upstream
-  mainline commit 62f4c998b297 ("Merge tag 'parisc-for-7.3-rc5' of
-  git://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux").
-- Updated 1/6 commit description to state QNX6_PTR_MAX_LEVELS is 5
-  (defined in include/linux/qnx6_fs.h), correcting the previous
-  description text as pointed out by Matthias Goergens.
-- Temporarily dropped Tested-by / Reviewed-by tags from Matthias Goergens
-  per his request until he re-tests v4 on mainline.
+- Rebased cleanly onto upstream mainline commit 62f4c998b297.
+- Added QEMU test procedure and verification details in commit message body.
 
-Changes in v3:
-- Added Tested-by and Reviewed-by tags from Matthias Goergens across all
-  6 patches.
-- Updated Fixes tag in patch 1/6 to commit 5d026c724220 ("fs: initial
-  qnx6fs addition").
+ fs/qnx6/inode.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Hui Peng (6):
-  qnx6: validate di_filelevels in qnx6_iget() before accessing level...
-  qnx6: release bh on error path in qnx6_block_map()
-  qnx6: avoid double brelse() and fix sb_buf leak on error path in...
-  qnx6: release bh2/bh1 on active superblock selection in...
-  qnx6: abort mount on superblock magic mismatch when silent is set...
-  qnx6: validate sb_blocksize before dividing in qnx6_mmi_fill_super()
-
- fs/qnx6/inode.c     | 17 ++++++++++++++---
- fs/qnx6/super_mmi.c |  9 ++++++---
- 2 files changed, 20 insertions(+), 6 deletions(-)
-
+diff --git a/fs/qnx6/inode.c b/fs/qnx6/inode.c
+index c999dcfdc477..080f7698a5e0 100644
+--- a/fs/qnx6/inode.c
++++ b/fs/qnx6/inode.c
+@@ -144,8 +144,10 @@ static unsigned qnx6_block_map(struct inode *inode, unsigned no)
+ 		levelptr = (no >> bitdelta) & mask;
+ 		ptr = ((__fs32 *)bh->b_data)[levelptr];
+ 
+-		if (!qnx6_check_blockptr(ptr))
+-			return 0;
++		if (!qnx6_check_blockptr(ptr)) {
++			brelse(bh);
++			return 0;
++		}
+ 
+ 		block = qnx6_get_devblock(s, ptr);
+ 		brelse(bh);
+-- 
+2.55.0.1082.g2b9226bbc0-goog
