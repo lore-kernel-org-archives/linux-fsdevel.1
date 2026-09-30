@@ -1,358 +1,272 @@
-Received: from o1.ptr9745.em.honeycomb.io (o1.ptr9745.em.honeycomb.io [149.72.141.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323724078C1
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 19:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.141.136
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790796941; cv=none; b=FgIAhb28L5h72YDmvDcXVjD8Hj3SEqekohMA4IfjOPiYB3awEesHShMyrffLHVO2UZVjyFE2IF8OW36yEaeupjbtyb58gaPd3QLojzX8U1rNlBOjQDLQpvLpYaATfJTWmhfw04DNoxohQA4IywPWzAqoAzHdFd7/KLaAP3J/UVY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790796941; c=relaxed/simple;
-	bh=jKrYWwk4onhmgmY5DmeqhqvtAbrL5u/RIlGh8+c8pyg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LsVGy731WwPzZ6E63qtWqxFdLE33zupQaU9WAdGzzJxhMpEqcV+ugBxO2LjPn1A8gftcv9SJdib31TdjO9FmyPHRUd+ExTuvfjweYhK3IHuPqZ75F1wjWeuX/HncB0zIIaruGpcL4iOpfu0q5KgD60odBJKmYrfzy/4SsEz90zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=UWUOxSWc; arc=none smtp.client-ip=149.72.141.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em.honeycomb.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC19372B5E;
+	Wed, 30 Sep 2026 19:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790797450; cv=fail; b=eaHBNlhbTHF5sR4HtKNEHWqwf4RB4mxqTdOphPtE2/QhOQ02GIxbo1wbpXErTgUsdsuHXZPWTEFbU0Fh6DMymZdkjPKGRMW9QHu06Kj1hRA16iIAbUmM4e+T1uGTfmwITwhFPYcoPqzDaiucu2ts17eb2oGxD84cikdGavrKBE4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790797450; c=relaxed/simple;
+	bh=Fmw6jRsLrnVIuCVQd3pzDMh+JzFsmiDjabIw71RhPKI=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=POZQMzKaajKkMCGiEqgCZHvYi7vcnPQPNebmVPJhq9oM7CR08ZTla4M/NWKbLPuLv6P6L4MtJ+7K9NPUdBbsnxkHKlCeyCH/XGU05PvjIGSq51teS8CPN+o/rlJuARmHiXPPJqReP7O95MMaZP077N46V2z2RuAvhvU4LCypBcQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjT2QXhJ; arc=fail smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="UWUOxSWc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=honeycomb.io;
-	h=from:date:subject:mime-version:content-type:content-transfer-encoding:
-	references:in-reply-to:to:cc:cc:content-type:date:from:subject:to;
-	s=s1; t=1790796937;
-	bh=RZNT40kMMmQsLfWsdnWmdKdkeVlJ/tQq17QZr/ljVmM=;
-	b=UWUOxSWcJrpmQ5M0gk5NfNRpMI/f1rYFjOc8Pj5UMd4gZB/Da4n5JsgG0fpGG+J4hALa
-	FLf903NJEVMkD0BfLjmFOxycMu6bu4+ScpB4bVIE/PZGIczGugkk/11L4u9TIQwLmvXBx/
-	J1SldyZkZ6mC5VgmEdcwiVosfY5/j9qKYKWunJvbNhig6YFYMEFFkrLuUnsksJX0FumyaI
-	awSRqHxEC/+75FfFeTWamOTBTkdAeVv0xfN6/5pvLI9Eo65RbRMS56hcqcV8kMEoEzJE8g
-	FKmJRkwHMFHhpokUKSPrFgbeAHWbrIRfjZpPi3JDbNyiKWv40Byw6ZmmNb0PrTsw==
-Received: by recvd-6cd5f4b4b8-8rsqc with SMTP id recvd-6cd5f4b4b8-8rsqc-1-6ABD6488-F4
-	2026-09-30 19:35:36.891619089 +0000 UTC m=+95694.696487392
-Received: from [127.0.1.1] (unknown)
-	by geopod-ismtpd-6 (SG) with ESMTP
-	id P6Dj4YSyT_WDY3Gt71wefA
-	Wed, 30 Sep 2026 19:35:36.848 +0000 (UTC)
-From: Liz Fong-Jones <lizf@honeycomb.io>
-Date: Wed, 30 Sep 2026 19:35:37 +0000 (UTC)
-Subject: [PATCH v4 1/2] writeback: let foreign flushes reach dying cgwbs
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjT2QXhJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790797448; x=1822333448;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=Fmw6jRsLrnVIuCVQd3pzDMh+JzFsmiDjabIw71RhPKI=;
+  b=LjT2QXhJhbvxrZ+jUwFxouMJFUsRA0J8RRNyaSxshB0t+bg29G0tMYXG
+   LmQuHutwHTZ0JSCeQ5EMdzw+pY1vHCnSUrafFx8+5ya+ttUhxVucR5HRt
+   wTlvikVKRUd7uB9IXpNF84pRcPBzwxtvwi242axArhyxndzyaRaxtLLWU
+   OMWSeKz3ffgvikLk0CcgloAjT/GP9Db6q0Q2/HEanpljV8sAVgpWTzUBo
+   Bdqywe3qbxw8CjLvXnX5tK5Iyzx3da/sfZ305NOlYrP6GjX9eyr0BAnLX
+   ABSrmjXO7zupzUVHB4JYNg9YXOVxbQyzDF1tsCfuAn00XwqF6KFykr8/U
+   Q==;
+X-CSE-ConnectionGUID: dUhUjHIBS2iJ9OqIX3NROg==
+X-CSE-MsgGUID: 6PrB73evTN2sv56JRvE4JA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="95356315"
+X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
+   d="scan'208";a="95356315"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 12:44:07 -0700
+X-CSE-ConnectionGUID: BAE3pRXXSSWcDpCzBXWdgA==
+X-CSE-MsgGUID: rysXhI4GR7Wj44skSUsNAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
+   d="scan'208";a="313724829"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 12:44:07 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 30 Sep 2026 12:44:06 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Wed, 30 Sep 2026 12:44:06 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.10) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Wed, 30 Sep 2026 12:44:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OXciUb9UQfT5BON4avglze2lkeYHtLJLMPYxAF3fiV3tbaI+a8IQBnAwmk0a4KwUaiV6vr3Cm5R0JZB4uFwg0179TYhgpOkAsbI/GCR0YcE34ImUTi5NZYEtpc6eXdXiRzTzZXhFS1gL97ZmlZa6gdkZiUV1IeBh3KK8irkbOTQc3Rjrw3PYjt4mxTDR7Tnpvt6P51eS/fz7qVX16w+FfktcwmlV/xRxbCzqsvRibLDZQbiJh0/m0KXifeZNHZGZLyOAzt3hpg6gGhU3g2V6SYT2RswAMGvDcdRkh/stnk55ajMmYtlevjssEe61pIQBEPZkrO2Fh/qMOuouboy5Rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CYI3B8OyqGFS3ssejZ9imkq9m+g1jMTnkTmxNJ5FqRo=;
+ b=UJ1WGRsRxUNse+gCairW7/zy9BMCudC1jkTq2TEnZ88w+YmRyYHZJtKWKxWqfimSvXCTdNY6Y2n8kd3xo1c6QUXJ64edCf6oh2CJHY794H1KNTSi3aXzhn5Bu0CaCKofqFnWkhyispcVC1Zzzr9dpZbHvqVrW3tVhFpVC9hWbIIoHMwwf5FPvC1T22iilI71Wkj25pUxi97BHzYsTK5x0uQTLu8oQFw/FXnDvKkr8xMpEqRh49JmIMz55kiwEGD5xePlWJ7q5smg31Dfy9LzqLm7cWVi55FuYXm3prMFP0MVFaRvCv0PvRQbVYzcqZdyygqO4XasDyrwX79JEbHBeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO1PR11MB4787.namprd11.prod.outlook.com (2603:10b6:303:95::23)
+ by PH7PR11MB6498.namprd11.prod.outlook.com (2603:10b6:510:1f1::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Wed, 30 Sep
+ 2026 19:43:55 +0000
+Received: from CO1PR11MB4787.namprd11.prod.outlook.com
+ ([fe80::e7eb:a872:53d1:21fd]) by CO1PR11MB4787.namprd11.prod.outlook.com
+ ([fe80::e7eb:a872:53d1:21fd%4]) with mapi id 15.21.0472.015; Wed, 30 Sep 2026
+ 19:43:55 +0000
+Date: Wed, 30 Sep 2026 12:43:51 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+CC: <linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>, <linux-nvme@lists.infradead.org>,
+	<linux-fsdevel@vger.kernel.org>, <io-uring@vger.kernel.org>, "Christoph
+ Hellwig" <hch@lst.de>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Keith Busch
+	<kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+	<jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, Jens Axboe
+	<axboe@kernel.dk>, Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi
+	<joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad
+	<tushar.gohad@intel.com>, William Power <william.power@intel.com>, "Phil
+ Cayton" <phil.cayton@intel.com>, Alasdair Kergon <agk@redhat.com>, "Mike
+ Snitzer" <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+	"Benjamin Marzinski" <bmarzins@redhat.com>, <dm-devel@lists.linux.dev>
+Subject: Re: [PATCH v6 01/13] dma-buf: introduce initial file I/O
+ infrastructure
+Message-ID: <ar1md2N4PkoXSE/N@gsse-cloud1.jf.intel.com>
+References: <cover.1789997898.git.asml.silence@gmail.com>
+ <5490ee42c4452fd4198b245ead20fcf7438c066e.1789997898.git.asml.silence@gmail.com>
+ <arx7ZQ8o9aeHsAqS@gsse-cloud1.jf.intel.com>
+ <447c04dd-6bfa-4c45-99e7-37d25a7ab539@gmail.com>
+ <c07404e0-33f6-4e5f-a80a-e1901b42dc39@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c07404e0-33f6-4e5f-a80a-e1901b42dc39@gmail.com>
+X-ClientProxiedBy: SJ0PR05CA0145.namprd05.prod.outlook.com
+ (2603:10b6:a03:33d::30) To CO1PR11MB4787.namprd11.prod.outlook.com
+ (2603:10b6:303:95::23)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260930-wb-dying-cgwb-flush-v4-1-bde637803a96@honeycomb.io>
-References: <20260930-wb-dying-cgwb-flush-v4-0-bde637803a96@honeycomb.io>
-In-Reply-To: <20260930-wb-dying-cgwb-flush-v4-0-bde637803a96@honeycomb.io>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11107; i=lizf@honeycomb.io;
- s=gpg; h=from:subject:message-id;
- bh=jKrYWwk4onhmgmY5DmeqhqvtAbrL5u/RIlGh8+c8pyg=;
- b=owEBbQGS/pANAwAKAaXO1OOXra/CAcsmYgBqvWSIBVzHo5qdjRMPWTu+yKAV6CkqxWq68egAc
- XF2f8YAK7uJATMEAAEKAB0WIQSfW1LPQ0gyJmoTHwelztTjl62vwgUCar1kiAAKCRClztTjl62v
- wicSB/0bZq4NrYtmbCxzwKSyMY1OnYMWJQ3m30vnpgkkikBpd7OZGPmJdIdjGBxIFY1aNUeXgDO
- 21wf+OubxOfzF4dD7Ppiia1nkGPgClnJi4Jbbd6vNbUztdUuEorZW7LPvFec/EvhnGn0ZNKvoWy
- mTSCgDv9haWg39qB/WkpRt2rqCLDIIsL10hB6dbCNpVkVfxxbo7AnmOMMI0MNDhRDM67o+SVyUp
- rHDiuwVKIdbepLUhnRzX/gQcAOHV2KQdo9J4d8+cPUceNuk4mX2ls3kh0mfjdIjScgxBbCj55by
- yvebik44STXbNP6tJ4u/Kjp+uIJQgXbMXIB/o/Gi5Twyj6KE
-X-Developer-Key: i=lizf@honeycomb.io; a=openpgp;
- fpr=1F7714D7EC3441D2CECC24606A3F8B00FBDDD2A4
-X-SG-EID: 
- =?us-ascii?Q?u001=2ECuH7N2XAoeMR1zrzr=2F6NZrhli2vbKPOHff5fJuZuba6ZIE8QPyIf9mn4Y?=
- =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmed02bYO7=2FYQC?=
- =?us-ascii?Q?ZivW1+V+v6u807eM5Q+nYN=2FH5UukAlUEFJYHhI9?=
- =?us-ascii?Q?bzyynNtLy1uiShXLFPtzy01jbqhfw+VrMJ2XIiT?=
- =?us-ascii?Q?MigjUu9Lm=2FZLvwhDSFvHa2kfMC4zQEex7N+H7Sp?=
- =?us-ascii?Q?m+P3ceeytOOz3JFhFCpBYvaZW9eFB0Fmhy=2F5fu2?= =?us-ascii?Q?FxaJ?=
-To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Tejun Heo
-	<tj@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
-	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner
-	<hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt
-	<shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ian@honeycomb.io, Liz Fong-Jones
-	<lizf@honeycomb.io>
-X-Entity-ID: u001.GRlkmHQ+Ka/CKxmoC/CxTw==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR11MB4787:EE_|PH7PR11MB6498:EE_
+X-MS-Office365-Filtering-Correlation-Id: d1f081bf-bed0-4ebf-182a-08df1f2b2991
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|6133799003|10067099003|4143699003|5023799004|56012099006|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: pu4RpMbSx0h1u4/Dh7Bqc3ep//3wk6pqmzLuSjsmO5+3gbq8dLwoLRc+SmCo/C2d56Tb+skXqpzfeq4CiObkBr1Tfm7Lmx4t2u/goEFX/yVzVfxSDS4uQ3y8QMz+IDNFcS4dWyBI6NyUUXLWTs3iWD6FvkYeQ7ApOSjw6smTeYHFheE4mrUC3yINMUvsSJ3GniIPGzvO+xpGLDiAhOfsVn5tEoftH1AIlJfElH92JK9oASUgGIyazaULWHog//g3pz0KURyWg0x0CAn8Y3sFVfW6hq2GM3E3TcL9RCNYBTusozH/CjjoGjdH0COclr/6HRke+Ztugxcopg/Lwi+q53KOfJo0zkaqv17AK10PyDYbJVuZVKAhsxHT6fCkDtWUVlBSOlSWAuniEJbeP8rrOBHiJrTPOI4IaBVA9zsMsA3BVgDN9I0mbE+doJbfD949NnnLI0QF1fpNFly0R7rq56+Inz1wbETh5adf9JiZAP3CYbk8DtQ5dYJBMpom32fKS2ixCh15InlXIJJOspUHCA/Zn4lZr3kLHqIGgxP2iRj1bqSgGDWxqTHw8+Mswnt3cmpn3ZdkTiQshvOSsIEEQWi20sdzlG/SiyQMgCl3YcnTjeNekk8PPbauw0nQuf7DhcZRtOxkmxk0qhvTeHH+tECHzRHQu7rPT6yuDcyF99U=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4787.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(6133799003)(10067099003)(4143699003)(5023799004)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?sLQL9tlMeNXRA+DmQwG8OxyqhWpG4eYn2BXjv88Xf5HGIhSGiSW+UQMTiC?=
+ =?iso-8859-1?Q?rbSOSBZUt1aJso2rRV44c32cCB4N7PJXR9TSjCt71zr0XhSJ6tzJEpqil2?=
+ =?iso-8859-1?Q?+L1NjyqIPWlL2UqMf77EXk9YCx//07WE2sFjLKyfTRXvKh4vfkOhGTfywp?=
+ =?iso-8859-1?Q?c52MRs6bzv2NWrjwxXOzgnDQWWB+BNJZc1Cx5Yub7HLgTC0c2p9+B577/E?=
+ =?iso-8859-1?Q?e1Y1IAuU4G+LedNR/cZFtgC667PoXiwaLETcCKacgXHzhm1uPtSgy1dvBj?=
+ =?iso-8859-1?Q?dMWv4gMDbTg+p00YLLIb7DYuMOZK4Cq8/8hc/Fir6tPFkALZpdnyeqrRWY?=
+ =?iso-8859-1?Q?txRTzI7iKn4zqzEz63bQG88c+unZyNC/fKuFW3A/V4UGjHMwTkTh+miUHN?=
+ =?iso-8859-1?Q?Qo5wO79EIhS+1vPp7p1injHMPb+DRJ7TyF5djIwsF9r54kIcsl3a0Ji9nS?=
+ =?iso-8859-1?Q?w+yhY/m/8+o+GTWaw5RpGOqhrOlUqf7XVii1fPQY7GJForIMklNqpbUjhu?=
+ =?iso-8859-1?Q?3FKCp2kr1fiHUHuKC/UAP2HjitGZrapHyLog3g4i1Q7TtnFc6a0LPqmchD?=
+ =?iso-8859-1?Q?VdVP6Zw+R29PJ9Yo82bpYvRdS58DiyflKYtCEZc2Gpp5ST20UHlvjtcWgs?=
+ =?iso-8859-1?Q?T3pIeH/lkx3SLOfMrp7o1fQlhDa4Wdwiax7eg1zsFZ7wwo5jmeg7LZjlPV?=
+ =?iso-8859-1?Q?4X2gl0ThGHxtQJ8EKam1eDOzsjzjQTSGv6Qx6I6u8nH556DTtxOppmfjAA?=
+ =?iso-8859-1?Q?/O6ILs+NYwnEo+AmyHc9Q5v6B0pJ8LFczT+vtOfrA+yChVNzJPYMR+0Rbo?=
+ =?iso-8859-1?Q?gmK1wsV5ndARN9KjeGNTw5e0HhwfavtRjpJHlla9krAneq49ULDLy9n3mK?=
+ =?iso-8859-1?Q?tVMNtKI+b8DoyMeF32qPZSjgADQIfj+ZvMKsRUSeQTpGCS+L6YnArCcEFf?=
+ =?iso-8859-1?Q?l2ysEFXY4O+FUHo764F3UFl/VeC3o45XRBUVpAlOZ8VeS8nSa9MRI6fA4s?=
+ =?iso-8859-1?Q?oAQKHCApxPR4by2kKKCRBO8k1XRY9Gd9wqqRxfZgI5xKd9vf45q4yZiVdy?=
+ =?iso-8859-1?Q?xYFELx8uTdE6Q0bYNaVVCbj2r5l4gw2F2a3/u9B/t/poyzWe8wYaqS4geu?=
+ =?iso-8859-1?Q?QJ3hVdDRUj9ATFVsiHCVVXVBQVWJJqspqXg4iHiHVmQVYSlJDDgxRg5y7i?=
+ =?iso-8859-1?Q?2PEMSjeRSAvsE1agOQhFRIjsyFMbRlK3zbpudvcnnLZV65oFyF2BxnBKb9?=
+ =?iso-8859-1?Q?c4xjL1LGYdNIkwQA/UU7g09OJAmfG//QYA1AvV/gEhORU/E2ASkRu/e4lW?=
+ =?iso-8859-1?Q?FPruuK3tzKsZDOrQAcn9+ERhvKJ9ZWXjfTB4EAshtxetbBOOx+eygYqkp4?=
+ =?iso-8859-1?Q?vCCRQh4vHGLYPWQI/Qh5TejoHpJBUlqoue8nHONYdS4JldzxExevtLd8mU?=
+ =?iso-8859-1?Q?R5U2EwhZEzdKr7E+fIms9ZJdi9pVJfxH/pOl6mDozdbqChZsAp52XPQzaa?=
+ =?iso-8859-1?Q?ChnRSZSK2aQnSrYp/BOlXBah8ToyBnb4ODClA7Hjj+1XQuwqgMhO902QVC?=
+ =?iso-8859-1?Q?VGsQdtlPOqY8+ZDqLy/kfOr6mxKrXLr2x/dYFGxoXjLPK8/S66AZECB0K3?=
+ =?iso-8859-1?Q?6xkg/GsmIfoX6G9PEFPBdezTSek3NYHOKpGDo7+fuApfa5IZ/LUJErF8OK?=
+ =?iso-8859-1?Q?gMxnhTP26xK4iY/PVcnnEEmSvU4N1ZLpBnEZs5yU4jZprdJH2CDl1ATwk0?=
+ =?iso-8859-1?Q?ukvv4SsCWH3f/KvNNf3dp9Fl/HKQOcyNleW2rbhmzOZvkfpv/SRLZj2TP6?=
+ =?iso-8859-1?Q?54XPoBFolucoI54mdKJQI3u/PH2oys0=3D?=
+X-Exchange-RoutingPolicyChecked: JUQQoN3GXGmzsHWGDdX/uoFf71hYWwo6dH6kRN7M+SWv74nUu6Bn+fgx12kwKrBfulW3zKnpPkPShJ2nouK/om99IWXiiN2UAvOI/Pu9AyZWVvnRUXAsw1JmwFVuC5/zIxZGPKYgZADCdtboo1069YDr0YuXJB5/uC2m4T7qYjN189HRc7mwsy0qArdrBZSLqwE8aQ6kbVFCXy27MWfBKgdrRw1Dirn0K7aKjm2WdoGol7y9S6IFOsEvbEkFbHDkNtlItK0ydw2seP4s1sg+8WHzvfKXnb1YRn4Tvclv5f4iPIaS5w/XAzaUB25oyHZK0Y4FbxWtbkeg/GeKDfxzwg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1f081bf-bed0-4ebf-182a-08df1f2b2991
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4787.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 19:43:55.2719
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XQO7usHwnfdkyXgs8WgRkzr0QqC2WbfL5Mb6CjPb3HzWhJINM+ofJ5l7jTRlwt9z1Vdsk1y7SQDOFYY/Fv2HpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6498
+X-OriginatorOrg: intel.com
 
-When a container is replaced and the new one keeps appending to files
-the old one left dirty, the new one can stall in balance_dirty_pages()
-for seconds to minutes, with little CPU use and its write lag growing
-linearly before it recovers. This matches a 30-60s stall after each
-deploy of a container at Honeycomb that reads from Kafka and writes
-columnar files to a host volume.
+On Wed, Sep 30, 2026 at 01:48:49PM +0100, Pavel Begunkov wrote:
+> On 9/30/26 11:08, Pavel Begunkov wrote:
+> > On 9/30/26 04:00, Matthew Brost wrote:
+> > > On Mon, Sep 21, 2026 at 02:38:45PM +0100, Pavel Begunkov wrote:
+> > ...>> +struct dma_buf_io_map *dma_buf_io_create_map(struct dma_buf_io_ctx *ctx)
+> > > > +{
+> > > > +    struct dma_buf *dmabuf = ctx->dmabuf;
+> > > > +    struct dma_buf_io_map *map;
+> > > > +    long ret;
+> > > > +
+> > > > +    guard(mutex)(&ctx->map_create_mutex);
+> > > > +
+> > > > +    scoped_guard(mutex, &ctx->map_mutex) {
+> > > > +        if (ctx->maps_killed)
+> > > > +            return ERR_PTR(-ENOENT);
+> > > > +        /* recheck under the lock in case it has already been re-created */
+> > > > +        map = __dma_buf_io_get_map(ctx);
+> > > > +        if (map)
+> > > > +            return map;
+> > > > +    }
+> > > > +
+> > > > +    dma_buf_io_wait_active_maps(ctx);
+> > > > +
+> > > > +    ret = dma_resv_lock_interruptible(dmabuf->resv, NULL);
+> > > > +    if (ret)
+> > > > +        return ERR_PTR(ret);
+> > > > +
+> > > > +    ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
+> > > > +                    true, MAX_SCHEDULE_TIMEOUT);
+> > > > +    if (ret <= 0) {
+> > > > +        if (!ret)
+> > > > +            ret = -EAGAIN;
+> > > > +        dma_resv_unlock(dmabuf->resv);
+> > > > +        return ERR_PTR(ret);
+> > > > +    }
+> > > > +
+> > > > +    map = ctx->dev_ops->map(ctx);
+> > > 
+> > > I'm playing around this code now.
+> > > 
+> > > I think you need the dma_resv_wait_timeout after the 'map'?
+> > > 
+> > > If a device doesn't support p2p ->map() will typically trigger an async
+> > > migrate to system memory and data will be moving but the map is valid -
+> > > Xe 100% does this, I checked AMDGPU and fairly confident it has the same
+> > > async behavior.
+> > 
+> > There is a wait right before because I read somewhere in dma-buf
+> > comments that I need to do that, sounds a bit odd if I need to
+> > wait on fences before and after. I can add it, just curious how
+> > come that other dma_buf_map_attachment() callers don't need to do
+> > that. Or maybe they wait somewhere else?
 
-Trigger: a cgroup dirties files and is removed while they are still
-dirty, and a sibling keeps appending to the same files under a parent
-memory limit. cgwb_kill() takes the removed memcg's wbs out of
-bdi->cgwb_tree, but the inodes stay attached to them, so the sibling's
-foreign flushes fail with -ENOENT in wb_get_lookup().
+In GPU drivers, when we receive a foreign object and map it in Xe or
+AMDGPU, this logic sits deep in the stack. However, the top-level call
+is typically ttm_bo_validate(), which in both drivers eventually
+resolves to the TTM ->move() vfunc. That path calls
+dma_buf_map_attachment(), which in turn invokes the dma-buf's ->map()
+callback.
 
-Keep killed wbs in bdi->cgwb_tree until they are released, so that
-cgroup_writeback_by_id() finds them through the regular lookup. The
-creation paths skip dying wbs, and a new wb takes over the slot of a
-dying one when a live memcg's blkcg association changes; release only
-removes a wb that still owns its slot. cgwb_create() also refuses to
-link a new wb for a dying memcg, so a removed memcg's dirty wb can't be
-replaced before wb_memcg_offline() kills the new one. The blkcg
-association check moves from wb_get_lookup() to the creation side: once
-a memcg with io enabled is removed, cgroup_get_e_css() returns an
-ancestor's io css and its dying wb would not match.
+That ->map() callback can trigger a asynchronous move on a different
+device, where the top-level call is again ttm_bo_validate().
+We then end up back in the TTM ->move() vfunc, where kernel fences are
+installed. I realize that's a lot of layers, but the call chain can end
+up looking like this.
 
-With commit 168a8c13159c ("writeback: size foreign flushes by target
-wb dirty pages"), the flush is then sized from the wb's own dirty
-pages and writes out what the replacement dirtied.
+Now we have a mapping and an object with kernel fences attached. Before
+the object can be used by either the exec IOCTL (batch buffer
+submission), the VM bind IOCTL (mapping into the GPU address space), or
+a CPU page fault (not relevant for dma-bufs since they cannot be
+CPU-mapped, but a useful example of a normal BO move), we wait on those
+kernel fences.
+ 
+In the case of the exec IOCTL or VM bind IOCTL, the kernel fences are
+added as dependencies to a drm_sched job, delaying its execution until
+the fences signal. That is where the wait occurs. In the case of a CPU
+page fault, the kernel waits directly on the fences before installing
+the CPU page mappings.
 
-Test, on top of that commit: a cgroup appends to 1000 files at
-250MiB/s and is removed, then a second cgroup keeps appending to the
-same files under a 4G parent limit. Worst lag of the second writer
-behind schedule over 120s, in three runs:
+So the TL;DR is if you want to immediately hand back a valid mapping,
+the kernel fences must be waited on before returning after ->map() call.
 
-  without this patch   85.3s  46.9s  52.1s
-  with this patch       1.0s   1.4s   1.0s
+Matt
 
-Suggested-by: Tejun Heo <tj@kernel.org>
-Assisted-by: Claude:claude-opus-5-5 checkpatch sparse
-Assisted-by: Claude:claude-fable-5-1
-Signed-off-by: Liz Fong-Jones <lizf@honeycomb.io>
----
- include/linux/backing-dev-defs.h | 13 +++++-
- include/linux/backing-dev.h      |  2 +-
- mm/backing-dev.c                 | 92 +++++++++++++++++++++++++++++++---------
- 3 files changed, 84 insertions(+), 23 deletions(-)
-
-diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
-index 4f1084937315..035d25f5b81b 100644
---- a/include/linux/backing-dev-defs.h
-+++ b/include/linux/backing-dev-defs.h
-@@ -196,7 +196,7 @@ struct backing_dev_info {
- 	struct bdi_writeback wb;  /* the root writeback info for this bdi */
- 	struct list_head wb_list; /* list of all wbs */
- #ifdef CONFIG_CGROUP_WRITEBACK
--	struct radix_tree_root cgwb_tree; /* radix tree of active cgroup wbs */
-+	struct radix_tree_root cgwb_tree; /* radix tree of cgroup wbs, incl. killed */
- 	struct mutex cgwb_release_mutex;  /* protect shutdown of wb structs */
- 	struct rw_semaphore wb_switch_rwsem; /* no cgwb switch while syncing */
- #endif
-@@ -229,6 +229,17 @@ static inline bool wb_tryget(struct bdi_writeback *wb)
- 	return true;
- }
- 
-+/**
-+ * wb_tryget_live - try to increment a wb's refcount if it hasn't been killed
-+ * @wb: bdi_writeback to get
-+ */
-+static inline bool wb_tryget_live(struct bdi_writeback *wb)
-+{
-+	if (wb != &wb->bdi->wb)
-+		return percpu_ref_tryget_live(&wb->refcnt);
-+	return true;
-+}
-+
- /**
-  * wb_get - increment a wb's refcount
-  * @wb: bdi_writeback to get
-diff --git a/include/linux/backing-dev.h b/include/linux/backing-dev.h
-index c2284466e7aa..f7ef5895625a 100644
---- a/include/linux/backing-dev.h
-+++ b/include/linux/backing-dev.h
-@@ -222,7 +222,7 @@ wb_get_create_current(struct backing_dev_info *bdi, gfp_t gfp)
- 
- 	rcu_read_lock();
- 	wb = wb_find_current(bdi);
--	if (wb && unlikely(!wb_tryget(wb)))
-+	if (wb && unlikely(!wb_tryget_live(wb)))
- 		wb = NULL;
- 	rcu_read_unlock();
- 
-diff --git a/mm/backing-dev.c b/mm/backing-dev.c
-index cecbcf9060a6..a370dd94b6a4 100644
---- a/mm/backing-dev.c
-+++ b/mm/backing-dev.c
-@@ -614,6 +614,12 @@ static void cgwb_release_workfn(struct work_struct *work)
- 						release_work);
- 	struct backing_dev_info *bdi = wb->bdi;
- 
-+	scoped_guard(spinlock_irq, &cgwb_lock) {
-+		/* a newer wb may have taken the slot, see cgwb_create() */
-+		radix_tree_delete_item(&bdi->cgwb_tree, wb->memcg_css->id, wb);
-+		list_del(&wb->offline_node);
-+	}
-+
- 	mutex_lock(&wb->bdi->cgwb_release_mutex);
- 	wb_shutdown(wb);
- 
-@@ -627,10 +633,6 @@ static void cgwb_release_workfn(struct work_struct *work)
- 
- 	fprop_local_destroy_percpu(&wb->memcg_completions);
- 
--	spin_lock_irq(&cgwb_lock);
--	list_del(&wb->offline_node);
--	spin_unlock_irq(&cgwb_lock);
--
- 	wb_exit(wb);
- 	bdi_put(bdi);
- 	WARN_ON_ONCE(!list_empty(&wb->b_attached));
-@@ -645,11 +647,16 @@ static void cgwb_release(struct percpu_ref *refcnt)
- 	queue_work(cgwb_release_wq, &wb->release_work);
- }
- 
-+/*
-+ * A killed wb stays in bdi->cgwb_tree until it is released or replaced in
-+ * cgwb_create(), so that foreign flushes can still find it through
-+ * wb_get_lookup().  Inodes attached to it can keep collecting dirty pages
-+ * from other memcgs until they are written back and switched away.
-+ */
- static void cgwb_kill(struct bdi_writeback *wb)
- {
- 	lockdep_assert_held(&cgwb_lock);
- 
--	WARN_ON(!radix_tree_delete(&wb->bdi->cgwb_tree, wb->memcg_css->id));
- 	list_del(&wb->memcg_node);
- 	list_del(&wb->blkcg_node);
- 	list_add(&wb->offline_node, &offline_cgwbs);
-@@ -669,7 +676,8 @@ static int cgwb_create(struct backing_dev_info *bdi,
- 	struct mem_cgroup *memcg;
- 	struct cgroup_subsys_state *blkcg_css;
- 	struct list_head *memcg_cgwb_list, *blkcg_cgwb_list;
--	struct bdi_writeback *wb;
-+	struct bdi_writeback *wb, *old_wb;
-+	void __rcu **slot;
- 	unsigned long flags;
- 	int ret = 0;
- 
-@@ -681,6 +689,8 @@ static int cgwb_create(struct backing_dev_info *bdi,
- 	/* look up again under lock and discard on blkcg mismatch */
- 	spin_lock_irqsave(&cgwb_lock, flags);
- 	wb = radix_tree_lookup(&bdi->cgwb_tree, memcg_css->id);
-+	if (wb && wb_dying(wb))
-+		wb = NULL;
- 	if (wb && wb->blkcg_css != blkcg_css) {
- 		cgwb_kill(wb);
- 		wb = NULL;
-@@ -726,9 +736,24 @@ static int cgwb_create(struct backing_dev_info *bdi,
- 	ret = -ENODEV;
- 	spin_lock_irqsave(&cgwb_lock, flags);
- 	if (test_bit(WB_registered, &bdi->wb.state) &&
--	    blkcg_cgwb_list->next && memcg_cgwb_list->next) {
--		/* we might have raced another instance of this function */
--		ret = radix_tree_insert(&bdi->cgwb_tree, memcg_css->id, wb);
-+	    blkcg_cgwb_list->next && memcg_cgwb_list->next &&
-+	    !css_is_dying(memcg_css)) {
-+		/*
-+		 * We might have raced another instance of this function.  A
-+		 * dying wb keeps its slot until released; take it over.
-+		 */
-+		slot = radix_tree_lookup_slot(&bdi->cgwb_tree, memcg_css->id);
-+		if (!slot) {
-+			ret = radix_tree_insert(&bdi->cgwb_tree, memcg_css->id, wb);
-+		} else {
-+			old_wb = radix_tree_deref_slot_protected(slot, &cgwb_lock);
-+			if (wb_dying(old_wb)) {
-+				radix_tree_replace_slot(&bdi->cgwb_tree, slot, wb);
-+				ret = 0;
-+			} else {
-+				ret = -EEXIST;
-+			}
-+		}
- 		if (!ret) {
- 			list_add_tail_rcu(&wb->bdi_node, &bdi->wb_list);
- 			list_add(&wb->memcg_node, memcg_cgwb_list);
-@@ -768,10 +793,29 @@ static int cgwb_create(struct backing_dev_info *bdi,
-  * Try to get the wb for @memcg_css on @bdi.  The returned wb has its
-  * refcount incremented.
-  *
-- * This function uses css_get() on @memcg_css and thus expects its refcnt
-- * to be positive on invocation.  IOW, rcu_read_lock() protection on
-- * @memcg_css isn't enough.  try_get it before calling this function.
-- *
-+ * The wb may have been killed and its blkcg association may be stale.  This
-+ * is what foreign flushes want: they target the wb that owns the dirty
-+ * inodes, which can be a killed one.  Use wb_get_create() to get a wb to
-+ * attach inodes to.
-+ */
-+struct bdi_writeback *wb_get_lookup(struct backing_dev_info *bdi,
-+				    struct cgroup_subsys_state *memcg_css)
-+{
-+	struct bdi_writeback *wb;
-+
-+	if (!memcg_css->parent)
-+		return &bdi->wb;
-+
-+	rcu_read_lock();
-+	wb = radix_tree_lookup(&bdi->cgwb_tree, memcg_css->id);
-+	if (wb && !wb_tryget(wb))
-+		wb = NULL;
-+	rcu_read_unlock();
-+
-+	return wb;
-+}
-+
-+/*
-  * A wb is keyed by its associated memcg.  As blkcg implicitly enables
-  * memcg on the default hierarchy, memcg association is guaranteed to be
-  * more specific (equal or descendant to the associated blkcg) and thus can
-@@ -782,9 +826,13 @@ static int cgwb_create(struct backing_dev_info *bdi,
-  * both the memcg and blkcg associated with it and verifies the blkcg on
-  * each lookup.  On mismatch, the existing wb is discarded and a new one is
-  * created.
-+ *
-+ * This function uses css_get() on @memcg_css and thus expects its refcnt
-+ * to be positive on invocation.  IOW, rcu_read_lock() protection on
-+ * @memcg_css isn't enough.  try_get it before calling this function.
-  */
--struct bdi_writeback *wb_get_lookup(struct backing_dev_info *bdi,
--				    struct cgroup_subsys_state *memcg_css)
-+static struct bdi_writeback *cgwb_get_live(struct backing_dev_info *bdi,
-+					   struct cgroup_subsys_state *memcg_css)
- {
- 	struct bdi_writeback *wb;
- 
-@@ -798,7 +846,7 @@ struct bdi_writeback *wb_get_lookup(struct backing_dev_info *bdi,
- 
- 		/* see whether the blkcg association has changed */
- 		blkcg_css = cgroup_get_e_css(memcg_css->cgroup, &io_cgrp_subsys);
--		if (unlikely(wb->blkcg_css != blkcg_css || !wb_tryget(wb)))
-+		if (unlikely(wb->blkcg_css != blkcg_css || !wb_tryget_live(wb)))
- 			wb = NULL;
- 		css_put(blkcg_css);
- 	}
-@@ -813,8 +861,8 @@ struct bdi_writeback *wb_get_lookup(struct backing_dev_info *bdi,
-  * @memcg_css: cgroup_subsys_state of the target memcg (must have positive ref)
-  * @gfp: allocation mask to use
-  *
-- * Try to get the wb for @memcg_css on @bdi.  If it doesn't exist, try to
-- * create one.  See wb_get_lookup() for more details.
-+ * Try to get the live wb for @memcg_css on @bdi.  If it doesn't exist, try
-+ * to create one.  See cgwb_get_live() for more details.
-  */
- struct bdi_writeback *wb_get_create(struct backing_dev_info *bdi,
- 				    struct cgroup_subsys_state *memcg_css,
-@@ -825,7 +873,7 @@ struct bdi_writeback *wb_get_create(struct backing_dev_info *bdi,
- 	might_alloc(gfp);
- 
- 	do {
--		wb = wb_get_lookup(bdi, memcg_css);
-+		wb = cgwb_get_live(bdi, memcg_css);
- 	} while (!wb && !cgwb_create(bdi, memcg_css, gfp));
- 
- 	return wb;
-@@ -858,8 +906,10 @@ static void cgwb_bdi_unregister(struct backing_dev_info *bdi)
- 	WARN_ON(test_bit(WB_registered, &bdi->wb.state));
- 
- 	spin_lock_irq(&cgwb_lock);
--	radix_tree_for_each_slot(slot, &bdi->cgwb_tree, &iter, 0)
--		cgwb_kill(*slot);
-+	radix_tree_for_each_slot(slot, &bdi->cgwb_tree, &iter, 0) {
-+		if (!wb_dying(*slot))
-+			cgwb_kill(*slot);
-+	}
- 	spin_unlock_irq(&cgwb_lock);
- 
- 	mutex_lock(&bdi->cgwb_release_mutex);
-
--- 
-2.53.0
-
+> 
+> I can't find it, so maybe it was the comment below and I mixed
+> sth up back then. I'll move it after ->map().
+> 
+> 
+> * Note that for non-dynamic exporters the driver must guarantee that
+> * that the memory is available for use and cleared of any old data by
+> * the time this function returns.  Drivers which pipeline their buffer
+> * moves internally must wait for all moves and clears to complete.
+> * Dynamic exporters do not need to follow this rule: For non-dynamic
+> * importers the buffer is already pinned through @pin, which has the
+> * same requirements. Dynamic importers otoh are required to obey the
+> * dma_resv fences.
+> *
+> 
+> -- 
+> Pavel Begunkov
+> 
