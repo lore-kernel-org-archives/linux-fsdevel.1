@@ -1,166 +1,313 @@
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB9C3CCFAC
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 10:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790763733; cv=none; b=upHR8tR8jSxskIvvopRJeXFlwp2qv5jMybYI1pFr58Ew/UVA/bxTUmKqltvHsV9x7h5ajO99ssWv4Fe1f5ojSe8UV8i1GYczod4s3rIYFZmVCl+LerwywvibqcYsu46EueGg2n2hy2zBR25iZ7hrKxp0drToRLCaYNpoaq6Jqx8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790763733; c=relaxed/simple;
-	bh=HTstWwHGvjQaqkxfRTX9fKd56IW56PagSfiTwJIrIgo=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=JudMDE2YBdV5yML1fFmYvQemhBSQrBMrLEQ8Biimvf1+pBPAgopxFWQh7wlJ/0JkxhFgZd8xkf3UZRH6CrmQTiR0ljmhLtmkoKjgN5CMBjkvtFt0WUM7NKBBw+DzabJ0WPSXbxyspC8DH8m70W5uvlFJsSc4TwYuorAfyWepyPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4b2f2b8d88fso8149468b6e.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 03:22:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727E345560A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 10:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.235
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790764051; cv=pass; b=sATm8wbkoBSejtfhZ1cz+EjCZN+4Ta/L5IMhU8LonoQiH+RLYFcAK72qbh3a9lUz6jhTKHZVOzrr6tuoIblq3ZQC+0/YMo+x2ZahGFgnyDVq0ptawAClBvFuEzPdoubZjesi3O0BgZYcbXTAiVlA6b4X7jkIl9szAKi2gm2bHKQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790764051; c=relaxed/simple;
+	bh=1bhyfk1ADE8+nR+UpUvKzTDyETELacsIgwqRNvLeG9o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j85dY08XUPQ7+sojIh6lCDCHJ4U3QWy4AglwrdU1z33WMvytKm5aMae2isTfDNbiSUubYx7F8hJawwI4Dqq9IjabqrFUEpa4l0N6x40mtyBTaOOt0oQG4+D/1Ych7fITwqOR7no8RIiFKjxVWkDbZYcxr4Ftz+/Hc24aQf7n/+4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HvZbFdB+; arc=pass smtp.client-ip=74.125.230.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HvZbFdB+"
+Received: by mail-qk2-f43.google.com with SMTP id d75a77b69052e-530e28a62abso76785711cf.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 03:27:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790764045; cv=none;
+        d=google.com; s=arc-20260327;
+        b=UxNpRo47jOV89HQm8zf6mFRk6EN6QiMket6CfA3ejaWmNrch38z0JwfkX0UQmUwFtp
+         J2ssGZdeWijV9oBPwE3cFhu8Tvqf5+tgG2yX9qoDqurjdjx0r9kRJ5baQXv6uVMCKJ0+
+         TnpyXsAiAWllDa1AA5hzSAAfpLoNz6A2yGlvIUw/B8EnikJjDOdZgqUtBMeN600ywP1F
+         Fnb1+HA/uDWaM8WVYHgLQMOVs3QmbbCSr9YoH3msiitBSSxlNdoh5Lr75MDqmVQjvcz7
+         XI1bGmi9N0fK0ukyoOKgI2ruO/RK396AwJF1B/FOUSJqsLVpHUF+tvRQHeb9fPzsfHdR
+         6c9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1bhyfk1ADE8+nR+UpUvKzTDyETELacsIgwqRNvLeG9o=;
+        fh=2l7LYtHw+JYfsqZjCGvlO6Po34z8AugAg6TayHudH3s=;
+        b=kyF/Qw4mXZ4QZYX5TWTD6eW+5J1zArJSzNWaUXcSnDuHHdafqhSg+YrnB7cBj62Ipl
+         BC3PWqpDwfk6Efq9OB/fxCqkRsNn52EJxIFUqqqVB/ooT2GwNlzUOFilOBY4HgHHORE3
+         EBgghsMTaRYNwXBN50b6kD5nihgMYZeDY+Rei3/xBo8C0gSCaGDVxMSBoCUcBXdyo2xP
+         NyrgvOF7k/x7mTzKS4sTjJvETWPEzHnVdMpsURQ6vLNeZ7lHJ+yTVbdGHiVvgZbII415
+         YwOTjw1t4cwT0f/IbW/gtUg59xGxILiGJpxzWDv5pcShxoi/vk10esWojtLYUAROQucY
+         HAZw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790764045; x=1791368845; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1bhyfk1ADE8+nR+UpUvKzTDyETELacsIgwqRNvLeG9o=;
+        b=HvZbFdB+V/MBvlYJGdy+FUssdchjfx+qqs16V7R57Gqz+2kcIb/fGdBo20bj8Sx+hQ
+         IAWsLX1ZTaz1Y8zQ7sjWTHrZ8/nj32rYXn16aPJEGVEjrsjb2NCTATY1xfmvOaq3EKL8
+         e1+gOgAfm/MdQiW3JtgagNgOmUGFDnYmqROeWqGGPeKhMlgsgrOdDQQbq5prIfZLDCli
+         ZTEa17nQS72mTR8LTbxpzz7CqHYt7ZQvoEdTww0enP85h7EZAQZuJrE7xbbVRrjYH29D
+         ONx7bhQkiQr3pIIe5PeGNGg7u98ckT54vy/vxkbf0cD5B9lyCgP/ED0LmnqNAMbMCfkM
+         RxRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790763730; x=1791368530;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=5ciPoU9g0L9TxJi7K6B543D4kgHHCBTjDma4BORePb8=;
-        b=dK7/W1xWKWrPwzTRNajJC7c3B+EcPYMp9+mCZ0qXsc4GHspQUUH6ze8wXBddXZV0Qn
-         vKZ0vdFaw08ykeefVIRC6Zc8AOKMjG2Ld024NM3NCNowbI1RlyY2mif9Ps+s62/l80YM
-         Wm+uS7h4sQqZcLCIUV75hi12K0leXfWMzAMh/jBWB26p0dT+De5lK4IqU//UDZeh/1nu
-         NjJCZwCkYFIf2KYdynfPcln5tAUQ8ygjREbB9FVlGQx87yNmLsfnP57EYKsJ21SXrFFj
-         WkoTRTlJhpqSKyEQQktxDGmjSX2UhdFkx2WQI0QcnqiMInzMRFzS8gUfYpb5Sp9O4h6E
-         bwkQ==
-X-Forwarded-Encrypted: i=1; AKwUvByXTzsh61P/RaF37imhr4SRmqwZX1LbbkRcJ3Nsu7cyI9BN6wAir4l0eHysd37xdR4J+U72A0l4yd/kPb9q@vger.kernel.org
-X-Gm-Message-State: AFuF++mzF0OLh6rcBgIpZtPdUECSpjom1UvUIsHxq2Xe9fias7wXs9js
-	pBR81ye47f/kQeHIIAiS3fkG/a0CNIZ9l4+BjHRR1jlQ7Jkr5flcurrK4pxSCpI9n5kF0UBoGe+
-	sKXrjmASNhgIS7EKr84esrthIWmiED5VlFP1I70x33uR309cmWas3+ny4Wu4=
+        d=1e100.net; s=20260707; t=1790764045; x=1791368845;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1bhyfk1ADE8+nR+UpUvKzTDyETELacsIgwqRNvLeG9o=;
+        b=cY6rhIabVQzB80DV9Xcg1By+UARFwlRQFTGEjnIM8CoC3cdfGTDxBpRYXOcskKIO/2
+         mxqyo+paacuQA7nZISNkS5zLst1wdkTISs9N6Nb0okuohWS5RcNwQZLFdwclq6gyNqrC
+         0bWyXKXfBK6zBNTmnGz78AsSs4Bm748T1+JoGCeoR0eUHsTZzTbRyi/SySUbMASxiC3Z
+         EUGVB/AzqhtaqANLHDXLAEZmYog4kj/Nir7LMA/jJhU7+/kmapyx5ldztHOIcn+WROkZ
+         I7tARucw/aWdivgxMWSLKujXJqyAct7O2dUbl95n4ogPSo3vGkQJT3iGN44XjLS+X4oj
+         iHsA==
+X-Forwarded-Encrypted: i=1; AKwUvByyaSnNoh1P9GFRfhD6Yk5uuvxSKUy2hIJSxlTZEXyVt/g+ibI3axK/2VnfkXt2jQXc6DaZM1A20fpeo073@vger.kernel.org
+X-Gm-Message-State: AFuF++lP2WiGS72FGU5CkLjcz1Jlqo7ylIg0/aqtWoDDxFpdeVmjVBh1
+	e/YiCGygWzbnpaMDWwvHU2tiK8ziOUqyisD5JXhuVUF+Ck78yYs/lDi87UN3nMFPCGK1yC9KSfi
+	D956mg9euN+T/yNRHpDMaWoK7O4gVtWI=
+X-Gm-Gg: AYBFou1GRnqiAP0vJ4ngiztyeFS2aKCj25q033jV87gc2MjiO+XQzQT7ERLho/aLk9w
+	BuG6L0pLiG8/9FF+VbJ9Bnm0D8g0vYPQ5XXJbKZBK8Twp1t8nxaxjuc44zWy+WDkIZZS9eeCwTx
+	4USHU0diiOC71Vjw3ZeYWXgNtYh3E4Kc1gAHQuE3uKyEBzgaI1xc2oPSvHhCL1MqHjXF5DclEkw
+	NJG9N6SNhqCnbu5VG6CwANXTq0dOC4hU4SWI5uy37S9VbjVTLHI0hLX65q6tCa9foh44AHJkHRK
+	0HSX8NUEmc6qEcs/nKgfqXerXQ0Mm/zc4kYU+CVykLx9bkt34zV3CoLB2aN8dXn5hhb+JwLRI2D
+	TN2ZPN8R/L0GL711udxXI7wvJytwa51FpR+Q26w==
+X-Received: by 2002:a05:622a:2593:b0:533:2ed5:3191 with SMTP id
+ d75a77b69052e-53374d2ed19mr14887221cf.34.1790764045045; Wed, 30 Sep 2026
+ 03:27:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:c3d7:b0:4cb:f21c:a794 with SMTP id
- 5614622812f47-4f1b5dd6029mr744708b6e.28.1790763730224; Wed, 30 Sep 2026
- 03:22:10 -0700 (PDT)
-Date: Wed, 30 Sep 2026 03:22:10 -0700
-In-Reply-To: <20260929034158.1455429-1-neilb@ownmail.net>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6abce2d2.64639fcc.9812d.000c.GAE@google.com>
-Subject: [syzbot ci] Re: multiple-filesystems: prepare for changes to VFS locking
-From: syzbot ci <syzbot+cifa06034fce36fce1@syzkaller.appspotmail.com>
-To: a.hindborg@kernel.org, amir73il@gmail.com, anton.ivanov@cambridgegreys.com, 
-	baolin.wang@linux.alibaba.com, brauner@kernel.org, cem@kernel.org, 
-	coda@cs.cmu.edu, codalist@coda.cs.cmu.edu, fuse-devel@lists.linux.dev, 
-	hughd@google.com, hyc.lee@gmail.com, jack@suse.cz, jaharkes@cs.cmu.edu, 
-	jlayton@kernel.org, joel.granados@kernel.org, johannes@sipsolutions.net, 
-	kees@kernel.org, leitao@debian.org, linkinjeon@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-um@lists.infradead.org, 
-	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, miklos@szeredi.hu, 
-	neilb@ownmail.net, ntfs@lists.linux.dev, richard@nod.at, 
-	viro@zeniv.linux.org.uk
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+References: <CAAE3jtcL_CZJdcattCwe0RraKnHcZO=UknxEUQVG858ouZCUQA@mail.gmail.com>
+ <7ebe4591-2306-4b5c-b83e-6a2e34b52bd8@kernel.org> <CAAE3jtfeKJLSypScqRAEEgvO8En5kJfpbcFn5X+LQ2YL+xz_vA@mail.gmail.com>
+ <85aff663-2131-47da-ac04-8f0799a49b91@kernel.org> <CAAE3jtcRQ407P9LTbg=JOwhABQRViSaq2XBefnDdNWiD7PxvUg@mail.gmail.com>
+ <1ce9cf3a-15dc-4815-ba29-2e22b05206fb@kernel.org> <art8EKRKMdwSDCkr@gremlin>
+In-Reply-To: <art8EKRKMdwSDCkr@gremlin>
+From: =?UTF-8?B?5aSp54u8?= <rockeet@gmail.com>
+Date: Wed, 30 Sep 2026 18:27:14 +0800
+X-Gm-Features: AclHuK-4Kbsa_X5iz4H6jHTRUMy1VIoQyPoWQlC8GcQsmw033rYSNdAy64prik0
+Message-ID: <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
+Subject: Re: [RFC] madvise: best-effort deferred writeback for shared file mappings
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot ci has tested the following series
+Hi David, Lorenzo,
 
-[v1] multiple-filesystems: prepare for changes to VFS locking
-https://lore.kernel.org/all/20260929034158.1455429-1-neilb@ownmail.net
-* [PATCH 1/7] VFS/xfs/ntfs: drop parent lock across d_alloc_parallel() in d_add_ci()
-* [PATCH 2/7] shmem: use d_duplicate()
-* [PATCH 3/7] coda: don't d_drop() early.
-* [PATCH 4/7] configfs: remove d_add() calls before configfs_attach_group()
-* [PATCH 5/7] hostfs: don't d_drop() before d_splice_alias() in hostfs_mkdir()
-* [PATCH 6/7] procfs: drop parent lock for d_alloc_parallel() in iterate_shared()
-* [PATCH 7/7] ovl: stop using lookup_one() in ovl_iterate().
+> You really need an actual file on disk. Shared memory / shmem / memfd is
+> not sufficient?
 
-and found the following issue:
-WARNING in __d_instantiate
+Yes, an ordinary disk-backed file is the intended output, and subsequent
+consumers access it through mmap.
 
-Full report is available here:
-https://ci.syzbot.org/series/b87296ff-c49f-416e-834c-a886ea8bd6c3
+Shared memory can preserve state across a process crash if the shared
+object remains alive. However, using shmem/memfd would introduce a separate
+staging and transfer step to put the data into the final file. Building
+directly in a file-backed MAP_SHARED mapping lets us preserve the latest
+userspace writes across process crashes and retain the same file-cache
+pages for subsequent consumers.
 
-***
+> I also assume MAP_PRIVATE mapping the file so it's anon CoW'd is not
+> sufficient either?
 
-WARNING in __d_instantiate
+Correct. With MAP_PRIVATE, modifications remain private and are not carried
+through to the underlying file. If the constructing process crashes before
+transferring those modifications to the file, another process reopening the
+file cannot access them. That would lose the process-crash survival
+property we obtain from MAP_SHARED.
 
-tree:      linux-next
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
-base:      3879f51857325da9bf3cfb073280257cd16ae067
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/dd8fcfa5-13f0-458f-bd3b-9c06d4d67a78/config
-syz repro: https://ci.syzbot.org/findings/fdffe42d-ac1a-40d9-b05c-014808f5b0ec/syz_repro
+> It'd be problematic to effectively corrupt the page cache by saying "hey
+> this is dirty but just clear dirty state and pretend this is what the
+> disk has".
 
-------------[ cut here ]------------
-d_in_lookup(dentry)
-WARNING: fs/dcache.c:2197 at __d_instantiate+0x3f4/0x700 fs/dcache.c:2197, CPU#1: syz.0.17/5823
-Modules linked in:
-CPU: 1 UID: 0 PID: 5823 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:__d_instantiate+0x3f4/0x700 fs/dcache.c:2197
-Code: 03 41 80 f6 01 41 0f b6 ce c1 e1 0d 09 c1 89 0b 48 83 c4 10 5b 41 5c 41 5d 41 5e 41 5f 5d e9 03 26 96 09 cc e8 0d 84 75 ff 90 <0f> 0b 90 e9 7f fd ff ff e8 ff 83 75 ff 41 81 cc 00 00 01 00 e9 34
-RSP: 0018:ffffc900038d73a0 EFLAGS: 00010293
-RAX: ffffffff825242a3 RBX: ffff8881b4eef380 RCX: ffff888169801e00
-RDX: 0000000000000000 RSI: 0000000001000000 RDI: 0000000000000000
-RBP: 0000000001000000 R08: 0000000000000003 R09: 0000000000000004
-R10: dffffc0000000000 R11: fffff5200071ae6c R12: 0000000000280000
-R13: dffffc0000000000 R14: ffff8881bc29f3e0 R15: ffff8881bc29f3e4
-FS:  00007f15d1af96c0(0000) GS:ffff8882a8cc9000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000200000001000 CR3: 00000001bd5c4000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- d_make_persistent+0x8e/0x180 fs/dcache.c:3139
- shmem_mknod+0x2d4/0x340 mm/shmem.c:3851
- shmem_whiteout mm/shmem.c:3982 [inline]
- shmem_rename2+0x267/0x430 mm/shmem.c:4022
- vfs_rename+0xbd9/0xef0 fs/namei.c:6219
- ovl_do_rename_rd fs/overlayfs/overlayfs.h:371 [inline]
- ovl_check_rename_whiteout fs/overlayfs/super.c:593 [inline]
- ovl_make_workdir fs/overlayfs/super.c:713 [inline]
- ovl_get_workdir+0x93d/0x1980 fs/overlayfs/super.c:836
- ovl_fill_super_creds fs/overlayfs/super.c:1449 [inline]
- ovl_fill_super+0x1702/0x4360 fs/overlayfs/super.c:1561
- vfs_get_super fs/super.c:1405 [inline]
- get_tree_nodev+0xbb/0x150 fs/super.c:1424
- vfs_get_tree+0x92/0x2a0 fs/super.c:1947
- fc_mount fs/namespace.c:1198 [inline]
- do_new_mount_fc fs/namespace.c:3772 [inline]
- do_new_mount+0x319/0xdc0 fs/namespace.c:3848
- do_mount fs/namespace.c:4181 [inline]
- __do_sys_mount fs/namespace.c:4397 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4374
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f15d0b9e159
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f15d1af9028 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007f15d0e25fa0 RCX: 00007f15d0b9e159
-RDX: 0000200000000440 RSI: 0000200000000100 RDI: 0000000000000000
-RBP: 00007f15d0c3506b R08: 0000200000000080 R09: 0000000000000000
-R10: 0000000000000008 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f15d0e26038 R14: 00007f15d0e25fa0 R15: 00007ffe9e1b3308
- </TASK>
+To clarify, the proposal does not involve clearing dirty state or
+pretending that memory and disk contents match. The pages would remain
+dirty and continue to count toward the existing dirty-page limits.
 
+The requested hint only expresses that the application expects to modify
+the data again soon and would prefer background writeback to happen later.
 
-***
+> Delaying writeback could interfere with the writeback balancing logic.
 
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
+I understand that concern. The hint should not exempt the application from
+dirty-page limits or throttling. If writeback is needed for balancing,
+memory pressure, or explicit synchronization, the kernel should override
+the hint.
 
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+The intended benefit is to avoid writing intermediate versions when the
+kernel has room to defer that work. There is no requirement to prevent
+writeback until construction finishes.
 
-To test a fix for this bug, please reply with `#syz test`
-(on a separate line) and attach the patch to the email.
+madvise is not the only option, deferring writeback for the entire file
+would also be acceptable.
 
-Notes:
-- The patch will be applied on top of the tested series (as an
-  incremental fix).
-- To test a new version of the whole series, please send it directly
-  to syzbot@lists.linux.dev.
-- Arguments like custom git repos and branches are not supported.
+Could such an advisory preference be accommodated within the existing
+writeback balancing policy while retaining its limits and fairness?
+
+Thanks,
+Peng
+
+Lorenzo Stoakes (ARM) <ljs@kernel.org> =E4=BA=8E2026=E5=B9=B49=E6=9C=8829=
+=E6=97=A5=E5=91=A8=E4=BA=8C 16:59=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Tue, Sep 29, 2026 at 08:59:57AM +0200, David Hildenbrand (Arm) wrote:
+> > On 9/29/26 06:06, =E5=A4=A9=E7=8B=BC wrote:
+> > > Hi David,
+> > >
+> >
+> > Hi,
+> >
+> > >> What is supposed to happen if the process crashes when updating the
+> > >> MAP_SHARED region halfway through?
+> > >
+> > > The data structure survives an interrupted update through its
+> > > application-level copy-on-write and lock-free concurrency design. A
+> > > file-backed MAP_SHARED mapping preserves the latest userspace writes =
+after
+> > > the process dies, even if they have not yet reached disk, provided th=
+e
+> > > kernel remains running.
+> > >
+> > > This does not depend on preventing writeback. Deferring writeback is =
+purely
+> > > a performance optimization, not a correctness requirement.
+> > >
+> > >> It would be helpful if the use case + data structure would be explai=
+ned
+> > >> in a bit more detail.
+> > >
+> > > The data structure originally used uint32_t offsets instead of pointe=
+rs to
+> > > reduce pointer overhead. On that basis, we implemented lock-free conc=
+urrent
+> > > reads and writes, obtaining crash safety for free at the same time. W=
+e use
+> > > a file-backed MAP_SHARED mapping to turn that capability into an actu=
+al
+> > > feature that survives process crashes.
+> >
+> > Ok, thanks. Just be sure: you really need an actual file on disk. Share=
+d memory
+> > / shmem / memfd is not sufficient?
+> >
+>
+> I also assume MAP_PRIVATE mapping the file so it's anon CoW'd is not suff=
+icient
+> either?
+>
+> > >> What exactly is the problem with writeback here? Unnecessary I/O? Is
+> > >> writeback the problem or actual reclaim after writeback?
+> > >
+> > > Unnecessary I/O. Reclaim after writeback is not the problem I am tryi=
+ng to
+> > > address.
+> >
+> > Ok.
+>
+> I mean if you're mmap'ing it you're literally mapping the page cache foli=
+o and
+> dirtying that folio.
+>
+> So the kernel really does have to do writeback and it might be quite prob=
+lematic
+> trying to prevent the writeback algorithm from doing its work on a specif=
+ic
+> range.
+>
+> I think the shape of a viable solution really is either MAP_PRIVATE-mappi=
+ng it
+> or using some anon shmem/memfd as David suggests.
+>
+> I think it'd be problematic to effectively corrupt the page cache by sayi=
+ng 'hey
+> this is dirty but just clear dirty state and pretend this is what the dis=
+k has'
+> or something.
+>
+>
+> >
+> > >
+> > > During construction, background writeback can write intermediate cont=
+ents
+> > > that the application will soon overwrite. Those repeated writes waste=
+ disk
+> > > bandwidth. Delaying writeback would avoid that waste where possible; =
+it is
+> > > not required for correctness.
+> >
+> > Understood.
+>
+> Yeah again delaying writeback could interfere with the writeback balancin=
+g logic
+> which tries to keep dirty page levels sane and is fair and balanced so pr=
+ocesses
+> that writeback a lot get delayed in doing so under heavy dirtying.
+>
+> I think anything like this would interfere with that.
+>
+> >
+> > >
+> > >> In a fuse server you can in theory delay the writeback request.
+> > >
+> > > Thanks for the suggestion. That sounds like a possible way to experim=
+ent
+> > > with delayed writeback. The feature I am requesting would make this
+> > > advisory behavior available to applications using ordinary file-backe=
+d
+> > > shared mappings.
+> > >
+> > >> So fadvise would be an option. However, this "defer mode" is really =
+odd.
+> > >> It sounds more like you would want to have a custom policy there [..=
+.]
+> > >
+> > > madvise is not the only option, deferring writeback for the entire fi=
+le
+> > > would also be acceptable.
+> > >
+> > > The application only wants to indicate that it is still modifying the=
+ data
+> > > and would prefer background writeback to happen later. The kernel wou=
+ld
+> > > retain control over the actual timing. Memory pressure could override=
+ the
+> > > hint, and explicit synchronization would keep its normal semantics.
+> > >
+> > > The hint should also expire automatically when the owning mapping or =
+handle
+> > > is released, including on process exit.
+> >
+> > Ok, so while you are updating the large mmap'ed file concurrently, you =
+don't
+> > want writeback to go crazy, because you know that you will modify the m=
+emory
+> > immediately anyway.
+>
+> Yeah see above, I really think the only sensible solution is a MAP_PRIVAT=
+E CoW'd
+> mapping or memfd etc.
+>
+> >
+> > Let me CC some more people.
+>
+> Christian and probably Willy also? But I'm not so sure there's anything s=
+ensible
+> to do here other than something-anon.
+>
+> >
+> >
+> > --
+> > Cheers,
+> >
+> > David
+>
+> --
+> Cheers, Lorenzo
