@@ -1,77 +1,52 @@
-Received: from mail-pz2-f40.google.com (mail-pz2-f40.google.com [74.125.228.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14C831A556
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 08:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C2333B6CC;
+	Wed, 30 Sep 2026 08:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790756399; cv=none; b=MBxHN/ZuVsZb8o0st7ImovNRUHofHIxZE02iUP0TwmdNVyGA9NI5qD4EsWOjHVRC7hLe08kWbBFIx7jMVdeJuDoLGmQE/ZTMl9Oye4+6GeuSoTZXV8t6wNpKHuZNc/eMWDnCYWP3acgI/qurYgXTRD4Lpqbb6hvg8tTBQdqPJfk=
+	t=1790758014; cv=none; b=eBoIqa4T69o8UlRRMZWRJmJqcWnn55kr0KmvTsD9zcNrvOHj30/mIHHZLZzUFpOYb5VzsDjvyTNbstPKri7j/vWAtLquhcr/r3gstynDtcvSf7x37rYPGVjOz3PfpI7pZ96Y78VFEhq2haH3U/oKb6p6gu5SNIMF7d1ceOuAiuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790756399; c=relaxed/simple;
-	bh=0gjYmHMsYtGt0dv2202GWXaLoFT5O5HyNSJCI48LApw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eYtvAa+NTBNvP3lFd5cBS8ZV5Cr0iaVvJT4W4wW231Dphz3w2IhyPbu7iIsZfT3qaHCjVwe3yfe+DQ7FCCKEyinOIoCJJLht6rl0mlbOtFAFFjkiptGd3QTIYSBynKU6mvZh0MZdBbiUHTSsCDDW34h4kKtNlCb/4C5rWBE0vK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+zQms9J; arc=none smtp.client-ip=74.125.228.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790758014; c=relaxed/simple;
+	bh=/nExjtFOB1NJy6jRDr8sZrjF6CsiYeOHyUbVkiivmeA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NnOhQRyXgmFytqSTb2YNcyw9H0HB7tsUlpBL51ZNwJOBQN1zt0wodTqrM6T7nFc92UJjHGjz3HqZ+hHCnWZdm7sf7kjhbjZxl6IoxtI4d4g/D9pCs1eolAzPbIgjT8bh4dWD/VJ0+hecS+c91MwAAuIe7fqqf775XmoWlmnViRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=WfXQ7Ix3; arc=none smtp.client-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+zQms9J"
-Received: by mail-pz2-f40.google.com with SMTP id 41be03b00d2f7-cc74520b20bso1324576a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 01:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790756394; x=1791361194; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sMOZacyHUhLKKfjPN/Y3wFIc5irsTWPuma4tJ7myNr0=;
-        b=B+zQms9JcOon40b7c3FoLN9wViSyF6APitveYbGgL1zjcJwNFvL8/5anF68+RZ7H0/
-         IkcJ49gVtYy0137XdF0spYKRWgJOds9ov9Jg90/oOu7n+Kl2DtZC2ZTOO1LXFOVmryYy
-         tlgl+wEwkNvXWUKmcEYrvVlXvTy1cEZgG0+j8mWJQBtmkzbWDp0WAT9d3A+O1nNMkqvJ
-         aAuFr+4ZL70za1z7EXq7zFihUTdQfILyvdkDO5WFQRAOkTXAhETHnGE5ZfFN6k1bqbhe
-         g2F+1VY5ZuSUYSwtC8gk++qIA52zgW54551I4j6YbgZ3VHhy3z5NLNRcJj5hXHM1Wx7r
-         eWNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790756394; x=1791361194;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sMOZacyHUhLKKfjPN/Y3wFIc5irsTWPuma4tJ7myNr0=;
-        b=H4JogOkQOcjiTqsktt1R9Dv2C5/6Uarc+TYmzaY71NE49oGsBBaHQAYgSQQY9qCWku
-         aLwh9MYw4rj++Dg5/sCeC9r09Fd1m+oEL919v3QYXDj6JMBcg5wrpi4/W3PsDFUnCcXM
-         YewUt6fObPszbpxYksRU5UnxM3v+YK23EQ2mToLZv1bxSbUJsVmG905EGgysqnMq4hiK
-         c3+h7KrxTs2LRQ7jL764w9J05BLjGBWEwN6tu/t81X060ue7ArSaqKx2apiMfbBA/XpG
-         ZYCpSqleaBBipBpsUEiE04wudKLsvB7Tw63cAvSdbuivo0fJn68mEfqw5SSmdmgiIRf9
-         u88g==
-X-Gm-Message-State: AFuF++mjfQNFBeiaQ6Ttn53EZzhlNjP9ZQrzk+UddDb2dLJXopIVYcEA
-	ejET0U3mC0By9cewZ/XS3DcH2aFU3wT4Ge/vUj3xG5cfBYZsl7vTQPIeMyL7sYD8
-X-Gm-Gg: AYBFou1rwm/I5B459DquXTTDjjuGpz/3sPd+5pmJgmLO/IMlAnFSE/b12kZuvzsDZN/
-	T87Oi017p5v0Rx6LvPh6qAil8O+1NzUgRjv2BvHS8zV28tATrUd39ixhw7/Mon1qamEBiAtXnkE
-	zTvF21D7KEjaQX0SuN6AXZbSpjegZfZ7GitCWHe02KrLgFIOXclh7vZjpq4arKPuGSc61PjMJl9
-	1rHuLHAD5qnl+LtPLCzgs8slwDmol2Cz97TbyuYH/42NFttz6UVpY5Rg58j4dpD6ef4EHBIf6Gw
-	mK0+VObVtXE/gN91MDtpaanBesQCgYXq85oTerC2ifHodDYvFygV7AwBhleR3p/cC6udZBJKtwQ
-	Rxy2tbloNGBOWNlGaaInFOZ+UwlfEuFonVVstqd1D5g9Hk3ITgbOa4uZCtcfLcMQjWupclJsn3b
-	P7nvR8Y33/l3L4Q7iuDbIIzF++41vd8VZrumdQc3m2Bw2x01oVbWeizO7WWWE4MxDVm0mhaIp3z
-	Tvi9JGZm3Enb2dzFqG2GhZAqu++WE5h7tey7keia/zee7KuLSOma/QlxfHdalRlNkNDcsg2DIE5
-	cBimEd1hzA==
-X-Received: by 2002:a05:6300:48:b0:3de:141e:c712 with SMTP id adf61e73a8af0-3de9ef62c1emr441453637.14.1790756393656;
-        Wed, 30 Sep 2026 01:19:53 -0700 (PDT)
-Received: from phui-2.c.googlers.com.com (25.187.82.34.bc.googleusercontent.com. [34.82.187.25])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc7da126a49sm453319a12.7.2026.09.30.01.19.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 01:19:53 -0700 (PDT)
-From: Hui Peng <benquike@gmail.com>
-To: Anders Larsen <al@alarsen.net>,
-	Matthias Goergens <matthias.goergens@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Hui Peng <benquike@gmail.com>
-Subject: [PATCH v5 6/6] qnx6: validate sb_blocksize before dividing in qnx6_mmi_fill_super()
-Date: Wed, 30 Sep 2026 08:19:47 +0000
-Message-ID: <20260930081947.511613-7-benquike@gmail.com>
-X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-In-Reply-To: <20260930081947.511613-1-benquike@gmail.com>
-References: <20260930081947.511613-1-benquike@gmail.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="WfXQ7Ix3"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=bVhdAoM2COTEkAP0RD5u/K6CVzP2pUfmVGht00hp+hs=;
+	b=WfXQ7Ix3NN9xeyiFf49tVq6I/4Kaodtsfq1E9mnVEOG4HhRsDFP9dZddpOVlg6OFagJME68xJ
+	92nAHDZkx1tFnxJXQ8ufJNyf9ipWQZ3MIwaf3arOIVExFGSj73PcY2PU0IYoEFz6C8lx47eVXTY
+	a8sLduIXp9ZBqIHlimxsdaU=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4hvpHs3HcWzmVCD;
+	Wed, 30 Sep 2026 16:34:33 +0800 (CST)
+Received: from kwepemf100015.china.huawei.com (unknown [7.202.181.14])
+	by mail.maildlp.com (Postfix) with ESMTPS id 4F74C4048B;
+	Wed, 30 Sep 2026 16:46:42 +0800 (CST)
+Received: from dggphicprd10024.huawei.com (10.243.6.112) by
+ kwepemf100015.china.huawei.com (7.202.181.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Wed, 30 Sep 2026 16:46:41 +0800
+From: Abbott Liu <liuwenliang@huawei.com>
+To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
+	<pliard@google.com>, <akpm@linux-foundation.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<phillip@squashfs.org.uk>, <cem@kernel.org>, <linux-xfs@vger.kernel.org>,
+	<tytso@mit.edu>, <adilger.kernel@dilger.ca>, <libaokun@linux.alibaba.com>,
+	<ojaswin@linux.ibm.com>, <ritesh.list@gmail.com>, <yi.zhang@huawei.com>,
+	<liuwenliang@huawei.com>
+CC: <yangzhuohao1@huawei.com>, <douzhaolei@huawei.com>,
+	<wangbing6@huawei.com>, <nixiaoming@huawei.com>, <liaohua4@huawei.com>,
+	<chenjie6@huawei.com>, <chengzhihao1@huawei.com>, <heyuqiang1@huawei.com>
+Subject: [PATCH] initrd: flush deferred fput() before mounting root
+Date: Wed, 30 Sep 2026 16:46:32 +0800
+Message-ID: <20260930084632.2965573-1-liuwenliang@huawei.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -79,38 +54,165 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemf100015.china.huawei.com (7.202.181.14)
 
-In qnx6_mmi_fill_super(), sb1->sb_blocksize is loaded directly from disk
-without checking for zero before calculating:
+Booting an old-style initrd, i.e. a bare filesystem image rather than a
+cpio archive, with "root=/dev/ram rootfstype=squashfs" can fail to
+mount the root filesystem and panic:
 
-  QNX6_BOOTBLOCK_SIZE / fs32_to_cpu(sbi, sb1->sb_blocksize)
+    RAMDISK: squashfs filesystem found at block 0
+    RAMDISK: Loading 68449KiB [1 disk] into ram disk... done.
+    No filesystem could mount root, tried:
+     squashfs
+    Kernel panic - not syncing: VFS: Unable to mount root fs on
+    "/dev/ram" or unknown-block(1,0)
 
-If sb_blocksize is zero on a corrupted MMI filesystem image, this division
-causes a divide-by-zero error in kernel space.
+The panic requires three conditions to hold simultaneously:
 
-Validate sb1->sb_blocksize before dividing in qnx6_mmi_fill_super().
+ 1. The initrd is a filesystem image, so initrd_load() copies it into
+    /dev/ram with rd_load_image() instead of unpacking a cpio archive
+    into rootfs.
+ 2. The root filesystem is mounted from that ramdisk and reads it with
+    bios that bypass the block device page cache. Squashfs has done so
+    for every read since commit 93e72b3c612a ("squashfs: migrate from
+    ll_rw_block usage to BIO").
+ 3. The ramdisk's block size equals squashfs's device block size:
+    inode->i_blkbits == blksize_bits(SQUASHFS_DEVBLK_SIZE).  The first
+    open of /dev/ram computes i_blkbits in set_init_blocksize() from
+    the queue's logical block size (512 for brd) and the ramdisk size,
+    capped at 12 (blksize_bits(PAGE_SIZE)).  When the ramdisk size is
+    aligned to PAGE_SIZE, inode->i_blkbits = blksize_bits(PAGE_SIZE).
+    The ramdisk size comes from CONFIG_BLK_DEV_RAM_SIZE at build time
+    and can be overridden on the kernel command line with ramdisk_size=
+    (or the rd_size module parameter when brd is built as a module);
+    all sizes are in kibibytes.
 
-Fixes: 3377755f1064 ("qnx6: add support for MMI (MME) media filesystem variant")
-Cc: stable@vger.kernel.org
-Tested-by: Matthias Goergens <matthias.goergens@gmail.com>
-Assisted-by: LLM
-Signed-off-by: Hui Peng <benquike@gmail.com>
+When the conditions hold, the boot races as follows:
+
+ 1. rd_load_image() opens /dev/ram for buffered writing; the first open
+    fixes i_blkbits as described above.
+ 2. Its copy loop writes the image with kernel_write(), which leaves
+    all of the data dirty in the block device page cache.  Nothing has
+    reached the ramdisk's backing store yet.
+ 3. rd_load_image() then drops the ramdisk file with fput() and no
+    explicit sync.  The final __fput() - and with it blkdev_put() ->
+    blkdev_flush_mapping() -> sync_blockdev(), the writeback that would
+    push the dirty pages into the ramdisk - is asynchronous.  While
+    init was a kernel thread, __fput() ran as delayed fput work at
+    least a jiffy later; since commit 343f4c49f243 ("kthread: Don't
+    allocate kthread_struct for init and umh") init is a user mode
+    task, so __fput() is deferred via task_work and only runs once init
+    returns to user space, i.e. after mount_root().
+ 4. prepare_namespace() calls mount_root() right after initrd_load().
+    squashfs_fill_super() starts with
+    sb_min_blocksize(sb, SQUASHFS_DEVBLK_SIZE), which ultimately calls
+    set_blocksize().  That function reconfigures the device only when
+    the requested block size differs from the device's current block
+    size, and it calls sync_blockdev() and kill_bdev() first - a page
+    cache geometry change that incidentally flushes the dirty pages.
+    With both block sizes equal, this incidental rescue is skipped, and
+    the mount path contains no other writeback point.
+ 5. squashfs reads the superblock via squashfs_bio_read(), which builds
+    BIOs on its own pages and submits them with submit_bio_wait() -
+    raw I/O that bypasses the block device page cache completely.  brd
+    has no backing page for that range yet and zero-fills the result,
+    so the "hsqs" magic check fails and the mount returns -EINVAL.
+ 6. mount_root_generic() calls init_flush_fput() only after the failed
+    mount.  Since rootfstype= names a single filesystem type and the
+    root device is read-only by default, no candidate is left to retry
+    with.  It panics.
+
+The failure is intermittent because most geometries get the incidental
+sync from step 4: the race only surfaces when both block sizes match.
+Such a geometry arises when CONFIG_SQUASHFS_4K_DEVBLK_SIZE=y.  The
+ramdisk size is normally aligned to PAGE_SIZE, so on the first open of
+/dev/ram the ramdisk block size equals PAGE_SIZE (4K on typical
+systems).  Without CONFIG_SQUASHFS_4K_DEVBLK_SIZE, SQUASHFS_DEVBLK_SIZE
+is 1K and differs from the ramdisk block size, so set_blocksize()
+calls sync_blockdev() and kill_bdev() and flushes the dirty pages.
+With CONFIG_SQUASHFS_4K_DEVBLK_SIZE=y, SQUASHFS_DEVBLK_SIZE is 4K and
+matches the ramdisk block size, the flush in set_blocksize() is
+skipped, and the mount panics.
+
+Several ways to close this window were considered.
+
+Fixing the reader, e.g. by syncing in squashfs_fill_super(), addresses
+the wrong end of the race.  Reading a block device with bios that
+bypass the page cache is not a squashfs peculiarity: of the 28
+block-backed filesystems in the tree, 26 do it in at least one read
+stage.  squashfs, xfs, gfs2, zonefs, hfsplus and ntfs read their
+superblock with raw bios; btrfs, f2fs and jfs read their metadata that
+way; and the file data of ext4 and 20 more filesystems is read through
+mpage, iomap or block_read_full_folio into the file's own address
+space instead of the block device cache.  Only romfs and cramfs
+consult bd_mapping at every stage.  A squashfs-only fix would leave
+the same race in place everywhere else, where it usually does not even
+fail loudly - the mount succeeds and file data silently reads back as
+zeros - and repeating a sync in every filesystem would scatter the
+same barrier across the tree.
+
+That leaves the producer, rd_load_image(), with two candidates:
+
+ 1. Call vfs_fsync(out_file, 0) once the copy loop is done.  This
+    pushes the ramdisk's dirty pages into the backing store and waits
+    for them, costs a single batched writeback, and returns an error
+    that can be checked.
+
+ 2. Keep fput(out_file) and follow it with init_flush_fput(), which
+    drains both deferral mechanisms - the delayed fput work and the
+    task_work - so the final __fput() and its
+    blkdev_put() -> blkdev_flush_mapping() -> sync_blockdev() run to
+    completion before rd_load_image() returns.  The ramdisk then
+    reaches the mount closed, synced and with its page cache dropped,
+    i.e. in the state it would have in without the deferral.
+
+Both options complete the writeback before the mount and either one
+fixes the race.  Take the second one, which matches the established
+use of the helper in the boot path: mount_root_generic() already
+calls init_flush_fput() before retrying the mount with another
+filesystem type, and flush_delayed_fput() documents the boot as its
+only user.  Draining the deferred closes here is also well contained,
+as at this point in the boot they all belong to files the boot itself
+created: the ramdisk file just written, the /initrd.image it was
+copied from, and the files unpacked into rootfs.
+
+Flush the deferred __fput() right after dropping the last reference to
+the ramdisk file, so the writeback completes before mount_root() runs.
+
+Verified on arm64 QEMU with an openEuler Embedded rootfs image packed
+as squashfs: the boot panics as shown above without the fix and boots
+to userspace with it.
+
+Fixes: 93e72b3c612a ("squashfs: migrate from ll_rw_block usage to BIO")
+Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
 ---
- fs/qnx6/super_mmi.c | 2 ++
- 1 file changed, 2 insertions(+)
+ init/do_mounts_rd.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/fs/qnx6/super_mmi.c b/fs/qnx6/super_mmi.c
-index 2b6183d2c889..fe84a9e2012d 100644
---- a/fs/qnx6/super_mmi.c
-+++ b/fs/qnx6/super_mmi.c
-@@ -48,6 +48,8 @@ struct qnx6_super_block *qnx6_mmi_fill_super(struct super_block *s, int silent)
- 	sb1 = (struct qnx6_super_block *)bh1->b_data;
- 
- 	/* calculate second superblock blocknumber */
-+	if (!fs32_to_cpu(sbi, sb1->sb_blocksize))
-+		goto out1;
- 	offset = fs32_to_cpu(sbi, sb1->sb_num_blocks) +
- 		(QNX6_BOOTBLOCK_SIZE / fs32_to_cpu(sbi, sb1->sb_blocksize));
- 
+diff --git a/init/do_mounts_rd.c b/init/do_mounts_rd.c
+index 48bfab2fc62f..24e57f30e167 100644
+--- a/init/do_mounts_rd.c
++++ b/init/do_mounts_rd.c
+@@ -258,6 +258,17 @@ int __init rd_load_image(void)
+ 	fput(in_file);
+ noclose_input:
+ 	fput(out_file);
++	/*
++	 * The image data is still dirty in the ramdisk's block device page
++	 * cache and only reaches the ramdisk once the final __fput() of
++	 * out_file runs blkdev_put() -> blkdev_flush_mapping() ->
++	 * sync_blockdev().  That __fput() is deferred (delayed fput work,
++	 * or task_work that runs when init returns to user mode), while
++	 * mount_root() runs right after this and may read the ramdisk with
++	 * bios bypassing the page cache (e.g. squashfs).  Flush it now so
++	 * the ramdisk is up to date before it gets mounted.
++	 */
++	init_flush_fput();
+ out:
+ 	kfree(buf);
+ 	init_unlink("/dev/ram");
 -- 
-2.47.3
+2.43.0
+
