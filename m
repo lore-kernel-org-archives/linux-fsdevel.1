@@ -1,199 +1,166 @@
-Received: from mail-ed2-f32.google.com (mail-ed2-f32.google.com [74.125.228.96])
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D61F2D8391
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 10:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.96
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790763519; cv=pass; b=WyIki5gq0r9qsAItp9fWmlRI/9Mpy/iTTb86OOSpRm3qwHhaHOo/dQA7UZEcY8sNYV+1mw7tMrSBwSoteA6aFtFvdrcnfibTlG/nYEJItArgeoGw+qQTZvLxC2CktjOsImFYeXV7+DyUjzLCZCYeOivs5fUFlQT7SyScIF9brME=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790763519; c=relaxed/simple;
-	bh=wYh4SPPJLF/r4MeGpZ8zVNFb9u6oFz8nqxULoueV1NQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dt1/k6E6QEhh3eIu49PYndPjWMM5bCh2zXVSlkmhosw6u02Gm5OL25fiulLh/wKHfiCjq4xZp+7F9PV9FN7ows9/278XHzcVUeID0VcY4A4GzkVIG+4nI1ohTKRIZ13907rJ21kHCyFk9dhjpnOag3xGnx65/UBLS0YVDgbwZnU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YHNxoHkP; arc=pass smtp.client-ip=74.125.228.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YHNxoHkP"
-Received: by mail-ed2-f32.google.com with SMTP id 4fb4d7f45d1cf-6acb8b78d6cso2333575a12.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 03:18:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790763516; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RvE3S4ZFLgfe+pvl46VEfHdtPRyBA8+CIUaPldeb4UxKFNT84UMjKOXRLlQZtBIICi
-         x1sGJWrxYb5ubkNtP7Ii/eK94+DnsAib4UD9NEWao3dOGcI+qpMdV3t/eCCgs4MqQ7aE
-         uSy+3GyYkQkPqgby2xwUMVdwUwud34db5OPLX458v6i+oIt3ZeB8vhROgU2UEUTSHQTE
-         It3x/RSGj1J+t6q1LgUVDGiFnP2nBsNM8bUJWH5TihatVhMQj58T1u9O1xinLduYp+KG
-         Fj/HAXpGFOkmSin8rxCxAfE8NyHFe92BPRlt4v347w8ncaQwks7lCJd+NpC43NLbqXA0
-         7Rag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vqWINpH2l++yemIsiJMfBHQQztSFoALzePZUoHg8GKk=;
-        fh=BU1RMsRKVCqFXVBe3AlLCHdJ9THjBO5N5nXg2oyerLI=;
-        b=jdNlBqB62AX2Jz0uOvlzbBtcM+lo8CGLcaGCOsZB1F0y+iuOLXTePv9nFJ4fQcBTxw
-         MuFvRDsRzl1SmTBCyff51SXEeIIS33L0A7fWE4zXpEOzZkdzuE4L8VBYkKbMSeMRlTMv
-         43J1mpGncQKTg13Mcllr0up8oe7z/9TqerJas4A51RbAje9ZJEi3oSRPElzR43IFuoSs
-         7EVHZ+7E0Mhz3CaCPCGgJdmSjFZUpjH4vknQkljSGlKaoaBSeytrYx/91EaAngTtQsgf
-         /BPtAVYVcOU+i9krVVF3aETSqwcPhLY0XG9rwO2ckU2kCinWxBr4rjTvw66Xq4BBQOWh
-         gFkw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790763516; x=1791368316; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vqWINpH2l++yemIsiJMfBHQQztSFoALzePZUoHg8GKk=;
-        b=YHNxoHkP1LbfZMt0yZr8fx81CJihS/OGxti9IDpldzLE7Cr+9F0wK7x9+oi4uITug7
-         tVlVDRe53lsqgA7wh710a2HrYrneC5ICIFTCZBrUU9ToawqiJzqDuVj3o1FSezWV0ned
-         OwYQTAB8DG+vlrtLYFEB6DygLqoRbK7LGUHrG8+p252itWV05/cNG+itbMb8jbQlq3Iu
-         d+ix7PqeYyAueBEvUcAuF6R/a+Fhv8rbVcwTQ4UbPvWk85BwwOgSiTML1/q90F1jgmG0
-         xwbvro2FKpAbgwSRSM5IzI+SEWQrrQs46l0rjzpisjhnPmoNGJar2YTxMWwy8Oq8Dj9p
-         k1bQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB9C3CCFAC
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 10:22:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790763733; cv=none; b=upHR8tR8jSxskIvvopRJeXFlwp2qv5jMybYI1pFr58Ew/UVA/bxTUmKqltvHsV9x7h5ajO99ssWv4Fe1f5ojSe8UV8i1GYczod4s3rIYFZmVCl+LerwywvibqcYsu46EueGg2n2hy2zBR25iZ7hrKxp0drToRLCaYNpoaq6Jqx8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790763733; c=relaxed/simple;
+	bh=HTstWwHGvjQaqkxfRTX9fKd56IW56PagSfiTwJIrIgo=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=JudMDE2YBdV5yML1fFmYvQemhBSQrBMrLEQ8Biimvf1+pBPAgopxFWQh7wlJ/0JkxhFgZd8xkf3UZRH6CrmQTiR0ljmhLtmkoKjgN5CMBjkvtFt0WUM7NKBBw+DzabJ0WPSXbxyspC8DH8m70W5uvlFJsSc4TwYuorAfyWepyPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4b2f2b8d88fso8149468b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 03:22:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790763516; x=1791368316;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vqWINpH2l++yemIsiJMfBHQQztSFoALzePZUoHg8GKk=;
-        b=wQwASG3svsevxx4l9uHoIZhTnf89LnsPUMZEizfcXmZGbKcG6Leu/oLUe4aRv5AcMj
-         4IsbCbOWts9uFYHiv792im8FdV+mvNFlZhYIdcYnNLqLsra45khI/lNCdLstZpOVc7uB
-         wscxSMrAi+BEeKZPGTKcfwXFgDhM4Iy+9euDOJN5S6koQBHxx+X8Y85mjjlofH0WNy2F
-         zZv0F7VXR+rGR1ij/FO09kaKRtuZItmIRfMs4HzzAh6euOWHw3Pm3RpKmB+8u8PixLYv
-         /w79IY1NF7o/D5AfROPgfMluwuH2Xr8S6m5q8NZbGX5Ru49MdEid0q2mIhQc0ZPQJQiV
-         ys6g==
-X-Forwarded-Encrypted: i=1; AKwUvBzZ1m4TfJfGTAbnbIZ1JSiIatqW/beb8U5T+v7TnZfmmiEPgvVHbOVzJM8mkIMLdfphLp2cUN2+VJlKOe+3@vger.kernel.org
-X-Gm-Message-State: AFq9FYIKSjuC2bfeTxQk91TSN2JtkxeGHs5Z8Vd7x6GveZoE/YoiuPIO
-	sqFoFjnZy8cLxtzoP4KgN1HWWpuoNh/o3MaL5y1EyJjFl9xZDuceCwaH+ZC97NegiFyN5VqNuos
-	jG3YPnVICI4uvHwTDKHPORDmBGXzwGW8=
-X-Gm-Gg: AYBFou1p2dktNrhrfDeMEq8l4w265tl5wkXv5skgDntfAUqFAzw8KftZgGsfPxsjl5X
-	afEuUA/4Evv0XOlcDzVr4PWYP0d33D6+DMn5GG4bRs1XK4dSKf6QbWHPJJoAbmTXYwiFKrrCfOX
-	wSkXxYQ0E+YEm0ftUKCA3n92RlOR/NDu5e+L+cK6bFOGmW9X/M//Uxqcpd1t7FYl3qn1HZHKK9O
-	YPvrvPcEsMJ6RZzMYVMSHXgJBDLkrxjDMMt8HHWxPckVnLTnzo7/9CoPY8V19ziIV2X6b3YsuLu
-	Bv6cEPiTnxk6vylhXQGPSErCPLOhqdAcBSLnL59sPw0BctcjqIYrVMBL
-X-Received: by 2002:a05:6402:43c6:b0:6aa:7fb:7678 with SMTP id
- 4fb4d7f45d1cf-6ae19864b56mr694393a12.6.1790763515717; Wed, 30 Sep 2026
- 03:18:35 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790763730; x=1791368530;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=5ciPoU9g0L9TxJi7K6B543D4kgHHCBTjDma4BORePb8=;
+        b=dK7/W1xWKWrPwzTRNajJC7c3B+EcPYMp9+mCZ0qXsc4GHspQUUH6ze8wXBddXZV0Qn
+         vKZ0vdFaw08ykeefVIRC6Zc8AOKMjG2Ld024NM3NCNowbI1RlyY2mif9Ps+s62/l80YM
+         Wm+uS7h4sQqZcLCIUV75hi12K0leXfWMzAMh/jBWB26p0dT+De5lK4IqU//UDZeh/1nu
+         NjJCZwCkYFIf2KYdynfPcln5tAUQ8ygjREbB9FVlGQx87yNmLsfnP57EYKsJ21SXrFFj
+         WkoTRTlJhpqSKyEQQktxDGmjSX2UhdFkx2WQI0QcnqiMInzMRFzS8gUfYpb5Sp9O4h6E
+         bwkQ==
+X-Forwarded-Encrypted: i=1; AKwUvByXTzsh61P/RaF37imhr4SRmqwZX1LbbkRcJ3Nsu7cyI9BN6wAir4l0eHysd37xdR4J+U72A0l4yd/kPb9q@vger.kernel.org
+X-Gm-Message-State: AFuF++mzF0OLh6rcBgIpZtPdUECSpjom1UvUIsHxq2Xe9fias7wXs9js
+	pBR81ye47f/kQeHIIAiS3fkG/a0CNIZ9l4+BjHRR1jlQ7Jkr5flcurrK4pxSCpI9n5kF0UBoGe+
+	sKXrjmASNhgIS7EKr84esrthIWmiED5VlFP1I70x33uR309cmWas3+ny4Wu4=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260911081309.14137-1-jack@suse.cz> <20260926024829.3051410-1-matthias.goergens@gmail.com>
- <cxgitt74gb6d42l4mdiztrz42xuaykfggsxoussgdmo3h2qur7@injom55qowrs>
-In-Reply-To: <cxgitt74gb6d42l4mdiztrz42xuaykfggsxoussgdmo3h2qur7@injom55qowrs>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 30 Sep 2026 12:18:24 +0200
-X-Gm-Features: AclHuK-3QU8Ah69f36a00phhVqdJz9uhWwk7JlN9U3fb_vS0faf30d-5U8oF9rE
-Message-ID: <CAOQ4uxhdRm4mENZCArR2PW+=NQz_jzqTugz6-tBmPLvCHfPkMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] fs: Deferred inode reclaim
-To: Jan Kara <jack@suse.cz>
-Cc: Matthias Goergens <matthias.goergens@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, brauner@kernel.org, hch@infradead.org, 
-	xyzzy@yandex-team.ru, tytso@mit.edu, djwong@kernel.org, agruenba@redhat.com, 
-	Miklos Szeredi <miklos@szeredi.hu>
+X-Received: by 2002:a05:6808:c3d7:b0:4cb:f21c:a794 with SMTP id
+ 5614622812f47-4f1b5dd6029mr744708b6e.28.1790763730224; Wed, 30 Sep 2026
+ 03:22:10 -0700 (PDT)
+Date: Wed, 30 Sep 2026 03:22:10 -0700
+In-Reply-To: <20260929034158.1455429-1-neilb@ownmail.net>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6abce2d2.64639fcc.9812d.000c.GAE@google.com>
+Subject: [syzbot ci] Re: multiple-filesystems: prepare for changes to VFS locking
+From: syzbot ci <syzbot+cifa06034fce36fce1@syzkaller.appspotmail.com>
+To: a.hindborg@kernel.org, amir73il@gmail.com, anton.ivanov@cambridgegreys.com, 
+	baolin.wang@linux.alibaba.com, brauner@kernel.org, cem@kernel.org, 
+	coda@cs.cmu.edu, codalist@coda.cs.cmu.edu, fuse-devel@lists.linux.dev, 
+	hughd@google.com, hyc.lee@gmail.com, jack@suse.cz, jaharkes@cs.cmu.edu, 
+	jlayton@kernel.org, joel.granados@kernel.org, johannes@sipsolutions.net, 
+	kees@kernel.org, leitao@debian.org, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-um@lists.infradead.org, 
+	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, miklos@szeredi.hu, 
+	neilb@ownmail.net, ntfs@lists.linux.dev, richard@nod.at, 
+	viro@zeniv.linux.org.uk
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 29, 2026 at 12:38=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
->
-> Hi Matthias!
->
-> On Sat 26-09-26 10:48:29, Matthias Goergens wrote:
-> > I ran v2 against its base in QEMU, on syzbot's disk image with a config
-> > close to syzbot's (KASAN, lockdep):
-> >
-> > - Lazytime churn on ext4 under memory pressure: the PF_MEMALLOC warning
-> >   fired with the sync_lazytime() stack in all 5 base runs, four times
-> >   from kswapd, and in none of 5 runs with the series, which evicted as
-> >   many inodes in reclaim context without reading ext4 metadata there.
-> >   The workload also runs drop_caches=3D2 under memalloc_noreclaim_save(=
-)
-> >   from a debug patch.
-> >
-> > - Hibernation cycles with /sys/power/pm_test set to devices under that
-> >   load, with inodes that 5/5 defers queued in each cycle, and with
-> >   freeze_filesystems 0 and 1: no freezer timeouts and no hang involving
-> >   the queue.  The stalls in throttle_direct_reclaim() from
-> >   hibernate_preallocate_memory(), and lockdep's warning in
-> >   __set_task_frozen() with freeze_filesystems=3D1, happen on the base
-> >   kernel too.
-> >
-> > - One path the series does not cover, see below: with the series
-> >   applied, unlinked ext4 inodes under an overlay are still deleted in
-> >   reclaim context, and the warning fired in 2 of 3 runs, as without it.
-> >
-> > The reproducers and the debug patch are at
-> > https://github.com/matthiasgoergens/linux/tree/deferred-reclaim-repro
-> > and I can post them here if you prefer.  The Tested-by below covers the
-> > lazytime and hibernation runs.
->
-> Thanks for testing!
->
-> > > @@ -988,13 +1013,27 @@ static enum lru_status inode_lru_isolate(struc=
-t list_head *item,
-> > >     inode_state_set(inode, I_FREEING);
-> > > -   list_lru_isolate_move(lru, &inode->i_lru, freeable);
-> > > +   /* Inode will take long time to cleanup. Offload that to worker. =
-*/
-> > > +   if (inode_state_read(inode) & I_DEFER_RECLAIM) {
-> > > +           list_lru_isolate_move(lru, &inode->i_lru, &lists->deferre=
-d);
-> >
-> > This is the only place I_DEFER_RECLAIM queues an inode, also with
-> > Andreas's simplification folded in.  An inode that ->drop_inode() drops
-> > on its last iput(), which for ext4 means every unlinked inode, never
-> > gets here: iput_final() calls evict() directly, in whatever context the
-> > iput() came from.
-> >
-> > syzbot hits that under reclaim with overlayfs on top of ext4, in the
-> > same bug as the lazytime trace in your 2/5:
-> >
-> >   https://syzkaller.appspot.com/bug?extid=3D7f94fe3ce0f6613e12b8
-> >   https://syzkaller.appspot.com/text?tag=3DCrashReport&x=3D12764a155800=
-00
-> >   https://syzkaller.appspot.com/text?tag=3DCrashReport&x=3D135309055800=
-00
-> >
-> > Direct reclaim prunes overlayfs dentries, and dropping the overlay inod=
-e
-> > puts the last reference to an unlinked lower ext4 inode, so
-> > ext4_evict_inode() runs its deletion path under PF_MEMALLOC.  My
-> > reproducer above does the same: stat files through an overlay on ext4,
-> > unlink them in the lower or upper directory, then apply memory pressure=
-.
->
-> This is an interesting case. When I was writing the patch set I was
-> thinking whether unlinked inodes should be marked for deferred reclaim an=
-d
-> decided for "no" - unlink or file close should be happening from context
-> where synchronous ->evict() should be possible (and is desirable!
-> Offloading to async context always has these inconvenient questions about
-> throttling associated with it and space being freed later than userspace
-> expects it etc.). But I didn't think of overlayfs - I assume syzkaller
-> unlinked upper layer inode under the overlayfs' hands - which can indeed
-> lead to overlayfs dentry being effectively the last holder of inode
-> reference and thus responsible for inode deletion.
->
-> Inherently it is kind of nasty that overlayfs dentries can be the last
-> thing protecting the inode from deletion but at the same time I don't see
-> an easy way around it. Amir, maybe you have an idea?
->
+syzbot ci has tested the following series
 
-No, not really. If you could use the ovl_destroy_inode() to mark the
-ext4 inodes for deferred reclaim, but with current design this does not
-seem possible.
+[v1] multiple-filesystems: prepare for changes to VFS locking
+https://lore.kernel.org/all/20260929034158.1455429-1-neilb@ownmail.net
+* [PATCH 1/7] VFS/xfs/ntfs: drop parent lock across d_alloc_parallel() in d_add_ci()
+* [PATCH 2/7] shmem: use d_duplicate()
+* [PATCH 3/7] coda: don't d_drop() early.
+* [PATCH 4/7] configfs: remove d_add() calls before configfs_attach_group()
+* [PATCH 5/7] hostfs: don't d_drop() before d_splice_alias() in hostfs_mkdir()
+* [PATCH 6/7] procfs: drop parent lock for d_alloc_parallel() in iterate_shared()
+* [PATCH 7/7] ovl: stop using lookup_one() in ovl_iterate().
 
-FYI, I assume the same situation could unfold from dropping an
-inode with cachefiles backing inode.
+and found the following issue:
+WARNING in __d_instantiate
 
-I don't think the issue exists with FUSE passthrough backing inode
-at the moment, but I do have a plan for a similar construct of
-backing inode that detaches on evict of fuse inode as in overlayfs.
+Full report is available here:
+https://ci.syzbot.org/series/b87296ff-c49f-416e-834c-a886ea8bd6c3
 
-Thanks,
-Amir.
-overlayfs
+***
+
+WARNING in __d_instantiate
+
+tree:      linux-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
+base:      3879f51857325da9bf3cfb073280257cd16ae067
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/dd8fcfa5-13f0-458f-bd3b-9c06d4d67a78/config
+syz repro: https://ci.syzbot.org/findings/fdffe42d-ac1a-40d9-b05c-014808f5b0ec/syz_repro
+
+------------[ cut here ]------------
+d_in_lookup(dentry)
+WARNING: fs/dcache.c:2197 at __d_instantiate+0x3f4/0x700 fs/dcache.c:2197, CPU#1: syz.0.17/5823
+Modules linked in:
+CPU: 1 UID: 0 PID: 5823 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:__d_instantiate+0x3f4/0x700 fs/dcache.c:2197
+Code: 03 41 80 f6 01 41 0f b6 ce c1 e1 0d 09 c1 89 0b 48 83 c4 10 5b 41 5c 41 5d 41 5e 41 5f 5d e9 03 26 96 09 cc e8 0d 84 75 ff 90 <0f> 0b 90 e9 7f fd ff ff e8 ff 83 75 ff 41 81 cc 00 00 01 00 e9 34
+RSP: 0018:ffffc900038d73a0 EFLAGS: 00010293
+RAX: ffffffff825242a3 RBX: ffff8881b4eef380 RCX: ffff888169801e00
+RDX: 0000000000000000 RSI: 0000000001000000 RDI: 0000000000000000
+RBP: 0000000001000000 R08: 0000000000000003 R09: 0000000000000004
+R10: dffffc0000000000 R11: fffff5200071ae6c R12: 0000000000280000
+R13: dffffc0000000000 R14: ffff8881bc29f3e0 R15: ffff8881bc29f3e4
+FS:  00007f15d1af96c0(0000) GS:ffff8882a8cc9000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000001000 CR3: 00000001bd5c4000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ d_make_persistent+0x8e/0x180 fs/dcache.c:3139
+ shmem_mknod+0x2d4/0x340 mm/shmem.c:3851
+ shmem_whiteout mm/shmem.c:3982 [inline]
+ shmem_rename2+0x267/0x430 mm/shmem.c:4022
+ vfs_rename+0xbd9/0xef0 fs/namei.c:6219
+ ovl_do_rename_rd fs/overlayfs/overlayfs.h:371 [inline]
+ ovl_check_rename_whiteout fs/overlayfs/super.c:593 [inline]
+ ovl_make_workdir fs/overlayfs/super.c:713 [inline]
+ ovl_get_workdir+0x93d/0x1980 fs/overlayfs/super.c:836
+ ovl_fill_super_creds fs/overlayfs/super.c:1449 [inline]
+ ovl_fill_super+0x1702/0x4360 fs/overlayfs/super.c:1561
+ vfs_get_super fs/super.c:1405 [inline]
+ get_tree_nodev+0xbb/0x150 fs/super.c:1424
+ vfs_get_tree+0x92/0x2a0 fs/super.c:1947
+ fc_mount fs/namespace.c:1198 [inline]
+ do_new_mount_fc fs/namespace.c:3772 [inline]
+ do_new_mount+0x319/0xdc0 fs/namespace.c:3848
+ do_mount fs/namespace.c:4181 [inline]
+ __do_sys_mount fs/namespace.c:4397 [inline]
+ __se_sys_mount+0x31d/0x420 fs/namespace.c:4374
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f15d0b9e159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f15d1af9028 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007f15d0e25fa0 RCX: 00007f15d0b9e159
+RDX: 0000200000000440 RSI: 0000200000000100 RDI: 0000000000000000
+RBP: 00007f15d0c3506b R08: 0000200000000080 R09: 0000000000000000
+R10: 0000000000000008 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f15d0e26038 R14: 00007f15d0e25fa0 R15: 00007ffe9e1b3308
+ </TASK>
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a fix for this bug, please reply with `#syz test`
+(on a separate line) and attach the patch to the email.
+
+Notes:
+- The patch will be applied on top of the tested series (as an
+  incremental fix).
+- To test a new version of the whole series, please send it directly
+  to syzbot@lists.linux.dev.
+- Arguments like custom git repos and branches are not supported.
