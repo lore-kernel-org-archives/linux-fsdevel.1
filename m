@@ -1,234 +1,288 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2B050254F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 16:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D6351477A;
+	Wed, 30 Sep 2026 16:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790786303; cv=none; b=b8JPPhQCisrlsVk3vTWdCaMiw0iuTWUmJblZLmnGT4sMJMEj4MwQcjo0gGVhFY6KXgq6WkjV/+HnIyILmowxmMyMTdxlDOLZGPXkaY9ZSWNmjr9eCXFwTBzYxnfizmKgIj5+9f3lg1Uisdum194sW8nUAEm7mEQ2f7O2DmKgWRw=
+	t=1790786421; cv=none; b=JgOUHcU6E8BiWQM3QnhLTkq5KEpUacblc1EG+ydZ05F4gCKebPDdq0MZiT5xLZkEbv3aqOiV4d7HbGMFYIvWgGrXrNH8NV25jE3/WMhbJC0qmZV2cxJwjfKVE1gSfqt2aUTjJmpB6oNHykBkMG7YiONhyXS9x143cHsxg+L+Tq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790786303; c=relaxed/simple;
-	bh=4sa7eJGwfgKrQdvlR2aAmjseAUaspt7l2oSnChsj8Eo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HKUOitXlIT5o/cFG35W0aNJgeWmiIRuZq37CxJ4hVGFixpcDELIZRL60jdKMt47c8C0MJsVi5WpxGzdSssSe2qN10lvUb6z7IJRqF/eSH8ZdBoPEJ6BwrT9PCIU4u1dVwidd0VgK5DYK17bACcUBKlQnmYWDCFftmUhTDPj3qdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jf28N+bN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZndIq80/; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BdyjHtL7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/9RFpaNw; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1790786421; c=relaxed/simple;
+	bh=N8GYaWTC0rUcAxPnIEiYJSiaJA+klV7VmQhi4X66//Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Shi+shXQYgF+zJRLLGs7bnWmk6LE7+hBNS+dXflarqIJxZQm+sCtmtow4ViqRoMXP5d4E0jd0dUTd5mZA6B0C841FeG8TUCqI9CbQObNo89RFrEMf8bX6yXNgHoiLjTrIQ8P2UexRtGBFZQYR312VKYcvpVs6uHkriZLCN9wyxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WHALs2h3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jf28N+bN";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZndIq80/";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BdyjHtL7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/9RFpaNw"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 789AC1FAA8;
-	Wed, 30 Sep 2026 16:38:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790786295; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6rNIHEiHeQ4/1te1tCIJYZ0yxtmK/9zf6WGIQWiwdCw=;
-	b=jf28N+bNnwtnIgKrWWIkAIQD9VJAwEWkL7b3u1iFyhHGRu2/LOOetS4a5swsS8rxh9e0y2
-	nWEMY02sKZW0XZ8bmpICmVDPnzo40gZT2/E5RE+MdSIiIT1EedqCGGsosxpQK3UKXUtYay
-	1WbIJ2nKrTo7lx1IsL8NU9paWQlhE8k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790786295;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6rNIHEiHeQ4/1te1tCIJYZ0yxtmK/9zf6WGIQWiwdCw=;
-	b=ZndIq80/xJ2Hf6JU626UZC7EwF3opWtR7widKF5HvGvhYajrDb4TeXZCDj5WOjn6jNcyLA
-	HFbhBbRG8RkqpxBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=BdyjHtL7;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="/9RFpaNw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790786291; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6rNIHEiHeQ4/1te1tCIJYZ0yxtmK/9zf6WGIQWiwdCw=;
-	b=BdyjHtL7JOalyiE0rdgfKaljMauNFEzLxUKq32TPhUCtlUJOqYuAd2t3lBkFMOiHsGFCIt
-	ubglxOKbfdoAzUBxp+9lsru+U1iiy6JdJKchqQJlQMuGISkf6NsNqRpE5KoiBVxpXe0/yy
-	nj7AmV+RizfR5PVkkg3XRsrjT3qkHyY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790786291;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6rNIHEiHeQ4/1te1tCIJYZ0yxtmK/9zf6WGIQWiwdCw=;
-	b=/9RFpaNwp1z1eMUOf/wlQzCfBEvTJWZgpcmBD66RahjIu+N/Jdw3lhXX8KGTAG7KJOxkJO
-	tvzj9n691s1INsAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4D3B2136AD;
-	Wed, 30 Sep 2026 16:38:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QvjICvM6vWq3BAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 30 Sep 2026 16:38:11 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id BC9CEA13AD; Wed, 30 Sep 2026 18:38:06 +0200 (CEST)
-Date: Wed, 30 Sep 2026 18:38:06 +0200
-From: Jan Kara <jack@suse.cz>
-To: =?utf-8?B?5aSp54u8?= <rockeet@gmail.com>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [RFC] madvise: best-effort deferred writeback for shared file
- mappings
-Message-ID: <xhrorb6wn2j2j57ydnt226khnu6gv4ut3crrmjwjr4iwj7d6yo@43lugxdthgyi>
-References: <CAAE3jtfeKJLSypScqRAEEgvO8En5kJfpbcFn5X+LQ2YL+xz_vA@mail.gmail.com>
- <85aff663-2131-47da-ac04-8f0799a49b91@kernel.org>
- <CAAE3jtcRQ407P9LTbg=JOwhABQRViSaq2XBefnDdNWiD7PxvUg@mail.gmail.com>
- <1ce9cf3a-15dc-4815-ba29-2e22b05206fb@kernel.org>
- <art8EKRKMdwSDCkr@gremlin>
- <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
- <arz0auULA33fqoWu@gremlin>
- <arz8Plu6J4YOTi0a@gremlin>
- <CAAE3jtcanTUrV3xfofwrvYGCFe5o=Vn7gS66bDzuxzeGg6c5=Q@mail.gmail.com>
- <CAAE3jtdHi7aSsJ62TpEjkxvwA-3TBLvr5i1ohCNg2aupND+_XQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WHALs2h3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8261F0089A;
+	Wed, 30 Sep 2026 16:40:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790786419;
+	bh=iPUuZLmAEeFRLgcWPsoOfbwxyIyXceeZl5aZ/gyXQ14=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=WHALs2h3RGR2UbhOhinhhr5VxRbpfCau4S7hEWLaQQ48ltJweoktvuG+2BrwXcRgX
+	 WpD9OR1LMiS4aHy4kyOdf+A4va6ixENLgPy9FT3qnw9dZoOjr6ePoSXwm7gM8UBHZX
+	 qWO46+qyY0nETAeC++5uSQhXOznrGtOp8P56rgNErbDQUD+RU1zp0qf0ikAwdHpUFS
+	 s+1269+gq9yYFu5NedmJyevRJ4dS6WQXPR3MrqZ/wElQBZY1ZIlh6PC16qZ+rp+KWi
+	 Uje/UeLgNB2fUBDOb1Ylw0QzF8MfOKyrmrutyr13FFpeq7GePrfbbSpkHx1pe4Y4e4
+	 B3JkJHWo27ofg==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>,
+	Tom Talpey <tom@talpey.com>,
+	"Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
+	Shyam Prasad N <sprasad@microsoft.com>,
+	linux-cifs@vger.kernel.org,
+	netfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	Steve French <stfrench@microsoft.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.18.y 1/2] cifs: Remove the RFC1002 header from smb_hdr
+Date: Wed, 30 Sep 2026 12:40:16 -0400
+Message-ID: <20260930164017.3227931-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <2026092947-pull-universe-5b22@gregkh>
+References: <2026092947-pull-universe-5b22@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAE3jtdHi7aSsJ62TpEjkxvwA-3TBLvr5i1ohCNg2aupND+_XQ@mail.gmail.com>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 789AC1FAA8
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
 
-Hello!
+From: David Howells <dhowells@redhat.com>
 
-On Wed 30-09-26 23:29:09, 天狼 wrote:
-> The distinction behind this request is between surviving a process crash
-> and surviving a power failure. After a process crash, the kernel and page
-> cache remain alive. A shared file mapping therefore retains the writes
-> already made by the process, even if they have not been written to disk.
-> 
-> ToplingDB has file-mmap MemTables whose data structures survive a process
-> crash. Its crash-safe recovery reuses those MemTables instead of rebuilding
-> them by replaying the entire WAL. A published sequence number aligns the
-> MemTable's per-KV crash-safe boundary with the database's WriteBatch
-> atomicity, so recovery can reuse the published data and replay only the
-> remaining WAL tail.
-> 
-> These MemTables also support cheap, millisecond-level ConvertToSST
-> (wrap-up and sync, i.e. LSM flush). The file-mmap path renames the existing
-> file and appends metadata, preserving the data structure already built in
-> it. This avoids copying the contents into a separately constructed SST.
-> Moving construction into shmem would add a transfer to the regular file
-> that this path currently avoids.
+[ Upstream commit 83bfbd0bb9025f98fa62b44f93bd67466773d1db ]
 
-So I think I understand your design and the issues you're facing. After all
-I've seen very similar issues with Berkley DB which was also using
-MAP_SHARED memory for the DB and under some circumstances the workload
-performance was suffering from too frequent writeback.
+Remove the RFC1002 header from struct smb_hdr as used for SMB-1.0.  This
+simplifies the SMB-1.0 code by simplifying a lot of places that have to add
+or subtract 4 to work around the fact that the RFC1002 header isn't really
+part of the message and the base for various offsets within the message is
+from the base of the smb_hdr, not the RFC1002 header.
 
-Now what I miss from your problem description is why "a transfer to the
-regular file" from shmem would matter to you. What is the problem with
-that? Because a lot of databases do it like that and it works for them. If
-you use AIO + direct IO (or io_uring) your performance is going to be even
-somewhat superior (or at least on par) to current writeback workers in the
-kernel. In terms of data integrity guarantees you are again as good as or
-better than using in-kernel writeback because you are in full control when
-you write and what you write. So the only reason I can come up with is that
-you want to avoid the complexity of your writeback process in your DB. But
-in the same spirit we as kernel people want to keep the complexity out of
-the kernel :) and if we'd add a feature like this we'd have to maintain it
-practically forever so we are very cautious with that.
+Further, clean up a bunch of places that require an extra kvec struct
+specifically pointing to the RFC1002 header, such that kvec[0].iov_base
+must be exactly 4 bytes before kvec[1].iov_base.
 
-> Avoiding full WAL replay makes much larger MemTables practical. While a
-> large MemTable is being populated, random updates can repeatedly dirty
-> pages that background writeback has already written out. Those writes of
-> intermediate states consume disk bandwidth without being necessary for
-> process-crash recovery. Deferring them is a performance optimization;
-> correctness does not depend on the kernel honoring the hint.
-> 
-> This is a general problem, not something specific to ToplingDB. ToplingDB
-> explicitly distinguishes process crashes from power failures and has
-> invested heavily in optimizing recovery from process crashes. By contrast,
-> LMDB faces the same problem but does not explicitly distinguish process
-> crashes from power failures. If sync is skipped when using LMDB, the
-> remaining writeback problem is the same as in ToplingDB.
-> 
-> The global setting and kernel module described in my previous email let us
-> work around this locally. The remaining problem is making the optimization
-> available to users of a database library. We cannot reasonably require
-> every deployment to change a system-wide setting or install and maintain
-> an out-of-tree kernel module. The module gets us from no solution to a
-> local solution, but it does not provide a broadly deployable interface.
-> 
-> That is why I am asking for kernel support: a supported, best-effort hint
-> that applications can use directly, while leaving the kernel free to write
-> back when necessary. madvise is not the only option, deferring writeback
-> for the entire file would also be acceptable.
-> Per-file deferred writeback would require minimal kernel changes and pose
-> a very low risk, while offering enormous benefits.
+This allows the header preamble size stuff to be removed too.
 
-The problem I see with your per-inode hint is that its semantics is very
-vague (and practically tied to the implementation). And this practically
-always backfires because people start to make assumptions about the
-behavior, then something changes, people's expectations break and people
-complain. Or they come with 100 and 1 ways how to tweak the vague behavior
-to fit their special usecase and it quickly becomes a mess of conflicting
-needs. We've been there many times :-|.
+The size of the request and response message are then handed around either
+directly or by summing the size of all the iov_len members in the kvec
+array for which we have a count.
 
-What I could imagine both technically and semantically feasible (but
-haven't decided whether it would be used enough to be worth the hassle) is
-to implement some say fcntl() / ioctl() with which an owner of the inode
-could set / clear a file hint that the inode should be extempt from
-periodic writeback - i.e., the writeback that runs once per 5s and flushes
-inodes that were dirtied longer than 30s ago (by default). I.e., we will
-writeback the inode whenever we see fit but we won't do it just because of
-the file's age.
+Also, this simplifies and cleans up the common transmission and receive
+paths for SMB1 and SMB2/3 as there no longer needs to be special handling
+casing for SMB1 messages as the RFC1002 header is now generated on the fly
+for SMB1 as it is for SMB2/3.
 
-But again similarly as David or Lorenzo I think that implementing your own
-writeback worker would be a superior solution for your DB.
+Signed-off-by: David Howells <dhowells@redhat.com>
+Reviewed-by: Tom Talpey <tom@talpey.com>
+Reviewed-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
+cc: Shyam Prasad N <sprasad@microsoft.com>
+cc: linux-cifs@vger.kernel.org
+cc: netfs@lists.linux.dev
+cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Steve French <stfrench@microsoft.com>
 
+Stable dependency adaptation for 6c5c547f037bc18f0b8d0b5db5a648f8f630ce85:
 
-								Honza
+Retain only the midQ-to-mid rename in compound_send_recv(). Prepare its
+response-copy block using the corresponding layout from 62432a3f51450:
+check the received response first, then copy it and transfer ownership
+inside the resp_iov guard. This provides the context needed for the target
+to defer response-buffer transfers until compound synchronization finishes.
+
+Omit the SMB1 RFC1002 conversion and all other unrelated hunks. This stable
+tree still defines smb_hdr in client/cifspdu.h, uses the older negotiate
+and filesystem-info type names, and has moved CIFSTCon and transaction2
+helpers out of the upstream locations. Restoring those functions or
+importing the intervening SMB1 reorganization is unnecessary for the target.
+Keep HEADER_PREAMBLE_SIZE(server) in the response length because SMB1 still
+reaches this shared path through SendReceive2(). No functions are added.
+
+The target applies cleanly with a three-way application on this adaptation.
+
+cc: Shyam Prasad N <sprasad@microsoft.com>
+cc: linux-cifs@vger.kernel.org
+cc: netfs@lists.linux.dev
+cc: linux-fsdevel@vger.kernel.org
+
+[ sashal: Reduced backport -- upstream 83bfbd0bb9025 touches 19 file(s), this
+  backport carries 1. Not backported here:
+  fs/smb/client/cifs_debug.c
+  fs/smb/client/cifs_debug.h
+  fs/smb/client/cifsencrypt.c
+  fs/smb/client/cifsglob.h
+  fs/smb/client/cifspdu.h
+  fs/smb/client/cifsproto.h
+  fs/smb/client/cifssmb.c
+  fs/smb/client/cifstransport.c
+  ... and 10 more
+  This note is generated from the file lists only; see the resolution record
+  for the reasoning. ]
+
+Stable-dep-of: 6c5c547f037b ("smb: client: close completed creates on compound wait errors")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/smb/client/transport.c | 73 ++++++++++++++++++++-------------------
+ 1 file changed, 37 insertions(+), 36 deletions(-)
+
+diff --git a/fs/smb/client/transport.c b/fs/smb/client/transport.c
+index 4da3d62b6481e..53db53a78d6c5 100644
+--- a/fs/smb/client/transport.c
++++ b/fs/smb/client/transport.c
+@@ -864,7 +864,7 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
+ 		   int *resp_buf_type, struct kvec *resp_iov)
+ {
+ 	int i, j, optype, rc = 0;
+-	struct mid_q_entry *midQ[MAX_COMPOUND];
++	struct mid_q_entry *mid[MAX_COMPOUND];
+ 	bool cancelled_mid[MAX_COMPOUND] = {false};
+ 	struct cifs_credits credits[MAX_COMPOUND] = {
+ 		{ .value = 0, .instance = 0 }
+@@ -930,35 +930,35 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
+ 	}
+ 
+ 	for (i = 0; i < num_rqst; i++) {
+-		midQ[i] = server->ops->setup_request(ses, server, &rqst[i]);
+-		if (IS_ERR(midQ[i])) {
++		mid[i] = server->ops->setup_request(ses, server, &rqst[i]);
++		if (IS_ERR(mid[i])) {
+ 			revert_current_mid(server, i);
+ 			for (j = 0; j < i; j++)
+-				delete_mid(midQ[j]);
++				delete_mid(mid[j]);
+ 			cifs_server_unlock(server);
+ 
+ 			/* Update # of requests on wire to server */
+ 			for (j = 0; j < num_rqst; j++)
+ 				add_credits(server, &credits[j], optype);
+-			return PTR_ERR(midQ[i]);
++			return PTR_ERR(mid[i]);
+ 		}
+ 
+-		midQ[i]->mid_state = MID_REQUEST_SUBMITTED;
+-		midQ[i]->optype = optype;
++		mid[i]->mid_state = MID_REQUEST_SUBMITTED;
++		mid[i]->optype = optype;
+ 		/*
+ 		 * Invoke callback for every part of the compound chain
+ 		 * to calculate credits properly. Wake up this thread only when
+ 		 * the last element is received.
+ 		 */
+ 		if (i < num_rqst - 1)
+-			midQ[i]->callback = cifs_compound_callback;
++			mid[i]->callback = cifs_compound_callback;
+ 		else
+-			midQ[i]->callback = cifs_compound_last_callback;
++			mid[i]->callback = cifs_compound_last_callback;
+ 	}
+ 	rc = smb_send_rqst(server, num_rqst, rqst, flags);
+ 
+ 	for (i = 0; i < num_rqst; i++)
+-		cifs_save_when_sent(midQ[i]);
++		cifs_save_when_sent(mid[i]);
+ 
+ 	if (rc < 0) {
+ 		revert_current_mid(server, num_rqst);
+@@ -1001,23 +1001,23 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
+ 	spin_unlock(&ses->ses_lock);
+ 
+ 	for (i = 0; i < num_rqst; i++) {
+-		rc = wait_for_response(server, midQ[i]);
++		rc = wait_for_response(server, mid[i]);
+ 		if (rc != 0)
+ 			break;
+ 	}
+ 	if (rc != 0) {
+ 		for (; i < num_rqst; i++) {
+ 			cifs_server_dbg(FYI, "Cancelling wait for mid %llu cmd: %d\n",
+-				 midQ[i]->mid, le16_to_cpu(midQ[i]->command));
+-			send_cancel(server, &rqst[i], midQ[i]);
+-			spin_lock(&midQ[i]->mid_lock);
+-			midQ[i]->wait_cancelled = true;
+-			if (midQ[i]->callback) {
+-				midQ[i]->callback = cifs_cancelled_callback;
++				 mid[i]->mid, le16_to_cpu(mid[i]->command));
++			send_cancel(server, &rqst[i], mid[i]);
++			spin_lock(&mid[i]->mid_lock);
++			mid[i]->wait_cancelled = true;
++			if (mid[i]->callback) {
++				mid[i]->callback = cifs_cancelled_callback;
+ 				cancelled_mid[i] = true;
+ 				credits[i].value = 0;
+ 			}
+-			spin_unlock(&midQ[i]->mid_lock);
++			spin_unlock(&mid[i]->mid_lock);
+ 		}
+ 	}
+ 
+@@ -1025,37 +1025,38 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
+ 		if (rc < 0)
+ 			goto out;
+ 
+-		rc = cifs_sync_mid_result(midQ[i], server);
++		rc = cifs_sync_mid_result(mid[i], server);
+ 		if (rc != 0) {
+ 			/* mark this mid as cancelled to not free it below */
+ 			cancelled_mid[i] = true;
+ 			goto out;
+ 		}
+ 
+-		if (!midQ[i]->resp_buf ||
+-		    midQ[i]->mid_state != MID_RESPONSE_READY) {
++		if (!mid[i]->resp_buf ||
++		    mid[i]->mid_state != MID_RESPONSE_READY) {
+ 			rc = -EIO;
+ 			cifs_dbg(FYI, "Bad MID state?\n");
+ 			goto out;
+ 		}
+ 
+-		buf = (char *)midQ[i]->resp_buf;
+-		resp_iov[i].iov_base = buf;
+-		resp_iov[i].iov_len = midQ[i]->resp_buf_size +
+-			HEADER_PREAMBLE_SIZE(server);
++		rc = server->ops->check_receive(mid[i], server,
++						flags & CIFS_LOG_ERROR);
+ 
+-		if (midQ[i]->large_buf)
+-			resp_buf_type[i] = CIFS_LARGE_BUFFER;
+-		else
+-			resp_buf_type[i] = CIFS_SMALL_BUFFER;
+-
+-		rc = server->ops->check_receive(midQ[i], server,
+-						     flags & CIFS_LOG_ERROR);
++		if (resp_iov) {
++			buf = (char *)mid[i]->resp_buf;
++			resp_iov[i].iov_base = buf;
++			resp_iov[i].iov_len = mid[i]->resp_buf_size +
++				HEADER_PREAMBLE_SIZE(server);
+ 
+-		/* mark it so buf will not be freed by delete_mid */
+-		if ((flags & CIFS_NO_RSP_BUF) == 0)
+-			midQ[i]->resp_buf = NULL;
++			if (mid[i]->large_buf)
++				resp_buf_type[i] = CIFS_LARGE_BUFFER;
++			else
++				resp_buf_type[i] = CIFS_SMALL_BUFFER;
+ 
++			/* mark it so buf will not be freed by delete_mid */
++			if ((flags & CIFS_NO_RSP_BUF) == 0)
++				mid[i]->resp_buf = NULL;
++		}
+ 	}
+ 
+ 	/*
+@@ -1084,7 +1085,7 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
+ 	 */
+ 	for (i = 0; i < num_rqst; i++) {
+ 		if (!cancelled_mid[i])
+-			delete_mid(midQ[i]);
++			delete_mid(mid[i]);
+ 	}
+ 
+ 	return rc;
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.53.0
+
