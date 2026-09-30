@@ -1,264 +1,238 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4972A475344
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 22:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E7E3B42D8
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 23:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790809074; cv=none; b=L2ZsykL1CWk0fZuS69VHoD9U5erlxjP7EfEpHCc7xizbqmpjnAJjsABjdqNNbfmse7JpI/FTuwZBLrceaiBZWYK7M0KsxYXCr0Q1EXzpcv8XfGQ5DMkdkS6yUIHRKPHdaJGn/Gmjr3QDKTTvHx3sYEANwrRG/wSLECJYquwQGK4=
+	t=1790809478; cv=none; b=HqEOkPHc69qEXF3IPHht+INF/qOyAM6pDGQ2SGi4hEgE01u2gK8LQsLw+9QyAp7+pIxB6f5SRNi15osi+EfEU3BmT6q7LbV/PhIAtJ80CmDa5HFJACSI2z8AYFjI6/D8HAAT64p/04BpLZ2xP2BkgumIlbjh5LtOiefUpJAqx7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790809074; c=relaxed/simple;
-	bh=e1Dw2MfLYZ9WyibJ5wl4o8xcjxbgrNOZGiJN8gdlJM4=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=lP3CVihuYZ80wcCkrsJCbbTxMUsaSMfwEYG9jxysptDT5WzNVjxFeEKcnOFAWLFsMD6cmpCQiir5OJIMtCCal4uLVFXkRvtoBNyRexLHzh5fBfkZh71e/koNIrFjpXTZfCaBmpyL5/MbJEtQw3wMEwgO8sjzsqWfrNkFoTc6eAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=jEPUlPTn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hQruLrhg; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1790809478; c=relaxed/simple;
+	bh=ThQU2yfzHfJ+3NMv4vbKr85wtEn+dgPKPZN3eTjs8vE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pGDhV7OKfcO/I/dcfuGRUw5OieIz//fVN6TCtIkE0d9JUKMWl7fdGplxspq52om4eQdVfbb/4Ey6VELneQvfRUgLWNtGs4Jqz/G/gZrXIO4iKCGRY3QFvAH6pTlmuIH2ZC+6SRvfpFQKMvhg9wddwIW5QccLr6GuzFCc5aGCV6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=tu8DMyjj; arc=none smtp.client-ip=74.125.224.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="jEPUlPTn";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hQruLrhg"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id AEE061D0010A;
-	Wed, 30 Sep 2026 18:57:48 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Wed, 30 Sep 2026 18:57:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1790809068; x=1790895468; bh=3kwmpd6iWD
-	6CQXah2DoD0FsegnqZez4GFU2bIPrIiNM=; b=jEPUlPTnKjqZIXAo6yzu7mLk5c
-	TVpbB3xEBRI2L/LnNJOtN1Py1t9bKh3wlRDnJ+jQGGipwEfmlgrcTKkplznG1bNB
-	DT3a5nNWQtiKQxbHrsfeb842FKPtc5iFOY50YW4ZDTePr46cK3RzRtW/k9enWpXF
-	KIYzorC31psEEnaQAXqkDqn98KBI7tLo6AEO/wMtZQCEWjocVTXaqnX1N+2aL/72
-	D9NLRLWJKhPXy3Yjli3IdCPIa9u4TauxYq3Oo7AICVdV3xz7q98FXEyugy0dlIz/
-	HhHnX82lo1v/MJADHR4nZhDzPhZZh2FnlXKdUNCdtHTD8VTwm97N7g/dyxSQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1790809068; x=1790895468; bh=3kwmpd6iWD6CQXah2DoD0FsegnqZez4GFU2
-	bIPrIiNM=; b=hQruLrhgYKAuCGi+e8P70MrDFCLoOaHMDVuKtNzOAVKyfqOLWme
-	I9eNhC5ms7tW3HLPFlR0gshqFMuG43NJ4w6rquYPzFqO8fZGKMuZEj5QC+xXftdO
-	f6afIw1ndnZEkb3c4xh96SGJGNX2fvQHIX92Z6IjovMrcZcAJPxoPyZU2M5Vzsaz
-	kGNZwQhWR+/fCLPcpUZcP/TINb7jk0GizCZys5N6lwNfIkwJla6zDmkMreOzMEyz
-	+ppv/zvVZ2YWIGUKwkDsagABf7u5aziPV88MQyBgcKvh6jeEcwDp8VqLWxp//1Wc
-	y/7p9RAlkXbjdP3juP0umtFa/vAMEf+dEZQ==
-X-ME-Sender: <xms:7JO9aj8mASQ7NG_tiG4p4KGfPOsmQMZcNhhEjRbN4GxN49qBpUpzVg>
-    <xme:7JO9ahMNj8ZgMkx6eNUL72GIc8Gc_4RxXXsimjXF58lZkzB2nWJnkdiCCvX1KJG4w
-    69vt3Q4XYGHARb5T3OFQEfpOd7Lo99sNWVj_1lJRe7xNXm4va2X>
-X-ME-Received: <xmr:7JO9ahFgQc1mkouj_Z3rXZSdbN4HugwXeEVrF_gOKJjV7pNZnDpq_zCYxjh6ppYNoopZnVcVyDJJ3crgCMnzBJALfbraDfZWaiTMb8cOQ7ren54J_A>
-X-ME-Proxy-Cause: dmFkZTFDc9Pp/xRpvydum+XdVxu4n35rco4JpV6xHT/JTs1rJzWP+qYNNHxWgT1N/53Y4X
-    4UIx0j29YPNS/gFhZ9xxexXQKC9rs1jedgi2Mv6FQb/GJUXhqezt4N/N0n+pp6X7UxVgW1
-    LRlwK2yAAp+v/gwUiFFqOeFAwXm0WhSTo2aCvukjp5slA8lPjicsIfHt9hWR4TOa3zmPJ1
-    CHXCp+ygWDNqB0BDSKZ29HHYZEArpFITUymmSadhhhCikQ3zhQ7QwPd59RXfmGKmaaMdkJ
-    1KqZxdDBsZs6UPUbR16LnhW6HNAeydMaC4RzaeQ6cYFildtJS2YwiZBLly8iRuuV14Jnsx
-    EtG2FiRlw+TY3X5KSQWK+ZZcP1MdCmJljCaGOMgpAwihMmjoWbitxlrfLGkne5dmb5uPfJ
-    JneLl9aOJRznt+CoDnTLRhBbA8lOIiwRkDHSkDW5tw2AhyA9RSmSeD6dkP4QMovRKyAq3I
-    Bz99bNhMWLpNBWy0Nc5z62BVNbLmHTj7rVgv6I7tsdEZ9M0QefTCsBHDjqj4dGk43JV0fo
-    G88bSAMX4hk3ivzlsdT1YuJvaWdwLideQGC84ucU6w3oneKiEGZ9wIM60sT9p+NUnBIMWJ
-    vnbH+6DTAZ5z+hGjrsbZLxFmX7s95bYMM/JZQ3NK+pXSpY/U2FvSvI215Dzg
-X-ME-Proxy: <xmx:7JO9avSGzXIpxc9ujL4jxZb2lb4NMGbrO9DHTJ6c2tgDSmZmhO7V9Q>
-    <xmx:7JO9auv16t_iL2MFVTzSQs8AFFTeCtzESgEWV2-eg4vkHe38Nha_Sw>
-    <xmx:7JO9anIYEeZO2gBYCco1whUiaaUEE6wvYPDdECcTxWCRGWvWh_nZhA>
-    <xmx:7JO9ajkvGf-YD3cNiip7XA94uj60BmFhsrYy72YXl35VZjlkJ1gj9Q>
-    <xmx:7JO9atQgEdCB7C7wl1uOinZ5X17fZjz5NsooUZQ2tqJBqMJTosUmWCh_>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 30 Sep 2026 18:57:46 -0400 (EDT)
-Content-Type: multipart/mixed; boundary="------------LiDpeCnDKX8wtFJS7GYqtCBJ"
-Message-ID: <e75cf549-07a6-4095-bbf8-8caff7a3338b@bsbernd.com>
-Date: Thu, 1 Oct 2026 00:57:44 +0200
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="tu8DMyjj"
+Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66fded6b087so5498588d50.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 16:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790809474; x=1791414274; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7cdr/pnLmGxl2LSkGBhkrB7Pq0DQE4Hq/ddKIR38DJ0=;
+        b=tu8DMyjjM6g0j0q0oq3sr3Fd2rY2s8OFaY3UvoTSnYO1DClVMX9bJCAWnC5SnRxqUe
+         snLWhg5h0FhYNC75BQUQZSRsdWk0iAGHnSpXzRi4Gf69QeFL/LEP+vi3kIiHnCP78Dgg
+         IxFkNMbTDa5wMEX4gZpXuZrSlxbyuhBXhrWwdPWJ1u7FFqe7alcv3szElXFSQsfqswH0
+         kn5ubxi74sScdFz2lFGnNHdZWM2tAz3DQB4RQhdra6O0cGgXeEaOPYMlR8m9DGXJTW6z
+         QZsfZHY08s2brjDKGb7Q3scP8av0A2+jlLTBO5D0v8Uv6rXC7E8PvvMNBDHxBrh+oF5h
+         o5Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790809474; x=1791414274;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=7cdr/pnLmGxl2LSkGBhkrB7Pq0DQE4Hq/ddKIR38DJ0=;
+        b=W2TGzP2x7U08/5I9XZRM7B95tlCgefPwNCvXwfQStCkOHzThnqKMow15yhGZ8pgOVq
+         55bN5PU/W8J82OjumcYLtl48iUguAuYiprz+GL/7w9Cx5ivmR+yIA+I2gwas6CcssP9u
+         N54YNj9oho+xakTw5LzCUr5XwPW9khou70LcRy/Q3urFyTcYqxXau1jaBBskoQT/Asxy
+         Dp7bfHt1memMsxzLMPnNi2A8M2Rxl8b8DKDxStoqdpZccQkjDcLDsM+CqwDj9fRNKpRn
+         tfN5zEaLkCmQgSL1NEmodrOUXBGFxUicjbZI2dDsphTWO+HCKT8YMrpv1tftMR0eGP+Z
+         tzEA==
+X-Forwarded-Encrypted: i=1; AKwUvByJy5nEXPVu/X0dFVTdBAe/I9liEEUFOGD91PzolMMHIRMmUmirXs3MRok+BhjVWoOT7EHf3kEiJI4z48ce@vger.kernel.org
+X-Gm-Message-State: AFq9FYIK+zXSMsC4NqC3ynW1/FU+MOF6spBbKKCME34zBIjs8vpGhS+S
+	sFTSe9GGnyp2a5pWtcdqOeWVvwB75BpikKp5ZzsIHfHNEmF1evVqYLjFm4rhkiLpe8T5kGy0BXe
+	GmxOP7Jg=
+X-Gm-Gg: AYBFou0ri2fXNJd8YbjmaeYmcU95s5yOWUJVEJGFjnAzhHGIhxz1yoGTzHOY2HqQpzw
+	R9fV3PWMZv3S5XRCd8AgVoH+E6TJeBM/MlWnESiTawU/tZM/b1gmjMNR4iD4+UByReRnMYQsx0m
+	zVyvCd8MmvKLGFQYxbYKUKNmVRPHzr0DsFZrySYGXdlq6zbW7Oe1zHAI2Pb8sgsHsioeO4vvh5B
+	eLBQv2tOn3UOgHRwWtrRJNOY6Lp2igrj5OE/HIz33hnUbP/MCT83S5ArSsycSN9xtqTkBKyKy1h
+	oePYaMHg7C/Zon3ayu10GSuL5BgX066z1Ike2ZV7W8gYB42Yv0t2sfqA94paqs2oJtoIQlMnAex
+	RHUb3S2uGi9JpekNaXeXa2SMxsdjeh70YLmgJZvH+Ax2B1XDYg3SW0Wwrx8fl3v2QBPgyzjRhR/
+	WaVRJQdHDIacBnZUrgEW8gCgLao1vD0q99wh8amr8QBwfZzYngYVZY5weKaaVcAfqm9miDtxkVN
+	L0ACypLv39+XL2jSR1GRPMTzOao//df4eko27KqX2hH5Ay+5A5YE9MryLXLbp8iHBZ4dbEkYmMG
+	GKUQuhik+PFXB4JpwGxVzYq7bz77bHhpPkFXW9EzZz4j1deSxDkFVxwKFlts93Vo
+X-Received: by 2002:a05:690e:b86:b0:672:d629:df30 with SMTP id 956f58d0204a3-6768316bf0cmr1354412d50.0.1790809473567;
+        Wed, 30 Sep 2026 16:04:33 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:487b:bc91:650e:71d4? ([2600:1700:6476:1430:487b:bc91:650e:71d4])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67691838a44sm376245d50.10.2026.09.30.16.04.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 16:04:32 -0700 (PDT)
+Message-ID: <ea8cfa5978a90d27e498fae626edfdae5bf84af7.camel@dubeyko.com>
+Subject: Re: [PATCH] hfsplus: free cached B-tree nodes on hfs_btree_open()
+ error path
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Mahmut Emin Kurhan <guvenlik@noroxi.com>, linux-fsdevel@vger.kernel.org
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 30 Sep 2026 16:04:29 -0700
+In-Reply-To: <20260930185033.1335238-1-guvenlik@noroxi.com>
+References: <20260930185033.1335238-1-guvenlik@noroxi.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: fuse: HANDLE_KILLPRIV_V2 does not kill suid/sgid on fallocate()
- and copy_file_range()
-To: Mitar <mmitar@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Amir Goldstein <amir73il@gmail.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
-References: <CAKLmikMhOYpGEw6uCqX_Bm0JPEg-4FhdJMNa9+tgtw3-Kf+eZg@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CAKLmikMhOYpGEw6uCqX_Bm0JPEg-4FhdJMNa9+tgtw3-Kf+eZg@mail.gmail.com>
 
-This is a multi-part message in MIME format.
---------------LiDpeCnDKX8wtFJS7GYqtCBJ
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+On Wed, 2026-09-30 at 20:50 +0200, Mahmut Emin Kurhan wrote:
+> hfs_btree_open() can fail after hfs_bnode_find(tree,
+> HFSPLUS_TREE_HEAD)
+> has already inserted the head node into tree->node_hash.
+>=20
+> __hfs_bnode_create() inserts the new bnode into tree->node_hash
+> before
+> it reads the node's pages; if a page read fails it sets
+> HFS_BNODE_ERROR
+> and returns the node still hashed. hfs_bnode_find() then takes its
+> node_error path, which calls hfs_bnode_put(). hfs_bnode_put() only
+> frees
+> a node once its refcount reaches zero *and* HFS_BNODE_DELETED is set;
+> for
+> the errored head node that flag is not set, so the node stays in
+> tree->node_hash with a zero refcount.
+>=20
+> hfs_btree_open() then sees IS_ERR(node) and jumps to free_tree:,
+> which
+> does a bare kfree(tree). Only hfs_btree_close() walks tree-
+> >node_hash[]
+> and frees the cached nodes, so the head node is leaked. Mounting a
+> crafted HFS+ image whose head B-tree node fails to read therefore
+> leaks
+> kernel memory on every attempt.
 
+I assume that HFS code requires the same fix. Am I right?
 
+>=20
+> Reported by kmemleak while fuzzing HFS+ image mounts:
+>=20
+> =C2=A0 BUG: memory leak
+> =C2=A0 unreferenced object (size 192):
+> =C2=A0=C2=A0=C2=A0 __hfs_bnode_create+0x105/0x8d0 fs/hfsplus/bnode.c
+> =C2=A0=C2=A0=C2=A0 hfsplus_bnode_find=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fs/hfsplus/bnode.c
+> =C2=A0=C2=A0=C2=A0 hfsplus_btree_open=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fs/hfsplus/btree.c
+> =C2=A0=C2=A0=C2=A0 hfsplus_fill_super=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fs/hfsplus/super.c
+>=20
+> Free any nodes still present in tree->node_hash on the error path
+> before
+> freeing the tree. The paths that reach free_tree before
+> hfs_bnode_find()
+> have an empty hash, so the loop is a no-op there.
+>=20
+> Found via coverage-guided fuzzing (syzkaller + kmemleak) by Noroxi.
+>=20
+> Signed-off-by: Mahmut Emin Kurhan <guvenlik@noroxi.com>
+> ---
+> =C2=A0fs/hfsplus/btree.c | 18 ++++++++++++++++++
+> =C2=A01 file changed, 18 insertions(+)
+>=20
+> diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+> index 2ea8cd565..3de32f221 100644
+> --- a/fs/hfsplus/btree.c
+> +++ b/fs/hfsplus/btree.c
+> @@ -403,6 +403,24 @@ struct hfs_btree *hfs_btree_open(struct
+> super_block *sb, u32 id)
+> =C2=A0	tree->inode->i_mapping->a_ops =3D &hfsplus_aops;
+> =C2=A0	iput(tree->inode);
+> =C2=A0 free_tree:
+> +	/*
+> +	 * A B*tree node may already have been inserted into tree-
+> >node_hash
+> +	 * (e.g. an errored head node from hfs_bnode_find()).=C2=A0 Only
+> +	 * hfs_btree_close() frees hashed nodes, so a bare
+> kfree(tree) here
+> +	 * leaks them.=C2=A0 Release them before freeing the tree.
+> +	 */
+> +	{
 
-On 9/30/26 23:45, Mitar wrote:
-> Hi!
-> 
-> While adding FUSE_HANDLE_KILLPRIV_V2 support to a go-fuse based
-> server, I noticed that with it negotiated, fallocate() and
-> copy_file_range() by a caller without CAP_FSETID no longer clear the
-> setuid and setgid bits of the file they modify, and that the server
-> has no way to learn that it should clear them itself.
-> 
-> The kernel makes the decision, but drops it on the way.
-> fuse_file_fallocate() and __fuse_copy_file_range() both call
-> file_modified() before sending the request, which ends in
-> fuse_setattr() with ATTR_KILL_SUID and ATTR_KILL_SGID. Since commit
-> 8981bdfda744 ("fuse: don't send ATTR_MODE to kill suid/sgid for
-> handle_killpriv_v2"), fuse_setattr() drops those when
-> fc->handle_killpriv_v2 is set, expecting the server to kill the bits
-> when the WRITE which follows arrives. But no WRITE follows
-> FUSE_FALLOCATE or FUSE_COPY_FILE_RANGE, and neither carries such a
-> flag. All the server sees is an empty SETATTR before the request,
-> which it cannot tell apart from the one it gets when only
-> ATTR_KILL_PRIV was asked for.
-> 
-> For "fallocate -l 8192 f" run by an unprivileged user, on a file with
-> mode 06777 which they may write to, the server receives:
-> 
->   GETXATTR  "security.capability" -> ENODATA
->   SETATTR   valid=0
->   FALLOCATE offset=0 length=8192 mode=0
-> 
-> and the file keeps mode 06777. Without FUSE_HANDLE_KILLPRIV_V2, the
-> same command clears both bits, since fuse_setattr() then turns the
-> request into a SETATTR of the mode. I verified the fallocate() case.
-> The copy_file_range() case is from reading the code, as the server I
-> tested does not implement FUSE_COPY_FILE_RANGE.
-> 
-> This matters beyond the mode looking wrong: fallocate() with
-> FALLOC_FL_ZERO_RANGE or FALLOC_FL_PUNCH_HOLE, and copy_file_range()
-> even more so, change what the file holds. So somebody who may write to
-> a setuid file can replace its contents and keep the setuid bit, which
-> is what killing the bits is there to prevent.
-> 
-> It looks like an interaction between changes rather than a choice.
-> Commit fe0da9c09b2d ("fuse: copy_file_range needs to strip setuid bits
-> and update timestamps") made copy_file_range() kill the bits in 2019,
-> which stopped working on FUSE_HANDLE_KILLPRIV_V2 connections with
-> 8981bdfda744 in 2020. Commit 4a6f278d4827 ("fuse: add file_modified()
-> to fallocate") added the same to fallocate() in 2022, which takes
-> effect only without FUSE_HANDLE_KILLPRIV_V2. As far as I can tell from
-> its source, virtiofsd with --killpriv-v2 has the same gap: it drops
-> CAP_FSETID for write, open and setattr when asked to, and calls
-> fallocate() and copy_file_range() as they are.
-> 
-> I think we should pass the decision with the request, as for WRITE and
-> OPEN. For FUSE_FALLOCATE, a new FUSE_FALLOCATE_KILL_SUIDGID could go
-> into the currently unused fuse_fallocate_in.padding. For
-> FUSE_COPY_FILE_RANGE, it would need a new field, or a bit in
-> fuse_copy_file_range_in.flags behind a new INIT flag: servers pass
-> .flags on to copy_file_range(2) as it is (virtiofsd does), which fails
-> with EINVAL on any bit, so a new bit there cannot be sent to a server
-> which did not ask for it.
-> 
-> What do you think?
-> 
+I don't like of introducing the brackets here. Let's declare the
+variables at the beginning of the method.
 
-I had actually noticed this with recent test additions in libfuse and 
-had to add workarounds (on the day exactly one month ago). 
-Unfortunately had been too busy to post the kernel patch yet.
+> +		int i;
+> +		struct hfs_bnode *node;
 
-libfuse commits
-daa6cb7f6996 — "test: check the KILLPRIV_V2 kill-suidgid flags reach the filesystem"
+We already has this declaration [1].
 
-and 
+> +
+> +		for (i =3D 0; i < NODE_HASH_SIZE; i++) {
+> +			while ((node =3D tree->node_hash[i])) {
+> +				tree->node_hash[i] =3D node-
+> >next_hash;
+> +				hfs_bnode_free(node);
+> +				tree->node_hash_cnt--;
+> +			}
+> +		}
 
-60ab8c0c35de ("test: check a write through passthrough_hp clears suid/sgid")
+This logic looks pretty similar to the hfs_btree_close(). Should we
+introduce a small method that can be reused in both cases?
 
-When testing the latter commit I had noticed the issue.
-
-Could you try the attached patch? Right now totally untested, 
-I can test and send it out earliest during the weekend.
-
+I assume that you are not using the spin_lock(&tree->hash_lock) because
+the tree creation is not finished and nobody can try to use the tree.
+Am I right?
 
 Thanks,
-Bernd
+Slava.
 
+[1]
+https://elixir.bootlin.com/linux/v7.3-rc3/source/fs/hfsplus/btree.c#L273
 
---------------LiDpeCnDKX8wtFJS7GYqtCBJ
-Content-Type: text/plain; charset=UTF-8; name="fuse-killpriv-v2-fallocate"
-Content-Disposition: attachment; filename="fuse-killpriv-v2-fallocate"
-Content-Transfer-Encoding: base64
-
-ZnVzZToga2lsbCBzdWlkL3NnaWQgb24gZmFsbG9jYXRlIGFuZCBjb3B5X2ZpbGVfcmFuZ2Ug
-d2l0aCBLSUxMUFJJVl9WMgoKRnJvbTogQmVybmQgU2NodWJlcnQgPGJlcm5kQGJzYmVybmQu
-Y29tPgoKV2l0aCBGVVNFX0hBTkRMRV9LSUxMUFJJVl9WMiwgZnVzZV9zZXRhdHRyKCkgZHJv
-cHMgdGhlIG1vZGUgY2hhbmdlIHRoYXQKZmlsZV9yZW1vdmVfcHJpdnMoKSBhc2tzIGZvciBh
-bmQgcmVsaWVzIG9uIHRoZSBzZXJ2ZXIgdG8gY2xlYXIgdGhlIGJpdHMKd2hlbiBpdCBoYW5k
-bGVzIHRoZSBmb2xsb3dpbmcgV1JJVEUgcmVxdWVzdCAoRlVTRV9XUklURV9LSUxMX1NVSURH
-SUQpLgpmYWxsb2NhdGUoKSBhbmQgY29weV9maWxlX3JhbmdlKCkgc2VuZCBubyBXUklURSwg
-YW5kIHRoZSBTRVRBVFRSIHNlbnQKZnJvbSBmaWxlX21vZGlmaWVkKCkgY2FycmllcyBubyBr
-aWxsIGZsYWcuIEEgY2FsbGVyIHdpdGhvdXQgQ0FQX0ZTRVRJRApjYW4gdGhlcmVmb3JlIGNo
-YW5nZSB0aGUgY29udGVudHMgb2YgYSBzZXR1aWQgZmlsZSB3aGlsZSB0aGUgc2V0dWlkIGJp
-dApzdGF5cyBzZXQ7IHdyaXRlKCkgb24gdGhlIHNhbWUgZmlsZSBjbGVhcnMgaXQuCgpTZW5k
-IEZBVFRSX0tJTExfU1VJREdJRCBpbiB0aGF0IFNFVEFUVFIuIFRoZSBWRlMgc2V0cyBBVFRS
-X0tJTExfU1VJRCBhbmQKQVRUUl9LSUxMX1NHSUQgb25seSBhZnRlciBpdHMgb3duIENBUF9G
-U0VUSUQgY2hlY2ssIHNvIGNhcGFibGUoKSBpcyBub3QKdGVzdGVkIGFnYWluLgoKRml4ZXM6
-IDg5ODFiZGZkYTc0NCAoImZ1c2U6IGRvbid0IHNlbmQgQVRUUl9NT0RFIHRvIGtpbGwgc3Vp
-ZC9zZ2lkIGZvciBoYW5kbGVfa2lsbHByaXZfdjIiKQpTaWduZWQtb2ZmLWJ5OiBCZXJuZCBT
-Y2h1YmVydCA8YmVybmRAYnNiZXJuZC5jb20+Ci0tLQogZnMvZnVzZS9kaXIuYyAgICB8ICAg
-MTMgKysrKysrKysrKystLQogZnMvZnVzZS9maWxlLmMgICB8ICAgIDMgKystCiBmcy9mdXNl
-L2Z1c2VfaS5oIHwgICAgMiArLQogMyBmaWxlcyBjaGFuZ2VkLCAxNCBpbnNlcnRpb25zKCsp
-LCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2ZzL2Z1c2UvZGlyLmMgYi9mcy9mdXNl
-L2Rpci5jCmluZGV4IGU0OWI0ZTg3NGIxNS4uZmYwNzhjYzJjZWE1IDEwMDY0NAotLS0gYS9m
-cy9mdXNlL2Rpci5jCisrKyBiL2ZzL2Z1c2UvZGlyLmMKQEAgLTIxNDMsNyArMjE0Myw3IEBA
-IGludCBmdXNlX2ZsdXNoX3RpbWVzKHN0cnVjdCBpbm9kZSAqaW5vZGUsIHN0cnVjdCBmdXNl
-X2ZpbGUgKmZmKQogICogYW5kIHRoZSBhY3R1YWwgdHJ1bmNhdGlvbiBieSBoYW5kLgogICov
-CiBpbnQgZnVzZV9kb19zZXRhdHRyKHN0cnVjdCBtbnRfaWRtYXAgKmlkbWFwLCBzdHJ1Y3Qg
-ZGVudHJ5ICpkZW50cnksCi0JCSAgICBzdHJ1Y3QgaWF0dHIgKmF0dHIsIHN0cnVjdCBmaWxl
-ICpmaWxlKQorCQkgICAgc3RydWN0IGlhdHRyICphdHRyLCBzdHJ1Y3QgZmlsZSAqZmlsZSwg
-Ym9vbCBraWxsX3N1aWRnaWQpCiB7CiAJc3RydWN0IGlub2RlICppbm9kZSA9IGRfaW5vZGUo
-ZGVudHJ5KTsKIAlzdHJ1Y3QgZnVzZV9tb3VudCAqZm0gPSBnZXRfZnVzZV9tb3VudChpbm9k
-ZSk7CkBAIC0yMjMzLDYgKzIyMzMsMTMgQEAgaW50IGZ1c2VfZG9fc2V0YXR0cihzdHJ1Y3Qg
-bW50X2lkbWFwICppZG1hcCwgc3RydWN0IGRlbnRyeSAqZGVudHJ5LAogCSAgICBhdHRyLT5p
-YV92YWxpZCAmIChBVFRSX1VJRCB8IEFUVFJfR0lEKSkKIAkJaW5hcmcudmFsaWQgfD0gRkFU
-VFJfS0lMTF9TVUlER0lEOwogCisJLyoKKwkgKiBmdXNlX3NldGF0dHIoKSBkcm9wcGVkIHRo
-ZSBtb2RlIGNoYW5nZSBmb3IgdGhlIGtpbGwgcmVxdWVzdC4gVGhlIFZGUworCSAqIGFscmVh
-ZHkgYXBwbGllZCB0aGUgQ0FQX0ZTRVRJRCBydWxlLCBzbyBubyBjYXBhYmxlKCkgdGVzdCBo
-ZXJlLgorCSAqLworCWlmIChmYy0+aGFuZGxlX2tpbGxwcml2X3YyICYmIGtpbGxfc3VpZGdp
-ZCkKKwkJaW5hcmcudmFsaWQgfD0gRkFUVFJfS0lMTF9TVUlER0lEOworCiAJaWYgKGF0dHIt
-PmlhX3ZhbGlkICYgQVRUUl9TSVpFKSB7CiAJCS8qIEZvciBtYW5kYXRvcnkgbG9ja2luZyBp
-biB0cnVuY2F0ZSAqLwogCQlpbmFyZy52YWxpZCB8PSBGQVRUUl9MT0NLT1dORVI7CkBAIC0y
-MzI5LDYgKzIzMzYsNyBAQCBzdGF0aWMgaW50IGZ1c2Vfc2V0YXR0cihzdHJ1Y3QgbW50X2lk
-bWFwICppZG1hcCwgc3RydWN0IGRlbnRyeSAqZW50cnksCiAJc3RydWN0IGlub2RlICppbm9k
-ZSA9IGRfaW5vZGUoZW50cnkpOwogCXN0cnVjdCBmdXNlX2Nvbm4gKmZjID0gZ2V0X2Z1c2Vf
-Y29ubihpbm9kZSk7CiAJc3RydWN0IGZpbGUgKmZpbGUgPSAoYXR0ci0+aWFfdmFsaWQgJiBB
-VFRSX0ZJTEUpID8gYXR0ci0+aWFfZmlsZSA6IE5VTEw7CisJYm9vbCBraWxsX3N1aWRnaWQg
-PSBmYWxzZTsKIAlpbnQgcmV0OwogCiAJaWYgKGZ1c2VfaXNfYmFkKGlub2RlKSkKQEAgLTIz
-MzgsNiArMjM0Niw3IEBAIHN0YXRpYyBpbnQgZnVzZV9zZXRhdHRyKHN0cnVjdCBtbnRfaWRt
-YXAgKmlkbWFwLCBzdHJ1Y3QgZGVudHJ5ICplbnRyeSwKIAkJcmV0dXJuIC1FQUNDRVM7CiAK
-IAlpZiAoYXR0ci0+aWFfdmFsaWQgJiAoQVRUUl9LSUxMX1NVSUQgfCBBVFRSX0tJTExfU0dJ
-RCkpIHsKKwkJa2lsbF9zdWlkZ2lkID0gdHJ1ZTsKIAkJYXR0ci0+aWFfdmFsaWQgJj0gfihB
-VFRSX0tJTExfU1VJRCB8IEFUVFJfS0lMTF9TR0lEIHwKIAkJCQkgICAgQVRUUl9NT0RFKTsK
-IApAQCAtMjM3MCw3ICsyMzc5LDcgQEAgc3RhdGljIGludCBmdXNlX3NldGF0dHIoc3RydWN0
-IG1udF9pZG1hcCAqaWRtYXAsIHN0cnVjdCBkZW50cnkgKmVudHJ5LAogCWlmICghYXR0ci0+
-aWFfdmFsaWQpCiAJCXJldHVybiAwOwogCi0JcmV0ID0gZnVzZV9kb19zZXRhdHRyKGlkbWFw
-LCBlbnRyeSwgYXR0ciwgZmlsZSk7CisJcmV0ID0gZnVzZV9kb19zZXRhdHRyKGlkbWFwLCBl
-bnRyeSwgYXR0ciwgZmlsZSwga2lsbF9zdWlkZ2lkKTsKIAlpZiAoIXJldCkgewogCQkvKgog
-CQkgKiBJZiBmaWxlc3lzdGVtIHN1cHBvcnRzIGFjbHMgaXQgbWF5IGhhdmUgdXBkYXRlZCBh
-Y2wgeGF0dHJzIGluCmRpZmYgLS1naXQgYS9mcy9mdXNlL2ZpbGUuYyBiL2ZzL2Z1c2UvZmls
-ZS5jCmluZGV4IDlhMzZkMDMyOWUyMi4uMjcyZTZmZGQ0OWUzIDEwMDY0NAotLS0gYS9mcy9m
-dXNlL2ZpbGUuYworKysgYi9mcy9mdXNlL2ZpbGUuYwpAQCAtMjcwOCw3ICsyNzA4LDggQEAg
-c3RhdGljIHZvaWQgZnVzZV9kb190cnVuY2F0ZShzdHJ1Y3QgZmlsZSAqZmlsZSkKIAlhdHRy
-LmlhX2ZpbGUgPSBmaWxlOwogCWF0dHIuaWFfdmFsaWQgfD0gQVRUUl9GSUxFOwogCi0JZnVz
-ZV9kb19zZXRhdHRyKGZpbGVfbW50X2lkbWFwKGZpbGUpLCBmaWxlX2RlbnRyeShmaWxlKSwg
-JmF0dHIsIGZpbGUpOworCWZ1c2VfZG9fc2V0YXR0cihmaWxlX21udF9pZG1hcChmaWxlKSwg
-ZmlsZV9kZW50cnkoZmlsZSksICZhdHRyLCBmaWxlLAorCQkJZmFsc2UpOwogfQogCiBzdGF0
-aWMgaW5saW5lIGxvZmZfdCBmdXNlX3JvdW5kX3VwKHN0cnVjdCBmdXNlX2Nvbm4gKmZjLCBs
-b2ZmX3Qgb2ZmKQpkaWZmIC0tZ2l0IGEvZnMvZnVzZS9mdXNlX2kuaCBiL2ZzL2Z1c2UvZnVz
-ZV9pLmgKaW5kZXggYzhkNGM1ZjNhZjdlLi44MzcyN2ZmZmFhNjggMTAwNjQ0Ci0tLSBhL2Zz
-L2Z1c2UvZnVzZV9pLmgKKysrIGIvZnMvZnVzZS9mdXNlX2kuaApAQCAtMTE5MCw3ICsxMTkw
-LDcgQEAgaW50IGZ1c2VfZmx1c2hfdGltZXMoc3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0
-IGZ1c2VfZmlsZSAqZmYpOwogaW50IGZ1c2Vfd3JpdGVfaW5vZGUoc3RydWN0IGlub2RlICpp
-bm9kZSwgc3RydWN0IHdyaXRlYmFja19jb250cm9sICp3YmMpOwogCiBpbnQgZnVzZV9kb19z
-ZXRhdHRyKHN0cnVjdCBtbnRfaWRtYXAgKmlkbWFwLCBzdHJ1Y3QgZGVudHJ5ICpkZW50cnks
-Ci0JCSAgICBzdHJ1Y3QgaWF0dHIgKmF0dHIsIHN0cnVjdCBmaWxlICpmaWxlKTsKKwkJICAg
-IHN0cnVjdCBpYXR0ciAqYXR0ciwgc3RydWN0IGZpbGUgKmZpbGUsIGJvb2wga2lsbF9zdWlk
-Z2lkKTsKIAogdm9pZCBmdXNlX3VubG9ja19pbm9kZShzdHJ1Y3QgaW5vZGUgKmlub2RlLCBi
-b29sIGxvY2tlZCk7CiBib29sIGZ1c2VfbG9ja19pbm9kZShzdHJ1Y3QgaW5vZGUgKmlub2Rl
-KTsK
-
---------------LiDpeCnDKX8wtFJS7GYqtCBJ--
+> +	}
+> =C2=A0	kfree(tree);
+> =C2=A0	return NULL;
+> =C2=A0}
+> --
+> 2.43.0
