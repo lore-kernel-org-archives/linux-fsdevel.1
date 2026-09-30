@@ -1,172 +1,225 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011014.outbound.protection.outlook.com [52.101.57.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E16A4F3EC2
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 15:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47804F85AB;
+	Wed, 30 Sep 2026 15:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.14
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790780904; cv=pass; b=k199DWgis3cSaoeAi2nPzIgt2HqFt/vElUgmNOZ6ieMdDdeJVRmLboH4Q7TSii55TsGdPB1XjLvA9OCmiFYKlbb75Z9F98kz4VPfm/x5tZABwTfwMzOQZXOsdvC/aVI4ieLV6Sl2dIUrlPTvtN4lrlDRZyHjXCsTfV4AIr01qDU=
+	t=1790782119; cv=fail; b=A73yTFuOXp33nZ47reN6uaiSVeCPX9QPgQu4klTRM9P+7l7zuBu8+bYdydo7KPGDycFJesdmhGXq+7b+P4sVs6eoSl+MKqgPUn88HnOhieNK8gEPUFWcXOStEY2bTJgglrHXNA0OcYgeH/X7oG8kueggWcE75J1Jhg7zpf0YMM4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790780904; c=relaxed/simple;
-	bh=hT6uKFtdqOcRXKAyppkXaaDZAfO63Yhh/JoACrj3WRk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=plStjQeOfv6V7Pzj5v0r1q0FQ0T4ZtqoetAjADmkeFn54F0Mz1Oij0iBtg+g0upS4PHMLuawoDh17Y8TyTD5IlpPDGvuzE1ErpLiG5YfiHKPdjfdH63gIL+eiQVbQV/j5ksB8cVSsrspu8J7eog/XvqeqqoE+9YfBCZpN8Sl5Bs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iJlmgC4A; arc=pass smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790782119; c=relaxed/simple;
+	bh=mrR2p5hMKgCRApuAlcdwULmrCPEieDj5CYrcRy2szig=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qIFHqLGXjZSfBGf1cAV4IV3GmjawTkChxkoQPGJKHFSrYg749GtD1EIrOaFbcWrqXLrK7TjRb5DPa6TlQB3sHM04Vzh9nUAguVCbgA3jDmG5tL3gpZFQrsp7zWwWMxztxxP9rN7CswiqLLpCNQ2U1U2AEt9CUyt9LiamD51vrGc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=D1N0qPH6; arc=fail smtp.client-ip=52.101.57.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iJlmgC4A"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c294ad260fdso341556766b.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 08:08:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790780889; cv=none;
-        d=google.com; s=arc-20260327;
-        b=JRjtLIu92uG3zsUamgLrL9P8Ujv7Em/XAIabaruZHsPFJkbxL43FOEe9/2KB+vBJqI
-         5wx5u48rdF4OMSjSmoZRpckG2TQ/89Jq2u7lr+gv7MOPfGKHvmTEZee07Ml2TuMhJG47
-         y+Z4MEnZ6GgQjVXNDHT1UE7mTz0rG5lFtYaZBsMZikfbBxrA/x/yFOyr2U23PezJEgAh
-         JiAq39MrTguoJnZWSfSGQAIULEemuYi+nabtUPP5PkGfg3xQV9x1SINIO3nhvKdNtDyi
-         OyGdUHaRlfUINQI2hiBj33PItRJ/dB3k7eBzrjSf6a3pDeRaHZml9APiWWmLtq5rOv0R
-         Y8gA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NaO1mAirnPnJy57tYk/9v6vRmGk3M0eQnaIUpib3e7I=;
-        fh=hsW5S6NwNW/W0v2j6yvzArIGocXyH0sJA5JGYSkF4gk=;
-        b=WuXBjX8dzXrE/JoPLXKsA/0E6j/XN8rDbFwEa7tXF/CZBf+YoWMZaSpglmo7x1F64z
-         iosIYajM0Lk//osTwSlcxJ+NfyMXUxZd8S9dQCmoLE0cv3NqMSWiUqBIm6PPFRzE2zE8
-         FL47Xurvb/nME9oL11KN0wfWi8pepBmkt+KA4SH/H/5u3o+1rJIOoGb9VnGGXEpOwhOM
-         Awlr+YEdyiU7fcipZx2115tptOLuCAFaspVPIcdciwybTRBMkhcpq/jJpf0UYalFthk7
-         zsIQU27dgZDTA9QnlA3joqPnl5yR4T4L7LlBwA+2oH7GpKi44f2YSKRIlEvSKUMQmYqx
-         c7Nw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790780889; x=1791385689; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=NaO1mAirnPnJy57tYk/9v6vRmGk3M0eQnaIUpib3e7I=;
-        b=iJlmgC4Az06kmQAbbfD9zbPJsV9/ylzCsEQbvsJ+MV/8PIGfPayTaXW9kb5f/Cuuhj
-         OapNpxXGKNN8j0TVKGWz9pUZ9a/ykvwHM0Xhp/eUCDxmg1lENLal5MakTWShYfY1qqC9
-         hheETli6dYI9nX7Q5+/vL885hOk4VnPYxwQXENBb6h0LiSl05+3TOOO5mtCqn3YUu7hJ
-         BGoH1+SDzsktVDBoNzAkZtg+3jltOvrm+SpWuD3ec7b1HODqB5zQPML+TWOm4aFBWCWZ
-         7GU9zjOwFGOfJDhiH3BRJq7VaDK9Ubfen/30XVS+O21N/Wp//+Iq87oduyO0KdZ8wnS9
-         kKQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790780889; x=1791385689;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NaO1mAirnPnJy57tYk/9v6vRmGk3M0eQnaIUpib3e7I=;
-        b=HoqbEqgKlaUf9Aq1mJu94sL87heyMcM/vojmO/chMy5M8ZeWSvKoluNij+QfCKNp6N
-         A5zpS33u2w1DO+DdKXB/bQtz3MSTUtxFcvjRJwQCfPdnhGQbXMpFPDrWyrOEo0Gd3rX3
-         XOUYMs4mwDJIxsBobgN17RBAx2udF3sCktPiVi0rbwAMNZqQK1zrVE0vCid02gnVFHh8
-         nnW8Ody6vWWdcJo3QbL4Pled7JufaqcyYs1gC9SH+VO0wlGHI+fN10mpjA8K4hhpEuCW
-         toazAYAEV7DSh0NwCyoBdoEONrGnf9GBdeb+mAkhL9YX8Z3WrUxMrhbh9R3V/K9mBhmS
-         MlsQ==
-X-Gm-Message-State: AFuF++mA+egwn4kThstzpkCKWzY8hFRhxXiSVMhTIRUCLUrT8a2dBHCp
-	vQXhWp1Ppr0TqdhcWlGeLKtCg9J8IKoAmmWUv9r8Ho+XC1ahCiHWK49oMHMJnQGKi3484EL3JCH
-	yCONQhfK30z+l7ABrsGJHM8gQzRhOOsk=
-X-Gm-Gg: AYBFou0HtdOKzTdhktKSZYpWqvnRsRt7uixGLb9v/YTm5YrqYxlGk/hISX2rG96nWsQ
-	ZxSDR7GFAvNhnEsCU9x51gdv3NiMeVK/AKXasnIYf4/ojDUyLnJafNK9RsbQVcwBa9rUbcak/en
-	72K47tJZ4mj/gJaqeAlf9rBR166iWV/mDwv8Q28bB1XNMVrW/ofZdeIzYXmLSKL1sHc00pW0BVr
-	WHOpax8s3XpVQeAtu7vCrS9+/EitCYfn2nwaY5CA6kGpWlJydqtm/2icVWyUhicjK8N1wRLjNQ/
-	fJMMXiUKXLxO4J6cTYXE63WZ4iitJLUEzb/f2AjTvmrC2PWSJLQ80Kve
-X-Received: by 2002:a17:907:3e1a:b0:c2e:2275:1168 with SMTP id
- a640c23a62f3a-c2e23d9558amr152172866b.19.1790780889315; Wed, 30 Sep 2026
- 08:08:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="D1N0qPH6"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s8uTyHY6ca0S0gFpYdWeYhmt2qrfVim81f/ez5gEyTG7rnWCcA8/efKeY19pYTwnxwABRHXRKolDwQi2UhO6Qz7e2tw2LtkJhsBVye4eWtkujwDZZ27NbV2cskWBD4nzj1Dd3LmiOn4W3u3obhqoFQUlgEbfAT/rGvrdzux+FUcMcTWhIntHiV95U798sZ0k9HBVZ5bIWiu68czDL62rHBAnmeLn4IK07kBZs/ig5ErqAxPLXbvEKipxMPC6OIyzO6xtuBjjFcSmzsvMHjYPfjA5yanrW4EaKx+lblQaKX1kfhoTPznH15l3TzT35GNhWLmss4FkNHGG6SvIvUG8mQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j8w1jBnA80+jx0tcZGoqUFaJ5onaLQirx/OFTHfw1Is=;
+ b=JtWj3321OWFasox9ZMgOhmSAZPBdcjqPps/So50HJ7tSj2RIaFzWfVwmg056K6Itl7SlkJcHCMMvQbbJTMO79OGYAlUlJuGtRtdVkL6sMFAexi7rnPCZHLYdW5ylCqSCWp9Tbtmwyu09O7a/B+uMNCtRv6iEaMwjKiTLORhoRLOqV/0Taa1tt9sChnpupDPn3t2atSyDikEKWBFyLPz6ExmCk3P8/RraolNwzkaYCWDAWdQNlhDsDztRxk7p+U8gIFWQke2ge3GUrf5TMVmjVdk8i+weC5bxjqn4edtnPcOmAcvjaRYdEw7K/USJ6WkTMuC5RDb/DfHvcDWyW50Ymw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j8w1jBnA80+jx0tcZGoqUFaJ5onaLQirx/OFTHfw1Is=;
+ b=D1N0qPH6GDpjju4aIZpuxd1dhaa2+ullhx2NmCdQEzl3PVKYtQiHUacX80CpSDdjg0S1R5ugLiFraR2ypmUMTxGd3LzzhmR/rTewwQlyA92Mi3NJk3EQlxFcyrFGanZDy1OGzsQAUD7urm32U1uSNCKFWM7dEF8VvyJRYcckG81trDtDoXM+IP/gyS2UIZcfmNG4Lwk6NQHtbSLnUzilm8CMps9VuTI1+77XdaqWXsdqZUz2hwiQ3NL+9v2iT0+9kWqOl5A7DD0o3HbuAv6X5Y5zR2uE1C2tjPAIc1EOJrtUqptRVP22RCCLNS8C4ohXmhwm7eqoEgGQhlD+OCe9zQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by DM4PR12MB5724.namprd12.prod.outlook.com (2603:10b6:8:5f::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.26; Wed, 30 Sep 2026 15:27:57 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0472.015; Wed, 30 Sep 2026
+ 15:27:57 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Muhammad Usama Anjum <usama.anjum@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Xu Xin <xu.xin16@zte.com.cn>,
+ Chengming Zhou <chengming.zhou@linux.dev>, Jann Horn <jannh@google.com>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Pedro Falcato <pfalcato@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Rik van Riel <riel@surriel.com>,
+ Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
+ Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
+ Youngjun Park <youngjun.park@lge.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ Emil Tsalapatis <emil@etsalapatis.com>,
+ Ihor Solodrai <ihor.solodrai@linux.dev>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ James Clark <james.clark@linaro.org>, SJ Park <sj@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, damon@lists.linux.dev,
+ kasan-dev@googlegroups.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v3 1/9] mm: introduce hw_pte_t for PTE table storage
+Date: Wed, 30 Sep 2026 11:27:53 -0400
+X-Mailer: MailMate (3.0r7032)
+Message-ID: <51D02557-E9CC-4806-917E-279C6E66AF1A@nvidia.com>
+In-Reply-To: <20260922-pte0-v3-1-5670b8cb9059@arm.com>
+References: <20260922-pte0-v3-0-5670b8cb9059@arm.com>
+ <20260922-pte0-v3-1-5670b8cb9059@arm.com>
+Content-Type: text/plain
+X-MS-Reactions: disallow
+X-ClientProxiedBy: BL1PR13CA0112.namprd13.prod.outlook.com
+ (2603:10b6:208:2b9::27) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260930-work-mount-fixes-3-v1-0-be34c83956ae@kernel.org> <20260930-work-mount-fixes-3-v1-13-be34c83956ae@kernel.org>
-In-Reply-To: <20260930-work-mount-fixes-3-v1-13-be34c83956ae@kernel.org>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 30 Sep 2026 17:07:56 +0200
-X-Gm-Features: AclHuK9qZXCPpQtL11D39UCo-F3cSnL8zEaPtult057jKkP0CoRv6AK3ktwziVg
-Message-ID: <CAOQ4uxgJq_UsqfAxJGtnyeyyoB=2XD=UTXp1Lgr-Ze+XNKPVEw@mail.gmail.com>
-Subject: Re: [PATCH 13/17] namespace: remove the fsnotify marks of a mount
- namespace in process context
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Chris Mason <mason@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
-	Aleksa Sarai <cyphar@cyphar.com>, bpf@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|DM4PR12MB5724:EE_
+X-MS-Office365-Filtering-Correlation-Id: d214dff4-b381-4957-d09d-08df1f07674d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|10067099003|4143699003|11063799006|56012099006|10063799003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	NTMS7w3pkwbdyX8kXLQQPd6bmp7vgxhsw8wWUgoxv0BrTrWoioXQwXj9y2sXwxqK/qp94qzNdh/w34dJBNSvbrkk9mQbv2eUPT1dCR5tZ1ctxQM8bgU8kBHD7llfqbs2uDuPa0FCmoZMt4aJnvieWCKHKxci7qcqJAuMjkWfrFU8R5RZ0Pp+gWd6vaVst+KGOu7iQzlS6ZiiLCyEHCFhE5UTWJFFq6SPOOfeik7Z0B1OXZ2zH9V2SuK02wJNgjSYLbszkIqi50F10i5CEUJ3ZGuCkyo3DM/MwDsQAmHM8Bp6vKunIh4HqtMQOnv7zekcp+FzN5RAzsi0FWBm5ZLmamnACbJ3ID8Uhc2HbeBvXNONVsFjYpykdaOuaDLwRN1/WB3MpYmtTWpOhyqq8LIb7VFs6nvId/Ccql4GAZZPIAqWvI0kj6zudAav0tOCf5ocPxPGvqv0srNHGzljQMohQkc5knSeLiz0T7I3twibdB+LZUKnkqS4g6gZxOLx8jHHOrM7CcIMBFvSVOy124A+psloR+Sir++O4fteJpkRLIH2eo2XV3ANbGLdqlMLl7bvZevXSVQuXGwtEFUG0PQnGs49YCqwB44rR9hCbCcjSPAnPCpAXVR+pJ987rdeYw2WIN+jnl6TeeNBBReTpntyPBD6DV97FUla1GcpMqCM9h8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(10067099003)(4143699003)(11063799006)(56012099006)(10063799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?MXu4eQniVxMuLf/9bfDbC7QY5S/GZmk+BEhdZPsCpb2Fwvz+snepEPRv42qo?=
+ =?us-ascii?Q?J+fGc6zIpN2r69MH3j1NbAw+66SPKNJSbZWhUSOYSaWDRf4WysG/w2mdz+cN?=
+ =?us-ascii?Q?vp3KKbYKM8MhsCZWkFB42OashkTTgzj6OZ6vq7YylqGondij1VlWCYNmcP8S?=
+ =?us-ascii?Q?6CXUVF1CZY8gLz31yQcOyjXSX5r+5W5adH8GV43S5daPLgy1FP1pch3Vqrlf?=
+ =?us-ascii?Q?LydlKNFlFcd6CQvLAmRZRg5f+x5EGG7YhPBj+3BMbN4LI/lNWXYIpqiHqL7j?=
+ =?us-ascii?Q?oXhMMivi1j3CAIyHtKjnBqsGsncsD9Df+DEDyitdDfZE5i1G5UrNPgcatcz/?=
+ =?us-ascii?Q?mOfTjD8IZ8ZR2rMuwlWGM7cKyWdpZ5SlTiRxY5CJuWwlCSWlWhK7Mn9edgn9?=
+ =?us-ascii?Q?Abtswnt7rCImfHaCNvjLM8bxzr2VL0lWfaOQoi0ZkND6Uxjx80xWYDeDdcLy?=
+ =?us-ascii?Q?E2M4AQSakyvohHmvNmzUGfYvmOf5UofkU4avmkfn0FAKO3HBNZ84eu6/qB0/?=
+ =?us-ascii?Q?BZkh42wfg4Tpp5AzexqE0YlzTTYdsEhTlxyMDpY0dY/493VkD3G3VmmenLvc?=
+ =?us-ascii?Q?rOsNrznL3Ai/WSC9dPAJ2ZVp4YFIfEewJtaYthUYeM1mHNwkHM57C3jhqJZE?=
+ =?us-ascii?Q?oE/mixWkz2wHs5AScj9awqrTKdoG+D2+UP55curGBCATRmTl/m7GNbhLI8DD?=
+ =?us-ascii?Q?/LpUx+iBAnEP2/sP4eK6DpVctibX9lPiiKkUQDwfqPwHb4HWHRBFrm7hyvbb?=
+ =?us-ascii?Q?1q0FRxmMe40oskj/VcMiMnLOYQolAHPLNrau928odO+HIqfP4yZRqOG4dD0h?=
+ =?us-ascii?Q?PwtkEzoBxPv+ezIzGXMVj6vnzZHj9k+INQcrtqClIA1ORalRBd8jzvtlji5b?=
+ =?us-ascii?Q?/2qlXjfsInReKmjefmVeIOG1K/qzZ5l/6e/Lwvopa6VTFuL+SrhYv9N/Yoc5?=
+ =?us-ascii?Q?j8+pg/TPURR8FqRiO5nzmXCWudtk9pQowrK1N1/noRFW++Oxh5J6KEGxWoBg?=
+ =?us-ascii?Q?bPvscNfCLhlUpVRhJ/HlU6qHXIHRVZT2ops9BEj/kj5gQGfI4gKjYUo8q2wm?=
+ =?us-ascii?Q?EnQA7IeJ2rTYpUTpOztbqVoqKIAugvcp5LpMgIaQJgYyR90PdeQk8rB206pU?=
+ =?us-ascii?Q?OEevidn/mt07l+4qXT8oBb9a22pTAX5Oz0iY9j1ManvQYZpzc2pC2r3XI/7w?=
+ =?us-ascii?Q?yFS4ZzYI7p519xaiDGAOAL210+5azfqWPKAg6FPBqpqqUj4RH+MzvfU0VjFl?=
+ =?us-ascii?Q?OmpY5RRcLDE94Cy1REYNVkR0ntXfbZovloDW2XYuRh1PRBAplbFbVz1CF6j5?=
+ =?us-ascii?Q?HNbo0gHXo8t5IB4239rfrJjNIMAv2hWLBuATBn9RDSclotP3/WVbOlTrrAcA?=
+ =?us-ascii?Q?alpY8++184I9GbRwPtp9oFf7AqX1so53T0aej11fWXSkDCa1pQAAGqrwk30V?=
+ =?us-ascii?Q?IMeN5jH8ijdgbAThHaaerWzyh9CUxr0uM5fjHYLb6lohDLNnl+7gCzQlXXVU?=
+ =?us-ascii?Q?kknZDCREfrCBcTH4jTRN6YVj+UUrdNs44QUakpZEqj9lZJvG3tCBCjQ5tiLa?=
+ =?us-ascii?Q?YWv8bBtBYiNnp4zT2e28zycu04Xl/sgRPaac3E0Vo5JfjdtnbDUBYehX0WWg?=
+ =?us-ascii?Q?lEcYH+QxwZlpE3cj0tzisjeSTXu2N+jw3p9Iel/2Fl9/zZx2i9uYQxMkEDjn?=
+ =?us-ascii?Q?GS3vsX2AB2EzWefPjnuPPbP5XqaqtZOHwLXLZGiQl5NHkVEOqH+nMbTsJp/E?=
+ =?us-ascii?Q?7DP2WO6Skg=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d214dff4-b381-4957-d09d-08df1f07674d
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 15:27:56.9730
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YLttr6nZbAZEgLwiA1BQTWtmyJC4gk3s+HBEIV2F7pIcz4C++d3nVT6aZtPTmkRN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5724
 
-On Wed, Sep 30, 2026 at 3:32=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
+On 22 Sep 2026, at 13:12, Muhammad Usama Anjum wrote:
+
+> pte_t is used both for software PTE values and for entries stored in a PTE
+> table, so pte_t * does not distinguish a pointer to a software PTE
+> value from a pointer to table storage.
 >
-> mnt_ns_release() drops the last passive reference of a mount namespace
-> and removes its fanotify marks via fsnotify_mntns_delete(). That takes
-> the mutex of every group with a mark on the namespace and the spinlock
-> of the connector. Fine from process context. But mnt_ns_tree_remove()
-> hands the reference the namespace was allocated with to call_rcu() and
-> so the marks are removed from the RCU softirq:
+> Introduce hw_pte_t as the generic name for a PTE table element. Define it
+> as a macro alias of pte_t by default. When an architecture selects
+> ARCH_HAS_HW_PTE_T, define it as a structure containing a pte_t instead.
+> This preserves the representation while allowing converted architectures
+> to enforce the distinction at compile time.
 >
->   BUG: sleeping function called from invalid context at kernel/locking/mu=
-tex.c:623
->   in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 0, name: swapper=
-/3
->    __mutex_lock+0x113/0x24b0
->    fsnotify_destroy_marks+0x11b/0x3d0
->    mnt_ns_release_rcu+0x57/0xa0
->    rcu_core+0x6b6/0x1e40
+> Name the generic wrapper structure __hw_pte_t so architectures can
+> forward-declare it when pgtable_t must be defined before the generic
+> hw_pte_t typedef is visible. This avoids header-order dependencies.
 >
-> and lockdep complains about the connector lock being taken from softirq
-> context. A fanotify group with a FAN_MARK_MNTNS mark on the mount
-> namespace of another task is all that's needed. Root in a user
-> namespace can do that for a mount namespace it owns. The task exits and
-> the namespace is freed with the mark still on it.
+> Keep the C type definitions behind an __ASSEMBLY__ check because
+> architecture assembly sources can include this header indirectly. Include
+> asm/page.h so consumers such as linux/vmalloc.h retain the page definitions
+> they previously obtained from that header.
 >
-> Remove the marks in free_mnt_ns() before the namespace is handed to RCU.
-> That runs in process context once the last active reference is gone. A
-> mark is added through a file descriptor to the namespace which holds an
-> active reference so no mark can show up after that.
->
-> Fixes: bf630c401641 ("vfs: add notifications for mount attach and detach"=
-)
-> Cc: stable@vger.kernel.org # v6.15+
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
 > ---
->  fs/namespace.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> Changes since v1:
+> - Name the generic wrapper structure __hw_pte_t so architectures can
+>   forward-declare it, and explain why this is required.
+> - Use software PTE value terminology.
 >
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index 0a7d50db228d..3c90d853e091 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -130,7 +130,6 @@ static void mnt_ns_release(struct mnt_namespace *ns)
->  {
->         /* keep alive for {list,stat}mount() */
->         if (ns && refcount_dec_and_test(&ns->passive)) {
-> -               fsnotify_mntns_delete(ns);
->                 put_user_ns(ns->user_ns);
->                 kfree(ns);
->         }
-> @@ -4279,6 +4278,8 @@ static void free_mnt_ns(struct mnt_namespace *ns)
->         if (!is_anon_ns(ns))
->                 ns_common_free(ns);
->         dec_mnt_namespaces(ns->ucounts);
-> +       /* the last active reference is gone, no mark can show up anymore=
- */
-> +       fsnotify_mntns_delete(ns);
->         mnt_ns_tree_remove(ns);
->  }
+> Changes since RFC v1:
+> - Add the ARCH_HAS_HW_PTE_T opt-in and generic wrapper definition.
+> - Exclude the C type definitions from assembly sources.
+> - Update the description for the new opt-in model.
+> ---
+>  MAINTAINERS                   |  1 +
+>  include/linux/pgtable_types.h | 17 +++++++++++++++++
+>  mm/Kconfig                    |  3 +++
+>  3 files changed, 21 insertions(+)
 >
+LGTM.
 
-The question should be not if new marks can show up, but whether new
-fsnotify_mnt_ events can show up.
+Acked-by: Zi Yan <ziy@nvidia.com>
 
-I think the patch is still correct, but maybe change this comment or remove=
- it.
-
-Otherwise, feel free to add
-
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-
-Thanks,
-Amir.
+Best Regards,
+Yan, Zi
