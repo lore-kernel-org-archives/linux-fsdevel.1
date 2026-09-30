@@ -1,158 +1,178 @@
-Received: from mail-ed2-f35.google.com (mail-ed2-f35.google.com [74.125.228.99])
+Received: from mail-pz2-f37.google.com (mail-pz2-f37.google.com [74.125.228.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B486B472F87
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 21:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3316551FCAD
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 21:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790804721; cv=pass; b=S4DjvmvsqTzrleEMnpR8ukHIoYYWryf45gocDssqTHwDJx+Bjx9sSDLuQ2ZqrJItQJxgy6B24Q6L1Vgzr/EuXQxNlRIr88NZgLkIJF4/1Siq1OwIS0dnQMg+tAxG3aqQXtV94CIeUnyTSm1r+IDuBun+PRNo5vq0hbc8Ppl151w=
+	t=1790805350; cv=pass; b=R3fdRCm2Tz+gq018+7K/Ar5cl3ym6Y4IG/MkVxR7vrDD08q2uw4y0migbUV7ALWpIT/MweHg2HNSJUVE7N33ql6KdgAIacTtpItczEY04EWWvZnz5zgNSfTfgAP6xMUKlrRs5Hhqvkor73i/EL1uSbJ8CfbLz/wRdAYvJqDLngo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790804721; c=relaxed/simple;
-	bh=PiF+5JhYQyqyQQg0yIhizhLY5K8knHwjm64JM2eQzDc=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=u35UusURQS0FQrsbDuFjJ+NxGrIagk03MYrDPIML+c/nU4BzQGukEAps8S+erc7JiYSSmQq2YqNKAn23M91iLUHwASvqi7kiXLLxL6fwD33JgsSN6UsD/eg9WC9+wrYMpXemkLi8QciM6xK+Ht325y9KUnY5HGayKSl1Lwmdyjk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xso3W2DV; arc=pass smtp.client-ip=74.125.228.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790805350; c=relaxed/simple;
+	bh=QmWl/AmmgMmabSUiwRaKQe9VaGRizjY/KG7QhS56eqk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pd1uTnKlp+X58UVWHq8KlkGvr+OTzjHAoK+VSa2xo0+MCf9I9AptDeX/jKYD1mjBy7e4j2zHC7lV9G49LUvzPA538tcCkUxfgYduJkJXwrmn9w/DGBkx+auweaFityC5KdKCZ9IFxEqDs4xtUSdnh5WPlvE+YTyjshnexPBbs0c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=QbMSNeR7; arc=pass smtp.client-ip=74.125.228.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xso3W2DV"
-Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6aaeeacce15so9398863a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 14:45:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790804718; cv=none;
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="QbMSNeR7"
+Received: by mail-pz2-f37.google.com with SMTP id d2e1a72fcca58-887c067c816so355863b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 14:55:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790805347; cv=none;
         d=google.com; s=arc-20260327;
-        b=EzryUm5lUqnAZIIi0+yoa0R1ko2ZnvRgxSYIc6W+IPS8iZUBzuObmbBp+RuUSUdkUh
-         rbUdJq7tgV2wJdAjWqbABZVyl5UmlXqJwjENifDxZkVNRwdHic4qcvvsX7vwzOeFmq+4
-         Pq/tn/bLBBq+WO1RwR1SIwWcsMQ+IjFf1xAXuBgsMj/TxX0EetJzxppwfVYvd80Lid2p
-         iqg1lDGOITvUJqc7U/TMaAeGwCF1/GOe6lYqJhJjtJA+qRcHl6KzUmup8l3c/MapfVu+
-         WgDfpNpgdk8pJgjCMdQtRnfvmpYcqCPRv+Oehd39sb4ha5X+3M6ap9cfGRc6dwBBhZfx
-         tXeQ==
+        b=soFTNN55D0LwLGWOK69VKXrS1L6eZZUN8XuHpSm6L1O9HAZZk2zkX7KqzPmbeYVwVz
+         P6w/66HkuWeG64QzArb+2T5NgyD0FuECQWRYM6ctiRucc/vAifHdHZfozXnPyWzx+Bfx
+         lOrIaZ/kiCyPCWei5ccFERsbKB+1hYKDG1PpgKBSl4f43U+1BuL5PfFiP4TL1vax2h3I
+         Q912ddmFbPfFKKsDWixsfdtGND/t70rzDaWvV6KuhsUIFXltswOBLnCnZepZ37+U3/od
+         LQSQ+Wfpod9/C07sRUAudvZCRQ8gVFswBUjRLom8mYhDk8htlPTjt7OPgQrwZBBctFNh
+         ZD4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=TmzptZmFD4kymUTncO9Qq9vTT/IrpfVRobSN1GvypKQ=;
-        fh=nUcqxmYVDzd+SEjsT50laL+roKCvnw/a+Jlk6QdFv58=;
-        b=BbTs8G/gWl4lXUPmr6A3m4RAkuwP4AEUs/olR0Rj9wv3BdT0YWKa8w1LP51jqBbbuL
-         A1lD6xCReXpwiNk+STjvM3Npw8AuvF4f9zcVSylPHnls+ts5bBUzKOKe8dfFkcZdXmhi
-         r6LoID5VmXl4HO1pmX2etGFin9w4lw+apzTuhVukohwk37DhXOw3LYj+xpwGOdH8Ara1
-         PiZt7XLYa49HA+KCMinplZtnyAtibTGLrRsdslZRLq3TT0yUghBHWvH2J9YH9pUCJvMY
-         Sfa7vvmUcUM40O72l3K/+IFzYzkI8tlZamGoqx/+SXPe/Qc34D4U2S4F6r7KsgPQ2Luo
-         FvcQ==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KOrZ7yXLzKa14m8tKGoSyqvqIE7nI/4PIailhByJN1E=;
+        fh=g469RbHsO/V40FMua4ax3RvzVbMms95MBUxaMMcl5qk=;
+        b=jY2dXb+3xv8NF5pamoB90SVlKcqL7OyrLoyHhn/UHTkQiMB9Kkeyrnti05X1IMJaaw
+         jUcknVv/U7MBROSwYLl45t1g5IC356TnevBHK5CviTsMhbkRycwh6AZ3dsSdUtDYsYk8
+         w2q7wrpGT8AsFm9uJM2vbQPtig0Jo1wvPN+GBIwKHJt5z4AS0kmaVbPuDI1ZAuBYi7Ru
+         6tLpiQAkCuAj0wSU2anHGUnrO0n8ZzVRIZepSNtjdcFoqIqioU7UbYTf0nbcs7BTK128
+         NPW0SIwWpdoUJaonax9aBFhtrIRCiOaPBXuBXdcRG0GPEa4HGnh+A7KxBEu5r0WK7GXU
+         Kspg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790804718; x=1791409518; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TmzptZmFD4kymUTncO9Qq9vTT/IrpfVRobSN1GvypKQ=;
-        b=Xso3W2DVRr0//KWC7nZyQmG3kzZ3O6Y1NUyEkuaPMZPAvYZT4mNKBDNjJgo4LBFI8h
-         46TFjXkGPJ1wHU0GI0nHDc6CYVRh4z8EsHvefU3EVUtumVxp67N6S59syGGtW4YNJeeJ
-         Y/9YEmskM9dT+o7UoQm5AdfW+iPcLn/WDRZmbDbP2Af7vSYSjBaNXRmCNfWumT/EAQGz
-         5y1ilFPT7E2SMA4JC7W4jhoijh1jShKDHJ5X7j21asThAjcwfNBaZpb6LX5vBvdY/VJz
-         qyhmHw+PmzbTgN0hBdskSiswScCF/mdpIbBrqk/0Yt0HTREABqDKFPpsLp8lSVwiGcxD
-         2IaQ==
+        d=paul-moore.com; s=google; t=1790805347; x=1791410147; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KOrZ7yXLzKa14m8tKGoSyqvqIE7nI/4PIailhByJN1E=;
+        b=QbMSNeR7DDtZpzxTUKW8CXKN7rB2ni21B0sGhvFfmZBuekqKN+mITEfR/Kqh1VrQI2
+         ZQ2eDEeVZd/VpSdlzXW602GmsPJnZ6NxOT5cggxqmLhoh+HzeQSpty4Sb+CBSD/E58ds
+         KSymEnr3o764IXWID0J6DM5r9hC8T4/VxNaNx/MvmTsbBd/6pgnNa3ggaK4eyXDEDj+9
+         h/ziqMQvbu2xGSZW46sO8PfsJenxJLD1WJgJGt6GA67YWI3ROwOQp74TVPkLYym/Ok+x
+         gp+ez2uFNDT345eT5Srgd/FkAxB5Vxr66j3OmLg/ZHIgxEZ+QM/u5RBhY7oriPRY72xR
+         O9mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790804718; x=1791409518;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=TmzptZmFD4kymUTncO9Qq9vTT/IrpfVRobSN1GvypKQ=;
-        b=lJHj65Dxywxktw15wdU+b/a98dU66sZFoaii2gGYgT/6crQ1vI/frjyfc0dt2z1/nK
-         SGIn0m/DjvB5pxDYfjFhLYlroxKGusETz9HbSZ2u75JQFRZey3Q1695TD/fOdbB7/jYk
-         1zWm3yKzmI3uUE0o2b0sjCAzkJFRkpLNaFkMRMwR+6ZsBcfNtZ5UIXFMriR5cSdmG8u/
-         6ae4JmoDsCUUmLC1IMImTzxNJoz1y/qMaFE/cxGaaXE2ioeB0wfADRoDs81DXbxEW6gJ
-         Uj4AAuuukGkBsN3Kvtq/1Gy6cpCfxRhi85Qi49YfAH5FFOd20mMPcVHR2WgLwbsID/Cl
-         5hBw==
-X-Forwarded-Encrypted: i=1; AKwUvBxBOB7g1j8NrdC/yCTl232XyhGHyD1J40KK4OsjxPzdiV136wQhkXmC4NutRr3YiWTRew4NjpM48ZkiYVOn@vger.kernel.org
-X-Gm-Message-State: AFq9FYLZrxcDFwkJjU38mHwET2LF9oNip5KRMEM4NUByvNYQb/jZV8rS
-	7GzKCSLf8H3/lLkgPr5I0UHD/fsH568mDlul+3DmT7pOlGeEqgHR8fUgecvlAo84wv6ucr1wZbM
-	hWaSAr6v7aruhx17PGZtyhyLJtwe4mSs=
-X-Gm-Gg: AYBFou2ylR7WJkKVK3qSGFuMdwjfdFXps3i0CBhXuWipgDRDbKbVVjBlfRBLTrkbHRP
-	B7uOLdNNPbZsTm9GslJqVd9R9wvKo4vK0zqZQTEyfE2aZqUWRf2stcT/tyTuskEFwQM8U0yncTJ
-	hBprtHYctNiSA0avCyAvzebbSuYtDMZPMAkgd54MdZVjJtpciq106NBO3Fcs3NSGRGPa9y+beWi
-	NqaDOClYSElRPveAh5GuHavrBENEsw+IZfUIZyW6l8t1d03CcP/Y1FVAJ10v3FmuML4NbEhO802
-	73IRz7UxXPRT7HHCH7i7GaKo7NV/lz/iyv60JuEyPH49am2crpwD+7af
-X-Received: by 2002:a05:6402:a0c8:b0:6ac:9145:7adc with SMTP id
- 4fb4d7f45d1cf-6ae197f807dmr1937264a12.0.1790804717696; Wed, 30 Sep 2026
- 14:45:17 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790805347; x=1791410147;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KOrZ7yXLzKa14m8tKGoSyqvqIE7nI/4PIailhByJN1E=;
+        b=FPL6lA7L5pyi3TC3RcAjYcxVQzSfKw9FPaVpnclnqvJVT67vNh3j44s7KnNQP8Mrd7
+         sQIXX7vGB0Na4dIWHCtFICt9nelZugw3dfkXTcodxkPoqiBlbr5ZlkEixW0E6imTbalD
+         TKqpe/F8Xmecnz2r03F+X/UBCnP+0AgvQop4VPr04kWZLwSOWN0pICtleVrVejisvpYk
+         FM3nFeYHkpD1NFeVV4paRH1TtEln2yDekbBDqQfF5NjYwH3RLiu6hp/0JxAh5wJ8+nKr
+         cu/jlwFC0AAGn34bZyxpbqZzKvHFNlNvgU9Bxgqbjei59UMRlb3PugEcI2et85oqFMdu
+         wFPg==
+X-Forwarded-Encrypted: i=1; AKwUvBy5n+NHnBYPr6cPlD0Px/vhMP7LQJgrsgbHJKgntjJ/BGQkJ/oXHKrfR5J+2Zp5Niw5OOCdgCHC3mAu9QTX@vger.kernel.org
+X-Gm-Message-State: AFuF++lGLpIZ8U72AXZuvEt8AhTpkCkrP+wPDfqrOVkU+QiIXpkbDIAn
+	uQZRhXVTPHyQliViW8RFVDc0PkcuVH5DJVIjeI2BrQA/aTKQvRAtUPS5vDdeNn84czdtksD8eWh
+	q/7eI1RP9pQR8iJs0su503rwgYMQbYyLY470RPhkL
+X-Gm-Gg: AYBFou0gh9o67i0gn9CFcX1THvst1jauKjL6zD/SIDFO7WGWecM2T4mAhT7FzI/UXgT
+	r4aKipqBHeeqsPsqO8Jmor1o/DS0kCoYkvPt2APfMlV3FX4hK2v8fL9lJciMGPw28mhIP0UhVNz
+	L7GnYbgtg3x0RcC1V/RExrU9lXYW00FMqxkm9X+dNpNzYn/kKftrmPfP5LWgEKyMDBH0lmR0mQQ
+	CLURVzsmU1uHLSsX4dlqFyFzyRC0XhoHKjb7QgljIHsmuhgHjGZ4ZG7vMylWrg95k/5naHGtXFP
+	KfNzw4NgOsXqsvhIs04wuIp5tCedMrG6/bgBQ8mGb512nWFBw4DvvbyCyGr0bL8FGnlzzaV2Jj4
+	fJYf23LPEIB8=
+X-Received: by 2002:a05:6a00:1da2:b0:874:705d:f659 with SMTP id
+ d2e1a72fcca58-8874bf05bf6mr1951607b3a.39.1790805347530; Wed, 30 Sep 2026
+ 14:55:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Mitar <mmitar@gmail.com>
-Date: Wed, 30 Sep 2026 23:45:05 +0200
-X-Gm-Features: AclHuK_os7J_qSTseF2-q1yDEA54saSmM29NRE0m1E3A45OjVezUpEjaBz0C_XA
-Message-ID: <CAKLmikMhOYpGEw6uCqX_Bm0JPEg-4FhdJMNa9+tgtw3-Kf+eZg@mail.gmail.com>
-Subject: fuse: HANDLE_KILLPRIV_V2 does not kill suid/sgid on fallocate() and copy_file_range()
-To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <20260706235053.4104951-1-song@kernel.org> <CAPhsuW7E-mW5CvmSXjUsc1GBjvgpy=pnaYOzTJsLXDvx8+RMJQ@mail.gmail.com>
+ <20260928-hinein-lacke-nachfahren-45ac39a36146@brauner> <CAHC9VhRPd8z=67=RWM-0DqjTXysk75FtF=haY9-Vv1oGcX1PAg@mail.gmail.com>
+ <CAPhsuW7iFP4Y6C1ZhTvtEgTzgKjnpF9+8YfVg4o3P4BHEnR+LA@mail.gmail.com>
+ <CAHC9VhQVVfKkRaHOp90E-WVGEVy_MYFBreUYPMc9Y79rLaviRQ@mail.gmail.com>
+ <CAPhsuW5jQCe89LT_22dvQWVnw2cvpceODjvKiHEiYT9Wm_Npgg@mail.gmail.com>
+ <CAHC9VhRdn-jrNJY1K=1RsZQiO80QKR3nD+DHyUM5n_a3TrxLhA@mail.gmail.com> <CAPhsuW5r0Uqu2xUzxkLAakA4=waE-1LLORSqU4SSD5sX_NEn9A@mail.gmail.com>
+In-Reply-To: <CAPhsuW5r0Uqu2xUzxkLAakA4=waE-1LLORSqU4SSD5sX_NEn9A@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 30 Sep 2026 17:55:35 -0400
+X-Gm-Features: AclHuK8j3JJsG9N_X2Nst_6_FuY0gcEZPJUGwr_MZctj7YLOb-QGGZskV69W31E
+Message-ID: <CAHC9VhQvaQyx35M-DJmfrVVqXNcmS+_5uwbtDgMB9SPERaQvog@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] lsm: Replace security_sb_mount with granular mount hooks
+To: Song Liu <song@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, jmorris@namei.org, serge@hallyn.com, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, john.johansen@canonical.com, 
+	stephen.smalley.work@gmail.com, omosnace@redhat.com, mic@digikod.net, 
+	gnoack@google.com, takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
+	kernel-team@meta.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi!
+On Wed, Sep 30, 2026 at 12:37=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+> On Tue, Sep 29, 2026 at 8:41=E2=80=AFAM Paul Moore <paul@paul-moore.com> =
+wrote:
+> > On Tue, Sep 29, 2026 at 2:21=E2=80=AFAM Song Liu <song@kernel.org> wrot=
+e:
+> > > On Mon, Sep 28, 2026 at 3:35=E2=80=AFPM Paul Moore <paul@paul-moore.c=
+om> wrote:
+> > > [...]
+> > > > >
+> > > > > There is another question here. These new hooks do not have any i=
+n-tree
+> > > > > user at the moment. This appears to violate the "New LSM Hooks" p=
+olicy
+> > > > > in [2]. Could you please give more specific guidance on this?
+> > > >
+> > > > There are LSMs which implement mount level access controls, you've
+> > > > been updating those in your patchset :)  I believe that some of tho=
+se
+> > > > LSMs do have some (full? needs verification) coverage on the new mo=
+unt
+> > > > API.  I would expect that a patchset that adds, or modifies the
+> > > > existing, mount hooks would also update those LSMs accordingly.  Fr=
+om
+> > > > what I've seen, you've done a good job updating the individual LSMs
+> > > > thus far, but if you have any questions or are unsure of what to do
+> > > > for any one LSM, please ask and I'm sure the associated devs will b=
+e
+> > > > happy to help.
+> > >
+> > > I don't think the scope here, adding hooks for fsopen, fsconfig, fsmo=
+unt,
+> > > fspick, open_tree, open_tree_attr and mount_setattr and using them
+> > > properly in all LSMs, is a reasonable ask for a single patchset. Give=
+n
+> > > how much time this simple refactoring patchset has taken, I don't for=
+esee
+> > > this work landing in any reasonable timeframe.
+> > >
+> > > Please consider reviewing this set and landing it before asking for m=
+ore
+> > > work.
+> >
+> > [NOTE: dropped herton@canonical due to bounces]
+> >
+> > I suspect there is a misunderstanding regarding the new mount API and
+> > the LSM hooks.  I believe that we have all of the necessary LSM hooks
+> > already in place for the new mount API, but since I haven't looked at
+> > that in several years, verifying this would be good.  Beyond ensuring
+> > the hooks are still complete, I was suggesting that if you are going
+> > to create per-operation LSM hooks for the legacy mount API, it would
+> > be good if we had similar (same?) LSM hooks for the new mount API.
+> > Alternatively, if it doesn't make sense to have per-operation hooks
+> > with the new API, it would be good to document that in your patchset's
+> > commit descriptions.  Either way, I think your patchset needs to
+> > address the new mount API in some way.  I don't want to speak for
+> > Christian, but I believe these comments are in keeping with his
+> > previous comments in this thread.
+>
+> Thanks for the clarification! It appears we can indeed add coverage
+> for the new mount APIs without much work.
+>
+> Attached is a quick draft for this change on top of current patchset.
+> Is this heading in the right direction?
 
-While adding FUSE_HANDLE_KILLPRIV_V2 support to a go-fuse based
-server, I noticed that with it negotiated, fallocate() and
-copy_file_range() by a caller without CAP_FSETID no longer clear the
-setuid and setgid bits of the file they modify, and that the server
-has no way to learn that it should clear them itself.
+Can you send out a revised patchset?  I suspect there will be a number
+of people who want to review your draft, and it's a lot easier if we
+don't all have to apply the patch separately :)
 
-The kernel makes the decision, but drops it on the way.
-fuse_file_fallocate() and __fuse_copy_file_range() both call
-file_modified() before sending the request, which ends in
-fuse_setattr() with ATTR_KILL_SUID and ATTR_KILL_SGID. Since commit
-8981bdfda744 ("fuse: don't send ATTR_MODE to kill suid/sgid for
-handle_killpriv_v2"), fuse_setattr() drops those when
-fc->handle_killpriv_v2 is set, expecting the server to kill the bits
-when the WRITE which follows arrives. But no WRITE follows
-FUSE_FALLOCATE or FUSE_COPY_FILE_RANGE, and neither carries such a
-flag. All the server sees is an empty SETATTR before the request,
-which it cannot tell apart from the one it gets when only
-ATTR_KILL_PRIV was asked for.
-
-For "fallocate -l 8192 f" run by an unprivileged user, on a file with
-mode 06777 which they may write to, the server receives:
-
-  GETXATTR  "security.capability" -> ENODATA
-  SETATTR   valid=0
-  FALLOCATE offset=0 length=8192 mode=0
-
-and the file keeps mode 06777. Without FUSE_HANDLE_KILLPRIV_V2, the
-same command clears both bits, since fuse_setattr() then turns the
-request into a SETATTR of the mode. I verified the fallocate() case.
-The copy_file_range() case is from reading the code, as the server I
-tested does not implement FUSE_COPY_FILE_RANGE.
-
-This matters beyond the mode looking wrong: fallocate() with
-FALLOC_FL_ZERO_RANGE or FALLOC_FL_PUNCH_HOLE, and copy_file_range()
-even more so, change what the file holds. So somebody who may write to
-a setuid file can replace its contents and keep the setuid bit, which
-is what killing the bits is there to prevent.
-
-It looks like an interaction between changes rather than a choice.
-Commit fe0da9c09b2d ("fuse: copy_file_range needs to strip setuid bits
-and update timestamps") made copy_file_range() kill the bits in 2019,
-which stopped working on FUSE_HANDLE_KILLPRIV_V2 connections with
-8981bdfda744 in 2020. Commit 4a6f278d4827 ("fuse: add file_modified()
-to fallocate") added the same to fallocate() in 2022, which takes
-effect only without FUSE_HANDLE_KILLPRIV_V2. As far as I can tell from
-its source, virtiofsd with --killpriv-v2 has the same gap: it drops
-CAP_FSETID for write, open and setattr when asked to, and calls
-fallocate() and copy_file_range() as they are.
-
-I think we should pass the decision with the request, as for WRITE and
-OPEN. For FUSE_FALLOCATE, a new FUSE_FALLOCATE_KILL_SUIDGID could go
-into the currently unused fuse_fallocate_in.padding. For
-FUSE_COPY_FILE_RANGE, it would need a new field, or a bit in
-fuse_copy_file_range_in.flags behind a new INIT flag: servers pass
-.flags on to copy_file_range(2) as it is (virtiofsd does), which fails
-with EINVAL on any bit, so a new bit there cannot be sent to a server
-which did not ask for it.
-
-What do you think?
-
-
-Mitar
-
--- 
-https://mitar.tnode.com/
-https://noc.social/@mitar
-https://bsky.app/profile/mitar.bsky.social
+--=20
+paul-moore.com
