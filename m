@@ -1,48 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A3F3CD8B8;
-	Wed, 30 Sep 2026 18:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FD13D45F7;
+	Wed, 30 Sep 2026 18:50:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790794211; cv=none; b=l6yiW2726CSCZ2WgyBPMspc8yFpqpHNLfK0h2KYAzDaatu2XvQ9/Q55J4kl+yybB+hKLi5dA8f8KTuWqneSF0//XA45C8EIreerOV3zjGf55mBs4bFCxx77J1+UtmtpYSesCnqIeheUKmOQ/y2JTZjWx+Qb63H3to+TRRLWEdFw=
+	t=1790794215; cv=none; b=M68CR/61qbNRsH4xiehCkvMjGWr/HcZFodflSvg7MiEhksjbZOvbTkb2rxfu7rapc5fVeOAqWUIMmj741bkhgVMKBsHrf9sSfjwXfKKGiBzGWoRF8Rmasf715rFjnj3HHfndoVaCccVd+9WsryG/HFwnDQS4EXT+QEuJt5Qimhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790794211; c=relaxed/simple;
-	bh=FJXtU4+QpYegkwvpZrokHBfWlGDnMNQ3KMIE73xKRfc=;
+	s=arc-20240116; t=1790794215; c=relaxed/simple;
+	bh=kH4UKTrXAfSCeo95sM0mJu9J82S/P/M68huz4XeYLHA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U6OmNbVhIz6S+D/5gtHLJaQdBeoeeJvfr2kwOQxPR2WL6WPH0fxJjZSbLvqAFW1kU/sEnmTFe3pfcxQUL5EpcwWRCnkUFAHpRQFaaO/V5OK71OFo1SI772TvomL7LkELVapy1P6ARED7cEXOPJ6f55kQ0MlZnK0QoWH7LXF3rA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hgU3e3Mr; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=b0HaRbOzDBrcyCjDERgnsIWpYa7KSq3EQi7LY+mtVPB5X7k84BU6spq7/W5G9O/O1mf01PVpvvYkQ6v2RcoMCUwlWoSXClO9Z5HDQUCnTw0XUnptZ3rbc5YpwIPRVAlmcurWgeRVTxP6PphydYnzkjQGi4ENg0+AL9JahRizxgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nPLd6Gaq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hgU3e3Mr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F8A31F00898;
-	Wed, 30 Sep 2026 18:50:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790794209;
-	bh=goP1HrZe51j0va0U9CA1Qhi6RykQlUoSPkcYFvlmGE0=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nPLd6Gaq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A53E1F00898;
+	Wed, 30 Sep 2026 18:50:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790794214;
+	bh=HZTYgcR9lbPdKohhcVTinKCgkWoafxaERLX4kJskGNI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=hgU3e3MriTM72ejwDiRlAD1s/o/BoBTzfZbi3ZjYCsaqtD7FcyXECqzrP5CHggDwm
-	 QO5D5kMtDJTo8qVoJ8Zq/Brp3OzmjAlbN7WGepdCWhmEG/OwQC57PUw3h2lFWmIct6
-	 fKnnuL8kFMkkfnjOY3gyYkGaHtjNYHYaYHowLyzm1UGx9USXNmy1WlpYeafL0OSvmh
-	 7awygrNart9v9kvfWQKg0GaYwTc0Ec69I48h8AvqMxLYZZz2MF7uWl6HMAhQTwNS7g
-	 eGyNtcoU1jsuhtlna3XUYfvU4xmirNYF9vNyqDMeEo1a0WSBIiK3m2T/PlQYWk+Lpk
-	 ODAaTXGGJYR8A==
-From: Sasha Levin <sashal@kernel.org>
+	b=nPLd6Gaq0r3K3QqvomtAprTr7T3Rk/qaEJKQRo1HVH4QakgWUkhxQvaYgr0ywhoFV
+	 haOvApGVJuh9SPsb6lxTEauUhahHyUdLtyeWLCSZIvwchLkuugh3180cy3thonGkB2
+	 y7GcJUZJBEZcP+susTFJOd8izHFW4Gq0mupGNmXA=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Cc: David Howells <dhowells@redhat.com>,
-	Tom Talpey <tom@talpey.com>,
-	"Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	linux-cifs@vger.kernel.org,
-	netfs@lists.linux.dev,
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
 	linux-fsdevel@vger.kernel.org,
-	Steve French <stfrench@microsoft.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.12.y 1/3] cifs: Remove the RFC1002 header from smb_hdr
-Date: Wed, 30 Sep 2026 14:50:04 -0400
-Message-ID: <20260930185006.338236-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026092926-stopwatch-rumbling-2993@gregkh>
-References: <2026092926-stopwatch-rumbling-2993@gregkh>
+Subject: [PATCH 6.6 0131/1193] hfs: rework hfsplus_readdir() logic
+Date: Wed, 30 Sep 2026 17:13:35 +0200
+Message-ID: <20260930152437.124862606@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260930152434.301151190@linuxfoundation.org>
+References: <20260930152434.301151190@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,363 +49,198 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: David Howells <dhowells@redhat.com>
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
-[ Upstream commit 83bfbd0bb9025f98fa62b44f93bd67466773d1db ]
+------------------
 
-Remove the RFC1002 header from struct smb_hdr as used for SMB-1.0.  This
-simplifies the SMB-1.0 code by simplifying a lot of places that have to add
-or subtract 4 to work around the fact that the RFC1002 header isn't really
-part of the message and the base for various offsets within the message is
-from the base of the smb_hdr, not the RFC1002 header.
+From: Viacheslav Dubeyko <slava@dubeyko.com>
 
-Further, clean up a bunch of places that require an extra kvec struct
-specifically pointing to the RFC1002 header, such that kvec[0].iov_base
-must be exactly 4 bytes before kvec[1].iov_base.
+[ Upstream commit 7fde7e806657fbe0d33f489521b488eed94f9b39 ]
 
-This allows the header preamble size stuff to be removed too.
+The xfstests' test-case generic/637 fails with error:
 
-The size of the request and response message are then handed around either
-directly or by summing the size of all the iov_len members in the kvec
-array for which we have a count.
+FSTYP -- hfs
+PLATFORM -- Linux/x86_64 kvm-xfstests 6.15.0-rc4-xfstests-g00b827f0cffa #1 SMP PREEMPT_DYNAMIC Fri May 25
+MKFS_OPTIONS -- /dev/vdc
+MOUNT_OPTIONS -- /dev/vdc /vdc
 
-Also, this simplifies and cleans up the common transmission and receive
-paths for SMB1 and SMB2/3 as there no longer needs to be special handling
-casing for SMB1 messages as the RFC1002 header is now generated on the fly
-for SMB1 as it is for SMB2/3.
+QA output created by 637
+entries 7 and 8 have duplicate d_off 8
+Found unlinked files in open dir (see xfstests-dev/results//generic/637.full for details)
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-Reviewed-by: Tom Talpey <tom@talpey.com>
-Reviewed-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
-cc: Shyam Prasad N <sprasad@microsoft.com>
-cc: linux-cifs@vger.kernel.org
-cc: netfs@lists.linux.dev
+Likewise HFS+, currently, HFS has very complicated and
+fragile logic of rd->file->f_pos correction in hfs_delete_cat().
+This patch removes this logic and it stores the current
+pos into hfs_readdir_data. Finally, if rd->pos == ctx->pos
+then hfs_readdir() tries to find the position in
+b-tree's node by means of hfs_cat_key. This position is
+used to re-start the folder's content traversal.
+
+sudo ./check generic/637
+FSTYP         -- hfs
+PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.1.0-rc1+ #55 SMP PREEMPT_DYNAMIC Tue May 19 15:18:02 PDT 2026
+MKFS_OPTIONS  -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+
+generic/637  32s ...  31s
+Ran: generic/637
+Passed all 1 tests
+
+Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/65
+cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+cc: Yangtao Li <frank.li@vivo.com>
 cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Steve French <stfrench@microsoft.com>
-
-Dependency backport for Linux 6.12:
-
-Retain only the compound_send_recv() local MID array rename from midQ to
-mid. Drop the RFC1002/SMB1 refactor: this stable tree still keeps the SMB1
-transport code in transport.c and struct smb_hdr in cifspdu.h, and the
-target fix does not require any changes to framing or message lengths.
-
-To allow 8f6f8a48399f82f4a83f7b9f25b9707e0062a4f9 ("smb: client: delete
-compound mids on send failure before unlock") to apply and compile
-unchanged, also give the existing delete_mid() its explicit server
-argument and update all callers. Use ses->server in cifs_setup_request(),
-matching the server used by allocate_mid(). Retain the stable mid_lock,
-MID_DELETED flag, server pointer, and kref release implementation.
-
-No functions are added, and the target's send-failure fix remains a
-separate patch. The upstream subject and author are preserved.
-
-Upstream description follows:
-
-Remove the RFC1002 header from struct smb_hdr as used for SMB-1.0.  This
-simplifies the SMB-1.0 code by simplifying a lot of places that have to add
-or subtract 4 to work around the fact that the RFC1002 header isn't really
-part of the message and the base for various offsets within the message is
-from the base of the smb_hdr, not the RFC1002 header.
-
-Further, clean up a bunch of places that require an extra kvec struct
-specifically pointing to the RFC1002 header, such that kvec[0].iov_base
-must be exactly 4 bytes before kvec[1].iov_base.
-
-This allows the header preamble size stuff to be removed too.
-
-The size of the request and response message are then handed around either
-directly or by summing the size of all the iov_len members in the kvec
-array for which we have a count.
-
-Also, this simplifies and cleans up the common transmission and receive
-paths for SMB1 and SMB2/3 as there no longer needs to be special handling
-casing for SMB1 messages as the RFC1002 header is now generated on the fly
-for SMB1 as it is for SMB2/3.
-
-cc: Shyam Prasad N <sprasad@microsoft.com>
-cc: linux-cifs@vger.kernel.org
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-
-[ sashal: Reduced backport -- upstream 83bfbd0bb9025 touches 19 file(s), this
-  backport carries 3. Not backported here:
-  fs/smb/client/cifs_debug.c
-  fs/smb/client/cifs_debug.h
-  fs/smb/client/cifsencrypt.c
-  fs/smb/client/cifsglob.h
-  fs/smb/client/cifspdu.h
-  fs/smb/client/cifssmb.c
-  fs/smb/client/cifstransport.c
-  fs/smb/client/connect.c
-  ... and 9 more
-  This note is generated from the file lists only; see the resolution record
-  for the reasoning. ]
-
-Stable-dep-of: 8f6f8a48399f ("smb: client: delete compound mids on send failure before unlock")
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Link: https://lore.kernel.org/r/20260519222811.1311071-2-slava@dubeyko.com
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/smb/client/cifsproto.h     |  2 +-
- fs/smb/client/smb2transport.c |  2 +-
- fs/smb/client/transport.c     | 74 +++++++++++++++++------------------
- 3 files changed, 39 insertions(+), 39 deletions(-)
+ fs/hfs/catalog.c |  9 ---------
+ fs/hfs/dir.c     | 28 +++++++++++-----------------
+ fs/hfs/hfs.h     |  3 +--
+ fs/hfs/hfs_fs.h  |  2 --
+ fs/hfs/inode.c   |  4 ----
+ 5 files changed, 12 insertions(+), 34 deletions(-)
 
-diff --git a/fs/smb/client/cifsproto.h b/fs/smb/client/cifsproto.h
-index d2d004764a708..11fdaf9029539 100644
---- a/fs/smb/client/cifsproto.h
-+++ b/fs/smb/client/cifsproto.h
-@@ -83,7 +83,7 @@ extern char *cifs_build_path_to_root(struct smb3_fs_context *ctx,
- 				     int add_treename);
- extern char *build_wildcard_path_from_dentry(struct dentry *direntry);
- char *cifs_build_devname(char *nodename, const char *prepath);
--extern void delete_mid(struct mid_q_entry *mid);
-+extern void delete_mid(struct TCP_Server_Info *server, struct mid_q_entry *mid);
- void __release_mid(struct kref *refcount);
- extern void cifs_wake_up_task(struct mid_q_entry *mid);
- extern int cifs_handle_standard(struct TCP_Server_Info *server,
-diff --git a/fs/smb/client/smb2transport.c b/fs/smb/client/smb2transport.c
-index 31d22af0c626c..c3de35956d59c 100644
---- a/fs/smb/client/smb2transport.c
-+++ b/fs/smb/client/smb2transport.c
-@@ -915,7 +915,7 @@ smb2_setup_request(struct cifs_ses *ses, struct TCP_Server_Info *server,
- 	rc = smb2_sign_rqst(rqst, server);
- 	if (rc) {
- 		revert_current_mid_from_hdr(server, shdr);
--		delete_mid(mid);
-+		delete_mid(server, mid);
- 		return ERR_PTR(rc);
+diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
+index 632c226a3972c..26b75c35be76d 100644
+--- a/fs/hfs/catalog.c
++++ b/fs/hfs/catalog.c
+@@ -222,7 +222,6 @@ int hfs_cat_delete(u32 cnid, struct inode *dir, const struct qstr *str)
+ {
+ 	struct super_block *sb;
+ 	struct hfs_find_data fd;
+-	struct hfs_readdir_data *rd;
+ 	int res, type;
+ 
+ 	hfs_dbg(CAT_MOD, "delete_cat: %s,%u\n", str ? str->name : NULL, cnid);
+@@ -248,14 +247,6 @@ int hfs_cat_delete(u32 cnid, struct inode *dir, const struct qstr *str)
+ 		}
  	}
  
-diff --git a/fs/smb/client/transport.c b/fs/smb/client/transport.c
-index c3940d3ecd5f3..5c72c8eb94182 100644
---- a/fs/smb/client/transport.c
-+++ b/fs/smb/client/transport.c
-@@ -158,14 +158,14 @@ void __release_mid(struct kref *refcount)
+-	/* we only need to take spinlock for exclusion with ->release() */
+-	spin_lock(&HFS_I(dir)->open_dir_lock);
+-	list_for_each_entry(rd, &HFS_I(dir)->open_dir_list, list) {
+-		if (fd.tree->keycmp(fd.search_key, (void *)&rd->key) < 0)
+-			rd->file->f_pos--;
+-	}
+-	spin_unlock(&HFS_I(dir)->open_dir_lock);
+-
+ 	res = hfs_brec_remove(&fd);
+ 	if (res)
+ 		goto out;
+diff --git a/fs/hfs/dir.c b/fs/hfs/dir.c
+index b75c26045df49..abb5f58ac1254 100644
+--- a/fs/hfs/dir.c
++++ b/fs/hfs/dir.c
+@@ -97,7 +97,15 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
+ 	}
+ 	if (ctx->pos >= inode->i_size)
+ 		goto out;
+-	err = hfs_brec_goto(&fd, ctx->pos - 1);
++	rd = file->private_data;
++	if (rd && rd->pos == ctx->pos) {
++		memcpy(fd.search_key, &rd->key, sizeof(struct hfs_cat_key));
++		err = hfs_brec_find(&fd);
++		if (err == -ENOENT)
++			err = hfs_brec_goto(&fd, 1);
++	} else {
++		err = hfs_brec_goto(&fd, ctx->pos - 1);
++	}
+ 	if (err)
+ 		goto out;
+ 
+@@ -146,7 +154,6 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
+ 		if (err)
+ 			goto out;
+ 	}
+-	rd = file->private_data;
+ 	if (!rd) {
+ 		rd = kmalloc(sizeof(struct hfs_readdir_data), GFP_KERNEL);
+ 		if (!rd) {
+@@ -154,15 +161,8 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
+ 			goto out;
+ 		}
+ 		file->private_data = rd;
+-		rd->file = file;
+-		spin_lock(&HFS_I(inode)->open_dir_lock);
+-		list_add(&rd->list, &HFS_I(inode)->open_dir_list);
+-		spin_unlock(&HFS_I(inode)->open_dir_lock);
+ 	}
+-	/*
+-	 * Can be done after the list insertion; exclusion with
+-	 * hfs_delete_cat() is provided by directory lock.
+-	 */
++	rd->pos = ctx->pos;
+ 	memcpy(&rd->key, &fd.key->cat, sizeof(struct hfs_cat_key));
+ out:
+ 	hfs_find_exit(&fd);
+@@ -171,13 +171,7 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
+ 
+ static int hfs_dir_release(struct inode *inode, struct file *file)
+ {
+-	struct hfs_readdir_data *rd = file->private_data;
+-	if (rd) {
+-		spin_lock(&HFS_I(inode)->open_dir_lock);
+-		list_del(&rd->list);
+-		spin_unlock(&HFS_I(inode)->open_dir_lock);
+-		kfree(rd);
+-	}
++	kfree(file->private_data);
+ 	return 0;
  }
  
- void
--delete_mid(struct mid_q_entry *mid)
-+delete_mid(struct TCP_Server_Info *server, struct mid_q_entry *mid)
- {
--	spin_lock(&mid->server->mid_lock);
-+	spin_lock(&server->mid_lock);
- 	if (!(mid->mid_flags & MID_DELETED)) {
- 		list_del_init(&mid->qhead);
- 		mid->mid_flags |= MID_DELETED;
- 	}
--	spin_unlock(&mid->server->mid_lock);
-+	spin_unlock(&server->mid_lock);
+diff --git a/fs/hfs/hfs.h b/fs/hfs/hfs.h
+index 6f194d0768b6f..f46d12ce04a3f 100644
+--- a/fs/hfs/hfs.h
++++ b/fs/hfs/hfs.h
+@@ -281,8 +281,7 @@ struct hfs_mdb {
+ /*======== Data structures kept in memory ========*/
  
- 	release_mid(mid);
- }
-@@ -854,7 +854,7 @@ cifs_call_async(struct TCP_Server_Info *server, struct smb_rqst *rqst,
- 	if (rc < 0) {
- 		revert_current_mid(server, mid->credits);
- 		server->sequence_number -= 2;
--		delete_mid(mid);
-+		delete_mid(server, mid);
- 	}
+ struct hfs_readdir_data {
+-	struct list_head list;
+-	struct file *file;
++	loff_t pos;
+ 	struct hfs_cat_key key;
+ };
  
- 	cifs_server_unlock(server);
-@@ -989,7 +989,7 @@ cifs_setup_request(struct cifs_ses *ses, struct TCP_Server_Info *ignored,
- 		return ERR_PTR(rc);
- 	rc = cifs_sign_rqst(rqst, ses->server, &mid->sequence_number);
- 	if (rc) {
--		delete_mid(mid);
-+		delete_mid(ses->server, mid);
- 		return ERR_PTR(rc);
- 	}
- 	return mid;
-@@ -1084,7 +1084,7 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 		   int *resp_buf_type, struct kvec *resp_iov)
- {
- 	int i, j, optype, rc = 0;
--	struct mid_q_entry *midQ[MAX_COMPOUND];
-+	struct mid_q_entry *mid[MAX_COMPOUND];
- 	bool cancelled_mid[MAX_COMPOUND] = {false};
- 	struct cifs_credits credits[MAX_COMPOUND] = {
- 		{ .value = 0, .instance = 0 }
-@@ -1150,35 +1150,35 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 	}
+diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
+index acd69a3db8858..17a855c0640d8 100644
+--- a/fs/hfs/hfs_fs.h
++++ b/fs/hfs/hfs_fs.h
+@@ -68,8 +68,6 @@ struct hfs_inode_info {
  
- 	for (i = 0; i < num_rqst; i++) {
--		midQ[i] = server->ops->setup_request(ses, server, &rqst[i]);
--		if (IS_ERR(midQ[i])) {
-+		mid[i] = server->ops->setup_request(ses, server, &rqst[i]);
-+		if (IS_ERR(mid[i])) {
- 			revert_current_mid(server, i);
- 			for (j = 0; j < i; j++)
--				delete_mid(midQ[j]);
-+				delete_mid(server, mid[j]);
- 			cifs_server_unlock(server);
+ 	struct hfs_cat_key cat_key;
  
- 			/* Update # of requests on wire to server */
- 			for (j = 0; j < num_rqst; j++)
- 				add_credits(server, &credits[j], optype);
--			return PTR_ERR(midQ[i]);
-+			return PTR_ERR(mid[i]);
- 		}
+-	struct list_head open_dir_list;
+-	spinlock_t open_dir_lock;
+ 	struct inode *rsrc_inode;
  
--		midQ[i]->mid_state = MID_REQUEST_SUBMITTED;
--		midQ[i]->optype = optype;
-+		mid[i]->mid_state = MID_REQUEST_SUBMITTED;
-+		mid[i]->optype = optype;
- 		/*
- 		 * Invoke callback for every part of the compound chain
- 		 * to calculate credits properly. Wake up this thread only when
- 		 * the last element is received.
- 		 */
- 		if (i < num_rqst - 1)
--			midQ[i]->callback = cifs_compound_callback;
-+			mid[i]->callback = cifs_compound_callback;
- 		else
--			midQ[i]->callback = cifs_compound_last_callback;
-+			mid[i]->callback = cifs_compound_last_callback;
- 	}
- 	rc = smb_send_rqst(server, num_rqst, rqst, flags);
+ 	struct mutex extents_lock;
+diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+index 3a3994616fa54..a2976fe330575 100644
+--- a/fs/hfs/inode.c
++++ b/fs/hfs/inode.c
+@@ -193,8 +193,6 @@ struct inode *hfs_new_inode(struct inode *dir, const struct qstr *name, umode_t
+ 		return NULL;
  
- 	for (i = 0; i < num_rqst; i++)
--		cifs_save_when_sent(midQ[i]);
-+		cifs_save_when_sent(mid[i]);
+ 	mutex_init(&HFS_I(inode)->extents_lock);
+-	INIT_LIST_HEAD(&HFS_I(inode)->open_dir_list);
+-	spin_lock_init(&HFS_I(inode)->open_dir_lock);
+ 	hfs_cat_build_key(sb, (btree_key *)&HFS_I(inode)->cat_key, dir->i_ino, name);
+ 	inode->i_ino = HFS_SB(sb)->next_id++;
+ 	inode->i_mode = mode;
+@@ -328,8 +326,6 @@ static int hfs_read_inode(struct inode *inode, void *data)
+ 	HFS_I(inode)->flags = 0;
+ 	HFS_I(inode)->rsrc_inode = NULL;
+ 	mutex_init(&HFS_I(inode)->extents_lock);
+-	INIT_LIST_HEAD(&HFS_I(inode)->open_dir_list);
+-	spin_lock_init(&HFS_I(inode)->open_dir_lock);
  
- 	if (rc < 0) {
- 		revert_current_mid(server, num_rqst);
-@@ -1221,20 +1221,20 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 	spin_unlock(&ses->ses_lock);
- 
- 	for (i = 0; i < num_rqst; i++) {
--		rc = wait_for_response(server, midQ[i]);
-+		rc = wait_for_response(server, mid[i]);
- 		if (rc != 0)
- 			break;
- 	}
- 	if (rc != 0) {
- 		for (; i < num_rqst; i++) {
- 			cifs_server_dbg(FYI, "Cancelling wait for mid %llu cmd: %d\n",
--				 midQ[i]->mid, le16_to_cpu(midQ[i]->command));
--			send_cancel(server, &rqst[i], midQ[i]);
-+				 mid[i]->mid, le16_to_cpu(mid[i]->command));
-+			send_cancel(server, &rqst[i], mid[i]);
- 			spin_lock(&server->mid_lock);
--			midQ[i]->mid_flags |= MID_WAIT_CANCELLED;
--			if (midQ[i]->mid_state == MID_REQUEST_SUBMITTED ||
--			    midQ[i]->mid_state == MID_RESPONSE_RECEIVED) {
--				midQ[i]->callback = cifs_cancelled_callback;
-+			mid[i]->mid_flags |= MID_WAIT_CANCELLED;
-+			if (mid[i]->mid_state == MID_REQUEST_SUBMITTED ||
-+			    mid[i]->mid_state == MID_RESPONSE_RECEIVED) {
-+				mid[i]->callback = cifs_cancelled_callback;
- 				cancelled_mid[i] = true;
- 				credits[i].value = 0;
- 			}
-@@ -1246,36 +1246,36 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 		if (rc < 0)
- 			goto out;
- 
--		rc = cifs_sync_mid_result(midQ[i], server);
-+		rc = cifs_sync_mid_result(mid[i], server);
- 		if (rc != 0) {
- 			/* mark this mid as cancelled to not free it below */
- 			cancelled_mid[i] = true;
- 			goto out;
- 		}
- 
--		if (!midQ[i]->resp_buf ||
--		    midQ[i]->mid_state != MID_RESPONSE_READY) {
-+		if (!mid[i]->resp_buf ||
-+		    mid[i]->mid_state != MID_RESPONSE_READY) {
- 			rc = -EIO;
- 			cifs_dbg(FYI, "Bad MID state?\n");
- 			goto out;
- 		}
- 
--		buf = (char *)midQ[i]->resp_buf;
-+		buf = (char *)mid[i]->resp_buf;
- 		resp_iov[i].iov_base = buf;
--		resp_iov[i].iov_len = midQ[i]->resp_buf_size +
-+		resp_iov[i].iov_len = mid[i]->resp_buf_size +
- 			HEADER_PREAMBLE_SIZE(server);
- 
--		if (midQ[i]->large_buf)
-+		if (mid[i]->large_buf)
- 			resp_buf_type[i] = CIFS_LARGE_BUFFER;
- 		else
- 			resp_buf_type[i] = CIFS_SMALL_BUFFER;
- 
--		rc = server->ops->check_receive(midQ[i], server,
-+		rc = server->ops->check_receive(mid[i], server,
- 						     flags & CIFS_LOG_ERROR);
- 
- 		/* mark it so buf will not be freed by delete_mid */
- 		if ((flags & CIFS_NO_RSP_BUF) == 0)
--			midQ[i]->resp_buf = NULL;
-+			mid[i]->resp_buf = NULL;
- 
- 	}
- 
-@@ -1305,7 +1305,7 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 	 */
- 	for (i = 0; i < num_rqst; i++) {
- 		if (!cancelled_mid[i])
--			delete_mid(midQ[i]);
-+			delete_mid(server, mid[i]);
- 	}
- 
- 	return rc;
-@@ -1469,7 +1469,7 @@ SendReceive(const unsigned int xid, struct cifs_ses *ses,
- 	memcpy(out_buf, midQ->resp_buf, *pbytes_returned + 4);
- 	rc = cifs_check_receive(midQ, server, 0);
- out:
--	delete_mid(midQ);
-+	delete_mid(server, midQ);
- 	add_credits(server, &credits, 0);
- 
- 	return rc;
-@@ -1562,7 +1562,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 
- 	rc = cifs_sign_smb(in_buf, server, &midQ->sequence_number);
- 	if (rc) {
--		delete_mid(midQ);
-+		delete_mid(server, midQ);
- 		cifs_server_unlock(server);
- 		return rc;
- 	}
-@@ -1577,7 +1577,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 	cifs_server_unlock(server);
- 
- 	if (rc < 0) {
--		delete_mid(midQ);
-+		delete_mid(server, midQ);
- 		return rc;
- 	}
- 
-@@ -1602,7 +1602,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 			   blocking lock to return. */
- 			rc = send_cancel(server, &rqst, midQ);
- 			if (rc) {
--				delete_mid(midQ);
-+				delete_mid(server, midQ);
- 				return rc;
- 			}
- 		} else {
-@@ -1614,7 +1614,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 			/* If we get -ENOLCK back the lock may have
- 			   already been removed. Don't exit in this case. */
- 			if (rc && rc != -ENOLCK) {
--				delete_mid(midQ);
-+				delete_mid(server, midQ);
- 				return rc;
- 			}
- 		}
-@@ -1654,7 +1654,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 	memcpy(out_buf, midQ->resp_buf, *pbytes_returned + 4);
- 	rc = cifs_check_receive(midQ, server, 0);
- out:
--	delete_mid(midQ);
-+	delete_mid(server, midQ);
- 	if (rstart && rc == -EACCES)
- 		return -ERESTARTSYS;
- 	return rc;
+ 	/* Initialize the inode */
+ 	inode->i_uid = hsb->s_uid;
 -- 
 2.53.0
+
+
 
