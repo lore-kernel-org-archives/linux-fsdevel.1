@@ -1,171 +1,176 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB28547074;
-	Wed, 30 Sep 2026 11:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389E0395D8C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 11:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790768156; cv=none; b=o4817ahjDDwO9RCbs2Szdy5ExRrfM5Dv4cYw31ADoIZ4oK3NMGynzN1BBOxJ5kvWtAkkXt1bL47vBpOZLhUTlEqBflo90muVzh2XS1TjycOUeDRRGfcFnh6MJ8G4NrTFGgQ9/g6YyZyaiWbqTAdHpPHBqeyntIruD79v+Ro6RQY=
+	t=1790768326; cv=none; b=dpb2iVbTgU93yxhSXDr/jE9afeeK/3R51y/PbPYYVpxHe4rcGYdg+m5pB6qSZJNELntEXSh1QI89eH4VSyqoROhjs+vqmZ1aldDCB9aK6uucYJ9NwfaiyPnRr2XqOEthn2B0eaut4lMx89RGIXj8JHh/+VkXzAZFLROYGkLByKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790768156; c=relaxed/simple;
-	bh=GQfdl1fD6ETiZvCgZxVhwOOYjJ3r/8URl41sHVMxb3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ovFzKYIWyLL31CIlh+EvsL8wlHz4YqE+fF5upbHyffIRuDn1lGfedSwmWP+1ITv2XhTdlasYb+PF9J4QeJimhI7SsDcnX1kseTESFiYIE6L9BTIHGGt54JAEqaGjX2hX3cibdxv5C50me9gCKfiaGJK2OT6sNGQrMLMGe1Yd9Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ww5xsU4o; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mSjP4dXB; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=3GA3Uw5K; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=RbSHjcYH; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1790768326; c=relaxed/simple;
+	bh=FtyBlYU0Iun6AaTM0MlovxblsuxQWFSHOtj3pghFRq8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b+0RykoO+hPwNDbMeW5LAcKDCD/Aw1psAWYLY7qcclN8lfTDXfSEc1NdT4jP2ENyLUBVLd0DZlPyQ+sCKJSK68h/+TfDGKgQa1ciht7kiPF5EPLO8P/BX3kpo7El6cgNgWyqmqRlKDe0HwpSoXhAH37qVYl11yZDp75inDsBTmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hlXqgclW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ww5xsU4o";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mSjP4dXB";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="3GA3Uw5K";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="RbSHjcYH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1A09821D6E;
-	Wed, 30 Sep 2026 11:35:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790768148; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXI58kVKGHKbCjMpYt+Leu/5KRXymy9PQ/dRuuwjnLg=;
-	b=ww5xsU4oLekq2MdM6Jah08ODQJb2MtBEKENsVNrwl7qOpXsfWyTafhQYatCUEIHOM3I9YA
-	nSOjdXv0/iLdWYjMyg3aUvF9QHC4hhl6hSshrtbDCBNdr+zITq8rKXybauR7NGkYeBQHA3
-	6yzPocAHFdYFbSsypivctQgYmUQF13Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790768148;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXI58kVKGHKbCjMpYt+Leu/5KRXymy9PQ/dRuuwjnLg=;
-	b=mSjP4dXBNFwpl0aXEF7/O45ovdC+ho1/Bmfx1AKmR/I/I1x2ugFgtSQZGel59eClPVU2o8
-	8S/nKV6wFBxZ6qDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=3GA3Uw5K;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=RbSHjcYH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790768144; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXI58kVKGHKbCjMpYt+Leu/5KRXymy9PQ/dRuuwjnLg=;
-	b=3GA3Uw5KOozg6FMeTUmmVYLUJ9od9VyPtt8SZB6olmFGxXQaTW0w+3eZBYJAZAlcu8mxmB
-	e8zvOP/4JhnLThsTSh/4vVmZSE5NzF5dfIsZK/kRi4ihsX9eB2DyQygDc4A5hb9zF4SDMe
-	vWwxKmppP9xUfEcsTqL/ApLyzthnzNI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790768144;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXI58kVKGHKbCjMpYt+Leu/5KRXymy9PQ/dRuuwjnLg=;
-	b=RbSHjcYHnKxo1PI8WZEcNWudA7UkpC6PePaNw8/dvNGYVpD8DGjAm/P6QLaU6aul/ctIaN
-	iZI+FzY7odf37RBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E533613722;
-	Wed, 30 Sep 2026 11:35:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2q0ULw/0vGqiPwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 30 Sep 2026 11:35:43 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 879C5A13AD; Wed, 30 Sep 2026 13:35:39 +0200 (CEST)
-Date: Wed, 30 Sep 2026 13:35:39 +0200
-From: Jan Kara <jack@suse.cz>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, NeilBrown <neil@brown.name>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] VFS: d_duplicate: repair comments to avoid kernel-doc
- warnings
-Message-ID: <nlqvldcyutesquh6s3ysgxt5ume4m6jvr3k4yqitvmhcmc3tph@hqzpuocxpty2>
-References: <20260928211000.1539250-1-rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hlXqgclW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01D321F000FF;
+	Wed, 30 Sep 2026 11:38:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790768324;
+	bh=Wz/bhxjtBi7K7HV8B4o74LbjtU5sEbHi12rmGSrEnCo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=hlXqgclWy+RKfo1IVb2/Lhnu8JTiq/kzASCVvfz+5uw2hJoEuS+yzXluIarqaXv0l
+	 Tfh2Y9vvfC38nBPizbuXgNfVgBkbKCtg4rBPAAkvrfNYYqEdAzUMx+WgWijY2jw5f0
+	 SkEL5tePsyaJMBG9alVE2MokNkkd683JUEgy1eCiCnqakNhyCZ5TkkDgolpBTQWMG4
+	 P8WxUFHSS45NEIsTQS9U6Rdnt/14/iaq6kYsi4dwHs+PD2Mjo8c4FUAFcJsZC88i/c
+	 /GzlVOokskwUvLEALhYyAt5dUSp0WAEYx0hELPCjB9Zea9+O996J5Gov0AzAvObyqH
+	 D5wobrpPTONqA==
+Message-ID: <de323c38-4719-45fa-b4ac-6dae1b51b086@kernel.org>
+Date: Wed, 30 Sep 2026 13:38:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260928211000.1539250-1-rdunlap@infradead.org>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,infradead.org:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,linux.org.uk:email,brown.name:email];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 1A09821D6E
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] madvise: best-effort deferred writeback for shared file
+ mappings
+To: =?UTF-8?B?5aSp54u8?= <rockeet@gmail.com>,
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>,
+ Jan Kara <jack@suse.cz>
+References: <CAAE3jtcL_CZJdcattCwe0RraKnHcZO=UknxEUQVG858ouZCUQA@mail.gmail.com>
+ <7ebe4591-2306-4b5c-b83e-6a2e34b52bd8@kernel.org>
+ <CAAE3jtfeKJLSypScqRAEEgvO8En5kJfpbcFn5X+LQ2YL+xz_vA@mail.gmail.com>
+ <85aff663-2131-47da-ac04-8f0799a49b91@kernel.org>
+ <CAAE3jtcRQ407P9LTbg=JOwhABQRViSaq2XBefnDdNWiD7PxvUg@mail.gmail.com>
+ <1ce9cf3a-15dc-4815-ba29-2e22b05206fb@kernel.org> <art8EKRKMdwSDCkr@gremlin>
+ <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon 28-09-26 14:10:00, Randy Dunlap wrote:
-> Use a typical list style for comments to prevent kernel-doc warnings:
-> 
-> Documentation/filesystems/api-summary:20: ../fs/dcache.c:2029: ERROR: Unexpected indentation. [docutils]
-> Documentation/filesystems/api-summary:20: ../fs/dcache.c:2030: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-> 
-> Also, modify the spelling of "whiteout" to match all other uses in
-> the kernel source tree and to be consistent on the same line.
-> 
-> Fixes: 33d76519f0cc ("VFS: add d_duplicate()")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+On 9/30/26 12:27, 天狼 wrote:
+> Hi David, Lorenzo,
+>
 
-Looks good. Feel free to add:
+Hi,
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
-> Cc: NeilBrown <neil@brown.name>
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: linux-fsdevel@vger.kernel.org
+>> You really need an actual file on disk. Shared memory / shmem / memfd is
+>> not sufficient?
 > 
->  fs/dcache.c |    7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+> Yes, an ordinary disk-backed file is the intended output, and subsequent
+> consumers access it through mmap.
 > 
-> --- linux-next-20260928.orig/fs/dcache.c
-> +++ linux-next-20260928/fs/dcache.c
-> @@ -2025,10 +2025,11 @@ EXPORT_SYMBOL(d_alloc);
->   * @dentry: the dentry to duplicate
->   *
->   * Some rename operations need to be combined with another operation
-> - * inside the filesystem.
-> - * 1/ A cluster filesystem when renaming to an in-use file might need to
-> + * inside the filesystem::
-> + *
-> + * 1. A cluster filesystem when renaming to an in-use file might need to
->   *   first "silly-rename" that target out of the way before the main rename
-> - * 2/ A filesystem that supports white-out might want to create a whiteout
-> + * 2. A filesystem that supports whiteout might want to create a whiteout
->   *   in place of the file being moved.
->   *
->   * For this they need two dentries which temporarily have the same name,
+> Shared memory can preserve state across a process crash if the shared
+> object remains alive. However, using shmem/memfd would introduce a separate
+> staging and transfer step to put the data into the final file. Building
+> directly in a file-backed MAP_SHARED mapping lets us preserve the latest
+> userspace writes across process crashes and retain the same file-cache
+> pages for subsequent consumers.
+
+Why do you really need the data on a file in disk?
+
+What you could do is, load it once from the file into shmem, then let everybody
+work on shmem, and have some background thread that periodically writes the
+shmem content out to the real file on disk.
+
+Then, you could completely control when I/O would happen.
+
+[...]
+
+>> It'd be problematic to effectively corrupt the page cache by saying "hey
+>> this is dirty but just clear dirty state and pretend this is what the
+>> disk has".
+> 
+> To clarify, the proposal does not involve clearing dirty state or
+> pretending that memory and disk contents match. The pages would remain
+> dirty and continue to count toward the existing dirty-page limits.
+> 
+
+IIUC, vmscan would still write out the folio if dirty, so I'd assume that at
+least memory reclaim would not be affected, only background writeback.
+
+> The requested hint only expresses that the application expects to modify
+> the data again soon and would prefer background writeback to happen later.
+> 
+>> Delaying writeback could interfere with the writeback balancing logic.
+> 
+> I understand that concern. The hint should not exempt the application from
+> dirty-page limits or throttling. If writeback is needed for balancing,
+> memory pressure, or explicit synchronization, the kernel should override
+> the hint.
+> 
+> The intended benefit is to avoid writing intermediate versions when the
+> kernel has room to defer that work. There is no requirement to prevent
+> writeback until construction finishes.
+> 
+> madvise is not the only option, deferring writeback for the entire file
+> would also be acceptable.
+> 
+> Could such an advisory preference be accommodated within the existing
+> writeback balancing policy while retaining its limits and fairness?
+When using MAP_SHARED with disk-based files for VM memory, people ran into
+similar problems: the VM will constantly dirty many folios and background
+writeback will just permanently write these out and wear storage. For VMs you
+really only want the memory persisted in the file once you e.g., migrate the VM.
+Essentially, once the VM is paused.
+
+One of the reasons why we tell people to not use that combination and use
+shmem/hugetlb instead. I do wonder whether there is some similarity ... we don't
+want brackground writeback as long as there is heavy activity on these files.
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Cheers,
+
+David
