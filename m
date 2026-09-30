@@ -1,103 +1,190 @@
-Received: from mail-dy2-f41.google.com (mail-dy2-f41.google.com [74.125.229.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E02237AA95
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 03:39:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.41
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1CE538DC4C;
+	Wed, 30 Sep 2026 04:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790739587; cv=none; b=TPIQCLikwd+sPVx8Nt/rlO+cre5phB0/lwecIZ7/7bk8wLTr2+nIjfyCJHn5FDT/WdOeG9nh857MgZdw3gnvrE55PZHhjKYZgWBONBTwvlfWCyxdFQ+3KkurssXKZdHLoBOaO/hU1DzxmeUrmcxCEl2dFvcLNpXixkiPcsylkq8=
+	t=1790741625; cv=none; b=MkcyeIwFl0AxzmUzrqULSx6lvyIcKP4+AlC2MLWkIKo1BWkjWuYlc4mEvk3UnliJEoq+pcpvRHXDEF3H82Us4IY0h8QE6X4g1qEA8W6GVDK4LFFdNIpu9miEPmM1bJ3VS/qxB/fvlq8RehrkoEKySDDj2oWnHc2GIkmuQUbs1Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790739587; c=relaxed/simple;
-	bh=GdeZEzx5GKh9ZY0H/ycxz2NRMTcpeYqQQU7x3wrswlA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SPyRZo2CspEjI+9QMnLkPbZ1cjtWemSmZ1zaoU68j9OuTwNi9DGRdShITNiG/budpvklOhkXM8coO+jJONwG/we1Z+Zgmqa0ls2/dGGDU91K5wv6zg1R0X79l4UnjTF4Uhma9xvUvIFYGKGY+8ji2K5sCkL84mobX7/lb/T2lbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JS9mc7sR; arc=none smtp.client-ip=74.125.229.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790741625; c=relaxed/simple;
+	bh=Eo9CdH+0TtRSX/QNTJHDXco4iCbdFaKjgbzXmhi+d+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pihFSTq4nsi3b9ll6LFUX8Yv5Mwg8V2S6NckTyObtxGK32ucOrC6g/m9PpO6GKZJkNNv+0lFV+8p8/RXvyqzSTkAuaMaTw7clnOgyT6vTg9sVAbIV+GSb5ZZiJkEnOVwj3TZr4TmsELvvHwFnzXCWiq2zGy7NHPakENhgbXk+h8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=uUMCfJku; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JS9mc7sR"
-Received: by mail-dy2-f41.google.com with SMTP id 5a478bee46e88-3468ec309afso2145424eec.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 29 Sep 2026 20:39:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790739584; x=1791344384; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ia9CbVKKwRCU5GzXWGPkLwk9XTdQTUAtoP5YeQIZPys=;
-        b=JS9mc7sRfqJC3ziAg6EQXugbPKZVKdueuT8W4aUSgx7VNUNlc9Zsjfzik6D78Y6ylK
-         SNO1qXgeYlkiE1HONapM6GuzDy8JvGbg3TEl15cR6bkqTKMUHxGGNW7f8K9eZoGNw05e
-         yVZZi9EjJaM7LOUMITfuDxZFA30LZOw0cgdPttFX2VxOypqGj66do0AiFSpXdKP755pZ
-         ENiHQtNJRN2PZQKjjDLVK09/ZkkViZRhqMmreeHzCBd18qR8j0sM4VcmqgbpJCizMOOM
-         vuuc44fOTNPsvZ6008OsNgt4/NBjX4zXhN9Wiejc4ACk2unrkGIN7sHZ2vjJ/Faw+lsO
-         sVoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790739584; x=1791344384;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ia9CbVKKwRCU5GzXWGPkLwk9XTdQTUAtoP5YeQIZPys=;
-        b=1XgTuP5WrW7RHsATdaBNpH3tj7Q3xuS2c0dUGR2+4l/+kHMMSjzODL2jB4K/c74Rxl
-         ri2WkMpPhLokR4us38dR2KvJxlVTLawixlBUa5TYKQGB8AAdqFTPMfsM4VOBq9o/IoL8
-         ze4sdKL6/KyJH10/ulxxaXKsdc6XgMWuPf2FKvDTn3vS78HhveFTEttgfwZ0Zhy2YJ4y
-         BsHwlRrOzaftFoMhJulBugO3UDA6F+MCly8gVleZ+imcIfIR3bulx4J2IzutTtduusQt
-         uQX5epBjZMSQBeG2TyF4OLEaFu3NEyFxUhp1NmblqGIgVmeX9iHVDgoE2ZB8BOLAC0H0
-         wVKA==
-X-Forwarded-Encrypted: i=1; AKwUvBxNddKKSVStCyrwDlspGGPdWJUglHQ8PRtpKBH9IJBXwv4FWXzAWeNLjnIzQTwct3R9517AsHXToiaBqvQF@vger.kernel.org
-X-Gm-Message-State: AFq9FYJoaj9uz/4eke5CftX4t3OawGXpVqbZEr9fd9HLdDLP+Hvm0HOD
-	hATrrp1IZsBatfeUcrR/GZuR60an7RBwxzPMD14gmeMxUWtu5Zica49D
-X-Gm-Gg: AYBFou0ZcXafwvM5T8Um+4aSevUAN6n744zhZAG5RDUlwBMgiUjCLFdr0yGrXe2hsO7
-	ZDA6s4XxlOCs38755Ur9YE9qa3BASk10ytNYf4WiA8Mxz1n/g9hqmGSnvuKBEpM/4ApK3+JU2eI
-	JphlNkln4HyY9NZUTop8kvcMhc0lliDoXWdM38au6EtU9sBFVDf+Sn+RDhV/rAX4FUYoF0NmoQg
-	3XTemDVpbGNEjmEHCHklEXgcHMX1++Zf04bCOXga1+2Ia+rOqS9xUBFP2U0h6cv8J/dRvAErzqW
-	c5ss84e6s4Q8xjoqiY6cbG6qvOoe8NDKN2J0kE890kEicZngo3785fmyIsNIg58j9004vWnIgr5
-	UByQiAQH+CWcGfP8W+n2PyLfA+2eZEmy3F0Bb5l257SOuskajH+Ghmpbl02tTzyWX9nfiKepr7U
-	eCsaoWRT8fx81Vw3dfmIc9Q0UlL0Xc4BEoEphKruehJWuMHEpaytqliGZIN1EPRbsdjwYYqmUG9
-	zbFrvpqYXV9f4tpGwY5ewLbHmifxTStfZD84tjs9+lQnWhcMU/25MF7JHKO6m/fLdMNQqig2b4V
-	S8gD97cE4zVI96NwGzTNQfFUbtZHW/hEL78lrnbQt0iK5v8QAgkuH71eELA=
-X-Received: by 2002:a05:693c:66c2:20b0:34c:7e54:65e6 with SMTP id 5a478bee46e88-34cd91735a2mr336022eec.5.1790739584070;
-        Tue, 29 Sep 2026 20:39:44 -0700 (PDT)
-Received: from spider.bream-herring.ts.net ([103.6.151.236])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34cf22fc6cesm252806eec.2.2026.09.29.20.39.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 20:39:43 -0700 (PDT)
-From: Matthias Goergens <matthias.goergens@gmail.com>
-To: Jan Kara <jack@suse.cz>
-Cc: Hui Peng <benquike@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] isofs: bound empty directory blocks in isofs_read_level3_size()
-Date: Wed, 30 Sep 2026 11:39:40 +0800
-Message-ID: <20260930033940.175021-1-matthias.goergens@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cm3n7vjwbdnafttuz5ftkzz5wdbalgews4dfs5zlwvkyuzotuq@jo2nhsplhstc>
-References: <20260919222553.3792320-1-benquike@gmail.com> <20260923175215.1577791-1-matthias.goergens@gmail.com> <w3rnunloyshklgq4ocr4jsullzhaey6u7odstfoyhd4usbfppo@m33jyem5jgrf> <20260924151356.3287733-1-matthias.goergens@gmail.com> <20260925043804.2091174-1-matthias.goergens@gmail.com> <cmlro2xzle2aa7ebflvxhbcv74mea7p6qvxhin6egpdvyzyuxh@s45tpgxdal3n> <20260926083517.556576-1-matthias.goergens@gmail.com> <cm3n7vjwbdnafttuz5ftkzz5wdbalgews4dfs5zlwvkyuzotuq@jo2nhsplhstc>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="uUMCfJku"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 15D7016F3;
+	Tue, 29 Sep 2026 21:13:38 -0700 (PDT)
+Received: from localhost (a085714.arm.com [10.164.19.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 068A63F85F;
+	Tue, 29 Sep 2026 21:13:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790741621; bh=Eo9CdH+0TtRSX/QNTJHDXco4iCbdFaKjgbzXmhi+d+w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uUMCfJkuCo0kl9BpIml6ya6QFhzuY6ScFyN2rrI9OZskXRGAAufEdzszI/qQTPqg9
+	 Iguh/DHAQ4gijcI8is1MZGmQg8kO5mj99Gmt6zNO4sTw9mweCAqyNbvOWOTaW5gjPd
+	 8DmLSRkJE2jM29CtfSFlUOWDSiSDxl4euASIJUXk=
+Date: Wed, 30 Sep 2026 09:43:37 +0530
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: Muhammad Usama Anjum <usama.anjum@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Xu Xin <xu.xin16@zte.com.cn>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Jann Horn <jannh@google.com>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Pedro Falcato <pfalcato@suse.de>, Arnd Bergmann <arnd@arndb.de>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
+	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	James Clark <james.clark@linaro.org>, SJ Park <sj@kernel.org>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>, 
+	Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@gentwo.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Juergen Gross <jgross@suse.com>, 
+	Stefano Stabellini <sstabellini@kernel.org>, Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, damon@lists.linux.dev, kasan-dev@googlegroups.com, 
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v3 1/9] mm: introduce hw_pte_t for PTE table storage
+Message-ID: <snzkwnnubrx27tkroyql77iziuws3ku34dkclevfen5edef33b@wc3df3hbeuly>
+References: <20260922-pte0-v3-0-5670b8cb9059@arm.com>
+ <20260922-pte0-v3-1-5670b8cb9059@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260922-pte0-v3-1-5670b8cb9059@arm.com>
 
-Hi Honza,
+On Tue, Sep 22, 2026 at 06:12:29PM +0100, Muhammad Usama Anjum wrote:
+> pte_t is used both for software PTE values and for entries stored in a PTE
+> table, so pte_t * does not distinguish a pointer to a software PTE
+> value from a pointer to table storage.
+> 
+> Introduce hw_pte_t as the generic name for a PTE table element. Define it
+> as a macro alias of pte_t by default. When an architecture selects
+> ARCH_HAS_HW_PTE_T, define it as a structure containing a pte_t instead.
+> This preserves the representation while allowing converted architectures
+> to enforce the distinction at compile time.
+> 
+> Name the generic wrapper structure __hw_pte_t so architectures can
+> forward-declare it when pgtable_t must be defined before the generic
+> hw_pte_t typedef is visible. This avoids header-order dependencies.
+> 
+> Keep the C type definitions behind an __ASSEMBLY__ check because
+> architecture assembly sources can include this header indirectly. Include
+> asm/page.h so consumers such as linux/vmalloc.h retain the page definitions
+> they previously obtained from that header.
+> 
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
 
-> Any reason why don't you do just "++i > 100" here and completely
-> remove the empty_blocks variable?
+LGTM
 
-Yes: i has one other use.  The "if (i == 1)" further down records
-where the second section starts (i_next_section_block/offset).
-Counting empty blocks in i would move i past 1 before the second
-record is read when an empty block sits between the first two
-records, so the next-section link stays 0 and isofs_get_blocks()
-reads past the first extent into whatever follows it on disk.  I
-tried your variant on a two-section image with one empty block
-between the records: v1 reads the file correctly, the variant returns
-different bytes.
+Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
 
-I'm happy to send a v2 that adds a comment saying why the count stays
-out of i, if you'd like one.
-
-Thanks,
-Matthias
+> ---
+> Changes since v1:
+> - Name the generic wrapper structure __hw_pte_t so architectures can
+>   forward-declare it, and explain why this is required.
+> - Use software PTE value terminology.
+> 
+> Changes since RFC v1:
+> - Add the ARCH_HAS_HW_PTE_T opt-in and generic wrapper definition.
+> - Exclude the C type definitions from assembly sources.
+> - Update the description for the new opt-in model.
+> ---
+>  MAINTAINERS                   |  1 +
+>  include/linux/pgtable_types.h | 17 +++++++++++++++++
+>  mm/Kconfig                    |  3 +++
+>  3 files changed, 21 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2133aec4a2004..da60a8bdcddb5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17140,6 +17140,7 @@ F:	include/linux/mmu_notifier.h
+>  F:	include/linux/pagewalk.h
+>  F:	include/linux/pgalloc.h
+>  F:	include/linux/pgtable.h
+> +F:	include/linux/pgtable_types.h
+>  F:	include/linux/ptdump.h
+>  F:	include/linux/vmpressure.h
+>  F:	include/linux/vmstat.h
+> diff --git a/include/linux/pgtable_types.h b/include/linux/pgtable_types.h
+> new file mode 100644
+> index 0000000000000..07da05d375c2c
+> --- /dev/null
+> +++ b/include/linux/pgtable_types.h
+> @@ -0,0 +1,17 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _LINUX_PGTABLE_TYPES_H
+> +#define _LINUX_PGTABLE_TYPES_H
+> +
+> +#include <asm/page.h>
+> +
+> +#ifndef __ASSEMBLY__
+> +
+> +#ifdef CONFIG_ARCH_HAS_HW_PTE_T
+> +typedef struct __hw_pte_t { pte_t __pte; } hw_pte_t;
+> +#else
+> +#define hw_pte_t pte_t
+> +#endif
+> +
+> +#endif /* !__ASSEMBLY__ */
+> +
+> +#endif /* _LINUX_PGTABLE_TYPES_H */
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index c1ddf59c0d71a..5f462ec6fa5e5 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -1312,6 +1312,9 @@ comment "GUP_TEST needs to have DEBUG_FS enabled"
+>  config GUP_GET_PXX_LOW_HIGH
+>  	bool
+>  
+> +config ARCH_HAS_HW_PTE_T
+> +	bool
+> +
+>  config DMAPOOL_TEST
+>  	tristate "Enable a module to run time tests on dma_pool"
+>  	depends on HAS_DMA
+> 
+> -- 
+> 2.47.3
+> 
