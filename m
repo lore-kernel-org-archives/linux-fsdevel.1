@@ -1,117 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389E0395D8C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 11:38:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9B34CDDD4
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 12:08:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790768326; cv=none; b=dpb2iVbTgU93yxhSXDr/jE9afeeK/3R51y/PbPYYVpxHe4rcGYdg+m5pB6qSZJNELntEXSh1QI89eH4VSyqoROhjs+vqmZ1aldDCB9aK6uucYJ9NwfaiyPnRr2XqOEthn2B0eaut4lMx89RGIXj8JHh/+VkXzAZFLROYGkLByKI=
+	t=1790770120; cv=none; b=rJqVCnPdv83q1LkbQHf+5QslQ7l0uWkSf/d9SkUt1+3G8uehONY6q3zhpKrJMlxLoErg5n1bXponxCgCw0SRbuNgPOw32Y2aJ/reBQs1/ll3Ql0ev45YqBtrL/m7EXU0clmeerAEVgLPSfUYU0LmGAfk+qH7I+sdmHRVQOkz0Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790768326; c=relaxed/simple;
-	bh=FtyBlYU0Iun6AaTM0MlovxblsuxQWFSHOtj3pghFRq8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b+0RykoO+hPwNDbMeW5LAcKDCD/Aw1psAWYLY7qcclN8lfTDXfSEc1NdT4jP2ENyLUBVLd0DZlPyQ+sCKJSK68h/+TfDGKgQa1ciht7kiPF5EPLO8P/BX3kpo7El6cgNgWyqmqRlKDe0HwpSoXhAH37qVYl11yZDp75inDsBTmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hlXqgclW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790770120; c=relaxed/simple;
+	bh=TcPo3OnPL6RO7WwH35+drtHu3m/6Ime40gJXU1+/524=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O4ccA3LyZWsdnFMuYGFnqrgfFq4Ccqgp+CEeRH9fqXcIhJBW7LJq6BTskYliog9KQz9zqiRVMTLFHqBOd3RcSSlsh9b2rIdc1KNK+yZ3Kd1Mm5/6Fv8WLqNi2/l7NHQHaifFRlm1uH5BjS+D5ss2se3i29ggLPfs9VRuYF8CVd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a5ufWsKr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hlXqgclW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01D321F000FF;
-	Wed, 30 Sep 2026 11:38:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a5ufWsKr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 743031F00893;
+	Wed, 30 Sep 2026 12:08:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790768324;
-	bh=Wz/bhxjtBi7K7HV8B4o74LbjtU5sEbHi12rmGSrEnCo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hlXqgclWy+RKfo1IVb2/Lhnu8JTiq/kzASCVvfz+5uw2hJoEuS+yzXluIarqaXv0l
-	 Tfh2Y9vvfC38nBPizbuXgNfVgBkbKCtg4rBPAAkvrfNYYqEdAzUMx+WgWijY2jw5f0
-	 SkEL5tePsyaJMBG9alVE2MokNkkd683JUEgy1eCiCnqakNhyCZ5TkkDgolpBTQWMG4
-	 P8WxUFHSS45NEIsTQS9U6Rdnt/14/iaq6kYsi4dwHs+PD2Mjo8c4FUAFcJsZC88i/c
-	 /GzlVOokskwUvLEALhYyAt5dUSp0WAEYx0hELPCjB9Zea9+O996J5Gov0AzAvObyqH
-	 D5wobrpPTONqA==
-Message-ID: <de323c38-4719-45fa-b4ac-6dae1b51b086@kernel.org>
-Date: Wed, 30 Sep 2026 13:38:39 +0200
+	s=k20260515; t=1790770118;
+	bh=TcPo3OnPL6RO7WwH35+drtHu3m/6Ime40gJXU1+/524=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=a5ufWsKrcz4aVVeiS2LCppb3IIMjw1/skgfG51rMMiuR1Cwsaqgwk5mBKeB7BU7sn
+	 efotMRaP2USZwSZxh4AvS3COM1aJMENH8ObZc/PcRWd44rW3MGcTSsu67+WWqASVZI
+	 IkfgiZYJc89rCjz7ReygeiX/oIO5DurXn8JyRfh2oMw345y83H0tfgjrdsYdTGvpIR
+	 Dxi6fZmytbZzlR6eiTMKDEabXT4REPyJlqYkwTbZyY+ymKqMrkxaHpEI/FS+7Zvjlq
+	 8P5+Z21mddvvuiul9gM6O0XF5NLZqmCc+OBmtwllbUnjvUCiAzXkzd1YGscHYljHQo
+	 YaO/H9TXZJbfg==
+Date: Wed, 30 Sep 2026 13:08:33 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: =?utf-8?B?5aSp54u8?= <rockeet@gmail.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>
+Subject: Re: [RFC] madvise: best-effort deferred writeback for shared file
+ mappings
+Message-ID: <arz0auULA33fqoWu@gremlin>
+References: <CAAE3jtcL_CZJdcattCwe0RraKnHcZO=UknxEUQVG858ouZCUQA@mail.gmail.com>
+ <7ebe4591-2306-4b5c-b83e-6a2e34b52bd8@kernel.org>
+ <CAAE3jtfeKJLSypScqRAEEgvO8En5kJfpbcFn5X+LQ2YL+xz_vA@mail.gmail.com>
+ <85aff663-2131-47da-ac04-8f0799a49b91@kernel.org>
+ <CAAE3jtcRQ407P9LTbg=JOwhABQRViSaq2XBefnDdNWiD7PxvUg@mail.gmail.com>
+ <1ce9cf3a-15dc-4815-ba29-2e22b05206fb@kernel.org>
+ <art8EKRKMdwSDCkr@gremlin>
+ <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] madvise: best-effort deferred writeback for shared file
- mappings
-To: =?UTF-8?B?5aSp54u8?= <rockeet@gmail.com>,
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>,
- Jan Kara <jack@suse.cz>
-References: <CAAE3jtcL_CZJdcattCwe0RraKnHcZO=UknxEUQVG858ouZCUQA@mail.gmail.com>
- <7ebe4591-2306-4b5c-b83e-6a2e34b52bd8@kernel.org>
- <CAAE3jtfeKJLSypScqRAEEgvO8En5kJfpbcFn5X+LQ2YL+xz_vA@mail.gmail.com>
- <85aff663-2131-47da-ac04-8f0799a49b91@kernel.org>
- <CAAE3jtcRQ407P9LTbg=JOwhABQRViSaq2XBefnDdNWiD7PxvUg@mail.gmail.com>
- <1ce9cf3a-15dc-4815-ba29-2e22b05206fb@kernel.org> <art8EKRKMdwSDCkr@gremlin>
- <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
 
-On 9/30/26 12:27, 天狼 wrote:
-> Hi David, Lorenzo,
+On Wed, Sep 30, 2026 at 06:27:14PM +0800, 天狼 wrote:
+
+> > You really need an actual file on disk. Shared memory / shmem / memfd is
+> > not sufficient?
 >
-
-Hi,
-
->> You really need an actual file on disk. Shared memory / shmem / memfd is
->> not sufficient?
-> 
 > Yes, an ordinary disk-backed file is the intended output, and subsequent
 > consumers access it through mmap.
-> 
+>
 > Shared memory can preserve state across a process crash if the shared
 > object remains alive. However, using shmem/memfd would introduce a separate
 > staging and transfer step to put the data into the final file. Building
@@ -119,58 +70,131 @@ Hi,
 > userspace writes across process crashes and retain the same file-cache
 > pages for subsequent consumers.
 
-Why do you really need the data on a file in disk?
+In general, writing to files through MAP_SHARED mappings is discouraged.
 
-What you could do is, load it once from the file into shmem, then let everybody
-work on shmem, and have some background thread that periodically writes the
-shmem content out to the real file on disk.
+>
+> > I also assume MAP_PRIVATE mapping the file so it's anon CoW'd is not
+> > sufficient either?
+>
+> Correct. With MAP_PRIVATE, modifications remain private and are not carried
+> through to the underlying file. If the constructing process crashes before
+> transferring those modifications to the file, another process reopening the
+> file cannot access them. That would lose the process-crash survival
+> property we obtain from MAP_SHARED.
 
-Then, you could completely control when I/O would happen.
+But you can solve that with a memfd?
 
-[...]
-
->> It'd be problematic to effectively corrupt the page cache by saying "hey
->> this is dirty but just clear dirty state and pretend this is what the
->> disk has".
-> 
+>
+> > It'd be problematic to effectively corrupt the page cache by saying "hey
+> > this is dirty but just clear dirty state and pretend this is what the
+> > disk has".
+>
 > To clarify, the proposal does not involve clearing dirty state or
 > pretending that memory and disk contents match. The pages would remain
 > dirty and continue to count toward the existing dirty-page limits.
-> 
-
-IIUC, vmscan would still write out the folio if dirty, so I'd assume that at
-least memory reclaim would not be affected, only background writeback.
-
+>
 > The requested hint only expresses that the application expects to modify
 > the data again soon and would prefer background writeback to happen later.
-> 
->> Delaying writeback could interfere with the writeback balancing logic.
-> 
+
+But that's the same as saying 'don't writeback'?
+
+When there's a lot of dirtied pages on disk writes are delayed in proportion to
+how dirtied with various other heuristics taken into account.
+
+I don't see how this requested feature wouldn't just give programs a way to work
+around that, meanwhile everything else doing dirty writeback are _impacted by
+the dirtying that the requesting process has done_.
+
+That seems really problematic.
+
+>
+> > Delaying writeback could interfere with the writeback balancing logic.
+>
 > I understand that concern. The hint should not exempt the application from
 > dirty-page limits or throttling. If writeback is needed for balancing,
 > memory pressure, or explicit synchronization, the kernel should override
 > the hint.
-> 
+
+Hmm.
+
+The delay before background writeback happens is, by default, quite long,
+until you have a lot of dirtied pages.
+
+dirty_expire_centisecs defaults to 3000, i.e. 30s before it is considered
+for writeback.
+
+And then that only happens every dirty_writeback_centisecs, defaults to
+500, i.e. every 5 seconds.
+
+If you're not writing to the mapping within 5 seconds even, let alone 30
+seconds then that seems like an issue with your program.
+
+I guess you are re-dirtying again with later changes, but the _triggering_
+of writeback is at an inode granularity on dirtying - so you want to delay
+writing back some pages because later pages are not meaningful?
+
+All the while you are adding to the total dirty pages but not paying the
+price anywhere, nor allowing the dirty page count to reduce.
+
+Unfortunately there's no real way to avoid the per-inode thing, and
+delaying valid writeback there because SOME of it isn't 'valid' is not
+really sensible.
+
+Either that, or you are actually concerned when there are enough
+dirty pages to trigger background writeback i.e. dirty_background_ratio is
+exceeded (where the above limits don't apply).
+
+But later you say you don't want the proposed change to impact how that
+behaves (the balance_dirty_pages() logic), which contradicts that.
+
+So are you taking ~35s to actually write to this properly?
+
+And is it that you're wanting the _triggering_ of writeback to be
+per-folio? That isn't really sensible.
+
+And nor is it really to delay writeback for dirty folios because later ones
+are 'invalid'.
+>
 > The intended benefit is to avoid writing intermediate versions when the
 > kernel has room to defer that work. There is no requirement to prevent
 > writeback until construction finishes.
-> 
+>
 > madvise is not the only option, deferring writeback for the entire file
 > would also be acceptable.
-> 
+>
 > Could such an advisory preference be accommodated within the existing
 > writeback balancing policy while retaining its limits and fairness?
-When using MAP_SHARED with disk-based files for VM memory, people ran into
-similar problems: the VM will constantly dirty many folios and background
-writeback will just permanently write these out and wear storage. For VMs you
-really only want the memory persisted in the file once you e.g., migrate the VM.
-Essentially, once the VM is paused.
 
-One of the reasons why we tell people to not use that combination and use
-shmem/hugetlb instead. I do wonder whether there is some similarity ... we don't
-want brackground writeback as long as there is heavy activity on these files.
+I think the fundamental friction here is that you're charging a cost to a
+global limit then doing something that prevents that cost being paid (you
+can't writeback), and meanwhile the process can wait for arbitrary time
+before having to write to it.
 
--- 
-Cheers,
+And the fact that it is taking you so long to actually write what is
+intended there that this matters suggests to me there's something wrong
+with what you're doing here.
 
-David
+I'd say in general the shape of the solution would be something
+cgroups-ish, but since all of this is global stuff and the knobs are all
+global I think you need to think about your design a little more.
+
+Having a process that is kept around maybe with an appropriate OOM score
+that issues a memfd would get you the sharing even if process dies stuff,
+and then it can periodically write to a file when necessary.
+
+I think that'd work a lot better, and I don't really see a kernel change
+here that would make sense.
+
+All in all my intuition is that you're looking for a kernel solution to
+something that should be implemented differently in userland.
+
+And in general we've seen a pattern of 'writes to MAP_SHARED, experiences
+problems' before.
+
+And the solution is generally - use something like memfd, have a process
+that does writebacks manually for you as you need.
+
+So I strongly suggest you do that! :)
+
+--
+Cheers, Lorenzo
