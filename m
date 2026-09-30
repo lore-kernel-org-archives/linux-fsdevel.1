@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7B65013A9;
-	Wed, 30 Sep 2026 16:01:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB01221FB6;
+	Wed, 30 Sep 2026 16:05:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790784105; cv=none; b=ShyG0K4trG8YbIrxZtzN1SAKVlS45j22tQLqUZZjeGQBU9+de+ssuFRmtAFYKxckb1TnDRYh/o6WZO3o8WMSCMrZWugGNqf7qOVUFHic4HmS7B4RIcfne/p0bBoIAvykfEBhbodJZzQ90VkGy9feHDAqlFU5vBjZYsnDGxm/Lgw=
+	t=1790784333; cv=none; b=RszrTgMpEEjRyWbyMr9KMYpL8Y2+b6qYLZ6+vZ889xwws0nftzcdGQ1VfRlAG9KrGgBzkwo4Ytjx0kbqDimvWAnRbYfF2xehJMwL+nm+v47N1iZqHdtkvi391HVQAIsq8dVXY/Gh86feszlF+zgNOPNsB1Dc+UycxQKNqtwdJw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790784105; c=relaxed/simple;
-	bh=AwsdsWjo/5NdNZ/PMRPziSsu501V6nGNhKHZs5W3aLU=;
+	s=arc-20240116; t=1790784333; c=relaxed/simple;
+	bh=hLiQ8Bg3UGyroy9GrW1HmxKx/GPxgMu1AdUBeErX0t4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WesbheVcIThd39LW7vbSF0XCUOpxWb/9PzqyoquBq/mSPK0edbiz/BCWt96nKvS2oUMoXo2aa5mVQN6WJiaQwj9uKbxnAkZ78O0lKNvIPk7ta8zuES8a9AtP0CP6CvjccOi+uAYFRXy2ct0f/yXaA7yvd2s92fFAqcTXPpy/8fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PkSpCPBO; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=nP7BI5sDCpImTVIkJrhsOakCbzXgqX3M7FJp76rF0IWqoF0NdGYENnOZJgO5LO+cZRghm1ujTMFSwfGs5BKSxihAapbmiWjQh13BNJjlCgEAnl0+NSZAVbuS9L4yENT1Ijfpd7HHPg07zuFzvqygDDnBFaCoouvTu3e02E1pWTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SedDSQma; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PkSpCPBO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F6BB1F00899;
-	Wed, 30 Sep 2026 16:01:39 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SedDSQma"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6FE1F00898;
+	Wed, 30 Sep 2026 16:05:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790784099;
-	bh=nVHsFi/KQQiqPkFabqCS+aogjJ9c4ZwBaz1JRTmL5QE=;
+	s=korg; t=1790784326;
+	bh=LHXX4jMuu7UN0bq2j9k/GpUXC0Dycm8yBHAXyZJzwv4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PkSpCPBORHCyou8I7k9zOXxSRXe49e1W6lTAa90Y9L5gxvTBUEiy0YK9NZhsO/rpl
-	 Ruow/xC6Jw1hd9V+KuSlggzi5FcdhTtkSHlWPUNHMRE3/44KCGc/sLc3dqNlG6rFUY
-	 LzY1AsuXFNULiwS7vRdNqw91tun4fbXq5eOZLZaU=
+	b=SedDSQmaKSHdR2UqCEzveYoTjZOaNmZTt+0cK1TQhuuahWZXfoyTEEj2ysFgnbo4/
+	 9IMY+g7rKaTzZBPTL48PLfrQJr/kPM71hZORGZ4M6ITXSwm2QIBMtKV5dQvFdjB4CC
+	 +ufVqxTleQdwJRVPjrKiYKA51Wy7CJR20ooLg+4k=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -32,9 +32,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-fsdevel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.1 037/982] hfsplus: rework hfsplus_readdir() logic
-Date: Wed, 30 Sep 2026 17:12:53 +0200
-Message-ID: <20260930152417.593822822@linuxfoundation.org>
+Subject: [PATCH 6.1 114/982] hfs: rework hfsplus_readdir() logic
+Date: Wed, 30 Sep 2026 17:14:10 +0200
+Message-ID: <20260930152419.264162422@linuxfoundation.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260930152416.775402466@linuxfoundation.org>
 References: <20260930152416.775402466@linuxfoundation.org>
@@ -55,120 +55,93 @@ Content-Transfer-Encoding: 8bit
 
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 
-[ Upstream commit 4b0496432844628ad05a5b1efce329a3340174d2 ]
+[ Upstream commit 7fde7e806657fbe0d33f489521b488eed94f9b39 ]
 
 The xfstests' test-case generic/637 fails with error:
 
-FSTYP -- hfsplus
-PLATFORM -- Linux/x86_64 hfsplus-testing-0001 6.15.0-rc4+ #8 SMP PREEMPT_DYNAMIC Thu May 1 16:43:22 PDT 2025
-MKFS_OPTIONS -- /dev/loop51
-MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+FSTYP -- hfs
+PLATFORM -- Linux/x86_64 kvm-xfstests 6.15.0-rc4-xfstests-g00b827f0cffa #1 SMP PREEMPT_DYNAMIC Fri May 25
+MKFS_OPTIONS -- /dev/vdc
+MOUNT_OPTIONS -- /dev/vdc /vdc
 
 QA output created by 637
 entries 7 and 8 have duplicate d_off 8
 Found unlinked files in open dir (see xfstests-dev/results//generic/637.full for details)
 
-Debugging of the hfsplus_readdir() logic showed this:
-
-hfsplus: hfsplus_readdir(): 163 ctx->pos 0
-hfsplus: hfsplus_readdir(): 189 ctx->pos 1
-hfsplus: hfsplus_readdir(): 264 ctx->pos 2, ino 18
-hfsplus: hfsplus_readdir(): 264 ctx->pos 3, ino 19
-hfsplus: hfsplus_readdir(): 264 ctx->pos 4, ino 28
-hfsplus: hfsplus_readdir(): 264 ctx->pos 5, ino 118
-hfsplus: hfsplus_readdir(): 264 ctx->pos 6, ino 29
-hfsplus: hfsplus_readdir(): 264 ctx->pos 7, ino 30
-hfsplus: hfsplus_readdir(): 264 ctx->pos 8, ino 31
-hfsplus: hfsplus_readdir(): 304 ctx->pos 8
-hfsplus: hfsplus_unlink():420 dir->i_ino 17, inode->i_ino 28
-hfsplus: hfsplus_readdir(): 141 ctx->pos 7
-hfsplus: hfsplus_readdir(): 264 ctx->pos 7, ino 31
-hfsplus: hfsplus_readdir(): 264 ctx->pos 8, ino 32
-hfsplus: hfsplus_readdir(): 264 ctx->pos 9, ino 33
-
-It means that hfsplus_readdir() stopped the processing of
-folder's items on ctx->pos 8, then, item with ino 28 has
-been deleted and hfsplus_readdir() re-started the logic
-from ctx->pos 7. As a result, previous and new sets of
-folder's items have overlapping values for the case of
-d_off 8.
-
-Currently, HFS+ has very complicated and fragile logic
-of rd->file->f_pos correction in hfsplus_delete_cat().
+Likewise HFS+, currently, HFS has very complicated and
+fragile logic of rd->file->f_pos correction in hfs_delete_cat().
 This patch removes this logic and it stores the current
-pos into hfsplus_readdir_data. Finally, if rd->pos == ctx->pos
-then hfsplus_readdir() tries to find the position in
-b-tree's node by means of hfsplus_cat_key. This position is
+pos into hfs_readdir_data. Finally, if rd->pos == ctx->pos
+then hfs_readdir() tries to find the position in
+b-tree's node by means of hfs_cat_key. This position is
 used to re-start the folder's content traversal.
 
 sudo ./check generic/637
-FSTYP         -- hfsplus
-PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.1.0-rc1+ #44 SMP PREEMPT_DYNAMIC Mon May  4 15:58:45 PDT 2026
+FSTYP         -- hfs
+PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.1.0-rc1+ #55 SMP PREEMPT_DYNAMIC Tue May 19 15:18:02 PDT 2026
 MKFS_OPTIONS  -- /dev/loop51
 MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
 
-generic/637  22s ...  22s
+generic/637  32s ...  31s
 Ran: generic/637
 Passed all 1 tests
 
-Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/198
+Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/65
 cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 cc: Yangtao Li <frank.li@vivo.com>
 cc: linux-fsdevel@vger.kernel.org
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Link: https://lore.kernel.org/r/20260505220051.2854696-2-slava@dubeyko.com
+Link: https://lore.kernel.org/r/20260519222811.1311071-2-slava@dubeyko.com
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/hfsplus/catalog.c    | 11 -----------
- fs/hfsplus/dir.c        | 28 +++++++++++-----------------
- fs/hfsplus/hfsplus_fs.h |  5 +----
- fs/hfsplus/inode.c      |  2 --
- fs/hfsplus/super.c      |  2 --
- 5 files changed, 12 insertions(+), 36 deletions(-)
+ fs/hfs/catalog.c |  9 ---------
+ fs/hfs/dir.c     | 28 +++++++++++-----------------
+ fs/hfs/hfs.h     |  3 +--
+ fs/hfs/hfs_fs.h  |  2 --
+ fs/hfs/inode.c   |  4 ----
+ 5 files changed, 12 insertions(+), 34 deletions(-)
 
-diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
-index 9a82bdf4caf24..2db185c67b2c3 100644
---- a/fs/hfsplus/catalog.c
-+++ b/fs/hfsplus/catalog.c
-@@ -332,7 +332,6 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
- 	struct super_block *sb = dir->i_sb;
+diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
+index d365bf0b8c77d..41e09f209f745 100644
+--- a/fs/hfs/catalog.c
++++ b/fs/hfs/catalog.c
+@@ -222,7 +222,6 @@ int hfs_cat_delete(u32 cnid, struct inode *dir, const struct qstr *str)
+ {
+ 	struct super_block *sb;
  	struct hfs_find_data fd;
- 	struct hfsplus_fork_raw fork;
--	struct list_head *pos;
- 	int err, off;
- 	u16 type;
+-	struct hfs_readdir_data *rd;
+ 	int res, type;
  
-@@ -390,16 +389,6 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
- 		hfsplus_free_fork(sb, cnid, &fork, HFSPLUS_TYPE_RSRC);
+ 	hfs_dbg(CAT_MOD, "delete_cat: %s,%u\n", str ? str->name : NULL, cnid);
+@@ -248,14 +247,6 @@ int hfs_cat_delete(u32 cnid, struct inode *dir, const struct qstr *str)
+ 		}
  	}
  
 -	/* we only need to take spinlock for exclusion with ->release() */
--	spin_lock(&HFSPLUS_I(dir)->open_dir_lock);
--	list_for_each(pos, &HFSPLUS_I(dir)->open_dir_list) {
--		struct hfsplus_readdir_data *rd =
--			list_entry(pos, struct hfsplus_readdir_data, list);
+-	spin_lock(&HFS_I(dir)->open_dir_lock);
+-	list_for_each_entry(rd, &HFS_I(dir)->open_dir_list, list) {
 -		if (fd.tree->keycmp(fd.search_key, (void *)&rd->key) < 0)
 -			rd->file->f_pos--;
 -	}
--	spin_unlock(&HFSPLUS_I(dir)->open_dir_lock);
+-	spin_unlock(&HFS_I(dir)->open_dir_lock);
 -
- 	err = hfs_brec_remove(&fd);
- 	if (err)
+ 	res = hfs_brec_remove(&fd);
+ 	if (res)
  		goto out;
-diff --git a/fs/hfsplus/dir.c b/fs/hfsplus/dir.c
-index 578da2528bee8..0d6f42d91e55e 100644
---- a/fs/hfsplus/dir.c
-+++ b/fs/hfsplus/dir.c
-@@ -185,7 +185,15 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+diff --git a/fs/hfs/dir.c b/fs/hfs/dir.c
+index 527f6e46cbe81..f392aee79f422 100644
+--- a/fs/hfs/dir.c
++++ b/fs/hfs/dir.c
+@@ -97,7 +97,15 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
  	}
  	if (ctx->pos >= inode->i_size)
  		goto out;
 -	err = hfs_brec_goto(&fd, ctx->pos - 1);
 +	rd = file->private_data;
 +	if (rd && rd->pos == ctx->pos) {
-+		memcpy(fd.search_key, &rd->key, sizeof(struct hfsplus_cat_key));
-+		err = hfs_brec_find(&fd, hfs_find_rec_by_key);
++		memcpy(fd.search_key, &rd->key, sizeof(struct hfs_cat_key));
++		err = hfs_brec_find(&fd);
 +		if (err == -ENOENT)
 +			err = hfs_brec_goto(&fd, 1);
 +	} else {
@@ -176,96 +149,96 @@ index 578da2528bee8..0d6f42d91e55e 100644
 +	}
  	if (err)
  		goto out;
- 	for (;;) {
-@@ -261,7 +269,6 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+ 
+@@ -146,7 +154,6 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
  		if (err)
  			goto out;
  	}
 -	rd = file->private_data;
  	if (!rd) {
- 		rd = kmalloc(sizeof(struct hfsplus_readdir_data), GFP_KERNEL);
+ 		rd = kmalloc(sizeof(struct hfs_readdir_data), GFP_KERNEL);
  		if (!rd) {
-@@ -269,15 +276,8 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+@@ -154,15 +161,8 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
  			goto out;
  		}
  		file->private_data = rd;
 -		rd->file = file;
--		spin_lock(&HFSPLUS_I(inode)->open_dir_lock);
--		list_add(&rd->list, &HFSPLUS_I(inode)->open_dir_list);
--		spin_unlock(&HFSPLUS_I(inode)->open_dir_lock);
+-		spin_lock(&HFS_I(inode)->open_dir_lock);
+-		list_add(&rd->list, &HFS_I(inode)->open_dir_list);
+-		spin_unlock(&HFS_I(inode)->open_dir_lock);
  	}
 -	/*
 -	 * Can be done after the list insertion; exclusion with
--	 * hfsplus_delete_cat() is provided by directory lock.
+-	 * hfs_delete_cat() is provided by directory lock.
 -	 */
 +	rd->pos = ctx->pos;
- 	memcpy(&rd->key, fd.key, sizeof(struct hfsplus_cat_key));
+ 	memcpy(&rd->key, &fd.key->cat, sizeof(struct hfs_cat_key));
  out:
- 	kfree(strbuf);
-@@ -287,13 +287,7 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+ 	hfs_find_exit(&fd);
+@@ -171,13 +171,7 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
  
- static int hfsplus_dir_release(struct inode *inode, struct file *file)
+ static int hfs_dir_release(struct inode *inode, struct file *file)
  {
--	struct hfsplus_readdir_data *rd = file->private_data;
+-	struct hfs_readdir_data *rd = file->private_data;
 -	if (rd) {
--		spin_lock(&HFSPLUS_I(inode)->open_dir_lock);
+-		spin_lock(&HFS_I(inode)->open_dir_lock);
 -		list_del(&rd->list);
--		spin_unlock(&HFSPLUS_I(inode)->open_dir_lock);
+-		spin_unlock(&HFS_I(inode)->open_dir_lock);
 -		kfree(rd);
 -	}
 +	kfree(file->private_data);
  	return 0;
  }
  
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index 9192637ed739e..8c18b79c0056e 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -246,8 +246,6 @@ struct hfsplus_inode_info {
- 	sector_t fs_blocks;
- 	u8 userflags;		/* BSD user file flags */
- 	u32 subfolders;		/* Subfolder count (HFSX only) */
--	struct list_head open_dir_list;
--	spinlock_t open_dir_lock;
- 	loff_t phys_size;
+diff --git a/fs/hfs/hfs.h b/fs/hfs/hfs.h
+index 6f194d0768b6f..f46d12ce04a3f 100644
+--- a/fs/hfs/hfs.h
++++ b/fs/hfs/hfs.h
+@@ -281,8 +281,7 @@ struct hfs_mdb {
+ /*======== Data structures kept in memory ========*/
  
- 	struct inode vfs_inode;
-@@ -297,8 +295,7 @@ struct hfs_find_data {
- };
- 
- struct hfsplus_readdir_data {
+ struct hfs_readdir_data {
 -	struct list_head list;
 -	struct file *file;
 +	loff_t pos;
- 	struct hfsplus_cat_key key;
+ 	struct hfs_cat_key key;
  };
  
-diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
-index caf36ed7f590a..a006db2699c4f 100644
---- a/fs/hfsplus/inode.c
-+++ b/fs/hfsplus/inode.c
-@@ -449,8 +449,6 @@ struct inode *hfsplus_new_inode(struct super_block *sb, struct inode *dir,
- 	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
+diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
+index 1bce2ec271d4d..203757a273ac3 100644
+--- a/fs/hfs/hfs_fs.h
++++ b/fs/hfs/hfs_fs.h
+@@ -68,8 +68,6 @@ struct hfs_inode_info {
  
- 	hip = HFSPLUS_I(inode);
--	INIT_LIST_HEAD(&hip->open_dir_list);
--	spin_lock_init(&hip->open_dir_lock);
- 	mutex_init(&hip->extents_lock);
- 	atomic_set(&hip->opencnt, 0);
- 	hip->extent_state = 0;
-diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
-index 0d15e440d6869..1e4e5c3003de3 100644
---- a/fs/hfsplus/super.c
-+++ b/fs/hfsplus/super.c
-@@ -90,8 +90,6 @@ struct inode *hfsplus_iget(struct super_block *sb, unsigned long ino)
- 	HFSPLUS_I(inode)->fs_blocks = 0;
- 	HFSPLUS_I(inode)->userflags = 0;
- 	HFSPLUS_I(inode)->subfolders = 0;
--	INIT_LIST_HEAD(&HFSPLUS_I(inode)->open_dir_list);
--	spin_lock_init(&HFSPLUS_I(inode)->open_dir_lock);
- 	HFSPLUS_I(inode)->phys_size = 0;
+ 	struct hfs_cat_key cat_key;
  
- 	if (inode->i_ino >= HFSPLUS_FIRSTUSER_CNID ||
+-	struct list_head open_dir_list;
+-	spinlock_t open_dir_lock;
+ 	struct inode *rsrc_inode;
+ 
+ 	struct mutex extents_lock;
+diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+index e45cc396dc004..e4530fdd93de0 100644
+--- a/fs/hfs/inode.c
++++ b/fs/hfs/inode.c
+@@ -193,8 +193,6 @@ struct inode *hfs_new_inode(struct inode *dir, const struct qstr *name, umode_t
+ 		return NULL;
+ 
+ 	mutex_init(&HFS_I(inode)->extents_lock);
+-	INIT_LIST_HEAD(&HFS_I(inode)->open_dir_list);
+-	spin_lock_init(&HFS_I(inode)->open_dir_lock);
+ 	hfs_cat_build_key(sb, (btree_key *)&HFS_I(inode)->cat_key, dir->i_ino, name);
+ 	inode->i_ino = HFS_SB(sb)->next_id++;
+ 	inode->i_mode = mode;
+@@ -328,8 +326,6 @@ static int hfs_read_inode(struct inode *inode, void *data)
+ 	HFS_I(inode)->flags = 0;
+ 	HFS_I(inode)->rsrc_inode = NULL;
+ 	mutex_init(&HFS_I(inode)->extents_lock);
+-	INIT_LIST_HEAD(&HFS_I(inode)->open_dir_list);
+-	spin_lock_init(&HFS_I(inode)->open_dir_lock);
+ 
+ 	/* Initialize the inode */
+ 	inode->i_uid = hsb->s_uid;
 -- 
 2.53.0
 
