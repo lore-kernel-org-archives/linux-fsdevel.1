@@ -1,132 +1,199 @@
-Received: from mail-ed2-f31.google.com (mail-ed2-f31.google.com [74.125.228.95])
+Received: from mail-ed2-f32.google.com (mail-ed2-f32.google.com [74.125.228.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6B03BB110
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 10:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.95
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790762994; cv=none; b=i/mluR6DkNVmFuO8L6uyzBRCBlacnit/FQkKlPv1Asr+YsqIKwt96u1hNlvSo8VOEEs6m4F0PM+z1TsUVc92l/1cRk+djPCNPJb76f+RjrK6DqSs87Zqit9RQqCE1+bCovRXIZTfmUJYnGDr1UMGZGkNmSSBKlPRI4MlQ5CrNUA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790762994; c=relaxed/simple;
-	bh=hrw1dd3W52X2PRIBJ61p/Ixy3mLjm6opZZ+GWT4oBp4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AG63S+WuWGHDKTRnWRnoS+J3MYP57ffquvHyz2Ui8INMy6B4CiSOQG1pKCJd3CUKowZnyzYy4/o2nnOLzPb+Y3gHV4CHFK1liXDuXzUoOfyYepz7YFhtG6Fty03pldv52kmHbKX5qz9UQA8UKEzq0/fKjyTjFmVQudUFAjaFz/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bkzMs851; arc=none smtp.client-ip=74.125.228.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D61F2D8391
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 10:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.96
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790763519; cv=pass; b=WyIki5gq0r9qsAItp9fWmlRI/9Mpy/iTTb86OOSpRm3qwHhaHOo/dQA7UZEcY8sNYV+1mw7tMrSBwSoteA6aFtFvdrcnfibTlG/nYEJItArgeoGw+qQTZvLxC2CktjOsImFYeXV7+DyUjzLCZCYeOivs5fUFlQT7SyScIF9brME=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790763519; c=relaxed/simple;
+	bh=wYh4SPPJLF/r4MeGpZ8zVNFb9u6oFz8nqxULoueV1NQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Dt1/k6E6QEhh3eIu49PYndPjWMM5bCh2zXVSlkmhosw6u02Gm5OL25fiulLh/wKHfiCjq4xZp+7F9PV9FN7ows9/278XHzcVUeID0VcY4A4GzkVIG+4nI1ohTKRIZ13907rJ21kHCyFk9dhjpnOag3xGnx65/UBLS0YVDgbwZnU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YHNxoHkP; arc=pass smtp.client-ip=74.125.228.96
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bkzMs851"
-Received: by mail-ed2-f31.google.com with SMTP id 4fb4d7f45d1cf-6ae19959791so385891a12.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 03:09:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YHNxoHkP"
+Received: by mail-ed2-f32.google.com with SMTP id 4fb4d7f45d1cf-6acb8b78d6cso2333575a12.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 03:18:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790763516; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RvE3S4ZFLgfe+pvl46VEfHdtPRyBA8+CIUaPldeb4UxKFNT84UMjKOXRLlQZtBIICi
+         x1sGJWrxYb5ubkNtP7Ii/eK94+DnsAib4UD9NEWao3dOGcI+qpMdV3t/eCCgs4MqQ7aE
+         uSy+3GyYkQkPqgby2xwUMVdwUwud34db5OPLX458v6i+oIt3ZeB8vhROgU2UEUTSHQTE
+         It3x/RSGj1J+t6q1LgUVDGiFnP2nBsNM8bUJWH5TihatVhMQj58T1u9O1xinLduYp+KG
+         Fj/HAXpGFOkmSin8rxCxAfE8NyHFe92BPRlt4v347w8ncaQwks7lCJd+NpC43NLbqXA0
+         7Rag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vqWINpH2l++yemIsiJMfBHQQztSFoALzePZUoHg8GKk=;
+        fh=BU1RMsRKVCqFXVBe3AlLCHdJ9THjBO5N5nXg2oyerLI=;
+        b=jdNlBqB62AX2Jz0uOvlzbBtcM+lo8CGLcaGCOsZB1F0y+iuOLXTePv9nFJ4fQcBTxw
+         MuFvRDsRzl1SmTBCyff51SXEeIIS33L0A7fWE4zXpEOzZkdzuE4L8VBYkKbMSeMRlTMv
+         43J1mpGncQKTg13Mcllr0up8oe7z/9TqerJas4A51RbAje9ZJEi3oSRPElzR43IFuoSs
+         7EVHZ+7E0Mhz3CaCPCGgJdmSjFZUpjH4vknQkljSGlKaoaBSeytrYx/91EaAngTtQsgf
+         /BPtAVYVcOU+i9krVVF3aETSqwcPhLY0XG9rwO2ckU2kCinWxBr4rjTvw66Xq4BBQOWh
+         gFkw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790762987; x=1791367787; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ruocdeJmKgpaQFus+PucSGDLt7ZSCHmy/3XR1sTVzPs=;
-        b=bkzMs851c9zZ8pLRd7lGGP1HQkdNCJPEQ9CuXY49B0eFdR7dpGB2Nur49+z/HeFkDt
-         /SUCrNcWrt6mHvkiKtv5YoTO978/x0FED9JnCX0Almu9bcN+rWc6Vw9/YKgCZNEsUjMY
-         eEPNYB/IE7flOrrYfumMz/Yx/kGJAuanFQkOz1UHN2Vd5QMBdgYAjUmprorWC5SOGetH
-         DH3fbXlvIB1K4BuylVIKa8z6j3JzdSpqtjjxxZ/nhXwLOhcKvaNjXwDfodTHtvNH3Z2P
-         mx/KKz9VOP4glr4+nStpRUBmLTXc6hFwIx1ennedbu8C9DVP9nCgNzuTcNnitLYDpsnu
-         fOUg==
+        d=gmail.com; s=20251104; t=1790763516; x=1791368316; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vqWINpH2l++yemIsiJMfBHQQztSFoALzePZUoHg8GKk=;
+        b=YHNxoHkP1LbfZMt0yZr8fx81CJihS/OGxti9IDpldzLE7Cr+9F0wK7x9+oi4uITug7
+         tVlVDRe53lsqgA7wh710a2HrYrneC5ICIFTCZBrUU9ToawqiJzqDuVj3o1FSezWV0ned
+         OwYQTAB8DG+vlrtLYFEB6DygLqoRbK7LGUHrG8+p252itWV05/cNG+itbMb8jbQlq3Iu
+         d+ix7PqeYyAueBEvUcAuF6R/a+Fhv8rbVcwTQ4UbPvWk85BwwOgSiTML1/q90F1jgmG0
+         xwbvro2FKpAbgwSRSM5IzI+SEWQrrQs46l0rjzpisjhnPmoNGJar2YTxMWwy8Oq8Dj9p
+         k1bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790762987; x=1791367787;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ruocdeJmKgpaQFus+PucSGDLt7ZSCHmy/3XR1sTVzPs=;
-        b=1vvHU2Qv8WDBDWhU+WV4W6GqCdA15kmKpIHijpKo12YDLAcOU56yOxP5Jorl+chqxn
-         G5C01m+Ha8kcUxtxjhdH+C6nfcisIsRDNsEuNSJWrVkRaookXP/1BXZi/ewVUSFJn9I8
-         PXo6jD/61Y1zjMHUmDinhXXEsJtUaS+MqDuTanghPPiwQpO25Hs4YGvqG+98Y3ZRELmk
-         N4XWRS36eP3EKowHwOLNUZfVaMLnY6u6xHbrXcTnp9aYZFQbImbvRKeZBsTxg0jzSkZT
-         DjGSCrkat6quEDMaqKDR6uWZ2NNMpeluyGT5MCHXtIgeXuOvubjOynDuGtmwg2n6YvnN
-         pLFA==
-X-Forwarded-Encrypted: i=1; AKwUvBxbnmlLiB1mZJH3lnQrqLX+/CxqmNh31rr8ST/sBVj+5S6Z8IJOFAvQoXutv97gJvucbA6uqH2qBbd5wqY+@vger.kernel.org
-X-Gm-Message-State: AFq9FYLRPkyEozesNpEGkVy/fXd5x4ssryupo6z17XK/i9AYBcZ35idj
-	NlF/hEQ0Ygpg8T1byHDIXOaETp5hnoerG7uVGBqUazAkiWWjW+DizSC9
-X-Gm-Gg: AYBFou3qAzfapH0U/vV1eTZf9TpKzc4RUwbyLdksfw8q39jGk/1OXFUS80rPHJSuW5H
-	GF12SOZhLMxU0WnU/FpQEbR+D6UtiyPbamuFPNHFLyLJW66nqnVuaJyxqcXtydWo/LbiAiyXEYZ
-	CdNmLV5bUmN+3uC9xhrbyyKCtFLVXlvHHbMhGz/vGEtCUpN+ZALiH7RKx/jcgWvNjiLBr1hWcrK
-	EUlGoNIKUQgUrsjFCqyZYIvj39jXYRoeiMMpAH5cENTOIBxC8V00MJUrGMxIpeRXv9D+aZ8lr4C
-	DeI3gpet5RDFwKvmj11XhAWw1PbyO2FVYKq6VE1BmXypwmypPhAsAAFxcchB6Yawttq6+4RiZKt
-	MVOmbIW4xWdgsWTNoMOcD4F8DaSSqdUTB/lXhF7jJBtve8KZmDaD14GXIXRppGFJkRE6remrQeK
-	3K/vRupgPUssqr15YukPj4m2GUZBh92XGlKwovLT+iMs843Hut9BvgVYlo38I27SV76dlvHPwqQ
-	HToZAb0pYWDw6l5UbGCo1l0UgACSzEEQlu9fBKCDO9hfw6Ys7bFQFHi9Jthj/WvtRZjQKiCO+Qr
-	O4/0WAVGv66K+2h8Wlafw1CZY345jEZaLc+AmUSCM0x8C59z
-X-Received: by 2002:a05:6402:27d0:b0:6aa:ec02:7de1 with SMTP id 4fb4d7f45d1cf-6ae199152a4mr634773a12.24.1790762987076;
-        Wed, 30 Sep 2026 03:09:47 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ae15690dbbsm551642a12.22.2026.09.30.03.09.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Sep 2026 03:09:46 -0700 (PDT)
-Message-ID: <77db5aa5-f160-48fb-ab59-a754b100bc34@gmail.com>
-Date: Wed, 30 Sep 2026 11:09:41 +0100
+        d=1e100.net; s=20260707; t=1790763516; x=1791368316;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vqWINpH2l++yemIsiJMfBHQQztSFoALzePZUoHg8GKk=;
+        b=wQwASG3svsevxx4l9uHoIZhTnf89LnsPUMZEizfcXmZGbKcG6Leu/oLUe4aRv5AcMj
+         4IsbCbOWts9uFYHiv792im8FdV+mvNFlZhYIdcYnNLqLsra45khI/lNCdLstZpOVc7uB
+         wscxSMrAi+BEeKZPGTKcfwXFgDhM4Iy+9euDOJN5S6koQBHxx+X8Y85mjjlofH0WNy2F
+         zZv0F7VXR+rGR1ij/FO09kaKRtuZItmIRfMs4HzzAh6euOWHw3Pm3RpKmB+8u8PixLYv
+         /w79IY1NF7o/D5AfROPgfMluwuH2Xr8S6m5q8NZbGX5Ru49MdEid0q2mIhQc0ZPQJQiV
+         ys6g==
+X-Forwarded-Encrypted: i=1; AKwUvBzZ1m4TfJfGTAbnbIZ1JSiIatqW/beb8U5T+v7TnZfmmiEPgvVHbOVzJM8mkIMLdfphLp2cUN2+VJlKOe+3@vger.kernel.org
+X-Gm-Message-State: AFq9FYIKSjuC2bfeTxQk91TSN2JtkxeGHs5Z8Vd7x6GveZoE/YoiuPIO
+	sqFoFjnZy8cLxtzoP4KgN1HWWpuoNh/o3MaL5y1EyJjFl9xZDuceCwaH+ZC97NegiFyN5VqNuos
+	jG3YPnVICI4uvHwTDKHPORDmBGXzwGW8=
+X-Gm-Gg: AYBFou1p2dktNrhrfDeMEq8l4w265tl5wkXv5skgDntfAUqFAzw8KftZgGsfPxsjl5X
+	afEuUA/4Evv0XOlcDzVr4PWYP0d33D6+DMn5GG4bRs1XK4dSKf6QbWHPJJoAbmTXYwiFKrrCfOX
+	wSkXxYQ0E+YEm0ftUKCA3n92RlOR/NDu5e+L+cK6bFOGmW9X/M//Uxqcpd1t7FYl3qn1HZHKK9O
+	YPvrvPcEsMJ6RZzMYVMSHXgJBDLkrxjDMMt8HHWxPckVnLTnzo7/9CoPY8V19ziIV2X6b3YsuLu
+	Bv6cEPiTnxk6vylhXQGPSErCPLOhqdAcBSLnL59sPw0BctcjqIYrVMBL
+X-Received: by 2002:a05:6402:43c6:b0:6aa:7fb:7678 with SMTP id
+ 4fb4d7f45d1cf-6ae19864b56mr694393a12.6.1790763515717; Wed, 30 Sep 2026
+ 03:18:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 06/13] nvme-pci: implement dma-buf backed requests
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: agk@redhat.com, akpm@linux-foundation.org, anuj20.g@samsung.com,
- axboe@kernel.dk, bmarzins@redhat.com, brauner@kernel.org,
- christian.koenig@amd.com, dm-devel@lists.linux.dev,
- dri-devel@lists.freedesktop.org, hch@lst.de, io-uring@vger.kernel.org,
- jack@suse.cz, joshi.k@samsung.com, kbusch@kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-nvme@lists.infradead.org,
- matthew.brost@intel.com, mpatocka@redhat.com, nj.shetty@samsung.com,
- phil.cayton@intel.com, sagi@grimberg.me, snitzer@kernel.org,
- sumit.semwal@linaro.org, tushar.gohad@intel.com, viro@zeniv.linux.org.uk,
- william.power@intel.com
-References: <cover.1790602223.git.asml.silence@gmail.com>
- <e99dd5221c71cbf9aafb5737468d814cb83b9174.1790602223.git.asml.silence@gmail.com>
- <5a35ad21-c9d4-4dab-a4f0-97baee6e2301@wanadoo.fr>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <5a35ad21-c9d4-4dab-a4f0-97baee6e2301@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260911081309.14137-1-jack@suse.cz> <20260926024829.3051410-1-matthias.goergens@gmail.com>
+ <cxgitt74gb6d42l4mdiztrz42xuaykfggsxoussgdmo3h2qur7@injom55qowrs>
+In-Reply-To: <cxgitt74gb6d42l4mdiztrz42xuaykfggsxoussgdmo3h2qur7@injom55qowrs>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 30 Sep 2026 12:18:24 +0200
+X-Gm-Features: AclHuK-3QU8Ah69f36a00phhVqdJz9uhWwk7JlN9U3fb_vS0faf30d-5U8oF9rE
+Message-ID: <CAOQ4uxhdRm4mENZCArR2PW+=NQz_jzqTugz6-tBmPLvCHfPkMQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] fs: Deferred inode reclaim
+To: Jan Kara <jack@suse.cz>
+Cc: Matthias Goergens <matthias.goergens@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, brauner@kernel.org, hch@infradead.org, 
+	xyzzy@yandex-team.ru, tytso@mit.edu, djwong@kernel.org, agruenba@redhat.com, 
+	Miklos Szeredi <miklos@szeredi.hu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/29/26 16:45, Christophe JAILLET wrote:
-...>> +    for_each_sgtable_dma_sg(sgt, sg, tmp) {
->> +        dma_addr_t dma_addr = sg_dma_address(sg);
->> +        unsigned long sg_len = sg_dma_len(sg);
->> +
->> +        if ((sg_len % NVME_CTRL_PAGE_SIZE) ||
->> +            (dma_addr % NVME_CTRL_PAGE_SIZE)) {
->> +            ret = -EINVAL;
->> +            goto err;
->> +        }
->> +        while (sg_len) {
->> +            map->dma_list[i++] = dma_addr;
->> +            dma_addr += NVME_CTRL_PAGE_SIZE;
->> +            sg_len -= NVME_CTRL_PAGE_SIZE;
->> +        }
->> +    }
->> +
->> +    ret = dma_buf_io_init_map(ctx, &map->base, sgt);
->> +    if (ret)
->> +        goto err;
->> +    map->nr_entries = nr_entries;
->> +    map->sgt = sgt;
->> +    return &map->base;
->> +err:
->> +    if (sgt)
->> +        dma_buf_unmap_attachment(attach, sgt, ctx->dir);
->> +    kfree(map);
-> 
-> kvfree()?
+On Tue, Sep 29, 2026 at 12:38=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+>
+> Hi Matthias!
+>
+> On Sat 26-09-26 10:48:29, Matthias Goergens wrote:
+> > I ran v2 against its base in QEMU, on syzbot's disk image with a config
+> > close to syzbot's (KASAN, lockdep):
+> >
+> > - Lazytime churn on ext4 under memory pressure: the PF_MEMALLOC warning
+> >   fired with the sync_lazytime() stack in all 5 base runs, four times
+> >   from kswapd, and in none of 5 runs with the series, which evicted as
+> >   many inodes in reclaim context without reading ext4 metadata there.
+> >   The workload also runs drop_caches=3D2 under memalloc_noreclaim_save(=
+)
+> >   from a debug patch.
+> >
+> > - Hibernation cycles with /sys/power/pm_test set to devices under that
+> >   load, with inodes that 5/5 defers queued in each cycle, and with
+> >   freeze_filesystems 0 and 1: no freezer timeouts and no hang involving
+> >   the queue.  The stalls in throttle_direct_reclaim() from
+> >   hibernate_preallocate_memory(), and lockdep's warning in
+> >   __set_task_frozen() with freeze_filesystems=3D1, happen on the base
+> >   kernel too.
+> >
+> > - One path the series does not cover, see below: with the series
+> >   applied, unlinked ext4 inodes under an overlay are still deleted in
+> >   reclaim context, and the warning fired in 2 of 3 runs, as without it.
+> >
+> > The reproducers and the debug patch are at
+> > https://github.com/matthiasgoergens/linux/tree/deferred-reclaim-repro
+> > and I can post them here if you prefer.  The Tested-by below covers the
+> > lazytime and hibernation runs.
+>
+> Thanks for testing!
+>
+> > > @@ -988,13 +1013,27 @@ static enum lru_status inode_lru_isolate(struc=
+t list_head *item,
+> > >     inode_state_set(inode, I_FREEING);
+> > > -   list_lru_isolate_move(lru, &inode->i_lru, freeable);
+> > > +   /* Inode will take long time to cleanup. Offload that to worker. =
+*/
+> > > +   if (inode_state_read(inode) & I_DEFER_RECLAIM) {
+> > > +           list_lru_isolate_move(lru, &inode->i_lru, &lists->deferre=
+d);
+> >
+> > This is the only place I_DEFER_RECLAIM queues an inode, also with
+> > Andreas's simplification folded in.  An inode that ->drop_inode() drops
+> > on its last iput(), which for ext4 means every unlinked inode, never
+> > gets here: iput_final() calls evict() directly, in whatever context the
+> > iput() came from.
+> >
+> > syzbot hits that under reclaim with overlayfs on top of ext4, in the
+> > same bug as the lazytime trace in your 2/5:
+> >
+> >   https://syzkaller.appspot.com/bug?extid=3D7f94fe3ce0f6613e12b8
+> >   https://syzkaller.appspot.com/text?tag=3DCrashReport&x=3D12764a155800=
+00
+> >   https://syzkaller.appspot.com/text?tag=3DCrashReport&x=3D135309055800=
+00
+> >
+> > Direct reclaim prunes overlayfs dentries, and dropping the overlay inod=
+e
+> > puts the last reference to an unlinked lower ext4 inode, so
+> > ext4_evict_inode() runs its deletion path under PF_MEMALLOC.  My
+> > reproducer above does the same: stat files through an overlay on ext4,
+> > unlink them in the lower or upper directory, then apply memory pressure=
+.
+>
+> This is an interesting case. When I was writing the patch set I was
+> thinking whether unlinked inodes should be marked for deferred reclaim an=
+d
+> decided for "no" - unlink or file close should be happening from context
+> where synchronous ->evict() should be possible (and is desirable!
+> Offloading to async context always has these inconvenient questions about
+> throttling associated with it and space being freed later than userspace
+> expects it etc.). But I didn't think of overlayfs - I assume syzkaller
+> unlinked upper layer inode under the overlayfs' hands - which can indeed
+> lead to overlayfs dentry being effectively the last holder of inode
+> reference and thus responsible for inode deletion.
+>
+> Inherently it is kind of nasty that overlayfs dentries can be the last
+> thing protecting the inode from deletion but at the same time I don't see
+> an easy way around it. Amir, maybe you have an idea?
+>
 
-Sashiko also flagged this one. I'm going to apply the nits from
-both emails, thanks.
+No, not really. If you could use the ovl_destroy_inode() to mark the
+ext4 inodes for deferred reclaim, but with current design this does not
+seem possible.
 
--- 
-Pavel Begunkov
+FYI, I assume the same situation could unfold from dropping an
+inode with cachefiles backing inode.
 
+I don't think the issue exists with FUSE passthrough backing inode
+at the moment, but I do have a plan for a similar construct of
+backing inode that detaches on evict of fuse inode as in overlayfs.
+
+Thanks,
+Amir.
+overlayfs
