@@ -1,147 +1,120 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A220481679;
-	Wed, 30 Sep 2026 23:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B58249A3AB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 23:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790809491; cv=none; b=sku5TMKSUmFysim+sWVVJFpuF0nVx/RkD0RcWWcsZaDo6kMULIZmuaTqygyLGBNjMlNST/16yu+hwodoyQksIjxVzMlxq4dBL7ZswFB80lySnXhMNN5/9z2riub650FENg47/hxzdf00dHli+5A06ZROzZwjvS5gPxg3JgE2Vpw=
+	t=1790810650; cv=none; b=pU2m09N0N1RzDLXjpR9ch6yw4GZZJfyONuJuBYtm18+n5298H2v864SzwFFGpteCV4nBTEVYkn/AXl3rm0INc20oO6qT2NMPbt4+cGorrsAVp+3tG9QnU1+orNzPH2f8cS6C63Oc5uV7GWT7Is2JziafeOemRQ07trhIxJLO3C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790809491; c=relaxed/simple;
-	bh=oMz2F217fMqsTVPXqdhnsE0g6FFI/6XNgCEN/7yWDes=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=A+njCGDCrrhb/14D2ipJAJOChDupyBY2a7q8uXFwMiDXNzgt7zof9a7GXK59vB2Fyd/1XLQRUyanotFGvrk5HwlLc8l/AX70ILjtcwoAKzIwblqTJcZfOxT1ndZXDqlo1e1nLNSM+ZLFeh+abrxyECtWCQ8isrb5NJ3qd1MuZFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=QL10ZkX2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=W4DQjU7O; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1790810650; c=relaxed/simple;
+	bh=HSDehu6zKcCUBJdvUllZcY/3rbhZgfYH1a08z42ov6o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rYVrROEJO/rXrpkaQK3f4uzCDPodRyHp7qd0RcguTdNCB66ACJgdpObeJ9GMLkEvngozFuxBDytwqRkoR+auXWVRcezCwQtySUNHR83RB7SfCu2FifUn1S+R4mVMDdXYiNG2iveN6BqYAdFml4f+Aped3cCZlG04+elEH3JCxJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noroxi.com; spf=pass smtp.mailfrom=noroxi.com; dkim=pass (2048-bit key) header.d=noroxi.com header.i=@noroxi.com header.b=hfRMbGaJ; arc=none smtp.client-ip=74.125.229.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noroxi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=noroxi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="QL10ZkX2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="W4DQjU7O"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 2535E7A007E;
-	Wed, 30 Sep 2026 19:04:44 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Wed, 30 Sep 2026 19:04:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1790809484; x=1790895884; bh=uWMmqug0mq7VACcEW7LNW3dbRgOXbwq+ScT
-	nq0V8wgw=; b=QL10ZkX2H//HB0gZZNnbUwb6QTFAfgqyDp51STyMhf8nNhgj0JR
-	nges8MFxKKpMj8hFqX1YdaJ7yWSJqPZH9/FLaOi9EcmUeUROAGIZdw5tgtI/oZdZ
-	arOj9xm3n9w4tGKDXzB3Znc3YQxhG3z5TTSFhTIPShsU2l0bM8lK52nnaX3RScMY
-	+5G9451UrW576ZE+icROxU+//MU5v3mWpyShrPQRBqnFp7lO2RBhIZjT2CMT8V2y
-	fPNAygBLEY7uGmf/oM1jIp9pn1sKF8Lpb0Xr6osWvONFuFn4WvtFs9KFUXLHsTNT
-	Xxoy/4afS1CuczrJ25ISiUoyaGwqwzTnwhQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790809484; x=
-	1790895884; bh=uWMmqug0mq7VACcEW7LNW3dbRgOXbwq+ScTnq0V8wgw=; b=W
-	4DQjU7OP05qqJB4OVZX7MAtxPVV9RNXiSN/DrxrAk4Z8pa+8Ie6BSpkxdRNkn9vC
-	ZMvcV2rVhl8LHp162kRwmOQy0bQjNEtp2lXSGla8T8HXe5jjKMCALJMO7Iooz1KS
-	yQbeWbILrdggleXf2wTFpEyhSIlkho4aKum+qMI5aKrQSGYxY5CFLvrqdALu96XN
-	uwVH/sQC33CHsfu0xcHW316KqOTqBVehNP7Z+j2ON/dnkp0HWo+l+t977VfjLBo8
-	7hsW2cmE1EpPY6Lq6hLdFS7EZeqgcAPe0iANt4n7Vor/38/Q+Mr5sju6YuLFFgF2
-	+8b0RRcmM+xVHcBJ5EXmw==
-X-ME-Sender: <xms:i5W9aq8tTtkWjPLYqXMMDUafSaUfKII-aSJs8WPRxpafRMkqEZFWaQ>
-    <xme:i5W9as-xdqF0fu_XC7gZ-IbO0RtINxt33Efd9soj67T9kUMnkxRcElQV4gSqby3hO
-    uZaigoeIKcSS0-hTdDpUMnAL0j-kIRiHdU4GsYqpL_jBkZ3xg>
-X-ME-Received: <xmr:i5W9aiSLYbuxOGlQjB0Azj0Z722Zu4kuIpCPIh71_VKtb63rYDzy4TZEKulDG0Jpj4lU2faKQ1DHUn-RlXmGCbhR_ou_B9Q>
-X-ME-Proxy-Cause: dmFkZTEFpzdyQJ9ljtJrq56N9CiGtpRcGqGXBNM0zq0GHhZ6/Ahyq7ptTsRapPsw2cVXlo
-    JLes7n/RNhwMXtPyD3boq6sSOa2D+PMVe9pwWd+wEY9xVj0wIOXO0elVIYiVfVSqL7SLpc
-    QKI99TrA6s/tS1FyfEolYlopv8i2myfU17wTbeeRAycgYYNOXNefGHAUSpglMa6Ffkh9e8
-    X5QuhHYJVBwiTtpCzPdJLqt8pPUsLrMMn5cLCsxSQXio3MkyI/KnBaMr/pYWu0NcwlCzt/
-    mh21J8omPhaYEXVacYnHDXT/ZLlqnGGmpo8HhGHghewfPTEU6lKmyBEHbgNGHFP8OCCVdt
-    0YdNZDxeWqJwaX7job0G0yLQAivEjgf/jXkGY5Hnr7noT0X5mybw3PJ1ZjbsawUCVD3JNE
-    7nsg1OidC24MP9YU1o6tIq/8pR1/lfeZ9lma71E7nSSVn0rRp0lxWpDBUWn8Jzn3P3q4s2
-    zfZ0wsTQlb4zogEO6yAYnWG95PMi8d48Owh20HIQ7s2WQFhdB0lVQd5UZXJ08tSM78DXeq
-    iCib7dYiJCzwa0xjHyyIss6diBYzT7689n6S94R/0YmV5vWg1cKaApgvyuWSfFzu075U/F
-    AZJFLiMRsMdLu/ojJ9yvkLtdJIe5JcvCvhxAxIpN3uJOZ5RY151CLrXffQ0A
-X-ME-Proxy: <xmx:i5W9aocEandFwi-p6BYtGMRkkWkopXMDH7YgY2q_rSwgaNqrZEJryg>
-    <xmx:i5W9auALXp4oSesAe4mW9kdZ8CsqnReeAaGYnJ5We4Uq8ixLo7AsdQ>
-    <xmx:i5W9aimug3HhdWxfEB5M4aUFj9nfG8lN4wJiVXrn4tEera_YW5x8Mw>
-    <xmx:i5W9ahdZMDOGFPSt4OGnu2AntgddNo780dFM_wSN7d-O-YpcmGc2cw>
-    <xmx:jJW9aiZ0Jvl_5pDvUVW1OUw_oZkWXcbtg_cmrQDLiE9xILm6g0Xls6-Y>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 30 Sep 2026 19:04:41 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=noroxi.com header.i=@noroxi.com header.b="hfRMbGaJ"
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8eacb7c8fso5253646e87.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 16:24:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=noroxi.com; s=google; t=1790810643; x=1791415443; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SQ0OdnmP0LrZt1KQaEY+HbbBliVRtQdPTnqFkA08fMc=;
+        b=hfRMbGaJdcpBdtIGMJxRIq2iw4T/NxcgRpKtcDBIlcabytnsiM/71lP1qeKMViArDI
+         tlBxNMhhsqUHL6jWCamYUfhHT/jVQP15JqICFO2ASvEbMtA71ET1S9RWMi46ZLkG1dSY
+         4Tvn3gipduLCs3NblV0PyRxxL+AIC2bBr4C60idc/PWNgYjSKBDEeAU+qs1lJsQNYq05
+         tS8NXsWw6YnI7U4GiwshmvLNPYWCJOx4yApqxUirxuK53VRpIEA3txAYj7WztILAk9UZ
+         M9Nb/sFeBaISO+KON64pYqtfAo3CSzZRfsdmvefJoJt5c6pf4eB+b6D8gD0A4q8gr2rV
+         7Bxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790810643; x=1791415443;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SQ0OdnmP0LrZt1KQaEY+HbbBliVRtQdPTnqFkA08fMc=;
+        b=bhn2VzQXapYhVw8KTBVtWx4BDvut+FAu0ffDsJcVx/tlsZO0Zdpd+HksNFyV0IGDkw
+         1cnnHHz+GPTu2vX3SZDCrAPylhS0eFpWJRnZHBNI6kAP6GBHGrSt5rcBVf37RtGaKnbO
+         t4kxQrywhF8zq4T1Slfze5JM/a77Glz8aH5zhqSPzpD5buH2/Fv4MKPRTeZZNYTaHsBQ
+         rn9hEuSpNIWv217wq2FSFH0tM0bb5p1psE0CdH8oXUodfRXZhLlNPWXSTdfL4cLmUxcL
+         E7Rmf8B3h4s7FI+RNlQ32FPIi4cGZ+xWeMii7DBFQX1V5J34Q85ILVYAgVkDQ8vowJZS
+         VpUQ==
+X-Gm-Message-State: AFq9FYIgknfMukqpqCnM1kuPE/0yN0GNGprabddF6PDsFDpAUaQm0TCt
+	CA40bxtPm3SZXgIcMxebNoHPS11Lf+XnEyGC1pMJJ6Sh0leRk9MWskeyQEV/beC7ihxAq9UCkQx
+	MXIx/SKglxx0=
+X-Gm-Gg: AYBFou3O3xxHaF87pxcsvgMeeYShpgJWspAMBS0gqNRY3SWcdhdyOnquPHaaOk25MSi
+	oLHvf2yslanvwNhE8t3faeXRVRRMU7IedWCkYefBkJt07lWjuEXDtFGHlztX+ZJrIY4mL93IRRR
+	QwkVMHrjVwUHCrpboZpIPyVkW8psfIA2T6jrNtrDaw+D+ebleHdg3kpN4HH/G7BcPFkeh+y764l
+	wcqqX83BLeq2wlDVSnB2GYmEW69vroJkpTG9WLo/40q0vppJ+ZbLo3ZMGXta8VoZVe8x/GRbj/p
+	yCfEbLXGR3kAvCr5PczQ6EmrftN87gpxMvJYSmUHPJtnwXC0X8x12ui9cIzu3Wuyf9lxdHaQBzg
+	bA0j+eR/LRL6MiAGQMz+TYW5hhrb9QqIv3tFmOwZb50fQEOfBqrxD173wAl48BHvBo4nD8Y+OOB
+	53YTuSt9pZNGKM0XzSa99+KVqfPBvHrnF/uF7KnLZxBp7Uabwa3SYo7n0cntfB4QeF91CBsZtZf
+	BDpIxPKaDY=
+X-Received: by 2002:ac2:554a:0:b0:5b8:f960:1bd8 with SMTP id 2adb3069b0e04-5ba40608d46mr811098e87.61.1790810643087;
+        Wed, 30 Sep 2026 16:24:03 -0700 (PDT)
+Received: from lab01.. ([2a01:4f9:1a:a462::2])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ba42fc8023sm279117e87.81.2026.09.30.16.24.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 16:24:02 -0700 (PDT)
+From: Mahmut Emin Kurhan <guvenlik@noroxi.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	linux-kernel@vger.kernel.org,
+	Mahmut Emin Kurhan <guvenlik@noroxi.com>
+Subject: [PATCH v2 0/2] hfsplus, hfs: fix B-tree node leak on hfs_btree_open() error path
+Date: Thu,  1 Oct 2026 01:23:10 +0200
+Message-ID: <20260930232312.1405042-1-guvenlik@noroxi.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <ea8cfa5978a90d27e498fae626edfdae5bf84af7.camel@dubeyko.com>
+References: <ea8cfa5978a90d27e498fae626edfdae5bf84af7.camel@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Randy Dunlap" <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, "Randy Dunlap" <rdunlap@infradead.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org
-Subject:
- Re: [PATCH v2] VFS: d_duplicate: repair comments to avoid kernel-doc warnings
-In-reply-to: <20260930224330.2110958-1-rdunlap@infradead.org>
-References: <20260930224330.2110958-1-rdunlap@infradead.org>
-Date: Thu, 01 Oct 2026 09:04:39 +1000
-Message-id: <179080947944.37859.7499013622677289038@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Transfer-Encoding: 8bit
 
-On Thu, 01 Oct 2026, Randy Dunlap wrote:
-> Use a typical list style for comments to prevent kernel-doc warnings:
->=20
-> Documentation/filesystems/api-summary:20: ../fs/dcache.c:2029: ERROR: Unexp=
-ected indentation. [docutils]
-> Documentation/filesystems/api-summary:20: ../fs/dcache.c:2030: WARNING: Blo=
-ck quote ends without a blank line; unexpected unindent. [docutils]
->=20
-> Also, modify the spelling of "whiteout" to match all other uses in
-> the kernel source tree and to be consistent on the same line.
->=20
-> Fixes: 33d76519f0cc ("VFS: add d_duplicate()")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> v2: dropped Jan's Reviewed-by since the patch changed.
->=20
-> Cc: NeilBrown <neil@brown.name>
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: linux-fsdevel@vger.kernel.org
->=20
->  fs/dcache.c |   11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
->=20
-> --- linux-next-20260930.orig/fs/dcache.c
-> +++ linux-next-20260930/fs/dcache.c
-> @@ -2025,11 +2025,12 @@ EXPORT_SYMBOL(d_alloc);
->   * @dentry: the dentry to duplicate
->   *
->   * Some rename operations need to be combined with another operation
-> - * inside the filesystem.
-> - * 1/ A cluster filesystem when renaming to an in-use file might need to
-> - *   first "silly-rename" that target out of the way before the main rename
-> - * 2/ A filesystem that supports white-out might want to create a whiteout
-> - *   in place of the file being moved.
-> + * inside the filesystem::
-> + *
-> + *   1. A cluster filesystem when renaming to an in-use file might need to
-> + *      first "silly-rename" that target out of the way before the main re=
-name
-> + *   2. A filesystem that supports whiteout might want to create a whiteout
-> + *      in place of the file being moved.
->   *
->   * For this they need two dentries which temporarily have the same name,
->   * before one is renamed.  d_duplicate() provides for this.  Given a
->=20
+This is v2 of the hfsplus B-tree node leak fix.
 
-Is "::" the right thing to do here?  The docs I could find suggests that
-it introduces literal text.  Usage in Documentation/ supports this.
-Don't we just want a simple numbers list?  Maybe a single ":", but not
-2.
+Slava, thanks for the review. Addressing your points:
 
-Thanks,
-NeilBrown
+- HFS: you are right. The classic HFS driver has the identical leak:
+  __hfs_bnode_create() hashes the node before reading its pages,
+  hfs_bnode_put() only frees a node when HFS_BNODE_DELETED is set, and
+  hfs_btree_open() does a bare kfree(tree) on its error path. Fixed in
+  patch 2/2.
+
+- Dropped the inline block and the duplicate variable declarations. The
+  freeing loop is now a small helper, hfs_bnode_hash_free(), reused by
+  both hfs_btree_close() and the hfs_btree_open() error path, so nothing
+  extra is declared at the call site.
+
+- hash_lock: correct -- it is not taken because hfs_btree_open() has not
+  published the tree yet (it is only returned on success), so no other
+  thread can reach node_hash. hfs_btree_close() omits it for the same
+  reason.
+
+v1: https://lore.kernel.org/linux-fsdevel/20260930185033.1335238-1-guvenlik@noroxi.com
+
+Changes since v1:
+ - factor the node-hash freeing into hfs_bnode_hash_free() (Slava Dubeyko)
+ - no inline braces / no duplicate declarations (Slava Dubeyko)
+ - add the equivalent fix for the classic HFS driver (Slava Dubeyko)
+
+Mahmut Emin Kurhan (2):
+  hfsplus: free cached B-tree nodes on hfs_btree_open() error path
+  hfs: free cached B-tree nodes on hfs_btree_open() error path
+
+ fs/hfs/btree.c     | 34 ++++++++++++++++++++--------------
+ fs/hfsplus/btree.c | 35 ++++++++++++++++++++---------------
+ 2 files changed, 40 insertions(+), 29 deletions(-)
+
+-- 
+2.43.0
+
