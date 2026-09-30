@@ -1,413 +1,238 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from o1.ptr9745.em.honeycomb.io (o1.ptr9745.em.honeycomb.io [149.72.141.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEB63CEB9E;
-	Wed, 30 Sep 2026 19:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45471408028
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 19:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.141.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790794883; cv=none; b=M9+7kgU1ghngaXL+AX14vF6nWvoYRqHvXnzQ01H/Nckb4yeg6xfbUiDE/QHw7fmjB2szqod/5fm/oCm98LdVv9Ff0sYmKaK6qzTSVrXMnD9S0csiHC0Vxg8p2tCRX+ka0i2Mht8WFi7PGEGhHUX1UttOtvRySP2XWwJjL4+LimA=
+	t=1790796940; cv=none; b=SnBvMJK7i+Xteq58mNtEHvGohCanli3faL4Pv5mJ0FxLoVrlGjpnZLoXNTSVS4IKRKA2xlhX2bnOCVDq5O6XK7Vhp8QJu0dRpb4dpX/APXYTQZ2ENgxdMNH24iExiCz+3gnm64zmt3bvJ0VdjXIF+uHFPHxV9W1juRyKl3zwTNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790794883; c=relaxed/simple;
-	bh=8+bOG8AwHnovSh6kljaTv3iKMr944K6DweMcKmEGVIU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gnQA9v9Boq3kmO20MQE4bz0XVVir2kDZez8XdGx3WG0FAmElHbvaFPnGDY6BGI48jQhoBk1bHwN3wQ2nFRRkmLf0ngPScyWcN3Fui5t9HhLXfKmTrWw06scps0HYm7YrmvLA6i1i7a7sGKAnV+wERjvENDELJRHKWglE9zDmLp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d0VtJ7DQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790796940; c=relaxed/simple;
+	bh=Wnqlse4Bgg93MKf2VOtbUPjGQ9ZnN/dCEiKA2fPRoA8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=teinWIUvaAyudmkR7RkBwL2zcK12bPyq1I2j/tRW+tQ7qPv5oDhnby93fdADXJUDCbJWTUxABBFK5hHJOuc0qQhgkY0gBQVIsKbxKzr8cF5gyd45ELYsKxSydyc7wcRDUu1MZsIOvYjoKJOq+hy16l+2HJtGtG0pRDohX1zCCaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=ldI+FtaO; arc=none smtp.client-ip=149.72.141.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em.honeycomb.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d0VtJ7DQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 207BF1F0089C;
-	Wed, 30 Sep 2026 19:01:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790794863;
-	bh=Y3ISftF454uS262SdhXAcFS69weDyK5XjBsfznxdvKU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=d0VtJ7DQZUrbjcpEQ6xS4dpFBkzys95VLLZjonOrsdiTFK96EM3x3l3QSWHEdIx3x
-	 kvye7IvCr72AOgy4Jr8xTKdPVRUDXr4LvcEnb5ATm5Nxdpk8UxMUpY/HKvHbZVTG01
-	 mnCGui5ckTem8MJrJnq1pVTzP9JUatg84SDkLv9gO7UFMIBzPUj2UMsmn0JocYalGA
-	 kWOqG5ztrHA3QCLWZxZ2e5fjgU4GxWMMt65F9173bkfJ72C5w84jfhsjeUmch0P+PY
-	 TSyLFl92gxH5P5zAJ0PAyzFiZgnTTlJTnensNcVS/AAEl+KUgkKShMb6Isbo/QX22J
-	 W1lcD6al1UGXw==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org
-Cc: David Howells <dhowells@redhat.com>,
-	Tom Talpey <tom@talpey.com>,
-	"Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	linux-cifs@vger.kernel.org,
-	netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	Steve French <stfrench@microsoft.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.6.y 1/3] cifs: Remove the RFC1002 header from smb_hdr
-Date: Wed, 30 Sep 2026 15:00:58 -0400
-Message-ID: <20260930190100.383713-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026092927-uproar-implement-c4b4@gregkh>
-References: <2026092927-uproar-implement-c4b4@gregkh>
+	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="ldI+FtaO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=honeycomb.io;
+	h=from:subject:date:mime-version:content-type:content-transfer-encoding:
+	to:cc:cc:content-type:date:from:subject:to;
+	s=s1; t=1790796936;
+	bh=/+zzY0tFZaFFH1LTLV1nIHeogVgUYa0iBXA8efzOE3E=;
+	b=ldI+FtaOJvQgdSiTV/hLcg35FSa4YjIah4vXqa52yDGT03L4EIYcqGzgIb9FMMoTsB4q
+	J5K5ud+EJ8rbDyEBd9GDSSOdxsd6wkt2EGcwBerJzHdDHhBAe15LnzwoAOij7BoYrqhziA
+	jYjYP2DtVNfcDJ8BN84AJtZBCkDIjyERn2Yh3a6vkmMAIL1Cya6cQrlbSlmOQuKzQBEjbR
+	OZ4xd1bs4Qp+Udz7D/W2Ao8+Gu4yetCQDGMPB/irf0Alsb59o7WYwlCV7LTMMVhys66XLK
+	nuKhlJ/+n9Gwx7472LZLhIGYuV0oQ0GqYrQUHWG5U6J9vSlmuhUatUVyoECYv0LA==
+Received: by recvd-5dd7ccd7b6-h7p4q with SMTP id recvd-5dd7ccd7b6-h7p4q-1-6ABD6488-9A
+	2026-09-30 19:35:36.668054639 +0000 UTC m=+95713.833204695
+Received: from [127.0.1.1] (unknown)
+	by geopod-ismtpd-6 (SG) with ESMTP
+	id KTfzU9edSn-R8nTErLOwTw
+	Wed, 30 Sep 2026 19:35:36.649 +0000 (UTC)
+From: Liz Fong-Jones <lizf@honeycomb.io>
+Subject: [PATCH v4 0/2] writeback: let foreign flushes reach dying cgwbs
+Date: Wed, 30 Sep 2026 19:35:36 +0000 (UTC)
+Message-Id: <20260930-wb-dying-cgwb-flush-v4-0-bde637803a96@honeycomb.io>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43NTQ6CMBAF4KuYrh1T2lKqK+9hXPRngBqlhiJKD
+ He34MYYYtzNy8x870kith4j2a2epMXeRx+aFMR6RWytmwrBu5QJo0zSLZNwN+AG31RgqzSW51u
+ sgUpMW2TaaEfS57XF0j9m9XB853gzJ7TdRE0XtY9daIe5ts+mu98NfQYZaOXUVlGVa673dWhws
+ OFiNj6QqaRnn4xaZlhicmlyYZ0uRMkWGP4Hw4EC8pwXQikhZfHFjOP4AleWGrZZAQAA
+X-Change-ID: 20260926-wb-dying-cgwb-flush-06e260e2abad
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7713; i=lizf@honeycomb.io;
+ s=gpg; h=from:subject:message-id;
+ bh=Wnqlse4Bgg93MKf2VOtbUPjGQ9ZnN/dCEiKA2fPRoA8=;
+ b=owEBbQGS/pANAwAKAaXO1OOXra/CAcsmYgBqvWSIh6uUw3xXDhNTsLDLSPXL3NH4EhpGOcolP
+ s7zD38JXUKJATMEAAEKAB0WIQSfW1LPQ0gyJmoTHwelztTjl62vwgUCar1kiAAKCRClztTjl62v
+ whq5CACo3p7WlyY38v3Rgwh0v8Cs+Dihb6NqfWM5BZOVNkLl0sAsvdjhDTRFj92y8tW7445xnUx
+ 1P6MeqK8dMXPDwgpg+GS9w8mU5hLhcyOnzNptv6hcLL762Ucx3oWNib9bRSO6egDsh1qEN/KXun
+ VyfoeLIRAM+2sEPFl9MQRCQQCrbmAQg2UfZxc+thXASehzRBzgVL4CtYrBYKGmFkyrfvJn89YXH
+ 9Rx2E0FTjazlqcOQnCMw8hdlokhOhq16n10ZqN55sP4B6Iuvqz9uvugpLn8mk3RtvXAg0fb5vq4
+ kxEW+70wrZfp+ZojmBvITF4ZI4juZfwtjrwB3+0DJ24QPXJm
+X-Developer-Key: i=lizf@honeycomb.io; a=openpgp;
+ fpr=1F7714D7EC3441D2CECC24606A3F8B00FBDDD2A4
+X-SG-EID: 
+ =?us-ascii?Q?u001=2ECuH7N2XAoeMR1zrzr=2F6NZrhli2vbKPOHff5fJuZuba6ZIE8QPyIf9mn4Y?=
+ =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmeVwI5CqqQhMe?=
+ =?us-ascii?Q?ovC51Laxj9Q2Yp=2F+nCOydlpb1F=2FabFvfTjnK=2FrH?=
+ =?us-ascii?Q?xkmr5YK0QGsX=2F37QyCJz15lJo7iTZXy9OTV6bPo?=
+ =?us-ascii?Q?Ai+BWAoSAmmofa8YtitErvaQFO4PwyKCp9QMWw0?=
+ =?us-ascii?Q?l78aB2jxk7l87HYa9DMtGYWet7pU6bb853M746z?= =?us-ascii?Q?BAnQ?=
+To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Tejun Heo
+	<tj@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
+	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner
+	<hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt
+	<shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ian@honeycomb.io, Liz Fong-Jones
+	<lizf@honeycomb.io>
+X-Entity-ID: u001.GRlkmHQ+Ka/CKxmoC/CxTw==
 
-From: David Howells <dhowells@redhat.com>
+At Honeycomb, a container that reads from Kafka and writes columnar
+files to a host volume stalls for 30-60s after each deploy replaces it
+(v6.18). We're increasingly confident this is the cause: the stall
+looks the same as in the reproducer (little CPU use, lag growing
+linearly and then recovering), and the mitigation it predicts, moving
+our final syncfs after the last write, worked in production (below).
+We haven't caught it with probes in production yet.
 
-[ Upstream commit 83bfbd0bb9025f98fa62b44f93bd67466773d1db ]
+Patch 1 keeps killed wbs in bdi->cgwb_tree until they are released, so
+foreign flushes can still reach them. Patch 2 handles the other way a wb
+leaves the tree: when a live memcg's blkcg association changes and a new
+wb takes over the slot, it switches the old wb's inodes, dirty or not,
+to the new one.
 
-Remove the RFC1002 header from struct smb_hdr as used for SMB-1.0.  This
-simplifies the SMB-1.0 code by simplifying a lot of places that have to add
-or subtract 4 to work around the fact that the RFC1002 header isn't really
-part of the message and the base for various offsets within the message is
-from the base of the smb_hdr, not the RFC1002 header.
+Based on vfs-7.4.misc, next to Xin Yin's 168a8c13159c, which fixes the
+sizing but not the lookup of a removed cgroup's wb. Each helps without
+the other; this series also applies to mainline. On mainline
+(fd179f8a05be), without 168a8c13159c, the test from the changelog gave
+52.8s, 73.3s and 5.2s worst lag before this series and 1.0s, 1.5s and
+1.0s with it.
 
-Further, clean up a bunch of places that require an extra kvec struct
-specifically pointing to the RFC1002 header, such that kvec[0].iov_base
-must be exactly 4 bytes before kvec[1].iov_base.
+Syncing before the removal isn't enough: cleanup_offline_cgwbs_workfn()
+skips a dying wb with any dirty inode and only retries on the next memcg
+offline. On ext4, syncfs can leave inodes I_DIRTY_SYNC: at 5000 files
+one syncfs still stalled in 7 of 9 runs (19-26s worst lag), a second
+syncfs avoided it in 5 of 5, and with this series one syncfs lagged at
+most 1.3s in 2 of 2. On XFS one syncfs left the wb clean in 5 of 5 runs,
+but a single 4KiB append from the old cgroup after it stranded the wb
+again (15-28s worst lag, 5 of 5; 1.0-1.7s in 2 of 2 with this series).
+In production, our writer synced after closing its data files but before
+writing its final Kafka offset to a small shutdown file, and moving the
+syncfs after that write mitigated the stall for us on XFS. In the
+reproducer, a 14-byte file written after the syncfs stranded the wb the
+same way, whether created directly or via a temp file and rename (16-29s
+worst lag, 7 of 7; with this series, 1.2-1.4s in 2 of 2 created
+directly); an empty file did not.
 
-This allows the header preamble size stuff to be removed too.
+The harness that produced the numbers (paced writer, lag per second,
+MODE=alive control) is at
+https://gist.github.com/lizthegrey/2209d831930588f63076bdc0ac7b78e2, and
+a minimal recipe is below. Settings for all numbers: MEM_MAX=max
+POD_MAX=4G RATE_MBPS=250, plus NFILES=5000 SYNC_OLD=1 (or 2) and
+DIRTY_AFTER=1 or SHUTDOWN_FILE=offset|offset_rename|empty for the syncfs
+runs and NFILES=500000 OLD_SECS=120 SYNC_OLD=1 POD_HOP=10 for the
+500k-file runs.
 
-The size of the request and response message are then handed around either
-directly or by summing the size of all the iov_len members in the kvec
-array for which we have a count.
+Also reproduced unpatched on bare-metal arm64 with Ubuntu's 7.0 kernel
+(ext4 on a loop device): 12.9s worst lag with the old cgroup removed,
+2.5s with it kept.
 
-Also, this simplifies and cleans up the common transmission and receive
-paths for SMB1 and SMB2/3 as there no longer needs to be special handling
-casing for SMB1 messages as the RFC1002 header is now generated on the fly
-for SMB1 as it is for SMB2/3.
+Tested: arm64 KVM guests (virtme-ng), ext4 and XFS on virtio. No KASAN,
+lockdep, PROVE_RCU, DEBUG_LIST, DEBUG_OBJECTS_WORK, DEBUG_ATOMIC_SLEEP
+or DEBUG_PAGEALLOC reports, including a stress run toggling io on the
+parent of two writers 40 times so their wbs are killed and replaced in
+the same slot (240 calls of patch 2's switch, 16200 inode switches,
+counted with bpftrace), and the patch 2 test below. W=1 and checkpatch
+--strict clean, no new sparse warnings. All changes are under
+CONFIG_CGROUP_WRITEBACK, and only builds with it enabled were done for
+v4.
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-Reviewed-by: Tom Talpey <tom@talpey.com>
-Reviewed-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
-cc: Shyam Prasad N <sprasad@microsoft.com>
-cc: linux-cifs@vger.kernel.org
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Steve French <stfrench@microsoft.com>
+Not tested: x86 runtime, this series in production, linux-next.
 
-Dependency backport for Linux 6.12:
+Workaround until this lands: syncfs after the old container's last
+write (twice on ext4). Lowering vm.dirty_expire_centisecs from 3000 to
+500 cut the worst lag on unpatched mainline to 4.8s, 4.6s and 14.3s, but
+did not remove the stall.
 
-Retain only the compound_send_recv() local MID array rename from midQ to
-mid. Drop the RFC1002/SMB1 refactor: this stable tree still keeps the SMB1
-transport code in transport.c and struct smb_hdr in cifspdu.h, and the
-target fix does not require any changes to framing or message lengths.
+Related: without 168a8c13159c the flush is sized from the dead memcg's
+own dirty pages, so this only helps while it has some. f6988c90671e
+(mainline) also matters: on XFS with 500k synced inodes and the pod
+cgroup removed 10s later, the handover was slow enough without it that
+the replacement fell 21-22s behind (vfs-7.4.misc), against 1.0-1.2s
+with it (mainline).
 
-To allow 8f6f8a48399f82f4a83f7b9f25b9707e0062a4f9 ("smb: client: delete
-compound mids on send failure before unlock") to apply and compile
-unchanged, also give the existing delete_mid() its explicit server
-argument and update all callers. Use ses->server in cifs_setup_request(),
-matching the server used by allocate_mid(). Retain the stable mid_lock,
-MID_DELETED flag, server pointer, and kref release implementation.
+Patch 2 was tested with a live cgroup whose io controller is disabled on
+its parent (its wb is killed and replaced) while a sibling keeps
+appending to its files, on XFS with 5000 files. Without patch 2 the
+sibling fell 16.6s, 28.7s and 1.6s behind, because the old wb's inodes
+only moved to the new wb as they were written back; with it, 1.3s, 1.4s
+and 1.0s, and all 5001 inodes switched within 40-60ms of the takeover,
+with up to 139MiB of the old cgroup's pages dirty. v3's writeback kick
+instead left the sibling stalled in 4 of 6 runs.
 
-No functions are added, and the target's send-failure fix remains a
-separate patch. The upstream subject and author are preserved.
+Developed with Claude Opus 5.5, which wrote the code, the reproducers
+and first drafts of this text, and ran the builds and VM tests. Claude
+Fable 5.1 reviewed the code and the claims in this text before v2, v3
+and v4 were posted. I drove the investigation from the production
+symptoms, designed the experiments and controls (repeated runs,
+parent-commit baselines, testing this patch on its own), and reviewed
+the analysis, code and results.
 
-Upstream description follows:
+Minimal recipe:
+	#!/bin/bash
+	# As root, cgroup v2, in a directory on ext4/xfs/btrfs ($DIR).
+	cg=/sys/fs/cgroup/wbmini
+	mkdir $cg && echo +memory > $cg/cgroup.subtree_control
+	echo 4G > $cg/memory.max
+	mkdir $cg/old $cg/new
+	append() {  # append $1 blocks of $2 to each of 1000 files
+		for i in $(seq 1000); do
+			dd if=/dev/zero of=$DIR/f$i bs=$2 count=$1 \
+			   oflag=append conv=notrunc status=none
+		done
+	}
+	(echo $BASHPID > $cg/old/cgroup.procs
+	 append 8 1M            # old owner writes the files...
+	 append 1 64k)          # ...and exits with all of them dirty
+	rmdir $cg/old           # its cgroup goes away while they are dirty
+	bpftrace -e 'kretprobe:cgroup_writeback_by_id { @ret[(int32)retval] = count(); }' &
+	sleep 3
+	time (echo $BASHPID > $cg/new/cgroup.procs
+	      append 4 1M)      # replacement keeps appending to the same files
+	kill -INT $!; wait
+	rmdir $cg/new $cg
+	# Unpatched: many @ret[-2] (-ENOENT) and the append stalls.
+	# Patched: @ret[0] only.
 
-Remove the RFC1002 header from struct smb_hdr as used for SMB-1.0.  This
-simplifies the SMB-1.0 code by simplifying a lot of places that have to add
-or subtract 4 to work around the fact that the RFC1002 header isn't really
-part of the message and the base for various offsets within the message is
-from the base of the smb_hdr, not the RFC1002 header.
-
-Further, clean up a bunch of places that require an extra kvec struct
-specifically pointing to the RFC1002 header, such that kvec[0].iov_base
-must be exactly 4 bytes before kvec[1].iov_base.
-
-This allows the header preamble size stuff to be removed too.
-
-The size of the request and response message are then handed around either
-directly or by summing the size of all the iov_len members in the kvec
-array for which we have a count.
-
-Also, this simplifies and cleans up the common transmission and receive
-paths for SMB1 and SMB2/3 as there no longer needs to be special handling
-casing for SMB1 messages as the RFC1002 header is now generated on the fly
-for SMB1 as it is for SMB2/3.
-
-cc: Shyam Prasad N <sprasad@microsoft.com>
-cc: linux-cifs@vger.kernel.org
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-
-[ sashal: Reduced backport -- upstream 83bfbd0bb9025 touches 19 file(s), this
-  backport carries 3. Not backported here:
-  fs/smb/client/cifs_debug.c
-  fs/smb/client/cifs_debug.h
-  fs/smb/client/cifsencrypt.c
-  fs/smb/client/cifsglob.h
-  fs/smb/client/cifspdu.h
-  fs/smb/client/cifssmb.c
-  fs/smb/client/cifstransport.c
-  fs/smb/client/connect.c
-  ... and 9 more
-  This note is generated from the file lists only; see the resolution record
-  for the reasoning. ]
-
-Stable-dep-of: 8f6f8a48399f ("smb: client: delete compound mids on send failure before unlock")
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/smb/client/cifsproto.h     |  2 +-
- fs/smb/client/smb2transport.c |  2 +-
- fs/smb/client/transport.c     | 74 +++++++++++++++++------------------
- 3 files changed, 39 insertions(+), 39 deletions(-)
+Changes in v4:
+- Don't link a new wb for a dying memcg in cgwb_create() (Tejun)
+- Patch 2: switch the replaced wb's inodes to its successor instead
+  of kicking writeback (Tejun, Jan)
+- Link to v3: https://patch.msgid.link/20260928-wb-dying-cgwb-flush-v3-0-e35374884667@honeycomb.io
 
-diff --git a/fs/smb/client/cifsproto.h b/fs/smb/client/cifsproto.h
-index 1f37bc2923fb8..93cdb298d6327 100644
---- a/fs/smb/client/cifsproto.h
-+++ b/fs/smb/client/cifsproto.h
-@@ -83,7 +83,7 @@ extern char *cifs_build_path_to_root(struct smb3_fs_context *ctx,
- 				     int add_treename);
- extern char *build_wildcard_path_from_dentry(struct dentry *direntry);
- char *cifs_build_devname(char *nodename, const char *prepath);
--extern void delete_mid(struct mid_q_entry *mid);
-+extern void delete_mid(struct TCP_Server_Info *server, struct mid_q_entry *mid);
- void __release_mid(struct kref *refcount);
- extern void cifs_wake_up_task(struct mid_q_entry *mid);
- extern int cifs_handle_standard(struct TCP_Server_Info *server,
-diff --git a/fs/smb/client/smb2transport.c b/fs/smb/client/smb2transport.c
-index e4adfb6325dd1..a00eaac20c6b9 100644
---- a/fs/smb/client/smb2transport.c
-+++ b/fs/smb/client/smb2transport.c
-@@ -915,7 +915,7 @@ smb2_setup_request(struct cifs_ses *ses, struct TCP_Server_Info *server,
- 	rc = smb2_sign_rqst(rqst, server);
- 	if (rc) {
- 		revert_current_mid_from_hdr(server, shdr);
--		delete_mid(mid);
-+		delete_mid(server, mid);
- 		return ERR_PTR(rc);
- 	}
- 
-diff --git a/fs/smb/client/transport.c b/fs/smb/client/transport.c
-index a47242a0f5c6d..58c773e9760d4 100644
---- a/fs/smb/client/transport.c
-+++ b/fs/smb/client/transport.c
-@@ -158,14 +158,14 @@ void __release_mid(struct kref *refcount)
- }
- 
- void
--delete_mid(struct mid_q_entry *mid)
-+delete_mid(struct TCP_Server_Info *server, struct mid_q_entry *mid)
- {
--	spin_lock(&mid->server->mid_lock);
-+	spin_lock(&server->mid_lock);
- 	if (!(mid->mid_flags & MID_DELETED)) {
- 		list_del_init(&mid->qhead);
- 		mid->mid_flags |= MID_DELETED;
- 	}
--	spin_unlock(&mid->server->mid_lock);
-+	spin_unlock(&server->mid_lock);
- 
- 	release_mid(mid);
- }
-@@ -851,7 +851,7 @@ cifs_call_async(struct TCP_Server_Info *server, struct smb_rqst *rqst,
- 	if (rc < 0) {
- 		revert_current_mid(server, mid->credits);
- 		server->sequence_number -= 2;
--		delete_mid(mid);
-+		delete_mid(server, mid);
- 	}
- 
- 	cifs_server_unlock(server);
-@@ -986,7 +986,7 @@ cifs_setup_request(struct cifs_ses *ses, struct TCP_Server_Info *ignored,
- 		return ERR_PTR(rc);
- 	rc = cifs_sign_rqst(rqst, ses->server, &mid->sequence_number);
- 	if (rc) {
--		delete_mid(mid);
-+		delete_mid(ses->server, mid);
- 		return ERR_PTR(rc);
- 	}
- 	return mid;
-@@ -1081,7 +1081,7 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 		   int *resp_buf_type, struct kvec *resp_iov)
- {
- 	int i, j, optype, rc = 0;
--	struct mid_q_entry *midQ[MAX_COMPOUND];
-+	struct mid_q_entry *mid[MAX_COMPOUND];
- 	bool cancelled_mid[MAX_COMPOUND] = {false};
- 	struct cifs_credits credits[MAX_COMPOUND] = {
- 		{ .value = 0, .instance = 0 }
-@@ -1147,35 +1147,35 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 	}
- 
- 	for (i = 0; i < num_rqst; i++) {
--		midQ[i] = server->ops->setup_request(ses, server, &rqst[i]);
--		if (IS_ERR(midQ[i])) {
-+		mid[i] = server->ops->setup_request(ses, server, &rqst[i]);
-+		if (IS_ERR(mid[i])) {
- 			revert_current_mid(server, i);
- 			for (j = 0; j < i; j++)
--				delete_mid(midQ[j]);
-+				delete_mid(server, mid[j]);
- 			cifs_server_unlock(server);
- 
- 			/* Update # of requests on wire to server */
- 			for (j = 0; j < num_rqst; j++)
- 				add_credits(server, &credits[j], optype);
--			return PTR_ERR(midQ[i]);
-+			return PTR_ERR(mid[i]);
- 		}
- 
--		midQ[i]->mid_state = MID_REQUEST_SUBMITTED;
--		midQ[i]->optype = optype;
-+		mid[i]->mid_state = MID_REQUEST_SUBMITTED;
-+		mid[i]->optype = optype;
- 		/*
- 		 * Invoke callback for every part of the compound chain
- 		 * to calculate credits properly. Wake up this thread only when
- 		 * the last element is received.
- 		 */
- 		if (i < num_rqst - 1)
--			midQ[i]->callback = cifs_compound_callback;
-+			mid[i]->callback = cifs_compound_callback;
- 		else
--			midQ[i]->callback = cifs_compound_last_callback;
-+			mid[i]->callback = cifs_compound_last_callback;
- 	}
- 	rc = smb_send_rqst(server, num_rqst, rqst, flags);
- 
- 	for (i = 0; i < num_rqst; i++)
--		cifs_save_when_sent(midQ[i]);
-+		cifs_save_when_sent(mid[i]);
- 
- 	if (rc < 0) {
- 		revert_current_mid(server, num_rqst);
-@@ -1218,20 +1218,20 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 	spin_unlock(&ses->ses_lock);
- 
- 	for (i = 0; i < num_rqst; i++) {
--		rc = wait_for_response(server, midQ[i]);
-+		rc = wait_for_response(server, mid[i]);
- 		if (rc != 0)
- 			break;
- 	}
- 	if (rc != 0) {
- 		for (; i < num_rqst; i++) {
- 			cifs_server_dbg(FYI, "Cancelling wait for mid %llu cmd: %d\n",
--				 midQ[i]->mid, le16_to_cpu(midQ[i]->command));
--			send_cancel(server, &rqst[i], midQ[i]);
-+				 mid[i]->mid, le16_to_cpu(mid[i]->command));
-+			send_cancel(server, &rqst[i], mid[i]);
- 			spin_lock(&server->mid_lock);
--			midQ[i]->mid_flags |= MID_WAIT_CANCELLED;
--			if (midQ[i]->mid_state == MID_REQUEST_SUBMITTED ||
--			    midQ[i]->mid_state == MID_RESPONSE_RECEIVED) {
--				midQ[i]->callback = cifs_cancelled_callback;
-+			mid[i]->mid_flags |= MID_WAIT_CANCELLED;
-+			if (mid[i]->mid_state == MID_REQUEST_SUBMITTED ||
-+			    mid[i]->mid_state == MID_RESPONSE_RECEIVED) {
-+				mid[i]->callback = cifs_cancelled_callback;
- 				cancelled_mid[i] = true;
- 				credits[i].value = 0;
- 			}
-@@ -1243,36 +1243,36 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 		if (rc < 0)
- 			goto out;
- 
--		rc = cifs_sync_mid_result(midQ[i], server);
-+		rc = cifs_sync_mid_result(mid[i], server);
- 		if (rc != 0) {
- 			/* mark this mid as cancelled to not free it below */
- 			cancelled_mid[i] = true;
- 			goto out;
- 		}
- 
--		if (!midQ[i]->resp_buf ||
--		    midQ[i]->mid_state != MID_RESPONSE_READY) {
-+		if (!mid[i]->resp_buf ||
-+		    mid[i]->mid_state != MID_RESPONSE_READY) {
- 			rc = -EIO;
- 			cifs_dbg(FYI, "Bad MID state?\n");
- 			goto out;
- 		}
- 
--		buf = (char *)midQ[i]->resp_buf;
-+		buf = (char *)mid[i]->resp_buf;
- 		resp_iov[i].iov_base = buf;
--		resp_iov[i].iov_len = midQ[i]->resp_buf_size +
-+		resp_iov[i].iov_len = mid[i]->resp_buf_size +
- 			HEADER_PREAMBLE_SIZE(server);
- 
--		if (midQ[i]->large_buf)
-+		if (mid[i]->large_buf)
- 			resp_buf_type[i] = CIFS_LARGE_BUFFER;
- 		else
- 			resp_buf_type[i] = CIFS_SMALL_BUFFER;
- 
--		rc = server->ops->check_receive(midQ[i], server,
-+		rc = server->ops->check_receive(mid[i], server,
- 						     flags & CIFS_LOG_ERROR);
- 
- 		/* mark it so buf will not be freed by delete_mid */
- 		if ((flags & CIFS_NO_RSP_BUF) == 0)
--			midQ[i]->resp_buf = NULL;
-+			mid[i]->resp_buf = NULL;
- 
- 	}
- 
-@@ -1302,7 +1302,7 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 	 */
- 	for (i = 0; i < num_rqst; i++) {
- 		if (!cancelled_mid[i])
--			delete_mid(midQ[i]);
-+			delete_mid(server, mid[i]);
- 	}
- 
- 	return rc;
-@@ -1466,7 +1466,7 @@ SendReceive(const unsigned int xid, struct cifs_ses *ses,
- 	memcpy(out_buf, midQ->resp_buf, *pbytes_returned + 4);
- 	rc = cifs_check_receive(midQ, server, 0);
- out:
--	delete_mid(midQ);
-+	delete_mid(server, midQ);
- 	add_credits(server, &credits, 0);
- 
- 	return rc;
-@@ -1559,7 +1559,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 
- 	rc = cifs_sign_smb(in_buf, server, &midQ->sequence_number);
- 	if (rc) {
--		delete_mid(midQ);
-+		delete_mid(server, midQ);
- 		cifs_server_unlock(server);
- 		return rc;
- 	}
-@@ -1574,7 +1574,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 	cifs_server_unlock(server);
- 
- 	if (rc < 0) {
--		delete_mid(midQ);
-+		delete_mid(server, midQ);
- 		return rc;
- 	}
- 
-@@ -1599,7 +1599,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 			   blocking lock to return. */
- 			rc = send_cancel(server, &rqst, midQ);
- 			if (rc) {
--				delete_mid(midQ);
-+				delete_mid(server, midQ);
- 				return rc;
- 			}
- 		} else {
-@@ -1611,7 +1611,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 			/* If we get -ENOLCK back the lock may have
- 			   already been removed. Don't exit in this case. */
- 			if (rc && rc != -ENOLCK) {
--				delete_mid(midQ);
-+				delete_mid(server, midQ);
- 				return rc;
- 			}
- 		}
-@@ -1651,7 +1651,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 	memcpy(out_buf, midQ->resp_buf, *pbytes_returned + 4);
- 	rc = cifs_check_receive(midQ, server, 0);
- out:
--	delete_mid(midQ);
-+	delete_mid(server, midQ);
- 	if (rstart && rc == -EACCES)
- 		return -ERESTARTSYS;
- 	return rc;
--- 
-2.53.0
+Changes in v3:
+- Use wb_dying(), scoped_guard() with the offline_node list_del moved
+  into it, and {}; filter dying wbs right after the lookup in
+  cgwb_create(); comment wording (Tejun)
+- New patch 2: kick writeback on a wb replaced in cgwb_create() (Tejun)
+- Lead patch 1's changelog with the problem and its trigger (Andrew)
+- Link to v2: https://patch.msgid.link/20260928-wb-dying-cgwb-flush-v2-1-56b54cda74f2@honeycomb.io
+
+Changes in v2:
+- Keep killed wbs in bdi->cgwb_tree until release instead of walking
+  bdi->wb_list (Tejun)
+- Drop Fixes: and Cc: stable (Tejun)
+- Link to v1: https://patch.msgid.link/20260926-wb-dying-cgwb-flush-v1-1-a8d898085a3a@honeycomb.io
+
+---
+Liz Fong-Jones (2):
+      writeback: let foreign flushes reach dying cgwbs
+      writeback: switch a replaced cgwb's inodes to its successor
+
+ fs/fs-writeback.c                |  53 ++++++++++++++++++
+ include/linux/backing-dev-defs.h |  14 ++++-
+ include/linux/backing-dev.h      |   2 +-
+ include/linux/writeback.h        |   1 +
+ mm/backing-dev.c                 | 117 ++++++++++++++++++++++++++++++++-------
+ 5 files changed, 164 insertions(+), 23 deletions(-)
+---
+base-commit: 168a8c13159c6e3f0f08da6f8fa2f633a91ba9fd
+change-id: 20260926-wb-dying-cgwb-flush-06e260e2abad
+
+Best regards,
+--  
+Liz Fong-Jones <lizf@honeycomb.io>
 
