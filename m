@@ -1,46 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FD13D45F7;
-	Wed, 30 Sep 2026 18:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD113C2775
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 18:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790794215; cv=none; b=M68CR/61qbNRsH4xiehCkvMjGWr/HcZFodflSvg7MiEhksjbZOvbTkb2rxfu7rapc5fVeOAqWUIMmj741bkhgVMKBsHrf9sSfjwXfKKGiBzGWoRF8Rmasf715rFjnj3HHfndoVaCccVd+9WsryG/HFwnDQS4EXT+QEuJt5Qimhk=
+	t=1790794246; cv=none; b=YTZgZEUmh+f6KKakA0/1pa3mOQLWhpMv7MzEfwsoypaGk7MHBrC1WtNNqxP02u8ruxAquFIBzyhZvfnLmsz8zHSTHskCZRZv7OOBOixtH+i7teRuojuZlweUaa2d9vWgxkYxosuiv+ZtCq+l9/PZywmo38kxZeKvHX6SUCdcruA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790794215; c=relaxed/simple;
-	bh=kH4UKTrXAfSCeo95sM0mJu9J82S/P/M68huz4XeYLHA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b0HaRbOzDBrcyCjDERgnsIWpYa7KSq3EQi7LY+mtVPB5X7k84BU6spq7/W5G9O/O1mf01PVpvvYkQ6v2RcoMCUwlWoSXClO9Z5HDQUCnTw0XUnptZ3rbc5YpwIPRVAlmcurWgeRVTxP6PphydYnzkjQGi4ENg0+AL9JahRizxgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nPLd6Gaq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790794246; c=relaxed/simple;
+	bh=yO2FXLNSAKLZLbKK4DBCKqAe6GllfIPBhVj0RDbnLQk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a2uNC26pC+2enNkMxaMbpvF8wM38AbdwZPhyCzP3aVlX50ikcjtnETnFfzrm5BCL12FkNTW/rJPuxcYU6noE1EXCWb8xlDW3nE19AjSD5hry8uAbqjqcBrk5knyjt0BJ2DpKT0wnoZoxcM44oIk+sq3TqzUS6nIjGu874TBZ/1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noroxi.com; spf=pass smtp.mailfrom=noroxi.com; dkim=pass (2048-bit key) header.d=noroxi.com header.i=@noroxi.com header.b=H/nqfeMb; arc=none smtp.client-ip=74.125.229.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noroxi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=noroxi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nPLd6Gaq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A53E1F00898;
-	Wed, 30 Sep 2026 18:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790794214;
-	bh=HZTYgcR9lbPdKohhcVTinKCgkWoafxaERLX4kJskGNI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=nPLd6Gaq0r3K3QqvomtAprTr7T3Rk/qaEJKQRo1HVH4QakgWUkhxQvaYgr0ywhoFV
-	 haOvApGVJuh9SPsb6lxTEauUhahHyUdLtyeWLCSZIvwchLkuugh3180cy3thonGkB2
-	 y7GcJUZJBEZcP+susTFJOd8izHFW4Gq0mupGNmXA=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
-	linux-fsdevel@vger.kernel.org,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.6 0131/1193] hfs: rework hfsplus_readdir() logic
-Date: Wed, 30 Sep 2026 17:13:35 +0200
-Message-ID: <20260930152437.124862606@linuxfoundation.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260930152434.301151190@linuxfoundation.org>
-References: <20260930152434.301151190@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (2048-bit key) header.d=noroxi.com header.i=@noroxi.com header.b="H/nqfeMb"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b8ea203e5bso4885758e87.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 11:50:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=noroxi.com; s=google; t=1790794242; x=1791399042; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5b4LTz7m0DFLrfxivAZmdGHfGQ+Px1ZEYD2UiqRZ9Bo=;
+        b=H/nqfeMbIJQ8q2TGUtSCU98GgCZ7T5nzKFBa+RYDQWWG0/Rh3ILm6w2dTXbmNLXT3c
+         3lG6oW1OSSCPuX6OLzeASxesf3a21jlnaoTW9y7CBjvaoZj0PlX+X/s3QkcUpA/i6UfW
+         aI1g+DRG4FZlDq8wnJ0DglYNdFm9nwNsy/SzKrj79WpiSYe2oFrA0FB8vCPzO53uKG62
+         XIBf9L3cz29+uoaEHFVEtXr1FLfy7MbZS//CY39E5PDQdOO9BWQ/kLk6EgkdXcamg3eE
+         qjmIaalTfGVjNZtlmfIlnD1ctQXnWqA03qpyoumUoSSgfRxQXC2QbxluNcAu1oimfa3S
+         TA6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790794242; x=1791399042;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5b4LTz7m0DFLrfxivAZmdGHfGQ+Px1ZEYD2UiqRZ9Bo=;
+        b=NePtZFGpsu7TGpwHkjTRTd3qX6ZD9vh7aVMcnLebypBh5bjXLWqpV7OIom1qzW02Nk
+         ebjk8pScXV938+4t5X5TLHl0SgCuICPzHr2Jlu24oWDN8Sdvso1hwx01IdVrpWKp7MgK
+         IH0IpBBY+HzThPkTkJE9K1sVZlpKdS9+rd8C5bxt9EnXZQIqy6tCI5RoADPFuhpx/jyR
+         YLEdSKAB2GMRdtnEnZGLUAI1KdseRMMIRsaMzwAGBmDTKh6+R1HK7sbGKUhhNTsvilpP
+         Ob23ww0WG/QMGY406jsNXWal+gFqkR9KvHO/JH01QxPyQczynSZoZ7yLcxQWCg6JvYSi
+         lySQ==
+X-Gm-Message-State: AFq9FYJtPFZMGZ+69htimmySpKTBGC3r8c1VauXiRWkvtJv+ybxQI1iy
+	e1/FscaH7dOEQGDnXsY95AA85mJSXA+/oOAdwE7CvSXJqrtVbm4X7Vmh/d2Rla8Aq1GXBiuNakU
+	SLWCKPa3ouXi9fw==
+X-Gm-Gg: AYBFou2WQEeXNBPNhel1zvv3Jzq2J2thcBXwYcTyjqro5s4pHJyKZzzQVEIUaDxxWSq
+	TM3MvNmhuKEHrU/dWaXyF05fVLrGZcAeJpKxPZ+2SErzgHgV34BTSkkn2Qs3E36fprnxhGrr8Tj
+	/QjG1BzDU8NNwQEsZ+zWqmoPrvn5xhKLUfQ3mEhzA0IycR57MlzpbBiE5HC42+04MqBmIlbfTju
+	2BbNS23/DNH2Tygfyq7OV/WzvFzF1PbC5VF9oWVne3jSEybk2utE5eUsFUHAhSQsZNaWbg4q1+a
+	NtaadY8Z9RTUzodIot4L488ewkJsQFmapyLWZPNC3Y5xTrUo4stngHdE/i4TkPBS9lvdMN8sPY4
+	33iBu9lG9PSGJrwAnaMFDc7L7Pn9z0gVYi2rtZbDZFyN9bHcbQ/OYNLhPBof8jZ6NPsLxCmciOs
+	BaK5uomVjtcSA+Wi7MsYLMbOyytZTMW6EmdoTd3tGcqlZ2WIaLbUBq5r5Z9iWRLWS4JdJ9Di37
+X-Received: by 2002:a05:6512:b0f:b0:5b8:b419:b90 with SMTP id 2adb3069b0e04-5ba4061a36bmr927262e87.67.1790794241866;
+        Wed, 30 Sep 2026 11:50:41 -0700 (PDT)
+Received: from lab01.. ([2a01:4f9:1a:a462::2])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ba42f7c767sm166456e87.9.2026.09.30.11.50.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 11:50:41 -0700 (PDT)
+From: Mahmut Emin Kurhan <guvenlik@noroxi.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	linux-kernel@vger.kernel.org,
+	Mahmut Emin Kurhan <guvenlik@noroxi.com>
+Subject: [PATCH] hfsplus: free cached B-tree nodes on hfs_btree_open() error path
+Date: Wed, 30 Sep 2026 20:50:33 +0200
+Message-ID: <20260930185033.1335238-1-guvenlik@noroxi.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -49,198 +75,71 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+hfs_btree_open() can fail after hfs_bnode_find(tree, HFSPLUS_TREE_HEAD)
+has already inserted the head node into tree->node_hash.
 
-------------------
+__hfs_bnode_create() inserts the new bnode into tree->node_hash before
+it reads the node's pages; if a page read fails it sets HFS_BNODE_ERROR
+and returns the node still hashed. hfs_bnode_find() then takes its
+node_error path, which calls hfs_bnode_put(). hfs_bnode_put() only frees
+a node once its refcount reaches zero *and* HFS_BNODE_DELETED is set; for
+the errored head node that flag is not set, so the node stays in
+tree->node_hash with a zero refcount.
 
-From: Viacheslav Dubeyko <slava@dubeyko.com>
+hfs_btree_open() then sees IS_ERR(node) and jumps to free_tree:, which
+does a bare kfree(tree). Only hfs_btree_close() walks tree->node_hash[]
+and frees the cached nodes, so the head node is leaked. Mounting a
+crafted HFS+ image whose head B-tree node fails to read therefore leaks
+kernel memory on every attempt.
 
-[ Upstream commit 7fde7e806657fbe0d33f489521b488eed94f9b39 ]
+Reported by kmemleak while fuzzing HFS+ image mounts:
 
-The xfstests' test-case generic/637 fails with error:
+  BUG: memory leak
+  unreferenced object (size 192):
+    __hfs_bnode_create+0x105/0x8d0 fs/hfsplus/bnode.c
+    hfsplus_bnode_find             fs/hfsplus/bnode.c
+    hfsplus_btree_open             fs/hfsplus/btree.c
+    hfsplus_fill_super             fs/hfsplus/super.c
 
-FSTYP -- hfs
-PLATFORM -- Linux/x86_64 kvm-xfstests 6.15.0-rc4-xfstests-g00b827f0cffa #1 SMP PREEMPT_DYNAMIC Fri May 25
-MKFS_OPTIONS -- /dev/vdc
-MOUNT_OPTIONS -- /dev/vdc /vdc
+Free any nodes still present in tree->node_hash on the error path before
+freeing the tree. The paths that reach free_tree before hfs_bnode_find()
+have an empty hash, so the loop is a no-op there.
 
-QA output created by 637
-entries 7 and 8 have duplicate d_off 8
-Found unlinked files in open dir (see xfstests-dev/results//generic/637.full for details)
+Found via coverage-guided fuzzing (syzkaller + kmemleak) by Noroxi.
 
-Likewise HFS+, currently, HFS has very complicated and
-fragile logic of rd->file->f_pos correction in hfs_delete_cat().
-This patch removes this logic and it stores the current
-pos into hfs_readdir_data. Finally, if rd->pos == ctx->pos
-then hfs_readdir() tries to find the position in
-b-tree's node by means of hfs_cat_key. This position is
-used to re-start the folder's content traversal.
-
-sudo ./check generic/637
-FSTYP         -- hfs
-PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.1.0-rc1+ #55 SMP PREEMPT_DYNAMIC Tue May 19 15:18:02 PDT 2026
-MKFS_OPTIONS  -- /dev/loop51
-MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
-
-generic/637  32s ...  31s
-Ran: generic/637
-Passed all 1 tests
-
-Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/65
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Link: https://lore.kernel.org/r/20260519222811.1311071-2-slava@dubeyko.com
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Mahmut Emin Kurhan <guvenlik@noroxi.com>
 ---
- fs/hfs/catalog.c |  9 ---------
- fs/hfs/dir.c     | 28 +++++++++++-----------------
- fs/hfs/hfs.h     |  3 +--
- fs/hfs/hfs_fs.h  |  2 --
- fs/hfs/inode.c   |  4 ----
- 5 files changed, 12 insertions(+), 34 deletions(-)
+ fs/hfsplus/btree.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
-index 632c226a3972c..26b75c35be76d 100644
---- a/fs/hfs/catalog.c
-+++ b/fs/hfs/catalog.c
-@@ -222,7 +222,6 @@ int hfs_cat_delete(u32 cnid, struct inode *dir, const struct qstr *str)
- {
- 	struct super_block *sb;
- 	struct hfs_find_data fd;
--	struct hfs_readdir_data *rd;
- 	int res, type;
- 
- 	hfs_dbg(CAT_MOD, "delete_cat: %s,%u\n", str ? str->name : NULL, cnid);
-@@ -248,14 +247,6 @@ int hfs_cat_delete(u32 cnid, struct inode *dir, const struct qstr *str)
- 		}
- 	}
- 
--	/* we only need to take spinlock for exclusion with ->release() */
--	spin_lock(&HFS_I(dir)->open_dir_lock);
--	list_for_each_entry(rd, &HFS_I(dir)->open_dir_list, list) {
--		if (fd.tree->keycmp(fd.search_key, (void *)&rd->key) < 0)
--			rd->file->f_pos--;
--	}
--	spin_unlock(&HFS_I(dir)->open_dir_lock);
--
- 	res = hfs_brec_remove(&fd);
- 	if (res)
- 		goto out;
-diff --git a/fs/hfs/dir.c b/fs/hfs/dir.c
-index b75c26045df49..abb5f58ac1254 100644
---- a/fs/hfs/dir.c
-+++ b/fs/hfs/dir.c
-@@ -97,7 +97,15 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
- 	}
- 	if (ctx->pos >= inode->i_size)
- 		goto out;
--	err = hfs_brec_goto(&fd, ctx->pos - 1);
-+	rd = file->private_data;
-+	if (rd && rd->pos == ctx->pos) {
-+		memcpy(fd.search_key, &rd->key, sizeof(struct hfs_cat_key));
-+		err = hfs_brec_find(&fd);
-+		if (err == -ENOENT)
-+			err = hfs_brec_goto(&fd, 1);
-+	} else {
-+		err = hfs_brec_goto(&fd, ctx->pos - 1);
+diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+index 2ea8cd565..3de32f221 100644
+--- a/fs/hfsplus/btree.c
++++ b/fs/hfsplus/btree.c
+@@ -403,6 +403,24 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
+ 	tree->inode->i_mapping->a_ops = &hfsplus_aops;
+ 	iput(tree->inode);
+  free_tree:
++	/*
++	 * A B*tree node may already have been inserted into tree->node_hash
++	 * (e.g. an errored head node from hfs_bnode_find()).  Only
++	 * hfs_btree_close() frees hashed nodes, so a bare kfree(tree) here
++	 * leaks them.  Release them before freeing the tree.
++	 */
++	{
++		int i;
++		struct hfs_bnode *node;
++
++		for (i = 0; i < NODE_HASH_SIZE; i++) {
++			while ((node = tree->node_hash[i])) {
++				tree->node_hash[i] = node->next_hash;
++				hfs_bnode_free(node);
++				tree->node_hash_cnt--;
++			}
++		}
 +	}
- 	if (err)
- 		goto out;
- 
-@@ -146,7 +154,6 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
- 		if (err)
- 			goto out;
- 	}
--	rd = file->private_data;
- 	if (!rd) {
- 		rd = kmalloc(sizeof(struct hfs_readdir_data), GFP_KERNEL);
- 		if (!rd) {
-@@ -154,15 +161,8 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
- 			goto out;
- 		}
- 		file->private_data = rd;
--		rd->file = file;
--		spin_lock(&HFS_I(inode)->open_dir_lock);
--		list_add(&rd->list, &HFS_I(inode)->open_dir_list);
--		spin_unlock(&HFS_I(inode)->open_dir_lock);
- 	}
--	/*
--	 * Can be done after the list insertion; exclusion with
--	 * hfs_delete_cat() is provided by directory lock.
--	 */
-+	rd->pos = ctx->pos;
- 	memcpy(&rd->key, &fd.key->cat, sizeof(struct hfs_cat_key));
- out:
- 	hfs_find_exit(&fd);
-@@ -171,13 +171,7 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
- 
- static int hfs_dir_release(struct inode *inode, struct file *file)
- {
--	struct hfs_readdir_data *rd = file->private_data;
--	if (rd) {
--		spin_lock(&HFS_I(inode)->open_dir_lock);
--		list_del(&rd->list);
--		spin_unlock(&HFS_I(inode)->open_dir_lock);
--		kfree(rd);
--	}
-+	kfree(file->private_data);
- 	return 0;
+ 	kfree(tree);
+ 	return NULL;
  }
- 
-diff --git a/fs/hfs/hfs.h b/fs/hfs/hfs.h
-index 6f194d0768b6f..f46d12ce04a3f 100644
---- a/fs/hfs/hfs.h
-+++ b/fs/hfs/hfs.h
-@@ -281,8 +281,7 @@ struct hfs_mdb {
- /*======== Data structures kept in memory ========*/
- 
- struct hfs_readdir_data {
--	struct list_head list;
--	struct file *file;
-+	loff_t pos;
- 	struct hfs_cat_key key;
- };
- 
-diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-index acd69a3db8858..17a855c0640d8 100644
---- a/fs/hfs/hfs_fs.h
-+++ b/fs/hfs/hfs_fs.h
-@@ -68,8 +68,6 @@ struct hfs_inode_info {
- 
- 	struct hfs_cat_key cat_key;
- 
--	struct list_head open_dir_list;
--	spinlock_t open_dir_lock;
- 	struct inode *rsrc_inode;
- 
- 	struct mutex extents_lock;
-diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index 3a3994616fa54..a2976fe330575 100644
---- a/fs/hfs/inode.c
-+++ b/fs/hfs/inode.c
-@@ -193,8 +193,6 @@ struct inode *hfs_new_inode(struct inode *dir, const struct qstr *name, umode_t
- 		return NULL;
- 
- 	mutex_init(&HFS_I(inode)->extents_lock);
--	INIT_LIST_HEAD(&HFS_I(inode)->open_dir_list);
--	spin_lock_init(&HFS_I(inode)->open_dir_lock);
- 	hfs_cat_build_key(sb, (btree_key *)&HFS_I(inode)->cat_key, dir->i_ino, name);
- 	inode->i_ino = HFS_SB(sb)->next_id++;
- 	inode->i_mode = mode;
-@@ -328,8 +326,6 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 	HFS_I(inode)->flags = 0;
- 	HFS_I(inode)->rsrc_inode = NULL;
- 	mutex_init(&HFS_I(inode)->extents_lock);
--	INIT_LIST_HEAD(&HFS_I(inode)->open_dir_list);
--	spin_lock_init(&HFS_I(inode)->open_dir_lock);
- 
- 	/* Initialize the inode */
- 	inode->i_uid = hsb->s_uid;
--- 
-2.53.0
-
-
-
+--
+2.43.0
