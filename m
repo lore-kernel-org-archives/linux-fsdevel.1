@@ -1,167 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585E55013CE;
-	Wed, 30 Sep 2026 15:32:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B2350B41B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 15:33:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790782369; cv=none; b=MXz1/2z8kOYUbqnhFs/Ur/ZttIEA6mJPZl+2WhJOmyFOrPPKWD+fTFVq6W9h2c+dnilgHdcb+nvT+cvOp7rdHLrwNicm1whx2fw2IvTZL0r1yOtWmei5+vBX8p9AU4puALPV9tps5GQiTqmGIKxUoQJ3IgS4sK0ApXy1xk6Vx4s=
+	t=1790782406; cv=none; b=q8iui0cOogubpuWvCql3eHDU+IiGYdH4WpARWaTgGG9kmSvLLUdWGTmTrttDLH/b/VlwMYSmfBM4AzD0Fxrmt18MOxlvpsPrsxVerbgZVHrzySlBCAiw2Hw+U/T6l/ilgqug7RCH/VLOZYeLOYhd2WLqC/eQNfgN7dccZexW9VM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790782369; c=relaxed/simple;
-	bh=jAteyNSoEqZII2pwr1zGp/e3IY8Y0sT916fBf8TNMj8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bEtyY1GPKM1qFbxE7x/MVqPplpIkAypDeKmo1tnt8tOGFjIflazjvn+AP0NpZgKe1iK72RfHkIQBe00IexbsnMvrKtvrO1mPwN6sAhEC2KXoNvDKGiD60sI1r10h0bGcRS4oru5P0C4LJza3g4b62hhOCq0ywzUUKYBN90oXaK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=i8N6PLVM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790782406; c=relaxed/simple;
+	bh=pjsxlzcaP4Jz8G1QUkQ1Gl14XgeIyzw5zbr0od9rBc4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JPLZvohl/CNMgJfntBWNEcApb7SwK/Ucpn1iOM5jMfieZd0nVSr8m9EVT90D+S4o/JYv1xzq49o5FVNQjsKKpP5rcCAV3ju0I4DaanLLKCsFTtnJViSaYRZ2GMoETex5U+Dvheiq3JelazRtB4us2SmNAbSxfvtLYJLzRhdzrNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VTD5D1us; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="i8N6PLVM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 970DD1F000FF;
-	Wed, 30 Sep 2026 15:32:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790782357;
-	bh=fMeFodaZr3SePOifRqEs7LTW2oWPr292YrxupEMi3eM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=i8N6PLVM9J6RIhW97D6f3e+CHmYiRmGWgjIOX1mRnarF771RjcbP8tDtL92u/w36w
-	 Lk/mWogSVV/tSbcdCTrWwUBofSULalfG54iOC8pjdsj+otVmYJxWOoSD5pKCV8SuV/
-	 7qrCGwiIcNtwF43nts5pODvAZJ865rZVaNqbjMmg=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
-	linux-fsdevel@vger.kernel.org,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10 006/595] hfsplus: fix issue of direct writes beyond end-of-file
-Date: Wed, 30 Sep 2026 17:18:19 +0200
-Message-ID: <20260930152347.853177797@linuxfoundation.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260930152347.700140858@linuxfoundation.org>
-References: <20260930152347.700140858@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VTD5D1us"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0E3A1F0089D;
+	Wed, 30 Sep 2026 15:33:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790782396;
+	bh=p2flYhRhbQtLQjkb4F9DovxNqyIJkhi/OOFcNtiaROM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VTD5D1usKNsB+hEJiS2kC3xYC5Pggxaus6texvtAHrKHVEm9Qy1GdmOWiNqmwlXw1
+	 thw4oVXOYj4r3gZ3PJfRJZlZcAEdq+OygbVJRcxw3zsZtE0fzxfm4IXIHomHuFcRLt
+	 M2SIj0we2XT0p64oY/gNwLn9japMMnUGrtmOBswxWvbh+FeV7XBFgGYcPcbc/tOeSM
+	 VhrDg5qZsaQiAC3pi/LGMN602vTsG7f/1uTVxwYn3jqjx/BA/olzBepyT+Tyqlhxqp
+	 qoIH+nUzb8m5uzzMp8SeLqS8gXql1IZnfqZbr2Mex/erIz9pCduosu417Qhm6zmFlt
+	 Ya9va1Jmf+ncA==
+Date: Wed, 30 Sep 2026 16:33:11 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: =?utf-8?B?5aSp54u8?= <rockeet@gmail.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>
+Subject: Re: [RFC] madvise: best-effort deferred writeback for shared file
+ mappings
+Message-ID: <ar0mdJKLC0cHBoKM@gremlin>
+References: <CAAE3jtfeKJLSypScqRAEEgvO8En5kJfpbcFn5X+LQ2YL+xz_vA@mail.gmail.com>
+ <85aff663-2131-47da-ac04-8f0799a49b91@kernel.org>
+ <CAAE3jtcRQ407P9LTbg=JOwhABQRViSaq2XBefnDdNWiD7PxvUg@mail.gmail.com>
+ <1ce9cf3a-15dc-4815-ba29-2e22b05206fb@kernel.org>
+ <art8EKRKMdwSDCkr@gremlin>
+ <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
+ <arz0auULA33fqoWu@gremlin>
+ <arz8Plu6J4YOTi0a@gremlin>
+ <CAAE3jtcanTUrV3xfofwrvYGCFe5o=Vn7gS66bDzuxzeGg6c5=Q@mail.gmail.com>
+ <ar0a9y2E0nDTIC8V@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ar0a9y2E0nDTIC8V@gremlin>
 
-5.10-stable review patch.  If anyone has any objections, please let me know.
+On Wed, Sep 30, 2026 at 03:24:53PM +0100, Lorenzo Stoakes (ARM) wrote:
+> I strongly recommend you look at a shmem solution.
 
-------------------
+To expand upon that:
 
-From: Viacheslav Dubeyko <slava@dubeyko.com>
+The general structure would be something like a minimal process, with an
+oom_score_adj set such that it can't be killed (or is at least very unlikely).
 
-[ Upstream commit 5f63ac80aef2ee6bb58eab62e98c264774872da6 ]
+Have it do something like allocate a memfd.
 
-The xfstests' test-case generic/729 fails with error:
+Then have that be as minimal as possible - it sets things up, it hands off
+memfds over a UNIX socket for instance, and is set up to periodically write
+back to disk.
 
-sudo ./check generic/729
-FSTYP         -- hfsplus
-PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.0.0-rc1+ #36 SMP PREEMPT_DYNAMIC Fri Apr 17 12:40:51 PDT 2026
-MKFS_OPTIONS  -- /dev/loop51
-MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+That way you have something that should never crash/exit which gives you the
+guarantees you need.
 
-generic/729  23s ... [failed, exit status 1]- output mismatch
+You can then also control how to synchronise things between processes, when to
+write back and how much, etc.
 
-mmap-rw-fault: /mnt/test/mmap-rw-fault.tmp: Input/output error
+You can keep it in a cgroup as well to isolate it from the rest of the system
+too, potentially.
 
-The hfsplus_get_block() only allows creating the next
-sequential block. It returns -EIO for direct writes
-beyond EOF. This patch waits for any in-flight DIO on the inode
-to finish. Then, it extends the file by calling
-generic_cont_expand_simple() with the goal to guarantee
-that blockdev_direct_IO() finds all needed blocks
-already reachable sequentially. And, finally, it flushes and
-invalidates the DIO range again so the page cache is clean
-before the direct write begins.
+Then have anything that does anything non-trivial be clients of that.
 
-sudo ./check generic/729
-FSTYP         -- hfsplus
-PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.0.0-rc1+ #40 SMP PREEMPT_DYNAMIC Thu Apr 16 15:41:03 PDT 2026
-MKFS_OPTIONS  -- /dev/loop51
-MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+Everything works as before, you can ensure that intermediate state doesn't get
+written back through whatever mechanism you want to employ, and you avoid all of
+the pitfalls of writing to a MAP_SHARED file-backed mapping.
 
-generic/729  23s ...  32s
-Ran: generic/729
-Passed all 1 tests
+If the memfd isn't enough for you, you could also have it establish a tmpfs file
+which is then shared between all of the processes. That will survive even the
+establishing process dying.
 
-Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/210
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Link: https://lore.kernel.org/r/20260417214940.2735557-2-slava@dubeyko.com
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- fs/hfsplus/inode.c | 38 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+The main win here is that you can choose when and how to writeback using any
+mechanism you like.
 
-diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
-index 57123b206877c..46ec102e5f393 100644
---- a/fs/hfsplus/inode.c
-+++ b/fs/hfsplus/inode.c
-@@ -128,9 +128,44 @@ static ssize_t hfsplus_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
- 	struct file *file = iocb->ki_filp;
- 	struct address_space *mapping = file->f_mapping;
- 	struct inode *inode = mapping->host;
-+	loff_t isize;
- 	size_t count = iov_iter_count(iter);
-+	loff_t end = iocb->ki_pos + count;
- 	ssize_t ret;
- 
-+	/*
-+	 * The hfsplus_get_block() only allows creating the next sequential block.
-+	 * For direct writes beyond EOF, expand the file first.
-+	 */
-+	if (iov_iter_rw(iter) == WRITE && iocb->ki_pos > i_size_read(inode)) {
-+		loff_t start_off, end_off;
-+		loff_t start_page, end_page;
-+
-+		isize = i_size_read(inode);
-+
-+		/*
-+		 * Wait for any in-flight DIO on this inode to finish before
-+		 * calling generic_cont_expand_simple().
-+		 */
-+		inode_dio_wait(inode);
-+
-+		ret = generic_cont_expand_simple(inode, iocb->ki_pos);
-+		if (ret)
-+			return ret;
-+
-+		start_off = isize;
-+		end_off = (end > 0) ? end - 1 : end;
-+
-+		ret = filemap_write_and_wait_range(mapping, start_off, end_off);
-+		if (ret)
-+			return ret;
-+
-+		start_page = start_off >> PAGE_SHIFT;
-+		end_page = end_off >> PAGE_SHIFT;
-+
-+		invalidate_inode_pages2_range(mapping, start_page, end_page);
-+	}
-+
- 	ret = blockdev_direct_IO(iocb, inode, iter, hfsplus_get_block);
- 
- 	/*
-@@ -138,8 +173,7 @@ static ssize_t hfsplus_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
- 	 * blocks outside i_size. Trim these off again.
- 	 */
- 	if (unlikely(iov_iter_rw(iter) == WRITE && ret < 0)) {
--		loff_t isize = i_size_read(inode);
--		loff_t end = iocb->ki_pos + count;
-+		isize = i_size_read(inode);
- 
- 		if (end > isize)
- 			hfsplus_write_failed(mapping, end);
--- 
-2.53.0
+For instance, you could have a dirty bitmap be part of the shared memory and
+atomically update the relevant bit when it's ready to be written back.
 
+That kind of approach gives you total control over when and how things are
+written back.
 
+And avoids the known issues with writing to a MAP_SHARED file:
 
+* Terrible error handling - random SIGBUS's, network file systems in particular
+  are very problematic, writeback errors are hard to obtain (fsync(), msync()
+  needed to even get them) - note the tmpfs compromise mentioned above has this
+  issue too.
+
+* No control over writeback - Exactly your issue. This is what you're trying to
+  work around.
+
+* Writeback stalls - as above. The dirty writeback balancing bites there.
+
+* Reclaim - dirty pages can't be reclaimed until written back.
+
+* Fault overhead - every fresh dirtying write is a page fault (that's how dirty
+  tracking works) and you have that overhead throughout. Once written back it's
+  cleaned and causes the same cost again next time.
+
+The TL;DR is you're trying to manipulate logic whose whole job it is to
+writeback to not do that.
+
+So stop doing that :) and life is much easier.
+
+--
+Cheers, Lorenzo
