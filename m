@@ -1,171 +1,167 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E000349AA24;
-	Wed, 30 Sep 2026 15:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19364F30C4;
+	Wed, 30 Sep 2026 16:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790783262; cv=none; b=FZ99+ThlczXfY+veqRb6FLfflVwFZUg6j1cK5ShDvBFNLhnzMXGITQYi3JLeTuxqumqVg2xHSPb2D/BUP/uTHfIavVjmdkRnoG+pzqtEueIv5vtalHJPWgQqd8ZsNFL5EGBmAS+P5Qq0YJ1wMEG9R7K7k9tk1lRhBr7ju/rpvWk=
+	t=1790784073; cv=none; b=uT8Hhl3wEF/pvJRgbSWtbbRY0K2Z/ja/oYC9vmOA09K+LdozOFzehU9E0WK05SrHBBE7PqLztipHX0XHcIf/4SpVeuUBDnpCbT5PuChzHcjiMfbdp8PIrDRkSLNl1OqVj75DuqKdXzDTxwvO7KWWkn6Bdoy1HKC8JgUKikSuowE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790783262; c=relaxed/simple;
-	bh=QoFbyEjCsfTHVESMmjnO/0li1L1bptVdC8MzWR3qMXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OCfTtYwjtlVZA4YFEjgbBHlzJEkdWnStd38LYH9QMxAfwcVSHHkgo2BPfXvznXFpXYtRYBze5gGgrlDNAuUeVPnng/9SY1Myn0f6Ejbg/LWtBJCxcmbeIeceFAFJOOI1wsC6Mix30z/yrr7ZRw+Ig4yUapfMsqLKCSSRStGaB8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kbnbRj+I; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iezzI9hD; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hU2ovLJx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6O7KPyP1; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1790784073; c=relaxed/simple;
+	bh=MuL+BsXv9jg+AfDMvTo+/obDNRChxiy6Q++8oP7CP5c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BVY4B1AIyP+Cr80DlEly9VGN/IVtYpAM73w0vH49XUVmeiE0SWAGRAverYlF0N6v6FKyGjYUSvIBKMzQH4KI7hsJJBbZ6eT4ol2Nw1tPuc0tqcaN+CvcwgkUyoLE+GS/ZectrMMLPm5s4p/hiWD8NfQv1r9fWXdTf+Le1Vkn1DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=N64tj5/6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kbnbRj+I";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iezzI9hD";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hU2ovLJx";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6O7KPyP1"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 95ADD21D7D;
-	Wed, 30 Sep 2026 15:47:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790783251; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HWEmQKmmPhReb7fwoW/7UfQQaFElZ3XtfNvTjXF41Xg=;
-	b=kbnbRj+IixvFQRj5EbeHLkwt0DIzrLadWWg2fQURXb9XsCxuJtMMIE1cSeNJyjKFIhJ7LJ
-	hlYp83Gr12g6RUHz2UC0QbpqJiNkOwr76yiWJK/qS8LNWXDu6+nf9CIOBpb+OVT6u0Nevi
-	SnRYELKASvbSUYGFBkV6g4AmIB2tmCM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790783251;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HWEmQKmmPhReb7fwoW/7UfQQaFElZ3XtfNvTjXF41Xg=;
-	b=iezzI9hDHDK+9JKCZCutemhDTh9upiXYLoJVnBQb5eqTLU/4IQDD3SA0x7fICDlV70BWwe
-	wPXuJdS+DoqgmUBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=hU2ovLJx;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=6O7KPyP1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790783247; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HWEmQKmmPhReb7fwoW/7UfQQaFElZ3XtfNvTjXF41Xg=;
-	b=hU2ovLJxWFHhvaqHNLrf2Wpc9ib1CK87oDAEREZ1HBxWlOo48uMhpjr0F+H63IRjZRvWLM
-	3dshQ7T+dQtdr8GXIqybiubeCKBE3uOVgBrHhvpgTV/03LKIb3sRPuRv/ld74C0KjaPJ2b
-	iZSsnKvDEdBZu2R+7ET3ZcAL1DyO6hM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790783247;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HWEmQKmmPhReb7fwoW/7UfQQaFElZ3XtfNvTjXF41Xg=;
-	b=6O7KPyP16ybWmUhZROefAnyOZbGtbjGI5pDyZUGdtfOc41DjBd9+/B+KFPCo9wggqyhrrW
-	rTLFYjkyOwzdOYAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 455F713722;
-	Wed, 30 Sep 2026 15:47:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XJhHBg8vvWrFTQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 30 Sep 2026 15:47:27 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id B33E5A13AD; Wed, 30 Sep 2026 17:47:22 +0200 (CEST)
-Date: Wed, 30 Sep 2026 17:47:22 +0200
-From: Jan Kara <jack@suse.cz>
-To: Tejun Heo <tj@kernel.org>
-Cc: Liz Fong-Jones <lizf@honeycomb.io>, Jan Kara <jack@suse.cz>, 
-	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jens Axboe <axboe@kernel.dk>, Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ian@honeycomb.io
-Subject: Re: [PATCH v3 0/2] writeback: let foreign flushes reach dying cgwbs
-Message-ID: <7pajqtogz2c4hhedorbcb6ts4yr7pxevzwt2rubxsbwidiqs4t@u7lfwce5b3bf>
-References: <20260928-wb-dying-cgwb-flush-v3-0-e35374884667@honeycomb.io>
- <ffbfecce332d7f3a59f6533b6daa7f0c@kernel.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="N64tj5/6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E97851F000FF;
+	Wed, 30 Sep 2026 16:01:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790784065;
+	bh=HXfS6CCy1AvA7957FkLBSNz1qom5jIcbBcVFL0RmO5w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=N64tj5/6JMDThUYK1m+7Q7Xl6dl9jtKQTHEbiJWEV2nsuxE0Kzdj6rpIg3J6gMrxt
+	 w5p6YkLtjLDFBI19Ze6ndYZm3kVQNoOB7zI1dIGf1Zffgi8JaNxtxK/RlhmfvPr2EF
+	 t1XH3Nn936+wKN8x6htSILSJlCg15ZP0qsOk9rG4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	linux-fsdevel@vger.kernel.org,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.1 008/982] hfsplus: fix issue of direct writes beyond end-of-file
+Date: Wed, 30 Sep 2026 17:12:24 +0200
+Message-ID: <20260930152416.966689921@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260930152416.775402466@linuxfoundation.org>
+References: <20260930152416.775402466@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ffbfecce332d7f3a59f6533b6daa7f0c@kernel.org>
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 95ADD21D7D
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
 
-Hello!
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
-On Tue 29-09-26 09:32:01, Tejun Heo wrote:
-> On Tue, Sep 29, 2026 at 01:40:49AM +0000, Liz Fong-Jones wrote:
-> > 1.5s and 19.5s with it), because writing back the old wb's backlog took
-> > up to 27s and the sibling's foreign flushes reached the new wb in the
-> > meantime. Should foreign flushes also reach a replaced wb until it is
-> > clean, or is that not worth it for this case?
-> 
-> I don't think the old wb needs to stay reachable if the new wb takes
-> over its inodes. Instead of kicking writeback, can the takeover queue a
-> work item which switches all of the old wb's inodes to the new wb, like
-> cleanup_offline_cgwb() does for b_attached and b_dirty_time? The switch
-> carries the dirty and writeback page counts, so foreign flushes reach
-> the inodes through the new wb and nothing needs to be flushed right
-> away.
-> 
-> That would also mean switching inodes on b_dirty, b_io and b_more_io
-> while the flusher may be working on the old wb, which I'm not sure is
-> safe. Jan, would that be okay?
+------------------
 
-The catch with these things is always to make sure that things like sync(2)
-or sync_fs(2) don't miss inodes that are being switched because workers on
-different wbs work independently. But these days we have wb_switch_rwsem
-so switching of cgwb should be safe against racing sync_inodes_sb(). 
+From: Viacheslav Dubeyko <slava@dubeyko.com>
 
-Another possible concern is that writeback workers assume they are the sole
-party responsible for changing to which wb list inode is added, at least as
-long as I_SYNC_QUEUED flag is set. But again AFAICS
-process_inode_switch_wbs() takes care of all the locking properly and even
-currently, switches could happen while writeback is in progress when the
-inode's owner wb changes. So this should be fine.
+[ Upstream commit 5f63ac80aef2ee6bb58eab62e98c264774872da6 ]
 
-Finally, I'd be concerned about the performance of inode_do_switch_wbs()
-when we are switching many inodes with potentially many dirty folios. It's
-going to be a lot of stat item updates... With this I'm not sure how much
-it will matter in practice but since we'll burn those CPU cycles when doing
-writeback as well, probably it won't be too bad.
+The xfstests' test-case generic/729 fails with error:
 
-								Honza
+sudo ./check generic/729
+FSTYP         -- hfsplus
+PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.0.0-rc1+ #36 SMP PREEMPT_DYNAMIC Fri Apr 17 12:40:51 PDT 2026
+MKFS_OPTIONS  -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+
+generic/729  23s ... [failed, exit status 1]- output mismatch
+
+mmap-rw-fault: /mnt/test/mmap-rw-fault.tmp: Input/output error
+
+The hfsplus_get_block() only allows creating the next
+sequential block. It returns -EIO for direct writes
+beyond EOF. This patch waits for any in-flight DIO on the inode
+to finish. Then, it extends the file by calling
+generic_cont_expand_simple() with the goal to guarantee
+that blockdev_direct_IO() finds all needed blocks
+already reachable sequentially. And, finally, it flushes and
+invalidates the DIO range again so the page cache is clean
+before the direct write begins.
+
+sudo ./check generic/729
+FSTYP         -- hfsplus
+PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.0.0-rc1+ #40 SMP PREEMPT_DYNAMIC Thu Apr 16 15:41:03 PDT 2026
+MKFS_OPTIONS  -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+
+generic/729  23s ...  32s
+Ran: generic/729
+Passed all 1 tests
+
+Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/210
+cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+cc: Yangtao Li <frank.li@vivo.com>
+cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Link: https://lore.kernel.org/r/20260417214940.2735557-2-slava@dubeyko.com
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/hfsplus/inode.c | 38 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
+
+diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
+index f065015f237c4..caf36ed7f590a 100644
+--- a/fs/hfsplus/inode.c
++++ b/fs/hfsplus/inode.c
+@@ -129,9 +129,44 @@ static ssize_t hfsplus_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
+ 	struct file *file = iocb->ki_filp;
+ 	struct address_space *mapping = file->f_mapping;
+ 	struct inode *inode = mapping->host;
++	loff_t isize;
+ 	size_t count = iov_iter_count(iter);
++	loff_t end = iocb->ki_pos + count;
+ 	ssize_t ret;
+ 
++	/*
++	 * The hfsplus_get_block() only allows creating the next sequential block.
++	 * For direct writes beyond EOF, expand the file first.
++	 */
++	if (iov_iter_rw(iter) == WRITE && iocb->ki_pos > i_size_read(inode)) {
++		loff_t start_off, end_off;
++		loff_t start_page, end_page;
++
++		isize = i_size_read(inode);
++
++		/*
++		 * Wait for any in-flight DIO on this inode to finish before
++		 * calling generic_cont_expand_simple().
++		 */
++		inode_dio_wait(inode);
++
++		ret = generic_cont_expand_simple(inode, iocb->ki_pos);
++		if (ret)
++			return ret;
++
++		start_off = isize;
++		end_off = (end > 0) ? end - 1 : end;
++
++		ret = filemap_write_and_wait_range(mapping, start_off, end_off);
++		if (ret)
++			return ret;
++
++		start_page = start_off >> PAGE_SHIFT;
++		end_page = end_off >> PAGE_SHIFT;
++
++		invalidate_inode_pages2_range(mapping, start_page, end_page);
++	}
++
+ 	ret = blockdev_direct_IO(iocb, inode, iter, hfsplus_get_block);
+ 
+ 	/*
+@@ -139,8 +174,7 @@ static ssize_t hfsplus_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
+ 	 * blocks outside i_size. Trim these off again.
+ 	 */
+ 	if (unlikely(iov_iter_rw(iter) == WRITE && ret < 0)) {
+-		loff_t isize = i_size_read(inode);
+-		loff_t end = iocb->ki_pos + count;
++		isize = i_size_read(inode);
+ 
+ 		if (end > isize)
+ 			hfsplus_write_failed(mapping, end);
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.53.0
+
+
+
