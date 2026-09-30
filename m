@@ -1,416 +1,242 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011039.outbound.protection.outlook.com [52.101.65.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1284B51DE12;
-	Wed, 30 Sep 2026 17:34:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790789654; cv=none; b=VqaMSHoDqbQOQq2ehucMqgaws36WZZpDaHWBYg++AKfh4n0+ARcc6N8VsB0iCpLjsJIXs9NKm4hsCnSboj6APv4AeOsXnrNUEVAdlV4vDxLAaHm9KGJJov/8CIbsC/wIvfvWJ1v+sOtw8GyU14UfoBVo+ForeuVsWv1RewIg2vQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790789654; c=relaxed/simple;
-	bh=pVUcs+Ki8/uKhgINGg5Uph4+6xXPzSyz4Vy8wBzH7cM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eYjPyIujW3MoMEnNHnxYVqzHaBDpGwtKpemiAUfaGIwgjnPJRDkEY271RyhlQXnAL8PF+hu/63xRuk076nQaxrIBsaoO59rPKJSbIT955uYL2XIxbiW/z6IVw4wp3F2xY/iYW+ADhKm93hQ+gLLK1cupuuw6JvnLfpVV2Mdc5co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l7oJs4we; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C3951FCC8;
+	Wed, 30 Sep 2026 17:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.39
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790790076; cv=fail; b=byFItsMhAEfHEu0K6KByRh4L6y/YwewryC6ltk8kRqqsERkBcjz3Nz30H9ZJSFAh0sr6z/IjGe1C2tG4aSEKRBB+ypsaon5nTvsgu3DSxREmKfUGuPIsC4pSE+Njy35O+whWIy+UKJLiLxOvj9nLa+9pFNLJTZoSNuxeP0Oa5bA=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790790076; c=relaxed/simple;
+	bh=0fRGPtoQ+NQVLfyjBT6ARAJLDTGEzmajzQsOs5jGVSY=;
+	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=In4wVSecJNKGSbOC3GF23f8a8dcuPcD6YCW9AynOD2+1VbDWW7cYPt27kMaqzYnbP/eLaEpb0fUPBhZXCLEl1BHjOdlAE4Zq2ok19PAPB7qXt+YhNvN4gaBW8tBpd8cEPOre2uFUQzhIm+8PwJ7qTsP9cqnpYTqNFmyoKmauosE=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=oDOAon48; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=oDOAon48; arc=fail smtp.client-ip=52.101.65.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l7oJs4we"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6611F000FF;
-	Wed, 30 Sep 2026 17:34:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790789652;
-	bh=MgI5deAp1ygRF7EE2XWeZ0wZSufKwdA7+R1oX3ZhB6s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=l7oJs4we1Zn3qfHNMDiVo0oUNeVOxdaUGY43WZHgQ3u6gfpUDqwfi8vFl/y1Nh3fH
-	 u/+t0bsIvdJGx3SEoMFKY7BNpIU2OfGTXVkp/BXDOeDNfj6T/pH5XoB5BIn0Tduwos
-	 9I2ovesNcqVXcYcRBinACcp4ZtwgsI+pBdT3Sp18XEaapIeXY/twyg06dmcqk0km1V
-	 P+MAfKE9f2ErkhHXYJLw/gvdk/Lcpbt/gJrVflh1marw/7bB7H9kFo5mOBajJt5eGn
-	 hNWU3oKBTq8N/LhnG5N5FcZPRZXA6leWleBCutNNm1YTJoo0M1MHUM/xPx2S2zZM8a
-	 s+AZUZli5aaBQ==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org
-Cc: David Howells <dhowells@redhat.com>,
-	Tom Talpey <tom@talpey.com>,
-	"Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	linux-cifs@vger.kernel.org,
-	netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	Steve French <stfrench@microsoft.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.18.y 1/3] cifs: Remove the RFC1002 header from smb_hdr
-Date: Wed, 30 Sep 2026 13:34:07 -0400
-Message-ID: <20260930173409.3642584-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026092926-hedging-absolve-77a2@gregkh>
-References: <2026092926-hedging-absolve-77a2@gregkh>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="oDOAon48";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="oDOAon48"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=rnmT8kao+W+92vbrU+1X5YqYwSCJzV9dgvDMeKGltPUdCc1kSpS2h9VyOlJAmEFDk4zZOYgww7dk/oAvjjC+lr2TuM3Q3ZGbytMliClaT1mhu2m49Pzl2SvKZCLGfuINNZaFj0Gso9da3LKabAV8ht7DBcl5qoMQfk+Lu5yetWiq64hTfH1k1UUQVOa+zjfgovW8unB7me7tLvbHYVz8/phB5xoaocpaqYJDc+E1JI99XNl9aT2tlmyJTMz3GSTpNjTz+dm068OX1V1zSFb1HLq6kQOucFGAipSET9MehkMYZycMrIFWY4HusmPr5B9OYBiw6UJEdVmLkUdXXGM/2Q==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6Dj3mza0d7acfswRMgXyXAp0FLYQUvs4v9I7WURo1EM=;
+ b=wZiqYr0SPoLlLzTjnKBNL1ao93XBR+kDf0TbPItLGPBZpPta+vJE6OCxsbb2TSfHgBXc4Z1K+5qs+tVD+xHySY7EwRqQO9e/tNVi0pfozQaXaVZqPhOJ08adNn/j3OXrHsP3MRz0K4QN4mNdIM20RsEO9t+MUbX5dIHNeMJqugSVTonGmQkmZIcgTGLvkDRjBzCEfOxWe6HGI323vtIE2v6yTqIpwD9nl65cPNimpPzHs0KEZmIJF2CTxruHBqWHdZkZq64+J8TSQfG1owQzKxs3CfM/f7lK5E2z2WquCAseXpjGyQj1BkpxrlCTs7lk874q5CD4rTsu/As6oGfawA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=linux-foundation.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6Dj3mza0d7acfswRMgXyXAp0FLYQUvs4v9I7WURo1EM=;
+ b=oDOAon48OeBS6pTAWmIZUiQfOFqJqq0xC/o9Tw0s5gOjXQnDoL+hPmSOeIkUgQpL+YkpspeF+nomKaA5eICb+l8wbbqFVNLMc+h2jYeZCLL8eWRyN5teXiYFyGCxF3PiWxHeWL27e/t/Lx4Wc8Ar2gbhQeb+jWPPxZ9fx1sWosc=
+Received: from VI1P189CA0011.EURP189.PROD.OUTLOOK.COM (2603:10a6:802:2a::24)
+ by DU5PR08MB10677.eurprd08.prod.outlook.com (2603:10a6:10:529::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.14; Wed, 30 Sep
+ 2026 17:41:08 +0000
+Received: from MI3PEPF00008485.eurprd02.prod.outlook.com
+ (2603:10a6:802:2a:cafe::7d) by VI1P189CA0011.outlook.office365.com
+ (2603:10a6:802:2a::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.14 via Frontend Transport; Wed,
+ 30 Sep 2026 17:41:08 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ MI3PEPF00008485.mail.protection.outlook.com (10.167.240.132) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.14
+ via Frontend Transport; Wed, 30 Sep 2026 17:41:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MUZQb3FAg7yfr2Gmy65jr58i8W7Vn13ARnWdNaUoxX4nsvwmwZAYBAvK52SM7RPBMA2jLKTeQjot5JDkgVcSPC0SS8AwTnJk98aLdlWmxhB5rSXOtR9ObN/iQuVdnX9h+nqy3v5PNsCyJlHIxrBuL8X0wN46uF7tSgaiHR6juqe3StVFe6EsN4NDOC1bxNmKJXhedpIAypEaraZX1M3DGRFk242WiBT7OFtCCP7JdLl0ExLB8cgNGhE/KrUI/Tt0BztagRXiX1POKo2JsuG+t/qydQMUn72csR4mKdNUwNAWwKN7iFmH3KJGd9CWc3hTXN0c/p7FDr7kHl8F0WvnqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6Dj3mza0d7acfswRMgXyXAp0FLYQUvs4v9I7WURo1EM=;
+ b=VLFluQFA4wUPvgWQqHMQT8kDLgBsVRnxlZBM2UP9tj/aZn2yC8vHyHQ6aCyngsOl2jw1YVXg2vvUYrtRFUOjt2qSKRMJRLXwcLedBPPi/rSTLR6a58omQe6iS0Wy2Qy7j+InZjL+X7H7Nsw8dFepQKnkClXmiELQhiy59cz3a6X+33l1HbEA3fUL/r6kGULXPlrpsGNC4yAIchLd9ZWe9jIqgL+PG4kxLz0UfXY+FTQZGUyBohS33RTOyu6lSBqOGBis73hp3IXIcD6+/uVStswqXKLNKazfxIMVc6Wv1dgJGlfQ/NNyoOrvBOlL+Qg2X0od6iYBNk9IrjA4zDEiHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6Dj3mza0d7acfswRMgXyXAp0FLYQUvs4v9I7WURo1EM=;
+ b=oDOAon48OeBS6pTAWmIZUiQfOFqJqq0xC/o9Tw0s5gOjXQnDoL+hPmSOeIkUgQpL+YkpspeF+nomKaA5eICb+l8wbbqFVNLMc+h2jYeZCLL8eWRyN5teXiYFyGCxF3PiWxHeWL27e/t/Lx4Wc8Ar2gbhQeb+jWPPxZ9fx1sWosc=
+Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
+ signed) header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from VI1PR08MB3421.eurprd08.prod.outlook.com (2603:10a6:803:80::16)
+ by AS8PR08MB9840.eurprd08.prod.outlook.com (2603:10a6:20b:613::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.7; Wed, 30 Sep
+ 2026 17:40:33 +0000
+Received: from VI1PR08MB3421.eurprd08.prod.outlook.com
+ ([fe80::e079:6bd:fbe0:89b4]) by VI1PR08MB3421.eurprd08.prod.outlook.com
+ ([fe80::e079:6bd:fbe0:89b4%3]) with mapi id 15.21.0472.012; Wed, 30 Sep 2026
+ 17:40:33 +0000
+Message-ID: <63db3469-82d0-4997-9bcf-31bb3aa59deb@arm.com>
+Date: Wed, 30 Sep 2026 18:40:28 +0100
+User-Agent: Mozilla Thunderbird
+Cc: usama.anjum@arm.com, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Xu Xin <xu.xin16@zte.com.cn>,
+ Chengming Zhou <chengming.zhou@linux.dev>, Jann Horn <jannh@google.com>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Pedro Falcato <pfalcato@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Rik van Riel <riel@surriel.com>,
+ Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
+ Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
+ Youngjun Park <youngjun.park@lge.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ Emil Tsalapatis <emil@etsalapatis.com>,
+ Ihor Solodrai <ihor.solodrai@linux.dev>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ James Clark <james.clark@linaro.org>, SJ Park <sj@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
+ <nao.horiguchi@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, damon@lists.linux.dev,
+ kasan-dev@googlegroups.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v3 3/9] mm: use hw_pte_t for generic PTE table storage
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+References: <20260922-pte0-v3-0-5670b8cb9059@arm.com>
+ <20260922-pte0-v3-3-5670b8cb9059@arm.com>
+ <xzlxdkrjilskjcagnl33eed7ijxrgfhoalmmmq5ks3wgjmkkhi@zchtxpr2amff>
+From: Muhammad Usama Anjum <usama.anjum@arm.com>
+Content-Language: en-US
+In-Reply-To: <xzlxdkrjilskjcagnl33eed7ijxrgfhoalmmmq5ks3wgjmkkhi@zchtxpr2amff>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P265CA0267.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:37c::7) To VI1PR08MB3421.eurprd08.prod.outlook.com
+ (2603:10a6:803:80::16)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-TrafficTypeDiagnostic:
+	VI1PR08MB3421:EE_|AS8PR08MB9840:EE_|MI3PEPF00008485:EE_|DU5PR08MB10677:EE_
+X-MS-Office365-Filtering-Correlation-Id: f654edf1-1795-4e27-6e0f-08df1f1a0268
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|366016|7416014|376014|23010399003|1800799024|6133799003|22082099003|18002099003|10067099003|56012099006|11063799006|3023799007|4143699003;
+X-Microsoft-Antispam-Message-Info-Original:
+ oGI7muJrlZpwF/CpDHEzSDJCtzoqS/F3W423126M4B7XVwwmWQMfuelL6Drv404qx12ulnjM4McoRoH2NEquKYER7GCiXUBW2yAtyKLG5ZfBjfUL99P38usNcVC0HjNO/EWQlAlszKFgqK3QjtoK4jRiTZR7h6q3UCvMmEmJj+Zc9flQRzesGOjw4Bjzlc3JwakYyyuP81YRfDZjr7WXaL/YBEk7WP5Zx6XX8bST7EL+YkcQsAL+jYauBpPQJMJTxHW0+4D6r28jU7hFISb4k5fLhdxsCJMhvjoqyCScUWK2XexS1WeyCKHxbXAiR9Y4lzTTl3bM0wOUObWbYPGoseq1+bd9V+gDvz44n9Z4sZWuclTXfJ797kFqNJ/dPY0hlLRBBtPFczXpxW4Jrwo6fhrvbUxlTKhMYweDNyxCG4hMOWqh3Pr0y8Cb31TKDgfZ4nTLwfT0q+OdTJKI+g3t2OHVEynSCqM+0eNK6RhXhg9pN4QLKVzZrNL/3bJPKMPULVkmlZhCDxhH3d2glFtWSxtnJJjOqVwGHoiEvWxeYzo9pWCj1RGSYhinwWMWpXcHfT1Ts1H82zA8m24Olqxekvt6pCSivv9BdoOTXhQuY5Z51sxkdkvXU/UY5OHdGsaD/0ljbuXWDhq2J61EwuOBFAIVLiLOUXMAB0as2Shst3Q=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR08MB3421.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(23010399003)(1800799024)(6133799003)(22082099003)(18002099003)(10067099003)(56012099006)(11063799006)(3023799007)(4143699003);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ ZRh/vaUJ8vPLDwbrpqZLGWjxaIwOvyvt14r+gVvGKmgPPwK2TDTTLFe3d41eOrldXN2Fh6Rlgp30is4w/0Ee+/Iz707w8ulVg8jMkeJmQ9QgGwFHZ5aPzws0sX9jQQk+GVEI8LwKndr1/707rxzO8hbJd1HDaxV8NCyM+pYvcnxP1HNJHpEykUsZ0nxE9BGYRfQ1OVtCbOkU9xW6FoIiOOaiHUJhQJUJf98vL796fhWLRMJ5tWyDNUEy39UrG+G97sssgwv7emKfpTstqUBx5b83Q5zktpXhxsiXlgmkTb7hcUBoY38o6Myeb2CjQybUiRxo5I3mlgrYuef+nXXc+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9840
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ MI3PEPF00008485.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	5a3f536c-6b22-4217-dabc-08df1f19ed82
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|1800799024|23010399003|14060799003|35042699022|36860700016|6133799003|22082099003|18002099003|3023799007|56012099006|10067099003|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	lKEksvLE37fjc2mwiNSXeiH0ULDoLEwpGCyPCthjhujizaV0pVRBxx78QRZ1fDXyKhJ3hY09i2N+AXkOtyC7aoof15gnXkUqwBXrDxDS/qn45IYL5Y5dFNmhnQD6GBKvj3n/bNRgneKt66YF7BZ48BfttEHtgm8PzSta57upzE04JYeWzPqXitdBqKaGDQ3qRkvq2/oHFq3SfONA7s8G05F9SDsA596dv6X1UK9iEH/Tlrh0YIO7+nvJu47da4GjBXFzkHwdqG05wYNyPTMJZHIAyMxCyXUtPiAIgP7A/TU4YG/zaavEXXd2XLX8H6il4ABjnPNJNSIjsqiWv0h1XTGMmT2TPU+3piIhyBgwnRhS7JwtT/8R/wYew/0OqSmOEogGVWlgGO+Km2Apgo3EGt0PQaonNACOL/0OaLaRGYyH3Kovf29vAW6Ylyod1VI3x8pjOQWM+4aIAAbmTm9Zu4w6O4kEKvAXbwF3Cg01zCGDtXy9+vU27Da2W2rEHkbG7NO3z/DwJZO0q8h5FwY0ZNgKvdt0PhDAWpNU4+uSalGZCzhNYbII/7qRhGdLWgM516z4jfQhafhNJKNGPrFEr2t15IWwpQMC8AxM6HQavlpzjxhtfiGB/jQze0YLTwRu+V0X1cf85Yr6Os9y6not/T4iH/8oKIQRfSspcLC0IturY2rxEY+4W++8FzKLPUMkRYaHzDHnYr+3VY+t7SIu6Q==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(1800799024)(23010399003)(14060799003)(35042699022)(36860700016)(6133799003)(22082099003)(18002099003)(3023799007)(56012099006)(10067099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	shaQxYrWuv0/HunaC8qXu8DHPkm5VaxjmfyI4Nk4p8VJB+fstynyA1uZ+UA19aEaaljuD9vLf0nUSaDJgSjOMRNOhtcd52Yd6OVG7kIP4ZUyFGyDc0O8fh+m53bbPz2aAJwLuWrJmseTOcYd34e1kD8nlzHqPfb1xqiXCQKcEEpTPrwBQ5StMGs1YaZ4xFCcBsNs8Tlvqk3ch+pVUCQqWh81hROJF70SSeybACbI7TnGdR2QD0Qn4mUvPOaVYgYTiREvbv47Wp7mbkz6aw2ReTn94zGFNrxRpyvf327epAN5j82rEPKp25y901lLPiel0MHNUzqu8VBIHdkm2KE/CccuYNt5avoouA+7tiNSMWwY9GI5G9AK5zJJXne97UcTBqV8XoiIlB02gF4JGujHgDpEczv0mxrBIv+e8VXBlC7CXhMwxZmNXUQHMGRMCSKg
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 17:41:07.8344
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f654edf1-1795-4e27-6e0f-08df1f1a0268
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MI3PEPF00008485.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU5PR08MB10677
 
-From: David Howells <dhowells@redhat.com>
+On 30/09/2026 5:35 am, Anshuman Khandual wrote:
+> On Tue, Sep 22, 2026 at 06:12:31PM +0100, Muhammad Usama Anjum wrote:
+>> Generic page-table interfaces use pte_t * for both pointers to PTE table
+>> storage and pointers to software PTE values. Convert the generic
+>> declarations and their MM, fs, and kernel users together so parameters,
+>> return types, callbacks, and local pointers that designate table storage
+>> use hw_pte_t *.
+>>
+>> Include linux/pgtable_types.h from headers that expose the converted
+>> interfaces. It continues to provide pgprot_t to vmalloc.h through
+>> asm/page.h.
+>>
+>> Keep software PTE values as pte_t and retain pte_t * for value interfaces.
+>>
+>> No architecture selects ARCH_HAS_HW_PTE_T at this point, so hw_pte_t
+>> remains an alias of pte_t and this changes the interface vocabulary without
+>> changing representation or behavior.
+>>
+>> Most of this mechanical conversion was generated with the Coccinelle script
+>> included in the cover letter. The script deliberately ignores pte_t *
+> 
+> Just wondering - should this Coccinelle script that converted all these
+> instances be saved inside ./scripts/coccinelle/ for future referene.
 
-[ Upstream commit 83bfbd0bb9025f98fa62b44f93bd67466773d1db ]
+Thanks for the suggestion. This script was written for this one-time conversion
+and requires manual review to distinguish HW PTE table pointers from SW PTE
+pointers. After the conversion, it would not be useful.
+(Maybe other arch can use it to do their conversion. But they can always
+copy script from the series)
 
-Remove the RFC1002 header from struct smb_hdr as used for SMB-1.0.  This
-simplifies the SMB-1.0 code by simplifying a lot of places that have to add
-or subtract 4 to work around the fact that the RFC1002 header isn't really
-part of the message and the base for various offsets within the message is
-from the base of the smb_hdr, not the RFC1002 header.
-
-Further, clean up a bunch of places that require an extra kvec struct
-specifically pointing to the RFC1002 header, such that kvec[0].iov_base
-must be exactly 4 bytes before kvec[1].iov_base.
-
-This allows the header preamble size stuff to be removed too.
-
-The size of the request and response message are then handed around either
-directly or by summing the size of all the iov_len members in the kvec
-array for which we have a count.
-
-Also, this simplifies and cleans up the common transmission and receive
-paths for SMB1 and SMB2/3 as there no longer needs to be special handling
-casing for SMB1 messages as the RFC1002 header is now generated on the fly
-for SMB1 as it is for SMB2/3.
-
-Signed-off-by: David Howells <dhowells@redhat.com>
-Reviewed-by: Tom Talpey <tom@talpey.com>
-Reviewed-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
-cc: Shyam Prasad N <sprasad@microsoft.com>
-cc: linux-cifs@vger.kernel.org
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Steve French <stfrench@microsoft.com>
-
-[ Stable prerequisite adaptation for 8f6f8a48399f82f4a83f7b9f25b9707e0062a4f9:
-  Retain only the midQ-to-mid rename in compound_send_recv() from the
-  upstream change. Drop the RFC1002/SMB1 wire-layout conversion: stable
-  has separate header definitions, moved transaction/tree-connect code,
-  and existing SMB1 fixes that the target does not need to disturb.
-
-  Also adapt the existing delete_mid() declaration, definition and all
-  callers to take the server explicitly, as required by the unchanged
-  target patch. Use the same server that owns each MID queue; retain the
-  stable MID server pointer, kref release path and SMB1 framing. This
-  supplies the required interface without the broader upstream server
-  pointer removal. No functions are added. ]
-
-Remove the RFC1002 header from struct smb_hdr as used for SMB-1.0.  This
-simplifies the SMB-1.0 code by simplifying a lot of places that have to add
-or subtract 4 to work around the fact that the RFC1002 header isn't really
-part of the message and the base for various offsets within the message is
-from the base of the smb_hdr, not the RFC1002 header.
-
-Further, clean up a bunch of places that require an extra kvec struct
-specifically pointing to the RFC1002 header, such that kvec[0].iov_base
-must be exactly 4 bytes before kvec[1].iov_base.
-
-This allows the header preamble size stuff to be removed too.
-
-The size of the request and response message are then handed around either
-directly or by summing the size of all the iov_len members in the kvec
-array for which we have a count.
-
-Also, this simplifies and cleans up the common transmission and receive
-paths for SMB1 and SMB2/3 as there no longer needs to be special handling
-casing for SMB1 messages as the RFC1002 header is now generated on the fly
-for SMB1 as it is for SMB2/3.
-
-cc: Shyam Prasad N <sprasad@microsoft.com>
-cc: linux-cifs@vger.kernel.org
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-
-[ sashal: Reduced backport -- upstream 83bfbd0bb9025 touches 19 file(s), this
-  backport carries 4. Not backported here:
-  fs/smb/client/cifs_debug.c
-  fs/smb/client/cifs_debug.h
-  fs/smb/client/cifsencrypt.c
-  fs/smb/client/cifsglob.h
-  fs/smb/client/cifspdu.h
-  fs/smb/client/cifssmb.c
-  fs/smb/client/cifstransport.c
-  fs/smb/client/connect.c
-  ... and 9 more
-  This note is generated from the file lists only; see the resolution record
-  for the reasoning. ]
-
-Stable-dep-of: 8f6f8a48399f ("smb: client: delete compound mids on send failure before unlock")
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- fs/smb/client/cifsproto.h     |  2 +-
- fs/smb/client/smb1transport.c | 14 ++++----
- fs/smb/client/smb2transport.c |  2 +-
- fs/smb/client/transport.c     | 62 +++++++++++++++++------------------
- 4 files changed, 40 insertions(+), 40 deletions(-)
-
-diff --git a/fs/smb/client/cifsproto.h b/fs/smb/client/cifsproto.h
-index 325408073888e..bde609041433d 100644
---- a/fs/smb/client/cifsproto.h
-+++ b/fs/smb/client/cifsproto.h
-@@ -84,7 +84,7 @@ extern char *cifs_build_path_to_root(struct smb3_fs_context *ctx,
- 				     struct cifs_tcon *tcon,
- 				     int add_treename);
- char *cifs_build_devname(char *nodename, const char *prepath);
--extern void delete_mid(struct mid_q_entry *mid);
-+extern void delete_mid(struct TCP_Server_Info *server, struct mid_q_entry *mid);
- void __release_mid(struct kref *refcount);
- extern void cifs_wake_up_task(struct mid_q_entry *mid);
- extern int cifs_handle_standard(struct TCP_Server_Info *server,
-diff --git a/fs/smb/client/smb1transport.c b/fs/smb/client/smb1transport.c
-index 419d8e706eb5b..806c0d1120d80 100644
---- a/fs/smb/client/smb1transport.c
-+++ b/fs/smb/client/smb1transport.c
-@@ -221,7 +221,7 @@ cifs_setup_request(struct cifs_ses *ses, struct TCP_Server_Info *ignored,
- 		return ERR_PTR(rc);
- 	rc = cifs_sign_rqst(rqst, ses->server, &mid->sequence_number);
- 	if (rc) {
--		delete_mid(mid);
-+		delete_mid(ses->server, mid);
- 		return ERR_PTR(rc);
- 	}
- 	return mid;
-@@ -374,7 +374,7 @@ SendReceive(const unsigned int xid, struct cifs_ses *ses,
- 	memcpy(out_buf, midQ->resp_buf, *pbytes_returned + 4);
- 	rc = cifs_check_receive(midQ, server, 0);
- out:
--	delete_mid(midQ);
-+	delete_mid(server, midQ);
- 	add_credits(server, &credits, 0);
- 
- 	return rc;
-@@ -467,7 +467,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 
- 	rc = cifs_sign_smb(in_buf, server, &midQ->sequence_number);
- 	if (rc) {
--		delete_mid(midQ);
-+		delete_mid(server, midQ);
- 		cifs_server_unlock(server);
- 		return rc;
- 	}
-@@ -482,7 +482,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 	cifs_server_unlock(server);
- 
- 	if (rc < 0) {
--		delete_mid(midQ);
-+		delete_mid(server, midQ);
- 		return rc;
- 	}
- 
-@@ -507,7 +507,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 			   blocking lock to return. */
- 			rc = send_cancel(server, &rqst, midQ);
- 			if (rc) {
--				delete_mid(midQ);
-+				delete_mid(server, midQ);
- 				return rc;
- 			}
- 		} else {
-@@ -519,7 +519,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 			/* If we get -ENOLCK back the lock may have
- 			   already been removed. Don't exit in this case. */
- 			if (rc && rc != -ENOLCK) {
--				delete_mid(midQ);
-+				delete_mid(server, midQ);
- 				return rc;
- 			}
- 		}
-@@ -558,7 +558,7 @@ SendReceiveBlockingLock(const unsigned int xid, struct cifs_tcon *tcon,
- 	memcpy(out_buf, midQ->resp_buf, *pbytes_returned + 4);
- 	rc = cifs_check_receive(midQ, server, 0);
- out:
--	delete_mid(midQ);
-+	delete_mid(server, midQ);
- 	if (rstart && rc == -EACCES)
- 		return -ERESTARTSYS;
- 	return rc;
-diff --git a/fs/smb/client/smb2transport.c b/fs/smb/client/smb2transport.c
-index 7483b29367d5a..5bb1ef03bd43a 100644
---- a/fs/smb/client/smb2transport.c
-+++ b/fs/smb/client/smb2transport.c
-@@ -801,7 +801,7 @@ smb2_setup_request(struct cifs_ses *ses, struct TCP_Server_Info *server,
- 	rc = smb2_sign_rqst(rqst, server);
- 	if (rc) {
- 		revert_current_mid_from_hdr(server, shdr);
--		delete_mid(mid);
-+		delete_mid(server, mid);
- 		return ERR_PTR(rc);
- 	}
- 
-diff --git a/fs/smb/client/transport.c b/fs/smb/client/transport.c
-index 4da3d62b6481e..0d55714116a4b 100644
---- a/fs/smb/client/transport.c
-+++ b/fs/smb/client/transport.c
-@@ -119,14 +119,14 @@ void __release_mid(struct kref *refcount)
- }
- 
- void
--delete_mid(struct mid_q_entry *mid)
-+delete_mid(struct TCP_Server_Info *server, struct mid_q_entry *mid)
- {
--	spin_lock(&mid->server->mid_queue_lock);
-+	spin_lock(&server->mid_queue_lock);
- 	if (mid->deleted_from_q == false) {
- 		list_del_init(&mid->qhead);
- 		mid->deleted_from_q = true;
- 	}
--	spin_unlock(&mid->server->mid_queue_lock);
-+	spin_unlock(&server->mid_queue_lock);
- 
- 	release_mid(mid);
- }
-@@ -721,7 +721,7 @@ cifs_call_async(struct TCP_Server_Info *server, struct smb_rqst *rqst,
- 	if (rc < 0) {
- 		revert_current_mid(server, mid->credits);
- 		server->sequence_number -= 2;
--		delete_mid(mid);
-+		delete_mid(server, mid);
- 	}
- 
- 	cifs_server_unlock(server);
-@@ -864,7 +864,7 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 		   int *resp_buf_type, struct kvec *resp_iov)
- {
- 	int i, j, optype, rc = 0;
--	struct mid_q_entry *midQ[MAX_COMPOUND];
-+	struct mid_q_entry *mid[MAX_COMPOUND];
- 	bool cancelled_mid[MAX_COMPOUND] = {false};
- 	struct cifs_credits credits[MAX_COMPOUND] = {
- 		{ .value = 0, .instance = 0 }
-@@ -930,35 +930,35 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 	}
- 
- 	for (i = 0; i < num_rqst; i++) {
--		midQ[i] = server->ops->setup_request(ses, server, &rqst[i]);
--		if (IS_ERR(midQ[i])) {
-+		mid[i] = server->ops->setup_request(ses, server, &rqst[i]);
-+		if (IS_ERR(mid[i])) {
- 			revert_current_mid(server, i);
- 			for (j = 0; j < i; j++)
--				delete_mid(midQ[j]);
-+				delete_mid(server, mid[j]);
- 			cifs_server_unlock(server);
- 
- 			/* Update # of requests on wire to server */
- 			for (j = 0; j < num_rqst; j++)
- 				add_credits(server, &credits[j], optype);
--			return PTR_ERR(midQ[i]);
-+			return PTR_ERR(mid[i]);
- 		}
- 
--		midQ[i]->mid_state = MID_REQUEST_SUBMITTED;
--		midQ[i]->optype = optype;
-+		mid[i]->mid_state = MID_REQUEST_SUBMITTED;
-+		mid[i]->optype = optype;
- 		/*
- 		 * Invoke callback for every part of the compound chain
- 		 * to calculate credits properly. Wake up this thread only when
- 		 * the last element is received.
- 		 */
- 		if (i < num_rqst - 1)
--			midQ[i]->callback = cifs_compound_callback;
-+			mid[i]->callback = cifs_compound_callback;
- 		else
--			midQ[i]->callback = cifs_compound_last_callback;
-+			mid[i]->callback = cifs_compound_last_callback;
- 	}
- 	rc = smb_send_rqst(server, num_rqst, rqst, flags);
- 
- 	for (i = 0; i < num_rqst; i++)
--		cifs_save_when_sent(midQ[i]);
-+		cifs_save_when_sent(mid[i]);
- 
- 	if (rc < 0) {
- 		revert_current_mid(server, num_rqst);
-@@ -1001,23 +1001,23 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 	spin_unlock(&ses->ses_lock);
- 
- 	for (i = 0; i < num_rqst; i++) {
--		rc = wait_for_response(server, midQ[i]);
-+		rc = wait_for_response(server, mid[i]);
- 		if (rc != 0)
- 			break;
- 	}
- 	if (rc != 0) {
- 		for (; i < num_rqst; i++) {
- 			cifs_server_dbg(FYI, "Cancelling wait for mid %llu cmd: %d\n",
--				 midQ[i]->mid, le16_to_cpu(midQ[i]->command));
--			send_cancel(server, &rqst[i], midQ[i]);
--			spin_lock(&midQ[i]->mid_lock);
--			midQ[i]->wait_cancelled = true;
--			if (midQ[i]->callback) {
--				midQ[i]->callback = cifs_cancelled_callback;
-+				 mid[i]->mid, le16_to_cpu(mid[i]->command));
-+			send_cancel(server, &rqst[i], mid[i]);
-+			spin_lock(&mid[i]->mid_lock);
-+			mid[i]->wait_cancelled = true;
-+			if (mid[i]->callback) {
-+				mid[i]->callback = cifs_cancelled_callback;
- 				cancelled_mid[i] = true;
- 				credits[i].value = 0;
- 			}
--			spin_unlock(&midQ[i]->mid_lock);
-+			spin_unlock(&mid[i]->mid_lock);
- 		}
- 	}
- 
-@@ -1025,36 +1025,36 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 		if (rc < 0)
- 			goto out;
- 
--		rc = cifs_sync_mid_result(midQ[i], server);
-+		rc = cifs_sync_mid_result(mid[i], server);
- 		if (rc != 0) {
- 			/* mark this mid as cancelled to not free it below */
- 			cancelled_mid[i] = true;
- 			goto out;
- 		}
- 
--		if (!midQ[i]->resp_buf ||
--		    midQ[i]->mid_state != MID_RESPONSE_READY) {
-+		if (!mid[i]->resp_buf ||
-+		    mid[i]->mid_state != MID_RESPONSE_READY) {
- 			rc = -EIO;
- 			cifs_dbg(FYI, "Bad MID state?\n");
- 			goto out;
- 		}
- 
--		buf = (char *)midQ[i]->resp_buf;
-+		buf = (char *)mid[i]->resp_buf;
- 		resp_iov[i].iov_base = buf;
--		resp_iov[i].iov_len = midQ[i]->resp_buf_size +
-+		resp_iov[i].iov_len = mid[i]->resp_buf_size +
- 			HEADER_PREAMBLE_SIZE(server);
- 
--		if (midQ[i]->large_buf)
-+		if (mid[i]->large_buf)
- 			resp_buf_type[i] = CIFS_LARGE_BUFFER;
- 		else
- 			resp_buf_type[i] = CIFS_SMALL_BUFFER;
- 
--		rc = server->ops->check_receive(midQ[i], server,
-+		rc = server->ops->check_receive(mid[i], server,
- 						     flags & CIFS_LOG_ERROR);
- 
- 		/* mark it so buf will not be freed by delete_mid */
- 		if ((flags & CIFS_NO_RSP_BUF) == 0)
--			midQ[i]->resp_buf = NULL;
-+			mid[i]->resp_buf = NULL;
- 
- 	}
- 
-@@ -1084,7 +1084,7 @@ compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
- 	 */
- 	for (i = 0; i < num_rqst; i++) {
- 		if (!cancelled_mid[i])
--			delete_mid(midQ[i]);
-+			delete_mid(server, mid[i]);
- 	}
- 
- 	return rc;
 -- 
-2.53.0
-
+Thanks,
+Usama
