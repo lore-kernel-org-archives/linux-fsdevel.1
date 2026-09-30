@@ -1,206 +1,207 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54BD420480
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 19:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790798007; cv=pass; b=jHrb9nWoxFv0IsCQMpulvbWxgYONZCDMd/0hw/0J7SRC9R93/G7r/WYI7uGcwpiHqCM/kuor5FW17UdYCbhQzYa4wzAJEwKchzH4Vs29JJ7xLp4MGzdi52Odtjwta3DoXykZaLZpcNj5+bzwzdWq4x5LbxbKMXNld+fNV6Qe/dk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790798007; c=relaxed/simple;
-	bh=jEjOJJgnQ8TLl1NXrjU0PSvQC15w6bG/fD+IpOaPESg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U0zAN4CnGJ2UgCWR1IxOi5bIE5dfjo7tuxXtJoUoMtv3v9Fg94c9lAeLYTiqFU+SiyFPiziagA2aijWYpWNdiPh6tD1E9EQ/dl9O7RSCfhWLvqvBcIJ+88Wz9aUstPgNrdmSGbAbYHyIIVDKRxvPnl4I7pDFIYD4aj76f1YcUgA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=K9XlL1tc; arc=pass smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD9B4446F5;
+	Wed, 30 Sep 2026 21:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790802506; cv=none; b=mypQP6xpSxOBzgVoQlVd6zRI/1QA48Ka0jkO3azClncGQy+JrUlYJR+OsWktY2GrFqdnXBDuTf+DyHKvjy2Wk6vDtzt5tJnfhN7gTd2oUks2rVJhBdDozXkTej1MUq+AWQC8NqTF8F087ysf2CQB/A3N1uRSZMipp8qITZQOfck=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790802506; c=relaxed/simple;
+	bh=Oro7YZioEJC/8uRfD25eK8eqonMW8HDiPDf7Nl4F9JY=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=hJ0zUFHJpWPKiXOJBaKu0I+fBoWONWlmNBDnubRFOc/LLENWO3iOakRDB8Sge16Ba6vKP+ksjcfwep6fX/hOAMqZFWQvprfndEBUB876IQjY8pnj2K7nc+w4iu0WgnzkbDf0B8onRjNxv5YlEKSSWJW8fnoPhc7wmd9EH9e64iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=AlGfLvMz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZBhtTHu5; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="K9XlL1tc"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-5337c7b9937so63601cf.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 12:53:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790798004; cv=none;
-        d=google.com; s=arc-20260327;
-        b=mXgDCbSIMZJElD81HcCnlBUNlpqfKcdU2vUIbhLvldTNKJU2tPJp/Gno/qYr6MSjDp
-         2a7xqrH4rrZten/vMipRJoPPjsza13Mbss5v6xXoqgn1VphAP2TYRoOMKZDr7xHqS32Y
-         J3Ck2fpXrblxqQ/vov9w//eiCS4E/2ZyEAi1jcSwp5e9XxlezKyIcB7cXX6J7ufZHfh1
-         VZ24tBxOMfXxs757IJE8RCICkoHS0xZYN1/bYhPlweM7z3Jkbg/gf8gQt7X3S8egJXyz
-         iLbIpMmlCy+cLQFCUhTc79SUtdoImsVRQAae7wKEhH1PaIQAo0jbGvStM5Ak6E4ml/qB
-         qYqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0eIq1qnomZnnsUKsF5xFhZ0yFWtEcE3Qo/pF8vzCbBI=;
-        fh=+plY0we3ASG0vKBcb8cPkSbVjHPr64DLNDvsRC8N4JM=;
-        b=X2iNlybevYsPtY0qHTtCj0HVAu88zuqypx7RWLp/IiWYP3vyymzelvG/hnctm3EGi/
-         FiMViaAKmYR8yUZrHdJmK4yMJ2Ouk2NXgJ0migAyV6Zzc49Z1PRbuDt4JdUCYeJMWNyw
-         iByRLktgtRPeBj2uzX+aDQmXicQ/6zP7zlFmdQhnv56zlvx2LEwdIrRODTAqY6PA69lQ
-         tWLo9VQ3oPV+ac2vT08WnhFqMyv0Ifc7mfYOVH6/6FCY1ttaNfGbKa7ije1YeOXUJ50v
-         2X3SS20H2pGlLM4W3dJyAyG/zgtlOG+afUooDN9RPqHDplRiLUsyJjtLfbn/nQY/sVSh
-         GwMA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790798004; x=1791402804; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0eIq1qnomZnnsUKsF5xFhZ0yFWtEcE3Qo/pF8vzCbBI=;
-        b=K9XlL1tcG8DKGkWNRbdLWBNuxxr+uWaFO0+496dnJ6qoNsZN1uwmYn1kOv4k+hTB5Z
-         SlY9v/+LoqJW2+r17VCttG98omyn6awZQLqhyFIt5YgKHXDkM3/jVPxAXChh4VqbD9d/
-         7hX8cFCFRaooxoEGBjpkZ6VpZnabul7viaXH+Vny1gU7yZvfkzPiDq3cILN9BbhCbalC
-         aAeLZ/FGLTCqfvu0LNWlZhlCFJ6hEcxmOCiR1GqRrbTdYdgsxx+zDqi83+UmyeAsej6Q
-         Bxh7BWP9svQiPqKjb4USBGNMn2cwyIR0LKVM2h/47S6sZ4/0TEozOT58vEIbBncFcxst
-         R58A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790798004; x=1791402804;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0eIq1qnomZnnsUKsF5xFhZ0yFWtEcE3Qo/pF8vzCbBI=;
-        b=y4FHDO+deCDeZkWlTJQ48Wnj7X/WjB7loH0TOFRLPZaeiECSiYQZOiZ5hIis9MK9lO
-         I8ny7eJVrGyshYlsfzaHqPIDK0DLuN07vAB578wfShNXz4OsbigXKbKDa/2Atcvc3T17
-         CcsHMxSaWX59As1orUmc4yYnHreIqfWivCb1uZCgdQSyHlDvjCIdHLLjKzQTrZ7FDdSa
-         KDhhE22wKipqxP2mvYm69zBDlrMSoN6bjpdThwRhLHhX9hJv/UtkbsSlqQIj9CBEm35G
-         cG0JM2GbVmuBIZKf465y96vHyu2bZRibvk0PqRBEgZE0FKLxO2F/ZhVH8qKymwDrFhea
-         FXdA==
-X-Forwarded-Encrypted: i=1; AKwUvByHOF8L16WigxENpHZxvWuxTNYKE8WAwOyxS/F2GNV1scBrWAJRtGEt9kAGPks2jUzeVljg6pgg1qTucPbX@vger.kernel.org
-X-Gm-Message-State: AFuF++nwNTlMuUNYNnf5cxUexKsKEX8CealSrWGkC7ork3s7LqRyx40Q
-	oR3tn81xXD7LUjJgOhHO8nf4F7qOh6z8i9thPjO5dAMJxoKFVKo09Q8DBI+pOUxpzClhBH3Fo0N
-	Vn4bcHzOR99z0/vxcopOktAOyddJ/UyRKSWRtrXkE
-X-Gm-Gg: AYBFou3GVOqYnYKxsyPX1m3HB5i8HXBn/KUx8ZnVXCWQb8HBbM1pz+2uUIMUejPd0f+
-	vlZiv2RFsU4i//7xJABpzMLtS4gpGOwg5aUcIsh8e9FHUIGqIMrK8tuPEvsddMP/324wduseC60
-	oBj5P3JEA45QUTsWR7La6/VQUL+lFjHK1hve8ps04xbcqmY+/zJ/PkrrxhlAqSTMDP0mznr5x5L
-	Cu6u8O9bG+X8shOF171vQjdVdUn/+clcGxG3FAuAe8Pwwl3c9n0lTLwY8PoPecBZx5sIUiiVtWy
-	753DoSzeRgSU6HZTqhAJGVY0oyqDNHwFoV6YZ+7il8qZv4MTvwXg+A==
-X-Received: by 2002:a05:622a:610:b0:531:6de:6028 with SMTP id
- d75a77b69052e-53386815ca8mr222861cf.13.1790798002634; Wed, 30 Sep 2026
- 12:53:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="AlGfLvMz";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZBhtTHu5"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 069F67A00CA;
+	Wed, 30 Sep 2026 17:08:23 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Wed, 30 Sep 2026 17:08:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1790802502; x=1790888902; bh=/mJWsmetASNjN6EpOjG8Phb840859a2Kyp4
+	5AGKZV8c=; b=AlGfLvMz2fKCQKGnh34RIKMVKneOYIqwnhoyv5MeeE2QPHE5gE0
+	OEBUlmD3DBc3jqxAZvzgVn901v0Pr4NbYDO2PrqeGf1ffuE5qAw9+y0lcLmPuhFx
+	TFC+7bL5QFL4KHd3OjR+OpcpWkWBDU3y5WR4DGDZ6M97us4ZqZcc1h50d4QJSOFn
+	yS2Av9N7k38QLJw8rtQl1l2DV0hdfqI6lbXuM+wvGE+D0W/LUPX/0K32qpvbjO56
+	So5xHPxEc8PFLCfnFoENuHTMMv1vhH3yNbZDpn59T3dS7eA1pI9ztCdl1Yqlgs81
+	ZBqEJx9GIbD+APA98jYkbOFNvZb98uNbahQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790802502; x=
+	1790888902; bh=/mJWsmetASNjN6EpOjG8Phb840859a2Kyp45AGKZV8c=; b=Z
+	BhtTHu5cUnS1sJJ4d111iSI9kdjOFKSWmqFFoc5ocKjB8yz9ljbRVbw6SbAPRHaA
+	rAuoQkuGF/CZGT7PCGXud9nkk7beuXCUtp2++PIm2d0m2JZqGorMdlwKuXR/Nny1
+	hQ3TDU8iobSImwF8ZqziEb/XWphky5e+B48Mm3ybf6QkffsWl0BiCswvEFrw9mbf
+	HtoTZD5kztKzbMAAU/GRxSOce5CUgipyo6R9wHzyijuumODE+2KMI8qsmqndQIFM
+	3+M10YJ3QxmGXcpMmc4rM163kw7tn7g/Z0xR0FL6JnHUtqcFkk4oiiQEdsxjRPgp
+	9tuMLtGXAwm4H0gqUW7Sg==
+X-ME-Sender: <xms:Rnq9akmaOYILBeSAWvKyYYr2Wwo5Ea4yugV2WUD0S41tjUb_9IMXMA>
+    <xme:Rnq9agiTGsqZcIDGUb7POv1iNOlufy2L_JLcaIgLFYol9jruSYcD4wIfxFZUFju8t
+    Spre0H4LbQRiEY3UcNVDokLSPBxRoC1GGU5Nx4JH_NUsfcaa18>
+X-ME-Received: <xmr:Rnq9amitt-KytCYjYPxg_7dhfMcnKKa3Lydd_Xi-4Q4oEY--zNOkeHwhNZnLPjBfppEAZwyvCWAY-I5drnuq0ZXNfF3Bpf4>
+X-ME-Proxy-Cause: dmFkZTEhCJ71Y8f3eLXP6QpBlONgllJkJhg8WVruLNQRCp39HogvcBO6NfmvlXMkYwxWmf
+    5JK6nIkXAnxhAAMMkNQrbgUQFxdpu50wsGMxDBYZBmmeUsOOthOuM4D5neqzKuDNHLzabl
+    bO9UgEk/AF/mcHVvra5cM5ESWE2mcrh8b6SHROsHYTsj7cgxAaoJznIDY8UG4Khv3dfzc/
+    hJbpP1xj8XLVQrMlqAgyG8eZKAqXre83OPvCu/KiOuQOCp1f+7TtC3Qc48jpn0DkSTza6v
+    kNjq4jjhTLkXkUXgCT4VuggMfpxgU0b7WtbrUc+c1FeQ3Vjv3P5QZmFvAGkyqXgfHwLfOd
+    yMpYIERylXM/qz7XQUkCDe42vZSXgDMAcrQCpP2dXU7tBx0YWZd30j1vc3qWgT7XsPHLoZ
+    xTZr2yIMSUkkyrFoqcAGezJzmZop9QeH0m0vbCD6IKPt5yUm4wQgAnZ1oJ+6jahISHTHWH
+    d4tGJZIBA/Zv3HHnbI9I0hXT913ObnOCKm0GU2zMU2tl3JUl2O46lSsGdAitzfkhALar1G
+    BojvOv85sH1qeWX8Ee0noPn2cTgusBmYPqPmzFShliN7sKXQ4ormkQMccKr/U0Bn5LG/zn
+    hoNFVeo7/znCypLVjOjzVIM1TokSZ+CkRA6P1izw/O56cRaA2fK97vuDm70A
+X-ME-Proxy: <xmx:Rnq9aqs4pjeipnvLPD_2ofuA6fdfQCGJIA5oay9vBUlO5XVJnB10Bg>
+    <xmx:Rnq9amsQy1c8U4oBqOfurJkm5ebL-w4N3PIzmON-dDDXFVP6jlpTyw>
+    <xmx:Rnq9agpnWu-c-8C5vZSwXQeHkIfoBRkhPfJG6vp9jvG3TaukzvdZVg>
+    <xmx:Rnq9alJjs-qFtr8kIX0JNhrXhRRDAoHz1FyG-dSrgVP3LcvS_XAeHg>
+    <xmx:Rnq9ak7yQXkolz89LhHU6LV4n0TEGgv2Yl0C_uAl1tAXbd6FAJgPE5QL>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 30 Sep 2026 17:08:18 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260926-nsfs-prune-rfc-v2-0-53509260e4e7@gmail.com>
- <20260926-nsfs-prune-rfc-v2-1-53509260e4e7@gmail.com> <CANaxB-yj2QV183nk3UC-2PD6qh6hh-_iLRuryTdUsebd+RqxdA@mail.gmail.com>
- <CAGmPdrwOnNRHJqk1mZVB+tFCnJBr3ZTaSZqbiGu54kXPkMtRoQ@mail.gmail.com>
-In-Reply-To: <CAGmPdrwOnNRHJqk1mZVB+tFCnJBr3ZTaSZqbiGu54kXPkMtRoQ@mail.gmail.com>
-From: Andrei Vagin <avagin@google.com>
-Date: Wed, 30 Sep 2026 12:53:11 -0700
-X-Gm-Features: AclHuK9MG__TVWG37WqPhPUQdYK5bsOXfsAt-eoCDlcKjWQdQUjwS0-jBycCRa0
-Message-ID: <CAEWA0a5OjmjE-CVhiUcLXqrpE4xSd3-L5OszDd41DFDqUgcp1g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] mount: add OPEN_TREE_DROP_MNTNS_MOUNTS
-To: Kirill Kolyshkin <kolyshkin@gmail.com>
-Cc: Andrei Vagin <avagin@gmail.com>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>, 
-	Jeff Layton <jlayton@kernel.org>, "Eric W . Biederman" <ebiederm@xmission.com>, 
-	David Howells <dhowells@redhat.com>, Amir Goldstein <amir73il@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Giuseppe Scrivano <giuseppe@scrivano.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	containers@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: NeilBrown <neilb@ownmail.net>
+To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, "Jeff Layton" <jlayton@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>, "Miklos Szeredi" <miklos@szeredi.hu>,
+ linux-kernel@vger.kernel.org, ravitejax.veesam@intel.com,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+Subject:
+ Re: [PATCH v4 6/7] VFS: add lockdep monitoring of DCACHE_PAR_LOOKUP lock.
+In-reply-to: <e3772a51-eabc-4c31-b73d-f3187bf1b3b2@intel.com>
+References: <20260904215142.1060510-1-neilb@ownmail.net>
+  <20260904215142.1060510-7-neilb@ownmail.net>
+  <e3772a51-eabc-4c31-b73d-f3187bf1b3b2@intel.com>
+Date: Thu, 01 Oct 2026 07:08:14 +1000
+Message-id: <179080249491.37859.6519131410483661870@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Wed, Sep 30, 2026 at 12:49=E2=80=AFPM Kirill Kolyshkin <kolyshkin@gmail.=
-com> wrote:
->
-> On Wed, Sep 30, 2026 at 10:22=E2=80=AFAM Andrei Vagin <avagin@gmail.com> =
-wrote:
-> >
-> > On Sat, Sep 26, 2026 at 12:01=E2=80=AFAM Kir Kolyshkin <kolyshkin@gmail=
-.com> wrote:
-> > >
-> > > A recursive open_tree(OPEN_TREE_CLONE) copies the nsfs mounts of any
-> > > mount namespaces pinned below the source.  When the clone is attached
-> > > inside a mount namespace younger than a pinned one, move_mount(2) fai=
-ls
-> > > with ELOOP from check_for_nsfs_mounts(), per the rule from commit
-> > > 8823c079ba71 ("vfs: Add setns support for the mount namespace") that
-> > > prevents mount namespace reference loops.
-> > >
-> > > This breaks container runtimes that use OPEN_TREE_NAMESPACE, such as
-> > > crun [1].  The new namespace is younger than everything else, so bind
-> > > mounting e.g. the host root fails on any host that pins a mount names=
-pace
-> > > (snapd does, under /run/snapd/ns).  By the time it fails, setns() has
-> > > already run and userspace cannot recover: the host tree is out of rea=
-ch,
-> > > and the offending mounts cannot be unmounted from the detached copy.
-> > >
-> > > copy_mnt_ns() and create_new_namespace() already leave these mounts
-> > > behind; only get_detached_copy() copies them.  Add an open_tree() fla=
-g to
-> > > drop them from the clone, as suggested by Aleksa [2].  Locked nsfs mo=
-unts
-> > > are dropped the same way copy_mnt_ns() does it, so nothing new is exp=
-osed.
-> > >
-> > > Keep it opt-in: open_tree(OPEN_TREE_CLONE) plus move_mount(2) is how
-> > > mount --rbind works through a file descriptor, and in the caller's ow=
-n
-> > > or an older namespace such mounts remain usable.
-> > >
-> > > The flag requires OPEN_TREE_CLONE or OPEN_TREE_NAMESPACE.  With the
-> > > latter it is a no-op, so a runtime can pass it unconditionally.
-> > >
-> > > Link: https://github.com/containers/crun/issues/2262 [1]
-> > > Link: https://lore.kernel.org/all/2026-01-07-oldest-grim-captions-spi=
-lls-ywC2O3@cyphar.com/ [2]
-> > > Assisted-by: Claude:claude-opus-5
-> > > Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
-> > > ---
-> > >  fs/namespace.c             | 14 ++++++++++++--
-> > >  include/uapi/linux/mount.h |  1 +
-> > >  2 files changed, 13 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/fs/namespace.c b/fs/namespace.c
-> > > index ae5dc64f8b45..a95173996a8f 100644
-> > > --- a/fs/namespace.c
-> > > +++ b/fs/namespace.c
-> > > @@ -3062,7 +3062,8 @@ static struct mnt_namespace *get_detached_copy(=
-const struct path *path, unsigned
-> > >                         ns->seq_origin =3D src_mnt_ns->ns.ns_id;
-> > >         }
-> > >
-> > > -       mnt =3D __do_loopback(path, (flags & AT_RECURSIVE), CL_COPY_M=
-NT_NS_FILE);
-> > > +       mnt =3D __do_loopback(path, (flags & AT_RECURSIVE),
-> > > +                           (flags & OPEN_TREE_DROP_MNTNS_MOUNTS) ? 0=
- : CL_COPY_MNT_NS_FILE);
-> >
-> > Overall, the patch looks good. One small thing is that open_tree() with
-> > OPEN_TREE_DROP_MNTNS_MOUNTS doesn't fail on a mntns file if AT_RECURSIV=
-E
-> > isn't set:
-> >
-> >   open_tree(AT_FDCWD, "/proc/self/ns/mnt",
-> >             OPEN_TREE_CLONE|OPEN_TREE_CLOEXEC|0x4) =3D 3
-> >
-> > With AT_RECURSIVE, __do_loopback() calls copy_tree(), which checks
-> > !(flag & CL_COPY_MNT_NS_FILE) && is_mnt_ns_file(dentry) and returns
-> > -EINVAL, but without AT_RECURSIVE it calls clone_mnt(), which doesn't
-> > have such check.
->
-> Thanks! A call with arguments like this does not make any sense*, as you'=
-re
-> asking to clone a pinned mount namespace while skipping it.
->
-> * except maybe to check if the path is indeed a pinned mount namespace,
-> but there are cheaper ways to do it.
->
-> That said, we can either keep things as is, or
-> 1. require AT_RECURSIVE with OPEN_TREE_DROP_MNTNS_MOUNTS
->     when checking valid flags; probably the easiest thing to do;
-> 2. add a check to a non-recursive path in __do_loopback, something like:
->     if (!(copy_flags & CL_COPY_MNT_NS_FILE) && is_mnt_ns_file(old_path->d=
-entry))
->        return ERR_PTR(-EINVAL);
->
-> I'm going to implement either one in the next iteration (v3); do you have
-> a preference?
+On Thu, 01 Oct 2026, Borah, Chaitanya Kumar wrote:
+> Hello Neil,
+>=20
+> On 9/5/2026 3:18 AM, NeilBrown wrote:
+> > From: NeilBrown <neil@brown.name>
+> >=20
+> > DCACHE_PAR_LOOKUP acts like a lock in that threads can block waiting for
+> > it to clear.  As we plan to make changes to lock order for this lock,
+> > teach lockdep to monitor it so as to help detect bugs early.
+> >=20
+> > As NFS allocates an in-lookup dentry to unlink a silly-renamed file, and
+> > completes the lookup in a different thread, we need interfaces to
+> > release and the acquire ownership of the lock.  This avoids lockdep
+> > complaining that a lock is still held on return to user-space.
+> >=20
+>=20
+> This seems to be causing regression in our linux-next CI [1] since
+> next-20260928.
+>=20
+> <4>[   10.773931] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> <4>[   10.780181] WARNING: possible circular locking dependency detected
+> <4>[   10.786407] 7.3.0-rc5-next-20260928-next-20260928-g6375e61c01e9+=20
+> #1 Not tainted
+> <4>[   10.793773] ------------------------------------------------------
+> <4>[   10.800017] podman/794 is trying to acquire lock:
+> <4>[   10.804801] ffff888133cb8388=20
+> (&type->i_mutex_dir_key#3){++++}-{4:4}, at: lookup_slow+0x31/0x60
+> <4>[   10.814849]
+>                    but task is already holding lock:
+> <4>[   10.820743] ffff88812dbd3048 (DCACHE_PAR_LOOKUP){+.+.}-{0:0}, at:=20
+> __d_alloc_parallel+0x53a/0x920
+> <4>[   10.830976]
+>                    which lock already depends on the new lock.
+>=20
+> Detailed log can be seen found in [2].
+>=20
+> We confirmed that reverting the patch solves the issue.
+>=20
+> Could you please check why the patch causes this regression and provide
+> a fix if necessary?
+>=20
+> Regards
+> Chaitanya
+>=20
+> [1] https://intel-gfx-ci.01.org/tree/linux-next/combined-alt.html?
+> [2]=20
+> https://intel-gfx-ci.01.org/tree/linux-next/next-20260928/bat-arls-6/boot0.=
+txt
 
-I prefer the first option.
+Thanks for the report!
+The log shows that overlayfs is involved.  overlayfs has special needs
+with respect to lock nesting which I hadn't allowed for.
+
+I think this patch should fix it.  Please let me know.
 
 Thanks,
-Andrei
+NeilBrown
+
+
+diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+index e487597337e8..e1448dd776b4 100644
+--- a/fs/overlayfs/super.c
++++ b/fs/overlayfs/super.c
+@@ -163,10 +163,34 @@ static int ovl_dentry_weak_revalidate(struct dentry *de=
+ntry, unsigned int flags)
+ 	return ovl_dentry_revalidate_common(dentry, flags, true);
+ }
+=20
++#ifdef CONFIG_LOCKDEP
++#define OVL_MAX_NESTING FILESYSTEM_MAX_STACK_DEPTH
++static int ovl_dentry_init(struct dentry *dentry)
++{
++	static struct lock_class_key ovl_d_lock_key[OVL_MAX_NESTING];
++	int depth =3D dentry->d_sb->s_stack_depth - 1;
++
++	if (WARN_ON_ONCE(depth < 0 || depth >=3D OVL_MAX_NESTING))
++		depth =3D 0;
++
++	/* Based on lockdep_set_class() */
++	lockdep_init_map_type(&dentry->lookup_map, "DCACHE_PAR_LOOKUP_OVL",
++			      &ovl_d_lock_key[depth], 0,
++			      dentry->lookup_map.wait_type_inner,
++			      dentry->lookup_map.wait_type_outer,
++			      dentry->lookup_map.lock_type);
++
++	return 0;
++}
++#else
++#define ovl_dentry_init NULL
++#endif
++
+ static const struct dentry_operations ovl_dentry_operations =3D {
+ 	.d_real =3D ovl_d_real,
+ 	.d_revalidate =3D ovl_dentry_revalidate,
+ 	.d_weak_revalidate =3D ovl_dentry_weak_revalidate,
++	.d_init =3D ovl_dentry_init,
+ };
+=20
+ #if IS_ENABLED(CONFIG_UNICODE)
+@@ -176,6 +200,7 @@ static const struct dentry_operations ovl_dentry_ci_opera=
+tions =3D {
+ 	.d_weak_revalidate =3D ovl_dentry_weak_revalidate,
+ 	.d_hash =3D generic_ci_d_hash,
+ 	.d_compare =3D generic_ci_d_compare,
++	.d_init =3D ovl_dentry_init,
+ };
+ #endif
+=20
