@@ -1,207 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f39.google.com (mail-pj2-f39.google.com [74.125.227.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1656D35A39F;
-	Wed, 30 Sep 2026 07:12:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F422E62A9
+	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 07:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790752329; cv=none; b=eTzpJNiUfcGwymCuuP9O5/uptPK/+nHLH5nsvsb1rLcWKb4vklFkgMW5rPxT165kMdnilTdVWYCJTDswQSIlnAIawBNw4kSaEA/4xa610UMfE4vhjE0MwJivM32SVMGXBPqvpCXNilOUteRvGFo7w7K1dStRA0phkMnmXYf4JtI=
+	t=1790752970; cv=none; b=tf6cb/nf+W5RP/tCKhC8SjNS7126CPwZaDKQK+VYIW8GKibHVSWLBAvGKIumwIkwSS02Z9mcKUW8LdRxpaArd/LiuAgVxkvdBBvyztZ4t7qKtEW/yX7kW25dhinGRd+j3zkGsfNhhWTqujX0aShB4OFezMKfrFNn+jH5k2PE3vU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790752329; c=relaxed/simple;
-	bh=pS349Z8xU4f/qTl88UNMf0Yp0/aQ9dO/kOg/fe9Xcpk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jhjXqtT82EY+ugEXwiY4oHtQIfv5B/JNXnb8NKjUps4rnx/ZxV7E6E5RjpYtch3Av6Nn6CuHNYqedCK3t5H6Coq0D8//vKTjKk8KbaWYYT6gdjdF/KKE0hkhbZpcDGbrfXpKCjt/JPl5o46R05pG78FOXvBZmgOTaw+00gxQMO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oTI5d0xO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790752970; c=relaxed/simple;
+	bh=ddj3yVRPREzjd1EsKGwCdJqmx5OZh38AdrNsfP+JhFo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tTIbmn3GVou0Ti6p/c748pWDiECBkz3r8HUT9OupCW8SW8GpuqrJlGrBGzFm1xtjFlgI7wxLSgtU0CF/Osr4qpsoGze1/Hgl2g6Gus70dkuH/YS/hsyPI0Br74VXQjbhh1z2QnrzZ9SkWp9b4b81zU2ZRG0MCucYw1HESWwogiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YAC6cglR; arc=none smtp.client-ip=74.125.227.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oTI5d0xO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E32221F000FF;
-	Wed, 30 Sep 2026 07:12:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790752327;
-	bh=J333w9DUq7vV0t6ovavoHzB/qQLM0sK3o+lwAf70oeE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oTI5d0xOoBTIJMbIaj/hl3xQJ1aE91L7OUElw9SJ62ek6saSJgEDLrTTqkptNifyR
-	 R1eBnI2j1uf6P6Nxxa5t9hmMjDsoj5NW+UgWaBVmvvrMasrXRPZbxslMTCdy59rEcG
-	 auBXFkRC8ubc+LlelDzoNp0F3EXPGfTrVg0VkGRlhY5a7ylr+V/q00zXFH+pXn54R3
-	 Kkg+K1nxN2ulT6zlcNDq7aqC61AEP8Fiws8mCLgqvG0/3nC7ZPVkwnSHB7uRySnGFw
-	 n3cMzYeol+p8Cal64CJiaqV20zKlNiBiZELo5H4H3SVUIGIhQ/t4lb984zzV15cmtc
-	 EtdPh6DSUl0rQ==
-Date: Wed, 30 Sep 2026 17:11:58 +1000
-From: Dave Chinner <dgc@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Carlos Maiolino <cem@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: support for RT data checksums
-Message-ID: <ary2PpSp1xTgrd3k@dread>
-References: <20260924100032.2733101-1-hch@lst.de>
- <arWpyhFyV3ouYAEx@dread>
- <20260925062710.GA3798@lst.de>
- <armf05yfzhSBUsUh@dread>
- <20260928052436.GA18925@lst.de>
- <arvHFOjF-CD5Vd3g@dread>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YAC6cglR"
+Received: by mail-pj2-f39.google.com with SMTP id 98e67ed59e1d1-3a498cb99b3so885175a91.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 00:22:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790752969; x=1791357769; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2sbEPlrgGV7a5zh9vVk+EqHaoIjuLa7ql4HGFcC3qkM=;
+        b=YAC6cglR9yRbSZ/Q3pO23PLAojJTbuKF3w0nrDTsLNTnb8xwbrcHgey72ZAwy2rEwq
+         v00qaeDa/YMtg4vF9I+McMTqceVntuczsKf5pLnR0zUDbxOkdOnrBlKRuq9RlaP7ltd+
+         xF7diJEoiv1yZ8Ly+3Ogj2jqg8JnjF2+502u8RB9OKbERc1EDmmqCL+EjdW14W7U7m7e
+         hH3X3FlFAwZiidoTBoQRGqoxpKYSCrsBxgqsUMMru87dQ3j0ZUHI69rxKekhKKnGc1ut
+         U7caP/H/oZD2xQ0P8oqofGHt5quP14DnLioxIIyJOljQQYx7+EAE747YcXYCs1JkV/0t
+         F3Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790752969; x=1791357769;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2sbEPlrgGV7a5zh9vVk+EqHaoIjuLa7ql4HGFcC3qkM=;
+        b=wm612qiFGpURo3XDXgqaSH2/CXyjoliq//5LdfsO0h6wMbxzTMIoBIQQXKStNu0oIm
+         B/5YEVY147zu94EHvfS+CuXmrfHyCIl/ZzQweoXSKKU5+0y9LcuYLRBn3wpxfNykRqJb
+         CMFMijHnLK6oOZ3qZVOHbX3mR9SA8DWOynJpw+vPD3+diqZXDIhHDEiq1+8STZvfugTk
+         mZUfmcjGCpIe9d36Ze1OzVfj46tRgzGBk74nc9slp/zNKMHqlPmto/dSJ1v440pRiDQh
+         v0pAL42rxf8kOAziy+F3b+fOIfA9p4E7LPRoLzJOAZz9ta4mJ4hknpAd+O2DISZwyo93
+         31rw==
+X-Forwarded-Encrypted: i=1; AKwUvBx/piGNmoSjQDpoovGUhN5hoAbOhFRe44R/3JXNNNDXjjJjztUwlI+RFJKxQK4fCuUhox8exvK8CPUi4cVT@vger.kernel.org
+X-Gm-Message-State: AFq9FYJonekJBCJoCeER2G2BWq07+3i/EoHfLso0wdgripzWmCQMBUlW
+	KrzWJFQv5y1WciaS6SpohY1QCGEhkXR6PbRaTWHwsfrqV1GI9jk10SyA
+X-Gm-Gg: AYBFou3Je8vUWBiMcft9qTtwizkbbbrRig1N4M+j/1OqiQ8N+DMQbHyXtz6BkwXedDM
+	YnNjQN/uxZcfe7a8R+QS9I5+IfH1UVbh0Mjy0NwIA/2vJzQ+sbYc+Lj/mkWqF5JbIeEuv+K1AU8
+	oY2DQJ+CwKWt+pA0y4LM5IsxVE7lOR1jCU06GgaA6oPW/OXwLNfFd9NE0Obn1RE5NHbBnknOSM7
+	urPO1zi30Ex748ifeWMmKJGJs0ZGspuF+xX0C6QAVkIYzeR8FJPPi4s+4O0gsXUIszOwZAi8rUc
+	nBhKxlj54MrsNaXCCdshR4RKLnWSNt8HeCWDwHR93EBnMPRz5qDdkJN1LATnKfVJR+u0QYq19NH
+	uBz8Nph31zoqsO+7e8yrbiPxXExpAh8oThIMf0am2aAvlEwTe++nx1f7ElP5BQbU8UlyqWZMN3l
+	g5aVzM5CDUgCvXgVZaZ8wHjv72KEVfG2A7CO/rdaAovFEYErejgNsTKGxQLHkT3cpl7XmrdSzoC
+	Hlr6fpW9hipqNKvSsK/SzWQw63MnPQpGq93ye2CkaXajSEI6phkN7D6l27tr3jWS9hm1ap8G9Ix
+	6u8K9i8tdzyZS3r5UFEsxvKyZxpvwQF2SXKL7I8WTqEugnZZPX9j/69YV0g=
+X-Received: by 2002:a17:90b:1d43:b0:3a0:bda2:d54b with SMTP id 98e67ed59e1d1-3a4d1534cadmr291708a91.19.1790752968674;
+        Wed, 30 Sep 2026 00:22:48 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4cae71827sm2122585a91.14.2026.09.30.00.22.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 00:22:48 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: Hui Peng <benquike@gmail.com>
+Cc: Anders Larsen <al@alarsen.net>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v4 0/6] fs/qnx6: fix buffer head leaks, double free, and inode validation
+Date: Wed, 30 Sep 2026 15:22:45 +0800
+Message-ID: <20260930072245.1167477-1-matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260930031604.70544-1-benquike@gmail.com>
+References: <20260930031604.70544-1-benquike@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <arvHFOjF-CD5Vd3g@dread>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 30, 2026 at 12:11:32AM +1000, Dave Chinner wrote:
-> My concerns about the checksum buffer transactionsi are about not
-> using existing APIs. By open coding them, you've skipped all the
-> transaction/BLI recursion detection. i.e. you've encoded an
-> assumption that a buffer will never get relogged within a given
-> transaction. You've also encoded that external values bound
-> memcpy()s in to the buffer and logging ranges to within the buffer
-> length, but the buffer length itself is never checked. 
-> 
-> I don't know enough about the design to validate these assumptions,
-> and there is no documentation (code, comments or commit messages)
-> describing why the code is safe the way it is written...
+Hi Hui,
 
-After a day having this stuff percolate through my brain, I realised
-why the CSUM logging code and the BLI_PREALLOC hack just didn't seem
-right.
+I re-ran my v2 tests on v4, applied to mainline 551c722f4080 (fs/qnx6 is
+unchanged since 62f4c998b297): a userspace ASan/UBSan build of fs/qnx6
+over my test images, and a KASAN/UBSAN kernel under qemu.  Apart from
+the 3/6 problem below, every image gives the same result as on v2.  I've
+replied with Tested-by for 1/6, 2/6, 5/6 and 6/6.  2/6 and 5/6 are
+unchanged since v2, so they keep my Reviewed-by.  6/6 is a different fix
+from v2 and 1/6 has the wording problem below, so I've left Reviewed-by
+off both for now; 3/6 and 4/6 get no tags yet.  My two follow-ups [1]
+and my levelptr fix [2] apply on top of v4 as they are and still pass
+their tests.
 
-TL;DR: csum record logging should use the ICREATE item + ordered
-buffer model for efficient one-shot updates to the csum buffers.
+1/6: the description now says that a large di_filelevels makes
+qnx6_block_map() read past di_block_ptr.  On the unfixed kernel,
+di_filelevels 6 and 255 give UBSAN shift-out-of-bounds reports at both
+shifts in qnx6_block_map() and no out-of-bounds report for di_block_ptr,
+which is what the v2 description said.  Could you go back to that
+wording?
 
-Long story:
+3/6: the new release at out: reads sbi, but with mmi_fs the levels
+checks right after mmi_success jump to out before sbi is assigned.  That
+is why v2 4/6 used qs there.  gcc reports it with -Wmaybe-uninitialized.
+On a crafted mmi_fs image whose Longfile.levels is 6, a kernel built
+with CONFIG_INIT_STACK_ALL_PATTERN hits a general protection fault in
+qnx6_fill_super(), and the userspace build with zero-initialised locals
+still leaks sb_buf on that path.  Using qs instead passes all my tests:
 
-+/*
-+ * Size of a RT data checksum block.  Data reads must be contained in a single
-+ * block, so this should be fairly large.
-+ *
-+ * The default is 32k, matching the default inode cluster size and the maximum
-+ * memory allocation the Linux MM can handle in the fast path.  64k is primarily
-+ * there so that his value never needs to be below the FSB size, even for 64k
-+ * blocks.
-+ */
-+#define XFS_RTCSUM_BSIZE_LOG_MIN	15
-+#define XFS_RTCSUM_BSIZE_LOG_MAX	16
+	if (qs->sb_buf && !bh1 && !bh2) {
+		brelse(qs->sb_buf);
+		qs->sb_buf = NULL;
+	}
 
-My initial thought was that on disk format structures shouldn't be
-defined by the limitations of the OS memory allocation, but <shrug>.
-It kept nagging at me, though.
+4/6: nothing in qnx6_mmi_fill_super() jumps to out after the active
+superblock is chosen, since the qsb allocation and both checksum checks
+come before it.  So the double brelse() in the commit message cannot
+happen, and the patch only clears two pointers that are not used again.
+Could the message say so, or would you rather drop the patch?
 
-I looked more closely at what XFS_BLI_PREALLOC did to try to
-understand why it existed.  It triggers a max-sized CIL logvec
-structure for the buffer object. For a 32kB buffer logged as a
-single contiguous range, this ends up being about 32kB + a logvec
-header, plus a log iovec, plus a BLF, plus a couple of ophdrs. So
-it's about 32kB + 200-250 bytes.
+Thanks,
+Matthias
 
-That means the shadow buffer for a csum buffer is always considered
-a costly allocation by the MM subsystem.
-
-Shadow buffers are ephmeral - they disappear from the log item
-whenever the CIL flushes. Hence as the item is repeatedly logged,
-they often need to be reallocated becaus something else caused the
-CIL to flush (e.g. a fsync operation).
-
-Hence for csum BLI, if a CIL flush happens on a partially filled
-buffer, a good amount of that shadow buffer will go unused. Then we
-allocate another (costly) shadow buffer on the next update. If CIL
-flushes happen frequently enough then we will be repeatedly doing
-costly allocations for shadow buffers that we don't actually use.
-
-Not ideal - I think that means the original "sized for mm fast path"
-intent is really only valid for the read side of the csum
-algorithms as implemented by the patchset.
-
-Then it got me wondering, because the more I thought about it, the
-more BLI_PREALLOC smelt of premature optimisation. CIL formatting
-has lots of other overhead, especially when re....
-
-Duh. Relogging.
-
-The root cause of the performance issues is interaction of repeated
-small delta updates to the buffer and the BLI relogging algorithms
-that the CIL and AIL require for correct journal/metadata writeback
-ordering. 
-
-Worst case:  Start with an empty csum buffer, assuming no header for
-simplicity, using crc32 (4 bytes) for each 4kB data block. The
-relogging pattern looks like for single record updates (small
-independent 4kB data writes):
-
-	dirtys		dirtied range 	CIL formatting memcpy
-T0	0-3		0-127		128 bytes
-T1	4-7		0-127		128 bytes
-...
-T32	128-131		0-255		256 bytes
-T33	132-135		0-255		256 bytes
-....
-T8191	32764-32767	0-32767		32768 bytes
-
-If BLI_PREALLOC didn't exist, the shadow buffer would be reallocated
-every 32 updates (i.e. every time the dirtied range increases). So,
-for this worst case, that's a 1024 reallocs. Yes, I can see why
-that's an obvious optimisation target.
-
-However, what BLI_PREALLOC misses is the CIL formatting memcpy
-overhead from the same relogging algorithm.
-
-In this case, the first csum is copied into the shadow buffer 8192
-times, even though it was only updated once.  A quick calculation of
-how much csum data is actually copied in this scenario is:
-
-$ val=0; for i in `seq 128 128 32768`; do let val+=$(( 32 * $i )); echo $i $val ; done |tail -1
-32768 134742016
-$
-
-~128MB of csum data is memcpy()d from the buffer to the BLI logvec
-to fully update a 32kB csum buffer.
-
-Yes, that's worst case, but even if we update 32 records at a
-time (128kB IOs on 4kb rtblksz), the relogging still copies 4MB of
-csum data to fully log that 32kB csum buffer. It hurts, even on
-decent sized write IOs.
-
-Ok, we have a solution to this problem. I created ordered buffers
-and one-shot log items to avoid the journalling overhead of static
-inode buffer initialisation back in 2013. The ICREATE log item is
-the one-shot log item that records a buffer should be initialised,
-and the ordered buffer allows the modified buffer to be passed
-through the journal to metadta writeback without it's contents being
-logged.
-
-Given that csum updates are a small, known size, non-overlapping
-one-shot update to a buffer, they fit the same model that
-ICREAT+ordered implements. Adding a new CSUM log item made up of a
-format header and varible size csum payload region provides the
-equivalent of the ICREAT item for journalled inode buffer
-initialisation.
-
-At runtime: the buffer is updated, ordered and joined to the
-transaction. A CSUM item with the csum payload is built and logged.
-The transaction commit pins the buffer in memory until the CSUM item
-is in the journal, then the buffer gets pushed into the AIL at the
-CSUM item LSN and the CSUM item is freed.
-
-Hence we only need to copy csum items once. We don't need to
-optimise away the overhead of relogging buffers with a constantly
-growing dirty range. The shadow buffer is always sized by the number
-of csum records being updated this transaction, and it never just
-pushed to the journal underutilised.
-
-So it appears to me that using a CSUM item and ordered buffers is a
-far more CPU, memory and journal space efficient algorithm for
-logging the csum updates. I suspect there may also be some potential
-ordered buffer locking optimisations we can also do because nothing
-ever reads from ordered buffers in the commit code path.
-
-I'm going to wait for the design doc, though, before going any
-further - I've spent enough time reverse engineering design and
-algorithms from this patchset for now.
-
--Dave.
--- 
-Dave Chinner
-dgc@kernel.org
+[1] https://lore.kernel.org/all/20260925151449.1517608-1-matthias.goergens@gmail.com/
+[2] https://lore.kernel.org/all/20260927225002.509062-1-matthias.goergens@gmail.com/
