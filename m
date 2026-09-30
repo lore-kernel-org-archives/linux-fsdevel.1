@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553EE4FDA65;
-	Wed, 30 Sep 2026 13:32:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E7E4FDE7B;
+	Wed, 30 Sep 2026 13:32:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790775171; cv=none; b=eW/9CZZ6R0F+nXNX2xh/T4ijsVqfrVBVxq4QndRr72XPAdjT3Rm23YkQBBnUK+LgJFs39x7ZJ7qgTo3Jqz+Ir1GuVoBlWd1YthaiUHzCetMqBjxR+QTpAyX+0r7gS3ZBnyiWXuNWT0Dq0MyIxG+3VyRGqhfFQGK7UR2xLuryaL8=
+	t=1790775183; cv=none; b=qQNPMfmtrjwdwSQRWK3C4oQnaWpwFVMzA01VuPaypDytjcOiLTifxs1KJWVQE/n3XzPBMIpyO3b7IpnqKBY7N2e4qaRteuiymAcyXUGXVyNKKcSvMm+Zwn5Qqh1SneT5LHN6JqIZP83vHbFsOngWl5O0tKUw9ovS0QsUD/OWdAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790775171; c=relaxed/simple;
-	bh=aLAt3O000c+HgzM4kEJcEbm6sHc2kmKlwquloW5nlhw=;
+	s=arc-20240116; t=1790775183; c=relaxed/simple;
+	bh=mW/Is32joGnGf0Bpv9glBLuZOAnyk1YMwflHaSBhn5E=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PC1kixyGn5ayTcTjsH0AxTpPevqQUVrBM8YwZC8l1pT6Df9DRScUn3anN/tS+G99IiVWvP/zxE5/D975tUfEoV7zjffvvliZ5W4r74IxwCXvSOoQfqppHkpvGQnaSsI09AUIlpoUTN0BhmM7V8GUHaWD/Xim+K3iYs2tl+UQrwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kypbNAEE; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=QG5nVi2jmAjyoV3s+e8I+1EEVejqRMj9mE06IdB5ee31cSNj7CSK3MYSCgdu/xMY+FY9Q3bG1rtXg20VOHWkVzoURg5ozx8q1NXShvlAziGSilonLSaJpbrjCWiHhwQOEbc8fxZTSSXnqPo8DJRjaLdN87pK8YPgvyDxIZxjUB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPbLK/E/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kypbNAEE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1204B1F00899;
-	Wed, 30 Sep 2026 13:32:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lPbLK/E/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F06B1F00893;
+	Wed, 30 Sep 2026 13:32:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790775163;
-	bh=bJfaNU1C8Yzvj+zzG4aPnzlR5aml+D+FHeWud95ZDJ4=;
+	s=k20260515; t=1790775171;
+	bh=I+vtktdQBcG7CDSemXGmUl+kTdIK6PHkwcTzTiV8jlI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=kypbNAEErueQjTZRCaiuFOYQUz3e3KNJ3MdTbkKwCkj3nL3GPx0vA5dC7EtCs8VCf
-	 PaKF+8qlB85KhHuYnCgsnaLz/8jxD7fcQGDC0hHVUiE3LtPj25LMddpdRXuCk7pcK1
-	 6qaw9iCeC/r4Cv2ZE07BixqOZa5o6l4kPIQ9nKr7pkIwc8g+2ECVP5wnORUo2ldj/x
-	 4lwuvUrOQdvu+sJEeto2buPOiGGYQT/tZ65GO/jIqX/Vx9fC7+EK1Ogwc8nIfrnBmU
-	 MOJ2ivUQgpoCOGq/UOemgNScMrdUBZ9pZDT0NDq6UZ+APHy2Ul//y14NPER7reHi0E
-	 EnyK+ADM5p+tQ==
+	b=lPbLK/E/uGoPVjuWQkISiUpLWwzrSyJZo/fkVKpMObrKKQbGhNVwoDxvcrvZaDcpz
+	 vFjWUerWPaF/4O3SlLIsS0VTFXDz73IGP+H0j5oj052SErr1lYOuhEx/+xRVdeS3If
+	 ozqEGvFSVJpiiknsiwqrb9fPzWhGhRe5/dEGjIhCb0hz7xUw3Lbn+wLrvrNjoSDm3G
+	 1hh2RawryONVwjRoOEJhUxcaXK2cwnMKNcJaS5JvS81HYqLD3eGSNsEvbMVvoP0Ck1
+	 Egz4xlBtccMVGTY4uATQpWoxQbf9P/0XwYFuWvXcJ0VX/pAl+/m3eZ4AEobGzUkakP
+	 sI1RvAYT/yDwQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 30 Sep 2026 15:32:06 +0200
-Subject: [PATCH 14/17] fsnotify: detach the connector before destroying its
- marks
+Date: Wed, 30 Sep 2026 15:32:08 +0200
+Subject: [PATCH 16/17] unshare: don't drop active namespace references that
+ were never taken
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260930-work-mount-fixes-3-v1-14-be34c83956ae@kernel.org>
+Message-Id: <20260930-work-mount-fixes-3-v1-16-be34c83956ae@kernel.org>
 References: <20260930-work-mount-fixes-3-v1-0-be34c83956ae@kernel.org>
 In-Reply-To: <20260930-work-mount-fixes-3-v1-0-be34c83956ae@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -49,84 +49,91 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  bpf@vger.kernel.org, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
  stable@vger.kernel.org
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3181; i=brauner@kernel.org;
- h=from:subject:message-id; bh=aLAt3O000c+HgzM4kEJcEbm6sHc2kmKlwquloW5nlhw=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt5fevtXht9JbHebKqhNuTYtdH2qv+Jju80v9Qs//Rf
- 5miG1f9O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZy1pjhv8+0N2q7v78X2nT8
- 5f9/rs5J2ovvnv3w6sbs23OKOKP+qjxm+F+gfiYrImJF72WV/1s3m2yXXMqj637q45T7C7e05fe
- tM2cFAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3013; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=mW/Is32joGnGf0Bpv9glBLuZOAnyk1YMwflHaSBhn5E=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt5ffPnWb7KmHepvhT0W8OaC4O2Tl1WS3vy+d8F5y3y
+ zQtP6HH1FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRyiiGf3YeUTvtatPzDxme
+ 878zU3qL5jrmqitsGs6sak+3LhVKWcXwP0z/rbpU7Y0vRRHvXTzur7lm41l6VyRnBmeP45qPXMV
+ qPAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-fsnotify_destroy_marks() removes every mark of an object that goes away.
-It walks the mark list of the connector and has to drop the connector
-lock around fsnotify_destroy_mark() since that sleeps. Afterwards it
-continues from the mark it just destroyed. That mark stays on the list
-because the function holds a reference to it. But while the lock is
-dropped fsnotify_add_mark_list() can add a mark to the very same
-connector and put it in front of the current one when group priority
-dictates. fsnotify_grab_connector() hands out the connector until it is
-detached and it only gets detached after the walk.
+Active references on the namespaces of an nsproxy are taken when the
+nsproxy is installed into a task in switch_task_namespaces() and
+copy_namespaces() and dropped again by put_nsproxy() through
+deactivate_nsproxy().
 
-So the walk never sees that mark. The connector is detached from the
-object with the new mark still attached to it. It never receives an
-event nor IN_IGNORED. For inotify that's a watch descriptor that never
-reports anything and doesn't show up in fdinfo either:
+But ksys_unshare() calls put_nsproxy() on an nsproxy that was never
+installed when set_cred_ucounts() fails. The new namespaces of that
+nsproxy go from zero to minus one and the namespaces shared with the
+caller lose a reference that belongs to the nsproxy the caller keeps
+using:
 
-  wd1 = inotify_add_watch(/proc/self/fd/6) = 2
-  events after the unlink:
-    wd 1 mask 0x400 IN_DELETE_SELF
-    wd 1 mask 0x8000 IN_IGNORED
-  events after write() to the file:
-    (none)
+  WARNING: kernel/nscommon.c:171 at __ns_ref_active_put+0x1cd/0x230
+   nsproxy_ns_active_put
+   deactivate_nsproxy
+   ksys_unshare
 
-Detach the connector from the object before the marks are destroyed.
-fsnotify_grab_connector() refuses a detached connector so a mark added
-from then on gets a connector of its own. Nothing during the destruction
-needs the connector. The inode reference of the connector is dropped
-after the marks are gone as before.
+Afterwards the namespaces the caller lives in aren't listed by listns()
+anymore. set_cred_ucounts() only fails when alloc_ucounts() can't
+allocate and it only allocates when the real uid of the caller differs
+from its effective uid.
 
-Fixes: 6b3f05d24d35 ("fsnotify: Detach mark from object list when last reference is dropped")
-Cc: stable@vger.kernel.org
+Commit cefd55bd2159 ("nsproxy: fix free_nsproxy() and simplify
+create_new_namespaces()") separated the two cases on purpose.
+nsproxy_free() frees an nsproxy that was prepared but never installed
+and that's what a failed setns() uses in put_nsset(). Export it and use
+it for a failed unshare() as well.
+
+Fixes: a98621a0f187 ("unshare: fix nsproxy leak in ksys_unshare() on set_cred_ucounts() failure")
+Cc: stable@vger.kernel.org # v7.1+
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/notify/mark.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ include/linux/nsproxy.h | 1 +
+ kernel/fork.c           | 3 ++-
+ kernel/nsproxy.c        | 2 +-
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/fs/notify/mark.c b/fs/notify/mark.c
-index b2640d836a71..f6891d39e42f 100644
---- a/fs/notify/mark.c
-+++ b/fs/notify/mark.c
-@@ -1112,6 +1112,16 @@ void fsnotify_destroy_marks(fsnotify_connp_t *connp)
- 	conn = fsnotify_grab_connector(connp);
- 	if (!conn)
- 		return;
-+	/*
-+	 * Detach the connector from the object first. Once conn->lock is
-+	 * dropped a mark could be added in front of the one we're at and the
-+	 * walk would miss it. fsnotify_grab_connector() refuses a detached
-+	 * connector so any mark added from now on gets a connector of its
-+	 * own. This also stops pinning the inode until all mark references
-+	 * get dropped. It would lead to strange results such as delaying
-+	 * inode deletion or blocking unmount.
-+	 */
-+	objp = fsnotify_detach_connector_from_object(conn, &type);
- 	/*
- 	 * We have to be careful since we can race with e.g.
- 	 * fsnotify_clear_marks_by_group() and once we drop the conn->lock, the
-@@ -1128,12 +1138,6 @@ void fsnotify_destroy_marks(fsnotify_connp_t *connp)
- 		fsnotify_destroy_mark(mark, mark->group);
- 		spin_lock(&conn->lock);
- 	}
--	/*
--	 * Detach list from object now so that we don't pin inode until all
--	 * mark references get dropped. It would lead to strange results such
--	 * as delaying inode deletion or blocking unmount.
--	 */
--	objp = fsnotify_detach_connector_from_object(conn, &type);
- 	spin_unlock(&conn->lock);
- 	if (old_mark)
- 		fsnotify_put_mark(old_mark);
+diff --git a/include/linux/nsproxy.h b/include/linux/nsproxy.h
+index 5a67648721c7..dc2447f5f092 100644
+--- a/include/linux/nsproxy.h
++++ b/include/linux/nsproxy.h
+@@ -100,6 +100,7 @@ void exit_cred_namespaces(struct task_struct *tsk);
+ void switch_task_namespaces(struct task_struct *tsk, struct nsproxy *new);
+ int exec_task_namespaces(void);
+ void deactivate_nsproxy(struct nsproxy *ns);
++void nsproxy_free(struct nsproxy *ns);
+ int unshare_nsproxy_namespaces(unsigned long, struct nsproxy **,
+ 	struct cred *, struct fs_struct *);
+ int __init nsproxy_cache_init(void);
+diff --git a/kernel/fork.c b/kernel/fork.c
+index da48168c504f..d442cd68a37a 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -3338,8 +3338,9 @@ int ksys_unshare(unsigned long unshare_flags)
+ 	perf_event_namespaces(current);
+ 
+ bad_unshare_cleanup_nsproxy:
++	/* never installed, so no active references to drop */
+ 	if (new_nsproxy)
+-		put_nsproxy(new_nsproxy);
++		nsproxy_free(new_nsproxy);
+ bad_unshare_cleanup_cred:
+ 	if (new_cred)
+ 		put_cred(new_cred);
+diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
+index d9d3d5973bf5..3fb1595a4a59 100644
+--- a/kernel/nsproxy.c
++++ b/kernel/nsproxy.c
+@@ -61,7 +61,7 @@ static inline struct nsproxy *create_nsproxy(void)
+ 	return nsproxy;
+ }
+ 
+-static inline void nsproxy_free(struct nsproxy *ns)
++void nsproxy_free(struct nsproxy *ns)
+ {
+ 	put_mnt_ns(ns->mnt_ns);
+ 	put_uts_ns(ns->uts_ns);
 
 -- 
 2.53.0
