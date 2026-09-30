@@ -1,125 +1,273 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B2350B41B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 15:33:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D2750EBEC;
+	Wed, 30 Sep 2026 15:34:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790782406; cv=none; b=q8iui0cOogubpuWvCql3eHDU+IiGYdH4WpARWaTgGG9kmSvLLUdWGTmTrttDLH/b/VlwMYSmfBM4AzD0Fxrmt18MOxlvpsPrsxVerbgZVHrzySlBCAiw2Hw+U/T6l/ilgqug7RCH/VLOZYeLOYhd2WLqC/eQNfgN7dccZexW9VM=
+	t=1790782504; cv=none; b=aS49beaGeyLiEwi0hZBB7oA95XnwVSnT0b9uRDSNolETm5Xr3kO57eI75uStBgCsbuwFDs+134p7uExGLZ58pjmVOtXMCmEqyAiWRsseBZQK4/fpug1yYA95PpMzSVLMjTq/jyvktYolQX5E5dbCuRGzkruxApDvvQ7L2LyO8OI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790782406; c=relaxed/simple;
-	bh=pjsxlzcaP4Jz8G1QUkQ1Gl14XgeIyzw5zbr0od9rBc4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JPLZvohl/CNMgJfntBWNEcApb7SwK/Ucpn1iOM5jMfieZd0nVSr8m9EVT90D+S4o/JYv1xzq49o5FVNQjsKKpP5rcCAV3ju0I4DaanLLKCsFTtnJViSaYRZ2GMoETex5U+Dvheiq3JelazRtB4us2SmNAbSxfvtLYJLzRhdzrNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VTD5D1us; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790782504; c=relaxed/simple;
+	bh=6mt1nKVHoCUf7u00f1fSXxrVXAbVzcWrftVQ4vCvUis=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IVNEsKNs3xWmJuDwaQwsR98MoA/gHkU99Z/lYH7cxYnNCblmHX2qS7zjY9w/Wg0PMI7Axv4B3vToHixhXuqLALMQTVKC6B2l/RcGIzPQnSX8LO0MLbAtLZLhAJGrmkNOyoMgJA1utbhNR0b1hcTnO/KWzRh+q9xJRW5GYZgTirA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u96B1AG4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VTD5D1us"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0E3A1F0089D;
-	Wed, 30 Sep 2026 15:33:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790782396;
-	bh=p2flYhRhbQtLQjkb4F9DovxNqyIJkhi/OOFcNtiaROM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VTD5D1usKNsB+hEJiS2kC3xYC5Pggxaus6texvtAHrKHVEm9Qy1GdmOWiNqmwlXw1
-	 thw4oVXOYj4r3gZ3PJfRJZlZcAEdq+OygbVJRcxw3zsZtE0fzxfm4IXIHomHuFcRLt
-	 M2SIj0we2XT0p64oY/gNwLn9japMMnUGrtmOBswxWvbh+FeV7XBFgGYcPcbc/tOeSM
-	 VhrDg5qZsaQiAC3pi/LGMN602vTsG7f/1uTVxwYn3jqjx/BA/olzBepyT+Tyqlhxqp
-	 qoIH+nUzb8m5uzzMp8SeLqS8gXql1IZnfqZbr2Mex/erIz9pCduosu417Qhm6zmFlt
-	 Ya9va1Jmf+ncA==
-Date: Wed, 30 Sep 2026 16:33:11 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: =?utf-8?B?5aSp54u8?= <rockeet@gmail.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [RFC] madvise: best-effort deferred writeback for shared file
- mappings
-Message-ID: <ar0mdJKLC0cHBoKM@gremlin>
-References: <CAAE3jtfeKJLSypScqRAEEgvO8En5kJfpbcFn5X+LQ2YL+xz_vA@mail.gmail.com>
- <85aff663-2131-47da-ac04-8f0799a49b91@kernel.org>
- <CAAE3jtcRQ407P9LTbg=JOwhABQRViSaq2XBefnDdNWiD7PxvUg@mail.gmail.com>
- <1ce9cf3a-15dc-4815-ba29-2e22b05206fb@kernel.org>
- <art8EKRKMdwSDCkr@gremlin>
- <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
- <arz0auULA33fqoWu@gremlin>
- <arz8Plu6J4YOTi0a@gremlin>
- <CAAE3jtcanTUrV3xfofwrvYGCFe5o=Vn7gS66bDzuxzeGg6c5=Q@mail.gmail.com>
- <ar0a9y2E0nDTIC8V@gremlin>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u96B1AG4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DC891F000FF;
+	Wed, 30 Sep 2026 15:34:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790782499;
+	bh=Tq9KuKA0G9Q++z1DMba6VThhLHrW10qkZ4nT1JkohEM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=u96B1AG4ROPxaldCIXjABDy6mb1Rlej/xFX4RlLSxhgK08y/OUMDTSfdDy1C41bi6
+	 s3HIfWjmlkE9S1I+ZHvYjU/L0SX1KY6Hn/zY2tHGZeZURv1IIQBpj1TyX1c6Cp/Z+L
+	 8DHkJuLWnqymkPPUBnaRQJxA9yj4v/7WW4kEJl54=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	linux-fsdevel@vger.kernel.org,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.10 023/595] hfsplus: rework hfsplus_readdir() logic
+Date: Wed, 30 Sep 2026 17:18:36 +0200
+Message-ID: <20260930152348.223307914@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260930152347.700140858@linuxfoundation.org>
+References: <20260930152347.700140858@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ar0a9y2E0nDTIC8V@gremlin>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 30, 2026 at 03:24:53PM +0100, Lorenzo Stoakes (ARM) wrote:
-> I strongly recommend you look at a shmem solution.
+5.10-stable review patch.  If anyone has any objections, please let me know.
 
-To expand upon that:
+------------------
 
-The general structure would be something like a minimal process, with an
-oom_score_adj set such that it can't be killed (or is at least very unlikely).
+From: Viacheslav Dubeyko <slava@dubeyko.com>
 
-Have it do something like allocate a memfd.
+[ Upstream commit 4b0496432844628ad05a5b1efce329a3340174d2 ]
 
-Then have that be as minimal as possible - it sets things up, it hands off
-memfds over a UNIX socket for instance, and is set up to periodically write
-back to disk.
+The xfstests' test-case generic/637 fails with error:
 
-That way you have something that should never crash/exit which gives you the
-guarantees you need.
+FSTYP -- hfsplus
+PLATFORM -- Linux/x86_64 hfsplus-testing-0001 6.15.0-rc4+ #8 SMP PREEMPT_DYNAMIC Thu May 1 16:43:22 PDT 2025
+MKFS_OPTIONS -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
 
-You can then also control how to synchronise things between processes, when to
-write back and how much, etc.
+QA output created by 637
+entries 7 and 8 have duplicate d_off 8
+Found unlinked files in open dir (see xfstests-dev/results//generic/637.full for details)
 
-You can keep it in a cgroup as well to isolate it from the rest of the system
-too, potentially.
+Debugging of the hfsplus_readdir() logic showed this:
 
-Then have anything that does anything non-trivial be clients of that.
+hfsplus: hfsplus_readdir(): 163 ctx->pos 0
+hfsplus: hfsplus_readdir(): 189 ctx->pos 1
+hfsplus: hfsplus_readdir(): 264 ctx->pos 2, ino 18
+hfsplus: hfsplus_readdir(): 264 ctx->pos 3, ino 19
+hfsplus: hfsplus_readdir(): 264 ctx->pos 4, ino 28
+hfsplus: hfsplus_readdir(): 264 ctx->pos 5, ino 118
+hfsplus: hfsplus_readdir(): 264 ctx->pos 6, ino 29
+hfsplus: hfsplus_readdir(): 264 ctx->pos 7, ino 30
+hfsplus: hfsplus_readdir(): 264 ctx->pos 8, ino 31
+hfsplus: hfsplus_readdir(): 304 ctx->pos 8
+hfsplus: hfsplus_unlink():420 dir->i_ino 17, inode->i_ino 28
+hfsplus: hfsplus_readdir(): 141 ctx->pos 7
+hfsplus: hfsplus_readdir(): 264 ctx->pos 7, ino 31
+hfsplus: hfsplus_readdir(): 264 ctx->pos 8, ino 32
+hfsplus: hfsplus_readdir(): 264 ctx->pos 9, ino 33
 
-Everything works as before, you can ensure that intermediate state doesn't get
-written back through whatever mechanism you want to employ, and you avoid all of
-the pitfalls of writing to a MAP_SHARED file-backed mapping.
+It means that hfsplus_readdir() stopped the processing of
+folder's items on ctx->pos 8, then, item with ino 28 has
+been deleted and hfsplus_readdir() re-started the logic
+from ctx->pos 7. As a result, previous and new sets of
+folder's items have overlapping values for the case of
+d_off 8.
 
-If the memfd isn't enough for you, you could also have it establish a tmpfs file
-which is then shared between all of the processes. That will survive even the
-establishing process dying.
+Currently, HFS+ has very complicated and fragile logic
+of rd->file->f_pos correction in hfsplus_delete_cat().
+This patch removes this logic and it stores the current
+pos into hfsplus_readdir_data. Finally, if rd->pos == ctx->pos
+then hfsplus_readdir() tries to find the position in
+b-tree's node by means of hfsplus_cat_key. This position is
+used to re-start the folder's content traversal.
 
-The main win here is that you can choose when and how to writeback using any
-mechanism you like.
+sudo ./check generic/637
+FSTYP         -- hfsplus
+PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.1.0-rc1+ #44 SMP PREEMPT_DYNAMIC Mon May  4 15:58:45 PDT 2026
+MKFS_OPTIONS  -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
 
-For instance, you could have a dirty bitmap be part of the shared memory and
-atomically update the relevant bit when it's ready to be written back.
+generic/637  22s ...  22s
+Ran: generic/637
+Passed all 1 tests
 
-That kind of approach gives you total control over when and how things are
-written back.
+Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/198
+cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+cc: Yangtao Li <frank.li@vivo.com>
+cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Link: https://lore.kernel.org/r/20260505220051.2854696-2-slava@dubeyko.com
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/hfsplus/catalog.c    | 11 -----------
+ fs/hfsplus/dir.c        | 28 +++++++++++-----------------
+ fs/hfsplus/hfsplus_fs.h |  5 +----
+ fs/hfsplus/inode.c      |  2 --
+ fs/hfsplus/super.c      |  2 --
+ 5 files changed, 12 insertions(+), 36 deletions(-)
 
-And avoids the known issues with writing to a MAP_SHARED file:
+diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
+index 9a82bdf4caf24..2db185c67b2c3 100644
+--- a/fs/hfsplus/catalog.c
++++ b/fs/hfsplus/catalog.c
+@@ -332,7 +332,6 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
+ 	struct super_block *sb = dir->i_sb;
+ 	struct hfs_find_data fd;
+ 	struct hfsplus_fork_raw fork;
+-	struct list_head *pos;
+ 	int err, off;
+ 	u16 type;
+ 
+@@ -390,16 +389,6 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
+ 		hfsplus_free_fork(sb, cnid, &fork, HFSPLUS_TYPE_RSRC);
+ 	}
+ 
+-	/* we only need to take spinlock for exclusion with ->release() */
+-	spin_lock(&HFSPLUS_I(dir)->open_dir_lock);
+-	list_for_each(pos, &HFSPLUS_I(dir)->open_dir_list) {
+-		struct hfsplus_readdir_data *rd =
+-			list_entry(pos, struct hfsplus_readdir_data, list);
+-		if (fd.tree->keycmp(fd.search_key, (void *)&rd->key) < 0)
+-			rd->file->f_pos--;
+-	}
+-	spin_unlock(&HFSPLUS_I(dir)->open_dir_lock);
+-
+ 	err = hfs_brec_remove(&fd);
+ 	if (err)
+ 		goto out;
+diff --git a/fs/hfsplus/dir.c b/fs/hfsplus/dir.c
+index e74662198185e..4f3ef53b95d93 100644
+--- a/fs/hfsplus/dir.c
++++ b/fs/hfsplus/dir.c
+@@ -185,7 +185,15 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+ 	}
+ 	if (ctx->pos >= inode->i_size)
+ 		goto out;
+-	err = hfs_brec_goto(&fd, ctx->pos - 1);
++	rd = file->private_data;
++	if (rd && rd->pos == ctx->pos) {
++		memcpy(fd.search_key, &rd->key, sizeof(struct hfsplus_cat_key));
++		err = hfs_brec_find(&fd, hfs_find_rec_by_key);
++		if (err == -ENOENT)
++			err = hfs_brec_goto(&fd, 1);
++	} else {
++		err = hfs_brec_goto(&fd, ctx->pos - 1);
++	}
+ 	if (err)
+ 		goto out;
+ 	for (;;) {
+@@ -261,7 +269,6 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+ 		if (err)
+ 			goto out;
+ 	}
+-	rd = file->private_data;
+ 	if (!rd) {
+ 		rd = kmalloc(sizeof(struct hfsplus_readdir_data), GFP_KERNEL);
+ 		if (!rd) {
+@@ -269,15 +276,8 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+ 			goto out;
+ 		}
+ 		file->private_data = rd;
+-		rd->file = file;
+-		spin_lock(&HFSPLUS_I(inode)->open_dir_lock);
+-		list_add(&rd->list, &HFSPLUS_I(inode)->open_dir_list);
+-		spin_unlock(&HFSPLUS_I(inode)->open_dir_lock);
+ 	}
+-	/*
+-	 * Can be done after the list insertion; exclusion with
+-	 * hfsplus_delete_cat() is provided by directory lock.
+-	 */
++	rd->pos = ctx->pos;
+ 	memcpy(&rd->key, fd.key, sizeof(struct hfsplus_cat_key));
+ out:
+ 	kfree(strbuf);
+@@ -287,13 +287,7 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+ 
+ static int hfsplus_dir_release(struct inode *inode, struct file *file)
+ {
+-	struct hfsplus_readdir_data *rd = file->private_data;
+-	if (rd) {
+-		spin_lock(&HFSPLUS_I(inode)->open_dir_lock);
+-		list_del(&rd->list);
+-		spin_unlock(&HFSPLUS_I(inode)->open_dir_lock);
+-		kfree(rd);
+-	}
++	kfree(file->private_data);
+ 	return 0;
+ }
+ 
+diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+index 489208819e72a..ae4e8f304116e 100644
+--- a/fs/hfsplus/hfsplus_fs.h
++++ b/fs/hfsplus/hfsplus_fs.h
+@@ -246,8 +246,6 @@ struct hfsplus_inode_info {
+ 	sector_t fs_blocks;
+ 	u8 userflags;		/* BSD user file flags */
+ 	u32 subfolders;		/* Subfolder count (HFSX only) */
+-	struct list_head open_dir_list;
+-	spinlock_t open_dir_lock;
+ 	loff_t phys_size;
+ 
+ 	struct inode vfs_inode;
+@@ -297,8 +295,7 @@ struct hfs_find_data {
+ };
+ 
+ struct hfsplus_readdir_data {
+-	struct list_head list;
+-	struct file *file;
++	loff_t pos;
+ 	struct hfsplus_cat_key key;
+ };
+ 
+diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
+index 46ec102e5f393..e708f94bb52d6 100644
+--- a/fs/hfsplus/inode.c
++++ b/fs/hfsplus/inode.c
+@@ -435,8 +435,6 @@ struct inode *hfsplus_new_inode(struct super_block *sb, struct inode *dir,
+ 	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
+ 
+ 	hip = HFSPLUS_I(inode);
+-	INIT_LIST_HEAD(&hip->open_dir_list);
+-	spin_lock_init(&hip->open_dir_lock);
+ 	mutex_init(&hip->extents_lock);
+ 	atomic_set(&hip->opencnt, 0);
+ 	hip->extent_state = 0;
+diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+index fdc07f67d4d3b..413fd61daf3ff 100644
+--- a/fs/hfsplus/super.c
++++ b/fs/hfsplus/super.c
+@@ -90,8 +90,6 @@ struct inode *hfsplus_iget(struct super_block *sb, unsigned long ino)
+ 	HFSPLUS_I(inode)->fs_blocks = 0;
+ 	HFSPLUS_I(inode)->userflags = 0;
+ 	HFSPLUS_I(inode)->subfolders = 0;
+-	INIT_LIST_HEAD(&HFSPLUS_I(inode)->open_dir_list);
+-	spin_lock_init(&HFSPLUS_I(inode)->open_dir_lock);
+ 	HFSPLUS_I(inode)->phys_size = 0;
+ 
+ 	if (inode->i_ino >= HFSPLUS_FIRSTUSER_CNID ||
+-- 
+2.53.0
 
-* Terrible error handling - random SIGBUS's, network file systems in particular
-  are very problematic, writeback errors are hard to obtain (fsync(), msync()
-  needed to even get them) - note the tmpfs compromise mentioned above has this
-  issue too.
 
-* No control over writeback - Exactly your issue. This is what you're trying to
-  work around.
 
-* Writeback stalls - as above. The dirty writeback balancing bites there.
-
-* Reclaim - dirty pages can't be reclaimed until written back.
-
-* Fault overhead - every fresh dirtying write is a page fault (that's how dirty
-  tracking works) and you have that overhead throughout. Once written back it's
-  cleaned and causes the same cost again next time.
-
-The TL;DR is you're trying to manipulate logic whose whole job it is to
-writeback to not do that.
-
-So stop doing that :) and life is much easier.
-
---
-Cheers, Lorenzo
