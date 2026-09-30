@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503704DEC38;
-	Wed, 30 Sep 2026 13:32:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B3B4FD263;
+	Wed, 30 Sep 2026 13:33:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790775180; cv=none; b=Z5A3TyMI4WopnEod9jbnAFwsUdv4G5YKW4hvqZJkDyrFb/WsJMRcSymuuF46mrPg3vFrq3ZbYj6r9u/toKb/FoFfHxo412PjCn8CjCkJeI7FzGIvlLgOpzL4hLLEHMMdqE7X6ziQQBMZCtAgXAGCJY0ukVO/UZnlZUivqsnDCis=
+	t=1790775197; cv=none; b=kbRSoqIjCzX94qqj77nTH8/v4Dp0WDlKxvz+2WSFZhPkGkjcIovCMrjJ1V57Pp0SG3AQmk/U/SFQ0BLYllaJOPSkuCCj3VBLeG8fqhWmPZihQFFw2CTZE96Vr5SKpHDgUVar5Ty0dlws090ZSZrxTPo3zsZL/fo8C75c//xCuac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790775180; c=relaxed/simple;
-	bh=VChDy3hWuDVdVUGE2WTB5GqyHC2FHigZ78MGkN2d5SI=;
+	s=arc-20240116; t=1790775197; c=relaxed/simple;
+	bh=+nHyJr37x1sHrzsEBJjBcsZpjxWnEya3d4VWbLO9h+A=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CWifTk/cEHe9VvqIYruC3V9Xmoh07//gqyz8VJX8DPPff5Jzs7k56DctHdi5vfoeMUjkgzFM058BUBC0evO3awIeypRpVuU08KhDGUJz9vmdoZZdj5S2FHpQdWHA1KNKfcsmXSxmP2ILLjN852xj9c4gN1ae/SOW+9+7iNDaSpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oKA5HNab; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=A9+2qQkSRQZfp32oor65nL6oZ3UhmBKgsIpGGAee7w8gyR+Nq9lfQQTSlZgmYhy/3uQFTcAjFj8AwI1zy5r/gRxMv2iHj9sJdLBQHdRm2O+694INnS6c2etcD/9gfuACWkgAjnXeevbOzlR1B5rWXBp0uhTbV4/Sb+F3b868IRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AVq63Jpj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oKA5HNab"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 327021F0089A;
-	Wed, 30 Sep 2026 13:32:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AVq63Jpj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAB1E1F00898;
+	Wed, 30 Sep 2026 13:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790775167;
-	bh=1FuQuElpPxGN8uVh1NtWSNUZDwVfZAjS2FFOCmLaE4Q=;
+	s=k20260515; t=1790775176;
+	bh=jZyI/bRT1onhPYauu7psPBF4Q8V/T/GQ8M15ucbjntw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=oKA5HNabn1jFifZPRmbUOzYb61+zce/8xwqirvNxr6R7LLdFytkG1ah+d7jwmnvX8
-	 yNXQP7p3geynLFhxBvnlR0KMuvFiAcG4Sc2FiC/vR6/QeMCnEZprv/zDPBe4y4xN9s
-	 tvV/iTJG2L3m5dluo0cT5yPkLTdJMeMabUsGmMgItQr07IjLf1f2ve/gH3F2UdJrgM
-	 +bWnt+fGIcdqLihq/eVECn+V7oL2YcwjCX5fWiip+wZhpWFqdZsOvtlgfUsm62LiQm
-	 Qv+rOCDGK7rFd+Bnlln+JByHrb+lGSnaqnOAoBgw9s06QDqv0po6YYIwgqJyzG5ob/
-	 j4pU0h10LhCnQ==
+	b=AVq63JpjmRQ73gRFd8iP1tByaybqt3zX4IY4NiTyGlndIcYjMyTHSKYX24TWjGdnO
+	 shjzE/DvX0paYs6Hz+/rSy+J58m5Kn8gMeGiwAdIA8fGAnw44m6YRkpr2Av/PcnplG
+	 Bkzcsym4WZ4JbsKLACLNkYeDy54OMITExktuHE4c0fZS55tdeTkNBGxgzEF5KcGuvB
+	 hsY/b5q3f5n9xCzKqaPXfDWb1JdLOyvKr84GNYWZ0AeR3QNHi/P3ikieTc6CrBHvcG
+	 Lh9RlLVpiOxu1Zw6XLWAGPk2O7soFkdqf5MFtyT7Da1MHkTWhvkhJ6Hx85pdVsQ3cJ
+	 2TdI48PaMPsQQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 30 Sep 2026 15:32:07 +0200
-Subject: [PATCH 15/17] dcache: don't put a mountpoint on a dentry that's
- being removed
+Date: Wed, 30 Sep 2026 15:32:09 +0200
+Subject: [PATCH 17/17] namespace: don't let a pseudo dentry become the root
+ of a mount
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260930-work-mount-fixes-3-v1-15-be34c83956ae@kernel.org>
+Message-Id: <20260930-work-mount-fixes-3-v1-17-be34c83956ae@kernel.org>
 References: <20260930-work-mount-fixes-3-v1-0-be34c83956ae@kernel.org>
 In-Reply-To: <20260930-work-mount-fixes-3-v1-0-be34c83956ae@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -49,70 +49,63 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  bpf@vger.kernel.org, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
  stable@vger.kernel.org
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2406; i=brauner@kernel.org;
- h=from:subject:message-id; bh=VChDy3hWuDVdVUGE2WTB5GqyHC2FHigZ78MGkN2d5SI=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt5fe//2/S2pa6COXkFPlOZfGzPyJjeI/MLDx+0LFjh
- /LCNUwbO0pYGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYy4RbDP/tbdXkxAp/DD5qK
- hlexeDf96rUIDK9pcVs0ieuIyNRdFQzfCy00FFg6GOwufE/+ohxxMovPYcvqvX/WvWa4/nRieT4
- nAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2103; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=+nHyJr37x1sHrzsEBJjBcsZpjxWnEya3d4VWbLO9h+A=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt5ffPtfn/epp3wK5LxUePd7b8crneuvIa2+nasEur/
+ K+Jf9yxp6OUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiBz8xMtzrn2v+onLRwz9/
+ tib+6le4sJ2vsWnXpY3brwrM3T/Z4FERI8NT5Y4TKrn79ySU9NVuU7k1UefSxMAJMWvCfuy+8rP
+ rVC0zAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-rmdir(), unlink() and rename() call dont_mount() on the victim and then
-detach_mounts() with the victim's inode locked. do_lock_mount() takes
-the inode lock of the mountpoint and checks cant_mount() so a mount
-can't show up after detach_mounts().
+d_alloc_pseudo() hands out dentries for pipes, sockets and other files
+that are never anyone's child or parent. They carry DCACHE_NORCU and
+dentry_free() frees them right away because no lockless path walk can
+ever reach them. That holds as long as such a dentry isn't the root of
+a mount. But bind mounting /proc/self/fd/<fd> of such a file does
+exactly that.
 
-But attach_recursive_mnt() makes a second mountpoint for the root of the
-source mount so that the mounts already located at the destination can
-be put on top of it. No inode is locked for that one and d_set_mounted()
-only refuses a dentry that is unlinked. Between detach_mounts() and
-d_delete() the victim is still hashed:
+Most callers of alloc_file_pseudo() put their files on kernel-internal
+mounts and may_copy_tree() refuses those. bpf_token_create() doesn't. It
+places the token file on the bpffs mount the caller handed it and that
+mount is in the caller's mount namespace so the clone goes through:
 
-  rmrace: b passed dont_mount() and detach_mounts(), sleeping
-  T2: move_mount(S, /tmp/plcant/x, BENEATH) = 0 errno 0 ()
-  T1: rmdir(/tmp/plcant/d/b) = 0 errno 0
-      109 107 0:61 /d/b//deleted /tmp/plcant/x rw,relatime - tmpfs tmpfs rw
-      108 109 0:63 / /tmp/plcant/x rw,relatime - tmpfs T rw
+  mount --bind /proc/self/fd/<token> <file>
+  open_tree(tokfd, "", AT_EMPTY_PATH | OPEN_TREE_CLONE) + move_mount()
 
-A bind mount of the directory that's being removed is moved beneath an
-existing mount while the rmdir() is located between the two calls. The
-mount ends up on the removed directory and nothing will ever detach it.
+__follow_mount_rcu() then loads ->mnt_root of that mount, reads d_seq
+and d_flags of the dentry and only then checks mount_lock. The dentry
+can be gone by then. The final mntput() of an unmounted parent unhooks
+a child that stayed attached to it under mount_lock alone. When the
+child's holder does the final put right after that the root is dput()
+and freed immediately while a walker that found the mount hashed still
+looks at it.
 
-Check cant_mount() in d_set_mounted() as well. dont_mount() raises the
-flag under d_lock before detach_mounts() runs so either the mountpoint
-is set first and detach_mounts() finds the mount or the flag is seen and
-the mount is refused.
+Refuse to clone a mount with a DCACHE_NORCU dentry as its root. Nothing
+sensible can be done with a bind mount of a bpf token anyway.
 
-Fixes: 1064f874abc0 ("mnt: Tuck mounts under others instead of creating shadow/side mounts.")
-Cc: stable@vger.kernel.org
+Fixes: 35f96de04127 ("bpf: Introduce BPF token object")
+Cc: stable@vger.kernel.org # v6.9+
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/dcache.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ fs/namespace.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index a66be85f9d01..f44c7b39c3b3 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1583,6 +1583,8 @@ EXPORT_SYMBOL(path_has_submounts);
-  *
-  * Only one of d_invalidate() and d_set_mounted() must succeed.  For
-  * this reason take rename_lock and d_lock on dentry and ancestors.
-+ * Likewise for dont_mount() which marks a dentry that is being removed
-+ * under d_lock.
-  */
- int d_set_mounted(struct dentry *dentry)
- {
-@@ -1599,7 +1601,7 @@ int d_set_mounted(struct dentry *dentry)
- 		spin_unlock(&p->d_lock);
- 	}
- 	spin_lock(&dentry->d_lock);
--	if (!d_unlinked(dentry)) {
-+	if (!d_unlinked(dentry) && !cant_mount(dentry)) {
- 		ret = -EBUSY;
- 		if (!d_mountpoint(dentry)) {
- 			dentry->d_flags |= DCACHE_MOUNTED;
+diff --git a/fs/namespace.c b/fs/namespace.c
+index 3c90d853e091..fcf42f192aae 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -3026,6 +3026,10 @@ static struct mount *__do_loopback(const struct path *old_path,
+ 	if (!may_copy_tree(old_path))
+ 		return ERR_PTR(-EINVAL);
+ 
++	/* a pseudo dentry is freed without an RCU delay, no walk may find it */
++	if (old_path->dentry->d_flags & DCACHE_NORCU)
++		return ERR_PTR(-EINVAL);
++
+ 	if (recurse && !old->mnt_ns)
+ 		return ERR_PTR(-EINVAL);
+ 
 
 -- 
 2.53.0
