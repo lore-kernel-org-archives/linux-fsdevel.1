@@ -1,97 +1,122 @@
-Received: from pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.68.102])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB9A47C10F;
-	Thu,  1 Oct 2026 08:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.68.102
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6463C0637
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 08:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790843579; cv=none; b=QMf2d0CPsR32xTFApUimPe/wOyovOxU0M949BVsBcCIWxF87yTw+p5mA0vV6jxaNdlRgVhaNPBzz3gLeagPAGrHXuFIVq3pk1eeIDaIFj8IxHZSIReo5rnEM+9rXY8OUo1Krw/Y1dHToWLYsCklgo6pxm6IN+crxzo8tKeniOo0=
+	t=1790843732; cv=none; b=tgYbq9n2i0Dr9oqnyxWySwiCimxxMrIK9fcVCDDk+Aja5vL27PTuStd/LC81ih2rZ3by+ItfRb+P2GURcvwXvRF44gN86C9f4E1dKjuI3FMebxT/l1BbPgnk5Qdu76+YSmI+LpuMBSvo1qIIGMrR45YRnfS2MwXbUH96CZ8pOzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790843579; c=relaxed/simple;
-	bh=1AcNDqeJqycLPgcWo0w6spdygMY5Og6ep6m0g2qt0Fs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FTfe/8wEtLPfcAjTuybj4SJHEP9GlsSdKtypwuJsf2qGQte9Wl4hT2SoSHqtv25MEAn3fIxXeT8s9lv5oya7N7ICv4Don5/I/Ge4fZfr/yZX8mq9JFsNbXkLp1y1ymopI9QtvwRZLPnfdCwdVgxtxMmb7f4bsFfGjWd6DVsYJDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=KOmbAFLy; arc=none smtp.client-ip=44.246.68.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
+	s=arc-20240116; t=1790843732; c=relaxed/simple;
+	bh=suCKWCuc1bnOWffxzPTwdfuwNnlJqXA+qy0aAkoGCSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sseQ68z7emcO1I4DZS5h8buNxxMLe/4a+qBZizVn3O6oEIdkkCW/uPdzUIDL6pKv07oowqKPBe/YlhGxzZ1rSWNSTyZs2HWqpc9horg9xH0oAa3HB2u5vGvpkNphjgSp4MQC9TSXrxPpNhTHPW14ecYL+yOXwrVmdpoaagXYU6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BcEusJM/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="KOmbAFLy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
-  t=1790843578; x=1822379578;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1AcNDqeJqycLPgcWo0w6spdygMY5Og6ep6m0g2qt0Fs=;
-  b=KOmbAFLymFdVUpohnXSuCqmESPX2pkKjUqWHk3KmfdEeNCVIPH84U1JK
-   dNcPGNErSCV6fwedfBeBOhT0Xplo4jtUBAyC5TsN95dFPD6eAiMnLgT2c
-   OSslakhULSvkpiiqLgvBcOaW+peCmS8w+LQYdlRUbZg1BbWGyMAzcmTQx
-   nmUT1uvWBP7XT7FqX4FDeC8XmwWA8MCWcmHbdFmrAYEvgb4WTMNBmVbz6
-   TP6QsZwYXK7F0C+fCIvRaNQ9hxvTsKmLddb5KkFuPquX8PQiRe5+OcFaW
-   XQm2uACGwFdfeEUU1d9O8UOcj29y6OC+N2P2SGEkPerDPPiAlhCp+cf/B
-   A==;
-X-CSE-ConnectionGUID: RdSEhq9fSUmEovqNwHA6YA==
-X-CSE-MsgGUID: O4aa3J/gRK6q7miLgl890A==
-X-IronPort-AV: E=Sophos;i="6.27,134,1787011200"; 
-   d="scan'208";a="30023040"
-Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 08:32:55 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:17289]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.25.157:2525] with esmtp (Farcaster)
- id e186863d-f635-425e-adeb-010d139eebf3; Thu, 1 Oct 2026 08:32:55 +0000 (UTC)
-X-Farcaster-Flow-ID: e186863d-f635-425e-adeb-010d139eebf3
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
- Thu, 1 Oct 2026 08:32:55 +0000
-Received: from dev-dsk-dipiets-1b-77b833da.eu-west-1.amazon.com
- (10.253.66.177) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49; Thu, 1 Oct 2026
- 08:32:51 +0000
-From: Salvatore Dipietro <dipiets@amazon.it>
-To: <akpm@linux-foundation.org>
-CC: <abuehaze@amazon.com>, <alisaidi@amazon.com>, <blakgeof@amazon.com>,
-	<brauner@kernel.org>, <brendan.jackman@linux.dev>, <david@redhat.com>,
-	<dgc@kernel.org>, <dipietro.salvatore@gmail.com>, <dipiets@amazon.it>,
-	<djwong@kernel.org>, <hannes@cmpxchg.org>, <hch@infradead.org>, <hch@lst.de>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-xfs@vger.kernel.org>, <mhocko@suse.com>,
-	<ritesh.list@gmail.com>, <rvvandan@amazon.com>, <stable@vger.kernel.org>,
-	<surenb@google.com>, <vbabka@kernel.org>, <willy@infradead.org>,
-	<ziy@nvidia.com>
-Subject: Re: [PATCH v5] mm/page_alloc: avoid direct compaction for costly __GFP_NORETRY allocations
-Date: Thu, 1 Oct 2026 08:31:49 +0000
-Message-ID: <20261001083149.2918529-1-dipiets@amazon.it>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260918143502.b4fb3587b64e260e14485348@linux-foundation.org>
-References: <20260918143502.b4fb3587b64e260e14485348@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BcEusJM/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA601F000FF;
+	Thu,  1 Oct 2026 08:35:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790843730;
+	bh=suCKWCuc1bnOWffxzPTwdfuwNnlJqXA+qy0aAkoGCSg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BcEusJM/janBADkvh00+H9aJtMWGPHTnd9wKQ2NmwFAtRA5DZCwhibfkEfdQ0cy2U
+	 eWNDs9yOYDdzF8gWtVO8naGpWDV+SeKHnMAcWZ28+A5JQSWAnNua+fZTS4wL5SH/kt
+	 0JMsNRvWdfUUQV+TGlMorXeHabbjIvNZiMruYNjbBUkUd4IDa8K+2kIZw5MXy9PuZE
+	 zYoaVF2MLGHOjMXsyjq61OmQ+NDvdp45Yu6X7ckZ6vNeDqJV2qtXl5kbdaH5LAiS7/
+	 mw+kOSyyNtYJWh7rXmjIdHR7AhuIaFqbTFyH8MzputxAHbYqZWfta0xvo9IAVEDpYn
+	 B3WzwGT1PmRIw==
+Date: Thu, 1 Oct 2026 09:35:25 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: =?utf-8?B?5aSp54u8?= <rockeet@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, "David Hildenbrand (Arm)" <david@kernel.org>, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [RFC] madvise: best-effort deferred writeback for shared file
+ mappings
+Message-ID: <ar4WSaLYBs1db1-3@gremlin>
+References: <CAAE3jtcRQ407P9LTbg=JOwhABQRViSaq2XBefnDdNWiD7PxvUg@mail.gmail.com>
+ <1ce9cf3a-15dc-4815-ba29-2e22b05206fb@kernel.org>
+ <art8EKRKMdwSDCkr@gremlin>
+ <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
+ <arz0auULA33fqoWu@gremlin>
+ <arz8Plu6J4YOTi0a@gremlin>
+ <CAAE3jtcanTUrV3xfofwrvYGCFe5o=Vn7gS66bDzuxzeGg6c5=Q@mail.gmail.com>
+ <CAAE3jtdHi7aSsJ62TpEjkxvwA-3TBLvr5i1ohCNg2aupND+_XQ@mail.gmail.com>
+ <xhrorb6wn2j2j57ydnt226khnu6gv4ut3crrmjwjr4iwj7d6yo@43lugxdthgyi>
+ <CAAE3jtexTRdqzAodzCkAy5NtH_s3VhtutXbxMjangf8BtB+-dQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D037UWB004.ant.amazon.com (10.13.138.84) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAE3jtexTRdqzAodzCkAy5NtH_s3VhtutXbxMjangf8BtB+-dQ@mail.gmail.com>
 
+Hi Peng,
 
-On Fri, 18 Sep 2026 14:35:00 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+(Point of etiquette - and you are perhaps not aware - in general in the
+ kernel we reply inline to people rather than sending big lists in
+ reply.)
 
-> So a clean v6 would be best now, please.
+>1. With buffered I/O, the data already resides in shmem, and writing
+>it to the regular file allocates another set of page-cache pages. When
+>both copies are resident, this roughly doubles the memory occupied by
+>the data. Traditional LSM MemTables are usually small, so duplicating
+>one is relatively inexpensive (they waste so much elsewhere that they
+>never even reach the scale where this becomes a concern). Our
+>MemTables can be very large, making duplication a substantial waste of
+>memory that significantly undermines the advantages of our design.
 
-Done, v6 is here:
+Then use O_DIRECT :)
 
-https://lore.kernel.org/linux-mm/20261001082152.2879289-1-dipiets@amazon.it/T/#u
+>
+>2. During the MemTable-to-SST transition, existing readers still
+>access the data through the MemTable, while new readers access it
+>through the SST. We therefore cannot immediately release the shmem
+>copy. Our current ConvertToSST instead renames the existing file and
+>appends metadata. The inode remains the same, so the existing MemTable
+>mapping and the new SST mapping share the same page-cache pages
+>throughout this overlap period.
 
+That's your choice, not a requirement. The SST is the MemTable plus
+metadata, so append the metadata in shmem and serve new readers from there
+too.
 
-Thanks,
-Salvatore
+>
+>3. AIO or io_uring with direct I/O avoids allocating the destination
+>page cache during the write, but it does not turn the source shmem
+>pages into page-cache pages of the SST file. Subsequent SST mmap reads
+>populate a separate page cache, while existing MemTable readers still
+>need the shmem pages. The duplicate memory therefore remains a problem
+>during the overlap period.
 
+It doesn't need to. Serve everyone from shmem until existing readers drain,
+then drop it and switch to the SST. Only one copy is ever resident.
 
+>
+>4. Temporary files are a much broader use case. Periodic automatic
+>writeback is unnecessary for temporary data; writeback for memory
+>reclaim is what serves a practical purpose. A per-file exemption from
+>age-based periodic writeback would benefit these workloads as well.
 
-AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
+Temporary data that doesn't need to reach disk belongs in shmem :)
 
+Overall - each objection so far has been to the cost of changing your
+design rather than to the userspace approaches not working.
 
+I agree with Jan that the inode hint is viable in shape, but we'd need a
+good reason to add it, and avoiding a design change isn't one :)
 
+David, Jan and I have all suggested a shmem-based userspace
+approach. Please explore that properly first.
+
+I took the time to write up the approach, in detail, at
+https://lore.kernel.org/linux-mm/ar0mdJKLC0cHBoKM@gremlin/ hopefully that's
+helpful.
+
+--
+Cheers, Lorenzo
