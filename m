@@ -1,287 +1,240 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f32.google.com (mail-ed2-f32.google.com [74.125.228.96])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E603D5673;
-	Thu,  1 Oct 2026 10:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D5043C7DF
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 10:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.96
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790851197; cv=fail; b=ANrDZmJ7ROsjmdOdpxNbApclA6hQ9NLE7kfiQJvGlMiX0lZ7qyCNxuzA6S0vc374S2dQAnqF+qpvK4p50mnl9FfYw7HTNG+AbyWhwHstDBR32JhQtRdUDpD4bPmS7rQb6TThucI/nf1u6jRt87S2pRSsA546pe0CM7bzdqdWJx4=
+	t=1790852298; cv=pass; b=BZ346sI3+14lrJYlhvS/tJo0z/UKjVfijUUJqL+naz1lcfoJ8ggeMZu2z/sujP3FE62Ic2HkBwjooSdOnaQf3XbVVeUQCdU4JR6a78v0cxLq4bJLSUG8HlvKkqBTR9GbY9d253Qo5QwPFbG7l2bJucLXWyGW68Bs+HmQ0CTUjf4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790851197; c=relaxed/simple;
-	bh=Rna6G5YifOygjQuVWoIoxPymGIp1iJm9/O8jACczwtA=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=FitmaZKqOo7ydvEXxs32LudjNxRgPQ9tl2vG7P2OF+vZfplfKmRARNVAmXSBPzMzmvidtU+mgzy6Ilhau5Au37U9UXdmF0Tgp1HvmqkDOhhFE2Ysy9jq2bsSsyx4EmXfAwMwrZT8wrO4XstPeZcF6YCYh0QT/hRdYazMOCowlOU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M1JOBHXk; arc=fail smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790852298; c=relaxed/simple;
+	bh=YJvXUr+pq2B5IAi3iXrHuCjS/uY9ahiglDRXGGu4abI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q7IfXdL1Hpa+vju8J3Hp7GSshTx8/GZBDP0Lz+sDZ5TMiTjgi8L0SZV7diwdzGGRFf3JL12NnCdnOPSJ+cfkjWvf1aIQBtrI15Lz+2II8B1p0Pel6Zt4H3DmbsuJhAKsoXKEgtdi1sLaRFVkaf/ESx/3eDbjcj+otY9hA1CWYhc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i9+6lg37; arc=pass smtp.client-ip=74.125.228.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M1JOBHXk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790851193; x=1822387193;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Rna6G5YifOygjQuVWoIoxPymGIp1iJm9/O8jACczwtA=;
-  b=M1JOBHXk6Th3Xjbi9kQeT6e4OGfQfzVRux05W7uHhdVv8129Z8rqNSdk
-   yKLO3EvFDIi2jZs+BO6Mq7Ix1BHVJ3DV41D+CfBg8VC9EObhSOO2t1c7f
-   CAoDbbSVK7M/Lw6nS3m9zvTTuq9ep555we8N/iZPWh18oacu9e1hUMzeb
-   U1eIEKAUh5Ih6/WvKq+sXBf4Zuq2XfvF+lnvTk5+88lEXGYtDN4b2Nd6n
-   egZ1Zi8/D84atZv2P+B0lRsafU/ofn8L0fJ3kkYaTbMWl7IdHuZbNxBwf
-   3Jduk1o8k2xq7s8D3F2rqAfi0H4dkFM2C2mMgWP+tGIfiGzZuBKhJZa9u
-   w==;
-X-CSE-ConnectionGUID: DszoVhTAQMWHVZYI5CAeig==
-X-CSE-MsgGUID: O/MyIj3ORh6w7WgckXZqoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="102127443"
-X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
-   d="scan'208";a="102127443"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 03:39:49 -0700
-X-CSE-ConnectionGUID: FhiP3ZLJQTSWhaV+96kTyQ==
-X-CSE-MsgGUID: 4Bl4wxIiSbqrmZJryF8w8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
-   d="scan'208";a="272388702"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 03:39:49 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 1 Oct 2026 03:39:48 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49 via Frontend Transport; Thu, 1 Oct 2026 03:39:48 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.68) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 1 Oct 2026 03:39:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TSxV2yAGMFcGMjZ5XeMt+g/vjpGWTSgqJKlkvs72nRc2n8bkftF49YmTKe6iHc/0KZe7L9QysueJyHWkO/8pWLH5SmMikjErWXkw/FODEnSkcRbqagl+8U37S8P1mCrZDxvrKIpyWlsY5+oqa2cex7ToH6DFCWHnPYJ6TGCxo0hn6qxMMBrG/XLQEPZR/5/A3DdmB4JeVE9timM3KquZyp6Gy3YCYjtliIjLLlP/icmtdcWRwVpQzTpWMQgDELCNb2DM152ndAKVEbM8ZN0PK0zaBqYcVCTEpgZu3OUx5E6U/UjNE5g5KERdhln6Zm3jQpM94Qy+0HJ0dNrjGDndIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LzujqB/9FR9JtKNO1IASKeall+S/UsytAq9FzAiByEw=;
- b=NCXFzlGmGIlKyny6NJ3bBXZvsah0tN4rL8S1Pkq9yaXp9kIPcPNMJRXhwFooWVPg4rzDm62BzR6vIeHCKfDj/Zb7KFXMIqZipmYNz/b6De2/dzDMy56qLBi9NNIT1GViEMt1yvVcm7U4DYK7JrcQvVy4cGT0P0Ltclap17LBTxljMHMUVOra6BmeMuO4lS3CRBKU8b9tLPjKUCNIio4g8/7XT3b2153hNXqSlKkQc2g0bb3TJMEMf4FYRlEGGDUIu1reRTf1q0g8xMJnasUNt/JZ0IFNLt3ioM3RW9LvchBwm/ThFNK1z64pagUNI9vqYNnrmf6o51EggYtVmacmgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA2PR11MB5035.namprd11.prod.outlook.com (2603:10b6:806:116::21)
- by CY8PR11MB7084.namprd11.prod.outlook.com (2603:10b6:930:50::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Thu, 1 Oct
- 2026 10:39:46 +0000
-Received: from SA2PR11MB5035.namprd11.prod.outlook.com
- ([fe80::9418:cd60:8ece:69c3]) by SA2PR11MB5035.namprd11.prod.outlook.com
- ([fe80::9418:cd60:8ece:69c3%5]) with mapi id 15.21.0472.015; Thu, 1 Oct 2026
- 10:39:46 +0000
-Message-ID: <f758f351-573a-43d6-81d7-4312ccf54c1f@intel.com>
-Date: Thu, 1 Oct 2026 16:09:26 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/7] VFS: add lockdep monitoring of DCACHE_PAR_LOOKUP
- lock.
-To: NeilBrown <neil@brown.name>
-CC: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
-	<brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	<linux-fsdevel@vger.kernel.org>, Jeff Layton <jlayton@kernel.org>, "Amir
- Goldstein" <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>,
-	<linux-kernel@vger.kernel.org>, <ravitejax.veesam@intel.com>,
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-References: <20260904215142.1060510-1-neilb@ownmail.net>
- <20260904215142.1060510-7-neilb@ownmail.net>
- <e3772a51-eabc-4c31-b73d-f3187bf1b3b2@intel.com>
- <179080249491.37859.6519131410483661870@noble.neil.brown.name>
-Content-Language: en-GB
-From: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
-In-Reply-To: <179080249491.37859.6519131410483661870@noble.neil.brown.name>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5P287CA0126.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1d0::7) To SA2PR11MB5035.namprd11.prod.outlook.com
- (2603:10b6:806:116::21)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i9+6lg37"
+Received: by mail-ed2-f32.google.com with SMTP id 4fb4d7f45d1cf-6acbdf627ccso3425828a12.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 03:58:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790852294; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AF+4uY+hrnk3FALdPwqJdVBS2kFPp83ZVfx1Jw4qRwlQLsML1+y9UiUeKqRAdbfTL6
+         yGux8031GVZn8pJiUkFHi4/UWFbT76MG4xV34SZajVkNIbcaCikNyKqfk7AlsTgeusz2
+         RHFgCxBlieCtPopm4Y5Apc6wliaViRD4ZLBujiB4yDT/f1z4uZ5ZP0QI+hDCDKQcVIac
+         fOzg6CoN9PEUOD4dHzntTbiWMfIw5T+s99XCpy9b5IL2PPRBW4bNaeg0l0zAjJGtln45
+         +qTjG6Qm3gTYjbceJNLfj/ceY323Ie2smE4PB1zHKKK5+z8mKgemr8NZ1oiiVtlgvDqU
+         4xzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=OucJBsbHM5acxxfL6ZGTIjEsrBVOev5k2SFxTGalm5U=;
+        fh=2F4DSN0MnWwaU9VA6MsSPuw41yh0yPAqaGFhKfX+BhQ=;
+        b=kh0EN4Gie77FtZVu5kasYduEjDVe2vEF5jmZRq0ia3gFvfO9BL8AncASNU4ralLmYf
+         9Qh0XVcT3Ui7BC4xRtH8ZcDTb0BNHqS2RPXv2RVO4AkOMOIdtHbuMAaBkyChLvegtoRg
+         uDEtIUzvCfkFFEi9JfcZzS4N8SAxGXRBCq00icpvwz2sgk07HWw7c87F6Q6KtMljymaS
+         tykuEHcrZiX3t703SKM+h2CoPF3QCTd1hYz/F2VKRZbaiUmURoObSXLGA9YEKyRYsbvB
+         22PuEDRSv3qG98Ys8eYbMDUUck8N09sz5ngb/B0opBkodCUY7ddjAuRfL2Ljr55WWzg+
+         g80w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790852294; x=1791457094; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OucJBsbHM5acxxfL6ZGTIjEsrBVOev5k2SFxTGalm5U=;
+        b=i9+6lg37vH2hh5OhDnsfiinE5SfKh4r6iPP+cf+LcE9mcY+0Ql+zAnXdlWyBw8dm0X
+         7W3w5VzOUxxP1msSX4ax8dmqQM5RrDLJRRmrDIn7vR12i5e2Ot/ZqETnzlC8qOzT8HEU
+         EFvrlL9NTwQdeDm4lkik6ZOSrxLgalyEK/1kDdaPfKF1mpUyYPM9jvu0hIC6bLO26S4I
+         TlVgAtGs8mft7hO4bsxB2VXl+tAuv4kBKsVMV3+kstDJzPUHlAeL6dlNardh81p89W5V
+         e0+KLMz4jnvyla0tr87gBF1aqRwAY+OegfUFIxHCwGANCLhYMNrTemxSWJ4CvsBFMtnD
+         X75g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790852294; x=1791457094;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OucJBsbHM5acxxfL6ZGTIjEsrBVOev5k2SFxTGalm5U=;
+        b=Bt6O0t6btEShKzQF834k9WB/5rtL0Xe+EcqszL4ZIpgKNUwe4SgpYayIWoIL7wxY7L
+         EFhHV1grpXCTQvvhdb0CZMf8AC6yRMcQ9lJ6ZMvdxwaJqH8c1pEqVUhV8c5noey5Gr2D
+         RpqvvIsSvpT1PrH4Gr4/yUCpUYljfVGTH6UmvYBghl3eW17lv4BDQ8/Cgu2uVYmhMyL0
+         TDGeZGJ3CHCdx5IJezLMqui5DL7QmryPiYBzyFdR6TRHpHYW/eTMwGpTb4hsDpdupOS5
+         hJ5ih5+iEKiBVgrphqQZhiBmSwbdk7b2mF9V05X0wynGINf8YshutEsTzqKUbcbZOWNG
+         WQUA==
+X-Gm-Message-State: AFq9FYJzENpRe6Z6pxPC69b9bK+PCcKpO1M7ri5Wb+DFwiTwcFm9BmZS
+	edOAxckHoBWky6RKn/TBgJsSvIsD09UJ3kPXFAi/NlIeEvrtiX+8uK9EA9qwiM7iDT9/BKBzq1n
+	Qyf0xz2a6tvLWoL49PGpR4kOUBBImAE8=
+X-Gm-Gg: AYBFou3zz0Mal/n8b0GL1lZrX01rYifkO8zFoJ0xyN1Q5x4gxEqpAZdCS9o35tN+qDS
+	2j+SLE+6mJcFoD4Z2qdQiVtpHFWSviPwRoN6rmh/IjYna4Lqf9o0CQoDI0mFm4LyRSLL8jmTI+R
+	WkLPqWGChKOCI4gTCWc3TcgJQmLE+zG9M3gsbqtedmsMLu+QLck4jYYkOYpfABx458opbEAQEpL
+	J3TVEjFLewNUMqCqdEPnOqvanjaFLL61PRjOXaNaPdZH8isWAemHJ+N4GvvIkZ/d3pAOzTP7QTr
+	OEAaSuMOl39kF78dCfJxoQY+wLuZd5xO34osAtpKwrjWJmk/ILQHKMno
+X-Received: by 2002:a05:6402:a0dc:b0:6ac:9a44:d409 with SMTP id
+ 4fb4d7f45d1cf-6ae19861627mr2907669a12.4.1790852294289; Thu, 01 Oct 2026
+ 03:58:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PR11MB5035:EE_|CY8PR11MB7084:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a64b5fd-19b2-4f96-ab7d-08df1fa84f68
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|23010399003|7416014|366016|4143699003|11063799006|56012099006|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: ERJiUK3SuNhgta3aHoBahr+XId/+Gu6GTmasija9ZznzHGRsgZFxDuAQyESfloyAQF/45gQhTWYmCi8OMq1/ngE8QI620urqvWukwMnVuUqSh9WeuqhzGQeHKeMaVhFmAqc2StU8byM7Edg2NJuwC8Fvx5SkAmcZkhFvb11Qf624akcdvV1n8BhCCJnVtxLzmbhqzAtgCv+pMEcgcaZak/E/cpc885RVNBCFKPmyCBlr5ipOPo0eurHrRQ/yqagABo2XHIa1zRbYbynxJElMw0C7xa9pB7SIeIfCxqUfyNHfazLBB5dp66A9qUyQVw/ftvZt2nxn26Sj1YYLz9BrdKTxSEqiOSQG1QtnFOsY4OyJnrB1HWtyjPm0uMFiD6+59nu3ar11ZsDypbPxnqc+cXs+mfz/N5hBE+ARJo8BtWxSXwZtqMxdSs1pRP0L7YiC5sWTMpu5dDGdxftkxbxWK12XAbZu1GOQeShpPLqysYZjBSNj9AZZaVCcz3GWQJgDi98ZPUNpQqpCq51lXDh3YaGlnfWvkf7SKFl5Eya2glmXn4e83lLaryk/9T/W85+mJQarije1+cxQYdoNoqWQMq3hvJmMy1Cdpdz2UOVIIQ5iinGpqh+3AU1k7o4PW+e2
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR11MB5035.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(7416014)(366016)(4143699003)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cDAxaFRGMGd0SmIyUUdCeUtUeE9BYlVMaDJvQUpIR05EWlZoa2J2Z1NrUGFC?=
- =?utf-8?B?VHNrcG9UOCs5WGNoYXE1anJKNW9JaytxaC9kdFh3VlgrQ3pCaVp0cjJZSGc2?=
- =?utf-8?B?QnpqNTlTTVEyamZqV0xzVEpkVVNUQVh3WG1qdCtOUEN2STYyeG5xSk5JSzlU?=
- =?utf-8?B?QmgxSnk2NVhpREk0UUY0NEZaY0UyNkJqYkExSlpYcVFnOUUzUVpESFJNbGhV?=
- =?utf-8?B?amRCMlpuKzV4VVZ1aDIrMkVILzFwNnRQc0tCVEtBL2RaTVcyMnZUSVlFK3Y1?=
- =?utf-8?B?RzhQWkpiZkdPMlVLdTZxY21hNjEwa0tHK0Urb2YvejFzN3VCaG00VU5uWlZI?=
- =?utf-8?B?aXYrZEdSVlFINUlPaDNaM2hQTWg3ODFGMXMxUytNeE5FdWMvdmp5NEpEK3Bw?=
- =?utf-8?B?YzhzbDIzSW93NWQ2VUlCWkNwcFZyTUp2SU9DUWN6QnpWUnQ2ekZQY3pJTmRr?=
- =?utf-8?B?aHpxa200UXZZeHByYUVXaGk5d1lTSldHUDRhZDFpU2FlNFl2cEtuSDRvcUM2?=
- =?utf-8?B?ZnQ3L1RJbEU1NmgweUZwVE8zTTRWbFYvOXJvbXBIQ1NtOE9od3U3Qll4cExr?=
- =?utf-8?B?ay8rNGEvUlhzKzdJd205b3U0b0VhZm9lZi9RMXM2RVowT1hwK3AvYjVrNU1u?=
- =?utf-8?B?TVJLbmhad0dqVVJleFNYRUIwODRld2ZXaHdlQ3JnTXhlcDNuSC9aNDkzOXpF?=
- =?utf-8?B?SGN5aDhIcHJ1bjYwS0Nlam92dGFwckVrY0ZPei83dFUyc2pBY09pcVdBOXdN?=
- =?utf-8?B?TDAwSmtTRVl2YmVLYkdhcC8wYy8vYUJIY3d1clFqWnBKeG4yckxMNzVoR2tB?=
- =?utf-8?B?ZnA0QmVnbEM2ekU0YVIzWHAxYnc0U09RWnF5YnNXQjRkanQrbTU3SUluUllp?=
- =?utf-8?B?cFhOY0NZRHh4VEwwam9XZ0hWeDhMUnl2TVN1aWlCdlVqck8xVERaT3FhdXQz?=
- =?utf-8?B?eFVLZUVLTXdQYmc0OTdCYkZpQjcrZXNSYWNUREUzekJsMlhpcVpOdTFwSFN0?=
- =?utf-8?B?TjhZZzYwOFhmbEdtRUZSNEtNcnVra3VOdjhRQnV4N0ZxM2FyNDJDU2o3VnhF?=
- =?utf-8?B?M2NGYzlqdkJZWlNpTXhCelZ0NFlqTllRR2VpcmtuTmRkRW11bG1hK0tMYTBh?=
- =?utf-8?B?ekVESGV5NkFzY25GWGxNaUY0UDVnazZldktqVU1GVUlWMG9FU21yZldIVVE2?=
- =?utf-8?B?U0R2aUQxaEw3RGxtREE0WEJiU1g3V3NFMFdXcThHTXMrd2JtblNJWUJ4b2lC?=
- =?utf-8?B?SFBNYUllaHhMYkQxTXRLSVpmbWVCOWpqNDlkdVVtbU9EbndML2NJci9zL2w3?=
- =?utf-8?B?TXN1NU5FcWtzL054VjJGQUk0K05aN05JTit5dGRlRFJEMWxlZlE3Mk9rRk9w?=
- =?utf-8?B?a0wwNUtaRUZXQmlYVjlJUk5xOEQ3NmNyWnVOM2FLZ1Z0NzMzbWJXb2RmWkM4?=
- =?utf-8?B?UjJGVS9mcVpPWlY2eUIzU013aEhvcWw0SktzMDhRY2JXYXkrZ3gvNnVkVGt5?=
- =?utf-8?B?S3NONjFFMjhlR1FKOGErWkY4QzM5THdEOXA5U05PWW5pYTh4Y0RKSG9lSEVH?=
- =?utf-8?B?TkUyYmxCRHhEa0p5SWd0SUYxMHFGQ1YvWnJubTBScnArSEdNa0ZaSkNLN1hL?=
- =?utf-8?B?UzFiT3FBczF3YVdOYUp5b05Daml2bXJhNEN0Z1ZQODJ4U3Y3bWtNS09WR1Rs?=
- =?utf-8?B?bTFqeENma0djbE1xazVDeVY0eHNoWG5vcFR6WlkwZVllelhnRDd4VkgzRWpy?=
- =?utf-8?B?YlBYMEVzcGo5STNyOUE3bU1DL1ByamRPUXdyOEZwZEVqK3lBQ2haT0pFTmVv?=
- =?utf-8?B?VW9QL2xxY2xEVGttNGtKNEhEdkhWdUVJVU5sZUYzVmI3QmdOOVZhMlJXaWRL?=
- =?utf-8?B?MElPSjY1QW4wNzkxc2YwckdCRHZrNVhZaG1YZEY3cHNNT2l2ajFjNFV1NmJk?=
- =?utf-8?B?djJKZkc0S1lLR0dZL2YweDBqOXdxTUkvSjhDSTBhckdnMlJzTFBFWHpvTitz?=
- =?utf-8?B?ek8vL2pkREh0SlhSQ2Y2NWF4UTliNDd0QzIzTHNZVktuL01FUnFYWmZROU82?=
- =?utf-8?B?Z3piUGd3d3JWNitYRStuS3FlYllnTHdrYXoxV1c0TXJsNUh1blh5eGx2RDJ3?=
- =?utf-8?B?QnJOaE5IWit3Y09WMWNjOUNXdHpKNUVuNDRiNHZUR2JRWlZFZ2tWbysvTXFy?=
- =?utf-8?B?UHVFMjdvUmVMMUdFazd2cStJNnNnQTl3ZlFJUndEdElOUnF6Uk55MlNuNUpz?=
- =?utf-8?B?UHlrbkd4NzBJQkJOQ2YwR0RVNjNLSGxTNGJUQ1pRYWtUYkpoK1ZINWxacmEw?=
- =?utf-8?B?NlpxRDRjWnB3WmtWZHQrTWt4RzlOSDN5czlPcVlmL0oxWXFBUStYU1VZZ1R3?=
- =?utf-8?Q?EPGcQQBpjg6sZplg=3D?=
-X-Exchange-RoutingPolicyChecked: hf9Ee238nFGtr+6FCP5oY+TpEt4F0oN3wyfuU45G712PDLtTibTeUDZyMw8AD+xCGQDK5PKUTiirCR8baGLXPK0K/oHBMAc8yra5Ci15QVg7kGFTikbvosAbJOLIU/y+KD4lf41be0nGWBsQ0bMxc8vS3ykY5Oyf1b6rsQdX/pb4ROuyi1Wyl3cR0GdyKZhe8cvNPs00+Cs9C8CvPUSpn/F6fPYvnEkfmNRx5+/732zCm1Q+Ef/ehsnjYSQzwMlvCCHbXxswC5/G2gYotmsO2oi3I1t+MCJSAhDd8jPenM94U4jCLb1pnL7Cj62jLaPCdAS08+ZVnBSJxCpzARuA7g==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a64b5fd-19b2-4f96-ab7d-08df1fa84f68
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB5035.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 10:39:45.9256
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KSgb/yoDqDxYhOkNzHohh2ivC9K1yJWkuf0D1MDmKAmHGN6MepsH/hV1zV67TO7vepuHeOToMbQmGa84HCw3kvPlk0B3jdX1MScPoTFvc90=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7084
-X-OriginatorOrg: intel.com
+References: <20260930-work-mount-fixes-3-v1-0-be34c83956ae@kernel.org>
+ <20260930-work-mount-fixes-3-v1-14-be34c83956ae@kernel.org> <20261001-prollen-rutschen-amtssiegel-31392f0a489c@brauner>
+In-Reply-To: <20261001-prollen-rutschen-amtssiegel-31392f0a489c@brauner>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 1 Oct 2026 12:58:03 +0200
+X-Gm-Features: AclHuK8LYUpnYgW_XqI4dZeZJ1CrP8OKgqe9-i6bwlWoDiqRwSqyXnoOY4MaNfA
+Message-ID: <CAOQ4uxinQiXn=F8p92rCTzwX5AcBiN0abWW7jE9jKE+zqjb1_g@mail.gmail.com>
+Subject: Re: [PATCH 14/17] fsnotify: detach the connector before destroying
+ its marks
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Chris Mason <mason@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
+	Aleksa Sarai <cyphar@cyphar.com>, bpf@vger.kernel.org, stable@vger.kernel.org, 
+	Daehyeon Ko <4ncienth@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Oct 1, 2026 at 11:31=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> On Wed, Sep 30, 2026 at 03:32:06PM +0200, Christian Brauner wrote:
+> > fsnotify_destroy_marks() removes every mark of an object that goes away=
+.
+> > It walks the mark list of the connector and has to drop the connector
+> > lock around fsnotify_destroy_mark() since that sleeps. Afterwards it
+> > continues from the mark it just destroyed. That mark stays on the list
+> > because the function holds a reference to it. But while the lock is
+> > dropped fsnotify_add_mark_list() can add a mark to the very same
+> > connector and put it in front of the current one when group priority
+> > dictates. fsnotify_grab_connector() hands out the connector until it is
+> > detached and it only gets detached after the walk.
+> >
+> > So the walk never sees that mark. The connector is detached from the
+> > object with the new mark still attached to it. It never receives an
+> > event nor IN_IGNORED. For inotify that's a watch descriptor that never
+> > reports anything and doesn't show up in fdinfo either:
+> >
+> >   wd1 =3D inotify_add_watch(/proc/self/fd/6) =3D 2
+> >   events after the unlink:
+> >     wd 1 mask 0x400 IN_DELETE_SELF
+> >     wd 1 mask 0x8000 IN_IGNORED
+> >   events after write() to the file:
+> >     (none)
+> >
+> > Detach the connector from the object before the marks are destroyed.
+> > fsnotify_grab_connector() refuses a detached connector so a mark added
+> > from then on gets a connector of its own. Nothing during the destructio=
+n
+> > needs the connector. The inode reference of the connector is dropped
+> > after the marks are gone as before.
+> >
+> > Fixes: 6b3f05d24d35 ("fsnotify: Detach mark from object list when last =
+reference is dropped")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> > ---
+> >  fs/notify/mark.c | 16 ++++++++++------
+> >  1 file changed, 10 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/fs/notify/mark.c b/fs/notify/mark.c
+> > index b2640d836a71..f6891d39e42f 100644
+> > --- a/fs/notify/mark.c
+> > +++ b/fs/notify/mark.c
+> > @@ -1112,6 +1112,16 @@ void fsnotify_destroy_marks(fsnotify_connp_t *co=
+nnp)
+> >       conn =3D fsnotify_grab_connector(connp);
+> >       if (!conn)
+> >               return;
+> > +     /*
+> > +      * Detach the connector from the object first. Once conn->lock is
+> > +      * dropped a mark could be added in front of the one we're at and=
+ the
+> > +      * walk would miss it. fsnotify_grab_connector() refuses a detach=
+ed
+> > +      * connector so any mark added from now on gets a connector of it=
+s
+> > +      * own. This also stops pinning the inode until all mark referenc=
+es
+> > +      * get dropped. It would lead to strange results such as delaying
+> > +      * inode deletion or blocking unmount.
+> > +      */
+> > +     objp =3D fsnotify_detach_connector_from_object(conn, &type);
+>
+> Folded as a fixup. We just restart the walk after the drop.
+>
+> diff --git a/fs/notify/mark.c b/fs/notify/mark.c
+> index f6891d39e42f..e41774b19e00 100644
+> --- a/fs/notify/mark.c
+> +++ b/fs/notify/mark.c
+> @@ -1113,23 +1113,15 @@ void fsnotify_destroy_marks(fsnotify_connp_t *con=
+np)
+>         if (!conn)
+>                 return;
+>         /*
+> -        * Detach the connector from the object first. Once conn->lock is
+> -        * dropped a mark could be added in front of the one we're at and=
+ the
+> -        * walk would miss it. fsnotify_grab_connector() refuses a detach=
+ed
+> -        * connector so any mark added from now on gets a connector of it=
+s
+> -        * own. This also stops pinning the inode until all mark referenc=
+es
+> -        * get dropped. It would lead to strange results such as delaying
+> -        * inode deletion or blocking unmount.
+> -        */
+> -       objp =3D fsnotify_detach_connector_from_object(conn, &type);
+> -       /*
+> -        * We have to be careful since we can race with e.g.
+> -        * fsnotify_clear_marks_by_group() and once we drop the conn->loc=
+k, the
+> -        * list can get modified. However we are holding mark reference a=
+nd
+> -        * thus our mark cannot be removed from obj_list so we can contin=
+ue
+> -        * iteration after regaining conn->lock.
+> +        * A mark leaves the list with its last reference so the one we h=
+old
+> +        * keeps the connector alive. Another mark can be added in front =
+of it
+> +        * while conn->lock is dropped, so start over after every mark an=
+d skip
+> +        * the ones that are already detached.
+>          */
+> +restart:
+>         hlist_for_each_entry(mark, &conn->list, obj_list) {
+> +               if (!(mark->flags & FSNOTIFY_MARK_FLAG_ATTACHED))
+> +                       continue;
+>                 fsnotify_get_mark(mark);
+>                 spin_unlock(&conn->lock);
+>                 if (old_mark)
+> @@ -1137,7 +1129,14 @@ void fsnotify_destroy_marks(fsnotify_connp_t *conn=
+p)
+>                 old_mark =3D mark;
+>                 fsnotify_destroy_mark(mark, mark->group);
+>                 spin_lock(&conn->lock);
+> +               goto restart;
+>         }
 
+Isn't the inotify problem described in the commit message already solved by
+669bb5af15d41 ("fs: make sure to call fsnotify_inoderemove() only once when
+inode is dead=E2=80=9D) on vfs-7.4.misc?
 
-On 10/1/2026 2:38 AM, NeilBrown wrote:
-> On Thu, 01 Oct 2026, Borah, Chaitanya Kumar wrote:
->> Hello Neil,
->>
->> On 9/5/2026 3:18 AM, NeilBrown wrote:
->>> From: NeilBrown <neil@brown.name>
->>>
->>> DCACHE_PAR_LOOKUP acts like a lock in that threads can block waiting for
->>> it to clear.  As we plan to make changes to lock order for this lock,
->>> teach lockdep to monitor it so as to help detect bugs early.
->>>
->>> As NFS allocates an in-lookup dentry to unlink a silly-renamed file, and
->>> completes the lookup in a different thread, we need interfaces to
->>> release and the acquire ownership of the lock.  This avoids lockdep
->>> complaining that a lock is still held on return to user-space.
->>>
->>
->> This seems to be causing regression in our linux-next CI [1] since
->> next-20260928.
->>
->> <4>[   10.773931] ======================================================
->> <4>[   10.780181] WARNING: possible circular locking dependency detected
->> <4>[   10.786407] 7.3.0-rc5-next-20260928-next-20260928-g6375e61c01e9+
->> #1 Not tainted
->> <4>[   10.793773] ------------------------------------------------------
->> <4>[   10.800017] podman/794 is trying to acquire lock:
->> <4>[   10.804801] ffff888133cb8388
->> (&type->i_mutex_dir_key#3){++++}-{4:4}, at: lookup_slow+0x31/0x60
->> <4>[   10.814849]
->>                     but task is already holding lock:
->> <4>[   10.820743] ffff88812dbd3048 (DCACHE_PAR_LOOKUP){+.+.}-{0:0}, at:
->> __d_alloc_parallel+0x53a/0x920
->> <4>[   10.830976]
->>                     which lock already depends on the new lock.
->>
->> Detailed log can be seen found in [2].
->>
->> We confirmed that reverting the patch solves the issue.
->>
->> Could you please check why the patch causes this regression and provide
->> a fix if necessary?
->>
->> Regards
->> Chaitanya
->>
->> [1] https://intel-gfx-ci.01.org/tree/linux-next/combined-alt.html?
->> [2]
->> https://intel-gfx-ci.01.org/tree/linux-next/next-20260928/bat-arls-6/boot0.txt
-> 
-> Thanks for the report!
-> The log shows that overlayfs is involved.  overlayfs has special needs
-> with respect to lock nesting which I hadn't allowed for.
-> 
-> I think this patch should fix it.  Please let me know.
-> 
+Maybe your fix is needed for fanotify mntns watch and related to the change=
+ in
+patch 13?
 
-This works! Thank you. Hopefully it gets into linux-next soon.
+I was thinking about setting a flag FSNOTIFY_CONN_FLAG_OBJ_DEAD at the
+start of fsnotify_destroy_marks(), which serves as a barrier against adding
+new marks.
 
-Feel free to use
+That is conceptually the same concept as inode_notify_dead() state but
+enforced from within fsnotify code.
 
-Tested-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-
-> Thanks,
-> NeilBrown
-> 
-> 
-> diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-> index e487597337e8..e1448dd776b4 100644
-> --- a/fs/overlayfs/super.c
-> +++ b/fs/overlayfs/super.c
-> @@ -163,10 +163,34 @@ static int ovl_dentry_weak_revalidate(struct dentry *dentry, unsigned int flags)
->   	return ovl_dentry_revalidate_common(dentry, flags, true);
->   }
->   
-> +#ifdef CONFIG_LOCKDEP
-> +#define OVL_MAX_NESTING FILESYSTEM_MAX_STACK_DEPTH
-> +static int ovl_dentry_init(struct dentry *dentry)
-> +{
-> +	static struct lock_class_key ovl_d_lock_key[OVL_MAX_NESTING];
-> +	int depth = dentry->d_sb->s_stack_depth - 1;
-> +
-> +	if (WARN_ON_ONCE(depth < 0 || depth >= OVL_MAX_NESTING))
-> +		depth = 0;
-> +
-> +	/* Based on lockdep_set_class() */
-> +	lockdep_init_map_type(&dentry->lookup_map, "DCACHE_PAR_LOOKUP_OVL",
-> +			      &ovl_d_lock_key[depth], 0,
-> +			      dentry->lookup_map.wait_type_inner,
-> +			      dentry->lookup_map.wait_type_outer,
-> +			      dentry->lookup_map.lock_type);
-> +
-> +	return 0;
-> +}
-> +#else
-> +#define ovl_dentry_init NULL
-> +#endif
-> +
->   static const struct dentry_operations ovl_dentry_operations = {
->   	.d_real = ovl_d_real,
->   	.d_revalidate = ovl_dentry_revalidate,
->   	.d_weak_revalidate = ovl_dentry_weak_revalidate,
-> +	.d_init = ovl_dentry_init,
->   };
->   
->   #if IS_ENABLED(CONFIG_UNICODE)
-> @@ -176,6 +200,7 @@ static const struct dentry_operations ovl_dentry_ci_operations = {
->   	.d_weak_revalidate = ovl_dentry_weak_revalidate,
->   	.d_hash = generic_ci_d_hash,
->   	.d_compare = generic_ci_d_compare,
-> +	.d_init = ovl_dentry_init,
->   };
->   #endif
->   
-
+Thanks,
+Amir.
