@@ -1,289 +1,225 @@
-Received: from mail-ed2-f31.google.com (mail-ed2-f31.google.com [74.125.228.95])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2973ED132
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 07:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790840041; cv=pass; b=gQlGcBsjq2468DTr2gewz9SVJpOFaAJ+MQsNwM3NyZ0hRTlPR1rVbh91MiIZ09biXrZzIe8qIzzbpM6TiqP7jeWB18qbes506yd5p7dU1N28KhyYhZPQ/SPlsls7Ow+AVV9wLfRpE5POQRm919RUFxGJvrZrxchVpF8+yFcpsmw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790840041; c=relaxed/simple;
-	bh=KLrl1JmKD/j4lbwTIj965Z/B9W7suYuEx4nj7ZOOSaM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AAwjUKDiBjkKaH21dxerwRj3xqrAW1YCyQ0GF2E8ybtVxjrdUdYyWcuJpPb/uxcPqv6xP4twh3KbiD1597A131YjDcs8ug0yFTiDDte1JeWEpoNFppd4ouKotSvfWgCsB5GuI/1p/odvDW9bm9N3e8rAlJGImKx6uUvbqNGFniI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r+c6jcDk; arc=pass smtp.client-ip=74.125.228.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537924A0F1E;
+	Thu,  1 Oct 2026 08:11:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790842307; cv=none; b=oATldMRjItFPtnXgB+BbotayeFyosmYFDfRcSnjOEJaeubuLSSWyudTox8/rsWUSPJQLMg6FMPVeQiURYt2XMdUw2NZ/dRuWf1/elO5w867Q4o7t7oNXamtL8cBJMDMRteof4AHpA8eb9D3yBjFxYoE0SKp2wYmdzxu6yj+cQWg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790842307; c=relaxed/simple;
+	bh=rR9lDXurt2uwdSssWIyJRChYiHMIHeLvlylC9nmS+Lo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pg5AbOOkLfjfAqxQ1FlXjLiEOeXfnM8+YExLvrcW2jjsWRVKbj2iPd4/7D9elg9pWMj90fBOeuanHwUVTdxxZpHD2dg3to4DPPT8rY+R0wVnJpGW/7yp9nOnm6Xdwtty8xwt4E0eMf1n+qD7vNcohhPfUONt8xsOKJ1Anz1BHUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uc6DfGZT; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=H/2NkGyA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SOrkK6cR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=MyEt24Om; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r+c6jcDk"
-Received: by mail-ed2-f31.google.com with SMTP id 4fb4d7f45d1cf-6af82ce3c83so97836a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 00:33:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790840037; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cE6GOouAHQmjGoG4fyw5aZLiXqn47fH4sIBTYp6NZtnNEgLzIOv706zkZA5U3yoAwh
-         ZjOG0oUH+8Kln5idSNA3nr7URw6eIRoLBsahe7nJdar7sUYR63cn+C2RPObklsByokLD
-         igkMdC+gLhjsmbpgmpNeYfhb8Y3IZG9EIToksjIx22bDsPgRxwlTBaXVpBQ3GZP78Q9/
-         I9ADx3Z4iyrSk63PLjuq5OGhC7zLl1SPNsw3uhhHbXy/l6dwQdb5ekCEZwdBrHt5xrs0
-         06bDcBHEEj2Hy3O+Leu1JFMffnWf4ESxx4Zn/AZc90y1Ed8yQk8yPQfbyOb3ArRPTf0G
-         w1nA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=WTf1zoaT0Wsrc4m5L9oFar53LMEzHBHomKhDhLKQLu0=;
-        fh=8W2Vz6rnXsxqYT/ul7sKb3K/P45bGDfDzT6w/w6GoH4=;
-        b=MFoo9ZG9evMfCcqaHQhxzAlRtten2zmTvudbFe1KKOc2WBPXUnPEGD0tlpHZNlaqft
-         bnVSJ0Gq4i+YRGjJvNwTlhV2Hfa2GWKRQAzK6MzPibYDK3r+qnJG5ElXrPwj9q7pNMds
-         jmb/mX3eC0bd7glcz9onKRogZND/0AIXNO6hESGRzSvrYBxF7gzcfqA04pKwJUn8DK66
-         GO7uP8EmQtQSP95o4WO2rZ8L+H0OzrKO2qIocOx4SCR+rpQdlfDQO8Dt9RnbiM5F8WLn
-         xVo4SIP3K0YOkWMmOBFVi6pqEtd8b16emKbz1fNnvNuzLip+nxRo/4zaFKbMelvbXzGY
-         gMqg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790840037; x=1791444837; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=WTf1zoaT0Wsrc4m5L9oFar53LMEzHBHomKhDhLKQLu0=;
-        b=r+c6jcDkInpp2da4rFoYRjeQKSHHssJ6AXRMK6sRiUcaxe7Tc28b+vPeEpibiuvV6b
-         QRrvitxv0IYDYVxvpCDaexooCfZIKnyv3liyxE5vZBLIdRFr0GichjZHq8An6/oXky6H
-         w62nGgSlIxambhvcRALR7lDpiX60loURqY811tZ8i7Jv1vQ/4OVzYRK4I6eNnLKObvDL
-         MUUg+kVWJdXIriBILmvr7rVCa0n+DI6j1GsPNzcXF8sjxnR99ubkZZFD5VekuR0Ok1Em
-         6jcXRYsHliEL7i5l7eePAif5g/lHqPuifkTOrwqAahZMAQ7Uo4ECJiNbbvJF6waXLJXl
-         k0Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790840037; x=1791444837;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WTf1zoaT0Wsrc4m5L9oFar53LMEzHBHomKhDhLKQLu0=;
-        b=VI2b74AqHxuUkR7MCGSqHiLkXunKcZp+uEIaoi6Nm5tncBaukjf+dF897uG+BqNuFP
-         BHzT0wJ7SFpYUA4+fsQ7PUpgAo9h4MWseKMA3pmbMICA9rRRppUhNfAHudUIqi9C9ldM
-         beR4E+WwvzHxItwXJGNtbsWXqu4piB2TTE/t3wgkOmbBYxFpUBg9MhhzrCJdJDYLV+6e
-         BVHiNxLVXv3oSi2Zysti1mcNIpIdAWeiJmzGSyrw2vjrBsDVIj4Ap0kn+P99koprfveV
-         mP6t9DiKnhIhi4FEhxTTmacFBUldwBQjZkXLDJbMoli5vhDb3VP2cRIN+1lJH1ZdryTb
-         td+g==
-X-Forwarded-Encrypted: i=1; AKwUvByrzbPJNBOCgNz0ZgYcluGQhjonNgOPBzhBFEQrmd+UmfR8Zlv5+yXGhzj/Tpt9d581UP+X9MrGSCak5WTo@vger.kernel.org
-X-Gm-Message-State: AFq9FYKLIIN9HXObE7A5lUSQSICAm2lBbzvwJLRwH+NBR0RtfKL5dczI
-	l7m+LDuXfhsqMTr1x3Gu9hxCV/PJOm8gsVGU+gEYXfTKesbE+U/r8XwyK3TfYm3Yei6MpI8JE2C
-	AXd7yUHY2Y/bA23zm07/svNNVvoVv3E4=
-X-Gm-Gg: AYBFou07Dy0tgnd8wp/c6K68UcPFToliJo4OuesfVc4zVbXjE7homWJKVbgaNUdiTg2
-	nJLjIEjqudXFOX2AXujKXbQe0MV0vEfwrtIbGMufiytbyvFsNqTwjZ5vpLYDr1rOemfGJuqIrtJ
-	mjMaWcnvUAObGvvo3Tr2z5IxVH0kww5QBWqH7OHfI5N04mHe3lC/TGLofuDrYxapQygTQrjIwqX
-	qAn/yNt3blSHYK8gCMkQgrxLHTYDAlNCkotZYX3/ng+eyxSp0vgGODrafrFag4IFyEM6rawscmq
-	Dym4o6em7f1NPGazd9j5P8KOgUE/o5GwXPKVrLB0IPYa6NMGoG4mYqSt
-X-Received: by 2002:a05:6402:3227:b0:6ac:9a44:d3ed with SMTP id
- 4fb4d7f45d1cf-6ae1986075bmr3067340a12.5.1790840036710; Thu, 01 Oct 2026
- 00:33:56 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uc6DfGZT";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H/2NkGyA";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SOrkK6cR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="MyEt24Om"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1E66721EBF;
+	Thu,  1 Oct 2026 08:11:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790842296; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HvMI2lZZBSxVV+2zdfxxLDs33Kp+LCZMwY4h4IUd9co=;
+	b=uc6DfGZTarOhRPxv+k5N9rt79wwCHp4Iiv6x8pgxig1jZA30VtvPt/1NopC4aREzjvQbE8
+	XbbsSLAOimDb+u8TFRnLaIihQhaFlK/HxLaDePVJPj14bIlaXDeeL2zVlge3y3gk7TurI6
+	/6pH4PhyDIIaSrbSP1f27C3oaiDiOHU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790842296;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HvMI2lZZBSxVV+2zdfxxLDs33Kp+LCZMwY4h4IUd9co=;
+	b=H/2NkGyAPLaGAOrc1GzI9q+gDZXhx/et9FILtqpuvMc0sE/seC5N5/djaBtK34Uy9v2k6i
+	uETDNXLiS4GDqFAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=SOrkK6cR;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=MyEt24Om
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790842292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HvMI2lZZBSxVV+2zdfxxLDs33Kp+LCZMwY4h4IUd9co=;
+	b=SOrkK6cR2Yr/qeqhBQfHd6hdbg+a3TxxWaHLY9qRYlDfK7JWfWBV04B7qe6mVwX81wpxF1
+	tCbNvOPqeYSvS8pMbH9YRT90+PfKHoPcMhBNxG4eXPV42fh9JNCJPfQOAFaZ9VyePm8quZ
+	N+jd3EC5BUIwzMtkiEC8+XOIk7vDOFc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790842292;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HvMI2lZZBSxVV+2zdfxxLDs33Kp+LCZMwY4h4IUd9co=;
+	b=MyEt24OmUnE3HQj6uSDFye77cMEE982a2eJ0oaJ7ncH+QdeCfhJHPdhhEMKT4QRJIjJNFK
+	viXetoNGrLJnSxAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E228B134B3;
+	Thu,  1 Oct 2026 08:11:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zhNOLrMVvmp7UAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 01 Oct 2026 08:11:31 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 67D84A13F7; Thu, 01 Oct 2026 10:11:16 +0200 (CEST)
+Date: Thu, 1 Oct 2026 10:11:16 +0200
+From: Jan Kara <jack@suse.cz>
+To: Hui Peng <benquike@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, 
+	Matthias Goergens <matthias.goergens@gmail.com>, Anders Larsen <al@alarsen.net>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] isofs: bound empty directory blocks in
+ isofs_read_level3_size()
+Message-ID: <gwglszf5mvb2n4mor235v5752rsohm3b2zs6msiolir7hqqiq2@73uzvzj2rmim>
+References: <20260930042148.169831-1-benquike@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260929034158.1455429-1-neilb@ownmail.net> <20260929034158.1455429-8-neilb@ownmail.net>
- <CAOQ4uxjv3Ziqy+CjbCO7noAPse+a0066UO7pkFhStnnW9FFSPg@mail.gmail.com> <179080463287.37859.4262341831478331513@noble.neil.brown.name>
-In-Reply-To: <179080463287.37859.4262341831478331513@noble.neil.brown.name>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 1 Oct 2026 09:33:44 +0200
-X-Gm-Features: AclHuK9MIhHprf4aDgaMwd_4tZZMvI-V-gvxwkigtEk9UN12WMcOwDyiP913px0
-Message-ID: <CAOQ4uxgEG6Wt1z7JO+v2sjs=Aoav0u7eLz+Ge3UqhVG4msBkwA@mail.gmail.com>
-Subject: Re: [PATCH 7/7] ovl: stop using lookup_one() in ovl_iterate().
-To: NeilBrown <neil@brown.name>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Kees Cook <kees@kernel.org>, 
-	Joel Granados <joel.granados@kernel.org>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Breno Leitao <leitao@debian.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Jan Harkes <jaharkes@cs.cmu.edu>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Hyunchul Lee <hyc.lee@gmail.com>, Carlos Maiolino <cem@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-um@lists.infradead.org, 
-	codalist@coda.cs.cmu.edu, coda@cs.cmu.edu, linux-mm@kvack.org, 
-	ntfs@lists.linux.dev, linux-xfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260930042148.169831-1-benquike@gmail.com>
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 1E66721EBF
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,alarsen.net,vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:email,suse.cz:dkim]
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
 
-On Wed, Sep 30, 2026 at 11:44=E2=80=AFPM NeilBrown <neilb@ownmail.net> wrot=
-e:
->
-> On Wed, 30 Sep 2026, Amir Goldstein wrote:
-> > On Tue, Sep 29, 2026 at 5:43=E2=80=AFAM NeilBrown <neilb@ownmail.net> w=
-rote:
-> > >
-> > > From: NeilBrown <neil@brown.name>
-> > >
-> > > lookup_one() is expected to be removed as it does not fit well with
-> > > proposed changes to directory locking.
-> > > Specifically d_alloc_parallel() will be ordered outside of i_rwsem
-> > > and as iterate_shared() is called with i_rwsem held it is not safe
-> > > to call d_alloc_parallel().
-> > >
-> > > We can instead call d_alloc_trylock() and then call the ->lookup, but
-> > > that can fail if there is a lookup attempt concurrent with the
-> > > readdir().
-> > >
-> > > ovl cannot afford for the lookup to fail as that could produce incorr=
-ect
-> > > results, and it cannot safely drop i_rwsem temporarily as that could
-> > > introduce races with handling of the directory cache.
-> > >
-> > > Instead we rely on the fact that ovl_iterate() has an exclusive lock =
-on
-> > > the directory, so any concurrent lookup will wait for the ovl_iterate=
-()
-> > > call to complete.  We allocate a separate dentry and if the lookup is
-> > > successful, it is hashed with the result.
-> >
-> > Please document this assumption with:
-> >
-> > rwsem_assert_held_write(&dir->d_inode->i_rwsem);
-> >
-> > and comment in the code. Having it in the git commit message is not
-> > enough for future code reviewers.
->
-> Yes, I can do that.
->
-> >
-> > Other than that, I have no further comments, but I would like
-> > to have a review from Miklos before this patch lands, because
-> > I don't remember him reviewing any of the revisions and this is subtle.
-> > I am a bit concerned that we have no test coverage for this subtle code=
-.
-> >
-> > >
-> > > When the concurrent lookup gets i_rwsem it mustn't do its own lookup =
--
-> > > it must use the existing dentry.  This is found, if it exists, using
-> > > try_lookup_noperm().
-> > >
-> > > Signed-off-by: NeilBrown <neil@brown.name>
-> > > ---
-> > >  fs/overlayfs/namei.c   | 12 ++++++++++++
-> > >  fs/overlayfs/readdir.c | 26 ++++++++++++++++++++++++--
-> > >  2 files changed, 36 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
-> > > index ca899fdfaafd..f56e33fd4d6b 100644
-> > > --- a/fs/overlayfs/namei.c
-> > > +++ b/fs/overlayfs/namei.c
-> > > @@ -1385,6 +1385,7 @@ struct dentry *ovl_lookup(struct inode *dir, st=
-ruct dentry *dentry,
-> > >         struct ovl_fs *ofs =3D OVL_FS(dentry->d_sb);
-> > >         struct ovl_entry *poe =3D OVL_E(dentry->d_parent);
-> > >         bool check_redirect =3D (ovl_redirect_follow(ofs) || ofs->num=
-datalayer);
-> > > +       struct dentry *alias;
-> > >         int err;
-> > >         struct ovl_lookup_ctx ctx =3D {
-> > >                 .dentry =3D dentry,
-> > > @@ -1399,6 +1400,17 @@ struct dentry *ovl_lookup(struct inode *dir, s=
-truct dentry *dentry,
-> > >         if (dentry->d_name.len > ofs->namelen)
-> > >                 return ERR_PTR(-ENAMETOOLONG);
-> > >
-> > > +       /*
-> > > +        * The existence of this in-lookup dentry might have forced
-> > > +        * readdir to do the lookup with a new dentry.  If so we must
-> > > +        * return that one.
-> > > +        */
-> > > +       alias =3D try_lookup_noperm(&QSTR_LEN(dentry->d_name.name,
-> > > +                                           dentry->d_name.len),
-> > > +                                 dentry->d_parent);
-> > > +       if (alias && !IS_ERR(alias))
-> > > +               return alias;
-> > > +
-> > >         with_ovl_creds(dentry->d_sb)
-> > >                 err =3D ovl_lookup_layers(&ctx, &d);
-> > >
-> > > diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-> > > index e7fe29cb6028..bc41da4bace8 100644
-> > > --- a/fs/overlayfs/readdir.c
-> > > +++ b/fs/overlayfs/readdir.c
-> > > @@ -574,8 +574,30 @@ static int ovl_cache_update(const struct path *p=
-ath, struct ovl_cache_entry *p,
-> > >                 }
-> > >         }
-> > >         /* This checks also for xwhiteouts */
-> > > -       this =3D lookup_one(mnt_idmap(path->mnt), &QSTR_LEN(p->name, =
-p->len), dir);
-> > > -       if (IS_ERR_OR_NULL(this) || !this->d_inode) {
-> > > +       this =3D d_alloc_trylock(dir, &QSTR_LEN(p->name, p->len));
-> > > +       if (this =3D=3D ERR_PTR(-EWOULDBLOCK)) {
-> > > +               /*
-> > > +                * Some other thread is looking up this name and will
-> > > +                * block on i_rwsem before it can complete the lookup=
-.
-> > > +                * We will do the lookup in a new dentry and when tha=
-t
-> > > +                * lookup gets a turn it will find and return this
-> > > +                * dentry.
-> > > +                */
-> > > +               this =3D d_alloc_name(dir, p->name);
-> > > +               if (!this)
-> > > +                       this =3D ERR_PTR(-ENOMEM);
-> > > +       }
-> > > +       if (!IS_ERR(this) && d_unhashed(this)) {
-> > > +               /* Either we got an in-lookup or we made our own unha=
-shed */
-> > > +               struct dentry *alias =3D ovl_lookup(dir->d_inode, thi=
-s, 0);
-> > > +
-> > > +               d_lookup_done(this);
-> > > +               if (alias) {
-> > > +                       dput(this);
-> > > +                       this =3D alias;
-> > > +               }
-> > > +       }
-> > > +       if (IS_ERR(this) || !this->d_inode) {
-> > >                 /* Mark a stale entry */
-> > >                 p->is_whiteout =3D true;
-> > >                 if (IS_ERR(this)) {
-> >
-> > How do you test your patch set? Do you have tests that exercise
-> > parallel create/lookup/readdir?
-> >
-> > It would be irresponsible to merge code without showing that the `alias=
-`
-> > branches have been exercised. Do you have an idea how to do that?
->
-> I think that to trigger the 'alias' code we would need to instrument the
-> code to block and wait.
-> e.g.  when readdir sees a particular name it could signal the test
-> harness somehow and then wait.  The test harness would trigger a lookup
-> of the name which would block on the parent i_rwsem.
-> The readdir then continues somehow and gets -EWOULDBLOCK and installs
-> the alias dentry.  When it completes the lookup continues and picks up
-> the alias.
->
-> Is there some way to set a tracepoint to block?
->
-> Maybe it would be enough to have something like:
->    if (strcmp(name, "MAGIC_NAME") =3D=3D 0) {
->         printk("waiting for MAGIC_NAME\n");
->         ssleep(15);
->    }
->
-> and have the test harness watch dmesg for MAGIC_NAME then trigger the
-> lookup.   Then adds some tracing to ovl_lookup() to ensure it picks up
-> the right thing...
+On Wed 30-09-26 04:21:48, Hui Peng wrote:
+> isofs_read_level3_size() walks the sections of a level-3 (multi-extent)
+> directory record and, on encountering a zero length byte (de_len == 0),
+> moves on to the next block without bound. A crafted image with a long run
+> of empty blocks between two sections of a multi-extent file can force the
+> walk to read every block to the end of the device.
+> 
+> Count empty blocks (de_len == 0 at offset == 0) towards the existing
+> 100-section limit. Track empty_blocks in a separate variable from section
+> count 'i' rather than incrementing 'i' directly, because 'if (i == 1)'
+> records the start of the second section (ei->i_next_section_block/offset);
+> incrementing 'i' on empty blocks before the second section is read would
+> cause 'i' to jump past 1, leaving the next-section pointer uninitialized
+> (0) and reading past the first extent into unrelated disk data.
+> 
+> Tested in QEMU against Linux 7.3.0-rc3 with KASAN enabled using a crafted
+> ISO image containing 150 consecutive empty blocks between two extents:
+> on the unfixed kernel the loop reads all 150 blocks; whereas with this fix
+> applied, the loop aborts with "isofs_read_level3_size: More than 100 file
+> sections/empty blocks ?!?".
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Co-developed-by: Matthias Goergens <matthias.goergens@gmail.com>
+> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+> Assisted-by: LLM
+> Signed-off-by: Hui Peng <benquike@gmail.com>
 
-For this patch I am not asking for instrumentation with CI regression tests=
-.
-A word from you that you tested all the unexercised alias branches manually
-and how (e.g. include printk and sleep test report) is the minimum
-that I require
-to avoid merging subtle test-compiled-only code.
+Sorry Hui, I already have a patch from Matthias for this in my tree.
 
-For your parallel dirops odyssey as a whole, I think that proper
-fstests coverage is
-a must before the last step of relaxing the dir lock and the sooner you sta=
-rt
-with this the better the test coverage for all the perp series along the wa=
-y.
+								Honza
 
-Thanks,
-Amir.
+> ---
+> Changes in v2:
+> - Document in code comment why empty_blocks is tracked separately from
+>   section count 'i' rather than incrementing 'i' directly (preserving
+>   the 'if (i == 1)' check for the second section pointer), answering Jan
+>   Kara's reviewer feedback.
+> 
+> Changes in v1:
+> - Combined section and empty-block bounds check into i + empty_blocks > 100.
+> 
+>  fs/isofs/inode.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/isofs/inode.c b/fs/isofs/inode.c
+> index 184350d2e6ad..d7b324029a1b 100644
+> --- a/fs/isofs/inode.c
+> +++ b/fs/isofs/inode.c
+> @@ -1173,6 +1173,7 @@ static int isofs_read_level3_size(struct inode *inode)
+>  	struct buffer_head *bh = NULL;
+>  	unsigned long block, offset, block_saved, offset_saved;
+>  	int i = 0;
+> +	int empty_blocks = 0;
+>  	int more_entries = 0;
+>  	struct iso_directory_record *tmpde = NULL;
+>  	struct iso_inode_info *ei = ISOFS_I(inode);
+> @@ -1200,6 +1201,17 @@ static int isofs_read_level3_size(struct inode *inode)
+>  		de_len = *(unsigned char *) de;
+> 
+>  		if (de_len == 0) {
+> +			/*
+> +			 * A zero length byte at the start of a block (offset == 0)
+> +			 * means the whole block is empty. Count that towards the
+> +			 * same 100 limit as file sections, or a chain of empty
+> +			 * blocks could be walked without bound.
+> +			 * Track empty_blocks separately from section count 'i'
+> +			 * so that 'if (i == 1)' correctly identifies the start of
+> +			 * the second section even if an empty block precedes it.
+> +			 */
+> +			if (offset == 0 && ++empty_blocks + i > 100)
+> +				goto out_toomany;
+>  			brelse(bh);
+>  			bh = NULL;
+>  			++block;
+> @@ -1241,7 +1253,7 @@ static int isofs_read_level3_size(struct inode *inode)
+>  		more_entries = de->flags[-high_sierra] & 0x80;
+> 
+>  		i++;
+> -		if (i > 100)
+> +		if (i + empty_blocks > 100)
+>  			goto out_toomany;
+>  	} while (more_entries);
+>  out:
+> @@ -1258,7 +1270,7 @@ static int isofs_read_level3_size(struct inode *inode)
+>  	return -EIO;
+> 
+>  out_toomany:
+> -	printk(KERN_INFO "%s: More than 100 file sections ?!?, aborting...\n"
+> +	printk(KERN_INFO "%s: More than 100 file sections/empty blocks ?!?, aborting...\n"
+>  		"isofs_read_level3_size: inode=%llu\n",
+>  		__func__, inode->i_ino);
+>  	goto out;
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
