@@ -1,131 +1,137 @@
-Received: from mail-ed2-f32.google.com (mail-ed2-f32.google.com [74.125.228.96])
+Received: from mail-yx2-f39.google.com (mail-yx2-f39.google.com [74.125.224.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84A84963D2
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 15:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.96
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790870375; cv=pass; b=JLCFk5exvAxfhi/qOn2ngNeX0jzD+5yjBdM18F1WaEQoF5zpDDW1OWD5YJwL+GmmeFFGxOjRLxVSmodlk03UDw3IyLx5ACfHInB6p99f/waU2PcvOIt9d4jypKFUfxnu1Uv4L1uSKRIPpkAV1XYG66H+op4aVWnVTKDzXbs9G1s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790870375; c=relaxed/simple;
-	bh=WzhH+AtHGPtHiPjBQHHacP5urFUcd2FtjAYYwProfL0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qFiOpQuDzlo7JgBvAFM77uxdHKXdjw5CjPAOQLQ7f/jC1+1qzwpcoBybg/Jg4g51YGSWQxminGeiAH8GADV5NsK/94e5w229Mu5vpnUAV0IlRFg5YqPIxdpRGz9xQFCW04FiN6SFOgTTKhG2m46qGNmbooqjJ4oocNxRz/NHvG0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Orol+tSZ; arc=pass smtp.client-ip=74.125.228.96
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BF630D3EE
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 16:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.167
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790871702; cv=none; b=Zbytu8Sy3fcxyIRfDZty9W9QEJ0/RR+StHHT1hPZIrNazBgKedQcTzLHNoL6XBb+8vj+SKgyTXniq5PN8PrcrmcsV+x18R2GpXfyRaCHLKCNwiG0Be+mQ8EhOqMtX/wWwDstymCELDbQKiU5lGRBGMKFlWC938nxnyG79ttxkTQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790871702; c=relaxed/simple;
+	bh=j9NsMQY6+A3l8VVEIXujM44ELrEHRaFD5Gc9617Exb0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=be4PbdgD6VefPbNbMuuzDWEP489gJuFk4HhDdMXuu4zA3SkD1hUGv+VuJhMQvGDw6zZGepT0TYZx3CT3i7P5mGgSH+68/7VeUIA7PUz0POG1tHiHyz1f7Qe63ACgRQgUTijSklxEbYJNTczN81ep7LVJMylP8QX7O0dyOWqBWo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F44/1spK; arc=none smtp.client-ip=74.125.224.167
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Orol+tSZ"
-Received: by mail-ed2-f32.google.com with SMTP id 4fb4d7f45d1cf-6aeeccb7d59so1304579a12.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 08:59:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790870371; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oMOem9v1MZu4uSpOWeJ1gIo/TYswkPrpSXy/24WqAxZTvkufxmNMJtaWo3MVHCTx9r
-         TvKKwG22nJK0eq42qjMCLWa81+g9U6/tYzAIwUAnuK+bQO9Lcu6aUr/+eUtdpp7GyxtO
-         u0oeuNAO8b2z63KBbWTWo7emgynB+Xy7gqO6cKuevaKXxMODd5btmPpynrLYinz4ADHZ
-         pkJa3O4p8eQhl24T8DHqUA9kMNpB7X2BWSszZSmPG7e0c1Jc3DbPlGQlzOO3Zwd6R5O7
-         6t366USwBGoEEwnoX/r6EtuEg+4Bb4/7Ju9F0oIYk5uPCIHNW2Hveqb9nU2n0f52FIKQ
-         Y63A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=WzhH+AtHGPtHiPjBQHHacP5urFUcd2FtjAYYwProfL0=;
-        fh=oFp5QHJCSKZtLFR5Tz1onCyvmC1bEmTdstigW/mncNs=;
-        b=jEOZA93bselfyn5PwhKHezZmNnBU8wqg4xO6phpwCQN+aPwoAdZcZR5gm2C/cA3zee
-         njUBL9ayABT2VLoWGiN9u5j8WEuBH6B9if+/OHqdTA9B1A1ojG7L0b1hC+uvaOBEk1oh
-         V4h4lJ/YB5wjQ1QXZ2NlEmi1JOiel/zGbZxBvdi/MeDmhNcOMHgMpO2HWTSDiv9H0wnI
-         wTjkFKT+y2N2SjjYR2alUGWgfQnHraaPWPQ67kwLhqqKzdC+AaSqoSjliCh48jkJ7He6
-         FG8wQbKUCMFdOTg7f7UuyELruFKqIIP3VjtjmsaSZv/cYBU8fefy5WXsfusEVkn/EBi6
-         G0Mw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F44/1spK"
+Received: by mail-yx2-f39.google.com with SMTP id 956f58d0204a3-6755a6109c1so3796023d50.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 09:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790870371; x=1791475171; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WzhH+AtHGPtHiPjBQHHacP5urFUcd2FtjAYYwProfL0=;
-        b=Orol+tSZBNLX9gZGMk4VE7FB4y5rq4WvOH/SMMYTZ1tayK5cGqICbAZloM0N8PA3GV
-         oQK/aRtbF4/NFvOdiFWkZ24lpA/mOlH0KVcSMo+7povFut8nRiJOBmGDSxUOSZw44E2y
-         EZWV6V2tmeZgGWIFtMldrGaisnKqcSuKnQvmLflUtdkYaoS+kk5MlkittbehSTC90QG/
-         TCSKJd576x5AZp48CNphv8ogFSKoH2DIq8wnFtTM5SItZGAPJnhNBCOUgs4wwnHUTiNh
-         Eu+/Mkf97kDcpEjtAad9qT7mt6LlMi4bdkLJguR8UWziQ9IYQsIGXgxCdQXMpBw5Yo/r
-         CBYw==
+        d=gmail.com; s=20251104; t=1790871700; x=1791476500; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YQOSzvISQSVIJGCB1nP8Dsz4NS571X8yv9VyUYarZJ8=;
+        b=F44/1spKl8GWD0P0XJsnUmWdV3oJLm8DJxySMSccGtgryiksGfM+WmKRdl/gu2u1aH
+         iQzPszTlAG9hDKcRRcFQUunzhH29PYvK2jYJhaYSQFpY+TiyHbVlER1tF0hvzHX/Osjl
+         IFGTmcMqFuCD0Oh2EIp/aqMWBhrozB3sSXuigDn/HX5fm3kNPU7YelB09GQuMfbcha/+
+         bwBpY4tRrS3tEapBOdTxmSlZqv3gGr8BNpvpOqOZT72MmZp6Wnn8iATT1MX+zqv1Wuy+
+         afma/OxXNj1SPEQecAYq1YJJ9lqarSWYSMGSHkOF0v09/Q49llmVXWYpijCh9kqGrCi2
+         nb+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790870371; x=1791475171;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WzhH+AtHGPtHiPjBQHHacP5urFUcd2FtjAYYwProfL0=;
-        b=s5tNULSGJdx7mNNkWCw7444pCREGImaBxkhhVm9ZimY3StAMcIRndMvTUvQuWaUe7x
-         5ZpXRs1Ai5zYm3ZWW0R9sNw1CVSnPuC8AHFP3h1/cza8VJPoarLDLWxS7ZyHQjN9AK5L
-         6oWWg9YVheYHTKGAe3xNABQYro6qC4FlVqjPTN0RB8HhIuadNLIhjDurAzkYsG9slyz9
-         2sLKNpvk7Dt3ouqE2sYNOwHyiQ/HZCrrrNzuCy2K4GF5h+g3wapeRaqyRYuScvZ4lKWQ
-         DydW9liTecGLRnmSQ7oREU5j8aekZN6eDFO+wwqL9/hVFbpmr6V1xB0pQZ7mlGXNO/Xs
-         Rb4g==
-X-Forwarded-Encrypted: i=1; AKwUvBzfSbpQKg8pKIe12OIB7dZcwajuNAqYmKJVbuvWv559Hph8uzWuSOK98vPjHq8nrHsHITY9TuPmPY+1iEtW@vger.kernel.org
-X-Gm-Message-State: AFq9FYLeM/ZypZVre6qmdLuOVXI4AnDrykxa+0lq4AS98hkDUI06Vfy1
-	XxndeTv/lI8gNuDgFeZ0bXA8poMua/MI6f7+OtY8mRy+dx4YzKsLVowk4d3kR2/t32FRybgMGYw
-	vPHlgq2CoOL33GO0KWHr+damkJEAciHc=
-X-Gm-Gg: AYBFou0V6FLrtOGztxBOHo4oKsnJ1HEGqvK2MvH0LVhI4aCVXTZVgE3uD8IV+XAFf40
-	fxNuixIaXWAQtUibojWiTncudyGfnjDK3Xy6n+hlZg7ycckQI3JL3H98qeehKMH3ukL7/7hm5/y
-	Lbegc1V+ROCN7jP1Oi2cOKIc3EE9Tn4yMIfo6pmiMmqxBnzL6AjsxHycNbI+HRTsGLyOhCJHgZV
-	vf4iycPM02x8hoMP6boDvIezqT8omBPY6CbZ+FUHsQhj0NlNbxsYJon4ewO22AOUVMgtN+kEpwk
-	1AmGABhc0T4icq1Ay4FMANBzgSKZwNo953BpOC4/pRqymw4kbddeW4px4ny1iDwpiUU=
-X-Received: by 2002:a05:6402:a544:20b0:6af:92a6:97df with SMTP id
- 4fb4d7f45d1cf-6af92a6a414mr619051a12.0.1790870370498; Thu, 01 Oct 2026
- 08:59:30 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790871700; x=1791476500;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YQOSzvISQSVIJGCB1nP8Dsz4NS571X8yv9VyUYarZJ8=;
+        b=dAYlf3fV5WFmP77POabN5/s0GLWSvtxjviz2ofMEXlsXD9rjrwV3l0iVsZFnlrmd2i
+         o+cDzA2rrUbrTobzp3I7Re9RIGpB6Ow8pXgZP2fwsXJnl6pV7ZW6Ttn5/RF+LlzjpiJg
+         WkyEe0H1oR5SQlOHJSy+9otcdubAJU57AKlg8HL44qkuwUDKDJhIMUUiQOjviIvyrdg0
+         vphRxAPmjSLoKF8XIZfRr2QlR5czBrNKczglW4ZlVpD0fqB5el2uvAlBj4lAyc5wP46J
+         Lsu/YfOA1juDt97A3bOr+HKH412KnMeS6Ap1wmoqj/PP5r2MldzuuSr2Z4IOzejtG+YR
+         /qjA==
+X-Forwarded-Encrypted: i=1; AKwUvByAUjQgbedKMj43OpG1L09ju9ba6gXPvrTTSXBDm4YFqCU/DCib3SHvw8SQklbS/1dvVKroMCurTqSSi80q@vger.kernel.org
+X-Gm-Message-State: AFq9FYLT0Bhg979gfVCW8yU14XEeG+5kXP65+5/BuzVNMbyhHzznTwNd
+	tF4rlSySb/Y/cPUH47AFRl8fXFz7y4HocHJueySsW3OOVoiIGuvt0VQx
+X-Gm-Gg: AYBFou2vsqZs/8twbR2i+F9M9ruGXb4EPCK8hSqFuyt/U3NIyVOy2OcKrDycD6A4VzK
+	+ERQroS0pbY8HMR+HMPofeWBk/eaI0fISw0bFf38bmjJbPj98eYWoQHQtJ4OGPkZR5qGI8eKKZs
+	GqoeItTBiWrgVjlK366Zm71JRz3Q9FJsXDU9Tz5qBrzuyjxYZO1oz8PCss46AVGgCMapuiuME/h
+	XTaiJZkQt6TPvaWe+Jk2RI4DElW0x+Bti9ZaufigDfxntGVmPrpk51b76P5D4E5Sec5AJ3Q55Gj
+	syfee8y85BIaAPQURttVfh+yeSEKuJ65x6c1jPB/mQLcO+CqVRiD7OlF3rJMPbKywuIQMfiAcvk
+	QzpLzp9J2wVkPUcc4834+ZjgVRW8IV8Wm1W3zYNa2/35AJXnN3bZtVaMrESi/EIKWLoqjIwV6y7
+	8j/+qwFL0OcaEBbUrUnayh92odfMgiJhtrXnmPS+94mP3Em+ElmdKzKOmRmCFurbN43ZZK51kQO
+	QUQOzG7Y5CCKAVLYOsq2d0LHt3r52jBke5T2UC9sTIHfBIIXhQaTaN6ysFPDsJaMoHZS6CJAoYP
+	5FTt2Pm4FoJwlTW+ubFlAslCRego+9FHSRgGVh8BW8aJC0oX67GkIje60Xc=
+X-Received: by 2002:a05:690e:190d:b0:675:4333:4ac4 with SMTP id 956f58d0204a3-6768332b2ccmr3244194d50.6.1790871700271;
+        Thu, 01 Oct 2026 09:21:40 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-676918388b4sm1243584d50.8.2026.10.01.09.21.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2026 09:21:39 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] hfs, hfsplus: validate the partition map and wrapper before following them
+Date: Fri,  2 Oct 2026 00:21:33 +0800
+Message-ID: <cover.1790689266.git.matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260913185016.523376-1-jkoolstra@xs4all.nl> <20260913185016.523376-8-jkoolstra@xs4all.nl>
- <20260918-reklamieren-syndikat-gemildert-763b72008b46@brauner>
- <178972607557.207413.4312278359822083538@noble.neil.brown.name>
- <178977609418.207413.15011378414000392029@noble.neil.brown.name>
- <1010887891.582666.1790682845752@kpc.webmail.kpnmail.nl> <179072013439.37859.465558431050704411@noble.neil.brown.name>
- <CAOQ4uxis4tsea6fx+9iAffVX+qwBC9KzHg5GcP7ahthKd1T9KQ@mail.gmail.com>
- <1910540525.790746.1790806610320@kpc.webmail.kpnmail.nl> <CAOQ4uxhYHf-gAkjdhs37vZREOcNds5a_6c3nBX0Lva3resofmw@mail.gmail.com>
- <1000409963.929534.1790869356300@kpc.webmail.kpnmail.nl>
-In-Reply-To: <1000409963.929534.1790869356300@kpc.webmail.kpnmail.nl>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 1 Oct 2026 17:59:19 +0200
-X-Gm-Features: AclHuK_3dF_O5lWW3SdzB7Kw85o723RVTI5tcpk87Y2IdVrsLp_0nrCYqG-LJ64
-Message-ID: <CAOQ4uxism8-zwCDgGjO4Rxz6DqOkZJeZOeYKHf3QaBDFZHpcFg@mail.gmail.com>
-Subject: Re: [PATCH v6 07/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: NeilBrown <neil@brown.name>, Christian Brauner <brauner@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Aleksa Sarai <aleksa@amutable.com>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Theodore Tso <tytso@mit.edu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> > Maybe I am missing something, but I think you misunderstand me.
-> > What I mean is - if directory inode has a ->atomic_open() op,
-> > bail early with -EINVAL/-EOPNOTSUPP, because this is a network
-> > filesystem that does not support atomic O_CREATE|O_DIRECTORY
-> > and in most likelihood never will support it.
-> >
-> > This gating criteria is not dependent on cache state,
-> > which is what we wanted.
-> >
->
-> No in that case I think I've understood you (or maybe still not?) My
-> point is that we can't do that if we want to be able to individually
-> support O_CREAT|O_DIRECTORY for some ->atomic_open fs. If we bail early
-> the how can say only NFS support it at some point? You get into the
-> situation where everybody needs to have support or no one.
->
-> Does that make sense, or do I still misunderstand you point?
->
+hfs_mdb_get() and hfsplus_read_wrapper() reread the volume header in a
+loop, following a partition map entry and, in hfsplus, an HFS wrapper's
+embedded-volume descriptor.  An entry or descriptor with a zero offset
+sends the loop back to the header it has just read, and a crafted image
+hangs the mount.
 
-If we gate on an existing criteria now like ->atomic_open()
-and/or ->d_revalidate(), we keep semantics simple and it
-does not limit us to change the criteria in the future.
+v2 checks the offsets where they are parsed, in hfs_part_find() and
+hfsplus_read_mdb(), as Slava suggested: a partition must start inside
+the device and after a new-style partition map (TN1189), and a wrapper's
+embedded volume must lie within its allocation blocks, which start after
+its MDB (TN1150).
 
-But I don't insist on this criteria - it's just a suggestion.
+Every hop now moves past what it was read from, so the loop ends and the
+work it does is linear in the size of the device.  For a new-style map,
+a non-zero start alone would not be enough.  Take a map entry in every
+block, all of type Apple_Free with a large pmMapBlkCnt, and one
+Apple_HFS entry near the end with pmPyPartStart 2: each two-block hop
+then rescans the map up to that entry.  With a check on the start alone,
+an hfsplus mount of an 8 MiB image built like this was still busy after
+ten minutes; with these patches it fails in about a second.  Chains of
+small hops remain possible when each map has a single entry, and a
+64 MiB image of two-block hops takes about three seconds to fail under
+QEMU, the same as without these patches.  If that should be bounded as
+well, v1's limit of one hop of each kind could go on top.  The
+generator for these images, with timings for an unpatched kernel and
+for these patches, is at
 
-Thanks,
-Amir.
+  https://github.com/matthiasgoergens/linux/tree/reproducer/2026-09-30-hfs-part-sanity-v2
+
+Under QEMU, v1's reproducers now fail at once.  Plain, wrapped and
+partitioned volumes made with newfs_hfs still mount, with maps written
+by parted or, for the old-style format, by hand.  So do hybrid CD images
+from genisoimage -hfs and xorriso -hfsplus.  Wrappers written by
+newfs_hfs -w, for volumes up to 31 GB, pass the new check.
+
+Changes in v2:
+- Check the entries in hfs_part_find() and the wrapper in
+  hfsplus_read_mdb() instead of limiting the number of hops (Slava).
+- hfs: stop at the first matching old-style ("TS") map entry, as
+  hfsplus already does, so that the start returned is one that was
+  checked.
+
+v1: https://lore.kernel.org/all/20260926084010.569552-1-matthias.goergens@gmail.com/
+
+Matthias Goergens (2):
+  hfs: validate partition map entries in hfs_part_find()
+  hfsplus: validate the wrapper and partition map before following them
+
+ fs/hfs/part_tbl.c          | 27 ++++++++++++++++++++++++++-
+ fs/hfsplus/part_tbl.c      | 24 +++++++++++++++++++++++-
+ fs/hfsplus/wrapper.c       | 16 +++++++++++++++-
+ include/linux/hfs_common.h |  1 +
+ 4 files changed, 65 insertions(+), 3 deletions(-)
+
+
+base-commit: 6812ce4e4379ffc99c52401ec28f0d7ffbc36206
+-- 
+2.55.0
+
