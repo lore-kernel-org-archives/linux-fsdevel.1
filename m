@@ -1,305 +1,112 @@
-Received: from mail-yx2-f38.google.com (mail-yx2-f38.google.com [74.125.224.166])
+Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9FD486430
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 21:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB56489FA8
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 21:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790890698; cv=none; b=X7E/9ZGnt0uR6/u2oINpRwAmE7wbD6aMV7LCqmyvhOWGwsZRBqCP1mBONCzai+A/mFvkVx5JfMx2Kw7CSvxLG9DH1kJtUwkWHZA6AU06aLSfXdqWRhRRg03TnUvU+Xy5qaO3tzg9Fxz4OY87UkdnK6ugpTylK5BHoeZfW5cJwqQ=
+	t=1790890700; cv=none; b=JaFMH+j5XTvDhhR5lPow/GvTvrdhvNpf95k7qNkcu1UxTI54SGDcTCTwRohC3j5O24SQbQPjXSHHj9Qoj6RHgEA0WRynmMmTBHTrfhNCrCS3H1C2Lu4MiJpJGB43xDBqJybTxRwKJnBnsZE9K44rvLfyWW5GUo3lEVsDQ45HrgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790890698; c=relaxed/simple;
-	bh=KHTm2ZAuMqDusI0/efkxx63Uc48N7w+nndf1PFY1OoI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SOx/9JLyWkdOM72udbQDVoauvUiHK0ghJTbZjcDRnDNDF0ZZXtXOHil7fzsubAEhl42rwBqWBSXO5siAdZyQYHedSsWeXY7o+kMrBGjfd0lakxtyKk6ctvBkj5BrquIv9gE4eKUQ6tmqT7wWgAVHuCUQ16KkukPm32Q/LDaGshI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=P0tMe8eR; arc=none smtp.client-ip=74.125.224.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1790890700; c=relaxed/simple;
+	bh=AspwvTERhCa/5SyVWGjRHHTsaV7FE1ndt+3lzpHQ+go=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=eraW0SH5IdH0qz9zoIuLMt7TvTZO5hKQuwYneeLj2e2G9BLkwImc7vQqY4NJ1wtnAf3yZ+uNmN5njAvmgPtKg0q/x214y99D+4561WvEed227wHnkHHJqgdLAwP1e5UyiPLUTo86mT/kbs4xogZkSAD6NhUwDFmKB8zcCH5tftU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=noroxi.com; spf=pass smtp.mailfrom=noroxi.com; dkim=pass (2048-bit key) header.d=noroxi.com header.i=@noroxi.com header.b=nF7zpyng; arc=none smtp.client-ip=74.125.229.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=noroxi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=noroxi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="P0tMe8eR"
-Received: by mail-yx2-f38.google.com with SMTP id 00721157ae682-8ab3e848918so37006277b3.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 14:38:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=noroxi.com header.i=@noroxi.com header.b="nF7zpyng"
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5ba330dbd67so2984954e87.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 14:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790890695; x=1791495495; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5nemF20nnCuzcbK3EaToC/EqXdWnpHwhMCzou3g/iqo=;
-        b=P0tMe8eRTKVV1k8EiqdqM3+/FBZbtWDGuNZwOgbIjLqgDuJsv0ZJdSGBkGX19nnr1y
-         pus9GdtQKazLr1U/sSxBx3VnnxR6/UGkbnYm83X97aY9XEFIWdvoVTDXW3zZ2X/Hw09q
-         JNsg4pA/roHAv15aQsHjQGwMdiW0sbQr4vgjVJAWyQ2IqpG7x0RMOGuYxnyww/oDNIox
-         RqMxlvXnPPqJCRxHr4470P39+FNCk5nPdHO2Kbs13YOzcVUymFIqfm8Ki+4dHBpB5Pwk
-         HVeDWkYZuFp3zauNrlgLHqzX8sk+Dvyl1Xlf6yGzpEccLpQi4sRIstUuspKRt2+z0+e7
-         yf1g==
+        d=noroxi.com; s=google; t=1790890697; x=1791495497; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fgjFQHRzOc9aDDIMHQL4Oa7S8OApJyx2CogFTCRqEAQ=;
+        b=nF7zpyngmFd+ML31Nt78Io2+erTKGxVvwUEsqy/qsGN5RbaoeekdN6iBOZ5jOKUCGd
+         qwBvJTriOKOtyVfxAYZxpNAKG4n4+sxk+q/JVqW2JaT8dRcCtJkBK9vBuDxkWI401q8h
+         zySFMnjJuzda+xXxbDpMpjFpv1RsZHZ2/aJ/otWbD11HEm8iIb+t3pT6nIj2V3C25b9E
+         LsdyJeckYi2KJmixtsJmXe/UQBnknn5mTjiLFMqnc7bQhY6xZIWUFlAkyXwcFCvLP/M6
+         bXVSBE9Niq6YnI+6NH89cKW9jFJgGqkKYKbZZ3Etty5wwMNAx5482xltZg9EoH/BsstD
+         pX/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790890695; x=1791495495;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=5nemF20nnCuzcbK3EaToC/EqXdWnpHwhMCzou3g/iqo=;
-        b=hQY8oknoe1yi3qO5JdsVr3C+DCTE3dyEJh2Z46yV+YgrW8a9txRz9TESvgw9gUFMVX
-         L8K4dVFQrYG7YidPS5wTuxb9XB4hTQlD7ZzPLYwIRXNncByKxbdQEjpPVTgQZfmp2ixG
-         kfaBmscJIiDvaffjXic10FNzUKPphB+0wKxMqDnZKxJDVdXBvan7qu7EqIFg1xhE7S53
-         OtDsAv+5uR7+bbIkQRpIQDuuUjUaSxw3qZESuTF0vPC4xx3fzbpGoPlYCyDMsz6TS33g
-         /koXTqYFlv6emcgTPeWwAanMtruGJTi4l7OcsaFGILq2tY/436c0k8lx9CT0nw72u6S5
-         aVoQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwlmKF4gMHboR7dZ58d3h+VFz55yokayBIwM7O5G5QIN6pcz8ex6+m0Mphsrt6ROdJ3N1qz+niaFRuqMAlw@vger.kernel.org
-X-Gm-Message-State: AFq9FYIZVW0SS8o6QQGQ/gLQcRQr7wIyZOExx9a54U5C6fzSyw9UGBbC
-	tFUgI1QQY36jbALc0CZEq1ggLzFcp7wb4+UiEMB7ttmEZmTQsnVwp1yzcWIRKUDQ/th1qr+wMt0
-	h3BrzGzk=
-X-Gm-Gg: AYBFou1rpT8j7bTTfHVAFxrcfta2iVogCQFNzgkiOWrAWw8jYcnj+4KWATgYLC8MHpt
-	8pcMvxTPSxiDntMDsvCqOHyJGJWCisa0KmQyHW3xxRXlWDXQsVgKDMdc3fzVQRcIVf0sPCAGHlY
-	LEdy0JxamcOUxEJqCBbpTB69nWfw57vV9lkjcyrmasytG4NqbjT88DaTV1mkb99AAjAbvKmvVu4
-	e+XPED9t6XqIjW2BWnfFQVyAGSeiyyu+a7hevLt5gVMtiDbZazAmbHSRVcYJOodGrciJcxtNy2p
-	BlO7DPXbtSQ8sfEBu2b9yCMpdYSVSVr2YRKYFWUmixvcmib9/DWTVZCqwx20BvKMxlSDzjLDsQH
-	P7D7T8Uog+aa7izR41PL5FMW/DyWVyOEMtgnXmOhIQ7dW8gU+heSznuQapjavL0pRTgUdqNceiq
-	zv4audOpSVrSFGyYMsjs00AwEP4W0yIUzavkmfKAYyH5QxstdPaRtS14MgFcMWnS+9lJHqomjKO
-	gPQIQBrCza46XToc+rCMebK5Ll6haJ3pbEqIPvX7HWVIYUiOif/KH6oywo9vbXLUMYZpIskUI9b
-	s7ZUIthxt4B3qARSFCjoTDZQ8gbbC8HUzB3iU+sTdLGD757wxHynaAjnEIypnsVF4w==
-X-Received: by 2002:a05:690e:4401:b0:674:eef:ff94 with SMTP id 956f58d0204a3-677ac0d8f0fmr200086d50.94.1790890695410;
+        d=1e100.net; s=20260707; t=1790890697; x=1791495497;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fgjFQHRzOc9aDDIMHQL4Oa7S8OApJyx2CogFTCRqEAQ=;
+        b=dh/qSY5ZfxU6SXKQgf4/xG8ncqwaXElh0xezoADZVHURvEsRzhjN7WnX1s8JGfZ9si
+         Gf6AKqsYv3rZU05e1itO4HkgSt+ImmZ62Yp6lNxI8D8Ppnbc8phMh9KSwrkGnDkiwSij
+         yESnFLLkQg70JgWDgn3T1VQmATep7c72aNUSquK1Fk4mO0BUECsT0Nk0RnjAMrMHUcBm
+         phn9cpdAa2NwnYUKh8OBFmzMKKSAegsB+W4x9Fd8zZu+e8qn3Zmo00uiTeI/ujvnj5Xq
+         tIu7NK8tJG6qS66pkPQXBom9iapkr/WGLCPuXVdbwVuXxJETkU4y0J6rHWL8MePGeSSS
+         gu1w==
+X-Gm-Message-State: AFq9FYKRCSLIHzgMB5QFi/cWcSo5CH9ittnJUMsbll22FLRXasY5n2q/
+	6YuuLMix6MdqVZY1JwTJgVhJ1/Vj9ciHRY7yPdbT4LI5ttcEZgmxzT3vJY3P2BKJ+yFs7LaM+sl
+	tr/WilK/wiyx5Mg==
+X-Gm-Gg: AYBFou2xFHvUei1in8ezEPMiitwgItow298mkRFeJJ51VVWw5j4YP2xBY1+y85c3ux4
+	DqRPUnAU0AJ72pZUFw3QIpZx+iG4kTD6SobJL5tFiRJ6bObI3jDARbNZdi9xYSr5DJaGj3wEaNc
+	Z2cqWX/U9AggAtRDUQ7epLC0QfdOhfmW6SujgsFkp96b3QTiVlvguJeQ4BkKW6W0uvvvXIcDYy3
+	FD84cfRQWxRbC8DN74Kf1am3NmjHI73T9qHqgwX1CFRzMab8yctXsYssai10tMWtyRVtEN8tOFv
+	GibVqAWWHLoDvuP+dWqOM2IL5UjHEGYWW2uWRG6rnchHHssnIoODBwY0AhOQUFEKIlMK3/R1L38
+	WKFeRdbJACji2iqCseQivQDzPTg8rKnf6oGupVv2sy411QSd8jRKfqVEjaoICRJ3JPsnqwR9j/A
+	MyOcUc0DonqV0D2GZLtIeNw7sK9UtNj6pV5DzjRWXIlD82l3yPfDsAJDVWyQdv1SSGYS6BOWCOp
+	GdnVl4KRLjk
+X-Received: by 2002:a05:6512:8345:b0:5b8:b2f0:b5b0 with SMTP id 2adb3069b0e04-5bb9bb260e8mr124544e87.46.1790890695967;
         Thu, 01 Oct 2026 14:38:15 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:67c2:3447:e08d:9418? ([2600:1700:6476:1430:67c2:3447:e08d:9418])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8ae32cee6edsm2198047b3.23.2026.10.01.14.38.13
+Received: from lab01.. ([2a01:4f9:1a:a462::2])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a87e333cf3sm2294361fa.39.2026.10.01.14.38.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 14:38:14 -0700 (PDT)
-Message-ID: <9f8b8dacee5d24c94185bab75ff905eb51a95999.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: annotate extents_lock nesting to silence
- lockdep false positive
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Mahmut Emin Kurhan <guvenlik@noroxi.com>, linux-fsdevel@vger.kernel.org
-Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-kernel@vger.kernel.org
-Date: Thu, 01 Oct 2026 14:38:13 -0700
-In-Reply-To: <20261001095208.1469344-1-guvenlik@noroxi.com>
-References: <8dfb90a2751df30f76ab5130960591a57c51be4d.camel@dubeyko.com>
-	 <20261001095208.1469344-1-guvenlik@noroxi.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        Thu, 01 Oct 2026 14:38:15 -0700 (PDT)
+From: Mahmut Emin Kurhan <guvenlik@noroxi.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	linux-kernel@vger.kernel.org,
+	Mahmut Emin Kurhan <guvenlik@noroxi.com>
+Subject: [PATCH v3 0/2] hfsplus, hfs: fix B-tree node leak on hfs_btree_open() error path
+Date: Thu,  1 Oct 2026 23:38:05 +0200
+Message-ID: <20261001213807.1519745-1-guvenlik@noroxi.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <0de056179e3e0a7c4ef525cdb143647b7493dc71.camel@dubeyko.com>
+References: <0de056179e3e0a7c4ef525cdb143647b7493dc71.camel@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2026-10-01 at 11:52 +0200, Mahmut Emin Kurhan wrote:
-> lockdep reports possible recursive locking on HFSPLUS_I(inode)-
-> >extents_lock
-> when unlinking a file on a crafted image:
->=20
-> =C2=A0 hfsplus_file_truncate()=C2=A0 holds inode A ->extents_lock
-> =C2=A0=C2=A0 hfsplus_free_extents()
-> =C2=A0=C2=A0=C2=A0 hfsplus_block_free()=C2=A0=C2=A0 reads the allocation =
-bitmap file
-> =C2=A0=C2=A0=C2=A0=C2=A0 block_read_full_folio()
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hfsplus_get_block()=C2=A0 takes inode B ->=
-extents_lock
->=20
-> inode A is the regular file being truncated and inode B is the
-> allocation
-> file (sbi->alloc_file, i_ino =3D=3D HFSPLUS_ALLOC_CNID). They are two
-> different
-> inodes of the same lock class, taken in a fixed order (regular file
-> first,
-> then the allocation/attributes/catalog file), so this is not a real
-> deadlock, only a missing lock-nesting annotation.
->=20
-> Mirror the existing hfsplus_btree_lock_class() approach: give the
-> special
-> inodes distinct extents_lock subclasses and take the lock with
-> mutex_lock_nested(). Regular files keep the default subclass, so a
-> genuine
-> regular-vs-regular recursion would still be detected.
->=20
-> Found via coverage-guided fuzzing (syzkaller + lockdep) by Noroxi.
->=20
-> Signed-off-by: Mahmut Emin Kurhan <guvenlik@noroxi.com>
-> ---
-> =C2=A0fs/hfsplus/extents.c=C2=A0=C2=A0=C2=A0 | 12 ++++++++----
-> =C2=A0fs/hfsplus/hfsplus_fs.h | 28 ++++++++++++++++++++++++++++
-> =C2=A0fs/hfsplus/xattr.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 ++-
-> =C2=A03 files changed, 38 insertions(+), 5 deletions(-)
->=20
-> diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
-> index eb7c11524..54a05eaa8 100644
-> --- a/fs/hfsplus/extents.c
-> +++ b/fs/hfsplus/extents.c
-> @@ -150,7 +150,8 @@ int hfsplus_ext_write_extent(struct inode *inode)
-> =C2=A0{
-> =C2=A0	int res;
-> =C2=A0
-> -	mutex_lock(&HFSPLUS_I(inode)->extents_lock);
-> +	mutex_lock_nested(&HFSPLUS_I(inode)->extents_lock,
-> +			=C2=A0 hfsplus_extents_lock_class(inode));
-> =C2=A0	res =3D hfsplus_ext_write_extent_locked(inode);
-> =C2=A0	mutex_unlock(&HFSPLUS_I(inode)->extents_lock);
-> =C2=A0
-> @@ -261,7 +262,8 @@ int hfsplus_get_block(struct inode *inode,
-> sector_t iblock,
-> =C2=A0	if (inode->i_ino =3D=3D HFSPLUS_EXT_CNID)
-> =C2=A0		return -EIO;
-> =C2=A0
-> -	mutex_lock(&hip->extents_lock);
-> +	mutex_lock_nested(&hip->extents_lock,
-> +			=C2=A0 hfsplus_extents_lock_class(inode));
-> =C2=A0
-> =C2=A0	/*
-> =C2=A0	 * hfsplus_ext_read_extent will write out a cached extent
-> into
-> @@ -454,7 +456,8 @@ int hfsplus_file_extend(struct inode *inode, bool
-> zeroout)
-> =C2=A0		return -ENOSPC;
-> =C2=A0	}
-> =C2=A0
-> -	mutex_lock(&hip->extents_lock);
-> +	mutex_lock_nested(&hip->extents_lock,
-> +			=C2=A0 hfsplus_extents_lock_class(inode));
-> =C2=A0	if (hip->alloc_blocks =3D=3D hip->first_blocks)
-> =C2=A0		goal =3D hfsplus_ext_lastblock(hip->first_extents);
-> =C2=A0	else {
-> @@ -576,7 +579,8 @@ void hfsplus_file_truncate(struct inode *inode)
-> =C2=A0	blk_cnt =3D (inode->i_size + HFSPLUS_SB(sb)->alloc_blksz - 1)
-> >>
-> =C2=A0			HFSPLUS_SB(sb)->alloc_blksz_shift;
-> =C2=A0
-> -	mutex_lock(&hip->extents_lock);
-> +	mutex_lock_nested(&hip->extents_lock,
-> +			=C2=A0 hfsplus_extents_lock_class(inode));
-> =C2=A0
-> =C2=A0	alloc_cnt =3D hip->alloc_blocks;
-> =C2=A0	if (blk_cnt =3D=3D alloc_cnt)
-> diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-> index 1e5b58e6a..2cbd8074c 100644
-> --- a/fs/hfsplus/hfsplus_fs.h
-> +++ b/fs/hfsplus/hfsplus_fs.h
-> @@ -36,6 +36,20 @@ enum hfsplus_btree_mutex_classes {
-> =C2=A0	ATTR_BTREE_MUTEX,
-> =C2=A0};
-> =C2=A0
-> +/*
-> + * extents_lock nested subclasses. Special inodes (allocation,
-> attributes,
-> + * catalog) use the same lock class as regular files but their
-> extents_lock is
-> + * taken while a regular file extents_lock is already held -- e.g.
-> the
-> + * allocation file is read from hfsplus_block_free() during
-> truncate. Give them
-> + * distinct subclasses so lockdep does not report a false recursive
-> locking.
-> + */
+This is v3 of the hfsplus/hfs B-tree node leak fix, rebased onto the
+for-next branch of the HFS/HFS+ tree as requested.
 
-Could we have more shorter and more informative comment? Currently, it
-is long and pretty useless.
+The leak is unchanged: hfs_btree_open() can fail after the head node has
+been inserted into tree->node_hash, and the error path does a bare
+kfree(tree) without freeing the hashed nodes. The fix factors the
+node-hash freeing out of hfs_btree_close() into hfs_bnode_hash_free() and
+calls it from both hfs_btree_close() and the hfs_btree_open() error path.
 
-> +enum hfsplus_extents_mutex_classes {
-> +	HFSPLUS_EXTENTS_LOCK_NORMAL,
+Changes since v2:
+ - rebased on for-next; the extracted helper now wraps the hash_lock
+   serialized close loop introduced by commit dce0e0248205 ("hfs/hfsplus:
+   serialize B-tree close against folio release") (Slava Dubeyko)
+ - on the open error path the tree is not published yet, so the lock is
+   uncontended but kept for consistency
+ - no functional change to the leak fix itself
 
-Maybe HFSPLUS_EXTENTS_LOCK_REGULAR_FILE?
+v2: https://lore.kernel.org/linux-fsdevel/20260930232312.1405042-1-guvenlik@noroxi.com
 
-> +	HFSPLUS_EXTENTS_LOCK_ALLOC,
-> +	HFSPLUS_EXTENTS_LOCK_ATTR,
-> +	HFSPLUS_EXTENTS_LOCK_CATALOG,
-> +};
-> +
-> =C2=A0/* An HFS+ BTree held in memory */
-> =C2=A0struct hfs_btree {
-> =C2=A0	struct super_block *sb;
-> @@ -572,6 +586,20 @@ hfsplus_btree_lock_class(struct hfs_btree *tree)
-> =C2=A0	return class;
-> =C2=A0}
-> =C2=A0
-> +static inline unsigned int hfsplus_extents_lock_class(struct inode
-> *inode)
+Mahmut Emin Kurhan (2):
+  hfsplus: free cached B-tree nodes on hfs_btree_open() error path
+  hfs: free cached B-tree nodes on hfs_btree_open() error path
 
-Are we longer than 80 symbols? Then we need to rework it slightly, it's
-too long.
+ fs/hfs/btree.c     | 40 +++++++++++++++++++++++-----------------
+ fs/hfsplus/btree.c | 41 +++++++++++++++++++++++------------------
+ 2 files changed, 46 insertions(+), 35 deletions(-)
 
-> +{
-> +	switch (inode->i_ino) {
-> +	case HFSPLUS_ALLOC_CNID:
-> +		return HFSPLUS_EXTENTS_LOCK_ALLOC;
-> +	case HFSPLUS_ATTR_CNID:
-> +		return HFSPLUS_EXTENTS_LOCK_ATTR;
-> +	case HFSPLUS_CAT_CNID:
-> +		return HFSPLUS_EXTENTS_LOCK_CATALOG;
-> +	default:
-> +		return HFSPLUS_EXTENTS_LOCK_NORMAL;
+-- 
+2.43.0
 
-What about HFS_EXT_CNID? Should we process other reserved IDs too [1]?
-Because, they are not regular file.
-
-Thanks,
-Slava.
-
-> +	}
-> +}
-> +
-> =C2=A0static inline
-> =C2=A0bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
-> =C2=A0{
-> diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-> index 21a1c196c..7bf4ba8f1 100644
-> --- a/fs/hfsplus/xattr.c
-> +++ b/fs/hfsplus/xattr.c
-> @@ -264,7 +264,8 @@ static int hfsplus_create_attributes_file(struct
-> super_block *sb)
-> =C2=A0						=C2=A0=C2=A0=C2=A0 sbi->sect_count,
-> =C2=A0						=C2=A0=C2=A0=C2=A0
-> HFSPLUS_ATTR_CNID);
-> =C2=A0
-> -	mutex_lock(&hip->extents_lock);
-> +	mutex_lock_nested(&hip->extents_lock,
-> +			=C2=A0 hfsplus_extents_lock_class(attr_file));
-> =C2=A0	hip->clump_blocks =3D clump_size >> sbi->alloc_blksz_shift;
-> =C2=A0	mutex_unlock(&hip->extents_lock);
-> =C2=A0
-
-[1]
-https://elixir.bootlin.com/linux/v7.3-rc5/source/include/linux/hfs_common.h=
-#L141
