@@ -1,54 +1,39 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.stoffel.org (mail.stoffel.org [172.104.24.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F01347D44B;
-	Thu,  1 Oct 2026 18:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DA526ED40;
+	Thu,  1 Oct 2026 19:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=172.104.24.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790880227; cv=none; b=I018iAeVHzV2LHp2N3FaD5AsJ7BcODxW9wk1UXrhtP8OfMuZoEA++WipJbsJGXjeRdAGXZeFd4SpIDCUAVAdiJLvCCNcT112bKHJZX98XJUt+sO3VZolMT+3xOk3bqa7oDBugGAF3jj88u7RYjMw5eV/E89RLrClqLhUrYeKbYo=
+	t=1790883823; cv=none; b=F7ZLjmSsn9LM0bJxfhP9oxphgN9hRmIXCzwIaH4hcGNWTqy+aOYvjCeBDdhNFViQgvbXXu8zvMB3t9NPIMhguO30hFFO5btInAZTS4LWjKfQYGXxi3/NMjd2oRjolaxt5JT13MfPrXX2XLnK8F6K0FpkiNCu74PDywU069hZnSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790880227; c=relaxed/simple;
-	bh=IssYt/LOqNL4Aq5qn/f7wC5a3Ce0xfmWCSqcEaxumw4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fOoRHxxThqf8GGyB0bZxh0AL/w4YgIcZ+8fmYoKtqyyyDiLdnrwEed2eBCv/XEkhKsKlXNLHpaW1eY9F/whF2zCHwjdRdgOo38xwPmT4gbbz1AyrNRJFw3IV+TVWiOsFxNFQwGTjgTkmfJveXxcK2fmIknza5GCJeF3Q/5/vTgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ei+G6BQ+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790883823; c=relaxed/simple;
+	bh=7VeFmgz04ojf70Sdk2Y3kowM7FF4KSlRSKNyayO1weE=;
+	h=MIME-Version:Content-Type:Message-ID:Date:From:To:Cc:Subject:
+	 In-Reply-To:References; b=JLT27M3/9x22qbNu6KVH+nwXRQQnmUR4MRox6oM6SbcOLAmEI9+36rgbXt+PLUAdC6Y764bQKl+OQX+B2vUjT3e7eGyIGvSzZOpcOpK5mbNCrhuYF5qs6Kg9SA0kG5Iktd7ymjmb5abtCOvcPlzJJJVBGwHV+w3q9UDdPT3zeg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=stoffel.org; spf=pass smtp.mailfrom=stoffel.org; dkim=pass (2048-bit key) header.d=stoffel.org header.i=@stoffel.org header.b=KKk52Xd5; arc=none smtp.client-ip=172.104.24.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=stoffel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stoffel.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ei+G6BQ+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7A981F00898;
-	Thu,  1 Oct 2026 18:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790880222;
-	bh=8IhyPraaZ+0Y4y5yNF3T0TZ5caa5fwXRSAMFytUHil0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ei+G6BQ+kQusBfSuAr9wTOsaqN5ckM7JLvO7hIUYeDcCqP43VlOvoItk5A4Mru+0z
-	 TPGzdx7kMbtZcAzGelAhophnMIcY7WlH0Gh7kS/kGOy+hyokmWH6COBlDWGgXqD8Zq
-	 jdkcItAqxwlM5WWGriLvIiLGGMm/Qdc5h7mh4hPUKxQwDn4F+panOEuPfGx1zYqqhp
-	 HrUgRFiIZ8dijReXRACFrTPLlbuX/9xHzDxUfTUx2XiUUfZ8dmASp1p1+NvV1mFc86
-	 ih7ApInwzZXkJa23LlvYks6M+jUJY0tT8Ae44TF261aLpujb/g/VDpdVRkzjZSTL0l
-	 W2LMvjPwwmHpg==
-Date: Thu, 01 Oct 2026 08:43:42 -1000
-Message-ID: <ef728276c74f15e11f42301b4e6f011f@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Liz Fong-Jones <lizf@honeycomb.io>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jens Axboe <axboe@kernel.dk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Xin Yin <yinxin.x@bytedance.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ian@honeycomb.io
-Subject: Re: [PATCH v4 2/2] writeback: switch a replaced cgwb's inodes to its
- successor
-In-Reply-To: <20260930-wb-dying-cgwb-flush-v4-2-bde637803a96@honeycomb.io>
-References: <20260930-wb-dying-cgwb-flush-v4-0-bde637803a96@honeycomb.io>
- <20260930-wb-dying-cgwb-flush-v4-2-bde637803a96@honeycomb.io>
+	dkim=pass (2048-bit key) header.d=stoffel.org header.i=@stoffel.org header.b="KKk52Xd5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=stoffel.org;
+ i=@stoffel.org; q=dns/txt; s=20250308; t=1790883815; h=mime-version :
+ content-type : content-transfer-encoding : message-id : date : from :
+ to : cc : subject : in-reply-to : references : from;
+ bh=7VeFmgz04ojf70Sdk2Y3kowM7FF4KSlRSKNyayO1weE=;
+ b=KKk52Xd5ka/R5uY2KDeloblMAVP47KaRK5wllwu3bzZac5bgGegDOw9Qx9n/E274sGdUA
+ tniQkj8TZ3vmemYSaCwbrbsU2zAKS7CJuBH3sUGIQ0EY6ird+cKUu9YbylStlkKu0H81mFL
+ rDjQjvdnM5YiVAWLLzxYUmo+QXz3O+m0R6j+kr9y+gIY4I0D5TaGCMuaAlc2QtyJw5bsuKQ
+ AskI2BYSNkNM6k0Kl59Ctrg5/JxzJzw3MIJCwljo/Yms2V1WEoIF9Hxu1e58C+4lbX0CAPh
+ NYDjZYaj9qXW23XIAK4vaTY+MyrpBiWkd3NGyOjkjUsyeVKToWdJvTj9ncfQ==
+Received: from quad.stoffel.org (unknown [24.177.6.168])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by mail.stoffel.org (Postfix) with ESMTPSA id B09B71EB24;
+	Thu,  1 Oct 2026 15:43:35 -0400 (EDT)
+Received: by quad.stoffel.org (Postfix, from userid 1000)
+	id 53676A332A; Thu,  1 Oct 2026 15:43:35 -0400 (EDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -57,46 +42,77 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
+Message-ID: <27326.47079.315579.582391@quad.stoffel.home>
+Date: Thu, 1 Oct 2026 15:43:35 -0400
+From: "John Stoffel" <john@stoffel.org>
+To: NeilBrown <neil@brown.name>
+Cc: "John Stoffel" <john@stoffel.org>,
+    "Trond Myklebust" <trondmy@kernel.org>,
+    "Anna Schumaker" <anna@kernel.org>,
+    "Alexander Viro" <viro@zeniv.linux.org.uk>,
+    "Christian Brauner" <brauner@kernel.org>,
+    "Jeff Layton" <jlayton@kernel.org>,
+    "Jan Kara" <jack@suse.cz>,
+    linux-fsdevel@vger.kernel.org,
+    linux-nfs@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+X-Clacks-Overhead: GNU Terry Pratchett
+Subject: Re: [PATCH v2 3/9] nfs: remove d_drop()/d_alloc_parallel() from
+ nfs_atomic_open()
+In-Reply-To: <179080305245.37859.18267888595495397553@noble.neil.brown.name>
+References: <20260929022547.1428036-1-neilb@ownmail.net>
+	<20260929022547.1428036-4-neilb@ownmail.net>
+	<27325.7525.26178.516077@quad.stoffel.home>
+	<179080305245.37859.18267888595495397553@noble.neil.brown.name>
+X-Mailer: VM 9.0.0snapshot under GNU Emacs 28.2 (x86_64-pc-linux-gnu)
 
-Hello, Liz.
+>>>>> "NeilBrown" == NeilBrown  <neilb@ownmail.net> writes:
 
-On Wed, Sep 30, 2026 at 07:35:37PM +0000, Liz Fong-Jones wrote:
-> +	new_wb = wb_get_lookup(wb->bdi, wb->memcg_css);
-> +	if (!new_wb)
-> +		return false;
+> On Thu, 01 Oct 2026, John Stoffel wrote:
+>> >>>>> "NeilBrown" == NeilBrown  <neilb@ownmail.net> writes:
+>> 
+>> > From: NeilBrown <neil@brown.name>
+>> > It is important that two non-create NFS "open"s of a negative dentry
+>> > don't race.  They both have only a shared lock on i_rwsem and so could
+>> > run concurrently, but they might both try to call d_splice_alias() at
+>> > the same time which is confusing at best.
+>> 
+>> > nfs_atomic_open() currently avoids this by discarding the negative
+>> > dentry and creating a new one using d_alloc_parallel().  Only one thread
+>> > can successfully get the d_in_lookup() dentry, the other will wait for
+>> > the first to finish, and can use the result of that first lookup.
+>> 
+>> This paragraph is confusing, and I'm not sure which thread can use the
+>> result of the first lookup from this description.  
 
-If the successor was already released, the slot is empty and the inodes
-stay on a wb that foreign flushes can't find. Maybe fall back to
-&wb->bdi->wb like cleanup_offline_cgwb() does?
+> Unfortunately it isn't clear to me what it is that isn't clear to you
+> :-)
 
-> +	spin_lock(&wb->list_lock);
-> +	restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_attached, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_io, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_more_io, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty_time, &nr);
-> +	spin_unlock(&wb->list_lock);
+Sorry!  I wasn't clear, probably because I'm not great at the VFS
+stuff and was just reacting more to my parsing of the language.  It's
+probably not a big deal honestly.  
 
-Switching a dirty inode away leaves WB_has_dirty_io set on the old wb.
-inode_do_switch_wbs() moves it onto new_wb->b_dirty through
-inode_io_list_move_locked(), which only updates new_wb, and nothing calls
-wb_io_lists_depopulated() on old_wb. A live wb clears it on its next dirty
-to clean transition, but a replaced wb never gets another inode, so it's
-freed with its avg_write_bandwidth still in bdi->tot_write_bandwidth,
-which wb_split_bdi_pages() and wb_min_max_ratio() divide by. Can you add a
-prep patch which calls wb_io_lists_depopulated(old_wb) after the switch
-loop in process_inode_switch_wbs(), while old_wb->list_lock is still held?
+> When O_CREAT is not requested, calls to ->atomic_open are protected only
+> by a shared lock on the parent so if the dcache contains a negative
+> dentry for a given name then two ->atomic_open calls on that name can
+> happen concurrently.  That can be a problem as they both might try to
+> instantiate the dentry with an inode, and the second to do that will
+> trigger a BUG.
 
-> +	while (switch_replaced_cgwb(wb))
-> +		cond_resched();
+> This is fixed by discarding (d_drop()) the dentry and using
+> d_alloc_parallel() to allocate a new dentry.  d_alloc_parallel()
+> effects a lock.  Only one thread will get an in_lookup dentry.  The
+> other will block until the dentry has been instantiated, and will then
+> be given the non-in_lookup dentry.
 
-cond_resched() is a no-op on PREEMPTION kernels, so a wb with a lot of
-inodes keeps this worker from reporting a Tasks-RCU quiescent state. See
-407a5d205179 ("writeback: report a Tasks-RCU quiescent state per cgwb
-drain pass"). Can you use the same do { } while () shape with
-cond_resched_tasks_rcu_qs() as cleanup_offline_cgwbs_workfn()?
+> The current code does all this in nfs_atomic_open().  The new code does
+> the d_drop and the d_alloc_parallel() in VFS code were I can manage the
+> locking rules more easily.
 
-Thanks.
+> I thought that is what I said above - though more briefly of course.  If
+> you can point me more precisely to what is not clear in the original, I
+> can try to improve it.
 
---
-tejun
+> Thanks,
+> NeilBrown
+
