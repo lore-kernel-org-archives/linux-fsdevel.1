@@ -1,78 +1,78 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+Received: from mail-yx2-f38.google.com (mail-yx2-f38.google.com [74.125.224.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EC73EFFC0
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 21:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D3E4A4993
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 21:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790889333; cv=none; b=qvqArGrrcGKl0CmEDob0rOlkXq3rDY+rHYKn+BFWRcYb/7MLe1r4NFicPqApS5nD4rU3/kyQuup3iKhGv8m0w6sbMfd+vk+FgmD7gP6QBFF+XpUaNT41CcMnlu4DCrJKlsovnEiPRNHOqVqik/5VfKlmeA9V5j8mf5Cg9jUWZkw=
+	t=1790889533; cv=none; b=gmK+uOsfkFc2HwpDb3umvNfy9rsWrzTKtT0SHiMZkAMv223kvDsAGJ7b7P8P9tmk06FbMkTi0jRuip0Z00jDgiv9DyPdhQBCjoYMqiLkyRozKtuQr4BcCqcq67sU20pDXfWiVjfnDKRtz6cRAYiGFwx+yNwl59LUGe1Z0CvsACw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790889333; c=relaxed/simple;
-	bh=bhOBYeNMRLbf//CVHC3yTEwmKPzvtZhHLZaXcwqNFEM=;
+	s=arc-20240116; t=1790889533; c=relaxed/simple;
+	bh=AaMRzA3GwCcruC4vcKsIY/ctppwPd6yHkgn55D5RW4M=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Npe0+NGm1bZo+becn1r3ytpUPmwQ9Fvso4QeQphfiSvFv2mL0o+BJqdJiK5teWHtMyjb3l+hUfseMkTrl6yNPniczWwVwiUz6AUiTkgSqyhj7O/fc43+b4ieEBXrIOxw9jx5cZYL6HqvnzzFZFxJchAHxYWs/+/9OQ0BcAmHsUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=aaTXtS0k; arc=none smtp.client-ip=74.125.224.140
+	 Content-Type:MIME-Version; b=ITx+/36CtrEbZ5uryZqMIWSemDhzZPAbRRcFyK9u2N/kanbbaw7h82lqvs+FjV4hMH30VP7nzcyW0xgrYdrI01Mt+T9Q28emLe5mZ9SaFuXenJfdSzqMBohehCMjgCxCnuXdBRtUBLQY4aTvik8ORT8jLletN+vlf95orb6VPZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=yg8dzKmw; arc=none smtp.client-ip=74.125.224.166
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="aaTXtS0k"
-Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66fded6b087so6523098d50.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 14:15:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="yg8dzKmw"
+Received: by mail-yx2-f38.google.com with SMTP id 956f58d0204a3-67561cbafd0so3019599d50.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 14:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790889328; x=1791494128; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790889526; x=1791494326; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FaMh4RqAX9pI7/4DtdIiH6UIpc8LCNjvGeQ4T3Xb7K8=;
-        b=aaTXtS0keDH74ll9YveSqoWlwoRS59DppSATCqLRTqEfVppBZonbfNLYiruyzK+ENT
-         Z/FgEhZ3/maTTcHhZ+3mF0rpK7u55/A7OuXhfn0IhePP1K5H+cT+R4JwDw5uJUzm6b9k
-         zty7U3l/q+tapDn20eZeulR2yQCabpXp9zN0sDoig78Baow7RFeAiKsGgTu2RE8C6l9t
-         uGXYDkIG4M5ACJMDIOWpc+TCCjORATmeQ9WnOBQDkBTx9WHaiO8iQ2KnYO/tofD4NkEN
-         9Qc9lHKt6zepoI4BBdvacqsYOJ2Kvte6wwRmcK9vX+cFLwoUkIO77eosvtTCQTdsKTuy
-         3X+Q==
+        bh=npnMeLxosNDOnJqoWDC8WVPBYhMiG2jAQo0sTJwzvWw=;
+        b=yg8dzKmwkWUkKuQiGHIIex5bqFEBz969NfuOjQW2JBHCL7HGLuJPtxiftnM4NNcCt6
+         CFifgGmDNW9zUMV82twIXMI08tmnJvKGAoZ9x5ZMVaHeNKi2Hxccbiiq5d6oPI+1dw6y
+         Zypo+J9MlWjOqfYz7JInvWe9Z/WH8BPwbvR/vJsr6reZRwgakrmCcDdk2h5nrxwj9Cyw
+         wq7Pe3c63OP/pD3PHPU+y2Z5hBdoFaO7Njc6IJI8J7eX0u77FXFnuYabs+vIw7GzSAd9
+         5QDClnyM0DBii04i51gaG45RCzJ6Tm9MBsm9FsuGVEw9WV4pu9Ygo1pawdVTKkrrAEql
+         Owsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790889328; x=1791494128;
+        d=1e100.net; s=20260707; t=1790889526; x=1791494326;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=FaMh4RqAX9pI7/4DtdIiH6UIpc8LCNjvGeQ4T3Xb7K8=;
-        b=jfHgOQjetl1dMxBs9FORbbgd0WzvMkcxHednJ69Ky9wXBEtzwK+I7bBdujZ6Qvg8ee
-         Yois06LdVGAlh68+2YhrtwK1n4Rt9rUgJVEuumh8yFdHc+W1gnLV7C8tJePSv0EZ/HPv
-         7xQkGWfMcOM+bOnYayvpQStSbkpTRUuFO6TCLXSNvN3FdIN2F1j1JGR8uRfOaHjOVnlA
-         i433Q/xTH0pKqT2Kxsvy2bwmHx4QGPYC4w8qWjWn/R7MRKFPSIcPL8T26/zUtAaFCoNj
-         HL45JzhJ3IqPuOkjkCcshjbaCCTV2N8Ax5ywQrc4LJvY2USIQtZI985iF4V0I42ZShQP
-         EQIw==
-X-Forwarded-Encrypted: i=1; AKwUvBwFI4ddzyURa5HFxcWZ4pdMTPDHVKsjooa/ympgxondvgv1yv4kkRPxljdzh1sgO9iJ+7vaZrtfP95ejJ+K@vger.kernel.org
-X-Gm-Message-State: AFq9FYIunnuM7OcdWck6GR2/Z8DnSunH/6moEYw1RX6Vzi9ITH3N7lL8
-	/Y8f6G8dVvanyKrYCtMDO17R7LsT5/yrJcv4sQB1H4ZJYWn/i1CvZFcO2h7ni+Wivg8=
-X-Gm-Gg: AYBFou2HERJC2DdM26YTioORzOnAPBonnPdD5sA3mQKs0MBbYAmbGtvafzSJBlKK0AW
-	gKvmcxtV7CecLkyOQCVXCd0uZ+Ua3UNFzyKGFMW+rrzbn4pED2j2rVqNvqd0Hr3qPwzCVPRiPTj
-	+k5Wk8t4i69g3e1eAxQj9cagTdaDB0iwlyDXcKEXcXBN7IqPrxV/HwANDKdNSTUaIpRJaorcZru
-	Sz5A5S6UrwwZ4lVQWmGGBdeQja9URJ5wyAT+pL0sPmTlsBhEVh8m9oYFJ8F+vEi8oGsh9Sxz+wS
-	4tq2nFeApAi9jcOe+UhfWTzZbDatHuGyNimwLmDosSIDBjolK2M35gMLe31EX02EQGCXaq+nyml
-	RJnSZY3EGRJSHhjT8zzpKur3rGQgdJKZCpNkK7+yrWpxSg+3bwvCirUyb4AP3IjBYmJ/JAZDggw
-	j0UC04e2sn/GsZl2DH1AXSjbgjLggvONj/S0H+GBH4JEMGvgSEwcv3vZsR25aW36rrGJv+eT4ov
-	6bDh7xPtPtgyjU/a5o8/TrxjqNRKQ4RmQKF9OdXgDv7134n3NA7U+2z7iJXbHxe+Fe6XvPMI/ue
-	mgspo3Empm24QBL2QvSZxQdzTf83R4wHr0rwjVwFuHFLh55FjMgc+SiGWXW5yr5/
-X-Received: by 2002:a05:690e:43dc:b0:66f:c1be:a646 with SMTP id 956f58d0204a3-677ac0cddadmr256545d50.56.1790889327878;
-        Thu, 01 Oct 2026 14:15:27 -0700 (PDT)
+        bh=npnMeLxosNDOnJqoWDC8WVPBYhMiG2jAQo0sTJwzvWw=;
+        b=u+xFeNeTM24LGaf+2cqLWO+Wik4tyjkn7bxObel2syNNvdILJwfo13T0NYyY1hgEsM
+         ThC1YqUj40ZblVllINxNLjFP4r6zQLTxlHo/YorKqr8fmUXUYVnE2dt8tEZL7pYifss4
+         EfUjwVYJLUGClrujzNMdaVUvf6QpzBSx3sbmpE55LCYtsdTI77zIDbbg+YD2cB55zjR/
+         LgTiU7FmOn+Im/VJ13rLeiHeLIyLIqy9dano20Xw8I9racFujRbV7c2kOAz9Mfwnde4i
+         n49wEHeuYFmnUhcryWFXUL4Bb/6tzO8rjm3a9Wtg9Dg1XEXsFxrP3O1HeHTjYUfPNNWP
+         hckA==
+X-Forwarded-Encrypted: i=1; AKwUvBzzWJNcEjMA5nuhK/hY+UHmJLvNiAEwPSA8wipGLaXB1kMLliIbdNSwaqAx9SHtWeUqorFTe0b+ya5+v1ZW@vger.kernel.org
+X-Gm-Message-State: AFuF++nbXvb8Iznp1ph3Yrh8QUx/IkndVrnhpYAghed12xi1ijIMbrmB
+	ADHVb3sQsotPfIIA6N2UFKYuta04KXAn40GrqY5wHlKFNMEBbMDqUqOaPeAoyhHvnNw=
+X-Gm-Gg: AYBFou1tDXOLDxBWaoAkVYqbRhMrfBTVJyRF9xB6EWk/ne6tO1Skai533Kk+T2tQ9Ag
+	deftf9dH/OF4A8pI5z2MnjLyEG3B3AJ3bTuibo9nJ43uzBQZQzmC35xz5uvczMmqzTE7jPAS2O5
+	UMheFZITue99AHFWti50DM6AkKVN3cp60DMRodOuc8piGnThszi1JzLdgVDMOH6PUTiU0HCRtNO
+	V5sQTFo9fKgcoHHFtoynx19k36fj0d5a+1WRykszES7jXrkbOvCxVXie3h/jq4rb3xPI11YE02u
+	cuUTq720btmnrPMemAsRHXiOwqKbRRwh4WKlKp6IIX3E+EzQVx5UotMSqSq4F6Cz2DICX+gs3JB
+	3y7FCw076RHVlbXxGDsVIpAJ4WBf1FUV+HjJF0P0iccjMSTQRvoaHNPmxMEly1RdokcNMeniezf
+	CK2Xm+svfnDqVZXFy/nDSNPaObZwcnznwP/2W1dATnugLIypm9zTadC9z5ENrOazkWRASRNz3zH
+	WrHbq4Fgjj1VTXy9Y36b6CaiTSNL2j0+GbllfuQMRrr8oZzDU2npPK8gKp+RP7pRMrS5VxxT3rb
+	n4bfu6K9KU8Ar+tkrSmsDSz68TKzF/lD2POu9xFZ2iShOPOmRSBWgK+skTpVjQLV
+X-Received: by 2002:a05:690e:813:20b0:675:38ab:5f0c with SMTP id 956f58d0204a3-677ac03bb78mr277646d50.17.1790889526016;
+        Thu, 01 Oct 2026 14:18:46 -0700 (PDT)
 Received: from ?IPv6:2600:1700:6476:1430:67c2:3447:e08d:9418? ([2600:1700:6476:1430:67c2:3447:e08d:9418])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-677ac1dce56sm219965d50.0.2026.10.01.14.15.26
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-677ac5ac1fdsm157307d50.13.2026.10.01.14.18.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 14:15:27 -0700 (PDT)
-Message-ID: <f82d2b0d8adc4705b878ebe7dbf1815ac2042173.camel@dubeyko.com>
-Subject: Re: [PATCH v2 1/2] hfs: validate partition map entries in
- hfs_part_find()
+        Thu, 01 Oct 2026 14:18:45 -0700 (PDT)
+Message-ID: <1a1408e2ef7d3e5c27e520958ffa2116b3250ea6.camel@dubeyko.com>
+Subject: Re: [PATCH v2 2/2] hfsplus: validate the wrapper and partition map
+ before following them
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: Matthias Goergens <matthias.goergens@gmail.com>
 Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
 	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Date: Thu, 01 Oct 2026 14:15:25 -0700
-In-Reply-To: <995c9f50e1d6ac7f10087c67a48afd8f54cc5ffa.1790689266.git.matthias.goergens@gmail.com>
+Date: Thu, 01 Oct 2026 14:18:41 -0700
+In-Reply-To: <2037378c974c98794dcd1d832e3c31628e9801b8.1790689266.git.matthias.goergens@gmail.com>
 References: <cover.1790689266.git.matthias.goergens@gmail.com>
-	 <995c9f50e1d6ac7f10087c67a48afd8f54cc5ffa.1790689266.git.matthias.goergens@gmail.com>
+	 <2037378c974c98794dcd1d832e3c31628e9801b8.1790689266.git.matthias.goergens@gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -128,87 +128,79 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Fri, 2026-10-02 at 00:21 +0800, Matthias Goergens wrote:
-> hfs_mdb_get() loops around hfs_part_find(), rereading the MDB
-> wherever
-> the partition map points, and hfs_part_find() takes the start of a
-> matching entry as it is.=C2=A0 A new-style entry with pmPyPartStart 0
-> leaves
-> part_start where it was, so the loop reads the same blocks forever
-> and
-> the mount hangs.
+> hfsplus_read_wrapper() rereads the volume header through a bare "goto
+> reread", following an HFS wrapper's embedded-volume descriptor or, if
+> the header matches neither signature, the partition map found by
+> hfs_part_find().=C2=A0 hfsplus_read_mdb() does not check the offset it
+> returns, and hfs_part_find() does not check the start of a new-style
+> map
+> entry, so a descriptor or entry with a zero offset leaves part_start
+> where it was and the mount loops forever.
 >=20
-> Check each entry before following it.=C2=A0 The partition must be non-
-> empty
-> and start inside the device.=C2=A0 For a new-style map it must also start
-> after the map, which begins at block 1 and whose size the first
-> entry's
-> pmMapBlkCnt gives (TN1189); the old-style parser keeps its rule of a
-> non-zero start.=C2=A0 An entry that fails these checks is skipped, as the
-> old-style parser already skipped entries with a zero start or size.=C2=A0
-> The
-> old-style parser now also stops at the first match, as the new-style
-> one
-> and hfsplus's copy do: it used to add up the starts of all matching
-> entries, so the start it returned was not one that had been checked.
+> Check both where they are parsed.=C2=A0 TN1150 places the embedded volume
+> in
+> the wrapper's allocation blocks, and the boot blocks, MDB and volume
+> bitmap of an HFS volume are not part of any allocation block.=C2=A0 So
+> hfsplus_read_mdb() now rejects a wrapper whose allocation blocks
+> start
+> at or before its MDB (drAlBlSt <=3D 2), whose embedded volume is empty,
+> or
+> whose embedded volume ends past the wrapper's last allocation block
+> (drNmAlBlks).=C2=A0 hfs_part_find() gets the same check as in hfs: a
+> partition must be non-empty, start inside the device and, for a
+> new-style map, start after the map, which begins at block 1 and whose
+> size the first entry's pmMapBlkCnt gives (TN1189).
 >=20
-> Every partition-table hop now moves part_start past the map entries
-> it
-> has read, so the loop in hfs_mdb_get() ends and reads each block of a
-> map at most once.=C2=A0 Rejecting only a zero start would end the loop
-> too,
-> but a crafted new-style map with an entry in every block could then
-> make
-> each of many small hops rescan most of the device.
->=20
-> The end of the partition is not checked against the device.=C2=A0 hfs
-> already
-> mounts such a volume without its alternate MDB, and the block layer
-> likewise keeps a partition that runs past the end of the disk,
-> trimmed
-> to fit.
+> A wrapper hop now moves part_start forward by at least three sectors,
+> and a partition-table hop moves it past the map entries it has read.=C2=
+=A0
+> So
+> the loop ends, at the latest when a read goes past the end of the
+> device, and the maps read on the way do not overlap.
 >=20
 > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
 > ---
-> v2: check the entries in hfs_part_find() instead of limiting the hops
-> in hfs_mdb_get(); stop at the first matching old-style entry.
+> v2: check the wrapper in hfsplus_read_mdb() and the entries in
+> hfs_part_find() instead of limiting the hops in
+> hfsplus_read_wrapper().
 >=20
-> A partition entry pointing at its own map hangs the mount without
-> this
-> patch and fails at once with it:
+> A wrapper whose embedded-volume descriptor points back at itself
+> hangs
+> the mount without this patch and fails at once with it:
 >=20
-> =C2=A0 img=3Dhfs-partmap-loop.img
+> =C2=A0 img=3Dhfsplus-wrapper-loop.img
 > =C2=A0 put() { printf "$2" | dd of=3D$img bs=3D1 seek=3D$1 conv=3Dnotrunc
 > status=3Dnone; }
 > =C2=A0 truncate --size=3D64K $img
-> =C2=A0 put $((512+0x00)) '\x50\x4d'=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 # pmSig 'PM'
-> =C2=A0 put $((512+0x04)) '\x00\x00\x00\x01'=C2=A0 # pmMapBlkCnt 1
-> =C2=A0 put $((512+0x08)) '\x00\x00\x00\x00'=C2=A0 # pmPyPartStart 0 (self=
-)
-> =C2=A0 put $((512+0x0c)) '\x00\x00\x00\x64'=C2=A0 # pmPartBlkCnt 100
-> =C2=A0 put $((512+0x30)) 'Apple_HFS'=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 # pmPartType
-> =C2=A0 mount -o ro,loop -t hfs $img /mnt
+> =C2=A0 put $((1024 + 0x00)) '\x42\x44'=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 # drSigWord 'BD'
+> =C2=A0 put $((1024 + 0x0a)) '\x82\x00'=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 # drAtrb: SLOCK | SPARED
+> =C2=A0 put $((1024 + 0x14)) '\x00\x00\x02\x00'=C2=A0 # drAlBlkSiz 512
+> =C2=A0 put $((1024 + 0x7c)) '\x48\x2b'=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 # drEmbedSigWord 'H+'
+> =C2=A0 put $((1024 + 0x7e)) '\x00\x00\x00\x64'=C2=A0 # drEmbedExtent: sta=
+rt 0,
+> count 100
+> =C2=A0 mount -o ro,loop -t hfsplus $img /mnt
 >=20
-> =C2=A0fs/hfs/part_tbl.c | 27 ++++++++++++++++++++++++++-
-> =C2=A01 file changed, 26 insertions(+), 1 deletion(-)
+> The partition map from the hfs patch hangs an hfsplus mount the same
+> way, with "-t hfsplus".
 >=20
-> diff --git a/fs/hfs/part_tbl.c b/fs/hfs/part_tbl.c
-> index 36add537d153e..2c15afe098127 100644
-> --- a/fs/hfs/part_tbl.c
-> +++ b/fs/hfs/part_tbl.c
-> @@ -9,6 +9,8 @@
-> =C2=A0 * a patch contributed by Holger Schemel (aeglos@valinor.owl.de).
-> =C2=A0 */
-> =C2=A0
-> +#include <linux/blkdev.h>
-> +
-> =C2=A0#include "hfs_fs.h"
-> =C2=A0
-> =C2=A0/*
-> @@ -49,6 +51,22 @@ struct old_pmap {
+> =C2=A0fs/hfsplus/part_tbl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 24 ++++++++++=
++++++++++++++-
+> =C2=A0fs/hfsplus/wrapper.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 16 +++++=
+++++++++++-
+> =C2=A0include/linux/hfs_common.h |=C2=A0 1 +
+> =C2=A03 files changed, 39 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/fs/hfsplus/part_tbl.c b/fs/hfsplus/part_tbl.c
+> index 9ec21664eda6b..ceba3139f1f56 100644
+> --- a/fs/hfsplus/part_tbl.c
+> +++ b/fs/hfsplus/part_tbl.c
+> @@ -67,6 +67,22 @@ struct old_pmap {
 > =C2=A0	}	pdEntry[42];
 > =C2=A0} __packed;
 > =C2=A0
@@ -222,87 +214,113 @@ On Fri, 2026-10-02 at 00:21 +0800, Matthias Goergens wrote:
 > + * after the whole of a new-style map, whose size the first entry's
 > + * pmMapBlkCnt gives (TN1189).=C2=A0 Every hop then moves forward, past
 > the
-> + * map entries just read, so hfs_mdb_get() cannot loop and reads
-> each
-> + * block of a map at most once.
+> + * map entries just read, so hfsplus_read_wrapper() cannot loop and
+> + * reads each block of a map at most once.
 > + */
-
-Frankly speaking, comment is long and it only complicates everything. I
-don't follow what hop means. Could we make the comment short, clear,
-and more informative?
-
 > +static bool hfs_part_valid(struct super_block *sb, sector_t base,
 > +			=C2=A0=C2=A0 u64 first, u32 start, u32 size)
-
-The set of argument is very confusing. As a result, it's really hard to
-follow what we are checking and it is correct check or not. I think it
-will be more clear to provide struct old_pmap pointer as argument. Why
-not use part_start instead of base? What the first argument means?
-
 > +{
 > +	return start >=3D first && size &&
 > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 base + start < bdev_nr_sectors(sb-=
 >s_bdev);
-
-We have part_size. Is it not the same as bdev_nr_sectors(sb->s_bdev)?
-
 > +}
+
+Please, see my comments for HFS patch. I have pretty the same comments
+here.
+
 > +
-> =C2=A0/*
-> =C2=A0 * hfs_part_find()
-> =C2=A0 *
-> @@ -77,12 +95,15 @@ int hfs_part_find(struct super_block *sb,
-> =C2=A0		p =3D pm->pdEntry;
-> =C2=A0		size =3D 42;
-> =C2=A0		for (i =3D 0; i < size; p++, i++) {
-> -			if (p->pdStart && p->pdSize &&
-> +			if (hfs_part_valid(sb, *part_start,
-> HFS_DD_BLK + 1,
-
-Do you mean HFS_PMAP_BLK here by HFS_DD_BLK + 1?
-
-> +					=C2=A0=C2=A0 be32_to_cpu(p->pdStart),
-> +					=C2=A0=C2=A0 be32_to_cpu(p->pdSize))
+> =C2=A0static int hfs_parse_old_pmap(struct super_block *sb, struct
+> old_pmap *pm,
+> =C2=A0		sector_t *part_start, sector_t *part_size)
+> =C2=A0{
+> @@ -76,7 +92,9 @@ static int hfs_parse_old_pmap(struct super_block
+> *sb, struct old_pmap *pm,
+> =C2=A0	for (i =3D 0; i < 42; i++) {
+> =C2=A0		struct old_pmap_entry *p =3D &pm->pdEntry[i];
+> =C2=A0
+> -		if (p->pdStart && p->pdSize &&
+> +		if (hfs_part_valid(sb, *part_start, HFS_DD_BLK + 1,
+> +				=C2=A0=C2=A0 be32_to_cpu(p->pdStart),
+> +				=C2=A0=C2=A0 be32_to_cpu(p->pdSize)) &&
+> =C2=A0		=C2=A0=C2=A0=C2=A0 p->pdFSID =3D=3D cpu_to_be32(0x54465331)/*"TFS=
+1"*/
 > &&
-> =C2=A0			=C2=A0=C2=A0=C2=A0 p->pdFSID =3D=3D
-> cpu_to_be32(0x54465331)/*"TFS1"*/ &&
-> =C2=A0			=C2=A0=C2=A0=C2=A0 (HFS_SB(sb)->part < 0 || HFS_SB(sb)-
-> >part =3D=3D i)) {
+> =C2=A0		=C2=A0=C2=A0=C2=A0 (sbi->part < 0 || sbi->part =3D=3D i)) {
+> =C2=A0			*part_start +=3D be32_to_cpu(p->pdStart);
+> @@ -99,6 +117,10 @@ static int hfs_parse_new_pmap(struct super_block
+> *sb, void *buf,
+> =C2=A0
+> =C2=A0	do {
+> =C2=A0		if (!memcmp(pm->pmPartType, "Apple_HFS", 9) &&
+> +		=C2=A0=C2=A0=C2=A0 hfs_part_valid(sb, *part_start,
+> +				=C2=A0=C2=A0 HFS_PMAP_BLK + (u64)size,
+> +				=C2=A0=C2=A0 be32_to_cpu(pm->pmPyPartStart),
+> +				=C2=A0=C2=A0 be32_to_cpu(pm->pmPartBlkCnt)) &&
+> =C2=A0		=C2=A0=C2=A0=C2=A0 (sbi->part < 0 || sbi->part =3D=3D i)) {
+> =C2=A0			*part_start +=3D be32_to_cpu(pm-
+> >pmPyPartStart);
+> =C2=A0			*part_size =3D be32_to_cpu(pm->pmPartBlkCnt);
+> diff --git a/fs/hfsplus/wrapper.c b/fs/hfsplus/wrapper.c
+> index 30cf4fe78b3d2..35cd2563dfdfe 100644
+> --- a/fs/hfsplus/wrapper.c
+> +++ b/fs/hfsplus/wrapper.c
+> @@ -66,7 +66,7 @@ int hfsplus_submit_bio(struct super_block *sb,
+> sector_t sector,
+> =C2=A0static int hfsplus_read_mdb(void *bufptr, struct hfsplus_wd *wd)
+> =C2=A0{
+> =C2=A0	u32 extent;
+> -	u16 attrib;
+> +	u16 attrib, nmalblks;
+> =C2=A0	__be16 sig;
+> =C2=A0
+> =C2=A0	sig =3D *(__be16 *)(bufptr + HFSP_WRAPOFF_EMBEDSIG);
+> @@ -87,11 +87,25 @@ static int hfsplus_read_mdb(void *bufptr, struct
+> hfsplus_wd *wd)
+> =C2=A0		return 0;
+> =C2=A0	wd->ablk_start =3D
+> =C2=A0		be16_to_cpu(*(__be16 *)(bufptr +
+> HFSP_WRAPOFF_ABLKSTART));
+> +	nmalblks =3D be16_to_cpu(*(__be16 *)(bufptr +
+> HFSP_WRAPOFF_NMALBLKS));
+> =C2=A0
+> =C2=A0	extent =3D get_unaligned_be32(bufptr + HFSP_WRAPOFF_EMBEDEXT);
+> =C2=A0	wd->embed_start =3D (extent >> 16) & 0xFFFF;
+> =C2=A0	wd->embed_count =3D extent & 0xFFFF;
+> =C2=A0
+> +	/*
+> +	 * The boot blocks, MDB and volume bitmap of an HFS volume
+> are not
+> +	 * part of any allocation block, and the embedded volume
+> occupies
+> +	 * allocation blocks of the wrapper (TN1150).=C2=A0 So the
+> embedded
+> +	 * volume starts after the wrapper's MDB and ends inside the
+> +	 * wrapper.
+> +	 */
+> +	if (wd->ablk_start <=3D HFS_MDB_BLK)
+> +		return 0;
+> +	if (!wd->embed_count ||
+> +	=C2=A0=C2=A0=C2=A0 wd->embed_start + wd->embed_count > nmalblks)
+> +		return 0;
+> +
+> =C2=A0	return 1;
+> =C2=A0}
+> =C2=A0
+> diff --git a/include/linux/hfs_common.h b/include/linux/hfs_common.h
+> index d6a615e74b26e..123475efe5b37 100644
+> --- a/include/linux/hfs_common.h
+> +++ b/include/linux/hfs_common.h
+> @@ -44,6 +44,7 @@
+> =C2=A0
+> =C2=A0#define HFSP_WRAPOFF_SIG		0x00
+> =C2=A0#define HFSP_WRAPOFF_ATTRIB		0x0A
+> +#define HFSP_WRAPOFF_NMALBLKS		0x12
 
-This check becomes too long and complicated now. I think we need to
-introduce some good checking function.
-
-> =C2=A0				*part_start +=3D be32_to_cpu(p-
-> >pdStart);
-> =C2=A0				*part_size =3D be32_to_cpu(p->pdSize);
-> =C2=A0				res =3D 0;
-> +				break;
-> =C2=A0			}
-> =C2=A0		}
-> =C2=A0		break;
-> @@ -95,6 +116,10 @@ int hfs_part_find(struct super_block *sb,
-> =C2=A0		size =3D be32_to_cpu(pm->pmMapBlkCnt);
-> =C2=A0		for (i =3D 0; i < size;) {
-> =C2=A0			if (!memcmp(pm->pmPartType,"Apple_HFS", 9)
-> &&
-> +			=C2=A0=C2=A0=C2=A0 hfs_part_valid(sb, *part_start,
-> +					=C2=A0=C2=A0 HFS_PMAP_BLK + (u64)size,
-
-Why exactly HFS_PMAP_BLK + (u64)size?
-
-> +					=C2=A0=C2=A0 be32_to_cpu(pm-
-> >pmPyPartStart),
-> +					=C2=A0=C2=A0 be32_to_cpu(pm-
-> >pmPartBlkCnt)) &&
-> =C2=A0			=C2=A0=C2=A0=C2=A0 (HFS_SB(sb)->part < 0 || HFS_SB(sb)-
-> >part =3D=3D i)) {
-
-Ditto.
+Does this value is based on specification? Where does it come from?
 
 Thanks,
 Slava.
 
-> =C2=A0				*part_start +=3D be32_to_cpu(pm-
-> >pmPyPartStart);
-> =C2=A0				*part_size =3D be32_to_cpu(pm-
-> >pmPartBlkCnt);
+> =C2=A0#define HFSP_WRAPOFF_ABLKSIZE		0x14
+> =C2=A0#define HFSP_WRAPOFF_ABLKSTART		0x1C
+> =C2=A0#define HFSP_WRAPOFF_EMBEDSIG		0x7C
