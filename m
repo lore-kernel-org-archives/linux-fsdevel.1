@@ -1,51 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6463C0637
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 08:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A398B386C03;
+	Thu,  1 Oct 2026 08:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790843732; cv=none; b=tgYbq9n2i0Dr9oqnyxWySwiCimxxMrIK9fcVCDDk+Aja5vL27PTuStd/LC81ih2rZ3by+ItfRb+P2GURcvwXvRF44gN86C9f4E1dKjuI3FMebxT/l1BbPgnk5Qdu76+YSmI+LpuMBSvo1qIIGMrR45YRnfS2MwXbUH96CZ8pOzY=
+	t=1790844637; cv=none; b=p04jhCV1iYsH1k54unt29twu2oEGFE6rcyFS5Fj/Cfs6w7ld4B11e/b3E18IVUWTu9fTXNUW+UvXJrDtUU2r9ZSHQQ16yKQKi9Y8bq4zFchcWc5Pi4xNr1ji/Tdp4VZo8pk2tt3r3T6Cz/2CimDhxWE5KlZQ/NCVbpD8FJnoAoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790843732; c=relaxed/simple;
-	bh=suCKWCuc1bnOWffxzPTwdfuwNnlJqXA+qy0aAkoGCSg=;
+	s=arc-20240116; t=1790844637; c=relaxed/simple;
+	bh=jy3gRsvqxi0XsPler2paCB2xXz4q+5V2nOoLwJi/s18=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sseQ68z7emcO1I4DZS5h8buNxxMLe/4a+qBZizVn3O6oEIdkkCW/uPdzUIDL6pKv07oowqKPBe/YlhGxzZ1rSWNSTyZs2HWqpc9horg9xH0oAa3HB2u5vGvpkNphjgSp4MQC9TSXrxPpNhTHPW14ecYL+yOXwrVmdpoaagXYU6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BcEusJM/; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ESla3ymfgGRCVzuacSvkrDfLUhLXE6Fnw0XgXI0Q+gKxoy8ItxinEUgBB3cyfCUXrD+5dM83zD3gFFrUImRPuXKoDgqoLN7YOwHvh5iThRXxLg38amqTeu74/4M406ahlIxXAzjecw6kru65SQp5zmwWKNoOaV1SA/vDZi76xek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sMJrRmeh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jGV3gPfI; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=rFRDVkOX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=VNhtCYin; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BcEusJM/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA601F000FF;
-	Thu,  1 Oct 2026 08:35:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790843730;
-	bh=suCKWCuc1bnOWffxzPTwdfuwNnlJqXA+qy0aAkoGCSg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BcEusJM/janBADkvh00+H9aJtMWGPHTnd9wKQ2NmwFAtRA5DZCwhibfkEfdQ0cy2U
-	 eWNDs9yOYDdzF8gWtVO8naGpWDV+SeKHnMAcWZ28+A5JQSWAnNua+fZTS4wL5SH/kt
-	 0JMsNRvWdfUUQV+TGlMorXeHabbjIvNZiMruYNjbBUkUd4IDa8K+2kIZw5MXy9PuZE
-	 zYoaVF2MLGHOjMXsyjq61OmQ+NDvdp45Yu6X7ckZ6vNeDqJV2qtXl5kbdaH5LAiS7/
-	 mw+kOSyyNtYJWh7rXmjIdHR7AhuIaFqbTFyH8MzputxAHbYqZWfta0xvo9IAVEDpYn
-	 B3WzwGT1PmRIw==
-Date: Thu, 1 Oct 2026 09:35:25 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: =?utf-8?B?5aSp54u8?= <rockeet@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, "David Hildenbrand (Arm)" <david@kernel.org>, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [RFC] madvise: best-effort deferred writeback for shared file
- mappings
-Message-ID: <ar4WSaLYBs1db1-3@gremlin>
-References: <CAAE3jtcRQ407P9LTbg=JOwhABQRViSaq2XBefnDdNWiD7PxvUg@mail.gmail.com>
- <1ce9cf3a-15dc-4815-ba29-2e22b05206fb@kernel.org>
- <art8EKRKMdwSDCkr@gremlin>
- <CAAE3jtftxMkCfWJ77W-xvV2x7jdAN8C8kyofYC3fEivM-Cq6UQ@mail.gmail.com>
- <arz0auULA33fqoWu@gremlin>
- <arz8Plu6J4YOTi0a@gremlin>
- <CAAE3jtcanTUrV3xfofwrvYGCFe5o=Vn7gS66bDzuxzeGg6c5=Q@mail.gmail.com>
- <CAAE3jtdHi7aSsJ62TpEjkxvwA-3TBLvr5i1ohCNg2aupND+_XQ@mail.gmail.com>
- <xhrorb6wn2j2j57ydnt226khnu6gv4ut3crrmjwjr4iwj7d6yo@43lugxdthgyi>
- <CAAE3jtexTRdqzAodzCkAy5NtH_s3VhtutXbxMjangf8BtB+-dQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sMJrRmeh";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jGV3gPfI";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rFRDVkOX";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VNhtCYin"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 51EA81F7C0;
+	Thu,  1 Oct 2026 08:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790844629; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DSw6n7xFIENIOV0oN9bjZYdD7KbnM11W59/n1GIX7yU=;
+	b=sMJrRmehqTeTP/BJXa4qf3FY92QQUZql7TLnxCd0l3+dYEX3Uweyi1e6wAB9+yIbx9Pula
+	D3ELHqCOu7iFOoBTzQV5HgAnTnljbt2zq5QJAaG8yiL5IfmzvxEXmQO8TxZLl/jYkHDfmn
+	uVV7QPyuTeF2mj39HbGNbohsFmEtF6M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790844629;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DSw6n7xFIENIOV0oN9bjZYdD7KbnM11W59/n1GIX7yU=;
+	b=jGV3gPfI1qpNzIqK4QQPTCjiQb6lYtZHfi35P6U8N/Yn8I2br47C5ZGLd90LB4UYjVpjzs
+	o77SDON8k6CP21Dw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790844625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DSw6n7xFIENIOV0oN9bjZYdD7KbnM11W59/n1GIX7yU=;
+	b=rFRDVkOXaERe1pTfUzwreVR9AGEhn/r8nybLjMKY+MC5CkiK3AZoYRsDBeU2HdfOaH9DHf
+	xy+zSla9P2V5DdaSJuxH00w+kYcpQ8HgImtR1YSnA8M7RffOWt/PEumckfYZB6wD1JZhNY
+	l3r7RYEukPyafupVqBSvYEYd1bmTc7g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790844625;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DSw6n7xFIENIOV0oN9bjZYdD7KbnM11W59/n1GIX7yU=;
+	b=VNhtCYinB01EIX0GTyDWAizpvMWULAbODVi/Kp6p5Wx0DuImY+UAING4AONat2bp41N9p3
+	YNSgtkDKCOiekTBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 21EDE134B3;
+	Thu,  1 Oct 2026 08:50:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7LiaOtAevmoLewAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 01 Oct 2026 08:50:25 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id A0DFEA13F7; Thu, 01 Oct 2026 10:50:20 +0200 (CEST)
+Date: Thu, 1 Oct 2026 10:50:20 +0200
+From: Jan Kara <jack@suse.cz>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, NeilBrown <neil@brown.name>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] VFS: d_duplicate: repair comments to avoid kernel-doc
+ warnings
+Message-ID: <h56tz6lpjm4djnasmnxb6zffwwf7eorh2ufhxlk5hynqom7nir@452f47zazkpb>
+References: <20261001021745.2160005-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -54,69 +90,86 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAE3jtexTRdqzAodzCkAy5NtH_s3VhtutXbxMjangf8BtB+-dQ@mail.gmail.com>
+In-Reply-To: <20261001021745.2160005-1-rdunlap@infradead.org>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_COUNT_THREE(0.00)[3];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,infradead.org:email,suse.cz:email,linuxfoundation.org:email,suse.com:email,linux.org.uk:email,brown.name:email,lwn.net:email];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lwn.net:email,infradead.org:email,linuxfoundation.org:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email,brown.name:email,linux.org.uk:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-Hi Peng,
+On Wed 30-09-26 19:17:45, Randy Dunlap wrote:
+> Use a typical list style for comments to prevent kernel-doc warnings:
+> 
+> Documentation/filesystems/api-summary:20: ../fs/dcache.c:2029: ERROR: Unexpected indentation. [docutils]
+> Documentation/filesystems/api-summary:20: ../fs/dcache.c:2030: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+> 
+> Also, modify the spelling of "whiteout" to match all other uses in
+> the kernel source tree and to be consistent on the same line.
+> 
+> Fixes: 33d76519f0cc ("VFS: add d_duplicate()")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-(Point of etiquette - and you are perhaps not aware - in general in the
- kernel we reply inline to people rather than sending big lists in
- reply.)
+Looks good. Feel free to add:
 
->1. With buffered I/O, the data already resides in shmem, and writing
->it to the regular file allocates another set of page-cache pages. When
->both copies are resident, this roughly doubles the memory occupied by
->the data. Traditional LSM MemTables are usually small, so duplicating
->one is relatively inexpensive (they waste so much elsewhere that they
->never even reach the scale where this becomes a concern). Our
->MemTables can be very large, making duplication a substantial waste of
->memory that significantly undermines the advantages of our design.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Then use O_DIRECT :)
+								Honza
 
->
->2. During the MemTable-to-SST transition, existing readers still
->access the data through the MemTable, while new readers access it
->through the SST. We therefore cannot immediately release the shmem
->copy. Our current ConvertToSST instead renames the existing file and
->appends metadata. The inode remains the same, so the existing MemTable
->mapping and the new SST mapping share the same page-cache pages
->throughout this overlap period.
-
-That's your choice, not a requirement. The SST is the MemTable plus
-metadata, so append the metadata in shmem and serve new readers from there
-too.
-
->
->3. AIO or io_uring with direct I/O avoids allocating the destination
->page cache during the write, but it does not turn the source shmem
->pages into page-cache pages of the SST file. Subsequent SST mmap reads
->populate a separate page cache, while existing MemTable readers still
->need the shmem pages. The duplicate memory therefore remains a problem
->during the overlap period.
-
-It doesn't need to. Serve everyone from shmem until existing readers drain,
-then drop it and switch to the SST. Only one copy is ever resident.
-
->
->4. Temporary files are a much broader use case. Periodic automatic
->writeback is unnecessary for temporary data; writeback for memory
->reclaim is what serves a practical purpose. A per-file exemption from
->age-based periodic writeback would benefit these workloads as well.
-
-Temporary data that doesn't need to reach disk belongs in shmem :)
-
-Overall - each objection so far has been to the cost of changing your
-design rather than to the userspace approaches not working.
-
-I agree with Jan that the inode hint is viable in shape, but we'd need a
-good reason to add it, and avoiding a design change isn't one :)
-
-David, Jan and I have all suggested a shmem-based userspace
-approach. Please explore that properly first.
-
-I took the time to write up the approach, in detail, at
-https://lore.kernel.org/linux-mm/ar0mdJKLC0cHBoKM@gremlin/ hopefully that's
-helpful.
-
---
-Cheers, Lorenzo
+> ---
+> v3: use one colon for the list, not "::" for a literal block (Neil).
+>     Add linux-doc etc. to Cc: list.
+> v2: dropped Jan's Reviewed-by since the patch changed.
+> 
+> Cc: NeilBrown <neil@brown.name>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+> 
+>  fs/dcache.c |   11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> --- linux-next-20260930.orig/fs/dcache.c
+> +++ linux-next-20260930/fs/dcache.c
+> @@ -2025,11 +2025,12 @@ EXPORT_SYMBOL(d_alloc);
+>   * @dentry: the dentry to duplicate
+>   *
+>   * Some rename operations need to be combined with another operation
+> - * inside the filesystem.
+> - * 1/ A cluster filesystem when renaming to an in-use file might need to
+> - *   first "silly-rename" that target out of the way before the main rename
+> - * 2/ A filesystem that supports white-out might want to create a whiteout
+> - *   in place of the file being moved.
+> + * inside the filesystem:
+> + *
+> + * 1. A cluster filesystem when renaming to an in-use file might need to
+> + *    first "silly-rename" that target out of the way before the main rename
+> + * 2. A filesystem that supports whiteout might want to create a whiteout
+> + *    in place of the file being moved.
+>   *
+>   * For this they need two dentries which temporarily have the same name,
+>   * before one is renamed.  d_duplicate() provides for this.  Given a
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
