@@ -1,237 +1,259 @@
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+Received: from o1.ptr9745.em.honeycomb.io (o1.ptr9745.em.honeycomb.io [149.72.141.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1794B1486
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 22:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910E5480948
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 23:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.141.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790894812; cv=none; b=ollWHzLyo+8NN/sfVbold1d/tUa0DG2j1lvAOPWDNFJUD8JWdA8aTGy7+Y1MxYokQ73Wvvqj2uQ9m755HVQA/dV7XKGgcFS+Z0zGS9a5Rux+ykzT+5LUIR9G/FRFjslYol+cvrf5KsQq1zCFkpisQg1dCPRT6SKzEFGltVpEW/4=
+	t=1790898626; cv=none; b=Dr2xCUcJlDJaxuPiToaaOGa+zSdLEt/RtihdEkUdxq41eUd6TuxMZUDqZPz8zuPgFa0oYJkVlg+Ap35Bo0sWjP41pb0DGDVei0PyNjSSon1+yPVwJ7cPNQwxW2ZlbQhGrJF3f0tbn23P2S7Q9FzuLnjsFTD/TdLELNmbToofmC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790894812; c=relaxed/simple;
-	bh=+ZrMyvypAMHMJwmzcIZVzfzQU/AIsNYo+KFbpNJHSEc=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=hOUdS69AHCWUcRcnaqn2MoBzaZxDnjge41eJXqhsOq+aa52rlrxz1+D0PJjITQG09juHf7aFs1ElWDBDRnbAEC7mJk2No675Rs0Uhquyte+jQl9JwpFORv15aDBMxVGkC1Is6zwExGI9N3U4AVyxVFSuY9afZgHCfx/DIWP061I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JxUvg7ef; arc=none smtp.client-ip=209.85.210.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--praan.bounces.google.com
+	s=arc-20240116; t=1790898626; c=relaxed/simple;
+	bh=9YIL5ZMLr+YRiQEZVnxUUVo/YOAF5YsWS3nQ1/rYu2Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jFKh0IRHC1gzQM6g+91VCj1oK0srjI/RZ6SABjykDV/9HclPO2ZTsSPhGFiY88lYo+2EDnSwJYrbQgNEIn1en9KU2FKTpfkbF8hq36elAuuD+bi/0GBocEMIRN5p3HWHsP96bI+cnrBUR8jcvNstbC6G0fuKPa+CG/QfjkB49fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=WJRKtuN+; arc=none smtp.client-ip=149.72.141.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em.honeycomb.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JxUvg7ef"
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-88b59692e0dso1230b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 15:46:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790894809; x=1791499609; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OkzBth2K8luOc5hRw7dwkQ++Ts6T4OZjlz0I1Txn4EY=;
-        b=JxUvg7efOSdmr3iDHJYrn13xO1zANliVqmp5CXf38vIll6iQqU69LzAnitl+tdcLuT
-         hUEnN6kRRwZFEBanaejvqYEVbdlmWRrj8sfAMvktijO4WsCPaaqJBj+mJDRC5L8PTeU2
-         pplAtafaugM9ZlYP8e63Ui3iCKUda+TieqhA1lNwKfIhegjN7J2Bi0NExbseeFjSd6xn
-         29sXM21HzHndGofd/VbtPdo5Djr6mvLGRT65KrLdIc4W0xGpZK9mMuolIttzpWTOlqh7
-         44A2YIyoOTDiSwC3+/3weiElklQRxx1G5T/Y17cr3BiA5LZdxoVYmz68f0EME5bSABUz
-         i/6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790894809; x=1791499609;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OkzBth2K8luOc5hRw7dwkQ++Ts6T4OZjlz0I1Txn4EY=;
-        b=nHI5CieuflVZRfOZEd8Py4aK+2DDjHuddJ3eCY/xzA99lDEEgX9FGFcyNnpoMDBXQr
-         Pgxdp0Y7Kazj5KjavlyHsklTAAsmGZrH/Ol3G4CZ1o9DW5yFQDXMpUdWmGwob9T75bVF
-         4JOPPbpeYocyYEjHMZNGg972LmeqcNiL8golAN5YimlNxmmjJfB6q7LoeP28ClET1tlI
-         NuSNh2zuoZWVMsUP+syaWdCBkKEPQ9kIsFwIxTcNYu1L01dSRrFqTQTbcFGcPUCD2A5U
-         vdFfypNFdCYrLVXjBNxOlGvTkKDzqkJfPPTOV7WdJ2I3DwkxwHPg2R0sYhyoyYFvjzSh
-         Q3vQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxJXNCAhaTIORqJPyLJ/LMFW5Y8nsqPUwjQ/U8jeJTYm3G0jEzUuL4ZZc4wSQZW0lNQu8OoFRCNIug2Jrt3@vger.kernel.org
-X-Gm-Message-State: AFuF++lkwj9tDKsITsYEaqnCzCbq+H/nkYxaBighDmitYQrHkKXE9DzC
-	y295wAtQFiaapbxP1AzeQnO/03eLVRqRI5w5ytQBDr0K9vhE+YgqRScws2debrB43QvF3WAWFQg
-	rTQ==
-X-Received: from pfbhu50.prod.google.com ([2002:a05:6a00:69b2:b0:887:3013:c8e7])
- (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1888:b0:886:1119:2cbf
- with SMTP id d2e1a72fcca58-88af2687915mr858560b3a.5.1790894808625; Thu, 01
- Oct 2026 15:46:48 -0700 (PDT)
-Date: Thu,  1 Oct 2026 22:45:31 +0000
-In-Reply-To: <20261001224531.765278-1-praan@google.com>
+	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="WJRKtuN+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=honeycomb.io;
+	h=from:subject:date:mime-version:content-type:content-transfer-encoding:
+	to:cc:cc:content-type:date:from:subject:to;
+	s=s1; t=1790898620;
+	bh=J3mLsk67P0VbHulsunTuCatRpU6R8+ZFzTl/8DDevE4=;
+	b=WJRKtuN+vZe2jxKmse8INsKKwXdOdpd3OJ+VqwrsOyFzwb3YA9VHtQy8T+twi3MUsoga
+	4OeBYXG1ymgmWrObyA3FsGgEiaEcemT+CUSYewBLbpBbEBSJTUqFt4ok//aivQSIJI+pmh
+	G1bQNvcP/oAQ5sqiOzvrw6lJIepI2UdoUrL+s2hkyw1cyZM8MiURZFjJ8UgEb6P7YFuxTb
+	GHkPzBYPXCySzDRva8ysWjs281w0SbWAzDkr/eQ9+LMcOMkfvEt4YRQE8eYV11HS7XDnlH
+	K+F5koPEXWq2l9Mw1+ocatfIdeL6Xo+aKOaBbvhIIQwL9h+4su43jppI27JvpomQ==
+Received: by recvd-79d8dd9bd4-m8x27 with SMTP id recvd-79d8dd9bd4-m8x27-1-6ABEF1BC-35
+	2026-10-01 23:50:20.260345841 +0000 UTC m=+197336.482616862
+Received: from [127.0.1.1] (unknown)
+	by geopod-ismtpd-1 (SG) with ESMTP
+	id J0FJll5KQGSnp7yE127PgA
+	Thu, 01 Oct 2026 23:50:20.177 +0000 (UTC)
+From: Liz Fong-Jones <lizf@honeycomb.io>
+Subject: [PATCH v5 0/3] writeback: let foreign flushes reach dying cgwbs
+Date: Thu, 01 Oct 2026 23:50:20 +0000 (UTC)
+Message-Id: <20261001-wb-dying-cgwb-flush-v5-0-8361eb8c65c6@honeycomb.io>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20261001224531.765278-1-praan@google.com>
-X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20261001224531.765278-8-praan@google.com>
-Subject: [RFC PATCH 7/7] vfio/selftests: Add observability test for IO page
- table usage
-From: Pranjal Shrivastava <praan@google.com>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, 
-	Alex Williamson <alex@shazbot.org>, David Matlack <dmatlack@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: Mostafa Saleh <smostafa@google.com>, Daniel Mentz <danielmentz@google.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, iommu@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Logan Odell <loganodell@google.com>, Pranjal Shrivastava <praan@google.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43Ny26DMBAF0F+JvM5Exi9MVv2Pqgs/BnCU4AoTW
+ hTx7zFkgyJUdTdXM3PugyTsAyZyPjxIj2NIIXY5yOOBuNZ0DULwORNGmaIVU/BjwU+ha8A1eay
+ v99QCVZi3yIw1nuTP7x7r8Luqn1+vnO72gm5YqOWiDWmI/bTWjsVy93fDWEABRntdaaql4eajj
+ R1OLt7sKUSylIxsy+h9hmVGKiuF86YUNdth+D8YDhSQS14KrYVS5Q4jNgyn+4zIjPWoeKkpN5V
+ 6Y+Z5fgIAGm/OoAEAAA==
+X-Change-ID: 20260926-wb-dying-cgwb-flush-06e260e2abad
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8716; i=lizf@honeycomb.io;
+ s=gpg; h=from:subject:message-id;
+ bh=9YIL5ZMLr+YRiQEZVnxUUVo/YOAF5YsWS3nQ1/rYu2Q=;
+ b=owEBbQGS/pANAwAKAaXO1OOXra/CAcsmYgBqvvG74WF2TgiwEKd8tLRomVTGwhntlREW455KX
+ BMk5eNVI1qJATMEAAEKAB0WIQSfW1LPQ0gyJmoTHwelztTjl62vwgUCar7xuwAKCRClztTjl62v
+ wgl+B/9eS5xRiDl2yYvRxDTC+ecJl4/0nBufRPU1pZwFNPQTWgDa7nNckn7wCyBEIVeRaAYWhNn
+ fpvE9EaEzd6y/bYMGmTvuKpb4lHXBRpik28vT8AkdsQTrhsMiZAZprWsLA9P82rYZkqogG13GPC
+ kVUtE79Sulv03piFowWDe1cuEWxzmK7to2Yc9dIkRmuElMJDPj/VNfYr5xVaZqAVpwo1ubrPkAo
+ 1QTu7gMCEdf65o9KT7AeRA46KR16Fh4K2DOVqOAKcFmiwe3eLBSpSVNB+glH+XqXITDlZ3j09bC
+ KkVTFIdSbMs900bSXct07EBCo48gpILk91XTreFeIcJO8C2Q
+X-Developer-Key: i=lizf@honeycomb.io; a=openpgp;
+ fpr=1F7714D7EC3441D2CECC24606A3F8B00FBDDD2A4
+X-SG-EID: 
+ =?us-ascii?Q?u001=2ECuH7N2XAoeMR1zrzr=2F6NZrhli2vbKPOHff5fJuZuba6ZIE8QPyIf9mn4Y?=
+ =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmeYU4BpcB4bEw?=
+ =?us-ascii?Q?sEbj2BWEEecut2plYOFkxQCdcF69eKXmxC5GgbN?=
+ =?us-ascii?Q?HWmcir6NOb6qnnunVwI2NmrAg5xSz5IlsHdQSie?=
+ =?us-ascii?Q?9zBmhgAHiVfiAfjT8cYwhx7SLrfwN1pIsISnF7j?=
+ =?us-ascii?Q?ehXHtD2pQugMgXAWHJnRCvTJVz079F4VUsbh=2F=2FM?=
+ =?us-ascii?Q?8SlJ?=
+To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Tejun Heo
+	<tj@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
+	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner
+	<hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt
+	<shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ian@honeycomb.io, Liz Fong-Jones
+	<lizf@honeycomb.io>
+X-Entity-ID: u001.GRlkmHQ+Ka/CKxmoC/CxTw==
 
-Add a new selftest, vfio_nr_pages_test, to validate the iommu-nr-pages
-fdinfo metric across all IOMMU backends (Type 1 and IOMMUFD native/compat).
+At Honeycomb, a container that reads from Kafka and writes columnar
+files to a host volume stalls for 30-60s after each deploy replaces it
+(v6.18). We're increasingly confident this is the cause: the stall
+looks the same as in the reproducer (little CPU use, lag growing
+linearly and then recovering), and the mitigation it predicts, moving
+our final syncfs after the last write, worked in production (below).
+We haven't caught it with probes in production yet.
 
-The test performs a sparse mapping to force the underlying IOMMU driver
-to allocate a deep page table hierarchy. It then asserts that the
-nr_pages metric increases and proves the 'sticky' reclamation behavior
-by verifying the page count does not drop immediately upon unmapping.
+Patch 1 is a prep fix: switching a dirty inode away left the old wb
+counted in bdi->tot_write_bandwidth. Patch 2 keeps killed wbs in
+bdi->cgwb_tree until they are released, so foreign flushes can still
+reach them. Patch 3 handles the other way a wb leaves the tree: when a
+memcg's blkcg association changes and a new wb takes over the slot, it
+switches the old wb's inodes, dirty or not, to the new one.
 
-The test is skipped when the IOMMU driver does not account its page
-table memory, in which case the metric is not reported.
+Based on vfs-7.4.misc, next to Xin Yin's 168a8c13159c, which fixes the
+sizing but not the lookup of a removed cgroup's wb. The series also
+applies to and was tested on current mainline (d24e8ac715de, 7.3-rc6)
+with 168a8c13159c, where patch 2's test gave 1.0s, 1.1s and 1.0s worst
+lag. Patch 3's loop follows mainline's 407a5d205179, and mainline's
+f6988c90671e bounds its rescans.
 
-Co-developed-by: Logan Odell <loganodell@google.com>
-Signed-off-by: Logan Odell <loganodell@google.com>
-Signed-off-by: Pranjal Shrivastava <praan@google.com>
+Syncing before the removal isn't enough: cleanup_offline_cgwbs_workfn()
+skips a dying wb with any dirty inode and only retries on the next memcg
+offline. On ext4, syncfs can leave inodes I_DIRTY_SYNC: at 5000 files
+one syncfs still stalled in 7 of 9 runs (19-26s worst lag), a second
+syncfs avoided it in 5 of 5, and with this series one syncfs lagged at
+most 1.5s in 2 of 2. On XFS one syncfs left the wb clean in 5 of 5 runs,
+but a single 4KiB append from the old cgroup after it stranded the wb
+again (15-28s worst lag, 5 of 5; 1.2-1.6s in 2 of 2 with this series).
+In production, our writer synced after closing its data files but before
+writing its final Kafka offset to a small shutdown file, and moving the
+syncfs after that write mitigated the stall for us on XFS. In the
+reproducer, a 14-byte file written after the syncfs stranded the wb the
+same way, whether created directly or via a temp file and rename (16-29s
+worst lag, 7 of 7; with this series, 1.0-1.4s in 2 of 2 created
+directly); an empty file did not.
+
+The harness that produced the numbers (paced writer, lag per second,
+MODE=alive control) is at
+https://gist.github.com/lizthegrey/2209d831930588f63076bdc0ac7b78e2, and
+a minimal recipe is below. Settings for all numbers: MEM_MAX=max
+POD_MAX=4G RATE_MBPS=250, plus NFILES=5000 SYNC_OLD=1 (or 2) and
+DIRTY_AFTER=1 or SHUTDOWN_FILE=offset|offset_rename|empty for the syncfs
+runs and NFILES=500000 OLD_SECS=120 SYNC_OLD=1 POD_HOP=10 for the
+500k-file runs.
+
+Also reproduced unpatched on bare-metal arm64 with Ubuntu's 7.0 kernel
+(ext4 on a loop device): 12.9s worst lag with the old cgroup removed,
+2.5s with it kept.
+
+Tested: arm64 KVM guests (virtme-ng), ext4 and XFS on virtio, on
+vfs-7.4.misc and on mainline with 168a8c13159c. No KASAN, lockdep,
+PROVE_RCU, DEBUG_LIST, DEBUG_OBJECTS_WORK, DEBUG_ATOMIC_SLEEP or
+DEBUG_PAGEALLOC reports, including a stress run toggling io on the
+parent of two writers 40 times so their wbs are killed and replaced in
+the same slot (240 calls of patch 3's switch, 16200 inode switches,
+counted with bpftrace), and the patch 1 and 3 tests in their changelogs.
+W=1 and checkpatch --strict clean, no new sparse warnings. All changes
+are under CONFIG_CGROUP_WRITEBACK, and only builds with it enabled were
+done for v5.
+
+Not tested: x86 runtime, this series in production, linux-next, and
+patch 3's fallback for a successor that is already gone (not reachable
+on demand; it is cleanup_offline_cgwb()'s loop).
+
+Workaround until this lands: syncfs after the old container's last
+write (twice on ext4). Lowering vm.dirty_expire_centisecs from 3000 to
+500 cut the worst lag on unpatched mainline to 4.8s, 4.6s and 14.3s, but
+did not remove the stall.
+
+Related: without 168a8c13159c the flush is sized from the dead memcg's
+own dirty pages, so this only helps while it has some. f6988c90671e
+(mainline) also matters: on XFS with 500k synced inodes and the pod
+cgroup removed 10s later, the handover was slow enough without it that
+the replacement fell 21-22s behind (vfs-7.4.misc), against 1.0-1.2s with
+it (mainline), both with v1 of this series.
+
+In patch 3's test all 5001 inodes switched within 30-60ms, and on
+mainline the sibling lagged at most 1.3s. As with today's per-inode
+switches, switched inodes land at the newest end of the new wb's b_dirty
+with their old dirtied_when, so periodic writeback may reach them up to
+dirty_expire_centisecs late; background and foreign flushes are
+unaffected.
+
+Tejun, I read "fall back to &wb->bdi->wb like cleanup_offline_cgwb()
+does" as that function's fallback, the nearest live ancestor's wb and
+then the root wb, which keeps dirty inodes under the parent's io limits.
+Going straight to the root wb is a three-line change.
+
+Developed with Claude Opus 5.5, which wrote the code, the reproducers
+and first drafts of this text, and ran the builds and VM tests. Claude
+Fable 5.1 reviewed the code and the claims in this text before v2 to v5
+were posted. I drove the investigation from the production symptoms,
+designed the experiments and controls (repeated runs, parent-commit
+baselines, testing this patch on its own), and reviewed the analysis,
+code and results.
+
+Minimal recipe:
+	#!/bin/bash
+	# As root, cgroup v2, in a directory on ext4/xfs/btrfs ($DIR).
+	cg=/sys/fs/cgroup/wbmini
+	mkdir $cg && echo +memory > $cg/cgroup.subtree_control
+	echo 4G > $cg/memory.max
+	mkdir $cg/old $cg/new
+	append() {  # append $1 blocks of $2 to each of 1000 files
+		for i in $(seq 1000); do
+			dd if=/dev/zero of=$DIR/f$i bs=$2 count=$1 \
+			   oflag=append conv=notrunc status=none
+		done
+	}
+	(echo $BASHPID > $cg/old/cgroup.procs
+	 append 8 1M            # old owner writes the files...
+	 append 1 64k)          # ...and exits with all of them dirty
+	rmdir $cg/old           # its cgroup goes away while they are dirty
+	bpftrace -e 'kretprobe:cgroup_writeback_by_id { @ret[(int32)retval] = count(); }' &
+	sleep 3
+	time (echo $BASHPID > $cg/new/cgroup.procs
+	      append 4 1M)      # replacement keeps appending to the same files
+	kill -INT $!; wait
+	rmdir $cg/new $cg
+	# Unpatched: many @ret[-2] (-ENOENT) and the append stalls.
+	# Patched: @ret[0] only.
+
 ---
- tools/testing/selftests/vfio/Makefile         |   1 +
- .../selftests/vfio/vfio_nr_pages_test.c       | 119 ++++++++++++++++++
- 2 files changed, 120 insertions(+)
- create mode 100644 tools/testing/selftests/vfio/vfio_nr_pages_test.c
+Changes in v5:
+- New patch 1: clear the old wb's dirty IO state after switching
+  inodes (Tejun)
+- Patch 2: drop the css_is_dying() check, not needed with patch 3
+  (Tejun)
+- Patch 3: if the successor is gone, fall back like
+  cleanup_offline_cgwb(); report a Tasks-RCU quiescent state per
+  pass, as 407a5d205179 does (Tejun)
+- Also tested on mainline (7.3-rc6) with 168a8c13159c
+- Link to v4: https://patch.msgid.link/20260930-wb-dying-cgwb-flush-v4-0-bde637803a96@honeycomb.io
 
-diff --git a/tools/testing/selftests/vfio/Makefile b/tools/testing/selftests/vfio/Makefile
-index 2c32c48db509..140ef273e36b 100644
---- a/tools/testing/selftests/vfio/Makefile
-+++ b/tools/testing/selftests/vfio/Makefile
-@@ -13,6 +13,7 @@ TEST_GEN_PROGS += vfio_pci_device_test
- TEST_GEN_PROGS += vfio_pci_device_init_perf_test
- TEST_GEN_PROGS += vfio_pci_driver_test
- TEST_GEN_PROGS += vfio_pci_sriov_uapi_test
-+TEST_GEN_PROGS += vfio_nr_pages_test
- 
- TEST_FILES += scripts/cleanup.sh
- TEST_FILES += scripts/lib.sh
-diff --git a/tools/testing/selftests/vfio/vfio_nr_pages_test.c b/tools/testing/selftests/vfio/vfio_nr_pages_test.c
-new file mode 100644
-index 000000000000..aef6b1dd8e19
---- /dev/null
-+++ b/tools/testing/selftests/vfio/vfio_nr_pages_test.c
-@@ -0,0 +1,119 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#include <stdio.h>
-+#include <sys/mman.h>
-+#include <unistd.h>
-+#include <linux/sizes.h>
-+
-+#include <libvfio.h>
-+
-+#include "../kselftest_harness.h"
-+
-+static const char *device_bdf;
-+
-+static long read_nr_pages(struct iommu *iommu)
-+{
-+	char path[256];
-+	char line[128];
-+	FILE *f;
-+	long val = -1;
-+	int fd = iommu->container_fd != -1 ? iommu->container_fd : iommu->iommufd;
-+
-+	snprintf(path, sizeof(path), "/proc/self/fdinfo/%d", fd);
-+	f = fopen(path, "r");
-+	if (!f)
-+		return -1;
-+
-+	while (fgets(line, sizeof(line), f)) {
-+		if (sscanf(line, "iommu-nr-pages: %ld", &val) == 1)
-+			break;
-+	}
-+
-+	fclose(f);
-+	return val;
-+}
-+
-+FIXTURE(vfio_nr_pages_test) {
-+	struct iommu *iommu;
-+	struct vfio_pci_device *device;
-+};
-+
-+FIXTURE_VARIANT(vfio_nr_pages_test) {
-+	const char *iommu_mode;
-+};
-+
-+#define FIXTURE_VARIANT_ADD_IOMMU_MODE(_name) \
-+FIXTURE_VARIANT_ADD(vfio_nr_pages_test, _name) { \
-+	.iommu_mode = #_name, \
-+}
-+
-+FIXTURE_VARIANT_ADD_ALL_IOMMU_MODES();
-+
-+FIXTURE_SETUP(vfio_nr_pages_test)
-+{
-+	self->iommu = iommu_init(variant->iommu_mode);
-+	if (!self->iommu)
-+		SKIP(return, "IOMMU mode %s not supported", variant->iommu_mode);
-+
-+	self->device = vfio_pci_device_init(device_bdf, self->iommu);
-+	if (!self->device) {
-+		iommu_cleanup(self->iommu);
-+		SKIP(return, "Failed to initialize VFIO device");
-+	}
-+}
-+
-+FIXTURE_TEARDOWN(vfio_nr_pages_test)
-+{
-+	if (self->device)
-+		vfio_pci_device_cleanup(self->device);
-+	if (self->iommu)
-+		iommu_cleanup(self->iommu);
-+}
-+
-+TEST_F(vfio_nr_pages_test, sparse_mapping_sticky_reclamation)
-+{
-+	long nr_pages_initial, nr_pages_mapped, nr_pages_final;
-+	struct dma_region region1 = {0};
-+	struct dma_region region2 = {0};
-+
-+	if (!self->iommu || !self->device)
-+		SKIP(return, "Fixture setup failed");
-+
-+	nr_pages_initial = read_nr_pages(self->iommu);
-+	if (nr_pages_initial < 0)
-+		SKIP(return, "iommu-nr-pages not reported by this IOMMU");
-+
-+	/* Map a page at start */
-+	region1.size = SZ_4K;
-+	region1.vaddr = mmap_reserve(region1.size, region1.size, 0);
-+	ASSERT_NE(MAP_FAILED, region1.vaddr);
-+	region1.iova = 0x100000;
-+	iommu_map(self->iommu, &region1);
-+
-+	/* Map another page far away (1GB stride) to force deep page tables */
-+	region2.size = SZ_4K;
-+	region2.vaddr = mmap_reserve(region2.size, region2.size, 0);
-+	ASSERT_NE(MAP_FAILED, region2.vaddr);
-+	region2.iova = 0x100000 + SZ_1G;
-+	iommu_map(self->iommu, &region2);
-+
-+	nr_pages_mapped = read_nr_pages(self->iommu);
-+	ASSERT_GT(nr_pages_mapped, nr_pages_initial);
-+
-+	/* Unmap both regions */
-+	iommu_unmap(self->iommu, &region1);
-+	iommu_unmap(self->iommu, &region2);
-+
-+	nr_pages_final = read_nr_pages(self->iommu);
-+
-+	/* Page tables should remain allocated */
-+	ASSERT_EQ(nr_pages_final, nr_pages_mapped);
-+
-+	munmap(region1.vaddr, region1.size);
-+	munmap(region2.vaddr, region2.size);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	device_bdf = vfio_selftests_get_bdf(&argc, argv);
-+	return test_harness_run(argc, argv);
-+}
--- 
-2.56.0.rc1.315.gc6ed9934b7-goog
+Changes in v4:
+- Don't link a new wb for a dying memcg in cgwb_create() (Tejun)
+- Patch 2: switch the replaced wb's inodes to its successor instead
+  of kicking writeback (Tejun, Jan)
+- Link to v3: https://patch.msgid.link/20260928-wb-dying-cgwb-flush-v3-0-e35374884667@honeycomb.io
+
+Changes in v3:
+- Use wb_dying(), scoped_guard() with the offline_node list_del moved
+  into it, and {}; filter dying wbs right after the lookup in
+  cgwb_create(); comment wording (Tejun)
+- New patch 2: kick writeback on a wb replaced in cgwb_create() (Tejun)
+- Lead patch 1's changelog with the problem and its trigger (Andrew)
+- Link to v2: https://patch.msgid.link/20260928-wb-dying-cgwb-flush-v2-1-56b54cda74f2@honeycomb.io
+
+Changes in v2:
+- Keep killed wbs in bdi->cgwb_tree until release instead of walking
+  bdi->wb_list (Tejun)
+- Drop Fixes: and Cc: stable (Tejun)
+- Link to v1: https://patch.msgid.link/20260926-wb-dying-cgwb-flush-v1-1-a8d898085a3a@honeycomb.io
+
+---
+Liz Fong-Jones (3):
+      writeback: clear the old wb's dirty IO state after switching inodes
+      writeback: let foreign flushes reach dying cgwbs
+      writeback: switch a replaced cgwb's inodes to its successor
+
+ fs/fs-writeback.c                |  65 ++++++++++++++++++++++
+ include/linux/backing-dev-defs.h |  14 ++++-
+ include/linux/backing-dev.h      |   2 +-
+ include/linux/writeback.h        |   1 +
+ mm/backing-dev.c                 | 115 ++++++++++++++++++++++++++++++++-------
+ 5 files changed, 175 insertions(+), 22 deletions(-)
+---
+base-commit: 168a8c13159c6e3f0f08da6f8fa2f633a91ba9fd
+change-id: 20260926-wb-dying-cgwb-flush-06e260e2abad
+
+Best regards,
+--  
+Liz Fong-Jones <lizf@honeycomb.io>
 
