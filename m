@@ -1,249 +1,335 @@
-Received: from mail-yx2-f39.google.com (mail-yx2-f39.google.com [74.125.224.167])
+Received: from mail-dl2-f43.google.com (mail-dl2-f43.google.com [74.125.229.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9372D3BC664
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 03:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.167
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790826590; cv=none; b=Sm5/hM5gooaaPaK5KRScTRw4aVs7faNv2ujSdlD8ZXCsFaeLbTYg/9s5n7U7UEnqpGmP+XrkjqqvK+EKq+I1txjs6eAYbO2oGLq2sPDM9/hfL9tl21MZ7t3OOelGv58dh487LWEoH1klJIVBDmKzV4qScq5mp+rR1Au+Vprofd4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790826590; c=relaxed/simple;
-	bh=/vYm6ZwYvKTDKejjAqCURiSs4gb63/IpRk+1+7ijEKA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gi4ea+Pmys8UtJJue7vrHGxws6MESVjuxgC4vJUGY2m1Fs2TgUoEFsd0Jb2I4LoItl5WFRo2UjJrG+bX5nILGb+F6AGWhnRCBVIOnGBs1DY5lv3L94WcTxfqAwyVZnngVzkyi9PxqhFV2mYEoQD5y+K2wb7VH1WOQSK11p4sEa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=BKpUii12; arc=none smtp.client-ip=74.125.224.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AECB3F6C2D
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 03:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790827198; cv=pass; b=Eh+YkDj3N5q/E/Yb0q9bjeRMT36oGOSP5Uj+zqQ4a35gFnGSQQ5KYrURur4s+QN4rqYYE6vevbITnhKdAGEq+lU8pMSW4LzKTtW2nTH7dBfzyl44ocH5ZrZ8tdo9+RBoCXFMvvN8ZE45RyJ2m14f5ilLgDoyWggHCPWZxzdJ5ZA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790827198; c=relaxed/simple;
+	bh=JfjhtWAX/5PoHBlGE27TqtOtdtC4PuPBWAxjmTiuq7Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q0kREprSAxhupT2xMIo1Vdo8zE8VU0Sx0j7cMeG4reM0gXzVNif+bEVWCBXdvjDjjHJsmU1WyGCD4ZrbhWcKNttvJjv6oDyK4ZmdAUi3VxNISu7NJ70vjAdz7SpAJrCrcXUpkVnREAjiFpuFnaLBUSzUGfBOlQPrhcfrOy5IBnA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cwtaXyA8; arc=pass smtp.client-ip=74.125.229.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="BKpUii12"
-Received: by mail-yx2-f39.google.com with SMTP id 00721157ae682-8accbaa1c11so9315857b3.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 20:49:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cwtaXyA8"
+Received: by mail-dl2-f43.google.com with SMTP id a92af1059eb24-1450541ab18so6657712c88.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 30 Sep 2026 20:59:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790827195; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rubY3kjEO55gmWdaE1iFpr8gteGB8IuPIKyGPObIyEWk8cLFzLzPMYNsOmemeLE8Sz
+         TF28Rw8B5g3RS8/pgozxxHPgRLhF7jFJv6eeZcuAw9nNub9OECiKnLvJigKUF8UOVENP
+         I2C2skpQk9R4pJDDXzVlpG0zTrB2JyzJPnFw3R9xiqsZ18gPvbRF1LAMeeU//g3XsXdy
+         DZfnKUS7XvvXDZcEJ/MIwBcfugF6T0mkP8K4DworBsv6W3fu5k+RKUfpE3MEBSw49MHw
+         n+N9PsXJC45e/n3j50TW3H0hDg7vf3FwbJ/n2clf7pfkYnrgd4FTWschf7pPCjMUTE0F
+         MFeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ywwb2zJHaIFNjSQOhqCmHZmRwQwtwKhmlrvLgQ+t+Tg=;
+        fh=syVeQMULKSCQNUvXArjvX8pTERVPjvssKX+ESttwhzo=;
+        b=fUUmj3QlmIe/K1mdQnH4kPHCBfBU4b/0bFD91uv/XAdv1X7JOEfpLLw2Hj18zPm5VD
+         Z8pGnwKNimgjQoQEzdcADLCxt8nfNyxFvW8tvwvNvWwOGi27EQvsC7vUU45BWDEt8ypI
+         asJBX8vKf2DmaG3OA6UpIGizG/WlArdNhSLUDNLJdrf4ta3IxPhTS+TXBEdsKRcRnBK2
+         21xMJrHTfA08GwZrVMnl/9PxJrjWCS7otIvSDZhEDw9DyQpYyI6MJl2DKwa/KEw3Q2G5
+         y/SHZoLVSkllvWms6DCj6DwDk4o4bLz/bhOiDnB3ViJ96EeOJsrG5r/a75/+kAK6OUxd
+         B1Bw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790826587; x=1791431387; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/vYm6ZwYvKTDKejjAqCURiSs4gb63/IpRk+1+7ijEKA=;
-        b=BKpUii12C3bvuGxwV6T4AH1L+YIjA1YZ1FIvjpioMk8XSIT9bIEyGV8gK1de359TXH
-         /cfpF+DRNrWT4duhx8YBizn9x8hWTAw9CqOZ47KTZz98y3oZQX9MTd3F4hfVa+N9JTxg
-         Vd/V9uFBso4+cr0qEucJ+AiSddrMBsQvfeQjUb54jhS1Y9JR3O29X64zUiSKxCu/Rtmm
-         aqM7uB2f14I3e6rUVOa4b9XFHVZQH0AKb8V0YwukI+NxRhnhRM7FTr1YyNCeY6olUlBZ
-         eYP86fFLWuAx1/7e0wVbTgX6LDwtIe9TOwQH7BVoN7J37OCIsZrcn32jC2JJ1DCnaM+V
-         r2FQ==
+        d=google.com; s=20251104; t=1790827195; x=1791431995; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ywwb2zJHaIFNjSQOhqCmHZmRwQwtwKhmlrvLgQ+t+Tg=;
+        b=cwtaXyA8+DEpkP3kx8faRD87R2av2SFFcHmzcAihOwIC4826BafRF0YWeM23RUv+t3
+         R1BJgFJrogeHKrG+ctyAS762llUZCEVUokwkOn8k/R1D0iqZ4Z2IQBVEm6bUYtOtBXqv
+         nlux+OEJOIvjP/E6FKO8H2RBrShnWXLiz3CDqruvXgagFFN06GlplMsCmiEf8SeE4576
+         SYGkB1fVhPEuHTo8AJAPjVsUFApK1/FnJopsmEqULz0pWV50u60mHuhVqgqIc9lgcRUz
+         Y6b8vJlMnTGaj5Damldl7h88xpBABJ7C/TAmjC4WfrMhYSpBNVy6mt4HkjHzmI0lUjTo
+         w1zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790826587; x=1791431387;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=/vYm6ZwYvKTDKejjAqCURiSs4gb63/IpRk+1+7ijEKA=;
-        b=IGqmLGyYjpKm7rLxqP/OPCA8eXN+Dz2fMBiHN3Raau5zWV2PbzXuhOXHaw8exzIJyy
-         ZwRjEgZfHAUPdWGXIA50HfO7FFix8LAi76GkG9tTJhfA6JEx8Au3Gv4Ye+hyyEP8GoFg
-         vVaRMWsMgtN6dKbmUlQfyEGkbrXWDUSyCDrdKsdhhhM+rr0ARZZrgbPk2OXUfhER4dzk
-         H1P5r49EfE3g+/PCbYyInHywM4jPPKpKZw87O3a1498FTMrvZBuNmNoJHiZzRR8RlYRg
-         vfCTsFFylimQ73qkPrQvWLQCgDFzrYl0muAKzOp350DjzzEDkQwVOCq/XlFw7x4K1IKY
-         Rb8g==
-X-Forwarded-Encrypted: i=1; AKwUvBycWIYQmQskzqUHwCpevs7LkTnQoQMnPdCjftPljxvGrBj7bv64ilE7rp/tynKS0K/dr1nL7mrZ1gtpDDlu@vger.kernel.org
-X-Gm-Message-State: AFq9FYJruuQsAKAgqPEZB4WnmWku811SbFZIqIieMAQ180SzhydYJ6fe
-	jGeZYp9A1C+jzX+Y3Wx3AkZbJrKPj6GXyFnfmwHbypCIuELcYZWzQoL+Y7QY4ftiWwbVPiDx2XE
-	QQVNiKbI=
-X-Gm-Gg: AYBFou0+tgM67QkmcoC9NvLkl9fBVMZ5JnROJ4vzVHuBRiiMElM6HOl4eFXAkxHE3Fz
-	s4Tv3dQImu42bgopGwSetsE4YM7k/429k7X05/1jPh8Gf6LJ0K4eI8E3a4ScO3R81dSokDJocP7
-	nie+Gaw0uZLFGwdscWkbPCFX0ZckyHEC18enRZhhZWpm0kU/BijyMyTBc1pS8yV00MxJe2bgSxI
-	qz2Vtd2zPrGCIEUEcaHV9PxzYxXjA/05h1YLmO2lj1VKh5Jyy72A05vMd+niVFeBMkddL2WX/Wm
-	HkWGU7sQTwYDMsvAVBlvKYRAEUcKTKfXxSlSxcbCLVZUdCvP7T3iNoCFo6Mz1Wug/NeaVErFX1Y
-	BBoUPCPLSI3WIoMTlL1c67/5CkEUaVDJB6XCQkZTWcyqsDO+RKTHjsK32hBOOZO/v/v749r3bbx
-	Zdja7SPNgkj/qU7zpKixgTcOCwxWKx0YmUJr3J33tqMNFNlcixfCNv3xB2MC0NWSoiynhZlesRf
-	3NsH8f5I421W7SfrS9ge2ah0YJW1oc0mZw/DGKSK9kIYSJOHJcLEHHKPWWCj3OAPpjJywu2BJRj
-	eetQWYiTXBLkthgloHtG/kfs7TtEvOUblZvqb9QiHedr/beM2FbEk3p7Lbx8Eyv7DJA8bbzytlY
-	=
-X-Received: by 2002:a05:690e:408c:b0:676:9885:d2b8 with SMTP id 956f58d0204a3-6769885ee68mr97499d50.30.1790826586838;
-        Wed, 30 Sep 2026 20:49:46 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:487b:bc91:650e:71d4? ([2600:1700:6476:1430:487b:bc91:650e:71d4])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8acdad9eaafsm6033437b3.46.2026.09.30.20.49.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 20:49:46 -0700 (PDT)
-Message-ID: <8dfb90a2751df30f76ab5130960591a57c51be4d.camel@dubeyko.com>
-Subject: Re: hfsplus: possible recursive locking on extents_lock during
- unlink/truncate
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: =?UTF-8?Q?Kullan=C4=B1lm=C4=B1yor?= Pasif <guvenlik@noroxi.com>, 
-	linux-fsdevel@vger.kernel.org
-Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 30 Sep 2026 20:49:44 -0700
-In-Reply-To: <CAHfT-UBFPgXcYu+2sS8bg12GC0LvXpAkVqrSg9N8BzEhUBAO8Q@mail.gmail.com>
-References: 
-	<CAHfT-UBFPgXcYu+2sS8bg12GC0LvXpAkVqrSg9N8BzEhUBAO8Q@mail.gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        d=1e100.net; s=20260707; t=1790827195; x=1791431995;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ywwb2zJHaIFNjSQOhqCmHZmRwQwtwKhmlrvLgQ+t+Tg=;
+        b=L4D1Y4D82g269H1INUg/aUmCck/h+t5O76xo1Nfj9+jAYs8KbZBTTbfqatmaiNRHpi
+         JO+m2/O/fAZ+3NrrVyYbfBPDeqyxon5AoRbyew5TaStv186X1MFv7S1tFJ4gE4tf6QBE
+         aTqUrUmNJNAfP/kYSM/wIVISIq5UHq94oUZrqkByhsc4wNZ32ABDcacVQ7NLkHF0DHIL
+         TLUYhGEP7S+KVeyUttAVB5wPUPl7KWruQNF8nHbxxvgQzWi637zY5zBvdOPtod/JmE7V
+         nLj4K7fkamUfXZqr97EKUsFLJtnGQDMOZEc8CyCwpnlHlROjox3/HFpKU7k4F1xnG033
+         vaaw==
+X-Forwarded-Encrypted: i=1; AKwUvBz//ERV+Uje+7A65qytWKmHMZqETiOy0aXzTSBTSXYoX9JDQV0XkzK8ByWRF9dWbf7tR2nTPKw5crh5z6Ah@vger.kernel.org
+X-Gm-Message-State: AFuF++kwV4dRAYGT3xgdpp14b526SRuxSzmECbCxYrOMb/O3dAYDwuqG
+	TRq13PRrcrzAQUmPq3sZguy//TppCekH5Ut/jNQTvXTyA6CURnFHo2v3xeXAnyFq4PvoWvZ2eQe
+	m6IizKJ2X2f/F9i00W6A20RFzpbxRoct2uHXlbJMB
+X-Gm-Gg: AYBFou38LjFzpqw3dAZ7nj4KtnzXuWzGwVk+z0L5WPa1u5MEjS0JB/OyDN1wz4EdkKP
+	BXssict+R5mVHN91oqlPArGdt+LWu1Vje532U5Wo4QTd0AAxB/z1rSYKgiZ3cp5N1AbhQ0TpA6f
+	a2RBQeNxY/mMn6VT7FG3g4ER68D2m0t83r0DniAZ9wwVIqB6SICa8jwlb5ZVVT2Nvmc6Ghi0ihM
+	uh1LH62l59eFYgvbINHSyyZg1dDoPXwX/wSGAUa4qLLF/AeEsejTceUlWjhf3pcvkfI/YSZFdG2
+	dMPX7+54YoqqiugWTJV9gyEGAd+UyanyPiFx8n6vahefvyjGODf+5C2UQNzHSS8tRfnX9s2QNFz
+	zwUxo2pkVtwlk1k0aet3ag4uXhikpOhIKFWGC2WB+VSxnyC2NUsOHneiSPlWJBFaXanE=
+X-Received: by 2002:a05:701b:4511:10b0:149:f2b3:ef78 with SMTP id
+ a92af1059eb24-14d3348e2femr3016102c88.32.1790827194314; Wed, 30 Sep 2026
+ 20:59:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260928-work-unix-passpidfd-v3-0-532018a91b21@amutable.com> <20260928-work-unix-passpidfd-v3-2-532018a91b21@amutable.com>
+In-Reply-To: <20260928-work-unix-passpidfd-v3-2-532018a91b21@amutable.com>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Wed, 30 Sep 2026 20:59:42 -0700
+X-Gm-Features: AclHuK-Ya3wsqs8meD2kLmWdhIUvmp-Bq6013K1cUrm-VFKKFzhmNEX86QW6AHM
+Message-ID: <CAAVpQUD3XomEde8kR2m1776rPwkJwp_qHraAiWbdrWk6Y+=RaQ@mail.gmail.com>
+Subject: Re: [PATCH v3 02/10] af_unix: record the pid of the sending thread
+To: Andrew Halaney <andrew@amutable.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>, 
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2026-10-01 at 02:58 +0400, Kullan=C4=B1lm=C4=B1yor Pasif wrote:
-> # hfsplus: lockdep "possible recursive locking" on extents_lock
-> during unlink/truncate
->=20
-> **Reporter:** Noroxi (Mahmut Emin Kurhan <guvenlik@noroxi.com>)
-> **Subsystem:** fs/hfsplus
-> **Class:** lockdep false-positive (possible recursive locking) =E2=80=94 =
-CWE-
-> 667-ish
-> **Severity:** low =E2=80=94 lockdep splat while mounting/using a crafted =
-HFS+
-> image. Analysis
-> below indicates this is a missing lock-nesting annotation, NOT a real
-> runtime
-> deadlock (the two locks are different inodes of the same lock class,
-> acquired in a
-> fixed order). No memory corruption.
-> **Status:** analysis from source; observed under syzkaller
-> (kmemleak/lockdep) fuzzing
-> of HFS+ image mounts. No standalone reproducer extracted yet.
->=20
-> ## lockdep report
->=20
-> ```
-> WARNING: possible recursive locking detected
-> syz.3.60/2437 is trying to acquire lock:
-> =C2=A0 (&HFSPLUS_I(inode)->extents_lock){+.+.}, at: hfsplus_get_block+...
-> fs/hfsplus/extents.c:264
-> but task is already holding lock:
-> =C2=A0 (&HFSPLUS_I(inode)->extents_lock){+.+.}, at:
-> hfsplus_file_truncate+... fs/hfsplus/extents.c:579
-> =C2=A0May be due to missing lock nesting notation
-> ```
->=20
-> ## Call chain (from the report stack)
->=20
-> ```
-> hfsplus_unlink =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fs=
-/hfsplus/dir.c:420
-> =C2=A0hfsplus_delete_inode =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fs/hfsplus/i=
-node.c:553
-> =C2=A0 hfsplus_file_truncate =C2=A0 =C2=A0 =C2=A0 =C2=A0fs/hfsplus/extent=
-s.c:579 =C2=A0 <--
-> mutex_lock(inode A ->extents_lock)
-> =C2=A0 =C2=A0hfsplus_free_extents =C2=A0 =C2=A0 =C2=A0 =C2=A0fs/hfsplus/e=
-xtents.c:364
-> =C2=A0 =C2=A0 hfsplus_block_free =C2=A0 =C2=A0 =C2=A0 =C2=A0 fs/hfsplus/b=
-itmap.c:185 =C2=A0 =C2=A0 <-- reads
-> the allocation bitmap file
-> =C2=A0 =C2=A0 =C2=A0block_read_full_folio =C2=A0 =C2=A0 fs/buffer.c
-> =C2=A0 =C2=A0 =C2=A0 hfsplus_get_block =C2=A0 =C2=A0 =C2=A0 =C2=A0fs/hfsp=
-lus/extents.c:264 =C2=A0 <--
-> mutex_lock(inode B ->extents_lock)
-> ```
->=20
-> ## Analysis (why this is annotation, not a real deadlock)
->=20
-> - **inode A** =3D the regular file being unlinked/truncated.
-> - **inode B** =3D the **allocation bitmap file** (`sbi->alloc_file`):
-> `hfsplus_block_free()`
-> =C2=A0 reads a page of the allocation file, which goes through `-
-> >get_block` and locks the
-> =C2=A0 allocation file's own `extents_lock`.
-> - The two lock addresses in the report differ, so these are two
-> *different* inode
-> =C2=A0 instances of the *same* lock class (`extents_lock`). lockdep flags
-> this as
-> =C2=A0 "recursive" and itself notes "May be due to missing lock nesting
-> notation".
-> - The acquisition order is fixed: a regular file's `extents_lock` is
-> taken first (in
-> =C2=A0 truncate/extend), then the allocation file's `extents_lock` while
-> freeing/allocating
-> =C2=A0 blocks. There is no reverse path (the allocation file's block I/O
-> does not take a
-> =C2=A0 regular file's `extents_lock`), so no real ABBA/self-deadlock
-> exists.
->=20
-> ## Suggested fix direction
->=20
-> hfsplus already solves the identical problem for the B-tree
-> `tree_lock` via
-> `hfsplus_btree_lock_class()` (fs/hfsplus/hfsplus_fs.h), which returns
-> a distinct
-> lockdep subclass per tree CNID and is used with
-> `mutex_lock_nested()`.
->=20
-> The same pattern applied to `extents_lock` would resolve this: assign
-> a distinct
-> lockdep subclass to the special-inode `extents_lock` (at least the
-> allocation file,
-> and for completeness the attributes/catalog files) and take it with
-> `mutex_lock_nested(&hip->extents_lock,
-> hfsplus_extents_lock_class(inode))` at the five
-> lock sites (extents.c:153,264,457,579 and xattr.c:267). Regular files
-> keep the default
-> subclass, so a genuine regular-file-vs-regular-file recursion would
-> still be detected.
->=20
-> We can provide a candidate patch if useful; deferring the exact
-> subclass scheme to the
-> maintainers since the lock design is yours.
->=20
-> ## Disclosure
-> Normal fs bug report (not a security embargo). To:
-> linux-fsdevel@vger.kernel.org;
-> Cc: Viacheslav Dubeyko, John Paul Adrian Glaubitz, Yangtao Li, linux-
-> kernel.
->=20
-> ## Credit
-> Found by Noroxi via coverage-guided fuzzing (syzkaller) of HFS+ image
-> mounts.
+On Mon, Sep 28, 2026 at 2:27=E2=80=AFAM Andrew Halaney <andrew@amutable.com=
+> wrote:
+>
+> From: Christian Brauner <brauner@kernel.org>
+>
+> Currently only the struct pid of the thread-group leader is recorded.
+> The identity of the actual thread that sent the message or is connected
+> to a given socket cannot be retrieved.
+>
+> Add the plumbing to make it possible to retrieve a pidfd for the sender.
+> Nothing uses the thread-specific struct pid yet. No functional changes.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Reviewed-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
+> Signed-off-by: Andrew Halaney <andrew@amutable.com>
+> ---
+>  include/net/scm.h  |  7 +++----
+>  net/core/scm.c     | 21 +++++++++++++++++----
+>  net/unix/af_unix.c | 23 +++++++++++++----------
+>  net/unix/af_unix.h |  3 ++-
+>  4 files changed, 35 insertions(+), 19 deletions(-)
+>
+> diff --git a/include/net/scm.h b/include/net/scm.h
+> index 86ae6bc109ec..aa7d15c5fc27 100644
+> --- a/include/net/scm.h
+> +++ b/include/net/scm.h
+> @@ -42,7 +42,7 @@ struct scm_fp_list {
+>  };
+>
+>  struct scm_cookie {
+> -       struct pid              *pid;           /* Skb credentials */
+> +       DECLARE_PIDS(pid, PIDTYPE_TGID);        /* Skb credentials by pid=
+ type */
+>         struct scm_fp_list      *fp;            /* Passed files         *=
+/
+>         struct scm_creds        creds;          /* Skb credentials      *=
+/
+>  #ifdef CONFIG_SECURITY_NETWORK
+> @@ -69,7 +69,7 @@ static __inline__ void unix_get_peersec_dgram(struct so=
+cket *sock, struct scm_co
+>  static __inline__ void scm_set_cred(struct scm_cookie *scm,
+>                                     struct pid *pid, kuid_t uid, kgid_t g=
+id)
+>  {
+> -       scm->pid =3D get_pid(pid);
+> +       scm->pid[PIDTYPE_TGID] =3D get_pid(pid);
+>         scm->creds.pid =3D pid_vnr(pid);
+>         scm->creds.uid =3D uid;
+>         scm->creds.gid =3D gid;
+> @@ -77,8 +77,7 @@ static __inline__ void scm_set_cred(struct scm_cookie *=
+scm,
+>
+>  static __inline__ void scm_destroy_cred(struct scm_cookie *scm)
+>  {
+> -       put_pid(scm->pid);
+> -       scm->pid =3D NULL;
+> +       put_pids(scm->pid);
+>  }
+>
+>  static __inline__ void scm_destroy(struct scm_cookie *scm)
+> diff --git a/net/core/scm.c b/net/core/scm.c
+> index f0d44ecdb11f..9b9e119c353a 100644
+> --- a/net/core/scm.c
+> +++ b/net/core/scm.c
+> @@ -149,6 +149,7 @@ EXPORT_SYMBOL(__scm_destroy);
+>
+>  static inline int scm_replace_pid(struct scm_cookie *scm, struct pid *pi=
+d)
+>  {
+> +       struct pid *thread_pid;
+>         int err;
+>
+>         /* drop all previous references */
+> @@ -158,7 +159,18 @@ static inline int scm_replace_pid(struct scm_cookie =
+*scm, struct pid *pid)
+>         if (unlikely(err))
+>                 return err;
+>
+> -       scm->pid =3D pid;
+> +       /* A sender naming its own thread-group sends from the current th=
+read. */
+> +       if (pid =3D=3D task_tgid(current))
+> +               thread_pid =3D task_pid(current);
+> +       else
+> +               thread_pid =3D pid;
+> +
+> +       err =3D pidfs_register_pid(thread_pid);
+> +       if (unlikely(err))
+> +               return err;
+> +
+> +       scm->pid[PIDTYPE_TGID] =3D pid;
+> +       scm->pid[PIDTYPE_PID] =3D get_pid(thread_pid);
+>         scm->creds.pid =3D pid_vnr(pid);
+>         return 0;
+>  }
+> @@ -207,7 +219,8 @@ int __scm_send(struct socket *sock, struct msghdr *ms=
+g, struct scm_cookie *p)
+>                         if (err)
+>                                 goto error;
+>
+> -                       if (!p->pid || pid_vnr(p->pid) !=3D creds.pid) {
+> +                       if (!p->pid[PIDTYPE_TGID] ||
+> +                           pid_vnr(p->pid[PIDTYPE_TGID]) !=3D creds.pid)=
+ {
+>                                 struct pid *pid;
+>                                 err =3D -ESRCH;
+>                                 pid =3D find_get_pid(creds.pid);
+> @@ -504,10 +517,10 @@ static void scm_pidfd_recv(struct msghdr *msg, stru=
+ct scm_cookie *scm)
+>                 return;
+>         }
+>
+> -       if (!scm->pid)
+> +       if (!scm->pid[PIDTYPE_TGID])
+>                 return;
+>
+> -       pidfd =3D pidfd_prepare(scm->pid, PIDFD_STALE, &pidfd_file);
+> +       pidfd =3D pidfd_prepare(scm->pid[PIDTYPE_TGID], PIDFD_STALE, &pid=
+fd_file);
+>
+>         if (put_cmsg(msg, SOL_SOCKET, SCM_PIDFD, sizeof(int), &pidfd)) {
+>                 if (pidfd_file) {
+> diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+> index 42cffeafc8c1..c7d423465859 100644
+> --- a/net/unix/af_unix.c
+> +++ b/net/unix/af_unix.c
+> @@ -1973,7 +1973,7 @@ static void unix_destruct_scm(struct sk_buff *skb)
+>  {
+>         struct scm_cookie scm =3D {};
+>
+> -       swap(scm.pid, UNIXCB(skb).pid);
+> +       swap_pids(scm.pid, UNIXCB(skb).pid);
+>
+>         if (UNIXCB(skb).fp)
+>                 unix_detach_fds(&scm, skb);
+> @@ -1991,7 +1991,7 @@ static int unix_scm_to_skb(struct scm_cookie *scm, =
+struct sk_buff *skb, bool sen
+>  {
+>         int err =3D 0;
+>
+> -       UNIXCB(skb).pid =3D get_pid(scm->pid);
+> +       get_pids(UNIXCB(skb).pid, scm->pid);
+>         UNIXCB(skb).uid =3D scm->creds.uid;
+>         UNIXCB(skb).gid =3D scm->creds.gid;
+>         UNIXCB(skb).fp =3D NULL;
+> @@ -2005,7 +2005,10 @@ static int unix_scm_to_skb(struct scm_cookie *scm,=
+ struct sk_buff *skb, bool sen
+>
+>  static void unix_skb_to_scm(struct sk_buff *skb, struct scm_cookie *scm)
+>  {
+> -       scm_set_cred(scm, UNIXCB(skb).pid, UNIXCB(skb).uid, UNIXCB(skb).g=
+id);
+> +       get_pids(scm->pid, UNIXCB(skb).pid);
 
-Please, send the formal patch and we can start the regular review and
-discussion.
+nit: keep scm_set_cred() here and rather move get_pid()
+from scm_set_cred() to scm_send().
 
-Thanks,
-Slava.
+
+> +       scm->creds.pid =3D pid_vnr(scm->pid[PIDTYPE_TGID]);
+> +       scm->creds.uid =3D UNIXCB(skb).uid;
+> +       scm->creds.gid =3D UNIXCB(skb).gid;
+>         unix_set_secdata(scm, skb);
+>  }
+>
+> @@ -2025,20 +2028,20 @@ static void unix_skb_to_scm(struct sk_buff *skb, =
+struct scm_cookie *scm)
+>  static int unix_maybe_add_creds(struct sk_buff *skb, const struct sock *=
+sk,
+>                                 const struct sock *other)
+>  {
+> -       if (UNIXCB(skb).pid)
+> +       if (UNIXCB(skb).pid[PIDTYPE_TGID])
+>                 return 0;
+>
+>         if (unix_may_passcred(sk) || unix_may_passcred(other) ||
+>             !other->sk_socket) {
+> -               struct pid *pid;
+>                 int err;
+>
+> -               pid =3D task_tgid(current);
+> -               err =3D pidfs_register_pid(pid);
+> -               if (unlikely(err))
+> +               get_task_pids(UNIXCB(skb).pid, current);
+> +               err =3D pidfs_register_pids(UNIXCB(skb).pid);
+> +               if (unlikely(err)) {
+> +                       put_pids(UNIXCB(skb).pid);
+>                         return err;
+> +               }
+>
+> -               UNIXCB(skb).pid =3D get_pid(pid);
+>                 current_uid_gid(&UNIXCB(skb).uid, &UNIXCB(skb).gid);
+>         }
+>
+> @@ -2048,7 +2051,7 @@ static int unix_maybe_add_creds(struct sk_buff *skb=
+, const struct sock *sk,
+>  static bool unix_skb_scm_eq(struct sk_buff *skb,
+>                             struct scm_cookie *scm)
+>  {
+> -       return UNIXCB(skb).pid =3D=3D scm->pid &&
+> +       return UNIXCB(skb).pid[PIDTYPE_TGID] =3D=3D scm->pid[PIDTYPE_TGID=
+] &&
+>                uid_eq(UNIXCB(skb).uid, scm->creds.uid) &&
+>                gid_eq(UNIXCB(skb).gid, scm->creds.gid) &&
+>                unix_secdata_eq(scm, skb);
+> diff --git a/net/unix/af_unix.h b/net/unix/af_unix.h
+> index 8119dbeef3a3..402742895acc 100644
+> --- a/net/unix/af_unix.h
+> +++ b/net/unix/af_unix.h
+> @@ -2,6 +2,7 @@
+>  #ifndef __AF_UNIX_H
+>  #define __AF_UNIX_H
+>
+> +#include <linux/pid_types.h>
+>  #include <linux/uidgid.h>
+>
+>  #define UNIX_HASH_MOD  (256 - 1)
+> @@ -11,7 +12,7 @@
+>  struct sock *unix_peer_get(struct sock *sk);
+>
+>  struct unix_skb_parms {
+> -       struct pid              *pid;           /* skb credentials      *=
+/
+> +       DECLARE_PIDS(pid, PIDTYPE_TGID);        /* skb credentials by pid=
+ type */
+>         kuid_t                  uid;
+>         kgid_t                  gid;
+>         struct scm_fp_list      *fp;            /* Passed files         *=
+/
+>
+> --
+> 2.55.0
+>
