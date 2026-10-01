@@ -1,237 +1,207 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC374D797D
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 10:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790848973; cv=pass; b=VWYtxg19ywwbvFmAPXVCmWeh8Nf4ALhGJdQGtOK187bx5g6vgVrQens3pMgfohvgTt2zfhsLJ3HOEahafxLxkANhmrzFx5L90wzGKiFL/mi38sxs8A7bO//blOgFIdwYD/1Q1ivaQiEsvuh1415RzyT4I1rzzuUs4UKmNr1fVP4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790848973; c=relaxed/simple;
-	bh=BuczpQavLNIc5iEH5iJditkxvjYv1WxhIpa6xLgIvFw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cBWAa5J0kX6PuHxKgENbt6pDIaDeFOPgpmfehP6zkofCK50p10b/MdRSZj+JP6pg8QVmhdIMvhPleeCPxN2SU3X/T8z5zcw6Xcs0lwbvOZaVv/KzYpXyx6or9hGPKwrI20iZPg/amexqthD+P3iDKhenShzS2cb3OZxPUeKSwtg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cyyWmI02; arc=pass smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA2A4DAF93;
+	Thu,  1 Oct 2026 10:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790849352; cv=none; b=IRCpoiEiA38B0Bp9t31qrCvX5n+ZArj/bZ5Mrk4qpb27Wp9CZyn14ltPffSQO0F/RiQojX0IJMx2cfnDC2RlW0FgbS5nT6x9072ygUCbOhVgKUNrBbWYTRApamMOxBgIkvOicmgA6LJNmOA19r+sxWI/KCxT2FczoINwrEzcifM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790849352; c=relaxed/simple;
+	bh=tKokw2iE3RGtNzyaQxgVPTmbgamXeqVk79UvjJSqXpI=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=p3/sqJnOC3MDNbeG9NX5DHqxNzPYREY6HxilGK8wXMdJTYY2FRmzANamjG4B/1poUDeR4MwHXkHyI2cqqypVMygMto9uRgx2euAB2vNx4cGDxd12a4NfQorUhNbvA0+kMWf0TX+v3aSsz/G0MewtF1Ge0XrL4E9RNWTXXwo1+T0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=afyCnUHP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VSJIBf+M; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cyyWmI02"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c294ad260fdso455579066b.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 03:02:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790848969; cv=none;
-        d=google.com; s=arc-20260327;
-        b=D0w7+RueIMPuX9yfBYM8jnMrgfidEBzmpmJTFy5mAfD8XaSQU1gtz5uICxQB56l46i
-         hV1LihftFVUQ0Y2QSwxj7nmyCtTtoDYecu65U7EtRniHzK874Yc/KJJO+4LSfaKf6KAQ
-         ynwZyqpDq1RjK1zpaybkwOitmlx/iJ7wtoBTQw/jsIBcwjaFNXgMQw/x7/7EivXCz0/d
-         UMdK8M8bgExHGaJYP2+4QpS2jE1ONsTMhpAJ6hHRKThepRylpamufDtumhyB8Li63WGa
-         IBra1Fz8B006ZhRukemXQ5PWmkSAGwWZZDs7VzijZBnXSMAw1mvPd+ul+LXr2UllhwNa
-         lGtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=25LG4cwWQUns+MtMzpoTj+Q+wzmEvIHe/GEbNI0aMPo=;
-        fh=M0uAxa67BQlxtzOQ5EEQFLtmrw0rlJMMNsMCqAEj6dA=;
-        b=N0J7CB7Q9fNmGjPr8Dkt9fyKUQQAWEw5+YmabIDt9dQPqCHBQOqn9iSnnm6YE2VmLI
-         vfHEnNYkSIo5IpsRTefGTTqmlJfuvx+R9qnxcb7u8kxBI0p18wPtYxOfVBv+aALoZW28
-         hdTOpwgLl/EJDdfywNQlnWMoNaSjPHiqwDiCWAhJoKkabWN2pEuF6mdPfZbiZmspyDeD
-         u6xTAU02iVd4XDosFVEgGodtQskKS0RtM2ycJueMIId7hp408oF24nXicoS+z2NMK4JW
-         U+nk2ELPEvjoBSt6cIOZdjbjzWi0wGBXF+7U37IFLYivXcF0eiLedQXGZYPACt77Kwyo
-         mSvA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790848969; x=1791453769; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=25LG4cwWQUns+MtMzpoTj+Q+wzmEvIHe/GEbNI0aMPo=;
-        b=cyyWmI02CP/TAi/O4+v0d/oqd5tXo1G5GFSKrHQ04ttpsb3QnOD0MTq0DtEx29mWvv
-         ZJL5qxQcq84r3s6QnXah9QSQdL6g+DJZ+oc3c/CGWEc1gZH5nTYl/hck97ildFXpvd2d
-         2udEB6sz4aIbtCIKhplg43GSiX3kCLNX7uT7YISc2q7iP11NDwE8IpUIkEoumNAitoPf
-         zX5ZDS0ZA5ulrf8bfsm7f7SFYQJXEkq2O6Pjg9IXPymw/IRwhkUXl7qVbrsVkvxLMBYJ
-         ot9xfreTzC/RhDsr+ywLMGV/moOxY1HGQ9VPN9pM1RbENnD6IzH5cm6oeA/9p24JCdwe
-         Jr7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790848969; x=1791453769;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=25LG4cwWQUns+MtMzpoTj+Q+wzmEvIHe/GEbNI0aMPo=;
-        b=m2ypmiSdIpG+i1xnUaI2+eNhF0DuEqO1NR6WyGLuBk1cZ5xfMgC1TIEEnhJYycfnzq
-         kFUqBAt22Ilx4FSIouxoZ5nFUgyLnKSsi+rTkQKYX2OqUoJWYi4gp2vP5Vrga3GZ2/qr
-         Jr9fDXwFsgBHtPgmoeeEPHqgT6XCvMmAOfhUGfvTuX/OGUW0iVsqoZUIAwRoBW3UIhKp
-         CgGTLQj58DoVIHD19xMUXcmuFaPJbcuKfW/eh9Aglwg+wWKSV3HEXxTWi0TTOm5g3EKm
-         9ukm6Mfq1RM/6OsJRbx1bktPXdiKi32BNIMuIouAIxfhv2mSJRuJgQK6+ri3B3nERxGn
-         r8Xg==
-X-Forwarded-Encrypted: i=1; AKwUvBxX9fHmzCdGtpz3j8SGdEdBAdrNIUnS0bWOmhqOyyQiHZnxqY/tGwb93/R6dpWYAsU3RYkEqC6Nngvj6Vn6@vger.kernel.org
-X-Gm-Message-State: AFuF++leD795PTJzGO040fkq7ZbRRQMFBFOcivZi/XH563B8txVN6GSm
-	KknkbnGpB6Tn3Z74perDJVQSYRLSGdBXgqa04h/X+B3OfJg0p5KqUJHvhix9Oy4wxk4tXkEjehA
-	onk07Hce7zn8hWcgO75gBZ80KCa2GIYU=
-X-Gm-Gg: AYBFou1BqgQkjIFl44R/YVMXEK85A98FJ3n2bGwsaGs+aR7BAP6jgLuByKMRBM4qrtJ
-	j/JLoBGsnLj1KNncJvjQWa5tngqflMHbE1rngC1PrWh55Px7Rstof+FwmP0pZbXG9IF3BKGadvx
-	4vld20P5Oqv8UTlKdJDCZlNg5TyAsMoOAFi7EjCrSNba5d2koXZ+632Xmd7+nfQ1kQGSjL2BShB
-	D/3kWAVS1wWw53a9kjFpTxVYpx85XYWv8ysV5xuTvVtaiVEv2/P4NFpE4M7GvM4Swx/RAKwnJ7u
-	mGfWecft5qrNj7nF9Cn6bnvb4XDN9mjwwyda95OnlBVowvMJTU5wZ+VxR9Cmhg+7G7bohlkQkMw
-	A7yHViXo+q6aQoe0BptL3BKl3Jd1vjmxXA6i9AKz0d6GPykiX2eOq
-X-Received: by 2002:a17:906:d54e:b0:c2d:be57:f742 with SMTP id
- a640c23a62f3a-c2e340d7b10mr191644266b.32.1790848969512; Thu, 01 Oct 2026
- 03:02:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="afyCnUHP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VSJIBf+M"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 0FD5E1D000B6;
+	Thu,  1 Oct 2026 06:08:59 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 01 Oct 2026 06:08:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1790849338; x=1790935738; bh=1exN1pVNl0nH8EaZxIVbXqUILu70NNY4/79
+	xDEwuHWQ=; b=afyCnUHP5fZih5VSR0eEclni50d7w8sHa2NhlQ4QJfRMHspk40C
+	jXEDYqybHXVwO10qMNRgJr+tgKJves+2Ul0vCQR3eHKacQ8uIpu3DisNSZ53DpKN
+	IAYDTaU9gd27CcBG1N1AyOEnTFyCDEnQS/jDsuGN3IZFds0LktW3Z1bwzOdv5Ks4
+	4J4Yj9/NsWHD5pqMwLmeZuF0fnPKrgqLvCdVayg2eql+Gbm022vNmvMpIQ3+AX4R
+	tRSWivTRVAo/F3NDppU0w2HWEkWBuy8GcrjTtc+egQ6kl5ZE6e+yvWCf2unfBkmV
+	0RXixXIOMO1Qu5INylNlhseuHPD5jDyPssQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790849338; x=
+	1790935738; bh=1exN1pVNl0nH8EaZxIVbXqUILu70NNY4/79xDEwuHWQ=; b=V
+	SJIBf+MQ8Mv9QAlT28m40ayzJqgaTI7wkOaBG4FtU4HfOKy9qQs3dbkfd+0w/O7X
+	mkMAZCpnUlJ9OuCvf8Ycy0/cW69/folWEcqS0XH4qpYYh9PflNwhWWXa94c1NpRk
+	aFrcP9uzSQoq+o/uQgwfKxpyf99O+XtEvILit1mz5yFpa61bKVQoIKZDgbbV00fa
+	koiTUcTbRPfYjUzGKe2Fo6xlFF5AmxJZ/KiNG1yutHpfjQ81y/XyxGZ9wi7r5Qrq
+	J62hfMI1YKDcaGhT6es8ID61/zw/mhDETxpFdzMk6BfbNNQrTxynDtdhav53/Kqz
+	amwcykvJ8IVXoDeMfytrg==
+X-ME-Sender: <xms:OjG-arf4M31I20yLvr9YqNhZF9OjIHwJAZIE3_s2YrOiYndxodsJrA>
+    <xme:OjG-apZgu70-vp7jYfUjihjMqdjdk8oy6ULCDHNScwKLHdCvCDi_stJD8Wj14I7s0
+    nr8i3I7qLqF7DihS7AlWHRnjMxI20pCtSeMkwruR2BpkSHgl8A>
+X-ME-Received: <xmr:OjG-agGmUclQbQR5ElhJYQolaLMvgERr5zusuSqyvrT9jWjfGTjJgMMahCFHaN9L7ML-YNOkin5CEOPkdpMlhX0Zb46r4GQ>
+X-ME-Proxy-Cause: dmFkZTFEk9uk3JyGmpttT/WdPoWw4VRgtL3IL4xV4kaQoUkTgFr2DXtyPDwbRihCwibStp
+    AUuLnDLRdEvJsk+WixNd0vidxW53d5M6dd3cAfBGJ19yzwP76XXgfIDAVkD6WBfqG1AKic
+    UuqXFSao5idRf122vd9SSgdXs2SYiPx2CQM5TZLh+BaAD6TDN9ZJpKkQVLHkbTJ+0/hMOW
+    966sMUI5chfCjvE//oy7gffpin9wpYN4LhMzciKg4FKcfgYs+eoatqt/qgjrxY3RHJaZ1X
+    AXH0UkajIYQLSj29PZT5TCw+4r1i5LAppXRK715i1mCM+svQra63vlmK/Eg+CxBEGGc5n1
+    uUNsLwQp8yhwIR8GopINrdYSSt+IizxkUydPZCS+oqUt51LdlwWafwwtyL7qenTUUvziVM
+    WrfY1TGvhvAnmoZ/bVHKvw+FEDvvM2vllCtbfO8NlCO23b9hdEa/cmqYY/MviLv8dWirfT
+    0J8EVKcJoP77wivzGPIFfBqW070U9U78KR1in65+CCzeHrac2B89KaOcfFBcPH+sZUJkxP
+    p8kdhHrdYZqOyCv5wj2uesB1LkSLnNGDoY6UjiVu2TEzI1k8cSbKw2vWkV7PjH/FOdL7Rk
+    htAdA7VCQQDpOfplLX/K1OYMSiu7OIHmdnY/XK9GhSJhoNS/EF1C2RuzvlZA
+X-ME-Proxy: <xmx:OjG-ankaTVwqPTBTn-DJDcU9UjVeXc4uwaViGWo4W2RFfaSDHRY1NA>
+    <xmx:OjG-ajc_d9_d6LEzsDn-CgrMhWCOqXQ_XSfP6q091gsukW2fuYn4bQ>
+    <xmx:OjG-alEnKjim8kVH2V64YVDkGooKQC_aIYbHPYNmSlvzv50ez0t1vQ>
+    <xmx:OjG-apievBWibxg3mUiihLvtaz39PjAyAuo_57VESATUnvvr_CCseg>
+    <xmx:OjG-ahzBmFsCSMQGJbFCUAp-Wz07_KiW9-9z_Pw4cqlUzooSY33FqXvb>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 1 Oct 2026 06:08:55 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6ab7dca9.80e1c6cc.1e8e5f.0046.GAE@google.com> <6ab8cfe8.dc2998a4.2261f5.0062.GAE@google.com>
- <CAJnrk1Y8+P5W-6ETYuVDb2xk=GkP5o0XoDyDtvEPw+sC3GA-fQ@mail.gmail.com>
-In-Reply-To: <CAJnrk1Y8+P5W-6ETYuVDb2xk=GkP5o0XoDyDtvEPw+sC3GA-fQ@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 1 Oct 2026 11:02:35 +0100
-X-Gm-Features: AclHuK_e1DUM4Tc4vfq9jY6YyNgYBZmIio8LepP1oyZJ-3JdIKCoUCJGfB1Ig6E
-Message-ID: <CAJnrk1Ze8s8EGJqy62_mLbgvzW5fVVWMdeq3zSH0mWu_HRfpcQ@mail.gmail.com>
-Subject: Re: [syzbot] [fuse?] WARNING in fuse_iomap_writeback_range
-To: syzbot <syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: NeilBrown <neilb@ownmail.net>
+To: "Amir Goldstein" <amir73il@gmail.com>
+Cc: "Jori Koolstra" <jkoolstra@xs4all.nl>,
+ "Christian Brauner" <brauner@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
+ "Al Viro" <viro@zeniv.linux.org.uk>, "Aleksa Sarai" <aleksa@amutable.com>,
+ "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Theodore Tso" <tytso@mit.edu>
+Subject: Re: [PATCH v6 07/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+In-reply-to:
+ <CAOQ4uxhYHf-gAkjdhs37vZREOcNds5a_6c3nBX0Lva3resofmw@mail.gmail.com>
+References: <20260913185016.523376-1-jkoolstra@xs4all.nl>
+  <20260913185016.523376-8-jkoolstra@xs4all.nl>
+  <20260918-reklamieren-syndikat-gemildert-763b72008b46@brauner>
+  <178972607557.207413.4312278359822083538@noble.neil.brown.name>
+  <178977609418.207413.15011378414000392029@noble.neil.brown.name>
+  <1010887891.582666.1790682845752@kpc.webmail.kpnmail.nl>
+  <179072013439.37859.465558431050704411@noble.neil.brown.name>
+  <CAOQ4uxis4tsea6fx+9iAffVX+qwBC9KzHg5GcP7ahthKd1T9KQ@mail.gmail.com>
+  <1910540525.790746.1790806610320@kpc.webmail.kpnmail.nl>
+  <CAOQ4uxhYHf-gAkjdhs37vZREOcNds5a_6c3nBX0Lva3resofmw@mail.gmail.com>
+Date: Thu, 01 Oct 2026 20:08:50 +1000
+Message-id: <179084933040.37859.13445625413196658440@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Wed, Sep 30, 2026 at 2:01=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-> On Sun, Sep 27, 2026 at 9:15=E2=80=AFAM syzbot
-> <syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com> wrote:
-> >
-> > syzbot has found a reproducer for the following issue on:
-> >
-> > HEAD commit:    fd179f8a05be Merge tag 'ata-7.3-rc5' of git://git.kerne=
-l.o..
-> > git tree:       upstream
-> > console+strace: https://syzkaller.appspot.com/x/log.txt?x=3D13490605580=
-000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3D9d4242cb1c5=
-4cdf7
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=3De8200299b0556=
-976e13c
-> > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e=
-255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D1523f2c95=
-80000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D14385315580=
-000
-> >
-> > Downloadable assets:
-> > disk image: https://storage.googleapis.com/syzbot-assets/c4cebd01ff3c/d=
-isk-fd179f8a.raw.xz
-> > vmlinux: https://storage.googleapis.com/syzbot-assets/9fd8641fa35c/vmli=
-nux-fd179f8a.xz
-> > kernel image: https://storage.googleapis.com/syzbot-assets/c6e8e6332600=
-/bzImage-fd179f8a.xz
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the co=
-mmit:
-> > Reported-by: syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com
-> >
-> > ------------[ cut here ]------------
-> > !ff
-> > WARNING: fs/fuse/file.c:2043 at fuse_write_file_get fs/fuse/file.c:2043=
- [inline], CPU#0: syz-executor122/5774
-> > WARNING: fs/fuse/file.c:2043 at fuse_iomap_writeback_range+0x7c8/0x18f0=
- fs/fuse/file.c:2227, CPU#0: syz-executor122/5774
-> > Modules linked in:
-> > CPU: 0 UID: 0 PID: 5774 Comm: syz-executor122 Not tainted syzkaller #0 =
-PREEMPT(full)
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS=
- Google 07/24/2026
-> > RIP: 0010:fuse_write_file_get fs/fuse/file.c:2043 [inline]
-> > RIP: 0010:fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227
-> > Code: fe 48 83 3b 00 74 5b e8 e6 f0 6c fe 4c 8b 3c 24 e9 08 0b 00 00 e8=
- d8 f0 6c fe eb 5c e8 d1 f0 6c fe 4c 89 f7 e8 39 63 8e 08 90 <0f> 0b 90 48 =
-b8 00 00 00 00 00 fc ff df 48 8b 4c 24 58 80 3c 01 00
-> > RSP: 0018:ffffc90003e172b8 EFLAGS: 00010286
-> > RAX: 8000000000000000 RBX: ffff88806e4ea880 RCX: ffffffff9a9ec501
-> > RDX: 0000000000000001 RSI: 0000000000000004 RDI: 00000000ffffffff
-> > RBP: 0000000000001000 R08: ffff88806e4eae63 R09: 1ffff1100dc9d5cc
-> > R10: dffffc0000000000 R11: ffffed100dc9d5cd R12: ffff88806e4ead08
-> > R13: 0000000000001000 R14: ffff88806e4eae60 R15: ffff88806e4ead08
-> > FS:  00007f6a3f53e6c0(0000) GS:ffff888124cc8000(0000) knlGS:00000000000=
-00000
-> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > CR2: 000020000000b000 CR3: 0000000078090000 CR4: 00000000003526f0
-> > Call Trace:
-> >  <TASK>
-> >  iomap_writeback_range fs/iomap/buffered-io.c:1896 [inline]
-> >  iomap_writeback_folio+0x1526/0x2490 fs/iomap/buffered-io.c:2022
-> >  fuse_launder_folio+0x17b/0x240 fs/fuse/file.c:2331
-> >  folio_launder mm/truncate.c:612 [inline]
-> >  folio_unmap_invalidate+0x4cd/0x830 mm/truncate.c:634
-> >  invalidate_inode_pages2_range+0x629/0xb30 mm/truncate.c:726
-> >  fuse_open+0x5a6/0x770 fs/fuse/file.c:297
-> >  do_dentry_open+0x816/0x1380 fs/open.c:996
-> >  vfs_open+0x3b/0x340 fs/open.c:1101
-> >  do_open fs/namei.c:4837 [inline]
-> >  path_openat+0x1443/0x1d60 fs/namei.c:5000
-> >  do_file_open+0x23e/0x4a0 fs/namei.c:5029
-> >  do_sys_openat2+0x115/0x200 fs/open.c:1417
-> >  do_sys_open fs/open.c:1423 [inline]
-> >  __do_sys_openat fs/open.c:1439 [inline]
-> >  __se_sys_openat fs/open.c:1434 [inline]
-> >  __x64_sys_openat+0x138/0x170 fs/open.c:1434
-> >  do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-> >  do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-> >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> > RIP: 0033:0x7f6a3f58fae9
-> > Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89=
- f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 =
-ff ff 73 01 c3 48 c7 c1 d0 ff ff ff f7 d8 64 89 01 48
-> > RSP: 002b:00007f6a3f53e1d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-> > RAX: ffffffffffffffda RBX: 00007f6a3f644b98 RCX: 00007f6a3f58fae9
-> > RDX: 0000000000000040 RSI: 000020000000c380 RDI: 00000000ffffff9c
-> > RBP: 00007f6a3f644b90 R08: 31203a6b63617473 R09: 31203a6b63617473
-> > R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6a3f6117f4
-> > R13: 000020000000e3c0 R14: 00002000000062c0 R15: 00007ffe0b2d2af8
-> >  </TASK>
+On Thu, 01 Oct 2026, Amir Goldstein wrote:
+> On Thu, Oct 1, 2026 at 12:16=E2=80=AFAM Jori Koolstra <jkoolstra@xs4all.nl>=
+ wrote:
 > >
 > >
-> > ---
-> > If you want syzbot to run the reproducer, reply with:
-> > #syz test: git://repo/address.git branch-or-commit-hash
-> > If you attach or paste a git patch, syzbot will apply it before testing=
-.
+> > > Op 30-09-2026 05:45 EDT schreef Amir Goldstein <amir73il@gmail.com>:
+> > >
+> > >
+> > > On Wed, Sep 30, 2026 at 12:15=E2=80=AFAM NeilBrown <neilb@ownmail.net> =
+wrote:
+> > > >
+> ...
+> > > > The problem with this approach is that open(.., O_CREAT|O_DIRECTORY)
+> > > > might create the directory, then return -EOPNOTSUPP.  This is weird a=
+nd
+> > > > I'd rather it not be visible.
+> > > >
+> > > > Currently O_DIRECTORY|O_CREAT results in -EINVAL.  I would rather it
+> > > > remain a -EINVAL on any filesystem which doesn't completely support
+> > > > the functionality.
+> > > >
+> > >
+> > > Joining late to this party so apologies in advance if my questions
+> > > have already been addressed.
+> > >
+> > > I agree with Neil's statement above, but IMO, the atomic_open() fs
+> > > match the description of "doesn't completely support the functionality."
+> > > Therefore, I think that rather than success if directory exists, they
+> > > should also return -EINVAL/-EOPNOTSUPP consistently (see below).
+> > >
 > >
->
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index 6d707f2b3bff..0ef46f6e0267 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -2351,6 +2351,9 @@ static int fuse_launder_folio(struct folio *folio)
->                 .wb_ctx =3D &data,
->         };
->
-> +       if (fuse_is_bad(wpc.inode))
-> +               return -EIO;
-> +
->         if (folio_clear_dirty_for_io(folio)) {
->                 err =3D iomap_writeback_folio(&wpc, folio);
->                 err =3D fuse_iomap_writeback_submit(&wpc, err);
+> > The issue with this is that if you want per fs atomic_open() opt-in (in
+> > contrast to either implementing all instances in one release or disabling
+> > all), you have the issue that your lookup now depends on the caching stat=
+us
+> > of the directory dentry.
+> >
+> > If that dentry is in cache, and positive, d_lookup() earlier in lookup_op=
+en()
+> > makes it return early:
+> >
+> >         if (dentry->d_inode) {
+> >                 /* Cached positive dentry: will open in do_open(). */
+> >                 goto out;
+> >         }
+> >
+> > So you get your lookup. But if the same dentry is not in cache, now you
+> > suddenly get -EINVAL. I thought that behavior was more unwanted then
+> > what I eventually settled on, namely to strip the O_CREAT bit.
+> >
+>=20
+> Maybe I am missing something, but I think you misunderstand me.
+> What I mean is - if directory inode has a ->atomic_open() op,
+> bail early with -EINVAL/-EOPNOTSUPP, because this is a network
+> filesystem that does not support atomic O_CREATE|O_DIRECTORY
+> and in most likelihood never will support it.
 
-#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.gi=
-t
-fd179f8a05be
+NFS can certainly support O_CREATE|O_DIRECTORY.  The MKDIR request
+creates a directory and returns the file-handle of the directory that
+was created.  I think other network filesystems return the identity of
+the created thing - or fail if it already existed.  That is enough for
+full support.
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 6d707f2b3bff..0ef46f6e0267 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -2351,6 +2351,9 @@ static int fuse_launder_folio(struct folio *folio)
-                .wb_ctx =3D &data,
-        };
+The only cases where I think I think there is any doubt of support is
+kernfs and tracefs because they don't return the inode.  tracefs is
+interesting because it drops and retakes the parent lock so it isn't
+immediately clear what atomicity is available, though it doesn't support
+rename at all so maybe there is no interesting race.
 
-+       if (fuse_is_bad(wpc.inode))
-+               return -EIO;
-+
-        if (folio_clear_dirty_for_io(folio)) {
-                err =3D iomap_writeback_folio(&wpc, folio);
-                err =3D fuse_iomap_writeback_submit(&wpc, err);
+>=20
+> This gating criteria is not dependent on cache state,
+> which is what we wanted.
+>=20
+> The justification of using ->d_revalidate() as another opt-out
+> is that existence of ->d_revalidate() means that the state known
+> to dcache is only semi-reliable, so making atomic create/open
+> promises is problematic (O_EXCL for example).
+
+The idea of using ->d_revalidate as a gate is certainly interesting.
+Apart from the interaction with case-insensitivity, if we initially only
+supported filesystems that don't have ->d_revalidate, I think we would get
+coverage for enough filesystems to be interesting.  We could then take a
+bit more time to think through the rest of the picture.
+
+I don't think O_EXCL is at all problematic.  ->mkdir() is already
+required to return -EEXIST if the directory already exists.
+
+>=20
+> The problem is that some fs (overlayfs/ext4/f2fs) register
+> a mostly-noop  ->d_revalidate() so I proposed how to deal with those.
+
+Presumably the fs would provide two dentry_operations structures and
+choose which to pass to set_default_d_op() when creating the superblock.
+Doing that would even provide slightly better performance in the
+case where no d_revalidate is needed.
+
+Thanks,
+NeilBrown
+
+
+>=20
+> Thanks,
+> Amir.
+>=20
+
