@@ -1,240 +1,120 @@
-Received: from mail-ed2-f32.google.com (mail-ed2-f32.google.com [74.125.228.96])
+Received: from mail-ej2-f20.google.com (mail-ej2-f20.google.com [74.125.228.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D5043C7DF
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 10:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.96
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BDE3FFACC
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 10:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.148
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790852298; cv=pass; b=BZ346sI3+14lrJYlhvS/tJo0z/UKjVfijUUJqL+naz1lcfoJ8ggeMZu2z/sujP3FE62Ic2HkBwjooSdOnaQf3XbVVeUQCdU4JR6a78v0cxLq4bJLSUG8HlvKkqBTR9GbY9d253Qo5QwPFbG7l2bJucLXWyGW68Bs+HmQ0CTUjf4=
+	t=1790852340; cv=pass; b=BPX7qzz01k8TtOjhtolY/2VRzSO4CWFmyl6NXhJ3Ww5gnnp6QINN9RIUvB/bOVyIA2G/gN5mC6hZvp/MR1OetwXQddRiM9KAkmGNUh+4ecsFPM9KU/KqnLszkkl7KcBnmUPcNsOo/UQW/S8ePXIEy2vUklGVp2YayBjg/Ni07Gk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790852298; c=relaxed/simple;
-	bh=YJvXUr+pq2B5IAi3iXrHuCjS/uY9ahiglDRXGGu4abI=;
+	s=arc-20240116; t=1790852340; c=relaxed/simple;
+	bh=KbGEgPnk7vZYR+vl7/TWwf7XdN4fpXM/jHOacnKAOBk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q7IfXdL1Hpa+vju8J3Hp7GSshTx8/GZBDP0Lz+sDZ5TMiTjgi8L0SZV7diwdzGGRFf3JL12NnCdnOPSJ+cfkjWvf1aIQBtrI15Lz+2II8B1p0Pel6Zt4H3DmbsuJhAKsoXKEgtdi1sLaRFVkaf/ESx/3eDbjcj+otY9hA1CWYhc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i9+6lg37; arc=pass smtp.client-ip=74.125.228.96
+	 To:Cc:Content-Type; b=AKFpomoFQOwXEGfItAEyETI7KYmgdWysgWRQ52FyPeinHyCz3GmE8Iu0ptzwjhdDbxB/jcco3UjH2HIVNGMNZXD4q1lKN7rxw0TfcI+FxW0cPOEu0V17cggSGwJgku0HqRmZQTx265ZbJ7XSWvppebjiei0HfN1NTzmu1XeoF8Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hEcqxHOi; arc=pass smtp.client-ip=74.125.228.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i9+6lg37"
-Received: by mail-ed2-f32.google.com with SMTP id 4fb4d7f45d1cf-6acbdf627ccso3425828a12.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 03:58:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790852294; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hEcqxHOi"
+Received: by mail-ej2-f20.google.com with SMTP id a640c23a62f3a-c293c683202so919442566b.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 03:58:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790852337; cv=none;
         d=google.com; s=arc-20260327;
-        b=AF+4uY+hrnk3FALdPwqJdVBS2kFPp83ZVfx1Jw4qRwlQLsML1+y9UiUeKqRAdbfTL6
-         yGux8031GVZn8pJiUkFHi4/UWFbT76MG4xV34SZajVkNIbcaCikNyKqfk7AlsTgeusz2
-         RHFgCxBlieCtPopm4Y5Apc6wliaViRD4ZLBujiB4yDT/f1z4uZ5ZP0QI+hDCDKQcVIac
-         fOzg6CoN9PEUOD4dHzntTbiWMfIw5T+s99XCpy9b5IL2PPRBW4bNaeg0l0zAjJGtln45
-         +qTjG6Qm3gTYjbceJNLfj/ceY323Ie2smE4PB1zHKKK5+z8mKgemr8NZ1oiiVtlgvDqU
-         4xzQ==
+        b=O81suPO93n+fY4LaQrN8mvgSIzPVyEL3F3+RJTZ17/sbncKFDWgUCceg8QULV3F1sw
+         TT4Y90xeBh9lZrUPU66vkkcxm2tLw5Yv4nDOnsSt+qBODBG6p9GDJ29lmiYdN66fkokB
+         OLy73GQmxPtUrdjwInrQnF+s5SvyzdyU8qMsF3NFwY2L59pCaUJm3rdMOaEXQCyhOFBT
+         f4cXfE8IcY6xRvY4HKSJh8VNZcSFUv1uiiHpgsOPh8RDNpOPETqFpptSON3BIyNjWb9v
+         YtL5oIW7mWauY2Uvn+O0sYoNF+9JUz3VQbbUs+yDMm801oq7EyGLII+HJ6CzmmwdJM9/
+         dVdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=OucJBsbHM5acxxfL6ZGTIjEsrBVOev5k2SFxTGalm5U=;
-        fh=2F4DSN0MnWwaU9VA6MsSPuw41yh0yPAqaGFhKfX+BhQ=;
-        b=kh0EN4Gie77FtZVu5kasYduEjDVe2vEF5jmZRq0ia3gFvfO9BL8AncASNU4ralLmYf
-         9Qh0XVcT3Ui7BC4xRtH8ZcDTb0BNHqS2RPXv2RVO4AkOMOIdtHbuMAaBkyChLvegtoRg
-         uDEtIUzvCfkFFEi9JfcZzS4N8SAxGXRBCq00icpvwz2sgk07HWw7c87F6Q6KtMljymaS
-         tykuEHcrZiX3t703SKM+h2CoPF3QCTd1hYz/F2VKRZbaiUmURoObSXLGA9YEKyRYsbvB
-         22PuEDRSv3qG98Ys8eYbMDUUck8N09sz5ngb/B0opBkodCUY7ddjAuRfL2Ljr55WWzg+
-         g80w==;
+        bh=KbGEgPnk7vZYR+vl7/TWwf7XdN4fpXM/jHOacnKAOBk=;
+        fh=Fo0tt6m1iNgjOC4Z21VFSGZUA6Mn8am3HfBhFDYMqmQ=;
+        b=dogUyTsak8qoiBLuKv+Ekx8N42j+P0OkwNC1NqmsnpFUhTNCQ7HY84HPwXQ1dy5TWP
+         p/MNVZsZ1UaSm8cpCPoOTFqcmnY4l0xUPUEcWEq+vbLWW7Sf1OnCxZziYe39DhMaD7wq
+         Zl9O8gC8YHKKNhxz0eaS+KZAUHNQqes2M5idphjHVhxl/LitU69J+70jwwth5LjsVzs4
+         1XkCaiT09dxUagwdJKDMUYD1uEaIFIvv5xGxQD+/ueJY8bsjVwBoKAGWuPZuFvncpC9B
+         OIx8ah/GOMJxht8nF5x1qvGEM3Uldrlz9FHy2Vylg3jbFo8r2GonEWfvVu9LDAhKcCXp
+         WQeQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790852294; x=1791457094; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790852337; x=1791457137; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=OucJBsbHM5acxxfL6ZGTIjEsrBVOev5k2SFxTGalm5U=;
-        b=i9+6lg37vH2hh5OhDnsfiinE5SfKh4r6iPP+cf+LcE9mcY+0Ql+zAnXdlWyBw8dm0X
-         7W3w5VzOUxxP1msSX4ax8dmqQM5RrDLJRRmrDIn7vR12i5e2Ot/ZqETnzlC8qOzT8HEU
-         EFvrlL9NTwQdeDm4lkik6ZOSrxLgalyEK/1kDdaPfKF1mpUyYPM9jvu0hIC6bLO26S4I
-         TlVgAtGs8mft7hO4bsxB2VXl+tAuv4kBKsVMV3+kstDJzPUHlAeL6dlNardh81p89W5V
-         e0+KLMz4jnvyla0tr87gBF1aqRwAY+OegfUFIxHCwGANCLhYMNrTemxSWJ4CvsBFMtnD
-         X75g==
+        bh=KbGEgPnk7vZYR+vl7/TWwf7XdN4fpXM/jHOacnKAOBk=;
+        b=hEcqxHOiuingEmH8/Sf/LuhYLAdSqW8jSge6P68ARYPY5iL3ADWBzchaRBG93lZvaj
+         4fdOlibMDsAe9ZKN9OG18GGIN85g3fNTCE5WVdCBQx0pXZmHdXhddIkOokX/lgMoSEQI
+         ul4DMM9QQJiVjGS5L9WnDMx2S78He83pFkxl3+4R/IvT611WmQyC7rZS6dzH4KpUea73
+         Jzdp2o16kH3w1+n5+wN8yDAI4TwTuiCzCTtbk+gfC3YcFF7PuLHCmUlcMXb/yM57a2Er
+         q1NUkkIHvCWB2Df2CQtU+emKmewyLjnCiqe3SRW87tKLvl4rhDxGcttJKne5naFWrnnn
+         GLVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790852294; x=1791457094;
+        d=1e100.net; s=20260707; t=1790852337; x=1791457137;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=OucJBsbHM5acxxfL6ZGTIjEsrBVOev5k2SFxTGalm5U=;
-        b=Bt6O0t6btEShKzQF834k9WB/5rtL0Xe+EcqszL4ZIpgKNUwe4SgpYayIWoIL7wxY7L
-         EFhHV1grpXCTQvvhdb0CZMf8AC6yRMcQ9lJ6ZMvdxwaJqH8c1pEqVUhV8c5noey5Gr2D
-         RpqvvIsSvpT1PrH4Gr4/yUCpUYljfVGTH6UmvYBghl3eW17lv4BDQ8/Cgu2uVYmhMyL0
-         TDGeZGJ3CHCdx5IJezLMqui5DL7QmryPiYBzyFdR6TRHpHYW/eTMwGpTb4hsDpdupOS5
-         hJ5ih5+iEKiBVgrphqQZhiBmSwbdk7b2mF9V05X0wynGINf8YshutEsTzqKUbcbZOWNG
-         WQUA==
-X-Gm-Message-State: AFq9FYJzENpRe6Z6pxPC69b9bK+PCcKpO1M7ri5Wb+DFwiTwcFm9BmZS
-	edOAxckHoBWky6RKn/TBgJsSvIsD09UJ3kPXFAi/NlIeEvrtiX+8uK9EA9qwiM7iDT9/BKBzq1n
-	Qyf0xz2a6tvLWoL49PGpR4kOUBBImAE8=
-X-Gm-Gg: AYBFou3zz0Mal/n8b0GL1lZrX01rYifkO8zFoJ0xyN1Q5x4gxEqpAZdCS9o35tN+qDS
-	2j+SLE+6mJcFoD4Z2qdQiVtpHFWSviPwRoN6rmh/IjYna4Lqf9o0CQoDI0mFm4LyRSLL8jmTI+R
-	WkLPqWGChKOCI4gTCWc3TcgJQmLE+zG9M3gsbqtedmsMLu+QLck4jYYkOYpfABx458opbEAQEpL
-	J3TVEjFLewNUMqCqdEPnOqvanjaFLL61PRjOXaNaPdZH8isWAemHJ+N4GvvIkZ/d3pAOzTP7QTr
-	OEAaSuMOl39kF78dCfJxoQY+wLuZd5xO34osAtpKwrjWJmk/ILQHKMno
-X-Received: by 2002:a05:6402:a0dc:b0:6ac:9a44:d409 with SMTP id
- 4fb4d7f45d1cf-6ae19861627mr2907669a12.4.1790852294289; Thu, 01 Oct 2026
- 03:58:14 -0700 (PDT)
+        bh=KbGEgPnk7vZYR+vl7/TWwf7XdN4fpXM/jHOacnKAOBk=;
+        b=V5hqdN0Xu538/Is6L4xZDVY/F3MrwIFmQJxJzB3y0jTQiwJTGaE0/2b6oT3KNN7ro1
+         WFEdMUkVmL34Rr8cCVknUkXOouVTOBdro5l5Lna7/T+YUqy2g4QPXZEaIyIbM56C/cAx
+         Jn9kTwBrgXLZfj0/rknEfm313cziKRhyVRlhJ6opGRNAecysnh8sB79g1uPe7AsOg6tz
+         E/Y22u5HBSr93OiHDIL3VqqR/ljEP+Jks5iflIaHC1Ods3nFzX9nL8o/8aoqHMvY1H3q
+         NRapO+G2B5QhNbU56gKkYYIHhG9gSSun+Yu5BnW6QQh0kpSq37IASHktn0zAbMgimshJ
+         KH2w==
+X-Forwarded-Encrypted: i=1; AKwUvByXwYYyVPufoUiyP7genKS/8WJYtLp0mgUMMd7TgTh5dl/UMYat2veyn/5SybL2lTsaoVsLAa3nFN1bwCLi@vger.kernel.org
+X-Gm-Message-State: AFuF++krRxK2CRWwRSMu92lnRFxhVyzqtEqrmSWfSI8Pp2y+mcNyyxgG
+	Qrd/qRHJSYX4SPb5yRuusLoHiJAytJ7g2eW0sVwlYF3SDeAoOmDZ8xEKWhbPdtUyxGkyg7OPbME
+	Q0W8tkD03JIwwKDtscSNCQc/Y3UatraQ=
+X-Gm-Gg: AYBFou171v0CzXwKWkMBBtOkgVpfsBmJXo8r8w3rjkcgA0zknfXBj8o7R8WqU4AdPHQ
+	w0gf9T4fonPHxui+XE9Wm8bm7vWNtlbqaEL7YzQthbtfvEtgIVkW+CCwSTi6tUpc2ac37xjLsVY
+	ie57/FIOPWtE0bbNqcJUCHvCOZgK3zxxU4zFdLrDZgoEbXvwPKVLoZ7mByUBi1RBGUscm6ZT8Dr
+	fgfZmESMrr3NhEke91how3c25unl6bQDAuvjft7FRSNXrqD817MkKy7Vz6jZA9M9sMyKrpvtmyp
+	Jb/hZzv9joecTNImEp3Mwok2fJO90O+RIjRpCRzPTQ8BKTgHMfTfGmMcD9poz9idZCrZw8RUgII
+	G3jw/Ra6sDQ/wtwSaS1g9kbYL
+X-Received: by 2002:a17:907:9688:b0:c29:5151:16b8 with SMTP id
+ a640c23a62f3a-c2e23763c99mr352304566b.2.1790852337129; Thu, 01 Oct 2026
+ 03:58:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260930-work-mount-fixes-3-v1-0-be34c83956ae@kernel.org>
- <20260930-work-mount-fixes-3-v1-14-be34c83956ae@kernel.org> <20261001-prollen-rutschen-amtssiegel-31392f0a489c@brauner>
-In-Reply-To: <20261001-prollen-rutschen-amtssiegel-31392f0a489c@brauner>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 1 Oct 2026 12:58:03 +0200
-X-Gm-Features: AclHuK8LYUpnYgW_XqI4dZeZJ1CrP8OKgqe9-i6bwlWoDiqRwSqyXnoOY4MaNfA
-Message-ID: <CAOQ4uxinQiXn=F8p92rCTzwX5AcBiN0abWW7jE9jKE+zqjb1_g@mail.gmail.com>
-Subject: Re: [PATCH 14/17] fsnotify: detach the connector before destroying
- its marks
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Chris Mason <mason@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
-	Aleksa Sarai <cyphar@cyphar.com>, bpf@vger.kernel.org, stable@vger.kernel.org, 
-	Daehyeon Ko <4ncienth@gmail.com>
+References: <20260918090010.1688-1-aditya.ansh182@gmail.com>
+ <20260918090010.1688-2-aditya.ansh182@gmail.com> <CADUfDZorK-i+eOEpGkVFf_vJhqLUKfBX9n_rkiWtbcyoMHT8uw@mail.gmail.com>
+In-Reply-To: <CADUfDZorK-i+eOEpGkVFf_vJhqLUKfBX9n_rkiWtbcyoMHT8uw@mail.gmail.com>
+From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+Date: Thu, 1 Oct 2026 16:28:41 +0530
+X-Gm-Features: AclHuK-FOgD42JgsxASW5ZRNJ_Uwb8ZfRxtR396n_NYyi1ZD5u7-WI5DU3g3XwE
+Message-ID: <CAK5ssPOAZ=PGDMjsihKCx87Gw+UBpc0J=NB+pOo8PbSBdzSpgw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] tools: sync io_uring.h UAPI header
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>, 
+	Gabriel Krisman Bertazi <krisman@suse.de>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 1, 2026 at 11:31=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
+On Fri, Sep 18, 2026 at 10:20=E2=80=AFPM Caleb Sander Mateos
+<csander@purestorage.com> wrote:
 >
-> On Wed, Sep 30, 2026 at 03:32:06PM +0200, Christian Brauner wrote:
-> > fsnotify_destroy_marks() removes every mark of an object that goes away=
-.
-> > It walks the mark list of the connector and has to drop the connector
-> > lock around fsnotify_destroy_mark() since that sleeps. Afterwards it
-> > continues from the mark it just destroyed. That mark stays on the list
-> > because the function holds a reference to it. But while the lock is
-> > dropped fsnotify_add_mark_list() can add a mark to the very same
-> > connector and put it in front of the current one when group priority
-> > dictates. fsnotify_grab_connector() hands out the connector until it is
-> > detached and it only gets detached after the walk.
-> >
-> > So the walk never sees that mark. The connector is detached from the
-> > object with the new mark still attached to it. It never receives an
-> > event nor IN_IGNORED. For inotify that's a watch descriptor that never
-> > reports anything and doesn't show up in fdinfo either:
-> >
-> >   wd1 =3D inotify_add_watch(/proc/self/fd/6) =3D 2
-> >   events after the unlink:
-> >     wd 1 mask 0x400 IN_DELETE_SELF
-> >     wd 1 mask 0x8000 IN_IGNORED
-> >   events after write() to the file:
-> >     (none)
-> >
-> > Detach the connector from the object before the marks are destroyed.
-> > fsnotify_grab_connector() refuses a detached connector so a mark added
-> > from then on gets a connector of its own. Nothing during the destructio=
-n
-> > needs the connector. The inode reference of the connector is dropped
-> > after the marks are gone as before.
-> >
-> > Fixes: 6b3f05d24d35 ("fsnotify: Detach mark from object list when last =
-reference is dropped")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> > ---
-> >  fs/notify/mark.c | 16 ++++++++++------
-> >  1 file changed, 10 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/fs/notify/mark.c b/fs/notify/mark.c
-> > index b2640d836a71..f6891d39e42f 100644
-> > --- a/fs/notify/mark.c
-> > +++ b/fs/notify/mark.c
-> > @@ -1112,6 +1112,16 @@ void fsnotify_destroy_marks(fsnotify_connp_t *co=
-nnp)
-> >       conn =3D fsnotify_grab_connector(connp);
-> >       if (!conn)
-> >               return;
-> > +     /*
-> > +      * Detach the connector from the object first. Once conn->lock is
-> > +      * dropped a mark could be added in front of the one we're at and=
- the
-> > +      * walk would miss it. fsnotify_grab_connector() refuses a detach=
-ed
-> > +      * connector so any mark added from now on gets a connector of it=
-s
-> > +      * own. This also stops pinning the inode until all mark referenc=
-es
-> > +      * get dropped. It would lead to strange results such as delaying
-> > +      * inode deletion or blocking unmount.
-> > +      */
-> > +     objp =3D fsnotify_detach_connector_from_object(conn, &type);
+> Can you drop the tab character and just use a space between the words?
 >
-> Folded as a fixup. We just restart the walk after the drop.
+> Best,
+> Caleb
 >
-> diff --git a/fs/notify/mark.c b/fs/notify/mark.c
-> index f6891d39e42f..e41774b19e00 100644
-> --- a/fs/notify/mark.c
-> +++ b/fs/notify/mark.c
-> @@ -1113,23 +1113,15 @@ void fsnotify_destroy_marks(fsnotify_connp_t *con=
-np)
->         if (!conn)
->                 return;
->         /*
-> -        * Detach the connector from the object first. Once conn->lock is
-> -        * dropped a mark could be added in front of the one we're at and=
- the
-> -        * walk would miss it. fsnotify_grab_connector() refuses a detach=
-ed
-> -        * connector so any mark added from now on gets a connector of it=
-s
-> -        * own. This also stops pinning the inode until all mark referenc=
-es
-> -        * get dropped. It would lead to strange results such as delaying
-> -        * inode deletion or blocking unmount.
-> -        */
-> -       objp =3D fsnotify_detach_connector_from_object(conn, &type);
-> -       /*
-> -        * We have to be careful since we can race with e.g.
-> -        * fsnotify_clear_marks_by_group() and once we drop the conn->loc=
-k, the
-> -        * list can get modified. However we are holding mark reference a=
-nd
-> -        * thus our mark cannot be removed from obj_list so we can contin=
-ue
-> -        * iteration after regaining conn->lock.
-> +        * A mark leaves the list with its last reference so the one we h=
-old
-> +        * keeps the connector alive. Another mark can be added in front =
-of it
-> +        * while conn->lock is dropped, so start over after every mark an=
-d skip
-> +        * the ones that are already detached.
->          */
-> +restart:
->         hlist_for_each_entry(mark, &conn->list, obj_list) {
-> +               if (!(mark->flags & FSNOTIFY_MARK_FLAG_ATTACHED))
-> +                       continue;
->                 fsnotify_get_mark(mark);
->                 spin_unlock(&conn->lock);
->                 if (old_mark)
-> @@ -1137,7 +1129,14 @@ void fsnotify_destroy_marks(fsnotify_connp_t *conn=
-p)
->                 old_mark =3D mark;
->                 fsnotify_destroy_mark(mark, mark->group);
->                 spin_lock(&conn->lock);
-> +               goto restart;
->         }
+Thanks Caleb, will fix that to use a single space in the next revision.
 
-Isn't the inotify problem described in the commit message already solved by
-669bb5af15d41 ("fs: make sure to call fsnotify_inoderemove() only once when
-inode is dead=E2=80=9D) on vfs-7.4.misc?
+Hi Jens, Gabriel,
 
-Maybe your fix is needed for fanotify mntns watch and related to the change=
- in
-patch 13?
-
-I was thinking about setting a flag FSNOTIFY_CONN_FLAG_OBJ_DEAD at the
-start of fsnotify_destroy_marks(), which serves as a barrier against adding
-new marks.
-
-That is conceptually the same concept as inode_notify_dead() state but
-enforced from within fsnotify code.
+If there are no other comments or concerns with the patch series, I
+can send v5 with Caleb's formatting fix addressed. If there are further
+changes needed, I can pick them up in v5 along with Caleb's space
+suggestion.
 
 Thanks,
-Amir.
+Aditya
