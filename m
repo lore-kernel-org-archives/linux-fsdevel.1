@@ -1,176 +1,131 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f32.google.com (mail-ed2-f32.google.com [74.125.228.96])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F8752CCC5
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 15:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790869364; cv=none; b=P8KWyR+IiBg8nCGWP4ydt4xyqukeBWQsyKpBtcaxhiAf1u02cmgR9a7lEQPFqGkII6Z4D808ub4hFIeycKLt7GKHwobAMvM0QJMFFRT+Bgvl1EHUpsBfMBCJdJHO6oXNyMS51vIsegfr2WtMGQ4jXj+pO7/mCxBXIwbNQ96y+bk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790869364; c=relaxed/simple;
-	bh=s0uqrlzfEovdMYYmWO3V0cXdBVLMH121ur+Zt2+XQxg=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=ERjTGVYZz/7jQkCnmSqxFYrsTlhFZ++B7reyUlW93V5wl5C832Nu4y6fLfzlnkaRTjzngi7H7qEPU5B9KUbi+x7Z55sLJH208NVqWdhCbP9ESg2p3XzOzNekDVBriNZg7jF5TTCluVIxchYek0h5wZbRSfPcV823QBPnczcgn5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=W7HnVUjl; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84A84963D2
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 15:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.96
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790870375; cv=pass; b=JLCFk5exvAxfhi/qOn2ngNeX0jzD+5yjBdM18F1WaEQoF5zpDDW1OWD5YJwL+GmmeFFGxOjRLxVSmodlk03UDw3IyLx5ACfHInB6p99f/waU2PcvOIt9d4jypKFUfxnu1Uv4L1uSKRIPpkAV1XYG66H+op4aVWnVTKDzXbs9G1s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790870375; c=relaxed/simple;
+	bh=WzhH+AtHGPtHiPjBQHHacP5urFUcd2FtjAYYwProfL0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qFiOpQuDzlo7JgBvAFM77uxdHKXdjw5CjPAOQLQ7f/jC1+1qzwpcoBybg/Jg4g51YGSWQxminGeiAH8GADV5NsK/94e5w229Mu5vpnUAV0IlRFg5YqPIxdpRGz9xQFCW04FiN6SFOgTTKhG2m46qGNmbooqjJ4oocNxRz/NHvG0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Orol+tSZ; arc=pass smtp.client-ip=74.125.228.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="W7HnVUjl"
-X-KPN-MessageId: b9c3d6a0-bdae-11f1-bfbc-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.191])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id b9c3d6a0-bdae-11f1-bfbc-00505699b430;
-	Thu, 01 Oct 2026 17:42:36 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id b9c424a0-bdae-11f1-9235-00505699891e;
-	Thu, 01 Oct 2026 17:42:36 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Orol+tSZ"
+Received: by mail-ed2-f32.google.com with SMTP id 4fb4d7f45d1cf-6aeeccb7d59so1304579a12.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 08:59:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790870371; cv=none;
+        d=google.com; s=arc-20260327;
+        b=oMOem9v1MZu4uSpOWeJ1gIo/TYswkPrpSXy/24WqAxZTvkufxmNMJtaWo3MVHCTx9r
+         TvKKwG22nJK0eq42qjMCLWa81+g9U6/tYzAIwUAnuK+bQO9Lcu6aUr/+eUtdpp7GyxtO
+         u0oeuNAO8b2z63KBbWTWo7emgynB+Xy7gqO6cKuevaKXxMODd5btmPpynrLYinz4ADHZ
+         pkJa3O4p8eQhl24T8DHqUA9kMNpB7X2BWSszZSmPG7e0c1Jc3DbPlGQlzOO3Zwd6R5O7
+         6t366USwBGoEEwnoX/r6EtuEg+4Bb4/7Ju9F0oIYk5uPCIHNW2Hveqb9nU2n0f52FIKQ
+         Y63A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=WzhH+AtHGPtHiPjBQHHacP5urFUcd2FtjAYYwProfL0=;
+        fh=oFp5QHJCSKZtLFR5Tz1onCyvmC1bEmTdstigW/mncNs=;
+        b=jEOZA93bselfyn5PwhKHezZmNnBU8wqg4xO6phpwCQN+aPwoAdZcZR5gm2C/cA3zee
+         njUBL9ayABT2VLoWGiN9u5j8WEuBH6B9if+/OHqdTA9B1A1ojG7L0b1hC+uvaOBEk1oh
+         V4h4lJ/YB5wjQ1QXZ2NlEmi1JOiel/zGbZxBvdi/MeDmhNcOMHgMpO2HWTSDiv9H0wnI
+         wTjkFKT+y2N2SjjYR2alUGWgfQnHraaPWPQ67kwLhqqKzdC+AaSqoSjliCh48jkJ7He6
+         FG8wQbKUCMFdOTg7f7UuyELruFKqIIP3VjtjmsaSZv/cYBU8fefy5WXsfusEVkn/EBi6
+         G0Mw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=pufbjWZ2bZVanFp3ehIV9u9uVyrHeClJtwBhjp4HFB8=;
-	b=W7HnVUjlj4Bi4RACE8YEBjUx5w7Dp32YYn9qIUPghu2yrgpO5IkQFtBYEDXKWHsUJ/A37AZR8oZoF
-	 czCVJ+a0+enLbN/y6zEgq1xEaTwq8UK1wDktdyfVHzW8+79Uq06IFrT+WFDu4h/IC1yUZg+r33nc9P
-	 zI/aM6RmOS+gh61CPtO4vBk9V4+dsFUn6IJw+zbvK7ZJ5gOBOaS0VVo/A8tL5ApK4yPJKt2d83K0vF
-	 ukBio0mwue5p0SeGtpDtZBpwJA8kKPAkoNJAwoe7CGWxAmax1POlU/s+w8gjPtvbvW7sYj4dwtiCwe
-	 RTKKi56af2uqp1FbAfJWx0bRjDyME2w==
-X-KPN-MID: 33|xXmJQbOIUW6WkkYwA0eOZ5kNnf0tpV9MMlzmzsN9TNDzPdA2xeM/u21I24Dec/6
- 6y4b3OTr5+1BBC1JqRYHwU/9Ldbxb0BWvXjobNHP3B/c=
-X-CMASSUN: 33|OEgeru7VRMCbyzLTcde9nf7GoiI0AKJkmr6MXmXrRv1kEwG+z+piYrCbULOriO8
- EYp0+tXp310g/BQOGJZ/A9g==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh07 (cpxoxapps-mh07.personalcloud.so.kpn.org [10.128.135.213])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id b9b89491-bdae-11f1-8edd-00505699eff2;
-	Thu, 01 Oct 2026 17:42:36 +0200 (CEST)
-Date: Thu, 1 Oct 2026 17:42:36 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: NeilBrown <neil@brown.name>, Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Aleksa Sarai <aleksa@amutable.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Theodore Tso <tytso@mit.edu>
-Message-ID: <1000409963.929534.1790869356300@kpc.webmail.kpnmail.nl>
-In-Reply-To: <CAOQ4uxhYHf-gAkjdhs37vZREOcNds5a_6c3nBX0Lva3resofmw@mail.gmail.com>
-References: <20260913185016.523376-1-jkoolstra@xs4all.nl>
- <20260913185016.523376-8-jkoolstra@xs4all.nl>
- <20260918-reklamieren-syndikat-gemildert-763b72008b46@brauner>
- <178972607557.207413.4312278359822083538@noble.neil.brown.name>
- <178977609418.207413.15011378414000392029@noble.neil.brown.name>
- <1010887891.582666.1790682845752@kpc.webmail.kpnmail.nl>
- <179072013439.37859.465558431050704411@noble.neil.brown.name>
- <CAOQ4uxis4tsea6fx+9iAffVX+qwBC9KzHg5GcP7ahthKd1T9KQ@mail.gmail.com>
- <1910540525.790746.1790806610320@kpc.webmail.kpnmail.nl>
- <CAOQ4uxhYHf-gAkjdhs37vZREOcNds5a_6c3nBX0Lva3resofmw@mail.gmail.com>
-Subject: Re: [PATCH v6 07/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+        d=gmail.com; s=20251104; t=1790870371; x=1791475171; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WzhH+AtHGPtHiPjBQHHacP5urFUcd2FtjAYYwProfL0=;
+        b=Orol+tSZBNLX9gZGMk4VE7FB4y5rq4WvOH/SMMYTZ1tayK5cGqICbAZloM0N8PA3GV
+         oQK/aRtbF4/NFvOdiFWkZ24lpA/mOlH0KVcSMo+7povFut8nRiJOBmGDSxUOSZw44E2y
+         EZWV6V2tmeZgGWIFtMldrGaisnKqcSuKnQvmLflUtdkYaoS+kk5MlkittbehSTC90QG/
+         TCSKJd576x5AZp48CNphv8ogFSKoH2DIq8wnFtTM5SItZGAPJnhNBCOUgs4wwnHUTiNh
+         Eu+/Mkf97kDcpEjtAad9qT7mt6LlMi4bdkLJguR8UWziQ9IYQsIGXgxCdQXMpBw5Yo/r
+         CBYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790870371; x=1791475171;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=WzhH+AtHGPtHiPjBQHHacP5urFUcd2FtjAYYwProfL0=;
+        b=s5tNULSGJdx7mNNkWCw7444pCREGImaBxkhhVm9ZimY3StAMcIRndMvTUvQuWaUe7x
+         5ZpXRs1Ai5zYm3ZWW0R9sNw1CVSnPuC8AHFP3h1/cza8VJPoarLDLWxS7ZyHQjN9AK5L
+         6oWWg9YVheYHTKGAe3xNABQYro6qC4FlVqjPTN0RB8HhIuadNLIhjDurAzkYsG9slyz9
+         2sLKNpvk7Dt3ouqE2sYNOwHyiQ/HZCrrrNzuCy2K4GF5h+g3wapeRaqyRYuScvZ4lKWQ
+         DydW9liTecGLRnmSQ7oREU5j8aekZN6eDFO+wwqL9/hVFbpmr6V1xB0pQZ7mlGXNO/Xs
+         Rb4g==
+X-Forwarded-Encrypted: i=1; AKwUvBzfSbpQKg8pKIe12OIB7dZcwajuNAqYmKJVbuvWv559Hph8uzWuSOK98vPjHq8nrHsHITY9TuPmPY+1iEtW@vger.kernel.org
+X-Gm-Message-State: AFq9FYLeM/ZypZVre6qmdLuOVXI4AnDrykxa+0lq4AS98hkDUI06Vfy1
+	XxndeTv/lI8gNuDgFeZ0bXA8poMua/MI6f7+OtY8mRy+dx4YzKsLVowk4d3kR2/t32FRybgMGYw
+	vPHlgq2CoOL33GO0KWHr+damkJEAciHc=
+X-Gm-Gg: AYBFou0V6FLrtOGztxBOHo4oKsnJ1HEGqvK2MvH0LVhI4aCVXTZVgE3uD8IV+XAFf40
+	fxNuixIaXWAQtUibojWiTncudyGfnjDK3Xy6n+hlZg7ycckQI3JL3H98qeehKMH3ukL7/7hm5/y
+	Lbegc1V+ROCN7jP1Oi2cOKIc3EE9Tn4yMIfo6pmiMmqxBnzL6AjsxHycNbI+HRTsGLyOhCJHgZV
+	vf4iycPM02x8hoMP6boDvIezqT8omBPY6CbZ+FUHsQhj0NlNbxsYJon4ewO22AOUVMgtN+kEpwk
+	1AmGABhc0T4icq1Ay4FMANBzgSKZwNo953BpOC4/pRqymw4kbddeW4px4ny1iDwpiUU=
+X-Received: by 2002:a05:6402:a544:20b0:6af:92a6:97df with SMTP id
+ 4fb4d7f45d1cf-6af92a6a414mr619051a12.0.1790870370498; Thu, 01 Oct 2026
+ 08:59:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Priority: 3
-Importance: Normal
+References: <20260913185016.523376-1-jkoolstra@xs4all.nl> <20260913185016.523376-8-jkoolstra@xs4all.nl>
+ <20260918-reklamieren-syndikat-gemildert-763b72008b46@brauner>
+ <178972607557.207413.4312278359822083538@noble.neil.brown.name>
+ <178977609418.207413.15011378414000392029@noble.neil.brown.name>
+ <1010887891.582666.1790682845752@kpc.webmail.kpnmail.nl> <179072013439.37859.465558431050704411@noble.neil.brown.name>
+ <CAOQ4uxis4tsea6fx+9iAffVX+qwBC9KzHg5GcP7ahthKd1T9KQ@mail.gmail.com>
+ <1910540525.790746.1790806610320@kpc.webmail.kpnmail.nl> <CAOQ4uxhYHf-gAkjdhs37vZREOcNds5a_6c3nBX0Lva3resofmw@mail.gmail.com>
+ <1000409963.929534.1790869356300@kpc.webmail.kpnmail.nl>
+In-Reply-To: <1000409963.929534.1790869356300@kpc.webmail.kpnmail.nl>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 1 Oct 2026 17:59:19 +0200
+X-Gm-Features: AclHuK_3dF_O5lWW3SdzB7Kw85o723RVTI5tcpk87Y2IdVrsLp_0nrCYqG-LJ64
+Message-ID: <CAOQ4uxism8-zwCDgGjO4Rxz6DqOkZJeZOeYKHf3QaBDFZHpcFg@mail.gmail.com>
+Subject: Re: [PATCH v6 07/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: NeilBrown <neil@brown.name>, Christian Brauner <brauner@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Aleksa Sarai <aleksa@amutable.com>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Theodore Tso <tytso@mit.edu>
+Content-Type: text/plain; charset="UTF-8"
 
-
-> Op 01-10-2026 11:29 CEST schreef Amir Goldstein <amir73il@gmail.com>:
->=20
-> =20
-> On Thu, Oct 1, 2026 at 12:16=E2=80=AFAM Jori Koolstra <jkoolstra@xs4all.n=
-l> wrote:
+> > Maybe I am missing something, but I think you misunderstand me.
+> > What I mean is - if directory inode has a ->atomic_open() op,
+> > bail early with -EINVAL/-EOPNOTSUPP, because this is a network
+> > filesystem that does not support atomic O_CREATE|O_DIRECTORY
+> > and in most likelihood never will support it.
 > >
+> > This gating criteria is not dependent on cache state,
+> > which is what we wanted.
 > >
-> > > Op 30-09-2026 05:45 EDT schreef Amir Goldstein <amir73il@gmail.com>:
-> > >
-> > >
-> > > On Wed, Sep 30, 2026 at 12:15=E2=80=AFAM NeilBrown <neilb@ownmail.net=
-> wrote:
-> > > >
-> ...
-> > > > The problem with this approach is that open(.., O_CREAT|O_DIRECTORY=
-)
-> > > > might create the directory, then return -EOPNOTSUPP.  This is weird=
- and
-> > > > I'd rather it not be visible.
-> > > >
-> > > > Currently O_DIRECTORY|O_CREAT results in -EINVAL.  I would rather i=
-t
-> > > > remain a -EINVAL on any filesystem which doesn't completely support
-> > > > the functionality.
-> > > >
-> > >
-> > > Joining late to this party so apologies in advance if my questions
-> > > have already been addressed.
-> > >
-> > > I agree with Neil's statement above, but IMO, the atomic_open() fs
-> > > match the description of "doesn't completely support the functionalit=
-y."
-> > > Therefore, I think that rather than success if directory exists, they
-> > > should also return -EINVAL/-EOPNOTSUPP consistently (see below).
-> > >
-> >
-> > The issue with this is that if you want per fs atomic_open() opt-in (in
-> > contrast to either implementing all instances in one release or disabli=
-ng
-> > all), you have the issue that your lookup now depends on the caching st=
-atus
-> > of the directory dentry.
-> >
-> > If that dentry is in cache, and positive, d_lookup() earlier in lookup_=
-open()
-> > makes it return early:
-> >
-> >         if (dentry->d_inode) {
-> >                 /* Cached positive dentry: will open in do_open(). */
-> >                 goto out;
-> >         }
-> >
-> > So you get your lookup. But if the same dentry is not in cache, now you
-> > suddenly get -EINVAL. I thought that behavior was more unwanted then
-> > what I eventually settled on, namely to strip the O_CREAT bit.
-> >
->=20
-> Maybe I am missing something, but I think you misunderstand me.
-> What I mean is - if directory inode has a ->atomic_open() op,
-> bail early with -EINVAL/-EOPNOTSUPP, because this is a network
-> filesystem that does not support atomic O_CREATE|O_DIRECTORY
-> and in most likelihood never will support it.
->=20
-> This gating criteria is not dependent on cache state,
-> which is what we wanted.
->=20
+>
+> No in that case I think I've understood you (or maybe still not?) My
+> point is that we can't do that if we want to be able to individually
+> support O_CREAT|O_DIRECTORY for some ->atomic_open fs. If we bail early
+> the how can say only NFS support it at some point? You get into the
+> situation where everybody needs to have support or no one.
+>
+> Does that make sense, or do I still misunderstand you point?
+>
 
-No in that case I think I've understood you (or maybe still not?) My
-point is that we can't do that if we want to be able to individually
-support O_CREAT|O_DIRECTORY for some ->atomic_open fs. If we bail early
-the how can say only NFS support it at some point? You get into the
-situation where everybody needs to have support or no one.
+If we gate on an existing criteria now like ->atomic_open()
+and/or ->d_revalidate(), we keep semantics simple and it
+does not limit us to change the criteria in the future.
 
-Does that make sense, or do I still misunderstand you point?
+But I don't insist on this criteria - it's just a suggestion.
 
-> The justification of using ->d_revalidate() as another opt-out
-> is that existence of ->d_revalidate() means that the state known
-> to dcache is only semi-reliable, so making atomic create/open
-> promises is problematic (O_EXCL for example).
->=20
-
-I must admit I don't know too much about what the revalidate step is for.
-What does semi-reliable mean here? That the dcache might have returned a
-dentry that has timed out in some sense and does not reflect the actual
-state of the fs?
-
-But if we force O_EXCL like Neil suggested, is that a problem? You'd only
-get an fd if you actually created the thing.
-
-I should really start to learn and contribute to an actual fs that is used
-instead of just staying at the VFS level. It would make understanding all
-these subtleties easier...
-
-> The problem is that some fs (overlayfs/ext4/f2fs) register
-> a mostly-noop  ->d_revalidate() so I proposed how to deal with those.
->=20
-> Thanks,
-> Amir.
+Thanks,
+Amir.
