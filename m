@@ -1,228 +1,236 @@
-Received: from pdx-out-005.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-005.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.13.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f34.google.com (mail-wr2-f34.google.com [74.125.225.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B6B4AB1BB;
-	Thu,  1 Oct 2026 08:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.13.214.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790842974; cv=none; b=DAhj2phcObYux8J73d1JjHbBm6R+N1iLS84/UO3KzeWuX4b3aQ7H678OnnLsNWgl9ss+XYeaj7TRr3FEu76VGZzwUsJ512+GTT4phC3XxjDk4nIytsBJ3aZAj8jKipIDoeGMuFkbGplS6EOQdxJ7Kl/P9staPutAegfjQ5gHSCQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790842974; c=relaxed/simple;
-	bh=dssCCR8+SfXy1LqmvrukStNfjE8hHWa/j5bJ9Ck8GDg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=O4eJmKjLJoVT4pAFhIPLfnnMVVSpJ7LveW4DR30xg9hGE+Crtn9qQjZI2dZZ3A40hApR+6gdFkMl5Pat8uHGtZbZzDKt/VEZ3xjvS6lYpKqk0re2O16tXVlOck2fFfVuMXXvaDb6eT3+vNh/o68ngVch1mgcYZWik+h9sKajaWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=n1Pcd1Mu; arc=none smtp.client-ip=52.13.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708304AA01E
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 08:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.98
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790843439; cv=pass; b=TwgAw8vuEr89/ZsEhoeHj7HjvFJKBZ6VLZOs2VlSUidHYmVWZL7aJ/RWJmoOqZ9mE5JL9BN5xkGjkJpX9MBJid3CmRJyKRydjkhuKZ8lEnDLUwXoHF5T6JZilqtGJXnJ+3SJaxBvtCLHw9ALXUW7k/35Ycc8qVQc9Catlq1Em+k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790843439; c=relaxed/simple;
+	bh=f/QYvaCRJtIDNV62Q+0YxWNu5SfxT8Rcvr9ifUxU690=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XcZNmoQnQ09z5S5Ff1ldN46TyrWwxReBspQfEHN/yAUl+OKaWGwSvgL1suoFcNOfaNYrWXwNmCxyBytIkPS+CqjL1dIIpBcWsO98BtSin3T5mZQcxLjdYPWu5m1h+Rk44S63foj89ClmRFqpSC3UZPTHqR0JrPF7akKzRb2w8GM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L39CP0Wl; arc=pass smtp.client-ip=74.125.225.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="n1Pcd1Mu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L39CP0Wl"
+Received: by mail-wr2-f34.google.com with SMTP id ffacd0b85a97d-48aff58e6abso937683f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 01:30:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790843436; cv=none;
+        d=google.com; s=arc-20260327;
+        b=svqmsjcwCoSPUCSP+5Wt8U9F5e2iRllrf22ZZ/mNajZJ/DTTSJRChriRieulbqsy5a
+         aZHA4HrWi4IIeLg4DmDYYSGbbe6o8gxCUxWEDQZ0I4nGLRbeDUxDYUGHY+nd012UO0+R
+         4nOb6BJoFwZb3tJL+DPP//ep6dXCOetNv7CueWA1DsOBvWuGy+TehU/op7mmws/c3Mbn
+         bp0SIyQRCIbZybGb34/WcJ8EpklX+NBu6l7SwaXs1pZebmGN1jTHU0PoGF1/FTfJYDZN
+         UDBX1eKnoW9k+51ayBdrB974uSrIu+ZNSwMxTmtOQBrmdxkxCoOTSAEW43CwvVKjd/Uy
+         dBmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5ZYv6il2HdcwUZ9E5tG2pbf5ctdWL/nyovqOfI473uU=;
+        fh=irACIjzj+WjMwke3LrPsZosnZD8psE6afZdHtiQjLZI=;
+        b=iqrO83EiqIsZdwXHrYrOmgIZsmZQmfa5wr3H6B95QR9G2/S1HIlrK9ppn5DXeMKMZc
+         CSI/H8cX0j4c0Nf5DaV0IdZM+U3ZOeV3MbcoxUl4wkWY6NsrZhl2EBqjKlQbINUlnEkw
+         jd+2mQuoHIOCIisJCHVSV5f4F9axUkNKn37V6h5vuzD3A3fzywkof7WwJv7eecl4nGPM
+         Azxu3BeksubQJ6L/JyPSH+HxnNyrUltoh9qbX8yrxJUokBkqOkJZUwvitKbkpAWR3hbX
+         k3X1G4nPpDDa/VU5Cqa+MzpzjNOa4jSFe1TAMDcNjoYO6kw70wH+oJ72/u9OaYKFfKVH
+         akBw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
-  t=1790842955; x=1822378955;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pMNM3ezMCf72JOW7w9gZHwjUf5zgBeoBXpZHv9GCuqo=;
-  b=n1Pcd1MuahMe2XJoDfvyq56CzTiJttDAHXvU9vxl/9A/uqhl9fVzrBpS
-   JkRhPP2ruNTI9q+Jz3KTc54gwzYuCrIebJDcEVKBqf2mvzvl7TprjAQ8B
-   JmmoQS4ufZk3MeYS2tqTeOMteFXmV9MPM3+lAX6pbuERrGFfOyo6Ywyu6
-   Ppgmqh+BXt/6bzofMClPMGMjcFylC/85wRkCjA8Lj3f4jWCznXIfq9Oij
-   PGK9zFgfTZQo02EWxgPJKQRrEzIFEsKHXWTA6asnZRZ28nku2prdVVSWO
-   WEq29U02AujdncqJpC6GR/hWTVlKkPYZeVezGR4HvIFdsiMBvSQP4XV2x
-   g==;
-X-CSE-ConnectionGUID: tST3wUViQXKbYg0FlT4gLg==
-X-CSE-MsgGUID: CeFmmwQxQA+xgUJufVb77Q==
-X-IronPort-AV: E=Sophos;i="6.27,134,1787011200"; 
-   d="scan'208";a="30088223"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-005.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 08:22:24 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:9288]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.21.22:2525] with esmtp (Farcaster)
- id d7332f4c-b57b-4f23-8dac-76fc3c82d408; Thu, 1 Oct 2026 08:22:24 +0000 (UTC)
-X-Farcaster-Flow-ID: d7332f4c-b57b-4f23-8dac-76fc3c82d408
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
- Thu, 1 Oct 2026 08:22:23 +0000
-Received: from dev-dsk-dipiets-1b-77b833da.eu-west-1.amazon.com
- (10.253.66.177) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49; Thu, 1 Oct 2026
- 08:22:20 +0000
-From: Salvatore Dipietro <dipiets@amazon.it>
-To: <linux-kernel@vger.kernel.org>
-CC: <hch@infradead.org>, <abuehaze@amazon.com>, <akpm@linux-foundation.org>,
-	<alisaidi@amazon.com>, <blakgeof@amazon.com>, <brauner@kernel.org>,
-	<dgc@kernel.org>, <dipietro.salvatore@gmail.com>, <dipiets@amazon.it>,
-	<djwong@kernel.org>, <hannes@cmpxchg.org>, <jackmanb@google.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-xfs@vger.kernel.org>, <mhocko@suse.com>, <ritesh.list@gmail.com>,
-	<rvvandan@amazon.com>, <stable@vger.kernel.org>, <surenb@google.com>,
-	<vbabka@kernel.org>, <willy@infradead.org>, <ziy@nvidia.com>, "David
- Hildenbrand" <david@redhat.com>, Christoph Hellwig <hch@lst.de>, "Dmitry
- Ilvokhin" <d@ilvokhin.com>, Brendan Jackman <brendan.jackman@linux.dev>
-Subject: [PATCH v6] mm/page_alloc: avoid direct reclaim and compaction for costly __GFP_NORETRY allocations
-Date: Thu, 1 Oct 2026 08:21:51 +0000
-Message-ID: <20261001082152.2879289-1-dipiets@amazon.it>
-X-Mailer: git-send-email 2.50.1
+        d=gmail.com; s=20251104; t=1790843436; x=1791448236; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5ZYv6il2HdcwUZ9E5tG2pbf5ctdWL/nyovqOfI473uU=;
+        b=L39CP0WlJt+t6U4yIe3NBaTqin78ceeTKeG2aYqsUhTYCsxjZ5GxdN6TdDgQXz45LJ
+         6cibJhJ5Dy9VCa9eeAiO1hdTOryN3wayq8GzUUCtQQ/60D/VROP9geH7vnwNZ2P0WxOv
+         D4C1XAAGgIu/nKVoBtaPOXpfn+MiUPV8xk3sOg6WDydYp+02plP3mEFc/VL2TcX6NpYP
+         +l83cZIaf0naK1GCo0mHIxjbbQcMM1aogGkEwS1h1dg81FfNuP+hDsLrybtjO48ppTCq
+         0n3qv1Yr5iZQq7KUwXzG/RUV3KkeBmJY0350OT8rOIEdaT5jhsdWJ56tmUiUD3xvvtDE
+         nm+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790843436; x=1791448236;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5ZYv6il2HdcwUZ9E5tG2pbf5ctdWL/nyovqOfI473uU=;
+        b=OkdtlydyHVj0QXsQbADr+wUJ01bABf6ASVATbw5Rntpw4ZqOiiuhGN5OY8QWJzo3E3
+         XjPEyvHKPIe611uwq1SPFB7NFRIwa9KuAcZ0ROCHYYQNVHd9Z1BNZfL3utRQKRSlyxk4
+         BCQXuc4cv3a8M/Ib7HqRYiyIn3KXi/zxvx5Dkq7bOje2BBFLT5tQMChGEVOrO1s7Ztes
+         VJSm2bUbclChGXgXs5mrQyjqxkls7I9A+kQH79THlz0//wGv0k3xcLH7kAaMAZB4MsMg
+         LDrfrmI2jq+bLAplNuwlTFqgR4WH9xZwDmCyDix1I8hLrCwQJJAW8jgUSIGVpjicXgmN
+         3i9Q==
+X-Forwarded-Encrypted: i=1; AKwUvBy0qXqjRLVtqaPnmBw6FZJyPHG6gUIaTn73kCfp4sP62jwT86su6l4P093mNVaqwxYd32bGij9611Wonh+r@vger.kernel.org
+X-Gm-Message-State: AFq9FYIMmw7sGuUeMpTiRsye09Rubh1ABm6pZASiEGJIxeoxznsi4+6b
+	yDPI6AOawyqFb5EVsF7kZ7A75KwggBRt8Au22adSE5KINhjI+wNUMHbcKYU62jo1kIdvRhTIzGZ
+	nYo80C8EaYOuHEfWb5+aDV/Gi9qrbI2A=
+X-Gm-Gg: AYBFou02BBX07f99VLPRCojoWwhr/QZ1JkS8a0Xdb/gI1b62hRDEZPnwrx5+K75hb02
+	Srdj22FeeJyvTJzGgmIu6w/H/OJkW5Z6oTWALTJbvPH7bzNu1HlbSg0YqQqMN4/7NliEpWG7PzF
+	GVC1m/J6JZPVLlPUd3nNyGlW/KC3aTi+7bQICltDoliEtBd9xPcGxYMISaf3YnX7K8blxZPIZZc
+	oECyr+kyH5PnJY4ck8nOCaJNTeLVKwpc5OVjhrGu1/mL5nY6eH87s9UpLHe55FPCl8O1Kt5wFGl
+	QeC4sKlDf/02xhVCaXzz1d/MLmZI3rcbk/PLs0pAZGOALveIUS++BhyskjDIY4rzUtrosP075dN
+	oxs30LpWvaynvfyshY5knOtwwf1G9OULfhdEXvvx+egmeSnYXdcdV
+X-Received: by 2002:adf:e18f:0:b0:488:7b80:f2d0 with SMTP id
+ ffacd0b85a97d-48b0254cb62mr6486309f8f.52.1790843435449; Thu, 01 Oct 2026
+ 01:30:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D035UWA003.ant.amazon.com (10.13.139.86) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+References: <6ab7dca9.80e1c6cc.1e8e5f.0046.GAE@google.com> <6ab8cfe8.dc2998a4.2261f5.0062.GAE@google.com>
+ <CAJnrk1Y8+P5W-6ETYuVDb2xk=GkP5o0XoDyDtvEPw+sC3GA-fQ@mail.gmail.com>
+In-Reply-To: <CAJnrk1Y8+P5W-6ETYuVDb2xk=GkP5o0XoDyDtvEPw+sC3GA-fQ@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 1 Oct 2026 09:30:22 +0100
+X-Gm-Features: AclHuK83_ifVqqKZGZgWksTmrstL8fLSiCbSWwvwncfkRTOgE6x5W7i6vQNHWDY
+Message-ID: <CAJnrk1YFKdQfKC6YCsFF17ydjSP076r2K2PYPQiqkceJtn6Yew@mail.gmail.com>
+Subject: Re: [syzbot] [fuse?] WARNING in fuse_iomap_writeback_range
+To: syzbot <syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-introduced high-order folio allocations in the iomap buffered write
-path.  When memory is fragmented, each failed costly-order allocation
-enters __alloc_pages_slowpath() which runs direct reclaim, direct
-compaction and drain_all_pages(), causing a 0.38x throughput drop on
-PostgreSQL pgbench (simple-update) with 1024 clients on a 96-vCPU arm64
-system.
+On Wed, Sep 30, 2026 at 2:01=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
+>
+> On Sun, Sep 27, 2026 at 9:15=E2=80=AFAM syzbot
+> <syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com> wrote:
+> >
+> > syzbot has found a reproducer for the following issue on:
+> >
+> > HEAD commit:    fd179f8a05be Merge tag 'ata-7.3-rc5' of git://git.kerne=
+l.o..
+> > git tree:       upstream
+> > console+strace: https://syzkaller.appspot.com/x/log.txt?x=3D13490605580=
+000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3D9d4242cb1c5=
+4cdf7
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=3De8200299b0556=
+976e13c
+> > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e=
+255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D1523f2c95=
+80000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D14385315580=
+000
+> >
+> > Downloadable assets:
+> > disk image: https://storage.googleapis.com/syzbot-assets/c4cebd01ff3c/d=
+isk-fd179f8a.raw.xz
+> > vmlinux: https://storage.googleapis.com/syzbot-assets/9fd8641fa35c/vmli=
+nux-fd179f8a.xz
+> > kernel image: https://storage.googleapis.com/syzbot-assets/c6e8e6332600=
+/bzImage-fd179f8a.xz
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the co=
+mmit:
+> > Reported-by: syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com
+> >
+> > ------------[ cut here ]------------
+> > !ff
+> > WARNING: fs/fuse/file.c:2043 at fuse_write_file_get fs/fuse/file.c:2043=
+ [inline], CPU#0: syz-executor122/5774
+> > WARNING: fs/fuse/file.c:2043 at fuse_iomap_writeback_range+0x7c8/0x18f0=
+ fs/fuse/file.c:2227, CPU#0: syz-executor122/5774
+> > Modules linked in:
+> > CPU: 0 UID: 0 PID: 5774 Comm: syz-executor122 Not tainted syzkaller #0 =
+PREEMPT(full)
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS=
+ Google 07/24/2026
+> > RIP: 0010:fuse_write_file_get fs/fuse/file.c:2043 [inline]
+> > RIP: 0010:fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227
+> > Code: fe 48 83 3b 00 74 5b e8 e6 f0 6c fe 4c 8b 3c 24 e9 08 0b 00 00 e8=
+ d8 f0 6c fe eb 5c e8 d1 f0 6c fe 4c 89 f7 e8 39 63 8e 08 90 <0f> 0b 90 48 =
+b8 00 00 00 00 00 fc ff df 48 8b 4c 24 58 80 3c 01 00
+> > RSP: 0018:ffffc90003e172b8 EFLAGS: 00010286
+> > RAX: 8000000000000000 RBX: ffff88806e4ea880 RCX: ffffffff9a9ec501
+> > RDX: 0000000000000001 RSI: 0000000000000004 RDI: 00000000ffffffff
+> > RBP: 0000000000001000 R08: ffff88806e4eae63 R09: 1ffff1100dc9d5cc
+> > R10: dffffc0000000000 R11: ffffed100dc9d5cd R12: ffff88806e4ead08
+> > R13: 0000000000001000 R14: ffff88806e4eae60 R15: ffff88806e4ead08
+> > FS:  00007f6a3f53e6c0(0000) GS:ffff888124cc8000(0000) knlGS:00000000000=
+00000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 000020000000b000 CR3: 0000000078090000 CR4: 00000000003526f0
+> > Call Trace:
+> >  <TASK>
+> >  iomap_writeback_range fs/iomap/buffered-io.c:1896 [inline]
+> >  iomap_writeback_folio+0x1526/0x2490 fs/iomap/buffered-io.c:2022
+> >  fuse_launder_folio+0x17b/0x240 fs/fuse/file.c:2331
+> >  folio_launder mm/truncate.c:612 [inline]
+> >  folio_unmap_invalidate+0x4cd/0x830 mm/truncate.c:634
+> >  invalidate_inode_pages2_range+0x629/0xb30 mm/truncate.c:726
+> >  fuse_open+0x5a6/0x770 fs/fuse/file.c:297
+> >  do_dentry_open+0x816/0x1380 fs/open.c:996
+> >  vfs_open+0x3b/0x340 fs/open.c:1101
+> >  do_open fs/namei.c:4837 [inline]
+> >  path_openat+0x1443/0x1d60 fs/namei.c:5000
+> >  do_file_open+0x23e/0x4a0 fs/namei.c:5029
+> >  do_sys_openat2+0x115/0x200 fs/open.c:1417
+> >  do_sys_open fs/open.c:1423 [inline]
+> >  __do_sys_openat fs/open.c:1439 [inline]
+> >  __se_sys_openat fs/open.c:1434 [inline]
+> >  __x64_sys_openat+0x138/0x170 fs/open.c:1434
+> >  do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+> >  do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+> >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> > RIP: 0033:0x7f6a3f58fae9
+> > Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89=
+ f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 =
+ff ff 73 01 c3 48 c7 c1 d0 ff ff ff f7 d8 64 89 01 48
+> > RSP: 002b:00007f6a3f53e1d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+> > RAX: ffffffffffffffda RBX: 00007f6a3f644b98 RCX: 00007f6a3f58fae9
+> > RDX: 0000000000000040 RSI: 000020000000c380 RDI: 00000000ffffff9c
+> > RBP: 00007f6a3f644b90 R08: 31203a6b63617473 R09: 31203a6b63617473
+> > R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6a3f6117f4
+> > R13: 000020000000e3c0 R14: 00002000000062c0 R15: 00007ffe0b2d2af8
+> >  </TASK>
+> >
+> >
+> > ---
+> > If you want syzbot to run the reproducer, reply with:
+> > #syz test: git://repo/address.git branch-or-commit-hash
+> > If you attach or paste a git patch, syzbot will apply it before testing=
+.
+> >
+>
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 6d707f2b3bff..0ef46f6e0267 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -2351,6 +2351,9 @@ static int fuse_launder_folio(struct folio *folio)
+>                 .wb_ctx =3D &data,
+>         };
+>
+> +       if (fuse_is_bad(wpc.inode))
+> +               return -EIO;
+> +
+>         if (folio_clear_dirty_for_io(folio)) {
+>                 err =3D iomap_writeback_folio(&wpc, folio);
+>                 err =3D fuse_iomap_writeback_submit(&wpc, err);
 
-The root issue is that direct reclaim and direct compaction are too
-expensive for hot allocation paths that have fallbacks to smaller
-allocations.  __filemap_get_folio_mpol() already marks higher-order
-allocations with __GFP_NORETRY | __GFP_NOWARN, signalling that the
-caller can handle failure.  However, the page allocator still enters the
-full blocking slowpath for costly orders with __GFP_NORETRY, which is
-unnecessarily aggressive when the caller will simply retry at a lower
-order.
+#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
+for-next
 
-For costly-order allocations with __GFP_NORETRY, clear
-__GFP_DIRECT_RECLAIM at the very start of the slowpath, before
-can_direct_reclaim, can_compact and the nofail checks are evaluated.
-This makes the entire slowpath treat the request as non-blocking: no
-direct reclaim, no direct compaction and no drain_all_pages() IPI
-across every CPU.  Reclaim and compaction move to the background
-instead: kswapd is still woken for reclaim, and it wakes kcompactd for
-defragmentation.  The system keeps its long-term health while the
-latency-critical direct allocation path no longer stalls.
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 6d707f2b3bff..0ef46f6e0267 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -2351,6 +2351,9 @@ static int fuse_launder_folio(struct folio *folio)
+                .wb_ctx =3D &data,
+        };
 
-Allocations that also request __GFP_THISNODE are exempted.  That flag
-pairing identifies the local-node-first THP attempt issued by
-alloc_pages_mpol() (mempolicy.c), which relies on direct compaction to
-form transparent huge pages.
-
-Clearing __GFP_DIRECT_RECLAIM makes these allocations reach the
-!can_direct_reclaim bailout, which since commit 4c0ed883e051
-("mm/page_alloc: fix defrag_mode for non-reclaimable allocations") drops
-ALLOC_NOFRAGMENT and retries instead of failing when defrag_mode is on.
-With vm.defrag_mode=1 a __GFP_NORETRY allocation could therefore succeed
-by fragmenting another migratetype's pageblock.  That is the wrong trade
-for a caller that has already communicated it can handle failure and has
-a cheap lower-order fallback, so exclude __GFP_NORETRY from the
-relaxation.  The exclusion is not restricted to costly orders: any
-__GFP_NORETRY caller has said it can cope with failure, so failing is
-preferable to fragmenting for all of them.
-
-Test environment:
-  Hardware:  AWS EC2 m8g.24xlarge (96 vCPU, arm64)
-             12x 1TB IO2 32000 IOPS RAID0 XFS
-  OS:        AL2023
-  Kernel:    v7.3-rc1
-  Database:  PostgreSQL 18.4
-  Workload:  pgbench simple-update, 1024 clients, 96 threads, 1200s
-
-Results (average of 3 runs, TPS):
-
-  Config                                       Avg TPS   % vs baseline
-  v7.3-rc1 baseline (vm.defrag_mode=0)          58,602               -
-  v7.3-rc1 + this patch (vm.defrag_mode=0)     157,246         +168.3%
-  v7.3-rc1 baseline (vm.defrag_mode=1)         109,012               -
-  v7.3-rc1 + this patch (vm.defrag_mode=1)     157,778          +44.7%
-
-Link: https://lore.kernel.org/all/20260403193535.9970-1-dipiets@amazon.it/T/#t [v1]
-Link: https://lore.kernel.org/linux-mm/20260420161404.642-1-dipiets@amazon.it/T/#u [v2]
-Link: https://lore.kernel.org/all/20260710143437.12379-1-dipiets@amazon.it/T/#u [v3]
-Link: https://lore.kernel.org/all/20260904115629.3993331-1-dipiets@amazon.it/T/#u [v4]
-Link: https://lore.kernel.org/all/20260911142102.2294202-1-dipiets@amazon.it/T/#u [v5]
-Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-Cc: stable@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Vlastimil Babka <vbabka@kernel.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Dave Chinner <dgc@kernel.org>
-Cc: Ritesh Harjani <ritesh.list@gmail.com>
-Cc: Zi Yan <ziy@nvidia.com>
-Cc: Dmitry Ilvokhin <d@ilvokhin.com>
-Cc: linux-mm@kvack.org
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-xfs@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-Acked-by: Zi Yan <ziy@nvidia.com>
-Reviewed-by: Johannes Weiner <hannes@cmpxchg.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Salvatore Dipietro <dipiets@amazon.it>
----
- mm/page_alloc.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
-
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 12fac9084c48..64d09964ca77 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -4784,10 +4784,10 @@ static inline struct page *
- __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 						struct alloc_context *ac)
- {
--	bool can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
--	bool can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
--	bool nofail = gfp_mask & __GFP_NOFAIL;
- 	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
-+	bool can_direct_reclaim;
-+	bool can_compact;
-+	bool nofail;
- 	struct page *page = NULL;
- 	unsigned int alloc_flags;
- 	unsigned long did_some_progress;
-@@ -4802,6 +4802,18 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 	bool can_retry_reserves = true;
- 	unsigned long alloc_start_time = jiffies;
- 
-+	/*
-+	 * Costly __GFP_NORETRY callers have a cheap fallback, so don't stall
-+	 * them in reclaim or compaction. __GFP_THISNODE callers are exempt.
-+	 */
-+	if (costly_order && (gfp_mask & __GFP_NORETRY) &&
-+	    !(gfp_mask & __GFP_THISNODE))
-+		gfp_mask &= ~__GFP_DIRECT_RECLAIM;
++       if (fuse_is_bad(wpc.inode))
++               return -EIO;
 +
-+	can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
-+	can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
-+	nofail = gfp_mask & __GFP_NOFAIL;
-+
- 	if (unlikely(nofail)) {
- 		/*
- 		 * Also we don't support __GFP_NOFAIL without __GFP_DIRECT_RECLAIM,
-@@ -4918,8 +4930,11 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 		 * Reclaim/compaction cannot run, so defrag_mode's strategy
- 		 * of enforcing ALLOC_NOFRAGMENT cannot be fulfilled. Allow
- 		 * fallbacks rather than failing the allocation outright.
-+		 * Not for __GFP_NORETRY: those have a cheap lower order
-+		 * fallback, so failing beats fragmenting.
- 		 */
- 		if (defrag_mode && (alloc_flags & ALLOC_NOFRAGMENT) &&
-+		    !(gfp_mask & __GFP_NORETRY) &&
- 		    (gfp_mask & __GFP_KSWAPD_RECLAIM)) {
- 			alloc_flags &= ~ALLOC_NOFRAGMENT;
- 			goto retry;
-
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
--- 
-2.50.1
-
-
-
-
-AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
-
-
-
+        if (folio_clear_dirty_for_io(folio)) {
+                err =3D iomap_writeback_folio(&wpc, folio);
+                err =3D fuse_iomap_writeback_submit(&wpc, err);
