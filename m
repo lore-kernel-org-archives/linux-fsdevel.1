@@ -1,118 +1,251 @@
-Received: from mail.stoffel.org (mail.stoffel.org [172.104.24.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f41.google.com (mail-yx2-f41.google.com [74.125.224.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DA526ED40;
-	Thu,  1 Oct 2026 19:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=172.104.24.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884D13C9888
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 20:03:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790883823; cv=none; b=F7ZLjmSsn9LM0bJxfhP9oxphgN9hRmIXCzwIaH4hcGNWTqy+aOYvjCeBDdhNFViQgvbXXu8zvMB3t9NPIMhguO30hFFO5btInAZTS4LWjKfQYGXxi3/NMjd2oRjolaxt5JT13MfPrXX2XLnK8F6K0FpkiNCu74PDywU069hZnSk=
+	t=1790884996; cv=none; b=dq7j2PR4mulBauZIAj4S8V4Hy1ykO+JJmBgDW+yTSyY7yKS6mKf5PHXEqSOsTBSHqlLc90cV3UU9YLDKVO2KaoMA+6bfZVZwUrvjyEogqShSqiv+1FwSOXi9pNwk1PQLxrebv6E+zx8XJI9aUTfepbg5kX+BpyZaGozNvicT2Uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790883823; c=relaxed/simple;
-	bh=7VeFmgz04ojf70Sdk2Y3kowM7FF4KSlRSKNyayO1weE=;
-	h=MIME-Version:Content-Type:Message-ID:Date:From:To:Cc:Subject:
-	 In-Reply-To:References; b=JLT27M3/9x22qbNu6KVH+nwXRQQnmUR4MRox6oM6SbcOLAmEI9+36rgbXt+PLUAdC6Y764bQKl+OQX+B2vUjT3e7eGyIGvSzZOpcOpK5mbNCrhuYF5qs6Kg9SA0kG5Iktd7ymjmb5abtCOvcPlzJJJVBGwHV+w3q9UDdPT3zeg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=stoffel.org; spf=pass smtp.mailfrom=stoffel.org; dkim=pass (2048-bit key) header.d=stoffel.org header.i=@stoffel.org header.b=KKk52Xd5; arc=none smtp.client-ip=172.104.24.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=stoffel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stoffel.org
+	s=arc-20240116; t=1790884996; c=relaxed/simple;
+	bh=FUxiGFNE/PJoZXySOPijoNHLpRWHLHeESFpN6+9jSv0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=covoj9CVYkxdMytQjESjd8Fn43gCnV9eogHhenSNnKuDviqbXzD3ckjUsC3bIs0CUxRZNGGtR5s4TJ7k7meM4rG2/lrezNbzeSXLUDBBQQpNTOYhcpyNZSQbJE/xxLuY3CU21m2BGsWlve9jUo5paLgieXz02dKtZHJtFJZMXbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=T9vSWQW8; arc=none smtp.client-ip=74.125.224.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=stoffel.org header.i=@stoffel.org header.b="KKk52Xd5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=stoffel.org;
- i=@stoffel.org; q=dns/txt; s=20250308; t=1790883815; h=mime-version :
- content-type : content-transfer-encoding : message-id : date : from :
- to : cc : subject : in-reply-to : references : from;
- bh=7VeFmgz04ojf70Sdk2Y3kowM7FF4KSlRSKNyayO1weE=;
- b=KKk52Xd5ka/R5uY2KDeloblMAVP47KaRK5wllwu3bzZac5bgGegDOw9Qx9n/E274sGdUA
- tniQkj8TZ3vmemYSaCwbrbsU2zAKS7CJuBH3sUGIQ0EY6ird+cKUu9YbylStlkKu0H81mFL
- rDjQjvdnM5YiVAWLLzxYUmo+QXz3O+m0R6j+kr9y+gIY4I0D5TaGCMuaAlc2QtyJw5bsuKQ
- AskI2BYSNkNM6k0Kl59Ctrg5/JxzJzw3MIJCwljo/Yms2V1WEoIF9Hxu1e58C+4lbX0CAPh
- NYDjZYaj9qXW23XIAK4vaTY+MyrpBiWkd3NGyOjkjUsyeVKToWdJvTj9ncfQ==
-Received: from quad.stoffel.org (unknown [24.177.6.168])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by mail.stoffel.org (Postfix) with ESMTPSA id B09B71EB24;
-	Thu,  1 Oct 2026 15:43:35 -0400 (EDT)
-Received: by quad.stoffel.org (Postfix, from userid 1000)
-	id 53676A332A; Thu,  1 Oct 2026 15:43:35 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="T9vSWQW8"
+Received: by mail-yx2-f41.google.com with SMTP id 00721157ae682-8a8496fd8c3so76237447b3.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 13:03:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790884993; x=1791489793; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nZvMd8RmzK2lXJt021rZATivqtCbSEVqDFL4v6LZrNE=;
+        b=T9vSWQW8dY1lbg/0v0N7VQsbzS3L7+6a+mmQ6YWWqSAjqA3ApCeYJ/u9GMLPDZHQ/F
+         kwFVGAKZmaK63khgPx+iv3Zwv9tdYSfFMEpc4AcrkyRwGX6bgAZsIy4BpvuL/Yz9bt/e
+         P8KYopOxYImH6lrHNVqChjhf9Fwah5W/m6eHBZ4KLew1b2cVuHSW25HMHJYGJyITIzBd
+         B08OtYRetr1g8Zb7bmdiR2UXiwbunZtpsXm0S0cQ8lLdVHuTIJ/5kUtlkgFzF7wu9IG+
+         6/iX8tKgda8/z4rUSC3SVp1FSR+YOuhNIIYwBkEWUIpOlnW26vzdaj/CEr7Itz5nejzQ
+         VJQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790884993; x=1791489793;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=nZvMd8RmzK2lXJt021rZATivqtCbSEVqDFL4v6LZrNE=;
+        b=MK7Zd4Nb5NGygdhRkN1iZo4gYTY3IwnRnx9V/OWH97qALq4RJVLAm/8APAMf1JV6ue
+         g8tnL8+6p9IHriSwWnlTrFMbfJD6zBJbDwVgOy325Vlu0LF6x545G9S9+ON5uhQxsd7v
+         nhcgoWlVDhlHlyd/tsBuNbo1cI++qJY7s0Q3uORZWTzMgwhVVNj0jh/ecA66eFnUeoZy
+         AD+DIvVdn5jIyABJT10FVOuxYuHIa4EFyd8YXmftuTaPzc1gx1nbNTH7FrjKiTuqLlcN
+         apD3BRlRgtri/8Geh1TqZ5RZ3rN5o6cH41+2c3RchtPJDL2BY3EQap9UsXw8ggdk2OYj
+         GQ/w==
+X-Forwarded-Encrypted: i=1; AKwUvBzu2iGh0lu62LlOu2nzd4IhA7tqjPUFE3A9hkWCRgCFITC2VIvb1qHyuPlv4ZiVdz2W+DtPdLvszek2WyPo@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ6k8c1LAm2CEmjqqngn1OGZB9x5W5cJWK2Yp0x6lA0AJ9s+lS3
+	IXCG6Mx21njTQJum0jaRYaOCZtAFsxTh0JfKbAQiSRrpCRhSgrviXCImV37+tbL4vktEd+5CDFg
+	UmWQWPnk=
+X-Gm-Gg: AYBFou0gb9UgRx2mcAFl6B0OQ+FvcazZNiTzrpjpqr8Zy4VdVXVz1iEUeFvagp3rHZ2
+	486ZRqQuNipotcQrLZlnON+Wa01lcS4K+wJfFfkpykr8b+z9blSelEYzHgYYk+v2F/PqNCJYYrb
+	ZMwWsy4u5EFoINnHMtKAtSwl7oWBvZkPAH8trw+UsdgDufnAk0fR5V7PU9VYSn4WHuJvHyyJrmN
+	yF8+exc0iOEcQqQCQnmXn+SbLtaQZLAFUpRvKYkVB6N2IXRvW1/xEFZf13zG8HieCHonyhzfWkp
+	1OS2LDaFW3BvEc0mMQxGBcEMdpBOprWdNduo925ajlrqUys5hFp4MOt5wDEmAqcl5qWVEBbeKvf
+	gwPl6QurWEmkXMTTdN6UCJ25OOafzlzxdqJ8Pl9/0udyQnOy5Kx2yd9NespQohDYlPWxTXGpVdZ
+	Sr/l3rR2KYJODpE02xmIoNEmycm4O/cl+ICeDYhjX3f7yxfI6uWZgNS8NdKHZj+1V76+ua6b36f
+	dhGn7D7A6O8unxkFGtzIBLpeS0pUjhq4r1Yx0fI7VUKQI5UpD80sYHvOn46f1eaFjKCdR9c7cLZ
+	VMaLIpk1uts3STx31VqO3+yWT82J23EGRATenTbNLvxiTf1Lv9PEj5DDLyAGKUOXoQ==
+X-Received: by 2002:a05:690c:e142:20b0:8a8:7fda:15f9 with SMTP id 00721157ae682-8ae3a3f0c31mr1362777b3.61.1790884993428;
+        Thu, 01 Oct 2026 13:03:13 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:67c2:3447:e08d:9418? ([2600:1700:6476:1430:67c2:3447:e08d:9418])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8ae333e6341sm1536497b3.35.2026.10.01.13.03.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2026 13:03:11 -0700 (PDT)
+Message-ID: <0de056179e3e0a7c4ef525cdb143647b7493dc71.camel@dubeyko.com>
+Subject: Re: [PATCH v2 1/2] hfsplus: free cached B-tree nodes on
+ hfs_btree_open() error path
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Mahmut Emin Kurhan <guvenlik@noroxi.com>, linux-fsdevel@vger.kernel.org
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-kernel@vger.kernel.org
+Date: Thu, 01 Oct 2026 13:03:07 -0700
+In-Reply-To: <20260930232312.1405042-2-guvenlik@noroxi.com>
+References: <ea8cfa5978a90d27e498fae626edfdae5bf84af7.camel@dubeyko.com>
+	 <20260930232312.1405042-1-guvenlik@noroxi.com>
+	 <20260930232312.1405042-2-guvenlik@noroxi.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
+ zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
+ ZcvScAX2n/PlhpTnzJKf3JkHh3nM1ACO3jzSe2/muSQJvqMLG2D71ccekr1RyUh8V+OZdrPtfkDam
+ V6GOT6IvyE+d+55fzmo20nJKecvbyvdikWwZvjjCENsG9qOf3TcCJ9DDYwjyYe1To8b+mQM9nHcxp
+ jUsUuH074BhISFwt99/htZdSgp4csiGeXr8f9BEotRB6+kjMBHaiJ6B7BIlDmlffyR4f3oR/5hxgy
+ dvIxMocqyc03xVyM6tA4ZrshKkwDgZIFEKkx37ec22ZJczNwGywKQW2TGXUTZVbdooiG4tXbRBLxe
+ ga/NTZ52ZdEkSxAUGw/l0y0InTtdDIWvfUT+WXtQcEPRBE6HHhoeFehLzWL/o7w5Hog+0hXhNjqte
+ fzKpI2fWmYzoIb6ueNmE/8sP9fWXo6Av9m8B5hRvF/hVWfEysr/2LSqN+xjt9NEbg8WNRMLy/Y0MS
+ p5fgf9pmGF78waFiBvgZIQNuQnHrM+0BmYOhR0JKoHjt7r5wLyNiKFc8b7xXndyCDYfniO3ljbr0j
+ tXWRGxx4to6FwARAQABtCZWaWFjaGVzbGF2IER1YmV5a28gPHNsYXZhQGR1YmV5a28uY29tPokCVw
+ QTAQoAQQIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBFXDC2tnzsoLQtrbBDlc2cL
+ fhEB1BQJoGl5PAhkBAAoJEDlc2cLfhEB17DsP/jy/Dx19MtxWOniPqpQf2s65enkDZuMIQ94jSg7B
+ F2qTKIbNR9SmsczjyjC+/J7m7WZRmcqnwFYMOyNfh12aF2WhjT7p5xEAbvfGVYwUpUrg/lcacdT0D
+ Yk61GGc5ZB89OAWHLr0FJjI54bd7kn7E/JRQF4dqNsxU8qcPXQ0wLHxTHUPZu/w5Zu/cO+lQ3H0Pj
+ pSEGaTAh+tBYGSvQ4YPYBcV8+qjTxzeNwkw4ARza8EjTwWKP2jWAfA/ay4VobRfqNQ2zLoo84qDtN
+ Uxe0zPE2wobIXELWkbuW/6hoQFPpMlJWz+mbvVms57NAA1HO8F5c1SLFaJ6dN0AQbxrHi45/cQXla
+ 9hSEOJjxcEnJG/ZmcomYHFneM9K1p1K6HcGajiY2BFWkVet9vuHygkLWXVYZ0lr1paLFR52S7T+cf
+ 6dkxOqu1ZiRegvFoyzBUzlLh/elgp3tWUfG2VmJD3lGpB3m5ZhwQ3rFpK8A7cKzgKjwPp61Me0o9z
+ HX53THoG+QG+o0nnIKK7M8+coToTSyznYoq9C3eKeM/J97x9+h9tbizaeUQvWzQOgG8myUJ5u5Dr4
+ 6tv9KXrOJy0iy/dcyreMYV5lwODaFfOeA4Lbnn5vRn9OjuMg1PFhCi3yMI4lA4umXFw0V2/OI5rgW
+ BQELhfvW6mxkihkl6KLZX8m1zcHitCpWaWFjaGVzbGF2IER1YmV5a28gPFNsYXZhLkR1YmV5a29Aa
+ WJtLmNvbT6JAlQEEwEKAD4WIQRVwwtrZ87KC0La2wQ5XNnC34RAdQUCaBpd7AIbAQUJA8JnAAULCQ
+ gHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRA5XNnC34RAdYjFEACiWBEybMt1xjRbEgaZ3UP5i2bSway
+ DwYDvgWW5EbRP7JcqOcZ2vkJwrK3gsqC3FKpjOPh7ecE0I4vrabH1Qobe2N8B2Y396z24mGnkTBbb
+ 16Uz3PC93nFN1BA0wuOjlr1/oOTy5gBY563vybhnXPfSEUcXRd28jI7z8tRyzXh2tL8ZLdv1u4vQ8
+ E0O7lVJ55p9yGxbwgb5vXU4T2irqRKLxRvU80rZIXoEM7zLf5r7RaRxgwjTKdu6rYMUOfoyEQQZTD
+ 4Xg9YE/X8pZzcbYFs4IlscyK6cXU0pjwr2ssjearOLLDJ7ygvfOiOuCZL+6zHRunLwq2JH/RmwuLV
+ mWWSbgosZD6c5+wu6DxV15y7zZaR3NFPOR5ErpCFUorKzBO1nA4dwOAbNym9OGkhRgLAyxwpea0V0
+ ZlStfp0kfVaSZYo7PXd8Bbtyjali0niBjPpEVZdgtVUpBlPr97jBYZ+L5GF3hd6WJFbEYgj+5Af7C
+ UjbX9DHweGQ/tdXWRnJHRzorxzjOS3003ddRnPtQDDN3Z/XzdAZwQAs0RqqXrTeeJrLppFUbAP+HZ
+ TyOLVJcAAlVQROoq8PbM3ZKIaOygjj6Yw0emJi1D9OsN2UKjoe4W185vamFWX4Ba41jmCPrYJWAWH
+ fAMjjkInIPg7RLGs8FiwxfcpkILP0YbVWHiNAabQoVmlhY2hlc2xhdiBEdWJleWtvIDx2ZHViZXlr
+ b0BrZXJuZWwub3JnPokCVAQTAQoAPhYhBFXDC2tnzsoLQtrbBDlc2cLfhEB1BQJoVemuAhsBBQkDw
+ mcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDlc2cLfhEB1GRwP/1scX5HO9Sk7dRicLD/fxo
+ ipwEs+UbeA0/TM8OQfdRI4C/tFBYbQCR7lD05dfq8VsYLEyrgeLqP/iRhabLky8LTaEdwoAqPDc/O
+ 9HRffx/faJZqkKc1dZryjqS6b8NExhKOVWmDqN357+Cl/H4hT9wnvjCj1YEqXIxSd/2Pc8+yw/KRC
+ AP7jtRzXHcc/49Lpz/NU5irScusxy2GLKa5o/13jFK3F1fWX1wsOJF8NlTx3rLtBy4GWHITwkBmu8
+ zI4qcJGp7eudI0l4xmIKKQWanEhVdzBm5UnfyLIa7gQ2T48UbxJlWnMhLxMPrxgtC4Kos1G3zovEy
+ Ep+fJN7D1pwN9aR36jVKvRsX7V4leIDWGzCdfw1FGWkMUfrRwgIl6i3wgqcCP6r9YSWVQYXdmwdMu
+ 1RFLC44iF9340S0hw9+30yGP8TWwd1mm8V/+zsdDAFAoAwisi5QLLkQnEsJSgLzJ9daAsE8KjMthv
+ hUWHdpiUSjyCpigT+KPl9YunZhyrC1jZXERCDPCQVYgaPt+Xbhdjcem/ykv8UVIDAGVXjuk4OW8la
+ nf8SP+uxkTTDKcPHOa5rYRaeNj7T/NClRSd4z6aV3F6pKEJnEGvv/DFMXtSHlbylhyiGKN2Amd0b4
+ 9jg+DW85oNN7q2UYzYuPwkHsFFq5iyF1QggiwYYTpoVXsw
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Message-ID: <27326.47079.315579.582391@quad.stoffel.home>
-Date: Thu, 1 Oct 2026 15:43:35 -0400
-From: "John Stoffel" <john@stoffel.org>
-To: NeilBrown <neil@brown.name>
-Cc: "John Stoffel" <john@stoffel.org>,
-    "Trond Myklebust" <trondmy@kernel.org>,
-    "Anna Schumaker" <anna@kernel.org>,
-    "Alexander Viro" <viro@zeniv.linux.org.uk>,
-    "Christian Brauner" <brauner@kernel.org>,
-    "Jeff Layton" <jlayton@kernel.org>,
-    "Jan Kara" <jack@suse.cz>,
-    linux-fsdevel@vger.kernel.org,
-    linux-nfs@vger.kernel.org,
-    linux-kernel@vger.kernel.org
-X-Clacks-Overhead: GNU Terry Pratchett
-Subject: Re: [PATCH v2 3/9] nfs: remove d_drop()/d_alloc_parallel() from
- nfs_atomic_open()
-In-Reply-To: <179080305245.37859.18267888595495397553@noble.neil.brown.name>
-References: <20260929022547.1428036-1-neilb@ownmail.net>
-	<20260929022547.1428036-4-neilb@ownmail.net>
-	<27325.7525.26178.516077@quad.stoffel.home>
-	<179080305245.37859.18267888595495397553@noble.neil.brown.name>
-X-Mailer: VM 9.0.0snapshot under GNU Emacs 28.2 (x86_64-pc-linux-gnu)
 
->>>>> "NeilBrown" == NeilBrown  <neilb@ownmail.net> writes:
+On Thu, 2026-10-01 at 01:23 +0200, Mahmut Emin Kurhan wrote:
+> hfs_btree_open() can fail after hfs_bnode_find(tree,
+> HFSPLUS_TREE_HEAD) has
+> already inserted the head node into tree->node_hash.
+>=20
+> __hfs_bnode_create() inserts the new bnode into tree->node_hash
+> before it
+> reads the node pages; if a page read fails it sets HFS_BNODE_ERROR
+> and
+> returns the node still hashed. hfs_bnode_find() then takes its
+> node_error
+> path and calls hfs_bnode_put(), which only frees a node once its
+> refcount
+> reaches zero *and* HFS_BNODE_DELETED is set. For the errored head
+> node that
+> flag is not set, so it stays in tree->node_hash with a zero refcount.
+>=20
+> hfs_btree_open() then sees IS_ERR(node) and jumps to free_tree:,
+> doing a
+> bare kfree(tree). Only hfs_btree_close() walks tree->node_hash[] and
+> frees
+> the cached nodes, so the head node is leaked. Mounting a crafted HFS+
+> image
+> whose head B-tree node fails to read leaks kernel memory on every
+> attempt.
+>=20
+> Factor the node-hash freeing out of hfs_btree_close() into a small
+> helper
+> hfs_bnode_hash_free() and call it from both hfs_btree_close() and the
+> hfs_btree_open() error path. No hash_lock is taken because the tree
+> is not
+> published yet, so no other thread can reach it.
+>=20
+> Found via coverage-guided fuzzing (syzkaller + kmemleak) by Noroxi.
+>=20
+> Signed-off-by: Mahmut Emin Kurhan <guvenlik@noroxi.com>
+> ---
+> =C2=A0fs/hfsplus/btree.c | 35 ++++++++++++++++++++---------------
+> =C2=A01 file changed, 20 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+> index 2ea8cd565..41e01380d 100644
+> --- a/fs/hfsplus/btree.c
+> +++ b/fs/hfsplus/btree.c
+> @@ -265,6 +265,24 @@ static const char *hfs_btree_name(u32 cnid)
+> =C2=A0}
+> =C2=A0
+> =C2=A0/* Get a reference to a B*Tree and do some initial checks */
+> +static void hfs_bnode_hash_free(struct hfs_btree *tree)
+> +{
+> +	struct hfs_bnode *node;
+> +	int i;
+> +
+> +	for (i =3D 0; i < NODE_HASH_SIZE; i++) {
+> +		while ((node =3D tree->node_hash[i])) {
+> +			tree->node_hash[i] =3D node->next_hash;
+> +			if (atomic_read(&node->refcnt))
+> +				pr_crit("node %d:%d still has %d
+> user(s)!\n",
+> +					node->tree->cnid, node-
+> >this,
+> +					atomic_read(&node->refcnt));
+> +			hfs_bnode_free(node);
+> +			tree->node_hash_cnt--;
+> +		}
+> +	}
+> +}
+> +
+> =C2=A0struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
+> =C2=A0{
+> =C2=A0	struct hfs_btree *tree;
+> @@ -403,6 +421,7 @@ struct hfs_btree *hfs_btree_open(struct
+> super_block *sb, u32 id)
+> =C2=A0	tree->inode->i_mapping->a_ops =3D &hfsplus_aops;
+> =C2=A0	iput(tree->inode);
+> =C2=A0 free_tree:
+> +	hfs_bnode_hash_free(tree);
+> =C2=A0	kfree(tree);
+> =C2=A0	return NULL;
+> =C2=A0}
+> @@ -410,24 +429,10 @@ struct hfs_btree *hfs_btree_open(struct
+> super_block *sb, u32 id)
+> =C2=A0/* Release resources used by a btree */
+> =C2=A0void hfs_btree_close(struct hfs_btree *tree)
+> =C2=A0{
+> -	struct hfs_bnode *node;
+> -	int i;
+> -
+> =C2=A0	if (!tree)
+> =C2=A0		return;
+> =C2=A0
+> -	for (i =3D 0; i < NODE_HASH_SIZE; i++) {
+> -		while ((node =3D tree->node_hash[i])) {
+> -			tree->node_hash[i] =3D node->next_hash;
+> -			if (atomic_read(&node->refcnt))
+> -				pr_crit("node %d:%d "
+> -						"still has %d
+> user(s)!\n",
+> -					node->tree->cnid, node-
+> >this,
+> -					atomic_read(&node->refcnt));
+> -			hfs_bnode_free(node);
+> -			tree->node_hash_cnt--;
+> -		}
+> -	}
+> +	hfs_bnode_hash_free(tree);
+> =C2=A0	iput(tree->inode);
+> =C2=A0	kfree(tree);
+> =C2=A0}
 
-> On Thu, 01 Oct 2026, John Stoffel wrote:
->> >>>>> "NeilBrown" == NeilBrown  <neilb@ownmail.net> writes:
->> 
->> > From: NeilBrown <neil@brown.name>
->> > It is important that two non-create NFS "open"s of a negative dentry
->> > don't race.  They both have only a shared lock on i_rwsem and so could
->> > run concurrently, but they might both try to call d_splice_alias() at
->> > the same time which is confusing at best.
->> 
->> > nfs_atomic_open() currently avoids this by discarding the negative
->> > dentry and creating a new one using d_alloc_parallel().  Only one thread
->> > can successfully get the d_in_lookup() dentry, the other will wait for
->> > the first to finish, and can use the result of that first lookup.
->> 
->> This paragraph is confusing, and I'm not sure which thread can use the
->> result of the first lookup from this description.  
+Now your patch conflicts with [1]. Please, base your patch on for-next
+branch of HFS/HFS+ git tree [2].
 
-> Unfortunately it isn't clear to me what it is that isn't clear to you
-> :-)
+Thanks,
+Slava.
 
-Sorry!  I wasn't clear, probably because I'm not great at the VFS
-stuff and was just reacting more to my parsing of the language.  It's
-probably not a big deal honestly.  
-
-> When O_CREAT is not requested, calls to ->atomic_open are protected only
-> by a shared lock on the parent so if the dcache contains a negative
-> dentry for a given name then two ->atomic_open calls on that name can
-> happen concurrently.  That can be a problem as they both might try to
-> instantiate the dentry with an inode, and the second to do that will
-> trigger a BUG.
-
-> This is fixed by discarding (d_drop()) the dentry and using
-> d_alloc_parallel() to allocate a new dentry.  d_alloc_parallel()
-> effects a lock.  Only one thread will get an in_lookup dentry.  The
-> other will block until the dentry has been instantiated, and will then
-> be given the non-in_lookup dentry.
-
-> The current code does all this in nfs_atomic_open().  The new code does
-> the d_drop and the d_alloc_parallel() in VFS code were I can manage the
-> locking rules more easily.
-
-> I thought that is what I said above - though more briefly of course.  If
-> you can point me more precisely to what is not clear in the original, I
-> can try to improve it.
-
-> Thanks,
-> NeilBrown
-
+[1]=C2=A0https://lore.kernel.org/r/20260921153729.600313-1-bruno.produit@tr=
+ailofbits.com
+[2]
+https://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/hfs.git/log/?h=3Df=
+or-next
