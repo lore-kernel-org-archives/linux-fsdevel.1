@@ -1,159 +1,158 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8225F4F6477;
-	Thu,  1 Oct 2026 09:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913DA4A5C29;
+	Thu,  1 Oct 2026 09:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790847012; cv=none; b=RFOGfz3WyhrG4E2VFDOuvIrqVKnoQ+CWW4OD42kzA3/PvrDCCzpAFNtPslI6/j74IJMirEXPdzr6TZmFYvOsrXy1qlkZ3gp2T/kux9JffZuUS9ONLsGuKBYl8eRfKzQFV1B/FLoduttAdSnrClsQrCBT4rp5Yhu+fi7thVo6dhc=
+	t=1790847116; cv=none; b=lA+UWquqM428MFmlOoUR5Sq3M6XqdegOSOQ8+khUvcQr+Kv6hY2bBip+WCF4mlehkLMOkDknWJTbhhkoh0RTZIhcH/4tX75sPen+rBivgWKScmCy4xkT+GaQ10vrHgLL2CDdt4Rj71Rt472Kc9NVoQXp1En8Ef8qnQsV8wJRX1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790847012; c=relaxed/simple;
-	bh=ztq+Ygi+M+S8A2YGuXH4UO7cjcVv8uEN6su5v3/3lYM=;
+	s=arc-20240116; t=1790847116; c=relaxed/simple;
+	bh=zvuuf3+Es7XE7dpvvhP5gQmaUqKFy+Vi/F88hCbAbvs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kLQhwZ8yTLihbkC0MEOsxU/4qbFjIa5WgjEgj5NdJ6vfErmxNJ2tbZHe77T7Vvvaf1Kpmv5KSbC5UMO6hjb6HgmAKzIbBu33idst2ErIKz2/ltR8IOW6wuiGGvg8Wdkw8g5/k6RWzVhFPKzu8NONK9/2ufqyG/IyMMFqCaCoTp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SjXPeXTu; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=dtfzVzLP; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bvBG8aGg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Gzq9gMVE; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=A+tpSepG+Gfre/pfthDNYi0ys1HsGrxkmUtuJgk8Ij/nC2LOgxojG6O/I/QRt8aO8JlucNzLapLPtrob/JiEJawiFBrJnPbuVtK22C+GqVi29EkyqAzSmC9C3sT1Z/7Y9sSwqsJ8bodS50ZQIoYHonKbShVhg4iTvKyTWK8vMBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jg9bkoOw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SjXPeXTu";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="dtfzVzLP";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bvBG8aGg";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Gzq9gMVE"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9923621C43;
-	Thu,  1 Oct 2026 09:29:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790846998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZEZP882SfQ3eIL2PdowrKQ9SqnClwFQWZZmK2uGnCws=;
-	b=SjXPeXTu0+uaQ+Nj3zbGmiIrxzJUy6UUV93UO6dPxXypIhnWDUKV1HamTpa+RdS3fmrS7X
-	+pvv6kkWxrYHy5ArqUuDKFlYInMQXUGny/TaXfE/bnm2R/ur0hqAg9aUdkL/TGt+yCksSy
-	lNFwu4gQRhixkF/gFYcYY8ypXT4tGdc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790846998;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZEZP882SfQ3eIL2PdowrKQ9SqnClwFQWZZmK2uGnCws=;
-	b=dtfzVzLPcxACyPR6zHkD17B11njMfPraolxT7/dK1oUTgntQQDmi+Ocr664OAJYTJFHMpC
-	OdvUxWG6A59qdOBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790846994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZEZP882SfQ3eIL2PdowrKQ9SqnClwFQWZZmK2uGnCws=;
-	b=bvBG8aGgcsivtYMlNYX/8EGu4wWkxULvMrAwbVQrHQjsmbodyAxV8SAaBFIurRxE8ksAFu
-	beiyiyJlKAnKpZpXUgcdV12q8BiWj0p9c7xhKUC4ANy1Epi2JFMW8hacrLH/7l8d1RYZHL
-	/Jtf4MmowKhdF+PFGP8H8fmaGE8TGSU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790846994;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZEZP882SfQ3eIL2PdowrKQ9SqnClwFQWZZmK2uGnCws=;
-	b=Gzq9gMVERWd1uijWVauDjPjqaM/ZoVr/zyBOEbMe5osFXqKvTJhsmWAuW8lx5/SETwJYsf
-	ZIe8BH3699f4sMBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 65BF9136A8;
-	Thu,  1 Oct 2026 09:29:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DEZSDhIovmosKAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 01 Oct 2026 09:29:54 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id E1C52A13F7; Thu, 01 Oct 2026 11:29:45 +0200 (CEST)
-Date: Thu, 1 Oct 2026 11:29:45 +0200
-From: Jan Kara <jack@suse.cz>
-To: Palla Raghunath <raghunathpalla.0209@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
-	Brigham Campbell <me@brighamcampbell.com>, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	David Howells <dhowells@redhat.com>, linux-fsdevel@vger.kernel.org, 
-	syzbot+e8ebfecec06a009dd2d3@syzkaller.appspotmail.com, kudo3228@gmail.com, Mateusz Guzik <mjguzik@gmail.com>, 
-	Deepanshu Kartikey <kartikey406@gmail.com>
-Subject: Re: [PATCH RESEND] romfs: reject directory entry chains that do not
- move forward
-Message-ID: <s3mwyg5flbjlcsdhyt4gnah6ww3luypkne5do6mdgiquzrsy36@ztjylv36x663>
-References: <20260918164645.9230-1-raghunathpalla.0209@gmail.com>
- <34t4huzelgho3zelar7vp332rwerth7nso6e76jrfced4chtrt@7q2cjbeymwov>
- <20260930173328.79017-1-raghunathpalla.0209@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jg9bkoOw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C0361F000FF;
+	Thu,  1 Oct 2026 09:31:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790847115;
+	bh=6+fEKpcnK3thwDx3NvseaKYrWkmXiPjWuXabRbm0cB0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jg9bkoOwsb/192LSQEyIjaDTeO7dGJH50BXnWngXBHMAxXJlgbEMYb0yDOA5/Ycz5
+	 AbyqRefUrcfWjUKSxpiaBvNjMtBkIZ6fJtDLojYKQJvuA8njvPKzAwntHJ4HkjL6cO
+	 lQBVtKAE504AyAc+NhKN47KKv/Bq7HCqXom+fQcnGbiconU5FcHFmgBY+gipR9UYb0
+	 c+Ka3MoCoyf9gdNfJ+aIHGMfDS3NFqRZhQrI6X02UJ1Sh09uOr8TLHzuU9XeviAilp
+	 cCQKZWRFvFB5OxF7z3izAd7wgw7uJyEmJpl9xOby2Qkc/FofmrQ8pkwmwfbm2gb884
+	 ZazoiarFIhqmg==
+Date: Thu, 1 Oct 2026 11:31:50 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Chris Mason <mason@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
+	Aleksa Sarai <cyphar@cyphar.com>, Amir Goldstein <amir73il@gmail.com>, bpf@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 14/17] fsnotify: detach the connector before destroying
+ its marks
+Message-ID: <20261001-prollen-rutschen-amtssiegel-31392f0a489c@brauner>
+References: <20260930-work-mount-fixes-3-v1-0-be34c83956ae@kernel.org>
+ <20260930-work-mount-fixes-3-v1-14-be34c83956ae@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260930173328.79017-1-raghunathpalla.0209@gmail.com>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[e8ebfecec06a009dd2d3];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,kernel.org,brighamcampbell.com,lists.linux.dev,vger.kernel.org,redhat.com,syzkaller.appspotmail.com,gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
+In-Reply-To: <20260930-work-mount-fixes-3-v1-14-be34c83956ae@kernel.org>
 
-On Wed 30-09-26 18:33:28, Palla Raghunath wrote:
-> On Tue, Sep 22, 2026 at 11:58:35AM +0200, Jan Kara wrote:
-> > I doubt these bugs have any practical relevance so I wouldn't CC stable.
-> > But I guess that's for Christian.
+On Wed, Sep 30, 2026 at 03:32:06PM +0200, Christian Brauner wrote:
+> fsnotify_destroy_marks() removes every mark of an object that goes away.
+> It walks the mark list of the connector and has to drop the connector
+> lock around fsnotify_destroy_mark() since that sleeps. Afterwards it
+> continues from the mark it just destroyed. That mark stays on the list
+> because the function holds a reference to it. But while the lock is
+> dropped fsnotify_add_mark_list() can add a mark to the very same
+> connector and put it in front of the current one when group priority
+> dictates. fsnotify_grab_connector() hands out the connector until it is
+> detached and it only gets detached after the walk.
 > 
-> Fair enough. I'll drop the stable tag if there is a v2.
+> So the walk never sees that mark. The connector is detached from the
+> object with the new mark still attached to it. It never receives an
+> event nor IN_IGNORED. For inotify that's a watch descriptor that never
+> reports anything and doesn't show up in fdinfo either:
 > 
-> > The patch looks good, I'm just not sure we are guaranteed ROMFS directories
-> > are indeed following monotonically increasing disk offset (although that's
-> > the most logical thing to do) - added Dave to CC for that.
+>   wd1 = inotify_add_watch(/proc/self/fd/6) = 2
+>   events after the unlink:
+>     wd 1 mask 0x400 IN_DELETE_SELF
+>     wd 1 mask 0x8000 IN_IGNORED
+>   events after write() to the file:
+>     (none)
 > 
-> Thanks for the review, Jan.
+> Detach the connector from the object before the marks are destroyed.
+> fsnotify_grab_connector() refuses a detached connector so a mark added
+> from then on gets a connector of its own. Nothing during the destruction
+> needs the connector. The inode reference of the connector is dropped
+> after the marks are gone as before.
 > 
-> Documentation/filesystems/romfs.rst doesn't state it, but genromfs
-> always lays directories out that way. processdir() hands each entry the
-> current offset, which only ever grows, and it places a subdirectory's
-> contents straight after the subdirectory's own header, before the next
-> sibling. Entries are added to the directory list in that same order,
-> and dumpnode() writes each next pointer from that list, so within one
-> directory every next pointer points forward. I don't know of any other
-> tool that builds romfs images.
+> Fixes: 6b3f05d24d35 ("fsnotify: Detach mark from object list when last reference is dropped")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/notify/mark.c | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
 > 
-> If you'd rather not rely on that, I can bound the walk by the number of
-> 16-byte header slots in the image instead. That stops a cycle without
-> assuming any particular order. Happy to send a v2 either way.
+> diff --git a/fs/notify/mark.c b/fs/notify/mark.c
+> index b2640d836a71..f6891d39e42f 100644
+> --- a/fs/notify/mark.c
+> +++ b/fs/notify/mark.c
+> @@ -1112,6 +1112,16 @@ void fsnotify_destroy_marks(fsnotify_connp_t *connp)
+>  	conn = fsnotify_grab_connector(connp);
+>  	if (!conn)
+>  		return;
+> +	/*
+> +	 * Detach the connector from the object first. Once conn->lock is
+> +	 * dropped a mark could be added in front of the one we're at and the
+> +	 * walk would miss it. fsnotify_grab_connector() refuses a detached
+> +	 * connector so any mark added from now on gets a connector of its
+> +	 * own. This also stops pinning the inode until all mark references
+> +	 * get dropped. It would lead to strange results such as delaying
+> +	 * inode deletion or blocking unmount.
+> +	 */
+> +	objp = fsnotify_detach_connector_from_object(conn, &type);
 
-After checking Documentation/filesystems/romfs.rst I agree that monotonely
-increasing offsets were likely the intention despite it isn't stated there
-explicitely. So I think your current version is fine. Thanks!
+Folded as a fixup. We just restart the walk after the drop.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+diff --git a/fs/notify/mark.c b/fs/notify/mark.c
+index f6891d39e42f..e41774b19e00 100644
+--- a/fs/notify/mark.c
++++ b/fs/notify/mark.c
+@@ -1113,23 +1113,15 @@ void fsnotify_destroy_marks(fsnotify_connp_t *connp)
+        if (!conn)
+                return;
+        /*
+-        * Detach the connector from the object first. Once conn->lock is
+-        * dropped a mark could be added in front of the one we're at and the
+-        * walk would miss it. fsnotify_grab_connector() refuses a detached
+-        * connector so any mark added from now on gets a connector of its
+-        * own. This also stops pinning the inode until all mark references
+-        * get dropped. It would lead to strange results such as delaying
+-        * inode deletion or blocking unmount.
+-        */
+-       objp = fsnotify_detach_connector_from_object(conn, &type);
+-       /*
+-        * We have to be careful since we can race with e.g.
+-        * fsnotify_clear_marks_by_group() and once we drop the conn->lock, the
+-        * list can get modified. However we are holding mark reference and
+-        * thus our mark cannot be removed from obj_list so we can continue
+-        * iteration after regaining conn->lock.
++        * A mark leaves the list with its last reference so the one we hold
++        * keeps the connector alive. Another mark can be added in front of it
++        * while conn->lock is dropped, so start over after every mark and skip
++        * the ones that are already detached.
+         */
++restart:
+        hlist_for_each_entry(mark, &conn->list, obj_list) {
++               if (!(mark->flags & FSNOTIFY_MARK_FLAG_ATTACHED))
++                       continue;
+                fsnotify_get_mark(mark);
+                spin_unlock(&conn->lock);
+                if (old_mark)
+@@ -1137,7 +1129,14 @@ void fsnotify_destroy_marks(fsnotify_connp_t *connp)
+                old_mark = mark;
+                fsnotify_destroy_mark(mark, mark->group);
+                spin_lock(&conn->lock);
++               goto restart;
+        }
++       /*
++        * Detach list from object now so that we don't pin inode until all
++        * mark references get dropped. It would lead to strange results such
++        * as delaying inode deletion or blocking unmount.
++        */
++       objp = fsnotify_detach_connector_from_object(conn, &type);
+        spin_unlock(&conn->lock);
+        if (old_mark)
+                fsnotify_put_mark(old_mark);
