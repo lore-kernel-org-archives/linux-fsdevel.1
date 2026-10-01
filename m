@@ -1,56 +1,56 @@
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1C841F379
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 22:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143714A8A3C
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 22:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790894750; cv=none; b=AR2ggFqQoYAFwk1TSWeCdiG39qywI5KwX8VRmhwn+PioGPv3E7mAQr3C8JjdQdezNzncFh4GHWZ96l12BNAl2hi6JFlL0wMQ/md+rrC/xzFEeF3pEMlehEc52Q8WraIYsZ6kGkC1HCk3mil+51TlRzgoYQezIQW7f+galJx2S1c=
+	t=1790894753; cv=none; b=QIwegakwnGgb+ynezuuYw7YU4lOQso5UbI6CjDNYsOUvyYtZe5NsQdXp//RyNF/0UlBylws62gOEI8RFOE2O8Ed6Av7SkhsbsMp7SEGBna8wP7xD3XTpyLtFcftVBXB19T13dYGdwAm+3WyTYfvhI8ixv0HHTXc+sc4dnC7sJZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790894750; c=relaxed/simple;
-	bh=cNVcbuAwiuPvbW7gIOTu7dEHjAhHHDNmMOS8HQkVoFU=;
+	s=arc-20240116; t=1790894753; c=relaxed/simple;
+	bh=nUfqkFlbuPVBGi5zN5hZQzJYCoKidUYPuMDZeGldilE=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tPEIXlBeNGJSklcUDgsP9vGzETlLhMAFSEcuV3SttiZbAT3VyhTHbze3u7O7rD5Kju231QIfMLxjmgJZ0lZSuNC1V7mmnHx/QmilzGi419G/0/DaPRvtpfMnFXLUmydG8NUCgslVgENHt7N30FJUmqUNY5b1hA9pwwPoSh5B1Fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rwLqrN+S; arc=none smtp.client-ip=209.85.215.197
+	 To:Cc:Content-Type; b=jgse5/XpOwuCgBk4pBiLOtwuyvar8+dCyONCy/LnxQeMt7O7cBc5r1ep/JoMDlppcDeaEr+mYDEHQz2S6IldPklEeX3iGLKDMdJC+44hMmD91Wi3cNlPYZs1CSlU2BYImo2DP8bxmC8YmOKwyIYIAsU/874zEphvSGsAE5uBEiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QOnAm18h; arc=none smtp.client-ip=209.85.216.70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--praan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rwLqrN+S"
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc51591102fso5026541a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 15:45:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QOnAm18h"
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-39512608fb1so11065410a91.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 15:45:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790894748; x=1791499548; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1790894750; x=1791499550; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=IisvBifMmb2UUMDo1HteD5AGTapgBqr+NugNWMv+c3A=;
-        b=rwLqrN+SPTOAHAJGJxAYUDIdo8ysq0rlTQgHnPbbMHsRDVHDW0WGWZX7YwB96zNafy
-         jAVkdw9tz92d6uNCRdzFA54w7sIEQ0YkoA4cMxk+n+PIf+7ZwOwGqKNBph18dz10JKgf
-         LC4cijSyN5IsVl83aCwEEuFkYWsHUCdj/oP3O8dFdp9G5w+xDav3gop/RT7mWER6jyVQ
-         RY6/MtzINs16NcIxS+bbwVOaHT5iKU02XmArnS4q/QtYTgE8M48tIRZJ17tLa9casUXA
-         1QX6QcVhBjaGu1taq4QVv8sJBCMbtWgSDbgTieUO+xh+4Bui1Hr5OcLT7INo1Rq3BXqZ
-         QBfg==
+        bh=CAK9NPwX7Ow+EtKIIe3HO24Ti3BDkDgcMm+QryEOtLs=;
+        b=QOnAm18hszZ+RL6AkRSxRtjODzR5QoIAgf8ARhK7zFMFlPeuniv/iUhB+vU6KzqBMD
+         nFH54GY/w+VfYrJ83xZTBv3t2rPUovqAIT61oSyflYcFowiewuY37BcawJ+eiVtlUtG4
+         VbS+mmGguwwJymX82uUoGZOGiDxd1vAWze3HNApy5TogV7yc8dXFaSHbvkcJitUX+2m7
+         JV+VWSqxxmdvUfKLS0+iMniFg4eakAxiJsenaEzY0eqpDPXtSGg/hbnrfMIh5z1LmrUw
+         TYetuyHrgLsCDGdKGOA5NAc7afLTFyxEZPLuMeQvnRKQVZHC5YRiNpd9VOaK4N+/6Gzu
+         oPvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790894748; x=1791499548;
+        d=1e100.net; s=20260707; t=1790894750; x=1791499550;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IisvBifMmb2UUMDo1HteD5AGTapgBqr+NugNWMv+c3A=;
-        b=uH4VrimDoHtudkCNehv33Jb0HyvDaJotoE6TBcKdUSINipUYA6TFrwn7nhBbwZgXMP
-         cqVs6XNwlu0UshviNg0/sM5hoZyzFHKJvtprfZdMQFT9og1KTd0pP1kn6THsYfuNSlNU
-         ISwUMAL8KlWj/HnJWQRSYaBgHdpyb7oDNcCiPsOXMmt59SLi6MB0Bdf1ac/m44JVOxwt
-         2WWQ00QxGjB0v0CWhBZwBV8TquN40RqUasXl5/RIFTica+E7WU7F+aUycAaKiXBAh9bP
-         R4Ik0/rPPdR7mvQ9ZEOHsAoeRT55vJIznnPPT6zfwsIPDilbegjUhKywZxIAI/ANeJfW
-         8J3Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzHbSK3/utE06FRT+01BvXdtqDm3xbj8BKkiVhQ22UEfpczI7L2HqAn7ahrB5M6S9j6OApCgAjtSoyc9e/G@vger.kernel.org
-X-Gm-Message-State: AFuF++mFFtin1IA9nC8Tm42cNYdX5v1WS3+symHT06tuDJ5zYqXuGs9b
-	wpApZu+uMY2B5L/23LnCan/UlS0QHa/y9ADMjDwUif991egQ0oSPlt2bHJR/R/mf0JGdTf9R/1q
-	30Q==
-X-Received: from pgbcw4.prod.google.com ([2002:a05:6a02:4284:b0:cc7:91e8:1fab])
- (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:a122:b0:3de:6172:e33d
- with SMTP id adf61e73a8af0-3e0bcf2949cmr852824637.20.1790894747533; Thu, 01
- Oct 2026 15:45:47 -0700 (PDT)
-Date: Thu,  1 Oct 2026 22:45:25 +0000
+        bh=CAK9NPwX7Ow+EtKIIe3HO24Ti3BDkDgcMm+QryEOtLs=;
+        b=yrXAlxstEtpnDxdvZQUr5tyqgIGThaYE9PJf8+3Q5WkOM/GVcdAmJTUnY/jr3zZv16
+         gaXPyXuSjAMB9uca8ADRGVwHN8dt+TFFZIsHIAQdCT2L0+npsvhVoAtg9C5BlrnLw8Yi
+         /6ic2ZcWHbRFt+xPx1XYVfmO4dzXwKaZ9WCkbRWmT+sd6EuyRaToeuTHQ3+JD/cmdEsS
+         oUccuZk4iACBP76q9qfYVUmkAJX2C4+sPRbNq9qcezaCy654pE97tHg7vbnzZZ4D2hi2
+         3PkIF2HJhC5auNeo4PwxHBZqEFfMSxWAN4xeTsWiF+pfQAKI4QWw0od9K3GocAC9o5Hm
+         nH1Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxdSWIMOXKxwENe1iY0qqKQ61nqzLKmZGLpHBz9HwErKnE6Slvrtn0IMW2bOA3AvnLmqcmSQ6GMrwehUG2P@vger.kernel.org
+X-Gm-Message-State: AFq9FYIXStkk+MLCWxczxEiYyK2q//S6I6DvYW5r9fG9VD4jTdI1KNdL
+	ApCcOKa1HfGYhX0Rybj0eVxNcNnbcYGeTihevigFc9X+k+5YIcRt56MQsiA2heaNRf8eqVjzif6
+	xew==
+X-Received: from pgww21.prod.google.com ([2002:a05:6a02:2c95:b0:cc9:5e28:9460])
+ (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:224e:b0:3a0:2900:f584
+ with SMTP id 98e67ed59e1d1-3a6cec4fc80mr957433a91.46.1790894750108; Thu, 01
+ Oct 2026 15:45:50 -0700 (PDT)
+Date: Thu,  1 Oct 2026 22:45:26 +0000
 In-Reply-To: <20261001224531.765278-1-praan@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20261001224531.765278-1-praan@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20261001224531.765278-2-praan@google.com>
-Subject: [RFC PATCH 1/7] iommu: Add infrastructure for per-domain IOPT accounting
+Message-ID: <20261001224531.765278-3-praan@google.com>
+Subject: [RFC PATCH 2/7] iommu: Implement domain-attributed page allocation
 From: Pranjal Shrivastava <praan@google.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
 	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, 
@@ -74,58 +74,129 @@ Cc: Mostafa Saleh <smostafa@google.com>, Daniel Mentz <danielmentz@google.com>,
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Currently, the IOMMU subsystem tracks the total number of pages
-allocated for IO page tables globally via nr_iommu_pages, but lacks the
-ability to attribute these allocations to specific domains / users.
+Implement the core logic for per-domain IOPT page accounting.
+Introduce iommu_alloc_pages_node_sz_attributed() which increments
+the domain's nr_pages counter & stores the domain ptr in the ioptdesc.
+Update the free path to recover domain ptr and decrement the count.
 
-Add an atomic `nr_pages` counter to struct iommu_domain and introduce an
-anon union to store the iommu_domain (aliased with private) in ioptdesc
-for the accounting infra. The union ensures that the ioptdesc layout
-remains identical to struct page, maintaining the integrity of existing
-static_assert checks. Utilizing the `private` field is safe here as IOMMU
-page table memory is exclusively owned by the IOMMU subsystem and is not
-managed by other core MM subsystems that typically claim this slot.
+Modify iommu_alloc_pages_node_sz() to be a legacy wrapper that passes a
+NULL domain, ensuring backwards compatibility for non-domain use-cases.
 
 Co-developed-by: Logan Odell <loganodell@google.com>
 Signed-off-by: Logan Odell <loganodell@google.com>
 Signed-off-by: Pranjal Shrivastava <praan@google.com>
 ---
- drivers/iommu/iommu-pages.h | 8 +++++++-
- include/linux/iommu.h       | 2 ++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ drivers/iommu/iommu-pages.c | 35 ++++++++++++++++++++++++++++++++---
+ drivers/iommu/iommu-pages.h | 17 +++++++++++++++++
+ 2 files changed, 49 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/iommu/iommu-pages.c b/drivers/iommu/iommu-pages.c
+index 3bab175d8557..81fa01b763b7 100644
+--- a/drivers/iommu/iommu-pages.c
++++ b/drivers/iommu/iommu-pages.c
+@@ -29,8 +29,10 @@ static inline size_t ioptdesc_mem_size(struct ioptdesc *desc)
+ }
+ 
+ /**
+- * iommu_alloc_pages_node_sz - Allocate a zeroed page of a given size from
+- *                             specific NUMA node
++ * iommu_alloc_pages_node_sz_attributed - Allocate a zeroed page of a given size
++ *                                        from specific NUMA node for a specific
++ *                                        iommu domain
++ * @domain: IOMMU domain to which the page will belong
+  * @nid: memory NUMA node id
+  * @gfp: buddy allocator flags
+  * @size: Memory size to allocate, rounded up to a power of 2
+@@ -40,7 +42,8 @@ static inline size_t ioptdesc_mem_size(struct ioptdesc *desc)
+  * returned allocation is round_up_pow_two(size) big, and is physically aligned
+  * to its size.
+  */
+-void *iommu_alloc_pages_node_sz(int nid, gfp_t gfp, size_t size)
++void *iommu_alloc_pages_node_sz_attributed(struct iommu_domain *domain, int nid,
++					   gfp_t gfp, size_t size)
+ {
+ 	struct ioptdesc *iopt;
+ 	unsigned long pgcnt;
+@@ -83,18 +86,44 @@ void *iommu_alloc_pages_node_sz(int nid, gfp_t gfp, size_t size)
+ 	mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, pgcnt);
+ 	lruvec_stat_mod_folio(folio, NR_SECONDARY_PAGETABLE, pgcnt);
+ 
++	iopt->domain = domain;
++	if (domain)
++		atomic_long_add(pgcnt, &domain->nr_pages);
++
+ 	return folio_address(folio);
+ }
++EXPORT_SYMBOL_GPL(iommu_alloc_pages_node_sz_attributed);
++
++/**
++ * iommu_alloc_pages_node_sz - Allocate a zeroed page of a given size from
++ *                             specific NUMA node
++ * @nid: memory NUMA node id
++ * @gfp: buddy allocator flags
++ * @size: Memory size to allocate, rounded up to a power of 2
++ *
++ * Returns the virtual address of the allocated page. The page must be freed
++ * either by calling iommu_free_pages() or via iommu_put_pages_list(). The
++ * returned allocation is round_up_pow_two(size) big, and is physically aligned
++ * to its size.
++ */
++void *iommu_alloc_pages_node_sz(int nid, gfp_t gfp, size_t size)
++{
++	return iommu_alloc_pages_node_sz_attributed(NULL, nid, gfp, size);
++}
+ EXPORT_SYMBOL_GPL(iommu_alloc_pages_node_sz);
+ 
+ static void __iommu_free_desc(struct ioptdesc *iopt)
+ {
+ 	struct folio *folio = ioptdesc_folio(iopt);
+ 	const unsigned long pgcnt = folio_nr_pages(folio);
++	struct iommu_domain *domain = iopt->domain;
+ 
+ 	if (IOMMU_PAGES_USE_DMA_API)
+ 		WARN_ON_ONCE(iopt->incoherent);
+ 
++	if (domain)
++		atomic_long_sub(pgcnt, &domain->nr_pages);
++
+ 	mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, -pgcnt);
+ 	lruvec_stat_mod_folio(folio, NR_SECONDARY_PAGETABLE, -pgcnt);
+ 	folio_put(folio);
 diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
-index e9e605b5fa3a..edf75c81054f 100644
+index edf75c81054f..a4a8e9ba57c5 100644
 --- a/drivers/iommu/iommu-pages.h
 +++ b/drivers/iommu/iommu-pages.h
-@@ -25,7 +25,13 @@ struct ioptdesc {
- 		u8 incoherent;
- 		pgoff_t __index;
- 	};
--	void *_private;
-+	/*
-+	 * Alias iommu_domain with page->private for IOPT memory accounting.
-+	 */
-+	union {
-+		void *_private;
-+		struct iommu_domain *domain;
-+	};
+@@ -55,6 +55,8 @@ static inline struct ioptdesc *virt_to_ioptdesc(void *virt)
+ 	return folio_ioptdesc(virt_to_folio(virt));
+ }
  
- 	unsigned int __page_type;
- 	atomic_t __page_refcount;
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index ac43b8b93f14..478b64f4084f 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -231,6 +231,8 @@ struct iommu_domain {
- 	struct iommu_domain_geometry geometry;
- 	int (*iopf_handler)(struct iopf_group *group);
++void *iommu_alloc_pages_node_sz_attributed(struct iommu_domain *domain, int nid,
++					   gfp_t gfp, size_t size);
+ void *iommu_alloc_pages_node_sz(int nid, gfp_t gfp, size_t size);
+ void iommu_free_pages(void *virt);
+ void iommu_put_pages_list(struct iommu_pages_list *list);
+@@ -107,6 +109,21 @@ static inline void *iommu_alloc_pages_sz(gfp_t gfp, size_t size)
+ 	return iommu_alloc_pages_node_sz(NUMA_NO_NODE, gfp, size);
+ }
  
-+	atomic_long_t nr_pages;
++/**
++ * iommu_alloc_pages_sz_attributed - Allocate a zeroed page of a given size from
++ *                                   specific NUMA node for a specific domain
++ * @domain: iommu domain
++ * @gfp: buddy allocator flags
++ * @size: Memory size to allocate, this is rounded up to a power of 2
++ *
++ * Returns the virtual address of the allocated page.
++ */
++static inline void *iommu_alloc_pages_sz_attributed(struct iommu_domain *domain,
++						    gfp_t gfp, size_t size)
++{
++	return iommu_alloc_pages_node_sz_attributed(domain, NUMA_NO_NODE, gfp, size);
++}
 +
- 	union { /* cookie */
- 		struct iommu_dma_cookie *iova_cookie;
- 		struct iommu_dma_msi_cookie *msi_cookie;
+ int iommu_pages_start_incoherent(void *virt, struct device *dma_dev);
+ int iommu_pages_start_incoherent_list(struct iommu_pages_list *list,
+ 				      struct device *dma_dev);
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
