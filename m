@@ -1,217 +1,237 @@
-Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F2238E8C7
-	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 09:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790848367; cv=none; b=SK2DKcQKnqTF2zV1ZJ9R2LWj2eDcqMA34LbrC77aK6mOheDmjKLDXa+mhqvppbepZCJllBCANIolLO3YRx3nM5NkoggClWj5VHLz0iqzh84dnATWmPTrXtK7xxwQ0oNV//RAwH+C5aJh2RQjIiq7JFs2z5lT54mYnu+Z5p/y9lY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790848367; c=relaxed/simple;
-	bh=id/oiviml1q3ef8E+x2djTOzF72K2pibhwhLVZap97c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U0sB5lKVCdrXRD5ROpmLFYqXeSgY6X5UNKsoEhku/R/agCIS/rEi0vcJXr0pg9NwESwZoAD0cU3pG1L+KheYs5uJ+rhmPMPv4t39RThzFdjDfZVSJxea90qqVuiZAcfeBeQYVukl3xZArM4e3SxWZaiE3WoYeJpOHLAQATVRkP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=noroxi.com; spf=pass smtp.mailfrom=noroxi.com; dkim=pass (2048-bit key) header.d=noroxi.com header.i=@noroxi.com header.b=Y/YChoft; arc=none smtp.client-ip=74.125.229.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=noroxi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=noroxi.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC374D797D
+	for <linux-fsdevel@vger.kernel.org>; Thu,  1 Oct 2026 10:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790848973; cv=pass; b=VWYtxg19ywwbvFmAPXVCmWeh8Nf4ALhGJdQGtOK187bx5g6vgVrQens3pMgfohvgTt2zfhsLJ3HOEahafxLxkANhmrzFx5L90wzGKiFL/mi38sxs8A7bO//blOgFIdwYD/1Q1ivaQiEsvuh1415RzyT4I1rzzuUs4UKmNr1fVP4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790848973; c=relaxed/simple;
+	bh=BuczpQavLNIc5iEH5iJditkxvjYv1WxhIpa6xLgIvFw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cBWAa5J0kX6PuHxKgENbt6pDIaDeFOPgpmfehP6zkofCK50p10b/MdRSZj+JP6pg8QVmhdIMvhPleeCPxN2SU3X/T8z5zcw6Xcs0lwbvOZaVv/KzYpXyx6or9hGPKwrI20iZPg/amexqthD+P3iDKhenShzS2cb3OZxPUeKSwtg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cyyWmI02; arc=pass smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=noroxi.com header.i=@noroxi.com header.b="Y/YChoft"
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5ba42939bfeso1062631e87.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 02:52:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cyyWmI02"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c294ad260fdso455579066b.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 01 Oct 2026 03:02:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790848969; cv=none;
+        d=google.com; s=arc-20260327;
+        b=D0w7+RueIMPuX9yfBYM8jnMrgfidEBzmpmJTFy5mAfD8XaSQU1gtz5uICxQB56l46i
+         hV1LihftFVUQ0Y2QSwxj7nmyCtTtoDYecu65U7EtRniHzK874Yc/KJJO+4LSfaKf6KAQ
+         ynwZyqpDq1RjK1zpaybkwOitmlx/iJ7wtoBTQw/jsIBcwjaFNXgMQw/x7/7EivXCz0/d
+         UMdK8M8bgExHGaJYP2+4QpS2jE1ONsTMhpAJ6hHRKThepRylpamufDtumhyB8Li63WGa
+         IBra1Fz8B006ZhRukemXQ5PWmkSAGwWZZDs7VzijZBnXSMAw1mvPd+ul+LXr2UllhwNa
+         lGtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=25LG4cwWQUns+MtMzpoTj+Q+wzmEvIHe/GEbNI0aMPo=;
+        fh=M0uAxa67BQlxtzOQ5EEQFLtmrw0rlJMMNsMCqAEj6dA=;
+        b=N0J7CB7Q9fNmGjPr8Dkt9fyKUQQAWEw5+YmabIDt9dQPqCHBQOqn9iSnnm6YE2VmLI
+         vfHEnNYkSIo5IpsRTefGTTqmlJfuvx+R9qnxcb7u8kxBI0p18wPtYxOfVBv+aALoZW28
+         hdTOpwgLl/EJDdfywNQlnWMoNaSjPHiqwDiCWAhJoKkabWN2pEuF6mdPfZbiZmspyDeD
+         u6xTAU02iVd4XDosFVEgGodtQskKS0RtM2ycJueMIId7hp408oF24nXicoS+z2NMK4JW
+         U+nk2ELPEvjoBSt6cIOZdjbjzWi0wGBXF+7U37IFLYivXcF0eiLedQXGZYPACt77Kwyo
+         mSvA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=noroxi.com; s=google; t=1790848363; x=1791453163; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xUljElJ412kYe/nOeh5zaMdSOg0zj48HO1jKhr5xZY8=;
-        b=Y/YChoftZukX2EipVlKmKgolPgkqH6lHXu1itombxqQI7HUkpCVOwQk6WStuYqabKU
-         uhiHXWT3AXLo9QZsGeiVFfWHl0EUOpAQ7KeVv5/r9YF/f6Sru/HM53UITBT/lwtZkwQf
-         UaYO8n9i1xHTBXfvwZj5PPdw+TADFlIZAc2Fu+d7cLO3kykZBNAyjPHqYclqo6XaPF/d
-         IlsnJhwNpzNQmTTHCWvJfl8CWMVRtOxpLW4VHMRHl0l6Cqb0dk4Vodu4Tn+xel2lYosk
-         4w+zt59xBltRKWEQXabBDEppIXHkCE0x3iELX8ZEGFsdSRTp+jOEZfS1YXMof0LuTchb
-         Z52g==
+        d=gmail.com; s=20251104; t=1790848969; x=1791453769; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=25LG4cwWQUns+MtMzpoTj+Q+wzmEvIHe/GEbNI0aMPo=;
+        b=cyyWmI02CP/TAi/O4+v0d/oqd5tXo1G5GFSKrHQ04ttpsb3QnOD0MTq0DtEx29mWvv
+         ZJL5qxQcq84r3s6QnXah9QSQdL6g+DJZ+oc3c/CGWEc1gZH5nTYl/hck97ildFXpvd2d
+         2udEB6sz4aIbtCIKhplg43GSiX3kCLNX7uT7YISc2q7iP11NDwE8IpUIkEoumNAitoPf
+         zX5ZDS0ZA5ulrf8bfsm7f7SFYQJXEkq2O6Pjg9IXPymw/IRwhkUXl7qVbrsVkvxLMBYJ
+         ot9xfreTzC/RhDsr+ywLMGV/moOxY1HGQ9VPN9pM1RbENnD6IzH5cm6oeA/9p24JCdwe
+         Jr7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790848363; x=1791453163;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xUljElJ412kYe/nOeh5zaMdSOg0zj48HO1jKhr5xZY8=;
-        b=udSpAd426EvQaIdzJYZt+lV5BYVxvdhQ6JLwnd3pFyliUw524rNNL2ThlU4uKi9JYo
-         hQdXRIsa9Po4P8f+I4MFjPByHZ7HtPuzirGiWmkYFJQwn55Vye4NZbo27LWSpQskgp2W
-         0pirN7qPJqxfevAgIwP2GwmzEB8r+TPCrOCbv1Urei0KhXz6K14peQOgP0fLffRG8FZY
-         2i7WhFka17SLL+34I7ALIOZSYukh60TQgSSn58Cwf7CVqBtWi1e2wt03xxPZHuneWXUb
-         oqvThK7TsAM7ocjT/jtCjoVD835UIQKCIS6AIrmolMVwnZZvC0zUOCyHgbSQ+6R/fJNi
-         hxNw==
-X-Gm-Message-State: AFq9FYIEKhqPnrwJ9TRFvZ/qWrCGEjNzdwCnxBKZmWT8FdvncIsBn88F
-	rkSbUm3vNiqOn4BkA+SeYtG3MN+uT6cGnfmfWjjmlvZO8X8E830rcfeS75YMV2j4a5hxeUPK6Ql
-	SvsxDA1AfBLU6gA==
-X-Gm-Gg: AYBFou2vMV4VQMO2e8GLL2tNwR72oV8fay1VU2FZaZELx8FI3T2+GZMAI8kqm9ioZrw
-	SGrd+OfHWUaqY4g2z4nIEVTeNzzj7SsAxs3W0ItNeJW2tEGFJKh00/dIoZY2pf07Q19tgZx9vJe
-	7f9f1ds/7hTxp7VBaN/ASxosyY0+FwBCaxBg+rbsBiJAysKgMiAqcwlgyUa5SzNyGMbyv1sjK+k
-	c7t7cD+Wl7Ypgciy7wrkyRh6VlKTEoRgtEKc10pthAcq8ivSNNZjh8AAPvovIAbJ9Hu2gQ6VK8s
-	Xb5yp6uWR2Kz86CwHnnVFMKOM2am4I7Sfx1pRe2wXXp7ZiKOUwKhKwPkINCir6wdBesChm1s3wQ
-	ieeMJzydcDYokTZB+ypBRSzl/ytZ0v/c1MKnhUNCRTA5HoVj6XgC9FWIIQ5CeUtbsdesZKQlsPI
-	BRp9fAfJ0Y4SyNfeONR8OzcW0N3f+KmSlvL6Nn60eZiDlsR+KC9trelkcZsfvZq/G3difWJG7w
-X-Received: by 2002:a05:6512:14f:b0:5b8:bc5e:b58b with SMTP id 2adb3069b0e04-5ba406212fbmr1259804e87.67.1790848362400;
-        Thu, 01 Oct 2026 02:52:42 -0700 (PDT)
-Received: from lab01.. ([2a01:4f9:1a:a462::2])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ba42fc529dsm600485e87.80.2026.10.01.02.52.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 02:52:42 -0700 (PDT)
-From: Mahmut Emin Kurhan <guvenlik@noroxi.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
-	linux-kernel@vger.kernel.org,
-	Mahmut Emin Kurhan <guvenlik@noroxi.com>
-Subject: [PATCH] hfsplus: annotate extents_lock nesting to silence lockdep false positive
-Date: Thu,  1 Oct 2026 11:52:08 +0200
-Message-ID: <20261001095208.1469344-1-guvenlik@noroxi.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <8dfb90a2751df30f76ab5130960591a57c51be4d.camel@dubeyko.com>
-References: <8dfb90a2751df30f76ab5130960591a57c51be4d.camel@dubeyko.com>
+        d=1e100.net; s=20260707; t=1790848969; x=1791453769;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=25LG4cwWQUns+MtMzpoTj+Q+wzmEvIHe/GEbNI0aMPo=;
+        b=m2ypmiSdIpG+i1xnUaI2+eNhF0DuEqO1NR6WyGLuBk1cZ5xfMgC1TIEEnhJYycfnzq
+         kFUqBAt22Ilx4FSIouxoZ5nFUgyLnKSsi+rTkQKYX2OqUoJWYi4gp2vP5Vrga3GZ2/qr
+         Jr9fDXwFsgBHtPgmoeeEPHqgT6XCvMmAOfhUGfvTuX/OGUW0iVsqoZUIAwRoBW3UIhKp
+         CgGTLQj58DoVIHD19xMUXcmuFaPJbcuKfW/eh9Aglwg+wWKSV3HEXxTWi0TTOm5g3EKm
+         9ukm6Mfq1RM/6OsJRbx1bktPXdiKi32BNIMuIouAIxfhv2mSJRuJgQK6+ri3B3nERxGn
+         r8Xg==
+X-Forwarded-Encrypted: i=1; AKwUvBxX9fHmzCdGtpz3j8SGdEdBAdrNIUnS0bWOmhqOyyQiHZnxqY/tGwb93/R6dpWYAsU3RYkEqC6Nngvj6Vn6@vger.kernel.org
+X-Gm-Message-State: AFuF++leD795PTJzGO040fkq7ZbRRQMFBFOcivZi/XH563B8txVN6GSm
+	KknkbnGpB6Tn3Z74perDJVQSYRLSGdBXgqa04h/X+B3OfJg0p5KqUJHvhix9Oy4wxk4tXkEjehA
+	onk07Hce7zn8hWcgO75gBZ80KCa2GIYU=
+X-Gm-Gg: AYBFou1BqgQkjIFl44R/YVMXEK85A98FJ3n2bGwsaGs+aR7BAP6jgLuByKMRBM4qrtJ
+	j/JLoBGsnLj1KNncJvjQWa5tngqflMHbE1rngC1PrWh55Px7Rstof+FwmP0pZbXG9IF3BKGadvx
+	4vld20P5Oqv8UTlKdJDCZlNg5TyAsMoOAFi7EjCrSNba5d2koXZ+632Xmd7+nfQ1kQGSjL2BShB
+	D/3kWAVS1wWw53a9kjFpTxVYpx85XYWv8ysV5xuTvVtaiVEv2/P4NFpE4M7GvM4Swx/RAKwnJ7u
+	mGfWecft5qrNj7nF9Cn6bnvb4XDN9mjwwyda95OnlBVowvMJTU5wZ+VxR9Cmhg+7G7bohlkQkMw
+	A7yHViXo+q6aQoe0BptL3BKl3Jd1vjmxXA6i9AKz0d6GPykiX2eOq
+X-Received: by 2002:a17:906:d54e:b0:c2d:be57:f742 with SMTP id
+ a640c23a62f3a-c2e340d7b10mr191644266b.32.1790848969512; Thu, 01 Oct 2026
+ 03:02:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <6ab7dca9.80e1c6cc.1e8e5f.0046.GAE@google.com> <6ab8cfe8.dc2998a4.2261f5.0062.GAE@google.com>
+ <CAJnrk1Y8+P5W-6ETYuVDb2xk=GkP5o0XoDyDtvEPw+sC3GA-fQ@mail.gmail.com>
+In-Reply-To: <CAJnrk1Y8+P5W-6ETYuVDb2xk=GkP5o0XoDyDtvEPw+sC3GA-fQ@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 1 Oct 2026 11:02:35 +0100
+X-Gm-Features: AclHuK_e1DUM4Tc4vfq9jY6YyNgYBZmIio8LepP1oyZJ-3JdIKCoUCJGfB1Ig6E
+Message-ID: <CAJnrk1Ze8s8EGJqy62_mLbgvzW5fVVWMdeq3zSH0mWu_HRfpcQ@mail.gmail.com>
+Subject: Re: [syzbot] [fuse?] WARNING in fuse_iomap_writeback_range
+To: syzbot <syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-lockdep reports possible recursive locking on HFSPLUS_I(inode)->extents_lock
-when unlinking a file on a crafted image:
+On Wed, Sep 30, 2026 at 2:01=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
+>
+> On Sun, Sep 27, 2026 at 9:15=E2=80=AFAM syzbot
+> <syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com> wrote:
+> >
+> > syzbot has found a reproducer for the following issue on:
+> >
+> > HEAD commit:    fd179f8a05be Merge tag 'ata-7.3-rc5' of git://git.kerne=
+l.o..
+> > git tree:       upstream
+> > console+strace: https://syzkaller.appspot.com/x/log.txt?x=3D13490605580=
+000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3D9d4242cb1c5=
+4cdf7
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=3De8200299b0556=
+976e13c
+> > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e=
+255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D1523f2c95=
+80000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D14385315580=
+000
+> >
+> > Downloadable assets:
+> > disk image: https://storage.googleapis.com/syzbot-assets/c4cebd01ff3c/d=
+isk-fd179f8a.raw.xz
+> > vmlinux: https://storage.googleapis.com/syzbot-assets/9fd8641fa35c/vmli=
+nux-fd179f8a.xz
+> > kernel image: https://storage.googleapis.com/syzbot-assets/c6e8e6332600=
+/bzImage-fd179f8a.xz
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the co=
+mmit:
+> > Reported-by: syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com
+> >
+> > ------------[ cut here ]------------
+> > !ff
+> > WARNING: fs/fuse/file.c:2043 at fuse_write_file_get fs/fuse/file.c:2043=
+ [inline], CPU#0: syz-executor122/5774
+> > WARNING: fs/fuse/file.c:2043 at fuse_iomap_writeback_range+0x7c8/0x18f0=
+ fs/fuse/file.c:2227, CPU#0: syz-executor122/5774
+> > Modules linked in:
+> > CPU: 0 UID: 0 PID: 5774 Comm: syz-executor122 Not tainted syzkaller #0 =
+PREEMPT(full)
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS=
+ Google 07/24/2026
+> > RIP: 0010:fuse_write_file_get fs/fuse/file.c:2043 [inline]
+> > RIP: 0010:fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227
+> > Code: fe 48 83 3b 00 74 5b e8 e6 f0 6c fe 4c 8b 3c 24 e9 08 0b 00 00 e8=
+ d8 f0 6c fe eb 5c e8 d1 f0 6c fe 4c 89 f7 e8 39 63 8e 08 90 <0f> 0b 90 48 =
+b8 00 00 00 00 00 fc ff df 48 8b 4c 24 58 80 3c 01 00
+> > RSP: 0018:ffffc90003e172b8 EFLAGS: 00010286
+> > RAX: 8000000000000000 RBX: ffff88806e4ea880 RCX: ffffffff9a9ec501
+> > RDX: 0000000000000001 RSI: 0000000000000004 RDI: 00000000ffffffff
+> > RBP: 0000000000001000 R08: ffff88806e4eae63 R09: 1ffff1100dc9d5cc
+> > R10: dffffc0000000000 R11: ffffed100dc9d5cd R12: ffff88806e4ead08
+> > R13: 0000000000001000 R14: ffff88806e4eae60 R15: ffff88806e4ead08
+> > FS:  00007f6a3f53e6c0(0000) GS:ffff888124cc8000(0000) knlGS:00000000000=
+00000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 000020000000b000 CR3: 0000000078090000 CR4: 00000000003526f0
+> > Call Trace:
+> >  <TASK>
+> >  iomap_writeback_range fs/iomap/buffered-io.c:1896 [inline]
+> >  iomap_writeback_folio+0x1526/0x2490 fs/iomap/buffered-io.c:2022
+> >  fuse_launder_folio+0x17b/0x240 fs/fuse/file.c:2331
+> >  folio_launder mm/truncate.c:612 [inline]
+> >  folio_unmap_invalidate+0x4cd/0x830 mm/truncate.c:634
+> >  invalidate_inode_pages2_range+0x629/0xb30 mm/truncate.c:726
+> >  fuse_open+0x5a6/0x770 fs/fuse/file.c:297
+> >  do_dentry_open+0x816/0x1380 fs/open.c:996
+> >  vfs_open+0x3b/0x340 fs/open.c:1101
+> >  do_open fs/namei.c:4837 [inline]
+> >  path_openat+0x1443/0x1d60 fs/namei.c:5000
+> >  do_file_open+0x23e/0x4a0 fs/namei.c:5029
+> >  do_sys_openat2+0x115/0x200 fs/open.c:1417
+> >  do_sys_open fs/open.c:1423 [inline]
+> >  __do_sys_openat fs/open.c:1439 [inline]
+> >  __se_sys_openat fs/open.c:1434 [inline]
+> >  __x64_sys_openat+0x138/0x170 fs/open.c:1434
+> >  do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+> >  do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+> >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> > RIP: 0033:0x7f6a3f58fae9
+> > Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89=
+ f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 =
+ff ff 73 01 c3 48 c7 c1 d0 ff ff ff f7 d8 64 89 01 48
+> > RSP: 002b:00007f6a3f53e1d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+> > RAX: ffffffffffffffda RBX: 00007f6a3f644b98 RCX: 00007f6a3f58fae9
+> > RDX: 0000000000000040 RSI: 000020000000c380 RDI: 00000000ffffff9c
+> > RBP: 00007f6a3f644b90 R08: 31203a6b63617473 R09: 31203a6b63617473
+> > R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6a3f6117f4
+> > R13: 000020000000e3c0 R14: 00002000000062c0 R15: 00007ffe0b2d2af8
+> >  </TASK>
+> >
+> >
+> > ---
+> > If you want syzbot to run the reproducer, reply with:
+> > #syz test: git://repo/address.git branch-or-commit-hash
+> > If you attach or paste a git patch, syzbot will apply it before testing=
+.
+> >
+>
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 6d707f2b3bff..0ef46f6e0267 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -2351,6 +2351,9 @@ static int fuse_launder_folio(struct folio *folio)
+>                 .wb_ctx =3D &data,
+>         };
+>
+> +       if (fuse_is_bad(wpc.inode))
+> +               return -EIO;
+> +
+>         if (folio_clear_dirty_for_io(folio)) {
+>                 err =3D iomap_writeback_folio(&wpc, folio);
+>                 err =3D fuse_iomap_writeback_submit(&wpc, err);
 
-  hfsplus_file_truncate()  holds inode A ->extents_lock
-   hfsplus_free_extents()
-    hfsplus_block_free()   reads the allocation bitmap file
-     block_read_full_folio()
-      hfsplus_get_block()  takes inode B ->extents_lock
+#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.gi=
+t
+fd179f8a05be
 
-inode A is the regular file being truncated and inode B is the allocation
-file (sbi->alloc_file, i_ino == HFSPLUS_ALLOC_CNID). They are two different
-inodes of the same lock class, taken in a fixed order (regular file first,
-then the allocation/attributes/catalog file), so this is not a real
-deadlock, only a missing lock-nesting annotation.
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 6d707f2b3bff..0ef46f6e0267 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -2351,6 +2351,9 @@ static int fuse_launder_folio(struct folio *folio)
+                .wb_ctx =3D &data,
+        };
 
-Mirror the existing hfsplus_btree_lock_class() approach: give the special
-inodes distinct extents_lock subclasses and take the lock with
-mutex_lock_nested(). Regular files keep the default subclass, so a genuine
-regular-vs-regular recursion would still be detected.
-
-Found via coverage-guided fuzzing (syzkaller + lockdep) by Noroxi.
-
-Signed-off-by: Mahmut Emin Kurhan <guvenlik@noroxi.com>
----
- fs/hfsplus/extents.c    | 12 ++++++++----
- fs/hfsplus/hfsplus_fs.h | 28 ++++++++++++++++++++++++++++
- fs/hfsplus/xattr.c      |  3 ++-
- 3 files changed, 38 insertions(+), 5 deletions(-)
-
-diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
-index eb7c11524..54a05eaa8 100644
---- a/fs/hfsplus/extents.c
-+++ b/fs/hfsplus/extents.c
-@@ -150,7 +150,8 @@ int hfsplus_ext_write_extent(struct inode *inode)
- {
- 	int res;
- 
--	mutex_lock(&HFSPLUS_I(inode)->extents_lock);
-+	mutex_lock_nested(&HFSPLUS_I(inode)->extents_lock,
-+			  hfsplus_extents_lock_class(inode));
- 	res = hfsplus_ext_write_extent_locked(inode);
- 	mutex_unlock(&HFSPLUS_I(inode)->extents_lock);
- 
-@@ -261,7 +262,8 @@ int hfsplus_get_block(struct inode *inode, sector_t iblock,
- 	if (inode->i_ino == HFSPLUS_EXT_CNID)
- 		return -EIO;
- 
--	mutex_lock(&hip->extents_lock);
-+	mutex_lock_nested(&hip->extents_lock,
-+			  hfsplus_extents_lock_class(inode));
- 
- 	/*
- 	 * hfsplus_ext_read_extent will write out a cached extent into
-@@ -454,7 +456,8 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
- 		return -ENOSPC;
- 	}
- 
--	mutex_lock(&hip->extents_lock);
-+	mutex_lock_nested(&hip->extents_lock,
-+			  hfsplus_extents_lock_class(inode));
- 	if (hip->alloc_blocks == hip->first_blocks)
- 		goal = hfsplus_ext_lastblock(hip->first_extents);
- 	else {
-@@ -576,7 +579,8 @@ void hfsplus_file_truncate(struct inode *inode)
- 	blk_cnt = (inode->i_size + HFSPLUS_SB(sb)->alloc_blksz - 1) >>
- 			HFSPLUS_SB(sb)->alloc_blksz_shift;
- 
--	mutex_lock(&hip->extents_lock);
-+	mutex_lock_nested(&hip->extents_lock,
-+			  hfsplus_extents_lock_class(inode));
- 
- 	alloc_cnt = hip->alloc_blocks;
- 	if (blk_cnt == alloc_cnt)
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index 1e5b58e6a..2cbd8074c 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -36,6 +36,20 @@ enum hfsplus_btree_mutex_classes {
- 	ATTR_BTREE_MUTEX,
- };
- 
-+/*
-+ * extents_lock nested subclasses. Special inodes (allocation, attributes,
-+ * catalog) use the same lock class as regular files but their extents_lock is
-+ * taken while a regular file extents_lock is already held -- e.g. the
-+ * allocation file is read from hfsplus_block_free() during truncate. Give them
-+ * distinct subclasses so lockdep does not report a false recursive locking.
-+ */
-+enum hfsplus_extents_mutex_classes {
-+	HFSPLUS_EXTENTS_LOCK_NORMAL,
-+	HFSPLUS_EXTENTS_LOCK_ALLOC,
-+	HFSPLUS_EXTENTS_LOCK_ATTR,
-+	HFSPLUS_EXTENTS_LOCK_CATALOG,
-+};
++       if (fuse_is_bad(wpc.inode))
++               return -EIO;
 +
- /* An HFS+ BTree held in memory */
- struct hfs_btree {
- 	struct super_block *sb;
-@@ -572,6 +586,20 @@ hfsplus_btree_lock_class(struct hfs_btree *tree)
- 	return class;
- }
- 
-+static inline unsigned int hfsplus_extents_lock_class(struct inode *inode)
-+{
-+	switch (inode->i_ino) {
-+	case HFSPLUS_ALLOC_CNID:
-+		return HFSPLUS_EXTENTS_LOCK_ALLOC;
-+	case HFSPLUS_ATTR_CNID:
-+		return HFSPLUS_EXTENTS_LOCK_ATTR;
-+	case HFSPLUS_CAT_CNID:
-+		return HFSPLUS_EXTENTS_LOCK_CATALOG;
-+	default:
-+		return HFSPLUS_EXTENTS_LOCK_NORMAL;
-+	}
-+}
-+
- static inline
- bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
- {
-diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-index 21a1c196c..7bf4ba8f1 100644
---- a/fs/hfsplus/xattr.c
-+++ b/fs/hfsplus/xattr.c
-@@ -264,7 +264,8 @@ static int hfsplus_create_attributes_file(struct super_block *sb)
- 						    sbi->sect_count,
- 						    HFSPLUS_ATTR_CNID);
- 
--	mutex_lock(&hip->extents_lock);
-+	mutex_lock_nested(&hip->extents_lock,
-+			  hfsplus_extents_lock_class(attr_file));
- 	hip->clump_blocks = clump_size >> sbi->alloc_blksz_shift;
- 	mutex_unlock(&hip->extents_lock);
- 
--- 
-2.43.0
-
+        if (folio_clear_dirty_for_io(folio)) {
+                err =3D iomap_writeback_folio(&wpc, folio);
+                err =3D fuse_iomap_writeback_submit(&wpc, err);
