@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DAB4BB5DE;
-	Fri,  2 Oct 2026 13:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E0A4AB1D0;
+	Fri,  2 Oct 2026 13:54:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790949247; cv=none; b=WuURzPoXtTt5I+uRXc7eAfVYguxOTY2PxNv8pE7D9osXqva24QfnqPHJeoyNM2YXwbfqF5ascPgc7l0Egm7zxCqH3HASvgB/qkL+Nl2ixMJ/u79SWp1+uc5XPheEJhthcxFapCoz7OcHKVPGzhi/Kwm273QIlAi659X0OGDSvoc=
+	t=1790949249; cv=none; b=dFVYxgiYehFYhhQnVl/EvX6dnTM2F4klJCRtu8Z3vlGs9uWPVImdSF7TD8S9s/Lx11GuwubFIxywygYfOszQ5tfLnBFjwQaqL0AgNZUoJJAyuE8UYHPzWqJf0iuXJOx+/++qEy+sECb0Lg6SNmiLtUvc5lPCfUYxkImtj8Oq/XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790949247; c=relaxed/simple;
-	bh=IoNfPAJCstFFmjylj9ccqtenSjICQVDGo1zt1drMIHc=;
+	s=arc-20240116; t=1790949249; c=relaxed/simple;
+	bh=HClaV3WgtXVOMdVIC7bk1eIXX99Ro3YtaVGII178XZs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nvacYGK5b6/GTyJxzw55Z+6Az06kXivYly1dqJrcAQCKbZmG5bHVowSkvHp/+YCkx/NFTU/0sCai3QV3JMMurKhqwrIhI+MLPYlbY/qABVr3MocRSmfclbcWZInzkaHyiPwmSyzZwGVtgs7KdFxMeP024JSDfglAJ9Ewi/E3jDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oigTOZtJ; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=MquaOzLmdFRZWR0ZwngblqOYuQBC1iBiaIQC/L0T/Qn8LzLhku5hteUSrgcK2mlGsGzxQ+W8VtEoeklwYd+nz7/fujrHx4IHQw2U95hLNE5+8hChk2pvmeZJk8g/Im24jS9o8I0GkCZC2QnW1vaSYIfNeqF5jHuSMQzqH2/oYek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QRHnw2HP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oigTOZtJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72C781F000FF;
-	Fri,  2 Oct 2026 13:54:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QRHnw2HP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C67551F00893;
+	Fri,  2 Oct 2026 13:54:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790949245;
-	bh=vd18R7hktmmmVvZRwsV0vT6Er0pxSOqADxdsRmONpkk=;
+	s=k20260515; t=1790949247;
+	bh=K8L8xCu4Vz/NoqRGj//4KCE0+Emf0XVwk9ww2ZeiK7g=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=oigTOZtJFDGiWZeGH0Q7kBzEQ7N2AXFnv5mfQ45A+Y23BI1Rwo6QvAexYfuTTf6nX
-	 wGNLz9FxRVn1PEW9dy0EU9VTxQcnCK5SMxC2VH3ZP3bX9VZxLJxVI9nGVBW7lSq71j
-	 Hvt0xJuIub2wljzbyNeVW1EvlR4WVJt0vl4gZs/wC425aDkypFR6TWVxGjs6ZrvRTt
-	 fEmKf0vok1CczFgzAeXkMtaRl8dCHmy4r0DDfEjZ3ZVMMOcQDauVLXi554BrC4iYOG
-	 TdbG1PtbI2LRD7t4vYHIvOIDssQNSIfKEtSGJ8QbWS3fu0DtgvVVWYxmFnXFdruF1Q
-	 sQdmxuqouOKRQ==
+	b=QRHnw2HPI+SlvabJlQs6ipDcmamFsiIoYLF1aejPnejXMwPxTZmOsH9+2bCUQMcSe
+	 YbbtTQLCBXDicFaApIIDNhuckgYB4wH96acMuzlScj0r9sz+PILDG2atoQBHQJbeuE
+	 gFohsbelWLEThFLqpfPWXMdSKYCnAaunVSpzIdyScfZO4kqm0wTtgl5Yd2xmGwO0s+
+	 45HLpZQyklIFn3Ela4+zCOH7XwXeXO8xnzCRb9eLet/BTS9ATv6gApudV4btGZN9Ac
+	 Qzf+s0CF8yNZ3KYGabFtdGivV8zC5963UcR86qjVz0GGe3niqN4a48dB8BVoC3+BpP
+	 +QPqzWIqqYpjw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 02 Oct 2026 15:52:43 +0200
-Subject: [PATCH 12/21] selftests/filesystems: check that an automount below
- an overlay layer is refused
+Date: Fri, 02 Oct 2026 15:52:44 +0200
+Subject: [PATCH 13/21] fhandle: decide the subtree check under mount_lock
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261002-work-mount-fixes-4-v1-12-dd44b89d44ce@kernel.org>
+Message-Id: <20261002-work-mount-fixes-4-v1-13-dd44b89d44ce@kernel.org>
 References: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
 In-Reply-To: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -48,225 +47,133 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  Amir Goldstein <amir73il@gmail.com>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6399; i=brauner@kernel.org;
- h=from:subject:message-id; bh=IoNfPAJCstFFmjylj9ccqtenSjICQVDGo1zt1drMIHc=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt3x7ZKvvmU4Kk2ZpaniqLm1tuzOebIXq8YquG04sff
- y+fenX8aUcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEOF4wMrz8HMd+S+u0TGb/
- iq5rliZT5nqeeZvD9PijPNOlr4dWX/VgZGh8+W1xhKjkadNZM3rlL7S4V3Ct0ftWx/j+rvcHzTC
- Op8wA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4888; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=HClaV3WgtXVOMdVIC7bk1eIXX99Ro3YtaVGII178XZs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt3x4lLV/NKi13ZaGK2A1D/gWZf7qcH2zW2jZd/tFfs
+ /IdeqGvOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYyW4qR4RLja4nlSuFXajez
+ tzwXaKuvZzy1a9JhQ14ettmMU/bX7mX4Z7nrsnHZbO7Dp1bNvFR+KfI7X8ysVCsPg3MZa1hlngV
+ d4AUA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Make sure that we don't automount on top of internal things.
+may_decode_fh() lets a caller who is privileged over the mount
+namespace of @root decode handles below @root->dentry as long as the
+mount is mounted and no locked child covers something below it. The
+three parts are read one after the other without a lock: is_mounted()
+and capable_wrt_mount() read ->mnt_ns and has_locked_children() walks
+->mnt_mounts under a mount_lock of its own.
+
+Today the gaps are harmless. A lazy umount in between clears ->mnt_ns,
+but the locked children stay attached to their unmounted parent, so the
+walk still finds them and the decode is refused either way. The
+following patches detach every unmounted mount from its parent. Then
+an umount between is_mounted() and the walk makes the walk come back
+empty and the caller decodes into what a locked child covered.
+
+So take mount_lock once and answer all three questions under it.
+is_mounted() is stable there, umount_tree() clears ->mnt_ns on the
+write side, and a mounted mount still has its locked children on its
+list. ns_capable() under the spinlock is fine, generic_permission()
+calls it in RCU walk already. has_locked_children() loses its locking
+wrapper, its other callers hold namespace_sem or mount_lock anyway.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- .../selftests/filesystems/overlayfs/.gitignore     |   1 +
- .../selftests/filesystems/overlayfs/Makefile       |   1 +
- .../filesystems/overlayfs/automount_in_layer.c     | 174 +++++++++++++++++++++
- 3 files changed, 176 insertions(+)
+ fs/fhandle.c   | 20 +++++++++++++++++---
+ fs/namespace.c | 14 ++++----------
+ 2 files changed, 21 insertions(+), 13 deletions(-)
 
-diff --git a/tools/testing/selftests/filesystems/overlayfs/.gitignore b/tools/testing/selftests/filesystems/overlayfs/.gitignore
-index 077f7a128168..b343cc430051 100644
---- a/tools/testing/selftests/filesystems/overlayfs/.gitignore
-+++ b/tools/testing/selftests/filesystems/overlayfs/.gitignore
-@@ -2,3 +2,4 @@
- dev_in_maps
- set_layers_via_fds
- idmapped_mounts
-+automount_in_layer
-diff --git a/tools/testing/selftests/filesystems/overlayfs/Makefile b/tools/testing/selftests/filesystems/overlayfs/Makefile
-index b3185f684add..382a59bda5e7 100644
---- a/tools/testing/selftests/filesystems/overlayfs/Makefile
-+++ b/tools/testing/selftests/filesystems/overlayfs/Makefile
-@@ -9,6 +9,7 @@ LOCAL_HDRS += ../wrappers.h log.h
- TEST_GEN_PROGS := dev_in_maps
- TEST_GEN_PROGS += set_layers_via_fds
- TEST_GEN_PROGS += idmapped_mounts
-+TEST_GEN_PROGS += automount_in_layer
+diff --git a/fs/fhandle.c b/fs/fhandle.c
+index f8829231e3d7..d22f2e065677 100644
+--- a/fs/fhandle.c
++++ b/fs/fhandle.c
+@@ -298,6 +298,22 @@ static bool capable_wrt_mount(struct mount *mount)
+ 	return mnt_ns && ns_capable(mnt_ns->user_ns, CAP_SYS_ADMIN);
+ }
  
- include ../../lib.mk
- 
-diff --git a/tools/testing/selftests/filesystems/overlayfs/automount_in_layer.c b/tools/testing/selftests/filesystems/overlayfs/automount_in_layer.c
-new file mode 100644
-index 000000000000..0476c4582bdf
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/overlayfs/automount_in_layer.c
-@@ -0,0 +1,174 @@
-+// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * A layer of an overlay is a private clone of the mount it was given and
-+ * belongs to no mount namespace. fanotify hands out descriptors on it. An
-+ * automount triggered through one has no namespace to go into: the open has
-+ * to fail, not oops with namespace_sem held.
++ * Does the caller have an unobstructed way to everything below @root? Only
++ * if the mount is mounted, the caller is privileged over its mount namespace
++ * and no locked child covers something below @root->dentry. One answer from
++ * under mount_lock: an umount in between clears ->mnt_ns and takes the
++ * children off the mount, the locked ones too.
 + */
-+#define _GNU_SOURCE
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <poll.h>
-+#include <sched.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <linux/magic.h>
-+#include <sys/fanotify.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/vfs.h>
-+
-+#include "../../kselftest_harness.h"
-+
-+#define DIR_LEN		64
-+#define PATH_LEN	192
-+
-+static bool have_fs(const char *name)
++static bool subtree_unobstructed(const struct path *root)
 +{
-+	char line[128];
-+	bool found = false;
-+	FILE *f;
++	struct mount *mnt = real_mount(root->mnt);
 +
-+	f = fopen("/proc/filesystems", "re");
-+	if (!f)
-+		return false;
-+	while (fgets(line, sizeof(line), f)) {
-+		char *nl = strchr(line, '\n');
-+		char *tab = strchr(line, '\t');
-+
-+		if (nl)
-+			*nl = 0;
-+		if (tab && !strcmp(tab + 1, name))
-+			found = true;
-+	}
-+	fclose(f);
-+	return found;
++	guard(mount_locked_reader)();
++	return is_mounted(root->mnt) && capable_wrt_mount(mnt) &&
++	       !has_locked_children(mnt, root->dentry);
 +}
 +
-+static int mnt_id_of(int fd)
-+{
-+	char path[64], buf[4096], *p;
-+	ssize_t n;
-+	int info;
-+
-+	snprintf(path, sizeof(path), "/proc/self/fdinfo/%d", fd);
-+	info = open(path, O_RDONLY | O_CLOEXEC);
-+	if (info < 0)
-+		return -1;
-+	n = read(info, buf, sizeof(buf) - 1);
-+	close(info);
-+	if (n <= 0)
-+		return -1;
-+	buf[n] = 0;
-+	p = strstr(buf, "mnt_id:");
-+	return p ? atoi(p + strlen("mnt_id:")) : -1;
-+}
-+
-+static bool on_debugfs(int fd)
-+{
-+	struct statfs sf;
-+
-+	return !fstatfs(fd, &sf) && sf.f_type == DEBUGFS_MAGIC;
-+}
-+
-+FIXTURE(layer) {
-+	char base[DIR_LEN];
-+	int fan;
-+	int evfd;	/* on the layer clone of the lower debugfs */
-+};
-+
-+FIXTURE_SETUP(layer)
-+{
-+	char lower[PATH_LEN], other[PATH_LEN], ovl[PATH_LEN], opts[2 * PATH_LEN + 16];
-+	struct fanotify_event_metadata *ev;
-+	struct pollfd pfd;
-+	char buf[4096];
-+	int lfd, lower_id;
-+	ssize_t n;
-+	DIR *d;
-+
-+	self->fan = -1;
-+	self->evfd = -1;
-+	if (geteuid())
-+		SKIP(return, "test requires root");
-+	if (!have_fs("debugfs") || !have_fs("tracefs"))
-+		SKIP(return, "test requires debugfs with the tracefs automount");
-+	if (!have_fs("overlay"))
-+		SKIP(return, "test requires overlayfs");
-+
-+	snprintf(self->base, sizeof(self->base), "/tmp/layer.XXXXXX");
-+	ASSERT_NE(mkdtemp(self->base), NULL);
-+	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-+	ASSERT_EQ(mount("", "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
-+	ASSERT_EQ(mount("tmpfs", self->base, "tmpfs", 0, "mode=0755"), 0);
-+	snprintf(lower, sizeof(lower), "%s/lower", self->base);
-+	snprintf(other, sizeof(other), "%s/other", self->base);
-+	snprintf(ovl, sizeof(ovl), "%s/ovl", self->base);
-+	ASSERT_EQ(mkdir(lower, 0755), 0);
-+	ASSERT_EQ(mkdir(other, 0755), 0);
-+	ASSERT_EQ(mkdir(ovl, 0755), 0);
-+	ASSERT_EQ(mount("debugfs", lower, "debugfs", 0, NULL), 0);
-+	snprintf(opts, sizeof(opts), "lowerdir=%s:%s", lower, other);
-+	ASSERT_EQ(mount("overlay", ovl, "overlay", MS_RDONLY, opts), 0);
-+
-+	self->fan = fanotify_init(FAN_CLASS_NOTIF | FAN_NONBLOCK | FAN_CLOEXEC,
-+				  O_RDONLY | O_CLOEXEC);
-+	ASSERT_GE(self->fan, 0);
-+	ASSERT_EQ(fanotify_mark(self->fan, FAN_MARK_ADD | FAN_MARK_FILESYSTEM,
-+				FAN_OPEN | FAN_ONDIR, AT_FDCWD, lower), 0);
-+	lfd = open(lower, O_RDONLY | O_DIRECTORY | O_CLOEXEC);
-+	ASSERT_GE(lfd, 0);
-+	lower_id = mnt_id_of(lfd);
-+	close(lfd);
-+
-+	/* the overlay opens its lower directory through the layer clone */
-+	d = opendir(ovl);
-+	ASSERT_NE(d, NULL);
-+	closedir(d);
-+	pfd.fd = self->fan;
-+	pfd.events = POLLIN;
-+	ASSERT_EQ(poll(&pfd, 1, 5000), 1);
-+	n = read(self->fan, buf, sizeof(buf));
-+	ASSERT_GT(n, 0);
-+	for (ev = (void *)buf; FAN_EVENT_OK(ev, n); ev = FAN_EVENT_NEXT(ev, n)) {
-+		if (ev->fd < 0)
-+			continue;
-+		if (self->evfd < 0 && on_debugfs(ev->fd) &&
-+		    mnt_id_of(ev->fd) != lower_id)
-+			self->evfd = ev->fd;
-+		else
-+			close(ev->fd);
-+	}
-+	ASSERT_GE(self->evfd, 0)
-+		TH_LOG("no event on the layer clone");
-+}
-+
-+FIXTURE_TEARDOWN(layer)
-+{
-+	if (self->evfd >= 0)
-+		close(self->evfd);
-+	if (self->fan >= 0)
-+		close(self->fan);
-+	umount2(self->base, MNT_DETACH);
-+	rmdir(self->base);
-+}
-+
-+TEST_F(layer, automount_below_the_clone_is_refused)
-+{
-+	struct stat st;
-+	int fd;
-+
-+	/* the automount point is there */
-+	ASSERT_EQ(fstatat(self->evfd, "tracing", &st, AT_NO_AUTOMOUNT), 0);
-+	/* the clone is in no namespace, so the automount has nowhere to go */
-+	fd = openat(self->evfd, "tracing", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
-+	EXPECT_LT(fd, 0);
-+	EXPECT_EQ(errno, EINVAL);
-+	if (fd >= 0)
-+		close(fd);
-+}
-+
-+TEST_HARNESS_MAIN
+ static inline int may_decode_fh(struct handle_to_path_ctx *ctx,
+ 				unsigned int o_flags)
+ {
+@@ -332,9 +348,7 @@ static inline int may_decode_fh(struct handle_to_path_ctx *ctx,
+ 
+ 	if (ns_capable(root->mnt->mnt_sb->s_user_ns, CAP_SYS_ADMIN))
+ 		ctx->flags = HANDLE_CHECK_PERMS;
+-	else if (is_mounted(root->mnt) &&
+-		 capable_wrt_mount(real_mount(root->mnt)) &&
+-		 !has_locked_children(real_mount(root->mnt), root->dentry))
++	else if (subtree_unobstructed(root))
+ 		ctx->flags = HANDLE_CHECK_PERMS | HANDLE_CHECK_SUBTREE;
+ 	else
+ 		return -EPERM;
+diff --git a/fs/namespace.c b/fs/namespace.c
+index bb0183ec2aaf..e116894c8667 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -2353,7 +2353,7 @@ void dissolve_on_fput(struct vfsmount *mnt)
+ }
+ 
+ /* locks: namespace_shared && pinned(mnt) || mount_locked_reader */
+-static bool __has_locked_children(struct mount *mnt, struct dentry *dentry)
++bool has_locked_children(struct mount *mnt, struct dentry *dentry)
+ {
+ 	struct mount *child;
+ 
+@@ -2367,12 +2367,6 @@ static bool __has_locked_children(struct mount *mnt, struct dentry *dentry)
+ 	return false;
+ }
+ 
+-bool has_locked_children(struct mount *mnt, struct dentry *dentry)
+-{
+-	guard(mount_locked_reader)();
+-	return __has_locked_children(mnt, dentry);
+-}
+-
+ /* locks: namespace_shared && pinned(mnt) || mount_locked_reader */
+ static bool __has_children(struct mount *mnt, struct dentry *dentry)
+ {
+@@ -2441,7 +2435,7 @@ struct vfsmount *clone_private_mount(const struct path *path)
+ 	if (!ns_capable(old_mnt->mnt_ns->user_ns, CAP_SYS_ADMIN))
+ 		return ERR_PTR(-EPERM);
+ 
+-	if (__has_locked_children(old_mnt, path->dentry))
++	if (has_locked_children(old_mnt, path->dentry))
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	new_mnt = clone_mnt(old_mnt, path->dentry, CL_PRIVATE);
+@@ -3056,7 +3050,7 @@ static struct mount *__do_loopback(const struct path *old_path,
+ 	if (recurse && !old->mnt_ns)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	if (!recurse && __has_locked_children(old, old_path->dentry))
++	if (!recurse && has_locked_children(old, old_path->dentry))
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	if (recurse)
+@@ -3544,7 +3538,7 @@ static int do_set_group(const struct path *from_path, const struct path *to_path
+ 		return -EINVAL;
+ 
+ 	/* From mount should not have locked children in place of To's root */
+-	if (__has_locked_children(from, to->mnt.mnt_root))
++	if (has_locked_children(from, to->mnt.mnt_root))
+ 		return -EINVAL;
+ 
+ 	/* Setting sharing groups is only allowed on private mounts */
 
 -- 
 2.53.0
