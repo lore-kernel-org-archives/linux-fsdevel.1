@@ -1,64 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8373F468C39;
-	Fri,  2 Oct 2026 23:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203A9547071
+	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 23:59:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790983565; cv=none; b=OBRnt2iYps0yqIe7eEpkZ8olPGbBystMXxsSWbxoXgV3RVVW42AxPnqNF8puE6VFAQvzqUiviQxQS2aLN/sV3RSXG2JaCOWsqmCv1EvqEfaFDT9KE5GIcDdQux7bvvJyH70+y4Gy+9mp7y/bwxMN07w2qqmGhLW7spU6+nLpqfI=
+	t=1790985569; cv=none; b=PLfrH9AjGnxEMroN970tS7FZ1UYEllboveZrNshRZopDtNqmnXPLi3YcIxReryxCZgF4xL6vyVGknJ4eG/A3PSO/PDvuzOTfAnFY42INw6L95xNFc2uk4ZfB4BnH3I7OIAUp90BOJoHNoVr2gTLMh/Nz/WJatkJtU4WkQ0ZpsPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790983565; c=relaxed/simple;
-	bh=l1/FScIK/9rZdsqCKvI7Q95vwLWnixcQW4L2Xs6R/RQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R8XodvMAqrJVA1woR48KvF+nSNIltxtCP/YT7mvW1XKQlOXr9C79swllyQrXg2hyBhSVWMdknf41MRPBgTsEbPDM9QAYvdy8905qFp8Yy8/9kk2fveUDXx10wYKAs3NUcBEwNnIaBmMmE/MBim4ytCTvJ5Io+MSUY24O6eJEvII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RnE8nbDX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790985569; c=relaxed/simple;
+	bh=sLkGfZptRXK51umYuoSuAMNosgceJoovn/TWb9z+shg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gAQjZw5bIyLqkvcR92lVAAniGB/o+7288ndOY15IOo18QOq96037d0Hw23l489x3stBGlK/PyjGQT7bHybyLyR0GvD5lPOMY3BoLOJfQKm02Hsb/MuxNPj+64mbOYwZ3pl5MnHruCqR4CNfkLHkQFFREwQ52DAV2duJYQk15NFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gEDqnTry; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnE8nbDX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69D121F000FF;
-	Fri,  2 Oct 2026 23:25:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gEDqnTry"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8F941F00893
+	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 23:59:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790983564;
-	bh=dX8mjLok4UtQXnDkgexJ+xhshtPu80jfh72aVt20z/k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RnE8nbDXaHLywz+cDXAfB6ZsQGwhyS440PA8yoFOF3QYRE5zAVHnXZOmhfUeCep3u
-	 a4wMpj9lCDH0ZrxcsQPIxE0o41ZkBkpkKwpM1mEQXH4IX8ybRNV71uD7PHiZm/NeOQ
-	 w3BG7/4gB1mOS3sKLbIYVRO7GvON4tUQ1YF6IHpozPPMnv3osR6gslxP/ykpHPw7/I
-	 TnFD7QONTnTEuozu6MuXDf4SKbQFytR/64idEu+bZ4Ts/kmQPDx5knPcSWSOGFq80t
-	 2QIyXFqkkUc72IbxBIxqhkws/q2qCT8DtxyVoFh6iNeG7vlZN5Ap4EJ7hwQoUvRZ3T
-	 IllQEwHSChcnQ==
-Date: Fri, 2 Oct 2026 16:25:42 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: djwong@kernel.org, hch@lst.de, Carlos Maiolino <cem@kernel.org>,
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org, david@fromorbit.com
-Subject: Re: [PATCH v17 00/21] fs-verity support for XFS with post EOF merkle
- tree
-Message-ID: <20261002232542.GA15366@quark>
-References: <20261002223705.2175542-1-aalbersh@kernel.org>
+	s=k20260515; t=1790985567;
+	bh=sqGFC3qmWH7lZzdVKHbKhQsEqSgB4ysviPSLiqhzyqY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=gEDqnTryhqiFJprKEVSK1K3Sb+gFGDOGkhezrxhlGQvG1+t0d4bTl/CuMSbXTArYR
+	 s0reyUj6gm/5H7saLwcyEafNfwTkNPGufkopttlAq/z1RBzwXIz6fwhVuQMMY7P6CT
+	 cKnrq+VbRhzzFh95qlhCL1VofIoA3biRtp8TQvImXKx0LRP6C84o0vYQkTROCU7W+R
+	 M/FD0GYCJKWdT7iUBMJMoZY/Iv4kaalv0R0PaWzJjk/73b7CTuvXy04scUUWZWGNb+
+	 pnnlvuFjEgpZmUjj5ynOfGh3pH7tNBlWgQr/jFXD2avveulb1umPpYpSOR6Z+l3rCS
+	 QOZO3knSW22Xw==
+Received: by mail-qv2-f41.google.com with SMTP id 6a1803df08f44-91782711448so4166446d6.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 02 Oct 2026 16:59:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwW8rh/z8mQgwxlKCDzG1FKpB5ageZOSIzj7TspMBYiMEO4SKCank1m+Df3e2a8SYOcsTDwiJFm75H2SxBw@vger.kernel.org
+X-Gm-Message-State: AFuF++nGxKTyfx/nnAtY4Y5wwZwcYUNamXVRzZYSrcsIfyULMkHcGi38
+	/pXS78aw2/GjFYrVjQgNjq9LBDYM4MMC5eNZDAHXrsFtMy9+TI9dKq9anelH+HIo9ela35RjTDU
+	wPQX8hO25cwQi4SI4llsCae7OZ9TN+yk=
+X-Received: by 2002:a05:620a:31a1:b0:93c:63f5:eab with SMTP id
+ af79cd13be357-93cf17173c2mr775294085a.31.1790985566849; Fri, 02 Oct 2026
+ 16:59:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261002223705.2175542-1-aalbersh@kernel.org>
+References: <20260706235053.4104951-1-song@kernel.org> <CAPhsuW7E-mW5CvmSXjUsc1GBjvgpy=pnaYOzTJsLXDvx8+RMJQ@mail.gmail.com>
+ <20260928-hinein-lacke-nachfahren-45ac39a36146@brauner> <CAHC9VhRPd8z=67=RWM-0DqjTXysk75FtF=haY9-Vv1oGcX1PAg@mail.gmail.com>
+ <CAPhsuW7iFP4Y6C1ZhTvtEgTzgKjnpF9+8YfVg4o3P4BHEnR+LA@mail.gmail.com>
+ <CAHC9VhQVVfKkRaHOp90E-WVGEVy_MYFBreUYPMc9Y79rLaviRQ@mail.gmail.com>
+ <CAPhsuW5jQCe89LT_22dvQWVnw2cvpceODjvKiHEiYT9Wm_Npgg@mail.gmail.com>
+ <CAHC9VhRdn-jrNJY1K=1RsZQiO80QKR3nD+DHyUM5n_a3TrxLhA@mail.gmail.com>
+ <CAPhsuW5r0Uqu2xUzxkLAakA4=waE-1LLORSqU4SSD5sX_NEn9A@mail.gmail.com> <CAHC9VhQvaQyx35M-DJmfrVVqXNcmS+_5uwbtDgMB9SPERaQvog@mail.gmail.com>
+In-Reply-To: <CAHC9VhQvaQyx35M-DJmfrVVqXNcmS+_5uwbtDgMB9SPERaQvog@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Fri, 2 Oct 2026 16:59:15 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW4XdDUAoL-pXAD5UAGjU=JEQUr7Hw1vDkZGX3dOAiRR1A@mail.gmail.com>
+X-Gm-Features: AclHuK9C91U0PJ9_l2jaTWobWTm1-Dmq8dZhGXcoIwRv5AqNzoLVEvpCNXqEjEI
+Message-ID: <CAPhsuW4XdDUAoL-pXAD5UAGjU=JEQUr7Hw1vDkZGX3dOAiRR1A@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] lsm: Replace security_sb_mount with granular mount hooks
+To: Paul Moore <paul@paul-moore.com>
+Cc: Christian Brauner <brauner@kernel.org>, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, jmorris@namei.org, serge@hallyn.com, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, john.johansen@canonical.com, 
+	stephen.smalley.work@gmail.com, omosnace@redhat.com, mic@digikod.net, 
+	gnoack@google.com, takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
+	kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 03, 2026 at 12:36:41AM +0200, Andrey Albershteyn wrote:
-> Andrey Albershteyn (19):
->   fsverity: report validation errors through fserror to fsnotify
->   fsverity: expose ensure_fsverity_info()
->   fsverity: pass digest size and hash of the all-zeroes block to ->write
->   fsverity: hoist pagecache_read from f2fs/ext4 to fsverity
->   fsverity: don't allow setting DAX file attribute on fsverity files
->   fsverity: hoist statx reporting of fs-verity flag
+On Wed, Sep 30, 2026 at 10:55=E2=80=AFPM Paul Moore <paul@paul-moore.com> w=
+rote:
+>
+> On Wed, Sep 30, 2026 at 12:37=E2=80=AFPM Song Liu <song@kernel.org> wrote=
+:
+> > On Tue, Sep 29, 2026 at 8:41=E2=80=AFAM Paul Moore <paul@paul-moore.com=
+> wrote:
+[...]
+> >
+> > Thanks for the clarification! It appears we can indeed add coverage
+> > for the new mount APIs without much work.
+> >
+> > Attached is a quick draft for this change on top of current patchset.
+> > Is this heading in the right direction?
+>
+> Can you send out a revised patchset?  I suspect there will be a number
+> of people who want to review your draft, and it's a lot easier if we
+> don't all have to apply the patch separately :)
 
-Would it be helpful if I applied these six patches to fsverity/for-next
-for 7.4, or do you want to wait for the full series to go in at once
-(presumably through the XFS tree)?
+After reading the code further, I better understand why Christian thinks
+there is a significant gap here. I will not able to finish a good draft bef=
+ore
+LPC. Hopefully, we can discuss this in a hallway track, and reach a good
+version soon after LPC.
 
-- Eric
+Thanks,
+Song
