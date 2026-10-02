@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074844DBD70;
-	Fri,  2 Oct 2026 13:54:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD224DEC1E;
+	Fri,  2 Oct 2026 13:54:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790949263; cv=none; b=og79CD0mMKHwQSnC+kyBpd2pqGMw88WX8MqyE4UZYF0+SEdr5BksDW5P0k7rhBrgq0e/lcr2xHGuGF4Gm9uL/EARXG3LR1SlElxZg5pRpVtUEFmtcRPdpLCuECVyPT//F72C8laJu81/oz8odS7C5rOrLMDruAdWqnhDB08HKL4=
+	t=1790949265; cv=none; b=NnHpbQQVY7I3ZZpT6YPgwg7V16pjnUZKxyoPV377osOlvRrqLnQ3DNIaNunXQ/rx6IFlyeVgOMkOBUibry2xSBE2hYxJRQtT0PoUiT2YjLlWOrm4sKsYW+GPy92M+BZAQbqGNTCPTFy0u7jFM07aJ22rU88yPPvWgxfjvXPi/os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790949263; c=relaxed/simple;
-	bh=6DTUTR3vci9TVR0f5VJSu7/oQFnEzU3Q12LI98klt38=;
+	s=arc-20240116; t=1790949265; c=relaxed/simple;
+	bh=eMVNQDHBhsS8n418SK8qWeJaWkwjkfji45j4NHzcOiI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DOQzyjcp/M2xJzUoVWn4osl+sKb7vfFktfVPZ91mPbP4O22Knq/sRnAZncoIm3zgGgz2nJIrT8CsHoVDo5t/YurmeSIHoF/VVte9OPJUGYVgXetdqYHLGPWhsb+UUmXuo77DN1FyIuhNbbB3g5znlaKac0L0RkUddHrJfgeXvMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EZ7kq2YG; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=ZUFnsvHVLHHOuGQcPiIK5Pmge50KuWHDMlcCmR592Y/xWaikLnsl7HfDAH9OEF6yVLlY+uuqLHiVuDe/EpcGV0Ql7AeInxz4JDTkZ9g7Le9QsFwzOuUoi2l7YE8+YLEM1XTn+/73j9LgtvEmOWuEPi2kVAjpSLExwVnznjWVkHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZehBxbz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EZ7kq2YG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D30611F000FF;
-	Fri,  2 Oct 2026 13:54:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZehBxbz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 624411F00893;
+	Fri,  2 Oct 2026 13:54:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790949261;
-	bh=3fGReSXC5XNGD1PpaGmsCBaQNVkgsJNA6DlnvCVauj4=;
+	s=k20260515; t=1790949264;
+	bh=CXlFBKPw/kKqUYL0fAlx1bx+fl4i7V/NhKk5kA50TsY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=EZ7kq2YGeQYe2UmN47oJF8WyHKR8fuKGtSXclNpkYw30DMe8n1NZ0wHnyv6XPS5NZ
-	 eAWkhrlIwwyvEF5slYBKxxs/v6rTWTzxY94srjqS5ya2BMAzTwYJVhQ0PXaEeGkypy
-	 tHZpyC69/O2t6vpIbQv0sov5KP8oSHTCVXnEIvKC9jld4alTOaUjRBiNVI62OP3KqC
-	 W6Hi2EFKN/PzVZKpyVOpJIZGXNNQdxYnvpVPlOR3Cxt1vovySn+/D51wiNxmtJMyY7
-	 Qru5vCnww1Aw1KZ+VOF9cxmVPErNIoV/WL7XrxX21aI1sTDH23KRM4sfxzh9jzUFnD
-	 noa3/qoW6Sr0w==
+	b=FZehBxbzNd1SQHHScFmKPmahaVYzu+V536+hGWMI3UcsW29/thBEPozcj674sktT6
+	 l+oMoCjxcbX6QMea/gwGlLG7lj8kdfNLT252Q35tfFB013E6NQ0YjBRGOuUDfH3rp2
+	 f+QfrqeMK6oTU3rV0Mj0nRD19q2YMtTUjNJxLkTU1WVPJ8/nAU3m3BprTSU9m9kBzU
+	 5CPvUD2KeckLqK7O0Szpi0+EcpGr9w0Qx6BdOZrZV9Bxx9X4OBO9VpqOdg6ItGfGOM
+	 7ihga7oktoSq+DNbuqZ1pQ/g8q6REfWLU+ll12bW8w01YHfW16FQJ493e9AQfrQTru
+	 qXjZcy6FZPtag==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 02 Oct 2026 15:52:50 +0200
-Subject: [PATCH 19/21] readdir: take no inode lock on an immutable
- directory
+Date: Fri, 02 Oct 2026 15:52:51 +0200
+Subject: [PATCH 20/21] selftests/filesystems: add a helper that holds a
+ readdir in a page fault
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261002-work-mount-fixes-4-v1-19-dd44b89d44ce@kernel.org>
+Message-Id: <20261002-work-mount-fixes-4-v1-20-dd44b89d44ce@kernel.org>
 References: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
 In-Reply-To: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -46,116 +46,265 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  linux-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>, 
  Jann Horn <jannh@google.com>, Neil Brown <neil@brown.name>, 
  Amir Goldstein <amir73il@gmail.com>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4042; i=brauner@kernel.org;
- h=from:subject:message-id; bh=6DTUTR3vci9TVR0f5VJSu7/oQFnEzU3Q12LI98klt38=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt3x5VxSJk+Pmkxd8flbX9c9s0bZW2TVF9xCWWr/4nQ
- /4cx7S9HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOp9WT4n/xHVTXz+y+FpPbD
- T6NZTgWy/r3zlcM2OknAa9El4+QLcYwMTwQnOmV+V7OrUJLJ9OpzMqrbOsHs6WTNux1vtvYZ5rz
- jBAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7504; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=eMVNQDHBhsS8n418SK8qWeJaWkwjkfji45j4NHzcOiI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt3x49eaLWHN2txxp7jkuKxmZEGsW2qXbkvlLKiGo1Z
+ i/1TWLoKGVhEONikBVTZHFoNwmXW85TsdkoUwNmDisTyBAGLk4BmIiRFyPDP27z1Z4Ce7sCZ2pJ
+ XmPMENsgxxqR97/G+Yl4G+/ebLMwRoY3s3//nXptwcflszjPTTQyWB5f5LTCfJe9s++q8L1GT6b
+ wAQA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-iterate_dir() takes the directory's i_rwsem shared and holds it across
-->iterate_shared(). For a directory that never has an entry and is
-never removed the lock keeps nothing still, it only orders every reader
-and every writer of that inode behind each other.
+A getdents64() whose buffer is a page registered with userfaultfd sits
+in handle_userfault() with whatever iterate_dir() took before it copied
+the entries. Add readdir_hold.h for tests that want to know what that
+blocks: it opens the userfaultfd before the test enters a user
+namespace, the fault happens in the kernel and needs CAP_SYS_PTRACE in
+the initial one, starts the readdir in a thread, waits until that
+thread is stuck, queues a create behind it and waits for it to settle,
+then probes a lookup with a watchdog and says whether it came back.
+The page is released afterwards so that everything drains on a kernel
+that still holds the lock across the copy.
 
-For the directory of a nullfs instance that matters. The instance of
-the initial mount namespace is the root of every empty mount namespace
-and the private instance is the root of every kernel thread, so one
-inode is shared across users who have nothing else in common. And a
-reader can hold the lock for as long as it likes: back the getdents()
-buffer with a mapping of a file on a FUSE mount of your own, let the
-copy of "." and ".." fault and let the server wait. Queue an exclusive
-taker behind it, a mkdir() in that directory goes through start_dirop()
-before the read-only mount is reported, and from then on every lookup
-that misses the dcache in that directory, every create and every mount
-on it waits until the server answers. One user of an empty mount
-namespace stalls all the others.
+The two users follow.
 
-Add FOP_IMMUTABLE for the file operations of a directory that never
-changes and is never removed and let iterate_dir() skip the lock for
-it. The flag never changes for a file, ->f_pos is protected by
-f_pos_lock since directories are FMODE_ATOMIC_POS, IS_DEADDIR can't be
-set on such a directory and neither touch_atime() nor fsnotify take
-i_rwsem. Set it on the nullfs directory. The placeholder directories of
-libfs never have an entry either but their owners remove them, so they
-keep the lock.
-
-Fixes: 9d4e752a24f7 ("namespace: allow creating empty mount namespaces")
-Cc: stable@vger.kernel.org # v7.1+
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/nullfs.c        |  1 +
- fs/readdir.c       | 13 +++++++++----
- include/linux/fs.h |  2 ++
- 3 files changed, 12 insertions(+), 4 deletions(-)
+ tools/testing/selftests/filesystems/readdir_hold.h | 224 +++++++++++++++++++++
+ 1 file changed, 224 insertions(+)
 
-diff --git a/fs/nullfs.c b/fs/nullfs.c
-index f76b87cf1841..bfc04bca3940 100644
---- a/fs/nullfs.c
-+++ b/fs/nullfs.c
-@@ -44,6 +44,7 @@ static const struct file_operations nullfs_dir_operations = {
- 	.lock		= nullfs_nolock,
- 	.flock		= nullfs_nolock,
- 	.setlease	= nullfs_nolease,
-+	.fop_flags	= FOP_IMMUTABLE,
- };
- 
- static int nullfs_fs_fill_super(struct super_block *s, struct fs_context *fc)
-diff --git a/fs/readdir.c b/fs/readdir.c
-index 76bb1ae3a450..f2288841337a 100644
---- a/fs/readdir.c
-+++ b/fs/readdir.c
-@@ -87,6 +87,8 @@ EXPORT_SYMBOL(wrap_directory_iterator);
- int iterate_dir(struct file *file, struct dir_context *ctx)
- {
- 	struct inode *inode = file_inode(file);
-+	/* never an entry, never removed: nothing for the lock to keep still */
-+	bool locked = !(file->f_op->fop_flags & FOP_IMMUTABLE);
- 	int res = -ENOTDIR;
- 
- 	if (!file->f_op->iterate_shared)
-@@ -100,9 +102,11 @@ int iterate_dir(struct file *file, struct dir_context *ctx)
- 	if (res)
- 		goto out;
- 
--	res = down_read_killable(&inode->i_rwsem);
--	if (res)
--		goto out;
-+	if (locked) {
-+		res = down_read_killable(&inode->i_rwsem);
-+		if (res)
-+			goto out;
+diff --git a/tools/testing/selftests/filesystems/readdir_hold.h b/tools/testing/selftests/filesystems/readdir_hold.h
+new file mode 100644
+index 000000000000..57eee1bef470
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/readdir_hold.h
+@@ -0,0 +1,224 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Hold a readdir of a directory in the page fault of its buffer and see
++ * whether a create and a lookup in that directory wait for it. For a
++ * directory that is permanently empty they must not.
++ */
++#ifndef __SELFTESTS_READDIR_HOLD_H
++#define __SELFTESTS_READDIR_HOLD_H
++
++#include <errno.h>
++#include <fcntl.h>
++#include <poll.h>
++#include <pthread.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <linux/userfaultfd.h>
++#include <sys/ioctl.h>
++#include <sys/mman.h>
++#include <sys/stat.h>
++#include <sys/syscall.h>
++
++#define HOLD_FAULT_MS	5000	/* for the reader to reach the fault */
++#define HOLD_QUEUE_MS	2000	/* for the create to queue up behind it */
++#define HOLD_LOOKUP_MS	5000	/* for the lookup to come back */
++
++struct readdir_hold {
++	int uffd;
++	int taskdir;		/* /proc/self/task, from before any namespace change */
++	long page_size;
++	char *page;		/* faults until released */
++	int dfd;
++	pid_t creator_tid;
++	int created;
++	int done[2];		/* the finder writes a byte when it is back */
++};
++
++/*
++ * The fault happens in the kernel, so the userfaultfd needs CAP_SYS_PTRACE
++ * in the initial user namespace or vm.unprivileged_userfaultfd. Call this
++ * before entering a user namespace.
++ */
++static inline int readdir_hold_init(struct readdir_hold *h)
++{
++	struct uffdio_api api = { .api = UFFD_API };
++
++	h->page = MAP_FAILED;
++	h->page_size = sysconf(_SC_PAGESIZE);
++	h->taskdir = open("/proc/self/task", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
++	h->uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
++	if (h->uffd < 0 || h->taskdir < 0 || ioctl(h->uffd, UFFDIO_API, &api)) {
++		if (h->uffd >= 0)
++			close(h->uffd);
++		if (h->taskdir >= 0)
++			close(h->taskdir);
++		h->uffd = h->taskdir = -1;
++		return -1;
 +	}
- 
- 	res = -ENOENT;
- 	if (!IS_DEADDIR(inode)) {
-@@ -112,7 +116,8 @@ int iterate_dir(struct file *file, struct dir_context *ctx)
- 		fsnotify_access(file);
- 		file_accessed(file);
- 	}
--	inode_unlock_shared(inode);
-+	if (locked)
-+		inode_unlock_shared(inode);
- out:
- 	return res;
- }
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 784fa20217c4..deb411e86661 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1978,6 +1978,8 @@ struct file_operations {
- #define FOP_ASYNC_LOCK		((__force fop_flags_t)(1 << 6))
- /* File system supports uncached read/write buffered IO */
- #define FOP_DONTCACHE		((__force fop_flags_t)(1 << 7))
-+/* Never changes and is never removed, readdir of a directory takes no lock */
-+#define FOP_IMMUTABLE		((__force fop_flags_t)(1 << 8))
- 
- /* Wrap a directory iterator that needs exclusive inode access */
- int wrap_directory_iterator(struct file *, struct dir_context *,
++	return 0;
++}
++
++static inline void readdir_hold_destroy(struct readdir_hold *h)
++{
++	if (h->uffd >= 0)
++		close(h->uffd);
++	if (h->taskdir >= 0)
++		close(h->taskdir);
++	h->uffd = h->taskdir = -1;
++}
++
++static inline void *readdir_hold_reader(void *arg)
++{
++	struct readdir_hold *h = arg;
++
++	/* the first byte written to the buffer faults until released */
++	syscall(__NR_getdents64, h->dfd, h->page, h->page_size);
++	return NULL;
++}
++
++static inline void *readdir_hold_creator(void *arg)
++{
++	struct readdir_hold *h = arg;
++
++	h->creator_tid = syscall(__NR_gettid);
++	/* takes the directory lock exclusive before it fails */
++	mkdirat(h->dfd, "x", 0755);
++	__atomic_store_n(&h->created, 1, __ATOMIC_RELEASE);
++	return NULL;
++}
++
++static inline void *readdir_hold_finder(void *arg)
++{
++	struct readdir_hold *h = arg;
++	int fd;
++
++	/* a lookup that misses the dcache takes the lock shared */
++	fd = openat(h->dfd, "no_such_name", O_RDONLY | O_CLOEXEC);
++	if (fd >= 0)
++		close(fd);
++	if (write(h->done[1], "x", 1) != 1)
++		perror("readdir_hold: finder");
++	return NULL;
++}
++
++/* the creator is back, or waits in the kernel for the lock */
++static inline bool readdir_hold_creator_settled(struct readdir_hold *h)
++{
++	char path[32], buf[256], *p;
++	ssize_t n;
++	int fd;
++
++	if (__atomic_load_n(&h->created, __ATOMIC_ACQUIRE))
++		return true;
++	if (!h->creator_tid)
++		return false;
++	snprintf(path, sizeof(path), "%d/stat", h->creator_tid);
++	fd = openat(h->taskdir, path, O_RDONLY | O_CLOEXEC);
++	if (fd < 0)
++		return false;
++	n = read(fd, buf, sizeof(buf) - 1);
++	close(fd);
++	if (n <= 0)
++		return false;
++	buf[n] = 0;
++	/* "pid (comm) state ..." */
++	p = strrchr(buf, ')');
++	return p && p[1] == ' ' && p[2] == 'D';
++}
++
++static inline bool readdir_hold_faulted(struct readdir_hold *h)
++{
++	struct pollfd pfd = { .fd = h->uffd, .events = POLLIN };
++	struct uffd_msg msg;
++
++	if (poll(&pfd, 1, HOLD_FAULT_MS) != 1)
++		return false;
++	if (read(h->uffd, &msg, sizeof(msg)) != sizeof(msg))
++		return false;
++	return msg.event == UFFD_EVENT_PAGEFAULT;
++}
++
++/* let the reader go on */
++static inline void readdir_hold_release(struct readdir_hold *h)
++{
++	struct uffdio_copy cp = {
++		.dst = (unsigned long)h->page,
++		.len = h->page_size,
++	};
++	void *zero;
++
++	zero = calloc(1, h->page_size);
++	if (!zero)
++		return;
++	cp.src = (unsigned long)zero;
++	if (ioctl(h->uffd, UFFDIO_COPY, &cp) && errno != EEXIST)
++		perror("readdir_hold: UFFDIO_COPY");
++	free(zero);
++}
++
++/*
++ * A readdir of @dfd that sticks in the fault of its buffer, then a create
++ * and a lookup in @dfd. Whether the lookup came back while the readdir was
++ * still stuck goes to @stalled. Returns -1 when that could not be found
++ * out.
++ */
++static inline int readdir_hold_check(struct readdir_hold *h, int dfd,
++				     bool *stalled)
++{
++	pthread_t reader, creator, finder;
++	struct uffdio_register reg = {};
++	struct pollfd pfd;
++	int ret = -1, i;
++
++	h->dfd = dfd;
++	h->created = 0;
++	h->creator_tid = 0;
++	h->page = mmap(NULL, h->page_size, PROT_READ | PROT_WRITE,
++		       MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	if (h->page == MAP_FAILED)
++		return -1;
++	reg.range.start = (unsigned long)h->page;
++	reg.range.len = h->page_size;
++	reg.mode = UFFDIO_REGISTER_MODE_MISSING;
++	if (ioctl(h->uffd, UFFDIO_REGISTER, &reg) || pipe2(h->done, O_CLOEXEC))
++		goto out_page;
++
++	if (pthread_create(&reader, NULL, readdir_hold_reader, h))
++		goto out_pipe;
++	if (!readdir_hold_faulted(h))
++		goto out_reader;
++	if (pthread_create(&creator, NULL, readdir_hold_creator, h))
++		goto out_reader;
++	for (i = 0; i < HOLD_QUEUE_MS / 10 && !readdir_hold_creator_settled(h); i++)
++		usleep(10000);
++	if (pthread_create(&finder, NULL, readdir_hold_finder, h))
++		goto out_creator;
++
++	pfd.fd = h->done[0];
++	pfd.events = POLLIN;
++	*stalled = poll(&pfd, 1, HOLD_LOOKUP_MS) != 1;
++	ret = 0;
++
++	readdir_hold_release(h);
++	pthread_join(finder, NULL);
++out_creator:
++	if (ret)
++		readdir_hold_release(h);
++	pthread_join(creator, NULL);
++out_reader:
++	if (ret)
++		readdir_hold_release(h);
++	pthread_join(reader, NULL);
++out_pipe:
++	close(h->done[0]);
++	close(h->done[1]);
++out_page:
++	munmap(h->page, h->page_size);
++	h->page = MAP_FAILED;
++	return ret;
++}
++
++#endif /* __SELFTESTS_READDIR_HOLD_H */
 
 -- 
 2.53.0
