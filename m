@@ -1,151 +1,115 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6649847127F
-	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 09:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1089E374A12;
+	Fri,  2 Oct 2026 10:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790933051; cv=none; b=MMyfMmpL3T6rS8p/SyZsmzmoygQ3hiFDK5RhU+aJSP5RzWiPPuLVtP78btk6JcVcIimvQpXvF5YFmVCWUrNSHlMvsgwYFwnKsIF+ydKAutbkNJWKIHUJrViZKthLiE4orNZ5cmrVHy6sdVtVT4eYdqqozc116ZHczvcfC6LsHR0=
+	t=1790935663; cv=none; b=lRSGM8bT1G3gnk+YdWFafFkD8vif8IMDn64B2yJSqTeg96rD21H1cc7hhuQyT2QSdGqpR8EBBdfsTLe86NCL9INwm1Wt7W+ODpwznU24/0atChT5hJCBvybiRd9v7N7lmlgpVCvevlS11kBKZ0Mo4TM8y6ZaBDLDHKCXIJmmFpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790933051; c=relaxed/simple;
-	bh=TeAW1a6RQCXCKf7Eio6ms5S8qheL7kZWqi963AqXvR0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t8FC10L01gutrijyO7+pYT7UiQsUX1NvSpe5+v+4Bfb2XlrZGtO0JOn8GtMGxsjyFf+J5gBr5riKWWjuRvDDelU/qNfjRcIqoyB+7q8iWLFjSKyJHhutSTLQZzWmpAHu146NE0NFWWYgDSyHJhT3V0Ami/NPMcCz2AzLpwzQWH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=XyWD4JcE; arc=none smtp.client-ip=74.125.228.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1790935663; c=relaxed/simple;
+	bh=0mTU4GXrzawN6cP4nmnSp0HVBlilX5z+tSvo0yS7r1g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HhdrhDeXQv/N9c5Bu8mT+0v17vtMT9jpD9roHULZOSCP1C8Jt9it/5tqCEUorsU+ayvaS0LX/CzwPARg4I7ajUDP4s3r6ZlWYnytIOk09CpVE+8qow1wlx+1ouknFzxvjCEgFjkK4ihi37j1s7bwYLWGuntVXatAJ47flBR1MvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=llK4AeWe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="XyWD4JcE"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-8692a8568e9so3208195b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 02 Oct 2026 02:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1790933048; x=1791537848; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=e4aOyrFzh7gdGZ8/kq9sOV0yCHBHbrdKcYYOkMYs0fA=;
-        b=XyWD4JcEDqXhMkro787C6+7c6H2MG9RLH4o33V3Ka7TTw7+y0Pj/IJ4RYhOjoEvWy4
-         hwIV9Nbs0QGxdp2S511/yKmuYiFhUzOeuUqwxlvWoMFpPGnBgZk4gyxt8fQ4MIE47Xhy
-         /f+0YXdlAf9kL9gJTboMkzPW3kXtEs8STKZH8M70cBo+8pTA2yAO9LrQngvQKTCjW9dU
-         6th5q+GvyyPsFUe7vErmACYwFvrc3M76vuC89mYWyRyR++bPtEiPdUftAL9VaOR4KAu4
-         eGYkejDGdAcjPys/ppCDn2QzU5eYSWULW6SLYWOizv8rBGuRkEVQt/TZisLaH0DeCM9I
-         8sig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790933048; x=1791537848;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=e4aOyrFzh7gdGZ8/kq9sOV0yCHBHbrdKcYYOkMYs0fA=;
-        b=y7ZOOa7wwUd7dFQIfaT7UDPtrGtlD5q9iTNUzSZhM0sw6agi+sG0G1GAzGX+R2Ij74
-         1T13Zsvya1RU5V5GxtDtqDwzzcj2XYC6/57Lic3Zvjqszns+mwHTlBFLB31wj/aHHK8G
-         Qc6c4dsGeyQoz/ugCb1vo9SuquDtUeHwPxWurNTcI9zqpX39pcNTCroVb5tsgRT8S7TU
-         nRbF7hdvTMaS78SZA0Fgr1v5dGqBQX18fzllxI0TKE8cVXxEE9OePBsHrkXjhHAJeJO2
-         1izIGC2MzL2GG9zViW7phmiTqfPnVvnsusH/QundfD0PQ/IbMY3O7IT0+PsV7j+Jsf56
-         ZTew==
-X-Forwarded-Encrypted: i=1; AKwUvBwb39DmEP9p95NRLVFdVZs2Wf2WrnbioiXb6ymDJx4VjRg2SGAsVWXDy2cnqoEgCLvcp5RwPG5PmyJE041a@vger.kernel.org
-X-Gm-Message-State: AFuF++n4noP86gVE0derRNaRT/C/EFbi5SlPXXuS9E9XfOBEqDdahNeU
-	Gz5JtjsPxVKR2l0oqEKIuYSjxxB3jXXCEH0cCb5tCwniS0SnXi6OL9cbCgmvL9mIZ3A=
-X-Gm-Gg: AYBFou2MIeZ4kzDDgYHQNMJX8Pwjvvnt92fZBSJKpsFBv8WX8o1xThpojTZuYSFVX3c
-	6ZSyVsF94jdCluGLeo6PFWY7HMIXumdT/hyt1eqTButBVHztSMRKJggeu9dOG8jvO3N93X8LrJ7
-	yxPEQmdwCF0rwXUhX0OYsuk0RK99ehiy/xqPmXcTB8j1re2Gi+CG74dSXVJLfnQiwj3jAdkAEcY
-	5ro2xQ2QT1wYbuA8IoqNv90emX0ggN5qM5tbX86LfHotaMPal3faeNBFXXRKiJQOvHQ/wYrr4yk
-	CqkqlUI9FuQya5qbzVsUyJsHOAeGFAFJNo8707+hY1o/rsc+Bq5PsVTtt3bjT9IrLO7T+kR3Qed
-	vsFGHBZpGXOT077oW1CnOcn32ibLryNV7E7iKICWH9UdDBA81NiY5Kd14WOphYET5mx/YlrpqVl
-	tMvp5uMmKnZY9hgppCP1r00812nXjJisPNi//YEN+g/+TcrFk4Uvb3cN2Nz+vGnCjNudNKztB4i
-	zGY6ZwcfSIpLt2HOWeo
-X-Received: by 2002:a05:6a00:428b:b0:878:3538:8f7f with SMTP id d2e1a72fcca58-88af6658113mr1963422b3a.45.1790933048460;
-        Fri, 02 Oct 2026 02:24:08 -0700 (PDT)
-Received: from [10.254.198.23] ([139.177.225.243])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88b0c78c7bfsm659640b3a.36.2026.10.02.02.24.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2026 02:24:07 -0700 (PDT)
-Message-ID: <903dd25b-7af3-44cc-9425-9499f50d5750@bytedance.com>
-Date: Fri, 2 Oct 2026 17:23:54 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="llK4AeWe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D88951F000FF;
+	Fri,  2 Oct 2026 10:07:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790935661;
+	bh=u1r9CsebzekmHkUWNJ3ne/263jxtn1b01RsvPf0B/JQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=llK4AeWe82evvjfhPvoLp2Z0aiSjCR/QWdh6SsroPBJMnxYma70OWt7dlFdvXn+f0
+	 +s4qQ7aPwiNjRr5bRrZQ2zRjlsZsrgMIlyuA9aY1BZiCrCidngSwEf4EkmW0REQag5
+	 xn+tZCOdl/C96oCXNKe2MLyRQvUgvU8vZQGjUTtr4wLcJtOMlAwXsPcvkfJ8n9Yjj4
+	 l7nwRBk13YQG1Kb27SpsBO76f4VpkCwE1lVqTmEViMmxV7MgCTEdnj9TBvcAh2Ow6w
+	 VUSqTzZleN/6E8YNP9dOm+bVlaHCjP4Dk6lBS1uQhqSfV+EjQ9f2/vLKqQyitWZn+U
+	 1MACGMpAkqzPQ==
+From: Christian Brauner <brauner@kernel.org>
+To: Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>
+Cc: Paulo Alcantara <pc@manguebit.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Stefan Metzmacher <metze@samba.org>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	v9fs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v15 00/10] netfs, iov_iter: Use a chain of bio_vec arrays instead of folio_queue
+Date: Fri,  2 Oct 2026 12:07:29 +0200
+Message-ID: <20261002-fachsimpeln-hasten-situation-84f466b5d3cb@brauner>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261001091239.3343034-1-dhowells@redhat.com>
+References: <20261001091239.3343034-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/3] block: introduce bdev_flush_by_dev()
-To: Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>
-Cc: linux-block@vger.kernel.org, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, axboe@kernel.dk, hannes@cmpxchg.org,
- mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
- muchun.song@linux.dev, willy@infradead.org, tj@kernel.org,
- akpm@linux-foundation.org, Boris Burkov <boris@bur.io>
-References: <20260925064444.3944820-1-sunjunchao@bytedance.com>
- <20260925064444.3944820-2-sunjunchao@bytedance.com>
- <arYaMbJUh6unvz_t@infradead.org>
- <3w6vfwfkojmfqy2qs5j4q2s2366ajqiwmqf624lyn3odrv42v2@va2r7a6ngfz6>
- <aroIAqoCNDBPlB2A@infradead.org>
-From: Julian Sun <sunjunchao@bytedance.com>
-In-Reply-To: <aroIAqoCNDBPlB2A@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2644; i=brauner@kernel.org; h=from:subject:message-id; bh=0mTU4GXrzawN6cP4nmnSp0HVBlilX5z+tSvo0yS7r1g=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTtb0oz8mVJ/rZu5oWEsKQzaYzdQo3mBlNteabbf8wSe pZi3721o5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCLq+owMF22b3r8V2TvvxOu/ nPJ3fY8xODx0vT4lVHhS7Nw56x6/rWL4K7ZH4p7wAudjvx6z3BPa3GMnc+3J66Ka8ilPghfYLgo 4xgIA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On 9/28/26 2:24 PM, Christoph Hellwig wrote:
-> On Fri, Sep 25, 2026 at 12:34:52PM +0200, Jan Kara wrote:
->> On Thu 24-09-26 23:52:33, Christoph Hellwig wrote:
->>> On Fri, Sep 25, 2026 at 02:44:42PM +0800, Julian Sun wrote:
->>>> Add bdev_flush_by_dev() to submit page-cache writeback for a device
->>>> identified by dev_t without requiring callers to hold a persistent
->>>> device reference.
->>>
->>> This isn't really a flush is it?  This is writeback.
->>
->> So bdev_writeback_by_dev()? Fine by me.
+On Thu, 01 Oct 2026 10:12:28 +0100, David Howells wrote:
+> Could you pull these patches please into your vfs-7.4.netfs branch?  This
+> is the third of four (maybe five) batches, in this case replacing the
+> folio_queue struct with a bvecq struct, and is based upon the
+> aforementioned branch.  This was split from v11 of a larger netfslib
+> series[1].  I've fixed some issues spotted by sashiko[5-7].
 > 
-> Yes.
+> This series adds a new type, struct bvecq.  This points to a bounded array
+> of bio_vecs with information about how to clean up the memory they point
+> to.  A number of bvecq structs can be linked together to form a chain and
+> an iterator type, ITER_BVECQ, is provided that can be pointed at the chain
+> and can walk it.  Netfslib is then switched to use the new type and
+> folio_queue is removed along with ITER_FOLIOQ.
 > 
->> Well, Julian is explaining that in the cover letter. We don't want memcgs
->> to hold bdev references just for foreign flush tracking. There's no easy
->> way to get rid of them so they could pin bdevs for a long time leading to
->> strange artifacts.
-> 
-> I have to admit I didn't get it when flying over the cover letter.
-> But this also really belongs into the patch where it is more obvious,
-> or even better into code comments.
-> 
->>
->> As you write, we could just hold a reference to the bdev inode. Those get
->> unhashed when the device dies (__del_gendisk()) so memcgs would be just
->> wasting some memory by holding these inodes alive. But still, transitioning
->> from inode to proper bdev reference verifying bdev is still alive will add
->> a bit of hairy code (essentially what blkdev_get_no_open() does plus
->> verification inode is still hashed). Plus when replacing foreign flush
->> entries you're under irqsafe xa_lock so doing iput() from there is kind of
->> a nogo.
->>
->> So I think tracking devices by dev_t is a good way of dealing with these
->> problems. But then when flushing you have to transition from dev_t to
->> struct block_device and blkdev_get_no_open() is the canonical way of doing
->> that (and note this use is just internal to block/bdev.c).
-> 
-> I'd really prefer not to grow more blkdev_get_no_open users.
+> [...]
 
-Hi Christoph,
+Applied to the vfs-7.4.netfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.4.netfs branch should appear in linux-next soon.
 
-Could you elaborate on your concern about adding another
-blkdev_get_no_open() user here? Is it specific to this helper, or to
-submitting writeback with a temporary bdev reference without opening
-the device?
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-We only retain an identifier while tracking, and acquire a reference
-when performing writeback. Looking up the device through another path
-would still require handling the same lifetime constraints. Is there
-any cleanup or rework we could do first to address your concerns?
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-> 
-> But the more I look at this I wonder why we even bother.  Trying to
-> attribute individual bits of dirty metadata to cgroups is pretty much
-> insane.  Why don't we bypass memcg accounting for buffer_heads like we
-> always did for the XFS buffer cache, and what btrfs switched to last
-> year? See commit b55102826d7d ("btrfs: set AS_KERNEL_FILE on the
-> btree_inode") for the btrfs side.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-Thanks,
--- 
-Julian Sun <sunjunchao@bytedance.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.4.netfs
+
+[01/10] Add a function to kmap one page of a multipage bio_vec
+        https://git.kernel.org/vfs/vfs/c/a6a7576e126e
+[02/10] iov_iter: Add a segmented queue of bio_vec[]
+        https://git.kernel.org/vfs/vfs/c/05f94143ca30
+[03/10] netfs: Add some tools for managing bvecq chains
+        https://git.kernel.org/vfs/vfs/c/29d66a06098a
+[04/10] afs: Use a bvecq to hold dir content rather than folioq
+        https://git.kernel.org/vfs/vfs/c/cac55bc34a56
+[05/10] cifs: Use a bvecq for buffering instead of a folioq
+        https://git.kernel.org/vfs/vfs/c/b84e753bb326
+[06/10] smbdirect: Support ITER_BVECQ in smbdirect_map_sges_from_iter()
+        https://git.kernel.org/vfs/vfs/c/787366e144a5
+[07/10] netfs: Switch folioq to bvecq
+        https://git.kernel.org/vfs/vfs/c/f6da2ecbfbce
+[08/10] smbdirect: Remove support for ITER_FOLIOQ from smbdirect_map_sges_from_iter()
+        https://git.kernel.org/vfs/vfs/c/e85d0262d3c1
+[09/10] iov_iter: Remove ITER_FOLIOQ
+        https://git.kernel.org/vfs/vfs/c/e488bc1d0deb
+[10/10] netfs: Remove folio_queue
+        https://git.kernel.org/vfs/vfs/c/f71507811163
