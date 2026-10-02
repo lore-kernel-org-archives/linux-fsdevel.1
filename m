@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66ED2FE07D
-	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 14:14:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E632749AA34
+	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 14:14:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790950476; cv=none; b=FbVA3c1k4k0mUuEvvD2xz5cQYQPtk2clMCjvJUjhmZIv2VWdebu/eZMDZ0OKTaOOcSa+ytOLbqI8Q2zY2jRKU1YmRv0pausGISTzH7EN4mxj2tIggOH3fZ6Yng3ZIAiWUtoSJps1l7pnvid10vNRIAHSQhhIRC3Q7/KPdbjbNG8=
+	t=1790950478; cv=none; b=f9xQ1tcLn9qCkAubAODY/YhvaGazYtQ3Ceu8I4kQc/U7fBQgxV2vFg7/tNp8GEHfnr9Ell3Nh8XNzDHnytd4RC8fr9DuBmML9yToxc/oSrjsJKd9fIgmFlwIdTWMo+6z1GflYuLUjErpbjw6dfcbje6XbOGp3zu8/nnuc7I5P08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790950476; c=relaxed/simple;
-	bh=5MZ6/GXepeEqyZK5VUBvVBXRH6vAYoKtok5t9ebCl64=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=buOerEpmPWrLcUWfPx1h0CxMgmbpfUWHHL/RidPqK1/nDtqBfB7t797ni9lhrj68AoFQrZDhDHhVaTZu728jOJez/qEpzLrF1COl7cPDJZLTGeSBp3ng1vmJubPiQ+xge9JNmYvU/bPFqoKRtfDy+E292x9qfJx9wGnOcc0vyKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lfUcrSFt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790950478; c=relaxed/simple;
+	bh=qmv51oUheGo6zzXzuMNVQvhv3GKASV3Tk7XXMhGO4bs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=dmOx9Ukga7x6mkQHAGHgH9KxZXZsczbt2ne22aJNkHBqkVf2t+wGgVFovxDSLyEG/HGYVBJu8hNRB0PPgO+dnZPEhB8THZL4Mjeu2kA3P2vO6kZsiIeT+hWi/BMNsMCazt3B3AqSYd4+o6WgLR6amthDV4hxgafVgBUFJgkeH3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUfOhwAR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lfUcrSFt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E401F000FF;
-	Fri,  2 Oct 2026 14:14:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUfOhwAR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFFF81F00893;
+	Fri,  2 Oct 2026 14:14:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790950474;
-	bh=WbrVaIWa8pGJW80qrGIOJhkjqSK+yC+dVe0R3YErg9I=;
-	h=From:Subject:Date:To:Cc;
-	b=lfUcrSFtrAOJMe9cjH1KbyOV9wLPNroyKrO+uPDG55JwvGoiNHuJziNFArpZc7oP+
-	 o7TIBqs5rF1F3uPgmy4zhC4bHbYTYO1XI8Wdy21P4yOKY+tIWWMyvSPBuyGzvKIpOm
-	 Jw3dDTG1ZYalDXCZTH1hWL31leW10JLlHSyJuV2q5N/x1Y4aFuRtrFoqfEydEtct4u
-	 h+vltNajbTV5YJX/CzdpWEpHMV8s0unBbSicIh8rIIc/qrTz8nYCS99mW8nE72cr4q
-	 S+4YAWPQoR+nwj/Z4F7tKqysAKCFMDxbpRogEQ8OBmMs4PIauHmAgNXqn8yZZnF1u5
-	 pHcCYjT94GQiw==
+	s=k20260515; t=1790950476;
+	bh=DI5nyXXjttptFVUfbJ7w9e8pYdHcwTjegkM9ILztjz4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=mUfOhwAR9Yt77DGE1IrukVYkOGnaqEPb50daOqufuohz5/+8iL9yzIyyvoiIrvCII
+	 in7vUn346Yg7PrpK1neCDfBvahEA+mdfhqS8TVL07SH4widl9imHioSDpFXzcrE+ld
+	 vTWIuGEzvX9UZ2SOiZQW8Jt07QfH1kyLOvV/sgPltJjPzy7jHsR7UeXNIxonJCimol
+	 TntNVRDjDL0/13Q5MCh6lGU9M44/PS//ZjwgWNhgBYh8exSbIcEBGSA4UsYw381HMK
+	 EVcul6fVDbok0qU4iLY/vThvOKKUM6NwZ8N0ERA36INb+k12x/t0jKD/1FBtvBJZRY
+	 6JzxBNLm9hLpQ==
 From: Christian Brauner <brauner@kernel.org>
-Subject: [PATCH 0/3] namespace: rework connected mounts
-Date: Fri, 02 Oct 2026 16:14:26 +0200
-Message-Id: <20261002-work-mount-cover-v1-0-232a8f52b43c@kernel.org>
+Date: Fri, 02 Oct 2026 16:14:27 +0200
+Subject: [PATCH 1/3] nullfs: add an empty immutable regular file
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,10 +37,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMSw7CIBCA4as0s3YIkFijVzEuBpxaNIIZ+jBpe
- ncBl/88vg0yS+AMl24D4SXkkGIJc+jAjxQfjOFeGqy2vdHa4prkhe80xwl9WljQGW096+P5RAT
- l7SM8hG8jr7d/59k92U/VqReOMqMTin6soyqqJqomqrqHff8B+NMe1ZwAAAA=
-X-Change-ID: 20261002-work-mount-cover-b102ce0597aa
+Message-Id: <20261002-work-mount-cover-v1-1-232a8f52b43c@kernel.org>
+References: <20261002-work-mount-cover-v1-0-232a8f52b43c@kernel.org>
+In-Reply-To: <20261002-work-mount-cover-v1-0-232a8f52b43c@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
  Jann Horn <jannh@google.com>, Jan Kara <jack@suse.cz>, 
@@ -48,129 +47,154 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Alexander Viro <viro@zeniv.linux.org.uk>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5332; i=brauner@kernel.org;
- h=from:subject:message-id; bh=5MZ6/GXepeEqyZK5VUBvVBXRH6vAYoKtok5t9ebCl64=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt3+N2ZvMDFd5pDGmO1aYOJ1/FLZ+07eDGaIsPX7m5O
- K26OtVOdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExkuTEjw4GzJWad75ND6tny
- am+5el3UEV3ya/3LB0J3evftDdbMWs7IsCz56NrSe3VfJyZUXhZRX1+wOMG8t/Pbprb77FkvRSZ
- bcAMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4704; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=qmv51oUheGo6zzXzuMNVQvhv3GKASV3Tk7XXMhGO4bs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt3+O2PoJFSPsnp8POD4cnnT5cFiatsufsDunCtxL/p
+ vbvvHcytaOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiDRcZGS7IavzaGnfMScXu
+ t0XQE6X4SqZ1N8zeC/JNvZfa0DFhZRDD/7BK7/hpORppUsxnNP7NnHQqPiXKTDX1vmuR4xqVg7o
+ 1fAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-This is a simplified version and doesn't require vacating existing
-mounts and doesn't require such heavy machinery.
-
-UMOUNT_CONNECTED as implemented allows for the creation of reference
-count cycles. Here's a simple example
-
-  mkdir /x; mkfifo /ready /go
-  unshare -m sh -c 'mount -t tmpfs tmpfs /x
-                    truncate -s 8M /x/img; mkfs.ext4 -q /x/img
-                    dev=$(losetup -f --show /x/img)
-                    mkdir /x/mp; mount $dev /x/mp
-                    echo $dev > /ready; read r < /go' &
-  read dev < /ready
-  rmdir /x
-  echo > /go
-  wait
-  losetup -d $dev
-  losetup -a
-
-Take a directory /x on the host, create a new mount namespace, mount a
-tmpfs on /x, use a file on that tmpfs as the backing file for a loop
-device, mount that loop device on that tmpfs. Now rmdir /x on the host.
-This will lazily unmount the mount on top of /x in the container with
-UMOUNT_CONNECTED. Once the namespace exits nothing references the mount
-anymore. Now the tmpfs is pinned by the backing file of the loop device
-and the loop mount is owned by the tmpfs superblock.
-
-Fun fact, such cycles can be formed by at least the following
-subsystems and I have added reproducers for all of them:
-
-(1) a loop mount P from an image on a tmpfs next to it, so that P's
-    death shows as the loop device giving up its backing file
-
-(2) autofs with a FIFO on P as its pipe, zram with a device node on P as
-    its writeback device, both on a minix image since vfat has neither
-
-(3) ecryptfs with its lower directory on P, under a passphrase token
-    added to the session keyring
-
-(4) binfmt_misc in a new user namespace with an 'F' interpreter on P
-
-(5) a fuse server that answers FUSE_INIT with passthrough on and
-    registers a file on P as a backing file
-
-(6) zloop with its zone files in a directory on P
-
-(7) a mass storage gadget on the dummy UDC with its LUN file on P,
-    mounted from the SCSI disk the gadget shows up as
-
-(8) md with a RAID1 of one loop device and its bitmap file on P, which
-    skips while SET_BITMAP_FILE has no way to succeed
-
-(9) rmdir of P's mountpoint from the parent, then the child exits, then
-    the device must be free and LOOP_CLR_FD must release the file
-
-The underlying mechanism is UMOUNT_CONNECTED (MNT_LOCKED falls into the
-same class). With UMOUNT_CONNECTED an unmounted mount stays attached to
-its parent. This is used to protect revealing the underlying mount and
-is a non-negotiable security mechanism. So now the parent owns that
-mount and is put on the parent's final mntput(). That moves it to
-mnt_stuck_children and ultimately it's cleaned up by cleanup_mnt().
-
-The fact that ownership of the child mount gets transferred to the
-parent turns every reference from a child's superblock back to one of
-its ancestors into a cycle.
-
-Don't keep the child attached at all. What the parent needs is that a
-lookup at the child's mountpoint keeps finding some mount, not the child
-itself and it's not a guarantee we have given really.
-
-When an unmounted mount would have stayed attached to its unmounted
-parent disconnect it like every other unmounted mount and leave a
-marker behind.
-
-A lookup on the parent that misses the mount hash and hits a marker
-finds knullfs. Either a file or a directory. Nothing leads from a marker
-to any other mount.
-
-The marker is owned by the parent and dropped by the parent's final
-mntput() or by __detach_mounts() when the mountpoint is deleted from
-under it. It is allocated together with the mount.
-
-With that every unmounted mount is a root and holds only its own
-reference which namespace_unlock() drops. No unmounted mount owns
-another one. A superblock that pins an ancestor can't form a cycle.
-
-It has a visible change. Mounts left connected (rmdir etc.) used to stay
-traversable through the parent for as long as something held the parent.
-Now it is detached with the umount. It lives as long as something
-references it but it isn't reachable through the parent anymore and ".."
-inside it leads nowhere which is the same as for every other lazily
-unmounted mount.
+Add nullfs_new_file() to allocate an empty immutable regular file on a
+nullfs instance as a dentry of its own. It is never hashed under the
+root and so can't be found by lookup. Reads return nothing, changes are
+refused, file locks, leases and delegations are refused as.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-Christian Brauner (3):
-      nullfs: add an empty immutable regular file
-      namespace: rework connected mounts
-      selftests/filesystems: test covered mounts
+ fs/mount.h     |  1 +
+ fs/namespace.c | 25 +++++++++++++++++++++++++
+ fs/nullfs.c    | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 72 insertions(+)
 
- Documentation/filesystems/propagate_umount.txt     |   12 +-
- fs/mount.h                                         |   11 +-
- fs/namespace.c                                     |  154 +-
- fs/nullfs.c                                        |   46 +
- fs/pnode.c                                         |    4 +-
- .../selftests/filesystems/mount_cycle/.gitignore   |    3 +
- .../selftests/filesystems/mount_cycle/Makefile     |    7 +-
- .../selftests/filesystems/mount_cycle/config       |   39 +
- .../filesystems/mount_cycle/locked_handle_test.c   |  377 +++++
- .../filesystems/mount_cycle/loop_cycle_test.c      | 1542 ++++++++++++++++++++
- .../filesystems/mount_cycle/mount_cover_test.c     |  565 +++++++
- .../selftests/filesystems/mount_cycle/settings     |    1 +
- 12 files changed, 2709 insertions(+), 52 deletions(-)
----
-base-commit: e7d906b21f721c8ed884cecabdb182626941beb8
-change-id: 20261002-work-mount-cover-b102ce0597aa
+diff --git a/fs/mount.h b/fs/mount.h
+index 4e68e5cbc254..2e29cdbaeb74 100644
+--- a/fs/mount.h
++++ b/fs/mount.h
+@@ -6,6 +6,7 @@
+ #include <linux/fs_pin.h>
+ 
+ extern struct file_system_type nullfs_fs_type;
++extern struct dentry *nullfs_new_file(struct super_block *sb);
+ extern struct vfsmount *knullfs;
+ extern struct list_head notify_list;
+ 
+diff --git a/fs/namespace.c b/fs/namespace.c
+index e1b0ade95b0d..ff21e0440fae 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -81,6 +81,7 @@ static struct hlist_head *mount_hashtable __ro_after_init;
+ static struct hlist_head *mountpoint_hashtable __ro_after_init;
+ static struct kmem_cache *mnt_cache __ro_after_init;
+ struct vfsmount *knullfs __ro_after_init;	/* private nullfs instance */
++static struct vfsmount *knullfs_file __ro_after_init;	/* its regular file */
+ static DECLARE_RWSEM(namespace_sem);
+ static HLIST_HEAD(unmounted);	/* protected by namespace_sem */
+ static LIST_HEAD(ex_mountpoints); /* protected by namespace_sem */
+@@ -6330,6 +6331,25 @@ static void __init mount_rootfs_on_nullfs(struct vfsmount *mnt,
+ 		attach_mnt(real_mount(mnt), mp.parent, mp.mp);
+ }
+ 
++static struct vfsmount *__init knullfs_file_mount(void)
++{
++	struct dentry *file;
++	struct mount *mnt;
++
++	file = nullfs_new_file(knullfs->mnt_sb);
++	if (IS_ERR(file))
++		return ERR_CAST(file);
++	mnt = clone_mnt(real_mount(knullfs), file, CL_PRIVATE);
++	dput(file);
++	if (IS_ERR(mnt))
++		return ERR_CAST(mnt);
++	mnt->mnt_ns = MNT_NS_INTERNAL;
++	mnt->mnt.mnt_flags |= MNT_INTERNAL | MNT_READONLY;
++	/* nothing is ever mounted on it either */
++	dont_mount(mnt->mnt.mnt_root);
++	return &mnt->mnt;
++}
++
+ static void __init init_mount_tree(void)
+ {
+ 	struct vfsmount *mnt, *nullfs_mnt;
+@@ -6342,6 +6362,8 @@ static void __init init_mount_tree(void)
+ 	 * (1) nullfs with mount id 1
+ 	 * (2) mutable rootfs with mount id 2
+ 	 * (3) private nullfs for kthreads (SB_KERNMOUNT), kept in knullfs
++	 * (4) a second mount of (3) rooted on a regular file, kept in
++	 *     knullfs_file
+ 	 *
+ 	 * with (2) mounted on top of (1). The init_task's root and pwd
+ 	 * are pointed at (3) so all kthreads start isolated in nullfs.
+@@ -6383,6 +6405,9 @@ static void __init init_mount_tree(void)
+ 	dont_mount(knullfs->mnt_root);
+ 	/* and nothing is ever written through it */
+ 	knullfs->mnt_flags |= MNT_READONLY;
++	knullfs_file = knullfs_file_mount();
++	if (IS_ERR(knullfs_file))
++		panic("VFS: Failed to create the nullfs file stand-in");
+ 	root.mnt	= knullfs;
+ 	root.dentry	= knullfs->mnt_root;
+ 
+diff --git a/fs/nullfs.c b/fs/nullfs.c
+index bfc04bca3940..b1469e49b2d1 100644
+--- a/fs/nullfs.c
++++ b/fs/nullfs.c
+@@ -47,6 +47,52 @@ static const struct file_operations nullfs_dir_operations = {
+ 	.fop_flags	= FOP_IMMUTABLE,
+ };
+ 
++/* a file of nullfs is permanently empty */
++static ssize_t nullfs_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
++{
++	return 0;
++}
++
++/* an empty regular file, with the same refusals as the directory */
++static const struct file_operations nullfs_file_operations = {
++	.llseek		= generic_file_llseek,
++	.read_iter	= nullfs_file_read_iter,
++	.fsync		= noop_fsync,
++	.lock		= nullfs_nolock,
++	.flock		= nullfs_nolock,
++	.setlease	= nullfs_nolease,
++};
++
++/*
++ * An empty immutable regular file on @sb as a dentry of its own. It is
++ * never hashed under the root so no lookup finds it.
++ */
++struct dentry *nullfs_new_file(struct super_block *sb)
++{
++	struct dentry *dentry;
++	struct inode *inode;
++
++	inode = new_inode(sb);
++	if (!inode)
++		return ERR_PTR(-ENOMEM);
++
++	/* the root directory is 1 */
++	inode->i_ino = 2;
++	inode->i_mode = S_IFREG | 0444;
++	inode->i_fop = &nullfs_file_operations;
++	simple_inode_init_ts(inode);
++	/* ... and immutable, reading it leaves no trace either */
++	inode->i_flags |= S_IMMUTABLE | S_NOATIME;
++
++	dentry = d_alloc_anon(sb);
++	if (!dentry) {
++		iput(inode);
++		return ERR_PTR(-ENOMEM);
++	}
++	d_instantiate(dentry, inode);
++	return dentry;
++}
++
+ static int nullfs_fs_fill_super(struct super_block *s, struct fs_context *fc)
+ {
+ 	struct inode *inode;
+
+-- 
+2.53.0
 
