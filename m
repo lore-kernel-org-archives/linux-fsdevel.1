@@ -1,154 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5594BD7BC;
-	Fri,  2 Oct 2026 13:54:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17BF391E4B;
+	Fri,  2 Oct 2026 14:00:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790949267; cv=none; b=H7Qd94KBm5sUQ0kBNszmjPCF8zS4Arx326aMK05C9oYLDmcgI86eA7Sun3KvBD6eF6/ckDeNYCSUW+VAJfwzGfipBR40a9zzWmwzOpAB9nwCCe8DHnKjXVLfJEEFs4kOv5sBvXh8GpOQvkZLkP0W1HGYJLfdY5gyIXIB4CZnTxk=
+	t=1790949607; cv=none; b=QkUPgTqxl609eP1+F3jy3N+B62etp6x5Ssw0FZzbSBAyHXUWKWoydd34vVbOZ2LCGzV0BpskvT613kUKzPQgQ71+gusNnp/PCwNxti03LrrAZCiW4SwoHHfYM7BgARO5R3O9LEFfvnuAn7IMGefciKgHO0DxisgDKpyNnVQvayw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790949267; c=relaxed/simple;
-	bh=39qH4Qxiqg7lwy9ZN0c1IOZ55qUFWpAVl+PAyYOaB+Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MmAnFoNsqB+asFJ9MmDP4Ie4E2mEAx3qHhNinaC76zMxJUTqxYMpfx3TeAqTz3QXkzXGimB/TELd617e8SXIikfyKCtaematKSb9Zm9m4Unc6a5Kj8DKpa6TgBCbimaEsB/RtwyN0Uf8ZN/q+veJK4ro2Oe7tafHP/falikKxJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UgcXLvgD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790949607; c=relaxed/simple;
+	bh=FWeJKgDAlOAYIHixYG049WYkZWEDE53qc96LN8n5q4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cDY3D4MTatl1LHX+mwEiSxA/OGsiLNQ0osvB85oECy/c87fFqNuwUscQw2ZCPUXdqwb4wXzVO2+bbZ82adqH7ctl74wfZ6OG0mpLxSrbAvXI9ik4VFNy8a8JckqtrkgirlzYtEMG1RXDEigHpWZUCSEPNHQnHdxe7WE6sR0LZGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lCWn9cDF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UgcXLvgD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B518F1F000FF;
-	Fri,  2 Oct 2026 13:54:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lCWn9cDF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 501EB1F000FF;
+	Fri,  2 Oct 2026 13:59:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790949266;
-	bh=PS7AtoZtYOlnLuk+2alc0UUFO/f6v1NDvPSG5gs76uE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=UgcXLvgDQy4oQwT5RhmGjmYrVq5e+nOdqXwCtf4PKhEnskiSOg0bUXMGHIKBwdMjs
-	 NiPdbBPApR/G4hEQbMMU3x6TZZMzhxtIE5pqiUmLWsBM5YsVVm/k5HWiUaOY0cICGr
-	 gt2FUh07/vmW4MZV2U8+zfTF50VIZKEFXxQtD9A9IyP0zWlGddYvdmBqc2swrJHqIA
-	 jVaRv0fm2lq/hR9MAvjAKe8Sxjs8+63RsOk94zbb4U+ZBP93A+rtxHGpZm44YNm3Fr
-	 QayK9iav4Oke3Cxj67L3VHHooQXm3S1Ji4iFF0jtTiUUyLQHWAlExI778bzaLwR1oB
-	 lAt46pOuQhxgg==
-From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 02 Oct 2026 15:52:52 +0200
-Subject: [PATCH 21/21] selftests/filesystems: check that reading the root
- of an empty mount namespace stalls nobody
+	s=k20260515; t=1790949604;
+	bh=JrJqgz6XBqr0tqvrPwuWu3EbEV7kVO9oxqBplkAGfJ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lCWn9cDFMJm4u1OpaqsPaifDSAYxVJq/u9IjTjW8VHaCqg4YN9JjvyLsXvAqt1QNy
+	 kXjsxEDBQVVSiIroM8JVx8jdbn5z+D3ALO2UR7Dt4oCwXbWLHzPI9wUTMqgwfU7Krj
+	 IZwSxYhHFuMLnMs6YBDMSwGCVs4RhT6DtJPo3InMpggMiPIDm38MOeNSzD7sXk23e2
+	 RWLEF3oKpPBtzGR/mrLgeY6/R3hf0OeJ04oxiHGDqrqFlOeh7T6MsnVwgAIQ5juixO
+	 EyqksyZMc+ThciZZQxHOhRow8uXbh8X8CGyWqfIqAq62o4uBFfPnhBhtXmHvotijgD
+	 QT9fd+pxtot2w==
+Date: Fri, 2 Oct 2026 14:59:35 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 31/40] mm/vma: introduce vma[_flags]_is_persistent()
+Message-ID: <ar-ux41ILjI1Px9S@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-31-4583d8a23bca@kernel.org>
+ <9bbdf4e8-6984-4477-a183-f0b236047381@kernel.org>
+ <3557015d-23dd-41ef-9832-78b58587f3f4@kernel.org>
+ <81e1e5ae-0aab-4584-81e6-3fc9c2634d07@kernel.org>
+ <ar-b_Ug__TBzIZsb@gremlin>
+ <2e5a4e6c-8f9c-4050-8998-454b83f4823b@kernel.org>
+ <ar-luB9QVCRshtIw@gremlin>
+ <3387642b-c39f-4f19-ba0c-267bbd2fe91d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261002-work-mount-fixes-4-v1-21-dd44b89d44ce@kernel.org>
-References: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
-In-Reply-To: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- linux-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>, 
- Jann Horn <jannh@google.com>, Neil Brown <neil@brown.name>, 
- Amir Goldstein <amir73il@gmail.com>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3552; i=brauner@kernel.org;
- h=from:subject:message-id; bh=39qH4Qxiqg7lwy9ZN0c1IOZ55qUFWpAVl+PAyYOaB+Y=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt3x5t//Ci/O/ITx2ey5+VrnHoWHzKMkTEYNtF2bYrV
- klnpqRpd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEykdxvDb5Y7nx72/onhnKpQ
- eeFuUFioQ/ujptLpn5UqmHbb59W+mMLw31mLIeOad6LmuooomTQLj1CrwxPyuxbqmRgXM2cteWX
- MCAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3387642b-c39f-4f19-ba0c-267bbd2fe91d@kernel.org>
 
-A readdir of the root of an empty mount namespace stuck in the page
-fault of its buffer must stall neither a create nor a lookup in that
-directory. The test needs userfaultfd and skips without it.
+On Fri, Oct 02, 2026 at 03:11:27PM +0200, David Hildenbrand (Arm) wrote:
+> I'd be very happy if we could find a clear way to describe "this is what we call
+> user memory: anon+pagecache", if that could come handy in such a context.
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- .../selftests/filesystems/empty_mntns/.gitignore   |  1 +
- .../selftests/filesystems/empty_mntns/Makefile     |  5 ++-
- .../filesystems/empty_mntns/root_readdir_test.c    | 45 ++++++++++++++++++++++
- 3 files changed, 50 insertions(+), 1 deletion(-)
+Rather than arguing about it, how about shifting things to 'what backs the
+mapping' and something like:
 
-diff --git a/tools/testing/selftests/filesystems/empty_mntns/.gitignore b/tools/testing/selftests/filesystems/empty_mntns/.gitignore
-index 8ea166068d6b..27bcbcaeb1d1 100644
---- a/tools/testing/selftests/filesystems/empty_mntns/.gitignore
-+++ b/tools/testing/selftests/filesystems/empty_mntns/.gitignore
-@@ -4,3 +4,4 @@ empty_mntns_test
- overmount_chroot_test
- internal_sb_reconfigure_test
- nullfs_atime_test
-+root_readdir_test
-diff --git a/tools/testing/selftests/filesystems/empty_mntns/Makefile b/tools/testing/selftests/filesystems/empty_mntns/Makefile
-index 4b2ea6acec1c..22af2164c54e 100644
---- a/tools/testing/selftests/filesystems/empty_mntns/Makefile
-+++ b/tools/testing/selftests/filesystems/empty_mntns/Makefile
-@@ -4,7 +4,9 @@ CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES) $(TOOLS_INCLUDES)
- LDLIBS += -lcap
- 
- TEST_GEN_PROGS := empty_mntns_test overmount_chroot_test clone3_empty_mntns_test
--TEST_GEN_PROGS += internal_sb_reconfigure_test nullfs_atime_test
-+TEST_GEN_PROGS += internal_sb_reconfigure_test nullfs_atime_test root_readdir_test
-+
-+LOCAL_HDRS += ../readdir_hold.h
- 
- include ../../lib.mk
- 
-@@ -12,3 +14,4 @@ $(OUTPUT)/empty_mntns_test: ../utils.c
- $(OUTPUT)/overmount_chroot_test: ../utils.c
- $(OUTPUT)/clone3_empty_mntns_test: ../utils.c
- $(OUTPUT)/internal_sb_reconfigure_test: ../utils.c
-+$(OUTPUT)/root_readdir_test: LDLIBS += -pthread
-diff --git a/tools/testing/selftests/filesystems/empty_mntns/root_readdir_test.c b/tools/testing/selftests/filesystems/empty_mntns/root_readdir_test.c
-new file mode 100644
-index 000000000000..0ff544247027
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/empty_mntns/root_readdir_test.c
-@@ -0,0 +1,45 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Reading the root of an empty mount namespace holds nothing that anybody
-+ * else waits for: the directory never has an entry, so a readdir stuck in
-+ * the page fault of its buffer stalls neither a create nor a lookup in it.
-+ */
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <sched.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+
-+#include "../../kselftest_harness.h"
-+#include "../readdir_hold.h"
-+#include "empty_mntns.h"
-+
-+TEST(readdir_blocks_nobody)
-+{
-+	struct readdir_hold hold;
-+	bool stalled;
-+	int dfd;
-+
-+	if (geteuid())
-+		SKIP(return, "test requires root");
-+	if (readdir_hold_init(&hold))
-+		SKIP(return, "test requires userfaultfd");
-+	if (unshare(UNSHARE_EMPTY_MNTNS)) {
-+		readdir_hold_destroy(&hold);
-+		if (errno == EINVAL)
-+			SKIP(return, "UNSHARE_EMPTY_MNTNS not supported");
-+		ASSERT_TRUE(false)
-+			TH_LOG("unshare(UNSHARE_EMPTY_MNTNS): %m");
-+	}
-+	dfd = open("/", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
-+	ASSERT_GE(dfd, 0);
-+	ASSERT_EQ(readdir_hold_check(&hold, dfd, &stalled), 0);
-+	/* the lookup came back while the readdir was stuck in its fault */
-+	EXPECT_FALSE(stalled);
-+	close(dfd);
-+	readdir_hold_destroy(&hold);
-+}
-+
-+TEST_HARNESS_MAIN
+/* big long kdoc... */
+static inline bool vma_flags_is_mm_backed(const vma_flags_t *flags)
+{
+	/* hugetlb is a fixed mapping, but the mm owns it entirely. */
+	if (vma_flags_is_hugetlb(flags))
+		return true;
 
--- 
-2.53.0
+	/*
+	 * Kernel-owned mappings are populated by their owner, and fixed mappings
+	 * have a layout the mm cannot assume ordinary fault semantics over.
+	 */
+	if (vma_flags_is_kernel_owned(flags) ||
+	    vma_flags_is_fixed_mapping(flags))
+		return false;
 
+	/* The mm has promised it may discard droppable memory at any time. */
+	return !vma_flags_test_single_mask(flags, VMA_DROPPABLE);
+}
+
+?
+
+--
+Cheers, Lorenzo
