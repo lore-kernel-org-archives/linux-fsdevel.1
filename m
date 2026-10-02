@@ -1,88 +1,91 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2CC4EDCAD
-	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 16:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718654EDCAD
+	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 16:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790958762; cv=none; b=fuBlaHb26I0zPm4i2iICieWjOPUo/R4BCSB7GCT+5QQL995eSdFzztDQL8BU1PDr77Ufkyrbn6ivPD0yR9LMS99x+Z8nxZbIVKUKGQD/SHQCUBRSWDntPgITrqNYaccyMMIA31/zD9k6zfClTQRX85MoxBhbcy5ie/7PAGnGsCc=
+	t=1790958766; cv=none; b=O9kjkKSI6VyiOOfUYi2UsOqgsJuLHJFRh5eYpwBxmPLH9kafOxOgCJZH83Vt1yczSGjj6UUjSa8BVxerJN4OEDhwAIZA8xtmSx9wdNJghEA9UmNDbKmHm8Oy0RoVO6Huc9q2GlQJ5cAzJdt+9po588Hi1Dc5IZ8gwqf/DH8ciA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790958762; c=relaxed/simple;
-	bh=2kLm8HLpx938594uBBELC7JX4wN26HXZRBAQ10ugVyw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aS5Bg+prV+N2Kmev/m58W7PHDdPu6ml/9AZpfNRkpq0g3j2Ph7uEl+0kPDUCkbJpp8MobUfOAq3ip1vv9X6fvhW1UF0pSAcxZ1kcSxgnlqRzbyiz51chYd3gFuBbenLjxZ95IxmNOghkv8XWv2iZdJ5i9ieO11TuAVzGoOqkP48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=scrivano.org; spf=pass smtp.mailfrom=scrivano.org; dkim=pass (2048-bit key) header.d=scrivano.org header.i=@scrivano.org header.b=JBdKOjuY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hBYFDEJG; arc=none smtp.client-ip=202.12.124.159
+	s=arc-20240116; t=1790958766; c=relaxed/simple;
+	bh=lQpivocvX8TwoIn/ANFvEtXWnmS+qxxoOfVIvbKujMo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PyYuRS2iCNNfYr2LeGszt+57OYtb0GKbb6TVAgwPMROoq1AP8Pqs7dtDV+6Duhe1lUqqR7GisMEFllx4aFXmkzZ/byBVn9g7DDmzLuiHoTTPqV8BxSoMCIndKHn6A4fSrh9CQ7DVCxLSP99gJ8l5u9R19qgf2vEJoWLookIh5VM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=scrivano.org; spf=pass smtp.mailfrom=scrivano.org; dkim=pass (2048-bit key) header.d=scrivano.org header.i=@scrivano.org header.b=PD/beOeM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=k00m7no3; arc=none smtp.client-ip=202.12.124.144
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=scrivano.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=scrivano.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=scrivano.org header.i=@scrivano.org header.b="JBdKOjuY";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hBYFDEJG"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 288747A00AC
-	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 12:32:40 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Fri, 02 Oct 2026 12:32:40 -0400
+	dkim=pass (2048-bit key) header.d=scrivano.org header.i=@scrivano.org header.b="PD/beOeM";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="k00m7no3"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id B94EC1D0008E
+	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 12:32:43 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Fri, 02 Oct 2026 12:32:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=scrivano.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm2; t=1790958759; x=1791045159; bh=ZVkG8X3Ft+8Z13bThLvYD
-	/PHchlJ5DMHw6Ao0sJXrj4=; b=JBdKOjuYVXKZpkNgJPtalXwLjMh3a8B3V6fRp
-	Duog7+gVl+Py8dr0Gb0hsjqv6y8bvlQq96ZCL9OW69DcxnGB0jkysPmmI9/voc/q
-	nono1MWbnIWYt90fkCy1Wm9ZuJEmUScwDhsFZmxHApxf7OBvNM9x9196YAU9fntk
-	91QapeF3ULRuSiVB/06PIUaE0kW2aa07OdDyhXKMYskeZ9NkGsqcEekq3peNQQFA
-	o5mqLxcMHS2xE7dZnu/PY0Nt4+77HCX5Hh+Gj+RKSIEAsVoP9RuZxRPW2jHTe1rU
-	ot649/5zHuklGh1ISX05kKea8GcIj9x/rGMhy08pYp1GGV4aQ==
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1790958763; x=
+	1791045163; bh=8vp//EYtL+iFtkFUXaNxAHh7uSWfdznnpRMjVFiTc+M=; b=P
+	D/beOeMJd3dCiiqwdkv2QjKfJczKKQJ9TUfOIYiTcPDlG5MX2on7f3D90k5N7z4/
+	pkTPz3XKoq5R4J54SXXNyDGIFbU2l9MmQOEXPCciblnse4G9mBjM7PzTSeQv4TEU
+	iPHUtIsL2IMOtoAoJnW2aSbOxg3YC347ko64t2nUzaiIfgrYyMJWMpXpoKEePM3D
+	Kq2ef3NGMRu13MHY1z69h4DH0Sq3Mbu3l0e/BHuNEyJKEYO5BnnT0lCbk9hDAK8C
+	fTGkN1wTa+HjOYUqpW2Uoy6o3DOifbS4YWjai6CpvkuaPQMrv+P8SZVZ8St1b8r2
+	hRMxqHyMqyEyOk58FEeTQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1790958759; x=1791045159; bh=ZVkG8X3Ft+8Z13bThLvYD/PHchlJ5DMHw6A
-	o0sJXrj4=; b=hBYFDEJGIdtgrZw7fK1cRmsyZmCa1di9IYfUmNmBqXmmtx/KDfc
-	cEBC20tpFx0nvG726HTFRfEwG5eCCCW3h1sBD9WDDqHG4Y0Z1pmxUplZR2GV0nxf
-	kLbGxgiuAvuLM3t2sx7hREa8y+tLOVIKrY3VzwohZKPZiQT0u7AEwXzqRN+/7u3Z
-	KytIJSTslci8hnDpr4bGzX+Q3AgoWqY7d/6p2vCUTzB+MPGmZs14aLPVopDCMBQ9
-	OUaeWXS5uYhaPkvbJdwVHWRZd4yMkMEcPzeFbAMijWdwfqSjBnmPwNo/EQWn2eAp
-	fGAffVJhkHB4AhGgP+P4q21uLf/ftoVFY/A==
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1790958763; x=1791045163; bh=8
+	vp//EYtL+iFtkFUXaNxAHh7uSWfdznnpRMjVFiTc+M=; b=k00m7no3wczKOklBQ
+	wtJ5UQoAMksWLntrzvdAjeLmOGtmjniJD5159LNWxIQH07MZxh8pPBf6UR2fLY07
+	ephOWKjgGJX320jjEsPLNyVk8wi9ONawTjcH0CWR3rzU34FOdbW1Mkmx2KzRYsTy
+	5sCBs3D1LVSRttvJ7odDGu61V6QU6hY+NXyj9cwzbksPgYSO68b8YBxrZALRxjFK
+	xKjA9s31RLS47XrzCLIXvJiZnPKugs/ZYsD/C12gjWTbemxTSdoSFYhezbJoVAO6
+	Cs4hVX6ubGQSiQxSvln0SlRj62PYSre3bQdp3Vb+kozWrtbmzogbnfEzd8G/yY9Q
+	JqdNA==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
 	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
 	action=sign d=scrivano.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1790958759; d=scrivano.org;
+DKIM2-Signature: i=1; m=1; t=1790958763; d=scrivano.org;
 	mf=PGdpdXNlcHBlQHNjcml2YW5vLm9yZz4=;
 	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm2:rsa-sha256:jKY3xImANyfuF0PmXgQXLQMEDcSKLMfpiL6VhVQAJvOW4JQ
-	+Kx7NUpMVC8lImT9XP5zYuZf+o+gHSXcHSzgqOSkshCOv64W1x0O7rDPBRkfStTQ
-	VKSP3n7P11xYwQcLLXBfADWedHVPZ2Tt0CY3E9eJXPT1H2wWt0PNicMZ5kpA+e2O
-	zWys3oop3HpWbq7Xe3RP5Wtrhohz/2yK7d8sT1w1T0/Cc90iM/07u1++wZ/NBuE3
-	eWa3XZXfjRYc+DRirKKiIxvlmQwmKbwakWWgTPhwCNgv1uWkgrqj5aFFHYQlr7xV
-	gQJn+J4OtxPFcxb/tL9ExEdFwK2KKoJJ4IlyYMg==;
+	s=fm2:rsa-sha256:szoKKjT07skxo8+oDsFDV0ND4yE7g15CJYEBqMLEhNXFTrc
+	KbdNfOOyk6wx6WdTSMwoetblvHDWVQETs+Gdi5MyRDq/wP5NJ9pjX093a8RJVNGB
+	/o4QemkP8samVyl0jrhS/pG239MyotJrbF44FCXuENRLaEsX+1mOomn98i9MqGxJ
+	50urti3PtQqnJsvmkrKxpOdOvFW77+39+tXqDpsmKRVma/6Ud/7X6Aaun6V7CIAb
+	0sdVo4S+P/AM4BFWDyqSv4LV6JIVBM9Pj4GJccryldwIUoJSfEwk+GMatPFrV8ZV
+	knRxQfAnC4RigDdVa+Rbv0K+6a46ZhufTeXY1jg==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
 	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
-	action=mi-m=1; hc=9;
+	action=mi-m=1; hc=11;
 	hn=cc,content-transfer-encoding,date,feedback-id,from,
-	message-id,mime-version,subject,to;
-Message-Instance: m=1; h=sha256:EZP4T+SYpf1ZeWef3Z4SHw8qBkoSMWXPk0bctk4PkVI=:2kLm8HLpx938594uBBELC7JX4wN26HXZRBAQ10ugVyw=;
-X-ME-Sender: <xms:pty_al0WwfN2QyrJjsnagidGl3OiT0bvyduFX0eHGVa7ig0xR1rl2A>
-    <xme:pty_aor61f4nzpe1tO1gNQJQG-KpD_k6-XZ4-7JZnIxB6g71dfSBO-Ttg6V_QQgp2
-    QFO6F0yUj6UF5V15wS9JZaWNzm_C5Mq0f2S9QUQPA-lO4JEHffR8bZW>
-X-ME-Received: <xmr:pty_aqXhEddA1PqPIGj997zc_3XRtY3_slarh_NeXPZjhhqUMATkgRuVixc49mLrZ11p3CCnf1cst6ljXVcYTEhXQ-el>
-X-ME-Proxy-Cause: dmFkZTGVHbrwo2qLeP7y6YrbhRkYqNIT8CCeqa1xpcwKiQYh4HF7XUuHue2T67M/TaO7jT
-    E2KBiMWoO64zcfJ0qRtgK11dIXbj+ZxK0fkVPSaJqIRXBHxqZXag7QDUN1vgTsbISXlz1i
-    VYCWhpU+PVM/jwtE/xmC2+hhQ6OVRgkBjMWdLefZoOQilo49w2/XcRMZc1zrXSDFqjYcq6
-    4Lq6Jbg3UDWJ3Cuh+V/aTVgNemP1R0rs6veMn9lW3kzBaIkUAtHz1aZa03RK917BrOJAWd
-    GqRZIA9+5vWv6bjwxf6NJKrAB8hTt3rUjydMCJubtqZNIe+UhA1vcDiA55BMOyb5YxB9dZ
-    QGz+ncLKtwkXdAhkWR2qiy2S9jA+tqsbhLdvT3TqdjgAAshlOgm19o0l4QDW8lIN9oEFWE
-    Agqog4K9/oJ6Icm1Aup1Tm2pfez2/dZtSJE6XlMDFJIsa2ZJJW4EtM/TdKUw53OaGWSmdH
-    QGF33FicYs8JJYaceUXDdjQDnytgb1lgKjhdex5cPCLRRKKiMaEUba2MkS8pqwSdfwZBdR
-    jDFJomDq9akMq3i8UZW6oi4AVNtdd37mYPWkrKrslO2XkB390KO0nL54wws+kcqoAbK4DO
-    dQVNSUBZx5KTsCJjIv0BpgbxIs1dfk3bXYf1i9WzW4//aQAMNywU8xICxmVQ
-X-ME-Proxy: <xmx:pty_appS6O3CwBTiZhr-IUL3ZPEdwBvlYsGEtaa-mCNcXDfiN_Ck5A>
-    <xmx:pty_apBfNxTA-bJKASqpmajELgHdxEDVBrhVHBWVshb4955zk5iD7A>
-    <xmx:pty_atiHMS1KYmgKXACguEcXoquqVFMwbGue70jOzQe5VGj6D_Xh0Q>
-    <xmx:pty_avZPA93-LtvIG8mEoMxqu515Fek9Pe2n_M93m-1c4mHfsfDg2g>
-    <xmx:p9y_at7duLnf-yvbm1B6Pe_Rd1PCiqOa4qDnW4iq9ao1RH8X2qA6wte0>
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:9SqiUAun+oEWwrPyv8hamiqiDlKwuzhtXBzBd701il0=:lQpivocvX8TwoIn/ANFvEtXWnmS+qxxoOfVIvbKujMo=;
+X-ME-Sender: <xms:qty_au6K39f3Bcac8Vk7_S1oZCdYZkBbgeFYwBLImAvexE-n5VayhA>
+    <xme:qty_ajk0Dqzb02baS4xPgUYDxiQl7AR2MDv7q5UoB812B0P6s_16POiWnxYUF67IX
+    AUjlUYYXB_R56K_SuCgHJBAkLh6MI1f__a773IKaj2pQwEYoMfkbGDk>
+X-ME-Received: <xmr:qty_ap5z-MdqNGRW_fsqvINv7ifjfMiBG4QPOvaZUbzDXmX6SzUuuEQdj2mtZz8AMNnQORIlB1hb55-o4ptbPNFcSIIn>
+X-ME-Proxy-Cause: dmFkZTGyqCDolNR0R7DZGwMzWNDpoJILu2jykM68ma+dDc4C112fFIur3VtfzrPwrSoPe/
+    w73eKAXEp2+IXQktv6IQ+UxhEt9Szb57K8oXMVhPBJouBdWFZMV69AeCfZpfq5QRP7dsZC
+    Uj/MuGmyIWY1s1nDAm8d2XRJylXM9trGrNPh0aSg/b8LjXeZoqLsS7aaLe+OzyV9npE+1x
+    D7hm62C3NjWWnwp0e+o1GO5DbRrr1ZQ6z4FcBPpuMPK6lEvbImxnP1QSsEy1Lu1JbSi1a2
+    aVMZfF3IUsevuSme/8yTAwynuSJhBaQHK25L0mqWcuPbJzTeUSB/HrvfyAcWZP3qYhYWBp
+    DmLc7E1KpMUJxQoxXq+Ec7O7XLWPU0wxRyUjGsykn+yq2GSiETnFyhLlKXEM/Zx4YyokAf
+    4t8sDHYiApsD9e5ssT+gHWSa+KRpcOsdsqUrFOn78xTgo0/Gn4/0b3NO5zXlw/lVBm5C5U
+    QzSXqqPnTQ/yQtBTM/5u5ysimXsH/nb52IkPrIGXOTuizTXrVisU251rWrJTdVosYAhF8s
+    XhIxZ5nxm/BGatnHAuWh6VMDJKU5FjiQ/0+XFI/WtbSTNqn+psmNWjlX+WvHaa7FrqTAIU
+    +y1JSUwGaZqQBd35fXzJoIrJBfTESGIicHO2Mf9n6NMxe0ThlDD0HfkFB+Iw
+X-ME-Proxy: <xmx:q9y_akQGb1LV0YLSAQ7W30i_vgUqAhplBwG7AjYcByJU30_f5AhgOA>
+    <xmx:q9y_anw6mXDAFGB_x3cG5fIeEHcNrnmWY2DUoMQgjCBsOBGHUG73sw>
+    <xmx:q9y_asq32aFvacRkzGWtk5z6iFVTMjEy1kMMJlyjnFy0UsNuSI-L7w>
+    <xmx:q9y_aq3NfOGKUv0gOzrLgN9xa6VDNtWoN_B0OqhiXMfB44RXEtuYwA>
+    <xmx:q9y_aqTcK8AH4RB0P571VOe6uEK_NpPT3Pfo-IRRqdLCuBhPRjquPzg->
 Feedback-ID: i8e6e4897:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 2 Oct 2026 12:32:38 -0400 (EDT)
+ 2 Oct 2026 12:32:42 -0400 (EDT)
 From: Giuseppe Scrivano <giuseppe@scrivano.org>
 To: linux-erofs@lists.ozlabs.org
 Cc: xiang@kernel.org,
@@ -93,10 +96,12 @@ Cc: xiang@kernel.org,
 	viro@zeniv.linux.org.uk,
 	jack@suse.cz,
 	hch@infradead.org
-Subject: [PATCH v7 0/2] erofs: share the superblock for file-backed mounts
-Date: Fri,  2 Oct 2026 18:31:42 +0200
-Message-ID: <20261002163225.1258203-1-giuseppe@scrivano.org>
+Subject: [PATCH v7 1/2] fs: rename vfs_get_super() to get_tree_super() and export it
+Date: Fri,  2 Oct 2026 18:31:43 +0200
+Message-ID: <20261002163225.1258203-2-giuseppe@scrivano.org>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261002163225.1258203-1-giuseppe@scrivano.org>
+References: <20261002163225.1258203-1-giuseppe@scrivano.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -105,24 +110,89 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-v6: https://lore.kernel.org/linux-fsdevel/20260812142907.1010046-1-gscrivan@redhat.com/
-v5: https://lore.kernel.org/linux-fsdevel/20260811071241.389589-1-gscrivan@redhat.com/
-v4: https://lore.kernel.org/linux-fsdevel/20260804060455.2928514-1-gscrivan@redhat.com/
-v3: https://lore.kernel.org/linux-fsdevel/20260801075446.2508805-1-gscrivan@redhat.com/
-v2: https://lore.kernel.org/linux-fsdevel/20260731160901.2276832-1-gscrivan@redhat.com/
-v1: https://lore.kernel.org/linux-fsdevel/20260730124120.1501126-1-gscrivan@redhat.com/
+Rename and export it so filesystems that need a custom superblock
+matching policy can reuse it directly instead of open-coding sget_fc()
++ fill_super().  No functional change.
 
-Giuseppe Scrivano (2):
-  fs: rename vfs_get_super() to get_tree_super() and export it
-  erofs: reuse superblock for file-backed mounts
+This is a preparatory fix for the next patch.
 
- Documentation/filesystems/erofs.rst |  7 ++++
- fs/erofs/internal.h                 |  1 +
- fs/erofs/super.c                    | 56 +++++++++++++++++++++++++++--
- fs/super.c                          | 19 +++++++---
- include/linux/fs_context.h          |  4 +++
- 5 files changed, 80 insertions(+), 7 deletions(-)
+Signed-off-by: Giuseppe Scrivano <giuseppe@scrivano.org>
+---
+ fs/super.c                 | 19 +++++++++++++++----
+ include/linux/fs_context.h |  4 ++++
+ 2 files changed, 19 insertions(+), 4 deletions(-)
 
+diff --git a/fs/super.c b/fs/super.c
+index 1d5ccf540a9b..a1dc4de1b657 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -1374,7 +1374,17 @@ static int test_single_super(struct super_block *s, struct fs_context *fc)
+ 	return 1;
+ }
+ 
+-static int vfs_get_super(struct fs_context *fc,
++/**
++ * get_tree_super - Get a superblock, optionally sharing an existing one
++ * @fc: The filesystem context holding the parameters
++ * @test: Comparison function to find a matching existing superblock, or NULL
++ * @fill_super: Helper to initialise a new superblock
++ *
++ * If @test is non-NULL and matches an existing superblock, that superblock is
++ * reused; otherwise a new anonymous superblock is created and initialised with
++ * @fill_super.  Passing NULL for @test always creates a new superblock.
++ */
++int get_tree_super(struct fs_context *fc,
+ 		int (*test)(struct super_block *, struct fs_context *),
+ 		int (*fill_super)(struct super_block *sb,
+ 				  struct fs_context *fc))
+@@ -1401,12 +1411,13 @@ static int vfs_get_super(struct fs_context *fc,
+ 	deactivate_locked_super(sb);
+ 	return err;
+ }
++EXPORT_SYMBOL_GPL(get_tree_super);
+ 
+ int get_tree_nodev(struct fs_context *fc,
+ 		  int (*fill_super)(struct super_block *sb,
+ 				    struct fs_context *fc))
+ {
+-	return vfs_get_super(fc, NULL, fill_super);
++	return get_tree_super(fc, NULL, fill_super);
+ }
+ EXPORT_SYMBOL(get_tree_nodev);
+ 
+@@ -1414,7 +1425,7 @@ int get_tree_single(struct fs_context *fc,
+ 		  int (*fill_super)(struct super_block *sb,
+ 				    struct fs_context *fc))
+ {
+-	return vfs_get_super(fc, test_single_super, fill_super);
++	return get_tree_super(fc, test_single_super, fill_super);
+ }
+ EXPORT_SYMBOL(get_tree_single);
+ 
+@@ -1424,7 +1435,7 @@ int get_tree_keyed(struct fs_context *fc,
+ 		void *key)
+ {
+ 	fc->s_fs_info = key;
+-	return vfs_get_super(fc, test_keyed_super, fill_super);
++	return get_tree_super(fc, test_keyed_super, fill_super);
+ }
+ EXPORT_SYMBOL(get_tree_keyed);
+ 
+diff --git a/include/linux/fs_context.h b/include/linux/fs_context.h
+index 0d6c8a6d7be2..d1727dffecc5 100644
+--- a/include/linux/fs_context.h
++++ b/include/linux/fs_context.h
+@@ -150,6 +150,10 @@ extern int vfs_parse_fs_param_source(struct fs_context *fc,
+ 				     struct fs_parameter *param);
+ extern void fc_drop_locked(struct fs_context *fc);
+ 
++int get_tree_super(struct fs_context *fc,
++		   int (*test)(struct super_block *, struct fs_context *),
++		   int (*fill_super)(struct super_block *sb,
++				     struct fs_context *fc));
+ extern int get_tree_nodev(struct fs_context *fc,
+ 			 int (*fill_super)(struct super_block *sb,
+ 					   struct fs_context *fc));
 -- 
 2.55.0
 
