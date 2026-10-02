@@ -1,147 +1,162 @@
-Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE263D16FD
-	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 10:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790936258; cv=pass; b=M7nN2llilSgYvNHxu3Ccqj+JiNrMIDvbYJx1dviQ4IhwhSku6dvTiBUb0QEsTtm2y/ZeCFVfbN33rEFUkdW51RR55C4e2WpGXeMED7Clwo+vaxZlLP9Mnf1SkbUW/qUHq19FXU1I3qcytkGJasmQw4f8ePeWjwAy/PqJOTkespM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790936258; c=relaxed/simple;
-	bh=ZckUBzuxfDct7Xtg49y5TXXNnoeTTdLGKQnVGpqLnmQ=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=mv76HPT9LxicH6zMeKgyCDnhhcxLqC27HrwOoLwVDnV4a1qbPQCGcxHYVnODPYo9DmGIAohY1bp7f0EwXk8IkNv0FKdx4jXs+PgTKAF+wwYcfT/ZCrxoOC2QEWC0gbf2II0qIjXi/4LFTaJpC/MPNMcH1pYBioUXBEHaX8QirVc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EonNVIOl; arc=pass smtp.client-ip=74.125.229.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CFA480968;
+	Fri,  2 Oct 2026 10:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790938543; cv=none; b=YXMW3LWDQflt6zDZWllhPbQdma854cHBBC2qiH0onU3KALmAcsUOIPx4D3s4pHC1M4mu3vCkQhSdM/s6whtX8JPQ+31A8lTb4CNibTbjBqqKM6njwYVsbySPToexpvUZZS1FWgyuuYZW596ZrQJ3RHZ1RxmFRecZNZIw8vnaB5k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790938543; c=relaxed/simple;
+	bh=RKnHZco4UJqmb9aBoEB/Ye1X8z+yfLYpTu1WHiFqsac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ztrgwxn5pjBvsdgL30988FcT6DWS8kjx7BkNZyqsGWkfan5cNoELR+uHwPdXl8nFFp65wWHSu3b0X1yzOLJIpSwzEtBz4JqOPz888nToBqUiVOfH8jaRW/V28rMHc8/nSKqsDDl+yTo/BgqbVJCg01m6hyUkJZlORLT+QV7sMT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=i5ckGo+P; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HXLwhiRo; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xdL4DT1R; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mLqPIFxt; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EonNVIOl"
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5ba3b8a5187so2795703e87.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 02 Oct 2026 03:17:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790936255; cv=none;
-        d=google.com; s=arc-20260327;
-        b=T8Y02eyFBhmWgu0tjfk+0b8BivsbfsUGLdPn/GWbdODfLe88O+rBpuDzKGL+r1+d8S
-         3ylQLfV5y+EedHxCYTHicjCUACelpzG/+twX/QAHwtcV72n1lnXjad+gQ9HByp+QIxsQ
-         24HVB8L33r2BKJGNJTlm13zDtCE2TibFL8+zgMPZZqs36YLpnsU98boaAu1vGwLa/Vl3
-         YKm+UZGdaApZYRSUaUE2MajBORJkhBYiaWx/aUoIFc43E2FmvGOyFK5ltJ1DkFwszBLS
-         +ro8DUhgrYV+nvX5hHmwBmTH6NKg2k538A0Rz43KsdsIDZKBh0zTIhTp2nTKVg88aTTb
-         MbHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:sender:mime-version
-         :dkim-signature;
-        bh=Pu/ssd8DugN/kj01xDDdGW2HkDyQcHTA/d4qIgsVPkw=;
-        fh=iwSNYB5TTTpVJ7mIYOQ+y13SNI8qU+/J0C2fWIhfZi4=;
-        b=jRJlPveExa/Q6drZDXYselU9K9gt2XfE+JVteJXnJt0iReaYd307PnZqG61oBO+rBn
-         UykkGNokzckd/MTcDjnVkLcDW0iREaDZOXX/pVz1q28vRV6S4gu3nLtHy1S7vigZWpS6
-         7BrH+57WpOCfN8QWBk2uJPwb0GG1/WKXKa9G7D9vPgmROH35S6G5bxe6x/mLYi1Y1z3g
-         fUKgU8kd0WUdX20NEaJyE6jv0erUm46k1npd9Kt5lKgpMlpwtPPcPU/46icQvkiGJEwy
-         qUjOH1uIDXmadSVLrAb3zlgdmrhV/+FTyXUraNEbBNQtsbbMZwgmdqMXoBy5C8NXjHik
-         /GCA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790936255; x=1791541055; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:sender:mime-version
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Pu/ssd8DugN/kj01xDDdGW2HkDyQcHTA/d4qIgsVPkw=;
-        b=EonNVIOlF+cFCJCYJYKU6KJkZjZNdysmtCPlTbyQKrOXOPlzwfdw+EUCRclT1VUHoA
-         WcMBiaQcH6nqw87mDTcNbmHGcIgboJshCez3jYSWcgnIwX6dxLjaVmc+VdiTQWqtt7EV
-         vhFImDC5fv6IhMrmaY4F9X9fvc90nkJHu53T7Mum3Zx0A+HWVDqkPNlCQyrLl+Rey6Pb
-         umqnjvXTh++rmf2BIE7H6+/MGNkq2j12ZvgiUmVquWUaN8XEWMUkoYlJnjG7HmL7VIKc
-         VN6688EVh6gJXsgPuczbueH3X+MeAhgndBvLHD02uc7cXWlY881dJRQVzp9muZcxOKGA
-         dc5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790936255; x=1791541055;
-        h=content-type:cc:to:subject:message-id:date:from:sender:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Pu/ssd8DugN/kj01xDDdGW2HkDyQcHTA/d4qIgsVPkw=;
-        b=zl3f9JsSfngcfnf05Y/wrWVB7fNMZPuGsp3FE2yKroYInUCXMcGdaK60UWbkHklGwo
-         w3ur/+Q1DPTFIudOM7sgWfLRojZU75aIihCHcA3UzDDrLV1O2K1nYBT7tGxUUTwzSdup
-         Y6AGZJNxYwKjW4obEx6YqrHxAa9e/lDqOw7KXHUiebzl4d99+uIhYgaDv4fXeggLFWmf
-         lsCSAuyDJBN2OUjZRJFBSSp891kmyvVLxp+ihrE6wHrq2ZwjofvUMqmfy9rBTVeGHYCy
-         CbVtV8S75rI0WC3WzkQTcAJZOxnOomeHwmptNjduAJZc1m/wtv/2Osqd8zT5MooYbirh
-         VCyQ==
-X-Gm-Message-State: AFq9FYJnPKrbtpRinslGRhIhW4VkuI6okyHBcXuRHbwRmZhT5/MaqaJV
-	i1EK8JWZP5TCVEA2D5zuXbLHX4bPLsRHdXa70SIoDO3B6EjPWOz/JvCsFyUY78UdeTIe6HYLIlu
-	OUjhQPybkTozlitxjZ9nzuwbBF+3YRUk86dfjnIA=
-X-Gm-Gg: AYBFou3YwAvKJD4pFDkoDiLxOsZGHk2ywFUVv6LZelQ7th13RcII46eFqCPs6HrF++l
-	S/bOgiKBu04kSch9ORQQIU9pqwqVTZOpUguPvEbrE6QZRb8dSBE3nr8EyjE04MoRWIp/lMOMqIP
-	U3te2tXWdwKS9CSLHb0Sj2NZbjOnDB7cmhWZ26LJSvCrV8iWHeFsX/vZmvcZ+cdzWgv6DNvzsSr
-	INzVqvXcuxvP0hp65XMGqmiofcAe87HYqKqh/gZf/qZYlg7L3NxCC776danf4MlJK2jcdtYFidr
-	wuN/9L7R96mZEZWsPRt9dwwPrPHAYEOkjYzNaP7kIKyocDHll6OooOwxsZVMZt9UVYHAZeBwong
-	MSQ1cRzgLJOUo
-X-Received: by 2002:a05:6512:6c4:b0:5b8:b3a5:827b with SMTP id
- 2adb3069b0e04-5bba4bad0b8mr860497e87.40.1790936255129; Fri, 02 Oct 2026
- 03:17:35 -0700 (PDT)
-Received: from 254448290189 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 2 Oct 2026 03:17:34 -0700
-Received: from 254448290189 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 2 Oct 2026 03:17:34 -0700
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="i5ckGo+P";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HXLwhiRo";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xdL4DT1R";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mLqPIFxt"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C9BB721E72;
+	Fri,  2 Oct 2026 10:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790938529; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qV8diR+xE1O7UkxwbN2DZAXwHEZM8xvfjkG5TwhVhW0=;
+	b=i5ckGo+P54i32raXBoCcm7ajCHx93p1InPdXWY17eSbBhuexEc3XxbveCVB4JIZ9kAAMXf
+	9Kg6WPujZxCCMnX0kbf8Ty9pUVgU6jdbPTXWT2SkVfGB6zgoeXtzH6xhwxB+MRGlNhrDjP
+	jtZf5xBRrldrXzLjLLZN4v6vxAhxfy0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790938529;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qV8diR+xE1O7UkxwbN2DZAXwHEZM8xvfjkG5TwhVhW0=;
+	b=HXLwhiRouy12jzwgfKbCxZ5tIFP2Gxn0tx3fBPgOoGMiVsgcqdiiibwgiA+xljLom10WmC
+	/0YLYgmPGyNjmoCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=xdL4DT1R;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=mLqPIFxt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790938525; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qV8diR+xE1O7UkxwbN2DZAXwHEZM8xvfjkG5TwhVhW0=;
+	b=xdL4DT1RfowXEtqORZSmieq2ZZlLFgKPF7chr+jDO3ugPtRXF64qIt84tV6BmSYlAUwRqO
+	sN6PUr18Uak7HsX3Ap3/36VXkjHOW19An9GfzHWz0hQaLnoLHaDGROmGjlii/4XOQIVXkm
+	x3ng8Dqn9ls6vtuh832cySvR93xUKlw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790938525;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qV8diR+xE1O7UkxwbN2DZAXwHEZM8xvfjkG5TwhVhW0=;
+	b=mLqPIFxtlaBtUKjahFPTlC0J2W6wZHcF1y+CLJmWH9wa7Om3t1ljJQH8pznkkYQi+Qsv3G
+	UkjeFLsWOBn1ZSAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9BFE613C4C;
+	Fri,  2 Oct 2026 10:55:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Q0WxHJ2Nv2ovWgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 02 Oct 2026 10:55:25 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 1D6F4A13C2; Fri, 02 Oct 2026 12:55:10 +0200 (CEST)
+Date: Fri, 2 Oct 2026 12:55:10 +0200
+From: Jan Kara <jack@suse.cz>
+To: Matthias Goergens <matthias.goergens@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Hui Peng <benquike@gmail.com>, 
+	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] isofs: bound empty directory blocks in
+ isofs_read_level3_size()
+Message-ID: <yw2b4jq5loeo3bp5vffd3mptpdhvjch2nu5nc6qr45opss3zbq@5feos574vwcy>
+References: <20260923175215.1577791-1-matthias.goergens@gmail.com>
+ <w3rnunloyshklgq4ocr4jsullzhaey6u7odstfoyhd4usbfppo@m33jyem5jgrf>
+ <20260924151356.3287733-1-matthias.goergens@gmail.com>
+ <20260925043804.2091174-1-matthias.goergens@gmail.com>
+ <cmlro2xzle2aa7ebflvxhbcv74mea7p6qvxhin6egpdvyzyuxh@s45tpgxdal3n>
+ <20260926083517.556576-1-matthias.goergens@gmail.com>
+ <cm3n7vjwbdnafttuz5ftkzz5wdbalgews4dfs5zlwvkyuzotuq@jo2nhsplhstc>
+ <20260930033940.175021-1-matthias.goergens@gmail.com>
+ <xr6nxaat4f4zlmnk6dcn6fyiih336io2qaxm6lytxyb23oznw6@xcd4rjwpg4di>
+ <20261001103000.3408032-1-matthias.goergens@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Sender: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
-From: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
-Date: Fri, 2 Oct 2026 03:17:34 -0700
-X-Google-Sender-Auth: b1pJKT9Z1GEu05wo2aWT0OXX6Hw
-X-Gm-Features: AclHuK-XNwrA2EcOc4Po4ch6BRKkhiv-zVlU7CDstfm5bS9uo236ZWXHKZYEhbU
-Message-ID: <CAANnmVA26uyaCx6_Ph=BpdUyfoNH79KzparVquuv=BWqa_Mp7Q@mail.gmail.com>
-Subject: [PATCH] ufs: verify cylinder summary size against cylinder group count
-To: linux-fsdevel@vger.kernel.org
-Cc: brauner@kernel.org, marco.crivellari@suse.com, ali@iusegentoo.com, 
-	kees@kernel.org, jack@suse.cz, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261001103000.3408032-1-matthias.goergens@gmail.com>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,kernel.org,zeniv.linux.org.uk,vger.kernel.org];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: C9BB721E72
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-The cylinder summary buffer is allocated with the on-disc fs_cssize
-value in ufs_read_cylinder_structures(), but it is indexed through
-fs_cs(i), which expands to s_csp[i], with the independent on-disc
-cylinder group count uspi->s_ncg as the only upper bound - see for
-example ufs_new_inode(), ufs_free_inode() and the block allocation
-paths.
+On Thu 01-10-26 18:30:00, Matthias Goergens wrote:
+> Hi Honza,
+> 
+> > Right, that needs a bit more care but still, something like the attached
+> > patch should work?
+> 
+> Yes, it does.  Testing the next-section link as "not yet set" instead
+> of "i == 1" is what was missing from the first variant.  I ran your
+> patch on top of v1, built in userspace with ASan and UBSan, against 67
+> test images: empty blocks between and after the section records,
+> three-section files, and the 100 bound from both sides.  i_size, the
+> recorded next section, the limit message and the file contents match
+> v1 on every image, including the split-gap one your first variant read
+> wrongly.  No sanitizer reports.
+> 
+> Reviewed-by: Matthias Goergens <matthias.goergens@gmail.com>
+> Tested-by: Matthias Goergens <matthias.goergens@gmail.com>
 
-Nothing requires cssize to be large enough to hold ncg entries of
-struct ufs_csum, so on a crafted filesystem image where cssize is
-small and ncg is large, every fs_cs() access is an out-of-bounds
-access: a read when scanning for free inodes, and a 32-bit
-increment or decrement past the end of the kmalloc()ed buffer when
-an inode or block is allocated or freed.
+Thanks for review & testing!
 
-Since the summary arrays are only set up for writable mounts,
-triggering the out-of-bounds writes requires nothing more than
-mounting a crafted image read-write and then creating or deleting
-a file.
-
-Validate at mount time that cssize covers all ncg cylinder group
-summary entries, and reject the image otherwise.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
----
- fs/ufs/super.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/fs/ufs/super.c b/fs/ufs/super.c
-index 3569ac92b065..2052d5225d03 100644
---- a/fs/ufs/super.c
-+++ b/fs/ufs/super.c
-@@ -1139,6 +1139,11 @@ static int ufs_fill_super(struct super_block
-*sb, struct fs_context *fc)
- 		uspi->s_csaddr = fs32_to_cpu(sb, usb1->fs_csaddr);
-
- 	uspi->s_cssize = fs32_to_cpu(sb, usb1->fs_cssize);
-+	if (uspi->s_cssize < (u64)uspi->s_ncg * sizeof(struct ufs_csum)) {
-+		pr_err("%s(): cylinder summary size %u is too small for %u cylinder
-groups\n",
-+		       __func__, uspi->s_cssize, uspi->s_ncg);
-+		goto failed;
-+	}
- 	uspi->s_cgsize = fs32_to_cpu(sb, usb1->fs_cgsize);
- 	uspi->s_ntrak = fs32_to_cpu(sb, usb1->fs_ntrak);
- 	uspi->s_nsect = fs32_to_cpu(sb, usb1->fs_nsect);
+								Honza
 -- 
-2.47.3
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
