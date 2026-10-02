@@ -1,125 +1,126 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7464BD35C
-	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 14:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCAB39A806
+	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 14:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790951194; cv=pass; b=NEFUmDG2UvRJVCbixGW8/G9YLTsUGaNMt1ZltJ/Y4DweRUctZ8cBKsDwpKpwoOP8kax37wGyn+/MAIKkg0vshEdTZAK3vZwaRICsqNqfxKB1VuaKtDBNW9tJbhnKgWap4XVsgL+qeS8u+xuLi4yTaSdeD3NbrXUL/VLmuUW2H6g=
+	t=1790951558; cv=pass; b=o2Y7oiv/YB0d8l8nruSflWjPRv2B0Hvwel+iEeiYEdM9ilhDRGB/WGgOwOd5RUo/09BSCYYYU2b8As0jw2DjjiCdTh0X02EsfIk/8urL+JXKr0zTp5/EQf3aNDHCosy1YC6N3tmkGy/aJXFGB/J3bthn5cSb6ZiZQra6OtPyunA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790951194; c=relaxed/simple;
-	bh=8omzBxIaPHs4y/ic7pol+xs+OMTn0QiqPBQq8weGQec=;
+	s=arc-20240116; t=1790951558; c=relaxed/simple;
+	bh=TJqIX/4CQn1+ZlnzXl9wEuWSgH40s35Hxd87SbTH2T4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T1xTqvQQca7N0ypXugLH9UM6yI9lcMCHonk8PS5f8DLJ5YHmKxM/yxQKw5uH8MOv2tzVGeYvgWlYELf2pNv7aTQnZNwy8SWtIwPEP0cNRW+yF/n+JtM6EMjZMEUPa7rgabwQAs7re+q9Jb5MLEPHeWfFHlzND/bQmUjg/ezJrCw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PZIYcbc0; arc=pass smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=pvJGWktWtiRQ2AAAYoq/BUpM6IcSsDou2TOu2sowu8Y9+OeV0P4cKy+Arhyi+knmfDXE3rAIegeOT22C4HdP/oCCF2DevutxWMa4XH7yrvTSg7PhI2qqJXi7/9gyVY0EEo6JzhTUZGPiG5+mmmtgybukQSfk/ww0CBDxTYd3hnE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Tmei+IgL; arc=pass smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PZIYcbc0"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6aa8d04fcddso2872514a12.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 02 Oct 2026 07:26:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790951190; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Tmei+IgL"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2d3b445a84fso54435ad.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 02 Oct 2026 07:32:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790951557; cv=none;
         d=google.com; s=arc-20260327;
-        b=f2rbkvS9JhbJiVwJAtqsjPA+407eqBMpCzzZ/5CoVZTwq14z36rkyM0po0Jy7apftW
-         /ouQosxZri4Rw6uc85/H5DY34ACTCA+6i9KFzVQs9vZ8Jh5Gzy5gMjs5ZxqOxUtR3fRK
-         4nOexMwUENsNfzSbMiIzNb6jV4hTMWiYYHfDvxdWGnO9tq0nZTsCky0p6s7AZuoTSGUp
-         TruBPRYX08HY/RxOWSP6uavD1+5I/0MAHGawU5APesN5/+KS36V0XP0112J7yNMY45M+
-         TNJnaRLSy4hY3XACiA+ih4BXs4iXQX4C1h7nsoqQa8XT6o4bDpsYfANB84Obbev3aeSY
-         ilwQ==
+        b=HhThKiMnJeHYE1U876/TSmFwHBQuOCum4iZj/hSl5uWnInx8EUoTFFUaocag2ys5Ch
+         +TrNXg0anDmo7SBI7mAT87wBBifa4V41H7y8LPKvhTlaPfvd2irCOIh1nwZSeR7uJRzJ
+         S5JcyLP5/NPQxcXGXL/Z1kWd5qitk0OfVRbmYzXms2YqXVDUbMxpDzOpjGWf9TeakkSD
+         rZkEUBgxSraUCnKUkeldtxRk0z7XuqzkgA+ZsDu/YQkNvDyPtCt8gTi+s2T4wyZsvcBE
+         ueD+kQzYnOaGqzxmIMUfWEIl39kU8VNrjCrovd6niuYl5wi3yImTQiQf3IcEHgw0CMhX
+         xIMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=8omzBxIaPHs4y/ic7pol+xs+OMTn0QiqPBQq8weGQec=;
-        fh=izuu5a9Lcgf9OF6MdJzWQJyfFlLqEksdPp85uMgyjJw=;
-        b=A/MPf4moqhy1emprFNVWh3zSMJthsuC+A7yXIpADJGLLiZKO2RtQUcRaiB9z++xCVY
-         bZ4tl9ZTkBxZ1lKJGLxG+DbAvQbLB5+w1Ec3jVyHzk3gqc1ssuUdtJDHi10Yg6f6PnWE
-         AIuLq3Fl33Y5OpNzuY40G/fYLwAhCZU78d7pv3NWzhCosH9IVeFHQIijsz4X0rS3eGDn
-         xMKnFA6hW3yRczZJHUgZnk7whvnbPC0g4yU4h2+KTTJ+ZOTRZAZBWIoWM1UMzmPDllBS
-         DEnP7KSNbscgNGp0f6HxZ8aMxt0uMRf+Aixphb8KU6DhT9M+snIyO6gRxafHXItD8kmX
-         3Ktg==;
+        bh=to8620MNaPtZOK070dv1Oxy/f9OGVvcG0m3sMTMM4xA=;
+        fh=zMEr7HHY49IJpvtvmdd9eT3RJ+A/k7Vn1hngFb/QcQY=;
+        b=DS0Hd9VR6ehUvnjRMlSVxGzKNx5ADnGgtO6044OToQkjO51CJfUwG9ArKK34MyR0EL
+         alRC7x1snCZBFJ8fmj85+zwUELKYkoS99F3+lhPQfRq/6v9/OmeDYl1YV8W73C5QhMJ6
+         JEEK4iLHYeFdSKAz94Th0ifqIyJMHcLFmW31s4gjdZOYi881ekoQ6cPXCEHqhPzps42G
+         6kxt94MaQzbRkaLI3K1rmP/nU5UtiWOqXZxZQkgzrQwird3Ww3FThCKYB0KlCTFQlUu+
+         W30uVI081hx/rJY2byfGpWuVxzbHXx9rwm3VSxD4+qjq2Fe8p7Cy7UwQ1bncqpy/vRYi
+         7aHg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790951190; x=1791555990; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1790951557; x=1791556357; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=8omzBxIaPHs4y/ic7pol+xs+OMTn0QiqPBQq8weGQec=;
-        b=PZIYcbc0LCOKczeJweoQC2puPJbubUqaAzf58HP/a2powmiC3KlM+IWKhIAOj8L+Ts
-         t4sT7yKQ5YFeDO2FeQLn5If9aBNk7FRgqPEkuWqE388lSsWRmHa+oKSfadyilAyNWxZl
-         YJVcW8ypfNimDbln+Bjxa7sA5a6aXo/n3ET4fcbS3i+WeSnApv7AwxFPYaZbTSrP4lJC
-         73Tc0FmqPJjd8pCylqz9VzSZhgrFU67xyu9waEgFPmrvlxv8kFO/flllv6ASR1YGwDyL
-         b7+MEGN4HFVT9ZhjTzIDWR7stBklTW7TKgE+hSD1Tv1B3L6IlLxAEBoQkBTgS2AOoF9v
-         YQ9w==
+        bh=to8620MNaPtZOK070dv1Oxy/f9OGVvcG0m3sMTMM4xA=;
+        b=Tmei+IgL1R3U2W4aJN2pDoef4N+kXgre0DD+RB/fn9E5dg7SFlRRvkYhdzKR357GiN
+         XspLj0ilpF1StCzBFGJCN3/rZAnfcLIrgE9o9cR4lO6IgB2od2HuaTqqvXq/KqOnemQs
+         JqIkvcDvCaFLoFhbdZAMNFfsUU64w+ENTkZen7ovP/tCYZLx06PMCgNmoVAwNC7ZC0nB
+         nqsEt1hGslpBcKp8QKYk/tZ3PshOPubVELsHill/vp1TDS5IDPTwHUYJ1jUYv2WrINOo
+         aKie++cNaEd7GQu4s5LDj4P/n30Wq3V5uhnLWPTOzDkwKNTlBp8yEAzvJ2CQ9Lt9QKFg
+         EEGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790951190; x=1791555990;
+        d=1e100.net; s=20260707; t=1790951557; x=1791556357;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8omzBxIaPHs4y/ic7pol+xs+OMTn0QiqPBQq8weGQec=;
-        b=aA//wGfve3eP01Y4mFTBNRYqkp5FfrZyZiAntQ59Zjn+qX/2kXng+ze5phw9HyktuD
-         rjVPeOHMvgTh0wHI5DuHrfvj6oFS+8cQR/nzm3nss3NWhRFtEUEJmmPY1EJisD9DJ4HM
-         dA8dWJ9fOPRqksrAvxux14eHc/BD88Jz09dbxN17q8j5b6YUZr0gacB2NSIohfiX/WII
-         KC/4//L08I91Y3VpCq94pvNlg2IK/S1gob9ria7iSdM13p049WErlrM0gH2dw8JHxrqW
-         LLehJc9WQ5TP/dcJMqr5qCP37x3m1T6MVGbChZ5TGeSMann5dHH1Q0PAET8Nkk8jB0pF
-         Amcg==
-X-Gm-Message-State: AFq9FYJISAwVV8uuQUA7VNaBhiZMTZ7tWs+25MsM45V1CuiyOxWS6gRg
-	biDZ5VO3XSMUJO5JiJAgJA8VBiKPy6nN78JEZ421tKyz9Q49SA5XbqiWbOVK346HL+jRusJuSjU
-	4q7bNEjhWaLFAmejYS0Bi7dz3WD+bKWyer8oJyGc=
-X-Gm-Gg: AYBFou1H8m1qLuyvu1xO+1Ab1i4Yf9d3cMblRiptaO8kgjDvGE63HFzdBYmLvUpx5+S
-	29FWo5NK7GlBjnCDWj2U0tu0n2C1B6LbP5uG5FkgOyz47fUaRw138ALzSc5fc20jnd1Bdn9kuCm
-	TbUVprh9E9uRJnTw+/lWuFzPHE3cPcKlifvgmzNjlX3oz38L4auEKA4v/w31gdvtlnqJkSK6bB6
-	PkvXQVqrkO6jJDFcLN43qm97hA6qUsmizY6NWkyTcNle//nZPDtckwiklue0nzjeB5olO9J4//7
-	uPHnjKQ+lXUY2uXLjvm9fzTK4updYiZC4HhGdHk7lRM093TiBFaYZkkbLw==
-X-Received: by 2002:a05:6402:3448:b0:6ab:18d:553e with SMTP id
- 4fb4d7f45d1cf-6ae307fc2aamr3778893a12.7.1790951190378; Fri, 02 Oct 2026
- 07:26:30 -0700 (PDT)
+        bh=to8620MNaPtZOK070dv1Oxy/f9OGVvcG0m3sMTMM4xA=;
+        b=h0vxcT1nGTeHMIA27aEP7JJgpR6jqsmQ/vEFVDMq6VO2wkyfJTiJfp1uwu9r+wHmxm
+         8xG3kh092ruqOevnYOVGg5+nnK/Al6JB7Q8R4HH6wUBsxYkm2EsrNmDZGWdN3DJwUdvO
+         uYuveSIwCjYzGsrEOTeJ2T1vQX1jyLe+KFR7bTHSMn3IYdvTAoSQb4GTWgKMCGkEFm2U
+         gHu/YVUn0W0QwZvv/F1fmOiKcBdm/v5JchDNIOQVDHpe0+ssoupRQH59jEJVzFxjgYGF
+         hNckt8fTX8+rJCia3hfmdlNz14pUlXY36RuFO7GyVw7sYKS3GKR9XnrgPVwqa9zzxKXT
+         KxPg==
+X-Gm-Message-State: AFq9FYIQ/Tdhkdde2ZNu7STXbInnabyO/BGPCpgeAXw7SCvH0sUpHqaJ
+	jPr6cL7ShrnK4tYnIeGqRpfegWzauHAKWKF4JFzzOyWXKNgrME2kGLTcZocoKiyPeyr/D9Uluyl
+	WrlYBTVeTIrbAbuAW4ePKTfu1jGRY0YzMF9XbatMt
+X-Gm-Gg: AYBFou3u/bleieQep57VydEXloMJnYQNS9lolEuuqAI+pIdbDxqRR44Db7F1eJpBRSS
+	UnAM607B8Ss2U2EG8E5PBGACg8wPLfEkfZWbW9/ojbPDkiiY0wUi9NTwv1xXsFZL+3TM52GiTp2
+	oRLkNqattVLjiKvCJfaYKz33XqnfB0cN2ysu6g9GQmeNTwOGZdFWjeIfWPtYFihfl6mO7wYrIVj
+	s0q+7ArRBY8B4sEsgX7Ap5OMEg3FzvWhA2Ayw3HFx9PS373EPapt7oM09coI+m83gZfy69HvoZs
+	bPQTiExANrFCGbbKlwtgksSY5wYyiKR9LpPc6g7kE/ku+ilIgf84ahFZS2NQtIXkDIeS/GyUi1J
+	EJGizY2hAoW8bi1StYo90OnfDLZt8NDmIw359e6JNJg==
+X-Received: by 2002:a17:902:ce89:b0:2c9:bd54:cf with SMTP id
+ d9443c01a7336-2e49b95d4a8mr3733365ad.4.1790951555834; Fri, 02 Oct 2026
+ 07:32:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org> <20261002-work-mount-fixes-4-v1-16-dd44b89d44ce@kernel.org>
-In-Reply-To: <20261002-work-mount-fixes-4-v1-16-dd44b89d44ce@kernel.org>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 2 Oct 2026 16:26:19 +0200
-X-Gm-Features: AclHuK9Z16udPk3oh0sLXTcta0Bo8aFfXZ1FbZojqYzXzTAAqgvE-FwFTndyA9k
-Message-ID: <CAOQ4uxh9O4-sUpN5mT-GHriGQ26R_n++mELNh3wOPKSrMYDSRQ@mail.gmail.com>
-Subject: Re: [PATCH 16/21] fsnotify: let a filesystem refuse marks on its objects
+References: <20261002-work-mount-cover-v1-0-232a8f52b43c@kernel.org> <20261002-work-mount-cover-v1-1-232a8f52b43c@kernel.org>
+In-Reply-To: <20261002-work-mount-cover-v1-1-232a8f52b43c@kernel.org>
+From: Jann Horn <jannh@google.com>
+Date: Fri, 2 Oct 2026 16:31:58 +0200
+X-Gm-Features: AclHuK-z1jphz9pVkfN_7LOXzoEJGyxYZ-XaZTSYiVfqZ5tJDbTZqNlHdMjcKY8
+Message-ID: <CAG48ez3rU3W_93mHwzG8AedMs71Qb57reEbfkgVHj3i2UhKHog@mail.gmail.com>
+Subject: Re: [PATCH 1/3] nullfs: add an empty immutable regular file
 To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	Jeff Layton <jlayton@kernel.org>, Jann Horn <jannh@google.com>, Neil Brown <neil@brown.name>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jan Kara <jack@suse.cz>, 
+	Amir Goldstein <amir73il@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 2, 2026 at 3:54=E2=80=AFPM Christian Brauner <brauner@kernel.or=
+On Fri, Oct 2, 2026 at 4:14=E2=80=AFPM Christian Brauner <brauner@kernel.or=
 g> wrote:
->
-> Don't let nullfs be watched. fanotify refuses mount and filesystem marks
-> on SB_NOUSER superblocks but inode marks of inotify, fanotify and
-> dnotify go through. The one inode of knullfs is the root of every
-> kernel thread and the following patches make it reachable from
-> userspace as the directory that stands in for an unmounted mount. A
-> watch placed through one such directory would report the opens through
-> all the others, across users.
->
-> Add FS_DISALLOW_NOTIFY next to FS_DISALLOW_NOTIFY_PERM, refuse a mark on
-> any object of such a filesystem in fsnotify_add_mark_list() where every
-> backend ends up and set it for nullfs. There's nothing to watch on a
-> permanently empty and immutable filesystem.
->
+> Add nullfs_new_file() to allocate an empty immutable regular file on a
+> nullfs instance as a dentry of its own. It is never hashed under the
+> root and so can't be found by lookup. Reads return nothing, changes are
+> refused, file locks, leases and delegations are refused as.
+[...]
+> +/* a file of nullfs is permanently empty */
+> +static ssize_t nullfs_file_read_iter(struct kiocb *iocb, struct iov_iter=
+ *to)
+> +{
+> +       return 0;
+> +}
+> +
+> +/* an empty regular file, with the same refusals as the directory */
+> +static const struct file_operations nullfs_file_operations =3D {
+> +       .llseek         =3D generic_file_llseek,
+> +       .read_iter      =3D nullfs_file_read_iter,
+> +       .fsync          =3D noop_fsync,
+> +       .lock           =3D nullfs_nolock,
+> +       .flock          =3D nullfs_nolock,
+> +       .setlease       =3D nullfs_nolease,
+> +};
 
-I don't particularly mind this custom opt-out, but
-shall we perhaps instead deny marks on SB_NOUSER directories?
-IIRC, we already wanted to deny marks on any SB_NOUSER, but then
-it turned out that some users set inotify watches on pipes, so we stepped
-back and restricted SB_NOUSER only for fs/mount marks.
-I think that the same logic extends well also for directories, because
-I don't think that any existing SB_NOUSER fs is supposed to be
-exposing them atm, so no regressions are to be expected.
-
-Thanks,
-Amir.
+If this is supposed to function as a sort of error sentinel, you could
+also leave out the handlers for .llseek / .read_iter / .fsync. Maybe
+even not set ->f_op at all so that it defaults to no_open_fops and
+open() fails?
