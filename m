@@ -1,255 +1,295 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wr2-f34.google.com (mail-wr2-f34.google.com [74.125.225.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C8945D906;
-	Fri,  2 Oct 2026 13:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0D9480968
+	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 13:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790948419; cv=none; b=CdG3QF9MHVD3mdm1FU2n4CvXUSoFpZrdjrDHFa6tLrBuHxugFDW1+1jiow1O5quicx4A+0uPCwRbnk3BDbLNuJHNEEA+WR7d3By5SpAEqzzW1g1Z1SXad8ZZszTgIOLpi58tDTRnAe+V5jKI0v4V9fZBzaF9gvMzMQDfQQgLRzY=
+	t=1790948641; cv=none; b=rqojXMcXyXfcT9Z4mcgdIWvVNjVSeivWGdKLX2T2SNtrYZaGaXzWk7Qeq0HDIBY1JyaO1KdBM0lZCcOQ9STHpoQBdZCLcjqsx2iT8Ah6LvVxUH7Cp9d5/CDAghdGx4vuvHopc2vBst9IzAOytBj4nWqjLUnJ3fNC6c7UiQOBo0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790948419; c=relaxed/simple;
-	bh=XLTdNpPpENYIRMA822cGaG1JPSNAT3rqJDchR0Mf+U8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sEuR6CwgqeYHJdoGiqFNuwQaM9W3H+FnBefeXG0oKPyY3Lg8/Ga1GotVCVqYN6kyL0zxK1yK+O7ONyaVb67cy8MtJXPwYi6wTXjVbNbDgOisAEHeMUyL9JUkQe4j4+s3LpPAmlcGFfBT7Hh99I9OZasQe9Gr8idjlBpcd/YEv4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IoeHXWw9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DLuHXI2f; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XVRuy/PO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=36OJaPNM; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1790948641; c=relaxed/simple;
+	bh=Nl2aWnpl9PJ0LxPZtRAvgWYfvRX7U1TdZDpmUGZ7ruU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gskOLpJ0GQoQaH7QVwHgR3oZI1dPWlt+13S1CZGx4j9/JG3IfVZOHp7d5HYL51ooVGVRKrOyIRYHg6Brsy6B3K63y0pI96NVHjThL7+iWucQAsfVw0HFowb10F93Qy/sIyAnD7yZ1ZNR0MluvDkD9tEwuU/ULkAmz1WnLKtd1kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L52QjaNc; arc=none smtp.client-ip=74.125.225.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IoeHXWw9";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DLuHXI2f";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XVRuy/PO";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="36OJaPNM"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0D1D31FE33;
-	Fri,  2 Oct 2026 13:39:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790948402; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DWVrbaEUCTjYQGLk9y2gvaSWRP3b40xi28stjx15mIg=;
-	b=IoeHXWw9SvNi5tw3aWpGBy5fXegEHSd9hMnsnid/sXF3hJ2wmEHEllgk/VhSZI5s6Uyfbr
-	FUJjUFNdPryuWNjiaSZM4e8l6Pexk2njIz7K9JjiebfVntXSovpSdBp0UWG4X+tSUNNJcp
-	MTrFnsVX40yS4hTleknv1waBFPQrjDs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790948402;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DWVrbaEUCTjYQGLk9y2gvaSWRP3b40xi28stjx15mIg=;
-	b=DLuHXI2fN8CcB9OSOdJ6RYQ3XSuaFrhI7EhuK0E4u4bsVJ9mF+iX+MD2g/JVCvUGRkhoqT
-	J1bBod5jT3yuEgCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790948398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DWVrbaEUCTjYQGLk9y2gvaSWRP3b40xi28stjx15mIg=;
-	b=XVRuy/PO1XBwZMNp8+GP5xajOGqDsAJwFBTZV++ED35KT2Lm4EYNFnqMI1UINtmRvtJ/CQ
-	na9iAQv+u9XZ0qdzMxrQgBKyNolLG8pK502uVFqeZFBdHBAKrXttRRrL40LiCkEXX5ss3l
-	I261tGYixxC4AlITW3K1mGn8C4oLdv4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790948398;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DWVrbaEUCTjYQGLk9y2gvaSWRP3b40xi28stjx15mIg=;
-	b=36OJaPNMOyN8JvVlAqlpHl4m2bhOpEvaXrNAOWEhdLUmArZz0rB2PBsxbbTwxbXZWMn3aC
-	7KfgRf/bAgrFUKDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A7373136AE;
-	Fri,  2 Oct 2026 13:39:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3vqYIC20v2q+DAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 02 Oct 2026 13:39:57 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 3A47EA13C2; Fri, 02 Oct 2026 15:39:53 +0200 (CEST)
-Date: Fri, 2 Oct 2026 15:39:53 +0200
-From: Jan Kara <jack@suse.cz>
-To: Matthias Goergens <matthias.goergens@gmail.com>
-Cc: Jan Kara <jack@suse.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzbot+799a0e744ac47f928024@syzkaller.appspotmail.com, 
-	syzbot+43fc5ba6dcb33e3261ca@syzkaller.appspotmail.com, syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH RESEND 3/3] udf: leave udf_next_aext() outputs alone at
- the end of the extent list
-Message-ID: <2z7rpiwsnbclohlffljpuj2rbccdvg7kgmv4on6txskkgapxbi@rbizm4qcitmb>
-References: <20261002042627.1677228-1-matthias.goergens@gmail.com>
- <20261002042627.1677228-4-matthias.goergens@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L52QjaNc"
+Received: by mail-wr2-f34.google.com with SMTP id ffacd0b85a97d-48afe3b2383so2441305f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 02 Oct 2026 06:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790948637; x=1791553437; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mn+udfucuciyXQimcC48axZ4iQXC1W9g3f3Q40uLmHU=;
+        b=L52QjaNc+3OqrDjXRbow3V0V5VVGQNjolELCe61S2DdEHAAsLRVkg4xJ80WN06fvLV
+         deN6NKFPJD5CQ7AlcnM40Tz9i5mpCXWRfHiyvXw4QX0O/uR9/w9oGIfNdAEpQ8zITaqL
+         mVoGMx4dnLelr5+r05LahwzNj8mMRQ5MrbK1bDgiVTw/uOSJK06zo1saYcochZfZb+9C
+         d81d27CBua3U45lEPR96Zn5krAE22P6GOrYiYvVoRahsfapdd7eynX0brQwwaywCyqEi
+         GqSGJXAVZd8fJz4iWhKWjeU+zr/3aiPWoa+ZEeTiGJ1UW7CRbP3OnE3lC6PbU2NVrPgC
+         ad6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790948637; x=1791553437;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mn+udfucuciyXQimcC48axZ4iQXC1W9g3f3Q40uLmHU=;
+        b=EeaQvi9pNQkjjBAyOmHWFoh5rbKbdRywceUx66Z8DOBa0dRRbk9S10ZM+N215JXxO1
+         SXp4ir22h7vgd/i0u4W8WtPL/EruY3FyOxXvPmvwqTBRul8ZpY9WGHfB3mKiVHke0FZ4
+         vA1ki7s0jbzBcCZtBq7flmrvp3XKYQKP1/7BY+40US6nQP8AfoTVPqJTyZgZAK1hEUFk
+         qeQJwLzE+IPnot7CFcsFKr9rzoblYBptMgf/qZUSQiPea1QGPYU5dLlxp4TRI+8SAVYm
+         /WCjaXDZDyokYtYZUthHeqJfrHR7wL4LZd8CHw/zj1mtqHvExLKQ3u0L8E5/wt1Vzq7j
+         53fg==
+X-Forwarded-Encrypted: i=1; AKwUvBw0c8zmE5kpAvHUXURWV11/UEKkON98n1PqabTxLa8CL4BNOCji7+9AAcIiuWRCo9JNMfAbzB8xmUH441LP@vger.kernel.org
+X-Gm-Message-State: AFq9FYKeG9VKvhvLS2c+sweaxNtred4e0ng+nQKOhb/1pClJukoGPFpg
+	d7KN7zzkgScSYXGyheEgn6s7jsJ1RWwfVHNhxB6dQQIOnZ7tju9U02W1
+X-Gm-Gg: AYBFou345JzMCfHe+c9yERaKq8P0xVSlLwDbnc4rbUAQNXxkcobON/8Be/EpOGjUTGr
+	VW8aBp2KWFAkQXYRhqIQeyOFGOGNf9TAO93637XqsT+I27fkHGDPC3h1xCT5KvCOfX9ClFdTaYR
+	p7MoIJJ2VodRILrsF7N4TX0IllvwCrwTWL1UtYYFrWdtRYJqsMjxRFSbIbKXDJZPMrWJ5T59xsn
+	NKpAd5Nqbuxw3Ap4pAay50gfex2QZEPrTboO9Lz1JRfdNBb8sCcmqrmBOLp9lTcm4/yccOcwjXb
+	6qCidVUezzpWW3LYeQRpySENlgPhqWTan3543DOVQtEzxPamJL2Xol+4L4OhiW3XzkM2D+RIdgM
+	iJhkZDpZx7al3WUnyF5i1lH+FfHXB/aCjM/48pRoBjg31d+S1OA1IBmXohOT9fATdzrFTq2FwtG
+	R52dRNQDG/J3SfWqKKzLf120miTqGg9+vx/qg61NigbbQ7jNhU55AGAw1hK+82d07nzcn1IS2yU
+	a/byRwjYxRmEV6QEBTDhnd/JjBXeTNzkMCQLw6vMNhGxNBDk4rz1Qbv84LokgRXXds5BXdA5Cf/
+	5HZNTyw/TM4ppJJfwBVwXZuUiQSOdg/SXI5xXq5wxhHV68t27DJGm1T6/wrVUnLlMyciziFlU1o
+	Q4ll0F/tPtLpLPgAq9HM9TEhWftLn
+X-Received: by 2002:a05:6000:2613:b0:48a:f509:c22a with SMTP id ffacd0b85a97d-48b1256b860mr5488351f8f.0.1790948637088;
+        Fri, 02 Oct 2026 06:43:57 -0700 (PDT)
+Received: from Ubuntu.ts.net (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b38104f89sm6381538f8f.30.2026.10.02.06.43.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2026 06:43:56 -0700 (PDT)
+From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
+Subject: [PATCH v2] fat: skip rename rollback on buffers with failed I/O
+Date: Fri,  2 Oct 2026 15:43:48 +0200
+Message-ID: <1f18819d20c92960b8b2d6ccc8bc4506d346150e.1790779353.git.krystianmkaniewski@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <87ld8j4161.fsf@mail.parknet.co.jp>
+References: <6aa82300.a211d2ce.1a5198.0295.GAE@google.com> <20260929090029.742579-1-krystianmkaniewski@gmail.com> <87ld8j4161.fsf@mail.parknet.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261002042627.1677228-4-matthias.goergens@gmail.com>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[43fc5ba6dcb33e3261ca,799a0e744ac47f928024];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
 
-On Fri 02-10-26 12:26:27, Matthias Goergens wrote:
-> udf_next_aext() decodes each allocation descriptor straight into the
-> caller's eloc, elen and etype, and follows a continuation descriptor
-> into the next allocation extent.  If that allocation extent holds no
-> descriptors, it returns 0 for the end of the list, but by then eloc,
-> elen and etype describe the continuation descriptor itself: the block
-> of the empty allocation extent, one block long, type 3.
-> 
-> The kernel creates such lists itself: udf_delete_aext() leaves the last
-> allocation extent of a list empty when it removes its only descriptor,
-> and udf_do_extend_file() and udf_extend_file() already handle a list
-> that ends in an empty one.
-> 
-> Two callers use the outputs after a return of 0.  udf_discard_prealloc()
-> walks to the last extent and, if it is a preallocation, deletes it with
-> udf_delete_aext() and frees eloc/elen.  When an empty allocation extent
-> follows, udf_delete_aext() removes the continuation and frees the empty
-> block, and udf_discard_prealloc() then frees that block a second time
-> instead of the preallocated blocks.  On a space bitmap the preallocated
-> blocks are leaked and the free block count drifts.  On an unallocated
-> space table the second free adds a second free extent for the same
-> block, which is later handed out twice: fsx as run by generic/091 and
-> generic/263 ends up with two parts of its test file in one block and
-> reads back bad data.
-> 
-> udf_table_prealloc_blocks() can likewise take an empty allocation extent
-> at the end of the table's own list for a free extent starting at the
-> goal block.
-> 
-> Only update the outputs once a descriptor other than a continuation has
-> been found.  The other callers use the outputs only on a positive
-> return, or not at all, with one exception: when udf_table_free_blocks()
-> appends a new extent, it keeps the partition reference of whatever eloc
-> last held, which for a table whose list is a single continuation to an
-> empty allocation extent would now be uninitialised.  Take it from the
-> freed blocks instead.
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+A synchronous directory-entry write can fail after clearing BH_Uptodate.
+The rename error path then attempts rollback by modifying and dirtying the
+same buffer. mark_buffer_dirty() warns on the resulting !buffer_uptodate
+buffer, and retrying the write cannot repair the underlying I/O failure.
 
-Good catch! But I'd consider this mostly a bug in udf_discard_prealloc().
-If udf_next_aext() returns value <= 0, you cannot assume anything about the
-content of eloc & elen, including whether their value was or wasn't
-clobbered. So IMO a nicer fix is to fix udf_discard_prealloc() to use
-tmpeloc & tmpelen which should fix the problem as well.
+Once a synchronous update fails, record whether the new entry shares that
+buffer and do not touch it again. Before fat_remove_entries() releases the
+old-entry buffer, record aliases so later failures also avoid rolling back
+through it. For RENAME_EXCHANGE, restore the first ".." update only when it
+does not share the buffer on which the second update failed.
 
-								Honza
+Keep the existing forced synchronous MS-DOS rollback when it targets a
+different buffer. For skipped rollbacks, retain the original error and
+report filesystem corruption through fat_fs_error().
 
-> ---
-> Reproducer, with fsx from fstests and mkudffs from udftools:
-> 
->   truncate --size=2G udf.img
->   mkudffs --blocksize=512 --space=unalloctable udf.img
->   mount -t udf -o loop udf.img /mnt
->   fsx -N 10000 -l 500000 -r 4096 -t 512 -w 512 -Z -R -W /mnt/junk
-> 
-> Without this patch fsx stops with READ BAD DATA after about 9850
-> operations, in every run; with it, all 10000 operations complete.
-> With --space=unallocbitmap fsx completes either way.
-> 
->  fs/udf/balloc.c |  1 +
->  fs/udf/inode.c  | 21 +++++++++++++++++----
->  2 files changed, 18 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/udf/balloc.c b/fs/udf/balloc.c
-> index 2ec577b4321c..d863ee201cbf 100644
-> --- a/fs/udf/balloc.c
-> +++ b/fs/udf/balloc.c
-> @@ -457,6 +457,7 @@ static void udf_table_free_blocks(struct super_block *sb,
->  
->  		int adsize;
->  
-> +		eloc.partitionReferenceNum = bloc->partitionReferenceNum;
->  		eloc.logicalBlockNum = start;
->  		elen = EXT_RECORDED_ALLOCATED |
->  			(count << sb->s_blocksize_bits);
-> diff --git a/fs/udf/inode.c b/fs/udf/inode.c
-> index 71386e7ac796..0e55f749bc48 100644
-> --- a/fs/udf/inode.c
-> +++ b/fs/udf/inode.c
-> @@ -2266,22 +2266,35 @@ void udf_write_aext(struct inode *inode, struct extent_position *epos,
->  
->  /*
->   * Returns 1 on success, -errno on error, 0 on hit EOF.
-> + *
-> + * eloc, elen and etype are only updated when the next allocation descriptor
-> + * was found.  In particular, when a chain of indirect extents ends in an
-> + * empty one, following the trailing CONTINUE descriptor and hitting EOF must
-> + * not clobber them with the location and length of that CONTINUE: callers
-> + * keep using the last real extent's values after a 0 return, e.g. to discard
-> + * its preallocation.
->   */
->  int udf_next_aext(struct inode *inode, struct extent_position *epos,
->  		  struct kernel_lb_addr *eloc, uint32_t *elen, int8_t *etype,
->  		  int inc)
->  {
-> +	struct kernel_lb_addr tloc;
-> +	uint32_t tlen;
-> +	int8_t ttype;
->  	unsigned int indirections = 0;
->  	int ret = 0;
->  	udf_pblk_t block;
->  
->  	while (1) {
-> -		ret = udf_current_aext(inode, epos, eloc, elen,
-> -				       etype, inc);
-> +		ret = udf_current_aext(inode, epos, &tloc, &tlen, &ttype, inc);
->  		if (ret <= 0)
->  			return ret;
-> -		if (*etype != (EXT_NEXT_EXTENT_ALLOCDESCS >> 30))
-> +		if (ttype != (EXT_NEXT_EXTENT_ALLOCDESCS >> 30)) {
-> +			*eloc = tloc;
-> +			*elen = tlen;
-> +			*etype = ttype;
->  			return ret;
-> +		}
->  
->  		if (++indirections > UDF_MAX_INDIR_EXTS) {
->  			udf_err(inode->i_sb,
-> @@ -2290,7 +2303,7 @@ int udf_next_aext(struct inode *inode, struct extent_position *epos,
->  			return -EFSCORRUPTED;
->  		}
->  
-> -		epos->block = *eloc;
-> +		epos->block = tloc;
->  		epos->offset = sizeof(struct allocExtDesc);
->  		brelse(epos->bh);
->  		block = udf_get_lb_pblock(inode->i_sb, &epos->block, 0);
-> -- 
-> 2.55.0
-> 
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=b0aebd03565f5774f7f8
+Signed-off-by: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+---
+Changes in v2:
+- Avoid buffer locking and waiting in the normal update path, as suggested
+  by OGAWA Hirofumi.
+- Give up rollback after a synchronous failure on the affected buffer.
+- Track buffer aliases before fat_remove_entries() releases the old buffer.
+- Keep forced synchronization for an MS-DOS rollback on another buffer.
+
+ fs/fat/namei_msdos.c | 28 ++++++++++++++++++++-----
+ fs/fat/namei_vfat.c  | 50 +++++++++++++++++++++++++++++---------------
+ 2 files changed, 56 insertions(+), 22 deletions(-)
+
+diff --git a/fs/fat/namei_msdos.c b/fs/fat/namei_msdos.c
+index d46d1a3851f25..079f8bb61647f 100644
+--- a/fs/fat/namei_msdos.c
++++ b/fs/fat/namei_msdos.c
+@@ -441,6 +441,8 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+ 	struct fat_slot_info old_sinfo, sinfo;
+ 	struct timespec64 ts;
+ 	loff_t new_i_pos;
++	bool dotdot_in_old_bh, new_in_old_bh;
++	bool new_bh_failed = false;
+ 	int err, old_attrs, is_dir, update_dotdot, corrupt = 0;
+ 
+ 	old_sinfo.bh = sinfo.bh = dotdot_bh = NULL;
+@@ -532,14 +534,20 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+ 				      &MSDOS_I(old_inode)->i_metadata_bhs);
+ 		if (IS_DIRSYNC(new_dir)) {
+ 			err = sync_dirty_buffer(dotdot_bh);
+-			if (err)
+-				goto error_dotdot;
++			if (err) {
++				corrupt = err;
++				new_bh_failed = sinfo.bh == dotdot_bh;
++				goto error_inode;
++			}
+ 		}
+ 		drop_nlink(old_dir);
+ 		if (!new_inode)
+ 			inc_nlink(new_dir);
+ 	}
+ 
++	/* Remember aliases before fat_remove_entries() releases the buffer. */
++	dotdot_in_old_bh = dotdot_bh == old_sinfo.bh;
++	new_in_old_bh = sinfo.bh == old_sinfo.bh;
+ 	err = fat_remove_entries(old_dir, &old_sinfo);	/* and releases bh */
+ 	old_sinfo.bh = NULL;
+ 	if (err)
+@@ -564,12 +572,22 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+ error_dotdot:
+ 	/* data cluster is shared, serious corruption */
+ 	corrupt = 1;
++	if (dotdot_in_old_bh || new_in_old_bh) {
++		/* Give up rollback on the buffer whose write failed. */
++		corrupt = err;
++		new_bh_failed = new_in_old_bh;
++	}
++
++	if (update_dotdot && !dotdot_in_old_bh) {
++		int dotdot_err;
+ 
+-	if (update_dotdot) {
+ 		fat_set_start(dotdot_de, MSDOS_I(old_dir)->i_logstart);
+ 		mmb_mark_buffer_dirty(dotdot_bh,
+ 				      &MSDOS_I(old_inode)->i_metadata_bhs);
+-		corrupt |= sync_dirty_buffer(dotdot_bh);
++		dotdot_err = sync_dirty_buffer(dotdot_bh);
++		corrupt |= dotdot_err;
++		if (dotdot_err && sinfo.bh == dotdot_bh)
++			new_bh_failed = true;
+ 	}
+ error_inode:
+ 	fat_detach(old_inode);
+@@ -581,7 +599,7 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+ 			mark_inode_dirty(new_inode);
+ 			corrupt |= sync_inode_metadata(new_inode, 1);
+ 		}
+-	} else {
++	} else if (!new_bh_failed) {
+ 		/*
+ 		 * If new entry was not sharing the data cluster, it
+ 		 * shouldn't be serious corruption.
+diff --git a/fs/fat/namei_vfat.c b/fs/fat/namei_vfat.c
+index da3e89c0b16ac..b6a32f39a6f88 100644
+--- a/fs/fat/namei_vfat.c
++++ b/fs/fat/namei_vfat.c
+@@ -938,6 +938,8 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
+ 	struct fat_slot_info old_sinfo, sinfo;
+ 	struct timespec64 ts;
+ 	loff_t new_i_pos;
++	bool dotdot_in_old_bh, new_in_old_bh;
++	bool new_bh_failed = false;
+ 	int err, is_dir, corrupt = 0;
+ 	struct super_block *sb = old_dir->i_sb;
+ 
+@@ -983,13 +985,19 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
+ 	if (dotdot_de) {
+ 		err = vfat_update_dotdot_de(new_dir, old_inode, dotdot_bh,
+ 					    dotdot_de);
+-		if (err)
+-			goto error_dotdot;
++		if (err) {
++			corrupt = err;
++			new_bh_failed = sinfo.bh == dotdot_bh;
++			goto error_inode;
++		}
+ 		drop_nlink(old_dir);
+ 		if (!new_inode)
+  			inc_nlink(new_dir);
+ 	}
+ 
++	/* Remember aliases before fat_remove_entries() releases the buffer. */
++	dotdot_in_old_bh = dotdot_bh == old_sinfo.bh;
++	new_in_old_bh = sinfo.bh == old_sinfo.bh;
+ 	err = fat_remove_entries(old_dir, &old_sinfo);	/* and releases bh */
+ 	old_sinfo.bh = NULL;
+ 	if (err)
+@@ -1012,10 +1020,19 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
+ error_dotdot:
+ 	/* data cluster is shared, serious corruption */
+ 	corrupt = 1;
++	if (dotdot_in_old_bh || new_in_old_bh) {
++		/* Give up rollback on the buffer whose write failed. */
++		corrupt = err;
++		new_bh_failed = new_in_old_bh;
++	}
+ 
+-	if (dotdot_de) {
+-		corrupt |= vfat_update_dotdot_de(old_dir, old_inode, dotdot_bh,
+-						 dotdot_de);
++	if (dotdot_de && !dotdot_in_old_bh) {
++		int dotdot_err = vfat_update_dotdot_de(old_dir, old_inode,
++						       dotdot_bh, dotdot_de);
++
++		corrupt |= dotdot_err;
++		if (dotdot_err && sinfo.bh == dotdot_bh)
++			new_bh_failed = true;
+ 	}
+ error_inode:
+ 	fat_detach(old_inode);
+@@ -1026,7 +1043,7 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
+ 			mark_inode_dirty(new_inode);
+ 			corrupt |= sync_inode_metadata(new_inode, 1);
+ 		}
+-	} else {
++	} else if (!new_bh_failed) {
+ 		/*
+ 		 * If new entry was not sharing the data cluster, it
+ 		 * shouldn't be serious corruption.
+@@ -1105,14 +1122,18 @@ static int vfat_rename_exchange(struct inode *old_dir, struct dentry *old_dentry
+ 	if (old_dotdot_de) {
+ 		err = vfat_update_dotdot_de(new_dir, old_inode, old_dotdot_bh,
+ 					    old_dotdot_de);
+-		if (err)
+-			goto error_old_dotdot;
++		if (err) {
++			corrupt = err;
++			goto error_exchange;
++		}
+ 	}
+ 	if (new_dotdot_de) {
+ 		err = vfat_update_dotdot_de(old_dir, new_inode, new_dotdot_bh,
+ 					    new_dotdot_de);
+-		if (err)
+-			goto error_new_dotdot;
++		if (err) {
++			corrupt = err;
++			goto error_old_dotdot;
++		}
+ 	}
+ 
+ 	/* if cross directory and only one is a directory, adjust nlink */
+@@ -1135,14 +1156,9 @@ static int vfat_rename_exchange(struct inode *old_dir, struct dentry *old_dentry
+ 
+ 	return err;
+ 
+-error_new_dotdot:
+-	if (new_dotdot_de) {
+-		corrupt |= vfat_update_dotdot_de(new_dir, new_inode,
+-						 new_dotdot_bh, new_dotdot_de);
+-	}
+-
+ error_old_dotdot:
+-	if (old_dotdot_de) {
++	/* Both entries may share the buffer whose write failed. */
++	if (old_dotdot_de && old_dotdot_bh != new_dotdot_bh) {
+ 		corrupt |= vfat_update_dotdot_de(old_dir, old_inode,
+ 						 old_dotdot_bh, old_dotdot_de);
+ 	}
+
+base-commit: 93f51579e7df248780214094418f205253383cc5
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.53.0
+
