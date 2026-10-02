@@ -1,211 +1,276 @@
-Received: from mail-ed2-f32.google.com (mail-ed2-f32.google.com [74.125.228.96])
+Received: from o1.ptr9745.em.honeycomb.io (o1.ptr9745.em.honeycomb.io [149.72.141.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8BE3E316B
-	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 21:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.96
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790976764; cv=pass; b=Di24eIhHTRwjm7ftIUz9IjRqnXkT0m/7sAqTUEobm2RjUnyDnNweMP76poA/cTg5iIy6xRsC9fV8iNkyi8OryMT8QLKUCbN9egk+yDos3Z8unihbci1ScFmciEcY+Y8c1Z5Hy4JAiXUYP8CVSjYv0JXoc1fAz1KXAx16qbhmucQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790976764; c=relaxed/simple;
-	bh=Rw7p5hrp7jSiFBU+jhLnPwozbRKpQWTMWnDkk688+e4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GYdtVGI4bjPeNibkiZkSpL7pa/+95utQO0gHnmSrm/PPD2/fADI7Cfrn/e5yy73wErR8nuy4ly5tYZe5lHSiqanF6haAlWZDXaCMUQLUcPnS9lE27nRseNoULTMW2h51BV1vSdn/UWvpd/uHuS/4eOp9gnA+La1hAy0e46H+ujg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iDC9ax43; arc=pass smtp.client-ip=74.125.228.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64D9435514
+	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 21:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.141.136
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790977248; cv=none; b=WrNzddXgAYLTSa2FtPQgfi6dGXpQGTGPkYkCHDd1iP5Jc+9BHcvYxYviwbrbAq5/7DX8bql7gXaYHaUh3ybb8TkvmW6OxJsLSDCts/hUEnD+8lrZJOpzNc4W1UaYtpcnd88PaY7bJ9XFbRGMVl6Y+Yg3N1cf4H7Zo+7iblYR0y0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790977248; c=relaxed/simple;
+	bh=agPSHPE75NFOlw8FCRCFdFDF1GLPz0mg1mHaYnGVCI4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=POvSPGNeAPHE+L32kxpH6VbtV+FRGfk3FPpLEu5r1BWE7UmiwoQfCsleL0rhzTStkT0IXBWPf9tLJoiYVBm4OXTTI37CW890PXsUmpJsIVKxgWv57H/fVGNUZkPrkpMG77W7+1XuPFiuJX/fOrZ7mkUH559bnfwTuM5tHdxtPSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=L6oDXipc; arc=none smtp.client-ip=149.72.141.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em.honeycomb.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iDC9ax43"
-Received: by mail-ed2-f32.google.com with SMTP id 4fb4d7f45d1cf-6acae8342d2so504197a12.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 02 Oct 2026 14:32:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790976760; cv=none;
-        d=google.com; s=arc-20260327;
-        b=It3IyOzqQ90korRzok8iTjsdL8qMwLOJx2kn46boN1jEOsI4mvXJx0Hgfh2Nl0iou4
-         8VIC1N8ltriaESAVyj+rTSibKYd5uitppwPzz/dS37s1vAiZNmLTkX07sVX3O7XzcVW8
-         KogRyiFR7p+KH0by3b/sQMenFPqGlhPo2nGV3GhvO1aJEcGSSom8vIRRI165dSWNPSSg
-         qu+u+G1Ml4v1JVCFWhWCeCu/UJLhCXoE9HtpV/OG5ItbwFzGy051CtkIqC7iAQtX9YPv
-         m/t0HhjIOlg8aaeJWU062Xhl4Gh0mSUBNuJT92CKGSu+Wb7UboQw1bkZp15I66xdcAv+
-         Fsvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AR8vK2FFVl3T+EWEuf785UBXdKYtqcyiMVEsfOCIyKA=;
-        fh=qEjup9UNu+YVN+h2YqLNrwoAeve5fr8Uc5CKBVnh18w=;
-        b=hjjm4kBxGY2sPo7uSN81OqJh9+teYrB5sQRkBDYSjarkLUAOYIS1VAdn75eEpARywH
-         tfx0BLwFPJghXQE3D0b00IVG3bf3AngCkNfvQn0qqXENsf56NmEyJnw68cj/vtFwTR7V
-         zfZwW/65D0eN9avm+AmlrzLqPP3aNpFTU5p7NJWo+vSo6ekghbJOMmG//E+B/1SEvmTK
-         +Fnb3e5KjWfGAeDRD6UrvviiTbFdCEzwU3CRuQkif+3r8OC5Usg6WDNZ691VqUXxpWMf
-         g/nKOgnMDQ87UNpQtiE1ghooknMjrXjYOCyEpYQeGpapNgkheHJJvDrtYFHbxuMcSekv
-         o2AQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790976760; x=1791581560; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=AR8vK2FFVl3T+EWEuf785UBXdKYtqcyiMVEsfOCIyKA=;
-        b=iDC9ax43TQvaj4V/hGGUIZW5r4vE2Mk1F/JvRYwGHXEj6bQG2x51jxaNzivaQ0V57S
-         r7sR+j1MQFAvaI8Cuze1PoEN7dh9Qrm2TGJvyvo7Zj7WIMrS/tzji2HpjSb7JpdvBM6S
-         vPSQNghgtnen5k6GnDTBdeMnMOxmJQsRwc3MdCH0Wi3q1cnpv+X+10ypdeplFoWhgL5a
-         IV/lBHeOTDFqY664ni1TzI8LaP5JuN2fzwCkoO7KF9lcI4v2blyWeHvq7xRPSxveg2Or
-         HOBgULK2qNggF8xubp3C6P+GDuojikbFaQ5WTSQyWaHVfLtfa9sMQuQfCsyY7Ovqjp7I
-         TkIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790976760; x=1791581560;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AR8vK2FFVl3T+EWEuf785UBXdKYtqcyiMVEsfOCIyKA=;
-        b=peFXSeVpLgZchkeeqMw1o38/w+cbBtlTght2Uy+YddDRWeQRLnmZy5MopB/oUJO/r9
-         0kEUq+gTw7O1AGfmc9pyI4QTaWyxd1TrkOhNqHljFmqQQR9AJRL5uQzh9RFlG11GWAws
-         fs8c0R45RYmKrQ0r698a+OihFcNN58Ha8ULRPXk8G5/yQLLp0Hxg6OjAKHPwnxI1QFv0
-         dw1Fqb33foMzLs2y75cUjfdet/R6iQN+ul5JvGiBbeQ++MO8YuY31QHcGXjnpcPkZ8jZ
-         2jcEpEpR+PIOWpqiTty681IYAP/d+9yXHbNIKDbOD/smqp66k33Kg7T9sWkwuT86ttdW
-         Aw5Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwDc5IhR2sgucveAe9z4Fva+RuNb+wgCxYA78hWXDWx/HIXFqQ7FmkJ/yR+wIJ/LThf8g6O+w2ZZac/fWwg@vger.kernel.org
-X-Gm-Message-State: AFq9FYJG3+uNLlomWy0srOWLKMC1zTH7YeconBIoAo4tgi0GhtDcBIhg
-	9sxzsaw+yG4yVQ53/ghXsAF+FAo7uw4q+Al6PNrJHeXvkq/GKUzpebwnn2f/SYhq7gweB4R0W/c
-	gH5jT5pHE/K/p/CZTCOQ8FUQ3JbwEpL8=
-X-Gm-Gg: AYBFou3G0kWLsz1U5Sp+WGtVgXQo+R2gw7TZCIhlQFSvVZ1FWHoTH7Ybnx46uaSgT+d
-	B5USEBMwfQv4NCFCM9fXczlKvxl++8evT58/vq66j8t+HVURffhBVwYvIq7dgyV/utj2eeXc7GU
-	BE5MEQQuUvC86JtZ2/5avLjrqA8VXUViVzYvjH7paHqcV2VmLneFibodHAzf750lqMsWEteeh/J
-	bR94+kYwJfCr7wmO1xUZaxuWUS72gdPlI8bJbdt3HQRy5n7woO7NrjkSgBUTUTKYGBjtHYz9z/0
-	v2Aog17oxdixMZnXVcjYY+itPjI7z9Yjrwqc1N1P+E8YiQTAR8ocgDM=
-X-Received: by 2002:a05:6402:46d1:b0:6ac:70f2:9205 with SMTP id
- 4fb4d7f45d1cf-6af9e386d01mr2467536a12.43.1790976760359; Fri, 02 Oct 2026
- 14:32:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="L6oDXipc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=honeycomb.io;
+	h=from:subject:date:mime-version:content-type:content-transfer-encoding:
+	to:cc:cc:content-type:date:from:subject:to;
+	s=s1; t=1790977244;
+	bh=UDeNCMeoNzWjD80kFfqyU9GCoAI9xgGJzlndU8ScCrI=;
+	b=L6oDXipcxY8hWbp1iVzXuUyL0b1xIbV4J48LrpLqSlndl8QSZ7pL7xubEX687h0MojyO
+	DA20PEFAdZRm9FA6PMpIPLER5BgUeaF+vhgZhIVZlQHpA6lYjqeAkBysUHHDJFtDu9y62h
+	d7QyDReb2R3OEjupdTVLfdgmTqx4fStls5Sh6URbAh+4oeBaXad0aAVedx6qJA5Hs8tpgW
+	Ma0VZwyZ2bJB4gDSZ5VtkzYf34Yty7TcrydSfXK7CEUU2kKIOfOo9kPjECkHxO81L+6rsn
+	/Ubkn5F8Bb6OWbqbcl9dz9LfVJJ0vCpnnwUHiE64T6kBCL2vj6Ym/Ch/ugCN+YeQ==
+Received: by recvd-8497f7b588-96wwd with SMTP id recvd-8497f7b588-96wwd-1-6AC024DC-78
+	2026-10-02 21:40:44.710654257 +0000 UTC m=+275988.848504074
+Received: from [127.0.1.1] (unknown)
+	by geopod-ismtpd-64 (SG) with ESMTP
+	id txQyhMZwTZ2Yn_7hzmSvxQ
+	Fri, 02 Oct 2026 21:40:44.614 +0000 (UTC)
+From: Liz Fong-Jones <lizf@honeycomb.io>
+Subject: [PATCH v6 0/3] writeback: let foreign flushes reach dying cgwbs
+Date: Fri, 02 Oct 2026 21:40:44 +0000 (UTC)
+Message-Id: <20261002-wb-dying-cgwb-flush-v6-0-1991b4e2dcff@honeycomb.io>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKLmikMhOYpGEw6uCqX_Bm0JPEg-4FhdJMNa9+tgtw3-Kf+eZg@mail.gmail.com>
- <e75cf549-07a6-4095-bbf8-8caff7a3338b@bsbernd.com>
-In-Reply-To: <e75cf549-07a6-4095-bbf8-8caff7a3338b@bsbernd.com>
-From: Mitar <mmitar@gmail.com>
-Date: Fri, 2 Oct 2026 23:32:29 +0200
-X-Gm-Features: AclHuK_SMxUC5ptg7waR4khxz9du87Zel1clvodF34USzNqE3fzoU6-rh2TvexA
-Message-ID: <CAKLmikN9Aod9Va=FsqkRmF20=69sdgdDOoV_bUuGh6wTykVcBQ@mail.gmail.com>
-Subject: Re: fuse: HANDLE_KILLPRIV_V2 does not kill suid/sgid on fallocate()
- and copy_file_range()
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43Ny07DMBAF0F+pvMbIz8mEFf+BuvBjkhhBguI2J
+ ary7zhFQhWyELu5mplzryzTnCizp8OVzbSknKaxBHg4sDC4sSeeYslMCQWiVcAvnsc1jT0PfRm
+ 7t3MeuAAqW1LOu8jK58dMXfq8qS/H75zP/pXCaaf2iyHl0zSvt9pF7nd/NyySS+4wYosCrdPue
+ ZhGWsP07h/TxPaSRd0zWGdUYSx4a0J0jelUhdH/YDQXnLTVjUE0AE2FMXeMFnXGFMZHAt2g0K6
+ FCmN/GCmErDO2MKhBkscANvxmtm37AvESh5XnAQAA
+X-Change-ID: 20260926-wb-dying-cgwb-flush-06e260e2abad
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9617; i=lizf@honeycomb.io;
+ s=gpg; h=from:subject:message-id;
+ bh=agPSHPE75NFOlw8FCRCFdFDF1GLPz0mg1mHaYnGVCI4=;
+ b=owEBbQGS/pANAwAKAaXO1OOXra/CAcsmYgBqwCTb35TPOMJ6aAnjg8dkUK9NImEHWLAjlVOIS
+ lp5Z7Xdg22JATMEAAEKAB0WIQSfW1LPQ0gyJmoTHwelztTjl62vwgUCasAk2wAKCRClztTjl62v
+ wqSKCACa52zb80z//6U5SJYd8yCtqjEHDRvqRI0C//jI4gNNt7famKZB1psLvmHKsZXWgGpg0IY
+ Yw7iMMprf9KTEjUgsaQcNNPrIlD+m3AKb/saW+e6coAllObcKccdDXX4HeJ2dGis4XyJfeJjZGp
+ yTodaSk8aAlTBBeglbkOCDW9J1ljBnzlVRG6cFldBtDBL1I4lfZsdQcNcGano0rFLIH3G9IQIcK
+ yr45f1xD3JhSjKXhQXjzZHMumcpmx5DWqKF/mj+Op+hi9q1w1GaegmyRRgfRmm3CCbLQ/iXvdGW
+ JZSE4vPKp0ZuSZpDmuMDp/zM1/esBPCXZAs7E420+BtEsbSz
+X-Developer-Key: i=lizf@honeycomb.io; a=openpgp;
+ fpr=1F7714D7EC3441D2CECC24606A3F8B00FBDDD2A4
+X-SG-EID: 
+ =?us-ascii?Q?u001=2ECuH7N2XAoeMR1zrzr=2F6NZrhli2vbKPOHff5fJuZuba6ZIE8QPyIf9mn4Y?=
+ =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmecpKvUcBwcE7?=
+ =?us-ascii?Q?arbksLxMuo=2FnbL6Z5ppAgqT88bqXlHY=2FQIn1AdI?=
+ =?us-ascii?Q?JDbWWNTvexi6PlTMioL0oXi8O0OaiH6=2FYYmwxWX?=
+ =?us-ascii?Q?=2F2ZBU8yxExU2cqz3fZxngcRmZHtx7qMcENpWpra?=
+ =?us-ascii?Q?IPvdCNQ+JY=2FRYbDlvxNW=2F+OE5wug=2F5X+0Dlfd8e?=
+ =?us-ascii?Q?R496?=
+To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Tejun Heo
+	<tj@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
+	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner
+	<hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt
+	<shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ian@honeycomb.io, Liz Fong-Jones
+	<lizf@honeycomb.io>
+X-Entity-ID: u001.GRlkmHQ+Ka/CKxmoC/CxTw==
 
-Hi!
+At Honeycomb, a container that reads from Kafka and writes columnar
+files to a host volume stalls for 30-60s after each deploy replaces it
+(v6.18). We're increasingly confident this is the cause: the stall
+looks the same as in the reproducer (little CPU use, lag growing
+linearly and then recovering), and the mitigation it predicts, moving
+our final syncfs after the last write, worked in production (below).
+We haven't caught it with probes in production yet.
 
-Awesome! I looked at the patch and this is all probably above my head,
-but I think the patch should also include some protocol text
-describing the flag-only SETATTR, because this is now a new behavior,
-no? And probably we should also do a minor version bump so servers can
-tell that they can rely on this behavior and decide to request
-CAP_HANDLE_KILLPRIV_V2. For example, in our case, we do not request
-CAP_HANDLE_KILLPRIV_V2 now because we are aware of this issue with
-fallocate() and
-copy_file_range().
+Patch 1 is a prep fix: switching a dirty inode away left the old wb
+counted in bdi->tot_write_bandwidth. Patch 2 keeps killed wbs in
+bdi->cgwb_tree until they are released, so foreign flushes can still
+reach them. Patch 3 handles the other way a wb leaves the tree: when a
+memcg's blkcg association changes and a new wb takes over the slot, it
+switches the old wb's inodes, dirty or not, to the new one.
 
+Applies to mainline (5d144c294ae2) and vfs-7.4.misc. Tested on
+vfs-7.4.misc and on mainline (d24e8ac715de, 7.3-rc6) with 168a8c13159c,
+where patch 2's test gave 1.0s, 2.2s, 1.1s, 1.0s and 1.0s worst lag in
+five runs. Patch 3's loop follows 407a5d205179, and f6988c90671e bounds
+its rescans.
 
-Mitar
+Syncing before the removal isn't enough: cleanup_offline_cgwbs_workfn()
+skips a dying wb with any dirty inode and only retries on the next memcg
+offline. On ext4, syncfs can leave inodes I_DIRTY_SYNC: at 5000 files
+one syncfs still stalled in 7 of 9 runs (19-26s worst lag), a second
+syncfs avoided it in 5 of 5, and with this series one syncfs lagged at
+most 1.5s in 2 of 2. On XFS one syncfs left the wb clean in 5 of 5 runs,
+but a single 4KiB append from the old cgroup after it stranded the wb
+again (15-28s worst lag, 5 of 5; 1.2-1.6s in 2 of 2 with this series).
+In production, our writer synced after closing its data files but before
+writing its final Kafka offset to a small shutdown file, and moving the
+syncfs after that write mitigated the stall for us on XFS. In the
+reproducer, a 14-byte file written after the syncfs stranded the wb the
+same way, whether created directly or via a temp file and rename (16-29s
+worst lag, 7 of 7; with this series, 1.0-1.4s in 2 of 2 created
+directly); an empty file did not.
 
-On Thu, Oct 1, 2026 at 12:57=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> =
-wrote:
->
->
->
-> On 9/30/26 23:45, Mitar wrote:
-> > Hi!
-> >
-> > While adding FUSE_HANDLE_KILLPRIV_V2 support to a go-fuse based
-> > server, I noticed that with it negotiated, fallocate() and
-> > copy_file_range() by a caller without CAP_FSETID no longer clear the
-> > setuid and setgid bits of the file they modify, and that the server
-> > has no way to learn that it should clear them itself.
-> >
-> > The kernel makes the decision, but drops it on the way.
-> > fuse_file_fallocate() and __fuse_copy_file_range() both call
-> > file_modified() before sending the request, which ends in
-> > fuse_setattr() with ATTR_KILL_SUID and ATTR_KILL_SGID. Since commit
-> > 8981bdfda744 ("fuse: don't send ATTR_MODE to kill suid/sgid for
-> > handle_killpriv_v2"), fuse_setattr() drops those when
-> > fc->handle_killpriv_v2 is set, expecting the server to kill the bits
-> > when the WRITE which follows arrives. But no WRITE follows
-> > FUSE_FALLOCATE or FUSE_COPY_FILE_RANGE, and neither carries such a
-> > flag. All the server sees is an empty SETATTR before the request,
-> > which it cannot tell apart from the one it gets when only
-> > ATTR_KILL_PRIV was asked for.
-> >
-> > For "fallocate -l 8192 f" run by an unprivileged user, on a file with
-> > mode 06777 which they may write to, the server receives:
-> >
-> >   GETXATTR  "security.capability" -> ENODATA
-> >   SETATTR   valid=3D0
-> >   FALLOCATE offset=3D0 length=3D8192 mode=3D0
-> >
-> > and the file keeps mode 06777. Without FUSE_HANDLE_KILLPRIV_V2, the
-> > same command clears both bits, since fuse_setattr() then turns the
-> > request into a SETATTR of the mode. I verified the fallocate() case.
-> > The copy_file_range() case is from reading the code, as the server I
-> > tested does not implement FUSE_COPY_FILE_RANGE.
-> >
-> > This matters beyond the mode looking wrong: fallocate() with
-> > FALLOC_FL_ZERO_RANGE or FALLOC_FL_PUNCH_HOLE, and copy_file_range()
-> > even more so, change what the file holds. So somebody who may write to
-> > a setuid file can replace its contents and keep the setuid bit, which
-> > is what killing the bits is there to prevent.
-> >
-> > It looks like an interaction between changes rather than a choice.
-> > Commit fe0da9c09b2d ("fuse: copy_file_range needs to strip setuid bits
-> > and update timestamps") made copy_file_range() kill the bits in 2019,
-> > which stopped working on FUSE_HANDLE_KILLPRIV_V2 connections with
-> > 8981bdfda744 in 2020. Commit 4a6f278d4827 ("fuse: add file_modified()
-> > to fallocate") added the same to fallocate() in 2022, which takes
-> > effect only without FUSE_HANDLE_KILLPRIV_V2. As far as I can tell from
-> > its source, virtiofsd with --killpriv-v2 has the same gap: it drops
-> > CAP_FSETID for write, open and setattr when asked to, and calls
-> > fallocate() and copy_file_range() as they are.
-> >
-> > I think we should pass the decision with the request, as for WRITE and
-> > OPEN. For FUSE_FALLOCATE, a new FUSE_FALLOCATE_KILL_SUIDGID could go
-> > into the currently unused fuse_fallocate_in.padding. For
-> > FUSE_COPY_FILE_RANGE, it would need a new field, or a bit in
-> > fuse_copy_file_range_in.flags behind a new INIT flag: servers pass
-> > .flags on to copy_file_range(2) as it is (virtiofsd does), which fails
-> > with EINVAL on any bit, so a new bit there cannot be sent to a server
-> > which did not ask for it.
-> >
-> > What do you think?
-> >
->
-> I had actually noticed this with recent test additions in libfuse and
-> had to add workarounds (on the day exactly one month ago).
-> Unfortunately had been too busy to post the kernel patch yet.
->
-> libfuse commits
-> daa6cb7f6996 =E2=80=94 "test: check the KILLPRIV_V2 kill-suidgid flags re=
-ach the filesystem"
->
-> and
->
-> 60ab8c0c35de ("test: check a write through passthrough_hp clears suid/sgi=
-d")
->
-> When testing the latter commit I had noticed the issue.
->
-> Could you try the attached patch? Right now totally untested,
-> I can test and send it out earliest during the weekend.
->
->
-> Thanks,
-> Bernd
->
+The harness that produced the numbers (paced writer, lag per second,
+MODE=alive control) is at
+https://gist.github.com/lizthegrey/2209d831930588f63076bdc0ac7b78e2, and
+a minimal recipe is below. Settings for all numbers: MEM_MAX=max
+POD_MAX=4G RATE_MBPS=250, plus NFILES=5000 SYNC_OLD=1 (or 2) and
+DIRTY_AFTER=1 or SHUTDOWN_FILE=offset|offset_rename|empty for the syncfs
+runs and NFILES=500000 OLD_SECS=120 SYNC_OLD=1 POD_HOP=10 for the
+500k-file runs.
 
+Also reproduced unpatched on bare-metal arm64 with Ubuntu's 7.0 kernel
+(ext4 on a loop device): 12.9s worst lag with the old cgroup removed,
+2.5s with it kept.
 
---=20
-https://mitar.tnode.com/
-https://noc.social/@mitar
-https://bsky.app/profile/mitar.bsky.social
+Tested: arm64 KVM guests (virtme-ng), ext4 and XFS on virtio, on
+vfs-7.4.misc and on mainline with 168a8c13159c. No KASAN, lockdep,
+PROVE_RCU, DEBUG_LIST, DEBUG_OBJECTS_WORK, DEBUG_ATOMIC_SLEEP or
+DEBUG_PAGEALLOC reports, including a stress run toggling io on the
+parent of two writers 40 times so their wbs are killed and replaced in
+the same slot (240 calls of patch 3's switch, 16200 inode switches,
+counted with bpftrace), and the patch 1 and 3 tests in their changelogs
+and the race test below. W=1 and checkpatch --strict clean, no new
+sparse warnings. All changes are under CONFIG_CGROUP_WRITEBACK, and only
+builds with it enabled were done for v6.
+
+Not tested: x86 runtime, this series in production, linux-next, and
+patch 3's fallback for a successor that is already gone (not reachable
+on demand; it is cleanup_offline_cgwb()'s loop).
+
+Workaround until this lands: syncfs after the old container's last
+write (twice on ext4). Lowering vm.dirty_expire_centisecs from 3000 to
+500 cut the worst lag on unpatched mainline to 4.8s, 4.6s and 14.3s, but
+did not remove the stall.
+
+Related: without 168a8c13159c the flush is sized from the dead memcg's
+own dirty pages, so this only helps while it has some. f6988c90671e
+(mainline) also matters: on XFS with 500k synced inodes and the pod
+cgroup removed 10s later, the handover was slow enough without it that
+the replacement fell 21-22s behind (vfs-7.4.misc), against 1.0-1.2s with
+it (mainline), both with v1 of this series.
+
+In patch 3's test all 5001 inodes switched within 27-39ms, and on
+mainline the sibling lagged at most 1.1s. As with today's per-inode
+switches, switched inodes land at the newest end of the new wb's b_dirty
+with their old dirtied_when, so periodic writeback may reach them up to
+dirty_expire_centisecs late; background and foreign flushes are
+unaffected.
+
+To test the re-kick in patch 3, a debug-only delay in
+inode_switch_wbs_work_fn() held back foreign switches to a memcg's wb
+until after io was disabled on its parent, a new wb took over its slot
+and the memcg was removed. With v5, the 61, 62 and 19 inodes that then
+landed on the replaced wb stayed there until the next memcg offline ran
+cleanup_offline_cgwbs_workfn(); with v6, all 5, 35 and 82 that landed
+were queued to the successor as they landed, checked by wb pointer with
+bpftrace. Switches queued after the takeover went to the successor
+directly. The inodes were clean by the time they landed, so this shows
+where they end up, not a stall. On the lockdep kernel, the re-kick moved
+165, 82 and 198 inodes from the replaced wb to the successor in three
+runs.
+
+Developed with Claude Opus 5.5, which wrote the code, the reproducers
+and first drafts of this text, and ran the builds and VM tests. Claude
+Fable 5.1 reviewed the code and the claims in this text before v2 to v6
+were posted. I drove the investigation from the production symptoms,
+designed the experiments and controls (repeated runs, parent-commit
+baselines, testing this patch on its own), and reviewed the analysis,
+code and results.
+
+Minimal recipe:
+	#!/bin/bash
+	# As root, cgroup v2, in a directory on ext4/xfs/btrfs ($DIR).
+	cg=/sys/fs/cgroup/wbmini
+	mkdir $cg && echo +memory > $cg/cgroup.subtree_control
+	echo 4G > $cg/memory.max
+	mkdir $cg/old $cg/new
+	append() {  # append $1 blocks of $2 to each of 1000 files
+		for i in $(seq 1000); do
+			dd if=/dev/zero of=$DIR/f$i bs=$2 count=$1 \
+			   oflag=append conv=notrunc status=none
+		done
+	}
+	(echo $BASHPID > $cg/old/cgroup.procs
+	 append 8 1M            # old owner writes the files...
+	 append 1 64k)          # ...and exits with all of them dirty
+	rmdir $cg/old           # its cgroup goes away while they are dirty
+	bpftrace -e 'kretprobe:cgroup_writeback_by_id {
+		@ret[(int32)retval] = count(); }' &
+	sleep 3
+	time (echo $BASHPID > $cg/new/cgroup.procs
+	      append 4 1M)      # replacement keeps appending to the same files
+	kill -INT $!; wait
+	rmdir $cg/new $cg
+	# Unpatched: many @ret[-2] (-ENOENT) and the append stalls.
+	# Patched: @ret[0] only.
+
+---
+Changes in v6:
+- Patch 1: trim the test paragraph (Tejun)
+- Patch 2: comment updates for wb_get_lookup(), wb_get_create(),
+  struct bdi_writeback and wb_dying() (Tejun)
+- Patch 3: queue replaced_work again when a switch lands on a wb that
+  was replaced after the switch was queued; share the tryget, queue
+  and put on failure in a helper (Tejun)
+- Link to v5: https://patch.msgid.link/20261001-wb-dying-cgwb-flush-v5-0-8361eb8c65c6@honeycomb.io
+
+Changes in v5:
+- New patch 1: clear the old wb's dirty IO state after switching
+  inodes (Tejun)
+- Patch 2: drop the css_is_dying() check, not needed with patch 3
+  (Tejun)
+- Patch 3: if the successor is gone, fall back like
+  cleanup_offline_cgwb(); report a Tasks-RCU quiescent state per
+  pass, as 407a5d205179 does (Tejun)
+- Also tested on mainline (7.3-rc6) with 168a8c13159c
+- Link to v4: https://patch.msgid.link/20260930-wb-dying-cgwb-flush-v4-0-bde637803a96@honeycomb.io
+
+Changes in v4:
+- Don't link a new wb for a dying memcg in cgwb_create() (Tejun)
+- Patch 2: switch the replaced wb's inodes to its successor instead
+  of kicking writeback (Tejun, Jan)
+- Link to v3: https://patch.msgid.link/20260928-wb-dying-cgwb-flush-v3-0-e35374884667@honeycomb.io
+
+Changes in v3:
+- Use wb_dying(), scoped_guard() with the offline_node list_del moved
+  into it, and {}; filter dying wbs right after the lookup in
+  cgwb_create(); comment wording (Tejun)
+- New patch 2: kick writeback on a wb replaced in cgwb_create() (Tejun)
+- Lead patch 1's changelog with the problem and its trigger (Andrew)
+- Link to v2: https://patch.msgid.link/20260928-wb-dying-cgwb-flush-v2-1-56b54cda74f2@honeycomb.io
+
+Changes in v2:
+- Keep killed wbs in bdi->cgwb_tree until release instead of walking
+  bdi->wb_list (Tejun)
+- Drop Fixes: and Cc: stable (Tejun)
+- Link to v1: https://patch.msgid.link/20260926-wb-dying-cgwb-flush-v1-1-a8d898085a3a@honeycomb.io
+
+---
+Liz Fong-Jones (3):
+      writeback: clear the old wb's dirty IO state after switching inodes
+      writeback: let foreign flushes reach dying cgwbs
+      writeback: switch a replaced cgwb's inodes to its successor
+
+ fs/fs-writeback.c                |  67 +++++++++++++++++++
+ include/linux/backing-dev-defs.h |  23 +++++--
+ include/linux/backing-dev.h      |   3 +-
+ include/linux/writeback.h        |   1 +
+ mm/backing-dev.c                 | 139 ++++++++++++++++++++++++++++++++-------
+ 5 files changed, 205 insertions(+), 28 deletions(-)
+---
+base-commit: 168a8c13159c6e3f0f08da6f8fa2f633a91ba9fd
+change-id: 20260926-wb-dying-cgwb-flush-06e260e2abad
+
+Best regards,
+--  
+Liz Fong-Jones <lizf@honeycomb.io>
+
