@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E0A4AB1D0;
-	Fri,  2 Oct 2026 13:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729AA4C33EF;
+	Fri,  2 Oct 2026 13:54:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790949249; cv=none; b=dFVYxgiYehFYhhQnVl/EvX6dnTM2F4klJCRtu8Z3vlGs9uWPVImdSF7TD8S9s/Lx11GuwubFIxywygYfOszQ5tfLnBFjwQaqL0AgNZUoJJAyuE8UYHPzWqJf0iuXJOx+/++qEy+sECb0Lg6SNmiLtUvc5lPCfUYxkImtj8Oq/XE=
+	t=1790949251; cv=none; b=ZeAif4niKFC+0enjTGyoGkoNMhncxq1asTE6hfY/0RZXOOYSORD0y44n1vM2hBZyMMtIlT/c9AB/rcAX5iVgBDjLn59/dOIFySsBCI+4pqRnOmbbhEH16d8rVOb/8992Fpnv+QVq2vsPgw+PGfwoPXfsNd2oZErWR5OelIKEYas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790949249; c=relaxed/simple;
-	bh=HClaV3WgtXVOMdVIC7bk1eIXX99Ro3YtaVGII178XZs=;
+	s=arc-20240116; t=1790949251; c=relaxed/simple;
+	bh=9ASqwSpxsKtkennDZIpc6CoQmR8ZkjS4mlY+Ttoyt3k=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MquaOzLmdFRZWR0ZwngblqOYuQBC1iBiaIQC/L0T/Qn8LzLhku5hteUSrgcK2mlGsGzxQ+W8VtEoeklwYd+nz7/fujrHx4IHQw2U95hLNE5+8hChk2pvmeZJk8g/Im24jS9o8I0GkCZC2QnW1vaSYIfNeqF5jHuSMQzqH2/oYek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QRHnw2HP; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=P+Bh77IQAXu4Z/9jTudy8NhPN9aczcTNDD8l97WJxfGWJE/xsWXEY3v+lEh4SNfWTcsUArxLpNXUbkN/3Pxcp+HXReWf+lI6LharXeK5tD4Y7nF0o8WQIW8pdf2pgaiRNwyf4xlaGfNZjVC4RE5gdTXZY5glHkROQbK9qxswKqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WAz1RTCn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QRHnw2HP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C67551F00893;
-	Fri,  2 Oct 2026 13:54:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WAz1RTCn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 258B31F000FF;
+	Fri,  2 Oct 2026 13:54:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790949247;
-	bh=K8L8xCu4Vz/NoqRGj//4KCE0+Emf0XVwk9ww2ZeiK7g=;
+	s=k20260515; t=1790949250;
+	bh=OlIsnUHQ9qOnF5GdREK+ZWdH2W7ozITCvl0lrQxGjW8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=QRHnw2HPI+SlvabJlQs6ipDcmamFsiIoYLF1aejPnejXMwPxTZmOsH9+2bCUQMcSe
-	 YbbtTQLCBXDicFaApIIDNhuckgYB4wH96acMuzlScj0r9sz+PILDG2atoQBHQJbeuE
-	 gFohsbelWLEThFLqpfPWXMdSKYCnAaunVSpzIdyScfZO4kqm0wTtgl5Yd2xmGwO0s+
-	 45HLpZQyklIFn3Ela4+zCOH7XwXeXO8xnzCRb9eLet/BTS9ATv6gApudV4btGZN9Ac
-	 Qzf+s0CF8yNZ3KYGabFtdGivV8zC5963UcR86qjVz0GGe3niqN4a48dB8BVoC3+BpP
-	 +QPqzWIqqYpjw==
+	b=WAz1RTCnKG1y+0K/XHw4heRXXVLWjkm1pnVQV+NUorEszPleIDiHnmUUAyjwmw7w+
+	 d/m5Gm72Dj1sqZA0k+2MDi3aw23KB8m6cTsFn4LXsuCtkxCG9pqTTGKuLODP2JoRz/
+	 eI3vdIRMZCoBWsiljYlnzPo2ZI0dOUXQ6vS4v+HhLFHtMBV9IfjnBswg6k76sDD9oc
+	 IjVo9UX6r8dENiwtNaLeK5rmdVZPbGx8cTe0L28Cmf8Ki+8rmQ+cN1cS2kIBUQcRMn
+	 my+Y/r6cZGMV8u7uJNXFVILLDFxA55BwI9XejnddwDYBAIXZj8dEH/t989KcNVUwiJ
+	 gNOMvpZPYuLPA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 02 Oct 2026 15:52:44 +0200
-Subject: [PATCH 13/21] fhandle: decide the subtree check under mount_lock
+Date: Fri, 02 Oct 2026 15:52:45 +0200
+Subject: [PATCH 14/21] namespace: keep the private nullfs instance in
+ knullfs
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261002-work-mount-fixes-4-v1-13-dd44b89d44ce@kernel.org>
+Message-Id: <20261002-work-mount-fixes-4-v1-14-dd44b89d44ce@kernel.org>
 References: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
 In-Reply-To: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,133 +48,76 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  Amir Goldstein <amir73il@gmail.com>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4888; i=brauner@kernel.org;
- h=from:subject:message-id; bh=HClaV3WgtXVOMdVIC7bk1eIXX99Ro3YtaVGII178XZs=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt3x4lLV/NKi13ZaGK2A1D/gWZf7qcH2zW2jZd/tFfs
- /IdeqGvOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYyW4qR4RLja4nlSuFXajez
- tzwXaKuvZzy1a9JhQ14ettmMU/bX7mX4Z7nrsnHZbO7Dp1bNvFR+KfI7X8ysVCsPg3MZa1hlngV
- d4AUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2271; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=9ASqwSpxsKtkennDZIpc6CoQmR8ZkjS4mlY+Ttoyt3k=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTt3x7V+vT8ng++2vG/hA7NS6tlrlx/MlfmVeuEd2tn2
+ r/nO3vsbkcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEpr9l+M3u5qBkaJmtYdCy
+ JfLx3I9nN7ndb/OU93q2aq/h7pSru84x/I9O2jtBUPv09d3fXn9y9A3xZeWT2au9R+0f4xP3/4n
+ ni5gB
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-may_decode_fh() lets a caller who is privileged over the mount
-namespace of @root decode handles below @root->dentry as long as the
-mount is mounted and no locked child covers something below it. The
-three parts are read one after the other without a lock: is_mounted()
-and capable_wrt_mount() read ->mnt_ns and has_locked_children() walks
-->mnt_mounts under a mount_lock of its own.
+The private nullfs instance that kernel threads are confined to is only
+ever reachable through init_task's root and pwd. The following patches
+point mounts at it as well, so keep it in a global.
 
-Today the gaps are harmless. A lazy umount in between clears ->mnt_ns,
-but the locked children stay attached to their unmounted parent, so the
-walk still finds them and the decode is refused either way. The
-following patches detach every unmounted mount from its parent. Then
-an umount between is_mounted() and the walk makes the walk come back
-empty and the caller decodes into what a locked child covered.
-
-So take mount_lock once and answer all three questions under it.
-is_mounted() is stable there, umount_tree() clears ->mnt_ns on the
-write side, and a mounted mount still has its locked children on its
-list. ns_capable() under the spinlock is fine, generic_permission()
-calls it in RCU walk already. has_locked_children() loses its locking
-wrapper, its other callers hold namespace_sem or mount_lock anyway.
+No functional changes.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/fhandle.c   | 20 +++++++++++++++++---
- fs/namespace.c | 14 ++++----------
- 2 files changed, 21 insertions(+), 13 deletions(-)
+ fs/mount.h     |  1 +
+ fs/namespace.c | 11 ++++++-----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/fs/fhandle.c b/fs/fhandle.c
-index f8829231e3d7..d22f2e065677 100644
---- a/fs/fhandle.c
-+++ b/fs/fhandle.c
-@@ -298,6 +298,22 @@ static bool capable_wrt_mount(struct mount *mount)
- 	return mnt_ns && ns_capable(mnt_ns->user_ns, CAP_SYS_ADMIN);
- }
+diff --git a/fs/mount.h b/fs/mount.h
+index 2223fb141499..4e68e5cbc254 100644
+--- a/fs/mount.h
++++ b/fs/mount.h
+@@ -6,6 +6,7 @@
+ #include <linux/fs_pin.h>
  
-+/*
-+ * Does the caller have an unobstructed way to everything below @root? Only
-+ * if the mount is mounted, the caller is privileged over its mount namespace
-+ * and no locked child covers something below @root->dentry. One answer from
-+ * under mount_lock: an umount in between clears ->mnt_ns and takes the
-+ * children off the mount, the locked ones too.
-+ */
-+static bool subtree_unobstructed(const struct path *root)
-+{
-+	struct mount *mnt = real_mount(root->mnt);
-+
-+	guard(mount_locked_reader)();
-+	return is_mounted(root->mnt) && capable_wrt_mount(mnt) &&
-+	       !has_locked_children(mnt, root->dentry);
-+}
-+
- static inline int may_decode_fh(struct handle_to_path_ctx *ctx,
- 				unsigned int o_flags)
- {
-@@ -332,9 +348,7 @@ static inline int may_decode_fh(struct handle_to_path_ctx *ctx,
+ extern struct file_system_type nullfs_fs_type;
++extern struct vfsmount *knullfs;
+ extern struct list_head notify_list;
  
- 	if (ns_capable(root->mnt->mnt_sb->s_user_ns, CAP_SYS_ADMIN))
- 		ctx->flags = HANDLE_CHECK_PERMS;
--	else if (is_mounted(root->mnt) &&
--		 capable_wrt_mount(real_mount(root->mnt)) &&
--		 !has_locked_children(real_mount(root->mnt), root->dentry))
-+	else if (subtree_unobstructed(root))
- 		ctx->flags = HANDLE_CHECK_PERMS | HANDLE_CHECK_SUBTREE;
- 	else
- 		return -EPERM;
+ struct mnt_namespace {
 diff --git a/fs/namespace.c b/fs/namespace.c
-index bb0183ec2aaf..e116894c8667 100644
+index e116894c8667..d1e83cda57e6 100644
 --- a/fs/namespace.c
 +++ b/fs/namespace.c
-@@ -2353,7 +2353,7 @@ void dissolve_on_fput(struct vfsmount *mnt)
- }
+@@ -80,6 +80,7 @@ static u64 mnt_id_ctr = MNT_UNIQUE_ID_OFFSET;
+ static struct hlist_head *mount_hashtable __ro_after_init;
+ static struct hlist_head *mountpoint_hashtable __ro_after_init;
+ static struct kmem_cache *mnt_cache __ro_after_init;
++struct vfsmount *knullfs __ro_after_init;	/* private nullfs instance */
+ static DECLARE_RWSEM(namespace_sem);
+ static HLIST_HEAD(unmounted);	/* protected by namespace_sem */
+ static LIST_HEAD(ex_mountpoints); /* protected by namespace_sem */
+@@ -6335,7 +6336,7 @@ static void __init init_mount_tree(void)
+ 	 *
+ 	 * (1) nullfs with mount id 1
+ 	 * (2) mutable rootfs with mount id 2
+-	 * (3) private nullfs for kthreads (SB_KERNMOUNT)
++	 * (3) private nullfs for kthreads (SB_KERNMOUNT), kept in knullfs
+ 	 *
+ 	 * with (2) mounted on top of (1). The init_task's root and pwd
+ 	 * are pointed at (3) so all kthreads start isolated in nullfs.
+@@ -6370,11 +6371,11 @@ static void __init init_mount_tree(void)
+ 		init_mnt_ns.nr_mounts++;
+ 	}
  
- /* locks: namespace_shared && pinned(mnt) || mount_locked_reader */
--static bool __has_locked_children(struct mount *mnt, struct dentry *dentry)
-+bool has_locked_children(struct mount *mnt, struct dentry *dentry)
- {
- 	struct mount *child;
+-	nullfs_mnt = kern_mount(&nullfs_fs_type);
+-	if (IS_ERR(nullfs_mnt))
++	knullfs = kern_mount(&nullfs_fs_type);
++	if (IS_ERR(knullfs))
+ 		panic("VFS: Failed to create private nullfs instance");
+-	root.mnt	= nullfs_mnt;
+-	root.dentry	= nullfs_mnt->mnt_root;
++	root.mnt	= knullfs;
++	root.dentry	= knullfs->mnt_root;
  
-@@ -2367,12 +2367,6 @@ static bool __has_locked_children(struct mount *mnt, struct dentry *dentry)
- 	return false;
- }
- 
--bool has_locked_children(struct mount *mnt, struct dentry *dentry)
--{
--	guard(mount_locked_reader)();
--	return __has_locked_children(mnt, dentry);
--}
--
- /* locks: namespace_shared && pinned(mnt) || mount_locked_reader */
- static bool __has_children(struct mount *mnt, struct dentry *dentry)
- {
-@@ -2441,7 +2435,7 @@ struct vfsmount *clone_private_mount(const struct path *path)
- 	if (!ns_capable(old_mnt->mnt_ns->user_ns, CAP_SYS_ADMIN))
- 		return ERR_PTR(-EPERM);
- 
--	if (__has_locked_children(old_mnt, path->dentry))
-+	if (has_locked_children(old_mnt, path->dentry))
- 		return ERR_PTR(-EINVAL);
- 
- 	new_mnt = clone_mnt(old_mnt, path->dentry, CL_PRIVATE);
-@@ -3056,7 +3050,7 @@ static struct mount *__do_loopback(const struct path *old_path,
- 	if (recurse && !old->mnt_ns)
- 		return ERR_PTR(-EINVAL);
- 
--	if (!recurse && __has_locked_children(old, old_path->dentry))
-+	if (!recurse && has_locked_children(old, old_path->dentry))
- 		return ERR_PTR(-EINVAL);
- 
- 	if (recurse)
-@@ -3544,7 +3538,7 @@ static int do_set_group(const struct path *from_path, const struct path *to_path
- 		return -EINVAL;
- 
- 	/* From mount should not have locked children in place of To's root */
--	if (__has_locked_children(from, to->mnt.mnt_root))
-+	if (has_locked_children(from, to->mnt.mnt_root))
- 		return -EINVAL;
- 
- 	/* Setting sharing groups is only allowed on private mounts */
+ 	init_task.nsproxy->mnt_ns = &init_mnt_ns;
+ 	get_mnt_ns(&init_mnt_ns);
 
 -- 
 2.53.0
