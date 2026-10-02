@@ -1,78 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D04476CE8;
-	Fri,  2 Oct 2026 10:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790935694; cv=none; b=GFDqgFN58tyYUjslySK23Zm4+ULOOZmNoHI6DMNA/ltY0bj6bsA++F6Pl+0JtgzDMiNlciXsk826e8DGQscKtb92R9PUi/SKdIKnvPNJ05Z+IYIh8XH+EDMfpiYZIioHwgzQbvj+kC3vYx/yjOLEEBvvIfMFlLn0QBKUATuANXw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790935694; c=relaxed/simple;
-	bh=37qcnODRwYw7ndXTbNaEj8b8seuguwmGkztJcQl0AaQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Rq+Xbg4N6UvjxAH1B0fm36BPZ2ORfAXALSPxFR0p4ARkLuEGrAKukeMs3//xAsC+sJMiCGeC7GJYZhqKtMuk1EkkmwjvzGBZSkjXSV5CnCVm2fNIM6Z2D75tUp8dA2GJLf8H5GUBLD4v3Ta14ltAUAq1jTnHdK4DI5AqU0QR6UM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PKj/ePF6; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A95135C683
+	for <linux-fsdevel@vger.kernel.org>; Fri,  2 Oct 2026 10:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.205
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790936257; cv=pass; b=cOj0uA9LZ7G9bO29JXvomZKBYXS2vcyjQslyVDQXIe7898YL20JtZD7qxD2I3L3J+StLeARMQ2+NAfjJ2KVHX/ZgZ9XPUQhspXsUxtVsrUexg8ZDp2XAaupjQHG0Cm2ocFQNDkXhGAafa9XI1JVbnmvgaUopArGhuXAIT3wE17Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790936257; c=relaxed/simple;
+	bh=zbxh97DfahtmVFw2yx/P+OI0PpzLVE463PD6gyDR+VQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Wu3lKdWY7hUmxD3tvGBzhe3VxR9afw+5yGsSTHju1EYmu03Y1dqrkzccjiC6jTImBB2A89OXGLksVASQtUM5FbMTEPDdeBnxCgxR3ilIXxiwbXDkmpJrNGlSCEmmweO+ArXrUlNtg9bLeaRibGLw+DA+bgyqsVEkjKo7ZOFKjZA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FcOzz30+; arc=pass smtp.client-ip=74.125.229.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PKj/ePF6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E50151F000FF;
-	Fri,  2 Oct 2026 10:08:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790935693;
-	bh=LY9VxvcXwN76EizeDT/tvDrMhfgIEaCIidMTHshekyo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PKj/ePF6nHELeO2FNRdvzNz0hRjCk8BThq4MpGvDBAisk+vtScj48I6pdLshXBdpD
-	 LsCSNuoOMwchDIVEcxcGLdy1c3BX0eRu1gaMCuYRDkWyNVNGk/fgOrlaiHBel93VTq
-	 MbSlowB/eBsyHEBqzUsxgo6INyFboTuCGZONOZznhoCUrWeNCZ3zZD4GTz4BWklTz3
-	 cmMPK+AtOSYkeZJmpu0qH9HzzzIBw18pm1gk6AIQYagN8NdB9l+XeEjNJcPb9evXdm
-	 BMJ0qv5AS9K15prlFR3JRP2INdQiC64WIxcVBXeYARfhLUWr3NWX0cmN8ZzRh9DTO9
-	 amynbNBsuFLuw==
-From: Christian Brauner <brauner@kernel.org>
-To: David Howells <dhowells@redhat.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	linux-cifs@vger.kernel.org,
-	netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: cachefiles: Fix unset error when calling netfs_prepare_write_failed()
-Date: Fri,  2 Oct 2026 12:08:07 +0200
-Message-ID: <20261002-zirkulation-serienweise-rodeln-6b433932eec4@brauner>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <3227746.1790772118@warthog.procyon.org.uk>
-References: <3227746.1790772118@warthog.procyon.org.uk>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FcOzz30+"
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5ba437ee7f7so1696597e87.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 02 Oct 2026 03:17:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790936254; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rxSUSg9RUjjKNXgQYrq5puxE4kj3FZMMLEAAVPh0sqngyWLC7z4POCe9PCi8fQ9yMU
+         OUlMRAyLl3Wr4G02CA3BrF6HDzWfC5Ce0X8f7wQ7X2A2oc2vdUlXuLWxhtWsSplMjuVh
+         ZVQgGxBPY47Ck2lWO6pI254YK1/TxhsQRkOygX6eVs5l6GzKSFbRH0QFdHSjeAE+/fIS
+         9yMUWf6P0wHCdL2xECSgsvmgoNhw3hodkvVj5OE6ueLRCTHvVN+6GULaRIJc9pAiYDVH
+         vkSwusZEQ6HvFrmk66dsfWNs7r6j9ie/QUmORkfpFGGu9TyAkqVbgVRqj4Sn3Iu/eqg8
+         GYHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:sender:mime-version
+         :dkim-signature;
+        bh=2mj3lyrm7aE/R7y/QOz0OagCVKj44YeS0Sz+Yo0D/po=;
+        fh=p0l7L6X+X8bd1tkIAbrP210B8ITAXRlx9/SGiWL0ui8=;
+        b=Zc0ctzWAodT399U2TAxcJYV3LrH38P+YxWE0UwPP/wwCxTV6L8fHI+NHWupdygOKLR
+         omOf+QWXIHrlIyl9euu9lAtXoxJMjQQ2Ml3bl0HC6mo23U30hYJ4cF6BU5unQnQ1ohjh
+         SD2RabsRnFsVS5mFFTwKSM5qMfDT8MbudmjDxy0unTsDooBz1F1/YRhbYGom+Jap1kmN
+         NkHIbIDwYlAE5vR5JWt9njCTfBJIimWd87MBptUVZrubWACOuXIFaEP0zD63ddg0AI9T
+         ARkzciinX5feqqoDlEZkdLW6PKcKNxUGbFAq0FaWqwm880pficS1jhGDFyhNEMD1fT9C
+         IhBw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790936254; x=1791541054; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:sender:mime-version
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2mj3lyrm7aE/R7y/QOz0OagCVKj44YeS0Sz+Yo0D/po=;
+        b=FcOzz30+98AQjHVtR7UVXsOk65DwSxleNmU2lZyXW+69OCS8ZlgQPAarHp4ChW3oYq
+         Yvr1pR2Mlh+QoKspvzNhNAlIjA+li3LBnxwitlOVvR2XR77Xh1aZYE831FLVJP+nuitn
+         hjlpfgpGnWNCKi+t9JVxwDxkGD4sYOh9Ew5FSfEbKs0bgh8BHvrkRKcHMwAOSeOQ9P2O
+         LShQ4VVUTfchQWAWWiEofa9S+bIzL7dMMInT01KRxprawGeQe7fpqH61zCulxVMQAUiZ
+         xLQH5SL6Q02oqDthD2pqvjXUyj2cB/aLqFcKuEABXvKL5M4NtnD5eBDkzDbsYhm02Zz9
+         +hOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790936254; x=1791541054;
+        h=content-type:cc:to:subject:message-id:date:from:sender:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=2mj3lyrm7aE/R7y/QOz0OagCVKj44YeS0Sz+Yo0D/po=;
+        b=yPcIihHWLwMYr+sKn4opMIjgA9Ly8FMwnhjhrlIjQsFwm2aalpy8q9ay5b9IxG/djX
+         FeLkORDQ/ABj0yjqiJSdU6/mCKVPQuJDKmyfpPp/H+DGLpwu5hGRAHBya9+G/ZzL5Ui2
+         oGbcVO8VZSjxdun3r8lDa0/iSj7IYrdwqq0Sl/033lbM5vH65kQTms7oTdP7Kn+aQcIP
+         b2uphKzTLvrlcSI5znv8dMdHUex/BnHDooV27t/nsUknERoWAmsTLgOJ3GDOsoNtqrDC
+         gpWOvkvsS6SHR4nYoE71Qb23aeDdmX6fqnABSOhtW4D2Mq0QP9sS7CMmKLpC6JYQQSvN
+         XVuw==
+X-Gm-Message-State: AFq9FYK7i/Fvl+CquUaXkfmN06Ow1BS1aeX5Qfcm83D96Xd6tSR5b2mz
+	e8Gom5/ZEkA+xU2nBzWkvMgZcZYbzbu2ECt2uZM5BLnwr8eekuQgD9LmiVwzjkYeofVAHPT60nF
+	st1nAqDSPU3kkPi6vVRxel1RVqu/2GfR5Nnud4oM=
+X-Gm-Gg: AYBFou3u+iPZ9PIlZZdhf3c9jnMUx8cSC5HZ/kb8chm7Zw5Qlz9g+aVSslxjcmfFyJy
+	/9ooQDdZOMEj25dq0x/6G4sfuwZ473qyO80ihiJ92NQ2OuX/SuKc2K7gPCvocdN3GbuDJGt/Jsp
+	xpevKGxbs0vGOF0dNZkOtPjBpa+GqX2rGEXpO1nE+hpBF79dp6RvP3urcm59RlolChSHE4V59Av
+	cfLiked7vUCP553JFDAceSI37WBozI44bMYe4b65FeBUN9Dw6fAN4Ar3sWVrn/PBwHrYLlbubcm
+	f1ig63GkT8kyWvyU//1NZhC+AHihqhTFh+181CyAry39Ll4F1v4M0bBfSsmwhnD2U8uoY9RbrGh
+	zBsZpjdlHKvC4
+X-Received: by 2002:a05:6512:3b8a:b0:5b8:e94f:8d79 with SMTP id
+ 2adb3069b0e04-5bb9bc25b94mr598164e87.64.1790936253817; Fri, 02 Oct 2026
+ 03:17:33 -0700 (PDT)
+Received: from 254448290189 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 2 Oct 2026 05:17:32 -0500
+Received: from 254448290189 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 2 Oct 2026 05:17:32 -0500
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1137; i=brauner@kernel.org; h=from:subject:message-id; bh=37qcnODRwYw7ndXTbNaEj8b8seuguwmGkztJcQl0AaQ=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTtb+q49jVsw66SHWJc91bvOukql+s4v/tj9J+36c6fT +TNa707raOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiV5gZGZ7uCtP549bF6vpr h6n8nb25k742dP47otV5XdQqY/d0vi6Gf6YCOt+jA+e8DAoy2j/70PuJLkGPbq14+v6MzqMS39B Pt/gA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Sender: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
+From: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
+Date: Fri, 2 Oct 2026 05:17:32 -0500
+X-Google-Sender-Auth: rgVdU-Na-thylIHC_Y0SkBWvGuQ
+X-Gm-Features: AclHuK-11oArOlh6vzmbSmxKA7acyV-S_yNov9Vtcz6DICtpbHOmyRBdRUJQ2o8
+Message-ID: <CAANnmVDM9VBqwwDKC8kRn8zAP92e_STs=EVNRZtZKgqWaJaLNQ@mail.gmail.com>
+Subject: [PATCH] fs/adfs: check name length of big directory entries
+To: linux-fsdevel@vger.kernel.org
+Cc: brauner@kernel.org, rmk+kernel@armlinux.org.uk, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 30 Sep 2026 13:41:58 +0100, David Howells wrote:
-> Fix cachefiles to set subreq->error before calling
-> netfs_prepare_write_failed() otherwise netfslib will try (and fail) to
-> retry the subrequest (it shouldn't retry writes to the cache, but rather
-> abandon them).  This causes it to hang waiting for the request to complete.
+The F+ (big directory) entry format stores the object name length on
+disc as a 32-bit value, bigdirobnamelen.  adfs_fplus_getnext() stores
+this value in struct object_info::name_len and then copies that many
+bytes from the directory buffers into the fixed-size obj->name array
+with adfs_dir_copyfrom(), which only validates the source range, not
+the destination.
 
-Applied to the vfs-7.4.netfs branch of the vfs/vfs.git tree.
-Patches in the vfs-7.4.netfs branch should appear in linux-next soon.
+Nothing validates bigdirobnamelen, so a corrupt or maliciously
+crafted filesystem image can specify a name length greater than
+sizeof(obj->name), causing up to 4MB of attacker-controlled data to
+be written past the end of the array.  Both callers of ->getnext()
+instantiate struct object_info on their stacks - adfs_fplus_iterate()
+via readdir() and adfs_lookup() via path resolution - so this is a
+stack buffer overflow which is trivially triggered by listing or
+stat'ing files on a crafted image.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+adfs_object_fixup() also appends a four character ",xxx" filetype
+suffix to the names of non-directory objects when the ftsuffix mount
+option is enabled, so name lengths greater than ADFS_FPLUS_NAME_LEN
+could still overflow the buffer by up to four bytes even when the
+initial copy itself fits.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+Reject entries whose name length exceeds the maximum defined for the
+F+ format, which also leaves room for the filetype suffix.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Vamsi Krishna Kattamuri <kattamurivamsikrishna17@gmail.com>
+---
+ fs/adfs/dir_fplus.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.4.netfs
+diff --git a/fs/adfs/dir_fplus.c b/fs/adfs/dir_fplus.c
+index 4a15924014da..ec663bc12a92 100644
+--- a/fs/adfs/dir_fplus.c
++++ b/fs/adfs/dir_fplus.c
+@@ -192,6 +192,11 @@ adfs_fplus_getnext(struct adfs_dir *dir, struct
+object_info *obj)
+ 	obj->indaddr  = le32_to_cpu(bde.bigdirindaddr);
+ 	obj->attr     = le32_to_cpu(bde.bigdirattr);
+ 	obj->name_len = le32_to_cpu(bde.bigdirobnamelen);
++	if (obj->name_len > ADFS_FPLUS_NAME_LEN) {
++		adfs_error(dir->sb, "object name length %u exceeds maximum",
++			   obj->name_len);
++		return -ENAMETOOLONG;
++	}
 
-[1/1] cachefiles: Fix unset error when calling netfs_prepare_write_failed()
-      https://git.kernel.org/vfs/vfs/c/04b0415fa18a
+ 	offset = adfs_fplus_offset(h, le32_to_cpu(h->bigdirentries));
+ 	offset += le32_to_cpu(bde.bigdirobnameptr);
+-- 
+2.47.3
