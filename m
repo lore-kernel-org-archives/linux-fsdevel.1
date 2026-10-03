@@ -1,202 +1,253 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A51A3AE704
-	for <linux-fsdevel@vger.kernel.org>; Sat,  3 Oct 2026 12:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791031939; cv=pass; b=iXxTpp493f442K3eoCmpYhek4CuwHxJ0bfG39GD7OxVjRDu/Iimrk3MWZaC+QiV/KaeQGhSdvKy7DSNgYhVQmyBvVuo9ZRhi228MnCeZzqz2kh1GYJgRhYyfCWOc3oUTF+lHWVQ738uIeMD/h/h7BF48YMEK7EZK9WKedRH1fys=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791031939; c=relaxed/simple;
-	bh=EMg0iZLqE1q5GwPhLKtP+vs+jdaQ+jYCv0GJbajIiKA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jzNOY/gLoPUb+71vHwsbCZBfTX6gXjO51McmJbiRilmuwVmUNjMQZwvsGon6i/yy7RRRsbkUDESzzBJKHGzcDCBuryfZ7Qmkd7UYMXMiqN0i1LZmAyB7op7Ld9JZNIH0/sKs1ElG+mSiNueVQfVKz+ksqvKurXHtSVQ8FitPDV4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kgazUr6K; arc=pass smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A362CCC6;
+	Sat,  3 Oct 2026 13:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791033439; cv=none; b=sTSfZ9VX5Pix+m8pt8UasUlJQM70yeu2ROicI4r9bp/20xknINL2wItFWZyEzcZKV6ZkyZOn2TXqcCU6sQcBk5ASiOxNdw0pEz82Fo1i8RXva0RMBL1NMK0E097WxecHTvMvXeHKRSGftTtL+Hc+qLf5ln0JrI0hkbBsQkfwxxo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791033439; c=relaxed/simple;
+	bh=iETBdhyd8YA5sdOaV2DmrYdJe9iH68XFXxBT/H5DVtY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OtEbh5KxIeN5abM7wrfCQQ/AgTfKwa1PZyTtJSkEsDeUNSbclHQ5wq4fwvYiSxmlM1OiwU7NcALWy+b03FUazdA+V9ZWoJxCtoKfodtguil87gMhDrGH+01iXlFotOhsaCYSIoW0MyPB3vrckc6JwzP3dUXfjTJ3oR1fUKVcCgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EgLBtik0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kgazUr6K"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a051b737d8so357092a12.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 03 Oct 2026 05:52:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791031934; cv=none;
-        d=google.com; s=arc-20260327;
-        b=U6zSvFOumIpi3yjAFUJZ4JBU5qgVm8VZ7ktMDb6VTjfl4aYCYLWcFvJElJsqISdz1m
-         5XbOq1wBsMG82fTJvHmahBwICih+4Gn54PmPeuasIwYIasNuNEGxpaXkW0Qi0k3+tqvw
-         0aoGSY0lvo/89wy1D/T/z2p90CtH88GK3m0uAGFNvtBt9D+U6DHYhJTUqlpRBiMhWkgf
-         zp7fJOoNAJCTv+XVxyYeD7H0eBd0FOVdAslNSL95U9dm27RHoqY6a0Eu6HwIrAVbx7ZX
-         h3RrdZW0+6GXyTPpe149SBv0tRUDozfXBEgpGdshC1nHOOMFc88UnecBooGXrrrv6Y6s
-         ckeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jC4QXmzH8+Kbh78tKNullBc08DCcnSBR6lcMVv+hZK0=;
-        fh=dfWgoPLr6/5nX0xKjrDfL/iFWjWYmDaYQ6XPLni/VaU=;
-        b=Rx1WzVPHPrcv6KkKxJbpAHZFxC00O+LalRP+1JtEDTdu1iMyF1N004m/UZyv9qT0Er
-         0BGpyhoMqi7SQ9T3rAeGEPf8v/YJjvFT8C2S/0jJNNNM0vvwUpBzZTOZpMjYiuSox3eb
-         tmw9O18Mx6Sx4aXHvNBjYbSaWaHXoWbn7yNi62jkaTkm2eM3Ojt3HC+J4W2P2DFkGtX9
-         eeSF3gHENcAh/hCrK2Ds5WHQdzYcqF60Ch7i1E0qFUK2SDv6cSUnqezBtGU6AWHnRlzR
-         l7PeuD4W+e3WBBDY1bjQP1BbEEUt0sSYTGqE70MAoVrqsl6WU4KFF7kiH82+8QWeqRJ1
-         mQlg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791031934; x=1791636734; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jC4QXmzH8+Kbh78tKNullBc08DCcnSBR6lcMVv+hZK0=;
-        b=kgazUr6KrvAYhpdpYLgaRVPwJ0GuFXh9eDKZzSqd+NR2KJyp2Licwbxz8/zjKoiohK
-         EtmjhZvbpuQWGKnpBg2vBFJfzWuubFyyGlsUZzRWKqv5cu7tEjSxq6KG+lHnjbcKnSLu
-         rxz1MFZ7F3Z6rGlSOyLONwcMexxlAMtmDqsLV7siiCDaZ3aL9gqAUs2rL+fvh05CjGUk
-         hPv0UMJ5qCH+1gC+1Dlw2LL1tqJODv9PF6gr5mHXoCt+6hxYLIBACNFKefJtct4rQMSL
-         Gjld6NmtJFeA70OXGKkC3Lb0AUwI4ahWfWECxYp2nyv0PpCraN/U9AIoS34tgpddOygW
-         wgVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791031934; x=1791636734;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jC4QXmzH8+Kbh78tKNullBc08DCcnSBR6lcMVv+hZK0=;
-        b=ALS9qsaWoptBpV86YldB28VIK5kc56x+kAmNi6q9/1J47ShDg8q69IlMI2jVGttHHQ
-         BKQIfmjbHczmmhpHRyQG15M+JhzxNisAaVtrG28Y0w3HtWdeI1ZxbwEocDvP01a4a3B8
-         dhthzvEJ4Wbrn8JPaerCaD3GEJafWf9NtiR5+ekEUl0YcpOdsukdubZ6elguAFOyN1AX
-         n4T49yvpU/XoPV6ZZrKkLZYVS3dHRQQkC94Sy37EGRiHKa/+oMVSYeo5e1DRTZmaWP0m
-         wvqZhORxUVGiaO78ml5YUsfECpxTy2nVlyS46DZW5EhhyiPJyqp5OLEdn5jZpxvzsaG+
-         XorA==
-X-Forwarded-Encrypted: i=1; AKwUvBwgs/8jvH37iUZpyEb4SWQbolNc/b+qZUV0ORx+eyXyBFyKcLokmeM0ZmcjpA47liv+FhIf3MDv94c/hI3+@vger.kernel.org
-X-Gm-Message-State: AFq9FYKojg8m3DO8Fr7Lm4D7s0N9i9xvlhZqUoY8/RWxodgAqbPhpqgS
-	1MdJnSU6RxxLv2F9lZJDKvsM6PAPBwQkUXn5SHuzk++BsxQ3QkTA0esnjP3FvhvndfUOjY/fw0N
-	Oz309WJ+gdjdNf8R7ZFz+wBPTIlYjAyk=
-X-Gm-Gg: AYBFou0qKoJZ0WqGO7kUyDiwSAuYfQwNZtn7un5prRjcx3S61X3ffVbscNoT06AYoOl
-	iEvLd2JXotfBtmU5ZxhyyHWHvXS6p4z1zKs2WCSAXjCyvZqOCpus11KCOp7Xw1d8++/0Fb1xaR2
-	hI+kyM+CbTHH26N8D0mkPFOFVnD10e1kklOXcK+yQ/F5CmexaE0IOAG1EbamQbTMnl9J5dEg6Ve
-	FmwJaM4eskBvNxxqWAf3kndUHLd3ZlMNqivGuIMWlSHNBLwRjJhiKdbsx39IDOmCZbaqdId+RGf
-	13qH5G1MC7d4Mk8I2mmkBelJA3EZfd2bvHGjF8C8gF6xjxxwxKBcF79itQ==
-X-Received: by 2002:a05:6402:438c:b0:6a9:ab6a:640f with SMTP id
- 4fb4d7f45d1cf-6afada27183mr1987242a12.37.1791031933759; Sat, 03 Oct 2026
- 05:52:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EgLBtik0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98E6A1F0089B;
+	Sat,  3 Oct 2026 13:16:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791033437;
+	bh=/jEE4HcLwsM6TWLGremQKfzztE+rwvfFYJGPZmoq8a8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EgLBtik0WJzJCXWY/9/TI+W7fRx1wIZ9UfQuWfc+RhMCCFMM/xZJ03UyprLnrZDIx
+	 +hSP6z4pIAKExuSJlxbZygGALgGCQywzqqoPN2+Boz6NDgyFCoTr0xtw8XwpV2ytvg
+	 iOEb69EMyCjSZk8NVHT0gmIKW0rVbZ0F8RMvb9s4VF2Dbo0UftiN8tf9aa6rRRTzuW
+	 Fpm1LnU0F8ufx8E3b1Xf3T36YgbMjc4jOyHoaXzj2tW9/dfBgzxbHqld35pMVHgUgN
+	 4zsEh/CAz3fCIdmxhWutMDOLIRfajy8aGYLGHSvm01TwlgzafI+V3dGI5soFrbsjYq
+	 SFWdbxe9eRGJQ==
+Date: Sat, 3 Oct 2026 14:16:46 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 31/40] mm/vma: introduce vma[_flags]_is_persistent()
+Message-ID: <asD6cgnNVJhZA98p@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-31-4583d8a23bca@kernel.org>
+ <9bbdf4e8-6984-4477-a183-f0b236047381@kernel.org>
+ <3557015d-23dd-41ef-9832-78b58587f3f4@kernel.org>
+ <81e1e5ae-0aab-4584-81e6-3fc9c2634d07@kernel.org>
+ <ar-b_Ug__TBzIZsb@gremlin>
+ <2e5a4e6c-8f9c-4050-8998-454b83f4823b@kernel.org>
+ <ar-luB9QVCRshtIw@gremlin>
+ <3387642b-c39f-4f19-ba0c-267bbd2fe91d@kernel.org>
+ <ar-ux41ILjI1Px9S@gremlin>
+ <a202523f-a696-4a8e-be77-7170c3913cdf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261002223746.3248726-1-neilb@ownmail.net> <20261002223746.3248726-4-neilb@ownmail.net>
-In-Reply-To: <20261002223746.3248726-4-neilb@ownmail.net>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 3 Oct 2026 14:52:02 +0200
-X-Gm-Features: AclHuK9ISQ-1vvQI-BXB_46po9ulhXoF9Pdu-FZttgWgTuI6ZQiJn9eAeFPCxrc
-Message-ID: <CAOQ4uxiBf+4EJak7r5440oHuvxd4FZKE=9Je13N8zTNNZCDJmQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ovl: provide private lockdep class for dentry->dep_map
-To: NeilBrown <neil@brown.name>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, 
-	"Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>, Jeff Layton <jlayton@kernel.org>, 
-	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a202523f-a696-4a8e-be77-7170c3913cdf@kernel.org>
 
-On Sat, Oct 3, 2026 at 12:42=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrote=
-:
+On Fri, Oct 02, 2026 at 11:43:53PM +0200, David Hildenbrand (Arm) wrote:
+> On 10/2/26 15:59, Lorenzo Stoakes (ARM) wrote:
+> > On Fri, Oct 02, 2026 at 03:11:27PM +0200, David Hildenbrand (Arm) wrote:
+> >> I'd be very happy if we could find a clear way to describe "this is what we call
+> >> user memory: anon+pagecache", if that could come handy in such a context.
+> >
+> > Rather than arguing about it, how about shifting things to 'what backs the
+> > mapping' and something like:
+> >
+> > /* big long kdoc... */
+> > static inline bool vma_flags_is_mm_backed(const vma_flags_t *flags)
+> > {
+> > 	/* hugetlb is a fixed mapping, but the mm owns it entirely. */
+> > 	if (vma_flags_is_hugetlb(flags))
+> > 		return true;
+> >
+> > 	/*
+> > 	 * Kernel-owned mappings are populated by their owner, and fixed mappings
+> > 	 * have a layout the mm cannot assume ordinary fault semantics over.
+> > 	 */
+> > 	if (vma_flags_is_kernel_owned(flags) ||
+> > 	    vma_flags_is_fixed_mapping(flags))
+> > 		return false;
+> >
+> > 	/* The mm has promised it may discard droppable memory at any time. */
+> > 	return !vma_flags_test_single_mask(flags, VMA_DROPPABLE);
+> > }
 >
-> From: NeilBrown <neil@brown.name>
->
-> Now that d_alloc_parallel() locking is tracked by lockdep, ovl needs to
-> take care that it doesn't trigger on deliberate recursion into
-> subordinate filesystems.  As ovl can stack over itself, the use
-> of the per-file_system_type d_lookup_key is not enough.
->
-> So provide a .d_init() function to update the map as it already done for
-> i_rwsem and ovl_inode.lock.
->
-> Reported-and-tested-by: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@i=
-ntel.com>
-> Link: https://lore.kernel.org/all/e3772a51-eabc-4c31-b73d-f3187bf1b3b2@in=
-tel.com/
-> Fixes: 59492f9991dc ("VFS: add lockdep monitoring of DCACHE_PAR_LOOKUP lo=
-ck.")
-> Signed-off-by: NeilBrown <neil@brown.name>
+> In my other mail I was wondering whether we could use vma_is_mm_managed() to
+> express !vma_is_kernel_owned(). Maybe vma_is_mm_backed() could fit into that
+> picture.
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+Yeah, vma_is_mm_backed() = 'and the mm actually keeps it there' in effect :)
 
-> ---
->  fs/overlayfs/inode.c     |  1 -
->  fs/overlayfs/overlayfs.h |  2 ++
->  fs/overlayfs/super.c     | 19 +++++++++++++++++++
->  3 files changed, 21 insertions(+), 1 deletion(-)
 >
-> diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
-> index 401cb8c75520..bf40198c8b8a 100644
-> --- a/fs/overlayfs/inode.c
-> +++ b/fs/overlayfs/inode.c
-> @@ -816,7 +816,6 @@ static const struct address_space_operations ovl_aops=
- =3D {
->   * - OVL_I(inode)->lock                        (ovl_inode_lock[1])
->   * - upper_mnt->mnt_sb->s_writers      (ovl_want_write[0])
->   */
-> -#define OVL_MAX_NESTING FILESYSTEM_MAX_STACK_DEPTH
+> Reading above I am still confused why something that expresses "backed" talks
+> about "fixed mappings and ownership", sorry :(
+
+I'll rework the kdoc to be clearer - I think with vma_is_mm_managed() the
+picture actually becomes clearer.
+
 >
->  static inline void ovl_lockdep_annotate_inode_mutex_key(struct inode *in=
-ode)
->  {
-> diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-> index e0d8c6152e9f..64cbe4c4bd3e 100644
-> --- a/fs/overlayfs/overlayfs.h
-> +++ b/fs/overlayfs/overlayfs.h
-> @@ -16,6 +16,8 @@
->  #undef pr_fmt
->  #define pr_fmt(fmt) "overlayfs: " fmt
+> It's late here, and this is a hard nut to crack.
+
+Yes :)
+
+Thanks for taking the time with this, I know some of it is pretty heavy going.
+
 >
-> +#define OVL_MAX_NESTING FILESYSTEM_MAX_STACK_DEPTH
-> +
->  enum ovl_path_type {
->         __OVL_PATH_UPPER        =3D (1 << 0),
->         __OVL_PATH_MERGE        =3D (1 << 1),
-> diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-> index e487597337e8..08147799e47c 100644
-> --- a/fs/overlayfs/super.c
-> +++ b/fs/overlayfs/super.c
-> @@ -163,10 +163,28 @@ static int ovl_dentry_weak_revalidate(struct dentry=
- *dentry, unsigned int flags)
->         return ovl_dentry_revalidate_common(dentry, flags, true);
->  }
+> What we have here is:
 >
-> +#ifdef CONFIG_LOCKDEP
-> +static int ovl_dentry_init(struct dentry *dentry)
-> +{
-> +       static struct lock_class_key ovl_d_lock_key[OVL_MAX_NESTING];
-> +       int depth =3D dentry->d_sb->s_stack_depth - 1;
-> +
-> +       if (WARN_ON_ONCE(depth < 0 || depth >=3D OVL_MAX_NESTING))
-> +               depth =3D 0;
-> +
-> +       lockdep_set_class(dentry, &ovl_d_lock_key[depth]);
-> +
-> +       return 0;
-> +}
-> +#else
-> +#define ovl_dentry_init NULL
-> +#endif
-> +
->  static const struct dentry_operations ovl_dentry_operations =3D {
->         .d_real =3D ovl_d_real,
->         .d_revalidate =3D ovl_dentry_revalidate,
->         .d_weak_revalidate =3D ovl_dentry_weak_revalidate,
-> +       .d_init =3D ovl_dentry_init,
->  };
+> 1) Is this an ordinary MM-managed VMA. So far so good, I understand that. (with
+>    a twist what I just learned about things that map random allocated pages
+>    through -> fault, but so far so good)
+
+Ack yeah. And ack on ->fault.
+
+It feels like we let ->fault be FAR too permissive. In retrospect, arbitrarily
+being able to put WHATEVER YOU WANT there was... unwise shall we say.
+
 >
->  #if IS_ENABLED(CONFIG_UNICODE)
-> @@ -176,6 +194,7 @@ static const struct dentry_operations ovl_dentry_ci_o=
-perations =3D {
->         .d_weak_revalidate =3D ovl_dentry_weak_revalidate,
->         .d_hash =3D generic_ci_d_hash,
->         .d_compare =3D generic_ci_d_compare,
-> +       .d_init =3D ovl_dentry_init,
->  };
->  #endif
+> 2) Is this MM "fixed" that makes expand/merge tricky, except if it's hugetlb
+>    where we can still handle it.
+
+Yeah the trickiest bit is the 'don't expand'.
+
+The hugetlb exception is ugh, but hugetlb was engineered terribly,
+essentially 'stick something in with total disregard for everything in core
+mm and make it an exception you just have to remember for everything'.
+
+I hope we all learn some lessons about what not to do from hugetlb and uffd
+:)
+
+>
+> I think VM_DONTEXPAND is also rather misnamed :( I assume it really means, using
+> sel_mmap_policy_ops() as an example: the MM manages the things that are getting
+> mapped in here (->fault), but the pages are not really pagecache/anon, but some
+> other shit. So we cannot expand the mapping.
+
+Yeah. And it is terribly named.
+
+>
+> Gah, so complicated.
+>
+> 3) Can the MM drop the pages at any time.
+>
+>
+> I still think that 3) does not quite fit into that picture. Using something like
+
+If you look at what the callers do it makes more sense - mlock pins pages,
+ksm merges them, dump writes them out and uffd hands their faults to userspace.
+
+All four need the page behind the mapping to be the mm's own and _still
+there the next time they look_.
+
+With that in place it's not stable so it's not right to let such callers
+have access, and all the callers have to remember to check that.
+
+>
+> "vma_is_mm_backed" to say "this is mm-managed, but all things in there come from
+> core-mm and not some other random shit people punch into ->fault" would work for me.
+
+Yeah agreed, I will update the kdoc to be clear about that.
+
+>
+> (not sure if there is still some other way how someone could get random pages
+> into a VMA ... or how to catch someone not setting the DONTEXPAND flag)
+
+vm_insert_pages() + friends sets VMA_MIXEDMAP_BIT now and
+vmf_insert_page_mkwrite() is DAX only (a follow up will make that a thing)
+so it's the damn ->fault that's the only thing left now.
+
+Right now I think that everyone that does something weird sets
+VMA_DONTEXPAND_BIT.
+
+It needs renaming to something like VMA_CUSTOM_FAULTED_BIT or
+something. That's probably a terrible name but you get the idea... :)
+
+>
+> God, this is all such a confusing mess with so many ways of getting stuff messed
+> up by other parts of the system. Thanks for working on cleaning that up.
+
+No worries :)
+
+The whole point of the series is to stop treating these flags as vague
+things (which VM_SPECIAL symbolised the most) so a. we can make sensible
+assumptions about flag combinations and b. people can use meaningful
+semantic checks rather than guessing (sometimes wrong).
+
+Hopefully the pain here is all worth it :)
+
+Thanks again for reviewing!
+
+I will respin with kdoc changes.
+
 >
 > --
-> 2.50.0.107.gf914562f5916.dirty
+> Cheers,
 >
+> David
+
+--
+Cheers, Lorenzo
