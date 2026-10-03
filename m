@@ -1,173 +1,232 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F743955CA;
-	Sat,  3 Oct 2026 08:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4F51DF75B;
+	Sat,  3 Oct 2026 09:04:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791015634; cv=none; b=uA58D/KbZhBInZ9tjcArK8s4zhy5EdBIu6ztw1Nkg5tQhYc2W2CFnaBxC4VMtReF4Xwhi7XvXg9CwHFC8lGmmcN92a1Qd4fnMNt+ZE64b1mFvQIFGYIhcQWPX0bxS/KAa8Zj44NapEguyGyAUUB7RjNmSM4INoSljRE+jMpABbI=
+	t=1791018243; cv=none; b=PL7UBZi9abnBNfYCTJqmgs1mIlnFGFPTt8YvMMpwyzH3PEQW5He7OXl8oJPq8Cph58qYNxx72H/HceB449V/lqZ7tFw4pctDvar6IzZt05bdC6uIHa/RTDj4esVb7k3hKaXKAwZHC8FVJRwW3lk2RMUnlXJxq1o2h/zh2Oy0oX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791015634; c=relaxed/simple;
-	bh=mgxV3qK6cTr07AzQa0c+bJJ2Km8m7v2jxLNdsufVUTs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qlEetyzQYK9dJWPE/GKK9SrJ7t5IFO3A6qcVyDfhyipMANnaFgIXamdqcj27408axGSr7HvYvXgCHpkG0aLkVAlzFcz9LTTnRrpnL+/jJAoKxrt2ruyrv2ruLuJ6W2xfetJ3UUlLHGg9rFb4zlaG1ep6bnjPKX63FWAyQ+gY2gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NDaF7o82; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791018243; c=relaxed/simple;
+	bh=ySVPAx6FaV3b8M7WMt7yxSlRhPhy0oNRcPgzmnCJNSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wg6m51J5JdeRNoH7nrBAfXINIhtt/jk9jjUsH3MvWswIIbUG4ao3XDbCZpWyq2HEsiYsasr0uvY1HJFY8WRW+kR+rYkc77MNrlu/htTi3zzbG6+PCF1sUKo7EqB8fb3j1/xdePAJoBe9eBnUGpwnbME15mc7PAx+zulBlwKjbTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UU+loouH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NDaF7o82"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5763E1F0089B;
-	Sat,  3 Oct 2026 08:20:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UU+loouH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 767B81F0089B;
+	Sat,  3 Oct 2026 09:03:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791015630;
-	bh=eWmsPsaqSJ6Vq6jvv3ugkIEDfSmRR0g0yKPOYeShMcU=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=NDaF7o82q+lHcA6tPpZ0zHsCI/mYQjSECgwygO34Cg2NeQjLvi4Z5vh80IR2gbLCm
-	 ceBpRneULbaz0kM+i7vIQMdTGtL1d86S4IUuVfIjoLY7YDIGwL7C8YW/jwMeqbxfGc
-	 RLjI2jNiG8YrFjF5xxdchsg3ewptkGxAkt4TEeBiQ+wVal7vV6DfL9Dq92r28HDlH9
-	 ceIJ/DzzwDF9Vl0esmwkwn/qRA8DQiKnvxl3Mrk93U6hT5lYd3JASwk2gg9dpQYqP7
-	 Y3if61dC0XZ4fZDvgBnc25Fc0cSagerGU+asViy7iU2fUPKuqmnKjFcFOtYQq3EKCb
-	 KKbGCYTpSuoKA==
-Message-ID: <21a3332f889994047f05caf7322d7a6ec30faf4e.camel@kernel.org>
-Subject: Re: [PATCH 18/21] nullfs: refuse leases and delegations
-From: Jeff Layton <jlayton@kernel.org>
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	linux-kernel@vger.kernel.org, Jann Horn <jannh@google.com>, Neil Brown
-	 <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 03 Oct 2026 09:20:25 +0100
-In-Reply-To: <20261002-work-mount-fixes-4-v1-18-dd44b89d44ce@kernel.org>
-References: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
-	 <20261002-work-mount-fixes-4-v1-18-dd44b89d44ce@kernel.org>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
+	s=k20260515; t=1791018241;
+	bh=NITJ8yWQ1OUFlY+k5bUccAdy4sUgfCl1c+vQ6EKuHAU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UU+loouHu/X9/2nGZUM3yCjbj4m/KC/TpyT2T7f6ukoZ0E8xdeCQhCux5NhqFywrK
+	 emhXMJF4ztWEAjcQUfNwmoOfmxWibJrgcS0Y14+/3QYIKiQ5kMD+QrEiMuTQiog1N8
+	 HdzT/Ef9+BC0kDIPVp13fKjpTa3KnJQlYUuTeVVgi+gEshYQcDbogRYzy1bU/u88qg
+	 37uls/VRrrDFxVnS7En+EP+D0EmvYFVAJfg454GL12+afZ6I3k3lu7HdNKAXHgZG9u
+	 cVstBTuY/reLAY7kfSL/oJgi0aXYVR8zFlCr4BXzJpC7jM5kV2qrlq5ymtar6nRky1
+	 2H6/ZXoDRdmXg==
+Date: Sat, 3 Oct 2026 10:03:31 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 15/40] mm/vma: add vma[_flags]_is_kernel_owned()
+ predicates
+Message-ID: <asDDLXqBduWVX0k8@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-15-4583d8a23bca@kernel.org>
+ <0623ee06-00e5-421e-a24a-ed605abb559b@kernel.org>
+ <ar_CYfkR5Pfb7J9b@gremlin>
+ <83bf4650-7339-4fc9-89a6-378a327f4f6e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <83bf4650-7339-4fc9-89a6-378a327f4f6e@kernel.org>
 
-On Fri, 2026-10-02 at 15:52 +0200, Christian Brauner wrote:
-> Refuse leases and delegations on nullfs as well. generic_setlease()
-> grants read leases and directory delegations on directories, so the
-> owner of the shared inode, or anyone with CAP_LEASE, could put one on
-> the directory that stands in for every unmounted mount and F_GETLEASE
-> and F_GETDELEG would show it to every other holder. Nothing on nullfs
-> ever changes, so a lease on it would never be broken and never tell
-> anyone anything.
->=20
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/nullfs.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->=20
-> diff --git a/fs/nullfs.c b/fs/nullfs.c
-> index d90c71f5eece..f76b87cf1841 100644
-> --- a/fs/nullfs.c
-> +++ b/fs/nullfs.c
-> @@ -28,6 +28,13 @@ static int nullfs_nolock(struct file *file, int cmd, s=
-truct file_lock *fl)
->  	return -ENOLCK;
->  }
-> =20
-> +/* and no leases or delegations */
-> +static int nullfs_nolease(struct file *file, int arg, struct file_lease =
-**flp,
-> +			  void **priv)
-> +{
-> +	return -EINVAL;
-> +}
-> +
->  /* what libfs gives an empty directory, plus the refusal of file locks *=
-/
->  static const struct file_operations nullfs_dir_operations =3D {
->  	.llseek		=3D nullfs_dir_llseek,
-> @@ -36,6 +43,7 @@ static const struct file_operations nullfs_dir_operatio=
-ns =3D {
->  	.fsync		=3D noop_fsync,
->  	.lock		=3D nullfs_nolock,
->  	.flock		=3D nullfs_nolock,
-> +	.setlease	=3D nullfs_nolease,
->  };
-> =20
->  static int nullfs_fs_fill_super(struct super_block *s, struct fs_context=
- *fc)
+On Fri, Oct 02, 2026 at 11:19:32PM +0200, David Hildenbrand (Arm) wrote:
 
-I don't think this patch is necessary. Commit 2b10994be716 made it so
-that filesystems with a NULL ->setlease pointer already return -EINVAL.
---=20
-Jeff Layton <jlayton@kernel.org>
+> > So indeed, vs. user-owned.
+>
+> Right, I read "contents of the VMA are owned by the kernel rather than the core
+> mm?" and that confused me, because the opposite of the kernel is to me not core-mm.
+>
+> Maybe it would be clearer to focus on the opposite direction, then we wouldn't
+> have to find a word to describe "not core-mm".
+
+Yeah, it is hard to know how to express that.
+
+> > I think the issue here is you're confusing this with other things like the
+> > rmap and refcounting, etc.
+>
+> I think it all weirdly interacts.
+>
+> In !vma_is_kernel_owned(), would we only expect ordinary folios
+> (anon/pagecache/hugetlb/dax, maybe shared zero folio)?
+>
+> That's my best guess looking at
+>
+> 	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT,
+> 				  VMA_IO_BIT);
+>
+> So one option would be to focus instead on that aspect (folios that are managed
+> by core-mm vs. random other stuff not managed by core-mm). But thinking about
+> it, I'd prefer if we can leave the "folio" bits out, because COW mappings also
+> map (some) folios. See below.
+
+Mostly it does indeed come down to 'can I rely on core mm to do the refcounting,
+mapcounting, rmap, etc.'
+
+But folios are not quite there yet until the memdesc stuff is done as you say,
+so best to leave that out of any description.
+
+> > VDSO/VVAR, perf ring buffers, shmem mapped via PFN map, uprobes, etc. are
+> > all in this category and I doubt people would consider those driver-owned.
+>
+> Agreed. They are all special things and won't be folios in the future. (shmem
+> mapped through PFN tells us to ignore its folio background and treat it just as
+> some PFN range).
+
+Yep the shmem mapped via pfnmap is a special case of the 'hands off the folios'
+variety.
+
+> > The distinction is - who put them there and who's allowed to change them
+> > and who owns the lifecycle.
+>
+> Lol, I asked AI for better names and it told me "vma_is_special_mapping()".
+> Thanks, I guess.
+
+Yeah you see my point? :)
+
+That's why I want to steer away from ordinary vs. 'not ordinary' (otherwise
+known as special).
+
+The semantics have to be meaningful more than that.
+
+>
+> I assume for the reverse, we really just want to say "just an ordinary core-mm
+> vma that you would get from a simple mmap() as long as no weird non-mm drivers
+> or subsystems are involved. Core MM fully manages this thing.".
+>
+> * vma_is_mm_managed()
+> * vma_is_mm_controlled()
+
+OK, great, that works!
+
+I think vma_is_mm_managed() works best out of those two.
+
+I'll update v4 to reflect that, I plan to send the respin out today before
+LPC :)
+
+> >>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> >>> index 2a92193ac6a5..cab29d6e15c1 100644
+> >>> --- a/include/linux/mm.h
+> >>> +++ b/include/linux/mm.h
+
+> >>> +static inline bool vma_flags_is_kernel_owned(const vma_flags_t *flags)
+> >>> +{
+> >>> +	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT,
+> >>> +				  VMA_IO_BIT);
+> >>
+> >> I thought we have cases where we drivers insert pages and neither set
+> >> VMA_PFNMAP_BIT nor VMA_MIXEDMAP_BIT.
+> >
+> > There were 4 - defio, cmt_speech, uprobes and the bpf arena, and I fixed
+> > all of them :)
+>
+> Great, that helps to identify these things. I didn't look at all patches yet,
+> but we should definitely document that.
+
+You mean the fact that this is required? It's documented certainly insofar that
+this series makes it a literal WARN_ON() error to do that ;)
+
+I'm not sure exactly where you'd document it in the kernel documentation though.
+
+But having this enforced now as a strict requirement is very powerful, because
+it means core mm can assume things that before it couldn't due to drivers doing
+'weird stuff'.
+
+Which I think has been a large part of the problem with the VMA flags - not
+being certain that VM_xxx means y because hey I remember that driver z does
+weird stuff with it suddenly means the flag doesn't have a clear meaning any
+more.
+
+So this I think is a very useful step to take.
+
+>
+> >
+> > Other than the DAX-only case below of course.
+>
+> Right, as DAX uses real folios.
+
+Yup. And FUSE DAX now too :) Another 'weird byproduct of this series' that :P
+
+> > I could also add a patch to this series to do that too if you wanted?
+>
+> We can do a follow up. Not giving others the chance to abuse these interfaces
+> would be great.
+
+OK cool, will add to todo!
+
+--
+Cheers, Lorenzo
