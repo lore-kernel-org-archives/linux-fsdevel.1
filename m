@@ -1,64 +1,64 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B32A218ADD
-	for <linux-fsdevel@vger.kernel.org>; Sat,  3 Oct 2026 00:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5622818DB1F
+	for <linux-fsdevel@vger.kernel.org>; Sat,  3 Oct 2026 00:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790986749; cv=none; b=Nh/u+px4k0TmPOQMPV16S5pp9/YloRteG6zKuPGnAqxA5Z1ORoY0jfHvJUpePrnHm0+COa9V2QJNpD1K4QFXtf+zEsoTPWvA2zJoPLkkGTASeZ7/AWqfhP3XIdhCgF7mwzY7LP5N6ft2yx2j6sBInyuMqPQYhYcO6VaocxlnRU4=
+	t=1790986751; cv=none; b=PKyGKCvUffk6TLnaKsAeeJJTS4O0UdsxmVFoXa/UAo/EodeUSw5xXq9XzcqOghwxJYMC5fdX7D2MpjEpnGEVzOpcjG6L+4S9jwSdwwQJM92CTHyrKsM5ncVu7R/kcsaquxaKwMiuU1ycQmjxuEviXvqNmNKyZ0xlnd7rwhgOQBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790986749; c=relaxed/simple;
-	bh=LejAv59+w0LmBOfRWjgurmuY2Ss610ibefUPVKzMFLA=;
+	s=arc-20240116; t=1790986751; c=relaxed/simple;
+	bh=AOU0R5WQp1YjMRmbBopWcqChPcN9OCZPvivP6IH2nv0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EQ+7XlUwGtDgyT6sSG2kKjLhJ7vo5K/9nLyypvE2DttalEhrvsqgrQ2gVd8MTDNx0oQ675GQ7TSxZMdempxAzjmwjp82sMe4FAZ/X4RrN99yECzvok2HxFkdVMORZSdQuDB4Pt4M/mfyy7U2gSJ1/U1GRPoB4PKWRH1txA3hj4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hm+wafZb; arc=none smtp.client-ip=209.85.210.54
+	 MIME-Version; b=uXKp62zBBm9z1NzS2Ik2jAdR382tho3leCyJSF0IAb7+Ct4/tCCEtaE9gNIjqvXlxoHAdSq7WM9ysFhaZXHcnonTgjz1DMf4qLr5+9rcX//KFWp+GEK83uop8fbz1tjfbc39pAX0e93YTxCgquM+GpTR90NDZZXG5Lh8STd97hE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V5XwIJEg; arc=none smtp.client-ip=209.85.210.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hm+wafZb"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-821a7bee9b2so321983a34.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 02 Oct 2026 17:19:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V5XwIJEg"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-81ba09a5d23so338641a34.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 02 Oct 2026 17:19:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790986745; x=1791591545; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790986749; x=1791591549; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=FS9XCl9z0DTVjd2kXBwt268wO43LTyKRy6tPTS178aI=;
-        b=hm+wafZb4woFkyxDXGw1LEG6Z32OyZp1GbpdeNOCqxpSgV2y/VwdUmy0eUjnjJCIsV
-         f8MerwlBI6z6j6xzkYGLsR4f67IN39HORwPm99nSCabAgNyZJBLBKCb7uza9+07jqBs9
-         Tuw0g/8K3DNqILRQJ2MHe7Pn9aJLzkQ4yCeOPNn1gT25rZUsD85TNogOnPO0rgsIx9wk
-         G3RDVnmvIlOxAf5FQjo4eI/Ic/3lQsKHr3NudRT86QvEAX9vNFZ3LY9HGLiSA+g+X3RY
-         oFvDJdIeNoJq+uu/RALl68oQQLqvAx+vmE6w1bcasD6CBsymfmaaVqWe7OaUTqOTptuO
-         ESyA==
+        bh=WN+hcxT2obu+Cvnf4TklNkJLPL9EbhZzUN79EAadJMk=;
+        b=V5XwIJEgLpqoagWKB2PMfaq//fshZUJQr1Iu7GMO5YPCzKE62GxdJxmWu3raz68azf
+         pXI7GXkNc5LoMI9tbsx0bEmpEUMxqIj1GdbIhZX/YpVHPtGq/JqY2lA4XK5IXTsg6R8f
+         Mpn3k45scwb4k/iqMAlvaVb2u3zLzZ8aIChEn5RPrkWX7TslRuTQlnl3wcpAgJu6JCiU
+         +gXv+rHs9xJOtEx3xOK+sYq4QIZQby+XEQ7PJeWLlixvMGOMmjx4WK1dht9JGVaypBj/
+         oo1Jz26SM/IP7eQPCN2XOGh5e0bCoFVDGyd04gQu3U6baeQXusJTqRuaWSS5tIc+Q0Cj
+         4VRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790986745; x=1791591545;
+        d=1e100.net; s=20260707; t=1790986749; x=1791591549;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FS9XCl9z0DTVjd2kXBwt268wO43LTyKRy6tPTS178aI=;
-        b=DnmaqQ6dUhqu4+ZCSb66Rup63ogxLd5Wt1iA9BONgqJDSrYzG1hEOJxNkk07duvXeb
-         nJHK5wTwFTnu2N1XDrH/T6NNCCd1VCQ42IDsXkbwWAdqiJ1ndGk943gkqnlGPSsnQjaw
-         XKn852iw7L4hy4oqBG6HKK2HaycMkV0/nqkrhf6j7CWqmcUCzipv3EceLPqiBUSRUunr
-         FmYeJ2y+wCw5HySFd1MYLDhmFNjWilidXcki+gEdic8JHYrXtMwPa/AeNGREpUiIT8nf
-         45ZnDPKSD22v1l9dRBE40gLQ105DH/NSad8eBmnymveB60tlz9Lmk89Okh/OiaItvhog
-         ppTA==
-X-Forwarded-Encrypted: i=1; AKwUvBzBjIpJdX9xuqsczUdLADvELfw9UqGy/gJu1GNWJJ25Ovo7l5no7e/W41GIYMIdQA7aL2txDSfOr29ne31u@vger.kernel.org
-X-Gm-Message-State: AFuF++lhxaWRHZO7Rxd9cbs7Z9sQ5pCpGSzWhGIVZJAOg9kSPO1xNcT4
-	HbdtYj03Q1cRlc9QdlwWN9LwlqJTY3HlRCQEi7M72A88sTAubbYzmIE5
-X-Gm-Gg: AYBFou3+ha7cLLWaUWDH5/A3/JG3+oe48IoYJ8bbCGqwO59XyO8pSM7fnRZckOicryx
-	4G2Q8JdmTM4ls6Uw4vJm4abP1FHse/K3vZE6JTGon30N9Kwz7k284kBWaDiEanv6O+A/G+Ioih5
-	tjW1lSJkqXsHJ3LcPUI6pd1JK6LgoOGyWDvzkXznzf/ZVaz7XUJdjEV9oRIHxSYR8EATMnf1/1c
-	upWQyAuLDn+JeIc7qSEg4KPR5RGJViBkw7p8xMD5UzrH+64v9u6nnqrqf3gSMuFpt1IvBExraSt
-	TQZ8ssrCcJKbmrOxhu7NQgL6ArIYWkqMGdddUEAf09qaGsH4nqXOvnJqvuoFgOdWEMr1gCQGm62
-	aY70WjxyrKCPjS6AbEimDTFNZpQRBKWDg7HWrRNiQM2SyP1c5H67BpOKc10zyIp5poeO8fU4xGk
-	aXSmyrofqfNpnNF6x3b/DTjsxGOxwB8EcGncXcjbURRDnK5TwxPNe4KUgcNZQ8e7Ni5UUqFLtKG
-	K6dAmk2Sr69771c0fqfz5yClms3UmbyZWtX8OFeyxnKVCsjEQ==
-X-Received: by 2002:a05:6830:7285:10b0:823:89b7:a57e with SMTP id 46e09a7af769-82389b7a603mr1114212a34.33.1790986745097;
-        Fri, 02 Oct 2026 17:19:05 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:9::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-8227a66c6dfsm4498434a34.23.2026.10.02.17.19.03
+        bh=WN+hcxT2obu+Cvnf4TklNkJLPL9EbhZzUN79EAadJMk=;
+        b=UHdsZ21jYM/ZdQeGMpe3Je2ck1SZ4xuz8DW6hsIjrnjRAdAKupeUJEFmMsH35vQ4I4
+         rDE4Tk1wl0AuES6CnG3QJb5zjR4Prt2SfCt2BUmN3TR3TkfT2UZgtXOViOToNNOuxiNX
+         rUNBxONGaWR/DHr/YhNL2jNxn94/tgSU2bhbtMfSKubSiuzns0eezSuqKun/ZsjfsgiH
+         qauSY0YOXfaSjXFf+28zYmCy1U1TI9dgKf2Faps0OTgoGw9Y7EcjWppDutvC2nZTORaW
+         7FvLp8rWuRWCCIv+vpjcwzLz+fwhoKmc62z7jJjrMCOgsH1kicUXYx3tA4/lcga15cxn
+         TxXg==
+X-Forwarded-Encrypted: i=1; AKwUvBxtF6RzobFGZnvpj9Ezbv+GJuLwZdtqe8wLvCiU/4zqNA3iWYTxqMRYx5Lx+wqh/7+3HLQZJSLRJAKO81e9@vger.kernel.org
+X-Gm-Message-State: AFuF++mrCTVRqGXI7detUtYZewZIIGqy6gC+sqOqZqGZOi3o9KyMZQPq
+	SdzqWXwVY2o74q5Fl/ECmsXkcX45ZGin1x65UpZh+L5FH9xSA0oRqeuE
+X-Gm-Gg: AYBFou0LL0uKuQii+0T4d4T8NvS8zpDdgJHaaiZTzWtijyhDVTOrJPt/F45DFMMVX7q
+	khVv8/oCw/Q36KEOFA7RalzjHFQ8HxZzHISbE4PeS7tTeZN9MnaFy3DZMyFZi8r+DpqMINI1u8N
+	R78UJ2pkvi8ySzD+s2MGAA9rzjhT2NNwPpHqX8qJiaKe6gJWKRYTMeBhc6Gix/SUUWtNw6wnIYH
+	1CjGBuOlciUKwWmXAHV7AZPP/Rwd/dlegDYsN6Nm0KSIeWTrck75RQvE/m40MPvIqRVn08WDXSX
+	aok02+6QL6BrezELTJPBYGKmTi+7O/rhrRqoLwpwsBaJXYmVYKStIpLgq4YNBdAVICD70B7YS2j
+	ymyw/rBCqslhpGhqR1sFSHuShvz2yLY5JhSaUOv35hmZWuslKLqxE2fdXZaXnNym/TgTkIXZxtr
+	tJrjgMXwHL7lI8v8vk6hrbPrhKa8u0F5tCVot+6l1DNR2K2UoGoG94KUf2yOigYWLmUJUNLLx9A
+	SHFByZwVTf2ZDKDQErktG8A3cv9+hR+kV7h1jnSmVOwdO/fPCnzb5DgmrhcjA==
+X-Received: by 2002:a05:6830:44a6:b0:81f:acdd:bd0c with SMTP id 46e09a7af769-823fca26dbemr965968a34.12.1790986749202;
+        Fri, 02 Oct 2026 17:19:09 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:73::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-82279e73822sm4601292a34.16.2026.10.02.17.19.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 17:19:03 -0700 (PDT)
+        Fri, 02 Oct 2026 17:19:07 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: akpm@linux-foundation.org,
 	hannes@cmpxchg.org,
@@ -78,9 +78,9 @@ Cc: mhocko@suse.com,
 	linux-mm@kvack.org,
 	cgroups@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v1 2/3] mm: memcontrol: add mem_cgroup_reclaim_for_batch()
-Date: Fri,  2 Oct 2026 17:15:54 -0700
-Message-ID: <20261003001555.3498357-3-joannelkoong@gmail.com>
+Subject: [PATCH v1 3/3] mm/readahead: avoid per-folio memcg reclaim
+Date: Fri,  2 Oct 2026 17:15:55 -0700
+Message-ID: <20261003001555.3498357-4-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20261003001555.3498357-1-joannelkoong@gmail.com>
 References: <20261003001555.3498357-1-joannelkoong@gmail.com>
@@ -92,122 +92,182 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some callers charge a batch of folios one at a time, where each charge
-may reclaim. At the memcg limit, each one of those charges then enters
-reclaim separately. Readahead is the main example. This was observed on
-Meta's fleet, where a single fault's readahead window can trigger more
-than a dozen reclaim passes.
+Readahead adds the folios in its window to the page cache one at a time.
+Each folio is charged separately. When the memcg is at its limit, each
+one of those charges triggers reclaim (readahead's __GFP_NORETRY only
+stops try_charge_memcg() after a reclaim pass). With many tasks faulting
+in the same cgroup, the margin one reclaim pass frees gets consumed by
+the others, so the faulting tasks keep reclaiming, all to make room for
+speculative folios, and in the worst case, reclaim livelocks.
 
-Add mem_cgroup_reclaim_for_batch() so that such callers can reclaim for
-a whole batch at once instead of once per folio. Callers can then charge
-without reclaim and if a charge fails, call
-mem_cgroup_reclaim_for_batch() to make room for the rest of the batch.
-Unlike try_charge_memcg(), it retries reclaim only once rather than up
-to MAX_RECLAIM_RETRIES since failing is acceptable for the callers'
-charges.
+On Meta's fleet, this per-folio reclaim is a large cost. Page cache
+insertion triggers around half of all memcg limit reclaim CPU, 93% of it
+from mmap fault readahead, in services whose cgroups run at their limit
+while many threads fault in mmapped files. Of the CPU time spent in
+filemap_add_folio(), 83% is memcg reclaim while inserting the folio into
+the page cache itself is 6%.
 
-The next patch uses it for readahead.
+To avoid this, add readahead folios to the page cache without direct
+reclaim, and when the memcg is at its limit, reclaim for the rest of the
+window at once with mem_cgroup_reclaim_for_batch() instead of once per
+folio. If the memcg hits its limit again before the whole window has
+been added, try one more time, since other tasks charging the same memcg
+may have used up the room the first attempt made. If there's still no
+room, stop readahead early rather than reclaim harder, since readahead
+folios are speculative. The count of reclaim attempts lives in
+readahead_control so that it covers every path that adds folios for the
+request.
 
+This only affects speculative readahead folios. There's no change in
+behavior for the folio a fault or read actually needs. If readahead
+didn't bring that folio in, filemap_fault() and filemap_read() allocate
+and charge it with the mapping's normal gfp mask, like before.
+
+There are two other differences from the current behavior. The first is
+that readahead charges that push a cgroup past memory.high leave the
+high reclaim to the return to user space, as other non-blocking charges
+do. The second is that under global memory pressure, readahead's page
+cache xarray node allocations no longer enter direct reclaim (they still
+wake kswapd). If one fails, readahead stops early, as it does when a
+folio allocation fails.
+
+Tested on a 26-core/52-thread machine with btrfs, running 26, 52 or 104
+processes (one per core, one per thread, and 2x oversubscribed) that
+each mmap their own file in one memcg with a 1G memory.max (before and
+after measured in the same boot), reclaim passes per major fault drop by
+94-96% for both random and sequential reads. With data compressing ~3:1
+under compress-force=zstd:3, the runs that livelocked in reclaim without
+the patch (4 of 18) no longer do. Throughput with incompressible data,
+where the disk is the bottleneck, is within 5% of before in either
+direction, and the drops are within run-to-run variation. With the
+compressed data, it is 9% higher at 104 processes, where reclaim
+contention is. Sequential readers get up to 18% fewer pages per major
+fault, since readahead now stops early when there is still no room, but
+their throughput and read bandwidth are unchanged or slightly higher.
+
+Reported-by: Rik van Riel <riel@surriel.com>
 Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- mm/internal.h   | 10 ++++++++
- mm/memcontrol.c | 64 +++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 74 insertions(+)
+ include/linux/pagemap.h |  1 +
+ mm/readahead.c          | 51 ++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 46 insertions(+), 6 deletions(-)
 
-diff --git a/mm/internal.h b/mm/internal.h
-index ff28b940e0cd..6d914f6a6138 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -1652,4 +1652,14 @@ static inline bool can_spin_trylock(void)
- /* char-mem.c */
- bool file_is_dev_zero(const struct file *file);
- 
-+#ifdef CONFIG_MEMCG
-+bool mem_cgroup_reclaim_for_batch(unsigned long nr_pages, gfp_t gfp);
-+#else
-+static inline bool mem_cgroup_reclaim_for_batch(unsigned long nr_pages,
-+						gfp_t gfp)
-+{
-+	return false;
-+}
-+#endif
-+
- #endif	/* __MM_INTERNAL_H */
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 1d4b603085a5..9aea684ea755 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -2736,6 +2736,70 @@ static unsigned long memcg_charge_reclaim(struct mem_cgroup *memcg,
- 	return nr_reclaimed;
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index 73af18a37367..973a836076bd 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -1409,6 +1409,7 @@ struct readahead_control {
+ 	pgoff_t _index;
+ 	unsigned int _nr_pages;
+ 	unsigned int _batch_count;
++	unsigned int _nr_memcg_reclaims;
+ 	bool dropbehind;
+ 	bool _workingset;
+ 	unsigned long _pflags;
+diff --git a/mm/readahead.c b/mm/readahead.c
+index 6e5563290287..e06375559e9b 100644
+--- a/mm/readahead.c
++++ b/mm/readahead.c
+@@ -204,6 +204,41 @@ static struct folio *ractl_alloc_folio(struct readahead_control *ractl,
+ 	return folio;
  }
  
-+/**
-+ * mem_cgroup_reclaim_for_batch - make room for a batch of upcoming charges
-+ * @nr_pages: number of pages about to be charged
-+ * @gfp: reclaim context
-+ *
-+ * Reclaim is needed when a memcg's margin (limit minus usage) is less than
-+ * @nr_pages. Starting from the memcg that the current task's charges go to,
-+ * reclaim @nr_pages from the closest ancestor whose margin is too small, with
-+ * at most one retry. This lets callers that charge a batch of folios one at a
-+ * time (like readahead) reclaim @nr_pages at once instead of once per folio.
-+ * Callers must be ok with the charges failing.
-+ *
-+ * Returns true if reclaim was needed and done or false if no reclaim was
-+ * needed or if the current task may not reclaim.
++/*
++ * Max number of memcg reclaim attempts per readahead request. The first
++ * makes room for the rest of the readahead window. If the window runs out
++ * of room again, try one more time since other readers in the same memcg
++ * might have used that room up.
 + */
-+bool mem_cgroup_reclaim_for_batch(unsigned long nr_pages, gfp_t gfp)
++#define READAHEAD_MAX_MEMCG_RECLAIMS	2
++
++/*
++ * Add a readahead folio to the page cache without direct reclaim. This prevents
++ * a memcg at its limit from running reclaim for every folio in the readahead
++ * window (folios in the window are charged one at a time). If adding the folio
++ * to the page cache returns -ENOMEM, reclaim enough room for the rest of the
++ * window and retry adding it.
++ */
++static int readahead_add_folio(struct readahead_control *ractl,
++			       struct folio *folio, pgoff_t index,
++			       unsigned long nr_pages_left, gfp_t gfp)
 +{
-+	unsigned int reclaim_options = MEMCG_RECLAIM_MAY_SWAP;
-+	struct mem_cgroup *orig, *memcg;
++	struct address_space *mapping = ractl->mapping;
++	int ret;
 +
-+	if (mem_cgroup_disabled() || !memcg_charge_may_reclaim(gfp))
-+		return false;
-+
-+	orig = get_mem_cgroup_from_mm(NULL);
-+	for (memcg = orig; !mem_cgroup_is_root(memcg);
-+	     memcg = parent_mem_cgroup(memcg))
-+		if (mem_cgroup_margin(memcg) < nr_pages)
-+			break;
-+
-+	/* No reclaim needed. No memcg up to the root lacks the margin */
-+	if (mem_cgroup_is_root(memcg)) {
-+		css_put(&orig->css);
-+		return false;
++	ret = filemap_add_folio(mapping, folio, index,
++				gfp & ~__GFP_DIRECT_RECLAIM);
++	if (ret == -ENOMEM &&
++	    ractl->_nr_memcg_reclaims < READAHEAD_MAX_MEMCG_RECLAIMS) {
++		ractl->_nr_memcg_reclaims++;
++		nr_pages_left = max(nr_pages_left, folio_nr_pages(folio));
++		if (mem_cgroup_reclaim_for_batch(nr_pages_left, gfp))
++			ret = filemap_add_folio(mapping, folio, index,
++						gfp & ~__GFP_DIRECT_RECLAIM);
 +	}
-+
-+	/*
-+	 * cgroup v1 can limit memory+swap together (memsw). If memsw is the
-+	 * limit being hit, swapping a page out doesn't help, so reclaim without
-+	 * swapping.
-+	 */
-+	if (do_memsw_account() &&
-+	    page_counter_read(&memcg->memsw) + nr_pages >
-+	    READ_ONCE(memcg->memsw.max))
-+		reclaim_options &= ~MEMCG_RECLAIM_MAY_SWAP;
-+
-+	memcg_charge_reclaim(memcg, nr_pages, gfp, reclaim_options);
-+	/*
-+	 * Like try_charge_memcg(), if reclaiming didn't make enough room, drain
-+	 * the per-cpu stocks and if that doesn't help enough either, try
-+	 * reclaiming again. Other tasks charging the same memcg may have used
-+	 * up what was just reclaimed. Unlike try_charge_memcg(), only retry
-+	 * once rather than up to MAX_RECLAIM_RETRIES times, since failing is
-+	 * acceptable for the caller's charges.
-+	 */
-+	if (mem_cgroup_margin(memcg) < nr_pages) {
-+		drain_all_stock(memcg);
-+		if (mem_cgroup_margin(memcg) < nr_pages)
-+			memcg_charge_reclaim(memcg, nr_pages, gfp,
-+					     reclaim_options);
-+	}
-+	css_put(&orig->css);
-+	return true;
++	return ret;
 +}
 +
- static int try_charge_memcg(struct mem_cgroup *memcg, gfp_t gfp_mask,
- 			    unsigned int nr_pages)
+ /**
+  * page_cache_ra_unbounded - Start unchecked readahead.
+  * @ractl: Readahead control.
+@@ -290,7 +325,8 @@ void page_cache_ra_unbounded(struct readahead_control *ractl,
+ 		if (!folio)
+ 			break;
+ 
+-		ret = filemap_add_folio(mapping, folio, index + i, gfp_mask);
++		ret = readahead_add_folio(ractl, folio, index + i,
++					  nr_to_read - i, gfp_mask);
+ 		if (ret < 0) {
+ 			folio_put(folio);
+ 			if (ret == -ENOMEM)
+@@ -457,7 +493,7 @@ static unsigned long get_next_ra_size(struct file_ra_state *ra,
+  */
+ 
+ static inline int ra_alloc_folio(struct readahead_control *ractl, pgoff_t index,
+-		pgoff_t mark, unsigned int order, gfp_t gfp)
++		pgoff_t mark, pgoff_t limit, unsigned int order, gfp_t gfp)
  {
+ 	int err;
+ 	struct folio *folio = ractl_alloc_folio(ractl, gfp, order);
+@@ -467,7 +503,7 @@ static inline int ra_alloc_folio(struct readahead_control *ractl, pgoff_t index,
+ 	mark = round_down(mark, 1UL << order);
+ 	if (index == mark)
+ 		folio_set_readahead(folio);
+-	err = filemap_add_folio(ractl->mapping, folio, index, gfp);
++	err = readahead_add_folio(ractl, folio, index, limit - index + 1, gfp);
+ 	if (err) {
+ 		folio_put(folio);
+ 		return err;
+@@ -532,7 +568,7 @@ void page_cache_ra_order(struct readahead_control *ractl,
+ 		/* Don't allocate pages past EOF */
+ 		while (order > min_order && index + (1UL << order) - 1 > limit)
+ 			order--;
+-		err = ra_alloc_folio(ractl, index, mark, order, gfp);
++		err = ra_alloc_folio(ractl, index, mark, limit, order, gfp);
+ 		if (err)
+ 			break;
+ 		index += 1UL << order;
+@@ -813,7 +849,8 @@ void readahead_expand(struct readahead_control *ractl,
+ 			return;
+ 
+ 		index = mapping_align_index(mapping, index);
+-		if (filemap_add_folio(mapping, folio, index, gfp_mask) < 0) {
++		if (readahead_add_folio(ractl, folio, index,
++					ractl->_index - new_index, gfp_mask) < 0) {
+ 			folio_put(folio);
+ 			return;
+ 		}
+@@ -842,7 +879,9 @@ void readahead_expand(struct readahead_control *ractl,
+ 			return;
+ 
+ 		index = mapping_align_index(mapping, index);
+-		if (filemap_add_folio(mapping, folio, index, gfp_mask) < 0) {
++		if (readahead_add_folio(ractl, folio, index,
++					new_nr_pages - ractl->_nr_pages,
++					gfp_mask) < 0) {
+ 			folio_put(folio);
+ 			return;
+ 		}
 -- 
 2.52.0
 
