@@ -1,146 +1,131 @@
-Received: from cvsmtppost23.nm.naver.com (cvsmtppost23.nm.naver.com [114.111.35.162])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A167922126C
-	for <linux-fsdevel@vger.kernel.org>; Sun,  4 Oct 2026 12:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3C239E9AC;
+	Sun,  4 Oct 2026 12:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791117263; cv=none; b=UrYcaLnmfBEbzaiNi4jP1TJ2WYgU6n7bgV7gKfYYpaRZVc4uG79F4H9jv20tMpvhKTDTB4fQ6srxau43UmVtut2WwYRCIFzZn3f/y8yUtNp/RjXfxf01QnbsvmwCLcLtRxykdfBCYgBQj0Dt3F4289Ha60PaNu5erAj/ycrqkD4=
+	t=1791118547; cv=none; b=HIjbN7r9g4huOEAo1o68KyNU/n6MlJc1AH91jDotBAY/FRB9rlZPNVKwyUn9F3xqU3BZygQh7LlC5/5Am64haDLRRdF/leW77bbm0nMBEAPoHNylwFlmW+aUXkDxggVvOzhstKa0N1FTPcoIqZDjvUIDo+U9jSk8F9ENsKwf9ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791117263; c=relaxed/simple;
-	bh=vKlmh903O9l6vLPy3nGfF3jjtRSyQOnuIrV3u0yo9iE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B6I7IiLtosA0tO/FmE1CACbTyqrEroppFgSLk6aA9mLKVot+KT3HxBJ1FdpYmqqGI+oTL/viY4pGPWihChm/FNcPOo6jLyrStLaYVwCFDgCxg/g3jPp11XyS3bO7ieOnrr8qhVAcgb5xA4X4aS+N06Br08hfTHhed7iVpPPUcxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=ViyzyQsC; arc=none smtp.client-ip=114.111.35.162
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1791118547; c=relaxed/simple;
+	bh=xg8YgNjj6PxAPhGgLkCHQIFG8rYJR9Jg/pZU2JYoDQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=olbTfv/smZW5cYhE4NyHxZgo8bpzE0xi7u2Hz80Ggp0fY7/5iDnUQsmY9kDRRciysXjPkvJ+P0b4saepLADIWlHue6+ID9FxXjBmw8JPWn//HU7IT2jv1j5f3vNOg4WKDMWRY22+krA7mb9EjMm1nvKA7+Bh1eW6ziQ19FKaTt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=aERLBpOK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="ViyzyQsC"
-Received: from cvsendbo004.nm ([10.112.24.36])
-  by cvsmtppost23.nm.naver.com with ESMTP id pv24EO4PT3Ox3T-ElY1ihA
-  for <linux-fsdevel@vger.kernel.org>;
-  Sun, 04 Oct 2026 12:34:14 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1791117254; bh=vKlmh903O9l6vLPy3nGfF3jjtRSyQOnuIrV3u0yo9iE=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=ViyzyQsCdA5hgbd0UBwju7VcLj+OyS8/CDRT6dLiZ0DdPjqba0hE9IWOTCLBnlknr
-	 eOlUUBV0m5fjTrvVesaecV2LxdC/YvJaeMRO3uVCw7dDSWNNMCuZ/T1L9zLveqsk+L
-	 KdeJ4rOWrl1CuK5GU8LHocR/AaURwYvmUptNTTznMNCceibYrMqJ/tJ3eNuJWCP/7M
-	 EdCj5lLklwijvpVYEeV7x2UuCMBERoONrFhoHbpz14bxGpZrxiszpea7T16BxrdMvp
-	 wN2Pt0hRfwdPPtSsnfChqm5rQMeMhdl4kf8PqI6g+FBkHIKWhgyWfnWY4m02MkJjOf
-	 BKHuz+DG6s7Wg==
-X-Session-ID: 6UKYWWETTnuweS1g2CSHKA
-X-Works-Send-Opt: O9+wpzGdjHmdKHFOMr39Ko3YKHmwKHmwFAbrFxKrKqEmjJkaBd9YKBmm
-X-Works-Smtp-Source: PdK/KAulFqJZ+HmqFx2d+6E=
-Received: from localhost.localdomain ([115.136.205.4])
-  by cvnsmtp002.nm.naver.com with ESMTP id 6UKYWWETTnuweS1g2CSHKA
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Sun, 04 Oct 2026 12:34:13 -0000
-From: sungbyeongchan <tjdqudcks0424@naver.com>
-To: German Maglione <gmaglione@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aERLBpOK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1E461F000FF;
+	Sun,  4 Oct 2026 12:55:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791118545;
+	bh=BFEKnbTLXmgagiAI1vAISoB39XR9rpuzExoAMyIR4EI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=aERLBpOKo546ecrYvslGXt2+L64I7saKpBBZo/78jcG9QBQQ56Y85Sl/RGtpV7seP
+	 XOBJbNaaDi8fZzUeCfHesJynxW8KJT45Mg+nMIvhiAG4rA5aiyIPuGz41JibXOrGET
+	 bxcZ96Asogt7es0SDzqcmigchDq4SxqO/9PWlntM=
+Date: Sun, 4 Oct 2026 14:55:40 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: sungbyeongchan <tjdqudcks0424@naver.com>
+Cc: German Maglione <gmaglione@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
 	Stefan Hajnoczi <stefanha@redhat.com>,
-	Miklos Szeredi <miklos@szeredi.hu>
-Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	virtualization@lists.linux.dev,
-	fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] virtiofs: validate fixed-output response length
-Date: Sun,  4 Oct 2026 21:34:05 +0900
-Message-ID: <20261004123405.586168-1-tjdqudcks0424@naver.com>
-X-Mailer: git-send-email 2.43.0
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	virtualization@lists.linux.dev, fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] virtiofs: validate fixed-output response length
+Message-ID: <2026100406-refocus-false-c5e8@gregkh>
+References: <20261004123405.586168-1-tjdqudcks0424@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261004123405.586168-1-tjdqudcks0424@naver.com>
 
-A short successful virtiofs response can leave the fixed-output
-portion of the request argument buffer unwritten. The completion path
-nevertheless copies the full declared output to the request destination,
-allowing stale allocator contents to reach callers such as
-fuse_statfs().
+On Sun, Oct 04, 2026 at 09:34:05PM +0900, sungbyeongchan wrote:
+> A short successful virtiofs response can leave the fixed-output
+> portion of the request argument buffer unwritten. The completion path
+> nevertheless copies the full declared output to the request destination,
+> allowing stale allocator contents to reach callers such as
+> fuse_statfs().
+> 
+> Require successful fixed-output responses to contain their complete
+> declared output. Continue to permit a shorter final argument only for
+> out_argvar requests, and do not copy output arguments from error
+> replies.
+> 
+> A header-only FUSE_STATFS success returned stale fields in nine of
+> nine calls across three boots. The patched kernel rejected the short
+> response in three boots and preserved complete replies and existing
+> error controls.
+> 
+> Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
+> Signed-off-by: sungbyeongchan <tjdqudcks0424@naver.com>
+> ---
+>  fs/fuse/virtio_fs.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+> index f15e516ebcb5c..288848f23e7ec 100644
+> --- a/fs/fuse/virtio_fs.c
+> +++ b/fs/fuse/virtio_fs.c
+> @@ -730,6 +730,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+>  	unsigned int num_out;
+>  	unsigned int i;
+>  
+> +	/* Error replies contain only the output header. */
+> +	if (req->out.h.error)
+> +		goto out;
+> +
+>  	remaining = req->out.h.len - sizeof(req->out.h);
+>  	num_in = args->in_numargs - args->in_pages;
+>  	num_out = args->out_numargs - args->out_pages;
+> @@ -755,6 +759,7 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+>  	if (args->out_argvar)
+>  		args->out_args[args->out_numargs - 1].size = remaining;
+>  
+> +out:
+>  	kfree(req->argbuf);
+>  	req->argbuf = NULL;
+>  }
+> @@ -762,7 +767,9 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+>  /* Verify that the server properly follows the FUSE protocol */
+>  static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
+>  {
+> +	struct fuse_args *args = req->args;
+>  	struct fuse_out_header *oh = &req->out.h;
+> +	unsigned int expected;
+>  
+>  	if (len < sizeof(*oh)) {
+>  		pr_warn("virtio-fs: response too short (%u)\n", len);
+> @@ -777,6 +784,25 @@ static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
+>  			oh->unique, req->in.h.unique);
+>  		return false;
+>  	}
+> +
+> +	if (oh->error) {
+> +		if (len != sizeof(*oh)) {
+> +			pr_warn("virtio-fs: error response too long (%u)\n", len);
+> +			return false;
+> +		}
+> +		return true;
+> +	}
+> +
+> +	expected = sizeof(*oh) +
+> +		   fuse_len_args(args->out_numargs, args->out_args);
+> +	if (len > expected ||
+> +	    (len < expected &&
+> +	     (!args->out_argvar ||
+> +	      expected - len > args->out_args[args->out_numargs - 1].size))) {
+> +		pr_warn("virtio-fs: invalid response length (%u, expected %u)\n",
+> +			len, expected);
 
-Require successful fixed-output responses to contain their complete
-declared output. Continue to permit a shorter final argument only for
-out_argvar requests, and do not copy output arguments from error
-replies.
+why let remote connections spam the kernel log?  And you don't need the
+"prefix" of virtio-fs for pr_*() calls if it is working properly.
 
-A header-only FUSE_STATFS success returned stale fields in nine of
-nine calls across three boots. The patched kernel rejected the short
-response in three boots and preserved complete replies and existing
-error controls.
+thanks,
 
-Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
-Signed-off-by: sungbyeongchan <tjdqudcks0424@naver.com>
----
- fs/fuse/virtio_fs.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-index f15e516ebcb5c..288848f23e7ec 100644
---- a/fs/fuse/virtio_fs.c
-+++ b/fs/fuse/virtio_fs.c
-@@ -730,6 +730,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
- 	unsigned int num_out;
- 	unsigned int i;
- 
-+	/* Error replies contain only the output header. */
-+	if (req->out.h.error)
-+		goto out;
-+
- 	remaining = req->out.h.len - sizeof(req->out.h);
- 	num_in = args->in_numargs - args->in_pages;
- 	num_out = args->out_numargs - args->out_pages;
-@@ -755,6 +759,7 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
- 	if (args->out_argvar)
- 		args->out_args[args->out_numargs - 1].size = remaining;
- 
-+out:
- 	kfree(req->argbuf);
- 	req->argbuf = NULL;
- }
-@@ -762,7 +767,9 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
- /* Verify that the server properly follows the FUSE protocol */
- static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
- {
-+	struct fuse_args *args = req->args;
- 	struct fuse_out_header *oh = &req->out.h;
-+	unsigned int expected;
- 
- 	if (len < sizeof(*oh)) {
- 		pr_warn("virtio-fs: response too short (%u)\n", len);
-@@ -777,6 +784,25 @@ static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
- 			oh->unique, req->in.h.unique);
- 		return false;
- 	}
-+
-+	if (oh->error) {
-+		if (len != sizeof(*oh)) {
-+			pr_warn("virtio-fs: error response too long (%u)\n", len);
-+			return false;
-+		}
-+		return true;
-+	}
-+
-+	expected = sizeof(*oh) +
-+		   fuse_len_args(args->out_numargs, args->out_args);
-+	if (len > expected ||
-+	    (len < expected &&
-+	     (!args->out_argvar ||
-+	      expected - len > args->out_args[args->out_numargs - 1].size))) {
-+		pr_warn("virtio-fs: invalid response length (%u, expected %u)\n",
-+			len, expected);
-+		return false;
-+	}
- 	return true;
- }
- 
--- 
-2.43.0
-
+greg k-h
