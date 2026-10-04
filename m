@@ -1,196 +1,126 @@
-Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E206E4248D6
-	for <linux-fsdevel@vger.kernel.org>; Sun,  4 Oct 2026 10:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534511EFFA1
+	for <linux-fsdevel@vger.kernel.org>; Sun,  4 Oct 2026 11:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791111093; cv=none; b=KY0ch9AARCHWCWNVyW5pVQt89uvmGv7UVRkca071yjVkD+bU5SvRBFvTiMhq/48zUqb2hs9C0FMd8GBFwjFvYaGMqN3G8gUBpcgYK4Tq97gDcMzmpkI6P4QqJxTJndER/PQNLbDrgtM/VUHdBczpF9keEe2alXeKTq1ixyK2UUQ=
+	t=1791113506; cv=none; b=KFKjMl3FIe8DuJ/Icw8OGJCYu0zgy/c7F2tHrZ9nYiDRPgTOIoHd06528DnGN5LTyWaNq4G3KKt74tN0AEm0SDbLLoBOiNVXwwMcXNPPoGT3pDDpQ0tAG8qkU2h/hI4k6AxAY6vlIpx1NfTh7lJyiXuxZT71yOiJ5MbIvVsYX2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791111093; c=relaxed/simple;
-	bh=4MRxwd7MzrAqfyJ7mimlrfGaFAcX/tkMDz0Yg+CsHtE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ge8d4vbuZiWbUoT7q5IBZSBI7+pNBTAXDapv9Yv66opMknAS5mw9PXz8grW7CJd0DD/PoLw3LiCUt/S7otLo787XtYMUCkG+2CjP7aarfPfEwwM1RHgnCNbhkT4KfyaXK/0awbF814Qy5Gsxy2fB+DgEB+umyB/kJSjGCP41xaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OVA34rGy; arc=none smtp.client-ip=74.125.229.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791113506; c=relaxed/simple;
+	bh=aUgxd9TA7WMOVTILaCBJsOIAFwv3UxVoD9m4EUHKiXY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R/HF39zhT3xYkOD2QfAtP9eCSbe2ElYzIPwHPeAzBvMVb8AhgF3h2NjIncIZCbJc7gSUSJhYA4s01fHIuQri6KSjh97Bdog0aaCXB1CWpxPGPyNWD6o3lgPEP4UUj/uh+eAzh4aUMx3HrmS6ktYZfg8vgb3KrB/fqfngcPxcEu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OTHSDmWb; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OVA34rGy"
-Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-35129e4607cso148327eec.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 04 Oct 2026 03:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791111087; x=1791715887; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OU10JUkOnCjExkP9pLJslSiL15VSpV7uAw3VaBnuTMo=;
-        b=OVA34rGyoQxPo0wRv2zEemiSYWkKsDXwZStVOByBQRpu1DQU+Ux1wXdGhPRfPWJ2ht
-         ouzg/l9fDoy4wZ4euP5p8lSaoWg9rG9fZaKYtejcMe2sLNInHQTJRfxfmQZMe1qawkEv
-         rk+ljgwDABA0aWwMOyjO7W2/GmSrlrEnlMsehl8voU4xsbmKVz9gk/Ogj6oGfr8ii6sS
-         l3qesCpMjIJp2mX/KknTTgJj92xvPMlxpmMvI3gaZdf5nWW0UYLAXpFpOv2tT9v3D2Li
-         xbUQ3aLXlQsME980CGogDR3xWSx3k1tqD8k2m/VTgDE0NLGWeD4a92JNkkElYfXQZNzC
-         HlPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791111087; x=1791715887;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OU10JUkOnCjExkP9pLJslSiL15VSpV7uAw3VaBnuTMo=;
-        b=w7PjOI54tNzXsJAfnMAjP1wo4t/jgq2v+n5hEgIN+2O5sk6BmpWTMANJDI6plzLjDP
-         Ant8lZBWoB1AtJdMV2iVAk2KgR/LHVLI0plJTK5pQprGjjYTdAFcnZzLQyUz+rCz3Qtk
-         31Z+RDAt8ZES9Xpf4rN2aSIIzhLOz5J7rsG8xDw+CZF/ZhZ8ggaGYvCRoMD3x1+ndaqW
-         OmjnG+unKbNsbvKOS+JzJWcGG/lEbYXb6KaTAg8Us6gVjo0VUke+I/KdbILxIwlK1LdJ
-         RvtKMhsDbx3qGdXsim4n+ZDxZHUX3ELk7uHTsByIwteUfbl0tZ14I8ID6a7jJHAThAuN
-         4b1w==
-X-Forwarded-Encrypted: i=1; AKwUvBwDmMmyueQVoWdfBdQJQIiDaMLoxXYyWdYskKnkwx84Uhwwoi81MOcOmJqvGq2E8tkxT8klOFBqX/ucehSh@vger.kernel.org
-X-Gm-Message-State: AFq9FYJkts/SnAjkbetd6+9JIjITGs2RM9Uo7N48F5Rvii5uBRraciLW
-	j5qtb+edMS5IBrxxeyB7W3LANiQfiMIZGuatrE9doQ5pu8ILxgauELvi
-X-Gm-Gg: AYBFou1IJWU1oeJsVr0wCKdXLW3cIS3D0MGTYMIrGeKSzoXXXk6FBB0pwxV/1AjQLvt
-	3xekgycYkpjldeD1ulOJ78uon+6VDjjt0VB5vqGse7S/8BPgBMYnoaoszrrzFld8MSJs2g6p+gX
-	p7aJQEozZTAsUUluwGyBIf6Z9ZQgiASshkUI8RLG4aSwbeHjHyJG2Sj9rFKpRrMWl8wnCdAk6Ei
-	3jDQ8Yo5tgug+qLv50wptVBx+JWxLVb/LMpoh+79IxqU4fu68mXhsOJl7fNSpZDphMu8BrSnuGs
-	6ajDi3AYAtig5ZADE9wX2scfFyNVE3Yh/w6FYX/Q6Z4m3KWQPgrgrz/be63TIeOyvMFEzXsHtWu
-	6CUWhuwNpFy4uaThSTBhsLv4tZ8y3APoTui8QJQwczHfuwqw1srADlSnH01jMgD9j+SM0+zGd8H
-	nZEDQmALWL3TN4F7F4bUkKF3S1VaAjVUDCFmYPW0A959W7z94OuA7Ldmas/XZ21QUcNhz/NxfkZ
-	jgAJIrsi3u+kE2CUYq6/+SSjyfFQIZxpxlCKRP2gaRxad0=
-X-Received: by 2002:a05:7300:e5c2:b0:341:3ca2:de2d with SMTP id 5a478bee46e88-34f15077edfmr9383419eec.6.1791111087081;
-        Sun, 04 Oct 2026 03:51:27 -0700 (PDT)
-Received: from Anshuman ([123.63.59.156])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-35127161474sm3815965eec.13.2026.10.04.03.50.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Oct 2026 03:51:26 -0700 (PDT)
-From: Anshuman <anshumantewari123@gmail.com>
-To: kees@kernel.org
-Cc: Frank.Li@kernel.org,
-	James.Bottomley@HansenPartnership.com,
-	airlied@gmail.com,
-	akpm@linux-foundation.org,
-	andriy.shevchenko@linux.intel.com,
-	anton.ivanov@cambridgegreys.com,
-	apparmor@lists.ubuntu.com,
-	atomlin@atomlin.com,
-	benjamin.berg@intel.com,
-	bhelgaas@google.com,
-	bp@alien8.de,
-	bvanassche@acm.org,
-	corey@minyard.net,
-	da.gomez@kernel.org,
-	daniel.lezcano@kernel.org,
-	dave.hansen@linux.intel.com,
-	david.e.box@linux.intel.com,
-	dmaengine@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	dvyukov@google.com,
-	elver@google.com,
-	eperezma@redhat.com,
-	georgia.garcia@canonical.com,
-	glider@google.com,
-	gor@linux.ibm.com,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	hare@suse.de,
-	hca@linux.ibm.com,
-	hpa@zytor.com,
-	ilpo.jarvinen@linux.intel.com,
-	intel-gfx@lists.freedesktop.org,
-	jani.nikula@linux.intel.com,
-	jasowang@redhat.com,
-	jbaron@akamai.com,
-	jgg@ziepe.ca,
-	jim.cromie@gmail.com,
-	jirislaby@kernel.org,
-	jmorris@namei.org,
-	johannes@sipsolutions.net,
-	john.johansen@canonical.com,
-	joonas.lahtinen@linux.intel.com,
-	kasan-dev@googlegroups.com,
-	kvm@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com,
-	lenb@kernel.org,
-	leon@kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-modules@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-usb@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	lukasz.luba@arm.com,
-	macro@orcam.me.uk,
-	martin.petersen@oracle.com,
-	mcgrof@kernel.org,
-	mchehab@kernel.org,
-	mingo@redhat.com,
-	mst@redhat.com,
-	netdev@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	paul@paul-moore.com,
-	pbonzini@redhat.com,
-	pengpeng@iscas.ac.cn,
-	peterz@infradead.org,
-	petr.pavlu@suse.com,
-	qemu-devel@nongnu.org,
-	rafael@kernel.org,
-	richard@nod.at,
-	rodrigo.vivi@intel.com,
-	rui.zhang@intel.com,
-	samitolvanen@google.com,
-	seanjc@google.com,
-	serge@hallyn.com,
-	simona@ffwll.ch,
-	somlo@cmu.edu,
-	srinivas.pandruvada@linux.intel.com,
-	stable@vger.kernel.org,
-	stern@rowland.harvard.edu,
-	tglx@kernel.org,
-	tiwei.btw@antgroup.com,
-	tursulin@ursulin.net,
-	usb-storage@lists.one-eyed-alien.net,
-	virtualization@lists.linux.dev,
-	vkoul@kernel.org,
-	x86@kernel.org,
-	xuanzhuo@linux.alibaba.com
-Subject: Re: [PATCH 01/11] params: bound array element output to the caller's page buffer
-Date: Sun,  4 Oct 2026 16:17:41 +0530
-Message-ID: <20261004104741.51238-1-anshumantewari123@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260521133326.2465264-1-kees@kernel.org>
-References: <20260521133326.2465264-1-kees@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OTHSDmWb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791113504;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mkxXo9AfDcNdhvbdcD3GjIhYv53nYGA82heubJlRsjg=;
+	b=OTHSDmWbjzfTQA/MuHnkBerK1HAAjnkaQkarMjU+4Hy7ElS5Rs7aKCiwGP9yA2FSO3Kp7a
+	R11LDvraacSy2Edpur2lln2ymKqPJZnek0MWIdvKO9xUXSEtx+vRMr6pguGgYNOOZ6PJvR
+	f5vdg6b1jyqlOnKxFz/GuCMgr0Bn3Yw=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-587-CqjACYORMk6L8s_JE9t3cQ-1; Sun,
+ 04 Oct 2026 07:31:40 -0400
+X-MC-Unique: CqjACYORMk6L8s_JE9t3cQ-1
+X-Mimecast-MFC-AGG-ID: CqjACYORMk6L8s_JE9t3cQ_1791113499
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C45CF18413AD;
+	Sun,  4 Oct 2026 11:31:38 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 890C7180049F;
+	Sun,  4 Oct 2026 11:31:35 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Sun,  4 Oct 2026 13:31:38 +0200 (CEST)
+Date: Sun, 4 Oct 2026 13:31:34 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: w15303746062@163.com, David Laight <david.laight.linux@gmail.com>
+Cc: jlayton@kernel.org, chuck.lever@oracle.com, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, alex.aring@gmail.com, jack@suse.cz,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mingyu Wang <25181214217@stu.xidian.edu.cn>
+Subject: Re: [PATCH v2] fs/fcntl: fix SOFTIRQ-unsafe lock order in fasync
+ signaling
+Message-ID: <asI5Fn87_SoEd4G5@redhat.com>
+References: <d15a25fe784b5d4449c7ce4e56f1428d7ff28885.camel@kernel.org>
+ <20260523135210.590928-1-w15303746062@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260523135210.590928-1-w15303746062@163.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Thu, May 21, 2026 at 06:33:14AM -0700, Kees Cook wrote:
-> ret = min(ret, (int)(PAGE_SIZE - 1 - off));
-> if (!ret)
-> 	break;
+Hi,
 
-One question about the truncation behavior here: when an element does
-not fully fit in the remaining buffer, this min() can cause only part
-of that element to be copied. For example, if the remaining space is
-4 bytes and the next element produces "123456789\n", the resulting
-output could contain only "1234".
+On 05/23, w15303746062@163.com wrote:
+>
+> Since PID hashing and do_each_pid_task() traversals are already
+> RCU-protected, the read_lock on tasklist_lock is no longer strictly
+> required for safe traversal. Fix this by replacing tasklist_lock with
+> rcu_read_lock(),
 
-This leaves the reader with no way to distinguish a genuinely short
-value from one that was truncated due to the PAGE_SIZE limit, while
-the array otherwise still looks like a normal comma-separated list.
+I don't think we can simply avoid tasklist_lock. Let me quote my old email,
 
-Is this partial-element truncation intentional for this patch, or is
-the expectation that it gets handled as part of the later seq_buf
-conversion? Would it be preferable to avoid copying an element unless
-it fits completely, and leave the larger-buffer case to be addressed
-later in the series?
+	do_each_pid_task(PIDTYPE_PGID) can race with change_pid(PIDTYPE_PGID)
+	which moves the task from one hlist to another. Yes, it is safe in
+	that task_struct can't go away. But still this is not right because
+	do_each_pid_task() can scan the wrong (2nd) hlist.
+
+And... I need to recheck, but perhaps signal_struct->multiprocess logic
+is another reason why the lockless do_each_pid_task() is wrong...
+
+See also the recent discussion
+https://lore.kernel.org/all/20261003182224.2171b574@pumpkin/
+
+Oleg.
+
+> --- a/fs/fcntl.c
+> +++ b/fs/fcntl.c
+> @@ -929,11 +929,11 @@ void send_sigio(struct fown_struct *fown, int fd, int band)
+>  			send_sigio_to_task(p, fown, fd, band, type);
+>  		rcu_read_unlock();
+>  	} else {
+> -		read_lock(&tasklist_lock);
+> +		rcu_read_lock();
+>  		do_each_pid_task(pid, type, p) {
+>  			send_sigio_to_task(p, fown, fd, band, type);
+>  		} while_each_pid_task(pid, type, p);
+> -		read_unlock(&tasklist_lock);
+> +		rcu_read_unlock();
+>  	}
+>   out_unlock_fown:
+>  	read_unlock_irqrestore(&fown->lock, flags);
+> @@ -975,11 +975,11 @@ int send_sigurg(struct file *file)
+>  			send_sigurg_to_task(p, fown, type);
+>  		rcu_read_unlock();
+>  	} else {
+> -		read_lock(&tasklist_lock);
+> +		rcu_read_lock();
+>  		do_each_pid_task(pid, type, p) {
+>  			send_sigurg_to_task(p, fown, type);
+>  		} while_each_pid_task(pid, type, p);
+> -		read_unlock(&tasklist_lock);
+> +		rcu_read_unlock();
+>  	}
+>   out_unlock_fown:
+>  	read_unlock_irqrestore(&fown->lock, flags);
+> -- 
+> 2.34.1
+> 
+
