@@ -1,126 +1,146 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from cvsmtppost23.nm.naver.com (cvsmtppost23.nm.naver.com [114.111.35.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534511EFFA1
-	for <linux-fsdevel@vger.kernel.org>; Sun,  4 Oct 2026 11:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A167922126C
+	for <linux-fsdevel@vger.kernel.org>; Sun,  4 Oct 2026 12:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791113506; cv=none; b=KFKjMl3FIe8DuJ/Icw8OGJCYu0zgy/c7F2tHrZ9nYiDRPgTOIoHd06528DnGN5LTyWaNq4G3KKt74tN0AEm0SDbLLoBOiNVXwwMcXNPPoGT3pDDpQ0tAG8qkU2h/hI4k6AxAY6vlIpx1NfTh7lJyiXuxZT71yOiJ5MbIvVsYX2A=
+	t=1791117263; cv=none; b=UrYcaLnmfBEbzaiNi4jP1TJ2WYgU6n7bgV7gKfYYpaRZVc4uG79F4H9jv20tMpvhKTDTB4fQ6srxau43UmVtut2WwYRCIFzZn3f/y8yUtNp/RjXfxf01QnbsvmwCLcLtRxykdfBCYgBQj0Dt3F4289Ha60PaNu5erAj/ycrqkD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791113506; c=relaxed/simple;
-	bh=aUgxd9TA7WMOVTILaCBJsOIAFwv3UxVoD9m4EUHKiXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R/HF39zhT3xYkOD2QfAtP9eCSbe2ElYzIPwHPeAzBvMVb8AhgF3h2NjIncIZCbJc7gSUSJhYA4s01fHIuQri6KSjh97Bdog0aaCXB1CWpxPGPyNWD6o3lgPEP4UUj/uh+eAzh4aUMx3HrmS6ktYZfg8vgb3KrB/fqfngcPxcEu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OTHSDmWb; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1791117263; c=relaxed/simple;
+	bh=vKlmh903O9l6vLPy3nGfF3jjtRSyQOnuIrV3u0yo9iE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B6I7IiLtosA0tO/FmE1CACbTyqrEroppFgSLk6aA9mLKVot+KT3HxBJ1FdpYmqqGI+oTL/viY4pGPWihChm/FNcPOo6jLyrStLaYVwCFDgCxg/g3jPp11XyS3bO7ieOnrr8qhVAcgb5xA4X4aS+N06Br08hfTHhed7iVpPPUcxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=ViyzyQsC; arc=none smtp.client-ip=114.111.35.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OTHSDmWb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791113504;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mkxXo9AfDcNdhvbdcD3GjIhYv53nYGA82heubJlRsjg=;
-	b=OTHSDmWbjzfTQA/MuHnkBerK1HAAjnkaQkarMjU+4Hy7ElS5Rs7aKCiwGP9yA2FSO3Kp7a
-	R11LDvraacSy2Edpur2lln2ymKqPJZnek0MWIdvKO9xUXSEtx+vRMr6pguGgYNOOZ6PJvR
-	f5vdg6b1jyqlOnKxFz/GuCMgr0Bn3Yw=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-587-CqjACYORMk6L8s_JE9t3cQ-1; Sun,
- 04 Oct 2026 07:31:40 -0400
-X-MC-Unique: CqjACYORMk6L8s_JE9t3cQ-1
-X-Mimecast-MFC-AGG-ID: CqjACYORMk6L8s_JE9t3cQ_1791113499
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C45CF18413AD;
-	Sun,  4 Oct 2026 11:31:38 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 890C7180049F;
-	Sun,  4 Oct 2026 11:31:35 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Sun,  4 Oct 2026 13:31:38 +0200 (CEST)
-Date: Sun, 4 Oct 2026 13:31:34 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: w15303746062@163.com, David Laight <david.laight.linux@gmail.com>
-Cc: jlayton@kernel.org, chuck.lever@oracle.com, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, alex.aring@gmail.com, jack@suse.cz,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mingyu Wang <25181214217@stu.xidian.edu.cn>
-Subject: Re: [PATCH v2] fs/fcntl: fix SOFTIRQ-unsafe lock order in fasync
- signaling
-Message-ID: <asI5Fn87_SoEd4G5@redhat.com>
-References: <d15a25fe784b5d4449c7ce4e56f1428d7ff28885.camel@kernel.org>
- <20260523135210.590928-1-w15303746062@163.com>
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="ViyzyQsC"
+Received: from cvsendbo004.nm ([10.112.24.36])
+  by cvsmtppost23.nm.naver.com with ESMTP id pv24EO4PT3Ox3T-ElY1ihA
+  for <linux-fsdevel@vger.kernel.org>;
+  Sun, 04 Oct 2026 12:34:14 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1791117254; bh=vKlmh903O9l6vLPy3nGfF3jjtRSyQOnuIrV3u0yo9iE=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=ViyzyQsCdA5hgbd0UBwju7VcLj+OyS8/CDRT6dLiZ0DdPjqba0hE9IWOTCLBnlknr
+	 eOlUUBV0m5fjTrvVesaecV2LxdC/YvJaeMRO3uVCw7dDSWNNMCuZ/T1L9zLveqsk+L
+	 KdeJ4rOWrl1CuK5GU8LHocR/AaURwYvmUptNTTznMNCceibYrMqJ/tJ3eNuJWCP/7M
+	 EdCj5lLklwijvpVYEeV7x2UuCMBERoONrFhoHbpz14bxGpZrxiszpea7T16BxrdMvp
+	 wN2Pt0hRfwdPPtSsnfChqm5rQMeMhdl4kf8PqI6g+FBkHIKWhgyWfnWY4m02MkJjOf
+	 BKHuz+DG6s7Wg==
+X-Session-ID: 6UKYWWETTnuweS1g2CSHKA
+X-Works-Send-Opt: O9+wpzGdjHmdKHFOMr39Ko3YKHmwKHmwFAbrFxKrKqEmjJkaBd9YKBmm
+X-Works-Smtp-Source: PdK/KAulFqJZ+HmqFx2d+6E=
+Received: from localhost.localdomain ([115.136.205.4])
+  by cvnsmtp002.nm.naver.com with ESMTP id 6UKYWWETTnuweS1g2CSHKA
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Sun, 04 Oct 2026 12:34:13 -0000
+From: sungbyeongchan <tjdqudcks0424@naver.com>
+To: German Maglione <gmaglione@redhat.com>,
+	Vivek Goyal <vgoyal@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Miklos Szeredi <miklos@szeredi.hu>
+Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	virtualization@lists.linux.dev,
+	fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] virtiofs: validate fixed-output response length
+Date: Sun,  4 Oct 2026 21:34:05 +0900
+Message-ID: <20261004123405.586168-1-tjdqudcks0424@naver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260523135210.590928-1-w15303746062@163.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Transfer-Encoding: 8bit
 
-Hi,
+A short successful virtiofs response can leave the fixed-output
+portion of the request argument buffer unwritten. The completion path
+nevertheless copies the full declared output to the request destination,
+allowing stale allocator contents to reach callers such as
+fuse_statfs().
 
-On 05/23, w15303746062@163.com wrote:
->
-> Since PID hashing and do_each_pid_task() traversals are already
-> RCU-protected, the read_lock on tasklist_lock is no longer strictly
-> required for safe traversal. Fix this by replacing tasklist_lock with
-> rcu_read_lock(),
+Require successful fixed-output responses to contain their complete
+declared output. Continue to permit a shorter final argument only for
+out_argvar requests, and do not copy output arguments from error
+replies.
 
-I don't think we can simply avoid tasklist_lock. Let me quote my old email,
+A header-only FUSE_STATFS success returned stale fields in nine of
+nine calls across three boots. The patched kernel rejected the short
+response in three boots and preserved complete replies and existing
+error controls.
 
-	do_each_pid_task(PIDTYPE_PGID) can race with change_pid(PIDTYPE_PGID)
-	which moves the task from one hlist to another. Yes, it is safe in
-	that task_struct can't go away. But still this is not right because
-	do_each_pid_task() can scan the wrong (2nd) hlist.
+Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
+Signed-off-by: sungbyeongchan <tjdqudcks0424@naver.com>
+---
+ fs/fuse/virtio_fs.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-And... I need to recheck, but perhaps signal_struct->multiprocess logic
-is another reason why the lockless do_each_pid_task() is wrong...
-
-See also the recent discussion
-https://lore.kernel.org/all/20261003182224.2171b574@pumpkin/
-
-Oleg.
-
-> --- a/fs/fcntl.c
-> +++ b/fs/fcntl.c
-> @@ -929,11 +929,11 @@ void send_sigio(struct fown_struct *fown, int fd, int band)
->  			send_sigio_to_task(p, fown, fd, band, type);
->  		rcu_read_unlock();
->  	} else {
-> -		read_lock(&tasklist_lock);
-> +		rcu_read_lock();
->  		do_each_pid_task(pid, type, p) {
->  			send_sigio_to_task(p, fown, fd, band, type);
->  		} while_each_pid_task(pid, type, p);
-> -		read_unlock(&tasklist_lock);
-> +		rcu_read_unlock();
->  	}
->   out_unlock_fown:
->  	read_unlock_irqrestore(&fown->lock, flags);
-> @@ -975,11 +975,11 @@ int send_sigurg(struct file *file)
->  			send_sigurg_to_task(p, fown, type);
->  		rcu_read_unlock();
->  	} else {
-> -		read_lock(&tasklist_lock);
-> +		rcu_read_lock();
->  		do_each_pid_task(pid, type, p) {
->  			send_sigurg_to_task(p, fown, type);
->  		} while_each_pid_task(pid, type, p);
-> -		read_unlock(&tasklist_lock);
-> +		rcu_read_unlock();
->  	}
->   out_unlock_fown:
->  	read_unlock_irqrestore(&fown->lock, flags);
-> -- 
-> 2.34.1
-> 
+diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+index f15e516ebcb5c..288848f23e7ec 100644
+--- a/fs/fuse/virtio_fs.c
++++ b/fs/fuse/virtio_fs.c
+@@ -730,6 +730,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+ 	unsigned int num_out;
+ 	unsigned int i;
+ 
++	/* Error replies contain only the output header. */
++	if (req->out.h.error)
++		goto out;
++
+ 	remaining = req->out.h.len - sizeof(req->out.h);
+ 	num_in = args->in_numargs - args->in_pages;
+ 	num_out = args->out_numargs - args->out_pages;
+@@ -755,6 +759,7 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+ 	if (args->out_argvar)
+ 		args->out_args[args->out_numargs - 1].size = remaining;
+ 
++out:
+ 	kfree(req->argbuf);
+ 	req->argbuf = NULL;
+ }
+@@ -762,7 +767,9 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+ /* Verify that the server properly follows the FUSE protocol */
+ static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
+ {
++	struct fuse_args *args = req->args;
+ 	struct fuse_out_header *oh = &req->out.h;
++	unsigned int expected;
+ 
+ 	if (len < sizeof(*oh)) {
+ 		pr_warn("virtio-fs: response too short (%u)\n", len);
+@@ -777,6 +784,25 @@ static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
+ 			oh->unique, req->in.h.unique);
+ 		return false;
+ 	}
++
++	if (oh->error) {
++		if (len != sizeof(*oh)) {
++			pr_warn("virtio-fs: error response too long (%u)\n", len);
++			return false;
++		}
++		return true;
++	}
++
++	expected = sizeof(*oh) +
++		   fuse_len_args(args->out_numargs, args->out_args);
++	if (len > expected ||
++	    (len < expected &&
++	     (!args->out_argvar ||
++	      expected - len > args->out_args[args->out_numargs - 1].size))) {
++		pr_warn("virtio-fs: invalid response length (%u, expected %u)\n",
++			len, expected);
++		return false;
++	}
+ 	return true;
+ }
+ 
+-- 
+2.43.0
 
