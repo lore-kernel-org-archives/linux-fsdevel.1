@@ -1,92 +1,92 @@
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6507E46C859
-	for <linux-fsdevel@vger.kernel.org>; Sun,  4 Oct 2026 21:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797283F1AB4
+	for <linux-fsdevel@vger.kernel.org>; Sun,  4 Oct 2026 22:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791150759; cv=none; b=iaqyeGjtggo8MC/nkh4c2KAz7VHvaGYOsY+zUx4Ul4TUm2zOBBky92IGGcQx3j+zLcFCgwf+UWQneSMOvvOrtBce/NzJsuQOlhFGEkB2fU/+kaIbSXV01XMLpyWWrPkhS9umBf0KaZU2BhO+mGkdJzHLhqRa4BnPNHqpYsgacXg=
+	t=1791151724; cv=none; b=De2t8jBXEb6aX0SQsjuaeSVCM2YsziyeqARELSlUNquIF8LlAz+9Ufz/HklbbubqUS/sL0t/nbiQizC8maTDMkpvfH31d91J2P36LlgkoKyArMm1WdytqpprY+LwjsZXemL7WuojOzpl9AzSQg6Qj5qZhZquuQeSIbd6nglLbyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791150759; c=relaxed/simple;
-	bh=LHkjvCKwcJJYIrVWirqkuYvEDSFnpbKHR8iSmvZVNWM=;
+	s=arc-20240116; t=1791151724; c=relaxed/simple;
+	bh=htKgqRb7W6N+YSUappcuDU6wlqcAeZr5HGe3s3V39f0=;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=KSzG9Vp/g9SHJZP6wiX5sANFRM8qMZ5VyDqAjYg+WPP7j/MivC9aIF4fp3Pz8jCOCq5dk1XDvJ/j2QNEtg4rnyeN+lEcx20ehytv77WOC01L8V+McSuBKiYXxch5mL/bnCeE/y5ERGQzBpGlDCGnzTgK4ZQpk9PQ/uQKN1Lcg/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=ZdIjL6h2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=tBNWqStq; arc=none smtp.client-ip=202.12.124.153
+	 References:Date:Message-id; b=O8v+S/hNoJ/dFYOlofwo872vi1dPwS5QqjXJE21F9h6VzS3B7bdZtSZC6eAZq/symGBzMO6ghfftnMaFu6fd8r4M7D3dFrJCExR3sDFrrFQPYJHs6vuWRg/XKm92/5scLTwtW8yNTbsMasCexGspEDM9jOU7AhahN1ioucYxRA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=BeOM26id; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DF4xOeG+; arc=none smtp.client-ip=202.12.124.150
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="ZdIjL6h2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="tBNWqStq"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id C5A187A01B3
-	for <linux-fsdevel@vger.kernel.org>; Sun,  4 Oct 2026 17:52:35 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Sun, 04 Oct 2026 17:52:35 -0400
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="BeOM26id";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DF4xOeG+"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id 3F0E41D0018B
+	for <linux-fsdevel@vger.kernel.org>; Sun,  4 Oct 2026 18:08:39 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Sun, 04 Oct 2026 18:08:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1791150755; x=1791237155; bh=3iy3gzplFIzK0oo8x5TzMGzgroYAGejdHKC
-	gp9FixDs=; b=ZdIjL6h2yB2k8w/kE1K7PeMz5csrzboWtsYNmgvLuecyt4LMvN8
-	QEWdupOIoVh83H5c+g8csuPzRAue6IuU3S8DqIgqpZkX1ZDgfJMFsTmSzzIEivgh
-	lLwyyfouSFMuKw+Hv6lFfczmkh55mcI6qYyLUWAeMosl1MtgHprnf5mydv6QiN8D
-	9/ZaQvn4fcScUwy93Fb9KyZENBYiXb9kCZhoKenRfBgpWayAUocEJxWfZUr0VpEA
-	ljTq8BnhBGaQoCTt51ynGRQr5Nu8oTOtWZSCw3VMwBhBZTUxel+PF0T1PFsHUFOv
-	o47L7D024LfJa9mmm79y06Xlz95dQSzTapQ==
+	1791151718; x=1791238118; bh=GBI2DoZEDSri02h62spy4YiY6yjgdRWwMNr
+	yzx+T9P8=; b=BeOM26idiKqfjEx/sY4S5j+Lh/xa1V/WR6nBBgffSHT2JsWsCqI
+	AaAQXowLQO+DIZm+1qEKNuR46P0eQE3w1Bcgx0Ndn5Zc2kHaWpYLYG7lY4WgJ8/C
+	T11s9DGFgjfmsMg0pyOgsOZSYoJGhnYpNlGwtJYjiglO8nbKjBKakuAxl9CFAMHi
+	refL6oC5lFHorzru/tEzNeQ387w3NS4lB7ij6slppDO5Bbl0yOQKErLJ/scS5fDT
+	3aP1oU9XgRiu5oIzg1FGxO0cVVFSWWy+2DV23MnUznTsEeXOVu5YTjyA9OxWGmFg
+	PNSMvNxRMqkxDbbcNad/JqtjN6d1+DtoMSQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1791150755; x=
-	1791237155; bh=3iy3gzplFIzK0oo8x5TzMGzgroYAGejdHKCgp9FixDs=; b=t
-	BNWqStqn7SCevUZ1a5O7V/ot+H7XjzaGoRA8rijd9cjHNelNvmPBWA0uTdPlsnJ1
-	pIjDYSzxlHKAmFDrS1tHhcKxncqGgIaR5FK5d5KcYlW2ewwpE3jZ6UVtG2vMNxVu
-	lsxwnUDP8zmj35lVN9Ga5LTQNX98Izmkoah/zyfej/DmbAgrqX2YyIbcjoqJbO2K
-	sfWn96HgJZbeYsNTV/Vx+9OSyVtZck++sgqAoXHBAH/HfJePW0cXrhR1OyT8IMYm
-	mVwml1dHlVXo6mGJYbKqZVBvxOV0ryf8hIAe9biIUuua8diTRBiLgYN/N8Y9SgRB
-	9MFT2LEGlkt9f7/luiE8g==
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1791151718; x=
+	1791238118; bh=GBI2DoZEDSri02h62spy4YiY6yjgdRWwMNryzx+T9P8=; b=D
+	F4xOeG+VhVnm9qDtLcqWWimyZM85Jg3q766CXWl8KwngzJ5+p32oVCZDrHJKJH7L
+	wxqvCzJJB2W5FZzY38Mep0XY/I8bwwyacootkOo4tTk5bM3gUOwZ+MH8JiqGyShJ
+	DmPy9IMO7xH0DhHDgDVjQXxb4ZEeOv+7Ixz6EHVSZ5jJSXW5tyhEuD/DFNKeTr9W
+	KGQdGGduX5nd5dMp2KVqkRqo4hddFXXkXPwLo1vp840uwozUclARtvTrU2lkdlBK
+	8XFErNb2see6CUUZ8PpyW9PEqoUeoWN7FHgip0ML82H8D77j/QPjGwqE/dXO32vf
+	zNURkjWIYqu2+BXlWV+zQ==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
 	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
 	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1791150755; d=ownmail.net;
+DKIM2-Signature: i=1; m=1; t=1791151718; d=ownmail.net;
 	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
 	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm2:rsa-sha256:BZ8Lc8Ycl6nobWsK95ldqJ/cqQLg1gWfAH+BQ8Dw/JTaEP2
-	FpfEm2sC8Kc8k8FK6EMRbpZTR8eB7uME7z8FaclXWzQyQxu1IjWX5OQMCfQjofJZ
-	cP7EJZbT3tOjrx4kix1To+UDGazXzrkDSUY1C5DlYNUah2gXnxqUdMi/IZIOYE46
-	y6BGnE9zDKzQ6CKSLA1WiuaCE9gfKDi6SqJ3RUZxzWsdrejy2Arb9qIH0kHFng63
-	/oWWKGYW+QJYC0CGgXPDyCYxAyI+WAgIlcc06SOwkpTvOfPW2m+vtKy277t7Yy/A
-	WErjRRSyfz8td4zp4ASCA3/B3jUA0h6FGmRtfXg==;
+	s=fm2:rsa-sha256:mE3kFnPGzfwc2oJUr9KvxMo54oYod6tUTod8ZhRl+089BBB
+	RHPntp5eLPcdAvu3Q6dleERSRgZHf1TXyXdMhsGFATcQW+ABIlOndT1rOVWqzF10
+	8vKzylpUtivbA4XnsTPghMRGxveLoUGh/shg8RT9e7kJQhdbUuO+iDHZqorUYfK+
+	2gpHaZpL5Mw98u/+f3RsWFKoYn1dlzHSqJxxIWWNn3C0r8wOFzuHNPpo3rsErz06
+	ZBjuKnwR2r9zKIcinGx9U2wvo1FVS7KBMdD7Lj62UYfpqmbf8XsBX1OmuaSBrop2
+	CeEPXaYH2juqnMjIdpHbkY01q/gm2cVDGz3Z9KA==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
 	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
 	action=mi-m=1; hc=13;
 	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
 	from,in-reply-to,message-id,mime-version,references,reply-to,
 	subject,to;
-Message-Instance: m=1; h=sha256:5j24Q3aiayJpCkb82bY2/76Y4ZmOqVdd8Ysr+rbMniI=:LHkjvCKwcJJYIrVWirqkuYvEDSFnpbKHR8iSmvZVNWM=;
-X-ME-Sender: <xms:osrCanX_lZvwunBGhmyGGWOkXxa4pfRzyD8KM8SxMSIfrOLZfU8N9Q>
-    <xme:osrCairksShLasa3EmLxyR8OC5C6nJ7gP2loBd9QvArYS9cfzOjwDeGA7Rl6akA-O
-    iMNvSXdmMb_PLGq784OhE5tb6yE58OpyWUuA51Oc3i3DGGF7A>
-X-ME-Received: <xmr:osrCauC5kUWJ-5En3V_z0HhhXfH1IHxIWHQXhHfGu0Y54lg_1yCye472MBCWhwikAlqNjwCLILCxLEZ0haXEBN0OS2O8KfI>
-X-ME-Proxy-Cause: dmFkZTELw3NzVe4CSdyd/3EeOMxy34RMNfvct+a14iA3L+E4I4Ey7qTxw/G9k1c02o8BP4
-    mTbdxFZkS5RX3R7a8tB2YfXCzxQIPUxmxqPdXf1YUJd7neQygY5BKkNZoX5nC7b4MNiPn7
-    rOs8bIjCwqzcCctsfNbvJbApjyH/pcT/hbGPc47ArFWHuo1C6gnbi07lJ8AUOL6uMfrRa2
-    Yzx+5/ncZXtKkskY7Lin2aBE35tJz8lSgz50WW/2MF2t4eqloVKyh6Wm2vhn5JUy9GYwc0
-    eyFM9+ucXjERtAOJgHqtJ37ruyWBm+W46/I3I8sW5ZdMRzg33zlpgONx8YF2DCHGfqmtUZ
-    zQ7vESdGQUBrGN2GIwA9yh62x8L5IoajyfzNFi26u0ZPgLSN09MNGIAHrsQnyVX2X4+TUe
-    EBSh8R+pkdElDuRkPyRIY9yEEtE/eR2Ta9oSre697fv+HKzbP8P9+u5I7em6UIaFHS9CoA
-    GJYlgIcbvnCQKD+E0p7+05o0bocVlHd4FbjwxJLOGA9y2JteDvio9L7qWSUeMsqSSYT7n2
-    eROgkl0/kAcMrARk9da6IpDK16t7whiJmeShQBeFlwgR/4fG0LSZVqlAI+opmQm42kuFZd
-    6oY0nN1P89fRQhU3l1qdYu+MYpEeY8kgxiNNPJ6UV+/jYaStTT0yDNmfFXGA
-X-ME-Proxy: <xmx:osrCaujbjf8Ywhy__C1gWnhPkMIu7mZ_qpzjzS1krN3nIKmmCeLL0Q>
-    <xmx:osrCasZ6mcABoZCIN2sZBt5W9_Dg6Lk9hiT-LH7INE3LpWzJj25DUA>
-    <xmx:osrCavk6oYqZ7IC05J5Ud778wbGTLbHgFEvFMgxdh3fIXrri4X7HVg>
-    <xmx:osrCaiiUqLZzlBHkxi-jb9poiEH2DMm_4Zv6hbfCBFbHC2bgzK5FIA>
-    <xmx:o8rCalW-nsszH00SiIg-etaMZCGL1whASqmWNeA4V9c0NYG_4-T24btX>
+Message-Instance: m=1; h=sha256:sP3eiEIrRTFPrPMW7tyHybRwRbcRaUzxU8SEPXIZLN4=:htKgqRb7W6N+YSUappcuDU6wlqcAeZr5HGe3s3V39f0=;
+X-ME-Sender: <xms:Zs7CaorwNELKfZd7nbFkPVrkGPadT2UxqQOndMXGzEaLrVjziMtPXA>
+    <xme:Zs7CahNHkl5G5j7mPoXEgIncQ7LXHFFhAShJWwwv_KBLdW1epNYBpmeXfxCxrCRWS
+    XuNt6JsGQbktO_4GXUR0fwhZdwcH4lODEfNcfv7-EEpGrrH7eE>
+X-ME-Received: <xmr:Zs7Cag0qxTbWcenGbEIfAHhD1x4si59Hp0NN3mPu0nvvqEFd8dqo6S6ScZ1znBflVbUG1PWtmlLPVV8QhFMC62glxgxKDlk>
+X-ME-Proxy-Cause: dmFkZTFeqVhXH1YoKcMaMXemCVSqhpf8NWSTyIdVxWlErObmRFo3QhrNdEZDfZfno/qS0Z
+    K99hO2d+m8F9E4PPpwkfDTdLnIdhvYVNc/DJpdPTXpsM8i0T/xXMezJ59ZFoZDNiCXWqxA
+    1svoyAXSKIoh/fQWDD1/9BXoLE3DUbDfkdXbbCJvf+8T5PSkdCfCtbOvlzEBk5UPkPgLkn
+    Uq16FrD0esOK3jzynAk6NWOnF5TV9U8RzxzhYi0YdKpI8xiHm/GjWrIWVEJZzf9S9zgugW
+    kgUoaA9ZHrhbkdWD5guGLl9UpNKo+FaSutUZsVUylYTEkFx/Ngl5PC4MLROtXmC2L4cBjQ
+    FqDStJThg7JInR/SELjYL6qXBQmHAj4hYiGhdqPXJ2p/SSwWUOmvYGfZ1Irybt7axFFyR2
+    Bns47tITnHsbUG6kOF16rF1p0unK+OF8WNV1NiZsw4NpEml731CcS4Bih6PDyTEFvgPyBI
+    bPIi+yAUBLwpPJHpNonGL4AQKgAevgeU1rbzYvos2vhtQqARp/46NjdRJeg1S5gT/woXTd
+    h1KhgV+SvS7GryU2udNbAuRaxsOkkxnhgbndDSUJD/Oi/40qsvSiEYOcqJ7T0T5Ehz2xTs
+    ZvJJEFupfFVjrMz30kqcBsK0YNVoaUrPx931YY7nTH4X3+sllpTUeEHwJl4Q
+X-ME-Proxy: <xmx:Zs7CagBLQ41HsXHyqzlQgFCbSKH3HKCwyd4pWD-f6WOxNyGG3AELvA>
+    <xmx:Zs7CatIeiUCuqPxSsOSnCHhA1qJwsTPR5DIBg9l5g-eP0prhDXSSQQ>
+    <xmx:Zs7CapmBTEO9o-2Eo0Xv6e1jV-YJBuVOCpNz6WdwefKVqCm6O_iOQg>
+    <xmx:Zs7CamagFVRraonm6kLMTUxlS6kBIjLaZMbbczzxKd8iJinVZ2Z6Mw>
+    <xmx:Zs7Came3LFEBKV251_fg_hS5toTS34L0bnyqGL3YM4VJJTbD9vI-1QEe>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 4 Oct 2026 17:52:31 -0400 (EDT)
+ 4 Oct 2026 18:08:36 -0400 (EDT)
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -101,54 +101,65 @@ Cc: linux-fsdevel@vger.kernel.org, "Alexander Viro" <viro@zeniv.linux.org.uk>,
  "Jan Kara" <jack@suse.cz>, linux-kernel@vger.kernel.org,
  "Jeff Layton" <jlayton@kernel.org>, "Jann Horn" <jannh@google.com>,
  "Amir Goldstein" <amir73il@gmail.com>,
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
-Subject:
- Re: [PATCH 19/21] readdir: take no inode lock on an immutable directory
-In-reply-to: <20261002-work-mount-fixes-4-v1-19-dd44b89d44ce@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH 17/21] nullfs: refuse file locks
+In-reply-to: <20261002-work-mount-fixes-4-v1-17-dd44b89d44ce@kernel.org>
 References: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
-  <20261002-work-mount-fixes-4-v1-19-dd44b89d44ce@kernel.org>
-Date: Mon, 05 Oct 2026 08:52:27 +1100
-Message-id: <179115074757.37859.15037820357119617398@noble.neil.brown.name>
+  <20261002-work-mount-fixes-4-v1-17-dd44b89d44ce@kernel.org>
+Date: Mon, 05 Oct 2026 09:08:33 +1100
+Message-id: <179115171370.37859.12524843145958864322@noble.neil.brown.name>
 Reply-To: NeilBrown <neil@brown.name>
 
 On Fri, 02 Oct 2026, Christian Brauner wrote:
-> iterate_dir() takes the directory's i_rwsem shared and holds it across
-> ->iterate_shared(). For a directory that never has an entry and is
-> never removed the lock keeps nothing still, it only orders every reader
-> and every writer of that inode behind each other.
+> Refuse flock() and POSIX locks on nullfs. Its one inode is the root of
+> every kernel thread and the following patches make it the directory
+> that stands in for an unmounted mount, so a lock taken through one such
+> directory would block the locks of every other holder and F_GETLK would
+> tell them the pid of the holder. Give the directory file operations of
+> its own: what libfs gives an empty directory plus ->lock and ->flock
+> that fail with ENOLCK, the way a filesystem without lock support does.
 >=20
-> For the directory of a nullfs instance that matters. The instance of
-> the initial mount namespace is the root of every empty mount namespace
-> and the private instance is the root of every kernel thread, so one
-> inode is shared across users who have nothing else in common. And a
-> reader can hold the lock for as long as it likes: back the getdents()
-> buffer with a mapping of a file on a FUSE mount of your own, let the
-> copy of "." and ".." fault and let the server wait. Queue an exclusive
-> taker behind it, a mkdir() in that directory goes through start_dirop()
-> before the read-only mount is reported, and from then on every lookup
-> that misses the dcache in that directory, every create and every mount
-> on it waits until the server answers. One user of an empty mount
-> namespace stalls all the others.
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/nullfs.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
 >=20
-> Add FOP_IMMUTABLE for the file operations of a directory that never
-> changes and is never removed and let iterate_dir() skip the lock for
-> it. The flag never changes for a file, ->f_pos is protected by
-> f_pos_lock since directories are FMODE_ATOMIC_POS, IS_DEADDIR can't be
-> set on such a directory and neither touch_atime() nor fsnotify take
-> i_rwsem. Set it on the nullfs directory. The placeholder directories of
-> libfs never have an entry either but their owners remove them, so they
-> keep the lock.
+> diff --git a/fs/nullfs.c b/fs/nullfs.c
+> index 55a04f2d7761..d90c71f5eece 100644
+> --- a/fs/nullfs.c
+> +++ b/fs/nullfs.c
+> @@ -10,6 +10,34 @@ static const struct super_operations nullfs_super_operat=
+ions =3D {
+>  	.statfs	=3D simple_statfs,
+>  };
+> =20
+> +static loff_t nullfs_dir_llseek(struct file *file, loff_t offset, int when=
+ce)
+> +{
+> +	/* an empty directory has two entries . and .. at offsets 0 and 1 */
+> +	return generic_file_llseek_size(file, offset, whence, 2, 2);
+> +}
+> +
+> +static int nullfs_dir_readdir(struct file *file, struct dir_context *ctx)
+> +{
+> +	dir_emit_dots(file, ctx);
+> +	return 0;
+> +}
+> +
+> +/* the one inode of nullfs is shared by every holder, so no locks on it */
+> +static int nullfs_nolock(struct file *file, int cmd, struct file_lock *fl)
+> +{
+> +	return -ENOLCK;
+> +}
+> +
+> +/* what libfs gives an empty directory, plus the refusal of file locks */
 
-It isn't strictly necessary that the directory never changes.  It is
-only necessary that the filesystem doesn't depend of i_rwsem for
-exclusion between iterate_dir() and directory changes, either because
-there are no changes, or because it uses internal locking.
+It's a pity that you need separate copies for readdir and llseek -
+identical to what is in libfs.
 
-This flag would be good for procfs - those directories that need to
-d_alloc_parallel() any name they find that isn't already is dcache.
-My current approach is to drop the lock and reclaim it after
-d_alloc_parallel().  With FMODE_ATOMIC_POS set there would be nothing
-left to fix.
+I would probably put all this code in libfs.c with make_null_dir_inode()
+or similar.  But I cannot argue strongly in that direction, and the code
+looks sensible as-is.
 
 Reviewed-by: NeilBrown <neil@brown.name>
 
@@ -156,84 +167,28 @@ Thanks,
 NeilBrown
 
 
->=20
-> Fixes: 9d4e752a24f7 ("namespace: allow creating empty mount namespaces")
-> Cc: stable@vger.kernel.org # v7.1+
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/nullfs.c        |  1 +
->  fs/readdir.c       | 13 +++++++++----
->  include/linux/fs.h |  2 ++
->  3 files changed, 12 insertions(+), 4 deletions(-)
->=20
-> diff --git a/fs/nullfs.c b/fs/nullfs.c
-> index f76b87cf1841..bfc04bca3940 100644
-> --- a/fs/nullfs.c
-> +++ b/fs/nullfs.c
-> @@ -44,6 +44,7 @@ static const struct file_operations nullfs_dir_operations=
- =3D {
->  	.lock		=3D nullfs_nolock,
->  	.flock		=3D nullfs_nolock,
->  	.setlease	=3D nullfs_nolease,
-> +	.fop_flags	=3D FOP_IMMUTABLE,
->  };
-> =20
+> +static const struct file_operations nullfs_dir_operations =3D {
+> +	.llseek		=3D nullfs_dir_llseek,
+> +	.read		=3D generic_read_dir,
+> +	.iterate_shared	=3D nullfs_dir_readdir,
+> +	.fsync		=3D noop_fsync,
+> +	.lock		=3D nullfs_nolock,
+> +	.flock		=3D nullfs_nolock,
+> +};
+> +
 >  static int nullfs_fs_fill_super(struct super_block *s, struct fs_context *=
 fc)
-> diff --git a/fs/readdir.c b/fs/readdir.c
-> index 76bb1ae3a450..f2288841337a 100644
-> --- a/fs/readdir.c
-> +++ b/fs/readdir.c
-> @@ -87,6 +87,8 @@ EXPORT_SYMBOL(wrap_directory_iterator);
->  int iterate_dir(struct file *file, struct dir_context *ctx)
 >  {
->  	struct inode *inode =3D file_inode(file);
-> +	/* never an entry, never removed: nothing for the lock to keep still */
-> +	bool locked =3D !(file->f_op->fop_flags & FOP_IMMUTABLE);
->  	int res =3D -ENOTDIR;
+>  	struct inode *inode;
+> @@ -30,6 +58,7 @@ static int nullfs_fs_fill_super(struct super_block *s, st=
+ruct fs_context *fc)
 > =20
->  	if (!file->f_op->iterate_shared)
-> @@ -100,9 +102,11 @@ int iterate_dir(struct file *file, struct dir_context =
-*ctx)
->  	if (res)
->  		goto out;
-> =20
-> -	res =3D down_read_killable(&inode->i_rwsem);
-> -	if (res)
-> -		goto out;
-> +	if (locked) {
-> +		res =3D down_read_killable(&inode->i_rwsem);
-> +		if (res)
-> +			goto out;
-> +	}
-> =20
->  	res =3D -ENOENT;
->  	if (!IS_DEADDIR(inode)) {
-> @@ -112,7 +116,8 @@ int iterate_dir(struct file *file, struct dir_context *=
-ctx)
->  		fsnotify_access(file);
->  		file_accessed(file);
->  	}
-> -	inode_unlock_shared(inode);
-> +	if (locked)
-> +		inode_unlock_shared(inode);
->  out:
->  	return res;
->  }
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 784fa20217c4..deb411e86661 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -1978,6 +1978,8 @@ struct file_operations {
->  #define FOP_ASYNC_LOCK		((__force fop_flags_t)(1 << 6))
->  /* File system supports uncached read/write buffered IO */
->  #define FOP_DONTCACHE		((__force fop_flags_t)(1 << 7))
-> +/* Never changes and is never removed, readdir of a directory takes no loc=
-k */
-> +#define FOP_IMMUTABLE		((__force fop_flags_t)(1 << 8))
-> =20
->  /* Wrap a directory iterator that needs exclusive inode access */
->  int wrap_directory_iterator(struct file *, struct dir_context *,
+>  	/* nullfs is permanently empty... */
+>  	make_empty_dir_inode(inode);
+> +	inode->i_fop =3D &nullfs_dir_operations;
+>  	simple_inode_init_ts(inode);
+>  	inode->i_ino	=3D 1;
+>  	/* ... and immutable, reading it leaves no trace either. */
 >=20
 > --=20
 > 2.53.0
