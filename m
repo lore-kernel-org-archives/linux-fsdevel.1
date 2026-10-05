@@ -1,161 +1,170 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128231FA859;
-	Mon,  5 Oct 2026 16:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791217565; cv=none; b=pS+5y834GcLsL9xB31nhvkFK91rREtQjTibu8iLYhhsg3R92FqOdpK5KT8AK2c7k2kDgUMyORUQwoobRDWuI95a6sfTs5GNHTXxJHrTPeejC/LC/3S0dZdlI4vcoKpQlL73PGAx7f8cDkOFsy5G0Cb/nKlJvNAVJMWVAHT3uz2U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791217565; c=relaxed/simple;
-	bh=aX00HN74P56Ti0fjxmYSIF8ai5X/I1u1ihtfnIbPfrM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BQTNrZ8nMAhISOYUROGjV5EkTJeoC+o/xkPP/xCIk3Hn7R4QKPeiENTQwku6q0V/laWd1b/ulGwVm7ZatbOT/QDtQj6j9K/YiB6bkSwUJXRRrT8hAAWU0KWX4llcGiDIwBEN4nmGMbqbkt9nRcrCNSQKpVHLqHXpldYyxh/onck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=k5ruQcs/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/uqe5lrM; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Bna+jeUN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ljolE5FX; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A295A47DD76
+	for <linux-fsdevel@vger.kernel.org>; Mon,  5 Oct 2026 17:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791219962; cv=pass; b=e5SEdw3S66MA8bezWI5lbJAYhle6GT9PL/7yeDmP0Dp+z6BFHhk6oK2tbisnTNxiGOEuajpwirWBpmXHRibkyUHgA+t/LrRapgmY1uY5/dqNxPjWUQhzYph4sywyMXPA21wrEMKYwloLTepR9IBhFSvzD8xwtvxMkay5A7waWGw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791219962; c=relaxed/simple;
+	bh=2RXkrvI8XGSx/1oVfdObGE9PLA8OssOwVxQ91HAiD08=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mPHcomY0AFdqRZSqkSvaM4T7+5b3NlI+1kEhwT/lDJegnmNBSYnDS0DwdOZHiq14pqTdI+VSU9RyE7T5sNDlCHz35CuFh77yPVBCt2e5CJpKRAG1w9ZxiTg+p5nfdXJKwuLgRIfczBtIENKLBsL+CDOqqHuqZpMmnwzt3lWsDa0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mLSiFWv4; arc=pass smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="k5ruQcs/";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/uqe5lrM";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Bna+jeUN";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ljolE5FX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 534A521CC9;
-	Mon,  5 Oct 2026 16:25:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791217557; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3QCxilX6Jn3NHwpmrQszL9nBtZP+KGRKGSWPtHz/iVU=;
-	b=k5ruQcs/on2VIzOXmxqSS4IfZ8wf8r/4SV8G3Fdr+JJby1qa2X7bl98nKgAAgmZd7yJal0
-	otTQlTiFFDc4hYaJCiCJkvNAQdvOiPbNod2YvcEkkXtdLYNSTuoBho0LcCoqlRHhD/EPzb
-	uzIYbioILKr1owBgdsDbD40Qq/c2pnw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791217557;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3QCxilX6Jn3NHwpmrQszL9nBtZP+KGRKGSWPtHz/iVU=;
-	b=/uqe5lrMr+KbBX+d1oDtcrnwCe1K7WykRsGn5rf3yW6RV1/KVRPYtWEVdt9FhzndnPexep
-	HxTgMuod5n952/Bw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791217553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3QCxilX6Jn3NHwpmrQszL9nBtZP+KGRKGSWPtHz/iVU=;
-	b=Bna+jeUN7vDJuAQDE0OYULGaLBRqrJz0GjUweYJBDTlet0ToeEucKYTWFl+8qfEt9gnXE4
-	xqCTx1ilWdrVH7SHLfJ9pKPNEVugJPw7/Y6UD8bGfiXkY3vwAiseYC6RimegfTLJsR1LXU
-	txWfS2NAwOIRp/jrk+uoZ/aErveQLzs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791217553;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3QCxilX6Jn3NHwpmrQszL9nBtZP+KGRKGSWPtHz/iVU=;
-	b=ljolE5FXb6fhoA41wVfhQWOHSZPyVH3M4vv8Vv0KneEzDxhIsyyBZWCJeZXMqNPzvMFl0d
-	D7QPKOBnXMfcu4Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0F3013688;
-	Mon,  5 Oct 2026 16:25:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TpvxLpDPw2qXMwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 05 Oct 2026 16:25:52 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 1CB3CA13FC; Mon, 05 Oct 2026 18:25:52 +0200 (CEST)
-Date: Mon, 5 Oct 2026 18:25:52 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, Julian Sun <sunjunchao@bytedance.com>, 
-	linux-block@vger.kernel.org, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, axboe@kernel.dk, hannes@cmpxchg.org, mhocko@kernel.org, 
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev, 
-	willy@infradead.org, tj@kernel.org, akpm@linux-foundation.org, 
-	Boris Burkov <boris@bur.io>
-Subject: Re: [PATCH v9 1/3] block: introduce bdev_flush_by_dev()
-Message-ID: <bsb5vk2s3vyqglw6bv6pgpoqqvkho2p5kfnskfwfban5azi2vt@sceqd6t36yai>
-References: <20260925064444.3944820-1-sunjunchao@bytedance.com>
- <20260925064444.3944820-2-sunjunchao@bytedance.com>
- <arYaMbJUh6unvz_t@infradead.org>
- <3w6vfwfkojmfqy2qs5j4q2s2366ajqiwmqf624lyn3odrv42v2@va2r7a6ngfz6>
- <aroIAqoCNDBPlB2A@infradead.org>
- <9e9c02fe-e94d-4f70-a21b-47b46bab2c3b@bytedance.com>
- <5my3hyw54ej2tw24dqnacsy7xppywdjovvnwvrevmczsllzq7c@berxapmobgfa>
- <asNfNHd-kcsI4B1S@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mLSiFWv4"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4d7034a99a9so1023147b6e.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 05 Oct 2026 10:06:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791219959; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YPZ9NcvdihvvYI+IgddCaCZIJ7XAFl91zg58OjdxHC/QKveKh9RgZN8jxs+v5BhBGF
+         V+LG81jV/GnYFfWT9hZieTQI/QKljhdTaiAhTxGfDIM5dws7Pg+oX0TuT+Y3Lz2EdcPf
+         hOSbMU5t6lhXgW8U/JHXCyx29zNY0JhmbyXlDoIG6SshPJ0dYBYObN7Fe1nbQfWFNWaA
+         FTKD9p5+CilUxc/hWhC1DCVoM68+yBjZih+SEIswO99CpzQgwpsvpXFMcbGpSwHYVsgP
+         tOpfxzChbrj801ffStQZnmM0sv/ohRs29+K0s06WzpW52UEGSMmJP4wRWRn4fNgf+GgH
+         W65g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=V3QHsfD9eae4eVmZwhjIqULbQNwImtk17XMJTw0B7T8=;
+        fh=mQNBALDNlagSZlH/xgXHswJcaWdq8klVCSVd5m8xbq4=;
+        b=KYgzi8TknGk/m/RpDGWmX+hkfjTyLtrwM+/L7sXp4owtHuHG1L9f3QZwyFaDvYN19P
+         mv1+IEksag5kxMfkMd3FYt7E6Q6GJKYr+mY4JhMURGGC/GQD05j1o9At6VS6C/O54M/o
+         L5ac0zp4aznEhJbzxINlieBsoyBIp1go1h38U55jeASwhh6lz6F1Egsn4R4HaMzRvYNa
+         3nwnsNz+1yvfPkX+YTvl3KjuxMEeFxvt29r4yuZwcDcDqIanRQgN5fxmRWbmvC3pdmNq
+         cOX7EZH4zP3EfWem9WJxbWwOifnEDDhWb3zxFe4rYwaqXeAunMREtX1HegYduiq9RWQj
+         jtAg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791219959; x=1791824759; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=V3QHsfD9eae4eVmZwhjIqULbQNwImtk17XMJTw0B7T8=;
+        b=mLSiFWv49QmGqH6AcvhRb/RHPfgAfJ3GHS8U2YOfeN/lFkYaMDoC6pkzyo/gK/cbwv
+         5Ent4KeoVAnvmhRhcQ81oYaPMUgsjM8+zyQbQRoArQGr4fNl5+nf0J6izYYVKPcVk0zn
+         g0HImbOAaNf/CtWtJ3ZqcFzU038XbZuLRt2DHoA+9TT5UYncN9jpWG/ViZ1MtznMmt/J
+         BUPm/SVNj5MGrglli7HOET2qMVIJi9zYBvLn41gnaPltOwb7Fnne2rJwCStg/jblvSmS
+         V0O+s/7RtbA/m8mn5dWnurZy+DIYJdCdU1zeFmGxiLoyAjGkuXV7ktuugjbzIfhv4Lqm
+         oiGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791219959; x=1791824759;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=V3QHsfD9eae4eVmZwhjIqULbQNwImtk17XMJTw0B7T8=;
+        b=BGHPSleqU5W11rfAedRTE1K0P8g62WPXfTXFpJFHz/OpuJ3wNcc7f5r5sfV0hsxmgy
+         BAM9zUmmwNlGL9OIvgNqKGZbP04zyolBf7i7qJ6hqfzycSd6jUhV6ejhElNxOOQgAY1K
+         62fNn1AT3Vr2u4HYhGjtY4sInGRoPFzn9W5t3CjlnAN049VfmerCRo7Em9SJG0CqO4en
+         AKtV6YhsCs3a/AvQnTjQGtz8X9WI38vI9PbfSCHL5yHxspNUDbHJ0/jBfASCDsApYS/h
+         vU2ZotrW5p2lrlX1OB9371gob06npgifjvKcw6pJu8OD1Bny7LDGksakGszyvXqJ9C/a
+         EjxQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzBndl6JvBNxLCM60cwvpm7Jjcj+Lz4dhEopk6KjzEUMxhkOPqqoe6kDN7Z/WPKGR6PSfTncpAz9jpZ3S5E@vger.kernel.org
+X-Gm-Message-State: AFuF++llqfMSpLujdfg0RSaVDL0RwFiRe5MSI/Y09ApzBNV+FmpvZz3l
+	4VM2/zgbePRjdi74iRFYc3iGFy5N3NDwfpLMB9mAHqdF1Vije7i7uizKDH+6uoWvDmDIVdSRcKd
+	XgERphWhZqAq82zLcG6LOyrxJtLH2cBw=
+X-Gm-Gg: AYBFou2uU2s4/tIkJ3dRtc5ql3e0cl/jWQl3xnS/9LOJ1BFzoe5AuKwcs6ibZmDbTsY
+	T2x8CewwBTcSHlZvHKHQFvE3yrWAo4fdWTtiGyvH83iSR26tCN8Q8FqNcR4Yplnpmnh8v8QOUsC
+	B9qZN41lSReslohy1aVDr/NaBXm+mS6cJqvco7jUTOj3DxAeAENHnuqYC+m/GkXKFuFEs9p6in/
+	w23RaocfdBfeCcYzK0QHlCeSduBPihJdMqFpRnZKQrmZ2vYL2Xd6L8miAsT++4cgCBznsEZvCPN
+	5+JQk6wkrgP3DK2ykEnpLwUpyVwiMaIDpHS7o0taXCOJu04hmWQy9gJ0q0qmmtabIOAk2wxfXg0
+	8oKBCEykd0Fkq6g==
+X-Received: by 2002:a05:6808:6409:b0:4e8:e73e:e945 with SMTP id
+ 5614622812f47-4f67b6368eamr6867509b6e.63.1791219959377; Mon, 05 Oct 2026
+ 10:05:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <asNfNHd-kcsI4B1S@infradead.org>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+References: <20260923022339.3340694-1-georgeandrout13@gmail.com>
+ <arThye_219ruNbM2@google.com> <20260925-stellen-brummen-festrede-266af0305ac7@brauner>
+ <20260929044843.GA3909609@ZenIV> <DLRSQRUVOGT2.10ZY01VEJVHCE@garyguo.net>
+ <20260929135154.GB989762@ZenIV> <DLRXHGLDR2QQ.WZVRWGY995BT@garyguo.net>
+ <20260929170218.GD989762@ZenIV> <DLS0CO1HEGJN.2XX8QX8LW8XJM@garyguo.net> <20260929194726.GE989762@ZenIV>
+In-Reply-To: <20260929194726.GE989762@ZenIV>
+From: Georgios Androutsopoulos <georgeandrout13@gmail.com>
+Date: Mon, 5 Oct 2026 13:05:48 -0400
+X-Gm-Features: AclHuK82zXF_oHnFQwG46GJvuw1FlbpLwvQEpRhqprAmrygF7YVXXrAloo-DO5M
+Message-ID: <CAESH5ocD6j_trFz1GyEXLTJKy5-N19=86wjZTm-b__0uX9YMLg@mail.gmail.com>
+Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
+ descriptor APIs
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Gary Guo <gary@garyguo.net>, Christian Brauner <brauner@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	linux-fsdevel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Al Viro <viro@ftp.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon 05-10-26 01:26:28, Christoph Hellwig wrote:
-> On Fri, Oct 02, 2026 at 01:10:42PM +0200, Jan Kara wrote:
-> > FWIW I share Julian's concern here. It would be fine to use AS_KERNEL_FILE
-> > for ext4 metadata but I think just unconditionally setting AS_KERNEL_FILE
-> > for bdev mappings will cause issues because some users may be using bdevs
-> > directly for their workloads and they could still expect proper memcg
-> > accounting to work in that case.
-> 
-> Agreed that it should not set unconditionally.
-> 
-> > We could set AS_KERNEL_FILE when opening bdev for a filesystem (and remove
-> > it when releasing bdev) but that would have to make sure there are no
-> > folios in the bdev mapping when changing the flag as otherwise the
-> > accounting would go wrong. Looks it might be doable but getting all the
-> > cornercases right will be hairy and overall not very appealing to me...
-> 
-> I'd rather not support special case writeback code just for this legacy
-> fs abuses bdev buffer cache case.  And we basically need to tear
-> down pagecache at unmount anyway, as i_blkbits can change, so while
-> we do need to be careful, I don't think it really is a major issue.
+On Tue, Sep 29, 2026 at 3:47=E2=80=AFPM Al Viro <viro@zeniv.linux.org.uk> w=
+rote:
+>
+> On Tue, Sep 29, 2026 at 07:22:28PM +0100, Gary Guo wrote:
+> > On Tue Sep 29, 2026 at 6:02 PM BST, Al Viro wrote:
+> > > On Tue, Sep 29, 2026 at 05:07:40PM +0100, Gary Guo wrote:
+> > >
+> > >> The reproducer that Georgios posted on GitHub is some cleanup job be=
+ing added to
+> > >> task_work, which drops FileDescriptorReservation. And since exit_tas=
+k_work()
+> > >> happens after exit_files(), put_unused_fd in that cleanup observe th=
+at
+> > >> current->files is NULL.
+> > >>
+> > >> So it's not from random thread, it's from the current task. And I fi=
+nd that
+> > >> particular case of doing per-task cleanup not unrealistic.
+> > >
+> > > FWIW, descriptor reservation ought to be tied to specific files_struc=
+t
+> > > instance; note that dup_fd() can be called when there are outstanding
+> > > reservations and the copy does *NOT* have those reserved.
+> > >
+> > > What rules would you suggest for such delayed put_unused_fd() wrt e.g=
+.
+> > > files_struct unsharing?
+> >
+> > Ah, is this about `unshare(CLONE_FILES)`? For that case indeed our exis=
+ting
+> > abstraction break down.
+>
+> FWIW, the current rules are "you must not have any outstanding reservatio=
+ns when
+> you unshare descriptor table in any manner".  You are adding "... includi=
+ng the
+> ones that would be discarded by an already-scheduled task_work callback".
+>
+> It's not just unshare(2) - there are more interesting callchains. For exa=
+mple,
+> unshare_files() from do_coredump(); this one should be fine in face of
+> put_unused_fd() in task_work, due to the task_work_run() in get_signal()
+> being upstream of vfs_coredump() call, but it needs to be considered.
+> Or begin_new_exec() - that has a lot more callchains leading to it.
+> It should be safe at the moment, but that needs to be demonstrated, etc.
 
-OK, after some more thought yes, I think we can make that work.
+Thanks for the discussion. It looks like the issue is broader than the
+`exit_files()` case I originally reported, since staying on the same task
+does not by itself guarantee the same fd-table context.
 
-> We might be able to restrict to setting it when
-> CONFIG_BLK_DEV_WRITE_MOUNTED is disabled to avoid the problem of non-fs
-> shared mmap writers, as anyone using a modern kernel and cgroups really
-> should have that disabled.
+It seems that the Rust abstraction needs to account for this stronger
+requirement. Would making some affected Rust file APIs `unsafe`, with
+appropriate `# Safety` documentation, be a reasonable temporary solution?
 
-I don't think that's really needed. If such writes are happening, they are
-*very* limited and done by a system administrator only (as they are very
-dangerous) so the fact the writes will get charged to the root cgroup is
-not an issue.
+I'm not familiar enough with the VFS internals to determine the right
+abstraction here, so I'll hold off on sending another version based on the
+current runtime checks.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Georgios
