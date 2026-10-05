@@ -1,31 +1,46 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9832A47F2FA;
-	Mon,  5 Oct 2026 13:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42954493620;
+	Mon,  5 Oct 2026 13:31:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791206181; cv=none; b=OtdpcGw7AlficSXdJGX/WiLoIVPnW+0CNUgCzw1RLRKNDh/ag+Mx0xLo/vKwQpYp5P6E+zyjBY1gEiYhEK7Lzqdioizkkf1Wuwc2z1nH4YI4cJF5I4XCtHWbbyZBpGAurU3blLR1HU580ke44xwH+ucioyfJ/CL6GrPwfN78GjA=
+	t=1791207065; cv=none; b=AtDgfeoIknQECXp2FGiw3tBFNgbJyVtmR8GstZxQ23Qf2B4T02+WYqRQDM95Qz+0Vc/wMAtljJMWCXO6Waf3cCVDygIt+y7Qu6ayh/titfY85mQc4+vVzy5VadehHQP83GGqnkt7XyvIw7PiRjZNolAIpYiiD7aE+pQFVNaj8Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791206181; c=relaxed/simple;
-	bh=Cz24RSeIYnIWe1CX68kbv2pThBUCLp49BRwFlWIRYr4=;
+	s=arc-20240116; t=1791207065; c=relaxed/simple;
+	bh=sEB6SwsEKw/juxXaWiNtskiEqoJzpjPGaf36uDKKgFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dIuSKiGjzbxZBh4p7cLp0o3RH7Vq+zfFhRGspdmcOsnZOu+98hmZ+Ma0Esw99FDqILLtkjI453FFtMXilakVM5DCcxEuXDu/UatBlOjevdbTSN7rOnF3Vdp6xtPvZo2CzEXlNeJAPisUDSOX2umYh8LPDHaFzj6FfJQCo5VguIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id ED6C768AFE; Mon,  5 Oct 2026 15:16:14 +0200 (CEST)
-Date: Mon, 5 Oct 2026 15:16:14 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 21/21] xfs: enable RT data checksums
-Message-ID: <20261005131614.GG26805@lst.de>
-References: <20260924100032.2733101-1-hch@lst.de> <20260924100032.2733101-22-hch@lst.de> <20260929012755.GC2705364@frogsfrogsfrogs>
+	 Content-Type:Content-Disposition:In-Reply-To; b=B873Tyt78eAxIiZfv+JvEsqK1jor+Yz3w5JbxiFvVav1mb0BFnwIoe5fkBaRjrw0JYHlLNQAfgSttxruRawPlFqtaveXumATFeS4cffXpG95ZFmebaqLTQ7+sbM0fzc5kiAScNmH7rrJfs1sVKcRSXtXTT/JMoK8O+6/Iz10CJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZ6Jfn/X; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZ6Jfn/X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13F051F000FF;
+	Mon,  5 Oct 2026 13:31:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791207063;
+	bh=YJVFrcH51dcWxKvIvBoz5wPALOazHMgdkbmMui1YFvM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NZ6Jfn/XZvbHZ9XZWUeKBjHSx8Gwxg6v9+i6QIGrWRSYK6B+BD325E+wAPloxoe/i
+	 Fs0cNZt9HTSfTT2fIuyt6SYI1V09qLZotsQ26++U92UybnNUaDw0daQxMq6OXEmHz0
+	 i0PFp2xlI5bN8hSzGOBBRCH3JWS+H70cQojexrMqnWd03bd2zyUxgPDLGWsM8ic8Ku
+	 QnX5ZkA4xjMnqmwLM1PpJtDCy+KyfG/1LhrPesOPoEB6lMAvHhPjgubeCTHc9m14iL
+	 +eol8QKhP1q2npvOdrJ21JxbWpF29PQuDSXup+Vj4YervpvvbsjXI7A0l5yidd80/U
+	 VY/SQv9Bzlw+w==
+Date: Mon, 5 Oct 2026 15:30:58 +0200
+From: Eric Biggers <ebiggers@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: Carlos Maiolino <cem@kernel.org>, djwong@kernel.org, hch@lst.de,
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, david@fromorbit.com
+Subject: Re: [PATCH v17 00/21] fs-verity support for XFS with post EOF merkle
+ tree
+Message-ID: <20261005133058.GA3436@quark>
+References: <20261002223705.2175542-1-aalbersh@kernel.org>
+ <20261002232542.GA15366@quark>
+ <asDvqctUgrxflcCa@nidhogg.toxiclabs.cc>
+ <asN8lCPmZpA0tp5S@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,19 +49,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260929012755.GC2705364@frogsfrogsfrogs>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <asN8lCPmZpA0tp5S@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 
-On Mon, Sep 28, 2026 at 06:27:55PM -0700, Darrick J. Wong wrote:
-> On Thu, Sep 24, 2026 at 11:59:53AM +0200, Christoph Hellwig wrote:
-> > All mandatory pieces are in place now, allow mounting.
+On Mon, Oct 05, 2026 at 01:26:18PM +0200, Andrey Albershteyn wrote:
+> On 2026-10-03 14:07:23, Carlos Maiolino wrote:
+> > On Fri, Oct 02, 2026 at 04:25:42PM -0700, Eric Biggers wrote:
+> > > On Sat, Oct 03, 2026 at 12:36:41AM +0200, Andrey Albershteyn wrote:
+> > > > Andrey Albershteyn (19):
+> > > >   fsverity: report validation errors through fserror to fsnotify
+> > > >   fsverity: expose ensure_fsverity_info()
+> > > >   fsverity: pass digest size and hash of the all-zeroes block to ->write
+> > > >   fsverity: hoist pagecache_read from f2fs/ext4 to fsverity
+> > > >   fsverity: don't allow setting DAX file attribute on fsverity files
+> > > >   fsverity: hoist statx reporting of fs-verity flag
+> > > 
+> > > Would it be helpful if I applied these six patches to fsverity/for-next
+> > > for 7.4, or do you want to wait for the full series to go in at once
+> > > (presumably through the XFS tree)?
+> > > 
+> > > - Eric
+> > > 
 > > 
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > It's your call, I *think*, this is too late for xfs 7.4, so I want to
+> > queue it as soon as possible for 7.5.
+> > 
+> > If you want to take the fsverity patches into 7.4, go for it, then the
+> > xfs ones I'll pull in once yours are merged.
+> > 
+> > Sounds reasonable?
+> > 
+> > Carlos
+> > 
 > 
-> Looks good.  I'll try to cough up an amendment to the ondisk metadata
-> documentation to go with this.
+> Fine with me too
 
-I was going to do that myself, but if you can afford the time that's
-even better as that now means at least two people understand the format,
-which always is a good thing.
+Applied patches 1-6 to
+https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
 
+- Eric
