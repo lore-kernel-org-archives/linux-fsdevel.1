@@ -1,204 +1,265 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21DAB476051
-	for <linux-fsdevel@vger.kernel.org>; Mon,  5 Oct 2026 11:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519332E401;
+	Mon,  5 Oct 2026 12:27:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791200962; cv=none; b=fvNJHjPwp8B7Z8iXVJ/CMbXfdYEwFmKqwh6hczkK4Bh+yGtcpke8Sd2flZZvpzcvdGVrp5tGwTtgSF80XfRoUoHoWWlrGGCQYAeFGnx0chPdpqUuc07aF+Txn+hvw1ijfEfO2lD6sEQtNKkA9L6aFml8jBNfe1P855cxnb4Z2ns=
+	t=1791203225; cv=none; b=EoQb5GwESeuKVitXYDLPzfJ5TqAVMHxkX8cL4BxeWvq/Rp7yDkF8c+GJFsZemfMUS6BDRqPNHATMJmlh2fwPxuZQq1o7myXjx5KfQ+9/nP5cgGlWVvxrHfaCKW3pv6z4SBoccF0ju7YMeDznjd24Gu63kdy77BkSX9pdsbDMtls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791200962; c=relaxed/simple;
-	bh=C4rWPxAM+gG+nBkU+Lpq5+tCLNPh5lzEfMeHsRf0DPA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dtpPpUeh37ze4Zi+t/OIdayKRbyJ8PtDIzQ2j2Qn+BDM4i8jdXdLgiiwhy3I96vcgwkDru4bJMZ7Vvz6sZ2oFq+VmEkJJqg8VjLYDGhQ/yVvZj0VnF3D4CKqQk3C2veP1OoRq/NOtKoSaHUm0kzETeFLtCIGnRRnxani43E8a8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oe2e4wNU; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791203225; c=relaxed/simple;
+	bh=ciVZGO4+Fy4Ka4/iFTRFR7bObG35KaP7fJA/zeZ6W5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ATrkRC6NO66VpA3uYzYLRjOMNyjT9/C5Cl8p3lM4dhZYvDB30H59b/pr6Pa/L69fxhfTGzhTtLFRWExeHHTIwWDDZXamQ00TBkAZVLI1MLrUYp7bIWKUZyzHp9fN1NNMbbCcRdO8vtguO0j50UrSzJ3asliD+HKSt09WC+m9HOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=x4jPGH00; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Kzh/Utin; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hiTqsmgv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gQM2+0GQ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oe2e4wNU"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-4a11603310fso15601675e9.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 05 Oct 2026 04:49:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791200959; x=1791805759; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tN32JBtkwvrpOHkqPOwCz1peQMff+9nW+9FnKuTc/9Y=;
-        b=oe2e4wNU3lig5ckdIY4pln90NFMoBuzqjjQp9ZzJ8X5L77pYYYqB8QGUGhNn5BK7ag
-         teomHdKgtcHPMlz/WiXvHlG4Mqk0rycrnXJ912uIw6GEYYvPKxEuLdPx15bRUCANE2uv
-         ElhJ5VhfFNTy7CEgJukBL5HhoL0XKvCSIG556r/Nj1BH3XRFpc1MA1+5+ZVLdT3ilJvY
-         W0bKiKQ9tO8NasBmu7RcIKz5cRszVG0qmcnUvvCR2Zv0WtGFQyYVQGXvgo0gFlVlHf4X
-         JKNl84nvM/LvHX0h4AUV4kuiFJiMSkSxDwbWQhuoEtIxtOwK7scS6B0zruBGFZZJE8ZU
-         b51w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791200959; x=1791805759;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tN32JBtkwvrpOHkqPOwCz1peQMff+9nW+9FnKuTc/9Y=;
-        b=1xhitnDJyaxUk7NIyKWvI3DnPoA+fWPimT0VtTEUzvl8lQEFcrU3oQdzQk+vKm1TGG
-         eIQ7e5aSSFYU5j22dvPK/xA9u79XEQCoGQwNCu5Riq+yfs+1mGFTNQ63GimDdnz0Ripx
-         1XPwiEFtrOx8WfvC0UyfqD1gjjr+D7S9vZxUmoIJdLdNw4wMRIjrFKabo89JU/YCrJ3v
-         J/dKkJNiMbNj1Nb9mAtbhU3FJBMurlTZNR2sV3wm0k+7Ny36vxD7aNu2OYNnQK/+5HkZ
-         uvWpCStqlf82sFUOcNObK7uohYN/Ja0lizvPsnYqQndVXAEkNc3ekUuTnqNsbHx9o2dq
-         wNqg==
-X-Forwarded-Encrypted: i=1; AKwUvBwscit4s7HngFAEWFgLcS/yHtnf6MhhZ2turNzEGk5C8e+kEBKSH4/yT4amJMb4D+v2aro0aDhRSk8dRuDQ@vger.kernel.org
-X-Gm-Message-State: AFuF++kl3E0txJBuIpr9+IsOzrsKZCoQVxCZY1Q9JLwyxxDmRPCvJxSQ
-	mERKdDM9YUaTHPs1djQYlQ4bnH2mhgPyXH4yO4bZsNKoaGL3CDv+aCOi
-X-Gm-Gg: AYBFou3iW5U1pxPo1+xrMKA92vIqeELgpHz/VzuuWwVi9PgbbwqiVxQQ3ttqooIywl5
-	D56Wuu8CzMvMqer/Gv6IWRliPUQBxqMGbtYSpFfvwckNaB5Z+4gvG3sJOm3fZFgJbecvqu0aerG
-	L2dl4uGr5U3krATunPJawkBMOpUW91TF2HQWYnLx4xD8plZVZc8ZKM1pXoQ3l7jQqkFy0ms01O+
-	MCqXThIWejSk25IR27gBwtEkjoPrgDJ7JJYZ4vvEyKd0Q3zBilOi6H1HAgbmMui4M/fNyYWqTZn
-	kp3QE6qs1y4hM2iafCtUfT9MW2zGLJxBDGKWBfqKCT5TZAyhfRE9CDtpWVGGc0/D0qVUSfpsvYo
-	hlpfI+GCzjcshvbEmrzlaBu3vRZprI+PlPc7aCwE6D3M9aCZSo0T0N98+6RGOtXuz1h9qw1LfQU
-	vZTB+K55ZRBlmkjusQXm7nLjFYflcBSCg+xnQTPxGbxteJmVCE7KGydiJ+9Ike9sDtX5ESoye+b
-	CyqbRa0/cUxEk9F7dJMp9dXJ4QfNzA5SISqMn6eg5+OAlqu2kI7Wc9wWvjaN7uwLiql8J1jft0=
-X-Received: by 2002:a05:600c:1c08:b0:4a1:722a:d2a3 with SMTP id 5b1f17b1804b1-4a1722ad405mr52583605e9.23.1791200959268;
-        Mon, 05 Oct 2026 04:49:19 -0700 (PDT)
-Received: from [10.41.30.1] ([161.12.45.16])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a027727cecsm346670305e9.9.2026.10.05.04.49.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Oct 2026 04:49:18 -0700 (PDT)
-Message-ID: <c15a7ff3-121e-481b-93e4-466f89520ae4@gmail.com>
-Date: Mon, 5 Oct 2026 12:49:15 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="x4jPGH00";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Kzh/Utin";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hiTqsmgv";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gQM2+0GQ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CB7311F7A1;
+	Mon,  5 Oct 2026 12:26:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791203216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5l7VlPR66me4odboWE7ekILisSjtVBHA12CHM7mb7Qc=;
+	b=x4jPGH00IsomYD4qsQk8nGLEHpkznazt0J5G/ZSNTgYqi6h2b6Wq2/mqLZZPwfL2a5jEBf
+	/R9TGEp7Qen8RKGTqDaOSigs/TipAfMOUZEsDTeKEgEs3HFS/PaCD4LKe2rGIJPu7YTeRr
+	AXpBqY866zWoM5pmEaCIcx6+abAWwmQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791203216;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5l7VlPR66me4odboWE7ekILisSjtVBHA12CHM7mb7Qc=;
+	b=Kzh/UtinkfQwYwOQ55VuN6tk60EmvHb2WU3/VUGfaPs4bIFOLyeYx0q1XxotsbSw0EClcg
+	r4TGr9ZnMbdQDoCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791203212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5l7VlPR66me4odboWE7ekILisSjtVBHA12CHM7mb7Qc=;
+	b=hiTqsmgvEsIUVBBYAV2gQXRLmfYRQVaAcD92s1gejeh6CT8Yq01Yc1OeU0nYED+vkM3kvw
+	qoZ7/W5BoYyY06ovtPGG3EwrEFC7FR+UqhvB7FM/ObbM7bpQYm7CO52kmedjS8AGrrfP71
+	N9JUx71HT3iuQfctEdPKw5bdm91UcdY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791203212;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5l7VlPR66me4odboWE7ekILisSjtVBHA12CHM7mb7Qc=;
+	b=gQM2+0GQp/lhMVWk8oCqV6wYtDGpUJc9+coi34x8nsEmlgto+Hzxb+yMRAtyk4vbGbdNw4
+	5txWsYkxLsLWu3BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 88F4513AD2;
+	Mon,  5 Oct 2026 12:26:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 16HeF4yXw2rMKgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 05 Oct 2026 12:26:52 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id C40B4A13FB; Mon, 05 Oct 2026 14:26:51 +0200 (CEST)
+Date: Mon, 5 Oct 2026 14:26:51 +0200
+From: Jan Kara <jack@suse.cz>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, shakeel.butt@linux.dev, 
+	roman.gushchin@linux.dev, willy@infradead.org, jack@suse.cz, mhocko@suse.com, 
+	muchun.song@linux.dev, david@kernel.org, ljs@kernel.org, vbabka@kernel.org, 
+	liam@infradead.org, rppt@kernel.org, surenb@google.com, riel@surriel.com, 
+	linux-mm@kvack.org, cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v1 0/3] mm/readahead: avoid per-folio memcg reclaim
+Message-ID: <gz7cxhldkfkinbzpx4goa6rhdqpzldpaenzhtfoxcztpzj5avw@hkzo4fbdbck3>
+References: <20261003001555.3498357-1-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/13] dma-buf: introduce initial file I/O
- infrastructure
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
-References: <cover.1789997898.git.asml.silence@gmail.com>
- <5490ee42c4452fd4198b245ead20fcf7438c066e.1789997898.git.asml.silence@gmail.com>
- <arx7ZQ8o9aeHsAqS@gsse-cloud1.jf.intel.com>
- <447c04dd-6bfa-4c45-99e7-37d25a7ab539@gmail.com>
- <c07404e0-33f6-4e5f-a80a-e1901b42dc39@gmail.com>
- <ar1md2N4PkoXSE/N@gsse-cloud1.jf.intel.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <ar1md2N4PkoXSE/N@gsse-cloud1.jf.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261003001555.3498357-1-joannelkoong@gmail.com>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	URIBL_BLOCKED(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On 9/30/26 20:43, Matthew Brost wrote:
-> On Wed, Sep 30, 2026 at 01:48:49PM +0100, Pavel Begunkov wrote:
->> On 9/30/26 11:08, Pavel Begunkov wrote:
->>> On 9/30/26 04:00, Matthew Brost wrote:
->>>> On Mon, Sep 21, 2026 at 02:38:45PM +0100, Pavel Begunkov wrote:
->>> ...>> +struct dma_buf_io_map *dma_buf_io_create_map(struct dma_buf_io_ctx *ctx)
->>>>> +{
->>>>> +    struct dma_buf *dmabuf = ctx->dmabuf;
->>>>> +    struct dma_buf_io_map *map;
->>>>> +    long ret;
->>>>> +
->>>>> +    guard(mutex)(&ctx->map_create_mutex);
->>>>> +
->>>>> +    scoped_guard(mutex, &ctx->map_mutex) {
->>>>> +        if (ctx->maps_killed)
->>>>> +            return ERR_PTR(-ENOENT);
->>>>> +        /* recheck under the lock in case it has already been re-created */
->>>>> +        map = __dma_buf_io_get_map(ctx);
->>>>> +        if (map)
->>>>> +            return map;
->>>>> +    }
->>>>> +
->>>>> +    dma_buf_io_wait_active_maps(ctx);
->>>>> +
->>>>> +    ret = dma_resv_lock_interruptible(dmabuf->resv, NULL);
->>>>> +    if (ret)
->>>>> +        return ERR_PTR(ret);
->>>>> +
->>>>> +    ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
->>>>> +                    true, MAX_SCHEDULE_TIMEOUT);
->>>>> +    if (ret <= 0) {
->>>>> +        if (!ret)
->>>>> +            ret = -EAGAIN;
->>>>> +        dma_resv_unlock(dmabuf->resv);
->>>>> +        return ERR_PTR(ret);
->>>>> +    }
->>>>> +
->>>>> +    map = ctx->dev_ops->map(ctx);
->>>>
->>>> I'm playing around this code now.
->>>>
->>>> I think you need the dma_resv_wait_timeout after the 'map'?
->>>>
->>>> If a device doesn't support p2p ->map() will typically trigger an async
->>>> migrate to system memory and data will be moving but the map is valid -
->>>> Xe 100% does this, I checked AMDGPU and fairly confident it has the same
->>>> async behavior.
->>>
->>> There is a wait right before because I read somewhere in dma-buf
->>> comments that I need to do that, sounds a bit odd if I need to
->>> wait on fences before and after. I can add it, just curious how
->>> come that other dma_buf_map_attachment() callers don't need to do
->>> that. Or maybe they wait somewhere else?
-> 
-> In GPU drivers, when we receive a foreign object and map it in Xe or
-> AMDGPU, this logic sits deep in the stack. However, the top-level call
-> is typically ttm_bo_validate(), which in both drivers eventually
-> resolves to the TTM ->move() vfunc. That path calls
-> dma_buf_map_attachment(), which in turn invokes the dma-buf's ->map()
-> callback.
-> 
-> That ->map() callback can trigger a asynchronous move on a different
-> device, where the top-level call is again ttm_bo_validate().
-> We then end up back in the TTM ->move() vfunc, where kernel fences are
-> installed. I realize that's a lot of layers, but the call chain can end
-> up looking like this.
-> 
-> Now we have a mapping and an object with kernel fences attached. Before
-> the object can be used by either the exec IOCTL (batch buffer
-> submission), the VM bind IOCTL (mapping into the GPU address space), or
-> a CPU page fault (not relevant for dma-bufs since they cannot be
-> CPU-mapped, but a useful example of a normal BO move), we wait on those
-> kernel fences.
->   
-> In the case of the exec IOCTL or VM bind IOCTL, the kernel fences are
-> added as dependencies to a drm_sched job, delaying its execution until
-> the fences signal. That is where the wait occurs. In the case of a CPU
-> page fault, the kernel waits directly on the fences before installing
-> the CPU page mappings.
-> 
-> So the TL;DR is if you want to immediately hand back a valid mapping,
-> the kernel fences must be waited on before returning after ->map() call.
+Hello Joanne!
 
-Thanks for the overview! I'll add the wait after ->map in v8
+On Fri 02-10-26 17:15:52, Joanne Koong wrote:
+> Readahead adds the folios in its window to the page cache one at a time. Each
+> folio is charged separately. When the memcg is at its limit, each one of those
+> charges triggers reclaim. With many tasks faulting in the same cgroup, the
+> margin one reclaim pass frees gets consumed by the others, so the faulting
+> tasks keep reclaiming, all to make room for speculative folios, and in the
+> worst case, reclaim livelocks.
+> 
+> On Meta's fleet, this per-folio reclaim is a large cost. From fleet-wide CPU
+> profiles at Meta:
+> 
+>  - Page cache insertion (filemap_add_folio()) triggers about half of all
+>    memcg limit reclaim CPU, more than anonymous faults, swap-in and
+>    memory.high combined.
+> 
+>  - 93% of that comes from mmap fault readahead: filemap_fault() ->
+>    do_sync_mmap_readahead() -> page_cache_ra_unbounded() ->
+>    filemap_add_folio() -> mem_cgroup_charge() -> try_charge_memcg() ->
+>    try_to_free_mem_cgroup_pages().
+> 
+>  - In filemap_add_folio(), 83% of the CPU is memcg reclaim while the page
+>    cache insertion itself is 6%.
+> 
+> Most of it comes from services whose worker cgroups run at their limit while
+> many threads fault in mmapped files, mostly on btrfs, which our hosts mount
+> with compress-force=zstd:3.
+> 
+> This series adds readahead folios to the page cache without direct
+> reclaim. When the memcg is at its limit, readahead reclaims for the rest of
+> its window all at once instead of once per folio, and tries a second time if
+> the window runs out of room again. Please note that this only applies to
+> speculative readahead folios. For the folio a fault or read actually needs to
+> read in, it is still charged with the mapping's normal gfp mask (with the
+> reclaim flag set), like before.
 
->> I can't find it, so maybe it was the comment below and I mixed
->> sth up back then. I'll move it after ->map().
->>
->>
->> * Note that for non-dynamic exporters the driver must guarantee that
->> * that the memory is available for use and cleared of any old data by
->> * the time this function returns.  Drivers which pipeline their buffer
->> * moves internally must wait for all moves and clears to complete.
->> * Dynamic exporters do not need to follow this rule: For non-dynamic
->> * importers the buffer is already pinned through @pin, which has the
->> * same requirements. Dynamic importers otoh are required to obey the
->> * dma_resv fences.
->> *
+I cannot really comment on how much sense this makes from memcg POV (I'll
+defer to people understanding that area better). When I'm reading your
+problem description I'm wondering about one thing: Are the folios we are
+faulting around really used in your workloads before they get reclaimed?
+Because what I'd expect to happen in cases under heavy memory pressure is
+that ra->mmap_miss would quickly grow over the limit (100) and we'd just
+stop doing mmap readahead for the files. If the read-around pages aren't
+getting used before being evicted, then the first natural thing would be to
+actually stop reading them in the first place :) The mmap_miss logic is
+actually rather dumb so I wouldn't be surprised if it doesn't work in your
+case...
+
+The experiments you have conducted below indicate that if you effectively
+disable readahead you get more page faults & smaller IO requests (expected)
+but for your realistic loads under memory pressure is that really an
+overall performance loss?
+
+								Honza
+
+> 
+> On a 26-core/52-thread machine with btrfs, running 26, 52 or 104 processes
+> (one per core, one per thread, and 2x oversubscribed) that each mmap their own
+> file in one memcg with a 1G memory.max (before and after measured in the same
+> boot), reclaim passes per major fault drop by 94-96% for both random and
+> sequential reads. With data compressing ~3:1 under compress-force=zstd:3, the
+> runs that livelocked in reclaim without this series (4 of 18) no longer do.
+> Throughput with incompressible data, where the disk is the bottleneck, is
+> within 5% of before in either direction and the drops are within run-to-run
+> variation. With the compressed data, it is 9% higher at 104 processes, where
+> reclaim contention is.
+> 
+> More details on the results seen (medians of 3 runs of 10 secs, 5 for seq, rand)
+> are as follows:
+> 
+> Reclaim passes per major fault:
+>                        26 procs      52 procs         104 procs
+> cold, rand          23.2 -> 0.88    23.2 -> 0.88    23.1 -> 0.89
+> cold, z3            21.7 -> 0.95    20.0 -> 0.91    17.9 -> 0.85
+> seq,  rand          78.3 -> 3.66    45.8 -> 2.37    26.8 -> 1.24
+> seq,  z3            42.0 -> 2.59    37.2 -> 2.01    22.9 -> 1.24
+> 
+> Throughput (pages/s), after vs before:
+>                        26 procs      52 procs         104 procs
+> cold, rand            -5%             +5%             -5%  (disk-bound)
+> cold, z3              -3%             -1%             +9%
+> seq,  rand            -1%              0%             +4%
+> 
+> (read_ahead_kb=128, "cold" = read 64 pages from random offsets, "seq" = read
+> 4096 sequential pages, "rand" data doesn't compress , "z3" data compresses
+> ~3:1, which moves the bottleneck from the disk to the CPU).
+> 
+> Cold readers get the same readahead as before (pages per major fault within
+> 2%). Sequential readers get up to 18% fewer pages per major fault, but their 
+> throughput and read bandwidth are unchanged or slightly higher, so readahead
+> pretty much does the same IO but in more and smaller pieces.
+> 
+> There were a few alternative approaches considered and tested in experiments:
+>  - don't reclaim in readahead at all:
+>    This cut reclaim to 0.02 passes per fault, but effectively disabled readahead
+>    in cgroups that live at their limit, and led to ~100x as many major faults.
+>    Each read request sent to storage was around 5KB instead of ~120KB.
+> 
+>  - charging the whole window up front:
+>    This leads to overcharging, as it charges for folios that may turn out to
+>    already be cached. With every other 16 page jjchunk of the file cached it
+>    triggered ~15x more reclaim passes per fault than this series.
+> 
+>  - One reclaim attempt per request:
+>    This led to the fewest reclaim passes (0.75 per cold fault), but at 52 procs
+>    10x as many requests end early and sequential readers lose 29-35% of their
+>    pages per fault. This is because with many tasks in one memcg, the room one
+>    reclaim attempt makes is often used up by other tasks before the window has
+>    completed, and with no second attempt, readahead stops early.
+> 
+>  - Two attempts per request without the immediate drain-and-retry:
+>    3x as many requests end early as this series and sequential pages per fault
+>    drop 16-22%.
+> 
+>  - Up to four attempts per request:
+>    At 52 procs on z3 data it gave 14% more pages per fault for 8% more reclaim
+>    than two attempts, but this is within the noise of the two attempts'
+>    run-to-run variation (13%)
+> 
+> Swap readahead charges the folios in its window one at a time in the same way,
+> so it can hit the same per-folio reclaim at the memcg limit. This will be
+> further investigated and followed-up on in a separate independent series.
+> 
+> This series was run through an LLM for sanity-checking / reviewing,
+> structuring the cover letter and improving the wording of commit messages,
+> helping generate some test scripts, and for bouncing ideas for different
+> alternative designs that could work better.
+> 
+> Joanne Koong (3):
+>   mm: memcontrol: factor reclaim logic out of try_charge_memcg()
+>   mm: memcontrol: add mem_cgroup_reclaim_for_batch()
+>   mm/readahead: avoid per-folio memcg reclaim
+> 
+>  include/linux/pagemap.h |   1 +
+>  mm/internal.h           |  10 +++
+>  mm/memcontrol.c         | 131 ++++++++++++++++++++++++++++++++--------
+>  mm/readahead.c          |  51 ++++++++++++++--
+>  4 files changed, 163 insertions(+), 30 deletions(-)
+> 
+> -- 
+> 2.52.0
+> 
 -- 
-Pavel Begunkov
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
