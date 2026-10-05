@@ -1,158 +1,127 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sunucu.ihale.com.tr (unknown [95.173.178.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE7631B130;
-	Mon,  5 Oct 2026 06:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA8135F16C
+	for <linux-fsdevel@vger.kernel.org>; Mon,  5 Oct 2026 06:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.173.178.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791180202; cv=none; b=nPHxAyliY56J9eHtfYBg90PXA5KIrayAwoV+vTw4KZs9SX56AOj2tqmnfPKH8vHyFeY1dybjql1pN+2kTMT5TuVVKEoKtGLNm2WdQ1anzBhtvyDNL38AvHLiC0bFO5m4RiFlPByvtpnU1dpcGSz2wmy9bDowIy3ed6D6kASYeIA=
+	t=1791182286; cv=none; b=tXsgUv58qZ5z4kRzH0t/zFIH3ZrCGWi7kqjP8wGBfndhFSiwsyGtCkKKzzkBsBwfUliTn8WW9P7oeFN0QoLAyJVADgRtlx4fGSuVZ3Z/2IghKUi2/WTQs6lZwi2Yc0293jNkowYw4wESgXz3bIzEzXqP2Ge4p5peyHhfRRdl0AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791180202; c=relaxed/simple;
-	bh=TQCifGKDqnp9wRfiCilrXZi23ydH1JMQCQN+eRLuIIY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T2H4tGe5ncKeZELsDpnoFqDL7XtIT2KttGI2LFk0E7QxQdcrG9okCIYRNTh7Hf9gqFjjvLxLUZ0A3ohVoyKv/w5vzMDw/58ICKznB2AukZliVuX8fwLfzXcOnf2a+q/3+CbXP6bLWdWJyMltRNKWtRa75Int4N3fx1mQ5BzS7Qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ry3F95Ai; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1z1AQyNz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Wasxx8NK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=sKr4zx5z; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1791182286; c=relaxed/simple;
+	bh=GCuqivoAUOuohjs7VuXXiIbk8atlNTAptE1Sgr60/eU=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ktJAGMox/0PI4ow4wBpOMUkx7wh4GO8ykBREK1/c5FgUM0UEbof138U7U3WtmsphQKoaZSQTd8SedfGaAeOMPRITejj/kTLSP23Ebk3uRktnCHTG2ZAy/9gTRidpvam9ZeXnFL4DY/2wEVHLFWyTpjz6i8TlhzCZIB6/3nDRmOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=legendhomework.com; spf=pass smtp.mailfrom=legendhomework.com; dkim=pass (2048-bit key) header.d=legendhomework.com header.i=@legendhomework.com header.b=KIMmjwpD; arc=none smtp.client-ip=95.173.178.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=legendhomework.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=legendhomework.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ry3F95Ai";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1z1AQyNz";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Wasxx8NK";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="sKr4zx5z"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5ED451F451;
-	Mon,  5 Oct 2026 06:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791180188; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2d1KHg0VhjUYD6CQVXxYhZfv7qR/Z8p4l2rnI8FsiQE=;
-	b=Ry3F95AiRdsJlNxXlBkr6zZPFcNAkykw1SsVZUU1ZkE6r25z5t6YQPbh313uqiknGjyd+7
-	L1zfGwysHLDmI/CImT+PNtdZ54O0hIPD99RDAf08gS/4aC2hJ0/4tbj3YCYIzbQM6cac8B
-	DAKhV3pW7Sm/iyUGTXGWR/ttd9xNp0Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791180188;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2d1KHg0VhjUYD6CQVXxYhZfv7qR/Z8p4l2rnI8FsiQE=;
-	b=1z1AQyNzr7vsrYr8Y1AfGEwNE2ikyn1kJJ8yfL0//HwbmlPgbSjLOakeke0NoI64qtp9Wt
-	dVau8LDPm5qSdtCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791180184; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2d1KHg0VhjUYD6CQVXxYhZfv7qR/Z8p4l2rnI8FsiQE=;
-	b=Wasxx8NKJSUzc5AP4HUq0UqEFPLBcWsLLolrydVzc1GiOC+Y6CQDXcDwinCWOwB/Db5ssR
-	cnOqiu2A+NBBNCijFzF2sICB8i28NAJc+bJLslc8UBWW5ByzXrv8dWcYQaZ+tXwmDi5+no
-	3eAtirDDa9uQNPinO2bkQIinwbkAJ4Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791180184;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2d1KHg0VhjUYD6CQVXxYhZfv7qR/Z8p4l2rnI8FsiQE=;
-	b=sKr4zx5zfOP3K4BRwqpykKq1WIh1Sz1F/Jm+hRt//Xh5aJgKy9P5gRKOJSIEnCZ9y0b3pi
-	ubn9kRsc/D7XQPAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2190C132D3;
-	Mon,  5 Oct 2026 06:03:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9CCYO5c9w2qACAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 05 Oct 2026 06:03:04 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 36119A13FB; Mon, 05 Oct 2026 08:02:59 +0200 (CEST)
-Date: Mon, 5 Oct 2026 08:02:59 +0200
-From: Jan Kara <jack@suse.cz>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	Jeff Layton <jlayton@kernel.org>, Jann Horn <jannh@google.com>, Neil Brown <neil@brown.name>
-Subject: Re: [PATCH 16/21] fsnotify: let a filesystem refuse marks on its
- objects
-Message-ID: <ktwf3k6arjrcezb2ah3fmj7q7qu235ri4yau5c6hmwithutl3l@3xk6vqisfjhj>
-References: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
- <20261002-work-mount-fixes-4-v1-16-dd44b89d44ce@kernel.org>
- <CAOQ4uxh9O4-sUpN5mT-GHriGQ26R_n++mELNh3wOPKSrMYDSRQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=legendhomework.com header.i=@legendhomework.com header.b="KIMmjwpD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=legendhomework.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Sender:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=5lmJJ0mEKCC15dQaupFmVY6/ZNMzkad8UFLiXk6+8uk=; b=KIMmjwpDaJZFukHG5RJxYWBP4t
+	zxzRlhFXUD4qVRSx3DwU2KN0V7MjEbxn3Q2IKUcYtxWDzHFzILuIyu9SeGX3lg3l/63y8/N5lPJCw
+	r2cn1/cd7DdpVQESilPCrsZjAt9BieXtyypSh2a8f40eAOjsi1gf1H5Qi6ZstQHjvxqvn7go1dxj2
+	Zn06zDIqJ7YGkcoRgapsVJjwgNIW6VKBqKm4sjIvyEJHIZqIApnWB2un6vVQqtiJBKi7QrG4XvtfL
+	FOm/B7Cf13HVZhtfmqGi6yC83wKzb0juqbQxV0S2w4RKamSDCzxtNN50r78Dv7PCZDCYgEY1u3dA5
+	s6Pz08SA==;
+Received: from [154.120.97.226] (port=65250 helo=legendhomework.com)
+	by 95-173-178-186.cprapid.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <info-llhm@legendhomework.com>)
+	id 1xDcKf-0000000CQ0m-2xob
+	for linux-fsdevel@vger.kernel.org;
+	Mon, 05 Oct 2026 09:37:55 +0300
+Reply-To: perrymail@tutamail.com
+From: info-llhm@legendhomework.com
+To: linux-fsdevel@vger.kernel.org
+Subject: Your Consent
+Date: 04 Oct 2026 23:37:54 -0700
+Message-ID: <20261004233754.E540972E61038258@legendhomework.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxh9O4-sUpN5mT-GHriGQ26R_n++mELNh3wOPKSrMYDSRQ@mail.gmail.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - 95-173-178-186.cprapid.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - legendhomework.com
+X-Get-Message-Sender-Via: 95-173-178-186.cprapid.com: authenticated_id: info-llhm@legendhomework.com
+X-Authenticated-Sender: 95-173-178-186.cprapid.com: info-llhm@legendhomework.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-On Fri 02-10-26 16:26:19, Amir Goldstein wrote:
-> On Fri, Oct 2, 2026 at 3:54 PM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > Don't let nullfs be watched. fanotify refuses mount and filesystem marks
-> > on SB_NOUSER superblocks but inode marks of inotify, fanotify and
-> > dnotify go through. The one inode of knullfs is the root of every
-> > kernel thread and the following patches make it reachable from
-> > userspace as the directory that stands in for an unmounted mount. A
-> > watch placed through one such directory would report the opens through
-> > all the others, across users.
-> >
-> > Add FS_DISALLOW_NOTIFY next to FS_DISALLOW_NOTIFY_PERM, refuse a mark on
-> > any object of such a filesystem in fsnotify_add_mark_list() where every
-> > backend ends up and set it for nullfs. There's nothing to watch on a
-> > permanently empty and immutable filesystem.
-> >
-> 
-> I don't particularly mind this custom opt-out, but
-> shall we perhaps instead deny marks on SB_NOUSER directories?
-> IIRC, we already wanted to deny marks on any SB_NOUSER, but then
-> it turned out that some users set inotify watches on pipes, so we stepped
-> back and restricted SB_NOUSER only for fs/mount marks.
-> I think that the same logic extends well also for directories, because
-> I don't think that any existing SB_NOUSER fs is supposed to be
-> exposing them atm, so no regressions are to be expected.
+Greetings,
 
-Yes, I agree that placing marks on directories of SB_NOUSER filesystems
-should be denied as well because it doesn't make sense which would settle
-this case without a special flag AFAIU.
+My name is Dr. Innocent Bariate Barikor, Director-General of the=20
+National Environmental Standards and Regulations Enforcement=20
+Agency Nigeria - (NESREA).
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+As part of my official responsibilities, I monitor environmental=20
+compliance and pollution associated with oil and gas exploration,=20
+drilling, and production activities in the Niger Delta and=20
+submits relevant findings to the Presidency.
+
+In the course of carrying out these responsibilities, my=20
+investigations identified significant environmental compliance=20
+concerns involving four major oil-producing companies:
+
+1.      Shell Petroleum Development Company Limited
+
+2.      Mobil Producing Nigeria Unlimited / Esso Exploration &=20
+Production Nigeria Limited
+
+3.      Chevron Nigeria Limited / Texaco Overseas
+
+4.      Elf Petroleum Limited / Total Exploration Limited.
+
+The four companies were subsequently assessed penalties of=20
+US$1.2Billion, with the applicable sanctions providing for the=20
+potential revocation of their operating licenses in the event of=20
+non-compliance. Given the importance of their operating licenses=20
+to their continued activities in Nigeria, the four companies=20
+appealed for a reduction or waiver of the assessed penalties.=20
+Their requests were subsequently considered by the Federal=20
+Government, and the applicable fines were reduced to US$800=20
+Million.
+
+The companies have since settled the revised penalties with the=20
+Ministry of Environment. They have also indicated their intention=20
+to provide a US$50,000,000.00 payment in recognition of my role=20
+in the process. However, as a senior public official, I am=20
+subject to the applicable Code of Conduct and therefore cannot=20
+maintain or operate a foreign bank account for the receipt of=20
+such funds. Consequently, I am unable to provide a foreign=20
+account for this purpose. In view of the foregoing, I am unable=20
+to personally receive or facilitate the transfer of any such=20
+payment because of the restrictions applicable to my position as=20
+a public official.
+
+I therefore seek your assistance in identifying a resourceful and=20
+transparent mechanism through which the matter in relation to the=20
+gratification can be addressed without any traces to me=20
+considering the fact that I am still in active service. Any=20
+proposed arrangement should be properly documented and, where=20
+required, discussed with a financial facilitator locally without=20
+mentioning names; so that all parties are adequately protected=20
+and the transaction is handled through the proper channels.
+
+I would appreciate your guidance and cooperation in resolving=20
+this matter in a manner that is fully compliant with existing=20
+financial regulations.
+
+Best regards,
+
+Dr. Innocent Bariate Barikor
+Director General
+NESREA.
+Direct Phone/Whatsapp: +2349019779152
