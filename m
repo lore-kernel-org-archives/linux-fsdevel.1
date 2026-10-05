@@ -1,79 +1,77 @@
 Received: from mail-yx2-f40.google.com (mail-yx2-f40.google.com [74.125.224.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DCB372EFF
-	for <linux-fsdevel@vger.kernel.org>; Mon,  5 Oct 2026 19:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98144D9F8F
+	for <linux-fsdevel@vger.kernel.org>; Mon,  5 Oct 2026 19:32:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791228046; cv=none; b=c02PXvEPkGxW1KRT5vACsdpu5uDukL3rH0joELEgIV9S0Q6pZFfTXWe7I9rH33TkF1OY6C5YA6kZTrkfA35sr7FtPW+pysLr7SweayuvV64G3Gc2oTESpuh2JqKZVczN6O0jUQGxQG6bWbdLzaUE6scVH5qDC89vAHfLkMJoGxQ=
+	t=1791228778; cv=none; b=DXq7/LYoPhJvoczdrNLJ0cQm19gGA6jloKaYEbUuTHOZ8qakYOM+Lbntj8EMPTQ8xhZc59BN0H6EeRpxwWh8gsrxKYoed8dke35YG6qfO68zL7jBQdfRQE3scFI73gWOtF/LgyqJOHEX9llZe8tr9d/x6o+loY0Rt9w2SuucZ6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791228046; c=relaxed/simple;
-	bh=7uMgTvJ/2jWF5CieZNXiJtpOEIxrr6FOQuNBV2lCipM=;
+	s=arc-20240116; t=1791228778; c=relaxed/simple;
+	bh=OhTg4Y2vk0E5SNiIImYpc2ywh+/0Gl7CDRpjajw6YFE=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oSCwXKYCsxvx3usbDEc3d3sa5IBqlL0XkVnr7tx9JdMtz3g782FmUVnzQ2youPB3UUPawJbK6mFFJbgg6EI4LtIJJbvNiWanqyTMVjSfS+cT0iS0wxjAaMVJ2Dzj+KlFefSki7ZUnH6iDv777F7WyUcqakWBUNZgC+gA6UukQLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=kc0xXuxJ; arc=none smtp.client-ip=74.125.224.168
+	 Content-Type:MIME-Version; b=nFRdtMrNTcg2eY+jvkqvhIt8sIPows0ERQ6L1aTfGhRtVtiYohbQG2rUrgdcXkDZiONHhxgvNK/nx6WXi72KM/IL+2oRlUIW2PM8v6XTNVnQhG8eFY3y8que1rGE91B94+1TKqhEa3I8fPZ9hYYvX/tKFaIdcSoYDkzaSkXDSs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=eVr5Qme1; arc=none smtp.client-ip=74.125.224.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="kc0xXuxJ"
-Received: by mail-yx2-f40.google.com with SMTP id 956f58d0204a3-6756a6320f6so1677386d50.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 05 Oct 2026 12:20:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="eVr5Qme1"
+Received: by mail-yx2-f40.google.com with SMTP id 956f58d0204a3-67568357b63so1807432d50.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 05 Oct 2026 12:32:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1791228043; x=1791832843; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1791228775; x=1791833575; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=r3ddCUU12UfEhOvaq9Jj0tjrF27Mf6/B/ICeK/6Qy5I=;
-        b=kc0xXuxJXqegc8j3rDuGXKgqijsFTVNDnbbQJqI+rnohDzpq+jRfsqTwnccKI0mvHy
-         n+xlPuD0C0FgrSTBykIBAOu/GcBscXTjdZ7dHSYCSCEFindYhgJ1LNiWKaGQfXgt1IuK
-         xCCCdKeWwzbxtBmCIWV7cYNh2nLnovlaZY7s9ndT0zeNPtoOoafUHnCOdootNheh+YWM
-         tt89yPi1e5BQDjzQD8QgxjD9ulHXNJOHiKweOCIhWmuT7IPlxFn4QTPC3SdPIrmiv++b
-         axUc75nQTWuatgbEjj4O9g3WEGP606ovv1a5EokZ7fs2QKvdQTTF8bvtCIHt1wNVQ7as
-         S4Ew==
+        bh=uHYPSvXxOi/i3tWTh3HSQ0/YkL8DNyZX6j4u6SZ8c+0=;
+        b=eVr5Qme1Qzz9ymFVoDuX2iAApIFnIjFAl3cON/t0CReeNmj0m9JAzSamn8ojL8rIwz
+         ZoSCmwqyDd97iFWexCRh1AXKGU3X/FS+OmXV+5fDrG7Zvpz6VrnFmv9S00rcmwj32RzN
+         Co1uiNe1altrbkGF1poipnGzZGO7u8yh5255A+SY9hKz8AxGEbFuzCkuMU0xmIdDB+cC
+         M/C4CyRbwznGotAdhyv1nC0MwDNthOtXrd9eiNGwumcYSRRB3urPUpaY9cSls2O2aywJ
+         BlPGa2z7q1NjZFF2jzbbea1rUxvxHR2Dzt49BoSTqcsHoygNJ8XxyL9phUPv9L0Nd/4K
+         3K5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791228043; x=1791832843;
+        d=1e100.net; s=20260707; t=1791228775; x=1791833575;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=r3ddCUU12UfEhOvaq9Jj0tjrF27Mf6/B/ICeK/6Qy5I=;
-        b=e0DtZBRE2C15qZsvupZTicfpNdTIvHh7rHRtEsFNur/4DBVzdYJazLyCKwF+Jyr3zk
-         qEsug6aSjtv2psYdkRSNK18W5fxlnlWsB1pVPLOXIpyiliY+Pv1/fhYlj88es4KTglXW
-         4OObRxY4MTL5jOxydSRzmQZ08bxp3UyG0wmhjciRMHmyLkOFRizDwHk1iA2+bhdekEMC
-         9yrI4d7peQrJg0BzUyfpAry5haRV67pJMIx3VVBgzHkKrHO379oFEazE/LIl1CCb1gXh
-         liUjgWXKNfLmiKEkcOqzNZNOhc9cVp7AhYWbp3nTKwKdm6qa6A7RhVPbXevmBaRZRWC7
-         Dfkg==
-X-Forwarded-Encrypted: i=1; AKwUvBx7/3gCnBZfWLMFJIm5dUnw4OSaGO4ttYwuwxyfFHjRMcOELuWu/kqrH/ti7EYXPaRIfglzHnjtQaPXIQeu@vger.kernel.org
-X-Gm-Message-State: AFq9FYKEmtkhGB1t4FSOizmAGryMO1kzV1BbG+g6SM5g2iTOjpBqf56s
-	e2cC1h/yd88aGMIrRfbGuAmAQcXFOyEWrh9JZqbalR2TZFG2MQs07YkLgsTK4tUUfSFhPE9YmNP
-	McgD+4pA=
-X-Gm-Gg: AYBFou21vUzs2ju9nyPmxbuIFmHrsQ+gs4faMnvqiNFv3bsJdfMOYPtw7Zq4mRaw7/2
-	zzMkdhxHZ9byls/g1f1I9PpdxWwdy1x8Rv0AmE2PsWaWm8Gfn6WxSv1ZG1r+yik/e5wJaP6V7We
-	M/LZniOjU0eVCb28onagedPsdkH/JbOYxoNdhwiQpB7R/p7rquAn+9K2YbFHdgMfxuAMTpKnvqe
-	3xn0hMveBPN+uVM+5hlg4VbSIjOJgQqOOFWl9AppOUmoqudpZM1L/3BiV3LaBbb+KiJR6yqqEH3
-	gPx5tTzm5JU03Yf9RaZz5E/rXZ5IbPMzW48uFeAzt66yOCOI15wO4axNpE39sxNS3nDA+t4IRGK
-	4Uu8Gxu8IwhZq1oIFGNzs9hb2LdEFlcxb0QPXkMHC+ftok6CRkA8eCZQ/GHmHx4sYaRSmATXyIT
-	9R8ateDX9PNmyEDam2+YCK1pXtwmGaPhocaK4h/T7tYIwBp/c0vsWe/wasmAvJAHqJRVnXBz0rz
-	2PWS8RdxaGvSlfZJnZnsAIESUnqcge97eD9SE6EuhcQhybQpc6OC4VdOCRMLqLY4Dd06EPQfTT7
-	ai5sNCz1D/uRNneb2rTN48gm0B36ODvWAyRkdGUS8Ju8Ix8ezl5ZWOXt+WTBViet
-X-Received: by 2002:a05:690e:b81:b0:674:1b39:fe1 with SMTP id 956f58d0204a3-677bbc010d4mr3663453d50.107.1791228043201;
-        Mon, 05 Oct 2026 12:20:43 -0700 (PDT)
+        bh=uHYPSvXxOi/i3tWTh3HSQ0/YkL8DNyZX6j4u6SZ8c+0=;
+        b=HN0SBgsr+U6o48sYYaUTGP7QRdDfjJOWkFthgdn8Y6vQ95aeh+D0BUU0Nel1nUKwMt
+         +800G2sBC5ZcpVZf6SjU6WmP+A6QtWzCdHqsGxTqcn7B30aYwj0OvryD5hMlV5Q/4jbr
+         wxZI+twOH32CKftRXnRQHOOPj/tTUwyzLfMNCG9ivkmVkvZdlEiPuTHRNeePp8cySGvp
+         LkspK/nNoDRcspAXFBeTi8vzGNPDzp4NZmCOT4qrtZG+Eo++9G/U8uDjPBtCdvIVIfQE
+         1P5VyNFipiKVTQ32Qkp1rAgCyKIyHu9F4Uqu8fkxh2EOGEI6hd1Suq0VwSXRm+BbEs26
+         p2cA==
+X-Gm-Message-State: AFq9FYLt9l5xX0zoa01l3/HIjJB3FhXHjESczqGrYiJKc/rRJb/bQLhy
+	ICVwB7Zu3iaSN5Y+zN85LZVGlLcudv3Oi1ZoOE6fT1ut17od/3mYicL81JYLl87XN2c=
+X-Gm-Gg: AYBFou1TNrtIxvVYohqrXsfKJGy4M/djnYSOWCeyamwPyWBG0nrh6CgQE352ef+VkkW
+	VwxjdHkGcyrG7z3rhQXoEr0nhh90u/XVlgNaRoRo1asX4Jk7Az1KU1JhoVT2jeZ0S8SHk+f+OY0
+	xE4I6ObMzEMX8qvuOneX82EWnrRdzd3MXDDb8UVTBpxFz7rem++SaY9ExPFbnQSemPzUKy9OHop
+	mqMsTXQ/2+RoYXlPLScZ997+IynyMTuKhIpb7nOEWhE2yyfl8t56pF3jxpHSm414NYhAsJ67I/e
+	pY0SpRDgmY/wSf2NgHdE+pufI0I54zqz2/Vbnz5LA+QVHOQLBqJzlYsbVWLsoMIsvtVuzRyOkJU
+	fwhG9fckG2MFEeRryIuRmd8pKiHFK1U9nVr+ms3OJjPzQfMCzjfYbAJY78zxnUqtSmGBHBA0sRh
+	YxKlf0ZYeGutNu6jajhy7vqBVYlCYqjTL2LRx3eO2gP+Hs+Kf6hFkiwXyMPTXgyytlcNxYf8qhm
+	4GxVXO2sPlbHfQfnLmPWrCPDtGoBzevkI16RyYhzO4quL1WiP/0eZXAuY7mcuQWfu+FI/E6IMWQ
+	ao29gZ1CHd2e2ZOigY5srMUXzZFwTp/AVir4uo4XlPI14uy9J/8xvcoBTJuMdCq7
+X-Received: by 2002:a05:690e:1904:b0:677:be91:d866 with SMTP id 956f58d0204a3-677be91e02cmr3509867d50.47.1791228774756;
+        Mon, 05 Oct 2026 12:32:54 -0700 (PDT)
 Received: from ?IPv6:2600:1700:6476:1430:3aa0:911f:4e09:b45d? ([2600:1700:6476:1430:3aa0:911f:4e09:b45d])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-677c1bb2b71sm3312948d50.15.2026.10.05.12.20.42
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-677c72dc315sm2895930d50.8.2026.10.05.12.32.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2026 12:20:42 -0700 (PDT)
-Message-ID: <29df2c2288ae460c14adc33ad2ad3ef818916099.camel@dubeyko.com>
-Subject: Re: [PATCH v3 2/2] hfs: free cached B-tree nodes on
- hfs_btree_open() error path
+        Mon, 05 Oct 2026 12:32:54 -0700 (PDT)
+Message-ID: <440b0a696204a1155c0b688518d9907af1d7c491.camel@dubeyko.com>
+Subject: Re: [PATCH v3] hfsplus: annotate extents_lock nesting to silence
+ lockdep false positive
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Mahmut Emin Kurhan <guvenlik@noroxi.com>, linux-fsdevel@vger.kernel.org
-Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+To: Mahmut Emin Kurhan <guvenlik@noroxi.com>
+Cc: linux-fsdevel@vger.kernel.org, John Paul Adrian Glaubitz
+	 <glaubitz@physik.fu-berlin.de>, Frank Li <frank.li@vivo.com>, 
 	linux-kernel@vger.kernel.org
-Date: Mon, 05 Oct 2026 12:20:40 -0700
-In-Reply-To: <20261001213807.1519745-3-guvenlik@noroxi.com>
-References: <0de056179e3e0a7c4ef525cdb143647b7493dc71.camel@dubeyko.com>
-	 <20261001213807.1519745-1-guvenlik@noroxi.com>
-	 <20261001213807.1519745-3-guvenlik@noroxi.com>
+Date: Mon, 05 Oct 2026 12:32:51 -0700
+In-Reply-To: <20261002211626.1576625-1-guvenlik@noroxi.com>
+References: <8078649d8c1405e0a207d06efe4ec0189d3eef76.camel@dubeyko.com>
+	 <20261002211626.1576625-1-guvenlik@noroxi.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -128,107 +126,287 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Thu, 2026-10-01 at 23:38 +0200, Mahmut Emin Kurhan wrote:
-> The classic HFS driver has the same B-tree node leak as hfsplus: on
-> the
-> hfs_btree_open() error path after hfs_bnode_find(tree,
-> HFS_TREE_HEAD), an
-> errored head node left in tree->node_hash is not freed because
-> free_tree:
-> does a bare kfree(tree) instead of walking the hash.
+On Fri, 2026-10-02 at 23:16 +0200, Mahmut Emin Kurhan wrote:
+> lockdep reports a possible recursive locking on
+> HFSPLUS_I(inode)->extents_lock when truncating or extending a file on
+> a
+> crafted image: the regular file holds its own extents_lock and, while
+> freeing or allocating blocks, reads the allocation file, whose
+> ->get_block() takes the allocation file's extents_lock.=C2=A0 These are
+> two
+> different inodes locked in a fixed order, so it is not a real
+> deadlock,
+> only a missing nesting annotation.
 >=20
-> Apply the same fix: factor the node-hash freeing into
-> hfs_bnode_hash_free()
-> and call it from hfs_btree_close() and the hfs_btree_open() error
-> path. The
-> helper keeps the hash_lock serialization from commit dce0e0248205
-> ("hfs/hfsplus:
-> serialize B-tree close against folio release").
+> tree->cnid and inode->i_ino share the CNID namespace, so fold the
+> B-tree tree_lock subclass helper and the extents_lock classification
+> into a single hfsplus_lock_class(cnid): the allocation file gets its
+> own
+> subclass and every other inode uses the default, while the catalog,
+> extents and attributes B-trees keep the subclasses they had.=C2=A0 Take
+> extents_lock with mutex_lock_nested() at the sites that nest.=C2=A0 A
+> genuine
+> recursion on one inode's extents_lock -- including the allocation
+> file on itself -- is still reported.
 >=20
-> Found via coverage-guided fuzzing (syzkaller + kmemleak) by Noroxi.
+> Found via coverage-guided fuzzing (syzkaller + lockdep) by Noroxi.
+
+Reported-by: tag?
+
 >=20
 > Signed-off-by: Mahmut Emin Kurhan <guvenlik@noroxi.com>
+> ---
+> Slava, this is the reworked version you suggested: one CNID-keyed
+> hfsplus_lock_class() serving both the B-tree tree_lock and the inode
+> extents_lock, instead of a second enum/function.
+>=20
+> The B-tree tree_lock keeps CATALOG/EXTENTS/ATTR (same values as
+> before).
+> For extents_lock the only real nesting is a regular file's
+> extents_lock
+> (held in truncate/extend) over the allocation file's extents_lock
+> (taken
+> from its ->get_block() during block alloc/free), so the allocation
+> file
+> gets its own subclass and everything else uses the default.=C2=A0 That
+> also
+> drops the FIRSTUSER file/folder ambiguity from v2.
+>=20
+> One behaviour change worth flagging: hfsplus_lock_class() returns
+> HFSPLUS_DEFAULT_MUTEX for an unexpected CNID where the old
+> hfsplus_btree_lock_class() called BUG().=C2=A0 The B-tree callers still
+> only
+> pass CAT/EXT/ATTR, so this affects only the now-shared default path.
+> Happy to keep a WARN there if you prefer.
+>=20
+> v3:
+> =C2=A0- rework hfsplus_btree_lock_class() into a single CNID-keyed
+> =C2=A0=C2=A0 hfsplus_lock_class() shared by tree_lock and extents_lock (S=
+lava
+> =C2=A0=C2=A0 Dubeyko); drop the separate enum/function and the FIRSTUSER =
+check
+> v2:
+> =C2=A0- shorten the comment, rename the subclass, use FIRSTUSER
+> (superseded)
+> =C2=A0fs/hfsplus/bfind.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0fs/hfsplus/extents.c=C2=A0=C2=A0=C2=A0 | 18 +++++++++++-------
+> =C2=A0fs/hfsplus/hfsplus_fs.h | 39 +++++++++++++++++++++-----------------=
+-
+> =C2=A0fs/hfsplus/super.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0fs/hfsplus/xattr.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 ++-
+> =C2=A05 files changed, 36 insertions(+), 28 deletions(-)
+>=20
+> diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
+> index ca9813f58a..ed72d61f64 100644
+> --- a/fs/hfsplus/bfind.c
+> +++ b/fs/hfsplus/bfind.c
+> @@ -27,7 +27,7 @@ int hfs_find_init(struct hfs_btree *tree, struct
+> hfs_find_data *fd)
+> =C2=A0	hfs_dbg("cnid %d, caller %ps\n",
+> =C2=A0		tree->cnid, __builtin_return_address(0));
+> =C2=A0	mutex_lock_nested(&tree->tree_lock,
+> -			hfsplus_btree_lock_class(tree));
+> +			hfsplus_lock_class(tree->cnid));
+> =C2=A0	return 0;
+> =C2=A0}
+> =C2=A0
+> diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
+> index eb7c11524d..ae1369a4cb 100644
+> --- a/fs/hfsplus/extents.c
+> +++ b/fs/hfsplus/extents.c
+> @@ -150,7 +150,8 @@ int hfsplus_ext_write_extent(struct inode *inode)
+> =C2=A0{
+> =C2=A0	int res;
+> =C2=A0
+> -	mutex_lock(&HFSPLUS_I(inode)->extents_lock);
+> +	mutex_lock_nested(&HFSPLUS_I(inode)->extents_lock,
+> +			=C2=A0 hfsplus_lock_class(inode->i_ino));
+> =C2=A0	res =3D hfsplus_ext_write_extent_locked(inode);
+> =C2=A0	mutex_unlock(&HFSPLUS_I(inode)->extents_lock);
+> =C2=A0
+> @@ -261,7 +262,8 @@ int hfsplus_get_block(struct inode *inode,
+> sector_t iblock,
+> =C2=A0	if (inode->i_ino =3D=3D HFSPLUS_EXT_CNID)
+> =C2=A0		return -EIO;
+> =C2=A0
+> -	mutex_lock(&hip->extents_lock);
+> +	mutex_lock_nested(&hip->extents_lock,
+> +			=C2=A0 hfsplus_lock_class(inode->i_ino));
+> =C2=A0
+> =C2=A0	/*
+> =C2=A0	 * hfsplus_ext_read_extent will write out a cached extent
+> into
+> @@ -430,7 +432,7 @@ int hfsplus_free_fork(struct super_block *sb, u32
+> cnid,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 total_blocks);
+> =C2=A0		total_blocks =3D start;
+> =C2=A0		mutex_lock_nested(&fd.tree->tree_lock,
+> -			hfsplus_btree_lock_class(fd.tree));
+> +			hfsplus_lock_class(fd.tree->cnid));
+> =C2=A0	} while (total_blocks > blocks);
+> =C2=A0	hfs_find_exit(&fd);
+> =C2=A0
+> @@ -454,7 +456,8 @@ int hfsplus_file_extend(struct inode *inode, bool
+> zeroout)
+> =C2=A0		return -ENOSPC;
+> =C2=A0	}
+> =C2=A0
+> -	mutex_lock(&hip->extents_lock);
+> +	mutex_lock_nested(&hip->extents_lock,
+> +			=C2=A0 hfsplus_lock_class(inode->i_ino));
+> =C2=A0	if (hip->alloc_blocks =3D=3D hip->first_blocks)
+> =C2=A0		goal =3D hfsplus_ext_lastblock(hip->first_extents);
+> =C2=A0	else {
+> @@ -576,7 +579,8 @@ void hfsplus_file_truncate(struct inode *inode)
+> =C2=A0	blk_cnt =3D (inode->i_size + HFSPLUS_SB(sb)->alloc_blksz - 1)
+> >>
+> =C2=A0			HFSPLUS_SB(sb)->alloc_blksz_shift;
+> =C2=A0
+> -	mutex_lock(&hip->extents_lock);
+> +	mutex_lock_nested(&hip->extents_lock,
+> +			=C2=A0 hfsplus_lock_class(inode->i_ino));
+> =C2=A0
+> =C2=A0	alloc_cnt =3D hip->alloc_blocks;
+> =C2=A0	if (blk_cnt =3D=3D alloc_cnt)
+> @@ -597,7 +601,7 @@ void hfsplus_file_truncate(struct inode *inode)
+> =C2=A0			hfsplus_dump_extent(hip->first_extents);
+> =C2=A0			hip->first_blocks =3D blk_cnt;
+> =C2=A0			mutex_lock_nested(&fd.tree->tree_lock,
+> -				hfsplus_btree_lock_class(fd.tree));
+> +				hfsplus_lock_class(fd.tree->cnid));
+> =C2=A0			break;
+> =C2=A0		}
+> =C2=A0		res =3D __hfsplus_ext_cache_extent(&fd, inode,
+> alloc_cnt);
+> @@ -612,7 +616,7 @@ void hfsplus_file_truncate(struct inode *inode)
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 alloc_cnt - start, alloc_cnt -
+> blk_cnt);
+> =C2=A0		hfsplus_dump_extent(hip->cached_extents);
+> =C2=A0		mutex_lock_nested(&fd.tree->tree_lock,
+> -				hfsplus_btree_lock_class(fd.tree));
+> +				hfsplus_lock_class(fd.tree->cnid));
+> =C2=A0		if (blk_cnt > start) {
+> =C2=A0			hip->extent_state |=3D HFSPLUS_EXT_DIRTY;
+> =C2=A0			break;
+> diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+> index 916e6552e3..22b961b454 100644
+> --- a/fs/hfsplus/hfsplus_fs.h
+> +++ b/fs/hfsplus/hfsplus_fs.h
+> @@ -30,11 +30,19 @@ typedef int (*btree_keycmp)(const
+> hfsplus_btree_key *,
+> =C2=A0
+> =C2=A0#define NODE_HASH_SIZE	256
+> =C2=A0
+> -/* B-tree mutex nested subclasses */
+> -enum hfsplus_btree_mutex_classes {
+> -	CATALOG_BTREE_MUTEX,
+> -	EXTENTS_BTREE_MUTEX,
+> -	ATTR_BTREE_MUTEX,
+> +/*
+> + * Nested-locking subclasses shared by the B-tree tree_lock and the
+> inode
+> + * extents_lock.=C2=A0 Both are keyed by CNID (tree->cnid or inode-
+> >i_ino), so one
+> + * mapping serves both.=C2=A0 The allocation file gets its own subclass
+> because a
+> + * regular file's extents_lock is held across block alloc/free,
+> which takes the
+> + * allocation file's extents_lock in turn; every other inode uses
+> the default.
+> + */
+> +enum hfsplus_mutex_classes {
+> +	HFSPLUS_CATALOG_MUTEX,
+> +	HFSPLUS_EXTENTS_MUTEX,
+> +	HFSPLUS_ATTR_MUTEX,
+> +	HFSPLUS_ALLOC_MUTEX,
+> +	HFSPLUS_DEFAULT_MUTEX,
 
-Please, see my comments for HFS+ patch. This patch has the same issues.
+I prefer to keep naming convention like it was before. Because,
+CATALOG_BTREE_MUTEX can be used in HFS and HFS+ without any changes in
+the future. I still would like to introduce something like library that
+contain similar code in HFS/HFS+.=20
+
+> =C2=A0};
+> =C2=A0
+> =C2=A0/* An HFS+ BTree held in memory */
+> @@ -547,25 +555,20 @@ static inline __be32 __hfsp_ut2mt(time64_t ut)
+> =C2=A0	return cpu_to_be32(lower_32_bits(ut) + HFSPLUS_UTC_OFFSET);
+> =C2=A0}
+> =C2=A0
+> -static inline enum hfsplus_btree_mutex_classes
+> -hfsplus_btree_lock_class(struct hfs_btree *tree)
+> +static inline unsigned int hfsplus_lock_class(u32 cnid)
+> =C2=A0{
+> -	enum hfsplus_btree_mutex_classes class;
+> -
+> -	switch (tree->cnid) {
+> +	switch (cnid) {
+> =C2=A0	case HFSPLUS_CAT_CNID:
+> -		class =3D CATALOG_BTREE_MUTEX;
+> -		break;
+> +		return HFSPLUS_CATALOG_MUTEX;
+> =C2=A0	case HFSPLUS_EXT_CNID:
+> -		class =3D EXTENTS_BTREE_MUTEX;
+> -		break;
+> +		return HFSPLUS_EXTENTS_MUTEX;
+> =C2=A0	case HFSPLUS_ATTR_CNID:
+> -		class =3D ATTR_BTREE_MUTEX;
+> -		break;
+> +		return HFSPLUS_ATTR_MUTEX;
+> +	case HFSPLUS_ALLOC_CNID:
+> +		return HFSPLUS_ALLOC_MUTEX;
+> =C2=A0	default:
+> -		BUG();
+> +		return HFSPLUS_DEFAULT_MUTEX;
+> =C2=A0	}
+> -	return class;
+> =C2=A0}
+> =C2=A0
+> =C2=A0static inline
+> diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+> index ff7d6b3336..49059bf3e7 100644
+> --- a/fs/hfsplus/super.c
+> +++ b/fs/hfsplus/super.c
+> @@ -152,7 +152,7 @@ static int hfsplus_system_write_inode(struct
+> inode *inode)
+> =C2=A0	hfsplus_inode_write_fork(inode, fork);
+> =C2=A0	if (tree) {
+> =C2=A0		mutex_lock_nested(&tree->tree_lock,
+> -				=C2=A0 hfsplus_btree_lock_class(tree));
+> +				=C2=A0 hfsplus_lock_class(tree->cnid));
+> =C2=A0		int err =3D hfs_btree_write(tree);
+> =C2=A0		mutex_unlock(&tree->tree_lock);
+> =C2=A0
+> diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+> index 21a1c196c7..f540d4c382 100644
+> --- a/fs/hfsplus/xattr.c
+> +++ b/fs/hfsplus/xattr.c
+> @@ -264,7 +264,8 @@ static int hfsplus_create_attributes_file(struct
+> super_block *sb)
+> =C2=A0						=C2=A0=C2=A0=C2=A0 sbi->sect_count,
+> =C2=A0						=C2=A0=C2=A0=C2=A0
+> HFSPLUS_ATTR_CNID);
+> =C2=A0
+> -	mutex_lock(&hip->extents_lock);
+> +	mutex_lock_nested(&hip->extents_lock,
+> +			=C2=A0 hfsplus_lock_class(attr_file->i_ino));
+> =C2=A0	hip->clump_blocks =3D clump_size >> sbi->alloc_blksz_shift;
+> =C2=A0	mutex_unlock(&hip->extents_lock);
+> =C2=A0
+
+The extents_lock is initialized in two places: fs/hfsplus/super.c:86
+(hfsplus_iget() path) and fs/hfsplus/inode.c:494 (hfsplus_new_inode()).
+Each mutex_init() site gets its own static lockdep key, so lockdep sees
+two unrelated extents_lock classes:
+- inodes read from disk, which includes all system files;
+- inodes created during this mount.
+
+So a nesting through a freshly created file never conflicts with one
+through an existing file, and ordering checks between the two groups
+are lost. That's an existing problem, not caused by this patch. Moving
+the mutex_init() into hfsplus_alloc_inode(), or into a single helper,
+would fix it. What do you think?
 
 Thanks,
 Slava.
 
-> ---
-> =C2=A0fs/hfs/btree.c | 40 +++++++++++++++++++++++-----------------
-> =C2=A01 file changed, 23 insertions(+), 17 deletions(-)
->=20
-> diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
-> index 4f0ddc76e8..140cdb5ec6 100644
-> --- a/fs/hfs/btree.c
-> +++ b/fs/hfs/btree.c
-> @@ -131,6 +131,27 @@ static int hfs_bmap_clear_bit(struct hfs_bnode
-> *node, u32 node_bit_idx)
-> =C2=A0}
-> =C2=A0
-> =C2=A0/* Get a reference to a B*Tree and do some initial checks */
-> +static void hfs_bnode_hash_free(struct hfs_btree *tree)
-> +{
-> +	struct hfs_bnode *node;
-> +	int i;
-> +
-> +	for (i =3D 0; i < NODE_HASH_SIZE; i++) {
-> +		spin_lock(&tree->hash_lock);
-> +		while ((node =3D tree->node_hash[i])) {
-> +			hfs_bnode_unhash(node);
-> +			spin_unlock(&tree->hash_lock);
-> +			if (atomic_read(&node->refcnt))
-> +				pr_err("node %d:%d still has %d
-> user(s)!\n",
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node->tree->cnid, node->this,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 atomic_read(&node->refcnt));
-> +			hfs_bnode_free(node);
-> +			spin_lock(&tree->hash_lock);
-> +		}
-> +		spin_unlock(&tree->hash_lock);
-> +	}
-> +}
-> +
-> =C2=A0struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id,
-> btree_keycmp keycmp)
-> =C2=A0{
-> =C2=A0	struct hfs_btree *tree;
-> @@ -296,6 +317,7 @@ struct hfs_btree *hfs_btree_open(struct
-> super_block *sb, u32 id, btree_keycmp ke
-> =C2=A0	tree->inode->i_mapping->a_ops =3D &hfs_aops;
-> =C2=A0	iput(tree->inode);
-> =C2=A0free_tree:
-> +	hfs_bnode_hash_free(tree);
-> =C2=A0	kfree(tree);
-> =C2=A0	return NULL;
-> =C2=A0}
-> @@ -303,26 +325,10 @@ struct hfs_btree *hfs_btree_open(struct
-> super_block *sb, u32 id, btree_keycmp ke
-> =C2=A0/* Release resources used by a btree */
-> =C2=A0void hfs_btree_close(struct hfs_btree *tree)
-> =C2=A0{
-> -	struct hfs_bnode *node;
-> -	int i;
-> -
-> =C2=A0	if (!tree)
-> =C2=A0		return;
-> =C2=A0
-> -	for (i =3D 0; i < NODE_HASH_SIZE; i++) {
-> -		spin_lock(&tree->hash_lock);
-> -		while ((node =3D tree->node_hash[i])) {
-> -			hfs_bnode_unhash(node);
-> -			spin_unlock(&tree->hash_lock);
-> -			if (atomic_read(&node->refcnt))
-> -				pr_err("node %d:%d still has %d
-> user(s)!\n",
-> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node->tree->cnid, node->this,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 atomic_read(&node->refcnt));
-> -			hfs_bnode_free(node);
-> -			spin_lock(&tree->hash_lock);
-> -		}
-> -		spin_unlock(&tree->hash_lock);
-> -	}
-> +	hfs_bnode_hash_free(tree);
-> =C2=A0	iput(tree->inode);
-> =C2=A0	kfree(tree);
-> =C2=A0}
