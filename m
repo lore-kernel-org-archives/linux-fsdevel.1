@@ -1,31 +1,32 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19074825A1;
-	Mon,  5 Oct 2026 13:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D9E481A97;
+	Mon,  5 Oct 2026 13:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791205265; cv=none; b=uSoi26FYNxZ/PCThdkkDMEoYQ0fRikYKPzGEjS1sexFI2nV2ZUFMoyP60bdp4N3PMbN1s2bWFmlLmKkxJYB5014TJTmzqVMsMK0hN/DNRaSJieiGdfRPJFwh+FzfI++5MjRCYYROpaDA2eEA9+8ZwNd4arzWsc4nScGNiiTctD4=
+	t=1791205892; cv=none; b=Kk9Ebj0sxzKLaFwLXDRdm2p/G90f4Z5hKvM3M/1uagYFbxXMpgDpfwmxXLx4FzkjzjcDdwAgkp+Tp/WvYnhLkLYpyelMkYfgoS97ivd5UedhG2AtJRYt/3sM4xSZTLJZhrLlqsZVZ9K+nJvA3WPq/ZhKyP2HqNpl9rFyAKAPgjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791205265; c=relaxed/simple;
-	bh=a9i4OaXYqElH/+EvN3j20R1KtHQ317LrRoh5jufZb4k=;
+	s=arc-20240116; t=1791205892; c=relaxed/simple;
+	bh=rwI9RR9EAYt6j2DBEfQTDUQVbWv3+cWmgFveBfny9mQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TCtd+k7ggLWyFB7nfINxkKJ0TP1AutqHII1EpwIWJHq5vAa05YzcbOyrocmG7JIzgI34cJ7wXyInGTetZXa2wf8mdbfU13Q9+gdzYBzjoPh6EGgy/8WbUxczIFpbFe3kjplUdZTPbkdepe9/dCbCki9J08k16WpiYgcGdBU/iPs=
+	 Content-Type:Content-Disposition:In-Reply-To; b=aH7sq8QdXYGY1XzLEq6SHFsWwFP8btIceHXgLEGoeZ95jvOJ3Mmdp5CC0TB9L9/zxWKSazzzv992CWEfP+ZNeTU3236/5wS57Vc7l7AsguByX+FBsWV8un8eMmIJmHS1V/2u1/Xu3QTK0mMutLEHMywbmHHou+p+NuxeZklLhuk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3DEEA68BFE; Mon,  5 Oct 2026 15:01:00 +0200 (CEST)
-Date: Mon, 5 Oct 2026 15:00:59 +0200
+	id 2F34768AFE; Mon,  5 Oct 2026 15:11:27 +0200 (CEST)
+Date: Mon, 5 Oct 2026 15:11:26 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
 	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 15/21] xfs: add support for writing with data checksums
-Message-ID: <20261005130059.GB26805@lst.de>
-References: <20260924100032.2733101-1-hch@lst.de> <20260924100032.2733101-16-hch@lst.de> <20260929010103.GW2705364@frogsfrogsfrogs>
+Subject: Re: [PATCH 16/21] xfs: add data checksum support to zoned garbage
+ collection
+Message-ID: <20261005131126.GD26805@lst.de>
+References: <20260924100032.2733101-1-hch@lst.de> <20260924100032.2733101-17-hch@lst.de> <20260929010639.GX2705364@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,35 +35,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260929010103.GW2705364@frogsfrogsfrogs>
+In-Reply-To: <20260929010639.GX2705364@frogsfrogsfrogs>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Mon, Sep 28, 2026 at 06:01:03PM -0700, Darrick J. Wong wrote:
-> > +	if (xfs_is_rtcsum_inode(ip) && !xfs_rtcsum_prepare_read(ioend))
-> > +		return blk_status_to_errno(bio->bi_status);
-> > +	if (ioend_flags & IOMAP_IOEND_INTEGRITY)
-> > +		fs_bio_integrity_alloc(bio);
-> > +	saved_iter = bio->bi_iter;
-> > +	error = submit_bio_wait(bio);
-> > +	if (bio_integrity(bio)) {
-> > +		if (!error)
-> > +			error = fs_bio_integrity_verify(bio, &saved_iter);
-> > +		fs_bio_integrity_free(bio);
-> > +	}
-> > +	if (xfs_is_rtcsum_inode(ip))
-> > +		error = xfs_rtcsum_verify_ioend(ioend, error);
-> > +	return error;
-> > +}
+On Mon, Sep 28, 2026 at 06:06:39PM -0700, Darrick J. Wong wrote:
+> > +	/* Buffer for data checksums */
+> > +	struct xfs_buf			*csum_bp;
+> > +	void				*csum_buf;
 > 
-> Hm, synchronous reads to pull in whatever unaligned parts of the
-> pagecache aren't yet uptodate?
+> Where is csum_buf used?
 
-Yes.  Very similar to the generic version in
-iomap_bio_read_folio_range_sync, but using an ioend and with all the
-extra csum magic.
+Nowhere, left from an earlier version.
 
-> It would be helpful to document this ordering dependency here explicitly
-> for the benefit of code spelunkers in a few years.
+> > +		error = xfs_rtcsum_read_async(mp, chunk->old_startblock,
+> > +				&chunk->csum_bp);
+> > +		if (error) {
+> > +			xfs_force_shutdown(mp, SHUTDOWN_META_IO_ERROR);
+> > +			xfs_zone_gc_free_chunk(chunk);
+> > +			return false;
+> > +		}
+> 
+> Ok so this starts the csum block read asynchronously, and then submits
+> the read bio.  chunk->csum_bp is the checksum buffer of the rtcsum file
+> of the zone we're cleaning out, right?
 
-I've added it with a minor edit.
+Yes.
+
+> > +		boff = xfs_rtb_to_rtcsumoff(mp, chunk->old_startblock);
+> > +		error = xfs_rtcsum_log(chunk->oz, chunk->new_daddr, chunk->len,
+> > +				chunk->csum_bp->b_addr + boff);
+> 
+> ...and then write the same checksum to the new daddr using the old
+> checksum.  There's no explicit validation of the checksum in the garbage
+> collector itself, but I gather the read ioend did this for us already,
+> right?
+
+Exactly.
 
