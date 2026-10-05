@@ -1,170 +1,251 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A295A47DD76
-	for <linux-fsdevel@vger.kernel.org>; Mon,  5 Oct 2026 17:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791219962; cv=pass; b=e5SEdw3S66MA8bezWI5lbJAYhle6GT9PL/7yeDmP0Dp+z6BFHhk6oK2tbisnTNxiGOEuajpwirWBpmXHRibkyUHgA+t/LrRapgmY1uY5/dqNxPjWUQhzYph4sywyMXPA21wrEMKYwloLTepR9IBhFSvzD8xwtvxMkay5A7waWGw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791219962; c=relaxed/simple;
-	bh=2RXkrvI8XGSx/1oVfdObGE9PLA8OssOwVxQ91HAiD08=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mPHcomY0AFdqRZSqkSvaM4T7+5b3NlI+1kEhwT/lDJegnmNBSYnDS0DwdOZHiq14pqTdI+VSU9RyE7T5sNDlCHz35CuFh77yPVBCt2e5CJpKRAG1w9ZxiTg+p5nfdXJKwuLgRIfczBtIENKLBsL+CDOqqHuqZpMmnwzt3lWsDa0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mLSiFWv4; arc=pass smtp.client-ip=209.85.167.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C2A4E80AD;
+	Mon,  5 Oct 2026 17:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791220722; cv=none; b=pByAg/JDCEKwvO2Bph0Ivc6XSu9oHTDMYG3AEh8l+dA/yAv23v1yUH6hUmMPMcH3yaaFdoFecod8DQKTwZFKQ1zZ8dIJaWj1EKAhwFTlzXe1v9EYCc6TeHAumaSqb3BlFY9mt7/TNZ3CRwOdRPeImJN2cOOuu29c2Ah2MPU3vRQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791220722; c=relaxed/simple;
+	bh=p8y2SWLkQ0bsXNgah/d2jg4U+TCB44ub7sLKZF6IxnA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fcg0vcOE5iz6YPFr6vSQX9f4YlAJQWAL1w1iyqMOPTjvmBN2IHLmE+78m1qkw4kNUtLn2stvMlm24zqs+9E4Gu0mQvhIzVImwe0FkWbstUEuobirsnd2jD/6IsV23XcMijLv6fkZxudqJWpT479NUpXj2+nYnp/yK+KAtRKa5F4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VUEJgA4P; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mLSiFWv4"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4d7034a99a9so1023147b6e.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 05 Oct 2026 10:06:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791219959; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YPZ9NcvdihvvYI+IgddCaCZIJ7XAFl91zg58OjdxHC/QKveKh9RgZN8jxs+v5BhBGF
-         V+LG81jV/GnYFfWT9hZieTQI/QKljhdTaiAhTxGfDIM5dws7Pg+oX0TuT+Y3Lz2EdcPf
-         hOSbMU5t6lhXgW8U/JHXCyx29zNY0JhmbyXlDoIG6SshPJ0dYBYObN7Fe1nbQfWFNWaA
-         FTKD9p5+CilUxc/hWhC1DCVoM68+yBjZih+SEIswO99CpzQgwpsvpXFMcbGpSwHYVsgP
-         tOpfxzChbrj801ffStQZnmM0sv/ohRs29+K0s06WzpW52UEGSMmJP4wRWRn4fNgf+GgH
-         W65g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=V3QHsfD9eae4eVmZwhjIqULbQNwImtk17XMJTw0B7T8=;
-        fh=mQNBALDNlagSZlH/xgXHswJcaWdq8klVCSVd5m8xbq4=;
-        b=KYgzi8TknGk/m/RpDGWmX+hkfjTyLtrwM+/L7sXp4owtHuHG1L9f3QZwyFaDvYN19P
-         mv1+IEksag5kxMfkMd3FYt7E6Q6GJKYr+mY4JhMURGGC/GQD05j1o9At6VS6C/O54M/o
-         L5ac0zp4aznEhJbzxINlieBsoyBIp1go1h38U55jeASwhh6lz6F1Egsn4R4HaMzRvYNa
-         3nwnsNz+1yvfPkX+YTvl3KjuxMEeFxvt29r4yuZwcDcDqIanRQgN5fxmRWbmvC3pdmNq
-         cOX7EZH4zP3EfWem9WJxbWwOifnEDDhWb3zxFe4rYwaqXeAunMREtX1HegYduiq9RWQj
-         jtAg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791219959; x=1791824759; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=V3QHsfD9eae4eVmZwhjIqULbQNwImtk17XMJTw0B7T8=;
-        b=mLSiFWv49QmGqH6AcvhRb/RHPfgAfJ3GHS8U2YOfeN/lFkYaMDoC6pkzyo/gK/cbwv
-         5Ent4KeoVAnvmhRhcQ81oYaPMUgsjM8+zyQbQRoArQGr4fNl5+nf0J6izYYVKPcVk0zn
-         g0HImbOAaNf/CtWtJ3ZqcFzU038XbZuLRt2DHoA+9TT5UYncN9jpWG/ViZ1MtznMmt/J
-         BUPm/SVNj5MGrglli7HOET2qMVIJi9zYBvLn41gnaPltOwb7Fnne2rJwCStg/jblvSmS
-         V0O+s/7RtbA/m8mn5dWnurZy+DIYJdCdU1zeFmGxiLoyAjGkuXV7ktuugjbzIfhv4Lqm
-         oiGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791219959; x=1791824759;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=V3QHsfD9eae4eVmZwhjIqULbQNwImtk17XMJTw0B7T8=;
-        b=BGHPSleqU5W11rfAedRTE1K0P8g62WPXfTXFpJFHz/OpuJ3wNcc7f5r5sfV0hsxmgy
-         BAM9zUmmwNlGL9OIvgNqKGZbP04zyolBf7i7qJ6hqfzycSd6jUhV6ejhElNxOOQgAY1K
-         62fNn1AT3Vr2u4HYhGjtY4sInGRoPFzn9W5t3CjlnAN049VfmerCRo7Em9SJG0CqO4en
-         AKtV6YhsCs3a/AvQnTjQGtz8X9WI38vI9PbfSCHL5yHxspNUDbHJ0/jBfASCDsApYS/h
-         vU2ZotrW5p2lrlX1OB9371gob06npgifjvKcw6pJu8OD1Bny7LDGksakGszyvXqJ9C/a
-         EjxQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzBndl6JvBNxLCM60cwvpm7Jjcj+Lz4dhEopk6KjzEUMxhkOPqqoe6kDN7Z/WPKGR6PSfTncpAz9jpZ3S5E@vger.kernel.org
-X-Gm-Message-State: AFuF++llqfMSpLujdfg0RSaVDL0RwFiRe5MSI/Y09ApzBNV+FmpvZz3l
-	4VM2/zgbePRjdi74iRFYc3iGFy5N3NDwfpLMB9mAHqdF1Vije7i7uizKDH+6uoWvDmDIVdSRcKd
-	XgERphWhZqAq82zLcG6LOyrxJtLH2cBw=
-X-Gm-Gg: AYBFou2uU2s4/tIkJ3dRtc5ql3e0cl/jWQl3xnS/9LOJ1BFzoe5AuKwcs6ibZmDbTsY
-	T2x8CewwBTcSHlZvHKHQFvE3yrWAo4fdWTtiGyvH83iSR26tCN8Q8FqNcR4Yplnpmnh8v8QOUsC
-	B9qZN41lSReslohy1aVDr/NaBXm+mS6cJqvco7jUTOj3DxAeAENHnuqYC+m/GkXKFuFEs9p6in/
-	w23RaocfdBfeCcYzK0QHlCeSduBPihJdMqFpRnZKQrmZ2vYL2Xd6L8miAsT++4cgCBznsEZvCPN
-	5+JQk6wkrgP3DK2ykEnpLwUpyVwiMaIDpHS7o0taXCOJu04hmWQy9gJ0q0qmmtabIOAk2wxfXg0
-	8oKBCEykd0Fkq6g==
-X-Received: by 2002:a05:6808:6409:b0:4e8:e73e:e945 with SMTP id
- 5614622812f47-4f67b6368eamr6867509b6e.63.1791219959377; Mon, 05 Oct 2026
- 10:05:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VUEJgA4P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02AB71F00898;
+	Mon,  5 Oct 2026 17:18:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791220720;
+	bh=g6msS6X1Nm9a4FfZxp/QaUWM7UJBVtBa+hinGO0mETc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VUEJgA4PKsah0xZT1lr870C9hqSqsRunnnz04WlLURfD/UJTmN2lwjvFaHrddePZ6
+	 AqhbxYIsXMxfNHO7b+56xgy5Zo/jCpIrLLpnxjdp0ZdCdC7E8h0G2PzWnKJr6GB0EV
+	 /c+uo8VabxCcfoNi/iFpE7WFI41xxZYVncIFZalb1AMdiDe3t3UosVDI5kc5UWCixe
+	 3dwxa8cVGNKvsWJ4Tw+5i9b/BrMGdnLCshVqHpBLaWbukNMK45WiuXKIHH2gTvPzdh
+	 M/GZGdStGehJ5buPe6Toee94Xfg0c7bp1TuXjTn/MhYrHixG6otjZ4wpts+PbgX4qA
+	 qVxVficX6gx4Q==
+Date: Mon, 5 Oct 2026 19:18:35 +0200
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: djwong@kernel.org, ebiggers@kernel.org, hch@lst.de, 
+	Carlos Maiolino <cem@kernel.org>
+Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org, david@fromorbit.com
+Subject: Re: [PATCH v17 15/21] xfs: add fs-verity support
+Message-ID: <asPEIapeSklgcsUa@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20261002223705.2175542-1-aalbersh@kernel.org>
+ <20261002223705.2175542-16-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260923022339.3340694-1-georgeandrout13@gmail.com>
- <arThye_219ruNbM2@google.com> <20260925-stellen-brummen-festrede-266af0305ac7@brauner>
- <20260929044843.GA3909609@ZenIV> <DLRSQRUVOGT2.10ZY01VEJVHCE@garyguo.net>
- <20260929135154.GB989762@ZenIV> <DLRXHGLDR2QQ.WZVRWGY995BT@garyguo.net>
- <20260929170218.GD989762@ZenIV> <DLS0CO1HEGJN.2XX8QX8LW8XJM@garyguo.net> <20260929194726.GE989762@ZenIV>
-In-Reply-To: <20260929194726.GE989762@ZenIV>
-From: Georgios Androutsopoulos <georgeandrout13@gmail.com>
-Date: Mon, 5 Oct 2026 13:05:48 -0400
-X-Gm-Features: AclHuK82zXF_oHnFQwG46GJvuw1FlbpLwvQEpRhqprAmrygF7YVXXrAloo-DO5M
-Message-ID: <CAESH5ocD6j_trFz1GyEXLTJKy5-N19=86wjZTm-b__0uX9YMLg@mail.gmail.com>
-Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
- descriptor APIs
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Gary Guo <gary@garyguo.net>, Christian Brauner <brauner@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	linux-fsdevel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Al Viro <viro@ftp.linux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261002223705.2175542-16-aalbersh@kernel.org>
 
-On Tue, Sep 29, 2026 at 3:47=E2=80=AFPM Al Viro <viro@zeniv.linux.org.uk> w=
-rote:
->
-> On Tue, Sep 29, 2026 at 07:22:28PM +0100, Gary Guo wrote:
-> > On Tue Sep 29, 2026 at 6:02 PM BST, Al Viro wrote:
-> > > On Tue, Sep 29, 2026 at 05:07:40PM +0100, Gary Guo wrote:
-> > >
-> > >> The reproducer that Georgios posted on GitHub is some cleanup job be=
-ing added to
-> > >> task_work, which drops FileDescriptorReservation. And since exit_tas=
-k_work()
-> > >> happens after exit_files(), put_unused_fd in that cleanup observe th=
-at
-> > >> current->files is NULL.
-> > >>
-> > >> So it's not from random thread, it's from the current task. And I fi=
-nd that
-> > >> particular case of doing per-task cleanup not unrealistic.
-> > >
-> > > FWIW, descriptor reservation ought to be tied to specific files_struc=
-t
-> > > instance; note that dup_fd() can be called when there are outstanding
-> > > reservations and the copy does *NOT* have those reserved.
-> > >
-> > > What rules would you suggest for such delayed put_unused_fd() wrt e.g=
-.
-> > > files_struct unsharing?
-> >
-> > Ah, is this about `unshare(CLONE_FILES)`? For that case indeed our exis=
-ting
-> > abstraction break down.
->
-> FWIW, the current rules are "you must not have any outstanding reservatio=
-ns when
-> you unshare descriptor table in any manner".  You are adding "... includi=
-ng the
-> ones that would be discarded by an already-scheduled task_work callback".
->
-> It's not just unshare(2) - there are more interesting callchains. For exa=
-mple,
-> unshare_files() from do_coredump(); this one should be fine in face of
-> put_unused_fd() in task_work, due to the task_work_run() in get_signal()
-> being upstream of vfs_coredump() call, but it needs to be considered.
-> Or begin_new_exec() - that has a lot more callchains leading to it.
-> It should be safe at the moment, but that needs to be demonstrated, etc.
+On 2026-10-03 00:36:56, Andrey Albershteyn wrote:
+> Add integration with fs-verity. XFS stores fs-verity descriptor and
+> Merkle tree in the inode data fork at first block aligned to 64k past
+> EOF.
+> 
+> The Merkle tree reading/writing is done through iomap interface. The
+> data itself is read to the inode's page cache. When XFS reads from this
+> region iomap doesn't call into fsverity to verify it against Merkle
+> tree. For data, verification is done at ioend completion in a workqueue.
+> 
+> When fs-verity is enabled on an inode, the XFS_IVERITY_CONSTRUCTION
+> flag is set meaning that the Merkle tree is being build. The
+> initialization ends with storing of verity descriptor and setting
+> inode on-disk flag (XFS_DIFLAG2_VERITY). Lastly, the
+> XFS_IVERITY_CONSTRUCTION is dropped and I_VERITY is set on inode.
+> 
+> The descriptor is stored in a new block aligned to 64k after the last
+> Merkle tree block. The size of the descriptor is stored at the end of
+> the last descriptor block (descriptor can be multiple blocks).
+> 
+> Pro-actively remove any unwritten extents as we use last extent to
+> locate descriptor.
+> 
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  fs/xfs/xfs_fsverity.c | 425 +++++++++++++++++++++++++++++++++++++++++-
+>  fs/xfs/xfs_fsverity.h |   2 +
+>  fs/xfs/xfs_message.c  |   4 +
+>  fs/xfs/xfs_message.h  |   1 +
+>  fs/xfs/xfs_mount.h    |   2 +
+>  fs/xfs/xfs_super.c    |   7 +
+>  6 files changed, 440 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/xfs/xfs_fsverity.c b/fs/xfs/xfs_fsverity.c
+> index 976e05257bf9..8cffcafc19aa 100644
+> --- a/fs/xfs/xfs_fsverity.c
+> +++ b/fs/xfs/xfs_fsverity.c
+> @@ -6,13 +6,22 @@
+>  #include "xfs_fs.h"
+>  #include "xfs_shared.h"
+>  #include "xfs_format.h"
+> -#include "xfs_log_format.h"
+>  #include "xfs_trans_resv.h"
+>  #include "xfs_mount.h"
+>  #include "xfs_inode.h"
+> +#include "xfs_log_format.h"
+> +#include "xfs_trans.h"
+> +#include "xfs_trace.h"
+> +#include "xfs_quota.h"
+>  #include "xfs_fsverity.h"
+> +#include "xfs_iomap.h"
+> +#include "xfs_error.h"
+> +#include "xfs_health.h"
+> +#include "xfs_bmap_util.h"
+> +#include "xfs_icache.h"
+>  #include <linux/fsverity.h>
+>  #include <linux/iomap.h>
+> +#include <linux/pagemap.h>
+>  
+>  struct kmem_cache *xfs_fsverity_ioend_cache;
+>  mempool_t xfs_fsverity_ioend_pool;
+> @@ -51,3 +60,417 @@ xfs_fsverity_is_file_data(
+>  	return fsverity_active(VFS_IC(ip)) &&
+>  			offset < xfs_fsverity_metadata_offset(ip);
+>  }
+> +
+> +/*
+> + * Retrieve the verity descriptor.
+> + */
+> +static int
+> +xfs_fsverity_get_descriptor(
+> +	struct inode		*inode,
+> +	void			*buf,
+> +	size_t			buf_size)
+> +{
+> +	struct xfs_inode	*ip = XFS_I(inode);
+> +	struct xfs_mount	*mp = ip->i_mount;
+> +	__be32			d_desc_size;
+> +	u32			desc_size;
+> +	u64			desc_size_pos;
+> +	int			error;
+> +	u64			desc_pos;
+> +	struct xfs_bmbt_irec	rec;
+> +	int			is_empty;
+> +	uint32_t		blocksize = i_blocksize(VFS_I(ip));
+> +	xfs_fileoff_t		last_block_offset;
+> +
+> +	xfs_ilock(ip, XFS_ILOCK_EXCL);
+> +	/*
+> +	 * Serialize reading of inode->i_flags with xfs_scrub clearing of this
+> +	 * flag if inode is corrupted.
+> +	 */
+> +	if (!(inode->i_flags & S_VERITY)) {
+> +		xfs_iunlock(ip, XFS_ILOCK_EXCL);
+> +		return -ENODATA;
+> +	}
+> +	error = xfs_bmap_last_extent(NULL, ip, XFS_DATA_FORK, &rec, &is_empty);
+> +	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+> +	if (error)
+> +		return error;
+> +
+> +	if (is_empty)
+> +		return -ENODATA;
+> +
+> +	last_block_offset =
+> +		XFS_FSB_TO_B(mp, rec.br_startoff + rec.br_blockcount);
+> +	if (last_block_offset <= xfs_fsverity_metadata_offset(ip))
+> +		return -ENODATA;
+> +
+> +	desc_size_pos = last_block_offset - sizeof(__be32);
+> +	error = fsverity_pagecache_read(inode, (char *)&d_desc_size,
+> +			sizeof(d_desc_size), desc_size_pos);
+> +	if (error)
+> +		return error;
+> +
+> +	desc_size = be32_to_cpu(d_desc_size);
+> +	if (XFS_IS_CORRUPT(mp, desc_size > FS_VERITY_MAX_DESCRIPTOR_SIZE))
+> +		return -ERANGE;
+> +	if (XFS_IS_CORRUPT(mp, desc_size > desc_size_pos))
+> +		return -ERANGE;
+> +
+> +	if (!buf_size)
+> +		return desc_size;
+> +
+> +	if (XFS_IS_CORRUPT(mp, desc_size > buf_size))
+> +		return -ERANGE;
+> +
+> +	desc_pos = round_down(desc_size_pos - desc_size, blocksize);
+> +	if (desc_pos < xfs_fsverity_metadata_offset(ip))
+> +		return -ERANGE;
+> +
+> +	error = fsverity_pagecache_read(inode, buf, desc_size, desc_pos);
+> +	if (error)
+> +		return error;
+> +
+> +	return desc_size;
+> +}
+> +
+> +static int
+> +xfs_fsverity_write_descriptor(
+> +	struct file		*file,
+> +	const void		*desc,
+> +	u32			desc_size,
+> +	u64			merkle_tree_size)
+> +{
+> +	int			error;
+> +	struct inode		*inode = file_inode(file);
+> +	struct xfs_inode	*ip = XFS_I(inode);
+> +	unsigned int		blksize = ip->i_mount->m_sb.sb_blocksize;
+> +	u64			tree_last_block =
+> +			xfs_fsverity_metadata_offset(ip) + merkle_tree_size;
+> +	u64			desc_pos =
+> +			round_up(tree_last_block, XFS_FSVERITY_START_ALIGN);
+> +	u64			desc_end = desc_pos + desc_size;
+> +	__be32			desc_size_disk = cpu_to_be32(desc_size);
+> +	u64			desc_size_pos =
+> +			round_up(desc_end + sizeof(desc_size_disk), blksize) -
+> +			sizeof(desc_size_disk);
+> +
+> +	error = iomap_fsverity_write(file, desc_size_pos, sizeof(__be32),
+> +			(const void *)&desc_size_disk,
+> +			&xfs_buffered_write_iomap_ops,
+> +			&xfs_iomap_write_ops);
+> +	if (error)
+> +		return error;
+> +
+> +	return iomap_fsverity_write(file, desc_pos, desc_size, desc,
+> +			&xfs_buffered_write_iomap_ops,
+> +			&xfs_iomap_write_ops);
+> +}
+> +
+> +/*
+> + * Try to remove all the fsverity metadata after a failed enablement.
+> + */
+> +static int
+> +xfs_fsverity_delete_metadata(
+> +	struct xfs_inode	*ip)
+> +{
+> +	struct xfs_trans	*tp;
+> +	struct xfs_mount	*mp = ip->i_mount;
+> +	int			error;
+> +
+> +	xfs_ilock(ip, XFS_MMAPLOCK_EXCL);
+> +	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_itruncate, 0, 0, 0, &tp);
+> +	if (error) {
+> +		xfs_iunlock(ip, XFS_MMAPLOCK_EXCL);
+> +		return error;
+> +	}
+> +
+> +	truncate_inode_pages(VFS_I(ip)->i_mapping, XFS_ISIZE(ip));
 
-Thanks for the discussion. It looks like the issue is broader than the
-`exit_files()` case I originally reported, since staying on the same task
-does not by itself guarantee the same fd-table context.
+Oh I haven't paid enough attention here, it has to be moved before
+xfs_ilock(ip, XFS_MMAPLOCK_EXCL) not just before the lock, to exclude
+ABBA with writeback/reclaim taking folio lock and waiting for trans
+space.
 
-It seems that the Rust abstraction needs to account for this stronger
-requirement. Would making some affected Rust file APIs `unsafe`, with
-appropriate `# Safety` documentation, be a reasonable temporary solution?
+I will send v18 if more feedback will arrive, otherwise, I can
+resend just this patch (or could be fixed during merge?).
 
-I'm not familiar enough with the VFS internals to determine the right
-abstraction here, so I'll hold off on sending another version based on the
-current runtime checks.
-
-Thanks,
-Georgios
+-- 
+- Andrey
