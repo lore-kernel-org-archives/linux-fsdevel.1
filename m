@@ -1,65 +1,65 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A81D4A64DB
-	for <linux-fsdevel@vger.kernel.org>; Tue,  6 Oct 2026 18:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CFE4A8A1B
+	for <linux-fsdevel@vger.kernel.org>; Tue,  6 Oct 2026 18:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791311570; cv=none; b=uF8uvAI1eOF5+kgYFY68ZHzloT7CXr9NnBqXfe7BkJioTd6XsfH25HUj8fwZ29AS3h//aNZauQz7ll8Ej18n0E2i0G7ToCq034vmiPuL+zKK3j3sNffpoQsnBICE5xrJtNxeIMy6qML+FrQtp92AXlVeYmeAtFlpNzs/4LLm8Ss=
+	t=1791311573; cv=none; b=taXQxHZcCbxxG3bjZOUT1HMDkLU8ilf33SDp2sJLPFtVsSYDyxgyCrMBVn9Yi7O831TxkUDjGaPt0u8Wx3rApEtYIzeadzzClHyY/XYxtr6WvPDmWvmFETKEk96eWkoh4IgZhozke0gb4vkXye9LCS7u5KPyvPvEfzDeACODS/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791311570; c=relaxed/simple;
-	bh=kkqbUgVwBKOTYlQ78x90lP7izeCrXUFDv8Sx7QBUcdI=;
+	s=arc-20240116; t=1791311573; c=relaxed/simple;
+	bh=PZoHwLAcac7MRG6rjhbSovKR0ePeapxARS7+LnV4ZIk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W7SjodyDAw7L6+RUhujlqiTleZ1TmAwZN+v5VRyKBQA1CS8QixkoML+iMGrkFzjCai2mGbkQ9Knmc2sCXv3crlDbGiakjKpowgjOut1nTfMQbzLMtwmmxt678t5fkt0tmw3DvWaHXDbZHpt0qAkSPYDFq/n2jn9vorF74cW8E8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qv541VRt; arc=none smtp.client-ip=209.85.218.49
+	 MIME-Version; b=U+A7wx8qhGp1o6jlCtj21yVfJzS3K+/Kd5SvovET5omiVXZEfMlNM04ZffXVEG5wkEwLo02qGfGfRAcU4vZcR2imTuM+NBwDHe7TotdcFp6prd8fmyV/Yrv18As2rHR3Y97aU7rxsYVe207/Yz9sBSS1Xtj2Stm9Ij5zhmtRty8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UQKGwkYZ; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qv541VRt"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c2e8c710847so127262866b.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 06 Oct 2026 11:32:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UQKGwkYZ"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c247f6687dcso142586466b.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 06 Oct 2026 11:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791311564; x=1791916364; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791311567; x=1791916367; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2oSZUxao1RfQULD3rGp8RyuZAgKuZ2Qm5VdphDYSiGw=;
-        b=Qv541VRt3PNp8Chvg5sA/p+odPF3RMDBJSwiu4k6ujyJXW4xpx2ThWtuHunKO3UeDg
-         iV10HjLRlKvSZWdcxzANhUwXGKXWlLaq4aMVrC0dNV2j60wURJrsfN3ZGpqOI8BfJIkB
-         Dl4uPurD6jTPihVojso+x6T7qqKes+lZLQ2ubdhT8QVxBubDDkSo/PKYnaYeiiOM3obm
-         x65HdsvZ55VkDPyBK9BcDIxtRbdfV3sLrTC4rScIdqH14wjwt0g4pf0nkI2sGTRR35Dw
-         in/yFYCOvhLNosP7AxHNmF16BFf6DePdWzTXsZFpxWDX7+/sRdnd4HWQj33aQrGAEqo/
-         WnCg==
+        bh=X/DDLaBldS6BCqOPBQL7QwFwyovqmKt8FALCheekTNg=;
+        b=UQKGwkYZbU5fWG0fyWPiQNAWLasI++YCp6UogLLx45CAG5x+8CZ6zMLQUArhPmPcfJ
+         jK6L4NFQPIYzGg1D5vPcK9vzKU+uyfaGgRZPlIJeS+PsbVKIZiY+R4Evw/RnDnPUNdrv
+         AJgII3N4gGOk2MwMi3bWAWvQ99tPWI6wpnAKYvV/OPXOK4v8JT0y1QgbYHmoIiWbTO8L
+         xFIYIEG8QmD8lKmRhh0moTUC7ZgAnTu3XGrWKFR8rEd5hfjh5HY8JVSOiPa5tXg7hO26
+         wMLiltQQRXiPVM/izwVBD1s46EQq8KnPdaOzgd6zCzoeK+w/YDPvuwzkfbkz6bgL5lGF
+         CuSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791311564; x=1791916364;
+        d=1e100.net; s=20260707; t=1791311567; x=1791916367;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2oSZUxao1RfQULD3rGp8RyuZAgKuZ2Qm5VdphDYSiGw=;
-        b=ICze3R3PvJkI0UygXGsPU9WkiyePA4StrPP8BF5O2iMflarUpqdH7LheRzPO1OnZKe
-         u1E951ZjLn7DnFKy4wgMRizYFomwTQXe0a+Q7XLd7jNeJ//1ocf8LWx+9k0ZsL6tqa5B
-         jzhLdDS7jzhZRHIdmutQYIzNiZRhSdvVQDWIm9BbR2jRk5dzc2mxiLkP5zbMNs4SaL25
-         WFTkPPm00BUEV9mM6UOAKjDbyvU1IE21s23x3twWZQA3s4UG11VD+rRUzBVuZVEcCTya
-         hcFhALiBrX/sWDY+4B+yv6KWuybp2qfe+hxCoHJsjj8xe6ifv4+FCeDMY2WBMDphPsO5
-         LHNQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzp3tV/EQXM9ctHqMo3JjUc6a72x3IA/mI24DHqvjeCrPCgBlu9yLdQUHePzWgYEk3al+gIrorBlr5kic1B@vger.kernel.org
-X-Gm-Message-State: AFuF++lqi18HVLl0XTFrOlDOFcB6RFcHl9lHyCt5ocVGff0yp6a8GpB4
-	Ly4yObxi7mMSArLJzs2qTHC0yURprHGIguHLUtS0lwMK9si08KHLykjc
-X-Gm-Gg: AYBFou2T+99TDsZLY6OOUwAuBrlARPE/LP6Dw4O9h+i5qP9K91dS9ibP92/b9hqjLbK
-	n7Y4GiqqSYQJycJK6LbDj9KZB74PNS2vcVnaQgf3RYDEC6UJtGmkfVmPi/XD6nPPd0FKQY58hbb
-	NVsnLmpZhNRMqEBJDfZfMMONi7b/jUh+MP2OhBIkcj5QFmXso8YMWXZtfw44eMKvF0svrqAMhP9
-	I/zm9p95HyGASUVwAssVFximJ1VV8zQZD+tsNlk1qk7Idd1ej7Ou/qRMgG4GiEIHJUSBvWnrhC6
-	/xuGucPkIezNKvM/4P5TI3DcOr7yIsNvn9sgoSFUgCzrKpuqibbH3JuDjEZpyA/c+aFi9j/8mCc
-	gHRXWkyXCvlJxQFFFXX0twSgE1VOPgiwCZUQ0WlFcHi+qQsapNWM+uChS+FOMjvZThJjntCz6Tu
-	gbBXy/TRqVaGF4BtqCm2mqR70JN0Og2M7qYZbP8CSo5Co5cFr2on8F336UCzJ+rQkMinYtbb9zY
-	ZEzg5wdp+3gUUKyeGTzUAQsnBlDKIyWOK39jYle3ZQA7S6I9Wiv3XOShEpUbNzrdzLsySLAdBWl
-	EAWT55LBkgx6PWrlX8vqEmtq/6zyFyHbMWQ=
-X-Received: by 2002:a17:906:ef0a:b0:c2a:f571:312f with SMTP id a640c23a62f3a-c3169fb0c2fmr247672166b.20.1791311563344;
-        Tue, 06 Oct 2026 11:32:43 -0700 (PDT)
+        bh=X/DDLaBldS6BCqOPBQL7QwFwyovqmKt8FALCheekTNg=;
+        b=0qTGM/1He6cFywzGrig/Rl0+BwXETcKa0OP4YjXZZWdRmf0WavTVc0Q6HhWc39ANBn
+         gBzZOC4nxEnCtvjo6Mm3slWJAjLSEvVipkpMU6qxEHQxgveg2we2tUfBOUf8hdmSl1e7
+         UlqPtCTgACPcP7EXLemYfbVBEuiKRJMXtkKd5t38q2daMiTE5IaobJK4hcm7/xfh/NVT
+         X8qJNW5oakv35tODT50POYZ4ap/qAmBLt21BYSKFI+euzhJY9yazUJxMpIiNzyhg6q9w
+         +PlAoWXGtFkqdo35R67sRlwWYhKezTQ8RjxZ7G4vvaa+WTttvSgnQ0SM5tAItGY0ATt2
+         sWvQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxLnmHz3yZ21MBJzGh79ZD4kPYf4M+Tpfvx9g3+QKqQK7Ql+QaD/oVs+etaniahGQgJ+EtxemQ8uQy19NDv@vger.kernel.org
+X-Gm-Message-State: AFuF++l2qkgnTP+xwOv2oiumPgtvcKpMEXIf3V/+aqTV5BrC9WsZonnX
+	Y4RDetnFdgopjlMyOofy1ki/4ZppCQknJScyy1suZd82yek0JIOWx4p2
+X-Gm-Gg: AYBFou2gxsxwg1YgePU8V/bMGL//wMCkVdxUDajbAgATzgABNz2S4Dj1pHzsBaTvJQ3
+	f4rj3yvCFKVg4nlEk+oRoZAQIuvrS1vstLGLGA0yOFjg6fDDkNBj6JZTi3Euxj8t+j4uYzV2Kz5
+	tifwsEa6K4blzIPsuSafQ+bZ+FuNd+kg4X30nL+ifdeTIyHp6d58OPJPCwZmSBemysZ6TyC7nKF
+	XkPZKqJYi7/1vSD8dAvD3PNKkBQo0gOBiqao/PzB5afb+2rreyvfSF0phWGyEwcQQaSZKOa9rEM
+	lyP35iLmODAgLSgbgiAGkW2XPgQEGrNRDhiKT2zCZ8O9A96X+Vc1whTnjFTloc3lwmLXfkf20vQ
+	8cML/RKgzrvGbW+E3uAUj5Y7i3YxtjFLZoXmnyD8b8rxjLUgexUx5VEJ0v9tVP+j9C8MrX8PLKd
+	E0ZSqsWP5CRFF776Fbq3Ji7h24poEs8CMWGew7M3xj0vN09DIJp2VWK1sBFNSDmC2bUWZAJj1CV
+	w2+O92o/PLkJH7TPH59V9C4rdmPVhawjhCUnfm5P4ru/mfXwoT8si2qa2krtSNLDcntCo8en2J0
+	CwftA5zgZaIsFXA3+7B6/V3AcrmNG9nV02M=
+X-Received: by 2002:a17:907:72d3:b0:c2e:4488:b8a3 with SMTP id a640c23a62f3a-c316a0bb639mr232794566b.33.1791311566749;
+        Tue, 06 Oct 2026 11:32:46 -0700 (PDT)
 Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c3158260f7bsm221934866b.6.2026.10.06.11.32.41
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c3158260f7bsm221934866b.6.2026.10.06.11.32.45
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 06 Oct 2026 11:32:42 -0700 (PDT)
+        Tue, 06 Oct 2026 11:32:46 -0700 (PDT)
 From: Fred Griffoul <griffoul@gmail.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	Sean Christopherson <seanjc@google.com>,
@@ -102,9 +102,9 @@ Cc: David Woodhouse <dwmw2@infradead.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH 4/9] iommufd: Track the domains of pages that are not pinned
-Date: Tue,  6 Oct 2026 18:32:30 +0000
-Message-ID: <20261006183235.16576-5-griffoul@gmail.com>
+Subject: [PATCH 6/9] iommufd/selftest: Add mock-domain IOVA queries
+Date: Tue,  6 Oct 2026 18:32:32 +0000
+Message-ID: <20261006183235.16576-7-griffoul@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261006183235.16576-1-griffoul@gmail.com>
 References: <20260720111259.122911-1-dwmw2@infradead.org>
@@ -119,355 +119,182 @@ Content-Transfer-Encoding: 8bit
 
 From: Fred Griffoul <fgriffo@amazon.co.uk>
 
-Memory provider pages, added in the next patch, are not pinned and can
-change under the domains that map them, as a dma-buf can. They need the
-same list of (area, domain) pairs that the dma-buf revoke uses.
+A test of memory that can be taken back or replaced does not know in
+advance which frame a device reaches. IOMMU_TEST_OP_MD_CHECK_MAP only
+compares against a known buffer.
 
-Move that list from struct iopt_pages_dmabuf to struct iopt_pages.
+Add MD_CHECK_MAPPED, which checks that a range is fully mapped or fully
+unmapped, and MD_IOVA_TO_PHYS, which returns the frame behind an IOVA,
+or 0 if it is unmapped. Both refuse an IOVA outside the domain's
+aperture.
 
-No functional change.
+Both hold domains_rwsem for writing so that a userspace unmap cannot
+free a page-table level during the walk.
 
 Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
 ---
- drivers/iommu/iommufd/io_pagetable.c | 24 +++++-----
- drivers/iommu/iommufd/io_pagetable.h | 33 +++++++++-----
- drivers/iommu/iommufd/pages.c        | 67 ++++++++++++++--------------
- 3 files changed, 67 insertions(+), 57 deletions(-)
+ drivers/iommu/iommufd/iommufd_test.h |  16 ++++
+ drivers/iommu/iommufd/selftest.c     | 109 +++++++++++++++++++++++++++
+ 2 files changed, 125 insertions(+)
 
-diff --git a/drivers/iommu/iommufd/io_pagetable.c b/drivers/iommu/iommufd/io_pagetable.c
-index 24d4917105d9..bcd531acc9dd 100644
---- a/drivers/iommu/iommufd/io_pagetable.c
-+++ b/drivers/iommu/iommufd/io_pagetable.c
-@@ -1008,14 +1008,14 @@ static void iopt_unfill_domain(struct io_pagetable *iopt,
- 				WARN_ON(!area->storage_domain);
- 			if (area->storage_domain == domain)
- 				area->storage_domain = storage_domain;
--			if (iopt_is_dmabuf(pages)) {
-+			if (iopt_pages_tracked(pages)) {
- 				if (!iopt_dmabuf_revoked(pages))
- 					iopt_area_unmap_domain(area, domain);
--				iopt_dmabuf_untrack_domain(pages, area, domain);
-+				iopt_pages_untrack_domain(pages, area, domain);
- 			}
- 			mutex_unlock(&pages->mutex);
+diff --git a/drivers/iommu/iommufd/iommufd_test.h b/drivers/iommu/iommufd/iommufd_test.h
+index 52b78cbcc920..28fd9c43edc4 100644
+--- a/drivers/iommu/iommufd/iommufd_test.h
++++ b/drivers/iommu/iommufd/iommufd_test.h
+@@ -31,6 +31,8 @@ enum {
+ 	IOMMU_TEST_OP_PASID_CHECK_HWPT,
+ 	IOMMU_TEST_OP_DMABUF_GET,
+ 	IOMMU_TEST_OP_DMABUF_REVOKE,
++	IOMMU_TEST_OP_MD_CHECK_MAPPED,
++	IOMMU_TEST_OP_MD_IOVA_TO_PHYS,
+ };
  
--			if (!iopt_is_dmabuf(pages))
-+			if (!iopt_pages_tracked(pages))
- 				iopt_area_unmap_domain(area, domain);
- 		}
- 		return;
-@@ -1033,8 +1033,8 @@ static void iopt_unfill_domain(struct io_pagetable *iopt,
- 		WARN_ON(area->storage_domain != domain);
- 		area->storage_domain = NULL;
- 		iopt_area_unfill_domain(area, pages, domain);
--		if (iopt_is_dmabuf(pages))
--			iopt_dmabuf_untrack_domain(pages, area, domain);
-+		if (iopt_pages_tracked(pages))
-+			iopt_pages_untrack_domain(pages, area, domain);
- 		mutex_unlock(&pages->mutex);
- 	}
- }
-@@ -1065,15 +1065,15 @@ static int iopt_fill_domain(struct io_pagetable *iopt,
- 			continue;
- 
- 		guard(mutex)(&pages->mutex);
--		if (iopt_is_dmabuf(pages)) {
--			rc = iopt_dmabuf_track_domain(pages, area, domain);
-+		if (iopt_pages_tracked(pages)) {
-+			rc = iopt_pages_track_domain(pages, area, domain);
- 			if (rc)
- 				goto out_unfill;
- 		}
- 		rc = iopt_area_fill_domain(area, domain);
- 		if (rc) {
--			if (iopt_is_dmabuf(pages))
--				iopt_dmabuf_untrack_domain(pages, area, domain);
-+			if (iopt_pages_tracked(pages))
-+				iopt_pages_untrack_domain(pages, area, domain);
- 			goto out_unfill;
- 		}
- 		if (!area->storage_domain) {
-@@ -1102,8 +1102,8 @@ static int iopt_fill_domain(struct io_pagetable *iopt,
- 			area->storage_domain = NULL;
- 		}
- 		iopt_area_unfill_domain(area, pages, domain);
--		if (iopt_is_dmabuf(pages))
--			iopt_dmabuf_untrack_domain(pages, area, domain);
-+		if (iopt_pages_tracked(pages))
-+			iopt_pages_untrack_domain(pages, area, domain);
- 		mutex_unlock(&pages->mutex);
- 	}
+ enum {
+@@ -193,6 +195,20 @@ struct iommu_test_cmd {
+ 			__s32 dmabuf_fd;
+ 			__u32 revoked;
+ 		} dmabuf_revoke;
++		struct {
++			/*
++			 * 1: every page in [iova, iova+length) must be mapped;
++			 * 0: none of them may be. Mixed is an error.
++			 */
++			__u32 mapped;
++			__u32 __reserved;
++			__aligned_u64 iova;
++			__aligned_u64 length;
++		} check_mapped;
++		struct {
++			__aligned_u64 iova;
++			__aligned_u64 out_phys;	/* 0 if unmapped */
++		} iova_to_phys;
+ 	};
+ 	__u32 last;
+ };
+diff --git a/drivers/iommu/iommufd/selftest.c b/drivers/iommu/iommufd/selftest.c
+index af07c642a526..1f5cd2d00fda 100644
+--- a/drivers/iommu/iommufd/selftest.c
++++ b/drivers/iommu/iommufd/selftest.c
+@@ -2031,6 +2031,107 @@ static int iommufd_test_dmabuf_get(struct iommufd_ucmd *ucmd,
  	return rc;
-@@ -1315,7 +1315,7 @@ static int iopt_area_split(struct iopt_area *area, unsigned long iova)
- 		return -EBUSY;
- 
- 	/* Maintaining the domains_itree below is a bit complicated */
--	if (iopt_is_dmabuf(pages))
-+	if (iopt_pages_tracked(pages))
- 		return -EOPNOTSUPP;
- 
- 	if (new_start & (alignment - 1) ||
-diff --git a/drivers/iommu/iommufd/io_pagetable.h b/drivers/iommu/iommufd/io_pagetable.h
-index 887ed94474c7..5389227eb6ff 100644
---- a/drivers/iommu/iommufd/io_pagetable.h
-+++ b/drivers/iommu/iommufd/io_pagetable.h
-@@ -70,15 +70,14 @@ void iopt_area_unfill_domain(struct iopt_area *area, struct iopt_pages *pages,
- void iopt_area_unmap_domain(struct iopt_area *area,
- 			    struct iommu_domain *domain);
- 
--int iopt_dmabuf_track_domain(struct iopt_pages *pages, struct iopt_area *area,
--			     struct iommu_domain *domain);
--void iopt_dmabuf_untrack_domain(struct iopt_pages *pages,
--				struct iopt_area *area,
--				struct iommu_domain *domain);
--int iopt_dmabuf_track_all_domains(struct iopt_area *area,
--				  struct iopt_pages *pages);
--void iopt_dmabuf_untrack_all_domains(struct iopt_area *area,
--				     struct iopt_pages *pages);
-+int iopt_pages_track_domain(struct iopt_pages *pages, struct iopt_area *area,
-+			    struct iommu_domain *domain);
-+void iopt_pages_untrack_domain(struct iopt_pages *pages, struct iopt_area *area,
-+			       struct iommu_domain *domain);
-+int iopt_pages_track_all_domains(struct iopt_area *area,
-+				 struct iopt_pages *pages);
-+void iopt_pages_untrack_all_domains(struct iopt_area *area,
-+				    struct iopt_pages *pages);
- 
- static inline unsigned long iopt_area_index(struct iopt_area *area)
- {
-@@ -194,7 +193,8 @@ enum iopt_address_type {
- 	IOPT_ADDRESS_DMABUF,
- };
- 
--struct iopt_pages_dmabuf_track {
-+/* An area of the pages mapped into a domain, for pages that are not pinned. */
-+struct iopt_pages_track {
- 	struct iommu_domain *domain;
- 	struct iopt_area *area;
- 	struct list_head elm;
-@@ -205,7 +205,6 @@ struct iopt_pages_dmabuf {
- 	struct phys_vec phys;
- 	/* Always PAGE_SIZE aligned */
- 	unsigned long start;
--	struct list_head tracker;
- 	/*
- 	 * true if the exporter's phys is CPU RAM (map with IOMMU_CACHE, no
- 	 * IOMMU_MMIO); false for MMIO/BAR memory (map with IOMMU_MMIO).  Set
-@@ -253,6 +252,12 @@ struct iopt_pages {
- 	struct rb_root_cached access_itree;
- 	/* Of iopt_area::pages_node */
- 	struct rb_root_cached domains_itree;
-+	/*
-+	 * Of iopt_pages_track::elm.  Pages that are not pinned can change
-+	 * under the domains that map them, so every (area, domain) that maps
-+	 * them is listed here.  See iopt_pages_tracked().
-+	 */
-+	struct list_head tracker;
- };
- 
- static inline bool iopt_is_dmabuf(struct iopt_pages *pages)
-@@ -262,6 +267,12 @@ static inline bool iopt_is_dmabuf(struct iopt_pages *pages)
- 	return pages->type == IOPT_ADDRESS_DMABUF;
  }
  
-+/* The pages are not pinned, so their domains are tracked in pages->tracker. */
-+static inline bool iopt_pages_tracked(struct iopt_pages *pages)
++/*
++ * True if [iova, iova + length) lies inside the domain's aperture.  Outside
++ * it the page table returns an error code from iova_to_phys(), not 0.
++ */
++static bool mock_domain_covers(struct mock_iommu_domain *mock,
++			       unsigned long iova, size_t length)
 +{
-+	return iopt_is_dmabuf(pages);
++	struct iommu_domain_geometry *geo = &mock->domain.geometry;
++	unsigned long last;
++
++	if (check_add_overflow(iova, length - 1, &last))
++		return false;
++	return iova >= geo->aperture_start && last <= geo->aperture_end;
 +}
 +
- static inline bool iopt_dmabuf_revoked(struct iopt_pages *pages)
++/*
++ * iova_to_phys() walks the page table, so it must not run while an unmap
++ * frees a level of it.  A userspace unmap holds the IOAS domains_rwsem for
++ * reading while it unmaps the domains, so holding it for writing keeps such
++ * unmaps away.  A memory provider or dma-buf revoke unmaps under its pages
++ * mutex only, so tests must not run these queries while a revoke of the
++ * range is in progress.
++ */
++static struct rw_semaphore *
++mock_domain_unmap_lock(struct iommufd_hw_pagetable *hwpt)
++{
++	return &to_hwpt_paging(hwpt)->ioas->iopt.domains_rwsem;
++}
++
++/*
++ * Report the physical address the mock domain resolves @iova to, or 0 if
++ * it is unmapped.  Lets a test check that two IOVAs share one frame, or that
++ * an IOVA moved to another frame, without knowing the frames in advance.
++ */
++static int iommufd_test_md_iova_to_phys(struct iommufd_ucmd *ucmd,
++					unsigned int mockpt_id,
++					unsigned long iova)
++{
++	struct iommu_test_cmd *cmd = ucmd->cmd;
++	struct iommufd_hw_pagetable *hwpt;
++	struct mock_iommu_domain *mock;
++	unsigned int page_size;
++	int rc;
++
++	hwpt = get_md_pagetable(ucmd, mockpt_id, &mock);
++	if (IS_ERR(hwpt))
++		return PTR_ERR(hwpt);
++
++	page_size = 1 << __ffs(mock->domain.pgsize_bitmap);
++	if (iova % page_size || !mock_domain_covers(mock, iova, page_size)) {
++		rc = -EINVAL;
++		goto out_put;
++	}
++	down_write(mock_domain_unmap_lock(hwpt));
++	cmd->iova_to_phys.out_phys =
++		mock->domain.ops->iova_to_phys(&mock->domain, iova);
++	up_write(mock_domain_unmap_lock(hwpt));
++	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
++out_put:
++	iommufd_put_object(ucmd->ictx, &hwpt->obj);
++	return rc;
++}
++
++static int iommufd_test_md_check_mapped(struct iommufd_ucmd *ucmd,
++					unsigned int mockpt_id,
++					unsigned long iova, size_t length,
++					bool mapped)
++{
++	struct iommufd_hw_pagetable *hwpt;
++	struct mock_iommu_domain *mock;
++	unsigned int page_size;
++	int rc = 0;
++
++	hwpt = get_md_pagetable(ucmd, mockpt_id, &mock);
++	if (IS_ERR(hwpt))
++		return PTR_ERR(hwpt);
++
++	page_size = 1 << __ffs(mock->domain.pgsize_bitmap);
++	if (iova % page_size || length % page_size || !length ||
++	    !mock_domain_covers(mock, iova, length)) {
++		rc = -EINVAL;
++		goto out_put;
++	}
++
++	down_write(mock_domain_unmap_lock(hwpt));
++	for (; length; length -= page_size, iova += page_size) {
++		bool is_mapped =
++			mock->domain.ops->iova_to_phys(&mock->domain, iova) != 0;
++
++		if (is_mapped != mapped) {
++			rc = -ENOENT;
++			break;
++		}
++	}
++	up_write(mock_domain_unmap_lock(hwpt));
++
++out_put:
++	iommufd_put_object(ucmd->ictx, &hwpt->obj);
++	return rc;
++}
++
+ static int iommufd_test_dmabuf_revoke(struct iommufd_ucmd *ucmd, int fd,
+ 				      bool revoked)
  {
- 	lockdep_assert_held(&pages->mutex);
-diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
-index f9b2ae6d7e96..d68f6eea836d 100644
---- a/drivers/iommu/iommufd/pages.c
-+++ b/drivers/iommu/iommufd/pages.c
-@@ -1392,6 +1392,7 @@ static struct iopt_pages *iopt_alloc_pages(unsigned long start_byte,
- 	pages->npages = DIV_ROUND_UP(length + start_byte, PAGE_SIZE);
- 	pages->access_itree = RB_ROOT_CACHED;
- 	pages->domains_itree = RB_ROOT_CACHED;
-+	INIT_LIST_HEAD(&pages->tracker);
- 	pages->writable = writable;
- 	if (capable(CAP_IPC_LOCK))
- 		pages->account_mode = IOPT_PAGES_ACCOUNT_NONE;
-@@ -1442,13 +1443,13 @@ struct iopt_pages *iopt_alloc_file_pages(struct file *file,
- static void iopt_revoke_notify(struct dma_buf_attachment *attach)
- {
- 	struct iopt_pages *pages = attach->importer_priv;
--	struct iopt_pages_dmabuf_track *track;
-+	struct iopt_pages_track *track;
- 
- 	guard(mutex)(&pages->mutex);
- 	if (iopt_dmabuf_revoked(pages))
- 		return;
- 
--	list_for_each_entry(track, &pages->dmabuf.tracker, elm) {
-+	list_for_each_entry(track, &pages->tracker, elm) {
- 		struct iopt_area *area = track->area;
- 
- 		iopt_area_unmap_domain_range(area, track->domain,
-@@ -1598,7 +1599,6 @@ struct iopt_pages *iopt_alloc_dmabuf_pages(struct iommufd_ctx *ictx,
- 	pages->account_mode = IOPT_PAGES_ACCOUNT_NONE;
- 	pages->type = IOPT_ADDRESS_DMABUF;
- 	pages->dmabuf.start = start - start_byte;
--	INIT_LIST_HEAD(&pages->dmabuf.tracker);
- 
- 	rc = iopt_map_dmabuf(ictx, pages, dmabuf);
- 	if (rc) {
-@@ -1609,16 +1609,16 @@ struct iopt_pages *iopt_alloc_dmabuf_pages(struct iommufd_ctx *ictx,
- 	return pages;
- }
- 
--int iopt_dmabuf_track_domain(struct iopt_pages *pages, struct iopt_area *area,
--			     struct iommu_domain *domain)
-+int iopt_pages_track_domain(struct iopt_pages *pages, struct iopt_area *area,
-+			    struct iommu_domain *domain)
- {
--	struct iopt_pages_dmabuf_track *track;
-+	struct iopt_pages_track *track;
- 
- 	lockdep_assert_held(&pages->mutex);
--	if (WARN_ON(!iopt_is_dmabuf(pages)))
-+	if (WARN_ON(!iopt_pages_tracked(pages)))
- 		return -EINVAL;
- 
--	list_for_each_entry(track, &pages->dmabuf.tracker, elm)
-+	list_for_each_entry(track, &pages->tracker, elm)
- 		if (WARN_ON(track->domain == domain && track->area == area))
- 			return -EINVAL;
- 
-@@ -1627,21 +1627,20 @@ int iopt_dmabuf_track_domain(struct iopt_pages *pages, struct iopt_area *area,
- 		return -ENOMEM;
- 	track->domain = domain;
- 	track->area = area;
--	list_add_tail(&track->elm, &pages->dmabuf.tracker);
-+	list_add_tail(&track->elm, &pages->tracker);
- 
- 	return 0;
- }
- 
--void iopt_dmabuf_untrack_domain(struct iopt_pages *pages,
--				struct iopt_area *area,
--				struct iommu_domain *domain)
-+void iopt_pages_untrack_domain(struct iopt_pages *pages, struct iopt_area *area,
-+			       struct iommu_domain *domain)
- {
--	struct iopt_pages_dmabuf_track *track;
-+	struct iopt_pages_track *track;
- 
- 	lockdep_assert_held(&pages->mutex);
--	WARN_ON(!iopt_is_dmabuf(pages));
-+	WARN_ON(!iopt_pages_tracked(pages));
- 
--	list_for_each_entry(track, &pages->dmabuf.tracker, elm) {
-+	list_for_each_entry(track, &pages->tracker, elm) {
- 		if (track->domain == domain && track->area == area) {
- 			list_del(&track->elm);
- 			kfree(track);
-@@ -1651,36 +1650,36 @@ void iopt_dmabuf_untrack_domain(struct iopt_pages *pages,
- 	WARN_ON(true);
- }
- 
--int iopt_dmabuf_track_all_domains(struct iopt_area *area,
--				  struct iopt_pages *pages)
-+int iopt_pages_track_all_domains(struct iopt_area *area,
-+				 struct iopt_pages *pages)
- {
--	struct iopt_pages_dmabuf_track *track;
-+	struct iopt_pages_track *track;
- 	struct iommu_domain *domain;
- 	unsigned long index;
- 	int rc;
- 
--	list_for_each_entry(track, &pages->dmabuf.tracker, elm)
-+	list_for_each_entry(track, &pages->tracker, elm)
- 		if (WARN_ON(track->area == area))
- 			return -EINVAL;
- 
- 	xa_for_each(&area->iopt->domains, index, domain) {
--		rc = iopt_dmabuf_track_domain(pages, area, domain);
-+		rc = iopt_pages_track_domain(pages, area, domain);
- 		if (rc)
- 			goto err_untrack;
+@@ -2143,6 +2244,14 @@ int iommufd_test(struct iommufd_ucmd *ucmd)
+ 		return iommufd_test_dmabuf_revoke(ucmd,
+ 						  cmd->dmabuf_revoke.dmabuf_fd,
+ 						  cmd->dmabuf_revoke.revoked);
++	case IOMMU_TEST_OP_MD_CHECK_MAPPED:
++		return iommufd_test_md_check_mapped(ucmd, cmd->id,
++						    cmd->check_mapped.iova,
++						    cmd->check_mapped.length,
++						    cmd->check_mapped.mapped);
++	case IOMMU_TEST_OP_MD_IOVA_TO_PHYS:
++		return iommufd_test_md_iova_to_phys(ucmd, cmd->id,
++						    cmd->iova_to_phys.iova);
+ 	default:
+ 		return -EOPNOTSUPP;
  	}
- 	return 0;
- err_untrack:
--	iopt_dmabuf_untrack_all_domains(area, pages);
-+	iopt_pages_untrack_all_domains(area, pages);
- 	return rc;
- }
- 
--void iopt_dmabuf_untrack_all_domains(struct iopt_area *area,
--				     struct iopt_pages *pages)
-+void iopt_pages_untrack_all_domains(struct iopt_area *area,
-+				    struct iopt_pages *pages)
- {
--	struct iopt_pages_dmabuf_track *track;
--	struct iopt_pages_dmabuf_track *tmp;
-+	struct iopt_pages_track *track;
-+	struct iopt_pages_track *tmp;
- 
--	list_for_each_entry_safe(track, tmp, &pages->dmabuf.tracker,
-+	list_for_each_entry_safe(track, tmp, &pages->tracker,
- 				 elm) {
- 		if (track->area == area) {
- 			list_del(&track->elm);
-@@ -1697,6 +1696,7 @@ void iopt_release_pages(struct kref *kref)
- 	WARN_ON(!RB_EMPTY_ROOT(&pages->domains_itree.rb_root));
- 	WARN_ON(pages->npinned);
- 	WARN_ON(!xa_empty(&pages->pinned_pfns));
-+	WARN_ON(!list_empty(&pages->tracker));
- 	if (iopt_is_dmabuf(pages) && pages->dmabuf.attach) {
- 		struct dma_buf *dmabuf = pages->dmabuf.attach->dmabuf;
- 
-@@ -1705,7 +1705,6 @@ void iopt_release_pages(struct kref *kref)
- 		dma_resv_unlock(dmabuf->resv);
- 		dma_buf_detach(dmabuf, pages->dmabuf.attach);
- 		dma_buf_put(dmabuf);
--		WARN_ON(!list_empty(&pages->dmabuf.tracker));
- 	} else if (pages->type == IOPT_ADDRESS_FILE) {
- 		fput(pages->file);
- 	}
-@@ -1790,7 +1789,7 @@ static void __iopt_area_unfill_domain(struct iopt_area *area,
- 
- 	lockdep_assert_held(&pages->mutex);
- 
--	if (iopt_is_dmabuf(pages)) {
-+	if (iopt_pages_tracked(pages)) {
- 		if (WARN_ON(iopt_dmabuf_revoked(pages)))
- 			return;
- 		iopt_area_unmap_domain_range(area, domain, start_index,
-@@ -1958,8 +1957,8 @@ int iopt_area_fill_domains(struct iopt_area *area, struct iopt_pages *pages)
- 		return 0;
- 
- 	mutex_lock(&pages->mutex);
--	if (iopt_is_dmabuf(pages)) {
--		rc = iopt_dmabuf_track_all_domains(area, pages);
-+	if (iopt_pages_tracked(pages)) {
-+		rc = iopt_pages_track_all_domains(area, pages);
- 		if (rc)
- 			goto out_unlock;
- 	}
-@@ -2024,8 +2023,8 @@ int iopt_area_fill_domains(struct iopt_area *area, struct iopt_pages *pages)
- 	}
- 	pfn_reader_destroy(&pfns);
- out_untrack:
--	if (iopt_is_dmabuf(pages))
--		iopt_dmabuf_untrack_all_domains(area, pages);
-+	if (iopt_pages_tracked(pages))
-+		iopt_pages_untrack_all_domains(area, pages);
- out_unlock:
- 	mutex_unlock(&pages->mutex);
- 	return rc;
-@@ -2065,8 +2064,8 @@ void iopt_area_unfill_domains(struct iopt_area *area, struct iopt_pages *pages)
- 		WARN_ON(RB_EMPTY_NODE(&area->pages_node.rb));
- 	interval_tree_remove(&area->pages_node, &pages->domains_itree);
- 	iopt_area_unfill_domain(area, pages, area->storage_domain);
--	if (iopt_is_dmabuf(pages))
--		iopt_dmabuf_untrack_all_domains(area, pages);
-+	if (iopt_pages_tracked(pages))
-+		iopt_pages_untrack_all_domains(area, pages);
- 	area->storage_domain = NULL;
- out_unlock:
- 	mutex_unlock(&pages->mutex);
