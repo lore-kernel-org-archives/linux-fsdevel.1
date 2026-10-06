@@ -1,323 +1,163 @@
-Received: from mail-yx2-f37.google.com (mail-yx2-f37.google.com [74.125.224.165])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02902F745C
-	for <linux-fsdevel@vger.kernel.org>; Tue,  6 Oct 2026 00:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB499322A;
+	Tue,  6 Oct 2026 01:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791246067; cv=none; b=kt1J3Omn7j+OCA4hDJ7+sEp3F05lYmf80FBRYlMKas3CxId6S6hxFscyVHwPxcPs8vOoy7q/16uLaOWzc69Ajnd5d3Ah531mDk0n7GeJiP4FKe3ctsdLQtNx4y30hg6SVlcXXIGn39VkCIppfTOdRrsRAflTo2ZoMyv5kILtFI8=
+	t=1791249038; cv=none; b=kLEN9TtF3s069wNNckc67O7dwfK9i+B6Utx7fKFvob7KNbOAANpOX1slYuZuYh9WhLhx2oM1JmCSmyo/c78uV6sWc1KIgU0ELbJulC89BD+glUgYlmuFu60H8KyEBcVOh2NJQfpxBJzazmCqWMjyLGuk5uN1PTJfIgxwVjNITXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791246067; c=relaxed/simple;
-	bh=5IHNNJEtUlKJEhnNbWbSN0wlvDwMgHAFZwu9RzbhX8A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nw5M6MG613q0S3/BUeGBgWWSkZ4Lcpv4OQriubVvGcTe3u6XDyLBf/cqaCO18xpdrot11pKZuQti8BO49kqf7BDdgnuS9KMN2oSiQ5G/rgfKr7m4yUh23K+aqdmtrz2yazj8I/lGPN7Me/P4IpTUxaBttTN80XgQS0dMx4ePGMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CazxQBap; arc=none smtp.client-ip=74.125.224.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791249038; c=relaxed/simple;
+	bh=uKhfH3EIX8NmKWzjTKqhRERLmX3elvcDb1F2PrRI/n0=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=U7x6+d3P1IKyKce33Nsdz57NkSZY2H0L0Y95JZjQhTw4sHaLMB2o1RhW+i9YNXzyzDK98GSu+8Vqy449YfORQaK1A0xS8MelTMEK/tPOO+Bo9mC6iryklE9MDiAHd8ZDK0U2yOdVMn53f8CDKtDfoSMoXiTPoKQmOYpl67WqpbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YMGSDenC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CazxQBap"
-Received: by mail-yx2-f37.google.com with SMTP id 00721157ae682-8adb500dc50so12714367b3.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 05 Oct 2026 17:21:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791246065; x=1791850865; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qiSLpzAIAwj1Vd6pAZ21vWt+EaPkWyZTSVtuKYzMJIY=;
-        b=CazxQBapYMbnxI0bZOOMrJjGk/DrIcMJO2xPzsoWiJFQ1AU0ryLxBSlOFM7LlG0wR+
-         5qAGIY/eWn6ZVhBoDPzsazTI+pmBwmL84x+Ur5zTkf6VXoVGRYeGwceqnSZEjFfJPoxS
-         ZaFocE4uah4VO57CiCbYyB2KnK3x+bIEVAtljrsLR6Yn2kZu7yK9QsSv0/QuoExoVux1
-         Eh+1WFwq/upcjSoAEfeEQMqd6Vgn3BLzrQNgl9Hdgyv0TF4ScX3Ixat9xUdr3GoJ48hr
-         HToesqaX9Xz4dxROS1UwiPrcKw2lNki4axw8P+pnVzCTYX3U0DDRUnkp2MLYWI70qHfJ
-         fvVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791246065; x=1791850865;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qiSLpzAIAwj1Vd6pAZ21vWt+EaPkWyZTSVtuKYzMJIY=;
-        b=IaMdMohT4CxqN+P6EzrFDWOxQpDQ8Ez6fhzN2TuFbF19UnW2CYSScauK32Zmz38NJx
-         oF+AzmGpeP9RdAddKKmYhk+wiWeoFI1ZlOnyOasWDiyTzC4gt7U7kDXUcpNvaqYNer7i
-         JsVJNLtf6Cs/6AptB9ty8ou6AxscMiairRoyylRv0pESK7KrDGAKxx0upqlvJcqGNpGM
-         fXO/j7wuy5GqK5wF3WoU/7xOGzSix02T145XIYo0GB9s0vYtn8sgfBwpKz+dh7lAeyGs
-         HGA8WleiGnjCMKCNa/fApKlPfCkxmhSYw3YKehKqrvx7BWAqdo+Upt1YOSKffUAZfyLJ
-         ykOw==
-X-Gm-Message-State: AFq9FYL6cIK9Z1X3R6u/3E6F33zuaiqIWa+7+LMH6eocQZ6CngjjKYgs
-	x2yf6XX3ZLKB+FyzKnq68nHerRqsqByGugaZ3iXt4XqEYkvelXQ+J16H
-X-Gm-Gg: AYBFou27LWHRbNntqIYfEO3Cy0uyfgcVsOFK8U4iyCwm+QG9xp57xejKJxgjknJBhkA
-	fsEo2eSS40h0d2NeJyuYuPcHONuyuLjV8yaSBOLHaStMbpPE6fyGXqszxZfJwcm+j6zEKk1v215
-	vFhcyul2jCMiXQS67rloZHM7j95UX55sLeKPiT2D34Ai2NMNmi96hxNugOpROGm9waUqmpX/Vam
-	orKevtQ5KlehkAb00HEH6q8QCa8z3b9wzLKT39UHZzcahl2yxqdVkwGzCQKKb+L8ydkTTeyZYMD
-	yc1e65z7uCwAftbMZbFNDiyKRTwWeKCB+F/H2/e15h2KozUWs1gH4eb5KG711BpPecfPhYYYnf9
-	cs5rUOdzuNtKs0gu5flxLKJOu1GqEQ5F0mEBJZ8yu08L9v3XmYMMFRmhIWXDizA2lgexpu9vP8W
-	yFibmV+rPoahlLh10cvP2Y2ouVZ8161bRbagAi5BwGIOw1F2mv4G0OPheELMuNs1VsY6N5jZMzc
-	A==
-X-Received: by 2002:a05:690c:dd6:b0:886:70a9:3ad2 with SMTP id 00721157ae682-8ae392b68e5mr56802557b3.15.1791246064581;
-        Mon, 05 Oct 2026 17:21:04 -0700 (PDT)
-Received: from zenbox ([2600:1700:18fb:6011:6dc9:4ffd:1851:60b1])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8ae33be0e58sm46636277b3.43.2026.10.05.17.21.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2026 17:21:03 -0700 (PDT)
-From: Justin Suess <utilityemal77@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>,
-	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Song Liu <song@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E . Hallyn" <serge@hallyn.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Tingmao Wang <m@maowtm.org>,
-	Justin Suess <utilityemal77@gmail.com>
-Subject: [RFC PATCH bpf-next 12/12] selftests/bpf: exercise the lockless path ancestor iterator
-Date: Mon,  5 Oct 2026 20:20:19 -0400
-Message-ID: <20261006002020.2890858-13-utilityemal77@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261006002020.2890858-1-utilityemal77@gmail.com>
-References: <20261006002020.2890858-1-utilityemal77@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YMGSDenC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B74D1F000FF;
+	Tue,  6 Oct 2026 01:10:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791249036;
+	bh=05HNlbXoSaSjV4USkIh4YwN1VEQltH31S4wz8K6pOAc=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=YMGSDenC90lH0EWTvN7ofKzeVNbjbZL32EZ6mB/GEb4catu6roKWl1oh7+gHsW4wL
+	 vekUf3tCy8NSWOI/A9tWVYiccdIkhvREoeknKLYXfqdfoqhTMOQi8QwGNSuHCBZxtz
+	 3KWd0qgEHXEbDAII7ezIshysT2mwPCICCiXfqGTyA4Zk7Mg1zWNz7aFmns4iVfLN1d
+	 oowviIBPfbkDfXvtwKUDKtc6LyaK8rmU3aOpJvSuXRYi2sjyU7WI2r37MWInZv8shS
+	 oZSMUNSYBUNMXs4otaeHjvPX0Sc/uCMZDKhki8EBS2uUaLiKEkP3oYeLeIPEon0Sks
+	 s4G8L2iJAVoSg==
+Content-Type: multipart/mixed; boundary="===============5123553496737365803=="
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-Id: <efdfa80872c26e9e1b6fe11957ecba8e1b5ffcdad421e34281ed3ebd017b5752@mail.kernel.org>
+In-Reply-To: <20261006002020.2890858-5-utilityemal77@gmail.com>
+References: <20261006002020.2890858-5-utilityemal77@gmail.com>
+Subject: Re: [RFC PATCH bpf-next 04/12] bpf: mark struct path trusted
+From: bot+bpf-ci@kernel.org
+To: utilityemal77@gmail.com,brauner@kernel.org,viro@zeniv.linux.org.uk,jack@suse.cz,neil@brown.name,mic@digikod.net,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,song@kernel.org
+Cc: linux-fsdevel@vger.kernel.org,bpf@vger.kernel.org,linux-security-module@vger.kernel.org,linux-kernel@vger.kernel.org,gnoack@google.com,paul@paul-moore.com,jmorris@namei.org,serge@hallyn.com,martin.lau@linux.dev,eddyz87@gmail.com,yonghong.song@linux.dev,john.fastabend@gmail.com,memxor@gmail.com,jolsa@kernel.org,jlayton@kernel.org,amir73il@gmail.com,mjguzik@gmail.com,shuah@kernel.org,m@maowtm.org,utilityemal77@gmail.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
+Date: Tue,  6 Oct 2026 01:10:33 +0000 (UTC)
 
-Walk the same ancestry four ways and require the position counts to
-agree: lockless from a non-sleepable program, where the RCU critical
-section is implicit; lockless under an explicit bpf_rcu_read_lock();
-referenced; and the hybrid that walks lockless to the second position,
-hands it over to a referenced iteration, and resumes there - the
-escalated position therefore being walked twice, once per mode.
+--===============5123553496737365803==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-The sleepable work the escalation exists for (d_path, an xattr read
-through the position's dentry) runs on the resumed iteration's first
-position, after bpf_rcu_read_unlock(), which is the only place a
-sleepable kfunc can run at all.
+> bpf: mark struct path trusted
 
-Signed-off-by: Justin Suess <utilityemal77@gmail.com>
+TL;DR: Marking struct path trusted may let a MEM_RCU path's dentry (from the
+later RCU ancestor iterator) be typed PTR_TRUSTED, so sleepable kfuncs could
+possibly use a freed dentry after RCU unlock.
+
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
+
+[ ... ]
+
+> @@ -6308,6 +6308,10 @@ BTF_TYPE_SAFE_TRUSTED(struct scx_sub_detach_args) {
+>  	struct sched_ext_ops *ops;
+>  };
+>
+> +BTF_TYPE_SAFE_TRUSTED(struct path) {
+> +	struct dentry *dentry;
+> +};
+> +
+
+Can this entry also apply to a struct path pointer that is MEM_RCU rather
+than trusted?
+
+check_ptr_to_btf_access() consults the same allow-list for both kinds of
+parent:
+
+	} else if (is_trusted_reg(env, reg) || is_rcu_reg(reg)) {
+		...
+		if (type_is_trusted(env, reg, field_name, btf_id)) {
+			flag |= PTR_TRUSTED;
+
+The commit message only justifies the entry for a trusted struct path:
+"Walking a trusted struct path yields a trusted dentry - a live path never
+carries a NULL dentry".  The comment above the SAFE_TRUSTED group also says
+these fields are trusted even outside of an RCU critical section.  That
+holds for LSM hook arguments and for paths returned by an acquiring kfunc,
+but it does not seem to hold for a MEM_RCU struct path pointer.
+
+Later commits in this series create such a pointer.  Commit 47d25368b3cc
+("bpf: add a lockless path ancestor iterator") adds
+bpf_iter_path_ancestors_rcu_new() with KF_RCU_PROTECTED, and
+bpf_iter_path_ancestors_rcu_next() with KF_ITER_NEXT | KF_RET_NULL and no
+KF_ACQUIRE.  check_kfunc_call() types the result of an iter_next on a
+MEM_RCU iterator as PTR_TO_BTF_ID | MEM_RCU, and the kfunc returns
+&kit->aw.pos, the walk's own borrowed position.  That commit's message says
+nothing read out of the position may be passed to a kfunc demanding a
+trusted argument, but with this patch the first thing a program does
+breaks that rule:
+
+	pos = bpf_iter_path_ancestors_rcu_next(&rit);	/* PTR_TO_BTF_ID | MEM_RCU */
+	d = pos->dentry;	/* now PTR_TO_BTF_ID | PTR_TRUSTED */
+
+The register d carries only PTR_TRUSTED, not MEM_RCU.
+invalidate_rcu_protected_refs() only downgrades MEM_RCU registers, so d
+stays trusted after bpf_rcu_read_unlock().  A sleepable LSM program could
+then do:
+
+	bpf_rcu_read_lock();
+	bpf_iter_path_ancestors_rcu_new(&rit, path, 0);
+	pos = bpf_iter_path_ancestors_rcu_next(&rit);
+	d = pos->dentry;
+	...
+	bpf_iter_path_ancestors_rcu_destroy(&rit);
+	bpf_rcu_read_unlock();
+	bpf_get_dentry_xattr(d, ...);	/* or bpf_set_dentry_xattr() /
+					   bpf_remove_dentry_xattr() */
+
+The verifier would accept this because d is PTR_TRUSTED.  In an rcu-walk
+the position holds no reference on the dentry, so the dentry may already
+have been killed and freed once the RCU section has ended.  Can the
+sleepable kfunc then operate on a freed dentry?
+
+Even inside the critical section, "trusted" promises a non-zero refcount,
+which the lockless walk does not provide.
+
+The position is also storage inside the iterator on the BPF stack, and pos
+is not invalidated by bpf_iter_path_ancestors_rcu_destroy().  The destroy
+releases the iterator's reference id, but the registers returned by
+iter_next carry neither that id nor a parent_id.  So pos->dentry can be
+re-read after the slot has been overwritten with program-chosen data, and
+the result is still typed as a trusted dentry.  Before this patch the same
+load gave a non-trusted pointer, which kfuncs reject.
+
+Nothing later in the series restores the invariant: the verifier.c diff for
+the rest of the series (7ed5aa71ad77..70352ce0817c) does not touch
+type_is_trusted(), check_ptr_to_btf_access() or this path entry.  The
+selftests only read pos->dentry on the referenced iterator, so they do not
+exercise this case.
+
+Should this entry apply only to trusted/referenced struct path parents, for
+example by not consulting the SAFE_TRUSTED list for MEM_RCU parents of this
+type?  Alternatively, could the rcu iterator return a position that the
+verifier marks PTR_UNTRUSTED, or could the rcu variant return a dentry that
+is MEM_RCU-tagged instead of PTR_TRUSTED?
+
+[ ... ]
+
+> @@ -6360,6 +6364,7 @@ static bool type_is_trusted(struct bpf_verifier_env *env,
+>  	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED(struct scx_cpu_release_args));
+>  	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED(struct scx_sub_attach_args));
+>  	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED(struct scx_sub_detach_args));
+> +	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED(struct path));
+>
+>  	return btf_nested_type_is_trusted(&env->log, reg, field_name, btf_id, "__safe_trusted");
+>  }
+
+
 ---
- .../selftests/bpf/prog_tests/path_ancestors.c | 33 ++++++-
- .../selftests/bpf/progs/path_ancestors.c      | 89 ++++++++++++++++++-
- 2 files changed, 118 insertions(+), 4 deletions(-)
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/path_ancestors.c b/tools/testing/selftests/bpf/prog_tests/path_ancestors.c
-index 2de79673a13b..ce1ded844c3a 100644
---- a/tools/testing/selftests/bpf/prog_tests/path_ancestors.c
-+++ b/tools/testing/selftests/bpf/prog_tests/path_ancestors.c
-@@ -2,6 +2,7 @@
- /* Copyright (c) 2026 Justin Suess */
- 
- #include <sys/stat.h>
-+#include <sys/xattr.h>
- #include <stdlib.h>
- #include <unistd.h>
- #include <test_progs.h>
-@@ -12,6 +13,8 @@ void test_path_ancestors(void)
- 	char base[] = "/tmp/path_ancestors_XXXXXX";
- 	struct path_ancestors *skel = NULL;
- 	char suba[280], subb[280];
-+	bool xattr_works;
-+	int err;
- 
- 	if (!ASSERT_OK_PTR(mkdtemp(base), "mkdtemp"))
- 		return;
-@@ -20,6 +23,12 @@ void test_path_ancestors(void)
- 	if (!ASSERT_OK(mkdir(suba, 0755), "mkdir_a"))
- 		goto out_rm;
- 
-+	/* Read back by the program at the escalated position (== base). */
-+	err = setxattr(base, "user.walk", "hello", 6, 0);
-+	xattr_works = !err;
-+	if (err && errno != EOPNOTSUPP && !ASSERT_OK(err, "setxattr"))
-+		goto out_rm;
-+
- 	skel = path_ancestors__open_and_load();
- 	if (!ASSERT_OK_PTR(skel, "open_and_load"))
- 		goto out_rm;
-@@ -31,14 +40,34 @@ void test_path_ancestors(void)
- 	if (!ASSERT_OK(mkdir(subb, 0755), "mkdir_b"))
- 		goto out;
- 
--	/* suba, base, /tmp, / at least. */
--	ASSERT_GE(skel->bss->ref_count, 3, "ref_count");
-+	ASSERT_EQ(skel->bss->test_err, 0, "test_err");
-+	ASSERT_EQ(skel->bss->escalate_err, 0, "escalate_err");
-+	/* suba, base, /tmp, / at least; equality across modes is the point. */
-+	ASSERT_GE(skel->bss->rcu_count, 3, "rcu_count");
-+	ASSERT_EQ(skel->bss->ref_count, skel->bss->rcu_count, "ref_vs_rcu");
-+	ASSERT_EQ(skel->bss->rcu_ns_count, skel->bss->rcu_count,
-+		  "nonsleepable_vs_rcu");
-+	/*
-+	 * The escalated position is walked twice: once lockless, then again
-+	 * as the resumed referenced iteration's first position.
-+	 */
-+	ASSERT_EQ(skel->bss->hybrid_count, skel->bss->rcu_count + 1,
-+		  "hybrid_vs_rcu");
-+	ASSERT_EQ(skel->bss->retry_flags, 0, "no_retry");
- 	ASSERT_EQ(skel->bss->ref_flags, 0, "ref_flags");
- 
- 	/* The acquired second position, used after its step was taken. */
- 	ASSERT_STREQ(skel->bss->second_path, base, "second_path");
- 	ASSERT_EQ(skel->bss->second_len, strlen(base) + 1, "second_len");
- 
-+	/* The escalated position is the walk's second one: base. */
-+	ASSERT_STREQ(skel->bss->escalated_path, base, "escalated_path");
-+	ASSERT_EQ(skel->bss->escalated_len, strlen(base) + 1, "escalated_len");
-+	if (xattr_works) {
-+		ASSERT_EQ(skel->bss->xattr_ret, 6, "xattr_len");
-+		ASSERT_STREQ(skel->bss->xattr_value, "hello", "xattr_value");
-+	}
-+
- out:
- 	path_ancestors__destroy(skel);
- out_rm:
-diff --git a/tools/testing/selftests/bpf/progs/path_ancestors.c b/tools/testing/selftests/bpf/progs/path_ancestors.c
-index af6b777e8bec..50ce0ce163dd 100644
---- a/tools/testing/selftests/bpf/progs/path_ancestors.c
-+++ b/tools/testing/selftests/bpf/progs/path_ancestors.c
-@@ -11,29 +11,74 @@ char _license[] SEC("license") = "GPL";
- 
- __u32 monitored_pid;
- 
-+int rcu_count;		/* positions seen by the pure lockless walk */
-+int rcu_ns_count;	/* ditto, from the non-sleepable program */
- int ref_count;		/* positions seen by the pure referenced walk */
-+int hybrid_count;	/* positions seen by the lockless+escalate walk */
-+int retry_flags;	/* BPF_PATH_ANCESTORS_RETRY observations */
- int ref_flags;		/* pos flags seen by the referenced walk */
- int second_len;		/* d_path length of the walk's second position */
-+int xattr_ret;		/* xattr read at the escalated position */
-+int escalated_len;	/* d_path length of the escalated position */
-+int escalate_err;	/* bpf_path_ancestors_legitimize() result */
-+int test_err;
- char second_path[256];
-+char escalated_path[256];
-+char xattr_value[16];
- 
- static bool monitored(void)
- {
- 	return (bpf_get_current_pid_tgid() >> 32) == monitored_pid;
- }
- 
-+/*
-+ * Lockless walk from a non-sleepable program: the RCU critical section is
-+ * implicit, no bpf_rcu_read_lock() needed.
-+ */
-+SEC("lsm/path_mkdir")
-+int BPF_PROG(rcu_nonsleepable, const struct path *dir, struct dentry *dentry,
-+	     umode_t mode)
-+{
-+	struct bpf_iter_path_ancestors_rcu rit;
-+
-+	if (!monitored())
-+		return 0;
-+
-+	bpf_iter_path_ancestors_rcu_new(&rit, (struct path *)dir, 0);
-+	while (bpf_iter_path_ancestors_rcu_next(&rit))
-+		rcu_ns_count++;
-+	retry_flags |= bpf_path_ancestors_rcu_pos_flags(&rit);
-+	bpf_iter_path_ancestors_rcu_destroy(&rit);
-+	return 0;
-+}
-+
- SEC("lsm.s/path_mkdir")
- int BPF_PROG(walk_modes, const struct path *dir, struct dentry *dentry,
- 	     umode_t mode)
- {
-+	struct bpf_iter_path_ancestors_rcu rit;
- 	struct bpf_iter_path_ancestors it;
-+	struct bpf_dynptr value_ptr;
- 	struct path *pos;
- 
- 	if (!monitored())
- 		return 0;
- 
- 	/*
--	 * Referenced walk: every position comes acquired, so it stays valid
--	 * for sleepable work and past the step that yielded it.
-+	 * Mode 1: pure lockless, under an explicit RCU critical section.
-+	 * Positions are borrowed, so nothing is released here.
-+	 */
-+	bpf_rcu_read_lock();
-+	bpf_iter_path_ancestors_rcu_new(&rit, (struct path *)dir, 0);
-+	while (bpf_iter_path_ancestors_rcu_next(&rit))
-+		rcu_count++;
-+	retry_flags |= bpf_path_ancestors_rcu_pos_flags(&rit);
-+	bpf_iter_path_ancestors_rcu_destroy(&rit);
-+	bpf_rcu_read_unlock();
-+
-+	/*
-+	 * Mode 2: pure referenced.  Every position comes acquired, so it
-+	 * stays valid for sleepable work and past the step that yielded it.
- 	 */
- 	bpf_iter_path_ancestors_new(&it, (struct path *)dir, 0);
- 	while ((pos = bpf_iter_path_ancestors_next(&it))) {
-@@ -45,5 +90,45 @@ int BPF_PROG(walk_modes, const struct path *dir, struct dentry *dentry,
- 		bpf_path_put(pos);
- 	}
- 	bpf_iter_path_ancestors_destroy(&it);
-+
-+	/*
-+	 * Mode 3: hybrid.  Walk lockless to the second position, then hand
-+	 * that position over to a referenced iteration which resumes there.
-+	 */
-+	bpf_rcu_read_lock();
-+	bpf_iter_path_ancestors_rcu_new(&rit, (struct path *)dir, 0);
-+	while (bpf_iter_path_ancestors_rcu_next(&rit)) {
-+		hybrid_count++;
-+		if (hybrid_count == 2)
-+			break;
-+	}
-+	escalate_err = bpf_path_ancestors_legitimize(&it, &rit);
-+	retry_flags |= bpf_path_ancestors_rcu_pos_flags(&rit);
-+	bpf_iter_path_ancestors_rcu_destroy(&rit);
-+	bpf_rcu_read_unlock();
-+
-+	if (escalate_err)
-+		test_err = 1;
-+
-+	/*
-+	 * Out of the RCU critical section.  The resumed iteration's first
-+	 * position is the escalated one, kept alive by the reference the
-+	 * iteration hands out, so sleepable work can run on it.
-+	 */
-+	while ((pos = bpf_iter_path_ancestors_next(&it))) {
-+		hybrid_count++;
-+		if (hybrid_count == 3) {
-+			escalated_len = bpf_path_d_path(pos, escalated_path,
-+							sizeof(escalated_path));
-+			bpf_dynptr_from_mem(xattr_value, sizeof(xattr_value),
-+					    0, &value_ptr);
-+			/* A trusted path's dentry is trusted, never NULL. */
-+			xattr_ret = bpf_get_dentry_xattr(pos->dentry,
-+							 "user.walk",
-+							 &value_ptr);
-+		}
-+		bpf_path_put(pos);
-+	}
-+	bpf_iter_path_ancestors_destroy(&it);
- 	return 0;
- }
--- 
-2.55.0
-
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/37395354107
+--===============5123553496737365803==--
