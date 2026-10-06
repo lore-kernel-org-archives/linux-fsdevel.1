@@ -1,62 +1,67 @@
-Received: from cvsmtppost28.nm.naver.com (cvsmtppost28.nm.naver.com [114.111.35.239])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2145849E5C3
-	for <linux-fsdevel@vger.kernel.org>; Tue,  6 Oct 2026 18:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1780A4A092E
+	for <linux-fsdevel@vger.kernel.org>; Tue,  6 Oct 2026 21:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791311669; cv=none; b=lCOBuAebsHF8WksHjuDFeu7Ue2vMv4ykcvY/HtASCnG12DufT2yTO/zV4RQmTBsPvMs1vho/kq+C0PNOt83CnULNaCEOfFBBX2ULYBBQ00gzi5XEj8UkZORe1XOJklY8BOykA535CFXXT11D5mx1ZCy/bOIhFQyN/0uXZRdfwfI=
+	t=1791320408; cv=none; b=TC3hCuONyHpw2YoBejF1pC3AVmhIyYvABtF7LY/yMKV/WPHbiNFQhpjV6iBh8qTmk9FwPueBJqDRSXgjxqGvyCg1ghwCnAVZsVnwlyUNPmgf1sjf9EvVGfJYF4nCUfqv1mTo/37TzwWYGhy3h1GtlDlof0rQHczXD79B5coohUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791311669; c=relaxed/simple;
-	bh=wqqL1PwifQP6F0DbX5AnTlT3bL5yGbWuuRMWRY1NtHs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oH6gCjNlQXXujFQwb3iVqly36MZcDB7Na4WyfSEVpSAXE+Y6k8CtazFlwlUtl5PKcfM16bfV+MbMQiIUwtXgzsh8dTeHZZvmWXpo+g1qcSksDX+43agD3/bUt+nIn6C9WQQgtsgMkA7LFCTz+jC/1WkefdzKMUcq/jWIIb++iyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=VlRE/gsI; arc=none smtp.client-ip=114.111.35.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1791320408; c=relaxed/simple;
+	bh=H2FmTP0VWiKuvmUZWBnJoF4rBt8lms4tNq1kNCnaFDA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mBcHT48g6GpSFMzfMElGZ5MwNz0wMVg7SKLBePvJoLgOsKeFlcjufwq4wA472L+h2Mnq7aewDeG74AYXJR9A3WoNwtWUM4eguDnm8yWkh73DhgsaL8rpKxmHE2JpCAY6GJHwPu3fBtTc7HMffhrY82jYrzBRU2gV/xEF/MVoDh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IhWIu/AU; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="VlRE/gsI"
-Received: from cvsendbo017.nm ([10.112.18.57])
-  by cvsmtppost28.nm.naver.com with ESMTP id 7mIayxSqRCKMr4B9hqKd+w
-  for <linux-fsdevel@vger.kernel.org>;
-  Tue, 06 Oct 2026 18:24:17 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1791311057; bh=wqqL1PwifQP6F0DbX5AnTlT3bL5yGbWuuRMWRY1NtHs=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=VlRE/gsItxVY+Zl0tiaw4+9lc5xtFuPyqW0WbiwTtUQep+Ac5hUDiTmmOV0o9QnPd
-	 hUAyRP0Y30Zoqg7DQHhUfw/S0xQAHWx95rVG89huoe7dkoUIZv4qkn3TWlR6KxNghk
-	 m72ggszf21dYaJh6pZoMKPfXv2BXvFA07Q0otBfl/dvPF01eHA8Fg6A+he3PcXBCK4
-	 fx+vDzYnHgrWGcyHEoNBxTThd7cAlVYdm99LB8o3LIkkqOUnN90Uu9Nfk3YgjIQZRQ
-	 FiWi29MsGQJRqgapxrKtcgNo5T6TKOcOJDluDqyZWSX5rdnrhYuWlvFFkZDPNMwHEp
-	 brOf/Li2JpGBQ==
-X-Session-ID: 4ca3zSTOSIW6-bXMuvuUsw
-X-Works-Send-Opt: O9ewpzGdjHmdKHFOMr39Ko3YKHmwKNmwFAbrFxKrKqEmjJkaBd9YKBmm
-X-Works-Smtp-Source: s9nXKoulFqJZ+HmXFxM/+6E=
-Received: from localhost.localdomain ([115.136.205.4])
-  by cvnsmtp006.nm.naver.com with ESMTP id 4ca3zSTOSIW6-bXMuvuUsw
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Tue, 06 Oct 2026 18:24:17 -0000
-From: sungbyeongchan <tjdqudcks0424@naver.com>
-To: German Maglione <gmaglione@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Miklos Szeredi <miklos@szeredi.hu>
-Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	virtualization@lists.linux.dev,
-	fuse-devel@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IhWIu/AU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791320404;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=3UTBequP+2ece8Flw/LLZvFi64Wq0UqNMDxKFvdMi4Q=;
+	b=IhWIu/AUzI1rmzCEeZxH7tm0zx7FZSfrwiBm0O/W/pvTsNl0IrbFZIvjEhfcgSPauf31PY
+	yPTvn1Eoz9fL+yKVpdp+z+GEBYBRvvtiKqLzKpflJPs4xl+CYgg00Hf+xbrhtRprHCd1xP
+	ZRubOAsQ4/bd2adAQ4VfJPxJ/PA3g0w=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-439-OEPpxjTLNkucTpIWnjS7-A-1; Tue,
+ 06 Oct 2026 17:00:02 -0400
+X-MC-Unique: OEPpxjTLNkucTpIWnjS7-A-1
+X-Mimecast-MFC-AGG-ID: OEPpxjTLNkucTpIWnjS7-A_1791320400
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5CD3F1977303;
+	Tue,  6 Oct 2026 20:59:59 +0000 (UTC)
+Received: from warthog.com (unknown [10.44.32.90])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 16CA1180058D;
+	Tue,  6 Oct 2026 20:59:50 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>
+Cc: David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Stefan Metzmacher <metze@samba.org>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	v9fs@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2] virtiofs: validate fixed-output response length
-Date: Wed,  7 Oct 2026 03:24:08 +0900
-Message-ID: <20261006182408.1301152-1-tjdqudcks0424@naver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261004123405.586168-1-tjdqudcks0424@naver.com>
-References: <20261004123405.586168-1-tjdqudcks0424@naver.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v13 0/8] netfs: Use a bvecq chain position abstraction
+Date: Tue,  6 Oct 2026 21:59:36 +0100
+Message-ID: <20261006205947.608356-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -64,131 +69,92 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-A short successful virtiofs response can leave the fixed-output
-portion of the request argument buffer unwritten. The completion path
-nevertheless copies the full declared output to the request destination,
-allowing stale allocator contents to reach callers such as
-fuse_statfs().
+Hi Christian,
 
-Require successful fixed-output responses to contain their complete
-declared output. Continue to permit a shorter final argument only for
-out_argvar requests. Reject positive and internal restart error values,
-require valid error replies to be header-only, and do not copy output
-arguments from error replies.
+Could you pull these patches please into your vfs-7.4.netfs branch?  This
+is the fourth of five batches.  The primary purpose of this batch is to add
+an abstraction for a position in a bvecq chain and make use of it.
 
-A header-only FUSE_STATFS success returned stale fields in nine of
-nine calls across three boots. The fixed kernel rejected the short
-response and preserved complete replies, valid error replies, and
-variable-output controls.
+With that in mind, this patchset does the following:
 
-Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: sungbyeongchan <tjdqudcks0424@naver.com>
----
-Changes in v2:
-- Reject positive and internal restart error values.
-- Require error replies to be header-only.
-- Rate-limit malformed-response warnings.
-- Rely on the existing FUSE pr_fmt prefix.
-- Add Cc: stable@vger.kernel.org.
-- Use the reporter identity consistently.
+ (1) Add a struct, bvecq_pos, to refer to a position in a bvecq chain.
+     This is a tuple of ( bvecq pointer, slot and offset } and the position
+     struct holds (for now) a ref on the bvecq pointed to.
 
- fs/fuse/virtio_fs.c | 43 ++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 38 insertions(+), 5 deletions(-)
+ (2) Change unbuffered/DIO to extract the supplied user buffers into a
+     bvecq chain rather than a bio_vec[] up front.  This means that
+     netfslib then uses bvecq chains for everything.
 
-diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-index f15e516ebcb5c..fffbe08d9114a 100644
---- a/fs/fuse/virtio_fs.c
-+++ b/fs/fuse/virtio_fs.c
-@@ -4,6 +4,8 @@
-  * Copyright (C) 2018 Red Hat, Inc.
-  */
- 
-+#include "fuse_i.h"
-+
- #include <linux/fs.h>
- #include <linux/dax.h>
- #include <linux/pci.h>
-@@ -20,7 +22,6 @@
- #include <linux/cleanup.h>
- #include <linux/uio.h>
- #include "dev.h"
--#include "fuse_i.h"
- #include "fuse_dev_i.h"
- 
- /* Used to help calculate the FUSE connection's max_pages limit for a request's
-@@ -730,6 +731,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
- 	unsigned int num_out;
- 	unsigned int i;
- 
-+	/* Error replies contain only the output header. */
-+	if (req->out.h.error)
-+		goto out;
-+
- 	remaining = req->out.h.len - sizeof(req->out.h);
- 	num_in = args->in_numargs - args->in_pages;
- 	num_out = args->out_numargs - args->out_pages;
-@@ -755,6 +760,7 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
- 	if (args->out_argvar)
- 		args->out_args[args->out_numargs - 1].size = remaining;
- 
-+out:
- 	kfree(req->argbuf);
- 	req->argbuf = NULL;
- }
-@@ -762,19 +768,46 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
- /* Verify that the server properly follows the FUSE protocol */
- static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
- {
-+	struct fuse_args *args = req->args;
- 	struct fuse_out_header *oh = &req->out.h;
-+	unsigned int expected;
- 
- 	if (len < sizeof(*oh)) {
--		pr_warn("virtio-fs: response too short (%u)\n", len);
-+		pr_warn_ratelimited("response too short (%u)\n", len);
- 		return false;
- 	}
- 	if (oh->len != len) {
--		pr_warn("virtio-fs: oh.len mismatch (%u != %u)\n", oh->len, len);
-+		pr_warn_ratelimited("oh.len mismatch (%u != %u)\n",
-+				    oh->len, len);
- 		return false;
- 	}
- 	if (oh->unique != req->in.h.unique) {
--		pr_warn("virtio-fs: oh.unique mismatch (%llu != %llu)\n",
--			oh->unique, req->in.h.unique);
-+		pr_warn_ratelimited("oh.unique mismatch (%llu != %llu)\n",
-+				    oh->unique, req->in.h.unique);
-+		return false;
-+	}
-+	if (oh->error <= -ERESTARTSYS || oh->error > 0) {
-+		pr_warn_ratelimited("invalid error value (%d)\n", oh->error);
-+		return false;
-+	}
-+
-+	if (oh->error) {
-+		if (len != sizeof(*oh)) {
-+			pr_warn_ratelimited("error response too long (%u)\n",
-+					    len);
-+			return false;
-+		}
-+		return true;
-+	}
-+
-+	expected = sizeof(*oh) +
-+		   fuse_len_args(args->out_numargs, args->out_args);
-+	if (len > expected ||
-+	    (len < expected &&
-+	     (!args->out_argvar ||
-+	      expected - len > args->out_args[args->out_numargs - 1].size))) {
-+		pr_warn_ratelimited("invalid response length (%u, expected %u)\n",
-+				    len, expected);
- 		return false;
- 	}
- 	return true;
--- 
-2.43.0
+ (3) Add a folio count to the readahead_control struct and then makes
+     readahead pre-create its buffer using that count to determine how many
+     slots are required.
+
+ (4) Change netfslib to use the bvecq_pos struct to keep track of the whole
+     request buffer and various points in it where loading, dispatch and
+     collection are taking place and to also keep track of the slice given
+     to each subrequest.
+
+This was split from v11 of a larger netfslib series[1].
+
+The patches can also be found here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=netfs-next-4
+
+Thanks,
+David
+
+Changes
+=======
+ver #13)
+- Rebased on -rc6 to account for some conflicting fixes.
+- Fixed a bug in netfs_prepare_read_iterator() where comparison was being
+  made against the wrong thing when limiting a subreq's size.
+
+ver #12)
+- Split from v11 of "netfs: Keep track of folios in a segmented bio_vec[]
+  chain"[1]
+
+[1] https://lore.kernel.org/r/20260902173350.3468672-1-dhowells@redhat.com/
+
+David Howells (8):
+  mm: Make readahead store folio count in readahead_control
+  netfs: Add a function to extract from an iter into a bvecq
+  netfs: Make unbuffered/DIO read and write use bvecq
+  netfs: Add some tools for managing a position in a bvecq chain
+  netfs: Provide a func to load the readahead buffers into a bvecq chain
+  netfs: Use bvecq_pos to hold the buffer positions
+  netfs: Remove the rolling_buffer implementation
+  netfs: Remove netfs_extract_user_iter()
+
+ fs/afs/dir.c                   |   5 +-
+ fs/afs/symlink.c               |   6 +-
+ fs/cachefiles/io.c             |  12 -
+ fs/netfs/Makefile              |   1 -
+ fs/netfs/buffered_read.c       | 178 ++++++++-------
+ fs/netfs/bvecq.c               | 310 ++++++++++++++++++++++++++
+ fs/netfs/direct_read.c         |  77 +++----
+ fs/netfs/direct_write.c        |  67 +++---
+ fs/netfs/internal.h            |   4 +-
+ fs/netfs/iterator.c            | 392 ++++++++++-----------------------
+ fs/netfs/misc.c                |  18 --
+ fs/netfs/objects.c             |  16 +-
+ fs/netfs/read_collect.c        | 106 +++++----
+ fs/netfs/read_pgpriv2.c        |  87 +++++---
+ fs/netfs/read_retry.c          |  86 ++++----
+ fs/netfs/read_single.c         |  16 +-
+ fs/netfs/rolling_buffer.c      | 182 ---------------
+ fs/netfs/write_collect.c       |  55 ++---
+ fs/netfs/write_issue.c         | 166 +++++++++-----
+ fs/netfs/write_retry.c         |  61 +++--
+ include/linux/bvecq.h          | 184 ++++++++++++++++
+ include/linux/netfs.h          |  25 ++-
+ include/linux/pagemap.h        |  10 +
+ include/linux/rolling_buffer.h |  47 ----
+ include/trace/events/netfs.h   |  32 ++-
+ mm/readahead.c                 |   5 +
+ 26 files changed, 1208 insertions(+), 940 deletions(-)
+ delete mode 100644 fs/netfs/rolling_buffer.c
+ delete mode 100644 include/linux/rolling_buffer.h
 
