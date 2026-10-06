@@ -1,192 +1,152 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377EA3D411D
-	for <linux-fsdevel@vger.kernel.org>; Tue,  6 Oct 2026 21:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBAD37E5F5
+	for <linux-fsdevel@vger.kernel.org>; Tue,  6 Oct 2026 22:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791322060; cv=none; b=AslTkmZgz/FTZskFBXpVg0q6XSNHGZvafBuq8qILezdf+JGNRdgHk4gCdXzQwzHeQnZX5YIw57yM6yYnt0Hw2dTpDPuFGIunz3ayEQs3HCRXRSuk5eMUCHWfqmw8DsDO2zBZf4oVTLP/zE1NMIYQSD9uKidWfijmUJ6arVKx1io=
+	t=1791324890; cv=none; b=U4F/jq6sFAnC7W+GLkNqHpdd0+bdl7pXmYowQyyxoTAXnszuRQkQggWVG6GAJmme+8/U7gomvmVvKixJhSiYSDoq13b8L4odKj3eUZCGQSOdryJJMk6xovmHy+F1onZQWmv1dLtorrOp3GX4I64q9wSBtwjC3sS/QUVz18CiiPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791322060; c=relaxed/simple;
-	bh=J518TeBei26VEQXbPGvt3y4HnC5DH/HWj48vtTb4u5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BRUVMjTVmGNm/VTbcZ/okqIQ1FQW4zGzWIr6cwsz/lCfxkLQKWxwTFaZd82zlzXHdnrgoS9mSBuDdAA5MovaDXD+y632rR38TjZWlMSKe8tpmN3Oph6d+B0IZnPzGkmcMSKGf99GyFyzV6gh4bK4UyPqHcItEpuFE4Tkk9cg5Hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BsznIeAj; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=rADkPjbu; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1791324890; c=relaxed/simple;
+	bh=AQ5om9HPRYY1azjZjV5O8dkragpfD0aeCFgbpoF2+m8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nOfj5aH3vhpTiYww7t0c2AHNZH07QVrTV5XhBTCBQYwfLziOiADJp/5rU8O3dUdilXi5/VeI2pa1wiFLsn8AU1aFhKQrSEieJRhRbMWX9+Qgg4bZbDdkPU6zEhCEXzQd3jVmbRGGYxuzPq6FJ+5SYBpG32cCI4T3bATgusFLbbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com; spf=pass smtp.mailfrom=openai.com; dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b=UxJ5od23; arc=none smtp.client-ip=209.85.161.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openai.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BsznIeAj";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="rADkPjbu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791322058;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZLYqLTXYL+33FHGPoAQIFrwweKpAyRzDOJvC/lVBZus=;
-	b=BsznIeAjSR3qjDG49YUmAnzW302ftg/0ULYsp3Mcp4/zF5A+j0jTngxhAINTR6LMbTEdIK
-	j2R74Ax5mze/+00eh8XMWfhtaihip9PBJSw4PYSXVIBm+nzqkEGnXrP3hb4fowQgNQYL3M
-	Hh2vQGCleIBwpB6n/YpvjYTKCtHGv3I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-688-OPcXEXn8PSWMYn4_69sIvQ-1; Tue, 06 Oct 2026 17:27:36 -0400
-X-MC-Unique: OPcXEXn8PSWMYn4_69sIvQ-1
-X-Mimecast-MFC-AGG-ID: OPcXEXn8PSWMYn4_69sIvQ_1791322056
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4a17ec7a49cso2786325e9.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 06 Oct 2026 14:27:36 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b="UxJ5od23"
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6ddef424972so3033380eaf.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 06 Oct 2026 15:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1791322055; x=1791926855; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZLYqLTXYL+33FHGPoAQIFrwweKpAyRzDOJvC/lVBZus=;
-        b=rADkPjbuB17Ew5AFD9IEklGCqqKcmdwTrQ6CueORguw/J7rMCfCrXaPVZ21STyIpd8
-         N5geO0+t9NJXJUXbr/8+VpLLyAu+cE9OQ5OhDak4lkrjh8w4wd8SrXSnkerj2JVjXIhF
-         2DfNA7epkp7X/3zAZcu6L7rqFs3E4Kh/CmgaRd1EwGA+YLLVrDGgMbuHST/nCuhs4kuK
-         /2hf6wpaEkacVcYks++7Np91ndzTQ8/dPEcJGr3ugieuycTBhU9pStyvaN9MzusuRgcy
-         3TROJvZ6rbOCqQVYWzKAX2y4mMKkiwkVTYNeTtBMHio6U7cw3TWgHdK2yJlEYBNbRQri
-         8ZHQ==
+        d=openai.com; s=google; t=1791324888; x=1791929688; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=asZCHctIeQVz0B1gy7RhxULncl4dgzZFWQT5KkoIqI8=;
+        b=UxJ5od238vq0VA0dDEi+fLislHD6K7TcYghV3NlTAI8oT2lhlhHKckWVbPLjoeaQg6
+         tI+8rCEhUZPrwNV2UZzoX7pn2BnB+1XHd95Mz4KJuaj0EO7bY/CcTQzq+bJcKL0IJlNq
+         5MYkNZA8Gw0XirftlT9eIUJN5hjC6SAgJv9q0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791322055; x=1791926855;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZLYqLTXYL+33FHGPoAQIFrwweKpAyRzDOJvC/lVBZus=;
-        b=UZBB5STSq6Cz4Ln7SmBoiKqgWBahIcSx0kSlhVpbctYYEBZJv085WRZ0YKxziwh9NR
-         i95D+naVZcRSW3MGNKZVGecsFvbOwQrxgHdFnagwMTJqQoUT4FbC3bO/zS0EvgUyBAjF
-         qVMhbhuPzwfQf8komyQR46w1MW4oVbmbI1X6W903A4ybLumjVDXOEjakUwNV9FOvmkN8
-         y5tz2oasuKmJg/KOeY2h9A+rkr2lbLgxkGPO/LMn+zHGbUrkTlJBQQy7XnRhLeWoXPOs
-         sW5myE0cNlfHukM3Sxjo/+rgdyQrD/4UolonF8W10Vc29Sw3QVk1hbGVzbmzKi3/NNkq
-         w+1Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxE98fabpmgTBVEkHfZpoFWmFMpIm8zCzz7YZUUFsSI5F6VqLXHUhjxg1wxToaUSv9Ul6mUsuZZ/Ai8e//x@vger.kernel.org
-X-Gm-Message-State: AFuF++lGAxQWXL9mXJBLiu/7KWbUQqGNSHLRLSO7gNO+l6HkafyOqgDB
-	TDCNhf30BcpwPfP2VR98yMUIiONqCK5NzxKQwQSOYpzbnmGyPTBN71PPUe0n6IFnDXs64smkSHc
-	hpDec+1VqpfBz0h3VOEiXL8iV4H5ocVsQUfX/hgzNn4FVhOaqA4ApJPFtiu0jbofEOmc=
-X-Gm-Gg: AYBFou2QqsgQfWs1jYdKbesGDo26J0ziBxXOMEUuSmsjSf1be8sbOitwlYbxH+QGDEg
-	M92t9/3uBU9kMdweJGNrWnMG1ja0JtZjWsoHfgE1j4ZP6CHlnQxDf23iGn8B+BGwefR3IzR1tKC
-	HKyOtllbdfDUP8FUPnWaTWPQCWejQZTnrY6PiRcJilCxIeTsJreQo49Zi5yDAbwoSv4WLd9ELHJ
-	rxwWjJzzMsfTnJLXKCPQm7d6/Vag2IPtgIQ0fFijE81NK2ookPad+Lp9UqoXZWEsrM5KqwJ8UZk
-	8YvcO5fb0gZ4I5KMeBVdA/2+L6idFbbWIQvzk4r2z1wnEzekXpufggPRGngrT+Vkwlx1sj8=
-X-Received: by 2002:a05:600c:468f:b0:49f:ce78:356d with SMTP id 5b1f17b1804b1-4a1806508edmr1608085e9.30.1791322055561;
-        Tue, 06 Oct 2026 14:27:35 -0700 (PDT)
-X-Received: by 2002:a05:600c:468f:b0:49f:ce78:356d with SMTP id 5b1f17b1804b1-4a1806508edmr1607885e9.30.1791322055050;
-        Tue, 06 Oct 2026 14:27:35 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc0:3fd7:5300:3d6b:52a4:a23f:9d0b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a17f51beffsm14516105e9.2.2026.10.06.14.27.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 14:27:34 -0700 (PDT)
-Date: Tue, 6 Oct 2026 17:27:31 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: sungbyeongchan <tjdqudcks0424@naver.com>,
-	German Maglione <gmaglione@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	virtualization@lists.linux.dev, fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] virtiofs: validate fixed-output response length
-Message-ID: <20261006172721-mutt-send-email-mst@kernel.org>
-References: <20261004123405.586168-1-tjdqudcks0424@naver.com>
- <20261006182408.1301152-1-tjdqudcks0424@naver.com>
- <2026100633-roping-stardust-a6ab@gregkh>
+        d=1e100.net; s=20260707; t=1791324888; x=1791929688;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=asZCHctIeQVz0B1gy7RhxULncl4dgzZFWQT5KkoIqI8=;
+        b=Kd8ed466cjIIa5WM0liUn/jLb7LwdwSlKmI7m1boVLsvldDhB0XBOEav4MAjb2QCsF
+         DVvkOq7Xb91lJykDCAI8ccKEtf3EmHf8HEXO0mNnFPhgrNvjAh0eYM+Snt28iP34Vqrt
+         nJXMRhRwfzxNzzQPhGHjBR1P204E6hE7DSSS+5kGDIjJVb7gLbyIKf4BrdwxOBVxEeyR
+         xr4c3D1tmtlkvasfs7qgws6R1tx5QvYTUM/qFBYQ4yOHOq8LWZEqH6wPnoY+rWLYkIC0
+         Wr3T1Iyo46+okafB7I08ek0kPVXIIjBxM7agkx13haoZvWagJIsAX51KcUXKdHMOEDVt
+         uwXQ==
+X-Gm-Message-State: AFuF++lpG2TU8ToyyPUoPxrzie7b6qh8iGB3S6mTmdwoPxnEhFopi68i
+	EGiGueUDI3ISu6mUXps7janpJzIlGkj6px9GaLpCunFSE1GnMkzuJXw9WypsQcBY/9Y=
+X-Gm-Gg: AYBFou3UMLBX7eEuSK9ZpirH3ATE1FlCaKhVlKQLde6uP3rWyxyInSg3SzciQhxMjSW
+	VjzvS01iValI00YrwOJBiZcGqz4mGCUsB3+78A0ZZAl1HJCX1nxFPtNL+udHuIHHiNiKmRZokOP
+	riJ9FzGStNV3RU1M/e+eEhWeqAsNo6jLaCeBjzzItYs1ryKZNhYlPv2hmstzd3kXHt2OJxfurK5
+	YcslkX/FIwBz8+guIC6ZXDl/HHh5l91uH1xk2mquhOx8tFdSE16QQcC5GU5SGb3E3P0+cmfKbTk
+	QlVFlKl9CtanxRkGLYDRTcKf7TXe1YRjjequZlGfuE3BRDSSO+cQNBDU5Venoa1K6xfXRBKZrsE
+	TcDPpyerMEBvDiV6XhdOa413K2/ZEdF1RnM04WeWD8B1vmGJvYjMgYzV8zRxEJE6hzznyrQXHsS
+	sRjCtkQkkkvYZNZ+eUzkq1CKZBtbCjaWxhi7kBL1t8z008+HZCfY9Ke2wKtEYMsqbM65Cmag5VR
+	+MpsgNLQd76+4YBzRJ2FVV6AlSkeWB80NHCM4CkZ+vIJdp+BFRTy7HB40WdNvd55Nl0sasmd5k=
+X-Received: by 2002:a4a:edcd:0:b0:6ca:4a52:798d with SMTP id 006d021491bc7-6e7a65da2e2mr541644eaf.28.1791324888130;
+        Tue, 06 Oct 2026 15:14:48 -0700 (PDT)
+Received: from com-75606.corp.openai.org ([199.47.143.7])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6e7947969bfsm660861eaf.13.2026.10.06.15.14.47
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 06 Oct 2026 15:14:47 -0700 (PDT)
+From: Kyle Zeng <kylebot@openai.com>
+To: linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kees@kernel.org,
+	outbounddisclosures@openai.com,
+	Kyle Zeng <kylebot@openai.com>
+Subject: [PATCH] exec: serialize argument stack bounds checks with relocation
+Date: Tue,  6 Oct 2026 15:14:44 -0700
+Message-ID: <20261006221444.35641-1-kylebot@openai.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026100633-roping-stardust-a6ab@gregkh>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 06, 2026 at 11:11:14PM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Oct 07, 2026 at 03:24:08AM +0900, sungbyeongchan wrote:
-> > A short successful virtiofs response can leave the fixed-output
-> > portion of the request argument buffer unwritten. The completion path
-> > nevertheless copies the full declared output to the request destination,
-> > allowing stale allocator contents to reach callers such as
-> > fuse_statfs().
-> > 
-> > Require successful fixed-output responses to contain their complete
-> > declared output. Continue to permit a shorter final argument only for
-> > out_argvar requests. Reject positive and internal restart error values,
-> > require valid error replies to be header-only, and do not copy output
-> > arguments from error replies.
-> > 
-> > A header-only FUSE_STATFS success returned stale fields in nine of
-> > nine calls across three boots. The fixed kernel rejected the short
-> > response and preserved complete replies, valid error replies, and
-> > variable-output controls.
-> > 
-> > Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
-> > Cc: stable@vger.kernel.org
-> > Assisted-by: LLM
-> > Signed-off-by: sungbyeongchan <tjdqudcks0424@naver.com>
-> 
-> Real name please.
+setup_new_exec() drops the exec locks before setup_arg_pages(). At that
+point a ptrace-authorized task can reach the new mm through /proc/pid/mem
+and expand its temporary stack.
 
-a missing space I guess?
+setup_arg_pages() validates the size and computes stack_shift before
+taking the mmap write lock. If remote stack expansion wins that lock in
+between, relocate_vma_down() instead uses the enlarged VMA. On a
+native-to-compat exec this can move the stack below mmap_min_addr,
+including to address zero. A still larger expansion can also underflow
+the new start and hit the relocation BUG_ON().
 
-> > ---
-> > Changes in v2:
-> > - Reject positive and internal restart error values.
-> > - Require error replies to be header-only.
-> > - Rate-limit malformed-response warnings.
-> > - Rely on the existing FUSE pr_fmt prefix.
-> > - Add Cc: stable@vger.kernel.org.
-> > - Use the reporter identity consistently.
-> > 
-> >  fs/fuse/virtio_fs.c | 43 ++++++++++++++++++++++++++++++++++++++-----
-> >  1 file changed, 38 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> > index f15e516ebcb5c..fffbe08d9114a 100644
-> > --- a/fs/fuse/virtio_fs.c
-> > +++ b/fs/fuse/virtio_fs.c
-> > @@ -4,6 +4,8 @@
-> >   * Copyright (C) 2018 Red Hat, Inc.
-> >   */
-> >  
-> > +#include "fuse_i.h"
-> > +
-> 
-> Why is this moved?
-> 
-> 
-> 
-> >  #include <linux/fs.h>
-> >  #include <linux/dax.h>
-> >  #include <linux/pci.h>
-> > @@ -20,7 +22,6 @@
-> >  #include <linux/cleanup.h>
-> >  #include <linux/uio.h>
-> >  #include "dev.h"
-> > -#include "fuse_i.h"
-> >  #include "fuse_dev_i.h"
-> >  
-> >  /* Used to help calculate the FUSE connection's max_pages limit for a request's
-> > @@ -730,6 +731,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
-> >  	unsigned int num_out;
-> >  	unsigned int i;
-> >  
-> > +	/* Error replies contain only the output header. */
-> > +	if (req->out.h.error)
-> > +		goto out;
-> 
-> But no error is returned?
-> 
-> >  	if (len < sizeof(*oh)) {
-> > -		pr_warn("virtio-fs: response too short (%u)\n", len);
-> > +		pr_warn_ratelimited("response too short (%u)\n", len);
-> 
-> Isn't these ratelimited() changes separate from the original issue here?
-> That should be a separate patch.
-> 
-> thanks,
-> 
-> greg k-h
+Acquire the mmap write lock before inspecting the VMA bounds in either
+stack-growth direction. Keep the existing locked relocation and send
+both size-check failures through out_unlock. The size check and the
+range passed to relocation now describe the same VMA.
 
+Assisted-by: Codex:gpt-6-astra
+Signed-off-by: Kyle Zeng <kylebot@openai.com>
+---
+ fs/exec.c | 22 +++++++++++++++-------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
+
+diff --git a/fs/exec.c b/fs/exec.c
+index 819643408e6d..1ab09c5ebdda 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -617,6 +617,13 @@ int setup_arg_pages(struct linux_binprm *bprm,
+ 	struct mmu_gather tlb;
+ 	struct vma_iterator vmi;
+ 
++	/*
++	 * The temporary stack can be expanded by a remote memory access.
++	 * Hold the mmap_lock from the bounds checks through the relocation.
++	 */
++	if (mmap_write_lock_killable(mm))
++		return -EINTR;
++
+ #ifdef CONFIG_STACK_GROWSUP
+ 	/* Limit stack size */
+ 	stack_base = bprm->rlim_stack.rlim_max;
+@@ -628,8 +635,10 @@ int setup_arg_pages(struct linux_binprm *bprm,
+ 		stack_base += (STACK_RND_MASK << PAGE_SHIFT);
+ 
+ 	/* Make sure we didn't let the argument array grow too large. */
+-	if (vma->vm_end - vma->vm_start > stack_base)
+-		return -ENOMEM;
++	if (vma->vm_end - vma->vm_start > stack_base) {
++		ret = -ENOMEM;
++		goto out_unlock;
++	}
+ 
+ 	stack_base = PAGE_ALIGN(stack_top - stack_base);
+ 
+@@ -641,8 +650,10 @@ int setup_arg_pages(struct linux_binprm *bprm,
+ 	stack_top = PAGE_ALIGN(stack_top);
+ 
+ 	if (unlikely(stack_top < mmap_min_addr) ||
+-	    unlikely(vma->vm_end - vma->vm_start >= stack_top - mmap_min_addr))
+-		return -ENOMEM;
++	    unlikely(vma->vm_end - vma->vm_start >= stack_top - mmap_min_addr)) {
++		ret = -ENOMEM;
++		goto out_unlock;
++	}
+ 
+ 	stack_shift = vma->vm_end - stack_top;
+ 
+@@ -652,9 +663,6 @@ int setup_arg_pages(struct linux_binprm *bprm,
+ 
+ 	bprm->exec -= stack_shift;
+ 
+-	if (mmap_write_lock_killable(mm))
+-		return -EINTR;
+-
+ 	vm_flags = VM_STACK_FLAGS;
+ 
+ 	/*
+
+base-commit: fd179f8a05be3ccae366b9b96e176b51fbe54aab
