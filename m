@@ -1,62 +1,63 @@
-Received: from mail-yx2-f39.google.com (mail-yx2-f39.google.com [74.125.224.167])
+Received: from mail-yx2-f14.google.com (mail-yx2-f14.google.com [74.125.224.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA35E231829
-	for <linux-fsdevel@vger.kernel.org>; Tue,  6 Oct 2026 00:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0C1269D18
+	for <linux-fsdevel@vger.kernel.org>; Tue,  6 Oct 2026 00:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791246029; cv=none; b=Q3xzzpegZGqKnRoSsmwKbWeithLlbj5N2IYY9VxptP49dcrev0WGJizI0JyfJQVONI1gxZ3FDBrV6Mri/0JpGb/Vs3XT+vqV0YKK7TZcPwCRNhxe54mOUnR5Vs/XDxuOgw97X92uKJI4ytLWI5nI/GeefOuqGmwdOSzBPjGlXec=
+	t=1791246032; cv=none; b=C+mjjoj9I2N73aqnkB2uZn6qQcNMs6F4vEqo21Vjme2z/HkC2Z2sYjoZ6FbPI0q6TaWZpCEKA6PHU9pVEeDqGtMXzTy7Ha8y6rMJIA+BVjOWGd7TthjCqlQUNF/OHXQopruQ72+6uC93jDgj84nTT3ah++KXMWxOZMSiNLvu05o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791246029; c=relaxed/simple;
-	bh=TpMfAkQOd8+Mla05vi+uHKmTkXRGQJLZjtsApSsTiH8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nB8VdBzqsKfyRKU/LT/jxADtqXLDdnf1H89yuAP5G33znsps7xRCj5N/GMUrIw6dogDcDQJUq+sxWw0C5pbtLyB1lgavsuYoKpv4MNnE/xMZBpi6v6pVhvSXMtkjBlBHfQpm4sgzXL8rS2T5CqC/9XWn3RWG8pEMh+wKL/IfpUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HT/rY8ME; arc=none smtp.client-ip=74.125.224.167
+	s=arc-20240116; t=1791246032; c=relaxed/simple;
+	bh=CrnP/j6cbPUgh+l4ikUyaCHY+R2QqsjDap3IgzAfqBM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JXpx/sRx7+2/OVrObX824Y/x5P33lbjMpmcsVTpIoYIv6rUuF35h1cm67SMyAVyPGlkpAGMNbNlc8pBFf3nh/wXaNER7AVcCwIFBDVgm2oV3lxOYCeEkNrv4R7T7oo+1n/Y9GQGkB8gqkTYCmz0xCc8eG29tQ4lKjGUG54SPLqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fsWjH1B/; arc=none smtp.client-ip=74.125.224.142
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HT/rY8ME"
-Received: by mail-yx2-f39.google.com with SMTP id 00721157ae682-8ac8c533385so16401837b3.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 05 Oct 2026 17:20:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fsWjH1B/"
+Received: by mail-yx2-f14.google.com with SMTP id 00721157ae682-8ab42612328so19196487b3.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 05 Oct 2026 17:20:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791246027; x=1791850827; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VpCO6yZpRdgZ70rjDM9Ihk9lRlcko+eCmioDcjOGtsc=;
-        b=HT/rY8METsqN5L0ydbSn94v4EobVoPBsOcS/6/AWgPgcEZunR77vMlX9oiCrzqYNL3
-         3DSsH2UUE8aesraRZj4jhokda5AYsp/kr3JHde0ZR64PMutkb95jNou3HD8dyTgAENDL
-         rvNnl03HhoeWlQ3ckC9ocYLhQEdF4a18HmJnSie3eETu+xIJBzQgwaWpgsdYe6vJPv3s
-         QdtgYCjeN3jNQa+sY+sI9vuc3vX8h4+/vEHSB1+rgK7Gym6mhmDM7sK+kOXChMzgoELF
-         tm9YCPaSIYxuSUW0BtRGaBtRGqct0cWLXfaCjy60SsNad4Npm88wc2rb4Wg5jeXC1bwP
-         EQcg==
+        d=gmail.com; s=20251104; t=1791246029; x=1791850829; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Nd9w4dPTZ+abWi8KVOZVVNdngpKRtmSbi2Eu/1b0iCI=;
+        b=fsWjH1B/S9AwS+6+vlsmr8CvOErZ2IOAXdpnetKftnsnmjXfigPwHgIZfi8FMVyYfw
+         0C3KLAZQWGyWwbdAOExAu3XeadBWderqzpGottU4WG+qMKYSgCjL6n7BvT7MMUNK3qiI
+         khUG/AEK5AmZideyRDECO6t8yUpkxNVIk+Q1wYkbYveYTsGaNfF/8ZMcRNfP/PDTn/i9
+         R6EYHESl+xGfQpWvTektSPlWB1o7Gu1ViWYFE184sK5Q7eRytV7D2mlZEDZ/UrPWaooC
+         Uzr+vRK8kB48x8PyvaZvZwH10bqWSOXvCciOgs9OQKNBsZukuKopImLen4TTDFwRrKbI
+         K0vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791246027; x=1791850827;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VpCO6yZpRdgZ70rjDM9Ihk9lRlcko+eCmioDcjOGtsc=;
-        b=JZGzw+zOXJSOLwkUFHvgb1GcqlCzaPyw+jxtqqEaLK5wExN4fONbUoF00Hvjc76I/V
-         Uv9kAr5rMdv3YZSlbFCM7OYeFrzwlYeZYjzAEQ2i9HL5sJxSAjXqwtSTRmLnSLkiRaUn
-         H3ljtgquYJBUAAHiFKATckqul6vX/ANfqPnmXQj8Cpv7iHRS05IVTF5sCUm6M53u6CNL
-         yFGXsjvoNHPnuzzQcPCu2kyfROTHzTS5axNuv5UqzKYxLLceZhhIzb9/5c4EE4F8aqXc
-         3xUXk3DxmHMHUfoFnzAXrfAn1lJ39oUVBtCjeQaGErboZXtAxr7y+L3ToQ9KkiTzxdlD
-         vCEA==
-X-Gm-Message-State: AFq9FYJhn+RA8alt3mhEmZMJKMj8rOywWvla4m+0u+aCSrmqRgiVlRjK
-	8++AoLaPTnXBLgLY/r3BpF7aEg/M4IpXPyVi6D0Ptp3hDqwx5HHiVJaQ
-X-Gm-Gg: AYBFou1kOFx5vIHJiS3yoO2IjGhA0QkHHvdLGm/J1kR+MH6DXWnwYora0xuRhQdI2P7
-	BPsMhTz7J0H4EFfczygDifzt3uF4z3xV6MjfvzZzXYxaVe7/LrWetHswgXxMXEBFkKFLfJdUURj
-	mNXAPrGWowSPjX9S+2Be1QoMb/+ZDT72Dn0nOnKM5NOOFcj5XC+QNIRemkcG6sGu5Sq2ATTs9rQ
-	kUTtv1JbDb9rsZl6lWl2KAbi013IUtfGkXxto/o4YkR1ATLWcZmcIDUVZbTBkog5jJiM/RK7Z3L
-	ZMIFYQqF00+D7U1WqKbosTn6Bqp/SfLJmTLLNxWW90lw4IRbN/JUmJms08z2NAByonpe4NDGlLA
-	a/SKeHCrYDVVPkABynze0AS73kfPjZA5PLKS4LJ7+PhriL8J3Dzzg0IvVrsfSQwQglJ4lI61Mny
-	bohOmO7vy//jUK+YY/2g9aIkR2sMAgXyVMGvmKVch1Kgy9UHcuAqw3wVS5gYOcyaBATHbhLC0W0
-	Q==
-X-Received: by 2002:a05:690c:2605:b0:80d:964f:88fd with SMTP id 00721157ae682-8ae36a07c32mr49535007b3.5.1791246026392;
-        Mon, 05 Oct 2026 17:20:26 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791246029; x=1791850829;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Nd9w4dPTZ+abWi8KVOZVVNdngpKRtmSbi2Eu/1b0iCI=;
+        b=I7KnCk2/MJT1n8JLftSrKPzkyWIzhwR269mVoUBs22aHGBaFNrcF4zFQK4/s42fWDh
+         zfdqyZ/nrLttbTs0mtE+bVc9KV54Mgf6RX1fLXIeM7tdn81lc1kTaVY9TCPeD1HiFcrf
+         BikgqbgqtIYW6cwoeiv4SLheZieZJq5cCMycvglHrUPoYBXcEfyp0gF4SSTy5B13Mi7Z
+         UxE8OKVvhvj7rAD4KpZtGF2nRtfkleaAfcX+WFsA0TLMC2BztrzNLwFwKdryP6WI99Ss
+         YPTOCa+v2h2CxMRvY4wB5Got5wNs+WPOP5d4Ib9mcvTjkw7rHECPef58s8duood2EM73
+         E7+w==
+X-Gm-Message-State: AFq9FYJOJOoeWfrWGpWkHdnx8cOJ8GVHyBXz/VVlnXT6i0Mfv5JL5VsO
+	2VSOaoRSXMqRe9SERlSsbEmQeUq9D2CyY3EbJiK0BUxLgGhyP41eZQ1H
+X-Gm-Gg: AYBFou33jHEg/va3eAx3NeXM9sxE8rmgiNF+zA/UiI06cyptzdMB6ddBpREpe2BFXMf
+	mkoRjjgslPZpqM4gZbGJkjd+WN3TAQj7SnL/+kzA3ltSakhbJPxRgOz6mlLD8Ce9Qghsy85+Krf
+	7aD8VLzH7bcDChugCKfDsZBMka6P/qSvwc7B5eDFUccv2O3Rcmqd8/5Pmss8o1mKk9vqrcJlW3s
+	kdIhBlvth0Cvqr4Nb0yskLqEHSsH2aVqxHL3nScWEnxgkEJmEgRPT8A51tDO7WUncdpW7v3gPZg
+	QnUIHHLai4OoiaYf726FeidHvwW3AtLofN7KoWPvE034hrDIYoM1uJiaInARFrGC2TNI52UlSdn
+	YC7M7UyyWnR88eztVmMpTJNC1+UUxeMVS2wdp5bGDvnvKvST3igC1j+m7Dk5m3ClDqMebfC+izR
+	jrU5cgu1/hCQVnx7ZKMFCke+AZEJOiHo+Y9Sn7W+7tOyyD5JBkNlql2wxWqq3x9GXeA94ddZ9eb
+	xzfHzU/surg
+X-Received: by 2002:a05:690c:6b12:b0:8af:1c27:9b89 with SMTP id 00721157ae682-8af1c279f0fmr16207967b3.5.1791246029153;
+        Mon, 05 Oct 2026 17:20:29 -0700 (PDT)
 Received: from zenbox ([2600:1700:18fb:6011:6dc9:4ffd:1851:60b1])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8ae33be0e58sm46636277b3.43.2026.10.05.17.20.24
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8ae33be0e58sm46636277b3.43.2026.10.05.17.20.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2026 17:20:25 -0700 (PDT)
+        Mon, 05 Oct 2026 17:20:28 -0700 (PDT)
 From: Justin Suess <utilityemal77@gmail.com>
 To: Christian Brauner <brauner@kernel.org>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -87,250 +88,122 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Shuah Khan <shuah@kernel.org>,
 	Tingmao Wang <m@maowtm.org>,
 	Justin Suess <utilityemal77@gmail.com>
-Subject: [RFC PATCH bpf-next 00/12] fs: unified VFS ancestor walk for Landlock and BPF
-Date: Mon,  5 Oct 2026 20:20:07 -0400
-Message-ID: <20261006002020.2890858-1-utilityemal77@gmail.com>
+Subject: [RFC PATCH bpf-next 01/12] namei: introduce __path_walk_parent()
+Date: Mon,  5 Oct 2026 20:20:08 -0400
+Message-ID: <20261006002020.2890858-2-utilityemal77@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261006002020.2890858-1-utilityemal77@gmail.com>
+References: <20261006002020.2890858-1-utilityemal77@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Howdy folks,
+From: Song Liu <song@kernel.org>
 
-This series adds a VFS API for walking a path's ancestors that covers
-both path-walk modes (refwalk and rcu-walk, plus the hybrid escalation
-between them) through a unified interface, converts Landlock to it, and
-exposes it to BPF LSM programs.  It picks up Song Liu's bpf path
-iterator series [1] where the discussion left it, and tries to be the
-synthesis of what came out of that thread: a combination of the
-callback and open-coded approaches proposed there.
+Factor the step-to-parent logic out of follow_dotdot() into
+__path_walk_parent(), which walks a plain struct path to its parent,
+crossing mount trees via choose_mountpoint().
 
-It's a bigger diff, because it tries to cover the whole three-cheese
-enchilada of VFS path walk: refwalk, rcu and hybrid. I figure doing all
-modes at once is best, even if it hurts now, as bolting on an RCU api as
-an afterthought would make for a miserable experience for in-kernel and
-BPF users alike dealing with breakage / migration.
+This will be used by a VFS ancestor walker serving landlock and BPF.
 
-I'm RFC'ing this for now, as I'm still not 100% confident on the design
-choices, especially on some of the weirder corners of VFS (disconnected
-directories, MNT_DOOMED).
+Suggested-by: Neil Brown <neil@brown.name>
+Signed-off-by: Song Liu <song@kernel.org>
+[justin: rebased, kept the helper static to namei.c, dropped the
+ path_walk_parent() wrapper and the namei.h export]
+Signed-off-by: Justin Suess <utilityemal77@gmail.com>
+---
+ fs/namei.c | 62 ++++++++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 44 insertions(+), 18 deletions(-)
 
-Much credit to Song Liu for the inspiration for the initial design.
-
-Background
-==========
-
-Landlock evaluates filesystem access by walking from a path to the real
-root with an open-coded dget_parent()/follow_up() loop.  This works,
-but the semantics are difficult to get right. Al noted that follow_up()
-ignores the mount's disappearance, so a concurrent umount can leave
-that walk operating on an unaccounted mount [2].  BPF LSMs (Tetragon et
-al.) want the same walk and today approximate it with racy probe reads.
-Song's series added a step-up helper and a referenced-only BPF
-iterator.
-
-This attempts to bring some of the lessons from Landlock's VFS walk to
-VFS core code, and exposes the same API to BPF. Other callers can be
-converted later.
-
-From what I understand from the feedback, Christian rejected merging a
-referenced-mode API now and bolting rcu-walk on later, and asked for
-one unified API serving both use-cases, with the callback design Neil
-sketched as the accepted shape for in-kernel callers [3].  Mickaël
-additionally required that disconnected directories be well-defined
-before anything lands, and suggested the layering used here:
-"the best approach would be to have a VFS API with a callback,
-and a BPF helper (leveraging this VFS API) with an iterator state" [4].
-
-What this series does
-=====================
-
-It's a path walking API for VFS, with BPF and Landlock consumers.
-
-The core is a struct vfs_ancestor_walk driven by vfs_walk_start() /
-vfs_walk_next() / vfs_walk_end(), sharing its step-to-parent
-cores with follow_dotdot() and follow_dotdot_rcu().  The engine
-owns every invariant: references in refwalk mode, d_seq/mount_lock
-validation in rcu mode, mount crossings via choose_mountpoint(),
-which is what fixes the Landlock race.  Both modes live behind the
-same calls; a VFS_WALK_RCU flag picks the mode and nothing outside
-namei.c sees seqcounts or nameidata.
-
-On top of the engine sit two front-ends matched to their consumers.
-In-kernel callers get the callback design, which must not sleep.
-
-  int vfs_walk_ancestors(const struct path *path,
-			 int (*cb)(const struct path *ancestor,
-				   unsigned int pos_flags, void *data),
-			 void *data, unsigned int flags);
-
-@cb is invoked on @path, then on each ancestor up to the real root,
-and returns VFS_WALK_CONTINUE, VFS_WALK_STOP or a negative errno;
-@flags takes VFS_WALK_RCU when the callback copes with unreferenced
-positions.  Landlock's walk converts to this, preserving its evaluation
-order exactly (including the disconnected-directory semantics of its
-recent fixes) plus the mount_lock-validated crossings.
-
-The engine itself is declared in fs/internal.h:
-
-  void vfs_walk_start(struct vfs_ancestor_walk *aw,
-		      const struct path *path, unsigned int flags);
-  int  vfs_walk_next(struct vfs_ancestor_walk *aw);
-  void vfs_walk_end(struct vfs_ancestor_walk *aw);
-  bool vfs_walk_handover(struct vfs_ancestor_walk *to,
-			 struct vfs_ancestor_walk *from);
-
-So the one consumer that cannot be a callback (BPF) can drive it one
-step per call, from fs/bpf_fs_kfuncs.c. Here are the (numerous) kfuncs,
-many of which are thin wrappers around the engine:
-
-  /* referenced, sleepable: each position comes acquired */
-  int  bpf_iter_path_ancestors_new(struct bpf_iter_path_ancestors *it,
-				   struct path *path, u64 flags);
-  struct path *
-       bpf_iter_path_ancestors_next(struct bpf_iter_path_ancestors *it);
-  void bpf_iter_path_ancestors_destroy(struct bpf_iter_path_ancestors *it);
-  u32  bpf_path_ancestors_pos_flags(struct bpf_iter_path_ancestors *it);
-  void bpf_path_put(struct path *path);
-
-  /* lockless: positions are borrowed, valid until the next step */
-  int  bpf_iter_path_ancestors_rcu_new(struct bpf_iter_path_ancestors_rcu *it,
-				       struct path *path, u64 flags);
-  struct path *
-       bpf_iter_path_ancestors_rcu_next(struct bpf_iter_path_ancestors_rcu *it);
-  void bpf_iter_path_ancestors_rcu_destroy(struct bpf_iter_path_ancestors_rcu *it);
-  u32  bpf_path_ancestors_rcu_pos_flags(struct bpf_iter_path_ancestors_rcu *it);
-
-  /* escalation for hybrid walk. Mirroring unlazy_walk(): acquire the
-   * lockless walk's current position straight into a referenced iterator
-   */
-  int  bpf_path_ancestors_legitimize(struct bpf_iter_path_ancestors *it,
-				     struct bpf_iter_path_ancestors_rcu *rcu_it);
-
-The lockless constructor is KF_RCU_PROTECTED, so the verifier forces
-the whole iteration into one RCU read-side critical section, within
-which everything sleepable is already rejected. Each next() is still
-namei.c code, so the walk invariants stay in the VFS even though the
-loop is in the program.  A hybrid walk runs lockless until it needs
-sleepable work, then it escalates. Here's what hybrid walk looks like
-concretely:
-
-	bpf_rcu_read_lock();
-	bpf_iter_path_ancestors_rcu_new(&rit, dir, 0);
-	while ((pos = bpf_iter_path_ancestors_rcu_next(&rit))) {
-		/* borrowed position: evaluate, but no sleeping allowed */
-		if (foobar(pos))
-			break;
-	}
-  /* converts the iterator from rcu -> refwalk */
-	bpf_path_ancestors_legitimize(&it, &rit);
-	bpf_iter_path_ancestors_rcu_destroy(&rit);
-	bpf_rcu_read_unlock();
-
-	/* sleepable kfuncs are legal again. */
-	while ((pos = bpf_iter_path_ancestors_next(&it))) {
-		bpf_path_d_path(pos, buf, sizeof(buf));
-    /* refwalk gives you path references that you gotta free to appease
-     * the verifier
-     */
-		bpf_path_put(pos);
-	}
-	bpf_iter_path_ancestors_destroy(&it);
-
-Nothing is allocated during the escalation, so it cannot fail for want
-of memory inside the critical section, and the sleepable work lands
-after bpf_rcu_read_unlock() by construction: the resuming next() is a
-sleepable kfunc, an ordering the verifier enforces.
-
-A lockless walk that loses a race does not restart transparently: it
-dies with -ECHILD (BPF: BPF_PATH_ANCESTORS_RETRY), the caller discards
-what it accumulated and retries in referenced mode, so one lockless
-attempt bounds the retries.  This is simpler to reason about than the
-restart-signal contract discussed in the thread.
-
-Disconnected directories are exposed first-class rather than papered over:
-positions whose dentry is a disconnected root are flagged
-VFS_WALK_POS_DISCONNECTED (plus VFS_WALK_POS_MOUNTPOINT for the
-mountpoint a crossing landed on, which the old Landlock loop never
-visited), and continuing over one resumes at the root of its mount.
-The mechanism lives in the walker; the MNT_INTERNAL allow-and-stop
-policy stays in Landlock.
-
-Supporting pieces: mnt_undo_legitimize() gives a failed
-__legitimize_mnt() an undo callable inside the RCU read-side critical
-section, deferring a final mntput to delayed_mntput().
-
-Secondly, for the bpf_path_ancestors_legitimize, a patch is added to allow
-kfuncs to accept an "__uninit"-suffixed iterator argument so a generic
-kfunc (the handover) can initialize an iterator from another one, since
-KF_ITER_NEW allows only one constructor per type; and an acquiring
-KF_ITER_NEXT's drained branch now releases the reference its acquire
-bookkeeping created, which no in-tree iterator needed before.
-
-Patches 1 and 4 are carried from Song's series; patch 3 is derived from
-his Landlock conversion and carries the Fixes: tag for the follow_up()
-race, per Mickaël's request on v5.
-
-Open questions
-==============
-
-- Whether an open-coded iterator is acceptable to the VFS as the BPF
-  front-end, given the engine and invariants stay in namei.c and the
-  verifier provides the discipline a kernel-owned loop would.  The
-  callback shape was the thread's endorsed design for in-kernel
-  callers; I believe this split is what Mickaël proposed in [4], and
-  the alternative (BPF programs as the callback) costs considerably
-  more verifier machinery for a worse programming model.
-
-- Whether VFS_WALK_POS_MOUNTPOINT should exist at all.  It is there so
-  Landlock's rule evaluation stays bit-for-bit what it was before the
-  conversion; if matching rules on crossed-onto disconnected
-  mountpoints is acceptable as a behavior change, the flag disappears.
-
-- The retry-on-ECHILD contract versus a transparent restart signal.
-
-[1] https://lore.kernel.org/bpf/20250617061116.3681325-1-song@kernel.org/
-[2] https://lore.kernel.org/r/20250529231018.GP2023217@ZenIV
-[3] https://lore.kernel.org/all/20250707-netto-campieren-501525a7d10a@brauner/
-[4] https://lore.kernel.org/all/20250704.quio1ceil4Xi@digikod.net/
-
-Justin Suess (11):
-  namei: add vfs_walk_ancestors()
-  landlock: convert ancestor walk to vfs_walk_ancestors()
-  bpf: mark struct path trusted
-  namei: make vfs_walk_ancestors() stepwise
-  bpf: add a path ancestor iterator
-  selftests/bpf: exercise the path ancestor iterator
-  fs: add mnt_undo_legitimize()
-  namei: add an rcu-walk mode to the ancestor walk
-  bpf: support "__uninit" iterator arguments in generic kfuncs
-  bpf: add a lockless path ancestor iterator
-  selftests/bpf: exercise the lockless path ancestor iterator
-
-Song Liu (1):
-  namei: introduce __path_walk_parent()
-
- fs/bpf_fs_kfuncs.c                            | 248 ++++++++++++
- fs/internal.h                                 |  22 +
- fs/mount.h                                    |   1 +
- fs/namei.c                                    | 377 ++++++++++++++++--
- fs/namespace.c                                |  63 ++-
- include/linux/namei.h                         |  17 +
- kernel/bpf/verifier.c                         |  49 ++-
- security/landlock/fs.c                        | 265 ++++++------
- .../selftests/bpf/prog_tests/path_ancestors.c |  77 ++++
- .../selftests/bpf/progs/path_ancestors.c      | 134 +++++++
- 10 files changed, 1076 insertions(+), 177 deletions(-)
- create mode 100644 tools/testing/selftests/bpf/prog_tests/path_ancestors.c
- create mode 100644 tools/testing/selftests/bpf/progs/path_ancestors.c
-
-
-base-commit: 99dc1ba542420db6b8df209744f55cc52466ad91
+diff --git a/fs/namei.c b/fs/namei.c
+index 20a6534ea3ef..808fb4bed7c4 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -2192,36 +2192,62 @@ static struct dentry *follow_dotdot_rcu(struct nameidata *nd)
+ 	return nd->path.dentry;
+ }
+ 
+-static struct dentry *follow_dotdot(struct nameidata *nd)
++/**
++ * __path_walk_parent - step towards the parent of the given struct path
++ * @path: position to step up from; if it is the root of a mounted tree, it
++ *        is first updated to the mount point that tree is mounted on
++ * @root: boundary not to be crossed; if zero'ed, walk all the way to the
++ *        global root
++ * @flags: %LOOKUP_NO_XDEV returns -EXDEV once @path was updated to a new
++ *         mount; %LOOKUP_BENEATH returns -EXDEV at @root or at the root of
++ *         an unmounted tree, where @path->dentry itself is returned
++ *         otherwise
++ *
++ * Returns: the parent dentry with its refcount incremented, or an ERR_PTR().
++ */
++static struct dentry *__path_walk_parent(struct path *path, const struct path *root, int flags)
+ {
+-	struct dentry *parent;
+-
+-	if (path_equal(&nd->path, &nd->root))
++	if (path_equal(path, root))
+ 		goto in_root;
+-	if (unlikely(nd->path.dentry == nd->path.mnt->mnt_root)) {
+-		struct path path;
++	if (unlikely(path->dentry == path->mnt->mnt_root)) {
++		struct path new_path;
+ 
+-		if (!choose_mountpoint(real_mount(nd->path.mnt),
+-				       &nd->root, &path))
++		if (!choose_mountpoint(real_mount(path->mnt),
++				       root, &new_path))
+ 			goto in_root;
+-		path_put(&nd->path);
+-		nd->path = path;
+-		nd->inode = path.dentry->d_inode;
+-		if (unlikely(nd->flags & LOOKUP_NO_XDEV))
++		path_put(path);
++		*path = new_path;
++		if (unlikely(flags & LOOKUP_NO_XDEV))
+ 			return ERR_PTR(-EXDEV);
+ 	}
+ 	/* rare case of legitimate dget_parent()... */
+-	parent = dget_parent(nd->path.dentry);
++	return dget_parent(path->dentry);
++
++in_root:
++	if (unlikely(flags & LOOKUP_BENEATH))
++		return ERR_PTR(-EXDEV);
++	return dget(path->dentry);
++}
++
++static struct dentry *follow_dotdot(struct nameidata *nd)
++{
++	struct dentry *parent;
++
++	if (path_equal(&nd->path, &nd->root)) {
++		/* nd->root is never path_connected()-checked. */
++		if (unlikely(nd->flags & LOOKUP_BENEATH))
++			return ERR_PTR(-EXDEV);
++		return dget(nd->path.dentry);
++	}
++	parent = __path_walk_parent(&nd->path, &nd->root, nd->flags);
++	nd->inode = nd->path.dentry->d_inode;
++	if (IS_ERR(parent))
++		return parent;
+ 	if (unlikely(!path_connected(nd->path.mnt, parent))) {
+ 		dput(parent);
+ 		return ERR_PTR(-ENOENT);
+ 	}
+ 	return parent;
+-
+-in_root:
+-	if (unlikely(nd->flags & LOOKUP_BENEATH))
+-		return ERR_PTR(-EXDEV);
+-	return dget(nd->path.dentry);
+ }
+ 
+ static const char *handle_dots(struct nameidata *nd, enum last_type type)
 -- 
 2.55.0
 
