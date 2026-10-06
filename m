@@ -1,412 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0424AE8A4
-	for <linux-fsdevel@vger.kernel.org>; Tue,  6 Oct 2026 21:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE4B3CB557;
+	Tue,  6 Oct 2026 21:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791320468; cv=none; b=IMUqVmN/Fpc/GIAeMKn0HQnxQRSoBZpEiCGi3v3Ud8J6eGlD31D+/OAjaHDw3jlG53v66l22F8M3tNNFFybBr9LX+ZnrH60PPfih336vSxCAjAczb15xpmYlXDDbAlvO7h+m16qo8KHFUsChd/uUMcDblnUKCahpnqk6+9Mxf5o=
+	t=1791321080; cv=none; b=nbjxRoKeraeBqaL2GpnCu3E6WseOFmJzR2cTiJCtcTWI63AtbbyExvLBLMZe7uk1OummsVEf2cAhgLhfVH28SLGpR4DmFqQ7+v+LR4CG5zBsFOtBtYybu4MvQ1QI4T3/oPvTiqBfyxzck54zwgTYeGYjk+2DaXveRLFDMDq/pY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791320468; c=relaxed/simple;
-	bh=BuB05dLO8R1MDAlcGvQSkpvMmrQHXxGTjrTIheD+rCE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DdDImZ3pWASM7FS51TE/C0/Red81407LacIAKkmTKwBanSNXxgKMegKZXEr6616Bf3+paPrd8j3gHxei3uGLsdZX2ceD0PKYydUuliWo9Qx4MRRcgJQfvjPNbMPeIqhZf4ZCQxLJYIvj7iOqFOnx9dDB4QvxymR9e+I0VaQP3EQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Xtye3XBN; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1791321080; c=relaxed/simple;
+	bh=eJqOm82J5R97HC3hp/za/6cr1vYqL7mkBxRsrF7MZYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NlLxoROw5C9YGAr6kPcZimm2vpSSHA6jMeSa5vBa3YtbNZnFCe4vN6AtzypA6uoof2NnH6pyBET7QQO42sGDjwhbR3HV9m5uIb4e7+YEVdpwgSM1sj9wLMJxepWJK2io0o47B+2ldfxw6iGjwjQYqAxHQi6TKUj3nA2iJjz9txM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WFY9ILpc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xtye3XBN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791320464;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GjpW1kD2q+/wJ4RQKo2FSmdPF3ULn0pnNFHUgcdDTCE=;
-	b=Xtye3XBN+3RC5nQA+A0gqRKyWw3m2uG89/vjTw3oFDJyDGMxPkQemUdf7gUpXVEUe4mza8
-	JcUbBQ60XG6EFLt9CgiStc+UtelII+wzR5+4DCrUnCtTIv7dtIi6IKMKa29ck52GuemBK2
-	uhMa9qIfkgQGU4VamPko4PIZSFWCVI8=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-384-HDCNzCDjPImVdHuzgW3QHQ-1; Tue,
- 06 Oct 2026 17:00:58 -0400
-X-MC-Unique: HDCNzCDjPImVdHuzgW3QHQ-1
-X-Mimecast-MFC-AGG-ID: HDCNzCDjPImVdHuzgW3QHQ_1791320456
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E36EC1869D96;
-	Tue,  6 Oct 2026 21:00:55 +0000 (UTC)
-Received: from warthog.com (unknown [10.44.32.90])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1B41C1800352;
-	Tue,  6 Oct 2026 21:00:50 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Stefan Metzmacher <metze@samba.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v13 8/8] netfs: Remove netfs_extract_user_iter()
-Date: Tue,  6 Oct 2026 21:59:44 +0100
-Message-ID: <20261006205947.608356-9-dhowells@redhat.com>
-In-Reply-To: <20261006205947.608356-1-dhowells@redhat.com>
-References: <20261006205947.608356-1-dhowells@redhat.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WFY9ILpc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39E0E1F0089B;
+	Tue,  6 Oct 2026 21:11:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791321078;
+	bh=s67wcmLdvo6Va5riA42IT5CjgvqjWz2QO0DX2E+Vc6I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WFY9ILpcu8vuCmq1IJ7t1QwNcC+ULQTEEUJwfMx8idPGp3hYtsaAzaxVjHnVIr1gQ
+	 nTyAZD+nOMdbQ1Nop+D+FBqdvvfVGNXAE52ckG1ANs772zaWoRM4MEb52ldaXY0XOn
+	 gfI+jV8IDmDa1ASaQGfBjaX9oVUHsc5eW1JTotlM=
+Date: Tue, 6 Oct 2026 23:11:14 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: sungbyeongchan <tjdqudcks0424@naver.com>
+Cc: German Maglione <gmaglione@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	virtualization@lists.linux.dev, fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] virtiofs: validate fixed-output response length
+Message-ID: <2026100633-roping-stardust-a6ab@gregkh>
+References: <20261004123405.586168-1-tjdqudcks0424@naver.com>
+ <20261006182408.1301152-1-tjdqudcks0424@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261006182408.1301152-1-tjdqudcks0424@naver.com>
 
-Remove netfs_extract_user_iter() as it has been replaced with
-netfs_extract_iter().
+On Wed, Oct 07, 2026 at 03:24:08AM +0900, sungbyeongchan wrote:
+> A short successful virtiofs response can leave the fixed-output
+> portion of the request argument buffer unwritten. The completion path
+> nevertheless copies the full declared output to the request destination,
+> allowing stale allocator contents to reach callers such as
+> fuse_statfs().
+> 
+> Require successful fixed-output responses to contain their complete
+> declared output. Continue to permit a shorter final argument only for
+> out_argvar requests. Reject positive and internal restart error values,
+> require valid error replies to be header-only, and do not copy output
+> arguments from error replies.
+> 
+> A header-only FUSE_STATFS success returned stale fields in nine of
+> nine calls across three boots. The fixed kernel rejected the short
+> response and preserved complete replies, valid error replies, and
+> variable-output controls.
+> 
+> Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: sungbyeongchan <tjdqudcks0424@naver.com>
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-Reviewed-by: Paulo Alcantara <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
----
- fs/netfs/iterator.c   | 297 ------------------------------------------
- include/linux/netfs.h |   5 -
- 2 files changed, 302 deletions(-)
+Real name please.
 
-diff --git a/fs/netfs/iterator.c b/fs/netfs/iterator.c
-index 99b419066bd0..dc97e5b0d449 100644
---- a/fs/netfs/iterator.c
-+++ b/fs/netfs/iterator.c
-@@ -155,300 +155,3 @@ ssize_t netfs_extract_iter(struct iov_iter *orig, size_t max_len, size_t max_pag
- 
- }
- EXPORT_SYMBOL_GPL(netfs_extract_iter);
--
--#if 0 // TODO: Remove in subsequent patch
--/**
-- * netfs_extract_user_iter - Extract the pages from a user iterator into a bvec
-- * @orig: The original iterator
-- * @orig_len: The amount of iterator to copy
-- * @new: The iterator to be set up
-- * @extraction_flags: Flags to qualify the request
-- *
-- * Extract the page fragments from the given amount of the source iterator and
-- * build up a second iterator that refers to all of those bits.  This allows
-- * the original iterator to be disposed of.
-- *
-- * @extraction_flags can have ITER_ALLOW_P2PDMA set to request peer-to-peer DMA be
-- * allowed on the pages extracted.
-- *
-- * On success, the number of elements in the bvec is returned, the original
-- * iterator will have been advanced by the amount extracted.
-- *
-- * The iov_iter_extract_mode() function should be used to query how cleanup
-- * should be performed.
-- */
--ssize_t netfs_extract_user_iter(struct iov_iter *orig, size_t orig_len,
--				struct iov_iter *new,
--				iov_iter_extraction_t extraction_flags)
--{
--	struct bio_vec *bv = NULL;
--	struct page **pages;
--	unsigned int cur_npages;
--	unsigned int max_pages;
--	unsigned int npages = 0;
--	unsigned int i;
--	ssize_t ret = 0;
--	size_t count = orig_len, offset, len;
--	size_t bv_size, pg_size;
--
--	if (WARN_ON_ONCE(!iter_is_ubuf(orig) && !iter_is_iovec(orig)))
--		return -EIO;
--
--	max_pages = iov_iter_npages(orig, INT_MAX);
--	bv_size = array_size(max_pages, sizeof(*bv));
--	bv = kvmalloc(bv_size, GFP_KERNEL);
--	if (!bv)
--		return -ENOMEM;
--
--	/* Put the page list at the end of the bvec list storage.  bvec
--	 * elements are larger than page pointers, so as long as we work
--	 * 0->last, we should be fine.
--	 */
--	pg_size = array_size(max_pages, sizeof(*pages));
--	pages = (void *)bv + bv_size - pg_size;
--
--	while (count && npages < max_pages) {
--		ret = iov_iter_extract_pages(orig, &pages, count,
--					     max_pages - npages, extraction_flags,
--					     &offset);
--		if (unlikely(ret <= 0)) {
--			ret = ret ?: -EIO;
--			break;
--		}
--
--		if (WARN(ret > count,
--			 "%s: extract_pages overrun %zd > %zu bytes\n",
--			 __func__, ret, count)) {
--			ret = -EIO;
--			break;
--		}
--
--		cur_npages = DIV_ROUND_UP(offset + ret, PAGE_SIZE);
--		if (WARN(cur_npages > max_pages - npages,
--			 "%s: extract_pages overrun %u > %u pages\n",
--			 __func__, npages + cur_npages, max_pages)) {
--			ret = -EIO;
--			break;
--		}
--
--		count -= ret;
--		ret += offset;
--
--		for (i = 0; i < cur_npages; i++) {
--			len = ret > PAGE_SIZE ? PAGE_SIZE : ret;
--			bvec_set_page(bv + npages + i, *pages++, len - offset, offset);
--			ret -= len;
--			offset = 0;
--		}
--
--		npages += cur_npages;
--	}
--
--	/* Note: Don't try to clean up after EIO.  Either we got no pages, so
--	 * nothing to clean up, or we got a buffer overrun, memory corruption
--	 * and can't trust the stuff in the buffer (a WARN was emitted).
--	 */
--
--	if (ret < 0 && (ret == -ENOMEM || npages == 0)) {
--		for (i = 0; i < npages; i++)
--			unpin_user_page(bv[i].bv_page);
--		kvfree(bv);
--		return ret;
--	}
--
--	iov_iter_bvec(new, orig->data_source, bv, npages, orig_len - count);
--	return npages;
--}
--EXPORT_SYMBOL_GPL(netfs_extract_user_iter);
--
--/*
-- * Select the span of a bvec iterator we're going to use.  Limit it by both maximum
-- * size and maximum number of segments.  Returns the size of the span in bytes.
-- */
--static size_t netfs_limit_bvec(const struct iov_iter *iter, size_t start_offset,
--			       size_t max_size, size_t max_segs)
--{
--	const struct bio_vec *bvecs = iter->bvec;
--	unsigned int nbv = iter->nr_segs, ix = 0, nsegs = 0;
--	size_t len, span = 0, n = iter->count;
--	size_t skip = iter->iov_offset + start_offset;
--
--	if (WARN_ON(!iov_iter_is_bvec(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--
--	while (n && ix < nbv && skip) {
--		len = bvecs[ix].bv_len;
--		if (skip < len)
--			break;
--		skip -= len;
--		n -= len;
--		ix++;
--	}
--
--	while (n && ix < nbv) {
--		len = min3(n, bvecs[ix].bv_len - skip, max_size);
--		span += len;
--		nsegs++;
--		ix++;
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--		skip = 0;
--		n -= len;
--	}
--
--	return min(span, max_size);
--}
--
--/*
-- * Select the span of a kvec iterator we're going to use.  Limit it by both
-- * maximum size and maximum number of segments.  Returns the size of the span
-- * in bytes.
-- */
--static size_t netfs_limit_kvec(const struct iov_iter *iter, size_t start_offset,
--			       size_t max_size, size_t max_segs)
--{
--	const struct kvec *kvecs = iter->kvec;
--	unsigned int nkv = iter->nr_segs, ix = 0, nsegs = 0;
--	size_t len, span = 0, n = iter->count;
--	size_t skip = iter->iov_offset + start_offset;
--
--	if (WARN_ON(!iov_iter_is_kvec(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--
--	while (n && ix < nkv && skip) {
--		len = kvecs[ix].iov_len;
--		if (skip < len)
--			break;
--		skip -= len;
--		n -= len;
--		ix++;
--	}
--
--	while (n && ix < nkv) {
--		len = min3(n, kvecs[ix].iov_len - skip, max_size);
--		span += len;
--		nsegs++;
--		ix++;
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--		skip = 0;
--		n -= len;
--	}
--
--	return min(span, max_size);
--}
--
--/*
-- * Select the span of an xarray iterator we're going to use.  Limit it by both
-- * maximum size and maximum number of segments.  It is assumed that segments
-- * can be larger than a page in size, provided they're physically contiguous.
-- * Returns the size of the span in bytes.
-- */
--static size_t netfs_limit_xarray(const struct iov_iter *iter, size_t start_offset,
--				 size_t max_size, size_t max_segs)
--{
--	struct folio *folio;
--	unsigned int nsegs = 0;
--	uoff_t pos = iter->xarray_start + iter->iov_offset;
--	pgoff_t index = pos / PAGE_SIZE;
--	size_t span = 0, n = iter->count;
--
--	XA_STATE(xas, iter->xarray, index);
--
--	if (WARN_ON(!iov_iter_is_xarray(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--	max_size = min(max_size, n - start_offset);
--
--	rcu_read_lock();
--	xas_for_each(&xas, folio, ULONG_MAX) {
--		size_t offset, flen, len;
--		if (xas_retry(&xas, folio))
--			continue;
--		if (WARN_ON(xa_is_value(folio)))
--			break;
--		if (WARN_ON(folio_test_hugetlb(folio)))
--			break;
--
--		flen = folio_size(folio);
--		offset = offset_in_folio(folio, pos);
--		len = min(max_size, flen - offset);
--		span += len;
--		nsegs++;
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--	}
--
--	rcu_read_unlock();
--	return min(span, max_size);
--}
--
--/*
-- * Select the span of a bvecq iterator we're going to use.  Limit it by both
-- * maximum size and maximum number of segments.  Returns the size of the span
-- * in bytes.
-- */
--static size_t netfs_limit_bvecq(const struct iov_iter *iter, size_t start_offset,
--				size_t max_size, size_t max_segs)
--{
--	const struct bvecq *bq = iter->bvecq;
--	unsigned int nsegs = 0;
--	unsigned int slot = iter->bvecq_slot;
--	size_t span = 0, n = iter->count;
--
--	if (WARN_ON(!iov_iter_is_bvecq(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--	max_size = umin(max_size, n - start_offset);
--
--	if (!bvecq_acquire_slot(bq, slot)) {
--		bq = bvecq_next(bq);
--		slot = 0;
--	}
--
--	start_offset += iter->iov_offset;
--	do {
--		size_t flen;
--
--		flen = bq->bv[slot].bv_len;
--		if (start_offset < flen) {
--			span += flen - start_offset;
--			nsegs++;
--			start_offset = 0;
--		} else {
--			start_offset -= flen;
--		}
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--
--		slot++;
--		if (!bvecq_acquire_slot(bq, slot)) {
--			bq = bvecq_next(bq);
--			slot = 0;
--		}
--	} while (bq);
--
--	return umin(span, max_size);
--}
--
--size_t netfs_limit_iter(const struct iov_iter *iter, size_t start_offset,
--			size_t max_size, size_t max_segs)
--{
--	if (iov_iter_is_bvecq(iter))
--		return netfs_limit_bvecq(iter, start_offset, max_size, max_segs);
--	if (iov_iter_is_bvec(iter))
--		return netfs_limit_bvec(iter, start_offset, max_size, max_segs);
--	if (iov_iter_is_xarray(iter))
--		return netfs_limit_xarray(iter, start_offset, max_size, max_segs);
--	if (iov_iter_is_kvec(iter))
--		return netfs_limit_kvec(iter, start_offset, max_size, max_segs);
--	BUG();
--}
--EXPORT_SYMBOL(netfs_limit_iter);
--#endif
-diff --git a/include/linux/netfs.h b/include/linux/netfs.h
-index f3249d0573c4..0340c9ee587b 100644
---- a/include/linux/netfs.h
-+++ b/include/linux/netfs.h
-@@ -460,11 +460,6 @@ void netfs_put_subrequest(struct netfs_io_subrequest *subreq,
- ssize_t netfs_extract_iter(struct iov_iter *orig, size_t max_len, size_t max_pages,
- 			   struct bvecq **_bvecq_head,
- 			   iov_iter_extraction_t extraction_flags, gfp_t gfp);
--ssize_t netfs_extract_user_iter(struct iov_iter *orig, size_t orig_len,
--				struct iov_iter *new,
--				iov_iter_extraction_t extraction_flags);
--size_t netfs_limit_iter(const struct iov_iter *iter, size_t start_offset,
--			size_t max_size, size_t max_segs);
- void netfs_prepare_write_failed(struct netfs_io_subrequest *subreq);
- void netfs_write_subrequest_terminated(void *_op, ssize_t transferred_or_error);
- 
+> ---
+> Changes in v2:
+> - Reject positive and internal restart error values.
+> - Require error replies to be header-only.
+> - Rate-limit malformed-response warnings.
+> - Rely on the existing FUSE pr_fmt prefix.
+> - Add Cc: stable@vger.kernel.org.
+> - Use the reporter identity consistently.
+> 
+>  fs/fuse/virtio_fs.c | 43 ++++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 38 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+> index f15e516ebcb5c..fffbe08d9114a 100644
+> --- a/fs/fuse/virtio_fs.c
+> +++ b/fs/fuse/virtio_fs.c
+> @@ -4,6 +4,8 @@
+>   * Copyright (C) 2018 Red Hat, Inc.
+>   */
+>  
+> +#include "fuse_i.h"
+> +
 
+Why is this moved?
+
+
+
+>  #include <linux/fs.h>
+>  #include <linux/dax.h>
+>  #include <linux/pci.h>
+> @@ -20,7 +22,6 @@
+>  #include <linux/cleanup.h>
+>  #include <linux/uio.h>
+>  #include "dev.h"
+> -#include "fuse_i.h"
+>  #include "fuse_dev_i.h"
+>  
+>  /* Used to help calculate the FUSE connection's max_pages limit for a request's
+> @@ -730,6 +731,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+>  	unsigned int num_out;
+>  	unsigned int i;
+>  
+> +	/* Error replies contain only the output header. */
+> +	if (req->out.h.error)
+> +		goto out;
+
+But no error is returned?
+
+>  	if (len < sizeof(*oh)) {
+> -		pr_warn("virtio-fs: response too short (%u)\n", len);
+> +		pr_warn_ratelimited("response too short (%u)\n", len);
+
+Isn't these ratelimited() changes separate from the original issue here?
+That should be a separate patch.
+
+thanks,
+
+greg k-h
