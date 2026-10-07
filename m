@@ -1,221 +1,122 @@
-Received: from mx0.herbolt.com (mx0.herbolt.com [5.59.97.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5743E5594;
-	Wed,  7 Oct 2026 17:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.59.97.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2918F3E7BD5
+	for <linux-fsdevel@vger.kernel.org>; Wed,  7 Oct 2026 17:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791394231; cv=none; b=WDnh4WJWURpbha3JW+fN7i+Vl53U+ZKV/IUvFB5bZRlq5cjX2f3Y/3+Ajn8mS4OkK8HqFJV6O9dInUPbFBC35OGgQ3Uxfgk5SXVJC7CxaeIJRUcUQKbwJ6XEAnu430GUi9WGk10u48RG90lfoaCu807utKbQFo3VX8yUBIphTGs=
+	t=1791395354; cv=none; b=BhueApGvJf2W7FWkqzahJOhhNBJl3DpzOgIGzCmBDKT+T1jGuxxZMrsCWYUfJ8q9C4/xFz2lIjIrs4107RSA18JK2mgoxpsdLUmPgn6poiCJWRJ7/LfwaoZZ+fP3LOSmpDKNd7V56K+NF1MnkSEJ7FyQHUR7gOJmlO4Hx5aKVo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791394231; c=relaxed/simple;
-	bh=fwlDIlTXOae9JDjEefhdo5FnEXikvPnPHf/8YMhFz88=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=lujs/iQUOFW8KMbLixfDJ2ekmjHXs0tINNVzhIYpenTAgT4cV0yPEVAlSci55ZkLVCrR/pgJOzO88yIg25d8fJ+8o4V9iQKfQ17BWuZTe4x2+wnKJ3z9OEMKkZl3TaUKuQLS4b/vIZ7iZlPWuLmzjLiseI+N59aAcV2ksFSLq0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=herbolt.com; spf=pass smtp.mailfrom=herbolt.com; arc=none smtp.client-ip=5.59.97.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=herbolt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=herbolt.com
-Received: from mx0.herbolt.com (localhost [127.0.0.1])
-	by mx0.herbolt.com (Postfix) with ESMTP id 4354C180F2D2;
-	Wed, 07 Oct 2026 19:30:12 +0200 (CEST)
-Received: from mail.herbolt.com ([172.16.31.10])
-	by mx0.herbolt.com with ESMTPSA
-	id RH8wBqSBxmo99QIAKEJqOA
-	(envelope-from <lukas@herbolt.com>); Wed, 07 Oct 2026 19:30:12 +0200
+	s=arc-20240116; t=1791395354; c=relaxed/simple;
+	bh=Ot+JttkXEMn9ntfD8PPddagGEyHdcXxGuWIo2KvS43c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TOrQjH3WFoD1JHjD4Ol+juY6J5s8d/cVlHq/lc93hFWMCx+1FV3Nt0Xof6TJC0aygOdjuz+y4qp+rzWMuTwrXWVqO+h8EBfc6ST6u/n3eTQUKn4rFKyGTtBKAUkL1kg6feKDKZQaPAIGz9UMudcZdIDvyYwtRAFyOeHbPIkrxFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=LNqt9BLP; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="LNqt9BLP"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-383b4a3755fso3096652a91.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 07 Oct 2026 10:49:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thingy.jp; s=google; t=1791395350; x=1792000150; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QBM/xTPgPNVkXMLpWmbcVvy7h5tjvt2S2rOkYcHy1i8=;
+        b=LNqt9BLPRTFOYpoLtUjCBQpSIyZ0mEX4rACP/vArx908M2VJOcJnGHmIPfNkKTI9e7
+         N/XrRQGXtiy//rutDX+P1+XjviKIpGiDG7G9bAooVzneGCt5n6or5wqGhC2qQBMBb4hF
+         2QhsKkKfAWIPNooJgBW81lNbDkuNIDgvO8l28=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791395350; x=1792000150;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QBM/xTPgPNVkXMLpWmbcVvy7h5tjvt2S2rOkYcHy1i8=;
+        b=anQhlH+8sbGnqcPzKnSWiEeelldPCJGwcZ/M+2PDUMv2z6XOhjJlPgTSHQ7pPDzvSo
+         XyFjEUAtYCl+Prk/UmEgTQg0JG9/TLemyeFdIq7t9vyyZLPTo+BMRB9uMEnc7fqI92Cu
+         ahcJHY/fzMJyonJV+qTuM6/z9LrdQ75rDDCaqJVu3CmwkWP08jvInA/aPpJcmDxJeJbr
+         Aa2palZUPobXGdMOi15iudLQTo47y3DHym3vWakOjGM1s8tFGDWXH13YADnEs3VB0Wpy
+         7mbEgE9vvPY9qd01VM5DeMNY85wq92ypL6rpA8XXLCKKcDRWkiabLXgZwC3Ez0kYjCYk
+         Dsbw==
+X-Gm-Message-State: AFq9FYL8CgIT6wJApQckzbv0yuFI2YsiBPaBD8La229zgK5dpp1BZr4f
+	FbMw88mZlAUw3q8wAEcqn/lq1LdToN4SD+ZoO0NvmKN3YSmJ50QNAT10Nc+s6leUcnfmGF+tOv1
+	SgLG+
+X-Gm-Gg: AYBFou0Pv/UGEM8R+Y4EjU3y0dWOvsxiUNovrzjVtxCj5whvUMtFI4FKQAh/TuGUQ2g
+	BE6f17+a2F9DeiZsrDo7xLM4/7iAfhYlHcJFvZrIn36II33uvVUp6T8QaX9FBm6gJvFpq4ojQ0s
+	Qi9P+ZuFxTgOyp8hBrrowhhcvzTXfZVVPS6lSpFY1AqUgMRuwRNZRSSLpoHHRkyQaN/4A03KDjd
+	lCS7BCF8p+9lTT82jEd0DPyiHMgRJmvAzPQdpQNnRPwRYHqbB0aEG8xysqL4osA03vEihpJ/VXc
+	Lz5lkahjmi2/fSOLiu+Ggxe6/yeUaPYEEkkH43wr0BVD2mhJaIDLndYR/9DeHeTO1oQ9wcXgqa4
+	w3Hz+IdeTrGpDT35KZVnoQCStWSqwJP8o3BbJ3Q4wNfO45LCxAucGfxjGvo57wHwwh/AelN8Cve
+	ISPbyTcA/nC2jLmr3YkjY05F28nMIZxITu/5h2kDwvK4qu9CdvwvYmP+TZUlXyKl3nVAwrByE86
+	6V3jNNvYQojMJl9BEg=
+X-Received: by 2002:a17:90b:3d4b:b0:3a8:4b7:e8c9 with SMTP id 98e67ed59e1d1-3a8a1bd6d70mr2578183a91.59.1791395350211;
+        Wed, 07 Oct 2026 10:49:10 -0700 (PDT)
+Received: from kinako (softbank126208129055.bbtec.net. [126.208.129.55])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-3aa0cbccea3sm430296a91.15.2026.10.07.10.49.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2026 10:49:08 -0700 (PDT)
+From: Daniel Palmer <daniel@thingy.jp>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	thehajime@gmail.com,
+	Daniel Palmer <daniel@thingy.jp>
+Subject: [PATCH] proc: nommu: Reduce useless includes
+Date: Thu,  8 Oct 2026 02:48:45 +0900
+Message-ID: <20261007174845.1320996-1-daniel@thingy.jp>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 07 Oct 2026 19:30:12 +0200
-From: Lukas Herbolt <lukas@herbolt.com>
-To: Zorro Lang <zlang@kernel.org>
-Cc: fstests@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] src/locktest.c: fix build failure of struct delegation
-In-Reply-To: <aqaxjGZ6rSR1mZCf@zlang-mailbox>
-References: <20260813150846.280498-1-zlang@kernel.org>
- <aqaxjGZ6rSR1mZCf@zlang-mailbox>
-Message-ID: <dabaefbef09950a167e315b05c6c2fe7@herbolt.com>
-X-Sender: lukas@herbolt.com
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2026-09-13 16:29, Zorro Lang wrote:
-> On Thu, Aug 13, 2026 at 11:08:46PM +0800, Zorro Lang wrote:
->> Since glibc commit f2e3dacbff88 ("Add new constants from Linux 6.12,
->> 6.18 and 6.19 to bits/fcntl-linux.h"), the F_GETDELEG and F_SETDELEG
->> constants from Linux 6.19 have been added directly into <fcntl.h>.
->> However, the corresponding full definition for 'struct delegation'
->> was not included in glibc's userspace wrapper. That causes below
->> build error:
->> 
->>  locktest.c:1065:16: error: variable 'deleg' has initializer but 
->> incomplete type
->>   1065 |         struct delegation deleg = { .d_type = F_UNLCK };
->>  ...
->> 
->> Fix this by isolating the definition of 'struct delegation' from the
->> command macros via autoconf capability probing:
->> 
->> 1. Add an AC_CHECK_TYPES check for 'struct delegation' in 
->> configure.ac.
->> 2. In locktest.c, unbind 'struct delegation' from the '#ifndef 
->> F_GETDELEG'
->>    guard and wrap it with '#ifndef HAVE_STRUCT_DELEGATION' instead.
->> 
->> Signed-off-by: Zorro Lang <zlang@kernel.org>
->> ---
->> 
->> Hi,
->> 
->> fstests currently fails to build against the latest glibc, with the 
->> root
->> cause detailed in the commit log above.
->> 
->> The glibc now defines F_GETDELEG and F_SETDELEG, but leaves out the 
->> actual
->> 'struct delegation' definition. The complete struct is available in 
->> <linux/fcntl.h>,
->> but we cannot simply include both <fcntl.h> and <linux/fcntl.h> due to 
->> nasty
->> namespace redefinition conflicts.
->> 
->> I am not entirely sure if glibc will bring in 'struct delegation', so 
->> for now,
->> I chose to decouple and handle the structure definition independently 
->> via
->> autoconf.
->> 
->> Any thoughts or better suggestions on how we should handle this 
->> transition?
-> 
-> Friendly ping...
-> 
-> Am I the only one seeing this? Without this patch, xfstests won't 
-> compile on
-> the latest Fedora：
->   glibc-devel-2.44.9000-1.fc46.x86_64
->   gcc-16.2.1-2.fc46.x86_64
-> 
-> I keep running into the build error below [1].
-> 
-> Thanks,
-> Zorro
-> 
-> [1]
-> locktest.c: In function 'initialize':
-> locktest.c:1018:17: warning: variable 'offset' set but not used 
-> [-Wunused-but-set-variable=]
->  1018 |     int         offset = 0;
->       |                 ^~~~~~
-> locktest.c: In function 'release_lease':
-> locktest.c:1065:16: error: variable 'deleg' has initializer but 
-> incomplete type
->  1065 |         struct delegation deleg = { .d_type = F_UNLCK };
->       |                ^~~~~~~~~~
-> locktest.c:1065:38: error: 'struct delegation' has no member named 
-> 'd_type'
->  1065 |         struct delegation deleg = { .d_type = F_UNLCK };
->       |                                      ^~~~~~
-> locktest.c:1065:47: warning: excess elements in struct initializer
->  1065 |         struct delegation deleg = { .d_type = F_UNLCK };
->       |                                               ^~~~~~~
-> locktest.c:1065:47: note: (near initialization for 'deleg')
-> locktest.c:1065:27: error: storage size of 'deleg' isn't known
->  1065 |         struct delegation deleg = { .d_type = F_UNLCK };
->       |                           ^~~~~
-> locktest.c:1065:27: warning: unused variable 'deleg' 
-> [-Wunused-variable]
-> locktest.c: In function 'do_deleg':
-> locktest.c:1365:12: error: variable 'deleg' has initializer but 
-> incomplete type
->  1365 |     struct delegation deleg = { .d_type = arg };
->       |            ^~~~~~~~~~
-> locktest.c:1365:34: error: 'struct delegation' has no member named 
-> 'd_type'
->  1365 |     struct delegation deleg = { .d_type = arg };
->       |                                  ^~~~~~
-> locktest.c:1365:43: warning: excess elements in struct initializer
->  1365 |     struct delegation deleg = { .d_type = arg };
->       |                                           ^~~
-> locktest.c:1365:43: note: (near initialization for 'deleg')
-> locktest.c:1365:23: error: storage size of 'deleg' isn't known
->  1365 |     struct delegation deleg = { .d_type = arg };
->       |                       ^~~~~
-> locktest.c:1365:23: warning: unused variable 'deleg' 
-> [-Wunused-variable]
-> locktest.c: In function 'main':
-> locktest.c:1615:16: error: variable 'deleg' has initializer but 
-> incomplete type
->  1615 |         struct delegation deleg = { .d_type = F_UNLCK };
->       |                ^~~~~~~~~~
-> locktest.c:1615:38: error: 'struct delegation' has no member named 
-> 'd_type'
->  1615 |         struct delegation deleg = { .d_type = F_UNLCK };
->       |                                      ^~~~~~
-> locktest.c:1615:47: warning: excess elements in struct initializer
->  1615 |         struct delegation deleg = { .d_type = F_UNLCK };
->       |                                               ^~~~~~~
-> locktest.c:1615:47: note: (near initialization for 'deleg')
-> locktest.c:1615:27: error: storage size of 'deleg' isn't known
->  1615 |         struct delegation deleg = { .d_type = F_UNLCK };
->       |                           ^~~~~
-> locktest.c:1615:27: warning: unused variable 'deleg' 
-> [-Wunused-variable]
->     [CC]    chprojid_fail
->     [CC]    detached_mounts_propagation
-> gmake[2]: *** [Makefile:139: locktest] Error 1
-> gmake[2]: *** Waiting for unfinished jobs....
-> gmake[1]: *** [include/buildrules:30: src] Error 2
-> make: *** [Makefile:65: default] Error 2
-> 
->> 
->> Thanks,
->> Zorro
->> 
->>  configure.ac   | 4 ++++
->>  src/locktest.c | 2 ++
->>  2 files changed, 6 insertions(+)
->> 
->> diff --git a/configure.ac b/configure.ac
->> index feb24ddd..6d7ff3ba 100644
->> --- a/configure.ac
->> +++ b/configure.ac
->> @@ -111,6 +111,10 @@ AC_CHECK_TYPES([struct 
->> btrfs_ioctl_received_subvol_args], [], [], [[
->>  #include <stddef.h>
->>  #include <linux/btrfs.h>
->>  ]])
->> +AC_CHECK_TYPES([struct delegation], [], [], [[
->> +#include <stddef.h>
->> +#include <fcntl.h>
->> +]])
->>  AC_CHECK_HEADERS([linux/btrfs.h linux/btrfs_tree.h])
->>  AC_CHECK_MEMBERS([struct btrfs_ioctl_vol_args_v2.subvolid], [], [], 
->> [[
->>  #include <stddef.h>
->> diff --git a/src/locktest.c b/src/locktest.c
->> index 54ee1f07..d0264c94 100644
->> --- a/src/locktest.c
->> +++ b/src/locktest.c
->> @@ -80,7 +80,9 @@ extern int h_errno;
->>  #ifndef F_GETDELEG
->>  #define F_GETDELEG	(1024 + 15)
->>  #define F_SETDELEG	(1024 + 16)
->> +#endif
->> 
->> +#ifndef HAVE_STRUCT_DELEGATION
->>  struct delegation {
->>  	uint32_t d_flags;
->>  	uint16_t d_type;
->> --
->> 2.55.0
->> 
->> 
+This file seems to have undergone refactoring without cleaning up
+the unneeded includes so now includes a number of headers that
+are no longer needed.
 
-Hit the same on fedora-rawhide looks good to me.
-Reviewed-by: "Lukas Herbolt" <lukas@herbolt.com>
+Clean up the includes to cover just what is needed.
 
+Signed-off-by: Daniel Palmer <daniel@thingy.jp>
+---
+Spotted this while trying to work out something else.
+Build + boot tested on m68k (68000) nommu.
+
+
+ fs/proc/nommu.c | 18 ++----------------
+ 1 file changed, 2 insertions(+), 16 deletions(-)
+
+diff --git a/fs/proc/nommu.c b/fs/proc/nommu.c
+index c6e7ebc63756..b173c8e3887d 100644
+--- a/fs/proc/nommu.c
++++ b/fs/proc/nommu.c
+@@ -6,24 +6,10 @@
+  */
+ 
+ #include <linux/init.h>
+-#include <linux/module.h>
+-#include <linux/errno.h>
+-#include <linux/time.h>
+-#include <linux/kernel.h>
+-#include <linux/string.h>
+-#include <linux/mman.h>
+-#include <linux/proc_fs.h>
+ #include <linux/mm.h>
+-#include <linux/mmzone.h>
+-#include <linux/pagemap.h>
+-#include <linux/swap.h>
+-#include <linux/smp.h>
++#include <linux/proc_fs.h>
++#include <linux/rbtree.h>
+ #include <linux/seq_file.h>
+-#include <linux/hugetlb.h>
+-#include <linux/vmalloc.h>
+-#include <asm/tlb.h>
+-#include <asm/div64.h>
+-#include "internal.h"
+ 
+ /*
+  * display a single region to a sequenced file
 -- 
--lhe
+2.53.0
+
