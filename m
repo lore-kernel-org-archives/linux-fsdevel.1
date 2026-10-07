@@ -1,115 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from cvsmtppost13.nm.naver.com (cvsmtppost13.nm.naver.com [114.111.35.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EE03BB669
-	for <linux-fsdevel@vger.kernel.org>; Wed,  7 Oct 2026 05:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B113446A7
+	for <linux-fsdevel@vger.kernel.org>; Wed,  7 Oct 2026 06:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791349569; cv=none; b=evddCObnd1jHd6jjZNNeXK4SMUNgU9Z6g0gez2W0MDPnDTKRnRVyw2CxS3QgzWTcNJV5QNatnF843zsbA8Ej4lFLig9oQafAQSWbqlp8kKK6plqAl5CBG2M1NBw7XaP8YukjntCfZ02oLmBGxMfd1loH4b+aLnp5g0m62/JmuBY=
+	t=1791354014; cv=none; b=l52Zq0mgyFOaI8En+6yCrPJpUDiSPY3m6yUoeTtmpx1EPv+gGY/LQi/nnBLiZmFEFBNHsuQuSlzvUOQTYWGO3CEKvs87Wy0mxeiUzziaeqcsGsuxDrPFx8nnmCdwDySb2NDnAFqQbMVKb0HGrS9RWgsYugWEa8C/sPadHh6HSX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791349569; c=relaxed/simple;
-	bh=G8LeofBqypYy5FArHs7+TGUt5emJ5T71K3mdEpcH0mk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r7GYJ8FYDyOyjFEF+0XC48V8uIzGRKxgC358jIF8pbWaKSm0xKV84N0RIX0EM6xEqonLwwd82jLQwq6KhKyL6H9DAQSxvThyH34fUBDjgCSratRj5mPjGEn7/QXCdg3o9QhDsQJ3bMMrWYwG7Pgn1bn4Ag2m/d06WBgxOwksHYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMPnPkvP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791354014; c=relaxed/simple;
+	bh=z/5uOZYR1Y1u3E66uPuCbI7MhJcuTSLKits+KG2x+Xg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iNPTMfRD1b7QEIhHJxdmwVxLOlLfF61vR4JgeU66h2fmmv8htOL9ONKmQ/nQySCQcz5c4y4SyIoHVQsfVoXEWNWmAP4gNizmpwygrzkV3PD4V8AEAHxkQkmvd2zIVBexIm2D8Y7hPSFkdt4E2CzI693VQOfKTFF5IDN0nkgEphw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=CGBAvmdM; arc=none smtp.client-ip=114.111.35.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMPnPkvP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A6961F0089C
-	for <linux-fsdevel@vger.kernel.org>; Wed,  7 Oct 2026 05:06:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791349568;
-	bh=45/WO5wbYO1299RifHRzyH5pqqomm6asEV6GHMsupFI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=QMPnPkvPDumZGSADnQW/lRp0YzJAV0PM36Y59HEkiy42AQvw8jfYGVxyZ5pSdymC8
-	 8Vr9k4wDNZyJ/CSQtBak45HkT+Igw+HDYOoSudhilUI28dstVO4vRNF7I+BRO5VZmZ
-	 ecyv8quHsZZF+ok/OUtTuVML3pa8FdwZCOzDGWO6qP7RzJD9hQ7I69QMa6UbQPSPKW
-	 zJMISagUaFFkFndIRXgm9/jkKDIYfe0YZvRWxd+KxvGHISK1jt2dA1m3m0hcgvxuaI
-	 18X6dC4sxxrv9bazayH4t3hf1yYvVEn829vYrDWG7BgpPGzkJ1SaIt730oedBgQ6BZ
-	 a6ss82Vlq6HRg==
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c2e3846d1caso189482266b.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 06 Oct 2026 22:06:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzvyfTrbT4mlQvqbio0GztcBpDMDbhTtXW19Ir8Y/TvuY7vpxuaXYphE3AsYyqh6543rnw4VtMgNiEm+yDi@vger.kernel.org
-X-Gm-Message-State: AFq9FYI3OFvldmWM9DEkthJbLH9ELh1b4H2qUwopCvXgHc91Vx5z1reI
-	USQhKISqtT9jkw4AORnQ7Al8rRGSZV4r2WDcf/96h07Tc/4mDD8V7aFX6/MiB6gqe6CBNrlnuAT
-	WIEaJeKxsGNIiuJSYcvJ5wcl/sJTs+HI=
-X-Received: by 2002:a17:907:2da5:b0:c2e:893:7010 with SMTP id
- a640c23a62f3a-c317c09faccmr84659966b.37.1791349567049; Tue, 06 Oct 2026
- 22:06:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="CGBAvmdM"
+Received: from mvsendbo11.nm ([10.179.40.204])
+  by cvsmtppost13.nm.naver.com with ESMTP id ZmcDNn4jSUmUilZFhnuxkg
+  for <linux-fsdevel@vger.kernel.org>;
+  Wed, 07 Oct 2026 06:20:04 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1791354004; bh=z/5uOZYR1Y1u3E66uPuCbI7MhJcuTSLKits+KG2x+Xg=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=CGBAvmdMK8qc9P6TbzPc6ELSgNa1mVO9mS7C7jm8wvr7xZkWrnvZgXzQvgAilAxVm
+	 jr+kIMr3cKv8W3S7dXVsvkuSJZ1S2U/DxyJEdwXIdQfgINxGh2o+kc0wPZUCI4Rxpc
+	 NcTsIPCaRY8781lN7uucwbBbfX9oAp946heUfRpLFAAQxu7FIXkYIIANGR2VGU1Tsc
+	 sTH4B0+Yip04z0yfKRjDxyB+v2hcz6Jn6p7r2oG2PdpIAwR9IlMwlEN/BFtdZeGuAf
+	 a0E7OmvzA3LC5yLp/CtX2gAJfL3ILbohnkN0d03i3Wuo3L+qkDxHBF/nQ94yUpImp/
+	 XbnTkEkOtFtWQ==
+X-Session-ID: gXJdtBoqS3KGP7KppeaDYA
+X-Works-Send-Opt: O9RwpzGdjHmdKHFOMr39Ko3YKHmwKBmwFAbrFxKrKqEmjJkaBd9YKBmm
+X-Works-Smtp-Source: XwnZKqulFqJZ+HmqKAMw+6E=
+Received: from localhost.localdomain ([115.136.205.4])
+  by cvnsmtp011.nm.naver.com with ESMTP id gXJdtBoqS3KGP7KppeaDYA
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Wed, 07 Oct 2026 06:20:03 -0000
+From: Sung Byeongchan <tjdqudcks0424@naver.com>
+To: German Maglione <gmaglione@redhat.com>,
+	Vivek Goyal <vgoyal@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Miklos Szeredi <miklos@szeredi.hu>
+Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	virtualization@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] virtiofs: validate fixed-output response length
+Date: Wed,  7 Oct 2026 15:19:49 +0900
+Message-ID: <20261007061949.23008-1-tjdqudcks0424@naver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261006224024.14535-1-linkinjeon@kernel.org> <20261006224024.14535-3-linkinjeon@kernel.org>
- <CAMrLSE73h6xvZXfQRDF7W9QrnAAjCJr8qyQ9P2MxCQno+5Uokw@mail.gmail.com>
-In-Reply-To: <CAMrLSE73h6xvZXfQRDF7W9QrnAAjCJr8qyQ9P2MxCQno+5Uokw@mail.gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Wed, 7 Oct 2026 14:05:55 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-N6Dpuci9k1D6Vs-+z1OatWfmgquJ_c+jObF_19S2NVA@mail.gmail.com>
-X-Gm-Features: AclHuK-eIxIpfIbjzINsR2biKL5WYnfGS7JXW_eW1Y6Fwkxxjey1Qfwtn4VqMf4
-Message-ID: <CAKYAXd-N6Dpuci9k1D6Vs-+z1OatWfmgquJ_c+jObF_19S2NVA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] ntfs: add pathname access for named streams
-To: CharSyam <charsyam@gmail.com>
-Cc: hyc.lee@gmail.com, ntfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, sebastian.n.feld@gmail.com, 
-	cedric.blancher@gmail.com, Lionelcons1972@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 7, 2026 at 12:38=E2=80=AFPM CharSyam <charsyam@gmail.com> wrote=
-:
->
-> Hi Namjae,
->
-> I built the patches and tested the pathname interface on an NTFS image
-> in QEMU. I found two issues:
->
-> 1. **A named stream can be deleted from a read-only base file.**
->
->    I created a file and a named stream, then changed the file to mode
-> 0444. The NTFS `READONLY` attribute was present on disk. As an
-> unprivileged user, opening the base file for writing failed with
-> `EACCES`, but `unlink("base:secret")` succeeded and the stream
-> disappeared.
->
->    The new `ntfs_unlink_named_stream()` path calls
-> `ntfs_remove_named_stream()` directly. Unlike the ioctl path, it does
-> not require a writable base-file descriptor. The shared removal helper
-> checks append-only and immutable flags but does not check the NTFS
-> `READONLY` attribute. I suggest rejecting removal of a stream from a
-> `READONLY` base file in the shared helper, and defining the
-> authorization rule for pathname stream deletion explicitly. This is a
-> deletion-semantics issue; the test does not establish a privilege
-> escalation, since the parent directory was writable. The MS-FSA
-> `FileDispositionInformation` rules also reject deletion when the file
-> has `FILE_ATTRIBUTE_READONLY`.
-> 2. **Repeated reads update the base file's atime under `relatime`.**
->
->    I read the same named stream twice, two seconds apart. Both reads
-> changed the base file's atime. A regular file used as a control
-> changed atime only on the first read; with `noatime`, neither stream
-> read changed it.
->
->    VFS checks the stream inode's atime before calling `->update_time`.
-> In `ntfs_stream_update_time_common()`, validation copies the _old_
-> base atime to the stream inode, then `generic_update_time(base_vi,
-> ...)` updates only the base inode. The stream inode remains stale, so
-> the next read triggers another update. I suggest refreshing the stream
-> inode after a successful base update:
->
->    ```
->    err =3D ntfs_stream_inode_validate(inode);
->    if (!err) {
->            err =3D generic_update_time(base_vi, type, flags);
->            if (!err)
->                    ntfs_stream_inode_refresh(inode);
->    }
->    ```
->
->    I built and tested this change in QEMU. After the first read, the
-> second read no longer changed atime. This avoids unnecessary metadata
-> updates; the test does not imply that every read caused a physical
-> disk write.
-Okay, I will fix it in v3.
-Thanks for the review!
+A short successful virtiofs response can leave the fixed-output portion of
+the request argument buffer unwritten.  The completion path nevertheless
+copies the full declared output to the request destination, allowing stale
+allocator contents to reach callers such as fuse_statfs().
+
+Require successful fixed-output responses to contain their complete
+declared output.  Continue to permit a shorter final argument only for
+out_argvar requests.  Reject positive and internal restart error values
+and require valid error replies to be header-only.  The error already
+stored in the FUSE output header is returned by fuse_request_end(), so do
+not copy output arguments from an error reply.
+
+This was found by source review with AI assistance.  A header-only
+successful FUSE_STATFS reply returned stale fields in nine of nine calls
+across three boots.  The fixed kernel rejected the short response and
+preserved complete replies, valid negative-error replies, and
+variable-output replies.
+
+Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Sung Byeongchan <tjdqudcks0424@naver.com>
+---
+Changes in v3:
+- Keep fuse_i.h in its original include position.
+- Drop the unrelated warning ratelimiting and prefix changes.
+- Explain that req->out.h.error is propagated by fuse_request_end(); the
+  completion copy only skips nonexistent output arguments for error replies.
+- Use the spaced real-name form requested during review.
+
+Changes in v2:
+- Validate positive and internal restart error values.
+- Require error replies to be header-only.
+- Add Cc: stable@vger.kernel.org.
+
+ fs/fuse/virtio_fs.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+index 4f334766b8c30..1b585bbbe353d 100644
+--- a/fs/fuse/virtio_fs.c
++++ b/fs/fuse/virtio_fs.c
+@@ -730,6 +730,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+ 	unsigned int num_out;
+ 	unsigned int i;
+ 
++	/* fuse_request_end() returns this error; there are no args to copy. */
++	if (req->out.h.error)
++		goto out;
++
+ 	remaining = req->out.h.len - sizeof(req->out.h);
+ 	num_in = args->in_numargs - args->in_pages;
+ 	num_out = args->out_numargs - args->out_pages;
+@@ -755,6 +759,7 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+ 	if (args->out_argvar)
+ 		args->out_args[args->out_numargs - 1].size = remaining;
+ 
++out:
+ 	kfree(req->argbuf);
+ 	req->argbuf = NULL;
+ }
+@@ -762,7 +767,9 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+ /* Verify that the server properly follows the FUSE protocol */
+ static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
+ {
++	struct fuse_args *args = req->args;
+ 	struct fuse_out_header *oh = &req->out.h;
++	unsigned int expected;
+ 
+ 	if (len < sizeof(*oh)) {
+ 		pr_warn("virtio-fs: response too short (%u)\n", len);
+@@ -777,6 +784,29 @@ static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
+ 			oh->unique, req->in.h.unique);
+ 		return false;
+ 	}
++	if (oh->error <= -ERESTARTSYS || oh->error > 0) {
++		pr_warn("virtio-fs: invalid error value (%d)\n", oh->error);
++		return false;
++	}
++
++	if (oh->error) {
++		if (len != sizeof(*oh)) {
++			pr_warn("virtio-fs: error response too long (%u)\n", len);
++			return false;
++		}
++		return true;
++	}
++
++	expected = sizeof(*oh) +
++		   fuse_len_args(args->out_numargs, args->out_args);
++	if (len > expected ||
++	    (len < expected &&
++	     (!args->out_argvar ||
++	      expected - len > args->out_args[args->out_numargs - 1].size))) {
++		pr_warn("virtio-fs: invalid response length (%u, expected %u)\n",
++			len, expected);
++		return false;
++	}
+ 	return true;
+ }
+ 
+-- 
+2.43.0
+
