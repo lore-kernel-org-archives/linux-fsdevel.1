@@ -1,130 +1,174 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2705149D585
-	for <linux-fsdevel@vger.kernel.org>; Wed,  7 Oct 2026 14:05:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E32D4B2045
+	for <linux-fsdevel@vger.kernel.org>; Wed,  7 Oct 2026 14:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791381942; cv=none; b=AdfLsW6SU+BTBkexAPOah/f6gV5pYzW7VNzHz8hkuDAVZu3GDJiQvUf9E4rf9rnaPGh5xL4QzUU5kVWJzgE5K7M6ive8Fj8mmDcKXlf+4G0vIytopUQw/+RBTREeoX2lCF7IxrKEJXYLgXErEn+Nmt1N3joq1EYNumf3qaQbiTU=
+	t=1791382854; cv=none; b=BaPmZuA/XGLU+rNDEw+kmaD08kVgyXA1BVEw2OeN2VwXoRYBSiu5/ZJH3Dat1o17LrCNV+KR/GpYZtNVHac4NQxUFYTF8xaB+1hKguipn14uoLipN5cYJ+DZ+ymQaB76fxg34Zj1VxTrxS5LkfgGRZxNX2Xzuycws39FurI8gFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791381942; c=relaxed/simple;
-	bh=V7wCXFfMiY8I3U4QW7xgovTFawhq2OF8NsZcAprNCLc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tZxJnB0Y19yzXOEtb/vPVguBPKyLRGnbPFx69xnsx5+Zg1zPjqrXe/A4IzW2PU/R5n+5Zz+mcuEExJpd322NtiUv0wJZfSKTHX9mfAs+K2+uw7cL95HQ+5nti14/ZFalCbekFMOd3CNlTrxRHjeiDigl2M4kEmPghlIJK1mdhFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=PDA4CzXZ; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1791382854; c=relaxed/simple;
+	bh=Img5ceWy3Ij5+EzwqTMQrksyAsso0ppmZ+Upiv789nQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FH8nKhjhk4Ru/RreHGN8kbkLyeaysH+SJg2FoM+3iMhiRCp0NNgKtBeqPGh0FiHpcLme86zf5MlvkQx/D4fUg9PSzPPyjT8ufi0ArxwsQ1ZXdDV3Cd4aCye50458Emf3Gpoyek74qvjV+ZSY0FzPd+reXFtqJ6zyzYPzvxLSVzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IIJ6vo/k; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="PDA4CzXZ"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so2680112a91.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 07 Oct 2026 07:05:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1791381933; x=1791986733; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2tZULonu7kKZiIqDdMHG3M16ndJSJFse/YYFR6ZGm68=;
-        b=PDA4CzXZVp6XIMVR4rSohNCjpWBfkxope7IT5M2ZWrsgom480Z/UP01vKISCHF2G2Z
-         CCpY+z5xLDtaGFvhS2U/L74Jm9YVzBJVqHUn+OBzaPEXtDCna5adkSXhG8h6FFIQ87ks
-         LvJEMmHWWSyWBy9scoIlPZjgNX/EtGID24DRyYNg2B9sfk8OkpbDxeuXhUeNjhJwEpmm
-         heiICQJXz+gjxuQXlR6+Pz3YwyEj1fXtUCkRotDcOuNbpEmrhtt7LAM8WvS6CF43vj7L
-         Vne4sw9XzFQ19KaacvBgudTsfUoept3pFiO5znr3scvW1kgrig6bjCR/tRiZI6VBFc+2
-         rJHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791381933; x=1791986733;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2tZULonu7kKZiIqDdMHG3M16ndJSJFse/YYFR6ZGm68=;
-        b=GN2iZQKjsye0YsAEyxXwKjkoYzMjz5XR5uNgYuGfISkyfCawZnJYT9vXND58Nhwl2/
-         o7bF7X7PL43aSHzeH/uRiohLsGDQhUFubMEKgStbxs1wZ7HvmZ86lY+c2rgA/TrOTrni
-         ZJDPjj/XCCfzfdsmBRc1py1I8wYK0/hakedKD2YPP+0fUHvpUiBFvWUTDjUsdXOzbMIa
-         aLFmy/MuZXl+GJLdKqSjaraXHNzRHl0IUwhSJnFyoIh33fSY5f8JJole+EK5S1DcDx8o
-         1e5/FcuiqFurCOlcwIIG4wueNj3YDoOwvOnzOpkDJPEaipDKk+xEOclFnoScCYk6hZO6
-         lPRQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzLjF1PuPwQ8m6oGLGz6YKrDbwLMH6Q+S+n9SA50l9d5BgV/+64lXQyMw+i6fXB/oYzAV/lwGbTQiqVQHdF@vger.kernel.org
-X-Gm-Message-State: AFq9FYJcO+HJdrLFr03RM/XESWS7aWP/rFphN+nUdNDsE8ThJNm7LDrI
-	2RH8t96Mm2NFCyl2bQhT636PwfD6RmIMhB7bTxL8rPZOL9mLgrcXp1LaC3PmIVYHS/4=
-X-Gm-Gg: AYBFou30sp5AAMTWvFxk3NdcyNOEY5/ENCrBAjCUO5iCQ9laMF6LTtX2C7FK1Aiq3Jy
-	ohLR+H20dWok0ui9juPm5KLhBD7XneQtjQekU8WrW1z95QlSJYxDoVv3Bwzir2ZLIh37ligrcnM
-	1mLxyUg7AVxiHxHxIZGvYE7+pd0BywCChF+eG8RUcoHgEJ7JcONGdo/PDSwB0zgIWfdcfcVt59o
-	ym0ZR3XplUeP2182t8L0yHBilraEX6JcH/lr5S6/yf8TVpiBiK8MskL0rDfjgA0ONLJalnLU5vJ
-	t8p6xBlMMcBkHZnN/OYPYnfJvKINAv0LfJwQf9yoRqzzRhqVxZPYbXLAb25e8jmH+s8kuy5MTVP
-	JNrycZ72WG+RVOwOTyja88+Bnbk1CoNIpNaJriS/5TQRqxedlOgVXBeSov/FTUWWS6pvk+lcCk3
-	nw+QNMPy/5GkpsjccrfQr9HcBaqSLy5izFlBM623NujBx5VfsAKy2kk7/asOpm7OWP+HEszJK8E
-	+xQ5k+fAeuPxjk8b6qUmHBJvaxQBzNBn6c2FEBsfMpmv3eYb9pr+MCKLw==
-X-Received: by 2002:a17:90b:4d02:b0:3a4:6f38:f2a2 with SMTP id 98e67ed59e1d1-3a8a1ac0562mr1978385a91.25.1791381933049;
-        Wed, 07 Oct 2026 07:05:33 -0700 (PDT)
-Received: from [192.168.1.106] ([198.8.77.135])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a8543b0c1fsm13716636a91.14.2026.10.07.07.05.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Oct 2026 07:05:32 -0700 (PDT)
-Message-ID: <960b1305-c5a6-4554-8bab-1cf4244fa11b@kernel.dk>
-Date: Wed, 7 Oct 2026 08:05:23 -0600
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IIJ6vo/k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791382845;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OFr91dh5MiEqI6gHFvhW8bYz6YakTcwxHJ7Vnu5msnM=;
+	b=IIJ6vo/kZcPU+M6iPqX66+oNg6XcQBUnfNCp58XKJhnowsewO36Q90l/imCp0TJavVjHaT
+	5usGL3JnRtoHOiTs0u9bs1Lv64/qiJ+p6av2jz7dy7yuGGxkpWErxuDbeoX3tHbREZgY8Q
+	Y3yjGeZL/5KZmHgery6xeX9bnhUlOIU=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-622-f9bdVKTKOA-xg0Cmg1QDxw-1; Wed,
+ 07 Oct 2026 10:20:38 -0400
+X-MC-Unique: f9bdVKTKOA-xg0Cmg1QDxw-1
+X-Mimecast-MFC-AGG-ID: f9bdVKTKOA-xg0Cmg1QDxw_1791382835
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0BF72188B015;
+	Wed,  7 Oct 2026 14:20:16 +0000 (UTC)
+Received: from warthog.com (unknown [10.44.32.90])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A2E0F19373D8;
+	Wed,  7 Oct 2026 14:20:04 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>
+Cc: David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Stefan Metzmacher <metze@samba.org>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	v9fs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v14 0/8] netfs: Use a bvecq chain position abstraction
+Date: Wed,  7 Oct 2026 15:19:51 +0100
+Message-ID: <20261007142001.851620-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/9] block device fixes for large block sizes,
- IOCB_NOWAIT, and direct I/O
-To: Tal Zussman <tz2294@columbia.edu>, Christoph Hellwig <hch@lst.de>,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Hannes Reinecke <hare@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- John Garry <john.garry@linux.dev>, Christian Brauner <brauner@kernel.org>,
- "Darrick J. Wong" <djwong@kernel.org>, Keith Busch <kbusch@kernel.org>,
- "Martin K. Petersen" <mkp@kernel.org>
-Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Sashiko <sashiko-bot@kernel.org>
-References: <20260923-blkdev-fixes-v5-0-89e60d66eb38@columbia.edu>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20260923-blkdev-fixes-v5-0-89e60d66eb38@columbia.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On 9/23/26 5:56 PM, Tal Zussman wrote:
-> A set of independent fixes for the block device file operations. The
-> first two were found by Sashiko while reviewing the RWF_DONTCACHE series
-> [1]. The fourth and fifth were found by Sashiko's review of v1 of this
-> series, and the rest came from asking an LLM to find any similar or
-> related issues. Each issue has been reproduced, with the fixes resolving
-> the issues.
-> 
-> Patch 1 fixes silently lost mmap writes with CONFIG_BUFFER_HEAD=n.
-> 
-> Patches 2 and 3 take i_rwsem around the direct I/O write fallback and
-> the splice read path, which race set_blocksize() changing the mapping's
-> minimum folio order.
-> 
-> Patch 4 makes the buffered read path honor IOCB_NOWAIT instead of
-> blocking on i_rwsem.
-> 
-> Patch 5 makes IOCB_ATOMIC writes fail instead of tearing, and patch 6
-> stops the buffered fallback from retrying an atomic write. Block
-> devices can reject both paths into the fallback before submitting any
-> I/O, so we fail rather than issue a WARN() like ext4 does. Patch 7
-> makes iomap_file_buffered_write() reject IOCB_ATOMIC, so no other
-> buffered fallback can complete an atomic write either.
-> 
-> Patch 8 fixes leaked page pins in bio_iov_iter_align_down(), and patch
-> 9 removes dead metadata handling in the async direct I/O path.
-> 
-> These issues are currently unlikely to be hit in practice due to the
-> specific configurations required to trigger them.
-> 
-> The reproducer for patch 1 is in blktests as block/048, and tests for
-> patches 2, 3 and 8 are posted at [2].
+Hi Christian,
 
-This is based against the 7.3 series for some reason, can you please
-resend against the 7.4 based branch, for-7.4/block.
+Could you pull these patches please into your vfs-7.4.netfs branch?  This
+is the fourth of five batches.  The primary purpose of this batch is to add
+an abstraction for a position in a bvecq chain and make use of it.
 
--- 
-Jens Axboe
+With that in mind, this patchset does the following:
+
+ (1) Add a struct, bvecq_pos, to refer to a position in a bvecq chain.
+     This is a tuple of ( bvecq pointer, slot and offset } and the position
+     struct holds (for now) a ref on the bvecq pointed to.
+
+ (2) Change unbuffered/DIO to extract the supplied user buffers into a
+     bvecq chain rather than a bio_vec[] up front.  This means that
+     netfslib then uses bvecq chains for everything.
+
+ (3) Add a folio count to the readahead_control struct and then makes
+     readahead pre-create its buffer using that count to determine how many
+     slots are required.
+
+ (4) Change netfslib to use the bvecq_pos struct to keep track of the whole
+     request buffer and various points in it where loading, dispatch and
+     collection are taking place and to also keep track of the slice given
+     to each subrequest.
+
+This was split from v11 of a larger netfslib series[1].
+
+The patches can also be found here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=netfs-next-4
+
+Thanks,
+David
+
+Changes
+=======
+ver #14)
+- Fixed issues brought up by sashiko[2]:
+  - In netfs_extract_iter(), limit the number of slots per bvecq to what
+    will fit inside a 4KiB allocation.
+  - In netfs_rreq_assess_dio(), only set the page dirty if it's from GUP or
+    it's from the pagecache.
+  - In bvecq_zero(), skip the call to bvec_zero() if part == 0.
+  - In bvecq_delete_spent(), prefer returning true because more slots got
+    added to returning false because we hit the chain end.
+  - In netfs_read_gaps(), fix a leak of already allocated sink folios if we
+    get OOM when allocating a sink folios.
+  - In netfs_clear_unread_dio(), fix double call to iov_iter_zero().
+
+ver #13)
+- Rebased on -rc6 to account for some conflicting fixes.
+- Fixed a bug in netfs_prepare_read_iterator() where comparison was being
+  made against the wrong thing when limiting a subreq's size.
+
+ver #12)
+- Split from v11 of "netfs: Keep track of folios in a segmented bio_vec[]
+  chain"[1]
+
+[1] https://lore.kernel.org/r/20260902173350.3468672-1-dhowells@redhat.com/
+[2] https://sashiko.dev/#/patchset/20261006205947.608356-1-dhowells%40redhat.com
+
+David Howells (8):
+  mm: Make readahead store folio count in readahead_control
+  netfs: Add a function to extract from an iter into a bvecq
+  netfs: Make unbuffered/DIO read and write use bvecq
+  netfs: Add some tools for managing a position in a bvecq chain
+  netfs: Provide a func to load the readahead buffers into a bvecq chain
+  netfs: Use bvecq_pos to hold the buffer positions
+  netfs: Remove the rolling_buffer implementation
+  netfs: Remove netfs_extract_user_iter()
+
+ fs/afs/dir.c                   |   5 +-
+ fs/afs/symlink.c               |   6 +-
+ fs/cachefiles/io.c             |  12 -
+ fs/netfs/Makefile              |   1 -
+ fs/netfs/buffered_read.c       | 182 ++++++++-------
+ fs/netfs/bvecq.c               | 321 +++++++++++++++++++++++++++
+ fs/netfs/direct_read.c         |  77 +++----
+ fs/netfs/direct_write.c        |  67 +++---
+ fs/netfs/internal.h            |   4 +-
+ fs/netfs/iterator.c            | 395 ++++++++++-----------------------
+ fs/netfs/misc.c                |  18 --
+ fs/netfs/objects.c             |  16 +-
+ fs/netfs/read_collect.c        | 106 +++++----
+ fs/netfs/read_pgpriv2.c        |  87 +++++---
+ fs/netfs/read_retry.c          |  86 ++++---
+ fs/netfs/read_single.c         |  16 +-
+ fs/netfs/rolling_buffer.c      | 182 ---------------
+ fs/netfs/write_collect.c       |  55 ++---
+ fs/netfs/write_issue.c         | 166 +++++++++-----
+ fs/netfs/write_retry.c         |  61 +++--
+ include/linux/bvecq.h          | 184 +++++++++++++++
+ include/linux/netfs.h          |  25 ++-
+ include/linux/pagemap.h        |  10 +
+ include/linux/rolling_buffer.h |  47 ----
+ include/trace/events/netfs.h   |  32 ++-
+ mm/readahead.c                 |   5 +
+ 26 files changed, 1225 insertions(+), 941 deletions(-)
+ delete mode 100644 fs/netfs/rolling_buffer.c
+ delete mode 100644 include/linux/rolling_buffer.h
+
