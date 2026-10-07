@@ -1,133 +1,225 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310FD1419A4
-	for <linux-fsdevel@vger.kernel.org>; Wed,  7 Oct 2026 01:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1D8347533;
+	Wed,  7 Oct 2026 02:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791338273; cv=none; b=JBGoeEwzhuE/PKNpH/wRK6C9+pvOWHt73W5kgz1hNLKukrqVEuhFIk6L+oY/+FhaA01GL5zwlVH4kSu+gy/24QnRVxbRGtTO4gYsjbzl5ETgBDJQTtfH2YWa11jaux6CDbhPsGUsY11lVivESh+i1YPP3WO6iDpijrFHRG3k2yk=
+	t=1791338581; cv=none; b=IDdCbjA08H2Lm9T88hsy587tH4MailrSQZG2O7IImW4LAgP9m86xFYkgV2vB24zV0b8BgaRucSiUGPPg1Ckvq2T7HsDgu1YhVus4xpLHlThZyGbBfRj026D51pQyEoLUgPaZDFLDsQGuVDXLgq4ejmPuxPFa7UQlLTHVmQiap90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791338273; c=relaxed/simple;
-	bh=EnH+Y+4cL2AjL+MfdV9nfQghjAGlt8P35VugtZxmsj0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MSQDSHo36S1K4bpQR/nEdPDETKtkLUmAjGcKFgsFq2l0NZOfF+AOhWfnUp8is7JhA+3tz+lH5/LILAAZ9kOrMd0a7ntvPIOcKJcE5tm4P/iKkoIHpz0fWhEHmI/2v6zQ13qTEApdw409syj06sO8s794+XxCD+82aC9bx0QqkDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TwzuOkWJ; arc=none smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791338581; c=relaxed/simple;
+	bh=9sFtUsT/6QZPb2ftGxqd+wOFFUGCkqgSvXFdMJyPvXk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a8NcPUiVsamhVdJJjaTr1VgMyzbp52keHFX3rO2JREZGFmGcYfTUTgoEDN++8DFL2UGHFE/ycgoCPvye0W490SIVlLfKkiyqMQMH1sw7m31K1Zxyjq7vm8r9xWl7/Jdfc9jfhxaTmTQh8xMqrBsi4VxAurVfKxE44Zd47xIa5u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rgtqndNj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TwzuOkWJ"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-33fb4680717so9574202eec.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 06 Oct 2026 18:57:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791338271; x=1791943071; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Co7b2LMbzdCPsCsbgcCtLsS9QDYuBuOKqGML2L6dVHc=;
-        b=TwzuOkWJgAM8y1k2TehcGGNInheRgn0BFiGCW25ci6z3d5+E6NR2bZiWTsC965lqlM
-         pfzXMAauczy+xc5HrEVJfwMl2NnYfn9v82MsiUxJ0bisx+UMzmOH4d8ti8hyXvvceh7X
-         IwiVX5h1+ak6GA2PwRRpB67GqvBtxXVwZJyYMNw7bX0RPwlkzRdw/1NCjhwZbITl3MuG
-         ve3tVTzAUA107cO8voRpYOBOBKuH63pZpcS6jsekp1SMKqE09Xzy6SW2mzOArXIe2MIr
-         bUplMHpRfWC5xWKz5kHK0A09+7FArkNtuUjGewMnHEye5JOZ5g+VKKGP3VyiE+lZjpNE
-         WS8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791338271; x=1791943071;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Co7b2LMbzdCPsCsbgcCtLsS9QDYuBuOKqGML2L6dVHc=;
-        b=i7zrBzgzzvzC2PJXHKbjqxAqjUsGF3KlDhsFzRlIPE0CjDNEr+xIbswi88cA2FIDQg
-         KPpCZocKB2XGQxbqnPah8zXz7Dx6GrjPjM3KJNqmwbBLnWgYOxiwig55cQq4F3v0X6Jy
-         Nb0DOl8c53sG7EkujSYt+7ZyoJHxNcgpZ/iqxnjs155ZkMLY5YtaqH3m/CBv4Jrc+gHL
-         tzCxdCkmeyjxg9UA7lN92jhtXJpSy66hF6i+TILnr4peCfkpuBWrUHFcsjAbb3Tf3xqf
-         QxR0yYdpsWrKowBSPZmcTLKo/kNaTVOadm1aWVbBRx6hevG+/iE4qtvlg/IyF6jjoQOT
-         KUiw==
-X-Forwarded-Encrypted: i=1; AKwUvBxt+ReNg4ifjD2UX7WDJBEqk/eXAOYuOBZP5EkJz5wgaibEqiwwUsvsJULCjN3LzjoOcUB3x1AMhYZSOvH4@vger.kernel.org
-X-Gm-Message-State: AFuF++kmqQvM1rdXjSc+Aj/9iRjZKF+9Q4+vyk8WzmE6fIo8J6a1zbRv
-	E1GwngYFoS1Rv5BkqxeAFV0Eo1KMu5B4yNAL9h45e5xtIHaEiDIgbuSK
-X-Gm-Gg: AYBFou3miCOoyJh0Eh31BRaj/URAxOjCgXpRTCNA+Svi1Df4KhEsi8o59XwNvcNDVkl
-	GoJi1jjSoyhlWa3OIQBsxEDIZ9D55yEEO74ZmAMVCcl3oUToBBuSuDYeXd67+rkHAS6yzyDcoPF
-	Asb3Yb0tO++tHremkvDw13V4XPxdfNzPkwvd1m/tzP8juAAdmDK7jRJBYm+tioNinL51sCHmERQ
-	ENIyeP1I/wxaLYJuUbyg2EbQ3U5KKY5/HEszfoOh1uXOMXVs4SPhOGBK/BeCXkSc1az6hjlY2n6
-	RVYSmagfRIOH+jcEHIcDRYZs55/I1gOp1WZU+kSGNH3m/XsheDLeTYd2Ur0oFIzj82WEZHvbW/r
-	JMQx0egFQoy6cLAllGrQbpp/BidIY1TaNlq8GSf1QXNFbJ8dQZKsiJ1oHrqrsSki6O9knTf6jSF
-	kpT0+WgbpgGmTr2MCWkuVphn95H/EWPb/YgsnY1C7MXoniZXwOmKjyuQQoTQFqh/rnj8JcJ0s4n
-	GOlHGobfM/L2S2YoU9THZTj0A==
-X-Received: by 2002:a05:7022:69a9:b0:143:2984:6517 with SMTP id a92af1059eb24-1620966b83amr909080c88.38.1791338270950;
-        Tue, 06 Oct 2026 18:57:50 -0700 (PDT)
-Received: from FredPC.lan ([2600:381:9f1f:6c0f:5b83:27bd:dced:34e2])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1616980c3b7sm2156652c88.16.2026.10.06.18.57.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 18:57:49 -0700 (PDT)
-From: Fredric Cover <fredric.cover.lkernel@gmail.com>
-To: Paulo Alcantara <pc@manguebit.org>,
-	David Howells <dhowells@redhat.com>
-Cc: Jeff Layton <jlayton@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Fredric Cover <fredric.cover.lkernel@gmail.com>
-Subject: [PATCH] netfs: Fix off-by-one in the flush range in netfs_page_mkwrite()
-Date: Tue,  6 Oct 2026 18:57:01 -0700
-Message-ID: <20261007015702.111459-1-fredric.cover.lkernel@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rgtqndNj"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E7B98C2BCF4;
+	Wed,  7 Oct 2026 02:03:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1791338581;
+	bh=9sFtUsT/6QZPb2ftGxqd+wOFFUGCkqgSvXFdMJyPvXk=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=rgtqndNjVWYl1Cw96h2NrdhDbo3Jpi77thkrV8tM96G8R5JgMTbomZn8bdbriC+W8
+	 uMQRYljJWhxta7RNjuo00NhNsZz+5lmRaeS3f3uDNDn2hZjZvUD9ckDCM3jTcG6t3k
+	 DwlMeZ7WzWBYMQ4J9FomzmO7UOEevlDjPUjo3Cb8AzEGpwcjcNtaHr2++oL+I3tPXT
+	 DA+tZR5Jt0D2bWQT/bd+wPkEokINURZagvhDNjafYjBBY8iwTZXwNd3VAsqzE9MeH4
+	 9YxD0MxvkqgJeGXlgChX68LSIXw8bcDk6yeaeaJpk+cH4YR6dxIndJBJNbW/3FeZdd
+	 WOfZYtny8+ISA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2E73CA5FFF;
+	Wed,  7 Oct 2026 02:03:00 +0000 (UTC)
+From: Daejun Park via B4 Relay <devnull+daejun7.park.samsung.com@kernel.org>
+Date: Wed, 07 Oct 2026 11:03:01 +0900
+Subject: [PATCH] nfsd: do not return overlapping extents in a block layout
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261007-nfsd-block-trim-v1-1-53370f97047a@samsung.com>
+X-B4-Tracking: v=1; b=H4sIAFSoxWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDAwNz3by04hTdpJz85GzdkqLMXF0Lw0SzRIskAzOzZEsloK6CotS0zAq
+ widGxtbUAuMRLE2EAAAA=
+To: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+ Christoph Hellwig <hch@lst.de>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, 
+ Sergey Bashirov <sergeybashirov@gmail.com>, 
+ Carlos Maiolino <cem@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+ linux-nfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Daejun Park <daejun7.park@samsung.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791338580; l=7304;
+ i=daejun7.park@samsung.com; s=20261006; h=from:subject:message-id;
+ bh=PTWvDDTklhlJON/gBnvNuDfKr1JRGBy9zjg7M7ycusQ=;
+ b=bd9AbsvWdqztTdLDTeJ5H75RS+OogtG4FtoNz1tSqEMQWbYQG0QjgmvOKrEWzQDr9PR8m5BgL
+ I9DZTOxMGXJCC+OsyV+SqQpx1jxKlqDWIG14nErO5klBH6UpPyioNFM
+X-Developer-Key: i=daejun7.park@samsung.com; a=ed25519;
+ pk=4yUfDqGRZTIj0Ik43z1GoMZRWCNm/rgX6uJuM9dtNIg=
+X-Endpoint-Received: by B4 Relay for daejun7.park@samsung.com/20261006 with
+ auth_id=1122
+X-Original-From: Daejun Park <daejun7.park@samsung.com>
+Reply-To: daejun7.park@samsung.com
 
-When a page fault wants to make a folio writable but the folio belongs
-to a different netfs group (e.g. a ceph snap context) than the one the
-write is being made under, netfs_page_mkwrite() flushes the folio and
-retries the fault.  It does so with:
+From: Daejun Park <daejun7.park@samsung.com>
 
-	filemap_fdatawrite_range(mapping,
-				 folio_pos(folio),
-				 folio_next_pos(folio));
+Since commit cc6c40e09d7b ("NFSD/blocklayout: Support multiple extents
+per LAYOUTGET"), nfsd4_block_proc_layoutget() calls ->map_blocks once
+per extent of a LAYOUTGET, each time for the range left after the
+previous extent. nfsd4_block_map_extent() takes a mapping that starts at
+the offset asked for or below it, but only the first extent may start
+below it. A later extent that starts below its offset overlaps the
+extents before it, which RFC 5663 section 2.3.1 does not allow. The
+Linux client rejects such a layout (verify_extent() returns -EIO), and
+the I/O that needed it fails. The block and SCSI layouts share this
+code.
 
-filemap_fdatawrite_range() takes an inclusive end offset, but
-folio_next_pos() is the position of the first byte of the following
-folio.  The range therefore covers one byte too many, and writeback is
-also run on whichever folio contains that byte.
+XFS, the only ->map_blocks implementation, used to map the whole extent
+that contains the offset. Together with one call per extent, that gave
+overlapping layouts in v6.19 and v7.0: allocating the blocks for one
+extent of a write layout could merge the extent that the next call
+starts in with the unwritten extents before it. Since commit
+36ca6f11424a ("xfs: fix overlapping extents returned for pNFS
+LAYOUTGET"), XFS does not map below the offset, so this patch changes
+nothing with current XFS. It only stops nfsd from relying on that: trim
+each extent after the first so that it starts at the offset asked for,
+and move its volume offset by the same amount unless it is a NONE_DATA
+extent, which has none.
 
-filemap_fdatawrite_range() is a WB_SYNC_ALL operation documented as
-waiting upon dirty or in-writeback pages in the range, so the faulting
-task can stall behind I/O on a neighbouring folio that has nothing to
-do with the fault, and a neighbouring dirty folio is written out early.
+nfsd leaves the end of a mapping alone, as only the filesystem knows
+where it should end. It does need a mapping that contains the offset
+asked for, which RFC 5663 section 2.3.1 also requires of the first
+extent. A mapping that does not would leave a gap in the layout or make
+the length computed from it wrap around, so warn and return
+NFS4ERR_LAYOUTUNAVAILABLE; the client then does the I/O through the
+metadata server. iomap_iter_done() has the same check, as a
+WARN_ON_ONCE(), for ->iomap_begin(), and nfsd4_block_map_extent()
+already warns and fails this way for a mapping of an unexpected type.
+Document in exportfs_block.h that the mapping must contain the offset.
 
-The off-by-one dates from the original implementation, which passed
-folio_pos(folio) + folio_size(folio) as the end of a
-filemap_fdatawait_range() call, which also takes an inclusive end.  It
-was carried over when the call was changed to
-filemap_fdatawrite_range().
+On a test kernel whose xfs_fs_map_blocks() maps with XFS_BMAPI_ENTIRE
+and does not trim, as XFS did before that commit, a write layout over a
+hole between two unwritten blocks comes back as 0+4096, 4096+4096 and
+0+12288, and the pynfs test BLOCK5 fails in five runs out of five.
+fstests generic/075, 091 and 263 over the block layout fail with an EIO
+or a zero-length O_DIRECT write, and bl_alloc_lseg() on the client
+returns -EIO three times. With this patch on top, the third extent is
+8192+4096, BLOCK5 passes in five runs out of five, generic/091 and 263
+pass, generic/075 fails with the fsx "Size error" that it also fails
+with on nfsd-testing, and bl_alloc_lseg() returns no error.
 
-The flush of the faulting folio itself is unaffected, so this does not
-cause data loss or incorrect results, only unneeded writeback and
-latency.
-
-Fix it by passing folio_next_pos(folio) - 1, as the flush_content path
-in netfs_perform_write() already does with fpos + flen - 1.
-
-Assisted-by: LLM
-Fixes: 102a7e2c598c ("netfs: Allow buffered shared-writeable mmap through netfs_page_mkwrite()")
-Signed-off-by: Fredric Cover <fredric.cover.lkernel@gmail.com>
+Suggested-by: Darrick J. Wong <djwong@kernel.org>
+Link: https://lore.kernel.org/r/20261006051324.GV2705364@frogsfrogsfrogs
+Link: https://lore.kernel.org/r/20261006152333.GO1615495@frogsfrogsfrogs
+Signed-off-by: Daejun Park <daejun7.park@samsung.com>
 ---
- fs/netfs/buffered_write.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Darrick asked whether nfsd should trim the lower end of a mapping that
+starts below the offset asked for, or warn and fail. This patch trims
+such a mapping for every extent but the first, and warns only when a
+mapping does not contain the offset at all. The XFS patch his question
+was about also trims, in xfs_fs_map_blocks(). The two patches do not
+depend on each other:
+https://lore.kernel.org/r/20261006003425epcms2p586728e55ff5f9bbabc506b672fc4a421@epcms2p5
 
-diff --git a/fs/netfs/buffered_write.c b/fs/netfs/buffered_write.c
-index ecf119b4f9166..b398c3bef6f3c 100644
---- a/fs/netfs/buffered_write.c
-+++ b/fs/netfs/buffered_write.c
-@@ -579,7 +579,7 @@ vm_fault_t netfs_page_mkwrite(struct vm_fault *vmf, struct netfs_group *netfs_gr
- 		folio_unlock(folio);
- 		err = filemap_fdatawrite_range(mapping,
- 					       folio_pos(folio),
--					       folio_next_pos(folio));
-+					       folio_next_pos(folio) - 1);
- 		switch (err) {
- 		case 0:
- 			ret = VM_FAULT_RETRY;
+No stable backport is needed, which is also why there is no Fixes: tag
+for cc6c40e09d7b. Overlapping extents need both the per-extent calls of
+cc6c40e09d7b (v6.19) and XFS_BMAPI_ENTIRE in xfs_fs_map_blocks(), which
+36ca6f11424a removed in v7.1. Only 6.19.y and 7.0.y have both, and
+neither is maintained any more; 6.18.y and older call ->map_blocks once
+per LAYOUTGET.
+
+Tested on nfsd-testing 56589cdb5881 with three QEMU VMs (an NVMe/TCP
+target, the server with nfsd and XFS, and a client), over the block
+layout only. With only this patch, nfsd-testing gives the same BLOCK5
+and fstests results as without it. With KASAN and lockdep, the test
+kernel with this patch on top gives the same BLOCK5 and fstests results
+as above, with no warning. Trimming was seen only for the INVALID_DATA
+extents of BLOCK5; nothing counted trims during the fstests runs. The
+pynfs test BLOCK5 is at
+https://lore.kernel.org/r/20261006002622epcms2p38e492aef17fdf79e48b05c9aada2918d@epcms2p3
+---
+ fs/nfsd/blocklayout.c          | 28 ++++++++++++++++++++++++++--
+ include/linux/exportfs_block.h |  2 ++
+ 2 files changed, 28 insertions(+), 2 deletions(-)
+
+diff --git a/fs/nfsd/blocklayout.c b/fs/nfsd/blocklayout.c
+index df02cf746..1aabae003 100644
+--- a/fs/nfsd/blocklayout.c
++++ b/fs/nfsd/blocklayout.c
+@@ -20,8 +20,8 @@
+ 
+ 
+ /*
+- * Get an extent from the file system that starts at offset or below
+- * and may be shorter than the requested length.
++ * Get an extent from the file system that contains offset. It may start
++ * below offset and may be shorter than the requested length.
+  */
+ static __be32
+ nfsd4_block_map_extent(struct inode *inode, const struct svc_fh *fhp,
+@@ -41,6 +41,13 @@ nfsd4_block_map_extent(struct inode *inode, const struct svc_fh *fhp,
+ 		return nfserrno(error);
+ 	}
+ 
++	if (WARN_ONCE(iomap.offset > offset ||
++		      offset - iomap.offset >= iomap.length,
++		      "pnfsd: %s ino %llu: filesystem returned extent %lld+%llu for offset %llu\n",
++		      sb->s_id, inode->i_ino, iomap.offset, iomap.length,
++		      offset))
++		return nfserr_layoutunavailable;
++
+ 	switch (iomap.type) {
+ 	case IOMAP_MAPPED:
+ 		if (iomode == IOMODE_READ)
+@@ -147,6 +154,23 @@ nfsd4_block_proc_layoutget(struct svc_rqst *rqstp, struct inode *inode,
+ 		if (nfserr != nfs_ok)
+ 			goto out_error;
+ 
++		/*
++		 * Each extent after the first was mapped for the range that
++		 * starts where the previous extent ends, but the filesystem
++		 * may return a mapping that starts below that point. Trim
++		 * it, as RFC 5663 section 2.3.1 does not allow extents to
++		 * overlap. nfsd4_block_map_extent() made sure the mapping
++		 * contains offset. NONE_DATA extents have no volume offset.
++		 */
++		if (i > 0 && bex->foff < offset) {
++			u64 skip = offset - bex->foff;
++
++			bex->foff = offset;
++			bex->len -= skip;
++			if (bex->es != PNFS_BLOCK_NONE_DATA)
++				bex->soff += skip;
++		}
++
+ 		bex_length = bex->len - (offset - bex->foff);
+ 		if (bex_length >= length) {
+ 			bl->nr_extents = i + 1;
+diff --git a/include/linux/exportfs_block.h b/include/linux/exportfs_block.h
+index de519b7b5..21e61fc01 100644
+--- a/include/linux/exportfs_block.h
++++ b/include/linux/exportfs_block.h
+@@ -44,6 +44,8 @@ struct exportfs_block_ops {
+ 	/*
+ 	 * Map blocks for direct block access.
+ 	 * If @write is %true, also allocate the blocks for the range if needed.
++	 * The mapping returned must contain @offset. It may start before
++	 * @offset and may end before or after @offset + @len.
+ 	 */
+ 	int (*map_blocks)(struct inode *inode, loff_t offset, u64 len,
+ 			struct iomap *iomap, bool write,
+
+---
+base-commit: 56589cdb58819ce54decedbbfddf231d94b5ce41
+change-id: 20261007-nfsd-block-trim-81a6a8b066c9
+
+Best regards,
 -- 
-2.53.0
+Daejun Park <daejun7.park@samsung.com>
+
 
