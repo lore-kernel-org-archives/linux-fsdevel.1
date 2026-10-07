@@ -1,433 +1,126 @@
-Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [45.157.188.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6FB469854
-	for <linux-fsdevel@vger.kernel.org>; Wed,  7 Oct 2026 10:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA1944CF44
+	for <linux-fsdevel@vger.kernel.org>; Wed,  7 Oct 2026 11:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791368431; cv=none; b=tFUulyVd2xo2iTt7BzDZ0VGqy1IFscIZs15qYLkxlGSr4xQuA/rXRUJtzwqXiPUYSGZbxZs1J9/DzKd5s+eoLY2R3ky3cvluLNYkSs7m4LaEBXlT9V785hfc/E0LnclEQzsMaVFZyRXRC+tCBV11PfJZdy5LsXHAlgO0Y70gr2I=
+	t=1791371662; cv=none; b=nQBsg2Wta6tFgkw2jZdyrgBOr4rA83FYgU+BaBqu1B9BwyxgHaZHOJ4f/Fp9GBLZxpQcOi36EmADDU3nPGTcD4OMtaLzb5h+8KDRAC0/eW+40STkhRlb2vsHw8KeNmLRDMAsW4VRBDHt82fm/RiWz+snwtauJrda/hAZVmj/Ung=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791368431; c=relaxed/simple;
-	bh=zCjB6i4qzcZ+hkV1T7x4qvN37ipXvLga/yEEzhmGylc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KcsbQwPWhINVHa0cKpDtbnqagW5uuXeNTwbImzP1SC219gM6gg9n8oCQMWY77Jsek3FUKNxEnslPyRlZoo9+1zRMzxqTP2NaBiedRgC+5j5QhacMAmLbYEVjaw093dupgJPK22o7IU8S++9lyumL0NKVUF9RwXMh6kp89Oi4XnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=oxXzlVYU; arc=none smtp.client-ip=45.157.188.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1791371662; c=relaxed/simple;
+	bh=HloGoohqo9+6qwLBupkuzMvPAMn3qCrX+PSht8NQWyI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TSY4FKmAJH54Xa8E65gIhZglqLW2pZ/fcQ/E2Y9T5gXWv6V0SiJAzLaLA0v8ZoAF9iTLfvogYG4VdxfO6u09B/6Yo3uuczOvbaqXuomNulLbrOgvPqchrTF+1scw2S+ncfHpmPwogssskW+ocjkQcGjKxorVHG6hd1jG2f/M/+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YZcYtFiU; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="oxXzlVYU"
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4j07wn13PCzq4v;
-	Wed,  7 Oct 2026 12:03:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1791367384;
-	bh=K3LBFVDiwrqweSoL3BT7bDuegaFZzJdPyE+R1Vju3+k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oxXzlVYUvX9P6ggd4HTJpUEIol+mtkYnsqJcZ/73nRvlXKVcSApnZmHlQkKGkomys
-	 jqMFk3Q0q/Aci+3Olghe8kAFU58odUwUvBsLcjldcFBABgXeFdIOOtX+0b0PTBAegl
-	 MVMJHn1kKADhuoeYDjO9ZGyjSPSBXhJCYXj8QcJo=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4j07wl4xMXzglV;
-	Wed,  7 Oct 2026 12:03:03 +0200 (CEST)
-From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To: Christian Brauner <brauner@kernel.org>,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>,
-	"Serge E . Hallyn" <serge@hallyn.com>
-Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Daniel Durning <danieldurning.work@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Justin Suess <utilityemal77@gmail.com>,
-	Lennart Poettering <lennart@poettering.net>,
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Shervin Oloumi <enlightened@google.com>,
-	Tingmao Wang <m@maowtm.org>,
-	kernel-team@cloudflare.com,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YZcYtFiU"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a018dc1f98so15091225e9.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 07 Oct 2026 04:14:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791371644; x=1791976444; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Vxn570AQqBee7ldTTj5CXNnDnojlRV1rnmN7nN7a9vQ=;
+        b=YZcYtFiUPXQCLSGH/nWXc9cyiAM8NX0omw9Zmwf/JkIdE9UOx9/oT6NI67v3/Tzi1y
+         B1BnrzE0CC5GqIWX1k9JwqRq+A0WoifCOODfwmIdWFVChjiOLAuuFMInFub49GWz3ozR
+         9fPXIyekCjSPxo3NW5reXQHZFFRA8DnuaCQjUtpKQA4AK92GwegPgaUAyi6cFtf3g3MB
+         ZBEnM5AyApW5zgDFxMYzwWrMCfCV9tFC+ZDTuLgSqMx0PQz1kXmxou4xUNwDNN+XpD5m
+         cqJVmXO50N1d7KlttvdUuLFyfzCsqbH3zbKTct5LMyARye4j/D5poBWZw8cayk4h9diZ
+         WF6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791371644; x=1791976444;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Vxn570AQqBee7ldTTj5CXNnDnojlRV1rnmN7nN7a9vQ=;
+        b=0IQfqAszLrHOrZkQ3091he5yTsWdpCjhmScBUha/Sz+U5i/GgfX65ghSkVAOsAztP2
+         3sxxte8Mw1RUbPDFXfjpcrQmkXVeB/b7KwtOU1EM2v0GgtVTgS37pYc/87mBWga03Cvw
+         wKXAqgdbl3dLkWN5E+0UrvpJ2E7GFSyIyqJQ5/6iLvjUrfUNbV5L0UwMklfsE414nCSp
+         QGcalkE4TiRofnWoeigHhMmQGaBkx8AOq2Tj6ECyJg6lTcaQaCH0hisaMTEU8QXyVVpr
+         k3JXcygY0CJEMPSD8IrSTh+vnf9LA3GvUTHCaopjpLE6M+8sYq//di8qptLH3tCMHm8r
+         EExw==
+X-Gm-Message-State: AFuF++mHls5RWGViehl1ONAXHUDpWeTahK1/XrtrbM26UiiG1rWcdOys
+	fNOCT0vGmZNIY4yQkRX+9H8axbJcp912LLMQBs+gW8f+8NfCsj3H8jvU
+X-Gm-Gg: AYBFou2kVeQnGhcGfLQlAVa6W+vE67WdT4Je9W7CuT2Ihc1AfLYPkFWP+JuP+VP3AsL
+	MGaPXbSCAuOGOxQOzWnPBh3pRl5eo/Aafz5Ou7BWNNUyjzxYJfhrCj9IlPmfw0y9KWpVajasPLp
+	WYXIkyouE9lpjUxN1YSX/xKIeEsQfnabDWb/2S83BK0oKMPy+7C25bZd9PSevxR9tXGanIUzQ4a
+	nO+jSY01VGQm3bAoG8OCl3l2DOV/RPPpGLVRGxOUMNMH0yLaLJXITI/IQF7Cy8Xwby93DE4zA4t
+	zmoHH1SH0j8n/6WKtclLwv1tACDaHotJ/dj3ydiZy9t4aDPGLRcABD6LxQWtsMQrCGfrhoxjvdH
+	BZBV2aq86mMQpiuowoueNCDqKz/0ix8Eok2HIq/TLWi9GFypBbYBHXv+mV2Xv2ski8HkkFw/y8c
+	UyAWwsC6TexkUh9qS9+TxAhjZswB5xzVVW57ktm+MTo9qQtRptFAJ6hfYY6YPePS+l3SsFeyj+8
+	AQUG4O+
+X-Received: by 2002:a05:600c:3155:b0:49f:cbf3:551c with SMTP id 5b1f17b1804b1-4a180310d43mr26689985e9.12.1791371644352;
+        Wed, 07 Oct 2026 04:14:04 -0700 (PDT)
+Received: from fedora.domain.name ([217.218.152.176])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71c0b7f4sm4958213f8f.17.2026.10.07.04.14.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2026 04:14:03 -0700 (PDT)
+From: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+To: akpm@linux-foundation.org
+Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH v5 2/8] landlock: Wrap per-layer access masks in struct layer_config
-Date: Wed,  7 Oct 2026 12:02:45 +0200
-Message-ID: <20261007100255.1333386-3-mic@digikod.net>
-In-Reply-To: <20261007100255.1333386-1-mic@digikod.net>
-References: <20261007100255.1333386-1-mic@digikod.net>
+	Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+Subject: [PATCH] fs/ufs: use flexible-array members in on-disk structs
+Date: Wed,  7 Oct 2026 14:43:52 +0330
+Message-ID: <20261007111352.81417-1-ampr.mhd@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
 
-The domain layer FAM stores struct access_masks values directly, while a
-ruleset stores the equivalent single mutable value.  Per-category
-permissions need additional per-layer data beyond the handled-access
-bitfields.
+Replace one-element arrays with flexible-array members in the UFS
+on-disk structures ufs_cylinder_group, ufs_old_cylinder_group, and
+ufs_super_block_third.
 
-Introduce struct layer_config as the common value type.  Keeping the
-handled bitfields in its .handled member leaves struct access_masks as a
-lightweight parameter type for functions that only need those bitfields,
-while the complete layer can be snapshotted with one assignment.
+Zero-length and one-element arrays are deprecated; the preferred
+mechanism for such trailing arrays is an empty square bracket array.
 
-At this point struct layer_config only wraps the four-byte access_masks,
-so it does not grow the per-domain allocation: the maximum 16-entry FAM
-remains 64 bytes.
-
+All three fields are the last member of their struct, so their
+offset within the struct is unchanged. The accessor macros in
+ufs_fs.h and the field layout on disk continue to work identically.
 No functional change.
 
-Cc: Günther Noack <gnoack@google.com>
-Reviewed-by: Günther Noack <gnoack@google.com>
-Reviewed-by: Tingmao Wang <m@maowtm.org>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
+Signed-off-by: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
 ---
+ fs/ufs/ufs_fs.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Changes since v3:
-https://patch.msgid.link/20260726161400.3010511-6-mic@digikod.net
-- Adapt the wrapper to the ruleset/domain split by using one
-  layer_config value for the ruleset singleton and the domain FAM.
-- Generalize the struct access_masks comment because the type also
-  represents quiet and request masks.
-
-Changes since v2:
-https://patch.msgid.link/20260527181127.879771-4-mic@digikod.net
-- The rebase required adopting the released check-time struct
-  layer_masks and the new per-ruleset quiet_access (added by the base's
-  merged quiet feature) and updating the struct landlock_ruleset @layers
-  kdoc; struct layer_config already existed in v2.
-
-Changes since v1:
-https://patch.msgid.link/20260312100444.2609563-5-mic@digikod.net
-- Add Reviewed-by: Tingmao Wang.
-- Address Günther Noack's review nits:
-  - Clarify that _LANDLOCK_ACCESS_FS_INITIALLY_DENIED is ORed with
-    the .handled field of all ruleset->layers[] entries (not the
-    entries themselves).
-  - Rename landlock_upgrade_handled_access_masks() to
-    landlock_upgrade_handled_layer_config() to match the parameter
-    type.
-  - Rewrap the @layers kdoc in struct landlock_ruleset.
-- Rename struct layer_rights to struct layer_config: "config" is
-  the more general term for per-layer state.
-- Add Reviewed-by: Günther Noack.
----
- include/trace/events/landlock.h |  6 +++---
- security/landlock/access.h      | 32 +++++++++++++++++++++++---------
- security/landlock/cred.h        |  2 +-
- security/landlock/domain.c      | 10 +++++-----
- security/landlock/domain.h      | 30 ++++++++++++++----------------
- security/landlock/fs.c          |  2 +-
- security/landlock/net.c         |  2 +-
- security/landlock/ruleset.c     |  6 +++---
- security/landlock/ruleset.h     |  5 ++---
- security/landlock/syscalls.c    |  4 ++--
- 10 files changed, 55 insertions(+), 44 deletions(-)
-
-diff --git a/include/trace/events/landlock.h b/include/trace/events/landlock.h
-index 3a43638c9bc2..215d08c1e03d 100644
---- a/include/trace/events/landlock.h
-+++ b/include/trace/events/landlock.h
-@@ -353,9 +353,9 @@ TRACE_EVENT(landlock_create_ruleset,
- 	TP_fast_assign(
- 		__entry->ruleset_id	= ruleset->id;
- 		__entry->ruleset_version = ruleset->version;
--		__entry->handled_fs	= ruleset->handled_masks.fs;
--		__entry->handled_net	= ruleset->handled_masks.net;
--		__entry->scoped		= ruleset->handled_masks.scope;
-+		__entry->handled_fs	= ruleset->layer.handled.fs;
-+		__entry->handled_net	= ruleset->layer.handled.net;
-+		__entry->scoped		= ruleset->layer.handled.scope;
- 	),
- 
- 	TP_printk("ruleset=%llx.%llu handled_fs=%s handled_net=%s scoped=%s",
-diff --git a/security/landlock/access.h b/security/landlock/access.h
-index f843835851d0..1b1dede27925 100644
---- a/security/landlock/access.h
-+++ b/security/landlock/access.h
-@@ -19,9 +19,9 @@
- 
- /*
-  * All access rights that are denied by default whether they are handled or not
-- * by a ruleset/layer.  This must be ORed with all domain->handled_masks[]
-- * entries when we need to get the absolute handled access masks, see
-- * landlock_upgrade_handled_access_masks().
-+ * by a ruleset/layer.  This must be ORed with the .handled field of all
-+ * domain->layers[] entries when we need to get the absolute handled access
-+ * masks, see landlock_upgrade_handled_layer_config().
-  */
- /* clang-format off */
- #define _LANDLOCK_ACCESS_FS_INITIALLY_DENIED ( \
-@@ -45,7 +45,7 @@ static_assert(BITS_PER_TYPE(access_mask_t) >= LANDLOCK_NUM_SCOPE);
- /* Makes sure for_each_set_bit() and for_each_clear_bit() calls are OK. */
- static_assert(sizeof(unsigned long) >= sizeof(access_mask_t));
- 
--/* Ruleset access masks. */
-+/* Access masks (bitfields only). */
- struct access_masks {
- 	access_mask_t fs : LANDLOCK_NUM_ACCESS_FS;
- 	access_mask_t net : LANDLOCK_NUM_ACCESS_NET;
-@@ -61,6 +61,20 @@ union access_masks_all {
- static_assert(sizeof(typeof_member(union access_masks_all, masks)) ==
- 	      sizeof(typeof_member(union access_masks_all, all)));
- 
-+/**
-+ * struct layer_config - Per-layer access configuration
-+ *
-+ * A ruleset stores one mutable layer and a domain stores a flexible array of
-+ * immutable layers.
-+ */
-+struct layer_config {
-+	/**
-+	 * @handled: Bitmask of access rights handled (i.e. restricted) by this
-+	 * layer.
-+	 */
-+	struct access_masks handled;
-+};
-+
- #define _LANDLOCK_LAYER_MASK_PADDING                              \
- 	(BITS_PER_TYPE(access_mask_t) - LANDLOCK_NUM_ACCESS_MAX - \
- 	 IS_ENABLED(CONFIG_SECURITY_LANDLOCK_LOG))
-@@ -131,17 +145,17 @@ static_assert(BITS_PER_TYPE(deny_masks_t) >=
- static_assert(HWEIGHT(LANDLOCK_MAX_NUM_LAYERS) == 1);
- 
- /* Upgrades with all initially denied by default access rights. */
--static inline struct access_masks
--landlock_upgrade_handled_access_masks(struct access_masks access_masks)
-+static inline struct layer_config
-+landlock_upgrade_handled_layer_config(struct layer_config layer_config)
- {
- 	/*
- 	 * All access rights that are denied by default whether they are
- 	 * explicitly handled or not.
- 	 */
--	if (access_masks.fs)
--		access_masks.fs |= _LANDLOCK_ACCESS_FS_INITIALLY_DENIED;
-+	if (layer_config.handled.fs)
-+		layer_config.handled.fs |= _LANDLOCK_ACCESS_FS_INITIALLY_DENIED;
- 
--	return access_masks;
-+	return layer_config;
- }
- 
- /* Checks the subset relation between access masks. */
-diff --git a/security/landlock/cred.h b/security/landlock/cred.h
-index a5ff9957949a..1c6a4838f38b 100644
---- a/security/landlock/cred.h
-+++ b/security/landlock/cred.h
-@@ -138,7 +138,7 @@ landlock_get_applicable_subject(const struct cred *const cred,
- 	for (layer_level = domain->num_layers - 1; layer_level >= 0;
- 	     layer_level--) {
- 		union access_masks_all layer = {
--			.masks = domain->handled_masks[layer_level],
-+			.masks = domain->layers[layer_level].handled,
- 		};
- 
- 		if (layer.all & masks_all.all) {
-diff --git a/security/landlock/domain.c b/security/landlock/domain.c
-index c66663f8cd8b..636abcd75aff 100644
---- a/security/landlock/domain.c
-+++ b/security/landlock/domain.c
-@@ -50,7 +50,7 @@ static struct landlock_domain *create_domain(const u32 num_layers)
- 	struct landlock_domain *new_domain;
- 
- 	build_check_domain();
--	new_domain = kzalloc_flex(*new_domain, handled_masks, num_layers,
-+	new_domain = kzalloc_flex(*new_domain, layers, num_layers,
- 				  GFP_KERNEL_ACCOUNT);
- 	if (!new_domain)
- 		return ERR_PTR(-ENOMEM);
-@@ -328,8 +328,8 @@ static int merge_ruleset(struct landlock_domain *const dst,
- 	if (WARN_ON_ONCE(dst->num_layers < 1))
- 		return -EINVAL;
- 
--	dst->handled_masks[dst->num_layers - 1] =
--		landlock_upgrade_handled_access_masks(src->handled_masks);
-+	dst->layers[dst->num_layers - 1] =
-+		landlock_upgrade_handled_layer_config(src->layer);
- 
- 	/* Merges the @src inode tree. */
- 	err = merge_tree(dst, src, LANDLOCK_KEY_INODE);
-@@ -404,8 +404,8 @@ static int inherit_ruleset(struct landlock_domain *const parent,
- 	/*
- 	 * Copies the parent layer stack and leaves a space for the new layer.
- 	 */
--	memcpy(child->handled_masks, parent->handled_masks,
--	       flex_array_size(parent, handled_masks, parent->num_layers));
-+	memcpy(child->layers, parent->layers,
-+	       flex_array_size(parent, layers, parent->num_layers));
- 
- 	if (WARN_ON_ONCE(!parent->hierarchy))
- 		return -EINVAL;
-diff --git a/security/landlock/domain.h b/security/landlock/domain.h
-index 03f24382537c..bdec27c3bc7f 100644
---- a/security/landlock/domain.h
-+++ b/security/landlock/domain.h
-@@ -217,7 +217,7 @@ struct landlock_domain {
- 		 * @work_free: Enables to free a domain within a lockless
- 		 * section.  This is only used by landlock_put_domain_deferred()
- 		 * when @usage reaches zero.  The fields @usage, @num_layers and
--		 * @handled_masks are then unused.
-+		 * @layers are then unused.
- 		 */
- 		struct work_struct work_free;
- 		struct {
-@@ -233,18 +233,16 @@ struct landlock_domain {
- 			 */
- 			u32 num_layers;
- 			/**
--			 * @handled_masks: Contains the subset of filesystem and
--			 * network actions that are restricted by a domain.  A
--			 * domain saves all layers of merged rulesets in a stack
--			 * (FAM), starting from the first layer to the last one.
--			 * These layers are used when merging rulesets, for user
--			 * space backward compatibility (i.e. future-proof), and
--			 * to properly handle merged rulesets without
--			 * overlapping access rights.  These layers are set once
--			 * and never changed for the lifetime of the domain.
-+			 * @layers: Per-layer access configuration.  A domain
-+			 * saves all layers of merged rulesets in a stack (FAM),
-+			 * starting from the first layer to the last one.  These
-+			 * layers are used when merging rulesets, for user space
-+			 * backward compatibility (i.e. future-proof), and to
-+			 * properly handle merged rulesets without overlapping
-+			 * access rights.  These layers are set once and never
-+			 * changed for the lifetime of the domain.
- 			 */
--			struct access_masks
--				handled_masks[] __counted_by(num_layers);
-+			struct layer_config layers[] __counted_by(num_layers);
- 		};
- 	};
- };
-@@ -254,7 +252,7 @@ landlock_get_fs_access_mask(const struct landlock_domain *const domain,
- 			    const u16 layer_level)
- {
- 	/* Handles all initially denied by default access rights. */
--	return domain->handled_masks[layer_level].fs |
-+	return domain->layers[layer_level].handled.fs |
- 	       _LANDLOCK_ACCESS_FS_INITIALLY_DENIED;
- }
- 
-@@ -262,14 +260,14 @@ static inline access_mask_t
- landlock_get_net_access_mask(const struct landlock_domain *const domain,
- 			     const u16 layer_level)
- {
--	return domain->handled_masks[layer_level].net;
-+	return domain->layers[layer_level].handled.net;
- }
- 
- static inline access_mask_t
- landlock_get_scope_mask(const struct landlock_domain *const domain,
- 			const u16 layer_level)
- {
--	return domain->handled_masks[layer_level].scope;
-+	return domain->layers[layer_level].handled.scope;
- }
- 
- /**
-@@ -288,7 +286,7 @@ landlock_union_access_masks(const struct landlock_domain *const domain)
- 
- 	for (layer_level = 0; layer_level < domain->num_layers; layer_level++) {
- 		union access_masks_all layer = {
--			.masks = domain->handled_masks[layer_level],
-+			.masks = domain->layers[layer_level].handled,
- 		};
- 
- 		matches.all |= layer.all;
-diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-index cab43892ec2f..a8fa8f77e775 100644
---- a/security/landlock/fs.c
-+++ b/security/landlock/fs.c
-@@ -342,7 +342,7 @@ int landlock_append_fs_rule(struct landlock_ruleset *const ruleset,
- 
- 	/* Transforms relative access rights to absolute ones. */
- 	access_rights |= LANDLOCK_MASK_ACCESS_FS &
--			 ~(ruleset->handled_masks.fs |
-+			 ~(ruleset->layer.handled.fs |
- 			   _LANDLOCK_ACCESS_FS_INITIALLY_DENIED);
- 	id.key.object = get_inode_object(d_backing_inode(path->dentry));
- 	if (IS_ERR(id.key.object))
-diff --git a/security/landlock/net.c b/security/landlock/net.c
-index 6fe0dbde3b78..8fd73cf4bd15 100644
---- a/security/landlock/net.c
-+++ b/security/landlock/net.c
-@@ -35,7 +35,7 @@ int landlock_append_net_rule(struct landlock_ruleset *const ruleset,
- 	BUILD_BUG_ON(sizeof(port) > sizeof(id.key.data));
- 
- 	/* Transforms relative access rights to absolute ones. */
--	access_rights |= LANDLOCK_MASK_ACCESS_NET & ~ruleset->handled_masks.net;
-+	access_rights |= LANDLOCK_MASK_ACCESS_NET & ~ruleset->layer.handled.net;
- 
- 	mutex_lock(&ruleset->lock);
- 	err = landlock_insert_rule(ruleset, id, access_rights, flags);
-diff --git a/security/landlock/ruleset.c b/security/landlock/ruleset.c
-index a5d135d085cb..edf9396deac6 100644
---- a/security/landlock/ruleset.c
-+++ b/security/landlock/ruleset.c
-@@ -64,20 +64,20 @@ landlock_create_ruleset(const access_mask_t fs_access_mask,
- 					   LANDLOCK_MASK_ACCESS_FS;
- 
- 		WARN_ON_ONCE(fs_access_mask != mask);
--		new_ruleset->handled_masks.fs |= mask;
-+		new_ruleset->layer.handled.fs |= mask;
- 	}
- 	if (net_access_mask) {
- 		const access_mask_t mask = net_access_mask &
- 					   LANDLOCK_MASK_ACCESS_NET;
- 
- 		WARN_ON_ONCE(net_access_mask != mask);
--		new_ruleset->handled_masks.net |= mask;
-+		new_ruleset->layer.handled.net |= mask;
- 	}
- 	if (scope_mask) {
- 		const access_mask_t mask = scope_mask & LANDLOCK_MASK_SCOPE;
- 
- 		WARN_ON_ONCE(scope_mask != mask);
--		new_ruleset->handled_masks.scope |= mask;
-+		new_ruleset->layer.handled.scope |= mask;
- 	}
- 	return new_ruleset;
- }
-diff --git a/security/landlock/ruleset.h b/security/landlock/ruleset.h
-index 8ebdd4fa098f..424055a7af86 100644
---- a/security/landlock/ruleset.h
-+++ b/security/landlock/ruleset.h
-@@ -188,10 +188,9 @@ struct landlock_ruleset {
- 	 */
- 	struct access_masks quiet_access;
- 	/**
--	 * @handled_masks: Contains the subset of filesystem and network actions
--	 * that are handled by this ruleset.
-+	 * @layer: Access configuration for this ruleset's single mutable layer.
- 	 */
--	struct access_masks handled_masks;
-+	struct layer_config layer;
+diff --git a/fs/ufs/ufs_fs.h b/fs/ufs/ufs_fs.h
+index b8dc354ae..6c0493d69 100644
+--- a/fs/ufs/ufs_fs.h
++++ b/fs/ufs/ufs_fs.h
+@@ -571,7 +571,7 @@ struct	ufs_cylinder_group {
+ 		} cg_u2;
+ 		__fs32	cg_sparecon[16];	/* reserved for future use */
+ 	} cg_u;
+-	__u8	cg_space[1];		/* space for cylinder group maps */
++	__u8	cg_space[];		/* space for cylinder group maps */
+ /* actually longer */
  };
  
- struct landlock_ruleset *
-diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
-index 17d8e9b7b0c6..ec616d198184 100644
---- a/security/landlock/syscalls.c
-+++ b/security/landlock/syscalls.c
-@@ -377,7 +377,7 @@ static int add_rule_path_beneath(struct landlock_ruleset *const ruleset,
- 		return -ENOMSG;
+@@ -593,7 +593,7 @@ struct ufs_old_cylinder_group {
+ 	__fs16	cg_b[32][8];		/* positions of free blocks */
+ 	__u8	cg_iused[256];		/* used inode map */
+ 	__fs32	cg_magic;		/* magic number */
+-	__u8	cg_free[1];		/* free block map */
++	__u8	cg_free[];		/* free block map */
+ /* actually longer */
+ };
  
- 	/* Checks that allowed_access matches the @ruleset constraints. */
--	mask = ruleset->handled_masks.fs;
-+	mask = ruleset->layer.handled.fs;
- 	if ((path_beneath_attr.allowed_access | mask) != mask)
- 		return -EINVAL;
+@@ -952,7 +952,7 @@ struct ufs_super_block_third {
+ 	__fs32	fs_postbloff;
+ 	__fs32	fs_rotbloff;
+ 	__fs32	fs_magic;
+-	__u8	fs_space[1];
++	__u8	fs_space[];
+ };
  
-@@ -418,7 +418,7 @@ static int add_rule_net_port(struct landlock_ruleset *ruleset,
- 		return -ENOMSG;
- 
- 	/* Checks that allowed_access matches the @ruleset constraints. */
--	mask = ruleset->handled_masks.net;
-+	mask = ruleset->layer.handled.net;
- 	if ((net_port_attr.allowed_access | mask) != mask)
- 		return -EINVAL;
- 
+ #endif /* __LINUX_UFS_FS_H */
 -- 
 2.55.0
 
