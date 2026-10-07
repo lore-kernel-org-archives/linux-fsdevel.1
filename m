@@ -1,112 +1,125 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5983B14C9;
-	Wed,  7 Oct 2026 21:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404D0384243
+	for <linux-fsdevel@vger.kernel.org>; Wed,  7 Oct 2026 21:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791408879; cv=none; b=HT1egc6Qd/7FEGvPJ3vqPwrE5nGjzk00IcKyVoCXZdRjpb229u2h6BdM6Cg9TmxPn+LnLfuMIcHAtNaROH1w9JatmPHWGwEJVRlRPH5YIRKN5k3jui2NWWiUNyBR5fq6ctyWfv+nCDjX+Hb7jYDG6JNJEG6R5csPzNq2Vyu4nss=
+	t=1791409421; cv=none; b=QCImpZz13XzogK+Kn+3PKFxch+AnlY6XiAdigH/KOFXNZ8gExKEo+aSqOVFf8TE4X5+1lRvtXAZPxwyNBvhbA0Xp8erbU3Vc1L6NkDnwfOqUoF1DI3Yf+ShvLYJSLmKWW+/D+VkYI39lfxIYrMzZH5HjUpEkiWa7OzyEdEJqSfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791408879; c=relaxed/simple;
-	bh=4yBSJJszorsqsinK0VDsbss1s/GSDZc7dNtTQNUBfp4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=b3uQbTVimcRZV3kt6Q5oa+/tqM3Q7y8DfgY6LIljXlbNePlfLmtxkQxaqXOgvMNkmbXPBgVznewQPnlLXweNSKTgU4nLLjzEFKtX4UXlEVGuxT+W+G2iMLA7wVGJCJNtr5Ep2h9+xbsh8s6oh5K5Ti6OnPwY/XdyvGeXc046xQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=WhHlZgX8; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1791409421; c=relaxed/simple;
+	bh=2xQzAL255w/ZHCkdrsklkDmtBaIFS+RKJEOhTRiefzA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=n/6JoBkXn/7woM6WpuK+3PJ177C6hPttToVE1/wPOfBS5tCPQLFPpBzVaeqIUpI5LdUrcTdkm9ex0GlFl262knbHq3m5ewHgnsoPGexhXjV2eJopkQNmnhSq371pCZzz8rZKHxyvgO0V7GrvgXcCkXAswnGxqn2qfqtzCpCoJFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SaPIlkbp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="WhHlZgX8"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 3BAD61D60;
-	Wed,  7 Oct 2026 21:35:27 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=WhHlZgX8;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 95AD321D8;
-	Wed,  7 Oct 2026 21:34:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1791408875;
-	bh=3ax5YoLjUmErqO3if/gSysdbbVp273Gay8qujDIizcY=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=WhHlZgX8QGYCiYUrWwuO7dZV2mheyZ5ls39vw1SFT7WsXv7PRrc+DexGgfhs50auk
-	 nbtQuG5HoYl5OyUKy6jD1W8PGbZDH+tcfPBy67K4lN8BAWZ+szZls2cRmbCMnQYmqR
-	 MgJ4FyXZRAtkZ8BOybpTwvDySm0E+1JnqMbAMCDc=
-Received: from [192.168.95.128] (172.30.20.178) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 8 Oct 2026 00:34:34 +0300
-Message-ID: <0364b9ec-f3bc-4a91-9f73-81d61be90895@paragon-software.com>
-Date: Wed, 7 Oct 2026 23:34:33 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SaPIlkbp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0BD31F00893;
+	Wed,  7 Oct 2026 21:43:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791409419;
+	bh=fNb9NskaPfm1GX3t8y4i3xRDgEMW4LSqpQQp5e7UC4c=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=SaPIlkbpz5surduUgz/kLWQptbeWAv+EUrulHTNc+ly6zhbtDp1qk3+7Tujt3NzQq
+	 JWmi1ne8RyNcpEOiGw0zGd+74PomilRyxsELy9nf9zCVqlZnYaJwlfjJQb/1ieyG60
+	 mQuZiSNxaTcrahR4GsdDOyNnzgJpvYC5Mo77hsunZ1QDBKYY/BWzBIVWmW2gxFOgLD
+	 EPphl1nyPdawUYuBjjB1hhb9q7QRRxVeCGUksdREHGir5nymmnfKFkhGzSH9pVSjOr
+	 QM52mTB4SQ0CuJZnrtc73i5qoaVjDBHr8TeJFWSA2LN0fC7Rht2vNtpTiYbuVZXPRG
+	 +AfyqLcjn9HzA==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 0A507F40069;
+	Wed,  7 Oct 2026 17:43:38 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 07 Oct 2026 17:43:38 -0400
+X-ME-Sender: <xms:Cb3GarmiqXcd4j5mdMNm6SaSERLQGrjsm7r8GhrBt9ILu-ntKquVxA>
+    <xme:Cb3GappSh6fY-4klazUcWnpOgyi1JiSsfXu0gGL6L8xkCFP-mjDcgexNxVVzEeE_8
+    0Pv5pLJu_KtvzPsYY9qdx6dx1fDM4s1a6XyCdw-r6xP6CTEWOiJqBQM>
+X-ME-Proxy-Cause: dmFkZTEBFNvMZzCpSRYWq1DI/E1RgLshA0I47xmHEIIf6UErzRFl+nnM14yvTNGeXlx0t5
+    mHaJKFg3dfRWBWYncWR0lQfkMZuroMbok53kIJdwWCRsiSmbj+EoZK/LDn1NK3lbkK3kaw
+    kJC4sKJt2flHV+yMB8BVk1A6r/9enjeFPxFqIll2xICKgnnkh+AFuoDMTG1YdS2jjxkHuO
+    En6MsJDqtY+vxhOz83nQH3mDNVtp5OOaif6HTHRqiANqBSpJz8Rwbo2U18sECk3bU77Pfn
+    zY60+ZxGreYrqrxXf9jZZ/kdFVSPAkIcIsocIoIctitZcmIJ8v5A2j4jYdEdIQckJVDpoR
+    +UuXYBzO74E55083XVybE3KKdE0+OOjPRkXsbU2f/6poXVFeOB5D7WCi+0bujcq0U0trzd
+    Ki9byKrXoOwMQQOhZNhvd8VImpZXAi/rpW0yzYjDRkCaewyYooeAqDH0AZs6M9wmXvwDdA
+    OOPU5EU1LcxROzZAxJgLOjxAcG9n4njHGYZwn6ivIyK9KMON7k0HwGu/uja+eoDqYOw1FN
+    qEmv3gspNkhfNoP5LYJd4Wx9fVkeUaVDxWw8phAmq9J5ACnPxLGCfgR9vJaygnbF35+vXY
+    tQZtOqDjM1z068BTj5DDHstCIIkEKnLH9fhIDjotxU92X0rPMN9GpL2kMzIg
+X-ME-Proxy: <xmx:Cr3Gah95mLG-vvoqTtyhMIptE8cbrxNhhDKPeKiTR3ebOmtaHrcinQ>
+    <xmx:Cr3GambaALSHSnckkhPA4EEvYDiPD6ifTVORWehJQLvkLvswAiubwg>
+    <xmx:Cr3GatN1UXrBbwCGVw5dW0bqB2NrDEUTUvR6shX-eI7Zw8oCL8c31A>
+    <xmx:Cr3GaqAcXC99cRzBnz0aij2ywd77VwYXESleyOcu1CEojFja5qqDyA>
+    <xmx:Cr3GasJLSoOosCwS_vSobgLihU-N80XGZ-_2EZR2eIU0lgbUtQmdBiFv>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id E0A38780075; Wed,  7 Oct 2026 17:43:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: do not mark frame pages uptodate on read error
-To: Weiming Shi <bestswngs@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Xiang Mei <xmei5@asu.edu>
-References: <20260712133427.435377-2-bestswngs@gmail.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260712133427.435377-2-bestswngs@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-ThreadId: AamgRIaDwhGw
+Date: Wed, 07 Oct 2026 17:43:17 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Daniel Pidutti" <Danny@lightningiq.io>
+Cc: "Christian Brauner" <brauner@kernel.org>,
+ "Al Viro" <viro@zeniv.linux.org.uk>, "Amir Goldstein" <amir73il@gmail.com>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>
+Message-Id: <95f498e9-02fe-4a3a-af15-0ea1f7ec2531@slotpi15m67>
+In-Reply-To: 
+ <DS4PR04MB984629798B7EB97DBB56117C8D942@DS4PR04MB9846.namprd04.prod.outlook.com>
+References: <20261007164648.50493-1-cel@kernel.org>
+ <LV2PR15MB538107FDEB65AB1A4CEA8D5EC6942@LV2PR15MB5381.namprd15.prod.outlook.com>
+ <DS4PR04MB984629798B7EB97DBB56117C8D942@DS4PR04MB9846.namprd04.prod.outlook.com>
+Subject: Re: [PATCH] exportfs: Release the get_name() directory file synchronously
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 7/12/26 15:34, Weiming Shi wrote:
+On 10/7/26 3:03 PM, Danny Pidutti wrote:
+> Thanks for the quick patch. The description matches what I saw on
+> our server.
+>
+> I tested it on the kernel where I found the problem: Ubuntu
+> 7.0.0-38 (7.0.14) built with this patch only, 64 nfsd threads,
+> vfs_cache_pressure at the default of 100, and the same parallel tree
+> walk over about 43 million files and 5.5 million directories.
+>
+> Before the patch, unreclaimable slab grew by about 90 MB per second
+> and reached the 8 GB limit of my test script. With the patch it
+> peaked at 1.5 GB in the first two minutes, came down to 0.6 GB while
+> all 64 threads were still busy, and stayed flat until the walk ended.
+> Open files went back to the idle count once the walk finished.
 
-> ni_read_frame() ends with a loop that marks every page of a compressed
-> frame uptodate regardless of whether the read succeeded:
->
-> 	out:
-> 		for (i = 0; i < pages_per_frame; i++) {
-> 			pg = pages[i];
-> 			SetPageUptodate(pg);
-> 		}
->
-> Non-critical frame pages come from __filemap_get_folio(FGP_CREAT) and are
-> not zeroed. On an error path that reaches out: before frame_mem is
-> written, these pages keep uninitialized page-allocator contents but are
-> still marked uptodate. A later read() is then served from the page cache
-> and returns that stale kernel memory to user space.
->
-> For an unprivileged user mounting a crafted NTFS image this is a
-> repeatable kernel memory disclosure.
->
-> Mark the pages uptodate only on success; on error leave them !uptodate so
-> the read path re-reads them or reports the error.
->
-> Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-> Reported-by: Xiang Mei <xmei5@asu.edu>
-> Signed-off-by: Weiming Shi <bestswngs@gmail.com>
-> ---
->   fs/ntfs3/frecord.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> index 2d2644d80017..862baafb80e3 100644
-> --- a/fs/ntfs3/frecord.c
-> +++ b/fs/ntfs3/frecord.c
-> @@ -2467,7 +2467,8 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
->   out:
->   	for (i = 0; i < pages_per_frame; i++) {
->   		pg = pages[i];
-> -		SetPageUptodate(pg);
-> +		if (!err)
-> +			SetPageUptodate(pg);
->   	}
->   
->   	return err;
+Thank you for testing. May I add your Tested-by: to the patch?
 
-Hello,
 
-Your patch was applied, thank you.
+> One question about the stable backport. The Fixes: tag goes back to
+> 3.10, so stable may pick this up for 5.15 and 6.1. As far as I
+> remember, __fput_sync() on those kernels had a BUG_ON for callers
+> that are not kernel threads, and that was removed around 6.6.
+> get_name() can also be reached from open_by_handle_at() in process
+> context. Could you check whether the older stable kernels need a
+> different fix, or a guard on current->flags & PF_KTHREAD?
 
-Regards,
-Konstantin
+Confirmed: the tip of linux-5.15.y and linux-6.1.y still have
+BUG_ON(!(task->flags & PF_KTHREAD)) in __fput_sync(); it was
+removed by commit 021a160abf62 ("fs: use __fput_sync in close(2)"),
+which went into v6.6.
 
+The Fixes: tag has to remain unchanged, since it names the commit
+that introduced the behavior. Since this fix will go through one of
+Christian's VFS trees, I can post a v2 with a recommended Cc: stable
+tag, such as:
+
+  Cc: <stable@vger.kernel.org> # see patch description, needs adjustments for <= 6.1
+
+and note in the patch description that kernels before v6.6 need the
+__fput_sync() call guarded by current->flags & PF_KTHREAD, with a
+plain fput() otherwise. Among the choices sanctioned in Documentation/
+this one comes closest.
+
+
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
