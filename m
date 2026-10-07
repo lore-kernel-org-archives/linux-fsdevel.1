@@ -1,39 +1,32 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8904A3D42;
-	Wed,  7 Oct 2026 13:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C103B6364;
+	Wed,  7 Oct 2026 13:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791378708; cv=none; b=I1l24NQEYPKUWFoT6FOXLsZrD5OK5pECzbzQm1UKPovZua9gueEq9rTN3ic5PdmBmafWTmCsWszh8L29TYjro7gOAerfLShF3Q5cZHCGIaPez8UhFINiwSbr2jNn/G+Y4TcEGrFMmMTXlF6+NMw+850DiEPw37bLAyvS5ZehChU=
+	t=1791380830; cv=none; b=RmuJ9BEbaf5xYSY/9FtE030/1MfETnc21ylevTsTb1EYnBlWiogob9nBtOYBDFnXaFJ0UVqZYbuFd5DpKiIwKn3MLkDMWqo7cgnrWHXijnTrWB+ZnR/LTEyH1lAcayZwib+ggW8RPYz5NPjx6Kh6mLJmXmOYYwxYdt+RCITJ+UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791378708; c=relaxed/simple;
-	bh=Jl1fGslSq23PuWAgeHPLvlMIsxoSFG51VMiODGM2w7o=;
+	s=arc-20240116; t=1791380830; c=relaxed/simple;
+	bh=MqPVpnw8xY7tOXjDu7aM8kDKWoucXBCrQSh6s0fiBG0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QHOc+bkfYNNEoOEeK7sp/HqyHqY/k+cYxPlqJ82VBmtfm/ZgWzI9njvrnasTPRCMB1RbaEsiW3sUtLdUpcpJiPTAZfTYEwb17ZYflRI+gDJgt3CZ08z96aHRjreRaiM/2/ejtYyZDzDqPuizbEVUtfXdLfOha63hLxOCUlfJbl4=
+	 Content-Type:Content-Disposition:In-Reply-To; b=e/gkL2+RFWkzNDumGUhbgQ+C5R1A7zvn73JtYlqCjocXRgkPGO36n21h6k/mkTuASEBCT0Pi7e447NUhnX0C7G/UbRc849+IV4chtWe8/X8pBoh2H+efzcGt1rJ0D+9MdRxevrcKSdTKxydUa9mwFMJrmy6y31EJmP5XggTZ14w=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 12A1468AFE; Wed,  7 Oct 2026 15:11:34 +0200 (CEST)
-Date: Wed, 7 Oct 2026 15:11:33 +0200
+	id 11112227A8E; Wed,  7 Oct 2026 15:46:58 +0200 (CEST)
+Date: Wed, 7 Oct 2026 15:46:57 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: daejun7.park@samsung.com
-Cc: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Christoph Hellwig <hch@lst.de>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Sergey Bashirov <sergeybashirov@gmail.com>,
-	Carlos Maiolino <cem@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>, linux-nfs@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nfsd: do not return overlapping extents in a block
- layout
-Message-ID: <20261007131133.GB30647@lst.de>
-References: <20261007-nfsd-block-trim-v1-1-53370f97047a@samsung.com>
+To: Dave Chinner <dgc@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: support for RT data checksums
+Message-ID: <20261007134657.GA682@lst.de>
+References: <20260924100032.2733101-1-hch@lst.de> <arWpyhFyV3ouYAEx@dread> <20260925062710.GA3798@lst.de> <armf05yfzhSBUsUh@dread> <20260928052436.GA18925@lst.de> <arvHFOjF-CD5Vd3g@dread> <ary2PpSp1xTgrd3k@dread> <20261005135320.GA29829@lst.de> <asSHsVAYevL_VzdF@dread>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,63 +35,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261007-nfsd-block-trim-v1-1-53370f97047a@samsung.com>
+In-Reply-To: <asSHsVAYevL_VzdF@dread>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Oct 07, 2026 at 11:03:01AM +0900, Daejun Park via B4 Relay wrote:
-> From: Daejun Park <daejun7.park@samsung.com>
-> 
-> Since commit cc6c40e09d7b ("NFSD/blocklayout: Support multiple extents
-> per LAYOUTGET"), nfsd4_block_proc_layoutget() calls ->map_blocks once
-> per extent of a LAYOUTGET, each time for the range left after the
-> previous extent. nfsd4_block_map_extent() takes a mapping that starts at
-> the offset asked for or below it, but only the first extent may start
-> below it. A later extent that starts below its offset overlaps the
-> extents before it, which RFC 5663 section 2.3.1 does not allow. The
-> Linux client rejects such a layout (verify_extent() returns -EIO), and
-> the I/O that needed it fails. The block and SCSI layouts share this
-> code.
-> 
-> XFS, the only ->map_blocks implementation, used to map the whole extent
-> that contains the offset. Together with one call per extent, that gave
-> overlapping layouts in v6.19 and v7.0: allocating the blocks for one
-> extent of a write layout could merge the extent that the next call
-> starts in with the unwritten extents before it. Since commit
-> 36ca6f11424a ("xfs: fix overlapping extents returned for pNFS
-> LAYOUTGET"), XFS does not map below the offset, so this patch changes
-> nothing with current XFS. It only stops nfsd from relying on that: trim
-> each extent after the first so that it starts at the offset asked for,
-> and move its volume offset by the same amount unless it is a NONE_DATA
-> extent, which has none.
-> 
-> nfsd leaves the end of a mapping alone, as only the filesystem knows
-> where it should end. It does need a mapping that contains the offset
-> asked for, which RFC 5663 section 2.3.1 also requires of the first
-> extent. A mapping that does not would leave a gap in the layout or make
-> the length computed from it wrap around, so warn and return
-> NFS4ERR_LAYOUTUNAVAILABLE; the client then does the I/O through the
-> metadata server. iomap_iter_done() has the same check, as a
-> WARN_ON_ONCE(), for ->iomap_begin(), and nfsd4_block_map_extent()
-> already warns and fails this way for a mapping of an unexpected type.
-> Document in exportfs_block.h that the mapping must contain the offset.
-> 
-> On a test kernel whose xfs_fs_map_blocks() maps with XFS_BMAPI_ENTIRE
-> and does not trim, as XFS did before that commit, a write layout over a
-> hole between two unwritten blocks comes back as 0+4096, 4096+4096 and
-> 0+12288, and the pynfs test BLOCK5 fails in five runs out of five.
-> fstests generic/075, 091 and 263 over the block layout fail with an EIO
-> or a zero-length O_DIRECT write, and bl_alloc_lseg() on the client
-> returns -EIO three times. With this patch on top, the third extent is
-> 8192+4096, BLOCK5 passes in five runs out of five, generic/091 and 263
-> pass, generic/075 fails with the fsx "Size error" that it also fails
-> with on nfsd-testing, and bl_alloc_lseg() returns no error.
+On Tue, Oct 06, 2026 at 04:31:29PM +1100, Dave Chinner wrote:
+> I'm not sure I understand what you are refering to there. I'm not
+> talking aobut the 'realloc because logged size grows', I'm talking
+> aoubt 'realloc because CIL pushes steal the shadow buffer'.
 
-Looks good:
+So you mean alloc again, not realloc, ok.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > with an allocation per log operation, and a memcpy both into that
+> > and into the buffer, while adding a lot of new log items.
+> 
+> I'm not talking about an intent/done based setup - that requires an
+> intent transaction, then a buffer + done transaction. That's very
+> different to what I suggested (and what ICREATE implements).
+> 
+> I'm talking about a single one-shot transaction that logs the csums
+> and that only. The buffer is ordered, so not logged. Single
+> transaction, generally small in size, never gets relogged, can be
+> committed asynchronously as long as it is replayed before the file
+> offset relocation BMBT update in recovery.
 
-But given that you're pretty active in this part of nfsd now, can you
-also look into my earlier suggestion to allow a single map_blocks
-return multiple mappings?  That solves more of the root cause of
-creating incoherencies.
+We'd still need memory for the csum values both in the icreate
+item and the ordered buffer.
+
+> > One thing I played with for a while until I realized that the
+> > simple buf item actually provides good enough performance is
+> > special xfs_log_vec that is not included in the main log vec /
+> > shadow allocation but points to external memory.
+> 
+> That's problematic. The reason delayed logging works is that it
+> broke the dependency between external memory that log items pointed
+> at needing to be locked and stable until the external memory was
+> copied into the iclogs. The disconnection of the objects passed to
+> xfs_trans_commit() vs xlog_write() whilst keeping the logged data
+> stable is what allows the CIL to work
+
+Yes, and for all the current buffers and similar items that's very
+important because the data can actually change, and we must not
+pick up that change.  It does however not matter much when we know
+each bit of the buffer payload is only ever updated once, and thus
+the is no need to double buffer or lock the backing memory.
+The only important thing left with that is that the buffer as the
+backing memory must not be freed.
 
