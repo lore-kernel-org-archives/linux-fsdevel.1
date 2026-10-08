@@ -1,78 +1,138 @@
-Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B33436F428;
-	Thu,  8 Oct 2026 03:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.54.11.23
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791430053; cv=none; b=XVnvMuT4Z8J1EXk8Ci1wWnhhVtH1amu8hZFmSBBwfbLykwIRHidvE0S8p0PlvBiMMMTeZkJ5cWelWXWnsJGCvIa8lXKOr6gsS70HJYiceKL4GVbp14ri/+AKbDwj3VswEOiY48+btTTpBqo2oW3EEqLZHWzo91pCkplbTUWP5nI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791430053; c=relaxed/simple;
-	bh=cGsKH9YEQeceJ4Nzg4zEu9ym4m3z+5BL7MQ/HqkWZ3M=;
-	h=MIME-Version:Content-Type:Date:From:To:Cc:Subject:In-Reply-To:
-	 References:Message-ID; b=r5h8A2ZCTx0cBHOLcYdjRlR83okAGjd67oq7pigAc8R80jr8lL8iVvBcCYKc6nWBswVPgCU1GYmrWjDnByis1N9AmSY67cbO+NdMthjL517VYZxRCGUNxvKkcJajGSTACm+CCZp620GClVNJgq8MO3H89JZgYtCWE+o5O/Hj+LA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br; spf=pass smtp.mailfrom=inf.ufrgs.br; dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b=MJCHuUD9; arc=none smtp.client-ip=143.54.11.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D269387566
+	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 04:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791432881; cv=pass; b=QaoTRRvfj3NJXig9mEbzKltXiBTzKKQ9c9zlKh1ReUgM0H60+Hc4ft+IZX+xc68phdlFYS4229hIhbPcs/JtToMmR2TPbgTNExCbGqa90/AToStOXPcVZDFX9ZbSEZm53EGN8fpUjY88e7eUbqlTCcrM0YwmEHqyn0X6y78cfnI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791432881; c=relaxed/simple;
+	bh=D/PG0O7im4ffUb/epjeq+lDDmxyUxbAM6aLOuJ0HsLE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PfZZ+e2uNE5C/x8+0B49r+aZbFi2poS4RhAzRqGbpcCLyea12do82jh9hteiwQaUy5RXd1xuT8N+UcjuMqya7IuVoYfcGdoL7D6O8yt1uzI2npndXH2nr8RmgReOJvxY4GXiyZYP/3zlFENN/81RBoC6ZyJvUk6kLpx8aln+1FY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MGWVAEdy; arc=pass smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b="MJCHuUD9"
-Received: from webmail.inf.ufrgs.br (webmail.inf.ufrgs.br [143.54.11.45])
-	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 8E0EF1210F1;
-	Thu,  8 Oct 2026 00:27:26 -0300 (-03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
-	s=dkim2026; t=1791430046;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jwApUaoEsLxWjCkr1aL3fo6UDRAlEGhMlMSY5y/VpRI=;
-	b=MJCHuUD9tL8Rke1jV6v1K58ryQaled4i9bARyUUeHEIXtDeeDEckHAxLgl5hl/W0dV6r2r
-	yqQwnWU+g/Jr+EfvwL48oAjdz9PkhPL0vLsNKLv6i/bIhfl42ophFuaibpaH9vhY09GkpC
-	yDbE+gm36dh+QTrzydQ2hZ83f45CW1drbq3q8wEUIsu67mZYwiCurXcTi6wW53yb6iMF/k
-	fw3tM8iRRv/yB1a+IHU+5inzKGmaiEZqRPHT7ozcCHkNz9PbPaJsEaxceSew/i8UsEteoC
-	rx5917WpqacCz9WLSGN4O9EiELjZ3Hl0m7RTZFfLjEVn0ICC07P3oispw2gPPw==
-Received: from bd06e904.virtua.com.br ([189.6.233.4])
- by webmail.inf.ufrgs.br
- with HTTP (HTTP/1.1 POST); Thu, 08 Oct 2026 00:27:26 -0300
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MGWVAEdy"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c2e43f3d1fdso647189666b.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 07 Oct 2026 21:14:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791432878; cv=none;
+        d=google.com; s=arc-20260327;
+        b=c5aIrc0WaHzaQLw1dmIfwh3RQqQ8pDDj8Rk12RhW37LExUwItpH/c8kvYMKlbX4zTS
+         xydQm5r4I6ujn7EzGB0gcIAFxgcb1p9o+vOYZ3vrjzu+B+Sqxi3/LC2p5dTcdwwrAggl
+         2u9xRRnu8x96nr9+05sgQlT+fEQp3TmRrOxBauVX8u0qRnrB9CJJZJBdhoC0OPcW0hDu
+         3IZB5yoJrkog21d8mN+F4oc7ZVL3mfJJlMhoQoMwyLSYNdXQ7V4LLsaPii/oMwNOFPm/
+         wadA7Qwq9lLmkIW5H7JUYT/jDujvCL2/J3jToEPF8GflwQK0HBAk0eyWPk9jjrpBn9My
+         oV5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=D/PG0O7im4ffUb/epjeq+lDDmxyUxbAM6aLOuJ0HsLE=;
+        fh=ACi5fLUEMzK+j3wMVJdPPCK+WLy+0SciiGYvSZn4vmY=;
+        b=HHuRUHFnHEkeQuKSOPIiVNkqpH8pbTN8fSoUliftXfX3U2pJX8PThpi4k8jRldnQub
+         51m6IKRiyxSkmPFCXTFXDDUevGfUZTt1QZFeyYZERrTSekGAaVAEI11szJat/kd0Kvoj
+         Z+1NMBWvtjcxdkBZYPLke7IaCq46HSQh0pQFiXqx6zIHptGMfJNcy8LFgTcTR8zVucdf
+         6UMIQZ6ervS3u8PQ040EFhrQ4hypwuQCTeIye1yE7HIeC4u7NT3BpxqRFAFjBqCnADL/
+         jE4bAMnQsiNUEe600a5hUl+t1/1wpv0VSmKNLfQylpdYEtTuJpED7q/pnEmgPBK2z01+
+         ik8w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791432878; x=1792037678; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=D/PG0O7im4ffUb/epjeq+lDDmxyUxbAM6aLOuJ0HsLE=;
+        b=MGWVAEdy2P/D5fw5RyVmWLyzlg047+oEBe5b7YXifvCgA88LNYV154T+/gbdcF0JlB
+         hcsgAsKoXPk1HNmkEjpm8VMhFsd79dIM/bB9vW6jHXswbqF/43gyEqT/SwiengEDoYs8
+         z+01EZR+Ar28wfuMpNZz78dJNBgwlabiwKaSsZjXxdeJuQxYFHRELgC029S+0zpwUh/g
+         opBXywui++KxpBn8SEsTVBGoiB9Q/njWqNllxtZl7FX06yFE4p0UtMbpn4Bt/HlXBe+T
+         lLB+0XPK+dK6INvhO8M/3f1xx09H4YSqrNQEl3bsSTUilFmrFBOzRyfCewFpCfpVq52n
+         KjwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791432878; x=1792037678;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=D/PG0O7im4ffUb/epjeq+lDDmxyUxbAM6aLOuJ0HsLE=;
+        b=JrzLaMqOAw5zBQwF/6vWL5U9YPGyYEi2q+MiTYvwK/DmYZIkaZTOo9Y3/TfE4lT1Xs
+         b+O17dCw4XKkR/g1dqALVvUSLatkNAxsYspJ8eQk57W3GT9VpoHWcVwSezx3O0bdhgBg
+         fNGeMpS3bpTJU6TDuaWEtna3bFxqsez45BCgtuzDZRnN7NZaPMyyMRXMWCoQSzbGsV8T
+         Ts27TUGO2gm7pKRbzL6nVy7KSfTyczOmzHfIZCkBC8dMAs+Ki5gOxupxcIRG5dmIW4ho
+         BWehYklwvdphl/Sqo8FHVot0gDpwC35VrBZXTNyvBN3E0/sy5liXM1dr4xnM0jm3j6Gy
+         lP/A==
+X-Forwarded-Encrypted: i=1; AKwUvBxvzJ3xo/p7yj0KhQdLJJQVI5fLBZ8nM1e9s9uMElJ8XOJ+Tgdx/UHtyjN3CD0m78tIJyOquasa/+pMjsPo@vger.kernel.org
+X-Gm-Message-State: AFq9FYJGXOF6hfNW4HImvW46rk/1gSarLeCdVpWFUBzEzlqxYiQGatGr
+	82/D/HsWP5tWd9qyZkeTpaDOqndPcX/VX3jdxKfv6tK9YPlI2ikCDWMXVUgP33SsTqbulIEp8Hj
+	RIDYZ/1rAIDI/7FUOY1f/CrQu8yx1eeFKDtqoiRO+
+X-Gm-Gg: AYBFou2tJiG7M2Iy4AsgSHft5YTzeWMsM9KLeWilEl7ZqmeZNMk4fTtfnEL2DPYCkVi
+	eiQAB5sNsUX56bYCHvv5A6fcdW6FMkU3eBV6Mmzu6XZ0g024CxxbwcABn0LCcWFHeq0xaV+RNDF
+	uldOiQ4+Zs7qxZLtlMhaZtO6m6DRh56g4TKPH040Ao7KkKhBoq7gzFzz/FYRi6CaSPqeL01p6lh
+	Q1HBBOcMUTF9oC4E3zIQMzFtQnODj6fXiuEF2ECxJqwuKJVakNQhQ2HX79C2/RiAa1xsEHckidt
+	urG4ajGIXS2CSTHz4DP5aTU4dbdSQUzEaCvrSsq0dWl7MMHwRRjOlNDDhFA22TQAm0dWQRKMyFW
+	HD3JPvxK3HFUyPYNAB/dp7N3x1Wm7fC7GBMfk
+X-Received: by 2002:a17:907:2da9:b0:c2d:c8be:4e71 with SMTP id
+ a640c23a62f3a-c317bdbd04dmr375584066b.19.1791432877158; Wed, 07 Oct 2026
+ 21:14:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Thu, 08 Oct 2026 00:27:26 -0300
-From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzbot+5585f47221c0de04168d@syzkaller.appspotmail.com
-Subject: Re: [PATCH] ufs: validate block and fragment shifts
-In-Reply-To: <20260925043337.87879-1-matheus.aalmeida@inf.ufrgs.br>
-References: <20260925043337.87879-1-matheus.aalmeida@inf.ufrgs.br>
-Message-ID: <fd6fe797394ecb5d64439cb87611e730@inf.ufrgs.br>
-X-Sender: matheus.aalmeida@inf.ufrgs.br
-User-Agent: Roundcube Webmail/0.9.5
+References: <20260909232351.1533034-1-shayba@google.com> <20260910184424.156341-1-shayba@google.com>
+ <CABdmKX0B7zVfLY9Rov37U+gOTEXYSCMUe6=xFddOrKDVneiBGA@mail.gmail.com>
+In-Reply-To: <CABdmKX0B7zVfLY9Rov37U+gOTEXYSCMUe6=xFddOrKDVneiBGA@mail.gmail.com>
+From: Shai Barack <shayba@google.com>
+Date: Wed, 7 Oct 2026 21:14:23 -0700
+X-Gm-Features: AclHuK-Lj8Qjx6iM6hIILhXX7x1mxm-dHonA0g9RenLn6IaehjKV4XivMAFo11E
+Message-ID: <CAK0PkCGgq=jP5h3uOGRaoKzwkXewbq5Lzmj=vTk58CeqM0h35g@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: Forward vfs_fadvise to backing_file in
+ passthrough mode
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Amir Goldstein <amir73il@gmail.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Akilesh Kailash <akailash@google.com>, Suren Baghdasaryan <surenb@google.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Em 2026-09-25 01:33, Matheus Alves de Almeida escreveu:
-> Currently, ufs_fill_super() accepts images with an fs_bshift and an
-> fs_fshift that do not match their respective size fields. This causes
-> UBSAN shift-out-of-bounds issues in the bad fs_bshift case and an
-> out-of-bounds read and kernel oops in the bad fs_fshift case.
-> 
-> Make the ufs_fill_super() function check that these fields agree with
-> their size counterparts.
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Reported-by: syzbot+5585f47221c0de04168d@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=5585f47221c0de04168d
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Hi Miklos,
 
-Hi,
+Gentle ping on this v2 patch when you have a chance. It has
+Reviewed-by tags from Amir and T.J.
 
-Gentle ping on this. Has anyone been able to take a look at it yet?
+Cheers!
 
-Matheus
+
+On Thu, Sep 24, 2026 at 5:01 AM T.J. Mercier <tjmercier@google.com> wrote:
+>
+> On Thu, Sep 10, 2026 at 11:45 AM Shai Barack <shayba@google.com> wrote:
+> >
+> > When an application invokes posix_fadvise(..., POSIX_FADV_DONTNEED) or
+> > other fadvise advice on a FUSE passthrough file descriptor, the VFS
+> > currently only executes generic_fadvise() on the upper FUSE inode
+> > mapping.
+> >
+> > Because FUSE passthrough does not forward fadvise operations to the
+> > underlying backing file, pages residing in the lower filesystem's
+> > pagecache remain resident in memory.
+> >
+> > During media-heavy workloads (such as image thumbnail generation or
+> > streaming), single-access file data accumulates in the inactive pagecache
+> > of the lower filesystem. Under memory pressure, the kernel retains these
+> > stale media pages and instead evicts active executable pages from
+> > running processes, leading to severe direct reclaim latency spikes.
+> >
+> > Architecturally, Linux VFS supports filesystem-specific fadvise
+> > delegation via the .fadvise hook in struct file_operations. Implement
+> > fuse_file_fadvise() in fs/fuse/file.c and register it in
+> > fuse_file_operations. When passthrough is active on a fuse_file,
+> > fuse_file_fadvise() forwards the vfs_fadvise() call to the lower
+> > backing_file under the opened credentials, allowing POSIX_FADV_DONTNEED
+> > to cleanly invalidate the physical backing filesystem pagecache.
+> >
+> > Signed-off-by: Shai Barack <shayba@google.com>
+>
+> Reviewed-by: T.J. Mercier <tjmercier@google.com>
