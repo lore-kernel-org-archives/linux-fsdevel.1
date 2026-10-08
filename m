@@ -1,206 +1,207 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from va-1-115.ptr.blmpb.com (va-1-115.ptr.blmpb.com [209.127.230.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2165743499E;
-	Thu,  8 Oct 2026 12:03:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC1348EC8B
+	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 12:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791461030; cv=none; b=Kh8k41qrCGpaqvWjHqIVELOjc6NlDjrH36u3pjj6j+97DZumtk/Jy8sOCZHQrOOYFriO+XitWeh7I0vta+8huo7bVD/NDX7dHY66Ntwy0XqmzpDikvWSKOHgV2OftDn2cOod6yrGWL76p0prm//DvABKo0O4m/5rHAPQfTI/bjA=
+	t=1791461101; cv=none; b=kmD3EovkYg77gdCgljK7xbiSVxCOA2z/eu3WeQoC91Qh1Kl5gE++x/oxFHjj9FLuPXKqZY6r6Ra1Cqz4EIB3Mw4zdTo4V5ii8J4LrBskaGgSxqPY1zMzHWeHdvV2nk5C9NvL/0fGwa8ahjrjEkFmMriPm+tFSDjq+8fEmP16DPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791461030; c=relaxed/simple;
-	bh=k2udc5r3lz+ULPE1HJz84d9GB4jYwoVSWncGwVeIGbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SqMdKq/7uuWT2JCmrv4bd6ksibADA6qU1BThmBTtzw03vYksXCTMPWtgHA6RrRnShY9kEWp6+TatvUB8+9bitHa3a4l/ZyAA/zKfY5D3h/S5kRFbK/owlDCEx4ycwJHazpBSogJRTCJImxHGzAL+O6HJAQg2jvEhsyxTsSV12gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3A07B21AFE;
-	Thu,  8 Oct 2026 12:03:47 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 128991339F;
-	Thu,  8 Oct 2026 12:03:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /QL/N6KGx2r4KAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 08 Oct 2026 12:03:47 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 965AFA13FC; Thu, 08 Oct 2026 14:03:46 +0200 (CEST)
-Date: Thu, 8 Oct 2026 14:03:46 +0200
-From: Jan Kara <jack@suse.cz>
-To: Matthias Goergens <matthias.goergens@gmail.com>
-Cc: jack@suse.cz, amir73il@gmail.com, repnop@google.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fanotify: report names longer than NAME_MAX
-Message-ID: <txmkexkbyhoakvzwkqkfdwvuwmrgqstxgktzhhqgk7d5e4muvt@mycm6zmovaa4>
-References: <20260926020851.2938961-1-matthias.goergens@gmail.com>
+	s=arc-20240116; t=1791461101; c=relaxed/simple;
+	bh=SqoFMWek5L2AYDuAdulDx3T6hXl+omsbKzxx3PKhTz8=;
+	h=Date:Message-Id:References:To:Content-Type:Cc:Subject:
+	 Mime-Version:In-Reply-To:From; b=PHyWsjjmzpY8I2NdYIx79BREnsFVR0HnkpVSgWhoQBQ9jE+ms1RYCdA3Kw4+GiRg75Wd7i/tuy9QKcOJsezsWETIv9xraR1woaMefw+s7x215VeUkK2ScI5M8z5TcLDYfNgra1zonXtTmaqFnZQLlWoA6m9FQ9C3mNXSC0Vk+5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=pAmzh8Xf; arc=none smtp.client-ip=209.127.230.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="pAmzh8Xf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1791460980; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=2dIBWWhdr4Ivn6SlDhoE9NR8/QzOV2fPo2kXiyccMjc=;
+ b=pAmzh8XfYG8ZnYj6GUlWk5BYx/qm/1t/ireD/f6IBiYUUnaxVxb4vG4heIgASm0uK6JRzq
+ r2CZncaCrPjEVHpqZx9TAcflYjWj9wpUURkcK6JHnZUG4hqOEGMAIVyj/1OUvScZlnxetx
+ qxs/d0FNC6yHwy4xaPyLLGF+4VO9ihYUBJkSKOOhBgGtoCfdjen8Nk7GzXjY4dWhrMNeD5
+ SYfoYygA7ncG+LKDHneG60BlZk587ixfHd2/qR/5XkxBTfaEzE+Nqp1qsDFSHQSkQ1Ygnb
+ BQrThRYApNt4KVFJzSksQ+/hz0guO+X0wQch3OcQbFdM4QKEaa0M1fCrbyKMzQ==
+X-Lms-Return-Path: <lba+26ac78672+1c3b03+vger.kernel.org+zhujia.zj@bytedance.com>
+Date: Thu,  8 Oct 2026 20:02:38 +0800
+Message-Id: <3ec4d10ebe03054d8b45a12c1cf484f9176877a4.1791452174.git.zhujia.zj@bytedance.com>
+References: <cover.1791452174.git.zhujia.zj@bytedance.com>
+Content-Transfer-Encoding: 7bit
+X-Original-From: Jia Zhu <zhujia.zj@bytedance.com>
+To: "Jan Kara" <jack@suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Cc: "Jia Zhu" <zhujia.zj@bytedance.com>, <amir73il@gmail.com>, 
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 1/2] inotify: drop fsnotify SRCU protection during event delivery
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260926020851.2938961-1-matthias.goergens@gmail.com>
-X-Rspamd-Pre-Result: action=no action;
-	module=Unknown lua;
-	unknown reason
-X-Spam-Flag: NO
-X-Rspamd-Pre-Result: action=no action;
-	module=Unknown lua;
-	unknown reason
-X-Spam-Level: 
-X-Spamd-Result: default: False [0.00 / 50.00];
-	TAGGED_RCPT(0.00)[]
-X-Spam-Score: 0.00
+Mime-Version: 1.0
+In-Reply-To: <cover.1791452174.git.zhujia.zj@bytedance.com>
+X-Mailer: git-send-email 2.20.1
+From: "Jia Zhu" <zhujia.zj@bytedance.com>
 
-On Sat 26-09-26 10:08:51, Matthias Goergens wrote:
-> fanotify keeps the length of a reported name in a u8, so it drops any
-> name longer than NAME_MAX and warns:
-> 
->   WARNING: fs/notify/fanotify/fanotify.h:217 at fanotify_handle_event+0x2e82/0x39f0
-> 
-> Such names are legitimate on some filesystems.  vfat mounted with utf8
-> takes up to 255 UTF-16 characters, which are up to 765 bytes of UTF-8,
-> and FUSE accepts names up to PATH_MAX - 1.  readdir() and inotify report
-> them in full.  fanotify sends the event without the name, and for
-> FAN_RENAME it trips a second warning in copy_fid_info_to_user(), after
-> which read() fails with EFAULT and the event is lost.
-> 
-> When syzbot hit this, Jan suggested accommodating names up to PATH_MAX
-> [1], the limit readdir() already applies to a name
-> (verify_dirent_name()).  Store the name lengths as u16, which keeps
-> struct fanotify_info at 8 bytes, and drop without a warning only names
-> of PATH_MAX bytes or more, which no path can refer to.  An event with
-> such a name can exceed a page, so allocate name events with kvmalloc(),
-> as Jan also suggested.  Names up to NAME_MAX are reported exactly as
-> before, and the record format is unchanged: an event with a long name is
-> just longer.
-> 
-> Link: https://lore.kernel.org/all/20241112115059.ecvomkalee5m4i4i@quack3/ [1]
-> Fixes: 2d9374f09513 ("fanotify: use macros to get the offset to fanotify_info buffer")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+Inotify event allocation can enter reclaim while holding the global
+fsnotify_mark_srcu read lock. This delays mark reclamation and can stall
+close or task exit in unrelated groups with marks awaiting destruction.
 
-Matthias, this patch (with slight modification for >= PATH_MAX names) is in
-my tree. Would you have time to write an LTP test for fanotify which
-exercises these paths longer than NAME_MAX please? So that this code gets
-regular testing... Thanks!
+Share the user-wait pinning implementation to pin iterator marks and drop
+SRCU around inotify event delivery. Preserve the all-or-nothing behavior
+of the existing fanotify user-wait interface.
 
-								Honza
+Inotify watches on a directory and its child are independent. Skip marks
+that can no longer be pinned and clear their report bits, so removing one
+watch does not suppress delivery to the surviving watch. Keep all remaining
+iterator heads pinned, including those belonging to other groups, until
+SRCU is reacquired. If no reportable marks remain, roll back the pins and
+return with SRCU still held.
 
-> ---
-> 
-> Tested in a VM with KASAN, lockdep and kmemleak: on vfat (utf8), names
-> of 258 to 765 bytes now arrive with their name, including FAN_RENAME,
-> for root and for an unprivileged watcher; FUSE names up to 4095 bytes
-> likewise, also a FAN_RENAME between two of them.  With kvmalloc()'s
-> kmalloc() attempt forced to fail, the events arrive intact from vmalloc.
-> No warnings.  The LTP fanotify and inotify tests give the same results
-> as before (fanotify20 skipped in both).
-> 
-> 5.15.y fails the same way (the same warnings and EFAULT on 5.15.221),
-> and the patch applies there and fixes it.
-> 
-> Honza, on the msdos report [2] you pointed at the filesystem, and msdos
-> now rejects such names (9d7ed813ee5f).  vfat cannot do the same without
-> making files that other systems wrote unreachable, and FUSE allows them
-> by design.
-> 
-> [2] https://lore.kernel.org/all/3kzvlb3wpzbg6k6ttzp6rh2cfmz3hmmmlisgxjn5u4xmaaqibm@qkre7flkhejl/
-> 
->  fs/notify/fanotify/fanotify.c |  4 ++--
->  fs/notify/fanotify/fanotify.h | 20 +++++++++++++-------
->  2 files changed, 15 insertions(+), 9 deletions(-)
-> 
-> diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-> index a208a7ec1692..c8289aa8a70a 100644
-> --- a/fs/notify/fanotify/fanotify.c
-> +++ b/fs/notify/fanotify/fanotify.c
-> @@ -656,7 +656,7 @@ static struct fanotify_event *fanotify_alloc_name_event(struct inode *dir,
->  		size += FANOTIFY_FH_HDR_LEN + dir2_fh_len;
->  	if (child_fh_len)
->  		size += FANOTIFY_FH_HDR_LEN + child_fh_len;
-> -	fne = kmalloc(size, gfp);
-> +	fne = kvmalloc(size, gfp);
->  	if (!fne)
->  		return NULL;
->  
-> @@ -1050,7 +1050,7 @@ static void fanotify_free_fid_event(struct fanotify_event *event)
->  
->  static void fanotify_free_name_event(struct fanotify_event *event)
->  {
-> -	kfree(FANOTIFY_NE(event));
-> +	kvfree(FANOTIFY_NE(event));
->  }
->  
->  static void fanotify_free_error_event(struct fsnotify_group *group,
-> diff --git a/fs/notify/fanotify/fanotify.h b/fs/notify/fanotify/fanotify.h
-> index 3710543dbf82..4aad60d2aaf5 100644
-> --- a/fs/notify/fanotify/fanotify.h
-> +++ b/fs/notify/fanotify/fanotify.h
-> @@ -43,9 +43,16 @@ struct fanotify_info {
->  	u8 dir_fh_totlen;
->  	u8 dir2_fh_totlen;
->  	u8 file_fh_totlen;
-> -	u8 name_len;
-> -	u8 name2_len;
-> -	u8 pad[3];
-> +	u8 pad;
-> +	/*
-> +	 * Deliberately not limited to NAME_MAX: some filesystems return longer
-> +	 * names (vfat up to 255 UTF-16 characters, as Windows allows, which is
-> +	 * up to 765 bytes of UTF-8; FUSE up to PATH_MAX - 1), and readdir() and
-> +	 * inotify report them in full. Only names of PATH_MAX bytes or more,
-> +	 * which no path can refer to, are dropped.
-> +	 */
-> +	u16 name_len;
-> +	u16 name2_len;
->  	unsigned char buf[];
->  	/*
->  	 * (struct fanotify_fh) dir_fh starts at buf[0]
-> @@ -168,7 +175,7 @@ static inline char *fanotify_info_name2(struct fanotify_info *info)
->  static inline void fanotify_info_init(struct fanotify_info *info)
->  {
->  	BUILD_BUG_ON(FANOTIFY_FH_HDR_LEN + MAX_HANDLE_SZ > U8_MAX);
-> -	BUILD_BUG_ON(NAME_MAX > U8_MAX);
-> +	BUILD_BUG_ON(PATH_MAX > U16_MAX);
->  
->  	info->dir_fh_totlen = 0;
->  	info->dir2_fh_totlen = 0;
-> @@ -214,8 +221,7 @@ static inline void fanotify_info_set_file_fh(struct fanotify_info *info,
->  static inline void fanotify_info_copy_name(struct fanotify_info *info,
->  					   const struct qstr *name)
->  {
-> -	if (WARN_ON_ONCE(name->len > NAME_MAX) ||
-> -	    WARN_ON_ONCE(info->name2_len > 0))
-> +	if (name->len >= PATH_MAX || WARN_ON_ONCE(info->name2_len > 0))
->  		return;
->  
->  	info->name_len = name->len;
-> @@ -225,7 +231,7 @@ static inline void fanotify_info_copy_name(struct fanotify_info *info,
->  static inline void fanotify_info_copy_name2(struct fanotify_info *info,
->  					    const struct qstr *name)
->  {
-> -	if (WARN_ON_ONCE(name->len > NAME_MAX))
-> +	if (name->len >= PATH_MAX)
->  		return;
->  
->  	info->name2_len = name->len;
-> 
-> base-commit: 165768bb70265b5c38cf0b73fafd75be235f8b14
-> -- 
-> 2.55.0
-> 
+This lets unrelated mark reclamation proceed while a callback sleeps.
+Teardown still waits for pinned marks before flushing the group's event
+queue.
+
+Signed-off-by: Jia Zhu <zhujia.zj@bytedance.com>
+---
+ fs/notify/fsnotify.c             | 15 ++++++++++++---
+ fs/notify/inotify/inotify_user.c |  3 ++-
+ fs/notify/mark.c                 | 26 ++++++++++++++++++++++----
+ include/linux/fsnotify_backend.h |  2 ++
+ 4 files changed, 38 insertions(+), 8 deletions(-)
+
+diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+index 7e2f330fd2837..78d040399cbe7 100644
+--- a/fs/notify/fsnotify.c
++++ b/fs/notify/fsnotify.c
+@@ -341,7 +341,8 @@ static int send_to_group(__u32 mask, const void *data, int data_type,
+ 	__u32 marks_ignore_mask = 0;
+ 	bool is_dir = mask & FS_ISDIR;
+ 	struct fsnotify_mark *mark;
+-	int type;
++	int type, ret;
++	bool pin_events;
+ 
+ 	if (!iter_info->report_mask)
+ 		return 0;
+@@ -375,8 +376,16 @@ static int send_to_group(__u32 mask, const void *data, int data_type,
+ 						file_name, cookie, iter_info);
+ 	}
+ 
+-	return fsnotify_handle_event(group, mask, data, data_type, dir,
+-				     file_name, cookie, iter_info);
++	pin_events = group->flags & FSNOTIFY_GROUP_PIN_EVENTS;
++	if (pin_events && !fsnotify_prepare_inode_event(iter_info))
++		return 0;
++
++	ret = fsnotify_handle_event(group, mask, data, data_type, dir,
++				    file_name, cookie, iter_info);
++
++	if (pin_events)
++		fsnotify_finish_user_wait(iter_info);
++	return ret;
+ }
+ 
+ static struct fsnotify_mark *fsnotify_first_mark(struct fsnotify_mark_connector *const *connp)
+diff --git a/fs/notify/inotify/inotify_user.c b/fs/notify/inotify/inotify_user.c
+index 5f19c24ec187f..5955e4ae0816e 100644
+--- a/fs/notify/inotify/inotify_user.c
++++ b/fs/notify/inotify/inotify_user.c
+@@ -644,7 +644,8 @@ static struct fsnotify_group *inotify_new_group(unsigned int max_events)
+ 	struct inotify_event_info *oevent;
+ 
+ 	group = fsnotify_alloc_group(&inotify_fsnotify_ops,
+-				     FSNOTIFY_GROUP_USER);
++				     FSNOTIFY_GROUP_USER |
++				     FSNOTIFY_GROUP_PIN_EVENTS);
+ 	if (IS_ERR(group))
+ 		return group;
+ 
+diff --git a/fs/notify/mark.c b/fs/notify/mark.c
+index b2640d836a712..d0deae0c1ce3a 100644
+--- a/fs/notify/mark.c
++++ b/fs/notify/mark.c
+@@ -553,7 +553,8 @@ static void fsnotify_put_mark_wake(struct fsnotify_mark *mark)
+ 	}
+ }
+ 
+-bool fsnotify_prepare_user_wait(struct fsnotify_iter_info *iter_info)
++static bool fsnotify_prepare_wait(struct fsnotify_iter_info *iter_info,
++				  bool report_partial)
+ 	__releases(&fsnotify_mark_srcu)
+ {
+ 	int type;
+@@ -564,15 +565,19 @@ bool fsnotify_prepare_user_wait(struct fsnotify_iter_info *iter_info)
+ 		/* This can fail if mark is being removed */
+ 		while (mark && !fsnotify_get_mark_safe(mark)) {
+ 			if (mark->group == iter_info->current_group) {
+-				__release(&fsnotify_mark_srcu);
+-				goto fail;
++				if (!report_partial)
++					goto fail;
++				/* The next cursor may belong to another group. */
++				iter_info->report_mask &= ~(1U << type);
+ 			}
+-			/* This is a mark in an unrelated group, skip */
+ 			mark = fsnotify_next_mark(mark);
+ 			iter_info->marks[type] = mark;
+ 		}
+ 	}
+ 
++	if (report_partial && !iter_info->report_mask)
++		goto fail;
++
+ 	/*
+ 	 * Now that all marks are pinned by refcount in the inode / vfsmount / etc
+ 	 * lists, we can drop SRCU lock, and safely resume the list iteration
+@@ -583,11 +588,24 @@ bool fsnotify_prepare_user_wait(struct fsnotify_iter_info *iter_info)
+ 	return true;
+ 
+ fail:
++	__release(&fsnotify_mark_srcu);
+ 	for (type--; type >= 0; type--)
+ 		fsnotify_put_mark_wake(iter_info->marks[type]);
+ 	return false;
+ }
+ 
++bool fsnotify_prepare_user_wait(struct fsnotify_iter_info *iter_info)
++	__releases(&fsnotify_mark_srcu)
++{
++	return fsnotify_prepare_wait(iter_info, false);
++}
++
++bool fsnotify_prepare_inode_event(struct fsnotify_iter_info *iter_info)
++	__releases(&fsnotify_mark_srcu)
++{
++	return fsnotify_prepare_wait(iter_info, true);
++}
++
+ void fsnotify_finish_user_wait(struct fsnotify_iter_info *iter_info)
+ 	__acquires(&fsnotify_mark_srcu)
+ {
+diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
+index 618eed4d6d724..b3132e98a0c3f 100644
+--- a/include/linux/fsnotify_backend.h
++++ b/include/linux/fsnotify_backend.h
+@@ -234,6 +234,7 @@ struct fsnotify_group {
+ 
+ #define FSNOTIFY_GROUP_USER	0x01 /* user allocated group */
+ #define FSNOTIFY_GROUP_DUPS	0x02 /* allow multiple marks per object */
++#define FSNOTIFY_GROUP_PIN_EVENTS 0x04 /* pin marks during events */
+ 	int flags;
+ 	unsigned int owner_flags;	/* stored flags of mark_mutex owner */
+ 
+@@ -938,6 +939,7 @@ extern void fsnotify_put_mark(struct fsnotify_mark *mark);
+ struct fsnotify_mark *fsnotify_next_mark(struct fsnotify_mark *mark);
+ extern void fsnotify_finish_user_wait(struct fsnotify_iter_info *iter_info);
+ extern bool fsnotify_prepare_user_wait(struct fsnotify_iter_info *iter_info);
++bool fsnotify_prepare_inode_event(struct fsnotify_iter_info *iter_info);
+ extern void fsnotify_modify_mark_mask(struct fsnotify_mark *mark, u32 set, u32 clear);
+ 
+ static inline void fsnotify_init_event(struct fsnotify_event *event)
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.20.1
