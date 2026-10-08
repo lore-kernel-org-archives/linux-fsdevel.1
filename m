@@ -1,71 +1,67 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C41E4746BB
-	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 08:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AC946AF0A;
+	Thu,  8 Oct 2026 08:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791449320; cv=none; b=F+hTYyMFI7iHnIkGU4cFkI9YAU9RRqROMTIsP3fuO2iHn57A8sa8gITCe7WsSGFNAGr+6zbc48VN77/QzgvkEgh5EcjnsoAnJWZwDsS0u4DaB+VkUMjRjhnCpmSHiNC20UeiHgGsTI2r8oO3N6+ymPQcKghoZOUSAreh4t4ts4M=
+	t=1791449417; cv=none; b=B3/88Cyug9TGNYL4LJJimz+1jcCyX/S3Aj2jwru2or8EsDIKRvE5MY42COUv2aCbFhi8a5kIeju9nAldjXJxuvuCayNKsSgXBUelKBYWRcqa2tdgS9KyLJGtq6O80OFjvEw3tRRlAM88ZVhhFBeY6gnQpB+gP9SqR7fOLhyiwpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791449320; c=relaxed/simple;
-	bh=ClCUdk81cZk4pVxj+ERQ4XC4vdFYrCdEayQPaaNm4mo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lfJE/1JrzWk985Rsz1QqFG7ljTsQwkzqKFy/SSlAPuPlqTsJ+6HN7yAyFV60jtvC4nneemCDqqNlnUuflJWQQfFwBOTPW1QJNveTUuYEoEJVdj49Xiq3c8G0LlTg8lWUSqYmFTwBzE/LHWuNXEEUXlcz+GeNE+AcOovC8lj8Twc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Cn2MFWxB; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1791449417; c=relaxed/simple;
+	bh=Y81cjMEOGGoKTTzPC6sX5h2TI6CFz1ACqqBTB/kZF9o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X8wDuwFC5TYHsTNXyiT5CkLkh/9Tjwfx+HrwixI71Fnn3/g10ro4ep6xwpawdEROCapWq1pLGdDuhJyaheiu4IQP16m5WCeU0bNjhOOMlg5dwjhb3M9eMPzLeGzh50bRvJGSAQLKJkosFniccaVySQVTQ5os11pHYVu+vFklC+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mGPOeGbs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cn2MFWxB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791449317;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dhUChjftbbUORUyJn0QdHcvziOACv2RyPij5apElEWE=;
-	b=Cn2MFWxBzmOSNTw4EPkvg76hRN6r7mJhPh17AxYKoqUoNx10uZbExhBbFDKZfWqVFW1KzB
-	U7aaphSeT9bCXFna8MKiPJpGIfJQM6aDuUWEd7PQex7/m4aLglOeyUvFmO5OlK7QV82lFa
-	z5CnbhiumfxkpVrARsTBmx2GQK8Zdjg=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-471-56UnQx3PMY-7lhUedwrqgg-1; Thu,
- 08 Oct 2026 04:48:33 -0400
-X-MC-Unique: 56UnQx3PMY-7lhUedwrqgg-1
-X-Mimecast-MFC-AGG-ID: 56UnQx3PMY-7lhUedwrqgg_1791449311
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 489691809CAD;
-	Thu,  8 Oct 2026 08:48:31 +0000 (UTC)
-Received: from warthog.com (unknown [10.44.32.90])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8983E1956086;
-	Thu,  8 Oct 2026 08:48:26 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Stefan Metzmacher <metze@samba.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mGPOeGbs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 578F21F000FF;
+	Thu,  8 Oct 2026 08:50:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791449413;
+	bh=a4DZfgRtRM1DfMkYwTNcvGcIRfoRHzGzJb+Heok6HXU=;
+	h=From:To:Cc:Subject:Date;
+	b=mGPOeGbsJ/bnNsddkZbUm/ydGEL0szfbmw6AdL97ACeU3sTLPEkyRS7f3RiWIqxvm
+	 /MxFgsw0TaQ35kQFj+940bytBDQpSoxbyOKTat4qiT0/eQBbr4eHWHa9vkddp2bWeX
+	 HQhtzEcVnOvcy7fqzsjZyMjeFzxMPH8RQtOjecjVVyVqJB7YeufNKpxacbDQMxJXZ9
+	 7CcyLzCmtPk74kfmB7aEUL3I24Wi6SHz7vaq87HV9D8ke74ODRQep0fK6dW22Dhl6P
+	 aT2UpAVpul/lC/zwYDnTvRpNAgU5XDuRpt+iLlAD9lOJplrDuOcuarRKjq7y14iEhU
+	 ccw+iySavEnrw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-api@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v16 8/8] netfs: Remove netfs_extract_user_iter()
-Date: Thu,  8 Oct 2026 09:47:20 +0100
-Message-ID: <20261008084722.963948-9-dhowells@redhat.com>
-In-Reply-To: <20261008084722.963948-1-dhowells@redhat.com>
-References: <20261008084722.963948-1-dhowells@redhat.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org,
+	tools@kernel.org,
+	x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>,
+	Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: [PATCH v5 00/11] Kernel API Specification Framework
+Date: Thu,  8 Oct 2026 04:49:40 -0400
+Message-ID: <20261008084956.2911790-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,340 +69,225 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Remove netfs_extract_user_iter() as it has been replaced with
-netfs_extract_iter().
+This series adds machinery for documenting kernel APIs in a machine-readable
+form. The kernel promises not to break user space, but the contract of each
+interface is written down only as prose in man pages and comments, which tools
+cannot check.
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-Reviewed-by: Paulo Alcantara <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
----
- fs/netfs/iterator.c   | 297 ------------------------------------------
- include/linux/netfs.h |   5 -
- 2 files changed, 302 deletions(-)
+Specifications can document parameter types, valid ranges, constraints, and
+alignment requirements. They capture return value semantics including success
+conditions and error codes with their meaning. Execution context requirements,
+capabilities, locking constraints, signal handling behavior, and side effects
+can all be formally specified.
 
-diff --git a/fs/netfs/iterator.c b/fs/netfs/iterator.c
-index d9ff6646d5d1..5e9de06c1cad 100644
---- a/fs/netfs/iterator.c
-+++ b/fs/netfs/iterator.c
-@@ -155,300 +155,3 @@ ssize_t netfs_extract_iter(struct iov_iter *orig, size_t max_len, size_t max_pag
- 
- }
- EXPORT_SYMBOL_GPL(netfs_extract_iter);
--
--#if 0 // TODO: Remove in subsequent patch
--/**
-- * netfs_extract_user_iter - Extract the pages from a user iterator into a bvec
-- * @orig: The original iterator
-- * @orig_len: The amount of iterator to copy
-- * @new: The iterator to be set up
-- * @extraction_flags: Flags to qualify the request
-- *
-- * Extract the page fragments from the given amount of the source iterator and
-- * build up a second iterator that refers to all of those bits.  This allows
-- * the original iterator to be disposed of.
-- *
-- * @extraction_flags can have ITER_ALLOW_P2PDMA set to request peer-to-peer DMA be
-- * allowed on the pages extracted.
-- *
-- * On success, the number of elements in the bvec is returned, the original
-- * iterator will have been advanced by the amount extracted.
-- *
-- * The iov_iter_extract_mode() function should be used to query how cleanup
-- * should be performed.
-- */
--ssize_t netfs_extract_user_iter(struct iov_iter *orig, size_t orig_len,
--				struct iov_iter *new,
--				iov_iter_extraction_t extraction_flags)
--{
--	struct bio_vec *bv = NULL;
--	struct page **pages;
--	unsigned int cur_npages;
--	unsigned int max_pages;
--	unsigned int npages = 0;
--	unsigned int i;
--	ssize_t ret = 0;
--	size_t count = orig_len, offset, len;
--	size_t bv_size, pg_size;
--
--	if (WARN_ON_ONCE(!iter_is_ubuf(orig) && !iter_is_iovec(orig)))
--		return -EIO;
--
--	max_pages = iov_iter_npages(orig, INT_MAX);
--	bv_size = array_size(max_pages, sizeof(*bv));
--	bv = kvmalloc(bv_size, GFP_KERNEL);
--	if (!bv)
--		return -ENOMEM;
--
--	/* Put the page list at the end of the bvec list storage.  bvec
--	 * elements are larger than page pointers, so as long as we work
--	 * 0->last, we should be fine.
--	 */
--	pg_size = array_size(max_pages, sizeof(*pages));
--	pages = (void *)bv + bv_size - pg_size;
--
--	while (count && npages < max_pages) {
--		ret = iov_iter_extract_pages(orig, &pages, count,
--					     max_pages - npages, extraction_flags,
--					     &offset);
--		if (unlikely(ret <= 0)) {
--			ret = ret ?: -EIO;
--			break;
--		}
--
--		if (WARN(ret > count,
--			 "%s: extract_pages overrun %zd > %zu bytes\n",
--			 __func__, ret, count)) {
--			ret = -EIO;
--			break;
--		}
--
--		cur_npages = DIV_ROUND_UP(offset + ret, PAGE_SIZE);
--		if (WARN(cur_npages > max_pages - npages,
--			 "%s: extract_pages overrun %u > %u pages\n",
--			 __func__, npages + cur_npages, max_pages)) {
--			ret = -EIO;
--			break;
--		}
--
--		count -= ret;
--		ret += offset;
--
--		for (i = 0; i < cur_npages; i++) {
--			len = ret > PAGE_SIZE ? PAGE_SIZE : ret;
--			bvec_set_page(bv + npages + i, *pages++, len - offset, offset);
--			ret -= len;
--			offset = 0;
--		}
--
--		npages += cur_npages;
--	}
--
--	/* Note: Don't try to clean up after EIO.  Either we got no pages, so
--	 * nothing to clean up, or we got a buffer overrun, memory corruption
--	 * and can't trust the stuff in the buffer (a WARN was emitted).
--	 */
--
--	if (ret < 0 && (ret == -ENOMEM || npages == 0)) {
--		for (i = 0; i < npages; i++)
--			unpin_user_page(bv[i].bv_page);
--		kvfree(bv);
--		return ret;
--	}
--
--	iov_iter_bvec(new, orig->data_source, bv, npages, orig_len - count);
--	return npages;
--}
--EXPORT_SYMBOL_GPL(netfs_extract_user_iter);
--
--/*
-- * Select the span of a bvec iterator we're going to use.  Limit it by both maximum
-- * size and maximum number of segments.  Returns the size of the span in bytes.
-- */
--static size_t netfs_limit_bvec(const struct iov_iter *iter, size_t start_offset,
--			       size_t max_size, size_t max_segs)
--{
--	const struct bio_vec *bvecs = iter->bvec;
--	unsigned int nbv = iter->nr_segs, ix = 0, nsegs = 0;
--	size_t len, span = 0, n = iter->count;
--	size_t skip = iter->iov_offset + start_offset;
--
--	if (WARN_ON(!iov_iter_is_bvec(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--
--	while (n && ix < nbv && skip) {
--		len = bvecs[ix].bv_len;
--		if (skip < len)
--			break;
--		skip -= len;
--		n -= len;
--		ix++;
--	}
--
--	while (n && ix < nbv) {
--		len = min3(n, bvecs[ix].bv_len - skip, max_size);
--		span += len;
--		nsegs++;
--		ix++;
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--		skip = 0;
--		n -= len;
--	}
--
--	return min(span, max_size);
--}
--
--/*
-- * Select the span of a kvec iterator we're going to use.  Limit it by both
-- * maximum size and maximum number of segments.  Returns the size of the span
-- * in bytes.
-- */
--static size_t netfs_limit_kvec(const struct iov_iter *iter, size_t start_offset,
--			       size_t max_size, size_t max_segs)
--{
--	const struct kvec *kvecs = iter->kvec;
--	unsigned int nkv = iter->nr_segs, ix = 0, nsegs = 0;
--	size_t len, span = 0, n = iter->count;
--	size_t skip = iter->iov_offset + start_offset;
--
--	if (WARN_ON(!iov_iter_is_kvec(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--
--	while (n && ix < nkv && skip) {
--		len = kvecs[ix].iov_len;
--		if (skip < len)
--			break;
--		skip -= len;
--		n -= len;
--		ix++;
--	}
--
--	while (n && ix < nkv) {
--		len = min3(n, kvecs[ix].iov_len - skip, max_size);
--		span += len;
--		nsegs++;
--		ix++;
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--		skip = 0;
--		n -= len;
--	}
--
--	return min(span, max_size);
--}
--
--/*
-- * Select the span of an xarray iterator we're going to use.  Limit it by both
-- * maximum size and maximum number of segments.  It is assumed that segments
-- * can be larger than a page in size, provided they're physically contiguous.
-- * Returns the size of the span in bytes.
-- */
--static size_t netfs_limit_xarray(const struct iov_iter *iter, size_t start_offset,
--				 size_t max_size, size_t max_segs)
--{
--	struct folio *folio;
--	unsigned int nsegs = 0;
--	uoff_t pos = iter->xarray_start + iter->iov_offset;
--	pgoff_t index = pos / PAGE_SIZE;
--	size_t span = 0, n = iter->count;
--
--	XA_STATE(xas, iter->xarray, index);
--
--	if (WARN_ON(!iov_iter_is_xarray(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--	max_size = min(max_size, n - start_offset);
--
--	rcu_read_lock();
--	xas_for_each(&xas, folio, ULONG_MAX) {
--		size_t offset, flen, len;
--		if (xas_retry(&xas, folio))
--			continue;
--		if (WARN_ON(xa_is_value(folio)))
--			break;
--		if (WARN_ON(folio_test_hugetlb(folio)))
--			break;
--
--		flen = folio_size(folio);
--		offset = offset_in_folio(folio, pos);
--		len = min(max_size, flen - offset);
--		span += len;
--		nsegs++;
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--	}
--
--	rcu_read_unlock();
--	return min(span, max_size);
--}
--
--/*
-- * Select the span of a bvecq iterator we're going to use.  Limit it by both
-- * maximum size and maximum number of segments.  Returns the size of the span
-- * in bytes.
-- */
--static size_t netfs_limit_bvecq(const struct iov_iter *iter, size_t start_offset,
--				size_t max_size, size_t max_segs)
--{
--	const struct bvecq *bq = iter->bvecq;
--	unsigned int nsegs = 0;
--	unsigned int slot = iter->bvecq_slot;
--	size_t span = 0, n = iter->count;
--
--	if (WARN_ON(!iov_iter_is_bvecq(iter)) ||
--	    WARN_ON(start_offset > n) ||
--	    n == 0)
--		return 0;
--	max_size = umin(max_size, n - start_offset);
--
--	if (!bvecq_acquire_slot(bq, slot)) {
--		bq = bvecq_next(bq);
--		slot = 0;
--	}
--
--	start_offset += iter->iov_offset;
--	do {
--		size_t flen;
--
--		flen = bq->bv[slot].bv_len;
--		if (start_offset < flen) {
--			span += flen - start_offset;
--			nsegs++;
--			start_offset = 0;
--		} else {
--			start_offset -= flen;
--		}
--		if (span >= max_size || nsegs >= max_segs)
--			break;
--
--		slot++;
--		if (!bvecq_acquire_slot(bq, slot)) {
--			bq = bvecq_next(bq);
--			slot = 0;
--		}
--	} while (bq);
--
--	return umin(span, max_size);
--}
--
--size_t netfs_limit_iter(const struct iov_iter *iter, size_t start_offset,
--			size_t max_size, size_t max_segs)
--{
--	if (iov_iter_is_bvecq(iter))
--		return netfs_limit_bvecq(iter, start_offset, max_size, max_segs);
--	if (iov_iter_is_bvec(iter))
--		return netfs_limit_bvec(iter, start_offset, max_size, max_segs);
--	if (iov_iter_is_xarray(iter))
--		return netfs_limit_xarray(iter, start_offset, max_size, max_segs);
--	if (iov_iter_is_kvec(iter))
--		return netfs_limit_kvec(iter, start_offset, max_size, max_segs);
--	BUG();
--}
--EXPORT_SYMBOL(netfs_limit_iter);
--#endif
-diff --git a/include/linux/netfs.h b/include/linux/netfs.h
-index f3249d0573c4..0340c9ee587b 100644
---- a/include/linux/netfs.h
-+++ b/include/linux/netfs.h
-@@ -460,11 +460,6 @@ void netfs_put_subrequest(struct netfs_io_subrequest *subreq,
- ssize_t netfs_extract_iter(struct iov_iter *orig, size_t max_len, size_t max_pages,
- 			   struct bvecq **_bvecq_head,
- 			   iov_iter_extraction_t extraction_flags, gfp_t gfp);
--ssize_t netfs_extract_user_iter(struct iov_iter *orig, size_t orig_len,
--				struct iov_iter *new,
--				iov_iter_extraction_t extraction_flags);
--size_t netfs_limit_iter(const struct iov_iter *iter, size_t start_offset,
--			size_t max_size, size_t max_segs);
- void netfs_prepare_write_failed(struct netfs_io_subrequest *subreq);
- void netfs_write_subrequest_terminated(void *_op, ssize_t transferred_or_error);
- 
+These specifications live alongside the code they document and are both
+human-readable and machine-parseable. They can be validated at runtime when
+CONFIG_KAPI_RUNTIME_CHECKS is enabled, exported via debugfs for userspace
+tools, and extracted from either vmlinux or source code.
+
+The intent is for static analyzers, test generators and documentation tools
+to consume these specifications. This series adds the framework, the
+extraction tool, and specifications for five syscalls.
+
+The implementation includes a core framework with ELF section storage,
+kerneldoc integration for inline specification, a debugfs interface for runtime
+querying, ftrace tracepoints that report each spec'd syscall's parameters and
+return value, and a Rust-based extraction tool (tools/kapi) supporting JSON,
+RST, and plain text output formats. Example specifications are provided for the
+four fundamental file syscalls (sys_open, sys_close, sys_read, sys_write) and
+for sys_madvise. The series also includes a KUnit test suite with 33 tests and
+a runtime verification selftest with 31 TAP tests.
+
+The series is also available in the "spec" branch of:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sashal/kapi.git
+
+Changes since v4:
+
+- Rebase onto v7.3-rc6: the sys_open spec accepts O_EMPTYPATH, the madvise
+  spec follows the zap_vma_range() rename, and tools/kapi declares Rust 1.85
+  to match the kernel minimum.
+
+- CONFIG_KAPI_RUNTIME_CHECKS builds on 32-bit and on architectures without
+  a syscall wrapper, and depends on X86 || !ARCH_HAS_SYSCALL_WRAPPER since
+  other architectures never reach the hook. __SYSCALL_DEFINEx gains small
+  hooks instead of a duplicated copy, with the prototypes in
+  <linux/kapi_syscall.h>.
+
+- Correct the syscall specs against the implementation (O_CREAT|O_DIRECTORY,
+  O_PATH flag masking, EOVERFLOW and RLIMIT_FSIZE handling, SUID/SGID
+  clearing, close() error sources, lock descriptions, madvise locking).
+
+- kdoc_apispec.py: keep paragraph and line structure in long-desc, notes and
+  examples, stop truncating fields at colons or 512 characters, and emit
+  state-transition conditions and exact success values.
+
+- debugfs exports the complete spec as JSON without a fixed-size buffer.
+  tools/kapi gives the same result from --vmlinux and --debugfs, and from
+  --source wherever no preprocessor evaluation is needed.
+
+- kernel-doc recognises the KAPI sections only in -apispec mode, so its
+  other output is unchanged. Kbuild generates headers only for sources
+  with a contexts: line plus another KAPI section, regenerates them when
+  the generator changes, and no longer reads stdin when a directory has
+  no such sources.
+
+- Fix KAPI_CAP_ALTERNATIVE and add KAPI_SIGNAL_MASK_COUNT.
+
+Changes since v3:
+
+- Fix the build with CONFIG_KAPI_SPEC=y: scripts/Makefile.build now derives the
+  list of instrumented sources from $(real-obj-y)/$(real-obj-m) instead of a
+  recursive find, and the detection regex matches "contexts:" (the token the
+  syscalls actually use). The previous "context-flags:"-only match found no
+  files, so no *.apispec.h was generated and the guarded includes failed to
+  compile.
+
+- Force-include the generated *.apispec.h via a per-object -include cflag in
+  scripts/Makefile.build rather than a manual "#include" at the end of each
+  instrumented source; the include blocks are dropped from fs/open.c and
+  fs/read_write.c.
+
+- kernel/Makefile: drop the redundant "obj- += api/"; the
+  obj-$(CONFIG_KAPI_SPEC) gate already covers 'make clean'.
+
+- kernel/api/Makefile: build kernel_api_spec.o with obj-y now that the subdir
+  gate lives in kernel/Makefile.
+
+- kernel/api/Kconfig: drop the tautological "default n" from KAPI_SPEC,
+  KAPI_RUNTIME_CHECKS and KAPI_SPEC_DEBUGFS.
+
+- Add an API specification for sys_madvise.
+
+- Add ftrace tracepoints on the runtime-check path: kapi_syscall_enter (spec
+  name and named parameter values) and kapi_syscall_exit (return value and
+  spec match).
+
+Changes since v2:
+
+- Replace statically sized arrays in the spec structs with const char *
+  pointers to reduce memory footprint and remove string truncation.
+
+- Simplify the kerneldoc DSL to short tokens (e.g. `type: uint, input`,
+  `contexts: process, softirq`, `constraint-type: range(0, KMAX)`,
+  `side-effect: alloc_memory`) in place of raw KAPI_* enum names.
+
+- tools/kapi: commit Cargo.lock for reproducible offline builds, add a
+  Makefile and README, expand the kerneldoc parser to cover the full
+  DSL, and refactor the vmlinux extractor for the const-pointer layout.
+
+- tools/lib/python/kdoc/kdoc_apispec.py expanded to match the DSL so
+  scripts/kernel-doc --apispec emits the structure the extractor consumes.
+
+References:
+
+  v4: https://lore.kernel.org/all/20260529233311.1901670-1-sashal@kernel.org/
+  v3: https://lore.kernel.org/all/20260424165130.2306833-1-sashal@kernel.org/
+  v2: https://lore.kernel.org/all/20260322121026.869758-1-sashal@kernel.org/
+  v1: https://lore.kernel.org/all/20260313150928.2637368-1-sashal@kernel.org/
+  RFC v5: https://lore.kernel.org/lkml/20251218204239.4159453-1-sashal@kernel.org/
+  RFC v4: https://lore.kernel.org/lkml/20250825181434.3340805-1-sashal@kernel.org/
+  RFC v3: https://lore.kernel.org/lkml/20250711114248.2288591-1-sashal@kernel.org/
+  RFC v2: https://lore.kernel.org/lkml/20250624180742.5795-1-sashal@kernel.org/
+  RFC v1: https://lore.kernel.org/lkml/20250614134858.790460-1-sashal@kernel.org/
+
+
+
+Sasha Levin (11):
+  kernel/api: introduce kernel API specification framework
+  kernel/api: enable kerneldoc-based API specifications
+  kernel/api: add debugfs interface for kernel API specifications
+  tools/kapi: add kernel API specification extraction tool
+  kernel/api: add API specification for sys_open
+  kernel/api: add API specification for sys_close
+  kernel/api: add API specification for sys_read
+  kernel/api: add API specification for sys_write
+  kernel/api: add runtime verification selftest
+  kernel/api: add API specification for sys_madvise
+  kernel/api: add syscall enter/exit tracepoints
+
+ .gitignore                                    |    1 +
+ Documentation/dev-tools/index.rst             |    1 +
+ Documentation/dev-tools/kernel-api-spec.rst   |  648 ++++
+ MAINTAINERS                                   |   13 +
+ Makefile                                      |    1 +
+ arch/x86/include/asm/syscall_wrapper.h        |    3 +-
+ fs/open.c                                     |  557 +++
+ fs/read_write.c                               |  710 ++++
+ include/asm-generic/vmlinux.lds.h             |   14 +
+ include/linux/kapi_syscall.h                  |   35 +
+ include/linux/kernel_api_spec.h               | 1226 ++++++
+ include/linux/syscalls.h                      |   42 +-
+ include/trace/events/kapi.h                   |   74 +
+ init/Kconfig                                  |    2 +
+ kernel/Makefile                               |    1 +
+ kernel/api/Kconfig                            |   74 +
+ kernel/api/Makefile                           |   13 +
+ kernel/api/internal.h                         |   25 +
+ kernel/api/kapi_debugfs.c                     |  553 +++
+ kernel/api/kapi_kunit.c                       |  720 ++++
+ kernel/api/kernel_api_spec.c                  | 1470 ++++++++
+ mm/madvise.c                                  |  549 +++
+ scripts/Makefile.build                        |   26 +
+ tools/docs/kernel-doc                         |   12 +-
+ tools/kapi/.gitignore                         |    3 +
+ tools/kapi/Cargo.lock                         |  679 ++++
+ tools/kapi/Cargo.toml                         |   20 +
+ tools/kapi/Makefile                           |   33 +
+ tools/kapi/README.md                          |   33 +
+ tools/kapi/src/extractor/debugfs.rs           | 1704 +++++++++
+ tools/kapi/src/extractor/kerneldoc_parser.rs  | 3335 +++++++++++++++++
+ tools/kapi/src/extractor/mod.rs               |  442 +++
+ tools/kapi/src/extractor/source_parser.rs     |  531 +++
+ .../src/extractor/vmlinux/binary_utils.rs     |  461 +++
+ tools/kapi/src/extractor/vmlinux/mod.rs       | 1160 ++++++
+ tools/kapi/src/formatter/json.rs              |  659 ++++
+ tools/kapi/src/formatter/mod.rs               |  220 ++
+ tools/kapi/src/formatter/plain.rs             |  679 ++++
+ tools/kapi/src/formatter/rst.rs               |  802 ++++
+ tools/kapi/src/main.rs                        |  123 +
+ tools/lib/python/kdoc/kdoc_apispec.py         | 1391 +++++++
+ tools/lib/python/kdoc/kdoc_files.py           |   12 +-
+ tools/lib/python/kdoc/kdoc_parser.py          |  101 +-
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/kapi/.gitignore       |    2 +
+ tools/testing/selftests/kapi/Makefile         |    7 +
+ tools/testing/selftests/kapi/kapi_test_util.h |   31 +
+ tools/testing/selftests/kapi/test_kapi.c      | 1163 ++++++
+ 48 files changed, 20350 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/dev-tools/kernel-api-spec.rst
+ create mode 100644 include/linux/kapi_syscall.h
+ create mode 100644 include/linux/kernel_api_spec.h
+ create mode 100644 include/trace/events/kapi.h
+ create mode 100644 kernel/api/Kconfig
+ create mode 100644 kernel/api/Makefile
+ create mode 100644 kernel/api/internal.h
+ create mode 100644 kernel/api/kapi_debugfs.c
+ create mode 100644 kernel/api/kapi_kunit.c
+ create mode 100644 kernel/api/kernel_api_spec.c
+ create mode 100644 tools/kapi/.gitignore
+ create mode 100644 tools/kapi/Cargo.lock
+ create mode 100644 tools/kapi/Cargo.toml
+ create mode 100644 tools/kapi/Makefile
+ create mode 100644 tools/kapi/README.md
+ create mode 100644 tools/kapi/src/extractor/debugfs.rs
+ create mode 100644 tools/kapi/src/extractor/kerneldoc_parser.rs
+ create mode 100644 tools/kapi/src/extractor/mod.rs
+ create mode 100644 tools/kapi/src/extractor/source_parser.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/binary_utils.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/mod.rs
+ create mode 100644 tools/kapi/src/formatter/json.rs
+ create mode 100644 tools/kapi/src/formatter/mod.rs
+ create mode 100644 tools/kapi/src/formatter/plain.rs
+ create mode 100644 tools/kapi/src/formatter/rst.rs
+ create mode 100644 tools/kapi/src/main.rs
+ create mode 100644 tools/lib/python/kdoc/kdoc_apispec.py
+ create mode 100644 tools/testing/selftests/kapi/.gitignore
+ create mode 100644 tools/testing/selftests/kapi/Makefile
+ create mode 100644 tools/testing/selftests/kapi/kapi_test_util.h
+ create mode 100644 tools/testing/selftests/kapi/test_kapi.c
+
+-- 
+2.53.0
 
