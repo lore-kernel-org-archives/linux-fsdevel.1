@@ -1,106 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2673E40F5;
-	Thu,  8 Oct 2026 22:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE17D31690A;
+	Thu,  8 Oct 2026 23:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791499625; cv=none; b=KJjdF1LwVFjGAObmEVweW6HntCBPO7CvAdCvobtjSw3M/lUl5cVaYpPWWgrpUa93T2VconfZ/Z9H/0MuEdXp6G22nzy8uS7C72xiEgqgleJ5qzI7znFVjUdfndaCTC4g2SfcolVXxb1zKJkrqHGKsZqdKepPQ28fGu/HjdmIN5Q=
+	t=1791500423; cv=none; b=mlogPH4UVkaEJtM4/+cvIvrX1Ir3V1FtS636y5OVh/QxhpOCYKmUyO4kU7VND0cEG20Or0BxzYX5u5HETCmR3gW+HBRBsaU8smxe3gPEJwh8wxFYLUrgFKEnMcOoWtmxMQRiD9PdIvLd1TplOI78mjgYT5JHN42Z+2hsDjk55jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791499625; c=relaxed/simple;
-	bh=1xff5OP4JTlo3Wsm/jooTd+9avb5DjpWuRtnCb8Vg7w=;
+	s=arc-20240116; t=1791500423; c=relaxed/simple;
+	bh=Ja8do/4D5F7vuAAxmZtna8Ilm34MfuHphBldFbW3Cbw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iBm9dOzJYMYCfOJNZp4nxSSTAcJ1GoVYIZNwLGVuPOQQeqcHVtWcRU4uo+PKA5SWC0P06R95Cma4t0d+K2mzUWQF3oA6Eb7v1WW40rq94Pn2E3BB9xak+XVNMzwDjjZTadb6YKUDxbytezy53MAgtMBKZKsJ1uBdtL/8oKxrG5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiWatklT; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiWatklT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0578B1F000FF;
-	Thu,  8 Oct 2026 22:47:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791499624;
-	bh=pCfJKPsNaF/SxbFsWfcA1FHSBJHgg6l/3ARJ3G8D/iE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YiWatklTha/8mDOvNOV4ymEYyqODHFwSzx3UXwKSES/mokMZYcEdudNXmJwRXrIgp
-	 6A9mrj9RUzb/nIujVnVifEXe0So7H23ze7t4egFVedFW8PnEw+9+QHzUCKsQkTz7un
-	 49AP0BiFCrDG1YPEOlqzrM61dqiynA7v4xubPo6CDj7kIxQ3QmSAtrShOAJa5JqOXC
-	 lDrLy3BXBIOC9Bju+9E42B6lrAMwQcJhhvVTZOPLaoiAVt3ANPKzlcBS5KOnVldcYD
-	 /AhFqUoAuKhZ0iqXDFAFLAq8Ow653o5CiXNcZmXm9u1K81AsiQaLBfx8tgPH9XeZJh
-	 9ius3rVPTxQ5A==
-Date: Thu, 8 Oct 2026 18:47:01 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: David Laight <david.laight.linux@gmail.com>,
-	Gregory Price <gourry@gourry.net>, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
-	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>, Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH v5 05/11] kernel/api: add API specification for sys_open
-Message-ID: <asgdZfjXmX3gnkfQ@laps>
-References: <20261008084956.2911790-1-sashal@kernel.org>
- <20261008084956.2911790-6-sashal@kernel.org>
- <aseRXi7hMWBBc0tB@hallyn.com>
- <aseWPV6ZRQM3JOMN@gourry-fedora-PF4VCD3F>
- <asemkQ2v0di0Eea3@hallyn.com>
- <20261008171205.7239c463@pumpkin>
- <asfB7tHWs420QkWL@hallyn.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=SyeiQev9mFnbaAxtGEhAuKxxezCckprTTQSV0Npc1YWpKYB0Q1n4zkiAJPKrLJqmfC71CiF4mNvpM0ZIxQVzg74bXbzX6D7XLZNMebkJ3NFOgxKUlhMX2Hpw5yys7fBvFM64zzFczs9/R0GLCnSzeIbsIkSG38HeYUfsWbzsEuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf15.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id CE50C16015E;
+	Thu,  8 Oct 2026 23:00:13 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf15.hostedemail.com (Postfix) with ESMTPA id B3DD318;
+	Thu,  8 Oct 2026 23:00:10 +0000 (UTC)
+Date: Thu, 8 Oct 2026 18:00:09 -0500
+From: John Groves <john@groves.net>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	Amir Goldstein <amir73il@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, david@kernel.org, willy@infradead.org, brauner@kernel.org
+Subject: Re: [PATCH v2 0/8] fuse: DAX device based extent maps (famfs)
+Message-ID: <asZcsPT-Q8qga0SU@groves.net>
+References: <20261001150935.655979-1-mszeredi@redhat.com>
+ <asQcBebepPb9CXzS@groves.net>
+ <CAJfpeguEUTYk9m7g2gZTMui0yFDYWSGL1SZ9PvoYiCqjDmHp9A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <asfB7tHWs420QkWL@hallyn.com>
+In-Reply-To: <CAJfpeguEUTYk9m7g2gZTMui0yFDYWSGL1SZ9PvoYiCqjDmHp9A@mail.gmail.com>
+X-Stat-Signature: uggu67ce7tkzo5rn37wytz5yem7y363y
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: B3DD318
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1+d2FLPXecql2qrUG0JgwtNhkdj6Arpje4=
+X-HE-Tag: 1791500410-415219
+X-HE-Meta: U2FsdGVkX19dU2svEPZ26FkYYvu54m7Y44DruVzPevwz9YLyqixNrWhyyF98aOMWUUMw+tVkwgzadfWEMq/ELmvWu1xmK5doh4qtvY0bg+RpPlFzVtfJEGKd7lmSH964idwHL2cX4bj9R4U0MquvZSho5/8c+azgNGLQp3LgyFs8kR0Wwko1gs6S1vCR/H4oHPnBBIII4On6rq9Pgs97h1gkI2iSqEfYp3tScMjc1XMiWmJkfzBNf9Uijj171voTUuv14T73PGjRDXrmEVzPRKJDTAuh41ZJTu8VIiq6atOB4QC2QOUb6FhH6BI4Wd+UAzoIHrXccTr0YNqgm60KESNukHYCmIRqumoxpCZ4tE34tMq3UmNDJTlrFLQii7kL
 
-On Thu, Oct 08, 2026 at 11:16:46AM -0500, Serge E. Hallyn wrote:
->On Thu, Oct 08, 2026 at 05:12:05PM +0100, David Laight wrote:
->> On Thu, 8 Oct 2026 09:20:01 -0500
->> "Serge E. Hallyn" <serge@hallyn.com> wrote:
->>
->> ...
->> >
->> > Even if there's just a three line comment above a fn, history proves
->> > that it will not reliably stay in sync as the fn changes.  An automation
->> > step/check is needed.
->>
->> The only way it can possibly stay in step is to have the compiler process
->> the same source text.
->> Then, if you add/change a function parameter you'd be pretty much forced
->> to add/change the comment.
->> Return values would have to be documented at the C return statement and
->> really as an extra parameter to the return.
->>
->> But, IMHO, the whole thing adds too much bloat to the source files.
->> When you 'grep' a source file, you don't really want another match in
->> a big comment at the top of every function.
+On 26/10/06 11:48AM, Miklos Szeredi wrote:
+> On Tue, 6 Oct 2026 at 01:37, John Groves <john@groves.net> wrote:
+> 
+> > I see the kernel-side rejects these s/size/chunk_size/ strip extents if they
+> > are not all the same size. Why not put the chunk size in the header and let
+> > the extents honestly describe the offset and range that they cover?
+> > The current design can't test for sufficient strip extent sizes, although
+> > it replaces code that did verify this.
+> 
+> Not adding chunk size to the header is intentional to keep the API as
+> simple as possible.
 
-I guess I don't mind either way: I heard both sides of this argument, and the
-spec workflow is okay with either, so if the relevant maintainer asks for
-changes here I'm more than happy to reformat this.
+Fewer fields is nice, but it's on the honor system that the server allocated
+large enough strips - since strips carry the chunk_size rather than their
+actual size when CYCLIC is set. IMO it would be an improvement to add the
+chunk_size to the header; then the strip sizes could be validated.
 
-Which is, I think, the advantage here: it works just fine for the various
-"kingdoms" we have in kernel-land.
+But it's your call, and I won't argue further about this unless something
+changes.
 
--- 
+> 
+> > However, the smoke tests passing isn't fully legit, because the patch to the
+> > famfs fuse server passes the entire strip size on CYCLIC mappings, meaning
+> > it just produces a concatenation of ranges - which does not achieve the
+> > interleaving goal at all. That case degenerates to simple extents.
+> 
+> Are you talking about the case where there are multiple simple extents
+> each with a different striped mapping?
+
+No
+
+I'm saying your patch to the famfs user space, when famfs sends interleaved
+file maps, sets CYCLIC but sets strip extent sizes to the actual strip size,
+not the chunk_size. So chunking is at the size of the entire strip, which is
+to say: the net is a multi-extent file that is not interleaved.
+
+So that's a bug. I've fixed it locally and will share that in the next day
+or two. I also needed to refactor your patch the famfs user space because
+it disabled ABI compatibility with some older versions of the famfs kernel
+that I'm still supporting users with. If you can wait to patch that further
+until I share an update, it will be cleaner on my end.
+
+> 
+> That case is supported by the API, but not the implementation (since
+> there was not test case).  If you do a test case, I'll add the
+> implementation.
+> 
+> > To be specific: each chase/dereference that results in an L3 cache miss adds
+> > a stall of (1 * MEMORY_LATENCY) to the fault time. This is the good reason
+> > why I didn't do any chasing in the fault path of the famfs code that you're
+> > replacing.
+> 
+> Please benchmark against the in-kernel implementation.  If there's
+> significant (meaning it may have a real effect on a real-life
+> workload) performance hit from using the rb-tree, then we can add an
+> optimization.  I don't want to add complexity without actually being
+> able to measure the gain.
+
+I will do that, but it's not a small undertaking. Back to that in a moment.
+
+I have an idea for how to make fault handling order-1 in the normal famfs
+cases but fall back to order log-n if necessary (e.g. if not all extents are 
+the same size). I'm testing that now and will share it soon if I don't run 
+into any significant problems.
+
+I think we can probably agree than things otherwise being equal, order-1
+fault handling (or order-1 falling back to order-n if necessary) is 
+preferable to order-log-n. If you or anybody doesn't agree with that, I 
+hope we can discuss it.
+
+As for benchmarking to "prove" that the rbtree is a problem, I'm sure there
+are use cases where it is not a problem (like small virtual daxdevs on
+workstations or laptops). What Micron worries about is huge working sets on 
+many terabyte disaggregated memory. If the memory is 45TB (the biggest 
+system I have "access" to), the data sets exceed the processor cache by a 
+substantially higher factor than even in a maxed out server. That means
+more L3 cache misses. I'm trying to avoid an approach with built-in chasing
+on performance paths, because Micron's experience is that pointer chasing 
+becomes L3-cache-miss bound.
+
+Anyway, one workload (and working-set size) that doesn't exhibit significant 
+L3 cache miss performance hit does not prove that others won't be negatively
+impacted. Proving a negative, etc...
+
+Having said all that, this topic seems to recur and be contentious - we are
+working on tests that can demonstrate bottlenecks - but my current ask is
+that if I can offer an alternative approach to rbtree that is better on 
+paper, can we please use it?
+
+> 
+> > OK, one more. You're using the rbtree for indexing by file offset, which is
+> > a zero-based non-sparse range in this case. If this could not be avoided
+> > (which I think it can) you should use an xarray or radix tree for that...
+> > right?
+> 
+> Unlike xarray, the rb_tree API is one I'm familiar with. But nothing
+> prevents switching to xarray if that's a better choice.
+
+That's fair. And I withdraw the xarray suggestion because I have a better
+idea - will share that in a day or two, before Monday almost certainly.
+Need to run it through all of my CI...
+
 Thanks,
-Sasha
+John
+
+<snip>
+
