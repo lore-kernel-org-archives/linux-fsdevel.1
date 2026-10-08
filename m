@@ -1,154 +1,137 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8F94DA548
-	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 15:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A031E44F561;
+	Thu,  8 Oct 2026 15:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791474059; cv=none; b=D3ectcz17+HUcqAIlJCwoyRL8ETd6iMGbUAmnkzKvjQra6RY778UMXV4sBHgs4gnT54595E+n4kJnaFkal0ok4f88OGSzK5u0F5H5cUNyz5oIyhrlEox5bk6o7PbkX2KYZ1sd/g5WcGtMpoCx/xZHS+SqFR1rwV8VeT1kjJWvP8=
+	t=1791474081; cv=none; b=ExubuMnShG7gPw6uckHTohoirAVYG02ThKUt8bzdgVBluA/7VgfWz3JU7PX1fusffMQd1+dvlklY5xKesN/IDkxoDaJP+icaFKW/7/7srDGQyr/YhS7kfpRjqs3HpxLvXVuNWMhWWSTkbi0CcLVJAALIMW3nPgh6mUw2Uw2u3qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791474059; c=relaxed/simple;
-	bh=XcA+nLpj94/DJ/Rraklqza+8j4Qcoc86Vhgyq9rdRJc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=f5JeflnDdAgc91zzUNOUMfr51t4NzM2TBXTCPrSdgdJR6fdz94m23yCfSpix+UHlBE9c2SB6gaMbDQ4wwMemm5/ihS9Xuyyv3of05Fa7gXuSwnsrNUng/c1R+6uiEzsfFrqvdG+cWZzFc6iPXMdHi86PW12iNxjACZiLCPZuVPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com; spf=pass smtp.mailfrom=toxicpanda.com; dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b=ZO275+t/; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	s=arc-20240116; t=1791474081; c=relaxed/simple;
+	bh=QmMivWIKRtKZuOtWswj6jEJGaEF90JoIZAS7w9pp494=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UVo0B/eYWw4M4vRlEi1wCj7LQETHNlVruXdk7gOVzjicExy+k0MssS7SirgLJ14P3IFEUq121quz0uymHCRe/189Z68Yzza/iTCqR3sGB6whxpJEG/LGXQi3OqN/540d8xZhK2d0Im5UPjKgJRYY/4r7sR80g+20Fvc60430BPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l4hNAs8m; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b="ZO275+t/"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5bccc96684dso946774e87.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 08 Oct 2026 08:40:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1791474055; x=1792078855; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Qg3REX0qNPfLJEc1GEYkRVmVRk5EMast5JpkHxdhxbk=;
-        b=ZO275+t/DUVWDWIWddvW08EnNAla5QG5HRaw/WrR2CPI/WlxsRzs1uvQxEr+eHKiX8
-         FDYOAZcDR2GAklNBoF4mE5TJ/z/A63yoD66P6HYQd1N5jDO0Q98SYqsRS6L9dyftyNRi
-         GwvyJgB9bxhujZ2cROIMYrHx35wWL8YL0A9shoeTr1WZ0ZftMIiqOBB23rjEGiJp4gqs
-         LrFwVG6gMI/t1S0IfJdrrEw+e2bX51tk2pmPFtjof+UNsFidTWbZQSzxDtfcFX3hvKTX
-         Y/NkkqgTW/s53r/Jd8tcZrP66P0zjYmU+xwR+TrGS52ogOddYFqEyO5FlEXVg/qIzYpi
-         ia0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791474055; x=1792078855;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Qg3REX0qNPfLJEc1GEYkRVmVRk5EMast5JpkHxdhxbk=;
-        b=NKtxBzn4g7uYuzp1uWA7UyKT11/4Vp5cNEjeoRdjQsmtYK1KpAtPdSJnUMjM++9XhE
-         B8MMLfCE62G3dPTEAjd4anMFpv4swhXVfD1R0szzMdgxnLG3M65tNzlkFpgGaxTY/aZF
-         PwsbfFtqVkMRChe2lwIQ62IOAbBTvuqG1QexyIuu1Id9X2FHVHG8sJKJq/B4xyFwtbZx
-         U6LyOrsK1iQbWYr+vVCjT+2Fe30PMBVjYIaZJeL/i4sZmc7NyM5+HUDfMAP0f++p8V/V
-         LerjE8vlzCek1bkLQ3ZguCwfsofRGokuVhMTRvbCpTT3scyUgsQhC59dxedTaSLYtthL
-         SKWg==
-X-Forwarded-Encrypted: i=1; AKwUvBy1GF5E4CVH8nfCrX2jHbV1NMAYxfopm4yCLftalXPdtxOUqxh9wjuy1WqUTcwarsFmGo26e8+Lwjhiljes@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ9ItHgd+GWE6pultgC1cn4W7Z4ykzJUcgIZv+Fj39dbeGc/Wzn
-	jOZRxWO8kb3gzSBk9CMTRpVdRUV/yGLjBsjMHhIrgzpZOAS41l+TlA0GTjzHOPsU4BuJxoZE3CE
-	v5tnMYGGn4w==
-X-Gm-Gg: AYBFou38WMffRGzTSukXI2wh+RtVRVZck/ojsBZeG1RO/mR8UB8CiUs3Gqo8y03Rm8S
-	/qWqkgZkIS3WT1meHW2BxJ9XA7AE17vDGjCouYsaEPWPRpVsxLCKsU//XOgOI0AHqzAArrPQC/H
-	X0QkMxyg4DIn1caJ2ble//mjyDLPIiYOfHGG42NKWxDvrD3MDj7rat799RD+lmV5JsOf+EXMNqa
-	QTRyCslBqQSHhP3NVUCXaLLqc8iXSnryDhle+Zo5O69keD6io3VEm/HmZUeBzWk9Knb1fwvRDzx
-	85hItBC4BibsODx3gTbu+470DzBl7eJsM/0S6nxFO2WIygiZnmXQkOw/S3Z1s/pqdaDn2WdoR1R
-	Zml/64+88OolItoK/2YxvU2ehzPax9mTTtVEZRSO1JXDi1/40Mgu38Lb2QRQQOx4gYIAx8Kabd0
-	+2nQEN5qoGAUm7TE9t1YA6epXa+aEp57mpNQW0FBCmxvh4Y/feMtSX295VRkhjU71STT8fWYDcW
-	WIXnwNO5ZVN2Tw=
-X-Received: by 2002:a05:6512:a83:b0:5b8:fa05:e49c with SMTP id 2adb3069b0e04-5bcd0702f0amr2360032e87.34.1791474054654;
-        Thu, 08 Oct 2026 08:40:54 -0700 (PDT)
-Received: from toxicpanda.com ([153.61.196.251])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bcd309dab7sm1398142e87.75.2026.10.08.08.40.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 08:40:53 -0700 (PDT)
-From: Josef Bacik <josef@toxicpanda.com>
-To: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: Paul Moore <paul@paul-moore.com>, Christian Brauner <brauner@kernel.org>,
- James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>,
- Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>,
- Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org,
- linux-kernel@vger.kernel.org, keyrings@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/5] capabilities: close the ways around the CAP_SETFCAP
- rule for uid 0
-Date: Thu, 08 Oct 2026 15:39:30 +0000
-Message-ID: <179147397027.4.15064782992163283819@toxicpanda.com>
-In-Reply-To: <asehZEWAwsJcbqvM@hallyn.com>
-References: <20261006-b4-setfcap-userns-v1-0-f47e7ed66072@toxicpanda.com>
- <asehZEWAwsJcbqvM@hallyn.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l4hNAs8m"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 2592E1F000FF;
+	Thu,  8 Oct 2026 15:41:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791474080;
+	bh=+mYJJF5GrDpT0Ob0hVyzUHQ52lbThMrVlBLSi1APaVY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=l4hNAs8mmXqjXlv1G/EPaWKlgyXFS4/YGPGgW8/PjiR9ZrivKU21p6U1zgWuPIP7D
+	 Mgy/yJfR71uYvSeW2+s6Vhsjci1ZU9K9wNj7jSPVaaWWTKFCcdzAy9tbq2en+/9Cag
+	 OtT3eCYb4bspbFz5HD0MJtWn1gtDhrQmOU53DdQifSLP2uAyqXBRBm7jI0blXRkPiV
+	 m+LRBPRYgmyeOKwSjv7fmOQbDqPEjbj0iGDJrbntRFw9Iq5CzfmhUywmk4uAWVq46v
+	 2sWvnFyfwtGAOvQAvuQeTjNuRd1EYrp7Xtezvy0E7gjppfMYRNtx1mZXv+Ff0TZn0c
+	 IiwG3WgGE+U3w==
+Date: Thu, 8 Oct 2026 08:41:19 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: daejun7.park@samsung.com
+Cc: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>, Dave Chinner <dgc@kernel.org>,
+	Sergey Bashirov <sergeybashirov@gmail.com>,
+	Christian Brauner <brauner@kernel.org>, linux-nfs@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 3/8] xfs: clamp the pNFS layout range to the maximum file
+ size
+Message-ID: <20261008154119.GP2705364@frogsfrogsfrogs>
+References: <20261008-xfs-nfsd-map-blocks-v1-0-560026cdccb6@samsung.com>
+ <20261008-xfs-nfsd-map-blocks-v1-3-560026cdccb6@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261008-xfs-nfsd-map-blocks-v1-3-560026cdccb6@samsung.com>
 
-On Thu, Oct 08, 2026 at 08:57:56AM -0500, Serge E. Hallyn wrote:
-> Would you mind describing what other solutions you considered?  I've been
-> looking over this set since Tuesday, and finding it hard to reason about.
-> (Part of that is certainly the nature of the problem, and it's possible
-> that this is the best/simplest solution.)
+On Thu, Oct 08, 2026 at 10:39:32AM +0900, Daejun Park via B4 Relay wrote:
+> From: Daejun Park <daejun7.park@samsung.com>
+> 
+> xfs_fs_map_blocks() checks the range of a layout with
+> 
+> 	if (offset > limit)
+> 		goto out_unlock;
+> 	if (offset > limit - length)
+> 		length = limit - offset;
+> 
+> limit - length is computed in u64, so a length larger than the limit
+> wraps and the length is not clamped. nfsd passes the LAYOUTGET range
+> through, and RFC 8881 lets a client ask for NFS4_UINT64_MAX bytes, for
+> the rest of the file. offset + length then wraps to offset - 1, end_fsb
+> rounds back to offset_fsb, and xfs_bmapi_read() maps nothing. For a read
+> layout, xfs_bmbt_to_iomap() then gets an uninitialized imap: with a
+> zeroed stack it logs "Access to block zero", marks the data fork sick
+> and fails with -EFSCORRUPTED, and otherwise the mapping is whatever was
+> on the stack and can reach the client. For a write layout,
+> xfs_iomap_write_direct() is called with a count of zero, which trips an
+> ASSERT with XFS_DEBUG. An offset of 2^63 or more, which nfsd accepts
+> too, becomes negative in the loff_t argument and passes the first check.
+> 
+> Reject a negative offset and an offset at the limit, and compare the
+> length with what is left up to the limit, which cannot wrap once the
+> offset is below it.
+> 
+> With pynfs as the client, a READ LAYOUTGET for NFS4_UINT64_MAX bytes at
+> offset 0 got NFS4ERR_IO, as did an RW one, which also made nfsd warn
+> about the non-standard errno -63, and a READ LAYOUTGET at offset 2^63
+> got NFS4ERR_IO as well. With this patch and the previous one, the one at
+> 2^63 gets NFS4ERR_INVAL, the RW one gets NFS4ERR_NOSPC before anything
+> is allocated, as the range up to the maximum file size cannot be
+> reserved, and the server logs nothing. The READ one gets NFS4ERR_INVAL
+> as well: nfsd, which maps a layout one extent at a time since
+> commit cc6c40e09d7b ("NFSD/blocklayout: Support multiple extents per
+> LAYOUTGET"), asks again from the maximum file size on. An RW one on a
+> file whose first 64 KiB are allocated, with a loga_maxcount that has
+> room for one extent, is granted 0+65536.
+> 
+> This depends on the previous patch. Without it, an RW LAYOUTGET to the
+> end of the file, whose length is now clamped instead of wrapping, asks
+> xfs_iomap_write_direct() for every block up to the maximum file size,
+> which wraps the block reservation and shuts the filesystem down where it
+> got NFS4ERR_IO before.
+> 
+> Fixes: 527851124d10 ("xfs: implement pNFS export operations")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Daejun Park <daejun7.park@samsung.com>
 
-Everything we looked at kept the state in the cred.  We model checked
-the variants before writing the code, and these fell over:
+Looks fine to me
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-- a bool per cred for "had CAP_SETFCAP over the parent when it entered".
-  It breaks on two hops: setns() into a namespace that maps 0, unshare
-  again, and the bool says yes for the second namespace.  Hence the
-  level.
-- checking only at uid_map write time.  That misses setxattr of
-  security.capability in a namespace that already maps 0, hence patch 4.
+--D
 
-We didn't look at keeping the state on the namespace.
-
-> If we replaced the userns->parent_could_setfcap bool with a ref to the
-> creator's cred, then at both setns and write we could check the actor's
-> credentials, right?  There are probably issues with that specific idea,
-> but that's why it would be good to see what else you've considered.
-
-Checking at write time alone doesn't work: once a task is inside the
-namespace its cred says nothing about what it could do outside, so a
-joiner and the creator look the same.
-
-It does work if setns() refuses to join a namespace that maps, or can
-still map, the parent's uid 0 unless the joiner has CAP_SETFCAP over the
-parent.  Then everybody in a namespace has the same reach, and it can be
-a level stored on the namespace at create time instead of a cred ref,
-which would pin keyrings and the rest for the life of the namespace.
-The checks would be setns(), the map write (opener and writer are in the
-parent, so a plain capable check), setxattr of security.capability, and
-ptrace.
-
-The difference in behaviour is that the -EPERM moves to setns(): a root
-task without CAP_SETFCAP couldn't enter a root-owned container that maps
-host uid 0 at all, where with this series it can enter and is refused
-only for the map, fscaps and ptrace.  I can prototype it if you prefer
-that.
-
-> Of course UID 0 will always continue to carry privileges even with an
-> empty cap_eff.  Here we're stopping it from writing filecaps to uid 0
-> owned files, but if it can open a 0 owned file on the host, like
-> /bin/sh or a systemd init file, or ptrace a process (in a child ns that
-> maps parent uid 0) doing so, it can still cause damage.  My point being,
-> we do need to keep in mind the tradeoff of keeping the code simple
-> versus the realistic threat of the problem being addressed.
-
-On the same kernels, the restricted root task can copy a binary and
-chmod 4755 it (it owns it, no capability needed), and a uid 1000 user
-runs it with a full CapEff.  With SECBIT_NOROOT that setuid copy gives
-uid 1000 nothing, while the fscap file still gives it what's in the
-xattr on an unpatched kernel.  So SECBIT_NOROOT is the case the series
-adds anything for, the same case db2e718a4798 covers.
-
-A smaller version is patches 1, 4 and 5, with cap_root_level() moved
-from 2 into 4.  I built that and ran the same flows: every route that
-ends in a file capability still gets -EPERM and uid 1000 gets nothing.
-The uid 0 map writes refused by 2 and 3 go through again, but the fscap
-write after them is refused.
-
-Let me know which way you'd like to go and I'll rework it.
-
-Thanks,
-Josef
+> ---
+>  fs/xfs/xfs_pnfs.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/xfs/xfs_pnfs.c b/fs/xfs/xfs_pnfs.c
+> index ab38561700..88d9c3c043 100644
+> --- a/fs/xfs/xfs_pnfs.c
+> +++ b/fs/xfs/xfs_pnfs.c
+> @@ -167,9 +167,9 @@ xfs_fs_map_blocks(
+>  	if (!write)
+>  		limit = max(limit, round_up(i_size_read(inode),
+>  				     inode->i_sb->s_blocksize));
+> -	if (offset > limit)
+> +	if (offset < 0 || offset >= limit)
+>  		goto out_unlock;
+> -	if (offset > limit - length)
+> +	if (length > limit - offset)
+>  		length = limit - offset;
+>  
+>  	error = filemap_write_and_wait(inode->i_mapping);
+> 
+> -- 
+> 2.43.0
+> 
+> 
+> 
