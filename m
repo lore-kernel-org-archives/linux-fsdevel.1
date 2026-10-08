@@ -1,113 +1,122 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E3D4E533F;
-	Thu,  8 Oct 2026 15:31:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDB74D179A;
+	Thu,  8 Oct 2026 15:40:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791473489; cv=none; b=rxphPjPrCnrV3t+ZtTjCoO/dDoLC3uNTpGm3ArG/a23htuMAYY8t+me/zkPYjMAvdjyYfvzvCtGYHF9a6bQ+qo5zbbeoXlDWx5ue+Qw5X+8GMl4q2DtvxZlDg+pCyRFHj/PzErq0Soy+vyKrFm1zdoXB6gieTmqpBU81k02v2TI=
+	t=1791474019; cv=none; b=VBmV8Qg313lY4vAaWr9cF96xk70xHeEgsPjDOtS1Afi2280YJXUY7yb97AvntmPOaRIRySJL5QM2VirDAMZr8EVTEaRgpURgIV171n+fA74WRjwh/lmJm1ry8O6MJmRtlEOrFLdkY/X7AImLbl0DGsntr38sDhAH8SfAmCYoVeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791473489; c=relaxed/simple;
-	bh=z5JyqdjBAFKr3gmdYDGazOEacf+lSxusgwLqGM0Levw=;
-	h=Date:From:To:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=lU1jDHgKWoB0KhyWpPKyh9aLaFETsB3szeJ05b0ueeVhHi/JBaLBE70nbU2aISseltmQgIgG5a14HfmSvUg/3J1oSop8C1rGs6tcGdStxDBlMmj5PRxXRcQGs7dROeCCh92PuK6NdWMgC6xbu/mW+PLAj4hrlW2BXhmvnsOgyIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=notCj0oY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791474019; c=relaxed/simple;
+	bh=hkt9CBC9EWy73tH6jGLMY7YmUbR8Ng6jrYXv8ljt2Mw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sd+b7vscBpv9Wy+H7Ox+FXSiJ69f8h/71nlM9fTe8P5pY0WA92lipXTRmvV+ZeJNeWht/og5H2q+j08LipkalIoFhyKLQwlm4N9ropKvCQsOW5AwtvHkQASZIu25wJSTGrluKiXXhijGKRh2OYeXwvk2xaQvmPqxelN6fez2OdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nn/oQKMu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="notCj0oY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06C501F000FF;
-	Thu,  8 Oct 2026 15:31:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1791473488;
-	bh=1C8aurPJzK/wJUnjdRt/POJZVmCHvh4rqZatlItZkIw=;
-	h=Date:From:To:Subject:In-Reply-To:References;
-	b=notCj0oYOmJTZdKJ1nQwQDZzte5321kXLZnZgmSnB8CCKK4MLhVBq3f7b7fo4KfWl
-	 e0pzoOLjGssbkrTRqAfMg032MTqcuGRkIjxMcF8DRaD4Lnl7lesVWIicUdcRQrpIlx
-	 XEEpb3ejC4rgB8SYVtXxji8IGLxk/RcbLZK8bhQM=
-Date: Thu, 8 Oct 2026 08:31:27 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Jan Kara <jack@suse.cz>, Ayush Ranjan <ayushr@modal.com>, Pedro Falcato
- <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>, Matthew Wilcox
- <willy@infradead.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, David
- Hildenbrand <david@kernel.org>, Gregory Price <gourry@gourry.net>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [BUG] shmem: FALLOC_FL_PUNCH_HOLE vs fault-around race corrupts
- page cache / rss counters
-Message-Id: <20261008083127.0305bac995e8b84c67e46bbb@linux-foundation.org>
-In-Reply-To: <20261008082304.bc6f4bd6c80fe6432abd4fc5@linux-foundation.org>
-References: <20260924061708.1645968-1-ayushr@modal.com>
-	<arTdLsBENhrpOyk-@pedro-suse.tail5790ac.ts.net>
-	<20260925053027.1998394-1-ayushr@modal.com>
-	<20260925065013.3682431-1-ayushr@modal.com>
-	<20261003033107.1488699-1-ayushr@modal.com>
-	<20261004222831.bdd648a2b406f02747dd9e40@linux-foundation.org>
-	<fyswoh7wpxzlbnjjanggjd2jz6yispmeirhwjl3wzi57nacddb@bjkb6kxyfcal>
-	<20261008082304.bc6f4bd6c80fe6432abd4fc5@linux-foundation.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nn/oQKMu"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 073891F000FF;
+	Thu,  8 Oct 2026 15:40:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791474018;
+	bh=SDkASTJ9FRD3oHMgI63Gz2ZqFSLBdEZmuCHDDzkdsYg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nn/oQKMu5bUOZ/Old3XjjvmROumYUrDdjaQ46bkQ2+LEouNK6WGkQ8I+f4r+gCLMX
+	 1Ahor7wmXKBLZRs/Y5eEjwihZ/trrYkxHfoMMUucto5JdJs0NDbOIgnKKWjM5eJfBA
+	 Sm3HckTLxPgGA3kKSh6EO4kVE/o/UtDKmlvMSejnvFAnbzE5rsThSmV+EnPv1m6dof
+	 1tb1J7ErZw2dd3EonbAll9QCpq2orAz0B5a0WXdE4zkpDOpZg3LyBQLIcEolgmDg2h
+	 VYVuu9Kzq3gXYe3UfHAFyvErfHGDZiVa2BbaA3P5EAikF48TActZl4p7KvHsWJll5q
+	 bmVKzfrsmE3NA==
+Date: Thu, 8 Oct 2026 08:40:17 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: daejun7.park@samsung.com
+Cc: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>, Dave Chinner <dgc@kernel.org>,
+	Sergey Bashirov <sergeybashirov@gmail.com>,
+	Christian Brauner <brauner@kernel.org>, linux-nfs@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 2/8] xfs: refuse a direct allocation whose block
+ reservation would wrap
+Message-ID: <20261008154017.GO2705364@frogsfrogsfrogs>
+References: <20261008-xfs-nfsd-map-blocks-v1-0-560026cdccb6@samsung.com>
+ <20261008-xfs-nfsd-map-blocks-v1-2-560026cdccb6@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261008-xfs-nfsd-map-blocks-v1-2-560026cdccb6@samsung.com>
 
-On Thu, 8 Oct 2026 08:23:04 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+On Thu, Oct 08, 2026 at 10:39:31AM +0900, Daejun Park via B4 Relay wrote:
+> From: Daejun Park <daejun7.park@samsung.com>
+> 
+> xfs_iomap_write_direct() maps one extent, but it reserves blocks for the
+> whole count it is given, in an unsigned int. A count of about 2^32
+> blocks or more wraps the reservation. If it wraps to a few blocks, the
+> allocation uses more blocks than the transaction reserved, and
+> xfs_trans_mod_sb() shuts the filesystem down. If it wraps to nearly 2^32
+> blocks, the allocation fails with -ENOSPC.
+> 
+> Direct I/O, DAX and buffered writes with an extent size hint never ask
+> for that much, as xfs_direct_write_iomap_begin() limits them to
+> 1024 pages to keep the count below 32 bits. xfs_fs_map_blocks() has no
+> such limit: it asks for everything from the start of a hole to the end
+> of the range of a pNFS layout, which a client chooses, and an RW
+> LAYOUTGET at offset 0 of an empty file for 16 TiB does it.
+> 
+> Fail such a count with -ENOSPC before anything is reserved, also on a
+> filesystem with that much free space, as the transaction cannot take
+> it. A count that fits is reserved in full, as before, so a hole longer
+> than the free space still fails before it is allocated.
+> 
+> With pynfs as the client and a 32 GiB XFS, an RW LAYOUTGET at offset 0
+> of an empty file for 16 TiB shut the filesystem down: "Corruption of
+> in-memory data (0x8) detected at xfs_trans_mod_sb". With this patch it
+> gets NFS4ERR_NOSPC and nothing is allocated, as with 100 GiB, and one
+> for 16 GiB, which fits, is still granted, in three extents.
+> 
+> Fixes: 527851124d10 ("xfs: implement pNFS export operations")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Daejun Park <daejun7.park@samsung.com>
+> ---
+>  fs/xfs/xfs_iomap.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
+> index 7c6238fed6..1917e49166 100644
+> --- a/fs/xfs/xfs_iomap.c
+> +++ b/fs/xfs/xfs_iomap.c
+> @@ -287,6 +287,13 @@ xfs_iomap_write_direct(
+>  
+>  	resaligned = xfs_aligned_fsb_count(offset_fsb, count_fsb,
+>  					   xfs_get_extsz_hint(ip));
+> +	/*
+> +	 * The transaction takes the block reservation as an unsigned int.
+> +	 * Refuse a count that does not fit rather than reserve too little;
+> +	 * only a pNFS layout for a huge range asks for that much.
+> +	 */
+> +	if (resaligned > UINT_MAX - XFS_DIOSTRAT_SPACE_RES(mp, 0))
+> +		return -ENOSPC;
 
-> A useful next step would be to instrument truncate_cleanup_folio(), e.g. warn
-> immediately after unmap_mapping_folio() if folio_mapped() is still true.
-> That should distinguish "unmap failed to remove an existing mapping" from
-> "some path installed a new mapping afterwards", and narrow this down
-> considerably.
+Uh... seeing as extent records can only map 2^21 blocks maximum and
+iomap/pnfs can handle xfs returning a mapping of whatever length we
+want, why don't we constrain count_fsb to XFS_BMBT_MAX_EXTLEN?
 
-does this seem useful?  If so I can add it to mm-new/linux-next for a
-while.
+--D
 
-
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: mm/truncate: catch shmem folios still mapped after unmap
-Date: Thu Oct  8 08:29:04 AM PDT 2026
-
-Instrument truncate_cleanup_folio() to determine where the shmem "still
-mapped when deleted" state is introduced.
-
-truncate_inode_folio() calls truncate_cleanup_folio() under the folio
-lock, and truncate_cleanup_folio() calls unmap_mapping_folio() before
-filemap_remove_folio().  If a shmem folio is still mapped immediately
-after that unmap, then the unmap itself failed to remove all mappings (or
-a path outside the folio-lock serialization installed one concurrently).
-
-If this warning does not fire but the later "still mapped when deleted"
-warning still does, the mapping must have appeared after this point.  That
-distinguishes the two cases without otherwise changing truncate behavior.
-
-Limit the diagnostic to shmem and dump the folio on the first occurrence.
-
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
-
- mm/truncate.c |   10 ++++++++++
- 1 file changed, 10 insertions(+)
-
---- a/mm/truncate.c~shmem-truncate-unmap-debug
-+++ a/mm/truncate.c
-@@ -156,6 +156,16 @@ static void truncate_cleanup_folio(struc
- 	if (folio_mapped(folio))
- 		unmap_mapping_folio(folio);
- 
-+	/*
-+	 * Pin down where the shmem "still mapped when deleted" state appears:
-+	 * if the folio is clear here but mapped at removal, something installed
-+	 * a mapping after cleanup rather than surviving unmap_mapping_folio().
-+	 */
-+	if (shmem_mapping(folio->mapping) &&
-+	    WARN_ON_ONCE(folio_mapped(folio)))
-+		dump_page(&folio->page,
-+			  "shmem folio still mapped after unmap_mapping_folio");
-+
- 	if (folio_needs_release(folio))
- 		folio_invalidate(folio, 0, folio_size(folio));
- 
-_
-
+>  	if (unlikely(XFS_IS_REALTIME_INODE(ip))) {
+>  		dblocks = XFS_DIOSTRAT_SPACE_RES(mp, 0);
+>  		rblocks = resaligned;
+> 
+> -- 
+> 2.43.0
+> 
+> 
+> 
