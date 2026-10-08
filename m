@@ -1,120 +1,100 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEC848097B
-	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 13:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B609043499E
+	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 13:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791464469; cv=none; b=BqOeJNt9buzCz/v41oQxp/YY2AH0tao6dKir3k0lSQZeOuQxWHe/XRUK0gVqRiUHBPOwOPFDednh2P9PSEjvmj8zLm319eNhHVudJNLb7rBcaitg8vQ+jmrz8bn72tTCXWXUYwhF91HbO5H4Af3C9msEydVCJv4EWeN3K1jH6MA=
+	t=1791464844; cv=none; b=i+9ghXFY/Rono02BDMeFkCWvvVAEOxCi/KADeFmB/sVdFIHwKHx17t0hzRgEAVELdfvD5KDakQb3dtvAdw9nWLr6dM2UaYQGm5FlCgJPu50lm2rB2aC8HQtvjHCvReEn6ZGoLKsD3zdKE35EQ1upv3NaiH+b3paP3nxDDOrVwn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791464469; c=relaxed/simple;
-	bh=YInhToU3yGXxItWB0UeOfhdKWHVJWIlowwAZet277jM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q+d/3Nv72xy+QbsMS1NClh0gnTrG3znRZOmfXjwo4gDg4PZljAezYw3aOIiXvGikyznt+x8l7QIMUTtDFuJUKF/e1LopLGyLlRcWluc1nEWjoEQ3HWBVkdtiL5U/vUann3Tpcn078Ojeb9M9PYbL7WShYLBrPOCgYiRQYfpf5nU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com; spf=pass smtp.mailfrom=hammerspace.com; dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b=lqowsgwM; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
+	s=arc-20240116; t=1791464844; c=relaxed/simple;
+	bh=OyzQ4UDKaiyMoT/NVzqvh75hv21N26cEww1Tjs+Q41M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PvfJs/v69K30g6PhhrtWh4x+vQPNkxoFZQzyjUqLx8jTxCIUY1huq4u7r8aqA5yvKfMUYiABM6BZU5pjXlSp7/11IJrfevEJJ3gc47ZeQMb+Vq8qMTH1Vbx5BRmxML+yL0aVFy8vMAdlT4ev+7GtM9UJfYoLi1wZWdHhX7IWJDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=KwuWXawi; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b="lqowsgwM"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-8253bc5a613so3768568a34.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 08 Oct 2026 06:01:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="KwuWXawi"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48b0584ad71so2022489f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 08 Oct 2026 06:07:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammerspace.com; s=google; t=1791464467; x=1792069267; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=gourry.net; s=google; t=1791464841; x=1792069641; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=YInhToU3yGXxItWB0UeOfhdKWHVJWIlowwAZet277jM=;
-        b=lqowsgwM/vrEZQrCd+Fvn7U1KhVspXyyxalpkO94RC0yOLW3+SwifZGwGItBmUhI2S
-         6Fy1/qtCF5z5er3B1qYVSGs0WK1BKkCcwfhDAN7QFQYw94m3OTIdkhxLD0a584co5BZn
-         fdvUS5jkasdCSzw+7cV9rvrcKdGoSagnOYIlmajiQijmrR3CZAU8O3wVtq68abOqTNAC
-         qtWnx5+q3XlamJYD6Nq8VywtF8Gu1x6wNTx+yqnQ1ypY1xWWhZ151npmpf/vjIdgLG9X
-         ciiEVstr6GVpKGbzleGjSbn6ejoOxjw1jGGw+pR85Db3LFyIfeG4RtiNpK3zDW0dwteT
-         GQ9A==
+        bh=7t6+pTQP1CQbEVM19QS/h21zu8MNABf/SgAoLNSosdM=;
+        b=KwuWXawio7HYkh0owZWJE/gmRDJqegpvYiTo3uIgFd50s20QWZaiZE20LTt3gbn0hh
+         Q681zeE0ck52Ex+G9uog/sx5MNUZU1xdC95+XttmEQMqMMSeG+5Rw5yF1tgyc2QxJU2I
+         FnGVP/i97hsmQtS7YA4DH/uDLNuyIpEN/WBaSAFy0HzKpZImTHs7IkJiY6EAeESXzVIt
+         vKJYU4t+u84YPKMygGxawREuZLUmnyl+WK7fTKc5D+G4VGPCJWM//5tsBvUJAReDAvND
+         CAujULbFW1mK+kWM4W8emBVg85qUEUnknotmG5LLvbIG0kAIxjY9kUlyXRmk5v4a6Iwu
+         0v4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791464467; x=1792069267;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1791464841; x=1792069641;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YInhToU3yGXxItWB0UeOfhdKWHVJWIlowwAZet277jM=;
-        b=VxVcJ4azHB+By3xEjqqmm69QuHOlC0woX6iA9tVhREFwF/xgRI3KwS6W0W/y8wPowM
-         lEgqATGrzvtHmy4UiMyRnxx8VUj7KXJz48M1k29w92vDCiOTdVaHK2MAaik5Pf8WgRXS
-         lPDiPstk6DPe13qVzfTVieT5N1ZbyZZy+Q4ZIl9z/uAJLV+o7E89dLvCja7mm7T/OHkY
-         ZpKwS5UW9eDIM87OjmTz0UAsQot/JTQE4CsP1560vUFIvn4eOrn2MoktHXTS+3i5ZrYU
-         qHM7Neoy5/rbczae1Nop3aEwTzW+UI2QYNdUTgTyZm0LRgrzUdlSTPWOmZ4L/C/G6RFV
-         Dojw==
-X-Forwarded-Encrypted: i=1; AKwUvBzZH/H9u2C2eKH6L1bXOjhTgJ5h7eQTnuow1D2K8Mbcf0qfcwnewS5r+ptmaYX8ZgtQ4EOI75TnGF8WR61H@vger.kernel.org
-X-Gm-Message-State: AFuF++molkZab3ROLep6BT+JoQmoX7wCyPGqJM2APwhgC71KjwrUVumH
-	FuwRHjc3MvgWB0nzwnfLw7U3gQXCIF76pblbiQIusuKP4VoG0irYhfM2Zk6NZwEghtU=
-X-Gm-Gg: AYBFou0yuWsPPMZR8nZrrC9ejtSd9ibwiQKeLB/5rgjwg24KnhsKJr6ij0LErpMA+wC
-	XwBpxNpD0FErGEGdGdNgGa1H60/P5lVL59wEXqtHTqeTMJG5GtcOxgTamrTlCaxqsrDnkIajNKc
-	JycezGIcST3zpdmV5tuCUXeDPKNDUZacnQcbphuOBrUZwiL7taf49zlsB1buenewO4oihv5PA8a
-	7uEm6pnJXqxQ6BhRmIgOCMK3zB39Fav5XOaj6SHUAZJh9v2PKdySLJy9Hkb4DRahRHWzj8iiltu
-	cncIrYqpR+7cclyeO39jbzXagm/qQSUVMsNcMOXLY1efGZQsRXRGYHRofw4WJMwjSX2+b12eJD2
-	1VHXZmS5dP9AD+paO6ENi+SbH0v3FPDB75SPCJrXl9b9HYvqhLtMTIyNFD2lqb4GErxvdAgb2Cl
-	2ivdaUAf4KtaxYjUKsXHfIGUExFeri36YBU0EnZfevNsm0zLonRIJ0sbcJzVU1npdoKeQ7cYApS
-	fjMkQDLVCAvIxDBsg==
-X-Received: by 2002:a05:6830:2b14:b0:81a:adf1:ae71 with SMTP id 46e09a7af769-82acc65f71bmr7181675a34.4.1791464467021;
-        Thu, 08 Oct 2026 06:01:07 -0700 (PDT)
-Received: from [192.168.254.51] ([66.97.168.37])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-82adbdf2a92sm6008498a34.5.2026.10.08.06.01.05
+        bh=7t6+pTQP1CQbEVM19QS/h21zu8MNABf/SgAoLNSosdM=;
+        b=IqTvA+ODNY28qZIcCDPMFrzqSGFamGfTc+AgqwWd6u3goddEdwDUWlRBN5EPW+s+rR
+         tlY8Vu5C37Yfq6Ga4PAggob12bKoPjiCVzlWsEsw7E6MwfC3g9oIl2Hy9Haes5k8OzLW
+         zPTj8V6muSEh4zrQBB/RTObr3xd5YLRo+e54Nh9+RNa10pG8MddtN4i6VGwdOmFEpo08
+         beLvJcSbCkuejFgTMIbqJYGZ4uuDeksNG5E9qUEOUNTS462/JsjAS8ojYiXfMBmk2grb
+         jGAvlJFMfQxsC+0ejjATTpiZQCkdDjypakD8QXLO5AmaRSHo9PqgGBR2nb2uLDShl8NE
+         J2zg==
+X-Forwarded-Encrypted: i=1; AKwUvBzYMauWH1IRUdZjOQ/N1J8nJzv5dFaIK+gndIq0MiPWyjepxoEDOWPw6O4OfwJZ/rOesg6GMbsRMS4YCWLd@vger.kernel.org
+X-Gm-Message-State: AFq9FYJKmQxZ1wWDysEuBwG3/sVNXSjnxzy5NmuIFzrFZn42CruWUpks
+	10dMVx3ymas23ItVG2jGVi8TdVorMURyEclN0YEsL677sVY5z//UyZ9Mk+uVAgQSBbw=
+X-Gm-Gg: AYBFou05F9AEDS9pfzPI5BCP7H2pj2haF9NXkmVHCbA/pl4T2+Bsw0OX1JwzTseNsJm
+	1WvpBdMh29U4XZtoCWZcASIfKSGt9Jx//9W+Y5g6ETEFPfgOZqw2N+lzXLQj7j3dIfDaSO9GIfK
+	9NcAXn5iyELld78lF6CCw/So07NdyNUEQsp0PPqxSwEFOBOuawpoHawwcV+gVfXNmBOlBKTVbMU
+	BtwW2Kn4+16X2cAd7Hz1TNOh5sYYJ8FznX4SB8xoNuEDZ03LU1mQq1Q0HN5LYwbXXIrmgTlhWHB
+	I9T5OGFj309hWj1h/GAYWz2ZpHQn41E4EK0u63xPUZCr8ZxsD6MFS3Osn7itboJ4diSGH51HZ5e
+	/uhBMEwyRj5f2g9hxGE9YuHkh8FORrpQrGv1+zUtLTtFpoaFOkZ1fSoqhBUz6DDkdH3ZrsLvyNj
+	QJbW3KYuA9A1Su7qL/AmQ9n107dEuZsQnqXUxbVphZJQdyyRgV9jbAKfnV1Fhx1ureZX/4bAH6O
+	lmLodSrPg==
+X-Received: by 2002:a5d:64c8:0:b0:48c:43a3:6a74 with SMTP id ffacd0b85a97d-48c7277152bmr11130200f8f.12.1791464840586;
+        Thu, 08 Oct 2026 06:07:20 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F ([185.194.184.20])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c724b660fsm10757165f8f.18.2026.10.08.06.07.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 06:01:06 -0700 (PDT)
-From: Benjamin Coddington <ben.coddington@hammerspace.com>
-X-Google-Original-From: Benjamin Coddington <bcodding@hammerspace.com>
-To: Chuck Lever <cel@kernel.org>
-Cc: Danny@lightningiq.io, Christian Brauner <brauner@kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>, Amir Goldstein <amir73il@gmail.com>,
- linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
- Danny Pidutti <danny_pidutti@hotmail.com>
-Subject: Re: [PATCH] exportfs: Release the get_name() directory file
- synchronously
-Date: Thu, 08 Oct 2026 09:01:04 -0400
-X-Mailer: MailMate (2.0r6272)
-Message-ID: <A4D58861-5753-4284-8C77-93025701E58E@hammerspace.com>
-In-Reply-To: <20261007164648.50493-1-cel@kernel.org>
-References: <20261007164648.50493-1-cel@kernel.org>
+        Thu, 08 Oct 2026 06:07:20 -0700 (PDT)
+Date: Thu, 8 Oct 2026 09:07:17 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Ayush Ranjan <ayushr@modal.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, David Hildenbrand <david@kernel.org>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [BUG] shmem: FALLOC_FL_PUNCH_HOLE vs fault-around race corrupts
+ page cache / rss counters
+Message-ID: <aseVAm3vczSTvBwN@gourry-fedora-PF4VCD3F>
+References: <20260924061708.1645968-1-ayushr@modal.com>
+ <arTdLsBENhrpOyk-@pedro-suse.tail5790ac.ts.net>
+ <20260925053027.1998394-1-ayushr@modal.com>
+ <20260925065013.3682431-1-ayushr@modal.com>
+ <20261003033107.1488699-1-ayushr@modal.com>
+ <20261004222831.bdd648a2b406f02747dd9e40@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261004222831.bdd648a2b406f02747dd9e40@linux-foundation.org>
 
-On 7 Oct 2026, at 12:46, Chuck Lever wrote:
+On Sun, Oct 04, 2026 at 10:28:31PM -0700, Andrew Morton wrote:
+> fwiw I made gpt and gemini argue about this for a while and ended up
+> with the below.
+>
 
-> get_name() opens the parent directory with dentry_open() and
-> releases it with fput(). From a kernel thread, fput() defers the
-> final __fput() to the delayed_fput work item. NFSD threads are
-> kernel threads, and NFSD reaches get_name() through
-> exportfs_decode_fh() whenever a file handle's dentry is not
-> connected to the root.
->
-> On a filesystem with more directories than the dcache retains,
-> nearly every READDIRPLUS needs a reconnect. The deferred releases
-> arrive faster than the work item retires them, and each pending
-> file pins the directory's readdir state. On ext4 that state is the
-> htree fname cache for the last leaf block read. A 64-thread NFSv3
-> server under a parallel tree walk showed unreclaimable slab growing
-> by about 90 MB per second, and the same workload on a 5.15 kernel
-> ended in a global OOM.
->
-> Commit 5ff318f645eb ("nfsd: use __fput_sync() to avoid delayed
-> closing of files.") stopped NFSD's own closes from feeding the
-> delayed_fput queue but did not cover the exportfs reconnect path.
->
-> Release the file with __fput_sync(). get_name() opened the file
-> itself, read-only, on a directory, so __fput() involves nothing
-> that could wait on the caller.
->
-> Fixes: 4a9d4b024a31 ("switch fput to task_work_add")
-> Reported-by: Danny Pidutti <danny_pidutti@hotmail.com>
-> Closes: https://lore.kernel.org/linux-fsdevel/DS4PR04MB9846BA3C16BC5ACE=
-D8B589228D952@DS4PR04MB9846.namprd04.prod.outlook.com/
-> Signed-off-by: Chuck Lever <cel@kernel.org>
+I thought this was resolved by Zi Yan's patches, but it seems they just
+made it harder to hit.  This version looks better than what i'd
+originally conjurred up, so if you end up taking it:
 
-Reviewed-by: Benjamin Coddington <bcodding@hammerspace.com>
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 
-Ben
+~Gregory
