@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818564086A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA733281503;
 	Thu,  8 Oct 2026 01:39:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791423571; cv=none; b=GKVgiliGFCo+zzU/oxhCNqugohB/oKhlBzJt/kSVhYr+FMHSgIGLRtAEVEBZdfKVRszSGqA4UTiwq3i4Cr5l1oz1bvWE67xW832ewwdxvLIlbQz+RFDM/18sZrasPAIV1A5smT8vwzF0Ur2c2fgn5yFmEe49D8C4+QE5SAkYhgw=
+	t=1791423571; cv=none; b=s2oOclijHorSvGmxVbBrkU/5EuXDdrfEKzHpTBbS3iD8amO/CncTyFmgqfiJeaZ1+EhH0x4SOcW1Px8RaqjVusdVtUXmaCQ2IVOrHc7qU5kZqFEe2lws8KsreA2KZ70RCbDvYTzEMnbtB34rvstogOkIql3IljscMxl7WWord5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791423571; c=relaxed/simple;
-	bh=kP0JJQRwP0kNOX5s7X+UWUSB0zcc0qher0tSsqFRWKw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=n6I/STKQKD4lGSK5oY4tg9w799W5ShRXTFF1ip+fO61/alhY1dQ3VC0iMj8p9A3D7c+rS3aEdGyclMSvTugFdOc0Aoa+Py7/E0w4fTnY24zZZh38vfRkvuprtKhrTUAoKJvmtAfZjCzZsnX1DWvlDw4u0JAfS23yTHpdtKmoT8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOH78Q+r; arc=none smtp.client-ip=10.30.226.201
+	bh=jY9oZ8Z9S4otJIqmVjdCr8YUgrPXD/jsfoPnxmuuZc8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=KbJew4Jqqb3t9tQX8wJzpFVFcYCLet+zcCqRIkDmZDTX2kg3KViJJr9AWaLD80YuZMjkSyV+Lgtr0OwI7JaQY1U6Ap8WZDkgDD4obDGG6NS+D5z2B1ZN44D//Mog0M9jUMb5B5q4r31C/UYFk7E95+jzUhxkhbEJI3RdYgI6MGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NsEZxWJg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOH78Q+r"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1B7F7C2BCB9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NsEZxWJg"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4843AC2BCFB;
 	Thu,  8 Oct 2026 01:39:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1791423571;
-	bh=kP0JJQRwP0kNOX5s7X+UWUSB0zcc0qher0tSsqFRWKw=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=jOH78Q+rcjx7LrpduSg29lrWE6tRWt6kFGFCI5GPWiP7iwWX/QqiVUiYiXAnkE6rJ
-	 cdXhFJWUl47vbP5/HCMY+9inudu1T0Zl1+3A/uhxb40TnJ9uloMkm7GoAJuyq+OQDR
-	 J9HUYj74ofzIoLQ7aNtrekFfW1wAaSA+Cr7pjyvpiA3vdftnNWGzaqjGlTS1NF1NdE
-	 k9eOTCCk4hYkRUZUhf5VhSYA6EpypCK0aht7xyLu72POCJSFIlaWVQJlwElJEFENEO
-	 7RFznnErhTSBQiNgyo0+E6aCKTS60lX3IwBEcUorym8SAO2ZpoGCcbTGzmn1tSWrj2
-	 E3O7VXpDXXM9A==
+	bh=jY9oZ8Z9S4otJIqmVjdCr8YUgrPXD/jsfoPnxmuuZc8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=NsEZxWJgzTBzVq7UZj4E6zIsFcplLjtEdND0OR+un6zoYLELu2ai+yw+oh1rWGcOr
+	 NnnigSdLl0e2iM3dyFLuc19NRzHEckmMuI+L9dXXOTQ8wuEUfgbloEbFOqSG9/OLAg
+	 yblbil+I9uYNGrYZNeMaXzDCQgXdtzyiUF0KfXdmK22j8q+V8Qfz3w75LKljXDrKzX
+	 wMxyt7pnXUQ11wooOWtxZZyJIEOqfAHZs2sNuCZwHKjIVlklDK0owL04gUH3rg7qMy
+	 vkT+6ouPVuIvgaqolFN/D9NPwNR07bKFXrNV3lw4iKnRfgFpGsLv10pBpk6TC13Jxl
+	 FuoezVgwSkRaw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5EF1CA6002;
-	Thu,  8 Oct 2026 01:39:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C1C2CA6004;
+	Thu,  8 Oct 2026 01:39:31 +0000 (UTC)
 From: Daejun Park via B4 Relay <devnull+daejun7.park.samsung.com@kernel.org>
-Subject: [PATCH 0/8] xfs, nfsd: map a whole pNFS block layout in one
- ->map_blocks call
-Date: Thu, 08 Oct 2026 10:39:29 +0900
-Message-Id: <20261008-xfs-nfsd-map-blocks-v1-0-560026cdccb6@samsung.com>
+Date: Thu, 08 Oct 2026 10:39:32 +0900
+Subject: [PATCH 3/8] xfs: clamp the pNFS layout range to the maximum file
+ size
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -41,9 +41,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFH0xmoC/x3MTQqAIBBA4avErBtQsR+6SrSwHGuoLByIILp70
- vJbvPeAUGIS6IoHEl0sfMQMXRYwLS7OhOyzwShTa6VavINgDOJxdyeO2zGtglY3vhpr58gayOW
- ZKPD9X/vhfT8mSRkAZQAAAA==
+Message-Id: <20261008-xfs-nfsd-map-blocks-v1-3-560026cdccb6@samsung.com>
+References: <20261008-xfs-nfsd-map-blocks-v1-0-560026cdccb6@samsung.com>
+In-Reply-To: <20261008-xfs-nfsd-map-blocks-v1-0-560026cdccb6@samsung.com>
 To: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
  NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
  Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
@@ -56,11 +56,11 @@ Cc: "Darrick J. Wong" <djwong@kernel.org>, Dave Chinner <dgc@kernel.org>,
  linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
  Daejun Park <daejun7.park@samsung.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791423569; l=7438;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791423569; l=3068;
  i=daejun7.park@samsung.com; s=20261006; h=from:subject:message-id;
- bh=kP0JJQRwP0kNOX5s7X+UWUSB0zcc0qher0tSsqFRWKw=;
- b=lrFrEp5QgOiMYXYb/d1JOtyxiu/wqdG0GoRLJODoSCxZGx7HOoaBjy9nT610jBvSfnZ2459rK
- xx6ttYEwjQbBcOHKx8Ureevc8DCXHDLXWei5W7KXHOgjxDExfBquw4K
+ bh=z/BxmcsRnxQN10z0yMKgWHuxZ++6a94ROtN8flqGz9A=;
+ b=bFDOXblLmZ9OptOC5Ru+mWQZfDv95mZ5+SPFE2/8bktgafS7vWWrwbhd2h46AFf0r+a8rHJxk
+ V6m2VoNaJ6BBAX4wv+353lf300TPyY3FW374GWviADN6bcB4f2gG+xQ
 X-Developer-Key: i=daejun7.park@samsung.com; a=ed25519;
  pk=4yUfDqGRZTIj0Ik43z1GoMZRWCNm/rgX6uJuM9dtNIg=
 X-Endpoint-Received: by B4 Relay for daejun7.park@samsung.com/20261006 with
@@ -68,142 +68,76 @@ X-Endpoint-Received: by B4 Relay for daejun7.park@samsung.com/20261006 with
 X-Original-From: Daejun Park <daejun7.park@samsung.com>
 Reply-To: daejun7.park@samsung.com
 
-nfsd calls ->map_blocks once per extent of a block layout. XFS takes
-the iolock, flushes and invalidates the page cache, maps one extent
-and, if it allocated blocks for a write layout, updates the inode and
-forces the log, all again for each extent, and the mapping of the file
-can change between the calls. Christoph asked for ->map_blocks to
-return several mappings instead [1], as Darrick had suggested [2].
+From: Daejun Park <daejun7.park@samsung.com>
 
-Patch 1 is "xfs: map pNFS layouts to the end of the extent again" [3],
-posted on its own and reviewed by Darrick, but not in a tree yet. It
-changes the same function, so it is included here unchanged.
+xfs_fs_map_blocks() checks the range of a layout with
 
-Patches 2 and 3 fix the ranges that xfs_fs_map_blocks() gets from a
-client. An RW LAYOUTGET at offset 0 of an empty file for 16 TiB shuts
-the filesystem down, because xfs_iomap_write_direct() keeps the block
-reservation in an unsigned int; patch 2 refuses a count that does not
-fit with -ENOSPC. A LAYOUTGET for NFS4_UINT64_MAX bytes, or at an offset
-of 2^63, makes the range check wrap and maps nothing; patch 3 fixes the
-check, which the rest of the series relies on. Both are fixes for stable
-kernels as well, and leave a range that fits the free space as it was.
-Patch 3 needs patch 2 there: alone, it turns the NFS4ERR_IO of an RW
-layout to the end of the file into a shutdown.
+	if (offset > limit)
+		goto out_unlock;
+	if (offset > limit - length)
+		length = limit - offset;
 
-Patch 4 lets ->map_blocks fill an array of mappings, without a change
-in behavior. Patches 5 to 7 make XFS map the whole range one extent
-after the other, under the iolock and, as Darrick also pointed out in
-[2], the invalidate lock, so that each mapping starts where the one
-before it ends, with one flush and at most one log force. Patch 8 makes
-nfsd ask for all extents at once and check that they fit together,
-instead of trimming them.
+limit - length is computed in u64, so a length larger than the limit
+wraps and the length is not clamped. nfsd passes the LAYOUTGET range
+through, and RFC 8881 lets a client ask for NFS4_UINT64_MAX bytes, for
+the rest of the file. offset + length then wraps to offset - 1, end_fsb
+rounds back to offset_fsb, and xfs_bmapi_read() maps nothing. For a read
+layout, xfs_bmbt_to_iomap() then gets an uninitialized imap: with a
+zeroed stack it logs "Access to block zero", marks the data fork sick
+and fails with -EFSCORRUPTED, and otherwise the mapping is whatever was
+on the stack and can reach the client. For a write layout,
+xfs_iomap_write_direct() is called with a count of zero, which trips an
+ASSERT with XFS_DEBUG. An offset of 2^63 or more, which nfsd accepts
+too, becomes negative in the loff_t argument and passes the first check.
 
-The series is on top of nfsd-testing 214e388464bf ("nfsd: do not return
-overlapping extents in a block layout"). Patches 4 and 8 depend on that
-commit, which added the comment that patch 4 changes and the trim that
-patch 8 replaces. Darrick's comment on that commit [5] came after it was
-applied: patch 4 documents that a mapping may end past the range, and
-patch 8 removes the comment he asked to fix. exportfs_block.h is
-maintained with nfsd, so I would suggest the nfsd tree, with acks from
-XFS for patches 1 to 3 and 5 to 7. Patches 1 to 3 could also go through
-XFS first; they apply to XFS for-next 197f678cccba as they are, and
-patches 5 to 7 do not apply without them.
+Reject a negative offset and an offset at the limit, and compare the
+length with what is left up to the limit, which cannot wrap once the
+offset is below it.
 
-Tests. QEMU VMs, the server exports a 32 GiB XFS on an NVMe/TCP
-namespace, pynfs or the Linux client, KASAN and lockdep unless noted.
-"before" is the base with patch 1, "after" the whole series.
+With pynfs as the client, a READ LAYOUTGET for NFS4_UINT64_MAX bytes at
+offset 0 got NFS4ERR_IO, as did an RW one, which also made nfsd warn
+about the non-standard errno -63, and a READ LAYOUTGET at offset 2^63
+got NFS4ERR_IO as well. With this patch and the previous one, the one at
+2^63 gets NFS4ERR_INVAL, the RW one gets NFS4ERR_NOSPC before anything
+is allocated, as the range up to the maximum file size cannot be
+reserved, and the server logs nothing. The READ one gets NFS4ERR_INVAL
+as well: nfsd, which maps a layout one extent at a time since
+commit cc6c40e09d7b ("NFSD/blocklayout: Support multiple extents per
+LAYOUTGET"), asks again from the maximum file size on. An RW one on a
+file whose first 64 KiB are allocated, with a loga_maxcount that has
+room for one extent, is granted 0+65536.
 
-LAYOUTGETs for the first 256 KiB of a file in which 32 blocks of 4 KiB
-written with O_DIRECT are each followed by a 4 KiB hole, 64 extents,
-20 LAYOUTGETs each, KASAN and lockdep off, time from a kprobe on
-nfsd4_block_proc_layoutget():
+This depends on the previous patch. Without it, an RW LAYOUTGET to the
+end of the file, whose length is now clamped instead of wrapping, asks
+xfs_iomap_write_direct() for every block up to the maximum file size,
+which wraps the block reservation and shuts the filesystem down where it
+got NFS4ERR_IO before.
 
-                                            before      after
-  READ: ->map_blocks calls                  64          1
-        median time                         26 us       9 us
-  RW, 32 holes allocated:
-        ->map_blocks calls                  64          1
-        log forces                          32          1
-        median time                         166 ms      2.2 ms
-
-RW LAYOUTGETs for large ranges, minimum length 4 KiB unless noted,
-each on its own boot:
-
-                            before       patches 2, 3   after
-  empty file, 16 TiB        shutdown     NOSPC          NOSPC
-  empty file, to the end    IO, WARN     NOSPC          NOSPC
-  64 KiB allocated, then
-  a hole, to the end        IO, WARN     NOSPC          NOSPC
-  empty file, 100 GiB       NOSPC        NOSPC          NOSPC
-  empty file, 16 GiB,
-  minimum length 16 GiB     16 GiB       16 GiB         16 GiB
-
-NOSPC is answered before anything is allocated. WARN is nfsd's warning
-about the non-standard errno -63.
-
-pynfs, with BLOCK5 from [6] and the empty lou_body of BLOCK3 passed as
-bytes (as shipped, BLOCK3 fails with a TypeError in pynfs before
-anything is sent): BLOCK1, BLOCK2, BLOCK4 and BLOCK5 pass before and
-after, five and three runs, and BLOCK3 fails in both with
-NFS4ERR_BADXDR, as a zero-length lou_body has no extent count.
-GETLAYOUT1, a READ LAYOUTGET for NFS4_UINT64_MAX bytes, gets NFS4ERR_IO
-before, NFS4ERR_INVAL with patches 2 and 3, and a layout to 2^63 after,
-also with XFS_DEBUG. LAYOUTRET1 and LAYOUTRET3 then run and fail as they
-would on any kernel (a TypeError in pynfs, and no current filehandle),
-as do CSID7 and GETDLIST1 before and after. On a test kernel whose XFS
-does not trim a mapping to the offset asked for, BLOCK5 gets
-NFS4ERR_LAYOUTUNAVAILABLE and nfsd warns, instead of handing out
-overlapping extents. With a process on the server that writes a shared
-mapping of another file in a loop, the pynfs run gives no lockdep
-report.
-
-fstests generic/075, 091 and 263 over the block and the SCSI layout
-give the same results before and after (075 fails with an fsx size
-error in both), and the client's bl_alloc_lseg() returns no error.
-With XFS_DEBUG, of generic/013, 075, 091, 112, 127 and 263 only 075,
-112 and 127 fail, which also fail without this series on nfsd-testing,
-and XFS logs no assertion.
-
-Clients writing new files through their layouts, four cases, read back
-on the server: no block is lost before or after. This test runs on top
-of the nfsd layout recall series [4] as revised for a v2 that is not
-posted yet; this series applies to it without conflicts. Without it,
-nfsd-testing loses blocks when a layout recall fails.
-
-Not in this series: Darrick's third point in [2], that the reflink and
-realtime checks are made before the locks are taken, and the window
-between ->map_blocks and nfsd4_insert_layout() that Christoph mentioned
-in the same thread, which this series narrows but does not close.
-
-[1] https://lore.kernel.org/r/20261007131133.GB30647@lst.de
-[2] https://lore.kernel.org/r/20260519145949.GH9555@frogsfrogsfrogs
-[3] https://lore.kernel.org/r/20261006003425epcms2p586728e55ff5f9bbabc506b672fc4a421@epcms2p5
-[4] https://lore.kernel.org/r/20261006-nfsd-layout-recall-v1-0-b59b31caf342@samsung.com
-[5] https://lore.kernel.org/r/20261007165101.GD2705364@frogsfrogsfrogs
-[6] https://lore.kernel.org/r/20261006002622epcms2p38e492aef17fdf79e48b05c9aada2918d@epcms2p3
-
+Fixes: 527851124d10 ("xfs: implement pNFS export operations")
+Cc: stable@vger.kernel.org
+Signed-off-by: Daejun Park <daejun7.park@samsung.com>
 ---
-Daejun Park (8):
-      xfs: map pNFS layouts to the end of the extent again
-      xfs: refuse a direct allocation whose block reservation would wrap
-      xfs: clamp the pNFS layout range to the maximum file size
-      exportfs: let ->map_blocks return more than one mapping
-      xfs: factor the mapping of one pNFS extent out of xfs_fs_map_blocks()
-      xfs: take the invalidate lock while mapping a pNFS layout
-      xfs: map the whole range of a pNFS layout in one ->map_blocks call
-      nfsd: get all extents of a block layout in one ->map_blocks call
+ fs/xfs/xfs_pnfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- fs/nfsd/blocklayout.c          | 134 +++++++++++++++++++++-------------------
- fs/xfs/xfs_iomap.c             |   7 +++
- fs/xfs/xfs_pnfs.c              | 136 +++++++++++++++++++++++++++++------------
- include/linux/exportfs_block.h |  14 +++--
- 4 files changed, 185 insertions(+), 106 deletions(-)
----
-base-commit: 214e388464bf850fcdc5d656fd39909f0a1ee83d
-change-id: 20261008-xfs-nfsd-map-blocks-417d5b6aae42
+diff --git a/fs/xfs/xfs_pnfs.c b/fs/xfs/xfs_pnfs.c
+index ab38561700..88d9c3c043 100644
+--- a/fs/xfs/xfs_pnfs.c
++++ b/fs/xfs/xfs_pnfs.c
+@@ -167,9 +167,9 @@ xfs_fs_map_blocks(
+ 	if (!write)
+ 		limit = max(limit, round_up(i_size_read(inode),
+ 				     inode->i_sb->s_blocksize));
+-	if (offset > limit)
++	if (offset < 0 || offset >= limit)
+ 		goto out_unlock;
+-	if (offset > limit - length)
++	if (length > limit - offset)
+ 		length = limit - offset;
+ 
+ 	error = filemap_write_and_wait(inode->i_mapping);
 
-Best regards,
 -- 
-Daejun Park <daejun7.park@samsung.com>
+2.43.0
 
 
