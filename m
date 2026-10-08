@@ -1,173 +1,212 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07903EC6B2;
-	Thu,  8 Oct 2026 09:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8954848AA
+	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 10:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791452537; cv=none; b=Nyb7YeAl9EGarOTuh+NdgC6TJr5RO2h4BaR0gCe4YM2UBKDPn3KUIT5kWjZru7SOzSnBbciWcMn2NpBYQ2KAoxr0LqTV6MHOYalY4iHfHn9H6N0PGpFnJ8Y1pgA1UC3GxEnnJM2iAK80+UXRmvL8FhMpNRAdF52g9v8S9Ps1VIU=
+	t=1791454994; cv=none; b=NAPXPccpTe2wsCeKqK4ywczNatkb2zoBD6Ar/ClVqkyUBjRnuEVu4smklvcB/XssOLh4vxTjGWHgNGbfE8jk5lXxOrJoertxz4Lu9cUjz3eQOFhcJHU/q+pTlHQvO7xMIR8kIyL4jKdehD+uA7SLSNqAQ4QxFKFjuN4uw/dA628=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791452537; c=relaxed/simple;
-	bh=FyTtv6VHLYudm9aZT17T8hYcWkfbRZYWOtDIqWaLhog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ADqRkhvuTzQiep38DzA28sezWYKQFDGyuHqjMXdRbhYVDhc4Hq+4RfRKwmRR/r20uj5iAo6c22xg4faNxlSVhCpx+r7eKUQh1J7MGvDCBSTtiJzOowiKCH5NnGljZJXwrsdTr5q3MS2PQ62+VXynRMAMYPt2JuT3OIn1MlQscpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QRvrbIjB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zOY+D+bb; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1791454994; c=relaxed/simple;
+	bh=1fWYKc6uzLH2whfDkm7TWoiFw1Rm0HcoWhLnt9kusfE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TjUWZ4Fc7nIl6IJmQgVLntBsVQyLsDOnApYXBeNU2IUQxpzhaeA6gbl2XxLRImcvyjXSvOU9FjyOd8x8TQEPprQ842qxMAlbujeLxwfEtUufAXgLCprBZnIFYGFJ0nCoLtBEmxXVFcIzmYCbqm3SyRXLqtBVdndSu/LPADp8hZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TmoR9jJl; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QRvrbIjB";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zOY+D+bb"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TmoR9jJl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791454991;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=F6Ri3pHIl20gecDqbC09Y5YclV6WJYtvm9nxg+QZeGM=;
+	b=TmoR9jJlbaP1540ZSZ8YPFHdj37sq77kMC1/EfS06m3YN6RpTOKGr1ZxQFsC7zY2mnEgHq
+	34FCi/RXWg9Jis+fjF9h0lOYeBhuaT3chrEnOF/1RfXUQIy2rGraUS0DOghsgVFz7DBBf/
+	nxySyOqeT+cPjzZD6Ulsr6wHYRS7rtQ=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-609-S9gJu8cNMoy0HNO_Y9nC1A-1; Thu,
+ 08 Oct 2026 06:23:07 -0400
+X-MC-Unique: S9gJu8cNMoy0HNO_Y9nC1A-1
+X-Mimecast-MFC-AGG-ID: S9gJu8cNMoy0HNO_Y9nC1A_1791454985
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8F93821BEF;
-	Thu,  8 Oct 2026 09:42:06 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791452526; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G50XP/ynVQ52FiYWUnLkgX1p7U+DkDWuSaDmmCm1Xg4=;
-	b=QRvrbIjBU4O62jpsYU1SL67q6xhUoG245eN1sAESs3+U/6oaeYt5E61SL3kGFbrz24dYxS
-	nKIqi/qMPH2M/HIGa3T2Af0z9h1cZqJHURAE5YoU3sERBR5wavqYRsf+M9QAYM/w2DCCda
-	BcIkWHOPDQK16vPDTJ5Luwe4oM1k62w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791452526;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G50XP/ynVQ52FiYWUnLkgX1p7U+DkDWuSaDmmCm1Xg4=;
-	b=zOY+D+bbTBMIt8QPBOLbUkaldv9SxUPYiX5roE8pp4BikzidwJFjD6Bdmvv7Lu1Ol4OBoZ
-	GLA5FQmQ283jcXCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 588CD13354;
-	Thu,  8 Oct 2026 09:42:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Ot8nC25lx2q2DwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 08 Oct 2026 09:42:06 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id D1451A13FC; Thu, 08 Oct 2026 11:42:05 +0200 (CEST)
-Date: Thu, 8 Oct 2026 11:42:05 +0200
-From: Jan Kara <jack@suse.cz>
-To: Partha Sarathi Satapathy <partha.satapathy@oracle.com>
-Cc: jack@suse.cz, amir73il@gmail.com, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/1] fsnotify: Check parent watches without child dentry
- flags
-Message-ID: <qlw6x3hyky5yoievlkd6ylz3ov432hdjlzkcyboswqktnk43il@fvccpqnil5sp>
-References: <cover.1791373689.git.partha.satapathy@oracle.com>
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 96D72195D00A;
+	Thu,  8 Oct 2026 10:23:04 +0000 (UTC)
+Received: from warthog.com (unknown [10.44.32.90])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4A7F118002B6;
+	Thu,  8 Oct 2026 10:22:57 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>
+Cc: David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Stefan Metzmacher <metze@samba.org>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	v9fs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v17 0/8] netfs: Use a bvecq chain position abstraction
+Date: Thu,  8 Oct 2026 11:22:44 +0100
+Message-ID: <20261008102253.1003776-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1791373689.git.partha.satapathy@oracle.com>
-X-Spamd-Result: default: False [0.00 / 50.00]
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: 8F93821BEF
-X-Rspamd-Pre-Result: action=no action;
-	module=Unknown lua;
-	unknown reason
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spam-Score: 0.00
-X-Spam-Flag: NO
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Wed 07-10-26 15:20:50, Partha Sarathi Satapathy wrote:
-> This patch removes the cached-child dentry walk performed when a directory
-> first starts watching child events. Instead, the event path takes a reference
-> to the parent dentry and checks its child-watch mask. It also removes the
-> DCACHE_FSNOTIFY_PARENT_WATCHED flag and its update sites.
+Hi Christian,
 
-If we can get rid of it, it would be a nice simplification but I have
-doubts this is feasible.
+Could you pull these patches please into your vfs-7.4.netfs branch?  This
+is the fourth of five batches.  The primary purpose of this batch is to add
+an abstraction for a position in a bvecq chain and make use of it.
 
-> On the test host, 12 million files were populated and their positive dentries
-> were warmed before each run. With eight concurrent unlink/recreate workers
-> and 100 sole-watch add/close cycles, inotify_add_watch() measured:
-> 
->                          Before                After
->   run 1 average           107.420 ms            0.004 ms
->   run 2 average           125.433 ms            0.004 ms
->   run 1 maximum           122.811 ms            0.113 ms
->   run 2 maximum           141.198 ms            0.095 ms
-> 
-> The displayed 0.004 ms averages are rounded to three decimal places.
-> Maximum unlink/recreate latency was 777.852 and 770.569 ms before, versus
-> 8.525 and 15.624 ms after. Those mutation maxima are supporting observations:
-> workers ran only during the watch-add loops, so the pre-change and post-change
-> mutation measurement windows had very different lengths.
+With that in mind, this patchset does the following:
 
-This looks good and is kind of expected. We don't have to traverse the huge
-children list.
+ (1) Add a struct, bvecq_pos, to refer to a position in a bvecq chain.
+     This is a tuple of ( bvecq pointer, slot and offset } and the position
+     struct holds (for now) a ref on the bvecq pointed to.
 
-> One 100,000-iteration, single-worker open/close event-path run per mode gave:
-> 
->                          Before                After
->   none:   p50/p99 ns      9564 / 15703          9684 / 15023
->           throughput      102221 ops/s          101432 ops/s
->   other:  p50/p99 ns      9554 / 15573          9684 / 14962
->           throughput       99442 ops/s          101497 ops/s
->   parent: p50/p99 ns     12529 / 19179         12499 / 17716
->           throughput       78196 ops/s           78655 ops/s
-> 
-> The 'other' mode watches a different directory on the same filesystem, so it
-> exercises the superblock watcher path without target-file event delivery.
-> These are single runs; they do not establish a small event-path cost or its
-> absence. No open/close regression is apparent at this measurement resolution.
-> The test used worker CPU 2 and listener CPU 4 on kernels
-> 6.19.0-rc8.V_fsn0.el9.omm0.x86_64 and 6.19.0-rc8.fsn3.el9.omm3.x86_64,
-> respectively. The test host reported XFS for its working directory.
-> 
-> The inotify correctness test and broader fsnotify functional test passed on
-> both kernels. The fanotify permission subtest skipped with EPERM in both runs,
-> so FAN_OPEN_PERM remains unvalidated by these results.
+ (2) Change unbuffered/DIO to extract the supplied user buffers into a
+     bvecq chain rather than a bio_vec[] up front.  This means that
+     netfslib then uses bvecq chains for everything.
 
-This isn't a load for which the DCACHE_FSNOTIFY_PARENT_WATCHED optimization
-is that interesting. Try the following:
+ (3) Add a folio count to the readahead_control struct and then makes
+     readahead pre-create its buffer using that count to determine how many
+     slots are required.
 
-Create a directory on tmpfs with say 1024 files, each 4k large.
-Place IN_MODIFY inotify watch on the directory.
-Start X clients (where X can be 1,2,4,8,...,1024 to see the scaling)
-  The client will open the file based on its number (so different clients
-  work on different file)
-  Do 1000000 writes of 1 byte at offset 0 to the file => measure time for
-    this
-  Close the file
+ (4) Change netfslib to use the bvecq_pos struct to keep track of the whole
+     request buffer and various points in it where loading, dispatch and
+     collection are taking place and to also keep track of the slice given
+     to each subrequest.
 
-I would bet you would see the difference already at 1 client and as the
-number of clients grows and the cacheline contention on the parent's
-refcount increases, it will get progressively worse. In particular if you
-try on a NUMA machine where the cacheline will ping-pong across NUMA nodes.
+This was split from v11 of a larger netfslib series[1].
 
-We've got performance regression reports for similar loads already when we
-added one cacheline load to fsnotify_parent(). Doing the "grab parent
-refcount" dance is much more expensive than that.
+The patches can also be found here:
 
-								Honza
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=netfs-next-4
 
-> 
-> Partha Sarathi Satapathy (1):
->   fsnotify: Check parent watches without child dentry flags
-> 
->  fs/dcache.c                      |  4 --
->  fs/notify/fsnotify.c             | 99 ++++++++------------------------
->  fs/notify/fsnotify.h             |  6 --
->  fs/notify/mark.c                 | 35 -----------
->  include/linux/dcache.h           |  1 -
->  include/linux/fsnotify.h         |  7 +--
->  include/linux/fsnotify_backend.h | 29 ++--------
->  7 files changed, 29 insertions(+), 152 deletions(-)
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+David
+
+Changes
+=======
+ver #17)
+- Fixed issues brought up by sashiko[5]:
+  - In bvecq_slice(), return 0 immediately if max_size or max_slots are 0.
+  - Make sure that sreq_max_{len,segs} are initialised before calling
+    prepare_read.
+- Fixed an issue brought up by the kernel test robot[6]:
+  - In netfs_read_gaps(), use umax() rather than max() when comparing a
+    signed and an unsigned int.
+
+ver #16)
+- Fixed issues brought up by sashiko[4]:
+  - In bvecq_pos_nudge(), recheck the old bvecq, not the new one.
+  - In bvecq_slice(), recheck the old bvecq.
+  - In bvecq_pos_step(), don't assume the new bvecq has slots, but rather
+    check it.
+
+ver #15)
+- In netfs_extract_iter(), set BVECQ_MEM_EXTERNAL rather than
+  BVECQ_MEM_PAGECACHE for unpinned memory.
+- In netfs_clear_unread_dio(), don't need to update subreq->transferred
+  as the caller overwrites it after.
+- Fixed issues brought up by sashiko[3]:
+  - In netfs_extract_iter(), remove redundant max_len check.
+  - In bvecq_pos_nudge(), make sure the recheck is checking the old bvecq,
+    not the new.
+  - In netfs_unlock_abandoned_read_pages(), start from collect_cursor.slot,
+    not from slot zero.
+  - In netfs_pgpriv2_copy_to_cache(), cancel the caching also if we fail to
+    allocate a bvecq.
+  - In netfs_retry_write_stream(), use the same superfluity detection as
+    the read side.
+  - In netfs_write_subrequest_terminated(), only set the RETRY flag on
+    short uploads, not short cache writes.
+
+ver #14)
+- Fixed issues brought up by sashiko[2]:
+  - In netfs_extract_iter(), limit the number of slots per bvecq to what
+    will fit inside a 4KiB allocation.
+  - In netfs_rreq_assess_dio(), only set the page dirty if it's from GUP or
+    it's from the pagecache.
+  - In bvecq_zero(), skip the call to bvec_zero() if part == 0.
+  - In bvecq_delete_spent(), prefer returning true because more slots got
+    added to returning false because we hit the chain end.
+  - In netfs_read_gaps(), fix a leak of already allocated sink folios if we
+    get OOM when allocating a sink folios.
+  - In netfs_clear_unread_dio(), fix double call to iov_iter_zero().
+
+ver #13)
+- Rebased on -rc6 to account for some conflicting fixes.
+- Fixed a bug in netfs_prepare_read_iterator() where comparison was being
+  made against the wrong thing when limiting a subreq's size.
+
+ver #12)
+- Split from v11 of "netfs: Keep track of folios in a segmented bio_vec[]
+  chain"[1]
+
+[1] https://lore.kernel.org/r/20260902173350.3468672-1-dhowells@redhat.com/
+[2] https://sashiko.dev/#/patchset/20261006205947.608356-1-dhowells%40redhat.com
+[3] https://sashiko.dev/#/patchset/20261007142001.851620-1-dhowells%40redhat.com
+[4] https://sashiko.dev/#/patchset/20261008074346.936909-1-dhowells%40redhat.com
+[5] https://sashiko.dev/#/patchset/20261008084722.963948-1-dhowells%40redhat.com
+[6] https://lore.kernel.org/oe-kbuild-all/202610080217.U3kveBFn-lkp@intel.com/
+
+David Howells (8):
+  mm: Make readahead store folio count in readahead_control
+  netfs: Add a function to extract from an iter into a bvecq
+  netfs: Make unbuffered/DIO read and write use bvecq
+  netfs: Add some tools for managing a position in a bvecq chain
+  netfs: Provide a func to load the readahead buffers into a bvecq chain
+  netfs: Use bvecq_pos to hold the buffer positions
+  netfs: Remove the rolling_buffer implementation
+  netfs: Remove netfs_extract_user_iter()
+
+ fs/afs/dir.c                   |   5 +-
+ fs/afs/symlink.c               |   6 +-
+ fs/cachefiles/io.c             |  12 -
+ fs/netfs/Makefile              |   1 -
+ fs/netfs/buffered_read.c       | 182 ++++++++-------
+ fs/netfs/bvecq.c               | 327 +++++++++++++++++++++++++++
+ fs/netfs/direct_read.c         |  81 +++----
+ fs/netfs/direct_write.c        |  67 +++---
+ fs/netfs/internal.h            |   4 +-
+ fs/netfs/iterator.c            | 398 ++++++++++-----------------------
+ fs/netfs/misc.c                |  18 --
+ fs/netfs/objects.c             |  16 +-
+ fs/netfs/read_collect.c        | 106 +++++----
+ fs/netfs/read_pgpriv2.c        |  88 +++++---
+ fs/netfs/read_retry.c          |  87 ++++---
+ fs/netfs/read_single.c         |  19 +-
+ fs/netfs/rolling_buffer.c      | 182 ---------------
+ fs/netfs/write_collect.c       |  73 +++---
+ fs/netfs/write_issue.c         | 166 +++++++++-----
+ fs/netfs/write_retry.c         |  73 +++---
+ include/linux/bvecq.h          | 185 +++++++++++++++
+ include/linux/netfs.h          |  25 ++-
+ include/linux/pagemap.h        |  10 +
+ include/linux/rolling_buffer.h |  47 ----
+ include/trace/events/netfs.h   |  32 ++-
+ mm/readahead.c                 |   5 +
+ 26 files changed, 1264 insertions(+), 951 deletions(-)
+ delete mode 100644 fs/netfs/rolling_buffer.c
+ delete mode 100644 include/linux/rolling_buffer.h
+
