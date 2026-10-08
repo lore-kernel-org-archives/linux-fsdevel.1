@@ -1,126 +1,132 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BC03890E1
-	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 16:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC76F3939B1;
+	Thu,  8 Oct 2026 16:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.66.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791475932; cv=none; b=KInh0va45jR4ISC+TJuSufN1Z71E8iwmdY0VgUO2qbnmlccsu/dx8mDNbkNSWvJsA8PkXkGbitfacmVRjaB6PvGDTb9NweLl8U+vvl/bk2xZ6qHuYznGOqKw7OXhlFW0HrcVRSi6D8b8YFbLurByxvBkcu/ISasPD4JRewl4E/4=
+	t=1791476049; cv=none; b=Eylaet9fvK4T8Dosd4WZ7BGc7w6XUu7w8Q9dtLolTkJGjSilRSl+mUKwbBR1N9bFNcm811SR/mtWJpycTrWAp1AHlqehkcR+7QsmWtCMWl+rWYPO6w2YnWu0bbLUmIe/QcGYRPyKC58odzL5D8SSMvs3ODJDJlstV4ArM8HX9AM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791475932; c=relaxed/simple;
-	bh=BI0G7qBpI/7KwQFAhmOUXBzLsg9VZTTr2gCpFXZLAhc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nnqNu1a81jgtOz1MV9+GuxeYMfMBjYXWVHiFguFnVp6fHWSYioSDZ3EztENVjVFA2O7rg9+0evGFeCrUTvmuZG0HyrlZbk+ty5MKyE0O0gBEzdm8tOUv1l2g+2LC5GrnYXWHheB9GA/B04racuZCMD8s6loYAfOmMXYJ0IqtaGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBV3HFqz; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791476049; c=relaxed/simple;
+	bh=I8VgyQsADjnSNwP8IrwNRupP46kFvIihceEwfXG1CPM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qkBlOpXkwwneAIH+hhLrLgHW+oALxYKi+dOhqbI2p1D6rNsaW20nufE+28KuKaslhds3PT3qjLQwdZ0PIhsqWIJQur0ANhs2LQ92m72aTjOxF6zbFqTeGQ6XIld8aUn67CS/qHjpznbDkI5hLQgHlXZajFEaGlMevLlfv8GKk0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com; spf=unknown smtp.mailfrom=hallyn.com; dkim=pass (2048-bit key) header.d=hallyn.com header.i=@hallyn.com header.b=1r3u8kT+; arc=none smtp.client-ip=178.63.66.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=tempfail smtp.mailfrom=hallyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBV3HFqz"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48c45111bebso2131341f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 08 Oct 2026 09:12:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791475929; x=1792080729; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=IGTDk2M1CVr9/HPRZF14PhrI+tmF1KcbANTHbSO6d8s=;
-        b=cBV3HFqzzOWW6/3mIA5IUdq0aM9r9hZqea0qp+sbS+quwYPN03Xl2tEzFF1fM72QhI
-         /MZxGKXKbaBRh7XSSAEQfpK/r4I6uy2cIeljH9/LKXLwHoT+AvHZLRE4uvH4TSA70Df1
-         xMa4MTwSXFIG6huQ31xlXGdhSIItoM1l9uQ+LTTqybNAURHWE7gP72MfEQXopxrCXrA/
-         L9gjISpur6L/aZR2K/SIiuuWCC1YMR/J/aaQ5lkVlLZBUTCBfNJGMCzIZwaoA2MbFHa9
-         sAWSyoUQbs1dkFjbDjGrlKLdI8gKE+FCl1emLGi4fG7+MByYp3V8EXvQ1nnU8PsYIcHZ
-         6vww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791475929; x=1792080729;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IGTDk2M1CVr9/HPRZF14PhrI+tmF1KcbANTHbSO6d8s=;
-        b=tzXEvVol9nqZnYjbq/iMi76rLWE2HySelbTctgKg2750xpDgDGShPCUKum97O837qn
-         fnc7PJTcrInRbJyZrHetUQgM0lMJiE5vhDIzzV0dDiRwl3jaDpnYLS7+Y2FAR1NOSaLl
-         XAUFxbyKWAKwRvKcjh/K4oB+brAol94LQJiXhJN6XhPp3A+vXf3qCKejVrTrQVFojjG3
-         4IFnYHX7pfaaXp+6sMf7R0TTMibM6QRBU4SMlz9PBF03fuH4JFY1qTGUV8JqLrGKI4R5
-         PbKU3FgtcsZG0071PQ6IIrASvlO1tjZNtT7YLGSDgDK+R6ou0QW6zTu9rHO5yp7r7LVL
-         deOQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzGCxQ3WYLJyzDKJ1lna30Vgdnf8aXUjYpaowBYu1vk6BzdUw+Stf2Q+vZUezefeJkPrRAEbUjg1Jh+ywsf@vger.kernel.org
-X-Gm-Message-State: AFq9FYJG4vI0wpRKQqPB8ZjwmN8CTSHMf3gJmFcbk3hahMxqyA0FQxeE
-	yq4hlqhUuj4bgO1wU9dBIXQEgK52aKN65xIcN5pwzCMgBoh3rlXL1vrx
-X-Gm-Gg: AYBFou2N9XBEcmeheNuh/vknORkh3T+icEFyM8g53u3QvQy5qOfxDDrxdv2r+9dHuPN
-	lc50STvQbk1WFtaOpSTe1UplQ2SFFVEQTtc2ENQoNXBz7+oPl3fh5XWF5nCqE53a+uUtS+tS2p0
-	22p//lAqAVspv2P4lQRxiKeeMedxLQIOG/b7puKp9DsX1SBE8C/i5w9WdpCMjoK9+wpMQ3LV6SO
-	89k+MJkDeeR3vw8/7fxvkDsj2VZOWOi81Nc7G4HpWhZYCEzEOnuOvJEW8hWa+XAP/HNYA4b4FNm
-	UqNT6YwdFR2GUy5aILXVVS/DaX1+Rqzg7Zr4VUlainc3BHGJqT2zT0uwtL/BEWP+2Sk/lnH3xWB
-	ozeT3LDc+Picoi1iGrVH2HuIu/yi3dYBjG5PJqE+tYSIYlnqwkDCBw/b5n1b9ViVf+4JkGt5E80
-	+FOJvIWoPIAm4nF2ZmzvChWfG7GjJmRQQeGPU6gOpj+9NymgXx4laEprJ2m5p30c8FXhiYFgQ8U
-	Ruh4x5lw+ku43jgjiwkzaVPxj/MLp9GDZ5ehfKevHIYXQ==
-X-Received: by 2002:a05:6000:25fb:b0:48c:77ad:d52d with SMTP id ffacd0b85a97d-48c77add59dmr9194549f8f.43.1791475929174;
-        Thu, 08 Oct 2026 09:12:09 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db650fd4bsm478599f8f.11.2026.10.08.09.12.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 09:12:07 -0700 (PDT)
-Date: Thu, 8 Oct 2026 17:12:05 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: Gregory Price <gourry@gourry.net>, Sasha Levin <sashal@kernel.org>,
- linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
- workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, Thomas
- Gleixner <tglx@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
- <corbet@lwn.net>, Dmitry Vyukov <dvyukov@google.com>, Randy Dunlap
- <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, Kees Cook
- <kees@kernel.org>, Jake Edge <jake@lwn.net>, Gabriele Paoloni
- <gpaoloni@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Christian Brauner <brauner@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, Nathan
- Chancellor <nathan@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH v5 05/11] kernel/api: add API specification for sys_open
-Message-ID: <20261008171205.7239c463@pumpkin>
-In-Reply-To: <asemkQ2v0di0Eea3@hallyn.com>
-References: <20261008084956.2911790-1-sashal@kernel.org>
-	<20261008084956.2911790-6-sashal@kernel.org>
-	<aseRXi7hMWBBc0tB@hallyn.com>
-	<aseWPV6ZRQM3JOMN@gourry-fedora-PF4VCD3F>
-	<asemkQ2v0di0Eea3@hallyn.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=hallyn.com header.i=@hallyn.com header.b="1r3u8kT+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hallyn.com; s=mail;
+	t=1791476037; bh=I8VgyQsADjnSNwP8IrwNRupP46kFvIihceEwfXG1CPM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=1r3u8kT+UvfgyW/BcsTB+P9F18gqW5Bj/iqXmNpM9dHvOH7tnIqkaejpaKCuXQAZm
+	 P3RkZy8+9QG13Tx6gYZy+e1KigpTWCmMOWhn7fY9YQwvqFRSWKBeJrNOlcuFFFt7G5
+	 YjJ77rBkzQ6yYeibAxSoWwvRuMrauRzCc9KKTZtpIORFD90iWk+6Jxl7jtuQsnhjey
+	 /BUzLN0lHrb07q7sjvwOgJ2fATdMv7dxNXLsWRHjITnXAAxuSl5D0dQRcqcL79KNv4
+	 h5zfYpO5XK52KP//rF5MlIClAfiRDnAyvaVSSr1Y0KUgJBU3rgT4HvU8C7wfdQnK/U
+	 N1oKOaPaztYiA==
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+	id C27331B49; Thu,  8 Oct 2026 11:13:57 -0500 (CDT)
+Date: Thu, 8 Oct 2026 11:13:57 -0500
+From: "Serge E. Hallyn" <serge@hallyn.com>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: Paul Moore <paul@paul-moore.com>,
+	Christian Brauner <brauner@kernel.org>,
+	James Morris <jmorris@namei.org>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	"Andrew G. Morgan" <morgan@kernel.org>,
+	Serge Hallyn <sergeh@kernel.org>,
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+	keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/5] capabilities: close the ways around the CAP_SETFCAP
+ rule for uid 0
+Message-ID: <asfBRYy597qvzdCW@hallyn.com>
+References: <20261006-b4-setfcap-userns-v1-0-f47e7ed66072@toxicpanda.com>
+ <asehZEWAwsJcbqvM@hallyn.com>
+ <179147397027.4.15064782992163283819@toxicpanda.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179147397027.4.15064782992163283819@toxicpanda.com>
 
-On Thu, 8 Oct 2026 09:20:01 -0500
-"Serge E. Hallyn" <serge@hallyn.com> wrote:
-
-...
+On Thu, Oct 08, 2026 at 03:39:30PM +0000, Josef Bacik wrote:
+> On Thu, Oct 08, 2026 at 08:57:56AM -0500, Serge E. Hallyn wrote:
+> > Would you mind describing what other solutions you considered?  I've been
+> > looking over this set since Tuesday, and finding it hard to reason about.
+> > (Part of that is certainly the nature of the problem, and it's possible
+> > that this is the best/simplest solution.)
 > 
-> Even if there's just a three line comment above a fn, history proves
-> that it will not reliably stay in sync as the fn changes.  An automation
-> step/check is needed.
-
-The only way it can possibly stay in step is to have the compiler process
-the same source text.
-Then, if you add/change a function parameter you'd be pretty much forced
-to add/change the comment.
-Return values would have to be documented at the C return statement and
-really as an extra parameter to the return.
-
-But, IMHO, the whole thing adds too much bloat to the source files.
-When you 'grep' a source file, you don't really want another match in
-a big comment at the top of every function.
-
-David
-
+> Everything we looked at kept the state in the cred.  We model checked
+> the variants before writing the code, and these fell over:
 > 
-> > ~Gregory  
+> - a bool per cred for "had CAP_SETFCAP over the parent when it entered".
+>   It breaks on two hops: setns() into a namespace that maps 0, unshare
+>   again, and the bool says yes for the second namespace.  Hence the
+>   level.
+> - checking only at uid_map write time.  That misses setxattr of
+>   security.capability in a namespace that already maps 0, hence patch 4.
+> 
+> We didn't look at keeping the state on the namespace.
+> 
+> > If we replaced the userns->parent_could_setfcap bool with a ref to the
+> > creator's cred, then at both setns and write we could check the actor's
+> > credentials, right?  There are probably issues with that specific idea,
+> > but that's why it would be good to see what else you've considered.
+> 
+> Checking at write time alone doesn't work: once a task is inside the
+> namespace its cred says nothing about what it could do outside, so a
+> joiner and the creator look the same.
+> 
+> It does work if setns() refuses to join a namespace that maps, or can
+> still map, the parent's uid 0 unless the joiner has CAP_SETFCAP over the
+> parent.  Then everybody in a namespace has the same reach, and it can be
 
+Yeah, that's what I was thinking.  Or even stricter: ensure that to join
+any user namespace, a process must have a superset of the namespace
+creator's capabilities.
+
+> a level stored on the namespace at create time instead of a cred ref,
+> which would pin keyrings and the rest for the life of the namespace.
+> The checks would be setns(), the map write (opener and writer are in the
+> parent, so a plain capable check), setxattr of security.capability, and
+> ptrace.
+> 
+> The difference in behaviour is that the -EPERM moves to setns(): a root
+> task without CAP_SETFCAP couldn't enter a root-owned container that maps
+> host uid 0 at all, where with this series it can enter and is refused
+> only for the map, fscaps and ptrace.  I can prototype it if you prefer
+> that.
+
+Sorry let me think about it (or let us talk about it) a bit more.
+
+> > Of course UID 0 will always continue to carry privileges even with an
+> > empty cap_eff.  Here we're stopping it from writing filecaps to uid 0
+> > owned files, but if it can open a 0 owned file on the host, like
+> > /bin/sh or a systemd init file, or ptrace a process (in a child ns that
+> > maps parent uid 0) doing so, it can still cause damage.  My point being,
+> > we do need to keep in mind the tradeoff of keeping the code simple
+> > versus the realistic threat of the problem being addressed.
+> 
+> On the same kernels, the restricted root task can copy a binary and
+> chmod 4755 it (it owns it, no capability needed), and a uid 1000 user
+> runs it with a full CapEff.  With SECBIT_NOROOT that setuid copy gives
+> uid 1000 nothing, while the fscap file still gives it what's in the
+> xattr on an unpatched kernel.  So SECBIT_NOROOT is the case the series
+> adds anything for, the same case db2e718a4798 covers.
+> 
+> A smaller version is patches 1, 4 and 5, with cap_root_level() moved
+> from 2 into 4.  I built that and ran the same flows: every route that
+> ends in a file capability still gets -EPERM and uid 1000 gets nothing.
+> The uid 0 map writes refused by 2 and 3 go through again, but the fscap
+> write after them is refused.
+> 
+> Let me know which way you'd like to go and I'll rework it.
+> 
+> Thanks,
+> Josef
