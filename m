@@ -1,87 +1,120 @@
-Received: from va-1-114.ptr.blmpb.com (va-1-114.ptr.blmpb.com [209.127.230.114])
+Received: from va-1-115.ptr.blmpb.com (va-1-115.ptr.blmpb.com [209.127.230.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A533B9D98
-	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 12:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E98E44E67A
+	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 12:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791460877; cv=none; b=A3Q13qKYeoCzjRklx5zRs1SdwmK3c64vYsNJjqId/AjIMZE0wPIAHiQPvT3QhYKfDcHvkjmcQxCu0plx3jIeXXE7uJ6cGhLbQKvDX8qX8wQV8HNE+tvw7KtejcLgqZv9YIWrJoTso97oSLVtVOjHnYR9t82FBbAPyc1r68KmkGA=
+	t=1791460993; cv=none; b=YgWqRay/VmNWFQyjfOdwBK0CRBBRcyYg2xR9DUaXNdfZiQVUDhHZ7AA/TgxcasgeFkaNND4aYemrBCqxRKYFJJvDLYGWvKeqafatfBpvmfzuyw6a4buTZfI73TvqTxUAYHNhaKSN2F79DDwTtktGloUVaTbc3pabEO7S/X3DgSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791460877; c=relaxed/simple;
-	bh=eMnKqkD67q/w277RHUhkiQCyf+sEnlojLySsj69se6I=;
-	h=From:Date:Mime-Version:In-Reply-To:Cc:Content-Type:Subject:
-	 Message-Id:References:To; b=WR1gZwgMW+PSIwubywzYRdkAfD25eZtYRAoGpGsvzZg2un9zI0Ins0PQ+PeHOjtUp58jDk/p+B+56fww1oQyIMqICFFK8/WF/Fq1ZyRgHQM7OXJVon8wpImmVHuUcHQjqSaqd8XxfhkeXqyfGMU+w4s5Et0VzGMwJG+3pRlacyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Kl8fNskF; arc=none smtp.client-ip=209.127.230.114
+	s=arc-20240116; t=1791460993; c=relaxed/simple;
+	bh=QZCW093E+D2nyI4UShEAXdlYzP5jckeOAUOyoHz6sC8=;
+	h=Mime-Version:To:From:References:Cc:Subject:Content-Type:Date:
+	 Message-Id:In-Reply-To; b=an9rOXSs4f0cpowqopXHFpegb/zICRxk/BhNa0bRmvYlFDdlDrT4pM3azY6yFinmPi6R+zqWqgBiHkUxhv2XZ/dAl46Fk+aZtQeEMPivBE6+Y6fa/24+mJ7VLlDlKef0gDtpOrZjMoWNXwlfGF5RlzGaf5cBVC0hAB9KHSNkQuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=d32zwSDS; arc=none smtp.client-ip=209.127.230.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Kl8fNskF"
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="d32zwSDS"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1791460870; h=from:subject:
+ s=2212171451; d=bytedance.com; t=1791460987; h=from:subject:
  mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
  mime-version:in-reply-to:message-id;
- bh=clBE1imQJIMhVXpUcVFRoRZrEKXYtBFchkMe5EhiB7E=;
- b=Kl8fNskFuuGEwCJXVk5J/6V1nDtU/WXTBqS8xErEw5+htYdRXUYSKp9XhCEievhT3E/RXQ
- QGwXlwxb78wiHhU7yqGTvl2qClYFUgxrku39AZdxggAIge2V25Ui2rW/6M0/toNyqsUYFH
- 1PGQSxK0ZCYOjv6nbfE3/mOuS0ME7zdzvG9aAiZJHQyUuBsTUiTNrjWlRecxKFfRm2ABNv
- wmTyMogK5NV1u9ARD7Ez13JWIFpED8LGpR7O3kVUCI4ybcra8XRLrZkvJq5r7y7MNGsz56
- 2DCl4cgH2jwuedAIUOgeCIVEd30YXYpmDVlH/Dia0NA6QxMdCF4Aw6QG8yzOjg==
-From: "Jia Zhu" <zhujia.zj@bytedance.com>
-Date: Thu,  8 Oct 2026 20:00:58 +0800
+ bh=ot3K2X/2YloRfCtV/mf2YWkwpChF9fDwu+aBl2Z5A1s=;
+ b=d32zwSDSIQgcXUe3fEOf2LcslSEZPaMREjcF6FN4W77ZCuHbTVbTqldYUb2EaIRX4a/khD
+ aunfd7WfJy13AH3WJs4JbW4XqyPMtc9WuuLRg4fTE2Z6DXiCTcBh8DfjYkcmHCC7FAUT2a
+ sTri0P9jPNlx/i6TxFOysM7BtAuFe/dUFh3dlkV3J6DsXwzbGjHtK1QVj+2dJ3j+Uv7oxT
+ eC5dYZIEzaJVBj24RowuGIbHmkS5GAX/K6xB4z59Leh9tsBKQxpzaumavVSc/e54WrgSmS
+ pKryf1gm2CKppaCfaNjFc4K5eOfASBh5tpezamWWAD106z3nrFRIY4Y1KZV0DQ==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-In-Reply-To: <4467cbj7eivubtdwcawvr7mhrb7armgoc4xfqjjnncrbkxxag6@3mmou6nhviao>
 X-Mailer: git-send-email 2.20.1
+X-Lms-Return-Path: <lba+26ac7867a+fe009c+vger.kernel.org+zhujia.zj@bytedance.com>
+To: "Jan Kara" <jack@suse.cz>
+From: "Jia Zhu" <zhujia.zj@bytedance.com>
+References: <cover.1791452174.git.zhujia.zj@bytedance.com>
 Cc: "Jia Zhu" <zhujia.zj@bytedance.com>, <amir73il@gmail.com>, 
 	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Subject: Re: [PATCH] fsnotify: avoid unrelated mark reaper waits during group teardown
+Subject: [PATCH v2 2/2] fsnotify: avoid unrelated mark reaper waits during group teardown
 X-Original-From: Jia Zhu <zhujia.zj@bytedance.com>
-Message-Id: <20261008120058.542583-1-zhujia.zj@bytedance.com>
-References: <20260909170833.5663-1-zhujia.zj@bytedance.com> <4467cbj7eivubtdwcawvr7mhrb7armgoc4xfqjjnncrbkxxag6@3mmou6nhviao>
+Content-Type: text/plain; charset=UTF-8
+Date: Thu,  8 Oct 2026 20:02:39 +0800
+Message-Id: <896a15acc6c13ea951d997cf3746082cdfabafc7.1791452174.git.zhujia.zj@bytedance.com>
 Content-Transfer-Encoding: 7bit
-X-Lms-Return-Path: <lba+26ac78604+b56276+vger.kernel.org+zhujia.zj@bytedance.com>
-To: "Jan Kara" <jack@suse.cz>
+In-Reply-To: <cover.1791452174.git.zhujia.zj@bytedance.com>
 
-On Thu 10-09-26 10:34:09, Jan Kara wrote:
-> Yes, but is it really practically relevant? The optimization you add really
-> only works in the case when you have no notification marks in a group when
-> entering inotify_release(). Usually though you actually want to get
-> notified about something and thus do have some notification marks :) and in
-> that case fsnotify_clear_marks_by_group() -> fsnotify_put_mark() will add
-> marks to the list for the reaper to process. So please explain why this
-> corner case practically matters to you.
+fsnotify_destroy_group() unconditionally flushes the global mark reaper,
+so an empty inotify instance can hang on unrelated reclamation during
+close or task exit:
 
-Fair question. We've been chasing a class of fsnotify hangs in production,
-recurring across several kernels, all the same shape: one thread blocked
-holding a global fsnotify resource, cascading into unrelated tasks. This patch
-tackles one end of that -- skipping the global reaper flush -- but as you say
-the refcount==1 skip only helps a genuinely empty group, so it doesn't cover
-the common case. Tracing the production reports pointed at the root instead:
+  do_exit
+    __fput
+      inotify_release
+        fsnotify_destroy_group
+          fsnotify_wait_marks_destroyed
+            __flush_work
 
-inotify delivery holds fsnotify_mark_srcu across the event
-kmalloc(GFP_KERNEL_ACCOUNT | __GFP_RETRY_MAYFAIL); under memcg pressure that
-allocation sits in direct reclaim (NMI catches it running in
-shrink_node/mem_cgroup_iter), so synchronize_srcu() in
-fsnotify_mark_destroy_workfn can't complete and the global reaper stalls (D,
-327s). SRCU and the reaper being global, the stall isn't confined to that
-group: unrelated processes closing an inotify instance on exit all serialize
-behind the one reaper in fsnotify_destroy_group -> __flush_work -- in one
-report both inotifywait and a systemd process, blocked 327s. So an ordinary
-workload writing to watched files under memcg pressure can wedge unrelated
-process exits host-wide.
+Skip the flush when only the closing reference remains, allowing teardown
+to finish without waiting for unrelated SRCU readers.
 
-The fix that actually addresses this is to not hold fsnotify_mark_srcu across
-that allocation: pin the iter marks, drop SRCU around the delivery, re-acquire
-after -- so a delivery sleeping in reclaim no longer holds the reaper. Teardown
-still waits on the group's own marks, so ordering holds. Reproducible on stock
-upstream by holding an fsnotify_mark_srcu reader and closing an unrelated group.
+Verified in QEMU: empty groups and groups whose marks have been reclaimed
+exit while an unrelated SRCU reader remains held; groups with pending
+reclamation still wait.
 
-So I'd send that SRCU-drop as the primary patch; this destroy_group change is
-at most a small optimization on top of it, and I'm happy to drop it.
+Signed-off-by: Jia Zhu <zhujia.zj@bytedance.com>
+---
+ fs/notify/group.c | 26 +++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
 
-								Jia
+diff --git a/fs/notify/group.c b/fs/notify/group.c
+index b56d1c1d9644a..052a419ee52a6 100644
+--- a/fs/notify/group.c
++++ b/fs/notify/group.c
+@@ -46,6 +46,7 @@ void fsnotify_group_stop_queueing(struct fsnotify_group *group)
+  * the group reference.
+  * Note that another thread calling fsnotify_clear_marks_by_group() may still
+  * hold a ref to the group.
++ * The caller must hold a reference and exclude new marks.
+  */
+ void fsnotify_destroy_group(struct fsnotify_group *group)
+ {
+@@ -67,19 +68,22 @@ void fsnotify_destroy_group(struct fsnotify_group *group)
+ 	 */
+ 	wait_event(group->notification_waitq, !atomic_read(&group->user_waits));
+ 
+-	/*
+-	 * Wait until all marks get really destroyed. We could actually destroy
+-	 * them ourselves instead of waiting for worker to do it, however that
+-	 * would be racy as worker can already be processing some marks before
+-	 * we even entered fsnotify_destroy_group().
+-	 */
+-	fsnotify_wait_marks_destroyed();
++	/* Even detached marks hold a group reference until final destruction. */
++	if (refcount_read(&group->refcnt) == 1) {
++		/*
++		 * Pair the refcount read and this barrier with the release
++		 * decrement in fsnotify_put_group() (refcount_dec_and_test()),
++		 * ordering mark destruction before subsequent group teardown.
++		 */
++		smp_mb();
++	} else {
++		fsnotify_wait_marks_destroyed();
++	}
+ 
+ 	/*
+-	 * Since we have waited for fsnotify_mark_srcu in
+-	 * fsnotify_mark_destroy_list() there can be no outstanding event
+-	 * notification against this group. So clearing the notification queue
+-	 * of all events is reliable now.
++	 * Mark destruction waits for fsnotify_mark_srcu, so there can be no
++	 * outstanding event notification against this group. Clearing the
++	 * notification queue of all events is reliable now.
+ 	 */
+ 	fsnotify_flush_notify(group);
+ 
+-- 
+2.20.1
