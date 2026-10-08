@@ -1,106 +1,72 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC4935DA65
-	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 01:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143EE31F989;
+	Thu,  8 Oct 2026 02:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.54.11.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791424033; cv=none; b=rN36LfcUio+hHTDV2iBsPICg3Q2OXQXwN2H/B7IGPXJATYnnkWGIy6G06nwX2Kb3ojIjAoxRGL2MdTXAq8eqcC/MxhYMURZXsOhSv/EgLnM85w01Cz/oDeRggmMncPyAhsxGn2UAu2w6M3EeRXgWOKajii57YMX48/S+Ya25mcs=
+	t=1791425432; cv=none; b=E+PC6xg2pbjrIobrtAWTNm3wiVONELLDRedJ4gBZ9AUi0cno6/oEuLgOfiIryHXLmDSHO2vjthiZUhWHndMY8BRqA3pOx0GpGaRYSGN1cYfoXIBBDAkBoMBEAZE5iNw7jCde9c+Ytv3nKVt/RWYvcydTPSkQsq5RBUoshEroIFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791424033; c=relaxed/simple;
-	bh=I3nosz+vmDV5FfbRzKE8hbg8kzT9hOZFPeJmQrm7NR0=;
-	h=Mime-Version:Subject:From:To:CC:In-Reply-To:Message-ID:Date:
-	 Content-Type:References; b=VuliVlGAPAB/v5thDg7NLKeTh8bAkC86Vsbs/Ft6AqEBGqPCMLWAv97N4APY/HSO40Jv90snyS0Q4jQc4NEGT4Vsw3M5+ck89jQNDSRxNPeXlOBFkOWfl1gvSc5KLS8UpLGcLyWL9ubE/c/iQfU0hgbeZYEsn9k4E0ennM2BPGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=G0PH321m; arc=none smtp.client-ip=203.254.224.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1791425432; c=relaxed/simple;
+	bh=MbSfLuKAe2MXv6QwbO9fkmt1kWkPiokIv4ar8ssIYN4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BlOhArnPvxZOEG1ZO85zGkbqAGZoWkc2PNskMplHOH0r9WEuETXox9czmm0yQnRFY0jc0KLFA5A+bEPjuWn5ooPKifs8OMCec7OT8/Q9iE1gWVu6fuQniYP5hPLA5tpS6GepQku3s/UuQSAfgAAHyyDcKa0mabASoYk0Hk5MWsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br; spf=pass smtp.mailfrom=inf.ufrgs.br; dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b=mxRIqx9Q; arc=none smtp.client-ip=143.54.11.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="G0PH321m"
-Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20261008014707epoutp0206fc364fc4ff05abbd421c44c04de3de~caqlzRhkB2470824708epoutp02b
-	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 01:47:07 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20261008014707epoutp0206fc364fc4ff05abbd421c44c04de3de~caqlzRhkB2470824708epoutp02b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1791424027;
-	bh=Cuh+q5LKXzLv2R0KI9enLSIgormXsfisByY542JUI0E=;
-	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-	b=G0PH321mbWT1ZgCxqgPgD2z3aQiRa0r+Y+GZEYkVIXIVcWpdFD3q0Vk3tEpe7gYWQ
-	 8AD9B3OnLg7zNrJJaLPcJrK36uE3GF9/BUkf3YR7XrT38InHeLTkdYZ8aPDJnMLngv
-	 bs6sNxdlWlU2SdWxkoZJUCk9xUcymqmhBoQe3k6E=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTPS id
-	20261008014707epcas2p3463766a3d57abbe67dbf1161c4ce43c2~caqlbVyyq3083430834epcas2p3e;
-	Thu,  8 Oct 2026 01:47:07 +0000 (GMT)
-Received: from epcas2p2.samsung.com (unknown [182.195.38.212]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4j0Xt31Jcnz3hhTC; Thu,  8 Oct
-	2026 01:47:07 +0000 (GMT)
+	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b="mxRIqx9Q"
+Received: from LAPTOP-R01LEAQM.localdomain (unknown [189.6.233.4])
+	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 612051210F1;
+	Wed,  7 Oct 2026 23:10:17 -0300 (-03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
+	s=dkim2026; t=1791425419;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0wUgLvTVsMGcJNSSKNSuD9zDyOwA/45mp5d5MCPf6sY=;
+	b=mxRIqx9QoX7nZtDkWLon8Z8Ga9np02LqjR+lD3gK4F1EENE5W80yJZYxVgaFUfiJLzaK74
+	ELYdPu4dWUv9tiOD4H0OPrSpSfbH9S3cXcrrzPInxJTVDq2O6LVVpZMr5JHfUgpqhv76O1
+	P4l8zsu9yZfsB+aMiv5BdgWDE5qJvcgWTYZ3OLv+pNvoc2VZsrkZKkG1HYtsJkqeolA6i+
+	A30QhFYnfO6ckTIkqkoZc9x4SkGhcdg+/anSDUwNO3YpvwruO5Q2G2UPmpO7WaqtIuzr+Z
+	wDmrs4jdm88tVWZIr3frhPJRZjrnwE59duEkL/4XC1EQ8jC8CejlZ3/62pVHkA==
+From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Subject: [PATCH 0/4] fat: allocate multiple clusters in fallocate
+Date: Wed,  7 Oct 2026 23:09:36 -0300
+Message-ID: <20261008020941.55784-1-matheus.aalmeida@inf.ufrgs.br>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Subject: RE:(2) [PATCH] nfsd: do not return overlapping extents in a block
- layout
-Reply-To: daejun7.park@samsung.com
-Sender: Daejun Park <daejun7.park@samsung.com>
-From: Daejun Park <daejun7.park@samsung.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-CC: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai
-	Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Christoph Hellwig
-	<hch@lst.de>, Sergey Bashirov <sergeybashirov@gmail.com>, Carlos Maiolino
-	<cem@kernel.org>, Amir Goldstein <amir73il@gmail.com>,
-	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Daejun Park
-	<daejun7.park@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <20261007165101.GD2705364@frogsfrogsfrogs>
-X-CPGS-Detection: blocking_info_exchange
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20261008014706epcms2p7f60dc9a1db6ca16a6fff03de67688c2e@epcms2p7>
-Date: Thu, 08 Oct 2026 10:47:06 +0900
-X-CMS-MailID: 20261008014706epcms2p7f60dc9a1db6ca16a6fff03de67688c2e
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-X-CPGSPASS: Y
-X-CPGSPASS: Y
-cpgsPolicy: CPGSC10-223,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261007165105epcas2p264fc1fd07bab1fb877a6695062f48322
-References: <20261007165101.GD2705364@frogsfrogsfrogs>
-	<20261007-nfsd-block-trim-v1-1-53370f97047a@samsung.com>
-	<CGME20261007165105epcas2p264fc1fd07bab1fb877a6695062f48322@epcms2p7>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 07, 2026 at 09:51:01AM -0700, Darrick J. Wong wrote:
-> Nitpicking here, but the extent could extend beyond than the requested
-> @offset/@length range too, right?  Shouldn't the comment say that, since
-> the header comment allows for both cases, right?
+Hi,
 
-Yes, it can end past offset + length. Chuck had already applied the
-patch to nfsd-testing (214e388464bf) when your reply came, so the
-comment there still says "may be shorter than the requested length".
+This series adds support for allocating multiple clusters in a single
+fat_add_clusters() call in fat_fallocate().
 
-The ->map_blocks series that Christoph asked for removes that comment:
+The multi-cluster TODO in inode.c is not implemented, as doing so would
+require speculative preallocation or an iomap conversion.
 
-https://lore.kernel.org/r/20261008-xfs-nfsd-map-blocks-v1-0-560026cdccb6@samsung.com
+Matheus Alves de Almeida (4):
+  fat: remove cluster allocation size limit
+  fat: return only first cluster when allocating
+  fat: support adding multiple clusters
+  fat: allocate multiple clusters in fallocate
 
-nfsd4_block_map_extent() becomes nfsd4_block_iomap_to_extent(), which
-only converts a mapping, and the ->map_blocks comment says that the
-last mapping may end before or after @offset + @len.
+ fs/fat/dir.c    | 20 +++++++++++++++-
+ fs/fat/fat.h    |  4 ++--
+ fs/fat/fatent.c | 61 ++++++++++++++++++++++++++++++++-----------------
+ fs/fat/file.c   | 10 ++++----
+ fs/fat/inode.c  |  8 +++----
+ 5 files changed, 69 insertions(+), 34 deletions(-)
 
-If Chuck would rather fix it in nfsd-testing in the meantime, the
-comment would read:
+-- 
+2.43.0
 
-/*
- * Get an extent from the file system that contains offset. It may start
- * below offset and may end before or after offset + length.
- */
