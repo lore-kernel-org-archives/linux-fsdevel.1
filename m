@@ -1,371 +1,242 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FD94734CF;
-	Thu,  8 Oct 2026 08:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E258E46EC76
+	for <linux-fsdevel@vger.kernel.org>; Thu,  8 Oct 2026 08:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791449489; cv=none; b=I/FvVGphQFtTPJFMP6LoP76bDyi592WCS+kCPSez0H8vbizb8VL2Oh/E1bEHB8Cgwcjsxt4EYyuUlaSgNaQ9uE59CEphp5ot+tWNFCixcMnGbAOtreFq5GLZHjkO94D+5V9vpqGsXZvCZH7WsqqClLfxPxYcfzdjBqhJ1B+tBaw=
+	t=1791449620; cv=none; b=WHupf2gdOXDRS1mHgPC/+WZ3vNgnz1uTgBQU6TkNgvi0E85ii1XgTYmiAdNEZvC4KX0fyh0EuaXsFOuv7OMiImWrkxUBdSp79ZW2FsIfBGkOxhEn8HBSFcfNN9jYT0vxiLZJ8sSPXV773NmQgf9AbiRBY6GuuuxPIN+ED0+mPBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791449489; c=relaxed/simple;
-	bh=y3mksDWJ1cnx2vUcwBui9kRBD7D1m6dYAJo/BBdmKFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YxoKqOJ3FPHlCOKCU6erPyYzDvBd9k8jcxKlS6aKcAS0rHiuBaKtciy1ph8N/NFm020E+dTVpkZPXxp+Nf3H/TUTBx904c19UkJzMK6EPVccxR0RP0i+hSta5xLKGbfJI89P7V5ravFdc5UYct23rtMw+5aBgBi6A0bFhnmz5k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E+QZGOj7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791449620; c=relaxed/simple;
+	bh=8DQSIKC6GxvLYGVLwkJQj+cpOYKLwFGmAsJkxIx9DcI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VFFkh0PVmQJdaCMsdiO/uKUYeaxE1O3VZGM25mGkP4r57dq812uvJsQsIs8LOj8pdt/qQqp7ZnJIrtEKUUKq/Ey+0anHO9atchgOjfw0BK+MOsST8K6yg3ez8an5pqFn0VjzDuX3nd+Qp6IZRIKBcq04pT5nRxmmZfypLcBSE44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l1B/yr7e; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E+QZGOj7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14291F00898;
-	Thu,  8 Oct 2026 08:51:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791449487;
-	bh=9HBsK9JWrsaB9tSfr6Gh6KHk9xHWrytrLennN91BCx4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=E+QZGOj7Ry9R0+RX0ixIWYO29bD2e9nS/g09b8uihB6NY3mfwAg2JGWMCm4adYndW
-	 tXaVADQVVoxNQABaq0QKTeAo/HTao57IsZCrp1D57QeHg8NdR73hb2ksTz8VTIeu1W
-	 mPFAl1FYOb5Xh6+S3RZdQbF15hU1DNK+E0h6Yn/JuXBmaOrFR0sVfbdmrFw9fo39vN
-	 WGi4Df/NyfOWMnv2KD5paQx+8pL7RL39bk0T9NP3qVX+Vhi0A+9Zun0RqchYsvQoZk
-	 /gqaDj+9Ofd4O1f0UI8XbUmrGKpuw8xXZGyNWeFHAPdXGWSHQmA5x6sa0qDpsAn7kV
-	 Gvimn4EdY4pUg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Sasha Levin <sashal@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org,
-	tools@kernel.org,
-	x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>,
-	Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [PATCH v5 11/11] kernel/api: add syscall enter/exit tracepoints
-Date: Thu,  8 Oct 2026 04:49:51 -0400
-Message-ID: <20261008084956.2911790-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261008084956.2911790-1-sashal@kernel.org>
-References: <20261008084956.2911790-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l1B/yr7e"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-887fb6c0ad1so1649329b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 08 Oct 2026 01:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791449618; x=1792054418; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WoVuc57y0iB0VQsW+dVH6xl0rblskYdNvDdZ3Vwv6xY=;
+        b=l1B/yr7eTIHEeGQvfc38pny08CQhmOz4qV46QgGae1JZI4tH8xaGeens+vu0o4AZvg
+         mIsDlX4FvDKP+nQNYzJgR7Am0ybQnoV0QErM1nT8oKXFfrf7/yU8lzBUgys5v2Cz3P3c
+         gk7eGdb2fUBKMK/PJzmpYhc86EdcFZN2fnhi4ApDLsHQf0d2yj4RAGamyZRbl2EfWHWp
+         vlbRoxpf0rkTcuka2WoeGYLqZhub68AXg5K2JuCnv+YOeHsfhh1v9T/e9+q/lrz9IV5D
+         C9VNd4E/MGMAtntPD1ju3nvj/NOMayHUefhrDeR4bVNQCGDFmOQfCmJw1Lhov1bm5iXU
+         zMZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791449618; x=1792054418;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WoVuc57y0iB0VQsW+dVH6xl0rblskYdNvDdZ3Vwv6xY=;
+        b=Ux51WXZ0w/LvlpomExjaiofBK0uJlREmzTC1WlsjtnXtBO8v0Vavr3nEJHecZVPllo
+         KdClvhWmYbXljz8nD2vzgN8c2kF6bpytYd93UEn7Mz+WOReAsAPXOGaApWafubTak7dr
+         k5iyZx6CcR3Xogf0D2PLS3jUdk+JBuUkY+e/3KNdrG6v7kPtW0qr61WvJkq+yY8onQkD
+         3cjnpCFIAxKfHoYnH0FhUhIsE4sU8MbRVbU02K7aKKFJB/V9EkBFlXYaL0iB6Smf8R1E
+         I3wZ0zu5fIrLP9q/RMOZxe+1G66/0vvoBBhEeE0NFyAO4yzV6hpEelGoHh2Q6MyrZrX0
+         mCSQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzJvAH5YnGfb1pQmy7b42K3thIFTRqt/FYjIS7ajzqONmGBoXzm+eGwsMhYXozR0XfY9s+sj+AbbywG0JIY@vger.kernel.org
+X-Gm-Message-State: AFuF++lEW4PtkcTGlaUcd+gUFjTd0k1nXAKz3PYH6blBwUbjOD8uHe5g
+	bqMhPojDGgt1TiXH7uEchjpWizRgZ2ao/a1Vx7nmkjlPbG63ZtBVZJfG
+X-Gm-Gg: AYBFou0U/1J9P1UywkAccrdbBAcpSI3H0r482tlMsT2rWig1Y3DzTKoYXcXSkrZ/LbK
+	G0uvDkqXj/96ytBXY+nyNK3MBVaHaA2yEDU4mHMa/6B7boJEziv4VTnvVpSnz1u5+PtfUsFy7At
+	zg7pumboIV6ByMIcg96LIQ1RSeeG7PDcijkBcWBdSx917bLHpyEjakJHzx2bKo5dElEM5x71wIU
+	HbcuRt4unaREQgjfuFpZ43HCXrZiuU2rDLvsBKYiiRlnIiXk1wHGsfumDVXLmbACa9SpJFJNXUT
+	c/sLeoJ1zFWioNG07aUITA59xv4lDZamr8z6NiFUDPH3EuN/jKfdBusaWcvQUeYFDBfq1xeqelf
+	pzpzPM6aKPiAeBuN0B71aaXngR7N4xfT5Ix1GuJOwOwCX7v6cJBs+/UISOdClwTXAAXfwI1TiO5
+	BojibfqwNL14/He83mLtcXjzGP0p5yxJRMWbusYDomp9mF7nd55xasNwx3MQ4rhyrXMqTFJVCzn
+	k1sUvwiSOpvnbhPidw=
+X-Received: by 2002:a05:6a00:22c4:b0:878:34b8:231f with SMTP id d2e1a72fcca58-891b4700782mr4325448b3a.39.1791449617950;
+        Thu, 08 Oct 2026 01:53:37 -0700 (PDT)
+Received: from [100.125.248.95] ([124.70.231.46])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-892bb59bd30sm1207676b3a.37.2026.10.08.01.53.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Oct 2026 01:53:37 -0700 (PDT)
+Message-ID: <08dfc1dc-adc6-41ed-aaa5-7af7836f71c7@gmail.com>
+Date: Thu, 8 Oct 2026 16:53:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 22/31] ext4: submit and wait for pending disksize-grow
+ I/O on writeback
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>, Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
+ djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+ chengzhihao1@huawei.com, yangerkun@huawei.com, wangkefeng.wang@huawei.com,
+ yukuai@fnnas.com
+References: <20260903123543.2302999-1-yi.zhang@huaweicloud.com>
+ <20260903123543.2302999-23-yi.zhang@huaweicloud.com>
+ <asNnFY8N3NJwucWe@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Language: en-US
+From: Zhang Yi <yizhang089@gmail.com>
+In-Reply-To: <asNnFY8N3NJwucWe@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add two tracepoints to the CONFIG_KAPI_RUNTIME_CHECKS syscall validation
-path so the framework's behavior can be observed without the noise and
-loss of pr_warn_ratelimited():
+On 10/5/2026 5:00 PM, Ojaswin Mujoo wrote:
+> On Thu, Sep 03, 2026 at 08:35:34PM +0800, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> When the current writeback pass begins beyond the disksize-grow-pending
+>> zeroed EOF block, the ioend worker would otherwise have to wait for the
+>> pending EOF block to complete before it can advance i_disksize.
+>> Otherwise the old EOF block could be exposed as stale data once
+>> i_disksize advances past it.
+>>
+>> Therefore, introduce the ioend mechanism for the pending range, tag
+>> ioends that cover the pending zeroed EOF block which straddles
+>> i_disksize with EXT4_IOMAP_IOEND_DISKSIZE_GROW_IO in
+>> ext4_iomap_writeback_submit(), and clear the bit and wake up all waiters
+>> in ext4_iomap_end_bio() when such an ioend completes.
+>>
+>> Clearing EXT4_IOMAP_IOEND_DISKSIZE_GROW_IO does not depend on whether
+>> the disksize grow I/O succeeds. That is, even if the I/O fails, we still
+>> allow subsequent writes in the range to update i_disksize. This is
+>> consistent with the previous behavior, and we rely on data_err=abort to
+>> prevent metadata updates when data write failures occur.
+>>
+>> In order to avoid the ioend that passes the pending range waiting for a
+>> long time, proactively submit the pending range first in
+>> ext4_iomap_writepages() so it completes in parallel with the rest of the
+>> writeback.
+>>
+>> Note that the handling of discarding the zeroed EOF folio will be
+>> processed later, otherwise the bit will be set forever.
+>> EXT4_STATE_DISKSIZE_GROW_PENDING will be set after everthing is done.
+>>
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>> ---
+>>   fs/ext4/ext4.h    |  6 ++++++
+>>   fs/ext4/inode.c   | 53 ++++++++++++++++++++++++++++++++++++++++++++++-
+>>   fs/ext4/page-io.c | 40 +++++++++++++++++++++++++++++++++++
+>>   3 files changed, 98 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+>> index 1c3d736fb700..089dbd39c5c2 100644
+>> --- a/fs/ext4/ext4.h
+>> +++ b/fs/ext4/ext4.h
+>> @@ -3986,6 +3986,12 @@ extern int ext4_move_extents(struct file *o_filp, struct file *d_filp,
+>>   			     __u64 len, __u64 *moved_len);
+>>   
+>>   /* page-io.c */
+>> +/*
+>> + * The I/O range covers the zeroed EOF block that straddles i_disksize
+>> + * and will advance it upon completion.
+>> + */
+>> +#define EXT4_IOMAP_IOEND_DISKSIZE_GROW_IO	1UL
+>> +
+>>   extern int __init ext4_init_pageio(void);
+>>   extern void ext4_exit_pageio(void);
+>>   extern ext4_io_end_t *ext4_init_io_end(struct inode *inode, gfp_t flags);
+>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+>> index 05dd4ee805fb..4239be5a769f 100644
+>> --- a/fs/ext4/inode.c
+>> +++ b/fs/ext4/inode.c
+>> @@ -4366,7 +4366,10 @@ static int ext4_iomap_writeback_submit(struct iomap_writepage_ctx *wpc,
+>>   				       int error)
+>>   {
+>>   	struct iomap_ioend *ioend = wpc->wb_ctx;
+>> -	struct ext4_inode_info *ei = EXT4_I(ioend->io_inode);
+>> +	struct inode *inode = ioend->io_inode;
+>> +	struct ext4_inode_info *ei = EXT4_I(inode);
+>> +	unsigned int blocksize = i_blocksize(inode);
+>> +	loff_t pstart, plen;
+>>   
+>>   	/*
+>>   	 * After I/O completion, a worker needs to be scheduled when:
+>> @@ -4379,6 +4382,21 @@ static int ext4_iomap_writeback_submit(struct iomap_writepage_ctx *wpc,
+>>   	    test_opt(ioend->io_inode->i_sb, DATA_ERR_ABORT))
+>>   		ioend->io_bio.bi_end_io = ext4_iomap_end_bio;
+>>   
+>> +	/*
+>> +	 * Mark the I/O as DISKSIZE_GROW_IO by setting io_private to
+>> +	 * EXT4_IOMAP_IOEND_DISKSIZE_GROW_IO if it covers the pending range.
+>> +	 * Such I/O will allow or trigger i_disksize advancement in the
+>> +	 * ioend worker.
+>> +	 */
+>> +	plen = ext4_iomap_get_disksize_pending_range(inode, &pstart);
+>> +	if (plen &&
+>> +	    round_down(ioend->io_offset, blocksize) <= pstart &&
+>> +	    round_up(ioend->io_offset + ioend->io_size, blocksize) >=
+>> +			pstart + plen) {
+>> +		ioend->io_bio.bi_end_io = ext4_iomap_end_bio;
+>> +		ioend->io_private = (void *)EXT4_IOMAP_IOEND_DISKSIZE_GROW_IO;
+>> +	}
+>> +
+>>   	/*
+>>   	 * ext4_iomap_end_bio() always defers endio processing, disable
+>>   	 * generic BIO in task to avoid double deferral since we will use
+>> @@ -4398,6 +4416,33 @@ static const struct iomap_writeback_ops ext4_writeback_ops = {
+>>   	.writeback_submit = ext4_iomap_writeback_submit,
+>>   };
+>>   
+>> +/*
+>> + * If the current writeback range begins after the pending zeroed EOF
+>> + * block range which straddles i_disksize, issue a separate writeback to
+>> + * flush it first, so as to avoid prolonged waiting.
+>> + */
+>> +static void ext4_iomap_wb_submit_zeroed_eof(struct inode *inode,
+>> +					    struct writeback_control *wbc)
+>> +{
+>> +	struct address_space *mapping = inode->i_mapping;
+>> +	loff_t pstart, plen, range_start;
+>> +
+>> +	if (wbc->range_cyclic)
+>> +		range_start = (loff_t)mapping->writeback_index << PAGE_SHIFT;
+>> +	else
+>> +		range_start = wbc->range_start;
+>> +
+>> +	plen = ext4_iomap_get_disksize_pending_range(inode, &pstart);
+>> +	if (!plen || range_start < pstart + plen)
+>> +		return;
+> Hi Zhang,
+> 
+> Maybe we can check here if pstart lies withing the same folio as the
+> writeback range, then we don't need an explicit flush as we will anyways
+> flush out the whole folio. We can check against the
+> mapping_min_folio_nrbytes perhaps.
+> 
 
-  kapi_syscall_enter - the spec name, the raw argument values, and a
-                       rendered "name=value" list of the specified
-                       parameters (pointer-like values in hex, signed
-                       integers and file descriptors in decimal)
-  kapi_syscall_exit  - the spec name, the return value, and whether it
-                       matched the specification (spec_match)
+Hi Ojaswin,
 
-Both fire only for syscalls that have a KAPI specification and live
-inside the existing CONFIG_KAPI_RUNTIME_CHECKS region, so they exist
-exactly when the runtime checks do; they compile to no-ops without
-CONFIG_TRACEPOINTS and stay dormant until enabled. The parameter list
-is rendered only when the enter tracepoint is enabled.
+Thank you for the suggestion. IIUC, do you mean to change it somewhat
+like the following:
 
-kapi_syscall_exit is also emitted on the parameter-validation rejection
-path -- where the validator returns -EINVAL and the real handler is
-skipped -- with spec_match=0, so every kapi_syscall_enter has a matching
-exit.
+       if (!plen ||
+           round_down(range_start, mapping_min_folio_nrbytes(mapping)) <
+                      pstart + plen)
+               return;
 
-Assisted-by: LLM
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/dev-tools/kernel-api-spec.rst | 31 ++++++++
- MAINTAINERS                                 |  1 +
- include/trace/events/kapi.h                 | 74 +++++++++++++++++++
- kernel/api/kernel_api_spec.c                | 79 +++++++++++++++++----
- 4 files changed, 173 insertions(+), 12 deletions(-)
- create mode 100644 include/trace/events/kapi.h
+The benefit is that it covers the case of blocksize < PAGE_SIZE, where
+the pending range occupies only part of the folio and range_start lands
+in the middle or later part of that same folio. It does not help when
+the pending range happens to be in a large folio, though, because
+mapping_min_folio_nrbytes() is only a lower bound on the folio size.
+That said, the pending range is the old EOF of the file and it is
+unaligned, so that folio can more likely to be a single page than a
+large one.
 
-diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
-index 95b72060f8ef8..818c9b966a0c0 100644
---- a/Documentation/dev-tools/kernel-api-spec.rst
-+++ b/Documentation/dev-tools/kernel-api-spec.rst
-@@ -312,6 +312,37 @@ specification. Kerneldoc annotations cannot set it, so it is only available to a
-     .constraint_type = KAPI_CONSTRAINT_CUSTOM,
-     .validate = validate_buffer_size,
- 
-+Tracepoints
-+-----------
-+
-+When ``CONFIG_KAPI_RUNTIME_CHECKS`` is enabled, the syscall validation path emits
-+two ftrace tracepoints (in the ``kapi`` trace system) for every syscall that has a
-+specification:
-+
-+- ``kapi_syscall_enter`` -- fired before parameter validation, recording the spec
-+  name, the raw syscall argument values, and -- when the spec provides parameter
-+  metadata -- a rendered ``name=value`` list: signed integer and file descriptor
-+  values are shown in decimal, all other values in hex, and an unnamed parameter
-+  as ``arg``.
-+- ``kapi_syscall_exit`` -- fired after the handler returns, or in place of the
-+  handler when parameter validation rejects the call (the handler is skipped and
-+  ``-EINVAL`` is returned). Records the spec name, the return value, and
-+  ``spec_match``: 0 when the parameters were rejected or a successful ``fd`` return
-+  was not a valid file descriptor, and 1 otherwise. Error codes missing from the
-+  spec do not clear it.
-+
-+Unlike the ``pr_warn_ratelimited`` violation reports, the tracepoints capture every
-+spec'd call rather than only violations, and can be filtered with the usual ftrace
-+facilities. They require ``CONFIG_TRACEPOINTS`` and stay dormant
-+until enabled::
-+
-+    # echo 1 > /sys/kernel/tracing/events/kapi/enable
-+    # cat /sys/kernel/tracing/trace
-+     ...  kapi_syscall_enter: sys_read(fd=3, buf=0x7ffd46780b58, count=0x340)
-+     ...  kapi_syscall_exit: sys_read = 832 spec_match=1
-+     ...  kapi_syscall_enter: sys_open(filename=0x480300, flags=268435456, mode=0x0)
-+     ...  kapi_syscall_exit: sys_open = -22 spec_match=0
-+
- DebugFS Interface
- =================
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1d9e55b6bf5ff..20020705921a6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14125,6 +14125,7 @@ S:	Maintained
- F:	Documentation/dev-tools/kernel-api-spec.rst
- F:	include/linux/kapi_syscall.h
- F:	include/linux/kernel_api_spec.h
-+F:	include/trace/events/kapi.h
- F:	kernel/api/
- F:	tools/kapi/
- F:	tools/lib/python/kdoc/kdoc_apispec.py
-diff --git a/include/trace/events/kapi.h b/include/trace/events/kapi.h
-new file mode 100644
-index 0000000000000..47828f3338828
---- /dev/null
-+++ b/include/trace/events/kapi.h
-@@ -0,0 +1,74 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM kapi
-+
-+#if !defined(_TRACE_KAPI_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_KAPI_H
-+
-+#include <linux/tracepoint.h>
-+
-+/* Max length of the rendered "name=value, ..." parameter list. */
-+#define KAPI_TP_PARAMS_LEN 256
-+
-+/*
-+ * Emitted from the CONFIG_KAPI_RUNTIME_CHECKS syscall validation path for
-+ * syscalls that have a KAPI specification: kapi_syscall_enter fires before
-+ * parameter validation, kapi_syscall_exit after the handler returns.
-+ * @name is the spec name, e.g. "sys_open".
-+ *
-+ * kapi_syscall_enter carries both the raw argument values (args[]) and, when
-+ * the spec provides parameter metadata, a rendered "name=value" list (params,
-+ * built by the caller): pointer-like values in hex, integers and fds in decimal.
-+ */
-+TRACE_EVENT(kapi_syscall_enter,
-+
-+	TP_PROTO(const char *name, int nargs, const s64 *args, const char *params),
-+
-+	TP_ARGS(name, nargs, args, params),
-+
-+	TP_STRUCT__entry(
-+		__string(	name,	name	)
-+		__field(	int,	nargs	)
-+		__array(	u64,	args,	6	)
-+		__string(	params,	params	)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->nargs = nargs;
-+		memset(__entry->args, 0, sizeof(__entry->args));
-+		if (args && nargs > 0)
-+			memcpy(__entry->args, args,
-+			       min_t(int, nargs, 6) * sizeof(__entry->args[0]));
-+		__assign_str(params);
-+	),
-+
-+	TP_printk("%s(%s)", __get_str(name), __get_str(params))
-+);
-+
-+TRACE_EVENT(kapi_syscall_exit,
-+
-+	TP_PROTO(const char *name, long ret, bool spec_match),
-+
-+	TP_ARGS(name, ret, spec_match),
-+
-+	TP_STRUCT__entry(
-+		__string(	name,		name		)
-+		__field(	long,		ret		)
-+		__field(	bool,		spec_match	)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->ret = ret;
-+		__entry->spec_match = spec_match;
-+	),
-+
-+	TP_printk("%s = %ld spec_match=%d",
-+		  __get_str(name), __entry->ret, __entry->spec_match)
-+);
-+
-+#endif /* _TRACE_KAPI_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
-diff --git a/kernel/api/kernel_api_spec.c b/kernel/api/kernel_api_spec.c
-index c3b220104c04b..993674ce67789 100644
---- a/kernel/api/kernel_api_spec.c
-+++ b/kernel/api/kernel_api_spec.c
-@@ -751,6 +751,45 @@ EXPORT_SYMBOL_GPL(kapi_export_json);
- 
- #ifdef CONFIG_KAPI_RUNTIME_CHECKS
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/kapi.h>
-+
-+/*
-+ * Render a syscall's parameters as a "name=value, ..." string for the
-+ * kapi_syscall_enter tracepoint.  Names come from the spec; pointer-like
-+ * values are shown in hex, integers and file descriptors in decimal.
-+ */
-+static void kapi_trace_format_params(const struct kernel_api_spec *spec,
-+				     const s64 *args, int nargs,
-+				     char *buf, size_t size)
-+{
-+	int i, used = 0;
-+
-+	buf[0] = '\0';
-+	/* Bound by the caller-supplied arg count; the spec arity may differ. */
-+	for (i = 0; args && i < nargs && i < 6; i++) {
-+		const char *name = "arg";
-+		bool dec = false;
-+
-+		if (i < spec->param_count) {
-+			const struct kapi_param_spec *ps = &spec->params[i];
-+
-+			if (ps->name)
-+				name = ps->name;
-+			dec = ps->type == KAPI_TYPE_INT || ps->type == KAPI_TYPE_FD;
-+		}
-+
-+		used += scnprintf(buf + used, size - used, "%s%s=",
-+				  i ? ", " : "", name);
-+		if (dec)
-+			used += scnprintf(buf + used, size - used, "%lld",
-+					  (long long)args[i]);
-+		else
-+			used += scnprintf(buf + used, size - used, "0x%llx",
-+					  (unsigned long long)args[i]);
-+	}
-+}
-+
- /**
-  * kapi_validate_fd - Validate that a file descriptor value is in valid range
-  * @fd: File descriptor to validate
-@@ -1211,16 +1250,24 @@ EXPORT_SYMBOL_GPL(kapi_validate_param_with_context);
- int kapi_validate_syscall_params(const struct kernel_api_spec *spec,
- 				 const s64 *params, int param_count)
- {
--	int i;
-+	int i, ret = 0;
- 
- 	if (!spec || !params)
- 		return 0;
- 
-+	if (trace_kapi_syscall_enter_enabled()) {
-+		char pbuf[KAPI_TP_PARAMS_LEN];
-+
-+		kapi_trace_format_params(spec, params, param_count, pbuf, sizeof(pbuf));
-+		trace_kapi_syscall_enter(spec->name, param_count, params, pbuf);
-+	}
-+
- 	/* Validate that we have the expected number of parameters */
- 	if (param_count != spec->param_count) {
- 		pr_warn_ratelimited("API %s: parameter count mismatch (expected %u, got %d)\n",
- 			spec->name, spec->param_count, param_count);
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto out;
- 	}
- 
- 	/* Validate each parameter with context */
-@@ -1230,12 +1277,22 @@ int kapi_validate_syscall_params(const struct kernel_api_spec *spec,
- 		if (!kapi_validate_param_with_context(param_spec, params[i], params, param_count)) {
- 			if (strncmp(spec->name, "sys_", 4) == 0) {
- 				/* For syscalls, we can return EINVAL to userspace */
--				return -EINVAL;
-+				ret = -EINVAL;
-+				goto out;
- 			}
- 		}
- 	}
- 
--	return 0;
-+out:
-+	/*
-+	 * Emit the exit event on the rejection path too (the wrapper
-+	 * short-circuits the handler on a non-zero return), so every
-+	 * kapi_syscall_enter has a matching kapi_syscall_exit.
-+	 */
-+	if (ret)
-+		trace_kapi_syscall_exit(spec->name, ret, false);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(kapi_validate_syscall_params);
- 
-@@ -1353,18 +1410,16 @@ EXPORT_SYMBOL_GPL(kapi_validate_return_value);
-  */
- int kapi_validate_syscall_return(const struct kernel_api_spec *spec, s64 retval)
- {
-+	bool valid = true;
-+
- 	if (!spec)
- 		return 0;
- 
--	/* Skip return validation if return spec was not defined */
--	if (spec->return_magic != KAPI_MAGIC_RETURN)
--		return 0;
-+	/* Validate against the return spec when one was defined */
-+	if (spec->return_magic == KAPI_MAGIC_RETURN)
-+		valid = kapi_validate_return_value(spec, retval);
- 
--	if (!kapi_validate_return_value(spec, retval)) {
--		/* Log the violation but don't change the return value */
--		pr_warn_ratelimited("KAPI: Syscall %s returned unspecified value %lld\n",
--				    spec->name, retval);
--	}
-+	trace_kapi_syscall_exit(spec->name, retval, valid);
- 
- 	return 0;
- }
--- 
-2.53.0
+Or do you want it to be very precise, able to know exactly the size of
+the folio containing the pending range and its positional relationship
+with the writeback range? If the latter, that would require an exact
+folio lookup, which seems a bit expensive and perhaps over-optimization
+to me.
+
+Thanks,
+Yi.
 
