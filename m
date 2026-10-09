@@ -1,215 +1,239 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a9-38.smtp-out.amazonses.com (a9-38.smtp-out.amazonses.com [54.240.9.38])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA384F5E04;
-	Fri,  9 Oct 2026 18:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7464F4020;
+	Fri,  9 Oct 2026 19:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.9.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791569874; cv=none; b=GBOINGyVPtaqCBJNioRhILqIBwzWFH3Q7SaF24gQ5YRaP2qNrC3fDK+mbudp9TaaFRct0gLhc+AeY3Z5192jjHikshmwnyj1FpolqXahPD3FfwzEr2i/LSKfA7RShSrDFs8GKcwOZmKgHUx9dmjcFxEfCdm0DQvo7hP4XyNHrKM=
+	t=1791574906; cv=none; b=nUJ1ZwUwsb+961PKbg77O/+13+1Q9Z3ZmloyA3UDx2CfCIPCUTFs+bT7UIz9wPNkFyviSPz+V7ipzd8q2kcLPcs7wSVHff2+aoHikMx4mrXTKnJl63jlS9Xut+G42xQz/vwPaQsne8G35wGX4dQyzUe6OEHMaqT5zwtF3e1+cGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791569874; c=relaxed/simple;
-	bh=I2iSzq1wq3BUA5ngKyuzaIh6bRjYfHM3M8Ib2DX8Eao=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sBUwFbbSQneFNeEXZzGwYVxA9iAr0dFC18j4ak9+YBg+kL2dfPK/4kXUV8AAYvwsOl5vIdEw273NtNutmPk5jC3IEzuqr2BNFXklcZN/wIlb5YnwbtnP2yO9z2zsBwouBzSRK2wmujBkhjd2qQxX6ntO7u7UJooztWhL8chz7So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mvzi1fiC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791574906; c=relaxed/simple;
+	bh=zo2hHrAETes0BxoLPKZMZ693zKCAzqOlZOVWCwq+IDQ=;
+	h=From:To:Cc:Subject:Message-ID:Date:MIME-Version:Content-Type; b=oHBHG8HTr5rpaFgzZPF+19kxEgj/Xc04Dq2crJuyYGYAfZqVYjivX1NHRx/Soi4m8K9nzR1qIuHbGoGuw5Yryd/cLrdqYOVEh98nNzxRaAXgoAEQS5HQLqJWIALg1kf3ioEXmX7raPCtbdTxCjNaPx+4+/+iPgVt7oPxW46P2V4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nicolasfalesy.com; spf=pass smtp.mailfrom=send.nicolasfalesy.com; dkim=pass (1024-bit key) header.d=nicolasfalesy.com header.i=@nicolasfalesy.com header.b=FX0iCcFF; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=o9IdWwpl; arc=none smtp.client-ip=54.240.9.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nicolasfalesy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=send.nicolasfalesy.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mvzi1fiC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799181F00898;
-	Fri,  9 Oct 2026 18:17:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791569873;
-	bh=Q2aQUzTUuuuNI/ysultBnvmSy0Vxb53qrqOM+R0btIA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Mvzi1fiC6gX/l2jQGIwOF7O63+WE13HT+q4ZHUAMv6JVw7qL2MDphBGUkkO6YC+Gp
-	 M9+AcJDTYwgzfHItQHapQgVC77ka1excAet+KIgzyS/z5TqMW+YLy1mXKvqoIdGfIQ
-	 te9hu5V+MpJ1mRea6WG8zB0aOEb3w9//poav+TxQQl9lQvL3T9KVLtjcMcV62r0Tjk
-	 pZjj8iPIlVpbYKwaSWPGhValW8a40mzLhunv3AiK4J2UGMS3ntAEtUkKYtoLG1Dw4n
-	 KXMb7Uiz862SqCAVEegs9wOrsfyCd2UV/GPj5hsvhhw1oFdq0wBHrAtFFrS8s0a8yU
-	 ll9X4iU0jG7ig==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Fri, 09 Oct 2026 19:04:32 +0100
-Subject: [PATCH v5 38/38] mm/huge_memory: remove vma_is_special_huge()
+	dkim=pass (1024-bit key) header.d=nicolasfalesy.com header.i=@nicolasfalesy.com header.b="FX0iCcFF";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="o9IdWwpl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
+	d=nicolasfalesy.com; t=1791574894;
+	h=From:To:Cc:Reply-To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
+	bh=zo2hHrAETes0BxoLPKZMZ693zKCAzqOlZOVWCwq+IDQ=;
+	b=FX0iCcFFcno0z74mhSy0D92djf9ZvP7EOnN4SyFgtvHgyFOWx3JtGfm+34IOwS0D
+	SlyhQ7Ytl2adrzBQWzRuGRRZtU6HI0Ir8AeivmpPNoERqzpem6SXHKzrGIJ+NfIDX44
+	k6Y/YCX+Mc176+OJhbNGUVJ9mt6Qae2lMQZO7hyo=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1791574894;
+	h=From:To:Cc:Reply-To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
+	bh=zo2hHrAETes0BxoLPKZMZ693zKCAzqOlZOVWCwq+IDQ=;
+	b=o9IdWwplYefV+66L8k8YRNQgtSXB5DkWO0ySiSd1LLaC1mPBjpbgkhizIACdaet4
+	a9vK/jv6dxggCFIiWSpB5IzRU4ATmnBAURm55fE6cK4xGG8fWEiUK4qNXH0CHXcg9TX
+	QcBHo3fdyhB+zSHpP26XW0xSASmeTpcip+cMhUXw=
+From: Nicolas Falesy <nicolas@nicolasfalesy.com>
+To: linkinjeon@kernel.org, sj1557.seo@samsung.com
+Cc: yuezhang.mo@sony.com, exfat@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev, hch@lst.de, djwong@kernel.org, 
+	nfalesy@gmail.com
+Reply-To: nfalesy@gmail.com
+Subject: [REGRESSION 7.2] exfat: stale dentry buffer of a deleted directory
+ overwrites new file data
+Message-ID: <010001a1222f66ba-0c745f29-d4fe-4862-93ff-1db2055b05fc-000000@email.amazonses.com>
+Content-Transfer-Encoding: 7bit
+Date: Fri, 9 Oct 2026 19:41:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-38-923b70125b1e@kernel.org>
-References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
-In-Reply-To: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Janosch Frank <frankja@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Andreas Larsson <andreas@gaisler.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
- Xu Xin <xu.xin@linux.dev>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
- linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
- fuse-devel@lists.linux.dev, Ihor Solodrai <ihor.solodrai@linux.dev>, 
- Bert Karwatzki <spasswolf@web.de>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2917; i=ljs@kernel.org;
- h=from:subject:message-id; bh=I2iSzq1wq3BUA5ngKyuzaIh6bRjYfHM3M8Ib2DX8Eao=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLJO6szfWj3ty7q/pguW7DpuZtT4jElWLtS1uyhobZze9
- OafW9z2dJSyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAih4oZGY7W1nnvPG33iTuv
- sX7rVRfheG+m6w6XN7fGfTlreHDn7qkMf6Vv23es6UhS+qaT8/NXQxXPhBvTt4tozmYROcvWdel
- NIAMA
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+Content-Type: text/plain; charset=utf-8
+Feedback-ID: :1.us-east-1.ab+1BOhI2G8lKXniYmrQtu8hqInlQv0hMf7S3fw6DdXZuhPmWRop4As2nYC+PvMCg/MeYgni+TDnIGoO6UR5+695Ups99kH4xr2cW/T33RKlxcJfmzZvDG+/D2zFM008PnQSMHraaQXnsyHltCPK4i0yAdm73tum8YqlC4670Nc=:1.us-east-1.QSNtDRXSTq9sAuvRl56h5mypgasnQ5yDLNpVzTnziu0=:AmazonSES
+X-SES-Outgoing: 2026.10.09-54.240.9.38
 
-vma_is_special_huge() tests whether either the VMA_PFNMAP_BIT or
-VMA_MIXEDMAP_BIT is set (i.e. whether the VMA is not mm-managed),
-but with a DAX carve-out.
+Resent as plain text from a different address: the earlier copies
+from my Gmail were rejected by the lists for containing HTML.
+Sorry to the maintainers for the duplicates.
 
-DAX however no longer sets VMA_MIXEDMAP_BIT, so this carve-out is no longer
-required.
+Hi,
 
-Therefore test for !vma_is_mm_managed() instead and also drop the
-VMA_IO_BIT check, as it is now redundant since it is enforced that
-mm-managed mappings may not set VMA_IO_BIT.
+Since v7.2, exfat can silently corrupt a newly written file: if a
+directory with entries is deleted and its cluster is then reused for
+file data, the deleted directory's dirty dentry buffer_head is still
+in the block device mapping, and a later flush of the bdev (fsync,
+syncfs, umount) writes it over the new data. The file reads back with
+one 512-byte sector replaced by the deleted directory's (now
+"not in use") directory entries. No error is reported.
 
-This also eliminates another overloaded use of 'special' within mm.
+It reproduces 100% of the time on v7.2.x and v7.3-rc6, and not at all
+on v7.1.11 or v6.18.55. It happens with buffered writes (with or
+without fsync) and with O_DIRECT. A syncfs() between the delete and
+the new write avoids it.
 
-No functional change intended.
+#regzbot introduced: v7.1..v7.2
 
-Acked-by: Zi Yan <ziy@nvidia.com>
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- mm/huge_memory.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
+Reproducer (run as root; any non-exFAT working directory):
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 83dd63b04568..000c4bb50f71 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -110,14 +110,6 @@ static inline bool file_thp_enabled(const struct vm_area_struct *vma)
- 	return S_ISREG(inode->i_mode);
- }
+---8<---
+#!/bin/sh
+set -e
+W=${1:-/tmp/exfat-repro}
+mkdir -p "$W/mnt"; cd "$W"
+truncate -s 0 img; truncate -s 256M img
+mkfs.exfat img >/dev/null
+DEV=$(losetup -f --show img)
+mount -t exfat "$DEV" mnt
+# A pushes the next allocation to ~188 MiB, where D's cluster goes.
+dd if=/dev/zero of=mnt/A bs=1M count=188 status=none
+mkdir mnt/D
+touch mnt/D/f0 mnt/D/f1 mnt/D/f2
+umount mnt; mount -t exfat "$DEV" mnt       # start with clean buffers
+rm mnt/D/f0 mnt/D/f1 mnt/D/f2               # dirties D's dentry buffer
+rmdir mnt/D                                 # frees D's cluster
+rm mnt/A
+# B reuses A's clusters, then D's freed cluster (file offset 188M).
+head -c 200M /dev/urandom > ref
+cp ref mnt/B
+umount mnt; mount -t exfat "$DEV" mnt
+if cmp ref mnt/B; then R=PASS; else R=FAIL; fi
+umount mnt; losetup -d "$DEV"; rm -f img ref
+echo "$R: exfat stale dentry repro on $(uname -r)"
+[ "$R" = PASS ]
+---8<---
+
+On an affected kernel it prints, every time:
+
+  ref mnt/B differ: char 197132289, line ...
+  FAIL: exfat stale dentry repro on 7.3.0-rc6
+
+Results
+
+All runs in a KVM guest (4 vCPU, 4 GiB), image on tmpfs behind a
+loop device, mkfs.exfat from exfatprogs 1.4.3 with default options
+(256 MiB volume, 4 KiB clusters, 512-byte sectors).
+
+"nofsync/fsync/O_DIRECT" is a harness equivalent to the script above
+that writes B (filling the volume minus 1 MiB) with a per-4KiB-block
+pattern and checks it with O_DIRECT reads after a remount; "syncfs"
+adds a syncfs() on the mount between the deletes and writing B.
+
+  kernel                     nofsync  fsync  O_DIRECT  syncfs  script
+  6.18.55 (Arch linux-lts)    0/20    0/10    0/10     0/10    0/5
+  7.1.11  (Arch linux)        0/20    0/10    0/10     0/10    0/5
+  7.2.5   (distro build)     20/20   10/10   10/10     0/10    5/5
+  7.2.9   (Arch linux)       20/20   10/10   10/10     0/10    5/5
+  7.3-rc6 (defconfig +
+           kvm_guest +
+           EXFAT_FS/LOOP)    20/20   10/10   10/10     0/10    5/5
+
+(n/N = corrupted runs / runs.) Every corrupted run had exactly one
+bad 512-byte sector, always at file offset 197132288 (188 MiB), which
+is the disk location of the deleted directory's cluster
+(volume offset 199249920).
+
+Observed bytes
+
+First 64 bytes of the bad sector (7.3-rc6, buffered, no fsync; the
+same layout on every kernel, only timestamps/checksum vary):
+
+  05 02 e3 79 20 00 00 00 38 98 49 5d 38 98 49 5d
+  38 98 49 5d ac ac 80 80 80 00 00 00 00 00 00 00
+  40 03 00 07 13 c2 00 00 00 10 00 00 00 00 00 00
+  00 00 00 00 08 bc 00 00 00 10 00 00 00 00 00 00
+
+i.e. a File entry (0x85) and Stream Extension entry (0xC0) with the
+InUse bit cleared: the deleted entries of a file inside the removed
+directory (this harness used 4 KiB files named "zqfile0".."zqfile2";
+first cluster 0xbc08, length 0x1000). The rest of the 4 KiB cluster
+holds B's correct data; only the one sector whose buffer was dirtied
+by the deletes is overwritten.
+
+Analysis (hypothesis, from reading v7.3-rc6 fs/exfat)
+
+exfat accesses directory entries through buffer_heads of the block
+device (sb_bread() on s_bdev). Deleting the files in D marks their
+entries free in D's cluster and dirties that buffer
+(exfat_remove_entries() -> exfat_put_dentry_set() ->
+exfat_update_bhs(), fs/exfat/dir.c). After exfat_rmdir(), D's
+cluster is freed when the inode is evicted (exfat_evict_inode() ->
+__exfat_truncate() -> exfat_free_cluster()), but nothing cleans or
+forgets the dirty buffer, so it stays dirty in the bdev mapping.
+
+Up to v7.1 this was harmless: file data went through
+exfat_get_block() and __block_write_begin_int() /
+do_direct_IO(), which call clean_bdev_bh_alias()/clean_bdev_aliases()
+for newly allocated (buffer_new) blocks, dropping any stale bdev
+buffer for the reused blocks.
+
+In v7.2, commit 82a81a7352bc ("exfat: add iomap buffered I/O
+support") and 867b9c96dc83 ("exfat: add iomap direct I/O support")
+moved data I/O to iomap. __exfat_iomap_begin() (fs/exfat/iomap.c)
+allocates clusters via exfat_map_cluster() and sets IOMAP_F_NEW, but
+nothing calls clean_bdev_aliases() for the new clusters any more. The
+file data is written through the inode's mapping, and the later
+sync_blockdev() (exfat_file_fsync(), or sync_filesystem() at syncfs /
+umount) writes the stale dentry buffer over it. That fits all of the
+above: always exactly one sector, at the freed directory cluster;
+fixed by syncfs() between delete and write (the buffer is written
+back to its old, still-free place first); FAT/vfat, still on
+buffer_heads for data, did not show it (0/60 with an equivalent
+harness on 7.2.5).
+
+A candidate fix (not a formal patch; tested only with this
+reproducer, all cases above 0/N on v7.3-rc6 with it applied):
+
+--- a/fs/exfat/iomap.c
++++ b/fs/exfat/iomap.c
+@@ -7,6 +7,7 @@
  
--/* If returns true, we are unable to access the VMA's folios. */
--static bool vma_is_special_huge(const struct vm_area_struct *vma)
--{
--	if (vma_is_dax(vma))
--		return false;
--	return vma_test_any(vma, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT);
--}
--
- static bool vma_file_bypass_thp_tuneables(const struct vm_area_struct *vma,
- 		enum tva_type type)
- {
-@@ -192,7 +184,7 @@ unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
- 	/* Check the intersection of requested and supported orders. */
- 	if (vma_is_anonymous(vma))
- 		supported_orders = THP_ORDERS_ALL_ANON;
--	else if (vma_is_dax(vma) || vma_is_special_huge(vma))
-+	else if (vma_is_dax(vma) || !vma_is_mm_managed(vma))
- 		supported_orders = THP_ORDERS_ALL_SPECIAL_DAX;
- 	else
- 		supported_orders = THP_ORDERS_ALL_FILE_DEFAULT;
-@@ -3066,7 +3058,7 @@ int zap_huge_pud(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 	orig_pud = pudp_huge_get_and_clear_full(vma, addr, pud, tlb->fullmm);
- 	arch_check_zapped_pud(vma, orig_pud);
- 	tlb_remove_pud_tlb_entry(tlb, pud, addr);
--	if (vma_is_special_huge(vma)) {
-+	if (!vma_is_mm_managed(vma)) {
- 		spin_unlock(ptl);
- 		/* No zero page support yet */
- 	} else {
-@@ -3222,7 +3214,7 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
- 		 */
- 		if (arch_needs_pgtable_deposit())
- 			zap_deposited_table(mm, pmd);
--		if (vma_is_special_huge(vma))
-+		if (!vma_is_mm_managed(vma))
- 			return;
- 		if (unlikely(pmd_is_migration_entry(old_pmd))) {
- 			const softleaf_t old_entry = softleaf_from_pmd(old_pmd);
-@@ -4765,9 +4757,7 @@ static inline bool vma_not_suitable_for_thp_split(struct vm_area_struct *vma)
- {
- 	if (vma_is_dax(vma))
- 		return true;
--	if (vma_is_special_huge(vma))
--		return true;
--	if (vma_test(vma, VMA_IO_BIT))
-+	if (!vma_is_mm_managed(vma))
- 		return true;
- 	if (vma_is_hugetlb(vma))
- 		return true;
+ #include <linux/iomap.h>
+ #include <linux/pagemap.h>
++#include <linux/buffer_head.h>
+ 
+ #include "exfat_raw.h"
+ #include "exfat_fs.h"
+@@ -77,6 +78,21 @@
+ 	if (err)
+ 		goto out;
+ 
++	/*
++	 * New clusters may still have dirty buffer_heads in the bdev
++	 * mapping (e.g. dentries of a just-removed directory).  Drop
++	 * them, as __block_write_begin_int() did for buffer_new
++	 * blocks, so a later bdev flush cannot write stale metadata
++	 * over the new file data.
++	 */
++	if (balloc) {
++		sector_t first = exfat_cluster_to_sector(sbi, cluster);
++		sector_t nr = (sector_t)num_clusters <<
++			      sbi->sect_per_clus_bits;
++
++		clean_bdev_aliases(sb->s_bdev, first, nr);
++	}
++
+ 	cluster_offset = exfat_cluster_offset(sbi, offset);
+ 	cluster_length = exfat_cluster_to_bytes(sbi, num_clusters);
+ 
 
--- 
-2.55.0
+An alternative would be to bforget()/clean the directory's buffers
+when its clusters are freed (exfat_free_cluster(),
+fs/exfat/fatent.c), but other freed metadata clusters could have the
+same problem, so cleaning aliases on allocation (as the buffer_head
+path did) seems the more complete fix. I have not checked whether
+other iomap paths (e.g. page_mkwrite / fallocate) also allocate
+clusters without it.
 
+Workaround
+
+Call syncfs() (or sync) on the exFAT mount after deleting
+directories and before writing new data, or avoid v7.2+ for exFAT
+volumes until fixed.
+
+Disclosure: I found this while building a tool with an AI coding
+assistant (Claude), which also helped with the analysis and the
+candidate fix. The reproducer and every result above were run on the
+kernels listed.
+
+Thanks,
+Nicolas Falesy
