@@ -1,88 +1,88 @@
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEC73CFF49
-	for <linux-fsdevel@vger.kernel.org>; Fri,  9 Oct 2026 16:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779EC45198D
+	for <linux-fsdevel@vger.kernel.org>; Fri,  9 Oct 2026 16:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791564629; cv=none; b=eoum7DihDmagsSSyeAQ3+311NM0HgXkFB5fLNCDAxwxRo0YtlOnneNiElye3YivBNbi1kiCWiMhqt6CpXl0/f1sYpY1jOwpZXyv0PdiFy3iMk/bPffklFJwCr88N0ApPtdiZbkwXGH3FeV+k6ILdzDvi7jNpP6lfCfKzdxiUyq4=
+	t=1791564632; cv=none; b=l7fuqvHggaXOWN+xOIQ+y26WP43HoWxs2V9ZS6hJgAxhtseFi4DjsQiiy0fenmTGAI4XBIrdGj1gfoZhdToijbr2lkYkWzaWPLvgrL6sISswIee+HGRS37no0nPl8Xzz/bn67Kq+4PZQd/63LsW7v9pA+rcM9Zs/e9fdfD+KLVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791564629; c=relaxed/simple;
-	bh=nOUyLn4mikuuV5NB3Wyl5aQas2LTcg2ovZW2RzEQLhk=;
+	s=arc-20240116; t=1791564632; c=relaxed/simple;
+	bh=dQNMb5/wuPELUla+30Ybhb/m9cvIEvZQydg6aWFrln0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HBlZmqkMnl1sW6IV1j0X4gcQJdILa2wYu9jcbNmvyJoWVGYkjZ/rlBIEJ345Z0Vm8Nj0rRXoDDI5H+FMF7Duc20U0k1YO+IiVCkEkyzkAapl/MrsLNbxE0QRhit2cJWftVLrGoq1RfWU+prr6M+0cwQ9ZuJTKT3C7kaH/4WVbVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=idFMBDye; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=Hk+YuNV9; arc=none smtp.client-ip=148.163.139.74
+	 In-Reply-To:To:Cc; b=j6hlDDoyXrjLMtrrUfO4Guah1knPFNwPSzFurbZj4YzEbfRjDRks7AsBZO6KH2uv0F1N3CVXg4D3KjknPhEkRenf+b1XLKgy5+0OqrVRUKJPULBd7zwx/XvUZsMGJpPhUM6E4bdHYjTq4wvpwZaaDeVTGkCuzHlc2VdCuxIePqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=t03+EVHC; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=yf1xfgJ4; arc=none smtp.client-ip=148.163.135.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="idFMBDye";
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="Hk+YuNV9"
-Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 699GYF7j541449
-	for <linux-fsdevel@vger.kernel.org>; Fri, 9 Oct 2026 12:50:26 -0400
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="t03+EVHC";
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="yf1xfgJ4"
+Received: from pps.filterd (m0167071.ppops.net [127.0.0.1])
+	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 699GYJYY1242765
+	for <linux-fsdevel@vger.kernel.org>; Fri, 9 Oct 2026 12:50:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=KmSd
-	hCQKvTCx7iCBBSxeBtwdW5W857zsoal7R697w6Q=; b=idFMBDye5fdULfNdY3rm
-	IrgA8nByqJoUBBKItUZcbn5sAojpR05gche47oZ8PSgi7T73xwmKmpKagS7/qrxM
-	iF4T+yCUpo5wEKCsnVOKzrv6Pg939zc22V7TcT3JrfMjRfMbtawdeEjA9sYjZfyZ
-	JEF25fbJvRbUK4xsLKOzHmV28aWohYef9E+v38Zfs+/PUu8VPe3jqFDCA9k3+2PH
-	k6PrQah/6U1YT0UNWFGl8oj+IonyjxrtEU0T55dxCvfEulp85tlsCuTfOrdsBjiy
-	B8CJrAPWFMvAY7b8NLw7OzmA9zZnAl/gs2QZx1vUyrfUP9iFyRPi4XwWwVEpLp8v
-	1w==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4h6y4w364y-1
+	:message-id:mime-version:references:subject:to; s=pps01; bh=gkwv
+	Z+/1V1m7k2kzWuttuR6zzSD/UrFPm0hpOSrXf4w=; b=t03+EVHCUxQKMU9i7Sjy
+	R5fIxS90owqI2qKGbcd/+gzzactoRAkxe8q5wCAK+GhywScGPa6GjN75HuM+wCSS
+	2C/eAL3k+zsvAyF00a3SA20/rlJqN740egm+ejqT4c1ShAy5n/5TTsadWWu6Q6md
+	0F3+Hhs331ktNy+VQug9cpb1KR2/K0URo8tsblmqUT48Hlv9RB4zRL3lO5/QkCCH
+	fFBADCezOkHJC98/ukqaBcLKFVFVe5e7giJJm7SdYdqiBVMc7nd3hzqmsDB6OFDa
+	kc+CsWtVtqzuskrQTjFVJIHhtn73mnfyV9Q33j1qRwS9xjpXcHD0MWXQ/Tn8zw+g
+	GA==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4h6we3kd2y-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 12:50:26 -0400 (EDT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5345ded3f6dso156714131cf.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 09:50:26 -0700 (PDT)
+	for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 12:50:29 -0400 (EDT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-5350ec54bf6so123729551cf.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 09:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1791564626; x=1792169426; darn=vger.kernel.org;
+        d=columbia.edu; s=lionmail; t=1791564628; x=1792169428; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KmSdhCQKvTCx7iCBBSxeBtwdW5W857zsoal7R697w6Q=;
-        b=Hk+YuNV9SPZMyNDsaWnndFUjeUhI0aAXJGSr+SWFPc3DWfjb2WnDB9ZZzigoCN4w/f
-         ZYN1FUbMuRAQ9Nq9GPtJWh10KDCcHELRkU2h9lUP/89F7d3vVy8uBE9HAy+Y7aeQqonL
-         dYciTBzcksgnjQRx6kxxPaFc81L6k9vuWgF554qgpiCxvR7wvF99KAnhXmRgv1VdNpKA
-         p337OyhSa8idViVWF82yMA45PiP3gxmdOEXYslDkHCMsnJ1FXT7Fh9MUzevpIe8zo/ZK
-         gWHShhbapMPxvar12bTuTUCWhrg4Qa9za+X/DNQHpk5Fr7J9JMIpB3Y5WzBYkwRYLsoa
-         I4mg==
+        bh=gkwvZ+/1V1m7k2kzWuttuR6zzSD/UrFPm0hpOSrXf4w=;
+        b=yf1xfgJ4/yk2q4UhMIW44lwT3SXmDvwRvRkGcYHVUTPVC6tFbm57M4v8311UfWBoWZ
+         jjLYSCPqQpGLG+P53ciREiX7DGghB3+BQo+u+ur/qkka9RNNt5+f2eA8gpKLZow5fBGA
+         Vbd7t6c5cO5iwTMnkLTCl7JXWeYu9O/7Mh1km+1NGglHPFxTfUianmOOmrN4oysZT1CL
+         h/chPQJG+TBDfLnbf6gycIvFjqh+a1VgecOYqeDYvmErcjPUBt2hSVrzi9zs4gphITOT
+         PAfccyzVk3/iVgj0Z63BTSUDIU+Lkh/z/T4wsbDiUssPT0PUZN+KYRRYHl1UPTV3KzeN
+         uzYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791564626; x=1792169426;
+        d=1e100.net; s=20260707; t=1791564628; x=1792169428;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KmSdhCQKvTCx7iCBBSxeBtwdW5W857zsoal7R697w6Q=;
-        b=eUMlGGGgNWNnMBgEg4iPsOXMYCPsW8iqcBvD9CqtKJFj9NodiUbPT4TAKFy0WGkEzz
-         6vcSTxicYHs2PSBaSKhDRhm4/mg6yi/to9lQCkZABtZ8vtWbWu8Nmv8CALPeQJdtsG+H
-         vO9zwyELNKHAANbA5x2I4cUg8ckVUsSwvevAbPZUqRsLeYeeJZ8aZjQ2zLdHi+NrpHFJ
-         rNREnBNrYDoGgGENsoNkp1+W4wonFsqJf8daulawwiYwNYgLd3LlrsB0uI0uwBRS9kPa
-         eqCeoSr+wZSZcja90wp/P0lDtcB/lPQSQbqCpGpnmyXJfaHwfncHNK+Fa6Wbh1raw5XD
-         BS0g==
-X-Forwarded-Encrypted: i=1; AKwUvBzK4Zsb/eb5Z7YCXtPhwBQSfXsNSNPnm3njxyWchITKUH8vafdWjVSTxqUtF78ouLof69ZWlyFWnJEvb73w@vger.kernel.org
-X-Gm-Message-State: AFuF++kMeNn71+PsRV6f0HSw5qquyvgpxCYqYpRczfS2bDYYXLiBast6
-	rK0pGBh5MtMotGNRZlrUPlX/zkf8cES+PKDvrPyAoNs30J1ajlTTKnJmZIScy5b33Qi210aSY5r
-	DjJiHzG+YmfllfiknxjozaOtpyhlzO5okjW/ZLRvRIMSrULY2R9FKupsyK69lIBs=
-X-Gm-Gg: AYBFou2Lt6AeXfuqsY9cY6Er3/Lgte4M633DPeykL+Or+UOn80jkKEnzOcE19C7SXly
-	zmEOKm6fmC3+MF2z+3ySvR/bpKR7vklfaiIohB33NERdyA+qg1XSIm6DBtIVJfq4whFKez+LRn1
-	CBJtGkJz/EVFQrYEhQiwFKRjH3XvddoT298uo8H4UIniJk602985eJOTpnCs3DON8iBZTZGa9uo
-	/tncFLpGAJO2vxCkfQdNrcEmOFPjLHWVG3EQmCfgcUv/6eZxhUo2zw7aoohZtY3loq66BvX47sf
-	4oZQzYx7o1qbK3BhpqAOkPASk+RNP9QtjkxeCIKOv4/zvlpAImPvnFUALKbNAqzSQFTWsH0lS47
-	sreB0y/xwuE3rTrQFvop45GL4aK6dhtC9VY2DapgVYwzItoU=
-X-Received: by 2002:a05:622a:4c89:b0:535:1a4b:a65c with SMTP id d75a77b69052e-5359fb432b3mr36915981cf.34.1791564626061;
-        Fri, 09 Oct 2026 09:50:26 -0700 (PDT)
-X-Received: by 2002:a05:622a:4c89:b0:535:1a4b:a65c with SMTP id d75a77b69052e-5359fb432b3mr36915461cf.34.1791564625428;
-        Fri, 09 Oct 2026 09:50:25 -0700 (PDT)
+        bh=gkwvZ+/1V1m7k2kzWuttuR6zzSD/UrFPm0hpOSrXf4w=;
+        b=XjqopeV28ppB2EZMuZ/9GJkCaD5uSJLKhu7cGUxwww7sR/goQDbJvkaPo80dto+UjH
+         5tUfHQ19zvVncQPu1EemOF1cY5HcU4RvvKTx1OyCdbj5wCZodyEFo0uqM0yG7xsvd9Vh
+         kUXgwtM0nBmGploMgTYtUCODACEJl/srrlU5ha46aMsmvfegRl4L1YkbN3WJd2KHdDvQ
+         Kk02qYRGu3gMFhQJmPOVNe5/mlIz0/0Be5fO39yXe1jW3+82vAmuC2qLZLtDmjz2N+LZ
+         /vYDp9Bgg4axUxZqq/fGZaywNkZaE9cHvyCSkbUleYXxZbPhWMvUNVsERJGWLBXAe+LA
+         DE8Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwZY8f2NUn3mWN6vGbWWuBD9UdXNtDGG4vDOvdK8x1zlmgJX9KdXqAbbhBMf83mOkIEn9yci6Bp63hGka4f@vger.kernel.org
+X-Gm-Message-State: AFuF++nuFvTViz9LeUl5jK/m09d7taPEtP0DWuGv2V+9hvScNXXyze1z
+	VVJO/G1o+o6Dmv12XGP1zyigQHRTFN9U2l0mZ6RmO3tKr8QLldTu71vS2AyaNL00aqOgMMOnuBp
+	t3LQ1MEKQ2EF0jnZbLshpWzrcT8OmQohckYcVJLQaGtsq1nH2xLP6RPZd8eB9NBk=
+X-Gm-Gg: AYBFou1LZsXa/j3njG/ou396R4+42LYrO3RbW+wDV8JIZ+sUzdrCK21kBRIpWU4wYhI
+	yviW/yKfAnnM4iFne8A9bgZQXGApKtL8aVZJymtnDtTEVc9adMzq2Vx3nJYYuaLvzesSWd1k/d9
+	yAqsErzlYlJP7Iniv7spaTSVkWZ4UFcBJRoCHv3V4j3tMalIihbHR8O8ngxEhoJQqRCbNxHwL2v
+	euXwkNuK3DPUp4f8oPTG/x8b+2E/EFBLOMw/zQZCOCGF9XgPoPDSa+U56oEKeZxQBB4taXBPdAX
+	rBeQzIw8zrwnuSxliEEQJbrsqh63aWL5hWjThREXEbisG3Bl2McxRqGY6hMs3UwyyevvLjk0Ntv
+	+Bbu4XIKeCToeTABAV8LRdQhAUtYuQ0pbdZrCd1WzS4s8EEs=
+X-Received: by 2002:a05:622a:8ce:b0:530:e1b1:eaeb with SMTP id d75a77b69052e-5359fa73749mr37098731cf.21.1791564628464;
+        Fri, 09 Oct 2026 09:50:28 -0700 (PDT)
+X-Received: by 2002:a05:622a:8ce:b0:530:e1b1:eaeb with SMTP id d75a77b69052e-5359fa73749mr37098041cf.21.1791564627857;
+        Fri, 09 Oct 2026 09:50:27 -0700 (PDT)
 Received: from [127.0.1.1] (nat-128-59-178-194.net.columbia.edu. [128.59.178.194])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5359b77d0eesm22234701cf.19.2026.10.09.09.50.24
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5359b77d0eesm22234701cf.19.2026.10.09.09.50.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 09:50:24 -0700 (PDT)
+        Fri, 09 Oct 2026 09:50:26 -0700 (PDT)
 From: Tal Zussman <tz2294@columbia.edu>
-Date: Fri, 09 Oct 2026 12:50:14 -0400
-Subject: [PATCH v6 6/9] block: don't fall back to buffered I/O for atomic
- writes
+Date: Fri, 09 Oct 2026 12:50:15 -0400
+Subject: [PATCH v6 7/9] iomap: reject atomic writes in
+ iomap_file_buffered_write()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -91,7 +91,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261009-blkdev-fixes-v6-6-307939c387df@columbia.edu>
+Message-Id: <20261009-blkdev-fixes-v6-7-307939c387df@columbia.edu>
 References: <20261009-blkdev-fixes-v6-0-307939c387df@columbia.edu>
 In-Reply-To: <20261009-blkdev-fixes-v6-0-307939c387df@columbia.edu>
 To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
@@ -106,83 +106,74 @@ To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
 Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
         linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Sashiko <sashiko-bot@kernel.org>, Tal Zussman <tz2294@columbia.edu>
+        Tal Zussman <tz2294@columbia.edu>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791564615; l=1843;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791564615; l=1258;
  i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=nOUyLn4mikuuV5NB3Wyl5aQas2LTcg2ovZW2RzEQLhk=;
- b=GRY+dI66HvbGZcsKUzr9httFuonZ1PqySnkNxCOVUeKS4B187FSIqqmyLZ3rTzggMPfXvLQow
- oeJGvyx0EngAAc/r7e00x+XXW3hCpKoDE9sj/87HM8fak2oyTeYI42H
+ bh=dQNMb5/wuPELUla+30Ybhb/m9cvIEvZQydg6aWFrln0=;
+ b=WZGuKbqgstXPQfB88htkX6didpQHdTq8xJ1ra6e3bXkVqmC3AAsryMkhYBbhxHoVysg1omLol
+ 13qicZ+RfMGDf2fzWd785at2EVFZXPrUx3L88zIp/oAJyI6/Yv8cEDa
 X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
  pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Authority-Analysis: v=2.4 cv=UYHE26SN c=1 sm=1 tr=0 ts=6ac91b52 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=u0MKzLA9JmpizDwXU9Rxjg==:17
+X-Proofpoint-GUID: uw73sqCZfNgfu246tE5H974W87FmWK-E
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA5MDA2NyBTYWx0ZWRfX5d7IKNAIJrBb
+ tCGwOZiF4HaM1BepCN3nCaTsQWfjYOCfl1j8f3uzTs62o8KX+8y2G7yVkNcMea0ckkd7bYz3EyK
+ LAbsbX4qrrp0T5GlGT3CRXCqkf5HJ9s80SCexpNcFd6/8wDB4UUx
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA5MDA2NyBTYWx0ZWRfXwK8TLz98+ejD
+ FUvDA70Omnc6Sr0EdipwAltNXlozTq/fdNucpFK5BxF73SNwsWu0IRbbusMeC0J7OuYvWWmXt0W
+ VTEr8O8zeMG+Y2SWtMBNIdyLXLsUieQgwfoE62v+g5YvzV5jGUVDSCdFzlCCItkX1pJHkkmpXeO
+ RlGEzFJJoYeOVCd+gt6MZQHmPRexF6TFaHo2QaVphyKKBqG9qVdzFY23jSKa1SiGeIjcZxU1MV8
+ YQLctIUJrQitm+hGWEmHE4d1JVwizsIkXxr6ZygnLHDrUD50SjuHZq3XQTPbmDCRIwas812nYXF
+ bIvzDs3usfn1OOg/rLl7jhFxnZF7QMMNDoNSnOzzj0CRXzaih9difFRAhyUaXOXxG9CztyUUpXz
+ R5jEACyO6nq6C9+tD3fWWnqJusakDNKzpuRBFpIuPKS2D5ZmHQsClhuCyCY7YmwNUrbTI+gz98x
+ usMpIndWZoHJMlWOqiw==
+X-Authority-Analysis: v=2.4 cv=eYio7LEH c=1 sm=1 tr=0 ts=6ac91b55 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=u0MKzLA9JmpizDwXU9Rxjg==:17
  a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=jHxIr1HyPKZ_Q5_91PL3:22
- a=c92rfblmAAAA:8 a=VwQbUJbxAAAA:8 a=s8mzj7eOnaliLhoSWqYA:9 a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=GvGzcOZaWPEFPQC_NcjD:22
-X-Proofpoint-GUID: 1Jkgf1yok9D3Lz2P7achYl_V2GstXzbZ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA5MDA2NyBTYWx0ZWRfX7Szw5RWRajXB
- EHMvzg+WiKfkpA6yeimxKWH8Q/kk+uIuP2aMA+vmDbscNcptppnSWy3PFMDPbnULjBPZw1c6C18
- 0BnQnFbkHFpsFtNuqPKrWyh75y5KS28pWFrGhEL9c9LQHWvIJ9IH/St+uOiOGag4jBbWeNgVG6e
- PclrBmt0+zEeZ8BgMevUlpLoRKRVhZ/z9Hi10lK/X5kQyelSrxpbnfVkItItHNhZY24V2pZGlCm
- MHo2zlmhjaRUDZYZULpKSRdWn3OifoKqKY4UQfCDVthGD2Udur+rJ5n5ndEy/qK9TCgR6AHZGlj
- WoPSY5bSBg5fnNhMt58ETBwDNvw3KDHbmGnpznO9FtmciPpb4qY2OG+CHFjFN2qZUh74al26aXh
- Uw4kjnXWPOlB1oDggzbpz7yCJdt/G17yHnC4B2nuULPHPBzyWJRTiTQ33GIynTwqI0MlJQiFY3r
- 7gzkGC6mwxjtUwZDDKA==
-X-Proofpoint-ORIG-GUID: 1Jkgf1yok9D3Lz2P7achYl_V2GstXzbZ
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA5MDA2NyBTYWx0ZWRfXz2wBzEaqPuFt
- B8wK/oodpBWffd9Q9k/fRkt+8htMZzDqrt7O4wwLoNNcWZxzrnSpa/Qoihf7zKH/KeXl8HS6azO
- V9Y5JNXXpeAH7RFb+xHf+2PiiBtmmlwaOzPK92oift/BYfLOGmkm
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=79PYxaXUQd1wl-QFWJnA:22
+ a=VwQbUJbxAAAA:8 a=ASVHLkjgWNnnwhGXR8EA:9 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-ORIG-GUID: uw73sqCZfNgfu246tE5H974W87FmWK-E
 X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11930
  signatures=596817
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=10 spamscore=0 bulkscore=10 malwarescore=0 clxscore=1015
- priorityscore=1501 phishscore=0 impostorscore=10 suspectscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610020000 definitions=main-2610090067
+ phishscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=10
+ clxscore=1015 impostorscore=10 adultscore=0 malwarescore=0 spamscore=0
+ bulkscore=10 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610020000
+ definitions=main-2610090067
 
-blkdev_direct_write() turns an -EBUSY from page cache invalidation into
-a 0 return, so an IOCB_ATOMIC write is retried in full through
-blkdev_buffered_write(), with no atomicity guarantee.
+Buffered atomic writes are not currently supported. The page cache
+writes folios back independently, so it cannot guarantee that a range is
+written atomically. iomap_file_buffered_write() does not check for
+IOCB_ATOMIC, so a direct write that falls back to it would complete an
+atomic write without atomicity. While no such case currently exists,
+fail IOCB_ATOMIC writes with -EOPNOTSUPP, so that a future fallback
+cannot complete an atomic write non-atomically.
 
-Skip the buffered fallback in blkdev_write_iter() for IOCB_ATOMIC, as
-it already does for IOCB_NOWAIT, so the -EBUSY case returns -EAGAIN and
-the caller retries, matching __iomap_dio_rw().
-
-ext4 has the same fallback and only warns in it. For block devices the
-fallback can be skipped before any I/O is submitted, so fail early
-instead.
-
-Fixes: caf336f81b3a ("block: Add fops atomic write support")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Link: https://sashiko.dev/#/patchset/20260802-blkdev-fixes-v1-0-a82fc549fd74%40columbia.edu?part=2
-Assisted-by: Claude:claude-fable-5
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Suggested-by: John Garry <john.garry@linux.dev>
 Reviewed-by: John Garry <john.garry@linux.dev>
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 ---
- block/fops.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ fs/iomap/buffered-io.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/block/fops.c b/block/fops.c
-index 1ac3fa285090..41fa0c663f77 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -782,10 +782,11 @@ static ssize_t blkdev_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 	if (iocb->ki_flags & IOCB_DIRECT) {
- 		ret = blkdev_direct_write(iocb, from);
- 		if (ret >= 0 && iov_iter_count(from)) {
--			if (iocb->ki_flags & IOCB_NOWAIT) {
-+			if (iocb->ki_flags & (IOCB_NOWAIT | IOCB_ATOMIC)) {
- 				/*
- 				 * The buffered fallback blocks on i_rwsem and
--				 * on writeback of the data it copied: return
-+				 * on writeback of the data it copied, and
-+				 * can't provide torn-write protection: return
- 				 * the short direct write instead and let the
- 				 * caller retry. The bytes already written
- 				 * still need a flush if REQ_FUA was not set.
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 0a5ebfda90f1..e6654cfe1cbf 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -1304,6 +1304,10 @@ iomap_file_buffered_write(struct kiocb *iocb, struct iov_iter *i,
+ 	};
+ 	ssize_t ret;
+ 
++	/* Buffered atomic writes are not supported */
++	if (iocb->ki_flags & IOCB_ATOMIC)
++		return -EOPNOTSUPP;
++
+ 	if (iocb->ki_flags & IOCB_NOWAIT)
+ 		iter.flags |= IOMAP_NOWAIT;
+ 	if (iocb->ki_flags & IOCB_DONTCACHE)
 
 -- 
 2.39.5
