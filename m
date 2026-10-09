@@ -1,48 +1,48 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB88A4E0B6E;
-	Fri,  9 Oct 2026 17:17:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589673CC7EB;
+	Fri,  9 Oct 2026 17:17:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791566261; cv=none; b=tb07C8zxG1kCGZwoo1gH8BeVzduPwWujUTwyUuZ5TME1Y374BmpqoPYLQxm3o2afGy3tTOfCxNDBWU08mFPEZuFYHeLTYAAQg9AWFjkwAgCUP+rTEkeR2xTqlhTBd91pWOoVpnxKSDrfZOX77GArUGNuyfnxKHYfQGzhR/F1X+c=
+	t=1791566264; cv=none; b=kgg4ZtjdM1x1CrBPF433L3c1d3HLby6Sr77r9ggjm9Iv/rWLs8e8GH552+PL+14TEx5JSq+zDWtTmMEFfEoJNwSz4o7QEcaIAYmxu2FALI5TGKDmD65iShGRwa/X16wQYx4w9BCboUZyuW0ZomYk5o0B8I9lncmYz02gM0cNhDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791566261; c=relaxed/simple;
-	bh=iXvwLcCV5A2D0tezmDF+fuguR3oz08IBevn9vq8GAkM=;
+	s=arc-20240116; t=1791566264; c=relaxed/simple;
+	bh=a/eaC1r4gSGU9FjqH5xHS/HCJbT6qMORMouJKNToTdI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bjcI4R/8IImUfME0Hrn2AySR4Bmt9gJE/VX+ZjKVxwKjDkcTd4jj5AqNxDnXvxkrlCdBS2ql/EPFZSW9xXe0W8FpKI8x8ahvl2T00M2CYSkuSwr2VDc8+ZK3VnwfLN+XhwPpy9Qw0NUclLggmVlUnWJ4NV1Zl47Q+TWRxYoiMIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=U4jPoz9L; arc=none smtp.client-ip=35.157.23.187
+	 MIME-Version:Content-Type; b=fqIR75fKU8qIJ6vpAuQs8ClgH0AWlhII11dpsOOtAcwhMh4qW7DFLbxhF9GTfxCZKtPWpmguzPRUHmtbtDTorFqAIBaVxZSdWu1Hv1X0CLYFWC4F6tVMvPGVRLHOdk2ZqBWBU4wCjapOWOoqcqATLfZVsroPzbwIKV2zN6zlIeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=eFgpw0sy; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="U4jPoz9L"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="eFgpw0sy"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 0949C1D6E;
-	Fri,  9 Oct 2026 17:18:28 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 8ACC51D60;
+	Fri,  9 Oct 2026 17:18:31 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=U4jPoz9L;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=eFgpw0sy;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id C70D321AD;
-	Fri,  9 Oct 2026 17:17:36 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 52B4E21AD;
+	Fri,  9 Oct 2026 17:17:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1791566256;
-	bh=SnVT2NSmf5BohIaNNnFatw3jHWjFSN6nZ5HtyKz4B9E=;
+	d=paragon-software.com; s=mail; t=1791566260;
+	bh=lAJTVEFpuhHuqhJesuDoPbnrSQQ8nLmUjYGAQDLrQsE=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=U4jPoz9LIPwcDOGIHF5/drqV6zi+FsQBkPgEgvl/UdGmrCphtLrvGKdJxqeYOxRzy
-	 ZM0vhuZ9Ws+p4IPU2jknMsxrLlkROnGEYUwSHwu28d9gcBPSm+93JDnhED6AUe7JtJ
-	 jcRCvobWGo/WvokLVniWHlpQgiH3fsHMp/Gl8wxI=
+	b=eFgpw0sy93ASmPPt2fUAi8y84jIqr1i7hxNaozSS19qLnolW7Y2uECu82V6DePEqu
+	 S2aoFzd9cymZRXsnXIaYOEVX7SkbHhKj/xgiGMFuy5psnEkSHfPjIdcmvVBUc4jkxf
+	 vZt9ggIGCz1QBByEeHpZUvWjf91qI2En9SzINmlI=
 Received: from localhost.localdomain (172.30.20.199) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 9 Oct 2026 20:17:35 +0300
+ 15.1.2375.7; Fri, 9 Oct 2026 20:17:38 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
 CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 08/11] fs/ntfs3: reserve a compression unit in maxbytes_sparse
-Date: Fri, 9 Oct 2026 19:17:01 +0200
-Message-ID: <20261009171704.11379-9-almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH 09/11] fs/ntfs3: take ni_lock() once in ntfs_readdir()
+Date: Fri, 9 Oct 2026 19:17:02 +0200
+Message-ID: <20261009171704.11379-10-almaz.alexandrovich@paragon-software.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261009171704.11379-1-almaz.alexandrovich@paragon-software.com>
 References: <20261009171704.11379-1-almaz.alexandrovich@paragon-software.com>
@@ -57,36 +57,117 @@ Content-Type: text/plain
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-With 32-bit clusters, the maximum size of a sparse file was computed
-as the largest offset addressable by a 32-bit VCN.
+ntfs_readdir() took ni_lock() to load subrecords, dropped it, and then
+took it again for the index walk. The double-checked pattern around
+ni_load_all_mi() and the separate out_unlock label exist only because
+of that split.
 
-Reserve one compression unit below the limit so the rounded-up VCN
-still fits.
+Take the lock once for the whole function and drop the second
+acquisition, the inner re-check and the duplicate error label.
 
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
- fs/ntfs3/super.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ fs/ntfs3/dir.c | 38 ++++++++++++++++----------------------
+ 1 file changed, 16 insertions(+), 22 deletions(-)
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index cf67d34568d8..0c347085cb85 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -1235,8 +1235,13 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
- 	sbi->maxbytes_sparse = MAX_LFS_FILESIZE;
- 	sb->s_maxbytes = MAX_LFS_FILESIZE;
- #else
--	/* Maximum size for sparse file. */
--	sbi->maxbytes_sparse = (1ull << (cluster_bits + 32)) - 1;
-+	/* 
-+	 * Maximum size for sparse file:
-+	 * 16 aligned up clusters should fit in 32 bits.
-+	 * xfstest 308 on sparse file.
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index 328c9a29df89..0998c98eb49c 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -519,34 +519,29 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ 	if (!name)
+ 		return -ENOMEM;
+ 
++	/*
++	 * Keep directory metadata stable for the whole walk. Loading subrecords
++	 * once is not enough if concurrent writeback can still compact ATTR_LIST
++	 * entries and free the record that ntfs_read_hdr() is currently walking.
 +	 */
-+	sbi->maxbytes_sparse = (1ull << (cluster_bits + 32)) - 1 -
-+			       (sbi->cluster_size << NTFS_LZNT_CUNIT);
- 	sb->s_maxbytes = 0xFFFFFFFFull << cluster_bits;
- #endif
++	ni_lock(ni);
++
+ 	if (!ni->mi_loaded && ni->attr_list.size) {
+ 		/*
+ 		 * Directory inode is locked for read.
+ 		 * Load all subrecords to avoid 'write' access to 'ni' during
+ 		 * directory reading.
+ 		 */
+-		ni_lock(ni);
+-		if (!ni->mi_loaded && ni->attr_list.size) {
+-			err = ni_load_all_mi(ni);
+-			if (!err)
+-				ni->mi_loaded = true;
+-		}
+-		ni_unlock(ni);
++		err = ni_load_all_mi(ni);
+ 		if (err)
+ 			goto out;
++		ni->mi_loaded = true;
+ 	}
+ 
+-	/*
+-	 * Keep directory metadata stable for the whole walk. Loading subrecords
+-	 * once is not enough if concurrent writeback can still compact ATTR_LIST
+-	 * entries and free the record that ntfs_read_hdr() is currently walking.
+-	 */
+-	ni_lock(ni);
+-
+ 	root = indx_get_root(&ni->dir, ni, NULL, NULL);
+ 	if (!root) {
+ 		err = -EINVAL;
+-		goto out_unlock;
++		goto out;
+ 	}
+ 
+ 	if (pos >= sbi->record_size) {
+@@ -557,7 +552,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ 		 */
+ 		err = ntfs_read_hdr(sbi, ni, &root->ihdr, 0, pos, name, ctx);
+ 		if (err)
+-			goto out_unlock;
++			goto out;
+ 		bit = 0;
+ 	}
+ 
+@@ -568,7 +563,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ 		/* Get the next used index. */
+ 		err = indx_used_bit(&ni->dir, ni, &bit);
+ 		if (err)
+-			goto out_unlock;
++			goto out;
+ 
+ 		if (bit == MINUS_ONE_T) {
+ 			/* no more used indexes. end of dir. */
+@@ -578,13 +573,13 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ 		if (bit >= max_bit) {
+ 			/* Corrupted directory. */
+ 			err = -EINVAL;
+-			goto out_unlock;
++			goto out;
+ 		}
+ 
+ 		err = indx_read_ra(&ni->dir, ni, bit << ni->dir.idx2vbn_bits,
+ 				   &node, &file->f_ra);
+ 		if (err)
+-			goto out_unlock;
++			goto out;
+ 
+ 		/*
+ 		 * Add each name from index in 'ctx'.
+@@ -593,13 +588,12 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ 				    ((u64)bit << index_bits) + sbi->record_size,
+ 				    pos, name, ctx);
+ 		if (err)
+-			goto out_unlock;
++			goto out;
+ 	}
+ 
+-out_unlock:
++out:
+ 	ni_unlock(ni);
+ 
+-out:
+ 	kfree(name);
+ 	put_indx_node(node);
  
 -- 
 2.43.0
