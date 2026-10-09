@@ -1,88 +1,88 @@
 Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58AC33C1970
-	for <linux-fsdevel@vger.kernel.org>; Fri,  9 Oct 2026 16:50:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156E53CB8F5
+	for <linux-fsdevel@vger.kernel.org>; Fri,  9 Oct 2026 16:50:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791564626; cv=none; b=rUOpMuLgr7PPWO64DfBr5KLvWqU3jTM/QKJTsKQnQBO67/DMmnXnhJN0I20RA3HWERn/1HCppLMeCSuUYCfMlGOMGN0UDsWqWV5rQSawLts33J5OmYVFVYIJOV1hkJR0eEQVI5q7xVp6AH7E/3Wsvq2/J6KP1e6hblWU+3cCH9s=
+	t=1791564628; cv=none; b=K5sXyDkETkOq8POLf3uxY1ctq4LubTUEaXzZaDE18NDJELqxMP6RUL4wIdrXkXUw1kizpc/4kk07SLDXwsKWmQYzxiDJ8wQ8wQnz/AeTgcvAhzkyeeWmic44TjKBbQ+1mu/fw0IejPnee0Sv946ml/V0fV1A8IPoDzmXtlHAlG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791564626; c=relaxed/simple;
-	bh=8OGb3qPQgDkNcNviBN0K0rNS7a4oi8Q3FVacV/Nt9jM=;
+	s=arc-20240116; t=1791564628; c=relaxed/simple;
+	bh=62IvAR081mGZwsnDCAfyOZAPUixZpTd3Wqytk+0ksZM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mTdiY3XSdlzVqi8loO2nY0Cl7sgLNQNyApZ1Sq76gZwDTOxOPjDjCyk8q2t+uaB0wxjyyrp7CMHmvu+UCxqNcTZsHmlHNpOg4QxLrJbtDhSl4KCu2ly/oLlmdx+kZhBX1kmVT27PQicMV/OTJftMb8qFRJxmTdlSSFB8nm7iC1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=ZCjvv+jo; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=BGH+OipO; arc=none smtp.client-ip=148.163.135.74
+	 In-Reply-To:To:Cc; b=gHBDDiGS7P7QtoxOXm+FAl6yGI0DAnm20mHGTOfwfONfZIGCIm41MJoRVx5RP7yS4OJBWiJ+wyA/DGh+gGmGPMrIWoPQtyppaWKODlv8ZAtmnNFtOZb5TCH7UKkIh3KSHQ8EJJxkbbHD0Cx9UGwHUCdR18/z7B/q38g4DmEYEKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=DDIiAsRX; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=PFoR/PVZ; arc=none smtp.client-ip=148.163.135.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="ZCjvv+jo";
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="BGH+OipO"
-Received: from pps.filterd (m0167070.ppops.net [127.0.0.1])
-	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 699GYI4G3932422
-	for <linux-fsdevel@vger.kernel.org>; Fri, 9 Oct 2026 12:50:24 -0400
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="DDIiAsRX";
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="PFoR/PVZ"
+Received: from pps.filterd (m0499199.ppops.net [127.0.0.1])
+	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 699GZefT4092052
+	for <linux-fsdevel@vger.kernel.org>; Fri, 9 Oct 2026 12:50:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=J0Ga
-	yEBSzv+QelRuV9iRmM/2d+1IsDKap3LFlt6v21c=; b=ZCjvv+joRAcNozY+TgHH
-	wmbOC5GOX+mNUMR4uNlnbn2FL5zVr5WNF6Gako0n7iClUizHlicZ1zI6bPiCRK/2
-	uMViT1MXXzOqP98SqDeyuTdL6R+E6wtySKZQictgrTu7knT4Tsog5bYS+qNiRYsJ
-	A8fk6vejgpN/hEHKmHd27i49OSbmeBQThk/jBik81Kk5b0PjxKyB5qeIM3UG42re
-	9UptMvIMDdVUs75IXuTXCyxf2odnx+ArwFr1MXO+Z/Bg3jfHxkZtXtz/TXWHXJse
-	qcIpJcin6HDMmAOTJGZZVDd1J2vXNagurlCJJgCTXi0xtwcEehgvL7PMN7FSR+ng
-	yw==
+	:message-id:mime-version:references:subject:to; s=pps01; bh=0ZU3
+	9KIX4Hg3WrrlWgCSo0Z7SkcoZRjn/jcFVOpHoBc=; b=DDIiAsRXlbcz7Hi8LIKA
+	hGZRGMC3w/sdYBf8pxmJ596wznd7Ban1MkuEM/+rsupQy+Q4pU1nSNIgMzZVTuD4
+	+Y4U6Iyqa9hKdnynhwjbA/j6lDSWzSuwksVpbln2uquwZ5zsXZAYMYb92PHuLWhr
+	zJchdsautHka63ITovcNx+yVvunla5DRWYKudYdLJQfsLK82Uo7wmOe8/CCriJB2
+	7IK0b8KDeg4x4wl+JgUN5EhLUrit96ZGlkFDPuRfg3Kn9wmN4CTeu014X+xYiNXJ
+	E9+nto23kL5/Thlf4SFvWuAEMHOPuvYzIwgqH4ihZaK9IPdHBuKh6CbH+9zEHkRZ
+	iQ==
 Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4h6vkqbefs-1
+	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4h6qgavh7j-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 12:50:24 -0400 (EDT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-535252004e9so127656841cf.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 09:50:24 -0700 (PDT)
+	for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 12:50:26 -0400 (EDT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-5337ed1ba44so132506721cf.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 09:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1791564623; x=1792169423; darn=vger.kernel.org;
+        d=columbia.edu; s=lionmail; t=1791564625; x=1792169425; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=J0GayEBSzv+QelRuV9iRmM/2d+1IsDKap3LFlt6v21c=;
-        b=BGH+OipOT8U+fV/Q3TCueyh5NT3oCNItPrJfkUNGCG2Pa0MqCZAIKp2yBr8O+cIvBM
-         lY0rNE2wrgDIOYQQFiBA5RwXU7JoLbUhLHJtK56EaEs8vZA9FRyinv9bQdIvRijWgd90
-         QaRHVMJMwL8N+KiH5owHANSrTzvNu+QiSLxiEIQGf+VYGY5MnXALVJd37Agg1PEDH8Vp
-         jgRVuEP+Dk5dqYAQg/m7u+K9QloEvuH5r1AedGSKB4rbysJnW7zF68UJ6jtY141jTIHy
-         eM/Fy1jsTyRRRhFTEMqDEEmoxjLIXqxuzXJNuqyaF5KdNM5JGJViJ11eIpdE2WpCSnUQ
-         dRdA==
+        bh=0ZU39KIX4Hg3WrrlWgCSo0Z7SkcoZRjn/jcFVOpHoBc=;
+        b=PFoR/PVZnhu6j3Le/N8v9TehFRr8mPEYCR8KnsdOcR4E7bq/hjdtjUUhta5cWRAbAP
+         BajLt2c2H+Xly3Cd9CECLAkZboRYhyumjLZvmmeGgYeO0aPeq+Dd20zuJn6WJMqVyFM3
+         C4nne/eWisiwbmhyvxrChpIz/op+oBuS2tkGedZp4H5s0XiXfl0Nt5Lc1Epv4ZWDbNbE
+         FNKQXgvNMnTe61zCrAjaJUysON2m6E3gX5iewkkWwt0QlEedZPXrKKQZ/hY3Nsg1JcoY
+         1Yk6ibb91bWjUi1yTuigQ3U70e7OkN58Yq65pEVXa/HjrpoxPQNAcEvcQ0lZWTOCQd0Y
+         g4Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791564623; x=1792169423;
+        d=1e100.net; s=20260707; t=1791564625; x=1792169425;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=J0GayEBSzv+QelRuV9iRmM/2d+1IsDKap3LFlt6v21c=;
-        b=OoNtKw0W1gajp7vg550zvdQapc1q/dL1JYtZdjKkIvNA8YjqsslIBwbp5MOtJTnbQV
-         pkmlHgCaMbZMqW50yV22isfjw73ZM2pr2qckPeCsejLwsMkROtGyn/GwP4N0oRf22CWT
-         K1iG0rcG19LaonhMk6hg8WdHAStjBL0Hnzo/JkmqHfliLf6z2s8Dl8rwuD7XLUeyvA3D
-         4Ee46tN6MBkwOUX2/Mu/4Lkhcc5ZXM9STdA4KpSPdZIqKun1sqNobKo5SbkdMvV8Oz6Y
-         e71/Avq+MmOYHtTyyQd7lEPE4kUH1I3gziFqd4q4vhGpvtDrfURhNTxcTZYlLtrdDPMv
-         kHYA==
-X-Forwarded-Encrypted: i=1; AKwUvBwcwij1SBaeHmPTcj9P9XSeg7wCos8lk3NX8I+udu/sI4GiWJz2NdEZmxxM1LliL2wX/SZ0WYPC46Z/nEYU@vger.kernel.org
-X-Gm-Message-State: AFq9FYLBli8+xQof1/zDwv4W8pMkdEVrAvkzn5dEHXXEygJMLZuEGJ05
-	opeARkVQpaAfoCJ2OUehnmWmdUEx1omDqDbjwKfPKIY/vz6eDt/2o+z2CSZ16KMNtYdc/7rFofq
-	sWnzA1Vvh0nFbzMNeSEYkTcOJGoB7W26oJgSMrRcYkYtuSbWGKPQK+cRcDPXOn3Q=
-X-Gm-Gg: AYBFou3NCxWqmV69WQGC1sof+vgRB/qNOoiAXmyUP58dCP3asbSWTeMRO36xyHiyyML
-	AMLhc6oEXDA+yoo++Z2Tmq8Fv58U3eKgl6cmOX/J2PXBiTazvKaj1C0TOO7XRCxs9uC1HByc9m8
-	1po+rdlcHTLH3/D5B/4PgUU5vcVMneN7vVV9jh1Dsipa21E9wH+OBUbBNyaJfCdpbG1bXpGNJpy
-	PmSnmdA24ghB1MZ8429SVAVN3Xr28HnW7kSgAgdzTCzqqNV4bzHcMxRjWrLlA303sJ2u1IerRrw
-	vyYZ3O1ltjpsZxq5HktcIND32TsEyvk+Ykj3oMpSl3+pUnjxPBlz7RltJ9kMAx6YkgflVGGYqS9
-	g2sn4I4HVRN3iz1nnQLP9ljqiqEDDxR2ejfA3RQI8Ql52AeU=
-X-Received: by 2002:ac8:5d45:0:b0:535:134a:2c83 with SMTP id d75a77b69052e-5359fb6a8cbmr39888131cf.41.1791564623211;
-        Fri, 09 Oct 2026 09:50:23 -0700 (PDT)
-X-Received: by 2002:ac8:5d45:0:b0:535:134a:2c83 with SMTP id d75a77b69052e-5359fb6a8cbmr39887741cf.41.1791564622800;
-        Fri, 09 Oct 2026 09:50:22 -0700 (PDT)
+        bh=0ZU39KIX4Hg3WrrlWgCSo0Z7SkcoZRjn/jcFVOpHoBc=;
+        b=QnFdq6lonrZDvWY3ya7EhlS7VzOK2HgjfaI9l+FjiskI9hnuOZ9HEt+ygVeGLEv3GT
+         Oz3LOtyYY6ne1gliN7KzyIRjQT8NTMfKnCKxC3sRagQjOhuGdzYiMlssEeyODfxI9Rqc
+         KYHlJs6TcRuaz3fIRw32To3pFfE/95IY29Fw8NUUmnm7DWtCoaVHCVVt8zUK8SESMewj
+         KApFT/VIrH/m1Bw7FMUmdwRn2yQhbsmTbBsEtQZovZt+OpusG1+rw412q1BapatX8Ds0
+         XMPbDta3NsrWQpipRNf6+ihM+/qUmE4pAgjxJirjMphPZ/1m3zfs5DU1SzaE3s0inHUM
+         +GfA==
+X-Forwarded-Encrypted: i=1; AKwUvBzy3BdmIR4hv36ZNpeZZIkpP99yfF+CWbh2i1Y3oW5s4XJPBQv5ChNTHJZ/7JCOyKDo5y/1LH/AFQadaCqp@vger.kernel.org
+X-Gm-Message-State: AFuF++k35tLJGzp9yFwZH4qQa4q1MTv185HUQ04ThBtwHWLWn6gfvzmb
+	C9Zovcx2Ba1o7GbKwuzTM5HRfO4pC9lSX3JLnUydsHjW+h63M8ZRT+leO0Zkb6xiiqNLOZH9IhD
+	jcdDmCqfvqpa+AAm8OS6lORhtv3JdHD79XNE+scLj9QCB7zg/Owwpa0MyJ0EIIe8=
+X-Gm-Gg: AYBFou0ynVxRzcaWbEf7BVTIY8CfC+2MB9lX88dVGQp+FERIF3EfsDsRRjVwVN5MycW
+	rPxihmUtdCe07MEFUv6BmapkEOwejhV3qXlYMdRgANrD0Nj0UI4YuE0TGJmSuoEjO1ziyZZGYm2
+	/aSkbqzu9jm5hqX+XBDdUNf8c9xlDRb3QiiDp8HUQNM3opg7OltZ5BAxSLE1uFR630yXCAmqs54
+	khXrjEh7KULT0zhTy+9igi4DhX5yQr0TS3Xig9qtvj2hLhRDOIEWnoFEDm0XwjiWpjv7/3r9rbg
+	/R5v83cEBWmNYbPGtUAau7i8ZUvJEY0qXRrzGdQjGK8x7Q7We0kjpDH/YhW6rOxh8Ef0il9xxoY
+	9odVzV9vBMyPo7JZ4XV2DCfcpKDLlgOkRsHjF1ZECx2t3Wy8=
+X-Received: by 2002:a05:622a:2b06:b0:533:920d:7bf8 with SMTP id d75a77b69052e-5359fae3efdmr43729531cf.24.1791564624821;
+        Fri, 09 Oct 2026 09:50:24 -0700 (PDT)
+X-Received: by 2002:a05:622a:2b06:b0:533:920d:7bf8 with SMTP id d75a77b69052e-5359fae3efdmr43728861cf.24.1791564624098;
+        Fri, 09 Oct 2026 09:50:24 -0700 (PDT)
 Received: from [127.0.1.1] (nat-128-59-178-194.net.columbia.edu. [128.59.178.194])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5359b77d0eesm22234701cf.19.2026.10.09.09.50.21
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5359b77d0eesm22234701cf.19.2026.10.09.09.50.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 09:50:22 -0700 (PDT)
+        Fri, 09 Oct 2026 09:50:23 -0700 (PDT)
 From: Tal Zussman <tz2294@columbia.edu>
-Date: Fri, 09 Oct 2026 12:50:12 -0400
-Subject: [PATCH v6 4/9] block: honor IOCB_NOWAIT in the block device
- buffered read path
+Date: Fri, 09 Oct 2026 12:50:13 -0400
+Subject: [PATCH v6 5/9] block: fail a short atomic pin in
+ bio_iov_iter_get_pages()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -91,7 +91,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261009-blkdev-fixes-v6-4-307939c387df@columbia.edu>
+Message-Id: <20261009-blkdev-fixes-v6-5-307939c387df@columbia.edu>
 References: <20261009-blkdev-fixes-v6-0-307939c387df@columbia.edu>
 In-Reply-To: <20261009-blkdev-fixes-v6-0-307939c387df@columbia.edu>
 To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
@@ -108,87 +108,177 @@ Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
         linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Sashiko <sashiko-bot@kernel.org>, Tal Zussman <tz2294@columbia.edu>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791564615; l=1869;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791564615; l=4676;
  i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=8OGb3qPQgDkNcNviBN0K0rNS7a4oi8Q3FVacV/Nt9jM=;
- b=3w47/7LOKxZec3w+0Vpj8v9f9aG1aRFOZnvQaqM9Yws0tiyt28d+DBIkuzvMpuwjPhXqV2VCO
- bIiMZVN0NnFBo0Q4+cwwjukT8ukBUhJzY74tSFs+Yglqo7VQU02FLH7
+ bh=62IvAR081mGZwsnDCAfyOZAPUixZpTd3Wqytk+0ksZM=;
+ b=Kow1iVWHAoTwb/DLM6HMqJjy+KZuv3Eq3m1wKfJUWyY/zkbwnQK6Ih2vZn9PJtc220b/UX/7t
+ XKaXj92QdqTB5YQvGXM/1PyqYhzKE+Hh9olIf2fTs95pE3fiks/6c1g
 X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
  pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA5MDA2NyBTYWx0ZWRfX/zHc+s+CyDYG
- 1VgTlcSGDBrde5/Irvb2STtYq5i425ntWH2F/4FbNOhCQnuv88J7TmglKgmrurhI4Q9expQf67h
- nY8+Uc38w0+oxDoyGdv4L0E4CX+AeqQlt/dvhkMeRyaah0WOz7Yq
-X-Proofpoint-ORIG-GUID: WKouaC5YAYrhnEoOGHphjaDwlDBmluvr
-X-Proofpoint-GUID: WKouaC5YAYrhnEoOGHphjaDwlDBmluvr
-X-Authority-Analysis: v=2.4 cv=JaUpPkKV c=1 sm=1 tr=0 ts=6ac91b50 cx=c_pps
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA5MDA2NyBTYWx0ZWRfX3HMa54FegrfL
+ J1fYUcZR8myVc4v07U6NMV5jdE+oaXTPmYWzrkVTJSJvchnKzJTGuGr0p0jHHc/kiXVgFiZF90B
+ rYXYzwa9EjBB/uCb3EPcQywTPAy+CP4QZbYrnZrTlKJqsrcra8yM
+X-Authority-Analysis: v=2.4 cv=WLHqzXsR c=1 sm=1 tr=0 ts=6ac91b52 cx=c_pps
  a=WeENfcodrlLV9YRTxbY/uA==:117 a=u0MKzLA9JmpizDwXU9Rxjg==:17
  a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=svvvyxlR1OQQkelhaPoB:22
- a=c92rfblmAAAA:8 a=VwQbUJbxAAAA:8 a=s8mzj7eOnaliLhoSWqYA:9 a=QEXdDO2ut3YA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=G--0XuH5328wxK7v7Suf:22
+ a=c92rfblmAAAA:8 a=VwQbUJbxAAAA:8 a=DOn4q0-T8uZzdi3JsfgA:9 a=QEXdDO2ut3YA:10
  a=kacYvNCVWA4VmyqE58fU:22 a=GvGzcOZaWPEFPQC_NcjD:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA5MDA2NyBTYWx0ZWRfX1KjAHSXEeVWJ
- oy3VvMx0DsY4BKkqWXgmJYSaUvfhbzKhMXFv2VCxE6xTPGj65SlzmcjQyfntiwEo3PhvsKYCDf9
- h750pltutHsaN2DbZHXw3fCqbCK/1bKQB9t4HwZ053kaim2mzmklVurVWfHVBAIFv3VcImy8E43
- ZgqPoVgH/g56hpzMkpIzuf1a3Dc/2CrhwMTSTT0ByeU5l5axok7tzvwL3kQvdEnH7Fj2otWz681
- wQiMkxe3ixl65BKmxj1JylVB2a5c5iNU94J9LjmN10aH4+q3XfHwfEvaNUtfg7+9oHVR2N64EUC
- nvJr9uZkOeyKF5O4dQWgJ0R+LW1Lj1tud7A1lE6CfSscFKEsPc0vq9iIAASNFNXk/QA6f0uJ/hP
- 7mkViglw2og7U0yPiMNj6y9SjWMGsmpMmSC3j1L6UyEc0zyDrzrNtJ0cnnRirhj6qoxToPGpMva
- IVCTmBEvO4ZVhgY+mBw==
+X-Proofpoint-GUID: i37OdYWJdJI_X7bB6o0YpytdF3CXd35P
+X-Proofpoint-ORIG-GUID: i37OdYWJdJI_X7bB6o0YpytdF3CXd35P
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA5MDA2NyBTYWx0ZWRfX8W8Erp46aXOA
+ y+GMMcHwZclZnCGMJVLqOuBhF+GleEj6AwhC/ChowBqC3hdc6Mht20GCr745aAbIwiNWxUB/JtR
+ TPLOmVIduAIuvDfLbp7O0gUjPz5Nr3Fj/D1/8ZYwPhfbKEf8lkTyZkgcr/K4ehbxZAHa1yMURHR
+ bwrTuEx6DOLXhU1EEXyWCupiaaMk65MRx/Jm/ul/CM+zLoxXG/U9Jki487BN5OZqIaJz6jnfoIF
+ 0r0xBGeboRkEHhppLpXfIIt3AMMgU3tdlXXSuO2B867hm9y6kk8U4+65CsYcv5+koLmBsBgca8U
+ fIOCnVtMBSiI55urBuDMd4KrGWFSO5EZHByzbET27WUrDYd4ICyxK/vCLslEMlmwgPpkfz9qXPx
+ /weRaHmgqEHPD29u6fegMYp2H3NOmqw72Am5KtSHQJLnD0ZAP+jmQm8YFO60QDtsCPpNwBJkTI6
+ FO4oIoOFIwCO4aHrUVg==
 X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11930
  signatures=596817
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=10 suspectscore=0 bulkscore=10 spamscore=0 clxscore=1015
- phishscore=0 lowpriorityscore=10 priorityscore=1501 malwarescore=0
+ suspectscore=0 clxscore=1015 malwarescore=0 spamscore=0 bulkscore=10
+ lowpriorityscore=10 priorityscore=1501 impostorscore=10 phishscore=0
  adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610020000
  definitions=main-2610090067
 
-blkdev_read_iter() takes inode_lock_shared() unconditionally around
-filemap_read(). Unlike blkdev_write_iter(), it does not reject
-IOCB_NOWAIT for buffered I/O, so a non-blocking read, or the buffered
-tail of a short IOCB_NOWAIT direct read, blocks behind set_blocksize()
-holding i_rwsem across sync_blockdev().
+On a partial page pin, __blkdev_direct_IO_simple() and
+__blkdev_direct_IO_async() submit what was pinned with REQ_ATOMIC set
+and leave the rest to the buffered fallback, tearing an IOCB_ATOMIC
+write.
 
-A preadv2(RWF_NOWAIT) issued while another thread changes the block
-size with a dirty page cache blocks for as long as sync_blockdev()
-takes, 4 to 6 seconds on a scsi_debug device with delay=5.
+This can be triggered deterministically. A 16K pwritev2(RWF_ATOMIC)
+whose last page is PROT_NONE, on a scsi_debug device with atomic_wr=1,
+completes short with only three of the four pages written, violating
+RWF_ATOMIC semantics.
 
-Use inode_trylock_shared() for IOCB_NOWAIT and return the bytes the
-direct path already read, or -EAGAIN if none, when the lock is
-contended, preserving NOWAIT semantics.
+Make bio_iov_iter_get_pages() release the pins and return -EINVAL when
+a REQ_ATOMIC bio doesn't cover the whole iterator, since an atomic
+write is submitted as a single bio and a short one would be torn. That
+covers iomap as well, where a partially unmapped buffer could trip the
+WARN_ON_ONCE() in iomap_dio_bio_iter_one(). The async block device path
+currently sets REQ_ATOMIC after pinning, so set it before, and move
+REQ_NOWAIT along with it.
 
-Fixes: c0e473a0d226 ("block: fix race between set_blocksize and read paths")
+Fixes: caf336f81b3a ("block: Add fops atomic write support")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Link: https://sashiko.dev/#/patchset/20260802-blkdev-fixes-v1-0-a82fc549fd74%40columbia.edu?part=2
 Assisted-by: Claude:claude-fable-5
+Reviewed-by: John Garry <john.garry@linux.dev>
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 ---
- block/fops.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ block/bio.c  | 46 ++++++++++++++++++++++++++++++----------------
+ block/fops.c | 12 ++++++------
+ 2 files changed, 36 insertions(+), 22 deletions(-)
 
+diff --git a/block/bio.c b/block/bio.c
+index 57ee335899f3..c89a0d5d6e61 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -1285,6 +1285,7 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+ 			   unsigned mem_align_mask, unsigned len_align_mask)
+ {
+ 	iov_iter_extraction_t flags = 0;
++	int ret;
+ 
+ 	if (WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED)))
+ 		return -EIO;
+@@ -1304,34 +1305,47 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+ 		flags |= ITER_ALLOW_P2PDMA;
+ 
+ 	do {
+-		ssize_t ret;
++		ssize_t size;
+ 
+-		ret = iov_iter_extract_bvecs(iter, bio->bi_io_vec,
++		size = iov_iter_extract_bvecs(iter, bio->bi_io_vec,
+ 				BIO_MAX_SIZE - bio->bi_iter.bi_size,
+ 				&bio->bi_vcnt, bio->bi_max_vecs,
+ 				mem_align_mask, flags);
+-		if (ret <= 0) {
+-			/*
+-			 * A misaligned vector fails the whole I/O.  Release any
+-			 * pages pinned by earlier iterations before returning
+-			 * since this bio won't be submitted to release them.
+-			 */
+-			if (ret == -EINVAL) {
+-				bio_release_pages(bio, false);
+-				bio_clear_flag(bio, BIO_PAGE_PINNED);
+-				bio->bi_vcnt = 0;
+-			}
++		if (size <= 0) {
++			/* A misaligned vector fails the whole I/O */
++			if (size == -EINVAL)
++				goto out_release_pages;
+ 			if (!bio->bi_vcnt)
+-				return ret;
++				return size;
+ 			break;
+ 		}
+-		bio->bi_iter.bi_size += ret;
++		bio->bi_iter.bi_size += size;
+ 	} while (iov_iter_count(iter) && !bio_full(bio, 0));
+ 
+ 	if (is_pci_p2pdma_page(bio->bi_io_vec->bv_page))
+ 		bio->bi_opf |= REQ_NOMERGE;
+-	return bio_iov_iter_align_down(bio, iter,
++	ret = bio_iov_iter_align_down(bio, iter,
+ 			&bio->bi_io_vec[bio->bi_vcnt - 1], len_align_mask);
++	if (ret)
++		return ret;
++
++	/*
++	 * An atomic write is submitted as a single bio, so it has to cover
++	 * the whole iterator or it would be torn.
++	 */
++	if ((bio->bi_opf & REQ_ATOMIC) && iov_iter_count(iter))
++		goto out_release_pages;
++	return 0;
++
++out_release_pages:
++	/*
++	 * Release the pages pinned so far before failing, since this bio won't
++	 * be submitted to release them.
++	 */
++	bio_release_pages(bio, false);
++	bio_clear_flag(bio, BIO_PAGE_PINNED);
++	bio->bi_vcnt = 0;
++	return -EINVAL;
+ }
+ 
+ static struct folio *folio_alloc_greedy(gfp_t gfp, size_t *size,
 diff --git a/block/fops.c b/block/fops.c
-index 9c556bd08c6b..2022c7cb2ee3 100644
+index 2022c7cb2ee3..1ac3fa285090 100644
 --- a/block/fops.c
 +++ b/block/fops.c
-@@ -873,7 +873,15 @@ static ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 	 * Take i_rwsem and invalidate_lock to avoid racing with set_blocksize
- 	 * changing i_blkbits/folio order and punching out the pagecache.
- 	 */
--	inode_lock_shared(bd_inode);
-+	if (iocb->ki_flags & IOCB_NOWAIT) {
-+		if (!inode_trylock_shared(bd_inode)) {
-+			if (!ret)
-+				ret = -EAGAIN;
-+			goto reexpand;
-+		}
-+	} else {
-+		inode_lock_shared(bd_inode);
-+	}
- 	ret = filemap_read(iocb, to, ret);
- 	inode_unlock_shared(bd_inode);
+@@ -357,6 +357,12 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
+ 	bio->bi_end_io = blkdev_bio_end_io_async;
+ 	bio->bi_ioprio = iocb->ki_ioprio;
  
++	if (iocb->ki_flags & IOCB_ATOMIC)
++		bio->bi_opf |= REQ_ATOMIC;
++
++	if (iocb->ki_flags & IOCB_NOWAIT)
++		bio->bi_opf |= REQ_NOWAIT;
++
+ 	/*
+ 	 * Users don't rely on the iterator being in any particular
+ 	 * state for async I/O returning -EIOCBQUEUED, hence we can
+@@ -386,12 +392,6 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
+ 			goto out_bio_put;
+ 	}
+ 
+-	if (iocb->ki_flags & IOCB_ATOMIC)
+-		bio->bi_opf |= REQ_ATOMIC;
+-
+-	if (iocb->ki_flags & IOCB_NOWAIT)
+-		bio->bi_opf |= REQ_NOWAIT;
+-
+ 	if (iocb->ki_flags & IOCB_HIPRI) {
+ 		bio->bi_opf |= REQ_POLLED;
+ 		submit_bio(bio);
 
 -- 
 2.39.5
