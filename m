@@ -1,158 +1,154 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE17D31690A;
-	Thu,  8 Oct 2026 23:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7113F4858
+	for <linux-fsdevel@vger.kernel.org>; Fri,  9 Oct 2026 05:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791500423; cv=none; b=mlogPH4UVkaEJtM4/+cvIvrX1Ir3V1FtS636y5OVh/QxhpOCYKmUyO4kU7VND0cEG20Or0BxzYX5u5HETCmR3gW+HBRBsaU8smxe3gPEJwh8wxFYLUrgFKEnMcOoWtmxMQRiD9PdIvLd1TplOI78mjgYT5JHN42Z+2hsDjk55jc=
+	t=1791525358; cv=none; b=ey+DFz1xw2Lml+4aWDKDjq5cJNArU0HLQV7hXRKcpNLtW0QHop694xOUlFMTT/tzW+BvxUrCdRtz/xGmb3tX6k4dw/MapsTPez700VtbzM89sskXK6S9EQORgtXNEzJaNkGea8pHAGS0Hdoja/TkOKc8P1G7A5ML9tLuNsrNLfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791500423; c=relaxed/simple;
-	bh=Ja8do/4D5F7vuAAxmZtna8Ilm34MfuHphBldFbW3Cbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SyeiQev9mFnbaAxtGEhAuKxxezCckprTTQSV0Npc1YWpKYB0Q1n4zkiAJPKrLJqmfC71CiF4mNvpM0ZIxQVzg74bXbzX6D7XLZNMebkJ3NFOgxKUlhMX2Hpw5yys7fBvFM64zzFczs9/R0GLCnSzeIbsIkSG38HeYUfsWbzsEuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf15.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id CE50C16015E;
-	Thu,  8 Oct 2026 23:00:13 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf15.hostedemail.com (Postfix) with ESMTPA id B3DD318;
-	Thu,  8 Oct 2026 23:00:10 +0000 (UTC)
-Date: Thu, 8 Oct 2026 18:00:09 -0500
-From: John Groves <john@groves.net>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	Amir Goldstein <amir73il@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Alison Schofield <alison.schofield@intel.com>, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, david@kernel.org, willy@infradead.org, brauner@kernel.org
-Subject: Re: [PATCH v2 0/8] fuse: DAX device based extent maps (famfs)
-Message-ID: <asZcsPT-Q8qga0SU@groves.net>
-References: <20261001150935.655979-1-mszeredi@redhat.com>
- <asQcBebepPb9CXzS@groves.net>
- <CAJfpeguEUTYk9m7g2gZTMui0yFDYWSGL1SZ9PvoYiCqjDmHp9A@mail.gmail.com>
+	s=arc-20240116; t=1791525358; c=relaxed/simple;
+	bh=9emYsz15GuXjmCU4lAwqVw4KY/Rrcx/aCcY0KTAhp9w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Q1eM6ZSq2hzTDwUST0ieCMzeeS7nBuw+7QN2dqJVPHiUpVZhya5SObyFAl62DnPIG5I+aqGHFZ5o2fox0845d7sbcT594pd1IbjZp0zmA7XAeVk7PPP/Nq7hG13G+8rvkmKSN+foeeV/rCEtb2bs6pz7KlqSkHMmATUfzVEfNg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oCUisXHP; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oCUisXHP"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48c5358fc28so3772007f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 08 Oct 2026 22:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791525355; x=1792130155; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Zp7G9mLjsHEHBJvEhOvfosmT6IrpsVXu9tMKZrIiLvQ=;
+        b=oCUisXHPYXpccFMBVqueMbFFrtpmsKdjN33T8LwQPv7B4nU/y+//eCv6kh9HbVXHBx
+         CGb7N0qrmLa/n1T6ftp1boCAbLPT5YqQD4BBS9XFruXkIWW4rTTEvN5s52z8N6CWnil7
+         ZxI6zf/oQUuWC296K4f17zH4pYbyn4a+jw6zRowKMqBjTmHEbVZg9IxhlYqlTd3pNwMU
+         MznmrJOdGPQOIccjTDzVtWF37FWzo7fpGc2A2tTvDsBNa7uehw9hiUgmvJ760JBBRJcz
+         6GgyAYVCDAQtysAE8QuG7yND70zqtPC6xHWG+MBZML4FL+ywDXJu/Rb3U04Rc5TGQCkQ
+         t3Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791525355; x=1792130155;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Zp7G9mLjsHEHBJvEhOvfosmT6IrpsVXu9tMKZrIiLvQ=;
+        b=mH7nbhT0ZVdt2XsHV30CkMbCiB+HZivsp+f7RPIhfGV2cGYjvI/AXdTqeuKoAz+ASu
+         yZe9bciWqlzpORE2OHMpitr99RPLVF/lB6lACokvuFcceR+P+PAsVNEbOEQTGApbVmR7
+         VYqiFwkG1C2mpJxaU0w3uRH7mLFEA6uO7uC7BOtQFHQv4huQBCllgxiVIHVZ8EdbMcbT
+         qmVXyBkZgzeS8D7aS977Wa8+bXlUYKfY083VPK/FW92Lok4oyAHImMixc6rlGhGfwB3C
+         mJt+Jx33zXc1rSpgVnCmmbiu05Rte+FswxxCrcIyJXgY66TuUzfFdbL5TJurxmsEr9MI
+         bQIg==
+X-Forwarded-Encrypted: i=1; AKwUvBxabcCgz5SQHFvecYSed91gUPaorlqlw8BlpI8GSwhnvR4rZufF+ZpY+L2alGLel1MrbnM3sYMuN88ibv0X@vger.kernel.org
+X-Gm-Message-State: AFq9FYJxcgbVriXjbNVScSXsnHkAa7CdjHZgV0GHWPMEAeqWAUSYyu1o
+	ZwCQbQf/8ZbObC08cNd3y/Md7fXmaj7kjBE/FGufyZkT7DEVgP305YXo
+X-Gm-Gg: AYBFou2mBWFIB4ABDjcNlA7xzvk52McuBc5/Tu9TAj17bysl1zisPBCo8IW6CiaZ0RT
+	OJtWmGF3xQOpSZcHfL8WbbacUR4+xLnZSBBjTTl/eqKOHOeTLZkS48Wg/esfuTKkJKFVtrmlgWx
+	biM8+3DDWsTWnZy2+h4oN7Vqbi1t/9riap0QFmoV5kjEDF1FjyV9w/SPLDApqVT+pI0REtYm5bm
+	uUcBsAuGIq653df2JL6E2YWzehJGgYpcJn82EKdny7N8Qnl7wSTblvrptcLhvBBrMa7ZeSyt7Ef
+	KthJU7QUPnxksF9UuMqTl/tkS72z3n6J1RxGMxXYiBVorms62S2O2D7LOtKF50heN+1xpaVfh2H
+	AsTNyBkyHUHFd8/3MCbOfggXz/8KHJ74/740sFU6Biu7oM+6Sk+ot9VWcwriLPLHyrtpFY9bvEg
+	xdFEtCm/DMJId5SwKY5P8qXSlb/v5JzmHphpPpP61UqdQyBmNCmHhKMom1n+o35okV2JXfbyR2p
+	7qZ+DW/ECkEOBLgfCJlucpqQ3jgYNXBHHXsNfACAOnttXGKkV/SxJqiBrjiyLk3UF/bB/SNejUN
+	szNHI7N02iuOkqJOgg8QAb0svLrvSP6HewND79R7MGxYuTx9OJ9b6OzgXOndfVrvsxJzjAcTUbb
+	+AHuf4YgG4tAi
+X-Received: by 2002:a05:6000:2503:b0:48c:7083:be67 with SMTP id ffacd0b85a97d-48dbace462emr1140675f8f.42.1791525354938;
+        Thu, 08 Oct 2026 22:55:54 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a128-aa01-297a-7094-853e-a20c.310.pool.telefonica.de. [2a02:3100:a128:aa01:297a:7094:853e:a20c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acee65sm1984126f8f.49.2026.10.08.22.55.53
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 08 Oct 2026 22:55:54 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: [PATCH] fs: fix ramfs_fs_info leak when rootfs is unmounted
+Date: Fri,  9 Oct 2026 07:55:46 +0200
+Message-Id: <20261009055546.85279-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpeguEUTYk9m7g2gZTMui0yFDYWSGL1SZ9PvoYiCqjDmHp9A@mail.gmail.com>
-X-Stat-Signature: uggu67ce7tkzo5rn37wytz5yem7y363y
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: B3DD318
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+d2FLPXecql2qrUG0JgwtNhkdj6Arpje4=
-X-HE-Tag: 1791500410-415219
-X-HE-Meta: U2FsdGVkX19dU2svEPZ26FkYYvu54m7Y44DruVzPevwz9YLyqixNrWhyyF98aOMWUUMw+tVkwgzadfWEMq/ELmvWu1xmK5doh4qtvY0bg+RpPlFzVtfJEGKd7lmSH964idwHL2cX4bj9R4U0MquvZSho5/8c+azgNGLQp3LgyFs8kR0Wwko1gs6S1vCR/H4oHPnBBIII4On6rq9Pgs97h1gkI2iSqEfYp3tScMjc1XMiWmJkfzBNf9Uijj171voTUuv14T73PGjRDXrmEVzPRKJDTAuh41ZJTu8VIiq6atOB4QC2QOUb6FhH6BI4Wd+UAzoIHrXccTr0YNqgm60KESNukHYCmIRqumoxpCZ4tE34tMq3UmNDJTlrFLQii7kL
+Content-Transfer-Encoding: 8bit
 
-On 26/10/06 11:48AM, Miklos Szeredi wrote:
-> On Tue, 6 Oct 2026 at 01:37, John Groves <john@groves.net> wrote:
-> 
-> > I see the kernel-side rejects these s/size/chunk_size/ strip extents if they
-> > are not all the same size. Why not put the chunk size in the header and let
-> > the extents honestly describe the offset and range that they cover?
-> > The current design can't test for sufficient strip extent sizes, although
-> > it replaces code that did verify this.
-> 
-> Not adding chunk size to the header is intentional to keep the API as
-> simple as possible.
+When rootfs is a ramfs, for example with root= on the command line, its
+superblock carries a struct ramfs_fs_info from ramfs_init_fs_context().
+ramfs_kill_sb() frees it, but rootfs_fs_type uses kill_anon_super().
 
-Fewer fields is nice, but it's on the honor system that the server allocated
-large enough strips - since strips carry the chunk_size rather than their
-actual size when CYCLIC is set. IMO it would be an improvement to add the
-chunk_size to the header; then the strip sizes could be validated.
+Before commit 576ee5dfd459 ("fs: add immutable rootfs") rootfs could not
+be unmounted. Since then prepare_namespace() pivots into the real root
+and unmounts rootfs. When the superblock is destroyed, the structure is
+leaked. kmemleak on an SH7785LCR board:
 
-But it's your call, and I won't argue further about this unless something
-changes.
+  unreferenced object 0x8100a720 (size 32):
+    comm "swapper/0", pid 0, jiffies 4294892299
+    backtrace (crc c8bfd23b):
+      ...
+      ramfs_init_fs_context+0x16/0x48
+      rootfs_init_fs_context+0x16/0x2c
+      alloc_fs_context+0x98/0x114
+      fs_context_for_mount+0x16/0x24
+      ...
 
-> 
-> > However, the smoke tests passing isn't fully legit, because the patch to the
-> > famfs fuse server passes the entire strip size on CYCLIC mappings, meaning
-> > it just produces a concatenation of ranges - which does not achieve the
-> > interleaving goal at all. That case degenerates to simple extents.
-> 
-> Are you talking about the case where there are multiple simple extents
-> each with a different striped mapping?
+Call ramfs_kill_sb() when rootfs is a ramfs. tmpfs frees its own data
+in put_super and keeps kill_anon_super().
 
-No
+Fixes: 576ee5dfd459 ("fs: add immutable rootfs")
+Reported-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+Test: kernels with DEBUG_KMEMLEAK that mount root=/dev/sda themselves,
+no initramfs. kmemleak reports the object without the patch and nothing
+with it, on
 
-I'm saying your patch to the famfs user space, when famfs sends interleaved
-file maps, sets CYCLIC but sets strip extent sizes to the actual strip size,
-not the chunk_size. So chunking is at the size of the entire strip, which is
-to say: the net is a multi-extent file that is not interleaved.
+- the custom QEMU model of the SH7785LCR (sh for-next plus unmerged sh
+  patches; 32-byte leaked allocation), and
+- user-mode Linux (v7.3-rc5, um defconfig; 8-byte leaked allocation).
 
-So that's a bug. I've fixed it locally and will share that in the next day
-or two. I also needed to refactor your patch the famfs user space because
-it disabled ABI compatibility with some older versions of the famfs kernel
-that I'm still supporting users with. If you can wait to patch that further
-until I share an update, it will be cleaner on my end.
+On the model, rootfstype=ext2,tmpfs makes rootfs a tmpfs. kmemleak
+reports nothing there, with or without the patch.
 
-> 
-> That case is supported by the API, but not the implementation (since
-> there was not test case).  If you do a test case, I'll add the
-> implementation.
-> 
-> > To be specific: each chase/dereference that results in an L3 cache miss adds
-> > a stall of (1 * MEMORY_LATENCY) to the fault time. This is the good reason
-> > why I didn't do any chasing in the fault path of the famfs code that you're
-> > replacing.
-> 
-> Please benchmark against the in-kernel implementation.  If there's
-> significant (meaning it may have a real effect on a real-life
-> workload) performance hit from using the rb-tree, then we can add an
-> optimization.  I don't want to add complexity without actually being
-> able to measure the gain.
+The report only shows up after init reopens /dev/console. The console
+that the kernel opens for init is on rootfs and keeps it alive.
+---
+ init/do_mounts.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-I will do that, but it's not a small undertaking. Back to that in a moment.
+diff --git a/init/do_mounts.c b/init/do_mounts.c
+index 95e0b3a0f711..b088021b1546 100644
+--- a/init/do_mounts.c
++++ b/init/do_mounts.c
+@@ -503,10 +503,18 @@ static int rootfs_init_fs_context(struct fs_context *fc)
+ 	return ramfs_init_fs_context(fc);
+ }
+ 
++static void rootfs_kill_sb(struct super_block *sb)
++{
++	if (IS_ENABLED(CONFIG_TMPFS) && is_tmpfs)
++		kill_anon_super(sb);
++	else
++		ramfs_kill_sb(sb);
++}
++
+ struct file_system_type rootfs_fs_type = {
+ 	.name		= "rootfs",
+ 	.init_fs_context = rootfs_init_fs_context,
+-	.kill_sb	= kill_anon_super,
++	.kill_sb	= rootfs_kill_sb,
+ };
+ 
+ void __init init_rootfs(void)
 
-I have an idea for how to make fault handling order-1 in the normal famfs
-cases but fall back to order log-n if necessary (e.g. if not all extents are 
-the same size). I'm testing that now and will share it soon if I don't run 
-into any significant problems.
-
-I think we can probably agree than things otherwise being equal, order-1
-fault handling (or order-1 falling back to order-n if necessary) is 
-preferable to order-log-n. If you or anybody doesn't agree with that, I 
-hope we can discuss it.
-
-As for benchmarking to "prove" that the rbtree is a problem, I'm sure there
-are use cases where it is not a problem (like small virtual daxdevs on
-workstations or laptops). What Micron worries about is huge working sets on 
-many terabyte disaggregated memory. If the memory is 45TB (the biggest 
-system I have "access" to), the data sets exceed the processor cache by a 
-substantially higher factor than even in a maxed out server. That means
-more L3 cache misses. I'm trying to avoid an approach with built-in chasing
-on performance paths, because Micron's experience is that pointer chasing 
-becomes L3-cache-miss bound.
-
-Anyway, one workload (and working-set size) that doesn't exhibit significant 
-L3 cache miss performance hit does not prove that others won't be negatively
-impacted. Proving a negative, etc...
-
-Having said all that, this topic seems to recur and be contentious - we are
-working on tests that can demonstrate bottlenecks - but my current ask is
-that if I can offer an alternative approach to rbtree that is better on 
-paper, can we please use it?
-
-> 
-> > OK, one more. You're using the rbtree for indexing by file offset, which is
-> > a zero-based non-sparse range in this case. If this could not be avoided
-> > (which I think it can) you should use an xarray or radix tree for that...
-> > right?
-> 
-> Unlike xarray, the rb_tree API is one I'm familiar with. But nothing
-> prevents switching to xarray if that's a better choice.
-
-That's fair. And I withdraw the xarray suggestion because I have a better
-idea - will share that in a day or two, before Monday almost certainly.
-Need to run it through all of my CI...
-
-Thanks,
-John
-
-<snip>
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+-- 
+2.53.0
 
