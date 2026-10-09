@@ -1,48 +1,48 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E20F4582FC;
-	Fri,  9 Oct 2026 17:17:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF123D4101;
+	Fri,  9 Oct 2026 17:17:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791566250; cv=none; b=N91JLuBQFMFgFFoqf0pCYFrpoD2yZrSrUzi0R+1HAeCvOlUMOQtW8IV8T6qhk+W926jwiS4G1Bctwv3LaEQJT+kB0RlEf0ZLalJ5LkZG12l89qQnXPPOs1GI8c/Bw0IJN5M+zTqFdWmQ57z7mCN4tM1fXetAXKZkgU4OOstAIhE=
+	t=1791566252; cv=none; b=dvN6vtTuY7Xe+AJdP5sqcBcvJ7RSe7ytB9+lpo4uo7+DGSk5TXLb++unNZE5o6ad8XhQ1+T7aEQz9bH+iPr6a9+xNoPE7z0xZcytMvqOiPNmp8uyWEy74ZJ6w3jaSKtuGAkkpetg0MRye3Lorx7n82g4e/U0nX0W3c7M3Re3LdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791566250; c=relaxed/simple;
-	bh=rKok5y4T+lRZsuOj0DWfkOht7fGWmMLk504qoBdCbeM=;
+	s=arc-20240116; t=1791566252; c=relaxed/simple;
+	bh=j7OqI0tAAgYfBjOyaHlYMYdT28B8LDXr3DOYyRtvjrw=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NzYAsceMi+Mb9+Ga1stZPI8KeYaInjAzueMFaNRARFaRJOR1TS/DyPGV21fvskUStn9wF2DqPa1VFJtFJ3Sd1wUxm83oUtdfxXqI8dZYf0lhsPhJupSFfQzH2QxFScBx41YXgAz1B7aOFwPXoH5+v7QAK8rpm0nVTC/3+q3cMxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=ph2Cnh2r; arc=none smtp.client-ip=35.157.23.187
+	 MIME-Version:Content-Type; b=SYFL3voUAoHeaBAJnuoU0zyuWtbC4hvMPaJZjk2eEo+zsqFf8Hx1XXuocWduy5WzC0eQBXBa3yCR00VQj69io45RpUCjMLqgZdN8ycruAL6+5apt+YzVIfBeheDEMdFJjjSq/Vh9sHuf5BhuJJecwk0bDiFC+ZGeHYQ2UrSmRg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=hcgLSpvJ; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="ph2Cnh2r"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="hcgLSpvJ"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 659911D70;
-	Fri,  9 Oct 2026 17:18:17 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 4811D1D60;
+	Fri,  9 Oct 2026 17:18:20 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=ph2Cnh2r;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=hcgLSpvJ;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 31CDC21AD;
-	Fri,  9 Oct 2026 17:17:26 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 12BB121AD;
+	Fri,  9 Oct 2026 17:17:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1791566246;
-	bh=AkJQmYRyQZFrA5Xbh/b7taSoQUbU92wOrsDKUUWlc5s=;
+	d=paragon-software.com; s=mail; t=1791566249;
+	bh=8/ePbVCVz9yz4FVpMgvSWt3IiUbIvuUm1vRAa//hOqA=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=ph2Cnh2r40YxYrmA5ZGYJvctOuxNuw9H7LsDd4WNJJdb9UAWwNjkq9y+xDhqkxnqV
-	 PCqN9oI2cs8v6U1tb32jPcmkVlHMgeVU70SOFj3YFaWOUs2As0nB+Arl8hR9cuin8T
-	 YkKDlxvfKOlIXw7dGPu2Ggj93xb/7vjngzSCDJv8=
+	b=hcgLSpvJUbBYDTENQbWO/0uKT2JKR2MP4QyA7oU9KOs3mj7pDYjIcDiOHs8+t3Bh2
+	 +Z9osr+IgdCW4wyE1EqJwtilUN+DYIL7wGZCoWq27guwihAsq9PpWnMlzOQvYUneQ4
+	 geOXcBfSte+WMFB6YoTXaVUZR7Ipur1OEc5vj6H4=
 Received: from localhost.localdomain (172.30.20.199) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 9 Oct 2026 20:17:25 +0300
+ 15.1.2375.7; Fri, 9 Oct 2026 20:17:27 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
 CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 04/11] fs/ntfs3: minor code cleanups
-Date: Fri, 9 Oct 2026 19:16:57 +0200
-Message-ID: <20261009171704.11379-5-almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH 05/11] fs/ntfs3: do not force allocation for IOMAP_ZERO on a partial cluster
+Date: Fri, 9 Oct 2026 19:16:58 +0200
+Message-ID: <20261009171704.11379-6-almaz.alexandrovich@paragon-software.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261009171704.11379-1-almaz.alexandrovich@paragon-software.com>
 References: <20261009171704.11379-1-almaz.alexandrovich@paragon-software.com>
@@ -57,56 +57,56 @@ Content-Type: text/plain
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Use Add2Ptr() for pointer arithmetic in fill_name_de(), consistent
-with the rest of the driver, and reflow two statements to match the
-80-column style.
+ntfs_iomap_begin() set 'rw' for IOMAP_ZERO whenever the end of the
+range fell inside a cluster, forcing the sparse path to allocate
+clusters in order to zero them.
 
-No functional change.
+Drop the IOMAP_ZERO case and only clamp clen_max when 'rw' is already
+set.
 
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
- fs/ntfs3/inode.c | 3 +--
- fs/ntfs3/namei.c | 6 +++---
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ fs/ntfs3/inode.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index e6c96ef88b01..1f1b2e5897e1 100644
+index 1f1b2e5897e1..a3b2daaecb4d 100644
 --- a/fs/ntfs3/inode.c
 +++ b/fs/ntfs3/inode.c
-@@ -285,8 +285,7 @@ static int ntfs_read_mft(struct inode *inode, const struct cpu_str *name,
- 		break;
+@@ -968,9 +968,7 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+ 		}
+ 	}
  
- 	case ATTR_ROOT:
--		if (attr->non_res ||
--		    asize < sizeof(struct INDEX_ROOT) + roff ||
-+		if (attr->non_res || asize < sizeof(struct INDEX_ROOT) + roff ||
- 		    rsize < sizeof(struct INDEX_ROOT))
- 			goto out;
+-	if (IOMAP_ZERO == flags && (endbyte & sbi->cluster_mask)) {
+-		rw = true;
+-	} else if (rw) {
++	if (rw) {
+ 		clen_max = bytes_to_cluster(sbi, endbyte) - vcn;
+ 	}
  
-diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
-index ec59bbabd3c5..46923fff0865 100644
---- a/fs/ntfs3/namei.c
-+++ b/fs/ntfs3/namei.c
-@@ -56,7 +56,7 @@ int fill_name_de(struct ntfs_sb_info *sbi, void *buf, const struct qstr *name,
- 	real_size = data_size + sizeof(struct NTFS_DE);
- 	aligned_size = ALIGN(data_size, 8) + sizeof(struct NTFS_DE);
- 	if (aligned_size > real_size)
--		memset((char *)buf + real_size, 0, aligned_size - real_size);
-+		memset(Add2Ptr(buf, real_size), 0, aligned_size - real_size);
+@@ -978,7 +976,7 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+ 	 * Force to allocate clusters if directIO(write) or writeback_range.
+ 	 * NOTE: attr_data_get_block allocates clusters only for sparse file.
+ 	 * Normal file allocates clusters in attr_set_size.
+-	*/
++	 */
+ 	no_da = flags == (IOMAP_DIRECT | IOMAP_WRITE) || srcmap == WB_NO_DA;
  
- 	e->size = cpu_to_le16(aligned_size);
- 	e->key_size = cpu_to_le16(data_size);
-@@ -231,8 +231,8 @@ static int ntfs_symlink(struct mnt_idmap *idmap, struct inode *dir,
- static struct dentry *ntfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
- 				 struct dentry *dentry, umode_t mode)
- {
--	return ERR_PTR(ntfs_create_inode(idmap, dir, dentry, NULL,
--					 mode, 0, NULL, 0, NULL));
-+	return ERR_PTR(ntfs_create_inode(idmap, dir, dentry, NULL, mode, 0,
-+					 NULL, 0, NULL));
- }
+ 	err = attr_data_get_block(ni, vcn, clen_max, &lcn, &clen,
+@@ -987,8 +985,12 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+ 	if (err) {
+ 		return err;
+ 	}
+-	if (!clen)
++	if (!clen) {
++		/* Looks like file is broken.
++		 * It is marked as bad via _ntfs_bad_inode 
++		 */
+ 		return -EINVAL;
++	}
  
- /*
+ 	if (lcn == EOF_LCN) {
+ 		/* request out of file. */
 -- 
 2.43.0
 
