@@ -1,171 +1,126 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E887836B92F
-	for <linux-fsdevel@vger.kernel.org>; Fri,  9 Oct 2026 08:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.187.6.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CA17547054;
+	Fri,  9 Oct 2026 08:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.187.6.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791533011; cv=none; b=H1pMW/hwTYz6BNs98knho+DkC/sfsyWxR/FGwnWA6jmn34YsiHE6Z1MqBMSFKXWnm7hkkFmiHdZVLAlyFPG8NM0kKe+BbLkxA4LT/WbF9456emj4T9WcLRTV7QZY6Dbra+Jdc+O9G/2fuqmrw4/cBRFj+bwdjTl4LTSkPBdI7z8=
+	t=1791533986; cv=none; b=aHzk1CaS/igisrjT39J23O/rklt9C3OLQDDjnUAwhT7VFT+W5sPZv/Jzr8WKOKkT/2c5zqxBfs6E4pGS212r5/C1lWoavsAUxEp46qxNz9hOOXB/OwtaToELVqs9lfiE490bGFCP76Y8gaifmIgSoiFBLameQrTH7UOzYIkF0ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791533011; c=relaxed/simple;
-	bh=eDDKw2EBETXPuyR/nSoITab+tGl+yUOFfplbHj75dRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ArLKH8AzdraBZGNExOH0fmVsk9xse6Ch8tbN+RyqG1MwwOpbiDJ8JzNu309WoCZ7X6Vnn/YsfJKrKmE+MOP/7A1yl38FZ2pVR0yBgeXLwNiJ3pB4g1TaMX5QORtyhx+lJZH+EcT617ijEwtlNMCBm2ygoq82DMwRaMbReCoVkXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=MUsbyvT6; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1791533986; c=relaxed/simple;
+	bh=Ty6dU7hyRWZl10aEAh88eaJc+XufIer2nPbswCBp5Js=;
+	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=AfL6Rd1ANe4t5IGNQvVPjvGErEJ+dpTdbYJgm3vrV9xLizrZKyYzFAFGhW8TIDNgHeAvoYPp/yF5bAczpBqcAtjSIwbYI7iqV8QMTNa3AJP0NXh9ioyIgnj0JvFmGi5XgwuwlXFsaPcOiOmC12mT8uTank1iFB4Hg2qcmboK+X0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=buaa.edu.cn; spf=pass smtp.mailfrom=buaa.edu.cn; dkim=fail (0-bit key) header.d=buaa.edu.cn header.i=@buaa.edu.cn header.b=ukzTsd+S reason="key not found in DNS"; arc=none smtp.client-ip=52.187.6.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=buaa.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=buaa.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="MUsbyvT6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1791533004; bh=v4iAb1JiMyNxyUVR552FoUOzhrXmdiN3D8aO/ZKIRmo=;
-	h=From:Message-ID:From;
-	b=MUsbyvT61oO29SmnR7MyjMrf4vdfcAY6oKfu5xkiEn1JQDRSRquOv60Dfi2Iwj7pN
-	 l7VkUjW1+30F93rDmKaAGrA2jZbokeG7mQu34dC6Sb6PtcjfSsUGtdtb3l8Q9BaBxe
-	 UDDv/UKiGzbr0RhxvtTz/BG/R24lbUFbEWD8j3YA=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id DD5A4C090D;
-	Fri, 09 Oct 2026 10:03:24 +0200 (CEST)
-Date: Fri, 9 Oct 2026 10:03:24 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Nikhil Agrawal <nikhil.agrawal@pazago.com>
-Cc: security@kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [SECURITY] fs/nls/nls_cp932: Guard 2-byte output against
- boundlen == 1 in uni2char() (ZERO-368)
-Message-ID: <asifzGJXas2HOm7E@1wt.eu>
-References: <CALMgpqZVwJBKVuJPXwhUYseE-MJRfozL73eXiGpqD7torhP9Wg@mail.gmail.com>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=buaa.edu.cn header.i=@buaa.edu.cn header.b="ukzTsd+S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=buaa.edu.cn; s=buaa; h=Received:Date:From:To:Cc:Subject:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID;
+	bh=fj/+WuIGqcXlf41ackM3dUMpHdKPgLt5cdcvOzIuWqI=; b=ukzTsd+SU6HfF
+	ykiBJlW5woKIFhEYpyNnW8ZPMM0NMQc8EjYAfq4xe+8pRvsjAoN9X+NUf3b6psND
+	UuS8+b3BnXzV+3Hq0sbECWtehtsBq2l6d9mIbLBLyjlwnXy10/aNYCAyNUM7sCB5
+	rR5fTCwHzlhhO8bBBqVVugmUxb/XQ8=
+Received: from yunlong_ma$buaa.edu.cn ( [60.190.253.98] ) by
+ ajax-webmail-coremail-app2 (Coremail) ; Fri, 9 Oct 2026 16:19:19 +0800
+ (GMT+08:00)
+Date: Fri, 9 Oct 2026 16:19:19 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?6ams5LqR6b6Z?= <yunlong_ma@buaa.edu.cn>
+To: miklos@szeredi.hu
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: PROBLEM: fuse: NULL pointer dereference in fuse_dev_do_write()
+ racing device install
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
+ 20240305(0ac2fdd1) Copyright (c) 2002-2026 www.mailtech.cn
+ mispb-63b7ebb9-fa87-40c1-9aec-818ec5a006d9-buaa.edu.cn
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALMgpqZVwJBKVuJPXwhUYseE-MJRfozL73eXiGpqD7torhP9Wg@mail.gmail.com>
+Message-ID: <5ddc8efe.1e6d2.1a11fbec860.Coremail.yunlong_ma@buaa.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:Nyz+CgCH1RqHo8hqCLYKAQ--.20183W
+X-CM-SenderInfo: l2esjjirrqmqpexdthxhgxhubq/1tbiAQIPDmdDD7ZQ-wAAsw
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWkKw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-Hello,
-
-Note, there's no need to Cc security@k.o when sending to public
-lists.
-
-On Fri, Oct 09, 2026 at 12:45:42PM +0530, Nikhil Agrawal wrote:
-> Hello Linux Kernel Security Team and filesystem maintainers,
-> 
-> I am Nikhil, a YC founder, and along with our security research team at
-> Mettle Labs, we have been conducting systematic defensive code audits
-> across Linux filesystem components.
-> 
-> During our audit of native language support (NLS) character set drivers, we
-> discovered an out-of-bounds write in `nls_cp932.c` reachable via crafted
-> disk images or virtual machine shared folders.
-> 
-> Below are the root cause analysis, reachability notes, and a proposed patch.
-> 
-> ===================================================================
-> 1. Vulnerability Summary
-> ===================================================================
-> In `fs/nls/nls_cp932.c`, `uni2char()` converts 16-bit Unicode characters
-> into Shift-JIS (CP932) multi-byte sequences.
-> 
-> When processing characters in the Latin-1 supplement range (`ch == 0 &&
-> 0xA0 <= cl`), the function writes a 2-byte sequence (`out[0]` and `out[1]`)
-> from the lookup table `u2c_00hi[]`. However, the function-level prologue
-> only checks `if (boundlen <= 0) return -ENAMETOOLONG;`.
-> 
-> If `boundlen == 1`, this check succeeds, and `uni2char()` writes both bytes
-> into a 1-byte buffer, resulting in a 1-byte out-of-bounds write.
-> Furthermore, `uni2char()` returns `2` (the number of bytes supposedly
-> written). In callers like `fs/vboxsf/utils.c:465` (`vboxsf_nlscpy`), this
-> causes `out_bound_len -= 2` to underflow an unsigned integer, escalating
-> into an unbounded memory write.
-> 
-> Sibling charset drivers (`nls_cp936`, `nls_cp949`, `nls_cp950`,
-> `nls_euc-jp`) all explicitly check `boundlen < 2` before executing 2-byte
-> writes. `nls_cp932` omitted this check on the `u2c_00hi` branch.
-> 
-> ===================================================================
-> 2. Affected Code & Root Cause
-> ===================================================================
-> Location: `fs/nls/nls_cp932.c` (around line 7866)
-> 
-> ```c
-> static int uni2char(const wchar_t uni, unsigned char *out, int boundlen)
-> {
->     unsigned char ch = (uni >> 8) & 0xff;
->     unsigned char cl = uni & 0xff;
->     ...
->     if (boundlen <= 0)
->         return -ENAMETOOLONG;
->     ...
->     if (ch == 0 && 0xA0 <= cl) {
->         /* DEFECT: boundlen == 1 allows 2-byte write */
->         out[0] = u2c_00hi[cl - 0xA0][0];
->         out[1] = u2c_00hi[cl - 0xA0][1];
->         return 2;
->     }
-> ```
-> 
-> ===================================================================
-> 3. Proposed Patch
-> ===================================================================
-> From: Nikhil Agrawal <nikhil@mettlelabs.ai>
-> Subject: [PATCH] fs/nls/nls_cp932: Guard 2-byte output against boundlen ==
-> 1 in uni2char()
-> 
-> In nls_cp932.c, uni2char() converts characters in the Latin-1 supplement
-> range (ch == 0 && 0xA0 <= cl) by writing 2 bytes from u2c_00hi into the
-> output buffer. The function only checks 'boundlen <= 0' at entry.
-> 
-> If boundlen is 1, uni2char() writes 2 bytes into a 1-byte space, causing
-> a 1-byte out-of-bounds write and returning 2. In callers such as
-> vboxsf_nlscpy(),
-> this can cause unsigned bound length calculations to underflow.
-> 
-> Add an explicit check that boundlen >= 2 before writing the 2-byte sequence,
-> matching the behavior of other Asian multibyte NLS modules (cp936, cp949,
-> cp950).
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Reported-by: Mettle Labs Security Team <security@mettlelabs.ai>
-> Signed-off-by: Nikhil Agrawal <nikhil@mettlelabs.ai>
-
-Same comments as for your other patches.
-
-> ---
->  fs/nls/nls_cp932.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/fs/nls/nls_cp932.c b/fs/nls/nls_cp932.c
-> index 2e6236b..b1c2d3e 100644
-> --- a/fs/nls/nls_cp932.c
-> +++ b/fs/nls/nls_cp932.c
-> @@ -7864,6 +7864,8 @@ static int uni2char(const wchar_t uni, unsigned char
-> *out, int boundlen)
->   return 1;
->   }
->   if (ch == 0 && 0xA0 <= cl) {
-> + if (boundlen < 2)
-> + return -ENAMETOOLONG;
->   out[0] = u2c_00hi[cl - 0xA0][0];
->   out[1] = u2c_00hi[cl - 0xA0][1];
->   return 2;
-> -- 
-
-Same space mangling that needs fixing.
-
-> 
-> ===================================================================
-> 4. Coordination
-> ===================================================================
-> We adhere strictly to the Linux kernel 7-day coordinated disclosure policy.
-> Please let us know if any further testing is required.
-
-Since you sent to a public list there's no disclosure involved.
-
-> Best regards,
-> Nikhil Agrawal
-> Mettle Labs
-> mettlelabs.ai
-
-Willy
+SGkgTWlrbG9zLAoKZnVzZV9kZXZfaW5zdGFsbF93aXRoX3BxKCkgcHVibGlzaGVzIGZ1ZC0+Y2hh
+biBiZWZvcmUgaXQgc3RvcmVzCmZ1ZC0+cHEucHJvY2Vzc2luZy4gVGhlIHdyaXRlL3NwbGljZV93
+cml0ZSBhbmQgcmVhZCBwYXRocyB0cmVhdCBhCm5vbi1OVUxMIGZ1ZC0+Y2hhbiBhcyAiaW5zdGFs
+bGVkIiBhbmQgdGhlbiB3YWxrIGZwcS0+cHJvY2Vzc2luZ1tdCndpdGhvdXQgdGFraW5nIGZjaC0+
+bG9jaywgc28gdGhleSBjYW4gc2VlIHRoZSBuZXcgY2hhbiB3aGlsZSBwcm9jZXNzaW5nCmlzIHN0
+aWxsIE5VTEwgYW5kIG9vcHMgaW4gZnVzZV9yZXF1ZXN0X2ZpbmQoKS4KCkludHJvZHVjZWQgYnk6
+CgogIDQ4NjQ5YzA2MDNiZCAoImZ1c2U6IGFsbG9jIHBxdWV1ZSBiZWZvcmUgaW5zdGFsbGluZyBm
+Y2ggaW4gZnVzZV9kZXYiKQoKVGhlIG9yZGVyaW5nIGlzIHVuY2hhbmdlZCBpbiBjdXJyZW50IG1h
+aW5saW5lLgoKRGV0YWlscwotLS0tLS0tCgpBIGZkIGZyb20gb3BlbigiL2Rldi9mdXNlIikgaXMg
+YWxsb2NhdGVkIHdpdGggZnVzZV9kZXZfYWxsb2Nfbm9fcHEoKSwgc28KcHEucHJvY2Vzc2luZyA9
+PSBOVUxMIHdoaWxlIHBxLmNvbm5lY3RlZCA9PSAxLiBJbgpmdXNlX2Rldl9pbnN0YWxsX3dpdGhf
+cHEoKSAodW5kZXIgZmNoLT5sb2NrKToKCiAgICBvbGRfZmNoID0gY21weGNoZygmZnVkLT5jaGFu
+LCBOVUxMLCBmY2gpOyAgIC8qIGNoYW4gcHVibGlzaGVkICovCiAgICAuLi4KICAgIGZ1ZC0+cHEu
+cHJvY2Vzc2luZyA9IHBxOyAgICAgICAgICAgICAgICAgICAgIC8qIHN0b3JlZCBhZnRlcndhcmRz
+ICovCgpmdXNlX2Rldl93cml0ZSgpIG9ubHkgZG9lcyBzbXBfbG9hZF9hY3F1aXJlKCZmdWQtPmNo
+YW4pIHZpYQpfX2Z1c2VfZ2V0X2RldigpIGFuZCBuZXZlciB0YWtlcyBmY2gtPmxvY2s6CgogIENQ
+VSBBOiBGVVNFX0RFVl9JT0NfQ0xPTkUgICAgICAgICAgIENQVSBCOiB3cml0ZShmZDIpCiAgLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAgICAgICAgICAgLS0tLS0tLS0tLS0tLS0tLS0KICBjbXB4
+Y2hnKCZmdWQtPmNoYW4sIE5VTEwsIGZjaCkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBfX2Z1c2VfZ2V0X2RldigpIHNlZXMgY2hhbgogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIGZ1c2VfZGV2X2RvX3dyaXRlKCkKICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHNwaW5fbG9jaygmZnBxLT5sb2NrKQogICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgZnVzZV9yZXF1ZXN0X2ZpbmQoKQogICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB3YWxrcyBmcHEtPnByb2Nlc3NpbmdbaGFzaF0K
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLT4gTlVMTCBkZXJlZgog
+IGZ1ZC0+cHEucHJvY2Vzc2luZyA9IHBxCgpmdXNlX2Rldl9yZWxlYXNlKCkgYWxyZWFkeSB0YWtl
+cyBmY2gtPmxvY2sgdG8gd2FpdCBmb3IKZnVzZV9kZXZfaW5zdGFsbF93aXRoX3BxKCkgdG8gZmlu
+aXNoOyB0aGUgcmVhZC93cml0ZSBwYXRocyBoYXZlIG5vCmVxdWl2YWxlbnQuIGZ1c2VfZGV2X2Rv
+X3JlYWQoKSBtb3ZpbmcgYSByZXF1ZXN0IG9udG8KZnBxLT5wcm9jZXNzaW5nW2hhc2hdIGhhcyB0
+aGUgc2FtZSBleHBvc3VyZS4KClRoaXMgbG9va3MgZGlmZmVyZW50IGZyb20gdGhlIENVU0UgZG91
+YmxlIHBxdWV1ZSBhbGxvY2F0aW9uIGZpeAooImZ1c2U6IGF2b2lkIGRvdWJsZSBwcXVldWUgYWxs
+b2NhdGlvbiBpbiBmdXNlX2Rldl9hbGxvY19pbnN0YWxsIiksCndoaWNoIGRvZXMgbm90IGNoYW5n
+ZSB0aGUgY2hhbiB2cy4gcHJvY2Vzc2luZyBvcmRlcmluZy4KClJlcHJvZHVjZXIKLS0tLS0tLS0t
+LQoKTWluaW1hbCBpbi1ndWVzdCBGVVNFIHNlcnZlciwgbm8gbGliZnVzZToKCiAgMS4gZmQxID0g
+b3BlbigiL2Rldi9mdXNlIik7IG1vdW50KCJmdXNlIiwgLi4uLCAiZmQ9PGZkMT4sLi4uIikuCiAg
+ICAgTm8gc3luYyBpbml0LCBzbyBtb3VudCByZXR1cm5zIHdpdGhvdXQgYW5zd2VyaW5nIEZVU0Vf
+SU5JVC4KICAyLiBXcml0ZXIgdGhyZWFkcyBvbiBvdGhlciBDUFVzIGxvb3Agb24KICAgICB3cml0
+ZShmZDIsIGZ1c2Vfb3V0X2hlYWRlcntsZW49MTYsIGVycm9yPTAsIHVuaXF1ZT0xfSkuCiAgMy4g
+TWFpbiB0aHJlYWQgbG9vcHM6IG9wZW4gYSBmcmVzaCBmZDIsIHB1Ymxpc2ggaXQgdG8gdGhlIHdy
+aXRlcnMsCiAgICAgaW9jdGwoZmQyLCBGVVNFX0RFVl9JT0NfQ0xPTkUsICZmZDEpLCB3YWl0IGZv
+ciBpbi1mbGlnaHQgd3JpdGVzLAogICAgIGNsb3NlKGZkMikuCgpUaGUgd2luZG93IGlzIGEgZmV3
+IGluc3RydWN0aW9ucyBpbnNpZGUgZmNoLT5sb2NrLiBJIGhpdCBpdCBvbiB2Ny4yLjkKKHJ1biBh
+cyByb290KSB3aXRoIHVkZWxheSgyMDApIGluc2VydGVkIGJldHdlZW4gdGhlIGNtcHhjaGcoKSBh
+bmQgdGhlCnBxLnByb2Nlc3Npbmcgc3RvcmUuIFRoYXQgb25seSB3aWRlbnMgdGhlIGV4aXN0aW5n
+IHdpbmRvdzsgbG9ja2luZyBhbmQKdGhlIG9yZGVyIG9mIHRoZSB0d28gc3RvcmVzIGFyZSB1bmNo
+YW5nZWQuIEkgaGF2ZSBub3QgaGl0IGl0IG9uIGFuCnVubW9kaWZpZWQga2VybmVsLiBSZXByb2R1
+Y2VyIHNvdXJjZSBhdmFpbGFibGUgb24gcmVxdWVzdC4KCk9vcHMgZXhjZXJwdCAodjcuMi45ICsg
+dGhlIHVkZWxheSwgNCB2Q1BVcywgS0NTQU4gb24pOgoKICBCVUc6IGtlcm5lbCBOVUxMIHBvaW50
+ZXIgZGVyZWZlcmVuY2UsIGFkZHJlc3M6IDAwMDAwMDAwMDAwMDAwMDAKICBSSVA6IDAwMTA6ZnVz
+ZV9kZXZfZG9fd3JpdGUrMHgyMDIvMHg3YzAKICBDYWxsIFRyYWNlOgogICBmdXNlX2Rldl93cml0
+ZSsweDEwOQogICB2ZnNfd3JpdGUKICAga3N5c193cml0ZQogICBfX3g2NF9zeXNfd3JpdGUKCmZh
+ZGRyMmxpbmUgcHV0cyArMHgyMDIgYXQgdGhlIGxpc3RfZm9yX2VhY2hfZW50cnkoKSBpbgpmdXNl
+X3JlcXVlc3RfZmluZCgpIChpbmxpbmVkKSwgYW5kICsweDE4ZSBhdCB0aGUgcHJlY2VkaW5nCnNw
+aW5fbG9jaygmZnBxLT5sb2NrKS4gVGhlIG9vcHNpbmcgdGFzayBleGl0cyB3aXRoIHByZWVtcHRf
+Y291bnQgMSwKc3RpbGwgaG9sZGluZyBmcHEtPmxvY2ssIGFuZCBhbm90aGVyIHdyaXRlciB0aGVu
+IHNvZnQtbG9ja3MgaW4KcXVldWVkX3NwaW5fbG9ja19zbG93cGF0aCBmcm9tIGZ1c2VfZGV2X2Rv
+X3dyaXRlKzB4MThlLgoKSW1wYWN0OiBrZXJuZWwgb29wcyBwbHVzIGEgc3R1Y2sgZmQgKERvUyku
+IFRoZSB0cmlnZ2VyIG5lZWRzIGEgbW91bnRlZApGVVNFIGNvbm5lY3Rpb24gcGx1cyBGVVNFX0RF
+Vl9JT0NfQ0xPTkUgb3IgYSByYWNpbmcgd3JpdGU7IEkgZXhwZWN0IGl0CmlzIHJlYWNoYWJsZSBi
+eSB1c2VycyB3aG8gY2FuIG1vdW50IEZVU0UgKGZ1c2VybW91bnQgLyB1c2VybnMpLCBidXQgSQpv
+bmx5IHRlc3RlZCBhcyByb290LgoKRml4IGRpcmVjdGlvbgotLS0tLS0tLS0tLS0tCgpJIGRvbid0
+IGhhdmUgYSB0ZXN0ZWQgcGF0Y2guIFRoZSBvYnZpb3VzIGRpcmVjdGlvbiBpcyB0byBtYWtlCnBx
+LnByb2Nlc3NpbmcgdmlzaWJsZSBiZWZvcmUgY2hhbiBpcyBwdWJsaXNoZWQuIE9uZSBjYXZlYXQ6
+IHR3bwppbnN0YWxscyBvbiB0aGUgc2FtZSBmdWQgY2FuIGNvbWUgZnJvbSBkaWZmZXJlbnQgY29u
+bmVjdGlvbnMgKGUuZy4gdHdvCkZVU0VfREVWX0lPQ19DTE9ORSBjYWxscyBvbiB0aGUgc2FtZSBm
+cmVzaCBmZCB3aXRoIGRpZmZlcmVudCBzb3VyY2UKZmRzKS4gVGhleSBob2xkIGRpZmZlcmVudCBm
+Y2gtPmxvY2ssIHNvIG9ubHkgdGhlIGNtcHhjaGcoKSBvcmRlcnMgdGhlbQp0b2RheS4gU2ltcGx5
+IHN0b3JpbmcgcHJvY2Vzc2luZyBmaXJzdCBhbmQgcm9sbGluZyBiYWNrIHdoZW4gdGhlCmNtcHhj
+aGcoKSBmYWlscyBsZXRzIHRoZSBsb3NlciBjbGVhciBhbmQgZnJlZSB0aGUgcXVldWUgdGhlIHdp
+bm5lcgplbmRlZCB1cCB3aXRoLiBTZXJpYWxpemluZyBpbnN0YWxscyBwZXIgZnVkLCBvciBrZWVw
+aW5nIHBxLmNvbm5lY3RlZCBhdAowIHVudGlsIHByb2Nlc3NpbmcgaXMgc2V0ICh1bmRlciBmcHEt
+PmxvY2spIHNvIHRoZSBleGlzdGluZyBjb25uZWN0ZWQKY2hlY2tzIHJlamVjdCB0aGUgaGFsZi1p
+bnN0YWxsZWQgZGV2aWNlLCBtaWdodCBiZSBzaW1wbGVyLiBJJ20gaGFwcHkgdG8KdGVzdCB3aGF0
+ZXZlciB5b3UgcHJlZmVyLgoKVGhhbmtzLApZdW5sb25nIE1h
