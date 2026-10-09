@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664853D5253;
-	Fri,  9 Oct 2026 07:42:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6D73EB11D;
+	Fri,  9 Oct 2026 07:48:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791531732; cv=none; b=eZidsAh9kWOhp3/bc+8cVOkGpzjCuvRBS33wtVYBpWJlU6fBIrCDocfRvt6qdKKZzU1CMjbRWQnK92wWajv0Vfj/OwrYhUv9RFyj0I932tI9Q3docCpeNQySronH7qUfsjwhyoDTd5v7UFeRUJyXfhAcgg35gmeEx42mn/16n1o=
+	t=1791532127; cv=none; b=PBMmFvYTsspEZh6IFtIGkIUe+ENgo5+Y9WBM/DuuwvVxISVUtElpCZgAUM4kh9WAaNKCuFPYWprsGkBkI6BHU+u/ADXvteO+pAWcRKq2CZ9xm3n69dLMmpexPeVPnjr5Uz3+emNZo33AmrMYzjGdp1R9XZauubfxkIk/uQuPWww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791531732; c=relaxed/simple;
-	bh=KK6hcUKNzTpjT+w6oo43Mdn+G6BEcfvhF7hhxgjxngY=;
+	s=arc-20240116; t=1791532127; c=relaxed/simple;
+	bh=RdhfLvAs8LoBf6ot8SlajOfSJl+FY3cdxUZOZ16MrOI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ckFItoeic3oCGi5azoS3lmT9nbNrxTPQ1/u6bXJEP4DWXtYoQZzgskfk3cdO2CfND3WHihv14jboE2Dr0d5ddz0721lJXhe97W0PQRQC47CzgW3bVDuFQqEyle0OTiJVDUUOyn8Wg/3V9WU4dZ5UTM6DeMfJyiehWTjbGNwRTgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bKF431mt; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=rqiSo5TUgl+aP+mWggswEKpKGOjtp0NPiP0oPg/31P5o6NMXhrPpEDEvOUyij8Q+nc0NTj0+ujXwU2E88mzLXxmg0pO1BcgXGznmdCQdUq1A2u1zVQGp3hbeU7DN8TsmLTJ1PxIKXkYHV8sKeS/I0CLVWusUo6u+wmanZHChNtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ecz1wTR3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bKF431mt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC4C1F000FF;
-	Fri,  9 Oct 2026 07:42:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ecz1wTR3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC58D1F000FF;
+	Fri,  9 Oct 2026 07:48:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791531731;
-	bh=rsMBX361Kx8vQKVV8EDRN0Xn/Nazwk8m05yUWcWSqiE=;
+	s=k20260515; t=1791532126;
+	bh=rd7t/j3Gr3NUu8OvfP6alBmfJk/l+YTRs8EqdwAgXCg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bKF431mtCCHYf2ieQl6MAF9ntDhRWeap5NdD5hWqa5qemmI1u1uieuJcu98D4E3Rn
-	 5vE/DEoYSPXDgjUeOh7NV6MHRk/zK5wcN2bc1VNASWN49xYyizDS7NMRK3zpROSMh6
-	 mOUE3gkK6h+pwFMF25O6lUO1N1rvuUA1bEkpPn7gUWseDUhqGN3jB3GDLTJJCfQDT1
-	 UGVXAx4BlYPjHzofLX0QWC+/0QNKymWEiKcn7w54tXyY2uuRnSPSn4bV0TjcdSlOCK
-	 +A/hkfmtsJJ4EpClcFzqByEfTrbueo7DxsP9sEQv/wDUgPVMsShwGgZhPmj6ljFhkk
-	 nNzm/R7xwQlaA==
-Date: Fri, 9 Oct 2026 09:41:59 +0200
+	b=Ecz1wTR34LQkMZqwyxxPq0sr4aKrvARBjodnLqMVk0dyaC9mAYSPaVsCPCviegZrw
+	 EMKCJLikh5wobm9to/YwCXplZ8kOjWdiwoabDUDMap4ePxMyoj2476MhIKoYb1w3gi
+	 7uhBTNe0uuRHHcqdeIPJRoEYQ2icjAD2QrPy2vVCm+1WlnpUe2pj3yMMu5Uw0cLjKG
+	 1O1Hszc41HzkVxhHrLwwcdyjoZFUT5HRq3CEAAUe861NLx9bFqMt3PnQbdo2WDdCeh
+	 iz5ta7ppNq/IeAN6bt8COdJ/Qk2Eo6Yt6iwVZa4PuRpn6BDPL4nANr/ojRHIdmXZva
+	 qGGCLMYdsPTag==
+Date: Fri, 9 Oct 2026 09:48:37 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: Josef Bacik <josef@toxicpanda.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>, 
-	Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/5] capabilities: close the ways around the CAP_SETFCAP
- rule for uid 0
-Message-ID: <20261009-aussicht-wortbruch-bohnenkraut-9e7a1cfd7580@brauner>
-References: <20261006-b4-setfcap-userns-v1-0-f47e7ed66072@toxicpanda.com>
- <asehZEWAwsJcbqvM@hallyn.com>
- <179147397027.4.15064782992163283819@toxicpanda.com>
- <asfBRYy597qvzdCW@hallyn.com>
+To: Jan Kara <jack@suse.cz>
+Cc: Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>, 
+	Jann Horn <jannh@google.com>, Neil Brown <neil@brown.name>
+Subject: Re: [PATCH 16/21] fsnotify: let a filesystem refuse marks on its
+ objects
+Message-ID: <20261009-zinssatz-hinreichend-havarie-9cfa89532412@brauner>
+References: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
+ <20261002-work-mount-fixes-4-v1-16-dd44b89d44ce@kernel.org>
+ <CAOQ4uxh9O4-sUpN5mT-GHriGQ26R_n++mELNh3wOPKSrMYDSRQ@mail.gmail.com>
+ <ktwf3k6arjrcezb2ah3fmj7q7qu235ri4yau5c6hmwithutl3l@3xk6vqisfjhj>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -49,70 +47,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <asfBRYy597qvzdCW@hallyn.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ktwf3k6arjrcezb2ah3fmj7q7qu235ri4yau5c6hmwithutl3l@3xk6vqisfjhj>
 
-On Thu, Oct 08, 2026 at 11:13:57AM -0500, Serge Hallyn wrote:
-> On Thu, Oct 08, 2026 at 03:39:30PM +0000, Josef Bacik wrote:
-> > On Thu, Oct 08, 2026 at 08:57:56AM -0500, Serge E. Hallyn wrote:
-> > > Would you mind describing what other solutions you considered?  I've been
-> > > looking over this set since Tuesday, and finding it hard to reason about.
-> > > (Part of that is certainly the nature of the problem, and it's possible
-> > > that this is the best/simplest solution.)
+On Mon, Oct 05, 2026 at 08:02:59AM +0200, Jan Kara wrote:
+> On Fri 02-10-26 16:26:19, Amir Goldstein wrote:
+> > On Fri, Oct 2, 2026 at 3:54 PM Christian Brauner <brauner@kernel.org> wrote:
+> > >
+> > > Don't let nullfs be watched. fanotify refuses mount and filesystem marks
+> > > on SB_NOUSER superblocks but inode marks of inotify, fanotify and
+> > > dnotify go through. The one inode of knullfs is the root of every
+> > > kernel thread and the following patches make it reachable from
+> > > userspace as the directory that stands in for an unmounted mount. A
+> > > watch placed through one such directory would report the opens through
+> > > all the others, across users.
+> > >
+> > > Add FS_DISALLOW_NOTIFY next to FS_DISALLOW_NOTIFY_PERM, refuse a mark on
+> > > any object of such a filesystem in fsnotify_add_mark_list() where every
+> > > backend ends up and set it for nullfs. There's nothing to watch on a
+> > > permanently empty and immutable filesystem.
+> > >
 > > 
-> > Everything we looked at kept the state in the cred.  We model checked
-> > the variants before writing the code, and these fell over:
-> > 
-> > - a bool per cred for "had CAP_SETFCAP over the parent when it entered".
-> >   It breaks on two hops: setns() into a namespace that maps 0, unshare
-> >   again, and the bool says yes for the second namespace.  Hence the
-> >   level.
-> > - checking only at uid_map write time.  That misses setxattr of
-> >   security.capability in a namespace that already maps 0, hence patch 4.
-> > 
-> > We didn't look at keeping the state on the namespace.
-> > 
-> > > If we replaced the userns->parent_could_setfcap bool with a ref to the
-> > > creator's cred, then at both setns and write we could check the actor's
-> > > credentials, right?  There are probably issues with that specific idea,
-> > > but that's why it would be good to see what else you've considered.
-> > 
-> > Checking at write time alone doesn't work: once a task is inside the
-> > namespace its cred says nothing about what it could do outside, so a
-> > joiner and the creator look the same.
-> > 
-> > It does work if setns() refuses to join a namespace that maps, or can
-> > still map, the parent's uid 0 unless the joiner has CAP_SETFCAP over the
-> > parent.  Then everybody in a namespace has the same reach, and it can be
+> > I don't particularly mind this custom opt-out, but
+> > shall we perhaps instead deny marks on SB_NOUSER directories?
+> > IIRC, we already wanted to deny marks on any SB_NOUSER, but then
+> > it turned out that some users set inotify watches on pipes, so we stepped
+> > back and restricted SB_NOUSER only for fs/mount marks.
+> > I think that the same logic extends well also for directories, because
+> > I don't think that any existing SB_NOUSER fs is supposed to be
+> > exposing them atm, so no regressions are to be expected.
 > 
-> Yeah, that's what I was thinking.  Or even stricter: ensure that to join
-> any user namespace, a process must have a superset of the namespace
-> creator's capabilities.
+> Yes, I agree that placing marks on directories of SB_NOUSER filesystems
+> should be denied as well because it doesn't make sense which would settle
+> this case without a special flag AFAIU.
 
-I think both are fine and I like this proposal.
-
-> 
-> > a level stored on the namespace at create time instead of a cred ref,
-> > which would pin keyrings and the rest for the life of the namespace.
-
-Yeah, that's what I was worrying as well.
-
-Fwiw, this brings me to another general idea of mine: I want to be able
-to pin a "creds" light variant that doesn't pin all the unnecessary cred
-cruft like keyrings that you really don't need in a lot of cases. Like a
-core cred reference that does namespaces uids/gids, caps and ucount but
-drops all the rest.
-
-> > The checks would be setns(), the map write (opener and writer are in the
-> > parent, so a plain capable check), setxattr of security.capability, and
-> > ptrace.
-> > 
-> > The difference in behaviour is that the -EPERM moves to setns(): a root
-> > task without CAP_SETFCAP couldn't enter a root-owned container that maps
-> > host uid 0 at all, where with this series it can enter and is refused
-> > only for the map, fscaps and ptrace.  I can prototype it if you prefer
-> > that.
-> 
-> Sorry let me think about it (or let us talk about it) a bit more.
-
-I think that this is an acceptable restriction. Mapping uid 0 to 0 and
-dropping caps is borderline useless.
+The problem is that we're introducing a file in another series which
+doesn't work with this option. My proposal would be that we do the flag
+now to get this fixed and then we follow-up with another more
+comprehensive approach.
