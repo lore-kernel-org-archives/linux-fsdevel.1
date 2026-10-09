@@ -1,27 +1,27 @@
 Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E744BB274;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CAE4BB28A;
 	Fri,  9 Oct 2026 10:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791542255; cv=none; b=THxR7pMJEv4PjSZOabhoTzwZsES2UmnZ7rAGSWEXMZGNhbTjFheuQYK6KV1bikjhqIc8zExAKk7vt65jgCg1rTcBgaU3WYr9hSO9c4RieZ5FU4apnJoLF8/8xb2TdgScUqhAYCze7BdUsEq7kS3AqEmHcyIU8e7rGo+ejjn0OCw=
+	t=1791542256; cv=none; b=RsvVBg0epu+wBkMxsmiEcs59dPQBnBhvjITKTSFgbyhF67Ox6TDe5Np8u4WqadUgF00+lsYT//c0OUooydlJEzplVgZKg4mzJMjMhVu1UsM1iAVXWzKHT6fBYmdqy9d1GAOVIZTyXwnclz4eMRV/uwHAOJxYq/2JhccLshw9PcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791542255; c=relaxed/simple;
-	bh=Mj5RzjxaPIQl/uQkVsJp7iYvhVI0k/70ez5uyeITac4=;
+	s=arc-20240116; t=1791542256; c=relaxed/simple;
+	bh=6zfNoYDLrgx0OUEBO0JOsQfJZ8QB6LBFeM8Ma+CMBxo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CV/d7pS+vyoDeDEfva14ro19Re/EhjhW04Y9EUqU0A2i3SNSi+ps7dLW+0Io1ZHkWPTJ8IUEb53MK+1jQxs+NqfQ1N181BoC/2NDUcu7qfeuUdUVe/e8bc4h0dBPE0FADwhOe2ScwUYPaQZkXG+WDNcZzaRD8lGN/dLgn0CeseA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+	 MIME-Version; b=OYAVYSiJ3rIBiiDETK/j8nGdQnGdFKfI/s4gipjaBeBInCjCWkZDMoUfGkG0Sh0V5pdvhxPkOqXq6hJgHFjJ1v84X0WcDc6fhpfahGT9Oo6PhEdQPDt0q8AE/asaTsPUd9UVOnzK/cZT4VA8aUhktrBgdm6RBRmP8meLp2h8zJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j1NZX53vWzYQv8f;
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j1NZX2FXlzYQv1S;
 	Fri,  9 Oct 2026 18:36:36 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id DE9AA40578;
+	by mail.maildlp.com (Postfix) with ESMTP id 83BC44056B;
 	Fri,  9 Oct 2026 18:37:20 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgBXGG3Vw8hqUHceDQ--.45810S23;
+	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgBXGG3Vw8hqUHceDQ--.45810S20;
 	Fri, 09 Oct 2026 18:37:20 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-ext4@vger.kernel.org,
@@ -42,9 +42,9 @@ Cc: linux-kernel@vger.kernel.org,
 	yangerkun@huawei.com,
 	wangkefeng.wang@huawei.com,
 	yukuai@fnnas.com
-Subject: [PATCH v7 19/31] ext4: add block mapping tracepoints for iomap buffered I/O path
-Date: Fri,  9 Oct 2026 18:30:20 +0800
-Message-ID: <20261009103033.2920530-20-yi.zhang@huaweicloud.com>
+Subject: [PATCH v7 16/31] ext4: implement mmap path using iomap
+Date: Fri,  9 Oct 2026 18:30:17 +0800
+Message-ID: <20261009103033.2920530-17-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20261009103033.2920530-1-yi.zhang@huaweicloud.com>
 References: <20261009103033.2920530-1-yi.zhang@huaweicloud.com>
@@ -55,10 +55,10 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_Ch0CgBXGG3Vw8hqUHceDQ--.45810S23
-X-Coremail-Antispam: 1UD129KBjvJXoWxurW7ZrWDWrWfAF1kAr1DJrb_yoWrXF17pa
-	4qyFy5Kr4kXrsF9w4fWrWfXr1Fva1xKr4UGry3Wry5AFWxtr12gF4UGFyjyFy5tw4jkryf
-	XF4Yyry8G3WUurDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:_Ch0CgBXGG3Vw8hqUHceDQ--.45810S20
+X-Coremail-Antispam: 1UD129KBjvJXoWxWFWfJr17JryxtF43Kw1DGFg_yoWrGrW7pr
+	95K3yrGrsIqwn29rs2gFs8Zr1FkayxtrW7WrW3Wr15Za42yw18tF48KF1YvF4rJrWfur42
+	qF4Ykr18Wa47ArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUmq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
 	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -77,113 +77,106 @@ X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Add tracepoints for iomap buffered read, write, partial block zeroing,
-and writeback operations to help debug the iomap buffered I/O path.
+Introduce ext4_iomap_page_mkwrite() to implement the mmap iomap path
+for ext4. The heavy lifting is delegated to iomap_page_mkwrite(), which
+only requires ext4_iomap_buffered_write_ops and
+ext4_iomap_buffered_da_write_ops to allocate and map blocks.
+
+Note that the lock ordering between folio lock and transaction start in
+this path is reversed compared to the buffer_head buffered write path.
+The lock ordering documentation in super.c has been updated accordingly.
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
 Reviewed-by: Jan Kara <jack@suse.cz>
 ---
- fs/ext4/inode.c             |  6 +++++
- include/trace/events/ext4.h | 47 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 53 insertions(+)
+ fs/ext4/inode.c | 32 +++++++++++++++++++++++++++++++-
+ fs/ext4/super.c |  8 ++++++--
+ 2 files changed, 37 insertions(+), 3 deletions(-)
 
 diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 35767c3a7ffff..1c7083a9293e9 100644
+index 78be37cd3fa2b..f8721fd6eb22b 100644
 --- a/fs/ext4/inode.c
 +++ b/fs/ext4/inode.c
-@@ -4019,6 +4019,8 @@ static int ext4_iomap_buffered_read_begin(struct inode *inode, loff_t offset,
- 	if (ret < 0)
- 		return ret;
+@@ -4040,7 +4040,7 @@ static int ext4_iomap_buffered_do_write_begin(struct inode *inode,
+ 		return -ERANGE;
+ 	if (WARN_ON_ONCE(!ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS)))
+ 		return -EINVAL;
+-	if (WARN_ON_ONCE(!(flags & IOMAP_WRITE)))
++	if (WARN_ON_ONCE(!(flags & (IOMAP_WRITE | IOMAP_FAULT))))
+ 		return -EINVAL;
  
-+	trace_ext4_iomap_buffered_read_begin(inode, &map, offset, length,
-+					     flags);
- 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
- 	return 0;
+ 	map_flags = delalloc ? EXT4_GET_BLOCKS_DELALLOC_RESERVE :
+@@ -4098,6 +4098,14 @@ static int ext4_iomap_buffered_da_write_end(struct inode *inode, loff_t offset,
+ 	if (iomap->type != IOMAP_DELALLOC || !(iomap->flags & IOMAP_F_NEW))
+ 		return 0;
+ 
++	/*
++	 * iomap_page_mkwrite() will never fail in a way that requires delalloc
++	 * extents that it allocated to be revoked.  Hence never try to release
++	 * them here.
++	 */
++	if (flags & IOMAP_FAULT)
++		return 0;
++
+ 	/* Nothing to do if we've written the entire delalloc extent */
+ 	start_byte = iomap_last_written_block(inode, offset, written);
+ 	end_byte = round_up(offset + length, i_blocksize(inode));
+@@ -7309,6 +7317,23 @@ static int ext4_block_page_mkwrite(struct inode *inode, struct folio *folio,
+ 	return ret;
  }
-@@ -4052,6 +4054,8 @@ static int ext4_iomap_buffered_do_write_begin(struct inode *inode,
- 	if (ret < 0)
- 		return ret;
  
-+	trace_ext4_iomap_buffered_write_begin(inode, &map, offset, length,
-+					      flags);
- 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
- 	return 0;
- }
-@@ -4168,6 +4172,7 @@ static int ext4_iomap_zero_begin(struct inode *inode,
- 			goto again;
- 	}
- 
-+	trace_ext4_iomap_zero_begin(inode, &map, offset, length, flags);
- 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
- 	iomap->flags |= iomap_flags;
- 
-@@ -4279,6 +4284,7 @@ static int ext4_iomap_map_writeback_range(struct iomap_writepage_ctx *wpc,
- 		return ret;
- 	}
- 
-+	trace_ext4_iomap_map_writeback_range(inode, &map, offset, dirty_len, 0);
- 	ext4_set_iomap(inode, &wpc->iomap, &map, offset, dirty_len, 0);
- 	return 0;
- }
-diff --git a/include/trace/events/ext4.h b/include/trace/events/ext4.h
-index 7028a28316fa3..bcf80f518e61d 100644
---- a/include/trace/events/ext4.h
-+++ b/include/trace/events/ext4.h
-@@ -3157,6 +3157,53 @@ TRACE_EVENT(ext4_move_extent_exit,
- 		  __entry->ret)
- );
- 
-+DECLARE_EVENT_CLASS(ext4_set_iomap_class,
-+	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map,
-+		 loff_t offset, loff_t length, unsigned int flags),
-+	TP_ARGS(inode, map, offset, length, flags),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(u64, ino)
-+		__field(ext4_lblk_t, m_lblk)
-+		__field(ext4_fsblk_t, pblk)
-+		__field(unsigned int, m_len)
-+		__field(unsigned int, m_flags)
-+		__field(u64, m_seq)
-+		__field(loff_t, offset)
-+		__field(loff_t, length)
-+		__field(unsigned int, iomap_flags)
-+	),
-+	TP_fast_assign(
-+		__entry->dev		= inode->i_sb->s_dev;
-+		__entry->ino		= inode->i_ino;
-+		__entry->m_lblk		= map->m_lblk;
-+		__entry->pblk		= map->m_pblk;
-+		__entry->m_len		= map->m_len;
-+		__entry->m_flags	= map->m_flags;
-+		__entry->m_seq		= map->m_seq;
-+		__entry->offset		= offset;
-+		__entry->length		= length;
-+		__entry->iomap_flags	= flags;
++static vm_fault_t ext4_iomap_page_mkwrite(struct vm_fault *vmf)
++{
++	struct inode *inode = file_inode(vmf->vma->vm_file);
++	const struct iomap_ops *iomap_ops;
 +
-+	),
-+	TP_printk("dev %d:%d ino %llu m_lblk %u pblk %llu m_len %u m_flags %s m_seq %llu orig_off 0x%llx orig_len 0x%llx iomap_flags 0x%x",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->m_lblk, __entry->pblk, __entry->m_len,
-+		  show_mflags(__entry->m_flags), __entry->m_seq,
-+		  __entry->offset, __entry->length, __entry->iomap_flags)
-+)
++	/*
++	 * ext4_nonda_switch() could writeback this folio, so have to
++	 * call it before lock folio.
++	 */
++	if (test_opt(inode->i_sb, DELALLOC) && !ext4_nonda_switch(inode->i_sb))
++		iomap_ops = &ext4_iomap_buffered_da_write_ops;
++	else
++		iomap_ops = &ext4_iomap_buffered_write_ops;
 +
-+#define DEFINE_SET_IOMAP_EVENT(name) \
-+DEFINE_EVENT(ext4_set_iomap_class, name, \
-+	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map, \
-+		 loff_t offset, loff_t length, unsigned int flags), \
-+	TP_ARGS(inode, map, offset, length, flags))
++	return iomap_page_mkwrite(vmf, iomap_ops, NULL);
++}
 +
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_buffered_read_begin);
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_buffered_write_begin);
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_map_writeback_range);
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_zero_begin);
-+
- #endif /* _TRACE_EXT4_H */
+ vm_fault_t ext4_page_mkwrite(struct vm_fault *vmf)
+ {
+ 	struct vm_area_struct *vma = vmf->vma;
+@@ -7335,6 +7360,11 @@ vm_fault_t ext4_page_mkwrite(struct vm_fault *vmf)
+ 	if (err)
+ 		goto out_ret;
  
- /* This part must be outside protection */
++	if (ext4_inode_buffered_iomap(inode)) {
++		ret = ext4_iomap_page_mkwrite(vmf);
++		goto out;
++	}
++
+ 	/*
+ 	 * On data journalling we skip straight to the transaction handle:
+ 	 * there's no delalloc; page truncated will be checked later; the
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index 6d2d323604f96..1c2395aa1d53a 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -100,8 +100,12 @@ static const struct fs_parameter_spec ext4_param_specs[];
+  * Lock ordering
+  *
+  * page fault path:
+- * mmap_lock -> sb_start_pagefault -> invalidate_lock (r) -> transaction start
+- *   -> page lock -> i_data_sem (rw)
++ * - buffer_head path:
++ *   mmap_lock -> sb_start_pagefault -> invalidate_lock (r) ->
++ *     transaction start -> folio lock -> i_data_sem (rw)
++ * - iomap path:
++ *   mmap_lock -> sb_start_pagefault -> invalidate_lock (r) ->
++ *     folio lock -> transaction start -> i_data_sem (rw)
+  *
+  * buffered write path:
+  * sb_start_write -> i_rwsem (w) -> mmap_lock
 -- 
 2.52.0
 
