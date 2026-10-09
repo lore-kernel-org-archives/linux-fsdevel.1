@@ -1,188 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B81371876;
-	Fri,  9 Oct 2026 20:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962CF3B2AA
+	for <linux-fsdevel@vger.kernel.org>; Fri,  9 Oct 2026 21:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791579313; cv=none; b=Yht2xDNm2Y4CVhqouiGlA773JCVua5Go70jeUrSqO8qjQHcQuFkyncipcfGiMDIxMqKUj9fR17AEKlAgqDC0dLPG4oVrRf+7nDhstriGmQtaIocHUcDwk6M5OI4v7iHK6F2XjAGgW0jYZhDxqIL0+40Yh3kc+NWTwo7zVyUoaxM=
+	t=1791581508; cv=none; b=sXlXjeIwMFevX7tRM9dHmvFmy33L1dyan82hYcv5K1ZxWH3IDr/J1fUxkyRHEm+Y5o+4szsR6o676A1nAdIn6M/FnFEuJr/JGwt31bv+6fKAjfOLhKblFARptjXpRqv/gR88v1L0HcL6QB+RDcCIiTzH58DvxhbN/B+1RALLzRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791579313; c=relaxed/simple;
-	bh=p51NQjUwX1nA/+Pp2hS3WMcCbWiZklc67T2vUrFIhPE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QohFOMhQC7d4bsAZqUk3xioQFaxLlwftAqU5/uQF/c1Mjs/bMtL7hp06+Q+M/y8yH8w6aUuA9lrk/YnQbUhp1Yj+F714NrX/Z+9m6e0ivyabpV5Ve5PNIeKJjiE5r6n3pAU2PdDUmwYgK7pzwE1GNENOckALiMSWmitIvWlLp7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MyI9u/to; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791581508; c=relaxed/simple;
+	bh=MPGtv2AZ1TP9v9vFwWHrcMX8pWa9xOPUHHn11lgZnRU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lfY+dQ4J03WiLEJ0mUaKoEK06y9V5x1Viwu1b/3LhP6h+IPlVohuI59imyA68RNt1t46fgCjbsUuIBrs2mzWCHNLT7TvbX4FJS4VmdLu5uU8Hbc/OWviZehB+KjKa7JNF5wNLtIOfB1VVn5BU2tkxpACAltUzumx1YdnWASy288=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=ZF+zCTje; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MyI9u/to"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 893391F000FF;
-	Fri,  9 Oct 2026 20:55:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791579311;
-	bh=9Bvt+Xsa7sXVl1fng5tFEayRF5yMEOd/Tzvn8BVb9qI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=MyI9u/to/xTOcMPWlUQbiGOT3v8o/iNOpYRWNH4gz7+sgcbhLJ947FpiF8oINFqwH
-	 p/9Nd7nkxASalFk2NWrnH17gHaF/A+JVAAXBThFQZQDMbzRMqEVk3AfYq67TfSa2vV
-	 WVPtLY+fDREnfFuJQsAiQBGXf4tWaQu5z7y6bcJTNg/nGjjlVv7f3LMDAFXuaOlvTD
-	 l0J4iLDoFFE1Ar50jDUljIkEjZ3EOLkOjaV21XNDQwWenew+l5CtZs4xeV+ZgH3UJ/
-	 3CEbRx9e87dzk0y/W4a7lua24GyPC/5+EMLiohjsazE0f53jKThEPmVAnKmV3agU+I
-	 9SDkknHP/+QyA==
-Message-ID: <df588805-6f97-4ef6-a64f-39222669bf3a@kernel.org>
-Date: Fri, 9 Oct 2026 22:55:05 +0200
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="ZF+zCTje"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-8ac8a2ac52bso1295167b3.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 14:31:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1791581506; x=1792186306; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=P4p6ogAoD4/3+XSZTFngUeFwMjFyuyjbsuBs8Y+Bvw8=;
+        b=ZF+zCTjeyUHC2rlyUyp3ZmMqqjKnk3rcgiBVY7hlE/O4sJQXqcHSiq0JeOpcKkoQBy
+         RuPVzzjsCYsobo75DZoSmb8Yat0GJhmGMaW6vS1EyQFoFTfv+jHfEnKzgDwcxLi7on0W
+         +KlhRfA+TQ0RwD8wuhsg7E5DC/T1wdBNo8dScd+bRzdLbDX+WByGRhOqxfHTVm+E2vM5
+         hvZdOBhzLBvocsSsVAA4RcXNTjPRSd23VSQUx0+fKllU8z+Tc1NiqVHIEuLvEEeKeYLx
+         +oouUZhqYz/DbzynoemC7AUuoEpvX4ib+kHEYA0gg1yMLNQYafDIpS/q3KVOdm3NmoEW
+         0QDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791581506; x=1792186306;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=P4p6ogAoD4/3+XSZTFngUeFwMjFyuyjbsuBs8Y+Bvw8=;
+        b=mArVATxh9X2M0HVK1FarQnWm/ejD61eq36i9Jfq1SWJZIYEk6oateFobwXzPPcbadV
+         9XUdN+hj6Z2uexR6E6Y3uXDUET9QiplVD9HXSKz+Zx2jaypYRv8dG9a22w8rlehzOaH+
+         2UvEvLJk+GNtTCAFwpLyFRxe0V0IXmrchTM6PP8baZfBoVc/6Mkwgo8r2J8UyrHQqGwQ
+         jgdGmYUeTw175ORQwI622T+qG71tS85g6Pg8K4mFsKWyMn08qgGYq41N/l3JL7v2TGM/
+         DEWMeYb1zQV4wkXmmLZbbg77Xl3BxeZF5/O9+mkdUiYb6BxZWz5Jf6tiuX/Na//fTGpX
+         +MSw==
+X-Gm-Message-State: AFq9FYKVGDw3+/ZAMdPNqC//7Pi3cBr/xQ2R+Npql+ePEtD5ybYsWs0p
+	j9TfpQzaJJGIj2Ysz3HrDEOLM+4C3DQ2UDxGXxTHCrpFtrS3aQwn0sms8jyz0/vr9yk=
+X-Gm-Gg: AYBFou1pSyBInAiuPh5+TOsVBbcm5JkiApeO9MQ45yft3GjX0UExoYJsQAPnbQUX/Gs
+	iD1unp+m1hIfiJJ4kPw91raYcLJcVrzqR+1jsHNumpImqjAsaNYxJzSSrpDd9T4PpmeQ+TZWpJ4
+	4Cdj/G5KMsAcGxWoMZM3BOnb6cWcz6CnoIXKEbR/RtfPhhlMa6ho0Ff+pyhurl54XeN6SEJ9N8G
+	h7DII0fztEr0OzSHTx9HBQVejg/vFqo+AmKD0xVd8z9b/+SYyVpnUb6M374em1B3ezvLQF1OrwQ
+	LHokRZ+wocQ28L3bZsSHVpsuJ47wX3NfU+Wc5jSGryfrMmg28h77zZiCpelKXMqLZ48K14EcjGP
+	0QhOxo5ZRA3/y8bbK61/0q1qPnkECjp7UZoYEaK1KKfdqqX6UPVnIdwLiqHCDniwVy8Wy3n8xqG
+	KKejcdG4OrUw17gS+UEbtXJR3RPl1M9FsY6lUnkVmdDACRdFccx1k93DCtnFzuqdlb3yLakhAAN
+	AHxisZJrDTv1g+FdYIKkxLDtYP39MkVU8SllGB066xHK3K4sXYcE0QXVqlIQ1GumCUCDLIsnUMF
+	HWCSaL0=
+X-Received: by 2002:a05:690c:5886:b0:87f:32fa:aa08 with SMTP id 00721157ae682-8b07ed55c46mr8287527b3.14.1791581506448;
+        Fri, 09 Oct 2026 14:31:46 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430::48])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b07f1b7483sm12296467b3.11.2026.10.09.14.31.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2026 14:31:44 -0700 (PDT)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	vdubeyko@coreweave.com,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Subject: [PATCH v2 0/3] hfsplus: fix timestamp wrapping and support timestamps after 2040
+Date: Fri,  9 Oct 2026 14:31:29 -0700
+Message-ID: <20261009213132.997851-1-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/6] mm: pass alloc_flags through folio, filemap, and
- bulk allocators
-To: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org,
- willy@infradead.org, vbabka@kernel.org, brendan.jackman@linux.dev
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- kernel-team@meta.com, jack@suse.cz, akpm@linux-foundation.org,
- ziy@nvidia.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
- ying.huang@linux.alibaba.com, surenb@google.com, mhocko@suse.com,
- hannes@cmpxchg.org
-References: <20260923211041.3127588-1-gourry@gourry.net>
- <asdTptfeLkuypU8t@gourry-fedora-PF4VCD3F>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <asdTptfeLkuypU8t@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/8/26 11:10, Gregory Price wrote:
-> On Wed, Sep 23, 2026 at 05:10:34PM -0400, Gregory Price wrote:
->> This six-patch series first separates allocator behavior flags from
->> the bulk allocator fast-path flags and shares their validation and
->> preparation. It then passes alloc_flags through the MM-internal folio,
->> NUMA policy, filemap, and bulk helpers.
-> 
-> I had various discussions this week regarding ALLOC_ZONELIST_PRIVATE and
-> ALLOC_UNMAPPED, and whether adding alloc_flags to the APIs is a good/bad
-> idea and what the alternatives are.  I'd like to summarize the notes
-> here and try to find a way forward.
-> 
-> recommendations that were made:
-> 
-> 1) re-use unused GFP flags
->    #define __GFP_X  __GFP_DMA
->    or simply delete/replace __GFP_DMA
+HFS+ keeps timestamps in 32-bit unsigned on-disk fields as the number
+of seconds since January 1, 1904. Such field can represent the time
+range from January 1, 1904 till February 6, 2040.
 
-If so, I think the latter,
+The current HFS+ driver treats any on-disk timestamp under
+HFSPLUS_UTC_OFFSET (January 1, 1970) as a time between 2040 and 2106.
+Also, it calculates the on-disk value by means of adding the time
+offset to the lower 32 bits of the timestamp. As a result, any
+timestamp before January 1, 1970 is converted completely wrong and
+xfstests' generic/258 fails.
 
-> 
->    There presently are no truly unused GFP flags, though there may be
->    some users who can be shuffled around if we are willing to add
->    functions.
+This patchset fixes the timestamp wrapping issue and extends
+the supported time range beyond February 2040.
 
-I once had patches to convert __GFP_SKIP_ZERO and __GFP_SKIP_KASAN to alloc
-flags instead. Nobody outside core-mm should be setting these, ever.
+The first patch corrects the logic of __hfsp_mt2ut() and
+__hfsp_ut2mt(). The on-disk timestamp is interpreted as unsigned
+number of seconds since January 1, 1904. HFS_UTC_OFFSET,
+HFS_MIN_TIMESTAMP_SECS and HFS_MAX_TIMESTAMP_SECS are defined in
+include/linux/hfs_common.h, and hfsplus_fill_super() sets
+sb->s_time_min, sb->s_time_max and sb->s_time_gran. This patch fixes
+generic/258 but it restricts the supported time range by
+February 6, 2040.
 
-> 
-> 2) alias 2+ incompatible GFP flags to make a new one
->    #define GFP_A (__GFP_NORETRY | __GFP_RETRY_MAYFAIL)
->    #define GFP_B (__GFP_NORETRY | __GFP_NOFAIL)
->    #define GFP_C (__GFP_NOFAIL | __GFP_RETRY_MAYFAIL)
->    #define GFP_X (__GFP_DMA | __GFP_DMA32)
->    #define GFP_Y (__GFP_DMA | __GFP_HIGHMEM)
->    #define GFP_Z (__GFP_DMA32 | __GFP_HIGHMEM)
-> 
->    These are all nonsensical combinations.
-> 
->    Downside: We should probably just forbid these, otherwise the function
->    contract just ends up being confusing - i.e. (__GFP_DMA | __GFP_DMA32)
->    should just warn / return NULL.
-> 
+The second patch stores the timestamps after February 2040 into
+internal extended attributes. Such timestamp is stored as the maximal
+on-disk value (0xFFFFFFFF) in the catalog record and the real value
+is kept in the xattr as big-endian 64-bit number of seconds since
+January 1, 1970:
 
-Not a fan of this.
+linux_hfs.create_date_u64
+linux_hfs.content_mod_date_u64
+linux_hfs.attribute_mod_date_u64
+linux_hfs.access_date_u64
 
-> 
-> 3) expose alloc_flags as mm-internal only flags (this series)
->    in addition - convert some GFP flags to ALLOC flags
-> 
->    In 99% of callers they would simply add ALLOC_DEFAULT (0).
-> 
->    The upside - it seems like there are 2-3 GFP flags that may be
->    good candidates for conversion to alloc flags:
->      __GFP_WRITE
->      __GFP_ZEROTAGS
->      __GFP_SKIP_ZERO
+It is Linux specific extension of HFS+ on-disk layout. However,
+it is backward compatible: Mac OS X sees the clamped timestamp
+(February 6, 2040) and an extended attribute. If the xattr is absent
+(for example, the record has been created by Mac OS X), then
+the driver reads the maximal on-disk value as February 6, 2040.
+The internal xattrs are hidden from listxattr() and they cannot be
+changed by user. The creation date is supported by the same logic,
+including the hard link records. Also, the second patch fixes
+the issue when the Attributes File, created in the middle of sync
+operation, is not recorded into the volume header.
 
-Yes, as mentioned above that was my plan.
+The third patch adds the hfsplus_time KUnit test suite that checks
+the date/time conversion logic and the extended timestamp support.
 
-> 
->    And the zone/zonelist selectors seem like candidates to free up GFP
->    flags by turning them into internal-only flags and giving drivers
->    some kind of explicit API, e.g.:
->      __GFP_DMA/__GFP_DMA32 -> dma_alloc(...) -> intenal ALLOC_DMA|32
-> 
->    I considered whether __GFP_THISNODE should actually be broken up,
->    as it actually means two things (don't oom, use thisnode zonelist)
->    Something like:
->      ALLOC_NO_OOM
->      ALLOC_THISNODE_ZONELIST  (or keep __GFP_THISNODE)
-> 
->    The downside is yet another flag interface in the page allocator.
->    Note: This is basically 1/2 way done, this series finishes it.
+Viacheslav Dubeyko (3):
+  hfsplus: fix timestamp wrapped issue
+  hfsplus: store timestamps after February 2040 in xattrs
+  hfsplus: add KUnit tests for date/time conversion
 
-I do agree that two sets of flags is suboptimal, but likely more flexible. I
-guess an alloc_flags only interface is not easily possible ...
-
-I do wonder whether it should be:
-
-	typedef int __bitwise alloc_flags_t;
-
-instead of "unsigned int alloc_flags".
-
-... while at it
+ fs/hfs/hfs_fs.h            |  13 --
+ fs/hfsplus/Makefile        |   2 +-
+ fs/hfsplus/attributes.c    |  85 +++++++--
+ fs/hfsplus/catalog.c       | 110 ++++++++++--
+ fs/hfsplus/dir.c           |  49 ++++-
+ fs/hfsplus/hfsplus_fs.h    |  52 +++++-
+ fs/hfsplus/inode.c         | 299 +++++++++++++++++++++++++++++--
+ fs/hfsplus/super.c         |   8 +
+ fs/hfsplus/time_test.c     | 354 +++++++++++++++++++++++++++++++++++++
+ fs/hfsplus/xattr.c         | 202 ++++++++++++++++++---
+ fs/hfsplus/xattr.h         |  32 +++-
+ include/linux/hfs_common.h |  13 ++
+ 12 files changed, 1118 insertions(+), 101 deletions(-)
+ create mode 100644 fs/hfsplus/time_test.c
 
 -- 
-Cheers,
+2.43.0
 
-David
