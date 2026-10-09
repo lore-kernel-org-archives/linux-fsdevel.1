@@ -1,126 +1,266 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.187.6.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CA17547054;
-	Fri,  9 Oct 2026 08:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.187.6.220
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B491B1E7C2E;
+	Fri,  9 Oct 2026 08:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791533986; cv=none; b=aHzk1CaS/igisrjT39J23O/rklt9C3OLQDDjnUAwhT7VFT+W5sPZv/Jzr8WKOKkT/2c5zqxBfs6E4pGS212r5/C1lWoavsAUxEp46qxNz9hOOXB/OwtaToELVqs9lfiE490bGFCP76Y8gaifmIgSoiFBLameQrTH7UOzYIkF0ic=
+	t=1791535287; cv=none; b=SMBF7oymRZl05r0jxlM/xZrEJX6Qk8qjqcbDuGzt5zAWO/j6qeoec0XKVVgQ1xWZTuLwvc76N+uBp3+/YChjGfXqkW3R61xRVogPu9/SfV0Stwu4+YLep3pr0KhQ0MS5NO5sz40TBCFn4jCyRNMVONyIAxSMV10sckkp1rC813M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791533986; c=relaxed/simple;
-	bh=Ty6dU7hyRWZl10aEAh88eaJc+XufIer2nPbswCBp5Js=;
-	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=AfL6Rd1ANe4t5IGNQvVPjvGErEJ+dpTdbYJgm3vrV9xLizrZKyYzFAFGhW8TIDNgHeAvoYPp/yF5bAczpBqcAtjSIwbYI7iqV8QMTNa3AJP0NXh9ioyIgnj0JvFmGi5XgwuwlXFsaPcOiOmC12mT8uTank1iFB4Hg2qcmboK+X0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=buaa.edu.cn; spf=pass smtp.mailfrom=buaa.edu.cn; dkim=fail (0-bit key) header.d=buaa.edu.cn header.i=@buaa.edu.cn header.b=ukzTsd+S reason="key not found in DNS"; arc=none smtp.client-ip=52.187.6.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=buaa.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=buaa.edu.cn
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=buaa.edu.cn header.i=@buaa.edu.cn header.b="ukzTsd+S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=buaa.edu.cn; s=buaa; h=Received:Date:From:To:Cc:Subject:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID;
-	bh=fj/+WuIGqcXlf41ackM3dUMpHdKPgLt5cdcvOzIuWqI=; b=ukzTsd+SU6HfF
-	ykiBJlW5woKIFhEYpyNnW8ZPMM0NMQc8EjYAfq4xe+8pRvsjAoN9X+NUf3b6psND
-	UuS8+b3BnXzV+3Hq0sbECWtehtsBq2l6d9mIbLBLyjlwnXy10/aNYCAyNUM7sCB5
-	rR5fTCwHzlhhO8bBBqVVugmUxb/XQ8=
-Received: from yunlong_ma$buaa.edu.cn ( [60.190.253.98] ) by
- ajax-webmail-coremail-app2 (Coremail) ; Fri, 9 Oct 2026 16:19:19 +0800
- (GMT+08:00)
-Date: Fri, 9 Oct 2026 16:19:19 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?6ams5LqR6b6Z?= <yunlong_ma@buaa.edu.cn>
-To: miklos@szeredi.hu
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: PROBLEM: fuse: NULL pointer dereference in fuse_dev_do_write()
- racing device install
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
- 20240305(0ac2fdd1) Copyright (c) 2002-2026 www.mailtech.cn
- mispb-63b7ebb9-fa87-40c1-9aec-818ec5a006d9-buaa.edu.cn
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1791535287; c=relaxed/simple;
+	bh=n7ontxDBPqKBWS7fqMC63th/CLCnkD0ijIa6Ry3jkZE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NGbyhlwJnljVxwri1JyRfanc6dMi0NvNMTzdnmZe+Nl6byKDcuD1JavFGktsyuNS2NQdX1L7Yxx3l90vAY10Qn7fpv9BoybWYDAwIUSahzBxk2MHtMpAnqNKPL4FUVKkCNIjdWGvBTOveUW4CjsxOrY7g5TMham9E8KpmK23Fog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DDF9C21BB2;
+	Fri,  9 Oct 2026 08:41:23 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 010E11326D;
+	Fri,  9 Oct 2026 08:41:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id C4YwMLKoyGpkJgAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Fri, 09 Oct 2026 08:41:22 +0000
+Date: Fri, 9 Oct 2026 09:41:21 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
+	Ayush Ranjan <ayushr@modal.com>, Hugh Dickins <hughd@google.com>, 
+	Matthew Wilcox <willy@infradead.org>, David Hildenbrand <david@kernel.org>, 
+	Gregory Price <gourry@gourry.net>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [BUG] shmem: FALLOC_FL_PUNCH_HOLE vs fault-around race corrupts
+ page cache / rss counters
+Message-ID: <asigKktcrSY80A_2@pedro-suse.tail5790ac.ts.net>
+References: <20260924061708.1645968-1-ayushr@modal.com>
+ <arTdLsBENhrpOyk-@pedro-suse.tail5790ac.ts.net>
+ <20260925053027.1998394-1-ayushr@modal.com>
+ <20260925065013.3682431-1-ayushr@modal.com>
+ <20261003033107.1488699-1-ayushr@modal.com>
+ <20261004222831.bdd648a2b406f02747dd9e40@linux-foundation.org>
+ <fyswoh7wpxzlbnjjanggjd2jz6yispmeirhwjl3wzi57nacddb@bjkb6kxyfcal>
+ <fbb046b9-be48-42d8-96b3-7e554484b625@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <5ddc8efe.1e6d2.1a11fbec860.Coremail.yunlong_ma@buaa.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:Nyz+CgCH1RqHo8hqCLYKAQ--.20183W
-X-CM-SenderInfo: l2esjjirrqmqpexdthxhgxhubq/1tbiAQIPDmdDD7ZQ-wAAsw
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWkKw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fbb046b9-be48-42d8-96b3-7e554484b625@linux.alibaba.com>
+X-Rspamd-Pre-Result: action=no action;
+	module=Unknown lua;
+	unknown reason
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Pre-Result: action=no action;
+	module=Unknown lua;
+	unknown reason
+X-Spamd-Result: default: False [0.00 / 50.00]
+X-Spam-Score: 0.00
 
-SGkgTWlrbG9zLAoKZnVzZV9kZXZfaW5zdGFsbF93aXRoX3BxKCkgcHVibGlzaGVzIGZ1ZC0+Y2hh
-biBiZWZvcmUgaXQgc3RvcmVzCmZ1ZC0+cHEucHJvY2Vzc2luZy4gVGhlIHdyaXRlL3NwbGljZV93
-cml0ZSBhbmQgcmVhZCBwYXRocyB0cmVhdCBhCm5vbi1OVUxMIGZ1ZC0+Y2hhbiBhcyAiaW5zdGFs
-bGVkIiBhbmQgdGhlbiB3YWxrIGZwcS0+cHJvY2Vzc2luZ1tdCndpdGhvdXQgdGFraW5nIGZjaC0+
-bG9jaywgc28gdGhleSBjYW4gc2VlIHRoZSBuZXcgY2hhbiB3aGlsZSBwcm9jZXNzaW5nCmlzIHN0
-aWxsIE5VTEwgYW5kIG9vcHMgaW4gZnVzZV9yZXF1ZXN0X2ZpbmQoKS4KCkludHJvZHVjZWQgYnk6
-CgogIDQ4NjQ5YzA2MDNiZCAoImZ1c2U6IGFsbG9jIHBxdWV1ZSBiZWZvcmUgaW5zdGFsbGluZyBm
-Y2ggaW4gZnVzZV9kZXYiKQoKVGhlIG9yZGVyaW5nIGlzIHVuY2hhbmdlZCBpbiBjdXJyZW50IG1h
-aW5saW5lLgoKRGV0YWlscwotLS0tLS0tCgpBIGZkIGZyb20gb3BlbigiL2Rldi9mdXNlIikgaXMg
-YWxsb2NhdGVkIHdpdGggZnVzZV9kZXZfYWxsb2Nfbm9fcHEoKSwgc28KcHEucHJvY2Vzc2luZyA9
-PSBOVUxMIHdoaWxlIHBxLmNvbm5lY3RlZCA9PSAxLiBJbgpmdXNlX2Rldl9pbnN0YWxsX3dpdGhf
-cHEoKSAodW5kZXIgZmNoLT5sb2NrKToKCiAgICBvbGRfZmNoID0gY21weGNoZygmZnVkLT5jaGFu
-LCBOVUxMLCBmY2gpOyAgIC8qIGNoYW4gcHVibGlzaGVkICovCiAgICAuLi4KICAgIGZ1ZC0+cHEu
-cHJvY2Vzc2luZyA9IHBxOyAgICAgICAgICAgICAgICAgICAgIC8qIHN0b3JlZCBhZnRlcndhcmRz
-ICovCgpmdXNlX2Rldl93cml0ZSgpIG9ubHkgZG9lcyBzbXBfbG9hZF9hY3F1aXJlKCZmdWQtPmNo
-YW4pIHZpYQpfX2Z1c2VfZ2V0X2RldigpIGFuZCBuZXZlciB0YWtlcyBmY2gtPmxvY2s6CgogIENQ
-VSBBOiBGVVNFX0RFVl9JT0NfQ0xPTkUgICAgICAgICAgIENQVSBCOiB3cml0ZShmZDIpCiAgLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAgICAgICAgICAgLS0tLS0tLS0tLS0tLS0tLS0KICBjbXB4
-Y2hnKCZmdWQtPmNoYW4sIE5VTEwsIGZjaCkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBfX2Z1c2VfZ2V0X2RldigpIHNlZXMgY2hhbgogICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIGZ1c2VfZGV2X2RvX3dyaXRlKCkKICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHNwaW5fbG9jaygmZnBxLT5sb2NrKQogICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgZnVzZV9yZXF1ZXN0X2ZpbmQoKQogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB3YWxrcyBmcHEtPnByb2Nlc3NpbmdbaGFzaF0K
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLT4gTlVMTCBkZXJlZgog
-IGZ1ZC0+cHEucHJvY2Vzc2luZyA9IHBxCgpmdXNlX2Rldl9yZWxlYXNlKCkgYWxyZWFkeSB0YWtl
-cyBmY2gtPmxvY2sgdG8gd2FpdCBmb3IKZnVzZV9kZXZfaW5zdGFsbF93aXRoX3BxKCkgdG8gZmlu
-aXNoOyB0aGUgcmVhZC93cml0ZSBwYXRocyBoYXZlIG5vCmVxdWl2YWxlbnQuIGZ1c2VfZGV2X2Rv
-X3JlYWQoKSBtb3ZpbmcgYSByZXF1ZXN0IG9udG8KZnBxLT5wcm9jZXNzaW5nW2hhc2hdIGhhcyB0
-aGUgc2FtZSBleHBvc3VyZS4KClRoaXMgbG9va3MgZGlmZmVyZW50IGZyb20gdGhlIENVU0UgZG91
-YmxlIHBxdWV1ZSBhbGxvY2F0aW9uIGZpeAooImZ1c2U6IGF2b2lkIGRvdWJsZSBwcXVldWUgYWxs
-b2NhdGlvbiBpbiBmdXNlX2Rldl9hbGxvY19pbnN0YWxsIiksCndoaWNoIGRvZXMgbm90IGNoYW5n
-ZSB0aGUgY2hhbiB2cy4gcHJvY2Vzc2luZyBvcmRlcmluZy4KClJlcHJvZHVjZXIKLS0tLS0tLS0t
-LQoKTWluaW1hbCBpbi1ndWVzdCBGVVNFIHNlcnZlciwgbm8gbGliZnVzZToKCiAgMS4gZmQxID0g
-b3BlbigiL2Rldi9mdXNlIik7IG1vdW50KCJmdXNlIiwgLi4uLCAiZmQ9PGZkMT4sLi4uIikuCiAg
-ICAgTm8gc3luYyBpbml0LCBzbyBtb3VudCByZXR1cm5zIHdpdGhvdXQgYW5zd2VyaW5nIEZVU0Vf
-SU5JVC4KICAyLiBXcml0ZXIgdGhyZWFkcyBvbiBvdGhlciBDUFVzIGxvb3Agb24KICAgICB3cml0
-ZShmZDIsIGZ1c2Vfb3V0X2hlYWRlcntsZW49MTYsIGVycm9yPTAsIHVuaXF1ZT0xfSkuCiAgMy4g
-TWFpbiB0aHJlYWQgbG9vcHM6IG9wZW4gYSBmcmVzaCBmZDIsIHB1Ymxpc2ggaXQgdG8gdGhlIHdy
-aXRlcnMsCiAgICAgaW9jdGwoZmQyLCBGVVNFX0RFVl9JT0NfQ0xPTkUsICZmZDEpLCB3YWl0IGZv
-ciBpbi1mbGlnaHQgd3JpdGVzLAogICAgIGNsb3NlKGZkMikuCgpUaGUgd2luZG93IGlzIGEgZmV3
-IGluc3RydWN0aW9ucyBpbnNpZGUgZmNoLT5sb2NrLiBJIGhpdCBpdCBvbiB2Ny4yLjkKKHJ1biBh
-cyByb290KSB3aXRoIHVkZWxheSgyMDApIGluc2VydGVkIGJldHdlZW4gdGhlIGNtcHhjaGcoKSBh
-bmQgdGhlCnBxLnByb2Nlc3Npbmcgc3RvcmUuIFRoYXQgb25seSB3aWRlbnMgdGhlIGV4aXN0aW5n
-IHdpbmRvdzsgbG9ja2luZyBhbmQKdGhlIG9yZGVyIG9mIHRoZSB0d28gc3RvcmVzIGFyZSB1bmNo
-YW5nZWQuIEkgaGF2ZSBub3QgaGl0IGl0IG9uIGFuCnVubW9kaWZpZWQga2VybmVsLiBSZXByb2R1
-Y2VyIHNvdXJjZSBhdmFpbGFibGUgb24gcmVxdWVzdC4KCk9vcHMgZXhjZXJwdCAodjcuMi45ICsg
-dGhlIHVkZWxheSwgNCB2Q1BVcywgS0NTQU4gb24pOgoKICBCVUc6IGtlcm5lbCBOVUxMIHBvaW50
-ZXIgZGVyZWZlcmVuY2UsIGFkZHJlc3M6IDAwMDAwMDAwMDAwMDAwMDAKICBSSVA6IDAwMTA6ZnVz
-ZV9kZXZfZG9fd3JpdGUrMHgyMDIvMHg3YzAKICBDYWxsIFRyYWNlOgogICBmdXNlX2Rldl93cml0
-ZSsweDEwOQogICB2ZnNfd3JpdGUKICAga3N5c193cml0ZQogICBfX3g2NF9zeXNfd3JpdGUKCmZh
-ZGRyMmxpbmUgcHV0cyArMHgyMDIgYXQgdGhlIGxpc3RfZm9yX2VhY2hfZW50cnkoKSBpbgpmdXNl
-X3JlcXVlc3RfZmluZCgpIChpbmxpbmVkKSwgYW5kICsweDE4ZSBhdCB0aGUgcHJlY2VkaW5nCnNw
-aW5fbG9jaygmZnBxLT5sb2NrKS4gVGhlIG9vcHNpbmcgdGFzayBleGl0cyB3aXRoIHByZWVtcHRf
-Y291bnQgMSwKc3RpbGwgaG9sZGluZyBmcHEtPmxvY2ssIGFuZCBhbm90aGVyIHdyaXRlciB0aGVu
-IHNvZnQtbG9ja3MgaW4KcXVldWVkX3NwaW5fbG9ja19zbG93cGF0aCBmcm9tIGZ1c2VfZGV2X2Rv
-X3dyaXRlKzB4MThlLgoKSW1wYWN0OiBrZXJuZWwgb29wcyBwbHVzIGEgc3R1Y2sgZmQgKERvUyku
-IFRoZSB0cmlnZ2VyIG5lZWRzIGEgbW91bnRlZApGVVNFIGNvbm5lY3Rpb24gcGx1cyBGVVNFX0RF
-Vl9JT0NfQ0xPTkUgb3IgYSByYWNpbmcgd3JpdGU7IEkgZXhwZWN0IGl0CmlzIHJlYWNoYWJsZSBi
-eSB1c2VycyB3aG8gY2FuIG1vdW50IEZVU0UgKGZ1c2VybW91bnQgLyB1c2VybnMpLCBidXQgSQpv
-bmx5IHRlc3RlZCBhcyByb290LgoKRml4IGRpcmVjdGlvbgotLS0tLS0tLS0tLS0tCgpJIGRvbid0
-IGhhdmUgYSB0ZXN0ZWQgcGF0Y2guIFRoZSBvYnZpb3VzIGRpcmVjdGlvbiBpcyB0byBtYWtlCnBx
-LnByb2Nlc3NpbmcgdmlzaWJsZSBiZWZvcmUgY2hhbiBpcyBwdWJsaXNoZWQuIE9uZSBjYXZlYXQ6
-IHR3bwppbnN0YWxscyBvbiB0aGUgc2FtZSBmdWQgY2FuIGNvbWUgZnJvbSBkaWZmZXJlbnQgY29u
-bmVjdGlvbnMgKGUuZy4gdHdvCkZVU0VfREVWX0lPQ19DTE9ORSBjYWxscyBvbiB0aGUgc2FtZSBm
-cmVzaCBmZCB3aXRoIGRpZmZlcmVudCBzb3VyY2UKZmRzKS4gVGhleSBob2xkIGRpZmZlcmVudCBm
-Y2gtPmxvY2ssIHNvIG9ubHkgdGhlIGNtcHhjaGcoKSBvcmRlcnMgdGhlbQp0b2RheS4gU2ltcGx5
-IHN0b3JpbmcgcHJvY2Vzc2luZyBmaXJzdCBhbmQgcm9sbGluZyBiYWNrIHdoZW4gdGhlCmNtcHhj
-aGcoKSBmYWlscyBsZXRzIHRoZSBsb3NlciBjbGVhciBhbmQgZnJlZSB0aGUgcXVldWUgdGhlIHdp
-bm5lcgplbmRlZCB1cCB3aXRoLiBTZXJpYWxpemluZyBpbnN0YWxscyBwZXIgZnVkLCBvciBrZWVw
-aW5nIHBxLmNvbm5lY3RlZCBhdAowIHVudGlsIHByb2Nlc3NpbmcgaXMgc2V0ICh1bmRlciBmcHEt
-PmxvY2spIHNvIHRoZSBleGlzdGluZyBjb25uZWN0ZWQKY2hlY2tzIHJlamVjdCB0aGUgaGFsZi1p
-bnN0YWxsZWQgZGV2aWNlLCBtaWdodCBiZSBzaW1wbGVyLiBJJ20gaGFwcHkgdG8KdGVzdCB3aGF0
-ZXZlciB5b3UgcHJlZmVyLgoKVGhhbmtzLApZdW5sb25nIE1h
+On Fri, Oct 09, 2026 at 02:46:18PM +0800, Baolin Wang wrote:
+> 
+> 
+> On 10/8/26 5:24 PM, Jan Kara wrote:
+> > On Sun 04-10-26 22:28:31, Andrew Morton wrote:
+> > > On Sat,  3 Oct 2026 03:31:03 +0000 Ayush Ranjan <ayushr@modal.com> wrote:
+> > > > Gentle ping on this. The reproducer in my previous mail [1] triggers
+> > > > "Bad page cache ... still mapped when deleted" on 6.18.46 within a
+> > > > couple of minutes on a 128-CPU bare-metal box, with no fork() and no
+> > > > gVisor involved.
+> > > > 
+> > > > We continue to hit this in production at low frequency, so I am happy
+> > > > to test patches or collect more data if that would help.
+> > > > 
+> > > 
+> > > fwiw I made gpt and gemini argue about this for a while and ended up
+> > > with the below.
+> > 
+> > Worth a try I guess. Let's see :)
+> > 
+> > > From: Andrew Morton <akpm@linux-foundation.org>
+> > > Subject: mm: shmem: serialize fault-around against hole punching
+> > > Date: Sun Oct 4 09:05:31 PM PDT 2026
+> > > 
+> > > shmem uses filemap_map_pages() for fault-around.  Unlike shmem_fault(),
+> > > filemap_map_pages() does not participate in shmem's fallocate exclusion
+> > > protocol.
+> > > 
+> > > During a partial hole punch of a large shmem folio, the folio can be split
+> > > and the resulting smaller folios can remain temporarily visible in the page
+> > > cache while shmem_undo_range() restarts its walk.  Fault-around can then map
+> > > one of those folios again before the hole-punch path removes it.
+> > > 
+> > > shmem_undo_range() may subsequently delete that folio from the page cache
+> > > despite the new userspace mapping.  This can trigger "still mapped when
+> > > deleted" warnings and leave stale mappings or inconsistent RSS/page-table
+> > > accounting behind.
+> > 
+> > So this part of explanation is either incomplete or wrong in my opinion.
+> > Yes, shmem_undo_range() calls truncate_inode_partial_folio() which can
+> > split a large folio. Yes, filemap_map_pages() can map those pages back into
+> > page tables. But how "shmem_undo_range() may subsequently delete that folio
+> > from the page cache despite the new userspace mapping" happens is unclear
+> > to me. After splitting a folio, shmem_undo_range() will restart and find the
+> > newly split (and mapped) folios and calls truncate_inode_folio() to get rid
+> > of them. Now truncate_inode_folio() calls truncate_cleanup_folio() which
+> > does:
+> > 
+> >          if (folio_mapped(folio))
+> >                  unmap_mapping_folio(folio);
+> > 
+> > so the mapping is reliably removed under folio lock. Can you perhaps push
+> > your agents further to explain in more detail how this "still mapped when
+> > deleted" happens in their opinion?
+> 
+> Good point and I think you are right.
+> 
+> Yesterday I quickly reproduced the issue with Ayush's reproducer, and I got
+> the following crash info. From the dump message, we can see that
+> truncate_inode_folio() is really trying to remove mapped folios, which is
+> incorrect.
+> 
+> I also quickly tried Andrew's patch, and the issue no longer reproduces, so
+> I initially thought that was the root cause. But after your reminder, I now
+> believe Andrew's patch merely workaround the issue rather than fixing the
+> actual root cause.
+> 
+> Today I'm going to re-analyze the race with the reproducer (thanks Ayush).
+> 
+> After analysis, I believe the race exists between truncation and
+> MADV_DONTNEED, and shmem's fault_around() merely makes the issue easier to
+> reproduce. Since MADV_DONTNEED synchronously releases the pagetable page
+> before calling tlb_flush_rmaps(), this could cause another thread's
+> truncation to skip zap_pte_range() but still observe the folio's mapcount as
+> non-zero. A possible race scenario is as follows:
+> 
+> CPU 0				CPU 1
+> 				madvise_dontneed_single_vma
+> shmem_fallocate			......
+>   ......			  zap_pte_range
+>   truncate_inode_folio		    zap_empty_pte_table(pmd clear)		
+>     unmap_mapping_folio		
+>     ......
+>       zap_pmd_range(saw pmd none)
+>     filemap_remove_folio
+>        BUG_ON(folio_mapped)
+> 				    tlb_flush_rmaps
+
+Thanks for the investigation!
+
+So, I think I understand the problem (rmap walks race PTE zapping, which no
+longer serializes on the PTE lock), but I don't understand your solution at
+all.
+> 
+> Based on the above race analysis, I made the following fix that uses the PMD
+> lock synchronously to prevent this race, and the issue no longer reproduces.
+> I will clean it up and send out a formal patch.
+> 
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 6a8e7772b8d6..2039ada99b64 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -2036,6 +2036,15 @@ static unsigned long zap_pte_range(struct mmu_gather
+> *tlb,
+>                 }
+>         } while (pte += nr, addr += PAGE_SIZE * nr, addr != end);
+> 
+> +       add_mm_rss_vec(mm, rss);
+> +       lazy_mmu_mode_disable();
+> +
+> +       /* Do the actual TLB flush before dropping ptl */
+> +       if (force_flush) {
+> +               tlb_flush_mmu_tlbonly(tlb);
+> +               tlb_flush_rmaps(tlb, vma);
+> +       }
+> +
+>         /*
+>          * Fast path: try to hold the pmd lock and unmap the PTE page.
+>          *
+> @@ -2046,15 +2055,6 @@ static unsigned long zap_pte_range(struct mmu_gather
+> *tlb,
+>          */
+>         if (can_reclaim_pt && direct_reclaim && addr == end)
+>                 direct_reclaim = zap_empty_pte_table(mm, pmd, ptl, &pmdval);
+> -
+> -       add_mm_rss_vec(mm, rss);
+> -       lazy_mmu_mode_disable();
+> -
+> -       /* Do the actual TLB flush before dropping ptl */
+> -       if (force_flush) {
+> -               tlb_flush_mmu_tlbonly(tlb);
+> -               tlb_flush_rmaps(tlb, vma);
+> -       }
+>         pte_unmap_unlock(start_pte, ptl);
+
+Namely, why moving this hunk of code up there makes any difference.
+I suppose it's subtly changing memory order, but it's not immediate
+in any way why this is correct.
+
+What you really need (I think) is a happens-before relationship between
+the rmap changes and the PMD zapping. Something like:
+
+diff --git a/mm/memory.c b/mm/memory.c
+index 330cde31bf8b..17cdd48fff27 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -2108,6 +2108,13 @@ static inline unsigned long zap_pmd_range(struct mmu_gather *tlb,
+                        sync_with_folio_pmd_zap(tlb->mm, pmd);
+                }
+                if (pmd_none(*pmd)) {
++                       /*
++                        * Pairs with tlb_flush_rmaps() in PTE zapping.
++                        * Possibly skipping a page table (due to PTE zapping)
++                        * needs to enforce ordering between the rmap changes
++                        * and the PMD getting cleared.
++                        */
++                       smp_rmb();
+                        addr = next;
+                        continue;
+                }
+diff --git a/mm/mmu_gather.c b/mm/mmu_gather.c
+index 9f353f0e2ef4..47b25c42bf77 100644
+--- a/mm/mmu_gather.c
++++ b/mm/mmu_gather.c
+@@ -89,6 +89,10 @@ void tlb_flush_rmaps(struct mmu_gather *tlb, struct vm_area_struct *vma)
+        tlb_flush_rmap_batch(&tlb->local, vma);
+        if (tlb->active != &tlb->local)
+                tlb_flush_rmap_batch(tlb->active, vma);
++       /*
++        * rmap changes need to be observed before e.g PTEs get zapped.
++        */
++       smp_wmb();
+        tlb->delayed_rmap = 0;
+ }
+ #endif
+
+On top of your diff. Where the smp_wmb() is perhaps not required: I suppose TLB flushing
+works as a sort of memory barrier itself on most/all architectures.
+Either way, we have to document and fix expectations around this code.
+
+> 
+>         /*
+> @@ -2103,7 +2103,6 @@ static inline unsigned long zap_pmd_range(struct
+> mmu_gather *tlb,
+>                         }
+>                         /* fall through */
+>                 } else if (details && details->single_folio &&
+> -                          folio_test_pmd_mappable(details->single_folio) &&
+
+Why?
+
+-- 
+Pedro
