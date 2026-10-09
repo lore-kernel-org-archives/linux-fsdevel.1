@@ -1,27 +1,27 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1CA4B95BB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6628C4B405F;
 	Fri,  9 Oct 2026 10:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791542729; cv=none; b=c6ChL1jo4vvnockJXWKKA6GaSnMh8i9jcydUNX+gjZQ6m6949azweO+okhlkuYoHpU7zLjWMzaLQt8u+pchaacUW6O3WWNjpRr29ok8mLGpyIxuU7FyUSvpLuNMuH3BNDCZ+yy8FIuZl1dKQsBG3a3JK/kybEBhgkpP2Tfm7ByM=
+	t=1791542738; cv=none; b=baj8ZkfNNvQKFSkEtAuWELqQfHjljFBx9eep8+RQuLBe2MS5JO9spaDiY4KI89rLFpkVEcQsy+JmHk0pEz+triqGlP4/QJXnBiQag5SLT3h+DNRbuvDK+rLwAjh27vCOoYySHwqn8lvICmvbzruwV9clY2CaSWQOTfyC17xvYVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791542729; c=relaxed/simple;
-	bh=iECYlr3bMuNBBbuvYrJ55uDpgKBGiWYTc71+OIOFe3c=;
+	s=arc-20240116; t=1791542738; c=relaxed/simple;
+	bh=lTVQNSVZmr5VglOCV+yaDMFr6zJ3wIqghKj5lOCLz9E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Omx2dbS5wQaWHm/IuBRMViYjoo3CibNotGSqfYgqpp+5eae80s1//zZPJ0w8y6SEQbWqPySvnXRyiADGoFXQZDKD38m5VVorlLJGrnDdbzXX+0JZJ3hqHKgKFyxP1XhCPmX0+c6wXyQTVXORwZFZ2t09P5IYU/2nRwNda8X7/Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+	 MIME-Version; b=mxexiZ5NW1UYzGy7U9hY+COxFpxWYGL8DewbcMXB/hNLQFx0UoVbHqyU9fHldroYQ42KXRblRVeCIjg4UlpIujWKB7JbpVeOqd9nxUpKLefOmvkrSmvMs1+IxpJlwcUEPTL4H+tQ6+KZhyQVrBbb/W0PksJM7fP7bPoz92iWX3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j1Nll5n3mzYQv3g;
-	Fri,  9 Oct 2026 18:44:35 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4j1Nlc1xkzzKHMnP;
+	Fri,  9 Oct 2026 18:44:28 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 043E440917;
+	by mail.maildlp.com (Postfix) with ESMTP id 374B04056F;
 	Fri,  9 Oct 2026 18:45:20 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgD3xim0xchqcxdfDQ--.55186S4;
+	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgD3xim0xchqcxdfDQ--.55186S6;
 	Fri, 09 Oct 2026 18:45:19 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-ext4@vger.kernel.org,
@@ -42,9 +42,9 @@ Cc: linux-kernel@vger.kernel.org,
 	yangerkun@huawei.com,
 	wangkefeng.wang@huawei.com,
 	yukuai@fnnas.com
-Subject: [PATCH v7 29/31] ext4: add tracepoints for EOF block zeroing and disksize-grow I/O
-Date: Fri,  9 Oct 2026 18:38:29 +0800
-Message-ID: <20261009103831.2978767-1-yi.zhang@huaweicloud.com>
+Subject: [PATCH v7 31/31] ext4: introduce a mount option for iomap buffered I/O path
+Date: Fri,  9 Oct 2026 18:38:31 +0800
+Message-ID: <20261009103831.2978767-3-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20261009103033.2920530-1-yi.zhang@huaweicloud.com>
 References: <20261009103033.2920530-1-yi.zhang@huaweicloud.com>
@@ -55,257 +55,111 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgD3xim0xchqcxdfDQ--.55186S4
-X-Coremail-Antispam: 1UD129KBjvJXoW3Gw4rZF4xXFyDGr4rCFW7Arb_yoWfGw1Upw
-	1DCr98Gw1kJr1Y9r4IqryIqr4FvayruF4UJF9ruFWjv3y0vFn7tF47KFyDuFyvyrsFywsF
-	gF4vkrZ5G3W8Xr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
-	JVW0owA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Xr0_Ar
-	1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4UJVW0owCI42IY6xAIw20EY4v20xvaj40_Jr0_
-	JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVWxJr0_GcJvcS
-	sGvfC2KfnxnUUI43ZEXa7sRRbyCPUUUUU==
+X-CM-TRANSID:gCh0CgD3xim0xchqcxdfDQ--.55186S6
+X-Coremail-Antispam: 1UD129KBjvJXoWxWr47Kr15Gr1xZry3ZFy7KFg_yoWrGr48pr
+	Z8KFyrGr1kXryF9w48uF4kXr1Fy3Waka1UCrWFgrnrGa9rAryIqFyxKF15AF4agrW8X340
+	qF1rWw17Wa17CrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr1j6rxdM2
+	8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+	IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+	xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW5JVW7JwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Cr1j6rxdMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26F4UJVW0obIYCTnIWIev
+	Ja73UjIFyTuYvjTR_3kZDUUUU
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Add tracepoints to track the disksize-grow-pending lifecycle in the
-writeback path and the block-zero-EOF entry point:
+Since the iomap buffered I/O path does not yet support all existing ext4
+features, it cannot be enabled by default. Introduce the
+'buffered_iomap' and 'nobuffered_iomap' mount options to explicitly
+enable or disable the iomap buffered I/O path for regular files.
 
-- ext4_iomap_wb_disksize_pending_submit: ioend is marked as
-  DISKSIZE_GROW_IO in ext4_iomap_writeback_submit().
-- ext4_iomap_wb_disksize_pending_complete: ioend of type
-  DISKSIZE_GROW_IO completes in ext4_iomap_finish_ioend().
-- ext4_iomap_wb_disksize_pending_wait: ioend worker waits for the
-  pending zeroed EOF block to complete.
-- ext4_iomap_wb_update_disksize: i_disksize is advanced in
-  ext4_iomap_wb_update_disksize, including the new value and
-  whether the update is a disksize-grow completion.
-- ext4_block_zero_eof: ext4_block_zero_eof is called with the range
-  and zeroing outcome, capturing the producer-side entry point.
-
-Together with the previous mark/clear/wait tracepoints, these cover the
-full lifetime of the disksize-grow-pending state.
+Toggling this option via remount is allowed. The change of I/O path will
+not take effect immediately. It will be deferred. The new setting will
+only take effect after the inode is re-initialized (i.e., after the last
+reference is dropped and the inode is re-read from disk).
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 ---
- fs/ext4/inode.c             |   3 +
- fs/ext4/page-io.c           |  11 ++-
- include/trace/events/ext4.h | 129 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 142 insertions(+), 1 deletion(-)
+ fs/ext4/ext4.h  | 1 +
+ fs/ext4/inode.c | 6 ++++++
+ fs/ext4/super.c | 7 +++++++
+ 3 files changed, 14 insertions(+)
 
+diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+index 405e256a1802b..8cfe77b45e21b 100644
+--- a/fs/ext4/ext4.h
++++ b/fs/ext4/ext4.h
+@@ -1321,6 +1321,7 @@ struct ext4_inode_info {
+ 						    * scanning in mballoc
+ 						    */
+ #define EXT4_MOUNT2_ABORT		0x00000100 /* Abort filesystem */
++#define EXT4_MOUNT2_BUFFERED_IOMAP	0x00000200 /* Use iomap for buffered I/O */
+ 
+ #define clear_opt(sb, opt)		EXT4_SB(sb)->s_mount_opt &= \
+ 						~EXT4_MOUNT_##opt
 diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 920760ab6ea7b..c3a6f3dce3d86 100644
+index a07ce368e6e82..1853fbdc2a5af 100644
 --- a/fs/ext4/inode.c
 +++ b/fs/ext4/inode.c
-@@ -4417,6 +4417,8 @@ static int ext4_iomap_writeback_submit(struct iomap_writepage_ctx *wpc,
- 	    round_down(ioend->io_offset, blocksize) <= pstart &&
- 	    round_up(ioend->io_offset + ioend->io_size, blocksize) >=
- 			pstart + plen) {
-+		trace_ext4_iomap_wb_disksize_pending_submit(inode,
-+				ioend->io_offset, ioend->io_size);
- 		ioend->io_bio.bi_end_io = ext4_iomap_end_bio;
- 		ioend->io_private = (void *)EXT4_IOMAP_IOEND_DISKSIZE_GROW_IO;
- 	}
-@@ -5033,6 +5035,7 @@ int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end)
- 			return err;
- 	}
+@@ -6125,11 +6125,17 @@ static int check_igot_inode(struct inode *inode, ext4_iget_flags flags,
+  * For extent-to-indirect block migration (via EXT4_IOC_SETFLAGS
+  * clearing EXT4_EXTENTS_FL), this operation is directly rejected for
+  * inodes using the iomap path.
++ *
++ * When remounting to toggle the buffered_iomap mount option, the change
++ * of I/O path is deferred as well, it will be available after the inode
++ * is re-initialized.
+  */
+ void ext4_enable_buffered_iomap(struct inode *inode)
+ {
+ 	struct super_block *sb = inode->i_sb;
  
-+	trace_ext4_block_zero_eof(inode, from, length, did_zero, zero_written);
- 	return 0;
- }
- 
-diff --git a/fs/ext4/page-io.c b/fs/ext4/page-io.c
-index 4f1176b9332f2..734d856a6d478 100644
---- a/fs/ext4/page-io.c
-+++ b/fs/ext4/page-io.c
-@@ -31,6 +31,8 @@
- #include "xattr.h"
- #include "acl.h"
- 
-+#include <trace/events/ext4.h>
-+
- static struct kmem_cache *io_end_cachep;
- static struct kmem_cache *io_end_vec_cachep;
- 
-@@ -574,6 +576,7 @@ static void ext4_iomap_wb_disksize_pending_wait(struct inode *inode,
- 	if (!plen || pos < pstart + plen)
++	if (!test_opt2(sb, BUFFERED_IOMAP))
++		return;
+ 	if (!S_ISREG(inode->i_mode))
  		return;
- 
-+	trace_ext4_iomap_wb_disksize_pending_wait(inode, pos, size);
- 	ext4_iomap_wait_disksize_pending(inode);
- }
- 
-@@ -617,8 +620,11 @@ static int ext4_iomap_wb_update_disksize(handle_t *handle, struct inode *inode,
- 	 * after the data has been persisted.
- 	 */
- 	new_disksize = is_disksize_grow ? i_size : min(end, i_size);
--	if (new_disksize > ei->i_disksize)
-+	if (new_disksize > ei->i_disksize) {
-+		trace_ext4_iomap_wb_update_disksize(inode, end, i_size,
-+				ei->i_disksize, new_disksize, is_disksize_grow);
- 		WRITE_ONCE(ei->i_disksize, new_disksize);
-+	}
- 	up_write(&ei->i_data_sem);
- 	ret = ext4_mark_inode_dirty(handle, inode);
- 	if (ret)
-@@ -641,6 +647,9 @@ static void ext4_iomap_finish_ioend(struct iomap_ioend *ioend)
- 	int ret, err;
- 
- 	ret = blk_status_to_errno(ioend->io_bio.bi_status);
-+	if (is_disksize_grow)
-+		trace_ext4_iomap_wb_disksize_pending_complete(ioend->io_inode,
-+				ioend->io_offset, ioend->io_size, ret);
- 	if (unlikely(ret)) {
- 		if (test_opt(sb, DATA_ERR_ABORT) && !ext4_emergency_state(sb))
- 			jbd2_journal_abort(EXT4_SB(sb)->s_journal, ret);
-diff --git a/include/trace/events/ext4.h b/include/trace/events/ext4.h
-index d33456d06b001..92048da9dae43 100644
---- a/include/trace/events/ext4.h
-+++ b/include/trace/events/ext4.h
-@@ -3237,6 +3237,135 @@ DEFINE_EVENT(ext4_iomap_disksize_pending, ext4_iomap_wait_disksize_pending,
- 	TP_ARGS(inode)
- );
- 
-+/* disksize pending I/O tracepoints for iomap Buffered I/O path */
-+DECLARE_EVENT_CLASS(ext4_iomap_wb_disksize_pending,
-+	TP_PROTO(struct inode *inode, loff_t io_offset, size_t io_size),
-+	TP_ARGS(inode, io_offset, io_size),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(u64, ino)
-+		__field(loff_t, io_offset)
-+		__field(size_t, io_size)
-+		__field(loff_t, i_size)
-+		__field(loff_t, i_disksize)
-+	),
-+	TP_fast_assign(
-+		__entry->dev = inode->i_sb->s_dev;
-+		__entry->ino = inode->i_ino;
-+		__entry->io_offset = io_offset;
-+		__entry->io_size = io_size;
-+		__entry->i_size = i_size_read(inode);
-+		__entry->i_disksize = READ_ONCE(EXT4_I(inode)->i_disksize);
-+	),
-+	TP_printk("dev %d:%d ino %llu io_offset %lld io_size %zu i_size %lld i_disksize %lld",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->io_offset, __entry->io_size,
-+		  __entry->i_size, __entry->i_disksize)
-+);
-+
-+DEFINE_EVENT(ext4_iomap_wb_disksize_pending,
-+	ext4_iomap_wb_disksize_pending_submit,
-+	TP_PROTO(struct inode *inode, loff_t io_offset, size_t io_size),
-+	TP_ARGS(inode, io_offset, io_size)
-+);
-+
-+DEFINE_EVENT(ext4_iomap_wb_disksize_pending,
-+	ext4_iomap_wb_disksize_pending_wait,
-+	TP_PROTO(struct inode *inode, loff_t io_offset, size_t io_size),
-+	TP_ARGS(inode, io_offset, io_size)
-+);
-+
-+TRACE_EVENT(ext4_iomap_wb_disksize_pending_complete,
-+	TP_PROTO(struct inode *inode, loff_t io_offset, size_t io_size,
-+		 int ret),
-+	TP_ARGS(inode, io_offset, io_size, ret),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(u64, ino)
-+		__field(loff_t, io_offset)
-+		__field(size_t, io_size)
-+		__field(loff_t, i_size)
-+		__field(loff_t, i_disksize)
-+		__field(int, ret)
-+	),
-+	TP_fast_assign(
-+		__entry->dev = inode->i_sb->s_dev;
-+		__entry->ino = inode->i_ino;
-+		__entry->io_offset = io_offset;
-+		__entry->io_size = io_size;
-+		__entry->i_size = i_size_read(inode);
-+		__entry->i_disksize = READ_ONCE(EXT4_I(inode)->i_disksize);
-+		__entry->ret = ret;
-+	),
-+	TP_printk("dev %d:%d ino %llu io_offset %lld io_size %zu ret %d i_size %lld i_disksize %lld",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->io_offset, __entry->io_size,
-+		  __entry->ret, __entry->i_size, __entry->i_disksize)
-+);
-+
-+/* i_disksize update tracepoint */
-+TRACE_EVENT(ext4_iomap_wb_update_disksize,
-+	TP_PROTO(struct inode *inode, loff_t end, loff_t i_size,
-+		 loff_t i_disksize, loff_t new_disksize,
-+		 bool is_disksize_grow),
-+	TP_ARGS(inode, end, i_size, i_disksize, new_disksize,
-+		is_disksize_grow),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(u64, ino)
-+		__field(loff_t, end)
-+		__field(loff_t, i_size)
-+		__field(loff_t, i_disksize)
-+		__field(loff_t, new_disksize)
-+		__field(bool, is_disksize_grow)
-+	),
-+	TP_fast_assign(
-+		__entry->dev = inode->i_sb->s_dev;
-+		__entry->ino = inode->i_ino;
-+		__entry->end = end;
-+		__entry->i_size = i_size;
-+		__entry->i_disksize = i_disksize;
-+		__entry->new_disksize = new_disksize;
-+		__entry->is_disksize_grow = is_disksize_grow;
-+	),
-+	TP_printk("dev %d:%d ino %llu end %lld i_size %lld i_disksize %lld new_disksize %lld is_disksize_grow %d",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->end, __entry->i_size,
-+		  __entry->i_disksize, __entry->new_disksize,
-+		  __entry->is_disksize_grow)
-+);
-+
-+/* Block zero EOF tracepoint */
-+TRACE_EVENT(ext4_block_zero_eof,
-+	TP_PROTO(struct inode *inode, loff_t from, loff_t length,
-+		 bool did_zero, bool zero_written),
-+	TP_ARGS(inode, from, length, did_zero, zero_written),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(u64, ino)
-+		__field(loff_t, from)
-+		__field(loff_t, length)
-+		__field(loff_t, i_size)
-+		__field(loff_t, i_disksize)
-+		__field(bool, did_zero)
-+		__field(bool, zero_written)
-+	),
-+	TP_fast_assign(
-+		__entry->dev = inode->i_sb->s_dev;
-+		__entry->ino = inode->i_ino;
-+		__entry->from = from;
-+		__entry->length = length;
-+		__entry->i_size = inode->i_size;
-+		__entry->i_disksize = READ_ONCE(EXT4_I(inode)->i_disksize);
-+		__entry->did_zero = did_zero;
-+		__entry->zero_written = zero_written;
-+	),
-+	TP_printk("dev %d:%d ino %llu zero EOF from %lld length %lld i_size %lld i_disksize %lld did_zero %d zero_written %d",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev), __entry->ino,
-+		  __entry->from, __entry->length, __entry->i_size,
-+		  __entry->i_disksize, __entry->did_zero, __entry->zero_written)
-+);
-+
- #endif /* _TRACE_EXT4_H */
- 
- /* This part must be outside protection */
+ 	if (ext4_test_inode_flag(inode, EXT4_INODE_EA_INODE))
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index 73735fd336b91..7db34ba0ea593 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -1747,6 +1747,7 @@ enum {
+ 	Opt_discard, Opt_nodiscard, Opt_init_itable, Opt_noinit_itable,
+ 	Opt_max_dir_size_kb, Opt_nojournal_checksum, Opt_nombcache,
+ 	Opt_no_prefetch_block_bitmaps, Opt_mb_optimize_scan,
++	Opt_buffered_iomap, Opt_nobuffered_iomap,
+ 	Opt_errors, Opt_data, Opt_data_err, Opt_jqfmt, Opt_dax_type,
+ #ifdef CONFIG_EXT4_DEBUG
+ 	Opt_fc_debug_max_replay, Opt_fc_debug_force
+@@ -1885,6 +1886,8 @@ static const struct fs_parameter_spec ext4_param_specs[] = {
+ 	fsparam_flag	("no_prefetch_block_bitmaps",
+ 						Opt_no_prefetch_block_bitmaps),
+ 	fsparam_s32	("mb_optimize_scan",	Opt_mb_optimize_scan),
++	fsparam_flag	("buffered_iomap",	Opt_buffered_iomap),
++	fsparam_flag	("nobuffered_iomap",	Opt_nobuffered_iomap),
+ 	fsparam_string	("check",		Opt_removed),	/* mount option from ext2/3 */
+ 	fsparam_flag	("nocheck",		Opt_removed),	/* mount option from ext2/3 */
+ 	fsparam_flag	("reservation",		Opt_removed),	/* mount option from ext2/3 */
+@@ -1978,6 +1981,10 @@ static const struct mount_opts {
+ 	{Opt_nombcache, EXT4_MOUNT_NO_MBCACHE, MOPT_SET},
+ 	{Opt_no_prefetch_block_bitmaps, EXT4_MOUNT_NO_PREFETCH_BLOCK_BITMAPS,
+ 	 MOPT_SET},
++	{Opt_buffered_iomap, EXT4_MOUNT2_BUFFERED_IOMAP,
++	 MOPT_SET | MOPT_2 | MOPT_EXT4_ONLY},
++	{Opt_nobuffered_iomap, EXT4_MOUNT2_BUFFERED_IOMAP,
++	 MOPT_CLEAR | MOPT_2 | MOPT_EXT4_ONLY},
+ #ifdef CONFIG_EXT4_DEBUG
+ 	{Opt_fc_debug_force, EXT4_MOUNT2_JOURNAL_FAST_COMMIT,
+ 	 MOPT_SET | MOPT_2 | MOPT_EXT4_ONLY},
 -- 
 2.52.0
 
