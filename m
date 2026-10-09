@@ -1,48 +1,48 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186414D37CB;
-	Fri,  9 Oct 2026 17:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB88A4E0B6E;
+	Fri,  9 Oct 2026 17:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791566257; cv=none; b=H6pBc0SkvJukbnF2Dj/FAKDF9auA8YfOUrr9kqEn1FOHKDJUkvrfRRPiQ4VN6afQGs/LKZdoALLWY25TIG/ldut9r6qDEvEcco6yECIoCqfmnlQYZzgdYJx5pcewfsh9y/9nE46rcpXMsq8vXMrpooQPvUfT1ZQTJPZGsTc5yiQ=
+	t=1791566261; cv=none; b=tb07C8zxG1kCGZwoo1gH8BeVzduPwWujUTwyUuZ5TME1Y374BmpqoPYLQxm3o2afGy3tTOfCxNDBWU08mFPEZuFYHeLTYAAQg9AWFjkwAgCUP+rTEkeR2xTqlhTBd91pWOoVpnxKSDrfZOX77GArUGNuyfnxKHYfQGzhR/F1X+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791566257; c=relaxed/simple;
-	bh=YjaMT3OPgFH+qHuo1tAPPVwRb/PdxtIA49xzTbf1JN8=;
+	s=arc-20240116; t=1791566261; c=relaxed/simple;
+	bh=iXvwLcCV5A2D0tezmDF+fuguR3oz08IBevn9vq8GAkM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NuEnGnBfbvw1ZxlE8PGLIxxF48QZolyQhsCUPGfD2nPwwXndtiFAhFBczcZbMJmbXa48gF/gz5bhtQ/6oksYx73QPKIczOzWqz29RdghfHahFeaMvzxEh7QYOPP76A5pw9eCtSgUUphXOZIgEYKIG22J5Xl37aonXyvd+Sy1apg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=pLMj8G6K; arc=none smtp.client-ip=35.157.23.187
+	 MIME-Version:Content-Type; b=bjcI4R/8IImUfME0Hrn2AySR4Bmt9gJE/VX+ZjKVxwKjDkcTd4jj5AqNxDnXvxkrlCdBS2ql/EPFZSW9xXe0W8FpKI8x8ahvl2T00M2CYSkuSwr2VDc8+ZK3VnwfLN+XhwPpy9Qw0NUclLggmVlUnWJ4NV1Zl47Q+TWRxYoiMIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=U4jPoz9L; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="pLMj8G6K"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="U4jPoz9L"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 6E8611D60;
-	Fri,  9 Oct 2026 17:18:25 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 0949C1D6E;
+	Fri,  9 Oct 2026 17:18:28 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=pLMj8G6K;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=U4jPoz9L;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 3A65221AD;
-	Fri,  9 Oct 2026 17:17:34 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id C70D321AD;
+	Fri,  9 Oct 2026 17:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1791566254;
-	bh=Q7amg81RcIuZNMKWEzMEECcWC7mA3QoEq36jZRiyDzk=;
+	d=paragon-software.com; s=mail; t=1791566256;
+	bh=SnVT2NSmf5BohIaNNnFatw3jHWjFSN6nZ5HtyKz4B9E=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=pLMj8G6Kh7E3JSbmAy3MpRNHqBXysd/mbx/wKnTpJmFB/3jOjW0qOijqHRAxsQcfX
-	 ZEcWFswUc83rVg47auVWcixFoQezwqStXnMSpDnjKqr6n5bt9KOf3TUuLn4FDA7OOq
-	 RQMUvkdGwG8XQVpAL05ks0iHmpa7ysOb0rgiDBeQ=
+	b=U4jPoz9LIPwcDOGIHF5/drqV6zi+FsQBkPgEgvl/UdGmrCphtLrvGKdJxqeYOxRzy
+	 ZM0vhuZ9Ws+p4IPU2jknMsxrLlkROnGEYUwSHwu28d9gcBPSm+93JDnhED6AUe7JtJ
+	 jcRCvobWGo/WvokLVniWHlpQgiH3fsHMp/Gl8wxI=
 Received: from localhost.localdomain (172.30.20.199) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 9 Oct 2026 20:17:33 +0300
+ 15.1.2375.7; Fri, 9 Oct 2026 20:17:35 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
 CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 07/11] fs/ntfs3: allow a zero cluster count for resident attributes
-Date: Fri, 9 Oct 2026 19:17:00 +0200
-Message-ID: <20261009171704.11379-8-almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH 08/11] fs/ntfs3: reserve a compression unit in maxbytes_sparse
+Date: Fri, 9 Oct 2026 19:17:01 +0200
+Message-ID: <20261009171704.11379-9-almaz.alexandrovich@paragon-software.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261009171704.11379-1-almaz.alexandrovich@paragon-software.com>
 References: <20261009171704.11379-1-almaz.alexandrovich@paragon-software.com>
@@ -57,50 +57,37 @@ Content-Type: text/plain
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-ntfs_iomap_begin() rejected a zero cluster count from
-attr_data_get_block() as corruption. For a resident attribute this is
-a normal result: the data lives in the MFT record, so no clusters are
-mapped, and the resident case is handled further down and returns
-before the cluster count is used.
+With 32-bit clusters, the maximum size of a sparse file was computed
+as the largest offset addressable by a 32-bit VCN.
 
-Move the check below the RESIDENT_LCN and EOF_LCN handling, so it only
-applies to the mapped case where a zero count really does indicate a
-broken record.
+Reserve one compression unit below the limit so the rounded-up VCN
+still fits.
 
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
- fs/ntfs3/inode.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ fs/ntfs3/super.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 7593a93466d9..4ec12d0184da 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -985,12 +985,6 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
- 	if (err) {
- 		return err;
- 	}
--	if (!clen) {
--		/* Looks like file is broken.
--		 * It is marked as bad via _ntfs_bad_inode 
--		 */
--		return -EINVAL;
--	}
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index cf67d34568d8..0c347085cb85 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -1235,8 +1235,13 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+ 	sbi->maxbytes_sparse = MAX_LFS_FILESIZE;
+ 	sb->s_maxbytes = MAX_LFS_FILESIZE;
+ #else
+-	/* Maximum size for sparse file. */
+-	sbi->maxbytes_sparse = (1ull << (cluster_bits + 32)) - 1;
++	/* 
++	 * Maximum size for sparse file:
++	 * 16 aligned up clusters should fit in 32 bits.
++	 * xfstest 308 on sparse file.
++	 */
++	sbi->maxbytes_sparse = (1ull << (cluster_bits + 32)) - 1 -
++			       (sbi->cluster_size << NTFS_LZNT_CUNIT);
+ 	sb->s_maxbytes = 0xFFFFFFFFull << cluster_bits;
+ #endif
  
- 	if (lcn == EOF_LCN) {
- 		/* request out of file. */
-@@ -1026,6 +1020,11 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
- 		return 0;
- 	}
- 
-+	if (!clen) {
-+		/* Looks like file is broken.*/
-+		return -EINVAL;
-+	}
-+
- 	iomap->bdev = inode->i_sb->s_bdev;
- 	iomap->offset = offset;
- 	iomap->length = ((loff_t)clen << cluster_bits) - off;
 -- 
 2.43.0
 
