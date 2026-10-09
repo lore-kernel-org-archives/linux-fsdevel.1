@@ -1,249 +1,166 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C7A45198D;
-	Fri,  9 Oct 2026 17:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4EC4E1C8D
+	for <linux-fsdevel@vger.kernel.org>; Fri,  9 Oct 2026 17:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791566271; cv=none; b=imi4RllZgh17hjPqy5SNgcx6G8PTeCdcz++nJWUy/jHMIMVwygBoiZaprBhjnnPc73xVqr7l3gKc0PFVThgW+pBzI3xPV0I3AoYp1UY2Nz/Foxafgdza9asLkirvpObiVZFYZ1j6RJofl0VSI5aY2Ps0GPztelOJ76S4xqpvvTk=
+	t=1791568463; cv=none; b=P31DjYhXTGE9CScREMFnAUV1daEzh7S5z1tcWsllX9M7PDc0hZyko+1fwQ+u/dcEa6LwVoHORZitucrSVkGnISk0l1kuRNJushJbccY4SHfJanxEwUnkKraWcgfgIAZxLnUiJQWXXPVk3kbqMUW4huebpswliqRZUnyiAw0Ysyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791566271; c=relaxed/simple;
-	bh=+qM3b5oxHoWu610qHJf4r6M+GwLJBJWIf8bDwhOxdxQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ErXmrUOmAfzYZXNMJFFLUmCAf1v5oeVs7jOYoZZy5OwZMd7TPSYSsrf2S5Sre+LJgu+WbhS5vPozWgSo0YYeSq9GqQw9urwdsT9MryT/Qf0GIYnuO0ntoytlykSfw3lRwHuhK3mIYFv8zb8qZ1Ala70+TtdyWRYRrweNh+5mlVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=XkuykikU; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="XkuykikU"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 004181D60;
-	Fri,  9 Oct 2026 17:18:39 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=XkuykikU;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id B6E4421AD;
-	Fri,  9 Oct 2026 17:17:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1791566264;
-	bh=AP7BO+WZjKz2CxLk2K061kr8jiua275jMWfkPrCEMJY=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=XkuykikUOXrvB5p6KC4iYQTILhYfVj7G+itQnqIxrx58GKsJKQlPL1evd2T5fXuTh
-	 u1DenGWoj57cMiWUGqaPA67IlXSPsjJ8NOiA9kJvx8+vPces3RllGEvqVln0Gu8G1t
-	 yQpRzVU4tbcfBPLxNGzU69iKl7XYDEFFVsVq6zR0=
-Received: from localhost.localdomain (172.30.20.199) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 9 Oct 2026 20:17:43 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 11/11] fs/ntfs3: fix stale attr_b in attr_allocate_frame()
-Date: Fri, 9 Oct 2026 19:17:04 +0200
-Message-ID: <20261009171704.11379-12-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261009171704.11379-1-almaz.alexandrovich@paragon-software.com>
-References: <20261009171704.11379-1-almaz.alexandrovich@paragon-software.com>
+	s=arc-20240116; t=1791568463; c=relaxed/simple;
+	bh=8RnH9GuPagBX6F9GffrrKe3MQ2cVs+r9jdOGWXAEbOg=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=n8O0cVnTXmsKFcQSYaM1YqNFEzD7JQcg6qEeqXCt5wkS0/76eWtureARNJ/8sXXEKPJcv9PP+WGpwTNRl8SXyaPoJYAy1Vs8zZgilZ6SFeAi3hPrBwjD9TB+SYpRzRezBESNipWcONnb3EekPb/8z0zhWKy+vEafYgEWgZB/aDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4b2d1eb484aso68504b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 10:54:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791568461; x=1792173261;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=zPD9BdrlBaG5YPzJzYY3HFzR6feRrXbYDBkB6lUduvY=;
+        b=ESUDBjOzqcXVYl0H/oM0iyQeuPAe+zyFgI2a8J8vbJJ4Ao8nxEsY2/LrjZaDw3L+2Y
+         0hkbKM1JjUmMX7kCRUvkxg2VtXbJgSouUYAzoI77TsfPbtRK51AA8vi7mIjuJ0zmEECp
+         GRuFAjaGtUuePPErPksUL0/uE+nJCG3B+Ldynn0pb4W4V6Kn3a4Vk+938V5rzE1PLvO2
+         0u9RCeC1jrA65TobcvpAXD1hQEFu6Y4tQyXCsW6EupuS9eZbayW9j2tHzJgUs/eGsHV6
+         ly8FWxzflKsa5CtRC7tfetn3mfNQN1zBtVE2O3SmoKuJxVVn9hrIFitwEe17GvFnUj/f
+         an8Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxN0qGCCzIMDeM582zyRZYD5rAWjN3i5mgkrm6AD9HvcY4jeM+TPjWUSGVx8jZd765su4dxTddOlHNze66h@vger.kernel.org
+X-Gm-Message-State: AFuF++nIFGnFvSIDgLhY281J+C6vtuoJi+UKh6g5GKrfEgeX20F1U6j1
+	1YRKsaKpPsFR/sHWkgDau0OpBes0jpf/uRCRDyjoljOw4QbNDM/gAwmqZtnUerfMbg2PDayH+30
+	/C0IpvS1x8BsUzzdGc1ARASKR/Xr4ZbLa0j29MpE4b5L3uYaRfHPwT5WWUW0=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a05:6808:1304:b0:4f4:9314:af39 with SMTP id
+ 5614622812f47-50c54170c5dmr2039521b6e.28.1791568460765; Fri, 09 Oct 2026
+ 10:54:20 -0700 (PDT)
+Date: Fri, 09 Oct 2026 10:54:20 -0700
+In-Reply-To: <20261009103033.2920530-1-yi.zhang@huaweicloud.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ac92a4c.70ed5d86.2ac85.0072.GAE@google.com>
+Subject: [syzbot ci] Re: ext4: use iomap for regular file's buffered I/O path
+From: syzbot ci <syzbot+ci46f64f7b6a2a188e@syzkaller.appspotmail.com>
+To: adilger.kernel@dilger.ca, chengzhihao1@huawei.com, djwong@kernel.org, 
+	hch@infradead.org, jack@suse.cz, libaokun@linux.alibaba.com, 
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
+	tytso@mit.edu, wangkefeng.wang@huawei.com, yangerkun@huawei.com, 
+	yi.zhang@huawei.com, yi.zhang@huaweicloud.com, yizhang089@gmail.com, 
+	yukuai@fnnas.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-ni_insert_nonresident() can create an attribute list and move the base
-$DATA attribute to another MFT record, which invalidates attr_b and
-mi_b. attr_allocate_frame() kept using the stale pointers afterwards
-to update valid_size, writing into a record that no longer holds the
-attribute. The same situation is already handled in
-attr_data_get_block_locked(), which re-reads the base attribute after
-the layout changes.
+syzbot ci has tested the following series
 
-Look up attr_b again after the insertion, and read valid_size from the
-attribute before the layout can change.
+[v7] ext4: use iomap for regular file's buffered I/O path
+https://lore.kernel.org/all/20261009103033.2920530-1-yi.zhang@huaweicloud.com
+* [PATCH v7 01/31] ext4: simplify size updating in ext4_setattr()
+* [PATCH v7 02/31] ext4: factor out ext4_truncate_[up|down]()
+* [PATCH v7 03/31] ext4: set EXT4_MAP_NEW flag for delayed allocated blocks
+* [PATCH v7 04/31] ext4: recheck extent status tree before block allocation
+* [PATCH v7 05/31] ext4: fix orig_mlen initialization in ext4_map_blocks()
+* [PATCH v7 06/31] ext4: allow ext4_map_blocks() to start its own transaction handle
+* [PATCH v7 07/31] ext4: avoid unnecessary transaction in ext4_map_blocks() for unwritten extents
+* [PATCH v7 08/31] ext4: skip block allocation for holes in the data submission path
+* [PATCH v7 09/31] ext4: add iomap address space operations for buffered I/O
+* [PATCH v7 10/31] ext4: implement buffered read path using iomap
+* [PATCH v7 11/31] ext4: pass out extent seq counter when mapping da blocks
+* [PATCH v7 12/31] ext4: do not use data=ordered mode for inodes using buffered iomap path
+* [PATCH v7 13/31] ext4: implement buffered write path using iomap
+* [PATCH v7 14/31] ext4: rework handle credit accounting for unwritten extent conversion
+* [PATCH v7 15/31] ext4: implement writeback path using iomap
+* [PATCH v7 16/31] ext4: implement mmap path using iomap
+* [PATCH v7 17/31] ext4: implement partial block zero range path using iomap
+* [PATCH v7 18/31] ext4: drain writeback before removing extents on the iomap path
+* [PATCH v7 19/31] ext4: add block mapping tracepoints for iomap buffered I/O path
+* [PATCH v7 20/31] ext4: disable online defrag when inode using iomap buffered I/O path
+* [PATCH v7 21/31] ext4: add EXT4_STATE_DISKSIZE_GROW_PENDING state bit and helpers
+* [PATCH v7 22/31] ext4: submit and wait for pending disksize-grow I/O on writeback
+* [PATCH v7 23/31] ext4: advance i_disksize to i_size upon disksize-grow I/O completion
+* [PATCH v7 24/31] ext4: defer i_disksize update while DISKSIZE_GROW_PENDING is set
+* [PATCH v7 25/31] ext4: submit and wait for disksize-grow I/O in fallocate paths
+* [PATCH v7 26/31] ext4: clear DISKSIZE_GROW_PENDING on truncate or error
+* [PATCH v7 27/31] ext4: set DISKSIZE_GROW_PENDING after zeroing unaligned EOF block
+* [PATCH v7 28/31] ext4: add tracepoints for DISKSIZE_GROW_PENDING set, clear, and wait
+* [PATCH v7 29/31] ext4: add tracepoints for EOF block zeroing and disksize-grow I/O
+* [PATCH v7 30/31] ext4: partially enable iomap for the buffered I/O path of regular files
+* [PATCH v7 31/31] ext4: introduce a mount option for iomap buffered I/O path
 
-While here, flatten the 'if (attr)' block in attr_allocate_frame() by
-returning early to ins_ext, and simplify an empty-bodied if in
-attr_data_get_block_locked().
+and found the following issue:
+WARNING in ext4_do_writepages
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Full report is available here:
+https://ci.syzbot.org/series/3711c951-acf4-4ebe-a920-9cc89b6be2ff
+
+***
+
+WARNING in ext4_do_writepages
+
+tree:      vfs
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
+base:      3d399224425573875b6f6f1181bd8cf9a28cc7d1
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/c3c01f8c-846d-4c7a-955a-fd7427af6b0d/config
+
+------------[ cut here ]------------
+!err
+WARNING: fs/ext4/inode.c:2512 at ext4_do_writepages+0x33b3/0x44a0, CPU#0: kworker/u9:3/147
+Modules linked in:
+CPU: 0 UID: 0 PID: 147 Comm: kworker/u9:3 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Workqueue: writeback wb_workfn (flush-7:1)
+RIP: 0010:ext4_do_writepages+0x33b3/0x44a0
+Code: 0f 0b 90 e9 b6 d9 ff ff e8 6a e2 36 ff 90 0f 0b 90 e9 e6 dc ff ff e8 5c e2 36 ff 90 0f 0b 90 e9 94 df ff ff e8 4e e2 36 ff 90 <0f> 0b 90 bb ea ff ff ff e9 ae f8 ff ff e8 3b e2 36 ff 48 8d 3d 64
+RSP: 0018:ffffc90003106ce0 EFLAGS: 00010293
+RAX: ffffffff8290e912 RBX: 0000000000000000 RCX: ffff8881053f9e00
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffffc900031070f0 R08: ffff888025da4a37 R09: 1ffff11004bb4946
+R10: dffffc0000000000 R11: ffffed1004bb4947 R12: ffffc900031071a0
+R13: dffffc0000000000 R14: 0000000000000000 R15: 1ffff11004bb495d
+FS:  0000000000000000(0000) GS:ffff88818d6c9000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005555565a5a28 CR3: 0000000031f66000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ ext4_writepages+0x241/0x3b0
+ do_writepages+0x338/0x560
+ __writeback_single_inode+0x136/0x1220
+ writeback_sb_inodes+0x9de/0x1b00
+ wb_writeback+0x41c/0xad0
+ wb_workfn+0x431/0x10f0
+ process_scheduled_works+0xc3d/0x1630
+ worker_thread+0xa47/0xfb0
+ kthread+0x38b/0x480
+ ret_from_fork+0x514/0xb70
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
 ---
- fs/ntfs3/attrib.c | 109 ++++++++++++++++++++++++----------------------
- 1 file changed, 57 insertions(+), 52 deletions(-)
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index 928c91b57da5..922134cabb05 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -1019,11 +1019,8 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
- 	int step;
- 
- again:
--	if (run_lookup_entry_da(run, da ? &ni->file.run_da : NULL, vcn, lcn,
--				len)) {
--	} else {
-+	if (!run_lookup_entry_da(run, da ? run_da : NULL, vcn, lcn, len))
- 		*len = 0;
--	}
- 
- 	if (*len) {
- 		if (*lcn != SPARSE_LCN || !new)
-@@ -1812,7 +1809,7 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 	struct ATTR_LIST_ENTRY *le, *le_b;
- 	struct mft_inode *mi, *mi_b;
- 	CLST svcn, evcn1, next_svcn, len;
--	CLST vcn, end, clst_data;
-+	CLST vcn, end, clst_data, alloc, evcn;
- 	u64 total_size, valid_size, data_size;
- 
- 	le_b = NULL;
-@@ -1830,6 +1827,7 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 	svcn = le64_to_cpu(attr_b->nres.svcn);
- 	evcn1 = le64_to_cpu(attr_b->nres.evcn) + 1;
- 	data_size = le64_to_cpu(attr_b->nres.data_size);
-+	valid_size = le64_to_cpu(attr_b->nres.valid_size);
- 
- 	if (svcn <= vcn && vcn < evcn1) {
- 		attr = attr_b;
-@@ -1949,63 +1947,63 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 	attr = ni_find_attr(ni, attr, &le, ATTR_DATA, ni->file.ads.name,
- 			    ni->file.ads.len, &svcn, &mi);
- 
--	if (attr) {
--		CLST alloc = bytes_to_cluster(
--			sbi, le64_to_cpu(attr_b->nres.alloc_size));
--		CLST evcn = le64_to_cpu(attr->nres.evcn);
--
--		if (end < next_svcn)
--			end = next_svcn;
--		while (end > evcn) {
--			/* Remove segment [svcn : evcn). */
--			mi_remove_attr(NULL, mi, attr);
--
--			if (!al_remove_le(ni, le)) {
--				err = -EINVAL;
--				goto out;
--			}
-+	if (!attr)
-+		goto ins_ext;
- 
--			if (evcn + 1 >= alloc) {
--				/* Last attribute segment. */
--				evcn1 = evcn + 1;
--				goto ins_ext;
--			}
-+	alloc = bytes_to_cluster(sbi, le64_to_cpu(attr_b->nres.alloc_size));
-+	evcn = le64_to_cpu(attr->nres.evcn);
- 
--			if (ni_load_mi(ni, le, &mi)) {
--				attr = NULL;
--				goto out;
--			}
-+	if (end < next_svcn)
-+		end = next_svcn;
-+	while (end > evcn) {
-+		/* Remove segment [svcn : evcn). */
-+		mi_remove_attr(NULL, mi, attr);
- 
--			attr = mi_find_attr(ni, mi, NULL, ATTR_DATA,
--					    ni->file.ads.name, ni->file.ads.len,
--					    &le->id);
--			if (!attr) {
--				err = -EINVAL;
--				goto out;
--			}
--			svcn = le64_to_cpu(attr->nres.svcn);
--			evcn = le64_to_cpu(attr->nres.evcn);
-+		if (!al_remove_le(ni, le)) {
-+			err = -EINVAL;
-+			goto out;
- 		}
- 
--		if (end < svcn)
--			end = svcn;
-+		if (evcn + 1 >= alloc) {
-+			/* Last attribute segment. */
-+			evcn1 = evcn + 1;
-+			goto ins_ext;
-+		}
- 
--		err = attr_load_runs(attr, ni, run, &end);
--		if (err)
-+		if (ni_load_mi(ni, le, &mi)) {
-+			attr = NULL;
- 			goto out;
-+		}
- 
--		evcn1 = evcn + 1;
--		attr->nres.svcn = cpu_to_le64(next_svcn);
--		err = mi_pack_runs(mi, attr, run, evcn1 - next_svcn);
--		if (err)
-+		attr = mi_find_attr(ni, mi, NULL, ATTR_DATA, ni->file.ads.name,
-+				    ni->file.ads.len, &le->id);
-+		if (!attr) {
-+			err = -EINVAL;
- 			goto out;
-+		}
-+		svcn = le64_to_cpu(attr->nres.svcn);
-+		evcn = le64_to_cpu(attr->nres.evcn);
-+	}
- 
--		le->vcn = cpu_to_le64(next_svcn);
--		ni->attr_list.dirty = true;
--		mi->dirty = true;
-+	if (end < svcn)
-+		end = svcn;
-+
-+	err = attr_load_runs(attr, ni, run, &end);
-+	if (err)
-+		goto out;
-+
-+	evcn1 = evcn + 1;
-+	attr->nres.svcn = cpu_to_le64(next_svcn);
-+	err = mi_pack_runs(mi, attr, run, evcn1 - next_svcn);
-+	if (err)
-+		goto out;
-+
-+	le->vcn = cpu_to_le64(next_svcn);
-+	ni->attr_list.dirty = true;
-+	mi->dirty = true;
-+
-+	next_svcn = le64_to_cpu(attr->nres.evcn) + 1;
- 
--		next_svcn = le64_to_cpu(attr->nres.evcn) + 1;
--	}
- ins_ext:
- 	if (evcn1 > next_svcn) {
- 		err = ni_insert_nonresident(ni, ATTR_DATA, ni->file.ads.name,
-@@ -2014,6 +2012,14 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 					    &attr, &mi, NULL);
- 		if (err)
- 			goto out;
-+		/* Layout of records is changed. */
-+		attr_b = ni_find_attr(ni, NULL, NULL, ATTR_DATA,
-+				      ni->file.ads.name, ni->file.ads.len, NULL,
-+				      &mi_b);
-+		if (!attr_b) {
-+			err = -EINVAL;
-+			goto out;
-+		}
- 	}
- ok:
- 	run_truncate_around(run, vcn);
-@@ -2022,7 +2028,6 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 		if (new_valid > data_size)
- 			new_valid = data_size;
- 
--		valid_size = le64_to_cpu(attr_b->nres.valid_size);
- 		if (new_valid != valid_size) {
- 			attr_b->nres.valid_size = cpu_to_le64(new_valid);
- 			mi_b->dirty = true;
--- 
-2.43.0
+To test a fix for this bug, please reply with `#syz test`
+(on a separate line) and attach the patch to the email.
 
+Notes:
+- The patch will be applied on top of the tested series (as an
+  incremental fix).
+- To test a new version of the whole series, please send it directly
+  to syzbot@lists.linux.dev.
+- Arguments like custom git repos and branches are not supported.
