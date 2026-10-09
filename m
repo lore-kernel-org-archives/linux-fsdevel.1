@@ -1,87 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-67.mta0.migadu.com [91.218.175.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6D73EB11D;
-	Fri,  9 Oct 2026 07:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0838346EF98
+	for <linux-fsdevel@vger.kernel.org>; Fri,  9 Oct 2026 07:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791532127; cv=none; b=PBMmFvYTsspEZh6IFtIGkIUe+ENgo5+Y9WBM/DuuwvVxISVUtElpCZgAUM4kh9WAaNKCuFPYWprsGkBkI6BHU+u/ADXvteO+pAWcRKq2CZ9xm3n69dLMmpexPeVPnjr5Uz3+emNZo33AmrMYzjGdp1R9XZauubfxkIk/uQuPWww=
+	t=1791532429; cv=none; b=Pbch+tXa17NxbOyp1USx+pNs+soLX5AIRX+NOTPZOlmLddoyeTRigJyr1NbsN0BOYawo3Se3wWb4Q2tHUO+3U9VzQrlqFYpHNgVoiqHOvVU1dE+ciTTBN87IwGApvxuRoBRuv7XjQfFT0S81k3TyE8KFslntJw1nLK2Qq48esbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791532127; c=relaxed/simple;
-	bh=RdhfLvAs8LoBf6ot8SlajOfSJl+FY3cdxUZOZ16MrOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rqiSo5TUgl+aP+mWggswEKpKGOjtp0NPiP0oPg/31P5o6NMXhrPpEDEvOUyij8Q+nc0NTj0+ujXwU2E88mzLXxmg0pO1BcgXGznmdCQdUq1A2u1zVQGp3hbeU7DN8TsmLTJ1PxIKXkYHV8sKeS/I0CLVWusUo6u+wmanZHChNtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ecz1wTR3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791532429; c=relaxed/simple;
+	bh=HZ6Wuv+Vpadj5tKbRNWjPRR1mJvXXgABfE/UEOmItbI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C11zyz6L9+opGTDGwiIc0sQ2U9k5NBOj1Y4Elebkx0Of9Xk31A/4R1xqD8nMQmnl0mJHimquMBNrgxy3m1yR7yvDrtLknnENC3HAVTUaJNPBcIldX9NbaKZymR/gHLUqGpRxhtVNSnf5R+8ypIhd+xi9d6VcgT9RoR9WEe58lMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ogLvf0dV; arc=none smtp.client-ip=91.218.175.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ecz1wTR3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC58D1F000FF;
-	Fri,  9 Oct 2026 07:48:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791532126;
-	bh=rd7t/j3Gr3NUu8OvfP6alBmfJk/l+YTRs8EqdwAgXCg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ecz1wTR34LQkMZqwyxxPq0sr4aKrvARBjodnLqMVk0dyaC9mAYSPaVsCPCviegZrw
-	 EMKCJLikh5wobm9to/YwCXplZ8kOjWdiwoabDUDMap4ePxMyoj2476MhIKoYb1w3gi
-	 7uhBTNe0uuRHHcqdeIPJRoEYQ2icjAD2QrPy2vVCm+1WlnpUe2pj3yMMu5Uw0cLjKG
-	 1O1Hszc41HzkVxhHrLwwcdyjoZFUT5HRq3CEAAUe861NLx9bFqMt3PnQbdo2WDdCeh
-	 iz5ta7ppNq/IeAN6bt8COdJ/Qk2Eo6Yt6iwVZa4PuRpn6BDPL4nANr/ojRHIdmXZva
-	 qGGCLMYdsPTag==
-Date: Fri, 9 Oct 2026 09:48:37 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>, 
-	Jann Horn <jannh@google.com>, Neil Brown <neil@brown.name>
-Subject: Re: [PATCH 16/21] fsnotify: let a filesystem refuse marks on its
- objects
-Message-ID: <20261009-zinssatz-hinreichend-havarie-9cfa89532412@brauner>
-References: <20261002-work-mount-fixes-4-v1-0-dd44b89d44ce@kernel.org>
- <20261002-work-mount-fixes-4-v1-16-dd44b89d44ce@kernel.org>
- <CAOQ4uxh9O4-sUpN5mT-GHriGQ26R_n++mELNh3wOPKSrMYDSRQ@mail.gmail.com>
- <ktwf3k6arjrcezb2ah3fmj7q7qu235ri4yau5c6hmwithutl3l@3xk6vqisfjhj>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ogLvf0dV"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=HZ6Wuv+Vpadj5tKbRNWjPRR1mJvXXgABfE/UEOmItbI=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1791532424; v=1; x=1792137224;
+ b=ogLvf0dV9i+GtslzITBYdW+jM84tauyfDyaiD/x/qaXr8/YwBqRTWGec7+Zq9OlgJ1jcgOIs
+ VUJ4TGV8kIxCh/tgjng3DbYBuhIx6VrlxKNb8gkfDTJU6xaDxBju4G4lXELtKRviTwzfob5eupp
+ DwHINVXZqgo3kTQ1CloFDDuo=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id a4d8209de247e626;
+	Fri, 09 Oct 2026 07:53:43 +0000
+X-Mizu-Trace-ID: a4d8209de247e626
+X-Migadu-Flow: FLOW_OUT
+From: Tao Cui <cui.tao@linux.dev>
+To: mason@kernel.org,
+	dsterba@suse.com,
+	sforshee@kernel.org,
+	wqu@suse.com,
+	brauner@kernel.org
+Cc: josef@toxicpanda.com,
+	linux-btrfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cui.tao@linux.dev,
+	Tao Cui <cuitao@kylinos.cn>
+Subject: [PATCH v3] btrfs: allow idmapped DEFRAG ioctls
+Date: Fri,  9 Oct 2026 15:53:25 +0800
+Message-ID: <20261009075326.144319-1-cui.tao@linux.dev>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ktwf3k6arjrcezb2ah3fmj7q7qu235ri4yau5c6hmwithutl3l@3xk6vqisfjhj>
 
-On Mon, Oct 05, 2026 at 08:02:59AM +0200, Jan Kara wrote:
-> On Fri 02-10-26 16:26:19, Amir Goldstein wrote:
-> > On Fri, Oct 2, 2026 at 3:54 PM Christian Brauner <brauner@kernel.org> wrote:
-> > >
-> > > Don't let nullfs be watched. fanotify refuses mount and filesystem marks
-> > > on SB_NOUSER superblocks but inode marks of inotify, fanotify and
-> > > dnotify go through. The one inode of knullfs is the root of every
-> > > kernel thread and the following patches make it reachable from
-> > > userspace as the directory that stands in for an unmounted mount. A
-> > > watch placed through one such directory would report the opens through
-> > > all the others, across users.
-> > >
-> > > Add FS_DISALLOW_NOTIFY next to FS_DISALLOW_NOTIFY_PERM, refuse a mark on
-> > > any object of such a filesystem in fsnotify_add_mark_list() where every
-> > > backend ends up and set it for nullfs. There's nothing to watch on a
-> > > permanently empty and immutable filesystem.
-> > >
-> > 
-> > I don't particularly mind this custom opt-out, but
-> > shall we perhaps instead deny marks on SB_NOUSER directories?
-> > IIRC, we already wanted to deny marks on any SB_NOUSER, but then
-> > it turned out that some users set inotify watches on pipes, so we stepped
-> > back and restricted SB_NOUSER only for fs/mount marks.
-> > I think that the same logic extends well also for directories, because
-> > I don't think that any existing SB_NOUSER fs is supposed to be
-> > exposing them atm, so no regressions are to be expected.
-> 
-> Yes, I agree that placing marks on directories of SB_NOUSER filesystems
-> should be denied as well because it doesn't make sense which would settle
-> this case without a special flag AFAIU.
+From: Tao Cui <cuitao@kylinos.cn>
 
-The problem is that we're introducing a file in another series which
-doesn't work with this option. My proposal would be that we do the flag
-now to get this fixed and then we follow-up with another more
-comprehensive approach.
+btrfs_ioctl_defrag() checks MAY_WRITE against nop_mnt_idmap, so on an
+idmapped mount the owner comparison uses the caller's fsuid against the
+raw on-disk uid and the ioctl fails with -EPERM even for the file's
+owner.  Pass the mount idmap down so defrag works on idmapped mounts.
+
+The check, added in 616d374efa23 ("btrfs: allow defrag on a file opened
+read-only that has rw permissions"), is not a privilege gate.  It only
+tests whether the file could have been opened for writing, and a user
+who owns the file on the idmapped mount can already open it O_RDWR,
+write() to it or fallocate() it.  Defragmenting a regular file only
+rearranges the caller's own extents; there is nothing it can rewrite
+that the caller could not rewrite anyway.  Whole-subvolume defrag on a
+directory keeps its capable(CAP_SYS_ADMIN) requirement, and the
+!capable() guard around this check is left as is.
+
+FIDEDUPERANGE already works this way for unprivileged callers:
+may_dedupe_file() in fs/remap_range.c compares the inode owner through
+file_mnt_idmap(file) and falls back to inode_permission() with the same
+idmap, and dedupe can rewrite one file's extents from another file's
+contents, which is a stronger operation than defrag.
+
+On regular mounts file_mnt_idmap() is nop_mnt_idmap and nothing
+changes.
+
+Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+Reviewed-by: Seth Forshee <sforshee@kernel.org>
+Reviewed-by: Qu Wenruo <wqu@suse.com>
+Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Changes in v3:
+- Rebase onto linux-next (next-20261008); no functional changes.
+- Collect tags from review.
+
+Changes in v2:
+- Rewrite the commit message to explain why defrag is safe for idmapped
+  users (Seth Forshee); the code is unchanged.
+
+Link: https://lore.kernel.org/r/20260815132259.3935817-1-cui.tao@linux.dev/ # v2
+Link: https://lore.kernel.org/r/20260813034146.1207640-1-cui.tao@linux.dev/ # v1
+---
+ fs/btrfs/ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
+index f3e2afe221be..fe8c00eb38bc 100644
+--- a/fs/btrfs/ioctl.c
++++ b/fs/btrfs/ioctl.c
+@@ -2473,7 +2473,7 @@ static int btrfs_ioctl_defrag(struct file *file, void __user *argp)
+ 		 * running and allows defrag on files open in read-only mode.
+ 		 */
+ 		if (!capable(CAP_SYS_ADMIN) &&
+-		    inode_permission(&nop_mnt_idmap, inode, MAY_WRITE)) {
++		    inode_permission(file_mnt_idmap(file), inode, MAY_WRITE)) {
+ 			ret = -EPERM;
+ 			goto out;
+ 		}
+-- 
+2.53.0
+
