@@ -1,170 +1,141 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f8.google.com (mail-pj2-f8.google.com [74.125.227.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28483A5E65;
-	Sat, 10 Oct 2026 03:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA2341DDE5
+	for <linux-fsdevel@vger.kernel.org>; Sat, 10 Oct 2026 07:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791602280; cv=none; b=c0nN0U9nAf84znQ9N70of/91ZlGQ1S60q4L8Uh+qSpss0ThjTaYKwX5NM9g9vas9xMfpT/93l/2EV7ug7rmtJSOPFT1WzzqWIe/7MFgBBiQiKXN4W+6V90QBwdEt22gvPGmZY4gUQhbe8Ut8HSLlweP6LjOItucJ6K7c1ivixTY=
+	t=1791616503; cv=none; b=IttiwRNPC3HLCabNv0ds965rcEMeViswv6uQMEpLx5H8z9T7L06RYA8gVUz7pY/DGeTlRL3KoM7mwWLfc8SAZZ2nvxyCpTfqoh7jZtxEt+bcGfqEM/XxsE6vQ5NeAGuut9zMHdonoJzzwN36DLaeUUXVelNp0vD1zkdAPEOr9YU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791602280; c=relaxed/simple;
-	bh=LDZdbw9sqXJMJMy9myDvRAtQwHq4XOgDSsFjCMlweio=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=ACDyDdvipvfnP9Dd6jG7KmSB2Pi+4JmPkIA7RfmBLhkRmlutqPrjE5tiiDytVym7zAQ+hZtkHuFys5BVQz9OD1lPb4QyMuEmRPd3XolfjEkaW85rMVruvQmPPSX5JIltoPnPMZt0cmGEj1OCa4IvVQTCZ8f7j4M4bER9uF5qo0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=gY0VFKM3; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=gY0VFKM3; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1791616503; c=relaxed/simple;
+	bh=AgqPawQLsHErmF3nORcLRMqaINWXlnncdcFbCC+PyuM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GL4EY9AWeC5W/tDhTMBWlEOfXYg7jpBFGMddKh2b71X4YdqhB4YVudg71xXIMq8Nq/VYstb0fKezATIpiIVh4Lc6iW2KC05D9Uotz5i1xIJLvIFXn/SFVVFPK6XIzvbK8GRNLQfqQoGRWXvYW1AUfOoOi6T446UPqeUjT80odFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFPkPhfP; arc=none smtp.client-ip=74.125.227.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="gY0VFKM3";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="gY0VFKM3"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=f/Ss9u7ffm+Ms/aS7WwUlqIogB4GvdVPTjeht4umbEc=;
-	b=gY0VFKM3coh0tcV+ulsYg4AicFqE9u5p5h83kZbsVbIQMpVvThTXxGRqPkrfbpLjyb5R3tVTG
-	gAxAOmcQOhwcbRfhcqGuaqVmK1bHYGjIsh+C3jes7E+BycvsGkvxHF7xzeo5ASH9TcE+NSejIbX
-	rlMQUkeOVbLxP83KDhQamYU=
-Received: from canpmsgout04.his.huawei.com (unknown [172.19.92.133])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4j1pn21Zvkz1BFrQ;
-	Sat, 10 Oct 2026 11:17:10 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=f/Ss9u7ffm+Ms/aS7WwUlqIogB4GvdVPTjeht4umbEc=;
-	b=gY0VFKM3coh0tcV+ulsYg4AicFqE9u5p5h83kZbsVbIQMpVvThTXxGRqPkrfbpLjyb5R3tVTG
-	gAxAOmcQOhwcbRfhcqGuaqVmK1bHYGjIsh+C3jes7E+BycvsGkvxHF7xzeo5ASH9TcE+NSejIbX
-	rlMQUkeOVbLxP83KDhQamYU=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4j1pWb6xDTz1prN4;
-	Sat, 10 Oct 2026 11:05:31 +0800 (CST)
-Received: from whupemo200011.china.huawei.com (unknown [7.152.185.179])
-	by mail.maildlp.com (Postfix) with ESMTPS id 20AA84057F;
-	Sat, 10 Oct 2026 11:17:49 +0800 (CST)
-Received: from [10.174.178.46] (10.174.178.46) by
- whupemo200011.china.huawei.com (7.152.185.179) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sat, 10 Oct 2026 11:17:47 +0800
-Subject: Re: [PATCH] fs: don't lose inodes that another LRU walker is
- isolating
-To: Nikolaos Karaolidis <nick@karaolidis.com>, Christian Brauner
-	<brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>
-CC: Jan Kara <jack@suse.cz>, Mateusz Guzik <mjguzik@gmail.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-References: <20261009142431.713875-1-nick@karaolidis.com>
-From: Zhihao Cheng <chengzhihao1@huawei.com>
-Message-ID: <a2f5f4f7-b1ec-bf23-d990-aebbdf6de177@huawei.com>
-Date: Sat, 10 Oct 2026 11:17:46 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFPkPhfP"
+Received: by mail-pj2-f8.google.com with SMTP id d9443c01a7336-2e609985789so1778475ad.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 10 Oct 2026 00:15:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791616501; x=1792221301; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=959yGHgkihQFutwKGlb/mZ/n3GWGE1NHJJyd2mFaKLM=;
+        b=hFPkPhfPPbuxbfmY7+UwzIgq2K24FnV234YTzI7oMUeoLiKdFvr2fbqgMNA9AV/J63
+         71Yl5lR2eDogeslFMEExZK/d5P05Fbgvh+geXlzDJi5aK/OFUkBTGkjTX074pEVCh1W2
+         SfRIQDel5oBxebzV57evUBJBhhFdUcSmbVUEhBx3Udk0FO/Vn3QsptPM9NSVNUPXompM
+         Zso/2/l3331o77ZgTWLkJ5Nql23omuylNPYuZJMSCAKreABHHMPUW3sz84DgLBD+mwFN
+         mperSALlX+xvzcyD2POj7B9J6cKDJq0dFjSqK+Ix5yFIC0qG2CqywzB6yvjgTkkgyvXF
+         svRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791616501; x=1792221301;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=959yGHgkihQFutwKGlb/mZ/n3GWGE1NHJJyd2mFaKLM=;
+        b=pfPwWlJWIbhxLx97RE/63feTcgtjgydYYNSukfWVRDuElbf420mcpfC38eJTDtuMjx
+         WVz1B0PtmzBbPadf9nrtvXm/n9nDqAA0qHmRENZvD8JOuRe0piw5w1dzKaHI7poPrix9
+         Y+a3LKSSQ2f4DtgIcOxPHoSkyFeQNLWFX9rzZXoOv5THbvoVNoKrReUW1R1wRsAGX7JD
+         FLczgMFoeCIDw2s8jmYe5FgNgFu09djuaQpIF9jzk3KAlGpct8vwHIJh/3DwH+6qE+df
+         Ig9TP1TXLMgum1aeRIhzDBOAUcv5mlMEmd39jtumlfhIb419YobSJFaFAkiTNXaxJmcw
+         zAvg==
+X-Forwarded-Encrypted: i=1; AKwUvBxTIJbcVTazN4T8iPTQPa/kpO0jdGQ0h0qccxSdv9PaEjpm7SNwTDm9iUUPEbfu3GYPSq1PNxCplJoWeOT4@vger.kernel.org
+X-Gm-Message-State: AFq9FYIxKxU2nerb+aR7T0dMGoNjoHzuOjwgx9dzSBPqNiHu86wEYn8m
+	IevBZpKqfUdJkQpSzF9AiM+zTm8df31af7xioXl/Rr1f619oWAjn/hTPZ4KHCjO7SI9ZHIEt
+X-Gm-Gg: AYBFou0cgexbtsDiXWwk/mSQ8nRbKCgS9zkFMwnqLEDOVXyO0+dpwi/fsYzcw9yk25m
+	S1+C/804xkWN22evofsmSsWPPrTnvseMhzZG0CE0ApZE+MJx323wdfCBXRrnHCQ5IljBQ1LY1P9
+	cv+T2CT80Rhf/L6b8Plo45Rs0UllmfcxaLs0Cj7Y9+brHGRiM1Y2KOCse4pCUlE5q6toNP17oWf
+	U6/nU7pouo3JeGcfQQoJF4Bt9ItBJNTgp9RS2iyjmceTH6+9uPAvzKes8r+xoSDN+3gn94gz6p8
+	f/gB/KRYIkzQAzIA9iFbzhpal6KEH49l/+fCni97Q/hf85VVm8r4TgzG3jS/BGPvR/3onLcXoou
+	SBf9NCXe/iZt5Io2P270eoNpJ5ex+RA/F+LP1YpJ6e2iYZRk+8TbB4BPGA4shJkFpzAbw7YrV7N
+	wV6HizSLIUIkt6v8PKZ6h36S8nN6JEgBHOclu97MxcYeB69GFJWa8STyrcBdf9ulmWKcSLetkqF
+	VgYUxVc421jpvHPFRwM+3vu/8+Tlq7AbMj1a0KY3bdAYRVvw+d/ec2tWrnQLG0=
+X-Received: by 2002:a17:902:e88a:b0:2e3:1776:278f with SMTP id d9443c01a7336-2e842bcd141mr39945135ad.42.1791616501197;
+        Sat, 10 Oct 2026 00:15:01 -0700 (PDT)
+Received: from localhost (ec2-18-183-150-125.ap-northeast-1.compute.amazonaws.com. [18.183.150.125])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8421b15ffsm20468025ad.36.2026.10.10.00.15.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Oct 2026 00:15:00 -0700 (PDT)
+From: jianyungao89@gmail.com
+To: linux-kernel@vger.kernel.org
+Cc: Jianyun Gao <jianyungao89@gmail.com>,
+	stable@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Dan Williams <djbw@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Goldwyn Rodrigues <rgoldwyn@suse.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shiyang Ruan <ruansy.fnst@fujitsu.com>,
+	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure)),
+	nvdimm@lists.linux.dev (open list:FILESYSTEM DIRECT ACCESS (DAX))
+Subject: [PATCH] dax: fix wrong size passed to dax_iomap_direct_access() in dax_range_compare_iter()
+Date: Sat, 10 Oct 2026 15:14:53 +0800
+Message-Id: <20261010071453.6028-1-jianyungao89@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20261009142431.713875-1-nick@karaolidis.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- whupemo200011.china.huawei.com (7.152.185.179)
 
-ÔÚ 2026/10/9 22:24, Nikolaos Karaolidis Ð´µÀ:
-> When inode_lru_isolate() finds an unused inode that still has page
-> cache, it sets I_LRU_ISOLATING, drops i_lock and the list_lru lock,
-> invalidates the page cache, clears the flag again and returns
-> LRU_RETRY so that the restarted walk can free the inode.
-> 
-> Another walker of the same list can reach the inode in that window.
-> It sees a non-zero i_state and takes the inode off the LRU, as it
-> would an inode that is in use. Page cache deletion requeues the inode
-> once the mapping is shrinkable, so this is harmless if it happens
-> before the last deletion. If it happens after, nothing puts the inode
-> back: it stays in memory, unused, clean and without page cache, out
-> of reach of the shrinker and of drop_caches, until it is looked up
-> again or the filesystem is unmounted.
-> 
-> Before commit 2a0629834cd8 ("vfs: Don't evict inode under the inode
-> lru traversing context") the pin was an i_count reference, and the
-> final iput() put the inode back on the LRU.
-> 
-> Skip inodes that are being isolated and leave them to the walker that
-> pinned them, which restarts its walk once it has unpinned them.
-> 
-> The window is reached by any unused inode with page cache on
-> CONFIG_HIGHMEM kernels, and otherwise by inodes whose page cache is a
-> single shadow entry at index 0. On an i386 HIGHMEM guest, eight
-> concurrent "echo 2 > /proc/sys/vm/drop_caches" over 2000 freshly read
-> one-page ext4 files leave roughly 400 of the inodes off the LRU per
-> round; on x86_64, with the files' pages first evicted through
-> memory.reclaim, 3 to 4 per round. With this patch, none in either case.
-> 
-> Fixes: 2a0629834cd8 ("vfs: Don't evict inode under the inode lru traversing context")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Nikolaos Karaolidis <nick@karaolidis.com>
-> ---
-> 
-> Found while working on reclaim of inodes pinned by page cache in
-> ZONE_MOVABLE.
-> 
-> Tested on master af32da41b032 (v7.3-rc6-232) in QEMU/KVM with a small
-> stress program: mount an ext4 image, read 2000 one-page files, run 8
-> concurrent "echo 2 > /proc/sys/vm/drop_caches", drop caches again
-> single-threaded (2, then 1, then 2), and count the filesystem's inodes
-> still in memory via how many the umount frees:
-> 
->    i386 HIGHMEM:      ~390 of 2000 lost per round without the patch
->                       (3 runs x 20 rounds), 0 with it
->    x86_64, pages evicted through memory.reclaim first (single shadow
->    entry left):       ~4 per round without, 0 with
->    x86_64 with KASAN, PROVE_LOCKING, DEBUG_VM, DEBUG_LIST:
->                       6109 lost in 50 rounds without, 0 with, no splats
-> 
-> The reproducer is a single C file run as init; I can post it if useful.
-> 
-> I went with skipping the inode rather than requeueing it on unpin
-> (which would be closer to what the final iput() did before
-> 2a0629834cd8) because it avoids the remove/re-add and leaves the inode
-> where the pinning walker finds it again. Happy to switch if preferred.
-> 
-> Jan, this applies cleanly before or after "fs: Basic infrastructure for
-> offloading inode reclaim" (v2 3/5); happy to rebase onto that series if
-> you'd rather take it there.
-> 
-> For stable: 6.18 and older need inode->i_state instead of
-> inode_state_read(). I have only tested master.
-> 
-> An LLM was used to check the analysis against the code, write the
-> reproducer and draft the changelog; I have reviewed all of it.
-> 
->   fs/inode.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-Good catch.
+From: Jianyun Gao <jianyungao89@gmail.com>
 
-Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
-> diff --git a/fs/inode.c b/fs/inode.c
-> index a9d37be390a1..74dfc379b377 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -942,6 +942,12 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
->   	if (!spin_trylock(&inode->i_lock))
->   		return LRU_SKIP;
-> 
-> +	/* Another walker is dropping its page cache, leave it to that one */
-> +	if (inode_state_read(inode) & I_LRU_ISOLATING) {
-> +		spin_unlock(&inode->i_lock);
-> +		return LRU_SKIP;
-> +	}
-> +
->   	/*
->   	 * Inodes can get referenced, redirtied, or repopulated while
->   	 * they're already on the LRU, and this can make them
-> 
-> base-commit: af32da41b0327b9c6a37856ba82b6760d6c8d10e
-> --
-> 2.55.0
-> .
-> 
+dax_range_compare_iter() passes ALIGN(pos + len, PAGE_SIZE) as the size
+argument to dax_iomap_direct_access(), but this is an absolute file
+offset rather than a length. This causes the underlying
+dax_direct_access() to request a massively inflated nr_pages via
+PHYS_PFN(size), leading to unnecessarily large access ranges and
+potential spurious -EHWPOISON from driver badblock scans.
+
+Fix by computing the correct aligned size:
+  ALIGN(len + (pos & ~PAGE_MASK), PAGE_SIZE)
+
+which accounts for the page-in-page offset of pos, matching the pattern
+used in dax_iomap_copy_around().
+
+Fixes: 6f7db3894ae2 ("fsdax: dedup file range to use a compare function")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Jianyun Gao <jianyungao89@gmail.com>
+---
+ fs/dax.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/fs/dax.c b/fs/dax.c
+index 6ba50142eeb2..213b1c9e197c 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -2197,6 +2197,7 @@ static int dax_range_compare_iter(struct iomap_iter *it_src,
+ 	const struct iomap *dmap = &it_dest->iomap;
+ 	loff_t pos1 = it_src->pos, pos2 = it_dest->pos;
+ 	void *saddr, *daddr;
++	size_t size1, size2;
+ 	int id, ret;
+ 
+ 	len = min(len, min(smap->length, dmap->length));
+@@ -2212,13 +2213,13 @@ static int dax_range_compare_iter(struct iomap_iter *it_src,
+ 	}
+ 
+ 	id = dax_read_lock();
+-	ret = dax_iomap_direct_access(smap, pos1, ALIGN(pos1 + len, PAGE_SIZE),
+-				      &saddr, NULL);
++	size1 = ALIGN(len + (pos1 & ~PAGE_MASK), PAGE_SIZE);
++	ret = dax_iomap_direct_access(smap, pos1, size1, &saddr, NULL);
+ 	if (ret < 0)
+ 		goto out_unlock;
+ 
+-	ret = dax_iomap_direct_access(dmap, pos2, ALIGN(pos2 + len, PAGE_SIZE),
+-				      &daddr, NULL);
++	size2 = ALIGN(len + (pos2 & ~PAGE_MASK), PAGE_SIZE);
++	ret = dax_iomap_direct_access(dmap, pos2, size2, &daddr, NULL);
+ 	if (ret < 0)
+ 		goto out_unlock;
+ 
+-- 
+2.34.1
 
