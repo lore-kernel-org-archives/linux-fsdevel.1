@@ -1,159 +1,257 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76C83AFD11;
-	Sat, 10 Oct 2026 08:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816B63C2B9B
+	for <linux-fsdevel@vger.kernel.org>; Sat, 10 Oct 2026 08:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791621910; cv=none; b=t7I4ZmL2OuzHKUkv/mRSWOvYm/j+ccsBjiDj7lUYvpf70UWu4J1zStRgOXPiRU7++7tpCbCPWlyP3UaPXJzOssuomhN9M4FcVCNKYOJUgjgBUzh86ZvxR8c9r+cYID6BRxH2KrrXjvUAKUfucYu/6PcgO2fO8i6J1XRX5dRhfy0=
+	t=1791622591; cv=none; b=u7ORu0vHXo3tqUqtWgAB2mEmqyFw5gWa2km6HdCnHnG4+huOJZNjQAVM9HFbjJxvjhVMhdnZix0kQUazcDX04gFj1Hl4xqhLQ+1K3qRaV+PkwVaHnIrP13M8ucj4Gq1Mw5v1Jv2oRFl7ScDrAOZL3f6+VG3m4+m+noyfwMdrxKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791621910; c=relaxed/simple;
-	bh=HueVlU6wofq0ki2OUV2xZU+Y4v/BBnx8UUmOYBJZLsM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ht7H7Fd55jsC/LhhCJ1BdnrxJhqB4VY/We7/626v2tNrwjzJVjN9Ks/a8N/+3j6ZWmiEN0JT5V3m97sNav5LFFVA/ebMn9sAj1Hcq6+jLpd7zS1/GGiH/ukr1yTAHurOnfDV82Wmad/5SlMxM56+hqUTErnwPqr/G/v4jLrSs5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j1y2N33mHzYQvY8;
-	Sat, 10 Oct 2026 16:44:12 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 3A8084056B;
-	Sat, 10 Oct 2026 16:44:58 +0800 (CST)
-Received: from [10.174.179.19] (unknown [10.174.179.19])
-	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgAX5ykE+8lq38nSDQ--.10478S3;
-	Sat, 10 Oct 2026 16:44:54 +0800 (CST)
-Message-ID: <34423908-aceb-4c57-9502-7da10b12e4a4@huaweicloud.com>
-Date: Sat, 10 Oct 2026 16:44:52 +0800
+	s=arc-20240116; t=1791622591; c=relaxed/simple;
+	bh=DSpS3bSiLKZn3l0kYtOd5x5P6qmB1vPDgvJscjdMtuU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SWqeswRKiPwJZwHsOUdwtIeJVsUijjL+AcunzCKq1C0vxWn3uQyHpcOflZh7WE1cx6eyani/QE0/fliVwd78Yx6BvbfMdqBWmRzB5YRAtJaB/+k5mHorC+PKhuSc9QL9xdOF4CCitADCi1pNVAFox59zMoo7sVU1KPxA+ccgQLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BbXpP9bp; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BbXpP9bp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791622589; x=1823158589;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DSpS3bSiLKZn3l0kYtOd5x5P6qmB1vPDgvJscjdMtuU=;
+  b=BbXpP9bp+zMEJOR0HWCJyg4pzmtbOIlVyAcgCdUrSSIaZu6XHPh9S6O3
+   Q/RjF832q5Ck/nvrd95BNaPor7djj+nHNb9xeIiqNhGMvEvWzfm+UkiRd
+   F8db9LolqsBXujKg9gAxedS3pz2MvrB46w2dmlxG9KYwTMMUiWSpS73Pd
+   eRwk5SzMApGGBKm0YPjDziBRLEeH2zZF7ZRznXrd0foaOQFDzXUzgetcH
+   DRfh4DL0anIGILXwuQ38Dn/u+SBGGBSRVAUpdiQelwv4Xd/4lVyF8qm8U
+   OlEoqK60B9DZnFMalUxrM5sQA83N6Ul33e9ZjujkU7un5HrXvSYFd2SFc
+   g==;
+X-CSE-ConnectionGUID: WdM8jolQSQKuD7WXmY6YYA==
+X-CSE-MsgGUID: GsEZs38oR7eAUlkTdcAXxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="288737"
+X-IronPort-AV: E=Sophos;i="6.27,150,1787036400"; 
+   d="scan'208";a="288737"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2026 01:56:28 -0700
+X-CSE-ConnectionGUID: Qyqum+gdTASebE2A6hwbXQ==
+X-CSE-MsgGUID: kKHQmbOVTuO3dxamKnSyeg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,150,1787036400"; 
+   d="scan'208";a="587890"
+Received: from ly-workstation.sh.intel.com (HELO ly-workstation) ([10.239.182.64])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2026 01:56:24 -0700
+Date: Sat, 10 Oct 2026 16:56:22 +0800
+From: kernel test robot <yi1.lai@intel.com>
+To: Yury Norov <ynorov@nvidia.com>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrew Ballance <andrewjballance@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	yi1.lai@intel.com
+Subject: [linux-next:master] [lib]  6b23a67486:
+ WARNING:possible_circular_locking_dependency_detected
+Message-ID: <202610101009.240d59d9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot ci] Re: ext4: use iomap for regular file's buffered I/O
- path
-To: syzbot ci <syzbot+ci46f64f7b6a2a188e@syzkaller.appspotmail.com>
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com,
- adilger.kernel@dilger.ca, chengzhihao1@huawei.com, djwong@kernel.org,
- hch@infradead.org, jack@suse.cz, libaokun@linux.alibaba.com,
- linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
- tytso@mit.edu, wangkefeng.wang@huawei.com, yangerkun@huawei.com,
- yi.zhang@huawei.com, yizhang089@gmail.com, yukuai@fnnas.com
-References: <6ac92a4c.70ed5d86.2ac85.0072.GAE@google.com>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <6ac92a4c.70ed5d86.2ac85.0072.GAE@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgAX5ykE+8lq38nSDQ--.10478S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxuFy5Gw4DCr4fZry5tFyxKrg_yoW5KFy7pr
-	W3Kr47Kr48tr18AFs7Zr1UXr18Gr43Ca1UJryfGr1xAFn8uFyjgFyrtrWUZryUJryUCFy2
-	yan8Z34ktw1qqaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUIa
-	0PDUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/10/2026 1:54 AM, syzbot ci wrote:
-> syzbot ci has tested the following series
-> 
 
-[...]
 
-> and found the following issue:
-> WARNING in ext4_do_writepages
-> 
-> Full report is available here:
-> https://ci.syzbot.org/series/3711c951-acf4-4ebe-a920-9cc89b6be2ff
-> 
-> ***
-> 
-> WARNING in ext4_do_writepages
-> 
-> tree:      vfs
-> URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
-> base:      3d399224425573875b6f6f1181bd8cf9a28cc7d1
-> arch:      amd64
-> compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-> config:    https://ci.syzbot.org/builds/c3c01f8c-846d-4c7a-955a-fd7427af6b0d/config
-> 
-> ------------[ cut here ]------------
-> !err
-> WARNING: fs/ext4/inode.c:2512 at ext4_do_writepages+0x33b3/0x44a0, CPU#0: kworker/u9:3/147
-> Modules linked in:
-> CPU: 0 UID: 0 PID: 147 Comm: kworker/u9:3 Not tainted syzkaller #0 PREEMPT(full) 
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-> Workqueue: writeback wb_workfn (flush-7:1)
-> RIP: 0010:ext4_do_writepages+0x33b3/0x44a0
-> Code: 0f 0b 90 e9 b6 d9 ff ff e8 6a e2 36 ff 90 0f 0b 90 e9 e6 dc ff ff e8 5c e2 36 ff 90 0f 0b 90 e9 94 df ff ff e8 4e e2 36 ff 90 <0f> 0b 90 bb ea ff ff ff e9 ae f8 ff ff e8 3b e2 36 ff 48 8d 3d 64
-> RSP: 0018:ffffc90003106ce0 EFLAGS: 00010293
-> RAX: ffffffff8290e912 RBX: 0000000000000000 RCX: ffff8881053f9e00
-> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-> RBP: ffffc900031070f0 R08: ffff888025da4a37 R09: 1ffff11004bb4946
-> R10: dffffc0000000000 R11: ffffed1004bb4947 R12: ffffc900031071a0
-> R13: dffffc0000000000 R14: 0000000000000000 R15: 1ffff11004bb495d
-> FS:  0000000000000000(0000) GS:ffff88818d6c9000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00005555565a5a28 CR3: 0000000031f66000 CR4: 00000000000006f0
-> Call Trace:
->  <TASK>
->  ext4_writepages+0x241/0x3b0
->  do_writepages+0x338/0x560
->  __writeback_single_inode+0x136/0x1220
->  writeback_sb_inodes+0x9de/0x1b00
->  wb_writeback+0x41c/0xad0
->  wb_workfn+0x431/0x10f0
->  process_scheduled_works+0xc3d/0x1630
->  worker_thread+0xa47/0xfb0
->  kthread+0x38b/0x480
->  ret_from_fork+0x514/0xb70
->  ret_from_fork_asm+0x1a/0x30
->  </TASK>
-> 
-> 
+Hello,
 
-This WARNING was newly introduced by patch 8, "ext4: skip block
-allocation for holes in the data submission path". It doesn't actually
-cause a new regression, it just appears to expose a pre-existing issue
-in the buffer_head buffered I/O path, where an inconsistency between
-the bh and extent state could potentially lead to allocating a block and
-writing data into a hole. The logic of the patch itself is fine. To
-avoid noise, I can drop the WARN_ON_ONCE() while still keeping return
--EINVAL. Thoughts?
+kernel test robot noticed "WARNING:possible_circular_locking_dependency_detected" on:
 
-Thanks,
-Yi.
+commit: 6b23a6748698a7cbda7d18a3a28e59be63254571 ("lib: fix lock initialization in region allocation benchmark") https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
 
-> ***
-> 
-> If these findings have caused you to resend the series or submit a
-> separate fix, please add the following tag to your commit message:
->   Tested-by: syzbot@syzkaller.appspotmail.com
-> 
-> ---
-> This report is generated by a bot. It may contain errors.
-> syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-> 
-> To test a fix for this bug, please reply with `#syz test`
-> (on a separate line) and attach the patch to the email.
-> 
-> Notes:
-> - The patch will be applied on top of the tested series (as an
->   incremental fix).
-> - To test a new version of the whole series, please send it directly
->   to syzbot@lists.linux.dev.
-> - Arguments like custom git repos and branches are not supported.
+[test failed on linux-next/master aac26bee2287c88af5be5a5ff96d783b19a28790]
+
+in testcase: locktorture
+with following parameters:
+
+	runtime: 300s
+	test: cpuhotplug
+	torture_type: mutex_lock
+
+config: i386-randconfig-2103-20261007
+compiler: gcc-13
+test machine: qemu-system-i386 -enable-kvm -cpu SandyBridge -smp 4 -m 4G
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <yi1.lai@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202610101009.240d59d9-lkp@intel.com
+
+[   42.982991][  T184] WARNING: possible circular locking dependency detected
+[   42.989787][  T184] 7.3.0-rc5+ #1 Not tainted
+[   42.991360][  T184] ------------------------------------------------------
+[   42.999839][  T184] systemd-udevd/184 is trying to acquire lock:
+[   43.001945][  T184] bb80a5d0 (&sb->s_type->i_lock_key){+.+.}-{3:3}, at: igrab (linux/spinlock.h:347 inode.c:1594)
+[   43.009033][  T184]
+[   43.009033][  T184] but task is already holding lock:
+[   43.009033][  T184]
+[   43.009033][  T184] but task is already holding lock:
+[   43.009033][  T184]
+[   43.009033][  T184] but task is already holding lock:
+[   43.011272][  T184] b9933d1c (&l->lock){+.+.}-{3:3}, at: __list_lru_walk_one+0x4d/0xe7
+[   43.016330][  T184]
+[   43.016330][  T184] which lock already depends on the new lock.
+[   43.016330][  T184]
+[   43.016330][  T184] which lock already depends on the new lock.
+[   43.016330][  T184]
+[   43.016330][  T184] which lock already depends on the new lock.
+[   43.016330][  T184]
+[   43.016333][  T184]
+[   43.016333][  T184] the existing dependency chain (in reverse order) is:
+[   43.016333][  T184]
+[   43.016333][  T184] the existing dependency chain (in reverse order) is:
+[   43.016333][  T184]
+[   43.016333][  T184] the existing dependency chain (in reverse order) is:
+[   43.016334][  T184]
+[   43.016334][  T184] -> #2 (&l->lock){+.+.}-{3:3}:
+[   43.016334][  T184]
+[   43.016334][  T184] -> #2 (&l->lock){+.+.}-{3:3}:
+[   43.016334][  T184]
+[   43.016334][  T184] -> #2 (&l->lock){+.+.}-{3:3}:
+[   43.016341][  T184]
+[   43.016341][  T184] -> #1 (&lockref->lock){+.+.}-{3:3}:
+[   43.016341][  T184]
+[   43.016341][  T184] -> #1 (&lockref->lock){+.+.}-{3:3}:
+[   43.016341][  T184]
+[   43.016341][  T184] -> #1 (&lockref->lock){+.+.}-{3:3}:
+[   43.016346][  T184]
+[   43.016346][  T184] -> #0 (&sb->s_type->i_lock_key){+.+.}-{3:3}:
+[   43.016346][  T184]
+[   43.016346][  T184] -> #0 (&sb->s_type->i_lock_key){+.+.}-{3:3}:
+[   43.016346][  T184]
+[   43.016346][  T184] -> #0 (&sb->s_type->i_lock_key){+.+.}-{3:3}:
+[   43.016350][  T184]        check_noncircular (locking/lockdep.c:2219)
+[   43.016357][  T184]        check_prev_add (locking/lockdep.c:3209)
+[   43.016359][  T184]        validate_chain (locking/lockdep.c:3328 locking/lockdep.c:3952)
+[   43.016361][  T184]        __lock_acquire (locking/lockdep.c:5288)
+[   43.016363][  T184]        lock_acquire (locking/lockdep.c:5942 locking/lockdep.c:5899)
+[   43.016366][  T184]        _raw_spin_lock (linux/spinlock_api_smp.h:190 (discriminator 1) locking/spinlock.c:173 (discriminator 1))
+[   43.016371][  T184]        igrab (linux/spinlock.h:347 inode.c:1594)
+[   43.016374][  T184]        shmem_unused_huge_isolate (shmem.c:874)
+[   43.016380][  T184]        __list_lru_walk_one+0x8b/0xe7
+[   43.016383][  T184]        list_lru_walk_one (list_lru.c:399)
+[   43.016385][  T184]        list_lru_walk_node (list_lru.c:419)
+[   43.016388][  T184]        shmem_unused_huge_shrink (linux/list_lru.h:352 shmem.c:969)
+[   43.016390][  T184]        shmem_alloc_and_add_folio+0x119/0x1bf
+[   43.016393][  T184]        shmem_get_folio_gfp+0x1a0/0x3ba
+[   43.016395][  T184]        shmem_get_folio (shmem.c:2832 (discriminator 1))
+[   43.016397][  T184]        shmem_write_begin (shmem.c:3467)
+[   43.016400][  T184]        generic_perform_write (filemap.c:4374)
+[   43.016403][  T184]        shmem_file_write_iter (shmem.c:3642)
+[   43.016406][  T184]        vfs_write (read_write.c:595 read_write.c:687)
+[   43.016410][  T184]        ksys_write (read_write.c:739)
+[   43.016413][  T184]        __ia32_sys_write (read_write.c:750 read_write.c:747 read_write.c:747)
+[   43.016416][  T184]        ia32_sys_call (kbuild/obj/consumer/i386-randconfig-2103-20261007/./arch/x86/include/generated/asm/syscalls_32.h:5)
+[   43.016419][  T184]        do_int80_syscall_32 (x86/entry/syscall_32.c:79 x86/entry/syscall_32.c:250)
+[   43.016423][  T184]        restore_all_switch_stack (x86/entry/entry_32.S:945)
+[   43.016425][  T184]
+[   43.016425][  T184] other info that might help us debug this:
+[   43.016425][  T184]
+[   43.016425][  T184] other info that might help us debug this:
+[   43.016425][  T184]
+[   43.016425][  T184] other info that might help us debug this:
+[   43.016425][  T184]
+[   43.016426][  T184] Chain exists of:
+[   43.016426][  T184]   &sb->s_type->i_lock_key --> &lockref->lock --> &l->lock
+[   43.016426][  T184]
+[   43.016426][  T184] Chain exists of:
+[   43.016426][  T184]   &sb->s_type->i_lock_key --> &lockref->lock --> &l->lock
+[   43.016426][  T184]
+[   43.016426][  T184] Chain exists of:
+[   43.016426][  T184]   &sb->s_type->i_lock_key --> &lockref->lock --> &l->lock
+[   43.016426][  T184]
+[   43.016431][  T184]  Possible unsafe locking scenario:
+[   43.016431][  T184]
+[   43.016431][  T184]  Possible unsafe locking scenario:
+[   43.016431][  T184]
+[   43.016431][  T184]  Possible unsafe locking scenario:
+[   43.016431][  T184]
+[   43.016432][  T184]        CPU0                    CPU1
+[   43.016433][  T184]        ----                    ----
+[   43.016434][  T184]   lock(&l->lock);
+[   43.016436][  T184]                                lock(&lockref->lock);
+[   43.016438][  T184]                                lock(&l->lock);
+[   43.016440][  T184]   lock(&sb->s_type->i_lock_key);
+[   43.016442][  T184]
+[   43.016442][  T184]  *** DEADLOCK ***
+[   43.016442][  T184]
+[   43.016442][  T184]  *** DEADLOCK ***
+[   43.016442][  T184]
+[   43.016442][  T184]  *** DEADLOCK ***
+[   43.016442][  T184]
+[   43.016443][  T184] locks held by systemd-udevd/184: 4, last CPU#1:
+[   43.016446][  T184]  #0: bbd65278 (sb_writers#5){.+.+}-{0:0}, at: file_start_write+0x1e/0x29
+[   43.016455][  T184]  #1: bc0d3a54 (&sb->s_type->i_mutex_key#14){+.+.}-{4:4}, at: shmem_file_write_iter (linux/fs.h:1024 shmem.c:3632)
+[   43.016464][  T184]  #2: b9933d1c (&l->lock){+.+.}-{3:3}, at: __list_lru_walk_one+0x4d/0xe7
+[   43.016470][  T184]  #3: bb80a4e0 (&info->lock){+.+.}-{3:3}, at: shmem_unused_huge_isolate (linux/spinlock.h:359 shmem.c:870)
+[   43.016477][  T184]
+[   43.016477][  T184] stack backtrace:
+[   43.016477][  T184]
+[   43.016477][  T184] stack backtrace:
+[   43.016477][  T184]
+[   43.016477][  T184] stack backtrace:
+[   43.016480][  T184] CPU: 1 UID: 0 PID: 184 Comm: systemd-udevd Not tainted 7.3.0-rc5+ #1 PREEMPT  e5cca4e8a868af3244d8321e49341795c86a4be3
+[   43.016484][  T184] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[   43.016487][  T184] Call Trace:
+[   43.016491][  T184]  dump_stack_lvl (dump_stack.c:94 dump_stack.c:120)
+[   43.016495][  T184]  dump_stack (dump_stack.c:129)
+[   43.016498][  T184]  print_circular_bug (locking/lockdep.c:2087)
+[   43.016501][  T184]  check_noncircular (locking/lockdep.c:2219)
+[   43.016506][  T184]  check_prev_add (locking/lockdep.c:3209)
+[   43.016509][  T184]  validate_chain (locking/lockdep.c:3328 locking/lockdep.c:3952)
+[   43.016513][  T184]  __lock_acquire (locking/lockdep.c:5288)
+[   43.016517][  T184]  lock_acquire (locking/lockdep.c:5942 locking/lockdep.c:5899)
+[   43.016520][  T184]  ? igrab (linux/spinlock.h:347 inode.c:1594)
+[   43.016524][  T184]  ? __lock_release+0x49/0x108
+[   43.016527][  T184]  _raw_spin_lock (linux/spinlock_api_smp.h:190 (discriminator 1) locking/spinlock.c:173 (discriminator 1))
+[   43.016530][  T184]  ? igrab (linux/spinlock.h:347 inode.c:1594)
+[   43.016533][  T184]  igrab (linux/spinlock.h:347 inode.c:1594)
+[   43.016536][  T184]  shmem_unused_huge_isolate (shmem.c:874)
+[   43.016540][  T184]  ? next_order (linux/huge_mm.h:212)
+[   43.016543][  T184]  __list_lru_walk_one+0x8b/0xe7
+[   43.016545][  T184]  ? next_order (linux/huge_mm.h:212)
+[   43.016550][  T184]  list_lru_walk_one (list_lru.c:399)
+[   43.016553][  T184]  list_lru_walk_node (list_lru.c:419)
+[   43.016555][  T184]  ? next_order (linux/huge_mm.h:212)
+[   43.016559][  T184]  shmem_unused_huge_shrink (linux/list_lru.h:352 shmem.c:969)
+[   43.016562][  T184]  ? vm_unacct_memory (linux/mman.h:78 linux/mman.h:83)
+[   43.016567][  T184]  shmem_alloc_and_add_folio+0x119/0x1bf
+[   43.016570][  T184]  shmem_get_folio_gfp+0x1a0/0x3ba
+[   43.016574][  T184]  shmem_get_folio (shmem.c:2832 (discriminator 1))
+[   43.016578][  T184]  shmem_write_begin (shmem.c:3467)
+[   43.016581][  T184]  generic_perform_write (filemap.c:4374)
+[   43.016587][  T184]  shmem_file_write_iter (shmem.c:3642)
+[   43.016591][  T184]  vfs_write (read_write.c:595 read_write.c:687)
+[   43.016596][  T184]  ksys_write (read_write.c:739)
+[   43.016600][  T184]  __ia32_sys_write (read_write.c:750 read_write.c:747 read_write.c:747)
+[   43.016603][  T184]  ia32_sys_call (kbuild/obj/consumer/i386-randconfig-2103-20261007/./arch/x86/include/generated/asm/syscalls_32.h:5)
+[   43.016606][  T184]  do_int80_syscall_32 (x86/entry/syscall_32.c:79 x86/entry/syscall_32.c:250)
+[   43.016609][  T184]  entry_INT80_32 (x86/entry/entry_32.S:940)
+[   43.016612][  T184] EIP: 0x37f80092
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20261010/202610101009.240d59d9-lkp@intel.com
+
+
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
