@@ -1,204 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86E23D5C2C;
-	Sat, 10 Oct 2026 10:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E576345D5FC;
+	Sat, 10 Oct 2026 12:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791627681; cv=none; b=WDoVALX4hw4xLhCC3tVAJ+93DnfzS/Hak8mlBVMb44V2SntJnxjHZN3W5fQepOelJqTerY3YFMq9Usail/TYqpUmoIZaqlvJiRgle2F0zJZE59DC0qtoANN2od4PFbBPD/mBJhDICwPSU30y2OmuWoI8H3f8lh43iRLoScaHTcc=
+	t=1791636875; cv=none; b=oPGwWpLgynDJrLI02N3v17Jcors6zcy1WbY2Ee8vsDaNiIJMLY3p+qaHi/c5i3iDLUJrSUY7azVRu78ae+/SaguKOSVkPzNjE8WBEISnv1pPZwQzW7ocVGkAnMz3p4JwTuBDIoCN0hlExBFrsgnkeJwy2JB/AQo0g6ACv/duV9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791627681; c=relaxed/simple;
-	bh=BiDhF0lWhO+RibDA9WeMERuRdkka0ag7+4GwzhkWFAU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oHu2ETmOyT3TNNdaFHzHHAubQPa+Lz0VxmJwSgXg22l+ysoRUKEhuQ3qKMj8B57ljXRY1RM0N5yXwHWo9XW5KVUbiyeUOOKHc/RK2BBH6VUnk4l2K6sBBxBOXHq7yPBceWtU30ek4Wiv0jOSlB3q4m7OtgBaal2BpyFuv+a5GMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TDXUulI1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1791636875; c=relaxed/simple;
+	bh=ZcrCwafbniEewCzWv1MZiFYJQ5X4fHmk7ltpbIe8dVg=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SfUIvd64DRqWjDZliuNyNgandJFnIc+L1S5Rx99qTyt/CLI7GczJFeO4/iwJFsZ4KMDBoP+A1XNEWX4s4OicjXX3hPkJtjg2IvOoXMCOELjkWP008BqHkKMGhdxLtxCOwy7ggJNgjPN+n9IH0jlI4E4KeQ6XOnlydraH8TDBPSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q/qQqSlf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TDXUulI1"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8313DC4AF0D;
-	Sat, 10 Oct 2026 10:21:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1791627681;
-	bh=BiDhF0lWhO+RibDA9WeMERuRdkka0ag7+4GwzhkWFAU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=TDXUulI1yj97mFsigwyY8lPT7DgDBxv8zQUTW/1lJ1QmZ1wTiSEV+5CeXrTNr5w77
-	 5ASMnbKot0jieLm4m3lWhPa4kwzA5DGL0WcX7Mw3p3gdyGKFfqHDKiGt6Xp33rt2wE
-	 St4QbvvaM5pvNYlT6MeoPNX5kEKpecYJiV6fvfRaewnZS60BN2rnXb6Wq2Y7TVUdxD
-	 F3cwvyOYuBQoKDYsxi1AWYUD39dI+qGRYxUMyyowLaIauwybaezw/EZGzhLxADXpKu
-	 LiqwVvzNTicPwltG0vlb/VnQlmuUTLY5r7k0zoiCedAAzM5gfzulFESfgEK7AFOBXm
-	 lzotTP8kPSzOg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 657DCCA9EC0;
-	Sat, 10 Oct 2026 10:21:21 +0000 (UTC)
-From: Chen Linxuan via B4 Relay <devnull+me.black-desk.cn@kernel.org>
-Date: Sat, 10 Oct 2026 18:20:53 +0800
-Subject: [PATCH v3 4/4] pidfd: Add task path ioctls
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q/qQqSlf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 471BF1F000FF;
+	Sat, 10 Oct 2026 12:54:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791636874;
+	bh=ZcrCwafbniEewCzWv1MZiFYJQ5X4fHmk7ltpbIe8dVg=;
+	h=Date:From:To:Subject:References:In-Reply-To;
+	b=Q/qQqSlf62cH1TJxDffYqyRk2dfWWBuMJBUm95IE6dEYWjB0axS+ihRYUasmWweGl
+	 kByE5DMqaoLj4kmSHAdISzmsb53vUnuwpnmxfuD41Z5+QL5JwmOKaVuSUWqk+iwZnQ
+	 ya6PPttk0FvmkFsj/u3msXE0HMqDCdqJ6u1WrG0QACvNAgDiwCox9XMee34k6/5VxV
+	 u8JbnFICrG9XPafeKuBva/4ZZV0RJC9tXtEnKFpT7G8B/p2xji89qFlJQdR2xhlVIc
+	 9te2vVIj/v29TkuIlZPqBhaOKDE7j4qsdGKAKj9z+qkjwhX71k97zczQ91IDlIYiWS
+	 rAEX2VNwQRMQA==
+Date: Sat, 10 Oct 2026 14:54:29 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: sashiko-reviews@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-ext4@vger.kernel.org, 
+	linux-afs@lists.infradead.org, v9fs@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, tytso@mit.edu, stable@vger.kernel.org
+Subject: Re: [PATCH 2/8] afs: free the super info after a grace period
+Message-ID: <20261010-veranda-allemal-frivol-5ee6b359d2c8@brauner>
+References: <20261009-work-fixes-rcu-v1-0-7446d2d335e6@kernel.org>
+ <20261009-work-fixes-rcu-v1-2-7446d2d335e6@kernel.org>
+ <sashiko-outbox-166125@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261010-pidfd-get-paths-v3-4-f245440b2b30@black-desk.cn>
-References: <20261010-pidfd-get-paths-v3-0-f245440b2b30@black-desk.cn>
-In-Reply-To: <20261010-pidfd-get-paths-v3-0-f245440b2b30@black-desk.cn>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
- John Johansen <john.johansen@canonical.com>, 
- Georgia Garcia <georgia.garcia@canonical.com>, 
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, Jann Horn <jannh@google.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, apparmor@lists.ubuntu.com, 
- linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
- Chen Linxuan <me@black-desk.cn>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3684; i=me@black-desk.cn;
- s=20260831; h=from:subject:message-id;
- bh=+1T/PPCKeQZBRhmKsitYw/Ec11LSxu55a/COLMCLNMo=;
- b=owEBbQKS/ZANAwAKAXYe5hQ5ma6LAcsmYgBqyhGeHSAru4tTGfalbmhoJcNYCzEfByYH/LxTw
- ceuZnHmKJqJAjMEAAEKAB0WIQTO1VElAk6xdvy0ZVp2HuYUOZmuiwUCasoRngAKCRB2HuYUOZmu
- i5twEADKSVdmpTk/nlZ00M+zdAAWq5/SBTf3ZXGeIyz2tgTjNQ2eIUOYGbg+Sy1YQmPJN4KfCEi
- EBLl26OkJC+9e21ly5xdiJF2opwxIM6FprQCfbAvvR0tYFo3M6YaBcXyhNJRJrMKFxZRtUCH3g8
- cFqLBHG0tDO0fwV6aad/1Y7Fl41Xm2eQX1DsBPwgBk3VqVHFiX+v8XO1Ml0p7YdBIXkJRr69gzQ
- xDOXqz5g9mlj+uFKJVORHK0/LN86AwA00XSrkxPWAGKkJ70eHJhScBwPlFHQHQaWKysfR95hYBx
- 1dHy2E7U0N9Y0/pucsHV1ADMNBuFGnorz8bSVQ3blRYwYpCLM68esUqA4vbxv/xNfgcOb30dkWq
- M71eXmfaKuFDmb8CYrE0obRhgU99t4i8C+uJmAlNUe8roFQ1llVN3HlT6ywworrKBiY9rnKXJaF
- 7cesgSX3fAg1oHxwk5iCbhu8WD8TAVyQcf3mcxOwmIcfgxWkSfulqzWQpS7ZMzhVTHoUEvEmOnM
- 5WC2NJs2rzbhaR7fDzElKWOvmHIpKPiUC+osQx18XlH+lcQ0fd6ib7mmBZzpVNsKoSNwIGLMCym
- hShy2bj27Y6swxJQZUarquzHkgabidlDe/III2wz2oyUriSdk01Q7Iwz6WOhaooZi0Z+I6okj2m
- OGvuJ09FgJHBJJg==
-X-Developer-Key: i=me@black-desk.cn; a=openpgp;
- fpr=D818ACDD385CAE92D4BAC01A6269794D24791D21
-X-Endpoint-Received: by B4 Relay for me@black-desk.cn/20260831 with
- auth_id=991
-X-Original-From: Chen Linxuan <me@black-desk.cn>
-Reply-To: me@black-desk.cn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <sashiko-outbox-166125@kernel.org>
 
-From: Chen Linxuan <me@black-desk.cn>
+On Fri, Oct 09, 2026 at 10:07:58PM +0000, sashiko-bot@kernel.org wrote:
+> Does this regression introduce a TOCTOU race in afs_atcell_get_link() that
+> can cause a NULL dereference?
+>
+> By leaving put_net() executing before the RCU grace period, afs_net_exit() can
+> tear down the namespace while pathwalks are still active. If cleanup_net()
+> calls afs_cell_purge(), it replaces net->ws_cell with NULL.
 
-Add PIDFD_GET_EXE, PIDFD_GET_CWD, and PIDFD_GET_ROOT to return
-close-on-exec O_PATH file descriptors referencing the target task's
-executable, working directory, and root directory.
+No. This patch doesn't touch put_net(). It's called in the same place
+as before.
 
-The ioctls acquire the target through the shared task acquisition
-helper and are thus subject to the same checks as the namespace
-ioctls. The target is sampled while holding exec_update_lock so that
-the access check and the path read cannot race with execve().
+The only place that sets net->ws_cell to NULL is afs_cell_purge() from
+afs_net_exit(). The superblock pins the network namespace via
+as->net_ns and once the last reference is gone cleanup_net() does a
+synchronize_rcu() before it calls any ->exit() method. So
+afs_cell_purge() can't run while a pathwalk is still in
+afs_atcell_get_link() in rcu mode.
 
-This allows userspace to obtain stable path references from a pidfd
-without requiring procfs.
+The double load of net->ws_cell is a bit sloppy but it's harmless.
 
-Assisted-by: LLM
-Signed-off-by: Chen Linxuan <me@black-desk.cn>
----
- fs/pidfs.c                 | 38 ++++++++++++++++++++++++++++++++++++++
- include/uapi/linux/pidfd.h |  7 +++++++
- 2 files changed, 45 insertions(+)
+> Can net->ws_cell be cleared to NULL before the lock is acquired, causing a
+> NULL dereference here as well?
 
-diff --git a/fs/pidfs.c b/fs/pidfs.c
-index 82ab4dee55e5..e945c77bdc0e 100644
---- a/fs/pidfs.c
-+++ b/fs/pidfs.c
-@@ -4,6 +4,7 @@
- #include <linux/exportfs.h>
- #include <linux/file.h>
- #include <linux/fs.h>
-+#include <linux/fs_struct.h>
- #include <linux/cgroup.h>
- #include <linux/magic.h>
- #include <linux/mount.h>
-@@ -510,6 +511,9 @@ static bool pidfs_ioctl_valid(unsigned int cmd)
- 	case PIDFD_GET_UTS_NAMESPACE:
- 	case PIDFD_GET_USER_NAMESPACE:
- 	case PIDFD_GET_PID_NAMESPACE:
-+	case PIDFD_GET_EXE:
-+	case PIDFD_GET_CWD:
-+	case PIDFD_GET_ROOT:
- 		return true;
- 	}
- 
-@@ -687,9 +691,31 @@ static struct ns_common *pidfd_get_namespace(struct pid *pid,
- 	return ns_common;
- }
- 
-+static int pidfd_get_task_path(struct pid *pid, unsigned int cmd,
-+			       unsigned long arg, struct path *path)
-+{
-+	CLASS(pidfd_task_locked, task)(pid, arg);
-+
-+	if (IS_ERR(task))
-+		return PTR_ERR(task);
-+
-+	switch (cmd) {
-+	case PIDFD_GET_EXE:
-+		return get_task_exe_path(task, path);
-+	case PIDFD_GET_CWD:
-+		return get_task_pwd(task, path);
-+	case PIDFD_GET_ROOT:
-+		return get_task_root(task, path);
-+	}
-+
-+	return -EINVAL;
-+}
-+
- static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- {
- 	struct ns_common *ns_common = NULL;
-+	struct path path __free(path_put) = {};
-+	int error;
- 
- 	if (!pidfs_ioctl_valid(cmd))
- 		return -ENOIOCTLCMD;
-@@ -707,6 +733,18 @@ static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 	if (_IOC_NR(cmd) == _IOC_NR(PIDFD_GET_INFO))
- 		return pidfd_info(file, cmd, arg);
- 
-+	switch (cmd) {
-+	case PIDFD_GET_EXE:
-+	case PIDFD_GET_CWD:
-+	case PIDFD_GET_ROOT:
-+		error = pidfd_get_task_path(pidfd_pid(file), cmd, arg, &path);
-+		if (error)
-+			return error;
-+
-+		return FD_ADD(O_CLOEXEC,
-+			      dentry_open(&path, O_PATH, current_cred()));
-+	}
-+
- 	ns_common = pidfd_get_namespace(pidfd_pid(file), cmd, arg);
- 	if (IS_ERR(ns_common))
- 		return PTR_ERR(ns_common);
-diff --git a/include/uapi/linux/pidfd.h b/include/uapi/linux/pidfd.h
-index 0919246a1611..95ce1819f423 100644
---- a/include/uapi/linux/pidfd.h
-+++ b/include/uapi/linux/pidfd.h
-@@ -121,4 +121,11 @@ struct pidfd_info {
- #define PIDFD_GET_UTS_NAMESPACE               _IO(PIDFS_IOCTL_MAGIC, 10)
- #define PIDFD_GET_INFO                        _IOWR(PIDFS_IOCTL_MAGIC, 11, struct pidfd_info)
- 
-+/* Return an O_PATH file descriptor for the target task's executable. */
-+#define PIDFD_GET_EXE                         _IO(PIDFS_IOCTL_MAGIC, 12)
-+/* Return an O_PATH file descriptor for the target task's working directory. */
-+#define PIDFD_GET_CWD                         _IO(PIDFS_IOCTL_MAGIC, 13)
-+/* Return an O_PATH file descriptor for the target task's root directory. */
-+#define PIDFD_GET_ROOT                        _IO(PIDFS_IOCTL_MAGIC, 14)
-+
- #endif /* _UAPI_LINUX_PIDFD_H */
-
--- 
-2.55.0
-
-
+No. Without rcu the caller holds references to the dentry and the
+mount. So the superblock and with it the network namespace can't go
+away underneath it.
