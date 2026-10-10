@@ -1,119 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4635F379C23;
-	Sat, 10 Oct 2026 07:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76C83AFD11;
+	Sat, 10 Oct 2026 08:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791617788; cv=none; b=Yy4pTwyLBz1WoZ24UcJMCMHei6Tbjei4d7Zmgau1zzcBrtdCLXitBw5/iEwGPbfH6xUcn33RDsTReSJBRodZHDJtL/m33zT0C5+cbzHesplY9C5vzMRyUq9KuvSL8QLW3TyDyrRPDycffzXWiQ8PWAjkMSe/BBJVbRBrY/0NzMs=
+	t=1791621910; cv=none; b=t7I4ZmL2OuzHKUkv/mRSWOvYm/j+ccsBjiDj7lUYvpf70UWu4J1zStRgOXPiRU7++7tpCbCPWlyP3UaPXJzOssuomhN9M4FcVCNKYOJUgjgBUzh86ZvxR8c9r+cYID6BRxH2KrrXjvUAKUfucYu/6PcgO2fO8i6J1XRX5dRhfy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791617788; c=relaxed/simple;
-	bh=4ko9gSj+vxgBtEJWFjbBisBasVf3lndbjG7WDoYLcn4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=D5I0rc97HVDeTKyClYObvvdQ6vwGbokclXCQLXY4X/y+ZQynOoYSBVqU6LAwFly2sqH0PBKmBuJGMsLFZmXH2Hir91qxZiCaqQ9vAec44RIx7S/O90NByIBF0Hm1UtYmcXwdwKX54bNhP/VHkBFao+SJUwJhUKwXdHLTY+hlUXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O1scjIDh; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O1scjIDh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F321F000FF;
-	Sat, 10 Oct 2026 07:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791617786;
-	bh=lvHacGZHOil6n8X8TWo3a/lv5iJ2YDY90NDrBy/yA4U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=O1scjIDh9Idq26MCPYxo0nalUPgIQV8jPHjj9EAukOJzrIDI+14xcWHlQyw+RQW+z
-	 c7bfG0uCWt+vPb6LQbz83ilcKuAN5wvPqekwmSW/kUbYPHVXoZV+KlJYXQjZTB81Cd
-	 VxJqf2JFBOtbzVjZ6kkqAF7Dde+UtRdu4nMX+IrjnQrHWWwBN0ZbwR7o5StsVqvnKd
-	 ReygXOyiuezuAqNAnHRGyM99QlGFGSNZttQJtO1GHCBElzQxgme2m+vwsQ9rz5XRWx
-	 5hiOXKqAE2c85h3nDndjJe1iif63W9teMNiLmh+O8rOw6WU6umu3Kx2kzmp/rr7N7n
-	 V56r/87rFYK1A==
-X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Fred Griffoul <griffoul@gmail.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>
-Cc: David Woodhouse <dwmw2@infradead.org>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	kvmarm@lists.linux.dev, iommu@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH 0/9] mm: Memory providers for guest_memfd and iommufd
-In-Reply-To: <20261006183235.16576-1-griffoul@gmail.com>
-References: <20260720111259.122911-1-dwmw2@infradead.org>
- <20261006183235.16576-1-griffoul@gmail.com>
-Date: Sat, 10 Oct 2026 13:06:09 +0530
-Message-ID: <yq5ald8680t2.fsf@kernel.org>
+	s=arc-20240116; t=1791621910; c=relaxed/simple;
+	bh=HueVlU6wofq0ki2OUV2xZU+Y4v/BBnx8UUmOYBJZLsM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ht7H7Fd55jsC/LhhCJ1BdnrxJhqB4VY/We7/626v2tNrwjzJVjN9Ks/a8N/+3j6ZWmiEN0JT5V3m97sNav5LFFVA/ebMn9sAj1Hcq6+jLpd7zS1/GGiH/ukr1yTAHurOnfDV82Wmad/5SlMxM56+hqUTErnwPqr/G/v4jLrSs5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j1y2N33mHzYQvY8;
+	Sat, 10 Oct 2026 16:44:12 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 3A8084056B;
+	Sat, 10 Oct 2026 16:44:58 +0800 (CST)
+Received: from [10.174.179.19] (unknown [10.174.179.19])
+	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgAX5ykE+8lq38nSDQ--.10478S3;
+	Sat, 10 Oct 2026 16:44:54 +0800 (CST)
+Message-ID: <34423908-aceb-4c57-9502-7da10b12e4a4@huaweicloud.com>
+Date: Sat, 10 Oct 2026 16:44:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot ci] Re: ext4: use iomap for regular file's buffered I/O
+ path
+To: syzbot ci <syzbot+ci46f64f7b6a2a188e@syzkaller.appspotmail.com>
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com,
+ adilger.kernel@dilger.ca, chengzhihao1@huawei.com, djwong@kernel.org,
+ hch@infradead.org, jack@suse.cz, libaokun@linux.alibaba.com,
+ linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
+ tytso@mit.edu, wangkefeng.wang@huawei.com, yangerkun@huawei.com,
+ yi.zhang@huawei.com, yizhang089@gmail.com, yukuai@fnnas.com
+References: <6ac92a4c.70ed5d86.2ac85.0072.GAE@google.com>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <6ac92a4c.70ed5d86.2ac85.0072.GAE@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgAX5ykE+8lq38nSDQ--.10478S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxuFy5Gw4DCr4fZry5tFyxKrg_yoW5KFy7pr
+	W3Kr47Kr48tr18AFs7Zr1UXr18Gr43Ca1UJryfGr1xAFn8uFyjgFyrtrWUZryUJryUCFy2
+	yan8Z34ktw1qqaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUIa
+	0PDUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-Fred Griffoul <griffoul@gmail.com> writes:
+On 10/10/2026 1:54 AM, syzbot ci wrote:
+> syzbot ci has tested the following series
+> 
 
-> From: Fred Griffoul <fgriffo@amazon.co.uk>
->
-> Some drivers manage RAM outside the page allocator: a carve-out, device
-> memory, or memory that a host component moves between VMs while they
-> run. This memory often has no struct page. The driver wants to lend
-> pages to a VM and to its devices, and to take any of them back later.
->
-> David Woodhouse's series "KVM: Allow alternative providers of
-> guest_memfd backed by PFNMAP memory" lets such a driver back a
-> guest_memfd through struct kvm_gmem_ops:
->
->   https://lore.kernel.org/kvm/20260720111259.122911-1-dwmw2@infradead.org/
->
-> That covers the guest, but not the VM's devices, which his cover
-> letter left as an open question. This series adds a small interface in
-> mm: the driver that owns the memory becomes a provider, and the code
-> that maps it attaches as a consumer. There are two consumers, a
-> guest_memfd backend and IOMMU_IOAS_MAP_FILE in iommufd.
->
-> The series is on top of David's v2 (base 0e35b9b6ec0f). Patch 1 was
-> part of the earlier dma-buf RFC. The provider backend depends on it, so
-> this series carries it.
->
+[...]
 
+> and found the following issue:
+> WARNING in ext4_do_writepages
+> 
+> Full report is available here:
+> https://ci.syzbot.org/series/3711c951-acf4-4ebe-a920-9cc89b6be2ff
+> 
+> ***
+> 
+> WARNING in ext4_do_writepages
+> 
+> tree:      vfs
+> URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
+> base:      3d399224425573875b6f6f1181bd8cf9a28cc7d1
+> arch:      amd64
+> compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> config:    https://ci.syzbot.org/builds/c3c01f8c-846d-4c7a-955a-fd7427af6b0d/config
+> 
+> ------------[ cut here ]------------
+> !err
+> WARNING: fs/ext4/inode.c:2512 at ext4_do_writepages+0x33b3/0x44a0, CPU#0: kworker/u9:3/147
+> Modules linked in:
+> CPU: 0 UID: 0 PID: 147 Comm: kworker/u9:3 Not tainted syzkaller #0 PREEMPT(full) 
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+> Workqueue: writeback wb_workfn (flush-7:1)
+> RIP: 0010:ext4_do_writepages+0x33b3/0x44a0
+> Code: 0f 0b 90 e9 b6 d9 ff ff e8 6a e2 36 ff 90 0f 0b 90 e9 e6 dc ff ff e8 5c e2 36 ff 90 0f 0b 90 e9 94 df ff ff e8 4e e2 36 ff 90 <0f> 0b 90 bb ea ff ff ff e9 ae f8 ff ff e8 3b e2 36 ff 48 8d 3d 64
+> RSP: 0018:ffffc90003106ce0 EFLAGS: 00010293
+> RAX: ffffffff8290e912 RBX: 0000000000000000 RCX: ffff8881053f9e00
+> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+> RBP: ffffc900031070f0 R08: ffff888025da4a37 R09: 1ffff11004bb4946
+> R10: dffffc0000000000 R11: ffffed1004bb4947 R12: ffffc900031071a0
+> R13: dffffc0000000000 R14: 0000000000000000 R15: 1ffff11004bb495d
+> FS:  0000000000000000(0000) GS:ffff88818d6c9000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00005555565a5a28 CR3: 0000000031f66000 CR4: 00000000000006f0
+> Call Trace:
+>  <TASK>
+>  ext4_writepages+0x241/0x3b0
+>  do_writepages+0x338/0x560
+>  __writeback_single_inode+0x136/0x1220
+>  writeback_sb_inodes+0x9de/0x1b00
+>  wb_writeback+0x41c/0xad0
+>  wb_workfn+0x431/0x10f0
+>  process_scheduled_works+0xc3d/0x1630
+>  worker_thread+0xa47/0xfb0
+>  kthread+0x38b/0x480
+>  ret_from_fork+0x514/0xb70
+>  ret_from_fork_asm+0x1a/0x30
+>  </TASK>
+> 
+> 
 
-I have been working on something similar for confidential computing use
-cases. There is likely some overlap between this series and what I posted
-at [1].
+This WARNING was newly introduced by patch 8, "ext4: skip block
+allocation for holes in the data submission path". It doesn't actually
+cause a new regression, it just appears to expose a pre-existing issue
+in the buffer_head buffered I/O path, where an inconsistency between
+the bh and extent state could potentially lead to allocating a block and
+writing data into a hole. The logic of the patch itself is fine. To
+avoid noise, I can drop the WARN_ON_ONCE() while still keeping return
+-EINVAL. Thoughts?
 
-I have not reviewed this series in detail yet, but I will compare the two
-approaches and identify what can be shared between the use cases. Please
-let me know how you would like to proceed.
+Thanks,
+Yi.
 
-[1] https://lore.kernel.org/all/20261010072504.536230-1-aneesh.kumar@kernel.org/
+> ***
+> 
+> If these findings have caused you to resend the series or submit a
+> separate fix, please add the following tag to your commit message:
+>   Tested-by: syzbot@syzkaller.appspotmail.com
+> 
+> ---
+> This report is generated by a bot. It may contain errors.
+> syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+> 
+> To test a fix for this bug, please reply with `#syz test`
+> (on a separate line) and attach the patch to the email.
+> 
+> Notes:
+> - The patch will be applied on top of the tested series (as an
+>   incremental fix).
+> - To test a new version of the whole series, please send it directly
+>   to syzbot@lists.linux.dev.
+> - Arguments like custom git repos and branches are not supported.
 
--aneesh
