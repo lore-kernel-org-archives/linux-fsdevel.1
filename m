@@ -1,113 +1,100 @@
-Received: from mail-pj2-f5.google.com (mail-pj2-f5.google.com [74.125.227.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5283D381EB6
-	for <linux-fsdevel@vger.kernel.org>; Sat, 10 Oct 2026 02:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D0E2D59E8
+	for <linux-fsdevel@vger.kernel.org>; Sat, 10 Oct 2026 02:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791598222; cv=none; b=iHNvRRcN0MIZVTQ0+5uDSnd+iZwFl4euwxnzUOZK+r/5F5x7Xhmueyq0TFSqhEjSXphYY/sL7Ld+DBTA2iEZaxvf63l8f3s9RQrK6JR/HZy6VReIiv57voL98Qkdh/ob8syU5bmy0zXnE4EywEIk/cWLURxObmgkagDmNFBt3Fw=
+	t=1791598661; cv=none; b=nTs8aa8auR9ngeS4UURpGHtUt4S8y+w3gXqVgU/LCx9/+qufslUDYN74iEzeE4oFx6XSvyx2aDtG7lK0gxqBdQQd9K9SzjN7dfC1Tx/Sd3c+KJuPUnmkMMbWwbkL62izBk5Kw1w4FCkBKHP+6gZ5XkZ13cGGxCjb/7Q3JdgfAy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791598222; c=relaxed/simple;
-	bh=mXKTkYmURmAwcHDWL9qil/wt8AN1KXlNWVYThfkScHc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XdMU7qBA8OGzCUgrpk0RsNaNLScJX5q5s0I00oxdjPco3XoKlcsMURSpgQBSLCZZ+eJIXs6RlVohvcf8VwnMYWXYL5Tj6VfEYk//bZQ8rhNL7w0nfqcn5mgnYvCDRhbFmvbIQ70fsqph1lL+WzowNe5RyvgFGGp4c0PxqjZP03Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gBzHkxEc; arc=none smtp.client-ip=74.125.227.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791598661; c=relaxed/simple;
+	bh=gYpbgl2GZgyL4Hg+QxycNzx80e45YZlInf4plZKf8V8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HwXjpuPCgddyWGuQBo9DY5HMoD9cTN2eZpdZXdTS0/aHqNbdcGrsJhh98Pxmaee5v8bwWETRYgVSyeyl/mmseqrpyT7XdIG6FKm32tWF+lIZZQdyVrzlGmfnN5KPIBgJC1kD7ATHR5eYDbQjrE25hxrmW/6fDO4ahlDM/FW51co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RRcbgkF9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gBzHkxEc"
-Received: by mail-pj2-f5.google.com with SMTP id 98e67ed59e1d1-3a7adbf1b3fso71632a91.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 19:10:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791598221; x=1792203021; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=X/Fh/Ja5bkpUIakz4GwSffeo/Fel3d9ODnCNeZEyn5Q=;
-        b=gBzHkxEc/uIS59nsMOji5o+sSmSzZmmFemCcLjFedsJeQ5XOGuJbEvLm29hrTa6Yk1
-         6jzlwn/rUJasiQUnuzLDt4/bFO8EwuiEG3qpHiSjTReLsLrUOY/OYiorfTv7c67Ogizm
-         jp+J1ddnOsIHDI9neo+ijypTPjUcaqQEPj4jhnHqTBaY6zKpPWn3WhJJA3NpKRJIIsrn
-         i5ccUtcaTIPkJZyMuYYygs4Ur3ykZoqBrLLZ4XGkDSS0h86lCGMD6ALWnN7YoSlaYk4Q
-         1Oz05HwtzNvTHRuOxS+i6et0+SG7qxL4q/YDuYP8chqDVFQWb3dK53JzSCEQTkT6C7ol
-         CB0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791598221; x=1792203021;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=X/Fh/Ja5bkpUIakz4GwSffeo/Fel3d9ODnCNeZEyn5Q=;
-        b=0cjSvZZxPGde3XIGYxAts8T1cMf5/XxPKAlctOWr+gxPAu0PkfVTPbBwTqIylQrG+G
-         kCvqr7NavjYDfNnZpLSNvY6aHKIFN4p2gRX7b/kCU5KYxL0lJkndetl1QTA0YsWtHbPU
-         bysqzawGydJgFaSz2sPGLmwo+oPj8uf98bmnTd5giXXJnHZTBcIFO165fQet/92cPevh
-         pklCfWYI5FYLzf9sFOK/+DgMECkN5FFlGwrS/sIBKFl0eacF71gqnzCUkHPdpylE9hJj
-         7Yn5JGQSdMHZz+ceOwOocD6bROdYzM/AWWuIOeTvKxxLorN4DxCyg6Go/wRwsL2LsOb4
-         iGEw==
-X-Forwarded-Encrypted: i=1; AKwUvBy0lGInv1AAOHfH6x7EI3JkgJS3UpVzgwuvU5dDT54TPVaeYLTEHgnK07ke8NXSm/hXQZcc934twd63UPoc@vger.kernel.org
-X-Gm-Message-State: AFq9FYIXRRJrumNFNjr4G+HRnF4B+6qixBlPh8OeFcgpsayuxjULH5kK
-	qKV9gttfvt/S8FHQOsu/IIK7neh/mpABPMqqmrUQ5ddzLdp0fkl8oAmY
-X-Gm-Gg: AYBFou2Q9aLq+WVfuJhd8DYQexXTxYZyF+B+RvzDd4kW8jUpInynjRilApWkbREDWi+
-	l8ID3VSxbgILW6cp/OlzS+QzXLoEmWMc4rFt42rIY2FAifO2BJovJ+ptSoq7Jk3YqxJ09fRFz0R
-	rFgZ4I3h2yBzMkUMFwcFw84aItcXGduSvKYHvI5iIFXVCz/+IeLoerHzUPFcS5MQ1ESszZNX2bt
-	NVZhWQBtnn/O53DZVe+ocx5ec4JGQKGLoA8S8+ktIqaFuUONUjT37GO18M7OKeXyuAgY2jvvKm5
-	DvaPUPX8v4Q1NclVklhZQylQnOTLpq3rOUk256wZUFxL5J+nV0xSJPHtC1gSo5t1qRIS+nPRIeo
-	kBXOgbZl/FvK5FqDhENyHduzB9lXcVjBkkiW6h7/im/2ppEYYMIX2gyDfSQgF6Q5bM3m8OEJ9TM
-	6DMjnIskivyoA5gUvnH2DrSJoX6pvhaRBgLNZAxMrxzoF9a+ZlXkcuTH3bnacbaZC/SiSmtnsbW
-	JcV5RsjjyrzaAXxhnIevfsQGAksqyD1mrYMd/bLeEthdHvoxEPAZWqPkwsWPg==
-X-Received: by 2002:a17:90b:2681:b0:3ab:189b:6981 with SMTP id 98e67ed59e1d1-3ab3a92f9f3mr2946771a91.48.1791598220531;
-        Fri, 09 Oct 2026 19:10:20 -0700 (PDT)
-Received: from localhost (ec2-13-124-149-247.ap-northeast-2.compute.amazonaws.com. [13.124.149.247])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab421566acsm3027977a91.3.2026.10.09.19.10.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 19:10:19 -0700 (PDT)
-From: jianyungao89@gmail.com
-To: linux-kernel@vger.kernel.org
-Cc: Jianyun Gao <jianyungao89@gmail.com>,
-	Dan Williams <djbw@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org (open list:FILESYSTEM DIRECT ACCESS (DAX)),
-	nvdimm@lists.linux.dev (open list:FILESYSTEM DIRECT ACCESS (DAX))
-Subject: [PATCH] dax: fix wrong error code returned from dax_dedupe_file_range_compare()
-Date: Sat, 10 Oct 2026 10:10:09 +0800
-Message-Id: <20261010021010.19575-1-jianyungao89@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RRcbgkF9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D5A41F00899
+	for <linux-fsdevel@vger.kernel.org>; Sat, 10 Oct 2026 02:17:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791598659;
+	bh=WFDctbzgPknbzeG/yi0t3GFYlXJxdai12qYrzoDBQyk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=RRcbgkF9mi9YSm5B8vC4lQODEEJNGBrhmpXUmf8qCt0+hYQPFbGAp/WD6D+oj/wJv
+	 lpqcdXEocjzOhEtm0GoqoBCFb5siT9ITmLwwDL94OxkeJFU11GWyqoQq0SXprgZPcD
+	 KxK0YsxbAOFFlxWhXPYwrzDiwtKdo7KcZ5Y6urWJgXa5FO8wi7IXZfzU4FMDyyW0sS
+	 tNatJvIgmgTlfv/a2iUvG2s16T6tx5/VVbT+o4utIdCf40R0Ealp5/SSVxLl9G8c2A
+	 uuXbFBRkGlvvxorrcbclQ5BctYmCBXIVFzD9c5bx0dz/fz579GxAxjqK0v8j4yglto
+	 sLRePByXClXog==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6af9a9451daso474954a12.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 09 Oct 2026 19:17:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzVoHNiPQTvGVV7ileMZH+HPI/Vf/fPDb5THYPfT+SSwE/nY7ZafxW+Q1L0DxZvmcSzBJlDFhxUh4QyBoLq@vger.kernel.org
+X-Gm-Message-State: AFq9FYIKIJO2RaAYoZPe8PlId6ElYyrSRLR6aGl4IYpBPhCsdYwgH8EZ
+	QI3PKHlTsUzlhD5PYpCNm9xQv7EtuBQ5w5wFEA5wBRm5wXmlHg5FyP26k3V5P6hVHj55NkBMKi6
+	KypMiDYLdSVJbEcXdwSlnlDKrnhcUHJ0=
+X-Received: by 2002:a17:907:8686:b0:c31:6ba6:3108 with SMTP id
+ a640c23a62f3a-c31aa0f6588mr379464366b.47.1791598657585; Fri, 09 Oct 2026
+ 19:17:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <010001a1222f66ba-0c745f29-d4fe-4862-93ff-1db2055b05fc-000000@email.amazonses.com>
+In-Reply-To: <010001a1222f66ba-0c745f29-d4fe-4862-93ff-1db2055b05fc-000000@email.amazonses.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Sat, 10 Oct 2026 11:17:25 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd9EkVrdKjsmcd96OFc7pf=2WA8KMUBhRPZROkUOdkV=SA@mail.gmail.com>
+X-Gm-Features: AclHuK9CnmF-Cf56ITpAxH0BBJD0BVV6mYdsFpm31QpZauc77VpyFsAA04zJ4o0
+Message-ID: <CAKYAXd9EkVrdKjsmcd96OFc7pf=2WA8KMUBhRPZROkUOdkV=SA@mail.gmail.com>
+Subject: Re: [REGRESSION 7.2] exfat: stale dentry buffer of a deleted
+ directory overwrites new file data
+To: nfalesy@gmail.com
+Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, exfat@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev, hch@lst.de, djwong@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Jianyun Gao <jianyungao89@gmail.com>
+Hi,
 
-When dax_range_compare_iter() returns a negative error code (e.g. -EIO),
-dax_dedupe_file_range_compare() incorrectly returns 'ret' which holds the
-positive return value from iomap_iter() indicating more iterations remain.
-This positive value leaks to the caller, where vfs_dedupe_file_range()
-interprets it as success (bytes_deduped = len), causing userspace to
-incorrectly believe deduplication completed.
-
-Return 'status' instead to propagate the actual error code.
-
-Signed-off-by: Jianyun Gao <jianyungao89@gmail.com>
----
- fs/dax.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/dax.c b/fs/dax.c
-index 6ba50142eeb2..1f6a4fbb97bd 100644
---- a/fs/dax.c
-+++ b/fs/dax.c
-@@ -2261,7 +2261,7 @@ int dax_dedupe_file_range_compare(struct inode *src, loff_t srcoff,
- 		status = dax_range_compare_iter(&src_iter, &dst_iter,
- 				min(src_iter.len, dst_iter.len), same);
- 		if (status < 0)
--			return ret;
-+			return status;
- 		src_iter.status = dst_iter.status = status;
- 	}
- 	return ret;
--- 
-2.34.1
-
+> A candidate fix (not a formal patch; tested only with this
+> reproducer, all cases above 0/N on v7.3-rc6 with it applied):
+>
+> --- a/fs/exfat/iomap.c
+> +++ b/fs/exfat/iomap.c
+> @@ -7,6 +7,7 @@
+>
+>  #include <linux/iomap.h>
+>  #include <linux/pagemap.h>
+> +#include <linux/buffer_head.h>
+>
+>  #include "exfat_raw.h"
+>  #include "exfat_fs.h"
+> @@ -77,6 +78,21 @@
+>         if (err)
+>                 goto out;
+>
+> +       /*
+> +        * New clusters may still have dirty buffer_heads in the bdev
+> +        * mapping (e.g. dentries of a just-removed directory).  Drop
+> +        * them, as __block_write_begin_int() did for buffer_new
+> +        * blocks, so a later bdev flush cannot write stale metadata
+> +        * over the new file data.
+> +        */
+> +       if (balloc) {
+> +               sector_t first = exfat_cluster_to_sector(sbi, cluster);
+> +               sector_t nr = (sector_t)num_clusters <<
+> +                             sbi->sect_per_clus_bits;
+> +
+> +               clean_bdev_aliases(sb->s_bdev, first, nr);
+> +       }
+> +
+>         cluster_offset = exfat_cluster_offset(sbi, offset);
+>         cluster_length = exfat_cluster_to_bytes(sbi, num_clusters);
+Thanks for the report and fixes! Your fix seems to miss clusters
+allocated by fallocate() or an extending ftruncate(). These operations
+allocate clusters before data I/O, so balloc is false when the
+clusters are later mapped for writing, and clean_bdev_aliases() can be
+skipped. Could you send a patch that moves the cleanup to
+exfat_alloc_cluster(), using one call per contiguous range?
