@@ -1,141 +1,119 @@
-Received: from mail-pj2-f8.google.com (mail-pj2-f8.google.com [74.125.227.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA2341DDE5
-	for <linux-fsdevel@vger.kernel.org>; Sat, 10 Oct 2026 07:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4635F379C23;
+	Sat, 10 Oct 2026 07:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791616503; cv=none; b=IttiwRNPC3HLCabNv0ds965rcEMeViswv6uQMEpLx5H8z9T7L06RYA8gVUz7pY/DGeTlRL3KoM7mwWLfc8SAZZ2nvxyCpTfqoh7jZtxEt+bcGfqEM/XxsE6vQ5NeAGuut9zMHdonoJzzwN36DLaeUUXVelNp0vD1zkdAPEOr9YU=
+	t=1791617788; cv=none; b=Yy4pTwyLBz1WoZ24UcJMCMHei6Tbjei4d7Zmgau1zzcBrtdCLXitBw5/iEwGPbfH6xUcn33RDsTReSJBRodZHDJtL/m33zT0C5+cbzHesplY9C5vzMRyUq9KuvSL8QLW3TyDyrRPDycffzXWiQ8PWAjkMSe/BBJVbRBrY/0NzMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791616503; c=relaxed/simple;
-	bh=AgqPawQLsHErmF3nORcLRMqaINWXlnncdcFbCC+PyuM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GL4EY9AWeC5W/tDhTMBWlEOfXYg7jpBFGMddKh2b71X4YdqhB4YVudg71xXIMq8Nq/VYstb0fKezATIpiIVh4Lc6iW2KC05D9Uotz5i1xIJLvIFXn/SFVVFPK6XIzvbK8GRNLQfqQoGRWXvYW1AUfOoOi6T446UPqeUjT80odFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFPkPhfP; arc=none smtp.client-ip=74.125.227.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791617788; c=relaxed/simple;
+	bh=4ko9gSj+vxgBtEJWFjbBisBasVf3lndbjG7WDoYLcn4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=D5I0rc97HVDeTKyClYObvvdQ6vwGbokclXCQLXY4X/y+ZQynOoYSBVqU6LAwFly2sqH0PBKmBuJGMsLFZmXH2Hir91qxZiCaqQ9vAec44RIx7S/O90NByIBF0Hm1UtYmcXwdwKX54bNhP/VHkBFao+SJUwJhUKwXdHLTY+hlUXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O1scjIDh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFPkPhfP"
-Received: by mail-pj2-f8.google.com with SMTP id d9443c01a7336-2e609985789so1778475ad.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 10 Oct 2026 00:15:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791616501; x=1792221301; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=959yGHgkihQFutwKGlb/mZ/n3GWGE1NHJJyd2mFaKLM=;
-        b=hFPkPhfPPbuxbfmY7+UwzIgq2K24FnV234YTzI7oMUeoLiKdFvr2fbqgMNA9AV/J63
-         71Yl5lR2eDogeslFMEExZK/d5P05Fbgvh+geXlzDJi5aK/OFUkBTGkjTX074pEVCh1W2
-         SfRIQDel5oBxebzV57evUBJBhhFdUcSmbVUEhBx3Udk0FO/Vn3QsptPM9NSVNUPXompM
-         Zso/2/l3331o77ZgTWLkJ5Nql23omuylNPYuZJMSCAKreABHHMPUW3sz84DgLBD+mwFN
-         mperSALlX+xvzcyD2POj7B9J6cKDJq0dFjSqK+Ix5yFIC0qG2CqywzB6yvjgTkkgyvXF
-         svRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791616501; x=1792221301;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=959yGHgkihQFutwKGlb/mZ/n3GWGE1NHJJyd2mFaKLM=;
-        b=pfPwWlJWIbhxLx97RE/63feTcgtjgydYYNSukfWVRDuElbf420mcpfC38eJTDtuMjx
-         WVz1B0PtmzBbPadf9nrtvXm/n9nDqAA0qHmRENZvD8JOuRe0piw5w1dzKaHI7poPrix9
-         Y+a3LKSSQ2f4DtgIcOxPHoSkyFeQNLWFX9rzZXoOv5THbvoVNoKrReUW1R1wRsAGX7JD
-         FLczgMFoeCIDw2s8jmYe5FgNgFu09djuaQpIF9jzk3KAlGpct8vwHIJh/3DwH+6qE+df
-         Ig9TP1TXLMgum1aeRIhzDBOAUcv5mlMEmd39jtumlfhIb419YobSJFaFAkiTNXaxJmcw
-         zAvg==
-X-Forwarded-Encrypted: i=1; AKwUvBxTIJbcVTazN4T8iPTQPa/kpO0jdGQ0h0qccxSdv9PaEjpm7SNwTDm9iUUPEbfu3GYPSq1PNxCplJoWeOT4@vger.kernel.org
-X-Gm-Message-State: AFq9FYIxKxU2nerb+aR7T0dMGoNjoHzuOjwgx9dzSBPqNiHu86wEYn8m
-	IevBZpKqfUdJkQpSzF9AiM+zTm8df31af7xioXl/Rr1f619oWAjn/hTPZ4KHCjO7SI9ZHIEt
-X-Gm-Gg: AYBFou0cgexbtsDiXWwk/mSQ8nRbKCgS9zkFMwnqLEDOVXyO0+dpwi/fsYzcw9yk25m
-	S1+C/804xkWN22evofsmSsWPPrTnvseMhzZG0CE0ApZE+MJx323wdfCBXRrnHCQ5IljBQ1LY1P9
-	cv+T2CT80Rhf/L6b8Plo45Rs0UllmfcxaLs0Cj7Y9+brHGRiM1Y2KOCse4pCUlE5q6toNP17oWf
-	U6/nU7pouo3JeGcfQQoJF4Bt9ItBJNTgp9RS2iyjmceTH6+9uPAvzKes8r+xoSDN+3gn94gz6p8
-	f/gB/KRYIkzQAzIA9iFbzhpal6KEH49l/+fCni97Q/hf85VVm8r4TgzG3jS/BGPvR/3onLcXoou
-	SBf9NCXe/iZt5Io2P270eoNpJ5ex+RA/F+LP1YpJ6e2iYZRk+8TbB4BPGA4shJkFpzAbw7YrV7N
-	wV6HizSLIUIkt6v8PKZ6h36S8nN6JEgBHOclu97MxcYeB69GFJWa8STyrcBdf9ulmWKcSLetkqF
-	VgYUxVc421jpvHPFRwM+3vu/8+Tlq7AbMj1a0KY3bdAYRVvw+d/ec2tWrnQLG0=
-X-Received: by 2002:a17:902:e88a:b0:2e3:1776:278f with SMTP id d9443c01a7336-2e842bcd141mr39945135ad.42.1791616501197;
-        Sat, 10 Oct 2026 00:15:01 -0700 (PDT)
-Received: from localhost (ec2-18-183-150-125.ap-northeast-1.compute.amazonaws.com. [18.183.150.125])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8421b15ffsm20468025ad.36.2026.10.10.00.15.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Oct 2026 00:15:00 -0700 (PDT)
-From: jianyungao89@gmail.com
-To: linux-kernel@vger.kernel.org
-Cc: Jianyun Gao <jianyungao89@gmail.com>,
-	stable@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O1scjIDh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F321F000FF;
+	Sat, 10 Oct 2026 07:36:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791617786;
+	bh=lvHacGZHOil6n8X8TWo3a/lv5iJ2YDY90NDrBy/yA4U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=O1scjIDh9Idq26MCPYxo0nalUPgIQV8jPHjj9EAukOJzrIDI+14xcWHlQyw+RQW+z
+	 c7bfG0uCWt+vPb6LQbz83ilcKuAN5wvPqekwmSW/kUbYPHVXoZV+KlJYXQjZTB81Cd
+	 VxJqf2JFBOtbzVjZ6kkqAF7Dde+UtRdu4nMX+IrjnQrHWWwBN0ZbwR7o5StsVqvnKd
+	 ReygXOyiuezuAqNAnHRGyM99QlGFGSNZttQJtO1GHCBElzQxgme2m+vwsQ9rz5XRWx
+	 5hiOXKqAE2c85h3nDndjJe1iif63W9teMNiLmh+O8rOw6WU6umu3Kx2kzmp/rr7N7n
+	 V56r/87rFYK1A==
+X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Fred Griffoul <griffoul@gmail.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Dan Williams <djbw@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Goldwyn Rodrigues <rgoldwyn@suse.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shiyang Ruan <ruansy.fnst@fujitsu.com>,
-	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure)),
-	nvdimm@lists.linux.dev (open list:FILESYSTEM DIRECT ACCESS (DAX))
-Subject: [PATCH] dax: fix wrong size passed to dax_iomap_direct_access() in dax_range_compare_iter()
-Date: Sat, 10 Oct 2026 15:14:53 +0800
-Message-Id: <20261010071453.6028-1-jianyungao89@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>
+Cc: David Woodhouse <dwmw2@infradead.org>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	kvmarm@lists.linux.dev, iommu@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH 0/9] mm: Memory providers for guest_memfd and iommufd
+In-Reply-To: <20261006183235.16576-1-griffoul@gmail.com>
+References: <20260720111259.122911-1-dwmw2@infradead.org>
+ <20261006183235.16576-1-griffoul@gmail.com>
+Date: Sat, 10 Oct 2026 13:06:09 +0530
+Message-ID: <yq5ald8680t2.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Jianyun Gao <jianyungao89@gmail.com>
+Fred Griffoul <griffoul@gmail.com> writes:
 
-dax_range_compare_iter() passes ALIGN(pos + len, PAGE_SIZE) as the size
-argument to dax_iomap_direct_access(), but this is an absolute file
-offset rather than a length. This causes the underlying
-dax_direct_access() to request a massively inflated nr_pages via
-PHYS_PFN(size), leading to unnecessarily large access ranges and
-potential spurious -EHWPOISON from driver badblock scans.
+> From: Fred Griffoul <fgriffo@amazon.co.uk>
+>
+> Some drivers manage RAM outside the page allocator: a carve-out, device
+> memory, or memory that a host component moves between VMs while they
+> run. This memory often has no struct page. The driver wants to lend
+> pages to a VM and to its devices, and to take any of them back later.
+>
+> David Woodhouse's series "KVM: Allow alternative providers of
+> guest_memfd backed by PFNMAP memory" lets such a driver back a
+> guest_memfd through struct kvm_gmem_ops:
+>
+>   https://lore.kernel.org/kvm/20260720111259.122911-1-dwmw2@infradead.org/
+>
+> That covers the guest, but not the VM's devices, which his cover
+> letter left as an open question. This series adds a small interface in
+> mm: the driver that owns the memory becomes a provider, and the code
+> that maps it attaches as a consumer. There are two consumers, a
+> guest_memfd backend and IOMMU_IOAS_MAP_FILE in iommufd.
+>
+> The series is on top of David's v2 (base 0e35b9b6ec0f). Patch 1 was
+> part of the earlier dma-buf RFC. The provider backend depends on it, so
+> this series carries it.
+>
 
-Fix by computing the correct aligned size:
-  ALIGN(len + (pos & ~PAGE_MASK), PAGE_SIZE)
 
-which accounts for the page-in-page offset of pos, matching the pattern
-used in dax_iomap_copy_around().
+I have been working on something similar for confidential computing use
+cases. There is likely some overlap between this series and what I posted
+at [1].
 
-Fixes: 6f7db3894ae2 ("fsdax: dedup file range to use a compare function")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Jianyun Gao <jianyungao89@gmail.com>
----
- fs/dax.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+I have not reviewed this series in detail yet, but I will compare the two
+approaches and identify what can be shared between the use cases. Please
+let me know how you would like to proceed.
 
-diff --git a/fs/dax.c b/fs/dax.c
-index 6ba50142eeb2..213b1c9e197c 100644
---- a/fs/dax.c
-+++ b/fs/dax.c
-@@ -2197,6 +2197,7 @@ static int dax_range_compare_iter(struct iomap_iter *it_src,
- 	const struct iomap *dmap = &it_dest->iomap;
- 	loff_t pos1 = it_src->pos, pos2 = it_dest->pos;
- 	void *saddr, *daddr;
-+	size_t size1, size2;
- 	int id, ret;
- 
- 	len = min(len, min(smap->length, dmap->length));
-@@ -2212,13 +2213,13 @@ static int dax_range_compare_iter(struct iomap_iter *it_src,
- 	}
- 
- 	id = dax_read_lock();
--	ret = dax_iomap_direct_access(smap, pos1, ALIGN(pos1 + len, PAGE_SIZE),
--				      &saddr, NULL);
-+	size1 = ALIGN(len + (pos1 & ~PAGE_MASK), PAGE_SIZE);
-+	ret = dax_iomap_direct_access(smap, pos1, size1, &saddr, NULL);
- 	if (ret < 0)
- 		goto out_unlock;
- 
--	ret = dax_iomap_direct_access(dmap, pos2, ALIGN(pos2 + len, PAGE_SIZE),
--				      &daddr, NULL);
-+	size2 = ALIGN(len + (pos2 & ~PAGE_MASK), PAGE_SIZE);
-+	ret = dax_iomap_direct_access(dmap, pos2, size2, &daddr, NULL);
- 	if (ret < 0)
- 		goto out_unlock;
- 
--- 
-2.34.1
+[1] https://lore.kernel.org/all/20261010072504.536230-1-aneesh.kumar@kernel.org/
 
+-aneesh
