@@ -1,190 +1,185 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a14-58.smtp-out.amazonses.com (a14-58.smtp-out.amazonses.com [54.240.14.58])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8036230F55F;
-	Sat, 10 Oct 2026 18:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8384BAA0C;
+	Sat, 10 Oct 2026 19:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.14.58
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791655830; cv=none; b=VEda1XYB0JV/10HoPdY+61UAAedFNAwBr/An31klmuI4j644pcSeZYm94PWQAnPiW9SdIqZaaFC4cqeAUmNpcUowcMj7cn44c7oyUCejwpf3W/rODRxYAOSzMvOeL2WANQvpRJH1vfEqo7X2adOUCMSTtxXY/B7mAyPgUbyYM2o=
+	t=1791659726; cv=none; b=WbhfbNY0RptHXaBCv485kPs38b5QrJBVgVZ7SnGGpqGeESsTv1SVXWO2DFs3tSKCJatwiuX99FS/NWXNM8yvGgp9b4ghGgpzENEqOZUQwGP8UUPS9fc8Dez10PwxfIDwy2l2LrAbdylTDRgASGfRVoV2+oc0rr/2DwrDYs5DD4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791655830; c=relaxed/simple;
-	bh=2MFCa2g9mR833mpA1ZLv3Jrd+zAYbkQUEzEhWw1N9Ro=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=L8BFgbxTdy2SAyw99NNc2OFvGUZydXZjAaSbcrqzLLaiB411yeIB0tEWu2AjcbANrHYzi1/wQiu6lZuF8X0KeoUlJ3wh/4gIwcUb80i13RsYJhnMEySjSFqms/uVMewm9CHxBlvFTw0odGD2P3vBT0FrE4L+7egmnqL1QIAUOO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=gAvShXXH; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1791659726; c=relaxed/simple;
+	bh=uZghW09ekWYoJaATpd3YSaijIX3k0cAVXVF1c0qef9E=;
+	h=In-Reply-To:References:From:To:Cc:Subject:Message-ID:Date:
+	 MIME-Version:Content-Type; b=up26LChD3bDvNuuaIzNsO6UFhN01phuK6PLn1VxgTD/IlMBtB55CssoH9171o0NmFJZJFQIhzKfkjEJMNJfSIUU0i5Ao5x565d8YX7Jff8Vqao1kkhKTKTEverHDgCXraG1sl5SKdaaNnGwgPCS0C45UxbmMWi+wIoLhwYYclU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nicolasfalesy.com; spf=pass smtp.mailfrom=send.nicolasfalesy.com; dkim=pass (1024-bit key) header.d=nicolasfalesy.com header.i=@nicolasfalesy.com header.b=L1FZa8An; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=g8qrX2MK; arc=none smtp.client-ip=54.240.14.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nicolasfalesy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=send.nicolasfalesy.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="gAvShXXH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1791655822; x=1792260622; i=markus.elfring@web.de;
-	bh=DmjZgOLOOOv4Ct+7ez2dPb31Ctn48nINPgNlWtcXtbY=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
-	 Subject:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=gAvShXXHvoh/HLWGEQQqS1+IlCU7pwO/HfhkIpmN13xvnchPH4LB7NVqkPd2hr+T
-	 DFZmBY+TLvzDUCD8M31uiUI9XqQQ5yH+3rfBLZ+AMjoPSz//wrmZ+Suh65oRs5As2
-	 ZxW336FCP/LmfJFbTddc6EYtCBX/Flm4oRGib1o0n7H+a4uFOrhIJuu+Jo9ewYgKF
-	 Gvc8t4ylVYnYVF2ou3kscusbcx36xbi3X3q4k7nKMOmMyu4rhqGAS9tKz+qPOXMtx
-	 1rkUQRf8hxQizNH1XkFl+wpMXnOkjnxmJC/EfRLa1h2XVU0DxonsBt3/Xmt2ppZuq
-	 EnWGlfUIKeFs3OdnvA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MFs1z-1xRMRN2SWV-007Opn; Sat, 10
- Oct 2026 20:10:22 +0200
-Message-ID: <3906d06e-50cf-4230-a29e-939a1ac04e07@web.de>
-Date: Sat, 10 Oct 2026 20:10:18 +0200
+	dkim=pass (1024-bit key) header.d=nicolasfalesy.com header.i=@nicolasfalesy.com header.b="L1FZa8An";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="g8qrX2MK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
+	d=nicolasfalesy.com; t=1791659713;
+	h=In-Reply-To:References:From:To:Cc:Reply-To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
+	bh=uZghW09ekWYoJaATpd3YSaijIX3k0cAVXVF1c0qef9E=;
+	b=L1FZa8An6AEXXJ2T1u4j8vcMrfXXHNCbq7GKrAeI8w4Fj+YgQOaD7TOPRhdtUDo8
+	Jp904axirpJk9K7SQFG7XsQPDs540cQ3tRsi9QqL48gzCB7ZVWNYZqo0t53Uk2Ircot
+	bL8HIC4Tj/p0LueXpsaj78uyZbuLBh1HsF+Unnco=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1791659713;
+	h=In-Reply-To:References:From:To:Cc:Reply-To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
+	bh=uZghW09ekWYoJaATpd3YSaijIX3k0cAVXVF1c0qef9E=;
+	b=g8qrX2MK8Ec+MiXlpN+LhenRaIa6f3Jz3c+3UCE91yahCEu1z7yFT7HW3u2MyfCE
+	bY7lMa97Ns6xvPtNB8qqyReFOH8tWTMkTHrFfnV+Pwc+YjELfeeTscDdRDx7ZiBaaLv
+	ON5z5GrOOWMUWkfjrJMi+/lRuDn+uef+8SGaX92o=
+In-Reply-To:
+ <CAKYAXd9EkVrdKjsmcd96OFc7pf=2WA8KMUBhRPZROkUOdkV=SA@mail.gmail.com>
+References:
+ <010001a1222f66ba-0c745f29-d4fe-4862-93ff-1db2055b05fc-000000@email.amazonses.com>
+ <CAKYAXd9EkVrdKjsmcd96OFc7pf=2WA8KMUBhRPZROkUOdkV=SA@mail.gmail.com>
+From: Nicolas Falesy <nicolas@nicolasfalesy.com>
+To: linkinjeon@kernel.org, sj1557.seo@samsung.com
+Cc: yuezhang.mo@sony.com, exfat@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev, hch@lst.de, djwong@kernel.org, 
+	nfalesy@gmail.com
+Reply-To: nfalesy@gmail.com
+Subject: [PATCH] exfat: clean stale bdev buffers of newly allocated
+ clusters
+Message-ID: <010001a1273da435-1b6e4385-3185-451f-821b-8d8723ba78d3-000000@email.amazonses.com>
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 10 Oct 2026 19:15:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-GB, de-DE
-To: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Mateusz Guzik <mjguzik@gmail.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- Nikolaos Karaolidis <nick@karaolidis.com>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] fs: Use common code in wait_on_new_inode()
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Uz3fnnJuNouJDAtxkIZbR86+e+U3nEcpvAB/UeZrwyOLUsOGiAO
- 5M2lY0lUdwGCYksLZDxh2yTaIAgyeff/iRhjkNe1sOF6f73l+6KwP2heDNZ2MbvO/TpvqqP
- WJAJ+Vkoh5fTPsC8jMhtcxSiFjDuk1ODQcpgM+To8X5ZceWkDnPk/ui+72ayQ6AmXqQdlWI
- N8PYQXb4cIBrQhXoOkoNA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:0boYX8hPweo=;aNe9cyemGK4uEWD5S22N1m95YQ8
- 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
- QXYTeW7ZmAk2M8d+A==
+Content-Type: text/plain; charset=utf-8
+Feedback-ID: :1.us-east-1.ab+1BOhI2G8lKXniYmrQtu8hqInlQv0hMf7S3fw6DdXZuhPmWRop4As2nYC+PvMCg/MeYgni+TDnIGoO6UR5+695Ups99kH4xr2cW/T33RKlxcJfmzZvDG+/D2zFM008PnQSMHraaQXnsyHltCPK4i0yAdm73tum8YqlC4670Nc=:1.us-east-1.QSNtDRXSTq9sAuvRl56h5mypgasnQ5yDLNpVzTnziu0=:AmazonSES
+X-SES-Outgoing: 2026.10.10-54.240.14.58
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Sat, 10 Oct 2026 20:00:18 +0200
+Directory entries are read and written through buffer_heads of the
+block device. Removing the entries of a directory dirties such a
+buffer. If the directory is then removed and its cluster is reused for
+file data before writeback, the stale buffer stays dirty in the block
+device mapping, and the next flush of the block device (fsync, syncfs
+or umount) writes it over the new file data. The file silently reads
+back with one sector replaced by the deleted directory entries.
 
-Use an additional label so that a statement can be better reused
-at the end of this function implementation.
+This was harmless while file data went through exfat_get_block(), as
+__block_write_begin_int() and do_direct_IO() call clean_bdev_aliases()
+for newly allocated blocks. Since data I/O moved to iomap, nothing
+drops these buffers any more.
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- fs/inode.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Clean the aliases in exfat_alloc_cluster(), =
+once per contiguous run of
+allocated clusters. Doing it at allocation time =
+covers every path that
+allocates clusters: buffered and direct writes, and =
+also fallocate()
+and an extending truncate(), which allocate clusters =
+before the data is
+written, so the later iomap mapping does not see them as=
+ new.
 
-diff --git a/fs/inode.c b/fs/inode.c
-index 702f2d5ef459..f4699866a73b 100644
-=2D-- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -529,10 +529,8 @@ void wait_on_new_inode(struct inode *inode)
- 	struct wait_queue_head *wq_head;
-=20
- 	spin_lock(&inode->i_lock);
--	if (!(inode_state_read(inode) & I_NEW)) {
--		spin_unlock(&inode->i_lock);
--		return;
--	}
-+	if (!(inode_state_read(inode) & I_NEW))
-+		goto unlock;
-=20
- 	wq_head =3D inode_bit_waitqueue(&wqe, inode, __I_NEW);
- 	for (;;) {
-@@ -545,6 +543,7 @@ void wait_on_new_inode(struct inode *inode)
- 	}
- 	finish_wait(wq_head, &wqe.wq_entry);
- 	WARN_ON(inode_state_read(inode) & I_NEW);
-+unlock:
- 	spin_unlock(&inode->i_lock);
+Tested on the exfat dev branch in a KVM guest with a reproducer that
+removes the entries of a directory, removes the directory and writes a
+file over its freed cluster: buffered with and without fsync, O_DIRECT,
+after fallocate(), after an extending ftruncate(), and with the freed
+cluster in the middle of a fragmented allocation. Without this patch
+every run corrupted the file (55/55); with it, none did (0/55). A churn
+test that creates, removes, preallocates and truncates directories and
+files, then runs fsck.exfat, is clean with and without the patch.
+
+Fixes: 82a81a7352bc ("exfat: add iomap buffered I/O support")
+Fixes: 867b9c96dc83 ("exfat: add iomap direct I/O support")
+Link: https://lore.kernel.org/all/010001a1222f66ba-0c745f29-d4fe-4862-93ff-=
+1db2055b05fc-000000@email.amazonses.com/
+Suggested-by: Namjae Jeon =
+<linkinjeon@kernel.org>
+Assisted-by: Claude-Opus-5.5
+Signed-off-by: Nicolas Falesy <nicolas@nicolasfalesy.com>
+---
+This replaces the candidate fix from my report. As Namjae suggested, the
+cleanup now happens in exfat_alloc_cluster(), so clusters preallocated
+by fallocate() or an extending truncate() are covered too; the old
+candidate still corrupted those cases in 10/10 runs each.
+
+Based on the exfat dev branch (513192ce3669). Not run: xfstests.
+
+ fs/exfat/fatent.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/fs/exfat/fatent.c =
+b/fs/exfat/fatent.c
+index 3c8bdc131..9f4607fce 100644
+--- a/fs/exfat/fatent.c
++++ b/fs/exfat/fatent.c
+@@ -418,12 +418,28 @@ int =
+exfat_zeroed_cluster(struct inode *dir, unsigned int clu)
+ 	return 0;
  }
- EXPORT_SYMBOL(wait_on_new_inode);
-=2D-=20
-2.56.0
+=20
++/*
++ * Newly allocated clusters may still have dirty buffer_heads in =
+the block
++ * device mapping, e.g. the dentries of a directory that was =
+just removed.
++ * File data does not go through those buffers, so drop =
+them; otherwise a
++ * later flush of the block device writes them over the =
+new data.
++ */
++static void exfat_clean_bdev_aliases(struct super_block *sb=
+,
++				     unsigned int clu, unsigned int count)
++{
++	struct exfat_sb_info *sbi =3D EXFAT_SB(sb);
++
++	clean_bdev_aliases(sb->s_=
+bdev, exfat_cluster_to_sector(sbi, clu),
++			   (sector_t)count << =
+sbi->sect_per_clus_bits);
++}
++
+ int exfat_alloc_cluster(struct inode *inode=
+, unsigned int num_alloc,
+ 		struct exfat_chain *p_chain, bool sync_bmap, =
+bool contig)
+ {
+ 	int ret =3D -ENOSPC;
+ 	unsigned int total_cnt;
+ 	unsigned int hint_clu, new_clu, last_clu =3D EXFAT_EOF_CLUSTER;
++	unsigned int run_clu =3D EXFAT_EOF_CLUSTER, run_len =3D 0;
+ 	struct super_block *sb =3D inode->i_sb;
+ 	struct exfat_sb_info *sbi =3D =
+EXFAT_SB(sb);
+=20
+@@ -514,10 +530,21 @@ int exfat_alloc_cluster(struct =
+inode *inode, unsigned int num_alloc,
+ 		p_chain->size++;
+ 		sbi->used_clusters++;
+=20
++		/* clean stale buffers once per contiguous =
+run of clusters */
++		if (run_len && new_clu =3D=3D run_clu + run_len) {
++			run_len++;
++		} else {
++			if (run_len)
++				exfat_clean_bdev_aliases(s=
+b, run_clu, run_len);
++			run_clu =3D new_clu;
++			run_len =3D 1;
++		}
++
+ 		last_clu =3D new_clu;
+=20
+ 		if (p_chain->size =3D=3D num_alloc) {
+ done:
++			exfat_clean_bdev_aliases(sb, run_clu, run_len);
+ 			sbi->clu_srch_ptr =3D hint_clu;
+ 			ret =3D 0;
+ 			goto unlock;
+--=20
+2.55.0
 
