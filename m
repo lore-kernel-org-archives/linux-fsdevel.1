@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F62309EE2
-	for <linux-fsdevel@vger.kernel.org>; Sun, 11 Oct 2026 15:56:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2800233937F
+	for <linux-fsdevel@vger.kernel.org>; Sun, 11 Oct 2026 15:56:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791734198; cv=none; b=f0DPWBmLxR9vInbWR111m6OlJcgzYkNj1hAuD0HnpgQDwIizHen4zta2Il/DsZWwTt5ydsL1ljxAh8gabTI6xsGOhXT/bbpek1uRTHGnTzKjMUXmb85H2sbMNiKDWmFY4wllvoIqAjaQBwoy1ROgFd/hkOjvZx1WpyjUAon/yz8=
+	t=1791734199; cv=none; b=tN0yW5QHq0Ey4jdjEf+BZ4xy+gIjbQPZVBi5IIl0WbY9kWUVHSHNTH/CWhTUncTeZ7kaU9QKBedFlVcmWAMbIQR/BIXay3ALM1520RbWuvKtdOP39gwCKuve+wqZSQL1Q4RripF0k0yLBo+RcUMa1kU/08T5BBY5QFArF6OaXEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791734198; c=relaxed/simple;
-	bh=RzXnTrf5IMuuywtFtMnKh9SrERIemYqy+IcDUImfxXo=;
+	s=arc-20240116; t=1791734199; c=relaxed/simple;
+	bh=gvo6MOK6lqJ1FkyebzyJk2PycICkreurExdyysJIvWk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=H/15afwhkT866J3+SQN0DkJo3NIVLNdPCX9zUTsbEq2EH1x4pZC2yiaQfFpZoIo+2iO6rv3xLG0ssaIV1dkTs4dWiIb7Iq4JsCJilkh+CUxCuD/ncl7dzSrfTD54ZEANykgFULDjR18NZs24eIwpcif1r4iYi0rFLjssdiViFV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LbGVHFiN; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=DKx0GelFVJqLC4aey/PYPS4tJDcD0ZuD6ZsCJnCDz+tsmxODFznohfK4bEZcWhs1+NuoefZywLMqBrSFKKKSHi4VA00J7Hcsctbb/2Y4U7GY7T2it+g42lrcIVvgCLDJbW/vDVYsZkNtOQzPSw7RrlekXEGkpP/QsokKDh36VTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMRvPp+g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LbGVHFiN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A00B1F0089C;
-	Sun, 11 Oct 2026 15:56:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMRvPp+g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA52A1F0089B;
+	Sun, 11 Oct 2026 15:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791734196;
-	bh=2clQjeQqjpTKKsleCksnzzXKuXKEKbc7B2xN5JXI2Q0=;
+	s=k20260515; t=1791734198;
+	bh=SrucIlZ1WHLSfxQc2Yyuezp0ciTQ7w94qOl8Gr5aRC8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=LbGVHFiN8XJFI5DsSdcRfxMCtbbne54HWR4WZ3F3tNLPQUjG08xyqMkErdVFfANio
-	 qgV9ElxpU1/15GVsAAjmWobmsMrhl886wG1NNWry/Va1cIqdMOfRPi2NEMfrwRvChJ
-	 qEjEqx4GvG4h/x4S8gVd4n/lSWbVxLLMMwJG0WFel6C+sEaiDSI7hga4ifyzesuqbo
-	 qt+CUp2iOBIasBvBzw1S4XVd4+K7PckMIQO9Nxfl1vJ0QUyyz4chRpCdDjO6E8z14q
-	 a65l5F/NvWB33loaklyENchtNgwtuwx3Bqz0fQghdDRKQVwhUE2LwIWw1u4NUD6mxw
-	 vrgC545ewaRLg==
+	b=DMRvPp+gnrwoQDxEkX2ozar02Uq2mxHBG4vGR+oFiIpRn5UDdiDRkRmvkG4HAWlpK
+	 RZV9vwRwc1fUEwyak3miU4/jN4i/ODCCoGy7T68NcE3QhWgvcSW/lhYj+CzQeWt7aK
+	 SWIfZGOz7fgJuq3ax6HPhUJSvucoWkDrc6vs3zJzjGcTpcgzgzvdh8eWN5yd54HR5Y
+	 SbHTfpCazur8uyANH0Mz419mF++5ONhMDA5vPaeOL5qIdpOxZlQHMjPDsfjzo5MX3/
+	 g7Vj9M+hKUi5+m4yeYPiKqMhBH453jqSPYEcshoj9WheeY3Up2PxmdEOu9rQeotkM8
+	 Z/Uozig7shFxw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Sun, 11 Oct 2026 17:56:12 +0200
-Subject: [PATCH 12/15] selftests/filesystems: add tests for reconfiguring
- through fspick()
+Date: Sun, 11 Oct 2026 17:56:13 +0200
+Subject: [PATCH 13/15] super: remove SUPER_ITER_EXCL
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261011-work-super-fixes-core-v1-12-c727176c5b53@kernel.org>
+Message-Id: <20261011-work-super-fixes-core-v1-13-c727176c5b53@kernel.org>
 References: <20261011-work-super-fixes-core-v1-0-c727176c5b53@kernel.org>
 In-Reply-To: <20261011-work-super-fixes-core-v1-0-c727176c5b53@kernel.org>
 To: Jan Kara <jack@suse.cz>
@@ -46,249 +45,62 @@ Cc: Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-fsdevel@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6976; i=brauner@kernel.org;
- h=from:subject:message-id; bh=RzXnTrf5IMuuywtFtMnKh9SrERIemYqy+IcDUImfxXo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSd3jjn5zqpfRINT79NWd0yXUT2rVG0+VydtwuORKw/F
- cUhplN2vKOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiDesYfrPrubKb73qyewPP
- meY98dIRjbJ3JR2Dk/Jk0hbXqPmvZ2RkmJezZXv38UcB9xrO64d2/jJe2nVXc+fHxawTVfISdXr
- 4OQE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1447; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=gvo6MOK6lqJ1FkyebzyJk2PycICkreurExdyysJIvWk=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSd3jjnbrrXTDHLN9/E1/YxJS4yao/fOfl9dJFtp9nGp
+ BslcuH7O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACaSsIiRoVv2Qc9dd2ObN+Xr
+ jac9Dvji/WGFi3zssaM1tx+5lJVzhzH8s1p/+sWJAJHvdiXdDNtZFqmHyfwP0wjvkLNfuVBoUdF
+ qdgA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Add tests for reconfiguring a read-only ext4 superblock through
-fspick():
+Now that do_emergency_remount() takes s_umount itself in its callback
+nothing iterates with SUPER_ITER_EXCL anymore. Remove it and take
+s_umount shared in __iterate_supers().
 
-- without "ro" or "rw" the superblock stays read-only
-- an explicit "rw" makes it read-write
-
-Both check through a read-write bind mount of the superblock. The tests
-need root, loop devices and mkfs.ext4.
+No functional changes.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- tools/testing/selftests/filesystems/.gitignore     |   1 +
- tools/testing/selftests/filesystems/Makefile       |   4 +-
- .../filesystems/fspick_reconfigure_test.c          | 186 +++++++++++++++++++++
- 3 files changed, 190 insertions(+), 1 deletion(-)
+ fs/super.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/tools/testing/selftests/filesystems/.gitignore b/tools/testing/selftests/filesystems/.gitignore
-index 62f7b1c46649..fa2b6f0bb6a4 100644
---- a/tools/testing/selftests/filesystems/.gitignore
-+++ b/tools/testing/selftests/filesystems/.gitignore
-@@ -8,3 +8,4 @@ kernfs_test
- idmapped_tmpfile
- ustat_test
- rw_hint_test
-+fspick_reconfigure_test
-diff --git a/tools/testing/selftests/filesystems/Makefile b/tools/testing/selftests/filesystems/Makefile
-index 93e2cc9123b0..ef1b4f6a0f82 100644
---- a/tools/testing/selftests/filesystems/Makefile
-+++ b/tools/testing/selftests/filesystems/Makefile
-@@ -2,9 +2,11 @@
+diff --git a/fs/super.c b/fs/super.c
+index edd5648d1720..657958a1d135 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -935,9 +935,8 @@ void drop_super_exclusive(struct super_block *sb)
+ }
  
- CFLAGS += $(KHDR_INCLUDES)
- TEST_GEN_PROGS := devpts_pts file_stressor anon_inode_test kernfs_test fclog ustat_test rw_hint_test
--TEST_GEN_PROGS += idmapped_tmpfile
-+TEST_GEN_PROGS += idmapped_tmpfile fspick_reconfigure_test
- TEST_GEN_PROGS_EXTENDED := dnotify_test
+ enum super_iter_flags_t {
+-	SUPER_ITER_EXCL		= (1U << 0),
+-	SUPER_ITER_UNLOCKED	= (1U << 1),
+-	SUPER_ITER_REVERSE	= (1U << 2),
++	SUPER_ITER_UNLOCKED	= (1U << 0),
++	SUPER_ITER_REVERSE	= (1U << 1),
+ };
  
-+LOCAL_HDRS += wrappers.h freeze/loop_util.h
-+
- include ../lib.mk
+ static inline struct super_block *first_super(enum super_iter_flags_t flags)
+@@ -959,7 +958,6 @@ static void __iterate_supers(void (*f)(struct super_block *, void *), void *arg,
+ 			     enum super_iter_flags_t flags)
+ {
+ 	struct super_block *sb, *p = NULL;
+-	bool excl = flags & SUPER_ITER_EXCL;
  
- $(OUTPUT)/idmapped_tmpfile: LDLIBS += -lcap
-diff --git a/tools/testing/selftests/filesystems/fspick_reconfigure_test.c b/tools/testing/selftests/filesystems/fspick_reconfigure_test.c
-new file mode 100644
-index 000000000000..2908c7369264
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fspick_reconfigure_test.c
-@@ -0,0 +1,186 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Reconfiguring a read-only superblock through fspick().
-+ *
-+ * fspick() creates a reconfiguration context whose flag mask is empty until
-+ * "ro" or "rw" is set. Filesystems decide whether to go read-write from
-+ * fc->sb_flags, so a reconfiguration without either must leave a read-only
-+ * superblock read-only. Check that writes through a read-write bind mount of
-+ * a read-only ext4 superblock are still refused after such a reconfiguration
-+ * and that an explicit "rw" still makes the superblock read-write.
-+ */
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <sched.h>
-+#include <stdbool.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/stat.h>
-+#include <unistd.h>
-+
-+#include "wrappers.h"
-+#include "freeze/loop_util.h"
-+#include "../kselftest_harness.h"
-+
-+#define IMG_SIZE (64 << 20)
-+
-+#ifndef MNT_DETACH
-+#define MNT_DETACH 2
-+#endif
-+
-+static inline int sys_fspick(int dfd, const char *path, unsigned int flags)
-+{
-+	return syscall(__NR_fspick, dfd, path, flags);
-+}
-+
-+static inline int sys_umount2(const char *path, int flags)
-+{
-+	return syscall(__NR_umount2, path, flags);
-+}
-+
-+FIXTURE(fspick_ro) {
-+	char dir[64];
-+	char img[96];
-+	char mnt[96];
-+	char bind[96];
-+	int loop;
-+	bool mounted;
-+	bool bound;
-+};
-+
-+static void fspick_ro_cleanup(FIXTURE_DATA(fspick_ro) *self)
-+{
-+	if (self->bound)
-+		sys_umount2(self->bind, MNT_DETACH);
-+	if (self->mounted)
-+		sys_umount2(self->mnt, MNT_DETACH);
-+	if (self->loop >= 0)
-+		loop_clear(self->loop);
-+	unlink(self->img);
-+	rmdir(self->bind);
-+	rmdir(self->mnt);
-+	rmdir(self->dir);
-+}
-+
-+/* Mount @dev read-only and add a read-write bind mount of it. */
-+static int fspick_ro_mount(FIXTURE_DATA(fspick_ro) *self, const char *dev)
-+{
-+	if (sys_mount(dev, self->mnt, "ext4", MS_RDONLY, NULL))
-+		return -errno;
-+	self->mounted = true;
-+
-+	/* A read-write bind mount only refuses writes if the superblock does. */
-+	if (sys_mount(self->mnt, self->bind, NULL, MS_BIND, NULL))
-+		return -errno;
-+	self->bound = true;
-+	if (sys_mount(NULL, self->bind, NULL, MS_REMOUNT | MS_BIND, NULL))
-+		return -errno;
-+	return 0;
-+}
-+
-+FIXTURE_SETUP(fspick_ro)
-+{
-+	char cmd[160], dev[32];
-+	int fd, ret;
-+
-+	self->loop = -1;
-+	self->mounted = false;
-+	self->bound = false;
-+
-+	if (geteuid() != 0)
-+		SKIP(return, "test requires root");
-+	if (access("/dev/loop-control", R_OK | W_OK))
-+		SKIP(return, "test requires loop devices");
-+
-+	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-+	ASSERT_EQ(sys_mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
-+
-+	snprintf(self->dir, sizeof(self->dir), "/tmp/fspick_ro.XXXXXX");
-+	ASSERT_NE(mkdtemp(self->dir), NULL);
-+	snprintf(self->img, sizeof(self->img), "%s/img", self->dir);
-+	snprintf(self->mnt, sizeof(self->mnt), "%s/mnt", self->dir);
-+	snprintf(self->bind, sizeof(self->bind), "%s/bind", self->dir);
-+	ASSERT_EQ(mkdir(self->mnt, 0700), 0);
-+	ASSERT_EQ(mkdir(self->bind, 0700), 0);
-+
-+	fd = open(self->img, O_RDWR | O_CREAT | O_CLOEXEC, 0600);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(ftruncate(fd, IMG_SIZE), 0);
-+
-+	snprintf(cmd, sizeof(cmd), "mkfs.ext4 -q -F %s >/dev/null 2>&1", self->img);
-+	ret = system(cmd);
-+	if (ret) {
-+		close(fd);
-+		fspick_ro_cleanup(self);
-+		SKIP(return, "mkfs.ext4 failed or is not available");
-+	}
-+
-+	/* The harness skips the teardown if the setup fails, so clean up. */
-+	self->loop = loop_bind(fd);
-+	close(fd);
-+	if (self->loop < 0) {
-+		fspick_ro_cleanup(self);
-+		ASSERT_GE(self->loop, 0);
-+	}
-+	snprintf(dev, sizeof(dev), "/dev/loop%d", self->loop);
-+
-+	ret = fspick_ro_mount(self, dev);
-+	if (ret) {
-+		fspick_ro_cleanup(self);
-+		if (ret == -ENODEV)
-+			SKIP(return, "kernel lacks ext4");
-+		ASSERT_EQ(ret, 0);
-+	}
-+}
-+
-+FIXTURE_TEARDOWN(fspick_ro)
-+{
-+	fspick_ro_cleanup(self);
-+}
-+
-+static int reconfigure(const char *path, const char *flag)
-+{
-+	int fd, ret = 0;
-+
-+	fd = sys_fspick(AT_FDCWD, path, FSPICK_CLOEXEC);
-+	if (fd < 0)
-+		return -errno;
-+	if (flag && sys_fsconfig(fd, FSCONFIG_SET_FLAG, flag, NULL, 0))
-+		ret = -errno;
-+	if (!ret && sys_fsconfig(fd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0))
-+		ret = -errno;
-+	close(fd);
-+	return ret;
-+}
-+
-+static int create_file(const char *dir)
-+{
-+	char path[128];
-+	int fd;
-+
-+	snprintf(path, sizeof(path), "%s/file", dir);
-+	fd = open(path, O_RDWR | O_CREAT | O_CLOEXEC, 0600);
-+	if (fd < 0)
-+		return -errno;
-+	close(fd);
-+	return 0;
-+}
-+
-+TEST_F(fspick_ro, reconfigure_keeps_ro)
-+{
-+	ASSERT_EQ(create_file(self->bind), -EROFS);
-+
-+	ASSERT_EQ(reconfigure(self->mnt, NULL), 0);
-+	ASSERT_EQ(create_file(self->bind), -EROFS)
-+		TH_LOG("reconfiguration without \"rw\" made the superblock read-write");
-+}
-+
-+TEST_F(fspick_ro, reconfigure_rw)
-+{
-+	ASSERT_EQ(reconfigure(self->mnt, "rw"), 0);
-+	ASSERT_EQ(create_file(self->bind), 0);
-+}
-+
-+TEST_HARNESS_MAIN
+ 	spin_lock(&sb_lock);
+ 
+@@ -976,9 +974,9 @@ static void __iterate_supers(void (*f)(struct super_block *, void *), void *arg,
+ 
+ 		if (flags & SUPER_ITER_UNLOCKED) {
+ 			f(sb, arg);
+-		} else if (super_lock(sb, excl)) {
++		} else if (super_lock_shared(sb)) {
+ 			f(sb, arg);
+-			super_unlock(sb, excl);
++			super_unlock_shared(sb);
+ 		}
+ 
+ 		if (p)
 
 -- 
 2.53.0
