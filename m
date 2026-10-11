@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2800233937F
-	for <linux-fsdevel@vger.kernel.org>; Sun, 11 Oct 2026 15:56:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31953382F4;
+	Sun, 11 Oct 2026 15:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791734199; cv=none; b=tN0yW5QHq0Ey4jdjEf+BZ4xy+gIjbQPZVBi5IIl0WbY9kWUVHSHNTH/CWhTUncTeZ7kaU9QKBedFlVcmWAMbIQR/BIXay3ALM1520RbWuvKtdOP39gwCKuve+wqZSQL1Q4RripF0k0yLBo+RcUMa1kU/08T5BBY5QFArF6OaXEQ=
+	t=1791734200; cv=none; b=iQVSysPRrmT21VcLbuDAPrkRm1FIuaenoRNtrkoMOKbla5C/KOWwM3rschYOAj/TjUT4dAuT3LqG8qhdGzw1yKdYQu+M/OXFdfgUdZbmz/ONRsIsGWw2P0ZFGhMlrTSlTQS+yZ7oNn0rfD1maUNwGlRg4BJAvVEf/NSEkunpU7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791734199; c=relaxed/simple;
-	bh=gvo6MOK6lqJ1FkyebzyJk2PycICkreurExdyysJIvWk=;
+	s=arc-20240116; t=1791734200; c=relaxed/simple;
+	bh=OJ8qo9nxsMJSCYau+nVvnmg7wvp+NVOsbJa+83D/o1c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DKx0GelFVJqLC4aey/PYPS4tJDcD0ZuD6ZsCJnCDz+tsmxODFznohfK4bEZcWhs1+NuoefZywLMqBrSFKKKSHi4VA00J7Hcsctbb/2Y4U7GY7T2it+g42lrcIVvgCLDJbW/vDVYsZkNtOQzPSw7RrlekXEGkpP/QsokKDh36VTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMRvPp+g; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=mYuRxN9/6K5wG01iA4xMWV2dUf3DPiPP8oi7ULUXLRzzP8XD7GsGjb5a2zqAp96zMa1nWlzIF5XVsNzZ73b3OsFXvPKd9G01k+/l7VUoKLjxYNyERz9HAzcuClcHXYgpdGm6huRp/VT9ZXX5M0hQRKXT69AXI8KdjJF4mjhWeyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXfA8eA/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMRvPp+g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA52A1F0089B;
-	Sun, 11 Oct 2026 15:56:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXfA8eA/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80BA91F0089C;
+	Sun, 11 Oct 2026 15:56:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791734198;
-	bh=SrucIlZ1WHLSfxQc2Yyuezp0ciTQ7w94qOl8Gr5aRC8=;
+	s=k20260515; t=1791734199;
+	bh=zPbl70vHExnXu2D1J7SqKM1lxMLL70bJImCYWSUCsjg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=DMRvPp+gnrwoQDxEkX2ozar02Uq2mxHBG4vGR+oFiIpRn5UDdiDRkRmvkG4HAWlpK
-	 RZV9vwRwc1fUEwyak3miU4/jN4i/ODCCoGy7T68NcE3QhWgvcSW/lhYj+CzQeWt7aK
-	 SWIfZGOz7fgJuq3ax6HPhUJSvucoWkDrc6vs3zJzjGcTpcgzgzvdh8eWN5yd54HR5Y
-	 SbHTfpCazur8uyANH0Mz419mF++5ONhMDA5vPaeOL5qIdpOxZlQHMjPDsfjzo5MX3/
-	 g7Vj9M+hKUi5+m4yeYPiKqMhBH453jqSPYEcshoj9WheeY3Up2PxmdEOu9rQeotkM8
-	 Z/Uozig7shFxw==
+	b=KXfA8eA/87ScpKsqMeQmkLXctl2Je0RSA3QBWG2scK5yaPql8MChnr0DOXnDVAw8v
+	 HEMQ3pMbIBglSIKBvJUdXoFb3Gia7vqTSCs4PxoWO2O4X0ZYMpjvlu2o40FXPYMwDd
+	 IcTfQBsPIwPaz2N0j/TaxJGukOp7ll1VJhrPJV1e0zU3+Hot64fzKiL4M1/lDARxM6
+	 mAdx2n9KKw1W2F3DeaHl0nHcHOpeNKwuHFJLNoTpRbR3KZB4lyxvQ5YEAhWAgojsYt
+	 eA/ovFAetz3Dcot7us944oIsgbkrrhO1yyGfz8WVn0KW3zSwH71aRXW/JHnydAvF4M
+	 1C6Y7W3qeOGIQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Sun, 11 Oct 2026 17:56:13 +0200
-Subject: [PATCH 13/15] super: remove SUPER_ITER_EXCL
+Date: Sun, 11 Oct 2026 17:56:14 +0200
+Subject: [PATCH 14/15] fs: reset the flag mask in vfs_clean_context()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,70 +37,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261011-work-super-fixes-core-v1-13-c727176c5b53@kernel.org>
+Message-Id: <20261011-work-super-fixes-core-v1-14-c727176c5b53@kernel.org>
 References: <20261011-work-super-fixes-core-v1-0-c727176c5b53@kernel.org>
 In-Reply-To: <20261011-work-super-fixes-core-v1-0-c727176c5b53@kernel.org>
 To: Jan Kara <jack@suse.cz>
 Cc: Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
  linux-fsdevel@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
 X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1447; i=brauner@kernel.org;
- h=from:subject:message-id; bh=gvo6MOK6lqJ1FkyebzyJk2PycICkreurExdyysJIvWk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSd3jjnbrrXTDHLN9/E1/YxJS4yao/fOfl9dJFtp9nGp
- BslcuH7O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACaSsIiRoVv2Qc9dd2ObN+Xr
- jac9Dvji/WGFi3zssaM1tx+5lJVzhzH8s1p/+sWJAJHvdiXdDNtZFqmHyfwP0wjvkLNfuVBoUdF
- qdgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2051; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=OJ8qo9nxsMJSCYau+nVvnmg7wvp+NVOsbJa+83D/o1c=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSd3jhnI/O8w73W0nklrEeTRQ8aux7PW7dO6MwSgdaAi
+ xdb/QsVO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYSyM7I0Ks4/bxKd+6cssDP
+ h6wT7l3TUWSavzdelCe+vGB9q3lnBsM/9UTmyOUTeL2MxAUE87wyg1t27LulEr5MaIMse71w308
+ OAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Now that do_emergency_remount() takes s_umount itself in its callback
-nothing iterates with SUPER_ITER_EXCL anymore. Remove it and take
-s_umount shared in __iterate_supers().
+vfs_clean_context() prepares a context for the next reconfiguration
+after fsmount() and after every successful FSCONFIG_CMD_RECONFIGURE. It
+resets fc->sb_flags but leaves fc->sb_flags_mask alone. So the next
+FSCONFIG_CMD_RECONFIGURE on that file descriptor applies the old mask
+to empty flags.
 
-No functional changes.
+That makes a read-only superblock read-write without anyone asking for
+it:
 
+  fsfd = fsopen("ext4", 0);
+  fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "/dev/vda", 0);
+  fsconfig(fsfd, FSCONFIG_SET_FLAG, "ro", NULL, 0);
+  fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
+  mntfd = fsmount(fsfd, 0, 0);
+  move_mount(mntfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
+  fsconfig(fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0);
+
+  EXT4-fs (vda): re-mounted 68db7463-95cb-47f9-ab87-d1fd35252958 r/w.
+
+The same happens for a second FSCONFIG_CMD_RECONFIGURE on a context
+from fspick() after the first one set "ro". The stale mask also drops
+SB_SYNCHRONOUS, SB_LAZYTIME and SB_MANDLOCK set in an earlier round.
+And btrfs_reconfigure() adds SB_POSIXACL to the mask when "acl" or
+"noacl" changes the ACL state so every later reconfiguration on that
+file descriptor fails with -EINVAL as reconfigure_super() refuses
+anything outside of MS_RMT_MASK.
+
+Reset the mask as well so a cleaned context looks like a new one from
+fspick() just as the comment in sys_fsmount() promises.
+
+Fixes: ecdab150fddb ("vfs: syscall: Add fsconfig() for configuring and managing a context")
+Cc: stable@vger.kernel.org
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/super.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ fs/fs_context.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/fs/super.c b/fs/super.c
-index edd5648d1720..657958a1d135 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -935,9 +935,8 @@ void drop_super_exclusive(struct super_block *sb)
- }
- 
- enum super_iter_flags_t {
--	SUPER_ITER_EXCL		= (1U << 0),
--	SUPER_ITER_UNLOCKED	= (1U << 1),
--	SUPER_ITER_REVERSE	= (1U << 2),
-+	SUPER_ITER_UNLOCKED	= (1U << 0),
-+	SUPER_ITER_REVERSE	= (1U << 1),
- };
- 
- static inline struct super_block *first_super(enum super_iter_flags_t flags)
-@@ -959,7 +958,6 @@ static void __iterate_supers(void (*f)(struct super_block *, void *), void *arg,
- 			     enum super_iter_flags_t flags)
- {
- 	struct super_block *sb, *p = NULL;
--	bool excl = flags & SUPER_ITER_EXCL;
- 
- 	spin_lock(&sb_lock);
- 
-@@ -976,9 +974,9 @@ static void __iterate_supers(void (*f)(struct super_block *, void *), void *arg,
- 
- 		if (flags & SUPER_ITER_UNLOCKED) {
- 			f(sb, arg);
--		} else if (super_lock(sb, excl)) {
-+		} else if (super_lock_shared(sb)) {
- 			f(sb, arg);
--			super_unlock(sb, excl);
-+			super_unlock_shared(sb);
- 		}
- 
- 		if (p)
+diff --git a/fs/fs_context.c b/fs/fs_context.c
+index a50584df97be..ba99e673458a 100644
+--- a/fs/fs_context.c
++++ b/fs/fs_context.c
+@@ -544,6 +544,7 @@ void vfs_clean_context(struct fs_context *fc)
+ 	fc->fs_private = NULL;
+ 	fc->s_fs_info = NULL;
+ 	fc->sb_flags = 0;
++	fc->sb_flags_mask = 0;
+ 	security_free_mnt_opts(&fc->security);
+ 	kfree(fc->source);
+ 	fc->source = NULL;
 
 -- 
 2.53.0
