@@ -1,61 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D99E2EEE65;
-	Sat, 10 Oct 2026 23:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3B43C276E
+	for <linux-fsdevel@vger.kernel.org>; Sun, 11 Oct 2026 05:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791673931; cv=none; b=lbgmbG7K11WgkeesqGMTamHRva7NhosUnJ6iw2qdKL1A/zMaRaoe67wlp0GWr1csY6EsDIE/dcn49yIIRNZj7Nzv1cCZ3PdVoguRRpwLTFfyiZIPF5+fKcInK24ROjqvUhE5RCC+nJ+6qizC54zyBpyZ5UQ+yeNHkjd/4HkEAYM=
+	t=1791696588; cv=none; b=Y7v6jb0EzgIKXM7U4QRcY6vVa8Vc9rL+B2mrFYs047OfHTyQN7+TnmRQGErN1XmRm44YSuiScDqqaJeHvtmm5pd7fA+SiIguboO8svWo5ViAhLeynTvIlAc+gZm3y+GFa2n1yUJUMKkXXZ4c8rg+vZPejaNIYx9QJ5hcyw/noqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791673931; c=relaxed/simple;
-	bh=K4/z8nr5k+jdg66aWFyPdtVPuiUttK7GPMBf9qKIYxg=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=fF50QTX3fy3RmVx4JkYln7Gq+Zi4BEIIhjCj/hFkq5h+pvhLYi3PUFP9jTY+rClkwSfXCJWfCPX/56W7E+cbzLVmS9gwE/H+KCqI332a6dH7vZUKQNb7VcizSA/ZSNB7V3ugNRWQLvt7YYhE6d1Iy3f8+AM8aPyiRBosyZBiXww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=zcqw9uEA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791696588; c=relaxed/simple;
+	bh=sIbRso6W6WqLNYE6yLPCDLJ+kUhhHofo7p2mjFJFouk=;
+	h=From:To:Cc:Subject:Message-ID:In-Reply-To:References:Date:
+	 MIME-Version:Content-Type; b=PfhlSu0wRdB81Es9lqYA+PyzFY8lnnsoOa7sJdQLYv8Rz/R6ZfFWcvfel08LpDVHxsIcSaKiS5ut309atSSzOEYxEoxfvazMIDGpkwzH2UT28+/4BJgOlrv/uOMIFk1+Nq7mcAvL3kexKz8IwnmyqLx5VyVbA3MoysRgKzHActU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innovatrics.com; spf=pass smtp.mailfrom=innovatrics.com; dkim=pass (1024-bit key) header.d=innovatrics.com header.i=@innovatrics.com header.b=eqefMXFC; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innovatrics.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innovatrics.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="zcqw9uEA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B00B21F000FF;
-	Sat, 10 Oct 2026 23:12:09 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=innovatrics.com header.i=@innovatrics.com header.b="eqefMXFC"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a061a13884so8019685e9.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 10 Oct 2026 22:29:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1791673930;
-	bh=QxX0uL7E6cENEk/lCmgjLZU49inEjO28XJafyT3VAs0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=zcqw9uEA6nQigJgyrAdSz0qlDIkQEuoABR1ELlELzzXwL/X2WGZVrzULpe4niUTE9
-	 WowmIHsejc6rOKkAyTX6elKvM9O0uCxqH3jIvk+4OhriKvZ+GcheaI3iBUuIotOnxz
-	 zntiVdEngKjLv4kkpUxHjkEOjUCm7mqa2g95RRbA=
-Date: Sat, 10 Oct 2026 16:12:09 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <yi1.lai@intel.com>
-Cc: Yury Norov <ynorov@nvidia.com>, oe-lkp@lists.linux.dev, lkp@intel.com,
- "Liam R. Howlett" <liam@infradead.org>, Alice Ryhl <aliceryhl@google.com>,
- Andrew Ballance <andrewjballance@gmail.com>, Matthew Wilcox
- <willy@infradead.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, "Qi Zheng"
- <zhengqi.arch@bytedance.com>
-Subject: Re: [linux-next:master] [lib]  6b23a67486:
- WARNING:possible_circular_locking_dependency_detected
-Message-Id: <20261010161209.a2c3dab9cb05dd0d4b9b18a0@linux-foundation.org>
-In-Reply-To: <202610101009.240d59d9-lkp@intel.com>
-References: <202610101009.240d59d9-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=innovatrics.com; s=google; t=1791696585; x=1792301385; darn=vger.kernel.org;
+        h=content-type:mime-version:date:references:in-reply-to:message-id
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EwJQAcrSA8vm2/QDhj4tfogkpVMYET7O/tmaR0Uw6Xg=;
+        b=eqefMXFCtMdjqzxlckHAdKhdWg45OVbq12RRfTeUnpr5REQeBjRlA4pvRF/8tX2SrU
+         DOxrr52H3C0AgyMCvq5wtF1r/IYYnEersFGO9EFi3Iu2k1HLsXzNf4IT+bWUR2+wVoJj
+         xl41LRWS6re51wj+N3vj+nJQOwbAQxAPdTARg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791696585; x=1792301385;
+        h=content-type:mime-version:date:references:in-reply-to:message-id
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=EwJQAcrSA8vm2/QDhj4tfogkpVMYET7O/tmaR0Uw6Xg=;
+        b=aN0ZMT08Rl0WuMq5iMJicFJ7pidaeKXnB1OEN1Ewj4V1+df5FwVXwRTqDHRwWWWnfN
+         OC0j1p4nQxOQEOAZdX+KnH4hoPheynfkKVLor5epqr+vzYEVLNfnFwgAhtXamU2uoOFy
+         uI842c5t6mcDZ7J1m1miRqt0sGQW0tO5HLEYrs3M+j4InhXP94quzsz90hoS+g3fPeQq
+         4tyrgITqGA2idvWDeomQ0VSOIFmQ/ERdSHXmdGn7Qmx4DRUMrdGWUFl4NZz65VsAu4PH
+         9bt1tkNOUqHfzF3iy1A/vGXLf9xr235+ZtpKHjP7hS8UsMfwheVA/tYF8Oi8w0Y37fzW
+         h31Q==
+X-Forwarded-Encrypted: i=1; AKwUvByPX7hsBnG76ahUD39n90DqrfnNqo/uopdPDjrczfCmW03WvaEsEF97B9USxtIDbn5VnsFEF1+J5qctOdpc@vger.kernel.org
+X-Gm-Message-State: AFq9FYIZqcTHBUIIju95jrJcz0YlZAkJdEtz6YGT1P/5+ZRrDEjIplKQ
+	0ZB9/8YRZGXYBpb2utgK6yYOW7UKe4JhXEVCxlQQnU67wLGZf/JFmMZNZU7kHNKwCg==
+X-Gm-Gg: AYBFou2oQtTm09rpTMtFqWiOjC24t5AwXIKMqeNVy5smK8qOsDawEGug+g65dJoVP2h
+	VCJ5+LE6gV087TXvxl+nl9fvY96PsypEF7qr6PZm76f/BxaT+joHKKIkL6OdMqirlNB5PUBJnnV
+	olGtenwupOOn/XSohDx1bXUyxCD8V/UCxOvoczhT+u0oPged2EIZRs6Q4Z6xtGgd4FInd9FbW6L
+	Lt8rdmQP7R6XkjEG0bZSxDuuhifa/MGjxoiMA8JsvJlCXf7M/Q+X4PKeZRYO7VvwxwpvY2/UUSs
+	dEij0vibSfYhq4flBKc+HRjOaSVFNTH9Yj7AhEenUN5svyW82Vhd0OeEITJ+pa8O5ZfHQzOnTSJ
+	UbbO+q6k+500PGfMy8xrz3o+PZsQ5teCBQU0ZFx8UnD6rHdg7qxYmPG0yS7jk/ADRdKic/Tauf6
+	9kPADKfLMdUw4AN0/E8UPo+Ba0sGcnmJGdMFUEClYrov/rf+giyNrxxIs0iZ84IdOK6REK5CKcT
+	9v9WLVKZIsLS/Niz5xJK0uB7QKJhAOTAz/sXE4nFd6pvVUDeu4/8l0BT2Br+Ny6PSeG6K8T64Pc
+	CRhM58bDPcD/VHIIeF46MyPe3lp3IWY=
+X-Received: by 2002:a05:600c:e558:20b0:4a1:946c:953f with SMTP id 5b1f17b1804b1-4a1946c9744mr30278845e9.20.1791696585122;
+        Sat, 10 Oct 2026 22:29:45 -0700 (PDT)
+Received: from [10.11.72.5] (bip-static-148.213-81-147.telecom.sk. [213.81.147.148])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a193f2c992sm107606015e9.5.2026.10.10.22.29.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Oct 2026 22:29:44 -0700 (PDT)
+From: Petr Chmelar <petr.chmelar@innovatrics.com>
+To: David Howells <dhowells@redhat.com>
+Cc: Christian Brauner <christian@brauner.io>,
+    Paulo Alcantara <pc@manguebit.org>,
+    Matthew Wilcox <willy@infradead.org>,
+    Namjae Jeon <linkinjeon@kernel.org>,
+    Marc Dionne <marc.dionne@auristor.com>,
+    Stefan Metzmacher <metze@samba.org>,
+    Eric Van Hensbergen <ericvh@kernel.org>,
+    Dominique Martinet <asmadeus@codewreck.org>,
+    Ilya Dryomov <idryomov@gmail.com>,
+    netfs@lists.linux.dev,
+    linux-afs@lists.infradead.org,
+    linux-cifs@vger.kernel.org,
+    linux-nfs@vger.kernel.org,
+    ceph-devel@vger.kernel.org,
+    v9fs@lists.linux.dev,
+    linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v12 4/5] cachefiles: Don't rely on backing fs storage map
+ for most use cases
+Message-ID: <20261011.cachefiles-partial-zeros.pchmelar@innovatrics.com>
+In-Reply-To: <20260910220242.2165023-5-dhowells@redhat.com>
+References: <20260910220242.2165023-1-dhowells@redhat.com>
+ <20260910220242.2165023-5-dhowells@redhat.com>
+Date: Sun, 11 Oct 2026 05:29:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 
-On Sat, 10 Oct 2026 16:56:22 +0800 kernel test robot <yi1.lai@intel.com> wrote:
+Hi David,
 
-> Hello,
-> 
-> kernel test robot noticed "WARNING:possible_circular_locking_dependency_detected" on:
-> 
-> commit: 6b23a6748698a7cbda7d18a3a28e59be63254571 ("lib: fix lock initialization in region allocation benchmark") https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
-> 
-> [test failed on linux-next/master aac26bee2287c88af5be5a5ff96d783b19a28790]
+With this patch, reading a file whose cache object is only partly
+filled returns wrong data, mostly whole 64 KiB blocks of zeros.  A
+second full read returns the same wrong blocks.  It reproduces over
+NFS and 9p on vfs-7.4.netfs (9f8b64f66).  Over 9p it bisects to this
+patch, 13e340e397 in that branch; over NFS its parent is clean and the
+branch tip is not.
 
-#syz dupe:  [linux-next:master] [mm]  b9b1861d4f: WARNING:possible_circular_locking_dependency_detected
+#regzbot introduced: 13e340e397
 
+Reproducer: random 64 KiB reads covering half of a 256 MiB file of
+random data, then a full read after dropping the page cache, compared
+with the original per 64 KiB block:
+
+  fio --name=half --filename=/mnt/part.bin --rw=randread --bs=64k \
+      --ioengine=psync --fadvise_hint=random --size=256m --io_size=128m \
+      --randrepeat=1
+  sync; echo 3 > /proc/sys/vm/drop_caches
+  cmp /mnt/part.bin /path/to/original
+
+Setup: QEMU 8.2.2 (TCG, 4 vCPUs), cache on a fresh XFS on a loop device
+(2 GiB for 9p, 4 GiB for NFS), cachefilesd 0.10.10 with brun 10%, bcull
+7%, bstop 3%, fio 3.36.  Mounts:
+
+  NFS: NFSv4.2 loopback export of a tmpfs, vers=4.2,fsc,actimeo=1
+  9p:  trans=virtio,version=9p2000.L,cache=fscache,msize=1048576
+
+Wrong 64 KiB blocks out of 4096, first full read / second full read:
+
+  kernel                mount     wrong       all zeros
+  v7.3-rc6              9p        0 / 0       0
+  e0aa90eb8c            9p        0 / 0       0
+  98e0cd700d (parent)   9p        0 / 0       0
+  98e0cd700d (parent)   NFS       0 / 0       0
+  13e340e397 (this)     9p        936 / 936   825
+  8097a263bd (merge)    9p        936 / 936   825
+  9f8b64f66             9p        936 / 936   825
+  9f8b64f66             NFS       817 / 817   817
+  9f8b64f66             9p loose  0 / 0       0
+
+  "9p loose" is the 9p mount with cache=loose, without fscache.
+
+On 9f8b64f66 over 9p, three runs gave the same counts and the same
+first wrong blocks.  The first wrong blocks are 10, 13, 15, 24, 26 and
+27 over 9p, and 50, 51, 53, 54, 55 and 56 over NFS.
+
+Two more observations, in case they help:
+
+ - Over 9p, after the random fill and both full reads, the backing
+   object has 451 extents with this patch and 28 on v7.3-rc6 (37 on
+   98e0cd700d).
+
+ - Over NFS on 9f8b64f66, the fscache counters after the fill and both
+   full reads are IO rd=371 wr=2189.  I haven't traced whether the
+   zeros come from reads over holes in the backing file or from what
+   was written to it.
+
+Over NFS, a server-side rewrite of the file (invalidation) and a shrink
+and regrow through the mount both read back correctly on 9f8b64f66 and
+98e0cd700d.
+
+I found this while testing a workaround for slow reads from fragmented
+cache objects, which I describe in a reply to the cover letter:
+
+  https://lore.kernel.org/r/20261011.cachefiles-seek-hole-walk.pchmelar@innovatrics.com
+
+It reproduces without that workaround.  The reproducer and the
+bisection were done with LLM assistance.
+
+Thanks,
+Petr
