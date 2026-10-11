@@ -1,212 +1,194 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B840436194B;
-	Sun, 11 Oct 2026 18:57:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8EB93932D5;
+	Sun, 11 Oct 2026 20:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791745074; cv=none; b=if8DZ4/ClElvfNCZ/nB1rgUl5/h8fqKlPp5DUIANy3WVdPWYm8S+zjqJ1sBGLfCvYdnW4z+gsIQVKiIAnPtArm1oUYCfAXNSTe98prrvuW1wCUbpl7sF5pFQPbnG6hWOXBkBUNYB6MFy07pRcasIxx9cZHIEUr8DGYt0Stvwa9g=
+	t=1791750514; cv=none; b=iD7Jw8BiGiIJIO01evG+8hPYURbIsV/5jHzCILCY/rfRTzwFMtfuK7K7+GXtqMrVWR1OOP5Uf2r85vHhq8UKItuXZX2I/BFLdXw52MZJAEiiqVt68C5Qq5LPQ7hd5tds4t3GECyy8IwW7CzNvMh01l30yIe6DdE4wTNsMitIKRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791745074; c=relaxed/simple;
-	bh=REl+tppxvSHabgdSvrzG8Ka/zUm84pDQokIz7/Unu5c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jcjzBu23Py1Njw8NCn0TswfgARNcE2kxHTuUejwXv/xJrVht4traVClQanlqg/RQ/d0Pd/6ZTeA0zqVkyTKlfnC7+QHuBOaePkpcd6gp7QP5p1pRRMTultkVZUFWn+Z4EgkNKifdIqkXR8NZYIWhgYHF120zxOmHKDUVCy/rUJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=r4gjlvfy; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=MY253s+b; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	s=arc-20240116; t=1791750514; c=relaxed/simple;
+	bh=cXC1/d/7Pq2ANFf2momWoz1YJa7rgM8I2w07ldzx/8E=;
+	h=Date:From:To:Subject:Content-Type:Cc:References:In-Reply-To:
+	 Message-Id; b=Nf6ixRGm9yZ0J3SmLaiGsCjkzuuCizuOa1LKABvs3Vg1L1U888lvwhuN8Ebc2wVYLVS8xVxoB27cpNdmkV78wMpH5OLiZH+g1SPrggXwqoiJtTn0PTuj53eU6p2tbJzXrMgd84e5wJ6H/gkU84rgpYY0uqRPD+sOQEX8D7V6PXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=scdbackup@gmx.net header.b=WGtHaeMz; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="r4gjlvfy";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="MY253s+b"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id D2D70209679B;
-	Mon, 12 Oct 2026 03:57:49 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1791745069;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FozaGIn1BmAHL8GW0iF0GtmkWIVrQ/+b8AEY9wpf79k=;
-	b=r4gjlvfyGEHb+f/x9llx63L0il5YuSerZhUiircHs/jsHSzYU2XwLVP883vgJg0uGSknmw
-	p4eZmYEVKXu5Dq4CqSKOxLmYIQCi0I+wBcI8sq+wVBa0e0+QiiD+vaj5Hu6EX59NBzpkPR
-	KNw93Q9I47eH18wyRUXdaKTnDUC/9N5VgHjhr30/SCmq5c6Z8596mAXoHYsXM7CFwgQifn
-	qlR60fpCZHEgKkGutChxb6zDGKyQ8606bxIkVM48U/ShgzXgR1vi9kfP5XK/+qWnFDyhvr
-	u2eORFXHJRJlaVOyhU+3h8hnWT44mku3TNQasKDwu9UyyYKPV3TcfWMFEF49Yg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1791745069;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FozaGIn1BmAHL8GW0iF0GtmkWIVrQ/+b8AEY9wpf79k=;
-	b=MY253s+bIxiRHlo4+hHok0W8opt2L9D2CqLShx5rHJTm5VqdsS675TOvnN2bd0v3zYnT3D
-	fuh7V/jHwPfgbOCA==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 63ABFE00134;
-	Mon, 12 Oct 2026 03:57:49 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 509A122000EE; Mon, 12 Oct 2026 03:57:49 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Cc: linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] fat: return only first cluster when allocating
-In-Reply-To: <20261008020941.55784-3-matheus.aalmeida@inf.ufrgs.br>
-References: <20261008020941.55784-1-matheus.aalmeida@inf.ufrgs.br>
-	<20261008020941.55784-3-matheus.aalmeida@inf.ufrgs.br>
-Date: Mon, 12 Oct 2026 03:57:49 +0900
-Message-ID: <87zewkkqtu.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=scdbackup@gmx.net header.b="WGtHaeMz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1791750508; x=1792355308; i=scdbackup@gmx.net;
+	bh=/I6OequC5xynLWfPbbK5h5SS0Qss8b5GvB3Trir68xs=;
+	h=X-UI-Sender-Class:Date:From:To:Subject:Content-Type:
+	 Content-Transfer-Encoding:Cc:References:In-Reply-To:Message-Id:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=WGtHaeMzyYLw9ZOQ0cV9JlaZ7nQd5CYiI1yFcJNQuu2lIdZDjP4No92VEkPFjKs7
+	 9+fb+HcvzWgFbKxMrFb6yMZVukfX4xnGNNPJFOZe12n6w8XCxVxreiI9xz18cW6Jw
+	 fNw/DTBmfk9W4YeGqzqj4oovoitSBwTGFLo1upGRXM2WI1aww2GTcyqfax3IiC8R9
+	 BoFlI6JiB/VkvigQ6nUZvsTGIngUmU2w0LlnqHRjtfXNUF4SWfP0+9WNVRDcfWnm0
+	 rDp7PwuxxGrpGJ03solkYL68K79Dw7lDtuBkRinJEXuiB/x9T92jUIGx3u+uW9xMV
+	 u0RHy/QvFNmspdslSw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MiacH-1wlKVY3d0J-00pAhO; Sun, 11
+ Oct 2026 22:28:28 +0200
+Date: Sun, 11 Oct 2026 22:29:07 +0200
+From: "Thomas Schmitt" <scdbackup@gmx.net>
+To: hengyul@cs.unc.edu
+Subject: Re: [PATCH] isofs: Fix handling of directories with small logical blocks
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Cc: jack@suse.cz,brauner@kernel.org,matthias.goergens@gmail.com,linux-fsdevel@vger.kernel.org,linux-kernel@vger.kernel.org
+References: <20261010175649.700233-1-hengyul@cs.unc.edu>
+In-Reply-To: <20261010175649.700233-1-hengyul@cs.unc.edu>
+Message-Id: <13464510581423749223@scdbackup.webframe.org>
+X-Provags-ID: V03:K1:HbAe8pvvmwdtBvYoKaA9X5+jPx/rMhOOX2awvVgXesFHhfvY+Ny
+ tc32AImmLPOqXlGVx8lC7m5gB2rsvWP4Y9OYF4kYBI897CMD4kp/wZsyveVAibImQDv9G6N
+ FV93cZjBPkBRT3dppCOWrPZy3MFBSccp+rp3W483YN8/1b8715ZbGlTbFDD/eq+DxOFhSpG
+ mqvWBktDWp/vxCnqPraSQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:60idN//JQIQ=;pdAfgEFE3uCwVRol7/+xKyfFd8u
+ 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
+ +ErRSVA4TN4y+UZFOiVrlBDmBPPm7lSDqTXDQQ=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
 
-Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+Hi,
 
-> fat_alloc_clusters() returns every allocated cluster number in an array.
-> For larger allocations, like growing a file, this array would need to be
-> very large.
->
-> Make fat_alloc_clusters() return only the first allocated cluster in the
-> chain. Update fat_add_new_entries() to follow the chain when it needs
-> the second cluster.
+Hengyu Liang wrote:
+>     mount -t iso9660 -o loop,ro lbs1024.iso /mnt
 
-This would be more common case than fallocate(), so penalize this part
-would not be good.
+Do i get it right that lbs1024.iso contains in the Primary Volume
+Descriptor at BP 129 to 132 "Logical Block Size" the value 1024
+instead of 2048 ?
+(Where could i get such an ISO image ? And how was it created ?)
 
-Thanks.
+If so:
+I agree with Hengyu Liang's assessment of ECMA-119 in regard to
+Logical Sector (device-related unit inspired by CD sectors) and
+Logical Block (filesystem addressing unit).
+Assuming that my understanding of the isofs code is correct, i am
+astonished and impressed to see in isofs support for
+Logical Block < Logical Sector.
 
-> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-> ---
->  fs/fat/dir.c    | 20 +++++++++++++++++++-
->  fs/fat/fat.h    |  2 +-
->  fs/fat/fatent.c | 17 +++++++++--------
->  3 files changed, 29 insertions(+), 10 deletions(-)
->
-> diff --git a/fs/fat/dir.c b/fs/fat/dir.c
-> index 35bdb6294..672d5e392 100644
-> --- a/fs/fat/dir.c
-> +++ b/fs/fat/dir.c
-> @@ -1245,6 +1245,7 @@ static int fat_add_new_entries(struct inode *dir, void *slots, int nr_slots,
->  	sector_t blknr, start_blknr, last_blknr;
->  	unsigned long size, copy;
->  	int err, i, n, offset, cluster[2];
-> +	struct fat_entry fatent;
->  
->  	/*
->  	 * The minimum cluster size is 512bytes, and maximum entry
-> @@ -1255,10 +1256,26 @@ static int fat_add_new_entries(struct inode *dir, void *slots, int nr_slots,
->  	*nr_cluster = (size + (sbi->cluster_size - 1)) >> sbi->cluster_bits;
->  	BUG_ON(*nr_cluster > 2);
->  
-> -	err = fat_alloc_clusters(dir, cluster, *nr_cluster);
-> +	err = fat_alloc_clusters(dir, &cluster[0], *nr_cluster);
->  	if (err)
->  		goto error;
->  
-> +	if (*nr_cluster > 1) {
-> +		fatent_init(&fatent);
-> +		cluster[1] = fat_ent_read(dir, &fatent, cluster[0]);
-> +		fatent_brelse(&fatent);
-> +		if (cluster[1] == FAT_ENT_EOF || cluster[1] == FAT_ENT_FREE) {
-> +			fat_fs_error(sb,
-> +				     "%s: invalid cluster chain (i_pos %lld)",
-> +				     __func__, MSDOS_I(dir)->i_pos);
-> +			cluster[1] = -EIO;
-> +		}
-> +		if (cluster[1] < 0) {
-> +			err = cluster[1];
-> +			goto error_ent;
-> +		}
-> +	}
-> +
->  	/*
->  	 * First stage: Fill the directory entry.  NOTE: This cluster
->  	 * is not referenced from any inode yet, so updates order is
-> @@ -1313,6 +1330,7 @@ static int fat_add_new_entries(struct inode *dir, void *slots, int nr_slots,
->  error_nomem:
->  	for (i = 0; i < n; i++)
->  		bforget(bhs[i]);
-> +error_ent:
->  	fat_free_clusters(dir, cluster[0]);
->  error:
->  	return err;
-> diff --git a/fs/fat/fat.h b/fs/fat/fat.h
-> index 61338413d..75ac0239a 100644
-> --- a/fs/fat/fat.h
-> +++ b/fs/fat/fat.h
-> @@ -393,7 +393,7 @@ extern int fat_ent_read(struct inode *inode, struct fat_entry *fatent,
->  			int entry);
->  extern int fat_ent_write(struct inode *inode, struct fat_entry *fatent,
->  			 int new, int wait);
-> -extern int fat_alloc_clusters(struct inode *inode, int *cluster,
-> +extern int fat_alloc_clusters(struct inode *inode, int *first_cluster,
->  			      int nr_cluster);
->  extern int fat_free_clusters(struct inode *inode, int cluster);
->  extern int fat_count_free_clusters(struct super_block *sb);
-> diff --git a/fs/fat/fatent.c b/fs/fat/fatent.c
-> index bfab8eab5..4970b1f14 100644
-> --- a/fs/fat/fatent.c
-> +++ b/fs/fat/fatent.c
-> @@ -488,14 +488,14 @@ static int fat_flush_bhs(struct super_block *sb, struct buffer_head **bhs,
->  	return 0;
->  }
->  
-> -int fat_alloc_clusters(struct inode *inode, int *cluster, int nr_cluster)
-> +int fat_alloc_clusters(struct inode *inode, int *first_cluster, int nr_cluster)
->  {
->  	struct super_block *sb = inode->i_sb;
->  	struct msdos_sb_info *sbi = MSDOS_SB(sb);
->  	const struct fatent_operations *ops = sbi->fatent_ops;
->  	struct fat_entry fatent, prev_ent;
->  	struct buffer_head *bhs[MAX_BUF_PER_PAGE];
-> -	int i, count, err, nr_bhs, idx_clus;
-> +	int i, count, err, nr_bhs, clusters_done;
->  
->  	lock_fat(sbi);
->  	if (sbi->free_clusters != -1 && sbi->free_clus_valid &&
-> @@ -504,7 +504,7 @@ int fat_alloc_clusters(struct inode *inode, int *cluster, int nr_cluster)
->  		return -ENOSPC;
->  	}
->  
-> -	err = nr_bhs = idx_clus = 0;
-> +	err = nr_bhs = clusters_done = 0;
->  	count = FAT_START_ENT;
->  	fatent_init(&prev_ent);
->  	fatent_init(&fatent);
-> @@ -531,8 +531,9 @@ int fat_alloc_clusters(struct inode *inode, int *cluster, int nr_cluster)
->  				if (sbi->free_clusters != -1)
->  					sbi->free_clusters--;
->  
-> -				cluster[idx_clus] = entry;
-> -				idx_clus++;
-> +				if (!clusters_done)
-> +					*first_cluster = entry;
-> +				clusters_done++;
->  
->  				if (nr_bhs + fatent.nr_bhs > MAX_BUF_PER_PAGE) {
->  					err = fat_flush_bhs(sb, bhs, &nr_bhs,
-> @@ -542,7 +543,7 @@ int fat_alloc_clusters(struct inode *inode, int *cluster, int nr_cluster)
->  				}
->  				fat_collect_bhs(bhs, &nr_bhs, &fatent);
->  
-> -				if (idx_clus == nr_cluster)
-> +				if (clusters_done == nr_cluster)
->  					goto out;
->  
->  				/*
-> @@ -575,8 +576,8 @@ int fat_alloc_clusters(struct inode *inode, int *cluster, int nr_cluster)
->  	for (i = 0; i < nr_bhs; i++)
->  		brelse(bhs[i]);
->  
-> -	if (err && idx_clus)
-> -		fat_free_clusters(inode, cluster[0]);
-> +	if (err && clusters_done)
-> +		fat_free_clusters(inode, *first_cluster);
->  
->  	return err;
->  }
 
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+But i see a possible exotic consistency problem:
+
+The mount option block={512|1024|2048} may set the address unit for
+reading the volume descriptors in isofs_fill_super():
+         opt->blocksize = sb_min_blocksize(s, opt->blocksize);
+This means that if it gets through, it is the assumed Logical Sector
+size.
+Later the block size unit gets overridden by the logical block size
+which was read from the chosen volume descriptor:
+         if (!sb_set_blocksize(s, orig_zonesize))
+
+The problem would be that during the check for allowed crossing of
+logical blocks the Logical Sector size is hardcoded as ISOFS_BLOCK_SIZE
+i.e. 2048.
+So if the user is allowed to set an initial Sector size, shouldn't this
+be used for the check in this patch, too ?
+
+On the other hand, the default of opt->blocksize is 1024, which
+obviously does not get into effect, even with 512-byte-per-block
+USB sticks.
+So can mount option block={512|1024|2048} still have an effect at all ?
+
+
+Have a nice day :)
+
+Thomas
+
