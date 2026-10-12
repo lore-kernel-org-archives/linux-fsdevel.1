@@ -1,95 +1,132 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EAA388881
-	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 02:52:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12043AD507;
+	Mon, 12 Oct 2026 05:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.54.11.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791773529; cv=none; b=oks4Kyld1yqUW46GmDy+0FePPW9cUGpEny1nFDsB2Gny6MMJ2kDCFOYE9TtKbPoqJzLx8JmRSfMpoFAPXQ0Ln5hGdytsTFR549JkpHJV+o2m+OFgGRHWQoJo7L1C7c8p8IxuDTptaqXZzBwOTxWUGqadbBy3AYwmBZk/HXBdRCM=
+	t=1791783840; cv=none; b=Z1hqjTeI9wT9pTpevbGlSZceI3/Qm+D318kl6tjzikqggo9ju8bCLYvb8ri50gqJajUuiOyX+r7Hl6I//HkjB7/MsB3SggKp40swL4kog6JXrU4SbHlAaRikPcnFGgbzmp5FHuBy30veLgLtILQuiwPuIIFDKNcdft1uB/dv5cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791773529; c=relaxed/simple;
-	bh=+RnKcGIJ6G/VhbRqdt/Bc2gRi+Za13jvUFodR/Krc4I=;
-	h=Mime-Version:Subject:From:To:CC:In-Reply-To:Message-ID:Date:
-	 Content-Type:References; b=VJ7L/AygeHQWWhaFMDLy467+44L1zk+WaTXtXkIDf2/ttf+pKfACwggDlHSI+njOCptdckf8wd+aCfwz3g5wg35k4XiNrt5qLNZsv1GO1ST3ROzEn5qqRTx4eO6pxTKjU6oQRNfAvpECJbfCl687QsGlLyzM0WydwNQLL3D1zLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=s5sw5q3O; arc=none smtp.client-ip=203.254.224.25
+	s=arc-20240116; t=1791783840; c=relaxed/simple;
+	bh=D8XF8NrMW2gK0eTke1CnLPaendq4DLcgKIBB+Jm/3ds=;
+	h=MIME-Version:Content-Type:Date:From:To:Cc:Subject:In-Reply-To:
+	 References:Message-ID; b=IMJydpl+d9JLB0oGGv17zsPYSRIO5xyN3KulJsAdv/A5q2rF+l3sZdXZzw3r/BXO+nVYX35LBiQ/YWO0vQVsGjYHvl6Dzmn17Epj9Nqglns8lc9N5YxjlW3iyri+sQ+M8Zb/5qKtJcjVscPKfpSJ/W6TZdjl1zazvV4/DGlgXtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br; spf=pass smtp.mailfrom=inf.ufrgs.br; dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b=kqCs2OjZ; arc=none smtp.client-ip=143.54.11.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="s5sw5q3O"
-Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20261012025206epoutp021d5912ba271d64238da71765e2b3d545~dqIeKibZs2970529705epoutp02l
-	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 02:52:06 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20261012025206epoutp021d5912ba271d64238da71765e2b3d545~dqIeKibZs2970529705epoutp02l
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1791773526;
-	bh=+RnKcGIJ6G/VhbRqdt/Bc2gRi+Za13jvUFodR/Krc4I=;
-	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-	b=s5sw5q3Osg3mDz9lFSGn+NPOyx2lWPhSmhKes4yADIBg9gE+Sn8YD5B5MupfD5e6j
-	 YUEhI/udWZeN2yH7b8eMlF+w+xoI7XmTEpLmGX4E7E3CR/YgK7kjZ8cMlmiyxDU59+
-	 +4tdVyb2Y1ITrl7qig1/AKq9cjgCst/ccCP94yS0=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas2p1.samsung.com (KnoxPortal) with ESMTPS id
-	20261012025206epcas2p102b727ce702f793063d25dd96cf972cd~dqIdzYhFL0573505735epcas2p1P;
-	Mon, 12 Oct 2026 02:52:06 +0000 (GMT)
-Received: from epcas2p3.samsung.com (unknown [182.195.38.204]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4j327B0zy4z6B9mD; Mon, 12 Oct
-	2026 02:52:06 +0000 (GMT)
+	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b="kqCs2OjZ"
+Received: from webmail.inf.ufrgs.br (webmail.inf.ufrgs.br [143.54.11.45])
+	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 8EE01121113;
+	Mon, 12 Oct 2026 02:43:46 -0300 (-03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
+	s=dkim2026; t=1791783826;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vg86jNz1esPLXPOWct4bvk16TgMkacXdiKmrusySEvk=;
+	b=kqCs2OjZ1OXJc7PzQCvTJl4JvFuZ3CQlLFqTkWZ0Ipk0UrKoeOElx5naeRwnA7f3PdCq6i
+	huZJo7moHId3qImeIf/Xtrc/OQVLlStoWDZdZHSk5LpqGJzKo2/amQ+ZOqhbTJZ3hgOs19
+	Esl60MEsI9FETka5FSud8ez29c0ZWdEuQPl3u4QUbahb40vLhfV/VOIKHFMzcjUm6WDTE0
+	vyTls5TdRxYLNhFrEALbRTkfLXLcEGZ33k07jRjru/NWIYtjcqeSTobGIU968d3WYIMfe3
+	jh8tpT/ih4s1uPOdK7SUttyDUw+pm+L8LnXSwGk0zxq/MMjM16scVgA6e3aBgg==
+Received: from bd06e904.virtua.com.br ([189.6.233.4])
+ by webmail.inf.ufrgs.br
+ with HTTP (HTTP/1.1 POST); Mon, 12 Oct 2026 02:43:46 -0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Subject: RE:(2) (2) [PATCH] nfsd: do not return overlapping extents in a
- block layout
-Reply-To: daejun7.park@samsung.com
-Sender: Daejun Park <daejun7.park@samsung.com>
-From: Daejun Park <daejun7.park@samsung.com>
-To: Chuck Lever <cel@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>
-CC: Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Olga
-	Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey
-	<tom@talpey.com>, Christoph Hellwig <hch@lst.de>, Sergey Bashirov
-	<sergeybashirov@gmail.com>, Carlos Maiolino <cem@kernel.org>, Amir Goldstein
-	<amir73il@gmail.com>, "linux-nfs@vger.kernel.org"
-	<linux-nfs@vger.kernel.org>, "linux-xfs@vger.kernel.org"
-	<linux-xfs@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Daejun Park <daejun7.park@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <e80265ff-322b-4a52-ba51-393e3e4f503e@app.fastmail.com>
-X-CPGS-Detection: blocking_info_exchange
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20261012025205epcms2p7f506779d61fc0b40561296ef119be2e0@epcms2p7>
-Date: Mon, 12 Oct 2026 11:52:05 +0900
-X-CMS-MailID: 20261012025205epcms2p7f506779d61fc0b40561296ef119be2e0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-X-CPGSPASS: Y
-X-CPGSPASS: Y
-cpgsPolicy: CPGSC10-223,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261007165105epcas2p264fc1fd07bab1fb877a6695062f48322
-References: <e80265ff-322b-4a52-ba51-393e3e4f503e@app.fastmail.com>
-	<20261007165101.GD2705364@frogsfrogsfrogs>
-	<20261007-nfsd-block-trim-v1-1-53370f97047a@samsung.com>
-	<20261008014706epcms2p7f60dc9a1db6ca16a6fff03de67688c2e@epcms2p7>
-	<CGME20261007165105epcas2p264fc1fd07bab1fb877a6695062f48322@epcms2p7>
+Date: Mon, 12 Oct 2026 02:43:46 -0300
+From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] fat: allocate multiple clusters in fallocate
+In-Reply-To: <874iesm5hu.fsf@mail.parknet.co.jp>
+References: <20261008020941.55784-1-matheus.aalmeida@inf.ufrgs.br>
+ <874iesm5hu.fsf@mail.parknet.co.jp>
+Message-ID: <3b0bef1504539358bf049724329ced57@inf.ufrgs.br>
+X-Sender: matheus.aalmeida@inf.ufrgs.br
+User-Agent: Roundcube Webmail/0.9.5
 
-On Thu, Oct 8, 2026 at 10:14 AM, Chuck Lever wrote:
-> I don't quite understand the logistics / ordering, as it appears to
-> invite a conflict depending on which tree the ->map_blocks series
-> goes through.
+Em 2026-10-11 15:55, OGAWA Hirofumi escreveu:
+> Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+> 
+>> Hi,
 
-The comment as you updated it in nfsd-testing (now 170b788af22d) is
-fine, nothing more is needed there.
+>> This series adds support for allocating multiple clusters in a single
+>> fat_add_clusters() call in fat_fallocate().
 
-The ->map_blocks series will not go in on top of the current trees.
-Patch 1 is in xfs for-next (e3c682dd1130) and patch 8 builds on
-170b788af22d, so I will post patches 4 to 8 again after the merge
-window, rebased on -rc1, when both are in mainline. The series then
-applies to mainline alone and does not depend on nfsd-testing or xfs
-for-next. Details are in my reply to patch 8.
+>> The multi-cluster TODO in inode.c is not implemented, as doing so would
+>> require speculative preallocation or an iomap conversion.
+
+> Is this to improve the performance of fallocate? If so, what the number
+> by improved bench or such?
+
+Yes, it is. I ran a few benchmarks. Each run used a freshly formatted
+filesystem, with no userspace processes other than init (which is the
+benchmark program in this case).
+
+The numbers below are the arithmetic mean of the samples, with
+improvement calculated as before / after. The times are for the complete
+loop and not an individual fallocate() call.
+
+The benchmarks were run under QEMU/KVM with a virtio-blk device using
+cache=none.
+
+start = now_ns();
+for (unsigned int i = 0; i < count; i++)
+     fallocate(fds[i], FALLOC_FL_KEEP_SIZE, 0, bytes);
+elapsed = now_ns() - start;
+
+FAT32 with 512-byte clusters using count=16 files:
+length    mounted sync?    before    after    improvement    samples
+256MiB    no               2.328s    0.175s   13.2x          10
+16MiB     no               149.659ms 14.036ms 10.7x          10
+16MiB     yes              747.993s  3.445s   217.1x         3*
+1MiB      yes              46.63s    0.333s   140.1x         10
+
+FAT32 with 512-byte clusters using count=128 files:
+length    mounted sync?    before    after    improvement    samples
+1MiB      no               90.873ms  4.686ms  19.4x          10
+16KiB     no               1.287ms   0.241ms  5.3x           10
+128KiB    yes              47.284s   0.350s   135x           10
+4KiB      yes              1.98s     0.144s   13.7x          10
+
+FAT32 with 4096-byte clusters using count=16 files:
+length    mounted sync?    before    after    improvement    samples
+256MiB    no               295.392ms 24.733ms 11.9x          10
+16MiB     no               20.509ms  1.404ms  14.6x          10
+16MiB     yes              92.489s   0.348s   265.4x         10
+1MiB      yes              5.837s    0.048s   121.3x         10
+
+* it would take a lot of time to take 10 samples like the others,
+   so I only took 3 here.
+
+The improvement is large because the old fallocate path allocates one
+cluster at a time, while the new path can allocate an entire chain in
+one call. This is especially visible on synchronous mounts, where the
+new code can batch FAT updates instead of synchronously handling each
+cluster allocation separately.
+
+Thanks,
+Matheus
+
+>> Matheus Alves de Almeida (4):
+>>  fat: remove cluster allocation size limit
+>>  fat: return only first cluster when allocating
+>>  fat: support adding multiple clusters
+>>  fat: allocate multiple clusters in fallocate
+>> 
+>> fs/fat/dir.c    | 20 +++++++++++++++-
+>> fs/fat/fat.h    |  4 ++--
+>> fs/fat/fatent.c | 61 ++++++++++++++++++++++++++++++++-----------------
+>> fs/fat/file.c   | 10 ++++----
+>> fs/fat/inode.c  |  8 +++----
+>> 5 files changed, 69 insertions(+), 34 deletions(-)
