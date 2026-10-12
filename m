@@ -1,94 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6955B8472
-	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 02:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6EB34752B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 02:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791771728; cv=none; b=kqknCjpz98yo3Z5eGcqfIU8UW8RVBUeBtAriQITFQnKRBnjL8bWhdRb6/TxwH8Rhobv/BGC+d7I8nQmhx1XWOR3j61eAvgla7SK48LUNvqV6FOKzJeM1LaOgRzfsLOvVLBGmCmOOwz7NaoJzRUz8OU+sR/YTjHnXu6szCJ+rUFY=
+	t=1791773277; cv=none; b=ttx9dz8nYqMgXezHiYqDnpifp4sG1rZmkJCZM773XCtUXYJaLWoX/nUsM4yKnKurOgieRgttFVyPvbdIacGrlz1RnGdQYWogIu18Way3jOYSTsQ7qEY9aRVVP2QTYzep1MqWv1xPe0DJ8G3sHjVLzulGazBo5znO3J+zL4CBCzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791771728; c=relaxed/simple;
-	bh=Ymr2M8tmbeArtnwibozcSm+gURIEMEPwfokPOMw4nPE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y+vAwlye7U9LExfzowMJoOpxBLEOdhbiaKbOpLB8DrRHHh6ikmv8fkCvQ9ODqKut2UhqwedGUp3WvxokBlkggX5LfaiMhb5Sx1JcI5csLpyt0OmfJEeBj7dzOIfLJPzKH6qjmcsBoQgJNPoIpCUsY/59smxlnKkrAnyo66N2DfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GbI7a29V; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791773277; c=relaxed/simple;
+	bh=WCphX4URgUH6Nmp4Rpz5K5t99v/wRhzMwEP/lZd5amc=;
+	h=Mime-Version:Subject:From:To:CC:In-Reply-To:Message-ID:Date:
+	 Content-Type:References; b=BMX7lSu6yxiUKhqWDAtoY9etZEMUgzXjbLcx+frWhXl2cx5rub3w5kNSjumNjGphG3662E+fitlGCcN0GzUEGQ3gF4cMrpfuQqSFwJ3v+lxMelhAcB/OmMjiMcjoVQdcYvVpjT+Gj3EHQhAZXmcqoSGyVUiYA7NojaWNrxVPeZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=TT8ilfaZ; arc=none smtp.client-ip=203.254.224.24
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GbI7a29V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D29E1F0089F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 02:22:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791771727;
-	bh=u9uzcr9frkzVZVmeQUgcs1aHQ1jhJPMLYSxLsi7p5FE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=GbI7a29V1lEbb3VAw9K0Achacd19fDBLBA1aTAZ7fvgkMeGdUMWLiHai5aMRn/IYW
-	 8muxmZnOXre70OyCTDQmaYQb8X0OEeNZXzqjpaCxLr54TjPrNFOfBzfoUkg80mEmvs
-	 rFIiHZs524us+P8UsoTCw0uzxt8i/mBsNNpEDFe6RutrpLI3aaHRoyzsfPadc84EOZ
-	 RYIoXn4JtW+/TwR0L7z97Lly7IDCa+MugD99N5ov3uAzrxNheSW9oJyHB+WBPXI/M5
-	 pNbCMYQfCjnlc2vRGGDAx6Xf8KrGQ8FFkXhCRFZHxVOTO/I2V1sT+fH2zmIr/psdMZ
-	 s51aoMvjebQhQ==
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c2e3846d1caso246887266b.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 11 Oct 2026 19:22:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBx7ixx39K6ZuTbOqyFGuM/e30G3enVSzjvzp5lTyz5IxFkbKj/TuXl/dDB085h0mxjqr4uux73ffkaZeIyD@vger.kernel.org
-X-Gm-Message-State: AFq9FYI6aM/iTR3E6LChaigZJ9XTCB89HC6oWGZk9t9C517NW40yCCrp
-	Rs8naG/6X6gPyjEAzFgib3KZiQieGANBJkux4abJJAY7hKAvv73HX90RKRHjBoSAaqloT/0cold
-	tkCnvXfJGLoKi7r7Vki1EVcPLCAGD4S4=
-X-Received: by 2002:a17:907:bb49:b0:c29:62d8:68af with SMTP id
- a640c23a62f3a-c31a9ffda78mr775633966b.47.1791771725753; Sun, 11 Oct 2026
- 19:22:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="TT8ilfaZ"
+Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261012024747epoutp019e3b56b0afff15b18e0e70225c15e605~dqEseQ52F2689226892epoutp01N
+	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 02:47:47 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261012024747epoutp019e3b56b0afff15b18e0e70225c15e605~dqEseQ52F2689226892epoutp01N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1791773267;
+	bh=WCphX4URgUH6Nmp4Rpz5K5t99v/wRhzMwEP/lZd5amc=;
+	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+	b=TT8ilfaZdk98uAXq2mDogTumHPr9esemcPmc1WFgkdnqwK22+BDTVKN0mdOFq+8qu
+	 ncFD4VivdgwIxyGzFH/nbJKKQSYszjP3ImAOCMkSsmuEeDZc96JMC84Qvj0adfpXrR
+	 PkEivm1bT1syfQZf6+tSyHxBymE5+wXNXjUwMUAg=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas2p1.samsung.com (KnoxPortal) with ESMTPS id
+	20261012024746epcas2p1b6c036d7b6eb460753e2a6c0928d5429~dqEr2hiFE0332403324epcas2p1A;
+	Mon, 12 Oct 2026 02:47:46 +0000 (GMT)
+Received: from epcas2p2.samsung.com (unknown [182.195.38.199]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4j322B2S5Lz3hhT7; Mon, 12 Oct
+	2026 02:47:46 +0000 (GMT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20261011221648.6811-1-linkinjeon@kernel.org> <20261011221648.6811-2-linkinjeon@kernel.org>
- <CAMrLSE6bL_T5=c2KhJCP01F9pG8UpeTCaOxgCf1q8_KCAPuhxw@mail.gmail.com>
-In-Reply-To: <CAMrLSE6bL_T5=c2KhJCP01F9pG8UpeTCaOxgCf1q8_KCAPuhxw@mail.gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 12 Oct 2026 11:21:53 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8PNeg9+Rg6CzpFGbci40rArqEwQBu15ByT4K0V4YtkxQ@mail.gmail.com>
-X-Gm-Features: AclHuK8yrJk-Z70YiLRNC5EwxGnzS4aNdev-za7xQYggvftFWVek0nt_XYK88cM
-Message-ID: <CAKYAXd8PNeg9+Rg6CzpFGbci40rArqEwQBu15ByT4K0V4YtkxQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] ntfs: add pathname access for named streams
-To: CharSyam <charsyam@gmail.com>
-Cc: hyc.lee@gmail.com, ntfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, sebastian.n.feld@gmail.com, 
-	cedric.blancher@gmail.com, Lionelcons1972@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Subject: RE:(2) [PATCH 2/8] xfs: refuse a direct allocation whose block
+ reservation would wrap
+Reply-To: daejun7.park@samsung.com
+Sender: Daejun Park <daejun7.park@samsung.com>
+From: Daejun Park <daejun7.park@samsung.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+CC: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai
+	Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Christoph Hellwig
+	<hch@lst.de>, Carlos Maiolino <cem@kernel.org>, Amir Goldstein
+	<amir73il@gmail.com>, Dave Chinner <dgc@kernel.org>, Sergey Bashirov
+	<sergeybashirov@gmail.com>, Christian Brauner <brauner@kernel.org>,
+	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>, Daejun Park
+	<daejun7.park@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <20261008154017.GO2705364@frogsfrogsfrogs>
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20261012024745epcms2p18c4fad2aa953cd80338e2e614198a6ea@epcms2p1>
+Date: Mon, 12 Oct 2026 11:47:45 +0900
+X-CMS-MailID: 20261012024745epcms2p18c4fad2aa953cd80338e2e614198a6ea
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-CPGSPASS: Y
+X-CPGSPASS: Y
+cpgsPolicy: CPGSC10-223,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261008154023epcas2p487b78abba35fdc6d75f9dd8d62a39837
+References: <20261008154017.GO2705364@frogsfrogsfrogs>
+	<20261008-xfs-nfsd-map-blocks-v1-0-560026cdccb6@samsung.com>
+	<20261008-xfs-nfsd-map-blocks-v1-2-560026cdccb6@samsung.com>
+	<CGME20261008154023epcas2p487b78abba35fdc6d75f9dd8d62a39837@epcms2p1>
 
-On Mon, Oct 12, 2026 at 10:27=E2=80=AFAM CharSyam <charsyam@gmail.com> wrot=
-e:
->
-> Hi, Namjae.
->
-> I noticed a remount issue with streams_interface. During
-> reconfiguration, fc->s_fs_info points to a newly allocated
-> ntfs_volume, rather than
->   the mounted volume. Consequently, remounting with the existing
-> windows setting fails, while requesting none succeeds without changing
-> the
->   active setting.
->
->   The check should use the mounted volume:
->
->   diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
->   @@ -275,8 +275,8 @@ static int ntfs_parse_param(struct fs_context
-> *fc, struct fs_parameter *param)
->                         result.uint_32 =3D=3D STREAMS_INTERFACE_WINDOWS;
->
->                 if (fc->purpose =3D=3D FS_CONTEXT_FOR_RECONFIGURE &&
->   -                 NVolStreamsWindows(vol) !=3D streams_windows) {
->   -                     ntfs_error(vol->sb,
->   +                 NVolStreamsWindows(NTFS_SB(fc->root->d_sb)) !=3D
-> streams_windows) {
->   +                     ntfs_error(fc->root->d_sb,
->                                    "Cannot change streams_interface on
-> remount.");
->                         return -EINVAL;
->                 }
->
->   Since pathname support is already committed to ntfs-next, I will
-> send this as a separate follow-up patch.
-Okay. You can send it.
-Thanks for the review.
+On Thu, Oct 08, 2026 at 08:40:17AM -0700, Darrick J. Wong wrote:
+> Uh... seeing as extent records can only map 2^21 blocks maximum and
+> iomap/pnfs can handle xfs returning a mapping of whatever length we
+> want, why don't we constrain count_fsb to XFS_BMBT_MAX_EXTLEN?
+
+I tried that first. It stops the wrap, but it changes what an RW
+LAYOUTGET for a range longer than the free space does. Today
+xfs_iomap_write_direct() reserves the whole count, so such a request
+fails with -ENOSPC before anything is allocated. With the count capped,
+each ->map_blocks call allocates up to 2^21 blocks, and nfsd calls it
+once per extent, so the request allocates until the filesystem is full
+and then fails.
+
+On a 32 GiB XFS with nfsd-testing at the time, an RW LAYOUTGET at offset
+0 of an empty file for 16 TiB, or to the end of the file, got
+NFS4ERR_NOSPC with the cap, and df showed 25 GiB in use afterwards
+instead of 663 MiB. The blocks stay past EOF, as each call that
+allocated marked the inode XFS_DIFLAG_PREALLOC. One for 100 GiB gets
+NFS4ERR_NOSPC with nothing allocated, both without this patch and with
+it.
+
+The check in this patch only refuses a count whose reservation does not
+fit in an unsigned int, so a count that fits is handled as before.
