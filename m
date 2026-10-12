@@ -1,129 +1,243 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A5B3B636C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 18:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF4D39D6F6;
+	Mon, 12 Oct 2026 18:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791831084; cv=none; b=gP52fRd8jiNCpNZOvEDvV7pRxJhCKNDXvhMtyC5/UiX3yYDRaLf1ftfxyEGWC9n2D2BlLJ8gOkmTxEXAteIM3sJeOdaRAUbxbLsd8h810uc99IkqD2eD/jsB0fFCLQpWnCI+mZCDOtB3+g+rM9Q9kmJsQurCRsahGm/oPaGSHzg=
+	t=1791831107; cv=none; b=duGgKIyy5VQssYV3WaxG9eiy4nRXXzVFmr6oiDG72Z86basDSa1frr65RpVDQSFBzuBieY242Qan44kQXQn+68B/3SKKZpg3a3Mb49KJqdT/O9IMPz5pz+L16sNzcw9GaxGu87KD6ddbGjLbbGEnaBIoLj7aAfUKWehFxeBMnls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791831084; c=relaxed/simple;
-	bh=wKAKzgNbI0A6BpXLwz5kHXWvToiByAgsvNuYzQ7pVqA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mL2yWuuYUcl3xI70/fnn2BzzkaIQTYzeukKjtADxU03bU9LTlLW/8lBwf/yiKTLN+qru4ggOMsexLIgYy++7WOAXRXrjFwAytWIGo5gQsFjzN2yT+shYE75whc3RLn8XG6co8h8qwkcmyi+lqZfCa9kHiKnwQRGklXt5pG2Pmf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=bpoBE8c6; arc=none smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1791831107; c=relaxed/simple;
+	bh=QCnpJH5f8lu3PrV035XpKhHnzaJvELgtmH4U8hPjKbQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CjnCAdgF6YIbGsV2+0fpM9VweikrSKHMCV9ySSEX9h0tkh0D+LBpA5/pinscPL1XPkS4oGy+HX8qcX29NQvMkqP3MZ2NkHSDeno2KSPudMR7T/4uY5d3rH2x+Z5fFhEJoG6PMDSA6d4FMw2WM9sPkHS1vRrgk274zOI79Pc/R00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZoZu3bp6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="bpoBE8c6"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-35834f72d94so3760435eec.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 11:51:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1791831082; x=1792435882; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id
-         :subject:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rsqT7W4kYSsaiFbLe1ZcXpmayyG/u2ZTJkWgKdpw3Qs=;
-        b=bpoBE8c6j3EXrhMtTATCh5a+Q5MhYlOPMRDwjNKXFaxwlPWhA7bnIel9eGa2Jnat/S
-         z0DOdJanV7FbW8w+4vic7yWoIV8a0aAyUyQCPQtwUwCZzbch9u0qyjvk/J4zjIGFQ3Df
-         Ggo2jhjBZIvpNQ1ZcdS4cRdbatkj3BSMOGmrQUfeyiA+cedk+xS7et5XOVLFWMIC3gsq
-         YUXWXRTEjwkWFhE4LtzjRLlgAXVwI4k5peqQwIfRDiNswNElLkreWjaIMuQbjWAbvDTa
-         ncF5gbU56Zb5UIysfcEdu0s2V8Ak46p41cidFXYdLqR79m0yy+U/Y4ahGsXlkddsdu0X
-         fStw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791831082; x=1792435882;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id
-         :subject:references:in-reply-to:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rsqT7W4kYSsaiFbLe1ZcXpmayyG/u2ZTJkWgKdpw3Qs=;
-        b=PUXmesyMGoH8Norl2YhIg5uAJrZLPumTnrW2VmQg0pxR5tEK0P1qDNwo/uN+r6+A8N
-         plbsvyV9ImKutySYAudNI8XFBFYtllnuOyO/O7zPVaFO1qvL7hNqbXCtAHpqqyhjkPAG
-         PP/ORLsfCU0oxM7HOOfze4/mXtZKpYFU38bGki6tIRD6lqSpoFL4H6ch0O+UqawfJ+08
-         wsIcUeuL2a04aTNDpyV0pVzVFeeApybAGipShURJnTFuYXeeQ+foj/h6zrXhT1wHlPql
-         Gdv0oBy9eZKDia1eU0U+c/05TBpZ50iLbj4PluDzC/PWfGxjnz2caMqReY6fxicfzRCw
-         6/IA==
-X-Forwarded-Encrypted: i=1; AKwUvBxhSN3ul1a74eM20JBRBJWfj5XCqxxMd656M1OmpzPIlxkkNktO6/90fQ+2LUrTAlNdMyOnrMyN0hkpLYTH@vger.kernel.org
-X-Gm-Message-State: AFq9FYInuBqBOK5USV51AsBwipCmwy9TeCPh10Ur6oBachK5pRuSLL3f
-	bs9yZCXLykvnkA1StUEu0SJQAs2zpQ+2NrgahYH0SI8u8GH8XWHVkG1qZSp8mgKCnWKWaLKgieD
-	1XFCU8vY=
-X-Gm-Gg: AYBFou0cQXmZMs58P+10GdXiiOQqJBuQDCSMAbyKmwub3ykRCSyLL7ItXaOTklqot9q
-	mli0+/HQq7jPENG6tKXpacaCT6gMKKntz220igw6wnIKcGU89tjDvvY02Fsy/pm+4iPfa0/TtRF
-	tKN0jr5G3lHdAKdrYGZ9Nzrn3oK/RG3JF9H+DvnwYKL1SSgRVyJin62GnuIMk4wwVK9RKKNtew1
-	66DZPsgZLq01PWvcTz3FfzFoTxfNMBKsojNsCK0MbY+KfkreYEKdZfxsgbwxjORS28BzgD92r4W
-	QYSsJZA3oYPzuHVggJXwoZGRmJnt5LyCV0dhPaTinwwuk91e+ADVpEfUmzFWm0uRAghVZT8BtTZ
-	tSt5la3Jh3Sr6dsf5DgM51I0ssBJvdfzhcrTiQ3pABta6XI+Cg7zxkC8lGXWY39evUYDPz7X2uO
-	Xp0SaebElMiBJEpGeGsk9+eUoysuWu1DR2okxQnj9elxF2RPlpQ8l2j4up1GgQ8iXAGMsImcKRe
-	IVliKrruFSq7jqkal7hKM1WqLPAO2iXr8skl0rtT0d4Mcf765m1wGP7MA==
-X-Received: by 2002:a05:701b:2512:b0:149:1feb:6da4 with SMTP id a92af1059eb24-16a6250bc3emr13638433c88.32.1791831081761;
-        Mon, 12 Oct 2026 11:51:21 -0700 (PDT)
-Received: from [192.168.1.106] ([198.8.77.135])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a2f17feasm41738221c88.9.2026.10.12.11.51.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 11:51:21 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Christoph Hellwig <hch@lst.de>, 
- Johannes Thumshirn <johannes.thumshirn@wdc.com>, 
- Luis Chamberlain <mcgrof@kernel.org>, Hannes Reinecke <hare@kernel.org>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- John Garry <john.garry@linux.dev>, Christian Brauner <brauner@kernel.org>, 
- "Darrick J. Wong" <djwong@kernel.org>, Keith Busch <kbusch@kernel.org>, 
- "Martin K. Petersen" <mkp@kernel.org>, Tal Zussman <tz2294@columbia.edu>
-Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Sashiko <sashiko-bot@kernel.org>
-In-Reply-To: <20261009-blkdev-fixes-v6-0-307939c387df@columbia.edu>
-References: <20261009-blkdev-fixes-v6-0-307939c387df@columbia.edu>
-Subject: Re: [PATCH v6 0/9] block device fixes for large block sizes,
- IOCB_NOWAIT, and direct I/O
-Message-Id: <179183108065.215281.6738934643920446280.b4-ty@b4>
-Date: Mon, 12 Oct 2026 12:51:20 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZoZu3bp6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D16201F0089B;
+	Mon, 12 Oct 2026 18:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791831106;
+	bh=IfS5bZnp3kiEU2OLFY4TMOd4BSBodNHnOtZDFG77b4A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ZoZu3bp63JjlJ+BE2fP11usqRbOLKhKp+QHgNU3bq3lKD+TzaIYy1URiYq8BQlU5h
+	 QlZBWLS3TVgVfkISPY8Z/ZyroRYG7XFVcYSbaINeHtQC3WAb39j/IXWe0+Nn0ccFGw
+	 cPGvXRawYbwnzDo3gAZ3YgnPLRupAKesaBNyPBt8cSe6a9cPHySSs3ql0b0tcXsmE6
+	 n8pqVsAtPYRZvIKDZD9bheajkb7z1JKVo5Wek0LiS+l8v2nJO+z9TugP5eNhXYYCmz
+	 NYfjiWXssYI+2dvN0hO/5Xq09pcA1vXA12Upl5I7Do3cv66C48Lsc4fbr5VTqtqWs7
+	 KQI0SQM7pbr8Q==
+Message-ID: <c0b212bb-da62-476b-a16d-2ce78e1e2639@kernel.org>
+Date: Mon, 12 Oct 2026 20:51:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 24/38] mm/vma: enforce that mm-managed mappings may not
+ set VMA_IO_BIT
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
+ <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev, Ihor Solodrai <ihor.solodrai@linux.dev>,
+ Bert Karwatzki <spasswolf@web.de>
+References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
+ <20261009-b4-mmap-prepare-vma-flag-sanify-v5-24-923b70125b1e@kernel.org>
+ <5d51b6b3-ad58-4827-bedf-f1a79ebd5c86@kernel.org> <as0nF53W7dug-Fem@gremlin>
+ <5ba7305f-0ad1-44ee-be0b-36752684cdb9@kernel.org> <as0qUOfS-FQgRnm4@gremlin>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <as0qUOfS-FQgRnm4@gremlin>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15.2
 
-
-On Fri, 09 Oct 2026 12:50:08 -0400, Tal Zussman wrote:
-> A set of independent fixes for the block device file operations. The
-> first two were found by Sashiko while reviewing the RWF_DONTCACHE series
-> [1]. The fourth and fifth were found by Sashiko's review of v1 of this
-> series, and the rest came from asking an LLM to find any similar or
-> related issues. Each issue has been reproduced, with the fixes resolving
-> the issues.
+On 10/12/26 20:48, Lorenzo Stoakes (ARM) wrote:
+> On Mon, Oct 12, 2026 at 08:39:35PM +0200, David Hildenbrand (Arm) wrote:
+>> On 10/12/26 20:35, Lorenzo Stoakes (ARM) wrote:
+>>>
+>>> That gets removed.
+>>>
+>>>
+>>> I mean we do that in a subsequent commit, I think even the next one?
+>>>
+>>>
+>>>
+>>> Yeah, but to do that the code would now be something like:
+>>>
+>>> 	vma_flags_t masked = flags;
+>>>
+>>> 	/*
+>>> 	  * vma_flags_is_mm_managed() tests VMA_IO_BIT, which will be removed
+>>> 	 * in the next commit.
+>>> 	 */
+>>> 	vma_flags_clear(&flags, VMA_IO_BIT);
+>>> 	if (!vma_flags_is_mm_managed(masked)) {
+>>> 		...
+>>> 	}
+>>>
+>>> Is that really worth it?
+>>>
+>>> I don't think there's really too much confusion intra-patch about that is there?
+>>
+>> I would do it as above (- the comment, as that is the next patch indeed) and
+>> only remove the vma_flags_clear() in the next patch.
+>>
+>> But in any case, you should spell out that this is only temporary in the patch
+>> description :)
 > 
-> [...]
+> And then there's a 'masked' variable that is unused?
+> 
+> You need to have two vma_flags_t variables to be able both clear VMA_IO_BIT
+> and use vma_flags_is_mm_managed().
+> 
+> So the change would have to be
+> 
+> + 	vma_flags_t masked = *flags;
+> +
+> + 	vma_flags_clear(&flags, VMA_IO_BIT);
+> + 	if (!vma_flags_is_mm_managed(&masked)) {
+> + 		...
+> + 	}
+> 
+> Then:
+> 
+> - 	vma_flags_t masked = *flags;
+> -
+> - 	vma_flags_clear(&flags, VMA_IO_BIT);
+> - 	if (!vma_flags_is_mm_managed(&masked)) {
+> + 	if (!vma_flags_is_mm_managed(flags)) {
+>  		...
+>  	}
+> 
+> Which doesn't really seem worth it for somebody who is confused between two
+> patches mid-series.
+> 
+> But if you feel strongly I can make the change like that?
 
-Applied, thanks!
+Whatever you prefer. Most important thing for me was finding it in the next
+patch and being pleasantly surprised ;)
 
-[1/9] block: use iomap_dirty_folio for block devices
-      commit: be1e33eda3e6699e57ed3fe6e34078f115b4a1ec
-[2/9] block: take i_rwsem for the direct I/O write fallback
-      commit: 2fec4fd97cc3ce32283aac03b6882d3d36cbd4bb
-[3/9] block: take i_rwsem for the splice read path
-      commit: 5574b81c642e83d962732e86399020517f5f15af
-[4/9] block: honor IOCB_NOWAIT in the block device buffered read path
-      commit: d16519a561f4ccc2cebbf52831435833cac1fec6
-[5/9] block: fail a short atomic pin in bio_iov_iter_get_pages()
-      commit: 73a0ff6030afcae5aef9a8ebf9c27220f9be888e
-[6/9] block: don't fall back to buffered I/O for atomic writes
-      commit: 9fd1afea19fa7c4ba438a1d162739e0832073a4c
-[7/9] iomap: reject atomic writes in iomap_file_buffered_write()
-      commit: 42d502b70ead4c3b387af8fefcd9be80876ca313
-[8/9] block: unpin all pages of a bvec in bio_iov_iter_align_down()
-      commit: b91a661514f3a3ce5add42fc1f2eb17b61eacaca
-[9/9] block: remove dead metadata handling from the async direct I/O path
-      commit: 0f6b042f9a13968c4cd6cde1a70a7b242009ef46
-
-Best regards,
 -- 
-Jens Axboe
+Cheers,
 
-
-
+David
