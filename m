@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0853A4274;
-	Mon, 12 Oct 2026 22:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93FC4FB9A3;
+	Mon, 12 Oct 2026 22:11:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791843072; cv=none; b=Q662XoGD1w+ngJoSyi4/l0H+fqN6KnTJQ2rYQxD8AyrxC7gRI8lac56x/XdqKFV2CCpFsrLo9So/rcJ+Cx75hPSVftGO/gXuj3XQ2q6qBNI2iUKyiiFzfZ1BwpTv4+x2Msgh+qjbDmfONB5uq5VcNumij++GK9Z7ePi1F1WXUpY=
+	t=1791843074; cv=none; b=aHduDUEC8u6nmeSv+nrh/YARtJQaPkAeuyAVxTUIn6xyTugm/VkVE6H6F0ZV/tlQOVfhRbaIsgsbPxnKwrR/zgZIxviN3lRAciGVTVYB/If7UrC9feaJ878wgFcT40QrHCR97QoZZtVXjhEcPI+oHU76dVYs7XP3bEbUHxPeL50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791843072; c=relaxed/simple;
-	bh=bksFGfEDrozSoZ9v+0FB9O5aot1sV20LxU7XlaPZvA0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=d2D0YDpsLZ44N0Lu4k/AWTyu7BxTrZvIf4o9w2eETsLaZSAQsM1BCfkeGfIVgBWH+C2URUrNwrB8ip9wcxbG/clqr3t33cSC4IbC1Qdjq7AUhKd492qOI2qB9gmVlYC2pyWAZ9EBMsvm5K2EN1b50ad81tZrGtNDpa2WsooU4Rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VtJMI7aD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791843074; c=relaxed/simple;
+	bh=3qE/16NCgr2cIwk9NkWfjnRCWroBLzKH8rq6AdKxOsM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=bGCByOsReR/5+Skwrr160R1E5K0ap/6v26cpnFx2HgWYSyTIfHBHsncBgETb3WIYZUXqI2cXeCtpEySa7WwzPPr2bSmCgScojVXeflvQ577CYp/JfoO8XVQgZkF6373WApzEBOg/qOHnARyH3otMXaIHmxxIQBhXU/5DUYnfDJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d1GDGxfw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VtJMI7aD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A485E1F0089B;
-	Mon, 12 Oct 2026 22:11:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d1GDGxfw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B9861F008A1;
+	Mon, 12 Oct 2026 22:11:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791843071;
-	bh=F/nB0b7iIIZPPXyn2au+ed4yDsbSjxgGaRt5ADQqJWk=;
-	h=From:Subject:Date:To:Cc;
-	b=VtJMI7aDajLMTCCK7X+a2p9viHMcZDd/ABT4Q46kRbTGvQUx4v9YbkGyzM+OpJCCn
-	 /GzHpNjShqM39UDTrzwu8AoErTb/bTTQE5HufVOqKz79FhOUlA9EmRIURkv+iBa19w
-	 huU6qMSL2xStrCm92AGpqTLgHbgFLbhoggOvwcUcwyCH5N6uMaZnUpSXEPwPr2fsZ1
-	 hgzpzQdNIXHBEI7XmWNH8SVri8uiPIwgr326PiH7i+PQgE2silrd9fnym5sx6tM9pd
-	 sFhn6ZqV58cJ58AGeZj7M/1sl0jGYAAu9ZPNyLYuLQDYX03rAw0rNM5ZFgE/gukcfm
-	 uugjFJBTrj/HA==
+	s=k20260515; t=1791843073;
+	bh=oKIUKWdhuVRafGZ2fApHnxwzTdQI5O+LciIqoNK6n+Q=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=d1GDGxfwXSKMy41xRRAChH55+6kAaMqnW4CjDB+Gk/tQzlxwl6MHJ5d80+oYVv8hD
+	 C/DlXgvav1KV8jI9uYeCAAQrTwmaPKOynTwlyJ3jql+qsHD8LtUWW1lFubq/cD0BlS
+	 Fi8gmYnayGOmSt/EwwV85nsCSwuAXhl6Di3Y8nSQojjsvxR551y8HodGMUqXhWMlH4
+	 1aJfI6Pgg5I2e/CEeGnV1sdJqY0bOv2Is+W68F216fO+I17ZUG7i+fqcOdJrpqaWBD
+	 CitMqeV4nNVcoUx/RsTzcCYhcLyGg2a3rZ83ZUGfq7aKa0CMzAIQqmWQ9++hYv5fVW
+	 ifL3Cvu13yEUQ==
 From: Christian Brauner <brauner@kernel.org>
-Subject: [PATCH 0/2] fs: don't let idle threads pin the initramfs
-Date: Tue, 13 Oct 2026 00:11:05 +0200
-Message-Id: <20261013-work-fs-idle_fs-v1-0-2063d1bcb5aa@kernel.org>
+Date: Tue, 13 Oct 2026 00:11:06 +0200
+Subject: [PATCH 1/2] fs: pass flags to copy_fs()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,84 +37,70 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/y2M3QrCMAyFX2Xk2pa2lIG+iog0XeKq0knjz2Ds3
- deqV4fvJOdbQKgkEjh0CxR6J0lTrmB3HcQx5AupNFQGZ1xvjXXqM5WbYqn1nc41ERn3vfGDZw9
- 19SjEaf4aj6cfywuvFJ9N0z4wCCksIcexVU2oWfRfqNsZ1nUDUJTbz5oAAAA=
-X-Change-ID: 20261012-work-fs-idle_fs-bbfb9604d4f4
+Message-Id: <20261013-work-fs-idle_fs-v1-1-2063d1bcb5aa@kernel.org>
+References: <20261013-work-fs-idle_fs-v1-0-2063d1bcb5aa@kernel.org>
+In-Reply-To: <20261013-work-fs-idle_fs-v1-0-2063d1bcb5aa@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>, 
  linux-kernel@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2921; i=brauner@kernel.org;
- h=from:subject:message-id; bh=bksFGfEDrozSoZ9v+0FB9O5aot1sV20LxU7XlaPZvA0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSdjfozPXkJl/Ys3puKXEfer33Q4RNoe9L55Eyrb/+v/
- FULiD/d3VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRKSyMDA29cp8cVYIDzqwO
- 3DjXniX6mcfn29UeEuZHJ19OPndqqSnD/6QXd5Z5XVvMVPDq58x5md9dxR4e6z9zRPs6w4Ywpdh
- IC24A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1594; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=3qE/16NCgr2cIwk9NkWfjnRCWroBLzKH8rq6AdKxOsM=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSdjfqj9aWg8pnd+5dL7j0rVIwI630gd14qdYfotFYzg
+ +0c534ndZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExkIzsjw93Za1fqlhcI/Veb
+ eopjZdJd0ztrjibObJsTuvSFB3etXh3DH76AYOnA2/0zlNqve648/07t+gyZqbMDNvZos6rY7vy
+ 4kh0A
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Since v7.0 nullfs is the real rootfs and userspace can pivot_root() away
-from the initramfs and unmount it. systemd does exactly that and the
-initramfs is supposed to be freed afterwards. But it isn't (cf. [1]).
-The unpacked initramfs stays around forever. It shows up as Unevictable
-in /proc/meminfo with ramfs and as Shmem with tmpfs. In the reports
-that's between 70MB and 150MB.
+Turn the umh boolean into a flags argument. Idle threads need their own
+case in copy_fs() as well and that's nicer than a second boolean.
 
-Two things keep it alive and neither is visible from userspace:
-
-(1) On v7.0 to v7.2 devtmpfsd unshares a copy of the initial mount
-    namespace which since nullfs contains the initramfs mount. It
-    doesn't show up in /proc/<pid>/mountinfo because it's below the
-    thread's root. That's already fixed in mainline by commit
-    66d2faeccbff ("devtmpfs: create private mount namespace").
-
-(2) On all kernels since v7.0 the idle threads of the secondary cpus
-    are forked from PID 1 and each of them gets a private copy of the
-    fs_struct of PID 1 with the initramfs as root and pwd. Idle threads
-    aren't on the task list so pivot_root() never moves them over to
-    the new root and they never exit. With a single possible cpu there
-    are no such idle threads which is why booting a VM with -smp 1
-    hides it.
-
-This series fixes (2) by letting the idle threads share init_fs like
-init_task already does. The first patch turns the umh boolean of
-copy_fs() into flags. The second patch is the actual fix and carries a
-reproducer.
-
-systemd could go back to emptying the initramfs when switching root like
-it did before nullfs and that's what [2] does. But that only frees the
-contents. The mount and the superblock stay pinned. And I don't think
-userspace should have to do that. With nullfs it's supposed to be able
-to just unmount the initramfs and be done with it.
-
-We could also teach chroot_fs_refs() about idle threads. But they are
-kernel threads and have no business holding a reference to the root of
-userspace to begin with.
-
-Of the stable kernels only v7.2 is affected and the backport looks
-different there. PID 1 still shares init_fs with all kthreads so passing
-CLONE_FS in fork_idle() is enough. It also needs 66d2faeccbff which
-applies cleanly.
-
-I've tested this with the reproducer from the second patch and with a
-systemd 262 initrd on 4 cpus. On vfs.fixes about 170MB stay Unevictable
-after switching root and with this series they're freed. Same for the
-backport on v7.2.
-
-[1]: https://github.com/systemd/systemd/issues/43911
-[2]: https://github.com/systemd/systemd/pull/44144
+No functional changes.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-Christian Brauner (2):
-      fs: pass flags to copy_fs()
-      fs: let idle threads share init_fs
+ kernel/fork.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
- kernel/fork.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
----
-base-commit: 19cd109ac4ab4b0dece4ebfbf3ab0532cc5cb505
-change-id: 20261012-work-fs-idle_fs-bbfb9604d4f4
+diff --git a/kernel/fork.c b/kernel/fork.c
+index eb198c8dfdc7..947136cdd115 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1619,7 +1619,12 @@ static int copy_exec_state(u64 clone_flags, struct task_struct *tsk)
+ 	return task_exec_state_copy(tsk);
+ }
+ 
+-static int copy_fs(u64 clone_flags, struct task_struct *tsk, bool umh)
++enum copy_fs_flags_t {
++	COPY_FS_UMH	= (1 << 0),
++};
++
++static int copy_fs(u64 clone_flags, struct task_struct *tsk,
++		   enum copy_fs_flags_t flags)
+ {
+ 	struct fs_struct *fs;
+ 
+@@ -1629,7 +1634,7 @@ static int copy_fs(u64 clone_flags, struct task_struct *tsk, bool umh)
+ 	 * filesystem state, or be started from a non-initial mount
+ 	 * namespace.
+ 	 */
+-	if (umh) {
++	if (flags & COPY_FS_UMH) {
+ 		if (clone_flags & (CLONE_NEWNS | CLONE_FS))
+ 			return -EINVAL;
+ 		if (current->nsproxy->mnt_ns != &init_mnt_ns)
+@@ -2299,7 +2304,7 @@ __latent_entropy struct task_struct *copy_process(
+ 	retval = copy_files(clone_flags, p, args->no_files);
+ 	if (retval)
+ 		goto bad_fork_cleanup_semundo;
+-	retval = copy_fs(clone_flags, p, args->umh);
++	retval = copy_fs(clone_flags, p, args->umh ? COPY_FS_UMH : 0);
+ 	if (retval)
+ 		goto bad_fork_cleanup_files;
+ 	retval = copy_sighand(clone_flags, p);
+
+-- 
+2.53.0
 
