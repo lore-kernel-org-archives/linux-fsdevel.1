@@ -1,254 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A99383C83;
-	Mon, 12 Oct 2026 18:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12D73932F7;
+	Mon, 12 Oct 2026 18:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791830760; cv=none; b=Z/Rd66BH/6kTzaC/TvPHB2YlgWdDtD+BA9tBvboxDOFxhbBrl46Ze2M/vb0m7FjZZUqxwvJbKwndyjDCaZDGJNur8FoHOBgQ+2N5cgeFV+zugdFbixLv70FZ/8fkiULiZZdRSxQ2xPsa7tzUaZNgZw3C6HsnE/kAhflya28idQo=
+	t=1791830831; cv=none; b=dVBzBXcPE4+9VIbZJN8m1yPx+VhHVgAkwYbZ98JTwGnsLREA9wLESo+mkjdJLUQaTH0TDETLGOIphnwFVG3k7BFvr6F4jo9otkCujS+UdldfoTHflihSqYPHkloDoyOsKV6QVj6u6mDI2Imf8tk81ilLCibBGdD48+WwEiDP4Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791830760; c=relaxed/simple;
-	bh=0zz3xunVyoY9asPW5zAiqOozaxbDJhwpfGPaJ7jRHik=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rkjU86YsiXmTPMI9rT7ADnDXHBsCC4uYSH840YQCxbEp7dwyb62u45KTDzD7tLI6+9Spnt0sSAym/jvvrpgJKt/6pfn2sHBQeLBatkheI9iS4KL/n6tNpCWcRNqtCgaKXmP57hGujH/FoWaIUiA1QPO3wyqKGK+UFAhfds6Bxgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hjWrxaem; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791830831; c=relaxed/simple;
+	bh=9RZm/CwGW9+O0CItM/ov6oKoaq82uM5RDC3NSRttRR0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ljWZ01X7cf9Jz4xjo6YfwTLRhaY+Ms8l7NVgaiiYPc1wXfQZTm0e+hjBQU1Cx5Gy2N3jCo9xogveaLl/J57EH362gA4d+TiJv5bBoK036KX8mpCIvvxw/bQ6cTM5vQtYkd9dTjDMbaTpU3AelRfLfOy8m03jjR1vm2ja6cP9+fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=a3FHqesN; arc=none smtp.client-ip=144.76.82.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hjWrxaem"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCEA31F008A1;
-	Mon, 12 Oct 2026 18:45:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791830753;
-	bh=KI+fzgQwEiyuK2apx4uDGmy8H+VNSYQ2Fwx2d5pIup4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hjWrxaemgQIAy0VI71DGFBjmeo3u0jkeRxOMqy7BoqZ/W9u+ymJ7mEas0GsWImzhc
-	 flbp4TMOKiQO6KfZp57FCitnC9KNkqZQKbjs3rKvW9AK9dzNGznommua8ryR/VPg0G
-	 IMHh9SLlVDzr5qkD/M6su3mSho454w2cd6rH82b7g0g4syW51uXFUgh4fEGBdxcdBX
-	 /vdRxwsILB6yAtD2m5LK+zcjfCCd3cc3PNdcsUVGMD0otTqf07c2OfCVDedxT9SlJC
-	 lS+iaRr74Ul6y2Jkqg/poElsdZhpNt/w6ePhVB38uVJ+q/vSobduzrA5fPJz50twpQ
-	 SjkIx4h/BDWmg==
-Message-ID: <c79d2d40-0f1c-43ec-bc25-b75ce975f27e@kernel.org>
-Date: Mon, 12 Oct 2026 20:45:17 +0200
+	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="a3FHqesN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=Message-ID:Date:Cc:To:From;
+	bh=PbzpHddRgwUHkHtoUFDezWwH1DUtK44tX+LY/8eTDfw=; b=a3FHqesNH4EDunY4Jp/QBTRjyd
+	6WzoGWPIDi4GdnrEnqGL5BF12kXdy5QtUc7e4Zzi4kzkb5u7SqET+3lNJmRu2fuKblsEoNicWVRHD
+	PrxQ8lMyp3aKxjjTMF5dw9O8gsq3Ivo/wZPynNYGw+szLJrVElrZY6n3yZxbcd1uCQCPLdTcQG6Pp
+	KBLSGLv9wKxe+99xPbXIfIHv0G1b07GFgL0R23Pq6QMDxnx7/F69bFElbkH6ULXzUGnnuKZMSufuv
+	9LZ29qV5+tYkyVtH3mpO9a6OG5Io/z1uNvtRIhMKkbK4mhpC9+M5hAFofKQnKEZk5nwGSzso2El32
+	nw7LiGPkmgdNvnwtqy/cmLfkpt9ZLAIuWBMvSUwZ5Rb6PA2ghVMGDg6ZsR7vz3lpsXQJOr1LG7gnp
+	s3Cpg9xasg0/llRmuZXljOMWDEZeIUDFddIyyc7Shdua3+SR46eipzjHz9XWp4n8gEkndZ5nQ/S1b
+	ABX3PXf1hNvnyfzbPlrg4M8r;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1xGL3A-00000001M3P-0RxE;
+	Mon, 12 Oct 2026 18:47:04 +0000
+From: Stefan Metzmacher <metze@samba.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: metze@samba.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	io-uring@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: [PATCH] fs: add RWF_DIRECT for preadv2/pwritev2/io_uring to set IOCB_DIRECT per io
+Date: Mon, 12 Oct 2026 20:46:42 +0200
+Message-ID: <20261012184642.558349-1-metze@samba.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 30/38] mm/vma: introduce vma[_flags]_is_mm_backed()
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>,
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
- Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Xu Xin <xu.xin@linux.dev>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev, Ihor Solodrai <ihor.solodrai@linux.dev>,
- Bert Karwatzki <spasswolf@web.de>
-References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
- <20261009-b4-mmap-prepare-vma-flag-sanify-v5-30-923b70125b1e@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-30-923b70125b1e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/9/26 20:04, Lorenzo Stoakes (ARM) wrote:
-> Introduce vma[_flags]_is_mm_backed() for the purposes of identifying
-> mappings which are mm-managed and whose contents were placed there by core
-> mm's own fault path - rather than a custom ->fault handler - and which core
-> mm has not reserved the right to discard.
-> 
-> Mappings not managed by core mm do not fall into this category, as they are
-> populated by their owner, and nor of course does memory-mapped I/O.
-> 
-> We exclude fixed mappings as these have a layout core mm cannot assume
-> ordinary fault semantics over.
-> 
-> hugetlb mappings are fixed mappings, but core mm owns them entirely, so
-> they are explicitly carved out as mm-backed, as the MADV_DODUMP check
-> already does.
-> 
-> Droppable mappings are excluded as core mm has promised it may discard them
-> at any time.
-> 
-> Use this functionality to update the madvise MADV_DODUMP check to test for
-> this rather than open-coding it.
-> 
-> This replaces the VM_SPECIAL check which means it no longer checks for
-> VMA_IO_BIT, however this is safe as we have established the invariant that
-> mm-managed mappings may not set VMA_IO_BIT, so we implicitly include
-> these.
-> 
-> No functional change intended.
-> 
-> Acked-by: Zi Yan <ziy@nvidia.com>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  include/linux/mm.h | 50 ++++++++++++++++++++++++++++++++++++++++++++++++++
->  mm/madvise.c       |  4 ++--
->  2 files changed, 52 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 2ce68713e4c3..55320cf2c525 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -1738,6 +1738,56 @@ static inline bool vma_can_merge(const struct vm_area_struct *vma)
->  	return vma_flags_can_merge(&vma->flags);
->  }
->  
-> +/**
-> + * vma_flags_is_mm_backed() - Do the specified VMA flags imply the mapping is
-> + * backed by core mm?
-> + * @flags: The VMA flags to test.
-> + *
-> + * An mm-backed mapping is one managed by core mm (see
-> + * vma_flags_is_mm_managed()) for which two further things are true:
-> + *
-> + * 1. Everything mapped was placed there by core mm's fault path (no custom
-> + *    ->fault).
-> + * 2. What is mapped stays there until it is zapped or unmapped by the user.
+It's useful to control this per io request instead of using O_DIRECT
+for the file descriptor.
 
-I still dislike squeezing the VMA_DROPPABLE check in here.
+E.g. the SMB2_READFLAG_READ_UNBUFFERED and SMB2_WRITEFLAG_WRITE_UNBUFFERED
+are also available per io request and this allows Samba to map then
+to RWF_DIRECT.
 
-It's just weird semantics to squeeze pages that are *managed* by core MM (#1)
-but are simply always lazyfree into this check.
+kiocb_set_rw_flags() requires FMODE_CAN_ODIRECT (same check open()
+does for O_DIRECT) and returns -EOPNOTSUPP otherwise, matching the
+convention already used by RWF_NOWAIT/RWF_ATOMIC/RWF_DONTCACHE just
+above it in the same function for "this flag isn't supported on this file".
 
-In fact, core-mm manages (zaps) these pages, they are really just just
-permanently lazyfree.
+IOCB_DIRECT predates RWF_DIRECT used a kernel-internal value,
+but now IOCB_DIRECT is aligned with RWF_DIRECT the same way
+commit ce71bfea207b ("fs: align IOCB_* flags with RWF_* flags")
+already aligned the other shared flags.
 
-Open-coding "this (DUMP, UFFD, MLOCK) does not make sense for droppable
-mappings" is IMHO the right decision, because there you could say
+The man-page.git will get something like this for man/man2/readv.2:
 
-"dumping something that can get zapped every second does not make any sense"
+  RWF_DIRECT (since Linux XXX)
+    Provide  a  per-I/O equivalent of the O_DIRECT open(2) flag.
+    This allows a single preadv2() or pwritev2() call to bypass the
+    page cache without the file descriptor having been opened with
+    O_DIRECT.  Unlike enabling O_DIRECT with the fcntl(2) F_SETFL
+    operation, this does not change the file status flags of
+    the open file description, so other I/O on the same file
+    descriptor, or on any file descriptor referring to the same
+    open file description (see dup(2)), is not affected.
+    If the underlying file or block device does not support
+    O_DIRECT, the call fails; see ERRORS.  As with O_DIRECT open(2),
+    the memory buffer, the file offset, and the I/O length
+    generally need to be aligned to the logical block size of
+    the underlying storage.
 
-"placing pages through uffd does not make any sense if it can get zapped any second"
+man/man2/io_submit.2 will also get updated and liburing
+in man/io_uring_prep_readv2.3 and man/io_uring_prep_writev2.3
 
-"mlock'ing (and thereby allocating!) droppable mapping does not make any sense
-and could actually break droppable semantics"
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: io-uring@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Signed-off-by: Stefan Metzmacher <metze@samba.org>
+---
+ include/linux/fs.h      | 10 ++++++++--
+ include/uapi/linux/fs.h |  5 ++++-
+ 2 files changed, 12 insertions(+), 3 deletions(-)
 
-Not a hill I will die on, but I much rather have the droppable mapping be
-outside or  have it called something nasty like
-
-vma[_flags]_is_mm_backed_or_droppable()
-
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 83d41d9f1130..40d013a49378 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -344,10 +344,11 @@ struct readahead_control;
+ #define IOCB_ATOMIC		(__force int) RWF_ATOMIC
+ #define IOCB_DONTCACHE		(__force int) RWF_DONTCACHE
+ #define IOCB_NOSIGNAL		(__force int) RWF_NOSIGNAL
++#define IOCB_DIRECT		(__force int) RWF_DIRECT
+ 
+ /* non-RWF related bits - start at 16 */
++#define IOCB_NON_RWF_MASK	(~0xffff)
+ #define IOCB_EVENTFD		(1 << 16)
+-#define IOCB_DIRECT		(1 << 17)
+ #define IOCB_WRITE		(1 << 18)
+ /* iocb->ki_waitq is valid */
+ #define IOCB_WAITQ		(1 << 19)
+@@ -3453,7 +3454,7 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags,
+ 	int kiocb_flags = 0;
+ 
+ 	/* make sure there's no overlap between RWF and private IOCB flags */
+-	BUILD_BUG_ON((__force int) RWF_SUPPORTED & IOCB_EVENTFD);
++	BUILD_BUG_ON((__force int) RWF_SUPPORTED & IOCB_NON_RWF_MASK);
+ 
+ 	if (!flags)
+ 		return 0;
+@@ -3480,6 +3481,11 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags,
+ 		if (IS_DAX(ki->ki_filp->f_mapping->host))
+ 			return -EOPNOTSUPP;
+ 	}
++	if (flags & RWF_DIRECT) {
++		/* file system must support it, same as O_DIRECT */
++		if (!(ki->ki_filp->f_mode & FMODE_CAN_ODIRECT))
++			return -EOPNOTSUPP;
++	}
+ 	kiocb_flags |= (__force int) (flags & RWF_SUPPORTED);
+ 	if (flags & RWF_SYNC)
+ 		kiocb_flags |= IOCB_DSYNC;
+diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+index a46c33692aa2..3aa5fd73d391 100644
+--- a/include/uapi/linux/fs.h
++++ b/include/uapi/linux/fs.h
+@@ -451,10 +451,13 @@ typedef int __bitwise __kernel_rwf_t;
+ /* prevent pipe and socket writes from raising SIGPIPE */
+ #define RWF_NOSIGNAL	((__force __kernel_rwf_t)0x00000100)
+ 
++/* per-IO O_DIRECT */
++#define RWF_DIRECT	((__force __kernel_rwf_t)0x00000200)
++
+ /* mask of flags supported by the kernel */
+ #define RWF_SUPPORTED	(RWF_HIPRI | RWF_DSYNC | RWF_SYNC | RWF_NOWAIT |\
+ 			 RWF_APPEND | RWF_NOAPPEND | RWF_ATOMIC |\
+-			 RWF_DONTCACHE | RWF_NOSIGNAL)
++			 RWF_DONTCACHE | RWF_NOSIGNAL | RWF_DIRECT)
+ 
+ #define PROCFS_IOCTL_MAGIC 'f'
+ 
 -- 
-Cheers,
+2.43.0
 
-David
