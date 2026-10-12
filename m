@@ -1,200 +1,168 @@
-Received: from mta1.migadu.com (out-50.mta1.migadu.com [95.215.58.50])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB8245A2A2
-	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 08:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA23E455637
+	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 08:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791793374; cv=none; b=gO+3Fsfivty+lopH5MeJKRbvKIl9n/ZgZQ1sh+JdzJJK5rKlXgK8Ay9PVdvM5OW0u/ZGvTBANMIuqVMuxggm1DHNdD5hQ7TqUxb//pDjBu4o695O7JXQhVGtsL+9/6xqv12BnM9iZcpWkfqotMQNvK6S/xsh1zvlNfU50h/b4vQ=
+	t=1791793462; cv=none; b=FM4Lo6LcK8ziQjmUscCEqoxMKRiXYzwiPnWlbihLxI+8Bk9xZ2zB59i7jovZDVDFllWHuY9i5/HUKqyTcUjVyRk+DkJxGNRrvk7yyxHEJlx0obykBjS1uoC3xwB/mOYuCQ+JXS2aufngj730VTZt6pko4Ih2DXvLN8qobuyiqJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791793374; c=relaxed/simple;
-	bh=2PZG4oBTWctUcn47EeBywXvnSBFOGvbeX9RPvQyatEY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d4E1sFF4bt+7qK+iAOt5lh9ZclozmB344WvaYxc/jyiRhWFIwDm9Rb8gDPB7GHf3Cf46n1Nc8NY+sMPI+eCf+zkYHsM/vpeD/y4zDtmWQcZBkHwWEZEE0ggJKWFph309CIdKPzFuUSGIj+mEjOgYU5a4r5swjYyKUE7I/a+3pRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QSToD6HK; arc=none smtp.client-ip=95.215.58.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1791793462; c=relaxed/simple;
+	bh=q/GSyAYlC73bY1ffIrf+AcoWWY6+CO3n77kKwbH1Z0w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=N9ERQ5p+0OpqWSbCI7DPd39cE9w2GKxkPaD3dR2RqNgTMQnakXCrWjtWMp/bvlvKVHoXFGYn821e3LPMwdtoWci6p8Nb5JqDGhVIP2QZt5K6X3Ay4S545JQ7QyCf1Jw2+135SR13vPpJMbknFjw9pbyKwl/ByGs0cn70fR7wMpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ggo6qnBg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=H3uCJtkF; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KoOpSGjb; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lAXyifDo; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QSToD6HK"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=2PZG4oBTWctUcn47EeBywXvnSBFOGvbeX9RPvQyatEY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791793369; v=1; x=1792398169;
- b=QSToD6HKA3NCTTwZ9qSyY1JuKFbS0Xrl1KSPgDfdybTEtL7svlFfizgNRi9bMYJJLdz5uwFv
- zKTE2Dvew1+JQFHrwTsHUx0F3rjJWiYORX0GtB/xFsO2qn2bkdk5bC35+4p29ZKjSLxjdZ5944z
- h0H1HJxt7RGDEKK2SUs+X/oY=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 85626153b49a7cd1;
-	Mon, 12 Oct 2026 08:22:49 +0000
-X-Mizu-Trace-ID: 85626153b49a7cd1
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <7842535e-ae71-4de3-b16d-14d55b514df5@linux.dev>
-Date: Mon, 12 Oct 2026 16:22:25 +0800
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ggo6qnBg";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H3uCJtkF";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KoOpSGjb";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lAXyifDo"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F1FF621E43;
+	Mon, 12 Oct 2026 08:24:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791793453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Olt3ZgSa2UaXkQo/gyyeUGbIfs1fUSSm5urEkriKz5I=;
+	b=Ggo6qnBgXypjIRWXtAP1AFs4OwNXHhs+3J/NJo+0vutZgDP7stupCtPg17nDWPfu9q15Pe
+	ZE3Sclcll0AYcRN+uXUV5Qd3I08HYKXk3wHQfAro+pPgaRGr0x0GABk/Ce6cX5UsLL0xpy
+	sJ2n9vgrpDeCfniKekHHlfJAkpXjHu8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791793453;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Olt3ZgSa2UaXkQo/gyyeUGbIfs1fUSSm5urEkriKz5I=;
+	b=H3uCJtkFuHv6IGPtL0cQBAf32XW4GCaW/JIqCsYfJ2rXT+y23fgoEL6qIkWMZlMkiXGhZw
+	gwX7mK0+M22pJeDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791793452; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Olt3ZgSa2UaXkQo/gyyeUGbIfs1fUSSm5urEkriKz5I=;
+	b=KoOpSGjbevtf7bER5nbMnOHLNZW4NzbvrfrJBDZYJ9s/6FPkPdEi0TPDbSivKvB8NaNOyP
+	Qo9X3U7Sm6sCsSwgVlcAzVYDNO6HhgWmabcSNJH9mVgdJQDe7SIoLuDUbJKheMzYanw2Xj
+	mLh5o1JwHW1b6gcXkbpg+f2WbixNH+U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791793452;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Olt3ZgSa2UaXkQo/gyyeUGbIfs1fUSSm5urEkriKz5I=;
+	b=lAXyifDouFVdI0vO5LUuj0Sq1EdVrY8coXuPB5YJR1leKjvV573UxfB78qJQnLbb3SghuF
+	6xPe2cmkCdmdI7CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8821213794;
+	Mon, 12 Oct 2026 08:24:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id g1geEyuZzGoOHwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 12 Oct 2026 08:24:11 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id A0FAEA140C; Mon, 12 Oct 2026 10:24:10 +0200 (CEST)
+From: Jan Kara <jack@suse.cz>
+To: <linux-fsdevel@vger.kernel.org>
+Cc: <linux-mm@kvack.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Mikhail Rudenko <xyzzy@yandex-team.ru>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Jan Kara <jack@suse.cz>
+Subject: [PATCH 4/7] fs: Defer reclaim of unlinked inodes
+Date: Mon, 12 Oct 2026 10:23:42 +0200
+Message-ID: <20261012082356.3121725-11-jack@suse.cz>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20261009133253.20102-1-jack@suse.cz>
+References: <20261009133253.20102-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/15] sched: introduce for_each_process_rculock and
- for_each_thread_rculock
-To: Peter Zijlstra <peterz@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, Michal Hocko <mhocko@suse.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Steven Rostedt <rostedt@goodmis.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
- Oleg Nesterov <oleg@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
- Ye Liu <liuye@kylinos.cn>
-Cc: David Hildenbrand <david@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, =?UTF-8?Q?G=C3=BCnther_Noack?=
- <gnoack3000@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>,
- SJ Park <sj@kernel.org>, Gregory Price <gourry@gourry.net>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
- rientjes@google.com, shakeel.butt@linux.dev, xu.xin16@zte.com.cn,
- chengming.zhou@linux.dev, will@kernel.org, boqun@kernel.org,
- frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
- josh@joshtriplett.org, urezki@gmail.com, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, tony.luck@intel.com, reinette.chatre@intel.com,
- x86@kernel.org, paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
- pavel@kernel.org, lance.yang@linux.dev, mhiramat@kernel.org,
- pmladek@suse.com, longman@redhat.com, mathieu.desnoyers@efficios.com,
- jiangshanlai@gmail.com, qiang.zhang@linux.dev, dietmar.eggemann@arm.com,
- bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
- kprateek.nayak@amd.com, mark.rutland@arm.com, Dave.Martin@arm.com,
- james.morse@arm.com, babu.moger@amd.com
-References: <20260921092101.89285-1-ye.liu@linux.dev>
-Content-Language: en-US
-From: Ye Liu <ye.liu@linux.dev>
-In-Reply-To: <20260921092101.89285-1-ye.liu@linux.dev>
-Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1687; i=jack@suse.cz; h=from:subject; bh=q/GSyAYlC73bY1ffIrf+AcoWWY6+CO3n77kKwbH1Z0w=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBqzJkf1UVyyk+1usmrk7vODGw4uFw0itng5/yQX 7ttZEIlSmyJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCasyZHwAKCRCcnaoHP2RA 2dNyB/9w/MG5IP2tDdJDgZrSKv9EB34cgdYqW0eT6Nq1XJJSFCkrT8X7GSwPz1DLoAajflSosiZ NcSe/PjC0LZbdE/js+hk+u9Jfu4R4KTQQ5PgjfTAH+R0oxtBziirKJCymjzdr/0X6bVqvuka+ts zfoYdJUQQLWMoyumxQKnsKhiX/LJPk5QShDoWj7/fkjU3eh305zlBsQlhTkpxkEGoLLfqF3HCmx BIvstG0txarWVbfy98k/+ktMbKo1QTz3NTqeVNKL256JI7AwRJDde843HoJHPprPKrftHwzkZY6 krBby55ausged1wD4Mchg4/I5S/GZOPe3182lrKsdvyBexm+
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Hi, Peter
+Sometimes it can happen that reclaim of some slab object drops the last
+reference of an inode that is already unlinked. The frequently reported
+case of this is a reclaim of overlayfs inode dropping the last reference
+of an inode on upper filesystem. Because the inode is unlinked, evict()
+will delete it which generally requires writing to the filesystem and
+memory allocations - not good from kswapd or even direct reclaim. Defer
+inode reclaim of unlinked inodes to a workqueue when the last inode
+reference is dropped from a reclaim path.
 
-Friendly ping on this series, posted three weeks ago. You previously
-requested splitting the combined kernel/ conversion into per-subsystem
-patches, which has been done in v4.
-No rush — just want to make sure this is on your radar.
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/inode.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Thanks,
-Ye Liu
-
-在 2026/9/21 17:20, Ye Liu 写道:
-> From: Ye Liu <liuye@kylinos.cn>
->
-> Introduce for_each_process_rculock(), for_each_thread_rculock() and
-> for_each_process_thread_rculock() macros that combine the existing
-> iteration macros with scoped_guard(rcu), so that the RCU read lock
-> is automatically acquired before iteration and released when the
-> loop exits — including via break, goto, or return.
->
-> The rest of the series converts manual rcu_read_lock()/
-> rcu_read_unlock() and guard(rcu)() pairs across mm/, kernel/, fs/,
-> lib/ and security/ to use the new macros.
->
-> Suggested by Michal Hocko for the oom_kill path [2].
->
-> Signed-off-by: Ye Liu <liuye@kylinos.cn>
->
-> ---
-> Changes since v3 [4]:
->   - Fix patch 5 (cpu/hotplug): title and commit message incorrectly
->     said "thread iterator" and "for_each_thread_rculock" while the
->     code converts for_each_process() to for_each_process_rculock().
->
-> Note: Patches 4, 11, and 13 received automated reviews from sashiko-bot
-> in the v3 thread [4] that were verified as false positives:
->
->   - Patch 4: claimed the folio lock is dropped before collect_procs(),
->     leading to a NULL deref on folio->mapping; the lock is held in all
->     call paths.
->   - Patch 11: claimed mixing goto/scope-based cleanup in
->     alloc_retstack_tasklist(); the goto free label handles memory
->     cleanup, not lock management.
->   - Patch 13: claimed mixing goto/scope-based cleanup in
->     __set_oom_adj(); goto err_unlock manages oom_adj_mutex while
->     scoped_guard(rcu) manages the RCU read lock — different resources.
->
-> Changes since v2 [3]:
->   - Split the kernel/ patch into per-subsystem patches, as the
->     combined patch could not be applied (Peter Zijlstra, Steven
->     Rostedt).
->   - Move changelog below the --- separator so it is excluded from
->     the commit message (Lorenzo Stoakes).
->   - Indent loop body in macro definitions to show scoped_guard
->     scope (Lorenzo Stoakes).
->
-> Changes since v1 [1]:
->   - Rename macros from *_rcu to *_rculock, as suggested by Steven
->     Rostedt and acked by Thomas Gleixner, to avoid confusion with
->     existing *_rcu() list iterators that expect the caller to hold
->     the RCU read lock.
->   - Improve the comment on for_each_process_thread_rculock() to
->     document that 'break' only exits the inner loop and 'goto' is
->     needed to exit both loops (Thomas Gleixner).
->   - Rename the stale 'unlock:' label to 'out:' in hung_task.c, as
->     noted by Günther Noack.
->   - Clarify in patch 4 that page_pgoff() is safe outside the RCU
->     read-side critical section (SJ Park).
->   - CC all relevant maintainers on every patch (Lorenzo Stoakes).
->   - Drop the mm: prefix from patch 1, as the macros are in
->     include/linux/sched/signal.h (Michal Hocko).
->
-> [1] https://lore.kernel.org/all/20260904083001.553587-1-ye.liu@linux.dev/
-> [2] https://lore.kernel.org/all/20260813092933.562028-1-ye.liu@linux.dev/
-> [3] https://lore.kernel.org/all/20260907081334.1152889-1-ye.liu@linux.dev/
-> [4] https://lore.kernel.org/all/20260911075800.491472-1-ye.liu@linux.dev/
->
-> Ye Liu (15):
->   sched: introduce for_each_process_rculock and for_each_thread_rculock
->   mm/oom_kill: convert process/thread iterators to for_each_*_rculock
->   mm/ksm: convert process iterator to for_each_process_rculock
->   mm/memory-failure: convert process iterator to
->     for_each_process_rculock
->   cpu/hotplug: convert process iterator to for_each_process_rculock
->   freezer: convert thread iterator to for_each_thread_rculock
->   hung_task: convert process/thread iterators to for_each_*_rculock
->   locking/lockdep: convert process/thread iterators to
->     for_each_*_rculock
->   rcu: convert process/thread iterator to
->     for_each_process_thread_rculock
->   sched: convert process/thread iterators to for_each_*_rculock
->   tracing/fgraph: convert process/thread iterator to
->     for_each_process_thread_rculock
->   unwind: convert process/thread iterator to
->     for_each_process_thread_rculock
->   fs: convert process/thread iterators to for_each_*_rculock
->   lib: convert process iterator to for_each_process_rculock
->   security/landlock: convert thread iterator to for_each_thread_rculock
->
->  fs/proc/base.c               |  4 +---
->  fs/resctrl/rdtgroup.c        |  8 ++------
->  include/linux/sched/signal.h | 26 ++++++++++++++++++++++++++
->  kernel/cpu.c                 |  4 +---
->  kernel/freezer.c             |  4 +---
->  kernel/hung_task.c           | 11 ++++-------
->  kernel/locking/lockdep.c     |  4 +---
->  kernel/rcu/update.c          |  4 +---
->  kernel/sched/core.c          |  3 +--
->  kernel/sched/debug.c         |  4 +---
->  kernel/trace/fgraph.c        |  8 ++------
->  kernel/unwind/deferred.c     |  3 +--
->  lib/is_single_threaded.c     |  5 +----
->  mm/ksm.c                     |  4 +---
->  mm/memory-failure.c          | 16 ++++------------
->  mm/oom_kill.c                | 20 +++++---------------
->  security/landlock/tsync.c    |  8 ++------
->  17 files changed, 55 insertions(+), 81 deletions(-)
->
-> --
-> 2.25.1
-
+diff --git a/fs/inode.c b/fs/inode.c
+index 0128db61217e..0b6335df9b48 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -2214,6 +2214,23 @@ static void iput_final(struct inode *inode)
+ 	inode_lru_list_del(inode);
+ 	spin_unlock(&inode->i_lock);
+ 
++	/*
++	 * Are we going to delete this inode while in reclaim path? Likely
++	 * reclaim of some object (e.g. overlayfs inode) ended up dropping the
++	 * last reference to an already deleted inode. Offload the eviction as
++	 * it's likely to require memory allocations and block on IO. Since
++	 * this eviction was triggered by a reclaim of unrelated object, the
++	 * inode is already outliving the operation that originally deleted it
++	 * (unlink, file close...). A slightly longer delay thus should not be
++	 * observable by userspace.
++	 */
++	if (current->flags & PF_MEMALLOC && !inode->i_nlink) {
++		LIST_HEAD(defer);
++
++		list_add(&inode->i_lru, &defer);
++		queue_deferred_reclaim(sb, 1, &defer);
++		return;
++	}
+ 	evict(inode);
+ }
+ 
 -- 
-Thanks,
-Ye Liu
+2.51.0
 
