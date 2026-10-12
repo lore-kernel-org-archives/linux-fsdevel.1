@@ -1,457 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1B63603E8;
-	Mon, 12 Oct 2026 13:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C573033E34E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 13:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791810934; cv=none; b=LO4+uQQg1jpyp6PR5Rwf8XMqIyOnS1cuw/nGfGPMZKF+MDxRR9vl8Hd6RT5cSco1gkHyccr+ul+PwjrdACfilKt/RfBGVGMxGzYe7cDNydrUH3xAp5lwYjhHAAETxcrFWUKIxdy4VlaEp2Q1Cg6BZauNz67uvFSvDEXruPnLfZ8=
+	t=1791811346; cv=none; b=Wtwyxqd43ZQgfwAirwzoNBb9iYyjxfnSbwmm822TxPv649l8uzgJMch0Xg1lFTicgHw7CFei3hBFPR2wGgyd/g5zct14YLQyPVt6s7J49u8wkqYMvziVvaVfudVmaiOVKQUvEXLZ07l4c60bff6WUGXCyf9yf8IZrcxn6zSRZiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791810934; c=relaxed/simple;
-	bh=CcsDddioQEspoUqWl6ekwEF4GxlCj9HtGKe+tQ11q8w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j7U1T/ZvPsfNjTcmhgigRfqnxcIzuQl2vVKum2d7u0V8vNqhFIgV4Odyfi9nIdgIk77HeoeL6fuPiDd0ckwB5y6oq50jkSBo3YOIxzL56NeZR49keVC+B+gT2EltR3chcBqtcFyvKg5ESkG3Cv9caL52thlJ60TMqMHGF5MqUik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lj1W/RV/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791811346; c=relaxed/simple;
+	bh=KjCLsZxRLcmrGnX3wW5CsVcfBq2PCkd0j2s8EAZ72rk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HzIEpmIC+0rA/7FNxolmwEMsNwJ+Bzc8J7p0lFAOVIQXmSucv+RkP+7+sQOTbxA9LJRoOlkDSN+raqdQ17R0r8w3iEq86qsHgr0ZQXa0f/gBy4YO9kyz7E+ckhRBqP4DdijlSjXUj0wwBVklqLT/si9K7GQNAbp/SYJhUirJnKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J6D1HD9T; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lj1W/RV/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30C8F1F0089D;
-	Mon, 12 Oct 2026 13:15:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791810933;
-	bh=vzdZwBY53hgOXufimVWyYl9byiw4CQca0m0JtaFNqTg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Lj1W/RV/DovL8ktpchp6gvv12J54qNMjUKkqTmm37779XjXZRq/jdudhFGLZA//Av
-	 TZEQ/OELwv5DwYRoMLmO2SWBjJCTa79fwpgjl7i8qSjbmyHQ6DgycCcNCFFDegIrZN
-	 0ecmZjZHv121BBAGM8F8YiBC150fo7FU7reqUyZhdDlS2n+cwV+LIbwSZzI3m0bSF0
-	 EYW038FWyFWHkg4FOXXEer8fpat1tWJs6exURCvS//CjRDjaXPsztopiM4tkv4nQI1
-	 S+t5STVavpd7y/T/IG2JKG+GedTpdRkLsSXOJw49xxwCqNL96o4ce2pBO/NPJ6+cVS
-	 ociPFYl375liQ==
-From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 12 Oct 2026 15:15:18 +0200
-Subject: [PATCH 4/4] namei: don't follow a symlink that lost its mounts
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J6D1HD9T"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2e618db81c0so16082465ad.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 06:22:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791811344; x=1792416144; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mv8NtEZjLloAYySm4PvAEeW8+dLMN+Qs6To+I3pzm9c=;
+        b=J6D1HD9TZkNvrsefy1XhdJe9qdu3XfuGlu2S9Oa66R5JQeHrL3Ks/xB86T0zRRO388
+         n2eNVhxLKeewg1y32A3QcWreTJ7mx0sK9O1wwc1qZnReu7LlneHR8pI9/ZpjYansnZTJ
+         Rmfp9wjKmHCsThyqs/UEjprINpViEBZ7KFouOUAg9bHnNk7R+ijY2uPvys3fDZ21BqTR
+         BrVItehmQnfkoni2fOtWofd5u5pGdyHjeFlAnLa+WtVC33alfHuXlu3ofdEsGJebww+l
+         YOYKNSLIDBiYxUoIqfhtwEKaKBZRzOGG4B8TWKEnZPA0mJ8+w0cgAhyqZ5IPQ89L4pdG
+         nu+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791811344; x=1792416144;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mv8NtEZjLloAYySm4PvAEeW8+dLMN+Qs6To+I3pzm9c=;
+        b=N+FCzDn0V2x0bW5i+l9fZjROwJaEOKWldjiNscH6awiKx4H6f/QsPyIhsGek2roeph
+         Vnhias6H7vn1nSudRnGHgWEuF6lFet8guTcTCHo/We8ZKqy202tYl4i2/otveRIs0iAV
+         bvQBOfv7iZ5tsCp2Nuw2MQJM4GNuDtSt7slg+hWwGr33Gjn/xxuESxFeYpKuWdpin9m6
+         DeTAqubZEoO/qlpjDjoqZhH78fmsQN0x1nviP/wZo4w19FSMh65YW4U0B/mW7Wmrddhl
+         bpfVqnPZz2e/g6ipE5GvJ2jAUIY8hxKzMfeYl7/o+sW3CkCL7d8G1QVRwrjtRNc4wUVW
+         rdpQ==
+X-Gm-Message-State: AFq9FYJv4kEFleoO9PtAbmWJm0jxk5eXGGlGGOkrYJXRo1cHvlTZbhQ4
+	7VY/ydplbh9/lb2MuTOZutwn4noL7VU70rwwPvThAwPxwa/ZT+UHYuQC
+X-Gm-Gg: AYBFou2qpk15sNS/PWJdXQmyKZStm+qqNFIpqP3p/EfRSITeaC3/I/g+xSPpRWedRq1
+	r8mMV8DDKmF4WRed8grXdtrjbFDUjYEC15vgInW16CxzjfpXqzFH2OSqU/nPLGUel+ENYftDX/T
+	E9fn0ngDndc26jMKMj1NSSjLfoJj04MQ4F8GcP23q3NMRGsa/GMWiOhgpl1od5kmPtlhni7sjnd
+	bNX1QZo1XiFnt9LLH6DnuHFQB8ImrutnCfdvXJvtdZIX3WWHpKE7S5dEiobsHLUZniBeNTtVGoY
+	900gEEVcDB/BBZiAyPZr1BQNclWpXudjSOIbZuNq0GVKN+TYR1BHiH+EfKiY5IgkFVIjlSWaGM1
+	BubvjUE1uw7Rm3Xb9/kcdeyXqiuyMAmEi8uRWbZSKQVxY/XhfpXp4ZuxxTe08iogsihi76yig0/
+	PPCsvDCNdxu3z0MsTzGWoCl4ryv3ahjRG5CVhzjCUdibUguSkTvHSAblr+ySSbUUILk8knag==
+X-Received: by 2002:a17:902:e892:b0:2e7:4a2f:68e6 with SMTP id d9443c01a7336-2e842e1363emr90629255ad.39.1791811344018;
+        Mon, 12 Oct 2026 06:22:24 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2a09:bac1:7aa0:50::3cf:23])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422e1643sm44568765ad.70.2026.10.12.06.22.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 06:22:23 -0700 (PDT)
+From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
+	syzbot+1cfd29c242c7cd26da02@syzkaller.appspotmail.com
+Subject: [PATCH] fs/dcache: annotate the lockless d_unhashed() check in retain_dentry()
+Date: Mon, 12 Oct 2026 20:22:18 +0700
+Message-ID: <20261012132218.106771-1-ngocthang2710.1999@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261012-work-namei-reval-v1-4-515664de33b5@kernel.org>
-References: <20261012-work-namei-reval-v1-0-515664de33b5@kernel.org>
-In-Reply-To: <20261012-work-namei-reval-v1-0-515664de33b5@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Chris Mason <mason@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Neil Brown <neil@brown.name>, 
- Jan Kara <jack@suse.cz>, fuse-devel@lists.linux.dev, 
- linux-kselftest@vger.kernel.org, stable@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11838; i=brauner@kernel.org;
- h=from:subject:message-id; bh=CcsDddioQEspoUqWl6ekwEF4GxlCj9HtGKe+tQ11q8w=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSduZvea6Erlr/T7q2dYk3AEY6Tafo5748YKkdcSlv/z
- Kln0fPkjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgInMOMnI0J5Up3LylTDDWlee
- a5+cJ/ZUud6ddtZ24uE+6U0s76ROfWNkONaQtGvK5jCHy+3vfOYcX3ng1Y78FSlGBSZtx7uyeZt
- +sgAA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-unlink_may_reveal() is only called for a dentry that the walk steps
-onto. A symlink that the walk follows goes to pick_link() without that
-check. But a symlink can be a mountpoint like any other non-directory.
-move_mount() without MOVE_MOUNT_T_SYMLINKS doesn't follow the target
-path, so the mount lands on the symlink itself, and graft_tree() only
-checks that the root of the mount isn't a directory either.
+KCSAN reports a data race between __d_drop() clearing d_hash.pprev
+and the d_unhashed() test in retain_dentry(), reached from fast_dput()
+without ->d_lock held:
 
-So the race that commit 8189ab688f5a ("namei: don't reveal overmounted
-entries in refwalk") closed for files and directories is still open for
-symlinks. A refwalk finds the symlink while it is covered, its name is
-unlinked and the mounts are detached, and when the walk looks at the
-mounts they are gone. Instead of refusing the dentry the walk reads the
-link and goes on with whatever it points to.
+  BUG: KCSAN: data-race in dentry_kill / fast_dput
 
-So make the check right after handle_mounts(), before the walk decides
-whether it follows a symlink. The rcuwalk early return moves into
-unlink_may_reveal() with it. Nothing changes for a dentry that isn't a
-symlink.
+  write to 0xffff888107394e50 of 8 bytes by task 3667 on cpu 0:
+   __d_drop fs/dcache.c:578 [inline]
+   dentry_kill+0x139/0x500 fs/dcache.c:824
+   finish_dput+0x16/0x1d0 fs/dcache.c:1001
+   dput+0x48/0x50 fs/dcache.c:1042
+   lookup_one_qstr_excl+0x156/0x240
+   filename_unlinkat+0x149/0x410
 
-The appended reproducer mounts the tmpfs file MARK on the symlink
-F'/lnk of an open_tree() copy of a raw fuse mount and opens F'/lnk
-while the fuse server unlinks F/lnk before it answers the revalidation
-of lnk. On 7.3.0-rc6 with the previous patches applied the walker read
-UNDER, the file the symlink points to, in 20 of 20 rounds. With this
-patch open() fails with ENOENT in all of them.
+  read to 0xffff888107394e50 of 8 bytes by task 3668 on cpu 1:
+   hlist_bl_unhashed include/linux/list_bl.h:54 [inline]
+   d_unhashed include/linux/dcache.h:396 [inline]
+   retain_dentry fs/dcache.c:872 [inline]
+   fast_dput+0x64/0x300 fs/dcache.c:971
+   dput+0x1f/0x50 fs/dcache.c:1040
+   handle_mounts fs/namei.c:1753 [inline]
+   step_into_slowpath+0x38c/0x4c0 fs/namei.c:2104
+   path_lookupat+0x2eb/0x4c0
+   do_readlinkat+0x74/0x2f0
 
-  // SPDX-License-Identifier: GPL-2.0
-  /*
-   * unlink_symlink: follow a symlink that lost its mount under the walk.
-   *
-   * F is a fuse mount with the file f1 (UNDER) and the symlink lnk -> f1.
-   * F' is an open_tree() copy of F with the tmpfs file MARK mounted on the
-   * symlink F'/lnk itself. A walker opens F'/lnk. The server answers the
-   * revalidation of lnk only after it has unlinked F/lnk, which detaches
-   * MARK. Reading UNDER is a hit: the walk followed the unlinked symlink.
-   *
-   * usage: unlink_symlink [-n rounds]
-   */
-  #define _GNU_SOURCE
-  #include <errno.h>
-  #include <fcntl.h>
-  #include <pthread.h>
-  #include <stdatomic.h>
-  #include <stdint.h>
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <string.h>
-  #include <sys/mount.h>
-  #include <sys/stat.h>
-  #include <sys/syscall.h>
-  #include <sys/uio.h>
-  #include <sys/wait.h>
-  #include <unistd.h>
-  #include <linux/fuse.h>
+  value changed: 0xffff8882376dc230 -> 0x0000000000000000
 
-  #ifndef OPEN_TREE_CLONE
-  #define OPEN_TREE_CLONE		1
-  #endif
-  #ifndef MOVE_MOUNT_F_EMPTY_PATH
-  #define MOVE_MOUNT_F_EMPTY_PATH	0x00000004
-  #endif
+The race is intentional. As the comment above retain_dentry() says,
+without ->d_lock the predicates are not stable, and it is enough that
+the dentry was hashed at some point after the reference was dropped.
+If the lockless reader sees a stale "hashed" value, the dentry is kept
+with a zero refcount, exactly as if it had been dropped just after the
+check. If it sees "unhashed", it takes ->d_lock and rechecks. A single
+aligned pointer load cannot tear, so neither outcome is harmful.
 
-  enum { ROOT_ID = FUSE_ROOT_ID, F1_ID, LNK_ID };
+Mark the read with data_race() to document this and silence KCSAN.
+No functional change.
 
-  static int ffd = -1;
-  static char fmnt[64];
-  static atomic_int lnk_present;
-  static atomic_int walker;	/* unlink lnk in this pid's lookup of it */
+Reproduced with the syzbot C reproducer on a KCSAN kernel in QEMU;
+with this patch the dentry_kill race no longer shows up.
 
-  static void die(const char *what)
-  {
-  	fprintf(stderr, "%s: %s\n", what, strerror(errno));
-  	exit(2);
-  }
-
-  static void reply(uint64_t unique, int error, const void *data,
-  		  size_t len)
-  {
-  	struct fuse_out_header oh = {
-  		.len = sizeof(oh) + (error ? 0 : len),
-  		.error = error,
-  		.unique = unique,
-  	};
-  	struct iovec iov[2] = { { &oh, sizeof(oh) }, { (void *)data, len } };
-
-  	if (writev(ffd, iov, (error || !len) ? 1 : 2) < 0)
-  		return;
-  }
-
-  static void fill_attr(struct fuse_attr *a, uint64_t id)
-  {
-  	memset(a, 0, sizeof(*a));
-  	a->ino = id;
-  	a->nlink = 1;
-  	a->blksize = 4096;
-  	if (id == ROOT_ID) {
-  		a->mode = S_IFDIR | 0755;
-  		a->nlink = 2;
-  	} else if (id == LNK_ID) {
-  		a->mode = S_IFLNK | 0777;
-  		a->size = 2;
-  	} else {
-  		a->mode = S_IFREG | 0644;
-  		a->size = 5;
-  	}
-  }
-
-  /* entry_valid 0: every refwalk revalidates the name */
-  static void reply_entry(uint64_t unique, uint64_t id)
-  {
-  	struct fuse_entry_out e = {
-  		.nodeid = id,
-  		.generation = 1,
-  		.attr_valid = 3600,
-  	};
-
-  	fill_attr(&e.attr, id);
-  	reply(unique, 0, &e, sizeof(e));
-  }
-
-  static void *unlinker(void *arg)
-  {
-  	char path[80];
-
-  	snprintf(path, sizeof(path), "%s/lnk", fmnt);
-  	if (unlink(path))
-  		die("unlink lnk");
-  	return NULL;
-  }
-
-  static void lookup(struct fuse_in_header *ih, const char *name)
-  {
-  	int w = atomic_load(&walker);
-
-  	if (ih->nodeid != ROOT_ID) {
-  		reply(ih->unique, -ENOENT, NULL, 0);
-  	} else if (!strcmp(name, "f1")) {
-  		reply_entry(ih->unique, F1_ID);
-  	} else if (!strcmp(name, "lnk")) {
-  		/* the walker revalidates lnk: unlink it, then answer */
-  		if (w && (int)ih->pid == w &&
-  		    atomic_compare_exchange_strong(&walker, &w, 0)) {
-  			pthread_t t;
-
-  			if (pthread_create(&t, NULL, unlinker, NULL))
-  				die("pthread_create");
-  			pthread_join(t, NULL);
-  		} else if (!atomic_load(&lnk_present)) {
-  			reply(ih->unique, -ENOENT, NULL, 0);
-  			return;
-  		}
-  		reply_entry(ih->unique, LNK_ID);
-  	} else {
-  		reply(ih->unique, -ENOENT, NULL, 0);
-  	}
-  }
-
-  static void *server(void *arg)
-  {
-  	size_t size = FUSE_MIN_READ_BUFFER + 65536;
-  	char *buf = malloc(size);
-  	struct fuse_in_header *ih = (void *)buf;
-  	void *in = buf + sizeof(*ih);
-
-  	if (!buf)
-  		die("malloc");
-  	for (;;) {
-  		ssize_t n = read(ffd, buf, size);
-
-  		if (n < 0 && (errno == EINTR || errno == EAGAIN))
-  			continue;
-  		if (n < (ssize_t)sizeof(*ih))
-  			return NULL;
-  		switch (ih->opcode) {
-  		case FUSE_INIT: {
-  			struct fuse_init_out o = {
-  				.major = FUSE_KERNEL_VERSION,
-  				.minor = FUSE_KERNEL_MINOR_VERSION,
-  				.max_readahead = 65536,
-  				.max_write = 65536,
-  			};
-
-  			reply(ih->unique, 0, &o, sizeof(o));
-  			break;
-  		}
-  		case FUSE_LOOKUP:
-  			lookup(ih, in);
-  			break;
-  		case FUSE_GETATTR: {
-  			struct fuse_attr_out o = { .attr_valid = 3600 };
-
-  			fill_attr(&o.attr, ih->nodeid);
-  			reply(ih->unique, 0, &o, sizeof(o));
-  			break;
-  		}
-  		case FUSE_READLINK:
-  			reply(ih->unique, 0, "f1", 2);
-  			break;
-  		case FUSE_OPEN: {
-  			struct fuse_open_out o = { .open_flags = FOPEN_DIRECT_IO };
-
-  			reply(ih->unique, 0, &o, sizeof(o));
-  			break;
-  		}
-  		case FUSE_READ: {
-  			struct fuse_read_in *ri = in;
-
-  			if (ri->offset >= 5)
-  				reply(ih->unique, 0, NULL, 0);
-  			else
-  				reply(ih->unique, 0, "UNDER" + ri->offset,
-  				      5 - ri->offset);
-  			break;
-  		}
-  		case FUSE_UNLINK:
-  			if (ih->nodeid == ROOT_ID && !strcmp(in, "lnk"))
-  				atomic_store(&lnk_present, 0);
-  			reply(ih->unique, 0, NULL, 0);
-  			break;
-  		case FUSE_FLUSH:
-  		case FUSE_RELEASE:
-  		case FUSE_ACCESS:
-  			reply(ih->unique, 0, NULL, 0);
-  			break;
-  		case FUSE_FORGET:
-  		case FUSE_BATCH_FORGET:
-  		case FUSE_INTERRUPT:
-  			break;
-  		default:
-  			reply(ih->unique, -ENOSYS, NULL, 0);
-  			break;
-  		}
-  	}
-  }
-
-  /* a child opens F'/lnk once the parent has told the server its pid */
-  static int walk(int tfd, int *err, char *buf)
-  {
-  	struct { int err; char buf[8]; } r;
-  	int go[2], res[2];
-  	pid_t pid;
-
-  	if (pipe(go) || pipe(res))
-  		die("pipe");
-  	pid = fork();
-  	if (pid < 0)
-  		die("fork");
-  	if (!pid) {
-  		char c;
-  		int fd;
-
-  		memset(&r, 0, sizeof(r));
-  		if (read(go[0], &c, 1) != 1)
-  			_exit(1);
-  		fd = openat(tfd, "lnk", O_RDONLY);
-  		if (fd < 0)
-  			r.err = errno;
-  		else if (read(fd, r.buf, sizeof(r.buf) - 1) < 0)
-  			r.err = errno;
-  		_exit(write(res[1], &r, sizeof(r)) != sizeof(r));
-  	}
-  	atomic_store(&walker, pid);
-  	if (write(go[1], "", 1) != 1)
-  		die("go");
-  	if (read(res[0], &r, sizeof(r)) != sizeof(r))
-  		die("walker");
-  	waitpid(pid, NULL, 0);
-  	close(go[0]);
-  	close(go[1]);
-  	close(res[0]);
-  	close(res[1]);
-  	*err = r.err;
-  	memcpy(buf, r.buf, sizeof(r.buf));
-  	return atomic_load(&walker) ? -1 : 0;
-  }
-
-  int main(int argc, char **argv)
-  {
-  	char dir[] = "/tmp/unlink_symlink_XXXXXX", mark[80], opts[64];
-  	int rounds = 20, hits = 0, fd, c;
-
-  	while ((c = getopt(argc, argv, "n:")) != -1) {
-  		if (c != 'n')
-  			return 2;
-  		rounds = atoi(optarg);
-  	}
-  	alarm(120);
-  	if (unshare(CLONE_NEWNS) ||
-  	    mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL))
-  		die("unshare");
-  	if (!mkdtemp(dir) || mount("tmpfs", dir, "tmpfs", 0, "size=1M"))
-  		die("tmpfs");
-  	snprintf(fmnt, sizeof(fmnt), "%s/F", dir);
-  	snprintf(mark, sizeof(mark), "%s/mark", dir);
-  	fd = open(mark, O_CREAT | O_WRONLY, 0644);
-  	if (fd < 0 || write(fd, "MARK", 4) != 4 || close(fd) ||
-  	    mkdir(fmnt, 0755))
-  		die("mark");
-  	ffd = open("/dev/fuse", O_RDWR);
-  	if (ffd < 0)
-  		die("/dev/fuse");
-  	snprintf(opts, sizeof(opts),
-  		 "fd=%d,rootmode=40000,user_id=0,group_id=0", ffd);
-  	if (mount("fuse", fmnt, "fuse", 0, opts))
-  		die("mount fuse");
-  	for (int i = 0; i < 4; i++) {
-  		pthread_t t;
-
-  		if (pthread_create(&t, NULL, server, NULL))
-  			die("pthread_create");
-  	}
-
-  	for (int i = 0; i < rounds; i++) {
-  		char buf[8] = "";
-  		int tfd, mfd, err;
-
-  		atomic_store(&lnk_present, 1);
-  		tfd = syscall(SYS_open_tree, AT_FDCWD, fmnt, OPEN_TREE_CLONE);
-  		mfd = syscall(SYS_open_tree, AT_FDCWD, mark, OPEN_TREE_CLONE);
-  		if (tfd < 0 || mfd < 0)
-  			die("open_tree");
-  		/* no MOVE_MOUNT_T_SYMLINKS: MARK goes onto the symlink itself */
-  		if (syscall(SYS_move_mount, mfd, "", tfd, "lnk",
-  			    MOVE_MOUNT_F_EMPTY_PATH))
-  			die("move_mount");
-  		close(mfd);
-  		fd = openat(tfd, "lnk", O_RDONLY);
-  		if (fd < 0 || read(fd, buf, sizeof(buf) - 1) < 0)
-  			die("open F'/lnk");
-  		close(fd);
-  		if (strcmp(buf, "MARK")) {
-  			fprintf(stderr, "MARK is not mounted on lnk: read \"%s\"\n",
-  				buf);
-  			return 2;
-  		}
-
-  		if (walk(tfd, &err, buf)) {
-  			fprintf(stderr, "lnk was not revalidated\n");
-  			return 2;
-  		}
-  		if (!err && !strcmp(buf, "UNDER")) {
-  			if (!hits++)
-  				printf("round %d: read \"%s\" through the unlinked lnk\n",
-  				       i, buf);
-  		} else if (err != ENOENT) {
-  			printf("round %d: %s\n", i, err ? strerror(err) : buf);
-  		}
-  		close(tfd);
-  	}
-  	printf("unlink_symlink: %d rounds, %d followed the unlinked symlink\n",
-  	       rounds, hits);
-  	return hits ? 1 : 0;
-  }
-
-Fixes: 8189ab688f5a ("namei: don't reveal overmounted entries in refwalk")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Reported-by: syzbot+1cfd29c242c7cd26da02@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=1cfd29c242c7cd26da02
+Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
 ---
- fs/namei.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ fs/dcache.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 63c3648b363a..9487f3d8567f 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -2104,6 +2104,9 @@ static noinline const char *pick_link(struct nameidata *nd, struct path *link,
- static int unlink_may_reveal(struct nameidata *nd, int flags,
- 			     struct path *path, struct dentry *dentry)
- {
-+	/* rcuwalk catches this via d_seq */
-+	if (nd->flags & LOOKUP_RCU)
-+		return 0;
- 	/* ".." and LOOKUP_DOWN may land on an unhashed directory */
- 	if (flags & WALK_NOFOLLOW)
- 		return 0;
-@@ -2137,6 +2140,9 @@ static noinline const char *step_into_slowpath(struct nameidata *nd, int flags,
- 	err = handle_mounts(nd, dentry, &path);
- 	if (unlikely(err < 0))
- 		return ERR_PTR(err);
-+	err = unlink_may_reveal(nd, flags, &path, dentry);
-+	if (unlikely(err))
-+		return ERR_PTR(err);
- 	inode = path.dentry->d_inode;
- 	if (likely(!d_is_symlink(path.dentry)) ||
- 	   ((flags & WALK_TRAILING) && !(nd->flags & LOOKUP_FOLLOW)) ||
-@@ -2148,9 +2154,6 @@ static noinline const char *step_into_slowpath(struct nameidata *nd, int flags,
- 			if (unlikely(!inode))
- 				return ERR_PTR(-ENOENT);
- 		} else {
--			err = unlink_may_reveal(nd, flags, &path, dentry);
--			if (unlikely(err))
--				return ERR_PTR(err);
- 			dput(nd->path.dentry);
- 			if (nd->path.mnt != path.mnt)
- 				mntput(nd->path.mnt);
-
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 1b1a81f10da6..3eb3d7e7ab0f 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -868,8 +868,9 @@ static inline bool retain_dentry(struct dentry *dentry, bool locked)
+ 	smp_rmb();
+ 	d_flags = READ_ONCE(dentry->d_flags);
+ 
+-	// Unreachable? Nobody would be able to look it up, no point retaining
+-	if (unlikely(d_unhashed(dentry)))
++	// Unreachable? Nobody would be able to look it up, no point retaining.
++	// Racy when !locked: a stale answer only costs a recheck under ->d_lock.
++	if (unlikely(data_race(d_unhashed(dentry))))
+ 		return false;
+ 
+ 	// Same if it's disconnected
 -- 
-2.53.0
+2.43.0
 
