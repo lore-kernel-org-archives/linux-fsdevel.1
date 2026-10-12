@@ -1,385 +1,126 @@
-Received: from eu-smtp-delivery-195.mimecast.com (eu-smtp-delivery-195.mimecast.com [185.58.85.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f2.google.com (mail-dy2-f2.google.com [74.125.229.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696B64908B9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 14:48:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E52497B8B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 14:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791816496; cv=none; b=CTY2qmzehZSuwVK5PjfhiqUFrDl2ZF2vaxhVarLRVBp4Tci1VCyXDLkLUPJN/nOvI2N6HstFaAuD72GTH+F7MjrvSdYaAaYZ4wZMTuzivx47tcjDphkjb1dWb5U5P4FwKJBCSU2/3MgsVaQPotCbaYeM7fcVy8DjqXaKtl4pZKA=
+	t=1791816572; cv=none; b=Safm7HVi+BILS4F1c9I4g5ja3bwKviz9+jxOEDWhQq47ktaWQ4DGNI28+HB4wOlKbjGkBeI8aC0i+rEVBftTmXuB91RT23DkHoeoc1aGCTrZrpaG8sCwawy0nNJEkDXMTNvvbSO5ex/mysdy67XOByMuOSBvo23UUf2SyRQUkq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791816496; c=relaxed/simple;
-	bh=ORaKOAzdttZ0kfttVY/MKefnWtX3H89va7sRmij4I68=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VxgFfl3nzmVRlJ58sgrQpNlopqp8dSopz0hikiYSqz67BTtN2wwbDIijw+ORmEftgYupSXguxxuGFVTHkv5IqKPVer1B0vd01Z9yvMOJ2C9hEPpaCZoyjmRE95XVm4VqfgGJ7V4Rkt6gd/ZS3D6jI3nI1EQdHS1OpI16zX5FTbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gsacapital.com; spf=pass smtp.mailfrom=gsacapital.com; dkim=pass (1024-bit key) header.d=gsacapital.com header.i=@gsacapital.com header.b=cKDJGXM9; arc=none smtp.client-ip=185.58.85.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gsacapital.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gsacapital.com
+	s=arc-20240116; t=1791816572; c=relaxed/simple;
+	bh=c16ZXWH+GRMU9Gv5D5TMERR/RKlvixHWFMYKRCEvbV8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MmQuVSbAti40dDNGQxnOrLK37bzu63sSVN+noy2Q6vwbaof1o+SjmASSazJkGavh/DddbnuA/dTamJ2htuZ0OfyBpXw+GivLfH9GRzb1gb1QMtRbwPRHiG9P3UgAA/adq0kQTspo6I7u3gDa6QehAKUWohBAocGQQhqHI4TG06k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FjUNRMFE; arc=none smtp.client-ip=74.125.229.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gsacapital.com header.i=@gsacapital.com header.b="cKDJGXM9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gsacapital.com;
-	s=mimecast20170115; t=1791816485;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hD81mxnVj0VIXRheCAmelo/0fij1fDljw9J4CISBTcg=;
-	b=cKDJGXM98ZbcweCuNYWTT9g5MtM0v+J+ixLRkJ4eJTl6VCi3/LmPAMx2XYjsz8Yj/qiSvj
-	FMjSf+Vc+GboRnGTQD0PMSxP47HaRjnBGDbjljd6yOA7xgE9U1hDaZcVT1NeYzTi3eHkk0
-	MoQxbtNx401GClWRZPIonkPvTyC6gNE=
-X-MC-Rep: binary re single
-Received: from mailrelay.gsacapital.com (185.137.2.10 [185.137.2.10]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id uk-mta-28-u4vJ8nCvMaG0fjFGDpKcQw-1; Mon,
- 12 Oct 2026 14:48:02 +0000
-X-MC-Unique: u4vJ8nCvMaG0fjFGDpKcQw-1
-X-Mimecast-MFC-AGG-ID: u4vJ8nCvMaG0fjFGDpKcQw_1791816481
-From: Rushil Patel <rushil.patel@gsacapital.com>
-To: Anna Schumaker <anna@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>,
-	Jorge Mora <Jorge.Mora@netapp.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Scott Mayhew <smayhew@redhat.com>,
-	Benjamin Coddington <ben.coddington@hammerspace.com>,
-	Tim Saunders <tim.saunders@gsacapital.com>,
-	Mark Brading <mark.brading@gsacapital.com>,
-	Ben Roberts <ben.roberts@gsacapital.com>,
-	linux-nfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [RFC PATCH v2 0/3] NFS: don't let a killed task wait for the server on fsync/close
-Date: Mon, 12 Oct 2026 15:47:50 +0100
-Message-ID: <20261012144753.3400341-1-rushil.patel@gsacapital.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <d39afd89-0543-410c-8c3a-c8869ba643bb@app.fastmail.com>
-References: <d39afd89-0543-410c-8c3a-c8869ba643bb@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FjUNRMFE"
+Received: by mail-dy2-f2.google.com with SMTP id 5a478bee46e88-327b1d5824fso2226306eec.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 07:49:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791816570; x=1792421370; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SNefojtvKaPsWksx1KlDETs9fKwCel6Xh/eUYbsILEo=;
+        b=FjUNRMFEC+pDGGGu8b63dqh18hWiqu5fMctk3Z2IyZ2Nr6Ao42/QBQh0xUvFzV5Msm
+         FAMZKkpD5pzEYT6ogVyvGuejLAGGRmirA0pCff0245ea1fwpAE+IzX0fnskhqqqwJEHq
+         HuIOb2QdL9auLOjXYfT/Guhy63chO03CcQ2mdOZTCNHNEUr2NGwQJi4QmJCJIzZEsS0v
+         5eFqEeOpkoPfdUABtGvHvRtqOTU4MKL/H8Q23mUL7ukiZgBJWGdDNsXAZHvzDI0ILMNU
+         i394zR2QxRvmAqFkj4nWLafHfJ96uuKLAcMh0Ct18V977s+dTl/VdKjIdGeCjazkCRwN
+         f+aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791816570; x=1792421370;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SNefojtvKaPsWksx1KlDETs9fKwCel6Xh/eUYbsILEo=;
+        b=p+oSRRStVGFSWz1Eexcwi6PYLs0QXoKNqI/iHImAMlJ1SBz3C9WyrrtSsQ4Fy36m8j
+         wkdLlbewmyMliHP3idBx0cCRLlYKDqrJDYL1PrHME4mxukjHofUxdKIHF9U8GEQ3sSXo
+         Xa0tct2FdgScv34qbqMkICbFC13B76MuBkizBfWwTFT+e3OUnV7DUmpJNsL1rK23NXg/
+         027A2591JHs3meRNk314ykdfl0JenZnq+sTjzerJSdY5Hsf4nNiD4yoMOidWy7EM/DGR
+         k44W7oWS2KpzaIBzIloeufF3pQLUfoJisqrW5Pu2yCRNdJN0HqephQeRv4xaxOnq5Cr6
+         HR9w==
+X-Forwarded-Encrypted: i=1; AKwUvBxGtE7nFdXjYGYC0iEW4do57cfzAH1fgTxYmJ0sQ8id0y4ivruekCIfyVinmzp2WRRkmKReHKXZjsWl7eLv@vger.kernel.org
+X-Gm-Message-State: AFq9FYKnwBDPmA5Fnbmu3reJWvosODesG5STh2fSlQ9YtV657D2p2D1Z
+	iVz3MrHzxRWOXjt5y+qCOYbJOkJidr5Lb0u/erWYpb2sTmjXNaCx7tCHegh/lPu+jv+XNSEj
+X-Gm-Gg: AYBFou0XPk8KKfH+92bUtImYWGx0Hav3aHPnAJJb9eoRI8YgpkjmeVczwbG5/rWOWig
+	u3D7jFTkPFWopnVgycrqIdOcM61I978a6cGWHAkHW+zulT9Qp6rE8Uzs6GpC3unu0p7YMTBq/yL
+	b6U7GWu2X1q8hlNYWw3z41Jmqj7ldPxff3N5H6Dhz2W4i/pQf17xY8ivxjpQvlwqmEJge1CBUT+
+	dBBRFqNk495BOetI6z4srqo+i9oB0a+BqpHzN2xjNB811/LzNZOLCwtAbjtkJmbRBoKIuYw9wUT
+	rH0uIWFzBhuuy7Wh8jmVJxCBxixE3nL+NDvK7C5jw+a3mUyy/jgUjgLpUA15OrK9vrn7d7KaKfW
+	RQ3FseXMhiADQ0PPHLCxgQrxdwMwDChx1wVzXcPd3SOliEOsW1ZZuRFT+wvc+LPWkwuBs/a7AHO
+	TmwjUVx+Zxj3xJWaADL44i2WX1n9RMCkr26bUg+HjT3UYsRax51ApAmlgW9M7T9O759lL4/ayyi
+	VrIsF6tVj8IT3knbv556Gvc2EoK0sVnNJU+2eUo/NUjfqmSJ+OziHEp52DGwDdoU/Engg==
+X-Received: by 2002:a05:7300:a50a:b0:33b:f5b7:f494 with SMTP id 5a478bee46e88-3537df8cf05mr20301538eec.13.1791816569788;
+        Mon, 12 Oct 2026 07:49:29 -0700 (PDT)
+Received: from localhost (ec2-18-143-158-86.ap-southeast-1.compute.amazonaws.com. [18.143.158.86])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-35b29c2f861sm11272773eec.11.2026.10.12.07.49.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 07:49:29 -0700 (PDT)
+From: jianyungao89@gmail.com
+To: linux-kernel@vger.kernel.org
+Cc: Jianyun Gao <jianyungao89@gmail.com>,
+	stable@vger.kernel.org,
+	Jan Kara <jack@suse.cz>,
+	Dan Williams <djbw@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	linux-fsdevel@vger.kernel.org (open list:FILESYSTEM DIRECT ACCESS (DAX)),
+	nvdimm@lists.linux.dev (open list:FILESYSTEM DIRECT ACCESS (DAX))
+Subject: [PATCH v2] dax: fix wrong error code returned from dax_dedupe_file_range_compare()
+Date: Mon, 12 Oct 2026 22:49:24 +0800
+Message-Id: <20261012144925.6728-1-jianyungao89@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: g6GpE9UkIZirZn-y7ShBuNoGfO04bGKVojVHJzZv77Y_1791816481
-X-Mimecast-Originator: gsacapital.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Anna, Matthew, Jorge,
+From: Jianyun Gao <jianyungao89@gmail.com>
 
-Thanks all for the feedback, it's been really useful. I've reworked this
-so it's all in NFS and tested it on our setup.
+When dax_range_compare_iter() returns a negative error code (e.g. -EIO),
+dax_dedupe_file_range_compare() incorrectly returns 'ret' which holds the
+positive return value from iomap_iter() indicating more iterations remain.
+This positive value leaks to the caller, where vfs_dedupe_file_range()
+interprets it as success (bytes_deduped = len), causing userspace to
+incorrectly believe deduplication completed.
 
-The patches follow, but I'm totally happy to change these. I made the
-changes locally in order to try and test as thoroughly as possible, not
-because I'm set on this exact approach. There were a few choices along
-the way that I'd like a second opinion on, and the questions are at the
-bottom.
+Return 'status' instead to propagate the actual error code.
 
-Quick recap of the problem. On a hard mounted NFSv4.1 client (NetApp),
-killing a job while the server isn't responding leaves the processes
-stuck in D state, and there are two waits back to back:
+Fixes: 39eb05112987 ("dax: advance the iomap_iter on dedupe range")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jianyun Gao <jianyungao89@gmail.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
+---
 
-  1. fsync() waits for writeback in __filemap_fdatawait_range(), and
-     SIGKILL can't get it out.
-  2. Once it is killed, do_exit() -> filp_flush() -> ->flush() ->
-     nfs_wb_all() waits again, and at that point nothing can signal the
-     task. Even a file with nothing dirty hangs in the final NFSv4 CLOSE.
+Changes in v2:
+- Add Fixes tag and Cc stable
+- Add Reviewed-by tag from Jan Kara
 
-v1 skipped the wait for PF_EXITING inside __filemap_fdatawait_range().
-Matthew pointed out exit policy doesn't belong in mm, and Anna said that
-if the user kills the application they accept losing unwritten data, but
-NFS should still try to write it back.
+v1: Link: https://lore.kernel.org/lkml/20261010021010.19575-1-jianyungao89@gmail.com/
 
-The series is 6 files, +186/-8, and everything is in fs/nfs apart from
-one export:
+ fs/dax.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  1/3 fs: export wakeup_flusher_threads_bdi()
-  2/3 NFS: make fsync's writeback wait killable
-  3/3 NFS: don't wait for the server when a killed task closes a file
-
-Design choices
---------------
-
-1. Keep it all in NFS, mm unchanged.
-
-The killable wait is a short loop in NFS built from things mm already
-exports (filemap_fdatawrite_range, filemap_get_folios_tag,
-folio_wait_writeback_killable, file_check_and_advance_wb_err and
-filemap_check_errors). So there's no exit policy and no new API in mm.
-The downside is that it copies about 15 lines of
-__filemap_fdatawait_range().
-
-I did have a version with a policy-free
-file_write_and_wait_range_killable() in mm/filemap.c instead. If you'd
-rather have that than the copy it's an easy swap.
-
-2. Only a group killed by a signal stops waiting, not every exit.
-
-The check is (PF_EXITING || fatal_signal_pending()) &&
-SIGNAL_GROUP_EXIT && (group_exit_code & 0x7f), so basically "waitpid()
-will report WIFSIGNALED".
-
-I looked at just using PF_EXITING, which is what 8d3ca331026a ("NFS:
-Don't allow waiting for exiting tasks") does. The problem is that would
-also drop the synchronous flush for a normal exit(0). Plenty of programs
-never close their files and rely on that flush for close-to-open. Anna's
-reasoning was about applications that get explicitly killed, so I left
-normal exit alone. exit(), exit_group(0) (where the siblings get an
-internal SIGKILL), exec's de_thread zap, and a handled SIGTERM followed
-by exit(143) all behave exactly as before.
-
-I also looked at SIGKILL only, but that doesn't work for us. Slurm's
-scancel sends SIGTERM first. An unhandled SIGTERM starts the group exit
-straight away, and after that prepare_signal() drops every new signal,
-so the SIGKILL Slurm sends later just gets thrown away. I checked this
-on an unpatched kernel: the task is still stuck after the SIGKILL and
-gets reaped with status 143 once the server comes back. A SIGKILL-only
-check would miss the most common scancel case.
-
-The costs of doing it this way:
-
-  - any default-fatal signal counts, so SIGPIPE, SIGHUP, and SIGSEGV
-    once the core is written
-  - NFS is reading signal_struct fields. It only takes siglock when the
-    task is exiting or has SIGKILL pending, never on a normal close. The
-    lock is there because complete_signal() sets SIGNAL_GROUP_EXIT and
-    the exit code separately, so a lockless read could see the new flag
-    with the old code.
-  - a process that handles SIGTERM and then calls exit() is a normal
-    exit here, so it can still hang during exit if the server is down
-
-A thread writing a core dump isn't exiting and has no SIGKILL pending,
-so the core file still gets closed synchronously.
-
-3. The wait is killable, and falls back unless the group really is being
-killed.
-
-fsync and ->flush both use the killable wait. If ->flush gets
-interrupted and the group was killed by a signal, it returns without
-waiting. If the interruption came from an exit_group(0) sibling or an
-exec, it goes back to the normal uninterruptible nfs_wb_all(), so those
-don't change.
-
-This means a kill that arrives while close() is already waiting now
-works too. On the unpatched kernel that hangs the same way the fsync
-case does, and without it the obvious question is "why fsync and not
-close?".
-
-Only the completion wait is killable though. Starting the writeback can
-still block, e.g. on a folio that is dirty and under writeback, or on a
-busy nfs_page. I think NFS's stable writes handling makes the first one
-rare, but I haven't measured it.
-
-The interruption is passed back separately rather than as -EINTR. Since
-8d3ca331026a the pNFS layout waits during submission return -EINTR for
-exiting tasks, and if the two got mixed up a normal exit would end up
-doing a second full flush. When the wait is interrupted f_wb_err and the
-AS_* flags are left alone, so a later caller still sees any error.
-
-4. Best effort writeback goes through the existing flusher threads.
-
-On the killed path NFS calls wakeup_flusher_threads_bdi() if the inode
-has dirty pages or pending commits. The dying task doesn't submit
-anything itself. This is what needs the one line EXPORT_SYMBOL_GPL in
-patch 1.
-
-Things I tried or ruled out:
-
-  - filemap_fdatawrite() is WB_SYNC_ALL and can block in submission
-  - filemap_flush() ends up in nfs_writepages()'s congestion wait. That
-    wait is killable, but an exiting task has already dequeued its
-    SIGKILL, so nothing can get it out.
-  - a private NFS workqueue would leave a blocked worker per killed close
-    for as long as the server is down
-  - the exported writeback_inodes_sb*() variants wait for the queued
-    work to finish
-
-It does have some limits. It wakes the whole BDI, not one inode. It also
-merges with any writeback pass that is already running, and that pass
-can skip an inode dirtied after it started, so there's no per-inode
-guarantee and periodic writeback is the backstop. If the kill lands
-while close() is waiting and the writes are already in flight, nothing
-is dirty and the wakeup does nothing. On default mounts the COMMIT still
-goes out through the existing ioc completion. On write=3Deager mounts I'd
-expect it to wait for periodic writeback, but I haven't tested that. I
-used WB_REASON_SYNC, which only shows up in tracing, and I'm happy to
-add a new reason if you'd prefer.
-
-5. The final open context put is asynchronous for a killed task.
-
-Without this a killed task with nothing dirty still hangs in the final
-NFSv4 CLOSE. The ordering doesn't change, since dirty and commit
-requests hold a reference to the open context, so the CLOSE can't go out
-before their WRITE or COMMIT. A kill during close() runs __fput before
-the SIGKILL is dequeued, which is why the check in 2 also accepts
-fatal_signal_pending() and not just PF_EXITING.
-
-What changes for a killed writer
---------------------------------
-
-If the server isn't responding the task now gets out, which is the whole
-point. But behaviour also changes when the server is healthy, and I want
-to be upfront about that. On an unpatched kernel a killed writer's
-WRITEs and COMMITs finish before waitpid() returns. With these patches
-they finish shortly after.
-
-What's lost is close-to-open visibility on other clients for data from
-a writer that was killed by a signal. A dependent job on another node
-(Slurm "afterany") can briefly see a short file, and if the client
-crashes in that window it can lose data the unpatched kernel would
-already have made stable.
-
-What's kept is fsync'd data, visibility on the same client, lock hand
-off (the unlock path still flushes), sync/umount, and every normal exit.
-
-POSIX close() doesn't promise anything about stable storage and local
-filesystems don't flush on kill either, so I think this is the trade off
-Anna described. Keeping the old behaviour on a healthy server would mean
-telling "slow" apart from "dead". The cleanest way I can see is to keep
-waiting until the RPC client declares the server not responding (the
-mount's own timeo x retrans). That's a bigger change, so I've left it
-out unless you want it.
-
-What I've left out
-------------------
-
-These still hang exactly like they do today.
-
-Locks. A killed task that holds a POSIX/OFD/flock lock, or any task on
-an inode that some other process has locked, goes through
-locks_remove_posix() -> do_unlk() -> nfs_wb_all(), which isn't
-interruptible. I don't think the LOCKU can be deferred safely right now.
-The l_ctx fence keys on current->files, which exit_files() has already
-cleared. __nfs4_find_lock_state() also matches by owner pointer, and
-once the files_struct or file is freed a new owner can reuse that
-address. So a deferred whole-range LOCKU could end up releasing someone
-else's lock.
-
-I did prototype a narrower version where a killed task that owns no
-lock skips the flush and the protocol unlock. It worked and I checked
-that the other owner's lock was still held, but I dropped it to keep
-this series small. It could be a separate follow up.
-
-Also still blocking:
-
-  - waits while starting writeback (see 3)
-  - invalidate_inode_pages2() at final release after a write error
-    (ctx->error < 0)
-  - a write delegation close where the kill lands after the early
-    check, since filemap_fdatawrite() can block in submission
-
-How I got here
---------------
-
-  v1 (linux-mm): PF_EXITING bypass in __filemap_fdatawait_range().
-      Matthew rightly objected to exit policy in mm.
-  Then an NFS version of about 300 lines that also handled lock cleanup
-      for unrelated owners, the delegation branch and core dump aborts.
-      Review found it too broad, and it relied on a lockless check.
-  Then a minimal version with a policy-free mm helper and no killable
-      close().
-  This version is the same thing with the mm helper swapped for an NFS
-      loop, and close() made killable.
-
-Testing
--------
-
-Our test client is isolated, comparing a v7.3-rc6 base build against the
-patched one. The server is NetApp NFSv4.1 with pNFS file layout, krb5,
-hard mount, nconnect=3D4. To stall the server we drop its replies with
-iptables. Each run checks the task is blocked at the expected kernel
-stack before signalling it, records what happened 20s later, and then
-unblocks the server. 11 cases, 3 runs each, base and patched builds
-matched.
-
-  case                                      base        patched
-  SIGKILL during fsync (original report)    hangs       exits, ~11 ms
-  unhandled SIGTERM during fsync            hangs       exits, status 143
-  dirty data, no fsync, SIGKILL             hangs       exits
-  clean file, final CLOSE only              hangs       exits
-  SIGKILL while blocked in close()          hangs       exits
-  task holds a POSIX lock                   hangs       hangs (left out)
-  another task holds a POSIX lock / flock   hangs       hangs (left out)
-  exit(0)                                   waits       waits, status 0
-  SIGTERM handler -> exit(143)              waits       waits, status 143
-  exit_group(0), sibling in fsync           waits       waits, status 0
-
-After recovery a second client read every file back with O_DIRECT, and
-all 33 payloads were correct, including the data written after the last
-fsync. A kprobe on the killed path fired in none of the 9 normal exit
-runs.
-
-Healthy server, 100 MiB written then SIGKILL without fsync:
-
-  build                          writer reaped   full data on 2nd client
-  base                           63-75 ms        first read after exit
-  patched, no flusher wakeup     ~2 ms           ~31 s (periodic writeback)
-  patched                        ~2 ms           0.2-0.7 s
-
-I also ran the xfstests quick group on both builds, over NFSv4.1 to a
-loopback knfsd (sec=3Dsys, LOCALIO compiled out). Both ran the same 647
-tests with the same 535 not run, and both failed the same three:
-generic/306, generic/309 and generic/478, with identical output. 306 and
-309 look like my setup (test and scratch are directories in one export,
-so the read-only remount in 306 leaks into the next test), and 478
-fails the same way on base, so I don't think any of them are from this
-series.
-
-Not tested yet: write=3Deager, outstanding UNSTABLE COMMIT and
-LAYOUTCOMMIT, server reboot recovery, and servers other than NetApp and
-loopback knfsd.
-
-Questions
----------
-
-1. Should only a group killed by a signal stop waiting (choice 2), or
-   would you rather use nfs_current_task_exiting() for every exit, like
-   8d3ca331026a?
-2. Is the flusher wakeup in 4 an acceptable way to do best effort
-   writeback? Is exporting wakeup_flusher_threads_bdi() OK from the
-   writeback side, and do you want a new wb_reason for it?
-3. Is the change on a healthy server OK as it is, or would you want the
-   "wait until the server is declared not responding" version?
-4. Should I switch the NFS loop for the mm helper (choice 1)?
-5. For exit time lock cleanup, leave it synchronous for now, or is there
-   NFS machinery you'd recommend for deferring a LOCKU safely?
-
-Thanks again for the help here - really appreciate it,
-Rushil
-
-
-Rushil Patel (3):
-  fs: export wakeup_flusher_threads_bdi()
-  NFS: make fsync's writeback wait killable
-  NFS: don't wait for the server when a killed task closes a file
-
- fs/fs-writeback.c |   1 +
- fs/nfs/file.c     |   8 ++-
- fs/nfs/inode.c    |   6 ++-
- fs/nfs/internal.h |  40 ++++++++++++++
- fs/nfs/nfs4file.c |   6 ++-
- fs/nfs/write.c    | 133 ++++++++++++++++++++++++++++++++++++++++++++--
- 6 files changed, 186 insertions(+), 8 deletions(-)
-
---=20
-2.47.3
-
-For details of how GSA uses your personal information, please see our Priva=
-cy Notice here: https://www.gsacapital.com/privacy-notice=20
-
-This email and any files transmitted with it contain confidential and propr=
-ietary information and is solely for the use of the intended recipient.
-If you are not the intended recipient please return the email to the sender=
- and delete it from your computer and you must not use, disclose, distribut=
-e, copy, print or rely on this email or its contents.
-This communication is for informational purposes only.
-It is not intended as an offer or solicitation for the purchase or sale of =
-any financial instrument or as an official confirmation of any transaction.
-Any comments or statements made herein do not necessarily reflect those of =
-GSA Capital.
-GSA Capital Partners LLP is authorised and regulated by the Financial Condu=
-ct Authority and is registered in England and Wales at Stratton House, 5 St=
-ratton Street, London W1J 8LA, number OC309261.
-GSA Capital Services Limited is registered in England and Wales at the same=
- address, number 5320529.
+diff --git a/fs/dax.c b/fs/dax.c
+index 6ba50142eeb2..1f6a4fbb97bd 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -2261,7 +2261,7 @@ int dax_dedupe_file_range_compare(struct inode *src, loff_t srcoff,
+ 		status = dax_range_compare_iter(&src_iter, &dst_iter,
+ 				min(src_iter.len, dst_iter.len), same);
+ 		if (status < 0)
+-			return ret;
++			return status;
+ 		src_iter.status = dst_iter.status = status;
+ 	}
+ 	return ret;
+-- 
+2.34.1
 
