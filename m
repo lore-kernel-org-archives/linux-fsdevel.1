@@ -1,86 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DA3323417;
-	Mon, 12 Oct 2026 16:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7143049DBBE;
+	Mon, 12 Oct 2026 16:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791821787; cv=none; b=IaJuCEepUMnw1KC2oORJIqoSzjlrn0HUOdsjIweKWf/u4/7UMRdm4OvaMvecd2Y8P3rLBNw1i+i6oTIR1dZdM2VVuH3h4zmAZksBofBS4ZhqYd48p4vKiVQiLpZzFAd27sJv6LKOZDc6OTapvo+JHXpSI8UX6xXerepIyV7E3n0=
+	t=1791822011; cv=none; b=dOSfnqb/jQK1ZrvpnuraWUJ9gJo5z4wyKj/wjeUhJmGAiE7mSd3tSO+cThcZd/vEDbxyynYDnYd1xxWPZMpN/JJZyeC+7xRL0LOKWaXTN9WToo+a5m/5kIEDPvqxu3TkmHWrorOrkhFSnBtU0vD73LrkaZ/OLOdzty/IZCpHtuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791821787; c=relaxed/simple;
-	bh=qBrdL8hEuh98hB+ggHumK7J1HmTMTV6ELoUi707lFy0=;
+	s=arc-20240116; t=1791822011; c=relaxed/simple;
+	bh=kO93aitcBxbOSi4zGd9ru2v2wHJ5Op+vEndRRdSXYjM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=md1nRWkMmYsAkkWvZ+9Rz/+HKhnDyZPojMGDn+2JtRdCR8r6yzX9pUqhK9d44UCBIIKthhrh+i7dNaQmOR/i5skpAIUCj9yPCAmN0s6GaQOmAxeLWsccpHgzX2LO/+LPrardUOCEF0aVo64OSIhm3hGY/aGMXzYny6ri/+Tii1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HZBxeKPa; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nB2BgqZG; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WWceGWDJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vmVhSmWs; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=IJFXGEQ4MVX9GaRtNqFrXqQnCqhpiI/b74fqn01vJCUl8waIZx7xZ1U/J8lbji5LeX0ZnrMwbN5NJMSonv9wg43V8Nq4g4oGc9iZrCyOlffTzE+zsucH3MS3BOb+lWi+G5VZmLGCpnNx5cV9UHKxq7ZvCndh4Le0+54394D9kgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1J9DTO4G; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=EgB6HGqK; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1J9DTO4G; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=EgB6HGqK; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HZBxeKPa";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nB2BgqZG";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WWceGWDJ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vmVhSmWs"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1J9DTO4G";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EgB6HGqK";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1J9DTO4G";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EgB6HGqK"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0DA251F452;
-	Mon, 12 Oct 2026 16:16:22 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5669821E98;
+	Mon, 12 Oct 2026 16:20:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791821783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791822007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Oaw6+PiVA44MtmvW5kOItUHWl2YymffwUEd7qORDt1s=;
-	b=HZBxeKPaSuJuHrua6pwIjLUgJu7T8+o5x6pGbu6VrVxgW0pontpG7mgvSCW985lvQXCm6k
-	ENiCBzHr7vZPPzUN+RDzVpK2ajEGkHlPIrKXbI8outUnK98NY01XNWN8P7ybGirsg5L0xU
-	cAeLEvs1yYOuf1+uuzrOORr9psx1yyA=
+	bh=6bRY4vEnulv6c2i3pDBb2xB0Sanm46PHOiOl8wSsVcA=;
+	b=1J9DTO4GOJ6Cl7ql4im1J7LIQoadUx74oak7156BD+uPE+Q68cZOOWJkG5VeJOdo/FHQfT
+	Zmi5jjDan3rtnw9Kpp9Wa+/yrub33Cu/8ngp90KusXWuc2Nn1yp7qIc1OXiBcCxHZXPtIE
+	xOkxbmYDZwrPj2BZjiDNf+BTzL2RWoM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791821783;
+	s=susede2_ed25519; t=1791822007;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Oaw6+PiVA44MtmvW5kOItUHWl2YymffwUEd7qORDt1s=;
-	b=nB2BgqZGXtqQFEj9bmWRZS5HMKJiCm9+NCbifhOmi85FkwuCll0g+y7M86ZJW+N+n6N4ef
-	O1eu+fHbxoQNPmDQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=6bRY4vEnulv6c2i3pDBb2xB0Sanm46PHOiOl8wSsVcA=;
+	b=EgB6HGqKgGDt6vnI2YE3dfb8QHn++LgPy7Sz4LTF0QSeUsET3YacHf76xUVjfNgZNImnOM
+	eGPL2y1+eP27JtDA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791821782; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791822007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Oaw6+PiVA44MtmvW5kOItUHWl2YymffwUEd7qORDt1s=;
-	b=WWceGWDJWbWyp+tSjWUuIl96+47XetoM8UQ5ojGWu22vW0tpHkFlS58u3gADcp3WGRybpY
-	qS3B6aHa+hxemG1ZzhjBHcnsecTmHO+ZY/eGbSw6pzWcsS8Ap7IBbkaMiEzTet+7DasyLX
-	71l8j1AG3D7WgTfNDdqv3TOGdTkgfEk=
+	bh=6bRY4vEnulv6c2i3pDBb2xB0Sanm46PHOiOl8wSsVcA=;
+	b=1J9DTO4GOJ6Cl7ql4im1J7LIQoadUx74oak7156BD+uPE+Q68cZOOWJkG5VeJOdo/FHQfT
+	Zmi5jjDan3rtnw9Kpp9Wa+/yrub33Cu/8ngp90KusXWuc2Nn1yp7qIc1OXiBcCxHZXPtIE
+	xOkxbmYDZwrPj2BZjiDNf+BTzL2RWoM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791821782;
+	s=susede2_ed25519; t=1791822007;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Oaw6+PiVA44MtmvW5kOItUHWl2YymffwUEd7qORDt1s=;
-	b=vmVhSmWsRel2xmyiBhPqbV+Ka6fqG4q5r0ToTPQ8GhzafF+ptviSJpOif87jnc7//+DvbD
-	/re/ZAjGcxA9wmAA==
+	bh=6bRY4vEnulv6c2i3pDBb2xB0Sanm46PHOiOl8wSsVcA=;
+	b=EgB6HGqKgGDt6vnI2YE3dfb8QHn++LgPy7Sz4LTF0QSeUsET3YacHf76xUVjfNgZNImnOM
+	eGPL2y1+eP27JtDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA73B13314;
-	Mon, 12 Oct 2026 16:16:21 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 091A113314;
+	Mon, 12 Oct 2026 16:20:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SixCKdUHzWqqJwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 12 Oct 2026 16:16:21 +0000
+	id eO5TNbYIzWqTKwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 12 Oct 2026 16:20:07 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 5D46EA1405; Mon, 12 Oct 2026 18:16:17 +0200 (CEST)
-Date: Mon, 12 Oct 2026 18:16:17 +0200
+	id 86689A1405; Mon, 12 Oct 2026 18:19:58 +0200 (CEST)
+Date: Mon, 12 Oct 2026 18:19:58 +0200
 From: Jan Kara <jack@suse.cz>
 To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/2] super: convert to plain hashtable
-Message-ID: <skrqaeb7xlz5cjge27i7rsvv47jrfmgur3ugypy24mfvx6rndi@cvqtng3snniy>
-References: <20261012-work-super-dev_hash-v1-0-305cf71cd334@kernel.org>
- <20261012-work-super-dev_hash-v1-2-305cf71cd334@kernel.org>
+Cc: Chris Mason <mason@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] loop: remove support for swapping loop fds
+Message-ID: <mc5zuqsdwguhejwaei73gfvwv623xz6eljnpyfx77pbndmdv3s@nsb54zzoxfdz>
+References: <20261012-work-loop-change_fd-v1-1-3cf4ec349bbb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,464 +88,306 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261012-work-super-dev_hash-v1-2-305cf71cd334@kernel.org>
+In-Reply-To: <20261012-work-loop-change_fd-v1-1-3cf4ec349bbb@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email,android.com:url];
+	RCVD_COUNT_THREE(0.00)[3];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[7];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email]
 
-On Mon 12-10-26 14:31:19, Christian Brauner wrote:
-> Convert the rhltable to a plain hashtable under a spinlock. The walks
-> keep their place with a cursor entry in the chain. A claim is unhashed
-> the moment it's dropped and a walk that finds a superblock that isn't
-> born yet waits for it to be born or to die and looks again. Since
-> hashing can't fail anymore the entry for the superblock's own s_dev is
-> embedded in struct super_block and the preallocation in alloc_super()
-> goes away. This all simplifies things quite a lot.
+On Mon 12-10-26 14:47:08, Christian Brauner wrote:
+> LOOP_CHANGE_FD swaps the backing file of a bound read-only loop device
+> for another file of the same size. The comment above loop_change_fd()
+> says this is for installers that want to free the original image and
+> for HA setups that want to switch to another copy of the image. When we
+> discussed deprecating it in 2023 (cf. [1]) we found no users at all:
+> zero hits on codesearch.debian.net, GitHub code search and
+> cs.android.com. The only things that exercise it are strace, LTP,
+> stress-ng and blktests. Everyone agreed to drop it. I just never sent
+> the patch.
 > 
-> It also fixes a btrfs bug where fs_bdev_freeze() ended up freezing a
-> btrfs filesystem through a stale member that open_ctree() had already
-> released while the freeze was waiting for SB_BORN. The resume doesn't
-> find a holder for that device anymore so the filesystem stays frozen
-> for good.
+> Since then we found several more problems with it and all of them are
+> structural. The ioctl changes what a block device is backed by after a
+> filesystem has been mounted on it and nothing else in the kernel does
+> that.
 > 
-> The walks return superblocks instead of table entries now and
-> user_get_super() hands out the passive reference the walk took.
+> (1) It creates a lock order cycle.
 > 
-> Reproducer, a three device btrfs with a stale copy of a removed member.
-> dm-delay under the remaining members stretches the window between
-> btrfs_open_devices() and btrfs_free_extra_devids():
+>     loop_change_fd() is the only loop operation that calls
+>     disk_force_media_change() on a bound device while a filesystem can
+>     be mounted on it. loop_configure() calls it before the device is
+>     bound and __loop_clr_fd() after the last opener is gone. And it
+>     calls it with lo->lo_mutex held.
 > 
->   truncate -s 1G a1 a2 b
->   A1=$(losetup -f --show a1); A2=$(losetup -f --show a2); B=$(losetup -f --show b)
->   mkfs.btrfs -f -d single -m single $A1 $A2 $B
->   cp b b.old
->   mount $A1 /mnt && btrfs device remove 3 /mnt && umount /mnt
->   OLD=$(losetup -f --show b.old)
->   dmsetup create d1 --table "0 $(blockdev --getsz $A1) delay $A1 0 200"
->   dmsetup create d2 --table "0 $(blockdev --getsz $A2) delay $A2 0 200"
->   dmsetup create old --table "0 $(blockdev --getsz $OLD) linear $OLD 0"
->   mount -o device=/dev/mapper/d2,device=/dev/mapper/old /dev/mapper/d1 /mnt &
->   sleep 1; dmsetup suspend old; wait
->   dmsetup resume old
->   touch /mnt/foo     # hangs until fsfreeze -u /mnt
+>     Since v6.6 disk_force_media_change() doesn't just bump the disk
+>     sequence number. It calls bdev_mark_dead() which calls into the
+>     holder, i.e., fs_bdev_mark_dead(), which takes sb->s_umount of
+>     every superblock on that device. So LOOP_CHANGE_FD gives us:
 > 
-> That left btrfs frozen in 5 of 5 rounds with the same tables issued
-> through raw dm ioctls. The -o degraded variant needs the mount held
-> between the insertion and the bd_fsfreeze_count check in
-> fs_bdev_register() with a kprobe.
+>         lo_mutex -> s_umount
 > 
-> Fixes: cdb5146f8d5f ("fs: look up superblocks via the device table in fs_holder_ops")
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+>     Mounting a filesystem takes s_umount in sget_fc() and then opens
+>     the block device in setup_bdev_super(). That takes
+>     disk->open_mutex and calls lo_open() which takes lo_mutex:
+> 
+>         s_umount -> open_mutex -> lo_mutex
+> 
+>     That's a cycle. Lockdep reports it as soon as LOOP_CHANGE_FD is
+>     used on a device that has a filesystem mounted on it. This was
+>     recently hit with erofs where LOOP_CHANGE_FD raced with umount and
+>     a concurrent open of the loop device. And it is a real deadlock:
+>     the mounter holds s_umount and waits for open_mutex, the opener
+>     holds open_mutex and waits in lo_open() for lo_mutex, and the
+>     LOOP_CHANGE_FD caller holds lo_mutex and waits in
+>     fs_bdev_mark_dead() for that superblock.
+> 
+>     Note that we went through the block layer in v6.7 to guarantee
+>     that s_umount is never taken under open_mutex. LOOP_CHANGE_FD is
+>     the reverse direction and it was simply never considered.
+> 
+> (2) The use-case it was added for doesn't work anymore.
+> 
+>     fs_bdev_mark_dead() shuts the filesystem down. For ext4, xfs and
+>     btrfs that means ->shutdown() is called and the mounted filesystem
+>     returns -EIO from then on. So swapping the image under a mounted
+>     filesystem can't work for any filesystem that implements shutdown.
+>     It only survives on erofs because erofs deliberately doesn't
+>     implement ->shutdown() and ->remove_bdev(). Commit 69139a62a918
+>     ("erofs: open via dedicated fs bdev helpers") explicitly cites
+>     loop_change_fd() as the reason why it shouldn't. IOW, an ioctl
+>     without users dictates what a filesystem is allowed to do on
+>     device removal.
+> 
+>     And it never worked on partitions. disk_force_media_change() only
+>     acts on disk->part0 so a filesystem mounted on loop0p1 isn't told
+>     anything when the image under it is swapped.
+> 
+> (3) It can create superblock pin cycles.
+> 
+>     loop_validate_file() only guards against loop-on-loop recursion.
+>     It doesn't stop LOOP_CHANGE_FD from pointing a bound device at a
+>     file on the filesystem that is mounted from that very device, or
+>     two devices at files on each other's filesystems, or a device at a
+>     file on a fuse mount whose passthrough backing file lives on the
+>     loop mount. Static setups can't form these cycles because the
+>     backing file is opened before the filesystem on top of it exists.
+>     LOOP_CHANGE_FD is the only block layer path where the edge is
+>     added afterwards.
+> 
+>     The result is a cycle of superblocks: the backing file pins the
+>     mount, the mount pins the superblock, the superblock holds the
+>     device open and the device holds the backing file. umount detaches
+>     the mounts but nothing ever frees them and the mount namespace
+>     they live in leaks with them. This is not a cycle of mounts so
+>     nothing in mount teardown can break it. It's root-only, but it is
+>     a permanent leak that can't be undone.
+> 
+> (4) It makes filesystem stacking dynamic.
+> 
+>     s_stack_depth assumes that the dependencies between filesystems
+>     are fixed when a filesystem is mounted. With LOOP_CHANGE_FD the
+>     image of a mounted filesystem can be moved onto another filesystem
+>     at any later time, so a loop-mounted filesystem is at stacking
+>     depth 0 no matter what its image ends up on. That is the hole in
+>     the stacking deadlock discussion for fanotify pre-content events
+>     (cf. [2]).
+> 
+> The partition handling of LOOP_CHANGE_FD has been broken since v7.1
+> and nobody noticed until Daan ran into it in August (cf. [3]). That's
+> about the level of use this ioctl sees.
+> 
+> So let's remove it. LOOP_CHANGE_FD now returns -EOPNOTSUPP.
+> 
+> [1]: https://lore.kernel.org/r/20231023-biberbau-spatzen-282ccea0825a@brauner
+>      https://lore.kernel.org/r/20231024-entfuhr-sachbezogen-aab33dec4087@brauner
+> [2]: https://lore.kernel.org/r/CAOQ4uxi2Mx4ZB48DhQJWOvt6UBur3LnrkttgRjo72U4+Cu81iQ@mail.gmail.com
+>      https://lore.kernel.org/r/20260617-vorfahren-haften-nullnummer-b0d6fccadae3@brauner
+> [3]: https://lore.kernel.org/r/20260806-b4-loop-nbd-stale-partitions-v1-1-67bb75a8d7be@amutable.com
+> 
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
 
-Overall looks good to me and indeed the code looks simpler. One suggestion
-below:
+Yes please. Feel free to add:
 
-> +/* Unhash the cursor of a walk that stops early. */
-> +static void super_dev_walk_end(struct super_dev *cursor)
->  {
-> -	struct super_dev *sb_dev;
-> -
-> -	rcu_read_lock();
-> -	sb_dev = super_dev_get(rhltable_lookup(&super_dev_table, &dev, super_dev_params));
-> -	rcu_read_unlock();
-> -	return sb_dev;
-> +	guard(spinlock)(&super_dev_lock);
-> +	hash_del(&cursor->sd_hash);
->  }
->
-> +#define for_each_dev_super(sb, cursor) \
-> +	for (sb = super_dev_next(cursor, NULL); sb; sb = super_dev_next(cursor, sb))
-
-So the 'cursor' is unused by the users of for_each_dev_super() except for
-calling super_dev_walk_end() when they abort the loop. So why not pass just
-'dev' into the macro where 'cursor' will be internal to for() loop and
-setup __cleanup to call super_dev_walk_end() when the cursor goes out of
-scope? It will require a bit of a macro magic but should be more ergonomic
-to use and no chance to forget calling super_dev_walk_end() at appropriate
-places.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
->  
->  static void kill_super_notify(struct super_block *sb)
+
+> ---
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  drivers/block/loop.c | 112 ++-------------------------------------------------
+>  1 file changed, 4 insertions(+), 108 deletions(-)
+> 
+> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+> index 758c20678bf6..aabaaacdb4fa 100644
+> --- a/drivers/block/loop.c
+> +++ b/drivers/block/loop.c
+> @@ -105,7 +105,7 @@ static DEFINE_MUTEX(loop_validate_mutex);
+>   *
+>   * Since loop_validate_file() traverses on other "struct loop_device" if
+>   * is_loop_device() is true, we need a global lock for serializing concurrent
+> - * loop_configure()/loop_change_fd()/__loop_clr_fd() calls.
+> + * loop_configure()/__loop_clr_fd() calls.
+>   */
+>  static int loop_global_lock_killable(struct loop_device *lo, bool global)
 >  {
-> @@ -548,11 +523,8 @@ static void kill_super_notify(struct super_block *sb)
->  	if (sb->s_flags & SB_DEAD)
->  		return;
+> @@ -537,109 +537,6 @@ static int loop_check_backing_file(struct file *file)
+>  	return 0;
+>  }
 >  
-> -	/* Drop sget_fc()'s claim; a never-registered entry stays with the sb. */
-> -	if (sb->s_super_dev->sd_dev) {
-> -		super_dev_put(sb->s_super_dev);
-> -		sb->s_super_dev = NULL;
+> -/*
+> - * loop_change_fd switched the backing store of a loopback device to
+> - * a new file. This is useful for operating system installers to free up
+> - * the original file and in High Availability environments to switch to
+> - * an alternative location for the content in case of server meltdown.
+> - * This can only work if the loop device is used read-only, and if the
+> - * new backing store is the same size and type as the old backing store.
+> - */
+> -static int loop_change_fd(struct loop_device *lo, struct block_device *bdev,
+> -			  unsigned int arg)
+> -{
+> -	struct file *file = fget(arg);
+> -	struct file *old_file;
+> -	unsigned int memflags;
+> -	int error;
+> -	bool partscan;
+> -	bool is_loop;
+> -
+> -	if (!file)
+> -		return -EBADF;
+> -
+> -	error = loop_check_backing_file(file);
+> -	if (error) {
+> -		fput(file);
+> -		return error;
 > -	}
-> +	/* Drop sget_fc()'s claim on s_dev. */
-> +	super_dev_put(&sb->s_super_dev);
+> -
+> -	/* suppress uevents while reconfiguring the device */
+> -	dev_set_uevent_suppress(disk_to_dev(lo->lo_disk), 1);
+> -
+> -	is_loop = is_loop_device(file);
+> -	error = loop_global_lock_killable(lo, is_loop);
+> -	if (error)
+> -		goto out_putf;
+> -	error = -ENXIO;
+> -	if (lo->lo_state != Lo_bound)
+> -		goto out_err;
+> -
+> -	/* the loop device has to be read-only */
+> -	error = -EINVAL;
+> -	if (!(lo->lo_flags & LO_FLAGS_READ_ONLY))
+> -		goto out_err;
+> -
+> -	error = loop_validate_file(file, bdev);
+> -	if (error)
+> -		goto out_err;
+> -
+> -	old_file = lo->lo_backing_file;
+> -
+> -	error = -EINVAL;
+> -
+> -	/* size of the new backing store needs to be the same */
+> -	if (lo_calculate_size(lo, file) != lo_calculate_size(lo, old_file))
+> -		goto out_err;
+> -
+> -	/*
+> -	 * We might switch to direct I/O mode for the loop device, write back
+> -	 * all dirty data the page cache now that so that the individual I/O
+> -	 * operations don't have to do that.
+> -	 */
+> -	vfs_fsync(file, 0);
+> -
+> -	/* and ... switch */
+> -	disk_force_media_change(lo->lo_disk);
+> -	memflags = blk_mq_freeze_queue(lo->lo_queue);
+> -	mapping_set_gfp_mask(old_file->f_mapping, lo->old_gfp_mask);
+> -	loop_assign_backing_file(lo, file);
+> -	loop_update_dio(lo);
+> -	blk_mq_unfreeze_queue(lo->lo_queue, memflags);
+> -	partscan = lo->lo_flags & LO_FLAGS_PARTSCAN;
+> -	loop_global_unlock(lo, is_loop);
+> -
+> -	/*
+> -	 * Flush loop_validate_file() before fput(), for l->lo_backing_file
+> -	 * might be pointing at old_file which might be the last reference.
+> -	 */
+> -	if (!is_loop) {
+> -		mutex_lock(&loop_validate_mutex);
+> -		mutex_unlock(&loop_validate_mutex);
+> -	}
+> -	/*
+> -	 * We must drop file reference outside of lo_mutex as dropping
+> -	 * the file ref can take open_mutex which creates circular locking
+> -	 * dependency.
+> -	 */
+> -	fput(old_file);
+> -	dev_set_uevent_suppress(disk_to_dev(lo->lo_disk), 0);
+> -	if (partscan)
+> -		loop_reread_partitions(lo);
+> -
+> -	error = 0;
+> -done:
+> -	kobject_uevent(&disk_to_dev(lo->lo_disk)->kobj, KOBJ_CHANGE);
+> -	return error;
+> -
+> -out_err:
+> -	loop_global_unlock(lo, is_loop);
+> -out_putf:
+> -	fput(file);
+> -	dev_set_uevent_suppress(disk_to_dev(lo->lo_disk), 0);
+> -	goto done;
+> -}
+> -
+>  /* loop sysfs attributes */
+>  
+>  static ssize_t loop_attr_show(struct device *dev, char *page,
+> @@ -1215,12 +1112,11 @@ static int loop_clr_fd(struct loop_device *lo)
 >  
 >  	/*
->  	 * Let concurrent mounts know that this thing is really dead.
-> @@ -880,13 +852,12 @@ struct super_block *sget_fc(struct fs_context *fc,
->  	s->s_fs_info = fc->s_fs_info;
->  	err = set(s, fc);
->  	if (err) {
-> -		VFS_WARN_ON_ONCE(s->s_super_dev->sd_dev);
->  		s->s_fs_info = NULL;
->  		spin_unlock(&sb_lock);
->  		destroy_unused_super(s);
->  		return ERR_PTR(err);
+>  	 * Since lo_ioctl() is called without locks held, it is possible that
+> -	 * loop_configure()/loop_change_fd() and loop_clr_fd() run in parallel.
+> +	 * loop_configure() and loop_clr_fd() run in parallel.
+>  	 *
+>  	 * Therefore, use global lock when setting Lo_rundown state in order to
+>  	 * make sure that loop_validate_file() will fail if the "struct file"
+> -	 * which loop_configure()/loop_change_fd() found via fget() was this
+> -	 * loop device.
+> +	 * which loop_configure() found via fget() was this loop device.
+>  	 */
+>  	err = loop_global_lock_killable(lo, true);
+>  	if (err)
+> @@ -1566,7 +1462,7 @@ static int lo_ioctl(struct block_device *bdev, blk_mode_t mode,
+>  		return loop_configure(lo, mode, bdev, &config);
 >  	}
-> -	VFS_WARN_ON_ONCE(!s->s_super_dev->sd_dev);
-> +	VFS_WARN_ON_ONCE(!s->s_dev);
->  	fc->s_fs_info = NULL;
->  	s->s_type = fc->fs_type;
->  	s->s_iflags |= fc->s_iflags;
-> @@ -899,6 +870,8 @@ struct super_block *sget_fc(struct fs_context *fc,
->  	list_add_tail(&s->s_list, &super_blocks);
->  	hlist_add_head(&s->s_instances, &s->s_type->fs_supers);
->  	spin_unlock(&sb_lock);
-> +	scoped_guard(spinlock, &super_dev_lock)
-> +		super_dev_add(&s->s_super_dev, s, s->s_dev);
->  	get_filesystem(s->s_type);
->  	shrinker_register(s->s_shrink);
->  	return s;
-> @@ -1040,18 +1013,14 @@ EXPORT_SYMBOL(iterate_supers_type);
->  
->  struct super_block *user_get_super(dev_t dev, bool excl)
->  {
-> -	struct super_dev *sb_dev;
-> -
-> -	for (sb_dev = super_dev_first(dev); sb_dev; sb_dev = super_dev_next(sb_dev)) {
-> -		struct super_block *sb = sb_dev->sd_sb;
-> -
-> -		if (!super_lock(sb, excl))
-> -			continue;
-> +	struct super_dev cursor = { .sd_dev = dev };
-> +	struct super_block *sb;
->  
-> -		/* The pinned entry holds a passive reference, take our own. */
-> -		refcount_inc(&sb->s_passive);
-> -		super_dev_put(sb_dev);
-> -		return sb;
-> +	for_each_dev_super(sb, &cursor) {
-> +		if (super_lock(sb, excl)) {
-> +			super_dev_walk_end(&cursor);
-> +			return sb;
-> +		}
->  	}
->  	return NULL;
->  }
-> @@ -1353,16 +1322,7 @@ EXPORT_SYMBOL(free_anon_bdev);
->  
->  int set_anon_super(struct super_block *s, void *data)
->  {
-> -	int error;
-> -
-> -	error = get_anon_bdev(&s->s_dev);
-> -	if (error)
-> -		return error;
-> -
-> -	error = super_dev_register(s);
-> -	if (error)
-> -		free_anon_bdev(s->s_dev);
-> -	return error;
-> +	return get_anon_bdev(&s->s_dev);
->  }
->  EXPORT_SYMBOL(set_anon_super);
->  
-> @@ -1448,7 +1408,7 @@ EXPORT_SYMBOL(get_tree_keyed);
->  static int set_bdev_super(struct super_block *s, void *data)
->  {
->  	s->s_dev = *(dev_t *)data;
-> -	return super_dev_register(s);
-> +	return 0;
->  }
->  
->  static int super_s_dev_set(struct super_block *s, struct fs_context *fc)
-> @@ -1527,14 +1487,12 @@ static int fs_super_thaw(struct super_block *sb)
->  
->  static void fs_bdev_mark_dead(struct block_device *bdev, bool surprise)
->  {
-> -	struct super_dev *sb_dev;
-> -	dev_t dev = bdev->bd_dev;
-> +	struct super_dev cursor = { .sd_dev = bdev->bd_dev };
-> +	struct super_block *sb;
->  
->  	mutex_unlock(&bdev->bd_holder_lock);
->  
-> -	for (sb_dev = super_dev_first(dev); sb_dev; sb_dev = super_dev_next(sb_dev)) {
-> -		struct super_block *sb = sb_dev->sd_sb;
-> -
-> +	for_each_dev_super(sb, &cursor) {
->  		if (!super_lock_shared(sb))
->  			continue;
->  		if (sb->s_root && (sb->s_flags & SB_ACTIVE)) {
-> @@ -1554,14 +1512,12 @@ static void fs_bdev_mark_dead(struct block_device *bdev, bool surprise)
->  
->  static void fs_bdev_sync(struct block_device *bdev)
->  {
-> -	struct super_dev *sb_dev;
-> -	dev_t dev = bdev->bd_dev;
-> +	struct super_dev cursor = { .sd_dev = bdev->bd_dev };
-> +	struct super_block *sb;
->  
->  	mutex_unlock(&bdev->bd_holder_lock);
->  
-> -	for (sb_dev = super_dev_first(dev); sb_dev; sb_dev = super_dev_next(sb_dev)) {
-> -		struct super_block *sb = sb_dev->sd_sb;
-> -
-> +	for_each_dev_super(sb, &cursor) {
->  		if (!super_lock_shared(sb))
->  			continue;
->  		if (sb->s_root && (sb->s_flags & SB_ACTIVE))
-> @@ -1585,8 +1541,8 @@ static void fs_bdev_sync(struct block_device *bdev)
->   */
->  static int fs_bdev_freeze(struct block_device *bdev)
->  {
-> -	dev_t dev = bdev->bd_dev;
-> -	struct super_dev *sb_dev;
-> +	struct super_dev cursor = { .sd_dev = bdev->bd_dev };
-> +	struct super_block *sb;
->  	unsigned int count = 0;
->  	int error = 0, err;
->  
-> @@ -1594,13 +1550,13 @@ static int fs_bdev_freeze(struct block_device *bdev)
->  
->  	mutex_unlock(&bdev->bd_holder_lock);
->  
-> -	for (sb_dev = super_dev_first(dev); sb_dev; sb_dev = super_dev_next(sb_dev)) {
-> -		if (!get_active_super(sb_dev->sd_sb))
-> +	for_each_dev_super(sb, &cursor) {
-> +		if (!get_active_super(sb))
->  			continue;
-> -		err = fs_super_freeze(sb_dev->sd_sb);
-> +		err = fs_super_freeze(sb);
->  		if (err && !error)
->  			error = err;
-> -		deactivate_super(sb_dev->sd_sb);
-> +		deactivate_super(sb);
->  		count++;
->  	}
->  
-> @@ -1640,8 +1596,8 @@ static int fs_bdev_freeze(struct block_device *bdev)
->   */
->  static int fs_bdev_thaw(struct block_device *bdev)
->  {
-> -	dev_t dev = bdev->bd_dev;
-> -	struct super_dev *sb_dev;
-> +	struct super_dev cursor = { .sd_dev = bdev->bd_dev };
-> +	struct super_block *sb;
->  	unsigned int count = 0;
->  	int error = 0, err;
->  
-> @@ -1649,13 +1605,13 @@ static int fs_bdev_thaw(struct block_device *bdev)
->  
->  	mutex_unlock(&bdev->bd_holder_lock);
->  
-> -	for (sb_dev = super_dev_first(dev); sb_dev; sb_dev = super_dev_next(sb_dev)) {
-> -		if (!get_active_super(sb_dev->sd_sb))
-> +	for_each_dev_super(sb, &cursor) {
-> +		if (!get_active_super(sb))
->  			continue;
-> -		err = fs_super_thaw(sb_dev->sd_sb);
-> +		err = fs_super_thaw(sb);
->  		if (err && !error)
->  			error = err;
-> -		deactivate_super(sb_dev->sd_sb);
-> +		deactivate_super(sb);
->  		count++;
->  	}
->  
-> @@ -1672,55 +1628,39 @@ static const struct blk_holder_ops fs_holder_ops = {
->  	.thaw			= fs_bdev_thaw,
->  };
->  
-> -static struct super_dev *super_dev_lookup(dev_t dev, struct super_block *sb)
-> +static struct super_dev *super_dev_find(dev_t dev, const struct super_block *sb)
->  {
-> -	struct super_dev *it;
-> -	struct rhlist_head *list, *pos;
-> +	struct super_dev *sd;
->  
-> -	RCU_LOCKDEP_WARN(!rcu_read_lock_held(), "suspicious super_dev_lookup() usage");
-> -	VFS_WARN_ON_ONCE(!dev);
-> -	VFS_WARN_ON_ONCE(!sb);
-> +	lockdep_assert_held(&super_dev_lock);
->  
-> -	list = rhltable_lookup(&super_dev_table, &dev, super_dev_params);
-> -	rhl_for_each_entry_rcu(it, pos, list, sd_node) {
-> -		if (it->sd_sb == sb)
-> -			return it;
-> +	hash_for_each_possible(super_dev_hash, sd, sd_hash, dev) {
-> +		if (sd->sd_dev == dev && sd->sd_sb == sb)
-> +			return sd;
->  	}
-> -
->  	return NULL;
->  }
->  
-> -static int fs_bdev_register(struct file *bdev_file, struct super_block *sb)
-> +static int fs_bdev_register(struct block_device *bdev, struct super_block *sb)
->  {
-> -	struct super_dev *sb_dev __free(kfree) = NULL;
-> -	dev_t dev = file_bdev(bdev_file)->bd_dev;
-> -	int err;
-> -
-> -	scoped_guard(rcu) {
-> -		sb_dev = super_dev_lookup(dev, sb);
-> -		if (sb_dev && refcount_inc_not_zero(&sb_dev->sd_ref)) {
-> -			retain_and_null_ptr(sb_dev);
-> -			return 0;
-> -		}
-> -	}
-> -
-> -	sb_dev = super_dev_alloc(dev, sb);
-> -	if (!sb_dev)
-> -		return -ENOMEM;
-> +	struct super_dev *new __free(kfree) = NULL;
-> +	struct super_dev *sd;
->  
-> -	err = super_dev_insert(sb_dev);
-> -	if (err)
-> -		return err;
-> +	new = kzalloc_obj(*new);
->  
-> -	/* Publish the entry before reading the count; pairs with bdev_freeze(). */
-> -	smp_mb();
-> -	if (atomic_read(&file_bdev(bdev_file)->bd_fsfreeze_count) > 0) {
-> -		err = -EBUSY;
-> -		super_dev_put(sb_dev);
-> +	guard(spinlock)(&super_dev_lock);
-> +	sd = super_dev_find(bdev->bd_dev, sb);
-> +	if (sd) {
-> +		sd->sd_claims++;
-> +		return 0;
->  	}
-> -
-> -	retain_and_null_ptr(sb_dev);
-> -	return err;
-> +	/* bdev_freeze() raises the count before its walk takes the lock. */
-> +	if (atomic_read(&bdev->bd_fsfreeze_count) > 0)
-> +		return -EBUSY;
-> +	if (!new)
-> +		return -ENOMEM;
-> +	super_dev_add(no_free_ptr(new), sb, bdev->bd_dev);
-> +	return 0;
->  }
->  
->  /**
-> @@ -1747,7 +1687,7 @@ struct file *fs_bdev_file_open_by_dev(dev_t dev, blk_mode_t mode, void *holder,
->  	if (IS_ERR(bdev_file))
->  		return bdev_file;
->  
-> -	err = fs_bdev_register(bdev_file, sb);
-> +	err = fs_bdev_register(file_bdev(bdev_file), sb);
->  	if (err) {
->  		bdev_fput(bdev_file);
->  		return ERR_PTR(err);
-> @@ -1781,7 +1721,7 @@ struct file *fs_bdev_file_open_by_path(const char *path, blk_mode_t mode,
->  	if (IS_ERR(bdev_file))
->  		return bdev_file;
->  
-> -	err = fs_bdev_register(bdev_file, sb);
-> +	err = fs_bdev_register(file_bdev(bdev_file), sb);
->  	if (err) {
->  		bdev_fput(bdev_file);
->  		return ERR_PTR(err);
-> @@ -1796,21 +1736,20 @@ EXPORT_SYMBOL_GPL(fs_bdev_file_open_by_path);
->   * @sb: superblock the device was claimed for
->   *
->   * The inverse of fs_bdev_register(): drop one claim on the {dev, @sb} entry
-> - * (the last claim unregisters it; a pinning cursor defers the actual unlink)
-> - * without closing the device.  A caller that must act on the still-open device
-> - * between unregistering and closing - e.g. re-allow freezing one denied for a
-> - * membership change - pairs this with bdev_fput().  fs_bdev_file_release() is
-> - * the common unregister-and-close.
-> + * (the last claim unregisters it) without closing the device.  A caller that
-> + * must act on the still-open device between unregistering and closing - e.g.
-> + * re-allow freezing one denied for a membership change - pairs this with
-> + * bdev_fput().  fs_bdev_file_release() is the common unregister-and-close.
->   */
->  void fs_bdev_unregister(struct file *bdev_file, struct super_block *sb)
->  {
-> -	dev_t dev = file_bdev(bdev_file)->bd_dev;
-> -	struct super_dev *sb_dev;
-> +	struct super_dev *sd;
->  
-> -	rcu_read_lock();
-> -	sb_dev = super_dev_lookup(dev, sb);
-> -	rcu_read_unlock();
-> -	super_dev_put(sb_dev);
-> +	/* The claim we're dropping keeps the entry hashed. */
-> +	scoped_guard(spinlock, &super_dev_lock)
-> +		sd = super_dev_find(file_bdev(bdev_file)->bd_dev, sb);
-> +	if (sd)
-> +		super_dev_put(sd);
->  }
->  EXPORT_SYMBOL_GPL(fs_bdev_unregister);
->  
-> @@ -1853,8 +1792,7 @@ int setup_bdev_super(struct super_block *sb, int sb_flags,
->  		return -EACCES;
->  	}
->  
-> -	/* The sget_fc() entry is already published; pairs with bdev_freeze(). */
-> -	smp_mb();
-> +	/* sget_fc() hashed @sb, super_dev_lock orders that against bdev_freeze(). */
->  	if (atomic_read(&bdev->bd_fsfreeze_count) > 0) {
->  		if (fc)
->  			warnf(fc, "%pg: Can't mount, blockdev is frozen", bdev);
-> diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
-> index ecd96aeb1cee..72f4288e16c5 100644
-> --- a/include/linux/fs/super_types.h
-> +++ b/include/linux/fs/super_types.h
-> @@ -30,7 +30,6 @@ struct mount;
->  struct mtd_info;
->  struct quotactl_ops;
->  struct shrinker;
-> -struct super_dev;
->  struct unicode_map;
->  struct user_namespace;
->  struct workqueue_struct;
-> @@ -132,10 +131,18 @@ struct super_operations {
->  	void (*report_error)(const struct fserror_event *event);
->  };
->  
-> +/* A superblock's claim on a device, see fs/super.c. */
-> +struct super_dev {
-> +	struct hlist_node			sd_hash;
-> +	struct super_block			*sd_sb;
-> +	dev_t					sd_dev;
-> +	unsigned int				sd_claims;
-> +};
-> +
->  struct super_block {
->  	struct list_head			s_list;		/* Keep this first */
->  	dev_t					s_dev;		/* search index; _not_ kdev_t */
-> -	struct super_dev			*s_super_dev;	/* sget_fc()'s device table claim */
-> +	struct super_dev			s_super_dev;	/* claim on s_dev */
->  	unsigned char				s_blocksize_bits;
->  	unsigned long				s_blocksize;
->  	loff_t					s_maxbytes;	/* Max file size */
+>  	case LOOP_CHANGE_FD:
+> -		return loop_change_fd(lo, bdev, arg);
+> +		return -EOPNOTSUPP;
+>  	case LOOP_CLR_FD:
+>  		return loop_clr_fd(lo);
+>  	case LOOP_SET_STATUS:
 > 
-> -- 
-> 2.53.0
+> ---
+> base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+> change-id: 20261012-work-loop-change_fd-6f253c12e4df
 > 
 -- 
 Jan Kara <jack@suse.com>
