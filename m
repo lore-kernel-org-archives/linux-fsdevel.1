@@ -1,118 +1,185 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F58F4BF94F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 17:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49304ADDBF;
+	Mon, 12 Oct 2026 17:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.30.2.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791826414; cv=none; b=YVeGoacdN6wyZyH+BuxpbUIgKGgKsO/Vuj3l2MWaOZHLb3c+YQ7nyK0ts7FZ7RgXqThYxtKuyfFY23/pvxJV0KeAYl3Bnr3vvycWzhxbsks34KP9vkuA8Pd9jcmf3uNlF3bWLohhIjeB8flsLxdnRjw1PUcjGvKofcmzJ9hbnqE=
+	t=1791826960; cv=none; b=MypKpEW1YmLWi5r4VgBPbaZZnFprgFQhi4ABKBXANrpCPLkqzNj8NFmCy0+/GWUTtH96rO7vSR2ccm7j177/70QVaADPSGz7/lWwzR+cMxszkXdvEziFH97egTkZv1keUcSv3ABMv+gUQtggcpyOtGQQYRXRTV9IIv3Q3wP2E90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791826414; c=relaxed/simple;
-	bh=A2Lw1qEwiVqek4QQJv+8yes4AI+kfJoHfEBfQC1r45o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D39janqGGLmGcynobZZ1SbScMpg58XnuV77GEWpBwuGyko+zXncxBP4F0lQxxQ3B06amVClnhuoj5v2Xbwl8qUPQ7QjBfRL0lA+OMQ8yVGQ66kT1FrcGcPCHIF1S2PxuMDrVu+N+yty01n+OeVMmzG6m/wilrJz5SVEdePwUmqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OSTCtxto; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OSTCtxto"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791826412;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wiWPlyJ/kHmIcgrx0dElZdSiJcK1k2eBqgSvDAJP7IY=;
-	b=OSTCtxtoiRN94VfcRixfdDOE380J727M30qWfMeqZcLieHHlt3+BbUUnK3W/J8GN5iMEzo
-	2FCrs8bnHXVlczMENiuhPxUsZsetCkHr7f+DHXGKjReZsZgoh7rzlJ/KTLd5M5vF8H+r5v
-	Yj8tMvCPtYST0evdrlM5vabOP0tTp8g=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-650-AlrKjK9gPdeV7ySUBQPTDQ-1; Mon,
- 12 Oct 2026 17:33:27 +0000
-X-MC-Unique: AlrKjK9gPdeV7ySUBQPTDQ-1
-X-Mimecast-MFC-AGG-ID: AlrKjK9gPdeV7ySUBQPTDQ_1791826405
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 601E6195606D;
-	Mon, 12 Oct 2026 17:33:24 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 6D2E3180034C;
-	Mon, 12 Oct 2026 17:33:20 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Mon, 12 Oct 2026 19:33:24 +0200 (CEST)
-Date: Mon, 12 Oct 2026 19:33:19 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Mingyu Wang <25181214217@stu.xidian.edu.cn>
-Cc: w15303746062@163.com, David Laight <david.laight.linux@gmail.com>,
-	jlayton@kernel.org, chuck.lever@oracle.com, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, alex.aring@gmail.com, jack@suse.cz,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] fs/fcntl: fix SOFTIRQ-unsafe lock order in fasync
- signaling
-Message-ID: <as0Z302oRQpI7rgX@redhat.com>
-References: <d15a25fe784b5d4449c7ce4e56f1428d7ff28885.camel@kernel.org>
- <20260523135210.590928-1-w15303746062@163.com>
- <asI5Fn87_SoEd4G5@redhat.com>
- <asuxzwl4iWjjEjRD@redhat.com>
- <437297ff-1bb4-49a7-a979-abccdd1814f8@stu.xidian.edu.cn>
- <asz_NnX9_KaJdaf_@redhat.com>
- <dbf95fb6-1685-463c-a533-79024d7a0a18@stu.xidian.edu.cn>
- <as0K5CT8IIaCWsfR@redhat.com>
+	s=arc-20240116; t=1791826960; c=relaxed/simple;
+	bh=UQ7NYcTVYebnTIGueqNZxtx+9yKoLC1TxyVNjHpbWy0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=idosZfpKJLEZxTb+poY8+09qDXaLUV7KyzvgfljDi8idrYLNfcLwB1IZP4vmkPHg8Vi0Jy/dN3vTRHzqBpjTsrrebD8T1/o91Yt/hJeSEIrAmmRjIRj9hipzopwD4hBgb1/51f58RweshqZoGmjZlHqs9PqYtQyedYOLWqk1u0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu; spf=pass smtp.mailfrom=csail.mit.edu; arc=none smtp.client-ip=128.30.2.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
+Received: from escalante.csail.mit.edu ([128.52.128.198])
+	by outgoing2021.csail.mit.edu with esmtp (Exim 4.95)
+	(envelope-from <nickolai@csail.mit.edu>)
+	id 1xGK2g-00FScM-Dl;
+	Mon, 12 Oct 2026 13:42:30 -0400
+From: Nickolai Zeldovich <nickolai@csail.mit.edu>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Nickolai Zeldovich <nickolai@csail.mit.edu>
+Subject: [PATCH v1] xarray: unlink a node before freeing it
+Date: Mon, 12 Oct 2026 13:42:29 -0400
+Message-ID: <20261012174230.772325-1-nickolai@csail.mit.edu>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <as0K5CT8IIaCWsfR@redhat.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Transfer-Encoding: 8bit
 
-perhaps it is time to add pid->tasks_lock or abuse pid->lock we already
-have (we would need to make it irq-safe) but this doesn't look nice...
+xas_delete_node() passes an empty node to xa_node_free(), which queues it
+with call_rcu(), and only then stores NULL over the pointer to the node,
+in the parent's slot or in xa_head.  Between the two, a lockless walker
+can still reach the node, and RCU does not protect it: call_rcu() waits
+only for the read-side critical sections that were running when the
+callback's grace period started, and that grace period can start before
+the store that unlinks the node.  A walker that begins its RCU read-side
+critical section after that point can load the old pointer and keep
+using the node after it has been freed:
 
-Oleg.
+  CPU 0: xa_erase(), xa_lock held   CPU 1: RCU walker, e.g. xa_load()
 
-On 10/12, Oleg Nesterov wrote:
->
-> On 10/13, Mingyu Wang wrote:
-> >
-> > report7.txt corresponds to the warning quoted in my previous reply
-> > (syz.2.658/3606).
->
-> ...
->
-> >   kill_fasync fs/fcntl.c:1159 [inline]
-> >   kill_fasync+0x13c/0x520 fs/fcntl.c:1152
-> >   __pass_event drivers/input/evdev.c:240 [inline]
-> >   evdev_pass_values.part.0+0x62a/0x8f0 drivers/input/evdev.c:278
-> >   evdev_pass_values drivers/input/evdev.c:253 [inline]
-> >   evdev_events+0x3ba/0x440 drivers/input/evdev.c:306
-> >   input_pass_values+0x70c/0x860 drivers/input/input.c:128
-> >   input_event_dispose drivers/input/input.c:353 [inline]
-> >   input_handle_event+0xdb3/0x1490 drivers/input/input.c:370
-> >   input_inject_event+0x1ea/0x3b0 drivers/input/input.c:424
-> >   evdev_do_ioctl+0x547/0x1980 drivers/input/evdev.c:1070
-> >   evdev_ioctl_handler drivers/input/evdev.c:1270 [inline]
-> >   evdev_ioctl+0x14f/0x1b0 drivers/input/evdev.c:1279
-> >   vfs_ioctl fs/ioctl.c:51 [inline]
-> >   __do_sys_ioctl fs/ioctl.c:597 [inline]
-> >   __se_sys_ioctl fs/ioctl.c:583 [inline]
-> >   __x64_sys_ioctl+0x194/0x210 fs/ioctl.c:583
->
-> Thanks. So yes, this is what I suspected...
->
-> kill_fasync() is called under dev->event_lock (input_inject_event() abobe)
-> in process contect.
->
-> If another CPU takes the same dev->event_lock in softirq context and we race
-> with write_lock(tasklist) on yet another CPU, deadlock is indeed possible...
->
-> I'll try to take a look, but I can't promise too much ;)
->
-> Oleg.
+  xas_delete_node()
+    xa_node_free(node)
+      call_rcu()
+                    <grace period starts>
+                                     passes a quiescent state
+                                     rcu_read_lock()
+                                     xas_load(): parent->slots[offset]
+                                     is still node
+    parent->slots[offset] = NULL
+  xa_unlock()
+  quiescent state
+                    <grace period ends>
+  radix_tree_node_rcu_free(node)
+                                     reads node->shift, node->slots[]
+
+The grace period does not wait for CPU 1: CPU 1 reported its quiescent
+state before its critical section began.  Holding xa_lock does not help
+either.  It makes CPU 0 an RCU reader, which delays the end of the grace
+period until after the unlinking store, but not its start.  The start can
+fall inside the window whenever the callback is assigned to a grace
+period before the unlink: from call_rcu() itself when many callbacks are
+queued, from an interrupt that arrives in the window (interrupts are
+enabled under xa_lock(), and RCU core processing and the other softirqs
+may run on interrupt exit for milliseconds), from the rcuog kthread on
+another CPU when callbacks are offloaded (rcu_nocbs=), or while the
+writer is preempted under PREEMPT_RT.  Interrupts, and in a guest a
+preempted vCPU, also stretch the window.
+
+Setting node->array to XA_RCU_FREE does not make walkers retry: no
+lockless path looks at node->array.  xas_load() and xas_descend() look
+only at the entries and at node->shift, and the marker is overwritten
+when the slab reuses the object.  The XA_RETRY_ENTRY markers that
+xas_shrink() and xas_free_nodes() store only help walkers that reached
+a node before it was unlinked; the grace period waits for those because
+both functions unlink before they free.
+
+radix_tree_node_cachep is not SLAB_TYPESAFE_BY_RCU, so the walker reads
+freed memory.  Once the object is reused for a node of another array,
+the walker can descend through the wrong node and return an entry of
+the other array.  In a page cache lookup, the xas_reload() recheck in
+filemap_get_entry() reads the same reused slot and accepts the result,
+so in the worst case the lookup returns a folio of another file.
+
+The order dates from the introduction of xas_delete_node() in the
+commit below, which reimplemented the radix tree's delete_node().
+delete_node() unlinks first and frees after, and still does in
+lib/radix-tree.c, as do xas_shrink() and xas_free_nodes(), the other two
+paths that free nodes in lib/xarray.c.  The commit gives no reason for
+the different order and nothing depends on it: xa_node_free() only marks
+the node and queues the callback, node->offset is read before the free,
+and the stores and xas_update() on the parent do not involve the node.
+
+Move xa_node_free() after the store that unlinks the node, in both
+branches.  The stores and their order are unchanged, nothing reads the
+node after it is freed, and every caller sees the same tree and the
+same xa_state.
+
+The radix-tree test suite already runs into this.  Its multiorder test
+(multiorder_iteration_race(): one thread inserts and deletes an entry at
+index 0 while the others walk the array under rcu_read_lock(), with
+liburcu's call_rcu()) reported a heap-use-after-free in xas_start(),
+reading the shift of a head node freed through call_rcu(), in 10 of 200
+unpatched runs under AddressSanitizer on a 160-CPU machine, and in none
+of 200 runs with this patch.  A harness check that no node passed to
+xa_node_free() is still reachable from xa_head fails 556941 times in the
+XArray tests without this patch (all in xas_delete_node(), both
+branches) and never with it.  No test is added: the race is not
+deterministic and the check needs a hook on xa_node_free().  On a
+kernel, the window is too short to hit on demand.  With a 100 ms delay
+injected between call_rcu() and the unlink in a test build, a lookup
+that starts on another CPU 20 ms into the window reaches the node, and
+KASAN reports a slab-use-after-free of the radix_tree_node freed from
+rcu_core() when the lookup reads it again.  With this patch and the
+same delay between the unlink and the free, no lookup reaches the node.
+The XArray and IDA self-tests pass on x86_64 and riscv64.
+
+Found while formally verifying xas_store() against the kernel binary.
+
+Fixes: 58d6ea3085f2 ("xarray: Add XArray unconditional store operations")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
+---
+
+Notes:
+    Reproduction details: the harness numbers come from
+    tools/testing/radix-tree built as is (AddressSanitizer is on by
+    default), running ./multiorder 200 times on master and on master plus
+    this patch.  The ordering check wraps each xa_node_free(node) call in a
+    copy of lib/xarray.c with a function that walks the tree from xa_head
+    and reports the node if it is still reachable; it is not part of this
+    patch.  The kernel demonstration is a test build (x86_64 defconfig +
+    KASAN, QEMU -smp 4) with mdelay(100) after xa_node_free() in
+    xas_delete_node() for one test array, a writer kthread on CPU 0 doing
+    xa_store()/xa_erase() and a reader kthread on CPU 1 doing
+    xas_load()/xas_next() under rcu_read_lock().  I can send any of these
+    if useful.
+    
+    The patch and its analysis were drafted with an LLM coding assistant
+    and then reviewed and tested as described in the commit message.
+
+ lib/xarray.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/lib/xarray.c b/lib/xarray.c
+index bfe7bef80f34..d48754c5f8b8 100644
+--- a/lib/xarray.c
++++ b/lib/xarray.c
+@@ -500,17 +500,18 @@ static void xas_delete_node(struct xa_state *xas)
+ 		parent = xa_parent_locked(xas->xa, node);
+ 		xas->xa_node = parent;
+ 		xas->xa_offset = node->offset;
+-		xa_node_free(node);
+ 
+ 		if (!parent) {
+ 			xas->xa->xa_head = NULL;
+ 			xas->xa_node = XAS_BOUNDS;
++			xa_node_free(node);
+ 			return;
+ 		}
+ 
+ 		parent->slots[xas->xa_offset] = NULL;
+ 		parent->count--;
+ 		XA_NODE_BUG_ON(parent, parent->count > XA_CHUNK_SIZE);
++		xa_node_free(node);
+ 		node = parent;
+ 		xas_update(xas, node);
+ 	}
+
+base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+-- 
+2.53.0
 
