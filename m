@@ -1,230 +1,364 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from eu-smtp-delivery-195.mimecast.com (eu-smtp-delivery-195.mimecast.com [185.58.86.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4D32931EE;
-	Mon, 12 Oct 2026 14:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96BAE48FF92
+	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 14:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791816178; cv=none; b=apNM5ZXcD7rnM2hhFINrjI47UdjEkG29do16/9Be/hJz4HaGaLcHJYXWhHnf617XLZcmVlUN4bwH0xF/kMzqDy/tacVFhVWAwlYULXted1m1+EMJY78xvReB8TuG8UgrQMgpqXuQrEdIp/4SxuXc3UyNT1inWuQ4c6uHhD28utU=
+	t=1791816493; cv=none; b=nbxZYd+CKIBSVd7bKt3K93mm1mZK9r5ZhSolsHa1tOhi8C7xp6ZjvtXFBgHyOumnvUmEaPvSG2oSRHEaM9unrrccd49F4jVmi576KTx4/Dee+JuEEacH2k3QF9RrYFLA8X/id8ouHDe7M2MwGDlgC3cFCyQ8trnh8agbr4BECkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791816178; c=relaxed/simple;
-	bh=KVbEiWwysjQWusF2JU6OhD088LERiyV/zZ7cuOz3Tgo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lfoXDJ+hP33M6MmQHxyMO6BjX109FDLRK9dWx43KWkeZoPJUMiAsqyk7f0IpEGlG9x0hUhTjvXCoCN+KcNrhXuxOmf1En55UrDakqo7LyKmAQJ7gqKFigE31sXLc0LnsQAJtpzjtKycqnFsaOArxzLaZ/Yi35DQ3s0fFxb3Czgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gEAlM/Kj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791816493; c=relaxed/simple;
+	bh=BGxiCWJ9Q45isuatJYhQbyCsj7iYCgDKlmS7UqxxOh4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o6izArT7JX63ILriT0SPe3MMkg5TFbh1H99ON92f9ZfaAF3ye99o/6W4ZvQ1x56XrIsqg1rR7G+9KXO7TAxskq7Ekx/Wr+niALO/K0bMY7bVyLby9EHe4YF6q0uiEDzs+CCkSneQzBjgmBmRSCydf1vtyhJPI9jR+XcfUsAf3Qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gsacapital.com; spf=pass smtp.mailfrom=gsacapital.com; dkim=pass (1024-bit key) header.d=gsacapital.com header.i=@gsacapital.com header.b=ZZz+lSXA; arc=none smtp.client-ip=185.58.86.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gsacapital.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gsacapital.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gEAlM/Kj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9691C1F0089B;
-	Mon, 12 Oct 2026 14:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791816177;
-	bh=BgN6ieNRJXO4xtx7ABVudda8hNvF/8BKfaVLG1zDr3E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gEAlM/KjYJx+bBGK0OyFfJO+0y3QxZPEQI2No4uczdH/VRkHfE2mZcDcI5CMmWfeU
-	 Jx5umRIpYVc7tfq+JiLot/FjzLFslzPW+auESrETVhGUt1XVcRDN+kRTJduqOIIHdh
-	 MAjY16ounm7uLN29ZQ226RRugD18T1QLAkR1icoRjt4Z/BVkbPr7fs6vlS0fs9r533
-	 vICNU4CC2BaWmdNE7wjH4w8fpWsHSciDWvQ7q9yU4WMXgw2/ug8DmkMaGxhUafg/92
-	 Sch53pS0SMHN+zsmoGYoyNJlvm4msSVmVSL3/ncwvAmYSQwz3Epou1mB7W/OnEeeZB
-	 lAwB6nYO2uaZg==
-Date: Mon, 12 Oct 2026 22:42:50 +0800
-From: Zorro Lang <zlang@kernel.org>
-To: Lukas Herbolt <lukas@herbolt.com>
-Cc: fstests@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] src/locktest.c: fix build failure of struct delegation
-Message-ID: <aszxpKDR3-Ktb0dE@zlang-mailbox>
-Mail-Followup-To: Lukas Herbolt <lukas@herbolt.com>, 
-	fstests@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260813150846.280498-1-zlang@kernel.org>
- <aqaxjGZ6rSR1mZCf@zlang-mailbox>
- <dabaefbef09950a167e315b05c6c2fe7@herbolt.com>
+	dkim=pass (1024-bit key) header.d=gsacapital.com header.i=@gsacapital.com header.b="ZZz+lSXA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gsacapital.com;
+	s=mimecast20170115; t=1791816484;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BplKtSgbg/sM5sJqfkWubbrcMLeK6QqzS/Nu4h2mje8=;
+	b=ZZz+lSXAuYuE8oOulJm1Jc6VNDtSYLw2Vgg7gaWR3GG6FnFaizjs0eIWZ/+d/WuSiDQinf
+	wY78/Nq9YbFz8mCXy5hITAeE2v2S4NjWhkFMu2dw3nObw2fVf4nUA8TAPKc668o842fmlq
+	lRMC/mv8eS6MbprLzzfutf7oPw/A1dc=
+Received: from mailrelay.gsacapital.com (185.137.2.10 [185.137.2.10]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id uk-mta-65-t3QSa_hbNq-FzWQhngc6bg-1; Mon,
+ 12 Oct 2026 14:48:02 +0000
+X-MC-Unique: t3QSa_hbNq-FzWQhngc6bg-1
+X-Mimecast-MFC-AGG-ID: t3QSa_hbNq-FzWQhngc6bg_1791816482
+From: Rushil Patel <rushil.patel@gsacapital.com>
+To: Anna Schumaker <anna@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>,
+	Jorge Mora <Jorge.Mora@netapp.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Scott Mayhew <smayhew@redhat.com>,
+	Benjamin Coddington <ben.coddington@hammerspace.com>,
+	Tim Saunders <tim.saunders@gsacapital.com>,
+	Mark Brading <mark.brading@gsacapital.com>,
+	Ben Roberts <ben.roberts@gsacapital.com>,
+	linux-nfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [RFC PATCH v2 3/3] NFS: don't wait for the server when a killed task closes a file
+Date: Mon, 12 Oct 2026 15:47:53 +0100
+Message-ID: <20261012144753.3400341-4-rushil.patel@gsacapital.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261012144753.3400341-1-rushil.patel@gsacapital.com>
+References: <d39afd89-0543-410c-8c3a-c8869ba643bb@app.fastmail.com>
+ <20261012144753.3400341-1-rushil.patel@gsacapital.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dabaefbef09950a167e315b05c6c2fe7@herbolt.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: XGfdxom1Oey8Xj5T2KCENConnhFwKYsbUdLrY5S5o9o_1791816482
+X-Mimecast-Originator: gsacapital.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, Oct 07, 2026 at 07:30:12PM +0200, Lukas Herbolt wrote:
-> On 2026-09-13 16:29, Zorro Lang wrote:
-> > On Thu, Aug 13, 2026 at 11:08:46PM +0800, Zorro Lang wrote:
-> > > Since glibc commit f2e3dacbff88 ("Add new constants from Linux 6.12,
-> > > 6.18 and 6.19 to bits/fcntl-linux.h"), the F_GETDELEG and F_SETDELEG
-> > > constants from Linux 6.19 have been added directly into <fcntl.h>.
-> > > However, the corresponding full definition for 'struct delegation'
-> > > was not included in glibc's userspace wrapper. That causes below
-> > > build error:
-> > > 
-> > >  locktest.c:1065:16: error: variable 'deleg' has initializer but
-> > > incomplete type
-> > >   1065 |         struct delegation deleg = { .d_type = F_UNLCK };
-> > >  ...
-> > > 
-> > > Fix this by isolating the definition of 'struct delegation' from the
-> > > command macros via autoconf capability probing:
-> > > 
-> > > 1. Add an AC_CHECK_TYPES check for 'struct delegation' in
-> > > configure.ac.
-> > > 2. In locktest.c, unbind 'struct delegation' from the '#ifndef
-> > > F_GETDELEG'
-> > >    guard and wrap it with '#ifndef HAVE_STRUCT_DELEGATION' instead.
-> > > 
-> > > Signed-off-by: Zorro Lang <zlang@kernel.org>
-> > > ---
-> > > 
-> > > Hi,
-> > > 
-> > > fstests currently fails to build against the latest glibc, with the
-> > > root
-> > > cause detailed in the commit log above.
-> > > 
-> > > The glibc now defines F_GETDELEG and F_SETDELEG, but leaves out the
-> > > actual
-> > > 'struct delegation' definition. The complete struct is available in
-> > > <linux/fcntl.h>,
-> > > but we cannot simply include both <fcntl.h> and <linux/fcntl.h> due
-> > > to nasty
-> > > namespace redefinition conflicts.
-> > > 
-> > > I am not entirely sure if glibc will bring in 'struct delegation',
-> > > so for now,
-> > > I chose to decouple and handle the structure definition
-> > > independently via
-> > > autoconf.
-> > > 
-> > > Any thoughts or better suggestions on how we should handle this
-> > > transition?
-> > 
-> > Friendly ping...
-> > 
-> > Am I the only one seeing this? Without this patch, xfstests won't
-> > compile on
-> > the latest Fedora：
-> >   glibc-devel-2.44.9000-1.fc46.x86_64
-> >   gcc-16.2.1-2.fc46.x86_64
-> > 
-> > I keep running into the build error below [1].
-> > 
-> > Thanks,
-> > Zorro
-> > 
-> > [1]
-> > locktest.c: In function 'initialize':
-> > locktest.c:1018:17: warning: variable 'offset' set but not used
-> > [-Wunused-but-set-variable=]
-> >  1018 |     int         offset = 0;
-> >       |                 ^~~~~~
-> > locktest.c: In function 'release_lease':
-> > locktest.c:1065:16: error: variable 'deleg' has initializer but
-> > incomplete type
-> >  1065 |         struct delegation deleg = { .d_type = F_UNLCK };
-> >       |                ^~~~~~~~~~
-> > locktest.c:1065:38: error: 'struct delegation' has no member named
-> > 'd_type'
-> >  1065 |         struct delegation deleg = { .d_type = F_UNLCK };
-> >       |                                      ^~~~~~
-> > locktest.c:1065:47: warning: excess elements in struct initializer
-> >  1065 |         struct delegation deleg = { .d_type = F_UNLCK };
-> >       |                                               ^~~~~~~
-> > locktest.c:1065:47: note: (near initialization for 'deleg')
-> > locktest.c:1065:27: error: storage size of 'deleg' isn't known
-> >  1065 |         struct delegation deleg = { .d_type = F_UNLCK };
-> >       |                           ^~~~~
-> > locktest.c:1065:27: warning: unused variable 'deleg' [-Wunused-variable]
-> > locktest.c: In function 'do_deleg':
-> > locktest.c:1365:12: error: variable 'deleg' has initializer but
-> > incomplete type
-> >  1365 |     struct delegation deleg = { .d_type = arg };
-> >       |            ^~~~~~~~~~
-> > locktest.c:1365:34: error: 'struct delegation' has no member named
-> > 'd_type'
-> >  1365 |     struct delegation deleg = { .d_type = arg };
-> >       |                                  ^~~~~~
-> > locktest.c:1365:43: warning: excess elements in struct initializer
-> >  1365 |     struct delegation deleg = { .d_type = arg };
-> >       |                                           ^~~
-> > locktest.c:1365:43: note: (near initialization for 'deleg')
-> > locktest.c:1365:23: error: storage size of 'deleg' isn't known
-> >  1365 |     struct delegation deleg = { .d_type = arg };
-> >       |                       ^~~~~
-> > locktest.c:1365:23: warning: unused variable 'deleg' [-Wunused-variable]
-> > locktest.c: In function 'main':
-> > locktest.c:1615:16: error: variable 'deleg' has initializer but
-> > incomplete type
-> >  1615 |         struct delegation deleg = { .d_type = F_UNLCK };
-> >       |                ^~~~~~~~~~
-> > locktest.c:1615:38: error: 'struct delegation' has no member named
-> > 'd_type'
-> >  1615 |         struct delegation deleg = { .d_type = F_UNLCK };
-> >       |                                      ^~~~~~
-> > locktest.c:1615:47: warning: excess elements in struct initializer
-> >  1615 |         struct delegation deleg = { .d_type = F_UNLCK };
-> >       |                                               ^~~~~~~
-> > locktest.c:1615:47: note: (near initialization for 'deleg')
-> > locktest.c:1615:27: error: storage size of 'deleg' isn't known
-> >  1615 |         struct delegation deleg = { .d_type = F_UNLCK };
-> >       |                           ^~~~~
-> > locktest.c:1615:27: warning: unused variable 'deleg' [-Wunused-variable]
-> >     [CC]    chprojid_fail
-> >     [CC]    detached_mounts_propagation
-> > gmake[2]: *** [Makefile:139: locktest] Error 1
-> > gmake[2]: *** Waiting for unfinished jobs....
-> > gmake[1]: *** [include/buildrules:30: src] Error 2
-> > make: *** [Makefile:65: default] Error 2
-> > 
-> > > 
-> > > Thanks,
-> > > Zorro
-> > > 
-> > >  configure.ac   | 4 ++++
-> > >  src/locktest.c | 2 ++
-> > >  2 files changed, 6 insertions(+)
-> > > 
-> > > diff --git a/configure.ac b/configure.ac
-> > > index feb24ddd..6d7ff3ba 100644
-> > > --- a/configure.ac
-> > > +++ b/configure.ac
-> > > @@ -111,6 +111,10 @@ AC_CHECK_TYPES([struct
-> > > btrfs_ioctl_received_subvol_args], [], [], [[
-> > >  #include <stddef.h>
-> > >  #include <linux/btrfs.h>
-> > >  ]])
-> > > +AC_CHECK_TYPES([struct delegation], [], [], [[
-> > > +#include <stddef.h>
-> > > +#include <fcntl.h>
-> > > +]])
-> > >  AC_CHECK_HEADERS([linux/btrfs.h linux/btrfs_tree.h])
-> > >  AC_CHECK_MEMBERS([struct btrfs_ioctl_vol_args_v2.subvolid], [], [],
-> > > [[
-> > >  #include <stddef.h>
-> > > diff --git a/src/locktest.c b/src/locktest.c
-> > > index 54ee1f07..d0264c94 100644
-> > > --- a/src/locktest.c
-> > > +++ b/src/locktest.c
-> > > @@ -80,7 +80,9 @@ extern int h_errno;
-> > >  #ifndef F_GETDELEG
-> > >  #define F_GETDELEG	(1024 + 15)
-> > >  #define F_SETDELEG	(1024 + 16)
-> > > +#endif
-> > > 
-> > > +#ifndef HAVE_STRUCT_DELEGATION
-> > >  struct delegation {
-> > >  	uint32_t d_flags;
-> > >  	uint16_t d_type;
-> > > --
-> > > 2.55.0
-> > > 
-> > > 
-> 
-> Hit the same on fedora-rawhide looks good to me.
-> Reviewed-by: "Lukas Herbolt" <lukas@herbolt.com>
+Once a task has been killed it can't be signalled again, so if it closes a
+file on an unresponsive server it hangs in D state. This can happen in
+do_exit() -> filp_flush() -> ->flush() -> nfs_wb_all(), or in the final
+NFSv4 CLOSE when nothing is dirty. The same happens if the kill arrives
+while close() is already waiting in nfs_wb_all().
 
-Thanks! I finally don't have to keep rebasing this patch locally :)
+Only do this when the thread group is being killed by a signal, i.e. when
+waitpid() will report WIFSIGNALED. A normal exit() or exit_group() keeps
+the synchronous flush and close-to-open, even though exit_group() sends
+SIGKILL to the other threads. So does a handled SIGTERM followed by exit().
+Checking PF_EXITING alone would change every normal exit. Checking SIGKILL
+alone would miss an unhandled SIGTERM, which starts the group exit
+immediately, after which any later SIGKILL is dropped.
 
-> 
-> -- 
-> -lhe
-> 
+For a killed task:
+
+ - ->flush returns without waiting, and asks the flusher threads to write
+   back the data and send the COMMIT if anything is dirty or waiting to be
+   committed. This is best effort and gives no per-inode guarantee.
+ - ->flush uses a killable wait. If the wait is interrupted and the group
+   was really killed, it does the same as above. Otherwise, e.g. an
+   exit_group(0) sibling or an exec, it falls back to the normal wait.
+ - the final open context put is asynchronous, so the CLOSE doesn't block
+   the task. Dirty and commit requests hold a reference to the open
+   context, so the CLOSE still can't go out before their WRITE or COMMIT.
+
+The killed writer loses close-to-open for data that hadn't reached the
+server yet. Other clients may see it a little after the task is reaped
+rather than before.
+
+Exit-time lock cleanup (do_unlk() -> nfs_wb_all()) still waits and isn't
+changed here.
+
+Signed-off-by: Rushil Patel <rushil.patel@gsacapital.com>
+---
+ fs/nfs/file.c     |  6 ++++-
+ fs/nfs/inode.c    |  6 ++++-
+ fs/nfs/internal.h | 38 ++++++++++++++++++++++++++
+ fs/nfs/nfs4file.c |  6 ++++-
+ fs/nfs/write.c    | 69 ++++++++++++++++++++++++++++++++++++++++++++---
+ 5 files changed, 118 insertions(+), 7 deletions(-)
+
+diff --git a/fs/nfs/file.c b/fs/nfs/file.c
+index ce160051b0c6..db495721e8fe 100644
+--- a/fs/nfs/file.c
++++ b/fs/nfs/file.c
+@@ -151,10 +151,14 @@ nfs_file_flush(struct file *file, fl_owner_t id)
+ =09nfs_inc_stats(inode, NFSIOS_VFSFLUSH);
+ =09if ((file->f_mode & FMODE_WRITE) =3D=3D 0)
+ =09=09return 0;
++=09if (nfs_current_task_killed()) {
++=09=09nfs_flush_killed(inode);
++=09=09return 0;
++=09}
+=20
+ =09/* Flush writes to the server and return any errors */
+ =09since =3D filemap_sample_wb_err(file->f_mapping);
+-=09nfs_wb_all(inode);
++=09nfs_wb_all_close(inode);
+ =09return filemap_check_wb_err(file->f_mapping, since);
+ }
+=20
+diff --git a/fs/nfs/inode.c b/fs/nfs/inode.c
+index 3022454f7698..a9ab7e02c4ae 100644
+--- a/fs/nfs/inode.c
++++ b/fs/nfs/inode.c
+@@ -1332,7 +1332,11 @@ void nfs_file_clear_open_context(struct file *filp)
+ =09=09if (ctx->error < 0)
+ =09=09=09invalidate_inode_pages2(inode->i_mapping);
+ =09=09filp->private_data =3D NULL;
+-=09=09put_nfs_open_context_sync(ctx);
++=09=09/* A killed task must not wait for the CLOSE */
++=09=09if (nfs_current_task_killed())
++=09=09=09put_nfs_open_context(ctx);
++=09=09else
++=09=09=09put_nfs_open_context_sync(ctx);
+ =09}
+ }
+=20
+diff --git a/fs/nfs/internal.h b/fs/nfs/internal.h
+index c7bb7133afa5..f72abedc4bbc 100644
+--- a/fs/nfs/internal.h
++++ b/fs/nfs/internal.h
+@@ -592,6 +592,8 @@ int  nfs_show_stats(struct seq_file *, struct dentry *)=
+;
+ int  nfs_reconfigure(struct fs_context *);
+=20
+ /* write.c */
++extern void nfs_flush_killed(struct inode *inode);
++extern int nfs_wb_all_close(struct inode *inode);
+ extern int nfs_file_write_and_wait_range(struct file *file, loff_t start,
+ =09=09=09=09=09 loff_t end);
+ extern void nfs_pageio_init_write(struct nfs_pageio_descriptor *pgio,
+@@ -937,6 +939,42 @@ static inline bool nfs_current_task_exiting(void)
+ =09return (current->flags & PF_EXITING) !=3D 0;
+ }
+=20
++/*
++ * Is the current thread group being killed by a signal, i.e. will waitpid=
+()
++ * report WIFSIGNALED?  An ordinary exit() or exit_group() records a statu=
+s
++ * with the low seven bits clear, even though exit_group() sends SIGKILL t=
+o
++ * the other threads.  Read the group exit flag and status under siglock.
++ * Kernel threads exit with arbitrary codes.
++ */
++static inline bool nfs_current_group_killed(void)
++{
++=09struct task_struct *tsk =3D current;
++=09const struct signal_struct *sig =3D tsk->signal;
++=09bool killed;
++
++=09if (tsk->flags & PF_KTHREAD)
++=09=09return false;
++=09spin_lock_irq(&tsk->sighand->siglock);
++=09killed =3D (sig->flags & SIGNAL_GROUP_EXIT) &&
++=09=09 (sig->group_exit_code & 0x7f);
++=09spin_unlock_irq(&tsk->sighand->siglock);
++=09return killed;
++}
++
++/*
++ * Is the current task dying because its thread group was killed?  It eith=
+er
++ * still has the SIGKILL pending, e.g. while close(2) finishes, or is exit=
+ing
++ * and can no longer be signalled.  Either way it must not wait for the
++ * server when it closes files.  A thread writing a core dump has neither,
++ * unless the dump is aborted with SIGKILL.
++ */
++static inline bool nfs_current_task_killed(void)
++{
++=09if (!(current->flags & PF_EXITING) && !fatal_signal_pending(current))
++=09=09return false;
++=09return nfs_current_group_killed();
++}
++
+ static inline bool nfs_error_is_fatal(int err)
+ {
+ =09switch (err) {
+diff --git a/fs/nfs/nfs4file.c b/fs/nfs/nfs4file.c
+index 6401f6363f75..7738c4c3915b 100644
+--- a/fs/nfs/nfs4file.c
++++ b/fs/nfs/nfs4file.c
+@@ -120,6 +120,10 @@ nfs4_file_flush(struct file *file, fl_owner_t id)
+ =09nfs_inc_stats(inode, NFSIOS_VFSFLUSH);
+ =09if ((file->f_mode & FMODE_WRITE) =3D=3D 0)
+ =09=09return 0;
++=09if (nfs_current_task_killed()) {
++=09=09nfs_flush_killed(inode);
++=09=09return 0;
++=09}
+=20
+ =09/*
+ =09 * If we're holding a write delegation, then check if we're required
+@@ -130,7 +134,7 @@ nfs4_file_flush(struct file *file, fl_owner_t id)
+=20
+ =09/* Flush writes to the server and return any errors */
+ =09since =3D filemap_sample_wb_err(file->f_mapping);
+-=09nfs_wb_all(inode);
++=09nfs_wb_all_close(inode);
+ =09return filemap_check_wb_err(file->f_mapping, since);
+ }
+=20
+diff --git a/fs/nfs/write.c b/fs/nfs/write.c
+index c5a911305da7..980c3a74aa80 100644
+--- a/fs/nfs/write.c
++++ b/fs/nfs/write.c
+@@ -1985,6 +1985,24 @@ int nfs_filemap_write_and_wait_range(struct address_=
+space *mapping,
+ }
+ EXPORT_SYMBOL_GPL(nfs_filemap_write_and_wait_range);
+=20
++/**
++ * nfs_flush_killed - flush on close for a task killed by a signal
++ * @inode: inode being closed
++ *
++ * A task that has been killed must not wait for the server.  Ask the flus=
+her
++ * threads to write back the dirty data and commit unstable writes instead=
+,
++ * without waiting.  This covers the whole superblock and is best effort: =
+the
++ * request coalesces with a pass that is already running, and gives no
++ * guarantee about when this inode's data reaches the server.
++ */
++void nfs_flush_killed(struct inode *inode)
++{
++=09if (mapping_tagged(inode->i_mapping, PAGECACHE_TAG_DIRTY) ||
++=09    atomic_long_read(&NFS_I(inode)->commit_info.ncommit))
++=09=09wakeup_flusher_threads_bdi(inode_to_bdi(inode), WB_REASON_SYNC);
++}
++EXPORT_SYMBOL_GPL(nfs_flush_killed);
++
+ /*
+  * Like filemap_write_and_wait_range(), but a fatal signal interrupts the =
+wait
+  * for writeback to complete, and errors are left for the caller to collec=
+t.
+@@ -2050,15 +2068,27 @@ int nfs_file_write_and_wait_range(struct file *file=
+, loff_t start, loff_t end)
+ }
+=20
+ /*
+- * flush the inode to disk.
++ * If @interrupted is non-NULL, a fatal signal interrupts the wait for
++ * writeback, and *@interrupted is set if it did.
+  */
+-int nfs_wb_all(struct inode *inode)
++static int __nfs_wb_all(struct inode *inode, bool *interrupted)
+ {
+-=09int ret;
++=09struct address_space *mapping =3D inode->i_mapping;
++=09int ret, err;
+=20
+ =09trace_nfs_writeback_inode_enter(inode);
+=20
+-=09ret =3D filemap_write_and_wait(inode->i_mapping);
++=09if (interrupted) {
++=09=09ret =3D nfs_write_and_wait_range_killable(mapping, 0, LLONG_MAX,
++=09=09=09=09=09=09=09interrupted);
++=09=09if (*interrupted)
++=09=09=09goto out;
++=09=09err =3D filemap_check_errors(mapping);
++=09=09if (!ret)
++=09=09=09ret =3D err;
++=09} else {
++=09=09ret =3D filemap_write_and_wait(mapping);
++=09}
+ =09if (ret)
+ =09=09goto out;
+ =09ret =3D nfs_commit_inode(inode, FLUSH_SYNC);
+@@ -2071,8 +2101,39 @@ int nfs_wb_all(struct inode *inode)
+ =09trace_nfs_writeback_inode_exit(inode, ret);
+ =09return ret;
+ }
++
++/*
++ * flush the inode to disk.
++ */
++int nfs_wb_all(struct inode *inode)
++{
++=09return __nfs_wb_all(inode, NULL);
++}
+ EXPORT_SYMBOL_GPL(nfs_wb_all);
+=20
++/**
++ * nfs_wb_all_close - flush the inode to disk on close
++ * @inode: inode being closed
++ *
++ * Like nfs_wb_all(), but a fatal signal interrupts the wait for writeback=
+.
++ * If the signal is killing the thread group, the data is left to the flus=
+her
++ * threads.  An exit_group() by another thread also sends SIGKILL; that wa=
+its
++ * as before.
++ */
++int nfs_wb_all_close(struct inode *inode)
++{
++=09bool interrupted;
++=09int ret =3D __nfs_wb_all(inode, &interrupted);
++
++=09if (!interrupted)
++=09=09return ret;
++=09if (!nfs_current_group_killed())
++=09=09return nfs_wb_all(inode);
++=09nfs_flush_killed(inode);
++=09return 0;
++}
++EXPORT_SYMBOL_GPL(nfs_wb_all_close);
++
+ int nfs_wb_folio_cancel(struct inode *inode, struct folio *folio)
+ {
+ =09struct nfs_page *req;
+--=20
+2.47.3
+
+For details of how GSA uses your personal information, please see our Priva=
+cy Notice here: https://www.gsacapital.com/privacy-notice=20
+
+This email and any files transmitted with it contain confidential and propr=
+ietary information and is solely for the use of the intended recipient.
+If you are not the intended recipient please return the email to the sender=
+ and delete it from your computer and you must not use, disclose, distribut=
+e, copy, print or rely on this email or its contents.
+This communication is for informational purposes only.
+It is not intended as an offer or solicitation for the purchase or sale of =
+any financial instrument or as an official confirmation of any transaction.
+Any comments or statements made herein do not necessarily reflect those of =
+GSA Capital.
+GSA Capital Partners LLP is authorised and regulated by the Financial Condu=
+ct Authority and is registered in England and Wales at Stratton House, 5 St=
+ratton Street, London W1J 8LA, number OC309261.
+GSA Capital Services Limited is registered in England and Wales at the same=
+ address, number 5320529.
+
