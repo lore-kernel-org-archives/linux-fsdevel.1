@@ -1,82 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E553ACA5C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 10:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791802122; cv=none; b=HeerNKr9U7aFhJQAk6HhN3a8ZMzncqArlzUCO8NT1GRDR4wGB9NQZt1kvZcIScC9K6xgpFVNn9zr119Z4VzC4JtZY5bxAXRSH+c38uSdRcod1d7quzV8yWGCoJiVXffLd4XGPtoH84LodTk8CtHJbhmQoB2rHr6PRgDUGhcrWQ0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791802122; c=relaxed/simple;
-	bh=MYSPzdGHvAq1WootgbulOFD95hAFP42k6oZCW9G+8b8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cKe4Brs8B8DVEuTOXfscWFlMZuOkVl76QsUgPYyFfvJJnJTgUfR2FwRPy6kC0NXrP7nZCEIeN8dLI2FMKxyMMbhKySbkZ5+cOxCq8NJipufKoJj3X4YCEEoBdUhsuCNJPAXCn4sYhxDhXqlYPXQuc2ZIV3U/ykn8GoWPVY02NKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T7yEkkwM; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826CC3ACEED
+	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 10:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791802126; cv=pass; b=ka6C6aNg7Nmy+5xswNnldRwEa2RI4D2dmZ0OXVuBdtZePYYPibD+WSNCnUesbCIjGhSjHS7mpTI9sGlru8Csc9p/xsJ0R80SqTPihlba7bNZCg8YuE/BBhsPAIh7y1Zkyl9Eb43inZQp5q9jz3zmjdzJ4N1iwPVrbxejVxzODTQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791802126; c=relaxed/simple;
+	bh=yJxWfUPJuEqTfpU+R7hcqH890XgyQDGvAsHg33GYD/0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MTCJW79yQSonv++/NsYflZbs9MBZXDOvI9EkL/NhMMSropqtjCXxCqcV8ODT0cH2I6qPIb4tMFcjU9rUavLhrT6n6Bb8Bgor4haZznrUbUhLB+9BAEcX5eam+wdEXrBWKQLMPonmVx4Ml0YbULpVvIDTCJKSguX16Onghdkzd+k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MvBFtxeK; arc=pass smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T7yEkkwM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C54891F0089B;
-	Mon, 12 Oct 2026 10:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791802121;
-	bh=86dla+81F3suTOLS52ok6cqcU2G1FZrSK0sW+VFXWFk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=T7yEkkwMSiReMceqyGA3nhecrnbDPlVSdz19p92FWrl2iftSzKqoxvi0qM9gmkwSb
-	 0UunS9J28l9AZmxCipppAqaIykx/jJxI2cWqIod+Jcoz2/KaLQo80JfFY/MbfYPy6N
-	 MDKEp2WcpbeSqWZ5DZ7PuHhiWH71k9v45FBVoVvRtXSk57ZDC3KEqu1nI6VUOxmeE2
-	 O0axRlQEX2foTPnE20oXleoxS836XP88nfO+2753ZnL4P0wXDjSs5PXIylk39AD9tb
-	 dqLQCsNKgMa1/sS3oVdqqU2L+TmmdivcTMAWz4nHGC80gCn/nZvvSgAdmFj4b1+aIT
-	 qIV9+DwK1jpYg==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-erofs@lists.ozlabs.org,
-	Giuseppe Scrivano <giuseppe@scrivano.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	xiang@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	amir73il@gmail.com,
-	viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	hch@infradead.org
-Subject: Re: (subset) [PATCH v7 0/2] erofs: share the superblock for file-backed mounts
-Date: Mon, 12 Oct 2026 12:48:33 +0200
-Message-ID: <20261012-inkubationszeit-hierher-pferde-402d3192f67b@brauner>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261002163225.1258203-1-giuseppe@scrivano.org>
-References: <20261002163225.1258203-1-giuseppe@scrivano.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MvBFtxeK"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c2e6df2742cso256367666b.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 03:48:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791802124; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fP8Eptee45w5N7ryYqgmqHoDwxWhXfcoquKRxbhi1bIb8hEkGvkgeTtcucdOLZWu0/
+         Dti62NlIvFTugo3+J0I7DOkuUShPP9LKod67aCx4q4ZcIAj4lTnfPKiVS0Ub1riohCn1
+         6ttzTE6BMUTLA3B7kPAAZz9yQgOOgf4OV5mnCwpC2e7W4qBMfqK87Z1VTENgWEnuNduk
+         jGN1baC9pwSoBcA9A6j9rOV4oij/MQ7mWYpsJKug+3ldHRWkB1eGrhebXtptL6xqrwve
+         2dxu91D0130tXoNQUh80ipRChx9lkPNLpvkUh8e5u1eIzGS9srxs/P8HzchiIBC+F6y+
+         3gJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yJxWfUPJuEqTfpU+R7hcqH890XgyQDGvAsHg33GYD/0=;
+        fh=vvUc/P/vKExtuCfuctQphhehAWhNUk6b8RoJnOJOJ7Q=;
+        b=Z5cbszimf+XEazdoodrk7+of8PE+XWN6ii5VM8gjaexyvEM/rr4TFYbJsuXTRwatKP
+         dpMh42UdyQCZqdAZ5+2IBuaZ9hnV0O0M8pfqa30/yDWLmdO7i048F/50j10hOEYuYvgB
+         7m9Z5EjJ+9uYDVv4O/Mwjmc1MZW/Gu1Yt2UZFaBNFBnj1pm20N3OP8V4fBe2zHpWDFu0
+         t6znwOAkMQPLXC++ZXkZXVtR8pYT5bg1oALfk7ByPiokW4OnyidiLfeePBqRld6hhKZT
+         uxTM+6ziGwZHQVtHtFCE0GIyHVdSg6yKrNswkgeC55GRVYgn6mQf4s8cDkeeZ8WHpruU
+         UJnw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791802124; x=1792406924; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yJxWfUPJuEqTfpU+R7hcqH890XgyQDGvAsHg33GYD/0=;
+        b=MvBFtxeKDOS0EdVSG2Bp43g81Bi6onlFsI6m7PX2arlBI/Lf9WVTJGY55yT1SPwWG7
+         VQ9mZ5HJ4UgNpK7bxJWf1x7s9S6wA/KvlBGmonjzZE0fJ+jry407rP27T3xYbvwCsOHP
+         o3yNZ5XMViZQnksQUsNwVOMznDRU3qDUgMNTsvA8OSeSDB5+CRVFIT8V/zvlKtDuOsgI
+         DtS+tr21PELCB22XorPSM34sJzvuUotH2ZB9R/AZYEJJ/y0x5xbrznN4VjKuurYOf84t
+         bpPbol/Ss626BRA2J7WIvbpHqdUwbZO9UUCyWC2xj80XpNtCofoQTI/9WOknG9ytT9xL
+         88zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791802124; x=1792406924;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yJxWfUPJuEqTfpU+R7hcqH890XgyQDGvAsHg33GYD/0=;
+        b=bT4ocpuzXey7aX3cTS7M8nG5gZL3gV/nvxcL91YZS+zyGEx1vu0YOmC0zug3micfJ1
+         dMAaVI4yicgx35oPzqVlwNQfGpOWZ6A5Lx89r+zuHUDmaQZj1dpXemQhr41Fh9gjW0l/
+         +LibwaH7r1kuaQkl3LDSVXeXk09P7Zvfl6DfP4UY17wEf3PV3nkfUQhk38EBmrgz0QBL
+         DBkLqeze73DcbJ/y+u8yYl1KmgPfVXYFwpBXTSEaCKbUDEIRzi1y8a0g+rWokq1TXZoi
+         MyymZ89Zya17h1XShKtQLEbjTfKxwYiV5vtQhvbnHWSYd3qfc/gwHbf3etsWD5m7i+Bq
+         KNLA==
+X-Gm-Message-State: AFq9FYLeYxvNEMPhXqd1uvim3oq3TuB99iQh5eQiTRHG8mibeYZNsuGM
+	qV5swV6SKUQOH3um1k+1JF6OkMUcC6zpJoepZp+1xl+j6IMj+5AjMHnFqxppkQs7w5/EcnGOXTH
+	92Ub4Oer/LkNY9GWMhmvqCe1LTkys0x8=
+X-Gm-Gg: AYBFou1JYUlJToKkn0ehR6a8jhbwzPjMPyP/PcDZAA3gD5TFRg89KuQamufC9YLFyp2
+	mjJbIwJUlW1m071D49vFsnzYP1SQlpTEKnb+cX4BV0gNxYQ1vcqpdSgE8kL2L2PmhUqzNPkri42
+	TNM5/i6GXDZ7/p8S55qQilooOamldq4lpzGwLg0V7JerAkh4Tcx3qVLVxNt+Fqd5fA0eyppivUW
+	FfAB1tI1Jeuu94qmYC0O3JCrRmkVU9eMmHnEvtZO8LNLSL7g4dBAZjQCNG5zflAxMxD4svDQcuZ
+	L3gqhq9NFPwiE0bYH0Wl8J1sTw163rwSN2kVCXT2lDlAQe9SlZe6xu7p++8ahgeV0rM=
+X-Received: by 2002:a17:907:97d6:b0:c2e:2944:d6c7 with SMTP id
+ a640c23a62f3a-c31aa036549mr927162766b.29.1791802123504; Mon, 12 Oct 2026
+ 03:48:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1428; i=brauner@kernel.org; h=from:subject:message-id; bh=MYSPzdGHvAq1WootgbulOFD95hAFP42k6oZCW9G+8b8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSd2c28cp4Nk/kF940plT7Hb8+NXfH7tcG/XyoMVqWfr toY3Hdw6ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiIymaG/w7a69eZTzn3nX1y qTZ31Radya+MBLIFfqzmfa2/iivAq5zhf8Gq2hW8a0S/Nq6dcFrq/cFs5wnJV53XijV53ln2+eT KtdwA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+References: <20260930-work-mount-fixes-3-v1-0-be34c83956ae@kernel.org>
+ <20260930-work-mount-fixes-3-v1-14-be34c83956ae@kernel.org>
+ <20261001-prollen-rutschen-amtssiegel-31392f0a489c@brauner>
+ <CAOQ4uxinQiXn=F8p92rCTzwX5AcBiN0abWW7jE9jKE+zqjb1_g@mail.gmail.com> <20261001-abgehackt-herzmuskel-worauf-80bcefb0a8dd@brauner>
+In-Reply-To: <20261001-abgehackt-herzmuskel-worauf-80bcefb0a8dd@brauner>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 12 Oct 2026 12:48:30 +0200
+X-Gm-Features: AclHuK9M9jsbz9zheu8tLl_AdY6hC66_jaZlchTl42QorNNsWlRmIkLJwfQ6nNk
+Message-ID: <CAOQ4uxgXLcV3tmFp-gfF4Fm8ivvqGJzZXf3hmSeqo5dkzPv-=Q@mail.gmail.com>
+Subject: Re: [PATCH 14/17] fsnotify: detach the connector before destroying
+ its marks
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Chris Mason <mason@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
+	Aleksa Sarai <cyphar@cyphar.com>, bpf@vger.kernel.org, stable@vger.kernel.org, 
+	Daehyeon Ko <4ncienth@gmail.com>, Kyle Zeng <kylebot@openai.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 02 Oct 2026 18:31:42 +0200, Giuseppe Scrivano wrote:
-> v6: https://lore.kernel.org/linux-fsdevel/20260812142907.1010046-1-gscrivan@redhat.com/
-> v5: https://lore.kernel.org/linux-fsdevel/20260811071241.389589-1-gscrivan@redhat.com/
-> v4: https://lore.kernel.org/linux-fsdevel/20260804060455.2928514-1-gscrivan@redhat.com/
-> v3: https://lore.kernel.org/linux-fsdevel/20260801075446.2508805-1-gscrivan@redhat.com/
-> v2: https://lore.kernel.org/linux-fsdevel/20260731160901.2276832-1-gscrivan@redhat.com/
-> v1: https://lore.kernel.org/linux-fsdevel/20260730124120.1501126-1-gscrivan@redhat.com/
-> 
-> [...]
+On Thu, Oct 1, 2026 at 2:06=E2=80=AFPM Christian Brauner <brauner@kernel.or=
+g> wrote:
+>
+> > Isn't the inotify problem described in the commit message already solve=
+d by
+> > 669bb5af15d41 ("fs: make sure to call fsnotify_inoderemove() only once =
+when
+> > inode is dead=E2=80=9D) on vfs-7.4.misc?
+>
+> Indeed, I forgot this patch existed. Good, then we can drop this.
 
-Applied to the vfs-7.4.shared.super branch of the vfs/vfs.git tree.
-Patches in the vfs-7.4.shared.super branch should appear in linux-next soon.
+Alas, not quite.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Kyle Zeng was able to provide a reproducer for the race off-list,
+which is not solved by 669bb5af15d41.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+He provided a tested fix patch following the same idea as I mentioned with
+FSNOTIFY_CONN_FLAG_OBJ_DEAD, which he called
+FSNOTIFY_CONN_FLAG_DESTROYING.
+I provided RVB for his patch and I think we should go with it.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+Regarding 669bb5af15d41 in your tree. I think it needs a new revision.
+I will send it with explanations on the email thread that lead up to
+669bb5af15d41 [1].
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.4.shared.super
+Thanks,
+Amir.
 
-[1/2] fs: rename vfs_get_super() to get_tree_super() and export it
-      https://git.kernel.org/vfs/vfs/c/64571ba65816
+[1] https://lore.kernel.org/linux-fsdevel/CAOQ4uxj4sYikVUEhV1pdUdzoq2U4pBa6=
+RheZa7a0WanBmXkEow@mail.gmail.com/
