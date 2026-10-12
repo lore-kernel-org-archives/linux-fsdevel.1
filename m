@@ -1,33 +1,40 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout.web.de (mout.web.de [212.227.15.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7483376A1E;
-	Mon, 12 Oct 2026 13:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE2C341660;
+	Mon, 12 Oct 2026 13:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791812077; cv=none; b=gAjsu8RTa/eaXYHoPLl6rjNjM/sDqaRVPk84ZCqZCw1zptDBIv3AiFoWHVWMGimKKdFtP69fV2YoFaej8sYYv/DxOFVLDH8EG8fj3JrWKGIruO6u6saIxY42coNqirIDonA1ciYs+4VHshQIZV1y/H9ezMBlou9y51naFNDBRhg=
+	t=1791812444; cv=none; b=NPvfWF1lov3sTX0vlqmAaEEbMjPbsJ/A9I/s/0OaLeH3PqsHvSNrBLolPqotvxRxuNb4qv4I1Do4nSw9wJ9BVT5yaHtkdNrb9z0uqOLvTUQJJDI6kWea2ifOfosJMVqKpxLoglXHIJqJ5G19Q8RhgTP2RErdjr6ubD009vhGXfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791812077; c=relaxed/simple;
-	bh=fJGw0cpjBTi5/7bzqDmqo6fj6jl7Cb/zKCJc7n6Iuf4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FB/LnBMNcW4qvKzBd1rVemcPyHoFqQILhsyqNk0TfiJP9c9gsVKMQOe9n72MhF6wf/yporMeccKuoKqu1diJpWDzRBwN7GRQyuXXIHxZVfdv/2N+cSkSTGSMX23RVrVzGxgSNvI8Qg563nN4orb7dHHpXeALLeK9re3pHtUhHlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pb2qwS6e; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791812444; c=relaxed/simple;
+	bh=mMPPeIFptLyGPXIYfPTvGNVI7I2NU5VstFd6t9YJ/WQ=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=QnXVmvzcL663fuLHSGpRFpExfpFLUkPg+ROMuOCkfAzs7F5Ow5jAIK+7/ChvqURATs8ePJeYCV/uOBUTdzOOLWbj6bA4fegYAU5sHWu/uHWbh7bd0dDNL4d03r0GWGsXkD2cC/zbpKdpA/xZF7Hi05ewcA/T5sLHHqty2e6ygJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=PbEyMuVx; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pb2qwS6e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D2831F0089C;
-	Mon, 12 Oct 2026 13:34:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791812076;
-	bh=BJoKG/6UOVhJtQlfQRanKoyfmf6h8PW7vA7hrTi9Uzs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Pb2qwS6eWHO6MPz6e6Cjv4IRYSsPioj8ppCtOqUDgtF5oADW4amg4Rm2d7JZotQw+
-	 GFRMFOZog5JGPM/vi3cITAw2xXHYkWcOPUPNdygjRLcToiGgwezrK2esxqasNlm41c
-	 1la4YDWxCXqPasGkTAzsjlnXTL7QG0XFmaUTZCWQM5YHTijpXSoU7Muk8T1pOm9B7l
-	 ZZHzIWI0J0W7qyl17QBn7c43TRFfYVV3Wlb3cuiMiz0WsECUXjk40joq6b92W/zoFC
-	 2Ha28M5aDVhTHoRDPbawlXzi8d0o6txkkqde30XTk7KbDZoIMKa3RK1ttNOfJtAfJL
-	 esL/Yl33fruSQ==
-Message-ID: <01349eb9-8833-4cf4-bb42-b1d5a608c83d@kernel.org>
-Date: Mon, 12 Oct 2026 15:34:32 +0200
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="PbEyMuVx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1791812415; x=1792417215; i=markus.elfring@web.de;
+	bh=mMPPeIFptLyGPXIYfPTvGNVI7I2NU5VstFd6t9YJ/WQ=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=PbEyMuVx6Cuo4CzFeFZoRui6gv+jkaMprqgK3XEmGlOFuzSBM85pfprEJchZ+nys
+	 ++t4i4EY1UGqg8+GZjgp8XwZO5AXVAE8k5wPdptjtRAnJcv2Q5L4b1zjDX3SdRyLr
+	 b9DcXWmwZ6JFgOshM0KNY9VH0lsTAqNaK37zOO3Thdl3ksU+fxvzk/ZBN18k/Qa95
+	 SpzKz7ifEDPcGOsMNZiHp8J5R+D1sC1a8/XoeAWAhw2xXnylVSSC6xCTG00KSWnjA
+	 31kxOYFv5CEq2H2lpdRaPgb4nZNuOykDVLCLcF22pwWE+IFTOccbT/O4UVxnU9BIO
+	 Ite/BBVdajvxxaMy1w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mkmzr-1wnE5g1aD1-00c4bi; Mon, 12
+ Oct 2026 15:40:15 +0200
+Message-ID: <cfb6c91e-c39d-402d-9f70-4b9bf75d88a1@web.de>
+Date: Mon, 12 Oct 2026 15:40:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,136 +42,131 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/1] mm: page_frag: account page_frag pages in vmstat
- and meminfo
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Yifan Li <liyifan21@xiaomi.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, mhocko@suse.com, netdev@vger.kernel.org
-References: <20261010025941.1253-1-liyifan21@xiaomi.com>
- <40fc5d04-2a20-42c4-9557-7277bc981172@kernel.org>
- <asy9PzW41-Wi0JXC@pedro-suse.tail5790ac.ts.net>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <asy9PzW41-Wi0JXC@pedro-suse.tail5790ac.ts.net>
+To: Jianyun Gao <jianyungao89@gmail.com>, linux-fsdevel@vger.kernel.org,
+ nvdimm@lists.linux.dev
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>,
+ Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>
+References: <20261010021010.19575-1-jianyungao89@gmail.com>
+Subject: Re: [PATCH] dax: fix wrong error code returned from
+ dax_dedupe_file_range_compare()
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20261010021010.19575-1-jianyungao89@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Uf6X4rKclDQVEwH0b4p13tIVRpQjW62k9OkwIEP2ar4IkPht9ox
+ /QZFGz46Xrs3T+fLelQZtR271BEKAG/5XvPDClbP0qqc34JlbuE4w//BezqD0mKxIWcQz9u
+ eX9pn7ZtmFwNkAw1q5tvVDUe7lR82SU9CPIgrP58l8dC1eQykf+l6XrcAezYYR8/Vm4qpb8
+ wU3h6wAXEjRISiQ+w1lww==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:aCTrBGJaRpQ=;TD6AjCfokU21coZZPhk1RxweJLy
+ 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
+ 7bzY71x7707EA4jLqZ7vCuv5tqrDY=
 
-On 10/12/26 13:27, Pedro Falcato wrote:
-> On Mon, Oct 12, 2026 at 12:36:35PM +0200, David Hildenbrand (Arm) wrote:
->> On 10/10/26 04:59, Yifan Li wrote:
->>> This is an RFC.
->>>
->>> Pages held by the page_frag cache are not accounted by any memory
->>> statistics counter, so on systems that derive "LostRAM" as MemTotal
->>> minus the sum of accounted memory they inflate LostRAM and lead to
->>
->> Sorry, what exactly is subtracted from MemTotal?
->>
->> How would any other kernel allocations be treated?
-> 
-> I suppose those would mostly show up as Slab:. But yes, I agree the metric
-> is a little dubious.
-> 
->>
->>> misleading "leak" conclusions, even though the memory is legitimately
->>> used by the network path.
->>
->> Assuming "leak" in such scenarios is questionable, sorry.
->>
->> Aren't most page_frag allocations short-lived? Or is this more about the
->> page_frag cache?
-> 
-> page_frag allocations are kinda arbitrarily lived. If you queue (send) some
-> data to a socket to send over the wire, they are more likely than not
-> short-lived, unless the protocol/qdisc says no (for example, you're hitting
-> the TCP congestion window and as such can't send more data over the wire).
-> If you send it over loopback/veth you get arbitrarily livetimes as sockets
-> can keep the page frag alive if the application never reads them.
-> 
-> On the regular RX side you can also (AIUI) keep page frags randomly pinned
-> as long as you don't read them.
-> 
-> (note that all of these allocations are bounded by each protocol's memory
-> limits)
-> 
-> 
-> In any case, I remember an off-list discussion with mhocko regarding a
-> downstream bug, where I suggested adding a counter for this, and he said
-> networking is somewhat sensitive to extra accounting on the fast paths.
-> Added netdev in case they have comments.
+=E2=80=A6
+> Return 'status' instead to propagate the actual error code.
 
-That makes sense.
+How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and =
+=E2=80=9CCc=E2=80=9D) accordingly?
 
->> Certainly no page flag.
->>
->> A page type might be the right choice. I don't think Willy planned for that [1],
->> IIUC, the bump allocator was something different, but another page type
->> shouldn't hurt at this point.
-> 
-> A page type might not work, these pages _may_ need to be mappable. I know
-> that was an issue for page_pool (Yet Another Networking Page Allocator) + TCP
-> zero-copy RX using mmap.
+See also:
+* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+Documentation/process/submitting-patches.rst?h=3Dv7.3-rc7#n145
+* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+Documentation/process/stable-kernel-rules.rst?h=3Dv7.3-rc7#n34
 
-I'll have to trust on networking experts, I was reading:
 
-	 (requires that page_frag pages are never
-     mapped into userspace; true for the current RX paths).
-
-> 
-> Of course, if you have a page frag under PAGE_SIZE or misaligned then you can't map that.
-
-It would be best if we could disallow that entirely :)
-
-(of if required, map them through a PFNMAP or similar that does not care about
-page metadata ... but the interactions with GUP are tricky)
-
--- 
-Cheers,
-
-David
+Regards,
+Markus
