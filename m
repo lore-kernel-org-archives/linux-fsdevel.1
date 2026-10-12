@@ -1,135 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9244A8435;
-	Mon, 12 Oct 2026 15:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E1B4A4841
+	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 15:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791819980; cv=none; b=Z+A+zBsC6llwX78cje5KR8vHXgKvXFwSl9HG404vJn9f/c6F+0lROnAd1bCkCEirMi2T0efQaapDl7Ie7iurXLavnGtBTeFQXmaBQst/n4xpqyl6638F3eFLo3gjmhKHCQqbvu1rwVVEIoxydydfEDxBXsd/teiUHFSyBd6WYvI=
+	t=1791820136; cv=none; b=ucrfuKRze5szrR3Aygpl5c91LvYF2FmS/EUb/Pv0NPVgs7QDTHWCTuGj5FVqskq0/Np//FEEHb6JJpTOsTFcaaCushvyMPZmHWkNIhYjmwTUYFFCS9W30JZEQwfmQ12wdkIQqf6rlgJYMPhzrC+ah2EH5HfoG37nDqsxVcN9dvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791819980; c=relaxed/simple;
-	bh=/pmaFO0/r973GUxNK0BC9x/YwBobKQEpEqwEyNX/hFQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=bLIPz7pBQwiazQQnlfY7uH1tBo284annB5qxA2IQBOTvP2r/H3wraLyWBmU+fHzYmqmRNK0wJrWk604tvtNeH5dxLfMRIAZaFQhbmSbRAgdDD2Igl3JSBx2tT4ZYuNLou5huYwbenJ0ghiNv9j3WC5BIebCrw4ZoOg2OphfaoDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BpoZHBQ3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791820136; c=relaxed/simple;
+	bh=IBQngc9E6IMptShoUCo5yKbFcmdbP8vVNx4ur1yYVnU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EwOuBDMR2TsSNxvy4xVJ/YXQXg+B2zKZEbhX6bUCW9WyuHxwKE3bcxoucVwkrzEM0DwK1iYb7XILfqjsbznZEBUxpM+pum/oOlG18adVZ2SjmZx0RIrRn/H3s5QRi55qjJe/VV0sC4PkG5ZJvI+NhLS7dHbNuI4TNTdqy5VF4D0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YTOZbUeL; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BpoZHBQ3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C09011F0089B;
-	Mon, 12 Oct 2026 15:46:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791819979;
-	bh=etgzfBpuaaj+cySZG8Ntkb7v7DpcXVXb4LYAEZaIZto=;
-	h=From:Date:Subject:To:Cc;
-	b=BpoZHBQ38wo3x0mhzk0kwn6g36OoW8AMGYsKUwPoVGDRdoc/zfu7oprOZBXGrE9xk
-	 thlmDeJC5JAEhRYhEHvBV4xkZzV23ZtYuj+BKDaKADj5P/8UycDZrGdxIW3FV5FxUE
-	 UneXk42MOqmSdWOcz8cYH2mey+pG5EIfw3LJ1a1KKme91VhdB0Wl5I8Lwe+T8PFGfb
-	 wa7VK7pvFOlDbaT4iuxtaIT3oun4z71XISttdcqlZ+MSHp0DFJQFxn+FBMdyzaRjHS
-	 QguwdT2kEyk2gYS5Yhw/E7pJCSxNFzEPJAnMDhfwlMPqgKegywJFDH9V82Ejqn22vc
-	 9mZN9B2Dm8ddg==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 12 Oct 2026 11:46:10 -0400
-Subject: [PATCH] f2fs: opt in to multigrain timestamps
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YTOZbUeL"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49d05d51553so13288675e9.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 08:48:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791820133; x=1792424933; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bz+XxQbQvV9Rkz3jiplflbfyEnwSo6hWkWyEVkUNcs8=;
+        b=YTOZbUeLKKbxksGFl3X9SRUSILmTkpQbdG3/S2suV36u4ulO3yQ/CwHt61806PNp5E
+         ow1LIvzCLHvBVYVWmAmeQ1RiutgtMpmbxUDWdEjr6PFBU1zADRngD4F+c+O7y6MZhm/3
+         OItOxC8zgX+czXK6nwSGzK6l1xcFKyZeSAWPwH8q57IlU999l80A21QlkgPoZSEjYEnn
+         NiKCYOISk2rKQl2PIGpBTQvP7cCSXCSckUsWWFfSd9auGOrmLG9yxlXBvUZyDmZcMNOU
+         VLDRbI6HZj7h66MzgD/3RF7W5NxrdXdj8IQCBfXNj9fscpFDo3QVJL+Bbcu8DwuKHmVw
+         CdeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791820133; x=1792424933;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bz+XxQbQvV9Rkz3jiplflbfyEnwSo6hWkWyEVkUNcs8=;
+        b=slsIHCqDaFIFpG15b+l/Ak7lDZTB7yyN67Q2t5ruPctpJweOVVhL2Y9XDcZ4tkkf/M
+         DeUfjGgFEH54TBPABFFY5ZzU46Go6m49A77Z0egORWtR4v/jO5w/VfTPQXaKQoJvuvbQ
+         mf6GkK8p7IOo2VJvI5eguPFZ1ACugTkDGNE+E6CbZnv6MopVNsoLILgC4AxVQnaXmRuB
+         97uN8U6L6y/HbLOjf2+hy5ikp6kqLV4RY9QeRvuygejLNMgwClsAjmN6147G6eSiiKto
+         kCgQPXnZKIU461DMtipRYCOMXNLEfc88UdyUeO/rnFeOzkMg6HeYFr9d+1gIlvxqhnLK
+         MVQQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzauOFyJ+VAeJd3a1QqyPU2w5WSDlo0YSG8f/mUbmrzy1MEWjgJlwRTQCmx0vwxST6K0JB3Bg4kJFUmiAcu@vger.kernel.org
+X-Gm-Message-State: AFq9FYI9V1vD+8YDlnbWbjWucy9x4kLIUa5hjOJU7GChVtqoZvgjUuCd
+	BlSyMbqoidXbqXMgAc8DO6htGZGJ4SJjF2D5UoOdwSVBfBT4MfUrfTOP
+X-Gm-Gg: AYBFou1ABN9DgbW89/kwCbyDdh8NG3DoMoq4EijnJ3kAXnntzPKLM3bKM93bowJIIm2
+	Okcg7EwzdVcttT/2AGr+3A6OGVuH/ANoi9BhdxRhJbilKbtaVpwk3Em2tG9KMYrn4pexxVBaHZ8
+	VI0ixc0hHsl6SJI1JtXionqEN1nz+hYWgQGVtt+T6qFgkrMO6tLAhtneyiuimSEKUsO5RDIpA27
+	MC4NsTj3ylNT9iIfdHv1R3+5RiX2ergAb+C4NglXNYF56LkJg+JVONBqHC2C/aiPcy9pD6qiNpc
+	nvXrBRqPjAVeq7VydqWjihgmo1tatP/5e4qd9VX55RjT2mgPwnF04yxYjIev7yGuu1gVga3wI5b
+	MGfX4/o9vQo4jQKlnIhXWR3cGx91SR8ZmGHpzbQ1zryqqHdlpNJm4VQZBbNNdL0iK/K7mHrfwHA
+	NqfgjiBs5R/I77dQJd4o9tUT35zadG6cJ42OM//gQDEQXyn6KeNUOkhdYwpKv1iBLMGQRU2w0at
+	bxyt8gWXyzByoEcZeO2NfZQnQ+CSx96DV7umG0GRklboU4JM8bqcQzcjbhW8y6Cq9K9/m2+Nquk
+	O4ERG3IvTd5jujO8HCXxScGwXq/OYpcPchY=
+X-Received: by 2002:a05:600c:699b:b0:4a0:4a8:d444 with SMTP id 5b1f17b1804b1-4a18e4af334mr195124235e9.33.1791820132890;
+        Mon, 12 Oct 2026 08:48:52 -0700 (PDT)
+Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a193f2c992sm210228205e9.5.2026.10.12.08.48.51
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 12 Oct 2026 08:48:52 -0700 (PDT)
+From: Fred Griffoul <griffoul@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Ackerley Tng <ackerleytng@google.com>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	iommu@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH 0/9] mm: Memory providers for guest_memfd and iommufd
+Date: Mon, 12 Oct 2026 15:48:50 +0000
+Message-ID: <20261012154850.96716-1-griffoul@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <0ae3d92ef99c264cfd76d3c1ddef357e96c98d93.camel@infradead.org>
+References: <20260720111259.122911-1-dwmw2@infradead.org> <20261006183235.16576-1-griffoul@gmail.com> <yq5ald8680t2.fsf@kernel.org> <20261012095800.50250-1-griffoul@gmail.com> <CAEvNRgF1hMz+4ivH6WhsEOLTJGOegYO9AYK6OByYysPp_nVJ=g@mail.gmail.com> <20261012150715.25132-1-griffoul@gmail.com> <0ae3d92ef99c264cfd76d3c1ddef357e96c98d93.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261012-mgtime-f2fs-v1-1-a934ef646c44@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDC0NT3dz0kszcVN00o7Ri3cREk0Qjg5REw2TDJCWgjoKi1LTMCrBp0bG
- 1tQCxYb6JXQAAAA==
-X-Change-ID: 20260815-mgtime-f2fs-aa4a20da1c1b
-To: Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>
-Cc: linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2320; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=/pmaFO0/r973GUxNK0BC9x/YwBobKQEpEqwEyNX/hFQ=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBqzQDKQP+W13Upb7oA1KbdCiEVR3HC6BiuiTeWH
- NgRNDXgupOJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCas0AygAKCRAADmhBGVaC
- FUrCD/9mwE8gB6f33Dy6XBwn5SIS4s0tpENweEU4JT8G65ZuB57NNC6O0T5nAfyr1Cg0EmuuKjV
- h/Yb4yixHrDpCKYuMQ4uVhvwloRZx+vkj64qAV8s2eMWHDjJkF8UEmni1GordMh966wlajTm1vf
- +LH5z3KnXx9lC0yQlpHbrgnx/8tEQStYfWsk2cOR5B9GN7hXS54f2kpChoDsWnVVo4st3kICPor
- KXym54AMayJ3gO7Egmi2vLvRcjhkpJ3IW5FRgI2k6DGgBgWB7OLt/zee5h/lR8GWtOd3vBoeUTI
- VQLRAzSewNAgUtaXaI9Bsa17RQ5eqXC3aJsxFuUypfqoUAOvOnS/YWvw/i9I5RePyFXTpi6uXj3
- z1DK4FzTXstDwzxXEu1iLS6KvlEVP1BvEvipkiClIUra4KkMjXXQfEYA4E5fyRSo4/kubhOsnYX
- araUa8XZAruPDypwE8BvcIQuS7qaIPHQbGqrx4UTRtfMbkBJ1Gt4cTdPCf6WVKq3rxczmJxme58
- 8WnLOAs/u7aYd9GYPNz4j1KW1ZSOJoeJMZB1NsqpBU3St6MfKF7XzSlhAOVm7KM9b9ScaDw89+L
- goWJNcFDkkaGqUZ+F/B04B7uqf7ZF3dsI4aYvMqEHRcnqDBVIfCpHaQbuewcABDWi24iv2YZ1tG
- ifyBShBLq1gl3FQ==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Set FS_MGTIME on f2fs_fs_type.
+On Mon, 2026-10-12 at 16:13 +0100, David Woodhouse wrote:
+> On Mon, 2026-10-12 at 15:07 +0000, Fred Griffoul wrote:
+> >  Devices are different, because a device may not support
+> > faults. So the provider also revokes the range on the target once it
+> > owns the frames, and iommufd maps them right away. In other words, a
+> > revoke means that the frames behind a range changed, whether they went
+> > away or arrived.
+>
+> That would map to the IOMMUFD 'REPLACE' operation that hitlessly
+> replaces a PTE, but does anyone actually need that?
 
-f2fs meets the multigrain requirements:
-- ctime updates use inode_set_ctime_current()
-- f2fs_getattr() calls generic_fillattr()
-- f2fs_setattr() calls setattr_copy()
-- s_time_gran is 1ns
+No, not on the target. Before the move the child has nothing mapped
+in that range, so when the frames arrive iommufd just maps them. That
+is a plain map, not a REPLACE.
 
-Exception: with CONFIG_F2FS_FS_POSIX_ACL, f2fs_setattr() uses a local
-__setattr_copy() that sets timestamps directly, bypassing
-setattr_copy_mgtime(). Make it call setattr_copy() with ATTR_MODE
-cleared, then do the f2fs mode/ACL handling as before. ACL builds now
-also honor ATTR_CTIME_SET via inode_set_ctime_deleg(), as non-ACL
-builds already do.
+> As I said, assume that the "crappy devices can't take faults and need a
+> scratch patch" issue is dealt with *elsewhere* and not relevant to the
+> guest_memfd/memprovider work. That's purely a quirk on a given IOAS
+> within iommufd.
 
-Assisted-by: LLM
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/f2fs/file.c  | 14 +++++---------
- fs/f2fs/super.c |  2 +-
- 2 files changed, 6 insertions(+), 10 deletions(-)
+Agreed. The replace is only needed on the source, where the frames go
+away and a device that cannot fault must see the scratch page instead.
+With that quirk on the IOAS, iommufd does it, and the provider does not
+need to know about it.
 
-diff --git a/fs/f2fs/file.c b/fs/f2fs/file.c
-index edc352569e87..71211244f42f 100644
---- a/fs/f2fs/file.c
-+++ b/fs/f2fs/file.c
-@@ -1100,17 +1100,13 @@ static void __setattr_copy(struct mnt_idmap *idmap,
- 			   struct inode *inode, const struct iattr *attr)
- {
- 	unsigned int ia_valid = attr->ia_valid;
-+	struct iattr sattr = *attr;
- 
--	i_uid_update(idmap, attr, inode);
--	i_gid_update(idmap, attr, inode);
--	if (ia_valid & ATTR_ATIME)
--		inode_set_atime_to_ts(inode, attr->ia_atime);
--	if (ia_valid & ATTR_MTIME)
--		inode_set_mtime_to_ts(inode, attr->ia_mtime);
--	if (ia_valid & ATTR_CTIME)
--		inode_set_ctime_to_ts(inode, attr->ia_ctime);
-+	sattr.ia_valid &= ~ATTR_MODE;
-+
-+	setattr_copy(idmap, inode, &sattr);
- 	if (ia_valid & ATTR_MODE) {
--		umode_t mode = attr->ia_mode;
-+		umode_t mode = sattr.ia_mode;
- 
- 		if (!in_group_or_capable(idmap, inode, i_gid_into_vfsgid(idmap, inode)))
- 			mode &= ~S_ISGID;
-diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-index 1314b6ccced9..535666bfa50c 100644
---- a/fs/f2fs/super.c
-+++ b/fs/f2fs/super.c
-@@ -5699,7 +5699,7 @@ static struct file_system_type f2fs_fs_type = {
- 	.name		= "f2fs",
- 	.init_fs_context = f2fs_init_fs_context,
- 	.kill_sb	= kill_f2fs_super,
--	.fs_flags	= FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
-+	.fs_flags	= FS_REQUIRES_DEV | FS_ALLOW_IDMAP | FS_MGTIME,
- };
- MODULE_ALIAS_FS("f2fs");
- 
-
----
-base-commit: d5b6dc381db93ff2d1888f7d99c06e0bd85f4083
-change-id: 20260815-mgtime-f2fs-aa4a20da1c1b
-
-Best regards,
--- 
-Jeff Layton <jlayton@kernel.org>
-
+Thanks,
+Fred
