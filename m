@@ -1,168 +1,218 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2663AEF57
-	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 09:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A52B372ECA;
+	Mon, 12 Oct 2026 10:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791799086; cv=none; b=VyX88h1VfF3UEq01koUW4St31ZmR5Z06dRRicsjjUMK4ZWuW+Ekv3jc/eUcTjQrFJsuNOA8ViJgvyu6+WXp5EILDRZA5Mek0Dd8BJClykC8P2noITa05UK2N0+SCILJED5OsaUUA2GZFO3DjYoe37g5xsNw70+12Y7kYKx42jw0=
+	t=1791799538; cv=none; b=D4K+SfqZrNINr6ssw/CxgIJu/C4jahDyBoFcJ8cyyZUJqZP8Xq6TyvP/HvhKqkNLbn2+1enbFzoChsOYdK8/7bDDhxOoBalpGQDgD3CBBODITGepWfm4KHi8OFOPLEwwwiCrENCF4aDTJyBatC4xBNN4YhHUx3k9J2++PX/8pCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791799086; c=relaxed/simple;
-	bh=8okIb6HYVMsdy6+U5xUzJ+gBO/rOBVZ3zjrTun8vSUo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qh4CE7hfQInZkHSdkg55PPQGMEmt6JwMpHlXxPI9R8XzyojV1RLyGB22E7P+r69xcBa5Cy4tEwXl/Q8Mz6p8wEPxdJXA5MQmlxcDVLCwVlk50HMxAVIF3U726eL22PbN7xaMNLGjoXOWeYvW65YlOTbOYcRW7Nioa6ncBrAlrcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YV15JsIm; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791799538; c=relaxed/simple;
+	bh=wbf/unsUpddvcemFJWU2NI1acSCN6KRJR1ye7ZGjUDg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c339w3Uj10EP0PH4Ryq7UI0EdXa44BKM3WWuR4NTDFJp4O892wPyEfDIkUkskbTJl60q99kYFhZsDaYxjBfXbL4yWJ1y0BU9tHA8tEwPuLfSO4egP9fvRvShgS6MrUF9SKfVrg0ATWoBgaGaKA4M4bupNoV5Q37A6nS/uSqTKjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r1q0whWV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oDfm5WoF; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r1q0whWV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oDfm5WoF; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YV15JsIm"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6af9cc73235so1176774a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 02:58:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791799082; x=1792403882; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8okIb6HYVMsdy6+U5xUzJ+gBO/rOBVZ3zjrTun8vSUo=;
-        b=YV15JsImJ8S/3j9tPRykcGUsV1pFU1z//AAPJ8W8DZds3oRedH/iGnEoetHiMKpd11
-         257epQYEHNK0kwBj1UczJc0fBrrHJXxHo7/0i5U2eoaqcrAFqsAHFOYVtiqyOtmWa+BP
-         us0HV1Af/KdOTZNiRRYrqMEI1lFkEmPfww4Coo+bsSG60FcVfWewAPVJecI2fsNFR6Fk
-         bCRTGxjBPLF7NLZDzy+oD/04k2imQBlNRReXmZk4hvaB833rx3Mm/CArip1mWOXFrY0Z
-         GwhKuYbiIo1uSY9HsDk3e0zTAy7S+GmzdLVTkkeeTljnArjYiD2tvIH24hXWlzV/bltM
-         bNFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791799082; x=1792403882;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8okIb6HYVMsdy6+U5xUzJ+gBO/rOBVZ3zjrTun8vSUo=;
-        b=mQFPFgIi1wLxFXaHEaVTLQX7ZNIRALfKFY3ktwxQogL6HM+W+MtQGlLsziKtgzajAr
-         Ch0j9on6pIANrV807pyVknij+lFnm/RAhVqCE9E2rfi/woq/LuF16H9oTQM09fSCuqkS
-         db4pC5m7M4KVCx4sGbHLg+bCZFMoq7wxMieW0FeWK0Q/xiHhIBKHuyUaXBL4IMa3G2F7
-         drWVpWwM38Mut0HURp4/dlYHtW0JHI0gfuyHMWCdMaljGeaxawh3O/y0AuZzxgd00S8G
-         SWXuaL0xCq1GXzJD7U4Osz0lBNEcvyq6E45var9qg5U7C5BU6KpkBziLYCzxGoUF73VF
-         Gm2w==
-X-Forwarded-Encrypted: i=1; AKwUvByddfPlo7gNR8DqrCDHCw+L3mLcP2XVBsGQRT1ZBf6NaD7wuHxaWQf6TJBVUmPOqRZvD02vo45uoV7IVjYv@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ88xB4yuk7UlmjZP3OvsAic0n41Hqoy+okzborhPn+kyLmA7JF
-	9+jsuCpdjBUekH8SjoLpJuDE0XamQvxnu7+zFntBjZ88vKNTdzLQlghN
-X-Gm-Gg: AYBFou2cfgjgXHN8PgAoUgU7TCXnsR1uFejnfcVTWaZaU4ho+eS6ZhbpAFu0XWCz26Z
-	FYIIypq+G3IECrepzxbBQe3LakkLqa8NgF0Hegeyq9t32U3ZgqKT1jChkGHzZBAxiuESrUVQJBG
-	ac5/el8y5aRJJDe+lhuFvLu3r3dKERq9knT3kdOhqYeEoaPIDFgFYFfS9nLgau2nEB793Szxg/V
-	sH3kltwTwvgk0sENN8T/EzRHjutyKQ62/DAndY511EwG1DkAIHFm++r+5LlnD/IqBc690BtDjZi
-	EiHO8LpGMhn8YlE3vB/R4xSRYsjF0y+y/IJZOXt1FU5Te6m7spYf5ILbK2fivdiXERnSjHlPVjd
-	cXbsqTp11zJucmcWe0MbDAJEPsqRrW8/tjLIt5ntzPqqXb2+djqqBsh7ZbqmC3l8sN8TYnVx+BJ
-	GhVGYZH70XfXXwBehU+urNzAuvx3x6qLtBPvFKn3l1p1mKnVshYK/oAQ/IbNKwHoRGQUHjXqO9e
-	swbJXNMKlS/GHSh8u3yXr+JvlPaoYyn/pAS5AjaSWJzWYxU8U0yZB2T7GPkX6ixPUhagvVxn55E
-	LLcKnMBOVrXrR/Va+JYmV4tv59kwgslPTWk6rzSGiLet0A==
-X-Received: by 2002:a17:906:f59d:b0:c2a:b008:8cc0 with SMTP id a640c23a62f3a-c31a70e5566mr981263366b.28.1791799082342;
-        Mon, 12 Oct 2026 02:58:02 -0700 (PDT)
-Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b178d1605fsm4928885a12.2.2026.10.12.02.58.00
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Oct 2026 02:58:01 -0700 (PDT)
-From: Fred Griffoul <griffoul@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: David Woodhouse <dwmw2@infradead.org>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	iommu@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH 0/9] mm: Memory providers for guest_memfd and iommufd
-Date: Mon, 12 Oct 2026 09:58:00 +0000
-Message-ID: <20261012095800.50250-1-griffoul@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <yq5ald8680t2.fsf@kernel.org>
-References: <20260720111259.122911-1-dwmw2@infradead.org> <20261006183235.16576-1-griffoul@gmail.com> <yq5ald8680t2.fsf@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r1q0whWV";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oDfm5WoF";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r1q0whWV";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oDfm5WoF"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3A5E41F76C;
+	Mon, 12 Oct 2026 10:05:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791799534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I87OenGAaFJnkdPMc0Xbllbvz4ou1kPWUAGZPj9a3zA=;
+	b=r1q0whWVMl8ij6FoM8TFSzQ29tEvBKGilCKDf2s7GKOQBH9ojsmgGW8fEnGafxn0G7oegd
+	30Hkz3oe6lchrA7DnSGyz/goTqes+dhSABldmeAEutxExa+BY1j2GCw74hh7hYzPfFLfGK
+	XZXq+ndDB6c0DMYA5ujyrRQIBkdyBo8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791799534;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I87OenGAaFJnkdPMc0Xbllbvz4ou1kPWUAGZPj9a3zA=;
+	b=oDfm5WoFEyBhtLQb32f150ZS2FgTd3I4sGkIipKcBQeMshmC0V8JitB6yhcWDoUvztrrCh
+	HCC2ymsTaMsB8rBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791799534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I87OenGAaFJnkdPMc0Xbllbvz4ou1kPWUAGZPj9a3zA=;
+	b=r1q0whWVMl8ij6FoM8TFSzQ29tEvBKGilCKDf2s7GKOQBH9ojsmgGW8fEnGafxn0G7oegd
+	30Hkz3oe6lchrA7DnSGyz/goTqes+dhSABldmeAEutxExa+BY1j2GCw74hh7hYzPfFLfGK
+	XZXq+ndDB6c0DMYA5ujyrRQIBkdyBo8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791799534;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I87OenGAaFJnkdPMc0Xbllbvz4ou1kPWUAGZPj9a3zA=;
+	b=oDfm5WoFEyBhtLQb32f150ZS2FgTd3I4sGkIipKcBQeMshmC0V8JitB6yhcWDoUvztrrCh
+	HCC2ymsTaMsB8rBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11D4C13314;
+	Mon, 12 Oct 2026 10:05:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Bq/KOe2wzGphEgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 12 Oct 2026 10:05:34 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 9F8BFA1403; Mon, 12 Oct 2026 12:05:33 +0200 (CEST)
+Date: Mon, 12 Oct 2026 12:05:33 +0200
+From: Jan Kara <jack@suse.cz>
+To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Jens Axboe <axboe@kernel.dk>, Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+e0624b5bf72b99131402@syzkaller.appspotmail.com
+Subject: Re: [PATCH] mm/filemap: mark lockless accesses to mapping->nrpages
+Message-ID: <u6yseen7xlqfudkps37rizde44u4yhfiqsoe4vvse734fsgrg4@mdfdypi2xgd6>
+References: <20261011112940.455497-1-ngocthang2710.1999@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261011112940.455497-1-ngocthang2710.1999@gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[e0624b5bf72b99131402];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
 
-On Sat, Oct 10, 2026, Aneesh Kumar K.V wrote:
-> I have been working on something similar for confidential computing use
-> cases. There is likely some overlap between this series and what I posted
-> at [1].
->
-> I have not reviewed this series in detail yet, but I will compare the two
-> approaches and identify what can be shared between the use cases. Please
-> let me know how you would like to proceed.
->
-> [1] https://lore.kernel.org/all/20261010072504.536230-1-aneesh.kumar@kernel.org/
+On Sun 11-10-26 18:29:40, Nguyen Ngoc Thang wrote:
+> mapping->nrpages is updated under the i_pages lock but is read locklessly
+> as a cheap "anything cached?" hint, e.g. in invalidate_bdev() and
+> mapping_needs_writeback(). KCSAN reports the race:
+> 
+>   BUG: KCSAN: data-race in __filemap_add_folio / invalidate_bdev
+> 
+>   read-write to 0xffff8881004c4178 of 8 bytes by task 3600 on cpu 0:
+>    __filemap_add_folio+0x6b7/0x910 mm/filemap.c:919
+>    filemap_add_folio+0x1cd/0x380
+>    page_cache_ra_unbounded+0x1a4/0x3a0
+>    ...
+>    blkdev_read_iter+0x21e/0x2d0
+>   read to 0xffff8881004c4178 of 8 bytes by task 3601 on cpu 1:
+>    invalidate_bdev+0x25/0x70 block/bdev.c:98
+>    ext4_fill_super+0x2ccb/0x37b0
+> 
+> The same counter also races with filemap_write_and_wait_range() through
+> mapping_needs_writeback().
+> 
+> The race is benign: a stale value only makes the caller do or skip a
+> harmless invalidate/flush pass. Annotate the readers with READ_ONCE() and
+> the writers in filemap with WRITE_ONCE().
+> 
+> Reported-by: syzbot+e0624b5bf72b99131402@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=e0624b5bf72b99131402
+> Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
 
-Thanks for the pointer. I read your series, and Ackerley's resource fd
-RFC that it builds on. The use cases differ, but the interfaces overlap,
-and it would be good to agree on the common parts.
+I think in this case the proper fix is to annotate the problematic read
+with data_race() to silence the checker. As you mentioned there's no real
+bug to fix so no reason to convolute the code with READ_ONCE() and
+WRITE_ONCE().
 
-All three series add a flag and an fd to KVM_CREATE_GUEST_MEMFD. I
-think one resource_fd is enough, with guest_memfd picking the backend
-from the kind of file it gets. I am happy to drop provider_fd for
-Ackerley's flag and field. We also find the provider from the file in
-three different ways; I would like us to pick one, preferably without
-a registry.
+								Honza
 
-The main constraint on our side is that the provider stays the authority
-on which frame backs which page: it moves pages between VMs and has to
-survive a live update. What would not work for us is guest_memfd
-becoming the primary manager of PFN memory, as Ackerley suggests. Your
-get_pfn() leaves VFIO as the authority for the BAR, so I think we agree
-there.
-
-You refuse dma-buf exports while guest_memfd is attached. That is
-roughly what the memory provider interface is for: one owner, several
-users, and one revoke that reaches all of them. A BAR exposed as a
-provider file could be mapped by both guest_memfd and iommufd.
-
-I plan to change the revoke anyway, because iommufd must not leave the
-device with a hole: it should replace mappings in place instead of
-unmapping and remapping. Would that fit your case? I suspect it depends
-on locking, for example whether you have to revoke while holding
-memory_lock.
-
-Shared/private state and the conversion hooks would stay in
-guest_memfd and the arch code, as in your series.
-
-Does that sound reasonable? Ackerley, David, any thoughts?
-
-Thanks,
-Fred
+> ---
+>  block/bdev.c | 2 +-
+>  mm/filemap.c | 8 ++++----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/block/bdev.c b/block/bdev.c
+> index cd8323083740..d97071160e86 100644
+> --- a/block/bdev.c
+> +++ b/block/bdev.c
+> @@ -95,7 +95,7 @@ void invalidate_bdev(struct block_device *bdev)
+>  {
+>  	struct address_space *mapping = bdev->bd_mapping;
+>  
+> -	if (mapping->nrpages) {
+> +	if (READ_ONCE(mapping->nrpages)) {
+>  		invalidate_bh_lrus();
+>  		lru_add_drain_all();	/* make sure all lru add caches are flushed */
+>  		invalidate_mapping_pages(mapping, 0, -1);
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index 00fd89cf6f55..007fe10b2e1d 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -144,7 +144,7 @@ static void page_cache_delete(struct address_space *mapping,
+>  
+>  	folio->mapping = NULL;
+>  	/* Leave folio->index set: truncation lookup relies upon it */
+> -	mapping->nrpages -= nr;
+> +	WRITE_ONCE(mapping->nrpages, mapping->nrpages - nr);
+>  }
+>  
+>  static void filemap_unaccount_folio(struct address_space *mapping,
+> @@ -314,7 +314,7 @@ static void page_cache_delete_batch(struct address_space *mapping,
+>  		xas_store(&xas, NULL);
+>  		total_pages += folio_nr_pages(folio);
+>  	}
+> -	mapping->nrpages -= total_pages;
+> +	WRITE_ONCE(mapping->nrpages, mapping->nrpages - total_pages);
+>  }
+>  
+>  void delete_from_page_cache_batch(struct address_space *mapping,
+> @@ -631,7 +631,7 @@ EXPORT_SYMBOL(filemap_fdatawait_keep_errors);
+>  /* Returns true if writeback might be needed or already in progress. */
+>  static bool mapping_needs_writeback(struct address_space *mapping)
+>  {
+> -	return mapping->nrpages;
+> +	return READ_ONCE(mapping->nrpages);
+>  }
+>  
+>  bool filemap_range_has_writeback(struct address_space *mapping,
+> @@ -916,7 +916,7 @@ noinline int __filemap_add_folio(struct address_space *mapping,
+>  		if (xas_error(&xas))
+>  			goto unlock;
+>  
+> -		mapping->nrpages += nr;
+> +		WRITE_ONCE(mapping->nrpages, mapping->nrpages + nr);
+>  
+>  		/* hugetlb pages do not participate in page cache accounting */
+>  		if (!huge) {
+> -- 
+> 2.43.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
