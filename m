@@ -1,86 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F97476681;
-	Mon, 12 Oct 2026 14:03:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD19488231;
+	Mon, 12 Oct 2026 14:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791813828; cv=none; b=W/FeuzFUlPQ/SHe1yFiyFZ0N8jAjHGNfr6BGJISJ3mjs8sQmXkwehNN8HK+6XNo7cx0/H5SAK+T/ZbxRlVvznTN7Scs10/p6Ior3lyBVYAFU8vX++7akFnHJVCVSNr2aGAPtiSjmsBolFua804JELHNuXpdZwvtnm8nrsAcLUFs=
+	t=1791814288; cv=none; b=Kc06ALBPtZAmEagxnRuGYQe1iYOj/fW/uGxKxWolMleZpnJ/532FIUrPLYl+3IhQ11fQCCY/Bta1sPwUmiW51QQ4OxHL2Ei2hxNWPMfJeY3oWCK8hInzIuirnVmjyrrDrwvLmqkYzQggtC7gBYUJMlvUGfjLIe2PaHwX3Dfckkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791813828; c=relaxed/simple;
-	bh=+1QKd8Jr1KCnu4yXZZ3rmMeo9LPyc3brv++uan6aklA=;
+	s=arc-20240116; t=1791814288; c=relaxed/simple;
+	bh=O/sYz3hEDtYzWeOz8YVEvIUVPQJcn4FymHOI0/mQ3Os=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QIqK9L47uJroQZfJMGJdrwRNn6s6SP5lkh/UnbSMbdWwz0y+hehMaV6bd1TXcsFucN0v/p0wZF2xz1F460oLKEwky4EcZjdpYiXtPzBZlZyP+psfCDmSu+rHco7cATzX3CnUWS2vMALJmqcxqm4kThYmRPHm6WawmtXxXijzBzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WUQUmKbW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=O74MO2LT; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=YbZVSdZW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=19dypBJS; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=HTH3tqi0P7XffYd6TNafWZrKroflepXKi0XG8FMnrYyJexbrkcaoDJEpzzQJg3EDx1j7NNMZi/Jn+fs/bf5qdPCvEIMEWjflB1LrSUOGYI3P26FOsnT/WErI9kTGjN1gPdV1VhvENMo5Px1VJMqL+6b2gOgDEXx8QbISJlDbIys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Q/ItDqlP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=LRIAU1qp; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Q/ItDqlP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=LRIAU1qp; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WUQUmKbW";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="O74MO2LT";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="YbZVSdZW";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="19dypBJS"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Q/ItDqlP";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="LRIAU1qp";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Q/ItDqlP";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="LRIAU1qp"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0742F21DF9;
-	Mon, 12 Oct 2026 14:03:44 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F38631F38C;
+	Mon, 12 Oct 2026 14:11:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791813825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791814284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UMuzhFir/rTUnCzgemgYrRCOBUti0kDEikdV99mQG8c=;
-	b=WUQUmKbWymjU5N8nE7wanBZv2alOdU7ykNv63GK+IgKkTXzEz4ldstZDu/0WKLlzZPVj2J
-	dH+EvOwJdvtB02cJzXWe7KLUlL2OH4svy6Juf20hH1MtWrCsDlOGmrC/KTpBfNRdKyS3UD
-	Vu6hadmfEylax0a+9VPqHXYrQ4Wp25M=
+	bh=DPswPjxS+qpu6i6zUA1Kx2e7xk6K1phiFUxlGK+8LzY=;
+	b=Q/ItDqlP4+w6WAkwfX1k0X6ujm7G5QavPCe48S224sz6BsucbPMJNtLmPOqv7Iw1sey5dp
+	HztsPyQnoX2GdkoGZJjnTzxEzFj1wb6Q9Ul4k04zOj38m0UWtk/PDuaFk9ML5xEJUxkqxc
+	qXo4ZqYGAGyU1KkQ1CnYcNqJ7pdJz+s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791813825;
+	s=susede2_ed25519; t=1791814284;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UMuzhFir/rTUnCzgemgYrRCOBUti0kDEikdV99mQG8c=;
-	b=O74MO2LTqvjcm1xeNuhTSHKU+WrcrAbZeW3ymwtxg0i4V4jbP0g4AFm5sLinQqKAXO8i2E
-	2Cxwo//YcA3z+xDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=DPswPjxS+qpu6i6zUA1Kx2e7xk6K1phiFUxlGK+8LzY=;
+	b=LRIAU1qpo+jKKhvV0DnAfTof5Tws0j22vsCLRZkQC8mjOBkp6Z2hipd8JsI89ugai94uMv
+	zISIs3YOUTzdbABQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="Q/ItDqlP";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=LRIAU1qp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791813824; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791814284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UMuzhFir/rTUnCzgemgYrRCOBUti0kDEikdV99mQG8c=;
-	b=YbZVSdZWDuxFHB4kSACBLFcxZxglS99yIYXCsx9LpR7PwmvButO4kzu0H+6SMMbcGDP6dX
-	Q7VfPs/DgwNlU1seSl93K2cb5sXXgBpUn7lHWIrGAa3l/SlhLJGeXF5HcOm0adLHYB827K
-	t4jP7pKsB7pWUjEb5cZJEOne3YdRzAo=
+	bh=DPswPjxS+qpu6i6zUA1Kx2e7xk6K1phiFUxlGK+8LzY=;
+	b=Q/ItDqlP4+w6WAkwfX1k0X6ujm7G5QavPCe48S224sz6BsucbPMJNtLmPOqv7Iw1sey5dp
+	HztsPyQnoX2GdkoGZJjnTzxEzFj1wb6Q9Ul4k04zOj38m0UWtk/PDuaFk9ML5xEJUxkqxc
+	qXo4ZqYGAGyU1KkQ1CnYcNqJ7pdJz+s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791813824;
+	s=susede2_ed25519; t=1791814284;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UMuzhFir/rTUnCzgemgYrRCOBUti0kDEikdV99mQG8c=;
-	b=19dypBJSpSB8VpG9k68dspCu59qOZsosN9V46nHSXiwCSa0QOalR3rHZKiHUIfwEsHsX7U
-	+/pNDnqubKp7WWAg==
+	bh=DPswPjxS+qpu6i6zUA1Kx2e7xk6K1phiFUxlGK+8LzY=;
+	b=LRIAU1qpo+jKKhvV0DnAfTof5Tws0j22vsCLRZkQC8mjOBkp6Z2hipd8JsI89ugai94uMv
+	zISIs3YOUTzdbABQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF9EA13314;
-	Mon, 12 Oct 2026 14:03:43 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA4DB13314;
+	Mon, 12 Oct 2026 14:11:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1E/GIb/ozGo8GAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 12 Oct 2026 14:03:43 +0000
+	id mJoYKYvqzGrFHwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 12 Oct 2026 14:11:23 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 3B7BEA1407; Mon, 12 Oct 2026 16:03:39 +0200 (CEST)
-Date: Mon, 12 Oct 2026 16:03:39 +0200
+	id 55267A1407; Mon, 12 Oct 2026 16:11:23 +0200 (CEST)
+Date: Mon, 12 Oct 2026 16:11:23 +0200
 From: Jan Kara <jack@suse.cz>
 To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+Cc: axboe@kernel.dk, willy@infradead.org, jack@suse.cz, 
+	akpm@linux-foundation.org, linux-block@vger.kernel.org, linux-mm@kvack.org, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot+1cfd29c242c7cd26da02@syzkaller.appspotmail.com
-Subject: Re: [PATCH] fs/dcache: annotate the lockless d_unhashed() check in
- retain_dentry()
-Message-ID: <xfg44tmmmuse7snjoqhreqbkvlny2vyrrqh5jtvame3mw5ycby@jxrrtmsfl66l>
-References: <20261012132218.106771-1-ngocthang2710.1999@gmail.com>
+	syzbot+e0624b5bf72b99131402@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] mm/filemap: annotate lockless reads of
+ mapping->nrpages
+Message-ID: <zzneb5ezerl2353crj7xzivjbpdv5vgvqqvxkbvg77nwhdmldn@fenjftsskl34>
+References: <20261012120636.16106-1-ngocthang2710.1999@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,109 +91,90 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261012132218.106771-1-ngocthang2710.1999@gmail.com>
-X-Spamd-Result: default: False [-2.30 / 50.00];
+In-Reply-To: <20261012120636.16106-1-ngocthang2710.1999@gmail.com>
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: F38631F38C
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[1cfd29c242c7cd26da02];
-	MISSING_XM_UA(0.00)[];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[gmail.com];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo,appspotmail.com:email]
-X-Spam-Score: -2.30
-X-Spam-Level: 
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[e0624b5bf72b99131402];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,syzkaller.appspot.com:url,appspotmail.com:email,suse.cz:dkim]
 X-Spam-Flag: NO
+X-Spam-Score: -2.51
 
-On Mon 12-10-26 20:22:18, Nguyen Ngoc Thang wrote:
-> KCSAN reports a data race between __d_drop() clearing d_hash.pprev
-> and the d_unhashed() test in retain_dentry(), reached from fast_dput()
-> without ->d_lock held:
+On Mon 12-10-26 19:06:36, Nguyen Ngoc Thang wrote:
+> mapping->nrpages is updated under the i_pages lock but is read locklessly
+> as a cheap "anything cached?" hint, e.g. in invalidate_bdev() and
+> mapping_needs_writeback(). KCSAN reports the race:
 > 
->   BUG: KCSAN: data-race in dentry_kill / fast_dput
+>   BUG: KCSAN: data-race in __filemap_add_folio / invalidate_bdev
 > 
->   write to 0xffff888107394e50 of 8 bytes by task 3667 on cpu 0:
->    __d_drop fs/dcache.c:578 [inline]
->    dentry_kill+0x139/0x500 fs/dcache.c:824
->    finish_dput+0x16/0x1d0 fs/dcache.c:1001
->    dput+0x48/0x50 fs/dcache.c:1042
->    lookup_one_qstr_excl+0x156/0x240
->    filename_unlinkat+0x149/0x410
+>   read-write to 0xffff8881004c4178 of 8 bytes by task 3600 on cpu 0:
+>    __filemap_add_folio+0x6b7/0x910 mm/filemap.c:919
+>    filemap_add_folio+0x1cd/0x380
+>    page_cache_ra_unbounded+0x1a4/0x3a0
+>    ...
+>    blkdev_read_iter+0x21e/0x2d0
+>   read to 0xffff8881004c4178 of 8 bytes by task 3601 on cpu 1:
+>    invalidate_bdev+0x25/0x70 block/bdev.c:98
+>    ext4_fill_super+0x2ccb/0x37b0
 > 
->   read to 0xffff888107394e50 of 8 bytes by task 3668 on cpu 1:
->    hlist_bl_unhashed include/linux/list_bl.h:54 [inline]
->    d_unhashed include/linux/dcache.h:396 [inline]
->    retain_dentry fs/dcache.c:872 [inline]
->    fast_dput+0x64/0x300 fs/dcache.c:971
->    dput+0x1f/0x50 fs/dcache.c:1040
->    handle_mounts fs/namei.c:1753 [inline]
->    step_into_slowpath+0x38c/0x4c0 fs/namei.c:2104
->    path_lookupat+0x2eb/0x4c0
->    do_readlinkat+0x74/0x2f0
+> The same counter also races with filemap_write_and_wait_range() through
+> mapping_needs_writeback().
 > 
->   value changed: 0xffff8882376dc230 -> 0x0000000000000000
+> The race is benign: a stale value only makes the caller do or skip a
+> harmless invalidate/flush pass. Mark the two lockless readers with
+> data_race().
 > 
-> The race is intentional. As the comment above retain_dentry() says,
-> without ->d_lock the predicates are not stable, and it is enough that
-> the dentry was hashed at some point after the reference was dropped.
-> If the lockless reader sees a stale "hashed" value, the dentry is kept
-> with a zero refcount, exactly as if it had been dropped just after the
-> check. If it sees "unhashed", it takes ->d_lock and rechecks. A single
-> aligned pointer load cannot tear, so neither outcome is harmful.
-> 
-> Mark the read with data_race() to document this and silence KCSAN.
-> No functional change.
-> 
-> Reproduced with the syzbot C reproducer on a KCSAN kernel in QEMU;
-> with this patch the dentry_kill race no longer shows up.
-> 
-> Reported-by: syzbot+1cfd29c242c7cd26da02@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=1cfd29c242c7cd26da02
+> Reported-by: syzbot+e0624b5bf72b99131402@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=e0624b5bf72b99131402
 > Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
 
-Looks good. Feel free to add:
+...
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index 00fd89cf6f55..4c9d98efb7fb 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -631,7 +631,8 @@ EXPORT_SYMBOL(filemap_fdatawait_keep_errors);
+>  /* Returns true if writeback might be needed or already in progress. */
+>  static bool mapping_needs_writeback(struct address_space *mapping)
+>  {
+> -	return mapping->nrpages;
+> +	/* Lockless hint; a stale value is harmless */
+> +	return data_race(mapping->nrpages);
+>  }
+
+Rather than annotating inside mapping_needs_writeback() it would be more
+future-proof to annotate the two callers of mapping_needs_writeback(). Just
+in case some user which require reliable answer appears in the future...
 
 								Honza
-
-> ---
->  fs/dcache.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index 1b1a81f10da6..3eb3d7e7ab0f 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -868,8 +868,9 @@ static inline bool retain_dentry(struct dentry *dentry, bool locked)
->  	smp_rmb();
->  	d_flags = READ_ONCE(dentry->d_flags);
->  
-> -	// Unreachable? Nobody would be able to look it up, no point retaining
-> -	if (unlikely(d_unhashed(dentry)))
-> +	// Unreachable? Nobody would be able to look it up, no point retaining.
-> +	// Racy when !locked: a stale answer only costs a recheck under ->d_lock.
-> +	if (unlikely(data_race(d_unhashed(dentry))))
->  		return false;
->  
->  	// Same if it's disconnected
-> -- 
-> 2.43.0
-> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
