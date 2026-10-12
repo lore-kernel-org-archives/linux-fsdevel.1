@@ -1,80 +1,80 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6301446C00
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9FD945561F
 	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 08:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791793462; cv=none; b=BruPNrABId6pL91DHwVfSIp4DTuPzxAseNffbImnppJaZpGOFnpJApw/F3rkA33lirP+C9SU6oYeus+PxP7gOBQiE9NJNiAjwFRz7mreqgKguRtbupfG+BqFRvzK6tjoxx710K03uY7smEzDi+bS96K6vd0OEU1BgWggnsUtNVo=
+	t=1791793462; cv=none; b=EcDY+gXdtGZiJMN4mP51UrgQAW/lMnj8zi7c261SsOeHe5MFDa+pRYtUt7qznQsPzLr2HTLSM4D0jElXKB/1f0XGJ5Zf+4fyAeiCCj8U2WiKP0n36oQZQplPL9Y1xReYe8AzxjQIgQ+6hzINHxYVth2u2X0OzjlHbZz97JdiYx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791793462; c=relaxed/simple;
-	bh=doSl7XwBgbwlZmLOj7HhzP4E5NF4QH+660GbTlfCOcI=;
+	bh=d6RTrZqOsmBiZSZBOPWADpBUu0F0HDD/dqVc8x8OZsM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZLhGAip10kqWzG0kUEmQYZ/rgj0lIq16NG5HQ4bxQsDY0xQOQ+34Gsbr5reKg5Xk3otjV2iEN6L+HfCpsmFvBroo6/SIK7vIHKIPnvBqGEBkoeH7AzhlfPbnBgAHWatKfcOcEOqdHz9A2+Fv7kjDUMxstKcYFOKThNw4aZkUrfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=h6gjn1W+; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=5SkmMt+b; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=nEffw800; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lzZ7p/zC; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=s4qA4CKhRuEr6hrUNnL73N/X1mJiati5tox9UmIuREHKYnvqq4Xn6DJkdDYg9KQOz5hZita0P7/LfyoWgf3+KCsGj0Lk41MpcRdO6aiz9JBoYwkY9kUa5AsMWjW5FGiL0wPrV/Nfbrf7knz91zBN5vDr63/tWriWGW1JISWoSPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qvDVF15N; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vSr5ozHQ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pysYaX8M; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vHD6COSv; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="h6gjn1W+";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="5SkmMt+b";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="nEffw800";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lzZ7p/zC"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qvDVF15N";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vSr5ozHQ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pysYaX8M";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vHD6COSv"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8A5D41F45A;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5E87421E42;
 	Mon, 12 Oct 2026 08:24:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1791793453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vi+bzvsD8E4CJNzOzEeUuEWE3GljGIIRGGXMdCc2Rjw=;
-	b=h6gjn1W+tzK6MQnnGa2c/NKUA+tn0Nol4a/1+1ALRaG/ocg4Q+zbQSlu++EIqeCEQR0SVf
-	iHgrES4j9xrH2tozw2GKB/Ld3i/9phH8QrQkheyNI9z61Xlg8clzI0TYVCDg0/0fAx9p4X
-	04Oq2rKHJSZhG3jObrYVyFgUxki1PKA=
+	bh=ZHWbgu64pLD0+xvhyv4KhWKAJx188AU2QWrTMPK7LuY=;
+	b=qvDVF15NXIQ8G55kRk6DSQcgciYQDNmn7zIEqo7MKzUdpr1UT5EPr1qfdTRtdHedTMpadv
+	RYl7VKWkjM6KwTpFWFH9JOkKLli4hQMZGUlT58D+i3KASEvPXgGa3j5E+WRwt8AaMHvQlR
+	RKwwdLtHn/fvj9f+A7ey2n+W85dAmF4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1791793453;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vi+bzvsD8E4CJNzOzEeUuEWE3GljGIIRGGXMdCc2Rjw=;
-	b=5SkmMt+bgAYS7QknQJNX0vhiLXUIHmhRVMEpzXyhcAZcRsbyYFa5gRGte20vs6/tsgjbWt
-	kzLQSLoBLdSViBAQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=ZHWbgu64pLD0+xvhyv4KhWKAJx188AU2QWrTMPK7LuY=;
+	b=vSr5ozHQVOWN7fE2pyqnsMkKlPvjbaAoeNIjWSbLL2TNdBH22+F1e/HVQxZmbFCPeXOPmY
+	8Ac5voqrKaIr+mDg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1791793452; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vi+bzvsD8E4CJNzOzEeUuEWE3GljGIIRGGXMdCc2Rjw=;
-	b=nEffw800uNSgigZqhvwVWqtqkwmsKqXlU31fGKOp5muBF1W53CEIpD3c1TG4Fz5NN9eS1K
-	k+vg2c0mfrBnS8yxYJsWqDgWIeaykVTjqV6ZFQHldMeyalZpqu+XzyHeC52b5fBsxsxTKB
-	z9AohqBo5Iu0360HaW0VdP2wzg8N13I=
+	bh=ZHWbgu64pLD0+xvhyv4KhWKAJx188AU2QWrTMPK7LuY=;
+	b=pysYaX8MLaN8LbiceERPwzei89iXF4Bc32asLKfzGrk9Mdaj3eCanh6pIKvEAD7Xz3C/cG
+	y905oRTXh2uoNNMnmIyq52EjbjuRxqb8p+CAi3oLQ/Y3Iq1xNcnxwb/PYK6h8uurGSAZU2
+	AmjTmJZ51UUWryDdS7ulHl+/DyY7RbA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1791793452;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vi+bzvsD8E4CJNzOzEeUuEWE3GljGIIRGGXMdCc2Rjw=;
-	b=lzZ7p/zCddCJlhXvIBy1bfa5kLdDLZhYy96xX5qdwEDK3OLbowD/9ok0vNUDMryyeli+sr
-	SfPH3WvjXTqEwrCQ==
+	bh=ZHWbgu64pLD0+xvhyv4KhWKAJx188AU2QWrTMPK7LuY=;
+	b=vHD6COSvjtAwd+4IpaWKPcgT807gGZWWIKaOO/wzuuJ9yJGgw/lhH+6Pq8Nwd8NmSNdEmz
+	P4K3bfEN5a9DFiBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8F91139B1;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA3FE139B0;
 	Mon, 12 Oct 2026 08:24:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dyj/LSuZzGocHwAAD6G6ig
+	id 99zuKSuZzGoaHwAAD6G6ig
 	(envelope-from <jack@suse.cz>); Mon, 12 Oct 2026 08:24:11 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id B04A1A140F; Mon, 12 Oct 2026 10:24:10 +0200 (CEST)
+	id AB75FA140E; Mon, 12 Oct 2026 10:24:10 +0200 (CEST)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: <linux-mm@kvack.org>,
@@ -83,9 +83,9 @@ Cc: <linux-mm@kvack.org>,
 	Mikhail Rudenko <xyzzy@yandex-team.ru>,
 	Andreas Gruenbacher <agruenba@redhat.com>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH 7/7] ext4: Defer inode reclaim if it has preallocations
-Date: Mon, 12 Oct 2026 10:23:45 +0200
-Message-ID: <20261012082356.3121725-14-jack@suse.cz>
+Subject: [PATCH 6/7] fs: Protect deferred inode reclaim from freezing
+Date: Mon, 12 Oct 2026 10:23:44 +0200
+Message-ID: <20261012082356.3121725-13-jack@suse.cz>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20261009133253.20102-1-jack@suse.cz>
 References: <20261009133253.20102-1-jack@suse.cz>
@@ -95,12 +95,9 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1087; i=jack@suse.cz; h=from:subject; bh=doSl7XwBgbwlZmLOj7HhzP4E5NF4QH+660GbTlfCOcI=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBqzJkiIqTi8A+6iwev57YKHpZUBj+QsAzBktcnM fhmESSEi3yJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCasyZIgAKCRCcnaoHP2RA 2UbvCACmwzIBozO5WKYTaTXpO6JD5I3fOaNymfLjuJyLLcn+ebh4Z5Kz7UMrfCe5D6z626IhBKQ ov9yEysLY/Oi0rQiNJxjRO4kmzS+YtSlCQhRGccNgD7h4jya0ATD+efjtQFctvuIYNVbdF7PyPW tBYzXFKRA1yQ5U323We31ZH68mMegT1lzDF8CPtdVQ9U5KqLmlFh2eXQYU82WmyjSqXApa4Lpvq vjIhUXiwtE3I4JfnI8dZiXJlEYN8n4PZN5gE8dKxmKENXAkyn2zEEC4mIv8RJ+SsX536qXXe11A RVDPrMbJh2WrsbTYdu76WTpRaVumBM+RdG13pJBdlqosE3Q2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8054; i=jack@suse.cz; h=from:subject; bh=d6RTrZqOsmBiZSZBOPWADpBUu0F0HDD/dqVc8x8OZsM=; b=owGbwMvMwME4Z+4qdvsUh5uMp9WSGLLOzFQUYOcyZTwp717/blc4r7P/vAmf1jJbvuDg9mVfb aAub3u6k9GYhYGRg0FWTJFldeRF7WvzjLq2hmrIwAxiZQKZwsDFKQAT2cjK/k+lw3miq9J5ySb/ yt39hoskJikeumXRvk/BxrBGNu5YX8OGCYc4Q6fGhYklGKyJbSy7Mll3+letvfs3H+nav73qe56 9kulNhcdbRB702jjJu6xuXjat0GbJ+V/lVkYr9x+vPHRqheid4qITJSva5fr9bE70xcYUddblsM jpM/0vcdz79+UVK/MLrnOzDpvskHFTdpFR8ZY3v+6gIC918/e5KZ5X5rRu4Egsj95Rz+QlY3xV4 MOPesN+u5ULvio98Vsrl2q0xc1SsPbco7XWOwp57i2bZ35t3nt/nZbiWbc9pl7/Jj/B3P2R60Lu 53Os7+042lXn1rJjDquW9X1h+S8pffluBu0VYtUBbeelAQ==
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -119,36 +116,236 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email]
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-When we have to free preallocations during inode eviction, we need to
-load block bitmaps and run transaction to modify them. This takes time
-and also requires GFP_NOFAIL allocations. Mark inodes with preallocated
-blocks as needing offloading of inode reclaim to a workqueue so that we
-don't block reclaim for long and potentially deadlock MM subsystem.
+Sometimes inode reclaim needs writing to the filesystem. One prominent
+case is when inode is unlinked and we are deleting it, another case is
+when XFS needs to trim its speculative block preallocation. When inode
+reclaim runs on frozen filesystem, this will block the deferred inode
+reclaim worker so eventually all deferred inode reclaim could be stalled
+in the system because all workers are waiting for some filesystem to
+thaw.
+
+Avoid this problem by protecting running deferred inode reclaim from
+filesystem freezing (the SB_FREEZE_INTWRITE level) and by just skipping
+starting new deferred inode reclaim for inodes on frozen filesystem.
 
 Signed-off-by: Jan Kara <jack@suse.cz>
 ---
- fs/ext4/mballoc.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ fs/inode.c                     | 89 ++++++++++++++++++++++++++++------
+ fs/super.c                     | 14 ++++++
+ include/linux/fs/super.h       |  1 +
+ include/linux/fs/super_types.h |  2 +
+ 4 files changed, 90 insertions(+), 16 deletions(-)
 
-diff --git a/fs/ext4/mballoc.c b/fs/ext4/mballoc.c
-index 06171a11db12..4891f252105e 100644
---- a/fs/ext4/mballoc.c
-+++ b/fs/ext4/mballoc.c
-@@ -3115,6 +3115,13 @@ ext4_mb_regular_allocator(struct ext4_allocation_context *ac)
- 	if (ac->ac_prefetch_nr)
- 		ext4_mb_prefetch_fini(sb, ac->ac_prefetch_grp, ac->ac_prefetch_nr);
+diff --git a/fs/inode.c b/fs/inode.c
+index 2d2fc3ce518c..558af042a913 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -1022,20 +1022,11 @@ static int get_deferred_sb_id(struct super_block *sb)
+ 	return hash_ptr(sb, 32) % deferred_reclaim.workers;
+ }
+ 
+-static void queue_deferred_reclaim(struct super_block *sb, int count,
+-				   struct list_head *list)
++void wake_deferred_reclaim_workers(struct super_block *sb, int count)
+ {
+ 	int id = get_deferred_sb_id(sb);
+-	struct deferred_reclaim_queue *queue =
+-					&deferred_reclaim.queues[id];
+ 	int i, wake_count;
+ 
+-	spin_lock(&queue->lock);
+-	list_splice_tail(list, &queue->list);
+-	atomic_add(count, &sb->s_deferred_reclaim_count);
+-	spin_unlock(&queue->lock);
+-
+-	/* Queue works to process inodes we've added to the list */
+ 	wake_count = DIV_ROUND_UP(count, INODE_RECLAIM_BATCH_SIZE);
+ 	if (wake_count > deferred_reclaim.workers)
+ 		wake_count = deferred_reclaim.workers;
+@@ -1046,6 +1037,28 @@ static void queue_deferred_reclaim(struct super_block *sb, int count,
+ 	}
+ }
+ 
++static void queue_deferred_reclaim(struct super_block *sb, int count,
++				   struct list_head *list)
++{
++	int id = get_deferred_sb_id(sb);
++	struct deferred_reclaim_queue *queue =
++					&deferred_reclaim.queues[id];
++
++	spin_lock(&queue->lock);
++	list_splice_tail(list, &queue->list);
++	atomic_add(count, &sb->s_deferred_reclaim_count);
++	spin_unlock(&queue->lock);
++
++	/*
++	 * Skip waking up workers for frozen filesystem. They'd skip the inodes
++	 * anyway.
++	 */
++	if (atomic_read(&sb->s_deferred_reclaim_running) < 0)
++		return;
++
++	wake_deferred_reclaim_workers(sb, count);
++}
++
+ /*
+  * Walk the superblock inode LRU for freeable inodes and attempt to free them.
+  * This is called from the superblock shrinker function with a number of inodes
+@@ -1084,18 +1097,24 @@ static void __get_inode_reclaim_batch(int *start, int end,
+ 	for (i = *start; i < end; i++) {
+ 		struct deferred_reclaim_queue *queue =
+ 						&deferred_reclaim.queues[i];
+-		struct list_head *entry, tmp;
++		struct inode *inode, *next;
+ 
+ 		if (list_empty_careful(&queue->list))
+ 			continue;
+ 		spin_lock(&queue->lock);
+-		list_for_each(entry, &queue->list) {
+-			if (*count >= INODE_RECLAIM_BATCH_SIZE)
++		list_for_each_entry_safe(inode, next, &queue->list, i_lru) {
++			/*
++			 * Skip inodes on frozen fs as we'd likely block. We
++			 * always accept inodes from read-only fs as there
++			 * eviction cannot require writing.
++			 */
++			if (!sb_rdonly(inode->i_sb) &&
++			    inode->i_sb->s_writers.frozen != SB_UNFROZEN)
++				continue;
++			list_move_tail(&inode->i_lru, list);
++			if (++(*count) >= INODE_RECLAIM_BATCH_SIZE)
+ 				break;
+-			(*count)++;
+ 		}
+-		list_cut_before(&tmp, &queue->list, entry);
+-		list_splice_tail(&tmp, list);
+ 		spin_unlock(&queue->lock);
+ 		if (*count >= INODE_RECLAIM_BATCH_SIZE)
+ 			break;
+@@ -1147,6 +1166,35 @@ static void inode_reclaim_update_stat(struct super_block *sb, unsigned int n,
+ 		wake_up_var(&sb->s_deferred_reclaim_count);
+ }
+ 
++/* Put inodes from sb back to reclaim queue */
++static void inode_reclaim_skip_inodes(struct list_head *list,
++				      struct super_block *sb)
++{
++	struct inode *inode;
++	struct deferred_reclaim_queue *queue;
++	struct list_head tmp;
++
++	queue = &deferred_reclaim.queues[get_deferred_sb_id(sb)];
++	list_for_each_entry(inode, list, i_lru)
++		if (inode->i_sb != sb)
++			break;
++	list_cut_before(&tmp, list, &inode->i_lru);
++	spin_lock(&queue->lock);
++	list_splice_tail(&tmp, &queue->list);
++	spin_unlock(&queue->lock);
++}
++
++static bool sb_deferred_reclaim_get(struct super_block *sb)
++{
++	return atomic_inc_unless_negative(&sb->s_deferred_reclaim_running);
++}
++
++static void sb_deferred_reclaim_put(struct super_block *sb)
++{
++	if (sb && atomic_dec_and_test(&sb->s_deferred_reclaim_running))
++		wake_up_var(&sb->s_deferred_reclaim_running);
++}
++
+ static void inode_reclaim_deferred(struct work_struct *work)
+ {
+ 	struct inode *inode;
+@@ -1176,10 +1224,18 @@ static void inode_reclaim_deferred(struct work_struct *work)
+ 						 i_lru);
+ 			if (inode->i_sb != sb) {
+ 				inode_reclaim_update_stat(sb, count, start);
++				sb_deferred_reclaim_put(sb);
+ 
+ 				sb = inode->i_sb;
+ 				count = 0;
+ 				start = ktime_get_ns();
++				/* Protect us from filesystem freezing */
++				if (!sb_deferred_reclaim_get(sb)) {
++					inode_reclaim_skip_inodes(&inode_batch,
++								  sb);
++					sb = NULL;
++					continue;
++				}
+ 			}
+ 			count++;
+ 			list_del_init(&inode->i_lru);
+@@ -1188,6 +1244,7 @@ static void inode_reclaim_deferred(struct work_struct *work)
+ 		}
+ 
+ 		inode_reclaim_update_stat(sb, count, start);
++		sb_deferred_reclaim_put(sb);
+ 	}
+ }
+ 
+diff --git a/fs/super.c b/fs/super.c
+index fc845079b3df..319a20bad45e 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -2308,6 +2308,16 @@ int freeze_super(struct super_block *sb, enum freeze_holder who, const void *fre
+ 		return ret;
+ 	}
  
 +	/*
-+	 * Freeing preallocations requires loading bitmaps and running
-+	 * transactions. Defer inode reclaim to a workqueue.
++	 * Block deferred reclaim so that workers don't hang on frozen fs. We
++	 * wait for outstanding deferred reclaim here. Because the filesystem
++	 * is already partially frozen, workers will not start new deferred
++	 * reclaim for this sb.
 +	 */
-+	if (!RB_EMPTY_ROOT(&EXT4_I(ac->ac_inode)->i_prealloc_node))
-+		mark_inode_reclaim_deferred(ac->ac_inode);
++	while (atomic_cmpxchg(&sb->s_deferred_reclaim_running, 0, -1))
++		wait_var_event(&sb->s_deferred_reclaim_running,
++			atomic_read(&sb->s_deferred_reclaim_running) == 0);
 +
- 	return err;
- }
+ 	/* Now wait for internal filesystem counter */
+ 	sb->s_writers.frozen = SB_FREEZE_FS;
+ 	sb_wait_write(sb, SB_FREEZE_FS);
+@@ -2388,6 +2398,10 @@ static int thaw_super_locked(struct super_block *sb, enum freeze_holder who,
+ 	sb->s_writers.freeze_owner = NULL;
+ 	wake_up_var(&sb->s_writers.frozen);
+ 	sb_freeze_unlock(sb, SB_FREEZE_FS);
++	/* Unblock deferred inode reclaim and wake workers */
++	atomic_set(&sb->s_deferred_reclaim_running, 0);
++	wake_deferred_reclaim_workers(sb,
++		atomic_read(&sb->s_deferred_reclaim_count));
+ out_deactivate:
+ 	deactivate_locked_super(sb);
+ 	return 0;
+diff --git a/include/linux/fs/super.h b/include/linux/fs/super.h
+index 733d439f01ed..b4aabcf203f8 100644
+--- a/include/linux/fs/super.h
++++ b/include/linux/fs/super.h
+@@ -235,6 +235,7 @@ int freeze_super(struct super_block *super, enum freeze_holder who,
+ int thaw_super(struct super_block *super, enum freeze_holder who,
+ 	       const void *freeze_owner);
+ 
++void wake_deferred_reclaim_workers(struct super_block *sb, int count);
+ int sb_init_dio_done_wq(struct super_block *sb);
+ 
+ struct file;
+diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
+index 6db5df6fd35f..f92ddf8397a6 100644
+--- a/include/linux/fs/super_types.h
++++ b/include/linux/fs/super_types.h
+@@ -234,6 +234,8 @@ struct super_block {
+ 
+ 	/* Number of inodes queued for deferred reclaim */
+ 	atomic_t				s_deferred_reclaim_count;
++	/* Number of inodes currently undergoing direct reclaim */
++	atomic_t				s_deferred_reclaim_running;
+ 	/* Average time to reclaim one deferred inode */
+ 	u64					s_deferred_reclaim_delay;
  
 -- 
 2.51.0
