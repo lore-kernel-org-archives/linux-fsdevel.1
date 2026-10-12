@@ -1,98 +1,130 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E67E2F8E98;
-	Mon, 12 Oct 2026 06:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5746A437107
+	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 06:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791784999; cv=none; b=oqfAn0W00xzc/CwPD/Zv5En5eqbxI3fBXvCMH9tVdsW0tNp4nhoT9YExjUQsOFCAgVeKJBYzPf0AE7bY2vUJxW+2lkXZqceISzHzhQnRZBX36SmyKM1b2RUN9WTR93QYza6ng7cYLfp8yaznelc45H1s6LHQm8JHIiKAcpF8O8w=
+	t=1791788138; cv=none; b=WZxOWYpMbDzUmg2ynPFicXOUNg4By0y//tRqaKSlA1o1B/8eb/c37pH7VJh3iTzZqWKWSXvhJi9qWdW4wzvtQ11NtpUgnNhDSFHnSwiLJzToi3e8WFlFJ0uzUSTyN43BOr5us5vfYxBN0UqUDtR0Ulrij2EZGYizaMmrZYSSNWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791784999; c=relaxed/simple;
-	bh=e/TewaTiF6EcG1AXZE9pKEnPUE8+0RLucAw4agDXg3o=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Q+6R0E8DpSotjmlkSn9o+NKlYtjcQt4h+Ldu6IePO+RsmW4Ub5erNhvCH607s6cF6DN6F24ecFk3CTdwxfAvowJ0xyvYIPP70Agcyql0ZULJmaH3px7fIKZOQ4L3D/CifRmCZ5qfuIi70SfqbMfT5KeHmyzl456wSdUWIvN66js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=2dHLSujQ; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=I2rRky5g; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	s=arc-20240116; t=1791788138; c=relaxed/simple;
+	bh=NEFbbYwMlEdUbHxTICN0UrosG/K/dEi17kI/baQmbEM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FhZ5zfktzh9qvCWToLh4WTyFCGozF4HqAYYaQOtODouVhnyH09MJ99vTCzr39rreJmr7LA4C7ySLPiFRUX5OrVdsGJ18FxgOE7c8X0s3web9I9IXRSjlJbxMauJRuLRan5ujOS7hU66oZN9HfFLT8sGGEpoN2kNnyvnRoTYBMXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pDPNPPEw; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="2dHLSujQ";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="I2rRky5g"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 6567726F7696;
-	Mon, 12 Oct 2026 15:03:15 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1791784995;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ojyM3xGEEUOo4/eDYFDRNDtXOfSKRPG0G206rrYc4Ss=;
-	b=2dHLSujQ/Un2/NS5bh+87y1lPSKQjQA7O6CDWRKwL4J/+s/OXqeNypyeuM9cFG+rw8X7gO
-	+NUgQBRp2kAoIuezAN45Z5UoZ8Ud95TAX05WOug+hQRYH75JzbU2HqMzSUfQr7uPtop+Xg
-	yJD076qTYWpiOCO4pSNEmwV/51P4rsOUiKqmCOrA52qc1jDCEpn6XPlha9RVUqp3D9+U+r
-	pfHn0m1cBhAN83EmHsjcCuoDZS7ItquyA/rblzr15q4MT9aFiJiLtAGhpSQTjGaNP4T+PH
-	kf7BWj/4eQR3ZdS4nU7KUFDI0VUwaM9w6aVZBzy1F4DQ2IE3tc0J5EsRZoWi6A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1791784995;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ojyM3xGEEUOo4/eDYFDRNDtXOfSKRPG0G206rrYc4Ss=;
-	b=I2rRky5gBen1MJKvxp+76hb2Rq4fe1hEF3HSeQxsSxkTRZRZYFYnWWRtWt5e1SG43Gh3ap
-	6WYm8GgS2xavCIBg==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id C78F1E001C4;
-	Mon, 12 Oct 2026 15:03:14 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id B039022000BB; Mon, 12 Oct 2026 15:03:14 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Cc: linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] fat: return only first cluster when allocating
-In-Reply-To: <3b610d3340eaa7c22bb1dd95b1ee9b95@inf.ufrgs.br>
-References: <20261008020941.55784-1-matheus.aalmeida@inf.ufrgs.br>
-	<20261008020941.55784-3-matheus.aalmeida@inf.ufrgs.br>
-	<87zewkkqtu.fsf@mail.parknet.co.jp>
-	<3b610d3340eaa7c22bb1dd95b1ee9b95@inf.ufrgs.br>
-Date: Mon, 12 Oct 2026 15:03:14 +0900
-Message-ID: <87o6czlal9.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pDPNPPEw"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so569015a91.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 11 Oct 2026 23:55:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791788135; x=1792392935; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kZWnzdY1xyRAwbdLE48p0TO13sHkNvGJeQW51X4a6/w=;
+        b=pDPNPPEwOhgNQfLUV3CpPou6+SEq5utFL8KBd7l88Q3X6PDhpddnQK4icSD+7OYxs5
+         nTs2W/z/80s7SX1zO2/9nHcxB3/0t2KB0pOj85ffOy//qkchllFMcK7KsZ8iIDDvQNXN
+         OUchwd772FRL+BDa64C9DVcJJZ9X4tMAxqvYA7ObFXF9rcA5dxh2noN/bTvH3YDMGcKv
+         GWKzWGbpheMGzO1FLi7TXPXFo1WQStVH4wgGRKHr1J8nYbUHJ1VUB2QvbsSD8wPTs2Bw
+         ScT/yX7G6+zNlIdjwl86UI5tSD2XVH4ifE3N62omJpRRdpxKbZ1e4ZUuNZC/fwG/25ns
+         A1/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791788135; x=1792392935;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kZWnzdY1xyRAwbdLE48p0TO13sHkNvGJeQW51X4a6/w=;
+        b=U8XVoM2AxVUit/sFfg21o3aQvAb5YBAaF39D9IodCU9v2nZa7AwKW/rb52+Mjoh0G2
+         tHID+Aqv124pR0LtsnCvAnlTZ9EFiElL4/AzY3uEhMlw+fN1jJkOaDKIehK4Twyzsg3p
+         yecqG2qfvBoqo8braUE1UiaLoexR4xtXb5dIHwgBoh19gpqvUyzJot1Tqk/bIlytvw9z
+         vFYRImODbAUo3cPr/7cB4IMmsABGcr6RoFG5DuoUFX+sgBBnKrnLFOhqycZfdNk5T1+G
+         0ugzoJZy16fgjvxRw/OgRnfUsNQsKvkFilQ81Z1LpxChKV+Od45x2/jU97shD8fbscGe
+         RArA==
+X-Forwarded-Encrypted: i=1; AKwUvByP/Q/wjEi/eyu2Xnza1WcyQgXcufrcVGPTXFir74YyPUHt9e/xZ3tOdP3yKI0HpkDBGsFyySyNup+DipHc@vger.kernel.org
+X-Gm-Message-State: AFq9FYJhCi9lUYAxIigfbpt/rtcuVHVck5HvD/ZUyRx23aySb0WigJUp
+	zEOUJwIR192X50KO98fGX9epw9lct2gJEwdn9fahMNBLEnTP4CyCFlnF
+X-Gm-Gg: AYBFou1RbUgHDotamABznmO5LlLR0lcPFT3bsg281LK43uI3vr/NvONS2F32UVJ+V7x
+	/alJxMhWmptCSqWJNBimXqT4JnxUoeOdqrcj8LsNUSGHV8PxLBjY15l20zpq8UnRGMfFiVZhfv+
+	XAbD7OzYgH8nJq829TQsrvVrZVSY7GDTySC14J80s6+M8ytLNe2LeR87hMZxPch9dGGvSQv7JRL
+	N+uX572d/5q+EuJ1DaLDEu50JSZgu+/+HdqSv2xEjwjEVDdmqd5t2/qUroMRaWCoaO81EyGA4Pm
+	0nT7IeHYyxposTfIvuzDOdYNXn5oLWll1oqFS1O1cGkNgvqHOfCjAGq47XStFayFl5lOZLFhAPT
+	BnxOppYUSzToJ+INhLE479C28I8OgPCoVfrq+7bHiNHszsXoNWa9kdud8gGf+zYtwGhCZ5Y1Xe7
+	AUUHDE3sPNeNvpWbW6ML4JkgMpbn6EECkclazI1NMflzIABtPiEh1Sr6eUA2gi/zRSaCzNB1d/z
+	ihlL1kdl20=
+X-Received: by 2002:a17:90b:5444:b0:3aa:fc22:8aa7 with SMTP id 98e67ed59e1d1-3ab3ac72e81mr6831001a91.53.1791788134635;
+        Sun, 11 Oct 2026 23:55:34 -0700 (PDT)
+Received: from ancienth-X870E-Nova-WiFi ([125.186.72.2])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab421566acsm8094947a91.3.2026.10.11.23.55.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Oct 2026 23:55:34 -0700 (PDT)
+From: Daehyeon Ko <4ncienth@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Hannes Reinecke <hare@kernel.org>,
+	linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Daehyeon Ko <4ncienth@gmail.com>
+Subject: [PATCH] iov_iter: validate first nonempty segment for bvec alignment
+Date: Mon, 12 Oct 2026 15:55:20 +0900
+Message-ID: <20261012065520.1089147-1-4ncienth@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+iov_iter_extract_bvecs() checks the current IOVEC or KVEC segment against
+the block device's DMA alignment before extracting pages.  Empty segments
+are valid, but the check uses iter_iov_addr() and iter_iov_len() directly
+while first_iovec_segment(), used by the extraction path, skips them.
 
-> Em 2026-10-11 15:57, OGAWA Hirofumi escreveu:
->> Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
->> 
->>> fat_alloc_clusters() returns every allocated cluster number in an array.
->>> For larger allocations, like growing a file, this array would need to be
->>> very large.
->>> 
->>> Make fat_alloc_clusters() return only the first allocated cluster in the
->>> chain. Update fat_add_new_entries() to follow the chain when it needs
->>> the second cluster.
->> 
->> This would be more common case than fallocate(), so penalize this part
->> would not be good.
->> 
->> Thanks.
->
-> That makes sense.
->
-> I can change the approach so that fat_alloc_clusters() and the directory
-> entry path are left unchanged. For fat_add_clusters(), I would add a
-> separate fat_alloc_chain() helper which allocates the whole chain but
-> only returns the first cluster.
->
-> Would that approach be preferable?
+An aligned empty segment followed by a misaligned nonempty segment
+therefore passes the check and produces misaligned bvecs.  An unprivileged
+O_DIRECT preadv() reproduced this on a regular ext4 file above brd.  The
+equivalent nonempty-leading vector returned -EINVAL, while the
+empty-leading vector completed 4096 bytes.  This bypasses the validation
+added for CVE-2026-89584.
 
-Sounds good if both share the almost all codes.
+When the current segment is empty but the iterator still contains data, use
+first_iovec_segment() to select and validate the same segment that page
+extraction will use.  Keep the existing constant-time fast path for the
+normal nonempty case.
 
-Thanks.
+Fixes: 14b007e17881 ("block: validate user space vectors during extraction")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
+---
+ lib/iov_iter.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 2072c04e99d052..893de96de8ab6a 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1938,8 +1938,13 @@ ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv,
+ 		   iter_is_iovec(iter) ||
+ 		   iov_iter_is_kvec(iter))) {
+ 		unsigned long start = (unsigned long)iter_iov_addr(iter);
++		size_t seg_size = iter_iov_len(iter);
+ 
+-		if ((start | iter_iov_len(iter)) & mem_align_mask)
++		if (unlikely(!seg_size && iter->count)) {
++			seg_size = iter->count;
++			start = first_iovec_segment(iter, &seg_size);
++		}
++		if ((start | seg_size) & mem_align_mask)
+ 			return -EINVAL;
+ 	} else if (iov_iter_alignment(iter) & mem_align_mask) {
+ 		return -EINVAL;
+
+base-commit: d6d3455d8751854e0d1820f14184682e23ac4475
 -- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+2.55.0
+
