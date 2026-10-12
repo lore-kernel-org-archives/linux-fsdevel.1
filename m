@@ -1,180 +1,139 @@
-Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70F630D404;
-	Mon, 12 Oct 2026 20:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.30.2.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75EC32572F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 20:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791836754; cv=none; b=OV9MK8wDb9oQSTzwgwxN1ozCAGDH7Ib2+TkNXP5Wv2Dfu63/vBp/tX3D0thv+R6B27/Gtpr6lz8XlGB3cafNY4I3Yy810ybsBaQ0bCuoVmpuj/CUoKlQPAAJAD286M9lvTsgVUTFs7iRF1Mgbkb3h5cEMWTvgKTa0GZf6iwEqqE=
+	t=1791838366; cv=none; b=Qh8Y7G/yrTENRscgM/Lo0PJNOZV6fDxhNa23wD4HDFiar7h0uSypszPXrjFOx7K7FrLdStOOi19+HhPOxj9fECTaFZ29KYRNa4RO8TwUbkbLgsTiiGhDXl0Rgk3rmBR+1k9ks7KeEfP2+lTPCBUgoh9xy63675Vs4zC020u40og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791836754; c=relaxed/simple;
-	bh=K/Zl5Qj1myG82TOYaKXai3M6PLPZKJnBje1SWWfefUY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ho5Zi/kXWal+V7UkmUpFC2jlXDC71CDs3losyntiAk/8UdErFOOej5HyEbPj3GTAg5NWbRyP97UrE0+0nSb47NkFr/LrxzEmAKfiaOUZ2HL0uvWY2rS8K7NkFr3iTj/ASlg2WV5n7K+zoyHx1G/gGn1ryXD0hDN9dPn3CK0lCmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu; spf=pass smtp.mailfrom=csail.mit.edu; arc=none smtp.client-ip=128.30.2.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
-Received: from escalante.csail.mit.edu ([128.52.128.198])
-	by outgoing2021.csail.mit.edu with esmtp (Exim 4.95)
-	(envelope-from <nickolai@csail.mit.edu>)
-	id 1xGMaj-00Fxjz-RA;
-	Mon, 12 Oct 2026 16:25:49 -0400
-From: Nickolai Zeldovich <nickolai@csail.mit.edu>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Nickolai Zeldovich <nickolai@csail.mit.edu>
-Subject: [PATCH v1] xarray: clear the new head's parent before freeing the old head
-Date: Mon, 12 Oct 2026 16:25:49 -0400
-Message-ID: <20261012202549.772887-1-nickolai@csail.mit.edu>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1791838366; c=relaxed/simple;
+	bh=YeZW5RdTOI04Llt3JVWcDwFcKk7FkOJp4zs3oeAW9uw=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=FacYQ/QP2/5kNBwYOhYmo2z38njrZ5HiZEPq2saQqiqzl4MPBW6I2c/qm6jpE1vNWCuIe3S9GiqLwhsa/PRuht0liPnXWxSGceCxD2FgBWiIjmad1tpjSm4yh8wApzYd5UwOoZDg0o+ZLOjbuAroUo7jk3ud6XGoiQHvmBH6tdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=It3wklO/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Eg8DFXqm; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="It3wklO/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Eg8DFXqm"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 381A11D000E2
+	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 16:52:44 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Mon, 12 Oct 2026 16:52:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1791838363; x=1791924763; bh=Dl3fdoqXiToQPfsm7pfCuZ1D4o3Ebah/hki
+	xHDzwfiw=; b=It3wklO/0p2Yi5TgHsm+QlbrcwOv1q9kCu/HIwiW2+San3fqzYh
+	uoxIlHVB5Uyrj087moiPGqyNOi+fFWWdLOl35/PGy/Wo+5d6Luu1GaIWT+Njt3a6
+	69Ns0ocIQHDGqGE5BqY8GeOEbUbJhaFi1rLf1bpjkfDswePlNTfdrBie7SWUReU4
+	dyvoR2KtF8w9jnKtzcPyYvcp1D8ug+kuejF3V5YI8p2OHg3tY6AngB8IrqhHHDIv
+	Urv35k0XoRjoesWv4kxjzISVQ6zMZ0bjNw/i7OETKcBaLgidgLKg7dGyKhZy7pAs
+	gnswyQIeQtzFwldjTpkfz0JDRFNsoRVLdBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1791838363; x=
+	1791924763; bh=Dl3fdoqXiToQPfsm7pfCuZ1D4o3Ebah/hkixHDzwfiw=; b=E
+	g8DFXqmnjleXx/UVA9PSE72Dq/r17J/7Ck9LufJTSoFSQ8/SV8jkIu2yVxEg97FR
+	hitU/HCUBM6IzkIDVsmQnr7SLHx7C+6xtNeIZT8u5yT360FuT8Zu3fjpAYDC318t
+	9ImnMJ7N/eGxbv+f3tbwRkhXstDk2W2Q+3FsoxnD6INoKp/X5hQS1vZyfhV8FxcE
+	BFrh0OMGhWHezjKcMvYbQwzOkGxlLNSzPrnTS95leYa8RArTktO7HJI4DEH72+V8
+	7Od/shDZp/fy9a9fsOQUagbiFRaigMKv0NMAQVDIlJ0iouCw4XL4XrLop5SNejRb
+	jRpmOChwpZ9GCCHT/urMg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
+	action=sign d=ownmail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1791838363; d=ownmail.net;
+	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm2:rsa-sha256:DI/slcLbbvR8GQLNqzKzQt67CDk3S+jjikZhOhwNvJFUgsT
+	dpcEIvTOvNFotziNNqL4tOv4/i8QSqeq82EVPkXPEvp5LxcFnminvkA0wgGZtwk5
+	ss8kNcbNzyqFAULVK7Xi1LYTYqrUS/y2VnivU9fpOZ/J4A0I0vfClkOxcl/zkaUs
+	VhyZCutJXAm7s0+o2Gbn1XongP0lYuwm4F0gEPj27n59TFRxqA8uuNgyWpVc08q5
+	Phl8pK0IxtMN1ZI5udVn8BugtuLaAw3Bp4OfP/3XWnUHbyaZl77k6hWfUjQ8ew8y
+	APwCTwCV00b1mRyvaMF1M6xEg0TvjUl+y8RBZRg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,reply-to,
+	subject,to;
+Message-Instance: m=1; h=sha256:uJg3LtQR/GajkULLSqBKDnkR72NMPM9CcRlRlCv4gs4=:YeZW5RdTOI04Llt3JVWcDwFcKk7FkOJp4zs3oeAW9uw=;
+X-ME-Sender: <xms:m0jNaiu2U8MYBwsgvQAMhm0GQNcLJFG1DjnL8ITZse-h3SHr_rhmAA>
+    <xme:m0jNakAZvxFhryBWQLMQlTkvvy7Rix51cpf1IjaLHgiTh8BC3na1qOrsJr3pf6QYQ
+    nkwBRouCMo7j0_ec4NjDUjFKx9Ox5I676ZfQ1hjjkVrF23sT_LX>
+X-ME-Received: <xmr:m0jNaiN5s3lbeOjdMN6HxfysRg9UxVr1c-zsNvdovc6MXt_Y_DDMbS-SYQvhXsrdIV08GqqcdYUgiQi3vZWjTSmPHUsjZyQ>
+X-ME-Proxy-Cause: dmFkZTGNhItM67zy+AiIQUxlMawBhmhz0ieWWNQnE27OecISIphkqfNVxxBQr51hIKsmg4
+    8LBg6rs7vBjcmjivxwMhUHUcaHq7EKvbXA28O2YdtvfvrxQaMafHJFvxUw1DmFfqaEHSJ4
+    fwFl1a9OwP4fhQwndimq80hUPXBchLn2RxYb9Du7vjIXAjzilxr2H76nlMfXquGkQk0Xnc
+    sz0C6KQ2U7DNZgnqUzqfBXb5ckwuKH9YTD+C7RWmkkZ40sG806k1fIyULQmqz9dSYi87Fh
+    MwacAYE/I4gV9h57Nk+xYFrPNofYXuABAfbechWbmPKDyEkRcGlJK8sPw6kKWARZ36wQT1
+    Y7nHdVDK1bCgm1QqIj+hu29ssBs4tmDwSCf6NVJUm1uKcbKL0A9hl8p6l/NdUDuH0+2cOT
+    xB9VY/XiCE/+oauZdg27NZR3Zq+YqkLvRIXUEBeJ87FQF/GLnkz/LV6zgl0T/UV4AVJvcC
+    m/zynZ6EQHPeVSPeY7+xpU9etgWMdQbU9Wdwqk3Py3A8bT9VEaelYhaF+jWonmGIYtf+2K
+    dd8OvyBH8vSLd/svPNRgsfABQ84LwSHwF2LpeguvHQ7qX834zB74GNgOQjtFnhs0O2bKPN
+    6NpAn+vAQ6AWUn7sBGOMxIQ0ecanC7nEsIobpyr/FvqFp936xjdHzmrcXdpQ
+X-ME-Proxy: <xmx:m0jNakAH-UYCr3a57pRAI7fN2IkKWQrwSAgAcOSU5mcOtGqeifgQkQ>
+    <xmx:m0jNaj5uqX_smW_SyvZ3vabCelpjJpb_W1TgUHhk7zf5EiuywptrwA>
+    <xmx:m0jNau4bWtL1n25cAn_reR0CFPj_AIkE5dxzNTFyH8dDlBlau91i-w>
+    <xmx:m0jNalQhnjzzVpIvNVGRItVsehHk8z1g9uloHSAMyyfccBKS8MH1aw>
+    <xmx:m0jNav1hfyOVfn7K3yOKmdRwLReBBo8sSsitDuVCb2zZG8G6ruWrnhSv>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 12 Oct 2026 16:52:40 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, "Chris Mason" <mason@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
+ "Josef Bacik" <josef@toxicpanda.com>, "Jeff Layton" <jlayton@kernel.org>,
+ stable@vger.kernel.org, "Christian Brauner (Amutable)" <brauner@kernel.org>,
+ David Howells <dhowells@redhat.com>
+Subject:
+ Re: [PATCH] namei: test for a negative dentry the way traverse_mounts() does
+In-reply-to: <20261012-work-namei-ocreate-v1-1-c7883b17ee28@kernel.org>
+References: <20261012-work-namei-ocreate-v1-1-c7883b17ee28@kernel.org>
+Date: Tue, 13 Oct 2026 07:52:36 +1100
+Message-id: <179183835609.1724252.2051936919228724788@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-When xas_shrink() replaces the head node of an array with the node in its
-slot 0, it stores the child in xa_head, passes the old head to
-xa_node_free(), which queues it with call_rcu(), and only then clears the
-child's ->parent pointer.  In between, a lockless walker can still reach
-the old head, not from xa_head but upwards from the new head:
-xas_find(), xas_find_marked(), xas_next() and xas_prev() climb through
-xa_parent() when they step past the end of a node.  RCU does not protect
-a walker that gets there: call_rcu() waits only for the read-side
-critical sections that were running when the callback's grace period
-started, and that grace period can start before the parent pointer is
-cleared.
+On Mon, 12 Oct 2026, Christian Brauner wrote:
+> lookup_fast_for_open() only hands an O_CREAT open a cached dentry if
+> it's positive. Otherwise the open goes on to lookup_open(), which takes
+> the directory lock and creates the file. It tests for that with
+> !dentry->d_inode, but traverse_mounts() later decides with the type in
+> d_flags. And when a dentry is instantiated __d_set_inode_and_type()
+> stores ->d_inode first and only then releases the type into ->d_flags.
 
-  CPU 0: xa_erase(), xa_lock held   CPU 1: RCU walker, e.g. xa_find()
+This seems fragile to me - not this particular patch, but the general
+practice of testing for a dentry being positive/negative.
 
-  xas_shrink()
-    xa->xa_head = child
-    xa_node_free(old head)
-      call_rcu()
-                    <grace period starts>
-                                     passes a quiescent state
-                                     rcu_read_lock()
-                                     xas_find(): loads xa_head (child),
-                                     steps past its last slot,
-                                     child->parent is still old head
-    child->parent = NULL
-  xa_unlock()
-  quiescent state
-                    <grace period ends>
-  radix_tree_node_rcu_free(old head)
-                                     reads old head's slots[], shift,
-                                     offset and parent
+We have d_is_negative() and d_really_is_negative() and ->d_inode == NULL
+and no (for me) clarity on when which should be used.
 
-The grace period does not wait for CPU 1, which reported its quiescent
-state before its critical section began; holding xa_lock delays the end
-of the grace period, not its start.  The start can fall inside the
-window when an interrupt arrives in it (interrupts are enabled under
-xa_lock(), and RCU core processing may run on interrupt exit), when
-callbacks are offloaded (rcu_nocbs=) and the rcuog kthread on another CPU
-handles the callback, when many callbacks are queued, or while the
-writer is preempted under PREEMPT_RT.  Interrupts, and in a guest a
-preempted vCPU, also stretch the window.
+I would like to discard d_really_is_negative(), d_really_is_positive(),
+d_inode(), d_backing_inode() and possibly d_inode_rcu().
 
-After the climb, xas_find(), xas_find_marked() and xas_next() resume in
-the old head at the slot after the child and read its slots[] and shift
-(xas_find_marked() also its mark bitmaps); xas_prev(), for which the
-child is the first slot, steps past the old head at once and reads its
-offset and parent, as the others do when they reach its end.  Nothing in
-the walk notices that the node is gone.  The climb takes ->parent as it
-is, no lockless path looks at node->array (XA_RCU_FREE), and
-xas_shrink() stores XA_RETRY_ENTRY in slot 0 of the old head only when
-the head shrinks to a single entry, not to a node; the walker does not
-look at slot 0 anyway.  radix_tree_node_cachep is not
-SLAB_TYPESAFE_BY_RCU, so the walker reads freed memory.  Once the object
-is reused for a node of another array, the walker returns that array's
-entries or descends and climbs into its nodes.
+Then document when d_is_negative() either should not be used, or must be
+used.  I cannot immediately see that it would ever be preferable to test
+->d_inode directly, but there could certainly be a case for
+   inode = READ_ONCE(d->d_inode);
+   if (inode) ...
 
-The order dates from the introduction of xas_shrink() in the commit
-below, which reimplemented radix_tree_shrink().  radix_tree_shrink()
-clears the child's parent pointer before it replaces the head and frees
-the old node, and still does in lib/radix-tree.c.  The commit gives no
-reason for the different order and nothing depends on it: xas_update()
-and xa_node_free() only touch the old head.
+Do others have thoughts on this?
 
-Clear the child's parent pointer before freeing the old head, as
-radix_tree_shrink() does.  The stores are the same, the tree and the
-xa_state the caller sees are the same, and a walker that starts after
-the callback's grace period has begun sees the cleared pointer, like
-every store before call_rcu(), and ends its walk at the new head, which
-covers every index that the old head had an entry for.
-
-A check in the radix-tree test harness that no node passed to
-xa_node_free() is still the parent of a node reachable from xa_head
-fails in xas_shrink() 4731 times in the XArray tests without this patch
-and never with it.  No test is added: the race is not deterministic and
-the check needs a hook on xa_node_free().  A harness race test (readers
-walking the whole array with the four climbing walkers while a writer
-stores and erases an entry that adds three levels above the leaf) did
-not hit the window in 20 runs of 200000 erases; with a 1 ms sleep
-injected after xa_node_free() in xas_shrink(), every one of 20 runs
-reported a heap-use-after-free in __xas_next() or __xas_prev() under
-AddressSanitizer, and none did with this patch and the same sleep.  On a
-kernel (x86_64 defconfig + KASAN, QEMU), with a 100 ms delay injected at
-the same place, a walk that starts on another CPU 20 ms into the window
-climbs to the old head in each of 20 rounds, and KASAN reports a
-slab-use-after-free of the radix_tree_node freed from rcu_core() when
-the walk takes its next step; with this patch, the walk ends at the new
-head.  The XArray and IDA self-tests pass on x86_64 and riscv64.
-
-Found while formally verifying xas_store() against the kernel binary.
-
-Fixes: 58d6ea3085f2 ("xarray: Add XArray unconditional store operations")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
----
-
-Notes:
-    Reproduction details: the ordering check wraps each xa_node_free(node)
-    call in a copy of lib/xarray.c with a function that walks the tree from
-    xa_head and reports the node if it is still reachable or still the
-    ->parent of a reachable node.  The harness race test links a copy of
-    lib/xarray.c with a hook right after the xa_node_free() in xas_shrink()
-    that sleeps 1 ms in the writer; 32 threads, liburcu-registered readers.
-    Without that sleep, this patch alone still showed a use-after-free in 3
-    of 20 runs; those come from the xas_delete_node() bug (the race test
-    also erases nodes), and with both patches 20 of 20 runs were clean.
-    With only the xas_delete_node() fix, the sleep still gives 20 of 20
-    failures.  The kernel demonstration is a test build with mdelay(100)
-    after xa_node_free() in xas_shrink() for one test array, a writer
-    kthread on CPU 0 doing xa_store()/xa_erase() and a reader kthread on
-    CPU 1 doing xas_load()/xas_next() under rcu_read_lock().  The window
-    has not been hit on an unmodified kernel.  I can send any of these if
-    useful.
-
- lib/xarray.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/lib/xarray.c b/lib/xarray.c
-index bfe7bef80f34..ae9d7fc68861 100644
---- a/lib/xarray.c
-+++ b/lib/xarray.c
-@@ -471,11 +471,12 @@ static void xas_shrink(struct xa_state *xas)
- 		if (!xa_is_node(entry))
- 			RCU_INIT_POINTER(node->slots[0], XA_RETRY_ENTRY);
- 		xas_update(xas, node);
-+		if (xa_is_node(entry))
-+			xa_to_node(entry)->parent = NULL;
- 		xa_node_free(node);
- 		if (!xa_is_node(entry))
- 			break;
- 		node = xa_to_node(entry);
--		node->parent = NULL;
- 	}
- }
- 
-
-base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
--- 
-2.53.0
-
+Thanks,
+NeilBrown
