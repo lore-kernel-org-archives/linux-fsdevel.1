@@ -1,125 +1,208 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D9A4AAC74
-	for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 16:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B3149BD82;
+	Mon, 12 Oct 2026 16:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791822190; cv=none; b=ZFIkKbbKWoaSr32wGeI2ej8ms651q17R3SvDO7z98A4VBqZlUxarMWHghFxLp2C1XEpLhCGFny+YMRpuHMnFBn7QCHKOr6M8D+GQkWfFQnVKvM/Va/TuwP6aZCeE9gu1+vMmpTdJ2Pv5JmTGogmz7PBQOR7ry/wHnRVq1jQMLFg=
+	t=1791822291; cv=none; b=jrvFxJzDasS3y9KJyG1a/0/a+C1mjzIo4WyZzbv9edb2qhEKL3Zyxk+XHPLbBv4PIfQuteh/llerT9UbzfriB7z1qhJEndsZb+1OBV6iC7C/eu61jZuj4l8loBhFnw5jAilmECU37IhoeIXC7sjyAhZzeJt6kzhU2bxafRBspxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791822190; c=relaxed/simple;
-	bh=yvBSXzc3XaLRc3YUflgT+bJ2cxmcz8/jCGl9ajVXqLQ=;
+	s=arc-20240116; t=1791822291; c=relaxed/simple;
+	bh=hza5XxPJ98qufWEqHPknPSz39nXV8UYj++KJEJKTnns=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mM+BhE6YEhKKLdzrElFlonUx0SAIa71+d3xoXOSuxQQswNfuBP3d8EHlB1k43RG2hPEr5Y1kG6lIQYuw4++LJIWvjCKu23Ub+fftO1ymmtAHHi5p4oDFG0Ov7w2W8dIlfguRkY4YvAocsVmB6V3hUSpiZ115TLHV85DCEU8S8ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aoQezf1+; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kIQCWJ/yUM+tyteo1LfzDDVdlf0Zok3qLieSLBfxcyA2q/6w89QjrPIUPKx8PrkZD1IORTHOEGaUVbgYXEFNR0b8SFHqfUetY1Sz0jXXop0vR5uUGzfYp28G5xPnh45eCTv+Tfl83VEd9b//xJy9l1HlXRhLE252yD4whuly418=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QJ4RfaWF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pgnCnEIV; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=l+WQ+Eks; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lgbjzvSb; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aoQezf1+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C380F1F0089B;
-	Mon, 12 Oct 2026 16:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791822188;
-	bh=+NrO4pBu2qGs0CONcNp7yNgWTs73KFTjj5ZvduOqD98=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aoQezf1+3FH5asE+xZdilwRBZggDGInsRkIPQGUSwmGuccTxoynGxGJ+j4GddumFE
-	 wWwITSa0usmVpYVq10j52i2/tvAerVpn2oaJUkpVbKUtsIVdYNVjwZCItnbWXrxw9x
-	 NhVNGaTJGEevbN1mUon/l9/yxmDn+rwzryrXadU/IKIcb6bsGdqS4atebLgUgaL5eI
-	 RMKL5iarBHdUocCuiqAEbeLHXt6qoo82sE2TUW+yhT8IfckburG+pBjUnzziSmdMK8
-	 TpLvQV+wdv0roC1ivuyjlQTl5sv5xPGa30zUi2TWiOjqIvRfLIc0fTxkFqHdsRGf4D
-	 wPX2jeUeBWE8w==
-Date: Mon, 12 Oct 2026 18:23:00 +0200
-From: Gao Xiang <xiang@kernel.org>
-To: Giuseppe Scrivano <giuseppe@scrivano.org>
-Cc: linux-erofs@lists.ozlabs.org, xiang@kernel.org,
-	linux-fsdevel@vger.kernel.org, amir73il@gmail.com,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
-	hch@infradead.org
-Subject: Re: [PATCH v7 2/2] erofs: reuse superblock for file-backed mounts
-Message-ID: <as0JZCSfTBo0e3Lq@XiangdeMacBook-Pro.local>
-Mail-Followup-To: Giuseppe Scrivano <giuseppe@scrivano.org>,
-	linux-erofs@lists.ozlabs.org, xiang@kernel.org,
-	linux-fsdevel@vger.kernel.org, amir73il@gmail.com,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
-	hch@infradead.org
-References: <20261002163225.1258203-1-giuseppe@scrivano.org>
- <20261002163225.1258203-3-giuseppe@scrivano.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QJ4RfaWF";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pgnCnEIV";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="l+WQ+Eks";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lgbjzvSb"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 994ED1F391;
+	Mon, 12 Oct 2026 16:24:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791822287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pcc0K1tU8VYaYGCB04LjAl4+hE6yspZu5PMHTGHHbVA=;
+	b=QJ4RfaWFbTqSr18K2OQ4jQfAV5YHEJQyOQavvQJqWF8xTF9Iuv5UIjUUvRcXM/ZF8et/+q
+	JZGRRBwUqS/9elC1XFKQ1zUCcTZnyy5YdHCQVNqpqHz0f/MTxmubKHJ3urpOYY40MQkeKG
+	f8Zi5GqB+/7FIgNrlGefXA/o+vriefY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791822287;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pcc0K1tU8VYaYGCB04LjAl4+hE6yspZu5PMHTGHHbVA=;
+	b=pgnCnEIVoIrGIyZEWolk7/SSq4ugBo1wuT53iEY96I5vlnn0hHDEVeNLa8CELElQw54hHu
+	BxO6cjmoxvn0HlCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791822286; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pcc0K1tU8VYaYGCB04LjAl4+hE6yspZu5PMHTGHHbVA=;
+	b=l+WQ+EksmllPpEJlz3vP+B7DDfM98YIBgILa/yhS6DwJjhQhzwbGE6YZS/5NJC+JKBj3aJ
+	uMoU7mMksZuYcUrAYiyyUB8JxqsTtJo6R4XFlVn1AP9qajRNYHdSYPqaQQ+5tbdHQsngxw
+	L0VQYi6+ORuERDJB/EpYfxtobPYFU+c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791822286;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pcc0K1tU8VYaYGCB04LjAl4+hE6yspZu5PMHTGHHbVA=;
+	b=lgbjzvSbuT2abpAcooVITaYyY4upHIm4g2YMifYz64YXqKhwu7S42phkFxS3UZWqlKuZ5V
+	k8rXKzdHjCuzjJDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6FA2F13314;
+	Mon, 12 Oct 2026 16:24:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gSNCE84JzWrJOAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 12 Oct 2026 16:24:46 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id F0405A1405; Mon, 12 Oct 2026 18:24:45 +0200 (CEST)
+Date: Mon, 12 Oct 2026 18:24:45 +0200
+From: Jan Kara <jack@suse.cz>
+To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Jens Axboe <axboe@kernel.dk>, Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+e0624b5bf72b99131402@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3] mm/filemap: annotate lockless reads of
+ mapping->nrpages
+Message-ID: <lp3734pwy5uxmjyblon4m4fij2pngztite3plyc5urhfje6t7v@pju2csdvtjmy>
+References: <20261012143921.283806-1-ngocthang2710.1999@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261002163225.1258203-3-giuseppe@scrivano.org>
+In-Reply-To: <20261012143921.283806-1-ngocthang2710.1999@gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[e0624b5bf72b99131402];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,appspotmail.com:email]
 
-On Fri, Oct 02, 2026 at 06:31:44PM +0200, Giuseppe Scrivano wrote:
-> When the same file-backed image is mounted multiple times (via path or
-> fd) with the superblock_share mount option, reuse the existing
-> superblock instead of creating a new one.  This allows multiple mounts
-> of the same image to share in-kernel data structures more efficiently.
+On Mon 12-10-26 21:39:21, Nguyen Ngoc Thang wrote:
+> mapping->nrpages is updated under the i_pages lock but is read locklessly
+> as a cheap "anything cached?" hint, e.g. in invalidate_bdev() and
+> filemap_write_and_wait_range(). KCSAN reports the race:
 > 
-> The backing file is identified by its inode and fsoffset.  If mount
-> options conflict or extra devices are used, a separate superblock
-> is created transparently as a fallback.  Remount is not allowed on
-> shared superblocks.
+>   BUG: KCSAN: data-race in __filemap_add_folio / invalidate_bdev
 > 
-> Tested by mounting a 177M Fedora EROFS image 20 times with full
-> traversal:
+>   read-write to 0xffff8881004c4178 of 8 bytes by task 3600 on cpu 0:
+>    __filemap_add_folio+0x6b7/0x910 mm/filemap.c:919
+>    filemap_add_folio+0x1cd/0x380
+>    page_cache_ra_unbounded+0x1a4/0x3a0
+>    ...
+>    blkdev_read_iter+0x21e/0x2d0
+>   read to 0xffff8881004c4178 of 8 bytes by task 3601 on cpu 1:
+>    invalidate_bdev+0x25/0x70 block/bdev.c:98
+>    ext4_fill_super+0x2ccb/0x37b0
 > 
->   #!/bin/sh
->   IMG=${1:-/root/fedora.erofs}
->   OPTS=${2:+-o $2}
->   N=20
->   DIR=$(mktemp -d)
->   trap "umount $DIR/m* 2>/dev/null; rm -rf $DIR" EXIT
+> The same counter also races with filemap_write_and_wait_range() through
+> mapping_needs_writeback().
 > 
->   sync; echo 3 > /proc/sys/vm/drop_caches
->   INODES_BEFORE=$(grep erofs_inode /proc/slabinfo | awk '{print $2}')
->   MEM_BEFORE=$(grep ^Slab: /proc/meminfo | awk '{print $2}')
+> The race is benign: a stale value only makes the caller do or skip a
+> harmless invalidate/flush pass. Mark the lockless reads with data_race()
+> in invalidate_bdev() and in the two callers of mapping_needs_writeback(),
+> rather than inside the helper, so a future user needing a reliable answer
+> is not silently covered.
 > 
->   for i in $(seq 1 $N); do
->       mkdir $DIR/m$i
->       mount -t erofs $OPTS "$IMG" $DIR/m$i
->       find $DIR/m$i > /dev/null
->   done
-> 
->   echo "Superblocks: $(grep $DIR /proc/self/mountinfo | \
->       awk '{print $3}' | sort -u | wc -l)"
->   echo "erofs_inode delta: +$(( $(grep erofs_inode /proc/slabinfo | \
->       awk '{print $2}') - INODES_BEFORE ))"
->   echo "Slab delta: +$(( $(grep ^Slab: /proc/meminfo | \
->       awk '{print $2}') - MEM_BEFORE )) kB"
-> 
-> without superblock_share:
-> 
->   # time ./test.sh /root/fedora.erofs
->   Superblocks: 20
->   erofs_inode delta: +45864
->   Slab delta: +37448 kB
->   real	0m2.311s
->   user	0m0.222s
->   sys	0m1.998s
-> 
-> with superblock_share:
-> 
->   # time ./test.sh /root/fedora.erofs superblock_share
->   Superblocks: 1
->   erofs_inode delta: +2044
->   Slab delta: +284 kB
->   real	0m0.679s
->   user	0m0.157s
->   sys	0m0.469s
-> 
-> The time difference shows that sharing the superblock also benefits
-> the page cache and inode cache, as subsequent mounts of the same image
-> avoid re-reading the backing file.  This is particularly useful for
-> container hosts running multiple containers from the same base image.
-> 
-> Signed-off-by: Giuseppe Scrivano <giuseppe@scrivano.org>
+> Reported-by: syzbot+e0624b5bf72b99131402@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=e0624b5bf72b99131402
+> Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
 
-Reviewed-by: Gao Xiang <xiang@kernel.org>
+Looks good. Feel free to add:
 
-And applied to -next.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Thanks,
-Gao Xiang
+								Honza
+
+> ---
+> v3: move data_race() from mapping_needs_writeback() to its two callers (Jan)
+> v2: use data_race() on the readers instead of READ_ONCE()/WRITE_ONCE() (Jan)
+> 
+>  block/bdev.c | 3 ++-
+>  mm/filemap.c | 6 ++++--
+>  2 files changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/block/bdev.c b/block/bdev.c
+> index cd8323083740..233750f87e6d 100644
+> --- a/block/bdev.c
+> +++ b/block/bdev.c
+> @@ -95,7 +95,8 @@ void invalidate_bdev(struct block_device *bdev)
+>  {
+>  	struct address_space *mapping = bdev->bd_mapping;
+>  
+> -	if (mapping->nrpages) {
+> +	/* Lockless hint; a stale value only costs or skips a harmless pass */
+> +	if (data_race(mapping->nrpages)) {
+>  		invalidate_bh_lrus();
+>  		lru_add_drain_all();	/* make sure all lru add caches are flushed */
+>  		invalidate_mapping_pages(mapping, 0, -1);
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index 00fd89cf6f55..ff10ac8f56b3 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -680,7 +680,8 @@ int filemap_write_and_wait_range(struct address_space *mapping,
+>  	if (lend < lstart)
+>  		return 0;
+>  
+> -	if (mapping_needs_writeback(mapping)) {
+> +	/* Lockless hint; a stale value is harmless */
+> +	if (data_race(mapping_needs_writeback(mapping))) {
+>  		err = filemap_fdatawrite_range(mapping, lstart, lend);
+>  		/*
+>  		 * Even if the above returned error, the pages may be
+> @@ -782,7 +783,8 @@ int file_write_and_wait_range(struct file *file, loff_t lstart, loff_t lend)
+>  	if (lend < lstart)
+>  		return 0;
+>  
+> -	if (mapping_needs_writeback(mapping)) {
+> +	/* Lockless hint; a stale value is harmless */
+> +	if (data_race(mapping_needs_writeback(mapping))) {
+>  		err = filemap_fdatawrite_range(mapping, lstart, lend);
+>  		/* See comment of filemap_write_and_wait() */
+>  		if (err != -EIO)
+> -- 
+> 2.43.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
