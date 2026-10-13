@@ -1,326 +1,195 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADBC525A78
-	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 16:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B34F48C8CE;
+	Tue, 13 Oct 2026 17:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791910139; cv=none; b=GmZaSfbi4aY1ZWhIfy39IT/T46D4TpgHdXTNJUUbqJ9S+q6I5NW9yb+cb78VDMppJKyXBlWN5cDNxn6g26/W3QehHK9XqMOXEZmg5R3Rcz66xMla6MJzuejBEugFAZYKOCmpwJbb9uY+MOVih2xuo2vRrFr0vfP6Zi8OPdiISNs=
+	t=1791912925; cv=none; b=J2raOfNd1A2s/o62OA7XeZKqllIRqPFDyjROu9nVDfTQIbzQMjShlJPjIAfe3F+aRLva8mgC4lCeuzc8wcajVER3fB6Xj3R5ZLEZ5snlGnYpkX7OlYz4W2k5yP0u/2B2yEvNQo7ptczhnD+32SjXQx4tg0AljujHuEN7AXfaSAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791910139; c=relaxed/simple;
-	bh=2EeR6V404iYnKihW+yPfj1QHhrtQAjxp9odbCAczzB0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IsfWv9MoNHiL4cpEvkwhy06WvhLZuAcYVuFYyvCKJaAv3XvXAvrcM2KvZ6BIWc5ksGXW8p4/KSpvOLim5LfxdcsWYpHcla3rhi8CX/0M8mj5H2WRuPhmU5SRGRYO64/bfcNc5vLSreRMOngKXumro8E4PIPBW/v+a00j3k70X20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Piko7b2b; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791912925; c=relaxed/simple;
+	bh=7mHVByUea5c34s1NdGTzuGVOx5szBHaF6Eyje3OS6lA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=mqeDrih3u6C+5jrJOYOYIc64D8BBYoWrrkSBFfNR/g1ulzlVgbP6Q1+4YuZbjvEteSw/5gYRE0MGDspaHR2B2LlaCi7EwTW5zfb+t0fzczlxlH+2f1BVF5agY/8f+FhUfnYe6j5Q98rKPnse4/lgLwFUSjvxskgyh8pPVE1dsIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SycErfN/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WJhL9YZk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SycErfN/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WJhL9YZk; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Piko7b2b"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6774639a8a4so2402794d50.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 09:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791910137; x=1792514937; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rD0Lguh2Ejza0ZWBhDV7c2VWmxR4PIMA31ZIarRTpfI=;
-        b=Piko7b2bwyQHTWxNN/Azmz79aMbZJPfumZSY5EAfyJTXODG3TVYVS5R0EPE2Y8PQlP
-         4uMPSG2KE9+zhJB6HNjHHZzuGxqMw6meK9rgN/9Yj1tuQ6GkNbZoMoFCGZXXyX7P9LKb
-         ZbQVpTXnJd9Yj7wdKOkhEsqAzaKBtQ2Ym35c98YXKgsVHorHY8rxsWh60vzZ/JQg2mZZ
-         ChR5g/YWnp+kltqhL5qnCRnhtnqM+f82mny7TSfx+/ri+d8tCzdHvN8T+DB9CgeLXUTW
-         +eX4LTlARldmahAa3Qs3rQv0m9am6lg2/4+V6WA6/6fywgG8Wc3X4+8qCJLnxKh+4Huk
-         wJJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791910137; x=1792514937;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rD0Lguh2Ejza0ZWBhDV7c2VWmxR4PIMA31ZIarRTpfI=;
-        b=UFyhVtqhfNceY76h59AHwbKUe5K2gAyzm4tJAGOPpF9zws1PLK2aTa1HMgxP4FuHlW
-         Ty/DbiHCnzhCOLB6nVnvsuFjxpwH4YlKRrIMv7pM+mHykMD/zGlSLkBwSZfkjMpi9EPc
-         uyr2YmTkKycx7VehUPnYFZHJ74c8U/ZRQilO8nLxoWDcf4GgYUcAZwUJ6Tnwg5m05VyN
-         HmXLjRT7tghSq9cSoSDyjUClZa883ZafzcpTcqYTMVsYIEElC/p2kL2eaLn/mY574Dyz
-         rZ5qmtU0MVD2hNhATSo/5Qf5CiedPsI3nBmh2tjdjbEMsxwjX9jAi3Woi5VfbPhQjPz9
-         cATQ==
-X-Gm-Message-State: AFq9FYLwLeKv1tR8Afbio4JBbqxBwmRw4QoTJjXZ8XMO76ji9repJFyE
-	S5f/VK8wWQNDajuDVlut/JbHy59qy8Rmvx6Vr55+/z/0gjiTYRJR0lYy
-X-Gm-Gg: AYBFou1tiNwyuOnnXVxam/EKbcWuXdEBbxqdEsLqsbfHV6AJWr7Abs8CfD75FOePCHC
-	/1bGYwOT0RPmU9wK5ekfAUjFPStK7OtAJqlwFAD28T1vDoDsLBFpqYaGtgW1jZ+iA6LmHg0uHQR
-	nNUNVCtgtuSJIp7RR8cbJ7yDFx0PM5PZ9C41/ctWxRHYgiEHMyRmKVHpFv7BTLSJgM7+SE5YQKI
-	bT87rJMg746k9rqlrQQtn1EBmfnFfVZ1dALL+BuuxmRkNHdu25ttnVR28PbRM57G4g0On1zbqyO
-	SqfdlnqP5vmYbmWgkwc42ahgKlriWdWmFyKARJ1lTT5kAtaRjWwds8e9+G5EMJpP13Bx1terkLs
-	EywqZlRu38f/jjWYvlc+VutHwSRCCTlCaM1SOhfGxWNQYCWy4x1twIuWKG0ohYsbFax2kr8X7ei
-	kDoUQva7tjVJVi15cO2HKF+ASidLye1Fmvc+mySS7SUkFsZJMk7sTIVwLBgLuugaDzqdL2YZXA
-X-Received: by 2002:a53:ac90:0:b0:672:9f72:7c09 with SMTP id 956f58d0204a3-679362bce0amr3837238d50.107.1791910136642;
-        Tue, 13 Oct 2026 09:48:56 -0700 (PDT)
-Received: from zenbox ([2600:1700:18fb:6011:d326:f863:5ae3:683])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67986a89294sm81136d50.15.2026.10.13.09.48.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 09:48:55 -0700 (PDT)
-From: Justin Suess <utilityemal77@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>,
-	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Song Liu <song@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E . Hallyn" <serge@hallyn.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Tingmao Wang <m@maowtm.org>,
-	Justin Suess <utilityemal77@gmail.com>
-Subject: [PATCH bpf-next v1 11/11] selftests/bpf: exercise the lockless path ancestor iterator
-Date: Tue, 13 Oct 2026 12:48:00 -0400
-Message-ID: <20261013164800.2906577-12-utilityemal77@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261013164800.2906577-1-utilityemal77@gmail.com>
-References: <20261013164800.2906577-1-utilityemal77@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SycErfN/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WJhL9YZk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SycErfN/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WJhL9YZk"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0B09921E04;
+	Tue, 13 Oct 2026 17:35:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791912921; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KbklspijRvdlfU7/CwOImEurfZ5evV9eiAhvXxXmFEI=;
+	b=SycErfN/kedLAEUrpRmu0MQs2Ez1OEGEx8n7xMmjBqmKiOk8fLWyJykziHxIFCFPyeUXos
+	v5IOMXc9Ewn9nkXJBptRD/OYd5/6gdyXen/slnD/ExRLhSHJjjflbXCym6PUSltcLGi/a+
+	K0Fot23xOvp9ose/nzomPXvnAkXpSTk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791912921;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KbklspijRvdlfU7/CwOImEurfZ5evV9eiAhvXxXmFEI=;
+	b=WJhL9YZkZp+aP6AUjVEWnoI8uJKmcpSB5i6053VoEt2tgDOPq6vE5GhueJzG189k/RXpTn
+	hoxiAtCbRDYEh3Cw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="SycErfN/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WJhL9YZk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791912921; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KbklspijRvdlfU7/CwOImEurfZ5evV9eiAhvXxXmFEI=;
+	b=SycErfN/kedLAEUrpRmu0MQs2Ez1OEGEx8n7xMmjBqmKiOk8fLWyJykziHxIFCFPyeUXos
+	v5IOMXc9Ewn9nkXJBptRD/OYd5/6gdyXen/slnD/ExRLhSHJjjflbXCym6PUSltcLGi/a+
+	K0Fot23xOvp9ose/nzomPXvnAkXpSTk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791912921;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KbklspijRvdlfU7/CwOImEurfZ5evV9eiAhvXxXmFEI=;
+	b=WJhL9YZkZp+aP6AUjVEWnoI8uJKmcpSB5i6053VoEt2tgDOPq6vE5GhueJzG189k/RXpTn
+	hoxiAtCbRDYEh3Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 32ACA134B8;
+	Tue, 13 Oct 2026 17:35:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7DKDLNdrzmqwDAAAD6G6ig
+	(envelope-from <krisman@suse.de>); Tue, 13 Oct 2026 17:35:20 +0000
+From: Gabriel Krisman Bertazi <krisman@suse.de>
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ linux-ext4@vger.kernel.org, linux-afs@lists.infradead.org,
+ v9fs@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+ ntfs3@lists.linux.dev, "Christian Brauner (Amutable)"
+ <brauner@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH 6/8] unicode: free the map after a grace period
+In-Reply-To: <20261009-work-fixes-rcu-v1-6-7446d2d335e6@kernel.org>
+Organization: SUSE
+References: <20261009-work-fixes-rcu-v1-0-7446d2d335e6@kernel.org>
+ <20261009-work-fixes-rcu-v1-6-7446d2d335e6@kernel.org>
+Date: Tue, 13 Oct 2026 13:35:18 -0400
+Message-ID: <87qzhtbj1l.fsf@mailhost.krisman.be>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 0B09921E04
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
 
-Walk the same ancestry four ways and require the position counts to
-agree: lockless from a non-sleepable program, where the RCU critical
-section is implicit; lockless under an explicit bpf_rcu_read_lock();
-referenced; and the hybrid that walks lockless to the second position,
-hands it over to a referenced iteration, and resumes there - the
-escalated position therefore being walked twice, once per mode.
+Christian Brauner <brauner@kernel.org> writes:
 
-The sleepable work the escalation exists for (d_path on the escalated
-position) runs on the resumed iteration's first position, after
-bpf_rcu_read_unlock(), which is the only place a sleepable kfunc can
-run at all.
+> generic_ci_d_hash() and generic_ci_d_compare() read sb->s_encoding and
+> dereference the unicode map while a pathwalk in rcu mode holds nothing
+> but rcu_read_lock(). The filesystems that use them, ext4, f2fs and
+> tmpfs, drop the map with utf8_unload() from ->put_super(), which runs
+> when the last reference to the mount goes away. A lookup that is still
+> inside such a filesystem at that point reads a freed map.
+>
+> With a pathwalk held up in utf8_casefold_hash() while the last reference
+> to a casefolded tmpfs goes away:
+>
+>   BUG: KASAN: slab-use-after-free in utf8nlookup+0x74c/0x950
+>   Read of size 8 at addr ff110001030fe658 by task walker/98
+>   Call Trace:
+>    <TASK>
+>    utf8nlookup+0x74c/0x950
+>    utf8byte+0x160/0x1560
+>    utf8_casefold_hash+0x167/0x230
+>    generic_ci_d_hash+0xdd/0x1c0
+>    link_path_walk+0x11ad/0x1d30
+>    path_lookupat+0x63/0xb00
+>    filename_lookup+0x1f1/0x5b0
+>    vfs_statx+0xd7/0x3b0
+>   [...]
+>   Allocated by task 94:
+>    __kmalloc_cache_noprof+0x249/0x560
+>    utf8_load+0x4e/0x570
+>    shmem_parse_opt_casefold.isra.0+0x92/0x270
+>   [...]
+>   Freed by task 97:
+>    kfree+0x1db/0x5b0
+>    shmem_put_super+0x72/0x170
+>    generic_shutdown_super+0x14c/0x530
+>    kill_anon_super+0x3a/0x60
+>    deactivate_locked_super+0x9c/0xf0
+>    cleanup_mnt+0x9f/0x130
+>
+> So far that has been hard to hit. umount(2) waits for a grace period
+> in namespace_unlock() before it drops the mount, so only a mount whose
+> last reference goes away elsewhere, like the close of a file or a chdir
+> out of a lazily unmounted directory, can race a walker. So it is
+> reachable.
+>
+> Delay the free until a grace period has passed. The map and the data
+> table it holds a reference to then outlive any pathwalk that found the
+> superblock before the mount went away. The reference on the data table
+> module is dropped from the rcu callback as well. utf8-core is built in
+> whenever CONFIG_UNICODE is set, so there is no module exit that would
+> have to wait for the callbacks.
+>
+> Overlayfs points the s_encoding of an overlay at the map of its first
+> layer without taking a reference of its own. That stays correct. The
+> layer is held by the overlay, so its map is dropped only after the
+> overlay is gone.
+>
+> Fixes: b886ee3e778e ("ext4: Support case-insensitive file name lookups")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Signed-off-by: Justin Suess <utilityemal77@gmail.com>
----
- .../selftests/bpf/prog_tests/path_ancestors.c | 45 +++++++++--
- .../selftests/bpf/progs/path_ancestors.c      | 78 ++++++++++++++++++-
- 2 files changed, 112 insertions(+), 11 deletions(-)
+Hey, Christian!
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/path_ancestors.c b/tools/testing/selftests/bpf/prog_tests/path_ancestors.c
-index d1bd26bce10b..c324090588dd 100644
---- a/tools/testing/selftests/bpf/prog_tests/path_ancestors.c
-+++ b/tools/testing/selftests/bpf/prog_tests/path_ancestors.c
-@@ -12,30 +12,56 @@ void test_path_ancestors(void)
- 	char base[] = "/tmp/path_ancestors_XXXXXX";
- 	struct path_ancestors *skel = NULL;
- 	char suba[280], subb[280];
-+	int attempt;
- 
- 	if (!ASSERT_OK_PTR(mkdtemp(base), "mkdtemp"))
- 		return;
- 	snprintf(suba, sizeof(suba), "%s/a", base);
--	snprintf(subb, sizeof(subb), "%s/a/b", base);
- 	if (!ASSERT_OK(mkdir(suba, 0755), "mkdir_a"))
- 		goto out_rm;
- 
- 	skel = path_ancestors__open_and_load();
- 	if (!ASSERT_OK_PTR(skel, "open_and_load"))
- 		goto out_rm;
--	skel->bss->monitored_pid = getpid();
- 	if (!ASSERT_OK(path_ancestors__attach(skel), "attach"))
- 		goto out;
- 
--	/* mkdir b: the hook sees dir == suba, whose ancestry is walked. */
--	if (!ASSERT_OK(mkdir(subb, 0755), "mkdir_b"))
-+	/*
-+	 * A mount anywhere in the system during the walk legitimately ends
-+	 * the lockless iterations with RETRY and no conclusion: retrigger
-+	 * until a quiet window.  mkdir b: the hook sees dir == suba, whose
-+	 * ancestry is walked.
-+	 */
-+	for (attempt = 0; attempt < 5; attempt++) {
-+		memset(skel->bss, 0, sizeof(*skel->bss));
-+		skel->bss->monitored_pid = getpid();
-+
-+		snprintf(subb, sizeof(subb), "%s/a/b%d", base, attempt);
-+		if (!ASSERT_OK(mkdir(subb, 0755), "mkdir_b"))
-+			goto out;
-+		rmdir(subb);
-+		if (!skel->bss->retry_flags && !skel->bss->escalate_err)
-+			break;
-+	}
-+	if (!ASSERT_LT(attempt, 5, "retried_out"))
- 		goto out;
- 
--	/* suba, base, /tmp, / at least. */
--	ASSERT_GE(skel->bss->ref_count, 4, "ref_count");
-+	ASSERT_EQ(skel->bss->escalate_err, 0, "escalate_err");
-+	/* suba, base, /tmp, / at least; equality across modes is the point. */
-+	ASSERT_GE(skel->bss->rcu_count, 4, "rcu_count");
-+	ASSERT_EQ(skel->bss->ref_count, skel->bss->rcu_count, "ref_vs_rcu");
-+	ASSERT_EQ(skel->bss->rcu_ns_count, skel->bss->rcu_count,
-+		  "nonsleepable_vs_rcu");
-+	/*
-+	 * The escalated position is walked twice: once lockless, then again
-+	 * as the resumed referenced iteration's first position.
-+	 */
-+	ASSERT_EQ(skel->bss->hybrid_count, skel->bss->rcu_count + 1,
-+		  "hybrid_vs_rcu");
-+	ASSERT_EQ(skel->bss->retry_flags, 0, "no_retry");
- 	ASSERT_EQ(skel->bss->ref_flags, 0, "ref_flags");
- 	/*
--	 * The referenced loop ended at the root, not on an allocation
-+	 * The referenced loops ended at the root, not on an allocation
- 	 * failure.
- 	 */
- 	ASSERT_EQ(skel->bss->end_flags, 0, "end_flags");
-@@ -48,10 +74,13 @@ void test_path_ancestors(void)
- 	ASSERT_STREQ(skel->bss->first_path, suba, "first_path");
- 	ASSERT_EQ(skel->bss->first_len, strlen(suba) + 1, "first_len");
- 
-+	/* The escalated position is the walk's second one: base. */
-+	ASSERT_STREQ(skel->bss->escalated_path, base, "escalated_path");
-+	ASSERT_EQ(skel->bss->escalated_len, strlen(base) + 1, "escalated_len");
-+
- out:
- 	path_ancestors__destroy(skel);
- out_rm:
--	rmdir(subb);
- 	rmdir(suba);
- 	rmdir(base);
- }
-diff --git a/tools/testing/selftests/bpf/progs/path_ancestors.c b/tools/testing/selftests/bpf/progs/path_ancestors.c
-index 6287f5099a18..3ebf86b23199 100644
---- a/tools/testing/selftests/bpf/progs/path_ancestors.c
-+++ b/tools/testing/selftests/bpf/progs/path_ancestors.c
-@@ -11,23 +11,52 @@ char _license[] SEC("license") = "GPL";
- 
- __u32 monitored_pid;
- 
-+int rcu_count;		/* positions seen by the pure lockless walk */
-+int rcu_ns_count;	/* ditto, from the non-sleepable program */
- int ref_count;		/* positions seen by the pure referenced walk */
-+int hybrid_count;	/* positions seen by the lockless+escalate walk */
-+int retry_flags;	/* pos flags at the end of the lockless walks: 0 unless RETRY */
- int ref_flags;		/* pos flags seen by the referenced walk */
- int end_flags;		/* flags after a referenced loop ended: 0 unless NOMEM */
- int second_len;		/* d_path length of the walk's second position */
- int first_len;		/* d_path length of the first position, after the walk */
-+int escalated_len;	/* d_path length of the escalated position */
-+int escalate_err;	/* bpf_path_ancestors_legitimize() result */
- char second_path[256];
- char first_path[256];
-+char escalated_path[256];
- 
- static bool monitored(void)
- {
- 	return (bpf_get_current_pid_tgid() >> 32) == monitored_pid;
- }
- 
-+/*
-+ * Lockless walk from a non-sleepable program: the RCU critical section is
-+ * implicit, no bpf_rcu_read_lock() needed.
-+ */
-+SEC("lsm/path_mkdir")
-+int BPF_PROG(rcu_nonsleepable, const struct path *dir, struct dentry *dentry,
-+	     umode_t mode)
-+{
-+	struct bpf_iter_path_ancestors_rcu rit;
-+
-+	if (!monitored())
-+		return 0;
-+
-+	bpf_iter_path_ancestors_rcu_new(&rit, (struct path *)dir, 0);
-+	while (bpf_iter_path_ancestors_rcu_next(&rit))
-+		rcu_ns_count++;
-+	retry_flags |= bpf_path_ancestors_rcu_pos_flags(&rit);
-+	bpf_iter_path_ancestors_rcu_destroy(&rit);
-+	return 0;
-+}
-+
- SEC("lsm.s/path_mkdir")
- int BPF_PROG(walk_modes, const struct path *dir, struct dentry *dentry,
- 	     umode_t mode)
- {
-+	struct bpf_iter_path_ancestors_rcu rit;
- 	struct bpf_iter_path_ancestors it;
- 	struct path *pos, *first = NULL;
- 
-@@ -41,9 +70,21 @@ int BPF_PROG(walk_modes, const struct path *dir, struct dentry *dentry,
- 		return 0;
- 
- 	/*
--	 * Referenced walk: every position comes acquired, so it stays valid
--	 * past the step that yielded it - the first one is held across the
--	 * rest of the walk and used only once the walk is gone.
-+	 * Mode 1: pure lockless, under an explicit RCU critical section.
-+	 * Positions are borrowed, so nothing is released here.
-+	 */
-+	bpf_rcu_read_lock();
-+	bpf_iter_path_ancestors_rcu_new(&rit, (struct path *)dir, 0);
-+	while (bpf_iter_path_ancestors_rcu_next(&rit))
-+		rcu_count++;
-+	retry_flags |= bpf_path_ancestors_rcu_pos_flags(&rit);
-+	bpf_iter_path_ancestors_rcu_destroy(&rit);
-+	bpf_rcu_read_unlock();
-+
-+	/*
-+	 * Mode 2: pure referenced.  Every position comes acquired, so it
-+	 * stays valid past the step that yielded it - the first one is held
-+	 * across the rest of the walk and used only once the walk is gone.
- 	 */
- 	bpf_iter_path_ancestors_new(&it, (struct path *)dir, 0);
- 	while ((pos = bpf_iter_path_ancestors_next(&it))) {
-@@ -70,5 +111,36 @@ int BPF_PROG(walk_modes, const struct path *dir, struct dentry *dentry,
- 					    sizeof(first_path));
- 		bpf_path_put(first);
- 	}
-+
-+	/*
-+	 * Mode 3: hybrid.  Walk lockless to the second position, then hand
-+	 * that position over to a referenced iteration which resumes there.
-+	 */
-+	bpf_rcu_read_lock();
-+	bpf_iter_path_ancestors_rcu_new(&rit, (struct path *)dir, 0);
-+	while (bpf_iter_path_ancestors_rcu_next(&rit)) {
-+		hybrid_count++;
-+		if (hybrid_count == 2)
-+			break;
-+	}
-+	escalate_err = bpf_path_ancestors_legitimize(&it, &rit);
-+	retry_flags |= bpf_path_ancestors_rcu_pos_flags(&rit);
-+	bpf_iter_path_ancestors_rcu_destroy(&rit);
-+	bpf_rcu_read_unlock();
-+
-+	/*
-+	 * Out of the RCU critical section.  The resumed iteration's first
-+	 * position is the escalated one, kept alive by the reference the
-+	 * iteration hands out, so sleepable work can run on it.
-+	 */
-+	while ((pos = bpf_iter_path_ancestors_next(&it))) {
-+		hybrid_count++;
-+		if (hybrid_count == 3)
-+			escalated_len = bpf_path_d_path(pos, escalated_path,
-+							sizeof(escalated_path));
-+		bpf_path_put(pos);
-+	}
-+	end_flags |= bpf_path_ancestors_pos_flags(&it);
-+	bpf_iter_path_ancestors_destroy(&it);
- 	return 0;
- }
+Interesting find and looks good to me.  Feel free to add:
+
+Reviewed-by: Gabriel Krisman Bertazi <krisman@suse.de>
+
+thanks,
+
 -- 
-2.55.0
-
+Gabriel Krisman Bertazi
