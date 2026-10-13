@@ -1,228 +1,148 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBF6542EFD
-	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 19:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791921246; cv=pass; b=IYnB+yBTSdAsx09b6lmD97T0UldR+hd7qnE3S3KRncsnemiXcAjzW2SSuoaDqHTdZt1d4vBXbHwDURAUOEvzkdahG0FJO8o2xVSiZGg8ZtOEq20inKCoJZrBqlCbkcOKLs0amVJlwSJOgm0fVMUTfFKzjn1O9lK6vtoT5UxQdXQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791921246; c=relaxed/simple;
-	bh=gz/rGOEvzA8Irn4bo3jjQQgOvzTDOAdHYh6h6XK0A+I=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SfhIxTx21CuxIODpY675cnQKIbQ2HRkvMtG4fBIGPBFUVn7LbHPRNGvUXDcdIm36qGJLCOS+dtZ41GP8By8R1NzD9XIi1mNyuA8l7rmvO12sLyX8y5irtj8dsfsB9N5VyR6rAmZTY1DrtzAZXpAd8JO6op4s+3YLteLWo71MvXo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AYWARZZI; arc=pass smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F29545DB2
+	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 20:02:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791921772; cv=none; b=ebfIec/kaTNwfOTJhvCvakLsxnVfjg04cSOfSINxoatO/G61CecJG01Ekd3wCmM/SAr9OZ5gdDtid/s5bjvl9RTTXra0glWRwNzdmrxOfMy4IF10k+MukuWg+kG532O6Iw+TIXqjoCOXElFIzy6TEaQlGO5Jy14h25NdpGuy3u4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791921772; c=relaxed/simple;
+	bh=5OmzUIP8dmoGXLqtWjV2SDzvrm+zBkTDLpjN5AcCB6g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UNiCtkvEPJvDLOCttCZbfWnVuwlY6G2miCKLr6HE2EeiY8ShaNZLEIsllMlQPmIn679K9yRUovMunrHwx1NYu6fm+/CtQ7KmvGr80g8mB1OJ4Y8K5Ss8LaZKFGRaYk30lOMEZJl3ipYqc+r1EtGqnzEYfsI00Lg4PQM9hz0QKZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hJf3PxDN; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AYWARZZI"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-917c04630c2so43992036d6.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 12:54:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791921242; cv=none;
-        d=google.com; s=arc-20260327;
-        b=CzP0gH4U3DmHmEhOL7JV5+VVl8nDALQHSRL4yxqvGAG20X9QZq0V9ieUSCKUVLeujx
-         zUUJI1wWZBV6ORV4OJPLbetCpLcQsf4nDIJnnab8GAZO2eZLqpBaiqxe/7WLr3jF+SUK
-         Bx3/FdVjA2FBnhsm1R91evv7Y7Q6+gKHlTMHGqVQwDsLauraKz7YLsWDXfNZrO/Y4HLe
-         813p3sRHEaEpS6zTUCO7GFUTIK2oDZ97XFALq4nVIua+Rf87lcUzQZ1AcXp6vT11Gfw8
-         8Oc18DkeU8Yk/2UeyzwLOAlbTX7MdzOLcXU6WLiF87qjRAjElCygJu6IuPEeLHmAHZl9
-         cOXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=fjiIk8S/1b/fq42ObdZjHlUOMsEJstLh+gvZY/xKhZA=;
-        fh=Uw8kDTEqXzQj8HVnKQqBhwpv5/C15oee1yZNfY+C/os=;
-        b=Zdj9sTYJH/kNrfB9Gn0pYkX6BwkGxK/v+d7+8SUMwPKT1eAeUZKJYHsszcjfD/zH2j
-         ht2CKrImTwe1OKF2/zax3rgMD/ODSs0fNYQIRKb/NwiK0rvCXcawvBck172zEP9vG6lJ
-         k2tQ9EGFGfCjFAsPn91zKfWWYrb2hLlpDRih3Ws8pM5Y6hyezTWYghhCKLr5E48JuIQi
-         oZwVdIa/xIpzyXi+Lq+tf2GzjcoJgLXj5tX3rqG36gSBbE0w9hJg1Zchjfdg/pbd+L51
-         kHEP8YTamsJdsxp+gM+Spu9aDsEWF6hD/R2yaLkkqmQeq4yMNMqsWnE3WqLRXOwaFdFC
-         evoA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJf3PxDN"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a1698ea378so28093375e9.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 13:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791921242; x=1792526042; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1791921768; x=1792526568; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fjiIk8S/1b/fq42ObdZjHlUOMsEJstLh+gvZY/xKhZA=;
-        b=AYWARZZIgVGEohdhzynNKmu3krV6S3f1uZ2eEs7nq7bDRIxjtxJq+WlcllWjFMqt51
-         /aE80MQB3UbTMp7oNRe5Y1ZD7i5Bdbpl0Zdu67h7dGtzb3upE42JBA/aFHl/xKzOj2YX
-         xswOmCKZgdpQb5h8cPjITaGqIg5ZKEUMMH9G7rr60y9r0ucTyXWUuczb4oSSH8/Mg2z7
-         rDvGjLN/xZV1W3y25BFCpCxWvxjNBD1KuiUlb0vrEu3+HWhdPq26IBCnzXM3FuR5lFtV
-         huj8hful/ci1hwdxqqP+8eKptr8vUjPThf2gLYgXYelbzsmaAB19G9276TIaqU8pOwXX
-         ygcA==
+        bh=ht3KL+dVHT63kyImKLUa9SErnOvImt82gs/Vf44c6SY=;
+        b=hJf3PxDN4i6ZpsKL2RdjcwzOTsxpJNzzmvONtwiGent2HSuMTbvCA/ErZzO6rsrI4o
+         fDJFZhbpOZehvFgsi6t+o1TCN3mTCJLCRM/gI/fd0Rep5AhyMflANAxrT89Vtn4NYrR2
+         GZok6c3wcIMdliMvyGLNyJbo9XAcsFwmJMPruDMBB9q1uRaozVCLvb+722hn4fGUQ/xJ
+         lhivSigzIf16XS8SAFInn5e2TgMYXDgEFWNjS5PXDqsxiqbyKl0FYl6WPvD9rL1zBvUY
+         pIfJVNz7f4RkYuT0Et8lCvOsX2ZIx5S4s2VJWHrWadTEo2JcTjFz0Ko2MR3X7/OWcS7S
+         h/NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791921242; x=1792526042;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1791921768; x=1792526568;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=fjiIk8S/1b/fq42ObdZjHlUOMsEJstLh+gvZY/xKhZA=;
-        b=fAjiuT3ZgqVvS+GbxJEG0dc3yPLHzaF2NPFIjXTzSkEZucHX/o1h1TBa9+kl4EIJcu
-         kcIi/2zb3ysONPznxP6PcHZZHnU0sNOgEndUGWo7uQ20Q9JDIQMMCp8WO8i+gCpzng/X
-         Bf/vhgnBdvOhdvwt6QLZHRmNhKcGDjYWjzIbCy9yCQgZMGiP3Q9tV1QatzqD8tDv3qBH
-         IkFj+VtmqMCuZHBYsQsNYRqcXwRX5le1pbJhx5UN/0k5SsM666c5Wl4K/CS6cxOAxWd+
-         tuuj4qw4rxJhyz5JVvD6iW0DBTCXKn0oHPzOQ3fRU+oOCxV+F/1n7adBkRBo9qTLYdgq
-         wIgg==
-X-Forwarded-Encrypted: i=1; AKwUvBzg4QtNa6js3enk+XqxZuac2QbetygiRMb/2ZlZaAEzkCDQ6PGtForrgkndoM8LpUSnRl3ef4/Hg9uh6nAT@vger.kernel.org
-X-Gm-Message-State: AFq9FYLvSjiVVFd8XjseBuZmi7ZwgKZx+7FxrHUHcmmkMhaKR4QV9ZK9
-	uh0erJMyWZd/57YH4TnhmXDPAAOzQ/ClfEuvZ1iQDa/5I94paQMo1ZH7pnnUp3RsgcpRCT+0BDN
-	ajq//10PjDRDVgX1cMt/Om3zVK9jOZxo4Wqq0dQu0
-X-Gm-Gg: AYBFou3hb/msM/+TzUMyQpuxTH+F1K4JYEOQsqKG89DEJUQ9Q9X+pB+DwiHL6NCxoJu
-	hQoHeBDUogGsjSQqFpVmW2CP1PFVEEXcbbYHX0CKZhSuTUeiHLQbqi5YVaFnhBsBIQr91eUkwm2
-	/1mL7Hctp/pDbyRoI2hScGmwbRpcSzmGQx4k0dMvb7M2vrZhfeGrpcuK57kFPNXknhKUuAvv2Gv
-	aJBvsUanePvMy9ptzuikdFvc5v5IyjWYLGAkhEUxHxctu4XmG3MQJc4sK7NOqblMVn61p3GkJhE
-	UtO1speGhXbcOual/+PoGoLHhZ6qpPWfXopHm3EURpSnBAal4bl4zMZrDyJ9VZtBthnuNGx9zdn
-	q8b32QNC57Yj+5gGhI0Gi7hjTUnI7nE45U5XrYHLn1g==
-X-Received: by 2002:a05:6214:5085:b0:90c:b843:d679 with SMTP id
- 6a1803df08f44-91b555668b1mr241693526d6.29.1791921240685; Tue, 13 Oct 2026
- 12:54:00 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 13 Oct 2026 12:53:59 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 13 Oct 2026 12:53:59 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20261006183235.16576-1-griffoul@gmail.com>
-References: <20260720111259.122911-1-dwmw2@infradead.org> <20261006183235.16576-1-griffoul@gmail.com>
+        bh=ht3KL+dVHT63kyImKLUa9SErnOvImt82gs/Vf44c6SY=;
+        b=dhgUUazZfvb+mxx0pScmIoifsFuMm5rOmxRgdO3MaiU1NOOxtj3Kh24+jd3ZtBAPiV
+         jCu7TRI6gIRVAXJzC5FfY/jE//Co5HGZUSestRce1wfDdz23ETTEcmZYWKOJw+blQc+R
+         IU9qRgEsneULkORCr8JNZnODumSX2ieqAvjVgVjNltS5ypgEeb8X1vfMI0N/H2PjweDB
+         F56dPmpjFW4OjapteDRqJhLMClFOXS+42xN7PurEO9SFv1z/59QntBydVksTQb9U707i
+         /EPmoUfkr3mtz0h9Xe/KOTK3qZliwaD7LOsgVt17c50OubU1C/UwEY40Du6VaZ4AsRdI
+         9EgA==
+X-Forwarded-Encrypted: i=1; AKwUvByF5UyISeqewM5FTy/aFs5mGebeLJGefX60u9wSp+5ovvYpn+BEZZRqMegtyrlDMdshcRXqypEW3BlCAMDS@vger.kernel.org
+X-Gm-Message-State: AFq9FYLkmH2Q/SZRvXnI3Y5TtVunqdCvyVQ16vhn3fqBs4I+RIDYFcvn
+	KPfGDak8M9Gi8RPdru23hom4XhKtqd1FELrOKrjnUa9x4cZwQn63uOxZ
+X-Gm-Gg: AYBFou1rB+v51pyHpQfu54hwixFAiDccZDTJvww0wMv+JyHYalw1cod3T85JJrVLMAO
+	FeRFOqbQ5rupH5xpEXV115hHr/TeF0ZjVUWEupOOXVx17q3aeDFxnoHRT4hg14oH0ChuauFRxBz
+	jR20afSs4V6oxm1UlOw5zXh/ElRWZ1R1D6Zhx0C7TNRCM/AIZafasTPR4SD8g5QuuVhOTjIHNgr
+	M2lF5mohA25mQwHlCwuTqPfJW7DyNru1tu/UjosDioOBLZ5n8Q2+W+6l6ACzDTAGedAcaLgrW29
+	r2ynkzcEt4C8h6aMQCXauKGMaicGTT7HRLLvVNA/KfKNxQ1nzCITd/5Oi6oAn5AWNJiklZCobrU
+	vTIA/yl0bJBqDAqeDY14LxJBXu10kxfhkCP+Rc+itppDessqQopV+s7K5MRQ/qGcsOYfFySmLaT
+	RmIVycQtID4t8wEPFHWyteCYIB2po/uIJYY2JBNXMm0yBYtHxG/57NnZ0HEMpBKRkpTpMKeoQ7K
+	tqKmt8ZtqTEKCoBseQtWxrKFj4PEnQGyz1ZH0x/GKdCWmvqRlGNSGGVj/5/5aQ9x5dAd20/fBQF
+	xBLf/skz8INJ0D6FtM44Eo1X7DrlxSFGL3QTvljbvpGJYtUioaoSGgIUk84=
+X-Received: by 2002:a05:600c:46cc:b0:4a0:8b1:f5c with SMTP id 5b1f17b1804b1-4a18e4b583fmr268480065e9.22.1791921767928;
+        Tue, 13 Oct 2026 13:02:47 -0700 (PDT)
+Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bead84esm384426465e9.13.2026.10.13.13.02.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2026 13:02:47 -0700 (PDT)
+Message-ID: <63fa3e64-44a8-4539-960c-946cebc8fce5@gmail.com>
+Date: Tue, 13 Oct 2026 21:02:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 13 Oct 2026 12:53:59 -0700
-X-Gm-Features: AclHuK8TQPboa9RVDrBS_-w6dTXGHf21nXTRvYl_CuU35T-tn195uLjZFRceV3k
-Message-ID: <CAEvNRgEseLO+LbkwXrEit0H2LH5Wx-srSvHEMpt0=upPL3tF=g@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/9] mm: Memory providers for guest_memfd and iommufd
-To: Fred Griffoul <griffoul@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>, 
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H . Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc: David Woodhouse <dwmw2@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Steffen Eiden <seiden@linux.ibm.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	kvmarm@lists.linux.dev, iommu@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, aik@amd.com, 
-	jacob.pan@linux.microsoft.com, gourry@gourry.net, vannapurve@google.com, 
-	fvdl@google.com, tabba@google.com, dave.jiang@intel.com, 
-	aneesh.kumar@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 01/13] dma-buf: introduce initial file I/O
+ infrastructure
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
+References: <cover.1791336930.git.asml.silence@gmail.com>
+ <b44df9fed6e346110c504ee312bb0083c7e75574.1791336930.git.asml.silence@gmail.com>
+ <aszbv7TgDOPHBEem@gsse-cloud1.jf.intel.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <aszbv7TgDOPHBEem@gsse-cloud1.jf.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hey David/Fred,
+On 10/12/26 14:08, Matthew Brost wrote:
+> On Wed, Oct 07, 2026 at 02:42:44AM +0100, Pavel Begunkov wrote:
+>> The goal is to be able to natively use dma-buf in the read-write / IO
+>> path. This patch adds basic building blocks serving as a glue and API
+>> between drivers and upper layer subsystems providing the uAPI. Later
+>> patches implement it for NVMe raw block devices and expose it to the
+>> user space via io_uring.
+>>
+>> There are two main objects. struct dma_buf_io_ctx and struct
+>> dma_buf_io_map. The ctx is used during initial registration and serves
+>> as an interface between the upper layer user like io_uring and to the
+>> importer subsystem / driver. The map represents the actual dma map
+>> established for the target device[s] with dma_buf_map_attachment() and
+>> stored in a device specific format. The context is created via a new
+>> file operation ->init_dma_buf_io_ctx.
+>>
+>> The ctx-map separation exists to facilitate map invalidation (see
+>> dma_buf_io_invalidate_mappings()). A ctx can create
+>> multiple maps during its lifetime, but there can only be no more than
+>> one (active) map attached to it. Invalidation drops the active map
+>> if present, and any new I/O request will try to create a new one.
+>>
+>> The primary task of dma_buf_io_map is to count requests using it
+>> and wait for their completion when we want to destroy the DMA map.
+>>
+>> [un]mapping and any work with dma addresses is delegated to the
+>> importer driver via an ops table stored in the ctx, see struct
+>> dma_buf_io_ops. Only the target driver / subsystem knows about devices
+>> it wants to use the dma-buf with, especially in case of multi-device
+>> filesystems or stacking in the future.
+>>
+> 
+> Full disclosure Pavel incorporated some of my ideas wrt to locking
+> cleanup which I shared off the list.
+> 
+> So I can't in fairness give an RB but:
+> Acked-by: Matthew Brost <matthew.brost@intel.com>
+> 
+> For the series - I can give this and I have pulled to code + have Xe
+> nvme + IGT setup showing this working:
+> 
+> Tested-by: Matthew Brost <matthew.brost@intel.com>
 
-I took some time to read the patches, hope I got everything :) The
-biggest difference between your approach and mine is who (provider or
-guest_memfd) manages the zapping across all the users.
+Thanks for the suggestions and testing!
 
-The memory users here are
+-- 
+Pavel Begunkov
 
-1. [KVM] The guest (KVM manages the stage 2 page tables)
-2. [IOMMU] The IOMMU (iommufd manages the stage 2 page tables)
-3. [USERSPACE] Host userspace (guest_memfd handles faults, I guess you
-   could say core mm manages host userspace page tables)
-4. [DIRECTMAP] Kernel direct map. Your provider already provides PFNs
-   that are presumably not in the direct map. For other providers, the
-   direct map is another mapping that may need to be zapped on
-   private/shared conversions. (Listing this here for completeness, I
-   think this should be tackled separately.)
-
-I'll use [LABEL] to illustrate the way notifications flow in your
-approach vs mine.
-
-When the provider wants to revoke the page, the notifications/function
-calls flow this way, the last [ENTITY] in the chain actually does the
-zapping.
-
-+ [PROVIDER] -> [KVM]
-+ [PROVIDER] -> [DMABUF] -> [IOMMU]
-+ [PROVIDER] -> [GUEST_MEMFD] -> [USERSPACE] (AFAICT this was not
-  implemented in the RFC.)
-
-That's when the provider wants to revoke the page. IIUC guest_memfd
-conversions was not illustrated in the RFC: what happens on a shared
--> private conversion?
-
-+ [KVM]: Zap only shared pages, keep private pages mapped.
-+ [IOMMU]:
-    + Before Confidential IO: so far, IOMMU mappings are mapped
-      indirectly via [USERSPACE] mappings. guest_memfd zaps
-      [USERSPACE] mappings, then checks refcounts to ensure no other
-      mappings (which includes IOMMU). See __kvm_gmem_set_attributes()
-      on kvm-x86/coco [2].
-    + With Confidential IO: shared IOMMU mapping need to be zapped,
-      keep mappings of private pages.
-+ [USERSPACE]: Zap all mappings on shared->private conversions.
-+ [DIRECTMAP]: Can zap these mappings (not implemented yet, but
-  discussed in the context of Direct Map Removal support for
-  guest_memfd [3])
-
-To have the conversions work, in your model, we'd need to do
-
-+ [GUEST_MEMFD] -> [PROVIDER] -> [KVM] (zap only shared pages)
-+ [GUEST_MEMFD] -> [PROVIDER] -> [DMABUF] -> [IOMMU] (zap only shared pages)
-+ [GUEST_MEMFD] -> [USERSPACE] (IIUC the provider doesn't directly
-  allow mapping to userspace, also in your approach the provider
-  pretty much replaces all the innards of guest_memfd anyway, hence
-  I'm showing this as gmem going direct to zap userspace)
-
-With my proposal [1], we could do
-
-+ [GUEST_MEMFD] -> [KVM] (zap only shared pages, implemented in [2])
-+ [GUEST_MEMFD] -> [IOMMU] (zap only shared pages)
-+ [GUEST_MEMFD] -> [USERSPACE] (implemented in [2])
-+ [GUEST_MEMFD] -> [DIRECTMAP] (future)
-
-In my proposal, I agree with you completely that the provider must be
-allowed to revoke memory. Using the sample in this RFC, gmem_fd_ioctl()
-called with !GMEM_PROVIDER_SET_PRESENT is where the provider wants to
-revoke memory, and the revocation in my model would look like
-
-  [PROVIDER] -> [GUEST_MEMFD]
-
-and [GUEST_MEMFD] would then fan it out to [KVM], [IOMMU], [USERSPACE]
-and [DIRECTMAP].
-
-The [GUEST_MEMFD] -> [IOMMU] is missing from my proposal because I was
-seeing that as a separate patch series. I think what we want is to have
-IOMMU_IOAS_MAP_FILE be able to accept a guest_memfd file. Currently,
-during the mapping process(), memfd_pin_folios() is used, which has this
-check
-
-	if (!shmem_file(memfd) && !is_file_hugepages(memfd))
-		return -EINVAL;
-
-that disqualifies guest_memfd. Refcounting won't work for guest_memfd()
-folios because of conversions (see kvm_gmem_has_outstanding_references
-at [4]). The implementation I have in mind is to have the the iommufd
-instance be tracked in guest_memfd during the pinning process, and
-that's the pointer guest_memfd will use to get iommufd to zap during
-[GUEST_MEMFD] -> [IOMMU]. This [GUEST_MEMFD] -> [IOMMU] zapping was
-previously also proposed in the context of Confidential IO [5].
-
-[1] https://lore.kernel.org/all/20260925-gmem-tmpfs-backend-v1-0-d36159822d18@google.com/
-[2] https://github.com/kvm-x86/linux/blob/a6270ed4bec0caa25913082e71ce22254e9cd3ed/virt/kvm/guest_memfd.c#L685
-[3] https://lore.kernel.org/all/20260410151746.61150-1-kalyazin@amazon.com/
-[4] https://github.com/kvm-x86/linux/blob/a6270ed4bec0caa25913082e71ce22254e9cd3ed/virt/kvm/guest_memfd.c#L722
-[5] https://lore.kernel.org/all/20260225075211.3353194-1-aik@amd.com/
-
-I'm intentionally avoiding the "primary manager" terminology since
-that's overly broad and doesn't really explain what processes exactly
-are being managed. It's really just which entity tells which other
-entity to zap pages, and since shared/private-ness of memory is core to
-guest_memfd, I think guest_memfd is in the best position to tell all the
-other entities to zap, and what (shared/private to zap).
-
-Does your provider need to know if some memory was transitioned between
-shared/private states? The provider can be notified too, if
-necessary. If not, then isn't guest_memfd doing all the coordination
-better than going via the provider?
-
-Does the revocation model work for you? If it helps, I can rebuild the
-sample provider to illustrate how the revocation can be done. Let me
-know what else is missing from my model [1]. :)
