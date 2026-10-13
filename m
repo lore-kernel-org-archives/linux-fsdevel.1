@@ -1,131 +1,220 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB63522698;
-	Tue, 13 Oct 2026 17:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7C44AB1C8
+	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 18:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791913816; cv=none; b=DmCKeI7NxqKky/vUjbpIshdN3P3kOXgE2NvnKhGnrslzS2gXc41EHUci9NtZUbWySc7Pa+T79yo4wVJxReMPo+PKMQ+4sKW3g0PGdKOGg/Co9UZsmdF1um8O5O/q/3A94IO9R8KgeRnPdBL9C+K2Mp5byHTikvPNFweeHhljtdM=
+	t=1791917255; cv=none; b=XLkhD8aahWjdR4zZzuWkZ74ex5qshtUghcuQI/8KpKx0+OrXloX5jbC9A48SZ/8zF9wH/KoOCQPW4uFf/bar16ESX9XuYkp3Ln/veY7wcOCDpHoqe4N1wnwi3rzBNnfGy/Icy4L8IrLXUX0vR0sFGRN4+wVlJUy4czpbfD0cv3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791913816; c=relaxed/simple;
-	bh=Ob5hfSVRBDVFo9k7LYylFgt6ZwRA0BvD9bQTXcqDE6A=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=bEcNpEjyUfso9B6TnIB3w9KMgTlJQVfNYjxxDLC+kgDTf3zHguZSHToMY1S9CdNvxGyHndq0n0Hhs9Y/FZmrKtsjsmBYSoEckR5dOGli0w72S1qZqdMO76+wOu3eoaSY1G5ZzE7rAY9TxLQ6xDHsE5e8TiVPQlJQX0sb1znLAyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LkS3R4le; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791917255; c=relaxed/simple;
+	bh=pYjY9rWfr21kO4iNAj0qb5nTvYGVZnDwiPxGonsD5Js=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ao/fxHIs/f3gynctM9MnEnevVK6a/NCa6U3Ehr4kbz4PyBVMj5uL4PYgUika0Qilpu2jDN+THycAnT3fEfKKqZsup9G9jdVJlEtrsBvk+xSPWbDVs96dRlHioUOcmH5hWwqf6MF7+qLQW1DiWNeNzh18VHICuli+KLqMHkyNutQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oVVR5shj; arc=none smtp.client-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LkS3R4le"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 859851F000FF;
-	Tue, 13 Oct 2026 17:50:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791913811;
-	bh=/4OBcQphtPzD4TvEvZfIteR9fXjco/MRVw8nWpXqrVw=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=LkS3R4le+63v5wkxJTVG8Dx4CsBOlu4SrUpA0wXL8a1uk2tJS4QREU/I7idEHhO/0
-	 p5V2Tv3xg/A2Cp2LiEcD5aW0d3861PtOd36ZIAPTg0+hTZT8F9VT865HCnDk+9GlIy
-	 mxSx0w6SPL4i2ST9O9zahMHJadZobnR02xCvpY/drzH+JQtGB3WApOE1BhAew5gxcZ
-	 /6Sk4QTQFT9E+dwM82NSEq5KvZ8onfNKSpEXaa+WieJmy0yf2lKUvJXxAFQhxAn2Sb
-	 mp8eDxXHSjsUnrlLb8Uffw3xIUjMRX2LKtcT27GdNG7KuE0eRYQZz/Hx0WysMUCBPv
-	 9KXOhYv4YpuEA==
-Content-Type: multipart/mixed; boundary="===============3729759909576102404=="
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oVVR5shj"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-3535aa147d8so250877eec.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 11:47:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791917251; x=1792522051; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=udG0DXbTIaYDWqaYT2920eFyVeAlI4kC5bwVowQYt8Y=;
+        b=oVVR5shjsFYu4XjANAvCnm6KQmuDNGhs1m97UTqC9YM5VlZ7sBhnSR6ZIvS/vZMClE
+         VWEvJ8oYWO7hQOJ+pebRds+R4+t067u3pXEA9PAFQnZvgaHwV7yRwNLEMcOwve/QTsKO
+         3JaBiTTvWtA+nNt61uFAUJ9jxaV7bBb7MB4RTf1nSn9lM3VoBrufv17zebPrLtnuDBCa
+         OR8qhfkl1Rpa6QRyiN/48HkVCRj8NkUbtCMHVdDtC0LcyYqa1VTVLL44h7IZGXR06CJ4
+         aWaj3+IetSfTsK3/hRoNE9l+80Wxhbq4+e9/seTbGNCHTgycUGagKq/JDkXUsdpQlOy0
+         5W+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791917251; x=1792522051;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=udG0DXbTIaYDWqaYT2920eFyVeAlI4kC5bwVowQYt8Y=;
+        b=ZSwG5JaHY/jDumOt/5IRzGas2pPE9R2+7Nr8sGWKARFio99Da4k9P/pkIVLbXyn/Sf
+         LoykWvFnnUmBSvRnoM5pXeDKgadvFH1TI7E7LhZ7FM7sbmz2cx0OxnVDWpDz+LjVsKb+
+         K6s7T9C4Hpf5DAIN45S5vOIePbytGg4nd2etUDE2vmMbxe4qrq8+zuI4pChY7V+w5drc
+         CaXBbXFOUQuOGhpfDCadayU3vEXfFHMlGKTpGDhmxvDpjCaR+vi0REmdfO4H+Bs/Cutf
+         KBlY/EYqsV53gxXzoyJOnwqrSNsvwYsI/LJYLGJM3cWU7pDs8+WnLoNEozTJkEpUW0lG
+         O6Vw==
+X-Forwarded-Encrypted: i=1; AKwUvByo7pGKawcSIAW/SyMJwgtm4xz/fPr6miQN7QScyNHjgGqag3G7xAm6ezydhJN2wegTM9sfS4X+iy8zp2q4@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ4krUaHO1bEHSuFhn69aXGFe84sSq3EFgLJlPRaiMcyDfafVUS
+	taY+L5D593fm4WHOVc1xfWRpbqkpI3z7aXt28BJm5P08zuFMEsSovqYc
+X-Gm-Gg: AYBFou1Su4pK7PFiwMo4SadBrTYwF7W4gMgc9M0eJdLvBP8ILBsQzGyPmbVN1PV2xYI
+	WqIBQwfJCO7899LlVAWSiIiK1frpGFzmhhM6BTN/6kDbffNR3qiKX/NxsMNonS88Gb+B3gCXrvQ
+	1y7IUoh8+vxGtfxS+Mv34ak9PQiTGYLBUwzCwz8Ai+isBc8EPnpjW238zaBfpkc3l5kN2596NDJ
+	QVfudWEL8QFrw/1ne6pxzZ28DD7EFABxKBa/AjzUK3POSLeMJU0e6ekaRB/rE0euqGa7vjrsZCD
+	9E92PPFybBAEBG4ortt9EK3hDxeoKfmzId9zWPDFoUSM6Ma9EXccSTEaFxj7Omhnhx5+bberKzu
+	lw0OJ8PhGc9y8zCUSm2PH+N9bvsXXB09bvmivQHsYPBJj6vi4mxv/aXa58EWCdiGxrzz5R1YjL3
+	76lbd011i3ijsJDShkLk3teR5UNi6vCwl6Cjrl+2NVwK+16dudBJh2KjhGEfpTeGLPToXGmlh9Y
+	T/C4Rn35uPpMGwAhIsvbEwGzrvvsy5pyXl87ldLQZVKZRU3mIZEo4YEA/otJkp0FP7srtY/ejOr
+	hpxcAXXSY4vV/vkw+DHL8kg5sy8=
+X-Received: by 2002:a05:701b:450d:20b0:143:5c2a:e45f with SMTP id a92af1059eb24-16a4e6cc453mr27577271c88.0.1791917251231;
+        Tue, 13 Oct 2026 11:47:31 -0700 (PDT)
+Received: from eugene-desktop2.localdomain (c-73-222-231-84.hsd1.ca.comcast.net. [73.222.231.84])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a1becefdsm40261107c88.7.2026.10.13.11.47.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Oct 2026 11:47:30 -0700 (PDT)
+From: Eugene Susla <eugenesusla@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	swilczek.lx@gmail.com
+Subject: [PATCH] fs/ntfs3: fix ABBA page-lock deadlock in ni_read_folio_cmpr()
+Date: Tue, 13 Oct 2026 11:47:28 -0700
+Message-ID: <20261013184728.665956-1-eugenesusla@gmail.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <507772738f9dbf7abfad7d2910b6b155517e597dbb076aafb7c9f4bf01e322e7@mail.kernel.org>
-In-Reply-To: <20261013164800.2906577-12-utilityemal77@gmail.com>
-References: <20261013164800.2906577-12-utilityemal77@gmail.com>
-Subject: Re: [PATCH bpf-next v1 11/11] selftests/bpf: exercise the lockless path ancestor iterator
-From: bot+bpf-ci@kernel.org
-To: utilityemal77@gmail.com,brauner@kernel.org,viro@zeniv.linux.org.uk,jack@suse.cz,neil@brown.name,mic@digikod.net,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,song@kernel.org
-Cc: linux-fsdevel@vger.kernel.org,bpf@vger.kernel.org,linux-security-module@vger.kernel.org,linux-kernel@vger.kernel.org,gnoack@google.com,paul@paul-moore.com,jmorris@namei.org,serge@hallyn.com,martin.lau@linux.dev,eddyz87@gmail.com,yonghong.song@linux.dev,john.fastabend@gmail.com,memxor@gmail.com,jolsa@kernel.org,jlayton@kernel.org,amir73il@gmail.com,mjguzik@gmail.com,shuah@kernel.org,m@maowtm.org,utilityemal77@gmail.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Tue, 13 Oct 2026 17:50:08 +0000 (UTC)
+Content-Transfer-Encoding: 8bit
 
---===============3729759909576102404==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+ni_read_folio_cmpr() is called with the folio being read locked, then
+locks every other page of the compression frame in ascending order via
+ntfs_lock_new_page(), sleeping on each page lock. Two tasks reading
+different pages of the same frame (e.g. two page faults on an mmap of a
+compressed file) can each hold the page the other one needs next:
 
-> selftests/bpf: exercise the lockless path ancestor iterator
+  task A: faults page 15, holds it, waits for page 0
+  task B: faults page 0, holds it, waits for page 15
 
-TL;DR: Commit message and test comment call d_path on the escalated position
-"sleepable work", but bpf_path_d_path() doesn't look KF_SLEEPABLE; it likely
-needs a trusted pointer. Wording only, no code bug suggested.
+Both tasks sleep forever in D state:
 
->     selftests/bpf: exercise the lockless path ancestor iterator
->
->     Walk the same ancestry four ways and require the position counts to
->     agree: lockless from a non-sleepable program, where the RCU critical
->     section is implicit; lockless under an explicit bpf_rcu_read_lock();
->     referenced; and the hybrid that walks lockless to the second position,
->     hands it over to a referenced iteration, and resumes there - the
->     escalated position therefore being walked twice, once per mode.
->
->     The sleepable work the escalation exists for (d_path on the escalated
->     position) runs on the resumed iteration's first position, after
->     bpf_rcu_read_unlock(), which is the only place a sleepable kfunc can
->     run at all.
->
->     Signed-off-by: Justin Suess <utilityemal77@gmail.com>
+  __filemap_get_folio_mpol+0x344/0x4e0
+  ni_read_folio_cmpr+0x18b/0x490
+  ntfs_read_folio+0x8c/0x110
+  filemap_read_folio+0x1f/0xa0
+  filemap_fault+0x7c0/0x1400
 
-The commit message calls d_path on the escalated position "the sleepable
-work the escalation exists for".  Is bpf_path_d_path() a sleepable kfunc?
+They cannot be killed, and suspend fails because they cannot be frozen.
 
-It is registered without KF_SLEEPABLE in fs/bpf_fs_kfuncs.c, unlike
-bpf_get_dentry_xattr() right next to it:
+The same lock order inversion exists between a reader and
+ntfs_compress_write(), which locks the frame pages in ascending order
+via ntfs_get_frame_pages().
 
-    BTF_ID_FLAGS(func, bpf_path_d_path)
-    BTF_ID_FLAGS(func, bpf_get_dentry_xattr, KF_SLEEPABLE)
+Never sleep on the other page locks from the read path: pass FGP_NOWAIT
+and, if a page is locked by someone else, decompress into a temporary
+page instead, as is already done for pages that are uptodate. The data
+in that page is discarded; the page is left to its lock holder. squashfs
+does the same for the other pages of a compressed block.
 
-The reason the test needs the escalated position for d_path looks like trust
-rather than sleepability.  bpf_iter_path_ancestors_rcu_new() is
-KF_RCU_PROTECTED, so the verifier types the pointer returned by
-bpf_iter_path_ancestors_rcu_next() as PTR_TO_BTF_ID | MEM_RCU.
-bpf_path_d_path() is not KF_RCU, so it needs a trusted argument and would
-reject that pointer.  The previous patch's changelog describes the same
-constraint:
+ni_decompress_file() keeps blocking: it holds no page lock when it starts
+locking a frame, so it cannot be part of such a cycle.
 
-> nothing read out of the position may be passed
-> to a kfunc demanding a trusted argument.
+Reproduced under virtme-ng on v7.3-rc6 with a 64 MiB LZNT-compressed
+file on a loop-mounted ntfs3 image: two processes faulting page 0 and
+page 15 of every 64 KiB frame after a cache drop hang in the first pass
+(5 of 5 runs). With this patch, 5 runs of 50 passes and one 16-process
+run of 20 passes complete, the temporary-page fallback is taken about
+46000 times in a 50-pass run, and the pages read and the file's cached
+contents match the original data.
 
-The comment in the test program has the same framing:
-
-> diff --git a/tools/testing/selftests/bpf/progs/path_ancestors.c b/tools/testing/selftests/bpf/progs/path_ancestors.c
-> index 6287f5099a18..3ebf86b23199 100644
-> --- a/tools/testing/selftests/bpf/progs/path_ancestors.c
-> +++ b/tools/testing/selftests/bpf/progs/path_ancestors.c
-
-[ ... ]
-
-> @@ -70,5 +111,36 @@ int BPF_PROG(walk_modes, const struct path *dir, struct dentry *dentry,
-
-[ ... ]
-
-> +	/*
-> +	 * Out of the RCU critical section.  The resumed iteration's first
-> +	 * position is the escalated one, kept alive by the reference the
-> +	 * iteration hands out, so sleepable work can run on it.
-> +	 */
-> +	while ((pos = bpf_iter_path_ancestors_next(&it))) {
-> +		hybrid_count++;
-> +		if (hybrid_count == 3)
-> +			escalated_len = bpf_path_d_path(pos, escalated_path,
-> +							sizeof(escalated_path));
-
-Beyond the iterator's own bpf_iter_path_ancestors_next() and
-bpf_path_put(), does the test run any sleepable work on the escalated
-position?
-
-Could the commit message (and this comment) say that d_path needs a
-trusted/referenced position, or could the test call a KF_SLEEPABLE kfunc
-such as bpf_get_dentry_xattr() on the escalated position so that the
-description matches what is checked?
-
-
+Link: https://syzkaller.appspot.com/bug?id=91960c6feb9ae216c9004c0f864f74aab1aebd5a
+Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+Assisted-by: LLM
+Signed-off-by: Eugene Susla <eugenesusla@gmail.com>
 ---
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/38437592296
---===============3729759909576102404==--
+Notes (not part of the changelog):
+
+I hit this on 7.2.9 with a Windows dual-boot volume where my home folder
+had NTFS compression enabled: two concurrent git commands in one repo
+ended up in D state in ni_read_folio_cmpr() and the machine could no
+longer suspend. A reboot was the only way out.
+
+AI disclosure: the diagnosis, the reproducer and this patch were produced
+with an LLM coding assistant, which also ran the tests listed above on my
+machine. I have reviewed the analysis, the patch and the test results.
+
+Not tested:
+- concurrent writes: the reader vs ntfs_compress_write() case is
+  covered by reasoning only, not by a test;
+- LZX/XPRESS (WOF) compressed files, only LZNT;
+- the syzbot report above (no reproducer, auto-obsoleted) shows a reader
+  waiting in ntfs_lock_new_page() and a writer waiting in
+  ntfs_get_frame_pages(), i.e. that reader vs writer case; I believe
+  this patch fixes it but have not confirmed that.
+
+Build: W=1 adds no warnings to fs/ntfs3/frecord.o. The reproducer (a
+Python script and a guest shell script for virtme-ng, about 100 lines)
+is available on request.
+
+ fs/ntfs3/frecord.c | 31 ++++++++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index bead01a95..9a071b2a1 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -1893,14 +1893,30 @@ enum REPARSE_SIGN ni_parse_reparse(struct ntfs_inode *ni, struct ATTRIB *attr,
+ 	return REPARSE_LINK;
+ }
+ 
++/*
++ * ntfs_lock_new_page - Get a locked page to decompress a frame into.
++ *
++ * With @nowait the page lock is only tried, never waited for: the caller
++ * already holds the lock of another page of the same frame, and a second
++ * reader doing the same for a different page of that frame would deadlock
++ * with it. A page locked by someone else is left to its owner and a
++ * temporary page is used instead.
++ */
+ static struct folio *ntfs_lock_new_page(struct address_space *mapping,
+-					pgoff_t index, gfp_t gfp)
++					pgoff_t index, gfp_t gfp, bool nowait)
+ {
+-	struct folio *folio = __filemap_get_folio(
+-		mapping, index, FGP_LOCK | FGP_ACCESSED | FGP_CREAT, gfp);
++	fgf_t fgp = FGP_LOCK | FGP_ACCESSED | FGP_CREAT;
++	struct folio *folio;
+ 
+-	if (IS_ERR(folio))
+-		return folio;
++	if (nowait)
++		fgp |= FGP_NOWAIT;
++
++	folio = __filemap_get_folio(mapping, index, fgp, gfp);
++	if (IS_ERR(folio)) {
++		if (!nowait || PTR_ERR(folio) != -EAGAIN)
++			return folio;
++		goto use_tmp;
++	}
+ 
+ 	if (!folio_test_uptodate(folio)) {
+ 		struct page *page = folio_file_page(folio, index);
+@@ -1913,6 +1929,7 @@ static struct folio *ntfs_lock_new_page(struct address_space *mapping,
+ 	/* Use a temporary page to avoid data corruption */
+ 	folio_unlock(folio);
+ 	folio_put(folio);
++use_tmp:
+ 	folio = folio_alloc(gfp, 0);
+ 	if (!folio)
+ 		return ERR_PTR(-ENOMEM);
+@@ -1975,7 +1992,7 @@ int ni_read_folio_cmpr(struct ntfs_inode *ni, struct folio *folio)
+ 		if (i == idx)
+ 			continue;
+ 
+-		f = ntfs_lock_new_page(mapping, index, gfp_mask);
++		f = ntfs_lock_new_page(mapping, index, gfp_mask, true);
+ 		if (IS_ERR(f)) {
+ 			err = PTR_ERR(f);
+ 			goto out1;
+@@ -2072,7 +2089,7 @@ int ni_decompress_file(struct ntfs_inode *ni)
+ 		for (i = 0; i < pages_per_frame; i++, index++) {
+ 			struct folio *f;
+ 
+-			f = ntfs_lock_new_page(mapping, index, gfp_mask);
++			f = ntfs_lock_new_page(mapping, index, gfp_mask, false);
+ 			if (IS_ERR(f)) {
+ 				while (i--) {
+ 					unlock_page(pages[i]);
+-- 
+2.56.0
+
