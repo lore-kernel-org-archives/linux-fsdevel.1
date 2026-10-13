@@ -1,69 +1,69 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F29545DB2
-	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 20:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AFA542EEB
+	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 20:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791921772; cv=none; b=ebfIec/kaTNwfOTJhvCvakLsxnVfjg04cSOfSINxoatO/G61CecJG01Ekd3wCmM/SAr9OZ5gdDtid/s5bjvl9RTTXra0glWRwNzdmrxOfMy4IF10k+MukuWg+kG532O6Iw+TIXqjoCOXElFIzy6TEaQlGO5Jy14h25NdpGuy3u4=
+	t=1791922165; cv=none; b=ZIVYTFzWYmonNepEIzYNz25o/RxejJQbtHE8xfS2Th3o5H3Drhprn8D/QNeHeKE0YErr+D2v9OmefUGmiNabrcTw1hZZcYT171NkVrjJ0rXtIXKw1fHtVOFbkWsyfayfLfq2ph4yn1HU8u4LGC95p7T1j0WX1A5V9wdGr2pZ4EE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791921772; c=relaxed/simple;
-	bh=5OmzUIP8dmoGXLqtWjV2SDzvrm+zBkTDLpjN5AcCB6g=;
+	s=arc-20240116; t=1791922165; c=relaxed/simple;
+	bh=NrenYkyGWgfz/6r9jzkmCjYiJ49/s0j3/93r31ckaP8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UNiCtkvEPJvDLOCttCZbfWnVuwlY6G2miCKLr6HE2EeiY8ShaNZLEIsllMlQPmIn679K9yRUovMunrHwx1NYu6fm+/CtQ7KmvGr80g8mB1OJ4Y8K5Ss8LaZKFGRaYk30lOMEZJl3ipYqc+r1EtGqnzEYfsI00Lg4PQM9hz0QKZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hJf3PxDN; arc=none smtp.client-ip=209.85.128.53
+	 In-Reply-To:Content-Type; b=s3lxKAFho/uzpc/FZGPJhvme1Za9tN2I6Nr2CaBf06vvM00PZ8ts4mHemHuzgkvxeJ0fpnCGmBBwZHGiAOsye8877BTtiEFkpk2GOGd0FLg30r47KY0YcwKESCuYwJMyQzJUCmHvlipHZqalMti7wCIH+p9TSVcSeUX6Y8otrkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LnXe7AuC; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJf3PxDN"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a1698ea378so28093375e9.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 13:02:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LnXe7AuC"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-487049569b6so2371688f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 13:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791921768; x=1792526568; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791922161; x=1792526961; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ht3KL+dVHT63kyImKLUa9SErnOvImt82gs/Vf44c6SY=;
-        b=hJf3PxDN4i6ZpsKL2RdjcwzOTsxpJNzzmvONtwiGent2HSuMTbvCA/ErZzO6rsrI4o
-         fDJFZhbpOZehvFgsi6t+o1TCN3mTCJLCRM/gI/fd0Rep5AhyMflANAxrT89Vtn4NYrR2
-         GZok6c3wcIMdliMvyGLNyJbo9XAcsFwmJMPruDMBB9q1uRaozVCLvb+722hn4fGUQ/xJ
-         lhivSigzIf16XS8SAFInn5e2TgMYXDgEFWNjS5PXDqsxiqbyKl0FYl6WPvD9rL1zBvUY
-         pIfJVNz7f4RkYuT0Et8lCvOsX2ZIx5S4s2VJWHrWadTEo2JcTjFz0Ko2MR3X7/OWcS7S
-         h/NA==
+        bh=v0gpLt7+oS9KQUHShMJeHfOIQi0PPRoxYfM2szDl9BQ=;
+        b=LnXe7AuCdnyYnpb6vaGdKk9dNPmYvfuTLMnncmlSHO3bm6LdV5oOFFQ/Hul0fKBMet
+         W4nAlbEzoX6HWs6HnCfIDeznmSQmwClyMr+jPICKPEmfXXfo1VXB4SThaFthNtvRHz2l
+         HHSAdyzffbMi5JM4yQNKCGSJ756lqg0vmqcnbXSXqkoyzk6PX1CcwWQ8nWsxyFJjO7kh
+         zbyj/rZBdtDTsaj8uvPhVRtp1Pj6fs4jAY/Kor3UfAKz9mhj0LOQB7lA3dlzUv0TVBjb
+         Q/YthV88wTO4zlFoqnWJRd6MrLdEGTJJklZuxP6/fEkNK1AYgF5rFdACujnJqp1sNibz
+         ckCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791921768; x=1792526568;
+        d=1e100.net; s=20260707; t=1791922161; x=1792526961;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ht3KL+dVHT63kyImKLUa9SErnOvImt82gs/Vf44c6SY=;
-        b=dhgUUazZfvb+mxx0pScmIoifsFuMm5rOmxRgdO3MaiU1NOOxtj3Kh24+jd3ZtBAPiV
-         jCu7TRI6gIRVAXJzC5FfY/jE//Co5HGZUSestRce1wfDdz23ETTEcmZYWKOJw+blQc+R
-         IU9qRgEsneULkORCr8JNZnODumSX2ieqAvjVgVjNltS5ypgEeb8X1vfMI0N/H2PjweDB
-         F56dPmpjFW4OjapteDRqJhLMClFOXS+42xN7PurEO9SFv1z/59QntBydVksTQb9U707i
-         /EPmoUfkr3mtz0h9Xe/KOTK3qZliwaD7LOsgVt17c50OubU1C/UwEY40Du6VaZ4AsRdI
-         9EgA==
-X-Forwarded-Encrypted: i=1; AKwUvByF5UyISeqewM5FTy/aFs5mGebeLJGefX60u9wSp+5ovvYpn+BEZZRqMegtyrlDMdshcRXqypEW3BlCAMDS@vger.kernel.org
-X-Gm-Message-State: AFq9FYLkmH2Q/SZRvXnI3Y5TtVunqdCvyVQ16vhn3fqBs4I+RIDYFcvn
-	KPfGDak8M9Gi8RPdru23hom4XhKtqd1FELrOKrjnUa9x4cZwQn63uOxZ
-X-Gm-Gg: AYBFou1rB+v51pyHpQfu54hwixFAiDccZDTJvww0wMv+JyHYalw1cod3T85JJrVLMAO
-	FeRFOqbQ5rupH5xpEXV115hHr/TeF0ZjVUWEupOOXVx17q3aeDFxnoHRT4hg14oH0ChuauFRxBz
-	jR20afSs4V6oxm1UlOw5zXh/ElRWZ1R1D6Zhx0C7TNRCM/AIZafasTPR4SD8g5QuuVhOTjIHNgr
-	M2lF5mohA25mQwHlCwuTqPfJW7DyNru1tu/UjosDioOBLZ5n8Q2+W+6l6ACzDTAGedAcaLgrW29
-	r2ynkzcEt4C8h6aMQCXauKGMaicGTT7HRLLvVNA/KfKNxQ1nzCITd/5Oi6oAn5AWNJiklZCobrU
-	vTIA/yl0bJBqDAqeDY14LxJBXu10kxfhkCP+Rc+itppDessqQopV+s7K5MRQ/qGcsOYfFySmLaT
-	RmIVycQtID4t8wEPFHWyteCYIB2po/uIJYY2JBNXMm0yBYtHxG/57NnZ0HEMpBKRkpTpMKeoQ7K
-	tqKmt8ZtqTEKCoBseQtWxrKFj4PEnQGyz1ZH0x/GKdCWmvqRlGNSGGVj/5/5aQ9x5dAd20/fBQF
-	xBLf/skz8INJ0D6FtM44Eo1X7DrlxSFGL3QTvljbvpGJYtUioaoSGgIUk84=
-X-Received: by 2002:a05:600c:46cc:b0:4a0:8b1:f5c with SMTP id 5b1f17b1804b1-4a18e4b583fmr268480065e9.22.1791921767928;
-        Tue, 13 Oct 2026 13:02:47 -0700 (PDT)
+        bh=v0gpLt7+oS9KQUHShMJeHfOIQi0PPRoxYfM2szDl9BQ=;
+        b=o328GImEMPVBVS3G/PEnW/58dRI46+f9bMr4ku2Q7aUNAhPVqtihE44kBlLcN3P4GW
+         4uLfUFc8ZK9mH8vAeHF6AKUiQsywlKo6AR6kSuCkbo4B+mXMjCzmf9CbsLXd2vwjcGid
+         WLJPnH2SMpao+9OzOeJb9CZSrNYOhkj28UekwsTcDE0/TfzjhC5lxfXOXjxSdlmqcc1Y
+         LWKfGqPfhWqPgG53N+xkiknAxzKCm1LDAFjBiW2JZEOwvXASjiV7bJ2q/bsZ/ZX6YtXA
+         IT50ccPOs9P9aTabxmosRrxomuEAo8nHE00RxBQ9Vfq7xaQh1LlyVEclKIa52g1tIdvM
+         KbTw==
+X-Forwarded-Encrypted: i=1; AKwUvBxhVXv7SHpMGmR5Me82oLex2lxeZR4tMdjIRChxhurhxz+KlOj94HZQy8QfY6sCO/MTmdgZCo2ci/+v9pZm@vger.kernel.org
+X-Gm-Message-State: AFq9FYLJXBVm/7kB51kBACH7FBmwg1De0hhktGWzYEp4+E5ZisBT3dfb
+	Yb18/QYr2aq0ZtefHNMs1Oz9qBlNSkDqMA4VBk1VN21XxwszVg2MxoW5
+X-Gm-Gg: AYBFou154swlGaHDzgSTfNkpyIzrhtR2H08aNL4Jm8Q7Mo2WYkvi67h4kB4CHsQdCyg
+	Oh4LDW/ADPlrLpfYqTyXzWgW787jQgVvuU9ugrdar0+iE015LoK1FUUljpYF43sTcgk92qN5h2x
+	MHYaQM+v6+9kJYuy8MJxQvlmQswnMC/VXXl4/FbUz9HZIVHODR/7hfUmOAiZDJyjWd1xlApKx1l
+	Txg4ehzweh+X1npeGnNPJegqWV3QI+t5wU+//RGdYWxD78Wc8mcPYDcv+1xwIxcGC6wPclwUDxV
+	sEelolPpyocBOKIzm5xAwLNy95DtgSScfQLsXeqVes4MWG+JnhZL3pEPCNMdDb/wRdcpD+C+Xi2
+	Ae+bKs8/N9pT7dGc0Ojz5WuHr/G14PwLiNmlmOnHbNcpxbkuQU4+/dQfuCKMppeQnkigXu/Y9B2
+	kYvqoTnW8AK5tYtv+xgv5ZVvmbMwtDh/uGHTFvp8b036LiFoXzMfUiNZqdVaQntlGOSBYEpTZAa
+	6F+DqQlNaLtUDoNPVMr66a1McyAh8YxMGEJV3psA6HkgwO/hoErMN2nRAV0HI+3WefS3GFbAki1
+	syE+6V+XbjpkMPtYpD/BXI3M/KggdOCVQiqWvvG54nA7oDHk
+X-Received: by 2002:a05:6000:310c:b0:487:8b9:526a with SMTP id ffacd0b85a97d-48dbacdaa60mr25864079f8f.36.1791922161609;
+        Tue, 13 Oct 2026 13:09:21 -0700 (PDT)
 Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bead84esm384426465e9.13.2026.10.13.13.02.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ab5af7sm7243430f8f.31.2026.10.13.13.09.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 13:02:47 -0700 (PDT)
-Message-ID: <63fa3e64-44a8-4539-960c-946cebc8fce5@gmail.com>
-Date: Tue, 13 Oct 2026 21:02:39 +0100
+        Tue, 13 Oct 2026 13:09:20 -0700 (PDT)
+Message-ID: <293d49fb-6488-46da-bd3c-6f8600dd123d@gmail.com>
+Date: Tue, 13 Oct 2026 21:09:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -71,78 +71,66 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 01/13] dma-buf: introduce initial file I/O
- infrastructure
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, Sumit Semwal <sumit.semwal@linaro.org>,
+Subject: Re: [PATCH v9 00/13] Add dmabuf read/write via io_uring
+To: Matthew Brost <matthew.brost@intel.com>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
  Alexander Viro <viro@zeniv.linux.org.uk>,
  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
+ Andrew Morton <akpm@linux-foundation.org>,
  Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
  Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
  William Power <william.power@intel.com>, Alasdair Kergon <agk@redhat.com>,
  Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
  Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
 References: <cover.1791336930.git.asml.silence@gmail.com>
- <b44df9fed6e346110c504ee312bb0083c7e75574.1791336930.git.asml.silence@gmail.com>
- <aszbv7TgDOPHBEem@gsse-cloud1.jf.intel.com>
+ <d00e43fa-8f5b-4a8b-8b83-421d637ba519@kernel.dk>
+ <20261013141046.GA12680@lst.de> <as6BMYAsWehHddlT@gsse-cloud1.jf.intel.com>
 Content-Language: en-US
 From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <aszbv7TgDOPHBEem@gsse-cloud1.jf.intel.com>
+In-Reply-To: <as6BMYAsWehHddlT@gsse-cloud1.jf.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/12/26 14:08, Matthew Brost wrote:
-> On Wed, Oct 07, 2026 at 02:42:44AM +0100, Pavel Begunkov wrote:
->> The goal is to be able to natively use dma-buf in the read-write / IO
->> path. This patch adds basic building blocks serving as a glue and API
->> between drivers and upper layer subsystems providing the uAPI. Later
->> patches implement it for NVMe raw block devices and expose it to the
->> user space via io_uring.
+On 10/13/26 20:06, Matthew Brost wrote:
+> On Tue, Oct 13, 2026 at 04:10:47PM +0200, Christoph Hellwig wrote:
+>> On Mon, Oct 12, 2026 at 02:21:41PM -0600, Jens Axboe wrote:
+>>> I've queued this series up for some testing, in a separate branch. JFYI.
 >>
->> There are two main objects. struct dma_buf_io_ctx and struct
->> dma_buf_io_map. The ctx is used during initial registration and serves
->> as an interface between the upper layer user like io_uring and to the
->> importer subsystem / driver. The map represents the actual dma map
->> established for the target device[s] with dma_buf_map_attachment() and
->> stored in a device specific format. The context is created via a new
->> file operation ->init_dma_buf_io_ctx.
->>
->> The ctx-map separation exists to facilitate map invalidation (see
->> dma_buf_io_invalidate_mappings()). A ctx can create
->> multiple maps during its lifetime, but there can only be no more than
->> one (active) map attached to it. Invalidation drops the active map
->> if present, and any new I/O request will try to create a new one.
->>
->> The primary task of dma_buf_io_map is to count requests using it
->> and wait for their completion when we want to destroy the DMA map.
->>
->> [un]mapping and any work with dma addresses is delegated to the
->> importer driver via an ops table stored in the ctx, see struct
->> dma_buf_io_ops. Only the target driver / subsystem knows about devices
->> it wants to use the dma-buf with, especially in case of multi-device
->> filesystems or stacking in the future.
+>> More testing it obviously good.  I've been waiting for addressing
+>> of the Sashiko comments on the nvme patches before doing more ACKs,
+>> and while I can't really judge the code those in the dma-buf code
+>> also look somewhat serious.  So it would be useful to get them addressed
+>> and the series reposted.  Same for folding in the PI vs dmabuf fix
+>> from Anuj, although making the combination work would of course be
+>> even better.
 >>
 > 
-> Full disclosure Pavel incorporated some of my ideas wrt to locking
-> cleanup which I shared off the list.
-> 
-> So I can't in fairness give an RB but:
-> Acked-by: Matthew Brost <matthew.brost@intel.com>
-> 
-> For the series - I can give this and I have pulled to code + have Xe
-> nvme + IGT setup showing this working:
-> 
-> Tested-by: Matthew Brost <matthew.brost@intel.com>
+> Oops, I forgot to look at Sashiko's feedback when I acked the dma-buf
+> patch. I think the two cleanup issues are valid,
 
-Thanks for the suggestions and testing!
+I stopped answering to sashiko as it repeats the same from version
+to version when false positive. Those two are warning paths, which
+should never happen, I'd rather leak than crash on double free or
+so.
 
+  but the reclaim-related
+> ones are not. 
+
+Thanks for confirming, you already elaborated on one of them in
+previous revision, the new one looked to me as the same class of
+issue as well.
+
+I'm not sure why Sashiko is confused here.
+> 
+> I wonder if there are some shrinkers in the tree that incorrectly take
+> dma-resv locks in a blocking manner. They should only use trylocks in
+> shrinkers and direct reclaim paths.
 -- 
 Pavel Begunkov
 
