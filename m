@@ -1,62 +1,63 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B58551DDEF
-	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 16:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F00F51EE0E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 16:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791910100; cv=none; b=bRZo7Kl2U27gVKNzzf/MfE9g4pvNfZmwz6WosaYjagZvdvas08Um5fDcpnr3xH3r+/qWanMUK7xUURm6K/dEGGD0e3E4cw5hXLDmTyMViQdjZZIG09i7sz/2ulKoNnDAiTLJaHyysc1rMQD75HKYDp9LlR7mfMP30CQbWXqixtk=
+	t=1791910104; cv=none; b=ehmscGR8Bd0NZJSC2BIBNXLUPuEhufcd0UpKIo67PKMhekl8B3iWDl+bRUSxeJw6cwgGo4ZOikkeA1K8FwoAB/o1Zap4SM2PDjFYZb85Ofx4db7gawGaZGu0Su+4hLNNxtLfV4zZD2kaor/5q+HXt6/zAhIUKf0mzX5tEMeCLy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791910100; c=relaxed/simple;
-	bh=CrnP/j6cbPUgh+l4ikUyaCHY+R2QqsjDap3IgzAfqBM=;
+	s=arc-20240116; t=1791910104; c=relaxed/simple;
+	bh=9JjUYHYRrywinpEdY5iw3CqE6VCjmo76V0jstCXCwS0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YV2cZWDuQvHsKtK6kKPbJYZlDxpsf05Ft1+HYEPFBlQwReFVczyYmMOHElYXUxhadHnVRxLvx6sg49mD89Jz2bsYpF5P5bZl5NPhzGr2FRrXLtIdgdgcHK/8FS8gT/QyAat0hRJjaZU4DImX+nsgfc4CQ/H/COu9ASUJVU3XorI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G0VLgG52; arc=none smtp.client-ip=74.125.224.43
+	 MIME-Version; b=IRGui/gwgMRk1TB6Qh611d8u3AShyH7/V+Wa6nMQfRiPi1yBFtRd989ms1duwn4jUOLWZeoom0AP8nb51tJXSmXKSIfTkpfX4huxzwoIX20VhVDhyqcCCecD+kx27H+3qZH1yRKmyRhuIPj47Uk1EUQSsDoLYIegPTJPaHsNQlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AbwCGCJ2; arc=none smtp.client-ip=74.125.224.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G0VLgG52"
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-677c9e8ddb2so3072127d50.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 09:48:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AbwCGCJ2"
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-67718201466so2392983d50.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 09:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791910098; x=1792514898; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791910101; x=1792514901; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Nd9w4dPTZ+abWi8KVOZVVNdngpKRtmSbi2Eu/1b0iCI=;
-        b=G0VLgG52OjWKpAdLzmuQH80aLIwCVuG1I1nJtCY+IWUrOOnRkQqfhpWAzioarCygxk
-         +CaTDVXpB9yk+/tDxmMD7psOnSBlFNzQYL+GLIyCtMD3uGFr+B1rIpcD/urYUjIVaDsL
-         cjVSty2lQH2eRIr7Uz5ctAv1KsRXkc5OpXR26NIvujiZ+H/vofBXJvEe/j6cbXJaN9n/
-         DtJLWSN3efD7r5iVKlovixP5z5dTRFUOBBFp5+/SDkts/D+GVuf3sJ4F7wEtXtqoKXZa
-         lF7gJOeNNwXd2/OA1RW2QBf5vrM6ksO5RS0XYIQgJEQsCJAixULRoYgoSC0vQcrMrnSN
-         qoKQ==
+        bh=YRYrGC16XxhpyEhg63tIO972e5kAiFs1OtDRCUKC8kk=;
+        b=AbwCGCJ2oCdUheSdSr+wVmW6cvBx8q2BASbQaDEnfO44kqG4mkoUSTFHN5UAiRgpmW
+         GAMDPro5DKxotk2CAZPyLsBbKU6kEAJfxkEqYA1vAduBlMaGDXRaA6KonDvvhOsUmpEM
+         JyUVTw1UslSShUE6ZoRtMciG8YkaYRwf2nP+Lc1PEzx/v++4PLDeMWBUlSpMk10NXqnW
+         1zmGGw339mIi6ZRdFDp2jvXk/cSCj1p50oP0UC6LiN/Tkbp3CsYKn8qZFOldcdhXZywd
+         Y4QQfkSXxA69iTTvAHBPaP2xBAfBcVtGC5Mz7Ff5JO93Ljqw6Serz28dmuhgrwFrV/8c
+         RXng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791910098; x=1792514898;
+        d=1e100.net; s=20260707; t=1791910101; x=1792514901;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Nd9w4dPTZ+abWi8KVOZVVNdngpKRtmSbi2Eu/1b0iCI=;
-        b=R3A+HTQWP5TOcNd0I1fleviygzcRdUah4czhh5JRHCsMgulIEnFG1sG1at4Iilnb+q
-         VQhtSZOecXbMNqTYPPeC66s880UnlO9Tx2DpU40LznJMf6znWLASuvZcqyNI52hwI7Wi
-         PeG0l1LrH+q4zI4MhfubxCubcadm98Lu0MFXqP2DCBF3sRwfX/8kzo1F72RMecrT/Aa8
-         5r2rkPXNzW9Slj4lqPPN29pUViCQVFpBeA7S3OSbwEHDSMI778qeaBTg7SjfNM0QX8sv
-         aVgE4fF77TXJOpSA7ltT038fsyi2p7l9UVbWmuQPyfik8R6jH9BGL4iF0VTTddrjS1MJ
-         q9kw==
-X-Gm-Message-State: AFq9FYJGZUONCsfgHprSFwEXdJyHP5xZkKxkMkQZ/tmNUx0sFqiWymC+
-	nfHcv0VU/TR8tWIbeU+kRCiaBhk59mhUkPOvN2BdO07DAajsQsVkUjEP
-X-Gm-Gg: AYBFou2VE1OvT1s+RIfZn5PXylrJsKsWlyAaKW4RvBoi5psLJdyim5dBblR9oTVGDjG
-	q9ca7HUeVtWxGEE29db94pJ9eLvMinJ7coQrb0xQEn3x3y2yclZkbV+XVaG92+nIzVuJrVDBuVc
-	76OsZJgPcr1eDz9dLsjd2wHaICpYZdlzlTcqPnsG+SaHqW91Vkd6KmwEYUXBQf3rkqEPG9fjcGH
-	mnBA+OmsPAtXI8jcjHmXL5a1Z9S+kkkTGejlMxkwVXVFhJWdhHlo8OpF/gK8nFvW5PcEwphsrXB
-	pOLwoov0Tsg8D/PttT/CkO3WArcmS56SUCCrXvwnpvmPrJm+G18WfVGiWWl7B6JbauUW2PQT3DG
-	yAWypqQAwUJTVftvxITq/66BEXcosr8l180sKDrq4eALXcmdnwwYlqUTTlTO2cCAGB8sWORpTRC
-	ML123YeNzYA4iURFwFS94hGcC8uup6jLIWulSErWAv9ibxTmDiTnT5P7OpUGylcTWlTzftcA/c
-X-Received: by 2002:a05:690e:480d:b0:675:5d66:765f with SMTP id 956f58d0204a3-67936274256mr3383929d50.28.1791910098167;
-        Tue, 13 Oct 2026 09:48:18 -0700 (PDT)
+        bh=YRYrGC16XxhpyEhg63tIO972e5kAiFs1OtDRCUKC8kk=;
+        b=SVob8WVwxjk2qnL1yN0G3PCT5vYeQczf/rZsVfa1qe/c74LqoC+hpjnCAE8CV0HFXZ
+         nRS5H4qyJZshWOCq/MVehC3W12sn8wrt8GUhPRV5AFajoeAA76oFenbP8qQFauOzSBhv
+         FspZFWdJ1GVUpLhTqTxqktS9B2ud9D1c6oL6FEWG/bwRRYwrohcmUU8wttmpeXFdE3q1
+         XKLx0vcize2724avM/AanhfrMBxteXizr6aituDOjcIk5HPCnP7PzEm0ULezrHh5NyWH
+         zk9EjfZKNoko+q2OShbUmsWahXexVTD1zp45tHXOSYdG72ujMsanqc5AzHIYIpWy9UM3
+         NLmg==
+X-Gm-Message-State: AFq9FYJna3AQumj2yeeMogMXS17xbM5AxS92B0amAYFVrlCgSi3M9oMy
+	v8XSfil/wo5dLWQtxNLreE/Du5YlexRkDKGuIfjpPX9mGiNP7tpAdwfC
+X-Gm-Gg: AYBFou03LsXqgjFkWi5DM839aekymS23KkVSCdIY1NoXioHzzdGEGNihlmeUUpB0F+c
+	plll/PO/dvfIWLrHdDrJXkTi6xFTx9ubEMpSm4ymtz+PHMiapwDjTygrzL1TFqeK6fi5kWi9Iv/
+	1jBXZWftSSYAP5g0jfrU0P+823H8W42U6895gnCKd8VKpuo3e7tGPg3KPn/2M91b3jfdHB4kA7u
+	G4+gLQ/toQEafl0eHiaOsfcVI60uTEMN2uIyuZvnAIzrdi/74MTENxF/nqf3GjOlHCCiVCuaUEg
+	YhGs643XC/erw/esVMD3l6ukB9x1Ubxy9FKgy7roti/eZ2Ib7fsKEJP5h4FGsxCXVm4KNiF6kE6
+	tVZI4Kh6AsA/wjsMcxxCAX/o4Wn6NEzt23cygKhPQa9dKeuQ0UXBye5EYUm49VMd9zUqIvtpWi8
+	inQEiNbcZkzFxS784o8Cx90IVwPPDzLz5nEGdKkwg9Gw1kmr0iCfzswngFrgagwXZjAL/WRhYOe
+	g==
+X-Received: by 2002:a53:da43:0:b0:677:dc7e:48c5 with SMTP id 956f58d0204a3-67936769395mr3239253d50.10.1791910101212;
+        Tue, 13 Oct 2026 09:48:21 -0700 (PDT)
 Received: from zenbox ([2600:1700:18fb:6011:d326:f863:5ae3:683])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67986a89294sm81136d50.15.2026.10.13.09.48.17
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67986a89294sm81136d50.15.2026.10.13.09.48.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 09:48:17 -0700 (PDT)
+        Tue, 13 Oct 2026 09:48:20 -0700 (PDT)
 From: Justin Suess <utilityemal77@gmail.com>
 To: Christian Brauner <brauner@kernel.org>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -87,9 +88,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Shuah Khan <shuah@kernel.org>,
 	Tingmao Wang <m@maowtm.org>,
 	Justin Suess <utilityemal77@gmail.com>
-Subject: [PATCH bpf-next v1 01/11] namei: introduce __path_walk_parent()
-Date: Tue, 13 Oct 2026 12:47:50 -0400
-Message-ID: <20261013164800.2906577-2-utilityemal77@gmail.com>
+Subject: [PATCH bpf-next v1 02/11] namei: add vfs_walk_ancestors()
+Date: Tue, 13 Oct 2026 12:47:51 -0400
+Message-ID: <20261013164800.2906577-3-utilityemal77@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261013164800.2906577-1-utilityemal77@gmail.com>
 References: <20261013164800.2906577-1-utilityemal77@gmail.com>
@@ -101,108 +102,233 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Song Liu <song@kernel.org>
+Add a callback-based walk over a path and its ancestors, built on
+__path_walk_parent(): the kernel owns the loop and the callback must
+not sleep, so an rcu-walk engine can be added later without changing
+the API.
 
-Factor the step-to-parent logic out of follow_dotdot() into
-__path_walk_parent(), which walks a plain struct path to its parent,
-crossing mount trees via choose_mountpoint().
+Internally the walk is a stepwise engine - vfs_walk_start(),
+vfs_walk_next(), vfs_walk_end(), static to namei.c for now, with the
+walk state declared in fs/internal.h - and vfs_walk_ancestors() is a
+loop over it.  The position's flags live in the walk state, where the
+next step needs them anyway: stepping off a disconnected position
+resumes at the root of its mount.  A later patch exposes the engine so
+an iterating consumer can drive it, with every step and invariant
+staying in namei.c.
 
-This will be used by a VFS ancestor walker serving landlock and BPF.
+Disconnected root dentries are reported to the callback instead of
+terminating the walk.  A disconnected mountpoint landed on by a mount
+crossing - the one position this walk visits that a
+dget_parent()/follow_up() loop never does - is additionally flagged
+VFS_WALK_POS_MOUNTPOINT, so security callers can reproduce their
+pre-conversion evaluation sequence exactly.
 
-Suggested-by: Neil Brown <neil@brown.name>
-Signed-off-by: Song Liu <song@kernel.org>
-[justin: rebased, kept the helper static to namei.c, dropped the
- path_walk_parent() wrapper and the namei.h export]
+Suggested-by: NeilBrown <neil@brown.name>
+Suggested-by: Christian Brauner <brauner@kernel.org>
 Signed-off-by: Justin Suess <utilityemal77@gmail.com>
 ---
- fs/namei.c | 62 ++++++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 44 insertions(+), 18 deletions(-)
+ fs/internal.h         |  10 +++
+ fs/namei.c            | 140 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/namei.h |  14 +++++
+ 3 files changed, 164 insertions(+)
 
+diff --git a/fs/internal.h b/fs/internal.h
+index c658c8a5ebd5..bfe62c9bdfc9 100644
+--- a/fs/internal.h
++++ b/fs/internal.h
+@@ -71,6 +71,16 @@ struct dentry *start_dirop(struct dentry *parent, struct qstr *name,
+ 			   unsigned int lookup_flags);
+ int lookup_noperm_common(struct qstr *qname, struct dentry *base);
+ 
++/*
++ * The stepwise engine under vfs_walk_ancestors(); fs-internal so iterating
++ * consumers (BPF) can drive it, with the walk invariants staying in namei.c.
++ */
++struct vfs_ancestor_walk {
++	struct path pos;
++	unsigned int pos_flags;	/* VFS_WALK_POS_* describing pos */
++	unsigned int flags;	/* VFS_WALK_* */
++};
++
+ void __init filename_init(void);
+ 
+ /*
 diff --git a/fs/namei.c b/fs/namei.c
-index 20a6534ea3ef..808fb4bed7c4 100644
+index 808fb4bed7c4..6d5b4b214334 100644
 --- a/fs/namei.c
 +++ b/fs/namei.c
-@@ -2192,36 +2192,62 @@ static struct dentry *follow_dotdot_rcu(struct nameidata *nd)
- 	return nd->path.dentry;
+@@ -2229,6 +2229,146 @@ static struct dentry *__path_walk_parent(struct path *path, const struct path *r
+ 	return dget(path->dentry);
  }
  
--static struct dentry *follow_dotdot(struct nameidata *nd)
-+/**
-+ * __path_walk_parent - step towards the parent of the given struct path
-+ * @path: position to step up from; if it is the root of a mounted tree, it
-+ *        is first updated to the mount point that tree is mounted on
-+ * @root: boundary not to be crossed; if zero'ed, walk all the way to the
-+ *        global root
-+ * @flags: %LOOKUP_NO_XDEV returns -EXDEV once @path was updated to a new
-+ *         mount; %LOOKUP_BENEATH returns -EXDEV at @root or at the root of
-+ *         an unmounted tree, where @path->dentry itself is returned
-+ *         otherwise
-+ *
-+ * Returns: the parent dentry with its refcount incremented, or an ERR_PTR().
-+ */
-+static struct dentry *__path_walk_parent(struct path *path, const struct path *root, int flags)
- {
--	struct dentry *parent;
--
--	if (path_equal(&nd->path, &nd->root))
-+	if (path_equal(path, root))
- 		goto in_root;
--	if (unlikely(nd->path.dentry == nd->path.mnt->mnt_root)) {
--		struct path path;
-+	if (unlikely(path->dentry == path->mnt->mnt_root)) {
-+		struct path new_path;
- 
--		if (!choose_mountpoint(real_mount(nd->path.mnt),
--				       &nd->root, &path))
-+		if (!choose_mountpoint(real_mount(path->mnt),
-+				       root, &new_path))
- 			goto in_root;
--		path_put(&nd->path);
--		nd->path = path;
--		nd->inode = path.dentry->d_inode;
--		if (unlikely(nd->flags & LOOKUP_NO_XDEV))
-+		path_put(path);
-+		*path = new_path;
-+		if (unlikely(flags & LOOKUP_NO_XDEV))
- 			return ERR_PTR(-EXDEV);
- 	}
- 	/* rare case of legitimate dget_parent()... */
--	parent = dget_parent(nd->path.dentry);
-+	return dget_parent(path->dentry);
-+
-+in_root:
-+	if (unlikely(flags & LOOKUP_BENEATH))
-+		return ERR_PTR(-EXDEV);
-+	return dget(path->dentry);
++static unsigned int vfs_walk_pos_flags(const struct vfsmount *mnt,
++				       const struct dentry *dentry)
++{
++	if (unlikely(IS_ROOT(dentry) && dentry != mnt->mnt_root))
++		return VFS_WALK_POS_DISCONNECTED;
++	return 0;
 +}
 +
-+static struct dentry *follow_dotdot(struct nameidata *nd)
++/* No boundary: ancestor walks go up to the real root. */
++static const struct path vfs_walk_no_root;
++
++/* Internal walk flag: the starting position has been yielded. */
++#define VFS_WALK_STARTED	BIT(31)
++
++/**
++ * vfs_walk_start - begin a stepwise ancestor walk
++ * @aw: walk state, valid until vfs_walk_end()
++ * @path: position to walk up from; never modified
++ * @flags: %VFS_WALK_* flags; none defined yet, pass 0
++ */
++static void vfs_walk_start(struct vfs_ancestor_walk *aw,
++			   const struct path *path, unsigned int flags)
++{
++	if (WARN_ON_ONCE(flags))
++		flags = 0;
++	aw->pos = *path;
++	aw->flags = flags;
++	aw->pos_flags = 0;
++	path_get(&aw->pos);
++}
++
++static int vfs_walk_step_ref(struct vfs_ancestor_walk *aw)
 +{
 +	struct dentry *parent;
 +
-+	if (path_equal(&nd->path, &nd->root)) {
-+		/* nd->root is never path_connected()-checked. */
-+		if (unlikely(nd->flags & LOOKUP_BENEATH))
-+			return ERR_PTR(-EXDEV);
-+		return dget(nd->path.dentry);
++	if (unlikely(aw->pos_flags & VFS_WALK_POS_DISCONNECTED)) {
++		/* Resume at the root of the disconnected position's mount. */
++		dput(aw->pos.dentry);
++		aw->pos.dentry = dget(aw->pos.mnt->mnt_root);
++		aw->pos_flags = 0;
++		return 0;
 +	}
-+	parent = __path_walk_parent(&nd->path, &nd->root, nd->flags);
-+	nd->inode = nd->path.dentry->d_inode;
++	parent = __path_walk_parent(&aw->pos, &vfs_walk_no_root,
++				    LOOKUP_BENEATH);
 +	if (IS_ERR(parent))
-+		return parent;
- 	if (unlikely(!path_connected(nd->path.mnt, parent))) {
- 		dput(parent);
- 		return ERR_PTR(-ENOENT);
- 	}
- 	return parent;
--
--in_root:
--	if (unlikely(nd->flags & LOOKUP_BENEATH))
--		return ERR_PTR(-EXDEV);
--	return dget(nd->path.dentry);
- }
++		/* The real root. */
++		return 1;
++	/*
++	 * A mount crossing can step onto a disconnected root, whose parent
++	 * is itself: only then is the mountpoint itself yielded, flagged.
++	 */
++	aw->pos_flags = parent == aw->pos.dentry ?
++		VFS_WALK_POS_DISCONNECTED | VFS_WALK_POS_MOUNTPOINT :
++		vfs_walk_pos_flags(aw->pos.mnt, parent);
++	dput(aw->pos.dentry);
++	aw->pos.dentry = parent;
++	return 0;
++}
++
++/**
++ * vfs_walk_next - yield the walk's next position in @aw->pos
++ * @aw: the walk
++ *
++ * The first call yields the starting position itself.  @aw->pos_flags
++ * carries the position's %VFS_WALK_POS_* flags, with the semantics
++ * described at vfs_walk_ancestors().
++ *
++ * Returns: 0 with @aw->pos valid, 1 once the walk has passed the real
++ * root.
++ */
++static int vfs_walk_next(struct vfs_ancestor_walk *aw)
++{
++	if (aw->flags & VFS_WALK_STARTED) {
++		int err = vfs_walk_step_ref(aw);
++
++		if (err)
++			return err;
++	} else {
++		aw->flags |= VFS_WALK_STARTED;
++		aw->pos_flags |= vfs_walk_pos_flags(aw->pos.mnt, aw->pos.dentry);
++	}
++	return 0;
++}
++
++/**
++ * vfs_walk_end - finish a stepwise ancestor walk
++ * @aw: the walk; its positions, including @aw->pos, become invalid
++ */
++static void vfs_walk_end(struct vfs_ancestor_walk *aw)
++{
++	path_put(&aw->pos);
++}
++
++/**
++ * vfs_walk_ancestors - invoke a callback on a path and each of its ancestors
++ * @path: path to walk up from; the caller's path is never modified
++ * @cb: callback invoked on @path, then on each ancestor up to the real
++ *      root, crossing mount boundaries.  @cb must not sleep and returns
++ *      %VFS_WALK_CONTINUE, %VFS_WALK_STOP or a negative errno to abort the
++ *      walk.  @ancestor is only valid during the invocation; @cb must take
++ *      its own references to keep a position.
++ *      A position whose dentry is a disconnected root is flagged with
++ *      %VFS_WALK_POS_DISCONNECTED (plus %VFS_WALK_POS_MOUNTPOINT when it
++ *      is a mountpoint a mount crossing landed on rather than a parent);
++ *      if @cb continues over it, the walk resumes at the root of that
++ *      position's mount.
++ * @data: opaque argument passed to @cb
++ * @flags: %VFS_WALK_* flags; none defined yet, pass 0
++ *
++ * Returns: 0 once the real root was reached, 1 if @cb stopped the walk, or
++ * the negative errno @cb aborted with.
++ */
++int vfs_walk_ancestors(const struct path *path,
++		       int (*cb)(const struct path *ancestor,
++				 unsigned int pos_flags, void *data),
++		       void *data, unsigned int flags)
++{
++	struct vfs_ancestor_walk aw;
++	int ret;
++
++	vfs_walk_start(&aw, path, flags);
++	for (;;) {
++		ret = vfs_walk_next(&aw);
++		if (ret) {
++			if (ret == 1)
++				ret = 0;
++			break;
++		}
++		ret = cb(&aw.pos, aw.pos_flags, data);
++		if (ret < 0)
++			break;
++		if (ret == VFS_WALK_STOP) {
++			ret = 1;
++			break;
++		}
++	}
++	vfs_walk_end(&aw);
++	return ret;
++}
++
+ static struct dentry *follow_dotdot(struct nameidata *nd)
+ {
+ 	struct dentry *parent;
+diff --git a/include/linux/namei.h b/include/linux/namei.h
+index 86d657b24fc6..3e198de7a0d3 100644
+--- a/include/linux/namei.h
++++ b/include/linux/namei.h
+@@ -162,6 +162,20 @@ extern int follow_down_one(struct path *);
+ extern int follow_down(struct path *path, unsigned int flags);
+ extern int follow_up(struct path *);
  
- static const char *handle_dots(struct nameidata *nd, enum last_type type)
++/* per-position flags passed to the vfs_walk_ancestors() callback */
++#define VFS_WALK_POS_DISCONNECTED	BIT(0)
++/* the position is a mountpoint landed on by a mount crossing */
++#define VFS_WALK_POS_MOUNTPOINT		BIT(1)
++
++/* vfs_walk_ancestors() callback verdicts; negative values abort the walk */
++#define VFS_WALK_STOP		0
++#define VFS_WALK_CONTINUE	1
++
++int vfs_walk_ancestors(const struct path *path,
++		       int (*cb)(const struct path *ancestor,
++				 unsigned int pos_flags, void *data),
++		       void *data, unsigned int flags);
++
+ int start_renaming(struct renamedata *rd, int lookup_flags,
+ 		   struct qstr *old_last, struct qstr *new_last);
+ int start_renaming_dentry(struct renamedata *rd, int lookup_flags,
 -- 
 2.55.0
 
