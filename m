@@ -1,130 +1,427 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7E94F5DFD;
-	Tue, 13 Oct 2026 12:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07954F7970;
+	Tue, 13 Oct 2026 12:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791893596; cv=none; b=OTC53B/e0FMcjtjn6LoHlqBfwJMR7u/5pjtXDzkju/ngYdCPBU2gpK7PS+4Sw690dP9XFUkLZ9YkiIom3WJIbvdtdFbnT/y0IZgsYGlNHs+4KMEs8SULqShf98NqNrw+KOdNjZWH4pZJaCIgtqp54CC+9wG7Ulzk5bjCwRRkrsI=
+	t=1791893663; cv=none; b=ekuKfIzZdJzGlVoRrC6uBsy3HcgC9qbs9ZRwpHSrxj+rKn9hstjDDRT3cdH6Lkqh3HrTKB23EO6qhVBjHjlMSbzWH0AX4kMm6dJEsnUR6FQ/lquXra7XKM9t4J6Vn/NFnZC7gGhIkU22XgKWLMzq7UIKKtAOIzUZLvtuX527Ysc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791893596; c=relaxed/simple;
-	bh=+JECHkX1IpaaR+4Zz5BCz8bA0uM3t+u4StrApDTYmJs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LjcSSEGCTfOGleoBkjGU3JlEHdiAEG9Fb/TN5MwslKPoUHSynd5ejqBSoL5Q06Bk+mehLsRzsOa3HJ8scRHwgHZ7m3jjPUzda92XBYb9kO9Jabsw6TT3akUwlg1pxfhNcQHk5Rge4vMVwvB4/LrQ3F1KkVm5haWFjtaMovuBwpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=i35xYIuJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791893663; c=relaxed/simple;
+	bh=1Pmo52p0SDffuO1b6LodEgx27tnBtnsFt2N17zIX3Yw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tkz8Z6PhgjU+rNOHS6yWmQtzdoDMWlwc9Lg01l43Ucizakgf+z1xyHv9OznQc5GVyxNGoTLNJqo0kejj/gvS6wVhp4hWA5m3N4jSg6yv9lUfG0sEfdSvJHCcPs2/5iaGhivItop0qPr/RrVLTaibCwslqp60G9X6ij3zzIX3SAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DvjlT7D/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Erjkr6kA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZzA4UZm2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=y9YUN1MY; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="i35xYIuJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59E141F000FF;
-	Tue, 13 Oct 2026 12:13:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791893594;
-	bh=Kg73AhzXi2iAcevZFY/l9qUATXilD/gdhNebfBy9LA4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=i35xYIuJZuiGXZTDjzVLG9xlnBcH36PUFmdugzVpNQhppqB/XjR3yxMZcC2ncs5bg
-	 xrizdMDCpwbcLp5n/7l4ukyjM2LiMve+Lt4orn/4/dN2Danv5hB8O1R3PGMz8/Rbjg
-	 E0YJL7DOIlelcW7gh6LHvSGY7k5wX2T3fKnTCP34=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.18 251/621] netfs: Fix zeropoint update where i_size > remote_i_size
-Date: Tue, 13 Oct 2026 13:34:06 +0200
-Message-ID: <20261013112926.818120005@linuxfoundation.org>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261013112920.855194808@linuxfoundation.org>
-References: <20261013112920.855194808@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DvjlT7D/";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Erjkr6kA";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZzA4UZm2";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="y9YUN1MY"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CD0A91F38E;
+	Tue, 13 Oct 2026 12:14:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791893660; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GMkYIBifNKQLjvLgrSzNw7zE6lvpAJ4dD52MWbkkGNk=;
+	b=DvjlT7D/4RcHq/hdke3BpD+wnEvpFLO51znDlDYjgqQKec+Mw9vN8VLNSE/aQ0sV0FVsGT
+	MXhERMo628Xv4KeD2je97WIstBv08/ufXpTV2xznwL40SyLGGy3v2XIYoDNUiLBLiySb5T
+	gfDO4ssyLUYeH1J+EKebK0EFJkOBU7Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791893660;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GMkYIBifNKQLjvLgrSzNw7zE6lvpAJ4dD52MWbkkGNk=;
+	b=Erjkr6kAYBOV6Y3h5xhp910fDaCLsfYzsMC8TvlietdqVNFESrdXM0wKLTYPXrs7JzB8eh
+	owMPjWBmFzPvKyBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=ZzA4UZm2;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=y9YUN1MY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791893659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GMkYIBifNKQLjvLgrSzNw7zE6lvpAJ4dD52MWbkkGNk=;
+	b=ZzA4UZm2ay33d3kR4D/WZDoAFZwOKAyRVUelFyRNqh5MLQO4iemffu4ThVmYXCmeLV8nn0
+	H62+eqCpLnh0iDE2TYWtqguFhCg7eipGBVdiLBhNSyNj5ylmvsNV15R9okHx1pX2pmNSe2
+	zT0gVs39CILgxFlDSVM5pcLzsmlAqJc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791893659;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GMkYIBifNKQLjvLgrSzNw7zE6lvpAJ4dD52MWbkkGNk=;
+	b=y9YUN1MYjtADUvtJXU/9oBGNdhxzo5Y14sOdf5v/YOyy3plKpDwjSbQJimmXb3JuHU+Ahl
+	H+dTpgjXyfhI65CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9FCEC13341;
+	Tue, 13 Oct 2026 12:14:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6JuXHpsgzmq5HwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 13 Oct 2026 12:14:19 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 272B2A1407; Tue, 13 Oct 2026 14:14:19 +0200 (CEST)
+Date: Tue, 13 Oct 2026 14:14:19 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-ext4@vger.kernel.org, 
+	linux-afs@lists.infradead.org, v9fs@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH 1/8] ext4: free the sbi after a grace period
+Message-ID: <bronjnuxope3y2qkxjdtnvr3mvatdla6tl3sjfz56wu5c3sfyx@op3pdlzm2i3q>
+References: <20261009-work-fixes-rcu-v1-0-7446d2d335e6@kernel.org>
+ <20261009-work-fixes-rcu-v1-1-7446d2d335e6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261009-work-fixes-rcu-v1-1-7446d2d335e6@kernel.org>
+X-Rspamd-Action: no action
+X-Spam-Score: -4.01
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:email,suse.cz:dkim,suse.com:email];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Level: 
+X-Rspamd-Queue-Id: CD0A91F38E
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-6.18-stable review patch.  If anyone has any objections, please let me know.
+On Fri 09-10-26 23:51:51, Christian Brauner wrote:
+> ext4_get_link() follows a symlink that keeps its target in a data block
+> in rcu pathwalk mode with ext4_getblk(EXT4_GET_BLOCKS_CACHED_NOWAIT).
+> That reads s_mount_state in the ASSERT() of ext4_getblk() and again in
+> ext4_es_lookup_extent(), and the lookup bumps the extent status hit or
+> miss counter, all through sb->s_fs_info.
+> 
+> ext4_put_super() destroys those counters, clears sb->s_fs_info and frees
+> the sbi without waiting for a grace period. A pathwalk that is still in
+> ext4_get_link() when the last reference to the mount goes away then
+> dereferences a NULL s_fs_info, the freed sbi or the destroyed percpu
+> counters.
+> 
+> With a pathwalk held up in ext4_get_link() while the last reference
+> goes away:
+> 
+>   KASAN: null-ptr-deref in range [0x00000000000000a8-0x00000000000000af]
+>   RIP: 0010:ext4_getblk+0xf0/0x640
+>   Call Trace:
+>    <TASK>
+>    ext4_get_link+0x26c/0x410
+>    pick_link+0xf96/0x1780
+>    step_into_slowpath+0x9b8/0x1250
+>    path_lookupat+0x484/0xb00
+>    filename_lookup+0x1f1/0x5b0
+>    vfs_statx+0xd7/0x3b0
+>    vfs_fstatat+0x4d/0x90
+>    __do_sys_newfstatat+0xa0/0x100
+>    do_syscall_64+0x10e/0x5e0
+>    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> So far that has been hard to hit. umount(2) waits for a grace period in
+> namespace_unlock() before it drops the mount, so only a mount whose last
+> reference goes away elsewhere, like the close of a file or a chdir out of
+> a lazily unmounted directory, can race a walker.
+> 
+> Keep sb->s_fs_info and free the sbi together with the extent status
+> counters after a grace period. Split the counters out of
+> ext4_es_unregister_shrinker() for that. The shrinker still gets wasted
+> in ext4_put_super(), the counters go with the sbi.
+> 
+> Fixes: 6493792d3299 ("ext4: convert symlink external data block mapping to bdev")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-------------------
+Looks good. Feel free to add:
 
-From: David Howells <dhowells@redhat.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-[ Upstream commit 4543a4d737944134a1394afe797622546fbcc98a ]
+								Honza
 
-Fix the update of the zero point[*] by netfs_release_folio() when there is
-uncommitted data in the pagecache beyond the folio being released but the
-on-server EOF is in this folio (ie. i_size > remote_i_size).  The update
-needs to limit zero_point to remote_i_size, not i_size as i_size is a local
-phenomenon reflecting updates made locally to the pagecache, not stuff
-written to the server.  remote_i_size tracks the server's i_size.
-
-[*] The zero point is the file position from which we can assume that the
-    server will just return zeros, so we can avoid generating reads.
-
-Note that netfs_invalidate_folio() probably doesn't need fixing as
-zero_point should be updated by setattr after truncation or fallocate.
-
-Found with:
-
-    fsx -q -N 1000000 -p 10000 -o 128000 -l 600000 \
-        /xfstest.test/junk --replay-ops=junk.fsxops
-
-using the following as junk.fsxops:
-
-    truncate 0x0 0x1bbae 0x82864
-    write 0x3ef2e 0xf9c8 0x1bbae
-    write 0x67e05 0xcb5a 0x4e8f6
-    mapread 0x57781 0x85b6 0x7495f
-    copy_range 0x5d3d 0x10329 0x54fac 0x7495f
-    write 0x64710 0x1c2b 0x7495f
-    mapread 0x64000 0x1000 0x7495f
-
-on cifs with the default cache option.
-
-It shows read-gaps on folio 0x64 failing with a short read (ie. it hits
-EOF) if the FMODE_READ check is commented out in netfs_perform_write():
-
-                if (//(file->f_mode & FMODE_READ) ||
-                    netfs_is_cache_enabled(ctx)) {
-
-and no fscache.  This was initially found with the generic/522 xfstest.
-
-Fixes: cce6bfa6ca0e ("netfs: Fix trimming of streaming-write folios in netfs_inval_folio()")
-Signed-off-by: David Howells <dhowells@redhat.com>
-Link: https://patch.msgid.link/20260512123404.719402-7-dhowells@redhat.com
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- fs/netfs/misc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/netfs/misc.c b/fs/netfs/misc.c
-index 02654b5c53fe3..d8a67ea348f7f 100644
---- a/fs/netfs/misc.c
-+++ b/fs/netfs/misc.c
-@@ -303,7 +303,7 @@ bool netfs_release_folio(struct folio *folio, gfp_t gfp)
- 	if (folio_test_dirty(folio))
- 		return false;
- 
--	end = umin(folio_pos(folio) + folio_size(folio), i_size_read(&ctx->inode));
-+	end = umin(folio_pos(folio) + folio_size(folio), ctx->remote_i_size);
- 	if (end > ctx->zero_point)
- 		ctx->zero_point = end;
- 
+> ---
+> Reproducer: delay.c holds a task named walker in ext4_get_link() in rcu
+> pathwalk mode for two seconds and repro.c drops the last reference to a
+> lazily unmounted ext4 meanwhile. Use an ext4 without a journal or a
+> kernel without lockdep: jbd2_journal_destroy() calls
+> lockdep_unregister_key(), which waits for a grace period on lockdep
+> kernels and hides this for a journaled ext4.
+> 
+>     mkfs.ext4 -O ^has_journal /dev/vdb
+>     mount -o noatime /dev/vdb /mnt
+>     ln -s /$(printf 'x%.0s' $(seq 100)) /mnt/link
+>     insmod delay.ko
+>     ./repro
+> 
+> The symlink target is too long for the inode, so ext4_get_link() reads it
+> from its block. Without this patch that gives the splat above, with it
+> it runs clean.
+> 
+> delay.c:
+> 
+>     #include <linux/delay.h>
+>     #include <linux/kprobes.h>
+>     #include <linux/module.h>
+> 
+>     /* keep a task named "walker" in ext4_get_link() in rcu pathwalk */
+>     static int pre(struct kprobe *p, struct pt_regs *regs)
+>     {
+>     	if (!regs_get_kernel_argument(regs, 0) && !strcmp(current->comm, "walker"))
+>     		mdelay(2000);
+>     	return 0;
+>     }
+> 
+>     static struct kprobe kp = {
+>     	.symbol_name	= "ext4_get_link",
+>     	.pre_handler	= pre,
+>     };
+> 
+>     static int __init delay_init(void)
+>     {
+>     	return register_kprobe(&kp);
+>     }
+> 
+>     static void __exit delay_exit(void)
+>     {
+>     	unregister_kprobe(&kp);
+>     }
+> 
+>     module_init(delay_init);
+>     module_exit(delay_exit);
+>     MODULE_LICENSE("GPL");
+> 
+> repro.c:
+> 
+>     #define _GNU_SOURCE
+>     #include <pthread.h>
+>     #include <sched.h>
+>     #include <string.h>
+>     #include <sys/mman.h>
+>     #include <sys/mount.h>
+>     #include <sys/prctl.h>
+>     #include <sys/stat.h>
+>     #include <unistd.h>
+> 
+>     static void pin(int cpu)
+>     {
+>     	cpu_set_t set;
+> 
+>     	CPU_ZERO(&set);
+>     	CPU_SET(cpu, &set);
+>     	sched_setaffinity(0, sizeof(set), &set);
+>     }
+> 
+>     static void *walker(void *arg)
+>     {
+>     	struct stat st;
+>     	char *p;
+> 
+>     	/*
+>     	 * The delay spins with preemption disabled. Empty this cpu's lru
+>     	 * batches so that lru_add_drain_all() from invalidate_bdev() has no
+>     	 * work to wait for here.
+>     	 */
+>     	pin(1);
+>     	p = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+>     	memset(p, 1, 4096);
+>     	madvise(p, 4096, MADV_COLD);
+> 
+>     	prctl(PR_SET_NAME, "walker");
+>     	stat("link", &st);
+>     	return NULL;
+>     }
+> 
+>     int main(void)
+>     {
+>     	struct stat st;
+>     	pthread_t t;
+> 
+>     	pin(0);
+>     	chdir("/mnt");
+>     	stat("link", &st);
+>     	/* the cwd now holds the last reference to the mount */
+>     	umount2("/mnt", MNT_DETACH);
+>     	pthread_create(&t, NULL, walker, NULL);
+>     	sleep(1);
+>     	/* drop it, ->kill_sb() runs before chdir() returns */
+>     	chdir("/");
+>     	pthread_join(t, NULL);
+>     	return 0;
+>     }
+> ---
+>  fs/ext4/ext4.h           |  2 ++
+>  fs/ext4/extents-test.c   |  2 ++
+>  fs/ext4/extents.c        |  1 +
+>  fs/ext4/extents_status.c |  7 ++++++-
+>  fs/ext4/extents_status.h |  1 +
+>  fs/ext4/super.c          | 13 +++++++++++--
+>  6 files changed, 23 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+> index 724a27e8be61..af70bb26bb54 100644
+> --- a/fs/ext4/ext4.h
+> +++ b/fs/ext4/ext4.h
+> @@ -1774,6 +1774,8 @@ struct ext4_sb_info {
+>  	struct list_head s_es_list;	/* List of inodes with reclaimable extents */
+>  	long s_es_nr_inode;
+>  	struct ext4_es_stats s_es_stats;
+> +	/* ext4_get_link() reads the sbi in rcu pathwalk */
+> +	struct rcu_head s_rcu;
+>  	struct mb_cache *s_ea_block_cache;
+>  	struct mb_cache *s_ea_inode_cache;
+>  
+> diff --git a/fs/ext4/extents-test.c b/fs/ext4/extents-test.c
+> index c3836ecb89f9..2e997f228330 100644
+> --- a/fs/ext4/extents-test.c
+> +++ b/fs/ext4/extents-test.c
+> @@ -151,6 +151,7 @@ static void extents_kunit_exit(struct kunit *test)
+>  
+>  	sbi = k_ctx.k_ei->vfs_inode.i_sb->s_fs_info;
+>  	ext4_es_unregister_shrinker(sbi);
+> +	ext4_es_destroy_stats(sbi);
+>  	deactivate_super(sbi->s_sb);
+>  	kfree(sbi);
+>  	kfree(k_ctx.k_ei);
+> @@ -340,6 +341,7 @@ static int extents_kunit_init(struct kunit *test)
+>  	k_ctx.k_data = NULL;
+>  
+>  	ext4_es_unregister_shrinker(sbi);
+> +	ext4_es_destroy_stats(sbi);
+>  out_deactivate:
+>  	deactivate_locked_super(sb);
+>  	kfree(sbi);
+> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+> index 76038b6c3655..3bf0a6cdbec2 100644
+> --- a/fs/ext4/extents.c
+> +++ b/fs/ext4/extents.c
+> @@ -6409,6 +6409,7 @@ EXPORT_SYMBOL_FOR_EXT4_TEST(__ext4_ext_dirty);
+>  EXPORT_SYMBOL_FOR_EXT4_TEST(ext4_ext_zeroout);
+>  EXPORT_SYMBOL_FOR_EXT4_TEST(ext4_es_register_shrinker);
+>  EXPORT_SYMBOL_FOR_EXT4_TEST(ext4_es_unregister_shrinker);
+> +EXPORT_SYMBOL_FOR_EXT4_TEST(ext4_es_destroy_stats);
+>  EXPORT_SYMBOL_FOR_EXT4_TEST(ext4_map_create_blocks);
+>  EXPORT_SYMBOL_FOR_EXT4_TEST(ext4_es_init_tree);
+>  EXPORT_SYMBOL_FOR_EXT4_TEST(ext4_es_lookup_extent);
+> diff --git a/fs/ext4/extents_status.c b/fs/ext4/extents_status.c
+> index 6e4a191e8219..018b6146b9d8 100644
+> --- a/fs/ext4/extents_status.c
+> +++ b/fs/ext4/extents_status.c
+> @@ -1881,12 +1881,17 @@ int ext4_es_register_shrinker(struct ext4_sb_info *sbi)
+>  }
+>  
+>  void ext4_es_unregister_shrinker(struct ext4_sb_info *sbi)
+> +{
+> +	shrinker_free(sbi->s_es_shrinker);
+> +}
+> +
+> +/* ext4_get_link() bumps the hit and miss counters in rcu pathwalk */
+> +void ext4_es_destroy_stats(struct ext4_sb_info *sbi)
+>  {
+>  	percpu_counter_destroy(&sbi->s_es_stats.es_stats_cache_hits);
+>  	percpu_counter_destroy(&sbi->s_es_stats.es_stats_cache_misses);
+>  	percpu_counter_destroy(&sbi->s_es_stats.es_stats_all_cnt);
+>  	percpu_counter_destroy(&sbi->s_es_stats.es_stats_shk_cnt);
+> -	shrinker_free(sbi->s_es_shrinker);
+>  }
+>  
+>  /*
+> diff --git a/fs/ext4/extents_status.h b/fs/ext4/extents_status.h
+> index f3396cf32b44..01cddcaaa68e 100644
+> --- a/fs/ext4/extents_status.h
+> +++ b/fs/ext4/extents_status.h
+> @@ -238,6 +238,7 @@ static inline void ext4_es_store_pblock_status(struct extent_status *es,
+>  
+>  extern int ext4_es_register_shrinker(struct ext4_sb_info *sbi);
+>  extern void ext4_es_unregister_shrinker(struct ext4_sb_info *sbi);
+> +extern void ext4_es_destroy_stats(struct ext4_sb_info *sbi);
+>  
+>  extern int ext4_seq_es_shrinker_info_show(struct seq_file *seq, void *v);
+>  
+> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+> index bca0dc87d0b7..f028c5835c5d 100644
+> --- a/fs/ext4/super.c
+> +++ b/fs/ext4/super.c
+> @@ -1279,6 +1279,14 @@ static void ext4_flex_groups_free(struct ext4_sb_info *sbi)
+>  	}
+>  }
+>  
+> +static void ext4_put_sbi_rcu(struct rcu_head *head)
+> +{
+> +	struct ext4_sb_info *sbi = container_of(head, struct ext4_sb_info, s_rcu);
+> +
+> +	ext4_es_destroy_stats(sbi);
+> +	kfree(sbi);
+> +}
+> +
+>  static void ext4_put_super(struct super_block *sb)
+>  {
+>  	struct ext4_sb_info *sbi = EXT4_SB(sb);
+> @@ -1374,7 +1382,6 @@ static void ext4_put_super(struct super_block *sb)
+>  	ext4_stop_mmpd(sbi);
+>  
+>  	brelse(sbi->s_sbh);
+> -	sb->s_fs_info = NULL;
+>  	/*
+>  	 * Now that we are completely done shutting down the
+>  	 * superblock, we need to actually destroy the kobject.
+> @@ -1387,7 +1394,8 @@ static void ext4_put_super(struct super_block *sb)
+>  #if IS_ENABLED(CONFIG_UNICODE)
+>  	utf8_unload(sb->s_encoding);
+>  #endif
+> -	kfree(sbi);
+> +	/* ext4_get_link() reads the sbi and the counters in rcu pathwalk */
+> +	call_rcu(&sbi->s_rcu, ext4_put_sbi_rcu);
+>  }
+>  
+>  static struct kmem_cache *ext4_inode_cachep;
+> @@ -5805,6 +5813,7 @@ failed_mount8: __maybe_unused
+>  	/* Drain deferred EA inode iputs from journal replay */
+>  	flush_delayed_work(&sbi->s_ea_inode_work);
+>  	ext4_es_unregister_shrinker(sbi);
+> +	ext4_es_destroy_stats(sbi);
+>  failed_mount3:
+>  	/* flush s_sb_upd_work before sbi destroy */
+>  	flush_work(&sbi->s_sb_upd_work);
+> 
+> -- 
+> 2.53.0
+> 
 -- 
-2.53.0
-
-
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
