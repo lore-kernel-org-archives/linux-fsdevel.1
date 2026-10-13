@@ -1,138 +1,82 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from o1.ptr9745.em.honeycomb.io (o1.ptr9745.em.honeycomb.io [149.72.141.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33935111BC;
-	Tue, 13 Oct 2026 13:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA45521200
+	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 13:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.141.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791897474; cv=none; b=BRmM/a4VcTq95N8R9/1yl2ReX7ymcZfDbmpn0AmKZFpcniycy3f2lML0Hzk2Za3Fz4QGUgC81Rkh4nAQq1rgmauj5xlfPSH0yiSKPYtinulaxJBVnzNDOae2NWZjF4PRJ+1Kx5BeGAReWyRXKjymlOfw+r8ds9SfLqAOBObQO5Y=
+	t=1791898471; cv=none; b=HVSd7LTz7EnUkgM0VsmuA0hbrol7nbybO0jaEfoKQPCWemYMELIebJxkPyF4ngFPAqmhICIEUvaMru1v83tOLEOgdjIXq03sHuKPDyzP8s+nMuMP4g92nAMqejenr1PJNDb8Yk+lgEmpY92VI95WDDxBJrmrzPmHRiLxuj02zbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791897474; c=relaxed/simple;
-	bh=zRKJ0Yiw7bNadRDbKt6zuimuE0I5/BUEbr8eEqaW3sE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ctg60zVSLe87vt1Z9CQaM9hmfwFLuj6BuR4TYA6eEYBSl2ZC3n4tRLD5yswlPnfqCfftlBOfAUldrkoQlflqC2jkbYk5ici47iHmpCXUUqFkAIwQdDs7o4siONk0iLIPiLskNIqwUyQb8HlMCZNCIisGV/MTq+2OtW8IRUPRKPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=zS/njdgW; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=8stvFBLN; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	s=arc-20240116; t=1791898471; c=relaxed/simple;
+	bh=Yjc3wFNOxrypJJyu5rTq8Vr1Hd3Zz2aUY0wPnZO4Ji4=;
+	h=From:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
+	 To:Cc:Content-Type; b=Y9SMd1hkwGRFyH+1bughcQbT1mSl65EEniRfyPdvPIcK/6NGA6FxyNvmUqx5X7KRsl5y8zcjY/AWdSgq9ZBk1rcWJoc8DV0+V24nph5zkL8rTNC0D4tRrHNqXgPxheLrwKRRFsRThAzHNCXiJRh6VZmJxLDDBbEYr9lpGpt9Fy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=cjPfxSlL; arc=none smtp.client-ip=149.72.141.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em.honeycomb.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="zS/njdgW";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="8stvFBLN"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 5203D26F7697;
-	Tue, 13 Oct 2026 22:17:51 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1791897471;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMwVLew5mvVnVvExhiUsbrBRHIiIZrNcbKYVNjQWJ+k=;
-	b=zS/njdgWijXA0/uHIjoZ/eDeT8NRVkLykjaubvLT1Z8wcDIEBYDDzDnNz0xvLF2imsWOPl
-	SpcVtbhS9AFQFBexQiFJAcjlpprMhDsSh6gZCT/6jjcgiOffaBnpgOboHf32ZoeohiDUCc
-	7BQolN/X2Z9lUzS3AcOoyFhdON91if7NNuzoCijWP48v3ZWKV02no+hVnvbi0BkgUED5HE
-	VFnduTQeZchjZqifO8tCSgFq5RAFf1Z5XxGma3Y3Ow2NKaAbFIveLOex9ETLKJDQ88WWXI
-	tfwDIvAinZg7rRC6oxGbxnugetqw8KFB2rfIDnQxG5moJXGbiXGniFDpGSo6xg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1791897471;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMwVLew5mvVnVvExhiUsbrBRHIiIZrNcbKYVNjQWJ+k=;
-	b=8stvFBLNHVLZIsZxCnla2qRLNuPJwRPHOXgJiaEdK3JypLEjH61Nszi9KeIW90QU3F3d7n
-	bt480RmFSRGRA2DA==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id DEB98E00149;
-	Tue, 13 Oct 2026 22:17:50 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id D182022000A7; Tue, 13 Oct 2026 22:17:50 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>,
- linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] fat: allocate multiple clusters in fallocate
-In-Reply-To: <20261012171106.146243-4-matheus.aalmeida@inf.ufrgs.br>
-References: <20261012171106.146243-1-matheus.aalmeida@inf.ufrgs.br>
-	<20261012171106.146243-4-matheus.aalmeida@inf.ufrgs.br>
-Date: Tue, 13 Oct 2026 22:17:50 +0900
-Message-ID: <87cxtdn3i9.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="cjPfxSlL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=honeycomb.io;
+	h=from:subject:date:in-reply-to:references:mime-version:to:cc:
+	content-type:content-transfer-encoding:cc:content-type:date:from:subject:to;
+	s=s1; t=1791898469;
+	bh=Yjc3wFNOxrypJJyu5rTq8Vr1Hd3Zz2aUY0wPnZO4Ji4=;
+	b=cjPfxSlLQkSUdnf0bT733QfnqIyHwuJRNG6OpW0Z7CvBWxnySk5RMr67Oc8aartloIne
+	pK56lqo0wA7bw51ni+1Fcut5Q7x9y5Uavv6FVrVtcE40SFKySwMzXlVILGojlgwyFfNLit
+	qbCv0j92NNahom4tTuy0p3LA+dH3TRYvluTbZWUUAdx9ss+S44ajRzJIPWJ4tjWXb0kRLP
+	Jef/3beZF2rrIcoj0XVGTFmtxqIksgGYEiSMqcrlhfMjLfbhiI+HLfHgCRTBLcWDW2QwjJ
+	gtkvyi8l/XWlXAkflQ0eA+zJtTzDlbJameOVs3/1VpBZormpIJ+VqyABDXqJfqQA==
+Received: by recvd-b6785b758-pms9j with SMTP id recvd-b6785b758-pms9j-1-6ACE3364-52
+	2026-10-13 13:34:28.727189614 +0000 UTC m=+1197221.645450126
+Received: from daisy.dens.ffj.family (unknown)
+	by geopod-ismtpd-canary-0 (SG) with ESMTP
+	id j7TrPBHQTSyTSY7St2F5YQ
+	Tue, 13 Oct 2026 13:34:28.641 +0000 (UTC)
+From: Liz Fong-Jones <lizf@honeycomb.io>
+Subject: Re: [PATCH v6 0/3] writeback: let foreign flushes reach dying cgwbs
+Date: Tue, 13 Oct 2026 13:34:29 +0000 (UTC)
+Message-ID: <20261013133428.725790-1-lizf@honeycomb.io>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261002-wb-dying-cgwb-flush-v6-0-1991b4e2dcff@honeycomb.io>
+References: <20261002-wb-dying-cgwb-flush-v6-0-1991b4e2dcff@honeycomb.io>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-SG-EID: 
+ =?us-ascii?Q?u001=2ECuH7N2XAoeMR1zrzr=2F6NZrhli2vbKPOHff5fJuZuba6ZIE8QPyIf9mn4Y?=
+ =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmeYytsq=2Fs6xFQ?=
+ =?us-ascii?Q?u5VO+EtT9LXkYGlxJUqGOEwoCTZ8+dJNWoztJgA?=
+ =?us-ascii?Q?83GYMzdfkdF5Gw1J8iDpMcYzuTiSEt9CPgxOsRp?=
+ =?us-ascii?Q?CcIYFRlwyeSdZPwnBzgVqUxkYHGvzsX62LLI99o?=
+ =?us-ascii?Q?JQZc6ufM5p81NwxL5W543hfJDqB7fHBt=2FJ5Si3Z?= =?us-ascii?Q?B2hC?=
+To: Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, Christian Brauner
+	<brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
+	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner
+	<hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt
+	<shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ian@honeycomb.io
+X-Entity-ID: u001.GRlkmHQ+Ka/CKxmoC/CxTw==
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+Tejun and Jan,
 
-> The fat_fallocate() code currently does many 1-cluster allocations when
-> growing a file in the FALLOC_FL_KEEP_SIZE path. Make it allocate
-> everything with one call instead.
->
-> Benchmarking was done under QEMU/KVM with a virtio-blk device using
-> cache=none. Each result is the arithmetic mean of the listed samples.
->
-> start = now_ns();
-> for (unsigned int i = 0; i < count; i++)
->      fallocate(fds[i], FALLOC_FL_KEEP_SIZE, 0, bytes);
-> elapsed = now_ns() - start;
->
-> FAT32 with 512-byte clusters using count=16 files:
-> length    mounted sync?    before    after    improvement    samples
-> 256MiB    no               2.328s    0.175s   13.2x          10
-> 16MiB     no               149.659ms 14.036ms 10.7x          10
-> 16MiB     yes              747.993s  3.445s   217.1x         3
-> 1MiB      yes              46.63s    0.333s   140.1x         10
->
-> FAT32 with 512-byte clusters using count=128 files:
-> length    mounted sync?    before    after    improvement    samples
-> 1MiB      no               90.873ms  4.686ms  19.4x          10
-> 16KiB     no               1.287ms   0.241ms  5.3x           10
-> 128KiB    yes              47.284s   0.350s   135x           10
-> 4KiB      yes              1.98s     0.144s   13.7x          10
->
-> FAT32 with 4096-byte clusters using count=16 files:
-> length    mounted sync?    before    after    improvement    samples
-> 256MiB    no               295.392ms 24.733ms 11.9x          10
-> 16MiB     no               20.509ms  1.404ms  14.6x          10
-> 16MiB     yes              92.489s   0.348s   265.4x         10
-> 1MiB      yes              5.837s    0.048s   121.3x         10
->
-> The improvement is especially large on synchronous mounts, where the
-> new code can batch FAT updates instead of synchronously handling each
-> cluster allocation separately.
->
-> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Gentle ping on v6. Patches 1 and 2 carry Tejun's acks. Patch 3 changed
+in v6 to queue replaced_work again when a switch lands on a wb that was
+replaced after the switch was queued, as Tejun suggested on v5, and it
+hasn't had review yet. Jan, you confirmed on v3 that switching all of a
+replaced wb's inodes, dirty ones included, is safe; would you have time
+to look at patch 3?
 
-Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Christian, if they're happy with it, could the series go into
+vfs-7.4.misc next to Xin's 168a8c13159c? It still applies cleanly there
+and to 7.3-rc7. If that's too late for this cycle, I'm happy to repost
+on whatever base you'd like to queue it on.
 
-Looks good. Thanks.
-
-> ---
->  fs/fat/file.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
->
-> diff --git a/fs/fat/file.c b/fs/fat/file.c
-> index 41d49e9de..3aa541c6b 100644
-> --- a/fs/fat/file.c
-> +++ b/fs/fat/file.c
-> @@ -290,12 +290,10 @@ static long fat_fallocate(struct file *file, int mode,
->  		nr_cluster = (mm_bytes + (sbi->cluster_size - 1)) >>
->  			sbi->cluster_bits;
->  
-> -		/* Start the allocation.We are not zeroing out the clusters */
-> -		while (nr_cluster-- > 0) {
-> -			err = fat_add_clusters(inode, 1);
-> -			if (err)
-> -				goto error;
-> -		}
-> +		/* Allocate the clusters. We are not zeroing them out */
-> +		err = fat_add_clusters(inode, nr_cluster);
-> +		if (err)
-> +			goto error;
->  	} else {
->  		if ((offset + len) <= i_size_read(inode))
->  			goto error;
-
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Thanks,
+Liz
