@@ -1,334 +1,99 @@
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com [203.205.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F00F51EE0E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 16:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1C951EE00;
+	Tue, 13 Oct 2026 16:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791910104; cv=none; b=ehmscGR8Bd0NZJSC2BIBNXLUPuEhufcd0UpKIo67PKMhekl8B3iWDl+bRUSxeJw6cwgGo4ZOikkeA1K8FwoAB/o1Zap4SM2PDjFYZb85Ofx4db7gawGaZGu0Su+4hLNNxtLfV4zZD2kaor/5q+HXt6/zAhIUKf0mzX5tEMeCLy0=
+	t=1791910106; cv=none; b=gsWkKqprZgXDuj9kqPNv4wNTfpJrvrq6jwxZxEPMNpz7xooltHhuP59FC8YlxCFUbwGUCPiRnwk4QFkjoOaYVSdO9A1WLk0/Bt/aQyBHcpMs4ssmMtToDwcwQdjGSPNAaAJCrM7pNmk18bDfFfDa8CbsBjH6yF3aOeF7OKUSN1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791910104; c=relaxed/simple;
-	bh=9JjUYHYRrywinpEdY5iw3CqE6VCjmo76V0jstCXCwS0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IRGui/gwgMRk1TB6Qh611d8u3AShyH7/V+Wa6nMQfRiPi1yBFtRd989ms1duwn4jUOLWZeoom0AP8nb51tJXSmXKSIfTkpfX4huxzwoIX20VhVDhyqcCCecD+kx27H+3qZH1yRKmyRhuIPj47Uk1EUQSsDoLYIegPTJPaHsNQlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AbwCGCJ2; arc=none smtp.client-ip=74.125.224.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791910106; c=relaxed/simple;
+	bh=cBw07y9UeT6Oz5V5csqY6bxbBuCWOYNz1IJzigUI6cQ=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=ndUCeEjAhlqf7FY13lzIAJ5sa4uRXda4ZcdZ2dmpJatXNfoVZE99TBXJ3GxkpdyxRf1+cnf1SJbyEHK4kSMaiM4x7GS4DgkjpTt5TouLpbjAEu+RozPsUs5rSCO4bsg6uA8Q4AsmZFSqrTl3nesKOgHu75b4aRTfNrx8R6tx2L8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=KO1m50MV; arc=none smtp.client-ip=203.205.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AbwCGCJ2"
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-67718201466so2392983d50.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 09:48:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791910101; x=1792514901; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YRYrGC16XxhpyEhg63tIO972e5kAiFs1OtDRCUKC8kk=;
-        b=AbwCGCJ2oCdUheSdSr+wVmW6cvBx8q2BASbQaDEnfO44kqG4mkoUSTFHN5UAiRgpmW
-         GAMDPro5DKxotk2CAZPyLsBbKU6kEAJfxkEqYA1vAduBlMaGDXRaA6KonDvvhOsUmpEM
-         JyUVTw1UslSShUE6ZoRtMciG8YkaYRwf2nP+Lc1PEzx/v++4PLDeMWBUlSpMk10NXqnW
-         1zmGGw339mIi6ZRdFDp2jvXk/cSCj1p50oP0UC6LiN/Tkbp3CsYKn8qZFOldcdhXZywd
-         Y4QQfkSXxA69iTTvAHBPaP2xBAfBcVtGC5Mz7Ff5JO93Ljqw6Serz28dmuhgrwFrV/8c
-         RXng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791910101; x=1792514901;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YRYrGC16XxhpyEhg63tIO972e5kAiFs1OtDRCUKC8kk=;
-        b=SVob8WVwxjk2qnL1yN0G3PCT5vYeQczf/rZsVfa1qe/c74LqoC+hpjnCAE8CV0HFXZ
-         nRS5H4qyJZshWOCq/MVehC3W12sn8wrt8GUhPRV5AFajoeAA76oFenbP8qQFauOzSBhv
-         FspZFWdJ1GVUpLhTqTxqktS9B2ud9D1c6oL6FEWG/bwRRYwrohcmUU8wttmpeXFdE3q1
-         XKLx0vcize2724avM/AanhfrMBxteXizr6aituDOjcIk5HPCnP7PzEm0ULezrHh5NyWH
-         zk9EjfZKNoko+q2OShbUmsWahXexVTD1zp45tHXOSYdG72ujMsanqc5AzHIYIpWy9UM3
-         NLmg==
-X-Gm-Message-State: AFq9FYJna3AQumj2yeeMogMXS17xbM5AxS92B0amAYFVrlCgSi3M9oMy
-	v8XSfil/wo5dLWQtxNLreE/Du5YlexRkDKGuIfjpPX9mGiNP7tpAdwfC
-X-Gm-Gg: AYBFou03LsXqgjFkWi5DM839aekymS23KkVSCdIY1NoXioHzzdGEGNihlmeUUpB0F+c
-	plll/PO/dvfIWLrHdDrJXkTi6xFTx9ubEMpSm4ymtz+PHMiapwDjTygrzL1TFqeK6fi5kWi9Iv/
-	1jBXZWftSSYAP5g0jfrU0P+823H8W42U6895gnCKd8VKpuo3e7tGPg3KPn/2M91b3jfdHB4kA7u
-	G4+gLQ/toQEafl0eHiaOsfcVI60uTEMN2uIyuZvnAIzrdi/74MTENxF/nqf3GjOlHCCiVCuaUEg
-	YhGs643XC/erw/esVMD3l6ukB9x1Ubxy9FKgy7roti/eZ2Ib7fsKEJP5h4FGsxCXVm4KNiF6kE6
-	tVZI4Kh6AsA/wjsMcxxCAX/o4Wn6NEzt23cygKhPQa9dKeuQ0UXBye5EYUm49VMd9zUqIvtpWi8
-	inQEiNbcZkzFxS784o8Cx90IVwPPDzLz5nEGdKkwg9Gw1kmr0iCfzswngFrgagwXZjAL/WRhYOe
-	g==
-X-Received: by 2002:a53:da43:0:b0:677:dc7e:48c5 with SMTP id 956f58d0204a3-67936769395mr3239253d50.10.1791910101212;
-        Tue, 13 Oct 2026 09:48:21 -0700 (PDT)
-Received: from zenbox ([2600:1700:18fb:6011:d326:f863:5ae3:683])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67986a89294sm81136d50.15.2026.10.13.09.48.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 09:48:20 -0700 (PDT)
-From: Justin Suess <utilityemal77@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>,
-	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Song Liu <song@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E . Hallyn" <serge@hallyn.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Tingmao Wang <m@maowtm.org>,
-	Justin Suess <utilityemal77@gmail.com>
-Subject: [PATCH bpf-next v1 02/11] namei: add vfs_walk_ancestors()
-Date: Tue, 13 Oct 2026 12:47:51 -0400
-Message-ID: <20261013164800.2906577-3-utilityemal77@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261013164800.2906577-1-utilityemal77@gmail.com>
-References: <20261013164800.2906577-1-utilityemal77@gmail.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="KO1m50MV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1791910100; bh=+haVIeY0MNRtYQnSiotqInM+BDa2vUgq5oVbYQNZUvo=;
+	h=From:To:Cc:Subject:Date;
+	b=KO1m50MVbq5jMNCSZQtufJym+Czkml58ZO1HMn3SIOieLHebtPussbEqFDey+XwJc
+	 nRgh23VypGudYSPck28UeYI18oF89joQNq9i7RKiC9/tXxBuAswYLriLBG34o4pXHM
+	 nfp4hojTonlJ49kkAnqdhnaeFMTFKNtWyKVsFCSg=
+Received: from [172.18.4.77] ([61.136.26.103])
+	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
+	id C12A645F; Wed, 14 Oct 2026 00:48:18 +0800
+X-QQ-mid: xmsmtpt1791910098tj1mbgpv6
+Message-ID: <tencent_629FA673511C3E765167A994DF7A23524E08@qq.com>
+X-QQ-XMAILINFO: MRMtjO3A6C9Xy691StZsN+noP0zlU0xyi+dO9y3oz/KQV34qqOP6j4oefef+gH
+	 VBz6W6xQUbGp6ZarDMaYQVLIIcTO81yzTluK+dvf4QT3qZW/WdTlI85Betr4+JNqw5VTZlVNzr3/
+	 81gxZUxfOpJBqNa4hwdJGjPrDjlYWvkB5TF0nEnWAEfs/x1h5cRK9XZz9l9Iqnz7Ocu7vMT5TpIM
+	 LQy3WoYgZWGhPyNVriockuvp2YFH9EGp/UpaH4fT7RstDh3evyalKjuGnc6cL3vFZDZk54PghQXw
+	 IZnS0fO1TsavDr8Lp18tG83NZ1vclFp0L5vvNOc0PhiZPWeA1w9/yS897G+OU4Z+RYh4Pfh7DdSR
+	 SiNQL4+gPC3ZUIvRu//EbYDMI5TBEcjQwKsZJaE1joUQAQplDIjgpDghSWvke0+1Kgm0jdonQkMp
+	 c5bKVK0r6ScUU5CTeIhZDNxe5Ko250CLzDfjs+rXnMtiFNc0hwNo4KpVG5KPDeQja9KU44so0Lnt
+	 iA4/OEZ/xivnpOqTghkCc7L/n3hsvKuJ3SK0GanW2t7YmTkImxmNqIR+WqL2ozw1qFhty4n+j3nT
+	 HpUeKL5t1Jx8+tIJ8Co6+EhupFRJkj8innyDxHkXGmAuIPewkQePFEmz4j89d39scXY3Lkd6LMyS
+	 m81rvLcQq5DTYOlldGgvWULG2YzBV0vaDDxxqsosiGlWtLBUSXdHkazQMwHsX1bvkvlv4KqFiwXT
+	 MsoGjg6DGWu1hBV7GxrCwzWOZIemd8RZVulwbiwq+qKKYmp53LiaNk1j8dVtxkOLMArTZAWE6j5/
+	 NoBjwkLolMudh7Wyh+jLYqlyQkNJrs08XpNLMad9xGOitrV4J0QC0XVMfJaA6zA9+IZJBC7ipBX1
+	 gq51uhJVHOxqj/JdyhK9I8u2HOi6dV+Ot6NWurVDrN4bE14maOX8QWoxd5ZEnCiOri8sqlCtHQUb
+	 k7lRwwN/9MYir+mvOEMBKh7PzAJsYpiVsBzt2xM1wrtKzOq0KWxs5f2q3u6thHWPQ/sqq7wwa5RS
+	 E2hvdnJwMmhnxswvIRuUQZlfrk/RyEcjhJUOoeghxW2qIc6xDoNT6BPJwGgFJEE7n9MmNujcvLEf
+	 0JGw7O
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+From: yangguikun <yangguikun19@qq.com>
+To: Dave Kleikamp <shaggy@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [BUG] jfs: BUG_ON in jfs_evict_inode fires in practice (anon_inode_list assertion)
+Date: Wed, 14 Oct 2026 00:48:18 +0800
+X-OQ-MSGID: <179191009833.67328.2894987293976030407@yangguikun19.qq.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-Add a callback-based walk over a path and its ancestors, built on
-__path_walk_parent(): the kernel owns the loop and the callback must
-not sleep, so an rcu-walk engine can be added later without changing
-the API.
+Hi Dave,
 
-Internally the walk is a stepwise engine - vfs_walk_start(),
-vfs_walk_next(), vfs_walk_end(), static to namei.c for now, with the
-walk state declared in fs/internal.h - and vfs_walk_ancestors() is a
-loop over it.  The position's flags live in the walk state, where the
-next step needs them anyway: stepping off a disconnected position
-resumes at the root of its mount.  A later patch exposes the engine so
-an iterating consumer can drive it, with every step and invariant
-staying in namei.c.
+the BUG_ON in jfs_evict_inode() fires in practice, and it still does on current
+mainline: our fuzzing fleet hit it on 7.2-rc5 on 2026-10-12, and fs/jfs is
+unchanged between that tree and current mainline, so the same code is still
+there. It is easy to hit - a corrupted image is enough, and the crash is a
+panic, not a graceful error.
 
-Disconnected root dentries are reported to the callback instead of
-terminating the walk.  A disconnected mountpoint landed on by a mount
-crossing - the one position this walk visits that a
-dget_parent()/follow_up() loop never does - is additionally flagged
-VFS_WALK_POS_MOUNTPOINT, so security callers can reproduce their
-pre-conversion evaluation sequence exactly.
+The assertion that fires is
 
-Suggested-by: NeilBrown <neil@brown.name>
-Suggested-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Justin Suess <utilityemal77@gmail.com>
----
- fs/internal.h         |  10 +++
- fs/namei.c            | 140 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/namei.h |  14 +++++
- 3 files changed, 164 insertions(+)
+    BUG_ON(!list_empty(&ji->anon_inode_list));      /* fs/jfs/inode.c:175 */
 
-diff --git a/fs/internal.h b/fs/internal.h
-index c658c8a5ebd5..bfe62c9bdfc9 100644
---- a/fs/internal.h
-+++ b/fs/internal.h
-@@ -71,6 +71,16 @@ struct dentry *start_dirop(struct dentry *parent, struct qstr *name,
- 			   unsigned int lookup_flags);
- int lookup_noperm_common(struct qstr *qname, struct dentry *base);
- 
-+/*
-+ * The stepwise engine under vfs_walk_ancestors(); fs-internal so iterating
-+ * consumers (BPF) can drive it, with the walk invariants staying in namei.c.
-+ */
-+struct vfs_ancestor_walk {
-+	struct path pos;
-+	unsigned int pos_flags;	/* VFS_WALK_POS_* describing pos */
-+	unsigned int flags;	/* VFS_WALK_* */
-+};
-+
- void __init filename_init(void);
- 
- /*
-diff --git a/fs/namei.c b/fs/namei.c
-index 808fb4bed7c4..6d5b4b214334 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -2229,6 +2229,146 @@ static struct dentry *__path_walk_parent(struct path *path, const struct path *r
- 	return dget(path->dentry);
- }
- 
-+static unsigned int vfs_walk_pos_flags(const struct vfsmount *mnt,
-+				       const struct dentry *dentry)
-+{
-+	if (unlikely(IS_ROOT(dentry) && dentry != mnt->mnt_root))
-+		return VFS_WALK_POS_DISCONNECTED;
-+	return 0;
-+}
-+
-+/* No boundary: ancestor walks go up to the real root. */
-+static const struct path vfs_walk_no_root;
-+
-+/* Internal walk flag: the starting position has been yielded. */
-+#define VFS_WALK_STARTED	BIT(31)
-+
-+/**
-+ * vfs_walk_start - begin a stepwise ancestor walk
-+ * @aw: walk state, valid until vfs_walk_end()
-+ * @path: position to walk up from; never modified
-+ * @flags: %VFS_WALK_* flags; none defined yet, pass 0
-+ */
-+static void vfs_walk_start(struct vfs_ancestor_walk *aw,
-+			   const struct path *path, unsigned int flags)
-+{
-+	if (WARN_ON_ONCE(flags))
-+		flags = 0;
-+	aw->pos = *path;
-+	aw->flags = flags;
-+	aw->pos_flags = 0;
-+	path_get(&aw->pos);
-+}
-+
-+static int vfs_walk_step_ref(struct vfs_ancestor_walk *aw)
-+{
-+	struct dentry *parent;
-+
-+	if (unlikely(aw->pos_flags & VFS_WALK_POS_DISCONNECTED)) {
-+		/* Resume at the root of the disconnected position's mount. */
-+		dput(aw->pos.dentry);
-+		aw->pos.dentry = dget(aw->pos.mnt->mnt_root);
-+		aw->pos_flags = 0;
-+		return 0;
-+	}
-+	parent = __path_walk_parent(&aw->pos, &vfs_walk_no_root,
-+				    LOOKUP_BENEATH);
-+	if (IS_ERR(parent))
-+		/* The real root. */
-+		return 1;
-+	/*
-+	 * A mount crossing can step onto a disconnected root, whose parent
-+	 * is itself: only then is the mountpoint itself yielded, flagged.
-+	 */
-+	aw->pos_flags = parent == aw->pos.dentry ?
-+		VFS_WALK_POS_DISCONNECTED | VFS_WALK_POS_MOUNTPOINT :
-+		vfs_walk_pos_flags(aw->pos.mnt, parent);
-+	dput(aw->pos.dentry);
-+	aw->pos.dentry = parent;
-+	return 0;
-+}
-+
-+/**
-+ * vfs_walk_next - yield the walk's next position in @aw->pos
-+ * @aw: the walk
-+ *
-+ * The first call yields the starting position itself.  @aw->pos_flags
-+ * carries the position's %VFS_WALK_POS_* flags, with the semantics
-+ * described at vfs_walk_ancestors().
-+ *
-+ * Returns: 0 with @aw->pos valid, 1 once the walk has passed the real
-+ * root.
-+ */
-+static int vfs_walk_next(struct vfs_ancestor_walk *aw)
-+{
-+	if (aw->flags & VFS_WALK_STARTED) {
-+		int err = vfs_walk_step_ref(aw);
-+
-+		if (err)
-+			return err;
-+	} else {
-+		aw->flags |= VFS_WALK_STARTED;
-+		aw->pos_flags |= vfs_walk_pos_flags(aw->pos.mnt, aw->pos.dentry);
-+	}
-+	return 0;
-+}
-+
-+/**
-+ * vfs_walk_end - finish a stepwise ancestor walk
-+ * @aw: the walk; its positions, including @aw->pos, become invalid
-+ */
-+static void vfs_walk_end(struct vfs_ancestor_walk *aw)
-+{
-+	path_put(&aw->pos);
-+}
-+
-+/**
-+ * vfs_walk_ancestors - invoke a callback on a path and each of its ancestors
-+ * @path: path to walk up from; the caller's path is never modified
-+ * @cb: callback invoked on @path, then on each ancestor up to the real
-+ *      root, crossing mount boundaries.  @cb must not sleep and returns
-+ *      %VFS_WALK_CONTINUE, %VFS_WALK_STOP or a negative errno to abort the
-+ *      walk.  @ancestor is only valid during the invocation; @cb must take
-+ *      its own references to keep a position.
-+ *      A position whose dentry is a disconnected root is flagged with
-+ *      %VFS_WALK_POS_DISCONNECTED (plus %VFS_WALK_POS_MOUNTPOINT when it
-+ *      is a mountpoint a mount crossing landed on rather than a parent);
-+ *      if @cb continues over it, the walk resumes at the root of that
-+ *      position's mount.
-+ * @data: opaque argument passed to @cb
-+ * @flags: %VFS_WALK_* flags; none defined yet, pass 0
-+ *
-+ * Returns: 0 once the real root was reached, 1 if @cb stopped the walk, or
-+ * the negative errno @cb aborted with.
-+ */
-+int vfs_walk_ancestors(const struct path *path,
-+		       int (*cb)(const struct path *ancestor,
-+				 unsigned int pos_flags, void *data),
-+		       void *data, unsigned int flags)
-+{
-+	struct vfs_ancestor_walk aw;
-+	int ret;
-+
-+	vfs_walk_start(&aw, path, flags);
-+	for (;;) {
-+		ret = vfs_walk_next(&aw);
-+		if (ret) {
-+			if (ret == 1)
-+				ret = 0;
-+			break;
-+		}
-+		ret = cb(&aw.pos, aw.pos_flags, data);
-+		if (ret < 0)
-+			break;
-+		if (ret == VFS_WALK_STOP) {
-+			ret = 1;
-+			break;
-+		}
-+	}
-+	vfs_walk_end(&aw);
-+	return ret;
-+}
-+
- static struct dentry *follow_dotdot(struct nameidata *nd)
- {
- 	struct dentry *parent;
-diff --git a/include/linux/namei.h b/include/linux/namei.h
-index 86d657b24fc6..3e198de7a0d3 100644
---- a/include/linux/namei.h
-+++ b/include/linux/namei.h
-@@ -162,6 +162,20 @@ extern int follow_down_one(struct path *);
- extern int follow_down(struct path *path, unsigned int flags);
- extern int follow_up(struct path *);
- 
-+/* per-position flags passed to the vfs_walk_ancestors() callback */
-+#define VFS_WALK_POS_DISCONNECTED	BIT(0)
-+/* the position is a mountpoint landed on by a mount crossing */
-+#define VFS_WALK_POS_MOUNTPOINT		BIT(1)
-+
-+/* vfs_walk_ancestors() callback verdicts; negative values abort the walk */
-+#define VFS_WALK_STOP		0
-+#define VFS_WALK_CONTINUE	1
-+
-+int vfs_walk_ancestors(const struct path *path,
-+		       int (*cb)(const struct path *ancestor,
-+				 unsigned int pos_flags, void *data),
-+		       void *data, unsigned int flags);
-+
- int start_renaming(struct renamedata *rd, int lookup_flags,
- 		   struct qstr *old_last, struct qstr *new_last);
- int start_renaming_dentry(struct renamedata *rd, int lookup_flags,
--- 
-2.55.0
+We think the interesting part is that this assertion contradicts how the rest
+of the file treats that same list:
+
+  - txQuiesce() (jfs_txnmgr.c:2827) walks TxAnchor.anon_list and dereferences
+    the inode directly - ip = &jfs_ip->vfs_inode; txBegin(ip->i_sb, ...) -
+    without igrab(), i.e. it assumes every inode on the list is alive;
+
+  - jfs_sync() (jfs_txnmgr.c:2895) walks the same list, does igrab(ip), and
+    when igrab() fails it does list_del_init(&jfs_ip->anon_inode_list) under
+    the comment "Inode is being freed" - so the code explicitly expects that a
+    dying inode can be on this list.
+
+That is, the list can hold an inode that is being evicted, and the BUG_ON is
+the side that fires in practice. Making the two consistent would mean dropping
+the inode from anon_inode_list before it is freed - the same thing jfs_sync()
+already does in its igrab() failure branch - which also keeps txQuiesce() safe,
+because it would then never see a dead inode.
+
+We have not attempted a fix. Happy to test a candidate patch against our
+reproducer on our side if that helps.
+
+Framing: the trigger is a crafted/corrupted image, so this is a panic/DoS on
+such an image; we are not claiming a privilege-boundary crossing.
+
+Thanks,
+yangguikun <yangguikun19@qq.com>
 
