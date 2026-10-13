@@ -1,428 +1,350 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F1D4FD287;
-	Tue, 13 Oct 2026 12:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7C647604A;
+	Tue, 13 Oct 2026 12:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791893745; cv=none; b=lhe0q6CHbIX/Q0j020926A0rn3XyArm76orfS5N50Gkp+ZWJxssUliPutf96x+YyAbMy0o/oxmcaZTIEm3OvESv9lUPJnJrRXl081eUVt1r0S6ANY4JboGgC5AnswNmSEeaCGVFuq3/52J0LGNWJ28Hv5YSBX1jbm6q+CAuS0/A=
+	t=1791893823; cv=none; b=mXrXKgyGHTI6QtC0EKavM3d2bxR/3NSFXPZAtEf+M8A88zezyF2qpo6hI4bGBfFYMMVng0hP9W/i+R8mI2vofwlaVFYb0BWbjvVk+Cpr5rUVVKCQbU8puZ6Fhkf3HXtydom/5CE6zKJAzb6tiAAWvrqXcLOqxRVmyuL7+q0riW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791893745; c=relaxed/simple;
-	bh=I23C+eluOBgseeUi091s/kdlDtux7vQcXvXLMnwDpOg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rPMOxJjydaWkEJflz3vWuPQ5nN7ffpu7UES+BMMCvzFB6eZv8pNmVqCMOM7YjoDgVEx8Xef9ZdEKexz6ocs8EmN8qXsnV1USJolCQXT+CJPbQk0XRlprVq8bQb+kVKvX89N1NQ5Y+OeAcNJzjWN1Bt3r8LuTGDFuBVRFTeTENcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=d0XHXqcE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791893823; c=relaxed/simple;
+	bh=G8PGqIrQ5k77evT2wG7WUTBFPlNbw5frBEVT5qJlGVE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N8OwECyJNDThwT0pXxPNsX+xsr6ZXhqwfhhFBpvt2gORpxk4J+yeYb4cyeM+kNq+vcDR+BD252SvbT5Kv/TspYaW27xoBQwMVVjNA3MEW6dDG1iT4lrfHxNdTLZeggtfCoLqqcwhZRTJlx0Ql3VaTircKyJsBz95Li6xBwgWWY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0sKq94An; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6p47P9iC; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0sKq94An; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6p47P9iC; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="d0XHXqcE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12EE31F000FF;
-	Tue, 13 Oct 2026 12:15:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791893743;
-	bh=SFIoydcZiJ7Sd0ZVO1VEi9zvgonuqzf2+6u1xtIpZMI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=d0XHXqcEoEw/cckjcXNlhkvDsRrVX4X3jotPAlzR6bhUZrv8CpyrEzl2cBU9ssmo5
-	 l1CdEdQpX0ajQYG3+GE8eRgs/VtvoPfEkk4yrfmlxptoKKKuaZBA/LJNvGpVqnjxkx
-	 MJzJaScnF1zSJHuceYXbKTIeSKQ9agObYvYaD6vE=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	syzbot+0da43efa72f88bd3a8af@syzkaller.appspotmail.com,
-	David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Yun Zhou <yun.zhou@windriver.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.18 327/621] netfs: Fix folio_queue ENOMEM in writeback by adding a mempool
-Date: Tue, 13 Oct 2026 13:35:22 +0200
-Message-ID: <20261013112928.612877063@linuxfoundation.org>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261013112920.855194808@linuxfoundation.org>
-References: <20261013112920.855194808@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0sKq94An";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6p47P9iC";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0sKq94An";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6p47P9iC"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 38DB51F452;
+	Tue, 13 Oct 2026 12:16:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791893819; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PIWtiPrsYf/toAj2P9j+sTaCeU3Ul60tHOhLtN5agvw=;
+	b=0sKq94AnOavcl7gDRZOyLluSHmY5g71LY5JROosKZsO1N1IdLZlZBrRfVzCXSFJQOBTuN3
+	w9hKyDiEaoNm/F8NtqM9TT018p4WsZRQe8/4iA7QLDAqvxDqi+o3U0+3gwS4TgI26JZhLv
+	fFN6wG9dXmft+KkzK2+FPGchHHt8dPM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791893819;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PIWtiPrsYf/toAj2P9j+sTaCeU3Ul60tHOhLtN5agvw=;
+	b=6p47P9iCrndYpS5aCQ79HN/DuH3C4+9dKrkHYxNlLiQk0K6p8z9D4Jwwo1wlBB5G/l1AOE
+	lglU1CzvRYmwp6Bw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791893819; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PIWtiPrsYf/toAj2P9j+sTaCeU3Ul60tHOhLtN5agvw=;
+	b=0sKq94AnOavcl7gDRZOyLluSHmY5g71LY5JROosKZsO1N1IdLZlZBrRfVzCXSFJQOBTuN3
+	w9hKyDiEaoNm/F8NtqM9TT018p4WsZRQe8/4iA7QLDAqvxDqi+o3U0+3gwS4TgI26JZhLv
+	fFN6wG9dXmft+KkzK2+FPGchHHt8dPM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791893819;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PIWtiPrsYf/toAj2P9j+sTaCeU3Ul60tHOhLtN5agvw=;
+	b=6p47P9iCrndYpS5aCQ79HN/DuH3C4+9dKrkHYxNlLiQk0K6p8z9D4Jwwo1wlBB5G/l1AOE
+	lglU1CzvRYmwp6Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 10B7813341;
+	Tue, 13 Oct 2026 12:16:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6fCqNzohzmoPIwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 13 Oct 2026 12:16:59 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 940F0A1407; Tue, 13 Oct 2026 14:16:54 +0200 (CEST)
+Date: Tue, 13 Oct 2026 14:16:54 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-ext4@vger.kernel.org, 
+	linux-afs@lists.infradead.org, v9fs@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH 6/8] unicode: free the map after a grace period
+Message-ID: <ytvtvt4ejwcfm63jcmrqz7hdktsmp4tg55ddliwnrgvotuwngm@wljc272orwac>
+References: <20261009-work-fixes-rcu-v1-0-7446d2d335e6@kernel.org>
+ <20261009-work-fixes-rcu-v1-6-7446d2d335e6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261009-work-fixes-rcu-v1-6-7446d2d335e6@kernel.org>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_COUNT_THREE(0.00)[3];
+	URIBL_BLOCKED(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-6.18-stable review patch.  If anyone has any objections, please let me know.
+On Fri 09-10-26 23:51:56, Christian Brauner wrote:
+> generic_ci_d_hash() and generic_ci_d_compare() read sb->s_encoding and
+> dereference the unicode map while a pathwalk in rcu mode holds nothing
+> but rcu_read_lock(). The filesystems that use them, ext4, f2fs and
+> tmpfs, drop the map with utf8_unload() from ->put_super(), which runs
+> when the last reference to the mount goes away. A lookup that is still
+> inside such a filesystem at that point reads a freed map.
+> 
+> With a pathwalk held up in utf8_casefold_hash() while the last reference
+> to a casefolded tmpfs goes away:
+> 
+>   BUG: KASAN: slab-use-after-free in utf8nlookup+0x74c/0x950
+>   Read of size 8 at addr ff110001030fe658 by task walker/98
+>   Call Trace:
+>    <TASK>
+>    utf8nlookup+0x74c/0x950
+>    utf8byte+0x160/0x1560
+>    utf8_casefold_hash+0x167/0x230
+>    generic_ci_d_hash+0xdd/0x1c0
+>    link_path_walk+0x11ad/0x1d30
+>    path_lookupat+0x63/0xb00
+>    filename_lookup+0x1f1/0x5b0
+>    vfs_statx+0xd7/0x3b0
+>   [...]
+>   Allocated by task 94:
+>    __kmalloc_cache_noprof+0x249/0x560
+>    utf8_load+0x4e/0x570
+>    shmem_parse_opt_casefold.isra.0+0x92/0x270
+>   [...]
+>   Freed by task 97:
+>    kfree+0x1db/0x5b0
+>    shmem_put_super+0x72/0x170
+>    generic_shutdown_super+0x14c/0x530
+>    kill_anon_super+0x3a/0x60
+>    deactivate_locked_super+0x9c/0xf0
+>    cleanup_mnt+0x9f/0x130
+> 
+> So far that has been hard to hit. umount(2) waits for a grace period
+> in namespace_unlock() before it drops the mount, so only a mount whose
+> last reference goes away elsewhere, like the close of a file or a chdir
+> out of a lazily unmounted directory, can race a walker. So it is
+> reachable.
+> 
+> Delay the free until a grace period has passed. The map and the data
+> table it holds a reference to then outlive any pathwalk that found the
+> superblock before the mount went away. The reference on the data table
+> module is dropped from the rcu callback as well. utf8-core is built in
+> whenever CONFIG_UNICODE is set, so there is no module exit that would
+> have to wait for the callbacks.
+> 
+> Overlayfs points the s_encoding of an overlay at the map of its first
+> layer without taking a reference of its own. That stays correct. The
+> layer is held by the overlay, so its map is dropped only after the
+> overlay is gone.
+> 
+> Fixes: b886ee3e778e ("ext4: Support case-insensitive file name lookups")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-------------------
+Looks good. Feel free to add:
 
-From: David Howells <dhowells@redhat.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-[ Upstream commit 1d78d56c43ef3768183e8370e7367b162700e049 ]
+								Honza
 
-Fix the handling of folio_queue allocation failure in writeback by adding a
-mempool and passing in gfp_t flags to the rolling buffer functions that
-allocate memory, using the mempool if gfp != GFP_KERNEL.
-
-This is then extended upwards and the gfp to be used for a request is stored
-in the netfs_io_request struct and is then used for both requests and
-subrequests, eliminating the sleeping loops there.
-
-The failure caused:
-
-    folio != NULL
-    WARNING: fs/netfs/write_issue.c:603 at netfs_writepages+0x883/0xa10 fs/netfs/write_issue.c:603, CPU#3: syz.0.17/5919
-
-Fixes: cd0277ed0c18 ("netfs: Use new folio_queue data type and iterator instead of xarray iter")
-Reported-by: syzbot+0da43efa72f88bd3a8af@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=0da43efa72f88bd3a8af
-Signed-off-by: David Howells <dhowells@redhat.com>
-Link: https://patch.msgid.link/20260727130716.1099906-5-dhowells@redhat.com
-Tested-by: syzbot+0da43efa72f88bd3a8af@syzkaller.appspotmail.com
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: Yun Zhou <yun.zhou@windriver.com>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: Christoph Hellwig <hch@infradead.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- fs/netfs/buffered_read.c       |  6 +++---
- fs/netfs/internal.h            |  1 +
- fs/netfs/main.c                |  7 +++++++
- fs/netfs/objects.c             | 30 +++++++++++++++++-------------
- fs/netfs/read_pgpriv2.c        |  2 +-
- fs/netfs/rolling_buffer.c      | 22 +++++++++++++---------
- fs/netfs/write_issue.c         | 10 +++++-----
- include/linux/netfs.h          |  1 +
- include/linux/rolling_buffer.h |  6 +++---
- 9 files changed, 51 insertions(+), 34 deletions(-)
-
-diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
-index 506bfbe467a9d..42afe367d0e09 100644
---- a/fs/netfs/buffered_read.c
-+++ b/fs/netfs/buffered_read.c
-@@ -361,7 +361,7 @@ void netfs_readahead(struct readahead_control *ractl)
- 	netfs_rreq_expand(rreq, ractl);
- 
- 	rreq->submitted = rreq->start;
--	if (rolling_buffer_init(&rreq->buffer, rreq->debug_id, ITER_DEST) < 0)
-+	if (rolling_buffer_init(&rreq->buffer, rreq->debug_id, ITER_DEST, rreq->gfp) < 0)
- 		goto cleanup_free;
- 	netfs_read_to_pagecache(rreq, ractl);
- 
-@@ -380,10 +380,10 @@ static int netfs_create_singular_buffer(struct netfs_io_request *rreq, struct fo
- {
- 	ssize_t added;
- 
--	if (rolling_buffer_init(&rreq->buffer, rreq->debug_id, ITER_DEST) < 0)
-+	if (rolling_buffer_init(&rreq->buffer, rreq->debug_id, ITER_DEST, rreq->gfp) < 0)
- 		return -ENOMEM;
- 
--	added = rolling_buffer_append(&rreq->buffer, folio, rollbuf_flags);
-+	added = rolling_buffer_append(&rreq->buffer, folio, rollbuf_flags, rreq->gfp);
- 	if (added < 0)
- 		return added;
- 	rreq->submitted = rreq->start + added;
-diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
-index a4a5cec256b04..2889df591d949 100644
---- a/fs/netfs/internal.h
-+++ b/fs/netfs/internal.h
-@@ -43,6 +43,7 @@ extern struct list_head netfs_io_requests;
- extern spinlock_t netfs_proc_lock;
- extern mempool_t netfs_request_pool;
- extern mempool_t netfs_subrequest_pool;
-+extern mempool_t netfs_folioq_pool;
- 
- #ifdef CONFIG_PROC_FS
- static inline void netfs_proc_add_rreq(struct netfs_io_request *rreq)
-diff --git a/fs/netfs/main.c b/fs/netfs/main.c
-index 73da6c9f5777c..927badf3989db 100644
---- a/fs/netfs/main.c
-+++ b/fs/netfs/main.c
-@@ -28,6 +28,7 @@ static struct kmem_cache *netfs_request_slab;
- static struct kmem_cache *netfs_subrequest_slab;
- mempool_t netfs_request_pool;
- mempool_t netfs_subrequest_pool;
-+mempool_t netfs_folioq_pool;
- 
- #ifdef CONFIG_PROC_FS
- LIST_HEAD(netfs_io_requests);
-@@ -108,6 +109,9 @@ static int __init netfs_init(void)
- {
- 	int ret = -ENOMEM;
- 
-+	if (mempool_init_kmalloc_pool(&netfs_folioq_pool, 100, sizeof(struct folio_queue)) < 0)
-+		goto error_folioq_pool;
-+
- 	netfs_request_slab = kmem_cache_create("netfs_request",
- 					       sizeof(struct netfs_io_request), 0,
- 					       SLAB_HWCACHE_ALIGN | SLAB_ACCOUNT,
-@@ -160,6 +164,8 @@ static int __init netfs_init(void)
- error_reqpool:
- 	kmem_cache_destroy(netfs_request_slab);
- error_req:
-+	mempool_exit(&netfs_folioq_pool);
-+error_folioq_pool:
- 	return ret;
- }
- fs_initcall(netfs_init);
-@@ -172,5 +178,6 @@ static void __exit netfs_exit(void)
- 	kmem_cache_destroy(netfs_subrequest_slab);
- 	mempool_exit(&netfs_request_pool);
- 	kmem_cache_destroy(netfs_request_slab);
-+	mempool_exit(&netfs_folioq_pool);
- }
- module_exit(netfs_exit);
-diff --git a/fs/netfs/objects.c b/fs/netfs/objects.c
-index b8c4918d3dcda..01461a74642d6 100644
---- a/fs/netfs/objects.c
-+++ b/fs/netfs/objects.c
-@@ -7,7 +7,6 @@
- 
- #include <linux/slab.h>
- #include <linux/mempool.h>
--#include <linux/delay.h>
- #include "internal.h"
- 
- static void netfs_free_request(struct work_struct *work);
-@@ -26,17 +25,23 @@ struct netfs_io_request *netfs_alloc_request(struct address_space *mapping,
- 	struct netfs_io_request *rreq;
- 	mempool_t *mempool = ctx->ops->request_pool ?: &netfs_request_pool;
- 	struct kmem_cache *cache = mempool->pool_data;
-+	gfp_t gfp = GFP_KERNEL;
- 	int ret;
- 
--	for (;;) {
--		rreq = mempool_alloc(mempool, GFP_KERNEL);
--		if (rreq)
--			break;
--		msleep(10);
-+	/* Writeback is part of memory reclaim and must not fail due to ENOMEM. */
-+	if (origin == NETFS_WRITEBACK || origin == NETFS_WRITEBACK_SINGLE) {
-+		gfp = GFP_NOFS; /* Allows use of mempools. */
-+
-+		rreq = mempool_alloc(mempool, gfp);
-+	} else {
-+		rreq = mempool->alloc(gfp, mempool->pool_data);
-+		if (!rreq)
-+			return ERR_PTR(-ENOMEM);
- 	}
- 
- 	memset(rreq, 0, kmem_cache_size(cache));
- 	INIT_WORK(&rreq->cleanup_work, netfs_free_request);
-+	rreq->gfp	= gfp;
- 	rreq->start	= start;
- 	rreq->len	= len;
- 	rreq->origin	= origin;
-@@ -200,13 +205,12 @@ struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq
- 	mempool_t *mempool = rreq->netfs_ops->subrequest_pool ?: &netfs_subrequest_pool;
- 	struct kmem_cache *cache = mempool->pool_data;
- 
--	for (;;) {
--		subreq = mempool_alloc(rreq->netfs_ops->subrequest_pool ?: &netfs_subrequest_pool,
--				       GFP_KERNEL);
--		if (subreq)
--			break;
--		msleep(10);
--	}
-+	if (rreq->gfp == GFP_KERNEL)
-+		subreq = mempool->alloc(rreq->gfp, mempool->pool_data);
-+	else
-+		subreq = mempool_alloc(mempool, rreq->gfp);
-+	if (!subreq)
-+		return NULL;
- 
- 	memset(subreq, 0, kmem_cache_size(cache));
- 	INIT_WORK(&subreq->work, NULL);
-diff --git a/fs/netfs/read_pgpriv2.c b/fs/netfs/read_pgpriv2.c
-index 7eacc58abadb7..c31190993b762 100644
---- a/fs/netfs/read_pgpriv2.c
-+++ b/fs/netfs/read_pgpriv2.c
-@@ -53,7 +53,7 @@ static void netfs_pgpriv2_copy_folio(struct netfs_io_request *creq, struct folio
- 	trace_netfs_folio(folio, netfs_folio_trace_store_copy);
- 
- 	/* Attach the folio to the rolling buffer. */
--	if (rolling_buffer_append(&creq->buffer, folio, 0) < 0) {
-+	if (rolling_buffer_append(&creq->buffer, folio, 0, creq->gfp) < 0) {
- 		folio_end_private_2(folio);
- 		clear_bit(NETFS_RREQ_FOLIO_COPY_TO_CACHE, &creq->flags);
- 		return;
-diff --git a/fs/netfs/rolling_buffer.c b/fs/netfs/rolling_buffer.c
-index 207b6a3266512..8c0026836f9c1 100644
---- a/fs/netfs/rolling_buffer.c
-+++ b/fs/netfs/rolling_buffer.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include <linux/bitops.h>
-+#include <linux/mempool.h>
- #include <linux/pagemap.h>
- #include <linux/rolling_buffer.h>
- #include <linux/slab.h>
-@@ -27,7 +28,10 @@ struct folio_queue *netfs_folioq_alloc(unsigned int rreq_id, gfp_t gfp,
- {
- 	struct folio_queue *fq;
- 
--	fq = kmalloc(sizeof(*fq), gfp);
-+	if (gfp == GFP_KERNEL)
-+		fq = netfs_folioq_pool.alloc(gfp, netfs_folioq_pool.pool_data);
-+	else
-+		fq = mempool_alloc(&netfs_folioq_pool, gfp);
- 	if (fq) {
- 		netfs_stat(&netfs_n_folioq);
- 		folioq_init(fq, rreq_id);
-@@ -50,7 +54,7 @@ void netfs_folioq_free(struct folio_queue *folioq,
- {
- 	trace_netfs_folioq(folioq, trace);
- 	netfs_stat_d(&netfs_n_folioq);
--	kfree(folioq);
-+	mempool_free(folioq, &netfs_folioq_pool);
- }
- EXPORT_SYMBOL(netfs_folioq_free);
- 
-@@ -60,11 +64,11 @@ EXPORT_SYMBOL(netfs_folioq_free);
-  * consumer.
-  */
- int rolling_buffer_init(struct rolling_buffer *roll, unsigned int rreq_id,
--			unsigned int direction)
-+			unsigned int direction, gfp_t gfp)
- {
- 	struct folio_queue *fq;
- 
--	fq = netfs_folioq_alloc(rreq_id, GFP_NOFS, netfs_trace_folioq_rollbuf_init);
-+	fq = netfs_folioq_alloc(rreq_id, gfp, netfs_trace_folioq_rollbuf_init);
- 	if (!fq)
- 		return -ENOMEM;
- 
-@@ -77,14 +81,14 @@ int rolling_buffer_init(struct rolling_buffer *roll, unsigned int rreq_id,
- /*
-  * Add another folio_queue to a rolling buffer if there's no space left.
-  */
--int rolling_buffer_make_space(struct rolling_buffer *roll)
-+int rolling_buffer_make_space(struct rolling_buffer *roll, gfp_t gfp)
- {
- 	struct folio_queue *fq, *head = roll->head;
- 
- 	if (!folioq_full(head))
- 		return 0;
- 
--	fq = netfs_folioq_alloc(head->rreq_id, GFP_NOFS, netfs_trace_folioq_make_space);
-+	fq = netfs_folioq_alloc(head->rreq_id, gfp, netfs_trace_folioq_make_space);
- 	if (!fq)
- 		return -ENOMEM;
- 	fq->prev = head;
-@@ -122,7 +126,7 @@ ssize_t rolling_buffer_load_from_ra(struct rolling_buffer *roll,
- 	int nr, ix, to;
- 	ssize_t size = 0;
- 
--	if (rolling_buffer_make_space(roll) < 0)
-+	if (rolling_buffer_make_space(roll, GFP_KERNEL) < 0)
- 		return -ENOMEM;
- 
- 	fq = roll->head;
-@@ -153,12 +157,12 @@ ssize_t rolling_buffer_load_from_ra(struct rolling_buffer *roll,
-  * Append a folio to the rolling buffer.
-  */
- ssize_t rolling_buffer_append(struct rolling_buffer *roll, struct folio *folio,
--			      unsigned int flags)
-+			      unsigned int flags, gfp_t gfp)
- {
- 	ssize_t size = folio_size(folio);
- 	int slot;
- 
--	if (rolling_buffer_make_space(roll) < 0)
-+	if (rolling_buffer_make_space(roll, gfp) < 0)
- 		return -ENOMEM;
- 
- 	slot = folioq_append(roll->head, folio);
-diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
-index 10315c9538116..3fd8908c251b8 100644
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -108,7 +108,7 @@ struct netfs_io_request *netfs_create_write_req(struct address_space *mapping,
- 	ictx = netfs_inode(wreq->inode);
- 	if (is_cacheable)
- 		fscache_begin_write_operation(&wreq->cache_resources, netfs_i_cookie(ictx));
--	if (rolling_buffer_init(&wreq->buffer, wreq->debug_id, ITER_SOURCE) < 0)
-+	if (rolling_buffer_init(&wreq->buffer, wreq->debug_id, ITER_SOURCE, wreq->gfp) < 0)
- 		goto nomem;
- 
- 	wreq->cleaned_to = wreq->start;
-@@ -167,7 +167,7 @@ void netfs_prepare_write(struct netfs_io_request *wreq,
- 	 */
- 	if (iov_iter_is_folioq(wreq_iter) &&
- 	    wreq_iter->folioq_slot >= folioq_nr_slots(wreq_iter->folioq))
--		rolling_buffer_make_space(&wreq->buffer);
-+		rolling_buffer_make_space(&wreq->buffer, wreq->gfp);
- 
- 	subreq = netfs_alloc_subrequest(wreq);
- 	if (!subreq)
-@@ -336,7 +336,7 @@ static int netfs_write_folio(struct netfs_io_request *wreq,
- 
- 	_enter("");
- 
--	if (rolling_buffer_make_space(&wreq->buffer) < 0)
-+	if (rolling_buffer_make_space(&wreq->buffer, wreq->gfp) < 0)
- 		return -ENOMEM;
- 
- 	/* netfs_perform_write() may shift i_size around the page or from out
-@@ -438,7 +438,7 @@ static int netfs_write_folio(struct netfs_io_request *wreq,
- 	}
- 
- 	/* Attach the folio to the rolling buffer. */
--	rolling_buffer_append(&wreq->buffer, folio, 0);
-+	rolling_buffer_append(&wreq->buffer, folio, 0, wreq->gfp);
- 
- 	/* Move the submission point forward to allow for write-streaming data
- 	 * not starting at the front of the page.  We don't do write-streaming
-@@ -762,7 +762,7 @@ static int netfs_write_folio_single(struct netfs_io_request *wreq,
- 
- 	/* Attach the folio to the rolling buffer. */
- 	folio_get(folio);
--	ret = rolling_buffer_append(&wreq->buffer, folio, NETFS_ROLLBUF_PUT_MARK);
-+	ret = rolling_buffer_append(&wreq->buffer, folio, NETFS_ROLLBUF_PUT_MARK, wreq->gfp);
- 	if (ret < 0) {
- 		folio_put(folio);
- 		return ret;
-diff --git a/include/linux/netfs.h b/include/linux/netfs.h
-index 40eedb7bb06d0..fff3d4fc69ebf 100644
---- a/include/linux/netfs.h
-+++ b/include/linux/netfs.h
-@@ -253,6 +253,7 @@ struct netfs_io_request {
- 	unsigned long long	cleaned_to;	/* Position we've cleaned folios to */
- 	unsigned long long	abandon_to;	/* Position to abandon folios to */
- 	const struct folio	*no_unlock_folio; /* Don't unlock this folio after read */
-+	gfp_t			gfp;		/* GFP flags to use */
- 	unsigned int		direct_bv_count; /* Number of elements in direct_bv[] */
- 	unsigned int		debug_id;
- 	unsigned int		rsize;		/* Maximum read size (0 for none) */
-diff --git a/include/linux/rolling_buffer.h b/include/linux/rolling_buffer.h
-index ac15b1ffdd831..9e5dad29669cf 100644
---- a/include/linux/rolling_buffer.h
-+++ b/include/linux/rolling_buffer.h
-@@ -43,13 +43,13 @@ struct rolling_buffer_snapshot {
- #define ROLLBUF_MARK_2	BIT(1)
- 
- int rolling_buffer_init(struct rolling_buffer *roll, unsigned int rreq_id,
--			unsigned int direction);
--int rolling_buffer_make_space(struct rolling_buffer *roll);
-+			unsigned int direction, gfp_t gfp);
-+int rolling_buffer_make_space(struct rolling_buffer *roll, gfp_t gfp);
- ssize_t rolling_buffer_load_from_ra(struct rolling_buffer *roll,
- 				    struct readahead_control *ractl,
- 				    struct folio_batch *put_batch);
- ssize_t rolling_buffer_append(struct rolling_buffer *roll, struct folio *folio,
--			      unsigned int flags);
-+			      unsigned int flags, gfp_t gfp);
- struct folio_queue *rolling_buffer_delete_spent(struct rolling_buffer *roll);
- void rolling_buffer_clear(struct rolling_buffer *roll);
- 
+> ---
+> Reproducer: delay.c holds a task named walker in utf8_casefold_hash() in
+> rcu pathwalk mode for two seconds and repro.c drops the last reference
+> to a lazily unmounted casefolded tmpfs meanwhile.
+> 
+>     mount -t tmpfs -o casefold tmpfs /mnt
+>     chattr +F /mnt
+>     echo hello > /mnt/Foo
+>     insmod delay.ko
+>     ./repro
+> 
+> Without this patch that gives the splat above, with it it runs clean.
+> 
+> delay.c:
+> 
+>     #include <linux/delay.h>
+>     #include <linux/kprobes.h>
+>     #include <linux/module.h>
+> 
+>     /* keep a task named "walker" in utf8_casefold_hash() in rcu pathwalk */
+>     static int pre(struct kprobe *p, struct pt_regs *regs)
+>     {
+>     	if (!strcmp(current->comm, "walker"))
+>     		mdelay(2000);
+>     	return 0;
+>     }
+> 
+>     static struct kprobe kp = {
+>     	.symbol_name	= "utf8_casefold_hash",
+>     	.pre_handler	= pre,
+>     };
+> 
+>     static int __init delay_init(void)
+>     {
+>     	return register_kprobe(&kp);
+>     }
+> 
+>     static void __exit delay_exit(void)
+>     {
+>     	unregister_kprobe(&kp);
+>     }
+> 
+>     module_init(delay_init);
+>     module_exit(delay_exit);
+>     MODULE_LICENSE("GPL");
+> 
+> repro.c:
+> 
+>     #define _GNU_SOURCE
+>     #include <pthread.h>
+>     #include <sched.h>
+>     #include <string.h>
+>     #include <sys/mman.h>
+>     #include <sys/mount.h>
+>     #include <sys/prctl.h>
+>     #include <sys/stat.h>
+>     #include <unistd.h>
+> 
+>     static void pin(int cpu)
+>     {
+>     	cpu_set_t set;
+> 
+>     	CPU_ZERO(&set);
+>     	CPU_SET(cpu, &set);
+>     	sched_setaffinity(0, sizeof(set), &set);
+>     }
+> 
+>     static void *walker(void *arg)
+>     {
+>     	struct stat st;
+>     	char *p;
+> 
+>     	/*
+>     	 * The delay spins. Empty this cpu's lru batches so that an
+>     	 * lru_add_drain_all() on the other side has no work to wait for here.
+>     	 */
+>     	pin(1);
+>     	p = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+>     	memset(p, 1, 4096);
+>     	madvise(p, 4096, MADV_COLD);
+> 
+>     	prctl(PR_SET_NAME, "walker");
+>     	stat("FOO", &st);
+>     	return NULL;
+>     }
+> 
+>     int main(void)
+>     {
+>     	struct stat st;
+>     	pthread_t t;
+> 
+>     	pin(0);
+>     	chdir("/mnt");
+>     	stat("FOO", &st);
+>     	/* the cwd now holds the last reference to the mount */
+>     	umount2("/mnt", MNT_DETACH);
+>     	pthread_create(&t, NULL, walker, NULL);
+>     	sleep(1);
+>     	/* drop it, ->kill_sb() runs before chdir() returns */
+>     	chdir("/");
+>     	pthread_join(t, NULL);
+>     	return 0;
+>     }
+> ---
+>  fs/unicode/utf8-core.c  | 21 +++++++++++++++++----
+>  include/linux/unicode.h |  1 +
+>  2 files changed, 18 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/unicode/utf8-core.c b/fs/unicode/utf8-core.c
+> index f313532f5e80..74a74a48dd8b 100644
+> --- a/fs/unicode/utf8-core.c
+> +++ b/fs/unicode/utf8-core.c
+> @@ -3,6 +3,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/string.h>
+>  #include <linux/slab.h>
+> +#include <linux/rcupdate.h>
+>  #include <linux/parser.h>
+>  #include <linux/errno.h>
+>  #include <linux/stringhash.h>
+> @@ -183,12 +184,24 @@ struct unicode_map *utf8_load(unsigned int version)
+>  }
+>  EXPORT_SYMBOL(utf8_load);
+>  
+> +static void utf8_unload_rcu(struct rcu_head *head)
+> +{
+> +	struct unicode_map *um = container_of(head, struct unicode_map, rcu);
+> +
+> +	symbol_put(utf8_data_table);
+> +	kfree(um);
+> +}
+> +
+> +/*
+> + * A pathwalk in rcu mode may still be in ->d_hash() or ->d_compare() of a
+> + * filesystem that is being torn down and read the map through its
+> + * superblock, so the map and the tables it points to have to outlive the
+> + * grace period.
+> + */
+>  void utf8_unload(struct unicode_map *um)
+>  {
+> -	if (um) {
+> -		symbol_put(utf8_data_table);
+> -		kfree(um);
+> -	}
+> +	if (um)
+> +		call_rcu(&um->rcu, utf8_unload_rcu);
+>  }
+>  EXPORT_SYMBOL(utf8_unload);
+>  
+> diff --git a/include/linux/unicode.h b/include/linux/unicode.h
+> index 64fa44fe180c..3a8cb603eb93 100644
+> --- a/include/linux/unicode.h
+> +++ b/include/linux/unicode.h
+> @@ -53,6 +53,7 @@ struct unicode_map {
+>  	unsigned int version;
+>  	const struct utf8data *ntab[UTF8_NMAX];
+>  	const struct utf8data_table *tables;
+> +	struct rcu_head rcu;
+>  };
+>  
+>  int utf8_validate(const struct unicode_map *um, const struct qstr *str);
+> 
+> -- 
+> 2.53.0
+> 
 -- 
-2.53.0
-
-
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
