@@ -1,76 +1,128 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D254F395AE4;
-	Tue, 13 Oct 2026 07:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70CA83A6F11;
+	Tue, 13 Oct 2026 07:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791877249; cv=none; b=RJoNqwyqDyvKFaINlu16NoCbqnWyKpqLUFJgJfUy+hgloSMKB3IpJZRZNXctgnIZCa/OHMFJHp0YGi+iKrJXnhEyCZJD0wFRx4tRc0g76ca14eLG3U2ZNfAuogX0xeYg8IqaUIbrDtkhvSEH9SV1vqHTis4XNkzw6hE6TKqYGp8=
+	t=1791877580; cv=none; b=Phj+Ewfh3IbqLPfCPdeSSmoPiJdhTGHyvjpDsj/jCRwXfcDcI+6W7oRBCMlRQIIn8qvjkRtB43ou3XiR0DLhhwTBzzhJjZgLQ+q/C2QH1fXREf6KPUs5OI+C7SGi6NzXApTsCGLloP1nGxdgzV/2YYVighEmxF6UXXpev8DKtTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791877249; c=relaxed/simple;
-	bh=ZTnOrsti/2w8yAPqPu5abDI5OT9mEbN9qOXIuqgEeYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sPy2HSJzx50dR6jXHBjlzzCroxgh67mawVXAkbESjSuZQ1PiQOgqxXMvnQLXErZRtKL1HQeVmE0cbU4eYam+yIptebHeuv1UXDXik0mGar3p6+0kwSTjPXnH0XxMJSqeaphbij/middSthT6Ffk2D/0E4ZpnZ+Nm726TMFhzX1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AaZbjD2s; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1791877580; c=relaxed/simple;
+	bh=+NtnVCGmmGB8pe2zOOxww06KK+9XuftJ2meDrflIhRc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=E1g01vPZCSBGFXT86BJrl92Sifd23dqIxB+L4uK69DBlQ4nEOT6BUAD1fSDDDRCNWCOjT+5nShz1+SECCx96Vk4+jIBikKU+Xmk2QHdVK3faF8iU+W1kpEKJbsMORRU+wAzTtASK0hpirDhgNpcoh96KZ4thgpuaZJ6vEVmBB/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l4g7hJlP; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AaZbjD2s"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=z8P81LjS8NfdOGd3+gt4wOMwgwV0ZCatSPsh7k6dc2Q=; b=AaZbjD2soi/yvHMBw/9GVnAIAL
-	shFTyE+Qr1ymdCPeMyfq5lqtdeYZcJr5NtEdEZX2Vr6tV+OH3rTBCbMSILJa0FCBM5oY1X2nIYdHG
-	l2eFb4GevJeSaAAC5jieCXubo7+NvjOvWM5to1Pdk/7OseD8HtAKx2Df7vHzy+xPq2RyWyhU29uJB
-	hY54yKFFTpgtZUOGihr6vdbSwshF4EuWVcQDT+aoKgO58YjUwvk0mXiYWfXd3/eMAMBGFOQrta/jK
-	wP6eABRMv2mfrN2+yN7hF8PYvYzHoaBLB/FBlXBYjnQR+JBo1ykn4SIKd9wbj1Ec9NexumPlQ90QL
-	5Yjx4eTQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGX7w-0000000CEmo-13nh;
-	Tue, 13 Oct 2026 07:40:48 +0000
-Date: Tue, 13 Oct 2026 00:40:48 -0700
-From: Christoph Hellwig <hch@infradead.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l4g7hJlP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791877578; x=1823413578;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+NtnVCGmmGB8pe2zOOxww06KK+9XuftJ2meDrflIhRc=;
+  b=l4g7hJlPaTyAuvT1x1+XYGqgZ4nsWUG39kdgCrlzK7n8q07dOt1tnzJY
+   JctQFXy8UJjJZwdh8RNEGZj2h4A3821/5rXY6QfaPwbrjEQ2eTI4D9HD9
+   Z7veoGkIMQBmTHe//eZN9PmAWueHcMVdoJgr3L+WrgF0S5Pa5sWeIllkm
+   RV/c4RxjeppnX5aSh41Yf/tR/w9DJkVrl3jfa13Xs3ASNzk42NUjzG6tE
+   OtyVybk4lm3zJ4nGGIFv3lAY8JSzPIgQxkz9qZOl9Va7d4vHlZ7cjD8yl
+   16M1IyzMO86UTo06e5zP3OYH6+Nn+wrQ1kOA14nHGVGNEBoMEPBiszvY5
+   g==;
+X-CSE-ConnectionGUID: eHpB6YVSRcq2z90GNXkG8Q==
+X-CSE-MsgGUID: eEEzLxXzTCyVG5ngex/CTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="601180"
+X-IronPort-AV: E=Sophos;i="6.27,155,1787036400"; 
+   d="scan'208";a="601180"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 00:46:18 -0700
+X-CSE-ConnectionGUID: WC7WrMN+QhyXEkoCmCO6Iw==
+X-CSE-MsgGUID: AV7yDSPxSJ+/xKM/JgsuTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,155,1787036400"; 
+   d="scan'208";a="1462091"
+Received: from ly-workstation.sh.intel.com (HELO ly-workstation) ([10.239.182.64])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 00:46:17 -0700
+Date: Tue, 13 Oct 2026 15:46:13 +0800
+From: kernel test robot <yi1.lai@intel.com>
 To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.com>, Al Viro <viro@zeniv.linux.org.uk>,
-	ecryptfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
-	exfat@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	ntfs@lists.linux.dev, ocfs2-devel@lists.linux.dev,
-	linux-btrfs@vger.kernel.org, gfs2@lists.linux.dev,
-	linux-efi@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCH RFC 28/28] selftests/filesystems: test xfs remounts after
- a shutdown
-Message-ID: <as3ggAvyiKmCEG4v@infradead.org>
-References: <20261012-work-fs-sb_rdonly-v1-0-60743a3dc326@kernel.org>
- <20261012-work-fs-sb_rdonly-v1-28-60743a3dc326@kernel.org>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, yi1.lai@intel.com
+Subject: [linus:master] [fs]  7eb84d54fa:  stress-ng.kvm.ops_per_sec 28.2%
+ regression
+Message-ID: <202610130959.d3ca4cfa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261012-work-fs-sb_rdonly-v1-28-60743a3dc326@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 12, 2026 at 12:21:13PM +0200, Christian Brauner wrote:
-> Add tests for remounting xfs after FS_IOC_SHUTDOWN with the default, the
-> logflush and the nologflush flags and after a shutdown that the remount
-> to read-only causes itself:
-> 
-> - option-only remount keeps it read-write
-> - remount to read-only works
-> - remount to read-write fails with EIO
-> 
-> For the last variant the image lives on a tmpfs of its own. The test
-> punches out the log and shrinks the tmpfs so the log write during the
-> remount fails with ENOSPC.
 
-Please make this a xfstests test case, which has the infrastructure
-for all this.  And make it generic, as the same shutdown ioctl is
-supported by half a dozen file systems, nothing really xfs-specific
-here.
+
+Hello,
+
+kernel test robot noticed a 28.2% regression of stress-ng.kvm.ops_per_sec on:
+
+
+commit: 7eb84d54fac5002bd975d1de8fd61d57e89172ab ("fs: don't let a migrating task hide its reference from do_umount()") https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
+
+testcase: stress-ng
+config: x86_64-rhel-9.4
+compiler: gcc-14
+test machine: 192 threads 2 sockets Intel(R) Xeon(R) 6740E  CPU @ 2.4GHz (Sierra Forest) with 256G memory
+parameters:
+
+	nr_threads: 100%
+	testtime: 60s
+	test: kvm
+	cpufreq_governor: performance
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <yi1.lai@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202610130959.d3ca4cfa-lkp@intel.com
+
+
+Details are as below:
+-------------------------------------------------------------------------------------------------->
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20261013/202610130959.d3ca4cfa-lkp@intel.com
+
+=========================================================================================
+compiler/cpufreq_governor/kconfig/nr_threads/rootfs/tbox_group/test/testcase/testtime:
+  gcc-14/performance/x86_64-rhel-9.4/100%/debian-13-x86_64-20250902.cgz/lkp-srf-2sp2/kvm/stress-ng/60s
+
+commit: 
+  bba9960c07 ("selftests/filesystems: check that a busy propagated copy blocks a synchronous umount")
+  7eb84d54fa ("fs: don't let a migrating task hide its reference from do_umount()")
+
+bba9960c073dbea8 7eb84d54fac5002bd975d1de8fd
+---------------- --------------------------- 
+         %stddev     %change         %stddev
+             \          |                \  
+    134749           -28.2%      96786 ±  2%  stress-ng.kvm.ops
+      2245           -28.2%       1612 ±  2%  stress-ng.kvm.ops_per_sec
+    571737           -25.3%     427284 ±  3%  stress-ng.time.minor_page_faults
+      7905 ±  3%     +35.2%      10690 ±  6%  stress-ng.time.percent_of_cpu_this_job_got
+      4566 ±  3%     +37.9%       6297 ±  6%  stress-ng.time.system_time
+    190.93           -28.1%     137.21 ±  2%  stress-ng.time.user_time
+    698896           -24.8%     525918        stress-ng.time.voluntary_context_switches
+
+
+Disclaimer:
+Results have been estimated based on internal Intel analysis and are provided
+for informational purposes only. Any difference in system hardware or software
+design or configuration may affect actual performance.
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
