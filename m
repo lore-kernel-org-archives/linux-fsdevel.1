@@ -1,135 +1,96 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-73.mta1.migadu.com [95.215.58.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F733DC4CE
-	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 08:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E83A3AF660
+	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 08:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791879265; cv=none; b=DWoOaanxDzV5k4sOn/FatC5drVZsGArXJWUdp2CCvwV1h5VghxnY1DifvFfwoBAsjH5D1eoL/WLY5XF2PZDWiNX4a0UE2D8uRCs0rEkm4MpuyX6mNcaPx0Jitbn/Rd3OiVdQdbCOTyeK2Go1IL6Ug6qAhQeVSKBWGmA9xaLW4MI=
+	t=1791880809; cv=none; b=bjFlvUoQ57w5oVZvNC1oDR4/y4RkUQ/jPGU96eWnhgne0AhEpZSlvtmUQCC+GXKVYtibgNP6azic4zz5reXo4AOIJyQBdWr3hsVyfgl8f9jDcjkC5s6eOjFGM6UQ6eaTsGd3xL7yyAdT4C/9SRSAScypYcR3s7Jtux/WENlYsbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791879265; c=relaxed/simple;
-	bh=/TsNlix0rD1la6imrvri2d2fqWkLRSA20dnSbOazxh0=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=UFeqq4oJownE7uJ97NSvC/C2n5XMZRis9o/Jg5rzvQQV+YEw17qD+caDP4iEuqBlm2ge/KVXZMNMZcZ+fVeT+MOLGAcs5pErQsLl8Qa+VZahuLeOcLvS8aI7oiYSI5xEeuVPg7sJresnE6Mj5coxJ+j0ksCj3XMwLOVtUawHmyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iloT7260; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1791880809; c=relaxed/simple;
+	bh=O2VyeBUpyQZ7N4gxSQ/4x9ZYwCTMTmWwc5NCJmvVYgw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=td6qArpJ6t25ByqJHEnVd6Hkc2hN0czsmu0ZsJyAE+GHVSlo2SVUZJ8RxYQ214SEuf6/ztxzQ29W7ZTsKuflUPjp9GNtU/gYBnwM6ueGXU2beJsEtQ/6fNH4JSRSD8oFbLQbL56fUPHbgZi6TwLAMiIo7K4E1eSlJMDmPUrU4UM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZzHENh9u; arc=none smtp.client-ip=95.215.58.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iloT7260"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791879262;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0rqjRqfF/5K2TERBFz32cqjmcGEc960K6cb/OYdJM6A=;
-	b=iloT7260+fRXYsljf4hB4hG4M+hs1J+f839wpzcamsJNJIc4pdd5wCxJL0z13MvrC2EIH5
-	kL1Kd9TqB9YPfUDgL8qqZKU9kI/0ZARb+wbHgT1j26mq7C3RU+kKf1KBzmOEFyVMtemraM
-	c0UCujLdnJP9D0SZiZSjl6CrLNTpJlY=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-15-W3Z3eWXuN-uipHnTTMh3Aw-1; Tue,
- 13 Oct 2026 08:14:19 +0000
-X-MC-Unique: W3Z3eWXuN-uipHnTTMh3Aw-1
-X-Mimecast-MFC-AGG-ID: W3Z3eWXuN-uipHnTTMh3Aw_1791879256
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8FC411956055;
-	Tue, 13 Oct 2026 08:14:15 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.48.11])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F30691956095;
-	Tue, 13 Oct 2026 08:14:09 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20261011.cachefiles-seek-hole-walk.pchmelar@innovatrics.com>
-References: <20261011.cachefiles-seek-hole-walk.pchmelar@innovatrics.com> <20260910220242.2165023-1-dhowells@redhat.com>
-To: Petr Chmelar <petr.chmelar@innovatrics.com>
-Cc: dhowells@redhat.com, Christian Brauner <christian@brauner.io>,
-    Paulo Alcantara <pc@manguebit.org>,
-    Matthew Wilcox <willy@infradead.org>,
-    Namjae Jeon <linkinjeon@kernel.org>,
-    Marc Dionne <marc.dionne@auristor.com>,
-    Stefan Metzmacher <metze@samba.org>,
-    Eric Van Hensbergen <ericvh@kernel.org>,
-    Dominique Martinet <asmadeus@codewreck.org>,
-    Ilya Dryomov <idryomov@gmail.com>, netfs@lists.linux.dev,
-    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
-    linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-    v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v12 0/5] netfs, cachefiles: Changes for next, primarily occupancy tracking-related
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZzHENh9u"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=O2VyeBUpyQZ7N4gxSQ/4x9ZYwCTMTmWwc5NCJmvVYgw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1791880804; v=1; x=1792485604;
+ b=ZzHENh9uxR9TBh1yQhpMGm73IbFbV7DFY3UWWrcJ3lMHpI2ErQc2OCdHCuwEuRVbJ0Gf6V09
+ k2OoVFxJFTQ8BRMwltYoRHICet1eWY3qnzdiVnAXnnspwbmcRjD8Du5edjiueO3x0ftDfzVZSYA
+ PWp/wDxg+hCYG8tBEb+K/VNU=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id 8b2403653d9a654d;
+	Tue, 13 Oct 2026 08:40:02 +0000
+X-Mizu-Trace-ID: 8b2403653d9a654d
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <82978d5c-3e08-48e9-bf0a-7913e1cd0507@linux.dev>
+Date: Tue, 13 Oct 2026 09:40:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1655914.1791879248.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 09:14:08 +0100
-Message-ID: <1655915.1791879248@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 5/9] block: fail a short atomic pin in
+ bio_iov_iter_get_pages()
+To: Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>,
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Hannes Reinecke <hare@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Christian Brauner <brauner@kernel.org>, "Darrick J. Wong"
+ <djwong@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ "Martin K. Petersen" <mkp@kernel.org>
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Sashiko <sashiko-bot@kernel.org>
+References: <20261009-blkdev-fixes-v6-0-307939c387df@columbia.edu>
+ <20261009-blkdev-fixes-v6-5-307939c387df@columbia.edu>
+Content-Language: en-US
+From: John Garry <john.garry@linux.dev>
+In-Reply-To: <20261009-blkdev-fixes-v6-5-307939c387df@columbia.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Petr Chmelar <petr.chmelar@innovatrics.com> wrote:
+On 10/9/26 17:50, Tal Zussman wrote:
+> On a partial page pin, __blkdev_direct_IO_simple() and
+> __blkdev_direct_IO_async() submit what was pinned with REQ_ATOMIC set
+> and leave the rest to the buffered fallback, tearing an IOCB_ATOMIC
+> write.
+> 
+> This can be triggered deterministically. A 16K pwritev2(RWF_ATOMIC)
+> whose last page is PROT_NONE, on a scsi_debug device with atomic_wr=1,
+> completes short with only three of the four pages written, violating
+> RWF_ATOMIC semantics.
+> 
+> Make bio_iov_iter_get_pages() release the pins and return -EINVAL when
+> a REQ_ATOMIC bio doesn't cover the whole iterator, since an atomic
+> write is submitted as a single bio and a short one would be torn. That
+> covers iomap as well, where a partially unmapped buffer could trip the
+> WARN_ON_ONCE() in iomap_dio_bio_iter_one(). The async block device path
+> currently sets REQ_ATOMIC after pinning, so set it before, and move
+> REQ_NOWAIT along with it.
+> 
+> Fixes: caf336f81b3a ("block: Add fops atomic write support")
+> Reported-by: Sashiko<sashiko-bot@kernel.org>
+> Link:https://sashiko.dev/#/patchset/20260802-blkdev-fixes-v1-0- 
+> a82fc549fd74%40columbia.edu?part=2
+> Assisted-by:Claude:claude-fable-5
+> Reviewed-by: John Garry<john.garry@linux.dev>
+> Reviewed-by: Hannes Reinecke<hare@kernel.org>
+> Signed-off-by: Tal Zussman<tz2294@columbia.edu>
 
-> The cover letter leaves non-contiguous objects, which still use
-> SEEK_DATA/SEEK_HOLE, for a later series.  We hit that case badly in
-> production, so here are numbers in case they help with its priority.
+I think that you can now remove the REQ_ATOMIC check after the 
+iomap_dio_bio_iter_one() -> bio_iov_iter_get_pages() call also; however, 
+considering the trees, it's better to wait until 7.4-rc1 is released.
 
-I know.  But it's a tricky problem to solve as I need to store a map of th=
-e
-content somewhere.  xattrs are painful as I can only read or write them
-atomically and as whole blobs - and also I'm not sure if I need to limit t=
-he
-size of any given xattr to 512 bytes.  Further, the xattr wangling interfa=
-ce
-inside the kernel assumes a flat virtual buffer rather than taking an I/O
-iterator.
-
-I have patches that store a bitmap in an xattr, with 1 bit per 256K block =
-of
-cachefile, for a 512 byte xattr able to map up to 1G of file size.  I need=
- to
-revisit this at some point soon.  It may be better to switch to storing an
-extent list, but:
-
-> On our NFS clients (Ubuntu, v6.8, cache on XFS), a sequential read of a
-> fully cached 184 GB object with 1,080,732 extents ran at 0.4 MB/s.
-
-Trying to store a million+ extent records in a single xattr would kind of
-suck.  Now, it might be possible to collapse that somewhat if a lot of the
-extents are virtually sequential within the file, since I don't care about
-physical sequentiality.
-
-Also, can you tell if you have a preferred cache granularity?  Would a 256=
-K
-granularity, say, use too much space?
-
-> I expect the right fix is for cachefiles to track what it has written
-> itself, as CONTENT_ALL now does for contiguous files, rather than
-> something like the above.
-
-Indeed - as mentioned above.
-
-> I can send the workaround if it's useful as a reference,
-
-If you could, that would be great!
-
-> and I'm happy to test whatever you plan for this case on our workload.
-
-Thanks.  Now I just need to reproduce your bug.  Note that I posted anothe=
-r
-cachefiles patch that Christian hasn't picked up yet:
-
-https://lore.kernel.org/linux-fsdevel/1091807.1791483394@warthog.procyon.o=
-rg.uk/T/#u
-
-David
-
+Thanks,
+John
