@@ -1,260 +1,228 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF3453F6AA
-	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 19:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791921035; cv=none; b=eERcxmUzpM140RK+PUVGNFTbJb7e+quKVjoBV3b7Gtf5gcdEu5rnWQeBN4nke2oMuSWIp8Q7HdYJ19yss4ihqyoND/MALeuFk2P8wZ/E5OGf3ZGfDFBjCq6gfi4ZKlAywQZ0ceoRLI08NRwhcjeWvS8Bh2lX/u0z91NBai6pp1M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791921035; c=relaxed/simple;
-	bh=CyOUO4Sx/ZyJqPpL1Zxkksriyh1i6LZYX6N/K5dHvVQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i9Y6bKYGbtixGqaElFH8b7XdwNUbS9GVmlW36cE/KqrqghT5fNQJ1bbEpr4Ctcx1Dq2wvobCC5+vgPGENkWRwkuKZ+SpPmr37Gc0KbAc+xPVZGhrO80up+HLK1NfNxZk9NjKNKD2kvBUBaKqZPsiueTzlThI7GhSR4YffcycbDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YuXclzDH; arc=none smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBF6542EFD
+	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 19:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791921246; cv=pass; b=IYnB+yBTSdAsx09b6lmD97T0UldR+hd7qnE3S3KRncsnemiXcAjzW2SSuoaDqHTdZt1d4vBXbHwDURAUOEvzkdahG0FJO8o2xVSiZGg8ZtOEq20inKCoJZrBqlCbkcOKLs0amVJlwSJOgm0fVMUTfFKzjn1O9lK6vtoT5UxQdXQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791921246; c=relaxed/simple;
+	bh=gz/rGOEvzA8Irn4bo3jjQQgOvzTDOAdHYh6h6XK0A+I=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SfhIxTx21CuxIODpY675cnQKIbQ2HRkvMtG4fBIGPBFUVn7LbHPRNGvUXDcdIm36qGJLCOS+dtZ41GP8By8R1NzD9XIi1mNyuA8l7rmvO12sLyX8y5irtj8dsfsB9N5VyR6rAmZTY1DrtzAZXpAd8JO6op4s+3YLteLWo71MvXo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AYWARZZI; arc=pass smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YuXclzDH"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6776efd4ff1so2888557d50.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 12:50:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AYWARZZI"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-917c04630c2so43992036d6.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 12:54:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791921242; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CzP0gH4U3DmHmEhOL7JV5+VVl8nDALQHSRL4yxqvGAG20X9QZq0V9ieUSCKUVLeujx
+         zUUJI1wWZBV6ORV4OJPLbetCpLcQsf4nDIJnnab8GAZO2eZLqpBaiqxe/7WLr3jF+SUK
+         Bx3/FdVjA2FBnhsm1R91evv7Y7Q6+gKHlTMHGqVQwDsLauraKz7YLsWDXfNZrO/Y4HLe
+         813p3sRHEaEpS6zTUCO7GFUTIK2oDZ97XFALq4nVIua+Rf87lcUzQZ1AcXp6vT11Gfw8
+         8Oc18DkeU8Yk/2UeyzwLOAlbTX7MdzOLcXU6WLiF87qjRAjElCygJu6IuPEeLHmAHZl9
+         cOXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=fjiIk8S/1b/fq42ObdZjHlUOMsEJstLh+gvZY/xKhZA=;
+        fh=Uw8kDTEqXzQj8HVnKQqBhwpv5/C15oee1yZNfY+C/os=;
+        b=Zdj9sTYJH/kNrfB9Gn0pYkX6BwkGxK/v+d7+8SUMwPKT1eAeUZKJYHsszcjfD/zH2j
+         ht2CKrImTwe1OKF2/zax3rgMD/ODSs0fNYQIRKb/NwiK0rvCXcawvBck172zEP9vG6lJ
+         k2tQ9EGFGfCjFAsPn91zKfWWYrb2hLlpDRih3Ws8pM5Y6hyezTWYghhCKLr5E48JuIQi
+         oZwVdIa/xIpzyXi+Lq+tf2GzjcoJgLXj5tX3rqG36gSBbE0w9hJg1Zchjfdg/pbd+L51
+         kHEP8YTamsJdsxp+gM+Spu9aDsEWF6hD/R2yaLkkqmQeq4yMNMqsWnE3WqLRXOwaFdFC
+         evoA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791921031; x=1792525831; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZZoueUT4k+fvI/0qSlszD3UoR0/L5xBDuP8ZwVEmfCM=;
-        b=YuXclzDHdSYtyt/W9IVzo3IKA4tAzIdoUb6yc+fdZnNi1S8GUUS5EorS75zVDkoN/A
-         kjWUSeY/yTjXHERyEjzzVpvucnjfGaNeMRh17ebnxCsuNOtgPz2yXm4yk/Rmr6Fo6O1K
-         qCUDjDnnIBmLVtiYg38YdQyoiy+SloMQ/Lwu4bQUgZ2QoF9xDe52oUttCBoEGNsMD6vt
-         9oxhU948knF0B32igUhZC953hYlYYqN1bSLHZOJEE7PcB3fCBBD1epZyspuqxvlMrnDq
-         UYF+A5128lSLfvfn3isYt3yG2DjukJcMuK2UXAwp4kBHe7XEK7R6ozY5zV4+G6G3DXpU
-         3ImA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791921031; x=1792525831;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1791921242; x=1792526042; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZZoueUT4k+fvI/0qSlszD3UoR0/L5xBDuP8ZwVEmfCM=;
-        b=VZkgv8+6P+20S5ljQGJT/zHLYTxnx27WDmZlBfGbUDYmiz9ssIOgtujaqdhBtb1wYz
-         9AJXpzJms+6u8ay/68TgpKHr0CxPzpG7KQ/HtGVo96yqEn1KswumSbycfuB0qyP08k9v
-         CYnmWuv82Wb0XlG7YkwXxY7/3K4xbsOh9sG1wxirHa0eUfLj9OZ4wXWY6Yp8kV4uSkXY
-         rOb5iRZQAJpw1k6C69T00lKQauLra8T46mYzGAkdZDLf4qrMlCSfZ7jEKHiTtg1ZGzXZ
-         VdIVTGyoi2m+K/iiqTJ10DXzEa7spiOWoP4spndk1ja/H3y3Y5i5/P8xIWcSapf+nBzf
-         guBQ==
-X-Gm-Message-State: AFq9FYJlNBTI0Pwr8KFO680GgVCagYTs46aA3C76T7z8pshzDaf7s5vx
-	+jR6cg0yt2DHOfm9MTaEX1RKdSOtDsoDtEHoTo4aB49e+B+9iA/3PW9G
-X-Gm-Gg: AYBFou3+/mvhIzVIxULRCWSNZLHCcSe9SztI+Csz72FNS/ymm0PV5+BHEx32vAcg+Tt
-	tCDrr9fdTWD1tN7hYS/rsmah+LuBoRbGtuyYsNDxOJVmeTlBkciygSIc/12wRvnscpN0hhIXJys
-	fY3jc1oFP21PK0xyOkJmMxQuQm+Jg9DAKOYNIvE2drYI2BBYQDeosaPeqpFeJ/Zn7P0b9AeFBkU
-	3/0krUaixxvuCsSpXsvQ61kEg5wf+JVr/qHET6xodNub0+U4LY811FjzrVcuXUMR5GqMPR9BwyN
-	bgab2tmnij8+48sU/XbKH9pwwpR2m297/A3x8gVCgY21AcKrIghtxYPX+H8fFneKdhdghHW6iVF
-	h1OZs8sLohTHgZsZbBKLZxvZC8ospFrVSC2Oe1du4pfmhB3khmJwnXMaSiF6qmb5vxaeZ7sO6eZ
-	1ZTAVwBqdRwka60Tw+8tUwnag3DX5RXujOH69PeA2co1ahxq0YhEcUJE02lqUNE62l6tMMBK3fw
-	cObxJO6qQ==
-X-Received: by 2002:a05:690e:1914:b0:676:97e6:d7ac with SMTP id 956f58d0204a3-679369b7774mr5187959d50.43.1791921031355;
-        Tue, 13 Oct 2026 12:50:31 -0700 (PDT)
-Received: from zenbox ([2600:1700:18fb:6011:d326:f863:5ae3:683])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67986a66262sm240180d50.11.2026.10.13.12.50.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 12:50:30 -0700 (PDT)
-Date: Tue, 13 Oct 2026 15:50:30 -0400
-From: Justin Suess <utilityemal77@gmail.com>
-To: Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
-	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Song Liu <song@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Jiri Olsa <jolsa@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Mateusz Guzik <mjguzik@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Tingmao Wang <m@maowtm.org>, jose.marchesi@oracle.com
-Subject: Re: [PATCH bpf-next v1 06/11] selftests/bpf: exercise the path
- ancestor iterator
-Message-ID: <as6GG4NMzLrnpKXK@zenbox>
-References: <20261013164800.2906577-1-utilityemal77@gmail.com>
- <20261013164800.2906577-7-utilityemal77@gmail.com>
+        bh=fjiIk8S/1b/fq42ObdZjHlUOMsEJstLh+gvZY/xKhZA=;
+        b=AYWARZZIgVGEohdhzynNKmu3krV6S3f1uZ2eEs7nq7bDRIxjtxJq+WlcllWjFMqt51
+         /aE80MQB3UbTMp7oNRe5Y1ZD7i5Bdbpl0Zdu67h7dGtzb3upE42JBA/aFHl/xKzOj2YX
+         xswOmCKZgdpQb5h8cPjITaGqIg5ZKEUMMH9G7rr60y9r0ucTyXWUuczb4oSSH8/Mg2z7
+         rDvGjLN/xZV1W3y25BFCpCxWvxjNBD1KuiUlb0vrEu3+HWhdPq26IBCnzXM3FuR5lFtV
+         huj8hful/ci1hwdxqqP+8eKptr8vUjPThf2gLYgXYelbzsmaAB19G9276TIaqU8pOwXX
+         ygcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791921242; x=1792526042;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fjiIk8S/1b/fq42ObdZjHlUOMsEJstLh+gvZY/xKhZA=;
+        b=fAjiuT3ZgqVvS+GbxJEG0dc3yPLHzaF2NPFIjXTzSkEZucHX/o1h1TBa9+kl4EIJcu
+         kcIi/2zb3ysONPznxP6PcHZZHnU0sNOgEndUGWo7uQ20Q9JDIQMMCp8WO8i+gCpzng/X
+         Bf/vhgnBdvOhdvwt6QLZHRmNhKcGDjYWjzIbCy9yCQgZMGiP3Q9tV1QatzqD8tDv3qBH
+         IkFj+VtmqMCuZHBYsQsNYRqcXwRX5le1pbJhx5UN/0k5SsM666c5Wl4K/CS6cxOAxWd+
+         tuuj4qw4rxJhyz5JVvD6iW0DBTCXKn0oHPzOQ3fRU+oOCxV+F/1n7adBkRBo9qTLYdgq
+         wIgg==
+X-Forwarded-Encrypted: i=1; AKwUvBzg4QtNa6js3enk+XqxZuac2QbetygiRMb/2ZlZaAEzkCDQ6PGtForrgkndoM8LpUSnRl3ef4/Hg9uh6nAT@vger.kernel.org
+X-Gm-Message-State: AFq9FYLvSjiVVFd8XjseBuZmi7ZwgKZx+7FxrHUHcmmkMhaKR4QV9ZK9
+	uh0erJMyWZd/57YH4TnhmXDPAAOzQ/ClfEuvZ1iQDa/5I94paQMo1ZH7pnnUp3RsgcpRCT+0BDN
+	ajq//10PjDRDVgX1cMt/Om3zVK9jOZxo4Wqq0dQu0
+X-Gm-Gg: AYBFou3hb/msM/+TzUMyQpuxTH+F1K4JYEOQsqKG89DEJUQ9Q9X+pB+DwiHL6NCxoJu
+	hQoHeBDUogGsjSQqFpVmW2CP1PFVEEXcbbYHX0CKZhSuTUeiHLQbqi5YVaFnhBsBIQr91eUkwm2
+	/1mL7Hctp/pDbyRoI2hScGmwbRpcSzmGQx4k0dMvb7M2vrZhfeGrpcuK57kFPNXknhKUuAvv2Gv
+	aJBvsUanePvMy9ptzuikdFvc5v5IyjWYLGAkhEUxHxctu4XmG3MQJc4sK7NOqblMVn61p3GkJhE
+	UtO1speGhXbcOual/+PoGoLHhZ6qpPWfXopHm3EURpSnBAal4bl4zMZrDyJ9VZtBthnuNGx9zdn
+	q8b32QNC57Yj+5gGhI0Gi7hjTUnI7nE45U5XrYHLn1g==
+X-Received: by 2002:a05:6214:5085:b0:90c:b843:d679 with SMTP id
+ 6a1803df08f44-91b555668b1mr241693526d6.29.1791921240685; Tue, 13 Oct 2026
+ 12:54:00 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 13 Oct 2026 12:53:59 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 13 Oct 2026 12:53:59 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20261006183235.16576-1-griffoul@gmail.com>
+References: <20260720111259.122911-1-dwmw2@infradead.org> <20261006183235.16576-1-griffoul@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261013164800.2906577-7-utilityemal77@gmail.com>
+Date: Tue, 13 Oct 2026 12:53:59 -0700
+X-Gm-Features: AclHuK8TQPboa9RVDrBS_-w6dTXGHf21nXTRvYl_CuU35T-tn195uLjZFRceV3k
+Message-ID: <CAEvNRgEseLO+LbkwXrEit0H2LH5Wx-srSvHEMpt0=upPL3tF=g@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/9] mm: Memory providers for guest_memfd and iommufd
+To: Fred Griffoul <griffoul@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H . Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: David Woodhouse <dwmw2@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	kvmarm@lists.linux.dev, iommu@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, aik@amd.com, 
+	jacob.pan@linux.microsoft.com, gourry@gourry.net, vannapurve@google.com, 
+	fvdl@google.com, tabba@google.com, dave.jiang@intel.com, 
+	aneesh.kumar@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 13, 2026 at 12:47:55PM -0400, Justin Suess wrote:
-> Walk the ancestry of a mkdir's parent directory from a sleepable LSM
-> program and check that the iteration reaches the root: the temporary
-> directory, its parent and / are visited, no position comes back
-> flagged, and the flags read back after the loop show it ended at the
-> root rather than on a failed allocation.
-> 
-> Hold the first position across the rest of the walk and resolve its
-> pathname only once the loop is done and the iterator destroyed: the
-> acquired reference, not the walk's, is then all that keeps the
-> position alive.
-> 
-> Signed-off-by: Justin Suess <utilityemal77@gmail.com>
-> ---
->  .../selftests/bpf/prog_tests/path_ancestors.c | 57 ++++++++++++++
->  .../selftests/bpf/progs/path_ancestors.c      | 74 +++++++++++++++++++
->  2 files changed, 131 insertions(+)
->  create mode 100644 tools/testing/selftests/bpf/prog_tests/path_ancestors.c
->  create mode 100644 tools/testing/selftests/bpf/progs/path_ancestors.c
-> 
-> diff --git a/tools/testing/selftests/bpf/prog_tests/path_ancestors.c b/tools/testing/selftests/bpf/prog_tests/path_ancestors.c
-> new file mode 100644
-> index 000000000000..d1bd26bce10b
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/prog_tests/path_ancestors.c
-> @@ -0,0 +1,57 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright (c) 2026 Justin Suess */
-> +
-> +#include <sys/stat.h>
-> +#include <stdlib.h>
-> +#include <unistd.h>
-> +#include <test_progs.h>
-> +#include "path_ancestors.skel.h"
-> +
-> +void test_path_ancestors(void)
-> +{
-> +	char base[] = "/tmp/path_ancestors_XXXXXX";
-> +	struct path_ancestors *skel = NULL;
-> +	char suba[280], subb[280];
-> +
-> +	if (!ASSERT_OK_PTR(mkdtemp(base), "mkdtemp"))
-> +		return;
-> +	snprintf(suba, sizeof(suba), "%s/a", base);
-> +	snprintf(subb, sizeof(subb), "%s/a/b", base);
-> +	if (!ASSERT_OK(mkdir(suba, 0755), "mkdir_a"))
-> +		goto out_rm;
-> +
-> +	skel = path_ancestors__open_and_load();
-> +	if (!ASSERT_OK_PTR(skel, "open_and_load"))
-> +		goto out_rm;
-> +	skel->bss->monitored_pid = getpid();
-> +	if (!ASSERT_OK(path_ancestors__attach(skel), "attach"))
-> +		goto out;
-> +
-> +	/* mkdir b: the hook sees dir == suba, whose ancestry is walked. */
-> +	if (!ASSERT_OK(mkdir(subb, 0755), "mkdir_b"))
-> +		goto out;
-> +
-> +	/* suba, base, /tmp, / at least. */
-> +	ASSERT_GE(skel->bss->ref_count, 4, "ref_count");
-> +	ASSERT_EQ(skel->bss->ref_flags, 0, "ref_flags");
-> +	/*
-> +	 * The referenced loop ended at the root, not on an allocation
-> +	 * failure.
-> +	 */
-> +	ASSERT_EQ(skel->bss->end_flags, 0, "end_flags");
-> +
-> +	/* The acquired second position, used after its step was taken. */
-> +	ASSERT_STREQ(skel->bss->second_path, base, "second_path");
-> +	ASSERT_EQ(skel->bss->second_len, strlen(base) + 1, "second_len");
-> +
-> +	/* The first position, used only after the walk itself was gone. */
-> +	ASSERT_STREQ(skel->bss->first_path, suba, "first_path");
-> +	ASSERT_EQ(skel->bss->first_len, strlen(suba) + 1, "first_len");
-> +
-> +out:
-> +	path_ancestors__destroy(skel);
-> +out_rm:
-> +	rmdir(subb);
-> +	rmdir(suba);
-> +	rmdir(base);
-> +}
-> diff --git a/tools/testing/selftests/bpf/progs/path_ancestors.c b/tools/testing/selftests/bpf/progs/path_ancestors.c
-> new file mode 100644
-> index 000000000000..6287f5099a18
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/progs/path_ancestors.c
-> @@ -0,0 +1,74 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright (c) 2026 Justin Suess */
-> +
-> +#include "vmlinux.h"
-> +#include <errno.h>
-> +#include <bpf/bpf_helpers.h>
-> +#include <bpf/bpf_tracing.h>
-> +#include "bpf_kfuncs.h"
-> +
-> +char _license[] SEC("license") = "GPL";
-> +
-> +__u32 monitored_pid;
-> +
-> +int ref_count;		/* positions seen by the pure referenced walk */
-> +int ref_flags;		/* pos flags seen by the referenced walk */
-> +int end_flags;		/* flags after a referenced loop ended: 0 unless NOMEM */
-> +int second_len;		/* d_path length of the walk's second position */
-> +int first_len;		/* d_path length of the first position, after the walk */
-> +char second_path[256];
-> +char first_path[256];
-> +
-> +static bool monitored(void)
-> +{
-> +	return (bpf_get_current_pid_tgid() >> 32) == monitored_pid;
-> +}
-> +
-> +SEC("lsm.s/path_mkdir")
-> +int BPF_PROG(walk_modes, const struct path *dir, struct dentry *dentry,
-> +	     umode_t mode)
-> +{
-> +	struct bpf_iter_path_ancestors it;
-> +	struct path *pos, *first = NULL;
-> +
-> +	/*
-> +	 * Keep first's init opaque: gcc-bpf otherwise folds it into a
-> +	 * preceding loop's exit value, which the verifier cannot track.
-> +	 */
-> +	barrier_var(first);
-> +
-cc'ing Eduard Zingerman + Jose Marchesi
+Hey David/Fred,
 
-This barrier_var line was necessary for this selftest to pass
-under GCC BPF.
+I took some time to read the patches, hope I got everything :) The
+biggest difference between your approach and mine is who (provider or
+guest_memfd) manages the zapping across all the users.
 
-Othwise it will be rejected by the verifier:
+The memory users here are
 
-  84: (85) call bpf_iter_path_ancestors_rcu_next#63514
-  85: R0=rcu_ptr_path(id=30) ... depth=9
-  86: (bf) r6 = r0              ; R6=rcu_ptr_path(id=30)
-  88: (55) if r0 != 0x0 goto pc-64
-  ...
-  101: (85) call bpf_rcu_read_unlock#64876
-       ^-- R6 downgraded rcu_ptr_ -> untrusted_ptr_
-  ...
-  146: (15) if r6 == 0x0 goto pc+10     ; R6=untrusted_ptr_path(id=30)
-  147: (bf) r1 = r6
-  151: (85) call bpf_path_d_path#64649
-  R1 must be referenced or trusted
+1. [KVM] The guest (KVM manages the stage 2 page tables)
+2. [IOMMU] The IOMMU (iommufd manages the stage 2 page tables)
+3. [USERSPACE] Host userspace (guest_memfd handles faults, I guess you
+   could say core mm manages host userspace page tables)
+4. [DIRECTMAP] Kernel direct map. Your provider already provides PFNs
+   that are presumably not in the direct map. For other providers, the
+   direct map is another mapping that may need to be zapped on
+   private/shared conversions. (Listing this here for completeness, I
+   think this should be tackled separately.)
 
-I think it's trying to optimize out the "struct path* first" and make it
-use the r6 register. It tries reusing the R6 register between the two
-loops, and doing so causes the program to fail to verify because it doesn't
-understand that the path was reinitialized with r6=0 from the previous
-exit.
+I'll use [LABEL] to illustrate the way notifications flow in your
+approach vs mine.
 
-So I had to add the memory barrier to force struct path to be
-instantiated outside the register.
+When the provider wants to revoke the page, the notifications/function
+calls flow this way, the last [ENTITY] in the chain actually does the
+zapping.
 
-There's nothing wrong from a *correctness* perspective with the code
-generated by GCC-BPF. But I'm not sure if this is a GCC-BPF bug or a
-bug in the SCEV widening series (merge 15b578b1715d). It depends on
-the contract BPF bytecode is supposed to meet.
++ [PROVIDER] -> [KVM]
++ [PROVIDER] -> [DMABUF] -> [IOMMU]
++ [PROVIDER] -> [GUEST_MEMFD] -> [USERSPACE] (AFAICT this was not
+  implemented in the RFC.)
 
-But clang works without the barrier, it's only GCC-BPF that produces
-this issue requiring the barrier.
+That's when the provider wants to revoke the page. IIUC guest_memfd
+conversions was not illustrated in the RFC: what happens on a shared
+-> private conversion?
 
-I can give more details if needed.
++ [KVM]: Zap only shared pages, keep private pages mapped.
++ [IOMMU]:
+    + Before Confidential IO: so far, IOMMU mappings are mapped
+      indirectly via [USERSPACE] mappings. guest_memfd zaps
+      [USERSPACE] mappings, then checks refcounts to ensure no other
+      mappings (which includes IOMMU). See __kvm_gmem_set_attributes()
+      on kvm-x86/coco [2].
+    + With Confidential IO: shared IOMMU mapping need to be zapped,
+      keep mappings of private pages.
++ [USERSPACE]: Zap all mappings on shared->private conversions.
++ [DIRECTMAP]: Can zap these mappings (not implemented yet, but
+  discussed in the context of Direct Map Removal support for
+  guest_memfd [3])
 
-Justin
-> [...]
+To have the conversions work, in your model, we'd need to do
+
++ [GUEST_MEMFD] -> [PROVIDER] -> [KVM] (zap only shared pages)
++ [GUEST_MEMFD] -> [PROVIDER] -> [DMABUF] -> [IOMMU] (zap only shared pages)
++ [GUEST_MEMFD] -> [USERSPACE] (IIUC the provider doesn't directly
+  allow mapping to userspace, also in your approach the provider
+  pretty much replaces all the innards of guest_memfd anyway, hence
+  I'm showing this as gmem going direct to zap userspace)
+
+With my proposal [1], we could do
+
++ [GUEST_MEMFD] -> [KVM] (zap only shared pages, implemented in [2])
++ [GUEST_MEMFD] -> [IOMMU] (zap only shared pages)
++ [GUEST_MEMFD] -> [USERSPACE] (implemented in [2])
++ [GUEST_MEMFD] -> [DIRECTMAP] (future)
+
+In my proposal, I agree with you completely that the provider must be
+allowed to revoke memory. Using the sample in this RFC, gmem_fd_ioctl()
+called with !GMEM_PROVIDER_SET_PRESENT is where the provider wants to
+revoke memory, and the revocation in my model would look like
+
+  [PROVIDER] -> [GUEST_MEMFD]
+
+and [GUEST_MEMFD] would then fan it out to [KVM], [IOMMU], [USERSPACE]
+and [DIRECTMAP].
+
+The [GUEST_MEMFD] -> [IOMMU] is missing from my proposal because I was
+seeing that as a separate patch series. I think what we want is to have
+IOMMU_IOAS_MAP_FILE be able to accept a guest_memfd file. Currently,
+during the mapping process(), memfd_pin_folios() is used, which has this
+check
+
+	if (!shmem_file(memfd) && !is_file_hugepages(memfd))
+		return -EINVAL;
+
+that disqualifies guest_memfd. Refcounting won't work for guest_memfd()
+folios because of conversions (see kvm_gmem_has_outstanding_references
+at [4]). The implementation I have in mind is to have the the iommufd
+instance be tracked in guest_memfd during the pinning process, and
+that's the pointer guest_memfd will use to get iommufd to zap during
+[GUEST_MEMFD] -> [IOMMU]. This [GUEST_MEMFD] -> [IOMMU] zapping was
+previously also proposed in the context of Confidential IO [5].
+
+[1] https://lore.kernel.org/all/20260925-gmem-tmpfs-backend-v1-0-d36159822d18@google.com/
+[2] https://github.com/kvm-x86/linux/blob/a6270ed4bec0caa25913082e71ce22254e9cd3ed/virt/kvm/guest_memfd.c#L685
+[3] https://lore.kernel.org/all/20260410151746.61150-1-kalyazin@amazon.com/
+[4] https://github.com/kvm-x86/linux/blob/a6270ed4bec0caa25913082e71ce22254e9cd3ed/virt/kvm/guest_memfd.c#L722
+[5] https://lore.kernel.org/all/20260225075211.3353194-1-aik@amd.com/
+
+I'm intentionally avoiding the "primary manager" terminology since
+that's overly broad and doesn't really explain what processes exactly
+are being managed. It's really just which entity tells which other
+entity to zap pages, and since shared/private-ness of memory is core to
+guest_memfd, I think guest_memfd is in the best position to tell all the
+other entities to zap, and what (shared/private to zap).
+
+Does your provider need to know if some memory was transitioned between
+shared/private states? The provider can be notified too, if
+necessary. If not, then isn't guest_memfd doing all the coordination
+better than going via the provider?
+
+Does the revocation model work for you? If it helps, I can rebuild the
+sample provider to illustrate how the revocation can be done. Let me
+know what else is missing from my model [1]. :)
