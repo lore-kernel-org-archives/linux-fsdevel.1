@@ -1,121 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBD125B095
-	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 00:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AB84414430;
+	Tue, 13 Oct 2026 01:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791852751; cv=none; b=qMElXBdUkYqJwncMlqzcbo2wh+PSsruPheAjbzD0mjvq+d9LcVujM1knrL8RI+Wn7v9O8UCvsbwcuDnzFl1ZW439c0TE73rWUwKOreHVgUl9vwRDdHlQtr83DqcJnRsgUmhEZCa/faljdg8KlB3oHdqZUdVpLM7dwFGxVXWDbns=
+	t=1791855406; cv=none; b=b7dGs9cCWLgdUIkpQl2rJ57IXy5qrxyDqnkGNBunF32JduqTALbPDADZTahNHbra62sY55s736LQQIKnw2hzKEYLYkzWnMirNXU8QwasNo6cesK/qGm0WxKY4DbmWUcLlUM1UHNip3173cjNZDhy1MmMBs7prN/h0Bs1IYsR5vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791852751; c=relaxed/simple;
-	bh=dyWWqaEtTbLjjI6LcPg/RWW7c3xDwx0JIAoZ6M2Ek4E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Bkx+ISiMjhMtG8chDNjl+Nh1v4trnO9ojxn3Gn4YPZ27LWEbxpDnzMxUrFZ5eQHGKCC8uCHqzzRT4IdVOAziMDTqGPrtO/+v0crxBaSLakKvBlrTDc6b4KicMeSRflpWbgSSZZY/rs5wZ3YJRbnbQNAuQp3GGnmlVFs7tR+tPlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9PaM8VX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791855406; c=relaxed/simple;
+	bh=matAveinNTUlcxKBuMzQT+D9b5MqR2bcdVuqw/hHpTU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ATwkgarXNPM/uMTQZisLQ9QbI1+ZA9dvK0SEW8PZxbZW51br6guYtBs6ae6RpGRT78sOdR5px9SYMwlJ9ou1drwUEAKPCMsjATy3Th3O7mbbFot5L4p29GvFVvSTR2xLuG1vj7CpjKIqW3auhiV7NSE02HuBYrLw6tjBwcRO2mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn; spf=pass smtp.mailfrom=stu.xidian.edu.cn; dkim=fail (0-bit key) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b=DXCEsHxa reason="key not found in DNS"; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9PaM8VX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 684D21F008A1
-	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 00:52:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791852750;
-	bh=GazLl4ykvN6OWa8y0ujvFAirqTHw+cI5zszsCtx7GT8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=c9PaM8VXdRQz6AD07HoByEed0ogfeuYp50hG7E2KZYFDPDGBtPFNnyZaSbgCtm1Yv
-	 Mk5vez19ZHkEKa0Ts2c+2TGPWdl8YK6xB90aNbqycbTjdrcPimPuy4Oeh2/aAyOPuC
-	 UA7iUDNAG1l5uB2fQK3Lle0ZXqAybdk7F8txHrcTBoGKkp4j4iGZucevoTpLb+cr6Z
-	 IkAdkMzd+qx7g4GLIaevt4xDygcvjOeMy8hnPS2TBJfrlZfvz0DRBh86HTAFMP4Ge3
-	 F/GKN/a+NHHOLAJdodnB6hsQPewl9UVwsfKqD5mSQ+SmkgmOcIiihHVEdqZjzS5qsG
-	 tRt96uwUCcwVw==
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c360ab7a6f9so117764966b.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 12 Oct 2026 17:52:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwq+TbcQeFEtxsHVfuIvCRK97uofmXT8hRKax/RUsTQB9THyx5T5/md9iFRRCOw62x0tBZmLulSSJ/dtflE@vger.kernel.org
-X-Gm-Message-State: AFq9FYI2MQHsppx6mSB0IRkcvfvtsPp+kBRPjVSo+mplgmzNw2qu35un
-	WcVR6g8ek6Jl2+UHZAvqrkrrr4B8gkFQSSPFhFdmSnh85ms/s7Hal/Q0lFYKo5RPQR2s1S1grYC
-	EWZFO3WSC8Zw709+aYm20KH897ZOw3gE=
-X-Received: by 2002:a17:907:6d14:b0:c2e:4292:d261 with SMTP id
- a640c23a62f3a-c31a9fa122dmr1037010466b.17.1791852748940; Mon, 12 Oct 2026
- 17:52:28 -0700 (PDT)
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b="DXCEsHxa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:Message-ID:Date:
+	MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	In-Reply-To:Content-Type:Content-Transfer-Encoding; bh=matAveinN
+	TUlcxKBuMzQT+D9b5MqR2bcdVuqw/hHpTU=; b=DXCEsHxajkGEiWJ6fQV5OvrsM
+	QsKowj9vehBsA3R6H66Oos5LVQ1OZy7Bx5cIveImgJOQ7AmRuMwzridp2T8uD3K/
+	lKA2HJ9IAcO2aogwuoKGGs5PHC4AYtq8kAKbetfhTQmX7ZBQOOzyBliQuTJrxmpj
+	peeco+iTdBiiK6JjiE=
+Received: from [10.101.142.107] (unknown [218.19.14.194])
+	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPSA id BrQMCkDW_wUci81qVxKKAA--.31905S3;
+	Tue, 13 Oct 2026 09:36:30 +0800 (CST)
+Message-ID: <94ee706b-f7b7-4d7c-b094-a6fc9b9174b4@stu.xidian.edu.cn>
+Date: Tue, 13 Oct 2026 09:36:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <tencent_8D6FD09121A77E53BCA86E1FB228DC54A107@qq.com>
-In-Reply-To: <tencent_8D6FD09121A77E53BCA86E1FB228DC54A107@qq.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 13 Oct 2026 09:52:16 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_CP7OrKRkLwFkoLh-ADvin+oQXfj1HuDBwiEbG-LWX=Q@mail.gmail.com>
-X-Gm-Features: AclHuK_N69zrMpSrUKk1mYkwI1Ck9ZfJSaad0zElYvRYRH_oPlICIyWNBULcha4
-Message-ID: <CAKYAXd_CP7OrKRkLwFkoLh-ADvin+oQXfj1HuDBwiEbG-LWX=Q@mail.gmail.com>
-Subject: Re: [BUG REPORT] ntfs: NULL pointer dereference in ntfs_ie_add() on
- mkdir() in a crafted image
-To: 1sh1ro <yangguikun19@qq.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000975b3b065dae3a48"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fs/fcntl: fix SOFTIRQ-unsafe lock order in fasync
+ signaling
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: w15303746062@163.com, David Laight <david.laight.linux@gmail.com>,
+ jlayton@kernel.org, chuck.lever@oracle.com, viro@zeniv.linux.org.uk,
+ brauner@kernel.org, alex.aring@gmail.com, jack@suse.cz,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <d15a25fe784b5d4449c7ce4e56f1428d7ff28885.camel@kernel.org>
+ <20260523135210.590928-1-w15303746062@163.com> <asI5Fn87_SoEd4G5@redhat.com>
+ <asuxzwl4iWjjEjRD@redhat.com>
+ <437297ff-1bb4-49a7-a979-abccdd1814f8@stu.xidian.edu.cn>
+ <asz_NnX9_KaJdaf_@redhat.com>
+ <dbf95fb6-1685-463c-a533-79024d7a0a18@stu.xidian.edu.cn>
+ <as0K5CT8IIaCWsfR@redhat.com> <as0Z302oRQpI7rgX@redhat.com>
+From: Mingyu Wang <25181214217@stu.xidian.edu.cn>
+In-Reply-To: <as0Z302oRQpI7rgX@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:BrQMCkDW_wUci81qVxKKAA--.31905S3
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYE7k0a2IF6F4UM7kC6x804xWl14x267AK
+	xVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
+	A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I
+	6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr
+	0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAac4AC62xK8xCEY4vEwIxC4wAS
+	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+	IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+	Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkIecxEwVAFwVWkMxAIw28IcxkI7V
+	AKI48JMxAqzxv26xkF7I0En4kS14v26r1q6r43MxC20s026xCaFVCjc4AY6r1j6r4UMI8I
+	3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxV
+	WUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8I
+	cVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
+	AFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZE
+	Xa7IU1_HUDUUUUU==
+X-CM-SenderInfo: qsvrmiqsrujiux6v33wo0lvxldqovvfxof0/1tbiAgUFEWrM+jxatQABsd
 
---000000000000975b3b065dae3a48
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Oleg,
 
-On Mon, Oct 12, 2026 at 5:58=E2=80=AFPM 1sh1ro <yangguikun19@qq.com> wrote:
->
-> Hi Namjae, Hyunchul,
->
-> a crafted NTFS image makes the classic NTFS driver (fs/ntfs) dereference =
-a
-> NULL pointer when a directory entry is added, which oopses (and panics
-> outright on kernels built with panic_on_warn/panic_on_oops, as syzkaller'=
-s
-> are).  Found by syzbot-style fuzzing of 7.2-rc5; the code is unchanged in
-> current mainline (checked against 7.3-rc5 sources).
-Can you confirm if an attached patch fixes this issue?
-Thanks!
+In the scenario you described, the tasklist_lock reader holding
+dev->event_lock is in process context. That explains why the
+interrupt-reader handling does not rule out the possible deadlock.
 
---000000000000975b3b065dae3a48
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-ntfs-fix-NULL-dereference-on-index-allocation-open-f.patch"
-Content-Disposition: attachment; 
-	filename="0001-ntfs-fix-NULL-dereference-on-index-allocation-open-f.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mv5yttj70>
-X-Attachment-Id: f_mv5yttj70
 
-RnJvbSA5ZmNiNmY3NjNhMTBiN2MyOWU3NTVhMTRjOTI0M2JkZWM4NGY4Nzg3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBOYW1qYWUgSmVvbiA8bGlua2luamVvbkBrZXJuZWwub3JnPgpE
-YXRlOiBUdWUsIDEzIE9jdCAyMDI2IDA5OjE1OjAwICswOTAwClN1YmplY3Q6IFtQQVRDSF0gbnRm
-czogZml4IE5VTEwgZGVyZWZlcmVuY2Ugb24gaW5kZXggYWxsb2NhdGlvbiBvcGVuIGZhaWx1cmUK
-Cm50ZnNfaW5kZXhfbG9va3VwKCkgcmV0dXJucyAtRU5PRU5UIHdoZW4gbnRmc19pYV9vcGVuKCkg
-ZmFpbHMgdG8gb3BlbiB0aGUKaW5kZXggYWxsb2NhdGlvbi4gVGhpcyBlcnJvciBwYXRoIGxlYXZl
-cyBpY3gtPmliIHVuc2V0LCB1bmxpa2UgYSBtaXNzaW5nCmtleSBpbiBhbiBvdGhlcndpc2UgdmFs
-aWQgaW5kZXgsIHdoaWNoIHJldHVybnMgYW4gaW5zZXJ0aW9uIGNvbnRleHQuCgpudGZzX2llX2Fk
-ZCgpIHRyZWF0cyAtRU5PRU5UIGFzIGEgdmFsaWQgaW5zZXJ0aW9uIHBvc2l0aW9uIGFuZCBkZXJl
-ZmVyZW5jZXMKaWN4LT5pYiB3aGVuIHRoZSBsb29rdXAgaXMgbm90IGluIHRoZSBpbmRleCByb290
-LiBBIGNvcnJ1cHQgJEkzMCBiaXRtYXAKYXR0cmlidXRlIGNhbiB0aGVyZWZvcmUgY2F1c2UgYSBO
-VUxMIHBvaW50ZXIgZGVyZWZlcmVuY2Ugd2hlbiBhZGRpbmcgYQpkaXJlY3RvcnkgZW50cnkuCgpS
-ZXR1cm4gLUVJTyBmb3IgaW5kZXggYWxsb2NhdGlvbiBvcGVuIGZhaWx1cmVzIHNvIGluc2VydGlv
-biBhYm9ydHMgdGhyb3VnaAp0aGUgZXhpc3RpbmcgZXJyb3IgcGF0aC4gS2VlcCAtRU5PRU5UIGZv
-ciBnZW51aW5lbHkgbWlzc2luZyBrZXlzIGFuZApkb2N1bWVudCB0aGF0IG90aGVyIGVycm9ycyBs
-ZWF2ZSBubyB2YWxpZCBpbmRleCBlbnRyeS4KCkZpeGVzOiAwYThhYzBjMWZhMGIgKCJudGZzOiB1
-cGRhdGUgZGlyZWN0b3J5IG9wZXJhdGlvbnMiKQpSZXBvcnRlZC1ieTogMXNoMXJvIDx5YW5nZ3Vp
-a3VuMTlAcXEuY29tPgpTaWduZWQtb2ZmLWJ5OiBOYW1qYWUgSmVvbiA8bGlua2luamVvbkBrZXJu
-ZWwub3JnPgotLS0KIGZzL250ZnMvaW5kZXguYyB8IDUgKysrKy0KIDEgZmlsZSBjaGFuZ2VkLCA0
-IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9mcy9udGZzL2luZGV4
-LmMgYi9mcy9udGZzL2luZGV4LmMKaW5kZXggNDQxMGRmMGE4ZjMxLi5hYzIyZDg0MDdhNzcgMTAw
-NjQ0Ci0tLSBhL2ZzL250ZnMvaW5kZXguYworKysgYi9mcy9udGZzL2luZGV4LmMKQEAgLTgxMiw2
-ICs4MTIsOSBAQCBzdGF0aWMgaW50IG50ZnNfaWN4X3BhcmVudF9kZWMoc3RydWN0IG50ZnNfaW5k
-ZXhfY29udGV4dCAqaWN4KQogICogYWZ0ZXIgdGhlIHNlYXJjaCBAa2V5LCBpLmUuIHRoaXMgaXMg
-dGhlIHBvc2l0aW9uIGluIHRoZSBpbmRleCBhdCB3aGljaAogICogYW4gaW5kZXggZW50cnkgd2l0
-aCBhIGtleSBvZiBAa2V5IHdvdWxkIG5lZWQgdG8gYmUgaW5zZXJ0ZWQuCiAgKgorICogSWYgdGhl
-IGluZGV4IGNhbm5vdCBiZSBzZWFyY2hlZCwgYSBuZWdhdGl2ZSBlcnJvciBjb2RlIG90aGVyIHRo
-YW4gLUVOT0VOVAorICogaXMgcmV0dXJuZWQgYW5kIEBpY3ggZG9lcyBub3QgZGVzY3JpYmUgYSB2
-YWxpZCBpbmRleCBlbnRyeS4KKyAqCiAgKiBXaGVuIGZpbmlzaGVkIHdpdGggdGhlIGVudHJ5IGFu
-ZCBpdHMgZGF0YSwgY2FsbCBudGZzX2luZGV4X2N0eF9wdXQoKSB0byBmcmVlCiAgKiB0aGUgY29u
-dGV4dCBhbmQgb3RoZXIgYXNzb2NpYXRlZCByZXNvdXJjZXMuCiAgKgpAQCAtODc3LDcgKzg4MCw3
-IEBAIGludCBudGZzX2luZGV4X2xvb2t1cChjb25zdCB2b2lkICprZXksIGNvbnN0IHUzMiBrZXlf
-bGVuLCBzdHJ1Y3QgbnRmc19pbmRleF9jb250CiAJLyogQ2hpbGQgbm9kZSBwcmVzZW50LCBkZXNj
-ZW5kIGludG8gaXQuICovCiAJaWN4LT5pYV9uaSA9IG50ZnNfaWFfb3BlbihpY3gsIG5pKTsKIAlp
-ZiAoIWljeC0+aWFfbmkpIHsKLQkJZXJyID0gLUVOT0VOVDsKKwkJZXJyID0gLUVJTzsKIAkJZ290
-byBlcnJfb3V0OwogCX0KIAotLSAKMi4zNC4xCgo=
---000000000000975b3b065dae3a48--
+> perhaps it is time to add pid->tasks_lock or abuse pid->lock we already
+> have (we would need to make it irq-safe) but this doesn't look nice...
+
+A fix also needs to preserve the synchronization required for process
+group traversal.
+
+Mingyu
+
