@@ -1,121 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F536145B3F;
-	Wed, 14 Oct 2026 19:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B189E36A03F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 19:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792004741; cv=none; b=MS+2ugcHjntUIE11e5qbaOOnFrahi5mEnOhKwnsYXBaDt2IeVU1EoNuuHGMLqfSubeeuEf6QtPA5zh2Xcpl7o40TXLVTnr/2MItykCrzf+YvWDbwgBUDLq5kTBtfF6llxCaCdOmmz01k1xSrFvQ+oXQ++zu9w0K+08YkuAITvdY=
+	t=1792005618; cv=none; b=lOoTtPs7ZLSxrny0GC+e9PR9l3Pzb+87b7kL98FlS9mlodP6hudYzHkKLPAl4kuza2VPQ033XKZiYCuIZ1lJA7PPIeeLAtoa8gs90m7nIMjjYMHovvjxxm3EecD63fHK299RjKerjbTEtrZD92iqK6WzQy71VSIt0L3oIpm1FSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792004741; c=relaxed/simple;
-	bh=bqwt4easrNgYXL0S8q08n+eJvcS2ScFTvqicsmr3CJk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VqKC9Tfq/faiLMwxUAD5qRFTdMCl9eIHVxJbsZhc+EvboGiemFLqVlBOtPEh+n0qrO5CkKBw0CeqPrQ4MFgK5waoEUkDCe+urOTdI+It8I62nfKeZU3c/IwcSeZZwxAoRZSikm/f96NTxmiWgmWK0KuI2XIBoD9Y0KQ4MeAx84U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T2KwKket; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792005618; c=relaxed/simple;
+	bh=ewchwNOJSoKlJ9JagQs/kTQULWbRvWajLmzGwT+tl6M=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=IwZNvyKE1aOUnnVZTNriJeDKEXfYKuNmGhq/mHn+ulIKKvftSPn7+djoDPDWdoYwQoDWp8kDQajKP0tSwWoMgTRWdkgszi/YE8bFglm+p5JP2sp2wRpXBuAhiHvxUWAVpb0k3gM2ZiDcfOEKj+llqgR4maE7HtH9lULgJ9VBphM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--shayba.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tIiIImpL; arc=none smtp.client-ip=74.125.82.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--shayba.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T2KwKket"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1FE81F000C4;
-	Wed, 14 Oct 2026 19:05:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792004739;
-	bh=YyINmxXO7pd+spEYBHJ/vCjoSEPDem460Y+EQItZG60=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=T2KwKketgjd78ySIjWZfpm14SK8fmn/dOIHeg5mSexSu49wSiIFL09CZgoCSlNZmV
-	 dRSwwOOBSwSht+owNr5w6EKvDRfvqfCX3RrdYlgV427de0Ct/6OnNgMEQGoNkZpZhS
-	 XWq+FzHLiklU/hnG3eZKRkX5HJ1Wg8sf8lMbt9yEO3ukX4BwkRnmng/FuAXpg8ONTn
-	 /dgm3svw5odmG9ltLLcFDAC/v5bC9DoVDcIRhA/kfudaDw4H/lRAY3xihqBbQM3khC
-	 YVFb15bIeGtRCGC97m61q8Syu2fhAEPXlV/DeFwWk5ytvozOGNoeLdlAb74nxTwBBo
-	 ROPpDl6OXoiWA==
-Date: Wed, 14 Oct 2026 09:05:38 -1000
-Message-ID: <0bc5d58533f10b4841807be3025daa11@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Liz Fong-Jones <lizf@honeycomb.io>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jens Axboe <axboe@kernel.dk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Xin Yin <yinxin.x@bytedance.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ian@honeycomb.io
-Subject: Re: [PATCH v6 3/3] writeback: switch a replaced cgwb's inodes to its successor
-In-Reply-To: <20261002-wb-dying-cgwb-flush-v6-3-1991b4e2dcff@honeycomb.io>
-References: <20261002-wb-dying-cgwb-flush-v6-0-1991b4e2dcff@honeycomb.io>
- <20261002-wb-dying-cgwb-flush-v6-3-1991b4e2dcff@honeycomb.io>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tIiIImpL"
+Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-156b5338d4bso1250826c88.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 12:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792005616; x=1792610416; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aECaE+DbTs0zA1//hmy17ogzl4KfVyvhPwgQUxqIw5k=;
+        b=tIiIImpLxnWNmnjg0l29baonjolJPaNbKmCPGEa7+i5NFAjhPavw5DM9oY0xWykxne
+         C84X1hMeAZK+LLwQI379ijkNeS6kRxewAxz5jM7iHkZVFe4NsX3ss+h1ddXa4LPgNwMU
+         cJImnqrpUmMfL/LwSjcV8vG2nbSOrat7fhAi7MnEGl4XWZt8fRHxhvSKWMTlvQ5wH1vg
+         Feae+vo/YN7IgB2UiftQrXQNgRQio5Nm/SsgYIWLFsAbqSLGjyN23KFu2y3kIT13X7wG
+         gV0NjPhoppZmLIKntk1udOEpMjoLTSjBiA/cKSJmSwOO+SIOa+jq5X//mvYVpvDxMKNQ
+         LxFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792005616; x=1792610416;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aECaE+DbTs0zA1//hmy17ogzl4KfVyvhPwgQUxqIw5k=;
+        b=CkOFLqF+/Wi3IGwv5Uu5Nk5k8c5g/gyF8ZxnaQBT/ZF4bREuuGXWqMWEZ6TMeKB6YY
+         kgcNYoYUVVSoUC6AlIu9kHOjqhKVXOj75Yun0iImG7ZmECJS2am0BQntDs5DvJGSQANE
+         RVk+8XM1Ai+u7uyY638x6s/3hLwekkOUR3NnBxVr9YLrE5WrgrdNRzRWgtxPisNqsCgg
+         j8ciQP3eD0ofNDSx3K1zA6PfRKAwirxVUHA8iR6kBO2c4QzmF9+vmPNSRSpd+pv327SU
+         UKlOpW1p/Q2CDnz72wv+ry4h6BaxEyWg/GNrW/82YsUJCuYoJz0G0gDIBC7630p5NLBL
+         QT+Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzbh5lhJ4yh2gB7WYPnrOE/FO7s/rexNc8L8sq4GkGEnj46ng0zCCYl+FOwrm6pKqnbf7uLZWNUeSgAgcmt@vger.kernel.org
+X-Gm-Message-State: AFq9FYKaNsVSw+yz9D+xKc+CCIbE5MeKw4bFfKkYiXuISsb/SHtDdg+i
+	BawgDh1ziQPau+z55xV+q//Geuy5nc3fMb1X1W17BfAgONcAqzcA2EFY+Ek/qzm3NFT1Uckyqt+
+	dbbEdBA==
+X-Received: from dldyr18-n2.prod.google.com ([2002:a05:701b:4512:20b0:168:3bc7:9e8])
+ (user=shayba job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:5f14:b0:168:6ad8:e89f
+ with SMTP id a92af1059eb24-16a56c9dd9dmr21867195c88.3.1792005615123; Wed, 14
+ Oct 2026 12:20:15 -0700 (PDT)
+Date: Wed, 14 Oct 2026 19:20:14 +0000
+In-Reply-To: <20260910184424.156341-1-shayba@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20260910184424.156341-1-shayba@google.com>
+X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
+Message-ID: <20261014192014.3373048-1-shayba@google.com>
+Subject: [PATCH v3] fuse: Forward vfs_fadvise to backing_file in passthrough mode
+From: Shai Barack <shayba@google.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Amir Goldstein <amir73il@gmail.com>, Bernd Schubert <bschubert@ddn.com>, 
+	"T . J . Mercier" <tjmercier@google.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Akilesh Kailash <akailash@google.com>, Suren Baghdasaryan <surenb@google.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Shai Barack <shayba@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello, Liz.
+When an application invokes posix_fadvise(..., POSIX_FADV_DONTNEED) or
+other fadvise advice on a FUSE passthrough file descriptor, the VFS
+currently only executes generic_fadvise() on the upper FUSE inode
+mapping.
 
-The following is a Claude-generated review.
+Because FUSE passthrough does not forward fadvise operations to the
+underlying backing file, pages residing in the lower filesystem's
+pagecache remain resident in memory.
 
-On Fri, Oct 02, 2026 at 09:40:48PM +0000, Liz Fong-Jones wrote:
-> + * Switch all inodes attached to @wb, dirty or not, to the wb that foreign
-> + * flushes now find for @wb's memcg.  If that one is already gone, fall back
+During media-heavy workloads (such as image thumbnail generation or
+streaming), single-access file data accumulates in the inactive pagecache
+of the lower filesystem. Under memory pressure, the kernel retains these
+stale media pages and instead evicts active executable pages from
+running processes, leading to severe direct reclaim latency spikes.
 
-The scan only reaches inodes on @wb's lists, so any inode attached to @wb
-but on none of them stays behind, not just one from the
-__inode_attach_wb() race. A clean inode switched over from the root wb,
-which keeps clean inodes off its lists, is one example. Maybe say "all
-inodes on @wb's lists" here and broaden that sentence in the description?
+Architecturally, Linux VFS supports filesystem-specific fadvise
+delegation via the .fadvise hook in struct file_operations. Implement
+fuse_file_fadvise() in fs/fuse/file.c and register it in
+fuse_file_operations. When passthrough is active on a fuse_file,
+fuse_file_fadvise() forwards the vfs_fadvise() call to the lower
+backing_file under the opened credentials, allowing POSIX_FADV_DONTNEED
+to cleanly invalidate the physical backing filesystem pagecache.
 
-> +	spin_lock(&wb->list_lock);
-> +	restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_attached, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_io, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_more_io, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty_time, &nr);
-> +	spin_unlock(&wb->list_lock);
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+Reviewed-by: T.J. Mercier <tjmercier@google.com>
+Signed-off-by: Shai Barack <shayba@google.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Amir Goldstein <amir73il@gmail.com>
+Cc: Bernd Schubert <bschubert@ddn.com>
+Cc: T.J. Mercier <tjmercier@google.com>
+Cc: Sandeep Dhavale <dhavale@google.com>
+Cc: Akilesh Kailash <akailash@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: fuse-devel@lists.linux.dev
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+v3:
+- Rebase onto fuse.git for-next (commit bbe2d73a8231 "fuse: don't assume
+  ff->passthrough is set for FOPEN_PASSTHROUGH"): use fuse_is_passthrough()
+  in fuse_file_fadvise(), take struct file * in fuse_passthrough_fadvise(),
+  and fall back to generic_fadvise() when backing_file is NULL (T.J. Mercier)
+- Collect Reviewed-by tags from Amir Goldstein and T.J. Mercier
 
-With f6988c90671e ("writeback: bound cleanup_offline_cgwb() rescans by
-rotating scanned inodes") on mainline, isw_prepare_wbs_switch() moves
-every scanned inode to the newest end of the list, and wb_switch_rwsem
-keeps switches from landing during a sync but doesn't cover this scan.
-On b_dirty, that can make a sync miss data:
+v2:
+- Remove redundant !backing_file check in fuse_passthrough_fadvise() (Amir Goldstein)
+- Remove unused fuse_passthrough_fadvise() stub under #ifndef CONFIG_FUSE_PASSTHROUGH (Amir Goldstein)
+- Reorder fuse_passthrough_fadvise() above fuse_passthrough_open() alongside other passthrough ops (Amir Goldstein)
+- Add fuse-devel@lists.linux.dev to CC list (Amir Goldstein, T.J. Mercier)
 
-1. A background work on the replaced wb yields to a sync_inodes_sb()
-   work and leaves inodes on b_io.
+ fs/fuse/file.c        | 11 +++++++++++
+ fs/fuse/fuse_i.h      |  1 +
+ fs/fuse/passthrough.c | 17 +++++++++++++++++
+ 3 files changed, 29 insertions(+)
 
-2. The sync work fixes dirtied_before at entry but doesn't queue_io()
-   until b_io drains.
-
-3. Meanwhile, the memcg dirties a clean inode, which goes to the head of
-   b_dirty.
-
-4. This scan fills an isw from the tail of b_dirty and moves those older
-   inodes in front of the new one.
-
-5. Their switches block on wb_switch_rwsem, which the sync holds for
-   write.
-
-6. queue_io() stops at the new inode, so the older ones, dirtied before
-   the sync started, are still dirty when it returns.
-
-Maybe hold wb_switch_rwsem for read across the scan?
-
-> +/* called with cgwb_lock held, possibly with interrupts disabled */
-
-cgwb_lock is always taken with irqs disabled and lockdep_assert_held()
-already says the rest. Maybe drop the comment?
-
-> + * cgwb_kick_replaced - switch inodes away from @wb again if it was replaced
-
-This queues replaced_work rather than switching anything. Maybe "queue
-@wb's replaced_work if @wb has been replaced"?
-
-Thanks.
-
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 6d707f2..6e6136e 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -3100,6 +3100,16 @@ static ssize_t fuse_copy_file_range(struct file *src_file, loff_t src_off,
+ 	return ret;
+ }
+ 
++static int fuse_file_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
++{
++	struct fuse_file *ff = file->private_data;
++
++	if (fuse_is_passthrough(ff))
++		return fuse_passthrough_fadvise(file, offset, len, advice);
++
++	return generic_fadvise(file, offset, len, advice);
++}
++
+ static const struct file_operations fuse_file_operations = {
+ 	.llseek		= fuse_file_llseek,
+ 	.read_iter	= fuse_file_read_iter,
+@@ -3120,6 +3130,7 @@ static const struct file_operations fuse_file_operations = {
+ 	.fallocate	= fuse_file_fallocate,
+ 	.copy_file_range = fuse_copy_file_range,
+ 	.setlease	= generic_setlease,
++	.fadvise	= fuse_file_fadvise,
+ };
+ 
+ static const struct address_space_operations fuse_file_aops  = {
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 8546855..49b3101 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -1316,6 +1316,7 @@ ssize_t fuse_passthrough_splice_write(struct pipe_inode_info *pipe,
+ 				      struct file *out, loff_t *ppos,
+ 				      size_t len, unsigned int flags);
+ ssize_t fuse_passthrough_mmap(struct file *file, struct vm_area_struct *vma);
++int fuse_passthrough_fadvise(struct file *file, loff_t offset, loff_t len, int advice);
+ 
+ #ifdef CONFIG_SYSCTL
+ extern int fuse_sysctl_register(void);
+diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+index b43d3e0..2d29ff6 100644
+--- a/fs/fuse/passthrough.c
++++ b/fs/fuse/passthrough.c
+@@ -148,6 +148,23 @@ ssize_t fuse_passthrough_mmap(struct file *file, struct vm_area_struct *vma)
+ 	return backing_file_mmap(backing_file, vma, &ctx);
+ }
+ 
++int fuse_passthrough_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
++{
++	struct fuse_file *ff = file->private_data;
++	struct file *backing_file = fuse_file_passthrough(ff);
++	const struct cred *old_cred;
++	int ret;
++
++	if (!backing_file)
++		return generic_fadvise(file, offset, len, advice);
++
++	old_cred = override_creds(ff->cred);
++	ret = vfs_fadvise(backing_file, offset, len, advice);
++	revert_creds(old_cred);
++
++	return ret;
++}
++
+ /*
+  * Setup passthrough to a backing file.
+  *
 -- 
-tejun
+2.56.0.385.gd3acb90ef8-goog
+
