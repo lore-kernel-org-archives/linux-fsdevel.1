@@ -1,176 +1,268 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+Received: from eggs.gnu.org (eggs.gnu.org [209.51.188.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2839640B38C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 04:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BBCB46E017;
+	Wed, 14 Oct 2026 06:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.51.188.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791952841; cv=none; b=Xnx8Yriax0/pmYgFM2b289+l9KnQ2yXcc+Tj5PazlR1bOaIzVEObn2J/+jvjB+xM6L/UCaUoRujCAFen4+ObmkECYTnuEnqyS7vVk0eVea74kQaBmhfOLXey8pY80DwzP476NgfO2y+r6Oh+0bxQjYSU+X/hc4tjMgmAu5liOKM=
+	t=1791960114; cv=none; b=oEdJjCw+6/UUWi5hNYwJLlvdPpS8Qi7uUEERVqKoFavZOdYv7TiCclgfUEH8l0u3dOuqb4Komei43mk0GmRqPrKPRL71c57UOwAW8b3y+yrABsQyBSokt5weeZLtCHvGfMQ7g6ImOQr2tMviJ6TP4ivo6T7LSXFdo4CGEnEoHko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791952841; c=relaxed/simple;
-	bh=n0Hs5KVddvSkBLEzXlL+zhClUBSiGyvm5QaOrNgUFDY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BrDvhTnjuwj0vfSaE9BQGJAIsNzzdcmwBaj1sbFLelRyA5e4yXrbhc+BjlDRUiufrdiz6xx+SftMjAH+G92hV/55kx45/PCtnCkhqdmU3qyrHuN0yQqZgmE25IanabmFf/ne5hJygJahK2mK4LeC225aP7u/UECkaLZ6/DxFafU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=ncQOfXsY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=K0VjHOtO; arc=none smtp.client-ip=202.12.124.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
+	s=arc-20240116; t=1791960114; c=relaxed/simple;
+	bh=8JsaAJac8exDRiLZP+WuvxCaODlXs92VDBMSGrrj0ec=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Cf37GVIO07B9Dty2DMQANqN4/NZ07EFmDMMgd4ENiMUOb+zlMq093IloEArXSlGq5blOfLq77dzDCNNkP9i7u8L0Ge0JQXA1bI/Wnx/tDMAV+0CkIh09eGigcxA9EMvYuF42e3/o80++gHqk9KTdp6ngBvxwFDYM99cAedwItJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gnu.org; spf=pass smtp.mailfrom=gnu.org; dkim=pass (2048-bit key) header.d=gnu.org header.i=@gnu.org header.b=emA7JWci; arc=none smtp.client-ip=209.51.188.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gnu.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gnu.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="ncQOfXsY";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="K0VjHOtO"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 9BD0F7A00E0
-	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 00:40:39 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 14 Oct 2026 00:40:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1791952838; x=1792039238; bh=mAFiYhtbFe
-	mwvvnCWTEeExr0pkWB7IZg7tNJUrlWDeo=; b=ncQOfXsYux6xUE5Yfpf1YgaBFT
-	cTHfw7QjzH5wusg7wxu/N7/hm73X28PpKquXZc5xiYwPW4+lAfqJxibqXR+UvLz+
-	2ZTUnxRz7HtcfNGFgS1MJkd0Tuv5h/GpjcWCaiSGJ1TZ1UdFlpedEaseFuzvowv/
-	TqQSSl8IG9OCVkOhNBJP95SN5RDQQl8GiR1aqF1Dp02uVWnRjvaljmZODDWOuAYc
-	RQbBArRhfe9jWPm3Oy560onwObhrAOQw70BBPuWWCXlWiSD0St3KNWW1JAL9kmbP
-	bNzF5pEbPDujqawxsBVKwUfbzwYVRc65jY+AqtX1732BeF90Rc9hAafKJ/NA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1791952838; x=1792039238; bh=mAFiYhtbFemwvvnCWTEeExr0pkWB7IZg7tN
-	JUrlWDeo=; b=K0VjHOtOjP8x4OK/qLK5hjnzj3UEK+pOwByQK/diLCthYYtuRak
-	4w+UCUKGCK7JFq5rpq992TQ414sGpeXwoQll/jApp5jSvjv1N0AQ/vV6o8TAQSoj
-	0jIdCgbmVEwbpWc/GDIYhV7iGxhVnAVGyxOucONqfd+Qut3pa8xlZu9eupkPHb7a
-	O19RfpWHCKap1Ii2AG4C4Rgf9FKDqPAESBzjmyuI8I+/7v/rcZf87XvPdXRhxOVR
-	PHI64FJJSdJiopZc5fM/F+oblU4aUcPwF93Yc0oXuLowDYOwPy7A3lW/OBTdMI+P
-	X7xVR3mFNXlN4nZtsbMmUuaI/XZPAGqxlHA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
-	action=sign d=tyhicks.com a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1791952838; d=tyhicks.com;
-	mf=PGNvZGVAdHloaWNrcy5jb20+;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm1:rsa-sha256:FjO/Ji4Oyxesdt0HgQ/C7otO9Mf+iYREEZrErOZRE4i3BO2
-	UiRC3wVSpbfcnPLcC/ZZg7VTurY5EZavlmVSoMLiMAHAPv2Wgs89GjyCPMBXsD+A
-	ynDqCQ3r7I0mGv6m1HxFBWeMzPEoD+dyBqATD6sCElrs5eV2m4CwhSvTOaFWDNLJ
-	O5LtznTQoYXVpv3x2uNeahvkZJ5zq1T4cQCkfVGPY17X9RAt3oT/6bRhaSjRUgcP
-	Dh+6VvigP8dtCqM389T2mTxK5Iuq+6reyB4zplUQXRFpjrhpMI9/uMWhg9B0BiGs
-	GW3FDOoRw4zvitVC4qDpAvw/ij3HSmiI3IJuttA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-disposition,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:qUmERcW4JyBitZMe5zuk9ywp5LRlIgLiVnlpfK0/pBM=:n0Hs5KVddvSkBLEzXlL+zhClUBSiGyvm5QaOrNgUFDY=;
-X-ME-Sender: <xms:xgfPaiirqaGth-_QIS8OAsoYy7Sf2rYbZwFhAfjJ0MuAWKxQ7THxuQ>
-    <xme:xgfPajaE8ofnGot4Pky4vdm_HNaxz3sV7tnqENiHW1NZcFJGvD6DD5wX-ruqy_MSt
-    qzisuah0SMwdW1miO5q3pRD4Y4a5JhX9iIk39cqEEXme_YFFqwv3Rg>
-X-ME-Received: <xmr:xgfParPcjPkYn4vlK0LMTgxNr5Ysji4BSj-bUDmcojpTmB7UhXNDHw>
-X-ME-Proxy-Cause: dmFkZTFKd7b9t+rYxj8fdFEGtNMVuNQ5jOwC8SdIlUTY97d1oNKv/jurn5DUraLtoIX+2E
-    I3bIdfkpsGhUi+/tt/Szji6YvW2+vzMoDGWv9xPK+lO1Sb1zC3bVSP3NLZ3IFInykWKEaP
-    PH93NfwO6+b7/crRfH4wX5WXalVIiTPCeErxbBQz6CcsOBGB7Z36o5CAXL7bOQ0KwYB3u2
-    Tt7S2s6M3ONy1Jf6lLNDRHUve8aF4/8yXcvszXWYbXHvQvvmoncKrISq6v28AJ11qBn/sv
-    qp0QBdjQ9qmGRZKU7BnZTWgAAxoRXCyTV5hWG4Si3B29+0DMJIgEbol0t/XKYLu9NNjraX
-    0smkOXWfrc/IBFYy/pyNxGx9kfhI0WiCxuDyZdzXI9f2NIYsJkUDkDUeJG4zUPuBWtaBvE
-    Mwi2vLMuBjIiVqP446bbIM7nhubKyyD0dXHP2HMFxaXSbWZp3G1UIOBjW6FPA7HQKr1TcP
-    BPwGPZdrFFh4a5r7M1kmZLbWcfqQp/zQcXFYEYi5bg9fYkAJaxBna2FbAXCGRPGb4Oc6Gh
-    1r+gceQWpvlFBkLAjH/mFrxDSXQUT5CImV6pag4feAxFZbphAWhHyasICJGejFWDtY2NaB
-    BCVdHpJu62iJDBfhFB3EF7k3EeYcm32d9i47bHoDPeSCp+YbyXeBn+EXahFQ
-X-ME-Proxy: <xmx:xgfPanR7GBzeumdsdancLyUun9rpWy2_-9xodM1WQNRR_NGP-MwpZg>
-    <xmx:xgfPau7MdffZ0A3QPGcRatiLqM8PYL5uRriXSWH_CfIWpuOpVlPScw>
-    <xmx:xgfPaia9aS220tTKgJDOpqj2xLlBZI6Y-T6J6zgubPIDKeXL060mVQ>
-    <xmx:xgfPaqZKI-8EgzC6LYS3JQGrtcebVT9OxULUA-QFxdCybqbmiymnFA>
-    <xmx:xgfPan3Lpy4_ahjI4bwYfGxNbwKEt-4H9IVwxWRAdOc68A38BkASVj37>
-Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 14 Oct 2026 00:40:36 -0400 (EDT)
-Date: Tue, 13 Oct 2026 23:40:28 -0500
-From: Tyler Hicks <code@tyhicks.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.com>, Al Viro <viro@zeniv.linux.org.uk>,
-	ecryptfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
-	exfat@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	ntfs@lists.linux.dev, ocfs2-devel@lists.linux.dev,
-	linux-btrfs@vger.kernel.org, gfs2@lists.linux.dev,
-	linux-efi@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-xfs@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 01/28] ecryptfs: don't leak the inode when a lookup
- can't open the lower file
-Message-ID: <as8HvJJq-JP5-UCp@elm>
-References: <20261012-work-fs-sb_rdonly-v1-0-60743a3dc326@kernel.org>
- <20261012-work-fs-sb_rdonly-v1-1-60743a3dc326@kernel.org>
+	dkim=pass (2048-bit key) header.d=gnu.org header.i=@gnu.org header.b="emA7JWci"
+Received: from fencepost.gnu.org ([2001:470:142:3::e])
+	by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.90_1)
+	(envelope-from <jemarch@gnu.org>)
+	id 1xGsgF-000071-Rn; Wed, 14 Oct 2026 02:41:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=gnu.org;
+	s=fencepost-gnu-org; h=MIME-Version:Date:References:In-Reply-To:Subject:To:
+	From; bh=TfdvLz23jbZAN8dixlMbudWM2BjDMFngjYqKr62cQ6w=; b=emA7JWciClgsXW/uXwnv
+	adVQgBfxDgdDmCzUD5stngOjVpsFjJNFNrtHGNezxbz4D8dFnhO9zOqGFJzEYMqZw12q74/+zOPLU
+	ri81KPpZVnWdT5TbLVdA144/XjNPrRWRpPQ/kjzL3LTjwhPQH41+RtAgoTggzHMQAF3oW50x9luX9
+	cqW2L0G3oYfpR9ylSX7TIzxat7DfeIRsizWTF3+RDLIjU8//sBjTTYAdXfENu+UQWJubHTg1apS/O
+	kviyfP4CJf6ckC/b2gs4IqEcJVJ5FVjlVh+FoP4fkDXmXYqJaAblJXi4U8cZqJrZIIA8NLhmGPKEj
+	ZKjc8Psq92GxZA==;
+From: "Jose E. Marchesi" <jemarch@gnu.org>
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,  Alexander Viro
+ <viro@zeniv.linux.org.uk>,  Jan Kara <jack@suse.cz>,  NeilBrown
+ <neil@brown.name>,  =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+  Alexei Starovoitov
+ <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>,  Andrii
+ Nakryiko <andrii@kernel.org>,  Song Liu <song@kernel.org>,
+  linux-fsdevel@vger.kernel.org,  bpf@vger.kernel.org,
+  linux-security-module@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>,  Paul Moore
+ <paul@paul-moore.com>,
+  James Morris <jmorris@namei.org>,  "Serge E . Hallyn" <serge@hallyn.com>,
+  Martin KaFai Lau <martin.lau@linux.dev>,  Eduard Zingerman
+ <eddyz87@gmail.com>,  Yonghong Song <yonghong.song@linux.dev>,  John
+ Fastabend <john.fastabend@gmail.com>,  Kumar Kartikeya Dwivedi
+ <memxor@gmail.com>,  Jiri Olsa <jolsa@kernel.org>,  Jeff Layton
+ <jlayton@kernel.org>,  Amir Goldstein <amir73il@gmail.com>,  Mateusz Guzik
+ <mjguzik@gmail.com>,  Shuah Khan <shuah@kernel.org>,  Tingmao Wang
+ <m@maowtm.org>,  jose.marchesi@oracle.com
+Subject: Re: [PATCH bpf-next v1 06/11] selftests/bpf: exercise the path
+ ancestor iterator
+In-Reply-To: <as6GG4NMzLrnpKXK@zenbox>
+References: <20261013164800.2906577-1-utilityemal77@gmail.com>
+	<20261013164800.2906577-7-utilityemal77@gmail.com>
+	<as6GG4NMzLrnpKXK@zenbox>
+Date: Wed, 14 Oct 2026 08:41:12 +0200
+Message-ID: <875wz43htj.fsf@gnu.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261012-work-fs-sb_rdonly-v1-1-60743a3dc326@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-10-12 12:20:46, Christian Brauner wrote:
-> ecryptfs_lookup_interpose() opens the lower file of a regular file to
-> read the size from the header. If that fails it calls make_bad_inode()
-> and returns the error. A new inode is still I_NEW at that point and
-> nothing ever unlocks or puts it, so it leaks together with the reference
-> it holds on the lower inode. And an inode that was already in the cache
-> gets marked bad for all its other users instead of just losing the
-> reference this lookup took.
-> 
-> umount then complains:
-> 
->   VFS: Busy inodes after unmount of ecryptfs (ecryptfs)
-> 
-> That's a WARN, or a BUG with CONFIG_BUG_ON_DATA_CORRUPTION. The lower
-> filesystem reports the same when it is unmounted. Use iget_failed() for
-> a new inode and iput() for one from the cache.
-> 
-> Reproducer, opening the lower file read-write fails on a read-only bind
-> mount:
-> 
->   sig=$(printf x | ecryptfs-add-passphrase - | sed -n 's/.*\[\(.*\)\].*/\1/p')
->   mount --bind -o ro /lower /lower
->   mount -i -t ecryptfs -o ecryptfs_sig=$sig,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_passthrough /lower /upper
->   cat /upper/f      # EROFS
->   umount /upper     # VFS: Busy inodes after unmount of ecryptfs
-> 
-> Fixes: 3b06b3ebf441 ("eCryptfs: Fix new inode race condition")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Thanks, Christian! I ran this through the regression tests in the
-ecryptfs-utils project and everything passed. I also followed the steps
-in your reproducer, with and without this change, and verified that it
-fixes the intended issue.
+> On Tue, Oct 13, 2026 at 12:=E2=80=8A47:=E2=80=8A55PM -0400, Justin Suess =
+wrote: >
+> Walk the ancestry of a mkdir's parent directory from a sleepable LSM
+>> program and check that the iteration reaches the root: the
+> temporary > directory, its parent and
+> ZjQcmQRYFpfptBannerStart
+> This Message Is From an External Sender
+> This message came from outside your organization.
+> Report Suspicious
+>=20=20
+> ZjQcmQRYFpfptBannerEnd
+>
+> On Tue, Oct 13, 2026 at 12:47:55PM -0400, Justin Suess wrote:
+>> Walk the ancestry of a mkdir's parent directory from a sleepable LSM
+>> program and check that the iteration reaches the root: the temporary
+>> directory, its parent and / are visited, no position comes back
+>> flagged, and the flags read back after the loop show it ended at the
+>> root rather than on a failed allocation.
+>>=20
+>> Hold the first position across the rest of the walk and resolve its
+>> pathname only once the loop is done and the iterator destroyed: the
+>> acquired reference, not the walk's, is then all that keeps the
+>> position alive.
+>>=20
+>> Signed-off-by: Justin Suess <utilityemal77@gmail.com>
+>> ---
+>>  .../selftests/bpf/prog_tests/path_ancestors.c | 57 ++++++++++++++
+>>  .../selftests/bpf/progs/path_ancestors.c      | 74 +++++++++++++++++++
+>>  2 files changed, 131 insertions(+)
+>>  create mode 100644 tools/testing/selftests/bpf/prog_tests/path_ancestor=
+s.c
+>>  create mode 100644 tools/testing/selftests/bpf/progs/path_ancestors.c
+>>=20
+>> diff --git a/tools/testing/selftests/bpf/prog_tests/path_ancestors.c b/t=
+ools/testing/selftests/bpf/prog_tests/path_ancestors.c
+>> new file mode 100644
+>> index 000000000000..d1bd26bce10b
+>> --- /dev/null
+>> +++ b/tools/testing/selftests/bpf/prog_tests/path_ancestors.c
+>> @@ -0,0 +1,57 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/* Copyright (c) 2026 Justin Suess */
+>> +
+>> +#include <sys/stat.h>
+>> +#include <stdlib.h>
+>> +#include <unistd.h>
+>> +#include <test_progs.h>
+>> +#include "path_ancestors.skel.h"
+>> +
+>> +void test_path_ancestors(void)
+>> +{
+>> +     char base[] =3D "/tmp/path_ancestors_XXXXXX";
+>> +     struct path_ancestors *skel =3D NULL;
+>> +     char suba[280], subb[280];
+>> +
+>> +     if (!ASSERT_OK_PTR(mkdtemp(base), "mkdtemp"))
+>> +             return;
+>> +     snprintf(suba, sizeof(suba), "%s/a", base);
+>> +     snprintf(subb, sizeof(subb), "%s/a/b", base);
+>> +     if (!ASSERT_OK(mkdir(suba, 0755), "mkdir_a"))
+>> +             goto out_rm;
+>> +
+>> +     skel =3D path_ancestors__open_and_load();
+>> +     if (!ASSERT_OK_PTR(skel, "open_and_load"))
+>> +             goto out_rm;
+>> +     skel->bss->monitored_pid =3D getpid();
+>> +     if (!ASSERT_OK(path_ancestors__attach(skel), "attach"))
+>> +             goto out;
+>> +
+>> +     /* mkdir b: the hook sees dir =3D=3D suba, whose ancestry is walke=
+d. */
+>> +     if (!ASSERT_OK(mkdir(subb, 0755), "mkdir_b"))
+>> +             goto out;
+>> +
+>> +     /* suba, base, /tmp, / at least. */
+>> +     ASSERT_GE(skel->bss->ref_count, 4, "ref_count");
+>> +     ASSERT_EQ(skel->bss->ref_flags, 0, "ref_flags");
+>> +     /*
+>> +      * The referenced loop ended at the root, not on an allocation
+>> +      * failure.
+>> +      */
+>> +     ASSERT_EQ(skel->bss->end_flags, 0, "end_flags");
+>> +
+>> +     /* The acquired second position, used after its step was taken. */
+>> +     ASSERT_STREQ(skel->bss->second_path, base, "second_path");
+>> +     ASSERT_EQ(skel->bss->second_len, strlen(base) + 1, "second_len");
+>> +
+>> +     /* The first position, used only after the walk itself was gone. */
+>> +     ASSERT_STREQ(skel->bss->first_path, suba, "first_path");
+>> +     ASSERT_EQ(skel->bss->first_len, strlen(suba) + 1, "first_len");
+>> +
+>> +out:
+>> +     path_ancestors__destroy(skel);
+>> +out_rm:
+>> +     rmdir(subb);
+>> +     rmdir(suba);
+>> +     rmdir(base);
+>> +}
+>> diff --git a/tools/testing/selftests/bpf/progs/path_ancestors.c b/tools/=
+testing/selftests/bpf/progs/path_ancestors.c
+>> new file mode 100644
+>> index 000000000000..6287f5099a18
+>> --- /dev/null
+>> +++ b/tools/testing/selftests/bpf/progs/path_ancestors.c
+>> @@ -0,0 +1,74 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/* Copyright (c) 2026 Justin Suess */
+>> +
+>> +#include "vmlinux.h"
+>> +#include <errno.h>
+>> +#include <bpf/bpf_helpers.h>
+>> +#include <bpf/bpf_tracing.h>
+>> +#include "bpf_kfuncs.h"
+>> +
+>> +char _license[] SEC("license") =3D "GPL";
+>> +
+>> +__u32 monitored_pid;
+>> +
+>> +int ref_count;               /* positions seen by the pure referenced w=
+alk */
+>> +int ref_flags;               /* pos flags seen by the referenced walk */
+>> +int end_flags;               /* flags after a referenced loop ended: 0 =
+unless NOMEM */
+>> +int second_len;              /* d_path length of the walk's second posi=
+tion */
+>> +int first_len;               /* d_path length of the first position, af=
+ter the walk */
+>> +char second_path[256];
+>> +char first_path[256];
+>> +
+>> +static bool monitored(void)
+>> +{
+>> +     return (bpf_get_current_pid_tgid() >> 32) =3D=3D monitored_pid;
+>> +}
+>> +
+>> +SEC("lsm.s/path_mkdir")
+>> +int BPF_PROG(walk_modes, const struct path *dir, struct dentry *dentry,
+>> +          umode_t mode)
+>> +{
+>> +     struct bpf_iter_path_ancestors it;
+>> +     struct path *pos, *first =3D NULL;
+>> +
+>> +     /*
+>> +      * Keep first's init opaque: gcc-bpf otherwise folds it into a
+>> +      * preceding loop's exit value, which the verifier cannot track.
+>> +      */
+>> +     barrier_var(first);
+>> +
+> cc'ing Eduard Zingerman + Jose Marchesi
+>
+> This barrier_var line was necessary for this selftest to pass
+> under GCC BPF.
+>
+> Othwise it will be rejected by the verifier:
+>
+>   84: (85) call bpf_iter_path_ancestors_rcu_next#63514
+>   85: R0=3Drcu_ptr_path(id=3D30) ... depth=3D9
+>   86: (bf) r6 =3D r0              ; R6=3Drcu_ptr_path(id=3D30)
+>   88: (55) if r0 !=3D 0x0 goto pc-64
+>   ...
+>   101: (85) call bpf_rcu_read_unlock#64876
+>        ^-- R6 downgraded rcu_ptr_ -> untrusted_ptr_
+>   ...
+>   146: (15) if r6 =3D=3D 0x0 goto pc+10     ; R6=3Duntrusted_ptr_path(id=
+=3D30)
+>   147: (bf) r1 =3D r6
+>   151: (85) call bpf_path_d_path#64649
+>   R1 must be referenced or trusted
+>
+> I think it's trying to optimize out the "struct path* first" and make it
+> use the r6 register. It tries reusing the R6 register between the two
+> loops, and doing so causes the program to fail to verify because it doesn=
+'t
+> understand that the path was reinitialized with r6=3D0 from the previous
+> exit.
+>
+> So I had to add the memory barrier to force struct path to be
+> instantiated outside the register.
+>
+> There's nothing wrong from a *correctness* perspective with the code
+> generated by GCC-BPF. But I'm not sure if this is a GCC-BPF bug or a
+> bug in the SCEV widening series (merge 15b578b1715d). It depends on
+> the contract BPF bytecode is supposed to meet.
+>
+> But clang works without the barrier, it's only GCC-BPF that produces
+> this issue requiring the barrier.
+>
+> I can give more details if needed.
 
-  Acked-by: Tyler Hicks <code@tyhicks.com>
+Please open a bugzilla at https://gcc.gnu.org/bugzilla so we can keep
+track of this.  It would help to have a preprocessed reproducer based on
+the selftest that could be used as a testcase in the GCC testsuite.
 
-Tyler
+Thanks!
 
-> ---
->  fs/ecryptfs/inode.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-> index 525297c7ebd8..0d8452558a98 100644
-> --- a/fs/ecryptfs/inode.c
-> +++ b/fs/ecryptfs/inode.c
-> @@ -362,7 +362,10 @@ static struct dentry *ecryptfs_lookup_interpose(struct dentry *dentry,
->  	if (S_ISREG(inode->i_mode)) {
->  		rc = ecryptfs_i_size_read(dentry, inode);
->  		if (rc) {
-> -			make_bad_inode(inode);
-> +			if (inode_state_read_once(inode) & I_NEW)
-> +				iget_failed(inode);
-> +			else
-> +				iput(inode);
->  			return ERR_PTR(rc);
->  		}
->  	}
-> 
-> -- 
-> 2.53.0
-> 
-> 
+>
+> Justin
+>> [...]
