@@ -1,383 +1,197 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A924EDCB4;
-	Wed, 14 Oct 2026 11:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EE84ED1BF
+	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 11:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791976907; cv=none; b=cA4jPBZmyuPu0NyhGXIG8tDH3aDZllUp24s4Q60oKPbjoowAPGmT0jf1pY+F51SSliBgegcgScIv7DyIxdCxve1hUjmWeR7mc9ZqhwKAKIAoLF473Znh30sxqI11gv6Wx2D1gRYpjXBLzXM1yWJ/daKyRVtOLtzoRY3SJ7kJmWM=
+	t=1791978256; cv=none; b=VTW0xlEmW1Mn6amwbVjjltm9il23rLWBDiq2Nsk8kOZQBK769t0PTo/1u53m4SqSrYole9IyQMKnXiFCA95/KDhe5KP0yOsWqfgrSnP9b2riABo3yppBGU1tgsxbwrdsrBf7sR1zzfLyjW9fCQIj8x5CMvJ1QE3VCk23oL25ofE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791976907; c=relaxed/simple;
-	bh=gThmcpDt6b4xnXDJ3zcqBqPNJa8l+w0423uWU40ta18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uWFn0lYg3ILOoj2MiZq8MB5JRpKqqdgPwTwPFFfujhf8N5zB+XS2qPSRZlnbgoqdo9qrt98PDHGbGRF1L5Z6aAkpC1e9qX2vxF6Jt/72dA19navuQhNTUNlV/Px2f0W18pZSBIuwJcrxf7AbFdpD9ZMkclObb4Ltblbyb57wwbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=v5aryRzQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nQGRuDzi; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=v5aryRzQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nQGRuDzi; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1791978256; c=relaxed/simple;
+	bh=tfr+1O+Zs6xGsXzFyHpksFrHILj0wxgFMvmKmevytW4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=in07ag+G+9opGRg/cWN2Pj5crMN47MexKFfj4IoCAkcSsPn6m4rsP58eJXucTD5D4f1GNG5dbeZeBVBFwaqZ9knasjJEdR3S/mZwdNPf/WIm5Bn7obKgAs/PfRIUfd0ySm7QTJxqSuA9CvGkMd8XK6L9adDD3+cRnQTJUe/DF4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai; spf=pass smtp.mailfrom=nebusec.ai; dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b=ahzbqvxY; arc=none smtp.client-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebusec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="v5aryRzQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nQGRuDzi";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="v5aryRzQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nQGRuDzi"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 52ADE1FB14;
-	Wed, 14 Oct 2026 11:21:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791976903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y1sGcjjJPHmNpXo6cQ7qcW0PcSuB1I3YLh0buAsrEm0=;
-	b=v5aryRzQwO6Hzssjls/4garI7bi/cOUrTnFQ2AQ4IxVGwr+QOEdvL00t9ZVoHBEbvkeHnT
-	o089OHj3nXZpXx+4a6/mPzPS4WtToLoEZEkLj5fiL7l4Nw2anh7ezxW7+77nMxyO6lFlkG
-	hTc4XZQby3IRFBlNUPvbX25GJ1I+yj0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791976903;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y1sGcjjJPHmNpXo6cQ7qcW0PcSuB1I3YLh0buAsrEm0=;
-	b=nQGRuDzisVkgcwCdIVXNIrJS7FxNMaj8PoKjOitZFri6okGcfkXQm4UWdoJnsmz9mzruLk
-	KvGgMQittpxkW/CQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=v5aryRzQ;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=nQGRuDzi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791976903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y1sGcjjJPHmNpXo6cQ7qcW0PcSuB1I3YLh0buAsrEm0=;
-	b=v5aryRzQwO6Hzssjls/4garI7bi/cOUrTnFQ2AQ4IxVGwr+QOEdvL00t9ZVoHBEbvkeHnT
-	o089OHj3nXZpXx+4a6/mPzPS4WtToLoEZEkLj5fiL7l4Nw2anh7ezxW7+77nMxyO6lFlkG
-	hTc4XZQby3IRFBlNUPvbX25GJ1I+yj0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791976903;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y1sGcjjJPHmNpXo6cQ7qcW0PcSuB1I3YLh0buAsrEm0=;
-	b=nQGRuDzisVkgcwCdIVXNIrJS7FxNMaj8PoKjOitZFri6okGcfkXQm4UWdoJnsmz9mzruLk
-	KvGgMQittpxkW/CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0EDEF133F1;
-	Wed, 14 Oct 2026 11:21:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id W16aNsZlz2rALQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 14 Oct 2026 11:21:43 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 1BC77A1411; Wed, 14 Oct 2026 13:21:42 +0200 (CEST)
-Date: Wed, 14 Oct 2026 13:21:42 +0200
-From: Jan Kara <jack@suse.cz>
-To: Liz Fong-Jones <lizf@honeycomb.io>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Tejun Heo <tj@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jens Axboe <axboe@kernel.dk>, Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ian@honeycomb.io
-Subject: Re: [PATCH v6 3/3] writeback: switch a replaced cgwb's inodes to its
- successor
-Message-ID: <pmvqotiw5cvzdk4sduczbmgrqh7o3qf4jb6l6qzep7iy4fsl7d@y2uis3u6v3qp>
-References: <20261002-wb-dying-cgwb-flush-v6-0-1991b4e2dcff@honeycomb.io>
- <20261002-wb-dying-cgwb-flush-v6-3-1991b4e2dcff@honeycomb.io>
+	dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b="ahzbqvxY"
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-33e6279a1d7so322873eec.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 04:44:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nebusec.ai; s=google; t=1791978253; x=1792583053; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kzNB8ZKGHS+H7rhUP5uFFyRM0Y9dLwbgi21LnqDLAyc=;
+        b=ahzbqvxYvZzWfNKgShxw+WBH4MGMw9HLNkpdrNTWiZjhI5GPdiJLf/XcBoq4lBg7Wg
+         g07uF9EL0fEG7EeJ/tN/RtBgs0lnMrTYmsSDC6VqjocW9FgtqGJacwJkatDj9ByzzcRH
+         0qlCkYNwEY9iaPTgO5EWWWdVfLKsP8bA3ooA1AyDc1bEuY/a/mDrx5kwVlCaeRUHanYW
+         SYZ/VnZoDlMhjec5OzLS+5S/AUaUlbfQ8ThKlcKn3+ym+8wQSfFsbHqoaBT9fb7la9sS
+         /K95/dQr5r/0fUi0mzmq1BALWmErTh5F0E0848Bb8Sp6kLY9gcIMfJ7DRJupsH+Wc7bh
+         KH8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791978253; x=1792583053;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kzNB8ZKGHS+H7rhUP5uFFyRM0Y9dLwbgi21LnqDLAyc=;
+        b=OjDDTvEY7h6Cy1ainp2TMPv9Vhuc0mpu4Mx4NAcrK44fd4uaIwnebdt/AP2vQHDcvW
+         BzsR0K+VhDhT+H0uUMR8coGk28g0rQx/ecFd/n6E7gCgWhaMxIeXKRU70eAvI8MniHEW
+         r2R2SrT2dVvfiMoYka1o0g2yNFWVfEDNmvU660UeaiZwPibX71b4GAFy3z0GWDfjl7t0
+         7xciGOf0+elJEnmh9upP8bi7DY9l18ii5CE5nB+X4uiu9GxhVHgxtrANAkkVgPFxnisT
+         Bx19prJVQc2A+dKjj7VAU4gCPaySqZrpg8Tqph8eGUMGsnAb8kWsdnGAfXq1JJkuydq9
+         mYeQ==
+X-Gm-Message-State: AFq9FYLHcC9dI9i3tQxx1w/mn/LiYaFBawGhpI+rQg2wend/5si5lzUa
+	Y8Y1I1TMLpOCL91jpKWJzwt8ZGq29+S5wcGwrww+j+qRrexBaBTCrGxEY+yz7qSeSw7PCRgaasS
+	Jup/0Ecnn/XQ=
+X-Gm-Gg: AYBFou1Ty1zRO5VV98TK+vjzqKO27rIT3Ipfad6ShwNClVvnHCXMDMQJ0AyQS+JOzK6
+	fMkXo4qxc1cw20uv/USHR+gCzCiua/8jMR7VMxzUpIF+GvPyQq5JGkqXCsUEE0Dgkeuil0c4IxU
+	nEHmJGsG4grFF9iwfjKJjAzDOseWGYRSFWyvdQECCMNUP4lx15oHJPdhojDYGLkj5O4n35UqDHC
+	1YR714jlmDZSpJRyqzz83bLRR9URYoveBlPxSJvWb5Oq3RzVqSNtFisXLDGzlp6q9NZpyrvT9PI
+	R0kzgq5KTrsKyxkemjeMvUUMFqHf0in4cZCj9GtsvYu6b5pnbm0yGUbzfwKHN1b40F5cb24vnOD
+	2nsYKdgn5MmdQwGXrdTvHjBv6G4A5gGL0YCH0SJ8yUZd2J+qd5KI9OZAb0cKM8fit4n/7Xe+4qF
+	EUXWNjGAqwtU+hoBSk8gVJp2oQVgxml5K6Lygqmo1HQtUWl9ldVv2PjjpZMRw0slhU1X+Pxoz3d
+	V4z6u33TkAX+rw2jls=
+X-Received: by 2002:a05:701b:240a:b0:160:8d8e:7e3b with SMTP id a92af1059eb24-16a6169584amr25469415c88.10.1791978252391;
+        Wed, 14 Oct 2026 04:44:12 -0700 (PDT)
+Received: from Roxy.sysu.edu.cn ([2602:feda:30:ae86:295:dff:fe84:68f4])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a442ac67sm71379213c88.18.2026.10.14.04.44.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 04:44:11 -0700 (PDT)
+From: Zhiling Zou <zhilinz@nebusec.ai>
+To: linux-fsdevel@vger.kernel.org
+Cc: viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	alain@knaff.lu,
+	hpa@zytor.com,
+	vega@nebusec.ai,
+	zhilinz@nebusec.ai
+Subject: [PATCH 0/1] init: distinguish compressed ramdisks from image size
+Date: Wed, 14 Oct 2026 19:43:59 +0800
+Message-ID: <cover.1791977727.git.zhilinz@nebusec.ai>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261002-wb-dying-cgwb-flush-v6-3-1991b4e2dcff@honeycomb.io>
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 52ADE1FB14
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[honeycomb.io:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:email,suse.cz:dkim];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+Content-Transfer-Encoding: 8bit
 
-On Fri 02-10-26 21:40:48, Liz Fong-Jones wrote:
-> When a live memcg's blkcg association changes, cgwb_create() replaces
-> its killed wb in bdi->cgwb_tree. Foreign flushes for the memcg then
-> find the new wb, but the inodes, dirty or not, are still attached to the
-> old one, and they only move over as they are written back (see
-> wbc_attach_and_unlock_inode()). Until then, other memcgs appending to
-> those inodes stall in balance_dirty_pages().
-> 
-> After the takeover, queue a work item that switches all of the old wb's
-> inodes to the wb foreign flushes now find, like cleanup_offline_cgwb()
-> does for b_attached and b_dirty_time, but including b_dirty, b_io and
-> b_more_io. The switch carries the dirty and writeback page counts, so
-> nothing needs to be written back first. cgwb_create() can run with
-> interrupts disabled (folio_account_dirtied() -> inode_attach_wb()), so
-> it only queues the work. A switch to the old wb that was queued before
-> it was replaced can land after the work ran, so
-> inode_switch_wbs_work_fn() queues the work again when the wb it switched
-> inodes to is dying and no longer owns its slot. An inode attached to the
-> old wb as it is replaced (see __inode_attach_wb()) still moves over only
-> when written back. If the successor is already gone, fall back like
-> cleanup_offline_cgwb() does, to the nearest live ancestor's wb or the
-> root wb.
-> 
-> Test: a live cgroup appends to 5000 files on XFS at 250MiB/s, io is
-> disabled on its parent so its wb is killed, it creates a file (the
-> takeover), and a sibling keeps appending to its files under a 4G parent
-> limit. Worst lag of the sibling behind schedule over 30s, in three runs:
-> 
->   without this patch    9.1s   4.0s   1.0s
->   with this patch       1.0s   1.1s   1.1s
-> 
-> Without this patch, moving the old wb's inodes over took up to 11s,
-> first switch to last; with it, all 5001 were switched in a 27-39ms
-> window, with up to 311MiB of the old cgroup's pages dirty.
-> 
-> Suggested-by: Tejun Heo <tj@kernel.org>
-> Assisted-by: Claude:claude-opus-5-5 checkpatch sparse
-> Assisted-by: Claude:claude-fable-5-1
-> Signed-off-by: Liz Fong-Jones <lizf@honeycomb.io>
+Hi Linux kernel maintainers,
 
-Looks good to me. Feel free to add:
+We found and validated an issue in init/do_mounts_rd.c. The bug is
+reachable by a root user who boots a crafted external initrd with
+kexec_file_load().
+We've tested it, and it should not affect any other functionality.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+We will provide detailed information about the bug
+in this email, along with a PoC to trigger it.
 
-								Honza
+---- details below ----
 
-> ---
->  fs/fs-writeback.c                | 61 ++++++++++++++++++++++++++++++++++++++++
->  include/linux/backing-dev-defs.h |  1 +
->  include/linux/backing-dev.h      |  1 +
->  include/linux/writeback.h        |  1 +
->  mm/backing-dev.c                 | 49 ++++++++++++++++++++++++++++++++
->  5 files changed, 113 insertions(+)
-> 
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index 050d507aa554..7e80f3935dce 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -624,6 +624,8 @@ void inode_switch_wbs_work_fn(struct work_struct *work)
->  
->  	llist_for_each_entry_safe(isw, next_isw, list, list)
->  		process_inode_switch_wbs(new_wb, isw);
-> +	/* @new_wb may have been replaced while the switches were queued */
-> +	cgwb_kick_replaced(new_wb);
->  	wb_put(new_wb);
->  }
->  
-> @@ -809,6 +811,65 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
->  	return restart;
->  }
->  
-> +/**
-> + * switch_replaced_cgwb - switch a replaced wb's inodes to its successor
-> + * @wb: target wb, replaced in bdi->cgwb_tree by another wb of its memcg
-> + *
-> + * Switch all inodes attached to @wb, dirty or not, to the wb that foreign
-> + * flushes now find for @wb's memcg.  If that one is already gone, fall back
-> + * like cleanup_offline_cgwb() does, to the nearest live ancestor's wb or the
-> + * root wb.  The switch carries the dirty and writeback page counts, so
-> + * nothing needs to be written back first.  Returns %true if not all inodes
-> + * were switched and the function has to be restarted.
-> + */
-> +bool switch_replaced_cgwb(struct bdi_writeback *wb)
-> +{
-> +	struct cgroup_subsys_state *memcg_css;
-> +	struct inode_switch_wbs_context *isw;
-> +	struct bdi_writeback *new_wb;
-> +	bool restart;
-> +	int nr = 0;
-> +
-> +	new_wb = wb_get_lookup(wb->bdi, wb->memcg_css);
-> +	for (memcg_css = wb->memcg_css->parent; !new_wb && memcg_css;
-> +	     memcg_css = memcg_css->parent)
-> +		new_wb = wb_get_create(wb->bdi, memcg_css, GFP_KERNEL);
-> +	if (!new_wb)
-> +		new_wb = &wb->bdi->wb; /* wb_get() is noop for bdi's wb */
-> +	if (WARN_ON_ONCE(new_wb == wb)) {
-> +		wb_put(new_wb);
-> +		return false;
-> +	}
-> +
-> +	isw = kzalloc_flex(*isw, inodes, WB_MAX_INODES_PER_ISW);
-> +	if (!isw) {
-> +		wb_put(new_wb);
-> +		return false;
-> +	}
-> +
-> +	atomic_inc(&isw_nr_in_flight);
-> +
-> +	spin_lock(&wb->list_lock);
-> +	restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_attached, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_io, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_more_io, &nr) ||
-> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty_time, &nr);
-> +	spin_unlock(&wb->list_lock);
-> +
-> +	if (nr == 0) {
-> +		atomic_dec(&isw_nr_in_flight);
-> +		wb_put(new_wb);
-> +		kfree(isw);
-> +		return restart;
-> +	}
-> +
-> +	trace_inode_switch_wbs_queue(wb, new_wb, nr);
-> +	wb_queue_isw(new_wb, isw);
-> +
-> +	return restart;
-> +}
-> +
->  /**
->   * wbc_attach_and_unlock_inode - associate wbc with target inode and unlock it
->   * @wbc: writeback_control of interest
-> diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
-> index 33e06b1b1e1c..7713fd60c985 100644
-> --- a/include/linux/backing-dev-defs.h
-> +++ b/include/linux/backing-dev-defs.h
-> @@ -162,6 +162,7 @@ struct bdi_writeback {
->  					 * to this wb */
->  	struct llist_head switch_wbs_ctxs;	/* queued contexts for
->  						 * writeback switching */
-> +	struct work_struct replaced_work;	/* see switch_replaced_cgwb() */
->  
->  	union {
->  		struct work_struct release_work;
-> diff --git a/include/linux/backing-dev.h b/include/linux/backing-dev.h
-> index f7ef5895625a..84057fa92f24 100644
-> --- a/include/linux/backing-dev.h
-> +++ b/include/linux/backing-dev.h
-> @@ -151,6 +151,7 @@ static inline void bdi_wb_stat_mod(struct inode *inode, enum wb_stat_item item,
->  
->  struct bdi_writeback *wb_get_lookup(struct backing_dev_info *bdi,
->  				    struct cgroup_subsys_state *memcg_css);
-> +void cgwb_kick_replaced(struct bdi_writeback *wb);
->  struct bdi_writeback *wb_get_create(struct backing_dev_info *bdi,
->  				    struct cgroup_subsys_state *memcg_css,
->  				    gfp_t gfp);
-> diff --git a/include/linux/writeback.h b/include/linux/writeback.h
-> index b749a9a5a5ee..88e4b5049698 100644
-> --- a/include/linux/writeback.h
-> +++ b/include/linux/writeback.h
-> @@ -209,6 +209,7 @@ int cgroup_writeback_by_id(u64 bdi_id, int memcg_id,
->  			   enum wb_reason reason, struct wb_completion *done);
->  void cgroup_writeback_umount(struct super_block *sb);
->  bool cleanup_offline_cgwb(struct bdi_writeback *wb);
-> +bool switch_replaced_cgwb(struct bdi_writeback *wb);
->  
->  /**
->   * inode_attach_wb - associate an inode with its wb
-> diff --git a/mm/backing-dev.c b/mm/backing-dev.c
-> index 85b2c95a920c..e401293c260a 100644
-> --- a/mm/backing-dev.c
-> +++ b/mm/backing-dev.c
-> @@ -637,9 +637,51 @@ static void cgwb_release_workfn(struct work_struct *work)
->  	bdi_put(bdi);
->  	WARN_ON_ONCE(!list_empty(&wb->b_attached));
->  	WARN_ON_ONCE(work_pending(&wb->switch_work));
-> +	WARN_ON_ONCE(work_pending(&wb->replaced_work));
->  	call_rcu(&wb->rcu, cgwb_free_rcu);
->  }
->  
-> +static void cgwb_replaced_workfn(struct work_struct *work)
-> +{
-> +	struct bdi_writeback *wb = container_of(work, struct bdi_writeback,
-> +						replaced_work);
-> +
-> +	do {
-> +		cond_resched_tasks_rcu_qs();
-> +	} while (switch_replaced_cgwb(wb));
-> +	wb_put(wb);
-> +}
-> +
-> +/* called with cgwb_lock held, possibly with interrupts disabled */
-> +static void cgwb_queue_replaced_work(struct bdi_writeback *wb)
-> +{
-> +	lockdep_assert_held(&cgwb_lock);
-> +
-> +	if (wb_tryget(wb) && !queue_work(system_dfl_wq, &wb->replaced_work))
-> +		wb_put(wb);
-> +}
-> +
-> +/**
-> + * cgwb_kick_replaced - switch inodes away from @wb again if it was replaced
-> + * @wb: wb that inodes were just switched to
-> + *
-> + * An inode switch pins its target wb before the switch lands, and the wb
-> + * may be replaced in cgwb_create() and have its replaced_work run in
-> + * between.  Kick the work again so that those inodes reach the successor
-> + * too.  A dying wb that still owns its slot is left alone: foreign flushes
-> + * can reach it, and the work would look up @wb itself.
-> + */
-> +void cgwb_kick_replaced(struct bdi_writeback *wb)
-> +{
-> +	if (!wb_dying(wb))
-> +		return;
-> +
-> +	spin_lock_irq(&cgwb_lock);
-> +	if (radix_tree_lookup(&wb->bdi->cgwb_tree, wb->memcg_css->id) != wb)
-> +		cgwb_queue_replaced_work(wb);
-> +	spin_unlock_irq(&cgwb_lock);
-> +}
-> +
->  static void cgwb_release(struct percpu_ref *refcnt)
->  {
->  	struct bdi_writeback *wb = container_of(refcnt, struct bdi_writeback,
-> @@ -724,6 +766,7 @@ static int cgwb_create(struct backing_dev_info *bdi,
->  	INIT_WORK(&wb->switch_work, inode_switch_wbs_work_fn);
->  	init_llist_head(&wb->switch_wbs_ctxs);
->  	INIT_WORK(&wb->release_work, cgwb_release_workfn);
-> +	INIT_WORK(&wb->replaced_work, cgwb_replaced_workfn);
->  	set_bit(WB_registered, &wb->state);
->  	bdi_get(bdi);
->  
-> @@ -748,6 +791,12 @@ static int cgwb_create(struct backing_dev_info *bdi,
->  			old_wb = radix_tree_deref_slot_protected(slot, &cgwb_lock);
->  			if (wb_dying(old_wb)) {
->  				radix_tree_replace_slot(&bdi->cgwb_tree, slot, wb);
-> +				/*
-> +				 * @old_wb is out of foreign flushes' reach
-> +				 * but may still have inodes attached, dirty
-> +				 * or not.  Switch them over to @wb.
-> +				 */
-> +				cgwb_queue_replaced_work(old_wb);
->  				ret = 0;
->  			} else {
->  				ret = -EEXIST;
-> 
-> -- 
-> 2.53.0
-> 
+Bug details:
+
+identify_ramdisk_image() uses nblocks == 0 to mark a compressed image.
+The same value can result from a malformed legacy filesystem header,
+including a SquashFS superblock with bytes_used == 0. In that case no
+compression format was detected and decompressor remains NULL.
+
+When the external initrd is preserved as /initrd.image, rd_load_image()
+passes that NULL decompressor to crd_load(), which panics with
+"Could not decompress initial ramdisk image".
+
+Track compression detection separately from the legacy image block
+count. A zero-sized or overflowed legacy image now follows the normal
+size validation path, while compressed images retain their existing
+handling, including the missing-decompressor diagnostic.
+
+Reproducer:
+
+    chmod +x poc.sh
+    ./poc.sh /root/bzImage
+
+The reproducer was run as root in a 2 vCPU, 2 GB x86 QEMU environment.
+
+------BEGIN poc.sh------
+
+    #!/bin/sh
+    set -eu
+
+    if [ "$(id -u)" -ne 0 ]; then
+    	echo "run as root" >&2
+    	exit 1
+    fi
+
+    KERNEL_IMAGE="${1:-/root/bzImage}"
+    INITRD="/tmp/bad-initrd.bin"
+    CMDLINE="root=/dev/sda rw console=ttyS0 quiet loglevel=3 systemd.show_status=false panic=-1 panic_on_warn=0 oops=panic"
+
+    if [ ! -r "$KERNEL_IMAGE" ]; then
+    	echo "kernel image not readable: $KERNEL_IMAGE" >&2
+    	exit 1
+    fi
+
+    python3 - <<'PY'
+    from pathlib import Path
+
+    p = Path("/tmp/bad-initrd.bin")
+    data = bytearray(4096)
+    data[0:4] = b"hsqs"
+    p.write_bytes(data)
+    PY
+
+    kexec -u || true
+    kexec -s -l "$KERNEL_IMAGE" --initrd="$INITRD" --command-line="$CMDLINE"
+    kexec -s -e
+
+------END poc.sh--------
+
+----BEGIN crash log----
+
+[    4.114775][    T1] Invalid ramdisk decompression routine.  Select appropriate config option.
+[    4.116143][    T1] Kernel panic - not syncing: Could not decompress initial ramdisk image.
+[    4.117281][    T1] CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.12.95 #4 53deed68f5e8c87eac9412ec2ca16e6c37d9fe62
+[    4.118753][    T1] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[    4.120369][    T1] Call Trace:
+[    4.120845][    T1]  <TASK>
+[    4.121266][    T1]  panic+0x544/0x620
+[    4.121840][    T1]  ? __pfx_panic+0x10/0x10
+[    4.122436][    T1]  ? srso_alias_return_thunk+0x5/0xfbef5
+[    4.123231][    T1]  ? srso_alias_return_thunk+0x5/0xfbef5
+[    4.123961][    T1]  ? kfree+0x143/0x4a0
+[    4.124541][    T1]  rd_load_image+0x970/0xae0
+[    4.125192][    T1]  ? __pfx_rd_load_image+0x10/0x10
+[    4.125867][    T1]  ? init_mknod+0x16c/0x300
+[    4.126499][    T1]  ? kmem_cache_alloc_noprof+0x208/0x3e0
+[    4.127230][    T1]  ? __pfx_init_mknod+0x10/0x10
+[    4.127881][    T1]  ? srso_alias_return_thunk+0x5/0xfbef5
+[    4.128618][    T1]  ? __asan_memcpy+0x3c/0x60
+[    4.129223][    T1]  ? srso_alias_return_thunk+0x5/0xfbef5
+[    4.129975][    T1]  initrd_load+0x48/0x350
+[    4.130559][    T1]  prepare_namespace+0x8b/0x2d0
+[    4.131202][    T1]  ? __pfx_prepare_namespace+0x10/0x10
+[    4.131935][    T1]  kernel_init_freeable+0x6d0/0x960
+[    4.132634][    T1]  ? __pfx_kernel_init+0x10/0x10
+[    4.133296][    T1]  kernel_init+0x1f/0x1e0
+[    4.133877][    T1]  ? _raw_spin_unlock_irq+0x28/0x40
+[    4.134574][    T1]  ret_from_fork+0x31/0x70
+[    4.135152][    T1]  ? __pfx_kernel_init+0x10/0x10
+[    4.135808][    T1]  ret_from_fork_asm+0x1a/0x30
+[    4.136505][    T1]  </TASK>
+[    4.137158][    T1] Kernel Offset: 0x9000000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+
+-----END crash log-----
+
+Best regards,
+Zhiling Zou
+
+Zhiling Zou (1):
+  init: distinguish compressed ramdisks from image size
+
+ init/do_mounts_rd.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.55.0
+
