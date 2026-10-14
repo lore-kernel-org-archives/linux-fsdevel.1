@@ -1,204 +1,124 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEAA519DE1;
-	Wed, 14 Oct 2026 13:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791986035; cv=none; b=XnUN5uh1X/KuA2m2DP/hTreqwdwqoU3QwZXrta4Rxm+7scEFlzfsfc5F9Hqo6UPEdwj1yDB2IUn9a3kvuK1KEMoWbHfQIoHzV4A1fYljsnSAMgRnMhHHEx2ePTyUZNfgzKUqWoXoz2tnAclkVjZqwQjjIO4aF1NzX+1k+/C3hec=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791986035; c=relaxed/simple;
-	bh=FY/Y1v2iphqNQXBdfxVM2bdNOoy2eFDzxycsgnfoaOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z+9Kt3kGdHpvsJ8H7mrmFx5Z925tzTHeP/c3Ojte5YyluwDhhQGbVa1xlD6mhJ9Q90j1nCkNPnuSCzXE1kq0Crm8fLzRUFQ9nkhkJi1qP/Rnk7XRB1KAlitbDd8bhfuorobuSvhxvUW47rIaXcqA804p4Npey3CrD7dcW1ZEKa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ThH/PLvo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CEv0Vm+A; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ThH/PLvo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CEv0Vm+A; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71859541E62
+	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 14:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791988708; cv=pass; b=fZGjKC+ANvI2oTB6ir5ugV8aOacUH5NCmRQs+/I2eXjvQ1In5OV+JtgTTLthswMvG82LMsO6mbuvYnwOQeYovvXWZc8H3UycBZlCX+9HWQS4DSp0htG2AKzhnwKXOFu/TfQA4ncnlcZnKXU9JDCRIg77DH5lIYKY7zIl/7udIzk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791988708; c=relaxed/simple;
+	bh=Ht8GLTCoCKkoVxwpD5KYA+Pz/0xMc+C2begOQBfsCnM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LLiqn7fiCV028xCS36qWImGRmqKGHD8E8ul0XT/YwhFwK/eIjHIbQKoitTIwAAsxxgLGYPA7CR2cWlafLufoJBAP5vrpICWnVUcy1eunHeCFwMXkLKYNiU4b6Me7mJa7auAUZe5r//n3PN0eTYSWOPjuAVWvjrpELwwi2igbb4Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cngxshHk; arc=pass smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ThH/PLvo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CEv0Vm+A";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ThH/PLvo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CEv0Vm+A"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2A3C01FB67;
-	Wed, 14 Oct 2026 13:53:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791986026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
-	b=ThH/PLvo9pUHVNc41lZOefyT+F8GPMeD5ZkPd1GDwn/YCn2uhBr+1YfaDv+2BOqu9gt0v7
-	3pIEJqBcEylfJItgi77Aw8rh3Yz5HyS4+AWCveSNFJBQ6NZBBxdeI6mcfAFr4fiVUwnCvT
-	jimWoXXktTfGczEYSrVuA1SIL+ObSKk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791986026;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
-	b=CEv0Vm+ASRNt9Zk7drNEtvyFSJ8owB/j/x9FvOVYNo4CwrqKnVQvUPAV4llmauSkt6Pxa4
-	HKw8SPD9y/TX/MDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="ThH/PLvo";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=CEv0Vm+A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791986026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
-	b=ThH/PLvo9pUHVNc41lZOefyT+F8GPMeD5ZkPd1GDwn/YCn2uhBr+1YfaDv+2BOqu9gt0v7
-	3pIEJqBcEylfJItgi77Aw8rh3Yz5HyS4+AWCveSNFJBQ6NZBBxdeI6mcfAFr4fiVUwnCvT
-	jimWoXXktTfGczEYSrVuA1SIL+ObSKk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791986026;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
-	b=CEv0Vm+ASRNt9Zk7drNEtvyFSJ8owB/j/x9FvOVYNo4CwrqKnVQvUPAV4llmauSkt6Pxa4
-	HKw8SPD9y/TX/MDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D61D2133F1;
-	Wed, 14 Oct 2026 13:53:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9hLHK2mJz2ppWAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 14 Oct 2026 13:53:45 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 7BB03A140F; Wed, 14 Oct 2026 15:53:36 +0200 (CEST)
-Date: Wed, 14 Oct 2026 15:53:36 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org, linux-afs@lists.infradead.org, 
-	v9fs@lists.linux.dev, linux-trace-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH 0/8] fs: fix a range of UAFs during rcu pathwalk caused
- by non-rcu frees
-Message-ID: <mlo45jj5jwsdysv3jrh6vw64yqzfbrfjbyw4tu54i4gdlgi3qd@56ch32zakgt5>
-References: <20261009-work-fixes-rcu-v1-0-7446d2d335e6@kernel.org>
- <r72foycb4ol4hywl5m2sj6h6yxee3nladaw7g2zdxhejmhrkgc@v24cfppcak2h>
- <20261012-gaukeln-zeltlager-etikettieren-73ae50ccac01@brauner>
- <voobrqryqulmrq7gyt5vdwuiqd3wrhsrgfcadszclcgs6smw64@qb7yne64airm>
- <20261013-tante-unwiederholbar-summieren-de1079d8fb05@brauner>
- <20261013-hektik-kommunal-zischen-f7e37ee3ddff@brauner>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cngxshHk"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b1dae0febeso1316993a12.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 07:38:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791988705; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QUWW+/bxqI79/G/emYePV/1+cFBOdgvAGNmVFakNpghn97WETmvdj+LgzBZbNEg4hK
+         bvIyBmo0e6o5YzCwFJ8D1wEijIq328b2MoQeSpqlmLp7RjFvKDXprI7oNZ7jD39Upu0I
+         sISCoT7CgyAxOntPXo6vcCB2c23pwfCBi/ex9FefbBRg36fwMwrQcRPD3LRfZovH/K1W
+         TvsggH/NMelF+KPMZLH07jG0K0dGJjjJCceYTIB8nYd+XbmWVuoWvYYeytaehLqMO9Oo
+         IhQ62C0XiTELm9AedZsrMj5r5MGjRCngp7uSuIRCprwpOG/zgyBQrwLry02H4LXRcJfu
+         LC6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Ht8GLTCoCKkoVxwpD5KYA+Pz/0xMc+C2begOQBfsCnM=;
+        fh=RvpzfrSx4Rq67b3SQzITkqRgch7mC1mdxO5R/YPKh7Q=;
+        b=oNwQubPjA096i4uc9+mZb4MIZkItnI0KUHxk5EIH7gmzRW74ChMweMQQB/Kt+lYdgj
+         jlWghyzs87YX9OFTIZn2PUHePfG36T8dXgl+XpmB19FSCEADhzDW8hX6eNW9jSUBCMUR
+         Ca5hHnke4mKNQkS6amNoxt+GZdRe+s3hSVh7bV3pIkkWf+lgWknGDWzfTo+SvfsOVCkp
+         vAS+ERdmRDhvYcGswhtzzz9Qfgju+8/4Tk1RDTfP3wMDPThdATa3cSOk+7VivTJchbbX
+         9LUFb7xV9ir0xOz97lmFPEzcVKsZMigSO/KwwxaZU/u7C4naXePTyenTr8H3xcu5KEkA
+         Z5ZA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791988705; x=1792593505; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ht8GLTCoCKkoVxwpD5KYA+Pz/0xMc+C2begOQBfsCnM=;
+        b=cngxshHkw8vpezJT+yDObXyASEd/+1ZURQ3kSvVkslJTVzG3tDddeyu6Itpilt2JMA
+         ec1WM/YYgS3Rq+vyX4T4IeWYoQ6OxvUiPFQKj/JmDAP4bVMSF7iOJ9EhmAZeTB6IBdyW
+         hrr5fD+726lY+ajAr5CUAAonz79E10XEa2mHWfe7oiuU+5I4HQVr9qTl+RLPz1Diqx29
+         GtSbTklK5jEE1PNTzOz4Evx6U/DUQ6OIJjmi6onPw4b4rseZ8zc4j/e6G/SDgBZfMjcD
+         q01QWWumP4wG0aQUh+R5aOlmSu3VVONxsq4Rn1Mj6JpmuA+W5oTi/cpSHA+wcMS+164o
+         h7Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791988705; x=1792593505;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Ht8GLTCoCKkoVxwpD5KYA+Pz/0xMc+C2begOQBfsCnM=;
+        b=ExJQZ4r2WINxgWKSTvDURbiL+aTFT8ThqwB+frb0GrDu6d57f2ny6mM7TGBjDOvOjj
+         XKP7TnZzEKu/JoiTs34nYvbe9GIIgx+JupShfNoZZh5/KRGmafMaO1PsCRmpUPt9KiMD
+         xw7EVYhQjAXhuBiHKELjGW8v8JATBTcWotA1OvsMDXh7GXhUkXbRNTA7/AowTIs3asu1
+         hboT83J+uMMstQSzUtNrdHx9PJ88HwNuHQDHSJrfI42KzL/KK8k1ETsCYWSLiJyrLq6d
+         5BTD3TQzrXw2Ga+JFCW8vWaYvwa2+gY5UTs9ml9ArP9nVCSce4773CjD9v7jNFDPVVAS
+         l4qQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx1P0tgKYYiRJrcVkiPUgjFUOj+FJm9+JJAtADsRCMQPqnzeFdBhmSzpVne0TRVi1rxvrG+Ja0DGL/kMD9z@vger.kernel.org
+X-Gm-Message-State: AFq9FYIPBruBD/PVZzGbE8HGqJ0zb+j4RkirJGDiGhDAqst7bc9OKG4t
+	Gch1gxuaMxh47ry037YN5H8F6b/aneB+Up8+yKE2i18Ju74coOzICnZ3b4vcdlIYHD1HUgt1WOL
+	hh2MC6STav0/H6PXqR7IybGmCWVxcig==
+X-Gm-Gg: AYBFou3sT09dwsvJq6gh6oPgx9/+M7Yk76gjgDtLEXTR8QGxSouCRdrICFYFISkjveK
+	/Ds7ZToXa6xiYz/ScIudq8+9T5csxwhBHGbYX10OXIf6UfVrQLnHyR7tbg1vwNmy+1za00V+KD3
+	VtV2g+l3W3L54KjZ603OmMV8mD/pbMfKONX8kNQJ7i5H1OeXJblO8BhRVXn5QZxRqaAzmRp3qbn
+	Ld3A35LGXSpCjM8ub42k4Nrq6eLJotuUxHKZCE6hYcN7W/fd4zQaCyZhpE4fdiQFrJMh/pLBdXy
+	pCVitswEg9mSMhQ+6fBJ3cmg5AWnvTE/L+L+mi31k6gSgN7iY1o4fmqfIvVdRF1Lsveqv6YHurE
+	3Sk1H9K1cf9qVioQ6bXTSjrOj3hbtNMcg1HDLLqg=
+X-Received: by 2002:a05:6402:1912:b0:6ac:b9b5:8e8b with SMTP id
+ 4fb4d7f45d1cf-6b17c2a3670mr12616709a12.15.1791988704432; Wed, 14 Oct 2026
+ 07:38:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261013-hektik-kommunal-zischen-f7e37ee3ddff@brauner>
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 2A3C01FB67
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+References: <cover.1791975048.git.asml.silence@gmail.com>
+In-Reply-To: <cover.1791975048.git.asml.silence@gmail.com>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Wed, 14 Oct 2026 20:07:46 +0530
+X-Gm-Features: AclHuK8DZ9QwF2AgJ3SDr4lT4xl3Cf9evBnlWqjNFK8bj0mT2h6JXCYZXSbhb_A
+Message-ID: <CACzX3Ases=5auovox0XFNheDHY9iNmxv2BvB0dugC-W3mnjGLw@mail.gmail.com>
+Subject: Re: [PATCH v11 00/13] Add dmabuf read/write via io_uring
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-nvme@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org, 
+	Christoph Hellwig <hch@lst.de>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>, 
+	Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, 
+	Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>, 
+	William Power <william.power@intel.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
+	Mikulas Patocka <mpatocka@redhat.com>, Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue 13-10-26 21:25:55, Christian Brauner wrote:
-> On Tue, Oct 13, 2026 at 09:23:07PM +0200, Christian Brauner wrote:
-> > On Tue, Oct 13, 2026 at 12:47:58PM +0200, Jan Kara wrote:
-> > > On Mon 12-10-26 12:42:06, Christian Brauner wrote:
-> > > > On Mon, Oct 12, 2026 at 12:36:15PM +0200, Jan Kara wrote:
-> > > > > On Fri 09-10-26 23:51:50, Christian Brauner wrote:
-> > > > > > While working on eliding the grace period in namespace_unlock() I went
-> > > > > > through what filesystems free when they're shut down and what a pathwalk
-> > > > > > in rcu mode can still read at that point. Since 66a97c2ec953's rcu
-> > > > > > pathwalk fixes that's the filesystem's job. Whatever ->permission(),
-> > > > > > ->d_revalidate(), ->get_link(), ->d_hash() and ->d_compare() look at in
-> > > > > > rcu mode has to be freed after a grace period. A few filesystems don't
-> > > > > > do that.
-> > > > > > 
-> > > > > > Most of it is hidden by umount(2). namespace_unlock() waits for a grace
-> > > > > > period before it drops the mounts, so a walker that was inside the
-> > > > > > filesystem is gone by the time the filesystem is shut down.
-> > > > > > 
-> > > > > > But the last reference to a mount doesn't have to go away in umount(2).
-> > > > > > A chdir() out of a lazily unmounted directory or the close() of the last
-> > > > > > file on it drops it without a grace period. A walker can then still be
-> > > > > > in the filesystem while ->put_super() and ->kill_sb() free what it
-> > > > > > reads.
-> > > > > 
-> > > > > Good catches! But I find it very counter-intuitive that pathname lookups
-> > > > > can still be running against a filesystem while its ->put_super is called.
-> > > > > People will keep forgetting about that and as a result these UAF bugs will
-> > > > > be introduced again. Isn't it feasible we'd guarantee to the filesystem
-> > > > > ->put_super() gets called only after all lookups are done (i.e., after RCU
-> > > > > grace period expires)?
-> > > > > 
-> > > > > I understand this is a hairy bussiness because this has userspace visible
-> > > > > implications (like when filesystem's sysfs files disappear, when the bdev
-> > > > > really gets unused, etc.) but keeping all filesystems safe to run RCU
-> > > > > lookup after ->put_super() will be IMHO a headache.
-> > > > 
-> > > > I don't think delaying put_super() or freeing the superblock helps.
-> > > > That's not where the issue is. The issue is with sb->s_fs_info being
-> > > > available after a grace period and that can go away in different
-> > > > locations ->put_super() or ->kill_sb().
-> > > 
-> > > So my thinking was: Cannot we separate the teardown of mounts and the
-> > > teardown of the sb by an RCU grace period? Then by the time the filesystem
-> > > gets to any freeing of filesystem related structures all RCU lookups are
-> > > guaranteed to be done so there's no problem with them accessing possibly
-> > > freed structures pointed to by the sb.
-> > > 
-> > > But then I've read more of the changelogs and AFAIU getting rid of the RCU
-> > > grace period waiting in the unmount path is actually your point to speedup
-> > 
-> > So I prototyped your thing and all version I could see working end up
-> > penalizing umount and filesystem shutdown quite heavily. Maybe I'm not
-> > imagnative enough but everything involving synchronize_rcu* should be
-> > kicked in the n*ts. Because if you're going onto big machines your
-> > workloads will get said kick.
+> Tushar, William, Phil did a lot of testing and experimentation on various
+> devices with previous versions of the patch set, and I've received lots
+> of help from Anuj, Kanchan and Nitesh with investigations, testing, and
+> patching. Earlier benchmarks by Anuj for IOMMU optimisations with udmabuf
+> showed:
+>
+> STRICT: before = 570 KIOPS, after = 5.01 MIOPS
+> LAZY: before = 1.93 MIOPS, after = 5.01 MIOPS
+> PASSTHROUGH: before = 5.01 MIOPS, after = 5.01 MIOPS
 
-Thanks for trying! I kind of expected that it won't be acceptable after
-reading all those changelogs.
+I've been involved in the development of this series, so I won't add a
+Reviewed-by tag, but I tested it on NVMe with both an AMD GPU dma-buf
+and udmabuf exporter, using the liburing tests and custom fio plumbing.
 
-> And one thing I forgot to say: that requirement exists today. It is
-> entirely accidental that this wasn't an issue in the umount() path
-> because of the synchronize_rcu* in there. But said grace period doesn't
-> exist if you e.g., chdir() out of a mount and put the last reference
-> while still in lookup. Then said filesystems are fscked today because
-> that is a requirement. And various reproducers in this series illustrate
-> that.
-
-Yeah, I understood that from your description. The RCU grace period delay
-would have to be somehow added to those cases as well.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Feel free to add:
+Tested-by: Anuj Gupta <anuj20.g@samsung.com>
