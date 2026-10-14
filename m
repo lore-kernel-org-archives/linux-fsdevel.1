@@ -1,141 +1,203 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DF14E01E4
-	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 13:43:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEBB52FE42;
+	Wed, 14 Oct 2026 13:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791985403; cv=none; b=l4oiOVs0sBZa+W/QU7kxsbDkYNDJy8Ux6il8wbjuCkBdKrEovLfGeAm/ThYaREOsxybhdAxSlybiPEqMkZ2QM4+YVwvmQP/5JoBZYAHG2UhIQZzyWVE76jfehXu194qE40EgwCOLOBoHxOWCwxLePA1THjssohpDk3ZuqW2DlGQ=
+	t=1791985663; cv=none; b=rOZcUCwf0LuOStKrxgzW0pYCfgewfM/Kodm3ZyXH+m8mNws6+nTZ0dUTy0quiUnn/3x6tqplTh6+h0KSsnVbMFD6h0ZHvUnCaGnM8JdViRqS70gS1bdnZ88yHSLvnDxC2lP1YS5do0g+/pGfSiKNKqLroedZRIOSTdvE1PXPEcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791985403; c=relaxed/simple;
-	bh=W4/9IswMV+nhf+i4xgS+WWcxFQT9qKFQQYu/KCal4N4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fQXvJX5Xr+m6dph7z65HYrJDxeYYUMLLtHjSWtVSYG+n1JspSmgL9Q5rE6kzpSGHyoPLGGyhzjXYCV+uA3DuhXw/iHzwRwlY8obdD1e9kOyvxd9WH7yWYyhqjKYj1fjn8L+MtQuS7N9Cu3NE4xNW7xAgVGqfM0cJPBlxZP0UBDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=kLROKmT2; arc=none smtp.client-ip=209.85.161.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1791985663; c=relaxed/simple;
+	bh=uLec5Ms1kEItxT/9M3m+iatVoLfvlo+Ku3r+6YxXaVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=phCBR6//HXrne9fXQuP5Y8SlKSN8HTEjA2q3Jc4Sajhj8+u1uUOHMyUHoTWCDTdEAzUTBJE3/IZJndBSh1RxXY2sWaD31bfg76jprO9ONdpaNf+CJguXn6+qH+rNM0OxUhvPqk7EUsm6GBMbQIaANXa0Vvd+R0yHPNISsRLC1lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KER6SV+3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=5kV45Nl3; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=S0AnEx52; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gG1ABpRO; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="kLROKmT2"
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-6de08b2e447so1751318eaf.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 06:43:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1791985400; x=1792590200; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id
-         :subject:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/UfknVFgwY+ADn2+7Gfp8pJoPMV5PqQ31vPcFrLztQY=;
-        b=kLROKmT26XaiJ9Jhx/wSfPTgmiYMtcIZKIZZ4NvhjUUlLz+jhC/LMtiEpZk9Lz+n7a
-         5eBxNA/8dAK3Op6v28cXcfBdC6igqgkunU1dLbToiMNS0ffL8LwwDoUYkxMAOGcBmz9f
-         MOh64iVsLhij/9aexdZmjFZar8Z/kXuJtHhwrJIGodFii7WHY5ThNjfG34lGyYY++nIh
-         PHzfSrECEsmCq7q1ESdsNl09xl3zIKuJo0eZctV4Wm+y4rHG5oh3UMVFLjqsb3BHFPkj
-         i6PuBYLGJR4U2dwTAmvmkhsj9ChAfhLVVW7ZEveleh3DTB22nU+MJi8/vA9UPT9Qu0z2
-         oOSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791985400; x=1792590200;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id
-         :subject:references:in-reply-to:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/UfknVFgwY+ADn2+7Gfp8pJoPMV5PqQ31vPcFrLztQY=;
-        b=LMuO4gaRKSbc1Zlz+JokRx67vv46rx2BNg0WJYrumZamRLbmHdCVAoyDNP6dSXi860
-         NHl/xIoqjdDQNXr7VqwRO8SLE4dzzTcZAA8d/Jk4etTBNz6lk+wjm4w4K4fv0qBBz0C3
-         rp32ZKHwgdCgpnfIMHTbnTns6i4/eQwsuZCT5mX4R1kKDIYsT0MvQFZQ/kwxvT1q61zI
-         h2Yl7EIHc08xD0kySbjJEGu6jYlnUWv673wueAIi2Lh5NNrblgsHrN0nCuw8MrzMaU4r
-         8kNYi1zLUfmb3G7pVZBiSX4JVmiX8EH1Ff6ahniSNNCPc/AtB5/qdCRG8T4Zd+8C5HD0
-         KK2A==
-X-Forwarded-Encrypted: i=1; AKwUvBxu7rwQERY90yZ6VpB9+Rqp0ylweq0zlbpVN8YiiLuLFrust+zcidXZh2IweAi3gE1y7w1tGsWkC4a8sqxh@vger.kernel.org
-X-Gm-Message-State: AFq9FYJmM53pyEeB62nIqC/oxtUr4eThcf87dBtE5F7QRsWSO3kAcd87
-	JXfGXqcTGQMR0GLVb+kTWpeBRfgoBDeu5EZW+1q3r+ai3UvigpV+bC2pee0IRUdOtBw=
-X-Gm-Gg: AYBFou2GC/jtPYaFtdL72Igx+lV5mYXVBtZ2TlluZcljR2x2RT7TIB9YGZJ/Ys8+/is
-	RDpNUMDA6xqUBC20PRGbrf3wto5EvgvxK5DcVhE9XVJpfbqGVFeu4V5EYfzJLdflrtu4CvFrOcC
-	rQuE+qUgNiDvfBz8Xh1Y0s9xAPaWdyo2TxWRMuWeL6+dYuYdbqvMiZCkPD1kESShpE1n/2KhP9L
-	F/uHnFsq70sULTzaa6AhugmuAfuOhynVohNfRygKvkoPbzZQ6HUtF0uQCc1GjGZhdFqRDlIJSSQ
-	Z6fnv+WIgAKzUUIUgT4OE8PfZL+58tOb8Fy/6u2zU1wzc53jCq1nynaUZOAwoOb8nq1/nBRb86b
-	gALZcDdUAtf3tWkg7vyUPkdidGGmzQzKxX1MFNWGdOkRUC+0c+e4Eao9iPHYrMoRtufgJKq99p9
-	sWjQB2bVthITJ7M3Tf+WLMCPD5khze7GDJy1IBHtfUQ7AAO7IMH9d3ZxpIGSNrMgidnL86nQVB+
-	H54W2R4E5uGahTsX5ldFWJ8H7z31cMrrs4KA8Q5E3Iker3hCeKZqI9clw==
-X-Received: by 2002:a05:6820:1c8d:b0:6fd:3c3e:3c66 with SMTP id 006d021491bc7-6fd3c3e3e7fmr1002063eaf.3.1791985400251;
-        Wed, 14 Oct 2026 06:43:20 -0700 (PDT)
-Received: from [192.168.1.106] ([198.8.77.135])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a6dfb4e92asm2073695fac.6.2026.10.14.06.43.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 06:43:19 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: linux-block@vger.kernel.org, Pavel Begunkov <asml.silence@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
- io-uring@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, 
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>, 
- William Power <william.power@intel.com>, 
- Matthew Brost <matthew.brost@intel.com>, Alasdair Kergon <agk@redhat.com>, 
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
- Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
-In-Reply-To: <cover.1791975048.git.asml.silence@gmail.com>
-References: <cover.1791975048.git.asml.silence@gmail.com>
-Subject: Re: [PATCH v11 00/13] Add dmabuf read/write via io_uring
-Message-Id: <179198539824.583283.3195125120949504062.b4-ty@b4>
-Date: Wed, 14 Oct 2026 07:43:18 -0600
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KER6SV+3";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="5kV45Nl3";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="S0AnEx52";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gG1ABpRO"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D252822258;
+	Wed, 14 Oct 2026 13:47:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791985659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DY9RqNIokuQ1DH3X9Yc1BCOmA2bOCbyTbnsYeJcms7U=;
+	b=KER6SV+3E5T8faaU3djQpSC8B9QPNgiQOksk9btYa1oyN+g/YdhOBY6t1StzY1g3bSF0IJ
+	zd1FvSem8kaP2TbkqojJhhhFOthOVUjirK7sCmgbkHZZx82aJ9Io4OE8IvNRplBb+KGXEf
+	1xnlhspPxY1CCNo9bMSSg22YlcPY1WI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791985659;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DY9RqNIokuQ1DH3X9Yc1BCOmA2bOCbyTbnsYeJcms7U=;
+	b=5kV45Nl3phoxgImBDhEqInuMMmAek0XiQQPFlXI/cnE3ZS5Quvx+F2axMbnAyEMUB1fkx3
+	FIYEJ2frN9CQ5KBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=S0AnEx52;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=gG1ABpRO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791985657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DY9RqNIokuQ1DH3X9Yc1BCOmA2bOCbyTbnsYeJcms7U=;
+	b=S0AnEx52KGncKxtGJdhOJnkNKWblqAhU1fDfPojL39mMiKeDrabTNcq7zrzX9j4BiwbLyH
+	OakWO7MFjbmum5NnwrDWXKsOJm95K6rjrzLtmGKio9hh9a9ZDKInBQ8G3OJJr2jLduCpIm
+	cY4ShwlOEbCtlHljqjRWtydkmyqg6nY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791985657;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DY9RqNIokuQ1DH3X9Yc1BCOmA2bOCbyTbnsYeJcms7U=;
+	b=gG1ABpROq+bYTWDuUnYSBShOJ9fbmudAese1phkK/c9rHSbMI+6wnPeO8BO8ATprL8kHK6
+	exH5zVUd6CuBDKDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9348F133F1;
+	Wed, 14 Oct 2026 13:47:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ACfUG/mHz2oSUQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 14 Oct 2026 13:47:37 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 84A41A140F; Wed, 14 Oct 2026 15:47:36 +0200 (CEST)
+Date: Wed, 14 Oct 2026 15:47:36 +0200
+From: Jan Kara <jack@suse.cz>
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jan Kara <jack@suse.com>, Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net, 
+	linux-nilfs@vger.kernel.org, exfat@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	ntfs@lists.linux.dev, ocfs2-devel@lists.linux.dev, linux-btrfs@vger.kernel.org, 
+	gfs2@lists.linux.dev, linux-efi@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	linux-xfs@vger.kernel.org, stable@vger.kernel.org, 
+	Karl Mehltretter <kmehltretter@gmail.com>
+Subject: Re: [PATCH RFC 00/28] fs: don't set SB_RDONLY after filesystem errors
+Message-ID: <k7zduo2ewgvrmic2gc4wssakq4ystwqpuwo6a5llx2gzc64xzl@k2pjjijh5kye>
+References: <20261012-work-fs-sb_rdonly-v1-0-60743a3dc326@kernel.org>
+ <my2k7257m265fp5ad77n5hfndl23i56gsog3jwnsyocp3yxbnj@aphfqdiej2hs>
+ <20261013-forsten-ammoniak-geknackt-fefec366cc97@brauner>
+ <CAHc6FU5JuYU8R4=agxgWBoEKrUGyWiitzRn5MwXiV7NZYt=_ag@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHc6FU5JuYU8R4=agxgWBoEKrUGyWiitzRn5MwXiV7NZYt=_ag@mail.gmail.com>
+X-Rspamd-Action: no action
+X-Spam-Score: -4.01
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,suse.cz,suse.com,zeniv.linux.org.uk,vger.kernel.org,lists.sourceforge.net,lists.linux.dev,lists.infradead.org,gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Level: 
+X-Rspamd-Queue-Id: D252822258
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-
-On Wed, 14 Oct 2026 12:01:58 +0100, Pavel Begunkov wrote:
-> The patch set allows to register a dmabuf to an io_uring instance for
-> a specified file and use it with io_uring read / write requests. The
-> infrastructure is not tied to io_uring and there could be more users
-> in the future. A similar idea was attempted some years ago by Keith [1],
-> from where I borrowed a number of changes. Later it was brough back up
-> to life by Tushar and Vishal.
+On Wed 14-10-26 12:04:08, Andreas Gruenbacher wrote:
+> On Wed, Oct 14, 2026 at 12:20 AM Christian Brauner <brauner@kernel.org> wrote:
+> > > I'm in favor of this. Just after checking couple of filesystem changes -
+> > > won't we be better off by using a generic flag in super_block for this so
+> > > that VFS can check for it? Then each filesystem won't have to implement
+> > > its own wrapper for simple_fsync(), quota operations, and whatever other
+> > > generic operations that need to bail on shutdown filesystem...
+> >
+> > Do you mean something like?:
+> >
+> > From 28c97f2142e255eb835d26deb97b00afccfb7c4a Mon Sep 17 00:00:00 2001
+> > From: Christian Brauner <brauner@kernel.org>
+> > Date: Tue, 13 Oct 2026 21:15:36 +0200
+> > Subject: [PATCH] fs: add a generic emergency read-only state
+> >
+> > The filesystems that stopped setting SB_RDONLY after an error refuse
+> > modifications themselves now. Each of them grew the same checks in
+> > ->open, ->setattr, ->fsync, ->write_inode, the directory operations, the
+> > quota operations and ->reconfigure. Jan suggested a generic flag so the
+> > VFS can do that once (cf. [1]).
+> >
+> > So add SB_STATE_EMERGENCY_RO in a new sb->s_state word. It is only ever
+> > set with set_bit() and never cleared so it can be tested anywhere
+> > without any ordering against the setter. A filesystem calls
+> > sb_set_emergency_ro() where it used to set SB_RDONLY. SB_RDONLY itself
+> > stays untouched so freeze_super() and thaw_super() keep seeing a
+> > consistent superblock.
+> >
+> > The VFS then checks it wherever sb_rdonly() gates a write:
+> >
+> > - __mnt_is_readonly() so mnt_want_write(), opening files for writing,
+> >   access(W_OK), nfsd and overlayfs see a read-only superblock
+> > - sb_permission() for vfs_create(), vfs_unlink() and friends
+> > - notify_change(), rw_verify_area(), vfs_fallocate(), vfs_fsync_range()
+> >   and do_page_mkwrite() for files that were opened before the error
+> > - reconfigure_super() refuses going read-write
+> > - sync_filesystem(), sync(2) and write_inode() don't write anymore
+> > - the dquot code doesn't write the quota files anymore and quotactl(2)
+> >   refuses to change anything
+> > - "emergency_ro" is shown in the mount options, /proc/mounts shows the
+> >   superblock as "ro" and statfs() reports ST_RDONLY like they did when
+> >   SB_RDONLY was set
+> >
+> > What reaches the filesystem without passing through the VFS it still has
+> > to refuse itself. That's its allocators, its journal, its own writeback
+> > and the deletion of unlinked inodes.
 > 
-> [...]
+> For shared filesystems like gfs2, the concept of an emergency
+> read-only state doesn't make sense because in that state (in gfs2
+> terms, a withdrawn filesystem), we cannot do any more cluster-wide
+> locking and so we cannot allow any more reads, either. Could we define
+> the new flag in a way that would allow filesystems to enforce stronger
+> guarantees? This would suggest a flag name other than
+> SB_STATE_EMERGENCY_RO, though.
 
-Applied, thanks!
+The problem is that a lot of local filesystems really want the emergency
+read-only state (and not full fs shutdown). So if you want to fully
+shutdown the fs on error, either gfs2 has to do it on it's own or we could
+introduce another sb state for that. But I think emergency-ro state needs
+to stay...
 
-[01/13] dma-buf: introduce initial file I/O infrastructure
-        commit: 0d3120db2cbe0a8793650e19f0923968a406ca2e
-[02/13] iov_iter: add iterator type for dmabuf maps
-        commit: aeb3bb52052b3548b3acf0cc5606dbb5babb228b
-[03/13] block: always adjust bi_offset on bio_advance_iter
-        commit: 801503b9a66f7c2423b5e495d8e77e0f4447e5d4
-[04/13] block: introduce dma map backed bio type
-        commit: d88e44f43e939e6ac0ca8302c6f3c957b33aa5fe
-[05/13] block: add dma-buf support for raw bdev
-        commit: 839231d193932ca0d592c2859669066f7c43731c
-[06/13] nvme-pci: rename nvme_pci_sgl_set_data to nvme_pci_dma_iter_set_sgl
-        commit: a03648e2efda070322cd4066abf4dff15be093c4
-[07/13] nvme-pci: implement dma-buf backed requests
-        commit: ce5e386c110815e3a29e3ba27d97575c28589c39
-[08/13] nvme-pci: add SGL support for the dmabuf path
-        commit: d5c8cfd41d2575c65c3f1d543017949e578a92d3
-[09/13] io_uring/rsrc: introduce buf registration structure
-        commit: 727a66ad21b013555eedfd84559cd4707717463c
-[10/13] io_uring/rsrc: extend buffer update
-        commit: a5819c456b716fa8bcb7792b942ab02b15e07fc5
-[11/13] io_uring/rsrc: add uncloneable regbuf flag
-        commit: 13b1690bb4767d3f1c847baf71a704c5f2da99e2
-[12/13] io_uring/rsrc: add regbuf import flags
-        commit: d218f3e381908da0e68429f3a4b764e666564c60
-[13/13] io_uring/rsrc: add dmabuf backed registered buffers
-        commit: 62e4bf5b25d4458cf8aa9dece9022359f39f2294
-
-Best regards,
+								Honza
 -- 
-Jens Axboe
-
-
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
