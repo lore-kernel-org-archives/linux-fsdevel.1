@@ -1,195 +1,166 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from va-2-113.ptr.blmpb.com (va-2-113.ptr.blmpb.com [209.127.231.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D26744C659
-	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 06:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791960195; cv=pass; b=NF8iIcbJLTCBFWU2YUgsvjVV/hafJbjUCL640DPCNs17YHlOSfUOAlhavGo3/Z+zWrf39GbEH+fMUL16MoeSygwAtBKaP1f78fjS5Ns/oZQ+Si3OTtPE/aANZwdhumu1Li8hFH/AMdJNXB6rvtzO89M8G03TojALgaIn+ZvBxHI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791960195; c=relaxed/simple;
-	bh=kF9c+8KKO+ipWwSE4hjYVCkfFFSKZ4K0zjQHaC5WzaA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zotll3bnxtjn915btt3w0epM+5kNKHYhzRjy4dHNDftnjrUjP5XRYsPB9FLbAg5JxOzuuPAbCdb59AuPRwgL5+40sujJXKebIPdQoFtrl/4LOfPb0cQ3TD/FRd+GVXH76TiHhLKQQyp/MzdWpf80bnHX8i+aJ/dd5n7XL2FnH/E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CLoD31v+; arc=pass smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF83147ECF0
+	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 07:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.113
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791961573; cv=none; b=lJhddZ4KQVFsp24vIbbcD1esBKkjwlx0SeGpzJBD+NT4mw12FVJ+327dRnnLwfs9/5JDSXtezb5oldkWXaxAbut/hVJBQNRXafcUu5aCkKBTPZgBuvqK3WUHh0zD61OBzKEQQEPFb7olOcKw35UAAj9JHVZIEj5kfLp7HpBn9OU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791961573; c=relaxed/simple;
+	bh=VQrXm4GB+8ax5cOdddpF4esrQmNaanITzlIWjk0oXAE=;
+	h=To:Mime-Version:Content-Type:References:Cc:Subject:From:
+	 Message-Id:In-Reply-To:Date; b=SUlfxV40QvhrXzhfPG1bGnYb6vTyJgxhK/nu6wlue1RvrLFHg0OgWcDU/72jfIuhxYK0XlC8sOpzBxG3y39KgiEQ1+oQ7mc52CqwFm5NvzsBbt0394Y9OHyNnnSDMNEk412Nvx/PdWAi7by8glsBfAlecTw+KGY/edbv9NlggKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=l1MQQ70U; arc=none smtp.client-ip=209.127.231.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CLoD31v+"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-3a980c01033so5083511fa.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 23:43:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791960192; cv=none;
-        d=google.com; s=arc-20260327;
-        b=chFy+MqgVu9Q6ks9Zf73GRpn6bh/UGaIgHYt+Ck1cgG0BYRiRSljhN5c3YDU/hyggg
-         xWU+QdQXTE61nnH2mliajsNNxtZ7ZCn9KTC7DJN5wbjIR72BRGYgaJEiGm8kUnDLNBVp
-         4AWxXOnWGerH4COp9kC9ZfikQ9vrKHrQr3P9h2XdxKEkg7gnLwMm9r7KY5kYCuHebrUS
-         3zHPdUFpCQe4Gh/aMjzYYzulLGSy1fhHTnOJevqA3IyNx+mRdvQCl0fDXSp+lqlatEJ3
-         4vmMjYU/niW/7uR6MQspCYQQ6bPSddhrOdpPUgZgu0RGMebNvMKPucYC2eCIUxpMeq3O
-         9HmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZwsjYHPheqBa+JzSbow2ZB78X+lBjsll/uWCTK8ljxY=;
-        fh=6AK2X7PTQ0sdLEM8waxGkhwlJhWjhzPrDM/6q2VDqO0=;
-        b=l1DdpQAFProrsToqKtYLCMSVhVS0uAs+WD6PwMgpyrI1KgAjc0ZeNjhMQxUUfOB/cN
-         ggDBlDdHWDVHgN9minMcoVUPIaRYBswHz4Bn95iAFvlbHqQXCuJrMN9oZuCW33Sz2Dnf
-         wtGohZfVDUvu2WDTj9aup5rqt/GalcoOz2UWIZOK6RCOvq3uFNKFJNjJNwuDIp69/vBb
-         5UtVVIjpYTus1FK+We3ombAw/CTqiYlId6sz1x+daU83pF62mmtvwdsEPDjeo+PUP1Ep
-         0Cak8mjrAhJqid66vG35EjbrqbWCbOehFKT94uj2gzbrVlfMR2So7pmQlG9YCAYqZ0bt
-         OOug==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791960192; x=1792564992; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZwsjYHPheqBa+JzSbow2ZB78X+lBjsll/uWCTK8ljxY=;
-        b=CLoD31v+l1P72fEBKMMdTK/TXv9KLYzmoKJNius6R6Byr8VKxMGnOOzvfpavPXzbz9
-         qiRs7/egnR+74oM8DggBI8FU859CG5PQ2cN5BOWJq0amkZ+nKidrM49O11RHAC7zQKLr
-         crF/kJD1Wp/UkMsdRlCXbI1ooqI9nQLlhGf+RRPWspNKKSAB5T0d0l8XJJCUFsH/YenU
-         rcPJRWd8r96/8jjRxcu1sTGCKIuD7DmSVcyt87IpbbGYgvuJZdP2sQF4thbB5jKphRgq
-         3NRw80c1OQSuhCVzr1Yju7hgD6iAwwec+4RRmi+hhInmQ5E9s7vYi1FxBzksp5io1Jlp
-         154g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791960192; x=1792564992;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ZwsjYHPheqBa+JzSbow2ZB78X+lBjsll/uWCTK8ljxY=;
-        b=xLyA9UQZqZDq7/gOCBU1xD45a8nzqQhqHdEup4jjgk7+ywSbgPXmFmPlN4hV/o8URY
-         WBRUP66OaVqRe5i5AjtUrCAItnAAyNsO4sVIqhN5kZJaI/lnDff3V74S9Qhf6MzHUbCi
-         yqAgJjJR3z0B9XQ3QQG9zlsUfB4RnQZQ/eqX6wOc/VlgmeBmaR45uoJOHZ4/EBe8v0UJ
-         UjgAMEaHWvhaHEiGjUrY8RMHZ0/oTLgBQX8mZLCTqr9c0acyF8Z/3ci5nnyCZboC8pEC
-         1Y5G6rVY+F1PhlQw13QeLO+FhuS9vhwERE9MfnrX57YHuDaA/Uc5IYi2QKNdlP9+WGRg
-         qIwQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzg/fk0yrR69GQFROG6Ydv7MPNcNjPEGTqyBOeYFT5hn1idmZ9K+sCAhtBztWq/M7H1gI4bl1mcPA8Zvyt3@vger.kernel.org
-X-Gm-Message-State: AFq9FYKcjdEAo/GZSDwrJ1HJhnbP6r9lKWmLmuRdxBvv8OPBAXKDK6JJ
-	OyfC4d+VGQyWyReaonaPuMxS7qNLKi+jQMCA9dx/Hdm3Lhv46DdG/MxgErGp9lBEnBkQ+1yVHxW
-	Wyht/8qirxmVApJcwCM/UkqJ+4ooYeMM=
-X-Gm-Gg: AYBFou0VjlvouPUiPPjrAg7jf6wYvckwbeyGart7SVk6/EBmNl46BHhPLXxYzFOQYwB
-	upllaC+MSZWoMiErTTakFuC26UIXMuaIGqkXyVkG/hGpnLz2FKV/pWNnwiFhm0t548iYp0uDeZW
-	Yr4zGXvnVjE9GAVLTq30KKfiof6xDDNgA4uSXmWGxk7wcSpwDhtmtZG5rFGIuee8jQj+KWpIZsm
-	R8ebwvlRSq73dwkHDi4IPccl33qqj3T+FgyGAin6Bzz52lOuJwi1w37wjf0cl375ZKPBSS5SFCi
-	NAwKsj/VHc/Rp4mYLIlvHweiwpP3V3usW6PMLjvzBySG6eEhwZF5k/fBkzMzv+0f4ya7bxJwi80
-	eKp+AXSgb7/f2nXnikWI4cy+OdtcvyLtEziOtt6ZJaeoQzMNvF5bc9Lqw3EplxsqK0AawJ9fthQ
-	==
-X-Received: by 2002:a2e:b888:0:b0:3a9:82c2:ec1e with SMTP id
- 38308e7fff4ca-3a9c537ed07mr33111191fa.15.1791960191931; Tue, 13 Oct 2026
- 23:43:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="l1MQQ70U"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1791961562; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=AmY4dPyqQykotqM+kN48z0R7XzUceAJIO537k4Ko2W8=;
+ b=l1MQQ70UOnvW1MObWFpTiOz4M3Lq5XFwDHQ+7RnObj4PO66jSwYIc6kNI+3bMiABi126Dm
+ gYUjpPHE8K8QMGKgaA0Uz4qVI+PRpYSLNBQhXC0Bm16Z3f9kbeY0RxTm7q0UpReAQCf/Sq
+ SxNivQY9IFHPdnLxt1Ux5PfG3Q9asuwPYTKZRg2CA4HCWmolJPxy+M/ZovbTXNUn1kfFDk
+ RzLX5qCmIlkULjg69gHYb8ctHNFAtRs4x+/4axQD/fQQutoMdHUIcreJkQSr05YxqwEzVa
+ x9dgSV8eBVx7R6q1BTgJDvyjFGnbKi7/CdNVmdvG1ZIjSK4IN3nO7xlAtBB8aA==
+To: "Chen Yu" <yu.c.chen@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260929094812.93374-1-tkhandelwal32@gmail.com> <CAPwBhz_ow3BFEns2WL69Gj2BmOHGiFOEzP7U-=FfzSvoH=DZSA@mail.gmail.com>
-In-Reply-To: <CAPwBhz_ow3BFEns2WL69Gj2BmOHGiFOEzP7U-=FfzSvoH=DZSA@mail.gmail.com>
-From: Tarun Khandelwal <tkhandelwal32@gmail.com>
-Date: Wed, 14 Oct 2026 12:12:34 +0530
-X-Gm-Features: AclHuK_roABVrEaRhuHK5p8P-AhgVeh6e8Rm4bmNzCFIfTidAX3p_1c6lDNfvkM
-Message-ID: <CAPwBhz-yAXeZTca0iFT=9fVhD8k7rUQBtjNKCw_FKPFzYFC2gw@mail.gmail.com>
-Subject: Re: [PATCH] fuse: propagate SB_POSIXACL to submounts
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	virtualization@lists.linux.dev, German Maglione <gmaglione@redhat.com>, 
-	Vivek Goyal <vgoyal@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	linux-kernel@vger.kernel.org, Tarun Khandelwal <tarun@supabase.io>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Type: text/plain; charset=UTF-8
+References: <20260908122446.56708-1-lizhe.67@bytedance.com> <as3gQ8jfa_6eBf15@chenyu-dev>
+Cc: <mingo@redhat.com>, <peterz@infradead.org>, <juri.lelli@redhat.com>, 
+	<vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>, 
+	<rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>, 
+	<vschneid@redhat.com>, <kprateek.nayak@amd.com>, 
+	<linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>, 
+	<linux-doc@vger.kernel.org>, <laoar.shao@gmail.com>, 
+	<tim.c.chen@intel.com>, <mkoutny@suse.com>, <david@kernel.org>, 
+	<tj@kernel.org>
+Subject: Re: [PATCH 0/4] sched/numa: Add per-process automatic NUMA balancing control
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+X-Lms-Return-Path: <lba+26acf29d8+c6e990+vger.kernel.org+lizhe.67@bytedance.com>
+From: "Li Zhe" <lizhe.67@bytedance.com>
+Message-Id: <53b6cafb-ed85-410b-b7df-10897205630c@bytedance.com>
+In-Reply-To: <as3gQ8jfa_6eBf15@chenyu-dev>
+Date: Wed, 14 Oct 2026 15:05:30 +0800
+Content-Transfer-Encoding: 7bit
 
-(Resending as plain text, the lists bounced the previous copy.)
+On 10/13/26 3:39 PM, Chen Yu wrote:
+> On Tue, Sep 08, 2026 at 08:24:42PM +0800, Li Zhe wrote:
+>> Automatic NUMA balancing is controlled globally through the
+>> kernel.numa_balancing sysctl and can be influenced indirectly through
+>> memory policy. That works well as a system default, but it is too coarse
+>> for workloads where a launcher wants most processes to use the default
+>> policy while a selected process opts out because it already manages NUMA
+>> placement or cannot afford the sampling overhead.
+>>
+>> A recent per-cgroup proposal tried to address this by adding a
+>> cgroup-local enable knob plus a NUMA_BALANCING_CGROUP mode where
+>> balancing was disabled by default and then enabled for selected cgroups
+>> [1]. The discussion also noted that automatic NUMA balancing already
+>> operates at task/process granularity, that the knob is not a resource
+>> control attribute, and that task/process controls such as sched_setattr()
+>> or prctl() may be a better fit while cgroups and cpusets continue to
+>> describe workload grouping and placement domains.
+>>
+>> There is also prior art from 2023 prctl() proposals [2][3]. Those
+>> versions used a per-mm mode with disabled/enabled/default states, added
+>> NumaB_mode to /proc/<pid>/status, and changed the global static key
+>> handling so a per-process enable could override the global sysctl.
+>>
+>> This series takes a more conservative variant to preserve existing
+>> administrator and workload expectations. Keeping the global sysctl as a
+>> hard off switch means an administrator can still disable all automatic
+>> NUMA balancing activity with one knob. Using a weak two-state
+>> per-process opt-out/allow ABI avoids exposing a "default" state whose
+>> meaning depends on global policy and is therefore easy to misinterpret.
+>> Storing the configured mode in signal_struct gives the control explicit
+>> thread-group semantics and avoids making unrelated non-thread CLONE_VM
+>> users share the policy merely because they share an mm.
+>>
+>> The series implements a per-process interface: a thread group may use
+>> prctl() to set or get its configured automatic NUMA balancing mode. A
+>> process can opt out of new periodic NUMA scan scheduling and NUMA
+>> scheduler accounting, or opt back in. Existing hinting faults and queued
+>> work are allowed to drain naturally as the disabled state takes effect.
+>> When kernel.numa_balancing is 0, a process-local enable request does not
+>> override it.
+>>
+>> A separate task_struct scheduler snapshot is used by enqueue/dequeue
+>> accounting so the scheduler can consistently account the state that was
+>> in effect when a task entered the runqueue. This avoids changing
+>> historical task accounting while still allowing a process mode change to
+>> take effect through the normal dequeue/update/enqueue path.
+>>
+>> The series also exposes the process NUMA balancing mode in
+>> /proc/<pid>/status and documents the new prctl() ABI and its interaction
+>> with the global sysctl.
+>>
+> Can the global key be extended to tri-state, like the THP settings?
+> To keep it backward-compatible, echoing 0 and 1 remains the same effect.
+> The user can also echo always, advise, or never to it.
+> We have a similar proposal here for cache-aware scheduling[1]
+> In this way, the user does not have to disable NUMA balancing one by one
+> across the whole system.
+>
+> Yafang Shao has a bpf-cgroup based NUMA balancing proposal[2].
+> Overall I support fine-grained control of NUMA balancing, and I'm curious
+> what the possible setting would be in the production environment, would
+> something like Kubernetes be responsible for setting the NUMA
+> balancing attribute via prctl, or as Yafang proposed, leverage cgroup
+> interface?
+>
+> [1] https://lore.kernel.org/lkml/fd341106e7e6cbd2f047656650f43ee87c6633c1.1787955777.git.tim.c.chen@linux.intel.com/
+> [2] https://lore.kernel.org/lkml/20261012120438.52849-1-laoar.shao@gmail.com/
 
-Hi Miklos,
 
-Gentle ping on this one.
+Thanks for taking a look and sharing the information.
 
-It fixes POSIX ACLs being unusable (and not enforced) on virtiofs
-submounts, so it may be a candidate for fixes. If leaving SB_POSIXACL
-off submounts was intentional, I'm happy to rework or drop it.
+A tri-state global knob sounds possible to me.
+
+For our use case, Kubernetes or the container runtime would set the NUMA
+balancing attribute via prctl(). Yafang's per-cgroup approach would also
+work for us. If maintainers prefer per-cgroup control, I am happy to help
+review Yafang's series.
 
 Thanks,
-Tarun
+Zhe
 
-On Wed, 14 Oct 2026 at 11:22, Tarun Khandelwal <tkhandelwal32@gmail.com> wrote:
 >
-> Hi Miklos,
+> thanks,
+> Chenyu
 >
-> Gentle ping on this one.
->
-> It fixes POSIX ACLs being unusable (and not enforced) on virtiofs
-> submounts, so it may be a candidate for fixes. If leaving SB_POSIXACL
-> off submounts was intentional, I'm happy to rework or drop it.
->
-> Thanks,
-> Tarun
->
-> On Tue, 29 Sept 2026 at 15:18, Tarun Khandelwal <tkhandelwal32@gmail.com> wrote:
+>> [1]: https://lore.kernel.org/all/20250625102337.3128193-1-yu.c.chen@intel.com/
+>> [2]: https://lore.kernel.org/all/20230412140701.58337-1-ligang.bdlg@bytedance.com/
+>> [3]: https://lore.kernel.org/all/20230412141127.59741-1-ligang.bdlg@bytedance.com/
 >>
->> From: Tarun Khandelwal <tarun@supabase.io>
+>> Li Zhe (4):
+>>    sched/numa: Track per-process automatic NUMA balancing mode
+>>    sched/numa: Add prctl controls for process mode
+>>    proc: Report process NUMA balancing mode
+>>    Documentation: Describe per-process NUMA balancing control
 >>
->> fuse_fill_super_common() always sets SB_POSIXACL on the superblock, but
->> fuse_fill_super_submount() never does. Submount superblocks are created
->> from an fs_context with no sb_flags, so the superblock of an automounted
->> FUSE_ATTR_SUBMOUNT directory (e.g. a virtiofs export containing another
->> host mount) lacks SB_POSIXACL, even though it shares the fuse_conn, and
->> thus fc->posix_acl, with its parent.
+>>   Documentation/admin-guide/sysctl/kernel.rst | 16 ++++++++
+>>   Documentation/filesystems/proc.rst          |  6 +++
+>>   fs/proc/array.c                             | 16 ++++++++
+>>   include/linux/sched.h                       |  6 +++
+>>   include/linux/sched/numa_balancing.h        | 42 +++++++++++++++++++++
+>>   include/linux/sched/signal.h                |  8 ++++
+>>   include/uapi/linux/prctl.h                  |  6 +++
+>>   init/init_task.c                            |  4 ++
+>>   kernel/fork.c                               |  8 ++++
+>>   kernel/sched/core.c                         | 39 +++++++++++++++++++
+>>   kernel/sched/fair.c                         | 36 ++++++++++++++++--
+>>   kernel/sys.c                                | 18 +++++++++
+>>   12 files changed, 201 insertions(+), 4 deletions(-)
 >>
->> Since IS_POSIXACL() is false on such a submount, the VFS:
->>
->>  - fails setting POSIX ACLs with -EOPNOTSUPP and hides existing ACLs,
->>    without sending any request to the server;
->>  - applies the umask itself on create, so default ACLs on the server are
->>    not honoured for new files;
->>  - skips ACL checks in acl_permission_check(), so with
->>    default_permissions (implied by FUSE_POSIX_ACL) access is decided by
->>    the mode bits alone and restrictive ACL entries are not enforced.
->>
->> Copy SB_POSIXACL from the parent superblock, as is already done for the
->> other superblock fields inherited from it. It cannot be set in
->> fuse_sb_defaults(), because fuse_fill_super_common() checks whether the
->> flag was passed at mount time to decide fc->dont_mask before setting it.
->>
->> Reproducer, with virtiofsd 1.10.0 started with --posix-acl and an export
->> containing a nested mount:
->>
->>   host# mount -t tmpfs none /srv/share
->>   host# mkdir /srv/share/child
->>   host# mount -t tmpfs none /srv/share/child
->>   host# touch /srv/share/rootfile /srv/share/child/childfile
->>   guest# mount -t virtiofs <tag> /mnt
->>   guest# setfacl -m u:12345:rw /mnt/rootfile           # works
->>   guest# setfacl -m u:12345:rw /mnt/child/childfile
->>   setfacl: /mnt/child/childfile: Operation not supported
->>
->> With this patch the second setfacl succeeds, ACLs set on the host are
->> reported by getfacl on the submount, and default ACLs and ACL-based
->> access checks behave the same as on the root mount. Tested on v7.3-rc5
->> in a QEMU guest.
->>
->> Signed-off-by: Tarun Khandelwal <tarun@supabase.io>
->> ---
->> I wasn't sure whether leaving SB_POSIXACL off submount superblocks was
->> intentional. I would have opened an issue first, but since the fix is a
->> one-liner I'm sending the patch directly. If there is a reason for the
->> current behaviour, I'm happy to rework this or drop it.
->>
->>  fs/fuse/inode.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
->> index e9552be36..ef3c7fac4 100644
->> --- a/fs/fuse/inode.c
->> +++ b/fs/fuse/inode.c
->> @@ -1629,6 +1629,8 @@ static int fuse_fill_super_submount(struct super_block *sb,
->>         WARN_ON(sb->s_bdi != &noop_backing_dev_info);
->>         sb->s_bdi = bdi_get(parent_sb->s_bdi);
->>
->> +       sb->s_flags |= parent_sb->s_flags & SB_POSIXACL;
->> +
->>         sb->s_xattr = parent_sb->s_xattr;
->>         sb->s_export_op = parent_sb->s_export_op;
->>         sb->s_time_gran = parent_sb->s_time_gran;
->> --
->> 2.43.0
->>
+>> -- 
+>> 2.20.1
