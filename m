@@ -1,366 +1,583 @@
-Received: from relay.virtuozzo.com (relay.virtuozzo.com [130.117.225.111])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010005.outbound.protection.outlook.com [52.101.56.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC39F4D8DBD;
-	Wed, 14 Oct 2026 12:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.117.225.111
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791981042; cv=none; b=GTkGbEgb6cGlsGYed6RaZUY5vNOJd8KZN9zUD6iGRfZrK9u4sIzsKGP/E3KvhU7HNz8Dug90vBXveHvVvcarn4rqZC/3qC9z4SM/9MrTQ+0DJgg72F+RzrrGjO8XPgKC30OSSvTuis6ThQowW9eP2+k7kXEwpFCwQIUYqMjD7io=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791981042; c=relaxed/simple;
-	bh=wURsBdASOvDtP6/0IEv16KY+PL9RXXXq09cySwXTra4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ufL5Ef+J160S/0cwzju/4ntirsEBp/VzsE3GfOXPzV2UTQmNljXKo3FUpfyAzx3ljXYLLFwfq8ft8noGJ72esCFRI3y8OJrSOoMZWDs5t5qnXNA60R0ZnU0xyAseN1n6g8Ogx3jqcChKm9XpQ8fKy5y48SzUVU50NRnAIktHidM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com; spf=pass smtp.mailfrom=virtuozzo.com; dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b=XzhkUeGZ; arc=none smtp.client-ip=130.117.225.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virtuozzo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67BA409623;
+	Wed, 14 Oct 2026 12:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791981046; cv=fail; b=jrp3EYS7qQQU4jWKEEDc05aFfEGs4svkSuQRlJ33ChmT6o6QiMQ1Mz3zsvnvGPDr2nXZpAN5/J+gZq/sJlMK3ochOe7kEpDbFZ8dfCqmLKUGfWlo6/3dju/itJg5398EbcJvyBCViwQbQNrcWqpFVydtMDGXC8v/fyEFNimH3qY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791981046; c=relaxed/simple;
+	bh=6TiPr3hPhijSRMQGw/HDBez1iAqtRSfrOJXZ8zQpTac=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=dKT8iEygxSDu2SOVJKOTtUfXdHepvhGYl086i/MUJmdKETtTSaaNb35iK/Z7k8sPGTbAxAVTgU29rhjDGLd9TDBVGVinuhp9LTa1DEpRzv4F4jhBNo/GF1KlnnaPGnf3pWEHfRkc2c2Z3Em9qBkFvWydHS00OHst3vBWyI7V2a8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=kFNZ+bIu; arc=fail smtp.client-ip=52.101.56.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b="XzhkUeGZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=virtuozzo.com; s=relay; h=Message-Id:Content-Type:MIME-Version:Subject:Date
-	:From; bh=dVzAryIQs7MNYEL5viqcjwJasKo5xMZ33cgBx6sQVXw=; b=XzhkUeGZmp0gKhbIrWk
-	PXayHLr7DEqWy5FYMbVqEdgXYaxu9d1/vTAS8/x0n1IrK27UikF0iQ5dn6cenmjOn3iJilWQOfDRB
-	NtB/HDnpGz4KzTJ5i7XzSK9scOJa7Fo8BDcuyWvsJW1G2yRNftt8OJD/Iu70wUqx8ZjQRVnAefDxo
-	ttbnDyHjWkTB698ljA/TN0+DDz2lccuEFHVbSkRLstinEJQgnbYFPzhfwP9x/HUAbpvNE7QMUxSIo
-	6Ywbc3BPELsGslTPGOq7YfM3O5Ay5wNfIoY1X6fdmWdXttWN6wDi2fbvyN60cVCQuIg8bcH63Efw8
-	sw+W+Yq0ldXov4Q==;
-Received: from ch-demo-asa.virtuozzo.com ([130.117.225.8] helo=f0.sw.ru)
-	by relay.virtuozzo.com with esmtp (Exim 4.96)
-	(envelope-from <khorenko@virtuozzo.com>)
-	id 1xGy4W-002cn1-1Y;
-	Wed, 14 Oct 2026 14:30:36 +0200
-From: Konstantin Khorenko <khorenko@virtuozzo.com>
-Date: Wed, 14 Oct 2026 14:30:33 +0200
-Subject: [PATCH] binfmt_elf: return the real error when program headers
- cannot be loaded
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="kFNZ+bIu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SnRP79ac7EmRT67Zcoi8KDr1xga6/2mwhRYBQq0DJYYRzrIRtXkwZF2Vgo9JAynV9AFbIoU3hOxMiCYl9WDWweWO3nigU1WcXVmn8xDziY09NNy+a2aru2IjeIGItg2Q23gvBJd5tmWu5wcwsXp3LzuWsa/o/eq7Deq+U9/uho6Z94PMlZ7JJX8DpjNtMISElFGX//W1ahdcJj03TyUbeoTrFOPqmbzTmdI1kaeeqGP0GgeU2qrhFXs4cfwKkcXxyBu/QOaEnGZ/1JjlvXVkRly0e0pPV6NFlxz9EFJl+/r/+C5sTqi9+s8JGwnPTpU1c455+P0F9897K7DuKAYr0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TEovVH5ZLepGig/vSz/09do6NCtXVGpKP5VbxB1APP4=;
+ b=o132EQmgxkpcSWkiHcaXB23xLQlRRfgmkVGRbvtvMHjxqOw2aZRa6J9qHW1IxDZBPYDCzpsTEsOZfAVlwT7t6P4NvsyqUn14cEgjF2PutyVV8wr1zkzT4k5RrRT29cANRRXnxljKNyNwPL954wxRlYN6lRuwasLKdoZTuxsdpik2BxvfVBsdo9qeIzybuCiX8hKutkBo+BHmuQ7+dCNsGATNEn/pjaetRMqPlbCJBNj3owVjNrLB290RZwle6pB8SHFuorskfnDJWE5QXm52TPIEGE0/Wyt9nhIFOqfJ06NsMmAVESUiKv64zyYm5IxG9xyYemBkDzXrNzLDMnhlvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TEovVH5ZLepGig/vSz/09do6NCtXVGpKP5VbxB1APP4=;
+ b=kFNZ+bIu+I18j7UZ+PFqQT1h+QI3KMXfALfLa9UoxV4dYRcUMkqUDFuUrgeViA1IzhFE/xyS1a5X/xtFo/6GC2PD9s+HSOGN/DBnQ72603yAcWP7MDe8Pd5BnntAK2AtWqzGFxJHbvtxeecLU+vFB+lwYaOdY3i/5zC6DKllZqg=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB8658.namprd12.prod.outlook.com (2603:10b6:610:175::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Wed, 14 Oct
+ 2026 12:30:40 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0522.011; Wed, 14 Oct 2026
+ 12:30:40 +0000
+Message-ID: <b461d367-8965-4798-b7ac-cffd4301cd1b@amd.com>
+Date: Wed, 14 Oct 2026 14:30:34 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 01/13] dma-buf: introduce initial file I/O
+ infrastructure
+To: Pavel Begunkov <asml.silence@gmail.com>, linux-block@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, dm-devel@lists.linux.dev
+References: <cover.1791975048.git.asml.silence@gmail.com>
+ <49e24334953262e85d5616c9afde88c680e4f3a3.1791975048.git.asml.silence@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <49e24334953262e85d5616c9afde88c680e4f3a3.1791975048.git.asml.silence@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0071.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261014-b4-prep-vstor-149847-binfmt_elf-enomem-load-elf-phdrs-v1-1-f39c74d55e42@virtuozzo.com>
-X-B4-Tracking: v=1; b=H4sIAOh1z2oC/yXNWwrCMBBA0a2U+XagefioWxGRJpnYSPMgiUUo3
- bupfp6fe1colB0VuHYrZFpccTE0sEMHehrDk9CZZuA9P7GeSVQSU6aES6kxI5PDRZ5RuWB9fdB
- skUL05HGOo8HdaTK5oBiO1iqrhSAOrd0S1n1+39v97/JWL9J1n8G2fQH9A7KFmQAAAA==
-X-Change-ID: 20261014-b4-prep-vstor-149847-binfmt_elf-enomem-load-elf-phdrs-395ffbfc33e2
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Kees Cook <kees@kernel.org>, Paul Burton <paulburton@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, Konstantin Khorenko <khorenko@virtuozzo.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10694;
- i=khorenko@virtuozzo.com; h=from:subject:message-id;
- bh=wURsBdASOvDtP6/0IEv16KY+PL9RXXXq09cySwXTra4=;
- b=owEBbQKS/ZANAwAKAVGWCkf5YVwqAcsmYgBqz3XsyemZwhAUff41DZKx7XpMYOovAzeqJ7dOe
- iHQWKuabaGJAjMEAAEKAB0WIQRWD23IPcXT0GO9CCxRlgpH+WFcKgUCas917AAKCRBRlgpH+WFc
- KnP4D/49Z7+8LA1QsQtQbG186T1hs8KDOtyJhPH6fFqEHTbeHJORRm+TvnIPGK7ru9KN7lFTjXu
- 9UDl/uwKK6ZF8jv1XSIn1wt6njXc2I6/NDYXcFOMevmxGE5H/Hf98Dzy12jzTPSTlit3VNloI91
- pkGuqbRsSfLq7NqjmEHlRxbDwwB7rJ94+w61sOTW5zaMWK1/OlfhEJkpFajcvga+3ALJSGEboJS
- tjOErpSq0sJCuWeUngUwZM+CmgXtQ8gMydpLRGjo7ZeBO+kE9QHmEtGg2OdQCJOBl3joL5ZzjBy
- 0sMLs6JY/SrA5oNKe7ZRh4019LvLr03kxtEHCZXXywyHw5tnuuzeaC+x8lztBD+LADr8YhwFI+q
- cQ53zhopUIAxSsGohVD8wM0qfmWqQQtSfRrdbdQSL/MkB1LT/BxhPHd2pmYy6S6TnCDc9fzQOYV
- 7QyQWq6kWMBk9lBuvj8cTH55VuwXZP/JHZsAyWqHvi4k0hwvZp5ZZ6ijB0RSW3qCsIgwemYFdsg
- Gm0/DBTsILMkY6yt/ENo/OrqtCJBR0YdOuRQ8r4X599gU9ogqFULznxW46JOXfld2OFY5AGST5h
- +Syi4WfBIqC0x2c5rJcr2nwE+UuJDb898p+bqDZdjjMmginB5V6Swih05Kp/uXMv3EPemP2R97f
- lPmnogcKdYHzNfw==
-X-Developer-Key: i=khorenko@virtuozzo.com; a=openpgp;
- fpr=560F6DC83DC5D3D063BD082C51960A47F9615C2A
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB8658:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7b3f1500-fd4d-4ca3-64bc-08df29eef531
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|23010399003|261009223027099003|56012099006|4143699003|11063799006|261009221227099003|18002099003|22082099003|6133799003|10067099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	+s29Yh0ZKLDd/KlvThiFZ7UAjNZqbqTiMrFgYzzjP2pVWO0sGO81o+CTcOeNQQ1FfuOR5F+pz08tZ/tcuIzGPxoJ2T+eKwPYm3KxthPd13YJJHyPbipGcyCnZC0Uo8n0Q1MWAWnlXRyfcGnUrF7kdj2LQwNlIXhNaZylurLxyRhyRDQXNivNdjMUka1cYVIapWlGFFPyTh4nZgp3pK1w6fCL6SDdzq/Pj8m4iowrngnnT2ptBovt25Wttbr/WB7ngsMcDY5SmIRzXNNli0hmsT1GyoYU0bA1I83Liy3HmEFqz+n/aGHvGq6C5vk9qmo/EVwTaf0wgelshIj77jdbUNWQS/aJoqkNo746h5qcV9JAzxUji6z9mU6DVkPblsfbvgC7v8a043M99x8aAL2dOjUrik5+7xA1YBoKRgS86fMtdxnyMDxER914A8MXBAwYCOUz6HUrnkaUmTDIFso2+ykfeo0ENtsvyCCGON4h5SKn4vDR8GI0rk88IGz6O7Ax6Afhixd2Dkd59joT681hWBAlbKaDXsfZbHKdF7CNJq6B6794Kkjny40XQJ64VRCARYa09EcJmEoeckcYb+cXSjdK4pskBe10qx6UrwMqR8lsSWlI+dd4+uiCVJVkVK0htQAbdL7C2FgmIXUoJiWSKafDnjpiaWqEhw1SQGz4hfY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(23010399003)(261009223027099003)(56012099006)(4143699003)(11063799006)(261009221227099003)(18002099003)(22082099003)(6133799003)(10067099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MUszNXluS3J5WEN1L3FMY2Z5aThIYnpuWGZHbTlKeDhLUFZmQVZ3eEJOajUz?=
+ =?utf-8?B?YVFsMGVHMld2SWQ3Y3lmSmpkK29hVDR5bVVyT2s0am9Ia1ZlNFJJYnoyVDA1?=
+ =?utf-8?B?azVETVljUDA0Vmgxc2dRNlgzanJnZ01yanZpM2k0WXY2T2ozd2padkxlSWJL?=
+ =?utf-8?B?SThlTERpTmdEaXk5eUphSlZROHo2MHpDbUpUNkpWN21KWU9WaW02SDdqMGRa?=
+ =?utf-8?B?ZktOVUdsQ0tiZW95TGVaR1dXcU5SaDF2VjBIQUQ1dWc4WkpqdGhsK1c2Uys0?=
+ =?utf-8?B?YVNmQ1hVTC9XaGNaWWhQUWw4Z240SkxSR3YvSGpXRFIwZzFhbDI4MU5QeFJD?=
+ =?utf-8?B?d2JQazBWdysrY0hPSFQ1WCtFQmRXdEdYTVR0emdLYkE3VVBPYTF2T0hmSndj?=
+ =?utf-8?B?RGxZMVhVMDJGd0I1SWE2bTBZVmc1emRPM05BZm5XRWZpNCtRejJnN2pwWmFV?=
+ =?utf-8?B?ZU9HZW1HZnVUY0duVjFoanE5NlQ0Zy9OaWNYcElTejFJcXFtbzJvanhmWExx?=
+ =?utf-8?B?NVBuMWo5empzTmduNkN6ZW00SlZyM1NLWW9US0lIMTlsdjNYdzIzNVNVcWpG?=
+ =?utf-8?B?blpmQ042VCt2TGI4ZFJ1ckUzTUIrZWdUbzNNZkRlcWxud0ZwNG0weXRvSWp3?=
+ =?utf-8?B?MTFnYlFRTWRoUG5EQlBRVmdwRHBHZUQrMTdyWFFkalN2K0FIMHowYUxreDFo?=
+ =?utf-8?B?dXRBYytralc3eHhQTGlHY3BySmJnSFY5MVFyRHRmSFRtdWwyWjl5ZmV5S0Np?=
+ =?utf-8?B?Z3F2TkVQR0hrOUxoT1ZhdVdPaXJ5U2s2YVltM2l5M0pVcHprTENhMi9pQ1B4?=
+ =?utf-8?B?K0lPcWN0YmltM0ZqcDlHSEdCNmtETERVSkNmYUFWWWZSY1Y5aEZ4WG95ZUFr?=
+ =?utf-8?B?Z1plWFZ4a0NNbUVuR0tXbVZkbzlqM0hoUzdVVUJJbldZYmUxK0h6QUtlL3N4?=
+ =?utf-8?B?Z2ZrL1pmVDI1UXZUNEs5WUJ2Y2xTZ0gvcklIWXQvNFpCb250S3l3cm1icHRI?=
+ =?utf-8?B?WG9NSUd6cXljeFgvL1hDSno5Vml0ZUZzUWtDUlhqelZBdC9XUUZLZGJ4ejdW?=
+ =?utf-8?B?Y1NHVm1nNFRiczR6ZnIwMnFWZ2dEcFdlb3J2NmtoeUxNdVVJSEVZTkNlS2o1?=
+ =?utf-8?B?TzdTZGRMUlJSZUZKaHl6YVM5WXR4UXRyRlVxNGMwN3FYTFZscytzTEVCNFh5?=
+ =?utf-8?B?OStiY0FHYUFVaHRlcGlkVk1iZXZaeWRibkRuQ2NFbnVReFdCNWxsbXRSNVkr?=
+ =?utf-8?B?Yll4eWdPbVk3NjloRzJJaHVmN2VwU0NEUEh5b1lKdWkyUmQrOG9UV2JHeHZB?=
+ =?utf-8?B?WDYvNGJYZEYyWGJFRXNYaWpLdFNFN3RGYUZuUFBqOGxIUU13cVl1YkZDcjJi?=
+ =?utf-8?B?bmhlM21Fcm8xRXBFdnlBdkpYRWh5UWxSQlRNbGU5ZlVhb0d3dEhtaXZGaGNi?=
+ =?utf-8?B?TVlWNVFYcXgzcGc4VXBYY1dKeFlUanBGVTJtbWxmQmtFb0hlTXJIUTV6Nm5j?=
+ =?utf-8?B?Q1djSkJ2d0hlR0ltWExTeS9uV2l0UGhrek5PL21zbXQwY3lESGdFbDJHQ3BF?=
+ =?utf-8?B?NmtSd1dEVCtZNFdGbFFISzZ6b2JUQmdkUUt5QVNGYnVYTVIxUUpFSjZ5eVR4?=
+ =?utf-8?B?SmtuMWdlRlI3b0xNMXRUcDE0bitRT3g2Sy84Yzg4TDk3enNyand0RjVoQzdq?=
+ =?utf-8?B?c091ai8yUjZLZ0VCWSsvUkpKeEJXU2JPS3dPa09tWWdNaGcwVkVrSXIvTHpS?=
+ =?utf-8?B?NEJ2V1phRW4zVTRQZ0ttK2xwMDluYVp3aVN6UG1qVEtCeFROcW9mSTZKa1Q4?=
+ =?utf-8?B?cnNIaWFaL1RWV0VFSzAyWlZQRDZ3N3Fid1ZpYUx4WGhTa3FrTUFJSFFqQkxT?=
+ =?utf-8?B?ZVlBT0FyMmVCN1RZeUYxZ1VxNzhtbTh3ekVYNldmbU4rTHdPSm1LbTdVME1T?=
+ =?utf-8?B?VVdmVWJqMEhaN1ZSQzcvMUtaclZLakFBcktnZUo4NE83dVc4WXFJN0V2UHpu?=
+ =?utf-8?B?QlBUaUk3NFg2ODFGaElhNHdkUzZESEN1T1pQNklqTEVtUDZOdGtoeTBMTDZx?=
+ =?utf-8?B?cmZMRXlTNmxSTHpCVU9VYXhFeU1MOGpIWWN2L0RLWlNobXpRSEhHbnNHTTJm?=
+ =?utf-8?B?eld3K3BCdWJ0UnhBSWhaR1pVem9EU2FUZDBTUkM1S2tXMGRvRERFck5nM1c5?=
+ =?utf-8?B?bk5xWDY3UExlb21yZFpQdjZCVWhPQndTN0FWMkxxUGppSm5EVWFJMnBiZmNV?=
+ =?utf-8?B?RGRQMVAvY0E1SEpIVWI3QSsxL2ZIaGZHcGl4WnRDNzhiYjR4ZU91WEFrd3Bs?=
+ =?utf-8?Q?XFi1bSEEQnYMWUiW2h?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b3f1500-fd4d-4ca3-64bc-08df29eef531
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 12:30:40.6540
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w6wUKt8i9m+V254PAqWLiD3vo6ZRCUdxRhSyCRI6G5mczwtHgyk8Fb0M8nWi/csa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8658
 
-load_elf_phdrs() returns NULL on any failure, and load_elf_binary()
-turns that into -ENOEXEC for the executable and -ELIBBAD for its
-interpreter. So a failed allocation or read of the program headers
-makes glibc's execvp() run the ELF file with /bin/sh, and reports a
-healthy ld.so as a corrupted shared library.
+On 10/14/26 13:01, Pavel Begunkov wrote:
+> The goal is to be able to natively use dma-buf in the read-write / IO
+> path. This patch adds basic building blocks serving as a glue and API
+> between drivers and upper layer subsystems providing the uAPI. Later
+> patches implement it for NVMe raw block devices and expose it to the
+> user space via io_uring.
+> 
+> There are two main objects. struct dma_buf_io_ctx and struct
+> dma_buf_io_map. The ctx is used during initial registration and serves
+> as an interface between the upper layer user like io_uring and to the
+> importer subsystem / driver. The map represents the actual dma map
+> established for the target device[s] with dma_buf_map_attachment() and
+> stored in a device specific format. The context is created via a new
+> file operation ->init_dma_buf_io_ctx.
+> 
+> The ctx-map separation exists to facilitate map invalidation (see
+> dma_buf_io_invalidate_mappings()). A ctx can create
+> multiple maps during its lifetime, but there can only be no more than
+> one (active) map attached to it. Invalidation drops the active map
+> if present, and any new I/O request will try to create a new one.
+> 
+> The primary task of dma_buf_io_map is to count requests using it
+> and wait for their completion when we want to destroy the DMA map.
+> 
+> [un]mapping and any work with dma addresses is delegated to the
+> importer driver via an ops table stored in the ctx, see struct
+> dma_buf_io_ops. Only the target driver / subsystem knows about devices
+> it wants to use the dma-buf with, especially in case of multi-device
+> filesystems or stacking in the future.
+> 
+> Acked-by: Matthew Brost <matthew.brost@intel.com>
+> Tested-by: Matthew Brost <matthew.brost@intel.com>
+> Acked-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+> ---
+>  drivers/dma-buf/Makefile     |   2 +-
+>  drivers/dma-buf/dma-buf-io.c | 229 +++++++++++++++++++++++++++++++++++
+>  include/linux/dma-buf-io.h   | 125 +++++++++++++++++++
+>  include/linux/fs.h           |   2 +
+>  4 files changed, 357 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/dma-buf/dma-buf-io.c
+>  create mode 100644 include/linux/dma-buf-io.h
+> 
+> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+> index b25d7550bacf..523731b0f83e 100644
+> --- a/drivers/dma-buf/Makefile
+> +++ b/drivers/dma-buf/Makefile
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  obj-y := dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
+> -	 dma-fence-unwrap.o dma-resv.o dma-buf-mapping.o
+> +	 dma-fence-unwrap.o dma-resv.o dma-buf-mapping.o dma-buf-io.o
+>  obj-$(CONFIG_DMABUF_HEAPS)	+= dma-heap.o
+>  obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
+>  obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
+> diff --git a/drivers/dma-buf/dma-buf-io.c b/drivers/dma-buf/dma-buf-io.c
+> new file mode 100644
+> index 000000000000..21296bd3dde1
+> --- /dev/null
+> +++ b/drivers/dma-buf/dma-buf-io.c
+> @@ -0,0 +1,229 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Common infrastructure for supporing dma-buf in the I/O path.
+> + *
+> + * Copyright (C) 2026 Pavel Begunkov <asml.silence@gmail.com>
+> + */
+> +#include <linux/dma-buf-io.h>
+> +#include <linux/dma-resv.h>
+> +
+> +static void dma_buf_io_map_release(struct dma_buf_io_map *map)
+> +{
+> +	struct dma_buf_io_ctx *ctx = map->ctx;
+> +
+> +	dma_resv_assert_held(ctx->dmabuf->resv);
+> +
+> +	percpu_ref_exit(&map->refs);
+> +	ctx->dev_ops->unmap(ctx, map);
+> +}
+> +
+> +static void dma_buf_io_map_refs_cb(struct percpu_ref *ref)
+> +{
+> +	struct dma_buf_io_map *map = container_of(ref, struct dma_buf_io_map, refs);
+> +
+> +	complete(&map->drained);
+> +}
+> +
+> +static void dma_buf_io_kill_map(struct dma_buf_io_ctx *ctx)
+> +{
+> +	struct dma_buf_io_map *map;
+> +
+> +	dma_resv_assert_held(ctx->dmabuf->resv);
+> +
+> +	map = rcu_dereference_protected(ctx->map,
+> +				dma_resv_held(ctx->dmabuf->resv));
+> +	if (!map)
+> +		return;
+> +
+> +	rcu_assign_pointer(ctx->map, NULL);
+> +	percpu_ref_kill(&map->refs);
+> +	/* make sure the map is not visible via ctx->map */
+> +	synchronize_rcu_expedited();
+> +	wait_for_completion(&map->drained);
+> +	dma_buf_io_map_release(map);
+> +}
+> +
+> +int dma_buf_io_init_map(struct dma_buf_io_ctx *ctx, struct dma_buf_io_map *map,
+> +			struct sg_table *sgt)
 
-Return an ERR_PTR instead, as binfmt_elf_fdpic does:
+You somehow forgotten the kerneldoc I asked for here.
 
-  -ENOEXEC     bad e_phentsize, e_phnum or e_phoff, or the file ends
-               before the header table
-  -ENOMEM      the allocation fails
-  read error   kernel_read() fails
+Apart from that still looks good, but I had only time to skim over it.
 
-Malformed files keep getting -ENOEXEC and -ELIBBAD. kernel_read()
-returns a short count when a later page fails, so read on until the
-error or the end of the file shows. An e_phoff past LLONG_MAX - size
-is rejected up front, as rw_verify_area() would turn it into -EINVAL.
+Regards,
+Christian.
 
-Fixes: 6a8d38945cf4 ("binfmt_elf: Hoist ELF program header loading to a function")
-Fixes: a9d9ef133f44 ("binfmt_elf: load interpreter program headers earlier")
-Assisted-by: LLM
-Signed-off-by: Konstantin Khorenko <khorenko@virtuozzo.com>
----
-Problem
-=======
-
-load_elf_phdrs() returns NULL on any failure, and load_elf_binary()
-turns that into a fixed error: -ENOEXEC for the executable, -ELIBBAD
-for its interpreter. The real cause is lost:
-
-  cause                                  really      execve() returns
-  -------------------------------------  ----------  ----------------
-  bad e_phentsize, e_phnum 0 or too big  bad file    ENOEXEC (right)
-  file ends before the header table      bad file    ENOEXEC (right)
-  kmalloc() of the table fails           ENOMEM      ENOEXEC (wrong)
-  kernel_read() fails                    EIO/ENOMEM  ENOEXEC (wrong)
-
-For the interpreter every row gives ELIBBAD.
-
-Consequences
-============
-
-ENOEXEC says the file is not an executable, which is a property of the
-file, not a transient failure:
-
-- glibc's execvp() and execlp() take ENOEXEC as "not a binary" and run
-  the ELF file with /bin/sh, which reports a binary it cannot execute
-  instead of the ENOMEM or EIO.
-- search_binary_handler() tries the next binary format instead of
-  returning the error.
-- For the interpreter the caller gets ELIBBAD, "Accessing a corrupted
-  shared library", about an ld.so that is fine.
-- A caller that would retry on ENOMEM or report EIO gives up on the
-  file instead.
-
-When it happens
-===============
-
-- The allocation fails under fault injection. Since commit
-  8030790477e8 ("binfmt_elf: remove the 4k limitation of program header
-  size") the table may be up to 64K; above 32K that is an order-4
-  allocation on 4K-page kernels, which can fail on a fragmented system.
-- The read fails with an I/O error, or with -ENOMEM when the page cache
-  cannot take the pages.
-
-Where it came from
-==================
-
-- Until commit 6a8d38945cf4 ("binfmt_elf: Hoist ELF program header
-  loading to a function") load_elf_binary() returned -ENOMEM and the
-  read error. That commit documented an ERR_PTR return but returned
-  NULL; commit cfc46ca4fdca later fixed the comment, not the code.
-- Commit a9d9ef133f44 ("binfmt_elf: load interpreter program headers
-  earlier") gave the interpreter's headers the same NULL check, and with
-  it -ELIBBAD.
-
-Hence the two Fixes tags.
-
-Testing
-=======
-
-With failslab on v7.3-rc7 (CONFIG_FAILSLAB,
-CONFIG_FAULT_INJECTION_DEBUG_FS, failslab/ignore-gfp-wait = N): write n
-to /proc/thread-self/fail-nth, then execvp("/bin/true"). At the n that
-hits the program header allocation of /bin/true, /bin/sh (bash here)
-gets the file:
-
-    /bin/true: /bin/true: cannot execute binary file    (exit 126)
-
-while the allocations around it give "execvp: Cannot allocate memory".
-
-The reproducer below does the same with execve() for n = 1, 2, ...
-until 50 execve() calls in a row return no error, on /bin/true
-(dynamically linked):
-
-  kernel                errors returned by execve()
-  7.3-rc7               ENOMEM 17, ENOEXEC 1, ELIBBAD 1, E2BIG 2
-  7.3-rc7 + this patch  ENOMEM 19, E2BIG 2
-
-- ENOEXEC is the executable's header array, ELIBBAD the interpreter's.
-- The two E2BIG come from copy_string_kernel() of the file name, whose
-  first write to the new stack fails in get_arg_page(); that is a
-  separate issue, not touched here.
-- failslab does not reach header tables above 8K, which go to the page
-  allocator, nor the read errors, so these rows show only the
-  allocation half.
-- For the read: a copy of /bin/true with its header table moved across
-  offset 4096, served from a FUSE file with direct_io whose reads stop
-  at 4096 and fail with EIO past it. execve() returns EIO with the
-  patch; the old code turns the first, short read into ENOEXEC.
-- A truncated header table, and an e_phoff of 2^63 that kernel_read()
-  would refuse with EINVAL, still give ENOEXEC for the executable and
-  ELIBBAD for the interpreter.
-
-Reproducer (gcc -O2 -o exec_fail_nth exec_fail_nth.c; run as root):
-
-    // SPDX-License-Identifier: GPL-2.0
-    /*
-     * Fail the n-th fault injection point (here: slab allocations) of an
-     * execve() for n = 1, 2, ... until 50 execve() calls in a row return no
-     * error, and count the errors execve() returns. Needs CONFIG_FAILSLAB and
-     * CONFIG_FAULT_INJECTION_DEBUG_FS, and failslab set up to fail sleeping
-     * allocations:
-     *	echo N > /sys/kernel/debug/failslab/ignore-gfp-wait
-     *
-     * usage: exec_fail_nth [program]	(default /bin/true)
-     */
-    #define _GNU_SOURCE
-    #include <errno.h>
-    #include <fcntl.h>
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <string.h>
-    #include <unistd.h>
-    #include <sys/wait.h>
-
-    int main(int argc, char **argv)
-    {
-    	char *prog = argc > 1 ? argv[1] : "/bin/true";
-    	char *args[] = { prog, NULL };
-    	int counts[256] = { 0 }, clean = 0, n, e;
-
-    	for (n = 1; clean < 50 && n < 100000; n++) {
-    		int p[2];
-    		pid_t pid;
-
-    		if (pipe2(p, O_CLOEXEC))
-    			return 2;
-    		pid = fork();
-    		if (pid < 0)
-    			return 2;
-    		if (!pid) {
-    			char buf[16];
-    			int fd = open("/proc/thread-self/fail-nth", O_WRONLY);
-
-    			if (fd < 0 || write(fd, buf, sprintf(buf, "%d", n)) < 0)
-    				_exit(3);
-    			execve(prog, args, NULL);
-    			e = errno;
-    			write(p[1], &e, sizeof(e));
-    			_exit(4);
-    		}
-    		close(p[1]);
-    		if (read(p[0], &e, sizeof(e)) == sizeof(e)) {
-    			counts[e & 255]++;
-    			if (e == ENOEXEC || e == ELIBBAD)
-    				printf("n=%d: execve() failed with %s\n", n, strerrorname_np(e));
-    			clean = 0;
-    		} else {
-    			clean++;
-    		}
-    		close(p[0]);
-    		if (waitpid(pid, &e, 0) == pid && WIFEXITED(e) && WEXITSTATUS(e) == 3) {
-    			fprintf(stderr, "cannot write /proc/thread-self/fail-nth\n");
-    			return 2;
-    		}
-    	}
-    	printf("n = 1..%d, execve() errors:", n - 1);
-    	for (e = 0; e < 256; e++)
-    		if (counts[e])
-    			printf(" %s=%d", strerrorname_np(e), counts[e]);
-    	printf("\n");
-    	if (n - 1 == clean) {
-    		fprintf(stderr, "no allocation failed: is failslab/ignore-gfp-wait N?\n");
-    		return 2;
-    	}
-    	return counts[ENOEXEC] || counts[ELIBBAD];
-    }
----
- fs/binfmt_elf.c | 50 ++++++++++++++++++++++++++++++++------------------
- 1 file changed, 32 insertions(+), 18 deletions(-)
-
-diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-index 06d0df1053823..05e03f1c9f3f6 100644
---- a/fs/binfmt_elf.c
-+++ b/fs/binfmt_elf.c
-@@ -512,39 +512,47 @@ static unsigned long maximum_alignment(struct elf_phdr *cmds, int nr)
-  *
-  * Loads ELF program headers from the binary file elf_file, which has the ELF
-  * header pointed to by elf_ex, into a newly allocated array. The caller is
-- * responsible for freeing the allocated data. Returns NULL upon failure.
-+ * responsible for freeing the allocated data. Returns an ERR_PTR upon failure:
-+ * -ENOEXEC for a malformed header or when the read reaches the end of the
-+ * file, the allocation or read error otherwise.
-  */
- static struct elf_phdr *load_elf_phdrs(const struct elfhdr *elf_ex,
- 				       struct file *elf_file)
- {
--	struct elf_phdr *elf_phdata = NULL;
--	int retval = -1;
--	unsigned int size;
-+	struct elf_phdr *elf_phdata;
-+	unsigned int size, done;
-+	loff_t pos;
-+	ssize_t rv;
- 
- 	/*
- 	 * If the size of this structure has changed, then punt, since
- 	 * we will be doing the wrong thing.
- 	 */
- 	if (elf_ex->e_phentsize != sizeof(struct elf_phdr))
--		goto out;
-+		return ERR_PTR(-ENOEXEC);
- 
- 	/* Sanity check the number of program headers... */
--	/* ...and their total size. */
-+	/* ...their total size and their offset. */
- 	size = sizeof(struct elf_phdr) * elf_ex->e_phnum;
--	if (size == 0 || size > 65536)
--		goto out;
-+	if (size == 0 || size > 65536 || elf_ex->e_phoff > LLONG_MAX - size)
-+		return ERR_PTR(-ENOEXEC);
- 
- 	elf_phdata = kmalloc(size, GFP_KERNEL);
- 	if (!elf_phdata)
--		goto out;
--
--	/* Read in the program headers */
--	retval = elf_read(elf_file, elf_phdata, size, elf_ex->e_phoff);
-+		return ERR_PTR(-ENOMEM);
- 
--out:
--	if (retval) {
--		kfree(elf_phdata);
--		elf_phdata = NULL;
-+	/*
-+	 * Read in the program headers. A read that fails part way returns
-+	 * what it got, so read on to see the error or the end of the file.
-+	 */
-+	pos = elf_ex->e_phoff;
-+	for (done = 0; done < size; done += rv) {
-+		rv = kernel_read(elf_file, (char *)elf_phdata + done,
-+				 size - done, &pos);
-+		if (rv <= 0) {
-+			kfree(elf_phdata);
-+			return ERR_PTR(rv ? rv : -ENOEXEC);
-+		}
- 	}
- 	return elf_phdata;
- }
-@@ -864,8 +872,10 @@ static int load_elf_binary(struct linux_binprm *bprm)
- 		goto out;
- 
- 	elf_phdata = load_elf_phdrs(elf_ex, bprm->file);
--	if (!elf_phdata)
-+	if (IS_ERR(elf_phdata)) {
-+		retval = PTR_ERR(elf_phdata);
- 		goto out;
-+	}
- 
- 	elf_ppnt = elf_phdata;
- 	for (i = 0; i < elf_ex->e_phnum; i++, elf_ppnt++) {
-@@ -968,8 +978,12 @@ static int load_elf_binary(struct linux_binprm *bprm)
- 		/* Load the interpreter program headers */
- 		interp_elf_phdata = load_elf_phdrs(interp_elf_ex,
- 						   interpreter);
--		if (!interp_elf_phdata)
-+		if (IS_ERR(interp_elf_phdata)) {
-+			if (PTR_ERR(interp_elf_phdata) != -ENOEXEC)
-+				retval = PTR_ERR(interp_elf_phdata);
-+			interp_elf_phdata = NULL;
- 			goto out_free_dentry;
-+		}
- 
- 		/* Pass PT_LOPROC..PT_HIPROC headers to arch code */
- 		elf_property_phdata = NULL;
-
----
-base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
-change-id: 20261014-b4-prep-vstor-149847-binfmt_elf-enomem-load-elf-phdrs-395ffbfc33e2
-
-Best regards,
---  
-Konstantin Khorenko <khorenko@virtuozzo.com>
+> +{
+> +	unsigned seg_shift = ~0U;
+> +	struct scatterlist *sg;
+> +	unsigned long tmp;
+> +	int ret;
+> +
+> +	for_each_sgtable_dma_sg(sgt, sg, tmp)
+> +		seg_shift = min(seg_shift, __ffs(sg_dma_len(sg)));
+> +
+> +	ret = percpu_ref_init(&map->refs, dma_buf_io_map_refs_cb, 0, GFP_KERNEL);
+> +	if (ret)
+> +		return ret;
+> +	init_completion(&map->drained);
+> +	map->min_seg_shift = seg_shift;
+> +	map->ctx = ctx;
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_io_init_map, "DMA_BUF");
+> +
+> +static struct dma_buf_io_map *__dma_buf_io_create_map(struct dma_buf_io_ctx *ctx)
+> +{
+> +	struct dma_buf *dmabuf = ctx->dmabuf;
+> +	struct dma_buf_io_map *map;
+> +	long ret;
+> +
+> +	dma_resv_assert_held(dmabuf->resv);
+> +
+> +	if (ctx->is_dead)
+> +		return ERR_PTR(-ENOENT);
+> +
+> +	map = __dma_buf_io_get_map(ctx);
+> +	if (map)
+> +		return map;
+> +
+> +	map = ctx->dev_ops->map(ctx);
+> +	if (IS_ERR(map))
+> +		return map;
+> +
+> +	if (WARN_ON_ONCE(!map->min_seg_shift))
+> +		return ERR_PTR(-EFAULT);
+> +
+> +	ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
+> +				    true, MAX_SCHEDULE_TIMEOUT);
+> +	if (ret <= 0) {
+> +		if (!ret)
+> +			ret = -EAGAIN;
+> +		dma_buf_io_map_release(map);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	/* get a reference for the caller */
+> +	percpu_ref_get(&map->refs);
+> +	rcu_assign_pointer(ctx->map, map);
+> +	return map;
+> +}
+> +
+> +/**
+> + * dma_buf_io_create_map - Create a new or reference an existing map.
+> + * @ctx:	[in]	dma-buf I/O context
+> + *
+> + * A slow path part of dma_buf_io_get_map() and shouldn't be used directly.
+> + * Behaves in the same way but allowed to block.
+> + *
+> + * Returns a map on success, or ERR_PTR encoded errno otherwise.
+> + */
+> +struct dma_buf_io_map *dma_buf_io_create_map(struct dma_buf_io_ctx *ctx)
+> +{
+> +	struct dma_buf_io_map *map;
+> +	int ret;
+> +
+> +	ret = dma_resv_lock_interruptible(ctx->dmabuf->resv, NULL);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	map = __dma_buf_io_create_map(ctx);
+> +	dma_resv_unlock(ctx->dmabuf->resv);
+> +	return map;
+> +}
+> +
+> +static void dma_buf_io_ctx_shutdown(struct dma_buf_io_ctx *ctx)
+> +{
+> +	dma_resv_lock(ctx->dmabuf->resv, NULL);
+> +	ctx->is_dead = true;
+> +	dma_buf_io_kill_map(ctx);
+> +	dma_resv_unlock(ctx->dmabuf->resv);
+> +}
+> +
+> +/*
+> + * dma_buf_io_ctx_create - create a new dma-buf I/O context for the given file.
+> + * @file: 	[in]	file for which the context is created
+> + * @dmabuf:	[in]	buffer to create a context from
+> + * @dir:	[in]	direction of DMA transfers
+> + * @out_ctx	[out]	resulting ctx
+> + *
+> + * Create a new I/O context from the given DMA buffer for the given file.
+> + * It only works with files implementing ->init_dma_buf_io_ctx and fails
+> + * with -EOPNOTSUPP otherwise. Once created, the user can create a map
+> + * and use it to issue I/O like read / write requests to @file.
+> + */
+> +int dma_buf_io_ctx_create(struct file *file,
+> +			   struct dma_buf *dmabuf,
+> +			   enum dma_data_direction dir,
+> +			   struct dma_buf_io_ctx **out_ctx)
+> +{
+> +	struct dma_buf_io_ctx *ctx;
+> +	int ret;
+> +
+> +	if (!file->f_op->init_dma_buf_io_ctx)
+> +		return -EOPNOTSUPP;
+> +
+> +	ctx = kzalloc_obj(*ctx);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +	ctx->dir = dir;
+> +	ctx->dmabuf = dmabuf;
+> +	get_dma_buf(dmabuf);
+> +
+> +	ret = file->f_op->init_dma_buf_io_ctx(file, ctx);
+> +	if (ret) {
+> +		kfree(ctx);
+> +		dma_buf_put(dmabuf);
+> +		return ret;
+> +	}
+> +
+> +	if (WARN_ON_ONCE(!ctx->dev_ops ||
+> +			 !ctx->dev_ops->map ||
+> +			 !ctx->dev_ops->unmap ||
+> +			 !ctx->dev_ops->release))
+> +		return -EINVAL;
+> +
+> +	*out_ctx = ctx;
+> +	return 0;
+> +}
+> +
+> +/**
+> + * dma_buf_io_ctx_release - destroy the I/O context
+> + * @ctx:	[in]	dma-buf I/O context
+> + *
+> + * Destroy the context. It makes sure all maps are waited on and destroyed,
+> + * and can block for I/O to complete. It detaches from the importer and
+> + * destroys all its resources via the ->release callback, and frees the
+> + * context.
+> + */
+> +void dma_buf_io_ctx_release(struct dma_buf_io_ctx *ctx)
+> +{
+> +	dma_buf_io_ctx_shutdown(ctx);
+> +
+> +	if (WARN_ON_ONCE(rcu_dereference_protected(ctx->map, true)))
+> +		return;
+> +
+> +	ctx->dev_ops->release(ctx);
+> +	dma_buf_put(ctx->dmabuf);
+> +	kfree(ctx);
+> +}
+> +
+> +/**
+> + * dma_buf_io_invalidate_mappings - invalidate the current map
+> + * @ctx: 	[in]	dma-buf I/O context
+> + *
+> + * Importer's helper for invalidating the current map. Waits for all I/O
+> + * using the map to complete and destroyes the map. Called with the
+> + * dma-buf reservation lock held.
+> + */
+> +void dma_buf_io_invalidate_mappings(struct dma_buf_io_ctx *ctx)
+> +{
+> +	dma_buf_io_kill_map(ctx);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_io_invalidate_mappings, "DMA_BUF");
+> +
+> +/**
+> + * dma_buf_io_detach - detach the @ctx from the importer.
+> + * @ctx:	[in]	dma-buf I/O context
+> + *
+> + * Importer's helper for removing the I/O ctx. It kills all maps and
+> + * prevents creation of new ones. Upon return it's safe for the importer
+> + * to release all its resources such as dma-buf attachments.
+> + */
+> +void dma_buf_io_detach(struct dma_buf_io_ctx *ctx)
+> +{
+> +	dma_buf_io_ctx_shutdown(ctx);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_io_detach, "DMA_BUF");
+> diff --git a/include/linux/dma-buf-io.h b/include/linux/dma-buf-io.h
+> new file mode 100644
+> index 000000000000..b9bbeca1744f
+> --- /dev/null
+> +++ b/include/linux/dma-buf-io.h
+> @@ -0,0 +1,125 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __DMA_BUF_IO_H__
+> +#define __DMA_BUF_IO_H__
+> +
+> +#include <linux/dma-buf.h>
+> +
+> +struct dma_buf_io_ctx;
+> +struct dma_buf_io_map;
+> +
+> +struct dma_buf_io_ops {
+> +	/*
+> +	 * Create a new map for the given ctx. Called with the reservation
+> +	 * lock held.
+> +	 */
+> +	struct dma_buf_io_map *(*map)(struct dma_buf_io_ctx *ctx);
+> +
+> +	/*
+> +	 * Clean up device specific parts of the @map. Called with the
+> +	 * reservation lock held.
+> +	 */
+> +	void (*unmap)(struct dma_buf_io_ctx *ctx, struct dma_buf_io_map *map);
+> +
+> +	/*
+> +	 * The user tries to destroy the ctx. Release all device specific
+> +	 * parts of the token.
+> +	 */
+> +	void (*release)(struct dma_buf_io_ctx *);
+> +};
+> +
+> +struct dma_buf_io_map {
+> +	/*
+> +	 * Counts attached requests and other users. Device specific unmapping
+> +	 * is deferred until all refs are dropped.
+> +	 */
+> +	struct percpu_ref		refs;
+> +	/*
+> +	 * Shift for the minimum segment size of the mapping.
+> +	 */
+> +	unsigned			min_seg_shift;
+> +
+> +	struct dma_buf_io_ctx		*ctx;
+> +	struct completion		drained;
+> +};
+> +
+> +struct dma_buf_io_ctx {
+> +	struct dma_buf_io_map __rcu		*map;
+> +	struct dma_buf				*dmabuf;
+> +	enum dma_data_direction			dir;
+> +	bool					is_dead;
+> +
+> +	void					*dev_priv;
+> +	const struct dma_buf_io_ops		*dev_ops;
+> +};
+> +
+> +int dma_buf_io_ctx_create(struct file *file,
+> +			   struct dma_buf *dmabuf,
+> +			   enum dma_data_direction dir,
+> +			   struct dma_buf_io_ctx **ctx);
+> +void dma_buf_io_ctx_release(struct dma_buf_io_ctx *ctx);
+> +
+> +struct dma_buf_io_map *dma_buf_io_create_map(struct dma_buf_io_ctx *ctx);
+> +
+> +static inline struct dma_buf_io_map *
+> +__dma_buf_io_get_map(struct dma_buf_io_ctx *ctx)
+> +{
+> +	struct dma_buf_io_map *map;
+> +
+> +	guard(rcu)();
+> +
+> +	map = rcu_dereference(ctx->map);
+> +	if (unlikely(!map || !percpu_ref_tryget_live_rcu(&map->refs)))
+> +		return NULL;
+> +
+> +	return map;
+> +}
+> +
+> +/**
+> + * dma_buf_io_get_map - Create a new or reference an existing map.
+> + * @ctx:	[in]	dma-buf I/O context
+> + * @nowait:	[in]	specifies whether it's allowed to block
+> + *
+> + * Create a new or acquire an existing map. When succeeds, it returns
+> + * a referenced map, which should eventually be put down with
+> + * dma_buf_io_map_drop(). If @nowait is set and the function would block,
+> + * it return -EAGAIN, and the caller is expected to retry from a context
+> + * where blocking is allowed.
+> + *
+> + * Returns a map on success, or ERR_PTR encoded errno otherwise.
+> + */
+> +static inline struct dma_buf_io_map *
+> +dma_buf_io_get_map(struct dma_buf_io_ctx *ctx, bool nowait)
+> +{
+> +	struct dma_buf_io_map *map;
+> +
+> +	map = __dma_buf_io_get_map(ctx);
+> +	if (likely(map))
+> +		return map;
+> +
+> +	if (nowait)
+> +		return ERR_PTR(-EAGAIN);
+> +	return dma_buf_io_create_map(ctx);
+> +}
+> +
+> +/**
+> + * dma_buf_io_map_drop - Drop the map.
+> + * @map:	[in]	dma-buf I/O map
+> + *
+> + * Put down a reference for the @map acquired via dma_buf_io_get_map().
+> + * Should be called as soon as I/O is completed.
+> + */
+> +static inline void dma_buf_io_map_drop(struct dma_buf_io_map *map)
+> +{
+> +	percpu_ref_put(&map->refs);
+> +}
+> +
+> +/*
+> + * Device API
+> + */
+> +
+> +void dma_buf_io_invalidate_mappings(struct dma_buf_io_ctx *ctx);
+> +int dma_buf_io_init_map(struct dma_buf_io_ctx *ctx, struct dma_buf_io_map *map,
+> +			struct sg_table *sgt);
+> +void dma_buf_io_detach(struct dma_buf_io_ctx *ctx);
+> +
+> +#endif
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index f9d1e05e8ae6..05c1ff495732 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -1914,6 +1914,7 @@ struct dir_context {
+>  #define COPY_FILE_SPLICE		(1 << 0)
+>  
+>  struct io_uring_cmd;
+> +struct dma_buf_io_ctx;
+>  struct offset_ctx;
+>  
+>  struct file_operations {
+> @@ -1960,6 +1961,7 @@ struct file_operations {
+>  	int (*uring_cmd_iopoll)(struct io_uring_cmd *, struct io_comp_batch *,
+>  				unsigned int poll_flags);
+>  	int (*mmap_prepare)(struct vm_area_desc *);
+> +	int (*init_dma_buf_io_ctx)(struct file *, struct dma_buf_io_ctx *);
+>  } __randomize_layout;
+>  
+>  /* Supports async buffered reads */
 
