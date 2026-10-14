@@ -1,217 +1,150 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAEA2FE07D;
-	Wed, 14 Oct 2026 12:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BB25477E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 12:59:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791982477; cv=none; b=rHua3OAkt+gvzn9w9axs2pAoYRQaR4VNlRLVY2rymDK79/RuS6sn9Yb4yLBmFXLtf2CZdBR8looUEyMxhmY2rR5xak43MMTu5Y4pAhGoHq1YSLpFtw8aMdtzpAeq4glw2w6Z4hIj4x2a2k98ZOR0N6DRAtGjwXsuHh8D/iTJO54=
+	t=1791982764; cv=none; b=YUsIS4tku4i9gJ62I3h40AX5JzDvTOeu8LgD2aViSnGMwLe8QW5XjV9eD9a1kVq2zGlyCTW+CT+bF/LpjwECSUjZ9vwEaEMTLpEi1z8lQcT+K2/JVxfKy1FDO/4XaetdeJdIs9IO2pwXNlUwnfkrYFFMWXlz4bNS3uQEnfIWErw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791982477; c=relaxed/simple;
-	bh=hpcg1jgzngplLEDfCJgF27/UlLBHLObqI9s2YymHbdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kx/wH7byD16awtemYnaYFseo4q7k70df+8b1YOmaWxQb11auizyMryYOD9wBPCftk+qS+27sTopWRPfhQW/Zzn9641is1XsYbO0X+pqNravxgrxA9N5TnZkXTF9IgXBP0SgonXAs7//KXoDIXRh46SIGJEsuWN6L3DQdKRE14FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DZ468QI9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ir1C+oqO; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DZ468QI9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ir1C+oqO; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1791982764; c=relaxed/simple;
+	bh=XwD6uZPUOqO16G217Oc87tHtEofjQpPiRC+ldHc0UPw=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=aYLzG8bBSzK0DjuGjcI5WKrXhq0x/O9O5ZDSaJqBmB+s6epW8KQfyRAhPsmqX1vLg1FkaV0JPL+Gl/O1lAhvtATiqrv/haINgeVesbQsewPjzewZskd/+n2zgc6pbpFerG3nGSWfEJFTYqDzkUAQT5BnFFPJ33I9mZl5hgowajg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=ejPbDASh; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DZ468QI9";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ir1C+oqO";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DZ468QI9";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ir1C+oqO"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 08E221FB5D;
-	Wed, 14 Oct 2026 12:54:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791982464; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yiag147YDzRhJZQmdF9FuIn31YFtAGEtLjcC+W+Mgt0=;
-	b=DZ468QI9zy+G17t8LQgWerTdwf1/ijRZbhnrjV+dTV4JYYqm0PyuPv7qdeoaS+LP2t3AUn
-	DwAZE2fUqRc5yPlVlSIDvKg3hNLoJFAo9WjRUNJCzymcGin9Ej7dGrT3CXqTV9B3skee++
-	mHhVMg7r0NmtDb+OBdAEAb+2HSEyp+4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791982464;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yiag147YDzRhJZQmdF9FuIn31YFtAGEtLjcC+W+Mgt0=;
-	b=Ir1C+oqOMOIcacDq1tx/pNbRkPQKcRUKsAzTj+YqDIjuO8k95WA0Bf9W1Jo3Z5jVL1VZIn
-	hnNPQEXs4th1WEDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=DZ468QI9;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Ir1C+oqO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791982464; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yiag147YDzRhJZQmdF9FuIn31YFtAGEtLjcC+W+Mgt0=;
-	b=DZ468QI9zy+G17t8LQgWerTdwf1/ijRZbhnrjV+dTV4JYYqm0PyuPv7qdeoaS+LP2t3AUn
-	DwAZE2fUqRc5yPlVlSIDvKg3hNLoJFAo9WjRUNJCzymcGin9Ej7dGrT3CXqTV9B3skee++
-	mHhVMg7r0NmtDb+OBdAEAb+2HSEyp+4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791982464;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yiag147YDzRhJZQmdF9FuIn31YFtAGEtLjcC+W+Mgt0=;
-	b=Ir1C+oqOMOIcacDq1tx/pNbRkPQKcRUKsAzTj+YqDIjuO8k95WA0Bf9W1Jo3Z5jVL1VZIn
-	hnNPQEXs4th1WEDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A47AA1368E;
-	Wed, 14 Oct 2026 12:54:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2P6oFn97z2rOFQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 14 Oct 2026 12:54:23 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 93594A140F; Wed, 14 Oct 2026 14:54:22 +0200 (CEST)
-Date: Wed, 14 Oct 2026 14:54:22 +0200
-From: Jan Kara <jack@suse.cz>
-To: jianyungao89@gmail.com
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Dan Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
-	Goldwyn Rodrigues <rgoldwyn@suse.com>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Shiyang Ruan <ruansy.fnst@fujitsu.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, 
-	"open list:FILESYSTEM DIRECT ACCESS (DAX)" <nvdimm@lists.linux.dev>
-Subject: Re: [PATCH v2] dax: fix dax_range_compare_iter() to use correct size
- and address offset
-Message-ID: <zvixzzexxaekw63q7yzeqibjd6elvq34q72xzsy6wmvrufxqae@b6yazc6wtpxy>
-References: <20261011064840.1296-1-jianyungao89@gmail.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="ejPbDASh"
+Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 69ECwnej1090762
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Wed, 14 Oct 2026 05:58:50 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 69ECwnej1090762
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026092801; t=1791982731;
+	bh=QIEdQ+jljzVM/uHfGWmHvQDETjLZEiCwFQ9wBmQaQNY=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=ejPbDAShLXQI3zL7SH4juLYz9osk5CGY+0Z7ENCg6coqpr7LZn5b9mLfdKg7qOmTc
+	 lGhhL9PSPOrmkRGFU8X4FxM0/hTVltiVg3AOAh5G0VlI57dyBWtr48U2uuD22QsUuj
+	 4G99IGX7WRFrU9GyGx0LmbWtTUAkgIfpyYTH35rxWZZDRuMqN+rXCHJ6vM6gEeCeyC
+	 dYMt3SNXJozOuuNBuPsFbtO3tiyw8tOwnxds7VlPA+EUhswgBaprIVuNX5WwqfTBnz
+	 uWaXkkvAfQEZD1he0Efwopiw1eCEb+dbV8RKsml5SfFIuXIi+WQ21msc0qsocH3Mb7
+	 NYmJGpjIASyMw==
+Date: Wed, 14 Oct 2026 05:58:42 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Zhiling Zou <zhilinz@nebusec.ai>, linux-fsdevel@vger.kernel.org
+CC: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, alain@knaff.lu,
+        vega@nebusec.ai, zhilinz@nebusec.ai
+Subject: Re: [PATCH 1/1] init: distinguish compressed ramdisks from image size
+User-Agent: K-9 Mail for Android
+In-Reply-To: <154af2b4bce7fe546be4e921439060aa0b616fc9.1791977727.git.zhilinz@nebusec.ai>
+References: <cover.1791977727.git.zhilinz@nebusec.ai> <154af2b4bce7fe546be4e921439060aa0b616fc9.1791977727.git.zhilinz@nebusec.ai>
+Message-ID: <2EED1C95-742F-40E6-BD12-FE8DE83F6F5F@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261011064840.1296-1-jianyungao89@gmail.com>
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 08E221FB5D
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:email,suse.cz:dkim,suse.com:email];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun 11-10-26 14:48:39, jianyungao89@gmail.com wrote:
-> From: Jianyun Gao <jianyungao89@gmail.com>
-> 
-> dax_range_compare_iter() has two bugs in how it calls
-> dax_iomap_direct_access() and uses the returned addresses:
-> 
-> 1. The size argument passed to dax_iomap_direct_access() is
->    ALIGN(pos + len, PAGE_SIZE), which is an absolute file offset
->    rather than a length. This causes the underlying dax_direct_access()
->    to request a massively inflated nr_pages via PHYS_PFN(size).
-> 
-> 2. The addresses returned by dax_iomap_direct_access() are page-aligned
->    starting addresses, but memcmp() compares from saddr/daddr directly
->    without adding the page-in-page offset of pos1/pos2. When pos1/pos2
->    are not page-aligned, this compares the wrong data.
-> 
-> Fix the size by computing ALIGN(len + offset_in_page(pos), PAGE_SIZE),
-> matching the pattern used in dax_iomap_copy_around(). Fix the address
-> by adding offset_in_page(pos1)/offset_in_page(pos2) to saddr/daddr in
-> the memcmp() call.
-> 
-> Fixes: 6f7db3894ae2 ("fsdax: dedup file range to use a compare function")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Jianyun Gao <jianyungao89@gmail.com>
+On October 14, 2026 4:44:00 AM PDT, Zhiling Zou <zhilinz@nebusec=2Eai> wrot=
+e:
+>identify_ramdisk_image() uses a zero block count to mark compressed
+>images=2E  A malformed legacy filesystem header can also produce a zero
+>block count, causing rd_load_image() to call crd_load() with a NULL
+>decompressor and panic=2E
+>
+>Track whether the image is compressed separately from its block count=2E
+>This keeps zero-sized or overflowed legacy image sizes on the normal
+>validation path while preserving the handling of compressed images=2E
+>
+>Fixes: 30d65dbfe3ad ("bzip2/lzma: config and initramfs support for bzip2/=
+lzma decompression")
+>Cc: stable@vger=2Ekernel=2Eorg
+>Reported-by: Vega <vega@nebusec=2Eai>
+>Assisted-by: LLM
+>Signed-off-by: Zhiling Zou <zhilinz@nebusec=2Eai>
+>---
+> init/do_mounts_rd=2Ec | 22 ++++++++++++----------
+> 1 file changed, 12 insertions(+), 10 deletions(-)
+>
+>diff --git a/init/do_mounts_rd=2Ec b/init/do_mounts_rd=2Ec
+>index 48bfab2fc62f=2E=2Ef113469448e9 100644
+>--- a/init/do_mounts_rd=2Ec
+>+++ b/init/do_mounts_rd=2Ec
+>@@ -31,9 +31,9 @@ static int __init crd_load(decompress_fn deco);
+>=20
+> /*
+>  * This routine tries to find a RAM disk image to load, and returns the
+>- * number of blocks to read for a non-compressed image, 0 if the image
+>- * is a compressed image, and -1 if an image with the right magic
+>- * numbers could not be found=2E
+>+ * number of blocks to read for a non-compressed image, and -1 if an
+>+ * image with the right magic numbers could not be found=2E The compress=
+ed
+>+ * flag is set if the image is compressed=2E
+>  *
+>  * We currently check for the following magic numbers:
+>  *	minix
+>@@ -50,7 +50,7 @@ static int __init crd_load(decompress_fn deco);
+>  */
+> static int __init
+> identify_ramdisk_image(struct file *file, loff_t pos,
+>-		decompress_fn *decompressor)
+>+		decompress_fn *decompressor, bool *compressed)
+> {
+> 	const int size =3D 512;
+> 	struct minix_super_block *minixsb;
+>@@ -63,6 +63,7 @@ identify_ramdisk_image(struct file *file, loff_t pos,
+> 	unsigned long n;
+> 	int start_block =3D rd_image_start;
+>=20
+>+	*compressed =3D false;
+> 	buf =3D kmalloc(size, GFP_KERNEL);
+> 	if (!buf)
+> 		return -ENOMEM;
+>@@ -87,7 +88,7 @@ identify_ramdisk_image(struct file *file, loff_t pos,
+> 			printk(KERN_EMERG
+> 			       "RAMDISK: %s decompressor not configured!\n",
+> 			       compress_name);
+>-		nblocks =3D 0;
+>+		*compressed =3D true;
+> 		goto done;
+> 	}
+>=20
+>@@ -185,6 +186,7 @@ int __init rd_load_image(void)
+> 	char *buf =3D NULL;
+> 	unsigned short rotate =3D 0;
+> 	decompress_fn decompressor =3D NULL;
+>+	bool compressed;
+> 	char rotator[4] =3D { '|' , '/' , '-' , '\\' };
+>=20
+> 	out_file =3D filp_open("/dev/ram", O_RDWR, 0);
+>@@ -196,15 +198,15 @@ int __init rd_load_image(void)
+> 		goto noclose_input;
+>=20
+> 	in_pos =3D rd_image_start * BLOCK_SIZE;
+>-	nblocks =3D identify_ramdisk_image(in_file, in_pos, &decompressor);
+>-	if (nblocks < 0)
+>-		goto done;
+>-
+>-	if (nblocks =3D=3D 0) {
+>+	nblocks =3D identify_ramdisk_image(in_file, in_pos, &decompressor,
+>+					 &compressed);
+>+	if (compressed) {
+> 		if (crd_load(decompressor) =3D=3D 0)
+> 			goto successful_load;
+> 		goto done;
+> 	}
+>+	if (nblocks < 0)
+>+		goto done;
+>=20
+> 	/*
+> 	 * NOTE NOTE: nblocks is not actually blocks but
 
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
-> 
-> Changes in v2:
-> - Add offset_in_page(pos1)/offset_in_page(pos2) to the saddr/daddr
->   arguments in memcmp() to fix the page-in-page offset issue pointed
->   out in the v1 review.
-> - Use offset_in_page() macro instead of (pos & ~PAGE_MASK) for
->   consistency with the rest of the codebase.
-> 
-> v1: https://lore.kernel.org/lkml/20261010071453.6028-1-jianyungao89@gmail.com/
-> 
->  fs/dax.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/dax.c b/fs/dax.c
-> index 6ba50142eeb2..b08d408418bd 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -2197,6 +2197,7 @@ static int dax_range_compare_iter(struct iomap_iter *it_src,
->  	const struct iomap *dmap = &it_dest->iomap;
->  	loff_t pos1 = it_src->pos, pos2 = it_dest->pos;
->  	void *saddr, *daddr;
-> +	size_t size1, size2;
->  	int id, ret;
->  
->  	len = min(len, min(smap->length, dmap->length));
-> @@ -2212,17 +2213,18 @@ static int dax_range_compare_iter(struct iomap_iter *it_src,
->  	}
->  
->  	id = dax_read_lock();
-> -	ret = dax_iomap_direct_access(smap, pos1, ALIGN(pos1 + len, PAGE_SIZE),
-> -				      &saddr, NULL);
-> +	size1 = ALIGN(len + offset_in_page(pos1), PAGE_SIZE);
-> +	ret = dax_iomap_direct_access(smap, pos1, size1, &saddr, NULL);
->  	if (ret < 0)
->  		goto out_unlock;
->  
-> -	ret = dax_iomap_direct_access(dmap, pos2, ALIGN(pos2 + len, PAGE_SIZE),
-> -				      &daddr, NULL);
-> +	size2 = ALIGN(len + offset_in_page(pos2), PAGE_SIZE);
-> +	ret = dax_iomap_direct_access(dmap, pos2, size2, &daddr, NULL);
->  	if (ret < 0)
->  		goto out_unlock;
->  
-> -	*same = !memcmp(saddr, daddr, len);
-> +	*same = !memcmp(saddr + offset_in_page(pos1),
-> +			daddr + offset_in_page(pos2), len);
->  	if (!*same)
->  		len = 0;
->  	dax_read_unlock(id);
-> -- 
-> 2.34.1
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Why the hell do we still support legacy filesystem boot ramdisks?
