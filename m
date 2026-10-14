@@ -1,678 +1,283 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6454EBAC8
-	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 10:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791972269; cv=pass; b=OBr/j6u6qG8L51ivKQKWm+qJXb4pLJ2q1FtuNqqOj02KPMiBNkgIX3Gb08HI0Kk91DU/LGKPqrbF5avTGi7daAwDzc3raZ4e8+ze8nza/Cs7piysrGjcEeG9cMDdvsJ0f2fJdCcQMddj4c3rMSEbK44oTR7uSA+QwUv43WSx+OA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791972269; c=relaxed/simple;
-	bh=TqmsPJFAydDCQUo6kx8TwRXNfJTbbU9ITh7Lil5oFXM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g457PxQJroI3rt9GHG1CG/1nqxERkGqt7PqKrd15E72VBdDC1r24o5NjqqO2cDLUzxyCU1nmpqB6+xo4RJhOGksE9D9OIOu8qWoSXwADNfRtVH3utn2jpzLtfi7eghynp/98VetKtlbJdCNXzbypYP59O4hzBEi3ehTT4ERFMY0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CX2rvFh5; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=NtlhoZ3q; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21734F4D16
+	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 11:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791975745; cv=none; b=Fw9bLwr467yIllo8326b9SjaOBiQ57vxdBKFgXN+YQE007RMDrZCfBVWCvNBjSP8fWbRLk7LgO4JYGI5J4m+WkvPwJnqgncYKmdU8XZT3tK8QFElAKN2pzhtJOt7AMZINQQ5P0IjDwRAPT0tY2dfidjjQfwg2YP/s7h8t+m5clA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791975745; c=relaxed/simple;
+	bh=NJY/Jrj3a3HrRrpOxKoYLO8i+hVozYz8WR8RrwPxzbM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IUFrjtsesL7Q3cc1/U3x0RPvmSLta7Sljwchdocfxwg4eIW5SdXcBvKkx1GjeWs3rd84dA2291MIRpYeu6teBUjtCmC+2T3BrjKaYpKl6m/EzDlj1JfkANT94pu4KC0GCfPpDFldyKytb5WDmwsecewtnUdFxHuKmas4BOVwBrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=spX6b9qi; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CX2rvFh5";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="NtlhoZ3q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791972265;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Yy8vwH/RoXpMxh37HhgJFxTFAdxrYLgTIo9J4fiSIS4=;
-	b=CX2rvFh5gPabvkTmQglOHVOjxkmT879FURhRPANtyeyiO7YZ/V5Caqxg3z9KKbYodENVRk
-	P4iWM5sZ9C9IJRkWYUy+ma1/9ZqAt02RxzwPmSNvCrsMzeBqqLjp4MjnN7n3UfOtDhj/SM
-	SdIPVyZfrFuKtLEImJf7lKoYz2Gkfic=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-540-sKyBdpqJNuSeCpzxU6_TgQ-1; Wed, 14 Oct 2026 10:04:22 +0000
-X-MC-Unique: sKyBdpqJNuSeCpzxU6_TgQ-1
-X-Mimecast-MFC-AGG-ID: sKyBdpqJNuSeCpzxU6_TgQ_1791972262
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2e869e00005so10623515ad.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 03:04:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791972261; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cE8USnM1F2UHAxYo5dTML8WC5PEXcrQubuSFLmzcQeQqzX6k5kZWJgpcYb0+5I/yva
-         j/Je39mEz40151LqDDVACYRTb4AuVeDzn7HXvV8S6rvizlueW+Jdow0FmId0eregJ3SL
-         BzQXybakWPFbHSBsFiuqSNrzG2k2OYP+jCNKwpfWHc/sQJ/NjNbnwxkUUQTPHlZ1ucdE
-         no+iZ6M55qWfcQgWULrkdnlgDFRQkBJgrjgLpz8Os1p8BNBqgW0Eb9tkwFoDkdF98sGL
-         aZ1dFmxOanPmBIn+3Fv+qQmY8yCmdRPW9YH8hc6QaZO4bZxaDLwPL4J9I/UC1C1jhU6E
-         GxIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Yy8vwH/RoXpMxh37HhgJFxTFAdxrYLgTIo9J4fiSIS4=;
-        fh=WIaDn+fO9eCdsSMOi0UJVg5jdUPXkeQvxpFbHtk7f78=;
-        b=WzlCOIVJavJ7kY3jJFUfFt+ylxPb6+o5t9Ixsr2kgpA9+3OKAchZ0C8k2kCI1BkCss
-         hpvA6ns5zd/XbWDiOvYIYF6L4/+auFJXiSaDMkmEE/niEG8firV7r0XEEHg1ReJ80k7H
-         LWafn4UVvfRQ9I3xa8RyZ9q4SYwKEFDUmxF1LEn54bmb8oZ1TOpGtfjS/fnc2n3aIFZH
-         OCaJ8awS1iXs8DEZD15k5w/tjJ0jVMFF6z27+gO7m2XusG3RuZFA7iVaeloUDy5SGN18
-         8+BDOPf+eWp3rxZG+VS7Xcr2QJ3DvUFCKIAqlIvE89Ug1DTQIkuru5ad3XuK26pidjvi
-         txEg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="spX6b9qi"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a1ad2e2391so12571765e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 04:02:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1791972261; x=1792577061; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Yy8vwH/RoXpMxh37HhgJFxTFAdxrYLgTIo9J4fiSIS4=;
-        b=NtlhoZ3qlBHAn5yhfd9c8lOy7Tm1VtaDzKO5FX0UHg7KtxidXa1bBMx2HM8YFA/esc
-         VO/hDZlY+2jcWbuz4xGP+JTdFo+qtLx2dFaqS65c4HZqa7KJQesNTNolBFc2oVpkwneD
-         YsC7Kq9kN2EFtyKUpEGCRzxEQ+GDweTM5WmengYXh2h9gc75VqmmxRufmf1HE1e/x5d1
-         7G52yowOStH7eVdTlAhA94fq1CGZGupPylOCwc8iY+falHPqym7IDc0F3aUE3fvlbzcX
-         w9nXqhiBoDERnZmLBuo/DyxC+Xbjd8yKUI+A7C3KkFk3SiiFtXwxVIG/jrNmvxgnyTod
-         z6vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791972261; x=1792577061;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1791975738; x=1792580538; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Yy8vwH/RoXpMxh37HhgJFxTFAdxrYLgTIo9J4fiSIS4=;
-        b=yjCAqxjxPK8ilG9LNq6p+BMlJhmYrxMk6i/4KXGct72iAFi0aBLY7OS/g8g31498uh
-         h4xVAqTP00sWmy8WKFhfi8ejfIiDKRz2A/PoGv61QYK/f/DhiMjnHDVF8p85Tyla9D6H
-         Cecb0JRr7VrS3TE0DZY56LvVNuyw8G3PEQHdpbWcdopySxT2mWKIGhpDbAKH1+AgItR4
-         aNmIt+3nlw+UNLYrQsu8NM78AhurFbCOtCQua/Fr1Vv4Dckq6l+JQjiusN+40sfY582c
-         ofev4ZnQwYtjhZYWMMZUEo5f+6dfloemkX6G7zf/MSHRH9u0gHz1su+ZvUnS2OrMTZXG
-         RY3A==
-X-Forwarded-Encrypted: i=1; AKwUvBzo4eZ+heRcKiAL7EdOG4ISIAxH3z5o3C0dsrAV+oSoLvt1rV8eiPU3L8UCL5XZH4KKi9syWwIrefsyZroh@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ3uQu28GIEk0gh1xgF1dGnpNrK1p8naX7aZ3AL1GmEPzGHTeC0
-	+UNThatwUpxd1/itf9EbMWU/U+czMrat40HcwffU7vkqAdqJzFM+oiyysESh06I1FxEQvi9Uteo
-	m+d74esNPynCTk/OHGKtKvw5FUvkYKA6b09xHQvrWgpNT4zsY00j0t0xOgMN8MUgCy0lQ7Xd/ai
-	Yyx+P80l0pOqRrASj6gLvuuiRyvCM98HFsjabEBXy/Ew==
-X-Gm-Gg: AYBFou0Py3AqG6EDI4z0ofjeWaY2wwsgudVdkQKfJLdtRrvKZxIJMPBNi5xIJMB0shv
-	rKSpL//dYKFNimrcDbbi9/8qDWyj43zUhinRhuSiGg8ZcwYWXxjKmRoNLlkZBkXUr0aN9spWBN6
-	XCt04Fw+aRd0DwB5Iie56DcgQUqDXUWiP8JArPH+Yu4Ykg6LH2UyCCCfpSiXLELI9aaEMl8BF2r
-	KY4BxuuFmNrV+A0iNZg6UHS+hPAMT6SHU6grJBW3CihDQ==
-X-Received: by 2002:a17:902:d4d2:b0:2e5:43d8:a946 with SMTP id d9443c01a7336-2e8427eb54dmr123457145ad.8.1791972261276;
-        Wed, 14 Oct 2026 03:04:21 -0700 (PDT)
-X-Received: by 2002:a17:902:d4d2:b0:2e5:43d8:a946 with SMTP id
- d9443c01a7336-2e8427eb54dmr123456725ad.8.1791972260682; Wed, 14 Oct 2026
- 03:04:20 -0700 (PDT)
+        bh=n9LdvIgr/9Qme3vhxjRpx9Sm5e7MKaYv7gruFZ4NeS0=;
+        b=spX6b9qiw+GWw/CNIllnQ56LZll4OxpGvodwGGRMQitFPS5No2qroTsbUklsAEBwYt
+         K6IY+R8QUT4Cj8whdgWdMg4znSoLXdsYhELamctJ/5Kki1upM3DrhMjFqm+ZFgNRud5Z
+         yJDT2r2Mo+zc8Lyl/tTRlyn7+GUp8yh/vTey+r/8svF0fe2aSzRTjOADj82NiI8c8k7c
+         ZMMkyIZXmlWql3n9G0de7bmsXSjC7ooYiUMpl9L5dp3BJB1DoNSgDumivj5ofZJLUyuh
+         qIbBUOWWak/E9MxMGPytKXSA/7OMIoktCt6mEpOQsbOvvX8iSXu/pE0L31cA678IX3Ud
+         qMsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791975738; x=1792580538;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=n9LdvIgr/9Qme3vhxjRpx9Sm5e7MKaYv7gruFZ4NeS0=;
+        b=2zSd2EJEjM9FkTZ6+jnzr9dGHdQ/yfDQNUuu7cz3G752cMD4ZbWpu+2HPFRj7vDRLb
+         LCwqCNILp9OFekzr3VMaeC6Nt9Fq83DZZ0FxutoodPK2FVp6oCfda1R/aPhIu7i+4YJ0
+         75iW15q7cA6THLEpHz7+L77w4wpaPY0Gd2TSKQBv/jHVcfMOp2R+iJttlg1gj5PKt9Mw
+         PXnRWGAYuxG8iLd3AXZc7E68hYeJp4+DTTaACtX2cSWXqkK6pA7J+o3FLZ1YDFu233Jg
+         HZ9Vg7jnehazy2cfgWR07S5jBJvebBz0m/m2fqBzIBlAbLHcBYFvo/Infpvr1QzNdlrX
+         ZoZQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw5PWWDHkrkA0RMiaxDIeoJMmbeOehM/SGWYUxWmZBQBuxsFGWG3VCpy0lgUN/9+GQ2AdOdoRO4YBRS75L3@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ53m/AHaLeEHFvG/L2v2qpxDph0I5vp5yVU7RQoGvBOztlZVmV
+	Fx8NxiFRW1lbraEOjZvke+a7a/ATUaJV7UVSCdSOjLayJp9o7c9UMFMd
+X-Gm-Gg: AYBFou3/wEhUxihTVKg1mCGoSZLWmfkpRE+NA3pZTezMMJzZcOvnW1D91n8tMa7lqiS
+	P/saPVi46FivyxYk13hDdq6YJTo/8db5a/9+zSmxUostqLk/KPlHRiA4ZvoHI54i9hNXF/N4iv8
+	z1QMAXDwlw15opvqDRcM2wFn/8Zg2VwcqaV0RXyocA2WVXYVWrPeoSIOsPEunKvR/k7KOxknCPs
+	b21iKx3IRUw/uHdwdJO4MvK9Pc4qmodoc9LG639IyeG3VgeKPuVWzFVEY4OadH2nhWOdJTsfqQ1
+	fa7ur9TDkFiECs6BeNnVqhhGFGwuRcr50TT+fCGts6V7Whfy3Ed3FE4swgSRgCR22m0raWCKWFJ
+	zz5WfgPSEkCH9bP7oqmuxZGG37KWShknZ0ryo84kcsvnrEbEZlswCzyC6UGQaMun/7I+WZGZBOu
+	/sVnL5G1pc1i8GiGLdx+GcSHLpRlNHB09PtbOOVbV/1GKtivGgArEOQi7fqo54/QremlVbnG+Bv
+	MlpjcjEfN1Zsog3HoSeyxHR1IQHtY8Etz3PfmrSRCxmRFy6fxXlaPBu8+0crDbir/B2PqGzlSkY
+X-Received: by 2002:a05:600c:4688:b0:4a1:8d46:6228 with SMTP id 5b1f17b1804b1-4a18e4a9ba5mr321894465e9.14.1791975738524;
+        Wed, 14 Oct 2026 04:02:18 -0700 (PDT)
+Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1b45eb78csm38078845e9.2.2026.10.14.04.02.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 04:02:17 -0700 (PDT)
+From: Pavel Begunkov <asml.silence@gmail.com>
+To: linux-block@vger.kernel.org
+Cc: asml.silence@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	William Power <william.power@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	dm-devel@lists.linux.dev
+Subject: [PATCH v11 00/13] Add dmabuf read/write via io_uring
+Date: Wed, 14 Oct 2026 12:01:58 +0100
+Message-ID: <cover.1791975048.git.asml.silence@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261012-work-fs-sb_rdonly-v1-0-60743a3dc326@kernel.org>
- <my2k7257m265fp5ad77n5hfndl23i56gsog3jwnsyocp3yxbnj@aphfqdiej2hs> <20261013-forsten-ammoniak-geknackt-fefec366cc97@brauner>
-In-Reply-To: <20261013-forsten-ammoniak-geknackt-fefec366cc97@brauner>
-From: Andreas Gruenbacher <agruenba@redhat.com>
-Date: Wed, 14 Oct 2026 12:04:08 +0200
-X-Gm-Features: AclHuK89XwTjkfX9K2SsPZJlWx-F0zVVEO2vE9D2PZHZPLH37H9mpWJhh9L2Jm4
-Message-ID: <CAHc6FU5JuYU8R4=agxgWBoEKrUGyWiitzRn5MwXiV7NZYt=_ag@mail.gmail.com>
-Subject: Re: [PATCH RFC 00/28] fs: don't set SB_RDONLY after filesystem errors
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, Al Viro <viro@zeniv.linux.org.uk>, 
-	ecryptfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, 
-	exfat@lists.linux.dev, linux-fsdevel@vger.kernel.org, ntfs@lists.linux.dev, 
-	ocfs2-devel@lists.linux.dev, linux-btrfs@vger.kernel.org, 
-	gfs2@lists.linux.dev, linux-efi@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, linux-xfs@vger.kernel.org, 
-	stable@vger.kernel.org, Karl Mehltretter <kmehltretter@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 14, 2026 at 12:20=E2=80=AFAM Christian Brauner <brauner@kernel.=
-org> wrote:
-> > I'm in favor of this. Just after checking couple of filesystem changes =
--
-> > won't we be better off by using a generic flag in super_block for this =
-so
-> > that VFS can check for it? Then each filesystem won't have to implement
-> > its own wrapper for simple_fsync(), quota operations, and whatever othe=
-r
-> > generic operations that need to bail on shutdown filesystem...
->
-> Do you mean something like?:
->
-> From 28c97f2142e255eb835d26deb97b00afccfb7c4a Mon Sep 17 00:00:00 2001
-> From: Christian Brauner <brauner@kernel.org>
-> Date: Tue, 13 Oct 2026 21:15:36 +0200
-> Subject: [PATCH] fs: add a generic emergency read-only state
->
-> The filesystems that stopped setting SB_RDONLY after an error refuse
-> modifications themselves now. Each of them grew the same checks in
-> ->open, ->setattr, ->fsync, ->write_inode, the directory operations, the
-> quota operations and ->reconfigure. Jan suggested a generic flag so the
-> VFS can do that once (cf. [1]).
->
-> So add SB_STATE_EMERGENCY_RO in a new sb->s_state word. It is only ever
-> set with set_bit() and never cleared so it can be tested anywhere
-> without any ordering against the setter. A filesystem calls
-> sb_set_emergency_ro() where it used to set SB_RDONLY. SB_RDONLY itself
-> stays untouched so freeze_super() and thaw_super() keep seeing a
-> consistent superblock.
->
-> The VFS then checks it wherever sb_rdonly() gates a write:
->
-> - __mnt_is_readonly() so mnt_want_write(), opening files for writing,
->   access(W_OK), nfsd and overlayfs see a read-only superblock
-> - sb_permission() for vfs_create(), vfs_unlink() and friends
-> - notify_change(), rw_verify_area(), vfs_fallocate(), vfs_fsync_range()
->   and do_page_mkwrite() for files that were opened before the error
-> - reconfigure_super() refuses going read-write
-> - sync_filesystem(), sync(2) and write_inode() don't write anymore
-> - the dquot code doesn't write the quota files anymore and quotactl(2)
->   refuses to change anything
-> - "emergency_ro" is shown in the mount options, /proc/mounts shows the
->   superblock as "ro" and statfs() reports ST_RDONLY like they did when
->   SB_RDONLY was set
->
-> What reaches the filesystem without passing through the VFS it still has
-> to refuse itself. That's its allocators, its journal, its own writeback
-> and the deletion of unlinked inodes.
+The patch set allows to register a dmabuf to an io_uring instance for
+a specified file and use it with io_uring read / write requests. The
+infrastructure is not tied to io_uring and there could be more users
+in the future. A similar idea was attempted some years ago by Keith [1],
+from where I borrowed a number of changes. Later it was brough back up
+to life by Tushar and Vishal.
 
-For shared filesystems like gfs2, the concept of an emergency
-read-only state doesn't make sense because in that state (in gfs2
-terms, a withdrawn filesystem), we cannot do any more cluster-wide
-locking and so we cannot allow any more reads, either. Could we define
-the new flag in a way that would allow filesystems to enforce stronger
-guarantees? This would suggest a flag name other than
-SB_STATE_EMERGENCY_RO, though.
+It's an opt-in feature for files, and they need to implement a new
+file operation to use it. Only NVMe block devices are supported in this
+series. The user API is built on top of io_uring's "registered buffers",
+where a dmabuf is registered in a special way, but after it can be used
+as any other "registered buffer" with IORING_OP_{READ,WRITE}_FIXED
+requests. It's created via a new file operation and the resulted map is
+then passed through the I/O stack in a new iterator type. There is some
+additional infrastructure to glue it together, count requests, manage
+lifetime and implement invalidation.
 
-Thanks,
-Andreas
+Tushar, William, Phil did a lot of testing and experimentation on various
+devices with previous versions of the patch set, and I've received lots
+of help from Anuj, Kanchan and Nitesh with investigations, testing, and
+patching. Earlier benchmarks by Anuj for IOMMU optimisations with udmabuf
+showed:
 
-> [1]: https://lore.kernel.org/r/my2k7257m265fp5ad77n5hfndl23i56gsog3jwnsyo=
-cp3yxbnj@aphfqdiej2hs
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  Documentation/filesystems/porting.rst | 16 ++++++++++++++++
->  fs/attr.c                             |  4 ++++
->  fs/fs-writeback.c                     |  3 +++
->  fs/namei.c                            |  3 ++-
->  fs/namespace.c                        |  3 ++-
->  fs/open.c                             |  4 ++++
->  fs/proc_namespace.c                   |  4 +++-
->  fs/quota/dquot.c                      | 23 +++++++++++++++++------
->  fs/quota/quota.c                      | 13 +++++++++++++
->  fs/read_write.c                       |  5 +++++
->  fs/statfs.c                           |  9 +++++++--
->  fs/super.c                            |  4 ++++
->  fs/sync.c                             | 18 +++++++++++++-----
->  include/linux/fs/super.h              | 18 ++++++++++++++++++
->  include/linux/fs/super_types.h        | 21 +++++++++++++++++++++
->  mm/memory.c                           |  6 ++++++
->  16 files changed, 138 insertions(+), 16 deletions(-)
->
-> diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesy=
-stems/porting.rst
-> index 60880eb0c49d..c60f74a99568 100644
-> --- a/Documentation/filesystems/porting.rst
-> +++ b/Documentation/filesystems/porting.rst
-> @@ -1409,3 +1409,19 @@ use only if you have no alternative.
->  The .create inode_operation no longer receives the 'excl' arg.  It must
->  always assume the file does not already exist.  If the filesystem needs
->  to be involved in non-exclusive create, it should provide atomic_open.
-> +
-> +---
-> +
-> +**recommended**
-> +
-> +Filesystems that set SB_RDONLY on the superblock after an error
-> +(errors=3Dremount-ro) must not do that anymore.
+STRICT: before = 570 KIOPS, after = 5.01 MIOPS
+LAZY: before = 1.93 MIOPS, after = 5.01 MIOPS
+PASSTHROUGH: before = 5.01 MIOPS, after = 5.01 MIOPS
 
+# Patch set structure:
+- Patches 1-2 introduce internal API and infrastructure mediating
+  io_uring and target subsystem / devices
+- Patches 3-5: block layer support + prep patches
+- Patches 6-8 implement NVMe support
+- Patches 9-13 add io_uring support and uapi.
 
-> SB_RDONLY only changes under
-> +sb->s_umount through reconfigure_super() and freeze_super() and thaw_sup=
-er()
-> +rely on that. Call sb_set_emergency_ro() instead. The VFS then refuses
-> +modifications with EROFS, refuses a remount to read-write, shows
-> +"emergency_ro" in the mount options and stops syncing the filesystem and
-> +writing back its inodes. The filesystem still has to refuse what reaches=
- it
-> +without passing through the VFS: its own allocation, journal and writeba=
-ck
-> +paths and the deletion of unlinked inodes in ->evict_inode(). Test
-> +sb_emergency_ro() for that. A remount to read-only must not write anythi=
-ng
-> +in that state either, in particular it must not mark the filesystem clea=
-n.
-> diff --git a/fs/attr.c b/fs/attr.c
-> index 71888ac903c2..e4973f68b6c6 100644
-> --- a/fs/attr.c
-> +++ b/fs/attr.c
-> @@ -435,6 +435,10 @@ int notify_change(struct mnt_idmap *idmap, struct de=
-ntry *dentry,
->
->         WARN_ON_ONCE(!inode_is_locked(inode));
->
-> +       /* Nothing can be changed after an error made the filesystem read=
--only. */
-> +       if (sb_emergency_ro(inode->i_sb))
-> +               return -EROFS;
-> +
->         error =3D may_setattr(idmap, inode, ia_valid);
->         if (error)
->                 return error;
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index ea3eb40bf828..bd095a911620 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -1618,6 +1618,9 @@ static int write_inode(struct inode *inode, struct =
-writeback_control *wbc)
->  {
->         int ret;
->
-> +       /* Nothing may be written after an error made the filesystem read=
--only. */
-> +       if (sb_emergency_ro(inode->i_sb))
-> +               return -EROFS;
->         if (inode->i_sb->s_op->write_inode && !is_bad_inode(inode)) {
->                 trace_writeback_write_inode_start(inode, wbc);
->                 ret =3D inode->i_sb->s_op->write_inode(inode, wbc);
-> diff --git a/fs/namei.c b/fs/namei.c
-> index c87c14ee1a25..902a2e998ed4 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -607,7 +607,8 @@ static int sb_permission(struct super_block *sb, stru=
-ct inode *inode, int mask)
->                 umode_t mode =3D inode->i_mode;
->
->                 /* Nobody gets write access to a read-only fs. */
-> -               if (sb_rdonly(sb) && (S_ISREG(mode) || S_ISDIR(mode) || S=
-_ISLNK(mode)))
-> +               if ((sb_rdonly(sb) || sb_emergency_ro(sb)) &&
-> +                   (S_ISREG(mode) || S_ISDIR(mode) || S_ISLNK(mode)))
->                         return -EROFS;
->         }
->         return 0;
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index 3ed3766f3a18..5e172cf70e71 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -392,7 +392,8 @@ static struct mount *alloc_vfsmnt(const char *name)
->   */
->  bool __mnt_is_readonly(const struct vfsmount *mnt)
->  {
-> -       return (mnt->mnt_flags & MNT_READONLY) || sb_rdonly(mnt->mnt_sb);
-> +       return (mnt->mnt_flags & MNT_READONLY) || sb_rdonly(mnt->mnt_sb) =
-||
-> +              sb_emergency_ro(mnt->mnt_sb);
->  }
->  EXPORT_SYMBOL_GPL(__mnt_is_readonly);
->
-> diff --git a/fs/open.c b/fs/open.c
-> index 6b1c14e684a9..d7698c4bc8d5 100644
-> --- a/fs/open.c
-> +++ b/fs/open.c
-> @@ -324,6 +324,10 @@ int vfs_fallocate(struct file *file, int mode, loff_=
-t offset, loff_t len)
->         if (!S_ISREG(inode->i_mode) && !S_ISBLK(inode->i_mode))
->                 return -ENODEV;
->
-> +       /* Files can't be written after an error made the filesystem read=
--only. */
-> +       if (S_ISREG(inode->i_mode) && sb_emergency_ro(inode->i_sb))
-> +               return -EROFS;
-> +
->         /* Check for wraparound */
->         if (check_add_overflow(offset, len, &sum))
->                 return -EFBIG;
-> diff --git a/fs/proc_namespace.c b/fs/proc_namespace.c
-> index 036356c0a55b..85da3f6865c7 100644
-> --- a/fs/proc_namespace.c
-> +++ b/fs/proc_namespace.c
-> @@ -57,6 +57,8 @@ static int show_sb_opts(struct seq_file *m, struct supe=
-r_block *sb)
->                 if (sb->s_flags & fs_infop->flag)
->                         seq_puts(m, fs_infop->str);
->         }
-> +       if (sb_emergency_ro(sb))
-> +               seq_puts(m, ",emergency_ro");
->
->         return security_sb_show_options(m, sb);
->  }
-> @@ -179,7 +181,7 @@ static int show_mountinfo(struct seq_file *m, struct =
-vfsmount *mnt)
->         } else {
->                 mangle(m, r->mnt_devname);
->         }
-> -       seq_puts(m, sb_rdonly(sb) ? " ro" : " rw");
-> +       seq_puts(m, sb_rdonly(sb) || sb_emergency_ro(sb) ? " ro" : " rw")=
-;
->         err =3D show_sb_opts(m, sb);
->         if (err)
->                 goto out;
-> diff --git a/fs/quota/dquot.c b/fs/quota/dquot.c
-> index 1c78c695d0dd..56c54d437c38 100644
-> --- a/fs/quota/dquot.c
-> +++ b/fs/quota/dquot.c
-> @@ -495,6 +495,11 @@ int dquot_acquire(struct dquot *dquot)
->         set_bit(DQ_READ_B, &dquot->dq_flags);
->         /* Instantiate dquot if needed */
->         if (!dquot_active(dquot) && !dquot->dq_off) {
-> +               /* Nothing may be written after an error made the fs read=
--only. */
-> +               if (sb_emergency_ro(dquot->dq_sb)) {
-> +                       ret =3D -EROFS;
-> +                       goto out_iolock;
-> +               }
->                 ret =3D dqopt->ops[dquot->dq_id.type]->commit_dqblk(dquot=
-);
->                 /* Write the info if needed */
->                 if (info_dirty(&dqopt->info[dquot->dq_id.type])) {
-> @@ -536,10 +541,12 @@ int dquot_commit(struct dquot *dquot)
->                 goto out_lock;
->         /* Inactive dquot can be only if there was error during read/init
->          * =3D> we have better not writing it */
-> -       if (dquot_active(dquot))
-> -               ret =3D dqopt->ops[dquot->dq_id.type]->commit_dqblk(dquot=
-);
-> -       else
-> +       if (!dquot_active(dquot))
->                 ret =3D -EIO;
-> +       else if (sb_emergency_ro(dquot->dq_sb))
-> +               ret =3D -EROFS;
-> +       else
-> +               ret =3D dqopt->ops[dquot->dq_id.type]->commit_dqblk(dquot=
-);
->  out_lock:
->         memalloc_nofs_restore(memalloc);
->         mutex_unlock(&dquot->dq_lock);
-> @@ -561,7 +568,8 @@ int dquot_release(struct dquot *dquot)
->         /* Check whether we are not racing with some other dqget() */
->         if (dquot_is_busy(dquot))
->                 goto out_dqlock;
-> -       if (dqopt->ops[dquot->dq_id.type]->release_dqblk) {
-> +       if (dqopt->ops[dquot->dq_id.type]->release_dqblk &&
-> +           !sb_emergency_ro(dquot->dq_sb)) {
->                 ret =3D dqopt->ops[dquot->dq_id.type]->release_dqblk(dquo=
-t);
->                 /* Write the info */
->                 if (info_dirty(&dqopt->info[dquot->dq_id.type])) {
-> @@ -2132,6 +2140,9 @@ int dquot_commit_info(struct super_block *sb, int t=
-ype)
->  {
->         struct quota_info *dqopt =3D sb_dqopt(sb);
->
-> +       /* Nothing may be written after an error made the fs read-only. *=
-/
-> +       if (sb_emergency_ro(sb))
-> +               return -EROFS;
->         return dqopt->ops[type]->write_file_info(sb, type);
->  }
->  EXPORT_SYMBOL(dquot_commit_info);
-> @@ -2255,7 +2266,7 @@ int dquot_disable(struct super_block *sb, int type,=
- unsigned int flags)
->                  * Now all dquots should be invalidated, all writes done =
-so we
->                  * should be only users of the info. No locks needed.
->                  */
-> -               if (info_dirty(&dqopt->info[cnt]))
-> +               if (info_dirty(&dqopt->info[cnt]) && !sb_emergency_ro(sb)=
-)
->                         sb->dq_op->write_info(sb, cnt);
->                 if (dqopt->ops[cnt]->free_file_info)
->                         dqopt->ops[cnt]->free_file_info(sb, cnt);
-> @@ -2272,7 +2283,7 @@ int dquot_disable(struct super_block *sb, int type,=
- unsigned int flags)
->
->         /* Sync the superblock so that buffers with quota data are writte=
-n to
->          * disk (and so userspace sees correct data afterwards). */
-> -       if (sb->s_op->sync_fs)
-> +       if (sb->s_op->sync_fs && !sb_emergency_ro(sb))
->                 sb->s_op->sync_fs(sb, 1);
->         sync_blockdev(sb->s_bdev);
->         /* Now the quota files are just ordinary files and we can set the
-> diff --git a/fs/quota/quota.c b/fs/quota/quota.c
-> index 33bacd707580..7612c96493d1 100644
-> --- a/fs/quota/quota.c
-> +++ b/fs/quota/quota.c
-> @@ -783,6 +783,19 @@ static int do_quotactl(struct super_block *sb, int t=
-ype, int cmd, qid_t id,
->         if (ret < 0)
->                 return ret;
->
-> +       /* Nothing can be changed after an error made the filesystem read=
--only. */
-> +       if (sb_emergency_ro(sb)) {
-> +               switch (cmd) {
-> +               case Q_QUOTAON:
-> +               case Q_SETINFO:
-> +               case Q_SETQUOTA:
-> +               case Q_XQUOTAON:
-> +               case Q_XQUOTARM:
-> +               case Q_XSETQLIM:
-> +                       return -EROFS;
-> +               }
-> +       }
-> +
->         switch (cmd) {
->         case Q_QUOTAON:
->                 return quota_quotaon(sb, type, id, path);
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index e8c14e2760b2..4b587ba084bf 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -472,6 +472,11 @@ int rw_verify_area(int read_write, struct file *file=
-, const loff_t *ppos, size_t
->                 }
->         }
->
-> +       /* Files can't be written after an error made the filesystem read=
--only. */
-> +       if (read_write =3D=3D WRITE && S_ISREG(file_inode(file)->i_mode) =
-&&
-> +           sb_emergency_ro(file_inode(file)->i_sb))
-> +               return -EROFS;
-> +
->         ret =3D security_file_permission(file, mask);
->         if (ret)
->                 return ret;
-> diff --git a/fs/statfs.c b/fs/statfs.c
-> index 377bcef7a561..05a90d5a3310 100644
-> --- a/fs/statfs.c
-> +++ b/fs/statfs.c
-> @@ -48,8 +48,13 @@ static int flags_by_sb(int s_flags)
->
->  static int calculate_f_flags(struct vfsmount *mnt)
->  {
-> -       return ST_VALID | flags_by_mnt(mnt->mnt_flags) |
-> -               flags_by_sb(mnt->mnt_sb->s_flags);
-> +       int flags =3D ST_VALID | flags_by_mnt(mnt->mnt_flags) |
-> +                   flags_by_sb(mnt->mnt_sb->s_flags);
-> +
-> +       /* An error made the filesystem read-only, SB_RDONLY stays clear.=
- */
-> +       if (sb_emergency_ro(mnt->mnt_sb))
-> +               flags |=3D ST_RDONLY;
-> +       return flags;
->  }
->
->  static int statfs_by_dentry(struct dentry *dentry, struct kstatfs *buf)
-> diff --git a/fs/super.c b/fs/super.c
-> index 1d5ccf540a9b..74cde61e8d71 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -1091,6 +1091,10 @@ int reconfigure_super(struct fs_context *fc)
->                 remount_ro =3D (fc->sb_flags & SB_RDONLY) && !sb_rdonly(s=
-b);
->         }
->
-> +       /* An error made the filesystem read-only until it is unmounted. =
-*/
-> +       if (remount_rw && sb_emergency_ro(sb))
-> +               return -EROFS;
-> +
->         if (remount_ro) {
->                 if (!hlist_empty(&sb->s_pins)) {
->                         super_unlock_excl(sb);
-> diff --git a/fs/sync.c b/fs/sync.c
-> index 4a84dd837b86..f183c364815c 100644
-> --- a/fs/sync.c
-> +++ b/fs/sync.c
-> @@ -38,9 +38,10 @@ int sync_filesystem(struct super_block *sb)
->         WARN_ON(!rwsem_is_locked(&sb->s_umount));
->
->         /*
-> -        * No point in syncing out anything if the filesystem is read-onl=
-y.
-> +        * No point in syncing out anything if the filesystem is read-onl=
-y, and
-> +        * nothing may be written after an error made it read-only.
->          */
-> -       if (sb_rdonly(sb))
-> +       if (sb_rdonly(sb) || sb_emergency_ro(sb))
->                 return 0;
->
->         /*
-> @@ -73,14 +74,14 @@ EXPORT_SYMBOL(sync_filesystem);
->
->  static void sync_inodes_one_sb(struct super_block *sb, void *arg)
->  {
-> -       if (!sb_rdonly(sb))
-> +       if (!sb_rdonly(sb) && !sb_emergency_ro(sb))
->                 sync_inodes_sb(sb);
->  }
->
->  static void sync_fs_one_sb(struct super_block *sb, void *arg)
->  {
-> -       if (!sb_rdonly(sb) && !(sb->s_iflags & SB_I_SKIP_SYNC) &&
-> -           sb->s_op->sync_fs)
-> +       if (!sb_rdonly(sb) && !sb_emergency_ro(sb) &&
-> +           !(sb->s_iflags & SB_I_SKIP_SYNC) && sb->s_op->sync_fs)
->                 sb->s_op->sync_fs(sb, *(int *)arg);
->  }
->
-> @@ -181,6 +182,13 @@ int vfs_fsync_range(struct file *file, loff_t start,=
- loff_t end, int datasync)
->
->         if (!file->f_op->fsync)
->                 return -EINVAL;
-> +       /*
-> +        * Inodes aren't written back after an error made the filesystem
-> +        * read-only, don't claim they're on disk.
-> +        */
-> +       if (!special_file(file_inode(file)->i_mode) &&
-> +           sb_emergency_ro(file_inode(file)->i_sb))
-> +               return -EROFS;
->         if (!datasync)
->                 sync_lazytime(inode);
->         return file->f_op->fsync(file, start, end, datasync);
-> diff --git a/include/linux/fs/super.h b/include/linux/fs/super.h
-> index 733d439f01ed..346f52047999 100644
-> --- a/include/linux/fs/super.h
-> +++ b/include/linux/fs/super.h
-> @@ -2,6 +2,7 @@
->  #ifndef _LINUX_FS_SUPER_H
->  #define _LINUX_FS_SUPER_H
->
-> +#include <linux/bitops.h>
->  #include <linux/fs/super_types.h>
->  #include <linux/unicode.h>
->
-> @@ -187,6 +188,23 @@ static inline bool sb_rdonly(const struct super_bloc=
-k *sb)
->         return sb->s_flags & SB_RDONLY;
->  }
->
-> +/*
-> + * True once an error made the filesystem read-only. SB_RDONLY stays cle=
-ar, so
-> + * this is checked wherever sb_rdonly() gates a write. It must not be ch=
-ecked
-> + * where sb_rdonly() describes the mount, i.e. by freeze_super() and
-> + * thaw_super(), because it can be set while the superblock is frozen.
-> + */
-> +static inline bool sb_emergency_ro(const struct super_block *sb)
-> +{
-> +       return test_bit(SB_STATE_EMERGENCY_RO, &sb->s_state);
-> +}
-> +
-> +/* Returns true for the caller that made the filesystem read-only. */
-> +static inline bool sb_set_emergency_ro(struct super_block *sb)
-> +{
-> +       return !test_and_set_bit(SB_STATE_EMERGENCY_RO, &sb->s_state);
-> +}
-> +
->  static inline bool sb_is_blkdev_sb(struct super_block *sb)
->  {
->         return IS_ENABLED(CONFIG_BLOCK) && sb =3D=3D blockdev_superblock;
-> diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_type=
-s.h
-> index ecd96aeb1cee..efd924474062 100644
-> --- a/include/linux/fs/super_types.h
-> +++ b/include/linux/fs/super_types.h
-> @@ -238,6 +238,9 @@ struct super_block {
->         /* Read-only state of the superblock is being changed */
->         int                                     s_readonly_remount;
->
-> +       /* Runtime state bits, see SB_STATE_*. Set with set_bit(), never =
-cleared. */
-> +       unsigned long                           s_state;
-> +
->         /* per-sb errseq_t for reporting writeback errors via syncfs */
->         errseq_t s_wb_err;
->
-> @@ -353,4 +356,22 @@ struct super_block {
->  #define SB_I_ALLOW_HSM 0x00004000      /* Allow HSM events on this super=
-block */
->  #define SB_I_NO_DATA_INTEGRITY 0x00008000 /* fs cannot guarantee data pe=
-rsistence on sync */
->
-> +/*
-> + * sb->s_state. These are set with set_bit() from whatever context found=
- the
-> + * condition, without s_umount, and are never cleared. So they can be te=
-sted
-> + * anywhere without any ordering against the setter. That's deliberately=
- not
-> + * true for SB_RDONLY: freeze_super() and thaw_super() key off it and it=
- must
-> + * only change under s_umount through reconfigure_super().
-> + */
-> +enum {
-> +       /*
-> +        * An error made the filesystem read-only, errors=3Dremount-ro st=
-yle. The
-> +        * VFS refuses modifications with EROFS, refuses a remount to rea=
-d-write
-> +        * and stops syncing the filesystem and writing back its inodes. =
-Lasts
-> +        * until umount. The filesystem still has to refuse whatever reac=
-hes it
-> +        * without going through the VFS, see sb_emergency_ro().
-> +        */
-> +       SB_STATE_EMERGENCY_RO,
-> +};
-> +
->  #endif /* _LINUX_FS_SUPER_TYPES_H */
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 8b0c2c735d3d..f4030571d972 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -3813,6 +3813,12 @@ static vm_fault_t do_page_mkwrite(struct vm_fault =
-*vmf, struct folio *folio)
->             IS_SWAPFILE(vmf->vma->vm_file->f_mapping->host))
->                 return VM_FAULT_SIGBUS;
->
-> +       /* Files can't be written after an error made the filesystem read=
--only. */
-> +       if (vmf->vma->vm_file &&
-> +           S_ISREG(file_inode(vmf->vma->vm_file)->i_mode) &&
-> +           sb_emergency_ro(file_inode(vmf->vma->vm_file)->i_sb))
-> +               return VM_FAULT_SIGBUS;
-> +
->         ret =3D vmf->vma->vm_ops->page_mkwrite(vmf);
->         /* Restore original flags so that caller is not surprised */
->         vmf->flags =3D old_flags;
-> --
-> 2.53.0
->
->
+There are some liburing tests that can serve as an example:
+git: https://github.com/isilence/liburing.git rw-dmabuf-tests-v8
+url: https://github.com/isilence/liburing/tree/rw-dmabuf-tests-v8
 
-Thanks,
-Andreas
+The patches are based on Jens' for-next. Also available as a branch:
+git: https://github.com/isilence/linux.git rw-dmabuf-v11
+url: https://github.com/isilence/linux/tree/rw-dmabuf-v11
+
+[1] https://lore.kernel.org/io-uring/20220805162444.3985535-1-kbusch@fb.com/
+
+v11: - Disallow creating I/O ctxs for a nvme dead device
+     - Add dma-buf-io.* kerneldocs and Ack from Christian
+
+v10: - Mark io_uring registered bufs uncloneable
+     - Check io_uring size/offset on type truncation
+     - Include dma-buf + PI fix from Anuj
+     - Fix io_uring build failures w/o CONFIG_DMA_SHARED_BUFFER
+     - Don't poke at bio_vec with dma-buf in blk_recalc_rq_segments()
+
+v9: - resend
+
+v8: - fix blkdev_buffered_write() returning 0
+    - fix kvmalloc-kfree mismatch
+    - fix invalidation hang
+    - remove cpu dma sync as unnecessary for dev-to-dev transfers
+    - move nvme dma-buf code into a new file
+    - tighten dma-buf [re]export around io_uring issue
+    - simplify dma-buf-io locking/sync as proposed by Matthew Brost
+
+v7: - refcount *_io_ctx 
+    - wait rcu grace period for ctx->map before freeing maps
+    - increment map counters under dma resv lock
+    - more comments about bio splitting
+    - make ->unmap responsible for freeing maps to match ->map
+    - replace dma_sync_single* with full table sync
+    - detach dma-buf on nvme reset after cancel nvme_cancel_tagset
+
+v6: - remove fences and wait on invalidation synchronously
+    - report all map requests are detached earlier, outside of wq
+    - handle nvme removal
+    - gate nvme_free_descriptors() on iod->nr_descriptors 
+    - fix error handling in nvme_rq_setup_dmabuf_map() 
+    - fix iov_iter_alignment()
+    - relax the 1G io_uring registered dma-buf limit
+    - fix type overflow issue in bio split
+    - allocate struct dma_buf_io_ctx inside the dma-buf-io code
+    - harden block checks against dma-buf + buffered io
+
+v5: - Reject dma-buf with buffered IO for raw bdev
+    - Add lim->max_segments bio splitting
+    - Add bio_iov_iter_set() helper
+    - Fix io_uring uapi validation
+    - Other minor changes
+    NVMe:
+    - Rename nvme_pci_sgl_set_data() to nvme_pci_dma_iter_set_sgl(), split 
+      into its own prep patch.
+    - Convert segment walk loops to do-while.
+    - Drop adjacent segment coalescing logic.
+    - Drop first_dma/first_len from nvme_pci_dmabuf_sgl_nents()
+    - Remove entries > NVME_MAX_SEGS bailout; moving to the block layer.
+    - Factor SGL vs PRP decision making into a helper.
+
+v4: - https://lore.kernel.org/all/cover.1785274111.git.asml.silence@gmail.com/
+    - Add sgl support from Anuj
+    - Move it under drivers/dma-buf/ and rename
+    - Fix mis-sized allocations
+    - Fix io_uring re-import mishandling
+    - Drop map before io_uring "task work"
+    - Move blk-mq callback to block_device_operations
+    - Convert bio flag to REQ_OP*
+    - Other small changes
+
+v3: https://lore.kernel.org/io-uring/cover.1777475843.git.asml.silence@gmail.com/
+    - Rework io_uring registration
+    - Move token/map infrastructure code out of blk-mq
+    - Simplify callbacks: remove a separate blk-mq table, which was
+      mostly just forwarding calls (to nvme).
+    - Don't skip dma sync depending on request direction
+    - Fix a couple of hangs
+    - Rename s/dma/dmabuf/
+    - Other small changes
+
+v2: - Don't pass raw dma addresses, wrap it into a driver specific object
+    - Split into two objects: token and map
+    - Implement move_notify
+
+Anuj Gupta (2):
+  nvme-pci: rename nvme_pci_sgl_set_data to nvme_pci_dma_iter_set_sgl
+  nvme-pci: add SGL support for the dmabuf path
+
+Pavel Begunkov (11):
+  dma-buf: introduce initial file I/O infrastructure
+  iov_iter: add iterator type for dmabuf maps
+  block: always adjust bi_offset on bio_advance_iter
+  block: introduce dma map backed bio type
+  block: add dma-buf support for raw bdev
+  nvme-pci: implement dma-buf backed requests
+  io_uring/rsrc: introduce buf registration structure
+  io_uring/rsrc: extend buffer update
+  io_uring/rsrc: add uncloneable regbuf flag
+  io_uring/rsrc: add regbuf import flags
+  io_uring/rsrc: add dmabuf backed registered buffers
+
+ block/bio.c                    |  15 +-
+ block/blk-merge.c              |  52 +++++++
+ block/blk-mq.c                 |   6 +
+ block/fops.c                   |  26 +++-
+ drivers/dma-buf/Makefile       |   2 +-
+ drivers/dma-buf/dma-buf-io.c   | 229 ++++++++++++++++++++++++++++++
+ drivers/md/dm-io-rewind.c      |   6 +-
+ drivers/nvme/host/Makefile     |   1 +
+ drivers/nvme/host/core.c       |  12 ++
+ drivers/nvme/host/nvme.h       |   2 +
+ drivers/nvme/host/pci-dmabuf.c | 169 ++++++++++++++++++++++
+ drivers/nvme/host/pci-dmabuf.h |  75 ++++++++++
+ drivers/nvme/host/pci.c        | 249 ++++++++++++++++++++++++++++++++-
+ include/linux/bio.h            |  21 +--
+ include/linux/blk-mq.h         |   7 +
+ include/linux/blk_types.h      |  14 +-
+ include/linux/blkdev.h         |   2 +
+ include/linux/bvec.h           |   3 +-
+ include/linux/dma-buf-io.h     | 125 +++++++++++++++++
+ include/linux/fs.h             |   2 +
+ include/linux/io_uring_types.h |   5 +
+ include/linux/iov_iter.h       |   2 +
+ include/linux/uio.h            |  11 ++
+ include/uapi/linux/io_uring.h  |  31 +++-
+ io_uring/Makefile              |   1 +
+ io_uring/dma-buf.c             |  66 +++++++++
+ io_uring/dma-buf.h             |  76 ++++++++++
+ io_uring/rsrc.c                | 174 +++++++++++++++++------
+ io_uring/rsrc.h                |  32 ++++-
+ io_uring/rw.c                  |  33 +++--
+ lib/iov_iter.c                 |  29 +++-
+ 31 files changed, 1393 insertions(+), 85 deletions(-)
+ create mode 100644 drivers/dma-buf/dma-buf-io.c
+ create mode 100644 drivers/nvme/host/pci-dmabuf.c
+ create mode 100644 drivers/nvme/host/pci-dmabuf.h
+ create mode 100644 include/linux/dma-buf-io.h
+ create mode 100644 io_uring/dma-buf.c
+ create mode 100644 io_uring/dma-buf.h
+
+-- 
+2.54.0
 
