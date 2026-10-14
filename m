@@ -1,580 +1,383 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35ED44F85C4
-	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 11:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A924EDCB4;
+	Wed, 14 Oct 2026 11:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791975778; cv=none; b=f1mPDThUgO7SSpCI1q5OqDB2bq9JMNqRweFiAtd8GpyN8bswrlTF+fnDvTnU1vFJ7+wAk9arQDRy0M51ABJq69+B+IQ71EiEFQAda/w+hX2S26lH9XzHPTo8rgP/bINaSSO2EsZFV9+FXIWdXY0RiAac5QP2X2ifrnBaWC5n078=
+	t=1791976907; cv=none; b=cA4jPBZmyuPu0NyhGXIG8tDH3aDZllUp24s4Q60oKPbjoowAPGmT0jf1pY+F51SSliBgegcgScIv7DyIxdCxve1hUjmWeR7mc9ZqhwKAKIAoLF473Znh30sxqI11gv6Wx2D1gRYpjXBLzXM1yWJ/daKyRVtOLtzoRY3SJ7kJmWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791975778; c=relaxed/simple;
-	bh=BJdHB/ejV+CxAqyvc96eqP9MAroM09p6ojnCtOYYwsA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Sw2J64yRmw19ROTmA8ALLMlYpYKo3md/wROUurUQIvAR7760A7yJVm2N7e/ykmho9hUnfjT8bwF0PNdIO3pki4pUMRiiHi88wnTstTt8f8u7tN2EQmcK734Z1YXCKUV9wyoOk6GuhREzcfeEy8hX7ttp2l2GfSNuf1ObcDkx5qM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LXztwm+E; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791976907; c=relaxed/simple;
+	bh=gThmcpDt6b4xnXDJ3zcqBqPNJa8l+w0423uWU40ta18=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uWFn0lYg3ILOoj2MiZq8MB5JRpKqqdgPwTwPFFfujhf8N5zB+XS2qPSRZlnbgoqdo9qrt98PDHGbGRF1L5Z6aAkpC1e9qX2vxF6Jt/72dA19navuQhNTUNlV/Px2f0W18pZSBIuwJcrxf7AbFdpD9ZMkclObb4Ltblbyb57wwbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=v5aryRzQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nQGRuDzi; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=v5aryRzQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nQGRuDzi; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LXztwm+E"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49ff680331aso9331205e9.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 04:02:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791975765; x=1792580565; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Az43PS/qS00pmQNyOpOlhDk/xvxDJzb8VYH9IXe9HrU=;
-        b=LXztwm+EV5bzwbHwCnOFt/9wdvnsQzYoL9wea7A1yAoa9jyT/7JKdYHBYKI3Yi9JK8
-         hPIlem5d/KFlq/TG2e+tuD2kA5qI1r3zB2oErHZ2UNuFLdQ1ci1tN6mghSnRs1cVMVLv
-         wJUpm3zZjegIDOIulYSU1A7Sy/oZ3kVGo01l4AQytnuSbiJJDJ+qAOBcXhAJdzi4EKCb
-         cGMDZJSSA7UiRp7LWuIYbIfrf8WUnDucK4iOiF24wCWy8C/j9j6MG10SVUMLVCit0lTe
-         Urwvt1R82WFSBGmEtIoDg7Tlpgk9svV6fQ4USrMwjT1rv6r6lFWN90233ucJXA1hLkM5
-         b+tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791975765; x=1792580565;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Az43PS/qS00pmQNyOpOlhDk/xvxDJzb8VYH9IXe9HrU=;
-        b=YtnMwH5YSEFZzx1FCeW9njE/FApIdXkox+Io8hW/hBmp45k6ePfxXBdKAL1mXGgUym
-         2jeGa4VqbaPm2JY9bgs2if+88AydQKyK6Uy4m0FjQmd+oWbyP/y3KW4XMFt0kvl+6uUs
-         9wnLFhesGR19sPOrtiygmXGyrlTwmxh2QY78nL08v3anstTlkoMMwoL3T7A4kh+kMcOO
-         1x5nHhq0Jn9FtZ2+cUj8bDUFh7RLpMJiOBQ2NZG74qSVy4bj+p57Govi6B2xnalTiKhO
-         ezzQF3gAzUtqe8L+xfzmaYBxXluFqk3Tapnro4KoB14gnOFdvMzNTPB/MiiQIjKYuOj6
-         5tAw==
-X-Forwarded-Encrypted: i=1; AKwUvBwRQfeP9jfWn0Fn3zSqwFZFRyTBCrQc7lPIJbgMilqlIArCHCdVLrOUxGI4hMMgwopnmtClxFOxfyhA609w@vger.kernel.org
-X-Gm-Message-State: AFq9FYIbS/z++8O1wevegHMq3T7CEWcnp7Fw9zOgNtAG1eLh23Vwztpa
-	yoA2TIkXTxXr4eKK489eV9OfsovwY6JLQNpuYytTS4Y2odBIHJsNvwuh
-X-Gm-Gg: AYBFou04wE7fC2zkBROaHuxJfhRikQ8KJ0/nrb38wGtXXsbjuIGKNVdYsvEgc9vt1D9
-	JgcdHORPXhjM9oPnml6VCGOvtwXw74o2ccXd2WhSAOodTs7QJ2WaKi+5n7kCkQPYyVevNVEHmFM
-	8JNlk4dK+pn5j9qvA8SCYUJxbEACo7WeCwMhAn/9Z8vxMUKoeJwHSSE6+TGbdZ0JalzG+78TYbY
-	CMwD1xODrb4y1+3+c9wYGgZiscoEk0pbXSPQJKvy1Dk2mk8RLIDUBw4jCcNxPCEywssD+2QEvm1
-	mAj3U0Mt9lY9vg5+9qaszKNNAIGSlM2bmmbverDqSSilZ8lcLc/BneETHdS//tIsEARn5RTTllQ
-	D+MjRkmzt5cf7KfHDtWS30ok+lEMVe9WbZJU2+RIuInNSm6oP8aiiriEwhs5RJQjVvHK+cvie6n
-	CayKQHBsLYtr/qESSUFBqqijomDmoxaOIoErM+bwnlOwIoKonUF7ByAHSKCwtrrwzcQHoqOl7YP
-	CpubEFP5NN5DYRZjSov1x2QAL+6AWGqpHbOr9mORRSHc0dpDdL3WUY0sKbvTQudqBCxom7BkojU
-	U8zW64AFh5Y=
-X-Received: by 2002:a05:600c:e547:20b0:4a1:946c:953d with SMTP id 5b1f17b1804b1-4a1946c968cmr174343455e9.27.1791975765052;
-        Wed, 14 Oct 2026 04:02:45 -0700 (PDT)
-Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1b45eb78csm38078845e9.2.2026.10.14.04.02.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 04:02:44 -0700 (PDT)
-From: Pavel Begunkov <asml.silence@gmail.com>
-To: linux-block@vger.kernel.org
-Cc: asml.silence@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	dm-devel@lists.linux.dev
-Subject: [PATCH v11 13/13] io_uring/rsrc: add dmabuf backed registered buffers
-Date: Wed, 14 Oct 2026 12:02:11 +0100
-Message-ID: <4aa230df871ee275536f367087b44ebfebb88cc1.1791975048.git.asml.silence@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1791975048.git.asml.silence@gmail.com>
-References: <cover.1791975048.git.asml.silence@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="v5aryRzQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nQGRuDzi";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="v5aryRzQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nQGRuDzi"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 52ADE1FB14;
+	Wed, 14 Oct 2026 11:21:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791976903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y1sGcjjJPHmNpXo6cQ7qcW0PcSuB1I3YLh0buAsrEm0=;
+	b=v5aryRzQwO6Hzssjls/4garI7bi/cOUrTnFQ2AQ4IxVGwr+QOEdvL00t9ZVoHBEbvkeHnT
+	o089OHj3nXZpXx+4a6/mPzPS4WtToLoEZEkLj5fiL7l4Nw2anh7ezxW7+77nMxyO6lFlkG
+	hTc4XZQby3IRFBlNUPvbX25GJ1I+yj0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791976903;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y1sGcjjJPHmNpXo6cQ7qcW0PcSuB1I3YLh0buAsrEm0=;
+	b=nQGRuDzisVkgcwCdIVXNIrJS7FxNMaj8PoKjOitZFri6okGcfkXQm4UWdoJnsmz9mzruLk
+	KvGgMQittpxkW/CQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=v5aryRzQ;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=nQGRuDzi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791976903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y1sGcjjJPHmNpXo6cQ7qcW0PcSuB1I3YLh0buAsrEm0=;
+	b=v5aryRzQwO6Hzssjls/4garI7bi/cOUrTnFQ2AQ4IxVGwr+QOEdvL00t9ZVoHBEbvkeHnT
+	o089OHj3nXZpXx+4a6/mPzPS4WtToLoEZEkLj5fiL7l4Nw2anh7ezxW7+77nMxyO6lFlkG
+	hTc4XZQby3IRFBlNUPvbX25GJ1I+yj0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791976903;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y1sGcjjJPHmNpXo6cQ7qcW0PcSuB1I3YLh0buAsrEm0=;
+	b=nQGRuDzisVkgcwCdIVXNIrJS7FxNMaj8PoKjOitZFri6okGcfkXQm4UWdoJnsmz9mzruLk
+	KvGgMQittpxkW/CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0EDEF133F1;
+	Wed, 14 Oct 2026 11:21:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id W16aNsZlz2rALQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 14 Oct 2026 11:21:43 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 1BC77A1411; Wed, 14 Oct 2026 13:21:42 +0200 (CEST)
+Date: Wed, 14 Oct 2026 13:21:42 +0200
+From: Jan Kara <jack@suse.cz>
+To: Liz Fong-Jones <lizf@honeycomb.io>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Tejun Heo <tj@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jens Axboe <axboe@kernel.dk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ian@honeycomb.io
+Subject: Re: [PATCH v6 3/3] writeback: switch a replaced cgwb's inodes to its
+ successor
+Message-ID: <pmvqotiw5cvzdk4sduczbmgrqh7o3qf4jb6l6qzep7iy4fsl7d@y2uis3u6v3qp>
+References: <20261002-wb-dying-cgwb-flush-v6-0-1991b4e2dcff@honeycomb.io>
+ <20261002-wb-dying-cgwb-flush-v6-3-1991b4e2dcff@honeycomb.io>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261002-wb-dying-cgwb-flush-v6-3-1991b4e2dcff@honeycomb.io>
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 52ADE1FB14
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[honeycomb.io:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:email,suse.cz:dkim];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
 
-Implement dmabuf backed registered buffers. To register them, the user
-should specify IO_REGBUF_TYPE_DMABUF for the regitration and pass the
-desired dmabuf fd and a file for which it should be registered.
+On Fri 02-10-26 21:40:48, Liz Fong-Jones wrote:
+> When a live memcg's blkcg association changes, cgwb_create() replaces
+> its killed wb in bdi->cgwb_tree. Foreign flushes for the memcg then
+> find the new wb, but the inodes, dirty or not, are still attached to the
+> old one, and they only move over as they are written back (see
+> wbc_attach_and_unlock_inode()). Until then, other memcgs appending to
+> those inodes stall in balance_dirty_pages().
+> 
+> After the takeover, queue a work item that switches all of the old wb's
+> inodes to the wb foreign flushes now find, like cleanup_offline_cgwb()
+> does for b_attached and b_dirty_time, but including b_dirty, b_io and
+> b_more_io. The switch carries the dirty and writeback page counts, so
+> nothing needs to be written back first. cgwb_create() can run with
+> interrupts disabled (folio_account_dirtied() -> inode_attach_wb()), so
+> it only queues the work. A switch to the old wb that was queued before
+> it was replaced can land after the work ran, so
+> inode_switch_wbs_work_fn() queues the work again when the wb it switched
+> inodes to is dying and no longer owns its slot. An inode attached to the
+> old wb as it is replaced (see __inode_attach_wb()) still moves over only
+> when written back. If the successor is already gone, fall back like
+> cleanup_offline_cgwb() does, to the nearest live ancestor's wb or the
+> root wb.
+> 
+> Test: a live cgroup appends to 5000 files on XFS at 250MiB/s, io is
+> disabled on its parent so its wb is killed, it creates a file (the
+> takeover), and a sibling keeps appending to its files under a 4G parent
+> limit. Worst lag of the sibling behind schedule over 30s, in three runs:
+> 
+>   without this patch    9.1s   4.0s   1.0s
+>   with this patch       1.0s   1.1s   1.1s
+> 
+> Without this patch, moving the old wb's inodes over took up to 11s,
+> first switch to last; with it, all 5001 were switched in a 27-39ms
+> window, with up to 311MiB of the old cgroup's pages dirty.
+> 
+> Suggested-by: Tejun Heo <tj@kernel.org>
+> Assisted-by: Claude:claude-opus-5-5 checkpatch sparse
+> Assisted-by: Claude:claude-fable-5-1
+> Signed-off-by: Liz Fong-Jones <lizf@honeycomb.io>
 
-From there, it can be used with io_uring read/write requests
-IORING_OP_{READ,WRITE}_FIXED) as normal. The requests should be issued
-against the file specified during registration, and otherwise they'll be
-failed. The user should also be prepared to handle spurious -EAGAIN by
-reissuing the request.
+Looks good to me. Feel free to add:
 
-Internally, dmabuf registered buffers is an optin feature for io_uring
-request opcodes and they should pass a special flag on import to use it.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Suggested-by: David Wei <dw@davidwei.uk>
-Suggested-by: Vishal Verma <vishal1.verma@intel.com>
-Suggested-by: Tushar Gohad <tushar.gohad@intel.com>
-Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
----
- include/linux/io_uring_types.h |  5 +++
- include/uapi/linux/io_uring.h  |  6 ++-
- io_uring/Makefile              |  1 +
- io_uring/dma-buf.c             | 66 +++++++++++++++++++++++++++++
- io_uring/dma-buf.h             | 76 ++++++++++++++++++++++++++++++++++
- io_uring/rsrc.c                | 59 ++++++++++++++++++++++++--
- io_uring/rsrc.h                |  5 +++
- io_uring/rw.c                  | 33 +++++++++++----
- 8 files changed, 237 insertions(+), 14 deletions(-)
- create mode 100644 io_uring/dma-buf.c
- create mode 100644 io_uring/dma-buf.h
+								Honza
 
-diff --git a/include/linux/io_uring_types.h b/include/linux/io_uring_types.h
-index 90fea94ad202..73cd11d173df 100644
---- a/include/linux/io_uring_types.h
-+++ b/include/linux/io_uring_types.h
-@@ -11,6 +11,7 @@
- 
- struct iou_loop_params;
- struct io_uring_bpf_ops;
-+struct dma_buf_io_map;
- 
- enum {
- 	/*
-@@ -610,6 +611,7 @@ enum {
- 	REQ_F_IMPORT_BUFFER_BIT,
- 	REQ_F_SQE_COPIED_BIT,
- 	REQ_F_IOPOLL_BIT,
-+	REQ_F_DMABUF_BIT,
- 
- 	/* not a real bit, just to check we're not overflowing the space */
- 	__REQ_F_LAST_BIT,
-@@ -705,6 +707,8 @@ enum {
- 	REQ_F_SQE_COPIED	= IO_REQ_FLAG(REQ_F_SQE_COPIED_BIT),
- 	/* request must be iopolled to completion (set in ->issue()) */
- 	REQ_F_IOPOLL		= IO_REQ_FLAG(REQ_F_IOPOLL_BIT),
-+	/* there is a dma map attached to request that needs to be dropped */
-+	REQ_F_DMABUF		= IO_REQ_FLAG(REQ_F_DMABUF_BIT),
- };
- 
- struct io_tw_req {
-@@ -827,6 +831,7 @@ struct io_kiocb {
- 	/* custom credentials, valid IFF REQ_F_CREDS is set */
- 	const struct cred		*creds;
- 	struct io_wq_work		work;
-+	struct dma_buf_io_map		*dmabuf_map;
- 
- 	struct io_big_cqe {
- 		u64			extra1;
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index abb590833a0f..b456f45fa8de 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -811,6 +811,7 @@ enum io_uring_rsrc_reg_flags {
- enum io_uring_regbuf_type {
- 	IO_REGBUF_TYPE_EMPTY,
- 	IO_REGBUF_TYPE_UADDR,
-+	IO_REGBUF_TYPE_DMABUF,
- 
- 	__IO_REGBUF_TYPE_MAX,
- };
-@@ -820,7 +821,10 @@ struct io_uring_regbuf_desc {
- 	__u32 flags;
- 	__u64 size;
- 	__u64 uaddr;
--	__u64 __resv[7];
-+
-+	__s32 dmabuf_fd;
-+	__s32 target_fd;
-+	__u64 __resv[6];
- };
- 
- /* Skip updating fd indexes set to this value in the fd table */
-diff --git a/io_uring/Makefile b/io_uring/Makefile
-index c54e328d1410..965bb60e9f7b 100644
---- a/io_uring/Makefile
-+++ b/io_uring/Makefile
-@@ -26,3 +26,4 @@ obj-$(CONFIG_PROC_FS) += fdinfo.o
- obj-$(CONFIG_IO_URING_MOCK_FILE) += mock_file.o
- obj-$(CONFIG_IO_URING_BPF) += bpf_filter.o
- obj-$(CONFIG_IO_URING_BPF_OPS) += bpf-ops.o
-+obj-$(CONFIG_DMA_SHARED_BUFFER) += dma-buf.o
-diff --git a/io_uring/dma-buf.c b/io_uring/dma-buf.c
-new file mode 100644
-index 000000000000..1a1a88640823
---- /dev/null
-+++ b/io_uring/dma-buf.c
-@@ -0,0 +1,66 @@
-+#include "dma-buf.h"
-+
-+static inline void io_release_dmabuf(void *priv)
-+{
-+	struct io_buf_dma *bd = priv;
-+
-+	fput(bd->target_file);
-+	dma_buf_io_ctx_release(bd->ctx);
-+	kfree(bd);
-+}
-+
-+int __io_register_dmabuf(struct io_ring_ctx *ctx,
-+			struct io_uring_regbuf_desc *desc,
-+			struct io_mapped_ubuf *imu)
-+{
-+	struct io_buf_dma *bd = NULL;
-+	struct file *target_file = NULL;
-+	struct dma_buf *dmabuf = NULL;
-+	int ret;
-+
-+	if (ctx->flags & IORING_SETUP_IOPOLL)
-+		return -EOPNOTSUPP;
-+	if (desc->uaddr || desc->size)
-+		return -EINVAL;
-+
-+	bd = kzalloc(sizeof(*bd), GFP_KERNEL);
-+	if (!bd)
-+		return -ENOMEM;
-+
-+	target_file = fget(desc->target_fd);
-+	if (!target_file) {
-+		ret = -EBADF;
-+		goto err;
-+	}
-+	dmabuf = dma_buf_get(desc->dmabuf_fd);
-+	if (IS_ERR(dmabuf)) {
-+		ret = PTR_ERR(dmabuf);
-+		dmabuf = NULL;
-+		goto err;
-+	}
-+	ret = io_validate_user_buf_range(0, dmabuf->size);
-+	if (ret)
-+		goto err;
-+
-+	ret = dma_buf_io_ctx_create(target_file, dmabuf, DMA_BIDIRECTIONAL,
-+				    &bd->ctx);
-+	if (ret)
-+		goto err;
-+
-+	bd->target_file = target_file;
-+	imu->len = dmabuf->size;
-+	imu->release = io_release_dmabuf;
-+	imu->priv = bd;
-+	imu->flags = IO_REGBUF_F_DMABUF | IO_REGBUF_F_UNCLONEABLE;
-+	imu->dir = IO_BUF_DEST | IO_BUF_SOURCE;
-+	dma_buf_put(dmabuf);
-+	return 0;
-+err:
-+	kfree(bd);
-+	if (target_file)
-+		fput(target_file);
-+	if (dmabuf)
-+		dma_buf_put(dmabuf);
-+	return ret;
-+}
-+
-diff --git a/io_uring/dma-buf.h b/io_uring/dma-buf.h
-new file mode 100644
-index 000000000000..a876a9e5e272
---- /dev/null
-+++ b/io_uring/dma-buf.h
-@@ -0,0 +1,76 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#ifndef IOU_DMA_BUF_H
-+#define IOU_DMA_BUF_H
-+
-+#include <linux/dma-buf-io.h>
-+#include <linux/io_uring_types.h>
-+
-+#include "rsrc.h"
-+
-+struct io_buf_dma {
-+	struct dma_buf_io_ctx		*ctx;
-+	struct file			*target_file;
-+};
-+
-+int __io_register_dmabuf(struct io_ring_ctx *ctx,
-+			struct io_uring_regbuf_desc *desc,
-+			struct io_mapped_ubuf *imu);
-+
-+static inline void io_detach_dmabuf_map(struct io_kiocb *req)
-+{
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return;
-+	if (!(req->flags & REQ_F_DMABUF) || !req->dmabuf_map)
-+		return;
-+	dma_buf_io_map_drop(req->dmabuf_map);
-+	req->dmabuf_map = NULL;
-+}
-+
-+static inline int io_attach_dmabuf_map(struct io_kiocb *req,
-+					struct iov_iter *iter,
-+					unsigned issue_flags)
-+{
-+	bool nowait = issue_flags & IO_URING_F_NONBLOCK;
-+	struct dma_buf_io_map *map;
-+	struct io_buf_dma *bd;
-+
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return -EOPNOTSUPP;
-+	if (!(req->flags & REQ_F_DMABUF))
-+		return 0;
-+
-+	bd = req->buf_node->buf->priv;
-+	map = dma_buf_io_get_map(bd->ctx, nowait);
-+	if (unlikely(IS_ERR(map)))
-+		return PTR_ERR(map);
-+	req->dmabuf_map = map;
-+	iter->dmabuf_map = map;
-+	return 0;
-+}
-+
-+static inline int io_import_dmabuf_map(struct io_kiocb *req,
-+				int ddir, struct iov_iter *iter,
-+				struct io_mapped_ubuf *imu,
-+				size_t len, size_t offset)
-+{
-+	struct io_buf_dma *bd = imu->priv;
-+
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return -EOPNOTSUPP;
-+	if (req->file != bd->target_file)
-+		return -EBADF;
-+	req->flags |= REQ_F_DMABUF;
-+	iov_iter_dmabuf_map(iter, ddir, NULL, offset, len);
-+	return 0;
-+}
-+
-+static inline int io_register_dmabuf(struct io_ring_ctx *ctx,
-+			struct io_uring_regbuf_desc *desc,
-+			struct io_mapped_ubuf *imu)
-+{
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return -EOPNOTSUPP;
-+	return __io_register_dmabuf(ctx, desc, imu);
-+}
-+
-+#endif /* IOU_DMA_BUF_H */
-diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
-index f42d201738cd..2e89e091afbb 100644
---- a/io_uring/rsrc.c
-+++ b/io_uring/rsrc.c
-@@ -10,6 +10,7 @@
- #include <linux/compat.h>
- #include <linux/io_uring.h>
- #include <linux/io_uring/cmd.h>
-+#include <linux/dma-buf-io.h>
- 
- #include <uapi/linux/io_uring.h>
- 
-@@ -19,6 +20,7 @@
- #include "rsrc.h"
- #include "memmap.h"
- #include "register.h"
-+#include "dma-buf.h"
- 
- struct io_rsrc_update {
- 	struct file			*file;
-@@ -898,6 +900,38 @@ bool io_check_coalesce_buffer(struct page **page_array, int nr_pages,
- 	return true;
- }
- 
-+static struct io_rsrc_node *io_register_dmabuf_desc(struct io_ring_ctx *ctx,
-+						    struct io_uring_regbuf_desc *desc)
-+{
-+	struct io_rsrc_node *node = NULL;
-+	struct io_mapped_ubuf *imu = NULL;
-+	int ret;
-+
-+	node = io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
-+	if (!node)
-+		return ERR_PTR(-ENOMEM);
-+
-+	imu = io_alloc_imu(ctx, 0);
-+	if (!imu) {
-+		ret = -ENOMEM;
-+		goto err;
-+	}
-+	memset(imu, 0, sizeof(*imu));
-+	refcount_set(&imu->refs, 1);
-+
-+	ret = io_register_dmabuf(ctx, desc, imu);
-+	if (ret)
-+		goto err;
-+	node->buf = imu;
-+	return node;
-+err:
-+	if (imu)
-+		io_free_imu(ctx, imu);
-+	if (node)
-+		io_cache_free(&ctx->node_cache, node);
-+	return ERR_PTR(ret);
-+}
-+
- static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
- 						   struct io_uring_regbuf_desc *desc)
- {
-@@ -918,6 +952,12 @@ static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
- 	if (!mem_is_zero(&desc->__resv, sizeof(desc->__resv)) || desc->flags)
- 		return ERR_PTR(-EINVAL);
- 
-+	if (desc->type == IO_REGBUF_TYPE_DMABUF)
-+		return io_register_dmabuf_desc(ctx, desc);
-+
-+	if (desc->dmabuf_fd || desc->target_fd)
-+		return ERR_PTR(-EINVAL);
-+
- 	if (desc->type == IO_REGBUF_TYPE_EMPTY) {
- 		if (uaddr || size)
- 			return ERR_PTR(-EFAULT);
-@@ -1242,9 +1282,12 @@ static int io_import_kbuf(int ddir, struct iov_iter *iter,
- 	return 0;
- }
- 
--static int io_import_fixed(int ddir, struct iov_iter *iter,
-+static int io_import_fixed(struct io_kiocb *req,
-+			   int ddir, struct iov_iter *iter,
- 			   struct io_mapped_ubuf *imu,
--			   u64 buf_addr, size_t len)
-+			   u64 buf_addr, size_t len,
-+			   unsigned issue_flags,
-+			   unsigned import_flags)
- {
- 	const struct bio_vec *bvec;
- 	size_t folio_mask;
-@@ -1264,6 +1307,11 @@ static int io_import_fixed(int ddir, struct iov_iter *iter,
- 
- 	offset = buf_addr - imu->ubuf;
- 
-+	if (imu->flags & IO_REGBUF_F_DMABUF) {
-+		if (!(import_flags & IO_REGBUF_IMPORT_ALLOW_DMABUF))
-+			return -EFAULT;
-+		return io_import_dmabuf_map(req, ddir, iter, imu, len, offset);
-+	}
- 	if (imu->flags & IO_REGBUF_F_KBUF)
- 		return io_import_kbuf(ddir, iter, imu, len, offset);
- 
-@@ -1326,7 +1374,8 @@ int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
- 	node = io_find_buf_node(req, issue_flags);
- 	if (!node)
- 		return -EFAULT;
--	return io_import_fixed(ddir, iter, node->buf, buf_addr, len);
-+	return io_import_fixed(req, ddir, iter, node->buf, buf_addr, len,
-+				issue_flags, import_flags);
- }
- 
- static int io_buffer_acct_cloned_hpages(struct io_ring_ctx *ctx,
-@@ -1753,7 +1802,9 @@ int __io_import_reg_vec(int ddir, struct iov_iter *iter,
- 	iovec_off = vec->nr - nr_iovs;
- 	iov = vec->iovec + iovec_off;
- 
--	if (imu->flags & IO_REGBUF_F_KBUF) {
-+	if (imu->flags & IO_REGBUF_F_DMABUF) {
-+		return -EOPNOTSUPP;
-+	} else if (imu->flags & IO_REGBUF_F_KBUF) {
- 		int ret = io_kern_bvec_size(iov, nr_iovs, imu, &nr_segs);
- 
- 		if (unlikely(ret))
-diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
-index 351995b61e68..d893cc5e580a 100644
---- a/io_uring/rsrc.h
-+++ b/io_uring/rsrc.h
-@@ -28,6 +28,11 @@ struct io_rsrc_node {
- enum {
- 	IO_REGBUF_F_KBUF		= 1 << 0,
- 	IO_REGBUF_F_UNCLONEABLE		= 1 << 1,
-+	IO_REGBUF_F_DMABUF		= 1 << 3,
-+};
-+
-+enum {
-+	IO_REGBUF_IMPORT_ALLOW_DMABUF		= 1 << 1,
- };
- 
- struct io_mapped_ubuf {
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 999d9a1cc5a5..d33b925a848e 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -23,6 +23,7 @@
- #include "rsrc.h"
- #include "poll.h"
- #include "rw.h"
-+#include "dma-buf.h"
- 
- static void io_complete_rw(struct kiocb *kiocb, long res);
- static void io_complete_rw_iopoll(struct kiocb *kiocb, long res);
-@@ -358,13 +359,18 @@ static int io_init_rw_fixed(struct io_kiocb *req, unsigned int issue_flags,
- 	struct io_async_rw *io = req->async_data;
- 	int ret;
- 
--	if (io->bytes_done)
--		return 0;
-+	if (!io->bytes_done) {
-+		ret = __io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
-+					  issue_flags, IO_REGBUF_IMPORT_ALLOW_DMABUF);
-+		if (ret)
-+			return ret;
-+		iov_iter_save_state(&io->iter, &io->iter_state);
-+	}
- 
--	ret = io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
--				issue_flags);
--	iov_iter_save_state(&io->iter, &io->iter_state);
--	return ret;
-+	ret = io_attach_dmabuf_map(req, &io->iter, issue_flags);
-+	if (ret)
-+		return ret;
-+	return 0;
- }
- 
- int io_prep_read_fixed(struct io_kiocb *req, const struct io_uring_sqe *sqe)
-@@ -577,6 +583,8 @@ static void io_complete_rw(struct kiocb *kiocb, long res)
- 	struct io_rw *rw = container_of(kiocb, struct io_rw, kiocb);
- 	struct io_kiocb *req = cmd_to_io_kiocb(rw);
- 
-+	io_detach_dmabuf_map(req);
-+
- 	/* ring owner may block in freeze_super() before task_work runs */
- 	if (kiocb->ki_flags & IOCB_WRITE)
- 		io_req_end_write(req);
-@@ -698,7 +706,7 @@ static ssize_t loop_rw_iter(int ddir, struct io_rw *rw, struct iov_iter *iter)
- 	    !(kiocb->ki_filp->f_flags & O_NONBLOCK))
- 		return -EAGAIN;
- 	if ((req->flags & REQ_F_BUF_NODE) &&
--	     (req->buf_node->buf->flags & IO_REGBUF_F_KBUF))
-+	     (req->buf_node->buf->flags & (IO_REGBUF_F_KBUF|IO_REGBUF_F_DMABUF)))
- 		return -EFAULT;
- 
- 	ppos = io_kiocb_ppos(kiocb);
-@@ -1226,7 +1234,10 @@ int io_read_fixed(struct io_kiocb *req, unsigned int issue_flags)
- 	if (unlikely(ret))
- 		return ret;
- 
--	return io_read(req, issue_flags);
-+	ret = io_read(req, issue_flags);
-+	if (ret != -EIOCBQUEUED)
-+		io_detach_dmabuf_map(req);
-+	return ret;
- }
- 
- int io_write_fixed(struct io_kiocb *req, unsigned int issue_flags)
-@@ -1237,7 +1248,11 @@ int io_write_fixed(struct io_kiocb *req, unsigned int issue_flags)
- 	if (unlikely(ret))
- 		return ret;
- 
--	return io_write(req, issue_flags);
-+	ret = io_write(req, issue_flags);
-+	if (ret != -EIOCBQUEUED)
-+		io_detach_dmabuf_map(req);
-+	return ret;
-+
- }
- 
- void io_rw_fail(struct io_kiocb *req)
+> ---
+>  fs/fs-writeback.c                | 61 ++++++++++++++++++++++++++++++++++++++++
+>  include/linux/backing-dev-defs.h |  1 +
+>  include/linux/backing-dev.h      |  1 +
+>  include/linux/writeback.h        |  1 +
+>  mm/backing-dev.c                 | 49 ++++++++++++++++++++++++++++++++
+>  5 files changed, 113 insertions(+)
+> 
+> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+> index 050d507aa554..7e80f3935dce 100644
+> --- a/fs/fs-writeback.c
+> +++ b/fs/fs-writeback.c
+> @@ -624,6 +624,8 @@ void inode_switch_wbs_work_fn(struct work_struct *work)
+>  
+>  	llist_for_each_entry_safe(isw, next_isw, list, list)
+>  		process_inode_switch_wbs(new_wb, isw);
+> +	/* @new_wb may have been replaced while the switches were queued */
+> +	cgwb_kick_replaced(new_wb);
+>  	wb_put(new_wb);
+>  }
+>  
+> @@ -809,6 +811,65 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+>  	return restart;
+>  }
+>  
+> +/**
+> + * switch_replaced_cgwb - switch a replaced wb's inodes to its successor
+> + * @wb: target wb, replaced in bdi->cgwb_tree by another wb of its memcg
+> + *
+> + * Switch all inodes attached to @wb, dirty or not, to the wb that foreign
+> + * flushes now find for @wb's memcg.  If that one is already gone, fall back
+> + * like cleanup_offline_cgwb() does, to the nearest live ancestor's wb or the
+> + * root wb.  The switch carries the dirty and writeback page counts, so
+> + * nothing needs to be written back first.  Returns %true if not all inodes
+> + * were switched and the function has to be restarted.
+> + */
+> +bool switch_replaced_cgwb(struct bdi_writeback *wb)
+> +{
+> +	struct cgroup_subsys_state *memcg_css;
+> +	struct inode_switch_wbs_context *isw;
+> +	struct bdi_writeback *new_wb;
+> +	bool restart;
+> +	int nr = 0;
+> +
+> +	new_wb = wb_get_lookup(wb->bdi, wb->memcg_css);
+> +	for (memcg_css = wb->memcg_css->parent; !new_wb && memcg_css;
+> +	     memcg_css = memcg_css->parent)
+> +		new_wb = wb_get_create(wb->bdi, memcg_css, GFP_KERNEL);
+> +	if (!new_wb)
+> +		new_wb = &wb->bdi->wb; /* wb_get() is noop for bdi's wb */
+> +	if (WARN_ON_ONCE(new_wb == wb)) {
+> +		wb_put(new_wb);
+> +		return false;
+> +	}
+> +
+> +	isw = kzalloc_flex(*isw, inodes, WB_MAX_INODES_PER_ISW);
+> +	if (!isw) {
+> +		wb_put(new_wb);
+> +		return false;
+> +	}
+> +
+> +	atomic_inc(&isw_nr_in_flight);
+> +
+> +	spin_lock(&wb->list_lock);
+> +	restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_attached, &nr) ||
+> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty, &nr) ||
+> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_io, &nr) ||
+> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_more_io, &nr) ||
+> +		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty_time, &nr);
+> +	spin_unlock(&wb->list_lock);
+> +
+> +	if (nr == 0) {
+> +		atomic_dec(&isw_nr_in_flight);
+> +		wb_put(new_wb);
+> +		kfree(isw);
+> +		return restart;
+> +	}
+> +
+> +	trace_inode_switch_wbs_queue(wb, new_wb, nr);
+> +	wb_queue_isw(new_wb, isw);
+> +
+> +	return restart;
+> +}
+> +
+>  /**
+>   * wbc_attach_and_unlock_inode - associate wbc with target inode and unlock it
+>   * @wbc: writeback_control of interest
+> diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
+> index 33e06b1b1e1c..7713fd60c985 100644
+> --- a/include/linux/backing-dev-defs.h
+> +++ b/include/linux/backing-dev-defs.h
+> @@ -162,6 +162,7 @@ struct bdi_writeback {
+>  					 * to this wb */
+>  	struct llist_head switch_wbs_ctxs;	/* queued contexts for
+>  						 * writeback switching */
+> +	struct work_struct replaced_work;	/* see switch_replaced_cgwb() */
+>  
+>  	union {
+>  		struct work_struct release_work;
+> diff --git a/include/linux/backing-dev.h b/include/linux/backing-dev.h
+> index f7ef5895625a..84057fa92f24 100644
+> --- a/include/linux/backing-dev.h
+> +++ b/include/linux/backing-dev.h
+> @@ -151,6 +151,7 @@ static inline void bdi_wb_stat_mod(struct inode *inode, enum wb_stat_item item,
+>  
+>  struct bdi_writeback *wb_get_lookup(struct backing_dev_info *bdi,
+>  				    struct cgroup_subsys_state *memcg_css);
+> +void cgwb_kick_replaced(struct bdi_writeback *wb);
+>  struct bdi_writeback *wb_get_create(struct backing_dev_info *bdi,
+>  				    struct cgroup_subsys_state *memcg_css,
+>  				    gfp_t gfp);
+> diff --git a/include/linux/writeback.h b/include/linux/writeback.h
+> index b749a9a5a5ee..88e4b5049698 100644
+> --- a/include/linux/writeback.h
+> +++ b/include/linux/writeback.h
+> @@ -209,6 +209,7 @@ int cgroup_writeback_by_id(u64 bdi_id, int memcg_id,
+>  			   enum wb_reason reason, struct wb_completion *done);
+>  void cgroup_writeback_umount(struct super_block *sb);
+>  bool cleanup_offline_cgwb(struct bdi_writeback *wb);
+> +bool switch_replaced_cgwb(struct bdi_writeback *wb);
+>  
+>  /**
+>   * inode_attach_wb - associate an inode with its wb
+> diff --git a/mm/backing-dev.c b/mm/backing-dev.c
+> index 85b2c95a920c..e401293c260a 100644
+> --- a/mm/backing-dev.c
+> +++ b/mm/backing-dev.c
+> @@ -637,9 +637,51 @@ static void cgwb_release_workfn(struct work_struct *work)
+>  	bdi_put(bdi);
+>  	WARN_ON_ONCE(!list_empty(&wb->b_attached));
+>  	WARN_ON_ONCE(work_pending(&wb->switch_work));
+> +	WARN_ON_ONCE(work_pending(&wb->replaced_work));
+>  	call_rcu(&wb->rcu, cgwb_free_rcu);
+>  }
+>  
+> +static void cgwb_replaced_workfn(struct work_struct *work)
+> +{
+> +	struct bdi_writeback *wb = container_of(work, struct bdi_writeback,
+> +						replaced_work);
+> +
+> +	do {
+> +		cond_resched_tasks_rcu_qs();
+> +	} while (switch_replaced_cgwb(wb));
+> +	wb_put(wb);
+> +}
+> +
+> +/* called with cgwb_lock held, possibly with interrupts disabled */
+> +static void cgwb_queue_replaced_work(struct bdi_writeback *wb)
+> +{
+> +	lockdep_assert_held(&cgwb_lock);
+> +
+> +	if (wb_tryget(wb) && !queue_work(system_dfl_wq, &wb->replaced_work))
+> +		wb_put(wb);
+> +}
+> +
+> +/**
+> + * cgwb_kick_replaced - switch inodes away from @wb again if it was replaced
+> + * @wb: wb that inodes were just switched to
+> + *
+> + * An inode switch pins its target wb before the switch lands, and the wb
+> + * may be replaced in cgwb_create() and have its replaced_work run in
+> + * between.  Kick the work again so that those inodes reach the successor
+> + * too.  A dying wb that still owns its slot is left alone: foreign flushes
+> + * can reach it, and the work would look up @wb itself.
+> + */
+> +void cgwb_kick_replaced(struct bdi_writeback *wb)
+> +{
+> +	if (!wb_dying(wb))
+> +		return;
+> +
+> +	spin_lock_irq(&cgwb_lock);
+> +	if (radix_tree_lookup(&wb->bdi->cgwb_tree, wb->memcg_css->id) != wb)
+> +		cgwb_queue_replaced_work(wb);
+> +	spin_unlock_irq(&cgwb_lock);
+> +}
+> +
+>  static void cgwb_release(struct percpu_ref *refcnt)
+>  {
+>  	struct bdi_writeback *wb = container_of(refcnt, struct bdi_writeback,
+> @@ -724,6 +766,7 @@ static int cgwb_create(struct backing_dev_info *bdi,
+>  	INIT_WORK(&wb->switch_work, inode_switch_wbs_work_fn);
+>  	init_llist_head(&wb->switch_wbs_ctxs);
+>  	INIT_WORK(&wb->release_work, cgwb_release_workfn);
+> +	INIT_WORK(&wb->replaced_work, cgwb_replaced_workfn);
+>  	set_bit(WB_registered, &wb->state);
+>  	bdi_get(bdi);
+>  
+> @@ -748,6 +791,12 @@ static int cgwb_create(struct backing_dev_info *bdi,
+>  			old_wb = radix_tree_deref_slot_protected(slot, &cgwb_lock);
+>  			if (wb_dying(old_wb)) {
+>  				radix_tree_replace_slot(&bdi->cgwb_tree, slot, wb);
+> +				/*
+> +				 * @old_wb is out of foreign flushes' reach
+> +				 * but may still have inodes attached, dirty
+> +				 * or not.  Switch them over to @wb.
+> +				 */
+> +				cgwb_queue_replaced_work(old_wb);
+>  				ret = 0;
+>  			} else {
+>  				ret = -EEXIST;
+> 
+> -- 
+> 2.53.0
+> 
 -- 
-2.54.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
