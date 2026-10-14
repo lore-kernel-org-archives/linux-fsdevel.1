@@ -1,150 +1,123 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BB25477E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 12:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BC0486430
+	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 13:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791982764; cv=none; b=YUsIS4tku4i9gJ62I3h40AX5JzDvTOeu8LgD2aViSnGMwLe8QW5XjV9eD9a1kVq2zGlyCTW+CT+bF/LpjwECSUjZ9vwEaEMTLpEi1z8lQcT+K2/JVxfKy1FDO/4XaetdeJdIs9IO2pwXNlUwnfkrYFFMWXlz4bNS3uQEnfIWErw=
+	t=1791983225; cv=none; b=szYVQz8WU0lgHe85cg2X1jrTljZfaqxSBqs5SoqrQoir1VzFspQQo/p0o7np+kojgRF/hdHpnhqa6rWFZUWt9+vDciAMaZGldeJ3a6ETM5hpS+xT6FGYfSHcVYtsUMFGi1PhPeEXdtkEafJarVlTqwRePAv+FGzW1v2ItDlV5+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791982764; c=relaxed/simple;
-	bh=XwD6uZPUOqO16G217Oc87tHtEofjQpPiRC+ldHc0UPw=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=aYLzG8bBSzK0DjuGjcI5WKrXhq0x/O9O5ZDSaJqBmB+s6epW8KQfyRAhPsmqX1vLg1FkaV0JPL+Gl/O1lAhvtATiqrv/haINgeVesbQsewPjzewZskd/+n2zgc6pbpFerG3nGSWfEJFTYqDzkUAQT5BnFFPJ33I9mZl5hgowajg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=ejPbDASh; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1791983225; c=relaxed/simple;
+	bh=OySODPiskWWvzQQMx1Yq/HwVMV7iyUkBWw0BjUbVY6s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PC/1zPuqx39FReeg2iFdrv6otBVGyoFDsEXYtyZzBPjoxx70G2QzL/hCZUqwAfcMrFpGhv8lkS9xWVKDJyjn7KJ/h9Vt68WVtcIpvjTr474HD5FmWpBuBTM9DUavNoJ3l9ZpnpOPHw0FWJJ3/HKPgrS+Dcv7k2NDQZBmLmG0or4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LttP+57Q; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="ejPbDASh"
-Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 69ECwnej1090762
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Wed, 14 Oct 2026 05:58:50 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 69ECwnej1090762
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026092801; t=1791982731;
-	bh=QIEdQ+jljzVM/uHfGWmHvQDETjLZEiCwFQ9wBmQaQNY=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=ejPbDAShLXQI3zL7SH4juLYz9osk5CGY+0Z7ENCg6coqpr7LZn5b9mLfdKg7qOmTc
-	 lGhhL9PSPOrmkRGFU8X4FxM0/hTVltiVg3AOAh5G0VlI57dyBWtr48U2uuD22QsUuj
-	 4G99IGX7WRFrU9GyGx0LmbWtTUAkgIfpyYTH35rxWZZDRuMqN+rXCHJ6vM6gEeCeyC
-	 dYMt3SNXJozOuuNBuPsFbtO3tiyw8tOwnxds7VlPA+EUhswgBaprIVuNX5WwqfTBnz
-	 uWaXkkvAfQEZD1he0Efwopiw1eCEb+dbV8RKsml5SfFIuXIi+WQ21msc0qsocH3Mb7
-	 NYmJGpjIASyMw==
-Date: Wed, 14 Oct 2026 05:58:42 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Zhiling Zou <zhilinz@nebusec.ai>, linux-fsdevel@vger.kernel.org
-CC: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, alain@knaff.lu,
-        vega@nebusec.ai, zhilinz@nebusec.ai
-Subject: Re: [PATCH 1/1] init: distinguish compressed ramdisks from image size
-User-Agent: K-9 Mail for Android
-In-Reply-To: <154af2b4bce7fe546be4e921439060aa0b616fc9.1791977727.git.zhilinz@nebusec.ai>
-References: <cover.1791977727.git.zhilinz@nebusec.ai> <154af2b4bce7fe546be4e921439060aa0b616fc9.1791977727.git.zhilinz@nebusec.ai>
-Message-ID: <2EED1C95-742F-40E6-BD12-FE8DE83F6F5F@zytor.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LttP+57Q"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a1ad2e2391so13566985e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 06:07:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791983222; x=1792588022; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=k5Xx2GBklmLYql9VZXZ+CeE2dU9lwoFm77pkgYHcd38=;
+        b=LttP+57QkPAzmVVgUvRW/Pp91UXzLM8OE6jaXUaXULC9NYjzeL97NCoVyX/bypkvRk
+         peQUYRfnh5Y7MVpWP9KRooCb+/mVQrAcK3pfdPbFtHqN7CieKU5nDRqxKJs4KaykY5Mp
+         47FHCnhxBfn95ZlIQUM5t5uirtgnxgVmEnAsTSU8pPnjLE6qTS4hZ3q7rZwFqBphpimm
+         LGq0XY1fMplM7a0KAexltkifQNpAVK1FaCAC4DdwrUBEjs104BAMvmB6DmZ+xRfXWIk2
+         z3vVscEpYOosS5Z8V4hkMt6vyU+dMBCChD6MxSCniSCY6yv2aP/zXSFRlHwh6OdTiP4w
+         tZAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791983222; x=1792588022;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=k5Xx2GBklmLYql9VZXZ+CeE2dU9lwoFm77pkgYHcd38=;
+        b=T5zeXhSeplTlpupoXSYSjJ/M0K+Tu2s/QTqZEJfWbu0cj0ApoerR2eWHcwPJ36MlQc
+         Ud9pdg6LsuwON3No/k8079MrCSDC4lh9+x3IGcFurGF+mg3E6snFQu5z51s4IKXfcigI
+         fxOT6r3q0fd7Q9JDPdQRbSqJEEoxjLUQzPejD5XJqE/MWMn/7jNwfymmNa2IC54uU/nq
+         4chmtxdeGmkfIkqURtNn4GxbhLTIhjQw5li5E4i/0nglDFxJ0V1uZmL+2hWYXcltxmFp
+         0yTPSBKRLQ1cLDWam/rR3vbKU6YNSs6NLTnmNav1IpWRCWWN2bMQDnUVyFYYrzIXuHKP
+         9/Bw==
+X-Forwarded-Encrypted: i=1; AKwUvBxPvOCooUiYTTVafqExWg9VmLtjkSHPvFv3yOx0N72K7jdSqYNfn4gRR442KfwU6izcjZ2dm0/P7QFBrVbr@vger.kernel.org
+X-Gm-Message-State: AFq9FYJFZT5O6/VodUonQGs+9aYeq/3Vi4J0KsQtUKHmzuCC2zEP3v/j
+	+BgftowX9L8q8np8SKHcPTYwbrBW08aaE074+3R5VwqMvLbKC6tARFCS
+X-Gm-Gg: AYBFou3JzW7QJ0/O4XAdvCPeX3hL3M/lmj2pP4wwZaLNufuiKNg5kEBKvcQJryVY4Ck
+	a53ARZJPX9WbHxxBzjWHk1goNdWp/xYt+NbKJA2wAuY6zSw+5PHtBks5NlFZG8IVlq5ztW9nQeO
+	p5oqlXDgW3MpFkDFhishXN6vOTUPY4JxInAjG9JndmBEbwSqIkQR31yGYT4mgpBL7mA626dfmJc
+	jAJKs6XHU5DeRwzidapWWa4YfxubjDc+dSvgxV08EXPINi1pTlb1FzZO95F07xlV1B36FeEitiK
+	78CSoPgQoC3mw7sB7WMg6SRWTbpLG3qbk0xuZV78BMHhAyOyZv86Tsws33m2yUihvXbbnqgg7/f
+	r/aA/24Mo0x2b4ECFiRrkIyFivq0v6Pg1UNN0J/4qFpIFtkawujM63K8gsoB/oqXAtrrV6TrvBO
+	Z0maJkr+HzFZNVX1eCCjbyC/KFcDHP4AjUYMUC/pqdcPB7CnLrGvjxGi94W2Lo3Lf7YDX55vUvy
+	yh1VcHi+WW//PILWVFWoVNuvkA8TxiKW2QycYS8vxYhLoAkFOPLrax5ssamvWt3v/1EpAGSgTm/
+	ATPqzaPBh7MB+IDW7BDL+ml/ojwtouWpnA+sM/KSV4L1Y5ox2A==
+X-Received: by 2002:a05:600c:6994:b0:49c:dada:30b7 with SMTP id 5b1f17b1804b1-4a18e446f3bmr313643615e9.2.1791983221508;
+        Wed, 14 Oct 2026 06:07:01 -0700 (PDT)
+Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1b3602990sm52779585e9.0.2026.10.14.06.07.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2026 06:07:00 -0700 (PDT)
+Message-ID: <8d0e7d1e-086b-413a-87de-20e21f519daa@gmail.com>
+Date: Wed, 14 Oct 2026 14:06:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 01/13] dma-buf: introduce initial file I/O
+ infrastructure
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, dm-devel@lists.linux.dev
+References: <cover.1791975048.git.asml.silence@gmail.com>
+ <49e24334953262e85d5616c9afde88c680e4f3a3.1791975048.git.asml.silence@gmail.com>
+ <b461d367-8965-4798-b7ac-cffd4301cd1b@amd.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <b461d367-8965-4798-b7ac-cffd4301cd1b@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On October 14, 2026 4:44:00 AM PDT, Zhiling Zou <zhilinz@nebusec=2Eai> wrot=
-e:
->identify_ramdisk_image() uses a zero block count to mark compressed
->images=2E  A malformed legacy filesystem header can also produce a zero
->block count, causing rd_load_image() to call crd_load() with a NULL
->decompressor and panic=2E
->
->Track whether the image is compressed separately from its block count=2E
->This keeps zero-sized or overflowed legacy image sizes on the normal
->validation path while preserving the handling of compressed images=2E
->
->Fixes: 30d65dbfe3ad ("bzip2/lzma: config and initramfs support for bzip2/=
-lzma decompression")
->Cc: stable@vger=2Ekernel=2Eorg
->Reported-by: Vega <vega@nebusec=2Eai>
->Assisted-by: LLM
->Signed-off-by: Zhiling Zou <zhilinz@nebusec=2Eai>
->---
-> init/do_mounts_rd=2Ec | 22 ++++++++++++----------
-> 1 file changed, 12 insertions(+), 10 deletions(-)
->
->diff --git a/init/do_mounts_rd=2Ec b/init/do_mounts_rd=2Ec
->index 48bfab2fc62f=2E=2Ef113469448e9 100644
->--- a/init/do_mounts_rd=2Ec
->+++ b/init/do_mounts_rd=2Ec
->@@ -31,9 +31,9 @@ static int __init crd_load(decompress_fn deco);
->=20
-> /*
->  * This routine tries to find a RAM disk image to load, and returns the
->- * number of blocks to read for a non-compressed image, 0 if the image
->- * is a compressed image, and -1 if an image with the right magic
->- * numbers could not be found=2E
->+ * number of blocks to read for a non-compressed image, and -1 if an
->+ * image with the right magic numbers could not be found=2E The compress=
-ed
->+ * flag is set if the image is compressed=2E
->  *
->  * We currently check for the following magic numbers:
->  *	minix
->@@ -50,7 +50,7 @@ static int __init crd_load(decompress_fn deco);
->  */
-> static int __init
-> identify_ramdisk_image(struct file *file, loff_t pos,
->-		decompress_fn *decompressor)
->+		decompress_fn *decompressor, bool *compressed)
-> {
-> 	const int size =3D 512;
-> 	struct minix_super_block *minixsb;
->@@ -63,6 +63,7 @@ identify_ramdisk_image(struct file *file, loff_t pos,
-> 	unsigned long n;
-> 	int start_block =3D rd_image_start;
->=20
->+	*compressed =3D false;
-> 	buf =3D kmalloc(size, GFP_KERNEL);
-> 	if (!buf)
-> 		return -ENOMEM;
->@@ -87,7 +88,7 @@ identify_ramdisk_image(struct file *file, loff_t pos,
-> 			printk(KERN_EMERG
-> 			       "RAMDISK: %s decompressor not configured!\n",
-> 			       compress_name);
->-		nblocks =3D 0;
->+		*compressed =3D true;
-> 		goto done;
-> 	}
->=20
->@@ -185,6 +186,7 @@ int __init rd_load_image(void)
-> 	char *buf =3D NULL;
-> 	unsigned short rotate =3D 0;
-> 	decompress_fn decompressor =3D NULL;
->+	bool compressed;
-> 	char rotator[4] =3D { '|' , '/' , '-' , '\\' };
->=20
-> 	out_file =3D filp_open("/dev/ram", O_RDWR, 0);
->@@ -196,15 +198,15 @@ int __init rd_load_image(void)
-> 		goto noclose_input;
->=20
-> 	in_pos =3D rd_image_start * BLOCK_SIZE;
->-	nblocks =3D identify_ramdisk_image(in_file, in_pos, &decompressor);
->-	if (nblocks < 0)
->-		goto done;
->-
->-	if (nblocks =3D=3D 0) {
->+	nblocks =3D identify_ramdisk_image(in_file, in_pos, &decompressor,
->+					 &compressed);
->+	if (compressed) {
-> 		if (crd_load(decompressor) =3D=3D 0)
-> 			goto successful_load;
-> 		goto done;
-> 	}
->+	if (nblocks < 0)
->+		goto done;
->=20
-> 	/*
-> 	 * NOTE NOTE: nblocks is not actually blocks but
+On 10/14/26 13:30, Christian König wrote:
+> On 10/14/26 13:01, Pavel Begunkov wrote:
+...>> +static void dma_buf_io_kill_map(struct dma_buf_io_ctx *ctx)
+>> +{
+>> +	struct dma_buf_io_map *map;
+>> +
+>> +	dma_resv_assert_held(ctx->dmabuf->resv);
+>> +
+>> +	map = rcu_dereference_protected(ctx->map,
+>> +				dma_resv_held(ctx->dmabuf->resv));
+>> +	if (!map)
+>> +		return;
+>> +
+>> +	rcu_assign_pointer(ctx->map, NULL);
+>> +	percpu_ref_kill(&map->refs);
+>> +	/* make sure the map is not visible via ctx->map */
+>> +	synchronize_rcu_expedited();
+>> +	wait_for_completion(&map->drained);
+>> +	dma_buf_io_map_release(map);
+>> +}
+>> +
+>> +int dma_buf_io_init_map(struct dma_buf_io_ctx *ctx, struct dma_buf_io_map *map,
+>> +			struct sg_table *sgt)
+> 
+> You somehow forgotten the kerneldoc I asked for here.
 
-Why the hell do we still support legacy filesystem boot ramdisks?
+Ah yes, missed that function. I'll add it but perhaps in a separate
+patch, if you don't mind, depending whether we queue it for 7.4.
+
+> Apart from that still looks good, but I had only time to skim over it.
+-- 
+Pavel Begunkov
+
