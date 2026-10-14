@@ -1,276 +1,315 @@
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F8754DAC6
-	for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 22:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791930147; cv=none; b=QoKH/mtTaK7I11B9YojJQPOt4hxjZdR7n49mPNQjqGa8STn8QSuaSkFJ9lFiSYHbzmvmuuMvsA3vAl3pqZNd7qLHH4wGtfbiGAXr7t2+yOR/PuyN/A3GqNRwoFBA+8HOuZEoy2KAN6zFS11cPWJeOcHHI8lttKgbf1euKJ5m3Go=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791930147; c=relaxed/simple;
-	bh=NwIvVIq01Hapz/mS8aATUvaJJsZ0UfcFyYw2G5vyO2c=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=d8lIXfkW6AAW6qefr8/xcmWq6Og0gL7y3szoSR0ju4QoEnmEr9pR22jDaKikbg2CJC+kD+zX2rDfUFPPgE0Mg1ooG7KhHPyTDp8Citsy+HRxxRbztFl3YZyJVdiDCDLNjff0bTn3i4yr0bhUKzszm1YOiCuiaSHAlCKuYwRnOKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4ab4f652f9bso3123348b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 15:22:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB0033998
+	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 00:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791936348; cv=pass; b=gRiOMjICZmfSYAmRNb5O0AoI0pDQqrC4ANKl0FeS8byTKfZIYKVh2TibOoxcGatP4WoKf3dcHSmSBSfnZToa7j8uaZtRkBhYPgNIm3Z4qWybuWzXShytHg2cD4f7oQ66JGOPgbuTMxDDxxyKqgbwqlnO+3KK/vmn6kU0x1sau6Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791936348; c=relaxed/simple;
+	bh=JiIkoDrG8B/K/e0G126rXH/WHg3dZTUEry5fG6BL75M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GbIcZ2Lw5n+zTG0jYOpySMn38xQmu7vZampYCt73qaEWK9uLFgFIT8RrCG3gh+MGm56YZPHKlNxQouKtOZJBiLj4h/JPz6+9boVZaaMMsUq6OB1FPW1u/vHRTvqczeYJZoUD0KIpRlK+aWSRC3utlMxpyt7Q838i3FK8zXUVGnI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WCtnJbQB; arc=pass smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WCtnJbQB"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a1635f7c89so3696785e9.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 13 Oct 2026 17:05:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791936344; cv=none;
+        d=google.com; s=arc-20260327;
+        b=b35t9l2wrwOS775JL6gs5uAUiuBrSlOMZZtm/ggmpBPsN+SRDarNnlyV+rRtAXFQnG
+         +4KLzGLcPNFTgKxAcdtO85Q7heSsEPvCKnhldHDgJOO5UYYtVtXyf/LYoU+ecUrSxuB/
+         Th1rR3Lu9JrLJQfxgbVWRWvw7OFHi4V0KUEwrjjMMPzu2G/wEKwKakGqCh9Hhz5Vhs1W
+         bdxwcmMoIRmy9qh26CotQpPDPJ0GJ9reH4dJss/gnqsrW0Lg2W7V6gvrX9syrUQr0Mln
+         mvRYkdCB3FKemoENwzXfQ2oZy5o8IevMGIgNoO9zJ88xMrX0TT788dQTkc+o3IiLg+K5
+         +GAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0Y1oo8EWenBlY3BpHQDLYrrC9DTOm+pseWLNNQG3q3Q=;
+        fh=iETAYH+6/bDAV/TA1A1zMXZlsCexu/lPUWxpTvxI7Vc=;
+        b=lVVQX4De/4Jh0eFmQBjGD5zZvUWJEbA+nzxQ5P/6igf8NTkjYauIHyNHWm25dmAlvo
+         eNMRqUDsKjqAbO6plp0+8fYSLzI78Q3GSfKceA98t+ixjwNjDQjoo2e16IlW5UjwgmFu
+         3f8MFd8IdDSXr17smu0Ich7kmOEzrg1j9rMoxuZc8g4z5QYco40fC1f4OP/CAFOl/iaI
+         FFfw2Cg5fUra/UI92Dom04Khhx3mrte5bvKJB6imIb0AmryBANtWo5A5KcBwM6jokQqR
+         0VeGGN/50Comc1OfGEwg8eaqcMu3CsoILCLz7lMVX8O5Nf0zydD4sDrNghG7PWEnBb0r
+         gfhw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791936344; x=1792541144; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0Y1oo8EWenBlY3BpHQDLYrrC9DTOm+pseWLNNQG3q3Q=;
+        b=WCtnJbQBJDCUtVFEvJCn5UfOrSMWH3mCBLLkHdunYelA/uioc0YoxgeNxidOIER4js
+         hpRSYKljuMk6QobzRmqv2cCN6YOCt+xfDj/My5IXPyQqDaSNY2rhHBzyHpEQ1eDhPO1z
+         sMRJu8Lnh3FPX/8022gzbovsXOI6qAX5JRFmw4PF2da0Iwh7Oc8FkEzwJbWhd0ofR+fc
+         PeI5KYxf9KCs1ff4ECV+XAAnattyAgjgQ/oaoV7LyEnsGRhWVd5XgKBjoOMxH5s23VJF
+         w6BoCU13pWywfqrkXehGDlPcU+uSux4wxkHpxWcW+y4AaOqoz6j/emDANYRSOHTG4Kh0
+         04Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791930145; x=1792534945;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=nC9Y66AUbwP61dNcn7uCl9o6jCbcJ0Xkk9MXOm+DELQ=;
-        b=vJhbquHnBlPFm1WoFfjpuqRqi0QTrVb3gH62CBbz8/I4qiQw/klV9ztoam/ljJnJgP
-         Q1eKYVcZpXEQPSe/eeag4p8QoPhk3+DkZIP/cn75B7hm/13gI/uTh0OW4NPBuX1mTD5l
-         dxn8pXhG1g80Bdh2zfooVjEDiE3OBykBqfpKvH7LekMylcG6RSMSqa3fnF4Y6oWjE9jQ
-         /U3j0tGQdAIvsXSOeE3fJRGqihyJMldvNqBRcHlgOSR0Agrfj6BaJzzwc6P0stdW9nXJ
-         ygXEa//DjViAP19F4Oh5HgBoTgEr+mC0gsZVxS2I9P9fJ7WyDGIm7SzRF1ez+70MfcI6
-         LsOQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxf354cCkSyEWuhM2JpPU+GSgO8K+qq2sUhVFxKiJQfSLXXKUCHWoAs2rLEh2EA9Ms2Uw/2voumz2IwJNVL@vger.kernel.org
-X-Gm-Message-State: AFq9FYIaOLqgVWi+jCuRYsTejBU3b5MrONXavyhP8PTZ7l7Q03KrttN9
-	ccr2X+1AADNMaVkxgWKA2jI+fOtXQ/hSFiNHY0SQC0qH/xpaXtf9ayiz5Hw0G3bBfU7hb7gfzpC
-	pzgKvuvhl225QMm0HyVB1Nrwoe8W7VX8u9doomcyJKDsaC1QIHuUllvW5SLA=
+        d=1e100.net; s=20260707; t=1791936344; x=1792541144;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0Y1oo8EWenBlY3BpHQDLYrrC9DTOm+pseWLNNQG3q3Q=;
+        b=FvW8884LWJYDTUN9nl0z0vy2XmZpLMsOS3pJQNOvyqzmMkmdsI7Fz73iLM2nwEn3f8
+         N6sIpBnkoREMagBjMc9p2NUvN91okasACiXxaDlgkzXC0dPm+MZpOp6NGkeEQN162oet
+         qEfrA5B+uYQk5DiNTcfecSwFZENvR5kVIRpkFwwgVPKNxnVbo/vWwo9ryT+8BswwPiFn
+         29nLadyHRHR0xepbZk/EbWDOUXuiTqCP1EqxLrjFVsZSaQAMhzMIpwHk3EXrXp5CCUdd
+         fJPWKuERS0cL/Sf8w3PiVI8XeOcJFeu/sZKseSro4Ssm5TRgnnH8RGEnxCoD3xtku+lP
+         rzPw==
+X-Forwarded-Encrypted: i=1; AKwUvBybi95+ZWNx5JPKjL+aBs9/OWMN5X2NspXrA/t6cR6rcGAneyRobkWBbjNsAyFWmtdNraOI3Nx2SJQ8gVGE@vger.kernel.org
+X-Gm-Message-State: AFq9FYKSmt/T6/HMsEeL+M5+pHWFuV7lgiPPCgklJdUsOBELc8faVKiE
+	wPaARarSvDXVBsyWYUW5tVHHWnXPzb241RGM+MhW/D3jzl61KEhfUTDAbBw8KPVvQN+i/xa6YT7
+	m8TEOBn6jLQYlEIQJDGh0dBE078PUnLQ=
+X-Gm-Gg: AYBFou3AYTZsYAy3FWELm8HwRhLUM/WjIbvEbws0h60kBpJ7EMtllaYLbgTsb/gDIHZ
+	JQSPa7YGV0fai9oPo9apjeTSyWkP7rPYL9fcJKNRYiLf5DsMhiWuUSdCD82nY+IoeiKwM231WuB
+	88niFOBoJBNOXJY0rUB7I/1NfuTZyOS43fsJiRtTvAsiebhNUVmbBqNj0ikFxmPwF0EBNZ6XJRN
+	edOUMuNceN6sOqhzXlJ5HU9qHzGXwMi26CgaiLxgpU1rjlp9xp6zzn2uVw8U3E9WfUr27uMfoyN
+	DncXjyKyGea0rAGBp7b2k8Xz85LYijvaPpzP1bAHyouZrClP8iTpx/sjgjccJWX2OvPH3Dxn4qb
+	mF9I4c384YgrQRldXoHA2NgAPzzzmnanzdwCFozHGvGd/Lbd7v0li
+X-Received: by 2002:a05:6000:491c:b0:485:1bcc:67f8 with SMTP id
+ ffacd0b85a97d-48dbaadb2d5mr26190862f8f.13.1791936344413; Tue, 13 Oct 2026
+ 17:05:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:2e4d:b0:4e7:978b:ad91 with SMTP id
- 5614622812f47-50c57695625mr13025422b6e.49.1791930145279; Tue, 13 Oct 2026
- 15:22:25 -0700 (PDT)
-Date: Tue, 13 Oct 2026 15:22:25 -0700
-In-Reply-To: <6a6aad2e.57649fcc.360844.000d.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aceaf21.8cdf6287.1eb53.0174.GAE@google.com>
-Subject: Re: [syzbot] [integrity?] [lsm?] possible deadlock in
- __configfs_open_file (2)
-From: syzbot <syzbot+c87014f645f2fd24312e@syzkaller.appspotmail.com>
-To: a.hindborg@kernel.org, leitao@debian.org, linux-fsdevel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
+ <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
+ <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
+ <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
+ <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
+ <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
+ <CAO9r8zNJ=Fpc0pZExrttVTDCM3yzSmLPCAU=+RS0k5Pm+hY96w@mail.gmail.com>
+ <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com>
+ <CAJnrk1aHdBm4CofvKfx7B3H-uF2xRXZUQs47J_4xeRmRZ4hcZg@mail.gmail.com> <CAO9r8zOkBVgxdb3pCyHs-ZQTxhwBmA1_+aH0snV7dzbVaVsPsg@mail.gmail.com>
+In-Reply-To: <CAO9r8zOkBVgxdb3pCyHs-ZQTxhwBmA1_+aH0snV7dzbVaVsPsg@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 13 Oct 2026 17:05:32 -0700
+X-Gm-Features: AclHuK8WhcrCOTeK0kKrzzEhohmXHWs0Un0onHQb7Xyw4WEMp2HD0VK19I_-6P8
+Message-ID: <CAJnrk1ayOhrFY8LOMYxqEMYZvhK10zjTTyOK93VzMgxpV5W5sA@mail.gmail.com>
+Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, James Houghton <jthoughton@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot has found a reproducer for the following issue on:
+Hi Yosry,
 
-HEAD commit:    24a19b953e2a Linux 7.3-rc7
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=165f3c35580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=129d675874dbf896
-dashboard link: https://syzkaller.appspot.com/bug?extid=c87014f645f2fd24312e
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10cf93d1580000
+On Mon, Oct 5, 2026 at 1:45=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wrote=
+:
+>
+> > I added some instrumentation to prepare_scan_control() and have been
+> > seeing that the OOM gets triggered in this pathway:
+> > a) the memcg is created with memory.max set to unlimited. 512 M gets
+> > faulted in. The new anon folios get put on the inactive list. Nothing
+> > reclaims them yet
+> > b) userspace then sets memory.max to half of memory.current (~271M
+> > from ~542 M currently used). This causes memory_max_write() to trigger
+> > reclaim logic
+> > c) the folios have already moved to the active list (my
+> > instrumentation shows 122684 active vs. 179 inactive) when reclaim
+> > does the scanning, which means the only way for pages to be reclaimed
+> > is for pages to get deactivated from the active list back to the
+> > inactive list.
+> > d) prepare_scan_control() (which decides if the pages get deactivated)
+> > reads the LRU sizes from rstat. This memcg hasn't been flushed yet
+> > (the 2s flusher hasn't yet triggered since when the memcg was
+> > created), so the NR_INACTIVE_ANON and NR_ACTIVE_ANON stats are all
+> > still zero. The real values are all still sitting in per-cpu buffers
+> > that haven't yet been flushed. My instrumentation shows:
+> >         inactive_anon       rstat: 0    actual: 179
+> >         active_anon          rstat: 0    actual: 122684  (~479 MB)
+> > e) the deactivation logic in prepare_scan_control() is:
+> >
+> >                 refaults =3D lruvec_page_state(target_lruvec,
+> >                                 WORKINGSET_ACTIVATE_ANON);
+> >                 if (refaults !=3D target_lruvec->refaults[WORKINGSET_AN=
+ON] ||
+> >                         inactive_is_low(target_lruvec, LRU_INACTIVE_ANO=
+N))
+> >                         sc->may_deactivate |=3D DEACTIVATE_ANON;
+> >                 else
+> >                         sc->may_deactivate &=3D ~DEACTIVATE_ANON;
+> >
+> > The if check fails:
+> >      refaults !=3D prev refaults: 0 !=3D 0      (false)
+> >      inactive_is_low(): both LRU inactive and active values are 0: 0 *
+> > inactive_ratio < 0     ( false)
+> >
+> > DEACTIVATE_ANON gets cleared
+> >
+> > f) pages don't get moved from the active list to the inactive list, so
+> > reclaim ends up freeing nothing. memory_max_write() goes through all
+> > MAX_RECLAIM_RETRIES and OOMs, even though there's 479 MB reclaimable
+> > (but it's all on the active list).
+> >
+> > I saw that the skipped_deactivate retry did fire (on 858 of 4264
+> > scans), but not enough to get the memory.current back under the halved
+> > memory.max, so memory_max_write() still exhausted MAX_RECLAIM_RETRIES
+> > and OOMed.
+> >
+> >
+> > imo I think the best fix would be
+> > a) for non-root memcgs, revert back to the non-ratelimited version
+> > (mem_cgroup_flush_stats())
+> > b) for root-memcgs (which if flushed will flush every cgroup on the
+> > machine), don't use rstat at all and use the existing node counters
+> > instead (which is what the non-memcg case already uses).
+> > mod_lruvec_state() always updates the node vmstat and the memcg lruvec
+> > stat in the same call. For the root lruvec, the node counter reflects
+> > the same value and doesn't need any flushing. It has an error bound of
+> > 125 pages/cpu at most, but this is tighter than what we currently have
+> > with the ratelimited version.
+>
+> This seems like the right thing to do. If we have global stats, we
+> should avoid a rstat flush. I actually wonder if we should start
+> systematically eliminating root flushes, and if that ends up being
+> good enough to keep everything else as-is for in-kernel flushers. The
+> flush in zswap_shrinker_count() is also a good candidate, we already
+> use global stats when memcg is disabled there as well.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c87014f645f2fd24312e@syzkaller.appspotmail.com
+I agree, I think we should replace all root flushes with reading the
+node counter values. I'll submit some patches for that.
 
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz-executor387/5997 is trying to acquire lock:
-ffff888035be1570 (&p->frag_sem){.+.+}-{4:4}, at: __configfs_open_file+0xe8/0x9c0 fs/configfs/file.c:304
+>
+> >
+> > commit 90a6f2a8f442 ("memcg: use ratelimited stats flush in the
+> > reclaim") was what switched vmscan to using ratelimited flushing. The
+> > reason for this was to fix the stalls from concurrent reclaimers
+> > contending on the rstat lock. For the Cloudflare case, kswapd threads
+> > were contending on the rstat lock on 8 numa-node machines. That's the
+> > global path (eg sc->target_mem_cgroup is NULL,
+> > mem_cgroup_flush_stats() turns it into root, so this flush essentially
+> > ends up flushing every cgroup on the machine), which gets addressed by
+> > adding the fix in b), which takes kswapd and global direct reclaim off
+> > rstat entirely. For the non-root memcg case, the flushing is bounded
+> > by the MEMCG_CHARGE_BATCH * num_online_cpus() threshold (a non-root
+> > memcg's stats_updates only accumulates its own subtree's updates, so
+> > it takes a lot longer for it to be exceeded than the root's does).
+> >
+> > I ran some benchmarks to get a rough idea of what a) costs. I set up a
+> > workload that allocates 512M of anon memory in a memcg with memory.max
+> > set to half of that to trigger reclaim continuously. I varied the
+> > number of threads touching the memory, so that N of them hit
+> > memory.max and enter direct reclaim on the same memcg at once. I used
+> > bpftrace to measure the time spent inside css_rstat_flush() and
+> > shrink_node() and used those two numbers to get a percentage for how
+> > much of reclaim is spent in flushing. These are the numbers I saw:
+> >
+> > # threads      flush as % of shrink_node()
+> > 1                ratelimited: 1.10%       non-ratelimited: 2.22%
+> > 16              ratelimited: 0.36%       non-ratelimited: 2.87%
+> > 64              ratelimited: 0.16%       non-ratelimited: 2.52%
+> >
+> > Between the ratelimited and the non-ratelimited runs, walltime and
+> > pgsteal were pretty much indistinguishable (42.7s vs 43.6s at 16
+> > threads and 41.7 s vs 42.4s at 64, with the ranges overlapping, and
+> > pgsteal within 0.2%).
+> >
+> > I also measured the lock contention. At 16 and 64 threads, 15-20% of
+> > __css_rstat_lock() acquisitions hit a contended trylock with the
+> > non-ratelimited version. At 16 threads, the mean flush time rises
+> > about 8% and at 64 it roughly triples from the single-thread case
+> > (26us at 1 thread, 42 us at 16, 87us at 64)  but I didn't see any
+> > effect of this on wall time or pgsteal between the non-ratelimited and
+> > the ratelimited version, and the percentage of reclaim time spent
+> > flushing stayed at 2-3%. I think that's because css_rstat_flush()
+> > takes and drops the lock once per cpu rather than holding it across
+> > the walk.
+> >
+> > I also ran it with 32 actively churning sub-cgroups under the reclaim
+> > target, since css_rstat_flush() walks the descendants that have
+> > pending updates. I saw that per-flush cost rises slightly (~24 us to
+> > 27 us) but the share of reclaim time spent flushing went down rather
+> > than up (4.1% to 3.2%), because reclaim gets more expensive faster
+> > than flushing does. I don't have a ratelimited baseline at 32 children
+> > though, because with the ratelimited version, all the runs I tried
+> > OOMed. I think this is an alternative repro to the OOM issue but
+> > doesn't need/have KVM dependencies, so if this would be useful to
+> > clean up and send as a standalone C repro, please let me know.
+>
+> It might be useful if it can be added as a selftest or similar, so
+> that such regressions can be caught more easily in the future?
+>
+> >
+> > (Also btw (this is a bit tangential to this OOM issue, but somewhat
+> > semi-related), I don't think the WORKINGSET_ACTIVATE_{ANON,FILE} stats
+> > checking really does anything in practice. On my benchmark runs, the
+> > "refaults !=3D prev_refaults" check evaluates to false in pretty much
+> > every scan. Even with flushing working properly, it didn't trigger on
+> > 1673718 of 1674912 samples, even though the cgroup was thrashing the
+> > whole time (a separate run of the same workload counted 6371860 anon
+> > refaults vs 6523 activations). I think it's because reclaim is
+> > scanning faster than the refaults counter advances, so it'll almost
+> > always see no change. I'm not sure how much this matters in practice,
+> > but I think effectively in that check above in prepare_scan_control(),
+> > deactivation relies entirely on the inactive_is_low() check.)
+>
+> I am also not sure about this one. I am not sure if reclaim moving
+> faster than refaults is something universal, it seems like it would be
+> workload-specific. Johannes is the person that comes to mind when I
+> think about these heuristics, so maybe he has an opinion about this?
+> :)
+>
+> >
+> > What do you all think about adding a) and b) as the fix for this issue?
+>
+> I generally agree. Doesn't really matter much, but I think we should
+> do (b) then (a) to avoid reintroducing the regression temporarily?
 
-but task is already holding lock:
-ffffffff91d84848 (cb_lock){++++}-{4:4}, at: genl_rcv+0x19/0x40 net/netlink/genetlink.c:1217
+I'll send out the patch for (b) and then (a).
 
-which lock already depends on the new lock.
+Thinking some more about how stats are used... I think there's two
+categories the stats fall into: a) hot in-kernel ones (eg LRU sizes,
+workingset counters, dirty/writeback, zswap) which are read very
+frequently from the reclaim, refault, writeback and zswap paths and b)
+userspace-only ones (everything else) that are read through
+memory.stat / bpf / etc and much less often. The hot in-kernel ones
+are a small subset (~20 of ~80). Most of the stats fall into category
+b). However right now, a flush always aggregates *all* of these stats,
+even when the caller only needs / cares about the hot in-kernel ones.
+Flushing does all the work for the stats in category b), which the
+in-kernel flushers don't need. With the per-node lruvec copies, a
+flush goes through 100+ counters per cgroup per CPU vs ~30 for just
+the hot in-kernel ones (on a single-node machine).
 
+What do you think about splitting the stats into two rstat trees, one
+for each category? In-kernel flushers would then only flush the hot
+tree (~30 counters). memory.stat would still flush both (eg userspace
+would see the same thing as it sees today). Each tree would have its
+own lock and its own stats_updates threshold. I can run some
+benchmarks but I think this would make flushes a lot cheaper, and
+since flushes would hold the lock for less time, it should also reduce
+the contention we see between concurrent flushers right now. Together
+with using node counters for root readers, hopefully this will make
+the non-ratelimited flush cheap enough for all non-root in-kernel
+readers and ideally let us get rid of the ratelimiting variant
+altogether.
 
-the existing dependency chain (in reverse order) is:
+Do you think something like this makes sense?
 
--> #3 (cb_lock){++++}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5942 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
-       down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
-       genl_rcv+0x19/0x40 net/netlink/genetlink.c:1217
-       netlink_unicast_kernel net/netlink/af_netlink.c:1338 [inline]
-       netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1364
-       netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1919
-       sock_sendmsg_nosec net/socket.c:800 [inline]
-       __sock_sendmsg net/socket.c:815 [inline]
-       sock_sendmsg+0x394/0x410 net/socket.c:838
-       splice_to_socket+0xb3c/0x11a0 fs/splice.c:884
-       do_splice_from fs/splice.c:936 [inline]
-       do_splice+0x109c/0x1fa0 fs/splice.c:1349
-       __do_splice+0x33b/0x370 fs/splice.c:1431
-       __do_sys_splice fs/splice.c:1634 [inline]
-       __se_sys_splice fs/splice.c:1616 [inline]
-       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Separate from this but also kind of semi-related, I noticed
+css_rstat_flush() takes the rstat lock for every possible cpu, even
+cpus that have nothing to flush for the subtree. Maybe another
+improvement is to just first check locklessly whether there's any
+updates and then just skip the cpu if there aren't any. I can send a
+patch out for this.
 
--> #2 (&pipe->mutex){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5942 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       fifo_open+0x139/0xb40 fs/pipe.c:1235
-       do_dentry_open+0x6ab/0x14d0 fs/open.c:996
-       vfs_open+0x82/0x3f0 fs/open.c:1101
-       do_open fs/namei.c:4866 [inline]
-       path_openat+0x19fa/0x2440 fs/namei.c:5029
-       do_file_open+0x20e/0x430 fs/namei.c:5058
-       file_open_name+0x1c3/0x3e0 fs/open.c:1375
-       filp_open+0x2e/0x50 fs/open.c:1392
-       fsg_lun_open+0x6b/0x7b0 drivers/usb/gadget/function/storage_common.c:194
-       fsg_store_file+0x1e7/0x450 drivers/usb/gadget/function/storage_common.c:455
-       flush_write_buffer fs/configfs/file.c:207 [inline]
-       configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x6af/0x1050 fs/read_write.c:687
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (&common->filesem){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5942 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
-       down_write+0x8b/0x1f0 kernel/locking/rwsem.c:1631
-       fsg_store_file+0x264/0x450 drivers/usb/gadget/function/storage_common.c:452
-       flush_write_buffer fs/configfs/file.c:207 [inline]
-       configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x6af/0x1050 fs/read_write.c:687
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (&p->frag_sem){.+.+}-{4:4}:
-       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
-       check_prevs_add kernel/locking/lockdep.c:3328 [inline]
-       validate_chain kernel/locking/lockdep.c:3952 [inline]
-       __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
-       lock_acquire kernel/locking/lockdep.c:5942 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
-       down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
-       __configfs_open_file+0xe8/0x9c0 fs/configfs/file.c:304
-       do_dentry_open+0x6ab/0x14d0 fs/open.c:996
-       vfs_open+0x82/0x3f0 fs/open.c:1101
-       do_open fs/namei.c:4866 [inline]
-       path_openat+0x19fa/0x2440 fs/namei.c:5029
-       do_file_open+0x20e/0x430 fs/namei.c:5058
-       file_open_name+0x1c3/0x3e0 fs/open.c:1375
-       filp_open+0x2e/0x50 fs/open.c:1392
-       kernel_read_file_from_path_initns+0xec/0x240 fs/kernel_read_file.c:159
-       fw_get_filesystem_firmware drivers/base/firmware_loader/main.c:549 [inline]
-       _request_firmware+0x733/0x13c0 drivers/base/firmware_loader/main.c:873
-       request_firmware+0x35/0x50 drivers/base/firmware_loader/main.c:948
-       reg_reload_regdb+0x85/0x460 net/wireless/reg.c:1067
-       genl_family_rcv_msg_doit+0x214/0x300 net/netlink/genetlink.c:1114
-       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
-       genl_rcv_msg+0x560/0x800 net/netlink/genetlink.c:1209
-       netlink_rcv_skb+0x159/0x420 net/netlink/af_netlink.c:2575
-       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
-       netlink_unicast_kernel net/netlink/af_netlink.c:1338 [inline]
-       netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1364
-       netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1919
-       sock_sendmsg_nosec net/socket.c:800 [inline]
-       __sock_sendmsg net/socket.c:815 [inline]
-       sock_sendmsg+0x394/0x410 net/socket.c:838
-       splice_to_socket+0xb3c/0x11a0 fs/splice.c:884
-       do_splice_from fs/splice.c:936 [inline]
-       do_splice+0x109c/0x1fa0 fs/splice.c:1349
-       __do_splice+0x33b/0x370 fs/splice.c:1431
-       __do_sys_splice fs/splice.c:1634 [inline]
-       __se_sys_splice fs/splice.c:1616 [inline]
-       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  &p->frag_sem --> &pipe->mutex --> cb_lock
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  rlock(cb_lock);
-                               lock(&pipe->mutex);
-                               lock(cb_lock);
-  rlock(&p->frag_sem);
-
- *** DEADLOCK ***
-
-locks held by syz-executor387/5997: 2, last CPU#0:
- #0: ffff888035fc7860 (&pipe->mutex){+.+.}-{4:4}, at: pipe_lock fs/pipe.c:91 [inline]
- #0: ffff888035fc7860 (&pipe->mutex){+.+.}-{4:4}, at: pipe_lock+0x69/0x80 fs/pipe.c:88
- #1: ffffffff91d84848 (cb_lock){++++}-{4:4}, at: genl_rcv+0x19/0x40 net/netlink/genetlink.c:1217
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 5997 Comm: syz-executor387 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2087
- check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2219
- check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
- check_prevs_add kernel/locking/lockdep.c:3328 [inline]
- validate_chain kernel/locking/lockdep.c:3952 [inline]
- __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
- lock_acquire kernel/locking/lockdep.c:5942 [inline]
- lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
- down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
- __configfs_open_file+0xe8/0x9c0 fs/configfs/file.c:304
- do_dentry_open+0x6ab/0x14d0 fs/open.c:996
- vfs_open+0x82/0x3f0 fs/open.c:1101
- do_open fs/namei.c:4866 [inline]
- path_openat+0x19fa/0x2440 fs/namei.c:5029
- do_file_open+0x20e/0x430 fs/namei.c:5058
- file_open_name+0x1c3/0x3e0 fs/open.c:1375
- filp_open+0x2e/0x50 fs/open.c:1392
- kernel_read_file_from_path_initns+0xec/0x240 fs/kernel_read_file.c:159
- fw_get_filesystem_firmware drivers/base/firmware_loader/main.c:549 [inline]
- _request_firmware+0x733/0x13c0 drivers/base/firmware_loader/main.c:873
- request_firmware+0x35/0x50 drivers/base/firmware_loader/main.c:948
- reg_reload_regdb+0x85/0x460 net/wireless/reg.c:1067
- genl_family_rcv_msg_doit+0x214/0x300 net/netlink/genetlink.c:1114
- genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
- genl_rcv_msg+0x560/0x800 net/netlink/genetlink.c:1209
- netlink_rcv_skb+0x159/0x420 net/netlink/af_netlink.c:2575
- genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
- netlink_unicast_kernel net/netlink/af_netlink.c:1338 [inline]
- netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1364
- netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1919
- sock_sendmsg_nosec net/socket.c:800 [inline]
- __sock_sendmsg net/socket.c:815 [inline]
- sock_sendmsg+0x394/0x410 net/socket.c:838
- splice_to_socket+0xb3c/0x11a0 fs/splice.c:884
- do_splice_from fs/splice.c:936 [inline]
- do_splice+0x109c/0x1fa0 fs/splice.c:1349
- __do_splice+0x33b/0x370 fs/splice.c:1431
- __do_sys_splice fs/splice.c:1634 [inline]
- __se_sys_splice fs/splice.c:1616 [inline]
- __x64_sys_splice+0x187/0x250 fs/splice.c:1616
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f7180644b5e
-Code: 08 0f 85 f5 e2 ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 90 41 57 41 56 4d 89 c6 41 55 4d 89 cd 41 54 55 53 48 83 ec 08
-RSP: 002b:00007f717cde6f18 EFLAGS: 00000246 ORIG_RAX: 0000000000000113
-RAX: ffffffffffffffda RBX: 00007f717cde76c0 RCX: 00007f7180644b5e
-RDX: 0000000000000010 RSI: 0000000000000000 RDI: 0000000000000011
-RBP: 00007f717cde6fe0 R08: 0000000000000014 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000012
-R13: 00007f717cde6f80 R14: 000000000000017e R15: 0000000000000010
- </TASK>
-faux_driver regulatory: loading /lib/firmware/regulatory.db failed with error -26
-faux_driver regulatory: Direct firmware load for regulatory.db failed with error -26
-faux_driver regulatory: Falling back to sysfs fallback for: regulatory.db
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Thanks,
+Joanne
