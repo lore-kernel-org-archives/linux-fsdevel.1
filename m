@@ -1,65 +1,65 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DA04AF9D1
-	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 09:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C40C4DE738
+	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 09:37:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791970666; cv=none; b=SDUU9FY6hkrzpemKfPp66Dye9gOPabhJN5EYtyRJMI/F+zB/JWjsWcVnyZ0VlfdbBn6FV7BfHobAvADLfLpy4SDTvdS1vJZRlDEBs2ysCVedlkYvKY1D2/PlPI08EpHseI5id62H6XPSbBEPy0UKPk2Zb1oBQw8/ULFwTEqnXWs=
+	t=1791970669; cv=none; b=O/1z879PFOMqnPOo4JIy56pgMsDqdNTjz46rwhz4mQK2vd/H+Eg0lQeVViwA2PquLA6yWvVG96njdxaUug5D8AxOkS1ykOqh1IpQCJkMcqa/DOFmeynSfb3JuBZFPR1SHoxcAz4Kmv8tUYwXRphWqOhvtXcmbnGo6bu980/cHL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791970666; c=relaxed/simple;
-	bh=kw1mlsHDTmK1p7DnWlrdqDmJgkQXAZnMpH411GflSVE=;
+	s=arc-20240116; t=1791970669; c=relaxed/simple;
+	bh=GSTkZHTxdgCWNjcCpuVHNLDyv/lElmtfkosENMeU0eY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PLSANHn0guwhBkyrXcYZM+claPpX3uyOChVTBX6gvUjK47YpdEA9iztQNwZ59FAm4Ny7j4BiLHa9YXxickH2XhwA8gF0UhLiesND7YdqD4yc2Q1OOIty6ErmWBgvmrLlqkSg7Q2lJDWnK5/tTjOxXV3/xillCK2NE9Kac/4Vne0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pz9pI6GK; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=EdlVlPysKev1KU0maXNtyPbmS1GHcQ/yOkwdjti/Yucpsj68KXRk0TrVQczm8uW94NU/UfgrB6Hu4VchVJJdfSBpccxeFuQbKqMaR/lX7zBcwaLL1kUF4aMUZzqSSORMUk98mpZZKt3ZsqlbbBBSboTSiJOAxHO8bwHWVnvFTmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bG1KBpXu; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pz9pI6GK"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48deeadb3fdso249395f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 02:37:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bG1KBpXu"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48afbd2c386so2265407f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 02:37:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791970660; x=1792575460; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791970661; x=1792575461; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=JQDTRvso52jUuczv7UdtVuHK1eN+NxLIMYZKCEfei9E=;
-        b=pz9pI6GKmvDjJW6b9mTFPnsxv5B2i0+Apr01sQVkWUkAfUFNAb1Wj3jSevL5m0/cie
-         WbR7ZhE79/2pB0RAtW1ccM5GRYdONnPpDwMUHKkzTZD6c3m64V6lrEcAGoSyc+gTXiVO
-         XSHnmJ2MOs47vd/A+y51fnpIw7LgJSXPFd20QJFCe0w5I+2cKJb4P9g49GK43Pv05BIt
-         AWyHJjtlLzUnwbwLd0AjohIM1ywMPYgIwSnW0i9ETo42ObRwgmGEnyhjS9N0wXlCW2KH
-         mT/fimtKyjF4+4+aDEUlc+yp3bwzaUk0R57CCm2DxrACoYSUDnZA9md4qvW/lNdHfw/d
-         2NMw==
+        bh=YnixE7YDNRpivB1UU4iI/IX+KTEZR1IaHnjZrRIVebw=;
+        b=bG1KBpXuS4JfKLwMpUFJ0NeGIZUxJcqG45M+uPvrdQqdAzhCSFN81Ftw9Vwl/ccMNv
+         53+0k1nnJmPHDwKQne/p5rbL/bF0HkNfvGQW8AM13RFFh7BpLxHtSHUUs0SsiVwmHZ6A
+         IQqmtK/Np4B5gANANBo4WnKJ1up/XyNhEAm/zEgaDfUD0g1sFYUv1XFFVv8K5mtxz1kq
+         4fXggyDdWI3HveVJPWV9k0soIdOiAnOh07ETmYe9oNhuXELFMXaMYVnPn6dBLmksTsfn
+         fDyXqhzvpTl84NqmUspXAJFVqF4N31qOtlkwuWg0KUla6eR8GwUxKc6/fM0gHthTjKms
+         55jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791970660; x=1792575460;
+        d=1e100.net; s=20260707; t=1791970661; x=1792575461;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JQDTRvso52jUuczv7UdtVuHK1eN+NxLIMYZKCEfei9E=;
-        b=jbGnI4lcLqVCWEFptuzOwmtdqzLHMryQpanCakc0DQdCpUcZ42WKNIZDRG/0bRQox8
-         eDVqlj5ArxX9aVMy0XnL9B0SUKgj7vPA5dAfVs8VIsrUk3+7v34HNSYg3WkhvM+PMfKW
-         IUARK+Bnk2oQUB79KDR3y5XBRJluvCXTqv/FPY+TRE76rV1NFIf2EIqEnt3TbW2ewbLh
-         4t8sE7zA0RTgj70GMZGKovzhk8x1I+rodk+hAiYIGqp2HKa/e9joWO1F/mJg5W5xZrO0
-         4qGni98qL6jUT6pPmQg2IAMRMmppQqvenbHXduYWcNc6kLMlac6zMjNLA9IoOz6igEcQ
-         9qCQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzsGd97vikaD76AKomYt1a1KkchMVihf4XA0ppyTFFXO1iMi/Y9Ug86FPLkDA2Nid/Wa7Zg2cUR9lcNwe9Z@vger.kernel.org
-X-Gm-Message-State: AFq9FYKrF4RWEtV0GLV+ReAoiAuLieDZdeHToyOc9EHU7gIQS1IzQ/ul
-	pChTR1uEw6f7QM+63WUGNRV63o/xh0TeXZKETUKSlXWzDudPp3+zqRxq
-X-Gm-Gg: AYBFou2d9tofGFtzNNnwOxcmpK9FEhakqOjTELPPkWXFKyukmsOR9pAwSGuk59r9DEg
-	p4ygDsu7qYlpmsO3IAeyi13rroUgMV4ATeLna8LzFh18xif7ZBDJ3QX+Mgt5rENmW/PiSH3w0tR
-	2YNZNT+UNRL0yCk1N0FlAVhuWHys4Lqsof8GF5O4CwStr12bZTZiVaxU6sl/CrBs3rIl3+R5x+7
-	1dbioBtZWIgq58+vaz74+S1e4EzLmXMsxxbdiGBMIRjlXGVRlILXkwxHk4ULo20azT3e62hVIxc
-	5nFZsDlz2XSHonHY36SPk93vuhncOWd7bV8/+DAJbjSOW7n66GqGl16MUEdn7EBXUP+6lDNOAE5
-	SkQQ/Uhx+eIX7noLy2lywM89fVBuU6nebuSz/UeKitYu/pEr8ZqquNtrvSeTueSGtmZ7sZkKHhA
-	w9LlXpwAahvcaderPWYlHcvQayBd4EYWfSmjy/ss2D+ds7cAuz0XjvIg2Q82NKxdRPkt8pgoHVY
-	qxLIiOKN/wW2OIfdveMWjHO/biH1f9tdZqAic1sVNbNjyq4dBqRNjiZcXJI8GsMiSpPa/4k+Qho
-	TMBphQ+Buxs/Sw5+jyyWtm10qLGnW5UIJA0=
-X-Received: by 2002:a5d:5d89:0:b0:48d:ed0e:6bb4 with SMTP id ffacd0b85a97d-48ded0e6cc9mr2179330f8f.4.1791970659557;
-        Wed, 14 Oct 2026 02:37:39 -0700 (PDT)
+        bh=YnixE7YDNRpivB1UU4iI/IX+KTEZR1IaHnjZrRIVebw=;
+        b=0lQMP4R2nWyN1Xf9AZcx03FvIal3Y7yLMy7VwR3tiSapvQk/3urdGMLinNycc8FyYG
+         L42velZO+m/zb1aXxPujWK1i48cJcl5eCX/ZhDHIOIZsY9nMmhuJJ/bBnD2fQdtDe7ha
+         Bil9x+Jr9L+LYyz8p3ZuKVUci+ZCLWLd/sz2nbSeEci615wZGEyfsO4D2bLsUW8iZwjj
+         fUhvP7/KZtF1C3eaJCL+MouRBbyBrvhJZQBkMvtmjQwMtKZllcuXj3+ODWWFvvv3o6uW
+         PqNQAJQs0JzSOYEg8v2vr8j/g8YQL1GvZ0O7ins75nMpBNFnuH0TMKVYH4uYbWP6xlFn
+         qJ7Q==
+X-Forwarded-Encrypted: i=1; AKwUvByJOOv99GPUNoBl7IGQHoSLm+ZXaTkrJpDd7wKVrwoJUFULMwehRjxPic4oLaivPRF5ZyoCGTzG19EiuOl4@vger.kernel.org
+X-Gm-Message-State: AFq9FYLy2YNEbZGrYT+C7YeEwY0+3MnLxFjwByo/6IViAoeGLfP7J6yg
+	UK5nPWtFJZv8Ga21SoTlSZv/AlLngYMa0N0vvZ4uLUPcWxBmuhhjJWUE
+X-Gm-Gg: AYBFou2Ra/cPaAfSaqE6EdVIArSZrodHjaT13wUn5iuBm572dn4vG8STOaYirG8AeKK
+	3RZzwJAynGB9s/ZsqHMQNZtEA869+UcfWHorR28JsNQ4ete9G6LML7B1xBbHNi2kMVRYAqTKj6D
+	GWTFGnt4z7NyoYpVbQrUbh5cO/SAOWKJ9VTzcPS7i0pfeeHDG8Lq4oas2L9eSKq4CyiwiqWbH+I
+	N8K+llJsC6TIlqWRAJl6eHEtoRJXZJDEbH1x8RZUZdkrPWcvxSVIkdgazyoGno7yIOGjRNDg3s0
+	O84D7lSSztKAmLVevEJ9dHy4HRe7YcdoNo9gSUKbMH47x3HJqN8qMTKvxYvOYIIMZYQVWgjVs4G
+	6938Dj8wjo9fa20HKnTwHRj89p77Y19GAVLJII4xuaoZSfGOkDpEP3c4DF6aXOSWkDF0OHvoOGK
+	Vtl2o1hZJp0Dr9HR9sD8mFXxZ8LxgjEAXfRfsxJgFXdwxYXy2OpjaiHmRbdLKn3B5O40gWiJtV6
+	ozNyAAAAm6IL6iwUwCGNt08IuUVFqd9izqGrDJyjNLf3vUPHVLHrY1nMbshdmqqIO+SblWdD9Qu
+	06V9Ad7WYxTRXLPZh9+rFX2UR9eNqnKTIHI=
+X-Received: by 2002:a05:6000:4312:b0:487:27f6:a4e4 with SMTP id ffacd0b85a97d-48dbad489d1mr28539959f8f.52.1791970661017;
+        Wed, 14 Oct 2026 02:37:41 -0700 (PDT)
 Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de3f7f8b8sm9365477f8f.35.2026.10.14.02.37.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de3f7f8b8sm9365477f8f.35.2026.10.14.02.37.39
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Oct 2026 02:37:39 -0700 (PDT)
+        Wed, 14 Oct 2026 02:37:40 -0700 (PDT)
 From: Fred Griffoul <griffoul@gmail.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	Sean Christopherson <seanjc@google.com>,
@@ -107,9 +107,9 @@ Cc: David Woodhouse <dwmw2@infradead.org>,
 	linux-mm@kvack.org,
 	linux-kselftest@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [RFC PATCH v2 03/11] mm: Add memory providers
-Date: Wed, 14 Oct 2026 09:37:25 +0000
-Message-ID: <20261014093733.90312-4-griffoul@gmail.com>
+Subject: [RFC PATCH v2 04/11] KVM: guest_memfd: Add a memory provider backing
+Date: Wed, 14 Oct 2026 09:37:26 +0000
+Message-ID: <20261014093733.90312-5-griffoul@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261014093733.90312-1-griffoul@gmail.com>
 References: <20261014093733.90312-1-griffoul@gmail.com>
@@ -123,507 +123,652 @@ Content-Transfer-Encoding: 8bit
 
 From: Fred Griffoul <fgriffo@amazon.co.uk>
 
-A driver that owns memory outside the page allocator, often without
-struct page, has no common way to lend it to the code that maps it.
-guest_memfd and iommufd each need their own hooks, and the owner must
-keep them consistent when it takes memory back.
+A driver can back a guest_memfd today only by implementing
+kvm_gmem_ops itself, and must then keep any device mapping of the same
+memory consistent on its own.
 
-Add an interface between such an owner, the provider, and its
-consumers. A consumer attaches to a provider file, asks for the frame
-and attributes behind each page, and makes every mapping itself. When
-the provider changes a range, it revokes it, and every consumer of the
-file removes its mappings before the revoke returns.
+Add GUEST_MEMFD_FLAG_USE_RESOURCE and resource_fd, as defined in
+Ackerley Tng's resource pool RFC [1], so that both series share one
+flag and one field. resource_fd uses the first reserved word and must
+be zero without the flag. guest_memfd picks the backing from the kind
+of file: for now only memory provider files are accepted, and any
+other file fails with -EOPNOTSUPP.
 
-A frame is therefore valid until its revoke returns, and consumers hold
-no references. A revoke reaches every consumer of the file, so a
-provider cannot take a frame from one consumer while another still maps
-it.
+Guest faults ask the provider for each frame, and a revoke removes the
+range from the guest and from the VMM's mapping. A guest access to a
+page that is not backed, or not RAM, exits with KVM_EXIT_MEMORY_FAULT.
+Read-only pages are mapped read only, and fallocate() is not supported.
 
-A provider is found from its file: its file_operations sit in a struct
-mem_provider_fops with the provider's operations, and FOP_MEM_PROVIDER
-is set. Each provider file embeds a struct mem_provider_file that holds
-its consumers, and the provider revokes through it. The core has no
-registry and no global state, and struct file_operations does not grow.
+guest_memfd maps itself into userspace from the same frames, so that
+a provider needs no fault handler. Pages marked NO_USER_MAP raise
+SIGBUS there.
 
-The provider also owns the host memory type of its frames. Memory that
-is not System RAM must have its type reserved, or PAT makes it uncached
-on x86.
+USE_RESOURCE requires GUEST_MEMFD_FLAG_MMAP, so that the memory slot is
+gmem-only. An architecture opts in; x86 does so for VMs of the default
+type, which have no private memory, and other architectures refuse the
+flag for now.
 
-Suggested-by: David Woodhouse <dwmw@amazon.co.uk>
+A legacy SEV or SEV-ES guest, set up with KVM_SEV_INIT, is also a VM of
+the default type. Its writes can leave encrypted dirty cache lines for
+the frames it used, and their later write-back would corrupt a frame
+that the provider has given to another owner. A revoke therefore writes
+back the guest's caches before it returns, as the mmu notifiers do when
+they zap guest memory. Closing the file does the same, while a revoke
+can still find the file: the VMM may close it before deleting the
+memory slot, and a later revoke would then find no file to flush.
+
+Native guest_memfd files now take the invalidate lock when a file is
+added and when a closing file is unbound, because a revoke walks the
+file list and the bindings under it.
+
+[1] https://lore.kernel.org/all/20260925-gmem-tmpfs-backend-v1-0-d36159822d18@google.com/
+
 Assisted-by: Claude:claude-opus-5-5
 Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
 ---
- MAINTAINERS                  |   7 ++
- include/linux/fs.h           |   2 +
- include/linux/mem_provider.h | 211 +++++++++++++++++++++++++++++++++++
- mm/Kconfig                   |   7 ++
- mm/Makefile                  |   1 +
- mm/mem_provider.c            | 177 +++++++++++++++++++++++++++++
- 6 files changed, 405 insertions(+)
- create mode 100644 include/linux/mem_provider.h
- create mode 100644 mm/mem_provider.c
+ Documentation/virt/kvm/api.rst                |  46 ++-
+ arch/x86/kvm/x86.c                            |   9 +
+ include/linux/kvm_host.h                      |   4 +
+ include/uapi/linux/kvm.h                      |  11 +-
+ tools/include/uapi/linux/kvm.h                |  11 +-
+ .../testing/selftests/kvm/guest_memfd_test.c  |  15 +
+ virt/kvm/Kconfig                              |   1 +
+ virt/kvm/guest_memfd.c                        | 299 +++++++++++++++++-
+ 8 files changed, 380 insertions(+), 16 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f37a81950e25..6cab075a3ff7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17360,6 +17360,13 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
- F:	include/uapi/asm-generic/mman-common.h
- F:	mm/madvise.c
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index a5f9ee92f43e..215088364102 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -6431,7 +6431,9 @@ and cannot be resized  (guest_memfd files do however support PUNCH_HOLE).
+   struct kvm_create_guest_memfd {
+ 	__u64 size;
+ 	__u64 flags;
+-	__u64 reserved[6];
++	__s32 resource_fd;
++	__u32 pad;
++	__u64 reserved[5];
+   };
  
-+MEMORY PROVIDERS
-+M:	Fred Griffoul <fgriffo@amazon.co.uk>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	include/linux/mem_provider.h
-+F:	mm/mem_provider.c
-+
- MEMORY TECHNOLOGY DEVICES (MTD)
- M:	Miquel Raynal <miquel.raynal@bootlin.com>
- M:	Richard Weinberger <richard@nod.at>
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 50ce731a2b78..f459f0e34ca5 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1980,6 +1980,8 @@ struct file_operations {
- #define FOP_ASYNC_LOCK		((__force fop_flags_t)(1 << 6))
- /* File system supports uncached read/write buffered IO */
- #define FOP_DONTCACHE		((__force fop_flags_t)(1 << 7))
-+/* Lends memory to consumers: embedded in a struct mem_provider_fops */
-+#define FOP_MEM_PROVIDER	((__force fop_flags_t)(1 << 8))
+ Conceptually, the inode backing a guest_memfd file represents physical memory,
+@@ -6453,15 +6455,39 @@ a single guest_memfd file, but the bound ranges must not overlap).
+ The capability KVM_CAP_GUEST_MEMFD_FLAGS enumerates the `flags` that can be
+ specified via KVM_CREATE_GUEST_MEMFD.  Currently defined flags:
  
- /* Wrap a directory iterator that needs exclusive inode access */
- int wrap_directory_iterator(struct file *, struct dir_context *,
-diff --git a/include/linux/mem_provider.h b/include/linux/mem_provider.h
-new file mode 100644
-index 000000000000..94e9352ebeb0
---- /dev/null
-+++ b/include/linux/mem_provider.h
-@@ -0,0 +1,211 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_MEM_PROVIDER_H
-+#define _LINUX_MEM_PROVIDER_H
+-  ============================ ================================================
+-  GUEST_MEMFD_FLAG_MMAP        Enable using mmap() on the guest_memfd file
+-                               descriptor.
+-  GUEST_MEMFD_FLAG_INIT_SHARED Make all memory in the file shared during
+-                               KVM_CREATE_GUEST_MEMFD (memory files created
+-                               without INIT_SHARED will be marked private).
+-                               Shared memory can be faulted into host userspace
+-                               page tables. Private memory cannot.
+-  ============================ ================================================
++  ============================= ================================================
++  GUEST_MEMFD_FLAG_MMAP         Enable using mmap() on the guest_memfd file
++                                descriptor.
++  GUEST_MEMFD_FLAG_INIT_SHARED  Make all memory in the file shared during
++                                KVM_CREATE_GUEST_MEMFD (memory files created
++                                without INIT_SHARED will be marked private).
++                                Shared memory can be faulted into host userspace
++                                page tables. Private memory cannot.
++  GUEST_MEMFD_FLAG_USE_RESOURCE Take the memory of the file from the resource
++                                behind `resource_fd`, instead of allocating
++                                it.  Requires GUEST_MEMFD_FLAG_MMAP.  Not
++                                supported for VMs with private memory.
++  ============================= ================================================
 +
-+#include <linux/bits.h>
-+#include <linux/fs.h>
-+#include <linux/list.h>
-+#include <linux/rwsem.h>
-+#include <linux/types.h>
++`pad` must be zero.  Without GUEST_MEMFD_FLAG_USE_RESOURCE, `resource_fd` must
++be zero.  With it, `resource_fd` is the file whose memory backs the guest_memfd.
++The only kind of resource supported so far is a file handed out by a memory
++provider (see include/linux/mem_provider.h); any other file fails with
++EOPNOTSUPP.
++The provider decides which pages exist and what backs them, and can change
++this at any time.  The guest and any host mapping of the guest_memfd follow
++the change.  A guest access to a page that the provider does not back exits
++to userspace with KVM_EXIT_MEMORY_FAULT, and so does an access to a page that
++is not RAM.  A page that the provider marks read only is mapped read only for
++the guest.  fallocate() is not supported.  Only x86 VMs of type
++KVM_X86_DEFAULT_VM support GUEST_MEMFD_FLAG_USE_RESOURCE.
 +
++mmap() of the guest_memfd maps the provider's pages into userspace on fault.
++An access raises SIGBUS if the provider does not back the page, if the page is
++not RAM, if the provider marks it as not to be mapped into userspace, or if it
++is a write to a read-only page.
++KVM's own accesses through the memslot's userspace address fail in the same
++cases.
+ 
+ When the KVM MMU performs a PFN lookup to service a guest fault and the backing
+ guest_memfd has the GUEST_MEMFD_FLAG_MMAP set, then the fault will always be
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index afcac1042947..99b55b4e1ca4 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -14124,6 +14124,15 @@ bool kvm_arch_supports_gmem_init_shared(struct kvm *kvm)
+ 	return !kvm_arch_has_private_mem(kvm);
+ }
+ 
 +/*
-+ * Memory providers
-+ *
-+ * A provider owns physical memory that the page allocator does not manage,
-+ * and lends it to consumers through files that it hands to userspace.  A
-+ * consumer is given such a file, attaches to it, and asks the provider for
-+ * the frame behind each page.  The consumer makes every mapping of the
-+ * frames itself, including the mappings into userspace; the provider makes
-+ * none of them.
-+ *
-+ * When the frames or attributes behind a range change, the provider revokes
-+ * the range.  The core calls every consumer attached to the file, and each
-+ * one removes all its mappings of the range before the revoke returns.  A
-+ * frame therefore stays valid for a consumer until the revoke that removes
-+ * it has returned, and consumers hold no references.
-+ *
-+ * A consumer must not install a mapping of a frame after the revoke that
-+ * removes it has returned.  It either holds a lock across get_page() and
-+ * the map that its revoke callback also takes, or detects a revoke that ran
-+ * in between and retries, as KVM does with its invalidation sequence.
-+ *
-+ * A revoke may also change the contents behind the range, for example when
-+ * the provider moves a frame from one file to another.  A consumer that
-+ * reports the pages written through its mappings, for live migration, must
-+ * therefore treat the whole revoked range as written.
-+ *
-+ * A provider cannot take a frame back from one consumer only: a revoke
-+ * reaches every consumer of the file.
-+ *
-+ * A provider gives its files a struct mem_provider_fops, which holds their
-+ * file_operations, with FOP_MEM_PROVIDER and an owner set, and the provider's
-+ * operations.  It embeds a struct mem_provider_file in the state of each
-+ * file, returns it from attach(), and passes it to mem_provider_revoke().
-+ * An attachment holds a reference to the file, so neither the file's state
-+ * nor the module can go away while a consumer is attached.  MEM_PROVIDER
-+ * has no prompt: a provider selects it, or depends on a consumer that does.
++ * Only VMs of the default type, which have no private memory.  A legacy SEV
++ * guest is one of them; a revoke, and closing the file, write back its caches.
 + */
-+
-+/*
-+ * Memory type of a frame, in the low bits of the attributes.  The provider
-+ * makes the host's memory type for its frames match what it reports: for
-+ * memory that is not System RAM, it reserves the type of the range, for
-+ * example with memremap() or ioremap_wc(), before it hands frames out.  The
-+ * architecture otherwise chooses the type of an unknown range, uncached on
-+ * x86, and the VMM's mapping of a guest_memfd would differ from the guest's.
-+ * On x86 the guest's type also depends on the host: KVM maps a frame uncached
-+ * for the guest unless it is RAM in the firmware's E820 map, or a struct-page
-+ * frame (DAX, ZONE_DEVICE) that PAT does not force uncached.  So the
-+ * reservation matters for the guest too, not only for the VMM's mapping.
-+ */
-+#define MEM_PROVIDER_ATTR_TYPE		GENMASK(3, 0)
-+#define MEM_PROVIDER_TYPE_RAM		0	/* cacheable system memory */
-+#define MEM_PROVIDER_TYPE_MMIO		1	/* uncached device memory */
-+#define MEM_PROVIDER_TYPE_MMIO_WC	2	/* write-combining device memory */
-+						/* 3 to 15 are reserved */
-+
-+/*
-+ * No consumer may map the frame writable: not for a guest, a device or
-+ * userspace.
-+ */
-+#define MEM_PROVIDER_ATTR_READONLY	BIT(4)
-+
-+/*
-+ * No consumer may map the frame into userspace.  Guest and device mappings
-+ * are not affected.  The provider decides this for each page.
-+ */
-+#define MEM_PROVIDER_ATTR_NO_USER_MAP	BIT(5)
-+
-+#define MEM_PROVIDER_ATTR_VALID		(MEM_PROVIDER_ATTR_TYPE | \
-+					 MEM_PROVIDER_ATTR_READONLY | \
-+					 MEM_PROVIDER_ATTR_NO_USER_MAP)
-+
-+static inline unsigned int mem_provider_type(u32 attrs)
++bool kvm_arch_gmem_supports_provider(struct kvm *kvm)
 +{
-+	return attrs & MEM_PROVIDER_ATTR_TYPE;
++	return !kvm || kvm->arch.vm_type == KVM_X86_DEFAULT_VM;
++}
++
+ #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_PREPARE
+ int kvm_arch_gmem_prepare(struct kvm *kvm, gfn_t gfn, kvm_pfn_t pfn, int max_order)
+ {
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index a15abd0f7fb7..b9c0b4271945 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -823,11 +823,15 @@ static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
+ 
+ #ifdef CONFIG_KVM_GUEST_MEMFD
+ bool kvm_arch_supports_gmem_init_shared(struct kvm *kvm);
++bool kvm_arch_gmem_supports_provider(struct kvm *kvm);
+ 
+ static inline u64 kvm_gmem_get_supported_flags(struct kvm *kvm)
+ {
+ 	u64 flags = GUEST_MEMFD_FLAG_MMAP;
+ 
++	if (kvm_arch_gmem_supports_provider(kvm))
++		flags |= GUEST_MEMFD_FLAG_USE_RESOURCE;
++
+ 	if (!kvm || kvm_arch_supports_gmem_init_shared(kvm))
+ 		flags |= GUEST_MEMFD_FLAG_INIT_SHARED;
+ 
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 419011097fa8..4ad81d17f21d 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -1654,11 +1654,20 @@ struct kvm_memory_attributes {
+ #define KVM_CREATE_GUEST_MEMFD	_IOWR(KVMIO,  0xd4, struct kvm_create_guest_memfd)
+ #define GUEST_MEMFD_FLAG_MMAP		(1ULL << 0)
+ #define GUEST_MEMFD_FLAG_INIT_SHARED	(1ULL << 1)
++#define GUEST_MEMFD_FLAG_USE_RESOURCE	(1ULL << 2)
+ 
+ struct kvm_create_guest_memfd {
+ 	__u64 size;
+ 	__u64 flags;
+-	__u64 reserved[6];
++	/*
++	 * With GUEST_MEMFD_FLAG_USE_RESOURCE: the file whose memory backs
++	 * this guest_memfd, for now a memory provider file.  The provider
++	 * may take any range back at any time; the guest and every host
++	 * mapping of this guest_memfd follow.  Must be 0 otherwise.
++	 */
++	__s32 resource_fd;
++	__u32 pad;
++	__u64 reserved[5];
+ };
+ 
+ #define KVM_PRE_FAULT_MEMORY	_IOWR(KVMIO, 0xd5, struct kvm_pre_fault_memory)
+diff --git a/tools/include/uapi/linux/kvm.h b/tools/include/uapi/linux/kvm.h
+index d0c0c8605976..18841962a4e8 100644
+--- a/tools/include/uapi/linux/kvm.h
++++ b/tools/include/uapi/linux/kvm.h
+@@ -1644,11 +1644,20 @@ struct kvm_memory_attributes {
+ #define KVM_CREATE_GUEST_MEMFD	_IOWR(KVMIO,  0xd4, struct kvm_create_guest_memfd)
+ #define GUEST_MEMFD_FLAG_MMAP		(1ULL << 0)
+ #define GUEST_MEMFD_FLAG_INIT_SHARED	(1ULL << 1)
++#define GUEST_MEMFD_FLAG_USE_RESOURCE	(1ULL << 2)
+ 
+ struct kvm_create_guest_memfd {
+ 	__u64 size;
+ 	__u64 flags;
+-	__u64 reserved[6];
++	/*
++	 * With GUEST_MEMFD_FLAG_USE_RESOURCE: the file whose memory backs
++	 * this guest_memfd, for now a memory provider file.  The provider
++	 * may take any range back at any time; the guest and every host
++	 * mapping of this guest_memfd follow.  Must be 0 otherwise.
++	 */
++	__s32 resource_fd;
++	__u32 pad;
++	__u64 reserved[5];
+ };
+ 
+ #define KVM_PRE_FAULT_MEMORY	_IOWR(KVMIO, 0xd5, struct kvm_pre_fault_memory)
+diff --git a/tools/testing/selftests/kvm/guest_memfd_test.c b/tools/testing/selftests/kvm/guest_memfd_test.c
+index 2233d871a38f..9c8afe904b1e 100644
+--- a/tools/testing/selftests/kvm/guest_memfd_test.c
++++ b/tools/testing/selftests/kvm/guest_memfd_test.c
+@@ -405,6 +405,21 @@ static void test_guest_memfd_flags(struct kvm_vm *vm)
+ 
+ 	for (flag = BIT(0); flag; flag <<= 1) {
+ 		fd = __vm_create_guest_memfd(vm, page_size, flag);
++		/* USE_RESOURCE also needs MMAP and a provider file. */
++		if (flag == GUEST_MEMFD_FLAG_USE_RESOURCE && (flag & valid_flags)) {
++			struct kvm_create_guest_memfd args = {
++				.size = page_size,
++				.flags = GUEST_MEMFD_FLAG_MMAP | flag,
++				.resource_fd = vm->fd,
++			};
++
++			TEST_ASSERT(fd < 0 && errno == EINVAL,
++				    "guest_memfd() with USE_RESOURCE alone should fail with EINVAL");
++			fd = __vm_ioctl(vm, KVM_CREATE_GUEST_MEMFD, &args);
++			TEST_ASSERT(fd < 0 && errno == EOPNOTSUPP,
++				    "guest_memfd() with a resource that is not a provider should fail with EOPNOTSUPP");
++			continue;
++		}
+ 		if (flag & valid_flags) {
+ 			TEST_ASSERT(fd >= 0,
+ 				    "guest_memfd() with flag '0x%lx' should succeed",
+diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
+index 794976b88c6f..cfb6c4e51128 100644
+--- a/virt/kvm/Kconfig
++++ b/virt/kvm/Kconfig
+@@ -105,6 +105,7 @@ config KVM_GENERIC_MEMORY_ATTRIBUTES
+ 
+ config KVM_GUEST_MEMFD
+        select XARRAY_MULTI
++       select MEM_PROVIDER
+        bool
+ 
+ config HAVE_KVM_ARCH_GMEM_PREPARE
+diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+index c9595cc9d56e..742147303459 100644
+--- a/virt/kvm/guest_memfd.c
++++ b/virt/kvm/guest_memfd.c
+@@ -4,6 +4,7 @@
+ #include <linux/falloc.h>
+ #include <linux/fs.h>
+ #include <linux/kvm_host.h>
++#include <linux/mem_provider.h>
+ #include <linux/mempolicy.h>
+ #include <linux/pseudo_fs.h>
+ #include <linux/pagemap.h>
+@@ -44,6 +45,9 @@ struct gmem_inode {
+ 	struct list_head gmem_file_list;
+ 
+ 	u64 flags;
++
++	/* The provider of the pages, with GUEST_MEMFD_FLAG_USE_RESOURCE. */
++	struct mem_provider_attachment att;
+ };
+ 
+ static __always_inline struct gmem_inode *GMEM_I(struct inode *inode)
+@@ -331,7 +335,11 @@ static long kvm_gmem_native_fallocate(struct file *file, int mode, loff_t offset
+ 	return ret;
+ }
+ 
+-static void kvm_gmem_native_release(struct file *file)
++/*
++ * @reclaim: write back the guest's caches once it has lost the frames, before
++ * the file leaves the list that a revoke walks (see kvm_gmem_provider_revoke()).
++ */
++static void __kvm_gmem_release(struct file *file, bool reclaim)
+ {
+ 	struct inode *inode = file_inode(file);
+ 	struct gmem_file *f = gmem_file_of(file);
+@@ -367,6 +375,8 @@ static void kvm_gmem_native_release(struct file *file)
+ 	__kvm_gmem_invalidate_start(f, 0, -1ul,
+ 				    kvm_gmem_get_invalidate_filter(inode));
+ 	__kvm_gmem_invalidate_end(f, 0, -1ul);
++	if (reclaim)
++		kvm_arch_guest_memory_reclaimed(kvm);
+ 
+ 	list_del(&f->entry);
+ 
+@@ -381,6 +391,11 @@ static void kvm_gmem_native_release(struct file *file)
+ 
+ }
+ 
++static void kvm_gmem_native_release(struct file *file)
++{
++	__kvm_gmem_release(file, false);
++}
++
+ static inline struct file *kvm_gmem_get_file(struct kvm_memory_slot *slot)
+ {
+ 	/*
+@@ -654,7 +669,243 @@ static const struct kvm_gmem_ops kvm_gmem_native_ops = {
+ 	.fallocate = kvm_gmem_native_fallocate,
+ };
+ 
+-static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
++/*
++ * Can @kvm use a memory provider?  @kvm is NULL for the system-wide capability.
++ * An architecture opts in by overriding this.  VMs with private memory are not
++ * supported: each frame would need preparing before use.
++ */
++bool __weak kvm_arch_gmem_supports_provider(struct kvm *kvm)
++{
++	return false;
 +}
 +
 +/*
-+ * The provider side of one provider file, embedded in the provider's state
-+ * for the file and set up with mem_provider_file_init().  It must stay until
-+ * the file is released.  Its fields are private to the core.
++ * A guest_memfd backed by a memory provider (include/linux/mem_provider.h).
++ *
++ * The provider owns the frames, and guest_memfd keeps no state for them.  A
++ * guest fault asks the provider for the frame each time.  A fault that
++ * races with a change in the provider is retried by KVM, because the
++ * provider revokes the range after the change and the revoke opens and
++ * closes KVM's invalidation window.  Host mappings are made by guest_memfd
++ * from the same frames and attributes, and removed by the revoke.
++ *
++ * Bindings and release are the same as for the native guest_memfd.
 + */
-+struct mem_provider_file {
-+	struct rw_semaphore lock;
-+	struct list_head consumers;
-+};
++static void kvm_gmem_provider_revoke(struct mem_provider_attachment *att,
++				     loff_t offset, loff_t len)
++{
++	struct gmem_inode *gi = container_of(att, struct gmem_inode, att);
++	struct inode *inode = &gi->vfs_inode;
++	pgoff_t start, end;
++	struct gmem_file *f;
 +
-+/**
-+ * struct mem_provider_ops - What a provider implements.
-+ */
-+struct mem_provider_ops {
-+	/**
-+	 * @attach: A consumer starts to use @file.
-+	 *
-+	 * Called once for each consumer, and possibly for several at once.
-+	 *
-+	 * @size is the end of the range of the file that the consumer will
-+	 * use, from offset 0, as the consumer's user asked for it: the size
-+	 * of a guest_memfd, or the end of an iommufd mapping.  Return the
-+	 * file's struct mem_provider_file, which is passed to the other
-+	 * operations, or an ERR_PTR().  Return ERR_PTR(-EINVAL) if the file
-+	 * is smaller than @size, so that the consumer fails the request at
-+	 * once.  May sleep.
-+	 */
-+	struct mem_provider_file *(*attach)(struct file *file, loff_t size);
-+
-+	/**
-+	 * @detach: A consumer is gone.
-+	 *
-+	 * Called once for each successful attach().  The consumer has removed
-+	 * every mapping of the frames, and the core no longer calls its
-+	 * revoke callback.  May sleep.
-+	 */
-+	void (*detach)(struct mem_provider_file *mpf);
-+
-+	/**
-+	 * @get_page: Return the frame behind page @index.
-+	 *
-+	 * @pfn:       [out] The frame.
-+	 * @max_order: [in, out] On entry, the largest order the consumer
-+	 *             can use.  On return, the largest order for which the
-+	 *             aligned block that contains @index is physically
-+	 *             contiguous and has the same attributes.  It must not
-+	 *             be larger than on entry.
-+	 * @attrs:     [out] MEM_PROVIDER_ATTR_* for the block.
-+	 *
-+	 * Return 0, -EFAULT if the provider does not back the page now, or
-+	 * another negative errno.
-+	 *
-+	 * May sleep, and may run at the same time as the provider changes
-+	 * its state.  A result that is out of date is harmless, because the
-+	 * provider revokes the range after the change.  Must not call into
-+	 * the consumer, must not call mem_provider_revoke(), and must not take
-+	 * a lock that the provider holds across mem_provider_revoke().
-+	 */
-+	int (*get_page)(struct mem_provider_file *mpf, pgoff_t index,
-+			unsigned long *pfn, int *max_order, u32 *attrs);
-+};
-+
-+/*
-+ * The file_operations of a provider's files, with FOP_MEM_PROVIDER set in
-+ * fops.fop_flags, and the provider's operations.
-+ */
-+struct mem_provider_fops {
-+	struct file_operations fops;
-+	const struct mem_provider_ops *ops;
-+};
-+
-+/**
-+ * struct mem_provider_attachment - One consumer's attachment to a provider
-+ * file.  Embedded in the consumer's object, set by mem_provider_attach() and
-+ * owned by the consumer until mem_provider_detach().  @ops must be NULL before
-+ * the first mem_provider_attach(), for example by zeroing the attachment, so
-+ * that mem_provider_detach() on an attachment that was never made does
-+ * nothing.
-+ * @ops: The provider's operations.  Read-only to the consumer.
-+ * @mpf: The provider's per-file state.  Read-only to the consumer.
-+ * @file: The provider file.  Read-only to the consumer.
-+ * @size: The end of the range the consumer uses.  Read-only to the consumer.
-+ * @revoke: Called when the frames behind a range change; see below.
-+ * @node: Private to the core.
-+ */
-+struct mem_provider_attachment {
-+	const struct mem_provider_ops *ops;
-+	struct mem_provider_file *mpf;
-+	struct file *file;
-+	loff_t size;
++	if (offset >= att->size)
++		return;
++	len = min(len, att->size - offset);
++	start = offset >> PAGE_SHIFT;
++	end = DIV_ROUND_UP(offset + len, PAGE_SIZE);
 +
 +	/*
-+	 * @revoke: The frames behind [@offset, @offset + @len) changed.
-+	 *
-+	 * The consumer removes every mapping it made of the range and asks
-+	 * get_page() again when it next needs a page.  It must not return
-+	 * while a mapping of the old frames remains, including one being
-+	 * installed from an earlier get_page(): it excludes such a mapping or
-+	 * makes it retry.  Revokes of the same file may call this at the same
-+	 * time, and may call it before mem_provider_attach() returns.  May
-+	 * sleep, and may call get_page().  Must not call
-+	 * mem_provider_revoke(), and must not attach or detach any provider.
++	 * The bindings must be stable so that each start is matched by an
++	 * end.  Only VMs without private memory use a provider, but remove
++	 * both kinds of mapping so that none is missed.
 +	 */
-+	void (*revoke)(struct mem_provider_attachment *att, loff_t offset,
-+		       loff_t len);
-+
-+	struct list_head node;
-+};
-+
-+/* Provider side. */
-+void mem_provider_file_init(struct mem_provider_file *mpf);
-+void mem_provider_revoke(struct mem_provider_file *mpf, loff_t offset,
-+			 loff_t len);
-+
-+/* Consumer side. */
-+int mem_provider_attach(struct mem_provider_attachment *att, struct file *file,
-+			loff_t size,
-+			void (*revoke)(struct mem_provider_attachment *att,
-+				       loff_t offset, loff_t len));
-+void mem_provider_detach(struct mem_provider_attachment *att);
-+int mem_provider_get_page(struct mem_provider_attachment *att, pgoff_t index,
-+			  unsigned long *pfn, int *max_order, u32 *attrs);
-+
-+#endif /* _LINUX_MEM_PROVIDER_H */
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 9e0ca4824905..7085bf6666e5 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -774,6 +774,13 @@ config DEFAULT_MMAP_MIN_ADDR
- config ARCH_SUPPORTS_MEMORY_FAILURE
- 	bool
- 
-+config MEM_PROVIDER
-+	bool
-+	help
-+	  An interface that lets a driver lend memory that the page allocator
-+	  does not manage to consumers such as guest_memfd and iommufd, and
-+	  take it back.  See include/linux/mem_provider.h.
-+
- config MEMORY_FAILURE
- 	depends on MMU
- 	depends on ARCH_SUPPORTS_MEMORY_FAILURE
-diff --git a/mm/Makefile b/mm/Makefile
-index eff9f9e7e061..35420b587f89 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -110,6 +110,7 @@ obj-$(CONFIG_CGROUP_HUGETLB) += hugetlb_cgroup.o
- obj-$(CONFIG_GUP_TEST) += gup_test.o
- obj-$(CONFIG_DMAPOOL_TEST) += dmapool_test.o
- obj-$(CONFIG_MEMORY_FAILURE) += memory-failure.o
-+obj-$(CONFIG_MEM_PROVIDER) += mem_provider.o
- obj-$(CONFIG_HWPOISON_INJECT) += hwpoison-inject.o
- obj-$(CONFIG_DEBUG_KMEMLEAK) += kmemleak.o
- obj-$(CONFIG_DEBUG_RODATA_TEST) += rodata_test.o
-diff --git a/mm/mem_provider.c b/mm/mem_provider.c
-new file mode 100644
-index 000000000000..5a2984afde10
---- /dev/null
-+++ b/mm/mem_provider.c
-@@ -0,0 +1,177 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Memory providers: lend memory that the page allocator does not manage to
-+ * consumers that map it.  See include/linux/mem_provider.h.
-+ *
-+ * Locking: the @lock of a struct mem_provider_file protects its list of
-+ * consumers.  mem_provider_revoke() holds it for reading while it calls the
-+ * consumers, so a consumer cannot detach until every revoke of its file has
-+ * returned.  It follows that a revoke callback must not attach, detach or
-+ * revoke, and that a consumer must not detach while it holds a lock that its
-+ * revoke callback takes.  A revoke callback may call get_page(), which takes
-+ * no lock of the core.
-+ */
-+#include <linux/export.h>
-+#include <linux/file.h>
-+#include <linux/fs.h>
-+#include <linux/mem_provider.h>
-+#include <linux/mm.h>
-+#include <linux/rwsem.h>
-+
-+/**
-+ * mem_provider_file_init() - Set up the provider side of a provider file.
-+ * @mpf: Embedded in the provider's state for the file.
-+ */
-+void mem_provider_file_init(struct mem_provider_file *mpf)
-+{
-+	init_rwsem(&mpf->lock);
-+	INIT_LIST_HEAD(&mpf->consumers);
++	filemap_invalidate_lock(inode->i_mapping);
++	kvm_gmem_for_each_file(f, inode)
++		__kvm_gmem_invalidate_start(f, start, end,
++					    KVM_FILTER_SHARED | KVM_FILTER_PRIVATE);
++	unmap_mapping_range(inode->i_mapping, (loff_t)start << PAGE_SHIFT,
++			    (loff_t)(end - start) << PAGE_SHIFT, 1);
++	kvm_gmem_for_each_file(f, inode)
++		__kvm_gmem_invalidate_end(f, start, end);
++	/*
++	 * The provider may give the frames to someone else once this returns.
++	 * A legacy SEV guest is a VM of the default type, and may have written
++	 * them with its key: write its caches back, as the mmu notifiers do.
++	 */
++	kvm_gmem_for_each_file(f, inode)
++		kvm_arch_guest_memory_reclaimed(f->kvm);
++	filemap_invalidate_unlock(inode->i_mapping);
 +}
-+EXPORT_SYMBOL_GPL(mem_provider_file_init);
 +
-+/**
-+ * mem_provider_attach() - Attach a consumer to a provider file.
-+ * @att: The consumer's attachment, filled in on success.
-+ * @file: A file handed out by a provider.
-+ * @size: The end of the range of @file that the consumer will use, in bytes
-+ *        from offset 0.  The provider refuses a file that is smaller.
-+ * @revoke: Called when the frames behind a range of @file change.
-+ *
-+ * Holds a reference to @file, and so to the provider's module, until
-+ * mem_provider_detach().
-+ *
-+ * Return: 0, -EINVAL if @size or @revoke is invalid or the provider lacks an
-+ * operation, -ENODEV if @file is not a provider file, or the error returned
-+ * by the provider.
-+ */
-+int mem_provider_attach(struct mem_provider_attachment *att, struct file *file,
-+			loff_t size,
-+			void (*revoke)(struct mem_provider_attachment *att,
-+				       loff_t offset, loff_t len))
++static int kvm_gmem_provider_get_pfn(struct file *file, struct kvm *kvm,
++				     struct kvm_memory_slot *slot, gfn_t gfn,
++				     kvm_pfn_t *pfn, struct page **page,
++				     int *max_order, bool *writable)
 +{
-+	const struct mem_provider_ops *ops;
-+	struct mem_provider_file *mpf;
++	struct gmem_inode *gi = GMEM_I(file_inode(file));
++	pgoff_t index = kvm_gmem_get_index(slot, gfn);
++	unsigned long frame;
++	int order, ret;
++	u32 attrs;
 +
-+	if (size <= 0 || !revoke)
-+		return -EINVAL;
++	if (file != READ_ONCE(slot->gmem.file))
++		return -EFAULT;
++	if (xa_load(&gmem_file_of(file)->bindings, index) != slot)
++		return -EIO;
 +
-+	if (!(file->f_op->fop_flags & FOP_MEM_PROVIDER))
-+		return -ENODEV;
-+	ops = container_of(file->f_op, struct mem_provider_fops, fops)->ops;
-+	if (WARN_ON_ONCE(!ops->attach || !ops->detach || !ops->get_page))
-+		return -EINVAL;
++	/* A large mapping needs the block aligned in both index and gfn. */
++	order = PUD_ORDER;
++	if (index != gfn)
++		order = min_t(int, order, __ffs(index ^ gfn));
 +
-+	mpf = ops->attach(file, size);
-+	if (IS_ERR(mpf))
-+		return PTR_ERR(mpf);
-+
-+	att->ops = ops;
-+	att->mpf = mpf;
-+	att->file = get_file(file);
-+	att->size = size;
-+	att->revoke = revoke;
-+
-+	down_write(&mpf->lock);
-+	list_add_tail(&att->node, &mpf->consumers);
-+	up_write(&mpf->lock);
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(mem_provider_attach);
-+
-+/**
-+ * mem_provider_detach() - Detach a consumer from a provider file.
-+ * @att: An attachment from mem_provider_attach().
-+ *
-+ * The consumer must have removed every mapping of the provider's frames.
-+ * Waits for revokes of the file that are in progress.  Does nothing if @att
-+ * is not attached.
-+ */
-+void mem_provider_detach(struct mem_provider_attachment *att)
-+{
-+	struct mem_provider_file *mpf = att->mpf;
-+
-+	if (!att->ops)
-+		return;
-+
-+	down_write(&mpf->lock);
-+	list_del(&att->node);
-+	up_write(&mpf->lock);
-+
-+	att->ops->detach(mpf);
-+	fput(att->file);
-+
-+	att->ops = NULL;
-+	att->mpf = NULL;
-+	att->file = NULL;
-+}
-+EXPORT_SYMBOL_GPL(mem_provider_detach);
-+
-+/**
-+ * mem_provider_get_page() - Get the frame behind a page of an attachment.
-+ * @att: The attachment.
-+ * @index: The page, in units of PAGE_SIZE from offset 0.
-+ * @pfn: [out] The frame.
-+ * @max_order: [in, out] See &mem_provider_ops.get_page.
-+ * @attrs: [out] MEM_PROVIDER_ATTR_* for the frame.
-+ *
-+ * On return, @max_order is also limited so that the block is aligned in
-+ * physical memory.  The frame stays valid until the consumer's revoke
-+ * callback for the page has returned.
-+ *
-+ * Return: 0, -EFAULT if the provider does not back the page now, -EINVAL if
-+ * @index is beyond the attachment, -EIO if the provider returned an invalid
-+ * result, or another negative errno from the provider.
-+ */
-+int mem_provider_get_page(struct mem_provider_attachment *att, pgoff_t index,
-+			  unsigned long *pfn, int *max_order, u32 *attrs)
-+{
-+	int order = *max_order;
-+	int ret;
-+
-+	if (index >= DIV_ROUND_UP(att->size, PAGE_SIZE))
-+		return -EINVAL;
-+
-+	*attrs = 0;
-+	ret = att->ops->get_page(att->mpf, index, pfn, max_order, attrs);
++	ret = mem_provider_get_page(&gi->att, index, &frame, &order, &attrs);
 +	if (ret)
 +		return ret;
 +
-+	if (WARN_ON_ONCE(*max_order < 0 || *max_order > order ||
-+			 (*attrs & ~MEM_PROVIDER_ATTR_VALID) ||
-+			 mem_provider_type(*attrs) > MEM_PROVIDER_TYPE_MMIO_WC))
-+		return -EIO;
++	/*
++	 * KVM decides the guest's memory type itself, so accept RAM only.
++	 * -EFAULT, so that the VMM gets a memory fault exit for the access.
++	 */
++	if (mem_provider_type(attrs) != MEM_PROVIDER_TYPE_RAM)
++		return -EFAULT;
 +
-+	/* A large mapping also needs the first frame of the block aligned. */
-+	if (*max_order && ((*pfn ^ index) & ((1UL << *max_order) - 1)))
-+		*max_order = __ffs(*pfn ^ index);
++	if (attrs & MEM_PROVIDER_ATTR_READONLY) {
++		if (!writable)
++			return -EPERM;
++		*writable = false;
++	}
++
++	*pfn = frame;
++	if (max_order)
++		*max_order = order;
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(mem_provider_get_page);
 +
-+/**
-+ * mem_provider_revoke() - Tell the consumers that frames changed.
-+ * @mpf: The provider side of the file.
-+ * @offset: The start of the range, in bytes.
-+ * @len: The length of the range, in bytes.
-+ *
-+ * Call this after the provider has changed the frames or attributes behind
-+ * the range.  Returns when every consumer of the file has removed its
-+ * mappings of the range.  The provider must not hold a lock that its
-+ * get_page() takes, because a consumer may call get_page() before it
-+ * returns.  May sleep.
-+ */
-+void mem_provider_revoke(struct mem_provider_file *mpf, loff_t offset,
-+			 loff_t len)
++/* The protection for a host mapping of a frame with @attrs. */
++static pgprot_t kvm_gmem_provider_prot(struct vm_area_struct *vma, u32 attrs)
 +{
-+	struct mem_provider_attachment *att;
++	vm_flags_t flags = vma->vm_flags;
 +
-+	might_sleep();
-+	if (len <= 0)
-+		return;
-+
-+	down_read(&mpf->lock);
-+	list_for_each_entry(att, &mpf->consumers, node)
-+		att->revoke(att, offset, len);
-+	up_read(&mpf->lock);
++	if (attrs & MEM_PROVIDER_ATTR_READONLY)
++		flags &= ~VM_WRITE;
++	return vm_get_page_prot(flags);
 +}
-+EXPORT_SYMBOL_GPL(mem_provider_revoke);
++
++/*
++ * Map page @vmf->pgoff of a provider-backed guest_memfd for the host.
++ *
++ * The invalidate lock is held shared across get_page() and the insert, and
++ * a revoke holds it exclusive while it unmaps the range, so a frame is never
++ * mapped after the revoke that removes it.  A writable page is mapped
++ * writable, and a read-only page without write permission.  With @mkwrite,
++ * the PTE is read only and the write must be checked: replace it under the
++ * lock, so that a change to read only cannot slip between the check and the
++ * upgrade.
++ */
++static vm_fault_t kvm_gmem_provider_map_host(struct vm_fault *vmf, bool mkwrite)
++{
++	struct vm_area_struct *vma = vmf->vma;
++	struct inode *inode = file_inode(vma->vm_file);
++	unsigned long uaddr = vmf->address & PAGE_MASK;
++	bool write = vmf->flags & FAULT_FLAG_WRITE;
++	unsigned long pfn;
++	int order = 0;
++	vm_fault_t ret;
++	u32 attrs;
++
++	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
++		return VM_FAULT_SIGBUS;
++
++	filemap_invalidate_lock_shared(inode->i_mapping);
++	if (mem_provider_get_page(&GMEM_I(inode)->att, vmf->pgoff, &pfn,
++				  &order, &attrs)) {
++		ret = VM_FAULT_SIGBUS;
++	} else if (mem_provider_type(attrs) != MEM_PROVIDER_TYPE_RAM ||
++		   (attrs & MEM_PROVIDER_ATTR_NO_USER_MAP) ||
++		   (write && (attrs & MEM_PROVIDER_ATTR_READONLY))) {
++		ret = VM_FAULT_SIGBUS;
++	} else {
++		if (mkwrite)
++			zap_special_vma_range(vma, uaddr, PAGE_SIZE);
++		ret = vmf_insert_pfn_prot(vma, uaddr, pfn,
++					  kvm_gmem_provider_prot(vma, attrs));
++	}
++	filemap_invalidate_unlock_shared(inode->i_mapping);
++	return ret;
++}
++
++static vm_fault_t kvm_gmem_provider_fault(struct vm_fault *vmf)
++{
++	return kvm_gmem_provider_map_host(vmf, false);
++}
++
++/* A write to a page that a read fault, or mprotect(), left read only. */
++static vm_fault_t kvm_gmem_provider_pfn_mkwrite(struct vm_fault *vmf)
++{
++	return kvm_gmem_provider_map_host(vmf, true);
++}
++
++static const struct vm_operations_struct kvm_gmem_provider_vm_ops = {
++	.fault		= kvm_gmem_provider_fault,
++	.pfn_mkwrite	= kvm_gmem_provider_pfn_mkwrite,
++};
++
++static int kvm_gmem_provider_mmap(struct file *file, struct vm_area_struct *vma)
++{
++	struct inode *inode = file_inode(file);
++	pgoff_t npages = i_size_read(inode) >> PAGE_SHIFT;
++
++	if (!kvm_gmem_supports_mmap(inode))
++		return -ENODEV;
++
++	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) !=
++	    (VM_SHARED | VM_MAYSHARE))
++		return -EINVAL;
++
++	if (vma->vm_pgoff >= npages || vma_pages(vma) > npages - vma->vm_pgoff)
++		return -EINVAL;
++
++	/*
++	 * The frames may have no struct page.  They are inserted on fault, so
++	 * that a range that is revoked and comes back is reached again.
++	 */
++	vm_flags_set(vma, VM_PFNMAP | VM_IO | VM_DONTEXPAND | VM_DONTDUMP);
++	vma->vm_ops = &kvm_gmem_provider_vm_ops;
++	return 0;
++}
++
++/*
++ * Once the file is closed, a revoke no longer finds it and cannot write back
++ * the guest's caches, so write them back on release, while a revoke would
++ * still find the file.
++ */
++static void kvm_gmem_provider_release(struct file *file)
++{
++	__kvm_gmem_release(file, true);
++}
++
++static const struct kvm_gmem_ops kvm_gmem_provider_ops = {
++	.bind    = kvm_gmem_native_bind,
++	.unbind  = kvm_gmem_native_unbind,
++	.get_pfn = kvm_gmem_provider_get_pfn,
++	.release = kvm_gmem_provider_release,
++	.mmap    = kvm_gmem_provider_mmap,
++	/* The provider decides which pages exist: no fallocate(). */
++};
++
++static int kvm_gmem_attach_resource(struct inode *inode, int resource_fd)
++{
++	struct file *file;
++	int ret;
++
++	file = fget(resource_fd);
++	if (!file)
++		return -EBADF;
++
++	/* Memory provider files are the only resource supported so far. */
++	if (file->f_op->fop_flags & FOP_MEM_PROVIDER)
++		ret = mem_provider_attach(&GMEM_I(inode)->att, file,
++					  i_size_read(inode),
++					  kvm_gmem_provider_revoke);
++	else
++		ret = -EOPNOTSUPP;
++	fput(file);
++	return ret;
++}
++
++static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags,
++			     int resource_fd)
+ {
+ 	static const char *name = "[kvm-gmem]";
+ 	struct gmem_file *f;
+@@ -695,6 +946,12 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+ 
+ 	GMEM_I(inode)->flags = flags;
+ 
++	if (flags & GUEST_MEMFD_FLAG_USE_RESOURCE) {
++		err = kvm_gmem_attach_resource(inode, resource_fd);
++		if (err)
++			goto err_inode;
++	}
++
+ 	file = alloc_file_pseudo(inode, kvm_gmem_mnt, name, O_RDWR, &kvm_gmem_fops);
+ 	if (IS_ERR(file)) {
+ 		err = PTR_ERR(file);
+@@ -703,12 +960,18 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+ 
+ 	file->f_flags |= O_LARGEFILE;
+ 	file->private_data = &f->backing;
+-	f->backing.ops = &kvm_gmem_native_ops;
++	if (flags & GUEST_MEMFD_FLAG_USE_RESOURCE)
++		f->backing.ops = &kvm_gmem_provider_ops;
++	else
++		f->backing.ops = &kvm_gmem_native_ops;
+ 
+ 	kvm_get_kvm(kvm);
+ 	f->kvm = kvm;
+ 	xa_init(&f->bindings);
++	/* A provider can revoke, and walk the list, as soon as it is attached. */
++	filemap_invalidate_lock(inode->i_mapping);
+ 	list_add(&f->entry, &GMEM_I(inode)->gmem_file_list);
++	filemap_invalidate_unlock(inode->i_mapping);
+ 
+ 	fd_install(fd, file);
+ 	return fd;
+@@ -735,7 +998,20 @@ int kvm_gmem_create(struct kvm *kvm, struct kvm_create_guest_memfd *args)
+ 	if (size <= 0 || !PAGE_ALIGNED(size))
+ 		return -EINVAL;
+ 
+-	return __kvm_gmem_create(kvm, size, flags);
++	if (args->pad ||
++	    (!(flags & GUEST_MEMFD_FLAG_USE_RESOURCE) && args->resource_fd))
++		return -EINVAL;
++
++	/*
++	 * Without MMAP the memslot is not gmem-only, and a VM without private
++	 * memory would fault through the slot's userspace address instead of
++	 * the provider.
++	 */
++	if ((flags & GUEST_MEMFD_FLAG_USE_RESOURCE) &&
++	    !(flags & GUEST_MEMFD_FLAG_MMAP))
++		return -EINVAL;
++
++	return __kvm_gmem_create(kvm, size, flags, args->resource_fd);
+ }
+ 
+ static const struct kvm_gmem_ops *kvm_gmem_get_ops(struct file *file)
+@@ -859,9 +1135,14 @@ static void kvm_gmem_native_unbind(struct file *slot_file, struct kvm *kvm,
+ 	 * bindings.  I.e. reaching this point means kvm_gmem_release() hasn't
+ 	 * yet destroyed the bindings or freed the gmem_file, and can't do so
+ 	 * until the caller drops slots_lock.
++	 *
++	 * A memory provider can still revoke, and walk the bindings, until
++	 * the inode is evicted, so take the invalidate lock in this case too.
+ 	 */
+ 	if (!file) {
++		filemap_invalidate_lock(slot_file->f_mapping);
+ 		__kvm_gmem_unbind(slot, gmem_file_of(slot_file));
++		filemap_invalidate_unlock(slot_file->f_mapping);
+ 		return;
+ 	}
+ 
+@@ -1167,6 +1448,7 @@ static struct inode *kvm_gmem_alloc_inode(struct super_block *sb)
+ 	mpol_shared_policy_init(&gi->policy, NULL);
+ 
+ 	gi->flags = 0;
++	gi->att.ops = NULL;
+ 	INIT_LIST_HEAD(&gi->gmem_file_list);
+ 	return &gi->vfs_inode;
+ }
+@@ -1181,10 +1463,19 @@ static void kvm_gmem_free_inode(struct inode *inode)
+ 	kmem_cache_free(kvm_gmem_inode_cachep, GMEM_I(inode));
+ }
+ 
++static void kvm_gmem_evict_inode(struct inode *inode)
++{
++	/* Every file is closed, so nothing maps the provider's frames. */
++	mem_provider_detach(&GMEM_I(inode)->att);
++	truncate_inode_pages_final(&inode->i_data);
++	clear_inode(inode);
++}
++
+ static const struct super_operations kvm_gmem_super_operations = {
+ 	.statfs		= simple_statfs,
+ 	.alloc_inode	= kvm_gmem_alloc_inode,
+ 	.destroy_inode	= kvm_gmem_destroy_inode,
++	.evict_inode	= kvm_gmem_evict_inode,
+ 	.free_inode	= kvm_gmem_free_inode,
+ };
+ 
 -- 
 2.47.3
 
