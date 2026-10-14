@@ -1,177 +1,196 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8294E0B61
-	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 11:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188F04D9F9D;
+	Wed, 14 Oct 2026 11:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791978258; cv=none; b=gQ9ae9TN3Y6cuVs/4xbzbPfO6uT0K3pVcRMDh2wjRaN2UqRDgVPJDFxhlSBq1joXglBOdzfQvvdoQabTILpuyISC0vAr6UdYmbl1NQXfTFsBXJVbdiUnG/AYl1xd8G3ZisKfTk5hx/vIENb5Rb+TfqvuTbRi2bN7OslxK4YJ2t4=
+	t=1791978279; cv=none; b=ISSgqQ1Ots25iX6UPe1RoOjxJIpFw7leEpsK/pVFHRTTuMTwuDMdxI9tgEZemmuKrEsNqnRuR1/jzGFFMT/sDFxE/WtHSoX3hYmbxfD21KL0esi2vG2ikoXCBQWk2+ERTkIwCGpI5zaoK4wmDerfyoV1jU+yy2yThPrGlOcQd0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791978258; c=relaxed/simple;
-	bh=1Qgq7/saPiO0XH+iRMiL6gsOydviUiEy835/bUGhdxw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PBzt4AzBqwe40iVphceAUKBo+3ubw2Vm/t2HJiG4kpnHaxG0qID1NuIhWHUFu/3NwiBNzCxGrfyVgod9DCQqCoMNl2y5TUS8mfmE/koEjwHg7ZiyOComNR7TQTACFy91ZHkJdS/QK2gxt97Mna6obRd9PXQ+FGmZ2o0yjsQJc7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai; spf=pass smtp.mailfrom=nebusec.ai; dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b=F+X0A2Pb; arc=none smtp.client-ip=74.125.82.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebusec.ai
+	s=arc-20240116; t=1791978279; c=relaxed/simple;
+	bh=8Iqcb5J0DHIvtkYqwjH+nExgg+bw2Z185o8GhWcj9Oo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kPElitLJhx+2vZX/eDLHtLxsegsCqDgeIbm9EEUVJIDk2TubiMiU46bXcEm/y6GN8vND2knwRs8DyVXQtXUtfC2mDyTrUNcGRJ05887RkPtV7VFz5I6nZ48Z7hdV1K5JtbXNpVhukYXsaAV8XLnz90vCH5/A7p9+JKHTwx95GWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yKmZOQSx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=5+jJryL2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yKmZOQSx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=5+jJryL2; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b="F+X0A2Pb"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-35cd4e8bdbdso3377880eec.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 04:44:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nebusec.ai; s=google; t=1791978256; x=1792583056; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Pkmum5UAp9BVL0CmNM6CxhtdgT1d/3jbpI1MnJgKoXc=;
-        b=F+X0A2PbGxFtINE2raQm3H9FY8AOJKpvHVb/iF0GiZ4K4sQIr9k1FT3EtVtkwxuYzd
-         F3D3fniomcNP9isSQTOPS1wHRW5cz3vHPlmm7YCMUTqBY7HAI0wh2/53bu3P99X3qJ3Q
-         r67TpMFnESFDwdZ/3yYAJS8//FRLUDYJyEP4e+PTXcdjreOSqWzQDcl6Cndh48EOvl62
-         1USVeM0CIQyGqevTNIWNfrBvFkkfWwxRbDKtEnMSzwZr8rDkhwsjhoyzpMUOIT6HRIq3
-         Zv0oXljKdbP3VC67XRfnNrp8vzLaLOYjBpcyfQITCuuXv20BijnQ4nILWKo3vgUzE4SE
-         uSaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791978256; x=1792583056;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Pkmum5UAp9BVL0CmNM6CxhtdgT1d/3jbpI1MnJgKoXc=;
-        b=Q2iVp6vPTOWmNmtWS6dwRKUScVZiqOd0SNFgyh2q/bYhg3xt5QewpFHUPTJDXx81Co
-         Bjltd3D4hTgenvCKarR3l/71CFCtIfiG5F0sxeCSoT6pX/Zy/8Jy9zfz/WCAAyeh+rpQ
-         aYbtpjHA2TheA/D8ESiAvJBKJKy5Ryz+NxrxXQQjyyyyCIjDFWRgr17D4rz46ZNIvRhr
-         pnyNueWkYOYlgI62u1PKX4ROjaWKehU3nC4+i6EQgOtZ29hyYPizNc+gj0yb2ZRelB7S
-         /5q0DnXuuSZEtJGxrZBfuQLw6DIG5LrZSodaWZHWNS0DQN7ew6tZNQHhkDShO/SzzrUr
-         hkjQ==
-X-Gm-Message-State: AFq9FYIt+1T5QF6daBMGQamEHGT++s5XSPjEPJczUlS7L/pTMjHH8siO
-	5s1GAUAACYZUhMruvAPBK0F4gJlZxs53yGijhnWVRK9Y0L/Mb4df6OMSb6T96grrA8LwfJ80LC9
-	9v1E1+JMoz8Q=
-X-Gm-Gg: AYBFou1Y1vvkLfVeP43hk/7AglutN3wqCr3djWrD5R9jy9rVX9vPfrd2h7imxBsglmd
-	iaVplnngPzEBGSJCv/1oh/0C4Au9Abiv4m/pHwjVuPVrrmoyPyaCuttSoLLh0+hojTaiqyslo5X
-	gGzTuzmQVZ9sLEkkP79s/d9YEHcHlAiDvr6H0Zqphkys0ExMEX/A3eLoR+ObvlVbtTgLuZG8V95
-	byxH2Vh9Apyd/gJENnvTH5wrwnCuoltX+jbFnMrVONMpGFzDB9NIxe5pVarrz94Du3iRaGwI6Eu
-	VgIg8fphNDyxA/uuLQcfQPb0PIx7OlW5xaYs5xuxROlcDw8pAmlg3dBTSxHmPUgvbNjX4idxSA+
-	jTV3jmfHYmjo0ruA9A6ST4dhgxBlSKSefzSOnRlxFzCXJe+cObLq0qwZYg3Bhj2AoW2NiGRf7Ia
-	dLaLHjixmcHM+wGNshJqGTdap/UCGxwgG6DGJXDeSH0qxJuj1RReDhwoN4OQkf6HBWFJj0AWDsO
-	bij4as=
-X-Received: by 2002:a05:7022:239b:b0:14f:b8c4:2908 with SMTP id a92af1059eb24-16a60ce751dmr28629004c88.19.1791978255396;
-        Wed, 14 Oct 2026 04:44:15 -0700 (PDT)
-Received: from Roxy.sysu.edu.cn ([2602:feda:30:ae86:295:dff:fe84:68f4])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a442ac67sm71379213c88.18.2026.10.14.04.44.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 04:44:15 -0700 (PDT)
-From: Zhiling Zou <zhilinz@nebusec.ai>
-To: linux-fsdevel@vger.kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	alain@knaff.lu,
-	hpa@zytor.com,
-	vega@nebusec.ai,
-	zhilinz@nebusec.ai
-Subject: [PATCH 1/1] init: distinguish compressed ramdisks from image size
-Date: Wed, 14 Oct 2026 19:44:00 +0800
-Message-ID: <154af2b4bce7fe546be4e921439060aa0b616fc9.1791977727.git.zhilinz@nebusec.ai>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1791977727.git.zhilinz@nebusec.ai>
-References: <cover.1791977727.git.zhilinz@nebusec.ai>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yKmZOQSx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="5+jJryL2";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yKmZOQSx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="5+jJryL2"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 52D3A1F444;
+	Wed, 14 Oct 2026 11:44:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791978273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ocy9Wwhkw9+5dyQRVw3aQD1pCbreLfNwhPg/38rBAGY=;
+	b=yKmZOQSxIP3kVjIQiTjJhWCHb4UBZoyBnOajU5pvdAR5Li5L43x9z8gD5q4vl9eas1gVIo
+	S+71RmQO3L8TWgp+Mo+R6DMrX8lk/40GwIdH9QB2iD304X0kihJkRZQFom1dsyyjmxUyYL
+	p7Y8CLopXhJzPbmZujtBV8GFmKJopM4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791978273;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ocy9Wwhkw9+5dyQRVw3aQD1pCbreLfNwhPg/38rBAGY=;
+	b=5+jJryL2Sr3cnYe+um/+1olGL/Y1sVC6bNMVH/JvMG1XuKbdJrVVb6hRlMrnfIIjuvEp0s
+	GoJVHwHp+PfxbMDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=yKmZOQSx;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=5+jJryL2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791978273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ocy9Wwhkw9+5dyQRVw3aQD1pCbreLfNwhPg/38rBAGY=;
+	b=yKmZOQSxIP3kVjIQiTjJhWCHb4UBZoyBnOajU5pvdAR5Li5L43x9z8gD5q4vl9eas1gVIo
+	S+71RmQO3L8TWgp+Mo+R6DMrX8lk/40GwIdH9QB2iD304X0kihJkRZQFom1dsyyjmxUyYL
+	p7Y8CLopXhJzPbmZujtBV8GFmKJopM4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791978273;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ocy9Wwhkw9+5dyQRVw3aQD1pCbreLfNwhPg/38rBAGY=;
+	b=5+jJryL2Sr3cnYe+um/+1olGL/Y1sVC6bNMVH/JvMG1XuKbdJrVVb6hRlMrnfIIjuvEp0s
+	GoJVHwHp+PfxbMDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28539133F1;
+	Wed, 14 Oct 2026 11:44:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id aASqACFrz2pyRgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 14 Oct 2026 11:44:33 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 44ECEA1411; Wed, 14 Oct 2026 13:44:32 +0200 (CEST)
+Date: Wed, 14 Oct 2026 13:44:32 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jia Zhu <zhujia.zj@bytedance.com>
+Cc: Jan Kara <jack@suse.cz>, amir73il@gmail.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH v2 0/2] fsnotify: drop SRCU across inotify event delivery
+Message-ID: <mzx4rhr7zqhza6qh7zefytrmcx547nh2bvopwtdnannhnjl7md@sm2kdibrorwb>
+References: <cover.1791452174.git.zhujia.zj@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1791452174.git.zhujia.zj@bytedance.com>
+X-Rspamd-Action: no action
+X-Spam-Score: -4.01
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org,kvack.org,linux.dev];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,lpc.events:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 52D3A1F444
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-identify_ramdisk_image() uses a zero block count to mark compressed
-images.  A malformed legacy filesystem header can also produce a zero
-block count, causing rd_load_image() to call crd_load() with a NULL
-decompressor and panic.
+Hello!
 
-Track whether the image is compressed separately from its block count.
-This keeps zero-sized or overflowed legacy image sizes on the normal
-validation path while preserving the handling of compressed images.
+On Thu 08-10-26 20:02:37, Jia Zhu wrote:
+> We observed fsnotify teardown stalls in production. NMI backtraces
+> showed inotify_handle_inode_event() in memcg reclaim, and the mark
+> reaper, inotifywait and a systemd process were reported blocked for more
+> than 327 seconds.
+> 
+> We checked upstream and found the same issue: inotify allocates events
+> under fsnotify_mark_srcu, and the global mark reaper waits in
+> synchronize_srcu().
 
-Fixes: 30d65dbfe3ad ("bzip2/lzma: config and initramfs support for bzip2/lzma decompression")
-Cc: stable@vger.kernel.org
-Reported-by: Vega <vega@nebusec.ai>
-Assisted-by: LLM
-Signed-off-by: Zhiling Zou <zhilinz@nebusec.ai>
----
- init/do_mounts_rd.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+Thanks for the details. Well, it isn't only inotify. fanotify also
+allocates event structure for each notification group when the event is
+generated. But when you run setup that can stall for over 5 minutes in
+direct reclaim I wouldn't really say it's fsnotify that's broken :) In
+general this seems like a classical case of priority inversion where some
+heavily throttled task holds a resource other tasks need and so they block
+behind. MM guys are actually looking into these issues (e.g. it was
+discussed at LPC MM microconference last week [1]). Adding Shakeel to CC.
 
-diff --git a/init/do_mounts_rd.c b/init/do_mounts_rd.c
-index 48bfab2fc62f..f113469448e9 100644
---- a/init/do_mounts_rd.c
-+++ b/init/do_mounts_rd.c
-@@ -31,9 +31,9 @@ static int __init crd_load(decompress_fn deco);
+> The production report shows multiple inotify release paths blocked
+> behind the global mark reaper. Because SRCU and the reaper are shared
+> across groups, a stalled delivery can delay other groups' close() and
+> exit paths.
+> 
+> Patch 1 pins the iterator marks and drops SRCU around inotify delivery.
+> It retains fanotify's pinning semantics and preserves event delivery to
+> a surviving inotify watch when another watch is removed. This leaves the
+> reclaim stall itself unchanged.
  
- /*
-  * This routine tries to find a RAM disk image to load, and returns the
-- * number of blocks to read for a non-compressed image, 0 if the image
-- * is a compressed image, and -1 if an image with the right magic
-- * numbers could not be found.
-+ * number of blocks to read for a non-compressed image, and -1 if an
-+ * image with the right magic numbers could not be found. The compressed
-+ * flag is set if the image is compressed.
-  *
-  * We currently check for the following magic numbers:
-  *	minix
-@@ -50,7 +50,7 @@ static int __init crd_load(decompress_fn deco);
-  */
- static int __init
- identify_ramdisk_image(struct file *file, loff_t pos,
--		decompress_fn *decompressor)
-+		decompress_fn *decompressor, bool *compressed)
- {
- 	const int size = 512;
- 	struct minix_super_block *minixsb;
-@@ -63,6 +63,7 @@ identify_ramdisk_image(struct file *file, loff_t pos,
- 	unsigned long n;
- 	int start_block = rd_image_start;
- 
-+	*compressed = false;
- 	buf = kmalloc(size, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
-@@ -87,7 +88,7 @@ identify_ramdisk_image(struct file *file, loff_t pos,
- 			printk(KERN_EMERG
- 			       "RAMDISK: %s decompressor not configured!\n",
- 			       compress_name);
--		nblocks = 0;
-+		*compressed = true;
- 		goto done;
- 	}
- 
-@@ -185,6 +186,7 @@ int __init rd_load_image(void)
- 	char *buf = NULL;
- 	unsigned short rotate = 0;
- 	decompress_fn decompressor = NULL;
-+	bool compressed;
- 	char rotator[4] = { '|' , '/' , '-' , '\\' };
- 
- 	out_file = filp_open("/dev/ram", O_RDWR, 0);
-@@ -196,15 +198,15 @@ int __init rd_load_image(void)
- 		goto noclose_input;
- 
- 	in_pos = rd_image_start * BLOCK_SIZE;
--	nblocks = identify_ramdisk_image(in_file, in_pos, &decompressor);
--	if (nblocks < 0)
--		goto done;
--
--	if (nblocks == 0) {
-+	nblocks = identify_ramdisk_image(in_file, in_pos, &decompressor,
-+					 &compressed);
-+	if (compressed) {
- 		if (crd_load(decompressor) == 0)
- 			goto successful_load;
- 		goto done;
- 	}
-+	if (nblocks < 0)
-+		goto done;
- 
- 	/*
- 	 * NOTE NOTE: nblocks is not actually blocks but
+This is going to noticeably slow down event delivery so it isn't really
+acceptable in this form. I'd actually prefer if these cgroup priority
+inversion issues got somehow dealt with in MM or with its better support so
+that we don't have to add complexity to fsnotify for this. Also note that
+even through we can drop SRCU like you do, the task that is doing the
+operation on the filesystem will be still blocked until the allocation
+succeeds and will be holding filesystem locks. So although your change will
+address the particular stalls you observe, other types of stalls remain
+unaddressed (which is another reason why I dislike your solution).
+
+> Patch 2 skips the global reaper flush when only the closing group
+> reference remains. As Jan noted on the earlier patch [1], this only
+> helps groups with no outstanding marks. It is optional and can be
+> dropped.
+> 
+> The teardown fast path was checked in QEMU with a test-only SRCU holder.
+> 
+> [1] https://lore.kernel.org/all/4467cbj7eivubtdwcawvr7mhrb7armgoc4xfqjjnncrbkxxag6@3mmou6nhviao/
+> 
+> Jia Zhu (2):
+>   inotify: drop fsnotify SRCU protection during event delivery
+>   fsnotify: avoid unrelated mark reaper waits during group teardown
+> 
+>  fs/notify/fsnotify.c             | 15 ++++++++++++---
+>  fs/notify/group.c                | 26 +++++++++++++++-----------
+>  fs/notify/inotify/inotify_user.c |  3 ++-
+>  fs/notify/mark.c                 | 26 ++++++++++++++++++++++----
+>  include/linux/fsnotify_backend.h |  2 ++
+>  5 files changed, 53 insertions(+), 19 deletions(-)
+> 
+> 
+> base-commit: df2908090cda368b01ff43709f51890076c56157
+
+								Honza
+
+[1] https://lpc.events/event/20/contributions/2418/
 -- 
-2.55.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
