@@ -1,221 +1,218 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A4B4A4F1C;
-	Wed, 14 Oct 2026 20:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792011456; cv=none; b=GaR9QY9FjiRBcGhC0YuuCEWP16sw4JWXF1jA0IKg7ce0+bat/pdzplW5AnsezZhjHsMCfm+ZFa1SS4okSh/mqdARNaSB+dNnHfAVdflhjQRtRV2ULRanL2OaQZ4sSpfjdVc23atAv1LTPxUxhGB8AFUbGxbjTH6BoZQOTZCnDuM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792011456; c=relaxed/simple;
-	bh=LgfXvygZHFJvmfBaXhUTWYvU2EJvFX8zOuzCXAYW+Is=;
-	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=YHl9vkNGZ2hQlI+DATyTY9XVT4gGArSrzCml3Wjk5HzVtTtwRdurFtNedqA0y5uyyHWexsZCHJ9j7n0njZistzs10knrmWOh6XCHYsHAUwHli2RPIAobvaQESj6+HcipNlZ3iYD/X6niXC10C/mppxPdViZ4yy8MzX0vFyyNI9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=rOMfpMsE; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=h4WxwYJ/; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897ED47F78B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 21:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792014430; cv=pass; b=LchIr9vJqb/rRfxyNFBOgtzqUkZD03gQaUOdlitNxS4Wwmn4hhLfLtYRiemIfEAGaj/QPqRCeNHlnbe6fZ3DvoVWC148DDzOlGNYdPTfoJxLdoGWu7gWHCMKeotOXqdN7rE7Fg/5a0v/Gwmhwve1mZyfjADdz39NkplgMYu6KMo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792014430; c=relaxed/simple;
+	bh=MCaOs6wYNSB4LFrsDrFCk/QlJZrshEPv8X72I3y+9V4=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HsdIJblZOGuIpuJTbv1ltsJw7utuEkHRSO5TKalN0cO5DL7YyaHLpZr1MlKAuxHaXdqFqqMtyZKiEqIero/Pt6LRHJcNFYPaIxr+8xqAJqlrXfTktMyHd3b7XSCik4NOpZDWdXsa/K92iBf/uNp+E+vM5w/HLEKhfcI+nV2k7sA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JSlx6hcL; arc=pass smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="rOMfpMsE";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="h4WxwYJ/"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1792011447; bh=LrJdjhfj6oEWAw3FjBd63GM
-	ryVpg4rJg5unfuR6JQGs=; b=rOMfpMsEdaZWSH/GG84wfEAMZ/J1zLgKTnmdPSN4T9/VnrMd88
-	7q+F6RGhReC75rRUq1pGLmOO6+nojui8cJjASmiqYCIgXClBuo9sGTC6vkApVsn0Fousiq75TVa
-	RfM7zSaI7uXoCZsgih4PECUhlz9ii48RcN+yFRjhH6X4hqUHYFaGn0aXSKYUBJ9ba/4v4ONfAJr
-	49/fJU9njZIO9g2laSdBNFtxcxGu1uL2RYUXQkdXFcipgS1sn6qSyHODs0goevfO58Q9ElSUzOn
-	u24GvXLkeaSvwdDbI2wfIWThGBmNZXaDsICpJ20Sa9wxm9seXTB/5dK228SsjMTBEmw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1792011447; bh=LrJdjhfj6oEWAw3FjBd63GM
-	ryVpg4rJg5unfuR6JQGs=; b=h4WxwYJ/A6iegW6s+b10ABGJP16VzERqoQqqoRUWwafRjdbsKV
-	SDvzc6xNoXb6rSC1EmrsiNziLYRYbmtGQyCA==;
-Date: Wed, 14 Oct 2026 21:57:28 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: josef@toxicpanda.com
-CC: brauner@kernel.org, dhowells@redhat.com, jarkko@kernel.org, jmorris@namei.org,
- keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
- morgan@kernel.org, paul@paul-moore.com, serge@hallyn.com, sergeh@kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_3/5=5D_userns=3A_check_the_op?=
- =?US-ASCII?Q?ener_and_the_writer_before_mapping_uid_0?=
-In-Reply-To: <20261014-b4-setfcap-userns-v2-3-fac4d19281d7@toxicpanda.com>
-Message-ID: <3789784A-6B41-480F-B370-B0C5E67EDD91@mainlining.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JSlx6hcL"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-917aca1aee5so9470876d6.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 14:47:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792014428; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ddl4+bdeUL6JyNWXaSmp13Xlh5qXU218/gJH1aoRfyuEcHZ3F9Pq7MwpDScqjL404D
+         8lrYzqqtQgCsK8YSrqd48fpG6O8gPmsdD7KxVgQUkw/S1F3e41RClA7Ej0hU+NHvX098
+         79nglm57dnR25ECjkWUgAP/Z0fQcH13cF8GxvVytk4WFWhZEuSp8uM/FmEHzjoOw1Qzt
+         kQ8tdEV4fDf0t2aUaVRlqLHYoCRZJVQNSkW7K6sh/JEqI6f0F+aYvqBTl7Zipz1DlcPP
+         nxCq+Aj66k+DNFKygBCvmyyA7jN0g0KkRNoQLYjGXrh007wGqyWPTLI+OfEelKP3tZAJ
+         28uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=OmdjCtO0BT/G+HosYDOiIQ+MFbY+P6PHIY8xmD++EWw=;
+        fh=3hb2oz2If87I6KmFms57JLGbaCQz6YzIa2EahrG8n74=;
+        b=l1TA5s0z939kQCQE4VxpiaLIAdMtex6RWQv+M1QzQtQQtd2kZS31lwxWTj4Dd6n5EI
+         OMPwqjTqwkGLvwLUukqgxT9K9UlCgaNt/WuXFWO3sYsyCW3C711cYstABwxOdx4cr4d3
+         6HvSrmtz6B+ZMODt85DjEo5MdrcLUaVIykU4G13UG20NuJwefaewIerlwVey+NYrifhU
+         YpxCeys7Kd98KEiTto+sP0YFH4o7TBcrEmV/oVQi4l/2VMZX70Ks56WMd3Vh1AjPeZLT
+         +BPFr23XTmR1zEhl9X2FMkO8IrwQ3DRK2KOC2TJwNmcvXEifLuruq7LdZmvzonRK7hnv
+         doGw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792014428; x=1792619228; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OmdjCtO0BT/G+HosYDOiIQ+MFbY+P6PHIY8xmD++EWw=;
+        b=JSlx6hcLclOXuJ5rv3+BmT4OEpImG6UFCv/raPoxbZEOidM0DzSBwdQXAGriIr5Edi
+         TX49nUQL9NtrVe4u+GPwa7n6xU/AhixY0AegBACIRbdRq28mgasEndHIualDvFy5LTPR
+         Yd3gXeECBDYDxwABK6N/c2Y5Bd569usZ9CnVMiPRnI9BCDNLO669UbiMbWpWoG0hybMP
+         Fg3j32XupqTXaDb2z4g+fRVyyR+vUo4P5ieSz11ab59S9VrUJWGyQvPd537Na+l0XY/n
+         aR8oZ+YeefMeUY6gOU5UGsAW0Pf7GZUucXuC3HiPHqoHE81Qasn/aee2qAy7sGopm65T
+         szew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792014428; x=1792619228;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OmdjCtO0BT/G+HosYDOiIQ+MFbY+P6PHIY8xmD++EWw=;
+        b=AiWFaPREdM8pdvUiAF0IuSzbcZ7H82mNKp9LYWUuf8/3pD735svS8RiaNk8n5JLRV+
+         pYNmr+rgaQt7StgYGMSeaxvywfGhjMk0rs1sGQQxWERfbakLWMUtO18skVTbQUc9NvtY
+         xSVVm4vzXES50n9QhRtXhoKPJCi2h5k8Nsk093Ut2SnjzYUQqqAOr+Xgfft7Vwt5OGB7
+         E7hevtvm9lLr/m7qetz15VcChohOFhKUMcOlTaRo5UJPJ2AoBvIUffi5lpVfU4PjrlQc
+         Fwqk8K+f8lxn42DAXu44MzG8d1PzpTq6WVp2ck+jgWuoUL5WUJzK81YJYuNBMCVJJthj
+         zebA==
+X-Forwarded-Encrypted: i=1; AKwUvBy3xQi98RAnvjW7//rimAA5lspi+u15QAa9CKVd4j0J9FRT+Rg72hDqXftSyvMk4nxzOYDN48IXbHGIKiGR@vger.kernel.org
+X-Gm-Message-State: AFq9FYLTbJ62OtbGFlJyAbMqZcNKhkpGi6puPuzTSXmvs26vFuF3PLR0
+	0T4we9vTO/8oPMJV0Gq3dP7Rv+mOBrnbyiqM9G3TzjdKZXTvH6XjGM2nj2CTYUV8pdY5pxrZY9f
+	UShg2W+FeSoAUTTMNyjt+N5b6tOfGVnipNhf+pYve
+X-Gm-Gg: AYBFou1oeIeUC9ZawTGXrszA34YnW89zdNka1vnJBPaqR47Y9QkB/n4cY2IboWfs0T4
+	cD5IcFV+mcML3lAS/aT0OYDo9s7b02bqFbWeVvaetjT5pi19JXoeqDvrxqjdTOa0hacHJOQvqzN
+	KlGztwgu0CpWBkJwXAx6sVJT5er/3ZC2ICoR/NGEBExs2opx09RUphKvGxOY874so4TQJ6cK8qx
+	2jGlAiy5U6tiOLmX/6tMjvLqW6lbhUggUqj1L4K7CLGkSiKQFC563t7jYvKoxsbonMZRO+Oh8+n
+	zuGtXLqqFOgpk/1vV0ekdPCvlKRj3ChS7QFKiYIO1V6eZwsT5CkNSn/fpxlRGXboEdu4D4y5GZ1
+	7Z2gOgLMsWYjvAzg2ak+mt6avYK+9+6guI9Y1PEhlMGqPBOTbjfva
+X-Received: by 2002:a05:6214:43c1:b0:91b:8e06:73f5 with SMTP id
+ 6a1803df08f44-91b8e0680ffmr139578016d6.15.1792014427625; Wed, 14 Oct 2026
+ 14:47:07 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 14 Oct 2026 14:47:06 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 14 Oct 2026 14:47:06 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20261014095702.39676-1-griffoul@gmail.com>
+References: <20260720111259.122911-1-dwmw2@infradead.org> <20261006183235.16576-1-griffoul@gmail.com>
+ <CAEvNRgEseLO+LbkwXrEit0H2LH5Wx-srSvHEMpt0=upPL3tF=g@mail.gmail.com> <20261014095702.39676-1-griffoul@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Date: Wed, 14 Oct 2026 14:47:06 -0700
+X-Gm-Features: AclHuK_bDoENPFsEJnePb9piUrHFuROo5b9vCnTZ7F3PMjuUH-N1Jl6pvQGbDQg
+Message-ID: <CAEvNRgHtB8j6=9r=txjsKvQM0F85nRN4KW5sdnuv_-Og=cWEfg@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/9] mm: Memory providers for guest_memfd and iommufd
+To: Fred Griffoul <griffoul@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H . Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: David Woodhouse <dwmw2@infradead.org>, "Aneesh Kumar K . V" <aneesh.kumar@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Steffen Eiden <seiden@linux.ibm.com>, 
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 14 October 2026 21:47:48 BST, Josef Bacik <josef@toxicpanda.com> wrote:
->verify_root_map() looks at the cred that opened the map file: it asks
->whether it has CAP_SETFCAP over the parent, or, for an opener inside the
->namespace, whether the creator had.  Two things are missing.
->
->The writer isn't checked.  For every other privileged mapping
->new_idmap_permitted() wants the capability from the opener and from the
->task that calls write(), but a map that consists of the single line
->"0 0 1" takes the unprivileged branch, where only the opener's euid
->counts.  So an open uid_map file is a token for mapping uid 0:
->
->  task A: uid 0, full caps          task B: uid 0, no CAP_SETFCAP
->  fd = open("/proc/<pid>/uid_map")
->  B gets fd by inheritance
->  or SCM_RIGHTS
->                                    write(fd, "0 0 1")
->                                      opener had CAP_SETFCAP -> allowed
->
->And CAP_SETFCAP over the parent isn't always enough.  The parent may map
->its own parent's uid 0, so its root user is the root user of ancestors
->further up, and the capability has to count there too.  A task without
->CAP_SETFCAP that unshared a namespace, which a privileged task then
->mapped "0 0 1" for, has CAP_SETFCAP in it.  It could unshare again and
->pass on uid 0 of the initial namespace one level further down.
->
->Find the topmost namespace that shares the parent's root user with
->cap_root_level(), and require that the opener and the writer both reach
->that far: by ns->setfcap_level for a task in the namespace that is being
->mapped, by cap_setfcap_level() for one outside it.
->
->This only affects maps that contain uid 0 of the parent namespace.  A
->write by a task without CAP_SETFCAP to a file opened by one with it, and
->a map by a task whose CAP_SETFCAP stops short of the root user it passes
->on, now fail with -EPERM.
+Fred Griffoul <griffoul@gmail.com> writes:
 
-Ok. Look. I feel there will be nits on this exact review. But I review
-more based on "is this code correct? ", because the users are my priority 
-right now until I learn maintainers opinions or liking.
-
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
-
-
+> Ackerley Tng <ackerleytng@google.com> writes:
 >
->Fixes: db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
->Assisted-by: LLM
->Signed-off-by: Josef Bacik <josef@toxicpanda.com>
->---
-> include/linux/capability.h |  1 +
-> kernel/user_namespace.c    | 29 +++++++++++++++++++++--------
-> security/commoncap.c       | 23 +++++++++++++++++++++++
-> 3 files changed, 45 insertions(+), 8 deletions(-)
+>> When the provider wants to revoke the page, the notifications/function
+>> calls flow this way, the last [ENTITY] in the chain actually does the
+>> zapping.
+>>
+>> + [PROVIDER] -> [KVM]
+>> + [PROVIDER] -> [DMABUF] -> [IOMMU]
+>> + [PROVIDER] -> [GUEST_MEMFD] -> [USERSPACE] (AFAICT this was not
+>>   implemented in the RFC.)
 >
->diff --git a/include/linux/capability.h b/include/linux/capability.h
->index 026974a5111b..90f9f976d216 100644
->--- a/include/linux/capability.h
->+++ b/include/linux/capability.h
->@@ -224,5 +224,6 @@ int cap_convert_nscap(const struct mnt_idmap *idmap, struct dentry *dentry,
-> 		      const void **ivalue, size_t size);
-> 
-> int cap_setfcap_level(const struct cred *cred, struct user_namespace
-> *ns);
->+int cap_root_level(kuid_t kuid, struct user_namespace *ns);
-> 
-> #endif /* !_LINUX_CAPABILITY_H */
->diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
->index 330085a7d7d4..7dba6594516d 100644
->--- a/kernel/user_namespace.c
->+++ b/kernel/user_namespace.c
->@@ -888,8 +888,9 @@ EXPORT_SYMBOL_IF_KUNIT(uid_gid_map_sort);
->  * @new_map: requested idmap
->  *
->  * If a process requests mapping parent uid 0 into the new ns, verify that the
->- * process writing the map had the CAP_SETFCAP capability as the target process
->- * will be able to write fscaps that are valid in ancestor user namespaces.
->+ * process that opened the map file and the process writing the map had the
->+ * CAP_SETFCAP capability as the target process will be able to write fscaps
->+ * that are valid in ancestor user namespaces.
->  *
->  * Return: true if the mapping is allowed, false if not.
->  */
->@@ -897,7 +898,7 @@ static bool verify_root_map(const struct file *file,
-> 			    struct user_namespace *map_ns,
-> 			    struct uid_gid_map *new_map)
-> {
->-	int idx;
->+	int idx, level;
-> 	const struct user_namespace *file_ns = file->f_cred->user_ns;
-> 	struct uid_gid_extent *extent0 = NULL;
-> 
->@@ -915,24 +916,36 @@ static bool verify_root_map(const struct file *file,
-> 	if (!extent0)
-> 		return true;
-> 
->+	/* The parent may in turn share its root user with its ancestors. */
->+	level = cap_root_level(make_kuid(map_ns->parent, 0), map_ns->parent);
->+
-> 	if (map_ns == file_ns) {
-> 		/* The process unshared its ns and is writing to its own
-> 		 * /proc/self/uid_map.  User already has full capabilites in
-> 		 * the new namespace.  Verify that the parent had CAP_SETFCAP
->-		 * when it unshared.
->+		 * when it unshared, as far up as that root user goes.
-> 		 * */
->-		if (file_ns->setfcap_level >= file_ns->level)
->+		if (file_ns->setfcap_level > level)
-> 			return false;
-> 	} else {
-> 		/* Process p1 is writing to uid_map of p2, who is in a child
-> 		 * user namespace to p1's.  Verify that the opener of the map
-> 		 * file has CAP_SETFCAP against the parent of the new map
->-		 * namespace */
->-		if (!file_ns_capable(file, map_ns->parent, CAP_SETFCAP))
->+		 * namespace, and as far up as that root user goes.
->+		 */
->+		if (!file_ns_capable(file, map_ns->parent, CAP_SETFCAP) ||
->+		    cap_setfcap_level(file->f_cred, map_ns->parent) > level)
-> 			return false;
-> 	}
-> 
->-	return true;
->+	/* The file may have been handed to someone else since it was opened,
->+	 * so the same goes for the process that is doing the write.
->+	 */
->+	if (map_ns == current_user_ns())
->+		return map_ns->setfcap_level <= level;
->+
->+	return ns_capable(map_ns->parent, CAP_SETFCAP) &&
->+	       cap_setfcap_level(current_cred(), map_ns->parent) <= level;
-> }
-> 
-> /*
->diff --git a/security/commoncap.c b/security/commoncap.c
->index a51b9d51d96d..f52f1c7a87be 100644
->--- a/security/commoncap.c
->+++ b/security/commoncap.c
->@@ -157,6 +157,29 @@ int cap_setfcap_level(const struct cred *cred, struct user_namespace *ns)
-> 	return cred->user_ns->level + 1;
-> }
-> 
->+/**
->+ * cap_root_level - Find the topmost namespace in which a kuid is the root user
->+ * @kuid: The kuid to look for
->+ * @ns: The user namespace to start from
->+ *
->+ * Return: the lowest ->level among @ns and its ancestors in which @kuid is
->+ * uid 0, which is how far up file capabilities with that root user are
->+ * honoured; INT_MAX if there is no such namespace.
->+ */
->+int cap_root_level(kuid_t kuid, struct user_namespace *ns)
->+{
->+	int level = INT_MAX;
->+
->+	for (;; ns = ns->parent) {
->+		if (from_kuid(ns, kuid) == 0)
->+			level = ns->level;
->+		if (ns == &init_user_ns)
->+			break;
->+	}
->+
->+	return level;
->+}
->+
-> /**
->  * cap_settime - Determine whether the current process may set the system clock
->  * @ts: The time to set
+> Thanks for going through it. I have just posted v2:
 >
+>   https://lore.kernel.org/all/20261014093733.90312-1-griffoul@gmail.com/
+>
+> It changes two of these chains. dma-buf is gone: iommufd attaches to
+> the provider file itself, through a small interface in mm. And
+> guest_memfd now maps the file into userspace from the provider's
+> frames, so a revoke also zaps the VMM's mapping:
+>
+>   [PROVIDER] -> [GUEST_MEMFD] -> [KVM], [USERSPACE]
+>   [PROVIDER] -> [IOMMU]
 >
 
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+Thanks :)
+
+>> IIUC guest_memfd conversions was not illustrated in the RFC: what
+>> happens on a shared -> private conversion?
+>
+> There are none yet. Only VMs of type KVM_X86_DEFAULT_VM can use a
+> provider, so all their memory is shared.
+>
+
+To borrow David's words, the part about this that makes me itch is
+conversion. We have to support conversions. Even if it doesn't merge in
+the first patch series, we have to have line of sight to how conversions
+would work.
+
+Conversion requests originate from the guest and then the host handles
+the guest request by making calling an ioctl on guest_memfd. Hopefully
+this part doesn't change with alternative provider support.
+
+Suppose guest_memfd still gets the conversion request first, in RFCv2,
+to reach all the mappings in various page tables, it would have to be
+
++ [GUEST_MEMFD] -> [KVM], [USERSPACE]
++ [GUEST_MEMFD] -> [PROVIDER] -> [IOMMU]
+
+since guest_memfd must ensure no IOMMU mappings to guest private pages?
+There's that extra step through the [PROVIDER]...
+
+>> Does your provider need to know if some memory was transitioned between
+>> shared/private states? The provider can be notified too, if
+>> necessary. If not, then isn't guest_memfd doing all the coordination
+>> better than going via the provider?
+>
+> Our provider does not need to know, and I agree: once there is private
+> memory, guest_memfd converts the pages, so it should tell the others
+> what to zap.
+>
+> I think the two models meet there, and the v2 cover letter now says so.
+> The iommufd side of v2 does not pin and keeps no references: it asks for
+> the frame behind each page, treats a page with no frame as a hole, and
+> maps again on a revoke. guest_memfd can offer that for its own file:
+> shared pages return their frames, private pages are holes, and
+> guest_memfd revokes a range whenever it converts it, in either
+> direction. That is your [GUEST_MEMFD] -> [IOMMU], and it should work for
+> folio-backed guest_memfd without memfd_pin_folios() or refcounts, as
+> long as guest_memfd also revokes a range before it frees its folios.
+>
+
+This part makes sense, if I'm understanding you correctly.
+
+> The one difference is that v2 also lets iommufd map a provider file
+> directly. Going through guest_memfd would add nothing without private
+> memory: it would only pass each revoke on. And memory that only devices
+> use, such as MMIO, does not go through guest_memfd at all. Both paths
+> would use the same iommufd code.
+>
+>> Does the revocation model work for you? If it helps, I can rebuild the
+>> sample provider to illustrate how the revocation can be done.
+>
+> Yes, the revocation model works for us. v2 replaces David's sample
+> with one that moves, donates and makes pages read-only, and a selftest
+> that checks the guest, the device and the VMM's mapping after each
+> change. It may be a good base if you want to try guest_memfd as the
+> provider for iommufd on top of it.
+>
+
+Thanks, I will prototype what I have in mind too to make sure things
+work as I think they will :)
+
+>> 4. [DIRECTMAP] Kernel direct map.
+>
+> Agreed, that is separate. The memory we have in mind is a range hidden
+> from the host with memmap=, so it is not in the direct map.
+>
+> Thanks,
+> Fred
