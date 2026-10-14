@@ -1,99 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C22A3A7F6B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C18C185B48;
 	Wed, 14 Oct 2026 22:58:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792018700; cv=none; b=Kn+uEPaeRs8yyJZPX0HKBe89zZ+3qJZifW6m7yhHBdiiLvyx7fjgr+PeyBPk/oyCI3/gxnjRiQl0Wir86YmsBYbHUwBaxxI5jmQw+Cvg9E/5P/9ifIavhKBUnFzoE01zGcYU6inx0BHNLv2FQeapFwQy95J6/1vsi8qrE0ZXDFg=
+	t=1792018700; cv=none; b=gsw4XByXLAVZOv0B4dOk+g/cQykEFAU8sVYaKqgkgxaAKBkXybEL5dh9j8HKvwDMBTew/kB1/fBdh9GJr16jtqezkvgvotDJLAPhjyVceJ9kpWWx4xwTbx7Vv28SoghrVK68OKqzQa8NZMYtDw7weIVfhQbm7StxYnJYEYFVnMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792018700; c=relaxed/simple;
-	bh=4lQ5Sx5eapvFuAxuoMSbOM+pGIUQt8vci4S0xngNe4E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D+SuSsTtTobOb1lULo4OFCefL7q8syQRzSSYDR+fYEg7EyZeZRou5yvDrScZKEgf8qsh0e7QcUEZTeqv9UN4IP0AMDTGv+ihbHtv6aAOqM5fx+iWPDeSLs+F7jBAHbFvmMBK15Lzc8HDZfZ3OuU35i9NijZB37TUwpljmc25DZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fTqy5WWw; arc=none smtp.client-ip=100.103.45.18
+	bh=a8GyNuOkJam97IF5PUJ8I6Q97oi1RXSNrJomIAT/JnY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gt+WbF5bO3E1cU71Ifuh5puMnHD2wftYspgXptvagDMcjyAaYXli7CsetBs7I8u5W4rJjhTBnFKFJaYsGxG5Q2zg8x6RskTf9CXKryvGZ/ouC2nKTUfJ29q262MJTzBMu0AqHda/W6zaFaG/7MKxPy4Un9qZzvi1gVAx6NekyxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oCR6mqrk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fTqy5WWw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28C681F000C6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oCR6mqrk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F2A61F000C4;
 	Wed, 14 Oct 2026 22:58:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1792018699;
-	bh=qToNvMNybkudsYQfWPEnIC7sTonlXsbQFFxH0DQmlp0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fTqy5WWw1zgKzedFyERlmcmQiq1A+IZvpmHiyuUBqI7tPzkp8Vuu8sWDEBk6HTz4R
-	 NAKIeHhABWvG3zxcwQzZ7Y5lBW/5XAY0VAqbNx1td+U/3GACtyKd2Y0RAthMF0j1YQ
-	 VqEQPUMyIGVoMYOnR6HaW2vZu8GJP0occapiZyzP/aCibGeXGtm7ArMc+LvimtiLas
-	 DgVL0hHwb8yDr3g/E3btZ0WnVqwas47qkvp2D4iuCExgnqryBeHh85HiD39RuvQL1y
-	 XrDyhf+nziEaD27yg6CTmTr0Yb09CN+jU9sfB2tTlJzrk/nl8YC+PKhz1LRuh5pkbO
-	 3C8mtSYQhNEuQ==
+	bh=hYVhfY5F8PE1JdDUkR9iDsmlsX80vTZYlpXji/UM5Is=;
+	h=From:To:Cc:Subject:Date;
+	b=oCR6mqrkvg9tvUzPi0tmh97KemdR7KpFN8T2OqyFwlz8GVHqveIou13XgfmXmC1wQ
+	 J0MnsDdH1FMnLhnQZaWg1kx+cMkyMa6zNKyeXJItJYdfLe8gOfku6bo4nFJp0kwIKH
+	 tApGjiZJ3SOslF6c/3r5W/UOxj0FUQeEbNq2j8Ezy4UM8zd1jrSBx5Yj1XusmBDsWp
+	 7d9AJi2aD8nRD6/bA760nbPwnqz+j989NeXontesLAADAetTvxJp8hFlDxcujuw6cC
+	 XQJIFTOX79LCjhyoUauiO2vkbXrPg2g0OXt3wg1slrASNEfzimdIJvD1L4fx3QmtH6
+	 GmQP8F37/sNeQ==
 From: Kees Cook <kees@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Kees Cook <kees@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
 	Bill Wendling <morbo@google.com>,
 	Justin Stitt <justinstitt@google.com>,
-	linux-fsdevel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Whitcroft <apw@canonical.com>,
+	Joe Perches <joe@perches.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Ian Rogers <irogers@google.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Al Viro <viro@zeniv.linux.org.uk>,
 	llvm@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH 2/2] seq_file: Require explicit initialization of struct seq_operations
-Date: Wed, 14 Oct 2026 15:58:16 -0700
-Message-ID: <20261014225818.3457479-2-kees@kernel.org>
+Subject: [PATCH 0/2] Add __require_explicit_initialization and its first user
+Date: Wed, 14 Oct 2026 15:58:14 -0700
+Message-ID: <20261014225811.i.852-kees@kernel.org>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261014225811.i.852-kees@kernel.org>
-References: <20261014225811.i.852-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1420; i=kees@kernel.org; h=from:subject; bh=4lQ5Sx5eapvFuAxuoMSbOM+pGIUQt8vci4S0xngNe4E=; b=owGbwMvMwCVmps19z/KJym7G02pJDFkXODnM50iqWR0zqDSamzB9a+Q1dgHZWdNXsgWxu02Nf NNemOHQUcrCIMbFICumyBJk5x7n4vG2Pdx9riLMHFYmkCEMXJwCMJE1rgx/pcTeBn96/mhp0hWz qfJWf55d5N0ZI6z6YfU6+ZeL2ysS1zD8FbH+xrpi72mXXxryim6bo5YmcEWfm9Mw49GneYd9psm 7cAEA
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1362; i=kees@kernel.org; h=from:subject:message-id; bh=a8GyNuOkJam97IF5PUJ8I6Q97oi1RXSNrJomIAT/JnY=; b=owGbwMvMwCVmps19z/KJym7G02pJDFkXONkbbz2KnNUTIdPJomgRGFTn3FW865j2uy3FisbKe 3qnXPfsKGVhEONikBVTZAmyc49z8XjbHu4+VxFmDisTyBAGLk4BmMjrjQz/FPYp8H5YXhzPbPFN YmXFa76V/LmKrJ2qha4BD9In1CunMDL8Xc0TH77uneL5VY+lvBsWNE/e+9gwUHTfk2DNibMNJr1 kAwA=
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-In the very unlikely chance that a seq_operations didn't get initialized,
-we wouldn't want them calling some random location. As a first example
-user of __require_explicit_initialization, annotate them so a missing
-initializer is a compile-time warning.
+Hi!
 
-Every seq_operations in the tree already sets all four, so no new warnings
-are added.
+As discussed in Ian's kobj_type::release series[1], this takes its first
+patch (to add __require_explicit_initialization), with Miguel's requested
+comment tweak (the attribute needs Clang 20 or later), along with a first
+user that needs no fix-ups first: seq_file's seq_operations callbacks,
+which are called without a NULL check. This will make the attribute
+available in v7.4-rc1, while the kobj_type fixes continue separately.
 
-Signed-off-by: Kees Cook <kees@kernel.org>
----
- include/linux/seq_file.h | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+The annotation adds no warnings anywhere in the tree today that I could
+find across allmodconfig builds:
 
-diff --git a/include/linux/seq_file.h b/include/linux/seq_file.h
-index dc0e8c62d9e0..f0e7e52a0905 100644
---- a/include/linux/seq_file.h
-+++ b/include/linux/seq_file.h
-@@ -28,11 +28,16 @@ struct seq_file {
- 	void *private;
- };
- 
-+/* All four are called without checking for NULL. */
- struct seq_operations {
--	void * (*start) (struct seq_file *m, loff_t *pos);
--	void (*stop) (struct seq_file *m, void *v);
--	void * (*next) (struct seq_file *m, void *v, loff_t *pos);
--	int (*show) (struct seq_file *m, void *v);
-+	void *(*start)(struct seq_file *m, loff_t *pos)
-+		__require_explicit_initialization;
-+	void (*stop)(struct seq_file *m, void *v)
-+		__require_explicit_initialization;
-+	void *(*next)(struct seq_file *m, void *v, loff_t *pos)
-+		__require_explicit_initialization;
-+	int (*show)(struct seq_file *m, void *v)
-+		__require_explicit_initialization;
- };
- 
- #define SEQ_SKIP 1
+  Clang 24.0.0git: x86_64, arm64, i386, arm, riscv, s390, loongarch, powerpc.
+  GCC 16.2.0: x86_64, arm64, i386, arm, riscv, s390, m68k, mips, parisc,
+	      sparc, loongarch, xtensa, arc, and openrisc.
+
+Thanks!
+
+-Kees
+
+[1] https://lore.kernel.org/all/20261013223946.1836757-1-irogers@google.com/
+
+Ian Rogers (1):
+  Compiler Attributes: Add __require_explicit_initialization macro
+
+Kees Cook (1):
+  seq_file: Require explicit initialization of struct seq_operations
+
+ scripts/checkpatch.pl                 |  1 +
+ Documentation/conf.py                 |  1 +
+ include/linux/compiler_attributes.h   | 12 ++++++++++++
+ include/linux/seq_file.h              | 13 +++++++++----
+ tools/lib/python/kdoc/xforms_lists.py |  1 +
+ 5 files changed, 24 insertions(+), 4 deletions(-)
+
 -- 
 2.55.0
 
