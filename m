@@ -1,65 +1,65 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6554E56C2
-	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 09:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A804EA393
+	for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 09:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791970674; cv=none; b=nrGzKG1Mg5cxrUXoGTcj12upTrYdCKiFAVCgqnahNCi01eBapVqRm9FyfGb4u9jLTaDEBP4VUKeJUM2vZiCdokDaKWtXUIsj5UE7Xa2GyJrCJRu9dGnYOiszXQ9qZQ8KX85K3vyKH8lOcnDBNbZ+Hc7WNcFZM00msJETG3GoyTc=
+	t=1791970675; cv=none; b=bJp0PSv60eU3VwwdUGq12jC3Frxz38inIhoM5xR9VEZkxQFZukFoVxvy59WjrFSuK9fhkxbaoWtvj8RauNRCcWLzji8eGR/6SA+/H321nTCnzkX9BEH4/Dq4GyW6E+vVolNSe+JeMLmTk3oPp3JMoD6wn+45SIyGvKPMot+geQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791970674; c=relaxed/simple;
-	bh=97Y5P82kkTYG0wInjB3HpyVWIKLSycXtjBmQDZjYXmU=;
+	s=arc-20240116; t=1791970675; c=relaxed/simple;
+	bh=am0hAA/nRejPE4sLTQ21BeEMerAqyBcR4Wmfr7+mp98=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NBq7Ce4jh7XUG4MURTW7ttJ9JRofik8bajzbfQa6/+6A+B4N6m4VKKv1v0HnUWQowrpHfmcEWfUQJcmiWa4uz47hjo6cU0JZJp0TLVW4jllEMqFn1bPwra4kxvktqLgy70q8vwf0CWtEnIPmkvC0+ZzrzRwouQBwMJ2S4XhyAkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ip92MAHL; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version; b=fseER5MT2Co2sKPGnw8WlY1q2yXcF3gJ/gp0GAFKGToX0NrMyjJu4Z4ktAqim9MtTpNeitBIaDfXQlXrZODogIbby36L2kufj9/InMQtY+t7enzbZt50wiQTMhRvtz++xG/2gc6vEjJW4hFLN8l9HAP+JouIwBEMNicCVoZ26uY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EwznDaKh; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ip92MAHL"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48c14a06c95so3042276f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 02:37:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EwznDaKh"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48b060ec084so2529346f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 02:37:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791970665; x=1792575465; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791970666; x=1792575466; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=o2vqgPBzudi7/wozeWO4xZg2nwY2bakbLYAqbfosODE=;
-        b=Ip92MAHLc2PNziOJrvfM/qDAgnps3y+irY0vQLtHNAER0cSfRtGbpXi+ao1YIg9f8N
-         Uvod9og5I/Pi5u5F/NhoXBkcuG1CyfP38E5/8ZFfhZZaRz1BmA6zi212nQ6rFKZY+Vxr
-         +5nTEOVggc/z/qcfZp/Mb23E+HJr82xwKf9jRKsKqx08Z4qoy+TOaXFIQaJGUew40535
-         IP8MUcQOfY3t80tLc5kWoNlmlgfFBI5GfYdcOkUZbw5vyTc0zs6Y+rLkRoKjtZDlCQDc
-         uX740hfuqojVs7O5+i/5ddRewvSRo1Am9lEma1JpUUgRnhCDcVBheSCy8+sCnYBzy2Ty
-         BqkQ==
+        bh=XH1DvjtQ4kSOTYVjVn8rMjarIlp6Ws3f/rSFMl2hKxs=;
+        b=EwznDaKhPpvGXxLe7BB+ZcRRK4E1o996vzalW+r/N6Jiq7nX8vwcixiCQQ4nGBIs72
+         Moe0ahffzZUAWejfBNx6Vf3kfXH8LMc2jZ3mteP6qysZSPJEhlFuZz8pvKVmz/ltu7AD
+         vPzaYRQcTZN56u6t7Dk7WrwI/uIrjUs5GeFezMG/jy1S0CV0NjilZ0yeLS74JCq/D9io
+         DcJCTnBUpnLm0KE6y5pifLxC9uiLCTG2Ixc3eu+A2WJbsRZPXiRUs3PpYDhPrwVz1p+e
+         7ikoeIEc9MIoY7jLe+IuCaCX3SGkCCww9gaIkPwCzmGo/v4amQ3NMAeUjP+gW+lOPr9P
+         wbgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791970665; x=1792575465;
+        d=1e100.net; s=20260707; t=1791970666; x=1792575466;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=o2vqgPBzudi7/wozeWO4xZg2nwY2bakbLYAqbfosODE=;
-        b=DjabDbrryny0y/5Tayq5CeLtieVz4FDCIrSistHYL4DglxN0zgGTy9oJY6QfioXmh5
-         LLMoLqhzUvI/zF8zqoCSDWcRqWsoGKO1jK4Ah3HHYX2yOMhYkEdZU5yl/CBvjS0hFtB3
-         jerNa/AX9+vwN8t2t6y2T32UimDqEsRFLqML8DV8DlxxPiu/JWI0LlkQfM6B4X8b2udy
-         ZtDPSPpVCflZ75Aihume+mYjDonbUcrn1ZQnJBKF7rAFFbMX2xaBZb/aDSE/Ey7kLYEv
-         voEuw81KXQol/xu5FdgDbTrMo/LrdjF4l8yXyiqn7GXqIGUalM6Xpmf6NeXL8ah5Afri
-         0sTQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxgwyeMe9EKHzE0rZBf+GYY7Zl2eDKuuVlID8ipQ8vvlwmovA6L1evPzFLtecCRwoNnUZs0gIKF5iABYTG/@vger.kernel.org
-X-Gm-Message-State: AFq9FYKKQNrXrYWXfkyvFbTg2dGLElOO+199SFM6AiRfKTTzDTLbNIkR
-	v/e0h6kaMeES2NAkDDA4pOnUOw4+1UEcyLasmJBZOysHtg1kJcLGziP7
-X-Gm-Gg: AYBFou23m4U15czKAowWy7zJkEZ6Bc+qZ1ImW4pppGe0+H5etuzUtZhF66cJPXACW0v
-	LJhPd5/jouA6P2aMisHsqXvATMmKR33nha/co+HSt/7fBFwVMgja+BpHWIkBJujcaiMgTEHJcGR
-	kL/bp1nlvjOB1FWWLeb7fwzgoACO+gOlnHK2HaGXCZIrOyGbgGiiwgS/g30cfo9JUCPm9CKo3C5
-	6g+2eKlIyJhz5/cjQ8tct7tBuEBuGPAKCAgc6eyHo0Xph3cmS98aljucZJCIKDr0boOnO18GOL7
-	3AatSSigPlfQi07jgUSO7lsmJnLJI02XGDrZ32HdPRyPhp/PLkcXmj1uRCAcvvxqrQUpr72b8if
-	9jnEQF8SDEug4ncsiyQNfwpM1YDhBCQD5VQRoYJ8n73DshGRWwppJ5ZYLzRwLC+6UWt9amVXDWD
-	UaZb+ZimbR5s+pIh8grLf1ltBNrhN2pg5j2bu+8AfpVh/Ak5bZ0pm8nRVqtle6mMCTbM8gbWFFT
-	Yn/4ZxKkgPcICOE0OWi4KGSR9VkG0lQfRlurnlJzizIRVHEiyCN9Ct8D4CZXXYpviCwMjEEyj9J
-	TKaoYV7t51v81CO9WvOOettoec9rtgo76Kg=
-X-Received: by 2002:a5d:588c:0:b0:48b:5083:96ae with SMTP id ffacd0b85a97d-48ddff64e46mr11244091f8f.15.1791970664941;
-        Wed, 14 Oct 2026 02:37:44 -0700 (PDT)
+        bh=XH1DvjtQ4kSOTYVjVn8rMjarIlp6Ws3f/rSFMl2hKxs=;
+        b=1YSkK88l0ey5D6tBJDadJbEZ6h3oWjOuaYMF2PzUl9j4+53NZOvlVNj8R27YMS0oFR
+         giPiHE/Zyh5JnUyghXiqeQyLrXAUO6QHoZO5nzD5TAO/GvRg81Pe9YwcIW3NZIKsCdzv
+         aAL5O06kMypLE/wDA1ZxUGBJc+zBFJGW96M3CukqUZuYoAQSU62gRe8/eLCYGF+tp6PS
+         iNDNHwx3G2HEeQC3yYfCslk8Qv7TLBvkJeujcy3yPdSCyMk534FUFkupOTL00PMlYYtR
+         Opd3xy3TGFqBdhz5w16/AmRzJm8XJwyJsAGT4PmkVZE7geHeBNWG8jc3S2ZnQzSsUv2U
+         AFug==
+X-Forwarded-Encrypted: i=1; AKwUvBzdr5cT+VVxHG65Uo1UqUBdTUUI1AYafVwwcIJywtgZi2uSYmlx8ll9bZCAfbCQX3Nr3m+SuJMtPZtVjTJM@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ4H3w2eBtXBM2HlQV7djihBW/xSbojBW00qIGfKW8coZ02WcIL
+	/U+gCtdWks7zi4Dg3Tp38FLYrAzSQIE4pgyNE7iJh+pJMX2HQWoFQ6pZ
+X-Gm-Gg: AYBFou03jvW24GGeMBblD6z3/6FuoTx3zOUPEyXyVjE+AnAfGKuCYg7JMoufGGwfjf8
+	km++nZ4BEKYhRzWc3IGivQNUeg9rT/6GMeaasiAbKqyXryM5TSrQJD9BT60B29/oY2yt+6eHL11
+	5Iq9itulr1ajgoN82SP/o+IHW5sMLPaPVHac02UxLug6pr0O6uZRHUnFnD1b9LX4R/OyBaLtVkt
+	gb74R+9+++PG2mfC3ZhPi+KVwRF06NpXPBJNdmYyCJE2KXUv125bR0U8V1KavPmlBuBA0g4UDe+
+	2cpQS+yBVsrdOlf/KL942npS63u0bJ1IxalHRm2UjLRN6/7GrXfqL6dPBOM7gki+SQkTmrR9okc
+	UsUZemL/SnL9ecjGnMtEiQzVzLWkWHyA0ygvN5M96/k0d2gFxlul25+fqo+u/mzCC3EEaPevImW
+	dmRpyYwjn4uuB3zT3ZPgdkMLypUBmeFw31NphG00e/lL51n++yvUCkQXNhxIwgcIey39x1QmzrI
+	BZhHsbClfkfDBNcfxUseM857yugXnT8hb5+oL9PtMtO9mzsABdX7Si82Vf9rHV6iZl1boirK+iK
+	XVnxNL66pTSlHwubM+otj2icC8nIR3MlamdF
+X-Received: by 2002:adf:e001:0:20b0:48b:efb:4a66 with SMTP id ffacd0b85a97d-48dba7b405bmr21828342f8f.6.1791970666161;
+        Wed, 14 Oct 2026 02:37:46 -0700 (PDT)
 Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de3f7f8b8sm9365477f8f.35.2026.10.14.02.37.43
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de3f7f8b8sm9365477f8f.35.2026.10.14.02.37.45
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Oct 2026 02:37:44 -0700 (PDT)
+        Wed, 14 Oct 2026 02:37:45 -0700 (PDT)
 From: Fred Griffoul <griffoul@gmail.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	Sean Christopherson <seanjc@google.com>,
@@ -107,9 +107,9 @@ Cc: David Woodhouse <dwmw2@infradead.org>,
 	linux-mm@kvack.org,
 	linux-kselftest@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [RFC PATCH v2 07/11] iommufd: Use large IOMMU pages for provider mappings
-Date: Wed, 14 Oct 2026 09:37:29 +0000
-Message-ID: <20261014093733.90312-8-griffoul@gmail.com>
+Subject: [RFC PATCH v2 08/11] iommufd/selftest: Add mock-domain IOVA queries
+Date: Wed, 14 Oct 2026 09:37:30 +0000
+Message-ID: <20261014093733.90312-9-griffoul@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261014093733.90312-1-griffoul@gmail.com>
 References: <20261014093733.90312-1-griffoul@gmail.com>
@@ -123,253 +123,186 @@ Content-Transfer-Encoding: 8bit
 
 From: Fred Griffoul <fgriffo@amazon.co.uk>
 
-Provider pages are mapped with one PAGE_SIZE entry each. A device that
-uses a large provider block then misses in the IOTLB on every page, and
-the IOMMU needs more page table memory than the block requires. A
-revoke also flushes the IOTLB once per run of pages it unmaps.
+A test of memory that can be taken back or replaced does not know in
+advance which frame a device reaches. IOMMU_TEST_OP_MD_CHECK_MAP only
+compares against a known buffer.
 
-Map each block that the provider reports with large IOMMU pages where
-the IOVA and the frames are aligned alike, and with smaller ones where
-they are not. Only the pages of the block are mapped, as before.
+Add MD_CHECK_MAPPED, which checks that a range is fully mapped or fully
+unmapped, and MD_IOVA_TO_PHYS, which returns the frame behind an IOVA,
+or 0 if it is unmapped. Both refuse an IOVA outside the domain's
+aperture.
 
-A large IOMMU page can only be unmapped whole, so a revoke that cuts
-one widens its range to the whole page. It maps back what the provider
-backs now, and a device may also fault on the rest of that page while
-it is remapped. The widening finds the page with iova_to_phys():
-pages that only look like one large page make the revoke remap more
-than it must, which is harmless.
-
-iommu_unmap() may not split the range of one map call either, and
-virtio-iommu refuses to. Map each IOMMU page with its own call: the
-widened range ends on IOMMU page boundaries, so it also ends on map
-call boundaries.
-
-A revoke now batches its unmaps with iommu_unmap_fast() and flushes the
-IOTLB once.
+Both hold domains_rwsem for writing so that a userspace unmap cannot
+free a page-table level during the walk.
 
 Assisted-by: Claude:claude-opus-5-5
 Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
 ---
- drivers/iommu/iommufd/pages.c | 114 +++++++++++++++++++++++++++++-----
- include/uapi/linux/iommufd.h  |  11 +++-
- 2 files changed, 105 insertions(+), 20 deletions(-)
+ drivers/iommu/iommufd/iommufd_test.h |  16 ++++
+ drivers/iommu/iommufd/selftest.c     | 109 +++++++++++++++++++++++++++
+ 2 files changed, 125 insertions(+)
 
-diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
-index aa7740326ad6..4b284dae26fe 100644
---- a/drivers/iommu/iommufd/pages.c
-+++ b/drivers/iommu/iommufd/pages.c
-@@ -241,11 +241,17 @@ static void iommu_unmap_nofail(struct iommu_domain *domain, unsigned long iova,
- }
+diff --git a/drivers/iommu/iommufd/iommufd_test.h b/drivers/iommu/iommufd/iommufd_test.h
+index 52b78cbcc920..28fd9c43edc4 100644
+--- a/drivers/iommu/iommufd/iommufd_test.h
++++ b/drivers/iommu/iommufd/iommufd_test.h
+@@ -31,6 +31,8 @@ enum {
+ 	IOMMU_TEST_OP_PASID_CHECK_HWPT,
+ 	IOMMU_TEST_OP_DMABUF_GET,
+ 	IOMMU_TEST_OP_DMABUF_REVOKE,
++	IOMMU_TEST_OP_MD_CHECK_MAPPED,
++	IOMMU_TEST_OP_MD_IOVA_TO_PHYS,
+ };
  
- /*
-- * Provider pages are mapped with PAGE_SIZE entries, and may have holes.  Some
-- * IOMMU drivers warn when asked to unmap an IOVA that is not mapped, so find
-- * the runs that are mapped and unmap each one, without touching the holes.
-- * iopt_provider_map() refuses frame 0, which iova_to_phys() reports for
-- * an IOVA that is not mapped.
-+ * Provider pages may have holes.  Some IOMMU drivers warn when asked to unmap
-+ * an IOVA that is not mapped, so find the runs that are mapped and unmap each
-+ * one, without touching the holes, and flush the IOTLB once at the end.
-+ * iopt_provider_map() refuses frame 0, which iova_to_phys() reports for an
-+ * IOVA that is not mapped.
-+ *
-+ * A run may hold large entries, which can only be unmapped whole: neither end
-+ * of the range may fall inside one.  iopt_provider_map() maps each entry with
-+ * its own call, so an end that is not inside an entry does not split a map
-+ * call either, which iommu_unmap() does not allow.  The ends of the area are
-+ * safe, and iopt_provider_revoke() widens its range to the entries it cuts.
-  */
- static void iopt_provider_unmap(struct iopt_area *area,
- 				struct iommu_domain *domain,
-@@ -254,19 +260,23 @@ static void iopt_provider_unmap(struct iopt_area *area,
- {
- 	unsigned long iova = iopt_area_index_to_iova(area, start_index);
- 	size_t left = (last_index - start_index + 1) * PAGE_SIZE;
-+	struct iommu_iotlb_gather gather;
- 
-+	iommu_iotlb_gather_init(&gather);
- 	while (left) {
- 		size_t len = 0;
- 
- 		while (len < left && iommu_iova_to_phys(domain, iova + len))
- 			len += PAGE_SIZE;
- 		if (len)
--			iommu_unmap_nofail(domain, iova, len);
-+			WARN_ON(iommu_unmap_fast(domain, iova, len, &gather) !=
-+				len);
- 		/* Step over the run and the hole page that ended it. */
- 		len = min(len + PAGE_SIZE, left);
- 		iova += len;
- 		left -= len;
- 	}
-+	iommu_iotlb_sync(domain, &gather);
- }
- 
- static void iopt_area_unmap_domain_range(struct iopt_area *area,
-@@ -1700,11 +1710,30 @@ static int iopt_provider_prot(struct iopt_area *area, u32 attrs)
- 	return prot;
- }
- 
-+/*
-+ * The size of the entry that maps @len bytes at @iova to @paddr, the largest
-+ * that iopt_provider_entry() looks for and that fits.  Mapping each entry with
-+ * its own call keeps the revoke from splitting a map call.
-+ */
-+static size_t iopt_provider_entry_size(struct iommu_domain *domain,
-+				       unsigned long iova, phys_addr_t paddr,
-+				       size_t len)
-+{
-+	unsigned long sizes = domain->pgsize_bitmap &
-+			      GENMASK(PUD_SHIFT, PAGE_SHIFT + 1);
-+	u64 align = iova | paddr;
-+
-+	sizes &= GENMASK(__fls(len), 0);
-+	if (align)
-+		sizes &= GENMASK_ULL(__ffs64(align), 0);
-+	return sizes ? BIT(__fls(sizes)) : PAGE_SIZE;
-+}
-+
- /*
-  * Map what the provider backs in [start_index, last_index] of the area into
-- * @domain, and leave the holes unmapped.  Each frame is mapped with a
-- * PAGE_SIZE entry, so that a revoke of part of a large block never has to
-- * split a larger IOMMU page.  On failure nothing in the range is mapped.
-+ * @domain, and leave the holes unmapped.  Each block that the provider reports
-+ * is mapped with the largest entries that the IOVA and the frames allow, one
-+ * call per entry.  On failure nothing in the range is mapped.
-  */
- static int iopt_provider_map(struct iopt_area *area, struct iopt_pages *pages,
- 			     struct iommu_domain *domain,
-@@ -1729,7 +1758,8 @@ static int iopt_provider_map(struct iopt_area *area, struct iopt_pages *pages,
- 		return -EOPNOTSUPP;
- 
- 	while (index <= last_index) {
--		unsigned long pfn, iova, block_end, nr, i;
-+		unsigned long pfn, iova, block_end, nr;
-+		size_t len, done, size;
- 		int order = PUD_ORDER;
- 		u32 attrs;
- 		int prot;
-@@ -1752,20 +1782,25 @@ static int iopt_provider_map(struct iopt_area *area, struct iopt_pages *pages,
- 		iova = iopt_area_index_to_iova(area, index);
- 		prot = iopt_provider_prot(area, attrs);
- 
--		for (i = 0; i < nr; i++) {
--			rc = iommu_map_nosync(domain, iova + i * PAGE_SIZE,
--					      PFN_PHYS(pfn + i), PAGE_SIZE, prot,
-+		len = nr * PAGE_SIZE;
-+		for (done = 0; done < len; done += size) {
-+			size = iopt_provider_entry_size(domain, iova + done,
-+							PFN_PHYS(pfn) + done,
-+							len - done);
-+			/* On failure, iommu_map_nosync() unmaps what it mapped. */
-+			rc = iommu_map_nosync(domain, iova + done,
-+					      PFN_PHYS(pfn) + done, size, prot,
- 					      GFP_KERNEL_ACCOUNT);
- 			if (rc)
- 				break;
- 		}
--		if (i) {
--			int sync_rc = iommu_sync_map(domain, iova, i * PAGE_SIZE);
-+		index += done >> PAGE_SHIFT;
-+		if (done) {
-+			int sync_rc = iommu_sync_map(domain, iova, done);
- 
- 			if (!rc)
- 				rc = sync_rc;
- 		}
--		index += i;
- 		if (rc)
- 			goto err_unmap;
- 	}
-@@ -1804,9 +1839,51 @@ static int iopt_provider_fill_domains(struct iopt_area *area,
+ enum {
+@@ -193,6 +195,20 @@ struct iommu_test_cmd {
+ 			__s32 dmabuf_fd;
+ 			__u32 revoked;
+ 		} dmabuf_revoke;
++		struct {
++			/*
++			 * 1: every page in [iova, iova+length) must be mapped;
++			 * 0: none of them may be. Mixed is an error.
++			 */
++			__u32 mapped;
++			__u32 __reserved;
++			__aligned_u64 iova;
++			__aligned_u64 length;
++		} check_mapped;
++		struct {
++			__aligned_u64 iova;
++			__aligned_u64 out_phys;	/* 0 if unmapped */
++		} iova_to_phys;
+ 	};
+ 	__u32 last;
+ };
+diff --git a/drivers/iommu/iommufd/selftest.c b/drivers/iommu/iommufd/selftest.c
+index af07c642a526..1f5cd2d00fda 100644
+--- a/drivers/iommu/iommufd/selftest.c
++++ b/drivers/iommu/iommufd/selftest.c
+@@ -2031,6 +2031,107 @@ static int iommufd_test_dmabuf_get(struct iommufd_ucmd *ucmd,
  	return rc;
  }
  
 +/*
-+ * Find the large entry that may hold page @index, which iopt_provider_unmap()
-+ * can only remove whole, and return its first and last index.  An entry of a
-+ * given size is aligned to it, lies inside the area, and maps its pages
-+ * linearly, so look for the largest such block around @index.  Mapped pages
-+ * that only look like one entry make the revoke remap more than it must, which
-+ * is harmless.
++ * True if [iova, iova + length) lies inside the domain's aperture.  Outside
++ * it the page table returns an error code from iova_to_phys(), not 0.
 + */
-+static void iopt_provider_entry(struct iopt_area *area,
-+				struct iommu_domain *domain,
-+				unsigned long index, unsigned long *first,
-+				unsigned long *last)
++static bool mock_domain_covers(struct mock_iommu_domain *mock,
++			       unsigned long iova, size_t length)
 +{
-+	unsigned long iova = iopt_area_index_to_iova(area, index);
-+	/* iopt_provider_map() maps at most a PUD-sized block at once. */
-+	unsigned long sizes = domain->pgsize_bitmap &
-+			      GENMASK(PUD_SHIFT, PAGE_SHIFT + 1);
-+	phys_addr_t phys = iommu_iova_to_phys(domain, iova);
++	struct iommu_domain_geometry *geo = &mock->domain.geometry;
++	unsigned long last;
 +
-+	*first = *last = index;
-+	if (!phys)
-+		return;
-+
-+	while (sizes) {
-+		unsigned long size = BIT(__fls(sizes));
-+		unsigned long start = ALIGN_DOWN(iova, size);
-+		unsigned long end = start + size - PAGE_SIZE;
-+
-+		sizes &= ~size;
-+		if (start < iopt_area_iova(area) ||
-+		    end + PAGE_SIZE - 1 > iopt_area_last_iova(area))
-+			continue;
-+		if (iommu_iova_to_phys(domain, start) != phys - (iova - start) ||
-+		    iommu_iova_to_phys(domain, end) != phys + (end - iova))
-+			continue;
-+		*first = iopt_area_iova_to_index(area, start);
-+		*last = iopt_area_iova_to_index(area, end);
-+		return;
-+	}
++	if (check_add_overflow(iova, length - 1, &last))
++		return false;
++	return iova >= geo->aperture_start && last <= geo->aperture_end;
 +}
 +
- /*
-  * The provider changed the frames behind [offset, offset + len).  In every
-- * domain, unmap the range and map what the provider backs now.  A device that
-+ * domain, unmap the range and map what the provider backs now.  A large entry
-+ * that the range cuts is unmapped and mapped again whole.  A device that
-  * accesses the range in between faults.
-  */
- static void iopt_provider_revoke(struct mem_provider_attachment *att,
-@@ -1836,9 +1913,12 @@ static void iopt_provider_revoke(struct mem_provider_attachment *att,
- 		struct iopt_area *area = track->area;
- 		unsigned long s = max(first, iopt_area_index(area));
- 		unsigned long l = min(last, iopt_area_last_index(area));
-+		unsigned long unused;
- 
- 		if (s > l)
- 			continue;
-+		iopt_provider_entry(area, track->domain, s, &s, &unused);
-+		iopt_provider_entry(area, track->domain, l, &unused, &l);
- 		iopt_provider_unmap(area, track->domain, s, l);
- 		rc = iopt_provider_map(area, pages, track->domain, s, l);
- 		if (rc)
-diff --git a/include/uapi/linux/iommufd.h b/include/uapi/linux/iommufd.h
-index b4500fc21368..04ca2a244267 100644
---- a/include/uapi/linux/iommufd.h
-+++ b/include/uapi/linux/iommufd.h
-@@ -241,9 +241,14 @@ struct iommu_ioas_map {
-  * behind any range at any time, and the mapping follows: pages that the
-  * provider does not back are left unmapped, read-only pages are mapped
-  * without write permission, and device memory is mapped as MMIO. A device
-- * access to a page that is being changed, or that is not backed, faults. Such
-- * a mapping cannot be split by a partial unmap, and in-kernel accesses to it
-- * are refused. It is not supported in an IOAS with a dirty tracking domain.
-+ * access to a page that is being changed, or that is not backed, faults.
-+ * Large IOMMU pages are used where @iova and the provider's memory are aligned
-+ * alike; a change to part of a large page remaps all of it, so a device may
-+ * also fault on the rest of it while that happens. If the remap after a change
-+ * fails, the range stays unmapped; userspace recovers by unmapping the file
-+ * and mapping it again. Such a mapping cannot be split by a partial unmap, and
-+ * in-kernel accesses to it are refused. It is not supported in an IOAS with a
-+ * dirty tracking domain.
-  */
- struct iommu_ioas_map_file {
- 	__u32 size;
++/*
++ * iova_to_phys() walks the page table, so it must not run while an unmap
++ * frees a level of it.  A userspace unmap holds the IOAS domains_rwsem for
++ * reading while it unmaps the domains, so holding it for writing keeps such
++ * unmaps away.  A memory provider or dma-buf revoke unmaps under its pages
++ * mutex only, so tests must not run these queries while a revoke of the
++ * range is in progress.
++ */
++static struct rw_semaphore *
++mock_domain_unmap_lock(struct iommufd_hw_pagetable *hwpt)
++{
++	return &to_hwpt_paging(hwpt)->ioas->iopt.domains_rwsem;
++}
++
++/*
++ * Report the physical address the mock domain resolves @iova to, or 0 if
++ * it is unmapped.  Lets a test check that two IOVAs share one frame, or that
++ * an IOVA moved to another frame, without knowing the frames in advance.
++ */
++static int iommufd_test_md_iova_to_phys(struct iommufd_ucmd *ucmd,
++					unsigned int mockpt_id,
++					unsigned long iova)
++{
++	struct iommu_test_cmd *cmd = ucmd->cmd;
++	struct iommufd_hw_pagetable *hwpt;
++	struct mock_iommu_domain *mock;
++	unsigned int page_size;
++	int rc;
++
++	hwpt = get_md_pagetable(ucmd, mockpt_id, &mock);
++	if (IS_ERR(hwpt))
++		return PTR_ERR(hwpt);
++
++	page_size = 1 << __ffs(mock->domain.pgsize_bitmap);
++	if (iova % page_size || !mock_domain_covers(mock, iova, page_size)) {
++		rc = -EINVAL;
++		goto out_put;
++	}
++	down_write(mock_domain_unmap_lock(hwpt));
++	cmd->iova_to_phys.out_phys =
++		mock->domain.ops->iova_to_phys(&mock->domain, iova);
++	up_write(mock_domain_unmap_lock(hwpt));
++	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
++out_put:
++	iommufd_put_object(ucmd->ictx, &hwpt->obj);
++	return rc;
++}
++
++static int iommufd_test_md_check_mapped(struct iommufd_ucmd *ucmd,
++					unsigned int mockpt_id,
++					unsigned long iova, size_t length,
++					bool mapped)
++{
++	struct iommufd_hw_pagetable *hwpt;
++	struct mock_iommu_domain *mock;
++	unsigned int page_size;
++	int rc = 0;
++
++	hwpt = get_md_pagetable(ucmd, mockpt_id, &mock);
++	if (IS_ERR(hwpt))
++		return PTR_ERR(hwpt);
++
++	page_size = 1 << __ffs(mock->domain.pgsize_bitmap);
++	if (iova % page_size || length % page_size || !length ||
++	    !mock_domain_covers(mock, iova, length)) {
++		rc = -EINVAL;
++		goto out_put;
++	}
++
++	down_write(mock_domain_unmap_lock(hwpt));
++	for (; length; length -= page_size, iova += page_size) {
++		bool is_mapped =
++			mock->domain.ops->iova_to_phys(&mock->domain, iova) != 0;
++
++		if (is_mapped != mapped) {
++			rc = -ENOENT;
++			break;
++		}
++	}
++	up_write(mock_domain_unmap_lock(hwpt));
++
++out_put:
++	iommufd_put_object(ucmd->ictx, &hwpt->obj);
++	return rc;
++}
++
+ static int iommufd_test_dmabuf_revoke(struct iommufd_ucmd *ucmd, int fd,
+ 				      bool revoked)
+ {
+@@ -2143,6 +2244,14 @@ int iommufd_test(struct iommufd_ucmd *ucmd)
+ 		return iommufd_test_dmabuf_revoke(ucmd,
+ 						  cmd->dmabuf_revoke.dmabuf_fd,
+ 						  cmd->dmabuf_revoke.revoked);
++	case IOMMU_TEST_OP_MD_CHECK_MAPPED:
++		return iommufd_test_md_check_mapped(ucmd, cmd->id,
++						    cmd->check_mapped.iova,
++						    cmd->check_mapped.length,
++						    cmd->check_mapped.mapped);
++	case IOMMU_TEST_OP_MD_IOVA_TO_PHYS:
++		return iommufd_test_md_iova_to_phys(ucmd, cmd->id,
++						    cmd->iova_to_phys.iova);
+ 	default:
+ 		return -EOPNOTSUPP;
+ 	}
 -- 
 2.47.3
 
