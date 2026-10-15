@@ -1,42 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-b6-smtp.messagingengine.com (flow-b6-smtp.messagingengine.com [202.12.124.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922F42E7366;
-	Thu, 15 Oct 2026 04:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FD83C7685
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 05:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792039700; cv=none; b=sKJPocf7PB1zi3gaNJ7j8c5WpCcjtV76JNxZMWULWq60eJFKChRVmwp5tJvZd7Lvq+qdofoF9WfZHMqH5TtkWk1p3KNBfhSv//4YRGleaktQyQfRn/HrvNMEhHhvDChR/FJ6OAlEqbXyxC1BaSZ0+mwx+2ht0IqS8dJYIT4ZFCA=
+	t=1792041697; cv=none; b=EMR50rzpAZTca3c5lqhcC0ea/HYH8eeCB4dxP8qWuVRO1XhXmkM3Uh4vu2Kj0vzKOidMqnNvhfBlHXKXjdLvYM7oepM9KamAFBa8gB+DVeWNMtFfjFrt2Zag5CDxXOC+nGhLgAPfbiGojso1YZjy7MFFuvdQ4defzZnVhXmo6Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792039700; c=relaxed/simple;
-	bh=BL4VcGoROA7PDnT3vZ6aEr0VhdZPR/ihxMmEQPDm70M=;
+	s=arc-20240116; t=1792041697; c=relaxed/simple;
+	bh=fT+Id2LA74s+kmxJ2r3rEYU7QJ7EFtpYf9vc/1kTxZ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gjj+UR9tu446uMpSmo54U/qXTX+7s1g0izU219dhYeiPff5iW8v88IsoFZV8LGFKyRowTfLbGbNdyiHuGV1Cuuc7SMjvo3raoflnJ+HW0l2omCMFyd6KA6OVKYYiRM2llE92uJwRxF66AAn+GF/jjytnVsrWc6+qIIkUNhESaYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UGDqoKhF; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Toii/Z4E/u89zCKroUYMAaasn3JZ5/zj+sjR4C30A+1eBXM0RHyzBjrY8W2CmC+F3Y092DCjZNrKJwCst/p9T07qwYszmSUTAw/zk3BEhN7V9ZUXhX5BXXmffqyTIVkusLNhTiWsTlxDvhQzseXSj52fa5Tu2twMnd4nhjI57oU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=AdLcoK9d; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=sMlwvS3T; arc=none smtp.client-ip=202.12.124.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UGDqoKhF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 245AA1F000C5;
-	Thu, 15 Oct 2026 04:48:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792039698;
-	bh=6HMD5RchpGYsY0pRtaAyq/WdqXxarGhJNj4S4UKCbr4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UGDqoKhFmdLWTU9OhCOSgo50nsXn0YVZhp/FbpZFeGwBctn7pug8HGkZTqeWCHxKm
-	 xa1D3TEmpneVhIx2+Tero6MKORL1GupO/dubvGXy1VoKjMwzvK2MvSD2b2QdTPCoJo
-	 HMlkkrZpOYmWT7HaUxU40aj2i2v5oNxrJMIoLOIBX1nEryVdK6Prp0OqWTT8+zstpv
-	 Oy5z+HqMzwBby7BZ/BQAKoG5/ufi3sd0q2ELjLDilfW/yu7twZrn0CojcTU+1260Yw
-	 SukxQDVaUQbjhVWRDBClFV/eYpYEJoP9aBsyZEIVVDVbENaEcTvTp0yiJRGwsy0/pi
-	 +DECelzbkKd4A==
-Date: Wed, 14 Oct 2026 21:48:17 -0700
-From: Kees Cook <kees@kernel.org>
-To: Konstantin Khorenko <khorenko@virtuozzo.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="AdLcoK9d";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="sMlwvS3T"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailflow.stl.internal (Postfix) with ESMTP id 0EE1C1300CD0
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 01:21:35 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Thu, 15 Oct 2026 01:21:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1792041691; x=1792048891; bh=YZbXf8XMHi
+	MYDDe4CyAaIrQ1ZOnpEZtXM5Qp9HfiN1Y=; b=AdLcoK9dMpoRAJNea6yrKCITSv
+	O2qWtAhjjSLfwZggoB6ei4EBSZGSCI4iYEiS2AHlz7IWpsyURPvJxT8zr3nL/NMe
+	NlnGZVeSw1Zjg72Sjc9rDb44U8pWdqRUXH9GP501Y52wpjx0I3Q58+p0BCpQbaTM
+	wk0abjowaYYUwHWiC9fNdwUmLkn/5UqYvM599+HkrO+9gtKu7JNo06H+PcbwemxV
+	Ymg1Pyzov++NKDoujH4MPnC/mNqMyM7qiaJWWBN1eMo5GJ0OVIbIxiWPHZ/g66s2
+	xvLamBZC3/GRLU+ZZD7ejCOMk/TQFGf5XjuwdDYOAPgS0tM7mx5XlH9523NA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1792041691; x=1792048891; bh=YZbXf8XMHiMYDDe4CyAaIrQ1ZOnpEZtXM5Q
+	p9HfiN1Y=; b=sMlwvS3T1qO/lPAf1RchbwPOK9KdNVgQ4aKrkIgKErmyrFZLKhI
+	r77yCruC7m2QdzQaEvWMbI+hcDg2C1qIvw9wZwQWvgPGe8Thivhi7gyyhjbsqt1y
+	G7JuE5ZT1xULOQLxGGJy9mWvSJcRerMj2rY1BnRczYTS81THSVfssHyIxHywn+VJ
+	+SpjYfzk6kb5uQTYrH9do0KQhjhCek0OtcYU8sPKjHn2jQDF1JO3+h9E9dCn0Lj/
+	JZaW6xFzQJ7DSWYiBYaMd1oR0M47TuTvjxvzWTroliXqWgsdxqCm2g4sMCrUgRrW
+	0o10v7r557nDTTRfb6rdw1VxbGaCRMBmp/w==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
+	action=sign d=kroah.com a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1792041691; d=kroah.com;
+	mf=PGdyZWdAa3JvYWguY29tPg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm2:rsa-sha256:RPWG67PY6ag+TJU4wMG2DxUk9RoimNEraYavP/HtCZSw2Ti
+	Ww7ks6mNWSUuk+trbGeHYyac/USnTt7LcHqDGRB2GSd3A/Ig7F6vPgMYMLgQKBsY
+	a4j+fVRN7VNVSodpic6De1r4jLq2ZRxAgU7YB17PQYvzx/p1/lwpT+lw73UMzrHv
+	chAyo6n4nA7cmZN2wYuEGmmlUZ7zx0sArYDGpy1N56rPQHHmGAqIaOprbTYHLAZW
+	fG6hmlm/Gg8Mk1wt58rTTFXgn3FfjOPFv3dlAGHBdY9QiCXbLP6Vh9AsV/0+t6Kj
+	LrIC6qnTMhVqifOEKeWBDaPytzoDJLraUoEr0TQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-disposition,content-type,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:hf9AztGCgIRnregB6E6yn/9k05lnr1mC3auL3T/Ps8g=:fT+Id2LA74s+kmxJ2r3rEYU7QJ7EFtpYf9vc/1kTxZ4=;
+X-ME-Sender: <xms:22LQaoctltF2g0XaJmXad11XIXqcrOVXElcGG3OxJQ14AnIjDAXa8A>
+    <xme:22LQarb_b3EyeprQ9rkTc_GwYRM8WB2tJKXAJLEnFINvvcnNpqHFTlvC6ReXy7t-L
+    a52OHEzZi7i0eqkAvBVxncF7kFMROHjLOPJt0tl9TO2X_UPYxc>
+X-ME-Received: <xmr:22LQap9O8GD3F5pCi_3NSxY6E62q-5uUe4McD4YCYFOMn3mRAnt5LFhs5GfgnrWSLj9W5ovfyj1fSkVLtZv6nDA8ohjs62TNWRNoumQAT8w>
+X-ME-Proxy-Cause: dmFkZTEijNWx0cSRy+etHUy1Usc70/NSIPvkJ5iC/hOONowf61UWNZoFG2yenVsGW3xUdm
+    OuOrBTQH9C1zt8QTb3VyZLYiXR8cIZ5kUyG5tijMhlA8jkk4gq5L4NjkzEdquFndv48208
+    ltG2exExMojOk2ZqCqjwN7ICcgjxGcen1H123fzvNF1WToix1u8u4TGVs+/bVbJKUAUKro
+    jVd9MhBj8QjgEd2TEUfwzegeuZHv4KugbkGtnhjkRPZtbGrQUgmiRxmHQrW5z1N6N5deHK
+    bSt21eVraH67bjTMAuWSCriT+VkletTYOl5cj1stZcI++yDd9EcLFsBDplzCkoq6Acm1R9
+    YSccsQq0p06t13unhafYhu2LvHS7xZViO29WAMoTQl4pwdwuekbxDmQDzyS8u7Hq3kwMy4
+    RxdXV6sURH0Mvk8FyOUG3EvdPmoZBb7XTud51WAo1bF2RNu1Cirly3t7FPriS7y8GKD+kf
+    Vex4zvo691tj02ZAT0qxKw+o9o4/qhVlSW9a+/K+Z0jaxkYwqwIzlUZsbs992Unt3SFWRq
+    X/ueS4JTYy15MrSOPb+2q4me3QuaRwYPJm6Tz2WR/J4u94O0nKqc7bxWvZNzqHHCBc3f9e
+    HOHEDLmGrqWBS6N73obzaSsTKeEr4Z8uFcCZMMhzNejiBO9oxyn+wesS7peA
+X-ME-Proxy: <xmx:22LQanXX0wXFRKFwqKEZ46QBqrpYELJE6O1VuzrE1ay85L1tY2ZUdQ>
+    <xmx:22LQaqdCBxFwOnkcBdBiRtFdEXr8lv5CsWgXD4YuQP0HTjX6v34l9w>
+    <xmx:22LQakVL9Xfu6e7z9cCnx1-xps3JoZnXFgNqF6FRkj7b0VhCEQqThg>
+    <xmx:22LQapVog6mxBmXINzHvRfb6IONAnAxsMncbGpvkUdzAFLvezTt4_A>
+    <xmx:22LQakLQlcWi2uU3GotSxqN0eug_7XzPWHq0GzpQmnNwQTI4ZME3YDqe>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 15 Oct 2026 01:21:30 -0400 (EDT)
+Date: Thu, 15 Oct 2026 07:21:28 +0200
+From: Greg KH <greg@kroah.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Paul Burton <paulburton@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] binfmt_elf: return the real error when program headers
- cannot be loaded
-Message-ID: <202610142140.D483AE26DF@keescook>
-References: <20261014-b4-prep-vstor-149847-binfmt_elf-enomem-load-elf-phdrs-v1-1-f39c74d55e42@virtuozzo.com>
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-fsdevel@vger.kernel.org, llvm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 2/2] seq_file: Require explicit initialization of struct
+ seq_operations
+Message-ID: <2026101517-profane-opponent-4523@gregkh>
+References: <20261014225811.i.852-kees@kernel.org>
+ <20261014225818.3457479-2-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,106 +109,60 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261014-b4-prep-vstor-149847-binfmt_elf-enomem-load-elf-phdrs-v1-1-f39c74d55e42@virtuozzo.com>
+In-Reply-To: <20261014225818.3457479-2-kees@kernel.org>
 
-On Wed, Oct 14, 2026 at 02:30:33PM +0200, Konstantin Khorenko wrote:
-> Problem
-> =======
+On Wed, Oct 14, 2026 at 03:58:16PM -0700, Kees Cook wrote:
+> In the very unlikely chance that a seq_operations didn't get initialized,
+> we wouldn't want them calling some random location. As a first example
+> user of __require_explicit_initialization, annotate them so a missing
+> initializer is a compile-time warning.
 > 
-> load_elf_phdrs() returns NULL on any failure, and load_elf_binary()
-> turns that into a fixed error: -ENOEXEC for the executable, -ELIBBAD
-> for its interpreter. The real cause is lost:
+> Every seq_operations in the tree already sets all four, so no new warnings
+> are added.
 > 
->   cause                                  really      execve() returns
->   -------------------------------------  ----------  ----------------
->   bad e_phentsize, e_phnum 0 or too big  bad file    ENOEXEC (right)
->   file ends before the header table      bad file    ENOEXEC (right)
->   kmalloc() of the table fails           ENOMEM      ENOEXEC (wrong)
->   kernel_read() fails                    EIO/ENOMEM  ENOEXEC (wrong)
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+>  include/linux/seq_file.h | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
 > 
-> For the interpreter every row gives ELIBBAD.
-> 
-> Consequences
-> ============
-> 
-> ENOEXEC says the file is not an executable, which is a property of the
-> file, not a transient failure:
-> 
-> - glibc's execvp() and execlp() take ENOEXEC as "not a binary" and run
->   the ELF file with /bin/sh, which reports a binary it cannot execute
->   instead of the ENOMEM or EIO.
-> - search_binary_handler() tries the next binary format instead of
->   returning the error.
+> diff --git a/include/linux/seq_file.h b/include/linux/seq_file.h
+> index dc0e8c62d9e0..f0e7e52a0905 100644
+> --- a/include/linux/seq_file.h
+> +++ b/include/linux/seq_file.h
+> @@ -28,11 +28,16 @@ struct seq_file {
+>  	void *private;
+>  };
+>  
+> +/* All four are called without checking for NULL. */
+>  struct seq_operations {
+> -	void * (*start) (struct seq_file *m, loff_t *pos);
+> -	void (*stop) (struct seq_file *m, void *v);
+> -	void * (*next) (struct seq_file *m, void *v, loff_t *pos);
+> -	int (*show) (struct seq_file *m, void *v);
+> +	void *(*start)(struct seq_file *m, loff_t *pos)
+> +		__require_explicit_initialization;
+> +	void (*stop)(struct seq_file *m, void *v)
+> +		__require_explicit_initialization;
+> +	void *(*next)(struct seq_file *m, void *v, loff_t *pos)
+> +		__require_explicit_initialization;
+> +	int (*show)(struct seq_file *m, void *v)
+> +		__require_explicit_initialization;
+>  };
 
-Isn't that what we want? If one handler can't load it, move on to find
-one that does.
+Hm, I acked the first patch, but seeing this "in the wild" is
+interesting.  Feels kind of ackward, but I don't really know what to
+suggest instead?  What about just making the lines longer:
 
-> - For the interpreter the caller gets ELIBBAD, "Accessing a corrupted
->   shared library", about an ld.so that is fine.
-> - A caller that would retry on ENOMEM or report EIO gives up on the
->   file instead.
-> 
-> When it happens
-> ===============
-> 
-> - The allocation fails under fault injection. Since commit
->   8030790477e8 ("binfmt_elf: remove the 4k limitation of program header
->   size") the table may be up to 64K; above 32K that is an order-4
->   allocation on 4K-page kernels, which can fail on a fragmented system.
+	void *(*start)(struct seq_file *m, loff_t *pos)		__require_explicit_initialization;
+	void (*stop)(struct seq_file *m, void *v)		__require_explicit_initialization;
+	void *(*next)(struct seq_file *m, void *v, loff_t *pos) __require_explicit_initialization;
+	int (*show)(struct seq_file *m, void *v)		__require_explicit_initialization;
 
-I would not want to risk changing established userspace error message
-interactions to make fault injection happy.
+?
 
-> - The read fails with an I/O error, or with -ENOMEM when the page cache
->   cannot take the pages.
+Anyway, I don't know.  I like this feature, and maybe it's going to be
+used so infrequently it's not a big deal, but feels clunky.
 
-This is kind of a bad failure case -- I don't think the "right" error
-code is going to help much there. ;)
+thanks,
 
-> 
-> Where it came from
-> ==================
-> 
-> - Until commit 6a8d38945cf4 ("binfmt_elf: Hoist ELF program header
->   loading to a function") load_elf_binary() returned -ENOMEM and the
->   read error. That commit documented an ERR_PTR return but returned
->   NULL; commit cfc46ca4fdca later fixed the comment, not the code.
-> - Commit a9d9ef133f44 ("binfmt_elf: load interpreter program headers
->   earlier") gave the interpreter's headers the same NULL check, and with
->   it -ELIBBAD.
-
-So it's been like this for 12 years? :)
-
-> [...]
->   kernel                errors returned by execve()
->   7.3-rc7               ENOMEM 17, ENOEXEC 1, ELIBBAD 1, E2BIG 2
->   7.3-rc7 + this patch  ENOMEM 19, E2BIG 2
-
-... so there are _fewer_ distinct failure codes with the patch?
-
-> +	/*
-> +	 * Read in the program headers. A read that fails part way returns
-> +	 * what it got, so read on to see the error or the end of the file.
-> +	 */
-> +	pos = elf_ex->e_phoff;
-> +	for (done = 0; done < size; done += rv) {
-> +		rv = kernel_read(elf_file, (char *)elf_phdata + done,
-> +				 size - done, &pos);
-> +		if (rv <= 0) {
-> +			kfree(elf_phdata);
-> +			return ERR_PTR(rv ? rv : -ENOEXEC);
-> +		}
->  	}
-
-This is a behavioral change mixed into the errno handling change to
-support partial reads??
-
-I could be convinced that errnos need to be fixed, but the rationale
-here doesn't really make me think it's worth potential disruption to
-userspace. I'd need a pretty comprehensive survey of what would change
-there and then a clean patch that made zero other behavior changes...
-
--Kees
-
--- 
-Kees Cook
+greg k-h
