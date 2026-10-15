@@ -1,71 +1,71 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270AB37DAA9
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 14:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C71C3890E0
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 14:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792074983; cv=none; b=aqBszpMW5RCH8ePgnDso2owNPyFtOuNaC8bHxuyg8XkKSrB3iAzZJ76HVJgv5KfMoC7hjisX7WpuGkB+o1Q9H7Dm5ig+nc6DJ+kX0NdEe6jso4JkKiVSsVH50LtiavOIU3QZG5ZVzESUV9i/27aJgpIVq+BeYbsvQcNbUsnUMrU=
+	t=1792074992; cv=none; b=HrSZrJeEKCoQkPUyqBVUIJZeA1df5kWcCB9dy10OZt/2/Aet4PGDs0uBWzI4OIEqGMCdbUfypWbxG83zFPEZi9JrGHyCr/eTqtKwp3jD/XeSfrlHRYDp8dggoI/x7PrvAq1tyNWx/4haYK1ZKa4FV6oPn32qCKGXXzpIrQMpuK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792074983; c=relaxed/simple;
-	bh=ardP/U5Z+EZf73QfezCBvz01p5kkfOQOWqvF9ihcogw=;
+	s=arc-20240116; t=1792074992; c=relaxed/simple;
+	bh=gVGupXecJG7jf/P2cs727EkyMXBg2c+X15dtcpFuFUs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S7o8zc9/tvVfeB0Ro/sLIEhbHgWv5ViElDN2jNwEOYkFUeK3vavQbDeN37H2zhNm5OEWr6VEViVykObKmXLHvgnHHu35YQfvueaK9wIA79cu2h5wT6RLmr0kgA87hncIeyenXwEJ4h6cfS7uCzwtp4kndvTz90b00Vf0TGdJMP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEZIX6JU; arc=none smtp.client-ip=209.85.218.50
+	 MIME-Version; b=l1KYUfjr3zbPVWYEciHbwKNnuS80032IDPJpXtB79/Cq9VSXHoi0UQrXUOLGxH6f05dXQIgN4V3HxzWQhsjsvZYmXm4bHR9GgrhAckhNfZmToPCI30YvIZjzQnV5wrM+z+yEuEt19sUVtITLpsDHLuVjX8rbg0PS9o7QcVnzwHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZ3QDxeC; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEZIX6JU"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c2dcbcc546fso663549666b.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 07:36:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZ3QDxeC"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6acb57c2b88so2819288a12.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 07:36:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792074978; x=1792679778; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792074979; x=1792679779; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=piln5HuWAhcV7nzHLUUHy6422XKwoVQo6jrzQrJu+e8=;
-        b=cEZIX6JUuw6ko2W41VBiBIyz7c9TKjJomVHnBlPenueNGlTlhv4fIjXLMc1rmyzFSD
-         OCr+p+SvNF+zXlGgKpKt6SswrLUz1PVPtH/8jVqNhNm/9YkX4wG4gvUnBf7Hxix+mmKd
-         O5I0AHOsrNz1gtPHhayak26VXEJux5kSjo3jBwZ4r3gmtFgSnFXAF6otXEcJoFTQZL5l
-         M69KUXg+T+xX//gg78+XrWDYeoMza66aorOxg6ToFZeUQNa7M1Z0tlIO1H04+fClaHVN
-         VNd9SQuWevesck1ReO6J1/vgjYi2snMa7GUs8Ai0+/2k3WKm/zHVIU43P+SpTtPe6vfP
-         kkTw==
+        bh=laBSnZ0bi6LZ4M0aaWZnf2FmRVd+v496bz833/sazV0=;
+        b=nZ3QDxeCx0/74vgXNsT+WbR9yz/VUBnaTloEHIPaUAG2zWztU0gkE3vU0XcbuS6j+b
+         CTWF1f5oJHvLwv2/U6VqjrbZKKQe9q6VtxzWvkBmo1Feo1eSBnHIkMg735F+ys/efAfn
+         QNoe3tDJs6K3AI/oaLfV2pliLFbSSjuSMDYVzPmS8Uhsw76laPVu5imlgjoh81HHU5uX
+         CE14ooJd6/nR+m91ryZx5HVp6csS6seyGOab7Ue/qKfrDHQvzC3OEzqYlCDLaGtxm4ba
+         E6FxVsRxX6CFaVELDxgmnkmS6Ge5yDBncZxRJL4+QEuXnsRjKEYnDWLQ+1gG/WdjlntL
+         zsKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792074978; x=1792679778;
+        d=1e100.net; s=20260707; t=1792074979; x=1792679779;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=piln5HuWAhcV7nzHLUUHy6422XKwoVQo6jrzQrJu+e8=;
-        b=iR34mQVBquoGSStSiJNJS6qyptq9PqS3FCY+E1cD4POKzPuhrLQTEGZGx4EBEAM8vL
-         YwMNkBXCzEj9k/F4JHhRwjxskC1NWQRAzGzhbyq8o0KjvltohSU5rcA4wdNKvoiJgY/M
-         FLgj6vT91CBBUbvlzG3EjdmIjr9SLldmZZfGtW/0SUj8/k4EulTf8J6AjTvkQ4xR5xDE
-         3fyWeYzvtWNm/v4G2J0v2gNkwEyH0PVZc86FSaxBBibknF9Yu6d5kj2AcwP13F7B/Bjk
-         AOqWnGcsR4GyrRHRVAIejXe462mIoawmw4l8BsdWtygBCtRREM0aDgjIEE4x5WywuO5t
-         LGQw==
-X-Forwarded-Encrypted: i=1; AKwUvByXXTCuNTv/ahKtRuEyDqafK3r1Icm0CFGjFmhBFSWwWzBP1CxeqQET6daUo0pWhzTz4fd246y+26IlU9R4@vger.kernel.org
-X-Gm-Message-State: AFq9FYL7ADIsViW3XLEOkFpK0zAVAcyeNq8oOYwoJquP7ZJSlzsvZI2S
-	YqEd+5XvVMoBSjvBIumBoT1u/rTXnCH68987Zal0bCUlD9AN8SGuLJRbOVnJ/w0A
-X-Gm-Gg: AYBFou2KfQxGkgCIUcbv1q5s+ZqdIWiHU0mWu2xVn8TBx6nJX3pyF72o2Ais9KHjJeO
-	vMtjpM4iqLXBveWvTt0uiZpK/sfP9s77NzFWYKmgu91DNtsn3KhzNXYLyzTtaCDw8RNAeG/Rwm8
-	xhMJK2UBWTMfei6WjjalMcUIuJJLsuW7+k0pZgm+PCBswQw1rTWdWH+pGC1kXAyqvCY7M9RR8sO
-	gbMGRXhvUXXGPTtoh6sWmIyffhElwEHyqEv2eaFyXHi3d6qN0YroH+tEZcEHFUa8fgeh+nyu/hk
-	8NOXgsGV0NBxbndjbEX8rxXNN4lzA48CYImMQg1+aPulU0ykMA/RQkRb10c0RzD5e5PbFakpdKz
-	/jHGcaDyz3RSwl9DSYhUfuP1qjUOMyw98W8edCrkJp8nizNJfNtOBqyCe/9umU90MgU7Ke9n026
-	/XjwpDL6soSV/lox+9W9pfZnDriRdweJJRaCyc0Iu4EKaPSVdXth3CoJz0sKfEhsWMJX0ifRKct
-	8d7pyA7vqYlRH4tugLmZL9Yn8o=
-X-Received: by 2002:a17:906:7948:b0:c2e:7fe7:288e with SMTP id a640c23a62f3a-c31aa082a00mr1704235466b.32.1792074977961;
-        Thu, 15 Oct 2026 07:36:17 -0700 (PDT)
+        bh=laBSnZ0bi6LZ4M0aaWZnf2FmRVd+v496bz833/sazV0=;
+        b=bFGyA6FknTeArTmRs7DPhvBwXroZRv/OMW4m87xls7RsNUp6LkJC32vt/Ncs+XuljO
+         6YpdXuwKOl//rdZJ3qyg7n8zgdkIjEVMDrktSlsB7lrin53x/q6za8fIvq3qgZHbbD3C
+         h1lEMoDu1Kza+GYwyxxn4FE17tleHDxZiMUtzEAcmP+UQDj/8QRq06bjZWXXYc4P926p
+         WcF5XJNFa7e8DvMd7qFm8GnO0tXEFlU3fH93vK6aTS/xxCrnxZuknPmo5LjWQgCV0aYc
+         0ja/RjDEChsQx5eTlpNMnNoFC0c4QUmrgFt+s8tCDD3h50CXGp+LIFfzKDhxQ1VD1Cq0
+         G2ig==
+X-Forwarded-Encrypted: i=1; AKwUvBypTxxAMG+HqHrOjSrebKDpkm3BCPZFI9I3QY/uxVkLGIfxw/dI/qmcWx/jcWqrjFQw9WrG1T/fRrJGebtv@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ2GpGBAp1Xa2v2mG38Tvsku+X0VBVhXanboAINPYIZhcjWZDkQ
+	ozmS3hmznLCg69q3GUlG3jckLZh3hQTusDh4T91qiJJExoHDBoE/4Wvz
+X-Gm-Gg: AYBFou18c1KBHeePK5FJzK2b0cWCWp0VmRpgc0dJHjTjhuiVYDv45nzW4FBiNoONofD
+	tTok5Z/F4K4jmJxA6g5JD0b6WpbP4WPTDW5PULDTryxwMJPoCL0+HPmTfytpYdq+2WAyV+T5zH6
+	BgtV1iJrMp8+iTLkULFW+Bj/e4QdeA1vSPE0Xh41Qlbd33+8PrPAxdSlo2PLgksSDooEJ2OObwg
+	QmTr7FZkVH5Xhv5uyTyJlFoa3QYXU835DCXFpFyn5POeVP6RuuJKxkpnNW08n8zh7CkzEGmCC3/
+	9EqxAbcjMNMgFbB4EigiV0jkvtwr7zL47SgPY7R4BI9HOClu5lAwvT7axL1O/zU7+mKaoXku9XS
+	23y3qxB2G8hAVF/LznO9+e3s2BIsp2uiAQmFmhvCAUy1JfI2gCgPQPNKj5e6RGW9CZK6c683/tq
+	WQoLijyTaTo2vBwSj7xHTtjaFJXTfrI8Sw6ULJY2zv31DhT2UXWUQdHHuW+Ls6VyOOKZ3QpFb3n
+	q3Oz8RYs3q4EBpLYn198qysDg==
+X-Received: by 2002:a05:6402:4606:b0:6ac:8730:71e with SMTP id 4fb4d7f45d1cf-6b17c27aa0fmr13334549a12.29.1792074979090;
+        Thu, 15 Oct 2026 07:36:19 -0700 (PDT)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c3edab0ee85sm133342466b.80.2026.10.15.07.36.17
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b20388a77dsm2502243a12.25.2026.10.15.07.36.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 07:36:17 -0700 (PDT)
+        Thu, 15 Oct 2026 07:36:18 -0700 (PDT)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Jan Kara <jack@suse.cz>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v3 13/14] selftests/fanotify: update the uapi tools header copy
-Date: Thu, 15 Oct 2026 16:35:59 +0200
-Message-ID: <20261015143601.2095784-14-amir73il@gmail.com>
+Subject: [PATCH v3 14/14] selftests/fanotify: test the FAN_REPORT_MNTID mode
+Date: Thu, 15 Oct 2026 16:36:00 +0200
+Message-ID: <20261015143601.2095784-15-amir73il@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261015143601.2095784-1-amir73il@gmail.com>
 References: <20261015143601.2095784-1-amir73il@gmail.com>
@@ -77,141 +77,216 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Sync the "strong typed" event definitions.
+This mode accepts the FAN_NS_MNT_* events in mask and reports these
+events in event->mask.
+
+Verify that FAN_REPORT_MNTID mode rejects legacy FAN_MNT_* events and
+verify that FAN_REPORT_MNT mode rejects FAN_NS_MNT_* events.
 
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- tools/include/uapi/linux/fanotify.h | 100 +++++++++++++++++++---------
- 1 file changed, 67 insertions(+), 33 deletions(-)
+ .../filesystems/fanotify/mount-notify_test.c  | 51 +++++++++++++++---
+ .../fanotify/mount-notify_test_ns.c           | 54 +++++++++++++++----
+ 2 files changed, 89 insertions(+), 16 deletions(-)
 
-diff --git a/tools/include/uapi/linux/fanotify.h b/tools/include/uapi/linux/fanotify.h
-index e710967c7c263..75c3587eea5e9 100644
---- a/tools/include/uapi/linux/fanotify.h
-+++ b/tools/include/uapi/linux/fanotify.h
-@@ -4,43 +4,72 @@
+diff --git a/tools/testing/selftests/filesystems/fanotify/mount-notify_test.c b/tools/testing/selftests/filesystems/fanotify/mount-notify_test.c
+index 6381af6a40e30..db8b355d057d4 100644
+--- a/tools/testing/selftests/filesystems/fanotify/mount-notify_test.c
++++ b/tools/testing/selftests/filesystems/fanotify/mount-notify_test.c
+@@ -42,12 +42,36 @@ FIXTURE(fanotify) {
+ 	int orig_root;
+ 	int ns_fd;
+ 	uint64_t root_id;
++	uint64_t events_mask;
++};
++
++FIXTURE_VARIANT(fanotify) {
++	uint64_t events_mask;
++};
++
++FIXTURE_VARIANT_ADD(fanotify, mnt) {
++	.events_mask = FAN_MNT_ATTACH | FAN_MNT_DETACH,
++};
++
++FIXTURE_VARIANT_ADD(fanotify, mntid) {
++	.events_mask = FAN_NS_MNT_ATTACH | FAN_NS_MNT_DETACH,
+ };
  
- #include <linux/types.h>
+ FIXTURE_SETUP(fanotify)
+ {
+ 	int i, ret;
  
--/* the following events that user-space can register for */
--#define FAN_ACCESS		0x00000001	/* File was accessed */
--#define FAN_MODIFY		0x00000002	/* File was modified */
--#define FAN_ATTRIB		0x00000004	/* Metadata changed */
--#define FAN_CLOSE_WRITE		0x00000008	/* Writable file closed */
--#define FAN_CLOSE_NOWRITE	0x00000010	/* Unwritable file closed */
--#define FAN_OPEN		0x00000020	/* File was opened */
--#define FAN_MOVED_FROM		0x00000040	/* File was moved from X */
--#define FAN_MOVED_TO		0x00000080	/* File was moved to Y */
--#define FAN_CREATE		0x00000100	/* Subfile was created */
--#define FAN_DELETE		0x00000200	/* Subfile was deleted */
--#define FAN_DELETE_SELF		0x00000400	/* Self was deleted */
--#define FAN_MOVE_SELF		0x00000800	/* Self was moved */
--#define FAN_OPEN_EXEC		0x00001000	/* File was opened for exec */
--
--#define FAN_Q_OVERFLOW		0x00004000	/* Event queued overflowed */
--#define FAN_FS_ERROR		0x00008000	/* Filesystem error */
--
--#define FAN_OPEN_PERM		0x00010000	/* File open in perm check */
--#define FAN_ACCESS_PERM		0x00020000	/* File accessed in perm check */
--#define FAN_OPEN_EXEC_PERM	0x00040000	/* File open/exec in perm check */
--/* #define FAN_DIR_MODIFY	0x00080000 */	/* Deprecated (reserved) */
--
--#define FAN_PRE_ACCESS		0x00100000	/* Pre-content access hook */
--#define FAN_MNT_ATTACH		0x01000000	/* Mount was attached */
--#define FAN_MNT_DETACH		0x02000000	/* Mount was detached */
--
--#define FAN_EVENT_ON_CHILD	0x08000000	/* Interested in child events */
--
--#define FAN_RENAME		0x10000000	/* File was renamed */
--
--#define FAN_ONDIR		0x40000000	/* Event occurred against dir */
-+/*
-+ * Bits 32..39 of the 64-bit event mask encodes the watcher type.
-+ * Filesystem events have type 0, so legacy event constants are
-+ * filesystem events.
-+ */
-+#define FAN_EVENT_TYPE_SHIFT	32
-+#define FAN_EVENT_TYPE_MASK	(0xffULL << FAN_EVENT_TYPE_SHIFT)
-+#define FAN_EVENT_TYPE(mask)	\
-+	(((mask) & FAN_EVENT_TYPE_MASK) >> FAN_EVENT_TYPE_SHIFT)
++	if (variant->events_mask & FAN_EVENT_TYPE_MASK) {
++		int fd;
 +
-+/* Match event mask to any event in @event_set of the same watcher type */
-+#define FAN_EVENT_MASK_MATCH(mask, event_set)			\
-+	(FAN_EVENT_TYPE(mask) == FAN_EVENT_TYPE(event_set) &&	\
-+	 ((mask) & (event_set) & ~FAN_EVENT_TYPE_MASK))
++		fd = fanotify_init(FAN_REPORT_MNTID | FAN_NONBLOCK, 0);
++		if (fd < 0) {
++			ASSERT_EQ(errno, EINVAL);
++			SKIP(return, "FAN_REPORT_MNTID not supported");
++		}
++		close(fd);
++	}
 +
-+/*
-+ * Events that user-space can request when watching filesystems
-+ */
-+#define FAN_ACCESS		0x0000000001UL	/* File was accessed */
-+#define FAN_MODIFY		0x0000000002UL	/* File was modified */
-+#define FAN_ATTRIB		0x0000000004UL	/* Metadata changed */
-+#define FAN_CLOSE_WRITE		0x0000000008UL	/* Writable file closed */
-+#define FAN_CLOSE_NOWRITE	0x0000000010UL	/* Unwritable file closed */
-+#define FAN_OPEN		0x0000000020UL	/* File was opened */
-+#define FAN_MOVED_FROM		0x0000000040UL	/* File was moved from X */
-+#define FAN_MOVED_TO		0x0000000080UL	/* File was moved to Y */
-+#define FAN_CREATE		0x0000000100UL	/* Subfile was created */
-+#define FAN_DELETE		0x0000000200UL	/* Subfile was deleted */
-+#define FAN_DELETE_SELF		0x0000000400UL	/* Self was deleted */
-+#define FAN_MOVE_SELF		0x0000000800UL	/* Self was moved */
-+#define FAN_OPEN_EXEC		0x0000001000UL	/* File was opened for exec */
-+
-+#define FAN_Q_OVERFLOW		0x0000004000UL	/* Event queued overflowed */
-+#define FAN_FS_ERROR		0x0000008000UL	/* Filesystem error */
-+
-+#define FAN_OPEN_PERM		0x0000010000UL	/* File open in perm check */
-+#define FAN_ACCESS_PERM		0x0000020000UL	/* File accessed in perm check */
-+#define FAN_OPEN_EXEC_PERM	0x0000040000UL	/* File open/exec in perm check */
-+/* #define FAN_DIR_MODIFY	0x0000080000UL *//* Deprecated (reserved) */
-+
-+#define FAN_PRE_ACCESS		0x0000100000UL	/* Pre-content access hook */
-+
-+#define FAN_RENAME		0x0010000000UL	/* File was renamed */
+ 	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
  
- /* helper events */
- #define FAN_CLOSE		(FAN_CLOSE_WRITE | FAN_CLOSE_NOWRITE) /* close */
- #define FAN_MOVE		(FAN_MOVED_FROM | FAN_MOVED_TO) /* moves */
+ 	self->ns_fd = open("/proc/self/ns/mnt", O_RDONLY);
+@@ -74,22 +98,33 @@ FIXTURE_SETUP(fanotify)
+ 	self->root_id = get_unique_mnt_id("/");
+ 	ASSERT_NE(self->root_id, 0);
  
-+/*
-+ * Filter flags for watching filesystems
-+ */
-+#define FAN_EVENT_ON_CHILD	0x0008000000UL	/* Interested in child events */
-+#define FAN_ONDIR		0x0040000000UL	/* Event occurred against dir */
++	uint64_t ns_event_type = FAN_NS_MNT_ATTACH & FAN_EVENT_TYPE_MASK;
 +
-+/*
-+ * Events that user-space can request when watching namespaces
-+ *
-+ * NOTE: Lower 32bit values may overload filesystem events, but not event flags
-+ */
-+/* Backward compat mount events - cannot be mixed with other events */
-+#define FAN_MNT_ATTACH		0x0001000000UL	/* Mount was attached */
-+#define FAN_MNT_DETACH		0x0002000000UL	/* Mount was detached */
-+/* "Strong typed" mount events - may be mixed with other namespace events */
-+#define FAN_NS_MNT_ATTACH	0x0101000000UL	/* Mount was attached */
-+#define FAN_NS_MNT_DETACH	0x0102000000UL	/* Mount was detached */
++	self->events_mask = variant->events_mask;
 +
- /* flags used for fanotify_init() */
- #define FAN_CLOEXEC		0x00000001
- #define FAN_NONBLOCK		0x00000002
-@@ -66,7 +95,8 @@
- #define FAN_REPORT_NAME		0x00000800	/* Report events with name */
- #define FAN_REPORT_TARGET_FID	0x00001000	/* Report dirent target id  */
- #define FAN_REPORT_FD_ERROR	0x00002000	/* event->fd can report error */
--#define FAN_REPORT_MNT		0x00004000	/* Report mount events */
-+#define FAN_REPORT_MNT		0x00004000	/* Report FAN_MNT_ events */
-+#define FAN_REPORT_MNTID	0x00008000	/* Report FAN_NS_MNT_ events */
+ 	for (i = 0; i < NUM_FAN_FDS; i++) {
+-		self->fan_fd[i] = fanotify_init(FAN_REPORT_MNT | FAN_NONBLOCK,
+-						0);
++		self->fan_fd[i] = fanotify_init(FAN_NONBLOCK |
++						(self->events_mask &
++						 FAN_EVENT_TYPE_MASK ?
++						 FAN_REPORT_MNTID :
++						 FAN_REPORT_MNT), 0);
+ 		ASSERT_GE(self->fan_fd[i], 0);
+ 		ret = fanotify_mark(self->fan_fd[i], FAN_MARK_ADD |
+-				    FAN_MARK_MNTNS,
+-				    FAN_MNT_ATTACH | FAN_MNT_DETACH,
++				    FAN_MARK_MNTNS, self->events_mask,
+ 				    self->ns_fd, NULL);
+ 		ASSERT_EQ(ret, 0);
+ 		// On fd[0] we do an extra ADD that changes nothing.
+ 		// On fd[1]/fd[2] we REMOVE/FLUSH which removes the mark.
+ 		ret = fanotify_mark(self->fan_fd[i], mark_cmds[i] |
+-				    FAN_MARK_MNTNS,
+-				    FAN_MNT_ATTACH | FAN_MNT_DETACH,
++				    FAN_MARK_MNTNS, self->events_mask,
+ 				    self->ns_fd, NULL);
+ 		ASSERT_EQ(ret, 0);
++		/* The other watcher type is not allowed on this group */
++		ret = fanotify_mark(self->fan_fd[i], FAN_MARK_ADD |
++				    FAN_MARK_MNTNS,
++				    self->events_mask ^ ns_event_type,
++				    self->ns_fd, NULL);
++		ASSERT_NE(ret, 0);
+ 	}
  
- /* Convenience macro - FAN_REPORT_NAME requires FAN_REPORT_DIR_FID */
- #define FAN_REPORT_DFID_NAME	(FAN_REPORT_DIR_FID | FAN_REPORT_NAME)
-@@ -271,4 +301,8 @@ struct fanotify_response_info_audit_rule {
- 				(long)(meta)->event_len >= (long)FAN_EVENT_METADATA_LEN && \
- 				(long)(meta)->event_len <= (long)(len))
+ 	self->rem = 0;
+@@ -149,7 +184,9 @@ static uint64_t expect_notify(struct __test_metadata *const _metadata,
+ 	self->rem -= thislen;
+ 	self->next += thislen;
  
-+/* Was one of the events in @event_set reported in the event? */
-+#define FAN_EVENT_MATCH(meta, event_set)			\
-+	FAN_EVENT_MASK_MATCH((meta)->mask, event_set)
+-	*mask = meta->mask;
++	ASSERT_EQ(meta->mask & FAN_EVENT_TYPE_MASK,
++		  self->events_mask & FAN_EVENT_TYPE_MASK);
++	*mask = meta->mask & ~FAN_EVENT_TYPE_MASK;
+ 	thislen -= sizeof(*meta);
+ 
+ 	mnt = ((void *) meta) + meta->event_len - thislen;
+diff --git a/tools/testing/selftests/filesystems/fanotify/mount-notify_test_ns.c b/tools/testing/selftests/filesystems/fanotify/mount-notify_test_ns.c
+index 320ee25dc8a58..a3d38f0456377 100644
+--- a/tools/testing/selftests/filesystems/fanotify/mount-notify_test_ns.c
++++ b/tools/testing/selftests/filesystems/fanotify/mount-notify_test_ns.c
+@@ -49,12 +49,36 @@ FIXTURE(fanotify) {
+ 	int orig_ns_fd;
+ 	int ns_fd;
+ 	uint64_t root_id;
++	uint64_t events_mask;
++};
 +
- #endif /* _UAPI_LINUX_FANOTIFY_H */
++FIXTURE_VARIANT(fanotify) {
++	uint64_t events_mask;
++};
++
++FIXTURE_VARIANT_ADD(fanotify, mnt) {
++	.events_mask = FAN_MNT_ATTACH | FAN_MNT_DETACH,
++};
++
++FIXTURE_VARIANT_ADD(fanotify, mntid) {
++	.events_mask = FAN_NS_MNT_ATTACH | FAN_NS_MNT_DETACH,
+ };
+ 
+ FIXTURE_SETUP(fanotify)
+ {
+ 	int i, ret;
+ 
++	if (variant->events_mask & FAN_EVENT_TYPE_MASK) {
++		int fd;
++
++		fd = fanotify_init(FAN_REPORT_MNTID | FAN_NONBLOCK, 0);
++		if (fd < 0) {
++			ASSERT_EQ(errno, EINVAL);
++			SKIP(return, "FAN_REPORT_MNTID not supported");
++		}
++		close(fd);
++	}
++
+ 	self->orig_ns_fd = open("/proc/self/ns/mnt", O_RDONLY);
+ 	ASSERT_GE(self->orig_ns_fd, 0);
+ 
+@@ -83,6 +107,10 @@ FIXTURE_SETUP(fanotify)
+ 	self->root_id = get_unique_mnt_id("/");
+ 	ASSERT_NE(self->root_id, 0);
+ 
++	uint64_t ns_event_type = FAN_NS_MNT_ATTACH & FAN_EVENT_TYPE_MASK;
++
++	self->events_mask = variant->events_mask;
++
+ 	for (i = 0; i < NUM_FAN_FDS; i++) {
+ 		int fan_fd = fanotify_init(FAN_REPORT_FID, 0);
+ 		// Verify that watching tmpfs mounted inside userns is allowed
+@@ -95,28 +123,34 @@ FIXTURE_SETUP(fanotify)
+ 		ASSERT_NE(ret, 0);
+ 		close(fan_fd);
+ 
+-		self->fan_fd[i] = fanotify_init(FAN_REPORT_MNT | FAN_NONBLOCK,
+-						0);
++		self->fan_fd[i] = fanotify_init(FAN_NONBLOCK |
++						(self->events_mask &
++						 FAN_EVENT_TYPE_MASK ?
++						 FAN_REPORT_MNTID :
++						 FAN_REPORT_MNT), 0);
+ 		ASSERT_GE(self->fan_fd[i], 0);
+ 		// Verify that watching mntns where group was created is allowed
+ 		ret = fanotify_mark(self->fan_fd[i], FAN_MARK_ADD |
+-				    FAN_MARK_MNTNS,
+-				    FAN_MNT_ATTACH | FAN_MNT_DETACH,
++				    FAN_MARK_MNTNS, self->events_mask,
+ 				    self->ns_fd, NULL);
+ 		ASSERT_EQ(ret, 0);
+ 		// ...but watching orig mntns is not allowed
+ 		ret = fanotify_mark(self->fan_fd[i], FAN_MARK_ADD |
+-				    FAN_MARK_MNTNS,
+-				    FAN_MNT_ATTACH | FAN_MNT_DETACH,
++				    FAN_MARK_MNTNS, self->events_mask,
+ 				    self->orig_ns_fd, NULL);
+ 		ASSERT_NE(ret, 0);
+ 		// On fd[0] we do an extra ADD that changes nothing.
+ 		// On fd[1]/fd[2] we REMOVE/FLUSH which removes the mark.
+ 		ret = fanotify_mark(self->fan_fd[i], mark_cmds[i] |
+-				    FAN_MARK_MNTNS,
+-				    FAN_MNT_ATTACH | FAN_MNT_DETACH,
++				    FAN_MARK_MNTNS, self->events_mask,
+ 				    self->ns_fd, NULL);
+ 		ASSERT_EQ(ret, 0);
++		/* The other watcher type is not allowed on this group */
++		ret = fanotify_mark(self->fan_fd[i], FAN_MARK_ADD |
++				    FAN_MARK_MNTNS,
++				    self->events_mask ^ ns_event_type,
++				    self->ns_fd, NULL);
++		ASSERT_NE(ret, 0);
+ 	}
+ 
+ 	self->rem = 0;
+@@ -176,7 +210,9 @@ static uint64_t expect_notify(struct __test_metadata *const _metadata,
+ 	self->rem -= thislen;
+ 	self->next += thislen;
+ 
+-	*mask = meta->mask;
++	ASSERT_EQ(meta->mask & FAN_EVENT_TYPE_MASK,
++		  self->events_mask & FAN_EVENT_TYPE_MASK);
++	*mask = meta->mask & ~FAN_EVENT_TYPE_MASK;
+ 	thislen -= sizeof(*meta);
+ 
+ 	mnt = ((void *) meta) + meta->event_len - thislen;
 -- 
 2.55.0
 
