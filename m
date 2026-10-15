@@ -1,292 +1,134 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C71C3890E0
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 14:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792074992; cv=none; b=HrSZrJeEKCoQkPUyqBVUIJZeA1df5kWcCB9dy10OZt/2/Aet4PGDs0uBWzI4OIEqGMCdbUfypWbxG83zFPEZi9JrGHyCr/eTqtKwp3jD/XeSfrlHRYDp8dggoI/x7PrvAq1tyNWx/4haYK1ZKa4FV6oPn32qCKGXXzpIrQMpuK4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792074992; c=relaxed/simple;
-	bh=gVGupXecJG7jf/P2cs727EkyMXBg2c+X15dtcpFuFUs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l1KYUfjr3zbPVWYEciHbwKNnuS80032IDPJpXtB79/Cq9VSXHoi0UQrXUOLGxH6f05dXQIgN4V3HxzWQhsjsvZYmXm4bHR9GgrhAckhNfZmToPCI30YvIZjzQnV5wrM+z+yEuEt19sUVtITLpsDHLuVjX8rbg0PS9o7QcVnzwHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZ3QDxeC; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F752E266C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 14:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792075399; cv=pass; b=A+2lyb/+3YYvzSohPI7TcngkWA149h0TN4x/Gyms1Mc7lRhAst87A5noRZXaiKEN8kLIxHLzsOFcT7RJYnYI/sjGurOiflnq4KlfG0ZrTcyRYiNJGvmDjhCcCU3j2vICSI6pJBS8pyN/GkYpvYLsrzWJr37hY/HkPjCefoBA6Iw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792075399; c=relaxed/simple;
+	bh=eng6+0Md5D0FOkJtXhDsvOqd1+PGGpT33CAgmrVpnRU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uP/0RwZ1vhNsjIigH0ulHYvqtNJ09ji4nLHVxFpyHbzJY8qPCByGzDaLBSzKG7D8GNtmXvpIxXdR/VMVNKhHNze/i9pvHHqQgVwgOZXGKrHUrKIfOSOOz/FH1yeSmh9Imefzd8howoEo8wcih6IpzS2EO/ubsGwEZ+QxsYj3BZ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rsashCpt; arc=pass smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZ3QDxeC"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6acb57c2b88so2819288a12.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 07:36:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rsashCpt"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c34bff61551so740820766b.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 07:43:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792075397; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RGGAW3v4zpyHAcPPnYCFx5mz3wGy6cL/EOqFRGct1pv4gA00y+dwblRCpR7HKcbVfg
+         ukihBNrY5qFkNwkNogY2LJCsYbATV+/ElE0FlIX/RBxmdrsnQa2b1Fk2Jivc72fDnmKJ
+         nEGdrVgjh0V2ObGKQ9SBzVS9M8HOOX3btnZeAGOoTMrNpKNzWDw2rHkJ1YV6NEMe3fUk
+         pb43YLkby1XR6SoGfsBcXKvEz5gI4q2+FejfkGRA+hPOxNvCHFT3FghrxpUyhSYLls0T
+         unfyF8D8+YXKnbjd82CirISep+1bKLLcNXEXyl1RgCLEh013uwdTDAKd+HJ0oc8CBGZv
+         VI/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=eng6+0Md5D0FOkJtXhDsvOqd1+PGGpT33CAgmrVpnRU=;
+        fh=lRi2ZakJwSUImRhRQE5nh+jx4f+fgnRXDqBu9hGd8SI=;
+        b=UAEY6AW1kNckaHuHMFL9wE+NeI5PJ7LD39pZnbqJRop9LQQA9Ka3TXe9QDCgnQxEpk
+         JDZ8CQCwgY9XhCYnhVJKTEy2U77Wg42UP5qHRu9NFHu6N4bsEziAXihQrTcgPBWEzxvC
+         4L5LpflblHI76eu9vNeypZrJFHl93/oLmA8DR4K8EzuLqWM+eET5iM3PWVcLyYlse02l
+         22scFnIgXp+QMGaTnv8YApKbjRLBOdnC21sFm6ou5OzQitxqW67jQHN923cqFURtH0ap
+         ZxLZOyl1/36CLIJiSDJD1NnbU0/xylJypWfDWfjYLhcoldHgmvg6NWSIPVav1cdjV2Uo
+         sg6w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792074979; x=1792679779; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=laBSnZ0bi6LZ4M0aaWZnf2FmRVd+v496bz833/sazV0=;
-        b=nZ3QDxeCx0/74vgXNsT+WbR9yz/VUBnaTloEHIPaUAG2zWztU0gkE3vU0XcbuS6j+b
-         CTWF1f5oJHvLwv2/U6VqjrbZKKQe9q6VtxzWvkBmo1Feo1eSBnHIkMg735F+ys/efAfn
-         QNoe3tDJs6K3AI/oaLfV2pliLFbSSjuSMDYVzPmS8Uhsw76laPVu5imlgjoh81HHU5uX
-         CE14ooJd6/nR+m91ryZx5HVp6csS6seyGOab7Ue/qKfrDHQvzC3OEzqYlCDLaGtxm4ba
-         E6FxVsRxX6CFaVELDxgmnkmS6Ge5yDBncZxRJL4+QEuXnsRjKEYnDWLQ+1gG/WdjlntL
-         zsKw==
+        d=gmail.com; s=20251104; t=1792075397; x=1792680197; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eng6+0Md5D0FOkJtXhDsvOqd1+PGGpT33CAgmrVpnRU=;
+        b=rsashCptm8spvtoeAq7T1AXWG/LCNnzt4F7ALhQ1SjVRH1QxDDLPcAwOm3CUIzNVNz
+         vg7kaFwhKhFQNAnNzT408TtheCqOF09ho8rxdEXtkHIa0uq7Sx04eNExukOdkL7kL5Pa
+         hRa0Y2XUg/P3z/U0Fd279GKuZ7ffmLtANSDlq02+HiW/uU3WxGEx3Q716EO4JeuiVQ7a
+         7Df6jM/cbOxDQnUMn5tCc+BnMDikK5AkG15jVi4eJiIYMO2yGs6pPBHYFqwj0SLhSy/2
+         u+5lHXZ8jHXpzhW8rg3AA614uLX8I5lyojnk1POEq00OPRdF3YKmEvBcAz5yHUjk8yES
+         XUgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792074979; x=1792679779;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=laBSnZ0bi6LZ4M0aaWZnf2FmRVd+v496bz833/sazV0=;
-        b=bFGyA6FknTeArTmRs7DPhvBwXroZRv/OMW4m87xls7RsNUp6LkJC32vt/Ncs+XuljO
-         6YpdXuwKOl//rdZJ3qyg7n8zgdkIjEVMDrktSlsB7lrin53x/q6za8fIvq3qgZHbbD3C
-         h1lEMoDu1Kza+GYwyxxn4FE17tleHDxZiMUtzEAcmP+UQDj/8QRq06bjZWXXYc4P926p
-         WcF5XJNFa7e8DvMd7qFm8GnO0tXEFlU3fH93vK6aTS/xxCrnxZuknPmo5LjWQgCV0aYc
-         0ja/RjDEChsQx5eTlpNMnNoFC0c4QUmrgFt+s8tCDD3h50CXGp+LIFfzKDhxQ1VD1Cq0
-         G2ig==
-X-Forwarded-Encrypted: i=1; AKwUvBypTxxAMG+HqHrOjSrebKDpkm3BCPZFI9I3QY/uxVkLGIfxw/dI/qmcWx/jcWqrjFQw9WrG1T/fRrJGebtv@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ2GpGBAp1Xa2v2mG38Tvsku+X0VBVhXanboAINPYIZhcjWZDkQ
-	ozmS3hmznLCg69q3GUlG3jckLZh3hQTusDh4T91qiJJExoHDBoE/4Wvz
-X-Gm-Gg: AYBFou18c1KBHeePK5FJzK2b0cWCWp0VmRpgc0dJHjTjhuiVYDv45nzW4FBiNoONofD
-	tTok5Z/F4K4jmJxA6g5JD0b6WpbP4WPTDW5PULDTryxwMJPoCL0+HPmTfytpYdq+2WAyV+T5zH6
-	BgtV1iJrMp8+iTLkULFW+Bj/e4QdeA1vSPE0Xh41Qlbd33+8PrPAxdSlo2PLgksSDooEJ2OObwg
-	QmTr7FZkVH5Xhv5uyTyJlFoa3QYXU835DCXFpFyn5POeVP6RuuJKxkpnNW08n8zh7CkzEGmCC3/
-	9EqxAbcjMNMgFbB4EigiV0jkvtwr7zL47SgPY7R4BI9HOClu5lAwvT7axL1O/zU7+mKaoXku9XS
-	23y3qxB2G8hAVF/LznO9+e3s2BIsp2uiAQmFmhvCAUy1JfI2gCgPQPNKj5e6RGW9CZK6c683/tq
-	WQoLijyTaTo2vBwSj7xHTtjaFJXTfrI8Sw6ULJY2zv31DhT2UXWUQdHHuW+Ls6VyOOKZ3QpFb3n
-	q3Oz8RYs3q4EBpLYn198qysDg==
-X-Received: by 2002:a05:6402:4606:b0:6ac:8730:71e with SMTP id 4fb4d7f45d1cf-6b17c27aa0fmr13334549a12.29.1792074979090;
-        Thu, 15 Oct 2026 07:36:19 -0700 (PDT)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b20388a77dsm2502243a12.25.2026.10.15.07.36.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 07:36:18 -0700 (PDT)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v3 14/14] selftests/fanotify: test the FAN_REPORT_MNTID mode
-Date: Thu, 15 Oct 2026 16:36:00 +0200
-Message-ID: <20261015143601.2095784-15-amir73il@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261015143601.2095784-1-amir73il@gmail.com>
-References: <20261015143601.2095784-1-amir73il@gmail.com>
+        d=1e100.net; s=20260707; t=1792075397; x=1792680197;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eng6+0Md5D0FOkJtXhDsvOqd1+PGGpT33CAgmrVpnRU=;
+        b=zMeddYoroXKq/cU96l7agdgM3v4/EPTGcEBCH/HvO7V4Nia6HFLT2CHOoSDqqaTcTV
+         k/odBY12exu497FQANG0TcrHu6fDqKHZY3xEzZbFKlnv6mdBMz4pw4ObdRLdLYor4jz0
+         p33v7WT50cYR2ngWHt1FUcRpBbZNHh7kizkTuOtR+nVhlPCRjWMymUwfCG4Gt3FNYu0l
+         Clim5vD73xm+81d2H9FZgzLXrmSwIVTrn8FmfJYKORXtMxUCIprECTRVRykhbbs/wMe2
+         q1F8l1mrmmBBFaRbQd6iPvAt0mmYSmvwaoU9HfsmHlxxkaOGBgApblPUBowl/354RCq4
+         eoSg==
+X-Forwarded-Encrypted: i=1; AKwUvByAXzn0a907BSoccEJq1Lot0+Rl+cRp55TZDd0gySMTKoDIxRz0Pw+WVqe4GMXPHPKNvuRpbQ+17t7oi/0S@vger.kernel.org
+X-Gm-Message-State: AFq9FYIZi4xRmdpP2Y5wfW0WDZSXAnSMo1UQIETDKNEU0ayoyEkMR0eq
+	d718TmizZN8UtMG1LW8syv8MmnUihccVTMvG8fBm41BHpNwx2HtJ3oGVC9STALncTlTEpmpISSI
+	xLPP4l6h1X8DuV8vSOcAt/nHM2NB/xZxoh8j2UNU=
+X-Gm-Gg: AYBFou0sbHKKIi/dx7kAeybLAybWUOXIr7yrhPWgeONIEo/5hDJ22aSF3M/B1Z2wThk
+	ragZeP7cYdZhb0flwNQZiYiYX3/PT3rRCJ+aJhlHIznTqel+C3OMSZ1C3sq78s/l94yK895UoZ8
+	xIKqBZgqxf7CsrGadXxALMyfgAIDWn14WV3V3leU0y0Zhs9yVEDb/gV/WqTY8YjD/DHtA2keVTf
+	M4zyPqDiFu31c9p36eljMkG6m8NGjJlvJb36fiXPi99zjp0N2S1Llor3ozeAFSKgID7mzoyHmlT
+	RD+nqFMoLgvKJcErZ1nCL5SucoLLjcQnS9LDYZuHr2t3MQy4a60laZ6AzYR0UWkqFxY=
+X-Received: by 2002:a17:907:9720:b0:c2d:f050:ad4a with SMTP id
+ a640c23a62f3a-c31a9a33cb3mr1713751566b.5.1792075396612; Thu, 15 Oct 2026
+ 07:43:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260424170503.2096847-1-amir73il@gmail.com> <20260424170503.2096847-8-amir73il@gmail.com>
+ <ulal5iiolonkeccun5lyzkuf73odidgbkmabzupbwtawwjhhlz@tneaqqtlody6>
+ <CAOQ4uxjO+Q_Z0OF4XquO7o4GVF2b3akRDrLYadtUNpZzi8nEsQ@mail.gmail.com>
+ <cz26vtfw5xq3hi7lv6guec75untdqrtqx5violro7ymefxduqy@ajieh3qai7xr>
+ <CAOQ4uxi93n7beP20Lt865hGotZA-=2Kvuc=rMA+H+gwbQaWOAg@mail.gmail.com>
+ <u4wnn46chae6helb5yuqw2eqjxux6plmyffxilisxnuiuyhyyh@mq7rahg3g5fq>
+ <CAOQ4uxi4x+K7LNS07Z9raB6u5toYUXap22UFNDnz-yw9mRC7QA@mail.gmail.com> <qhtr7zgiqo5wjfd3mrnnezmoeeqsvtax7526mrowzaufe3uvem@ijxhtvopilul>
+In-Reply-To: <qhtr7zgiqo5wjfd3mrnnezmoeeqsvtax7526mrowzaufe3uvem@ijxhtvopilul>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 15 Oct 2026 16:43:05 +0200
+X-Gm-Features: AclHuK-OK2-WyebNxKwJtQPrVS5k_DEgSyp9RPegtKZ5pdARvPczfL67oIvh6l8
+Message-ID: <CAOQ4uxhWoDBbOMf3_CpWsB=--tx=Phd8g-RPP8_C_bKU5YG+9A@mail.gmail.com>
+Subject: Re: [PATCH v2 07/10] fanotify: gate fs events checks in
+ fanotify_mark() by group type
+To: Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This mode accepts the FAN_NS_MNT_* events in mask and reports these
-events in event->mask.
+On Wed, Oct 14, 2026 at 2:25=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+>
+> On Mon 12-10-26 11:19:59, Amir Goldstein wrote:
+> > > > Anyway, with no end users to nag me and summer vacation getting clo=
+se
+> > > > it may take me some time to post v3, so if you think of any new ide=
+as
+> > > > there is still time to bring them up.
+> > >
+> > > Sure :) Thanks for working on this!
+> >
+> > I pushed the tested poc to github [1] so you can take a look when you h=
+ave time.
+> > I will post the patches for proper review, but first I wanted to know
+> > if you are fine
+> > with the semantics I came up with.
+>
+> I've glanced through the series in github and it looks good to me. I didn=
+'t
+> find any problem with the design. So feel free to post it :).
 
-Verify that FAN_REPORT_MNTID mode rejects legacy FAN_MNT_* events and
-verify that FAN_REPORT_MNT mode rejects FAN_NS_MNT_* events.
+Ok posted.
 
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
- .../filesystems/fanotify/mount-notify_test.c  | 51 +++++++++++++++---
- .../fanotify/mount-notify_test_ns.c           | 54 +++++++++++++++----
- 2 files changed, 89 insertions(+), 16 deletions(-)
+Btw, I fixed the ULL uapi constants in fanotify.h, but forgot to fix
+patch "[13/14] selftests/fanotify: update the uapi tools header copy"
+which still carries the old UL constants before posting.
 
-diff --git a/tools/testing/selftests/filesystems/fanotify/mount-notify_test.c b/tools/testing/selftests/filesystems/fanotify/mount-notify_test.c
-index 6381af6a40e30..db8b355d057d4 100644
---- a/tools/testing/selftests/filesystems/fanotify/mount-notify_test.c
-+++ b/tools/testing/selftests/filesystems/fanotify/mount-notify_test.c
-@@ -42,12 +42,36 @@ FIXTURE(fanotify) {
- 	int orig_root;
- 	int ns_fd;
- 	uint64_t root_id;
-+	uint64_t events_mask;
-+};
-+
-+FIXTURE_VARIANT(fanotify) {
-+	uint64_t events_mask;
-+};
-+
-+FIXTURE_VARIANT_ADD(fanotify, mnt) {
-+	.events_mask = FAN_MNT_ATTACH | FAN_MNT_DETACH,
-+};
-+
-+FIXTURE_VARIANT_ADD(fanotify, mntid) {
-+	.events_mask = FAN_NS_MNT_ATTACH | FAN_NS_MNT_DETACH,
- };
- 
- FIXTURE_SETUP(fanotify)
- {
- 	int i, ret;
- 
-+	if (variant->events_mask & FAN_EVENT_TYPE_MASK) {
-+		int fd;
-+
-+		fd = fanotify_init(FAN_REPORT_MNTID | FAN_NONBLOCK, 0);
-+		if (fd < 0) {
-+			ASSERT_EQ(errno, EINVAL);
-+			SKIP(return, "FAN_REPORT_MNTID not supported");
-+		}
-+		close(fd);
-+	}
-+
- 	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
- 
- 	self->ns_fd = open("/proc/self/ns/mnt", O_RDONLY);
-@@ -74,22 +98,33 @@ FIXTURE_SETUP(fanotify)
- 	self->root_id = get_unique_mnt_id("/");
- 	ASSERT_NE(self->root_id, 0);
- 
-+	uint64_t ns_event_type = FAN_NS_MNT_ATTACH & FAN_EVENT_TYPE_MASK;
-+
-+	self->events_mask = variant->events_mask;
-+
- 	for (i = 0; i < NUM_FAN_FDS; i++) {
--		self->fan_fd[i] = fanotify_init(FAN_REPORT_MNT | FAN_NONBLOCK,
--						0);
-+		self->fan_fd[i] = fanotify_init(FAN_NONBLOCK |
-+						(self->events_mask &
-+						 FAN_EVENT_TYPE_MASK ?
-+						 FAN_REPORT_MNTID :
-+						 FAN_REPORT_MNT), 0);
- 		ASSERT_GE(self->fan_fd[i], 0);
- 		ret = fanotify_mark(self->fan_fd[i], FAN_MARK_ADD |
--				    FAN_MARK_MNTNS,
--				    FAN_MNT_ATTACH | FAN_MNT_DETACH,
-+				    FAN_MARK_MNTNS, self->events_mask,
- 				    self->ns_fd, NULL);
- 		ASSERT_EQ(ret, 0);
- 		// On fd[0] we do an extra ADD that changes nothing.
- 		// On fd[1]/fd[2] we REMOVE/FLUSH which removes the mark.
- 		ret = fanotify_mark(self->fan_fd[i], mark_cmds[i] |
--				    FAN_MARK_MNTNS,
--				    FAN_MNT_ATTACH | FAN_MNT_DETACH,
-+				    FAN_MARK_MNTNS, self->events_mask,
- 				    self->ns_fd, NULL);
- 		ASSERT_EQ(ret, 0);
-+		/* The other watcher type is not allowed on this group */
-+		ret = fanotify_mark(self->fan_fd[i], FAN_MARK_ADD |
-+				    FAN_MARK_MNTNS,
-+				    self->events_mask ^ ns_event_type,
-+				    self->ns_fd, NULL);
-+		ASSERT_NE(ret, 0);
- 	}
- 
- 	self->rem = 0;
-@@ -149,7 +184,9 @@ static uint64_t expect_notify(struct __test_metadata *const _metadata,
- 	self->rem -= thislen;
- 	self->next += thislen;
- 
--	*mask = meta->mask;
-+	ASSERT_EQ(meta->mask & FAN_EVENT_TYPE_MASK,
-+		  self->events_mask & FAN_EVENT_TYPE_MASK);
-+	*mask = meta->mask & ~FAN_EVENT_TYPE_MASK;
- 	thislen -= sizeof(*meta);
- 
- 	mnt = ((void *) meta) + meta->event_len - thislen;
-diff --git a/tools/testing/selftests/filesystems/fanotify/mount-notify_test_ns.c b/tools/testing/selftests/filesystems/fanotify/mount-notify_test_ns.c
-index 320ee25dc8a58..a3d38f0456377 100644
---- a/tools/testing/selftests/filesystems/fanotify/mount-notify_test_ns.c
-+++ b/tools/testing/selftests/filesystems/fanotify/mount-notify_test_ns.c
-@@ -49,12 +49,36 @@ FIXTURE(fanotify) {
- 	int orig_ns_fd;
- 	int ns_fd;
- 	uint64_t root_id;
-+	uint64_t events_mask;
-+};
-+
-+FIXTURE_VARIANT(fanotify) {
-+	uint64_t events_mask;
-+};
-+
-+FIXTURE_VARIANT_ADD(fanotify, mnt) {
-+	.events_mask = FAN_MNT_ATTACH | FAN_MNT_DETACH,
-+};
-+
-+FIXTURE_VARIANT_ADD(fanotify, mntid) {
-+	.events_mask = FAN_NS_MNT_ATTACH | FAN_NS_MNT_DETACH,
- };
- 
- FIXTURE_SETUP(fanotify)
- {
- 	int i, ret;
- 
-+	if (variant->events_mask & FAN_EVENT_TYPE_MASK) {
-+		int fd;
-+
-+		fd = fanotify_init(FAN_REPORT_MNTID | FAN_NONBLOCK, 0);
-+		if (fd < 0) {
-+			ASSERT_EQ(errno, EINVAL);
-+			SKIP(return, "FAN_REPORT_MNTID not supported");
-+		}
-+		close(fd);
-+	}
-+
- 	self->orig_ns_fd = open("/proc/self/ns/mnt", O_RDONLY);
- 	ASSERT_GE(self->orig_ns_fd, 0);
- 
-@@ -83,6 +107,10 @@ FIXTURE_SETUP(fanotify)
- 	self->root_id = get_unique_mnt_id("/");
- 	ASSERT_NE(self->root_id, 0);
- 
-+	uint64_t ns_event_type = FAN_NS_MNT_ATTACH & FAN_EVENT_TYPE_MASK;
-+
-+	self->events_mask = variant->events_mask;
-+
- 	for (i = 0; i < NUM_FAN_FDS; i++) {
- 		int fan_fd = fanotify_init(FAN_REPORT_FID, 0);
- 		// Verify that watching tmpfs mounted inside userns is allowed
-@@ -95,28 +123,34 @@ FIXTURE_SETUP(fanotify)
- 		ASSERT_NE(ret, 0);
- 		close(fan_fd);
- 
--		self->fan_fd[i] = fanotify_init(FAN_REPORT_MNT | FAN_NONBLOCK,
--						0);
-+		self->fan_fd[i] = fanotify_init(FAN_NONBLOCK |
-+						(self->events_mask &
-+						 FAN_EVENT_TYPE_MASK ?
-+						 FAN_REPORT_MNTID :
-+						 FAN_REPORT_MNT), 0);
- 		ASSERT_GE(self->fan_fd[i], 0);
- 		// Verify that watching mntns where group was created is allowed
- 		ret = fanotify_mark(self->fan_fd[i], FAN_MARK_ADD |
--				    FAN_MARK_MNTNS,
--				    FAN_MNT_ATTACH | FAN_MNT_DETACH,
-+				    FAN_MARK_MNTNS, self->events_mask,
- 				    self->ns_fd, NULL);
- 		ASSERT_EQ(ret, 0);
- 		// ...but watching orig mntns is not allowed
- 		ret = fanotify_mark(self->fan_fd[i], FAN_MARK_ADD |
--				    FAN_MARK_MNTNS,
--				    FAN_MNT_ATTACH | FAN_MNT_DETACH,
-+				    FAN_MARK_MNTNS, self->events_mask,
- 				    self->orig_ns_fd, NULL);
- 		ASSERT_NE(ret, 0);
- 		// On fd[0] we do an extra ADD that changes nothing.
- 		// On fd[1]/fd[2] we REMOVE/FLUSH which removes the mark.
- 		ret = fanotify_mark(self->fan_fd[i], mark_cmds[i] |
--				    FAN_MARK_MNTNS,
--				    FAN_MNT_ATTACH | FAN_MNT_DETACH,
-+				    FAN_MARK_MNTNS, self->events_mask,
- 				    self->ns_fd, NULL);
- 		ASSERT_EQ(ret, 0);
-+		/* The other watcher type is not allowed on this group */
-+		ret = fanotify_mark(self->fan_fd[i], FAN_MARK_ADD |
-+				    FAN_MARK_MNTNS,
-+				    self->events_mask ^ ns_event_type,
-+				    self->ns_fd, NULL);
-+		ASSERT_NE(ret, 0);
- 	}
- 
- 	self->rem = 0;
-@@ -176,7 +210,9 @@ static uint64_t expect_notify(struct __test_metadata *const _metadata,
- 	self->rem -= thislen;
- 	self->next += thislen;
- 
--	*mask = meta->mask;
-+	ASSERT_EQ(meta->mask & FAN_EVENT_TYPE_MASK,
-+		  self->events_mask & FAN_EVENT_TYPE_MASK);
-+	*mask = meta->mask & ~FAN_EVENT_TYPE_MASK;
- 	thislen -= sizeof(*meta);
- 
- 	mnt = ((void *) meta) + meta->event_len - thislen;
--- 
-2.55.0
+This is fixed now on my github branch.
 
+Thanks,
+Amir.
