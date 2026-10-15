@@ -1,547 +1,159 @@
-Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95652449EB2;
-	Thu, 15 Oct 2026 09:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C99322B8F;
+	Thu, 15 Oct 2026 10:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792057261; cv=none; b=RghKIPglsWM6LumQsORP/ZYsqTV+urKAse3Zk5T+LHrZ72A5U69OurqhqgKHhGAxgIbPIwb23vBpLfRD/HTg+juAfJwIUZuMJPkzR9InNNzxUzRCE8+AUkkXqgaC253GmEqMrFDwdZa+HyPiDB0cQxuf6FBes+vGWVGdwUvHRQ4=
+	t=1792058535; cv=none; b=Fw9p7wM4dsq6w5ULDGix3hxJ7tQRjvYKYgndrSLI517lMVw8N4GSCV7fo1WMn7sID1xz4cOu4bS14IYZbYk+lpHnsWqGtrpkvEcVePZA9dvOQJzavIvp2c3aX3N56WU8cpjnsF2RKqiUFmll9OoQAJQgg6efKjO/eTq9x+WDCoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792057261; c=relaxed/simple;
-	bh=q3Sr/MbF/bcdwQVZ1rannOiULzsKfI8fDO5Pj55cIhY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cZRFIwnvQHO7vPtmxT40r6NGqzvmT1kcyK2qet/Twunp+EmYGgHg/e0uy1mRPXbaMUtAshbPvOmch8iJABJW4OYgQI1NTiGUMjrVXlz+fvigSspCUmmk22T83kLqejHxz0LbJFDYagS/8T2N8Sxazgn7ZIN7Lc4jLRHKKLtRD+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4j53346DqlzCWwYW;
-	Thu, 15 Oct 2026 17:40:32 +0800 (CST)
-Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4j53323Q92zCWwYP;
-	Thu, 15 Oct 2026 17:40:30 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp1.hygon.cn (Postfix) with ESMTPS id 2D59716E7;
-	Thu, 15 Oct 2026 17:40:23 +0800 (CST)
-Received: from hsj-2U-Workstation.hygon.cn (172.19.24.226) by
- cncheex04.Hygon.cn (172.23.18.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Thu, 15 Oct 2026 17:40:28 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: <axboe@kernel.dk>, <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
-CC: <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>,
-	<jack@suse.cz>, <agruenba@redhat.com>, <mic@digikod.net>,
-	<gnoack@google.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
-	<serge@hallyn.com>, <aleksa@amutable.com>, <legion@kernel.org>,
-	<david@kernel.org>, <sandeen@redhat.com>, <ebiggers@kernel.org>,
-	<linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <gfs2@lists.linux.dev>,
-	<linux-security-module@vger.kernel.org>, <sunjunchao@bytedance.com>, Huang
- Shijie <huangsj@hygon.cn>
-Subject: [PATCH 3/3] vfs: convert sb->s_inodes iteration to super_iter_inodes()
-Date: Thu, 15 Oct 2026 17:38:54 +0800
-Message-ID: <20261015093854.2082600-4-huangsj@hygon.cn>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261015093854.2082600-1-huangsj@hygon.cn>
-References: <20261015093854.2082600-1-huangsj@hygon.cn>
+	s=arc-20240116; t=1792058535; c=relaxed/simple;
+	bh=T33GmSIa8ZXcZcboQ6eeHkUwMBfXwo2O+4ayOOp6DVQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jnXUW6ordD9JJOl1rm0h71oZsZda26V9wfN/xvf/eUrINpvN1GtRVVk2L22YcYsN4Z5W6VbeqS7j4ZSTbEDieT63zAtv8JosOA/73NKI+e2CqgzaHgxV7g2CAhQ0dqZRin8ZMVcnNVKvslSquFmNvBpuTCnjeoTDsxMDeaD+6Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iko2b0kk; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iko2b0kk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 256631F000C4;
+	Thu, 15 Oct 2026 10:02:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792058531;
+	bh=5Pqi9+FJ5ewTDOrXx6NJLaiZDN05LqWUpfO1uWA0Wgw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Iko2b0kk0bIGk8QVSE1lc+78pqVzKqFb/c6PX07rt8o/L64rRlfyLiAwQAvvm2D2f
+	 F1G7/yeHsYCSltPOKzyG4dRvWl2wAq1Ha0lYOadrYRg8C/7VlDR3MhOfmEOuyYI3O6
+	 1TR/hjFFUBSJGsWQ/bRc4w/sr6l1jJFyO4MqJ+MrCO//h0SsbVvwQv9lwP5HZZqHsq
+	 xlBSvSeMPrQFaVZ5njxYJNPyR9/+2VYRrfm/xfsKCfbTvAsehGYV3ndjTxJxoN5hVZ
+	 jav4uXA7zZ5PVeUMKQEjlF2ppEl4ByteA+ZH9MsjRxFrCuLnIOu3m/+n7yq50ydTGC
+	 1V4mGjBjkdvAg==
+Message-ID: <1f36992d-00c1-4f74-9947-b543ed794cf0@kernel.org>
+Date: Thu, 15 Oct 2026 12:02:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
- (172.23.18.114)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/6] mm: pass alloc_flags through folio, filemap, and
+ bulk allocators
+Content-Language: en-US
+To: Gregory Price <gourry@gourry.net>,
+ "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-mm@kvack.org, willy@infradead.org, brendan.jackman@linux.dev,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ kernel-team@meta.com, jack@suse.cz, akpm@linux-foundation.org,
+ ziy@nvidia.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
+ ying.huang@linux.alibaba.com, surenb@google.com, mhocko@suse.com,
+ hannes@cmpxchg.org
+References: <20260923211041.3127588-1-gourry@gourry.net>
+ <asdTptfeLkuypU8t@gourry-fedora-PF4VCD3F>
+ <df588805-6f97-4ef6-a64f-39222669bf3a@kernel.org>
+ <asloWFM96BATH8SB@gourry-fedora-PF4VCD3F>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
+ KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
+ 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
+ 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
+ tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
+ Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
+ 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
+ LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
+ 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
+ BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSNWbGFzdGltaWwg
+ QmFia2EgPHZiYWJrYUBrZXJuZWwub3JnPsLBsAQTAQoAWhYhBKlA1DSZLC6OmRA9UCJPp+fM
+ gqZkBQJqFFy6GxSAAAAAAAQADm1hbnUyLDIuNSsxLjEyLDIsMgIbAwUJGtCBUAULCQgHAwUV
+ CgkICwUWAgMBAAIeBQIXgAAKCRAiT6fnzIKmZJIUEADFx/tREzUImHrEwVHeSvDFmA7tJysI
+ UVrlvrM09E7GIuzphzv7jYmo8n3ANpCczLEVr4G0syYQdTigaZgv3+FQDIIzhKih1IHhu1Ei
+ XHlywNWKnQxxQEUNi5Mwx43wQz5XVw9F1A7gtKBKNtfogO511hAbrzagrYajyQacEJ/+sfhZ
+ 9Da8ltHIXD8pcYaHUfQgEusCgmEd9+KrUwrTbckFKmYq5chuE6yJ4J0EmWknL096jIE6CnzF
+ FRslQ3B1UKDjxVsm1ZHfir5NeWszLkTvGFsddFaWTgh8UycESG6VQzKXjjewXu2pG7YQYRpj
+ QKm1W5X2TkwWkXRBZTmfmbhxIUMh3+zf5wQ463rSmDN/8v81tdqBtAW6rH/kzg1GvkaTHXn0
+ 507yEHFzBksk2viAuIxxr7km8+/KARYLIdGtx30EG8cKzAUZOK6WqxtNCsXUJNrVE8CWrCaD
+ icoNu7Fs1c5hmPHdSTnU48ce67449DdnO4neLSNhRiGlMHJgfJUmgrxu/hcYeOZ3haWmEQ2w
+ uW1Mh01OHi8QZHCEyAbABrPs9GUgccc/4eYXX9hIgxfSkYzn8f+8NuIFPWl/0uTvjgqU29FQ
+ SbzOLxHq9439Ox40G5mS5eZXRGxITYR+6TXvRGI6P/264jvflnr/pDGUttaikU+0W+1uxgKH
+ cmYbEc7ATQRbGTU1AQgAn0H6UrFiWcovkh6EXVcl+SeqyO6JHOPm+e9Wu0Vw+VIUvXZVUVVQ
+ La1PQDUi6j00ChlcR66g9/V0sPIcSutacPKfdKYOBvzd4rlhL8rfrdEsQw5ApZxrA8kYZVMh
+ FmBRKAa6wos25moTlMKpCWzTH84+WO5+ziCTsTUZASAToz3RdunTD+vQcHj0GqNTPAHK63sf
+ bAB2I0BslZkXkY1RLb/YhuA6E7JyEd2pilZOrIuBGl/5q2qSakgnAVFWFBR/DO27JuAksYnq
+ +aH8vI0xGvwn75KqSk4UzAkDzWSmO4ZHuahKtQgZNsMYV+PGayRBX9b9zbldzopoLBdqHc4n
+ jQARAQABwsF8BBgBCgAmAhsMFiEEqUDUNJksLo6ZED1QIk+n58yCpmQFAmfIHFQFCRYU6J8A
+ CgkQIk+n58yCpmS2PA//bqN1LfcotmArgElsa+0EGZSQlYgK48pm8WAeTXTngudP9IJ4SuKY
+ HR5RNjHcBeqN+Me0zxRqYzRb8nGanHEkDyf4Im8DQM8d6vbyU+FcPmG4skud4kgS1zMHnlVd
+ SXfSIwKC/hKgdHG8aBV7545Lz9X6Iohea+94wneD0aw/hqF+QWewGZhWJriWAZtvEkzNjQOi
+ 4U9F/trLten/x7bpphDSnDMKJtITbtzATT1Dq7o7VpIUK1nCTQALMuMjKCdi8OdU/+V+R3O4
+ 0PXWvX8qrvqYapVbZ+9KqT74FsuB0Ya9uXwgBF2Q6cRuETZk5vqaqKxzqoQZCO8AOz/58j6O
+ 2RHNy/mZEN+7tJ5Tsq42zVJ4jxsT8b9YplavCMsnBgDeRWhcbYhCyttoL7nYISyWg4kQYZ/P
+ wIV3OuNv2f8iKYsxNsRuClOAF82+gvqOy1/1pprFjy8uo2pkoOrb63aOP3vO5VHnRKgra6dq
+ NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
+ OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
+ jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
+In-Reply-To: <asloWFM96BATH8SB@gourry-fedora-PF4VCD3F>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Convert all the remaining superblock inode iterators to use
-super_iter_inodes(). These are mostly straight forward conversions
-for the iterations that use referenced inodes:
- - sync_bdevs
- - drop_pagecache_sb
- - gfs2_kill_sb
- - add_dquot_ref
- - hook_sb_delete
+On 10/10/26 01:28, Gregory Price wrote:
+> On Fri, Oct 09, 2026 at 10:55:05PM +0200, David Hildenbrand (Arm) wrote:
+>> I do agree that two sets of flags is suboptimal, but likely more flexible. I
+>> guess an alloc_flags only interface is not easily possible ...
 
-Signed-off-by: Huang Shijie <huangsj@hygon.cn>
----
- block/bdev.c           |  68 +++++++-------------
- fs/drop_caches.c       |  36 +++--------
- fs/gfs2/ops_fstype.c   |  68 ++++++--------------
- fs/quota/dquot.c       |  66 +++++++------------
- security/landlock/fs.c | 142 ++++++++++++++---------------------------
- 5 files changed, 123 insertions(+), 257 deletions(-)
+Agree with the alloc_flags option of all the other options.
 
-diff --git a/block/bdev.c b/block/bdev.c
-index 18b4423b4e61..b263b566056f 100644
---- a/block/bdev.c
-+++ b/block/bdev.c
-@@ -1340,56 +1340,36 @@ void bdev_mark_dead(struct block_device *bdev, bool surprise)
-  */
- EXPORT_SYMBOL_GPL(bdev_mark_dead);
- 
--void sync_bdevs(bool wait)
-+static int sync_bdev_fn(struct inode *inode, void *data)
- {
--	struct inode *inode, *old_inode = NULL;
-+	struct block_device *bdev;
-+	bool wait = *(bool *)data;
- 
--	spin_lock(&blockdev_superblock->s_inode_list_lock);
--	list_for_each_entry(inode, &blockdev_superblock->s_inodes, i_sb_list) {
--		struct address_space *mapping = inode->i_mapping;
--		struct block_device *bdev;
-+	if (inode->i_mapping->nrpages == 0)
-+		return INO_ITER_RET_DONE;
- 
--		spin_lock(&inode->i_lock);
--		if (inode_state_read(inode) & (I_FREEING | I_WILL_FREE | I_NEW) ||
--		    mapping->nrpages == 0) {
--			spin_unlock(&inode->i_lock);
--			continue;
--		}
--		__iget(inode);
--		spin_unlock(&inode->i_lock);
--		spin_unlock(&blockdev_superblock->s_inode_list_lock);
-+	bdev = I_BDEV(inode);
-+	mutex_lock(&bdev->bd_disk->open_mutex);
-+	if (!atomic_read(&bdev->bd_openers)) {
-+		; /* skip */
-+	} else if (wait) {
- 		/*
--		 * We hold a reference to 'inode' so it couldn't have been
--		 * removed from s_inodes list while we dropped the
--		 * s_inode_list_lock  We cannot iput the inode now as we can
--		 * be holding the last reference and we cannot iput it under
--		 * s_inode_list_lock. So we keep the reference and iput it
--		 * later.
-+		 * We keep the error status of individual mapping so
-+		 * that applications can catch the writeback error using
-+		 * fsync(2). See filemap_fdatawait_keep_errors() for
-+		 * details.
- 		 */
--		iput(old_inode);
--		old_inode = inode;
--		bdev = I_BDEV(inode);
--
--		mutex_lock(&bdev->bd_disk->open_mutex);
--		if (!atomic_read(&bdev->bd_openers)) {
--			; /* skip */
--		} else if (wait) {
--			/*
--			 * We keep the error status of individual mapping so
--			 * that applications can catch the writeback error using
--			 * fsync(2). See filemap_fdatawait_keep_errors() for
--			 * details.
--			 */
--			filemap_fdatawait_keep_errors(inode->i_mapping);
--		} else {
--			filemap_fdatawrite(inode->i_mapping);
--		}
--		mutex_unlock(&bdev->bd_disk->open_mutex);
--
--		spin_lock(&blockdev_superblock->s_inode_list_lock);
-+		filemap_fdatawait_keep_errors(inode->i_mapping);
-+	} else {
-+		filemap_fdatawrite(inode->i_mapping);
- 	}
--	spin_unlock(&blockdev_superblock->s_inode_list_lock);
--	iput(old_inode);
-+	mutex_unlock(&bdev->bd_disk->open_mutex);
-+	return INO_ITER_RET_DONE;
-+}
-+
-+void sync_bdevs(bool wait)
-+{
-+	super_iter_inodes(blockdev_superblock, sync_bdev_fn, &wait, 0);
- }
- 
- /*
-diff --git a/fs/drop_caches.c b/fs/drop_caches.c
-index 28c5fb9c7357..3a476b1e17f7 100644
---- a/fs/drop_caches.c
-+++ b/fs/drop_caches.c
-@@ -17,39 +17,19 @@
- /* A global variable is a bit ugly, but it keeps the code simple */
- static int sysctl_drop_caches;
- 
--static void drop_pagecache_sb(struct super_block *sb, void *unused)
-+static int invalidate_inode_fn(struct inode *inode, void *data)
- {
--	struct inode *inode, *toput_inode = NULL;
-+	if (!mapping_empty(inode->i_mapping))
-+		invalidate_mapping_pages(inode->i_mapping, 0, -1);
-+	return INO_ITER_RET_DONE;
-+}
- 
-+static void drop_pagecache_sb(struct super_block *sb, void *unused)
-+{
- 	if (sb->s_bdi == &noop_backing_dev_info)
- 		return;
- 
--	spin_lock(&sb->s_inode_list_lock);
--	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
--		spin_lock(&inode->i_lock);
--		/*
--		 * We must skip inodes in unusual state. We may also skip
--		 * inodes without pages but we deliberately won't in case
--		 * we need to reschedule to avoid softlockups.
--		 */
--		if ((inode_state_read(inode) & (I_FREEING | I_WILL_FREE | I_NEW)) ||
--		    (mapping_empty(inode->i_mapping) && !need_resched())) {
--			spin_unlock(&inode->i_lock);
--			continue;
--		}
--		__iget(inode);
--		spin_unlock(&inode->i_lock);
--		spin_unlock(&sb->s_inode_list_lock);
--
--		invalidate_mapping_pages(inode->i_mapping, 0, -1);
--		iput(toput_inode);
--		toput_inode = inode;
--
--		cond_resched();
--		spin_lock(&sb->s_inode_list_lock);
--	}
--	spin_unlock(&sb->s_inode_list_lock);
--	iput(toput_inode);
-+	super_iter_inodes(sb, invalidate_inode_fn, NULL, 0);
- }
- 
- static int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
-diff --git a/fs/gfs2/ops_fstype.c b/fs/gfs2/ops_fstype.c
-index 718e0da7dfce..17e6294bfdb6 100644
---- a/fs/gfs2/ops_fstype.c
-+++ b/fs/gfs2/ops_fstype.c
-@@ -1719,53 +1719,10 @@ static int gfs2_meta_init_fs_context(struct fs_context *fc)
- 	return 0;
- }
- 
--/**
-- * gfs2_evict_inodes - evict inodes cooperatively
-- * @sb: the superblock
-- *
-- * When evicting an inode with a zero link count, we are trying to upgrade the
-- * inode's iopen glock from SH to EX mode in order to determine if we can
-- * delete the inode.  The other nodes are supposed to evict the inode from
-- * their caches if they can, and to poke the inode's inode glock if they cannot
-- * do so.  Either behavior allows gfs2_upgrade_iopen_glock() to proceed
-- * quickly, but if the other nodes are not cooperating, the lock upgrading
-- * attempt will time out.  Since inodes are evicted sequentially, this can add
-- * up quickly.
-- *
-- * Function evict_inodes() tries to keep the s_inode_list_lock list locked over
-- * a long time, which prevents other inodes from being evicted concurrently.
-- * This precludes the cooperative behavior we are looking for.  This special
-- * version of evict_inodes() avoids that.
-- *
-- * Modeled after drop_pagecache_sb().
-- */
--static void gfs2_evict_inodes(struct super_block *sb)
-+/* Nothing to do because we just want to bounce the inode through iput() */
-+static int gfs2_evict_inode_fn(struct inode *inode, void *data)
- {
--	struct inode *inode, *toput_inode = NULL;
--	struct gfs2_sbd *sdp = sb->s_fs_info;
--
--	set_bit(SDF_EVICTING, &sdp->sd_flags);
--
--	spin_lock(&sb->s_inode_list_lock);
--	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
--		spin_lock(&inode->i_lock);
--		if ((inode_state_read(inode) & (I_FREEING | I_WILL_FREE | I_NEW)) &&
--		    !need_resched()) {
--			spin_unlock(&inode->i_lock);
--			continue;
--		}
--		__iget(inode);
--		spin_unlock(&inode->i_lock);
--		spin_unlock(&sb->s_inode_list_lock);
--
--		iput(toput_inode);
--		toput_inode = inode;
--
--		cond_resched();
--		spin_lock(&sb->s_inode_list_lock);
--	}
--	spin_unlock(&sb->s_inode_list_lock);
--	iput(toput_inode);
-+	return INO_ITER_RET_DONE;
- }
- 
- static void gfs2_kill_sb(struct super_block *sb)
-@@ -1785,7 +1742,24 @@ static void gfs2_kill_sb(struct super_block *sb)
- 	shrink_dcache_sb(sb);
- 
- 	set_bit(SDF_KILL, &sdp->sd_flags);
--	gfs2_evict_inodes(sb);
-+
-+	/*
-+	 * When evicting an inode with a zero link count, we are trying to
-+	 * upgrade the inode's iopen glock from SH to EX mode in order to
-+	 * determine if we can delete the inode. The other nodes are supposed
-+	 * to evict the inode from their caches if they can, and to poke the
-+	 * inode's inode glock if they cannot do so. Either behavior allows
-+	 * gfs2_upgrade_iopen_glock() to proceed quickly, but if the other nodes
-+	 * are not cooperating, the lock upgrading attempt will time out. Since
-+	 * inodes are evicted sequentially, this can add up quickly.
-+	 *
-+	 * evict_inodes() tries to keep the s_inode_list_lock list locked over a
-+	 * long time, which prevents other inodes from being evicted
-+	 * concurrently. This precludes the cooperative behavior we are looking
-+	 * for.
-+	 */
-+	set_bit(SDF_EVICTING, &sdp->sd_flags);
-+	super_iter_inodes(sb, gfs2_evict_inode_fn, NULL, 0);
- 
- 	/*
- 	 * Flush and then drain the delete workqueue here (via
-diff --git a/fs/quota/dquot.c b/fs/quota/dquot.c
-index f9d7ee4dffcd..10fce6ee9804 100644
---- a/fs/quota/dquot.c
-+++ b/fs/quota/dquot.c
-@@ -1048,56 +1048,36 @@ static int dqinit_needed(struct inode *inode, int type)
- 	return 0;
- }
- 
--/* This routine is guarded by s_umount semaphore */
--static int add_dquot_ref(struct super_block *sb, int type)
-+static int add_dquot_ref_fn(struct inode *inode, void *data)
- {
--	struct inode *inode, *old_inode = NULL;
--#ifdef CONFIG_QUOTA_DEBUG
--	int reserved = 0;
--#endif
--	int err = 0;
-+	struct dquot_ref_data *ref = data;
-+	int ret;
- 
--	spin_lock(&sb->s_inode_list_lock);
--	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
--		spin_lock(&inode->i_lock);
--		if ((inode_state_read(inode) & (I_FREEING | I_WILL_FREE | I_NEW)) ||
--		    !atomic_read(&inode->i_writecount) ||
--		    !dqinit_needed(inode, type)) {
--			spin_unlock(&inode->i_lock);
--			continue;
--		}
--		__iget(inode);
--		spin_unlock(&inode->i_lock);
--		spin_unlock(&sb->s_inode_list_lock);
-+	if (!atomic_read(&inode->i_writecount) ||
-+	    !dqinit_needed(inode, ref->type))
-+		return INO_ITER_RET_DONE;
- 
- #ifdef CONFIG_QUOTA_DEBUG
--		if (unlikely(inode_get_rsv_space(inode) > 0))
--			reserved = 1;
-+	if (unlikely(inode_get_rsv_space(inode) > 0))
-+		ref->reserved++;
- #endif
--		iput(old_inode);
--		err = __dquot_initialize(inode, type);
--		if (err) {
--			iput(inode);
--			goto out;
--		}
-+	ret = __dquot_initialize(inode, ref->type);
-+	if (ret < 0)
-+		return ret;
-+	return INO_ITER_RET_DONE;
-+}
- 
--		/*
--		 * We hold a reference to 'inode' so it couldn't have been
--		 * removed from s_inodes list while we dropped the
--		 * s_inode_list_lock. We cannot iput the inode now as we can be
--		 * holding the last reference and we cannot iput it under
--		 * s_inode_list_lock. So we keep the reference and iput it
--		 * later.
--		 */
--		old_inode = inode;
--		cond_resched();
--		spin_lock(&sb->s_inode_list_lock);
--	}
--	spin_unlock(&sb->s_inode_list_lock);
--	iput(old_inode);
--out:
-+/* This routine is guarded by s_umount semaphore */
-+static int add_dquot_ref(struct super_block *sb, int type)
-+{
-+	struct dquot_ref_data ref = {
-+		.type = type,
-+	};
-+	int err;
-+
-+	err = super_iter_inodes(sb, add_dquot_ref_fn, &ref, 0);
- #ifdef CONFIG_QUOTA_DEBUG
--	if (reserved) {
-+	if (ref.reserved) {
- 		quota_error(sb, "Writes happened before quota was turned on "
- 			"thus quota information is probably inconsistent. "
- 			"Please run quotacheck(8)");
-diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-index cab43892ec2f..5d88bfd616c0 100644
---- a/security/landlock/fs.c
-+++ b/security/landlock/fs.c
-@@ -1375,110 +1375,62 @@ static void hook_inode_free_security_rcu(void *inode_security)
- 
- /* Super-block hooks */
- 
--/*
-- * Release the inodes used in a security policy.
-- *
-- * Cf. fsnotify_unmount_inodes() and evict_inodes()
-- */
--static void hook_sb_delete(struct super_block *const sb)
-+static int release_inode_fn(struct inode *inode, void *data)
- {
--	struct inode *inode, *prev_inode = NULL;
--
--	if (!landlock_initialized)
--		return;
-+	struct landlock_object *object;
- 
--	spin_lock(&sb->s_inode_list_lock);
--	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
--		struct landlock_object *object;
-+	rcu_read_lock();
-+	object = rcu_dereference(landlock_inode(inode)->object);
-+	if (!object) {
-+		rcu_read_unlock();
-+		return INO_ITER_RET_DONE;
-+	}
- 
--		/* Only handles referenced inodes. */
--		if (!icount_read_once(inode))
--			continue;
-+	/*
-+	 * If there is no concurrent release_inode() ongoing, then we
-+	 * are in charge of calling iput() on this inode, otherwise we
-+	 * will just wait for it to finish.
-+	 */
-+	spin_lock(&object->lock);
-+	if (object->underobj != inode) {
-+		spin_unlock(&object->lock);
-+		rcu_read_unlock();
-+		return INO_ITER_RET_DONE;
-+	}
- 
--		/*
--		 * Protects against concurrent modification of inode (e.g.
--		 * from get_inode_object()).
--		 */
--		spin_lock(&inode->i_lock);
--		/*
--		 * Checks I_FREEING and I_WILL_FREE  to protect against a race
--		 * condition when release_inode() just called iput(), which
--		 * could lead to a NULL dereference of inode->security or a
--		 * second call to iput() for the same Landlock object.  Also
--		 * checks I_NEW because such inode cannot be tied to an object.
--		 */
--		if (inode_state_read(inode) &
--		    (I_FREEING | I_WILL_FREE | I_NEW)) {
--			spin_unlock(&inode->i_lock);
--			continue;
--		}
-+	object->underobj = NULL;
-+	spin_unlock(&object->lock);
-+	rcu_read_unlock();
- 
--		rcu_read_lock();
--		object = rcu_dereference(landlock_inode(inode)->object);
--		if (!object) {
--			rcu_read_unlock();
--			spin_unlock(&inode->i_lock);
--			continue;
--		}
--		/* Keeps a reference to this inode until the next loop walk. */
--		__iget(inode);
--		spin_unlock(&inode->i_lock);
-+	/*
-+	 * Because object->underobj was not NULL, release_inode() and
-+	 * get_inode_object() guarantee that it is safe to reset
-+	 * landlock_inode(inode)->object while it is not NULL.  It is therefore
-+	 * not necessary to lock inode->i_lock.
-+	 */
-+	rcu_assign_pointer(landlock_inode(inode)->object, NULL);
- 
--		/*
--		 * If there is no concurrent release_inode() ongoing, then we
--		 * are in charge of calling iput() on this inode, otherwise we
--		 * will just wait for it to finish.
--		 */
--		spin_lock(&object->lock);
--		if (object->underobj == inode) {
--			object->underobj = NULL;
--			spin_unlock(&object->lock);
--			rcu_read_unlock();
-+	/*
-+	 * At this point, we own the ihold() reference that was originally set
-+	 * up by get_inode_object() as well as the reference the inode iterator
-+	 * obtained before calling us.  Therefore the following call to
-+	 * iput_not_last() will not sleep nor drop the inode because there is
-+	 * now at least two references to it.
-+	 */
-+	iput_not_last(inode);
-+	return INO_ITER_RET_DONE;
-+}
- 
--			/*
--			 * Because object->underobj was not NULL,
--			 * release_inode() and get_inode_object() guarantee
--			 * that it is safe to reset
--			 * landlock_inode(inode)->object while it is not NULL.
--			 * It is therefore not necessary to lock inode->i_lock.
--			 */
--			rcu_assign_pointer(landlock_inode(inode)->object, NULL);
--			/*
--			 * At this point, we own the ihold() reference that was
--			 * originally set up by get_inode_object() and the
--			 * __iget() reference that we just set in this loop
--			 * walk.  Therefore there are at least two references
--			 * on the inode.
--			 */
--			iput_not_last(inode);
--		} else {
--			spin_unlock(&object->lock);
--			rcu_read_unlock();
--		}
-+/*
-+ * Release the inodes used in a security policy.
-+ */
-+static void hook_sb_delete(struct super_block *const sb)
-+{
-+	if (!landlock_initialized)
-+		return;
- 
--		if (prev_inode) {
--			/*
--			 * At this point, we still own the __iget() reference
--			 * that we just set in this loop walk.  Therefore we
--			 * can drop the list lock and know that the inode won't
--			 * disappear from under us until the next loop walk.
--			 */
--			spin_unlock(&sb->s_inode_list_lock);
--			/*
--			 * We can now actually put the inode reference from the
--			 * previous loop walk, which is not needed anymore.
--			 */
--			iput(prev_inode);
--			cond_resched();
--			spin_lock(&sb->s_inode_list_lock);
--		}
--		prev_inode = inode;
--	}
--	spin_unlock(&sb->s_inode_list_lock);
-+	super_iter_inodes(sb, release_inode_fn, NULL, INO_ITER_F_REFERENCED);
- 
--	/* Puts the inode reference from the last loop walk, if any. */
--	if (prev_inode)
--		iput(prev_inode);
- 	/* Waits for pending iput() in release_inode(). */
- 	wait_var_event(&landlock_superblock(sb)->inode_refs,
- 		       !atomic_long_read(&landlock_superblock(sb)->inode_refs));
--- 
-2.34.1
+>> I do wonder whether it should be:
+>> 
+>> 	typedef int __bitwise alloc_flags_t;
+>> 
+>> instead of "unsigned int alloc_flags".
+>> 
+>> ... while at it
 
+Can't hurt, but given how it's internal only it didn't seem that urgent as
+for gfp.
+
+> Does it make sense to leave alloc_flags to internal-only state
+> and just implement a new flag field?
+> 
+> gfp_t       -> describe the page (fully public)
+> req_t       -> describe the allocator behavior (mm-internal only)
+> alloc_flags -> internal allocator state only
+
+Maybe in that case the remaining alloc_flags should just become 1-bit fields
+directly in struct alloc_context so we don't manage 3 separate bitwise
+types. Or more bits in case of ALLOC_WMARK?
+
+Depends on how much work this would be (and if you want to do it) and how
+the result would like.
+> typedef int __bitwise pa_req_t; /* Page Allocator Request Flags */
+> 
+> #define PA_REQ_DEFAULT        0
+> #define PA_REQ_NOLOCK         BIT(0) /* from ALLOC_NOLOCK */
+> #define PA_REQ_NO_CODETAG     BIT(1) /* from ALLOC_NO_CODETAG */
+> #define PA_REQ_SPREAD_DIRTY   BIT(2) /* from __GFP_WRITE */
+> #define PA_REQ_DEFER_INIT     BIT(3) /* from __GFP_SKIP_ZERO */
+> #define PA_REQ_ZERO_TAGS      BIT(4) /* from __GFP_ZERO_TAGS */
+> #define PA_REQ_NO_FALLBACK    BIT(5) /* select no fallback list */
+> #define PA_REQ_NO_OOM         BIT(6) /* do not oom */
+> 
+> Off the bat we recover 2 ALLOC flags and 3 GFP flags. Possibly more with
+> a bit more work.
+> 
+> Then we get:
+> 
+> #define PA_REQ_PRIVATE        BIT(7) /* allow private node allocation */
+> #define PA_REQ_UNMAPPED       BIT(8) /* page must be unmapped */
+> 
+> And we might not even need a new zonelist for private nodes in this case
+> as long as we require internal users to pass PA_REQ_PRIVATE and add a
+> function like
+> 
+> folio_alloc_private(void *owner, ...) {
+>    /* validate (pgdat->owner == owner) before allowing allocation */
+>    __folio_alloc(..., req | PA_REQ_PRIVATE | PA_REQ_NOFALLBACK, ...);
+> }
+> 
+> User still has the option to request NO_OOM via __GFP_THISNODE :]
+> 
+> ~Gregory
 
