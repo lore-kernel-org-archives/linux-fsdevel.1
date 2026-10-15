@@ -1,40 +1,41 @@
 Received: from o1.ptr9745.em.honeycomb.io (o1.ptr9745.em.honeycomb.io [149.72.141.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B055481AB0
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 11:40:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93C5519DFE
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 11:40:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.141.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792064454; cv=none; b=C3hS9eja4L0FMz8qBSD/mfL9FYuJv4hY5FBROZSObsNLhnXI5WXTqLpOy1QSv4QJDmheu37ELE5NQ2gXHrKFVKBcPQ96PXmX7GifoH8nZgy/56nuxj0o/2m55J3MViRaQPQaibdoG4TkSiwTvr3j8rWmmUCZtaeI60x7BBQ+Yog=
+	t=1792064455; cv=none; b=NysCGr/uICiuKMLf/SwHjKXLdStm6Lq630GAc4t7vhhQC4pk6EzQRvxH7brxtoAl2e0pwQ/haMFOpUFDIZf3RoTonK/gyJVMa/gViV7isWU5OiBM2Q2oTjOw+uYPW7cydcOchha9oY1G9IDQwqEqEljnNLNic61NGf4ZDLEWPeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792064454; c=relaxed/simple;
-	bh=VTyms48DupY+M0j/NCiYvBN7G4Zz1bI67Q/WcU/bpsM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NsyNe8HuhXXHLv/rHRvrxYv1JREBSZzLebjJvMylcZ5dyLwmuUVXDUHGwN0qK0ZIR3LE497Wwm5z3sUd5xngBard6ti5bY1wRA+EJs6QFObmdw47ZnCQEicjOAR9VpCO9ACUHl/PIaHWR/ObsDK15SCx8a8h0mL63P0UMVdv+Z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=NII9648i; arc=none smtp.client-ip=149.72.141.136
+	s=arc-20240116; t=1792064455; c=relaxed/simple;
+	bh=EOUFPzaXXBL5LIsCoIVhylFtOir+N4LjEMyTLE7RxXw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=DKsDJkqNfpiVvZfIIswG93wFZzaBzdHfMyLQ56/tfoxUT1fTH3dD20DneDZhEYfo9nE9ns5A59jjBG8xSwc3uUuIs7FtoBaRTY9XsCZFnYFWNZhIP2QIBbC7Lfaao2Qb5uAmv29kbZujJ7XS0VZtwJUFlVR8NURLQAQnRULSmRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=p4Jb80sF; arc=none smtp.client-ip=149.72.141.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em.honeycomb.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="NII9648i"
+	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="p4Jb80sF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=honeycomb.io;
-	h=from:subject:date:mime-version:content-type:content-transfer-encoding:
-	to:cc:cc:content-type:date:from:subject:to;
-	s=s1; t=1792064445;
-	bh=bCnNKTsKL4tE3BHNaD7/M/1HrMbDpTApOPkzvLfLa5g=;
-	b=NII9648ieqx6hmdEPBiJIIcQFfEv2q593VKIKdxlP68HZoEkRCeaGvrfJdnqRqOqWIv2
-	Vh5LawdtohIZeF/nvIfeQHOHc+h/vFLVqEkMLCIoU0nyI/hn1PfbLuhd/VJ8YUU9Jjpngg
-	ORo8LrCrHCXz+Desi8g1pnAW7q+ASWfKiQlDtNabWsSHwLd30chMGeN9PvVfmy913IoF5t
-	Bo5eTSg7taQc1mmW3naD7E4Ow04VIMfDPA7Y0F9hdEzf1f6Sxn20VQ2B3yz/amDDvCHVV1
-	FzyFASrjk4swVr+JxZHxEgByd/Y5hkVasjYoQV1OVzi4gu0ylRGQ4rzFqo+Pg5UQ==
-Received: by recvd-c977b4567-gqtp9 with SMTP id recvd-c977b4567-gqtp9-1-6AD0BBBD-60
-	2026-10-15 11:40:45.768673003 +0000 UTC m=+1363213.894827407
+	h=from:date:subject:mime-version:content-type:content-transfer-encoding:
+	references:in-reply-to:to:cc:cc:content-type:date:from:subject:to;
+	s=s1; t=1792064449;
+	bh=g9zPEjdqzeftXjAFlwNKTuUI/Q0TI5SBmPG5yYlzU0s=;
+	b=p4Jb80sFh3+r9sMIwmr+S+FiTRnGJQJwfFHkTYevYR7z0/H+CncOatVk8BmeJQDlHnuv
+	tz344nqQQ5eXkvCWqn2XBAdWUVtKmYQ4tRAKGVKhqx1pbwFrGAzUC4NWLximVFyw+PXsG7
+	CWxZYkCXW6Ut0FcoHyLpc/XHaFVanER3UfxRgZXOB0d1LrS54CJB3+GrZCfN/JrgBu5Voy
+	3132DlWPs+Xgyul9MUi0zdS5ADv72vDe/NDXlI5NOOpPr9M/hlwphcqhtR6uy3gTxpG9iC
+	eCL+CsTOnEjCgR4WyrCsVeLREPi/k1DhPG8JTz4V9cioN8YzsHvN9FeNIvGlmH7w==
+Received: by recvd-7dd44dbfb-xtt67 with SMTP id recvd-7dd44dbfb-xtt67-1-6AD0BBC0-94
+	2026-10-15 11:40:48.974646699 +0000 UTC m=+1363210.471780216
 Received: from [127.0.1.1] (unknown)
 	by geopod-ismtpd-34 (SG) with ESMTP
-	id B9491fufQs-q2WdzhwHlDg
-	Thu, 15 Oct 2026 11:40:45.691 +0000 (UTC)
+	id HwkYD4PQT62gGITnmY5big
+	Thu, 15 Oct 2026 11:40:48.880 +0000 (UTC)
 From: Liz Fong-Jones <lizf@honeycomb.io>
-Subject: [PATCH v7 0/3] writeback: let foreign flushes reach dying cgwbs
-Date: Thu, 15 Oct 2026 11:40:45 +0000 (UTC)
-Message-Id: <20261015-wb-dying-cgwb-flush-v7-0-9278d9ebaf5d@honeycomb.io>
+Date: Thu, 15 Oct 2026 11:40:49 +0000 (UTC)
+Subject: [PATCH v7 3/3] writeback: switch a replaced cgwb's inodes to its
+ successor
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,32 +44,30 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43N20rEMBAG4FdZcm0kx0nile8hXuQwbSPaSrNbL
- Uvf3XQFKRLEu/mZme+/koJzxkIeTlcy45JLnsYazN2JxMGPPdKcaiaCCWBOAP0INK157Gns69i
- 9XspAGWDdovDBJ1I/32fs8udNfXr+zuUSXjCed2q/GHI5T/N6q134fvd3w8Ipp94m6yyz2kv/O
- EwjrnF6C/d5InvJIo6MbTOiMhqCVjF5ozrRYOQ/GEkZRamlUdYqANNg1IGRrM2oyoSEII1l0jt
- oMPqH4YzxNqMrYyVwDDaCji0GjoxoM1AZ7hwPCkWKXfeL2bbtC3NKM4AuAgAA
-X-Change-ID: 20260926-wb-dying-cgwb-flush-06e260e2abad
+Message-Id: <20261015-wb-dying-cgwb-flush-v7-3-9278d9ebaf5d@honeycomb.io>
+References: <20261015-wb-dying-cgwb-flush-v7-0-9278d9ebaf5d@honeycomb.io>
+In-Reply-To: <20261015-wb-dying-cgwb-flush-v7-0-9278d9ebaf5d@honeycomb.io>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10932; i=lizf@honeycomb.io;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10110; i=lizf@honeycomb.io;
  s=gpg; h=from:subject:message-id;
- bh=VTyms48DupY+M0j/NCiYvBN7G4Zz1bI67Q/WcU/bpsM=;
- b=owEBbQGS/pANAwAKAaXO1OOXra/CAcsmYgBq0Lu8vDws/hL8zJ29aRx4P9bAz1xfFdnbW+yeL
- yD8A1dvSzGJATMEAAEKAB0WIQSfW1LPQ0gyJmoTHwelztTjl62vwgUCatC7vAAKCRClztTjl62v
- wne6CACRt/8/1YTHY185YfOEJQJj0q+wiQPW/2GJI5mW6NKKZRf+zsmSnRC222UdaH4d/h9i5nx
- H8q7Ci36BzF3lJXZYXmL+hSbblnPxBSggQCZ6c2NcpyhL0qZLqelDX3zK7CXUFx8pyuxvavD68+
- PtGKzhDqfNRdLLgHaToOzLMPXrFdstaMQdrQMQ8fRD9oCagwZqFNlUm6SD5kdZbixgRvWWhUhhs
- gQ1affqT2oVAq67waNZIHhfHfApKm4zYnZhH7e7ab7MWCOzrLdrdukJlZTHR4c3x5C7mf5Cffj0
- nEHCciG5EjVMSJyVZ56JoJLRiosr2boYuQRhjcR/hdR6GQDe
+ bh=EOUFPzaXXBL5LIsCoIVhylFtOir+N4LjEMyTLE7RxXw=;
+ b=owEBbQGS/pANAwAKAaXO1OOXra/CAcsmYgBq0Lu8Nz3+ZFaYgxjl18aa1sbxXGJlFR+1q8Yyb
+ 7sK8oVfNk2JATMEAAEKAB0WIQSfW1LPQ0gyJmoTHwelztTjl62vwgUCatC7vAAKCRClztTjl62v
+ wnFUB/0WF9UayyAY3c1x+kRcUnD/w4SixYxG1NaDvBMs75tjNu6StKOEv0goPT9hNy09yMghHUO
+ grODQuFQ87YwhP79k6OOrQdrqp18X1Gs74OSlNTINGMr6otGEiheyINyENt9J92/ldmrAny35h1
+ rRb1qfc1unF9DoNjfOtTX5s6K46uF2go7nXBjFZ25/0gRSL5XDN+IxpfPKUZc0BxtsnRX15brc7
+ qRMjnqNfZpjplY1QtbfJefMnNLqqaQlh74BBtJnweSsh7F3bAUE5lywl4yomWI8RLPZ5cPKHBGv
+ KIunHQIHuJHk442U+ZnPJn7rxvxkdr5KOTv0Bb4rh1nKJo8G
 X-Developer-Key: i=lizf@honeycomb.io; a=openpgp;
  fpr=1F7714D7EC3441D2CECC24606A3F8B00FBDDD2A4
 X-SG-EID: 
  =?us-ascii?Q?u001=2ECuH7N2XAoeMR1zrzr=2F6NZrhli2vbKPOHff5fJuZuba6ZIE8QPyIf9mn4Y?=
- =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmeTImm1ntFeNm?=
- =?us-ascii?Q?KU0+S2VZz4+h1CgyKuU4W5+SlLnm5IOUKkeu0qR?=
- =?us-ascii?Q?bXK=2FJ3KNE8qr70VActLZdPiUNh8iiVFH4MVi02y?=
- =?us-ascii?Q?5kA=2Fk+LfOBQzwVPg2LrEyUjePi6q3DTCthDGtBl?=
- =?us-ascii?Q?x59hHhyi5fGX4o3BRN=2FSK8XzYe0sEcIZ0O8Pjaf?= =?us-ascii?Q?aTPz?=
+ =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmeYGeH8fsp8CL?=
+ =?us-ascii?Q?edR=2FZhwrSbP=2FOwSw5EjBx5TUKicZYtObFQ1D6of?=
+ =?us-ascii?Q?vDgD3Ni3kwdVi6VfA9NHJfWIzY+Xdn52WlmIldo?=
+ =?us-ascii?Q?h+spHjAbL1HW7dYQcSbmDIs3qyCZjqdSUck+ThA?=
+ =?us-ascii?Q?plcPkXYBGhySv7KR=2FDns4rhmlUsjVQFP+A=2FNPs6?=
+ =?us-ascii?Q?DnxD?=
 To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Tejun Heo
 	<tj@kernel.org>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
@@ -80,218 +79,259 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
 	<lizf@honeycomb.io>
 X-Entity-ID: u001.GRlkmHQ+Ka/CKxmoC/CxTw==
 
-At Honeycomb, a container that reads from Kafka and writes columnar
-files to a host volume stalls for 30-60s after each deploy replaces it
-(v6.18). We're increasingly confident this is the cause: the stall
-looks the same as in the reproducer (little CPU use, lag growing
-linearly and then recovering), and the mitigation it predicts, moving
-our final syncfs after the last write, worked in production (below).
-We haven't caught it with probes in production yet.
+When a live memcg's blkcg association changes, cgwb_create() replaces
+its killed wb in bdi->cgwb_tree. Foreign flushes for the memcg then
+find the new wb, but the inodes, dirty or not, are still attached to the
+old one, and they only move over as they are written back (see
+wbc_attach_and_unlock_inode()). Until then, other memcgs appending to
+those inodes stall in balance_dirty_pages().
 
-Patch 1 is a prep fix: switching a dirty inode away left the old wb
-counted in bdi->tot_write_bandwidth. Patch 2 keeps killed wbs in
-bdi->cgwb_tree until they are released, so foreign flushes can still
-reach them. Patch 3 handles the other way a wb leaves the tree: when a
-memcg's blkcg association changes and a new wb takes over the slot, it
-switches the old wb's inodes, dirty or not, to the new one.
+After the takeover, queue a work item that switches all inodes on the
+old wb's lists to the wb foreign flushes now find, like
+cleanup_offline_cgwb() does for b_attached and b_dirty_time, but
+including b_dirty, b_io and b_more_io. The switch carries the dirty and
+writeback page counts, so nothing needs to be written back first.
+cgwb_create() can run with interrupts disabled (folio_account_dirtied()
+-> inode_attach_wb()), so it only queues the work. A switch to the old
+wb that was queued before it was replaced can land after the work ran,
+so inode_switch_wbs_work_fn() queues the work again when the wb it
+switched inodes to is dying and no longer owns its slot. Inodes attached
+to the old wb but on none of its lists, such as one attached as the wb
+is replaced (see __inode_attach_wb()) or a clean one switched over from
+the root wb, still move over only when written back. If the successor is
+already gone, fall back like cleanup_offline_cgwb() does, to the nearest
+live ancestor's wb or the root wb.
 
-Applies to mainline (24a19b953e2a, 7.3-rc7) and vfs-7.4.misc. Tested on
-vfs-7.4.misc and on mainline (d24e8ac715de, after 7.3-rc5) with
-168a8c13159c, where patch 2's test gave 1.0s, 1.0s and 1.1s worst lag.
-Patch 3's loop follows 407a5d205179, and f6988c90671e bounds its
-rescans.
+Since commit f6988c90671e ("writeback: bound cleanup_offline_cgwb()
+rescans by rotating scanned inodes"), the scan moves the inodes it walks
+to the newest end of each list, so hold wb_switch_rwsem for read across
+it, like the switches themselves. Otherwise a sync that has fixed its
+cutoff but not yet queued inodes can find older dirty inodes moved
+behind a newer one on b_dirty and return without writing them.
 
-Syncing before the removal isn't enough: cleanup_offline_cgwbs_workfn()
-skips a dying wb with any dirty inode and only retries on the next memcg
-offline. On ext4, syncfs can leave inodes I_DIRTY_SYNC: at 5000 files
-one syncfs still stalled in 7 of 9 runs (19-26s worst lag), a second
-syncfs avoided it in 5 of 5, and with this series one syncfs lagged at
-most 1.5s in 2 of 2. On XFS one syncfs left the wb clean in 5 of 5 runs,
-but a single 4KiB append from the old cgroup after it stranded the wb
-again (15-28s worst lag, 5 of 5; 1.2-1.6s in 2 of 2 with this series).
-In production, our writer synced after closing its data files but before
-writing its final Kafka offset to a small shutdown file, and moving the
-syncfs after that write mitigated the stall for us on XFS. In the
-reproducer, a 14-byte file written after the syncfs stranded the wb the
-same way, whether created directly or via a temp file and rename (16-29s
-worst lag, 7 of 7; with this series, 1.0-1.4s in 2 of 2 created
-directly); an empty file did not.
+Test: a live cgroup appends to 5000 files on XFS at 250MiB/s, io is
+disabled on its parent so its wb is killed, it creates a file (the
+takeover), and a sibling keeps appending to its files under a 4G parent
+limit. Worst lag of the sibling behind schedule over 30s, in three runs:
 
-The harness that produced the numbers (paced writer, lag per second,
-MODE=alive control) is at
-https://gist.github.com/lizthegrey/2209d831930588f63076bdc0ac7b78e2, and
-a minimal recipe is below. Settings for all numbers: MEM_MAX=max
-POD_MAX=4G RATE_MBPS=250, plus NFILES=5000 SYNC_OLD=1 (or 2) and
-DIRTY_AFTER=1 or SHUTDOWN_FILE=offset|offset_rename|empty for the syncfs
-runs and NFILES=500000 OLD_SECS=120 SYNC_OLD=1 POD_HOP=10 for the
-500k-file runs.
+  without this patch    9.1s   4.0s   1.0s
+  with this patch       1.7s   1.3s   1.0s
 
-Also reproduced unpatched on bare-metal arm64 with Ubuntu's 7.0 kernel
-(ext4 on a loop device): 12.9s worst lag with the old cgroup removed,
-2.5s with it kept.
+Without this patch, moving the old wb's inodes over took up to 11s,
+first switch to last; with it, all 5001 were switched in a 23-35ms
+window, with up to 98MiB of the old cgroup's pages dirty.
 
-Tested: arm64 KVM guests (virtme-ng), ext4 and XFS on virtio, on
-vfs-7.4.misc and on mainline with 168a8c13159c. No KASAN, lockdep,
-PROVE_RCU, DEBUG_LIST, DEBUG_OBJECTS_WORK, DEBUG_ATOMIC_SLEEP or
-DEBUG_PAGEALLOC reports, including a stress run toggling io on the
-parent of two writers 40 times so their wbs are killed and replaced in
-the same slot (240 calls of patch 3's switch, 16400 inode switches,
-counted with bpftrace), and the patch 1 and 3 tests in their changelogs
-and the re-kick race test below. W=1 and checkpatch --strict clean, no
-new sparse warnings. All changes are under CONFIG_CGROUP_WRITEBACK, and
-only builds with it enabled were done for v7.
-
-Not tested: x86 runtime, this series in production, linux-next, and
-patch 3's fallback for a successor that is already gone (not reachable
-on demand; it is cleanup_offline_cgwb()'s loop).
-
-Workaround until this lands: syncfs after the old container's last
-write (twice on ext4). Lowering vm.dirty_expire_centisecs from 3000 to
-500 cut the worst lag on unpatched mainline to 4.8s, 4.6s and 14.3s, but
-did not remove the stall.
-
-Related: without 168a8c13159c the flush is sized from the dead memcg's
-own dirty pages, so this only helps while it has some. f6988c90671e
-(mainline) also matters: on XFS with 500k synced inodes and the pod
-cgroup removed 10s later, the handover was slow enough without it that
-the replacement fell 21-22s behind (vfs-7.4.misc), against 1.0-1.2s with
-it (mainline), both with v1 of this series.
-
-In patch 3's test all 5001 inodes switched within 23-35ms, and on
-mainline the sibling lagged at most 2.1s. That lag varies from run to
-run: in 15 alternating runs each on vfs-7.4.misc, it averaged 1.33s with
-v6 and 1.35s with v7 (1.0-2.1s and 1.0-3.4s), and in the 10 pairs I
-probed no sync ran, so the new lock was never contended. As with today's
-per-inode switches, switched inodes land at the newest end of the new
-wb's b_dirty with their old dirtied_when, so periodic writeback may
-reach them up to dirty_expire_centisecs late; background and foreign
-flushes are unaffected.
-
-To test the re-kick in patch 3, a debug-only delay in
-inode_switch_wbs_work_fn() held back foreign switches to a memcg's wb
-until after io was disabled on its parent, a new wb took over its slot
-and the memcg was removed. With v5, the 61, 62 and 19 inodes that then
-landed on the replaced wb stayed there until the next memcg offline ran
-cleanup_offline_cgwbs_workfn(); with v6, all 5, 35 and 82 that landed
-were queued to the successor as they landed, checked by wb pointer with
-bpftrace. Switches queued after the takeover went to the successor
-directly. The inodes were clean by the time they landed, so this shows
-where they end up, not a stall. On the lockdep kernel, the re-kick moved
-165, 82 and 198 inodes from the replaced wb to the successor with v6,
-and 116 and 85 in two runs with v7.
-
-Tejun spotted on v6 that, with mainline's f6988c90671e, patch 3's scan
-could make a concurrent sync miss data. I reproduced it on mainline with
-a debug-only delay holding a sync's work on a memcg's wb between fixing
-its cutoff and queueing inodes (and skipping sync's best-effort
-pre-flush there): the memcg had 400 64KiB files dirty, created one more
-file after the cutoff, and then its wb was replaced. With v6, sync()
-queued 22 of the 400 and returned with the other 378 still dirty,
-and after a crash right after it, those 378 files were empty. With v7,
-sync() queued all 400 and all 400 survived the crash. 3 of 3 runs each,
-on ext4.
-
-Developed with Claude Opus 5.5, which wrote the code, the reproducers
-and first drafts of this text, and ran the builds and VM tests. Claude
-Fable 5.1 reviewed the code and the claims in this text before v2 to v7
-were posted. I drove the investigation from the production symptoms,
-designed the experiments and controls (repeated runs, parent-commit
-baselines, testing this patch on its own), and reviewed the analysis,
-code and results.
-
-Minimal recipe:
-	#!/bin/bash
-	# As root, cgroup v2, in a directory on ext4/xfs/btrfs ($DIR).
-	cg=/sys/fs/cgroup/wbmini
-	mkdir $cg && echo +memory > $cg/cgroup.subtree_control
-	echo 4G > $cg/memory.max
-	mkdir $cg/old $cg/new
-	append() {  # append $1 blocks of $2 to each of 1000 files
-		for i in $(seq 1000); do
-			dd if=/dev/zero of=$DIR/f$i bs=$2 count=$1 \
-			   oflag=append conv=notrunc status=none
-		done
-	}
-	(echo $BASHPID > $cg/old/cgroup.procs
-	 append 8 1M            # old owner writes the files...
-	 append 1 64k)          # ...and exits with all of them dirty
-	rmdir $cg/old           # its cgroup goes away while they are dirty
-	bpftrace -e 'kretprobe:cgroup_writeback_by_id {
-		@ret[(int32)retval] = count(); }' &
-	sleep 3
-	time (echo $BASHPID > $cg/new/cgroup.procs
-	      append 4 1M)      # replacement keeps appending to the same files
-	kill -INT $!; wait
-	rmdir $cg/new $cg
-	# Unpatched: many @ret[-2] (-ENOENT) and the append stalls.
-	# Patched: @ret[0] only.
-
+Suggested-by: Tejun Heo <tj@kernel.org>
+Assisted-by: Claude:claude-opus-5-5 checkpatch sparse
+Assisted-by: Claude:claude-fable-5-1
+Reviewed-by: Jan Kara <jack@suse.cz>
+Signed-off-by: Liz Fong-Jones <lizf@honeycomb.io>
 ---
-Changes in v7:
-- Patch 3: hold wb_switch_rwsem for read across the scan, so a sync
-  can't miss inodes it moves (Tejun); doc and changelog say "inodes on
-  the old wb's lists"; drop a redundant comment and reword
-  cgwb_kick_replaced()'s summary (Tejun)
-- Collect Jan's Reviewed-by on all patches
-- Link to v6: https://patch.msgid.link/20261002-wb-dying-cgwb-flush-v6-0-1991b4e2dcff@honeycomb.io
+ fs/fs-writeback.c                | 67 ++++++++++++++++++++++++++++++++++++++++
+ include/linux/backing-dev-defs.h |  1 +
+ include/linux/backing-dev.h      |  1 +
+ include/linux/writeback.h        |  1 +
+ mm/backing-dev.c                 | 48 ++++++++++++++++++++++++++++
+ 5 files changed, 118 insertions(+)
 
-Changes in v6:
-- Patch 1: trim the test paragraph (Tejun)
-- Patch 2: comment updates for wb_get_lookup(), wb_get_create(),
-  struct bdi_writeback and wb_dying() (Tejun)
-- Patch 3: queue replaced_work again when a switch lands on a wb that
-  was replaced after the switch was queued; share the tryget, queue
-  and put on failure in a helper (Tejun)
-- Link to v5: https://patch.msgid.link/20261001-wb-dying-cgwb-flush-v5-0-8361eb8c65c6@honeycomb.io
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index 050d507aa554..eeaca6b41619 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -624,6 +624,8 @@ void inode_switch_wbs_work_fn(struct work_struct *work)
+ 
+ 	llist_for_each_entry_safe(isw, next_isw, list, list)
+ 		process_inode_switch_wbs(new_wb, isw);
++	/* @new_wb may have been replaced while the switches were queued */
++	cgwb_kick_replaced(new_wb);
+ 	wb_put(new_wb);
+ }
+ 
+@@ -809,6 +811,71 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+ 	return restart;
+ }
+ 
++/**
++ * switch_replaced_cgwb - switch a replaced wb's inodes to its successor
++ * @wb: target wb, replaced in bdi->cgwb_tree by another wb of its memcg
++ *
++ * Switch all inodes on @wb's lists, dirty or not, to the wb that foreign
++ * flushes now find for @wb's memcg.  If that one is already gone, fall back
++ * like cleanup_offline_cgwb() does, to the nearest live ancestor's wb or the
++ * root wb.  The switch carries the dirty and writeback page counts, so
++ * nothing needs to be written back first.  Returns %true if not all inodes
++ * were switched and the function has to be restarted.
++ */
++bool switch_replaced_cgwb(struct bdi_writeback *wb)
++{
++	struct cgroup_subsys_state *memcg_css;
++	struct inode_switch_wbs_context *isw;
++	struct bdi_writeback *new_wb;
++	bool restart;
++	int nr = 0;
++
++	new_wb = wb_get_lookup(wb->bdi, wb->memcg_css);
++	for (memcg_css = wb->memcg_css->parent; !new_wb && memcg_css;
++	     memcg_css = memcg_css->parent)
++		new_wb = wb_get_create(wb->bdi, memcg_css, GFP_KERNEL);
++	if (!new_wb)
++		new_wb = &wb->bdi->wb; /* wb_get() is noop for bdi's wb */
++	if (WARN_ON_ONCE(new_wb == wb)) {
++		wb_put(new_wb);
++		return false;
++	}
++
++	isw = kzalloc_flex(*isw, inodes, WB_MAX_INODES_PER_ISW);
++	if (!isw) {
++		wb_put(new_wb);
++		return false;
++	}
++
++	atomic_inc(&isw_nr_in_flight);
++
++	/*
++	 * The scan reorders @wb's lists.  Keep it out of a sync's way, which
++	 * could otherwise miss dirty inodes moved past its cutoff on b_dirty.
++	 */
++	down_read(&wb->bdi->wb_switch_rwsem);
++	spin_lock(&wb->list_lock);
++	restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_attached, &nr) ||
++		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty, &nr) ||
++		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_io, &nr) ||
++		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_more_io, &nr) ||
++		  isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty_time, &nr);
++	spin_unlock(&wb->list_lock);
++	up_read(&wb->bdi->wb_switch_rwsem);
++
++	if (nr == 0) {
++		atomic_dec(&isw_nr_in_flight);
++		wb_put(new_wb);
++		kfree(isw);
++		return restart;
++	}
++
++	trace_inode_switch_wbs_queue(wb, new_wb, nr);
++	wb_queue_isw(new_wb, isw);
++
++	return restart;
++}
++
+ /**
+  * wbc_attach_and_unlock_inode - associate wbc with target inode and unlock it
+  * @wbc: writeback_control of interest
+diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
+index 33e06b1b1e1c..7713fd60c985 100644
+--- a/include/linux/backing-dev-defs.h
++++ b/include/linux/backing-dev-defs.h
+@@ -162,6 +162,7 @@ struct bdi_writeback {
+ 					 * to this wb */
+ 	struct llist_head switch_wbs_ctxs;	/* queued contexts for
+ 						 * writeback switching */
++	struct work_struct replaced_work;	/* see switch_replaced_cgwb() */
+ 
+ 	union {
+ 		struct work_struct release_work;
+diff --git a/include/linux/backing-dev.h b/include/linux/backing-dev.h
+index f7ef5895625a..84057fa92f24 100644
+--- a/include/linux/backing-dev.h
++++ b/include/linux/backing-dev.h
+@@ -151,6 +151,7 @@ static inline void bdi_wb_stat_mod(struct inode *inode, enum wb_stat_item item,
+ 
+ struct bdi_writeback *wb_get_lookup(struct backing_dev_info *bdi,
+ 				    struct cgroup_subsys_state *memcg_css);
++void cgwb_kick_replaced(struct bdi_writeback *wb);
+ struct bdi_writeback *wb_get_create(struct backing_dev_info *bdi,
+ 				    struct cgroup_subsys_state *memcg_css,
+ 				    gfp_t gfp);
+diff --git a/include/linux/writeback.h b/include/linux/writeback.h
+index b749a9a5a5ee..88e4b5049698 100644
+--- a/include/linux/writeback.h
++++ b/include/linux/writeback.h
+@@ -209,6 +209,7 @@ int cgroup_writeback_by_id(u64 bdi_id, int memcg_id,
+ 			   enum wb_reason reason, struct wb_completion *done);
+ void cgroup_writeback_umount(struct super_block *sb);
+ bool cleanup_offline_cgwb(struct bdi_writeback *wb);
++bool switch_replaced_cgwb(struct bdi_writeback *wb);
+ 
+ /**
+  * inode_attach_wb - associate an inode with its wb
+diff --git a/mm/backing-dev.c b/mm/backing-dev.c
+index 85b2c95a920c..0c09b51d5f40 100644
+--- a/mm/backing-dev.c
++++ b/mm/backing-dev.c
+@@ -637,9 +637,50 @@ static void cgwb_release_workfn(struct work_struct *work)
+ 	bdi_put(bdi);
+ 	WARN_ON_ONCE(!list_empty(&wb->b_attached));
+ 	WARN_ON_ONCE(work_pending(&wb->switch_work));
++	WARN_ON_ONCE(work_pending(&wb->replaced_work));
+ 	call_rcu(&wb->rcu, cgwb_free_rcu);
+ }
+ 
++static void cgwb_replaced_workfn(struct work_struct *work)
++{
++	struct bdi_writeback *wb = container_of(work, struct bdi_writeback,
++						replaced_work);
++
++	do {
++		cond_resched_tasks_rcu_qs();
++	} while (switch_replaced_cgwb(wb));
++	wb_put(wb);
++}
++
++static void cgwb_queue_replaced_work(struct bdi_writeback *wb)
++{
++	lockdep_assert_held(&cgwb_lock);
++
++	if (wb_tryget(wb) && !queue_work(system_dfl_wq, &wb->replaced_work))
++		wb_put(wb);
++}
++
++/**
++ * cgwb_kick_replaced - queue @wb's replaced_work if @wb has been replaced
++ * @wb: wb that inodes were just switched to
++ *
++ * An inode switch pins its target wb before the switch lands, and the wb
++ * may be replaced in cgwb_create() and have its replaced_work run in
++ * between.  Kick the work again so that those inodes reach the successor
++ * too.  A dying wb that still owns its slot is left alone: foreign flushes
++ * can reach it, and the work would look up @wb itself.
++ */
++void cgwb_kick_replaced(struct bdi_writeback *wb)
++{
++	if (!wb_dying(wb))
++		return;
++
++	spin_lock_irq(&cgwb_lock);
++	if (radix_tree_lookup(&wb->bdi->cgwb_tree, wb->memcg_css->id) != wb)
++		cgwb_queue_replaced_work(wb);
++	spin_unlock_irq(&cgwb_lock);
++}
++
+ static void cgwb_release(struct percpu_ref *refcnt)
+ {
+ 	struct bdi_writeback *wb = container_of(refcnt, struct bdi_writeback,
+@@ -724,6 +765,7 @@ static int cgwb_create(struct backing_dev_info *bdi,
+ 	INIT_WORK(&wb->switch_work, inode_switch_wbs_work_fn);
+ 	init_llist_head(&wb->switch_wbs_ctxs);
+ 	INIT_WORK(&wb->release_work, cgwb_release_workfn);
++	INIT_WORK(&wb->replaced_work, cgwb_replaced_workfn);
+ 	set_bit(WB_registered, &wb->state);
+ 	bdi_get(bdi);
+ 
+@@ -748,6 +790,12 @@ static int cgwb_create(struct backing_dev_info *bdi,
+ 			old_wb = radix_tree_deref_slot_protected(slot, &cgwb_lock);
+ 			if (wb_dying(old_wb)) {
+ 				radix_tree_replace_slot(&bdi->cgwb_tree, slot, wb);
++				/*
++				 * @old_wb is out of foreign flushes' reach
++				 * but may still have inodes attached, dirty
++				 * or not.  Switch them over to @wb.
++				 */
++				cgwb_queue_replaced_work(old_wb);
+ 				ret = 0;
+ 			} else {
+ 				ret = -EEXIST;
 
-Changes in v5:
-- New patch 1: clear the old wb's dirty IO state after switching
-  inodes (Tejun)
-- Patch 2: drop the css_is_dying() check, not needed with patch 3
-  (Tejun)
-- Patch 3: if the successor is gone, fall back like
-  cleanup_offline_cgwb(); report a Tasks-RCU quiescent state per
-  pass, as 407a5d205179 does (Tejun)
-- Also tested on mainline (7.3-rc6) with 168a8c13159c
-- Link to v4: https://patch.msgid.link/20260930-wb-dying-cgwb-flush-v4-0-bde637803a96@honeycomb.io
-
-Changes in v4:
-- Don't link a new wb for a dying memcg in cgwb_create() (Tejun)
-- Patch 2: switch the replaced wb's inodes to its successor instead
-  of kicking writeback (Tejun, Jan)
-- Link to v3: https://patch.msgid.link/20260928-wb-dying-cgwb-flush-v3-0-e35374884667@honeycomb.io
-
-Changes in v3:
-- Use wb_dying(), scoped_guard() with the offline_node list_del moved
-  into it, and {}; filter dying wbs right after the lookup in
-  cgwb_create(); comment wording (Tejun)
-- New patch 2: kick writeback on a wb replaced in cgwb_create() (Tejun)
-- Lead patch 1's changelog with the problem and its trigger (Andrew)
-- Link to v2: https://patch.msgid.link/20260928-wb-dying-cgwb-flush-v2-1-56b54cda74f2@honeycomb.io
-
-Changes in v2:
-- Keep killed wbs in bdi->cgwb_tree until release instead of walking
-  bdi->wb_list (Tejun)
-- Drop Fixes: and Cc: stable (Tejun)
-- Link to v1: https://patch.msgid.link/20260926-wb-dying-cgwb-flush-v1-1-a8d898085a3a@honeycomb.io
-
----
-Liz Fong-Jones (3):
-      writeback: clear the old wb's dirty IO state after switching inodes
-      writeback: let foreign flushes reach dying cgwbs
-      writeback: switch a replaced cgwb's inodes to its successor
-
- fs/fs-writeback.c                |  73 +++++++++++++++++++++
- include/linux/backing-dev-defs.h |  23 +++++--
- include/linux/backing-dev.h      |   3 +-
- include/linux/writeback.h        |   1 +
- mm/backing-dev.c                 | 138 ++++++++++++++++++++++++++++++++-------
- 5 files changed, 210 insertions(+), 28 deletions(-)
----
-base-commit: 168a8c13159c6e3f0f08da6f8fa2f633a91ba9fd
-change-id: 20260926-wb-dying-cgwb-flush-06e260e2abad
-
-Best regards,
---  
-Liz Fong-Jones <lizf@honeycomb.io>
+-- 
+2.53.0
 
