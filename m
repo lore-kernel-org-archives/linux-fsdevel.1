@@ -1,70 +1,74 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B056213E9C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 14:36:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BF237C119
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 14:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792074973; cv=none; b=Kv/c8w3VZRTIRuiD8f5+vOMVSTWqJ/qJp8rLF1Klx2xOFP7FS9772PucB0bWB1P4ZmrNyN+MWZ0zDBykGOQ7Z3hyekUX4bGq7eDg35XV0fvfGzX/T+uaNEu3P6KCCLkXksy964VCbI7yZfxbpqxHtwxjInRndP1E8D7rydhHVG8=
+	t=1792074974; cv=none; b=ToMF/u60mGY22nTmFJbVWzXgeOvPJGcl3eu1Dc1ybwss03MCI5b7kLWdIG1udEJjHHxnc0vf7oLmD0V9k0q68IKHV2FPFGGFIIlsKmpr58xcYJDg3L5AFz4T21uHQ9fWuSt4jZcMuW0fjw/YDHMSZkA4D3a3sGYm/gF4bo+R668=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792074973; c=relaxed/simple;
-	bh=E0czfzjCEhnFfOAYL3zbIcbUqx//eIdQtoUrL+xez4c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JmQlE+kmor773E89iLp6F5QbIVpu7GnySJoMs5+ld4HB8AAD77yfK8jnQTQ29o/lNpsbrAMFbLAQQGIhPbolH7hOT6vmhneLSgSgA0VADsEXz53tNlUyEKtStUuUHGAzwKdCX5SD2Lj3egGT+kHRcykdNt1SXITGv1tj+Dzi8LI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MWzrgulV; arc=none smtp.client-ip=209.85.218.45
+	s=arc-20240116; t=1792074974; c=relaxed/simple;
+	bh=rg23894WPQLkFfP6+h8aNrMivkaj6GY5tnsXcnbShqM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qCtcAz/fv+rzmNDBCi3jqAmQkkWI3BRI2epUm/1gmrUMPh5tkK+i8eYe+Qg5P2jLQtxipMtYbsOL2TOK87DiZOyoS8Ne4i8/aeRTZjs42fR/WyogMBkXm/zjZcpIWQXhT6ShNwPcyg/evNjyLJEXXK82m43J/D7B3Lt3Y8N4KDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cscGWoES; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MWzrgulV"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c3fd91337baso62376366b.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 07:36:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cscGWoES"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c2e43f3d1fdso333112766b.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 07:36:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792074963; x=1792679763; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IT8EYhCgYU6GyVGiPMcATqxuWpptkCrT+sYQM2M/SoE=;
-        b=MWzrgulVmUTm6Yvv86FjskwBtns1j0/GsynTs50fPZpLhz9V33tzbfTS5zuBlsVWAG
-         UoxQENeD6ii9DdHA6v/CCFgOh8I2OT4ACE9ObpGq1pjGD/KWVi4k6OpOexELLtBe95/L
-         +KDKLnWjarQ04gd4o4orugO6pMEw+BhBXqmsMVcvFQ6OcsyQ/kE7868+KZa8V76Snb8y
-         QVtzf2FhrtUvTJdKZeBQwSulcX4Z874ibwUngPCQY26S8y1FSB7WQ3PtNnpm6mdcOvQE
-         yHOgGOka8Dd5IRpVTfDWcH1MN4GMwjDf5a3f44ptU6BpFrrZJ/gdPra6NRzLud7yQmzg
-         SRgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792074963; x=1792679763;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1792074970; x=1792679770; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IT8EYhCgYU6GyVGiPMcATqxuWpptkCrT+sYQM2M/SoE=;
-        b=jf/DnAhMTZGripeXLAdduIJVEtCcH4IWSUtWd0iUuyIe0IdFmnXfiyqFLllcJ6yBa3
-         fGfW2pRxGXGs7qHQMtMoXWJ0mTjdtUkqkGeIStxmkoftx6eT4+CWvawr5Sts8No8xQsR
-         k37ge0rhC9zJsipMLPkQMY9AOyKY4KJQodMLpoSMaLbxfbrb6DWDp0rrkVVYIScMp27O
-         43TVl1iUiMVDr6LswRmkwa+MztNSjTN34AJbQTEEzAurrX5UO20mGDyTvoQYZKkPLw+P
-         fyd6wHsYryvYd0Z3u+eNXdz83f7I3pBhPv8Y/ct6hV0Jlhbz+bjEI8pIYs7LiHsp11Tz
-         QH9w==
-X-Forwarded-Encrypted: i=1; AKwUvBwCjVXAgedCsKzKIyMz78oy0Qdw9Mk1Vl9zfTiTBQy8Y4IyLlosgd1G4spwHndv3FK+n9MOaR8hIanBUZ8C@vger.kernel.org
-X-Gm-Message-State: AFq9FYINUYFRVVwxw13WjK6O+BitUo4pVfpI/osOAbrWJvE3oz0MmxB9
-	8laaDO4e/Nyw9u3M8bzBRYeiRLC7OsOdoPULZNAz55Uz2ImKiTHxNcJF
-X-Gm-Gg: AYBFou1Sxpk+eMfRcGUrTIqyXlu7P0B/VYxma5MeS/4EZNpCxMHppJzSRYs3++0PRlk
-	HR6oShoWAMZDjEpQ4zGEiXYYrltSohtW0hrDSndECgsf7dvfNWQSYks9b42J8fSWMt/nUOiShIc
-	2Q4Tg8ARZ3FXMchHbTlM2ScrfKqjdMCzh/n+QIRLc8ebRvyxhgpf4uq+wJxyvS9uNRk2PhuVCAl
-	y4U0yOSAsp8LCm2Yct3UCxewEbwMczOhXJ6DmJ1nKREJqM0452jsw5mDUSKsde51BhiQ2N823Cj
-	0ufOq6HT3UrqwiV2yVAJH7+Xc0hNEepBDtcjnqbg5EH0HaYDqSOCp9X5KwqO+urmGn96/Vueanc
-	lvxPimA6AwBahkDa0vbETMoSdmGVXN5Kp+6vThR0PJMSElOiBzUSd8fiY/GEgIAV+zSzdDR07Jz
-	ZxDgRC/cc3tpU8noChL5DcaAUiYpRKKqGqExy315D7qhHWzy5e2dzTQA3oFsvBK6TphVQf819j8
-	QKzdqgOijm74r+GGOWUdZR/6IHijCRugyzE
-X-Received: by 2002:a17:907:7b87:b0:c2d:c739:30e0 with SMTP id a640c23a62f3a-c31aa0d3aa4mr1740222566b.38.1792074962924;
-        Thu, 15 Oct 2026 07:36:02 -0700 (PDT)
+        bh=aS8O+9F3WQHCN+M3Yr7u/JoD8caaFJYkp7p7oNxSLXg=;
+        b=cscGWoESnDt5s/6xVY3wM4UzQfl9gwg55FT+9tdqs8h5jTsGsqqykNnH2DURCXHAas
+         BC7QhsOWzwhfO1xbrjrmjz2kysL8jggQtFP0Q1264389pohRVyo942gLwQljd1Hf7NSg
+         VDNl0eZ6kN489D58B6aZkN5UIFxpRfuhDQesBXcsCdKhwpoplZHEIMQrZ7rZeGDdAr4v
+         si0WPBRSal5v71Ch6gSbk+0tsEL1G2Pn93qXZdTPZozEgyHO1oZk/PF3NAFGuyqKyapm
+         UgZrvdiFdOUPs5zAcmPbfuzOuljmWvR/IzWkgVcE4hFmQKv48fDsBgQHV7wtzoiOV7me
+         rV/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792074970; x=1792679770;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aS8O+9F3WQHCN+M3Yr7u/JoD8caaFJYkp7p7oNxSLXg=;
+        b=MdN201AWJu++LIIQwVbLTqWOqkcrGWN0ckYkpoIjYiVUIvISMX5YZoLyMdyW46VZIW
+         6BgUHLVbyTKxZHuCFg6SQgXbcCKXUgmzHokG8TVML9ZfaLXC5uCZnHm3/gCZrKReetpJ
+         r0A5xuiWij7hNgAf2U75bwD1uIPsGhiG87Bogm0RFCaNzLnNQHZJsiecGHS5QLlVky5B
+         e9WJpzdaCGfWCahVBRbdnpAmJJ/TUYD0s90f+Mv2sd6vU0l1INARBDrwrPpFj/GEENZe
+         hn010e2vPQ9nLIu5RhU5RYdOS51vwW+mOAoEpZgDdXZE6n2o54nkV4Dn5lwRPqwIs1BG
+         6hZg==
+X-Forwarded-Encrypted: i=1; AKwUvBxDfre6duoHIQO2RKMSCdJ1JNvDx04hcWsaxZNrBP6ZSuJhtm5k98+fiFnAIOM2Xx5I8gjiSV9W98lJyCil@vger.kernel.org
+X-Gm-Message-State: AFq9FYKFhnbqQPokJ8V8ojo13qhzxNh6HNgp0sUlTj94WC98YbjKRfM6
+	3ydYPF1wmp4qLzCadEy5uqknVGGs5Cq9Op5rq2qdzQSp5bYnYlfyIneYfO8xitun
+X-Gm-Gg: AYBFou2U1/UonPv3TN7MWhxFT3wSgOX+bPiTUWYJqykCnheSVSNuIcKJmw7lFv9G+RL
+	4uNBUGeqgBvTK2C3T1wos/r7B5Za4HnfNqJN3nvn1jpENaEpy3uvGzQh0nFYnnHZudFYagM2vDF
+	s//teaLFuNVTaFNvToR7XCnoktdec+Zu4bNTNkCcVmTCmGEYQhX7xb9H1jBM9KSbKzdojZ9S1Af
+	z6A/THtSZlFrFPVt78hYQoZq4nI5oWpLgvbuT5YCKKY1di0poJl94Gp5QohuZQZPjduafRAFXCM
+	hCNPjUAQUbrtYtdOZNQW/3pTLKczFS1mQjGZ2eRT/q6VMjQWZLgSea8MC/QaWnZGz2C6wI5T4c8
+	SrF+t9raGFInBgRvHZ3aTJ87iSw7vK3yhCMdCBptiS3ajYjw3wBH+j78JzA47ffRtUEBlw5Inb9
+	aRbHaNEZawTfiCbToUKXlfJPyxII+UvYuyzLju3pwmb+JibD4OJESBOHVcuVUY5l367n+0ez5ga
+	mBvU3Neki2OI5vr6cmnw7Tp
+X-Received: by 2002:a17:907:3d0d:b0:c2d:ca32:217a with SMTP id a640c23a62f3a-c31aa07c3a1mr1793865966b.33.1792074969765;
+        Thu, 15 Oct 2026 07:36:09 -0700 (PDT)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c3ed9b3abe2sm134175966b.38.2026.10.15.07.36.02
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c3ed963d7casm131482266b.24.2026.10.15.07.36.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 07:36:02 -0700 (PDT)
+        Thu, 15 Oct 2026 07:36:09 -0700 (PDT)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Jan Kara <jack@suse.cz>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v3 00/14] Partition the fanotify watchers by type
-Date: Thu, 15 Oct 2026 16:35:46 +0200
-Message-ID: <20261015143601.2095784-1-amir73il@gmail.com>
+Subject: [PATCH v3 06/14] fanotify: gate filesystem event classification by group type
+Date: Thu, 15 Oct 2026 16:35:52 +0200
+Message-ID: <20261015143601.2095784-7-amir73il@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261015143601.2095784-1-amir73il@gmail.com>
+References: <20261015143601.2095784-1-amir73il@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,78 +77,158 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Jan,
+fanotify decides on how to allocate events based on the event mask.
+The event mask bits that correspond to filesystem watchers are only
+meaningful in the context of filesystem group type.
 
-As discussed on the "namespace monitoring" patch set [1], the proposed
-namespace events do not need to be mixed on the same group with legacy
-fanotify filesystem events.
+Hence, before checking if event is a specific filesystem event (e.g.
+FS_RENAME) need to first check the group type is filesystem.
 
-The mount events are already not mixable with filesystem events, but we
-want to be able to mix them with the new namespace events.
+Separate fanotify_alloc_event() into an allocator per group type, so
+that all the filesystem event checks inside
+fanotify_alloc_filesystem_watcher_event() are already properly gated.
 
-Therefore, introduce the concept of "watcher type" where all the legacy
-events belong to the filesystem watcher type and the new mount events
-belong to a new namespace watcher type.
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+---
+ fs/notify/fanotify/fanotify.c | 88 ++++++++++++++++++++++++-----------
+ 1 file changed, 60 insertions(+), 28 deletions(-)
 
-The new watcher type is free to reuse most of the 32bit mask space that
-we have internally in fsnotify for event masks.
-
-The prep patch set only does the partitioning by watcher type.
-Followup namepsace events work in available for review in my tree [2].
-
-If you are fine with this plan and have time to review the patches,
-perhaps it is not too late to stage this prep series for next cycle?
-
-Otherwise, we could aim for merging this together with the namespace
-events for the following cycle.
-
-Thanks,
-Amir.
-
-[1] https://lore.kernel.org/linux-fsdevel/20260424170503.2096847-1-amir73il@gmail.com/
-[2] https://github.com/amir73il/linux/commits/fan_mark_userns
-
-Amir Goldstein (14):
-  fsnotify: rename fsnotify group flag macros
-  fsnotify: introduce fsnotify group types
-  fsnotify: separate the events bitmask macros by group type
-  fanotify: test event->type instead of event mask when possible
-  fsnotify: do not report mount events with fsnotify()
-  fanotify: gate filesystem event classification by group type
-  fanotify: define event mask constants as 64bit
-  fanotify: define new FAN_NS_MNT_* constants
-  fanotify: gate event mask in fanotify_mark() by group type
-  fanotify: introduce FAN_REPORT_MNTID
-  fanotify: introduce FAN_EVENT_MATCH() macro
-  selftests/filesystems: create fanotify test dir
-  selftests/fanotify: update the uapi tools header copy
-  selftests/fanotify: test the FAN_REPORT_MNTID mode
-
- fs/notify/fanotify/fanotify.c                 | 186 +++++++++-----
- fs/notify/fanotify/fanotify.h                 |  38 ++-
- fs/notify/fanotify/fanotify_user.c            | 230 ++++++++++++------
- fs/notify/fsnotify.c                          | 106 +++++---
- fs/notify/group.c                             |  15 +-
- fs/notify/inotify/inotify_user.c              |   2 +-
- fs/notify/mark.c                              |   2 +-
- include/linux/fanotify.h                      |  45 +++-
- include/linux/fsnotify.h                      |   6 +-
- include/linux/fsnotify_backend.h              |  83 +++++--
- include/trace/misc/fsnotify.h                 |   4 +-
- include/uapi/linux/fanotify.h                 | 100 +++++---
- kernel/audit_fsnotify.c                       |   2 +-
- tools/include/uapi/linux/fanotify.h           | 100 +++++---
- tools/testing/selftests/Makefile              |   2 +-
- .../{mount-notify => fanotify}/.gitignore     |   0
- .../{mount-notify => fanotify}/Makefile       |   0
- .../mount-notify_test.c                       |  51 +++-
- .../mount-notify_test_ns.c                    |  54 +++-
- 19 files changed, 707 insertions(+), 319 deletions(-)
- rename tools/testing/selftests/filesystems/{mount-notify => fanotify}/.gitignore (100%)
- rename tools/testing/selftests/filesystems/{mount-notify => fanotify}/Makefile (100%)
- rename tools/testing/selftests/filesystems/{mount-notify => fanotify}/mount-notify_test.c (90%)
- rename tools/testing/selftests/filesystems/{mount-notify => fanotify}/mount-notify_test_ns.c (90%)
-
+diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
+index 9dc39b16a41a7..35b87a7cc6129 100644
+--- a/fs/notify/fanotify/fanotify.c
++++ b/fs/notify/fanotify/fanotify.c
+@@ -745,14 +745,14 @@ static struct fanotify_event *fanotify_alloc_error_event(
+ 	return &fee->fae;
+ }
+ 
+-static struct fanotify_event *fanotify_alloc_event(
++static struct fanotify_event *fanotify_alloc_filesystem_watcher_event(
+ 				struct fsnotify_group *group,
+ 				u32 mask, const void *data, int data_type,
+ 				struct inode *dir, const struct qstr *file_name,
+-				__kernel_fsid_t *fsid, u32 match_mask)
++				__kernel_fsid_t *fsid, u32 match_mask,
++				unsigned int *hash, gfp_t gfp)
+ {
+ 	struct fanotify_event *event = NULL;
+-	gfp_t gfp = GFP_KERNEL_ACCOUNT;
+ 	unsigned int fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
+ 	struct inode *id = fanotify_fid_inode(mask, data, data_type, dir,
+ 					      fid_mode);
+@@ -760,14 +760,10 @@ static struct fanotify_event *fanotify_alloc_event(
+ 	const struct path *path = fsnotify_data_path(data, data_type);
+ 	struct fs_error_report *fs_error =
+ 		fsnotify_data_error_report(data, data_type);
+-	u64 mnt_id = fsnotify_data_mnt_id(data, data_type);
+-	struct mem_cgroup *old_memcg;
+ 	struct dentry *moved = NULL;
+ 	struct inode *child = NULL;
+ 	bool name_event = false;
+-	unsigned int hash = 0;
+ 	bool ondir = mask & FAN_ONDIR;
+-	struct pid *pid;
+ 
+ 	if ((fid_mode & FAN_REPORT_DIR_FID) && dirid) {
+ 		/*
+@@ -832,6 +828,54 @@ static struct fanotify_event *fanotify_alloc_event(
+ 		}
+ 	}
+ 
++	if (IS_ENABLED(CONFIG_FANOTIFY_ACCESS_PERMISSIONS) &&
++	    mask & FANOTIFY_PERM_EVENTS) {
++		event = fanotify_alloc_perm_event(data, data_type, gfp);
++	} else if (fs_error) {
++		event = fanotify_alloc_error_event(group, fsid, fs_error,
++						   hash);
++	} else if (name_event && (file_name || moved || child)) {
++		event = fanotify_alloc_name_event(dirid, fsid, file_name, child,
++						  moved, hash, gfp);
++	} else if (fid_mode) {
++		event = fanotify_alloc_fid_event(id, fsid, hash, gfp);
++	} else if (path) {
++		event = fanotify_alloc_path_event(path, hash, gfp);
++	} else {
++		WARN_ON_ONCE(1);
++	}
++
++	return event;
++}
++
++static struct fanotify_event *fanotify_alloc_namespace_watcher_event(
++				struct fsnotify_group *group, u64 mask,
++				const void *data, int data_type, gfp_t gfp)
++{
++	u64 mnt_id = fsnotify_data_mnt_id(data, data_type);
++	struct fanotify_event *event = NULL;
++
++	if (mnt_id)
++		event = fanotify_alloc_mnt_event(mnt_id, gfp);
++	else
++		WARN_ON_ONCE(1);
++
++	return event;
++}
++
++static struct fanotify_event *fanotify_alloc_event(
++				struct fsnotify_group *group, u64 mask,
++				const void *data, int data_type,
++				struct inode *dir, const struct qstr *name,
++				__kernel_fsid_t *fsid, u32 match_mask)
++{
++	struct fanotify_event *event = NULL;
++	gfp_t gfp = GFP_KERNEL_ACCOUNT;
++	struct mem_cgroup *old_memcg;
++	unsigned int hash = 0;
++	bool ondir = mask & FAN_ONDIR;
++	struct pid *pid;
++
+ 	/*
+ 	 * For queues with unlimited length lost events are not expected and
+ 	 * can possibly have security implications. Avoid losing events when
+@@ -855,25 +899,13 @@ static struct fanotify_event *fanotify_alloc_event(
+ 	    pidfs_register_pid_gfp(pid, gfp))
+ 		goto out;
+ 
+-	if (IS_ENABLED(CONFIG_FANOTIFY_ACCESS_PERMISSIONS) &&
+-	    mask & FANOTIFY_PERM_EVENTS) {
+-		event = fanotify_alloc_perm_event(data, data_type, gfp);
+-	} else if (fs_error) {
+-		event = fanotify_alloc_error_event(group, fsid, fs_error,
+-						   &hash);
+-	} else if (name_event && (file_name || moved || child)) {
+-		event = fanotify_alloc_name_event(dirid, fsid, file_name, child,
+-						  moved, &hash, gfp);
+-	} else if (fid_mode) {
+-		event = fanotify_alloc_fid_event(id, fsid, &hash, gfp);
+-	} else if (path) {
+-		event = fanotify_alloc_path_event(path, &hash, gfp);
+-	} else if (mnt_id) {
+-		event = fanotify_alloc_mnt_event(mnt_id, gfp);
+-	} else {
+-		WARN_ON_ONCE(1);
+-	}
+-
++	if (fsnotify_is_namespace_watcher(group))
++		event = fanotify_alloc_namespace_watcher_event(group, mask,
++							data, data_type, gfp);
++	else
++		event = fanotify_alloc_filesystem_watcher_event(group, mask,
++						data, data_type, dir, name,
++						fsid, match_mask, &hash, gfp);
+ 	if (!event)
+ 		goto out;
+ 
+@@ -975,8 +1007,8 @@ static int fanotify_handle_event(struct fsnotify_group *group, u32 mask,
+ 	if (!mask)
+ 		return 0;
+ 
+-	pr_debug("%s: group=%p mask=%x report_mask=%x\n", __func__,
+-		 group, mask, match_mask);
++	pr_debug("%s: group=%p type=%d mask=%x report_mask=%x\n", __func__,
++		 group, group->type, mask, match_mask);
+ 
+ 	if (is_perm_event) {
+ 		/*
 -- 
 2.55.0
 
