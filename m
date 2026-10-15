@@ -1,83 +1,106 @@
-Received: from o1.ptr9745.em.honeycomb.io (o1.ptr9745.em.honeycomb.io [149.72.141.136])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF06384CD4
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 11:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.141.136
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792064702; cv=none; b=IJpuCr4cUY/B5QvmcLMpZmipc8FFyGy30IdmMxBTdWEK1qoydgflKHcpguKEggZ43C2JdGjLbujavPuLzK3pcIoJ5R8eAQplVEAN3m+xG5fYf5uhlBrfVu3s8RFHFatNES3ftU+/oCEfrl4qsp2yduDIl0+IF7QH9vpxfQL+d3o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792064702; c=relaxed/simple;
-	bh=sJmD9ocK7Fs9suTaTWnyV7Zu9zx34PL0h0sFqWfJXTk=;
-	h=From:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
-	 To:Cc:Content-Type; b=J6WepbtvizNYtXkkIkNQ5QXhO9OmIcE7uW8VEc3uWUm/2rnP+F2jLohUkl8cak5u2aCFEaGNRX0Bzy58vrof2olV6V8klvInKjnHPu5SgzEMJzicyo825BZmtO1bYx9FUkE0ApO9UWo5gYVCNXcqSOF7zdR0NivQsX+T6V5fdcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=aKFcWymC; arc=none smtp.client-ip=149.72.141.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em.honeycomb.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B215187E0
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 11:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792065284; cv=pass; b=im6h+8naOtmSTe3gj+Z4LdkuwUsKhbST41qX8FmH3sqMJ7RoCSmjoCNv+p/lnO3mfFa/D7psfWmd86xMsk6DFc6R2Cx4+QcCVg3PKZ1Nj+0qbdukNXDffNlKHYbuWUQ1GebbvqmvmrVorVesvNZOmzGVvobLrS5CtLVQqH/NP8E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792065284; c=relaxed/simple;
+	bh=ttWWCBe5s6LvEvuhu7UMsF9414H3CKAKMZfdr0bsCwA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Hq+NUJo/xug+ErMVEl7+k0WnZ8OwVotnm7RGOHwKFVNJKgnA2HYhMX9BxxKwIMhwDvU2VuopwUH5+ZOxFEoeaoUZWUDIpGveUrac23yPLzWGOFB3hAWjZB7Pi3r7a7FpU1TEz/y/yXkMq8//8hdHiEDkN/iHjWfrEJsTv7t2jZg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=MPLi660C; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="aKFcWymC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=honeycomb.io;
-	h=from:subject:date:in-reply-to:references:mime-version:to:cc:
-	content-type:content-transfer-encoding:cc:content-type:date:from:subject:to;
-	s=s1; t=1792064700;
-	bh=sJmD9ocK7Fs9suTaTWnyV7Zu9zx34PL0h0sFqWfJXTk=;
-	b=aKFcWymCpbK2U7jOrv7orsYLbstUHzod+zvjfY0Pzzd7FJyo8BCsFao+2EiAd+MNVQ0e
-	OOzI2CeE5+7y8VpUorgtij77WKMsbF+VEemFDcAS+dIPvQ9Wt7yJXAa1rdtrlqP44hWRK+
-	HmB751/FA/DW46SE4XAuVezWnS6MFFISiG7pTjh7f2N1/dwE6K9GkTOCN3cto7hCIJP+sp
-	5SaWB64U00YuYfRheqwbWB0J+/nQ+cJ3NCQXZ6FGtffxlDsbMTDHO/kXeZTcthSDNGdhUI
-	Meq8N9EVF/MrAaiAHGffWh+mu/q3S7rP6/76cZFrTZQN7THayjFLedINL9DXHHxA==
-Received: by recvd-76bcf77c4-v72n6 with SMTP id recvd-76bcf77c4-v72n6-1-6AD0BCBC-1C
-	2026-10-15 11:45:00.1120767 +0000 UTC m=+1363486.465368565
-Received: from daisy.dens.ffj.family (unknown)
-	by geopod-ismtpd-22 (SG)
-	with ESMTP
-	id 5MqOTtk5QKKOvgGuVd3Z1w
-	Thu, 15 Oct 2026 11:44:59.807 +0000 (UTC)
-From: Liz Fong-Jones <lizf@honeycomb.io>
-Subject: Re: [PATCH v6 3/3] writeback: switch a replaced cgwb's inodes to its
- successor
-Date: Thu, 15 Oct 2026 11:45:00 +0000 (UTC)
-Message-ID: <20261015114459.1041805-1-lizf@honeycomb.io>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <0bc5d58533f10b4841807be3025daa11@kernel.org>
-References: <20261002-wb-dying-cgwb-flush-v6-3-1991b4e2dcff@honeycomb.io> <0bc5d58533f10b4841807be3025daa11@kernel.org>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="MPLi660C"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-535f9de49fcso8596461cf.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 04:54:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792065281; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Qa763nsrJ7y+zcB41cDlA34ogsGnGm7b7ASoAlsQpzS4f73KL3G5FFHb6YfPBeiWmp
+         yCWtWqRly1nqdTi1TrETDpbtCoyy3u1iJwX2T9igpvPxvv0DzBtQCIkzYl6OM41RJ2j5
+         noyRzeg78V5DM64fRdSGYt9bNm3b3HYS0RaPmGhtjbUX5f235zLwjm3ISBpjHqgwwq/u
+         hciNE5lHGaQgkKOfvqSFn0sBfY2Q0MbISw4IB56D7ORUNRU+i/7lP5jVcWfB60/wIU7L
+         8tctTxD4PtARlnGmx9hqh0nb5xKW5l0SJ2ntSnHSx5d4hIaanJrrC+IL9ZMO6Rf7QIzO
+         VMmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ttWWCBe5s6LvEvuhu7UMsF9414H3CKAKMZfdr0bsCwA=;
+        fh=wYnim7t7efVLyymryFfoK3qIL79Tf7RlSvTkY/QzdOI=;
+        b=rffnQC9g6HlkUn+R6JoolbGcNDlB8EMkqdIYrqG9Z9HBFaLEY3Ea/CpC5fbP1x+FKy
+         AMY1rRKJfhwReVRvtb2nJ3G/tRdKd+8/MAUv7xLpqSwX3NjZ/scflwhmvggLsvm8uLfZ
+         DhCAtDlxlJsxB4dUJz/R7Rm5SXF5CSNHwdCLYVOfLeGtaC2aEwjMnEfmTWle2UYXwRqa
+         ctnLAU1v2rfY9OK58Ne019Mh2lhtED9GJpLc9qpe19UbIZdqWqkeNezwCC//ByupVVIt
+         8z7ZKAG+jry6xdsSiOkCZT1v9tu2T5K3FEHOa56pjCOvzgYy5zsbx59LyMQQw8+BNjAx
+         yh0g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1792065281; x=1792670081; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ttWWCBe5s6LvEvuhu7UMsF9414H3CKAKMZfdr0bsCwA=;
+        b=MPLi660CpE7iDEQdEqqxCBxE3u1R5P8U6K2n+UGZxK3S06oo3bvGxxYNLTHMYcwPGD
+         emTjRLjvcIJ3OfqAqFvo4s0sxpPYEiSv0HCGGYwVw2nu3qhbnFC5M5Iae4HaW4Qoby4f
+         bAaiYdtp1Uj8O+IdwrysOZFjeIcm4+qJO2D9w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792065281; x=1792670081;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ttWWCBe5s6LvEvuhu7UMsF9414H3CKAKMZfdr0bsCwA=;
+        b=VKWnbU4/Hhp6XaED/pdFztNsc07LMKidn5IfG/FdCJ4uXUz+0Xn9VR9+oRSswUxSO4
+         2UM63x8qjyjyXEaxcdslsVHx1oPFNO9QWybhyx3qjCEH4CL/QQ4SoWyfgMnFjYpf0e8+
+         OIHjTNA+bhf40UkiXePDQOKlAN0FMEZyAkT2cMhOty2fVHPC+OmVXZ2qe/bvSSlEFrqM
+         9qbV7PlS0ZRexK3MFLXTFy9OEFILcFSg6P0nAOcJVNX7PYMzUtjdu9YSVAwiy1cS90d+
+         w14E7WQn1z68hw5s0xf0nZD3the4wBAJ0i+Jf1oJQltpAynlZtQVSqCrx+AaRJNhlbxN
+         M5mA==
+X-Forwarded-Encrypted: i=1; AKwUvBwqNWA23bzk5zby/s6e1tpzPPey01BQrcBD1oFpo7LrqPmm/WdayVu8gQuwuscEUiYNFS3ZObpP+aaekW25@vger.kernel.org
+X-Gm-Message-State: AFq9FYI672ldfRV+Q5yD8YXK5ChCy4rk48A8AQZhlPJVGcLw34ADWHc5
+	MfHza9ML9l1Zv28o5dcUvbX+9QoTfEcQsKg71aj51D0OtDm2sOAzUZbeDMZ/j3eRDitmi7opZnX
+	ynfXO1F6/UqWAZ5eqN2tgEGdz6Diq+CMg3uYNTdUemQ==
+X-Gm-Gg: AYBFou1FoEhTVf7mwlUXFKwgIhFdhY//16NW2Ww/Dzy7OXeJ5p/a7RXhHd57u+BoM7o
+	GAXfxBXsx09EDBwoqIiUVm1XMbnpvHv/sMwJ4AQebJRfVddh9OfZb/KIi0VfW94W/4wbC0xyO0S
+	bheYrWgTIbyDjonqq2WuGdfefPk28Bnm+RP6AmPjGw+5HSN1zmYdtPxYZqVXnIpMwLk7mhnA3/Q
+	eIgAoIfOkPYT/XpcDZp/GcB4jScFqaR9N8cb+Kj8444ayr7uBE557n/t48XZUk8LpNqRIpVT08S
+	/X43oMhBTXDSV/02/Imko8EHrj6LnI9MTqE2xlw+Mxxy/s5qyXue0nTWJh1V1X+1cxBm29WUOFg
+	X03TKJhO2533eNDu/Lg==
+X-Received: by 2002:ac8:5705:0:b0:532:f0a2:ef4 with SMTP id
+ d75a77b69052e-5359fa9f9abmr292049781cf.26.1792065280681; Thu, 15 Oct 2026
+ 04:54:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SG-EID: 
- =?us-ascii?Q?u001=2ECuH7N2XAoeMR1zrzr=2F6NZrhli2vbKPOHff5fJuZuba6ZIE8QPyIf9mn4Y?=
- =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmeR8+gg6UKbfD?=
- =?us-ascii?Q?LHFRc+T=2Fmyn=2FDBRPotnjtiCsmyxPemx3wCGze0c?=
- =?us-ascii?Q?niTUhutH87NutD8y4iKX74jl+ogMc=2FOdfUbn9kh?=
- =?us-ascii?Q?fZb8w=2FwsZY9OJ87AFeNDGmNWcErGW26DzYOhH5Y?=
- =?us-ascii?Q?yXaBrgT2D5kpmHJg21cVeQZiuORNXlldH4mTMi4?= =?us-ascii?Q?bYzv?=
-To: Tejun Heo <tj@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
-	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner
-	<hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt
-	<shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ian@honeycomb.io, Liz Fong-Jones
-	<lizf@honeycomb.io>
-X-Entity-ID: u001.GRlkmHQ+Ka/CKxmoC/CxTw==
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20260929094812.93374-1-tkhandelwal32@gmail.com>
+In-Reply-To: <20260929094812.93374-1-tkhandelwal32@gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 15 Oct 2026 13:54:29 +0200
+X-Gm-Features: AclHuK-b14bcg6mR4vOtm8iYsjO-WDFkkV-OiklyH6IKsJTNTAuDKd92iU3RYd8
+Message-ID: <CAJfpegs1Zq1zKfGDOucL_PZMUwVuHjandRn-rrNrBPnKex8hcA@mail.gmail.com>
+Subject: Re: [PATCH] fuse: propagate SB_POSIXACL to submounts
+To: Tarun Khandelwal <tkhandelwal32@gmail.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	virtualization@lists.linux.dev, German Maglione <gmaglione@redhat.com>, 
+	Vivek Goyal <vgoyal@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	linux-kernel@vger.kernel.org, Tarun Khandelwal <tarun@supabase.io>
+Content-Type: text/plain; charset="UTF-8"
 
-Tejun,
+On Tue, 29 Sept 2026 at 11:48, Tarun Khandelwal <tkhandelwal32@gmail.com> wrote:
 
-Thanks, confirmed. On mainline, with a debug delay holding a sync's
-work between its cutoff and queue_io(), v6 left 378 of 400 files empty
-after a crash and v7 none. v7 holds wb_switch_rwsem across the scan and
-takes your other three points:
-https://lore.kernel.org/all/20261015-wb-dying-cgwb-flush-v7-0-9278d9ebaf5d@honeycomb.io/
+> Copy SB_POSIXACL from the parent superblock, as is already done for the
+> other superblock fields inherited from it. It cannot be set in
+> fuse_sb_defaults(), because fuse_fill_super_common() checks whether the
+> flag was passed at mount time to decide fc->dont_mask before setting it.
 
-Since f6988c90671e, mainline's own cleanup_offline_cgwb() rotates
-b_dirty_time the same way, so a racing syncfs can drop lazytime
-timestamps. Separate fix:
-https://lore.kernel.org/all/20261015114307.1041273-1-lizf@honeycomb.io/
+Applied, thanks.
 
-Liz
+Miklos
