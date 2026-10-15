@@ -1,313 +1,203 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11020141.outbound.protection.outlook.com [52.101.69.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE8838553F;
-	Thu, 15 Oct 2026 15:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.141
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792079392; cv=fail; b=ORgn+1mdf0g2C7X66Yp5zk/lvFYQB5gTWECblW/8Wem/KpC1LfOj1gmTZCjecj3vecFcBqEo22EM9jlyzslPfKcfY3VPPQkvjxcI2AkQdAU5Ta7e5kZ477PVKqURJ2rPrktozwcbY/ezqYM0ZtL+FldQ/TyT6OYa4r/OJtR2iP4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792079392; c=relaxed/simple;
-	bh=bb9HX7mHWR3jCQzrRAm3Bq3akNDsE8X1Kuip5r+x9bY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Iliw1YeRjRrvc8APtqzRY32lBakPsT41AzpGI0Dfqyq6pUWKMCEk7Ep2qEeos8xWc0VvW1aM/28SYjvSBSXuMGIe3tNdyZ7DqOlz2+a/1YUYbgg1ujitByrqz9w5uPYebDWa1Bxh0C9lOwGn4oi5Orb/tV2ZupG/hfesUoQZsgY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com; spf=pass smtp.mailfrom=virtuozzo.com; dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b=DW50Env9; arc=fail smtp.client-ip=52.101.69.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virtuozzo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0800754147B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 17:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792084679; cv=none; b=R+guNNtwpg9ao8nsdQ0q0Jk7bSOYPaPtns+4I0oL05hoOgc0J5qAnCdtWZI2tcilxwWSOz/r/bE3dpa7+BhWLvWNGpwnuIUu4/b6oH+7ti5UFQzIZfWgHHS2Y+HZKnT/RrisT0M61fGugMvrApRvKrZIAl7jyZOs+DhBJP6cYZc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792084679; c=relaxed/simple;
+	bh=97nz3x4cCT7jJVkf7khGZ92jWq9O4MzPPIoGZFfCE3Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KZYvphNm1bXHkLI54FxTM3W1gZddzch5U1Jm8LDoi+a4Fg+V0eeP4V2oKzjetpUjkaOGEU5F+yMjghFHqFe+Kn8xvpFyqscxf4Yc9u2iFFFwehUzOwX5M9fDFfTpNBr/sS7gpZ5zgXAqf59ZqexvWazrNzpOybKtACtwNUG4Hoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LGHjnZQ2; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b="DW50Env9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K/P4LyVqSQUfpWHnq01k1sV5at52SwbUV9/6miVtOUrmPExb2/THSAHfxmyxfnpiGZZMGKpKX+74JJ28u1tX5lxHGqVRq3pTa3m72SYuL5C14kBlb/XcdQ/pbGDKSJmeUK6mLN6+Ioop//8elHL4CMsN0QM5PRZIZAhQ90iMfFg18c+uxm5rhPLWlJ/pjP/XwswZiz7Jgsegs35dfzd5wJNkdyJVfQuSlXbyGwW+KS0z1qbqAL6db4/qh7FeP8NLV1jG9cfZgVOVl0il2Km5iv+AlyKa3X3rPUmwL9VY0puPoawwVmq7oLnJERyZxhbHGXqP4ymMJ9FwZE73MFn4UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Eb+ioIJ6koMi8PYOYtb5A2A3EDqhMlbHdIz4GNC49jk=;
- b=B9cyNjCth90gtyFrbBzkheZy4oiMIwMInasC9kEKfSx5s4w36sLFutqyOrnunPFmmHcaaLoYrCW4hROw7N26dl+wXyjFQgRdqOGD00f/0jLmulwfQ5E70/A5Gy2KWhzpyOlof2yDTDHqQDiyrI/8plo194ZMNII/pFbuKcz9ibXElvr2UC/amGUcFFTWu2l2TJJV6wICXBPEFvFdhzSyk5N086mGlS1rM5vkZMNSonPGIEPM+1yh87tdkhv/b5Vrz1QwcxK8vDABOwz5PXR+0pdLffATKQIbHDaZW+z9Fuf+zySgZUR1BHGh93ygypi0pLpE382BvRuTWol8B7t0WQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Eb+ioIJ6koMi8PYOYtb5A2A3EDqhMlbHdIz4GNC49jk=;
- b=DW50Env9MuO3ncaoYDV7S7vIGxnITJZQSqZjF90YuY3HVW0mRaSl0a1j8sTaj6KXoUpz4t+i+jxyqCmCzA5PXH6XxKQ2bMDQPkduCDjBlVaLIxn/o6zL2/zWuE8eQC0Ez9he+uOlt7xwppli25yh3pMdvWWAMI5GBB/+9ZTgZO0dVcUELORBVqb5sN5g7aKD0aruxhaYD8muyrjJUgTB0M7eI18wDMOIBkDgq0Lm3TTcOpePENEpqX3mBYsIkCQ3qH+xVZBgI9wrg++x9FWGMHQN9quYCI6J7oE9YZlLhM8d/mQXwfRociXP+Ti+BUkyHeX6wbmUbh1tXgioz+VaWw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from PA6PR08MB10708.eurprd08.prod.outlook.com
- (2603:10a6:102:3c7::20) by GVXPR08MB10576.eurprd08.prod.outlook.com
- (2603:10a6:150:14a::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.7; Thu, 15 Oct
- 2026 15:49:31 +0000
-Received: from PA6PR08MB10708.eurprd08.prod.outlook.com
- ([fe80::1999:c6db:dc55:494a]) by PA6PR08MB10708.eurprd08.prod.outlook.com
- ([fe80::1999:c6db:dc55:494a%5]) with mapi id 15.21.0546.006; Thu, 15 Oct 2026
- 15:49:31 +0000
-Message-ID: <2f6b72c5-9068-446c-a35c-188b603542cf@virtuozzo.com>
-Date: Thu, 15 Oct 2026 17:49:28 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] binfmt_elf: return the real error when program headers
- cannot be loaded
-To: Kees Cook <kees@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Paul Burton <paulburton@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org
-References: <20261014-b4-prep-vstor-149847-binfmt_elf-enomem-load-elf-phdrs-v1-1-f39c74d55e42@virtuozzo.com>
- <202610142140.D483AE26DF@keescook>
-Content-Language: en-US, ru, sr
-From: Konstantin Khorenko <khorenko@virtuozzo.com>
-In-Reply-To: <202610142140.D483AE26DF@keescook>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0152.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::19) To PA6PR08MB10708.eurprd08.prod.outlook.com
- (2603:10a6:102:3c7::20)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LGHjnZQ2"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48441a2ba1bso1130750f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 10:17:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792084669; x=1792689469; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nUb4cagls44kE5et9qrliHAU76p7w/thb7bKXpN7Lxs=;
+        b=LGHjnZQ2i3mxf4ZTcid18hLmSzPCcPavgFPgZXktiYaRW1loWCVGAx9MKQnl/QcRCf
+         ehi71GtHRfcunwNyEobfohUWmkeA9mNpHK4FLA4407u/3wMFSFhlWGMhG5S2neNoRtEJ
+         zbkFGb+xPzgYcG8N/dR2fxLkkuMk7YYGP73vQni7JEphDT8lsWRDGrTYwq7CHBDrCojT
+         GASpge4oiIj0VCC1VtwWK2UYDpvGJzquN+0TjRWAufqxK1f4pkXz2DlI5Y4bHumxbJ/u
+         Vu9hHXOCPX9rWAqEaf2aAporaEoq3Dq13KZi0t2lBQOo7uWkK1mx2b7X/TcgLYg3LcCj
+         I20A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792084669; x=1792689469;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nUb4cagls44kE5et9qrliHAU76p7w/thb7bKXpN7Lxs=;
+        b=CR+xr6g93yM9YggvlzLIy9yhtu02t838O4SoPKzdfQBIjaRF5gL+s4XzG8iEXlOzGc
+         ml4w6DmyX6wnKm4Fm7TuCDB+tdCXLFw3mO6iA4+LZpHGo8jeNK1W8R/tAljqOLSoYMTs
+         g87u3xPk8FV8R+sY7C01PUVUseNa8SoycUsSHMYlWbOJGHoleNs9z/rjDeMrGxCXRytA
+         gb30h0dak+yip/Me3EJkBVsHbY+tJ/9Em/B4gqAF8ZeZSh2oDIKQRp5W5bEL7PWHPMKG
+         zzVVzQVIXr8KZ/2My1PqndPfNsRpYA4EeZkhObarADH5B1iDlW9R+qUS04+ik7LHA2/q
+         ahFA==
+X-Forwarded-Encrypted: i=1; AKwUvBwYochDZmoWIE1I0X1TpJ8WzfobktXF+BpEc/zE9CsmQ0kgBRb8kv1GnAEFT18rwmoIFbJcwXePimvodp2i@vger.kernel.org
+X-Gm-Message-State: AFq9FYLo29vM3aKuHDuU9pyEjXBIRn9+BSoHhzsSBFxixXC7UPkeWwR1
+	Co8JwbZQJo2VqqWdj5Q58dbgEm42PAXV75JKyLWvQ7t2JU2WXRYToTcO
+X-Gm-Gg: AYBFou1M9XCCynBIBcPKct9unNMTmRnrqCoHPn0zctGst0VL9NgRU2/4wdfwF2haQQp
+	n+Gyp04rq2R5vZDDDA5eWX6kmK81ksH0WcGOTn3tNQbcTXuXtAy4OYWlTuEZgbjgldRzmqrSVkp
+	D5IlE8KOE2OlMKK0dZFPxKXSRoWNsM96E7XOblEcV34VWQJnViOBbZAgyvrHv9TKhvv5c24O+d+
+	B6chcAsRaiS932e2P8Gr96QkBp5DFhYkVFlV2oP8LoVf2AglsDkPm/GDHUyXrRuGpPL0BLRiday
+	eHJ485xuNjQq1gnNbygDSgA11Up/tCMjld5UH/jwhrURNG/1TAESmHSTnPMGV6Ha2jVxZZMO/uY
+	LSXY5HTgmseJNok4h+0lo6ALROwDnHV5zAhOaZ4Y3LnTJvpNZJd82h6Kr/PB3KxnJ8d9u5JPJ7K
+	c3DxPgeqifkh09yWMq0zJRNl05qyUvhN/sBNp231Y4Xmjl444+TdhpP4dvmyQ9gkxxCOl3nI1ck
+	5D64cLmiPCSzbgc+tr49CPQPhhgrZuJzDA/KClJwJdkvALTIjNVIxJdqwsvF9NYJ5iLvv1Zgwmb
+	myEYzJUkEIgk8fmrcixDlJDuP5YiVKwCJtA=
+X-Received: by 2002:a5d:44cd:0:b0:488:89e4:c3af with SMTP id ffacd0b85a97d-48dbaae4869mr30499724f8f.45.1792084668569;
+        Thu, 15 Oct 2026 10:17:48 -0700 (PDT)
+Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfaf1acd7sm1180327f8f.1.2026.10.15.10.17.46
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 15 Oct 2026 10:17:48 -0700 (PDT)
+From: Fred Griffoul <griffoul@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ackerley Tng <ackerleytng@google.com>
+Cc: David Woodhouse <dwmw2@infradead.org>,
+	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 0/9] mm: Memory providers for guest_memfd and iommufd
+Date: Thu, 15 Oct 2026 17:17:46 +0000
+Message-ID: <20261015171746.51538-1-griffoul@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CAEvNRgHtB8j6=9r=txjsKvQM0F85nRN4KW5sdnuv_-Og=cWEfg@mail.gmail.com>
+References: <20260720111259.122911-1-dwmw2@infradead.org> <20261006183235.16576-1-griffoul@gmail.com> <CAEvNRgEseLO+LbkwXrEit0H2LH5Wx-srSvHEMpt0=upPL3tF=g@mail.gmail.com> <20261014095702.39676-1-griffoul@gmail.com> <CAEvNRgHtB8j6=9r=txjsKvQM0F85nRN4KW5sdnuv_-Og=cWEfg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA6PR08MB10708:EE_|GVXPR08MB10576:EE_
-X-MS-Office365-Filtering-Correlation-Id: b145de95-90a0-4d9f-beb4-08df2ad3e6c2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|56012099006|4143699003|260925022911599003|260925021311599003|260925021911599003|261009223027099003|10067099003|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	jbMknfOMKVqrm6iQ3qoL41GSeQH923bHCRHuCVmhPV5+29uyXkDADCWQKFZ6pVxWtYyzgIytfUR4Z0RnAKnqqq5Mn7popo0c/+3n+JF/LenLDycOFqmXE6HWH8TrIoz04pN12WOVVKqC3Ho4LL10wVFpy3PX7S0xDaVfRT7p+pPPJgo70B+lrr6vRM02jJcS3OupTVbMEZPnFo2lggQmAMkbxw1lSfVwLftaqau1tajy7e6TErw11q69DiWwd324Vy/LVAGcbOL23CcHM2bIsBle9/nZ5hnghOLEPycaY/jJno0+4tDVPxiFtQRxw/Bv1cJC5YCslFx5tNjFvpYOWBiBIGJ7WbC/q0G03TacG8mirUyb71EVqgNUw6sZ9wWa0KG9nUsrXP6MXAv8vTlKQUEtUiM9OchcLpjyOmr3PTorhED+unzR5uja2m2oSiOBYDHA1LizXpAk4Up+a7AaDOtHyjAZYikqQ8kjPPMS47Z8tQGPga28qJxV4TfI6SHjCOGVuhBjbionMN556owflgmfiJQ2GR6rp2ACMIVYZjLsbHZCajwkuvEUvbSJg+OmwzJBth/pzxWZc1W4IE7Z4hwGtV+F/K+mBK7THKUlYq0hieJUenuWvMSjClqjURrRKJO6eNXaXvkXSFNP79nQs4sqBeUTpqyGMyf3c6L4E6I=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR08MB10708.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(56012099006)(4143699003)(260925022911599003)(260925021311599003)(260925021911599003)(261009223027099003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZGZFOVVEdTZyUXpwTVJ3LzVOQkpDQStPMXVNeXZ0b3EycVh1NFJJeW5DWEZJ?=
- =?utf-8?B?VHkrb0VlOUtacGRJMld4V3NoQUhVem91a2tiS01rZCttOUdTU09yb1VhcjI3?=
- =?utf-8?B?dDNyWE5rblJEcDZ5VXlWK1lOQ08rbUdWcWEra3c0SVoxWWJmbjZTV0tCVzFl?=
- =?utf-8?B?T3FjS1VmeVZ5YmZBZU9OdHV1cW1pWUxnR0w3bUVqdDZPUlJaWkUzM2N0emt6?=
- =?utf-8?B?T2RuR0xST0Fmd2Y4L01yUTdhM2t2Mmw4eU1YalBVK2E3VUVtZEpQZTM0MDls?=
- =?utf-8?B?c2xaeWdZeVRuZDlxUlhyUWhoZW9xbUNzeVk5cEdFQnNuMzJRb1VHbmZZWEdi?=
- =?utf-8?B?cnNodlBkWVJmZlZ4RGFhQW95TFdhZDFXN2lxQUFkemxvdENJbDVFbjd2MVJm?=
- =?utf-8?B?Z0xpUExzMS9mL1A5a0RsQzJKeGhBRGZ5cUFUMDY5d20vakREVURrOVFURUdn?=
- =?utf-8?B?Zk1wOFRFcU1hdEtTMlVwMGZIWGNtZk1iMGI2cU9NTVIrR0JBbFV4b2pZalph?=
- =?utf-8?B?Sit4NkF6cUhOYnBVVjNoV29PeTJNRDIvTGYxK2x5NFpCYy9Nd3F2c3Q1bnVC?=
- =?utf-8?B?VlpocCtOZEt1a1VQSThhWHJTQXR5bHlqdytxZVNOL3RWQk5lZ3VBck0rODZk?=
- =?utf-8?B?Y0JBcHptb3c0NkJXRjFnaitNeUZOU2E3NzFiRWF4bXYxVEZHSzdhODFQNGRi?=
- =?utf-8?B?ZStoY2pzVDl0MXhCUHRoZ2JHVGVZVWlYNUxMRWpWcFh6OXVCbnIwdGp6YVBh?=
- =?utf-8?B?Q00yS2FFS0xkR3AySThTaWhDQ2ZIN0xaaEV6a2lOUlhUaUQxMHpBNHJ5MnBG?=
- =?utf-8?B?ZUNMWGc1M2haRW95WlhWbGc3Z0crWGJkYVlmdkNOMFpsejFEcWRPaXFaQ3ZC?=
- =?utf-8?B?VkRDYzdaZXNWWlE2a2NRdzcxTEdFMlRORllodnloVm5DOFJwbHdOcmV4cmJs?=
- =?utf-8?B?ZWJrR2Vnb0lxeWZBZW9qM1ljNTkrRDRwMWhRNVlKdmJnTk5JbEFpRExSTkZn?=
- =?utf-8?B?TTR5czJtYW5GbTNhTW11MlVJMmNvbkNQM0xVT1prdXViWGVaOVR4SnRncGVI?=
- =?utf-8?B?UzRTc20ydUJId2hjc0pTZW95TFZFL3ZSWkpNY2Q4R0FhSUNOalR3WTlCWWF6?=
- =?utf-8?B?UjNuNTJORzdhMnJqSzRrMVdUdUgzbmJZTndWR1Z6bGpBWE1QS203SWcrcHh1?=
- =?utf-8?B?VkREYVFnTjIyalkvazNwMUovNkgzWUhTWDRpUThZWkV4WjRxWmlTV1hZQ2VW?=
- =?utf-8?B?VXZNZklDTTcvQ3dVd2NrcjV3UmtZMmF3WktybWVZQnVMTkdpWldWUGsrYmNh?=
- =?utf-8?B?MXY1TmpaTUNyVUF2T05DYmpjSjNLQjcvcGVYbHRDVHdJaWhXSHBubGNCV2to?=
- =?utf-8?B?eE1FSjhsQXN0SnN3eEhVaUMvbFdKa0pMRmNDMzJGOURyTW5uL1ZIbjMzVGFR?=
- =?utf-8?B?OU9UVGVwUk8vZkVjNC9vRXcyN0xyYlFCdGZycCs5b015ck1TOW9oREptVWJL?=
- =?utf-8?B?dnBtdkNlTiswdjJiVXlEZzNpLzlyZXZZeEFPaDhKMDdSTVF4b2pTZ0djVUZm?=
- =?utf-8?B?UzFQYWVmTW5jTnJtTlBXR2pCRDNlZUtwQXZ4bXpvOWtCYjVHQnl3aktyZXpi?=
- =?utf-8?B?WHVDb2I2UGxMWk5hdG1GVVlZdXR5ZnFBRUYzS3dwK2RzamVLS0tnMmd0K0VT?=
- =?utf-8?B?TmpmRW9tdjhHemtydkJDc2NjTFpYQkQwTFd1WTFQWEtGVG1PSW1uNmovYWRM?=
- =?utf-8?B?VHh3SXhPVld5SHFta2dDOFg4RmM3T0E0K3dOOFlPbTIwRUl4b1VTOEtsTXEr?=
- =?utf-8?B?ek1rbHlpYTV2WkVNemZTYnVtMzlGSThnWXBMaHh0TFlJV3pCWXB6SjJEUnBJ?=
- =?utf-8?B?ZDVxbG1LNlUzUWJPNm1mSXN4YUp3QkpwOUZlTzJhbUdVV0tqMndERCtFMmNN?=
- =?utf-8?B?cUtuOFdHdmd6REMzeXY1MkROUjAxZ3lBTytlQ0tRQWFwVTR2N2RNRlllZHow?=
- =?utf-8?B?bzQ5Nmx3aEh6TDl2SHNoaHJJTTF5aERsVXFZQkNldGdxb2pnbUc3bXRNdjFy?=
- =?utf-8?B?blVOUUsrUWYyaUJ6U3RKaE9leEdlVWFDQ3orcWc3cmhjWjJJMlBvZ3RMVXY0?=
- =?utf-8?B?ckNKMU0yK01kczFLZzROMVhzVHFzWExic1lyMk5wYlR2UW1ITzN5TjJCN2pN?=
- =?utf-8?B?UWRibXJSMmtTZDBRdTMzM2xLak1BMkVZTk9XU1pnL2pqd1M1VnI1Tk40TExK?=
- =?utf-8?B?dGVGVW8zVVZmZXo3QTQ5WnIwRC9xSG8wMGZEM1dKUy9HWmErbnBqMWxBVXQx?=
- =?utf-8?B?Nzd1RjdYenNwQzh5NUU0eUpsV0ZGbXNkWmloSU4xL0NQWHZvYXJtZz09?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b145de95-90a0-4d9f-beb4-08df2ad3e6c2
-X-MS-Exchange-CrossTenant-AuthSource: PA6PR08MB10708.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2026 15:49:30.9173
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: macqZ6sMWQmyt8dDLSZtMaGEgx+FV1UUCxVSiQ6t7v0Bx3Bi6mBD4TGi+HW3UcLJ+f6slW2lgJhSIJk0Bq3sXA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB10576
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 10/15/26 06:48, Kees Cook wrote:
-> On Wed, Oct 14, 2026 at 02:30:33PM +0200, Konstantin Khorenko wrote:
->> Problem
->> =======
->>
->> load_elf_phdrs() returns NULL on any failure, and load_elf_binary()
->> turns that into a fixed error: -ENOEXEC for the executable, -ELIBBAD
->> for its interpreter. The real cause is lost:
->>
->>   cause                                  really      execve() returns
->>   -------------------------------------  ----------  ----------------
->>   bad e_phentsize, e_phnum 0 or too big  bad file    ENOEXEC (right)
->>   file ends before the header table      bad file    ENOEXEC (right)
->>   kmalloc() of the table fails           ENOMEM      ENOEXEC (wrong)
->>   kernel_read() fails                    EIO/ENOMEM  ENOEXEC (wrong)
->>
->> For the interpreter every row gives ELIBBAD.
->>
->> Consequences
->> ============
->>
->> ENOEXEC says the file is not an executable, which is a property of the
->> file, not a transient failure:
->>
->> - glibc's execvp() and execlp() take ENOEXEC as "not a binary" and run
->>   the ELF file with /bin/sh, which reports a binary it cannot execute
->>   instead of the ENOMEM or EIO.
->> - search_binary_handler() tries the next binary format instead of
->>   returning the error.
-> 
-> Isn't that what we want? If one handler can't load it, move on to find
-> one that does.
+Ackerley Tng <ackerleytng@google.com> writes:
 
-For a malformed file, yes, and the patch keeps -ENOEXEC for every
-malformed case. For a failed allocation or read it does not help: the
-file has already matched the ELF magic, so the other handlers decline
-it too, and the loop ends with -ENOEXEC anyway. Moving on only loses
-the error.
+> To borrow David's words, the part about this that makes me itch is
+> conversion. We have to support conversions. Even if it doesn't merge in
+> the first patch series, we have to have line of sight to how conversions
+> would work.
+>
+> Conversion requests originate from the guest and then the host handles
+> the guest request by making calling an ioctl on guest_memfd. Hopefully
+> this part doesn't change with alternative provider support.
 
+Agreed, and it doesn't change. Conversions still go through
+guest_memfd. It is the only one that knows which pages are private.
 
->> - For the interpreter the caller gets ELIBBAD, "Accessing a corrupted
->>   shared library", about an ld.so that is fine.
->> - A caller that would retry on ENOMEM or report EIO gives up on the
->>   file instead.
->>
->> When it happens
->> ===============
->>
->> - The allocation fails under fault injection. Since commit
->>   8030790477e8 ("binfmt_elf: remove the 4k limitation of program header
->>   size") the table may be up to 64K; above 32K that is an order-4
->>   allocation on 4K-page kernels, which can fail on a fragmented system.
-> 
-> I would not want to risk changing established userspace error message
-> interactions to make fault injection happy.
+> Suppose guest_memfd still gets the conversion request first, in RFCv2,
+> to reach all the mappings in various page tables, it would have to be
+>
+> + [GUEST_MEMFD] -> [KVM], [USERSPACE]
+> + [GUEST_MEMFD] -> [PROVIDER] -> [IOMMU]
+>
+> since guest_memfd must ensure no IOMMU mappings to guest private pages?
+> There's that extra step through the [PROVIDER]...
 
-Fault injection is just how I found it, not why it matters.
+Right, there is a step through [PROVIDER]. But it can be a step through
+the mem_provider code in mm, which every provider shares, rather than
+through each provider driver. Then guest_memfd doesn't need to know who
+else maps the frames, and providers don't have to get it right one by
+one.
 
-The case that matters is execvp().
-glibc runs a file with /bin/sh when execve() fails with ENOEXEC.
-That exec of the shell succeeds, so the caller's process image is gone,
-and the shell then exits with "cannot execute binary file".
+Here is the idea, on top of your in-place conversion. The VMM gives the
+same provider file to guest_memfd and to iommufd, as in v2. When
+guest_memfd converts a range to private, it claims the range:
 
-For example, QEMU's cpr-exec live update does exactly this:
-it re-execs itself with execvp(), and on an error it resumes the VM.
-If reading the program headers fails with EIO, or with ENOMEM from
-the page cache, the guest is killed by /bin/sh instead of resuming.
+  int mem_provider_claim(struct mem_provider_attachment *att,
+                         loff_t offset, loff_t len);
+  void mem_provider_unclaim(struct mem_provider_attachment *att,
+                            loff_t offset, loff_t len);
 
+The claim revokes the range for every other consumer of the file. After
+that, get_page() returns a hole to them. So iommufd unmaps the pages
+and can't map them again, and nothing changes on the iommufd side.
+guest_memfd zaps its own mappings, as it does today.
 
->> - The read fails with an I/O error, or with -ENOMEM when the page cache
->>   cannot take the pages.
-> 
-> This is kind of a bad failure case -- I don't think the "right" error
-> code is going to help much there. ;)
+Going back to shared is the reverse. guest_memfd returns the frames to
+the host first, then unclaims the range. The other consumers then map
+the frames again. So a conversion looks like:
 
-It helps execvp() callers: with EIO or ENOMEM they get the error back
-and can retry or report it. With ENOEXEC they never get the error,
-because the shell has replaced them.
+  [GUEST_MEMFD] -> [KVM], [USERSPACE]
+  [GUEST_MEMFD] -> [PROVIDER] -> [IOMMU]
 
->>
->> Where it came from
->> ==================
->>
->> - Until commit 6a8d38945cf4 ("binfmt_elf: Hoist ELF program header
->>   loading to a function") load_elf_binary() returned -ENOMEM and the
->>   read error. That commit documented an ERR_PTR return but returned
->>   NULL; commit cfc46ca4fdca later fixed the comment, not the code.
->> - Commit a9d9ef133f44 ("binfmt_elf: load interpreter program headers
->>   earlier") gave the interpreter's headers the same NULL check, and with
->>   it -ELIBBAD.
-> 
-> So it's been like this for 12 years? :)
+That is your second chain, but the [PROVIDER] step is the common code
+in mm/mem_provider.c. It does the revokes and hands out the holes. The
+provider driver itself only gets one callback, and it can refuse a
+claim. For example, it would refuse if it also lends those frames
+through another file. Conversions can already fail, so this fits. If a
+later step fails, guest_memfd just unclaims the range.
 
-Yes, since v3.19. :)
+This also answers your earlier question. The provider doesn't need to
+know what is shared or private. It only needs to know which ranges are
+claimed, so that it doesn't move or share them, and only takes them
+back once the guest has given them up.
 
-It needs an allocation or read failure at exactly this point to show,
-which is why it went unnoticed.
-So yes, the chances are low, but the price might be a killed VM.
+I haven't implemented this yet. My plan is to rebase on kvm-x86 next,
+which has your conversion code. Then I'd demo it with a
+KVM_X86_SW_PROTECTED_VM and the sample provider. A device sees a shared
+page, loses it when the page becomes private, and sees the same frame
+again when it goes back to shared.
 
->> [...]
->>   kernel                errors returned by execve()
->>   7.3-rc7               ENOMEM 17, ENOEXEC 1, ELIBBAD 1, E2BIG 2
->>   7.3-rc7 + this patch  ENOMEM 19, E2BIG 2
-> 
-> ... so there are _fewer_ distinct failure codes with the patch?
+Does that match what you have in mind?
 
-Well, this part was not clear enough, sorry for that.
+> Thanks, I will prototype what I have in mind too to make sure things
+> work as I think they will :)
 
-The truth is those runs i did injected only allocation failures, so every
-failure is ENOMEM.
-The ENOEXEC and ELIBBAD in the first row were allocation failures reported
-as a bad file.
-(E2BIG comes from copy_strings(); that is a separate issue, left alone.)
+Thanks, that would really help. The sample provider and the KVM
+selftest in the series could be a starting point.
 
-
-On the userspace side: the patch adds no errno that execve() cannot
-return today. The same file is read in two other places on the same
-exec, and both pass the kernel_read() error through:
-
-- prepare_binprm() reads the first BINPRM_BUF_SIZE bytes of the binary
-  and returns the kernel_read() result as it is.
-- elf_read() reads the PT_INTERP path and the interpreter's ELF header.
-  It returns the kernel_read() error as it is, and -EIO for a short
-  read.
-
-load_elf_phdrs() itself reads the table with elf_read() too, then drops
-whatever it returned and reports NULL. So a read error on the program
-header table is the only read error of an ELF exec that reaches
-userspace as ENOEXEC. The patch makes it behave like the reads around
-it.
-
->> +	/*
->> +	 * Read in the program headers. A read that fails part way returns
->> +	 * what it got, so read on to see the error or the end of the file.
->> +	 */
->> +	pos = elf_ex->e_phoff;
->> +	for (done = 0; done < size; done += rv) {
->> +		rv = kernel_read(elf_file, (char *)elf_phdata + done,
->> +				 size - done, &pos);
->> +		if (rv <= 0) {
->> +			kfree(elf_phdata);
->> +			return ERR_PTR(rv ? rv : -ENOEXEC);
->> +		}
->>  	}
-> 
-> This is a behavioral change mixed into the errno handling change to
-> support partial reads??
-
-Yes, I missed this point, thank you for pointing it out!
-
-Yes, previously in case we get a partial read we consider the exec failed
-with no other options and now (with the patch), we try to read again and
-the new read may succeed or whatever - yes, it's a behavioral change.
-
-My idea was: in case we get a partial read, we still don't know the
-reason - the error code (which will be returned only on the next read),
-so read once again, get that error code and return IT to the userspace.
-
-But definitely it's a more complex thing here and it should not go along
-with this patch. If we decide - I can create another patch for that,
-or we can just drop this hunk at all.
-
-
-> I could be convinced that errnos need to be fixed, but the rationale
-> here doesn't really make me think it's worth potential disruption to
-> userspace. I'd need a pretty comprehensive survey of what would change
-> there and then a clean patch that made zero other behavior changes...
-
-Understood, will try my best.
-I can create a v2 which will change only the errno, for two cases:
- - the kmalloc() of the table fails: -ENOMEM instead of -ENOEXEC;
- - kernel_read() returns an error: that error instead of -ENOEXEC.
-
-Short reads case keep -ENOEXEC.
-
-Sounds good?
-
---
-Cheers, Konstantin.
+Thanks,
+Fred
