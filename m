@@ -1,340 +1,415 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16835519A2;
-	Thu, 15 Oct 2026 18:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576FB3F0ABB
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 19:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792090502; cv=none; b=fxNh1354qBsNJ0G04r5k6bqnSaxfS87kzUObmPEVqnG385NtFAoSW1pAPKXy6zGrLs85KvKGgevoOG6tZ1LSkfDxJA0HIOnrqkDj5aJG9rs25wCJ8JbiHN8CIav7NItA7aU2kQRtYakg/yU7VHRsjxAdjD9zpkdrPA+ZTgW9wYY=
+	t=1792094300; cv=none; b=lIxb5hfaMQu8FxgtSbHoDCIoaC5p2POm4S5QXmh/du8xuUFseULNXwV0EnaQ1ieUASGpjVnztMvVMDU1ESBRjmjAA75r3MPAyXfuqWsqHkjKTo3GbYM6QPLIMlM/BRr5/WelDiglsMowB1Lt1E67ESYZUDm0rRjQCA8LxKETGtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792090502; c=relaxed/simple;
-	bh=JtG2hrxozi+9CYMqN8TVt99CiZc61hxPSPk2vQRqZ9c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hFzNPHruYsTTvdf9pCg3M7O6uiw7yfk/naDwoZnEBDQe8qILGghyPX/E0w6xYPFUenKbLdLSTFVUmPIGSFUyWLLE5Dc4aHvmfWG+V+4uYsut5+9tIjW5TPashmXUYRwAsvGFJWERo9OL1lSgwRF8nZhrWtkCq2wjIoWPQVGMhpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=ptqPhPWn; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=a6V0M+YN; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	s=arc-20240116; t=1792094300; c=relaxed/simple;
+	bh=jPoslkIrch5pGS7H1VYUPULNCHIu+0vG9BS3QyCzvAE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=P+emkNn/s7org8Q0WbkSPwydDGsdcBHhz1pxg9DKgupBMvYDnh70pQBRUqzlZ8uFuTjZrHSCi1GYfNApdFhzOdGFQI5SFFj89oLnRIP1xB1F7N0xDO1l3sVKUPPGW0OP7amcL3CXyTy9W0/fSWcM6ei5H+XRXsmDIo2+/oIpiQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=d1V9VMIp; arc=none smtp.client-ip=74.125.224.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="ptqPhPWn";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="a6V0M+YN"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id C28A326F7667;
-	Fri, 16 Oct 2026 03:54:47 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1792090488;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JNzY+QnXWDcIIPDI69FbfYKJ6FOdPQ+E4LlErZDEwPo=;
-	b=ptqPhPWng4I/ER/pwM0mzysd7JlQa/RPbZpXaXXFSBoohvygcl7FX/aj+OY/n3746w2LWL
-	WPwET7NsrrCvjGe6w4xknwd5mpC9rHVM9l3/d0pKYBhlVj8icP2d/UqxotHGLnsLOO0SDL
-	Md5ZDbfVFBFt8a8hN308U4sp18LbC3hRufluyFujdmNNZeSM3FH0WOh0DNrY8k7sxAer3U
-	u3Phu6Dv8g40ZwV9ZAFezc/fEkkn4I7bemYWfgHHvTwCKJz7a5XVIm0gOX5OOYvPFWO9Yk
-	8JUh1JFxH8RX3nWhoZezfxUSzrMV2t1b9d3dyM+EEnCwu7n6y+qaj6Vy80eNBw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1792090488;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JNzY+QnXWDcIIPDI69FbfYKJ6FOdPQ+E4LlErZDEwPo=;
-	b=a6V0M+YNFSYRjhYlPYGNk24EJqWXDp6SLSfE8K3p6VouV/9PLmi5Kwf5eLld7WHnQO4Jc5
-	vmtuwI/dV5AIGHCw==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 47B1AE00144;
-	Fri, 16 Oct 2026 03:54:47 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 3226722000D5; Fri, 16 Oct 2026 03:54:47 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-Cc: linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
-Subject: Re: [PATCH v3] fat: make rename recovery safe after metadata write
- errors
-In-Reply-To: <20261014082315.190262-1-krystianmkaniewski@gmail.com>
-References: <6aa82300.a211d2ce.1a5198.0295.GAE@google.com>
-	<20260929090029.742579-1-krystianmkaniewski@gmail.com>
-	<87ld8j4161.fsf@mail.parknet.co.jp>
-	<1f18819d20c92960b8b2d6ccc8bc4506d346150e.1790779353.git.krystianmkaniewski@gmail.com>
-	<87bj90m6dq.fsf@mail.parknet.co.jp>
-	<20261014082315.190262-1-krystianmkaniewski@gmail.com>
-Date: Fri, 16 Oct 2026 03:54:47 +0900
-Message-ID: <87qzhqvloo.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="d1V9VMIp"
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-67992884b02so1358166d50.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 12:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1792094296; x=1792699096; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6F6+u6wqk7hzKwJePinLCdyx1x0d0YFmhnOveG+uojA=;
+        b=d1V9VMIpXBwLdHRbNTVM30YGZToOEIfRknLJDL+e4fQBo/Y3uI5h0noQl1fBuumNxY
+         7/ZUcufi1E7T7pewBq8rqfkxgzZwYpoOJg9ebnNWC90C4Di+2CSMU5mBMXuXq6bZNbXV
+         Mskxs+Ybh4bDcYzhvcIWcOWNvAQ4pfMiatt0ZNuvrq/K3Aoz32DsEikmZexPoEpaYptM
+         PE5Lkxw+ynAlJLdgzHXeA4xC1IxP+4jqHD+KVMMXMAzf4KUyPcwPH+CVsgHDu3OKUg1j
+         HOeNv/OfSOoG9QWUkcNKXwwNGMWcL6Bn5jofA5y1JvdIh3Ka/c9FY83/j0GXO18xOaCv
+         AWMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792094296; x=1792699096;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=6F6+u6wqk7hzKwJePinLCdyx1x0d0YFmhnOveG+uojA=;
+        b=EM9eMYZ02KSHZE1XUyvnkJmQEoAKjsfwxeYzENEA/lCdR9vPV3jNHs87t8xXEWyJBc
+         Zi02YOUr8e8AQGnJ9fzq/9pdap4IL4wEATgruo5x96uq/AnnLO96W8dH45JniwO4clQH
+         hZLirIhVONqpgPxHcUu9K+7ts4IW7Bik1tx8kj3Rjq9PV7GyE6NcETgFKbVvnsE+iDdb
+         F7KLiAIr7ywG7vP4zpp+TVFEzONuQy6XN4xydD8v7yj3V5ZO400c4uOJ5gb8h2OvwsoP
+         QIDeNOeKkMDzU0yCYH+AertBgw611k93obqQzObInVvKswPOPKfF8OJenJz0pvktAJNy
+         3Pfw==
+X-Forwarded-Encrypted: i=1; AKwUvBzLBhkLlAr3NwAqF6FRUzF+rnKQ8kKeWD1kia4KvUkxVBquwfTbZXzPYCDY2C7OdPWkZZosB5j5bxhHwdSy@vger.kernel.org
+X-Gm-Message-State: AFq9FYJXoDhVVrgB2e/zjO09O9kZ39e6Ttj8pOp5ntNltc+22P6lmJ+F
+	W+kJhi/OCBXEnQ2oUWRFtPI1ZwEHwiQp/9CWZ1/3XkgnfyR49mo/K5vZhswVUl4GTVYcZdS6GDs
+	oQyQ666M=
+X-Gm-Gg: AYBFou27gJuZLmFEiDXCdnTK8UxgsR8LRwDyGm46LaAdNHhEW5deO1GXYkDNLRdu2z/
+	PH62Cgct5/9X1rFo2Pmi4y3NsXtsA/VOQEkoTHT6R6lfA2YGXz5bL4qsT33ksPets280oyN3Ver
+	8OJso2AqgHXPVUHIk6QoYdD99hLixe24MYhXvS3VTzEpoJooqD3NT+MtyvC/OhtB4KriNCoC7yG
+	VVozW4kSM00DTMCSBwLaeHssga52atdiCurz+SQvBimTFcnrIBK9/2vL4F0MgH/QbItJR7wWJpy
+	kGfFkwkXOsaHZfQwqP1j7rEx8+AVdrWKgAN1ydaFTMbMdw+fyWO4842WPVC3zUTnjJxJp1VaUOU
+	2LVv017KGCWUzQyX2UXug7X/IBF9ptVrDsCkbUKbD7e7gFp5BAI7q41sf/cJndfuzJDYP+WIqd0
+	C4WUe3xkP2G62ncmDU/vX0rm4GLWeASWexKdW3oIiTIb7hzMuPzgpIhZ2sZqk2JkFzXrjxez3pW
+	VWbQapQRLUtlzhYaLac3ynC8hNdoAQGxweHXW0S2bHzh+IkRxP4Up00CFPpmW4xc9To8gFPEmYA
+	ezGjIGH/AH44gWcAFxYBFlWwltZxpmfJ6y4tHHx3VfQ4/Xkq2tPkbkB+SLXxv6aqncFOfg==
+X-Received: by 2002:a05:690e:b49:b0:672:a02c:61bb with SMTP id 956f58d0204a3-6796fe86253mr2633374d50.41.1792094296306;
+        Thu, 15 Oct 2026 12:58:16 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:f74:f3d:4fc4:4a6d? ([2600:1700:6476:1430:f74:f3d:4fc4:4a6d])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-679b1e11207sm382123d50.8.2026.10.15.12.58.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 12:58:15 -0700 (PDT)
+Message-ID: <45b692cfda51e3b10caa27ae51609edc34efb0d0.camel@dubeyko.com>
+Subject: Re: [PATCH] hfs: avoid reusing occupied CNIDs after deletion
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Hengyu Liang <hengyul@cs.unc.edu>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Thu, 15 Oct 2026 12:58:14 -0700
+In-Reply-To: <20261015110114.1649059-1-hengyul@cs.unc.edu>
+References: <20261015110114.1649059-1-hengyul@cs.unc.edu>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
 
-Krystian Kaniewski <krystianmkaniewski@gmail.com> writes:
+On Thu, 2026-10-15 at 07:01 -0400, Hengyu Liang wrote:
+> Commit a06ec283e125 ("hfs: add logic of correcting a next unused
+> CNID")
+> made hfs_correct_next_unused_CNID() use the CNID of the last file or
+> directory record in catalog key order to lower next_id after
+> deletion.
+>=20
+> However, catalog keys are sorted by parent directory ID and name,
+> not by the record's own CNID. The resulting next_id can still be in
+> use, so hfs_cat_create() finds an existing thread and returns EEXIST.
+> Commit 6592287869bf ("hfs: fix incorrect inode ID assignment in
+> hfs_new_inode()") exposed this issue by correcting the inode ID.
+>=20
+> On a freshly formatted and mounted HFS volume, run:
+>=20
+> =C2=A0=C2=A0=C2=A0 mkdir z
+> =C2=A0=C2=A0=C2=A0 : > a
+> =C2=A0=C2=A0=C2=A0 : > b
+> =C2=A0=C2=A0=C2=A0 rm b
+> =C2=A0=C2=A0=C2=A0 : > c
+>=20
+> Without this fix, creating c fails with EEXIST, although c does not
+> exist. With the fix, it succeeds on the first attempt.
+>=20
+> First look up the preceding CNID: if it exists, it must be the
+> largest
+> remaining ID. Otherwise, scan all file and directory records for the
+> maximum, including files without optional thread records. Follow the
+> leaf links regardless of node numbers, bound the walk by the total
+> node count, and acquire a reference on every visit so malformed
+> cycles
+> cannot loop indefinitely or reuse a released node.
 
-> A failed synchronous FAT metadata write clears BH_Uptodate. Rename
-> recovery can then modify and dirty the same retained buffer, which
-> triggers the !buffer_uptodate warning in mark_buffer_dirty().
->
-> Stop on-disk rollback after a failed dotdot update or old-entry removal,
-> where a complete rollback can no longer be guaranteed. At an
-> inode-position failure no dotdot update or source-entry removal has
-> started, so rereading the affected entry block and restoring the changed
-> entry slots can still complete the rollback.
->
-> Read a retained new-entry buffer again before removing the entry.
-> Replacement and exchange recovery use inode writeback, which reacquires
-> the directory-entry buffer. When the second exchange position write
-> fails, the first has already reached disk, so attempt both restorations
-> even if retrying the failed block also fails.
->
-> Report recovery errors returned by these steps as corruption and preserve
-> the original forward error.
->
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Reported-by: syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=b0aebd03565f5774f7f8
-> Signed-off-by: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Before diving in the deeper review, I have some questions:
+(1) The goal of hfs_correct_next_unused_CNID() was to fix the volume
+corruption issue. Have you run hfs.fsck tool to check that volume is
+valid (not corrupted) after your fix?
+(2) Have you run xfstests (especially, generic/736) with your fix?
+Because, the patch had goal to fix the generic/736 failure:
+
+    generic/736 [03:18:33][ 3.510255] run fstests generic/736 at 2025-
+05-05 03:18:33
+    _check_generic_filesystem: filesystem on /dev/vdb is inconsistent
+    (see /results/hfs/results-default/generic/736.full for details)
+    Ran: generic/736
+    Failures: generic/736
+    Failed 1 of 1 tests
+   =20
+    The HFS volume becomes corrupted after the test run:
+   =20
+    sudo fsck.hfs -d /dev/loop50
+    ** /dev/loop50
+    Using cacheBlockSize=3D32K cacheTotalBlock=3D1024 cacheSize=3D32768K.
+    Executing fsck_hfs (version 540.1-Linux).
+    ** Checking HFS volume.
+    The volume name is untitled
+    ** Checking extents overflow file.
+    ** Checking catalog file.
+    ** Checking catalog hierarchy.
+    ** Checking volume bitmap.
+    ** Checking volume information.
+    invalid MDB drNxtCNID
+    Master Directory Block needs minor repair
+    (1, 0)
+    Verify Status: VIStat =3D 0x8000, ABTStat =3D 0x0000 EBTStat =3D 0x0000
+    CBTStat =3D 0x0000 CatStat =3D 0x00000000
+    ** Repairing volume.
+    ** Rechecking volume.
+    ** Checking HFS volume.
+    The volume name is untitled
+    ** Checking extents overflow file.
+    ** Checking catalog file.
+    ** Checking catalog hierarchy.
+    ** Checking volume bitmap.
+    ** Checking volume information.
+    ** The volume untitled was repaired successfully.
+
+Thanks,
+Slava.=20
+
+>=20
+> Fixes: a06ec283e125 ("hfs: add logic of correcting a next unused
+> CNID")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
 > ---
-> Changes in v3:
-> - Give up the on-disk rollback entirely after a failed dotdot update or
->   old-entry removal, as suggested by OGAWA Hirofumi, instead of tracking
->   buffer aliases and reverting what is still possible.
-> - After a failed inode-position write, read the retained new-entry buffer
->   again with bh_read() before removing the entry, and write a replaced
->   target entry back through inode writeback.
-> - New subject, since rollback is no longer skipped per buffer.
->
-> v2: https://lore.kernel.org/all/1f18819d20c92960b8b2d6ccc8bc4506d346150e.1790779353.git.krystianmkaniewski@gmail.com/
->
->  fs/fat/namei_msdos.c | 39 ++++++++++----------------
->  fs/fat/namei_vfat.c  | 66 +++++++++++++++++---------------------------
->  2 files changed, 39 insertions(+), 66 deletions(-)
->
-> diff --git a/fs/fat/namei_msdos.c b/fs/fat/namei_msdos.c
-> index d46d1a3..0aab2b1 100644
-> --- a/fs/fat/namei_msdos.c
-> +++ b/fs/fat/namei_msdos.c
-> @@ -441,7 +441,7 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
->  	struct fat_slot_info old_sinfo, sinfo;
->  	struct timespec64 ts;
->  	loff_t new_i_pos;
-> -	int err, old_attrs, is_dir, update_dotdot, corrupt = 0;
-> +	int err, old_attrs, is_dir, update_dotdot, rollback_err = 0;
->  
->  	old_sinfo.bh = sinfo.bh = dotdot_bh = NULL;
->  	old_inode = d_inode(old_dentry);
-> @@ -533,7 +533,7 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
->  		if (IS_DIRSYNC(new_dir)) {
->  			err = sync_dirty_buffer(dotdot_bh);
->  			if (err)
-> -				goto error_dotdot;
-> +				goto error_no_rollback;
->  		}
->  		drop_nlink(old_dir);
->  		if (!new_inode)
-> @@ -543,7 +543,7 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
->  	err = fat_remove_entries(old_dir, &old_sinfo);	/* and releases bh */
->  	old_sinfo.bh = NULL;
->  	if (err)
-> -		goto error_dotdot;
-> +		goto error_no_rollback;
-
-What is wrong to try to revert dotdot_bh?
-
->  	inode_inc_iversion(old_dir);
->  	fat_truncate_time(old_dir, &ts, FAT_UPDATE_CMTIME);
->  	mark_inode_dirty(old_dir);
-> @@ -561,37 +561,26 @@ out:
->  	brelse(old_sinfo.bh);
->  	return err;
->  
-> -error_dotdot:
-> -	/* data cluster is shared, serious corruption */
-> -	corrupt = 1;
-> -
-> -	if (update_dotdot) {
-> -		fat_set_start(dotdot_de, MSDOS_I(old_dir)->i_logstart);
-> -		mmb_mark_buffer_dirty(dotdot_bh,
-> -				      &MSDOS_I(old_inode)->i_metadata_bhs);
-> -		corrupt |= sync_dirty_buffer(dotdot_bh);
-> -	}
-> +error_no_rollback:
-> +	/* Do not continue an on-disk rollback that cannot be completed. */
-> +	rollback_err = err;
->  error_inode:
->  	fat_detach(old_inode);
->  	fat_attach(old_inode, old_sinfo.i_pos);
->  	MSDOS_I(old_inode)->i_attrs = old_attrs;
->  	if (new_inode) {
->  		fat_attach(new_inode, new_i_pos);
-> -		if (corrupt) {
-> +		if (!rollback_err) {
->  			mark_inode_dirty(new_inode);
-> -			corrupt |= sync_inode_metadata(new_inode, 1);
-> +			rollback_err = sync_inode_metadata(new_inode, 1);
->  		}
-> -	} else {
-> -		/*
-> -		 * If new entry was not sharing the data cluster, it
-> -		 * shouldn't be serious corruption.
-> -		 */
-> -		int err2 = fat_remove_entries(new_dir, &sinfo);
-> -		if (corrupt)
-> -			corrupt |= err2;
-> -		sinfo.bh = NULL;
-> +	} else if (!rollback_err) {
-> +		/* Read the entry block again if a failed write invalidated it. */
-> +		rollback_err = bh_read(sinfo.bh, 0);
-
-Why do this read the bh from on disk?
-
-> +		if (rollback_err >= 0)
-> +			rollback_err = fat_remove_entries(new_dir, &sinfo);
->  	}
-> -	if (corrupt < 0) {
-> +	if (rollback_err < 0) {
->  		fat_fs_error(new_dir->i_sb,
->  			     "%s: Filesystem corrupted (i_pos %lld)",
->  			     __func__, sinfo.i_pos);
-
-Same above questions for vfat with msdos.
-
-Thanks.
-
-> diff --git a/fs/fat/namei_vfat.c b/fs/fat/namei_vfat.c
-> index da3e89c..f10828c 100644
-> --- a/fs/fat/namei_vfat.c
-> +++ b/fs/fat/namei_vfat.c
-> @@ -938,7 +938,7 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
->  	struct fat_slot_info old_sinfo, sinfo;
->  	struct timespec64 ts;
->  	loff_t new_i_pos;
-> -	int err, is_dir, corrupt = 0;
-> +	int err, is_dir, rollback_err = 0;
->  	struct super_block *sb = old_dir->i_sb;
->  
->  	old_sinfo.bh = sinfo.bh = dotdot_bh = NULL;
-> @@ -984,7 +984,7 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
->  		err = vfat_update_dotdot_de(new_dir, old_inode, dotdot_bh,
->  					    dotdot_de);
->  		if (err)
-> -			goto error_dotdot;
-> +			goto error_no_rollback;
->  		drop_nlink(old_dir);
->  		if (!new_inode)
->   			inc_nlink(new_dir);
-> @@ -993,7 +993,7 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
->  	err = fat_remove_entries(old_dir, &old_sinfo);	/* and releases bh */
->  	old_sinfo.bh = NULL;
->  	if (err)
-> -		goto error_dotdot;
-> +		goto error_no_rollback;
->  	vfat_update_dir_metadata(old_dir, &ts);
->  
->  	if (new_inode) {
-> @@ -1009,34 +1009,25 @@ out:
->  
->  	return err;
->  
-> -error_dotdot:
-> -	/* data cluster is shared, serious corruption */
-> -	corrupt = 1;
-> -
-> -	if (dotdot_de) {
-> -		corrupt |= vfat_update_dotdot_de(old_dir, old_inode, dotdot_bh,
-> -						 dotdot_de);
-> -	}
-> +error_no_rollback:
-> +	/* Do not continue an on-disk rollback that cannot be completed. */
-> +	rollback_err = err;
->  error_inode:
->  	fat_detach(old_inode);
->  	fat_attach(old_inode, old_sinfo.i_pos);
->  	if (new_inode) {
->  		fat_attach(new_inode, new_i_pos);
-> -		if (corrupt) {
-> +		if (!rollback_err) {
->  			mark_inode_dirty(new_inode);
-> -			corrupt |= sync_inode_metadata(new_inode, 1);
-> +			rollback_err = sync_inode_metadata(new_inode, 1);
->  		}
-> -	} else {
-> -		/*
-> -		 * If new entry was not sharing the data cluster, it
-> -		 * shouldn't be serious corruption.
-> -		 */
-> -		int err2 = fat_remove_entries(new_dir, &sinfo);
-> -		if (corrupt)
-> -			corrupt |= err2;
-> -		sinfo.bh = NULL;
-> +	} else if (!rollback_err) {
-> +		/* Read the entry block again if a failed write invalidated it. */
-> +		rollback_err = bh_read(sinfo.bh, 0);
-> +		if (rollback_err >= 0)
-> +			rollback_err = fat_remove_entries(new_dir, &sinfo);
->  	}
-> -	if (corrupt < 0) {
-> +	if (rollback_err < 0) {
->  		fat_fs_error(new_dir->i_sb,
->  			     "%s: Filesystem corrupted (i_pos %lld)",
->  			     __func__, new_i_pos);
-> @@ -1067,7 +1058,7 @@ static int vfat_rename_exchange(struct inode *old_dir, struct dentry *old_dentry
->  	struct inode *old_inode, *new_inode;
->  	struct timespec64 ts = current_time(old_dir);
->  	loff_t old_i_pos, new_i_pos;
-> -	int err, corrupt = 0;
-> +	int err, rollback_err = 0;
->  	struct super_block *sb = old_dir->i_sb;
->  
->  	old_inode = d_inode(old_dentry);
-> @@ -1106,13 +1097,13 @@ static int vfat_rename_exchange(struct inode *old_dir, struct dentry *old_dentry
->  		err = vfat_update_dotdot_de(new_dir, old_inode, old_dotdot_bh,
->  					    old_dotdot_de);
->  		if (err)
-> -			goto error_old_dotdot;
-> +			goto error_no_rollback;
->  	}
->  	if (new_dotdot_de) {
->  		err = vfat_update_dotdot_de(old_dir, new_inode, new_dotdot_bh,
->  					    new_dotdot_de);
->  		if (err)
-> -			goto error_new_dotdot;
-> +			goto error_no_rollback;
->  	}
->  
->  	/* if cross directory and only one is a directory, adjust nlink */
-> @@ -1135,24 +1126,17 @@ out:
->  
->  	return err;
->  
-> -error_new_dotdot:
-> -	if (new_dotdot_de) {
-> -		corrupt |= vfat_update_dotdot_de(new_dir, new_inode,
-> -						 new_dotdot_bh, new_dotdot_de);
-> -	}
-> -
-> -error_old_dotdot:
-> -	if (old_dotdot_de) {
-> -		corrupt |= vfat_update_dotdot_de(old_dir, old_inode,
-> -						 old_dotdot_bh, old_dotdot_de);
-> -	}
-> -
-> +error_no_rollback:
-> +	/* Do not start a partial on-disk rollback after a failed ".." write. */
-> +	rollback_err = err;
->  error_exchange:
->  	vfat_exchange_ipos(old_inode, new_inode, new_i_pos, old_i_pos);
-> -	corrupt |= vfat_sync_ipos(new_dir, new_inode);
-> -	corrupt |= vfat_sync_ipos(old_dir, old_inode);
-> +	if (!rollback_err) {
-> +		rollback_err |= vfat_sync_ipos(new_dir, new_inode);
-> +		rollback_err |= vfat_sync_ipos(old_dir, old_inode);
+> The fallback follows leaf sibling links independently of node
+> numbers.
+> Bound its iterations by the tree's total node count and acquire a
+> fresh
+> node reference on every visit, including when a cycle returns to the
+> tail.
+> The budget check runs before acquisition; exhaustion returns EIO
+> without
+> using the partial maximum to update next_id.
+>=20
+> Tested on v7.3-rc6 with GCC 10.5 and the unchanged KASAN
+> configuration:
+> 14 normal-volume cases passed, including predecessor lookup, ID
+> holes,
+> missing file threads, concurrency and reordered leaf node numbers.
+> Three malformed prev chains (tail self-loop, a loop returning to the
+> tail,
+> and a loop excluding the tail) each returned EIO after exactly
+> node_count
+> visits. The on-disk next CNID was unchanged; no KASAN or BUG was
+> observed.
+>=20
+> =C2=A0fs/hfs/catalog.c | 80 +++++++++++++++++++++++++++++----------------=
+-
+> --
+> =C2=A01 file changed, 48 insertions(+), 32 deletions(-)
+>=20
+> diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
+> index 490c5e130da3..2d90f1857781 100644
+> --- a/fs/hfs/catalog.c
+> +++ b/fs/hfs/catalog.c
+> @@ -269,48 +269,54 @@ void hfs_set_next_unused_CNID(struct
+> super_block *sb,
+> =C2=A0 * Correct the next unused CNID of Catalog Tree.
+> =C2=A0 */
+> =C2=A0static
+> -int hfs_correct_next_unused_CNID(struct super_block *sb, u32 cnid)
+> +int hfs_correct_next_unused_CNID(struct super_block *sb,
+> +				 struct hfs_find_data *fd, u32 cnid)
+> =C2=A0{
+> =C2=A0	struct hfs_btree *cat_tree;
+> =C2=A0	struct hfs_bnode *node;
+> +	u32 max_cnid =3D 0;
+> +	u32 remaining;
+> =C2=A0	s64 leaf_head;
+> =C2=A0	s64 leaf_tail;
+> =C2=A0	s64 node_id;
+> +	int res;
+> =C2=A0
+> =C2=A0	hfs_dbg("cnid %u, next_id %lld\n",
+> =C2=A0		cnid, atomic64_read(&HFS_SB(sb)->next_id));
+> =C2=A0
+> -	if ((cnid + 1) < atomic64_read(&HFS_SB(sb)->next_id)) {
+> +	if ((cnid + 1) !=3D atomic64_read(&HFS_SB(sb)->next_id)) {
+> =C2=A0		/* next ID should be unchanged */
+> =C2=A0		return 0;
+> =C2=A0	}
+> =C2=A0
+> +	/* If the previous CNID is still in use, it must be the
+> maximum. */
+> +	res =3D hfs_cat_find_brec(sb, cnid - 1, fd);
+> +	if (!res) {
+> +		hfs_set_next_unused_CNID(sb, cnid, cnid - 1);
+> +		return 0;
 > +	}
->  
-> -	if (corrupt < 0) {
-> +	if (rollback_err < 0) {
->  		fat_fs_error(new_dir->i_sb,
->  			     "%s: Filesystem corrupted (i_pos %lld, %lld)",
->  			     __func__, old_i_pos, new_i_pos);
-
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+> +	if (res !=3D -ENOENT)
+> +		return res;
+> +
+> =C2=A0	cat_tree =3D HFS_SB(sb)->cat_tree;
+> =C2=A0	leaf_head =3D cat_tree->leaf_head;
+> =C2=A0	leaf_tail =3D cat_tree->leaf_tail;
+> -
+> -	if (leaf_head > leaf_tail) {
+> -		pr_err("node is corrupted: leaf_head %lld, leaf_tail
+> %lld\n",
+> -			leaf_head, leaf_tail);
+> -		return -ERANGE;
+> -	}
+> -
+> -	node =3D hfs_bnode_find(cat_tree, leaf_tail);
+> -	if (IS_ERR(node)) {
+> -		pr_err("fail to find leaf node: node ID %lld\n",
+> -			leaf_tail);
+> -		return -ENOENT;
+> -	}
+> -
+> +	remaining =3D cat_tree->node_count;
+> =C2=A0	node_id =3D leaf_tail;
+> =C2=A0
+> =C2=A0	do {
+> =C2=A0		int i;
+> =C2=A0
+> -		if (node_id !=3D leaf_tail) {
+> -			node =3D hfs_bnode_find(cat_tree, node_id);
+> -			if (IS_ERR(node))
+> -				return -ENOENT;
+> +		/* A valid leaf chain cannot visit more nodes than
+> the tree. */
+> +		if (!remaining)
+> +			return -EIO;
+> +		remaining--;
+> +
+> +		node =3D hfs_bnode_find(cat_tree, node_id);
+> +		if (IS_ERR(node)) {
+> +			pr_err("fail to find leaf node: node ID
+> %lld\n",
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node_id);
+> +			return PTR_ERR(node);
+> =C2=A0		}
+> =C2=A0
+> =C2=A0		hfs_dbg("node %lld, leaf_tail %lld, leaf_head
+> %lld\n",
+> @@ -331,42 +337,52 @@ int hfs_correct_next_unused_CNID(struct
+> super_block *sb, u32 cnid)
+> =C2=A0				pr_err("fail to get the keylen: "
+> =C2=A0					"node_id %lld, record index
+> %d\n",
+> =C2=A0					node_id, i);
+> -				return -EINVAL;
+> +				res =3D -EINVAL;
+> +				goto out;
+> =C2=A0			}
+> =C2=A0
+> =C2=A0			entryoffset =3D off + keylen;
+> =C2=A0			entrylength =3D len - keylen;
+> =C2=A0
+> -			if (entrylength > sizeof(rec)) {
+> +			if (entrylength <=3D 0 || entrylength >
+> sizeof(rec)) {
+> =C2=A0				pr_err("unexpected record length: "
+> =C2=A0					"entrylength %d\n",
+> =C2=A0					entrylength);
+> -				return -EINVAL;
+> +				res =3D -EINVAL;
+> +				goto out;
+> =C2=A0			}
+> =C2=A0
+> =C2=A0			hfs_bnode_read(node, &rec, entryoffset,
+> entrylength);
+> =C2=A0
+> =C2=A0			if (rec.type =3D=3D HFS_CDR_DIR) {
+> +				if (entrylength !=3D sizeof(struct
+> hfs_cat_dir)) {
+> +					res =3D -EIO;
+> +					goto out;
+> +				}
+> =C2=A0				found_cnid =3D
+> be32_to_cpu(rec.dir.DirID);
+> =C2=A0				hfs_dbg("found_cnid %u\n",
+> found_cnid);
+> -				hfs_set_next_unused_CNID(sb, cnid,
+> found_cnid);
+> -				hfs_bnode_put(node);
+> -				return 0;
+> +				max_cnid =3D max(max_cnid,
+> found_cnid);
+> =C2=A0			} else if (rec.type =3D=3D HFS_CDR_FIL) {
+> +				if (entrylength !=3D sizeof(struct
+> hfs_cat_file)) {
+> +					res =3D -EIO;
+> +					goto out;
+> +				}
+> =C2=A0				found_cnid =3D
+> be32_to_cpu(rec.file.FlNum);
+> =C2=A0				hfs_dbg("found_cnid %u\n",
+> found_cnid);
+> -				hfs_set_next_unused_CNID(sb, cnid,
+> found_cnid);
+> -				hfs_bnode_put(node);
+> -				return 0;
+> +				max_cnid =3D max(max_cnid,
+> found_cnid);
+> =C2=A0			}
+> =C2=A0		}
+> =C2=A0
+> =C2=A0		node_id =3D node->prev;
+> =C2=A0		hfs_bnode_put(node);
+> =C2=A0
+> -	} while (node_id >=3D leaf_head);
+> +	} while (node_id);
+> =C2=A0
+> -	return -ENOENT;
+> +	hfs_set_next_unused_CNID(sb, cnid, max_cnid);
+> +	return 0;
+> +out:
+> +	hfs_bnode_put(node);
+> +	return res;
+> =C2=A0}
+> =C2=A0
+> =C2=A0/*
+> @@ -420,7 +436,7 @@ int hfs_cat_delete(u32 cnid, struct inode *dir,
+> const struct qstr *str)
+> =C2=A0	inode_set_mtime_to_ts(dir, inode_set_ctime_current(dir));
+> =C2=A0	mark_inode_dirty(dir);
+> =C2=A0
+> -	res =3D hfs_correct_next_unused_CNID(sb, cnid);
+> +	res =3D hfs_correct_next_unused_CNID(sb, &fd, cnid);
+> =C2=A0	if (res)
+> =C2=A0		goto out;
+> =C2=A0
