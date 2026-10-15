@@ -1,102 +1,683 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-67.mta0.migadu.com [91.218.175.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C18C185B48;
-	Wed, 14 Oct 2026 22:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D67F24E4C6
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 01:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792018700; cv=none; b=gsw4XByXLAVZOv0B4dOk+g/cQykEFAU8sVYaKqgkgxaAKBkXybEL5dh9j8HKvwDMBTew/kB1/fBdh9GJr16jtqezkvgvotDJLAPhjyVceJ9kpWWx4xwTbx7Vv28SoghrVK68OKqzQa8NZMYtDw7weIVfhQbm7StxYnJYEYFVnMc=
+	t=1792027985; cv=none; b=IXC8CnfIC0XKgu4J/iDQvLWTya6T1Guh6uV7fvjdApbxyXHty47qH13jvViejqUtNl5njLicYjg5kjmRFdAOdvMxq1Q7qAqbgCpjkwKD8wfbnNZR7/zBH5JUpmOoSunF2zd3M6pbt+stzaMkGTxqN/aV1x5d7IqHndUgWrON2U8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792018700; c=relaxed/simple;
-	bh=a8GyNuOkJam97IF5PUJ8I6Q97oi1RXSNrJomIAT/JnY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gt+WbF5bO3E1cU71Ifuh5puMnHD2wftYspgXptvagDMcjyAaYXli7CsetBs7I8u5W4rJjhTBnFKFJaYsGxG5Q2zg8x6RskTf9CXKryvGZ/ouC2nKTUfJ29q262MJTzBMu0AqHda/W6zaFaG/7MKxPy4Un9qZzvi1gVAx6NekyxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oCR6mqrk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792027985; c=relaxed/simple;
+	bh=aW+P9ILvvwCYvBPUVsnfAHf8hxxKF2YQhD2wzjI4WXo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bC0M5xUKttVjcAu+/MIfxWwaCE2brotT6rXuZ9Q8lMKz79T3x+v5EVRiyTcaaPdAK6HY5zDDqoXLujkd3KQSc4teh/dxqfpWhckRJGiVZSdDyUROlI4kt3OZgCdfK9QAkDITqEEo3itBZ2bstSvO9qLljVM1PlG8qfu1+4GVFRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cJ3Pb5tu; arc=none smtp.client-ip=91.218.175.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oCR6mqrk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F2A61F000C4;
-	Wed, 14 Oct 2026 22:58:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792018699;
-	bh=hYVhfY5F8PE1JdDUkR9iDsmlsX80vTZYlpXji/UM5Is=;
-	h=From:To:Cc:Subject:Date;
-	b=oCR6mqrkvg9tvUzPi0tmh97KemdR7KpFN8T2OqyFwlz8GVHqveIou13XgfmXmC1wQ
-	 J0MnsDdH1FMnLhnQZaWg1kx+cMkyMa6zNKyeXJItJYdfLe8gOfku6bo4nFJp0kwIKH
-	 tApGjiZJ3SOslF6c/3r5W/UOxj0FUQeEbNq2j8Ezy4UM8zd1jrSBx5Yj1XusmBDsWp
-	 7d9AJi2aD8nRD6/bA760nbPwnqz+j989NeXontesLAADAetTvxJp8hFlDxcujuw6cC
-	 XQJIFTOX79LCjhyoUauiO2vkbXrPg2g0OXt3wg1slrASNEfzimdIJvD1L4fx3QmtH6
-	 GmQP8F37/sNeQ==
-From: Kees Cook <kees@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Kees Cook <kees@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andy Whitcroft <apw@canonical.com>,
-	Joe Perches <joe@perches.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Ian Rogers <irogers@google.com>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	llvm@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH 0/2] Add __require_explicit_initialization and its first user
-Date: Wed, 14 Oct 2026 15:58:14 -0700
-Message-ID: <20261014225811.i.852-kees@kernel.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cJ3Pb5tu"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=aW+P9ILvvwCYvBPUVsnfAHf8hxxKF2YQhD2wzjI4WXo=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792027978; v=1; x=1792632778;
+ b=cJ3Pb5tu41CIIhRAY13mF6/INV/hL3Wj0neqjAYUEubQVdIh1Mwm5kIbhcpyr8ofHeGLIcT2
+ khBEvI/v9g/1tXZ04usB+fqOQ2ECFEupMpaEG8EcfIPpQMzQt5D0ts2a0mYTlZpY1lEji4UkuIZ
+ crCfBEpxnb+1hj2tsWAuP3SM=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 1c569dc00d61bffa;
+	Thu, 15 Oct 2026 01:32:58 +0000
+X-Mizu-Trace-ID: 1c569dc00d61bffa
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <e51c14e9-5559-4ff7-8a38-de815a8f8230@linux.dev>
+Date: Thu, 15 Oct 2026 09:32:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] proc: Move OOM-related procfs code to fs/proc/oom.c
+To: Michal Hocko <mhocko@suse.com>
+Cc: David Rientjes <rientjes@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, Ye Liu <liuye@kylinos.cn>
+References: <20261014-oom_procfs-v1-1-f2d75e73571e@linux.dev>
+ <as9MG_BtepLV6DsC@tiehlicka>
+Content-Language: en-US
+From: Ye Liu <ye.liu@linux.dev>
+In-Reply-To: <as9MG_BtepLV6DsC@tiehlicka>
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1362; i=kees@kernel.org; h=from:subject:message-id; bh=a8GyNuOkJam97IF5PUJ8I6Q97oi1RXSNrJomIAT/JnY=; b=owGbwMvMwCVmps19z/KJym7G02pJDFkXONkbbz2KnNUTIdPJomgRGFTn3FW865j2uy3FisbKe 3qnXPfsKGVhEONikBVTZAmyc49z8XjbHu4+VxFmDisTyBAGLk4BmMjrjQz/FPYp8H5YXhzPbPFN YmXFa76V/LmKrJ2qha4BD9In1CunMDL8Xc0TH77uneL5VY+lvBsWNE/e+9gwUHTfk2DNibMNJr1 kAwA=
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-Hi!
 
-As discussed in Ian's kobj_type::release series[1], this takes its first
-patch (to add __require_explicit_initialization), with Miguel's requested
-comment tweak (the attribute needs Clang 20 or later), along with a first
-user that needs no fix-ups first: seq_file's seq_operations callbacks,
-which are called without a NULL check. This will make the attribute
-available in v7.4-rc1, while the kobj_type fixes continue separately.
 
-The annotation adds no warnings anywhere in the tree today that I could
-find across allmodconfig builds:
+在 2026/10/14 17:32, Michal Hocko 写道:
+> On Wed 14-10-26 16:54:12, Ye Liu wrote:
+>> From: Ye Liu <liuye@kylinos.cn>
+>>
+>> fs/proc/base.c is a large file (~3700 lines) handling all per-process
+>> procfs entries. The OOM score, oom_adj, and oom_score_adj interface
+>> code is self-contained and has no dependencies on other parts of
+>> base.c, so move it into a dedicated fs/proc/oom.c following the same
+>> pattern as fs/proc/fd.c and fs/proc/task_mmu.c.
+>>
+>> This makes both files easier to read and keeps OOM-related procfs
+>> entries together in one place.
+> 
+> Are there plans to separate other functionality or is this one off
+> thing?
+> In general I am not against of moving stuff to more specialized files.
+> An obvious downside is a review as it is quite easy to overlook a subtle
+> change when moving so much code. Something worth undertaking if there
+> is a bigger goal. Not so sure if this is just a one of and fs/proc/base.c
+> still keeps other random stuff in.
+> 
 
-  Clang 24.0.0git: x86_64, arm64, i386, arm, riscv, s390, loongarch, powerpc.
-  GCC 16.2.0: x86_64, arm64, i386, arm, riscv, s390, m68k, mips, parisc,
-	      sparc, loongarch, xtensa, arc, and openrisc.
+Hi Michal,
 
-Thanks!
+This is a one-off move specifically for the OOM-related procfs code.
+I don't have a broader plan to split up fs/proc/base.c at this time.
 
--Kees
+I understand the concern about subtle changes during code moves.
+To address that, the patch is a pure relocation with no functional
+modifications — all function bodies are moved verbatim. The only
+non-mechanical changes are:
 
-[1] https://lore.kernel.org/all/20261013223946.1836757-1-irogers@google.com/
+  - Three symbols (proc_oom_score, proc_oom_adj_operations,
+    proc_oom_score_adj_operations) are made non-static and declared
+    in fs/proc/internal.h, since base.c still references them via
+    the proc_dir_entry table.
 
-Ian Rogers (1):
-  Compiler Attributes: Add __require_explicit_initialization macro
+  - The oom_adj_mutex static local is moved along with its users.
 
-Kees Cook (1):
-  seq_file: Require explicit initialization of struct seq_operations
+I have tested the patch and observed no functional issues.
 
- scripts/checkpatch.pl                 |  1 +
- Documentation/conf.py                 |  1 +
- include/linux/compiler_attributes.h   | 12 ++++++++++++
- include/linux/seq_file.h              | 13 +++++++++----
- tools/lib/python/kdoc/xforms_lists.py |  1 +
- 5 files changed, 24 insertions(+), 4 deletions(-)
+>> Signed-off-by: Ye Liu <liuye@kylinos.cn>
+>> ---
+>>  MAINTAINERS        |   1 +
+>>  fs/proc/Makefile   |   1 +
+>>  fs/proc/base.c     | 232 -------------------------------------------------
+>>  fs/proc/internal.h |   8 ++
+>>  fs/proc/oom.c      | 249 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  5 files changed, 259 insertions(+), 232 deletions(-)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 1da3623e77ce..4b1c13a65136 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -17676,6 +17676,7 @@ R:	David Rientjes <rientjes@google.com>
+>>  R:	Shakeel Butt <shakeel.butt@linux.dev>
+>>  L:	linux-mm@kvack.org
+>>  S:	Maintained
+>> +F:	fs/proc/oom.c
+>>  F:	include/linux/oom.h
+>>  F:	include/trace/events/oom.h
+>>  F:	include/uapi/linux/oom.h
+>> diff --git a/fs/proc/Makefile b/fs/proc/Makefile
+>> index 27e2b26b2d42..68e65866b5df 100644
+>> --- a/fs/proc/Makefile
+>> +++ b/fs/proc/Makefile
+>> @@ -21,6 +21,7 @@ proc-y += interrupts.o
+>>  endif
+>>  proc-y	+= loadavg.o
+>>  proc-y	+= meminfo.o
+>> +proc-y	+= oom.o
+>>  proc-y	+= stat.o
+>>  proc-y	+= uptime.o
+>>  proc-y	+= util.o
+>> diff --git a/fs/proc/base.c b/fs/proc/base.c
+>> index 8c04fcd436d2..26ccc05a50ff 100644
+>> --- a/fs/proc/base.c
+>> +++ b/fs/proc/base.c
+>> @@ -80,7 +80,6 @@
+>>  #include <linux/audit.h>
+>>  #include <linux/poll.h>
+>>  #include <linux/nsproxy.h>
+>> -#include <linux/oom.h>
+>>  #include <linux/elf.h>
+>>  #include <linux/pid_namespace.h>
+>>  #include <linux/user_namespace.h>
+>> @@ -99,7 +98,6 @@
+>>  #include <linux/cn_proc.h>
+>>  #include <linux/ksm.h>
+>>  #include <uapi/linux/lsm.h>
+>> -#include <trace/events/oom.h>
+>>  #include "internal.h"
+>>  #include "fd.h"
+>>  
+>> @@ -580,28 +578,6 @@ static const struct file_operations proc_lstats_operations = {
+>>  
+>>  #endif
+>>  
+>> -static int proc_oom_score(struct seq_file *m, struct pid_namespace *ns,
+>> -			  struct pid *pid, struct task_struct *task)
+>> -{
+>> -	unsigned long totalpages = totalram_pages() + total_swap_pages;
+>> -	unsigned long points = 0;
+>> -	long badness;
+>> -
+>> -	badness = oom_badness(task, totalpages);
+>> -	/*
+>> -	 * Special case OOM_SCORE_ADJ_MIN for all others scale the
+>> -	 * badness value into [0, 2000] range which we have been
+>> -	 * exporting for a long time so userspace might depend on it.
+>> -	 */
+>> -	if (badness != LONG_MIN)
+>> -		points = (OOM_SCORE_ADJ_MAX +
+>> -			  badness * OOM_SCORE_ADJ_MAX / (long)totalpages) * 2 / 3;
+>> -
+>> -	seq_printf(m, "%lu\n", points);
+>> -
+>> -	return 0;
+>> -}
+>> -
+>>  struct limit_names {
+>>  	const char *name;
+>>  	const char *unit;
+>> @@ -1115,214 +1091,6 @@ static const struct file_operations proc_auxv_operations = {
+>>  	.release	= mem_release,
+>>  };
+>>  
+>> -static ssize_t oom_adj_read(struct file *file, char __user *buf, size_t count,
+>> -			    loff_t *ppos)
+>> -{
+>> -	struct task_struct *task = get_proc_task(file_inode(file));
+>> -	char buffer[PROC_NUMBUF];
+>> -	int oom_adj = OOM_ADJUST_MIN;
+>> -	size_t len;
+>> -
+>> -	if (!task)
+>> -		return -ESRCH;
+>> -	if (task->signal->oom_score_adj == OOM_SCORE_ADJ_MAX)
+>> -		oom_adj = OOM_ADJUST_MAX;
+>> -	else
+>> -		oom_adj = (task->signal->oom_score_adj * -OOM_DISABLE) /
+>> -			  OOM_SCORE_ADJ_MAX;
+>> -	put_task_struct(task);
+>> -	if (oom_adj > OOM_ADJUST_MAX)
+>> -		oom_adj = OOM_ADJUST_MAX;
+>> -	len = snprintf(buffer, sizeof(buffer), "%d\n", oom_adj);
+>> -	return simple_read_from_buffer(buf, count, ppos, buffer, len);
+>> -}
+>> -
+>> -static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
+>> -{
+>> -	struct mm_struct *mm = NULL;
+>> -	struct task_struct *task;
+>> -	int err = 0;
+>> -
+>> -	task = get_proc_task(file_inode(file));
+>> -	if (!task)
+>> -		return -ESRCH;
+>> -
+>> -	mutex_lock(&oom_adj_mutex);
+>> -	if (legacy) {
+>> -		if (oom_adj < task->signal->oom_score_adj &&
+>> -				!capable(CAP_SYS_RESOURCE)) {
+>> -			err = -EACCES;
+>> -			goto err_unlock;
+>> -		}
+>> -		/*
+>> -		 * /proc/pid/oom_adj is provided for legacy purposes, ask users to use
+>> -		 * /proc/pid/oom_score_adj instead.
+>> -		 */
+>> -		pr_warn_once("%s (%d): /proc/%d/oom_adj is deprecated, please use /proc/%d/oom_score_adj instead.\n",
+>> -			  current->comm, task_pid_nr(current), task_pid_nr(task),
+>> -			  task_pid_nr(task));
+>> -	} else {
+>> -		if ((short)oom_adj < task->signal->oom_score_adj_min &&
+>> -				!capable(CAP_SYS_RESOURCE)) {
+>> -			err = -EACCES;
+>> -			goto err_unlock;
+>> -		}
+>> -	}
+>> -
+>> -	/*
+>> -	 * Make sure we will check other processes sharing the mm if this is
+>> -	 * not vfrok which wants its own oom_score_adj.
+>> -	 * pin the mm so it doesn't go away and get reused after task_unlock
+>> -	 */
+>> -	if (!task->vfork_done) {
+>> -		struct task_struct *p = find_lock_task_mm(task);
+>> -
+>> -		if (p) {
+>> -			if (mm_flags_test(MMF_MULTIPROCESS, p->mm)) {
+>> -				mm = p->mm;
+>> -				mmgrab(mm);
+>> -			}
+>> -			task_unlock(p);
+>> -		}
+>> -	}
+>> -
+>> -	task->signal->oom_score_adj = oom_adj;
+>> -	if (!legacy && has_capability_noaudit(current, CAP_SYS_RESOURCE))
+>> -		task->signal->oom_score_adj_min = (short)oom_adj;
+>> -	trace_oom_score_adj_update(task);
+>> -
+>> -	if (mm) {
+>> -		struct task_struct *p;
+>> -
+>> -		rcu_read_lock();
+>> -		for_each_process(p) {
+>> -			if (same_thread_group(task, p))
+>> -				continue;
+>> -
+>> -			/* do not touch kernel threads or the global init */
+>> -			if (p->flags & PF_KTHREAD || is_global_init(p))
+>> -				continue;
+>> -
+>> -			task_lock(p);
+>> -			if (!p->vfork_done && process_shares_mm(p, mm)) {
+>> -				p->signal->oom_score_adj = oom_adj;
+>> -				if (!legacy && has_capability_noaudit(current, CAP_SYS_RESOURCE))
+>> -					p->signal->oom_score_adj_min = (short)oom_adj;
+>> -			}
+>> -			task_unlock(p);
+>> -		}
+>> -		rcu_read_unlock();
+>> -		mmdrop(mm);
+>> -	}
+>> -err_unlock:
+>> -	mutex_unlock(&oom_adj_mutex);
+>> -	put_task_struct(task);
+>> -	return err;
+>> -}
+>> -
+>> -/*
+>> - * /proc/pid/oom_adj exists solely for backwards compatibility with previous
+>> - * kernels.  The effective policy is defined by oom_score_adj, which has a
+>> - * different scale: oom_adj grew exponentially and oom_score_adj grows linearly.
+>> - * Values written to oom_adj are simply mapped linearly to oom_score_adj.
+>> - * Processes that become oom disabled via oom_adj will still be oom disabled
+>> - * with this implementation.
+>> - *
+>> - * oom_adj cannot be removed since existing userspace binaries use it.
+>> - */
+>> -static ssize_t oom_adj_write(struct file *file, const char __user *buf,
+>> -			     size_t count, loff_t *ppos)
+>> -{
+>> -	char buffer[PROC_NUMBUF] = {};
+>> -	int oom_adj;
+>> -	int err;
+>> -
+>> -	if (count > sizeof(buffer) - 1)
+>> -		count = sizeof(buffer) - 1;
+>> -	if (copy_from_user(buffer, buf, count)) {
+>> -		err = -EFAULT;
+>> -		goto out;
+>> -	}
+>> -
+>> -	err = kstrtoint(strstrip(buffer), 0, &oom_adj);
+>> -	if (err)
+>> -		goto out;
+>> -	if ((oom_adj < OOM_ADJUST_MIN || oom_adj > OOM_ADJUST_MAX) &&
+>> -	     oom_adj != OOM_DISABLE) {
+>> -		err = -EINVAL;
+>> -		goto out;
+>> -	}
+>> -
+>> -	/*
+>> -	 * Scale /proc/pid/oom_score_adj appropriately ensuring that a maximum
+>> -	 * value is always attainable.
+>> -	 */
+>> -	if (oom_adj == OOM_ADJUST_MAX)
+>> -		oom_adj = OOM_SCORE_ADJ_MAX;
+>> -	else
+>> -		oom_adj = (oom_adj * OOM_SCORE_ADJ_MAX) / -OOM_DISABLE;
+>> -
+>> -	err = __set_oom_adj(file, oom_adj, true);
+>> -out:
+>> -	return err < 0 ? err : count;
+>> -}
+>> -
+>> -static const struct file_operations proc_oom_adj_operations = {
+>> -	.read		= oom_adj_read,
+>> -	.write		= oom_adj_write,
+>> -	.llseek		= generic_file_llseek,
+>> -};
+>> -
+>> -static ssize_t oom_score_adj_read(struct file *file, char __user *buf,
+>> -					size_t count, loff_t *ppos)
+>> -{
+>> -	struct task_struct *task = get_proc_task(file_inode(file));
+>> -	char buffer[PROC_NUMBUF];
+>> -	short oom_score_adj = OOM_SCORE_ADJ_MIN;
+>> -	size_t len;
+>> -
+>> -	if (!task)
+>> -		return -ESRCH;
+>> -	oom_score_adj = task->signal->oom_score_adj;
+>> -	put_task_struct(task);
+>> -	len = snprintf(buffer, sizeof(buffer), "%hd\n", oom_score_adj);
+>> -	return simple_read_from_buffer(buf, count, ppos, buffer, len);
+>> -}
+>> -
+>> -static ssize_t oom_score_adj_write(struct file *file, const char __user *buf,
+>> -					size_t count, loff_t *ppos)
+>> -{
+>> -	char buffer[PROC_NUMBUF] = {};
+>> -	int oom_score_adj;
+>> -	int err;
+>> -
+>> -	if (count > sizeof(buffer) - 1)
+>> -		count = sizeof(buffer) - 1;
+>> -	if (copy_from_user(buffer, buf, count)) {
+>> -		err = -EFAULT;
+>> -		goto out;
+>> -	}
+>> -
+>> -	err = kstrtoint(strstrip(buffer), 0, &oom_score_adj);
+>> -	if (err)
+>> -		goto out;
+>> -	if (oom_score_adj < OOM_SCORE_ADJ_MIN ||
+>> -			oom_score_adj > OOM_SCORE_ADJ_MAX) {
+>> -		err = -EINVAL;
+>> -		goto out;
+>> -	}
+>> -
+>> -	err = __set_oom_adj(file, oom_score_adj, false);
+>> -out:
+>> -	return err < 0 ? err : count;
+>> -}
+>> -
+>> -static const struct file_operations proc_oom_score_adj_operations = {
+>> -	.read		= oom_score_adj_read,
+>> -	.write		= oom_score_adj_write,
+>> -	.llseek		= default_llseek,
+>> -};
+>> -
+>>  #ifdef CONFIG_AUDIT
+>>  #define TMPBUFLEN 11
+>>  static ssize_t proc_loginuid_read(struct file * file, char __user * buf,
+>> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+>> index df873df9afc5..b72a2bd604ed 100644
+>> --- a/fs/proc/internal.h
+>> +++ b/fs/proc/internal.h
+>> @@ -238,6 +238,14 @@ static inline int folio_average_page_mapcount(struct folio *folio)
+>>  	/* ... but return at least 1. */
+>>  	return max_t(int, avg + entire_mapcount, 1);
+>>  }
+>> +/*
+>> + * oom.c
+>> + */
+>> +int proc_oom_score(struct seq_file *m, struct pid_namespace *ns,
+>> +		   struct pid *pid, struct task_struct *task);
+>> +extern const struct file_operations proc_oom_adj_operations;
+>> +extern const struct file_operations proc_oom_score_adj_operations;
+>> +
+>>  /*
+>>   * array.c
+>>   */
+>> diff --git a/fs/proc/oom.c b/fs/proc/oom.c
+>> new file mode 100644
+>> index 000000000000..5f22ec4a4a6e
+>> --- /dev/null
+>> +++ b/fs/proc/oom.c
+>> @@ -0,0 +1,249 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * OOM-related procfs entries
+>> + *
+>> + * This file handles the OOM score, oom_adj, and oom_score_adj interfaces
+>> + * in /proc/<pid>/.
+>> + */
+>> +
+>> +#include <linux/proc_fs.h>
+>> +#include <linux/oom.h>
+>> +#include <linux/seq_file.h>
+>> +#include <linux/capability.h>
+>> +#include <linux/mm.h>
+>> +#include <linux/swap.h>
+>> +#include <linux/sched/signal.h>
+>> +#include <linux/pid_namespace.h>
+>> +#include <trace/events/oom.h>
+>> +
+>> +#include "internal.h"
+>> +
+>> +int proc_oom_score(struct seq_file *m, struct pid_namespace *ns,
+>> +		   struct pid *pid, struct task_struct *task)
+>> +{
+>> +	unsigned long totalpages = totalram_pages() + total_swap_pages;
+>> +	unsigned long points = 0;
+>> +	long badness;
+>> +
+>> +	badness = oom_badness(task, totalpages);
+>> +	/*
+>> +	 * Special case OOM_SCORE_ADJ_MIN for all others scale the
+>> +	 * badness value into [0, 2000] range which we have been
+>> +	 * exporting for a long time so userspace might depend on it.
+>> +	 */
+>> +	if (badness != LONG_MIN)
+>> +		points = (OOM_SCORE_ADJ_MAX +
+>> +			  badness * OOM_SCORE_ADJ_MAX / (long)totalpages) * 2 / 3;
+>> +
+>> +	seq_printf(m, "%lu\n", points);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static ssize_t oom_adj_read(struct file *file, char __user *buf, size_t count,
+>> +			    loff_t *ppos)
+>> +{
+>> +	struct task_struct *task = get_proc_task(file_inode(file));
+>> +	char buffer[PROC_NUMBUF];
+>> +	int oom_adj = OOM_ADJUST_MIN;
+>> +	size_t len;
+>> +
+>> +	if (!task)
+>> +		return -ESRCH;
+>> +	if (task->signal->oom_score_adj == OOM_SCORE_ADJ_MAX)
+>> +		oom_adj = OOM_ADJUST_MAX;
+>> +	else
+>> +		oom_adj = (task->signal->oom_score_adj * -OOM_DISABLE) /
+>> +			  OOM_SCORE_ADJ_MAX;
+>> +	put_task_struct(task);
+>> +	if (oom_adj > OOM_ADJUST_MAX)
+>> +		oom_adj = OOM_ADJUST_MAX;
+>> +	len = snprintf(buffer, sizeof(buffer), "%d\n", oom_adj);
+>> +	return simple_read_from_buffer(buf, count, ppos, buffer, len);
+>> +}
+>> +
+>> +static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
+>> +{
+>> +	struct mm_struct *mm = NULL;
+>> +	struct task_struct *task;
+>> +	int err = 0;
+>> +
+>> +	task = get_proc_task(file_inode(file));
+>> +	if (!task)
+>> +		return -ESRCH;
+>> +
+>> +	mutex_lock(&oom_adj_mutex);
+>> +	if (legacy) {
+>> +		if (oom_adj < task->signal->oom_score_adj &&
+>> +				!capable(CAP_SYS_RESOURCE)) {
+>> +			err = -EACCES;
+>> +			goto err_unlock;
+>> +		}
+>> +		/*
+>> +		 * /proc/pid/oom_adj is provided for legacy purposes, ask users to use
+>> +		 * /proc/pid/oom_score_adj instead.
+>> +		 */
+>> +		pr_warn_once("%s (%d): /proc/%d/oom_adj is deprecated, please use /proc/%d/oom_score_adj instead.\n",
+>> +			  current->comm, task_pid_nr(current), task_pid_nr(task),
+>> +			  task_pid_nr(task));
+>> +	} else {
+>> +		if ((short)oom_adj < task->signal->oom_score_adj_min &&
+>> +				!capable(CAP_SYS_RESOURCE)) {
+>> +			err = -EACCES;
+>> +			goto err_unlock;
+>> +		}
+>> +	}
+>> +
+>> +	/*
+>> +	 * Make sure we will check other processes sharing the mm if this is
+>> +	 * not vfrok which wants its own oom_score_adj.
+>> +	 * pin the mm so it doesn't go away and get reused after task_unlock
+>> +	 */
+>> +	if (!task->vfork_done) {
+>> +		struct task_struct *p = find_lock_task_mm(task);
+>> +
+>> +		if (p) {
+>> +			if (mm_flags_test(MMF_MULTIPROCESS, p->mm)) {
+>> +				mm = p->mm;
+>> +				mmgrab(mm);
+>> +			}
+>> +			task_unlock(p);
+>> +		}
+>> +	}
+>> +
+>> +	task->signal->oom_score_adj = oom_adj;
+>> +	if (!legacy && has_capability_noaudit(current, CAP_SYS_RESOURCE))
+>> +		task->signal->oom_score_adj_min = (short)oom_adj;
+>> +	trace_oom_score_adj_update(task);
+>> +
+>> +	if (mm) {
+>> +		struct task_struct *p;
+>> +
+>> +		rcu_read_lock();
+>> +		for_each_process(p) {
+>> +			if (same_thread_group(task, p))
+>> +				continue;
+>> +
+>> +			/* do not touch kernel threads or the global init */
+>> +			if (p->flags & PF_KTHREAD || is_global_init(p))
+>> +				continue;
+>> +
+>> +			task_lock(p);
+>> +			if (!p->vfork_done && process_shares_mm(p, mm)) {
+>> +				p->signal->oom_score_adj = oom_adj;
+>> +				if (!legacy && has_capability_noaudit(current, CAP_SYS_RESOURCE))
+>> +					p->signal->oom_score_adj_min = (short)oom_adj;
+>> +			}
+>> +			task_unlock(p);
+>> +		}
+>> +		rcu_read_unlock();
+>> +		mmdrop(mm);
+>> +	}
+>> +err_unlock:
+>> +	mutex_unlock(&oom_adj_mutex);
+>> +	put_task_struct(task);
+>> +	return err;
+>> +}
+>> +
+>> +/*
+>> + * /proc/pid/oom_adj exists solely for backwards compatibility with previous
+>> + * kernels.  The effective policy is defined by oom_score_adj, which has a
+>> + * different scale: oom_adj grew exponentially and oom_score_adj grows linearly.
+>> + * Values written to oom_adj are simply mapped linearly to oom_score_adj.
+>> + * Processes that become oom disabled via oom_adj will still be oom disabled
+>> + * with this implementation.
+>> + *
+>> + * oom_adj cannot be removed since existing userspace binaries use it.
+>> + */
+>> +static ssize_t oom_adj_write(struct file *file, const char __user *buf,
+>> +			     size_t count, loff_t *ppos)
+>> +{
+>> +	char buffer[PROC_NUMBUF] = {};
+>> +	int oom_adj;
+>> +	int err;
+>> +
+>> +	if (count > sizeof(buffer) - 1)
+>> +		count = sizeof(buffer) - 1;
+>> +	if (copy_from_user(buffer, buf, count)) {
+>> +		err = -EFAULT;
+>> +		goto out;
+>> +	}
+>> +
+>> +	err = kstrtoint(strstrip(buffer), 0, &oom_adj);
+>> +	if (err)
+>> +		goto out;
+>> +	if ((oom_adj < OOM_ADJUST_MIN || oom_adj > OOM_ADJUST_MAX) &&
+>> +	     oom_adj != OOM_DISABLE) {
+>> +		err = -EINVAL;
+>> +		goto out;
+>> +	}
+>> +
+>> +	/*
+>> +	 * Scale /proc/pid/oom_score_adj appropriately ensuring that a maximum
+>> +	 * value is always attainable.
+>> +	 */
+>> +	if (oom_adj == OOM_ADJUST_MAX)
+>> +		oom_adj = OOM_SCORE_ADJ_MAX;
+>> +	else
+>> +		oom_adj = (oom_adj * OOM_SCORE_ADJ_MAX) / -OOM_DISABLE;
+>> +
+>> +	err = __set_oom_adj(file, oom_adj, true);
+>> +out:
+>> +	return err < 0 ? err : count;
+>> +}
+>> +
+>> +const struct file_operations proc_oom_adj_operations = {
+>> +	.read		= oom_adj_read,
+>> +	.write		= oom_adj_write,
+>> +	.llseek		= generic_file_llseek,
+>> +};
+>> +
+>> +static ssize_t oom_score_adj_read(struct file *file, char __user *buf,
+>> +					size_t count, loff_t *ppos)
+>> +{
+>> +	struct task_struct *task = get_proc_task(file_inode(file));
+>> +	char buffer[PROC_NUMBUF];
+>> +	short oom_score_adj = OOM_SCORE_ADJ_MIN;
+>> +	size_t len;
+>> +
+>> +	if (!task)
+>> +		return -ESRCH;
+>> +	oom_score_adj = task->signal->oom_score_adj;
+>> +	put_task_struct(task);
+>> +	len = snprintf(buffer, sizeof(buffer), "%hd\n", oom_score_adj);
+>> +	return simple_read_from_buffer(buf, count, ppos, buffer, len);
+>> +}
+>> +
+>> +static ssize_t oom_score_adj_write(struct file *file, const char __user *buf,
+>> +					size_t count, loff_t *ppos)
+>> +{
+>> +	char buffer[PROC_NUMBUF] = {};
+>> +	int oom_score_adj;
+>> +	int err;
+>> +
+>> +	if (count > sizeof(buffer) - 1)
+>> +		count = sizeof(buffer) - 1;
+>> +	if (copy_from_user(buffer, buf, count)) {
+>> +		err = -EFAULT;
+>> +		goto out;
+>> +	}
+>> +
+>> +	err = kstrtoint(strstrip(buffer), 0, &oom_score_adj);
+>> +	if (err)
+>> +		goto out;
+>> +	if (oom_score_adj < OOM_SCORE_ADJ_MIN ||
+>> +			oom_score_adj > OOM_SCORE_ADJ_MAX) {
+>> +		err = -EINVAL;
+>> +		goto out;
+>> +	}
+>> +
+>> +	err = __set_oom_adj(file, oom_score_adj, false);
+>> +out:
+>> +	return err < 0 ? err : count;
+>> +}
+>> +
+>> +const struct file_operations proc_oom_score_adj_operations = {
+>> +	.read		= oom_score_adj_read,
+>> +	.write		= oom_score_adj_write,
+>> +	.llseek		= default_llseek,
+>> +};
+>>
+>> ---
+>> base-commit: 1fffefb00cc0b0da1f2ae24e3d33364530ea6515
+>> base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>> change-id: 20261014-oom_procfs-f74a922f73f1
+>>
+>> Best regards,
+>> --  
+>> Ye Liu <ye.liu@linux.dev>
+> 
 
 -- 
-2.55.0
+Thanks,
+Ye Liu
 
