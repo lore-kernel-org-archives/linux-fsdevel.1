@@ -1,159 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C99322B8F;
-	Thu, 15 Oct 2026 10:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C992B50AC05
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 10:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792058535; cv=none; b=Fw9p7wM4dsq6w5ULDGix3hxJ7tQRjvYKYgndrSLI517lMVw8N4GSCV7fo1WMn7sID1xz4cOu4bS14IYZbYk+lpHnsWqGtrpkvEcVePZA9dvOQJzavIvp2c3aX3N56WU8cpjnsF2RKqiUFmll9OoQAJQgg6efKjO/eTq9x+WDCoA=
+	t=1792061657; cv=none; b=SFSJXDLHD+eQvZipiuIKtdvTfErDHFE2+Gs/sE3jnXpQlUEVsx70Zew4nDIq7byBXEbVlf4TWb+uqcln0BVq16/h4/mYakQghml3QpMhWWNX8gK7UhlngFx7864Rh+N7V+RovgngeDypOvxBW0ruJX5zNgBRVQh/2OD8ggdkhO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792058535; c=relaxed/simple;
-	bh=T33GmSIa8ZXcZcboQ6eeHkUwMBfXwo2O+4ayOOp6DVQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jnXUW6ordD9JJOl1rm0h71oZsZda26V9wfN/xvf/eUrINpvN1GtRVVk2L22YcYsN4Z5W6VbeqS7j4ZSTbEDieT63zAtv8JosOA/73NKI+e2CqgzaHgxV7g2CAhQ0dqZRin8ZMVcnNVKvslSquFmNvBpuTCnjeoTDsxMDeaD+6Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iko2b0kk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792061657; c=relaxed/simple;
+	bh=XF2hsS/QlnZTmxGFa4yiCAWY+VKnATHPGqUwRoR83RA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T87oxLLuRvDqiPF7SN7Y6HJ43oNg27rMdOAF4bqHWJLc7xd0XlWKcZERsOxe1JTOh7znMjy/MWQig71aY/fwKAG9A4X96Nlt/Kw+1kkfJMc2BHCMxuH0Sd1ln+H/kdc4EMbH0pro/qpIlke6qZ7kcGqqATtx4ElHZofRKBWnrDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TuwXhNzp; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iko2b0kk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 256631F000C4;
-	Thu, 15 Oct 2026 10:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792058531;
-	bh=5Pqi9+FJ5ewTDOrXx6NJLaiZDN05LqWUpfO1uWA0Wgw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Iko2b0kk0bIGk8QVSE1lc+78pqVzKqFb/c6PX07rt8o/L64rRlfyLiAwQAvvm2D2f
-	 F1G7/yeHsYCSltPOKzyG4dRvWl2wAq1Ha0lYOadrYRg8C/7VlDR3MhOfmEOuyYI3O6
-	 1TR/hjFFUBSJGsWQ/bRc4w/sr6l1jJFyO4MqJ+MrCO//h0SsbVvwQv9lwP5HZZqHsq
-	 xlBSvSeMPrQFaVZ5njxYJNPyR9/+2VYRrfm/xfsKCfbTvAsehGYV3ndjTxJxoN5hVZ
-	 jav4uXA7zZ5PVeUMKQEjlF2ppEl4ByteA+ZH9MsjRxFrCuLnIOu3m/+n7yq50ydTGC
-	 1V4mGjBjkdvAg==
-Message-ID: <1f36992d-00c1-4f74-9947-b543ed794cf0@kernel.org>
-Date: Thu, 15 Oct 2026 12:02:06 +0200
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TuwXhNzp"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48c4be28b82so273022f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 03:54:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1792061652; x=1792666452; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7GiFJNEdHCyl9o7lyZvAVM97bzBWzN9FAsadD1M92V8=;
+        b=TuwXhNzpqiD4HcR69AkdwToM912vQN0w1KUGG9FXCPnImjyTNDV6LtECJ6hG8kBGAi
+         1eEe1opR2kPKbMYvhC9vNKa5IrdeyL+w/UpEAjDF92Y753zzfVhLAjcei393FKp1mLc6
+         NhXyYAN3mEGXIzyV9jxUyAhiIiIE8v2yZIiZQDAHCUpJStKooB3c38dEAJ/lEyiwZ1X6
+         pzOn9jZJGDyYZFTKh6ZcLLgQW1AAfyYlxkjqyX/dv6DowL+hBaxcLNoomz8nZ2E+XiQU
+         kZfO+a7jeVY5NHfqRbii91R5bLin9Vy08gAvmlxnWnYNoFQo0lBY3/HZZEHdz/vjncY/
+         5/jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792061652; x=1792666452;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=7GiFJNEdHCyl9o7lyZvAVM97bzBWzN9FAsadD1M92V8=;
+        b=FrqENzI0b2BKgb9ijpXPyJPNc9lCjABwZlxI94E/kcWfWj8gwK9DyyNp3d9qR4DTrT
+         Euo4yd0AVLEWBqT1esIPlF0TGBZyLoR+5qixYzzK9sBT/rr2UNVophTBvK6121qKjG7r
+         QjeWEayLMPnjiH9zuCorQIXk41inHiiHfRbEs3W0rywgEZMz5McbNLU6qD8qKlpsuZsi
+         J0elOnRskFQKzZsjpojlC1qDn7j0UyjMTjBB7OYuGqJBeVS0CEhyuTEPvdQgFZbepOL6
+         g90rYTc5XXic6sGtb5Up7XPCjl52jhYShCrAyKWHZcExH4wAapLMKM6JWLXjeq41eMg2
+         CvzA==
+X-Forwarded-Encrypted: i=1; AKwUvByu+UP8NPcj4mDVwhKmlGKM9s8I47uxMx0Mbu9FPZ8lJS3YQNiPHM2z8IHBZKpEZ1rsIiC6E+/2eNRn+AvM@vger.kernel.org
+X-Gm-Message-State: AFq9FYInTnTIkZwUypfXcDkCd84WuFHoYnwb1kYWtN9q3bStGQpKaGtx
+	INBLWco1q44aWwP/kGFWykYb9F23kNTYOyLSiF/oAEkElCifEE86xyrezYe+LTXI5h4=
+X-Gm-Gg: AYBFou0NWiHbwoJop6OdkmYj4NAgWTxv+wWRUFJqGVBJA//hrJcryzBIDOjj+2avOoM
+	XvKVVL335EoBosrkHc7ZDo9Q2m3eqORJ4Z/wb6K4K+ylKMc5tWDM1bCZSkKNgySSAnBMI3HDo5w
+	9G0dZZ87pB5rOjftKic2AzE+SvzRPUCFG2y0gi/GeNWL8MUUXCOT2feNDP1mnHju7jFRLS2DYgV
+	iKDuvnvSWy2gL9AtHTByhjWmaXQXPMFlFnc6FlgT72Z6BX6K6R4uE4eKZ0J5I3+j5I/jF61fByO
+	0oj4IafZUncnlhNoCAWXq7vDPjku98cJV1ssYIAfKLITBJS/7GnFuE52ZEA41bLi0yNbEIxGag7
+	I1Xg/35IW0FIvENnm9UJ61IIBk9HM0MyYDVwZpHSbPodAbxgzn4rctxHKoiiPyHvJbl0ljlygBB
+	ciMtL8EZJ7uyHiHHy02/HPAhXMR1Sze1cQJ4OKr/HY1Fsp1fzRv6sZ4QTj5TB7niKP/c/6jOuOc
+	qXm+6aiAwXo
+X-Received: by 2002:a05:6000:388:b0:48d:ed0a:e064 with SMTP id ffacd0b85a97d-48ded0ae0b8mr9811826f8f.24.1792061651748;
+        Thu, 15 Oct 2026 03:54:11 -0700 (PDT)
+Received: from localhost (109-81-30-108.rct.o2.cz. [109.81.30.108])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de77606fbsm10461734f8f.53.2026.10.15.03.54.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 03:54:11 -0700 (PDT)
+Date: Thu, 15 Oct 2026 12:54:10 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Ye Liu <ye.liu@linux.dev>
+Cc: David Rientjes <rientjes@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, Ye Liu <liuye@kylinos.cn>
+Subject: Re: [PATCH] proc: Move OOM-related procfs code to fs/proc/oom.c
+Message-ID: <atCw0gk77fF5ISQV@tiehlicka>
+References: <20261014-oom_procfs-v1-1-f2d75e73571e@linux.dev>
+ <as9MG_BtepLV6DsC@tiehlicka>
+ <e51c14e9-5559-4ff7-8a38-de815a8f8230@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/6] mm: pass alloc_flags through folio, filemap, and
- bulk allocators
-Content-Language: en-US
-To: Gregory Price <gourry@gourry.net>,
- "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-mm@kvack.org, willy@infradead.org, brendan.jackman@linux.dev,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- kernel-team@meta.com, jack@suse.cz, akpm@linux-foundation.org,
- ziy@nvidia.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
- ying.huang@linux.alibaba.com, surenb@google.com, mhocko@suse.com,
- hannes@cmpxchg.org
-References: <20260923211041.3127588-1-gourry@gourry.net>
- <asdTptfeLkuypU8t@gourry-fedora-PF4VCD3F>
- <df588805-6f97-4ef6-a64f-39222669bf3a@kernel.org>
- <asloWFM96BATH8SB@gourry-fedora-PF4VCD3F>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <asloWFM96BATH8SB@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e51c14e9-5559-4ff7-8a38-de815a8f8230@linux.dev>
 
-On 10/10/26 01:28, Gregory Price wrote:
-> On Fri, Oct 09, 2026 at 10:55:05PM +0200, David Hildenbrand (Arm) wrote:
->> I do agree that two sets of flags is suboptimal, but likely more flexible. I
->> guess an alloc_flags only interface is not easily possible ...
+On Thu 15-10-26 09:32:53, Ye Liu wrote:
+> 
+> 
+> 在 2026/10/14 17:32, Michal Hocko 写道:
+> > On Wed 14-10-26 16:54:12, Ye Liu wrote:
+> >> From: Ye Liu <liuye@kylinos.cn>
+> >>
+> >> fs/proc/base.c is a large file (~3700 lines) handling all per-process
+> >> procfs entries. The OOM score, oom_adj, and oom_score_adj interface
+> >> code is self-contained and has no dependencies on other parts of
+> >> base.c, so move it into a dedicated fs/proc/oom.c following the same
+> >> pattern as fs/proc/fd.c and fs/proc/task_mmu.c.
+> >>
+> >> This makes both files easier to read and keeps OOM-related procfs
+> >> entries together in one place.
+> > 
+> > Are there plans to separate other functionality or is this one off
+> > thing?
+> > In general I am not against of moving stuff to more specialized files.
+> > An obvious downside is a review as it is quite easy to overlook a subtle
+> > change when moving so much code. Something worth undertaking if there
+> > is a bigger goal. Not so sure if this is just a one of and fs/proc/base.c
+> > still keeps other random stuff in.
+> > 
+> 
+> Hi Michal,
+> 
+> This is a one-off move specifically for the OOM-related procfs code.
+> I don't have a broader plan to split up fs/proc/base.c at this time.
+> 
+> I understand the concern about subtle changes during code moves.
+> To address that, the patch is a pure relocation with no functional
+> modifications — all function bodies are moved verbatim. 
 
-Agree with the alloc_flags option of all the other options.
+But you do understand that I effectivelly need to redo the patch to
+confirm this is the case, right?
 
->> I do wonder whether it should be:
->> 
->> 	typedef int __bitwise alloc_flags_t;
->> 
->> instead of "unsigned int alloc_flags".
->> 
->> ... while at it
+This is something I am not particularly thrilled to do for a single
+isolated patch without a larger plan. taks_mmu.c will remain a huge pile
+of code after this change. So what's the point for all that effort?
 
-Can't hurt, but given how it's internal only it didn't seem that urgent as
-for gfp.
-
-> Does it make sense to leave alloc_flags to internal-only state
-> and just implement a new flag field?
-> 
-> gfp_t       -> describe the page (fully public)
-> req_t       -> describe the allocator behavior (mm-internal only)
-> alloc_flags -> internal allocator state only
-
-Maybe in that case the remaining alloc_flags should just become 1-bit fields
-directly in struct alloc_context so we don't manage 3 separate bitwise
-types. Or more bits in case of ALLOC_WMARK?
-
-Depends on how much work this would be (and if you want to do it) and how
-the result would like.
-> typedef int __bitwise pa_req_t; /* Page Allocator Request Flags */
-> 
-> #define PA_REQ_DEFAULT        0
-> #define PA_REQ_NOLOCK         BIT(0) /* from ALLOC_NOLOCK */
-> #define PA_REQ_NO_CODETAG     BIT(1) /* from ALLOC_NO_CODETAG */
-> #define PA_REQ_SPREAD_DIRTY   BIT(2) /* from __GFP_WRITE */
-> #define PA_REQ_DEFER_INIT     BIT(3) /* from __GFP_SKIP_ZERO */
-> #define PA_REQ_ZERO_TAGS      BIT(4) /* from __GFP_ZERO_TAGS */
-> #define PA_REQ_NO_FALLBACK    BIT(5) /* select no fallback list */
-> #define PA_REQ_NO_OOM         BIT(6) /* do not oom */
-> 
-> Off the bat we recover 2 ALLOC flags and 3 GFP flags. Possibly more with
-> a bit more work.
-> 
-> Then we get:
-> 
-> #define PA_REQ_PRIVATE        BIT(7) /* allow private node allocation */
-> #define PA_REQ_UNMAPPED       BIT(8) /* page must be unmapped */
-> 
-> And we might not even need a new zonelist for private nodes in this case
-> as long as we require internal users to pass PA_REQ_PRIVATE and add a
-> function like
-> 
-> folio_alloc_private(void *owner, ...) {
->    /* validate (pgdat->owner == owner) before allowing allocation */
->    __folio_alloc(..., req | PA_REQ_PRIVATE | PA_REQ_NOFALLBACK, ...);
-> }
-> 
-> User still has the option to request NO_OOM via __GFP_THISNODE :]
-> 
-> ~Gregory
-
+-- 
+Michal Hocko
+SUSE Labs
