@@ -1,81 +1,50 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+Received: from mta0.migadu.com (out-107.mta0.migadu.com [91.218.175.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D20A5275A1
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 13:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9397B49CF54
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 14:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792072095; cv=none; b=sEO1oEQuDniDjOSqZjhMQa+VA+5Ks6PklEYmt8aUnFsENuQcBkHyDKv7EtvdMVrqX6WgJq09FD89Y8U8E/FfthYcy1m/qrSKLPEbSugYVHIcYdPqRZokKL6saC7MxSJja64C+vN8mfA/uSQfbT4UEP0jFwCogD1ffclik6iBF0M=
+	t=1792073403; cv=none; b=FIqCRcZys1Ljx96rMRfVPfuzXX4WlH8muELVUyTEWZ8Iwe7UJ+YNLmnYbSFW2N8S7/b7fhN56VWz8dhONEt7kBTUiVLiTS5rmTWf+j6DjL/phAyfw4Nh2gNFqIzPBHeIOeyKhDjtDQqth9hsqLPfp1XETuOxJj8dCk3r9F0D9So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792072095; c=relaxed/simple;
-	bh=/nk+BfkEgTJrPJRefeazVKcxt5H1TBsjREb4AnG69FY=;
+	s=arc-20240116; t=1792073403; c=relaxed/simple;
+	bh=IoHF48dbE7mSf4cxc6kAiqoGLhZGegSeGkb8H4uroPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ppwn5P8Sik3uGDmB94m0MeJ8D8qt8TqUdk2GyGiZPrJuu8MSIptNv9EtiHjwbagBWqGSbMhL5PvEjRFmuB6XT9htfZWFLfar2DRww5A3UL4Fia3rnfH5FgeruehIs8sfpx4tZo4w7YArDq95VirTGY7GmrzFPN74LuNg3nK7+g0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=EgRpUvEa; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=ENddGG5h9icB7gIKqYpA9im6B4MqmPANED8aULwlQXGrOE/uhXmxWIVGEodbCR/3GgLJ2Kvq6pZ1sg9JxX/H306W2tei5JFqQyPw+J0hKDpFI3Wz4fEkloIFBtVSt7tPKzRPYCmfUazgrgFeqT3w2Iym5+S6hQGjeEX7NVjxq/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rz+Utc8b; arc=none smtp.client-ip=91.218.175.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="EgRpUvEa"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-91b63bd2030so63763516d6.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 06:48:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1792072093; x=1792676893; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TxnvmrOxX1kKFV6pDOanox6haeqxL61LHWivdGG7JgE=;
-        b=EgRpUvEaHVBa7pUx/Qu4/VTWlGU+KEBl8VcNDwr26ZDQS2y0jr4htlBD1JemjBfd9f
-         TbEFCTJ0nTnaxcIm05gMRWwYjRjfvUABdnfXCdd0x691HU4hsMc9+eM3VaVq2/xccBtO
-         ndRsaYuipLtnwsuaV6nYBtv8Cmiq14WqfqohXsR6W9RSTO1GgDIXAb6XuEsmY9aTTArc
-         ohOCEboLVTx5NRrLNYXillrRCTYqDUA64aizGO4KyJ2UAbv0euHWeDKJ+wcwlyogHBdB
-         QI3yNBOqbwqEf3DOFVfU9SHIQIv8QzokbiFmZizRT2gjJOvi6cJ95jGEM33i+7HNfu/h
-         EvBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792072093; x=1792676893;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TxnvmrOxX1kKFV6pDOanox6haeqxL61LHWivdGG7JgE=;
-        b=kRSoZlDfGqGt45mlnEDg9YJzRe9L1lOLMEnlv/tC9IX3xaTGEyoQGEAUd5HvRJX0qJ
-         AQDqTzcW3X9din5yYTqKFhivA8wBWUtB5yoOGUIlzaoZ7DRS0pT6hAGqqjF6Hojc5LkC
-         4mJnHIVuYbrj4XRdYMkf32bLfBztSY8jaYqOsAScDK2bnybO/RDZjVOVbF5gJ9L85KkV
-         6gtEnRyuOCbk+gjen5qAZP9T5Nb465lyXBemt4Td5JcMwv2VRtlBCbAkN38EzOev6HkD
-         rlNDHe9Hm4DnwsRzR62Lvsm5ueam2al2GW6U6F22SCFrnzVxFLFbWtCUQSJqsZwKwrqf
-         2lgQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx572nbHHJkZSQoyJiM3rU5wfZyNrCdmlk8+eECFkUDIMiRgwo8EUoTHQ6wJ0gfZQLYUS/HV97Qwrsbai8I@vger.kernel.org
-X-Gm-Message-State: AFq9FYKx/gOuqYxdFFC+4T0KW2oyuj0HMAFUCzIKU6+wnPKATJYtJA8k
-	ocVSmcFCVm+sfeKJ3m3vlB16EXChW7LZY3OhRkdroZZPdwKaywcbHsLKQWK52YWHSl4=
-X-Gm-Gg: AYBFou14ub1zlLuDUOG+IjJGYeL5+4zEja1IUp2/bU3/K1tLWtrR6Ak4egfKKRgA4le
-	4OYagmlJkTri5U8+bE649i/g8iBf6x4Hr6PR6d1R14pppnWj6Unj6g4o3NECaPLV4CgJBjoIntx
-	KC2Fxc6VGZQMsYhYHdhYIDZ0LCVyrmmbneZOD60kOKNBaMmzqf8RXmE/SWjSb9ykRDfqxXpXuFw
-	dMnqBbI/VPQvqGqkaI6Td97yOaMF5EIspaZwkPOHdnpsRAXSFnx1novKEjosv6Oz/tK/WFPYih8
-	Iy6XDI/4WLiTtwczXIDc/ilw3krBfqP/mTjZ6zhB4ZYWij+Lqq0TRQ97/KSiMI7psb8QMpzrwnc
-	HuKANYyoOD5SX64IIIa5hTB9O01mhco7MW2T+JUzNBA9FNZHybLj0RVpHV+eQ1NFkADoywzokwq
-	lWrt0xoz3fXItHn0yZ4PxQ3yMdYJIvvW3EYH17/KQNCxyrAvJhlfjU3BV66KctqH0MS/zPt14Y2
-	65tJj0RUo23KsaM8AeMyL+jbIfZAPk15k8n0o17+xxIYb+UojsNDWg=
-X-Received: by 2002:a05:620a:4606:b0:93e:c12c:f12d with SMTP id af79cd13be357-93ec12d0608mr3020561585a.72.1792072092737;
-        Thu, 15 Oct 2026 06:48:12 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93ef50b6c4fsm760019685a.47.2026.10.15.06.48.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 06:48:12 -0700 (PDT)
-Date: Thu, 15 Oct 2026 09:48:10 -0400
-From: Gregory Price <gourry@gourry.net>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org, 
-	willy@infradead.org, brendan.jackman@linux.dev, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, jack@suse.cz, akpm@linux-foundation.org, 
-	ziy@nvidia.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com, 
-	ying.huang@linux.alibaba.com, surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org
-Subject: Re: [RFC PATCH 0/6] mm: pass alloc_flags through folio, filemap, and
- bulk allocators
-Message-ID: <atDYiLYjF_Phxy-h@gourry-fedora-PF4VCD3F>
-References: <20260923211041.3127588-1-gourry@gourry.net>
- <asdTptfeLkuypU8t@gourry-fedora-PF4VCD3F>
- <df588805-6f97-4ef6-a64f-39222669bf3a@kernel.org>
- <asloWFM96BATH8SB@gourry-fedora-PF4VCD3F>
- <1f36992d-00c1-4f74-9947-b543ed794cf0@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rz+Utc8b"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=IoHF48dbE7mSf4cxc6kAiqoGLhZGegSeGkb8H4uroPU=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792073399; v=1; x=1792678199;
+ b=rz+Utc8bAGijsFCr/QEl8LzFZmlaXbdU+3KQ3TSCpCvY0NCBAVrqDDFHlDy9pKg1g4YOoEAy
+ Q2F0H1awh18TQ2zYMDsIv97QFBbg+/gXwf1gB4N5daxMpDk/kLiOdTYOTiJlAyJHTJGL1nVvL5q
+ M4Hjn4R55sL1v33sffhObyDs=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id a2a20668fccf1d9d;
+	Thu, 15 Oct 2026 14:09:59 +0000
+X-Mizu-Trace-ID: a2a20668fccf1d9d
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 15 Oct 2026 16:09:50 +0200
+From: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	"Darrick J . Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Ritesh Harjani <ritesh.list@gmail.com>, 
+	Zhang Yi <yi.zhang@huawei.com>, Christoph Hellwig <hch@lst.de>, 
+	Dave Chinner <dchinner@redhat.com>, Daniel Gomez <da.gomez@kernel.org>, Theodore Tso <tytso@mit.edu>, 
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Andres Freund <andres@anarazel.de>, Dave Chinner <dgc@kernel.org>
+Subject: Re: [RFC PATCH v4 05/12] iomap: Add initial support for buffered
+ RWF_WRITETHROUGH
+Message-ID: <as-BQAbk7U43vkqs@quentin>
+References: <cover.1790596383.git.ojaswin@linux.ibm.com>
+ <c76f9babf1b00f4574e37db156621edc6c078969.1790596383.git.ojaswin@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,53 +53,102 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1f36992d-00c1-4f74-9947-b543ed794cf0@kernel.org>
+In-Reply-To: <c76f9babf1b00f4574e37db156621edc6c078969.1790596383.git.ojaswin@linux.ibm.com>
 
-On Thu, Oct 15, 2026 at 12:02:06PM +0200, Vlastimil Babka (SUSE) wrote:
-> On 10/10/26 01:28, Gregory Price wrote:
-> > On Fri, Oct 09, 2026 at 10:55:05PM +0200, David Hildenbrand (Arm) wrote:
-> >> I do agree that two sets of flags is suboptimal, but likely more flexible. I
-> >> guess an alloc_flags only interface is not easily possible ...
-> 
-> Agree with the alloc_flags option of all the other options.
-> 
-> >> I do wonder whether it should be:
-> >> 
-> >> 	typedef int __bitwise alloc_flags_t;
-> >> 
-> >> instead of "unsigned int alloc_flags".
-> >> 
-> >> ... while at it
-> 
-> Can't hurt, but given how it's internal only it didn't seem that urgent as
-> for gfp.
-> 
-> > Does it make sense to leave alloc_flags to internal-only state
-> > and just implement a new flag field?
-> > 
-> > gfp_t       -> describe the page (fully public)
-> > req_t       -> describe the allocator behavior (mm-internal only)
-> > alloc_flags -> internal allocator state only
-> 
-> Maybe in that case the remaining alloc_flags should just become 1-bit fields
-> directly in struct alloc_context so we don't manage 3 separate bitwise
-> types. Or more bits in case of ALLOC_WMARK?
-> 
+Hi Ojaswin,
 
-I think that would be much less disruptive.
+I was comparing normal buffered IO scenario and writethrough.
 
-> Depends on how much work this would be (and if you want to do it) and how
-> the result would like.
+In a normal buffered IO scenario, for unwritten extents or CoW extents,
+we first convert them before ending the writeback on the folio.
+xfs_end_io calls xfs_end_ioend_write().
 
-I took a short look at converting __GFP_SKIP_ZERO and the change has
-bigger than i thought it would be.
+static void
+xfs_end_ioend_write(
+        struct iomap_ioend      *ioend)
+{
+<snip>
+       /*
+         * Success: commit the COW or unwritten blocks if needed.
+         */
+        if (is_zoned)
+                error = xfs_zoned_end_io(ip, offset, size, ioend->io_sector,
+                                ioend->io_private, NULLFSBLOCK);
+        else if (ioend->io_flags & IOMAP_IOEND_SHARED)
+                error = xfs_reflink_end_cow(ip, offset, size);
+        else if (ioend->io_flags & IOMAP_IOEND_UNWRITTEN)
+                error = xfs_iomap_write_unwritten(ip, offset, size, false);
 
-Yosry recently said ALLOC_UNMAPPED was being put on hold, and for my
-base private node series it seems I will only need to extend folio_alloc
-with with alloc flags - so i will probably try to split these efforts up
-and carry the minimal folio_alloc patch separately.
+        if (!error &&
+            !(ioend->io_flags & IOMAP_IOEND_DIRECT) &&
+            xfs_ioend_is_append(ioend))
+                error = xfs_setfilesize(ip, offset, size);
+done:
+        if (is_zoned)
+                xfs_ioend_put_open_zones(ioend);
+        iomap_finish_ioends(ioend, error); // #1
+        memalloc_nofs_restore(nofs_flag);
+}
 
-Otherwise i'll look at whether we can move some alloc_flags into
-alloc_context bit fields somewhat cleanly as a first step.
+#1
+iomap_finish_ioends()
+  iomap_finish_ioend_buffered_write()
+    iomap_finish_folio_write()
+      folio_end_writeback()
 
-~Gregory
+
+On Mon, Sep 28, 2026 at 05:33:06PM +0530, Ojaswin Mujoo wrote:
+> @@ -1185,6 +1186,384 @@ static bool iomap_write_end(struct iomap_iter *iter, size_t len, size_t copied,
+>  	return __iomap_write_end(iter->inode, pos, len, copied, folio);
+>  }
+>  
+> +static ssize_t iomap_writethrough_complete(struct iomap_writethrough_ctx *wt_ctx)
+> +{
+> +	struct kiocb *iocb	= wt_ctx->iocb;
+> +	struct inode *inode	= wt_ctx->inode;
+> +	ssize_t ret		= wt_ctx->error;
+> +
+> +	if (wt_ctx->end_io) {
+> +		int err = wt_ctx->end_io(wt_ctx, wt_ctx->written,
+> +					 wt_ctx->error,
+> +					 wt_ctx->flags);
+> +		if (err)
+> +			ret = err;
+> +	}
+> +
+
+<snip>
+
+> +static void iomap_writethrough_bio_end_io(struct bio *bio)
+> +{
+> +	struct iomap_writethrough_ctx *wt_ctx = bio->bi_private;
+> +	struct folio_iter fi;
+> +
+> +	if (bio->bi_status)
+> +		cmpxchg(&wt_ctx->error, 0,
+> +			blk_status_to_errno(bio->bi_status));
+> +	bio_for_each_folio_all(fi, bio)
+> +		folio_end_writeback(fi.folio);
+> +
+> +	bio_put(bio);
+> +	if (atomic_dec_and_test(&wt_ctx->ref))
+> +		iomap_writethrough_done(wt_ctx);
+> +}
+> +
+
+But in the writethrough patches, we first end the writeback on the folio
+and then call xfs_dio_write_end_io(), which converts unwritten or CoW
+extents.
+
+Is there a race possible as we are doing the other way? What if folios
+are reclaimed between ending the writeback and conversion? A new read in
+that area will return zero filled folios as XFS still sees IOMAP_UNWRITTEN?
+
+I don't have a reproducer, but my hunch says we can run into this if we
+have a lot of AIO as the end_io will be run via a workqueue?
+
+Do we do something similar to buffered IO where we do
+folio_end_writeback after extents conversion?
+
+--
+Pankaj
