@@ -1,78 +1,76 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E6D48A2A0
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 06:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7727235BDC7
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 06:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792045108; cv=none; b=qagKCwrCBRBDHiU3d+BNzDb554dxUYBh+gDhz9BbsYI3uUs/D72XHbjZOAqNyEIeVXLnYacN9kOosIMjQ+s+AA3zTaxSqcsrxWyba6eJGtSQXqAao4GRE9mo/JETPHcF6HAiuL8UFMoZHzbywochiPTSIR0cKJ607+X16B86GDU=
+	t=1792045168; cv=none; b=oF/ulvKKVP52V5/LGKX4Wv6j88bBvjV6l5aHOB4+8X5wqnQMRUyANOGb9S45iwab6XX4yoGJGjnTzxZuKgOx/uZ0vMCcg+dxlu4saatGeELapIyK0xjlvoZ7rIjfJ7Nik3hdF+rjIyREPK09jpg83QgNMeUxMkJBaT+8zAQabVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792045108; c=relaxed/simple;
-	bh=1lAU43YWVdr5DDXvmYDk056t5S5n1HW3hiJrh30a2s4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=emEfQPpfxhY8kdtFCQjBfJ0NgNkkJKs8M7hujlMa9ERSXwlsTNM93Lr317f/RCAMvuiGpPtXX0H+1aDDDxAoKD1taTR5mik+lJ2p+yn8GtAaZhSoXLEqoa0x2MxPqZsHpxXCwjHt0oo1Yf+F55O5NszBMfk8QfLg8+W1kZjK6fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L5fBV13o; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1792045168; c=relaxed/simple;
+	bh=SnTqnSHnJf1SyEgRppnLJtdvwZ/K9QpTpMoFZTST/So=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cnrYqTPGrID3kvo2qse6+ecIeuYl775HszLnI8k5sYtReipIWmxNgDGP87/SJo6y5VHrATciPd6LmldN99LXo6dLPpLICgsylq1bekAH3pYLKrURSmpuXUz8qK3XymZgGN7lUlQf+V8wj5OeDzuOqzHHvzN4i56QpElT7l5Qcl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eMsEg9vs; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L5fBV13o"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a19cba5c14so43385335e9.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 23:18:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eMsEg9vs"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3a7cfe8f761so4288522a91.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 23:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792045099; x=1792649899; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792045164; x=1792649964; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AYy87NBCVnHsw0Sw6rkQhtJDHEE+dUu5u4tUQ3Od5eM=;
-        b=L5fBV13oLMob9/GWFm2qHx8BhKI6OZd4cYMwgQ7RqnBJlFRlni6t30Nrz20d0hhKhD
-         Ti4YJRFWDL9SRtkD7N9W6ghgzCGp6w2hEq0KUe6dDNtczIqxgc+txu7qfR3PaFijE8c7
-         cw89ddIl28EnPIwUVYdLyeg24eI5cE2DG7fdApHHItHbk/ILR7JbibJef3zjzfVurRIl
-         I7X/gjswq8kJoaSXd4oGevSqu2hSaglaiJQPpaVLDL5nBRzXqKgZEN14EtRFd49T0z++
-         SK/YvDjiNTEybWySf/KC+VzAFwoe7Xb/wy2mGXPnkpKk6Lcus6ui8/UHhb0YaDnwRDxV
-         bxxg==
+        bh=LKqK4HrH78W1MTYoSkDNokUsDBo14132TDZJAUlwXh8=;
+        b=eMsEg9vsgz4JpZA/dQGmcIu7cuJhRpTt9bfXp/QLtE6wYb3AwFvj5xjTWMPOs90pPc
+         jE6uZFmpKp104w+kZDOf7V5ZRLT2gpxeYShesAyn4HMOtY1iyWj3X60jla8tnX/Zy+9A
+         1UR4iR8QOfZAmT6e5EXxja16F8HF8rUeJ6/M4OOztB9SNkCXc3CMVGph4MpXZwJ10v1j
+         SOa8zryzSZrFcdBgxRsIpOyN9GtV/KNfzEne6ZnZSSJlN0TabAn+Q5nC+ExwBe33LoKW
+         dpKAXHFm5eyP0BZv0aA2kmpJOn/vkmq2fvo7ikaX72ed9z4THTsBc2YHQwE4B2y1JeYm
+         UhVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792045099; x=1792649899;
+        d=1e100.net; s=20260707; t=1792045164; x=1792649964;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=AYy87NBCVnHsw0Sw6rkQhtJDHEE+dUu5u4tUQ3Od5eM=;
-        b=Z6hP6UcwAuzP5F76Y8FiQuXx9iZgRwc2YJyA69HZu3nCS+7gV6iaP026ey45cfrWaI
-         lXs+vtpOrdq5y3PhmsUJR7dYxrDNgguSyPHYrhoNTa4wN04Dnvtbyp09/+GgOK1HfKBI
-         SABXhmbERWd9m6zpaVXix86m8fAqsPG9VT+YRaSOfNRji2pln2USpgng079bncHv4ZgR
-         FixYMu9TIW2w2CCR1VzZdoTynRzggM1aSN8TKzjC8/b1WzrMKIWNceW147eXB1g4vqaQ
-         gTsF/vDWZhQiCzlWI4TqE35ZI/IWN5nFLdsXtHW92+4jtoXOo75PVW/hi2jNqt6ib0xm
-         Lxvg==
-X-Forwarded-Encrypted: i=1; AKwUvBwkNNMe5NUOxeCJfPyGJjtaYcVJQwdauLmQYgyRwLp8Q0aumT+UcWWcLCl9Zzhr6rE5ikqGUax3+p6QwqJk@vger.kernel.org
-X-Gm-Message-State: AFq9FYLMPFUDxLY/omJJq2IXOKLT4V8TA6i7BXUoYn0w2lGgGEc6Jk4j
-	JFmoCo9bLKc5+4CC07CsJxOH/HRn+DGG9zmoUQiiieRIGDF7SBaMuxqY
-X-Gm-Gg: AYBFou0+kcXKGIifonbSOtHQPxiFvGolN2dk88xquW3wVQp089a/+6N7F2dGmaedPJc
-	tpwv6r+YGSrgLyqArWlLWRPO3nFBvGT9fbfxcrnNs3wVIESZwJRki6T8M1YdvKwxrI4NHfC2h7a
-	+Bi2fAZS3vgy6EWSteab9cHxMgQQe59otyM+z0AX6jishqsTKwy13CEEUZM78+D59wtc4fzmkI7
-	PIYChGhzzoKo9O7w1DKD+9+9qt5Su2Obrey9DD23Gta5HwRBAZ+8gAa9DSyLcEnNYt3647xaP1t
-	bKdmgkpvYYya6elR/CpyaUsA0ILaZDiVN9t+I9XbAsWnW9lZOp91FBupFf6mUQOToRQu/FnFh5x
-	j52cjktATmezXrtAty9Lbnix1+yzHXWcSSrQWdXdOZB/+NVMnjpP2EASlOujueGuV+HMja6gQP8
-	NFsPaIC7C2XZ6ew9SaVyJUjV3wcR3MHSh5a7Uyhp4erdY+hrHcLOqyT1mFXGFzmlOKOwqZdHnU7
-	6G595Hmo1mTIFCdVlgej2Y3S1JYvQaWCIkhSEzMvsqmxBGcqeW5WsNqCq1Eu57G1es65UU2jk7h
-	jSV5SJAAraMs/5i7jW7cBfzlff4jgfNR2SWBWpQNnBGm0Guqepad8f/b91ZVU8gaWQOEFgNYJ3Y
-	cug==
-X-Received: by 2002:a05:600c:3e8d:b0:4a1:7701:f863 with SMTP id 5b1f17b1804b1-4a18e4aeae4mr329784855e9.15.1792045098660;
-        Wed, 14 Oct 2026 23:18:18 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-aeb3-cd01-f139-812c-65df-b930.310.pool.telefonica.de. [2a02:3100:aeb3:cd01:f139:812c:65df:b930])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd67b125sm33020125e9.3.2026.10.14.23.18.17
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 14 Oct 2026 23:18:17 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Ilya Dryomov <idryomov@gmail.com>,
-	Alex Markuze <amarkuze@redhat.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	ceph-devel@vger.kernel.org,
-	netfs@lists.linux.dev,
+        bh=LKqK4HrH78W1MTYoSkDNokUsDBo14132TDZJAUlwXh8=;
+        b=fj3jsAt1GE02lu3U7DktW+5N4J86NPR3/RDhYYxT1zQG9QDjfaDF9p+SpgJuYL30FD
+         tZycMbQ23G6Nk0PMOgi8sm60G59vGlzy+VZYo6h9fk/u174TbwHoA2YmtolVXkxVql82
+         olrvEgvu5jCoxFOuXzvVe7fq5KR7KJZFXowSOtt+4CxjxTWDwNlvAgZKx2gRuEm/NRBj
+         QMMsxff6pIIrINWlp5HebgxWC468k/A87IYruADmbAV79fG4QMBu/TlNeYA4HK+Z7aWu
+         41sLqYF0He2qTZ13delyeEjhir57w1JVOo+JYibvNDP3h8QEsvhM1v6C5ghr+f2Sp/9W
+         R1Sg==
+X-Forwarded-Encrypted: i=1; AKwUvBzL6kl0Oeb2RU33MTi2QLszOoL4F+FMElTiS8qvIPyAWoGHZWn7Adfkd2S8MVXEexu+B9WosRAHML5M2IvD@vger.kernel.org
+X-Gm-Message-State: AFq9FYIQ5b7IRBTQumCSEKKvgUV6ICiwyMdH6NTLOsHc2Bvjei03XM9m
+	j1M3SLxOGqZKMClm5UdS91vp3eXjBoOca8hALYfsh4aYD8yHGSlAdHK4
+X-Gm-Gg: AYBFou1eQWwlMdsrAZTMprpTr1uLM9AikxQH6Zp5hQMsH5vO7oil4BGYeeHvHSaolnK
+	A58GUmMS7X1FlVhnPSFKAD7HGLIqXia5KgbzV9Ll4CV2Pj2WGsLmVNMepM+s7Pla3U3dmk1WbXT
+	djMSLRnz+Ygchps1vhVre+lfxrfUCSGMd0a8y9+qhEiENgfjJhDOp810Md4JPMeppH08N+rT89S
+	zu4sNJopKbAQWppBsmoJAQFAXRdf+mji+Dmr2Tj4JG3F47EginNwD1uJgHZ8DtwCN2BLlp9D0xV
+	X8dnw8l3MBV0Htz4KQUrZLR0mfjlGdTu9qcTfF6Rj2aOjFTDqWO5kjidcfUcdxIr1Y3jXwr5/em
+	D/C6Hvo92mlE4X12XwrsEGyTzG1xOyHQXMDeRI8U0vMdHwYB2MFmbbeiXVw6VgLFCMUChZCNrLD
+	uBsYhMRKAqXTdgeQlFR2GXQp3SIGlL5wC/vC2EAh1Mt3jRMtMyRFDLLYR9Nzt/wCPXruzmASg+Z
+	QYDkcBax8FJ
+X-Received: by 2002:a17:90b:4b:b0:3a7:96d:feaf with SMTP id 98e67ed59e1d1-3ab3a9a0c59mr9385893a91.16.1792045163419;
+        Wed, 14 Oct 2026 23:19:23 -0700 (PDT)
+Received: from ancienth-X870E-Nova-WiFi ([125.186.72.2])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac9461d71esm2669111a91.7.2026.10.14.23.19.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 23:19:22 -0700 (PDT)
+From: Daehyeon Ko <4ncienth@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Hannes Reinecke <hare@kernel.org>,
+	linux-block@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [BUG] ceph: uninitialized err causes buffered read use-after-free
-Date: Thu, 15 Oct 2026 08:18:05 +0200
-Message-Id: <20261015061805.3366-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	linux-kernel@vger.kernel.org,
+	Daehyeon Ko <4ncienth@gmail.com>
+Subject: [PATCH v2] iov_iter: validate extracted segment for bvec alignment
+Date: Thu, 15 Oct 2026 15:19:07 +0900
+Message-ID: <20261015061907.2713943-1-4ncienth@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,287 +79,66 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-An ordinary unencrypted CephFS buffered read triggers a slab
-use-after-free on v7.3-rc5.
+iov_iter_extract_bvecs() validates iter_iov_addr() and iter_iov_len()
+before iov_iter_extract_pages() selects the first nonempty segment and
+limits it by iter->count.  The checks can therefore cover a different range
+after a leading empty segment or iov_iter_truncate().
 
-ceph_netfs_issue_read() leaves err uninitialized on the successful
-non-sparse path:
+An unprivileged O_DIRECT preadv() reproduced the empty-segment case: an
+aligned empty segment followed by a misaligned one completed 4096 bytes
+instead of returning -EINVAL.  A truncated iterator has the same mismatch
+when its full segment length is aligned but its remaining count is not.
 
-        ceph_osdc_start_request(req->r_osdc, req);
-out:
-        ceph_osdc_put_request(req);
-        if (err) {
-                subreq->error = err;
-                netfs_read_subreq_terminated(subreq);
-        }
+Bound the normal fast-path length by iter->count.  Keep
+first_iovec_segment() for leading empty segments so validation covers the
+remaining portion of the segment available for extraction.
 
-CONFIG_INIT_STACK_ALL_ZERO masks this bug. With
-CONFIG_INIT_STACK_ALL_PATTERN=y, err is 0xaaaaaaaa and the failure is
-deterministic. The function terminates the subrequest immediately after
-submitting it. The real OSD completion later accesses the freed iterator.
-KASAN reports a use-after-free in iter_folioq_get_pages(), followed by
-an oops in the ceph-msgr worker.
-
-Commit ee4cdf7ba857a894ad1650d6ab77669cbbfa329e ("netfs: Speed up
-buffered reading") changed "int err = 0" to "int err". Current
-mainline 0fcb05b72344f40806cbe810de8872f1698bf053 still has this.
-
+Closes: https://lore.kernel.org/r/20261012065520.1089147-1-4ncienth@gmail.com
+Fixes: 14b007e17881 ("block: validate user space vectors during extraction")
+Cc: stable@vger.kernel.org
 Assisted-by: LLM
+Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
+---
+Changes in v2:
+- Bound the normal fast-path length by iter->count while retaining
+  first_iovec_segment() for leading empty segments.
+- Cover the truncated-iterator case raised by Andrew Morton and Sashiko.
 
-Reproducer:
+v1: https://lore.kernel.org/r/20261012065520.1089147-1-4ncienth@gmail.com
 
-        sync
-        echo 3 > /proc/sys/vm/drop_caches
-        sha256sum /mnt/ceph/payload
+ lib/iov_iter.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-This triggered on the first read. sha256sum returned an all-zero digest
-before KASAN reported the UAF.
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 2072c04e99d052..d21082fb251bf7 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1022,7 +1022,7 @@ static ssize_t iter_xarray_get_pages(struct iov_iter *i,
+ 	return maxsize;
+ }
+ 
+-/* must be done on non-empty ITER_UBUF or ITER_IOVEC one */
++/* must be used on a non-empty ITER_UBUF, ITER_IOVEC or ITER_KVEC */
+ static unsigned long first_iovec_segment(const struct iov_iter *i, size_t *size)
+ {
+ 	size_t skip;
+@@ -1938,8 +1938,13 @@ ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv,
+ 		   iter_is_iovec(iter) ||
+ 		   iov_iter_is_kvec(iter))) {
+ 		unsigned long start = (unsigned long)iter_iov_addr(iter);
++		size_t seg_size = min(iter_iov_len(iter), iter->count);
+ 
+-		if ((start | iter_iov_len(iter)) & mem_align_mask)
++		if (unlikely(!seg_size && iter->count)) {
++			seg_size = iter->count;
++			start = first_iovec_segment(iter, &seg_size);
++		}
++		if ((start | seg_size) & mem_align_mask)
+ 			return -EINVAL;
+ 	} else if (iov_iter_alignment(iter) & mem_align_mask) {
+ 		return -EINVAL;
 
-Test setup:
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+-- 
+2.55.0
 
-        Linux v7.3-rc5 (5a956dde5526), arm64 QEMU virt
-        Clang 22.1.8
-        CONFIG_CEPH_FS=y
-        CONFIG_KASAN=y
-        CONFIG_KASAN_GENERIC=y
-        CONFIG_INIT_STACK_ALL_PATTERN=y
-        Ceph 18.2.7, single-node local cluster
-        4 MiB regular file, inline data and encryption disabled
-
-I have not tested a fix.
-
-KASAN report:
-
-[  679.342179] BUG: KASAN: slab-use-after-free in iter_folioq_get_pages+0x35c/0x4e8
-[  679.343240] Read of size 1 at addr fff00000cf20cd00 by task kworker/1:0/23
-
-[  679.344183] CPU: 1 UID: 0 PID: 23 Comm: kworker/1:0 Not tainted 7.3.0-rc5-ceph-ab #1 PREEMPTLAZY 
-[  679.344388] Hardware name: linux,dummy-virt (DT)
-[  679.344629] Workqueue: ceph-msgr ceph_con_workfn
-[  679.345870] Call trace:
-[  679.346009]  show_stack+0x14/0x1c (C)
-[  679.346228]  __dump_stack+0x24/0x30
-[  679.346302]  dump_stack_lvl+0x50/0x64
-[  679.346356]  print_address_description+0x94/0x204
-[  679.346395]  print_report+0x64/0x7c
-[  679.346431]  kasan_report+0xb0/0x104
-[  679.346475]  __asan_report_load1_noabort+0x1c/0x24
-[  679.346514]  iter_folioq_get_pages+0x35c/0x4e8
-[  679.346552]  __iov_iter_get_pages_alloc+0x534/0x708
-[  679.346590]  iov_iter_get_pages2+0x20/0x38
-[  679.346627]  ceph_msg_data_next+0x3f8/0x8bc
-[  679.346666]  read_partial_msg_data+0x150/0x2c0
-[  679.346704]  ceph_con_v1_try_read+0x1894/0x3a6c
-[  679.346745]  ceph_con_workfn+0x144/0x628
-[  679.346790]  process_scheduled_works+0x59c/0xa70
-[  679.346833]  worker_thread+0x864/0xd60
-[  679.346869]  kthread+0x2a4/0x370
-[  679.346908]  ret_from_fork+0x10/0x20
-
-[  679.347153] Allocated by task 2006:
-[  679.347279]  kasan_save_track+0x3c/0x70
-[  679.347342]  kasan_save_alloc_info+0x3c/0x48
-[  679.347378]  __kasan_kmalloc+0x80/0x94
-[  679.347410]  __kmalloc_noprof+0x1cc/0x318
-[  679.347444]  mempool_kmalloc+0x18/0x20
-[  679.347492]  rolling_buffer_bulk_load_from_ra+0x160/0xb08
-[  679.347534]  netfs_readahead+0x2bc/0x420
-[  679.347570]  read_pages+0xc4/0x6e0
-[  679.347602]  page_cache_ra_unbounded+0x37c/0x41c
-[  679.347634]  page_cache_ra_order+0x144/0x1b8
-[  679.347666]  page_cache_sync_ra+0x384/0x548
-[  679.347698]  filemap_get_pages+0x20c/0x100c
-[  679.347733]  filemap_read+0x26c/0x8f0
-[  679.347766]  generic_file_read_iter+0x7c/0x2f8
-[  679.347801]  ceph_read_iter+0x304/0x9a4
-[  679.347849]  vfs_read+0x424/0x6f0
-[  679.347887]  ksys_read+0xa8/0x128
-[  679.347920]  __arm64_sys_read+0x7c/0x8c
-[  679.347953]  invoke_syscall+0x6c/0x174
-[  679.347989]  do_el0_svc+0xfc/0x178
-[  679.348024]  el0_svc+0x20/0x54
-[  679.348058]  el0t_64_sync_handler+0x7c/0x120
-[  679.348092]  el0t_64_sync+0x154/0x158
-
-[  679.348188] Freed by task 87:
-[  679.348215]  kasan_save_track+0x3c/0x70
-[  679.348248]  kasan_save_free_info+0x50/0x64
-[  679.348282]  __kasan_slab_free+0x54/0x80
-[  679.348313]  kfree+0xe4/0x324
-[  679.348344]  mempool_kfree+0xc/0x14
-[  679.348436]  mempool_free+0x80/0x94
-[  679.348495]  rolling_buffer_clear+0x19c/0x1fc
-[  679.348554]  netfs_free_request+0x424/0x4c4
-[  679.348591]  process_scheduled_works+0x59c/0xa70
-[  679.348625]  worker_thread+0x864/0xd60
-[  679.348657]  kthread+0x2a4/0x370
-[  679.348713]  ret_from_fork+0x10/0x20
-
-[  679.348872] The buggy address belongs to the object at fff00000cf20cc00
-                which belongs to the cache kmalloc-512 of size 512
-[  679.348980] The buggy address is located 256 bytes inside of
-                freed 512-byte region [fff00000cf20cc00, fff00000cf20ce00)
-
-[  679.349127] The buggy address belongs to the physical page:
-[  679.349814] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10f20c
-[  679.350061] head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-[  679.350132] flags: 0x8000000000000040(head|zone=2)
-[  679.350391] page_type: f5(slab)
-[  679.350758] raw: 8000000000000040 fff00000c0001c80 dead000000000100 dead000000000122
-[  679.350848] raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-[  679.350919] head: 8000000000000040 fff00000c0001c80 dead000000000100 dead000000000122
-[  679.350952] head: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-[  679.350984] head: 8000000000000002 ffffc1ffc33c8301 00000000ffffffff 00000000ffffffff
-[  679.351015] head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000004
-[  679.351067] page dumped because: kasan: bad access detected
-
-[  679.351168] Memory state around the buggy address:
-[  679.351366]  fff00000cf20cc00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  679.351435]  fff00000cf20cc80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  679.351508] >fff00000cf20cd00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  679.351554]                    ^
-[  679.351669]  fff00000cf20cd80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  679.351712]  fff00000cf20ce00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[  679.351768] ==================================================================
-[  679.368513] Disabling lock debugging due to kernel taint
-[  679.368720] ==================================================================
-[  679.368770] BUG: KASAN: slab-use-after-free in iter_folioq_get_pages+0x22c/0x4e8
-[  679.368859] Read of size 8 at addr fff00000cf20cc08 by task kworker/1:0/23
-
-[  679.369145] CPU: 1 UID: 0 PID: 23 Comm: kworker/1:0 Tainted: G    B               7.3.0-rc5-ceph-ab #1 PREEMPTLAZY 
-[  679.369267] Tainted: [B]=BAD_PAGE
-[  679.369300] Hardware name: linux,dummy-virt (DT)
-[  679.369347] Workqueue: ceph-msgr ceph_con_workfn
-[  679.369459] Call trace:
-[  679.369532]  show_stack+0x14/0x1c (C)
-[  679.369716]  __dump_stack+0x24/0x30
-[  679.369835]  dump_stack_lvl+0x50/0x64
-[  679.369884]  print_address_description+0x94/0x204
-[  679.369929]  print_report+0x64/0x7c
-[  679.369970]  kasan_report+0xb0/0x104
-[  679.370015]  __asan_report_load8_noabort+0x1c/0x24
-[  679.370058]  iter_folioq_get_pages+0x22c/0x4e8
-[  679.370101]  __iov_iter_get_pages_alloc+0x534/0x708
-[  679.370146]  iov_iter_get_pages2+0x20/0x38
-[  679.370217]  ceph_msg_data_next+0x3f8/0x8bc
-[  679.370285]  read_partial_msg_data+0x150/0x2c0
-[  679.370330]  ceph_con_v1_try_read+0x1894/0x3a6c
-[  679.370376]  ceph_con_workfn+0x144/0x628
-[  679.370455]  process_scheduled_works+0x59c/0xa70
-[  679.370541]  worker_thread+0x864/0xd60
-[  679.370582]  kthread+0x2a4/0x370
-[  679.370625]  ret_from_fork+0x10/0x20
-
-[  679.370927] Allocated by task 2006:
-[  679.370997]  kasan_save_track+0x3c/0x70
-[  679.371047]  kasan_save_alloc_info+0x3c/0x48
-[  679.371088]  __kasan_kmalloc+0x80/0x94
-[  679.371125]  __kmalloc_noprof+0x1cc/0x318
-[  679.371196]  mempool_kmalloc+0x18/0x20
-[  679.371328]  rolling_buffer_bulk_load_from_ra+0x160/0xb08
-[  679.371422]  netfs_readahead+0x2bc/0x420
-[  679.371591]  read_pages+0xc4/0x6e0
-[  679.371674]  page_cache_ra_unbounded+0x37c/0x41c
-[  679.371828]  page_cache_ra_order+0x144/0x1b8
-[  679.371927]  page_cache_sync_ra+0x384/0x548
-[  679.372084]  filemap_get_pages+0x20c/0x100c
-[  679.372126]  filemap_read+0x26c/0x8f0
-[  679.372165]  generic_file_read_iter+0x7c/0x2f8
-[  679.372210]  ceph_read_iter+0x304/0x9a4
-[  679.372291]  vfs_read+0x424/0x6f0
-[  679.372485]  ksys_read+0xa8/0x128
-[  679.372656]  __arm64_sys_read+0x7c/0x8c
-[  679.372778]  invoke_syscall+0x6c/0x174
-[  679.372883]  do_el0_svc+0xfc/0x178
-[  679.372930]  el0_svc+0x20/0x54
-[  679.373056]  el0t_64_sync_handler+0x7c/0x120
-[  679.373127]  el0t_64_sync+0x154/0x158
-
-[  679.373329] Freed by task 87:
-[  679.373404]  kasan_save_track+0x3c/0x70
-[  679.373545]  kasan_save_free_info+0x50/0x64
-[  679.373627]  __kasan_slab_free+0x54/0x80
-[  679.373708]  kfree+0xe4/0x324
-[  679.373851]  mempool_kfree+0xc/0x14
-[  679.373932]  mempool_free+0x80/0x94
-[  679.373977]  rolling_buffer_clear+0x19c/0x1fc
-[  679.374016]  netfs_free_request+0x424/0x4c4
-[  679.374098]  process_scheduled_works+0x59c/0xa70
-[  679.374152]  worker_thread+0x864/0xd60
-[  679.374262]  kthread+0x2a4/0x370
-[  679.374346]  ret_from_fork+0x10/0x20
-
-[  679.374511] The buggy address belongs to the object at fff00000cf20cc00
-                which belongs to the cache kmalloc-512 of size 512
-[  679.374553] The buggy address is located 8 bytes inside of
-                freed 512-byte region [fff00000cf20cc00, fff00000cf20ce00)
-
-[  679.374628] The buggy address belongs to the physical page:
-[  679.374750] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10f20c
-[  679.374847] head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-[  679.374995] flags: 0x8000000000000040(head|zone=2)
-[  679.375143] page_type: f5(slab)
-[  679.375218] raw: 8000000000000040 fff00000c0001c80 dead000000000100 dead000000000122
-[  679.375325] raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-[  679.375419] head: 8000000000000040 fff00000c0001c80 dead000000000100 dead000000000122
-[  679.375540] head: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-[  679.375578] head: 8000000000000002 ffffc1ffc33c8301 00000000ffffffff 00000000ffffffff
-[  679.375653] head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000004
-[  679.375714] page dumped because: kasan: bad access detected
-
-[  679.375817] Memory state around the buggy address:
-[  679.375965]  fff00000cf20cb00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[  679.376070]  fff00000cf20cb80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[  679.376137] >fff00000cf20cc00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  679.376205]                       ^
-[  679.376353]  fff00000cf20cc80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  679.376460]  fff00000cf20cd00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  679.376564] ==================================================================
-[  679.388802] Unable to handle kernel paging request at virtual address 007d0011c000000b
-[  679.388969] Mem abort info:
-[  679.389004]   ESR = 0x0000000096000004
-[  679.389106]   EC = 0x25: DABT (current EL), IL = 32 bits
-[  679.389269]   SET = 0, FnV = 0
-[  679.389348]   EA = 0, S1PTW = 0
-[  679.389410]   FSC = 0x04: level 0 translation fault
-[  679.389534] Data abort info:
-[  679.389579]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
-[  679.389620]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-[  679.389677]   GCS = 0, Overlay = 0, DirtyBit = 0
-[  679.389877] [007d0011c000000b] address between user and kernel address ranges
-[  679.390302] Internal error: Oops: 0000000096000004 [#1]  SMP
-[  679.415322] CPU: 1 UID: 0 PID: 23 Comm: kworker/1:0 Tainted: G    B               7.3.0-rc5-ceph-ab #1 PREEMPTLAZY 
-[  679.415899] Tainted: [B]=BAD_PAGE
-[  679.416223] Hardware name: linux,dummy-virt (DT)
-[  679.416471] Workqueue: ceph-msgr ceph_con_workfn
-[  679.416940] pstate: 61402005 (nZCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-[  679.417345] pc : iter_folioq_get_pages+0x284/0x4e8
-[  679.417616] lr : iter_folioq_get_pages+0x22c/0x4e8
-[  679.417878] sp : ffff8000821075f0
-[  679.418090] x29: ffff800082107690 x28: 03ec008e00000057 x27: 03ec008e00000057
-[  679.418750] x26: fff00000cf20cc08 x25: ffff8000821077b8 x24: 0000000000000000
-[  679.419288] x23: 0000000000000000 x22: fff00000cf20cc08 x21: 0000000000001000
-[  679.419768] x20: dfff800000000000 x19: 0000000000001000 x18: fff00000c759dd10
-[  679.420338] x17: ffffffffffffffff x16: 0000000000000000 x15: 0000000000000001
-[  679.420888] x14: 1ffff000103d6398 x13: 0000000000000000 x12: 0000000000000000
-[  679.421533] x11: ffff7000103d6399 x10: 0000000000001000 x9 : 0000000000000000
-[  679.422133] x8 : 007d8011c000000b x7 : 0000000000000000 x6 : 0000000000000000
-[  679.422661] x5 : 0000000000000000 x4 : ffff800082777bb0 x3 : ffff800080076f1c
-[  679.423233] x2 : 0000000000000001 x1 : 0000000000000008 x0 : 0000000000000001
-[  679.423846] Call trace:
-[  679.424312]  iter_folioq_get_pages+0x284/0x4e8 (P)
-[  679.424632]  __iov_iter_get_pages_alloc+0x534/0x708
-[  679.424930]  iov_iter_get_pages2+0x20/0x38
-[  679.425164]  ceph_msg_data_next+0x3f8/0x8bc
-[  679.425458]  read_partial_msg_data+0x150/0x2c0
-[  679.425721]  ceph_con_v1_try_read+0x1894/0x3a6c
-[  679.426148]  ceph_con_workfn+0x144/0x628
-[  679.426391]  process_scheduled_works+0x59c/0xa70
-[  679.426640]  worker_thread+0x864/0xd60
-[  679.426861]  kthread+0x2a4/0x370
-[  679.427106]  ret_from_fork+0x10/0x20
-[  679.427576] Code: 8b081b7c 91002388 f900033c d343fd08 (38746908) 
-[  679.428129] ---[ end trace 0000000000000000 ]---
-
-Thanks,
-Karl
