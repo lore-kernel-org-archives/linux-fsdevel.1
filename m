@@ -1,203 +1,179 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0800754147B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 17:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70FAC568FD0
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 17:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792084679; cv=none; b=R+guNNtwpg9ao8nsdQ0q0Jk7bSOYPaPtns+4I0oL05hoOgc0J5qAnCdtWZI2tcilxwWSOz/r/bE3dpa7+BhWLvWNGpwnuIUu4/b6oH+7ti5UFQzIZfWgHHS2Y+HZKnT/RrisT0M61fGugMvrApRvKrZIAl7jyZOs+DhBJP6cYZc=
+	t=1792087035; cv=none; b=mXju5jkmbzP/TJns3lEjmgj43uF2QhrPE45OL9Sq4J/OITDUZpi+1Rn5pZuRXLI5fzkB9ICtZhtMLruBl2pJwJgAV8IsbbAc0zRSKjYfF7OoWltpVJD2OKCvaQyMd1+A75NXwdLeGHVb7B2oG3D/iQ79hqxyVGvNDEwxAzRIf78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792084679; c=relaxed/simple;
-	bh=97nz3x4cCT7jJVkf7khGZ92jWq9O4MzPPIoGZFfCE3Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KZYvphNm1bXHkLI54FxTM3W1gZddzch5U1Jm8LDoi+a4Fg+V0eeP4V2oKzjetpUjkaOGEU5F+yMjghFHqFe+Kn8xvpFyqscxf4Yc9u2iFFFwehUzOwX5M9fDFfTpNBr/sS7gpZ5zgXAqf59ZqexvWazrNzpOybKtACtwNUG4Hoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LGHjnZQ2; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1792087035; c=relaxed/simple;
+	bh=Rvewqy63voh2KM3pnUX1AhozXB4DfzYFGfF8JiPjSKs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P53GVEC2Pji2SeDXyTDWc8efhYO24d5VZsRAss7Am0O+BI5MnPgo/vlos3056JLZw2RLEHEMNK/ZSsJlUfPKzYBIiLxJVzODxEOFN2L97KJADsplYzwQBjjkU8pQ5I7dc/6JfAZ2l7M6/ni7Dy1KMuW75mHbhNOb7Lw9M0zgPcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SvD0K3zw; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LGHjnZQ2"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48441a2ba1bso1130750f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 10:17:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SvD0K3zw"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a172eb31f0so49790965e9.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 10:57:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792084669; x=1792689469; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=nUb4cagls44kE5et9qrliHAU76p7w/thb7bKXpN7Lxs=;
-        b=LGHjnZQ2i3mxf4ZTcid18hLmSzPCcPavgFPgZXktiYaRW1loWCVGAx9MKQnl/QcRCf
-         ehi71GtHRfcunwNyEobfohUWmkeA9mNpHK4FLA4407u/3wMFSFhlWGMhG5S2neNoRtEJ
-         zbkFGb+xPzgYcG8N/dR2fxLkkuMk7YYGP73vQni7JEphDT8lsWRDGrTYwq7CHBDrCojT
-         GASpge4oiIj0VCC1VtwWK2UYDpvGJzquN+0TjRWAufqxK1f4pkXz2DlI5Y4bHumxbJ/u
-         Vu9hHXOCPX9rWAqEaf2aAporaEoq3Dq13KZi0t2lBQOo7uWkK1mx2b7X/TcgLYg3LcCj
-         I20A==
+        d=gmail.com; s=20251104; t=1792087026; x=1792691826; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2N7ZKdxtWSo3FIB7Chn8lN5wJYT/uoxLiCD25cL2kTs=;
+        b=SvD0K3zwBxzeT3becAbiOlnE0kkXv92B4o2AAy+6mpQWa4njjtLS+4KLh0NPxptIhL
+         WjaoPcgrIHHmhAhkbqsU4xegshak5FJtT2l5o/+XtRXoxvm2OT8OMnmLv+km8E1i5vod
+         Tm7d4sc3oizQL2FIU/n2WzS+KIRQbzskUeA8m6pUX94/9qowExE9lFAaa8OOsXusgGqU
+         MAzoYJ17NTYJ62fZ00lGU0qkhuH5zDifWwDzImpJx1bho6MCqTlQWGzFbRhgconaDvTl
+         vG/R/FTWqSe5UmueidLOdCUIXJlj+4MXqHhQcMKoq+A4RGoFMV6qk83uzlnEWKz6U9jh
+         Adcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792084669; x=1792689469;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nUb4cagls44kE5et9qrliHAU76p7w/thb7bKXpN7Lxs=;
-        b=CR+xr6g93yM9YggvlzLIy9yhtu02t838O4SoPKzdfQBIjaRF5gL+s4XzG8iEXlOzGc
-         ml4w6DmyX6wnKm4Fm7TuCDB+tdCXLFw3mO6iA4+LZpHGo8jeNK1W8R/tAljqOLSoYMTs
-         g87u3xPk8FV8R+sY7C01PUVUseNa8SoycUsSHMYlWbOJGHoleNs9z/rjDeMrGxCXRytA
-         gb30h0dak+yip/Me3EJkBVsHbY+tJ/9Em/B4gqAF8ZeZSh2oDIKQRp5W5bEL7PWHPMKG
-         zzVVzQVIXr8KZ/2My1PqndPfNsRpYA4EeZkhObarADH5B1iDlW9R+qUS04+ik7LHA2/q
-         ahFA==
-X-Forwarded-Encrypted: i=1; AKwUvBwYochDZmoWIE1I0X1TpJ8WzfobktXF+BpEc/zE9CsmQ0kgBRb8kv1GnAEFT18rwmoIFbJcwXePimvodp2i@vger.kernel.org
-X-Gm-Message-State: AFq9FYLo29vM3aKuHDuU9pyEjXBIRn9+BSoHhzsSBFxixXC7UPkeWwR1
-	Co8JwbZQJo2VqqWdj5Q58dbgEm42PAXV75JKyLWvQ7t2JU2WXRYToTcO
-X-Gm-Gg: AYBFou1M9XCCynBIBcPKct9unNMTmRnrqCoHPn0zctGst0VL9NgRU2/4wdfwF2haQQp
-	n+Gyp04rq2R5vZDDDA5eWX6kmK81ksH0WcGOTn3tNQbcTXuXtAy4OYWlTuEZgbjgldRzmqrSVkp
-	D5IlE8KOE2OlMKK0dZFPxKXSRoWNsM96E7XOblEcV34VWQJnViOBbZAgyvrHv9TKhvv5c24O+d+
-	B6chcAsRaiS932e2P8Gr96QkBp5DFhYkVFlV2oP8LoVf2AglsDkPm/GDHUyXrRuGpPL0BLRiday
-	eHJ485xuNjQq1gnNbygDSgA11Up/tCMjld5UH/jwhrURNG/1TAESmHSTnPMGV6Ha2jVxZZMO/uY
-	LSXY5HTgmseJNok4h+0lo6ALROwDnHV5zAhOaZ4Y3LnTJvpNZJd82h6Kr/PB3KxnJ8d9u5JPJ7K
-	c3DxPgeqifkh09yWMq0zJRNl05qyUvhN/sBNp231Y4Xmjl444+TdhpP4dvmyQ9gkxxCOl3nI1ck
-	5D64cLmiPCSzbgc+tr49CPQPhhgrZuJzDA/KClJwJdkvALTIjNVIxJdqwsvF9NYJ5iLvv1Zgwmb
-	myEYzJUkEIgk8fmrcixDlJDuP5YiVKwCJtA=
-X-Received: by 2002:a5d:44cd:0:b0:488:89e4:c3af with SMTP id ffacd0b85a97d-48dbaae4869mr30499724f8f.45.1792084668569;
-        Thu, 15 Oct 2026 10:17:48 -0700 (PDT)
-Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfaf1acd7sm1180327f8f.1.2026.10.15.10.17.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 15 Oct 2026 10:17:48 -0700 (PDT)
-From: Fred Griffoul <griffoul@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ackerley Tng <ackerleytng@google.com>
-Cc: David Woodhouse <dwmw2@infradead.org>,
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev,
+        d=1e100.net; s=20260707; t=1792087026; x=1792691826;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2N7ZKdxtWSo3FIB7Chn8lN5wJYT/uoxLiCD25cL2kTs=;
+        b=EubBejseYh9PxQkn3IVYvnYrOtq21LLk2JWuqwmT0pRpqRfZHPhOp4CLh3gYO2Jx9G
+         e6nFC31xpqgdfYkcsmi1eUwzjSyVdAy+U97rFiUJ0Wicbsb9PoSVsaYTIZa+qGSb/vcx
+         YODsgqcxgqmeNrbAGK93lmX68ONJKLSUgdnoqWXmZcKQTRSNUvfcuh98dPtOJsmg+a/V
+         L04r9ED+GyticCnRqnQpRNlZCdyWSVVx8WzvCm1toX0215XxZmJMnzWSORzciABZ0xZy
+         mRTHLR86jci8dcg/MS5MvNwA2b+YMZaY4XOb09HwrCz/SdhAko4ld9mHbNpcrjKGrC2t
+         ljOA==
+X-Forwarded-Encrypted: i=1; AKwUvBxI+s0TA+u7oC0jDxEXdDtfoORKnqyIWpUQnaQfE1vNpu63XnI3Kt6c6Kg9uOx16qypmcByu9uYR/KL1+MU@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ0tdilGHWj+1tt9pkuxptEEcI9Py5BiTZQOX2jtzeTffF0xORD
+	4P7ohYLfcaLagIlI22nDMOkYg4k19DCCncPF4h000TZ/OxQuG7QqVNQz
+X-Gm-Gg: AYBFou2mHs8mgE7O6jHBbO9zCsUv+Iu4dLwXr3bmHc6U8GlgKb+vMF/kr4yOUB4nj8N
+	8MuEbTi5uf+XlW+lm192eDU5R3NI5MSy7atpYW7m44aovPuAET1l5O8S6pWIvvOhi0se27xOAzU
+	rMT98ev2H/UmrpwJ0FFqu2qtCN7Kbmh/0eM+2hVjzLvFDrzYslrdVqwMzvbW4vDSnoqPgZ8cZwA
+	xqrcaOd9dveGC0czfqCqxaLxMDLkMEFtt4TWxyKJhvNdFl8bH7CBrBFNuzG5xFzfbSgkmBmGpvB
+	B1YvjudufBZO/yEd5lF//0oU/CWqObbt9CTa/Jyea96C9mRCzMF3rwDKFs+ftuw+JyyJQVsMDL0
+	aykmHXieiuLa9nXInDquS+xIGlhlgdgBXSLbasPsWAPJMcRGQCEaVvdXp40iyFuSUAg/KuvIRN1
+	d4jl4SKEH/l8iJQQoxPdxuyQQvCxevvhD1x+WM0VpQF2jUvT8O3w7afjPTD6LJTZztMCQonsees
+	bLwJjA1ZgOO3pgAwiiI1ig=
+X-Received: by 2002:a05:600c:8218:b0:49f:ffdc:939d with SMTP id 5b1f17b1804b1-4a18e49d9f5mr392948675e9.9.1792087026167;
+        Thu, 15 Oct 2026 10:57:06 -0700 (PDT)
+Received: from LAPTOP-AVI.taile24b5.ts.net ([2a06:c701:4778:c500:b8a0:279b:6918:c3ed])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd972aebsm96673775e9.1.2026.10.15.10.57.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 10:57:05 -0700 (PDT)
+From: Avi Weiss <thnkslprpt@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: Amir Goldstein <amir73il@gmail.com>,
 	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 0/9] mm: Memory providers for guest_memfd and iommufd
-Date: Thu, 15 Oct 2026 17:17:46 +0000
-Message-ID: <20261015171746.51538-1-griffoul@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CAEvNRgHtB8j6=9r=txjsKvQM0F85nRN4KW5sdnuv_-Og=cWEfg@mail.gmail.com>
-References: <20260720111259.122911-1-dwmw2@infradead.org> <20261006183235.16576-1-griffoul@gmail.com> <CAEvNRgEseLO+LbkwXrEit0H2LH5Wx-srSvHEMpt0=upPL3tF=g@mail.gmail.com> <20261014095702.39676-1-griffoul@gmail.com> <CAEvNRgHtB8j6=9r=txjsKvQM0F85nRN4KW5sdnuv_-Og=cWEfg@mail.gmail.com>
+	linux-kernel@vger.kernel.org,
+	Avi Weiss <thnkslprpt@gmail.com>
+Subject: [PATCH] fsnotify: preserve 64-bit pre-content ranges
+Date: Thu, 15 Oct 2026 20:57:01 +0300
+Message-ID: <20261015175701.3674449-1-thnkslprpt@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Ackerley Tng <ackerleytng@google.com> writes:
+vfs_fallocate() and remap_verify_area() pass 64-bit lengths to
+fsnotify_file_area_perm(), which truncates them to size_t on
+32-bit systems.
 
-> To borrow David's words, the part about this that makes me itch is
-> conversion. We have to support conversions. Even if it doesn't merge in
-> the first patch series, we have to have line of sight to how conversions
-> would work.
->
-> Conversion requests originate from the guest and then the host handles
-> the guest request by making calling an ioctl on guest_memfd. Hopefully
-> this part doesn't change with alternative provider support.
+Use 64 bit (unsigned) types throughout the entire pre-content
+notification chain to keep the full range. The userspace range
+field is already 64-bits.
 
-Agreed, and it doesn't change. Conversions still go through
-guest_memfd. It is the only one that knows which pages are private.
+Fixes: 9740d17162de ("fsnotify: pass optional file access range in pre-content event")
+Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
+---
+Tested on a 32-bit x86 kernel in QEMU with ext4 and
+FAN_CLASS_PRE_CONTENT / FAN_PRE_ACCESS with regular 
+(4KB), boundary, near-boundary, and beyond boundary counts.
 
-> Suppose guest_memfd still gets the conversion request first, in RFCv2,
-> to reach all the mappings in various page tables, it would have to be
->
-> + [GUEST_MEMFD] -> [KVM], [USERSPACE]
-> + [GUEST_MEMFD] -> [PROVIDER] -> [IOMMU]
->
-> since guest_memfd must ensure no IOMMU mappings to guest private pages?
-> There's that extra step through the [PROVIDER]...
+requested count    before   with the fix
+          4096      4096           4096
+    4294967295         0     4294967296
+    4294967296         0     4294967296
+    4294971392      4096     4294971392
 
-Right, there is a step through [PROVIDER]. But it can be a step through
-the mem_provider code in mm, which every provider shares, rather than
-through each provider driver. Then guest_memfd doesn't need to know who
-else maps the frames, and providers don't have to get it right one by
-one.
+diff --git a/fs/notify/fanotify/fanotify.h b/fs/notify/fanotify/fanotify.h
+index 3710543dbf827..225919d7347bf 100644
+--- a/fs/notify/fanotify/fanotify.h
++++ b/fs/notify/fanotify/fanotify.h
+@@ -441,7 +441,7 @@ struct fanotify_perm_event {
+ 	struct fanotify_event fae;
+ 	struct path path;
+ 	loff_t pos;			/* FANOTIFY_NO_RANGE if unavailable */
+-	size_t count;
++	u64 count;
+ 	u32 response;			/* userspace answer to the event */
+ 	unsigned short state;		/* state of the event */
+ 	unsigned short watchdog_cnt;	/* already scanned by watchdog? */
+diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+index 7e2f330fd2837..8657bb94dfa8b 100644
+--- a/fs/notify/fsnotify.c
++++ b/fs/notify/fsnotify.c
+@@ -157,7 +157,7 @@ static inline __u32 fsnotify_object_watched(struct inode *inode, __u32 mnt_mask,
+ 
+ /* Report pre-content event with optional range info */
+ int fsnotify_pre_content(const struct path *path, const loff_t *ppos,
+-			 size_t count)
++			 u64 count)
+ {
+ 	struct file_range range;
+ 
+diff --git a/include/linux/fsnotify.h b/include/linux/fsnotify.h
+index bda798bc67bc5..a4a29b3650080 100644
+--- a/include/linux/fsnotify.h
++++ b/include/linux/fsnotify.h
+@@ -135,7 +135,7 @@ int fsnotify_open_perm_and_set_mode(struct file *file);
+  * fsnotify_file_area_perm - permission hook before access to file range
+  */
+ static inline int fsnotify_file_area_perm(struct file *file, int perm_mask,
+-					  const loff_t *ppos, size_t count)
++					  const loff_t *ppos, u64 count)
+ {
+ 	/*
+ 	 * filesystem may be modified in the context of permission events
+@@ -213,7 +213,7 @@ static inline int fsnotify_open_perm_and_set_mode(struct file *file)
+ }
+ 
+ static inline int fsnotify_file_area_perm(struct file *file, int perm_mask,
+-					  const loff_t *ppos, size_t count)
++					  const loff_t *ppos, u64 count)
+ {
+ 	return 0;
+ }
+diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
+index 618eed4d6d724..a25ae4ed879c7 100644
+--- a/include/linux/fsnotify_backend.h
++++ b/include/linux/fsnotify_backend.h
+@@ -323,7 +323,7 @@ struct fs_error_report {
+ struct file_range {
+ 	const struct path *path;
+ 	loff_t pos;
+-	size_t count;
++	u64 count;
+ };
+ 
+ static inline const struct path *file_range_path(const struct file_range *range)
+@@ -945,12 +945,12 @@ static inline void fsnotify_init_event(struct fsnotify_event *event)
+ 	INIT_LIST_HEAD(&event->list);
+ }
+ int fsnotify_pre_content(const struct path *path, const loff_t *ppos,
+-			 size_t count);
++			 u64 count);
+ 
+ #else
+ 
+ static inline int fsnotify_pre_content(const struct path *path,
+-				       const loff_t *ppos, size_t count)
++				       const loff_t *ppos, u64 count)
+ {
+ 	return 0;
+ }
 
-Here is the idea, on top of your in-place conversion. The VMM gives the
-same provider file to guest_memfd and to iommufd, as in v2. When
-guest_memfd converts a range to private, it claims the range:
+base-commit: 045958acaa75205b31578cb22c4345e28dd2e4bf
+-- 
+2.43.0
 
-  int mem_provider_claim(struct mem_provider_attachment *att,
-                         loff_t offset, loff_t len);
-  void mem_provider_unclaim(struct mem_provider_attachment *att,
-                            loff_t offset, loff_t len);
-
-The claim revokes the range for every other consumer of the file. After
-that, get_page() returns a hole to them. So iommufd unmaps the pages
-and can't map them again, and nothing changes on the iommufd side.
-guest_memfd zaps its own mappings, as it does today.
-
-Going back to shared is the reverse. guest_memfd returns the frames to
-the host first, then unclaims the range. The other consumers then map
-the frames again. So a conversion looks like:
-
-  [GUEST_MEMFD] -> [KVM], [USERSPACE]
-  [GUEST_MEMFD] -> [PROVIDER] -> [IOMMU]
-
-That is your second chain, but the [PROVIDER] step is the common code
-in mm/mem_provider.c. It does the revokes and hands out the holes. The
-provider driver itself only gets one callback, and it can refuse a
-claim. For example, it would refuse if it also lends those frames
-through another file. Conversions can already fail, so this fits. If a
-later step fails, guest_memfd just unclaims the range.
-
-This also answers your earlier question. The provider doesn't need to
-know what is shared or private. It only needs to know which ranges are
-claimed, so that it doesn't move or share them, and only takes them
-back once the guest has given them up.
-
-I haven't implemented this yet. My plan is to rebase on kvm-x86 next,
-which has your conversion code. Then I'd demo it with a
-KVM_X86_SW_PROTECTED_VM and the sample provider. A device sees a shared
-page, loses it when the page becomes private, and sees the same frame
-again when it goes back to shared.
-
-Does that match what you have in mind?
-
-> Thanks, I will prototype what I have in mind too to make sure things
-> work as I think they will :)
-
-Thanks, that would really help. The sample provider and the KVM
-selftest in the series could be a starting point.
-
-Thanks,
-Fred
