@@ -1,168 +1,115 @@
-Received: from flow-b6-smtp.messagingengine.com (flow-b6-smtp.messagingengine.com [202.12.124.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FD83C7685
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 05:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.141
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792041697; cv=none; b=EMR50rzpAZTca3c5lqhcC0ea/HYH8eeCB4dxP8qWuVRO1XhXmkM3Uh4vu2Kj0vzKOidMqnNvhfBlHXKXjdLvYM7oepM9KamAFBa8gB+DVeWNMtFfjFrt2Zag5CDxXOC+nGhLgAPfbiGojso1YZjy7MFFuvdQ4defzZnVhXmo6Sk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792041697; c=relaxed/simple;
-	bh=fT+Id2LA74s+kmxJ2r3rEYU7QJ7EFtpYf9vc/1kTxZ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Toii/Z4E/u89zCKroUYMAaasn3JZ5/zj+sjR4C30A+1eBXM0RHyzBjrY8W2CmC+F3Y092DCjZNrKJwCst/p9T07qwYszmSUTAw/zk3BEhN7V9ZUXhX5BXXmffqyTIVkusLNhTiWsTlxDvhQzseXSj52fa5Tu2twMnd4nhjI57oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=AdLcoK9d; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=sMlwvS3T; arc=none smtp.client-ip=202.12.124.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA5A261B9E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 05:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792043178; cv=pass; b=LgHWL/pLClZbFzJWTtEjhUNSCNKjZjhhaKFnl0++riWJ3GSGOaKmeN6d7G612TP/t2nQNaUJBY1RGqEo3xRBtJm3bX+UrPAg2rwDZPrgbpVTzibUFv6jtMyDh+FHVSAuvGCIqqmgmzBNhlJBkwBsHE07LzETe373My9w/+lAEE0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792043178; c=relaxed/simple;
+	bh=qezJc4NEIZrhsd5+TuSsc3OnyYFh7Gr+9COlR9C28hQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QHT5Z/44YccDGz3loheQINhocppt3LbCQTOcAEur+VTmwbVXHBwDLuoflDrxYGkF/4dm3xnff3Vry/4DaEFYjYDQLc7Pm2E7R06I6/89Ev/BiVMDqImb/cLfUpqLtu5A6Bb6okWTg89+7c+TwJv4p8W//RwvvmZb1JmqjaYzba8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bqRhXJAz; arc=pass smtp.client-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="AdLcoK9d";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="sMlwvS3T"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailflow.stl.internal (Postfix) with ESMTP id 0EE1C1300CD0
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 01:21:35 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Thu, 15 Oct 2026 01:21:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1792041691; x=1792048891; bh=YZbXf8XMHi
-	MYDDe4CyAaIrQ1ZOnpEZtXM5Qp9HfiN1Y=; b=AdLcoK9dMpoRAJNea6yrKCITSv
-	O2qWtAhjjSLfwZggoB6ei4EBSZGSCI4iYEiS2AHlz7IWpsyURPvJxT8zr3nL/NMe
-	NlnGZVeSw1Zjg72Sjc9rDb44U8pWdqRUXH9GP501Y52wpjx0I3Q58+p0BCpQbaTM
-	wk0abjowaYYUwHWiC9fNdwUmLkn/5UqYvM599+HkrO+9gtKu7JNo06H+PcbwemxV
-	Ymg1Pyzov++NKDoujH4MPnC/mNqMyM7qiaJWWBN1eMo5GJ0OVIbIxiWPHZ/g66s2
-	xvLamBZC3/GRLU+ZZD7ejCOMk/TQFGf5XjuwdDYOAPgS0tM7mx5XlH9523NA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1792041691; x=1792048891; bh=YZbXf8XMHiMYDDe4CyAaIrQ1ZOnpEZtXM5Q
-	p9HfiN1Y=; b=sMlwvS3T1qO/lPAf1RchbwPOK9KdNVgQ4aKrkIgKErmyrFZLKhI
-	r77yCruC7m2QdzQaEvWMbI+hcDg2C1qIvw9wZwQWvgPGe8Thivhi7gyyhjbsqt1y
-	G7JuE5ZT1xULOQLxGGJy9mWvSJcRerMj2rY1BnRczYTS81THSVfssHyIxHywn+VJ
-	+SpjYfzk6kb5uQTYrH9do0KQhjhCek0OtcYU8sPKjHn2jQDF1JO3+h9E9dCn0Lj/
-	JZaW6xFzQJ7DSWYiBYaMd1oR0M47TuTvjxvzWTroliXqWgsdxqCm2g4sMCrUgRrW
-	0o10v7r557nDTTRfb6rdw1VxbGaCRMBmp/w==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
-	action=sign d=kroah.com a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792041691; d=kroah.com;
-	mf=PGdyZWdAa3JvYWguY29tPg==;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm2:rsa-sha256:RPWG67PY6ag+TJU4wMG2DxUk9RoimNEraYavP/HtCZSw2Ti
-	Ww7ks6mNWSUuk+trbGeHYyac/USnTt7LcHqDGRB2GSd3A/Ig7F6vPgMYMLgQKBsY
-	a4j+fVRN7VNVSodpic6De1r4jLq2ZRxAgU7YB17PQYvzx/p1/lwpT+lw73UMzrHv
-	chAyo6n4nA7cmZN2wYuEGmmlUZ7zx0sArYDGpy1N56rPQHHmGAqIaOprbTYHLAZW
-	fG6hmlm/Gg8Mk1wt58rTTFXgn3FfjOPFv3dlAGHBdY9QiCXbLP6Vh9AsV/0+t6Kj
-	LrIC6qnTMhVqifOEKeWBDaPytzoDJLraUoEr0TQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-disposition,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:hf9AztGCgIRnregB6E6yn/9k05lnr1mC3auL3T/Ps8g=:fT+Id2LA74s+kmxJ2r3rEYU7QJ7EFtpYf9vc/1kTxZ4=;
-X-ME-Sender: <xms:22LQaoctltF2g0XaJmXad11XIXqcrOVXElcGG3OxJQ14AnIjDAXa8A>
-    <xme:22LQarb_b3EyeprQ9rkTc_GwYRM8WB2tJKXAJLEnFINvvcnNpqHFTlvC6ReXy7t-L
-    a52OHEzZi7i0eqkAvBVxncF7kFMROHjLOPJt0tl9TO2X_UPYxc>
-X-ME-Received: <xmr:22LQap9O8GD3F5pCi_3NSxY6E62q-5uUe4McD4YCYFOMn3mRAnt5LFhs5GfgnrWSLj9W5ovfyj1fSkVLtZv6nDA8ohjs62TNWRNoumQAT8w>
-X-ME-Proxy-Cause: dmFkZTEijNWx0cSRy+etHUy1Usc70/NSIPvkJ5iC/hOONowf61UWNZoFG2yenVsGW3xUdm
-    OuOrBTQH9C1zt8QTb3VyZLYiXR8cIZ5kUyG5tijMhlA8jkk4gq5L4NjkzEdquFndv48208
-    ltG2exExMojOk2ZqCqjwN7ICcgjxGcen1H123fzvNF1WToix1u8u4TGVs+/bVbJKUAUKro
-    jVd9MhBj8QjgEd2TEUfwzegeuZHv4KugbkGtnhjkRPZtbGrQUgmiRxmHQrW5z1N6N5deHK
-    bSt21eVraH67bjTMAuWSCriT+VkletTYOl5cj1stZcI++yDd9EcLFsBDplzCkoq6Acm1R9
-    YSccsQq0p06t13unhafYhu2LvHS7xZViO29WAMoTQl4pwdwuekbxDmQDzyS8u7Hq3kwMy4
-    RxdXV6sURH0Mvk8FyOUG3EvdPmoZBb7XTud51WAo1bF2RNu1Cirly3t7FPriS7y8GKD+kf
-    Vex4zvo691tj02ZAT0qxKw+o9o4/qhVlSW9a+/K+Z0jaxkYwqwIzlUZsbs992Unt3SFWRq
-    X/ueS4JTYy15MrSOPb+2q4me3QuaRwYPJm6Tz2WR/J4u94O0nKqc7bxWvZNzqHHCBc3f9e
-    HOHEDLmGrqWBS6N73obzaSsTKeEr4Z8uFcCZMMhzNejiBO9oxyn+wesS7peA
-X-ME-Proxy: <xmx:22LQanXX0wXFRKFwqKEZ46QBqrpYELJE6O1VuzrE1ay85L1tY2ZUdQ>
-    <xmx:22LQaqdCBxFwOnkcBdBiRtFdEXr8lv5CsWgXD4YuQP0HTjX6v34l9w>
-    <xmx:22LQakVL9Xfu6e7z9cCnx1-xps3JoZnXFgNqF6FRkj7b0VhCEQqThg>
-    <xmx:22LQapVog6mxBmXINzHvRfb6IONAnAxsMncbGpvkUdzAFLvezTt4_A>
-    <xmx:22LQakLQlcWi2uU3GotSxqN0eug_7XzPWHq0GzpQmnNwQTI4ZME3YDqe>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Oct 2026 01:21:30 -0400 (EDT)
-Date: Thu, 15 Oct 2026 07:21:28 +0200
-From: Greg KH <greg@kroah.com>
-To: Kees Cook <kees@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linux-fsdevel@vger.kernel.org, llvm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 2/2] seq_file: Require explicit initialization of struct
- seq_operations
-Message-ID: <2026101517-profane-opponent-4523@gregkh>
-References: <20261014225811.i.852-kees@kernel.org>
- <20261014225818.3457479-2-kees@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bqRhXJAz"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-35ca5244753so306461eec.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 14 Oct 2026 22:46:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792043176; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fA19qdl5JdcL04L12YWyoZvGAvzXV0LwHQ8/bwyzMV6yfCAjBXHb8eyg2NGKdAf4kG
+         oTd/LRsjixQy2PhaCc4jSSOXzqGv3v6lfMmQDypb9uwSucB0umij11ZxbtEiO+5OJSj0
+         awhT5p9Nt9T55l/TDCLQbPElSgsaDwPD2Og4d6uezx8bE+b5lKE2rL38oV4ATSMh3VVk
+         LIQ/8GRxP1bhNgDQcZsMvsPb1W2+rQd6Hiq50x9rBSlSNl20TSSmFtZBBeYR6dI88Vf/
+         FGXig4zefjjaPgAGOVHlMWbY1zJV60cPXTrLWtYzC6TZouV+1LtbGtejD+PcPwFTIxGp
+         MaCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HeI0uiM52DuAwWHa/ijjOCM64Bu6o2GU+woYi97808c=;
+        fh=IeS1n7NKGSxEY2Adyq1DdNXRfLaFLeUY2bNpFamzcQE=;
+        b=fPkIY+cIWDljKet6Mrn1oPqqncoaAgbWN1I6tK4Hn4yIJ9D2NWwV2Pa+cwvuzBfWBl
+         OsGRHqwL2yHi04TzrGlsvjYpW+0DZQ0Cuy99OHZd8jkvh0cpuTsrvl8GdqWUu5K1WZxf
+         PqoUUoBGotnrvccCpdvNhm4vMDjNOaobIvLHXN9+E/bpVfjcC27rMaZor/j3UXEHVPv2
+         5nvFzTD/6RdKu/SmejgQsuwjFb8ynm9TuxTJNe4lUFkz7uyxCuUufxFdIrg8005oBDU4
+         nLFo2SqpMjz185hGLEL6SfhbByg/R2IApPb0LUBec8zKgDy5P+q71WITiJBHCbacI3LX
+         wjBg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792043176; x=1792647976; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HeI0uiM52DuAwWHa/ijjOCM64Bu6o2GU+woYi97808c=;
+        b=bqRhXJAza1Yrp2/eRNvbssEp5MR0j3Z/JI6FUrVfNY9dB94rODj2a6opuA8FeB1lnP
+         nWsNTv0PFeu1CizxuP073ENOufz4/5n6swZ7YKDdtXRLjJUM1cUUaqmSloNMv231Ghia
+         GNAYBURTZmV6CgAnEy8jyHM5PFLdB69dwRgunXDAdb1QlRbMmtemCVXyd77WY+j2SnLA
+         LZhEFVSC5BC+RMjchcp4rBJXfw0NoxEbyxn9WVk0QuBV5K7BrcRTljhRao4KosOAgdFZ
+         Qe2BGExLNhFW886eY327ysw+o6yt2ZiqqM6EUAANOMIMN1qWGPGryd0JtzFXw1gj9q2b
+         PJAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792043176; x=1792647976;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HeI0uiM52DuAwWHa/ijjOCM64Bu6o2GU+woYi97808c=;
+        b=aUN6Rjm7NNW5fv8F8tLxa5zutRt8+nfxLl9mI3aEij+L4ZmrxZOMC6zxIzAoypc+t8
+         +YXDVPRkhp7tSv+376LeDHVRal9kRm5EeUyMs/6aHdo8V34QVi3VVG9urNhq+RVxvsX7
+         1uRymtZNjKp7efWRjY96BoaJIE8rp8M9Rldnn1EaXASbNkASpgdk3w/H8JrTwm8H+iC5
+         FXxM0gSHT28DNWqnsX6ixKcJugnjWcG4KhBLcunjaT+D4SJ3PPQSKP7uirApGaaLQwAP
+         ExSno1B1CYpXngL2k++eyVHuE0quJ/YhtYFVh1k1wzc+Q1H4+jRndclGjILBi3W7eSIa
+         EWqQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwgGFgB/FkGeWLpuM5E0+pZfrkd3U4EXbLyaW4TSi6XohvK+KWVhgg7PZz99DOM7nx6fP96ieoxe+1+Strl@vger.kernel.org
+X-Gm-Message-State: AFq9FYJcJ+giV5KLUfWl0voAO9V3tmae2BaeF/KsDlFnYkj95JTRVkVC
+	eb65bq3i/y2thNACsvqLwOKAYEFUYgoziHWkeeUVlbpvO+rNociY9lyCVGgwskr8xg/E0Zoyo2/
+	6GOWmFeofy8ZPJfAftRG2iP6pmpaFUZ0=
+X-Gm-Gg: AYBFou2WKLt0a0Vbv/OAyWdXTt7yNosfz+2l0CRjxRNt0KUyCyQbG/s+bSylLFIyhi1
+	tdf5Jj/LTqczRUjcJXzTl1PPKS6F2pVZMlomkIbtTBfP9EcoYE+1qDZoRscEuBe9dTyslNFoMre
+	1S1dptsaBn6uz1/B8IQc44kyCuMGGSGDsJ5RmW/HCXmwEj4cQsdoSLikJ1PrXSQCXMFXkjaGtjw
+	XZNyB+1BmefKeN2QWQC9YmHu/33WfhW8K4pfNhbfiSpSWMPqE3OD3ThVwpxRqdPwHk7/stI9Z94
+	P5kLwc+X0kRCeKxpaShKdu7tw+JP13nph0Gs2qfkVZNaOkjSCM7O8uMIeIcEIN7jGOqsUCJnPBT
+	lfNci8Vt5XbjiFpuj3/hFWs+XeCYgGhLZszAhs/ulxUDUYshvLgcfTRvigBsA+lIMF5fxvK0kXL
+	mPGr7E6q0g+l5CoyRWNY66QlBP8L/q7y6MAUhg24XIMHTMUePc6Ug=
+X-Received: by 2002:a05:7300:da12:b0:35d:4c5b:766c with SMTP id
+ 5a478bee46e88-35d4c5b7a5cmr10711045eec.2.1792043176087; Wed, 14 Oct 2026
+ 22:46:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261014225818.3457479-2-kees@kernel.org>
+References: <20261014225811.i.852-kees@kernel.org> <20261014225818.3457479-2-kees@kernel.org>
+ <2026101517-profane-opponent-4523@gregkh>
+In-Reply-To: <2026101517-profane-opponent-4523@gregkh>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 15 Oct 2026 07:46:02 +0200
+X-Gm-Features: AclHuK9JUbZ8Kk1BEvh1a9rSCsQ_67UzDaXAR0CwzEKJckJP8Us1pVzDHAMPGB4
+Message-ID: <CANiq72m_iyquf4Lc8AWvbsBp++ASz4+C_MQ5iYQW-fHd_MNDxA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] seq_file: Require explicit initialization of struct seq_operations
+To: Greg KH <greg@kroah.com>
+Cc: Kees Cook <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-fsdevel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 14, 2026 at 03:58:16PM -0700, Kees Cook wrote:
-> In the very unlikely chance that a seq_operations didn't get initialized,
-> we wouldn't want them calling some random location. As a first example
-> user of __require_explicit_initialization, annotate them so a missing
-> initializer is a compile-time warning.
-> 
-> Every seq_operations in the tree already sets all four, so no new warnings
-> are added.
-> 
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
->  include/linux/seq_file.h | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/linux/seq_file.h b/include/linux/seq_file.h
-> index dc0e8c62d9e0..f0e7e52a0905 100644
-> --- a/include/linux/seq_file.h
-> +++ b/include/linux/seq_file.h
-> @@ -28,11 +28,16 @@ struct seq_file {
->  	void *private;
->  };
->  
-> +/* All four are called without checking for NULL. */
->  struct seq_operations {
-> -	void * (*start) (struct seq_file *m, loff_t *pos);
-> -	void (*stop) (struct seq_file *m, void *v);
-> -	void * (*next) (struct seq_file *m, void *v, loff_t *pos);
-> -	int (*show) (struct seq_file *m, void *v);
-> +	void *(*start)(struct seq_file *m, loff_t *pos)
-> +		__require_explicit_initialization;
-> +	void (*stop)(struct seq_file *m, void *v)
-> +		__require_explicit_initialization;
-> +	void *(*next)(struct seq_file *m, void *v, loff_t *pos)
-> +		__require_explicit_initialization;
-> +	int (*show)(struct seq_file *m, void *v)
-> +		__require_explicit_initialization;
->  };
+On Thu, Oct 15, 2026 at 7:21=E2=80=AFAM Greg KH <greg@kroah.com> wrote:
+>
+> Anyway, I don't know.  I like this feature, and maybe it's going to be
+> used so infrequently it's not a big deal, but feels clunky.
 
-Hm, I acked the first patch, but seeing this "in the wild" is
-interesting.  Feels kind of ackward, but I don't really know what to
-suggest instead?  What about just making the lines longer:
+Perhaps we could call it something shorter, like `__explicit_init` or
+similar -- I don't see that substring (even without the double
+underscores) used anywhere.
 
-	void *(*start)(struct seq_file *m, loff_t *pos)		__require_explicit_initialization;
-	void (*stop)(struct seq_file *m, void *v)		__require_explicit_initialization;
-	void *(*next)(struct seq_file *m, void *v, loff_t *pos) __require_explicit_initialization;
-	int (*show)(struct seq_file *m, void *v)		__require_explicit_initialization;
-
-?
-
-Anyway, I don't know.  I like this feature, and maybe it's going to be
-used so infrequently it's not a big deal, but feels clunky.
-
-thanks,
-
-greg k-h
+Cheers,
+Miguel
