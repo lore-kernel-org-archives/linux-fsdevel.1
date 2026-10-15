@@ -1,128 +1,180 @@
 Received: from o1.ptr9745.em.honeycomb.io (o1.ptr9745.em.honeycomb.io [149.72.141.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9220E4FDE56
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 11:40:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0609D277C96
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 11:43:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.141.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792064462; cv=none; b=X7PnEj8OcRCfmJFsPBGLnRZQmnzOPuADrteH4ss7J3eu+liuMt3nBm2wj1zdDfjmLi/6HBCdbU6YowBWVdkcqCwss66MLNwS6bJy2DC+84h2hdGM4fGLN0ug4pLhiKkRnw5I1eT6WbIYGZUoUdoVKLF/qVWdIpb/FYM+zryXBSU=
+	t=1792064593; cv=none; b=RCPRlgJ5wzkdgG0Cppb/PEWgfKr1NeqgWqSyT1PTihAASgmJKeHLesELV3XLUxvJw8j/3x0p0YbTJZEhED8zjNuQPGqtYdJHrSsV+MByOy4L4mfehPZPwq4OOdvLhn6M7jste/PHrvULx5KgT4vKzQSKKWWOrgv9WfT9yewSutk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792064462; c=relaxed/simple;
-	bh=KBWkxkWj46zd0xpwSYEYCzKTU4VSqzbWDHFWbIpbEgE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lrBDafYtVsC+F7HsTjzzMXgukjkK9+d3e7p3omf1WFhmhaeTuOjldMMGlLh3LH71qQqo5QwZZLwYk3Fhrd9N5LS2SCzmlcoLFTSEPC3l69Y7eW+eykB5E4xE7PJprX24EShwB+mZfDuHOjI7vzvI6eQdjeDgoWMhN4N99165iN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=bwKMju6z; arc=none smtp.client-ip=149.72.141.136
+	s=arc-20240116; t=1792064593; c=relaxed/simple;
+	bh=J+O17Ew/SQxYOGMzCNRKgNxjyQ5hnOTejFZPyCodR6g=;
+	h=From:Subject:Date:Message-ID:MIME-Version:To:Cc:Content-Type; b=dXv8yAHzY8ZpJ5LaRrcrA59OX1UHfZ65/PMNeM/h1C8ExOutfV4GZ/sM9G9E0FRVgsQ3j8kUSmQhR0r1embWdCrNuMcMn1aay/vkhtAsLQxHOb8vOkwcxVuVB3gL8Wr1Yqyv2ALY3PdBsbE29QsXBgnAljelt7rG0MnRVi4v7TE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io; spf=pass smtp.mailfrom=em.honeycomb.io; dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b=oie2kMyF; arc=none smtp.client-ip=149.72.141.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=honeycomb.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em.honeycomb.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="bwKMju6z"
+	dkim=pass (2048-bit key) header.d=honeycomb.io header.i=@honeycomb.io header.b="oie2kMyF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=honeycomb.io;
-	h=from:date:subject:mime-version:content-type:content-transfer-encoding:
-	references:in-reply-to:to:cc:cc:content-type:date:from:subject:to;
-	s=s1; t=1792064446;
-	bh=W1u+B47QVH+BqoNNDPxX4qPg/iyN+d0UIT6/3msYHfQ=;
-	b=bwKMju6zvUCM87kUBYN1FpffWt7b6O+/rGJ7+Yn29K+I8ZFuMEwVrrYaiJQwQ8BXKpTG
-	r3i6L6/iSdKA8UBpfXRnQlAnIGIitDpes3q+er8at3OQ0CygfQXn4fdlf/Ms93THwG3C+1
-	h8DZVR0sUd9XB/0nD1VqOAnQOTQ4ME1VgCmOSrAFHPW6vRNUz3BudbGBJlpMWBYgJA5pwQ
-	bTq8c1C0NioY3XfCz3kgDLcTr80TfoVBMIqj7HGGFG3Ek2spJYyXpivufAr63Jtb9X3ZKy
-	UKSh/YV7+0P00VdJZRfU69iHL5rX1Pn93ZW/MeGXQRf1DZ56K0a2CQeNEHI7PjMg==
-Received: by recvd-6bcc8657fd-7xfmc with SMTP id recvd-6bcc8657fd-7xfmc-1-6AD0BBBE-5A
-	2026-10-15 11:40:46.841842789 +0000 UTC m=+1363199.854799708
-Received: from [127.0.1.1] (unknown)
-	by geopod-ismtpd-34 (SG) with ESMTP
-	id VqFvasx4SLG8b5RDUQfJFg
-	Thu, 15 Oct 2026 11:40:46.754 +0000 (UTC)
+	h=from:subject:date:mime-version:to:cc:content-transfer-encoding:
+	content-type:cc:content-type:date:from:subject:to;
+	s=s1; t=1792064589;
+	bh=YDGQhlGINpSPM53EPb5WQDPiXIGq0eajS/04uEiHt3I=;
+	b=oie2kMyFov1hla3mld0T4ApOwSy72MrCr1e3xqtwc1ASEmmv5ZDbyWPmePcf2LO3rlqa
+	hL8jMODArPU80MFo2yyeGmp90iA7wVZWZJ0g6RIzeoDGnEr0wNuUlwUtEqH2l+JsEEZV8a
+	v0lugJ3N5qPQSfdI9nSPN8bw/+JyjiegKgbQQfMJOfp1kjv8+a1FMrNksBWmJIC8nfVlzi
+	gLIuHM9ia5ELs2GH92oq8HuLgeiAcGd7R+SVwEl7ZrcEJCd0APAuVbTK+hCZp6e6k+Y8Uk
+	dUTDAquv15AbJCFm9w3QTKOrShy7tHlxLe3YQWom1mKpEG+VOFKgqp2FmytANYnw==
+Received: by recvd-canary-58784594b9-s44q6 with SMTP id recvd-canary-58784594b9-s44q6-1-6AD0BC4D-14
+	2026-10-15 11:43:09.292501886 +0000 UTC m=+1363369.825756546
+Received: from daisy.dens.ffj.family (unknown)
+	by geopod-ismtpd-83 (SG)
+	with ESMTP
+	id HHz3NpWqQwq5869tmBL4PQ
+	Thu, 15 Oct 2026 11:43:09.124 +0000 (UTC)
 From: Liz Fong-Jones <lizf@honeycomb.io>
-Date: Thu, 15 Oct 2026 11:40:46 +0000 (UTC)
-Subject: [PATCH v7 1/3] writeback: clear the old wb's dirty IO state after
- switching inodes
+Subject: [PATCH] writeback: keep cleanup_offline_cgwb()'s scan out of syncs
+Date: Thu, 15 Oct 2026 11:43:09 +0000 (UTC)
+Message-ID: <20261015114307.1041273-1-lizf@honeycomb.io>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261015-wb-dying-cgwb-flush-v7-1-9278d9ebaf5d@honeycomb.io>
-References: <20261015-wb-dying-cgwb-flush-v7-0-9278d9ebaf5d@honeycomb.io>
-In-Reply-To: <20261015-wb-dying-cgwb-flush-v7-0-9278d9ebaf5d@honeycomb.io>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1745; i=lizf@honeycomb.io;
- s=gpg; h=from:subject:message-id;
- bh=KBWkxkWj46zd0xpwSYEYCzKTU4VSqzbWDHFWbIpbEgE=;
- b=owEBbQGS/pANAwAKAaXO1OOXra/CAcsmYgBq0Lu8rKtwblHFjr9VRJbmtr+LLZ3cYYunp4xOW
- WrZUBkpr4KJATMEAAEKAB0WIQSfW1LPQ0gyJmoTHwelztTjl62vwgUCatC7vAAKCRClztTjl62v
- wp1LCADqhkBoYfmjxiMI2Tf9lnvY+4nejQr0tz3w5LnXY8N8R11E73joo7VVogUf0R/ovhudv8v
- 2V9KqUJirxbnh88lQsSqoEjaBPQsved22/sekx2x1ixn+ytyZaY5KSnsoPiv60hKHz8rld6vaZs
- KIAaBczYFhy/bPOtGhW4/DlYGww/wRHyUq28PYO8mkVIOON9rHPeV0Nz+vv4Ax95oYnMesw+RqH
- cut5rYVPbs3bS5pIK6M5eymh6WV3cOa3/SEWIVrXXfXntwyAbrtUfro7Xq0TkkZoesAH2qO/WCk
- sekOINs+cWvCKohc0kKQxlba3IjhAdbczK+672cGv5xp6S7X
-X-Developer-Key: i=lizf@honeycomb.io; a=openpgp;
- fpr=1F7714D7EC3441D2CECC24606A3F8B00FBDDD2A4
 X-SG-EID: 
  =?us-ascii?Q?u001=2ECuH7N2XAoeMR1zrzr=2F6NZrhli2vbKPOHff5fJuZuba6ZIE8QPyIf9mn4Y?=
- =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmeew8=2FcRq885E?=
- =?us-ascii?Q?u3Ov4f8W5n5pP8=2Fa06ebyKdHexyEXibOUIzFFzp?=
- =?us-ascii?Q?FtJT92p6u4X8vyHcALfAGBnicOn8G3J8x1TQN7W?=
- =?us-ascii?Q?x96SbVTJ8pG9rhzAIWwECgVJdpZ=2FcN935trCbyN?=
- =?us-ascii?Q?MwtBMyXZOIlvyviEUa7YEIa6w5IlcAUASX+=2FOli?= =?us-ascii?Q?EDP4?=
-To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Tejun Heo
-	<tj@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
-	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner
-	<hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt
-	<shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>,
+ =?us-ascii?Q?ezqeFFjUkh=2FeROy4LtnO7KN9jZmee6tjAzEd4N6?=
+ =?us-ascii?Q?h5hjz4W8xyC5g=2F6dVBEu2QNVvEvYnKd7+KOyPIL?=
+ =?us-ascii?Q?xLHG5pUwOvvkK=2FT5OdJf55Js6Vqu0q9rSFlgSAr?=
+ =?us-ascii?Q?jEHcGFDIa5QmUFmRFjV3M7373MRxUwhbtl8RbWE?=
+ =?us-ascii?Q?z1S7eNfpzJKIGm4ps2WN806mKfZ=2FNPDbGyKowrY?=
+ =?us-ascii?Q?5=2FGccZJPbUQWyFIFUevqA29lpA=3D=3D?=
+To: Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, Christian Brauner
+	<brauner@kernel.org>
+Cc: "Patrick Lu (Anthropic)" <perf.patrick.lu@gmail.com>, Roman Gushchin
+	<roman.gushchin@linux.dev>, Alexander Viro <viro@zeniv.linux.org.uk>,
 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org,
 	linux-kernel@vger.kernel.org, ian@honeycomb.io, Liz Fong-Jones
 	<lizf@honeycomb.io>
 X-Entity-ID: u001.GRlkmHQ+Ka/CKxmoC/CxTw==
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 
-Switching a dirty inode to another wb can leave WB_has_dirty_io set on
-the old one. inode_do_switch_wbs() moves the inode onto new_wb->b_dirty
-through inode_io_list_move_locked(), which only updates new_wb, and
-nothing calls wb_io_lists_depopulated() on old_wb. A live wb clears the
-bit on its next dirty to clean transition, but a wb that gets no more
-inodes, such as a dying one, is freed with its avg_write_bandwidth still
-in bdi->tot_write_bandwidth, which wb_split_bdi_pages() and
-wb_min_max_ratio() divide by.
+On a filesystem mounted with lazytime, sync() and syncfs() can return
+without persisting timestamp updates (atime, mtime, ctime) of inodes
+attached to a cgroup writeback that is being cleaned up after its
+memory cgroup was removed. A crash after the sync loses them, contrary
+to the lazytime guarantee that sync persists them. File data and sizes
+are not affected.
 
-Call wb_io_lists_depopulated(old_wb) after the switch loop in
-process_inode_switch_wbs(), while old_wb->list_lock is still held.
+Trigger: a wb has lazytime-dirty inodes on b_dirty_time when a sync
+starts, an inode on it gets a timestamp update after the sync's cutoff,
+and then its memcg (or, if the wb is already dying, any memcg) is
+removed, which runs cleanup_offline_cgwb() on it before the sync work
+queues inodes.
 
-Test: after the last patch in this series switched a replaced wb's dirty
-inodes away, BdiWriteBandwidth stayed at 411700 and 407820 kBps with no
-writers and b_dirty, b_io and b_more_io all empty; with this patch it
-read 0, in 3 of 3 runs.
+Since commit f6988c90671e ("writeback: bound cleanup_offline_cgwb()
+rescans by rotating scanned inodes"), isw_prepare_wbs_switch() moves
+every inode it walks, prepared or not, to the newest end of the list.
+Once an isw fills before the scan reaches a newer inode, or a later pass
+walks past it, older inodes land in front of it on b_dirty_time. A
+for_sync queue_io() expires b_dirty_time with the sync's fixed cutoff
+and stops at the first newer inode, so it never reaches them. The
+switches themselves already wait for the sync on wb_switch_rwsem; the
+scan does not.
 
+Take wb_switch_rwsem for read across the scan, as
+process_inode_switch_wbs() does for the switches.
+
+Tejun spotted this reordering racing with a sync on b_dirty in a patch
+under review and suggested holding wb_switch_rwsem for read across that
+scan [1]. cleanup_offline_cgwb()'s scan of b_dirty_time needs the same.
+
+Test, with a debug-only delay holding a syncfs's work on the wb between
+its cutoff and queue_io(): 300 files on a cgroup's wb with lazytime
+atime updates, a syncfs held after its cutoff, one more read, then the
+cgroup removed so the cleanup ran. Without this patch, syncfs() queued
+48 of the 300 and after a crash 252 atime updates were lost, on ext4
+(-I 4096, so neighbours' timestamps are not written along) in 3 of 3
+runs and on XFS in 1 of 1. With it, the scan waited for the sync, which
+queued all 300, and none were lost.
+
+Fixes: f6988c90671e ("writeback: bound cleanup_offline_cgwb() rescans by rotating scanned inodes")
+Cc: stable@vger.kernel.org
 Suggested-by: Tejun Heo <tj@kernel.org>
-Assisted-by: Claude:claude-opus-5-5 checkpatch sparse
+Link: https://lore.kernel.org/all/0bc5d58533f10b4841807be3025daa11@kernel.org/ [1]
+Assisted-by: Claude:claude-opus-5-5 checkpatch
 Assisted-by: Claude:claude-fable-5-1
-Acked-by: Tejun Heo <tj@kernel.org>
-Reviewed-by: Jan Kara <jack@suse.cz>
 Signed-off-by: Liz Fong-Jones <lizf@honeycomb.io>
 ---
+This came up while answering Tejun's review of my series "writeback: let
+foreign flushes reach dying cgwbs" [1], whose patch 3 had the same
+problem on b_dirty in its own scan; v7 of that series [2] takes the same
+read lock there. This patch is independent of the series and applies to
+7.3-rc7 on its own; both together apply cleanly.
+
+Impact is limited to lazytime timestamps on inodes attached to a cgroup
+wb while it is cleaned up after its memcg is removed. On ext4 with the
+default inode size, a write to any inode in the same inode-table block
+also writes the neighbours' timestamps, so fewer are lost there; the
+test used -I 4096 to rule that out. XFS has no such rescue.
+
+The debug knob used for the test, applied to wb_writeback() and not part
+of this patch: when /sys/module/kernel/parameters/wb_debug_sync_delay_ms
+is set, a WB_SYNC_ALL work on a non-root wb sleeps that long once, after
+dirtied_before is fixed and before queue_io(); it also skips sync's
+best-effort WB_SYNC_NONE pass on cgroup wbs, which had nothing to write
+here. Steps: mount -o lazytime,strictatime; a cgroup writes 300 small
+files and one more, syncfs twice; read the 300 in order (each goes to
+b_dirty_time); set the knob to 10s and start syncfs; 1s later read the
+extra file; 1s later remove the cgroup; after syncfs returns, crash with
+sysrq-b and compare atimes on disk in a second boot. The scripts are
+available if useful.
+
+Tested on arm64 KVM guests (virtme-ng) with ext4 and XFS on virtio, on
+7.3-rc7. Not tested: x86, production.
+
+Developed with Claude Opus 5.5 and Claude Fable 5.1. Fable spotted that
+cleanup_offline_cgwb()'s scan of b_dirty_time was exposed the same way
+while checking Tejun's analysis, and reviewed the fix and the claims
+here; Opus wrote the fix, the reproducer and this text, and ran the
+tests. I directed the investigation and reviewed the analysis, code and
+results.
+
+[1] https://lore.kernel.org/all/0bc5d58533f10b4841807be3025daa11@kernel.org/
+[2] https://lore.kernel.org/all/20261015-wb-dying-cgwb-flush-v7-0-9278d9ebaf5d@honeycomb.io/
+
  fs/fs-writeback.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index d26b2cf05283..050d507aa554 100644
+index ea3eb40bf828..99570aacdd18 100644
 --- a/fs/fs-writeback.c
 +++ b/fs/fs-writeback.c
-@@ -566,6 +566,12 @@ static void process_inode_switch_wbs(struct bdi_writeback *new_wb,
- 		}
- 	}
+@@ -789,6 +789,11 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+ 		new_wb = &wb->bdi->wb; /* wb_get() is noop for bdi's wb */
  
+ 	nr = 0;
 +	/*
-+	 * inode_do_switch_wbs() only updates @new_wb's dirty IO state.  Clear
-+	 * @old_wb's if its IO lists are now empty.
++	 * The scan reorders b_dirty_time.  Keep it out of a sync's way, which
++	 * could otherwise miss timestamps moved past its cutoff.
 +	 */
-+	wb_io_lists_depopulated(old_wb);
-+
- 	spin_unlock(&new_wb->list_lock);
- 	spin_unlock(&old_wb->list_lock);
++	down_read(&wb->bdi->wb_switch_rwsem);
+ 	spin_lock(&wb->list_lock);
+ 	/*
+ 	 * In addition to the inodes that have completed writeback, also switch
+@@ -803,6 +808,7 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+ 		restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty_time,
+ 						 &nr);
+ 	spin_unlock(&wb->list_lock);
++	up_read(&wb->bdi->wb_switch_rwsem);
  
+ 	/* no attached inodes? bail out */
+ 	if (nr == 0) {
 
+base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
 -- 
 2.53.0
 
