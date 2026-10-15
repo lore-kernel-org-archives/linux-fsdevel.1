@@ -1,184 +1,136 @@
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB3C5275B2;
-	Thu, 15 Oct 2026 12:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D20A5275A1
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 13:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792066879; cv=none; b=Kl65voyMA5gaaJkhf7n4i5sby3QCs6YQsr1JkGz5f71GbofsMIjd2oeR1cYZPt2VMtaTq35lreG1Z5genbVbJ3iVaL8jOxTPcNHLZ+2nE3vQrFibYAzvBZ5b36Cqu3lfzw08LZ30GRs8j5r9Pa6NMUGh10HDIZ7RXacCyjGClaI=
+	t=1792072095; cv=none; b=sEO1oEQuDniDjOSqZjhMQa+VA+5Ks6PklEYmt8aUnFsENuQcBkHyDKv7EtvdMVrqX6WgJq09FD89Y8U8E/FfthYcy1m/qrSKLPEbSugYVHIcYdPqRZokKL6saC7MxSJja64C+vN8mfA/uSQfbT4UEP0jFwCogD1ffclik6iBF0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792066879; c=relaxed/simple;
-	bh=FLFyRRHhJi6tZU18s+v2YoKZn2fIoW7LNdezj0jo31A=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iv1QuBRVqLULYOHQRPaKkcpTC/kNxSzv4oXnWyv2UCfHLGAphhYT1kx7NzmzmFnaHnt91f0R4s/N0NZwXk45eRkEWk5QUDrL0PhE1pJs+xKbSQ2e5UUREkGzlkhMtwQ1qYjW4GiAKVHcPa+I0M+MHJb8wneR0tB5EfIUn+y462k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=wNSiwWKR; arc=none smtp.client-ip=113.46.200.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1792072095; c=relaxed/simple;
+	bh=/nk+BfkEgTJrPJRefeazVKcxt5H1TBsjREb4AnG69FY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ppwn5P8Sik3uGDmB94m0MeJ8D8qt8TqUdk2GyGiZPrJuu8MSIptNv9EtiHjwbagBWqGSbMhL5PvEjRFmuB6XT9htfZWFLfar2DRww5A3UL4Fia3rnfH5FgeruehIs8sfpx4tZo4w7YArDq95VirTGY7GmrzFPN74LuNg3nK7+g0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=EgRpUvEa; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="wNSiwWKR"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=VESGW3TkU2bTfPpPgP4UR7E6JTjX0tkAQhUuZU9C/tM=;
-	b=wNSiwWKRvOV1fjcErXNkqErXQUmQG3eZuwQkj3Zu6VFMiHhxXORXqjDrFe8LUISRsPYsZW2e2
-	XQPGavZQkQgiZRnvDs0uHkrRCuZtCv9Ii/3WQe+SgmFIlieaRlAE3u38ZstYmsJIs87/e1uCN43
-	22ZWBtq2ZdGrbDeJX79IZTo=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4j56LH4HWVz1prLV;
-	Thu, 15 Oct 2026 20:08:55 +0800 (CST)
-Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
-	by mail.maildlp.com (Postfix) with ESMTPS id E96A04056E;
-	Thu, 15 Oct 2026 20:21:15 +0800 (CST)
-Received: from octopus.huawei.com (10.67.174.191) by
- whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 15 Oct 2026 20:21:10 +0800
-From: Cai Xinchen <caixinchen1@huawei.com>
-To: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
-	<jmorris@namei.org>, <serge@hallyn.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>
-CC: <ast@kernel.org>, <daniel@iogearbox.net>, <andrii@kernel.org>,
-	<eddyz87@gmail.com>, <memxor@gmail.com>, <martin.lau@linux.dev>,
-	<song@kernel.org>, <yonghong.song@linux.dev>, <jolsa@kernel.org>,
-	<emil@etsalapatis.com>, <ihor.solodrai@linux.dev>, <rdunlap@infradead.org>,
-	<gregkh@linuxfoundation.org>, <rafael@kernel.org>, <dakr@kernel.org>,
-	<johan@kernel.org>, <dlemoal@kernel.org>, <hch@lst.de>, <axboe@kernel.dk>,
-	<viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
-	<dhowells@redhat.com>, <code@tyhicks.com>, <linkinjeon@kernel.org>,
-	<sj1557.seo@samsung.com>, <yuezhang.mo@sony.com>,
-	<hirofumi@mail.parknet.co.jp>, <cel@kernel.org>, <jlayton@kernel.org>,
-	<neil@brown.name>, <okorniev@redhat.com>, <Dai.Ngo@oracle.com>,
-	<tom@talpey.com>, <hyc.lee@gmail.com>, <miklos@szeredi.hu>,
-	<amir73il@gmail.com>, <senozhatsky@chromium.org>,
-	<chenxiaosong@chenxiaosong.com>, <kpsingh@kernel.org>, <matt@bobrowski.net>,
-	<rostedt@goodmis.org>, <mhiramat@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <john.johansen@canonical.com>,
-	<georgia.garcia@canonical.com>, <zohar@linux.ibm.com>,
-	<roberto.sassu@huawei.com>, <dmitry.kasatkin@gmail.com>,
-	<eric.snowberg@oracle.com>, <stephen.smalley.work@gmail.com>,
-	<omosnacek@gmail.com>, <casey@schaufler-ca.com>, <takedakn@nttdata.co.jp>,
-	<penguin-kernel@I-love.SAKURA.ne.jp>, <xiujianfeng@huawei.com>,
-	<nanx95726@gmail.com>, <djwong@kernel.org>, <lujialin4@huawei.com>,
-	<bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
-	<driver-core@lists.linux.dev>, <linux-block@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <netfs@lists.linux.dev>,
-	<ecryptfs@vger.kernel.org>, <exfat@lists.linux.dev>,
-	<linux-nfs@vger.kernel.org>, <ntfs@lists.linux.dev>,
-	<linux-unionfs@vger.kernel.org>, <linux-cifs@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <apparmor@lists.ubuntu.com>,
-	<linux-integrity@vger.kernel.org>, <selinux@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>
-Subject: [PATCH v2 -next 18/18] Documentation: Update landlock doc for metadata rights
-Date: Thu, 15 Oct 2026 20:54:24 +0800
-Message-ID: <20261015125425.3246251-19-caixinchen1@huawei.com>
-X-Mailer: git-send-email 2.18.0.huawei.25
-In-Reply-To: <20261015125425.3246251-1-caixinchen1@huawei.com>
-References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="EgRpUvEa"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-91b63bd2030so63763516d6.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 06:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1792072093; x=1792676893; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TxnvmrOxX1kKFV6pDOanox6haeqxL61LHWivdGG7JgE=;
+        b=EgRpUvEaHVBa7pUx/Qu4/VTWlGU+KEBl8VcNDwr26ZDQS2y0jr4htlBD1JemjBfd9f
+         TbEFCTJ0nTnaxcIm05gMRWwYjRjfvUABdnfXCdd0x691HU4hsMc9+eM3VaVq2/xccBtO
+         ndRsaYuipLtnwsuaV6nYBtv8Cmiq14WqfqohXsR6W9RSTO1GgDIXAb6XuEsmY9aTTArc
+         ohOCEboLVTx5NRrLNYXillrRCTYqDUA64aizGO4KyJ2UAbv0euHWeDKJ+wcwlyogHBdB
+         QI3yNBOqbwqEf3DOFVfU9SHIQIv8QzokbiFmZizRT2gjJOvi6cJ95jGEM33i+7HNfu/h
+         EvBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792072093; x=1792676893;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TxnvmrOxX1kKFV6pDOanox6haeqxL61LHWivdGG7JgE=;
+        b=kRSoZlDfGqGt45mlnEDg9YJzRe9L1lOLMEnlv/tC9IX3xaTGEyoQGEAUd5HvRJX0qJ
+         AQDqTzcW3X9din5yYTqKFhivA8wBWUtB5yoOGUIlzaoZ7DRS0pT6hAGqqjF6Hojc5LkC
+         4mJnHIVuYbrj4XRdYMkf32bLfBztSY8jaYqOsAScDK2bnybO/RDZjVOVbF5gJ9L85KkV
+         6gtEnRyuOCbk+gjen5qAZP9T5Nb465lyXBemt4Td5JcMwv2VRtlBCbAkN38EzOev6HkD
+         rlNDHe9Hm4DnwsRzR62Lvsm5ueam2al2GW6U6F22SCFrnzVxFLFbWtCUQSJqsZwKwrqf
+         2lgQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx572nbHHJkZSQoyJiM3rU5wfZyNrCdmlk8+eECFkUDIMiRgwo8EUoTHQ6wJ0gfZQLYUS/HV97Qwrsbai8I@vger.kernel.org
+X-Gm-Message-State: AFq9FYKx/gOuqYxdFFC+4T0KW2oyuj0HMAFUCzIKU6+wnPKATJYtJA8k
+	ocVSmcFCVm+sfeKJ3m3vlB16EXChW7LZY3OhRkdroZZPdwKaywcbHsLKQWK52YWHSl4=
+X-Gm-Gg: AYBFou14ub1zlLuDUOG+IjJGYeL5+4zEja1IUp2/bU3/K1tLWtrR6Ak4egfKKRgA4le
+	4OYagmlJkTri5U8+bE649i/g8iBf6x4Hr6PR6d1R14pppnWj6Unj6g4o3NECaPLV4CgJBjoIntx
+	KC2Fxc6VGZQMsYhYHdhYIDZ0LCVyrmmbneZOD60kOKNBaMmzqf8RXmE/SWjSb9ykRDfqxXpXuFw
+	dMnqBbI/VPQvqGqkaI6Td97yOaMF5EIspaZwkPOHdnpsRAXSFnx1novKEjosv6Oz/tK/WFPYih8
+	Iy6XDI/4WLiTtwczXIDc/ilw3krBfqP/mTjZ6zhB4ZYWij+Lqq0TRQ97/KSiMI7psb8QMpzrwnc
+	HuKANYyoOD5SX64IIIa5hTB9O01mhco7MW2T+JUzNBA9FNZHybLj0RVpHV+eQ1NFkADoywzokwq
+	lWrt0xoz3fXItHn0yZ4PxQ3yMdYJIvvW3EYH17/KQNCxyrAvJhlfjU3BV66KctqH0MS/zPt14Y2
+	65tJj0RUo23KsaM8AeMyL+jbIfZAPk15k8n0o17+xxIYb+UojsNDWg=
+X-Received: by 2002:a05:620a:4606:b0:93e:c12c:f12d with SMTP id af79cd13be357-93ec12d0608mr3020561585a.72.1792072092737;
+        Thu, 15 Oct 2026 06:48:12 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93ef50b6c4fsm760019685a.47.2026.10.15.06.48.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 06:48:12 -0700 (PDT)
+Date: Thu, 15 Oct 2026 09:48:10 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org, 
+	willy@infradead.org, brendan.jackman@linux.dev, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, jack@suse.cz, akpm@linux-foundation.org, 
+	ziy@nvidia.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com, 
+	ying.huang@linux.alibaba.com, surenb@google.com, mhocko@suse.com, hannes@cmpxchg.org
+Subject: Re: [RFC PATCH 0/6] mm: pass alloc_flags through folio, filemap, and
+ bulk allocators
+Message-ID: <atDYiLYjF_Phxy-h@gourry-fedora-PF4VCD3F>
+References: <20260923211041.3127588-1-gourry@gourry.net>
+ <asdTptfeLkuypU8t@gourry-fedora-PF4VCD3F>
+ <df588805-6f97-4ef6-a64f-39222669bf3a@kernel.org>
+ <asloWFM96BATH8SB@gourry-fedora-PF4VCD3F>
+ <1f36992d-00c1-4f74-9947-b543ed794cf0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- whupemk100010.china.huawei.com (7.152.184.41)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1f36992d-00c1-4f74-9947-b543ed794cf0@kernel.org>
 
-Update the user space documentation for the new
-LANDLOCK_ACCESS_FS_READ_METADATA and
-LANDLOCK_ACCESS_FS_WRITE_METADATA access rights: add them to the
-example ruleset attributes, extend the ABI version fallback switch
-to remove them for ABI < 13, and document their semantics in a new
-"File metadata" section, including the fact that only explicit
-metadata changes requested by user space are restricted.
+On Thu, Oct 15, 2026 at 12:02:06PM +0200, Vlastimil Babka (SUSE) wrote:
+> On 10/10/26 01:28, Gregory Price wrote:
+> > On Fri, Oct 09, 2026 at 10:55:05PM +0200, David Hildenbrand (Arm) wrote:
+> >> I do agree that two sets of flags is suboptimal, but likely more flexible. I
+> >> guess an alloc_flags only interface is not easily possible ...
+> 
+> Agree with the alloc_flags option of all the other options.
+> 
+> >> I do wonder whether it should be:
+> >> 
+> >> 	typedef int __bitwise alloc_flags_t;
+> >> 
+> >> instead of "unsigned int alloc_flags".
+> >> 
+> >> ... while at it
+> 
+> Can't hurt, but given how it's internal only it didn't seem that urgent as
+> for gfp.
+> 
+> > Does it make sense to leave alloc_flags to internal-only state
+> > and just implement a new flag field?
+> > 
+> > gfp_t       -> describe the page (fully public)
+> > req_t       -> describe the allocator behavior (mm-internal only)
+> > alloc_flags -> internal allocator state only
+> 
+> Maybe in that case the remaining alloc_flags should just become 1-bit fields
+> directly in struct alloc_context so we don't manage 3 separate bitwise
+> types. Or more bits in case of ALLOC_WMARK?
+> 
 
-The new section also warns that most of the time,
-LANDLOCK_ACCESS_FS_READ_METADATA should be granted together with
-LANDLOCK_ACCESS_FS_READ_FILE and LANDLOCK_ACCESS_FS_READ_DIR:
-programs commonly read metadata alongside file contents and
-directory listings (e.g. with stat(2)) and do not expect such calls
-to fail, while denying only READ_FILE or READ_DIR does not hide
-metadata.
+I think that would be much less disruptive.
 
-Assisted-by: opencode: glm-5.3
-Signed-off-by: Cai Xinchen <caixinchen1@huawei.com>
----
- Documentation/userspace-api/landlock.rst | 47 +++++++++++++++++++++++-
- 1 file changed, 46 insertions(+), 1 deletion(-)
+> Depends on how much work this would be (and if you want to do it) and how
+> the result would like.
 
-diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-index 3d45b956b640..62fe39a8b61e 100644
---- a/Documentation/userspace-api/landlock.rst
-+++ b/Documentation/userspace-api/landlock.rst
-@@ -87,7 +87,9 @@ to be explicit about the denied-by-default access rights.
-             LANDLOCK_ACCESS_FS_REFER |
-             LANDLOCK_ACCESS_FS_TRUNCATE |
-             LANDLOCK_ACCESS_FS_IOCTL_DEV |
--            LANDLOCK_ACCESS_FS_RESOLVE_UNIX,
-+            LANDLOCK_ACCESS_FS_RESOLVE_UNIX |
-+            LANDLOCK_ACCESS_FS_READ_METADATA |
-+            LANDLOCK_ACCESS_FS_WRITE_METADATA,
-         .handled_access_net =
-             LANDLOCK_ACCESS_NET_BIND_TCP |
-             LANDLOCK_ACCESS_NET_CONNECT_TCP |
-@@ -159,6 +161,10 @@ version, and only use the available subset of access rights:
-         ruleset_attr.handled_permissions &=
-             ~(LANDLOCK_PERMISSION_NAMESPACE_USE |
-               LANDLOCK_PERMISSION_CAPABILITY_USE);
-+        /* Removes metadata rights for ABI < 13 */
-+        ruleset_attr.handled_access_fs &=
-+            ~(LANDLOCK_ACCESS_FS_READ_METADATA |
-+              LANDLOCK_ACCESS_FS_WRITE_METADATA);
-     }
- 
- This enables the creation of an inclusive ruleset that will contain our rules.
-@@ -669,6 +675,45 @@ for writing, sidestepping the ``LANDLOCK_ACCESS_FS_TRUNCATE`` right.
- 
- The truncate right is associated with the opened file (see below).
- 
-+File metadata
-+-------------
-+
-+The ``LANDLOCK_ACCESS_FS_READ_METADATA`` right governs reading file and
-+directory metadata: :manpage:`stat(2)` and friends,
-+:manpage:`getxattr(2)`, :manpage:`listxattr(2)` and friends, and POSIX ACL
-+reads.
-+
-+The ``LANDLOCK_ACCESS_FS_WRITE_METADATA`` right governs explicit changes to
-+file and directory metadata: :manpage:`chmod(2)` and friends,
-+:manpage:`chown(2)` and friends, :manpage:`utimensat(2)`,
-+:manpage:`setxattr(2)`, :manpage:`removexattr(2)` and friends, and POSIX ACL
-+changes.  Both rights apply to files and directories alike.
-+
-+Implicit metadata changes performed by the kernel are not restricted by
-+``LANDLOCK_ACCESS_FS_WRITE_METADATA``: reading a file may update its access
-+time, writing a file updates its modification and change times and may change
-+the file size, and writing to or truncating a file with a set-user-ID or
-+set-group-ID bit clears these bits.  File size changes through
-+:manpage:`truncate(2)` and friends are governed by
-+``LANDLOCK_ACCESS_FS_TRUNCATE`` instead.  Metadata change requests that do
-+not change any attribute (e.g. :manpage:`chown(2)` with owner and group
-+``-1``) are not restricted either.
-+
-+.. warning::
-+
-+   Many programs read metadata as part of reading file contents or listing
-+   directories (e.g. calling :manpage:`stat(2)` before or after
-+   :manpage:`open(2)`), and do not expect such calls to fail with
-+   ``EACCES``.  Most of the time, ``LANDLOCK_ACCESS_FS_READ_METADATA``
-+   should therefore be granted together with
-+   ``LANDLOCK_ACCESS_FS_READ_FILE`` and ``LANDLOCK_ACCESS_FS_READ_DIR``.
-+   Conversely, denying only ``LANDLOCK_ACCESS_FS_READ_FILE`` or
-+   ``LANDLOCK_ACCESS_FS_READ_DIR`` does not hide metadata: it remains
-+   readable through :manpage:`stat(2)` and friends unless
-+   ``LANDLOCK_ACCESS_FS_READ_METADATA`` is denied as well.  Tailored
-+   programs that do not read metadata at all can still deny this right to
-+   further restrict their sandbox.
-+
- Rights associated with file descriptors
- ---------------------------------------
- 
--- 
-2.18.0.huawei.25
+I took a short look at converting __GFP_SKIP_ZERO and the change has
+bigger than i thought it would be.
 
+Yosry recently said ALLOC_UNMAPPED was being put on hold, and for my
+base private node series it seems I will only need to extend folio_alloc
+with with alloc flags - so i will probably try to split these efforts up
+and carry the minimal folio_alloc patch separately.
+
+Otherwise i'll look at whether we can move some alloc_flags into
+alloc_context bit fields somewhat cleanly as a first step.
+
+~Gregory
