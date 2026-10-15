@@ -1,124 +1,275 @@
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C20B3A9615
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 06:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A2C4A498D;
+	Thu, 15 Oct 2026 07:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792046090; cv=none; b=KK03OUKTXCdu8krgmzr+TY4fjCtqKqlm5PirBy009rBYK0HhrzNRG9J/UwXsGZSeUuluo2pQEaaB2Z/q4CO40xDMlJIjC5pirShvtS7kHhltKmXjqbOoBrm+BKEpxBjj2dn+zkBx+ng3nP9YuHy6ojr1slXH4peZ2AbEHf7a1Rc=
+	t=1792048037; cv=none; b=imVP76/Wwj94xT5z/dMxqsavH4nNaqUNk8QgOUba1Eg08PlvMYgaAiD5rpVSpkg7bPuW8gVF+Y0rDzB8P3y8HraDvJQNUdlDJ8FxRTD5gmkiM1hzvGKO+RPkOPMCpnppFxf/sBEkv3CmHeGwBQcoTZXcAvhphkjq/YFx5pNY28k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792046090; c=relaxed/simple;
-	bh=fD3XE7+a5cdy9Sl3VK5T+JRMNubQ+PyjBv0NxAzoJUw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:MIME-Version:
-	 Content-Type:References; b=Cbb14nKpbnYbgPFD123s0QX6Zw6LJ8eeMIgt7GbPCw+HXtF7A5HlyB5FK9rLzEM+leK8HjbasmTpum3mK+pNx9JftLtpKW8sG9+OAYAoe6xEa8jLkixbyZ8+PcoAYiyNuais7/h7FWi7KP+QcsEHE7eXXMFnUrF7iPhGwtpaY6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=mG3AyjPT; arc=none smtp.client-ip=203.254.224.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1792048037; c=relaxed/simple;
+	bh=opcHdVwSSRl3WV7wea/+3upLN1AdgSExbhroSPXCRUo=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MuzTuNWFxt8S+OOrMn1MTPY8vXXrOemjSUX6atLwDAkp1FfaO9NJ4s7IsWkFzd/QLeOTfEn0I6t4BX5Hyf1cAhtmf47bSBZZednw9aScZ0keeB6+nEgpShtUV+mmreOS8WIA4LlHU28E2r1inLNSjq5ubAzu45IoTNHLr9He8Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=rAYk/KhO; arc=none smtp.client-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="mG3AyjPT"
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261015063446epoutp018945c465c4baf9b773190fb8fc20d028~eoGu_aW4d1865918659epoutp015
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 06:34:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261015063446epoutp018945c465c4baf9b773190fb8fc20d028~eoGu_aW4d1865918659epoutp015
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1792046086;
-	bh=GV+MlYtgZFwQaPzixkYPLweoy22qTG3JY3F2M/0gE30=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mG3AyjPTD6COF1kz8P1pxGcrcjOlvzxYvMKq31Gei5kHJHMw+FImHCNXX/Bm4ecNZ
-	 uiy9ZPPAmvPTdf2aPMPIlXj+NRVYZZxRZQz4NEK7MNwIDgPRVaL6ety0HUQIfa6SH3
-	 CrGAv0V8GKNuU5XMqMTa20zrmh5OmEoGMWLRW01o=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20261015063445epcas5p3f92844a7345cc39e5f4e1c13db152ae7~eoGuVMQ283173331733epcas5p3H;
-	Thu, 15 Oct 2026 06:34:45 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.91]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4j4ywh4WV0z2SSKY; Thu, 15 Oct
-	2026 06:34:44 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20261015063444epcas5p3263a59092e6dc54ff61ac5b35827f697~eoGs1_xwC3173331733epcas5p3F;
-	Thu, 15 Oct 2026 06:34:44 +0000 (GMT)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20261015063442epsmtip198c209240a349d25a1a57c30f628c7ca~eoGq-Xw2X1173211732epsmtip1K;
-	Thu, 15 Oct 2026 06:34:41 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: brauner@kernel.org, hch@lst.de, djwong@kernel.org, dgc@kernel.org,
-	cem@kernel.org, jack@suse.cz, axboe@kernel.dk, kbusch@kernel.org
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	gost.dev@samsung.com, Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta
-	<anuj20.g@samsung.com>
-Subject: [PATCH v6 8/8] xfs: support hardware write streams
-Date: Thu, 15 Oct 2026 12:02:46 +0530
-Message-Id: <20261015063246.103433-9-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20261015063246.103433-1-joshi.k@samsung.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="rAYk/KhO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1792048006; bh=VJNjF4hYwV/gzCx0plNWRdMcdWOICqfXCuydk1Mb5zQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=rAYk/KhOf8elFNxTO+buLnAjM0ScbEgm4HhRuEd8bmNROlyfaYcd34ss3OzzaWIeW
+	 qFFBmt2erkR2m02pvG675wNLSpaU9V8OuqUEzwJrQQLkf/jmVaztMQ+vOObz1OzPqh
+	 Ggj+wxwjoj60cDkEDuHkZp6P//ov3I0DxQdTl+UA=
+Received: from [172.18.4.77] ([111.31.227.58])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id 1AC330A1; Thu, 15 Oct 2026 15:06:44 +0800
+X-QQ-mid: xmsmtpt1792048004tpnhgzu2k
+Message-ID: <tencent_35A04F645468AAD977F1C899D38EA945D406@qq.com>
+X-QQ-XMAILINFO: MDbayGdXPuoe3/K9337Mnut62ugTanPQTVy1aMUGP7dTS4Esq0TvuNBCAtGaUi
+	 9RblVnqj/pDLVl4HqbNZFqvoo69JnETCv8uYbixuQDViCTxmVzgJWTwbIVqQEYsN+flVC4wgjKd1
+	 2J0TkFKY7MhUbbUiff7L8nNNKRMsASVckV7fiIamrhi1UjHS/i7oYyM8BKKPDWamfwBfTF+TY3TG
+	 jXoUwi/BnGmYis2F8KcqW2Faf6oAKzmT6zT9aKyNs6ofP+ZVtYt9eB1F56UysqxsUxeOnptKnh+b
+	 33dcdzPnljLaXYvSduwJS7+xckAWu9TuP4iMHCGsk1g0nDbKIynDa73f2YoqMrW/t6ehK7dSJB9c
+	 dpmBA8Scz8nCVK+BjwHvTVDYzREpvpsvHlWqUpo7CvCYi4PvWSh+fFLtUwD2lkFBXVouKe+7d91O
+	 oBCndwpoBjWJ1xQCfOYwB9usH+cF8nJemweNUVsieE6N5yiy0iyv3rdzK+1SDX1pQ0jILqBa7o0x
+	 ceoPybIWmETD4UD2zcKT3x5YYUtFLkZJyUBOvI6e8Ct7llXEzqzoyya1Aboc6MIrCaQyiv6vLqiH
+	 0H2UboG5GBJRMhiUlJvoS1QiPaTVW5bNmyf8vjC0SmG/ZATVldqcBihh+0o5hBNHD5p1n3IF3NVp
+	 T6CKXwbtz6sfKv1BQEAWia9CiqNym+UNcIMktqkS7aR9tpJNu0zMOKYG4w/+j7/6BXAo1f2/wlJE
+	 yUg5CCo7uy4opunlQ1YiC/qYDLwmg8I62Pb6TeSp8MFu6kpxBd7ZB/1Aj0bfs0Blqdhy74bvtbEL
+	 VgPFK5aeQJtKmj2hT38ubdkxTnX5JJRKq0W+5HE2JAJ3OfvdUj0Oj30p/1LOmd18Zos8HPg7gzsM
+	 vFDqmeETXLBbcII6HkVBjtd8fEpVQw+7rtpb5AvCAkxJeafn+A0gpvuJ1WQ+SSacbgdbwYOjfVDE
+	 m7UjPI6eyzR6LAcgDOSC7ogorRZ+H2nRbPFSt9bqEv2IG5GLtLgdbz6feFjg4USaUtKse24x76/a
+	 Ta+IU9nFHEQcR9TPWe9mi0PqpKojyxeQoJgG4/CUJDf2WZSYd/VKvgoWqDNWRhQx0c8ChKSw==
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: yangguikun <yangguikun19@qq.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v5] hfs: initialize B-tree inodes and validate catalog CNIDs
+Date: Thu, 15 Oct 2026 15:06:44 +0800
+X-OQ-MSGID: <20261015150644.61924-v5-yangguikun19@qq.com>
+In-Reply-To: <b154a8939a2dc819bd011a502f835d9377351a46.camel@dubeyko.com>
+References: <498724fe4ae0f0bc91137f573397363f962ac73d.camel@dubeyko.com> <abe509bc80fe0f4e83f49af87aaa74fb95888aff.camel@dubeyko.com> <tencent_A4C2280F9FC0A89C54BDEF96112DA7245307@qq.com> <88f825b8d9942f8b9a94a39f53deee5e6f5d1f4c.camel@dubeyko.com> <tencent_A6CC872D2A2155E7DB68E4D889C9D42E2A05@qq.com> <b154a8939a2dc819bd011a502f835d9377351a46.camel@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20261015063444epcas5p3263a59092e6dc54ff61ac5b35827f697
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261015063444epcas5p3263a59092e6dc54ff61ac5b35827f697
-References: <20261015063246.103433-1-joshi.k@samsung.com>
-	<CGME20261015063444epcas5p3263a59092e6dc54ff61ac5b35827f697@epcas5p3.samsung.com>
+Content-Transfer-Encoding: 8bit
 
-Use the stream count reported by the data and realtime block devices
-where they have one, falling back to the geometry-derived count. The
-count is capped at the group count so that every stream backs onto at
-least one group; a device with more streams than the filesystem has
-groups loses the excess, so mkfs should create at least as many groups
-as the device has streams.
+hfs_btree_open() leaves the internal B-tree inodes with i_mode == 0.
+A crafted catalog record naming CNID 3 or 4 can return one of these
+cached inodes through hfs_iget(), triggering VFS_BUG_ON_INODE() in
+may_open() with CONFIG_DEBUG_VFS=y.
 
-Set iomap->write_stream from the inode so that the id reaches the
-device.
+Initialize the B-tree inodes with S_IFREG and their address-space
+operations before publishing them. Reject attempts to reuse an
+already-cached B-tree inode.
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+Validate catalog CNIDs and record types before the inode-cache lookup,
+since cached inodes bypass hfs_read_inode() validation. This also
+prevents a crafted file record from aliasing the root directory inode.
+
+Found by syzkaller-style fuzzing of v7.2-rc7.
+
+Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Link: https://lore.kernel.org/linux-fsdevel/tencent_24D928451FEFA8A35482EFFA9132A7305307@qq.com/
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: yangguikun <yangguikun19@qq.com>
 ---
- fs/xfs/xfs_buf.c   | 8 +++++++-
- fs/xfs/xfs_iomap.c | 1 +
- 2 files changed, 8 insertions(+), 1 deletion(-)
+Changes in v5:
+ - Remove unnecessary comments.
+ - Simplify hfs_is_system_reserved_cnid().
+ - Move i_mode and a_ops initialization after set_nlink().
+ - Use -EIO instead of -EACCES.
 
-diff --git a/fs/xfs/xfs_buf.c b/fs/xfs/xfs_buf.c
-index a96f67630362..e1b67d0b2aa9 100644
---- a/fs/xfs/xfs_buf.c
-+++ b/fs/xfs/xfs_buf.c
-@@ -1710,8 +1710,14 @@ xfs_buftarg_init_streams(
- 	unsigned int		nr_groups)
- {
- 	unsigned int		nr_streams;
-+	unsigned int		hw_streams;
+ fs/hfs/btree.c  | 39 ++-----------------------------
+ fs/hfs/dir.c    |  2 +-
+ fs/hfs/hfs_fs.h |  6 +++++
+ fs/hfs/inode.c  | 71 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 80 insertions(+), 38 deletions(-)
+
+diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
+index 41b4e8f..1891ad5 100644
+--- a/fs/hfs/btree.c
++++ b/fs/hfs/btree.c
+@@ -155,44 +155,9 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
+ 	tree->cnid = id;
+ 	tree->keycmp = keycmp;
  
--	nr_streams = xfs_sw_write_stream_count(nr_groups);
-+	hw_streams = bdev_max_write_streams(btp->bt_bdev);
-+	if (hw_streams)
-+		nr_streams = min3(hw_streams, nr_groups,
-+				  XFS_MAX_WRITE_STREAMS);
-+	else
-+		nr_streams = xfs_sw_write_stream_count(nr_groups);
- 	return write_stream_pool_init(&btp->bt_stream_pool, nr_streams);
+-	tree->inode = iget_locked(sb, id);
+-	if (!tree->inode)
++	tree->inode = hfs_system_iget(sb, id);
++	if (IS_ERR(tree->inode))
+ 		goto free_tree;
+-	BUG_ON(!(inode_state_read_once(tree->inode) & I_NEW));
+-	{
+-	struct hfs_mdb *mdb = HFS_SB(sb)->mdb;
+-	HFS_I(tree->inode)->flags = 0;
+-	mutex_init(&HFS_I(tree->inode)->extents_lock);
+-	switch (id) {
+-	case HFS_EXT_CNID:
+-		hfs_inode_read_fork(tree->inode, mdb->drXTExtRec, mdb->drXTFlSize,
+-				    mdb->drXTFlSize, be32_to_cpu(mdb->drXTClpSiz));
+-		if (HFS_I(tree->inode)->alloc_blocks >
+-					HFS_I(tree->inode)->first_blocks) {
+-			pr_err("invalid btree extent records\n");
+-			unlock_new_inode(tree->inode);
+-			goto free_inode;
+-		}
+-
+-		tree->inode->i_mapping->a_ops = &hfs_btree_aops;
+-		break;
+-	case HFS_CAT_CNID:
+-		hfs_inode_read_fork(tree->inode, mdb->drCTExtRec, mdb->drCTFlSize,
+-				    mdb->drCTFlSize, be32_to_cpu(mdb->drCTClpSiz));
+-
+-		if (!HFS_I(tree->inode)->first_blocks) {
+-			pr_err("invalid btree extent records (0 size)\n");
+-			unlock_new_inode(tree->inode);
+-			goto free_inode;
+-		}
+-
+-		tree->inode->i_mapping->a_ops = &hfs_btree_aops;
+-		break;
+-	default:
+-		BUG();
+-	}
+-	}
+-	unlock_new_inode(tree->inode);
+ 
+ 	mapping = tree->inode->i_mapping;
+ 	folio = filemap_grab_folio(mapping, 0);
+diff --git a/fs/hfs/dir.c b/fs/hfs/dir.c
+index e1f1fb3..0a31304 100644
+--- a/fs/hfs/dir.c
++++ b/fs/hfs/dir.c
+@@ -36,7 +36,7 @@ static struct dentry *hfs_lookup(struct inode *dir, struct dentry *dentry,
+ 	} else {
+ 		inode = hfs_iget(dir->i_sb, &fd.search_key->cat, &rec);
+ 		if (!inode)
+-			inode = ERR_PTR(-EACCES);
++			inode = ERR_PTR(-EIO);
+ 	}
+ 	hfs_find_exit(&fd);
+ 	return d_splice_alias(inode, dentry);
+diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
+index e250f87..8d52170 100644
+--- a/fs/hfs/hfs_fs.h
++++ b/fs/hfs/hfs_fs.h
+@@ -163,6 +163,11 @@ extern int hfs_cat_move(u32 cnid, struct inode *src_dir,
+ extern void hfs_cat_build_key(struct super_block *sb, btree_key *key,
+ 			      u32 parent, const struct qstr *name);
+ 
++static inline bool hfs_is_system_reserved_cnid(u32 cnid)
++{
++	return cnid > HFS_ROOT_CNID && cnid < HFS_FIRSTUSER_CNID;
++}
++
+ /*
+  * Validate the CNID of a catalog record.
+  */
+@@ -219,6 +224,7 @@ extern void hfs_inode_read_fork(struct inode *inode, struct hfs_extent *ext,
+ 				u32 clump_size);
+ extern struct inode *hfs_iget(struct super_block *sb, struct hfs_cat_key *key,
+ 				hfs_cat_rec *rec);
++extern struct inode *hfs_system_iget(struct super_block *sb, u32 cnid);
+ extern void hfs_evict_inode(struct inode *inode);
+ extern void hfs_delete_inode(struct inode *inode);
+ 
+diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+index 2aef3c3..5a03fca 100644
+--- a/fs/hfs/inode.c
++++ b/fs/hfs/inode.c
+@@ -421,6 +421,72 @@ static int hfs_read_inode(struct inode *inode, void *data)
+ 	return 0;
  }
  
-diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
-index 7c6238fed61e..3e9df790a544 100644
---- a/fs/xfs/xfs_iomap.c
-+++ b/fs/xfs/xfs_iomap.c
-@@ -144,6 +144,7 @@ xfs_bmbt_to_iomap(
++static int hfs_system_read_inode(struct inode *inode)
++{
++	struct hfs_sb_info *hsb = HFS_SB(inode->i_sb);
++	struct hfs_mdb *mdb = hsb->mdb;
++
++	HFS_I(inode)->flags = 0;
++	HFS_I(inode)->rsrc_inode = NULL;
++	mutex_init(&HFS_I(inode)->extents_lock);
++	HFS_I(inode)->tz_secondswest = sys_tz.tz_minuteswest * 60;
++
++	inode->i_uid = hsb->s_uid;
++	inode->i_gid = hsb->s_gid;
++	set_nlink(inode, 1);
++
++	/* may_open() requires a file type */
++	inode->i_mode = S_IFREG;
++	inode->i_mapping->a_ops = &hfs_btree_aops;
++
++	switch (inode->i_ino) {
++	case HFS_EXT_CNID:
++		hfs_inode_read_fork(inode, mdb->drXTExtRec, mdb->drXTFlSize,
++				    mdb->drXTFlSize, be32_to_cpu(mdb->drXTClpSiz));
++		if (HFS_I(inode)->alloc_blocks > HFS_I(inode)->first_blocks) {
++			pr_err("invalid btree extent records\n");
++			return -EIO;
++		}
++		break;
++	case HFS_CAT_CNID:
++		hfs_inode_read_fork(inode, mdb->drCTExtRec, mdb->drCTFlSize,
++				    mdb->drCTFlSize, be32_to_cpu(mdb->drCTClpSiz));
++		if (!HFS_I(inode)->first_blocks) {
++			pr_err("invalid btree extent records (0 size)\n");
++			return -EIO;
++		}
++		break;
++	default:
++		return -EIO;
++	}
++
++	return 0;
++}
++
++struct inode *hfs_system_iget(struct super_block *sb, u32 cnid)
++{
++	struct inode *inode;
++	int err;
++
++	inode = iget_locked(sb, cnid);
++	if (!inode)
++		return ERR_PTR(-ENOMEM);
++
++	if (!(inode_state_read_once(inode) & I_NEW)) {
++		iput(inode);
++		return ERR_PTR(-EEXIST);
++	}
++
++	err = hfs_system_read_inode(inode);
++	if (err) {
++		iget_failed(inode);
++		return ERR_PTR(err);
++	}
++
++	unlock_new_inode(inode);
++	return inode;
++}
++
+ /*
+  * __hfs_iget()
+  *
+@@ -446,6 +512,11 @@ struct inode *hfs_iget(struct super_block *sb, struct hfs_cat_key *key, hfs_cat_
+ 	default:
+ 		return NULL;
  	}
- 	iomap->offset = XFS_FSB_TO_B(mp, imap->br_startoff);
- 	iomap->length = XFS_FSB_TO_B(mp, imap->br_blockcount);
-+	iomap->write_stream = READ_ONCE(VFS_I(ip)->i_write_stream);
- 	if (mapping_flags & IOMAP_DAX) {
- 		iomap->dax_dev = target->bt_daxdev;
- 	} else {
--- 
-2.25.1
++
++	if (!hfs_is_valid_cnid(cnid, rec->type) ||
++	    hfs_is_system_reserved_cnid(cnid))
++		return NULL;
++
+ 	inode = iget5_locked(sb, cnid, hfs_test_inode, hfs_read_inode, &data);
+ 	if (inode && (inode_state_read_once(inode) & I_NEW))
+ 		unlock_new_inode(inode);
 
