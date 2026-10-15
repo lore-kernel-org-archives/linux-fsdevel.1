@@ -1,71 +1,71 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78EA361657
-	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 14:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD3F30D3FE
+	for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 14:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792074977; cv=none; b=In+1OiQoQmxjuusi7dZNArk76tJat0TQ1Sx38exQHga5+LYXu1QdJ77225AOpY1oWKycV2qPZM77OkSK9xVcL/ebYavDjJw71+SzRR9YKKA3oOuYFA3Hcfx3hLdrCsEDO+J2LRoVbGw++Z5biKBU5R5M/9+sQ7qSrV+EecETpnY=
+	t=1792074979; cv=none; b=Y7uaLdsCuqWbCoIpqV6KYRZxbY0/h1rHJk5bZOWaYBCf8FGGJivogZsG9ruQlk5NIQEiFK3qaHHmvL9EadTG8xkrutejcOkFRBdGRDpD2fjQOReMYrURmr8vcRN4HV7jTRzKfuWgbzFUcy/+8/EgBT3U/Rf9ZoAHIH3nCD/At8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792074977; c=relaxed/simple;
-	bh=vaz/NJFvb6Ga4nylm2z2PeoHEw2M8WYVKPfPF0e7Ftk=;
+	s=arc-20240116; t=1792074979; c=relaxed/simple;
+	bh=QpfE0WLOENmPGyRKULoEOjXorM0nSe/kycvbzUNucVw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q7Crcx+mZkw4Ue1ft2dSI1SBGlRdXPZAPODibB12fKVkNn6jJdiZXZHtMGPNlET0MnHICjqiujYtwdkcq5jaHqVWOll72WwCJic7zi7fkCaBfnrts2SDY3iLNivTrWTrN6DFU0X+uckO0ATPTjxii9heTNhLzRPAIDchLixoNZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NdqcicQR; arc=none smtp.client-ip=209.85.218.42
+	 MIME-Version; b=br3cRk08ApH+cRK0ePNFsWHB29to3pmJYQWmNzAOxwn/drxFGk7p+L2xsQoJhdfHqM814UC08BEGWYWn93IlpOZ0kOtfyR2K3CT4atkkrlndcoqnkvCBDxjuj/6JqRT+w9M5QM0pvY/g/RhYJ3B3SIiw5e0ivrhDjm+XegFnXNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oZxiwaQL; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NdqcicQR"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c2afa22e1dcso781216066b.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 07:36:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oZxiwaQL"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c2e4df2e26fso734236766b.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 07:36:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792074971; x=1792679771; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792074969; x=1792679769; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=P6g34UThOsuYP0v6M3LnrM9aPXtcg2KGUQk7kbZQ3n4=;
-        b=NdqcicQRfAPfxlNvJ0iY1yb5OhDmrc50rHhoD2l0adKBKSvXjccW30qRdE7h+kEHXb
-         AMPEicG9w72vbDsI0yNlCA3H/tTwnNUTgIBiJK9ToZ4Pa87iMGvQPkPKfTm5mvSKE8Q7
-         l0s7AfwUvDC+O9yOThGx1t9BFI+nMfaFmqp+38llnUi1CpBXvcgZDaDORtyRu0HXpz4N
-         XVq9vT+MasEDib5bb/hemQD2N/5RrxMwLbL+YDcIYNAFYAw9bNByEKzz8rYLCTGIuXrh
-         uFoaOLQ1rZLhQu/9bFCJCzkKp0g0G5m3HU3mJlvhcAwkfvIlHC20rM6yInWDjxfa1yMT
-         sWjQ==
+        bh=6PuhYgD9BT3SeHZeBzmweyiW/4dTC9SsB2Xn0mH6ocA=;
+        b=oZxiwaQL4e0HY5mZZSfyt4tDY/ngCWEZUNQ/gQMvSOsYUgmiHy3INAH39UFFdCr6d7
+         EirC1Fqtv/5CZsbu+SWGT91p7wQB6SglWN8Are4fxiA5e//mCp/4fIuZCpd7cKa3CA1O
+         fQ1ytTVj9vYLYNG+hWBPi4w5ePe7Tn+xUnTWvbh4dtrG+dBDmni93wOdvVIbcsHdHJnK
+         9JlZuvLSddAfBofy/HSmnCY3tXdEGpnng4hjcAWR4pAag6mztsOolM5M3CprskcCpNGM
+         ecjdbyfC90VttTxkCFbm4CY3n7rJDlWVXPQsVyAv8Jy8CTB7hZVZmLnwMbOeaCwEX1QA
+         SZlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792074971; x=1792679771;
+        d=1e100.net; s=20260707; t=1792074969; x=1792679769;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=P6g34UThOsuYP0v6M3LnrM9aPXtcg2KGUQk7kbZQ3n4=;
-        b=fcayzcNA7dhy9xAl63fMEQ5S6+/FCAhmlBHkaxoztUIRoUD6moc9JMsKGH0HSMG/KA
-         7PENerAFMn9f6hLB8xdWkawmcdlnfYvjDr1X5tupJRwzhcsGDYoQAXspceXl53pFnoid
-         mmKzBcIOq7f40nzzX69QwBGj6y28ABh6713Rk/Cpr+YSMWrxq4gkSuqsB9CehrtFFI5b
-         Hs+Ql+IN2FTFbHDf7htQfevwTpcu6R51B2Ly+cUDj1IXjBYDYHKgHwDKt6YEroAc7gD+
-         Vl1ttVoEuO3RmoUJLvHia4JYgLxhceFy9uXkLk6I+sgx3gII/wVvfy14AhMH6MdvOyb6
-         twmA==
-X-Forwarded-Encrypted: i=1; AKwUvBxKQ2UmRhEubbGFEL3nlTBh6xrhcC9zlD+JJDarL4v9DivU92hKEUa6OtBzQAVYHFjqFx1g0weIPWQSCWm/@vger.kernel.org
-X-Gm-Message-State: AFq9FYIGmOGBWqupNl8ksyR7lli4zb1/Kikqjq2bba05bO1ggXcdY+mg
-	OtDeDvr2hxxRsto9Zp3aMNq/7guSNOLbergZkmd1lODfoSVKC5Y2GPk9jKAgsieX
-X-Gm-Gg: AYBFou2xqvIMTiKZJFwz5QO1bQ2lpGSb7W4HLxvTRaKsT0jDgCOm5wraEcBlU9dVLSl
-	ChMzl2/65d1ByNhw1D0jdS57YR0uMPhNPtLsl/jmyQgKwga5XGV9mbfCLakQR4910HN/NluYOGv
-	S3SvDoXe3UykH9/5Nz+AZJgNlCew+sgdeyBrOGJ7i9imtTd8RrfzRtmhQ6cAsqjcenVFN8MsxP1
-	Eez1OEOK99+S87uTn1HpziASY7oiF/hWz3KjwkPjw9MYPscENnjHK9d+xI4KQ0fuI28jWpEUhdU
-	RTa/Y5cd7sF39Uzh1tUflXfChO48LRjU/c6AyUFWMyULOwzAcZt5lenxpfR679azZeqxHAOtmIh
-	496PbnanaPIf5z0R35Ma1+N5ngsit9cE77Lls2CoRvKdaYveH9HAxWLNIzSumnMlqyS3oleZTYT
-	C1YjZOPAwQsGRK5+TiGoqMYGKRpZXoyiWM4rkP/+nVZFkjlfyKTRzVLYUA4PpvuwyuYvLtj26bX
-	/gYPBAL57ujH9g+GqYE6RWj
-X-Received: by 2002:a17:906:478d:b0:c3f:dce3:20cc with SMTP id a640c23a62f3a-c3fdce3385amr95173766b.19.1792074970765;
-        Thu, 15 Oct 2026 07:36:10 -0700 (PDT)
+        bh=6PuhYgD9BT3SeHZeBzmweyiW/4dTC9SsB2Xn0mH6ocA=;
+        b=d2Th+c4RYqrroujIalwhy799WUGnqdGrYlrKwpcwzJjvbhuSYfgRXVwoe2gUicCbuE
+         V2QhzAj0qtGWET9xR4V9pH2VfLzRkWlXz5V6h0hUUet2y0EgjhsbfUw9LCmt70SCZ4xG
+         s4kNe5OAJMi4iuVIxGzkHCT4EUdtGTMedLfq9P31oRU3KYCxAhaOwIcK5pahzRCZglmM
+         ONhawaZx296cpsUznk4kFdTcEbMpPYlDkqwhx7rjEflrfMNyRqDBgpFVDSrVeI1GXiVs
+         jZRDZJKaHs0uEv3f76xd0kRWK3pwlMEqe3kj8t2PPpPuqADvzQFCjTEntl+LbaJ8knRQ
+         pTdA==
+X-Forwarded-Encrypted: i=1; AKwUvBxcgre0r06jlYKjAWmy6rJjkQBmfG5J97fZkeSFbyK/0TXqdTB6qaVZBR+FUSwJ00ypeA2flg38b4G5DIQs@vger.kernel.org
+X-Gm-Message-State: AFq9FYIGHuUGHR7UQcYydvE2/cRKRG3yDoJRx09Z67cYnqHGNx0cDPnn
+	flgBmK5uwa5Wq06RWl4p7nBumsYVDOLexec6g8/Z9YrcNv1LNxMcWqoEktP7J2xc
+X-Gm-Gg: AYBFou0XEcJhurRcUoqp6/XOyg2rXulDVYfPUJakfWQ7Eg44v5uNlvfYKrpjYU7654r
+	cIOE52BXz2H418je1rFxs7UcCJtaFOwriAX3Kxv+1KKflsmiTxw4uYiE4WtISgGsnC3SFXSzL+d
+	8DI9r0etqdHSQrphMcfzkYs7VqtOLLQ4xU+ciZjmRf9XzDqBaRlsOSa0CfMi8J+dyMrePAtONSy
+	p8g6Mgu0+n2lmpJkMpVYTEFk+H+g+rxv+MpWMzjmF2m2fOYtTQP0oO9D9f78I7rYAVqT5ImW8vw
+	FmWpuZna3TPlHsiXo0OurpVBrWzL9toAnlHwTn5AO4qhl+E7+Lmt8K1l5Rs4wNagIRryHy2KElm
+	CwpNmhZJOK79Huromtezx63g226wPPerzta5LDLoat5n0VjJxmxNHmtWf/ziOPsFP/iXHPw+k4x
+	usUvHyURveQ1LWq4GS8eSewWfIvpTrsN+iDJd/nPkvfyzjerMkm9qY+FTF8wQv0UuxiNFJU7X9d
+	CygEkb2Wmclq1TuizLmOSjZtB8Lakm16vI/
+X-Received: by 2002:a17:907:9801:b0:c29:4fcb:2886 with SMTP id a640c23a62f3a-c31a9fd831emr1787652566b.39.1792074968699;
+        Thu, 15 Oct 2026 07:36:08 -0700 (PDT)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c3eda62d2ebsm133371066b.74.2026.10.15.07.36.10
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c3ed6be6f15sm134824866b.10.2026.10.15.07.36.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 07:36:10 -0700 (PDT)
+        Thu, 15 Oct 2026 07:36:08 -0700 (PDT)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Jan Kara <jack@suse.cz>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v3 07/14] fanotify: define event mask constants as 64bit
-Date: Thu, 15 Oct 2026 16:35:53 +0200
-Message-ID: <20261015143601.2095784-8-amir73il@gmail.com>
+Subject: [PATCH v3 05/14] fsnotify: do not report mount events with fsnotify()
+Date: Thu, 15 Oct 2026 16:35:51 +0200
+Message-ID: <20261015143601.2095784-6-amir73il@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261015143601.2095784-1-amir73il@gmail.com>
 References: <20261015143601.2095784-1-amir73il@gmail.com>
@@ -77,191 +77,205 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The fanotoify_mark() syscall takes a u64 mask argument, but all the
-constants are defined as int values.
+fsnotify() is now used to report events to both filesystem watchers and
+namespace watchers, but those two distinct event categories can never
+be sent to the same group.
 
-Define the constants unsigned long and use bits 32..29 to define their
-target group type.
+Split out send_to_namespace_groups(), which only looks for interested
+mntns object marks, from fsnotify(), which only looks for interested
+filesystem object marks, and let fsnotify_mnt() call it.
 
-All of the legacy event constant values are unchanged because they are
-defined with the filesystem watcher group type (0).
+The intention is that send_to_namespace_groups() will also be used to
+report namespace events to watchers of a userns object.
 
-The FAN_MNT_* constants need special attention - they belong to the
-namespace watcher group type, but the type bits do not match.
-This will be handled by a followup patch.
+Gate the common code that is checking filesystem events with a filesystem
+group type check.
 
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- fs/notify/fanotify/fanotify.c | 53 ++++++++++++++-------------
- include/uapi/linux/fanotify.h | 68 ++++++++++++++++++++---------------
- 2 files changed, 68 insertions(+), 53 deletions(-)
+ fs/notify/fsnotify.c | 92 +++++++++++++++++++++++++++++++-------------
+ 1 file changed, 66 insertions(+), 26 deletions(-)
 
-diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-index 35b87a7cc6129..7d6fd2a9d5938 100644
---- a/fs/notify/fanotify/fanotify.c
-+++ b/fs/notify/fanotify/fanotify.c
-@@ -963,6 +963,10 @@ static void fanotify_insert_event(struct fsnotify_group *group,
- 	hlist_add_head(&event->merge_list, hlist);
+diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+index a919a1e9bb192..b26560a017862 100644
+--- a/fs/notify/fsnotify.c
++++ b/fs/notify/fsnotify.c
+@@ -333,7 +333,8 @@ static int fsnotify_handle_event(struct fsnotify_group *group, __u32 mask,
+ 
+ static int send_to_group(__u32 mask, const void *data, int data_type,
+ 			 struct inode *dir, const struct qstr *file_name,
+-			 u32 cookie, struct fsnotify_iter_info *iter_info)
++			 u32 cookie, struct fsnotify_iter_info *iter_info,
++			 enum fsnotify_group_type group_type)
+ {
+ 	struct fsnotify_group *group = NULL;
+ 	__u32 test_mask = (mask & ALL_FSNOTIFY_EVENTS);
+@@ -347,7 +348,7 @@ static int send_to_group(__u32 mask, const void *data, int data_type,
+ 		return 0;
+ 
+ 	/* clear ignored on inode modification */
+-	if (mask & FS_MODIFY) {
++	if (group_type == FSNOTIFY_GROUP_TYPE_FILESYSTEM && mask & FS_MODIFY) {
+ 		fsnotify_foreach_iter_mark_type(iter_info, mark, type) {
+ 			if (!(mark->flags &
+ 			      FSNOTIFY_MARK_FLAG_IGNORED_SURV_MODIFY))
+@@ -363,9 +364,12 @@ static int send_to_group(__u32 mask, const void *data, int data_type,
+ 			fsnotify_effective_ignore_mask(mark, is_dir, type);
+ 	}
+ 
+-	pr_debug("%s: group=%p mask=%x marks_mask=%x marks_ignore_mask=%x data=%p data_type=%d dir=%p cookie=%d\n",
+-		 __func__, group, mask, marks_mask, marks_ignore_mask,
+-		 data, data_type, dir, cookie);
++	pr_debug("%s: group=%p type=%d mask=%x marks_mask=%x marks_ignore_mask=%x data=%p data_type=%d dir=%p cookie=%d\n",
++		 __func__, group, group_type, mask, marks_mask,
++		 marks_ignore_mask, data, data_type, dir, cookie);
++
++	if (WARN_ON_ONCE(group->type != group_type))
++		return 0;
+ 
+ 	if (!(test_mask & marks_mask & ~marks_ignore_mask))
+ 		return 0;
+@@ -472,6 +476,26 @@ static void fsnotify_iter_next(struct fsnotify_iter_info *iter_info)
+ 	}
  }
  
-+#define ASSERT_FS_EVENT(fan_mask, fsn_mask) \
-+	BUILD_BUG_ON((u32)(fan_mask) != (fsn_mask) || \
-+		     FAN_EVENT_TYPE(fan_mask) != FSNOTIFY_GROUP_TYPE_FILESYSTEM)
++static int send_to_groups(__u32 mask, const void *data, int data_type,
++			  struct inode *dir, const struct qstr *file_name,
++			  u32 cookie, struct fsnotify_iter_info *iter_info,
++			  enum fsnotify_group_type group_type)
++{
++	int ret;
 +
- static int fanotify_handle_event(struct fsnotify_group *group, u32 mask,
- 				 const void *data, int data_type,
- 				 struct inode *dir,
-@@ -977,30 +981,31 @@ static int fanotify_handle_event(struct fsnotify_group *group, u32 mask,
- 	bool is_perm_event = fsnotify_is_filesystem_watcher(group) &&
- 			     (mask & FANOTIFY_PERM_EVENTS);
- 
--	BUILD_BUG_ON(FAN_ACCESS != FS_ACCESS);
--	BUILD_BUG_ON(FAN_MODIFY != FS_MODIFY);
--	BUILD_BUG_ON(FAN_ATTRIB != FS_ATTRIB);
--	BUILD_BUG_ON(FAN_CLOSE_NOWRITE != FS_CLOSE_NOWRITE);
--	BUILD_BUG_ON(FAN_CLOSE_WRITE != FS_CLOSE_WRITE);
--	BUILD_BUG_ON(FAN_OPEN != FS_OPEN);
--	BUILD_BUG_ON(FAN_MOVED_TO != FS_MOVED_TO);
--	BUILD_BUG_ON(FAN_MOVED_FROM != FS_MOVED_FROM);
--	BUILD_BUG_ON(FAN_CREATE != FS_CREATE);
--	BUILD_BUG_ON(FAN_DELETE != FS_DELETE);
--	BUILD_BUG_ON(FAN_DELETE_SELF != FS_DELETE_SELF);
--	BUILD_BUG_ON(FAN_MOVE_SELF != FS_MOVE_SELF);
--	BUILD_BUG_ON(FAN_EVENT_ON_CHILD != FS_EVENT_ON_CHILD);
--	BUILD_BUG_ON(FAN_Q_OVERFLOW != FS_Q_OVERFLOW);
--	BUILD_BUG_ON(FAN_OPEN_PERM != FS_OPEN_PERM);
--	BUILD_BUG_ON(FAN_ACCESS_PERM != FS_ACCESS_PERM);
--	BUILD_BUG_ON(FAN_ONDIR != FS_ISDIR);
--	BUILD_BUG_ON(FAN_OPEN_EXEC != FS_OPEN_EXEC);
--	BUILD_BUG_ON(FAN_OPEN_EXEC_PERM != FS_OPEN_EXEC_PERM);
--	BUILD_BUG_ON(FAN_FS_ERROR != FS_ERROR);
--	BUILD_BUG_ON(FAN_RENAME != FS_RENAME);
--	BUILD_BUG_ON(FAN_PRE_ACCESS != FS_PRE_ACCESS);
--
--	BUILD_BUG_ON(HWEIGHT32(ALL_FANOTIFY_EVENT_BITS) != 24);
-+	/* Assert "strong typed" events for filesystem watcher */
-+	ASSERT_FS_EVENT(FAN_ACCESS, FS_ACCESS);
-+	ASSERT_FS_EVENT(FAN_MODIFY, FS_MODIFY);
-+	ASSERT_FS_EVENT(FAN_ATTRIB, FS_ATTRIB);
-+	ASSERT_FS_EVENT(FAN_CLOSE_NOWRITE, FS_CLOSE_NOWRITE);
-+	ASSERT_FS_EVENT(FAN_CLOSE_WRITE, FS_CLOSE_WRITE);
-+	ASSERT_FS_EVENT(FAN_OPEN, FS_OPEN);
-+	ASSERT_FS_EVENT(FAN_MOVED_TO, FS_MOVED_TO);
-+	ASSERT_FS_EVENT(FAN_MOVED_FROM, FS_MOVED_FROM);
-+	ASSERT_FS_EVENT(FAN_CREATE, FS_CREATE);
-+	ASSERT_FS_EVENT(FAN_DELETE, FS_DELETE);
-+	ASSERT_FS_EVENT(FAN_DELETE_SELF, FS_DELETE_SELF);
-+	ASSERT_FS_EVENT(FAN_MOVE_SELF, FS_MOVE_SELF);
-+	ASSERT_FS_EVENT(FAN_EVENT_ON_CHILD, FS_EVENT_ON_CHILD);
-+	ASSERT_FS_EVENT(FAN_Q_OVERFLOW, FS_Q_OVERFLOW);
-+	ASSERT_FS_EVENT(FAN_OPEN_PERM, FS_OPEN_PERM);
-+	ASSERT_FS_EVENT(FAN_ACCESS_PERM, FS_ACCESS_PERM);
-+	ASSERT_FS_EVENT(FAN_ONDIR, FS_ISDIR);
-+	ASSERT_FS_EVENT(FAN_OPEN_EXEC, FS_OPEN_EXEC);
-+	ASSERT_FS_EVENT(FAN_OPEN_EXEC_PERM, FS_OPEN_EXEC_PERM);
-+	ASSERT_FS_EVENT(FAN_FS_ERROR, FS_ERROR);
-+	ASSERT_FS_EVENT(FAN_RENAME, FS_RENAME);
-+	ASSERT_FS_EVENT(FAN_PRE_ACCESS, FS_PRE_ACCESS);
++	while (fsnotify_iter_select_report_types(iter_info)) {
++		ret = send_to_group(mask, data, data_type, dir, file_name,
++				    cookie, iter_info, group_type);
 +
-+	BUILD_BUG_ON(HWEIGHT64(ALL_FANOTIFY_EVENT_BITS) != 24);
- 
- 	mask = fanotify_group_event_mask(group, iter_info, &match_mask,
- 					 mask, data, data_type, dir);
-diff --git a/include/uapi/linux/fanotify.h b/include/uapi/linux/fanotify.h
-index f91d4fe8fd65a..b5377a7cd991a 100644
---- a/include/uapi/linux/fanotify.h
-+++ b/include/uapi/linux/fanotify.h
-@@ -4,34 +4,44 @@
- 
- #include <linux/types.h>
- 
-+/*
-+ * Bits 32..39 of the 64-bit event mask encodes the watcher type.
-+ * Filesystem events have type 0, so legacy event constants are
-+ * filesystem events.
-+ */
-+#define FAN_EVENT_TYPE_SHIFT	32
-+#define FAN_EVENT_TYPE_MASK	(0xffULL << FAN_EVENT_TYPE_SHIFT)
-+#define FAN_EVENT_TYPE(mask)	\
-+	(((mask) & FAN_EVENT_TYPE_MASK) >> FAN_EVENT_TYPE_SHIFT)
++		if (ret && group_type == FSNOTIFY_GROUP_TYPE_FILESYSTEM &&
++		    (mask & ALL_FSNOTIFY_PERM_EVENTS))
++			return ret;
++
++		fsnotify_iter_next(iter_info);
++	}
++	return 0;
++}
 +
  /*
-  * Events that user-space can request when watching filesystems
-  */
--#define FAN_ACCESS		0x00000001	/* File was accessed */
--#define FAN_MODIFY		0x00000002	/* File was modified */
--#define FAN_ATTRIB		0x00000004	/* Metadata changed */
--#define FAN_CLOSE_WRITE		0x00000008	/* Writable file closed */
--#define FAN_CLOSE_NOWRITE	0x00000010	/* Unwritable file closed */
--#define FAN_OPEN		0x00000020	/* File was opened */
--#define FAN_MOVED_FROM		0x00000040	/* File was moved from X */
--#define FAN_MOVED_TO		0x00000080	/* File was moved to Y */
--#define FAN_CREATE		0x00000100	/* Subfile was created */
--#define FAN_DELETE		0x00000200	/* Subfile was deleted */
--#define FAN_DELETE_SELF		0x00000400	/* Self was deleted */
--#define FAN_MOVE_SELF		0x00000800	/* Self was moved */
--#define FAN_OPEN_EXEC		0x00001000	/* File was opened for exec */
--
--#define FAN_Q_OVERFLOW		0x00004000	/* Event queued overflowed */
--#define FAN_FS_ERROR		0x00008000	/* Filesystem error */
--
--#define FAN_OPEN_PERM		0x00010000	/* File open in perm check */
--#define FAN_ACCESS_PERM		0x00020000	/* File accessed in perm check */
--#define FAN_OPEN_EXEC_PERM	0x00040000	/* File open/exec in perm check */
--/* #define FAN_DIR_MODIFY	0x00080000 */	/* Deprecated (reserved) */
--
--#define FAN_PRE_ACCESS		0x00100000	/* Pre-content access hook */
--
--#define FAN_RENAME		0x10000000	/* File was renamed */
-+#define FAN_ACCESS		0x0000000001ULL	/* File was accessed */
-+#define FAN_MODIFY		0x0000000002ULL	/* File was modified */
-+#define FAN_ATTRIB		0x0000000004ULL	/* Metadata changed */
-+#define FAN_CLOSE_WRITE		0x0000000008ULL	/* Writable file closed */
-+#define FAN_CLOSE_NOWRITE	0x0000000010ULL	/* Unwritable file closed */
-+#define FAN_OPEN		0x0000000020ULL	/* File was opened */
-+#define FAN_MOVED_FROM		0x0000000040ULL	/* File was moved from X */
-+#define FAN_MOVED_TO		0x0000000080ULL	/* File was moved to Y */
-+#define FAN_CREATE		0x0000000100ULL	/* Subfile was created */
-+#define FAN_DELETE		0x0000000200ULL	/* Subfile was deleted */
-+#define FAN_DELETE_SELF		0x0000000400ULL	/* Self was deleted */
-+#define FAN_MOVE_SELF		0x0000000800ULL	/* Self was moved */
-+#define FAN_OPEN_EXEC		0x0000001000ULL	/* File was opened for exec */
-+
-+#define FAN_Q_OVERFLOW		0x0000004000ULL	/* Event queued overflowed */
-+#define FAN_FS_ERROR		0x0000008000ULL	/* Filesystem error */
-+
-+#define FAN_OPEN_PERM		0x0000010000ULL	/* File open in perm check */
-+#define FAN_ACCESS_PERM		0x0000020000ULL	/* File accessed in perm check */
-+#define FAN_OPEN_EXEC_PERM	0x0000040000ULL	/* File open/exec in perm check */
-+/* #define FAN_DIR_MODIFY	0x0000080000ULL  * Deprecated (reserved) */
-+
-+#define FAN_PRE_ACCESS		0x0000100000ULL	/* Pre-content access hook */
-+
-+#define FAN_RENAME		0x0010000000ULL	/* File was renamed */
- 
- /* helper events */
- #define FAN_CLOSE		(FAN_CLOSE_WRITE | FAN_CLOSE_NOWRITE) /* close */
-@@ -40,16 +50,16 @@
- /*
-  * Filter flags for watching filesystems
-  */
--#define FAN_EVENT_ON_CHILD	0x08000000	/* Interested in child events */
--#define FAN_ONDIR		0x40000000	/* Event occurred against dir */
-+#define FAN_EVENT_ON_CHILD	0x0008000000ULL	/* Interested in child events */
-+#define FAN_ONDIR		0x0040000000ULL	/* Event occurred against dir */
- 
- /*
-  * Events that user-space can request when watching namespaces
+  * fsnotify - This is the main call to fsnotify.
   *
-  * NOTE: These values may overload filesystem events, but not event flags
-  */
--#define FAN_MNT_ATTACH		0x01000000	/* Mount was attached */
--#define FAN_MNT_DETACH		0x02000000	/* Mount was detached */
-+#define FAN_MNT_ATTACH		0x0001000000ULL	/* Mount was attached */
-+#define FAN_MNT_DETACH		0x0002000000ULL	/* Mount was detached */
+@@ -497,7 +521,6 @@ int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
+ {
+ 	const struct path *path = fsnotify_data_path(data, data_type);
+ 	struct super_block *sb = fsnotify_data_sb(data, data_type);
+-	const struct fsnotify_mnt *mnt_data = fsnotify_data_mnt(data, data_type);
+ 	struct fsnotify_sb_info *sbinfo = sb ? fsnotify_sb_info(sb) : NULL;
+ 	struct fsnotify_iter_info iter_info = {};
+ 	struct mount *mnt = NULL;
+@@ -540,8 +563,7 @@ int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
+ 	if ((!sbinfo || !sbinfo->sb_marks) &&
+ 	    (!mnt || !mnt->mnt_fsnotify_marks) &&
+ 	    (!inode || !inode->i_fsnotify_marks) &&
+-	    (!inode2 || !inode2->i_fsnotify_marks) &&
+-	    (!mnt_data || !mnt_data->ns->n_fsnotify_marks))
++	    (!inode2 || !inode2->i_fsnotify_marks))
+ 		return 0;
  
- /* flags used for fanotify_init() */
- #define FAN_CLOEXEC		0x00000001
+ 	if (sb)
+@@ -552,8 +574,6 @@ int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
+ 		marks_mask |= READ_ONCE(inode->i_fsnotify_mask);
+ 	if (inode2)
+ 		marks_mask |= READ_ONCE(inode2->i_fsnotify_mask);
+-	if (mnt_data)
+-		marks_mask |= READ_ONCE(mnt_data->ns->n_fsnotify_mask);
+ 
+ 	/*
+ 	 * If this is a modify event we may need to clear some ignore masks.
+@@ -561,7 +581,7 @@ int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
+ 	 * event in its mask.
+ 	 * Otherwise, return if none of the marks care about this type of event.
+ 	 */
+-	test_mask = (mask & ALL_FSNOTIFY_EVENTS);
++	test_mask = (mask & FSNOTIFY_EVENTS_ON_FILESYSTEM);
+ 	if (!(test_mask & marks_mask))
+ 		return 0;
+ 
+@@ -583,27 +603,16 @@ int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
+ 		iter_info.marks[inode2_type] =
+ 			fsnotify_first_mark(&inode2->i_fsnotify_marks);
+ 	}
+-	if (mnt_data) {
+-		iter_info.marks[FSNOTIFY_ITER_TYPE_MNTNS] =
+-			fsnotify_first_mark(&mnt_data->ns->n_fsnotify_marks);
+-	}
+ 
+ 	/*
+ 	 * We need to merge inode/vfsmount/sb mark lists so that e.g. inode mark
+ 	 * ignore masks are properly reflected for mount/sb mark notifications.
+ 	 * That's why this traversal is so complicated...
+ 	 */
+-	while (fsnotify_iter_select_report_types(&iter_info)) {
+-		ret = send_to_group(mask, data, data_type, dir, file_name,
+-				    cookie, &iter_info);
+-
+-		if (ret && (mask & ALL_FSNOTIFY_PERM_EVENTS))
+-			goto out;
++	ret = send_to_groups(mask, data, data_type, dir, file_name,
++			     cookie, &iter_info,
++			     FSNOTIFY_GROUP_TYPE_FILESYSTEM);
+ 
+-		fsnotify_iter_next(&iter_info);
+-	}
+-	ret = 0;
+-out:
+ 	srcu_read_unlock(&fsnotify_mark_srcu, iter_info.srcu_idx);
+ 
+ 	return ret;
+@@ -696,6 +705,37 @@ int fsnotify_open_perm_and_set_mode(struct file *file)
+ }
+ #endif
+ 
++static int send_to_namespace_groups(__u32 mask, const void *data,
++				    int data_type)
++{
++	const struct fsnotify_mnt *mnt_data =
++		fsnotify_data_mnt(data, data_type);
++	struct fsnotify_iter_info iter_info = {};
++	__u32 test_mask, marks_mask = 0;
++	int ret;
++
++	if (mnt_data)
++		marks_mask |= READ_ONCE(mnt_data->ns->n_fsnotify_mask);
++
++	test_mask = mask & FSNOTIFY_EVENTS_ON_NAMESPACE;
++	if (!(test_mask & marks_mask))
++		return 0;
++
++	iter_info.srcu_idx = srcu_read_lock(&fsnotify_mark_srcu);
++
++	if (mnt_data) {
++		iter_info.marks[FSNOTIFY_ITER_TYPE_MNTNS] =
++			fsnotify_first_mark(&mnt_data->ns->n_fsnotify_marks);
++	}
++
++	ret = send_to_groups(mask, data, data_type, NULL, NULL, 0, &iter_info,
++			     FSNOTIFY_GROUP_TYPE_NAMESPACE);
++
++	srcu_read_unlock(&fsnotify_mark_srcu, iter_info.srcu_idx);
++
++	return ret;
++}
++
+ void fsnotify_mnt(__u32 mask, struct mnt_namespace *ns, struct vfsmount *mnt)
+ {
+ 	struct fsnotify_mnt data = {
+@@ -713,7 +753,7 @@ void fsnotify_mnt(__u32 mask, struct mnt_namespace *ns, struct vfsmount *mnt)
+ 	if (!ns->n_fsnotify_marks)
+ 		return;
+ 
+-	fsnotify(mask, &data, FSNOTIFY_EVENT_MNT, NULL, NULL, NULL, 0);
++	send_to_namespace_groups(mask, &data, FSNOTIFY_EVENT_MNT);
+ }
+ 
+ static __init int fsnotify_init(void)
 -- 
 2.55.0
 
