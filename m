@@ -1,212 +1,273 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA379329E4B;
-	Fri, 16 Oct 2026 01:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660E231DDBB
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 01:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792113809; cv=fail; b=Ei9EZg1o99OUlyaOBCGQRLd6s6tuUYR4Xt/yVRsW/07Qfpzpr41y/Cgs0SGl8wTwV6+4TxtOc8YYiUvRJwH0gl3oAnBsIEFRDog1RCIgQ0hqnvKc8xCDvcqC6V8/EmWeMFLt2OSiN12DE/bNJbONirhhRpSV9lkYpXgmX5OGIOs=
+	t=1792114917; cv=pass; b=t/wph0mNEOt0MDQCHT/tgu44I65itIAbHFQNke9EUEo8NxK4k/Rotd70NsEa3kbcsoKkA+5wCpy5xC6KDjablyiKmaPbSUSslstXAc4If2O18hdsxd9uDsaWmHAVVQdrD9OiOQv9cn5rbv7C/kmbVa4H2f/db51OJO6T1tSiyP4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792113809; c=relaxed/simple;
-	bh=5Sk+RoAED8h4phR8RzWADjgqNtQ0AD+PGpf+RPPiV5Y=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=YsM9+8FicAQi5MqEiAed5ZN27sF9vEZDaN+eQ88ID87oRoC/MgIhLE3E+YgBqJSXry3hMGyna1FFKIXFRCAv8SgQqMuOTmEpvMBdka9TYVZlp4R2+JjDOcL2Hn2oaBBekpq2e4Dn0McrRqIRJrOLAh8LOsH4QPbCikVHgvSof3Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PEOsldA8; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792114917; c=relaxed/simple;
+	bh=j/dhUpk8MUPUKpBECSdbGTxzHkZ/E6OYKPtq5luQEIk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nD2jiUV/iEBN8l36kLBR464PfebuoMoaGMmlm5JPZ6moZMTH/VY4xjL+q6FFddVTQmwjd3UGORlK0+Mc/EA8Zk3AxqM7CtXZh3Q1X620Tu20fHiAUQFJN8FAUkOFWUDq86KcMQ/KaBRkRxzQNxGSE00ZvjDydkxKo30YTjlRLYQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/SB7269; arc=pass smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PEOsldA8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792113807; x=1823649807;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=5Sk+RoAED8h4phR8RzWADjgqNtQ0AD+PGpf+RPPiV5Y=;
-  b=PEOsldA8QzF0yRmMywl7NfpB2+MJy8MLtm1o58Q3AxV2ugkxwWxKSrit
-   SdRCI/O1YU2A6GhLbG2Y7DT8IY1lIkPfDiK8JcCJPXgC7oflOoIgHA8Kl
-   ckkCkupnYfr5Vm+FU9fiYy8YxCeECUlAzvueFtVhXS8XNq+2WiyrmtS//
-   4IycvWDnGByE1Uj35vMZkVTlSkQuuzPv222zUrQi/rz7x2bmbGPxg9Nuu
-   oF5RDrSXjHNrTUznCkusj+Bwj9Fl/DlWo1G5NV2W7JHAd+5rpFE0KmItU
-   4O+tDfhnSpJXypFk/VMzUrNBVnmJif48YNOnNO6UBXUpBIwYHFns8uQ1H
-   Q==;
-X-CSE-ConnectionGUID: sSnhTIXtQDuyPHEH7omyrA==
-X-CSE-MsgGUID: KfHjdY6CQki3i9HT++Itlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="793750"
-X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="793750"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 18:23:26 -0700
-X-CSE-ConnectionGUID: N7Wo1aYITiaPwxuGEwapXw==
-X-CSE-MsgGUID: uaWc5LpLSyGepg2akUHzYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="1836141"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 18:23:26 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 15 Oct 2026 18:23:25 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49 via Frontend Transport; Thu, 15 Oct 2026 18:23:25 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.71) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 15 Oct 2026 18:23:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mBVFNSm11dTV/uwIAKz3+4/Cav4zdc0CePu9cGUrsNqEv4VI8XaVvWkwcO8qAlORJgI5oWuxxjz0LvMw57S/cpCyDeImsA72v2Ib0+ad3WrwFcEK2+FLfsCYdM7y9sbcx+r/SVE+CrFGF8VbSrjCs0hnkCSNjd4gsV8dg6Rv+gUoEJ++QoxkmdKO9YGAeHvA9IsZ5mLP38UaxKQC95AharEwj7YAto8uSuRZHygSCj3n3s0ALpoozeFkgHAM3VUnvM5d67owLSPLqxLC2EdtZq6D0Wzwu36MG0MWv8+2uqGs/9/uF2yAngAoVfTZVT+uhUrsDA2KL5qY1LL6Lb+wVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PrpO0GEuM7LcZUYpVE6Hs4WxYLegrNMqaaDQDH1ETUI=;
- b=vHciLsQU8YyfKUATjfpOQsBYiqhGH0uuLq2gi6K6vudSKK7dTMnFJvt58sREoanadF6DpGf0G2ZpQekmIduWH9Gs0JgVSG2Du+kfV9qq4G4Mz7Cma4TER4iFe348WnmAkjDOtfBDS0myoVXfMPk2qlGugNVu3LsyVO4Ket1S8UzQOn3CQzXYcnqlU77eLny3Qtoi3yxQ9h5EEq42VLqXdTdWMK72A/xYK+R7IXdAYrOZVUjgCMRI7u2bNe0JqeDy+R3lSOQbmNGBXZI7II3XNabEZ6GRHoUV7m1tcGpe6svZewS6sis9LfQFJ1/GM/cpyrTS3fsDALSeg/w8DyKkzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
- by PH3PPF2B89F77E0.namprd11.prod.outlook.com (2603:10b6:518:1::d11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Fri, 16 Oct
- 2026 01:23:15 +0000
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::6fbf:c112:d0a8:f1a8]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::6fbf:c112:d0a8:f1a8%5]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
- 01:23:15 +0000
-Date: Thu, 15 Oct 2026 18:23:11 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: <jianyungao89@gmail.com>
-CC: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>, Jan Kara
-	<jack@suse.cz>, "Darrick J. Wong" <djwong@kernel.org>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, "Dan
- Williams" <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, "Andrew
- Morton" <akpm@linux-foundation.org>, Shiyang Ruan <ruansy.fnst@fujitsu.com>,
-	"open list:FILESYSTEMS (VFS and infrastructure)"
-	<linux-fsdevel@vger.kernel.org>, "open list:FILESYSTEM DIRECT ACCESS (DAX)"
-	<nvdimm@lists.linux.dev>
-Subject: Re: [PATCH v3] dax: fix wrong error code returned from
- dax_dedupe_file_range_compare()
-Message-ID: <atF8f0Jdb8OMcE9I@aschofie-mobl2.lan>
-References: <20261015143426.17620-1-jianyungao89@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20261015143426.17620-1-jianyungao89@gmail.com>
-X-ClientProxiedBy: MW4P220CA0021.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:303:115::26) To DS4PPF0BAC23327.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/SB7269"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49ff680331aso29373235e9.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 18:41:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792114914; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Uj1t2hkPtsrg0lQe5dgNualsp59eTEqKZH93lO8mPhzATT4hDVZEyQn2YVy7TlXRQy
+         OaDGt7qDpaTgj59NKqJ52qNenCeXPqyoBkBnmLsUwpFq4dzo22xIIbwDpMspT7+e7yH1
+         e5YOYmtiQZnAKmF2bR9Ww5XMl/a+c1hhSTPWtBd1FfQFqlk4afdkyZapv2uEO6f+P0cE
+         k9BB/7javD+HJfr9xF89ncgriUk/0Vtg7PwRWrzruuE2vPqhm6IRVz2U+P9IP+znM/lV
+         A9xgH8qcTnjDu0ljfIjVNgRDpzG9vcs6NAWiWouCfK1vVmH2J0mEpuGNdRo/RnSbGWhg
+         WDVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dQCjKnpPJ7GDMGuXaT1sL8RXqnIOzelAupnlRVaJRrM=;
+        fh=8PVbC9OYP06NHeO7V6DO2HO8jJFrYYksDL19THGH8f4=;
+        b=lmPqu2bpPevP/roafoc4pjc1CVqZqU9G+inQw5vYxgDyCBog8EPSvWT3pwdVSe+StZ
+         RWF2drzBaiqib/mxDbjvNe099OVco9HaEt+X8UgMvKlizKzK6K82wTl0q/W4AFeMN2Bv
+         XfpvReCQTAWuibFq3kADgtgahPXNHzxrBuIZ1knryGx6NnjChY5FkGj9M7Gyg1dfz1xC
+         rY0gzYRidBHx7ovKZxOBVf5PAIl3LmakIRmeoYsgiGKWPCeGhDGTxqMh2D67i0aVVTlI
+         mYPsb84X5an3M7zZxpCLsEsbIPFMFvjpy8/1axt6BjiHYSCNenQukLERC+X7RIgpvQNP
+         ZDWA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792114914; x=1792719714; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=dQCjKnpPJ7GDMGuXaT1sL8RXqnIOzelAupnlRVaJRrM=;
+        b=M/SB7269RETiiFDhzd6V1YWRwjcyOPEmoGaaZphIVv2hk/CMLkpzljm4250Lr1b6So
+         aFQI8dyMP4QmljfbeHIj1R4ZPUjmM0PwIJ9/tRFGZj5xTjffLob5WA9MUjklonLsbbLe
+         aTLzcUGHITDEa3mt0kqXPm1uKsL9lJvF0hPUgNRYMyWqgmla22oLy6sEaPtVw1bjS0uw
+         96QhSj/O8BK4fC5znQX6DJ2gZL4ZydcWfIZsnUh1u8ApWAWYHh62qio2WBDN8YDeMT4Y
+         OTmRwEtxITe4G+AXjEjheSkmA5OuQDAuAHzfkU1JqkIwEX7qg5bH/+7HyVgw8WqtTFrF
+         BM1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792114914; x=1792719714;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dQCjKnpPJ7GDMGuXaT1sL8RXqnIOzelAupnlRVaJRrM=;
+        b=mq3HulnnFljYpubQwVOiCcDR+f6+d5L2/oDLDtoH0m0fF2aDw63b/8sdj6LdTv0Z31
+         icAfPb+gjD905G8m4dkGGJBNodOH9DFGZ5gNBTP7/aYRyK4qVehtszPw3Z8El6PSefku
+         xoVPE/pjv/rp4m7SrwAm7cZkRs52joIYgMvxyoVgcEsZlNxBaEBeKvdlCaWf1LUmLuhe
+         A3ehGYnJbNUbrK1zF0oYj9v+30eQiEb1gMlqj6n8iUzZ7DQ/ZCeg414tK/IgqCgsoyjO
+         XU0HMLSIAwX0N+aMuc6PMJzlLxfN/4QMFyZcgrkkq/UWj5dhCTY0L+ofQKZqzYe3PVKJ
+         0wjA==
+X-Forwarded-Encrypted: i=1; AKwUvByufbADnkYsf05rFc2zXinR5qMmaUL32PHejSIOTz6WUPWkPFqTZ4RISyAVzo83R6XmWFtwQgDe8QFGlLGK@vger.kernel.org
+X-Gm-Message-State: AFq9FYJTpGfdBN17XdqE1AtXfpYdTi96wKTUIawT3y1TOeX0a5IsooQu
+	wsksCwS+YEi2o1Z78PFnY0+WijGyz9yQ+CKzqZTP+7WIddJc6x3K5kQk6f8pNT/kYoLuldvOKLv
+	zrQiDQyw9SHUxQ/Ryk0EAdvEvNiKX5lM=
+X-Gm-Gg: AYBFou26niuhv2+sSGCs7+LIxAPIcyQUbr6lX6tK6Y1YkHWcU8fjAmmAR5suraES87x
+	J3jQ7Efak3B2ZSA4GOUEccJFcPAgU+140sQM560YN4PHBDL6Vav8xVdy9nZTPxXh0rZum6J6MAY
+	0jq+x+yddQoqdPEufjbF8ERiBlpteFGzNIjtuzcXGbJVnB5FtUthgp0FmOpDhYkEaWdqEgzGVOy
+	N1NYifkej3ApFUkI25GhcDgEjQvtsJFpUr9Oab+38KzCjnN+1uwIr3kNHPocHAmgmtGY0uEJgNL
+	/sJ/nlARnlaI7gFk+YAIZVHFsNd31fZeCJ+rqq8Vwe95TKNGwG/ASKCOHXBxTFmk1aNXJRqXPCt
+	IdyeHsDVCCacp3LDOAL+rX+IWZQy/dQgc9R314w==
+X-Received: by 2002:a05:600c:4e89:b0:4a0:12d7:4c88 with SMTP id
+ 5b1f17b1804b1-4a18e4ac77amr466612125e9.30.1792114913369; Thu, 15 Oct 2026
+ 18:41:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|PH3PPF2B89F77E0:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c09cd1e-7da1-4aa1-afd1-08df2b240d0f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|7416014|1800799024|376014|366016|10067099003|18002099003|22082099003|11063799006|261009223027099003|56012099006;
-X-Microsoft-Antispam-Message-Info: qpYCW3glbK+o2JO3Ai+eBQZ93Y14xPZpuDq9/jCemPriFpl5iFO2ulHpO/8cF+6xhM9599Sp2vwA6NHBgiW6WtI4TDIGLZCGyMdXmgCtCGyenVc2QlnMzw4JOFPMGueWFESJLJismuewoxsXkFlTjejlf+88iZ/jT+VuFe1b7qk8K4a5CO7k1qFfSIiYEHRsuOQsv4uDxYbR/CGx+tgmHTS5gK4XrTGq/mGukISXvlCBRRDxFcx0h8vdhrwqXIcGuUjFkPA/q2wwMItHgp+kKf+AUjqvAgUZgP5bsRE9yfD3aiLwKuGvjO2tYCzjs5hrIJaP2cO38bYaHk/0jIEVFj0Wyu8mhWQq965SOagz07XmFsQQhouudLmAgWysWFobxhV4Mpe2bUIELpZLppHjCyb+BWGw5nrj81vIkNmz6n97+iwp9mOEXiyCYrendHIIc1TSRwmIIJ8tEDoMpopiwHEkr2LKXlsLoYG5J8tsv7N3liehhDO999w0VdL+FmcZ5TbzCyEumFDrVS6iMZVVmgLNYFl6JV2Rw0qrZbdI2GpXNDII1fUcp16OGgTXdTIstQZGi+5gu/dwRSZHeXikJ6gWg2y/olRz/foxCboJKlYRkC/AQ6JIuF5S/+0CMqvS
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(1800799024)(376014)(366016)(10067099003)(18002099003)(22082099003)(11063799006)(261009223027099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vK9Wo07y7EsHZAhg5OvaFY1+xGbLkawVfXkM2/raCi7z6tAo09r7QCWHUqop?=
- =?us-ascii?Q?/BNw5g3SxIX1+1ZN8Jfz6opgg03rKDKhO5e9BKvf1UObEV0Ce9exTu3iOpU6?=
- =?us-ascii?Q?R7deN7a4BHFC0pgFO2pC+H6Ym9dvfrPCjsMrOztwkTpTp+Vl20QI9H3KXkKk?=
- =?us-ascii?Q?DOzWabN8v4rnfS5i5Vw5LpDMgOIguWwYsu66gzPtNPA0ITKgdaUQ+hD1y4gv?=
- =?us-ascii?Q?JSvUDSje/KpaNeR2v0FZSpyFJ1EzEmOWhwBz0lOznefElFAgG7BsNNlgrMc+?=
- =?us-ascii?Q?htj1rlbNYG2kZeiX0oVThZjs6rRxt4WueMZuvGSkhZadgIUzejgEJJsxuUxe?=
- =?us-ascii?Q?nsYNCVXBzsA+9MyVCezal2j6nbMKbWkjhYZGEV2ooo+vOwUbVna/EXbcd8n0?=
- =?us-ascii?Q?ko5Vl1C78h5fprrhIn/XgB418lGN4gRMNS7ErHlO8PxSRxZI9b8bonNecQTy?=
- =?us-ascii?Q?V2AElsnkBt4L/Zop1wQjlPlPYzPuLw3J1RYYecBKKB83Y9PxOk+LvgbupbGo?=
- =?us-ascii?Q?C6CbvHNXtAQjFsfnsPNG23YrUSEptmiUvuc/HC4XQwehoYeaDgm2GyJuMZTt?=
- =?us-ascii?Q?i643BDeX4toMzcLliuzURic4sArQr/g7pJOu9r43J09EMy+us5PdEwJuu836?=
- =?us-ascii?Q?qsEYNAMP4Lo+yUSKk+hOlv7UH5xp7kw05XGHTANRDCBEsjzV6DnrbGGnIDwp?=
- =?us-ascii?Q?N1A7hvSzSpKJ0mRwCh8+q6qqgtseBNCAkBNbIYWJiyUQiJVxoBaX6slvxmIl?=
- =?us-ascii?Q?q/Qf9Gy6BOJC8SfG5RLas1FdZ7d6BeoSYPsmCKklK4/nn4c2A7x44LX/qOJ5?=
- =?us-ascii?Q?NXDFpswb4uOfsk1fzN3IuDWC96s5taIHaCzIKxcLGII4nwwifIaZd4IIZypR?=
- =?us-ascii?Q?+xce4WylVxRjYqTuxlqWqkYJzFDl9jeLKk3/YQMZfgO4NiEaH/akv/rnh3aq?=
- =?us-ascii?Q?Mvno4uojYO0T8kqaVHy8Y6BaC/80VHMcd4n+GljxkZeLIRLUi0G3iAjUmT3j?=
- =?us-ascii?Q?jlNp/V+F8oiTxKEMMZRQPH2DOulTeoH6yAy2tgUMtdlzdgt7sJ1frLH3IZFc?=
- =?us-ascii?Q?wnWJ7SWxikFm7JkanZI3ZFrhkA7sSvXmg83RfZDvUN8EaiMEeqjRnZoHbA1A?=
- =?us-ascii?Q?Dab9lnn6fdFaYo3u0yT/CMWTMdt2/1ZF552di+Z6v8uGHVoS+McJg3GUiVpS?=
- =?us-ascii?Q?GxnBXC6QjkUgixVVSuAv7rxXRznr1VKV3reXa0FoJ4/KNofQKMSiGy+l7iUQ?=
- =?us-ascii?Q?0fHaGPz64fUaSGU8cqzmUh6klWuasnN/GnGa4KvrulnK7SWd8srk6lMFXM5h?=
- =?us-ascii?Q?eW5y28yfuJTC6nZLIWeLQUYhLZSGzYsagszf8DB5yYGCejXUvvZ3GFUlPlOw?=
- =?us-ascii?Q?dBixek5xHvtFDGaPlLwLQGkneXlOJIyanVNXtewSR9hC2UIWBvtzP0R6NPL5?=
- =?us-ascii?Q?MTV69sxTP1zhAmCSucO7hufi0i2uuPcfb3kQxSy1wi0hlqsZ8G64MWIp5+wu?=
- =?us-ascii?Q?gSfBsGba7FFBqlgiiptJHxcOv7MZIUnKcGnLlIu+bno//xP3zzONwZ67lf+p?=
- =?us-ascii?Q?24H7bB0Pm3HHcCkctk50t+ev+pA//QEXRnH95yc8Pg12pU9hAIKh/LobLG3R?=
- =?us-ascii?Q?/jlAMXFQcvAXO1LmJ9TuybslUssIMO0weXHALDNs9IR1qRCp0HUOOW8dreVe?=
- =?us-ascii?Q?KBLBn5Yea8qzV6wYeEFevwrOTMFzY1lwJtA9MJEduqV3ME0VrcSZwzaTVHxs?=
- =?us-ascii?Q?QaHZKtzxiAL+Puwb2PpPivUUyGaRtAY=3D?=
-X-Exchange-RoutingPolicyChecked: hx3uizeOTSbuqN/fQeu4xvp9ipitUdM/5J/bb+4UhV6eRgqx89zxSKCdtp86pXswy/GxtWHy8AqxsWWyFBkab472qcn293PvFZmLyW/9Ox3JC4N+2c33iZo2UIsD5u/F+8zpRXIkY0HR1ynvmG7lQ0HfxH07MqrF2irEjHqEcgu0aYSCgEmjwFwKkB+TSZ93Yl3ZHiPcdPDEkL55sNFqTuZzDnUSeZzQ16T5eSEGuOSZHvYtgNRxIH7Ns8KY8bqHA+2FVZdjrHq9/vUG6FGl5gOl6CCYZKJG2h10b9D4J6yfHfgf/5NiF61D3aaiO50AyNRj0XjIJ4sWIEfjCfaRiw==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c09cd1e-7da1-4aa1-afd1-08df2b240d0f
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 01:23:14.9940
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: onZlDFw3RH+WrZw09kLrxRu7/hg1Zm24K6cSgeecRjIffIEsNhKP/g4UYDd7E1eFC2BigAeXXOXBHbrMD/75DEEo8vOBkfn4JibOCIB2Wo4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF2B89F77E0
-X-OriginatorOrg: intel.com
+References: <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
+ <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
+ <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
+ <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
+ <CAO9r8zNJ=Fpc0pZExrttVTDCM3yzSmLPCAU=+RS0k5Pm+hY96w@mail.gmail.com>
+ <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com>
+ <CAJnrk1aHdBm4CofvKfx7B3H-uF2xRXZUQs47J_4xeRmRZ4hcZg@mail.gmail.com>
+ <CAO9r8zOkBVgxdb3pCyHs-ZQTxhwBmA1_+aH0snV7dzbVaVsPsg@mail.gmail.com>
+ <CAJnrk1ayOhrFY8LOMYxqEMYZvhK10zjTTyOK93VzMgxpV5W5sA@mail.gmail.com> <as-fG4VB_4xnAI8n@google.com>
+In-Reply-To: <as-fG4VB_4xnAI8n@google.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 15 Oct 2026 18:41:40 -0700
+X-Gm-Features: AclHuK_QVOAQKY1S1XZkxawe6wbx-PftEnFXONrhi5eHzH2ij5-uw40iTGdk8vU
+Message-ID: <CAJnrk1ZezmmzrYdf8KP6re_a76izMS=qGPeC8ZZXiteHyZZC-Q@mail.gmail.com>
+Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, James Houghton <jthoughton@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 15, 2026 at 10:34:25PM +0800, jianyungao89@gmail.com wrote:
-> From: Jianyun Gao <jianyungao89@gmail.com>
-> 
-> When dax_range_compare_iter() returns a negative error code (e.g. -EIO),
-> dax_dedupe_file_range_compare() incorrectly returns 'ret' which holds the
-> positive return value from iomap_iter() indicating more iterations remain.
-> This positive value leaks to the caller, where vfs_dedupe_file_range()
-> interprets it as success (bytes_deduped = len), causing userspace to
-> incorrectly believe deduplication completed.
-> 
-> Return 'status' instead to propagate the actual error code.
+On Wed, Oct 14, 2026 at 8:34=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wrot=
+e:
+>
+> > Thinking some more about how stats are used... I think there's two
+> > categories the stats fall into: a) hot in-kernel ones (eg LRU sizes,
+> > workingset counters, dirty/writeback, zswap) which are read very
+> > frequently from the reclaim, refault, writeback and zswap paths and b)
+> > userspace-only ones (everything else) that are read through
+> > memory.stat / bpf / etc and much less often. The hot in-kernel ones
+> > are a small subset (~20 of ~80). Most of the stats fall into category
+> > b). However right now, a flush always aggregates *all* of these stats,
+> > even when the caller only needs / cares about the hot in-kernel ones.
+> > Flushing does all the work for the stats in category b), which the
+> > in-kernel flushers don't need. With the per-node lruvec copies, a
+> > flush goes through 100+ counters per cgroup per CPU vs ~30 for just
+> > the hot in-kernel ones (on a single-node machine).
+>
+> I didn't measure this before, but I did tree adding a bitmask to check
+> which stats have updates and that actually made flushing more expensive.
+> It could have been the case that hot stats were distributed enough that
+> all the cachelines were being fetched anyway and the bitmask was just
+> added overhead.
+>
+> I think you should do a simple experiment first about how much flushing
+> gets faster if you skip the stats not used by the kernel. It may or may
+> not matter, depends on prefetching (conversely, I wonder if explicitly
+> prefetching the entire stats array on each CPU would help).
+>
+> I think it would matter less if we manage to completely get rid of root
+> flushes (except for userspace stat reads).
 
-Hi Jianyun,
+I ran some benchmarks on the split rstat trees idea. On an x86 80-cpu
+2-node machine, it makes in-kernel flushing around 40% to 45% cheaper,
+but for the userspace flushers, reading two rstat trees adds ~25%
+overhead. I think this could be remedied though by just keeping the
+existing tree as is for userspace flushers (eg hold all the stats, not
+just the ones in-kernel flushers don't need) and adding a "slim" tree
+with just the hot in-kernel stats for the in-kernel flushers. Reading
+memory.stat would then just behave the same as it does now and the
+in-kernel flushers would just walk the slim tree. This would add a bit
+more overhead (and complexity) when updating hot stats though, but I
+haven't yet benchmarked this "extra slim tree" idea nor pursued it
+further. For the prefetching idea, when I ran some experiments with
+prefetching the entire stats array on each CPU, I saw it made flushes
+around 1% to 7% slower every time.
 
-I looked at merging this today but the Sashiko response stopped me.
+>
+> >
+> > What do you think about splitting the stats into two rstat trees, one
+> > for each category? In-kernel flushers would then only flush the hot
+> > tree (~30 counters). memory.stat would still flush both (eg userspace
+> > would see the same thing as it sees today). Each tree would have its
+> > own lock and its own stats_updates threshold.  I can run some
+> > benchmarks but I think this would make flushes a lot cheaper, and
+> > since flushes would hold the lock for less time, it should also reduce
+> > the contention we see between concurrent flushers right now. Together
+> > with using node counters for root readers, hopefully this will make
+> > the non-ratelimited flush cheap enough for all non-root in-kernel
+> > readers and ideally let us get rid of the ratelimiting variant
+> > altogether.
+> >
+> > Do you think something like this makes sense?
+>
+> We have to consider the update side of things as well. How many code
+> paths will need to update both trees? That could be a problem.
 
-I do see you addressed Sashiko in v1, ignored Sashiko in v2.
-If this v3 Sashiko complaint is one you've already addressed, please
-reply saying so. Thanks!
+When I tried to measure the update cost of the split rstat trees (not
+the slim tree variant), I was seeing a lot of inconsistent / noisy
+numbers I couldn't get rid of even across boots of the same kernel and
+even between memcgs on the same boot, which seemed weird. I ran perf
+stat and that showed that the slow runs were executing the same number
+of instructions but had a lot of extra stall cycles. The variation
+between memcgs on the same boot pointed to maybe cacheline contention
+being an issue and when I ran perf c2c, it showed that the most
+contended cacheline between cpus was the first 64 bytes of
+mem_cgroup_per_node, which is strange since those are only read on
+stat updates and not written to.
 
--- Alison
+That struct already has cacheline padding (_pad1_) to keep the memcg,
+lruvec_stats_percpu, etc fields on a different cacheline from the
+lruvec but apparently Intel/modern cpus do "spatial prefetching" that
+pull in the adjacent cacheline (the Intel manual [1] says "This
+prefetcher strives to complete every cache line fetched to the L2
+cache with the pair line that completes it to a 128-byte aligned
+chunk"). So I think basically every time we read lruvec_stats_percpu
+(read on every per-node stat update), this pulls in the cacheline
+holding the lru list heads. The lru list heads are constantly getting
+written to by different cpus, so when the stat update happens and
+pulls in that cacheline, that ends up introducing a lot of extra
+overhead because it has to fetch that from another cpu, but also even
+worse, whichever cpu holding lru_lock has to now invalidate that copy
+before its next write and wait for all the acknowledgements to come
+back, which adds extra latency to the lru critical section and
+delays/hurts everyone who's waiting on the lru lock. I saw these same
+results on the baseline kernel even without the split changes.
 
-> 
-> Fixes: 0e79e3736d54 ("fsdax: dedupe: iter two files at the same time")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jianyun Gao <jianyungao89@gmail.com>
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
-> Changes in v3:
-> - Fix the Fixes tag to point to the commit that actually introduced
->   the bug (0e79e3736d54), not the one that renamed the variable
-> - Add Reviewed-by from Darrick J. Wong
-> 
-> Link: https://lore.kernel.org/lkml/20261012144925.6728-1-jianyungao89@gmail.com/ # v2
->  fs/dax.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/dax.c b/fs/dax.c
-> index 6ba50142eeb2..1f6a4fbb97bd 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -2261,7 +2261,7 @@ int dax_dedupe_file_range_compare(struct inode *src, loff_t srcoff,
->  		status = dax_range_compare_iter(&src_iter, &dst_iter,
->  				min(src_iter.len, dst_iter.len), same);
->  		if (status < 0)
-> -			return ret;
-> +			return status;
->  		src_iter.status = dst_iter.status = status;
->  	}
->  	return ret;
-> -- 
-> 2.34.1
-> 
-> 
+I think having the update path find the per-cpu counters through the
+memcg instead of mem_cgroup_per_node fixes this. On a multi-threaded
+fault benchmark in a single memcg, it improves shmem throughput by
+~35% at 20 threads. I saw also that the inconsistent/noisy numbers I
+was seeing across reboots / memcgs on the same boot disappeared too,
+though I'm not sure yet why that fixed that issue. I'll clean up the
+change in my tree and send that out as a patch.
+
+But with that fix applied and with another series of local changes
+that move LRU stat updates to outside the lru lock (I'll clean up and
+send out this series as well, as it also applies to the base kernel
+regardless of the split changes), I didn't see the split changes added
+any update overhead that wasn't within noise. The lru stat updates
+changes to move it outside the lru lock are necessary though, as
+without that, there was around 2% increase in update overhead, since
+it added more latency to the lru critical section. But after that was
+moved out of the lru critical section, I didn't see any degradation
+anymore.
+
+>
+> From a code perspective, it would also be a bit annoying to maintain. I
+> would check if we can eliminate root flushes first tbh, then check any
+> other potential optimizations on top. Subtrees should me a lot smaller
+> than the entire tree.
+
+Will do.
+
+>
+> > Separate from this but also kind of semi-related, I noticed
+> > css_rstat_flush() takes the rstat lock for every possible cpu, even
+> > cpus that have nothing to flush for the subtree. Maybe another
+> > improvement is to just first check locklessly whether there's any
+> > updates and then just skip the cpu if there aren't any. I can send a
+> > patch out for this.
+>
+> Only the updated cgroups are on the update tree, not their ancestors,
+> not until the flush time. We used to put the ancestors on the tree on
+> the update side, but we don't anymore.
+>
+> So we can only check the if the per-subsystem list is empty, not the
+> subtree specifically, right? Can we walk the per-subsystem list without
+> holding the lock or deleting first?
+
+My thinking was that on machines with hundreds of cpus, a good number
+of them would likely have no memcg updates since the latest flush so
+even the per-subsystem list would be empty a lot of the time. I can
+try to find some data though on how often that actually happens in
+prod.
+
+I think maybe walking the per-subsystem list locklessly could be
+slower in a lot of cases than just acquiring the lock? It seems like
+we'd have to walk the whole list to know for certain if it's a
+negative or not.
+
+My plan is to clean up and send out the changes I have in my local
+tree this next week (the cacheline fix, switching root readers to node
+counters (getting rid of root flushes), updating stats outside the lru
+lock, removing ratelimited variant of flushing (and then if needed,
+more experimentation on the slim tree idea)).
+
+Thanks,
+Joanne
+
+[1] https://www.intel.com/content/dam/doc/manual/64-ia-32-architectures-opt=
+imization-manual.pdf
+(bottom of page 62/800)
