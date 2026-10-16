@@ -1,351 +1,186 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5870A42467C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 07:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792136366; cv=pass; b=lwso0kjsQ4SvR83krwluME9jHP0R8kaSmcK9dsbmBnfb21GH7nc6vK4sHMk+nSEJIAAINwLEHT/9XdIakIVa8WaE0cGQzcO8lzCy5V+CVcUT2Vt/aMb7D/6SanUh3ddJKpCae09837sV0Z6sk/qDvBc/sD1TkKJL35Cstj4YSA4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792136366; c=relaxed/simple;
-	bh=5U73rr9sf2Vf/AY5m/BZoHWAKZGP+xInuHRX+dX+CPw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=riFzpqyCEdqFDibt7NcBL2QzNfRnv/z2tI8O3XHOTxnY+nKDaExD4CrxCNq6L2QztESHI+G4QlXB81F0GbglBNxB1jo6s9eMZg9F1ae5Kd/nkA0Idz2luMGOfT7KXZynkED63k3vvQ3K0k0lB8IlSbq9ZnJ/WX6NxO+sTFLgai0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VnRvXkKO; arc=pass smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE76B443E2F;
+	Fri, 16 Oct 2026 07:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792136623; cv=none; b=P5LsgGBoLqEZR05+huJTNMIt313b8baQqw2Hwth0MUaCLvC0YAnB1n84fJYT4XUJee2yGGWtRb/TV+lK2IEMTZ9UkyaVQHZ1E3u8umJOdd/PUvu3J60XQ425+YpFh1eoH3TCAeppal7M5ZEiSS7dTjR1ae/NbFIF1xcTUAWN+gQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792136623; c=relaxed/simple;
+	bh=ZbJcutHy3x4GvXyVBwyZjp6E+0OsKMimbzeuwxsHg7s=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=ohvTXA7KP2K67K87tJJcOgO+7xzqn2qwiCdRAAjm+DtjQVMD94NJxfQAIhvkn2ZXydDwb6QJNhvvIidaUUmP0yuQHZtsaFB9wqpDd6yyd3vYs8bF1YidHXhS+yoEfydwboW7Ks9tlEpvkNssfrP4pTBzz95twxm02hmNrbp/pX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=rwQOFadM; arc=none smtp.client-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VnRvXkKO"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8acda240937so49755977b3.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 00:39:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792136363; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pEaX1+Vi5XyZwHKbCyId7Nn9XvMiZvtDdgM+4qgpf7PG2H+BgyGC4WY5bk4hRyT3IV
-         kDohIU4FfxlqQVv5utQm9LxnVh/Za2TfFDScDOVhdBmvDVGbV9T1MJVyuPCik1Hc2+qN
-         QkaRUpA3uG/X3MtyRTqo44WpUwdgbOAjjLQ3o3ANZIUdTmCePtZcrK0JNU9/a+JIul6b
-         vdJ7fBWHP/t3rRvm/lFEvDE/O/XO4SAP638k44MaNsUq+f2cuAvBWaCAnFGGKEb9bk3O
-         T7hXS0t0fLSPii2/HP3hd7WYxD2oLy4Stgp7TAzkym7M9nTmXoVAYvjKvCr1/EPyZbqt
-         FD5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9Q+JD4cCc17ecbqzQFbNtgZQCDVQmV0Gk8J5DPqRIwc=;
-        fh=bE+0ja59x8DnJX6eJ9zWStiXI/bFqhaqZXnt58y91vg=;
-        b=GQ014SIcwdzgOdPQkdzFRqNkK15o7PB0DeQ/IERaFnUZlhRB5K6iOaTrhbALs/U1a8
-         9CbjZZ8rZbzZNMSFzXTWxqEQpjnItKRkL4dUxj70TLd5gjAKTlDwBsjTx0cOybtChsxA
-         TX3oR5uQaijkbC//ZuBgu5k4+RIPI48MFefHjsyFS1eEKyZSovGIHZBdUEAzppIYH7he
-         m1CjWd9iXL/jiX+QMEmykWFCBAsdApLnD8cmn40tYvLeKbl3Uz8b9LgSNh4SnKYbwm58
-         5Z/NrlGgUAtZ//hSTZSHlPKQClHd1GJTFsU4134H6uVtsnphFNMMQBP7goN4xBk4nQyM
-         2IPQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792136363; x=1792741163; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9Q+JD4cCc17ecbqzQFbNtgZQCDVQmV0Gk8J5DPqRIwc=;
-        b=VnRvXkKOE8YXsp+tsPBy2T28WtZ0Yk4i+bmW/pdXBUWLuTEdxzcnpXjv7/tvxGA3zq
-         ju9mruVrKx0+5fRXGojPlLsAP0X3hCHdORbha5Tp0HRP15th9uzLpDn8RpeRltNMpbkB
-         3shFFyroslHPAgMcJ4FzP1zj4Kr8M+0bTcWkCloKuNYswVMMpXQ0XCg5naxyOm602J+v
-         hbzXDgCbZKq+Pc2utr+CLubzc1ey1FqJNKSSfgz/fBpyACPnpvX9+ciiR87ooL++3+6S
-         m18whRMOIWiR8aQDpTwDryVlY0d2b6oRaIDcZH/8Ow3I+5zHl23mJuH+NUSdLbAmEpwi
-         VZeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792136363; x=1792741163;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9Q+JD4cCc17ecbqzQFbNtgZQCDVQmV0Gk8J5DPqRIwc=;
-        b=LElx+w4DZxctQKJwS9CVwQ9dt6nCPchonHaepDHEf2uzyy+82H1122BFw/qexDQ/AE
-         zW9F0U32pXU9NZAg7Zujdj9Q3qAKEtbtN1QWogmPlRCi/cdGnDN6bpm0vCZWMpkrGu9+
-         fb6OjjR1MG2n8gV5GNThm/XPxnuZsBoNexCT1QzpHm6FbjesLSljpE69wjflHsdvlh9q
-         VokS419vwM7Vcth+I0zTYVmRZ82eGxZKsuueNpo9lJL5je2HrbPe3w0oFol8k85Is/yd
-         ZVW9ZrCVdHIa3R38yV9skRrW5jdOBvaM2nHL8N4Rfg7XwZqYEs6c7FgrOcMia/6614KZ
-         QFUg==
-X-Forwarded-Encrypted: i=1; AKwUvBxMkP/5hRQJClXoynfH3OUdJVsyE+qVOGPhIi4nW8CMi1u0brAv9/DJfqTJPemRE5ONJDoXA5HhjMEG2w2X@vger.kernel.org
-X-Gm-Message-State: AFq9FYKMvCpLUvBJQmpKUF2IUTCHUgtPUIaXYsDSQjtasbvBTEaytcAb
-	oP6G5Hi+g2/7QG2Lamei5tdOLndtEtZm7maFeorWYLeIWfSC27XmslNVJYpguwNhYS5bfbh3Wsv
-	4FpvbIHyVAGXn/hSRC8LvYOIWYFp3B8M=
-X-Gm-Gg: AYBFou0tepEbc3wD/5/wqIaigKrI3k4NevciOcrulxcRYAB35pgP752mHQLPDKS0X7P
-	v8fR+1n6f2ZQgHv6VxjqxnKSK32v7UoXCA4unn8B5cqmSnZ3mPbzjtLDt18DEYeoXzDZxX3El6+
-	oSzKRyq6ToEAteNKqHfINmtbriqnkCvXq8I+05krtM/BYR04mMx+IlCidRqSIliHNHDF3acIObW
-	bCvFnm1OxBzr4NA4J7UW6YMOHkmz879eyfyACSqbLQPej4icAMkZjHmheLSAuhswNFd3h8uqOPc
-	P3vUdnleFGNqXhsyzePTwlwgByIirE3WMQapRcqWacRqPLNBbtPEjgxe4QfykXgQdkH19iu/j/q
-	uPocl5XN+Dg==
-X-Received: by 2002:a53:d009:0:b0:677:d251:ccc6 with SMTP id
- 956f58d0204a3-6793605dda7mr4654300d50.71.1792136362980; Fri, 16 Oct 2026
- 00:39:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="rwQOFadM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1792136613; bh=h8HvQyIX57qBISjJasw1hsyChRsReBVt6kvOdPCGiEg=;
+	h=From:To:Cc:Subject:Date;
+	b=rwQOFadMeWF8RS7hbtOZhISkPVW2RoKii9ZDfrxrPWQsyjJTmQ60BFE/HKmkoRz1/
+	 Vb9dvrwKOF2td/h+FcqNf5AZoBnfYug472WWZWc8RSUVsv+czvyCGe9iPHkpZfE250
+	 SJLSNNzG6q0kCTf+yglLEPCel3R143HRiL4TXn7w=
+Received: from [172.18.4.77] ([111.31.227.58])
+	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
+	id A07860BD; Fri, 16 Oct 2026 15:40:07 +0800
+X-QQ-mid: xmsmtpt1792136407tvps9yzhi
+Message-ID: <tencent_AC9ADF8723B74E37A6BC51DC3EDA5132A908@qq.com>
+X-QQ-XMAILINFO: MllZffuBkEb5nDvw11v3BD312iz/N/ux8huwZ5GXpIy+aB4pjVYNmjZ5/7NZXf
+	 PBfDsUc7+imOilFAeBUFQ3oJVgsSiKfVn9sNiKZRAn+lHpaDNEzkHDTVc+exTQ8tj0d5UCz2d+re
+	 EoiZNbgq7DplQKZMeUWlqmnREnl8zMrPzYoh/MI3DP+kUKS5G4iTEiH7y5zyntmOD70nV5HFZ9me
+	 nxL8OFOvXG2f2n/INJYkuTSfocHEjnTbNNTt0ntG5LfBR70yp8F73fQZQF1xGKZ0JeuDlT8MqFXO
+	 k9gLDfrXWoOcXuGWR2bSLBEl0liildwmeVlRus8g6ruUOom1CCXdZU2gNaojkSTyW6PpsXOWXWrs
+	 Hn4wBnGlP0jFigazm3JjtqzYqhkYBS+50BLFlr2fY3ym6U4w4Sg0b/mVDa+aDlE7Fr/vz2OdPTAP
+	 KO3dDGdhTmMgBrO6h36cMIdv9rd1AW6aXNDeLZ+k40q7WGd7RV8FoFnGmlmkShKkVeoEDOTyI4FA
+	 ii0PtKUfos+eVtXCM3kJWbt/UaR+cjnOloU7B0Mp3Cy4MLRhMQKLynNUdYXNl+lH2MamtRDmdXw6
+	 T4NNh8+vi+QvshiBo8nZ7uS8u3MaR8J+xFWKsY9usZ6woPT4yDdPMjGB8/OmLFGlKXpsrXM60FRW
+	 fyb11W/mQ69KoQJfXJRlHmssF0uGKXTUMal/koPAweH6SvbBYDXgORy62I+mPSyWOcEGDNYODBdF
+	 hosV+Yj/NMgZatrXsLe721a7eSa4NUO55ofmLZMfTSy2SMU0a36ALq8Li7P1jQZGT4Q0NSE9bo9N
+	 OeJ4Fqre6qjo+lh8U4Oke79lO++Qmk/Jt/GhfDmfs09UgkksFFEraURZ6VcQOVq2TvE3Eujxudw4
+	 OekFASDZgJL8YF4/HsINwuIsiUBhcExKLFBscLDxh52PgM8tl9hXIzk6e520aQuWawYMMLysgQlp
+	 j3xXBqB2pvHt0yoVQzu3E4Ou6OxGRgHPV2t37T/ravzTUIklAhg1W2Yo/TQwsGsjFdokGyFnoZg5
+	 Ph+RAhIuReb/MVfDG8sPzG5Lm0no6fWOuDvwumnnq6ga+obProOxTaJSUIBsZEkRTQihC5p9pCcq
+	 RtIbWpTKIIdI8pv3lmaq5GlL7EDPhxMoNo10sf
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+From: yangguikun <yangguikun19@qq.com>
+To: Dave Kleikamp <shaggy@kernel.org>
+Cc: jfs-discussion@lists.sourceforge.net,
+ linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [BUG] jfs: unvalidated log superblock fields in lmLogInit() panic the kernel on mount
+Date: Fri, 16 Oct 2026 15:40:07 +0800
+X-OQ-MSGID: <20261016154007.85464-jfs-yangguikun19@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260908122446.56708-1-lizhe.67@bytedance.com>
- <as3gQ8jfa_6eBf15@chenyu-dev> <CALOAHbBssx9ZHGwebGZCvzT4d_soyjNfZRj4L6gnxHRXtc7eMA@mail.gmail.com>
- <807eb0e80c76c3ccb85024b360bd47ace201931b.camel@linux.intel.com>
- <CALOAHbCt+iGGWMxzjrcRamdSqD48_v+V685-qi7_Qy7UL8bxxQ@mail.gmail.com> <atG4VXk4t-m8VubY@chenyu-dev>
-In-Reply-To: <atG4VXk4t-m8VubY@chenyu-dev>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Fri, 16 Oct 2026 15:38:39 +0800
-X-Gm-Features: AclHuK_wXpq3Lf7WsZdWi1-5HCj6GkVfntrB1p_kAXzYzhwNrdQc9sTzTGN5xWA
-Message-ID: <CALOAHbDY6zLcEc4kGhC9GSFsOsREadkWN7Q4CmZuR_m_BMHAyg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] sched/numa: Add per-process automatic NUMA balancing control
-To: Chen Yu <yu.c.chen@intel.com>
-Cc: Tim Chen <tim.c.chen@linux.intel.com>, 
-	"David Hildenbrand (Red Hat)" <david@kernel.org>, ljs@kernel.org, Li Zhe <lizhe.67@bytedance.com>, 
-	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
-	kprateek.nayak@amd.com, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	tim.c.chen@intel.com, mkoutny@suse.com, tj@kernel.org, chen.yu@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 16, 2026 at 1:51=E2=80=AFPM Chen Yu <yu.c.chen@intel.com> wrote=
-:
->
-> On Fri, Oct 16, 2026 at 10:53:43AM +0800, Yafang Shao wrote:
-> > On Fri, Oct 16, 2026 at 3:58=E2=80=AFAM Tim Chen <tim.c.chen@linux.inte=
-l.com> wrote:
-> > >
-> > > On Tue, 2026-10-13 at 17:31 +0800, Yafang Shao wrote:
-> > > > On Tue, Oct 13, 2026 at 3:52=E2=80=AFPM Chen Yu <yu.c.chen@intel.co=
-m> wrote:
-> > > > >
-> > > > > On Tue, Sep 08, 2026 at 08:24:42PM +0800, Li Zhe wrote:
-> > > > > > Automatic NUMA balancing is controlled globally through the
-> > > > > > kernel.numa_balancing sysctl and can be influenced indirectly t=
-hrough
-> > > > > > memory policy. That works well as a system default, but it is t=
-oo coarse
-> > > > > > for workloads where a launcher wants most processes to use the =
-default
-> > > > > > policy while a selected process opts out because it already man=
-ages NUMA
-> > > > > > placement or cannot afford the sampling overhead.
-> > > > > >
-> > > > > > A recent per-cgroup proposal tried to address this by adding a
-> > > > > > cgroup-local enable knob plus a NUMA_BALANCING_CGROUP mode wher=
-e
-> > > > > > balancing was disabled by default and then enabled for selected=
- cgroups
-> > > > > > [1]. The discussion also noted that automatic NUMA balancing al=
-ready
-> > > > > > operates at task/process granularity, that the knob is not a re=
-source
-> > > > > > control attribute, and that task/process controls such as sched=
-_setattr()
-> > > > > > or prctl() may be a better fit while cgroups and cpusets contin=
-ue to
-> > > > > > describe workload grouping and placement domains.
-> > > > > >
-> > > > > > There is also prior art from 2023 prctl() proposals [2][3]. Tho=
-se
-> > > > > > versions used a per-mm mode with disabled/enabled/default state=
-s, added
-> > > > > > NumaB_mode to /proc/<pid>/status, and changed the global static=
- key
-> > > > > > handling so a per-process enable could override the global sysc=
-tl.
-> > > > > >
-> > > > > > This series takes a more conservative variant to preserve exist=
-ing
-> > > > > > administrator and workload expectations. Keeping the global sys=
-ctl as a
-> > > > > > hard off switch means an administrator can still disable all au=
-tomatic
-> > > > > > NUMA balancing activity with one knob. Using a weak two-state
-> > > > > > per-process opt-out/allow ABI avoids exposing a "default" state=
- whose
-> > > > > > meaning depends on global policy and is therefore easy to misin=
-terpret.
-> > > > > > Storing the configured mode in signal_struct gives the control =
-explicit
-> > > > > > thread-group semantics and avoids making unrelated non-thread C=
-LONE_VM
-> > > > > > users share the policy merely because they share an mm.
-> > > > > >
-> > > > > > The series implements a per-process interface: a thread group m=
-ay use
-> > > > > > prctl() to set or get its configured automatic NUMA balancing m=
-ode. A
-> > > > > > process can opt out of new periodic NUMA scan scheduling and NU=
-MA
-> > > > > > scheduler accounting, or opt back in. Existing hinting faults a=
-nd queued
-> > > > > > work are allowed to drain naturally as the disabled state takes=
- effect.
-> > > > > > When kernel.numa_balancing is 0, a process-local enable request=
- does not
-> > > > > > override it.
-> > > > > >
-> > > > > > A separate task_struct scheduler snapshot is used by enqueue/de=
-queue
-> > > > > > accounting so the scheduler can consistently account the state =
-that was
-> > > > > > in effect when a task entered the runqueue. This avoids changin=
-g
-> > > > > > historical task accounting while still allowing a process mode =
-change to
-> > > > > > take effect through the normal dequeue/update/enqueue path.
-> > > > > >
-> > > > > > The series also exposes the process NUMA balancing mode in
-> > > > > > /proc/<pid>/status and documents the new prctl() ABI and its in=
-teraction
-> > > > > > with the global sysctl.
-> > > > > >
-> > > > >
-> > > > > Can the global key be extended to tri-state, like the THP setting=
-s?
-> > > >
-> > > > IIUC, a BPF-based THP policy is yet to be developed as prctl() does=
-n't
-> > > > fit some use cases, especially mTHP.
-> > > >
-> > > > > To keep it backward-compatible, echoing 0 and 1 remains the same =
-effect.
-> > > > > The user can also echo always, advise, or never to it.
-> > > > > We have a similar proposal here for cache-aware scheduling[1]
-> > > >
-> > > > We are also experimenting with the LLC-aware scheduler on productio=
-n
-> > > > servers, and we want to enable it per cgroup rather than globally
-> > > > there as well.  Given the lessons we have learned from THP, what
-> > > > about implementing it as a BPF-based feature from the beginning, so
-> > > > that the semantics can still change when new use cases show up?
-> > >
-> > > Some questions about per-cgroup based cache aware scheduling:
-> > >
-> > > 1) What should be done if you want to group specific processes in dif=
-ferent cgroups?
-> > > It may not be desirable to put them together in the same cgroup for o=
-ther reasons
-> > > like IO or memory resource policies.
-> >
-> > Do you mean a multi-container pod? The policy can be applied at either
-> > the pod level or the container level.
-> >
-> >               Pod            <- policy applied at the pod level
-> >           /              \
-> >   containerA  containerB   <- or at the container level
-> >
-> > This is essentially a cgroup hierarchy: the pod is the parent cgroup
-> > and each container is a child cgroup, so policies (IO/memory) can be
-> > enforced at either level.
-> >
->
-> My understanding is that Tim was talking about a case where A and B do
-> not belong to the same parent (arbitrary hierarchy). Say, process T1, T2:
-> T1 belongs to cgroup A, T2 belongs to cgroup B, T1 has threads t1.1, t1.2=
-,
-> T2 has threads t2.1, t2.2, and t1.1 and t2.1 want to be aggregated togeth=
-er
-> because they have shared data.
+Hello Dave,
 
-Thanks for the clarification.
+Mounting a crafted jfs image that uses an external log makes lmLogInit()
+trust three on-disk fields in the log superblock without any range check,
+which ends in a kernel panic.  It is deterministic: 3 out of 3 runs on
+7.3-rc7, mount crashes, no write needed.  The fields are size, l2bsize
+and end; l2bsize is the one that reaches the crash here.
 
->
-> A more complex scenario is when cgroup A and cgroup B become threaded dom=
-ains:
->
->                          root
->                         /    \
->                        X      Y
->                        |      |
->                        A      B          A, B: threaded domains (thread r=
-oots)
->                       / \    / \         separate memory.max / io.max
->                     A1   A2 B1  B2       threaded cgroups
->                     ^        ^
->                     |        |
->                     +--------+
->                   want to share one cache group
->
-> In the above case, we might need to change the deployed cgroup hierarchy.
+Trigger
+-------
 
-I think we can enable LLC-aware scheduling for both A1 and A2 =E2=80=94 doe=
-s
-that sound right?
+    mount -t jfs -o loop crafted.img /mnt/x
 
->
-> Suppose threads in A1 and threads in A2 belong to the same process Pa,
-> this reminds me of the cgroup bpf NUMA balancing case: after enabling
-> NUMA balancing for A1 but not setting it for A2, what would be the final
-> NUMA balancing decision for process Pa, is it enabled or disabled?
-> The NUMA balancing scan/invalid seems to be per process, so if we change
-> the setting of its threads, the whole process will be impacted. Or maybe
-> we should not enable NUMA balancing for threaded cgroups? Anyway I haven'=
-t
-> digged into your cgroup bpf patch set yet, let me try to look at it.
+The image has to be one whose log lives on a separate device (the usual
+"external log" layout), and the log's superblock in block 1 carries an
+out-of-range l2bsize.  Mounting a block device needs CAP_SYS_ADMIN, as
+with any filesystem image; nothing else is required.  A control image
+that differs only in l2bsize = 12 mounts and runs normally.
 
-cgroup NUMAB works the same way: the setting is per cgroup and opt-in.
-For Pa in your example, since its threads spread across A1 and A2, you
-would enable it on both =E2=80=94 enabling it on only one of them is not
-meaningful.
+Root cause
+----------
 
->
-> > >
-> > > 2) What is the inheritance rule for cache grouping of tasks in a cgro=
-up
-> > > with child cgroups?
-> > > There may be too many tasks in parent to try to fit them all in a LLC=
- when
-> > > there are only certain subset of tasks sharing data that should be gr=
-ouped
-> > > together cache wise.
-> >
-> > Generally, a cgroup contains only a single main process in most use
-> > cases. If multiple tasks have to share a cgroup, they are either
-> > identical tasks or tasks with different priorities =E2=80=94 in which c=
-ase you
-> > only need to focus on the high-priority ones. That's how it works in
-> > practice.
-> >
->
-> IIUC, what Tim mentioned is about the inheritance relationship: if cgroup=
- A
-> has cache-aware enabled, will all its child cgroups enable cache-aware
-> recursively? (I think the answer is yes, while for NUMA balancing it depe=
-nds.)
+lmLogInit() reads the log superblock and validates only magic, state and
+uuid:
 
-Right. The cgroup NUMA balancing also works that way =E2=80=94 it is inheri=
-ted
-recursively as well.
+    fs/jfs/jfs_logmgr.c:1287-1314
+            if ((rc = lbmRead(log, 1, &bpsuper)))
+                    ...
+            logsuper = (struct logsuper *) bpsuper->l_ldata;
+            if (logsuper->magic != cpu_to_le32(LOGMAGIC)) { ... }
+            if (logsuper->state != cpu_to_le32(LOGREDONE)) { ... }
+            } else {
+                    if (!uuid_equal(&logsuper->uuid, &log->uuid)) { ... }
+                    log->size    = le32_to_cpu(logsuper->size);
+                    log->l2bsize = le32_to_cpu(logsuper->l2bsize);
+                    ...
+                    log->page    = le32_to_cpu(logsuper->end) / LOGPSIZE;
+                    log->eor     = le32_to_cpu(logsuper->end) -
+                                   (LOGPSIZE * log->page);
 
->
-> > >
-> > > With prctl, we can be precise in grouping only tasks that we truly
-> > > want to be together.  If we want to bunch tasks in a cgroup cache wis=
-e,
-> > > it is easy to write a daemon to put tasks in a cgroup into the same
-> > > cache group.
-> >
-> > I'm not a big fan of the prctl() approach in practice. Deploying a
-> > policy that way requires coordinating with other teams, and the policy
-> > may well need to be adjusted later =E2=80=94 every adjustment would mea=
-n
-> > asking another team to make changes, which is a painful round-trip.
-> > With BPF, on the other hand, all the work stays within the kernel
-> > team, and it's completely transparent to users.
-> >
->
-> I agree that prctl has limitations, but it provides fine-grained control
-> per task/thread. Besides, there might also be other users that do not
-> deploy cgroups, so in such use cases, per-task settings like prctl or
-> sched_setattr() could be another choice. For example, the schedqos tool
-> in Google's usecase, and DeepSeek's reinforcement learning infra[1], have
-> leveraged prctl to deploy core-scheduling to avoid noisy neighbours. That
-> is to say, I don't think the cgroup-based BPF interface and prctl/sched_s=
-etattr
-> are mutually exclusive, they can be complementary to each other, IMO.
+Neither size nor l2bsize nor end is range-checked, and l2bsize here
+overwrites the sane value that lmLogInit() had just set
+(jfs_logmgr.c:1269 sets log->l2bsize = L2LOGPSIZE for external logs).  It
+is then used directly as a shift count:
 
-Thanks for the use cases =E2=80=94 they're helpful. I'm not opposed to the
-prctl() approach.
+    fs/jfs/jfs_logmgr.c:1892
+            bp->l_blkno = log->base + (pn << (L2LOGPSIZE - log->l2bsize));
+    fs/jfs/jfs_logmgr.c:2018
+    fs/jfs/jfs_logmgr.c:2088
+            ... << (log->l2bsize - 9);
 
---=20
-Regards
-Yafang
+With l2bsize = 13, "L2LOGPSIZE - l2bsize" is negative and "l2bsize - 9"
+is 4, so the computed block number / sector is garbage; the bogus I/O
+that follows trips a use-after-free in the same function and the mount
+dies.
+
+Note the asymmetry inside the same function: the inline-log branch
+(jfs_logmgr.c:1306-1308) does check the on-disk size against the
+in-memory one and rejects a mismatch, while the external-log branch only
+compares the uuid.  The size field is unchecked there too, so
+log->logsize = (log->size - 2) << L2LOGPSIZE (jfs_logmgr.c:1385) can go
+negative as well; I reproduced the l2bsize case.
+
+Crash
+-----
+
+    UBSAN: shift-out-of-bounds in fs/jfs/jfs_logmgr.c:1892:32
+    shift exponent -1 is negative
+    ...
+    UBSAN: shift-out-of-bounds in fs/jfs/jfs_logmgr.c:2018:28
+    UBSAN: shift-out-of-bounds in fs/jfs/jfs_logmgr.c:2088:28
+    ...
+    BUG: KASAN: slab-use-after-free in lmLogInit+0x16dd/0x1a90
+    Read of size 8 at addr ff110000413e4218 by task mount/8208
+    Call Trace:
+     <TASK>
+     kasan_report+0xca/0x100
+     lmLogInit+0x16dd/0x1a90
+     lmLogOpen+0x...
+     jfs_mount_rw+0x...
+     jfs_fill_super+0x...
+     ...
+    Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+    RIP: 0010:___free_pages+0x15b/0x190
+    Kernel panic - not syncing: Fatal exception
+
+Three runs on three fresh VMs, all with l2bsize = 13, all panicked; the
+control (l2bsize = 12, same image otherwise) mounted with no UBSAN and no
+KASAN.
+
+Suggested fix
+-------------
+
+Validate the three fields before using them, the way the inline branch
+already validates size.  For example, require l2bsize to match
+L2LOGPSIZE for external logs (or at least bound it), and reject size < 2
+and an out-of-range end:
+
+    --- a/fs/jfs/jfs_logmgr.c
+    +++ b/fs/jfs/jfs_logmgr.c
+    @@ ... (in the external-log branch of lmLogInit, after the uuid check)
+    +       if (le32_to_cpu(logsuper->l2bsize) != L2LOGPSIZE ||
+    +           le32_to_cpu(logsuper->size) < 2) {
+    +               rc = -EINVAL;
+    +               goto ...;   /* existing error path */
+    +       }
+            log->size    = le32_to_cpu(logsuper->size);
+            log->l2bsize = le32_to_cpu(logsuper->l2bsize);
+
+(The exact placement and the error label depend on how you prefer to
+structure it; the existing "free logsuper and return rc" path is fine.)
+
+Versions
+--------
+
+Reproduced on 7.3-rc7.  The external-log branch in the 7.2 tree I checked
+reads and uses the same three fields the same way, with the same missing
+check.  I could not produce a Fixes: tag: the kernel trees available to
+me are not git repositories, so I have no verifiable commit to point at
+and did not want to guess.
+
+Thanks,
+yangguikun <yangguikun19@qq.com>
+
