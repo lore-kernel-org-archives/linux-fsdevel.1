@@ -1,112 +1,115 @@
-Received: from mta1.migadu.com (out-27.mta1.migadu.com [95.215.58.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226FC3CF673
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 09:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D79C4508E9;
+	Fri, 16 Oct 2026 10:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792144237; cv=none; b=i2MPIHLHjS99yl8fkvrvj04piREo1CBoBaD2xpMQe1IjWry7dzWQgSgOYU2PyfyYYTkNf/yHEce2VegOxxyJwXOtK4cEAhi84TXuCedbsTsf3MOiKgAMnt70AJN7kubzTgSPrKFRg8NDTfhz12k6sT+hb84zCk68MqMAWzu6ASw=
+	t=1792145205; cv=none; b=c6pAC2VTkIQc1x+4dVge0ZAYa0PcA77Wus2MsXeP/LYF8flswrSfvV/53IOQt+lrydq2zOlCAR5Kg/AeDVkQIR/LV4EJ0Q88Yq96uqKG7XJs92nOYG372dB+7D2RYZ3fmgtmb20JD4H0OUXP5RbNtvPzxr39KTX0mucXMDYosnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792144237; c=relaxed/simple;
-	bh=6etTptRp+LrfSLSHwwV/0Uxy/guPz+lham75CQKW3uU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PmTTh2t0aJkCRO+R9WWq5Ojnnkyy0uEMuZlK7Tg4qe28ptlKg9R1nAygwAV+KJzFT6w7QooGT1kilzAdj3p10wfMWphePfI7PTKC5MYa2LX+zN5YLkbKGIVJXZJrN3avEptZ8ZlzExjSsgTXIHtngYjLsOkA1mCElUXrs43kX8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JL0N5Wr3; arc=none smtp.client-ip=95.215.58.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JL0N5Wr3"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=6etTptRp+LrfSLSHwwV/0Uxy/guPz+lham75CQKW3uU=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792144233; v=1; x=1792749033;
- b=JL0N5Wr3sz2OcO1RheLqCjnnHDYPVUhRaFfA3KsDXrWNrnzSi04s6//9v+EIatPrSe7MOVyT
- iG0lYLJoYp3/bdFeGqyrpwsZatGMfGB3E5WneFj3pC5wMGdRpYZUYz2w9h8NgFb8wCy2iEi6y/R
- YjZXxmr0yF0pHS2ZGa4FwcYA=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 1b3b6dc6d678a515;
-	Fri, 16 Oct 2026 09:50:32 +0000
-X-Mizu-Trace-ID: 1b3b6dc6d678a515
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <ce35f31f-3805-47b6-a953-ba55637b4181@linux.dev>
-Date: Fri, 16 Oct 2026 17:50:16 +0800
+	s=arc-20240116; t=1792145205; c=relaxed/simple;
+	bh=SfMBzgk7p25AwDDti/OcTTOxuYfNAEw7WDRimDYYnl0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ANa1GAWeFRQKNym4UpgpnLL3Dpt+HPZPoAAVdDuZudg4HOHeplH/iU5Jjy3fFiwDwJNiXBZ4MARnmIHZ8eoXM140vnwA0Z0x3XD9/Lj0Tz19Ise8IiRj+p406T/Pyy+eKjiLutqN2zgnjbnESop7KxbzBGl0PIYoB+VD2lnx71w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j5gYZ66ZmzYQvcG;
+	Fri, 16 Oct 2026 18:05:38 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 1432840B70;
+	Fri, 16 Oct 2026 18:06:35 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.50.85.155])
+	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgAnZPMj99Fq7MSZAg--.19410S4;
+	Fri, 16 Oct 2026 18:06:34 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-ext4@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	libaokun@linux.alibaba.com,
+	jack@suse.cz,
+	ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com,
+	error27@gmail.com,
+	yi.zhang@huawei.com,
+	yi.zhang@huaweicloud.com,
+	yizhang089@gmail.com,
+	chengzhihao1@huawei.com,
+	yangerkun@huawei.com,
+	yukuai@fnnas.com
+Subject: [PATCH] ext4: return 0 instead of stale ret in ext4_iomap_writepages()
+Date: Fri, 16 Oct 2026 17:59:26 +0800
+Message-ID: <20261016095927.1762656-1-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <atHZN9YIl8T2E0tK@stanley.mountain>
+References: <atHZN9YIl8T2E0tK@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] proc: Move OOM-related procfs code to fs/proc/oom.c
-To: Michal Hocko <mhocko@suse.com>
-Cc: David Rientjes <rientjes@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, Ye Liu <liuye@kylinos.cn>
-References: <20261014-oom_procfs-v1-1-f2d75e73571e@linux.dev>
- <as9MG_BtepLV6DsC@tiehlicka> <e51c14e9-5559-4ff7-8a38-de815a8f8230@linux.dev>
- <atCw0gk77fF5ISQV@tiehlicka>
-Content-Language: en-US
-From: Ye Liu <ye.liu@linux.dev>
-In-Reply-To: <atCw0gk77fF5ISQV@tiehlicka>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgAnZPMj99Fq7MSZAg--.19410S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZF1kuw1rKF1UtryDGrWkCrg_yoW8Xw18pF
+	W3G34kGr1kWrykua1vga43Zw10yayrGr4UWF15CFn8Z39xXFWFgF40gF12vF47ArWUC3ya
+	qF4F9F18uw1jvrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+	8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
+	Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
+	x4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
+	1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
+	JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
+	sGvfC2KfnxnUUI43ZEXa7VU1773PUUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
+From: Zhang Yi <yi.zhang@huawei.com>
 
+smatch reports a "missing error code" warning:
 
-在 2026/10/15 18:54, Michal Hocko 写道:
-> On Thu 15-10-26 09:32:53, Ye Liu wrote:
->>
->>
->> 在 2026/10/14 17:32, Michal Hocko 写道:
->>> On Wed 14-10-26 16:54:12, Ye Liu wrote:
->>>> From: Ye Liu <liuye@kylinos.cn>
->>>>
->>>> fs/proc/base.c is a large file (~3700 lines) handling all per-process
->>>> procfs entries. The OOM score, oom_adj, and oom_score_adj interface
->>>> code is self-contained and has no dependencies on other parts of
->>>> base.c, so move it into a dedicated fs/proc/oom.c following the same
->>>> pattern as fs/proc/fd.c and fs/proc/task_mmu.c.
->>>>
->>>> This makes both files easier to read and keeps OOM-related procfs
->>>> entries together in one place.
->>>
->>> Are there plans to separate other functionality or is this one off
->>> thing?
->>> In general I am not against of moving stuff to more specialized files.
->>> An obvious downside is a review as it is quite easy to overlook a subtle
->>> change when moving so much code. Something worth undertaking if there
->>> is a bigger goal. Not so sure if this is just a one of and fs/proc/base.c
->>> still keeps other random stuff in.
->>>
->>
->> Hi Michal,
->>
->> This is a one-off move specifically for the OOM-related procfs code.
->> I don't have a broader plan to split up fs/proc/base.c at this time.
->>
->> I understand the concern about subtle changes during code moves.
->> To address that, the patch is a pure relocation with no functional
->> modifications — all function bodies are moved verbatim. 
-> 
-> But you do understand that I effectivelly need to redo the patch to
-> confirm this is the case, right?
-> 
-> This is something I am not particularly thrilled to do for a single
-> isolated patch without a larger plan. taks_mmu.c will remain a huge pile
-> of code after this change. So what's the point for all that effort?
-> 
-My familiarity with fs/proc/base.c is currently limited to the OOM-related
-code. Meaningfully splitting other parts of base.c would require time to
-study those modules first, which I don't have available in the near term.
-I may revisit a broader cleanup when I have the bandwidth to do it properly.
+  fs/ext4/inode.c:4518 ext4_iomap_writepages() warn: missing error code? 'ret'
 
-For now, I'd like to withdraw this patch rather than leave it hanging.
+The 'ret' variable has already been consumed by the ext4_emergency_state()
+check at the beginning of the function, so its value is always zero at this
+point.  Returning it is equivalent to returning 0, but it is misleading
+because it looks like an error code is being propagated.
 
-Appreciate the review.
+This branch handles the race with ext4_change_inode_journal_flag(), which
+flushes the dirty data and drops the page cache before switching the inode
+to the buffer_head path, so there is genuinely nothing to write back here.
+Return 0 explicitly to make the intent clear.
 
+Fixes: bdcbb0f19e92 ("ext4: partially enable iomap for the buffered I/O path of regular files")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Closes: https://lore.kernel.org/r/202610160314.PLMEXaOJ-lkp@intel.com/
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+---
+ fs/ext4/inode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index 1853fbdc2a5af..fb0fdfc43566b 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -4515,7 +4515,7 @@ static int ext4_iomap_writepages(struct address_space *mapping,
+ 	 */
+ 	if (!ext4_inode_buffered_iomap(inode)) {
+ 		ext4_writepages_up_read(sb, alloc_ctx);
+-		return ret;
++		return 0;
+ 	}
+ 
+ 	trace_ext4_writepages(inode, wbc);
 -- 
-Thanks,
-Ye Liu
+2.52.0
 
