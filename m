@@ -1,84 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CC95476D1;
-	Fri, 16 Oct 2026 16:23:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44024E06F3;
+	Fri, 16 Oct 2026 16:27:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792167816; cv=none; b=aJybUt/qo3S7KpxPwHKi/J7hZv4LZ2nDJDiNL6VLqAeJvci/oUupMpouI9ZuZar2hM03Y0SBN3kefiNzaC0khPmfNAB5jrNKSUuA2lXpMKr8dN8wQSH2IpzXoecL8Rl6qT8im4/lk4PPNsfdBqajS7VxIrcWexryXVNT1Sryy6I=
+	t=1792168024; cv=none; b=QwCdwCi44wHF1ms5qrk3kO9Dv56PvlyNkUl0h7MFyxgbR/UKPiQIObaI8d3s/ti5z3uXLP2CB0nXYwjy0mfkXf3qN8vOrdtg6MI8ZAoj27ZZF0ObVxq4DRhbP4P4qMbr9dYzpcYipacFgvB/UZvB7lOIHQC/F+LGwvlaZNxQfcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792167816; c=relaxed/simple;
-	bh=E9SRiSCM5yvhN1VP+wX+5EYFn3iDrwTrFprS3qu6ZZs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WsRD3B1bcE8GgJ818UeQrWk9k+Gln6qZV16bCQYTGc1MnL8iqG7KcFM5qekfHTY1J2OHIEiY+YbdrE13qsUuzDlHYfSdtuNQZVPLPbLIrrHg+pvlSV08SiDHnHdQ4Egeyoh4X5jHgVvgxSGXyOIZg2aUORYSeYENZCiQuYX+PDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bxOlIOYQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792168024; c=relaxed/simple;
+	bh=k/NnZI6g5iYANsjrUod4ok4m18opjzAfY9Z0VtcxbOw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AvUFuzfCYgr/VJ4impDLv6oSpPtuXaBpu52AEVWXnUjCs3Lte5VIeGK/UBa8P9oBzmmvQx4923MeBCqszeE4Wh7GB808SGSbcX/WHYA5muczTZ8fvnc4hyAT2h+fOmrXpdUnCpbtHvxJw8mZElS6JLMLSRiTWdSf9CZt2pF2FmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NNYUQZwC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bxOlIOYQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C02811F000C4;
-	Fri, 16 Oct 2026 16:23:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NNYUQZwC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 882351F000C5;
+	Fri, 16 Oct 2026 16:26:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792167814;
-	bh=i4/9iMqN/LtDPDrWWJiced64myxgoKMh3yjV3ekiXsA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bxOlIOYQ1QaSQRJK6xcCgnGaxv40MKTV5pCSwlpFIFE9jV1+XqQ+GkUjI/RISXBSn
-	 UCB+qpzG0AQxwpsZJG7RDpbnykduyXhnvsGnUlLUga/q44GfVTerH7g4YH9pnw3tbz
-	 pCQe8JTRUmbtqqHVcUvDrQ4jCB3TjAvjahf3SxUgQk/h0EQzH1L7A7ZlLdiIygxljR
-	 YeVWTr8PfujENgcgcXc7GNvxKTjMN2EPaSrUACotiWsApBM5I31ieFg5ltpvEfrml7
-	 i8IimwvfmuafalADmp7IVZun7Iol49oVCwL9lV4okfHP8uhKFgpmhSAbh4XczoFN4+
-	 L8siCdp3NC9TQ==
-Date: Fri, 16 Oct 2026 17:23:30 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: xfs <linux-xfs@vger.kernel.org>, 
-	linux-ext4 <linux-ext4@vger.kernel.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	fuse-devel <fuse-devel@lists.linux.dev>, fstests <fstests@vger.kernel.org>
-Subject: Re: Farewell!
-Message-ID: <atJOVQbVNH6MHcom@gremlin>
-References: <20261016160037.GA107919@frogsfrogsfrogs>
+	s=k20260515; t=1792168023;
+	bh=2l8YLQbQivJK5RQyiHwvfbhFsZFYdX24H4sZ0vwEvvQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=NNYUQZwC5/GUrKbCT07RUDe2E13/5WofLyxktdVvu+etqHHwXo8bT9inIbtGbjy4b
+	 gO1ljcCU+9K7L6TZXb1ZS+zBf7nibVJGh9xvMH7EvFHxkDDxGZa8IZMBFUIpyiNGpH
+	 8YsX+hPeCCaKXTd8cM2Zng2vy4TDJs/EUGZiSwNJRppE3awVI2oDlipUwB6hDh9poz
+	 RTQbtOcHbC2vYC4loz7sNAzEpLJ7D/tgcPIkxyAfcPNhRbEw0VFdTEV0P7PLVtaKNV
+	 C4lH59yfcU9aV/tK6ml4gFrcGSC8pLURxSfE4Q6OQc6mxDEs/r4omnGgICRGyy8BN+
+	 D2sdRUiqnCgFw==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: gary@garyguo.net
+Cc: a.hindborg@kernel.org,
+	acourbot@nvidia.com,
+	aliceryhl@google.com,
+	bjorn3_gh@protonmail.com,
+	boqun@kernel.org,
+	brauner@kernel.org,
+	dakr@kernel.org,
+	daniel.almeida@collabora.com,
+	georgeandrout13@gmail.com,
+	jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	lossin@kernel.org,
+	ojeda@kernel.org,
+	rust-for-linux@vger.kernel.org,
+	tamird@kernel.org,
+	tmgross@umich.edu,
+	viro@zeniv.linux.org.uk,
+	work@onurozkan.dev
+Subject: Re: [PATCH] rust: file: handle fd table teardown in file descriptor APIs
+Date: Fri, 16 Oct 2026 18:26:54 +0200
+Message-ID: <20261016162654.121877-1-ojeda@kernel.org>
+In-Reply-To: <DLM3XWG7NZM6.1B4YP1MC0E3OV@garyguo.net>
+References: <DLM3XWG7NZM6.1B4YP1MC0E3OV@garyguo.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261016160037.GA107919@frogsfrogsfrogs>
 
-On Fri, Oct 16, 2026 at 09:00:37AM -0700, Darrick J. Wong wrote:
-> Hi everyone,
+On Tue, 22 Sep 2026 20:55:16 +0100 Gary Guo <gary@garyguo.net> wrote:
 >
-> After 14 years at Oracle and 23 years working on Linux, I've decided to
-> take an extended break.  Today, October 16th, 2026, is my last day.
+> Regular checks are fine, no need for TODO either. Just bring this up to nudge
+> Miguel to pick the patch :)
 
-Oh man.
+v3 up and ready to be picked:
 
-I totally understand you needing a break, and I hope you have a restful time
-away from the noise and fury of the mailing list :)
+  https://lore.kernel.org/rust-for-linux/20261016162446.121509-1-ojeda@kernel.org/
 
-Though we didn’t do much together on-list, I always enjoyed your
-contributions, and really enjoyed working with you while we were both at
-Oracle.
+:)
 
-I'm sad to see you go, but I want what’s best for you.
-
->
-> I don't have any immediate plans to drop the djwong@kernel.org
-> forwarding, though ultimately that's up to the sysadmins to decide.
-
-I hope it'll be kept for you to come back to if you feel like it :)
-
->
-> I have very much enjoyed working with you all, and I'm proud of what
-> we've accomplished together.  Good luck!
-
-You also, thank you so much for all your contributions and best of luck with
-whatever comes next!
-
->
-> --Darrick
->
-
---
-Cheers, Lorenzo
+Cheers,
+Miguel
