@@ -1,145 +1,136 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6E142589D;
-	Fri, 16 Oct 2026 07:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7852C4477E3
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 07:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792135535; cv=none; b=HxY3+sozrD77K8IdGei9LpGg+B3KJklTrF1sGLAO/8lhIW816/IX4fM8S3J2FNKAswhwXTwwru5KxzfNElu/4ikXzECnBtohRGPTsUofQhgTbyoqhcumneGhgYPJjaNh9wahN/s6ltTy0UmN0C6wwxTc8/r1IQ7g6VkhbbxkJhI=
+	t=1792135973; cv=none; b=tXRH62cQXkhyKvGt2gQhnv+oParA6VwdKFB3SomY0h3vsMCKEZwJMRDp7XWtDrjxfmM/oaKbwZMIGFKaW+phI7j7SId+0rm0DVIg1K0uhK+qzS/DiKjcNzrTjeQ0TPQm0BDGj7sTEwRDF4XfKKk7qMIJSCUHEKTODgqxdBGZxR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792135535; c=relaxed/simple;
-	bh=kd3cNXp0oCLBIzYgGvW4Qahj8AzfKmIg7XSgTUAp3NQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KcnIuKqDpBpz/bItfYoV4ERIHKH0ncoZKS0BeXNxLLUeHM84lSOalF8KyqUScimbF63CO/tOHglF6kohyEU8+xJoRN0eFDFOOZ73eg87+6vEztTbXILL3hrK24KqkB5jDf120n6FgSvMdf4s8VrOIxvqZOqozO08WgoczuJAZVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=fLD9xg59; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="fLD9xg59"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69FJjHJu575454;
-	Fri, 16 Oct 2026 07:24:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=JUjQYie+YkxgaUkmMfVVcmtbvoTR+C
-	oU4zK0j8eDj6o=; b=fLD9xg59ScuN1SuYDbNWU02qhgplPNAsZrchSo6AMFgJ23
-	G0BO2N3XKrx6UEo5aOIXy7BN0nwwUZR/IqT0Ov82UEJcryNLdjivODsqepgMwmo3
-	OgIYK9ywvCMt+1Gswi4UTYKv4SCrqxT8ycPjiNvgG6lJVTzbSVLu3nTw3w6WZ2Rb
-	6m1NgmgY3fqPAl6T18Aq4UiqtPy59/u0U73/1eVe5z2mq6vZ/WzcPc1czp6tiAzl
-	6aI7uWmfIkYqne5rYcOhnWzJ4RzdHcDMys9NyjQFW99MvpD17dobAgzS3K+mxeO7
-	I9wJTZT0wT5wNPyV6g9dvjtAE1qnKpznfwiRXVNQ==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4h7e1wna7m-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 16 Oct 2026 07:24:56 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69G5sWmW2057780;
-	Fri, 16 Oct 2026 07:24:55 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hawqwutgp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 16 Oct 2026 07:24:55 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69G7Orgk38994428
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 16 Oct 2026 07:24:53 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 965182004E;
-	Fri, 16 Oct 2026 07:24:53 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2A51A20040;
-	Fri, 16 Oct 2026 07:24:48 +0000 (GMT)
-Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.31.170])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri, 16 Oct 2026 07:24:47 +0000 (GMT)
-Date: Fri, 16 Oct 2026 12:55:32 +0530
-From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-To: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
-        "Darrick J . Wong" <djwong@kernel.org>,
-        Carlos Maiolino <cem@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>,
-        Christoph Hellwig <hch@lst.de>, Dave Chinner <dchinner@redhat.com>,
-        Daniel Gomez <da.gomez@kernel.org>, Theodore Tso <tytso@mit.edu>,
-        linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Andres Freund <andres@anarazel.de>
-Subject: Re: [RFC PATCH v4 12/12] iomap: Handle deadlock due to repeating
- folios in RWF_WRITETHROUGH
-Message-ID: <atHRbMgzArepXTsd@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-References: <cover.1790596383.git.ojaswin@linux.ibm.com>
- <5159efdec832e8179e9f689a9292f9bf47d9a0fa.1790596383.git.ojaswin@linux.ibm.com>
- <as3t7j3P3mQhsr7p@quentin>
+	s=arc-20240116; t=1792135973; c=relaxed/simple;
+	bh=0lqg0zig61PhYIVpk8JV6/dZoMgln3ExA6zGv3cfk+w=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=G4qBZZmAZTYQIR5N3kE/4rDhOdpYNTYi7Zi4ApqDA6zO/eju2L51PUIIG5HMQjSelG83agFJEPmqkeTysgbvm3NhOXGrivP1uxlGVElpW954q4ll6qG0h44pIWxMOihaJRwRRpiVoyYTsiHoSasP6cWZSAdwQBxtFwjFAQXAxVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4b2f2b8d88fso10366037b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 00:32:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792135969; x=1792740769;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=D8SkBXaAciW9b0ju2efjjoDka8elPLR9VCB9wPB/O2o=;
+        b=xqhggLicXD6Qi/rBcxYz+zDsiOTiq/Zz6XDxR3yJeuZJAF34EjAiVfAR4NkpolZU7p
+         V26MfplY4ZHDLOGl/Jw2nygy948wmJsUTSGp+gs1GdKNYBpm3SiZN2ZNP/UBS0OS6wvw
+         tOOnCRh07XbNhwXb9Php92DM2KDtMZQPP5hSymXrPr5cCjQn1WbXQHiDlL5pd8ZDI1Ps
+         7BIeFDAgK+e84lMLp3jInnbNQf44EvGMTd15glYAs0CyUlUYyeQV8YqiZZzCYuSsQxPq
+         /r0oJ6Wkwa2HjZmJx4tlweIirDNRFJzYK2YfIz3Tscdq0qqFKN8m7/NnzbZZY388ypiS
+         /uBg==
+X-Gm-Message-State: AFq9FYI9BnEYeGj4MDzwNrCODnoD4TxAvwz5JkVg/aoAVJyHeidql36b
+	p/argmOZkenZis4CV0FWwFe3N1nUMM98ag0EPAsT/0capsqgV8OncZj9lGl79uNqSY0K0RHQTb9
+	8FzOK9VDIaEF2f5zF57Ars+FHiW1t31znSo72LMBCS08urHmsCXt2QeI2Qrw=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <as3t7j3P3mQhsr7p@quentin>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDAyOCBTYWx0ZWRfX8Ez8pm9LkYhN
- PJeJD7TtDpE1DeAUcnCwktcg9qVjLn1PFO6E2wBrEFYDKUN+eEC78KzwlpY4cf5HzLNtIIiEuoS
- TSN2wNgSt+8JbLZ3C20J2pityIkNaEY=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDAyOCBTYWx0ZWRfX8xgohQ+J1SL8
- bHMhqrjoRcrywkI9x2RpnHyc0cfcRJlGaHcqoQ7x40AemkQU+CKYvS9xlnNHCR7Oc3UrZ4xLVk7
- QVu8PHA2ztJtyjuNcwVV36wLT5mTnmlABfUru23IodDgoqrqKjw91zjGUT7vaN9tSm7XfhYhXsK
- EjVBdMWzlea/oc72KeauQH684KRzmEVzA+n5yacjkmjW116MAwwDZPhz3ynVz/8HZ7CrEZ7cXfy
- j5q5I/OzeLZg9XjlNN9umH4RIVFCW53MljIBZvuvUpo5n4e28Wr2VtWqmweYJLvY63+8pLEtne2
- oT7WQfkKi4/ncsY21PnNzKnzCED9S5uwAdDc5fLpLHIWjh5zuQW9ozv6sMSpmJhZPA/GphZdXPq
- KWDeBfU2uUKFRB9ASXNgN7Qy8qPbKbKRHwQqJmE3gWgLZbPSorJ6ushdLwbdvzMziVBqm2tE0u3
- jxfHN9Wx8xnOGtuRcTA==
-X-Authority-Analysis: v=2.4 cv=E6pYNqdl c=1 sm=1 tr=0 ts=6ad1d148 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=UyTkRMcuAzhAlBp-MlIA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: PTvjpi1rn2w4e-zcFJbRgr9JRBvAlwgp
-X-Proofpoint-GUID: znIlKs1_pN1Dw6ZUpe9laAJQCsODY-SP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-14_01,2026-10-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 clxscore=1015 bulkscore=0 priorityscore=1501
- spamscore=0 adultscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610160028
+X-Received: by 2002:a05:6808:4f4b:b0:4e8:2150:2a1 with SMTP id
+ 5614622812f47-50c57c62debmr22950300b6e.68.1792135968946; Fri, 16 Oct 2026
+ 00:32:48 -0700 (PDT)
+Date: Fri, 16 Oct 2026 00:32:48 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ad1d320.a6d1a155.34a93f.0000.GAE@google.com>
+Subject: [syzbot] [fs?] WARNING in minix_rmdir (2)
+From: syzbot <syzbot+8420e667af06b1709c00@syzkaller.appspotmail.com>
+To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 13, 2026 at 10:40:32AM +0200, Pankaj Raghav (Samsung) wrote:
-> On Mon, Sep 28, 2026 at 05:33:13PM +0530, Ojaswin Mujoo wrote:
-> > In iomap_writethrough_iter() we might encounter repeating folios across
-> > multiple iterations. Repeating folios can occur if, example,
-> > copy_folio_from_iter_atomic() does a short copy due to userspace pages
-> > not faulted in. This is an issue because a previous loop might have
-> > started writeback on them but not yet issued the IO. In the next
-> > iteration trying to get the same folio with FGP_STABLE will result in a
-> > deadlock. Since repeating folios will always be encountered back to
-> > back, we can just use a simple cur != prev check to detect them.
-> > 
-> > Use this to avoid waiting for writeback or starting writeback on folios
-> > we have already processed. Note that in ->endio() we might end up
-> > calling folio_end_writethrough() twice on the same folio which can cause
-> > issues with folio_xor_flags_has_waiters(). For simplicity, just change
-> > the folio_xor_flags_has_waiters() call to an idempotent variant.
-> 
-> Is this an outdated comment?
+Hello,
 
-Yes, thanks. I'll change this. We just use the folio_end_writethrough()
-now.
-> 
-> > 
-> > Reported-by: Pankaj Raghav <pankaj.raghav@linux.dev>
-> 
-> Thanks for fixing it. I think I was able to trigger this in a VM with
-> limited memory where the chances of short copy is probably higher. The
-> fixes makes sense to me.
-> 
-> I will run some tests this week and report back if there is an issue.
-> 
-> --
-> Pankaj
+syzbot found the following issue on:
+
+HEAD commit:    b88c841d1164 Merge tag 'input-for-v7.3-rc6' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14db50a5580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7d1b274ca9837366
+dashboard link: https://syzkaller.appspot.com/bug?extid=8420e667af06b1709c00
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17ba149c580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=114291d1580000
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-b88c841d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c64cd81f2bae/vmlinux-b88c841d.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/605b0408da7b/bzImage-b88c841d.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/3ed2a0024dcf/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+8420e667af06b1709c00@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+inode->i_nlink == 0
+WARNING: fs/inode.c:408 at drop_nlink+0xc5/0x110 fs/inode.c:408, CPU#0: syz-executor/5454
+Modules linked in:
+CPU: 0 UID: 0 PID: 5454 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:drop_nlink+0xc5/0x110 fs/inode.c:408
+Code: a8 07 00 00 be 08 00 00 00 e8 f7 68 e4 ff f0 48 ff 83 a8 07 00 00 5b 41 5c 41 5e 41 5f 5d e9 52 90 97 09 cc e8 0c e7 71 ff 90 <0f> 0b 90 eb 81 44 89 f1 80 e1 07 80 c1 03 38 c1 0f 8c 5b ff ff ff
+RSP: 0018:ffffc900033b7d10 EFLAGS: 00010293
+RAX: ffffffff82563a14 RBX: ffff8880439c30b0 RCX: ffff888013d0cb00
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: ffffffff917a977f R09: 1ffffffff22f52ef
+R10: dffffc0000000000 R11: fffffbfff22f52f0 R12: 1ffff1100873861f
+R13: dffffc0000000000 R14: ffff8880439c30f8 R15: dffffc0000000000
+FS:  000055555e111500(0000) GS:ffff88808b0b4000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000556e57c72048 CR3: 0000000013446000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ inode_dec_link_count include/linux/fs.h:2269 [inline]
+ minix_rmdir+0xfc/0x140 fs/minix/namei.c:183
+ vfs_rmdir+0x3e6/0x6a0 fs/namei.c:5544
+ filename_rmdir+0x292/0x520 fs/namei.c:5601
+ __do_sys_unlinkat fs/namei.c:5776 [inline]
+ __se_sys_unlinkat+0x71/0x1a0 fs/namei.c:5769
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f819279d2f7
+Code: 77 01 c3 48 c7 c2 e8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 b8 07 01 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffef5481018 EFLAGS: 00000207 ORIG_RAX: 0000000000000107
+RAX: ffffffffffffffda RBX: 0000000000000065 RCX: 00007f819279d2f7
+RDX: 0000000000000200 RSI: 00007ffef54821c0 RDI: 00000000ffffff9c
+RBP: 00007f8192834ccb R08: 0000000000018560 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000207 R12: 00007ffef54821c0
+R13: 00007f8192834ccb R14: 0000000000028576 R15: 00007ffef5484380
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
