@@ -1,273 +1,131 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660E231DDBB
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 01:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792114917; cv=pass; b=t/wph0mNEOt0MDQCHT/tgu44I65itIAbHFQNke9EUEo8NxK4k/Rotd70NsEa3kbcsoKkA+5wCpy5xC6KDjablyiKmaPbSUSslstXAc4If2O18hdsxd9uDsaWmHAVVQdrD9OiOQv9cn5rbv7C/kmbVa4H2f/db51OJO6T1tSiyP4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792114917; c=relaxed/simple;
-	bh=j/dhUpk8MUPUKpBECSdbGTxzHkZ/E6OYKPtq5luQEIk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nD2jiUV/iEBN8l36kLBR464PfebuoMoaGMmlm5JPZ6moZMTH/VY4xjL+q6FFddVTQmwjd3UGORlK0+Mc/EA8Zk3AxqM7CtXZh3Q1X620Tu20fHiAUQFJN8FAUkOFWUDq86KcMQ/KaBRkRxzQNxGSE00ZvjDydkxKo30YTjlRLYQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/SB7269; arc=pass smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10763368A9
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 02:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792117926; cv=none; b=lTyJYzG8pC/jsVO2INkQqSW5YBbneaFhi1vxuG5CTBzIt2nppWIwLIfuKq/A/RBU0IZ1p4TccLYv2voP3s97r2AX7rBLtf4NyqnDzpUEBAkUeOwzwiQnaqPqVmoa7+IRKBl1X5jHE2NW7yOVSwDOXSdw3o2cprtK0NCIoR12a0k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792117926; c=relaxed/simple;
+	bh=f3DORJrJpkP6ZRkP19t1XIOYLbgIcUWXGly+WSIdbaQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lT127mR70ip5iHf22vA4JjDWQZ6T5M9i58Qh+eFcy46prqabgd2dkTY9hz+biug6w5uemqJak5akiLD0Wjq1p+9yuUWPwwWW5xI7ClHwDdq/Qn6i73ovXJ7q8HXjrTVybbuxBNoYGrKf9JgdvKe6oTX46fGGEpgDe+rvwK3VUGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu; spf=pass smtp.mailfrom=cs.unc.edu; dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b=Lb+yK4lq; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/SB7269"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49ff680331aso29373235e9.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 18:41:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792114914; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Uj1t2hkPtsrg0lQe5dgNualsp59eTEqKZH93lO8mPhzATT4hDVZEyQn2YVy7TlXRQy
-         OaDGt7qDpaTgj59NKqJ52qNenCeXPqyoBkBnmLsUwpFq4dzo22xIIbwDpMspT7+e7yH1
-         e5YOYmtiQZnAKmF2bR9Ww5XMl/a+c1hhSTPWtBd1FfQFqlk4afdkyZapv2uEO6f+P0cE
-         k9BB/7javD+HJfr9xF89ncgriUk/0Vtg7PwRWrzruuE2vPqhm6IRVz2U+P9IP+znM/lV
-         A9xgH8qcTnjDu0ljfIjVNgRDpzG9vcs6NAWiWouCfK1vVmH2J0mEpuGNdRo/RnSbGWhg
-         WDVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dQCjKnpPJ7GDMGuXaT1sL8RXqnIOzelAupnlRVaJRrM=;
-        fh=8PVbC9OYP06NHeO7V6DO2HO8jJFrYYksDL19THGH8f4=;
-        b=lmPqu2bpPevP/roafoc4pjc1CVqZqU9G+inQw5vYxgDyCBog8EPSvWT3pwdVSe+StZ
-         RWF2drzBaiqib/mxDbjvNe099OVco9HaEt+X8UgMvKlizKzK6K82wTl0q/W4AFeMN2Bv
-         XfpvReCQTAWuibFq3kADgtgahPXNHzxrBuIZ1knryGx6NnjChY5FkGj9M7Gyg1dfz1xC
-         rY0gzYRidBHx7ovKZxOBVf5PAIl3LmakIRmeoYsgiGKWPCeGhDGTxqMh2D67i0aVVTlI
-         mYPsb84X5an3M7zZxpCLsEsbIPFMFvjpy8/1axt6BjiHYSCNenQukLERC+X7RIgpvQNP
-         ZDWA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b="Lb+yK4lq"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-53394bffe0fso7305311cf.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 19:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792114914; x=1792719714; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=cs.unc.edu; s=google; t=1792117924; x=1792722724; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=dQCjKnpPJ7GDMGuXaT1sL8RXqnIOzelAupnlRVaJRrM=;
-        b=M/SB7269RETiiFDhzd6V1YWRwjcyOPEmoGaaZphIVv2hk/CMLkpzljm4250Lr1b6So
-         aFQI8dyMP4QmljfbeHIj1R4ZPUjmM0PwIJ9/tRFGZj5xTjffLob5WA9MUjklonLsbbLe
-         aTLzcUGHITDEa3mt0kqXPm1uKsL9lJvF0hPUgNRYMyWqgmla22oLy6sEaPtVw1bjS0uw
-         96QhSj/O8BK4fC5znQX6DJ2gZL4ZydcWfIZsnUh1u8ApWAWYHh62qio2WBDN8YDeMT4Y
-         OTmRwEtxITe4G+AXjEjheSkmA5OuQDAuAHzfkU1JqkIwEX7qg5bH/+7HyVgw8WqtTFrF
-         BM1A==
+        bh=myFazyiklnuqy8xHfQCBKX5TKL0fchWKCY5jJRzEhZ4=;
+        b=Lb+yK4lqkt2BfUfCOe7Bt8yvghRl9MUpErEBMAEYfXa1prT4eNcmwhHcy/WnNaPDQO
+         31DJne0gjcuj66Lit4Nol8wJDO8rnFNowtS4Spgwo40BY1lZKdo1R5Ls/kDGu16/fKU2
+         k24jLb6tQvVlbnbhmLrCYBWKLBcbRmFg1966I2EAhK8fKsdjGEfhQ/Qb+Juxj0wxSZB9
+         kO7ipFOUMgtn9A1pw/ad9moHelbQU0e1smRYinSMp3Tvyeny3pmltDV2KB3aVdwwb4oi
+         wm5zyQZ1YlX7FFT2bkQ1Gab+gFwDh3Z+lnvYS82ITjprwO+MflkNaueAtIJv1xJu7a4y
+         pMcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792114914; x=1792719714;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1792117924; x=1792722724;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dQCjKnpPJ7GDMGuXaT1sL8RXqnIOzelAupnlRVaJRrM=;
-        b=mq3HulnnFljYpubQwVOiCcDR+f6+d5L2/oDLDtoH0m0fF2aDw63b/8sdj6LdTv0Z31
-         icAfPb+gjD905G8m4dkGGJBNodOH9DFGZ5gNBTP7/aYRyK4qVehtszPw3Z8El6PSefku
-         xoVPE/pjv/rp4m7SrwAm7cZkRs52joIYgMvxyoVgcEsZlNxBaEBeKvdlCaWf1LUmLuhe
-         A3ehGYnJbNUbrK1zF0oYj9v+30eQiEb1gMlqj6n8iUzZ7DQ/ZCeg414tK/IgqCgsoyjO
-         XU0HMLSIAwX0N+aMuc6PMJzlLxfN/4QMFyZcgrkkq/UWj5dhCTY0L+ofQKZqzYe3PVKJ
-         0wjA==
-X-Forwarded-Encrypted: i=1; AKwUvByufbADnkYsf05rFc2zXinR5qMmaUL32PHejSIOTz6WUPWkPFqTZ4RISyAVzo83R6XmWFtwQgDe8QFGlLGK@vger.kernel.org
-X-Gm-Message-State: AFq9FYJTpGfdBN17XdqE1AtXfpYdTi96wKTUIawT3y1TOeX0a5IsooQu
-	wsksCwS+YEi2o1Z78PFnY0+WijGyz9yQ+CKzqZTP+7WIddJc6x3K5kQk6f8pNT/kYoLuldvOKLv
-	zrQiDQyw9SHUxQ/Ryk0EAdvEvNiKX5lM=
-X-Gm-Gg: AYBFou26niuhv2+sSGCs7+LIxAPIcyQUbr6lX6tK6Y1YkHWcU8fjAmmAR5suraES87x
-	J3jQ7Efak3B2ZSA4GOUEccJFcPAgU+140sQM560YN4PHBDL6Vav8xVdy9nZTPxXh0rZum6J6MAY
-	0jq+x+yddQoqdPEufjbF8ERiBlpteFGzNIjtuzcXGbJVnB5FtUthgp0FmOpDhYkEaWdqEgzGVOy
-	N1NYifkej3ApFUkI25GhcDgEjQvtsJFpUr9Oab+38KzCjnN+1uwIr3kNHPocHAmgmtGY0uEJgNL
-	/sJ/nlARnlaI7gFk+YAIZVHFsNd31fZeCJ+rqq8Vwe95TKNGwG/ASKCOHXBxTFmk1aNXJRqXPCt
-	IdyeHsDVCCacp3LDOAL+rX+IWZQy/dQgc9R314w==
-X-Received: by 2002:a05:600c:4e89:b0:4a0:12d7:4c88 with SMTP id
- 5b1f17b1804b1-4a18e4ac77amr466612125e9.30.1792114913369; Thu, 15 Oct 2026
- 18:41:53 -0700 (PDT)
+        bh=myFazyiklnuqy8xHfQCBKX5TKL0fchWKCY5jJRzEhZ4=;
+        b=nHrNvacReZSEH2M8OlfxqLzxlwWG3hcr6kRp7HllzH0E1Md4jEGlCvAWjwMLEOXIWB
+         TipDa9EusF/woMWhhMW1937Ihfi49uyMDHApMxhbzdgHebyBpLuqL82bQpSNUGCCnH4s
+         t3Y/9FdfSpMTwLYnS2E/TP8JVqVt36jvv2CTWIA6GTrpK5RpmXLVaWaRqtuDmVNWM3Q2
+         wkBf5aKytGFSdEGR+UX1WZWO2jvy27JYWuJ9wCVhtuhn+xnJVcQPymZSsQIyR5EBUxUZ
+         AWeHpHBEgQmAr4DPiIvoly7qtty5l0Vzns+GsIG+rbapVTzVl45wCovFOA1T2AMnPMbp
+         QWqw==
+X-Forwarded-Encrypted: i=1; AKwUvBxQnPdRuDJyCOXCsn0dlIHqpCP5GlGbyRArGLuqbL1UkBoON/+q/fJ5Wzmgj5NDZciHt48ASqQKop2AFboW@vger.kernel.org
+X-Gm-Message-State: AFq9FYK4Se3tvLU0zWTsFpM9oDWURcEGEQygx8QdJkD96S5iRj3ccnFn
+	/k3/7fCRt5KmDIf1QfmagsrYT5uwDhiihtnxEkL5dGJL10ncgH3Orp7GDgS/ShsHJw==
+X-Gm-Gg: AYBFou0J9f0oATIEngQLmnKZtEArVOhPpv2cz1TSPpnGmMpM7yx8VRu21DXzcRrsIKv
+	uLqZAFukhZWAEgTDzf0bdvH7Wd04sPPMO9PO8IBPggSFZA2qND37QKEe3irraEhqlkdAPJmsQ/l
+	r+gbw/SLbyhCyZjAGd9DB0syhysGBQO8Qyb8ZgvmneuGDZ7+blZOmgGSBreEMhFN7ZlPngZKtCm
+	tAe2tfvjyU0UJSsmjbsTrHJurmVVYdEDSPI6hQYUJQZGt2NSi8YizwCMRMtk2bX6CFqx6eTNA3R
+	FYJ82YAoFmLv9IC0HwJJlWiutabuMQ2Yf0/F/DahzKVxncrOI2EG4szYKmYu4xwWv7zMHGezFKw
+	2Jp7OCkP73YvUTbcIkRxwISJUousH3NjMLNMH5Rjxd3nN1VJ5dbCjh3QeT3AdgxHNugjTQ+Min1
+	wEmXWPXjzE0dDJ+tmH7+XtaiyMGn00k8bR3/QzOE7wOZ36hPjKtuzm0qgxfv0CgHM0r1pYL+r33
+	Fwl4LZU1RoM1/PuhtOx
+X-Received: by 2002:a05:622a:1dcb:b0:535:fdd7:b490 with SMTP id d75a77b69052e-53626d2623dmr35175501cf.0.1792117923761;
+        Thu, 15 Oct 2026 19:32:03 -0700 (PDT)
+Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91bce8918bdsm6778646d6.48.2026.10.15.19.32.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 19:32:01 -0700 (PDT)
+From: Hengyu Liang <hengyul@cs.unc.edu>
+To: slava@dubeyko.com
+Cc: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] hfs: avoid reusing occupied CNIDs after deletion
+Date: Thu, 15 Oct 2026 22:31:25 -0400
+Message-ID: <20261016023125.2271361-1-hengyul@cs.unc.edu>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <45b692cfda51e3b10caa27ae51609edc34efb0d0.camel@dubeyko.com>
+References: <20261015110114.1649059-1-hengyul@cs.unc.edu> <45b692cfda51e3b10caa27ae51609edc34efb0d0.camel@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
- <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
- <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
- <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
- <CAO9r8zNJ=Fpc0pZExrttVTDCM3yzSmLPCAU=+RS0k5Pm+hY96w@mail.gmail.com>
- <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com>
- <CAJnrk1aHdBm4CofvKfx7B3H-uF2xRXZUQs47J_4xeRmRZ4hcZg@mail.gmail.com>
- <CAO9r8zOkBVgxdb3pCyHs-ZQTxhwBmA1_+aH0snV7dzbVaVsPsg@mail.gmail.com>
- <CAJnrk1ayOhrFY8LOMYxqEMYZvhK10zjTTyOK93VzMgxpV5W5sA@mail.gmail.com> <as-fG4VB_4xnAI8n@google.com>
-In-Reply-To: <as-fG4VB_4xnAI8n@google.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 15 Oct 2026 18:41:40 -0700
-X-Gm-Features: AclHuK_QVOAQKY1S1XZkxawe6wbx-PftEnFXONrhi5eHzH2ij5-uw40iTGdk8vU
-Message-ID: <CAJnrk1ZezmmzrYdf8KP6re_a76izMS=qGPeC8ZZXiteHyZZC-Q@mail.gmail.com>
-Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, James Houghton <jthoughton@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm <linux-mm@kvack.org>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 14, 2026 at 8:34=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wrot=
-e:
->
-> > Thinking some more about how stats are used... I think there's two
-> > categories the stats fall into: a) hot in-kernel ones (eg LRU sizes,
-> > workingset counters, dirty/writeback, zswap) which are read very
-> > frequently from the reclaim, refault, writeback and zswap paths and b)
-> > userspace-only ones (everything else) that are read through
-> > memory.stat / bpf / etc and much less often. The hot in-kernel ones
-> > are a small subset (~20 of ~80). Most of the stats fall into category
-> > b). However right now, a flush always aggregates *all* of these stats,
-> > even when the caller only needs / cares about the hot in-kernel ones.
-> > Flushing does all the work for the stats in category b), which the
-> > in-kernel flushers don't need. With the per-node lruvec copies, a
-> > flush goes through 100+ counters per cgroup per CPU vs ~30 for just
-> > the hot in-kernel ones (on a single-node machine).
->
-> I didn't measure this before, but I did tree adding a bitmask to check
-> which stats have updates and that actually made flushing more expensive.
-> It could have been the case that hot stats were distributed enough that
-> all the cachelines were being fetched anyway and the bitmask was just
-> added overhead.
->
-> I think you should do a simple experiment first about how much flushing
-> gets faster if you skip the stats not used by the kernel. It may or may
-> not matter, depends on prefetching (conversely, I wonder if explicitly
-> prefetching the entire stats array on each CPU would help).
->
-> I think it would matter less if we manage to completely get rid of root
-> flushes (except for userspace stat reads).
+Hi Slava,
 
-I ran some benchmarks on the split rstat trees idea. On an x86 80-cpu
-2-node machine, it makes in-kernel flushing around 40% to 45% cheaper,
-but for the userspace flushers, reading two rstat trees adds ~25%
-overhead. I think this could be remedied though by just keeping the
-existing tree as is for userspace flushers (eg hold all the stats, not
-just the ones in-kernel flushers don't need) and adding a "slim" tree
-with just the hot in-kernel stats for the in-kernel flushers. Reading
-memory.stat would then just behave the same as it does now and the
-in-kernel flushers would just walk the slim tree. This would add a bit
-more overhead (and complexity) when updating hot stats though, but I
-haven't yet benchmarked this "extra slim tree" idea nor pursued it
-further. For the prefetching idea, when I ran some experiments with
-prefetching the entire stats array on each CPU, I saw it made flushes
-around 1% to 7% slower every time.
+On Thu, Oct 15, 2026 at 12:58:14PM -0700, Viacheslav Dubeyko wrote:
+> (1) The goal of hfs_correct_next_unused_CNID() was to fix the volume
+> corruption issue. Have you run hfs.fsck tool to check that volume is
+> valid (not corrupted) after your fix?
 
->
-> >
-> > What do you think about splitting the stats into two rstat trees, one
-> > for each category? In-kernel flushers would then only flush the hot
-> > tree (~30 counters). memory.stat would still flush both (eg userspace
-> > would see the same thing as it sees today). Each tree would have its
-> > own lock and its own stats_updates threshold.  I can run some
-> > benchmarks but I think this would make flushes a lot cheaper, and
-> > since flushes would hold the lock for less time, it should also reduce
-> > the contention we see between concurrent flushers right now. Together
-> > with using node counters for root readers, hopefully this will make
-> > the non-ratelimited flush cheap enough for all non-root in-kernel
-> > readers and ideally let us get rid of the ratelimiting variant
-> > altogether.
-> >
-> > Do you think something like this makes sense?
->
-> We have to consider the update side of things as well. How many code
-> paths will need to update both trees? That could be a problem.
+Thanks for pointing this out. I have now run the additional checks on
+v7.3-rc6 with this patch, using fsck.hfs 540.1-Linux:
 
-When I tried to measure the update cost of the split rstat trees (not
-the slim tree variant), I was seeing a lot of inconsistent / noisy
-numbers I couldn't get rid of even across boots of the same kernel and
-even between memcgs on the same boot, which seemed weird. I ran perf
-stat and that showed that the slow runs were executing the same number
-of instructions but had a lot of extra stall cycles. The variation
-between memcgs on the same boot pointed to maybe cacheline contention
-being an issue and when I ran perf c2c, it showed that the most
-contended cacheline between cpus was the first 64 bytes of
-mem_cgroup_per_node, which is strange since those are only read on
-stat updates and not written to.
+- All 14 normal-volume images from the original tests passed
+  fsck.hfs -fn after unmount. This includes the reproducer, CNID holes,
+  missing optional file threads, concurrent operations, and reordered
+  leaf node numbers. The checker did not modify the images.
 
-That struct already has cacheline padding (_pad1_) to keep the memcg,
-lruvec_stats_percpu, etc fields on a different cacheline from the
-lruvec but apparently Intel/modern cpus do "spatial prefetching" that
-pull in the adjacent cacheline (the Intel manual [1] says "This
-prefetcher strives to complete every cache line fetched to the L2
-cache with the pair line that completes it to a 128-byte aligned
-chunk"). So I think basically every time we read lruvec_stats_percpu
-(read on every per-node stat update), this pulls in the cacheline
-holding the lru list heads. The lru list heads are constantly getting
-written to by different cpus, so when the stat update happens and
-pulls in that cacheline, that ends up introducing a lot of extra
-overhead because it has to fetch that from another cpu, but also even
-worse, whichever cpu holding lru_lock has to now invalidate that copy
-before its next write and wait for all the acknowledgements to come
-back, which adds extra latency to the lru critical section and
-delays/hurts everyone who's waiting on the lru lock. I saw these same
-results on the baseline kernel even without the split changes.
+> (2) Have you run xfstests (especially, generic/736) with your fix?
+> Because, the patch had goal to fix the generic/736 failure:
 
-I think having the update path find the per-cpu counters through the
-memcg instead of mem_cgroup_per_node fixes this. On a multi-threaded
-fault benchmark in a single memcg, it improves shmem throughput by
-~35% at 20 threads. I saw also that the inconsistent/noisy numbers I
-was seeing across reboots / memcgs on the same boot disappeared too,
-though I'm not sure yet why that fixed that issue. I'll clean up the
-change in my tree and send that out as a patch.
+- On a freshly formatted 64 MiB HFS volume, I ran:
 
-But with that fix applied and with another series of local changes
-that move LRU stat updates to outside the lru lock (I'll clean up and
-send out this series as well, as it also applies to the base kernel
-regardless of the split changes), I didn't see the split changes added
-any update overhead that wasn't within noise. The lru stat updates
-changes to move it outside the lru lock are necessary though, as
-without that, there was around 2% increase in update overhead, since
-it added more latency to the lru critical section. But after that was
-moved out of the lru critical section, I didn't see any degradation
-anymore.
+    ./check -i 10 generic/736
 
->
-> From a code perspective, it would also be a bit annoying to maintain. I
-> would check if we can eliminate root flushes first tbh, then check any
-> other potential optimizations on top. Subtrees should me a lot smaller
-> than the entire tree.
+  All 10 iterations passed, including the filesystem checks after each
+  iteration, with FSCK_OPTIONS="-fn". A separate fsck.hfs -fn after
+  the run also passed. There was no "invalid MDB drNxtCNID" error.
+  The unpatched v7.3-rc6 kernel also passed these 10 iterations.
 
-Will do.
+- I repeated the minimal reproducer on a separate fresh volume. The
+  first creation of c failed with EEXIST without the patch and succeeded
+  with it. The surviving file's CNID and contents were unchanged, and
+  the patched volume passed fsck.hfs -fn after unmount.
 
->
-> > Separate from this but also kind of semi-related, I noticed
-> > css_rstat_flush() takes the rstat lock for every possible cpu, even
-> > cpus that have nothing to flush for the subtree. Maybe another
-> > improvement is to just first check locklessly whether there's any
-> > updates and then just skip the cpu if there aren't any. I can send a
-> > patch out for this.
->
-> Only the updated cgroups are on the update tree, not their ancestors,
-> not until the flush time. We used to put the ancestors on the tree on
-> the update side, but we don't anymore.
->
-> So we can only check the if the per-subsystem list is empty, not the
-> subtree specifically, right? Can we walk the per-subsystem list without
-> holding the lock or deleting first?
+For completeness, I initially ran generic/736 on a 256 MiB HFS volume.
+The test body completed, but the final fsck reported:
 
-My thinking was that on machines with hundreds of cpus, a good number
-of them would likely have no memcg updates since the latest flush so
-even the per-subsystem list would be empty a lot of the time. I can
-try to find some data though on how often that actually happens in
-prod.
+    Invalid map node linkage
+    (4, 2048)
 
-I think maybe walking the per-subsystem list locklessly could be
-slower in a lot of cases than just acquiring the lock? It seems like
-we'd have to walk the whole list to know for certain if it's a
-negative or not.
+I reproduced the same failure on unpatched v7.3-rc6 with the same volume
+size and tools. The catalog had 6129 nodes, while its header map and
+single map node covered only 5984 nodes. I then used fresh 64 MiB volumes
+for the runs above; their filesystem checks passed without repair.
 
-My plan is to clean up and send out the changes I have in my local
-tree this next week (the cacheline fix, switching root readers to node
-counters (getting rid of root flushes), updating stats outside the lru
-lock, removing ratelimited variant of flushing (and then if needed,
-more experimentation on the slim tree idea)).
+No KASAN report or kernel BUG/WARNING was observed during these runs.
 
 Thanks,
-Joanne
-
-[1] https://www.intel.com/content/dam/doc/manual/64-ia-32-architectures-opt=
-imization-manual.pdf
-(bottom of page 62/800)
+Hengyu
