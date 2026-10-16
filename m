@@ -1,79 +1,72 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB33647C0FB
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 11:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12C8DF72
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 11:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792151565; cv=none; b=hxv5B6prttepz3RuQt5SNYUBAi44cOodFUVbDlk1K3E0n/da3tWb+gIbP1x3p7OBTBfgVDjPFt8w2iD+GPoY6YR3DZ/p4/wX7sqnEaghTjeKay4daegfOgQt6QjozVLxEQDOVDsSSru4mo1hvyJhQI26z5GbmGWE2JrljguDDpM=
+	t=1792151937; cv=none; b=Xblf6xrjtVgci2o7MJr3sER0A38mH0YtWp9SaGIGua6wN6HxpNUmrjrGchR9X5qmzRR0ZwrHJUtmjIQB922WSbBLSeecic7OwxRPwmF8SjrvlH1eEOPc8LXTiwWH238x8etugSu0UbKcsCNNaxqjB3piMF6iIBR2RphAPm5XpFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792151565; c=relaxed/simple;
-	bh=x6SE8lgsHBQhuxqG5SxpxIZcbbdghSglSD4OM8h/oMo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=i9NEbelZQyqiFdqWKjGm5l7xOpXcy6fU0hgLw8oFxGGxnnLYUaWLBrVZ+en76jrG670tG2FEMtH0bbYpsnO6GCux8WlNsMTCWcRQZfl+tUAWE/9TIT5XdhxbdDPK8oMZzXy22P7RoQbqlWeu4v7OKYFLo4JK4ybWwYBXp1yqie0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=RBxHXOL8; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1792151937; c=relaxed/simple;
+	bh=XWJhrf9bPy7m8cTmjHd5g/ZCR9ncCcb2WG8cntVMrec=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bUlfEvovyZUwQmzt4gpuJ1WP5+502VzhmrscrJUe5IfhGn5EMh7PAUvypzkxNwtUqTKCUau8gxT+t8cID8uenxwqH1fvAtHwtNeGFYfjPu+QwZKVDw9ZD/usvkDA1v/dwrHT51KIS47h4ps0+wFt23BfhuZpjLckpA/KcrdZf3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eQR5Oq3I; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="RBxHXOL8"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cd633ef819bso1068348a12.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 04:52:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eQR5Oq3I"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3ac677668a9so2103025a91.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 04:58:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1792151563; x=1792756363; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=P2cWXyzTqy4ATLwIvFgGwIz11Jn9SwiN4s9+0KODfO8=;
-        b=RBxHXOL8pWYQ0inZcq4Y9UGmtXn59Z65Ff/4PYZzeSPeSRFxF14ppDwHS3abNhwgOC
-         CDQOhehdYVkhIrzTLzpoEIo6jiXdK6E7vlEtHAYg0HfN9n6Eywhg6CJaw/sA3CfXzS+h
-         PsbElGyPiN9l4AiVgovWg19DRw7K0OoULfSyroPMHrLD++gAVr+wx1jD4j9gnddjnDHS
-         WH6hcXgGSlnkfQd2dtOkeVvz016m7lTVCAXM3DWlazD/2m2iRS32IjH+nMmmkEHbdLLD
-         SX5RXbH4nRyn5GgiQ04bm9GFw/MJNF3JL9WlyuvB4e/Rlbjg44ZFlxqd/ZBLRmG3FLpQ
-         wxLg==
+        d=gmail.com; s=20251104; t=1792151936; x=1792756736; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LxdDa/5ciMRdv/9eQf773tGBdimu+xTTwUw9N85FYNg=;
+        b=eQR5Oq3IKe36xyZUQSIaGUGIzHWJeVvUouccQhE8vVX2Va99zYuojLNNa9qoBDaGzC
+         tWvJP+GnK8MZQHPSuxkhkx3F2Q7aIa3z4INm52ENnemu6B0j+w+3gfcDe4gh42D3B0xM
+         YulcUWDfFdHXMJuLReGgUV2vgIn1dZUhom2oxqD9lx9z2FxRsjs1uwsWjJGRWgcZ4WfQ
+         IBE+OGPc9jG7+J10hf58a5B++JW1rXffjDpEc8JobJn7dVp8LA3HNSPND6kjAoOxGptM
+         XNFzFq52eHLpuuFnTfk4ySZO/n+Gr61pVK2Aie3hg5RIOZtNyJ1wQKRDO8DAuC/S3TN2
+         11+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792151563; x=1792756363;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=P2cWXyzTqy4ATLwIvFgGwIz11Jn9SwiN4s9+0KODfO8=;
-        b=e7EFFljtZjsA0fIJ6kEXJl1HQUW+WBgGbDSqbflASvpb7VCgHNVuEEjumJp2d40bbS
-         /RCHHPdjKcEvsPtd2G+LFjz81GrvX+cGPgCAWqKpjNpYk3bx2CFoirZ0aJhvW3sv/gSP
-         TQYL7xUYtdFTrtypCYKyXI7J7A+aLKiKuPT9vz5PxAbOgfu6yDLStpFhKFG/O5EjSH6D
-         VbAP0TKcxbUrN4pcGEud/JWMtrTw3Z8kXNYo1tyTDMi9f5S+z59IvKN9pEBql/yjMcM7
-         5Y/vaKGsPoLDDyyX0/ysQXK3yDHU6rS38yqU9TNXcFZ16f5O0S6G6HfycsWovJx8R6b3
-         Puvw==
-X-Gm-Message-State: AFq9FYK4JFe6fAxxWVDd7ZgWO0LzCul33OAsickwuUKHd3+xYI39rITo
-	Isrpiet1LcZo07F1kQPTHpDPvTokO57KYhVMvB3ajR6E27YZ3Ms8kvbLdpY5bdHrc3jrCmlPRZb
-	5RVLBFZ4=
-X-Gm-Gg: AYBFou107AIwny3thAXjufcLUTChzTfIpdEgO3896J9RotPOjI41jT88jWLD96cHprD
-	wp03WygoWeZzwYMp/hijMEcH44xQ5Xza9gZbP5fA6GPJACaAoAkiVLxiER33wDjDQ7LTEXGqUoU
-	TtEkZUopsXaTqMrxVzUQklnImTXArbfwWxira+Eci4my/I+pj+6yHjzbDYGM4kB8eFwgVYCNfXA
-	lrMpuMna8+0iqgJtFcpXxpZ9+397+rZOol9EXNK6RYZe4jivBbx92VB7WvLKyvfMMhpu0hUjCkv
-	oTfipc/G9aSULADuSOFqI8Jwji5O9OVipJW+Ff7sFEPnwWlh8POHHn0ijGceOLiqXjx0uMGYZ1P
-	ceQS2st8UhsyrqPB6lM8STSDC0x3x0DVuxvlTtfZnNaHXLRbikbpvI9NKWTkD8PxiM9sdIVPUR5
-	Ql4zHHz9rr3ZKrEONqbJjnUBQBEm2o3NSEJCUB9p8CGvVe+G4f+aPp2PpOZQ5jx7VdWkWHiJ/Fo
-	dQ=
-X-Received: by 2002:a17:90b:5350:b0:3ac:9d83:8861 with SMTP id 98e67ed59e1d1-3ac9d838a70mr4890820a91.67.1792151563166;
-        Fri, 16 Oct 2026 04:52:43 -0700 (PDT)
-Received: from localhost ([106.38.226.224])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac94792925sm8745182a91.13.2026.10.16.04.52.40
+        d=1e100.net; s=20260707; t=1792151936; x=1792756736;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LxdDa/5ciMRdv/9eQf773tGBdimu+xTTwUw9N85FYNg=;
+        b=FthFsf4GGKnDTSx83fQ+WFl7WY8MuXFKHac78UDIvjGL7GJOEjZxkPVbNec4xw7XKe
+         VjxbvoYwpn62GhYSW9P18TPXyTQRdHl3nD6bcXOjqr0O36qtruR0SnD4SvtFNk+EjHyQ
+         xSFytuz7z8eTO9x+nQRf3bx+6KF48MVPXOFqxjbWxyVvUQ7kWMlf83lBTVkUrvzjEzV+
+         WO88gou5LvSHYD7kMy+Ld5Dzxex2kqUMKuI2x9L6wk+1dimLhbd/MRs7Sg+wp+ZHwfBl
+         oOb7OuO3a52gWNjt3i828M8MSg1T/eQn8MzJQaT41Fb5FV90BmD4qON9CSO/TzCQ8F73
+         gdAg==
+X-Gm-Message-State: AFq9FYIFQvdZmrYHNBx0Z4DFvUDvUf9YmvY8HtRJ7a2nBh7Sec1Gjo/K
+	mTIh9pWxqV7Lh810rsYItuZwmuDimdAINgDH2tyaZ28hsfCqFa3EVofB
+X-Gm-Gg: AYBFou2Lb5GOem559iPnGC46CwbzmBPncG9jFusifwz4cRckqURuLpljV8vzAqEw31W
+	VW8CRABrQs/uZPlXXGi469IMunaln8e/aLSSkQTkWA+ysTYTiTa+BMVBvHSvolemnXcNfjbiTok
+	a8Rzft/0t78Khez41WKQhfk25D0t/A2vXsP0QcDnV6AGz+FGe80vrbfqqGBpqiQQ6tS5otyzsZ+
+	skue0AWBhibfNsEaGhirTBxS8+0N3u1RAWMxdMgNOm3bwhQVCGUsze45yo8YIrihS5si8fu/sHP
+	c++eOS7BkocFGQBL51EXMZ5w6l3KF4KfYWiag8dRXeimobYe/nSpW8T9Al+Cl5dBAK1ZnXjn/6w
+	OkQQEkWNE1lqiceH7QRyuWg5lkPI2GBWUExZ0fddnrgugQhurFV+HwF3AO+7riOLz7ccoQZMLvp
+	29I1EI/YV4A/nDtFeB/NRzDVztcszH9o95Nd3GkQQPZ2Or3/GW4Z1T6PgBWeoWh++HPIaMAqcny
+	g==
+X-Received: by 2002:a17:90b:58ec:b0:3ac:17c:6e8a with SMTP id 98e67ed59e1d1-3ac017c707cmr13397731a91.51.1792151935956;
+        Fri, 16 Oct 2026 04:58:55 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2a09:bac5:d45a:16dc::247:b8])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd9c4b4eesm1809055a91.2.2026.10.16.04.58.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 04:52:41 -0700 (PDT)
-From: Julian Sun <sunjunchao@bytedance.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	tj@kernel.org,
-	akpm@linux-foundation.org,
-	roman.gushchin@linux.dev,
-	dennis@kernel.org
-Subject: [PATCH 2/2] writeback: clear old wb dirty state after inode switches
-Date: Fri, 16 Oct 2026 19:52:30 +0800
-Message-Id: <20261016115230.3640770-3-sunjunchao@bytedance.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20261016115230.3640770-1-sunjunchao@bytedance.com>
-References: <20261016115230.3640770-1-sunjunchao@bytedance.com>
+        Fri, 16 Oct 2026 04:58:55 -0700 (PDT)
+From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+To: Jan Kara <jack@suse.cz>,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+8420e667af06b1709c00@syzkaller.appspotmail.com,
+	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Subject: [PATCH] minix: reject rmdir of a directory with a corrupted link count
+Date: Fri, 16 Oct 2026 18:58:51 +0700
+Message-ID: <20261016115851.14276-1-ngocthang2710.1999@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -82,40 +75,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Switching an inode to another wb updates the target wb's dirty-I/O state,
-but no longer checks whether the source wb's dirty-I/O lists became empty.
-The check was lost when inode_io_list_del_locked(inode, old_wb) was
-removed to support tracking clean attached inodes.
+minix_rmdir() calls minix_unlink(), which drops the victim's link
+count once, and then drops it a second time for the "." entry. An
+image where an empty directory has i_nlink < 2 makes the second drop
+hit drop_nlink() with i_nlink == 0:
 
-If the last dirty inode is moved, WB_has_dirty_io remains set on the old
-wb and its bandwidth contribution remains in bdi->tot_write_bandwidth.
-This can keep an empty wb scheduled for periodic writeback and overstate
-the total bandwidth used to distribute writeback work.
+  WARNING: fs/inode.c:408 at drop_nlink
+   minix_rmdir+0xe9/0x150
+   vfs_rmdir
+   filename_rmdir
+   __do_sys_unlinkat
 
-Call wb_io_lists_depopulated() on the old wb after the batch of inode
-switches, while its list_lock is still held. This clears the flag and
-removes the bandwidth contribution if its dirty-I/O lists are empty.
+The parent's link count is already validated; do the same for the
+directory being removed and fail with -EFSCORRUPTED.
 
-Fixes: f3b6a6df38aa ("writeback, cgroup: keep list of inodes attached to bdi_writeback")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Julian Sun <sunjunchao@bytedance.com>
+Reported-by: syzbot+8420e667af06b1709c00@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=8420e667af06b1709c00
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
 ---
- fs/fs-writeback.c | 1 +
- 1 file changed, 1 insertion(+)
+ fs/minix/namei.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index 6984f6c10a86..04fca06bd520 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -566,6 +566,7 @@ static void process_inode_switch_wbs(struct bdi_writeback *new_wb,
- 		}
+diff --git a/fs/minix/namei.c b/fs/minix/namei.c
+index 5525ba367ed7..344cc70ba878 100644
+--- a/fs/minix/namei.c
++++ b/fs/minix/namei.c
+@@ -172,6 +172,10 @@ static int minix_rmdir(struct inode * dir, struct dentry *dentry)
+ 		minix_error_inode(dir, "inode has corrupted nlink");
+ 		goto out;
  	}
++	if (inode->i_nlink < 2) {
++		minix_error_inode(inode, "inode has corrupted nlink");
++		goto out;
++	}
  
-+	wb_io_lists_depopulated(old_wb);
- 	spin_unlock(&new_wb->list_lock);
- 	spin_unlock(&old_wb->list_lock);
- 
+ 	err = -ENOTEMPTY;
+ 	if (!minix_empty_dir(inode))
 -- 
-2.39.5
+2.43.0
 
