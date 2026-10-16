@@ -1,220 +1,210 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EE937DABD
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 23:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DE545039;
+	Fri, 16 Oct 2026 23:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792193058; cv=none; b=jGXi/3NtCrrbnvZik5aHS5za/rAFnX0W4Ss3JmrRWGen4n/LHhZX23//tyog2aX/8x29Og1fOxNzKFPUP5K/Zw0NN7GfoqKExZ557kfKkiG4iv0ZeDFLj/Whc9sg09hubgXlvrUsZ1uvGEYVRUgxIMPwmqxTSJGLJDxK0ggoEIM=
+	t=1792194767; cv=none; b=YEXdt5ibb9FEtLQqh4QGRZQUZ+Io06+4Ow18O4uYgDzPoKGH5TUQQLjxkRG2T1pA5TcXI/jZCA82gkeiAN5Mb+hTiEiZsX58DbhZpDUPIut53wp7MnVuFF6KFEryTiaIO7iBcnFQsXzgF2xD9+I9JKkqHMFelQZmwMvLc+5xRfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792193058; c=relaxed/simple;
-	bh=YuCSu0KUlA61RKonog/8G3904xdj5d5wzDThguAvb4s=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=oVaoiKu48OKAnsGw1cFvN1EYsGCT4yKY+yJHTuWnRAxlo6OpJ4oBGd+ggigQeEbim2ftoFLuGF2gkO/2iBU9D+Bbi4258GRNkOTMteJUXdqOLSQKp4lKsJ4H2/xMiKZur1zEoHK89ctxDGAJnccsAgszaRye1pR1iYEIOu7DQqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=QZ08b8cG; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1792194767; c=relaxed/simple;
+	bh=QXilKyRqJrwNMzcX7XioD1gEYG2j2+eesqh+yf+HYU4=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=GlLn/hdlp89nv9crw+xiMOjnFI9YJ/F4/ONWjzLP2mnnADZHgFdYPZoTuH6qJWgYNRMfayEy3t+4GrGRf8asaQe/u7uTfz6jYTQjTfdHweCpKwg7mwp3GkT/qA56gPH8JN7Ww/cY6r2Sj6kjIQR58NrQfEaZTyKLw2XBbMOjHvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=yqe0fViP; arc=none smtp.client-ip=143.255.12.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="QZ08b8cG"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8b0d126f631so3882357b3.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 16:24:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1792193055; x=1792797855; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8P9DrTPplGvyRcmS1s0MMPyOw0+R+/2HpDpl+9Qh+MI=;
-        b=QZ08b8cGVGMhbSI/wdInjjIXcaKSpxFdkJibYBDabxSAk5LQI9lrrGRG5pN6YhxXq2
-         pZpf4+L0tzYUOPGG5ekv/PE3Ohbw7MEEvjRWoTsn8FscI1wncKbbVjVcqHHoFN4vqBBK
-         owcVTSlAI0CBUbDoWsaJzkQRWq8Gd/SS4kZhCqaojlCFrSW/vTaFvroxP/hxreynJ+cj
-         jpzhWcol/GH+O9O9JELHgPysTAliTOzlsWeTmRnFPYxTZlhQ9TEIenRTIbUNPgkWTe5f
-         Av6lAMD99WZKxJIkFhkSEDgdnM8cDtMXVQDwJwpiaQ9/w5Ub3AMrKsUcVhPmrhYZaNbE
-         qQbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792193055; x=1792797855;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8P9DrTPplGvyRcmS1s0MMPyOw0+R+/2HpDpl+9Qh+MI=;
-        b=nCGcHv7eLfNA9MD34VdEIw8f8ij1eOPRzlaeWUP99tw2k4oCEYkIlENCsUM3TS3eBm
-         igUiNDy4PEKqEk73GcCc6q2A42C5ulX5XRT0vMK62RUmkNtOxjnhyOYfVdK7+GQp35Bj
-         lLdYTS6Yc8LkqgwMk98Lo5zrVgGiHHBznAIENGJyIa3Z4wxYOUUVIpwMnxhnS88W2KDh
-         S6qdawUomhJIMf+3Xr/5z2ZYkvBDUVA/d/eQ/LyEfHwpuglxHudywLIglH8cyzb6E56s
-         eF4YGvFiPjy7SNUXzDDd+EvFZCkWgViP2EVSuH/ohJ4AiQtTk66QmXRE80bkj978dnVv
-         T7JQ==
-X-Gm-Message-State: AFq9FYLrZ7iiCd6c7lQ+NizivMc3VkOz60ZIsQc8Vss+mxVBI8DPWkJa
-	y5T4/kZG24jiosUMufE98x3XMWAfgKcIj8tsGm8WPvcLkIopT2GtEm7FvR73evlFFBo=
-X-Gm-Gg: AYBFou32dIQ4j9PtgQ4lnpRCYimV035zMt1TJzwTnuprOTveRB5Li6IqMS1ZaUa7g+I
-	+EsEFJWti9O7yBr8RJKQKCqQBbe6dCmtgcoj1gcKaWcrwkwyhVPFcHq9z3g6s5Jz0ijOmt6ySxj
-	OpCa6/jSN6Nrn9yD/Hd1NJWx4u9K4PufpXOA7bvknQ90GwM3I6s+g5jlS/Y7IN8ft8EET0lvt6C
-	kwTELLvUhLXg/09K/bnpRMW5NWUyr7dQPaMInILhiRPBrmzM7E8THJqGjOy3KvKaaKeSUZ+b57V
-	p2iKY2X0BGz305nqAwCeD4s+jSAIjjk21rbPEQIWI8SXmSnXb3XNLTt9LMRE8dgKHRUYwxUCx2l
-	HNAFXcCVJhozJmT3Vxw+jGCceTGzJdt2ZD5xIw/VdWub6vdvLTnfBVlSchB6Ze9VM4nRSb4BYkw
-	80DCi8RZ4sMiPjh8RvI9V55hnW5QoV5cFewUf08qq3WYf8eUzmVgLivqqWVXmAZ+DpnTeRVgRKr
-	+s9jPztwwpIov8k3G99YqmBaY8qZFsTYnQROchmdNH50KN1vZaK+sbvSCXAaY0/AMcS9Gpv41i3
-	aUKpkWAb4XIHGxt/oqqWgougRZbBQF4w4h62HMkvHJ4O1B2p6GbjVTdzRG/cdIB0
-X-Received: by 2002:a05:690c:5310:b0:8b0:f1c0:60a7 with SMTP id 00721157ae682-8b0f205b35cmr4777487b3.6.1792193054670;
-        Fri, 16 Oct 2026 16:24:14 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:73b8:7067:c087:bc97? ([2600:1700:6476:1430:73b8:7067:c087:bc97])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b0e58dc156sm14773577b3.25.2026.10.16.16.24.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 16:24:13 -0700 (PDT)
-Message-ID: <db285527bb969bdd9388a84523979ddff36e86cd.camel@dubeyko.com>
-Subject: [GIT PULL] hfs/hfsplus changes for 7.4-rc1
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: torvalds@linux-foundation.org
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	glaubitz@physik.fu-berlin.de, frank.li@vivo.com, vdubeyko@coreweave.com, 
-	bruno.produit@trailofbits.com, davyfelipe34@gmail.com
-Date: Fri, 16 Oct 2026 16:24:11 -0700
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="yqe0fViP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:Subject:Cc:To:From:
+	Message-ID:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=aGtv9OjoqZMn1pYmcItOtLJ0759sNOoF1i5JiX/CXbs=; b=yqe0fViP+IiKkRAbNTNjoRbvlY
+	mlITTZtVhZq83KAWVsfAbeTWJdHa1f5wX9yTSpGVgK3+pGn/rCxUMZeHJBunADNz3/vTwyLSrzSDH
+	ERK8A7wAmiymda9Ri5rZM7EZq26/Dt19LDeZavumh3o3kYCqmkngN/X4WGNE/qA2FVOlrvJE6ufkN
+	SvL7i/kQTwC1J0ijus3sj8Qi43h7NwVFhNBs2ZBNkcchPFvN0eqnKCeDvgNV/h2ITdS03V10SmVA/
+	n6PivAV6IXTAJNQCAoXH+HWw5DNqq8DiOcWFCGhML0ZDswgMKJErqqSsUgyNXwvlwUOp64W+6nfju
+	koD95p6A==;
+Received: from pc by mx1.manguebit.org with local (Exim 4.99.5)
+	id 1xHrj8-00000003pDj-1oWX;
+	Fri, 16 Oct 2026 20:52:42 -0300
+Message-ID: <fcf60d2f4382fc7ccd77ea41c5e55b50@manguebit.org>
+From: Paulo Alcantara <pc@manguebit.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>, Mark Brown <broonie@kernel.org>,
+ linux-cifs@vger.kernel.org, linux-next@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] smb client changes for v7.4
+Date: Fri, 16 Oct 2026 20:52:42 -0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain
 
-Hello Linus,
+Linus,
 
-Bruno Produit has fixed issue in {hfs,hfsplus}_btree_close()
-method. B-tree nodes with a zero reference count remain in
-the node hash until folio reclaim or tree teardown frees them.
-The folio release callbacks remove nodes while holding hash_lock,
-but hfs_btree_close() walks and frees the same hash without
-that lock.  Reclaim can therefore unhash and free a node after
-close has loaded its pointer, causing a use-after-free or
-double-free. Detach each node with hfs_bnode_unhash() while
-holding hash_lock before inspecting and freeing it.
-Drop the lock before hfs_bnode_free() so a large tree is not
-freed while holding a spinlock.
+Please pull the following smb client changes for v7.4.  These are mostly
+cleanups, a number of fixes (crashes, out-of-bounds reads and
+data-integrity bugs), support for changing SMB compression through
+chattr and internal CIFS version removal.
 
-Davy Felipe has fixed issues in hfs_inode_setattr() and
-hfs_brec_insert():
-- hfs_inode_setattr() rejects unsupported UID, GID and mode
-  changes, but returns the value stored in error when
-  the filesystem is not mounted with the quiet option.
-  At this point error is zero, as execution has already passed a
-  successful setattr_prepare() call. As a result, unsupported attribute
-  changes are incorrectly reported to userspace as successful even
-  though the inode remains unchanged. Return -EPERM for these
-  operations while preserving the existing behavior for quiet mounts.
-- hfs_brec_insert() may fail while inserting a new extent record, but
-  __hfs_ext_write_extent() currently ignores its return value and
-  clears HFS_FLG_EXT_DIRTY and HFS_FLG_EXT_NEW as if the insertion had
-  succeeded. Use a reusable B-tree node range helper that takes
-  the find data and the expected record size. The helper validates
-  the bnode and tree pointers, entry offset and entry length, and
-  ensures that the write range fits within the node.
+This conflicts with the vfs tree in fs/smb/client (mnt_idmap
+constification, fscache_resize_cookie() and transport.c).  The
+resolution is trivial and linux-next has been carrying it for a while.
 
-Viacheslav Dubeyko has fixed the failure in xfstests generic/339
-case. The xfstests generic/339 leaves an HFS+ volume corrupted and,
-as a result, fsck.hfsplus reports a long run of "Illegal name".
-The root cause is that fs/hfsplus/unicode.c's decomposition table
-(Apple Technote #1150) decomposes each source character entirely on
-its own and never does anything further with the result. Real fsck_hfs
-has carried a permanent "FixDecomps" fixup in CatalogCheck.c for
-exactly what that leaves unhandled. Fix makes hfsplus store, hash and
-compare names the same way current macOS does.
+Thanks,
+Paulo
 
-The following changes since commit
-cee9395acd8043be0644b25c34bfa86623f2b935:
+----------------------------------------------------------------
+The following changes since commit ff47652a4b66c067c765a7ad464d930b5a9367cc:
 
-  Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
+  Merge tag 'cifs-fixes-7.3-rc6' of https://git.manguebit.org/linux (2026-10-02 14:04:11 -0700)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/hfs.git
-tags/hfs-v7.4-tag1
+  https://git.manguebit.org/linux.git tags/cifs-for-7.4
 
-for you to fetch changes up to
-f278d04be3acfd3a9eccf045b9eb180007cceccc:
+for you to fetch changes up to 78f73985846465a25a7bd1d89904053661f3ca92:
 
-  hfs: handle extent B-tree write errors (2026-09-30 11:11:14 -0700)
+  smb: client: reclaim credits for decrypted reads with no matching mid (2026-10-15 16:45:30 -0300)
 
 ----------------------------------------------------------------
-hfs/hfsplus updates for v7.4
+ - Implement ->fileattr_set so chattr(1) compression changes (chattr +c/-c)
+   go through the generic VFS fileattr path and its permission and
+   serialization checks instead of the raw FS_IOC_SETFLAGS fallback and
+   remove the now-unreachable file flags ioctl handlers
 
-- hfs: handle extent B-tree write errors
-- hfsplus: add KUnit coverage for canonical reordering and legacy
-fixups
-- hfsplus: canonicalize decomposed catalog names like fsck_hfs expects
-- hfsplus: add Unicode combining-class and legacy decomposition data
-- hfs/hfsplus: serialize B-tree close against folio release
-- hfs: return -EPERM for unsupported setattr changes
+ - Require stable pages when the connection is signed or SMB compression is
+   enabled, so a buffered write can no longer modify a folio that is still in
+   flight and corrupt its signature (surfaced as -EIO) or, with compression,
+   silently corrupt the data stored on the server
+
+ - Stop breaking a file's just-granted lease while probing it for a
+   Minshall+French symlink, by reusing an already open handle or opening with
+   the inode's lease key
+
+ - Fix several out-of-bounds reads and use-after-free bug in SMB1
+
+ - Fix an use-after-free bug in cifs_ses_add_channel()
+
+ - Fix a NULL pointer dereference in the demultiplex thread when an encrypted
+   read response matches no outstanding request and reclaim the credits
+   granted on such responses to avoid starving the connection of credits
+
+ - Fail sends fast when the connection needs to reconnect
+
+ - Drop the redundant nls_table argument threaded through the session setup,
+   tree connect and path-based call paths, allocate the session setup state
+   on the stack and remove the internal CIFS version number along with a
+   batch of write-only fields and commented-out code
 
 ----------------------------------------------------------------
-Bruno Produit (1):
-      hfs/hfsplus: serialize B-tree close against folio release
+Diego Oliva (7):
+      smb: client: fix use-after-free infoleak via the readdir resume name
+      smb: client: fix OOB last_entry pointer from unbounded LastNameOffset
+      smb: client: fix OOB read of the resume name sent in TRANS2_FIND_NEXT2
+      smb: client: fix OOB read in the SMB_FIND_FILE_UNIX name scan
+      smb: client: reject FIND data areas that run past the received response
+      smb: client: reject short or out-of-range FIND response parameters
+      smb: client: drop the redundant name bounds in cifs_filldir()
 
-Davy Felipe (2):
-      hfs: return -EPERM for unsupported setattr changes
-      hfs: handle extent B-tree write errors
+Enzo Matsumiya (1):
+      smb: client: fast fail sends if need to reconnect
 
-Viacheslav Dubeyko (3):
-      hfsplus: add Unicode combining-class and legacy decomposition
-data
-      hfsplus: canonicalize decomposed catalog names like fsck_hfs
-expects
-      hfsplus: add KUnit coverage for canonical reordering and legacy
-fixups
+Henry Martin (1):
+      smb: client: fix use-after-free in cifs_ses_add_channel()
 
- fs/hfs/btree.c            |   7 +-
- fs/hfs/btree.h            |  19 ++
- fs/hfs/extent.c           |  10 +-
- fs/hfs/inode.c            |   2 +-
- fs/hfsplus/btree.c        |   7 +-
- fs/hfsplus/hfsplus_fs.h   |   6 +-
- fs/hfsplus/tables.c       | 496
-++++++++++++++++++++++++++++++++++++++++++++++
- fs/hfsplus/unicode.c      | 390 ++++++++++++++++++++++++------------
- fs/hfsplus/unicode.h      |  63 ++++++
- fs/hfsplus/unicode_test.c | 309 +++++++++++++++++++++++++++++
- 10 files changed, 1165 insertions(+), 144 deletions(-)
- create mode 100644 fs/hfsplus/unicode.h
+Huiwen He (2):
+      smb: client: implement fileattr_set for compression flags
+      smb: client: remove unused file flags ioctl handlers
+
+Paulo Alcantara (49):
+      smb: client: rename mfsymlink helpers to the smb2_ prefix
+      smb: client: set lease_granted before revalidating inode in cifs_nt_open()
+      smb: client: avoid breaking the file lease when probing mfsymlinks
+      smb: client: log the selected security type on session setup failure
+      smb: client: remove commented-out ntlmv2_support definition
+      smb: client: remove commented-out i_flags assignment
+      smb: client: remove commented-out cancel_*_requests() calls
+      smb: client: remove commented-out oplock assignment
+      smb: client: remove commented-out write debug message
+      smb: client: remove commented-out LOCK_RSP declaration
+      smb: client: remove commented-out QPathInfo debug message
+      smb: client: remove commented-out CIFSSMBWinSetPerms() call
+      smb: client: remove commented-out time conversion debug message
+      smb: client: remove commented-out Unix caps assignment
+      smb: client: clean up cifs_buf_release()
+      smb: client: remove the internal CIFS version number
+      smb: client: remove unused overrideSecFlg from struct cifs_ses
+      smb: client: remove write-only max_rw from TCP_Server_Info
+      smb: client: remove write-only sec_kerberosu2u from TCP_Server_Info
+      smb: client: remove write-only signing_negotiated from TCP_Server_Info
+      smb: client: remove unused num_acl_set stat from cifs_tcon
+      smb: client: size smb2_compound_vars.qi_iov for the padding iov
+      smb: client: drop redundant nls_table arg from SMBSetInformation()
+      smb: client: drop redundant nls_table arg from CIFSSMBSetPathInfo()
+      smb: client: drop redundant nls_table arg from ->set_EA()
+      smb: client: drop redundant nls_table arg from build_avpair_blob()
+      smb: client: drop redundant nls_table arg from calc_ntlmv2_hash()
+      smb: client: drop redundant nls_table arg from setup_ntlmv2_rsp()
+      smb: client: drop redundant nls_table arg from build_ntlmssp_negotiate_blob()
+      smb: client: drop redundant nls_table arg from build_ntlmssp_smb3_negotiate_blob()
+      smb: client: drop redundant nls_table arg from build_ntlmssp_auth_blob()
+      smb: client: drop unused nls_table arg from ascii_oslm_strings()
+      smb: client: drop redundant nls_table arg from unicode_domain_string()
+      smb: client: drop unused nls_table arg from ascii_domain_string()
+      smb: client: drop redundant nls_table arg from unicode_ssetup_strings()
+      smb: client: drop unused nls_table arg from ascii_ssetup_strings()
+      smb: client: drop redundant nls_table arg from decode_unicode_ssetup()
+      smb: client: drop unused nls_table arg from decode_ascii_ssetup()
+      smb: client: drop redundant nls_table arg from ->sess_setup()
+      smb: client: drop redundant nls_table arg from cifs_setup_session()
+      smb: client: drop redundant nls_table arg from ->tree_connect()
+      smb: client: drop redundant nls_table arg from CIFSPOSIXDelFile()
+      smb: client: drop redundant nls_table arg from CIFSPOSIXCreate()
+      smb: client: drop redundant nls_table arg from SMBLegacyOpen()
+      smb: client: drop redundant nls_table arg from CIFSSMBRenameOpenFile()
+      smb: client: allocate struct sess_data on the stack
+      smb: client: allocate struct SMB2_sess_data on the stack
+      smb: client: require stable pages for SMB compression
+      smb: client: reclaim credits for decrypted reads with no matching mid
+
+Zikang Gao (1):
+      smb: client: do not pass a NULL buf to is_oplock_break()
+
+ fs/smb/client/asn1.c        |   2 -
+ fs/smb/client/cifs_debug.c  |   1 -
+ fs/smb/client/cifsencrypt.c |  31 +++--
+ fs/smb/client/cifsfs.c      |  11 +-
+ fs/smb/client/cifsfs.h      |   5 +-
+ fs/smb/client/cifsglob.h    |  26 ++---
+ fs/smb/client/cifsproto.h   |  19 +--
+ fs/smb/client/cifssmb.c     | 183 +++++++++++++++++------------
+ fs/smb/client/connect.c     |  59 +++++++---
+ fs/smb/client/dfs.c         |   6 +-
+ fs/smb/client/dir.c         |   1 -
+ fs/smb/client/file.c        |   7 +-
+ fs/smb/client/inode.c       |  36 +++---
+ fs/smb/client/ioctl.c       | 165 ++++++++++++--------------
+ fs/smb/client/link.c        | 273 ++++++++++++++++++++++++++++++++------------
+ fs/smb/client/misc.c        |   4 +-
+ fs/smb/client/netmisc.c     |   3 -
+ fs/smb/client/ntlmssp.h     |  11 +-
+ fs/smb/client/readdir.c     |  80 +++++++++----
+ fs/smb/client/sess.c        |  37 +++---
+ fs/smb/client/smb1ops.c     |  14 +--
+ fs/smb/client/smb1proto.h   |  21 ++--
+ fs/smb/client/smb1session.c | 120 +++++++++----------
+ fs/smb/client/smb2glob.h    |   8 ++
+ fs/smb/client/smb2inode.c   |   7 +-
+ fs/smb/client/smb2ops.c     |  36 +++---
+ fs/smb/client/smb2pdu.c     |  66 +++++------
+ fs/smb/client/smb2pdu.h     |   3 +
+ fs/smb/client/smb2proto.h   |  17 ++-
+ fs/smb/client/trace.h       |   2 +
+ fs/smb/client/transport.c   |  33 ++++++
+ fs/smb/client/xattr.c       |   2 +-
+ 32 files changed, 740 insertions(+), 549 deletions(-)
