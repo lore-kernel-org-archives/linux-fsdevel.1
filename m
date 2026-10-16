@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49804377558;
-	Fri, 16 Oct 2026 10:22:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01853B9D8B;
+	Fri, 16 Oct 2026 10:23:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792146152; cv=none; b=BR/HHURrenW0qeyRchSZlFu8ho+v47Pfc3NDNfbXTVtPSnwr9aEQv/sCsO9hNLh2FhzYkHwBt7LLkrVUyKvpNLBowQcLpbSmBmXCc07aoYEm9Jyii7YjfHZ/kJbFywswgJ+6j6x/wP8a7QkbAwjXvNzbFpR0kxL8DMmqDi1pxX8=
+	t=1792146217; cv=none; b=ALTIylRu/bvuTf2GyvSbCTVIMPL1H81/2r/DM44EI1RTAS+lvcgLAZ/gla7o+7c0TJewGOCrWtkj8I8AXNOGdp40e45KcdQr8Q546Rv7zVhAI/oOWOqCAQagKKk+TQZfaUsggqgxmx4tYAEVCho/Fhp7QfvRqIMZJa4YfYfGZmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792146152; c=relaxed/simple;
-	bh=XLEWQiURi7aTHFjkuux9+QTBXfbA+Tn69PBNfHt4MlY=;
+	s=arc-20240116; t=1792146217; c=relaxed/simple;
+	bh=vUNY9rPt+nrilGeNstizbyc8m9RcsK3/spGwEHkD8xs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=To8AzHRs8/sjdlZ4BSmCGjgj89ipXDep7mklP1RdaZ1JYL3wrEjMuLlrj0aNgvESxl3y6BDyAQ5brqydpHaToQLtrQ7/xB1k3hBD5kGeR01tixmNHSrxJdLX3A+XOyN+8ETg3tQ7QQHfbtdJ/yhYo3gHN+ij6uVZpwA2sEzVrAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KUuIJobk; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=ahKCX0oRxeXVAaHy6mn2wzxOlQIeLry28XeyxlbEEu4ciOMkPmGLx+1g/aiJ65a0pfE5+w+OmTwaT93NO9wSkU4cH4qxCtOxstbnx8sgbiBTH79znAU+kMV2aV2ySgG0OxG7RFyqLo5Yfk2sjknpWAF53zhNNrnofQ9u7xvES/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ImWTq0tV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KUuIJobk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8380E1F000C4;
-	Fri, 16 Oct 2026 10:22:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ImWTq0tV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F2FF1F000C4;
+	Fri, 16 Oct 2026 10:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792146150;
-	bh=MmsD/+E77JzcPrYTTMXzSxDw0SRmaBW7nVo2SCiVios=;
+	s=k20260515; t=1792146216;
+	bh=DYYXr+iyYcEMmoFCZizmOeOBia2hri+7LdwScKOEP1g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=KUuIJobkfdIAK1xw1cr+2nUJ2Xgth+pSBxQ0EE8B68egwpz4HdQM1AB7BmgzLIVPl
-	 z68hoF5XAlgzML8NTD48H5krOE5x5OsvtOnYkyr3XgXv8zOdfN26fe/X82pFRnwmvI
-	 EXGi1sov1WSJ9K9k7lhvTqHENS/l0uUnybOa9iDIvR/yILRS3jjWnjUlvirDgYeQOS
-	 Xfio8oxBdiIRfrzzRnTy/GvEyaGfG63WipDztNWdDb44GdH63MKMWJAWfX4iHbCPb9
-	 wIIb/eQJxCCxKeDW8bUDWJ4iZZce1ciEPkS4g35AVk/Vo1g7CeXTZeWOqFUbOE0xl/
-	 /V2cwsB3tn/jQ==
+	b=ImWTq0tVLqAfua0k1m+IiZEade/ivBFdo9ZHOkGvUpJ2AHlq4sFdqZUukmKP1Up+a
+	 UFQ47ZEjKAWiDk/EgRA03aYBdR8JV2ifZq1hdT7yH8NRkW2Mepn0gHE+ug3l9RhS6g
+	 TDcoSuKps19ya9hWELCPKKvd9S60W5zQhn8F2l+3epDprJQwfL/TowJe1s9BoKmfpg
+	 so9xXWokfYXDwJaqpAgy8pErLQPNHT1KZ75KFIzHl4kGgsghIrcBm7kiLRKlJumnEX
+	 wbi4pvbdS265dq/RkK9qATkfxqG6awPygYU5PW1A6en6NCal+kauQjaAbQ6vqBavs5
+	 HOGc1DSK8kiUA==
 From: Christian Brauner <brauner@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 12/19 for v7.4] vfs kernfs
-Date: Fri, 16 Oct 2026 12:21:59 +0200
-Message-ID: <20261016-vfs-7.4-rc1.kernfs-d34b0bc9b87b@brauner>
+Subject: [GIT PULL 13/19 for v7.4] vfs lookup
+Date: Fri, 16 Oct 2026 12:22:42 +0200
+Message-ID: <20261016-vfs-7.4-rc1.lookup-89a07517ed9e@brauner>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261016-vfs-v74-41eaf6c4712c@brauner>
 References: <20261016-vfs-v74-41eaf6c4712c@brauner>
@@ -43,7 +43,7 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6438; i=brauner@kernel.org; h=from:subject:message-id; bh=XLEWQiURi7aTHFjkuux9+QTBXfbA+Tn69PBNfHt4MlY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRd/HVL9OytqpfPS3gO1m3ujpi6+M8VtYxb6XaMm7lyb 52PcD38s6OUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiQm4MfwWlL6nu4tuV9uz1 3/1HXK6vLPqTOf9j/oQlwUejr28OmsTE8N/H9veOqv5rurN2zz/d9UWR7d27Le48C1vvHVt4jXP W2mkcAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5155; i=brauner@kernel.org; h=from:subject:message-id; bh=vUNY9rPt+nrilGeNstizbyc8m9RcsK3/spGwEHkD8xs=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRd/C0t8jv86Za2koBt9ze8WqGYUPVfqUdgwu2MSXJSP yasSfcO6ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjI5fUMf6XY9ymrPuReLB// blX7+sWb7IJEb+zb5Ps432Fj36rUns8Mf4VOvJxvfP9fcqxB085Tj6cuKD/MMfX3pLSPUZXH1i5 pf8MNAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
@@ -51,59 +51,35 @@ Hey Linus,
 
 /* Summary */
 
-This contains kernfs scalability work from Shakeel driven by what Meta
-sees in their fleet. kernfs_rwsem is per kernfs root, so sysfs and
-cgroupfs each have one for the whole machine, and every create, remove
-and rename takes it for writing. rwsems don't let readers steal the lock
-once a writer is queued, so one cgroup being created or a device being
-renamed parks the entire incoming reader stream in uninterruptible
-sleep. Daemons that poll cgroup files in a loop turn that into a convoy
-and the two that hurt most, oomd and below, are the ones that are
-supposed to relieve memory pressure and record what happened.
+This prepares for Neil's changes to directory locking. The goal is for
+the VFS to lock the dentry and not the parent directory and to push the
+i_rwsem parent locking down into the filesystems where it can be kept,
+removed or adjusted as each filesystem sees fit.
 
-kernfs_dop_revalidate() took kernfs_rwsem for read once per path
-component of every walk into a kernfs mount. Nothing it reads needs the
-semaphore. kn->active is an atomic_t, kn->__parent and kn->name are rcu
-pointers, kn->ns can be compared instead of dereferenced and the
-directory revision is a plain counter. The callback runs under rcu now.
-Readers walking cgroupfs and sysfs while another thread churns cgroups,
-renames netdevs and plugs devices went from 48,593,360 read
-acquisitions and 1,744,517 contentions to 1,280,280 and 429,846 on an
-8-CPU VM and path walk throughput improved 35-53%. LOOKUP_RCU still
-returns ECHILD because kernfs_iop_permission() forces every walk out of
-rcu-walk anyway. That is left for later.
+The next step in that is to swap the lock order of d_alloc_parallel()
+and i_rwsem so code can wait on i_rwsem while holding an in-lookup
+dentry. Two things have to change before that can happen. Nobody may
+call d_alloc_parallel() while holding i_rwsem, and nobody may d_drop()
+a dentry while it is being worked on since that effectively unlocks an
+in-lookup dentry and lets another one be allocated too early.
 
-kernfs_fop_readdir() held the semaphore across dir_emit(). dir_emit()
-copies to userspace and under memory pressure that fault goes to
-reclaim with the lock every create, remove and rename needs held for
-reading. Meta sees 120 second allocation stalls in filldir64() from
-below and systemd-oomd stuck behind it. The lock is dropped around
-dir_emit() now. Since the entry the listing stopped on can disappear in
-that window and two entries can share a hash, readdir resumes on the
-full (hash, ns, name) key and the fallback search lands after the
-missing entry instead of repeating or skipping one. The repeat was a
-pre-existing bug between two getdents(2) calls.
+So d_splice_alias() learns to handle hashed dentries in addition to
+unhashed and in-lookup ones, which is what ->atomic_open() needs and
+removes the reason filesystems d_drop() first. d_alloc_trylock() is a
+non-blocking d_alloc_parallel() for the filesystems that prime the
+dcache from readdir, smb, nfs, fuse and ceph, where waiting for a
+concurrent lookup is pointless. d_duplicate() creates an in-lookup
+dentry with the name of an existing one for silly-rename and whiteouts.
+LOOKUP_SHARED tells ->lookup() how the parent is locked so it can drop
+and retake it. DCACHE_PAR_LOOKUP is tracked by lockdep now with a per
+filesystem type key, and overlayfs gets its own class since it stacks
+over itself. And a d_flags bit is reserved for filesystem private use.
 
-Three more lock holds are shortened. kernfs_notify_workfn() no longer
-holds kernfs_rwsem across fsnotify() which allocates against the memcg
-of the watching cgroup that is already under pressure. The open node is
-allocated outside the hashed open file mutex, the most contended lock
-in kernfs on their fleet with 2.19M waiters over 29 days and a 77ms
-median hold. A new node is activated without dropping and retaking the
-write lock, lock_stat says 1200 -> 830 write acquisitions for five
-dummy netdevs, and kernfs_rename_ns() allocates the new name before and
-frees the old one after the lock so a rename can't enter reclaim or
-wait out a grace period with it held.
-
-Three standalone fixes come with selftests. Same-parent renames take
-kernfs_rename_lock too so kernfs_path_from_node() can't build a path
-that never existed. Decoding a file handle takes the semaphore so a
-decode racing rmdir() can't hash an inode after the removal's ilookup()
-pass and lose IN_DELETE_SELF. And kernfs_create_link() reads the
-target's uid and gid under kernfs_iattr_rwsem so a chown in between
-can't give the link an owner the target never had. The kernfs selftests
-grew from two xattr checks to coverage of dentry revalidation, rename,
-namespace tagging, file handles and readdir under churn.
+Also included is Mateusz's fix for the spurious dentry reference cycle
+on open. __legitimize_path() grabs a reference, do_dentry_open() grabs
+another and terminate_walk() drops the first. do_dentry_open() consumes
+the held reference now. Opening the same file read-only on a 20-core VM
+goes from 4043375 to 5629378 ops/s in will-it-scale.
 
 /* Testing */
 
@@ -114,7 +90,26 @@ No build failures or warnings were observed.
 Merge conflicts with mainline
 =============================
 
-No known conflicts.
+This conflicts with the vfs-7.4-rc1.idmap tag in fs/namei.c between
+commit 025756ee7b476 ("fs: port mnt_idmap() and file_mnt_idmap() to
+const mnt_idmap") from that tag and commit 161ce1e692d01 ("fs: avoid
+spurious dentry ref/unref cycle on open") from this tag. The idmap tag
+is merged before this one:
+
+diff --cc fs/namei.c
+index 3fc7572e917a,d4b2e5883cba..000000000000
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@@ -4788,7 -4791,8 +4790,8 @@@ finish_lookup
+  static int do_open(struct nameidata *nd,
+  		   struct file *file, const struct open_flags *op)
+  {
++ 	struct vfsmount *mnt;
+ -	struct mnt_idmap *idmap;
+ +	const struct mnt_idmap *idmap;
+  	int open_flag = op->open_flag;
+  	bool do_truncate;
+  	int acc_mode;
 
 Merge conflicts with other trees
 ================================
@@ -127,54 +122,54 @@ The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
 
 are available in the Git repository at:
 
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.4-rc1.kernfs
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.4-rc1.lookup
 
-for you to fetch changes up to 1c45110a23bd7fb4a1a7d5f5a1014c5b688844ae:
+for you to fetch changes up to 31fbbc8bb1ca256f3d27d1172ad3493d46d29c73:
 
-  Merge patch series "kernfs: do less work under the kernfs_rwsem write lock" (2026-09-25 16:59:12 +0200)
+  VFS: d_duplicate: repair comments to avoid kernel-doc warnings (2026-10-16 11:14:51 +0200)
 
 ----------------------------------------------------------------
-vfs-7.4-rc1.kernfs
+vfs-7.4-rc1.lookup
 
-Please consider pulling these changes from the signed vfs-7.4-rc1.kernfs tag.
+Please consider pulling these changes from the signed vfs-7.4-rc1.lookup tag.
 
 Thanks!
 Christian
 
 ----------------------------------------------------------------
-Christian Brauner (4):
-      Merge patch series "kernfs: remove kernfs_rwsem from dentry revalidation"
-      Merge patch series "kernfs: three standalone fixes"
-      Merge patch series "kernfs: don't hold kernfs_rwsem across dir_emit()"
-      Merge patch series "kernfs: do less work under the kernfs_rwsem write lock"
+Christian Brauner (2):
+      Merge patch series "VFS: prepare for changes to directory locking"
+      Merge patch series "Fixes for dentry lockdep tracking on stacking filesystems"
 
-Shakeel Butt (18):
-      kernfs: Use VFS lookup context in d_revalidate()
-      kernfs: Prepare directory revisions for lockless reads
-      kernfs: Avoid namespace dereference in d_revalidate()
-      kernfs: Remove kernfs_rwsem from dentry revalidation
-      selftests: cover kernfs dentry revalidation
-      selftests: cover kernfs file handles and same-parent rename
-      kernfs: take kernfs_rename_lock for same-parent renames too
-      kernfs: don't lose IN_DELETE_SELF when decoding a file handle
-      kernfs: fix up the unlocked attribute reads on the creation paths
-      kernfs: allocate the open node outside the open file mutex
-      kernfs: don't hold kernfs_rwsem across notification delivery
-      kernfs: don't repeat or skip an entry when readdir resumes
-      kernfs: resume readdir on the full entry key
-      kernfs: don't hold kernfs_rwsem across dir_emit()
-      selftests: cover readdir resuming at a removed entry
-      kernfs: activate a new node without dropping kernfs_rwsem
-      kernfs: allocate the new name outside kernfs_rwsem
-      kernfs: free the old name outside kernfs_rwsem
+Mateusz Guzik (1):
+      fs: avoid spurious dentry ref/unref cycle on open
 
- MAINTAINERS                                       |    1 +
- fs/kernfs/dir.c                                   |  225 ++--
- fs/kernfs/file.c                                  |   47 +-
- fs/kernfs/kernfs-internal.h                       |   18 +-
- fs/kernfs/mount.c                                 |   32 +-
- fs/kernfs/symlink.c                               |   17 +-
- tools/testing/selftests/filesystems/config        |    8 +
- tools/testing/selftests/filesystems/kernfs_test.c | 1187 ++++++++++++++++++++-
- 8 files changed, 1414 insertions(+), 121 deletions(-)
- create mode 100644 tools/testing/selftests/filesystems/config
+NeilBrown (10):
+      VFS: fix various typos in documentation for start_creating start_removing etc
+      VFS: enhance d_splice_alias() to handle hashed dentries
+      VFS: introduce d_alloc_trylock()
+      VFS: add d_duplicate()
+      VFS: Add LOOKUP_SHARED flag.
+      VFS: add lockdep monitoring of DCACHE_PAR_LOOKUP lock.
+      VFS: reserve a d_flags bit for fs-specific usage
+      VFS: per-fs-type lockdep key for dentry in-lookup locking
+      VFS: rename lookup_map to dep_map
+      ovl: provide private lockdep class for dentry->dep_map
+
+Randy Dunlap (1):
+      VFS: d_duplicate: repair comments to avoid kernel-doc warnings
+
+ Documentation/filesystems/porting.rst |  10 +-
+ Documentation/filesystems/vfs.rst     |   4 +-
+ fs/dcache.c                           | 177 ++++++++++++++++++++++++++++++----
+ fs/internal.h                         |   1 +
+ fs/namei.c                            |  69 +++++++------
+ fs/nfs/unlink.c                       |   3 +
+ fs/open.c                             |  27 +++++-
+ fs/overlayfs/inode.c                  |   1 -
+ fs/overlayfs/overlayfs.h              |   2 +
+ fs/overlayfs/super.c                  |  19 ++++
+ include/linux/dcache.h                |  38 +++++++-
+ include/linux/fs.h                    |   2 +
+ include/linux/namei.h                 |   3 +-
+ 13 files changed, 296 insertions(+), 60 deletions(-)
