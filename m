@@ -1,124 +1,139 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB0836DA1A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 14:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2898E377A80;
+	Fri, 16 Oct 2026 14:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792159296; cv=none; b=tcPUXvf0wwA/KzXghQN/v50LAJORbAkRBMWsMdmcgSv+/lxafjp/8F35nW8wI+X+NhgNodj/qWWJnFzoQimcATT3XNrvjgXQ0wZ1UbMehKc+1kW59D3cxrIaqzUqd15uh4zG0jrWu/Sn7GR2k/wmmU1NAd8u4rxeCTVxC5TsFbQ=
+	t=1792160894; cv=none; b=ZOZ4tZm9Fwz1BsfP/X1YpDQ4aRzysygRavDg3bWRYccOvhTaMAgMgsU+YA7bnmfcJjOpzAu2VWYmbe/e26klQae6r+X3QqOhOf9WWIK17P0m0HC2mbkDX33S9HWlx0pxoXlnBcTNZp3ax5dYBtIH8X6u8N33w/tcAPYdZS1zKdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792159296; c=relaxed/simple;
-	bh=qMGCJljRHNHuiGAwwogk7MJwQxMZGKK+z87yiVyWXZg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ChnIzhnTgVEX8Bi99PZ04LJSus6FCnyRjOu1jJobAS2RBJS93HdcsoVN13TDZS2n5Jps3YSKIx0wW6lxUK7oOe4oD+cXcwUIjeambExey8i6ytch4aLr2vlOpF3JrVIVELLR6nJ4P0VrrmE6/cXUlZrIUEa+Z4x0z4GsNhrgcIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b6OjQxpV; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792160894; c=relaxed/simple;
+	bh=kVyx/+Bh2SFTIx1Ta0Uqf9Fq/v7iXSp1BkyJr8yCWHM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZnjibVncZg22/XvGoZTe4eZU0ZpUWbdx/G7/riv8tb/IUGJxRpCwVm9F1wt7/5TjeL5TXcH8feExyt5opnIEZHQfS3nBK6Fwpp/aTM2UcOxL8/PmzakMVseHQiOIT+llFFhhkBvwW07Ef/WN852GqeFvoW5odg2+7no8UV07KVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Pg/4cYhx; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b6OjQxpV"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c3fd91337baso229022566b.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 07:01:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792159294; x=1792764094; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wxGWmSdkmPud9BnnFVh7MsFjXmV1Yjo8qVCjPSX+tEE=;
-        b=b6OjQxpVoOOMmBaOMZ0q+N8cKTPhxm8JfQHxg0ltKH2zuTLmfSTKh4KdnNTHSMGOth
-         NgZ++G7TKFNU4wE+JzvG1RjBYjOnVRI0Uoh8IY8WQ4UFKrG7t8WaQp3zOML13BnEYr3B
-         L21oBcQgm5DNx5bLXg/4xCt4F76SN1/fe5FGvg+xNFrxOI11Gda08vU6HgVctz2kpBc8
-         +hpFTqzoK+zJeR0ONh9II96a23ULHvL1AhWfxZEZ7a8mhrhbDgoKhQV2ipetp/nyfwuY
-         vQ7K7W96vLWvL3qXlikwr8t93pdrm7o34gLyNwcULmw19b01pR2uGeoNe7ktse4rgnam
-         myHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792159294; x=1792764094;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wxGWmSdkmPud9BnnFVh7MsFjXmV1Yjo8qVCjPSX+tEE=;
-        b=o6aNWW3DV7aPGDLaW46muzdSO7upIwyf2yWlIjVZPUI+R8BmgAPD5ug5qM/ARVNZ2Q
-         3rzaTzQ192Uoel7vNjfwLVPJNseu6iXlTc5ikVL6eWeZqDzG4bjOXkhteYi9BsKdFRxV
-         /BtWqtVuqd7AWNTYlvm5r/neZCHHd/QguVjGJXyEcZx+B844Kj5ZDG8j6E4WAZn4VbFh
-         lIUeicMQG+bCFW+O3RegyEB3/G3bd3qPT4BiUF+IpBM1FQIKCFiaLzvA7bpipzXgpjIP
-         2MMJlfCQxNEvUYgzNuN9Sek7f9dG8dI4LF41G6LS26OTDfdi8M9de2KIt9XC6QXIedJI
-         Wy1A==
-X-Forwarded-Encrypted: i=1; AKwUvBzhub/tSKj5QrOPUcCNQCl5OSVWyh9mdJuB7D/8tDIxPMmbm54jQy1hMy0YNV+tCQrN1nYlEzN4KXmQceTV@vger.kernel.org
-X-Gm-Message-State: AFq9FYKjpocbL927mt7H2gZ4maJ7of+EnV4b3t/gdkNVdud/3OIt+y1e
-	Oys8U6HuhSTR3kHmeuyvEtVvECk8Du+JoHAiyHqBEalLdeJSJkH0gGnSFGMnZtRHr6Rz5w==
-X-Gm-Gg: AYBFou2mEk48DH9dIoNGsKa03P0qkWnRUpylrlYkMguSYoyU8xHbCfC92Kyk9/GY/11
-	Mq/fAGWGnucrpqA1sqFHhEkt/fdEJgkRmVTm6gUoi/hcOCkJ6U1BUlTv+oTEZl/lBw5KvmFWgXc
-	DK9PlAEayFtnqlilKgIfI2EQD14sXk5SggbA+iXNtkDO4P2gmoqXHCpf54hlG04YDhBBt4Q0umu
-	8266xnTbDyqFjpA22cf1OmPoQZGYiEwXt6crXFBoOraB6aecauEelh9Q5T+PvEqjKDEDhbAiGHF
-	JX36J62OSGvOJUlZ9teJ0LylEsPhUJ+F92rUpoTu1qo8vTVmYnizVPU5lAFM+xvblCbDPKZgqs0
-	le0v3oukmn0PHEiTzyxVDQKoIPfCfK47EqbdpY2CoITfSpdVacRJrltUaxzqVoytdbXfAc71ICo
-	TOh8H2GL36onXagKYKYg1f0vjixHrTjJjRiy+rmU6CfmE83B9sf5GWC+tOhIOjCYWelpLVWh90p
-	UVD3R6z2Nmzb8wkUYfp3LpA1mYHLayxwYgcHl5twcSG/G/6nwj7y9CJv/Nulvd7ER72CeVGa4R3
-	zSpRmhDtFfXC0m6/hotYtLI12XeWRRjhkrT9g/5bPuH42I1QP4U/xQMwXVmVN6e1sZyiX+XP8Fv
-	Q3VYKQX9qGkoBv4T3W69ld3qWXOsZFL3BYQ==
-X-Received: by 2002:a17:907:6b0a:b0:c41:8e21:4d5a with SMTP id a640c23a62f3a-c418e2156bemr5228466b.5.1792159293084;
-        Fri, 16 Oct 2026 07:01:33 -0700 (PDT)
-Received: from [192.168.100.100] (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4090dd124csm74417366b.28.2026.10.16.07.01.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2026 07:01:32 -0700 (PDT)
-Message-ID: <f9b27432-4104-4323-8cd7-e2cda73db2f9@gmail.com>
-Date: Fri, 16 Oct 2026 16:01:31 +0200
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Pg/4cYhx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
+	bh=xfVgpkKhA8IGQwvRbtPLD/w1VN4ZPrmkO+OUdeP8qGU=; b=Pg/4cYhxCrWkjlt+4wGME3yARL
+	yUyJHPawCMnF33N5DP/njQrHMEzsiWLZUKn05xM8VTjE0Ds6ySWfPfU3H63Fpt8qws6GkkoNTyUg9
+	GfahqO2uyfW3a7PdXUV6TEDDb6shi38CndIGp73ZN+DBmBcAv8XpBFlwBXEssrEkRQp6LSfB2qBA/
+	i/lL1TW4adPgcHPLrXt9AhXOvJTm9ZkCFz/xxgocBO+V5aFLdKs2UG7cN/LgfhEKFhtr6Tg5cbLGY
+	pwOlKf/8Mol0DPegxtMZNxLjdSDDyLTZGsqJMh8DQPxEL3Iv5kh92Ik5w/tIUT8jWVZYgks8Gw0cm
+	Rx7qa3pQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xHiuh-0061vO-2m;
+	Fri, 16 Oct 2026 14:28:04 +0000
+From: Breno Leitao <leitao@debian.org>
+Date: Fri, 16 Oct 2026 07:27:58 -0700
+Subject: [PATCH] init: do_mounts: free the ramfs info of the boot rootfs
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] fat: make rename recovery safe after metadata write
- errors
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
-References: <6aa82300.a211d2ce.1a5198.0295.GAE@google.com>
- <20260929090029.742579-1-krystianmkaniewski@gmail.com>
- <87ld8j4161.fsf@mail.parknet.co.jp>
- <1f18819d20c92960b8b2d6ccc8bc4506d346150e.1790779353.git.krystianmkaniewski@gmail.com>
- <87bj90m6dq.fsf@mail.parknet.co.jp>
- <20261014082315.190262-1-krystianmkaniewski@gmail.com>
- <87qzhqvloo.fsf@mail.parknet.co.jp>
- <55a1f016-a7a2-469f-b481-37223d695f29@gmail.com>
- <87cxt921rc.fsf@mail.parknet.co.jp>
-Content-Language: en-US
-From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-In-Reply-To: <87cxt921rc.fsf@mail.parknet.co.jp>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20261016-rootfs-kill-sb-v1-1-7631af3ba35f@debian.org>
+X-B4-Tracking: v=1; b=H4sIAG400moC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDA0Mz3aL8/JK0Yt3szJwc3eIkXZM0wyRTS/OUxCQjEyWgpoKi1LTMCrC
+ B0bEQfnFpUlZqcgnIFKXaWgBCawqQcgAAAA==
+X-Change-ID: 20261016-rootfs-kill-sb-4f1b597dab24
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ catalin.marinas@arm.com, linux-kselftest@vger.kernel.org, 
+ kernel-team@meta.com, Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.15-dev-47773
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2017; i=leitao@debian.org;
+ h=from:subject:message-id; bh=kVyx/+Bh2SFTIx1Ta0Uqf9Fq/v7iXSp1BkyJr8yCWHM=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBq0jRwJ+ECn+ZMqUHjGx71LeWT36HyEyPiU58cE
+ UKp92v8xwaJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCatI0cAAKCRA1o5Of/Hh3
+ bREgEACn1dErxZ5ZyIqIE+DfVl8L3mZpBMkH8ojYr99RXRd1Rwm6ogub3CYYEFPeiwFx0MIHAqD
+ KG+9lLZ/eWwsRnhfNLSWNu/C5q3Mf9N5sYPiksnr1iSHeZ4givovY2cKb1SFMGxeH9paFZ2ySPk
+ qr3DhsXB1+h9wz7Ezn/ELbRSvchkKZmB0sDufWtRiKF6hFM1NsfAfB3vf/QFbZvOVsvbqJryxni
+ N9LTUeCvTHLz+fg98gmNDjFgH+1TgG51T6z77AI676VqNvuXqaN6ShPL64Sq3+sh1s078JrIxpr
+ cM1LSsRR3oAoH/9V63v4fq0CYv4oauERqeOnmxhTJB/8OatuWnunWOCGSOgt3Hrli2fUMTtviOj
+ jjKDziX0P3cYaGJofFS7Rf2CD4nJLFkhwcgAkqEQ4zYkxxkgWpYtOv/MwUW266RSZylgXF/DVxr
+ aQf/8DJPU9Rh6N6mbA7EtfBji3e9Bg9Z2AVmgAM+fIgmm+Kxd/yZsl/XsDxtJmmLUg0ue8YTpR7
+ uhqNNN1SpbtLckkC/s3yXTBHCipjgFOHOeupwDu6vaOY0t4+j/qgpYMmc2CohblToxqyDXOXLd1
+ UAeceeDtw0yYIHOeKNcwgT0DSi8RkylgdYjs+p+ddZb4A+AFaCqmdcpyqsnXtDd61ncvaPQTyi0
+ uhwydr8arU5sS3w==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-On 10/16/26 15:50, OGAWA Hirofumi wrote:
-> Krystian Kaniewski <krystianmkaniewski@gmail.com> writes:
-> 
->> On 10/15/26 20:54, OGAWA Hirofumi wrote:
->>
->>>> +	} else if (!rollback_err) {
->>>> +		/* Read the entry block again if a failed write invalidated it. */
->>>> +		rollback_err = bh_read(sinfo.bh, 0);
->>>
->>> Why do this read the bh from on disk?
->>>
->>
->> The bh_read(sinfo.bh, 0) is needed because a failed inode-position write clears BH_Uptodate. fat_remove_entries() modifies and dirties that retained buffer directly, which otherwise triggers the warning. Reading it first refreshes the whole block. If the read fails, the buffer is left untouched.
->>
->> The same reasoning applies to both the VFAT and MS-DOS paths.
-> 
-> If sinfo.bh is required to read because of failure of I/O error, I guess
-> the bh will fail to write again. I think we should give up to rollback
-> in that case.
-> 
-> Thanks.
+Kmemleak is reporting the following leak in ramfs_init_fs_context:
 
-Thanks. I was trying to handle transient errors here. The old entry still exists at this point, so if the read and removal succeed, the rename can be fully rolled back.
+  unreferenced object 0xffff000080302480 (size 8):
+    comm "swapper/0", pid 0, jiffies 4294667306
+    hex dump (first 8 bytes):
+      ed 01 00 00 00 00 00 00                          ........
+    backtrace (crc bea23b04):
+      __kmalloc_cache_noprof+0x28c/0x5a0
+      ramfs_init_fs_context+0x5c/0xf8
+      rootfs_init_fs_context+0x30/0x40
+      alloc_fs_context+0x4c0/0x6a8
+      fs_context_for_mount+0x28/0x40
+      vfs_kern_mount+0x40/0x220
+      init_mount_tree+0x80/0x440
+      mnt_init+0x138/0x170
+      vfs_caches_init+0x2c/0x48
+      start_kernel+0x350/0x3f8
 
-In my tests with a single injected write error, giving up left the new entry pointing at the root directory, and fsck.fat wanted to remove it. Retrying the cleanup left the filesystem clean. If either the read or the cleanup write fails, we stop and report corruption anyway.
+When init pivot_root()s away from a ramfs-backed boot rootfs and
+unmounts it, the rootfs superblock is killed with kill_anon_super() and
+the struct ramfs_fs_info allocated by ramfs_init_fs_context() is never
+freed.
 
-Do you still think we should give up here? If you prefer not to retry the new-entry block after its failed write, should we also avoid rereading and rewriting dotdot_bh after a failed .. update?
+Kill a ramfs-backed rootfs with ramfs_kill_sb(). A tmpfs-backed one keeps
+kill_anon_super(), as shmem frees its info in ->put_super.
 
--- 
-Krystian Kaniewski
+Fixes: 576ee5dfd459 ("fs: add immutable rootfs")
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+ init/do_mounts.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/init/do_mounts.c b/init/do_mounts.c
+index 95e0b3a0f711bd..b088021b1546d8 100644
+--- a/init/do_mounts.c
++++ b/init/do_mounts.c
+@@ -503,10 +503,18 @@ static int rootfs_init_fs_context(struct fs_context *fc)
+ 	return ramfs_init_fs_context(fc);
+ }
+ 
++static void rootfs_kill_sb(struct super_block *sb)
++{
++	if (IS_ENABLED(CONFIG_TMPFS) && is_tmpfs)
++		kill_anon_super(sb);
++	else
++		ramfs_kill_sb(sb);
++}
++
+ struct file_system_type rootfs_fs_type = {
+ 	.name		= "rootfs",
+ 	.init_fs_context = rootfs_init_fs_context,
+-	.kill_sb	= kill_anon_super,
++	.kill_sb	= rootfs_kill_sb,
+ };
+ 
+ void __init init_rootfs(void)
+
+---
+base-commit: d419d682257d813f6cb7a28e42b35d0edf4ad038
+change-id: 20261016-rootfs-kill-sb-4f1b597dab24
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
+
