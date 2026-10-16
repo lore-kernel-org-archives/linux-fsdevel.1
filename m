@@ -1,254 +1,241 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA4427E05F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 00:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1D0242D67;
+	Fri, 16 Oct 2026 00:51:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792110738; cv=pass; b=p/VBu/EIdeUfYXWQ0MitPkE8XhHms1LTp7+BLmPP/+U59urVxktD1CgxfgADeCuw5b2cEkox9OBZ8rgm1rHtibhDwFJ2U8W8Ioktl5+ZsG3D6qTpgwl4WiV3SodIs7r9Pv4cCe8plMVRhHmKTsJ+nGLD4ISHX82WYNw9nmL0rF0=
+	t=1792111881; cv=fail; b=YqXadUxFlVHOWqALfyzlWlw9XB2Wg80t4JdBATFKjTuol6raAghBAZeF0YH3YS73eMLFVLTxYnEDbCeWWRBJ2V53bBmlRg30em4r0uZCCTbSLMd5fusEleHoZLButh8tjnOrpWoLfwA4p3cc3H34wan6BABxRhFFo15cz1ivSoU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792110738; c=relaxed/simple;
-	bh=HxZt08dVRw4ejTWE+FGXV5r0nmHjM+0lQhVW4+dpeTE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pUvj4PBuBjwDMQpIoywm9+JZLd9VH4uJmTS9xguFuSq+5/aMj1pt52uXvm3K8WL09Qcy8vbEu2Cny57dobYONGC26SJ5RyKWVg14HAbgGmAUqyIxjaIOjbMDGVW+wtnjSQo9WKNvJ1cwl185ebdp2jmZm4IMpua7gMwPWTmATEM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OMi03vrw; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=a6aGHoVG; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1792111881; c=relaxed/simple;
+	bh=qVEj/S4myFIFDabZGx6ajsUGFtWes/52J1V+Tw4kUUk=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=KP9vG+8HNtToH+3wyf8kGraUbo74gs4Fks2mLE8q5zH8UHFsM/ISMJmO+2PLTY/AgwKmSUSBWrR0lz5QbTlkz2p5DgA/m8PQR6C0zbXALpmmgoNTLARwYOe7QETHlP8UqDvxwMUpGjUJzHhyYSkEs2DND1dnhKJCetH5vxOxp1s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WYzrb40R; arc=fail smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OMi03vrw";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="a6aGHoVG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792110735;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2PpmzonvJ+GFyXX1ccvr8BDAPumMVPYHB7D08eoJkdk=;
-	b=OMi03vrwiksem2U41TCFBpUAaYtOZu+lGZOzQNCPnbZbJzhol7uqK7YGClwnyJrFYP7ZvB
-	XuiMXVbpxX9CP5a1piIHy0xC5qZ6xdSYcBrXoms3/U4sR8cR+kr8KrpKQcTPzttb0PiRWY
-	wj4ZU8y3W/z/IQVJFmLs9cARieZ3mzo=
-Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
- [74.125.224.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-473-SYS-DIhmOtqHHryZPXMMMQ-1; Fri, 16 Oct 2026 00:32:14 +0000
-X-MC-Unique: SYS-DIhmOtqHHryZPXMMMQ-1
-X-Mimecast-MFC-AGG-ID: SYS-DIhmOtqHHryZPXMMMQ_1792110733
-Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-679a95932e5so997550d50.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 15 Oct 2026 17:32:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792110733; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AVkbK/k9K5Aud2YQ+9cucXyu5Tofp/3GlFvlwtJIEy0UE3NbToMZgizgJ84/KqBogS
-         QCAN+9SWo7o0t47RwS+BYjMTSy3CFXhxldQQo+ISSX2XJ3eruVdNa9z06hrOoQ1rAaTW
-         EZLDiY05DwdoYsL6e0RCm7Tn2eGd2U4XazCpL4MLSGsHydS5bsE48Ij8JELwatxVpzsV
-         0sn2iH4zHtMIP1dcum5jmVcczlopqLULZR1MGx2gZQlluDXzOj6EMu1BCL1J/j5H6F2I
-         qxx5HL19qECoEM0HAebaz68Zarjp5hnfa0Ra05yoqufdGV8OIGN3zZI/ab+Ub6UdBERB
-         R/3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2PpmzonvJ+GFyXX1ccvr8BDAPumMVPYHB7D08eoJkdk=;
-        fh=alwHKCJi39lOsapTEvRh9Uw2B0agROocV1SBgUifq1o=;
-        b=PWjyLAdxFWsI/Q+VZs+wPniJSTJTkFFNYg0Eabn4r0YObP3i0p+fmOP5VL0FFTXPvx
-         9ke9LX6Cy5aSqe91W43CkR2KdtwyuAT60ikqzLlQ0wOuXgKhYmb3MYEnAaq//Lr1LMyP
-         s3j+Z36Sqm0GeJzb5DLPcA/o6fHXvoOnoeNVuRkKfzpWig8B9SHS/rs4uf3onh7QwYLl
-         7LTooEGS2XxPt9AhjERCIXrKDdBE8dDdsSaIarww23JBDyH0Zwz6OtQl17r2UMzUsT8p
-         7yBDjkrGQivfXkv651pE0M4BTmYsVFb/IDa0Z7j0omSLJs9VCwpaZJcDrtWM6qmy9GS4
-         A7gw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792110733; x=1792715533; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2PpmzonvJ+GFyXX1ccvr8BDAPumMVPYHB7D08eoJkdk=;
-        b=a6aGHoVGIYOsFz/XfTl3ih7pJmkn7G8MvkQUgyC4pbFnoTXyQ6IKAieAD7L6p8cEPh
-         T4VNJw5qBoecq3yoztukTVDgAN9R39xL49fo+67cgW69kYZYhWo+3cOPctZXqJ+bCSIY
-         OYsaCsgHoXKRMQoVyKK8XqyKa49ZZEHamA6EuLTMlcfek1jiFFeHjOAfARX9Pg7T3HXL
-         x3twPA2xlFo6q2czC6mUxMNHqigersgPvgokjs96lJd9xnh1AKtqqcKSb7G1szhrPyeR
-         x/81KEOTrA7F73dkAWtRYvAPmB80S/QXlQHT6GbmWbsj8txovb21kc93//owNdVWf23Q
-         DHaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792110733; x=1792715533;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2PpmzonvJ+GFyXX1ccvr8BDAPumMVPYHB7D08eoJkdk=;
-        b=rmkaWTq3owtHj2Xqdqk20/xOFMNIdZkrIQtUIBI/LHjQRqXyVaPfjM9WCtMfZsWmw+
-         NO2yhN/7t5jjBFY+3/b1QxJmvcw/30AZWxZW+xsXq/4Dary3SgdRaeo9sSTh7xXk6iWN
-         qFMp7G/RhS3d9Oe52yLLzJ8zCeWMpB7bus/P5btOHHFuOQDfI+mJlcpZlRqEma433YHy
-         NZj59aRxalAH2sJyZTUNnsBT2YvWS8E9/bUHZTOErICU/9o6Iy4tOMC/1xEkqGWYgxQb
-         0Vh2rYQKAbv4gToX0cU9o/MG5KTo2Ojtg81WOwS4Jx7SMeHPDLIdrqRfd0+1Linx7d4b
-         8HfA==
-X-Forwarded-Encrypted: i=1; AKwUvBzuCcwv6YQRit16FDqLc3234krCmowvaaoZupZQWGyq/TMi4ptnJwVeyj1QaIWlZQZDGpuojMeZDkuvi1jo@vger.kernel.org
-X-Gm-Message-State: AFq9FYIEqNXRrW1aCgwMHE2yXb5+82c/Lc8FmZN+Ksd+rP2FLqnaj80q
-	FvSWLN1u+lBfiL8cJCDxKZzTHDMmEQGSr7PlLNam13nDLPQ+OeZumb1+FH/3fE1qJ1Xc92U7Eav
-	5+VPUCGiKw1E4om4iYCF+3Qu6+f5d9cig1uG/V2vUWryPy/AsbYzzXdQcElUyCzYC7R2HxC4XZB
-	Pz+ZOdSrzmUeKiL+ZRUCZNUYK6KLTUJ8IP5IUz4z7BBw==
-X-Gm-Gg: AYBFou0S0rKN7B/9lQCNf4QI/FC61UCM+dlQetBNoyHwWepewFxB0WnNbGpzdoOIl3R
-	8UkgSycC3LlzJYNjCdjW/CCfLamLxhcFxzTCH0Yb+Y4AGenF5dGNrv1nYT+KNvRyuSA/x9h9xYR
-	ZYldSrh0XP9qsIQc0MUhHw1nIlY26CBmrSdDC+gRDr5JEvAk36iLpLFDPOX25U7O/sZBVlX13CR
-	WUehTIJbsFv7wJhyZwEV6fRPN5jXjo4PYvHz7w+s0qQkA==
-X-Received: by 2002:a05:690e:12cf:b0:677:c92e:eee4 with SMTP id 956f58d0204a3-67936ac0905mr8161295d50.86.1792110733186;
-        Thu, 15 Oct 2026 17:32:13 -0700 (PDT)
-X-Received: by 2002:a05:690e:12cf:b0:677:c92e:eee4 with SMTP id
- 956f58d0204a3-67936ac0905mr8161290d50.86.1792110732554; Thu, 15 Oct 2026
- 17:32:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WYzrb40R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792111881; x=1823647881;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=qVEj/S4myFIFDabZGx6ajsUGFtWes/52J1V+Tw4kUUk=;
+  b=WYzrb40RFK7FgH9cIQVeMoo6uaVs2SgqzsMktT3qxWtnuc9o8tQHo34O
+   3m2FhdM9/540sFiI5M7ZsjcyXx29LGEOBXQq9oUewChKpwwas+VhvHBJw
+   cX0HSq/2w9T7+ywu7ZH9CBoCkrLhlraEPTcc03Lrd1DtB81DJTalQ4xHF
+   p5E8sNyGw4ZupV6D+zETpVDz2G+Tayo1DqH7A5aAj0YFwY0yqD7KlH4cx
+   eOM0FR4L3nKNUqWY4eQ1voDnzvupXpyK0DypXA8apQMj4TTMkhPfbejbL
+   MflM9bZ41Cy3gA2E+4wsO4iuzqM5nnVPFbZR7eeDZGtDeHjRs7Kpm7wWo
+   g==;
+X-CSE-ConnectionGUID: ZlFahTeASdS3cY0crgOcLA==
+X-CSE-MsgGUID: JmaOKMTWRq+rSgINgquBzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="905451"
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="905451"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 17:51:20 -0700
+X-CSE-ConnectionGUID: a+OTlvR6Qr6ZPC8Hvkm92A==
+X-CSE-MsgGUID: 71dsQsV8R6iX4V8hrk1ClQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="1799851"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 17:51:19 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 15 Oct 2026 17:51:18 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Thu, 15 Oct 2026 17:51:18 -0700
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.4) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 15 Oct 2026 17:51:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=G/IBOeFSpqHyxS1lSvM0UrNtacahdplOeqGz0/rSm1ZL+bhPYDQFFYCe6A/W2sF0S4RsTxt2z3bP/0uYSOCm+nTeOT9Rptb+9kuUi14/08LmNmghy+ke27NnF/3r3H1HKNbjzAJWLZx7zXneRYdopIx3f1Xf487CwCQ/yVQZWqigjLDiO20aXzKoDdApiC7kSDVdD4TAWndZDLP/zcCjBvAGS8xNVN2tnWlUdmQ1Nr5EeyVlLy9S3/g1xd1sxsiZEnnA6HcGaQxSaNol6MhhLwWUxrxvboOwbzAVySg4548RqGXXkr6d+QjHWqftTIACY+l77ElawgVQcoOZTIV0XA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cZz9MHwzYor66WvVHlNmu43KjstMS4YP2UF0koPouUM=;
+ b=XazRBBF1Em+jkjSrEguIcgKZahb0Zcug525UHwiNTPzILUn7i0C8EJkdqSm30054KT1VAio4p6ySNydVawCSr/2Xf12AkaxNKdSQtt5xNZJNDmpC80Thg9puFY+yUHLtF2NdhKhpwRNtqh8J7F/IargvMV5ZjGbRJDRUz0qck3X8LQWmZkNG3BI/4zfqQ6e79ggAdUd1VLpG3n7uUeJYo/xqw+W9BiEdyy7EzNkiWvLZn0fx4bqNr/6eR7tQsscA0a42s7cJi2tnKBsCH+WBCdSRPn4GmDp+6GNAQ2yQDGBdJege8LIAeSPg2D2olZW03+oUz+J7SUoBPwmuE2vMTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
+ by BL1PR11MB5271.namprd11.prod.outlook.com (2603:10b6:208:31a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Fri, 16 Oct
+ 2026 00:51:17 +0000
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::6fbf:c112:d0a8:f1a8]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::6fbf:c112:d0a8:f1a8%5]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
+ 00:51:16 +0000
+Date: Thu, 15 Oct 2026 17:51:13 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: <jianyungao89@gmail.com>
+CC: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+	<jack@suse.cz>, Dan Williams <djbw@kernel.org>, Matthew Wilcox
+	<willy@infradead.org>, Goldwyn Rodrigues <rgoldwyn@suse.com>, "Darrick J.
+ Wong" <djwong@kernel.org>, Shiyang Ruan <ruansy.fnst@fujitsu.com>, "Andrew
+ Morton" <akpm@linux-foundation.org>, "open list:FILESYSTEMS (VFS and
+ infrastructure)" <linux-fsdevel@vger.kernel.org>, "open list:FILESYSTEM
+ DIRECT ACCESS (DAX)" <nvdimm@lists.linux.dev>
+Subject: Re: [PATCH v2] dax: fix dax_range_compare_iter() to use correct size
+ and address offset
+Message-ID: <atF1AdT5tF2qWt4T@aschofie-mobl2.lan>
+References: <20261011064840.1296-1-jianyungao89@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20261011064840.1296-1-jianyungao89@gmail.com>
+X-ClientProxiedBy: SJ0PR03CA0272.namprd03.prod.outlook.com
+ (2603:10b6:a03:39e::7) To DS4PPF0BAC23327.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::9)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261012-work-fs-sb_rdonly-v1-0-60743a3dc326@kernel.org> <20261012-work-fs-sb_rdonly-v1-20-60743a3dc326@kernel.org>
-In-Reply-To: <20261012-work-fs-sb_rdonly-v1-20-60743a3dc326@kernel.org>
-From: Andreas Gruenbacher <agruenba@redhat.com>
-Date: Fri, 16 Oct 2026 02:32:01 +0200
-X-Gm-Features: AclHuK8NmKT3H02cx2l9pkluaZaWRnSiR4jZEUSx8b1tH5UXdD0FGyrgWytahmA
-Message-ID: <CAHc6FU5bdAjABRm=bnH68b2f66TZTDZ8sPdatLB2fS7-55U=yw@mail.gmail.com>
-Subject: Re: [PATCH RFC 20/28] gfs2: wait for a pending withdraw before
- remounting read-only
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.com>, Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net, 
-	linux-nilfs@vger.kernel.org, exfat@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, ntfs@lists.linux.dev, 
-	ocfs2-devel@lists.linux.dev, linux-btrfs@vger.kernel.org, 
-	gfs2@lists.linux.dev, linux-efi@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, linux-xfs@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|BL1PR11MB5271:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5459f4a-794f-4461-a3f5-08df2b1f95cf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|23010399003|1800799024|261009223027099003|56012099006|11063799006|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: iHfvHFJj1ooIrD6rveC9KCASGKq3Lv8nutmPuwkVT8LV+bz+yyD1ItOpk9vdBBGhOdmSxPgNYEqTAnbLqQLLmlWK08llc4tqjsEd/0iwTsmqigFfFdzUGd2tXK5VLIj8iyVxPjfUXQhjSM2ehzuceU9u61b/LNnrPOJzqEPsJtjgpy+VUXLk8atTI31Eo3gCqSoyiFZ+g6BjVThZsebpX1f2/+4FT7ps5aDYzc9TQtzBurva27VX05BzdIgg+/Mv3h2/NNv+G4voLaKdL/uOYYu1kxqHeJauLmZQ57vjTNesLfPkB6lyiQ5HxYQIa6xZ8rK9CwgnfLq/7yy/vwyRMhXC25MNISkwhQ8mQuDolKqOWIAd9IvFwDWfa+CKxj8eZwO8y/9l+V3R1VUtU+zhtxanZjCEeIj/rh/ok2LPuk5gn1ydC7w7zNDUqC475DU9a6vGIsxjp47Oto6fK3OHCIhvlk+nJ3BD6LFl9iudQl1XP+3I1gILZ1uDOqxByshazhq+5igzVtLAc7N2N4Uo3bcLRtgnhivbJCwgVih2ZupeYGL+ZO4Ou8ldFreISmaqwiJoNxKCgWmSs29hR//x8yoDdJjz+V3Sp9X9fzjNtzH4R0nZ2Vf8V/2LSI+XZoTL
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(23010399003)(1800799024)(261009223027099003)(56012099006)(11063799006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iUNoiA3BrE+LRpXDJxhbCwtkftYAYTFdmmIQpqIKfHknCYODfOHKdKMd4wwR?=
+ =?us-ascii?Q?nGiQg6lLf60JbqIZDR9r3zV05LTBv6nBQbil3MLSOXnZmjRRyF9O9ceVsVIR?=
+ =?us-ascii?Q?BPeOnFTt9PpWLSEorXdUpp2ps0A/dJunHjqSVM/VUb+Wizx8gSLcv3w/BfNZ?=
+ =?us-ascii?Q?XP2cN1HHvXg3mwMtiP0rFn+he8MXaai4C0rHEv0mgQWISKKIQPDJ/mfJdIZK?=
+ =?us-ascii?Q?EPJv7erPNUc/Ytfd41ShXYFN8jCuWmL+tlwMg7pJucliovY93+UkrnHexu1q?=
+ =?us-ascii?Q?Xrf+VP2mknyTH1jSWikI/uVcW+0TxvSFe3KAM4dvSJb3jvPHD3pDhF+TapZw?=
+ =?us-ascii?Q?EpGMuJw1PtFGZ/pFrzq1ekWo7Ea9hCiNDgMAVfkFjYuuz1fPI6gjzrBVubDU?=
+ =?us-ascii?Q?OOSYUgHzZYPnkrjU3eR/ia597MP8IGU642LfcUlbzuRFtThrXNph/2iHIRSI?=
+ =?us-ascii?Q?0nLXopwkSi8HZwMGpfFHKdDEsFlxaGxmgVoNAoifXiKuL/fO613zSpgtvd3m?=
+ =?us-ascii?Q?HSdCx/OmXGdn9zWDben9MJ7dIBmqGoErDc2R+jQt+beSSUzZMzgHlDXSTPmY?=
+ =?us-ascii?Q?peIqNl1A/b1ObIPs4LxCsHq0hlLD0mAyQF7FJptuI05MP3lH+kT7k3Srhf/I?=
+ =?us-ascii?Q?QjZ+lVjuR67ubc73FdfJl703s+gj+5YJRfwLPso76izQp4MwS519NUdadndb?=
+ =?us-ascii?Q?DxI3H30FOW6WEmKpabnm4Rm38K02pjCowOG7H/0jaLYKSPmV+AQ47D44mheg?=
+ =?us-ascii?Q?dop3xhlGZ4wMBjJ/w9iLvELKMYG9BXBoUXpcRrY+TgIl6RTO1F8n14Vm2wpP?=
+ =?us-ascii?Q?PGxW9mcpXfoUIJBM2h9QxI5Vy374ERkxgs8iZ75Sg+crFUCBbCYJo86SblMu?=
+ =?us-ascii?Q?g8b83i5tHj2pSP77VPifhbc20KVEEVdiFORXjALe34ZN4MoX+UPt27+wqsjN?=
+ =?us-ascii?Q?wkTHdfRSCuVl7Ar8qAyqpqiUeBjqVJKMXxKoJqeVY3QQgY3OxGraozILwttH?=
+ =?us-ascii?Q?YMx862qYWZ0ZfxObJw8kz7P4MEWyE/XdcjrpoPPzZuI2eo8PA+nxM8aPwJ6d?=
+ =?us-ascii?Q?WGkSgNjnQJl0SsfPEvd67UMmIkyFJVryomckCqdiVp3nVU+uTVP8MgsC8I0o?=
+ =?us-ascii?Q?v8WIxLmz1w6tHjBetmN1/gYC4oYj7UabK419DoGwMVHNlPIjepCwIIR0VuBi?=
+ =?us-ascii?Q?3P81AWqTFuWwVr8xTVJEAJPawmntu7KvN62gsZMCcxhPPA+DEWS73nmImm6m?=
+ =?us-ascii?Q?yABW5QUARLoNs4rkywt88pKHLFrLEJgfNF1zNaQLHfUnall3ZnRANWD106NR?=
+ =?us-ascii?Q?jJIngJoVF1PnZC/8l+/rfr8UWOz7OpanXO7iOecr6EMFYZE+LSDR6EOchs99?=
+ =?us-ascii?Q?1GiGCgpcjkpCNIHPQteBmoOuSUACk5R4I1+MKK9jpdIhZ2YxSqq8aP1scvlV?=
+ =?us-ascii?Q?Gb/aDDwSDUHmQS4onQkxWnbbRtewgC3XGWsKeEyd9j36VU+7yjSg3V91VHmZ?=
+ =?us-ascii?Q?RC2w7gKWnvoSs2NK42N91eXCu25YPuw47/Yl575ADeJPfv7EEyUz86CRM6B/?=
+ =?us-ascii?Q?PmKQT4AfWcn5whVpNQH6W0ycze6vJMTmnpthArzclJGCcNjt/EaiBnAgKleE?=
+ =?us-ascii?Q?HO3RgIswECARasqoa8rtP0Bj+s+TX1nVrXSKYwMGj7gcV2xR+k/0ywMZH53k?=
+ =?us-ascii?Q?1+LTn2Odr4bdHHnuRkAya4AM0cz3BWh614QiJw3NmjctwOOvFl2KqCqoDl+t?=
+ =?us-ascii?Q?/zTqOXAzeA=3D=3D?=
+X-Exchange-RoutingPolicyChecked: MwpsvhrnpLxaCdcM7iE2L7/tS3a0q3uSeK+cZKhz6mXdMoFnOI/9Qyl+tSkRCPk9RKS3o9IN8Jyt0FuBfJ37TvS8/D/BsEb/44PrdBhxF9w9OrHEDZChGQ1rJQ4Txlx35hYLbGHQYtkVtLj9vjoF763F0C5R41gNpSE+6UgtxRAGSq+34hyzkjk0SKp10m2bxsSPO+D66dDybcuj/Aht9cw2d7uAQYz0ik0tB7qWrqnUm7b9s1N6KkwqGju7tV1E7ZwW/qdoY8wVbF+sZB7+0aTQILSPfhhZiWEC22dP7cMcTWcd/7dP0JZTGI+KB1GPEFhXtZbcARHmPWntAkhrUw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5459f4a-794f-4461-a3f5-08df2b1f95cf
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 00:51:16.8916
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Nc+qQ63mmsHbThEeUMBhu2bjjcRmFs6zr4uDN/9W0xqOiCHyuZ/ue7LKc+36uTTp5szGH9wZzgUBsLIRZh7L+KuOvsAgYyZ7gRmhiEU/kxE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5271
+X-OriginatorOrg: intel.com
 
-Christian,
+On Sun, Oct 11, 2026 at 02:48:39PM +0800, jianyungao89@gmail.com wrote:
+> From: Jianyun Gao <jianyungao89@gmail.com>
+> 
+> dax_range_compare_iter() has two bugs in how it calls
+> dax_iomap_direct_access() and uses the returned addresses:
+> 
+> 1. The size argument passed to dax_iomap_direct_access() is
+>    ALIGN(pos + len, PAGE_SIZE), which is an absolute file offset
+>    rather than a length. This causes the underlying dax_direct_access()
+>    to request a massively inflated nr_pages via PHYS_PFN(size).
+> 
+> 2. The addresses returned by dax_iomap_direct_access() are page-aligned
+>    starting addresses, but memcmp() compares from saddr/daddr directly
+>    without adding the page-in-page offset of pos1/pos2. When pos1/pos2
+>    are not page-aligned, this compares the wrong data.
+> 
+> Fix the size by computing ALIGN(len + offset_in_page(pos), PAGE_SIZE),
+> matching the pattern used in dax_iomap_copy_around(). Fix the address
+> by adding offset_in_page(pos1)/offset_in_page(pos2) to saddr/daddr in
+> the memcmp() call.
 
-On Mon, Oct 12, 2026 at 1:27=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
-> Since commit 9c4a3de6cd5b ("gfs2: Asynchronous withdraw") most of a
-> withdraw happens in do_withdraw() from a work item and SDF_JOURNAL_LIVE
-> stays set until it ran. A remount to read-only in that window goes
-> through gfs2_make_fs_ro(). Its log flushes bail out early on the
-> withdrawn filesystem before FLUSH_SHUTDOWN can clear SDF_JOURNAL_LIVE
-> and then gfs2_quota_cleanup() hits its BUG_ON():
->
->   kernel BUG at fs/gfs2/quota.c:1532!
->   RIP: 0010:gfs2_quota_cleanup+0x562/0x6b0
->    gfs2_make_fs_ro+0xf3/0x2e0
->    gfs2_reconfigure+0x42e/0xfd0
->    reconfigure_super+0x437/0xb20
->
-> Just flushing the withdraw work before the remount isn't enough.
-> gfs2_withdraw() sets SDF_WITHDRAWN, calls dump_stack() and only then
-> queues the work. So a remount can see a withdrawn filesystem while
-> there's nothing to flush yet. And a withdraw can also start in the
-> middle of gfs2_make_fs_ro().
->
-> So let do_withdraw() wake up waiters when it clears SDF_JOURNAL_LIVE and
-> let gfs2_make_fs_ro() wait for the bit after its log flushes, right
-> before gfs2_quota_cleanup(). On a healthy filesystem the shutdown flush
-> already cleared it. umount doesn't need to wait. gfs2_put_super() sets
-> SDF_NORECOVERY first and gfs2_quota_cleanup() only BUGs without it. Once
-> the bit is clear the journal isn't live anymore and gfs2_make_fs_ro()
-> doesn't write anything.
->
-> gfs2_make_fs_rw() can leave the bit set on a withdrawn filesystem as
-> well. It checks for a withdraw and then sets SDF_JOURNAL_LIVE. If
-> do_withdraw() runs in between it finds the journal not live yet and
-> returns. Nothing clears the bit then and the next remount to read-only
-> waits for it forever. So check for the withdraw and set the bit under
-> sd_log_flush_lock, which do_withdraw() holds while it tests the bit.
-> Then either the remount sees the withdraw or do_withdraw() sees the live
-> journal.
->
-> Reproducer, lock_nolock: a SCHED_FIFO task writes 1 to the withdraw
-> sysfs knob from cpu 1 and keeps cpu 1 busy (RT throttling and cpu 1's
-> fair server disabled) so do_withdraw() can't run, then from cpu 2:
->
->   mount -o remount,ro /mnt
->
-> On lock_dlm the window lasts as long as the withdraw helper runs. The
-> window before the work is queued can be widened with a kprobe on
-> dump_stack_lvl() that delays the task writing to the withdraw knob by a
-> few seconds. A remount to read-only or sysrq u in that window hits the
-> same BUG_ON().
->
-> Fixes: 9c4a3de6cd5b ("gfs2: Asynchronous withdraw")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+
+Applied to libnvdimm-for-next:
+https://git.kernel.org/nvdimm/nvdimm/c/a4bfbfb4e98a
+
+
+> 
+> Fixes: 6f7db3894ae2 ("fsdax: dedup file range to use a compare function")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Jianyun Gao <jianyungao89@gmail.com>
 > ---
->  fs/gfs2/super.c | 22 ++++++++++++++++++----
->  fs/gfs2/util.c  |  2 +-
->  2 files changed, 19 insertions(+), 5 deletions(-)
->
-> diff --git a/fs/gfs2/super.c b/fs/gfs2/super.c
-> index 06302c29340f..1d7b39354d65 100644
-> --- a/fs/gfs2/super.c
-> +++ b/fs/gfs2/super.c
-> @@ -147,12 +147,23 @@ int gfs2_make_fs_rw(struct gfs2_sbd *sdp)
->         }
->
->         error =3D gfs2_quota_init(sdp);
-> -       if (!error && gfs2_withdrawn(sdp)) {
-> -               gfs2_quota_cleanup(sdp);
-> +       if (error)
-> +               return error;
-> +
-> +       /*
-> +        * do_withdraw() only takes a live journal down. Check for a with=
-draw
-> +        * under the lock it holds for that so that either we see the wit=
-hdraw
-> +        * or it sees the journal live. Otherwise gfs2_make_fs_ro() waits=
- for
-> +        * the bit forever.
-> +        */
-> +       down_write(&sdp->sd_log_flush_lock);
-> +       if (gfs2_withdrawn(sdp))
->                 error =3D -EIO;
-> -       }
-> -       if (!error)
-> +       else
->                 set_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags);
-> +       up_write(&sdp->sd_log_flush_lock);
-> +       if (error)
-> +               gfs2_quota_cleanup(sdp);
->         return error;
->  }
->
-> @@ -565,6 +576,9 @@ void gfs2_make_fs_ro(struct gfs2_sbd *sdp)
->                                    HZ * 5);
->                 gfs2_assert_warn(sdp, gfs2_log_is_empty(sdp));
->         }
-> +       /* A withdraw that do_withdraw() didn't finish yet leaves it live=
-. */
-> +       if (!test_bit(SDF_NORECOVERY, &sdp->sd_flags))
-> +               wait_on_bit(&sdp->sd_flags, SDF_JOURNAL_LIVE, TASK_UNINTE=
-RRUPTIBLE);
->         gfs2_quota_cleanup(sdp);
->  }
->
-> diff --git a/fs/gfs2/util.c b/fs/gfs2/util.c
-> index 83b8bb6446e5..1535ce2b7aa8 100644
-> --- a/fs/gfs2/util.c
-> +++ b/fs/gfs2/util.c
-> @@ -122,7 +122,7 @@ static void do_withdraw(struct gfs2_sbd *sdp)
->                 up_write(&sdp->sd_log_flush_lock);
->                 return;
->         }
-> -       clear_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags);
-> +       clear_and_wake_up_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags);
->         gfs2_ail_drain(sdp); /* frees all transactions */
->         up_write(&sdp->sd_log_flush_lock);
->
->
-> --
-> 2.53.0
->
-
-this looks good all around, thank you very much. Can I add it to my gfs2 qu=
-eue?
-
-Thanks,
-Andreas
-
+> 
+> Changes in v2:
+> - Add offset_in_page(pos1)/offset_in_page(pos2) to the saddr/daddr
+>   arguments in memcmp() to fix the page-in-page offset issue pointed
+>   out in the v1 review.
+> - Use offset_in_page() macro instead of (pos & ~PAGE_MASK) for
+>   consistency with the rest of the codebase.
+> 
+> v1: https://lore.kernel.org/lkml/20261010071453.6028-1-jianyungao89@gmail.com/
+> 
+>  fs/dax.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/dax.c b/fs/dax.c
+> index 6ba50142eeb2..b08d408418bd 100644
+> --- a/fs/dax.c
+> +++ b/fs/dax.c
+> @@ -2197,6 +2197,7 @@ static int dax_range_compare_iter(struct iomap_iter *it_src,
+>  	const struct iomap *dmap = &it_dest->iomap;
+>  	loff_t pos1 = it_src->pos, pos2 = it_dest->pos;
+>  	void *saddr, *daddr;
+> +	size_t size1, size2;
+>  	int id, ret;
+>  
+>  	len = min(len, min(smap->length, dmap->length));
+> @@ -2212,17 +2213,18 @@ static int dax_range_compare_iter(struct iomap_iter *it_src,
+>  	}
+>  
+>  	id = dax_read_lock();
+> -	ret = dax_iomap_direct_access(smap, pos1, ALIGN(pos1 + len, PAGE_SIZE),
+> -				      &saddr, NULL);
+> +	size1 = ALIGN(len + offset_in_page(pos1), PAGE_SIZE);
+> +	ret = dax_iomap_direct_access(smap, pos1, size1, &saddr, NULL);
+>  	if (ret < 0)
+>  		goto out_unlock;
+>  
+> -	ret = dax_iomap_direct_access(dmap, pos2, ALIGN(pos2 + len, PAGE_SIZE),
+> -				      &daddr, NULL);
+> +	size2 = ALIGN(len + offset_in_page(pos2), PAGE_SIZE);
+> +	ret = dax_iomap_direct_access(dmap, pos2, size2, &daddr, NULL);
+>  	if (ret < 0)
+>  		goto out_unlock;
+>  
+> -	*same = !memcmp(saddr, daddr, len);
+> +	*same = !memcmp(saddr + offset_in_page(pos1),
+> +			daddr + offset_in_page(pos2), len);
+>  	if (!*same)
+>  		len = 0;
+>  	dax_read_unlock(id);
+> -- 
+> 2.34.1
+> 
+> 
