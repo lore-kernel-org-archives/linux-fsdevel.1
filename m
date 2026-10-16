@@ -1,220 +1,351 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E1A3E3D9E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 07:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792136069; cv=none; b=nrjtuD3VdjLlhjr3NuFD47vgmMK7a1OX0Bmg4+qHspCDlROAJlleFgyO3UK9NMDqVpP9ci87SgkvMl6YXUfdGJ2y1uwQe1zh7DPR7wx2m5tf6gWrTRJRhhdRkjhOJxT1BPXBe4sgKdHWAWIAByiVVTt71auzCi9Ikx8hS0zCPuQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792136069; c=relaxed/simple;
-	bh=q5iUIWYW60cM0WPc202uqylYv2vTuJJuuMZPkex0ZoE=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=kf/UXGwwPZNrPbnd3nBSE6/knQR3l+ATawmTO0G72kKGI7FdWmTHnLS1R0VjsgRs1eEV4bPTd7xKabLlV1qumUcU8rrjlTOJeRELyrh2pU214jEmZbduLLhxTFp+CMwsqOqdJiBTRQEi5MuVis8xelbFBlq36JLzmtJZyWpLhK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4c467e19391so3720985b6e.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 00:34:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5870A42467C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 07:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792136366; cv=pass; b=lwso0kjsQ4SvR83krwluME9jHP0R8kaSmcK9dsbmBnfb21GH7nc6vK4sHMk+nSEJIAAINwLEHT/9XdIakIVa8WaE0cGQzcO8lzCy5V+CVcUT2Vt/aMb7D/6SanUh3ddJKpCae09837sV0Z6sk/qDvBc/sD1TkKJL35Cstj4YSA4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792136366; c=relaxed/simple;
+	bh=5U73rr9sf2Vf/AY5m/BZoHWAKZGP+xInuHRX+dX+CPw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=riFzpqyCEdqFDibt7NcBL2QzNfRnv/z2tI8O3XHOTxnY+nKDaExD4CrxCNq6L2QztESHI+G4QlXB81F0GbglBNxB1jo6s9eMZg9F1ae5Kd/nkA0Idz2luMGOfT7KXZynkED63k3vvQ3K0k0lB8IlSbq9ZnJ/WX6NxO+sTFLgai0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VnRvXkKO; arc=pass smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VnRvXkKO"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8acda240937so49755977b3.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 00:39:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792136363; cv=none;
+        d=google.com; s=arc-20260327;
+        b=pEaX1+Vi5XyZwHKbCyId7Nn9XvMiZvtDdgM+4qgpf7PG2H+BgyGC4WY5bk4hRyT3IV
+         kDohIU4FfxlqQVv5utQm9LxnVh/Za2TfFDScDOVhdBmvDVGbV9T1MJVyuPCik1Hc2+qN
+         QkaRUpA3uG/X3MtyRTqo44WpUwdgbOAjjLQ3o3ANZIUdTmCePtZcrK0JNU9/a+JIul6b
+         vdJ7fBWHP/t3rRvm/lFEvDE/O/XO4SAP638k44MaNsUq+f2cuAvBWaCAnFGGKEb9bk3O
+         T7hXS0t0fLSPii2/HP3hd7WYxD2oLy4Stgp7TAzkym7M9nTmXoVAYvjKvCr1/EPyZbqt
+         FD5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9Q+JD4cCc17ecbqzQFbNtgZQCDVQmV0Gk8J5DPqRIwc=;
+        fh=bE+0ja59x8DnJX6eJ9zWStiXI/bFqhaqZXnt58y91vg=;
+        b=GQ014SIcwdzgOdPQkdzFRqNkK15o7PB0DeQ/IERaFnUZlhRB5K6iOaTrhbALs/U1a8
+         9CbjZZ8rZbzZNMSFzXTWxqEQpjnItKRkL4dUxj70TLd5gjAKTlDwBsjTx0cOybtChsxA
+         TX3oR5uQaijkbC//ZuBgu5k4+RIPI48MFefHjsyFS1eEKyZSovGIHZBdUEAzppIYH7he
+         m1CjWd9iXL/jiX+QMEmykWFCBAsdApLnD8cmn40tYvLeKbl3Uz8b9LgSNh4SnKYbwm58
+         5Z/NrlGgUAtZ//hSTZSHlPKQClHd1GJTFsU4134H6uVtsnphFNMMQBP7goN4xBk4nQyM
+         2IPQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792136363; x=1792741163; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9Q+JD4cCc17ecbqzQFbNtgZQCDVQmV0Gk8J5DPqRIwc=;
+        b=VnRvXkKOE8YXsp+tsPBy2T28WtZ0Yk4i+bmW/pdXBUWLuTEdxzcnpXjv7/tvxGA3zq
+         ju9mruVrKx0+5fRXGojPlLsAP0X3hCHdORbha5Tp0HRP15th9uzLpDn8RpeRltNMpbkB
+         3shFFyroslHPAgMcJ4FzP1zj4Kr8M+0bTcWkCloKuNYswVMMpXQ0XCg5naxyOm602J+v
+         hbzXDgCbZKq+Pc2utr+CLubzc1ey1FqJNKSSfgz/fBpyACPnpvX9+ciiR87ooL++3+6S
+         m18whRMOIWiR8aQDpTwDryVlY0d2b6oRaIDcZH/8Ow3I+5zHl23mJuH+NUSdLbAmEpwi
+         VZeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792136066; x=1792740866;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=vM8+w6Df5oEiHBh7R/MMipDoTjRKtXIVMaP7vz7w6E4=;
-        b=TqKZATommq5lpRzBzi/gOwskw41dGbE/dRkks2uef7Nge7E1YvQHpxw2Bokuj8OY/6
-         awL4Ekg+7sDEzw6UVQaig09HdZKKYzWwSbSBVnsZijB3SapRg4NiqW3qjWTyQhQXNLhR
-         N+DCW+SJXfTsJzyaIO9abotWkCbG38pOJsLJUq5+EK158nmPA4QMJnqm8OSOsxOUK0Wq
-         27NJChkWbhTKrTsKUZvBWdoc5Osaea1ulO95EAP+VIiVo9TQ7HfySPVgIwMOaGZgg4v7
-         0pJstJcrAw7NfPDY5JzA161meMFWjRHq7AN+fse13WgWEu9sK+gNUJE7XjkgAnmlpdoo
-         grZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwojR1DssU+v4LG8CVQsDrTSBMt7Vk2xywPblgbKkC93HThxgz7Vnm5NSDgCmmtEjF9ShD1+oJU9UbHhluz@vger.kernel.org
-X-Gm-Message-State: AFq9FYLKlMKCYJqnC5qsXNaY7plua3qbL73MMlfYH9HfUoLGIYT4IztV
-	LejM85qpo13UoGltcPyWfYMlPJj6gCriTF5ZRg8xKCvpXg6SzCiPLsTUWhB7a/AaO5mCS13xI6G
-	8/obJm+JHvc6OtM7KPyyW16ukTGhRmVifUQC4dBd3fS6K/X5ad5pvK+ON6xc=
+        d=1e100.net; s=20260707; t=1792136363; x=1792741163;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9Q+JD4cCc17ecbqzQFbNtgZQCDVQmV0Gk8J5DPqRIwc=;
+        b=LElx+w4DZxctQKJwS9CVwQ9dt6nCPchonHaepDHEf2uzyy+82H1122BFw/qexDQ/AE
+         zW9F0U32pXU9NZAg7Zujdj9Q3qAKEtbtN1QWogmPlRCi/cdGnDN6bpm0vCZWMpkrGu9+
+         fb6OjjR1MG2n8gV5GNThm/XPxnuZsBoNexCT1QzpHm6FbjesLSljpE69wjflHsdvlh9q
+         VokS419vwM7Vcth+I0zTYVmRZ82eGxZKsuueNpo9lJL5je2HrbPe3w0oFol8k85Is/yd
+         ZVW9ZrCVdHIa3R38yV9skRrW5jdOBvaM2nHL8N4Rfg7XwZqYEs6c7FgrOcMia/6614KZ
+         QFUg==
+X-Forwarded-Encrypted: i=1; AKwUvBxMkP/5hRQJClXoynfH3OUdJVsyE+qVOGPhIi4nW8CMi1u0brAv9/DJfqTJPemRE5ONJDoXA5HhjMEG2w2X@vger.kernel.org
+X-Gm-Message-State: AFq9FYKMvCpLUvBJQmpKUF2IUTCHUgtPUIaXYsDSQjtasbvBTEaytcAb
+	oP6G5Hi+g2/7QG2Lamei5tdOLndtEtZm7maFeorWYLeIWfSC27XmslNVJYpguwNhYS5bfbh3Wsv
+	4FpvbIHyVAGXn/hSRC8LvYOIWYFp3B8M=
+X-Gm-Gg: AYBFou0tepEbc3wD/5/wqIaigKrI3k4NevciOcrulxcRYAB35pgP752mHQLPDKS0X7P
+	v8fR+1n6f2ZQgHv6VxjqxnKSK32v7UoXCA4unn8B5cqmSnZ3mPbzjtLDt18DEYeoXzDZxX3El6+
+	oSzKRyq6ToEAteNKqHfINmtbriqnkCvXq8I+05krtM/BYR04mMx+IlCidRqSIliHNHDF3acIObW
+	bCvFnm1OxBzr4NA4J7UW6YMOHkmz879eyfyACSqbLQPej4icAMkZjHmheLSAuhswNFd3h8uqOPc
+	P3vUdnleFGNqXhsyzePTwlwgByIirE3WMQapRcqWacRqPLNBbtPEjgxe4QfykXgQdkH19iu/j/q
+	uPocl5XN+Dg==
+X-Received: by 2002:a53:d009:0:b0:677:d251:ccc6 with SMTP id
+ 956f58d0204a3-6793605dda7mr4654300d50.71.1792136362980; Fri, 16 Oct 2026
+ 00:39:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:198c:b0:4e6:cc78:edc1 with SMTP id
- 5614622812f47-50c57b6e78bmr19127706b6e.42.1792136066417; Fri, 16 Oct 2026
- 00:34:26 -0700 (PDT)
-Date: Fri, 16 Oct 2026 00:34:26 -0700
-In-Reply-To: <6a83a769.4d75e56a.c9a88.0007.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ad1d382.7952420f.283480.021e.GAE@google.com>
-Subject: Re: [syzbot] [fs?] possible deadlock in uvcg_extension_bm_controls_store
-From: syzbot <syzbot+300213c2b5b55c0244f4@syzkaller.appspotmail.com>
-To: a.hindborg@kernel.org, leitao@debian.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <20260908122446.56708-1-lizhe.67@bytedance.com>
+ <as3gQ8jfa_6eBf15@chenyu-dev> <CALOAHbBssx9ZHGwebGZCvzT4d_soyjNfZRj4L6gnxHRXtc7eMA@mail.gmail.com>
+ <807eb0e80c76c3ccb85024b360bd47ace201931b.camel@linux.intel.com>
+ <CALOAHbCt+iGGWMxzjrcRamdSqD48_v+V685-qi7_Qy7UL8bxxQ@mail.gmail.com> <atG4VXk4t-m8VubY@chenyu-dev>
+In-Reply-To: <atG4VXk4t-m8VubY@chenyu-dev>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Fri, 16 Oct 2026 15:38:39 +0800
+X-Gm-Features: AclHuK_wXpq3Lf7WsZdWi1-5HCj6GkVfntrB1p_kAXzYzhwNrdQc9sTzTGN5xWA
+Message-ID: <CALOAHbDY6zLcEc4kGhC9GSFsOsREadkWN7Q4CmZuR_m_BMHAyg@mail.gmail.com>
+Subject: Re: [PATCH 0/4] sched/numa: Add per-process automatic NUMA balancing control
+To: Chen Yu <yu.c.chen@intel.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>, 
+	"David Hildenbrand (Red Hat)" <david@kernel.org>, ljs@kernel.org, Li Zhe <lizhe.67@bytedance.com>, 
+	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
+	kprateek.nayak@amd.com, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	tim.c.chen@intel.com, mkoutny@suse.com, tj@kernel.org, chen.yu@linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot has found a reproducer for the following issue on:
+On Fri, Oct 16, 2026 at 1:51=E2=80=AFPM Chen Yu <yu.c.chen@intel.com> wrote=
+:
+>
+> On Fri, Oct 16, 2026 at 10:53:43AM +0800, Yafang Shao wrote:
+> > On Fri, Oct 16, 2026 at 3:58=E2=80=AFAM Tim Chen <tim.c.chen@linux.inte=
+l.com> wrote:
+> > >
+> > > On Tue, 2026-10-13 at 17:31 +0800, Yafang Shao wrote:
+> > > > On Tue, Oct 13, 2026 at 3:52=E2=80=AFPM Chen Yu <yu.c.chen@intel.co=
+m> wrote:
+> > > > >
+> > > > > On Tue, Sep 08, 2026 at 08:24:42PM +0800, Li Zhe wrote:
+> > > > > > Automatic NUMA balancing is controlled globally through the
+> > > > > > kernel.numa_balancing sysctl and can be influenced indirectly t=
+hrough
+> > > > > > memory policy. That works well as a system default, but it is t=
+oo coarse
+> > > > > > for workloads where a launcher wants most processes to use the =
+default
+> > > > > > policy while a selected process opts out because it already man=
+ages NUMA
+> > > > > > placement or cannot afford the sampling overhead.
+> > > > > >
+> > > > > > A recent per-cgroup proposal tried to address this by adding a
+> > > > > > cgroup-local enable knob plus a NUMA_BALANCING_CGROUP mode wher=
+e
+> > > > > > balancing was disabled by default and then enabled for selected=
+ cgroups
+> > > > > > [1]. The discussion also noted that automatic NUMA balancing al=
+ready
+> > > > > > operates at task/process granularity, that the knob is not a re=
+source
+> > > > > > control attribute, and that task/process controls such as sched=
+_setattr()
+> > > > > > or prctl() may be a better fit while cgroups and cpusets contin=
+ue to
+> > > > > > describe workload grouping and placement domains.
+> > > > > >
+> > > > > > There is also prior art from 2023 prctl() proposals [2][3]. Tho=
+se
+> > > > > > versions used a per-mm mode with disabled/enabled/default state=
+s, added
+> > > > > > NumaB_mode to /proc/<pid>/status, and changed the global static=
+ key
+> > > > > > handling so a per-process enable could override the global sysc=
+tl.
+> > > > > >
+> > > > > > This series takes a more conservative variant to preserve exist=
+ing
+> > > > > > administrator and workload expectations. Keeping the global sys=
+ctl as a
+> > > > > > hard off switch means an administrator can still disable all au=
+tomatic
+> > > > > > NUMA balancing activity with one knob. Using a weak two-state
+> > > > > > per-process opt-out/allow ABI avoids exposing a "default" state=
+ whose
+> > > > > > meaning depends on global policy and is therefore easy to misin=
+terpret.
+> > > > > > Storing the configured mode in signal_struct gives the control =
+explicit
+> > > > > > thread-group semantics and avoids making unrelated non-thread C=
+LONE_VM
+> > > > > > users share the policy merely because they share an mm.
+> > > > > >
+> > > > > > The series implements a per-process interface: a thread group m=
+ay use
+> > > > > > prctl() to set or get its configured automatic NUMA balancing m=
+ode. A
+> > > > > > process can opt out of new periodic NUMA scan scheduling and NU=
+MA
+> > > > > > scheduler accounting, or opt back in. Existing hinting faults a=
+nd queued
+> > > > > > work are allowed to drain naturally as the disabled state takes=
+ effect.
+> > > > > > When kernel.numa_balancing is 0, a process-local enable request=
+ does not
+> > > > > > override it.
+> > > > > >
+> > > > > > A separate task_struct scheduler snapshot is used by enqueue/de=
+queue
+> > > > > > accounting so the scheduler can consistently account the state =
+that was
+> > > > > > in effect when a task entered the runqueue. This avoids changin=
+g
+> > > > > > historical task accounting while still allowing a process mode =
+change to
+> > > > > > take effect through the normal dequeue/update/enqueue path.
+> > > > > >
+> > > > > > The series also exposes the process NUMA balancing mode in
+> > > > > > /proc/<pid>/status and documents the new prctl() ABI and its in=
+teraction
+> > > > > > with the global sysctl.
+> > > > > >
+> > > > >
+> > > > > Can the global key be extended to tri-state, like the THP setting=
+s?
+> > > >
+> > > > IIUC, a BPF-based THP policy is yet to be developed as prctl() does=
+n't
+> > > > fit some use cases, especially mTHP.
+> > > >
+> > > > > To keep it backward-compatible, echoing 0 and 1 remains the same =
+effect.
+> > > > > The user can also echo always, advise, or never to it.
+> > > > > We have a similar proposal here for cache-aware scheduling[1]
+> > > >
+> > > > We are also experimenting with the LLC-aware scheduler on productio=
+n
+> > > > servers, and we want to enable it per cgroup rather than globally
+> > > > there as well.  Given the lessons we have learned from THP, what
+> > > > about implementing it as a BPF-based feature from the beginning, so
+> > > > that the semantics can still change when new use cases show up?
+> > >
+> > > Some questions about per-cgroup based cache aware scheduling:
+> > >
+> > > 1) What should be done if you want to group specific processes in dif=
+ferent cgroups?
+> > > It may not be desirable to put them together in the same cgroup for o=
+ther reasons
+> > > like IO or memory resource policies.
+> >
+> > Do you mean a multi-container pod? The policy can be applied at either
+> > the pod level or the container level.
+> >
+> >               Pod            <- policy applied at the pod level
+> >           /              \
+> >   containerA  containerB   <- or at the container level
+> >
+> > This is essentially a cgroup hierarchy: the pod is the parent cgroup
+> > and each container is a child cgroup, so policies (IO/memory) can be
+> > enforced at either level.
+> >
+>
+> My understanding is that Tim was talking about a case where A and B do
+> not belong to the same parent (arbitrary hierarchy). Say, process T1, T2:
+> T1 belongs to cgroup A, T2 belongs to cgroup B, T1 has threads t1.1, t1.2=
+,
+> T2 has threads t2.1, t2.2, and t1.1 and t2.1 want to be aggregated togeth=
+er
+> because they have shared data.
 
-HEAD commit:    2f2f7eeef8b0 Merge tag 'soc-fixes-7.3-3' of git://git.kern..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=17d6dfd1580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c4b098695335c89f
-dashboard link: https://syzkaller.appspot.com/bug?extid=300213c2b5b55c0244f4
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1394be8e580000
+Thanks for the clarification.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+300213c2b5b55c0244f4@syzkaller.appspotmail.com
+>
+> A more complex scenario is when cgroup A and cgroup B become threaded dom=
+ains:
+>
+>                          root
+>                         /    \
+>                        X      Y
+>                        |      |
+>                        A      B          A, B: threaded domains (thread r=
+oots)
+>                       / \    / \         separate memory.max / io.max
+>                     A1   A2 B1  B2       threaded cgroups
+>                     ^        ^
+>                     |        |
+>                     +--------+
+>                   want to share one cache group
+>
+> In the above case, we might need to change the deployed cgroup hierarchy.
 
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz-executor184/5998 is trying to acquire lock:
-ffffffff90c14b28 (gadget_subsys.su_mutex){+.+.}-{4:4}, at: uvcg_extension_bm_controls_store+0xe4/0xb00 drivers/usb/gadget/function/uvc_configfs.c:1125
+I think we can enable LLC-aware scheduling for both A1 and A2 =E2=80=94 doe=
+s
+that sound right?
 
-but task is already holding lock:
-ffff888028accd70 (&p->frag_sem){++++}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
-ffff888028accd70 (&p->frag_sem){++++}-{4:4}, at: configfs_write_iter+0x238/0x430 fs/configfs/file.c:229
+>
+> Suppose threads in A1 and threads in A2 belong to the same process Pa,
+> this reminds me of the cgroup bpf NUMA balancing case: after enabling
+> NUMA balancing for A1 but not setting it for A2, what would be the final
+> NUMA balancing decision for process Pa, is it enabled or disabled?
+> The NUMA balancing scan/invalid seems to be per process, so if we change
+> the setting of its threads, the whole process will be impacted. Or maybe
+> we should not enable NUMA balancing for threaded cgroups? Anyway I haven'=
+t
+> digged into your cgroup bpf patch set yet, let me try to look at it.
 
-which lock already depends on the new lock.
+cgroup NUMAB works the same way: the setting is per cgroup and opt-in.
+For Pa in your example, since its threads spread across A1 and A2, you
+would enable it on both =E2=80=94 enabling it on only one of them is not
+meaningful.
 
+>
+> > >
+> > > 2) What is the inheritance rule for cache grouping of tasks in a cgro=
+up
+> > > with child cgroups?
+> > > There may be too many tasks in parent to try to fit them all in a LLC=
+ when
+> > > there are only certain subset of tasks sharing data that should be gr=
+ouped
+> > > together cache wise.
+> >
+> > Generally, a cgroup contains only a single main process in most use
+> > cases. If multiple tasks have to share a cgroup, they are either
+> > identical tasks or tasks with different priorities =E2=80=94 in which c=
+ase you
+> > only need to focus on the high-priority ones. That's how it works in
+> > practice.
+> >
+>
+> IIUC, what Tim mentioned is about the inheritance relationship: if cgroup=
+ A
+> has cache-aware enabled, will all its child cgroups enable cache-aware
+> recursively? (I think the answer is yes, while for NUMA balancing it depe=
+nds.)
 
-the existing dependency chain (in reverse order) is:
+Right. The cgroup NUMA balancing also works that way =E2=80=94 it is inheri=
+ted
+recursively as well.
 
--> #4 (&p->frag_sem){++++}-{4:4}:
-       down_write_killable+0xa6/0x240 kernel/locking/rwsem.c:1643
-       configfs_rmdir+0x3b0/0x950 fs/configfs/dir.c:1543
-       vfs_rmdir+0x3e6/0x6a0 fs/namei.c:5544
-       filename_rmdir+0x292/0x520 fs/namei.c:5601
-       __do_sys_rmdir fs/namei.c:5624 [inline]
-       __se_sys_rmdir+0x2e/0x140 fs/namei.c:5621
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>
+> > >
+> > > With prctl, we can be precise in grouping only tasks that we truly
+> > > want to be together.  If we want to bunch tasks in a cgroup cache wis=
+e,
+> > > it is easy to write a daemon to put tasks in a cgroup into the same
+> > > cache group.
+> >
+> > I'm not a big fan of the prctl() approach in practice. Deploying a
+> > policy that way requires coordinating with other teams, and the policy
+> > may well need to be adjusted later =E2=80=94 every adjustment would mea=
+n
+> > asking another team to make changes, which is a painful round-trip.
+> > With BPF, on the other hand, all the work stays within the kernel
+> > team, and it's completely transparent to users.
+> >
+>
+> I agree that prctl has limitations, but it provides fine-grained control
+> per task/thread. Besides, there might also be other users that do not
+> deploy cgroups, so in such use cases, per-task settings like prctl or
+> sched_setattr() could be another choice. For example, the schedqos tool
+> in Google's usecase, and DeepSeek's reinforcement learning infra[1], have
+> leveraged prctl to deploy core-scheduling to avoid noisy neighbours. That
+> is to say, I don't think the cgroup-based BPF interface and prctl/sched_s=
+etattr
+> are mutually exclusive, they can be complementary to each other, IMO.
 
--> #3 (&sb->s_type->i_mutex_key#25){++++}-{4:4}:
-       down_write+0x96/0x200 kernel/locking/rwsem.c:1631
-       inode_lock include/linux/fs.h:1024 [inline]
-       configfs_depend_item_unlocked+0x153/0x420 fs/configfs/dir.c:1268
-       usbg_make_tpg+0x1e0/0x550 drivers/usb/gadget/function/f_tcm.c:1692
-       target_fabric_make_tpg+0xa8/0x6d0 drivers/target/target_core_fabric_configfs.c:947
-       configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1369
-       vfs_mkdir+0x40c/0x620 fs/namei.c:5439
-       filename_mkdirat+0x285/0x510 fs/namei.c:5472
-       __do_sys_mkdir fs/namei.c:5499 [inline]
-       __se_sys_mkdir+0x34/0x150 fs/namei.c:5496
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Thanks for the use cases =E2=80=94 they're helpful. I'm not opposed to the
+prctl() approach.
 
--> #2 (tpg_instances_lock){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
-       tcm_alloc_inst+0x65/0x1a0 drivers/usb/gadget/function/f_tcm.c:2687
-       try_get_usb_function_instance drivers/usb/gadget/functions.c:28 [inline]
-       usb_get_function_instance+0xe3/0x2f0 drivers/usb/gadget/functions.c:44
-       function_make+0x127/0x360 drivers/usb/gadget/configfs.c:626
-       configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1369
-       vfs_mkdir+0x40c/0x620 fs/namei.c:5439
-       filename_mkdirat+0x285/0x510 fs/namei.c:5472
-       __do_sys_mkdir fs/namei.c:5499 [inline]
-       __se_sys_mkdir+0x34/0x150 fs/namei.c:5496
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (func_lock){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
-       try_get_usb_function_instance drivers/usb/gadget/functions.c:18 [inline]
-       usb_get_function_instance+0x2e/0x2f0 drivers/usb/gadget/functions.c:44
-       function_make+0x127/0x360 drivers/usb/gadget/configfs.c:626
-       configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1369
-       vfs_mkdir+0x40c/0x620 fs/namei.c:5439
-       filename_mkdirat+0x285/0x510 fs/namei.c:5472
-       __do_sys_mkdir fs/namei.c:5499 [inline]
-       __se_sys_mkdir+0x34/0x150 fs/namei.c:5496
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (gadget_subsys.su_mutex){+.+.}-{4:4}:
-       check_prev_add kernel/locking/lockdep.c:3209 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3328 [inline]
-       validate_chain kernel/locking/lockdep.c:3952 [inline]
-       __lock_acquire+0x164c/0x2de0 kernel/locking/lockdep.c:5288
-       lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5942
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
-       uvcg_extension_bm_controls_store+0xe4/0xb00 drivers/usb/gadget/function/uvc_configfs.c:1125
-       flush_write_buffer fs/configfs/file.c:207 [inline]
-       configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x612/0xba0 fs/read_write.c:687
-       ksys_write+0x150/0x270 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  gadget_subsys.su_mutex --> &sb->s_type->i_mutex_key#25 --> &p->frag_sem
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  rlock(&p->frag_sem);
-                               lock(&sb->s_type->i_mutex_key#25);
-                               lock(&p->frag_sem);
-  lock(gadget_subsys.su_mutex);
-
- *** DEADLOCK ***
-
-locks held by syz-executor184/5998: 3, last CPU#1:
- #0: ffff88801e7d8460 (sb_writers#12){.+.+}-{0:0}, at: file_start_write include/linux/fs.h:2756 [inline]
- #0: ffff88801e7d8460 (sb_writers#12){.+.+}-{0:0}, at: vfs_write+0x22b/0xba0 fs/read_write.c:683
- #1: ffff888070770c80 (&buffer->mutex){+.+.}-{4:4}, at: configfs_write_iter+0x7e/0x430 fs/configfs/file.c:226
- #2: ffff888028accd70 (&p->frag_sem){++++}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
- #2: ffff888028accd70 (&p->frag_sem){++++}-{4:4}, at: configfs_write_iter+0x238/0x430 fs/configfs/file.c:229
-
-stack backtrace:
-CPU: 1 UID: 0 PID: 5998 Comm: syz-executor184 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/05/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_circular_bug+0x2e2/0x300 kernel/locking/lockdep.c:2087
- check_noncircular+0x12f/0x150 kernel/locking/lockdep.c:2219
- check_prev_add kernel/locking/lockdep.c:3209 [inline]
- check_prevs_add kernel/locking/lockdep.c:3328 [inline]
- validate_chain kernel/locking/lockdep.c:3952 [inline]
- __lock_acquire+0x164c/0x2de0 kernel/locking/lockdep.c:5288
- lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5942
- __mutex_lock_common kernel/locking/mutex.c:646 [inline]
- __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
- uvcg_extension_bm_controls_store+0xe4/0xb00 drivers/usb/gadget/function/uvc_configfs.c:1125
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x612/0xba0 fs/read_write.c:687
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fa3e20116b7
-Code: 48 89 fa 4c 89 df e8 98 1d 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-RSP: 002b:00007ffcaf360150 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 000055558f99e400 RCX: 00007fa3e20116b7
-RDX: 0000000000000002 RSI: 00007fa3e204d174 RDI: 0000000000000003
-RBP: 00007fa3e204fc38 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: 00007ffcaf360230
-R13: 000055558f99fdb0 R14: 000055558f99e3d8 R15: 000055558f9a7e4b
- </TASK>
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+--=20
+Regards
+Yafang
