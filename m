@@ -1,127 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-43171.protonmail.ch (mail-43171.protonmail.ch [185.70.43.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCA045D92B;
-	Fri, 16 Oct 2026 10:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C1B4718DE
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 10:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792146330; cv=none; b=QmbPAKwt375sV302y6V2bw03A+FDK7aJPRPSysMT7kHN6AspePOI081teuTktnXxGq99eCszjJyGzFxVlgh97URCX9Otydw4+lnXYUOEWReMJQy2lxjXEAF+BDXd+o5v/x67hkPPPxMDZczirK5u7+7sGlKrqTkuSCmg0IGga7g=
+	t=1792146332; cv=none; b=vFhYNPqbFQjHwzcePf3tl/xYQGEY1PZ3OunyeEwXEvGzhWGM5Ifgnxqm68TMKtVqyvAE3k7wudPC1dPv8Yz6cXYf35/8bqgAa2U8ojljb+R068h1wusKBwuGHPLU9MOP/RkHpXQPo+UvCKv44ZWd/3gK+Ue0FfAaS/7i1wT/iUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792146330; c=relaxed/simple;
-	bh=6AtTqDiPcer0wygrYchWhtMqGPa107TlaBg/sAjEKnU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rsufzljmM5blDW6x1djqh9DROH2fR7YKqC9aprwdsN1vdOVzYggUuohYFMkllDqv3ijy44Cg5DXtGVcX2SOtAURZ33yJV/3GGYK04aytqmeEZiJlK328zfV7/AUL7XW1krKf95KPBgt4oHyJvQg8/Lsoxiz73SxEGA97GNN5TuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DxTyAYfo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792146332; c=relaxed/simple;
+	bh=+y5F4sNDPjHftsUFjQz9re9KbKNpidBYCZ04/lZzvlM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CXEOAyPhxxqOjioD/kpOvPK9jcGBBveDshEuoeLzUeRFLMq79BgAYx5zXa5DT84R1iOvh7dJCSu0dNKE61BuMphr7BQVW+YFrGMWdJjGFfE0YlMFIjDqwFsJ7uESxGp9gwXxbfSON7L+pfLeM3JxUCIcDtyA6FN3v5WL9ni8zCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=karaolidis.com; spf=pass smtp.mailfrom=karaolidis.com; dkim=pass (2048-bit key) header.d=karaolidis.com header.i=@karaolidis.com header.b=T7r9Bx03; arc=none smtp.client-ip=185.70.43.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=karaolidis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=karaolidis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DxTyAYfo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36D311F000C5;
-	Fri, 16 Oct 2026 10:25:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792146328;
-	bh=L7CixjZvJoslx09K5vWKcAMed+dFpyeUYrXgbZox0Ag=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=DxTyAYfoKsaQFxfYNNDxoSSLEHtAKtUv3s4QCjj6jokS57qZpMtw5XDL17Le34cu3
-	 CPxQjDA3oF2dUPIfv27zhhoAjn69wcxlvymzYzONGB+Iy0EfeuuyOOpNthIUD6FwQa
-	 zupM8nvZL2VHXTpwbc0BH1nmFF28LEBQ6UELTEdIYflZnFbcWq130lZ20x+yFHlMAn
-	 NDaO3g6oIvLGqHbyWbiZ+23i8vYfttUQRkHnSbFton+zBqGC0tw0jSf2XQQXvroRvl
-	 9P3TxAN0nBu4otczDEUdKlHQoKSc5Gkn9wvW4yfWBd1wlS8SJtih9fTlwnYsw6wHMV
-	 LqCbK79DcODPQ==
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>,
+	dkim=pass (2048-bit key) header.d=karaolidis.com header.i=@karaolidis.com header.b="T7r9Bx03"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karaolidis.com;
+	s=protonmail3; t=1792146321; x=1792405521;
+	bh=b04DOe8vmbq+QEfUbmjT3IlS1rtxforJbJCVtR4UErk=;
+	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=T7r9Bx03kZ1obL008QSpYAKFDmkSk37XBbQHx4AvZCIaA9xbTeoEXhc/cB3SMlI57
+	 MezU9GsTh0X2puV8/EOcBKYReV9Q0Si//bRYSnPbL1TcjaRYoTjnNgeVCaWCY1cVuK
+	 i0NDQkC539QboKy9GsknWUco5yAc/uayQ+OUsRMiUt4AiZlP5C9ARhF+WYL/nmv81S
+	 ZxQB5w17SwmyKQ1rAO3+8EVTWuE8LSrLytrXUjkwV3tKsFbCUSs8BIla7JbG1YM4+R
+	 d4C2VMC8QarJWifr87HQrFiLP5Coy2SvrrGakMNysf0RdIurfMPUjvoU/kLVO04JQM
+	 6rwEEXp/bHUpQ==
+X-Pm-Submission-Id: 4j5h0F5p8Zz1DDKp
+From: Nikolaos Karaolidis <nick@karaolidis.com>
+To: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Jan Kara <jack@suse.cz>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	Mateusz Guzik <mjguzik@gmail.com>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 15/19 for v7.4] vfs mount
-Date: Fri, 16 Oct 2026 12:24:28 +0200
-Message-ID: <20261016-vfs-7.4-rc1.mount-2dea99e7bb3b@brauner>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261016-vfs-v74-41eaf6c4712c@brauner>
-References: <20261016-vfs-v74-41eaf6c4712c@brauner>
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Nikolaos Karaolidis <nick@karaolidis.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] fs: rotate inodes whose page cache could not be dropped
+Date: Fri, 16 Oct 2026 10:25:15 +0000
+Message-ID: <20261016102515.111285-1-nick@karaolidis.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2978; i=brauner@kernel.org; h=from:subject:message-id; bh=6AtTqDiPcer0wygrYchWhtMqGPa107TlaBg/sAjEKnU=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRd/N3dE3T4sPv5nL5HRxWEC21ON81Lcbjl7VTmJit+X lLwgVZpRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwETsLRj+By+/Nq/zy8oWy49B 5huvzW55PMfb6qj69H9MN2ZZSV5Un8/IsMYjbpbLOzGf5W/L4/jeM1gY3L6zjT3t8eFtXS+/hHz 2YQIA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-Hey Linus,
+When inode_lru_isolate() drops the page cache of an unused inode, it
+has to unlock the list, so it returns LRU_RETRY and the walk restarts
+at the head of the list, where the inode still is. If
+invalidate_mapping_pages() could not empty the mapping, the restarted
+walk strips the same inode again, and so on until nr_to_walk runs out.
+Every walk of that list then ends on this inode, and nothing behind it
+is reclaimed for as long as its cache stays.
 
-/* Summary */
+Before commit 2a0629834cd8 ("vfs: Don't evict inode under the inode lru
+traversing context") the walker pinned the inode with a reference, and
+dropping it in iput_final() set I_REFERENCED, so the restarted walk
+rotated the inode to the tail. Set I_REFERENCED again when the mapping
+is still populated after the invalidation, in the same i_lock section
+that clears I_LRU_ISOLATING. inode_unpin_lru_isolating() now expects
+i_lock to be held, like inode_pin_lru_isolating().
 
-This adds OPEN_TREE_DROP_MNTNS_MOUNTS.
+On CONFIG_HIGHMEM kernels this can happen to any unused inode: a folio
+is left behind if it is locked, under writeback, spliced into a pipe,
+or still in another CPU's LRU-add batch after being read. Without
+HIGHMEM it happens to DAX inodes whose only entry is at index 0, which
+mapping_shrinkable() lets onto the LRU and invalidate_mapping_pages()
+never removes.
 
-crun started using OPEN_TREE_NAMESPACE to set up the container's mount
-namespace and open_tree(OPEN_TREE_CLONE) for the sources of its bind
-mounts. That fails on any host with a mount namespace pinned below such
-a source. The recursive clone picks the pinned namespace up and
-move_mount() refuses to attach the tree with ELOOP. Only a younger
-mount namespace may ever be bound into an older one or mount namespace
-references could form a loop. A namespace created with
-OPEN_TREE_NAMESPACE is younger than everything else on the system so
-from inside it every pinned namespace is older.
-By the time this fails setns() has run and the host tree is out of
-reach, so the runtime has to predict the situation beforehand and lose
-the optimization. snapd pins mount namespaces under /run/snapd/ns so on
-Ubuntu that is any container bind mounting the host root.
+Fixes: 2a0629834cd8 ("vfs: Don't evict inode under the inode lru traversing context")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Nikolaos Karaolidis <nick@karaolidis.com>
+---
 
-Every other path crossing a mount namespace boundary already leaves
-these mounts behind, copy_mnt_ns() and create_new_namespace() both do.
-Only get_detached_copy() asks for them. The new flag lets a caller get
-a clone without them. It stays opt-in because open_tree(OPEN_TREE_CLONE)
-plus move_mount() is mount --rbind through a file descriptor and
-dropping them by default would silently lose /run/snapd/ns/*.mnt on a
-live system. It requires AT_RECURSIVE, is a no-op with
-OPEN_TREE_NAMESPACE and skips locked nsfs mounts the way copy_mnt_ns()
-does, so nothing new is exposed. Selftests are included.
+Found while working on reclaim of inodes pinned by page cache in
+ZONE_MOVABLE.
 
-/* Testing */
+Tested in QEMU/KVM on master af32da41b032 (v7.3-rc6-232), with lockdep
+and KASAN enabled. A small init program makes one unused inode whose
+page can't be invalidated, lets it reach the head of the inode LRU,
+opens 2000 other files, does one "echo 2 > /proc/sys/vm/drop_caches"
+and counts the inodes left via umount; kprobes count the
+invalidate_mapping_pages() calls:
 
-No build failures or warnings were observed.
+                              without patch           with patch
+  i386 HIGHMEM, file read     2000 of 2000 left,      none left,
+  on another CPU              10300 strips, 1 inode   4 strips
+  i386 HIGHMEM, page          same                    same
+  spliced into a pipe
+  x86_64, ext4 -o dax,        same                    same
+  file mmap()ed
+  controls (no leftover,      none left               none left
+  shadow entry at index 0)
 
-/* Conflicts */
+2a0629834cd8^ behaves like the patched kernel, 2a0629834cd8 like
+master. On 5.15.y x86_64, where every unused inode with page cache is
+on the LRU, the read-on-another-CPU case blocks the walk as well.
 
-Merge conflicts with mainline
-=============================
+With "echo 64M > /sys/fs/cgroup/memory.reclaim" instead of
+drop_caches, the i386 pipe case does 262450 strips and frees nothing
+without the patch, 40 strips and frees everything with it. In the DAX
+case that write takes ~400ms with the patch instead of ~4ms:
+invalidate_mapping_pages() counts the DAX entry it leaves behind as
+reclaimed, so unpatched, the 64M are "reclaimed" by re-stripping one
+inode in a tight loop while nothing is freed.
 
-No known conflicts.
+The reproducer is a single C file; I can post it.
 
-Merge conflicts with other trees
-================================
+An LLM was used to check the analysis against the code, write the
+reproducer and draft the changelog; I have reviewed all of it.
 
-No known conflicts.
+ fs/inode.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-The following changes since commit 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907:
+diff --git a/fs/inode.c b/fs/inode.c
+index a9d37be390a1..1614a97ce953 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -593,12 +593,11 @@ static void inode_pin_lru_isolating(struct inode *inode)
+ 
+ static void inode_unpin_lru_isolating(struct inode *inode)
+ {
+-	spin_lock(&inode->i_lock);
++	lockdep_assert_held(&inode->i_lock);
+ 	WARN_ON(!(inode_state_read(inode) & I_LRU_ISOLATING));
+ 	inode_state_clear(inode, I_LRU_ISOLATING);
+ 	/* Called with inode->i_lock which ensures memory ordering. */
+ 	inode_wake_up_bit(inode, __I_LRU_ISOLATING);
+-	spin_unlock(&inode->i_lock);
+ }
+ 
+ static void inode_wait_for_lru_isolating(struct inode *inode)
+@@ -981,7 +980,13 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
+ 		else
+ 			__count_vm_events(PGINODESTEAL, reap);
+ 		mm_account_reclaimed_pages(reap);
++
++		spin_lock(&inode->i_lock);
++		/* The walk restarts here: don't retry leftovers right away */
++		if (!mapping_empty(&inode->i_data))
++			inode_state_set(inode, I_REFERENCED);
+ 		inode_unpin_lru_isolating(inode);
++		spin_unlock(&inode->i_lock);
+ 		return LRU_RETRY;
+ 	}
+ 
 
-  Linux 7.3-rc7 (2026-10-11 20:04:55 -0700)
+base-commit: af32da41b0327b9c6a37856ba82b6760d6c8d10e
+-- 
+2.55.0
 
-are available in the Git repository at:
-
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.4-rc1.mount
-
-for you to fetch changes up to 062b32e4b55082f11b63dce22c78cd00fc6c7ed5:
-
-  Merge patch series "mount: add OPEN_TREE_DROP_MNTNS_MOUNTS" (2026-10-12 11:33:23 +0200)
-
-----------------------------------------------------------------
-vfs-7.4-rc1.mount
-
-Please consider pulling these changes from the signed vfs-7.4-rc1.mount tag.
-
-Thanks!
-Christian
-
-----------------------------------------------------------------
-Christian Brauner (1):
-      Merge patch series "mount: add OPEN_TREE_DROP_MNTNS_MOUNTS"
-
-Kir Kolyshkin (2):
-      mount: add OPEN_TREE_DROP_MNTNS_MOUNTS
-      selftests/filesystems: test OPEN_TREE_DROP_MNTNS_MOUNTS
-
- fs/namespace.c                                     |  16 +-
- include/uapi/linux/mount.h                         |   1 +
- .../filesystems/open_tree_ns/open_tree_ns_test.c   | 193 +++++++++++++++++++++
- 3 files changed, 208 insertions(+), 2 deletions(-)
