@@ -1,108 +1,103 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9836F43F4C2
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 08:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6212444AB68
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 08:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792141122; cv=pass; b=IGzPYSJ4a43LdS/QMFXCVtmD+DZZ80o5elhR7UED+hRMpBY/RE3+EuBfa7QhbeaZbpJq8mW0EAdmTG/4Ig57p0VIqMmDBFyh/5D75E/WNEl69x18ia+g2XGtNiUu+1KX4FH4CZ+BJ2i04Fya7nO8sAtqaxXXlE4usOjayOZSQSo=
+	t=1792141171; cv=pass; b=B41+8Co7o8Q2K6jL4fmc2110pucDcLErCkHEErDdboPOJRJUnLxaaCTPsgwJFqfVyCcTlAWG8KW13pT4lAVjg4U4i+AgI7yZpp0tldIpv9Oj3BNnFSg1boT6MTGzFAFVe27S5e0iFGNPOGAxamWFHx1zbJx8yCS8SBGPMiZEI0g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792141122; c=relaxed/simple;
-	bh=sTfPJ6PqC8c32ihJFSptJ3qTYD/mP7sZzo5Ard4uuBA=;
+	s=arc-20240116; t=1792141171; c=relaxed/simple;
+	bh=yT4fNRH28Sk1sBZ6mVlpHgBhbu2LgeUp5plOLVqVqCU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R3DW27CtwIJxO2NzYaOO6DhuODDbCm9vAdFPm8fpzgVb7A9qqGgfMIcZmeARu2kAqdt79X8r+Gd5QUIb7mB9DhrvAs3FFD7vOTJ169sIz32GsYPf7z5f4TIy2gFB94kG8ndL8wk7NiU6MHTbobRwCSPR4PmWndSTvElpjrt71dg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=h6ysyMi0; arc=pass smtp.client-ip=209.85.160.171
+	 To:Cc:Content-Type; b=Am+5Mdh7jKRNdAwvrA3ra/vALEMCgLwjAC8MVr8HdgYsxEVjbOPdwUcbdsqEDQF9uWyGejuiq6Q/sz0d6nJ3sJa9a2jA9oK1wFmkTzB5v3Ew5ZncDFXS3KDWYjua82BndDScxreRzJB1SsfEOnrrZoPceEDUXQfdgTAvEvdc4ZE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=AP9mRmfB; arc=pass smtp.client-ip=209.85.160.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="h6ysyMi0"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-535f9de49fcso15251091cf.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 01:58:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792141119; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="AP9mRmfB"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-533778ab0bdso70863121cf.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 01:59:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792141169; cv=none;
         d=google.com; s=arc-20260327;
-        b=OZlqJuXWNa925i/XPYL3EdTbxcGjUyAqkT4z47yGxFR/SHCle33GLzz4XL4ROXOwlq
-         cfXsGw9L0mRnfLXW9MNjYZzJWU42PngFdlGiot8zict7ZHxw7PwziA5EasdayXjoNp8r
-         ahV27thuA86ywdt8u/UcLv9yn52NvouBnMbtWm8ZyfVV2QFAKI3GPgIXVpdGYwNt/YEt
-         +mSD88P2jXyI9rKNQ87ZtY3yKTH6SVbeVVbpla2fsOEVJSEFCmvdUWdc74MImhXNH0dR
-         baGDkbqTRsrZRGGb6m0rLHoTYCgmhCgNsz28QTg6+SdKUY72ophwkzR9dMARtB+pPS4k
-         pxzQ==
+        b=HJ+6XMYSwylC5sox9dz2MMxf7DDaUNztOpsNrkjg1UW1iAJ+BvMvVdycxghqpo0UPU
+         mfUa8K0fRrcu6RI13bK9zrNf/5xFVQd9j3aqkzhlRI6gKptx5M6fXc6G4a0b1Wqs8vki
+         GcLdnRbHIvbENLXXtb06auzG+rRN9bLGnIqSZKFb6HRLdotl0MOzgeZbnw+0D5t60spT
+         G1ii/+pBh0mkBmI0aOMOvuy+mmDRwEWJe/eVDwqXwr/HUfgGFb0ol97/IOZGyer9+R4s
+         PDwOyZm9WrXiEMwWn69CZ1rwWwCmZbItxyHkNHxAhERlzFTmtctaGD/zlsSEVL7tXhCD
+         Z+og==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=sTfPJ6PqC8c32ihJFSptJ3qTYD/mP7sZzo5Ard4uuBA=;
-        fh=UKOxxnAE6WzpR29IP3cL3Gi2EqdKW5zwhxPVHkXdb8g=;
-        b=fSQyxpk1ON8di48lNKsZ2b7bhAOzkBY+2fAkMKUSXWY/MYF44DhowLxLJM8a/Er0r/
-         jIQkiiR9bDwLwaraGZImztW2guzGX2QJe+qKbp+D4vSzAUocEeSKyd49ioO8mMy55nCE
-         Mut2Qt0ox1wBxaE3Z3v3CroRhRJAimgCEGWVvb3P/z1aup0Y7dsnjXF7gZSGJ2vxLSQ8
-         dgPjuEA4TtYyQLJEKLDxIP+mtPV8Gp/ktjyefeuin51V/0djPBK54/lfGwwSmN+6geZJ
-         yNNDTZth2Hn2R8S0CrFKkn23QE8l8twmPRFEv5ddTI6zLv/+61yggCAER57WG11ZeuvW
-         znBQ==;
+        bh=yT4fNRH28Sk1sBZ6mVlpHgBhbu2LgeUp5plOLVqVqCU=;
+        fh=dvma0H7wEzUVxpn/cdItuPqdBWV4r+ZtP6WHX5LqMYE=;
+        b=YFuSMnSgAbHiIVBhfbqkvuBUvQeu5kfjpDpGkwCx6Y4uSmZ87iiU/Dk+McMZHfOVwF
+         p+mV+hbuD1UtlPHyfvrSVsL0oFCK/lFP5RvekkYD7SUJJV1IbSlEy4MD8gcG8zDnoche
+         Q7hwvjjbxboThNxHdoARgkcB118mmihX5YSL0mueNfZe+UyJAWmnvymwj5SVkSf71sSP
+         0pL4VfQaPYFNLC73NRJzO8pFNrMMl54/+JBFkaELtW10lGd0NYQjZ1QtN3G/rfDjAYQw
+         6tYZwCaXIF/gE4NPIiAj2t8cCNUYdEccd7w94HgyNQkwuJLV+7xcmwtP/ma3nbWNpCRw
+         sC9Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1792141119; x=1792745919; darn=vger.kernel.org;
+        d=szeredi.hu; s=google; t=1792141169; x=1792745969; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sTfPJ6PqC8c32ihJFSptJ3qTYD/mP7sZzo5Ard4uuBA=;
-        b=h6ysyMi0mncT1RBpL0m8Lkvt6UWlkki83vArzdTg52KKF30H5YXCDYY5qxR+xeQh9O
-         EhAMmlGx4hJdEnQQIEAj/wqS/EBcd8mdhqXp4iI9Fv6vkOQ9rcn1kV3272OTaVpYh0VC
-         tdO80anV68OrDgv/taqJaiNKZUZ9Z1t2TLEb8=
+        bh=yT4fNRH28Sk1sBZ6mVlpHgBhbu2LgeUp5plOLVqVqCU=;
+        b=AP9mRmfB0tN2vqd3ND9tkHgdtm17ibVX9xAsFmSGAqbyLxAd6cNsav3AkeIr7xsC4y
+         Wl/dO3qALT9/4qaw2XDi6C7jayAbGJR4vqEF61AGPcoYgEhe1u+ED6/GtdHZ9xwM+g5H
+         6em9wWPVeDj/3Nrqs3POqLd5GnuUlC+y9F/6U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792141119; x=1792745919;
+        d=1e100.net; s=20260707; t=1792141169; x=1792745969;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=sTfPJ6PqC8c32ihJFSptJ3qTYD/mP7sZzo5Ard4uuBA=;
-        b=YGEQjUJwVp3GV9/DedEI5ZdIq7GTA/BxTk6Jc++fa1j/Ysfvv0+xkf7P0Ps19LlCLf
-         Jry2re1K0FyX+cvPQuiAlzI2VuMcrPAofmlxfIOzLzeHY10kSkdCcla6moWxs1PfdZor
-         CKD38M2ubet4bUtfnMAv6JjfJNmSrXkQru9J9QP43a4Mr5/oWULPLsr1eWBRHw3VurPF
-         CrkmLdomXOFW7Blg4WG/LhN6kqb3JanBuETWqncINa5bbAsyYQEqLVu7wAGXZowkGaDi
-         wDTc1Gel8PvC1JS8ju+aEj3zvl8N6roQLKMEsXYrioSU7PfB+JZxXAndj72o2/rLpkCK
-         oWsg==
-X-Forwarded-Encrypted: i=1; AKwUvByRztcQyg/uIcMyWToCz4BziF/o8GaPbNsHOhBafkDZ7HYM779h8I7IWtVKWvmbKXNChSGFIBzuFkHEgM34@vger.kernel.org
-X-Gm-Message-State: AFq9FYKi65hHNVr8JQIeqEc3I5OrpAj3UztiOvjKAXsqkQkzPpRakM6g
-	8bKQ8uCp51U1NCFyBtjvabNWdYSAFQFoKLvLOwbkIfyX7wSp+xJUzTNb975nGRxiST8iEfCHIoz
-	9c1+dZLRwSHhn92u32GImL3O12j+VAoG6iKWiUl6V07y5jv3G5heK
-X-Gm-Gg: AYBFou1vieOAkg/fi3PPQKj0617Ln39Xqb+13ZdgsYqdL0B4gfdKn5eFy5gQCjDiCXA
-	j0QuXAMtVk/jU9Lg7bYjiuxbXfz70QFUZW9+reL30vN0/b2OakoDwx+JyRpFxaI2n3dcZ/yCAt4
-	Ae4qt/1w8sDtVk7iFXflWr6mLwHzu1TIYGTu3v8YIh9H36vhynlwtODdL4dur9YrxrbofcsGI3I
-	4czftt7G+DzfN5beg4f4xruHYUbIU/VlBM+onVYmk1EgT8P/f1TmpFfzbaOvklIRKhFX/NqFEtF
-	hwMyjs62fWS6VssaBBnweRGPDCVMlSdhXuSgLZoYhT5EQTsStoxV1jr7auw70chrpR0PX6WJEkK
-	v2Yf2dJE=
-X-Received: by 2002:a05:622a:148d:b0:533:3af3:43b9 with SMTP id
- d75a77b69052e-5359fb3d14amr366334251cf.44.1792141119518; Fri, 16 Oct 2026
- 01:58:39 -0700 (PDT)
+        bh=yT4fNRH28Sk1sBZ6mVlpHgBhbu2LgeUp5plOLVqVqCU=;
+        b=DuAfFHWchYF0BqnAaGlQ9lLoQx8+wOvI0DVRdyPb7Rw09Rqc8upKv6THC+gl+PMaar
+         m1oXTefXucTTBecelHtMqp3+AkTmUUXUg7wzxPumCZJYqM0DPML4Mw1dM6+hFd5j0ll6
+         8JvaThRPQu49VInk2OjH6/WlH4lRgS2dPrMJnbvosdgXdnG7cKHpOeJqJB8UhRPhDNev
+         oHGpxKP82/hTi/A6QqH3V8YJA5z4qFlTl/cFeNEfij6HjSSk0mV68TCQvQaTcDS+MGn3
+         /umdEWATBWU8ng3+S2LYMeEoDSSg1lo+kT4ns2dgjv0meQ90QaNibl4zL2q04AJr/F4r
+         5SCQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxe/yjJ7P51b/sKIQpmjUcvehNa+9bfq4331RRRF8/TYfkPodfiVwpy9PuORDLtqTwh8Fu3eKykkOJYUSui@vger.kernel.org
+X-Gm-Message-State: AFq9FYLbYOPBr8t/6bXOPHThjnZ2qCHpxcemFEgSB1LaffV/sgXWozlq
+	o6tUUBZ3DyRdW5JH2go3RgLEj4UPaY3Kl1qTQabnpymQhi83gvXZxLfl+NAjFzVknn0HmIJGYpg
+	C2Douid8qGI/twvz71qxfFr49uStZTccAQW66Y46dBA==
+X-Gm-Gg: AYBFou3TIC8TLEjF40u/XuXAmoPUAuXcaYQzg9VNahJTLGZEK5muE6uszZsZEOs/XZU
+	XUSxy/74KXFKzDckAMJMo4mTnXZbAcLZgykJoSfWMUf8CdyMAhK++6BaEiPsNJs/FBS+U9wslLR
+	972dvZQ2BPrr1M3nIBKBZ+7geqh3sglUj0sdboXI+83dRDKn4KvX16QcOwJEs3SG93z2L1vFFXa
+	AltPu0w+TeYYBorzMY7mtN51UiAy0+mvOdqREy3D0z1MjMz8BF/OHrYQodD5/TCFsgEvVQEaMZc
+	rcP6251juo41qT7cDBF/nBBJZ8HKEAjfS6WJzDluxdkPjwfkn0bPvZVtSj8YSl0fBBSjyQLXNkU
+	zATN5Zbo=
+X-Received: by 2002:a05:622a:1804:b0:535:a5f8:a5c4 with SMTP id
+ d75a77b69052e-535a5f8b53amr352445591cf.68.1792141169297; Fri, 16 Oct 2026
+ 01:59:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260910184424.156341-1-shayba@google.com> <20261014192014.3373048-1-shayba@google.com>
-In-Reply-To: <20261014192014.3373048-1-shayba@google.com>
+References: <20260820130158.254808-3-jamz@amazon.com> <20261014200112.1363344-1-sashal@kernel.org>
+In-Reply-To: <20261014200112.1363344-1-sashal@kernel.org>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 16 Oct 2026 10:58:28 +0200
-X-Gm-Features: AclHuK8gvmL5wAjcEDGO2fjptGYL8jYpJoRVGU7iFqj19SwZtNo9v9Zwvm6lwLk
-Message-ID: <CAJfpegu5agxOB7_9zW2u=0AfbLuZvp1o9OaW-A7YLvb==voamQ@mail.gmail.com>
-Subject: Re: [PATCH v3] fuse: Forward vfs_fadvise to backing_file in
- passthrough mode
-To: Shai Barack <shayba@google.com>
-Cc: Amir Goldstein <amir73il@gmail.com>, Bernd Schubert <bschubert@ddn.com>, 
-	"T . J . Mercier" <tjmercier@google.com>, Sandeep Dhavale <dhavale@google.com>, 
-	Akilesh Kailash <akailash@google.com>, Suren Baghdasaryan <surenb@google.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Fri, 16 Oct 2026 10:59:17 +0200
+X-Gm-Features: AclHuK8plkUWG0caIufFg1j5DIBTkx_nzXhY5cYIKKqxQ1cPSAaRX-yvQIYuAck
+Message-ID: <CAJfpegvGBZaEw_tS-EpOKMyzb-AG3CYBG7DwbQQa3280fRNQRg@mail.gmail.com>
+Subject: Re: [PATCH] selftests/fuse: add the missing FUSE_HAS_SYNCFS privilege test
+To: Sasha Levin <sashal@kernel.org>
+Cc: Jimmy Zuber <jamz@amazon.com>, Shuah Khan <shuah@kernel.org>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 14 Oct 2026 at 21:20, Shai Barack <shayba@google.com> wrote:
+On Wed, 14 Oct 2026 at 22:01, Sasha Levin <sashal@kernel.org> wrote:
 
-> Architecturally, Linux VFS supports filesystem-specific fadvise
-> delegation via the .fadvise hook in struct file_operations. Implement
-> fuse_file_fadvise() in fs/fuse/file.c and register it in
-> fuse_file_operations. When passthrough is active on a fuse_file,
-> fuse_file_fadvise() forwards the vfs_fadvise() call to the lower
-> backing_file under the opened credentials, allowing POSIX_FADV_DONTNEED
-> to cleanly invalidate the physical backing filesystem pagecache.
+> Add test_syncfs.c as posted in Jimmy Zuber's v3 submission. The test
+> talks the raw FUSE protocol over /dev/fuse, so it can choose whether to
+> advertise FUSE_HAS_SYNCFS and directly observe whether the kernel
+> forwards a FUSE_SYNCFS request.
 
 Applied, thanks.
 
