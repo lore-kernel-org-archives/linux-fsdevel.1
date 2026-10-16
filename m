@@ -1,485 +1,449 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3D74E1C89
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 14:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D271C4D9563
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 14:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792161465; cv=none; b=OHa5oYY1ad5VidwPAFWQnO7/6S+yJjorQRcQ9PHMP9MNCH6s/P4HgZ+X/HKTPQ4u2UNzBaK+6kOdabebKox36nTW7ptmP4FHeC+UijTIrL1PWo8vCWH8j56qq1s69PF7wF9NsNqeoA2ZW5Z/qCA/3y5lsmmsiqR2UKa0kpITODY=
+	t=1792161865; cv=none; b=e1c41H7byhGQFn9N8pneUAEx43KN/TNU5qfKWGje0YZsUfXZnjVGU+/Ar+AyyRnRY3JZxMnaqyuQi20Jd5KjhnjJa2tQ6c2tLwmJhJvBGBJMriLdbbwVnU174+LatlkrxMQaUi3aI2oOULTxkNpKMSu+ldVrhS9co1Wab9iB5VI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792161465; c=relaxed/simple;
-	bh=lmfFMn5de2KCLlPrZP7BXR7qsrpeQFr9Uh/jHhGQ7v0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iPJ//YED01BzQ3CRqAbvF3sCnNIYiQ2TOR7jKEM1n3xgwKjhChx3DYVxAcfxB4pxcanbdHFLTMOq/lLjdEDgo0JUtrYbmkQzXOaaSnjVpfeQY3poPNXJxcKULp33BmPCnDIkQ3TJKoRX56w03iAylGCblTpQShIldgmgyOzIpeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=faxDXe2k; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1792161865; c=relaxed/simple;
+	bh=TOIiJPI34vCinEaBrduHlT9a71FAHO435ctrN82VAoE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XJtGmLYvAdBWj+Ntp6+hMcBq993b48ZioNhk8cuwkCHegd/9Tp+Yui7rduaf9zBQQdqrwLF+559Foos7SnHw1ntQ7ZRsH6dgLEVDcU+5o8kJWJwH4HGwliHyv3VPl2sjpfhjjq7y21fH3RhuXt/fe5WCDnhzVYaE57vyOoLYSRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gTKfLCJY; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="faxDXe2k"
-X-KPN-MessageId: 1ffe74b9-c96f-11f1-9e93-005056999439
-Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 1ffe74b9-c96f-11f1-9e93-005056999439;
-	Fri, 16 Oct 2026 16:37:34 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gTKfLCJY"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-885cf67963eso55648447b3.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 07:44:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=aw5ZkgvRWmR3rgCKWzWni5WXiqE4Fso1FvzyiuNbdAY=;
-	b=faxDXe2k/xY8A6CNkKFm+ETCYBPYRy32JQQzJUtwqf50QFiQFRa/TpTR9OHP2i5eMpi8NRFebst72
-	 ozh/0v7i2bBomAtmExda3GznAGIgsrMoggFM6lZZP0J6viqLfXkzhcdETxZP7s16pS8sCEVQMJpBs6
-	 SUg7mwWX2+qIJ4rfJ4zmNqupbg0BnU2nRB767zc3ZXqp+t/+vi4FJgZE8gv8VegMVzjDVaekOMY/pn
-	 dIpTOKYcg8JaQOJM2BeKZZPTHh8av6iEunp1liTGP9LcJAN0OXbwCZzoFOK1WvqhSLZM1JK/elPRTx
-	 WrOlbnsZxZKc+i2B805qq5rRBnZhmcg==
-X-KPN-MID: 33|xlv5iEb5glfuUkRxv+lmY9sPpBuw9AF7t46N9kKemedtjw2rx++7BQ/JuZH+DFX
- h3+sKTx/ox/MVew6pPFm1PNuih8kacqBR+LsQujUiPyc=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|uqZQask+wRj4xByH0/GajlahHIl69VsqaNiAxK5wFNk2+U18f5l0Iwbb30vnQIw
- cczvD5vD/oUdyL/22kl/l9Q==
-Received: from daedalus.home (unknown [178.228.137.172])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 1fb75f97-c96f-11f1-a202-00505699b758;
-	Fri, 16 Oct 2026 16:37:33 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH v7 12/12] selftest: add tests for open*(O_CREAT|O_DIRECTORY)
-Date: Fri, 16 Oct 2026 16:38:06 +0200
-Message-ID: <20261016143806.2946578-13-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261016143806.2946578-1-jkoolstra@xs4all.nl>
-References: <20261016143806.2946578-1-jkoolstra@xs4all.nl>
+        d=gmail.com; s=20251104; t=1792161860; x=1792766660; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=b5mPysmOg/X2gxFC8sSeZVp+7zx/SSikTAHOJ0n/l4g=;
+        b=gTKfLCJYZqf9Va4X2gK4hWvh8JGoXo5O8GFEPbdK5EGPNk1+nMF69RBEbV56m7VuOa
+         u1/uUe52eoiqI9sJYiLcG8LRb7athiBY4YQdiuquYPDED6zea7ip1ow8YfUiVI5ALhmQ
+         L+EQJFBIjJ6HUsDnxw+ITN5Q1ujd38a6+1giBhswT7LZd0r5VyP94zQOvnzn4r3xOOHD
+         g+hmZ1QF9i+dNNoRfoqKzDPfpDjJ/fdl/Ygmq//k/M8kIvU278oZpbQ8rILnv2tqpwXL
+         3A2dYomZAyKqfrfk8w7PFMNPIFePM/8IocWMtWX19I88Ccq3Nfrz7GCPL0+eCWDnKAFR
+         Xiiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792161860; x=1792766660;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=b5mPysmOg/X2gxFC8sSeZVp+7zx/SSikTAHOJ0n/l4g=;
+        b=qGc06tKyQNVqehgH+QmZHk9iRE9oIqiELiyPG4wdRVAGHOTLKirYPscdTnbJv/vH+I
+         XHUZzHCmDAQAtBh3ivsn2aWhZt2ls7INqkL1rGO50liTshAUtJlkK6Wp163K1vCDV/5O
+         7TcUREPNccHOz5PkRe8E87AIGTxtU5yYCDsgiSHE9tj+hcf/+rA3rEuP3Md2ERR55E+C
+         KrbcDGU4xYEYsW0/mOBm7SeZ48TXXmEOzZ86lywjUmWJo0S/8q46XdQVgGyoJIjYUugJ
+         LpStYfKSbkqrUtEqAz0CHXLFYjxrtPqUntvtjeyaNhgNAMhuTFVWfFa7c2ra2X1NDITx
+         ifug==
+X-Forwarded-Encrypted: i=1; AKwUvBy/XYvHn6NWnjOh8wuoAOCR24apsvVf673b3pXUiG+OCxj8b7xKxk9toIKpN48XSlWTijOd/vbB48yZXp2O@vger.kernel.org
+X-Gm-Message-State: AFq9FYIGB2OM14YaSsWFk+RND/CM6mWF6Q3AtlNlKxgRGHJwzA9sLGJy
+	wUW6FO0wC+7ORqUiQR+go4x8AOs3kPTV7nfQZZ7YLI6jj7YcdoL97VXL
+X-Gm-Gg: AYBFou1Cwdp+i1d5i8B8OJxQ0E18ZonDOloFJjY7pa+so8AZ/9f+hLytfbmnhEyzYD2
+	ADC1odkwtlAznm5SxOG0Uk6rsDJeEVX+WI9kLzE2n9BcbZ3WJoKYQi/hp5xK61RjXS76IJN2RXl
+	poABoAHKdoiU1DqbUJYNI2Vmhs4yV/8gRRUXVwt+ySOY04508vl9zK6zzRrLoxyPzeOhTUFauik
+	hhvdA9YUdWmroKmZqlQTmpAfB6Gw4naj1OYnPZVuXUqhInL8zTICgJ6jR4KJWTTtnbtWWpqEW7+
+	/jfLWRdisbIybBfbuma5GmQzl/RucMvQC+p9Mpy53a3fRsmbEe6OD1YLvrV84HkUBHrLsRc1sHU
+	TtSiWH0Ly1qvDuRqiH9hSn6cLbn4yroDhL++tTzsSeJ3zLrSlhwVwyoZ56SQDgrqTSEtCGCLy52
+	CnFZ76ijGujHe4fkYz7n1P8b40Sp4JTLqFDe+Iu3yObTQkGvgPQvmCP0bX4T5S5ujQVKnfOJTn
+X-Received: by 2002:a05:690c:a4d4:b0:8ae:8d28:77be with SMTP id 00721157ae682-8b0f205d6dfmr777507b3.1.1792161858531;
+        Fri, 16 Oct 2026 07:44:18 -0700 (PDT)
+Received: from zenbox ([2600:1700:18fb:6011:1002:ecef:6e38:613d])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b0e5888166sm9663717b3.14.2026.10.16.07.44.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 07:44:17 -0700 (PDT)
+Date: Fri, 16 Oct 2026 10:44:16 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, 
+	memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev, 
+	jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev, 
+	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+	johan@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, dhowells@redhat.com, 
+	code@tyhicks.com, linkinjeon@kernel.org, sj1557.seo@samsung.com, 
+	yuezhang.mo@sony.com, hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, 
+	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, 
+	hyc.lee@gmail.com, miklos@szeredi.hu, amir73il@gmail.com, senozhatsky@chromium.org, 
+	chenxiaosong@chenxiaosong.com, kpsingh@kernel.org, matt@bobrowski.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, john.johansen@canonical.com, 
+	georgia.garcia@canonical.com, zohar@linux.ibm.com, roberto.sassu@huawei.com, 
+	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, 
+	omosnacek@gmail.com, casey@schaufler-ca.com, takedakn@nttdata.co.jp, 
+	penguin-kernel@i-love.sakura.ne.jp, xiujianfeng@huawei.com, nanx95726@gmail.com, djwong@kernel.org, 
+	lujialin4@huawei.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, ntfs@lists.linux.dev, linux-unionfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, linux-trace-kernel@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 -next 09/18] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <atI20Vs7Du9-g1Hz@zenbox>
+References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+ <20261015125425.3246251-10-caixinchen1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261015125425.3246251-10-caixinchen1@huawei.com>
 
-Add some tests for the new valid O_CREAT|O_DIRECTORY flag combination for
-open*(2) to test compliance and to showcase its behaviour.
+On Thu, Oct 15, 2026 at 08:54:15PM +0800, Cai Xinchen wrote:
+> Add two new filesystem access rights to control file metadata access:
+> 
+> - LANDLOCK_ACCESS_FS_READ_METADATA: Read file or directory metadata
+>   (e.g. inode attributes, extended attributes and POSIX ACLs) through
+>   stat(2), fstat(2), lstat(2), newfstatat(2), getxattr(2) and
+>   friends, listxattr(2) and friends, and the POSIX ACL read
+>   operations.
+> - LANDLOCK_ACCESS_FS_WRITE_METADATA: Change file or directory
+>   metadata through chmod(2) and friends, chown(2) and friends,
+>   utimensat(2) and friends, setxattr(2) and friends, removexattr(2)
+>   and friends, and the POSIX ACL set and remove operations.
+> 
+> This follows the coarse-grained grouping approach discussed in the
+> mailing list [1], where file metadata operations are grouped by
+> security relevance rather than by individual syscall.
+> 
+> Implement the two rights by hooking the inode_getattr,
+> inode_file_getattr, inode_setattr, inode_file_setattr,
+> inode_setxattr, inode_getxattr, inode_listxattr, inode_removexattr,
+> inode_set_acl, inode_get_acl and inode_remove_acl LSM hooks, which
+> now receive a struct path thanks to the preceding VFS and LSM
+> refactoring.  The following system calls are now controlled:
+> 
+> - stat(2), fstat(2), lstat(2), newfstatat(2), getxattr(2) and
+>   friends, listxattr(2) and friends, POSIX ACL reads, and the
+>   chattr(1)/xfs_io style reads: ioctl(FS_IOC_GETFLAGS),
+>   ioctl(FS_IOC_FSGETXATTR) and file_getattr(2) via inode_getattr,
+>   inode_getxattr, inode_listxattr, inode_get_acl and
+>   inode_file_getattr (READ_METADATA)
+> - chmod(2), fchmod(2), fchmodat(2), fchmodat2(2), chown(2), fchown(2),
+>   lchown(2), fchownat(2), chgrp(2), utimensat(2), futimens(2),
+>   utime(2), setxattr(2) and friends, removexattr(2) and friends,
+>   POSIX ACL set and remove, and the chattr(1)/xfs_io style writes:
+>   ioctl(FS_IOC_SETFLAGS), ioctl(FS_IOC_FSSETXATTR) and
+>   file_setattr(2) via inode_setattr, inode_file_setattr,
+>   inode_setxattr, inode_removexattr, inode_set_acl and
+>   inode_remove_acl (WRITE_METADATA)
+> 
+> Both new rights are added to ACCESS_FILE as they apply to both files
+> and directories.
+> 
+> hook_inode_setattr only restricts explicit metadata changes, i.e. it
+> checks WRITE_METADATA only when the ia_valid mask contains
+> ATTR_MODE, ATTR_UID, ATTR_GID, ATTR_TIMES_SET or ATTR_TOUCH.
+> Metadata changes that the kernel performs implicitly, such as
+> timestamp updates on write(2) or size changes on truncate(2), are
+> therefore not restricted, and neither are chmod(2)/chown(2) calls
+> that do not change any attribute (e.g. chown(2) with -1/-1, which is
+> a no-op that never reaches the hook), matching the behavior of the
+> SELinux inode_setattr hook.
+> 
+> Stacking filesystems forward fileattr operations to underlying inodes
+> without calling the LSM hooks again (see the preceding patch), so a
+> fileattr operation on an overlayfs file is checked once on the
+> user-facing merged path and is not spuriously denied because of the
+> kernel-side creator credentials used for the forward.
+> 
+> Kernel-internal accesses performed with override_creds() (e.g.
+> overlayfs and cachefiles) are not affected because Landlock domains
+> are attached to credentials, and kernel threads without a Landlock
+> domain (e.g. nfsd and ksmbd) are not restricted either.
+> 
+> Remove stat(2), chmod(2), chown(2), setxattr(2) and utime(2) from the
+> list of file-related actions that cannot be restricted yet, and add
+> the names of the new rights to _LANDLOCK_ACCESS_FS_NAMES in
+> include/linux/landlock.h, which is shared by audit records and trace
+> events, so that denied accesses can be reported with a human-readable
+> name and the static assertion on fs_access_strings in
+> security/landlock/audit.c stays valid.
+> 
+> Increment the Landlock ABI version from 12 to 13, and update the ABI
+> version check in tools/testing/selftests/landlock/base_test.c
+> accordingly.
+>
+LANDLOCK_ACCESS_FS_*_METADATA should be checked at open time and follow
+the mechanic for the truncate right. Otherwise the access for already
+opened file descriptors would be changed. See hook_file_open in
+security/landlock/fs.c and this discussion here [1]
 
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
----
- .../testing/selftests/filesystems/.gitignore  |   1 +
- tools/testing/selftests/filesystems/Makefile  |   2 +-
- .../filesystems/open_o_creat_o_dir.c          | 346 ++++++++++++++++++
- .../testing/selftests/filesystems/wrappers.h  |  11 +
- 4 files changed, 359 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/filesystems/open_o_creat_o_dir.c
+It should have clear documentation for this as well.
 
-diff --git a/tools/testing/selftests/filesystems/.gitignore b/tools/testing/selftests/filesystems/.gitignore
-index 62f7b1c46649..e0ae02a5d2d1 100644
---- a/tools/testing/selftests/filesystems/.gitignore
-+++ b/tools/testing/selftests/filesystems/.gitignore
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+open_o_creat_o_dir
- dnotify_test
- devpts_pts
- fclog
-diff --git a/tools/testing/selftests/filesystems/Makefile b/tools/testing/selftests/filesystems/Makefile
-index 93e2cc9123b0..a8b48cb6afd6 100644
---- a/tools/testing/selftests/filesystems/Makefile
-+++ b/tools/testing/selftests/filesystems/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- CFLAGS += $(KHDR_INCLUDES)
--TEST_GEN_PROGS := devpts_pts file_stressor anon_inode_test kernfs_test fclog ustat_test rw_hint_test
-+TEST_GEN_PROGS := open_o_creat_o_dir devpts_pts file_stressor anon_inode_test kernfs_test fclog ustat_test rw_hint_test
- TEST_GEN_PROGS += idmapped_tmpfile
- TEST_GEN_PROGS_EXTENDED := dnotify_test
- 
-diff --git a/tools/testing/selftests/filesystems/open_o_creat_o_dir.c b/tools/testing/selftests/filesystems/open_o_creat_o_dir.c
-new file mode 100644
-index 000000000000..93c0f4dea266
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/open_o_creat_o_dir.c
-@@ -0,0 +1,346 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <sys/stat.h>
-+#include <sys/vfs.h>
-+#include <errno.h>
-+#include <limits.h>
-+#include <fcntl.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <linux/magic.h>
-+
-+#include "kselftest_harness.h"
-+#include "wrappers.h"
-+
-+#define openat_o_mkdir_checked_flags(dfd, pathname, flags) ({	\
-+	struct stat __st;						\
-+	int __fd = openat_o_mkdir(dfd, pathname, flags, S_IRWXU);	\
-+	ASSERT_GE(__fd, 0);						\
-+	ASSERT_EQ(fstat(__fd, &__st), 0);				\
-+	EXPECT_TRUE(S_ISDIR(__st.st_mode));				\
-+	__fd;								\
-+})
-+
-+#define openat_o_mkdir_checked(dfd, pathname) \
-+	openat_o_mkdir_checked_flags(dfd, pathname, O_RDONLY)
-+
-+FIXTURE(open_o_creat_o_dir) {
-+	char dirpath[PATH_MAX];
-+	int dfd;
-+};
-+
-+FIXTURE_SETUP(open_o_creat_o_dir)
-+{
-+	strcpy(self->dirpath, "/tmp/open_o_creat_o_dir_test.XXXXXX");
-+	ASSERT_NE(mkdtemp(self->dirpath), NULL);
-+	self->dfd = open(self->dirpath, O_DIRECTORY);
-+	ASSERT_GE(self->dfd, 0);
-+}
-+
-+FIXTURE_TEARDOWN(open_o_creat_o_dir)
-+{
-+	close(self->dfd);
-+	rmdir(self->dirpath);
-+}
-+
-+/* Does open_o_creat_o_dir return a fd at all? */
-+TEST_F(open_o_creat_o_dir, returns_fd)
-+{
-+	int fd = openat_o_mkdir_checked(self->dfd, "newdir");
-+	EXPECT_EQ(close(fd), 0);
-+	EXPECT_EQ(unlinkat(self->dfd, "newdir", AT_REMOVEDIR), 0);
-+}
-+
-+/* The fd must refer to the directory that was just created. */
-+TEST_F(open_o_creat_o_dir, fd_is_created_dir)
-+{
-+	int fd;
-+	struct stat st_via_fd, st_via_path;
-+	char path[PATH_MAX];
-+
-+	fd = openat_o_mkdir_checked(self->dfd, "checkdir");
-+
-+	ASSERT_EQ(fstat(fd, &st_via_fd), 0);
-+
-+	snprintf(path, sizeof(path), "%s/checkdir", self->dirpath);
-+	ASSERT_EQ(stat(path, &st_via_path), 0);
-+
-+	EXPECT_EQ(st_via_fd.st_ino, st_via_path.st_ino);
-+	EXPECT_EQ(st_via_fd.st_dev, st_via_path.st_dev);
-+
-+	EXPECT_EQ(close(fd), 0);
-+	EXPECT_EQ(rmdir(path), 0);
-+}
-+
-+/* Missing parent component must fail with ENOENT. */
-+TEST_F(open_o_creat_o_dir, enoent_missing_parent)
-+{
-+	EXPECT_EQ(openat_o_mkdir(self->dfd, "nonexistent/child", O_RDONLY, S_IRWXU), -1);
-+	EXPECT_EQ(errno, ENOENT);
-+}
-+
-+/* An invalid dfd must fail with EBADF. */
-+TEST_F(open_o_creat_o_dir, ebadf)
-+{
-+	EXPECT_EQ(openat_o_mkdir(FD_INVALID, "badfdir", O_RDONLY, S_IRWXU), -1);
-+	EXPECT_EQ(errno, EBADF);
-+}
-+
-+/* A dfd that points to a file (not a directory) must fail with ENOTDIR. */
-+TEST_F(open_o_creat_o_dir, enotdir_dfd)
-+{
-+	int file_fd;
-+
-+	file_fd = openat(self->dfd, "file",
-+			 O_CREAT | O_RDONLY, S_IRWXU);
-+	ASSERT_GE(file_fd, 0);
-+
-+	EXPECT_EQ(openat_o_mkdir(file_fd, "subdir", O_RDONLY, S_IRWXU), -1);
-+	EXPECT_EQ(errno, ENOTDIR);
-+
-+	EXPECT_EQ(close(file_fd), 0);
-+	EXPECT_EQ(unlinkat(self->dfd, "file", 0), 0);
-+}
-+
-+/*
-+ * O_CREAT|O_DIRECTORY without O_EXCL must fail with EINVAL and must not
-+ * create anything at the path.
-+ */
-+TEST_F(open_o_creat_o_dir, requires_o_excl)
-+{
-+	struct stat st;
-+
-+	EXPECT_EQ(openat(self->dfd, "noexcl", O_CREAT | O_DIRECTORY | O_RDONLY,
-+			 S_IRWXU), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+
-+	EXPECT_EQ(fstatat(self->dfd, "noexcl", &st, 0), -1);
-+	EXPECT_EQ(errno, ENOENT);
-+}
-+
-+/*
-+ * Once the directory exists, repeating O_CREAT|O_DIRECTORY|O_EXCL must
-+ * fail with EEXIST.
-+ */
-+TEST_F(open_o_creat_o_dir, existing_dir_eexist)
-+{
-+	int excldir_fd;
-+
-+	excldir_fd = openat_o_mkdir_checked(self->dfd, "excldir");
-+
-+	EXPECT_EQ(openat_o_mkdir(self->dfd, "excldir", O_RDONLY, S_IRWXU), -1);
-+	EXPECT_EQ(errno, EEXIST);
-+
-+	EXPECT_EQ(close(excldir_fd), 0);
-+	EXPECT_EQ(unlinkat(self->dfd, "excldir", AT_REMOVEDIR), 0);
-+}
-+
-+/*
-+ * O_CREAT|O_DIRECTORY combined with a writable access mode must be
-+ * rejected: a directory cannot be opened for writing.
-+ */
-+TEST_F(open_o_creat_o_dir, rejects_writable_acc_mode)
-+{
-+	EXPECT_EQ(openat_o_mkdir(self->dfd, "rdwrdir", O_RDWR, S_IRWXU), -1);
-+	EXPECT_EQ(errno, ENOTDIR);
-+}
-+
-+/*
-+ * openat(O_CREAT|O_DIRECTORY) with a trailing slash should work.
-+ */
-+TEST_F(open_o_creat_o_dir, trailing_slash)
-+{
-+	int fd = openat_o_mkdir_checked(self->dfd, "newdir/");
-+	EXPECT_EQ(close(fd), 0);
-+	EXPECT_EQ(unlinkat(self->dfd, "newdir", AT_REMOVEDIR), 0);
-+}
-+
-+/*
-+ * openat(O_CREAT) with a trailing slash but without O_DIRECTORY
-+ * must fail with EISDIR and must not create anything at the path.
-+ */
-+TEST_F(open_o_creat_o_dir, trailing_slash_no_o_dir)
-+{
-+	int fd;
-+	struct stat st;
-+
-+	fd = openat(self->dfd, "trailing/", O_CREAT | O_RDONLY, S_IRWXU);
-+	EXPECT_EQ(fd, -1);
-+	EXPECT_EQ(errno, EISDIR);
-+
-+	EXPECT_EQ(fstatat(self->dfd, "trailing", &st, 0), -1);
-+	EXPECT_EQ(errno, ENOENT);
-+}
-+
-+/*
-+ * The returned fd must be usable as a dfd for further *at() calls.
-+ */
-+TEST_F(open_o_creat_o_dir, fd_usable_as_dfd)
-+{
-+	int parent_fd, child_fd;
-+	char path[PATH_MAX];
-+
-+	parent_fd = openat_o_mkdir_checked(self->dfd, "parent");
-+	child_fd = openat_o_mkdir_checked(parent_fd, "child");
-+
-+	EXPECT_EQ(close(child_fd), 0);
-+	EXPECT_EQ(close(parent_fd), 0);
-+
-+	snprintf(path, sizeof(path), "%s/parent/child", self->dirpath);
-+	EXPECT_EQ(rmdir(path), 0);
-+	snprintf(path, sizeof(path), "%s/parent", self->dirpath);
-+	EXPECT_EQ(rmdir(path), 0);
-+}
-+
-+/*
-+ * O_EXCL means a trailing symlink is never followed, so O_CREAT|O_DIRECTORY
-+ * must refuse to create through a dangling one, and must not create
-+ * anything at the symlink target.
-+ */
-+TEST_F(open_o_creat_o_dir, dangling_symlink_eexist)
-+{
-+	struct stat st;
-+
-+	ASSERT_EQ(symlinkat("danglink_target", self->dfd, "danglink"), 0);
-+
-+	EXPECT_EQ(openat_o_mkdir(self->dfd, "danglink", O_RDONLY, S_IRWXU), -1);
-+	EXPECT_EQ(errno, EEXIST);
-+
-+	/* Nothing must have been created at the target. */
-+	EXPECT_EQ(fstatat(self->dfd, "danglink_target", &st, 0), -1);
-+	EXPECT_EQ(errno, ENOENT);
-+
-+	EXPECT_EQ(unlinkat(self->dfd, "danglink", 0), 0);
-+}
-+
-+/*
-+ * A trailing symlink is an existing entry, even if it resolves to a
-+ * directory, so O_CREAT|O_DIRECTORY must fail with EEXIST.
-+ */
-+TEST_F(open_o_creat_o_dir, symlink_to_dir_eexist)
-+{
-+	ASSERT_EQ(mkdirat(self->dfd, "realdir", 0700), 0);
-+	ASSERT_EQ(symlinkat("realdir", self->dfd, "dirlink"), 0);
-+
-+	EXPECT_EQ(openat_o_mkdir(self->dfd, "dirlink", O_RDONLY, S_IRWXU), -1);
-+	EXPECT_EQ(errno, EEXIST);
-+
-+	EXPECT_EQ(unlinkat(self->dfd, "dirlink", 0), 0);
-+	EXPECT_EQ(unlinkat(self->dfd, "realdir", AT_REMOVEDIR), 0);
-+}
-+
-+/*
-+ * O_TMPFILE is encoded as __O_TMPFILE|O_DIRECTORY.  Now that O_CREAT is no
-+ * longer rejected alongside O_DIRECTORY, O_TMPFILE|O_CREAT must still be
-+ * rejected explicitly so that it cannot create a persistent file on kernels
-+ * that predate O_TMPFILE.
-+ */
-+TEST_F(open_o_creat_o_dir, tmpfile_with_o_creat_einval)
-+{
-+	EXPECT_EQ(openat(self->dfd, ".", O_TMPFILE | O_CREAT | O_RDWR, S_IRWXU),
-+		  -1);
-+	EXPECT_EQ(errno, EINVAL);
-+}
-+
-+/*
-+ * Open the first of @paths that is a mounted filesystem of type @magic.
-+ * Returns -1 if there is none.
-+ */
-+static int open_fs_root(const char *const *paths, long magic)
-+{
-+	for (; *paths; paths++) {
-+		struct statfs sfs;
-+		int fd;
-+
-+		fd = open(*paths, O_DIRECTORY | O_RDONLY);
-+		if (fd < 0)
-+			continue;
-+		if (!fstatfs(fd, &sfs) && sfs.f_type == magic)
-+			return fd;
-+		close(fd);
-+	}
-+	return -1;
-+}
-+
-+/*
-+ * kernfs: O_CREAT|O_DIRECTORY on cgroup2 must create a cgroup and return a
-+ * fd to that very cgroup.
-+ */
-+TEST(kernfs_cgroup2)
-+{
-+	static const char *const paths[] = {
-+		"/sys/fs/cgroup", "/sys/fs/cgroup/unified", NULL
-+	};
-+	struct stat st_fd, st_path;
-+	int root_fd, fd, procs_fd;
-+	char name[64];
-+
-+	if (geteuid() != 0)
-+		SKIP(return, "needs root to create a cgroup");
-+	root_fd = open_fs_root(paths, CGROUP2_SUPER_MAGIC);
-+	if (root_fd < 0)
-+		SKIP(return, "cgroup2 is not mounted");
-+
-+	snprintf(name, sizeof(name), "open_o_creat_o_dir.%d", getpid());
-+
-+	fd = openat_o_mkdir_checked(root_fd, name);
-+
-+	/* The fd refers to the cgroup that is now visible at the name. */
-+	ASSERT_EQ(fstat(fd, &st_fd), 0);
-+	ASSERT_EQ(fstatat(root_fd, name, &st_path, 0), 0);
-+	EXPECT_EQ(st_fd.st_ino, st_path.st_ino);
-+	EXPECT_EQ(st_fd.st_dev, st_path.st_dev);
-+
-+	/* It is a populated cgroup, not just an empty directory. */
-+	procs_fd = openat(fd, "cgroup.procs", O_RDONLY);
-+	EXPECT_GE(procs_fd, 0);
-+	if (procs_fd >= 0)
-+		EXPECT_EQ(close(procs_fd), 0);
-+
-+	EXPECT_EQ(close(fd), 0);
-+	EXPECT_EQ(unlinkat(root_fd, name, AT_REMOVEDIR), 0);
-+	EXPECT_EQ(close(root_fd), 0);
-+}
-+
-+/*
-+ * tracefs sets SB_I_NO_ATOMIC_MKDIR: O_CREAT|O_DIRECTORY is refused with
-+ * EOPNOTSUPP before any lookup, whether or not the name exists, and
-+ * creates nothing.
-+ */
-+TEST(tracefs_eopnotsupp)
-+{
-+	static const char *const paths[] = {
-+		"/sys/kernel/tracing", "/sys/kernel/debug/tracing", NULL
-+	};
-+	int tracing_fd, inst_fd;
-+	char name[64];
-+	struct stat st;
-+
-+	if (geteuid() != 0)
-+		SKIP(return, "needs root to access tracefs");
-+	tracing_fd = open_fs_root(paths, TRACEFS_MAGIC);
-+	if (tracing_fd < 0)
-+		SKIP(return, "tracefs is not mounted");
-+	inst_fd = openat(tracing_fd, "instances", O_DIRECTORY | O_RDONLY);
-+	if (inst_fd < 0) {
-+		close(tracing_fd);
-+		SKIP(return, "no tracefs instances directory");
-+	}
-+
-+	snprintf(name, sizeof(name), "open_o_creat_o_dir.%d", getpid());
-+
-+	/* Nonexistent name, where mkdir(2) would create an instance */
-+	EXPECT_EQ(openat_o_mkdir(inst_fd, name, O_RDONLY, S_IRWXU), -1);
-+	EXPECT_EQ(errno, EOPNOTSUPP);
-+	EXPECT_EQ(fstatat(inst_fd, name, &st, 0), -1);
-+	EXPECT_EQ(errno, ENOENT);
-+
-+	/* Existing name */
-+	EXPECT_EQ(openat_o_mkdir(tracing_fd, "instances", O_RDONLY, S_IRWXU), -1);
-+	EXPECT_EQ(errno, EOPNOTSUPP);
-+
-+	EXPECT_EQ(close(inst_fd), 0);
-+	EXPECT_EQ(close(tracing_fd), 0);
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/filesystems/wrappers.h b/tools/testing/selftests/filesystems/wrappers.h
-index 420ae4f908cf..bc58bdb80063 100644
---- a/tools/testing/selftests/filesystems/wrappers.h
-+++ b/tools/testing/selftests/filesystems/wrappers.h
-@@ -13,6 +13,10 @@
- #define STATX_MNT_ID_UNIQUE 0x00004000U /* Want/got extended stx_mount_id */
- #endif
- 
-+#ifndef FD_INVALID
-+#define FD_INVALID -10009
-+#endif
-+
- static inline int sys_fsopen(const char *fsname, unsigned int flags)
- {
- 	return syscall(__NR_fsopen, fsname, flags);
-@@ -105,4 +109,11 @@ static inline int sys_open_tree(int dfd, const char *filename, unsigned int flag
- 	return syscall(__NR_open_tree, dfd, filename, flags);
- }
- 
-+static inline int openat_o_mkdir(int dfd, const char *pathname,
-+				 unsigned int flags, mode_t mode)
-+{
-+	return syscall(__NR_openat, dfd, pathname,
-+		       flags | O_DIRECTORY | O_CREAT | O_EXCL, mode);
-+}
-+
- #endif
--- 
-2.56.0
+Justin
+[1] https://lore.kernel.org/all/20260929.Ahgoo4yeetai@digikod.net/
 
+
+> [1]
+> https://lore.kernel.org/all/abc960a1-e66e-792e-6869-cfd201c29dbe@digikod.net/
+> 
+> Assisted-by: opencode: glm-5.3
+> Signed-off-by: Cai Xinchen <caixinchen1@huawei.com>
+> ---
+>  include/linux/landlock.h      |   4 +-
+>  include/uapi/linux/landlock.h |  25 ++++++-
+>  security/landlock/fs.c        | 126 ++++++++++++++++++++++++++++++++++
+>  security/landlock/limits.h    |   2 +-
+>  security/landlock/syscalls.c  |   2 +-
+>  5 files changed, 153 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/landlock.h b/include/linux/landlock.h
+> index 0ee4880988ba..ee1234fbc9f0 100644
+> --- a/include/linux/landlock.h
+> +++ b/include/linux/landlock.h
+> @@ -41,7 +41,9 @@
+>  	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_REFER, "refer"), \
+>  	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_TRUNCATE, "truncate"), \
+>  	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_IOCTL_DEV, "ioctl_dev"), \
+> -	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_RESOLVE_UNIX, "resolve_unix")
+> +	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_RESOLVE_UNIX, "resolve_unix"), \
+> +	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_READ_METADATA, "read_metadata"), \
+> +	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_WRITE_METADATA, "write_metadata")
+>  
+>  #define _LANDLOCK_ACCESS_NET_NAMES \
+>  	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_NET_BIND_TCP, "bind_tcp"), \
+> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
+> index 24510e5d8479..36dfb499e48e 100644
+> --- a/include/uapi/linux/landlock.h
+> +++ b/include/uapi/linux/landlock.h
+> @@ -429,6 +429,25 @@ struct landlock_capability_attr {
+>   *
+>   *   The rationale for this design is described in
+>   *   :ref:`Documentation/security/landlock.rst <scoped-flags-interaction>`.
+> + * - %LANDLOCK_ACCESS_FS_READ_METADATA: Read file or directory metadata (e.g.
+> + *   inode attributes, extended attributes, and POSIX ACLs) through
+> + *   :manpage:`stat(2)`, :manpage:`fstat(2)`, :manpage:`lstat(2)`,
+> + *   :manpage:`newfstatat(2)`, :manpage:`getxattr(2)`, and
+> + *   :manpage:`listxattr(2)`.
+> + *
+> + *   This access right is available since the thirteenth version of the
+> + *   Landlock ABI.
+> + * - %LANDLOCK_ACCESS_FS_WRITE_METADATA: Change file or directory metadata
+> + *   (e.g. inode attributes, extended attributes, and POSIX ACLs) through
+> + *   :manpage:`chmod(2)`, :manpage:`chown(2)`, :manpage:`utimensat(2)`,
+> + *   :manpage:`setxattr(2)`, and :manpage:`removexattr(2)`, as well as related
+> + *   system calls.  Implicit metadata changes performed by the kernel (e.g.
+> + *   timestamp updates with :manpage:`write(2)`, or set-user-ID and
+> + *   set-group-ID bit clearing with :manpage:`write(2)` or
+> + *   :manpage:`truncate(2)`) are not restricted by this access right.
+> + *
+> + *   This access right is available since the thirteenth version of the
+> + *   Landlock ABI.
+>   *
+>   * Whether an opened file can be truncated with :manpage:`ftruncate(2)` or used
+>   * with `ioctl(2)` is determined during :manpage:`open(2)`, in the same way as
+> @@ -493,9 +512,7 @@ struct landlock_capability_attr {
+>   *
+>   *   It is currently not possible to restrict some file-related actions
+>   *   accessible through these syscall families: :manpage:`chdir(2)`,
+> - *   :manpage:`stat(2)`, :manpage:`flock(2)`, :manpage:`chmod(2)`,
+> - *   :manpage:`chown(2)`, :manpage:`setxattr(2)`, :manpage:`utime(2)`,
+> - *   :manpage:`fcntl(2)`, :manpage:`access(2)`.
+> + *   :manpage:`flock(2)`, :manpage:`fcntl(2)`, :manpage:`access(2)`.
+>   *   Future Landlock evolutions will enable to restrict them.
+>   */
+>  /* clang-format off */
+> @@ -516,6 +533,8 @@ struct landlock_capability_attr {
+>  #define LANDLOCK_ACCESS_FS_TRUNCATE			(1ULL << 14)
+>  #define LANDLOCK_ACCESS_FS_IOCTL_DEV			(1ULL << 15)
+>  #define LANDLOCK_ACCESS_FS_RESOLVE_UNIX			(1ULL << 16)
+> +#define LANDLOCK_ACCESS_FS_READ_METADATA		(1ULL << 17)
+> +#define LANDLOCK_ACCESS_FS_WRITE_METADATA		(1ULL << 18)
+>  /* clang-format on */
+>  
+>  /**
+> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
+> index a8fa8f77e775..f56277c67a24 100644
+> --- a/security/landlock/fs.c
+> +++ b/security/landlock/fs.c
+> @@ -318,6 +318,8 @@ static struct landlock_object *get_inode_object(struct inode *const inode)
+>  	LANDLOCK_ACCESS_FS_EXECUTE | \
+>  	LANDLOCK_ACCESS_FS_WRITE_FILE | \
+>  	LANDLOCK_ACCESS_FS_READ_FILE | \
+> +	LANDLOCK_ACCESS_FS_READ_METADATA | \
+> +	LANDLOCK_ACCESS_FS_WRITE_METADATA | \
+>  	LANDLOCK_ACCESS_FS_TRUNCATE | \
+>  	LANDLOCK_ACCESS_FS_IOCTL_DEV | \
+>  	LANDLOCK_ACCESS_FS_RESOLVE_UNIX)
+> @@ -1676,6 +1678,119 @@ static int hook_path_truncate(const struct path *const path)
+>  	return current_check_access_path(path, LANDLOCK_ACCESS_FS_TRUNCATE);
+>  }
+>  
+> +static int hook_inode_getattr(const struct path *const path)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_READ_METADATA);
+> +}
+> +
+> +static int hook_inode_file_getattr(const struct path *const path,
+> +				   struct file_kattr *const fa)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_READ_METADATA);
+> +}
+> +
+> +static int hook_inode_setattr(const struct path *const path,
+> +			      struct iattr *const attr)
+> +{
+> +	unsigned int ia_valid = attr->ia_valid;
+> +
+> +	/*
+> +	 * Only explicit metadata changes are checked: implicit
+> +	 * timestamp updates never go through notify_change(), and size
+> +	 * changes (ATTR_SIZE) are governed by the truncate hooks
+> +	 * instead.  See the "File metadata" section in the user space
+> +	 * documentation for the full semantics.
+> +	 *
+> +	 * Clearing the setuid and setgid bits on write(2) or
+> +	 * truncate(2) is also an implicit change: callers request it
+> +	 * with ATTR_KILL_S[UG]ID, and do_notify_change() then adds a
+> +	 * synthesized ATTR_MODE (with these bits removed) before
+> +	 * calling this hook.  As do_notify_change() makes it a bug for
+> +	 * callers to pass ATTR_MODE together with a kill flag, an
+> +	 * ATTR_MODE seen along with ATTR_KILL_S[UG]ID is always
+> +	 * kernel-synthesized and must not be checked.  An explicit
+> +	 * chmod(2) never sets a kill flag, and an explicit chown(2) on
+> +	 * a privileged file is still checked thanks to ATTR_UID and
+> +	 * ATTR_GID.
+> +	 */
+> +	if (ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID))
+> +		ia_valid &= ~ATTR_MODE;
+> +
+> +	if (!(ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID |
+> +			  ATTR_TIMES_SET | ATTR_TOUCH)))
+> +		return 0;
+> +
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+> +static int hook_inode_file_setattr(const struct path *const path,
+> +				   struct file_kattr *const fa)
+> +{
+> +	/*
+> +	 * The chattr(2) style flags (e.g. FS_IMMUTABLE_FL) and fsxattr
+> +	 * fields are metadata: writing them requires WRITE_METADATA.  The
+> +	 * user-facing path is checked here; stacking filesystems skip this
+> +	 * hook on their internal forwards because they were already
+> +	 * checked on the user-facing path.
+> +	 */
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+> +static int hook_inode_setxattr(const struct path *const path,
+> +			       const char *const name,
+> +			       const void *const value, const size_t size,
+> +			       const int flags)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+> +static int hook_inode_getxattr(const struct path *const path,
+> +			       const char *const name)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_READ_METADATA);
+> +}
+> +
+> +static int hook_inode_listxattr(const struct path *const path)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_READ_METADATA);
+> +}
+> +
+> +static int hook_inode_removexattr(const struct path *const path,
+> +				  const char *const name)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+> +static int hook_inode_set_acl(const struct path *const path,
+> +			      const char *const acl_name,
+> +			      struct posix_acl *const kacl)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+> +static int hook_inode_get_acl(const struct path *const path,
+> +			      const char *const acl_name)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_READ_METADATA);
+> +}
+> +
+> +static int hook_inode_remove_acl(const struct path *const path,
+> +				 const char *const acl_name)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+>  /**
+>   * unmask_scoped_access - Remove access right bits in @masks in all layers
+>   *                        where @client and @server have the same domain
+> @@ -2100,6 +2215,17 @@ static struct security_hook_list landlock_hooks[] __ro_after_init = {
+>  	LSM_HOOK_INIT(path_unlink, hook_path_unlink),
+>  	LSM_HOOK_INIT(path_rmdir, hook_path_rmdir),
+>  	LSM_HOOK_INIT(path_truncate, hook_path_truncate),
+> +	LSM_HOOK_INIT(inode_getattr, hook_inode_getattr),
+> +	LSM_HOOK_INIT(inode_file_getattr, hook_inode_file_getattr),
+> +	LSM_HOOK_INIT(inode_setattr, hook_inode_setattr),
+> +	LSM_HOOK_INIT(inode_file_setattr, hook_inode_file_setattr),
+> +	LSM_HOOK_INIT(inode_setxattr, hook_inode_setxattr),
+> +	LSM_HOOK_INIT(inode_getxattr, hook_inode_getxattr),
+> +	LSM_HOOK_INIT(inode_listxattr, hook_inode_listxattr),
+> +	LSM_HOOK_INIT(inode_removexattr, hook_inode_removexattr),
+> +	LSM_HOOK_INIT(inode_set_acl, hook_inode_set_acl),
+> +	LSM_HOOK_INIT(inode_get_acl, hook_inode_get_acl),
+> +	LSM_HOOK_INIT(inode_remove_acl, hook_inode_remove_acl),
+>  	LSM_HOOK_INIT(unix_find, hook_unix_find),
+>  
+>  	LSM_HOOK_INIT(file_alloc_security, hook_file_alloc_security),
+> diff --git a/security/landlock/limits.h b/security/landlock/limits.h
+> index ddd300e10689..ed606ee3102f 100644
+> --- a/security/landlock/limits.h
+> +++ b/security/landlock/limits.h
+> @@ -21,7 +21,7 @@
+>  #define LANDLOCK_MAX_NUM_LAYERS		16
+>  #define LANDLOCK_MAX_NUM_RULES		U32_MAX
+>  
+> -#define LANDLOCK_LAST_ACCESS_FS		LANDLOCK_ACCESS_FS_RESOLVE_UNIX
+> +#define LANDLOCK_LAST_ACCESS_FS		LANDLOCK_ACCESS_FS_WRITE_METADATA
+>  #define LANDLOCK_MASK_ACCESS_FS		((LANDLOCK_LAST_ACCESS_FS << 1) - 1)
+>  #define LANDLOCK_NUM_ACCESS_FS		__const_hweight64(LANDLOCK_MASK_ACCESS_FS)
+>  
+> diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
+> index fb5af318b69b..11d3a2abcec1 100644
+> --- a/security/landlock/syscalls.c
+> +++ b/security/landlock/syscalls.c
+> @@ -191,7 +191,7 @@ static const struct file_operations ruleset_fops = {
+>   * If the change involves a fix that requires userspace awareness, also update
+>   * the errata documentation in Documentation/userspace-api/landlock.rst .
+>   */
+> -const int landlock_abi_version = 12;
+> +const int landlock_abi_version = 13;
+>  
+>  /**
+>   * sys_landlock_create_ruleset - Create a new ruleset
+> -- 
+> 2.18.0.huawei.25
+> 
+> 
