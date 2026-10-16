@@ -1,64 +1,64 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CDE4508EB
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 09:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A45D45A29F
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 09:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792142428; cv=none; b=R0TOz4jnnMkxqeR+4qNIEHyFbRRtmjbSTow921RQ4fpvVjEki/YThmnJohRB7y3J25ohVfumn4bV5J20uNgqhUcMdybgRNQIRN1aDCqxqX4VDMSXYpRWc/aGx5G0uyE/RRyvrRii3v7wdevGqOXAb679OefkeH40ulcBqLObziY=
+	t=1792142434; cv=none; b=YfzJYSKDH+bvKa/ZB1KPJQj/DT4owmzTzKhjgLL7bRlawTc5qRJc/W2pO+is3fe6vunKH1SBJJ+eHu2U/NRy7157c76os1ZBzsH4ZwSs/wvILbNv4iGprclLVQxIfHSwOreF8hUI0UARxuXtT+KwgGWvYMuwPhN1BBNe9AF1Rp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792142428; c=relaxed/simple;
-	bh=DvMe7S0LO2jpCitCC1OWjDZYhtYnqG+k9QQSRL+brVc=;
+	s=arc-20240116; t=1792142434; c=relaxed/simple;
+	bh=EwRXNP8tIugxzv8pAp3hfFOiAhX6X71PusXq27pU6+I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EN1HwMrK5nfeAquNsYyBTzrpgE4tyR3F1fjhBRnHZuoo1SnNYeKgL49QuYBUOskZJes0/u+qyfxf/Q3204l2mOKB89mRND4iPrYZVlNAebdB/EOV2vaQ82VG+TCj74V67kpEO5NY2UCXNnBLTD93iYRieFAzvaRVNP53N0tcNgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VsBzGtbb; arc=none smtp.client-ip=74.125.82.180
+	 MIME-Version; b=lOY6kOEREWqgfH1MMsAy35X5zjzc98Lp5vOW9jMeLOTOtfEUaq06zRHzby/wmPeD0jSvCfWh5BH2bybBj3K52RzvGbRfCrqoqQDbEapSTmSPO2miJAqOlCf5YPMoF3mG928oEnlfgtyjfwje7KqqOX6cUhfyVKzNPZdhXGlKm1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E7yYhN3Z; arc=none smtp.client-ip=74.125.82.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VsBzGtbb"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-35b2c599f43so2533177eec.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 02:20:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E7yYhN3Z"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-33fb4680717so2093280eec.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 02:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792142426; x=1792747226; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792142432; x=1792747232; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DjKFi3jIeeLHj7gpePynHKygRXFYWBMHOHUD85BoLOI=;
-        b=VsBzGtbbe07k2yru73wU0N0JCchzLn3rr1K3yQnnvw9bdfAUfdOyxFzkfun7/90Vo3
-         +WSLAyh+VwdqkK5A9ci0L+7RYNow50jfqbbyrdNP8ode+npRXjgptVn0zBut4pjGeCWQ
-         MRCuGWr2ZiXUmx+z7rtxbpFG4QYDorDQ+ns7KKPxetbQmZ23TdFU4RkVZPCpppbkb7gE
-         gVZShptTcF+OwxFDXBKcLdPbbB4eDv+0uEHkbiq6fYU95yPi5hXQast6b7196oScPJP/
-         hAfiTMgzqm8YIoE290Zui1bBbD8v89SoBKCTD/QVdrV3UlHR7PhpPKSxoz94E3lN5ZZw
-         X/EA==
+        bh=9h8Utli2sn9TOY9C79OD+M1xwwpfmXbyxA47Gi/ZqKg=;
+        b=E7yYhN3ZgUx08ius+UxX/e13EhdgH/0bSYz3s+Xb4vfwibAUy23eLqfte0gdDSpPTu
+         W5+b5FXTLxu+du+rmHpea6NqxrFnbhltSiEj5WcbIviCsPwPkQbsLwLHrsK/HgqIiZpv
+         Z80e07ZHIoEyJqL9BGnq0yvh1Kg4rYigu84Cu18fptj/jffRGivS1XBAki19K0MEve9v
+         qZQcrveprUfCCvQAx80uHGyr/kkQG0V8iXRJInC53FAJlDuLYvBNDE3IfTIO2w3ydKup
+         XuZty0HYBm+PGxAWh4qcrEnTH1YvdAA2udot3OmjuFL3CjRv1S1p+FI6/vPaLbH7Qk5y
+         YHZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792142426; x=1792747226;
+        d=1e100.net; s=20260707; t=1792142432; x=1792747232;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DjKFi3jIeeLHj7gpePynHKygRXFYWBMHOHUD85BoLOI=;
-        b=Nw7PuzAZbPy/Bts4tpk6cNsi/4tG96cJwEfzHj0Fo1j4j9WFdIhW9cHhHpMDQzWHrl
-         fSO+djWhIKUMssEXw/HOCNzQdbKGhxrEERf0KC20KAf5jJ+JWmIN9Hu3IcQ+hAsHuHza
-         OdqNb9Z7LTsFsAyHgBlwmbEyjuUNWqh9mDHPOWsjCsmjfgaxhx7bs4WG8EZXSkm7gi6r
-         qVtXGmA02rVOzW95TMX9joC0HPSQRj4E9aIjuY423SymsoqX7jVPguzCuTm8YB248QiR
-         Hls3cd4ybp9BnXwtEM+qcJc3QcShDUo9IeqnsTOWyDc5Y3W16BegALiWbmZjJjUJWxfN
-         f7SQ==
-X-Forwarded-Encrypted: i=1; AKwUvByLoceH2ovjKkcJXIYuh5g/LHNAYpv8b6hDnl/Upf5JK9gSqRnL4iqqX/xdLwDABI68SV9CVrbv0n05CqXe@vger.kernel.org
-X-Gm-Message-State: AFq9FYLckNk+5fASCKJ2yYAAwBt4K79CS+dFvx4tmBzfC63wceFcFSKB
-	FBovvz3YaCUplBefzh0WB9kmTIP5w9E4SXLaAnUY6q3ZEmHIJiEvD3E=
-X-Gm-Gg: AYBFou2s7y8v/hL+5N+wbxLUU5gQMNokScESrv0i6JaBfev2wv2VAKRYG3qwhWX8Wox
-	9LC7L7i1cOVzfYM2nzHMk7jOq28upkmLb56wyTPSQ/zusZXIjceCuvok8R+6pO/zvil552X4TYB
-	JFz6HdvWUFsffwxDiMpSTUrcoK5Qtv1gOfPKK5Aq6LcPZux7Oe18cspNSJBTMfsh0g04Fr/xTV1
-	CVjn8Sa7TVl9GFXN0S9qM8t8s+LAlXvcfBlilZJkIslsUyTcXavQ02VHV6nLFH2MxdmZClcb88Z
-	TkQS1d/jMk6hlUYJuXMjvpRTq+Dj4jXjfrVAsNlEwhwgBKyxEGpVfYXlrAFv6gIe0YWTD6xUPHF
-	rbbZIGTiLReBcjw2z/Ik/qr1GU/pGvD6UNGEgaZ7kyvXiSl2/NyFMbirWxTsqM15f8EUtwp3Ryl
-	GtFUaa77XTI638oUQOOgM38WUSEtogxXm51O6DRQ0z0DiczzwhO6oiUDZuH9aR0VqDU8pi0aJhJ
-	uiOY9stWHK4zJNVtGsGFAbtF8/fDI83dwn4Zbb1sa07JGjDT5Q=
-X-Received: by 2002:a05:693c:8344:b0:35f:d509:7673 with SMTP id 5a478bee46e88-35fd518bb31mr4771762eec.8.1792142426196;
-        Fri, 16 Oct 2026 02:20:26 -0700 (PDT)
+        bh=9h8Utli2sn9TOY9C79OD+M1xwwpfmXbyxA47Gi/ZqKg=;
+        b=RNvtVEyLiYP4+tpxqt4NOJlMs2L7bUVF6g5wrWYXZbm2Kb8Xd8pvzOH3aVaPozESaH
+         eQx0Hl1J1IYOGzJM7FBdaDye1GAXjH0AkYkGZ8qZMoiMH2t3+xf3H0z79ExlxTkb8xsr
+         Ep4zZ8+fR/aW8gUc3p794GhlCb6uhypXKPKCkbRuwPli9oecyZqQBnTasTZJOMuQvO5j
+         p1x0HVt0LIKf8gj6RRFtcaXIdeGYWwQxXTrOh+kfe/REQGFE0jXMgnJc8wq24WCom0r1
+         V6XlMYEu8x4KkttiMWLeMWV9p06a0+gkpvmT7lWgwiADvhEolfSw2CYhUFTdZnvXqynO
+         pmXQ==
+X-Forwarded-Encrypted: i=1; AKwUvByI44LFVVhWPfM2HOmglmVCVRvsYhsNyLpEw8G5lSKvi9hG0fuYXh2NRBZiiX2jBP/0DiMK+aKVH36sdq8t@vger.kernel.org
+X-Gm-Message-State: AFq9FYIimTn2Is+azOhNwo8oftX0WEC4co1UlM4vjcsPsJTmqT68zwgC
+	/WTM67CU7eDaCrFt2HKy+RknlgqHb5zmq8A7L9tboEGLiiAqTq/IgBk=
+X-Gm-Gg: AYBFou0Agz2Au3miE3rNkcXbO+HbrZ0NwScP13tgmxhMUL9AKd20L/ncSa/ICDA3HwO
+	ZMU5MD1JjdQY5YCUoIOKd5U0rs2cuPysVdhppJmFsHr7HidWzegrzPtJVs5kHJIk+aMIzoqXyzb
+	iPnJ1ptmnnb8MWmGac9p6zXhqleNGkojxJsTYo66zj7NCoVGz99WFWKNU40L/Vgqi7eeqDQoloB
+	Z1vNiIO0RQjt/H+M/r+tXKyD0wMwBWtGNiDoiEccbondcCzBxUiaaXDO5gWyzWxiPqlw82dSSER
+	CoYkGP/AO0FFsazmn/Vd3GxQEpfTN/kx/7ykvEi6v3kFl+cFg7bGccLLxg2K9MOxqrt89+M1SQA
+	Bh0Jrh1pna6i7UnBx6u85w3yny7YPbCLiQeucMsmdH6gyjpufVpAqIBjOuLQqWnnfMBG6RhFRSF
+	S05wdPrxrq0rW1gJa1apKkBymIQDkHQXtw3kIzORZtMaq6qxa+eEfjAnd7e10OZbYukJUsZ7Ka+
+	557RsLcL6mPUkl5ZoIrGiIk6m6/FQeWfeC0Ex6R6H2ZHCWcaCM=
+X-Received: by 2002:a05:7300:2720:b0:35a:84cc:d941 with SMTP id 5a478bee46e88-35a84ccdc1emr20515510eec.37.1792142432091;
+        Fri, 16 Oct 2026 02:20:32 -0700 (PDT)
 Received: from anuj-MacBookPro.. ([2406:7400:63:e55a:7bfc:fc3a:e718:89f6])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36082a7b33bsm9840943eec.24.2026.10.16.02.20.20
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36082a7b33bsm9840943eec.24.2026.10.16.02.20.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 02:20:25 -0700 (PDT)
+        Fri, 16 Oct 2026 02:20:31 -0700 (PDT)
 From: Anuj Gupta <anuj1072538@gmail.com>
 To: asml.silence@gmail.com,
 	hch@lst.de,
@@ -72,9 +72,9 @@ Cc: linux-block@vger.kernel.org,
 	joshi.k@samsung.com,
 	anuj20.g@samsung.com,
 	nj.shetty@samsung.com
-Subject: [RFC 3/4] iomap: add dma-buf direct I/O guards and registration helper
-Date: Fri, 16 Oct 2026 14:49:13 +0530
-Message-ID: <20261016091919.971295-4-anuj1072538@gmail.com>
+Subject: [RFC 4/4] xfs: support dma-buf registered buffers for direct I/O
+Date: Fri, 16 Oct 2026 14:49:14 +0530
+Message-ID: <20261016091919.971295-5-anuj1072538@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261016091919.971295-1-anuj1072538@gmail.com>
 References: <20261016091919.971295-1-anuj1072538@gmail.com>
@@ -88,109 +88,89 @@ Content-Transfer-Encoding: 8bit
 
 From: Nitesh Shetty <nj.shetty@samsung.com>
 
-Direct I/O copies data from the CPU in three places, zero-filling
-holes, inline data, and bounce pages. A dma-buf iterator has no
-CPU-visible pages, so refuse it.
+Add the init_dma_buf_io_ctx fop for XFS files.
+XFS picks the device and calls the iomap layer with
+the relevant device.
 
-Reads that encounter a hole or unwritten extent therefore return
--EOPNOTSUPP for the entire operation, even if I/O for an earlier mapped
-extent was already submitted.
+Refuse the iterator from every CPU-copy path: DAX, buffered
+fallback from a -ENOTBLK direct write, and read/writes
+without O_DIRECT.
 
-Also add iomap_file_init_dma_buf_io_ctx(), so filesystems can register
-without open-coding the DAX check. The filesystem picks the device,
-iomap does the rest.
+If a file is switched between the data and realtime devices
+after registration, the block layer cross-device check refuses
+the I/O.
 
 Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 ---
- fs/iomap/direct-io.c  | 31 ++++++++++++++++++++++++++++++-
- include/linux/iomap.h |  3 +++
- 2 files changed, 33 insertions(+), 1 deletion(-)
+ fs/xfs/xfs_file.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index 8b4039d16ce8..fc40f4367ee7 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -427,6 +427,10 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- 	unsigned int alignment;
- 	ssize_t ret = 0;
- 
-+	if (iov_iter_is_dmabuf_map(dio->submit.iter) &&
-+	    (iomap->flags & IOMAP_F_INTEGRITY))
-+		return -EOPNOTSUPP;
-+
- 	/*
- 	 * File systems that write out of place and always allocate new blocks
- 	 * need each bio to be block aligned as that's the unit of allocation.
-@@ -595,7 +599,13 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- 
- static int iomap_dio_hole_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- {
--	loff_t length = iov_iter_zero(iomap_length(iter), dio->submit.iter);
-+	loff_t length;
-+
-+	/* a device mapping cannot be zeroed from the CPU */
-+	if (iov_iter_is_dmabuf_map(dio->submit.iter))
-+		return -EOPNOTSUPP;
-+
-+	length = iov_iter_zero(iomap_length(iter), dio->submit.iter);
- 
- 	dio->size += length;
- 	if (!length)
-@@ -612,6 +622,10 @@ static int iomap_dio_inline_iter(struct iomap_iter *iomi, struct iomap_dio *dio)
- 	loff_t pos = iomi->pos;
- 	u64 copied;
- 
-+	/* inline data is copied from the CPU, which a device mapping bypasses */
-+	if (iov_iter_is_dmabuf_map(iter))
-+		return -EOPNOTSUPP;
-+
- 	if (WARN_ON_ONCE(!inline_data))
+diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+index 426a67b813a7..f97d5acfaf68 100644
+--- a/fs/xfs/xfs_file.c
++++ b/fs/xfs/xfs_file.c
+@@ -340,6 +340,11 @@ xfs_file_read_iter(
+ 	if (xfs_is_shutdown(mp))
  		return -EIO;
  
-@@ -710,6 +724,10 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
- 	if (!iomi.len)
- 		return NULL;
- 
-+	/* bouncing copies the data from the CPU, which a device mapping bypasses */
-+	if (iov_iter_is_dmabuf_map(iter) && (dio_flags & IOMAP_DIO_BOUNCE))
-+		return ERR_PTR(-EOPNOTSUPP);
-+
- 	dio = kmalloc_obj(*dio);
- 	if (!dio)
- 		return ERR_PTR(-ENOMEM);
-@@ -915,6 +933,17 @@ iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
- }
- EXPORT_SYMBOL_GPL(iomap_dio_rw);
- 
-+int iomap_file_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
-+				   struct dma_buf_io_ctx *ctx)
-+{
-+	struct inode *inode = file_inode(file);
-+
-+	if (IS_DAX(inode))
++	/* a device mapping can only be read by a direct I/O bio */
++	if (iov_iter_is_dmabuf_map(to) &&
++	    (IS_DAX(inode) || !(iocb->ki_flags & IOCB_DIRECT)))
 +		return -EOPNOTSUPP;
-+	return bdev_init_dma_buf_io_ctx(file, bdev, ctx);
-+}
-+EXPORT_SYMBOL_GPL(iomap_file_init_dma_buf_io_ctx);
 +
- struct iomap_dio_simple {
- 	struct kiocb		*iocb;
- 	size_t			size;
-diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-index bc7ae6327dbf..ce97df81c644 100644
---- a/include/linux/iomap.h
-+++ b/include/linux/iomap.h
-@@ -682,6 +682,9 @@ struct iomap_dio *__iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
- ssize_t iomap_dio_complete(struct iomap_dio *dio);
- void iomap_dio_bio_end_io(struct bio *bio);
+ 	if (IS_DAX(inode))
+ 		ret = xfs_file_dax_read(iocb, to);
+ 	else if (iocb->ki_flags & IOCB_DIRECT)
+@@ -1196,6 +1201,11 @@ xfs_file_write_iter(
+ 			return ret;
+ 	}
  
-+int iomap_file_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
-+				   struct dma_buf_io_ctx *ctx);
++	/* a device mapping can only be written by a direct I/O bio */
++	if (iov_iter_is_dmabuf_map(from) &&
++	    (IS_DAX(inode) || !(iocb->ki_flags & IOCB_DIRECT)))
++		return -EOPNOTSUPP;
 +
- /*
-  * Fast path for small, block-aligned direct I/Os that map to a single
-  * contiguous on-disk extent.
+ 	if (IS_DAX(inode))
+ 		return xfs_file_dax_write(iocb, from);
+ 
+@@ -1209,6 +1219,9 @@ xfs_file_write_iter(
+ 		ret = xfs_file_dio_write(iocb, from);
+ 		if (ret != -ENOTBLK)
+ 			return ret;
++		/* the page cache cannot copy from a device mapping */
++		if (iov_iter_is_dmabuf_map(from))
++			return -EOPNOTSUPP;
+ 	}
+ 
+ 	if (xfs_is_zoned_inode(ip))
+@@ -2173,10 +2186,27 @@ xfs_file_mmap_prepare(
+ 	return 0;
+ }
+ 
++/*
++ * A realtime file's data lives on the realtime device, anything else on the
++ * data device. If a file is switched between them after registration, the
++ * block layer cross-device check refuses the I/O.
++ */
++static int
++xfs_file_init_dma_buf_io_ctx(
++	struct file		*file,
++	struct dma_buf_io_ctx	*ctx)
++{
++	struct xfs_inode	*ip = XFS_I(file_inode(file));
++
++	return iomap_file_init_dma_buf_io_ctx(file,
++			xfs_inode_buftarg(ip)->bt_bdev, ctx);
++}
++
+ const struct file_operations xfs_file_operations = {
+ 	.llseek		= xfs_file_llseek,
+ 	.read_iter	= xfs_file_read_iter,
+ 	.write_iter	= xfs_file_write_iter,
++	.init_dma_buf_io_ctx = xfs_file_init_dma_buf_io_ctx,
+ 	.splice_read	= xfs_file_splice_read,
+ 	.splice_write	= iter_file_splice_write,
+ 	.iopoll		= iocb_bio_iopoll,
 -- 
 2.43.0
 
