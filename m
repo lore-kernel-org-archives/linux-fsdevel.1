@@ -1,152 +1,291 @@
-Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-236.mta0.migadu.com [91.218.175.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544B325B0A5;
-	Fri, 16 Oct 2026 16:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389E54E50AA
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 16:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792168368; cv=none; b=E6lIEvHSoLY+25Dh85Rz0WIjjr6/x3m30iamoBxEY0Go7syxV3H8KlY9sQPv/W6dmcpyJoGAxJeoeO8GZYzebcE7yb45ricB5/ZEoj1RFlQCwXF8nv4DIDd2Esp7rWBgBhSzudTvMMEGEJL4pGvVudkjp5Z69IPJ1BLKD1oZR+w=
+	t=1792169041; cv=none; b=FVQE9HQD7noK+hqDCHPOHgYxTLZdb6BosUF/IuXk40ZPxdZgY7nmLBBA3o6XTITkkIf9/3aW+/Bb0QXt7iTJF0ykEgN4dUpaoj/QBYO8MGB5jd9yEuz1f0Gclnc++7uCqX2DeTjBSNaET/+/BtmNaDQVuZFuc56Bta0ADwMX6OQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792168368; c=relaxed/simple;
-	bh=5+3ZyQcjnDR3yuuIMSCId2BZ/pAwcxAcqdilDYJeIKY=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=GUg4mXSjOKtI43k661JJPPCDMRm5/Zv0Ks8wiR4kKGBf9VJO5gHoOWOSdByOSk6xRjp1EopkBHhKBKOWeq+ffh+eJIqFgeTULBQcijWLUDz2T0ndotQ5imsDk3TfnjBdW1xPo+0DM6X2HjVLJ8smbc+59AjgpoZUMN1P+7DB9og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=lZFRgCBX; arc=none smtp.client-ip=162.62.57.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1792169041; c=relaxed/simple;
+	bh=ibFpth8wAFXUrM8GxlJIYQOA9JU+8ZJEHvofbY7B4qw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hOz/t5WUYKfs6if/top4Ru/R2ffK66o2oS2YDxG4AtMMr5sc+3gy7MHoGFRL/2DiJCXXHxQDnDfSzu938NSgcHNiZycJTQI/O3ogUO0B1q0APFNs5Eplj/oHKveGmwOOpw2R2pPPkjfdDDFhA8rp1ig3WvZgnD1KzIab41DyZbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wA1KoVTh; arc=none smtp.client-ip=91.218.175.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="lZFRgCBX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1792168360; bh=WW0pURbzdrk5T1uFlgXzBoltZ2WZpOYrXfpT0JNkh8I=;
-	h=From:To:Cc:Subject:Date;
-	b=lZFRgCBXOsnV/1dfaC7VXlRVxDGG/ieFLQ58h5LNzYF3609Bd0P+MdaUJWvh3oJDs
-	 6Q8ddTQg8iU+CZca6W+wyh6sTxLI5wmsHwdIutvIEeWUaoFcEBXfUQFzq9P6YLqXW5
-	 i3sd4OUvBpScFUgFKDf1QqI6qQxkgG0y7+yyd4Lo=
-Received: from [172.18.4.77] ([61.136.26.103])
-	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
-	id 7DD844A7; Sat, 17 Oct 2026 00:31:29 +0800
-X-QQ-mid: xmsmtpt1792168289t064c6x5k
-Message-ID: <tencent_46887DB8A24452C3BEAD474A9C664CDBA209@qq.com>
-X-QQ-XMAILINFO: Nwte6vbuj0Eq20mYrONgUTmBbxP1gH1TKg1QKTfwhBCOOs+hX9Skh6jFYI4EGQ
-	 hWiFnUxAGb1cijdqHkYqqNt81qiQGfVf2WMEFLhXGDuTm7kXU89BEmBK4n1d7GtPkokjvuMdMN//
-	 3/y1REwmBcUDuEiTWA4wG587wHiCx379aNfk/xRPtE52dbfGDVOViIjsXrx1gMg/eyNzjJcOwQaT
-	 ZB/4nUoIuWnKGJNEOxPOLqQlJFkk8dpfgUG8sLhgDD0MlGqAFy4gyifoe0iw3/LQizKW1CjHQU57
-	 2a4gpUNRUum+70dCZQN/scBYqhWUjDNG40yU54QD6RBozyHys93Ljhb2dczhyUMlzwVzPtkWtnSZ
-	 7yL5TY7YB1u45UAw75pDIRBo/eTNtkGTw+EYGIGHlJbnUIMks4pnTDOZHS6hRqvKJOvmz7Fa/VLG
-	 eReyTPIDyPkCwUpzfewNmSQIh1r1wJZMPCDlFIn3pSoyjCwR83p2Od63pPvu+FwyKVO9ka1QszC1
-	 HwY3W/7TwaRWaiATfpzmOmlEuyBTQj04EiuWNfqSkyftEVgXPOkUzSefD/tsEFgcHT3CPwjyMe9P
-	 dmKl/oN1xNcF+le46CxVmpT1ky/V6j2VQf96bW4G7659H5qq2CyH9XoZ8DfA1NN0b6pZHgl2QqdG
-	 JuuXZy7uQaedxZragudAH5+IbealPu0kc/oqkknO0K7yKYOSuUItNyALji+4KkBAHoXz8SC32PLY
-	 9ECUtZD+4kADUi9qhGpyo9tLN3NKDbZvRUa+/ons4IBktFaLLd1NWySwluVLPgPWt9GeocFmv+Yz
-	 XqmAiSfvxUHLidzQ4oMwdC2fGl8VGXVxMb7JpO8i83TiYTA50MhG8IDHhD+WOgscK0V0kG1ZZ1YP
-	 NSVtpfP6JKoqpOb3xwTQzGDzJvjQsPmYkZu0Sio1nQ23Z1G9xlVgG08acSSIOiwk4ekERl3QK4QL
-	 BeQQWAtNiUdVpnEOjw7FZ1UrBzW+enKnXQFMZzsKT8rpLaZd1otXwTzVMIJ/4+DuJsN4EbnAlIwh
-	 4lEJn41srvjZbANzuviCa/hvGu92s/cMyB/4a4qzJDFJwJ+TVW
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-From: Guikun Yang <yangguikun19@qq.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, stable@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: fix log replay index walkers running past the entry chain
-Date: Sat, 17 Oct 2026 00:31:29 +0800
-X-OQ-MSGID: <20261017003129.92048-ntfs3-walker-yangguikun19@qq.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wA1KoVTh"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=ibFpth8wAFXUrM8GxlJIYQOA9JU+8ZJEHvofbY7B4qw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792169035; v=1; x=1792773835;
+ b=wA1KoVThwZwANpLSglG1xln8yZqaaCmlio7fvwINb1cyEBkpfqvlYKZFtTmq4JskLt2RqgD7
+ bCxE2xecDMf+cYU+iQ37mQuP+6lIBgREmkETCZMdz5T8+0qKU9DLAFGE1UX+om0Y0aY3VgBJIOf
+ xDqss8UTm15BaVmkjvZHaonQ=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id f4f175d3aae833e2;
+	Fri, 16 Oct 2026 16:43:54 +0000
+X-Mizu-Trace-ID: f4f175d3aae833e2
+X-Migadu-Flow: FLOW_OUT
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christian Brauner <christian@brauner.io>
+Cc: Meta kernel team <kernel-team@meta.com>,
+	linux-fsdevel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] kernfs: allocate inodes and dentry outside kernfs_rwsem
+Date: Fri, 16 Oct 2026 09:43:45 -0700
+Message-ID: <20261016164345.31618-1-shakeel.butt@linux.dev>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-check_if_root_index() and check_if_alloc_index() walk the directory
-entry chain of an index header until the walk offset reaches
-lrh->attr_off, but they only re-check the buffer boundary at the top
-of each iteration.  The chain that check_index_header() validated ends
-at its NTFS_IE_LAST entry; the walkers ignore that flag and keep
-reading size fields from the gap between the end of the chain and
-hdr->used, which is still inside the validated buffer.  A crafted
-$LogFile can place a size field there that jumps the walk straight to
-an attr_off far outside the buffer, and the walker then reports
-success.
+In the Meta fleet, on 6.16 with the kernfs changes queued for 7.4
+backported, we still see long cgroupfs stalls:
 
-The callers treat that result as "attr_off names a valid entry" and
-act on it:
+- oomd and below waited 72 seconds in kernfs_fop_readdir() while an out
+  of memory container created cgroups.  They resumed when the kernel OOM
+  killer killed the container's workload.
 
-  - SetIndexEntryVcnRoot/Allocation write the 8-byte log payload at
-    attr/ib + attr_off,
-  - AddIndexEntry* compute PtrOffset(e1, hdr + used) with e1 beyond
-    that point, which underflows to a huge length,
-  - Update/DeleteIndexEntry* read entry fields at the same offset.
+- oomd waited 15 minutes in kernfs_iop_lookup().  PID 1 waited for
+  kernfs_rwsem in cgroup_rmdir() while holding cgroup_mutex.
 
-Mounting such an image read-write therefore performs an out-of-bounds
-write of controlled data at a controlled offset while replaying the
-log.  KASAN reports slab-out-of-bounds in log_replay() on v6.6; both
-walkers are unchanged since they were introduced in b46acd6a6a62.
+- A lock profiler sampling part of the fleet saw kernfs_iop_lookup()
+  hold kernfs_rwsem across memcg reclaim on 26 hosts in 29 days, for up
+  to 625 ms.
 
-Stop the walk at the NTFS_IE_LAST entry so the landing offset can no
-longer be driven past the end of the validated chain.
+The profiler shows where these stalls come from.  kernfs_iop_lookup()
+and the export ops allocate a new inode while holding kernfs_rwsem for
+read.  The inode is charged to the caller's memcg.  If that memcg is at
+memory.max, the allocation can stay in reclaim for a long time,
+sometimes until an OOM kill.  A writer then queues on the lock and every
+new reader queues behind it.  On cgroup2 this blocks every cgroupfs user
+on the machine.
 
-Tested on v6.6.12 and on a v7.3-rc5 based linux-next tree, both with
-KASAN: with the crafted image the unpatched kernel reports
-slab-out-of-bounds (write of size 8) during mount, while the patched
-kernel rejects the record and the mount fails without touching memory
-outside the buffer.  An ordinary NTFS image still mounts read-write,
-accepts writes and is readable after remount.
+Such lookups are common in a memcg that is out of memory.  Its reclaim
+drops its kernfs dentries fast, and the files of a new cgroup have no
+inodes yet.
 
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Cc: stable@vger.kernel.org
-Signed-off-by: Guikun Yang <yangguikun19@qq.com>
+Allocate the inode with the lock dropped.  kernfs_iget() first looks for
+an existing inode.  If there is none, it pins the node, drops the lock,
+allocates, takes the lock again, and adds the inode only if the node is
+still active.  So __kernfs_remove() still finds every inode it must
+clear i_nlink on, as commit dc1a0cc95737 ("kernfs: don't lose
+IN_DELETE_SELF when decoding a file handle") needs.
+
+kernfs_get_parent_dentry() also held the lock across d_obtain_alias(),
+which allocates a dentry.  Hold it only around kernfs_iget(), as
+__kernfs_fh_to_dentry() already does.
+
+Tested on a 176-CPU machine.  A task in a full 256 MB memcg with slow
+swap looks up the files of new cgroups.  Worst waits in 60 seconds:
+
+                                  before    after
+  oomd, for kernfs_rwsem          577 ms   0.7 ms
+  below, for kernfs_rwsem         412 ms   1.0 ms
+  systemd, for kernfs_rwsem       449 ms    17 us
+  readdir of another directory   1154 ms   3.2 ms
+
+The lookup itself is still slow.  The VFS still holds its directory's
+lock, so other work in that one directory still waits.  Cold sysfs and
+cgroupfs walks are not slower.
+
+kernfs_fill_super() still allocates the root inode under the lock.  It
+runs once per superblock.
+
+Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 ---
- fs/ntfs3/fslog.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Changes since v1:
+- dentry allocation outside kernfs_rwsem (Sashiko).
+- Couple of comments updated.
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -2956,6 +2956,7 @@ static inline bool check_if_root_index(const struct ATTRIB *attr,
+ fs/kernfs/dir.c             | 11 +++---
+ fs/kernfs/inode.c           | 69 +++++++++++++++++++++++++++++++++++++
+ fs/kernfs/kernfs-internal.h |  2 ++
+ fs/kernfs/mount.c           | 18 +++++-----
+ 4 files changed, 88 insertions(+), 12 deletions(-)
+
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+index 7e65854a09e4..70c114911063 100644
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -37,7 +37,7 @@ static bool __kernfs_active(struct kernfs_node *kn)
+ 	return atomic_read(&kn->active) >= 0;
+ }
  
- 	while (o < ao) {
- 		u16 esize;
-+		bool last;
+-static bool kernfs_active(struct kernfs_node *kn)
++bool kernfs_active(struct kernfs_node *kn)
+ {
+ 	lockdep_assert_held(&kernfs_root(kn)->kernfs_rwsem);
+ 	return __kernfs_active(kn);
+@@ -1269,9 +1269,12 @@ static struct dentry *kernfs_iop_lookup(struct inode *dir,
+ 			up_read(&root->kernfs_rwsem);
+ 			return NULL;
+ 		}
+-		inode = kernfs_get_inode(dir->i_sb, kn);
+-		if (!inode)
+-			inode = ERR_PTR(-ENOMEM);
++		inode = kernfs_iget(dir->i_sb, kn);
++		if (!inode) {
++			/* deactivated while kernfs_iget() dropped the lock */
++			up_read(&root->kernfs_rwsem);
++			return NULL;
++		}
+ 	}
+ 	/*
+ 	 * Needed for negative dentry validation.
+diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
+index 237dcdd73fc2..6c64bff0fc9f 100644
+--- a/fs/kernfs/inode.c
++++ b/fs/kernfs/inode.c
+@@ -256,6 +256,75 @@ struct inode *kernfs_get_inode(struct super_block *sb, struct kernfs_node *kn)
+ 	return inode;
+ }
  
- 		if (o >= asize)
- 			break;
-@@ -2964,8 +2965,13 @@ static inline bool check_if_root_index(const struct ATTRIB *attr,
- 		if (!esize)
- 			break;
- 
-+		last = de_is_last(e);
++static int kernfs_iget_test(struct inode *inode, void *data)
++{
++	return inode->i_ino == *(u64 *)data;
++}
 +
- 		o += esize;
- 		e = Add2Ptr(e, esize);
++static int kernfs_iget_set(struct inode *inode, void *data)
++{
++	inode->i_ino = *(u64 *)data;
++	return 0;
++}
 +
-+		if (last)
-+			break;
++/**
++ * kernfs_iget - get the inode of @kn, allocating it outside kernfs_rwsem
++ * @sb: super block
++ * @kn: kernfs_node to get the inode for
++ *
++ * Unlike kernfs_get_inode(), this never allocates with kernfs_rwsem held.
++ * If @kn has no inode yet, the lock is dropped while allocating one, as
++ * the allocation can stall in memcg reclaim.  The new inode is added only
++ * if @kn is still active when the lock is taken again, so
++ * __kernfs_remove() always finds it to clear i_nlink.
++ *
++ * Only @kn is pinned while the lock is dropped.  Its name and parent can
++ * change in that time.
++ *
++ * Context: May sleep.  Called with kernfs_rwsem held for read.  Returns
++ * with it held, but may have dropped and retaken it.
++ *
++ * Return: the inode, %NULL if @kn is inactive or became inactive while
++ * the lock was dropped, or ERR_PTR(-ENOMEM).
++ */
++struct inode *kernfs_iget(struct super_block *sb, struct kernfs_node *kn)
++{
++	struct kernfs_root *root = kernfs_root(kn);
++	u64 ino = kernfs_ino(kn);
++	struct inode *inode, *new;
++
++	lockdep_assert_held_read(&root->kernfs_rwsem);
++
++	inode = ilookup(sb, ino);
++	if (inode || !kernfs_active(kn))
++		return inode;
++
++	kernfs_get(kn);
++	up_read(&root->kernfs_rwsem);
++	new = new_inode(sb);
++	down_read(&root->kernfs_rwsem);
++
++	if (!new) {
++		inode = ERR_PTR(-ENOMEM);
++	} else if (!kernfs_active(kn)) {
++		inode = NULL;
++	} else {
++		inode = inode_insert5(new, ino, kernfs_iget_test,
++				      kernfs_iget_set, &ino);
++		if (inode == new) {
++			kernfs_init_inode(kn, inode);
++			new = NULL;
++		} else if (!inode) {
++			inode = ERR_PTR(-ENOMEM);
++		}
++	}
++
++	kernfs_put(kn);
++	if (new)
++		iput(new);
++	return inode;
++}
++
+ /*
+  * The kernfs_node serves as both an inode and a directory entry for
+  * kernfs.  To prevent the kernfs inode numbers from being freed
+diff --git a/fs/kernfs/kernfs-internal.h b/fs/kernfs/kernfs-internal.h
+index 1609c1519698..6cc19c9ef47b 100644
+--- a/fs/kernfs/kernfs-internal.h
++++ b/fs/kernfs/kernfs-internal.h
+@@ -186,6 +186,7 @@ int kernfs_iop_getattr(struct mnt_idmap *idmap,
+ 		       u32 request_mask, unsigned int query_flags);
+ ssize_t kernfs_iop_listxattr(struct dentry *dentry, char *buf, size_t size);
+ int __kernfs_setattr(struct kernfs_node *kn, const struct iattr *iattr);
++struct inode *kernfs_iget(struct super_block *sb, struct kernfs_node *kn);
+ 
+ /*
+  * dir.c
+@@ -194,6 +195,7 @@ extern const struct dentry_operations kernfs_dops;
+ extern const struct file_operations kernfs_dir_fops;
+ extern const struct inode_operations kernfs_dir_iops;
+ 
++bool kernfs_active(struct kernfs_node *kn);
+ struct kernfs_node *kernfs_get_active(struct kernfs_node *kn);
+ void kernfs_put_active(struct kernfs_node *kn);
+ int kernfs_add_one(struct kernfs_node *kn);
+diff --git a/fs/kernfs/mount.c b/fs/kernfs/mount.c
+index c15ba6357162..ccb7dc575c7c 100644
+--- a/fs/kernfs/mount.c
++++ b/fs/kernfs/mount.c
+@@ -125,11 +125,9 @@ static struct dentry *__kernfs_fh_to_dentry(struct super_block *sb,
  	}
  
- 	return o == ao;
-@@ -2981,6 +2987,7 @@ static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
+ 	/*
+-	 * Hold kernfs_rwsem across the lookup as well as kernfs_get_inode().
+-	 * __kernfs_remove() deactivates the subtree and clears i_nlink on its
+-	 * inodes under the write lock, so under the read lock either
+-	 * kernfs_find_and_get_node_by_id() refuses the node, or the inode is
+-	 * in the inode hash before the ilookup() pass goes looking for it.
++	 * Hold kernfs_rwsem from the lookup through kernfs_iget().  Then
++	 * __kernfs_remove() either finds the inode to clear i_nlink, or the
++	 * node is already inactive and no inode is created.
+ 	 */
+ 	scoped_guard(rwsem_read, &info->root->kernfs_rwsem) {
+ 		kn = kernfs_find_and_get_node_by_id(info->root, id);
+@@ -146,7 +144,7 @@ static struct dentry *__kernfs_fh_to_dentry(struct super_block *sb,
+ 				return ERR_PTR(-ESTALE);
+ 		}
  
- 	while (o < attr_off) {
- 		u16 esize;
-+		bool last;
- 
- 		if (de_off >= used)
- 			break;
-@@ -2989,9 +2996,14 @@ static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
- 		if (!esize)
- 			break;
- 
-+		last = de_is_last(e);
-+
- 		o += esize;
- 		de_off += esize;
- 		e = Add2Ptr(e, esize);
-+
-+		if (last)
-+			break;
+-		inode = kernfs_get_inode(sb, kn);
++		inode = kernfs_iget(sb, kn);
+ 		kernfs_put(kn);
  	}
  
- 	return o == attr_off;
+@@ -171,9 +169,13 @@ static struct dentry *kernfs_get_parent_dentry(struct dentry *child)
+ {
+ 	struct kernfs_node *kn = kernfs_dentry_node(child);
+ 	struct kernfs_root *root = kernfs_root(kn);
++	struct inode *inode;
++
++	scoped_guard(rwsem_read, &root->kernfs_rwsem) {
++		inode = kernfs_iget(child->d_sb, kernfs_parent(kn));
++	}
+ 
+-	guard(rwsem_read)(&root->kernfs_rwsem);
+-	return d_obtain_alias(kernfs_get_inode(child->d_sb, kernfs_parent(kn)));
++	return d_obtain_alias(inode);
+ }
+ 
+ static const struct export_operations kernfs_export_ops = {
 -- 
-2.39.5
+2.53.0-Meta
 
