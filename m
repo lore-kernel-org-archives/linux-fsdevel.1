@@ -1,201 +1,109 @@
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF48380FC3
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 08:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9836F43F4C2
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 08:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792138738; cv=pass; b=aEaKWBrpfnQHxo8dgW64zKcZdPAX+DIGVLVG8DHUV/Tlc5ymA8JRHxEdst0QvJRx1A+sGmdOBlDD0Ote6c3wKoh4PfY8iboglMyq+6/wm1hH9jCl1BoBA9oqFSenVUOSlU0uL/PP9Rd1G1FpqzHwjCMw4YOJljAOdpRlakiSveg=
+	t=1792141122; cv=pass; b=IGzPYSJ4a43LdS/QMFXCVtmD+DZZ80o5elhR7UED+hRMpBY/RE3+EuBfa7QhbeaZbpJq8mW0EAdmTG/4Ig57p0VIqMmDBFyh/5D75E/WNEl69x18ia+g2XGtNiUu+1KX4FH4CZ+BJ2i04Fya7nO8sAtqaxXXlE4usOjayOZSQSo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792138738; c=relaxed/simple;
-	bh=TJpRkoynlry2geAXK8OkwmCvIsCu/qH7mlFTnmgK4Yg=;
+	s=arc-20240116; t=1792141122; c=relaxed/simple;
+	bh=sTfPJ6PqC8c32ihJFSptJ3qTYD/mP7sZzo5Ard4uuBA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bfZPx+PofNr0thmbWw/UXkc+Nt9JexQAJ8MEZkjVWQ8ARQ+8wNAKBy6yFztwy0+iZ5CxB9Qyil4Z44sgGpnhWbeBr59iKXRuGeUFSSj8pe5PiZwjh8cPTpBFGkBAHhsnJWjGL2aaxpLNHlPt3tnERxIfN6Y282MotZ8nN1g5iLk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TDctdG3P; arc=pass smtp.client-ip=74.125.224.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=R3DW27CtwIJxO2NzYaOO6DhuODDbCm9vAdFPm8fpzgVb7A9qqGgfMIcZmeARu2kAqdt79X8r+Gd5QUIb7mB9DhrvAs3FFD7vOTJ169sIz32GsYPf7z5f4TIy2gFB94kG8ndL8wk7NiU6MHTbobRwCSPR4PmWndSTvElpjrt71dg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=h6ysyMi0; arc=pass smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TDctdG3P"
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-66c9995ca60so802206d50.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 01:18:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792138736; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="h6ysyMi0"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-535f9de49fcso15251091cf.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 01:58:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792141119; cv=none;
         d=google.com; s=arc-20260327;
-        b=oD8Kt00KukcQK5ELkoFvzlZqBUOJIYenxT+E6Js0xyxBJ8vgjMpo4IDvxz5aJJWBmC
-         bf+9REmaebZAskzmmyZF7w1m7PyJ89aCCjAK25oB9BU+2vV6KZQl4WctROUm85t4jmxx
-         FDlBpN+lqiRE7ADoLplJyGhaxEa7Ym6/YZ6ihpmM9u3Q2d/YnRlsuc1P75LClmXtcuUR
-         hMm76Gly5I/UbopkG6LvOiJ8QRAq30kp4Wu9lcB11nhIafkHj74+Lrd9HexeeGaR93ML
-         TSgr51O10AbKBReu7cQs8zRVvLga6ajm37xuC04xifcC3Jm6NPraXJkztEO2XXPw9zvh
-         ek+g==
+        b=OZlqJuXWNa925i/XPYL3EdTbxcGjUyAqkT4z47yGxFR/SHCle33GLzz4XL4ROXOwlq
+         cfXsGw9L0mRnfLXW9MNjYZzJWU42PngFdlGiot8zict7ZHxw7PwziA5EasdayXjoNp8r
+         ahV27thuA86ywdt8u/UcLv9yn52NvouBnMbtWm8ZyfVV2QFAKI3GPgIXVpdGYwNt/YEt
+         +mSD88P2jXyI9rKNQ87ZtY3yKTH6SVbeVVbpla2fsOEVJSEFCmvdUWdc74MImhXNH0dR
+         baGDkbqTRsrZRGGb6m0rLHoTYCgmhCgNsz28QTg6+SdKUY72ophwkzR9dMARtB+pPS4k
+         pxzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=7jP1ajt49g9ePjtG83cMVBJePTr3Nno+FbpJNYv5nwM=;
-        fh=90RC7zWNT5Qw/cCkKhaDBinm/rysrVW0YME20pOltTE=;
-        b=f62IPikIlcWtXq4IcxL6rl9IsR6QZxvPwyT83Yn4RBdWBHLMoWKyUz9iBKglz7PDYg
-         +qsQaaNDcrkDUtHXYQEdNp9KxkffsdTjUYzvS1sVCWKmrKEt1AXcuF1LegQUFZ4ikHD5
-         L87QFk18HQuMNEbENffrrmRmMH7g4XgBa3r5Q/WaTN2pR6Pzq/T2ho1vkNsjqg6mjdsX
-         uofTDciX0Vj1HsMl473wR7OewNtB3sSXY0fb7eNeB7szN/24nJOb1g1dmu3n1XXUWpVC
-         jUUEgZ+N36Vg70lJTfidPHGGLtsCXugt64VKqlOlIVmEKWS2TNXOoX9lVXL5P0OEjYgg
-         FuQg==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=sTfPJ6PqC8c32ihJFSptJ3qTYD/mP7sZzo5Ard4uuBA=;
+        fh=UKOxxnAE6WzpR29IP3cL3Gi2EqdKW5zwhxPVHkXdb8g=;
+        b=fSQyxpk1ON8di48lNKsZ2b7bhAOzkBY+2fAkMKUSXWY/MYF44DhowLxLJM8a/Er0r/
+         jIQkiiR9bDwLwaraGZImztW2guzGX2QJe+qKbp+D4vSzAUocEeSKyd49ioO8mMy55nCE
+         Mut2Qt0ox1wBxaE3Z3v3CroRhRJAimgCEGWVvb3P/z1aup0Y7dsnjXF7gZSGJ2vxLSQ8
+         dgPjuEA4TtYyQLJEKLDxIP+mtPV8Gp/ktjyefeuin51V/0djPBK54/lfGwwSmN+6geZJ
+         yNNDTZth2Hn2R8S0CrFKkn23QE8l8twmPRFEv5ddTI6zLv/+61yggCAER57WG11ZeuvW
+         znBQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792138736; x=1792743536; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=7jP1ajt49g9ePjtG83cMVBJePTr3Nno+FbpJNYv5nwM=;
-        b=TDctdG3P3hqBv7Kmp9O69TG/m8pZWfGK3WkV8CEODNgKQ4ETVbdNSk6ewwgHGYwaRe
-         O8U2S4+OqkYRsjloampfShtwy4XKMrVtbQw3Bk1nlCT/uB8UyKFl9/Ozm+3UZm7F68ZS
-         lcaH0omgr4sMqtAXnmzZbF40fWYU2J6/JGISbJTo1MlrLItg/f9eVjGcmGc/TbM1xPmG
-         nVU23PzrABXRfa+WHOQJjPZDqcjmVNRHD9zxDs2V451VykC1BiHMn/woKRYcsSoyryIV
-         slCadhfuKr0QSoyFzna/MrQ0eHMR/ZgjJWOWAq/l3I47zBkVdb9NFmiku2rGoa39pO0/
-         iwRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792138736; x=1792743536;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=szeredi.hu; s=google; t=1792141119; x=1792745919; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=7jP1ajt49g9ePjtG83cMVBJePTr3Nno+FbpJNYv5nwM=;
-        b=wrjadMa+ZCn9Bptg/uX7onLGRkMtpBsUWdFWi1jEsfMmX2mxF858/D7/QF6YZ/+fik
-         Jfk+IXKyu2BFSOaXhutWjUGh0GAd+Nad0fkG49nX6IenjpxZ0ksg2KS00CeJbH4Hu+zn
-         7qtX/DKjd/o4/EhjakIN6KD0dLQjBYIWTVGbhmmTD9XsdMmwX/s43/eYfqAm5Wi/3FPq
-         yabEpfAeeYLzytfifim0WOOoMUGukTJIArOyykYn4g5QC3ZNdcFoCapHJwThAlbX25Jx
-         06RBLiqrzRnDZBXWRTx9f1KRSxz7ELoUx/aLCB1lckF/wxgeQCOa6zFS4UugAP50WyJk
-         PH7Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxNLb0bv19sCSieh4Upgxy3hWHTR0rDA9RYk4RpN+5ANSfICphwm7yg65BvP0yS0LF/qj8B/8qqriDkFP45@vger.kernel.org
-X-Gm-Message-State: AFq9FYIAFc8JaXP8Lvl/HDIewId7DI9GDeJsUx0Mc2waLO1RqbG7PYuL
-	oE23VkMUnkJXIs5gGd4ohuFbeaKEfJfIAaHfS99z9l3NKA+v7wROz31z8M/cqjBW9pG0B0ftJZa
-	uZag2Kl0MmSwz2CK1J7nt61/rHPLQrhU=
-X-Gm-Gg: AYBFou1sceE2gx6poBpc3t5EWvyxnUoCMRYv4od0bO+q5i/D6IQIWIPx8NSgfh/6EkH
-	9vk1mX4YnsEOCU8/CCIqXrfFadBP/qKM8o+vud0jVHK+GOBeq3F9jrCcgcnU8iiwk2NW9eRAf2z
-	l5Enn6M4jp233KiR+Lr7KcNkoGzCaL85+WX1DnrkTdXaCbVCQiMcojG0+BMZS0ah7dAG8JYWzHu
-	LgnacDgqO62q4BrmxFP7t35SArKU7bYQHU03esFmK1VRBM8WVapzLLIAmRN67tiww6CB8z5C0jU
-	N2fQMjL4XnDOdwJa4VK2vik3JxpAZgiUCFG1ckkmVK/l3pYfevXAQ2WhR+T/I4dpcGYzlwECyzd
-	A9VbPcR3s2lK7zmODnSmd
-X-Received: by 2002:a53:ac8d:0:b0:679:97d1:439e with SMTP id
- 956f58d0204a3-679b0e651ddmr785846d50.2.1792138735738; Fri, 16 Oct 2026
- 01:18:55 -0700 (PDT)
+        bh=sTfPJ6PqC8c32ihJFSptJ3qTYD/mP7sZzo5Ard4uuBA=;
+        b=h6ysyMi0mncT1RBpL0m8Lkvt6UWlkki83vArzdTg52KKF30H5YXCDYY5qxR+xeQh9O
+         EhAMmlGx4hJdEnQQIEAj/wqS/EBcd8mdhqXp4iI9Fv6vkOQ9rcn1kV3272OTaVpYh0VC
+         tdO80anV68OrDgv/taqJaiNKZUZ9Z1t2TLEb8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792141119; x=1792745919;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=sTfPJ6PqC8c32ihJFSptJ3qTYD/mP7sZzo5Ard4uuBA=;
+        b=YGEQjUJwVp3GV9/DedEI5ZdIq7GTA/BxTk6Jc++fa1j/Ysfvv0+xkf7P0Ps19LlCLf
+         Jry2re1K0FyX+cvPQuiAlzI2VuMcrPAofmlxfIOzLzeHY10kSkdCcla6moWxs1PfdZor
+         CKD38M2ubet4bUtfnMAv6JjfJNmSrXkQru9J9QP43a4Mr5/oWULPLsr1eWBRHw3VurPF
+         CrkmLdomXOFW7Blg4WG/LhN6kqb3JanBuETWqncINa5bbAsyYQEqLVu7wAGXZowkGaDi
+         wDTc1Gel8PvC1JS8ju+aEj3zvl8N6roQLKMEsXYrioSU7PfB+JZxXAndj72o2/rLpkCK
+         oWsg==
+X-Forwarded-Encrypted: i=1; AKwUvByRztcQyg/uIcMyWToCz4BziF/o8GaPbNsHOhBafkDZ7HYM779h8I7IWtVKWvmbKXNChSGFIBzuFkHEgM34@vger.kernel.org
+X-Gm-Message-State: AFq9FYKi65hHNVr8JQIeqEc3I5OrpAj3UztiOvjKAXsqkQkzPpRakM6g
+	8bKQ8uCp51U1NCFyBtjvabNWdYSAFQFoKLvLOwbkIfyX7wSp+xJUzTNb975nGRxiST8iEfCHIoz
+	9c1+dZLRwSHhn92u32GImL3O12j+VAoG6iKWiUl6V07y5jv3G5heK
+X-Gm-Gg: AYBFou1vieOAkg/fi3PPQKj0617Ln39Xqb+13ZdgsYqdL0B4gfdKn5eFy5gQCjDiCXA
+	j0QuXAMtVk/jU9Lg7bYjiuxbXfz70QFUZW9+reL30vN0/b2OakoDwx+JyRpFxaI2n3dcZ/yCAt4
+	Ae4qt/1w8sDtVk7iFXflWr6mLwHzu1TIYGTu3v8YIh9H36vhynlwtODdL4dur9YrxrbofcsGI3I
+	4czftt7G+DzfN5beg4f4xruHYUbIU/VlBM+onVYmk1EgT8P/f1TmpFfzbaOvklIRKhFX/NqFEtF
+	hwMyjs62fWS6VssaBBnweRGPDCVMlSdhXuSgLZoYhT5EQTsStoxV1jr7auw70chrpR0PX6WJEkK
+	v2Yf2dJE=
+X-Received: by 2002:a05:622a:148d:b0:533:3af3:43b9 with SMTP id
+ d75a77b69052e-5359fb3d14amr366334251cf.44.1792141119518; Fri, 16 Oct 2026
+ 01:58:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260908122446.56708-1-lizhe.67@bytedance.com>
- <as3gQ8jfa_6eBf15@chenyu-dev> <CALOAHbBssx9ZHGwebGZCvzT4d_soyjNfZRj4L6gnxHRXtc7eMA@mail.gmail.com>
- <807eb0e80c76c3ccb85024b360bd47ace201931b.camel@linux.intel.com>
- <CALOAHbCt+iGGWMxzjrcRamdSqD48_v+V685-qi7_Qy7UL8bxxQ@mail.gmail.com>
- <atG4VXk4t-m8VubY@chenyu-dev> <CALOAHbDY6zLcEc4kGhC9GSFsOsREadkWN7Q4CmZuR_m_BMHAyg@mail.gmail.com>
- <bcabbe25-5b2c-464a-a22d-5375a342f938@intel.com>
-In-Reply-To: <bcabbe25-5b2c-464a-a22d-5375a342f938@intel.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Fri, 16 Oct 2026 16:18:18 +0800
-X-Gm-Features: AclHuK9l0UDwRtdZnr0wuccDYOekKzVCW2ycclDkqHbzyqX2JXnysUW2dhrKAo8
-Message-ID: <CALOAHbALpHebACLUmvet_tFH_w-iK3TWpY52OhYTUVoLzoGKkg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] sched/numa: Add per-process automatic NUMA balancing control
-To: "Chen, Yu C" <yu.c.chen@intel.com>
-Cc: Tim Chen <tim.c.chen@linux.intel.com>, 
-	"David Hildenbrand (Red Hat)" <david@kernel.org>, ljs@kernel.org, Li Zhe <lizhe.67@bytedance.com>, 
-	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
-	kprateek.nayak@amd.com, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	tim.c.chen@intel.com, mkoutny@suse.com, tj@kernel.org, chen.yu@linux.dev
+References: <20260910184424.156341-1-shayba@google.com> <20261014192014.3373048-1-shayba@google.com>
+In-Reply-To: <20261014192014.3373048-1-shayba@google.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 16 Oct 2026 10:58:28 +0200
+X-Gm-Features: AclHuK8gvmL5wAjcEDGO2fjptGYL8jYpJoRVGU7iFqj19SwZtNo9v9Zwvm6lwLk
+Message-ID: <CAJfpegu5agxOB7_9zW2u=0AfbLuZvp1o9OaW-A7YLvb==voamQ@mail.gmail.com>
+Subject: Re: [PATCH v3] fuse: Forward vfs_fadvise to backing_file in
+ passthrough mode
+To: Shai Barack <shayba@google.com>
+Cc: Amir Goldstein <amir73il@gmail.com>, Bernd Schubert <bschubert@ddn.com>, 
+	"T . J . Mercier" <tjmercier@google.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Akilesh Kailash <akailash@google.com>, Suren Baghdasaryan <surenb@google.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 16, 2026 at 4:01=E2=80=AFPM Chen, Yu C <yu.c.chen@intel.com> wr=
-ote:
->
-> On 10/16/2026 3:38 PM, Yafang Shao wrote:
-> > On Fri, Oct 16, 2026 at 1:51=E2=80=AFPM Chen Yu <yu.c.chen@intel.com> w=
-rote:
-> >> A more complex scenario is when cgroup A and cgroup B become threaded =
-domains:
-> >>
-> >>                           root
-> >>                          /    \
-> >>                         X      Y
-> >>                         |      |
-> >>                         A      B          A, B: threaded domains (thre=
-ad roots)
-> >>                        / \    / \         separate memory.max / io.max
-> >>                      A1   A2 B1  B2       threaded cgroups
-> >>                      ^        ^
-> >>                      |        |
-> >>                      +--------+
-> >>                    want to share one cache group
-> >>
-> >> In the above case, we might need to change the deployed cgroup hierarc=
-hy.
-> >
-> > I think we can enable LLC-aware scheduling for both A1 and A2 =E2=80=94=
- does
-> > that sound right?
-> >
->
-> Here A1 wants to share data with B1, but A2 does not want to share data
-> with B2 nor B1 nor A1. Enabling cache-aware for A1 and A2 might not help
-> in this case.
+On Wed, 14 Oct 2026 at 21:20, Shai Barack <shayba@google.com> wrote:
 
-I'm not sure whether this is a real use case or merely a theoretical
-one. I'd suggest we not focus too much on purely theoretical scenarios
-unless someone can demonstrate a practical need.
+> Architecturally, Linux VFS supports filesystem-specific fadvise
+> delegation via the .fadvise hook in struct file_operations. Implement
+> fuse_file_fadvise() in fs/fuse/file.c and register it in
+> fuse_file_operations. When passthrough is active on a fuse_file,
+> fuse_file_fadvise() forwards the vfs_fadvise() call to the lower
+> backing_file under the opened credentials, allowing POSIX_FADV_DONTNEED
+> to cleanly invalidate the physical backing filesystem pagecache.
 
->
-> >>
-> >> Suppose threads in A1 and threads in A2 belong to the same process Pa,
-> >> this reminds me of the cgroup bpf NUMA balancing case: after enabling
-> >> NUMA balancing for A1 but not setting it for A2, what would be the fin=
-al
-> >> NUMA balancing decision for process Pa, is it enabled or disabled?
-> >> The NUMA balancing scan/invalid seems to be per process, so if we chan=
-ge
-> >> the setting of its threads, the whole process will be impacted. Or may=
-be
-> >> we should not enable NUMA balancing for threaded cgroups? Anyway I hav=
-en't
-> >> digged into your cgroup bpf patch set yet, let me try to look at it.
-> >
-> > cgroup NUMAB works the same way: the setting is per cgroup and opt-in.
-> > For Pa in your example, since its threads spread across A1 and A2, you
-> > would enable it on both =E2=80=94 enabling it on only one of them is no=
-t
-> > meaningful.
-> >
->
-> I see. I haven't yet digged into your code, is there a per cgroup flag
-> cgroup.numab.enabled?
+Applied, thanks.
 
-Right. I will introduce a cgroup::numab_mode field, but without a
-cgroupfs interface file; it will be written through a BPF program.
-
-> Would there be a logic in the kernel, when
-> A1.numab.enabled
-> is written to true, the kernel detects all the other cgroups {X} that
-> contains threads
-> share the same mm_struct as A1's threads/tasks, and then update {X}'s
-> numab.enabled
-> to the same value as A1, to keep consistency?
-
-We have no plan to support threaded cgroups for now. If a real need
-arises, the BPF program can be extended to handle it, which would just
-require more kfuncs.
-
-> In summary, if threads are
-> spread
-> cross different cgroups, when you set the enable flag for 1 cgroup, will =
-the
-> kernel iterates all the other cgroups to update their flags as well? Or
-> leverage userspace to do that?
-
-I believe this should be implemented in userspace, not automatically
-in the kernel. Use cases are always complex, and flexibility is
-important here.
-
---=20
-Regards
-Yafang
+Miklos
