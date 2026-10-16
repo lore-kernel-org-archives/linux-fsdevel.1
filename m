@@ -1,62 +1,64 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1360938C423
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 11:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D2647F2C3
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 11:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792151556; cv=none; b=Gr04xLUGMYgEG4B3cVVzhwma3wKHi3JHXDnHs0Ks9xqUcrUewL2PJj4mHYwYvxYk0dvNH9b/4XdtbsaD6MqPMYkgmMx2yYLYPXpo8GfgoM++YqTtsbo03S3eyTI46+zwicvCTtfDQizPdyJ2ntoVJiHoDstcakXaeAkjyq1Qz4g=
+	t=1792151560; cv=none; b=X5S6URkLK4XtvELtiULwWbdGmfzizEavM07OZgDnRgSwzYOEpQARtxZjQSH3Fea7wGxvjLaz6gQXPp8BimZfz1CVZPaQzlwAymr8GUiNWnykqWq4bT1U7t5RExxPr5moriRjNYSIe9LtQ9hi8YJ0owOwdP4Eawba+yq3ocpywKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792151556; c=relaxed/simple;
-	bh=d9G64pB4fQsDosXmi5gxtmcIMh0MZcXAcfkKy1mG1LM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eDMZq3DzWulQiSjgka84ecjo+OMKcVYDGSw4erYNL8iFEbV5F0ZzIveAnoDGYo953V2eZSE9NjqhpyYV+Maq+zwnM5/Xaf3XAN8KB66Wnjne++lK8crtMACuuwVXMhpI82fZCrO9iav/tROXwMmxpvbonDIeUWGBYRwD9YaM+uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=K+SYItSI; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1792151560; c=relaxed/simple;
+	bh=dX6udeTBqDwq/nz6u9DJdafKIxXQMQJvrwQywiuiIj4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=rwIhVvHEBHfrOwatVrfN9HnHF5v+RYpMerIbofoAYU0Iuik/HmnD05FEOA37B1wT786gRE/fbe5LKJUj+ZlWiKDTyxQQpvTECQEs5J9KzuGg/GCB82vRZZJ3DP1/VNjlYejBAiY/dde7Iy6MQ/J/pqblMtjz4tV5nqpHV+cUGbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=N6Da0B67; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="K+SYItSI"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ab868eb9cfso1236786a91.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 04:52:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="N6Da0B67"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2e5378b281aso36362365ad.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 04:52:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1792151554; x=1792756354; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FXYDFkn2ySA9cGPfoqTWvjPqTd4qZvAgRBnTI9wDoKs=;
-        b=K+SYItSInblXGjLC7dkBh/TzRqVRsKmcSzDGPo0t0c6Io/S11HdoNmzXxYEikGZAuZ
-         3jsqyMtTXauUnMmKo59yjBHb7f6MyBO4RO1cOcIUNHql9pWff/WL5bWqozJfA7E5Cjzo
-         O5DpFBUq+3BK2keg2xP5y8UpTa7D2ey8DNj/ka6eLX8DvrhZ46Axy8qL5YaaDZDpROHo
-         jPrA0ece1CFr9cFbAQDfWqqStRzjzWfJHJ1ILFWOMIOgEvyD86btkveqR1sraW1amsaY
-         Du/QtTZHAEu1Tql6PhZfMRkT7d4YD1NuIsaYkZ0xR1cYH6JSHuZ7erZ4A4P0B3WhDD5Q
-         dN/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792151554; x=1792756354;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=bytedance.com; s=google; t=1792151558; x=1792756358; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=FXYDFkn2ySA9cGPfoqTWvjPqTd4qZvAgRBnTI9wDoKs=;
-        b=DUtCix1r/UXScp/jSuhdlda1s44PsO0hFGWv4M6mbbMwNX3DLdjHlbvCNrywKBnha4
-         SFcaaR9/+/ZSUaB+lAcT3Y4uoeOXdRbrxiwOBMFHk28FMgseO2ubnZawfHBYvJQgzRoU
-         knzx2afXeCHkeiq0W9tHoq5tgdY6nw7QsPthXs+DhtCadAtxO7cAeyWE4m9u3FwRBDdp
-         l7h8jpvs90X7DmMt48Dxa0YRdhZBiRT0N5o/W0i7LIU5YomHet4N4NvYG4PzFEzfHqYt
-         V69Lt+1kRHlzs62gCHOiCGi14OV1VnPA/vWNZjVPj5/OEGRBZ4gsBbZLfd0fob/WddPe
-         BC/A==
-X-Gm-Message-State: AFq9FYLywW6JjKQsCSeWjLqVqC7ZzlC+rJrcYl4bCEs2d9RwG4JKOTMD
-	RB+XEFNXb/HL9qmBgJVevJOLCM/b+p8Nl0ZKcGqYb2a+4bLCNlc8HlXzDWmBfD3v4KDmswdzgj6
-	vDeTQ
-X-Gm-Gg: AYBFou0fZJJePsIs+SQWVSohKoNpT3C7zve6a6/rdKe3r+NU2Ym6Oqqtx1PyZ9DpVnR
-	xr+LRXnqapENhLz6YyoBQ/ov5syhP73+o8kpYSTa0UpSB/zGmADTqvC7wQl6yBcTPYKgvEeWuo9
-	hUZziER4dMvthu30BQQv7Df9+lHZESE+osb0/EHbvOiPDvblMNwnMX653815XOPI5fNbSAUgv5q
-	6Ofq1yT+fOINa8rBm6vY+NErZFnbt/fBDWu1KDIDDrau3zAmu3r/XGIpuxCczIcovGV7v0/I05w
-	LwSoUD7gQKWOT4j7d2LP5UA6+WoxAU6Uwa4XxuvXFneJQ2pFdiUijngvGanrPgw7IXbJAgrNatn
-	Tf3TUqoXpkgwaD6MOtUe2tBAJmukb+4C8G2MQAhpcZCsgvPcBUtXBIQUmw9HiOXr2NWPes/eXq/
-	EkXf2g9+yq3THrJbnpF2NL/Yt5TYOcfCK0ndUTi9Mh5EYt3GVv44LR+3W6wHT4BvRGsV9N2KOuP
-	Ik=
-X-Received: by 2002:a17:90b:3890:b0:3ac:a521:95e with SMTP id 98e67ed59e1d1-3aca52109b9mr4731061a91.47.1792151554011;
-        Fri, 16 Oct 2026 04:52:34 -0700 (PDT)
-Received: from localhost ([106.38.226.107])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc492fa54sm3903354a91.13.2026.10.16.04.52.32
+        bh=+5ntDWW7lL83gJluFN9/WXw9lVajZqu4nwy3QpGcvj8=;
+        b=N6Da0B67v9uWwdGtou+ql0yFCvq8KSApEN5siUCu2E3jecbMbBsr890vZuAqK+yu+k
+         m2ZGcckWLUhrCgamkmpM2uc9SkbiZAqL3B6Op8BoGGHWj/ZQeMDmfnK8LzkxR7lSgM4h
+         tfNVvt8bZtqRXzx9wv0tYz2hj2srIO475NgPP4586Zn2pZ7ZmcxAcj8wXQAxjB6zIyD4
+         rcUOotfn597rjTpfWfhvF/7wqIPWfiTbxSrkUt8GNYQ3stDHWxY5eePQ04iz1SfFlkaO
+         T95DBQeG2VAFTHeixOxMr/FyLq4llrMmHsme+0ti5FUxjxE6gyu2tmYqsql2eaOQTnEB
+         R31w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792151558; x=1792756358;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+5ntDWW7lL83gJluFN9/WXw9lVajZqu4nwy3QpGcvj8=;
+        b=mRggrj1yNKLw+FeKVcoNrGoRkqQ+gbB3yU1LNwJRxUnRCEHZJMDj45+Cw4g9jWoR+l
+         j5/Cqij0r1EciI//J1PlQHDg1MCWvF44gFPXh7GNvpgeYpHQi+RZQ3B+09db424LTS51
+         LxZqMwSG77Ta/KDRNy1B8OMjzu3Iopd501XrjVE9FEL5gD19xeow3MuAbzL94lsJqRx5
+         X7EO/AHOxkVaySVNlW91TF1bbS3429GgtdSGew7Cnq0PYpIG2Gc3AKp8DKIjjZdi+BdR
+         +jyuE4drhdE5OllrZ4pziQrMFAsJW/pZmDPt7sQtr4YPosEEOIonVa8VO+3cfVB87BIy
+         eIkQ==
+X-Gm-Message-State: AFq9FYKf18D8h+4hAidVyOGHP5UC+YfBHY7dI6hbUx+fHismmSdobd7A
+	Bdd/pYz7C+jDahOQeoLxu2atz1+UUkKezB91Zkx3W0irxqq1BlKPVusptYFgohUE52xOzx4mvpC
+	LypFbvCU=
+X-Gm-Gg: AYBFou3v1It3uoyP6G8FTRDkE0SF/sYZOiyavcUZlgt7NT4OoXN1+uDWK9dp/kkfTtv
+	XK8XetyRyejeyTYgCgFdOEvrcy2Fq8TFSP6c5UDLG066hpqhRgpLKJB+SDnM0tS7X7LL/eAKpi6
+	pdegVXJlyBeer5GO5+iS26XHKxgjYodcn+3X9eQFhJ7L+4cs2qS05nAdhFJVpYEH7XYOUyzcPt4
+	2YlwM8fc+ECDtp2wTvG2r1Biz7nFoat06JIZ92U4sPCA8BVrOMPRBeY1HhdkaWRNJues+k083TR
+	Rtv+rJgp7QY/srOW53Ai+GoH+/L2wOnLLxAyml7VMxSSynQzj27VK7tU6cMSAtykM9i4rQ/odyF
+	iHGsaLt333Ppuhu5wED0PDQfuZ5iO1hqGSmRUv1EPxfQ/x/x6Hfx/HMpFEEesAB9Umv6LGkua/7
+	uGmtA5Pr3BXxjMY3+GFvrdCnD13Elehe6L14aVpCCtho4rgN5uDIb8yxYLAUFd28XXbXETUvcdc
+	to+
+X-Received: by 2002:a17:903:22c6:b0:2e9:9b5b:e179 with SMTP id d9443c01a7336-2e99b5beef2mr6674105ad.50.1792151557694;
+        Fri, 16 Oct 2026 04:52:37 -0700 (PDT)
+Received: from localhost ([106.38.226.165])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e804eb4sm8793055ad.20.2026.10.16.04.52.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 04:52:33 -0700 (PDT)
+        Fri, 16 Oct 2026 04:52:37 -0700 (PDT)
 From: Julian Sun <sunjunchao@bytedance.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: viro@zeniv.linux.org.uk,
@@ -66,10 +68,12 @@ Cc: viro@zeniv.linux.org.uk,
 	akpm@linux-foundation.org,
 	roman.gushchin@linux.dev,
 	dennis@kernel.org
-Subject: [PATCH 0/2] writeback: fix timestamp and dirty-state handling in wb switches
-Date: Fri, 16 Oct 2026 19:52:28 +0800
-Message-Id: <20261016115230.3640770-1-sunjunchao@bytedance.com>
+Subject: [PATCH 1/2] writeback: reset dirtied_when when switching wbs
+Date: Fri, 16 Oct 2026 19:52:29 +0800
+Message-Id: <20261016115230.3640770-2-sunjunchao@bytedance.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20261016115230.3640770-1-sunjunchao@bytedance.com>
+References: <20261016115230.3640770-1-sunjunchao@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,26 +82,64 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+When switching a dirty inode to another wb, inode_do_switch_wbs() puts
+it at the newest end of the target b_dirty list instead of searching
+for its sorted position. This requires updating dirtied_when, which
+move_expired_inodes() uses to decide where to stop scanning.
 
-This series fixes two issues when moving inodes between writeback
-structures:
+However, the switch updates dirtied_time_when instead. This leaves
+b_dirty out of order and can make the scan stop before reaching older
+inodes. It also resets the lazytime expiration timestamp, potentially
+delaying timestamp writeback.
 
-1. Update dirtied_when rather than dirtied_time_when when inserting an
-   inode at the newest end of the target dirty list. This maintains the
-   list ordering without resetting the lazytime expiration timestamp.
-2. Clear the source wb's dirty-I/O state and bandwidth contribution when
-   inode migration leaves its dirty-I/O lists empty.
+Update dirtied_when instead, preserving both the constant-time insertion
+and the lazytime expiration timestamp. Correct the field name in the
+comment and document the distinction between the two inode timestamps.
 
-Julian Sun (2):
-  writeback: reset dirtied_when when switching wbs
-  writeback: clear old wb dirty state after inode switches
-
- fs/fs-writeback.c  | 7 ++++---
+Fixes: 9a6ebbdbd412 ("writeback: Avoid excessively long inode switching times")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Julian Sun <sunjunchao@bytedance.com>
+---
+ fs/fs-writeback.c  | 6 +++---
  include/linux/fs.h | 4 +++-
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-
-base-commit: 6af5ad50442eacebf18174e487efbd8c192e73e7
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index e744f9f9d43f..6984f6c10a86 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -468,12 +468,12 @@ static bool inode_do_switch_wbs(struct inode *inode,
+ 		if (inode_state_read(inode) & I_DIRTY_ALL) {
+ 			/*
+ 			 * We need to keep b_dirty list sorted by
+-			 * dirtied_time_when. However properly sorting the
++			 * dirtied_when. However properly sorting the
+ 			 * inode in the list gets too expensive when switching
+ 			 * many inodes. So just attach inode at the end of the
+-			 * dirty list and clobber the dirtied_time_when.
++			 * dirty list and clobber the dirtied_when.
+ 			 */
+-			inode->dirtied_time_when = jiffies;
++			inode->dirtied_when = jiffies;
+ 			inode_io_list_move_locked(inode, new_wb,
+ 						  &new_wb->b_dirty);
+ 		} else {
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index f9d1e05e8ae6..c5dd44314170 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -815,7 +815,9 @@ struct inode {
+ 	/* 32-bit hole */
+ 	struct rw_semaphore	i_rwsem;
+ 
+-	unsigned long		dirtied_when;	/* jiffies of first dirtying */
++	/* Timestamp for writeback list ordering and age checks (jiffies). */
++	unsigned long		dirtied_when;
++	/* Start time for deciding when lazytime updates need writeback (jiffies). */
+ 	unsigned long		dirtied_time_when;
+ 
+ 	struct hlist_node	i_hash;
 -- 
 2.39.5
+
