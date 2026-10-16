@@ -1,108 +1,386 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-113.ptr.blmpb.com (va-2-113.ptr.blmpb.com [209.127.231.113])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3ABC281530;
-	Fri, 16 Oct 2026 09:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0288C4734F2
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 09:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792142941; cv=none; b=FOYM4ckAyEKXc2rd8Wo5Tl83gXQJzCA+0KsVJ6FndERqeTPQ6Nx/kXXdjIrnhXsB1hg++WvhFHYOkERtmdMD1LaxfIuode66TE/SLgEywJ3qTqhD6RqMQogW00pRsxvQzs6KxEGZD1dQ4VG/Sx+HyPcKajmqQ/H2h8ruelEz2BU=
+	t=1792143304; cv=none; b=mLFmdkkk0TeHnMnsZR54IA079PFUGCwIMSGw3XJlwaF2+gKfK/bXG2RH5Ytolq52pmVlXEHjnfhB+5SaNYnoltc8ucabCKZvlyR4XbwwJx12K3p78zSpVebGNDh2lyBwo6OcMGh1Uw5A28LmqlM1chyUfccvdqNqOY3dGHNHSmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792142941; c=relaxed/simple;
-	bh=BZL5k94hKqd74dnzVNiMRObHpvkcU63gNu4z3/640zQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CDN37cUjN1ZTZGXrHodSvl6LiA6K/zZfjkI/Z6vLdT4S/VqFkmkOefRGXXMHq4BJecdKxM8wb6Pbaib0hpZL1xy1+dE0Dl+viH5Cx37LoZujhmCVSMKMqKMGU7StptKQkTB71eAgz1Pa1XDZ+aEBVPTplIBEKreqqNm2TB5drrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9FC8668BFE; Fri, 16 Oct 2026 11:28:55 +0200 (CEST)
-Date: Fri, 16 Oct 2026 11:28:55 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Anuj Gupta <anuj1072538@gmail.com>
-Cc: asml.silence@gmail.com, hch@lst.de, djwong@kernel.org, cem@kernel.org,
-	brauner@kernel.org, axboe@kernel.dk, linux-block@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	joshi.k@samsung.com, anuj20.g@samsung.com, nj.shetty@samsung.com
-Subject: Re: [RFC 4/4] xfs: support dma-buf registered buffers for direct
- I/O
-Message-ID: <20261016092855.GD23141@lst.de>
-References: <20261016091919.971295-1-anuj1072538@gmail.com> <20261016091919.971295-5-anuj1072538@gmail.com>
+	s=arc-20240116; t=1792143304; c=relaxed/simple;
+	bh=jATVXdSR7drPsGyun7txqDokUgxfAAuCezJBJU935HU=;
+	h=From:Mime-Version:To:Subject:Date:Cc:Content-Type:Message-Id; b=dhCZCuSFhPHzPOos2hHzeJVG/nsgTL6obFOEvp1NehXs6NAr9X/wJbvUx8Tp/+1M3fNqVvS6kC3kb/kIvCpMc967UMkkW5JZGyJHQMPU+w38w2KKoF4Zwy5lb35uuwDCKOAQ7u5cZViKSqePKEPouVPA9NeCZ3NKN0dAvH3hmAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=UWXMU0Tw; arc=none smtp.client-ip=209.127.231.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="UWXMU0Tw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1792143284; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=IzCgEU4IS2MI5o9AIJIF2awMWvZJL8KbhYSWjGTWDgo=;
+ b=UWXMU0Tw1QfSBZQEU7bRSSFA3SJZDWqbjEDx9v/07VvBdQoIN8XcN61LbODHvVc2RSlP1s
+ lYl5NCAVBSKX3d5qn4doHR1zErNvWy1ee9ejU7jFl4/SqYgvXaabrCHgoEYwbk7yCl6Bsf
+ JWeIcn1QItsJII5jZD1lark08W1WYBcMMbFpaJR+ns0kLKNR3fU1caxtlEYkh0pqScPeg8
+ DX8t4kCaVj9NdTwSTt10Ue7vv/X4TK9qm6c46BeS/iOeD0vnHjGGGsafMr+1JNXQ8+OgbX
+ 5dmkPqkxGT8Q/yOCe+39GwIzg1oeNFKnZJvxm1l7bK+jsDCC/cxDc12IcvWb/Q==
+From: "Zhao Gongyi" <zhaogongyi@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261016091919.971295-5-anuj1072538@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
+Subject: [PATCH] vfs: keep the mount pinned while waiting for a parent delegation break
+Date: Fri, 16 Oct 2026 17:34:21 +0800
+X-Lms-Return-Path: <lba+26ad1efb3+343adc+vger.kernel.org+zhaogongyi@bytedance.com>
+Cc: <jack@suse.cz>, <jlayton@kernel.org>, <cel@kernel.org>, 
+	<neil@brown.name>, <linux-fsdevel@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>, 
+	"Zhao Gongyi" <zhaogongyi@bytedance.com>
+X-Original-From: Zhao Gongyi <zhaogongyi@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Message-Id: <20261016093421.90725-1-zhaogongyi@bytedance.com>
 
-On Fri, Oct 16, 2026 at 02:49:14PM +0530, Anuj Gupta wrote:
-> From: Nitesh Shetty <nj.shetty@samsung.com>
-> 
-> Add the init_dma_buf_io_ctx fop for XFS files.
-> XFS picks the device and calls the iomap layer with
-> the relevant device.
-> 
-> Refuse the iterator from every CPU-copy path: DAX, buffered
-> fallback from a -ENOTBLK direct write, and read/writes
-> without O_DIRECT.
-> 
-> If a file is switched between the data and realtime devices
-> after registration, the block layer cross-device check refuses
-> the I/O.
-> 
-> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> ---
->  fs/xfs/xfs_file.c | 30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
-> 
-> diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-> index 426a67b813a7..f97d5acfaf68 100644
-> --- a/fs/xfs/xfs_file.c
-> +++ b/fs/xfs/xfs_file.c
-> @@ -340,6 +340,11 @@ xfs_file_read_iter(
->  	if (xfs_is_shutdown(mp))
->  		return -EIO;
->  
-> +	/* a device mapping can only be read by a direct I/O bio */
-> +	if (iov_iter_is_dmabuf_map(to) &&
-> +	    (IS_DAX(inode) || !(iocb->ki_flags & IOCB_DIRECT)))
-> +		return -EOPNOTSUPP;
+filename_mknodat(), filename_mkdirat(), filename_symlinkat() and
+filename_rmdir() can call break_deleg_wait() on a delegated parent
+directory after dropping the struct path that pins the mount.
+try_break_deleg() only takes an inode reference, and an inode reference
+does not keep the superblock active.
 
-Maybe move this into the actual methods for dax/buffered instead
-to avoid extra conditionals?  Same for the write side.
+After a lazy unmount, closing the delegation holder can both wake the
+waiter and drop the detached mount's last reference:
 
->  
-> @@ -1209,6 +1219,9 @@ xfs_file_write_iter(
->  		ret = xfs_file_dio_write(iocb, from);
->  		if (ret != -ENOTBLK)
->  			return ret;
-> +		/* the page cache cannot copy from a device mapping */
-> +		if (iov_iter_is_dmabuf_map(from))
-> +			return -EOPNOTSUPP;
+  Thread A (symlinkat)              Thread B (close delegation fd)
+  try_break_deleg(dir): ihold(dir)
+  end_creating_path(): path_put()
+  break_deleg_wait(): wait
+                                   __fput(): break delegation, wake A
+                                   drop final mount reference
+                                   cleanup_mnt(): shut down superblock
+                                   shmem_put_super(): free shmem_sb_info
+  iput(dir): shmem_evict_inode()
+    use freed shmem_sb_info
 
-I suspect these random fallbacks are going to cause trouble, but
-I'm not really sure what to do about it either.
+generic_shutdown_super() may warn "VFS: Busy inodes after unmount" if
+the waiter still holds the inode at the busy-inode check. On tmpfs,
+this race was reported as a KASAN use-after-free in shmem_evict_inode(),
+called from iput() in break_deleg_wait(), after shmem_put_super() had
+freed the filesystem-private state.
 
-> +/*
-> + * A realtime file's data lives on the realtime device, anything else on the
-> + * data device. If a file is switched between them after registration, the
-> + * block layer cross-device check refuses the I/O.
-> + */
-> +static int
-> +xfs_file_init_dma_buf_io_ctx(
-> +	struct file		*file,
-> +	struct dma_buf_io_ctx	*ctx)
-> +{
-> +	struct xfs_inode	*ip = XFS_I(file_inode(file));
-> +
-> +	return iomap_file_init_dma_buf_io_ctx(file,
-> +			xfs_inode_buftarg(ip)->bt_bdev, ctx);
-> +}
+Hold a mount reference across break_deleg_wait() in the creation paths,
+where end_creating_path() must still drop the dentry and inode locks
+before waiting. For filename_rmdir(), move path_put() after the wait so
+the existing path reference pins the mount. This matches the other
+break_deleg_wait() callers (unlink, link, rename, setattr, xattr, ACL
+and O_CREAT open), which already wait with a path or file reference held.
 
-Ah, this is where the previous cross check comes from.  What about
-simply disallowing toggling the RT flag with outstanding reservations
-instead?
+With this change, a non-detached unmount racing with one of these waiters
+can observe the mount as busy until the delegation break completes or
+times out.
 
+Fixes: e12d203b8c88 ("vfs: allow mkdir to wait for delegation break on parent")
+Fixes: 4fa76319cd0c ("vfs: allow rmdir to wait for delegation break on parent")
+Fixes: c826229c6a82 ("vfs: make vfs_create break delegations on parent directory")
+Fixes: e8960c1b2ee9 ("vfs: make vfs_mknod break delegations on parent directory")
+Fixes: 92bf53577f01 ("vfs: make vfs_symlink break delegations on parent dir")
+Cc: stable@vger.kernel.org
+Signed-off-by: Zhao Gongyi <zhaogongyi@bytedance.com>
+---
+Validation used arm64 KVM and syzkaller (procs=6, repeat=0). Both
+kernels were based on af32da41b032 and used the same .config, compiler
+and guest image. Both included the same local arm64 MPAM compatibility
+change; their functional source difference was the fix in this patch.
+The submission base is v7.3-rc7; the affected code is unchanged there.
+
+The unpatched Image SHA-256 starts with 10e1bbf908bc; this is an image
+hash, not a different source revision. The rebuilt patched Image
+SHA-256 is:
+  d39ac23fcc4c21bd1c7e9d9f2b79fa50f288e798abbd9363d80ca311cbd3b5ab
+It contains the current mnt declaration placement. All patched results
+below refer to this rebuilt namei-only fix, not the separate s_active
+implementation or the earlier 2acfbb234ceb Image.
+
+  mkdirat, original dd7c3373 reproducer:
+    The original unpatched run crashed (1/1). The rebuilt patched
+    kernel completed 2/2 runs of 300 seconds each, reporting 2028 and
+    2070 executed programs, without warnings.
+
+  symlinkat, original a203e0af reproducer:
+    The original unpatched run crashed in shmem_evict_inode() (1/1).
+    The rebuilt patched kernel completed 2/2 runs of 300 seconds each,
+    reporting 2028 and 2070 executed programs, without warnings.
+
+  mknodat, targeted S_IFREG and S_IFIFO reproducers:
+    The original unpatched kernel crashed in 2/2 runs for each variant.
+    The rebuilt patched kernel completed 2/2 runs of 600 seconds for
+    each variant: S_IFREG reported 4163 and 4126 executed programs;
+    S_IFIFO reported 4129 and 4164. No kernel warnings were observed.
+
+  rmdir, targeted unlinkat(AT_REMOVEDIR) reproducer:
+    The original unpatched kernel crashed in 2/2 runs. The rebuilt
+    patched kernel completed 2/2 runs of 600 seconds each, reporting
+    4174 and 4163 executed programs, without warnings.
+
+The unpatched results are from the earlier baseline runs, not new
+runs performed alongside the rebuilt Image. Each new patched run
+completed its requested duration, left the guest responsive, and had
+no Busy inodes, KASAN, WARNING, BUG or panic messages in its console.
+
+For the patched mknodat and rmdir runs, sampling selected threads with
+a break_lease wait channel and read /proc/<tid>/stack to identify
+filename_mknodat() or filename_rmdir(). Together with the blocking
+wait channel, this confirms delegation-wait coverage, not that unmount
+occurred during each sampled wait. Merely entering __break_lease()
+would not prove waiting: try_break_deleg() also calls it nonblocking.
+
+A standalone C reproducer for the symlinkat sequence is below.
+Run it as root, or with CAP_SYS_ADMIN for the mount operations and
+ownership of the delegated directory. The program does not create a
+user namespace; unprivileged user-namespace execution was not tested.
+
+  gcc -O2 -pthread deleg_umount_repro.c -o deleg_umount_repro
+  ./deleg_umount_repro
+
+Its exit status only reports whether the user-space sequence completed;
+check dmesg and runtime sampling separately for kernel warnings and
+delegation-break coverage.
+
+    // Standalone reproducer for the symlinkat delegation-break sequence:
+    // On an unpatched kernel, the operation drops its mount reference
+    // before waiting. The last mount reference then goes away and tmpfs
+    // is torn down.
+    #define _GNU_SOURCE
+    #include <errno.h>
+    #include <fcntl.h>
+    #include <pthread.h>
+    #include <sched.h>
+    #include <signal.h>
+    #include <stdint.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
+    #include <sys/mount.h>
+    #include <sys/stat.h>
+    #include <unistd.h>
+
+    #ifndef F_SETDELEG
+    #define F_SETDELEG (1024 + 16)
+    #endif
+
+    struct delegation {
+            uint32_t d_flags;
+            uint16_t d_type;
+            uint16_t __pad;
+    };
+
+    static int dfd = -1;
+    static volatile int waiter_ret = 1, waiter_errno;
+    static volatile int waiter_called, waiter_setup_errno;
+
+    static int pin_cpu0(void)
+    {
+            cpu_set_t set;
+
+            CPU_ZERO(&set);
+            CPU_SET(0, &set);
+            if (sched_setaffinity(0, sizeof(set), &set)) {
+                    int ret = errno;
+
+                    perror("sched_setaffinity");
+                    return ret;
+            }
+            return 0;
+    }
+
+    static void *waiter(void *arg)
+    {
+            struct sched_param sp = { 0 };
+            int ret;
+
+            ret = pin_cpu0();
+            if (ret) {
+                    waiter_setup_errno = ret;
+                    return NULL;
+            }
+            /* Keep the woken waiter from running before umount completes. */
+            ret = pthread_setschedparam(pthread_self(), SCHED_IDLE, &sp);
+            if (ret) {
+                    waiter_setup_errno = ret;
+                    errno = ret;
+                    perror("pthread_setschedparam");
+                    return NULL;
+            }
+            waiter_called = 1;
+            waiter_ret = symlinkat("target", dfd, "lnk");
+            waiter_errno = errno;
+            return NULL;
+    }
+
+    int main(int argc, char **argv)
+    {
+            const char *dir = "/tmp/deleg-umount";
+            struct delegation d = { .d_type = F_RDLCK };
+            pthread_t t;
+            int ret;
+            int fd;
+
+            if (unshare(CLONE_NEWNS) ||
+                mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL)) {
+                    perror("unshare/mount private");
+                    return 2;
+            }
+            mkdir(dir, 0700);
+            if (mount("none", dir, "tmpfs", 0, NULL)) {
+                    perror("mount tmpfs");
+                    return 2;
+            }
+            dfd = open(dir, O_PATH | O_DIRECTORY);
+            fd = open(dir, O_RDONLY | O_DIRECTORY);
+            if (dfd < 0 || fd < 0) {
+                    perror("open");
+                    return 2;
+            }
+            if (fcntl(fd, F_SETDELEG, &d)) {
+                    perror("F_SETDELEG");
+                    return 2;
+            }
+            if (umount2(dir, MNT_DETACH)) {
+                    perror("umount2");
+                    return 2;
+            }
+
+            ret = pin_cpu0();
+            if (ret)
+                    return 2;
+            if (signal(SIGIO, SIG_IGN) == SIG_ERR) {
+                    perror("signal");
+                    return 2;
+            }
+            ret = pthread_create(&t, NULL, waiter, NULL);
+            if (ret) {
+                    errno = ret;
+                    perror("pthread_create");
+                    return 2;
+            }
+            sleep(1);
+
+            close(dfd);
+            close(fd);
+
+            sleep(2);
+            ret = pthread_join(t, NULL);
+            if (ret) {
+                    errno = ret;
+                    perror("pthread_join");
+                    return 2;
+            }
+            if (waiter_setup_errno) {
+                    fprintf(stderr, "waiter setup failed: %s\n",
+                            strerror(waiter_setup_errno));
+                    return 2;
+            }
+            if (!waiter_called) {
+                    fprintf(stderr, "waiter did not call symlinkat\n");
+                    return 2;
+            }
+            printf("symlinkat returned %d errno=%d (%s)\n",
+                   waiter_ret, waiter_errno, strerror(waiter_errno));
+            return 0;
+    }
+
+ fs/namei.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
+
+diff --git a/fs/namei.c b/fs/namei.c
+index c87c14ee1..de334d045 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -5328,6 +5328,7 @@ int filename_mknodat(int dfd, struct filename *name, umode_t mode,
+ 	struct path path;
+ 	int error;
+ 	unsigned int lookup_flags = 0;
++	struct vfsmount *mnt;
+ 
+ 	error = may_mknod(mode);
+ 	if (error)
+@@ -5359,9 +5360,11 @@ int filename_mknodat(int dfd, struct filename *name, umode_t mode,
+ 			break;
+ 	}
+ out2:
++	mnt = is_delegated(&di) ? mntget(path.mnt) : NULL;
+ 	end_creating_path(&path, dentry);
+-	if (is_delegated(&di)) {
++	if (mnt) {
+ 		error = break_deleg_wait(&di);
++		mntput(mnt);
+ 		if (!error)
+ 			goto retry;
+ 	}
+@@ -5455,6 +5458,7 @@ EXPORT_SYMBOL(vfs_mkdir);
+ 
+ int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
+ {
++	struct vfsmount *mnt;
+ 	struct dentry *dentry;
+ 	struct path path;
+ 	int error;
+@@ -5474,9 +5478,11 @@ int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
+ 		if (IS_ERR(dentry))
+ 			error = PTR_ERR(dentry);
+ 	}
++	mnt = is_delegated(&delegated_inode) ? mntget(path.mnt) : NULL;
+ 	end_creating_path(&path, dentry);
+-	if (is_delegated(&delegated_inode)) {
++	if (mnt) {
+ 		error = break_deleg_wait(&delegated_inode);
++		mntput(mnt);
+ 		if (!error)
+ 			goto retry;
+ 	}
+@@ -5605,12 +5611,14 @@ int filename_rmdir(int dfd, struct filename *name)
+ exit3:
+ 	mnt_drop_write(path.mnt);
+ exit2:
+-	path_put(&path);
+ 	if (is_delegated(&delegated_inode)) {
+ 		error = break_deleg_wait(&delegated_inode);
+-		if (!error)
++		if (!error) {
++			path_put(&path);
+ 			goto retry;
++		}
+ 	}
++	path_put(&path);
+ 	if (retry_estale(error, lookup_flags)) {
+ 		lookup_flags |= LOOKUP_REVAL;
+ 		goto retry;
+@@ -5830,6 +5838,7 @@ EXPORT_SYMBOL(vfs_symlink);
+ int filename_symlinkat(struct filename *from, int newdfd, struct filename *to)
+ {
+ 	int error;
++	struct vfsmount *mnt;
+ 	struct dentry *dentry;
+ 	struct path path;
+ 	unsigned int lookup_flags = 0;
+@@ -5847,9 +5856,11 @@ int filename_symlinkat(struct filename *from, int newdfd, struct filename *to)
+ 	if (!error)
+ 		error = vfs_symlink(mnt_idmap(path.mnt), path.dentry->d_inode,
+ 				    dentry, from->name, &delegated_inode);
++	mnt = is_delegated(&delegated_inode) ? mntget(path.mnt) : NULL;
+ 	end_creating_path(&path, dentry);
+-	if (is_delegated(&delegated_inode)) {
++	if (mnt) {
+ 		error = break_deleg_wait(&delegated_inode);
++		mntput(mnt);
+ 		if (!error)
+ 			goto retry;
+ 	}
+
+base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+-- 
+2.39.5 (Apple Git-154)
