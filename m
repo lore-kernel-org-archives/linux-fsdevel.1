@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126893B27E8;
-	Fri, 16 Oct 2026 10:21:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49804377558;
+	Fri, 16 Oct 2026 10:22:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792146109; cv=none; b=hx2bqLJc9nkei5Wpy9A96W1BWHbK3kTR4sO8xG/TvcJWqGVf0G75p3I12R/wHQpACne3pbNKnq73HRYAv0aJtO0PtnRfZ5vWkW8E3iZx70LCno5Wt+XaBdAL5tKrnbmzFEbhenmyXZQwwk2HstnKjMpI2an5pS5lHtK3lDWpTc0=
+	t=1792146152; cv=none; b=BR/HHURrenW0qeyRchSZlFu8ho+v47Pfc3NDNfbXTVtPSnwr9aEQv/sCsO9hNLh2FhzYkHwBt7LLkrVUyKvpNLBowQcLpbSmBmXCc07aoYEm9Jyii7YjfHZ/kJbFywswgJ+6j6x/wP8a7QkbAwjXvNzbFpR0kxL8DMmqDi1pxX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792146109; c=relaxed/simple;
-	bh=C8QGU4HA3aUofV7H5R8Vzj1TWla1A53rsd47BX4swJU=;
+	s=arc-20240116; t=1792146152; c=relaxed/simple;
+	bh=XLEWQiURi7aTHFjkuux9+QTBXfbA+Tn69PBNfHt4MlY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gi52hZRWMgLY8+NSrpnl6UAOY0l9q2TT9mSW9exgU3LEpz75x7+RuOlk4FdwKeIxOb8c65daPgpRpFttLB5X9GKcZ6DynidjJxtHgq3i4nIEyILOnvrpaFx2wxaBLW8ekncyZbuHMbv2770eWDZxhrz0EvXL09sZb8QSPlsU8nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lko/KOQb; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=To8AzHRs8/sjdlZ4BSmCGjgj89ipXDep7mklP1RdaZ1JYL3wrEjMuLlrj0aNgvESxl3y6BDyAQ5brqydpHaToQLtrQ7/xB1k3hBD5kGeR01tixmNHSrxJdLX3A+XOyN+8ETg3tQ7QQHfbtdJ/yhYo3gHN+ij6uVZpwA2sEzVrAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KUuIJobk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lko/KOQb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47F841F000C5;
-	Fri, 16 Oct 2026 10:21:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KUuIJobk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8380E1F000C4;
+	Fri, 16 Oct 2026 10:22:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792146107;
-	bh=eCepIudj7vov6ZGXiPy9w4RZwye94YHk4gS2To7BfWw=;
+	s=k20260515; t=1792146150;
+	bh=MmsD/+E77JzcPrYTTMXzSxDw0SRmaBW7nVo2SCiVios=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Lko/KOQbacRGMbvVSxjkV7/T1BDxt50UtOC7VnyQ2RPPAjLn1XmqNPJNo+plkkCrJ
-	 YsDdIWIDOm9/4vzLQCWDrASV+qBnrQTNuS9xCLq+fBEIjJUpTtVFBKlOsnxID5EvvC
-	 dTd9IQfIluzRtwluG3zFDzUsBXUJT0+kAzf4EnFUhcU+ceYqpDjmsTf47leRYoybeD
-	 KoCSqTu+VagCWnIGjWdA1pEjTr7KdZJFvwyUlS+ZUk6Ye2kf30J4U+hAW00Izgu19D
-	 Ur26sAHRTUmQDKqqbKo/NViV7Dk5kbPUKruMI7KDS80z02IGZHg3j09e9UPP5up7iM
-	 ECtqWKi/Y8zAw==
+	b=KUuIJobkfdIAK1xw1cr+2nUJ2Xgth+pSBxQ0EE8B68egwpz4HdQM1AB7BmgzLIVPl
+	 z68hoF5XAlgzML8NTD48H5krOE5x5OsvtOnYkyr3XgXv8zOdfN26fe/X82pFRnwmvI
+	 EXGi1sov1WSJ9K9k7lhvTqHENS/l0uUnybOa9iDIvR/yILRS3jjWnjUlvirDgYeQOS
+	 Xfio8oxBdiIRfrzzRnTy/GvEyaGfG63WipDztNWdDb44GdH63MKMWJAWfX4iHbCPb9
+	 wIIb/eQJxCCxKeDW8bUDWJ4iZZce1ciEPkS4g35AVk/Vo1g7CeXTZeWOqFUbOE0xl/
+	 /V2cwsB3tn/jQ==
 From: Christian Brauner <brauner@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 11/19 for v7.4] vfs iomap
-Date: Fri, 16 Oct 2026 12:21:33 +0200
-Message-ID: <20261016-vfs-7.4-rc1.iomap-a7ba039d4f24@brauner>
+Subject: [GIT PULL 12/19 for v7.4] vfs kernfs
+Date: Fri, 16 Oct 2026 12:21:59 +0200
+Message-ID: <20261016-vfs-7.4-rc1.kernfs-d34b0bc9b87b@brauner>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261016-vfs-v74-41eaf6c4712c@brauner>
 References: <20261016-vfs-v74-41eaf6c4712c@brauner>
@@ -43,7 +43,7 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7181; i=brauner@kernel.org; h=from:subject:message-id; bh=C8QGU4HA3aUofV7H5R8Vzj1TWla1A53rsd47BX4swJU=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRd/LX+V/GEHduuVZ3b9V1a5VMxz3X3l0cEOKx+Hi6ws o81usEl1lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRWVcZGdYZOUooTGV+YHuB Zd27Z/FGFUte+tu1S5Re2vdU8KD5xTqGfwaa3Zmr5xz0audXaEju+SK8t6tQ/6DbkZ03VfkOhce qsgAA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6438; i=brauner@kernel.org; h=from:subject:message-id; bh=XLEWQiURi7aTHFjkuux9+QTBXfbA+Tn69PBNfHt4MlY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRd/HVL9OytqpfPS3gO1m3ujpi6+M8VtYxb6XaMm7lyb 52PcD38s6OUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiQm4MfwWlL6nu4tuV9uz1 3/1HXK6vLPqTOf9j/oQlwUejr28OmsTE8N/H9veOqv5rurN2zz/d9UWR7d27Le48C1vvHVt4jXP W2mkcAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
@@ -51,43 +51,59 @@ Hey Linus,
 
 /* Summary */
 
-This contains the iomap changes for this cycle.
+This contains kernfs scalability work from Shakeel driven by what Meta
+sees in their fleet. kernfs_rwsem is per kernfs root, so sysfs and
+cgroupfs each have one for the whole machine, and every create, remove
+and rename takes it for writing. rwsems don't let readers steal the lock
+once a writer is queued, so one cgroup being created or a device being
+renamed parks the entire incoming reader stream in uninterruptible
+sleep. Daemons that poll cgroup files in a loop turn that into a convoy
+and the two that hurt most, oomd and below, are the ones that are
+supposed to relieve memory pressure and record what happened.
 
-The bulk is lazy bounce buffering for checksummed reads. XFS bounce
-buffers every direct read on a device that requires stable pages for
-checksumming so that userspace modifying the buffer while the read is
-in flight can't corrupt the data and fail the checksum. That burns DRAM
-bandwidth and CPU for copies that are almost never needed and, since
-the bounce buffer was a bio_vec, produced smaller and unaligned I/Os
-with 4k pages, i.e. 1 MB minus 4k. Now the read goes to the user buffer
-first and only a checksum failure allocates a bounce buffer and reads
-again. Integrity verification moves out of iomap into the filesystem
-so it can handle errors its own way, T10 PI handling for direct I/O
-moves into ->submit_io() to match buffered I/O, and a sysfs knob
-restores the old behaviour for the rare application that really does
-modify in-flight buffers. The block side gains bio_prepare_reissue(),
-exports fs_bio_integrity_{alloc,free}(), caps atomic writes by the PI
-buffer size and fixes an integer overflow in max_integrity_io_size()
-and a PI verification bug with an initial bvec offset. The old read
-side bounce buffering in the block layer is removed. This is a branch
-shared with the block tree and may also reach you through the block
-pull request.
+kernfs_dop_revalidate() took kernfs_rwsem for read once per path
+component of every walk into a kernfs mount. Nothing it reads needs the
+semaphore. kn->active is an atomic_t, kn->__parent and kn->name are rcu
+pointers, kn->ns can be compared instead of dereferenced and the
+directory revision is a plain counter. The callback runs under rcu now.
+Readers walking cgroupfs and sysfs while another thread churns cgroups,
+renames netdevs and plugs devices went from 48,593,360 read
+acquisitions and 1,744,517 contentions to 1,280,280 and 429,846 on an
+8-CPU VM and path walk throughput improved 35-53%. LOOKUP_RCU still
+returns ECHILD because kernfs_iop_permission() forces every walk out of
+rcu-walk anyway. That is left for later.
 
-Three error handling regressions are fixed. A failed
-->writeback_submit() left wpc->wb_ctx pointing at an already completed
-ioend which was then submitted a second time and corrupted
-ip->i_ioend_list on XFS. iomap_fiemap() lost an iteration error when it
-flushed the pending extent and marked a truncated list as complete. And
-a failed direct I/O bio lost its error when the sub-block tail zeroing
-succeeded. An XFS error tag to inject the writeback failure comes with
-it.
+kernfs_fop_readdir() held the semaphore across dir_emit(). dir_emit()
+copies to userspace and under memory pressure that fault goes to
+reclaim with the lock every create, remove and rename needs held for
+reading. Meta sees 120 second allocation stalls in filldir64() from
+below and systemd-oomd stuck behind it. The lock is dropped around
+dir_emit() now. Since the entry the listing stopped on can disappear in
+that window and two entries can share a hash, readdir resumes on the
+full (hash, ns, name) key and the fallback search lands after the
+missing entry instead of repeating or skipping one. The repeat was a
+pre-existing bug between two getdents(2) calls.
 
-iomap_dio_hole_iter() respects the block size alignment when
-iov_iter_zero() stops short at a page boundary, which btrfs with 8k
-blocks on 4k pages hit as an assertion since it disables page faults
-during direct I/O. The homegrown deferral of error completions to task
-context is replaced with bio_complete_in_task(). Plus an unused
-parameter, two typo fixes and a kernel-doc fix.
+Three more lock holds are shortened. kernfs_notify_workfn() no longer
+holds kernfs_rwsem across fsnotify() which allocates against the memcg
+of the watching cgroup that is already under pressure. The open node is
+allocated outside the hashed open file mutex, the most contended lock
+in kernfs on their fleet with 2.19M waiters over 29 days and a 77ms
+median hold. A new node is activated without dropping and retaking the
+write lock, lock_stat says 1200 -> 830 write acquisitions for five
+dummy netdevs, and kernfs_rename_ns() allocates the new name before and
+frees the old one after the lock so a rename can't enter reclaim or
+wait out a grace period with it held.
+
+Three standalone fixes come with selftests. Same-parent renames take
+kernfs_rename_lock too so kernfs_path_from_node() can't build a path
+that never existed. Decoding a file handle takes the semaphore so a
+decode racing rmdir() can't hash an inode after the removal's ilookup()
+pass and lose IN_DELETE_SELF. And kernfs_create_link() reads the
+target's uid and gid under kernfs_iattr_rwsem so a chown in between
+can't give the link an owner the target never had. The kernfs selftests
+grew from two xattr checks to coverage of dentry revalidation, rename,
+namespace tagging, file handles and readdir under churn.
 
 /* Testing */
 
@@ -105,108 +121,60 @@ Merge conflicts with other trees
 
 No known conflicts.
 
-The following changes since commit df2908090cda368b01ff43709f51890076c56157:
+The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
 
-  Linux 7.3-rc2 (2026-09-06 15:07:20 -0700)
+  Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
 
 are available in the Git repository at:
 
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.4-rc1.iomap
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.4-rc1.kernfs
 
-for you to fetch changes up to a0f61a936b36a340998825cb945e5fdf03468988:
+for you to fetch changes up to 1c45110a23bd7fb4a1a7d5f5a1014c5b688844ae:
 
-  fs/iomap: document ret parameter of iomap_iter_continue (2026-10-13 16:59:01 +0200)
+  Merge patch series "kernfs: do less work under the kernfs_rwsem write lock" (2026-09-25 16:59:12 +0200)
 
 ----------------------------------------------------------------
-vfs-7.4-rc1.iomap
+vfs-7.4-rc1.kernfs
 
-Please consider pulling these changes from the signed vfs-7.4-rc1.iomap tag.
+Please consider pulling these changes from the signed vfs-7.4-rc1.kernfs tag.
 
 Thanks!
 Christian
 
 ----------------------------------------------------------------
-Andrea Parri (4):
-      iomap: don't resubmit an ioend after ->writeback_submit() failed
-      xfs: add an error tag to inject a ->writeback_submit() failure
-      iomap: don't lose a fiemap iteration error when emitting the last extent
-      iomap: don't lose a failed direct I/O bio's error when zeroing the tail
-
 Christian Brauner (4):
-      Merge patch series "iomap: fix typos and repeated words in comments"
-      Merge patch series "lazy bounce buffering for checksummed reads v3"
-      Merge patch series "use bio_complete_in_task for iomap error reporting"
-      Merge patch series "iomap: fix error handling regressions"
+      Merge patch series "kernfs: remove kernfs_rwsem from dentry revalidation"
+      Merge patch series "kernfs: three standalone fixes"
+      Merge patch series "kernfs: don't hold kernfs_rwsem across dir_emit()"
+      Merge patch series "kernfs: do less work under the kernfs_rwsem write lock"
 
-Christoph Hellwig (24):
-      block: avoid integer overflows in max_integrity_io_size
-      block: cap atomic write size by PI buffer size constraints
-      block: improve aligning down bios in bio_iov_iter_bounce_write
-      block: split bio_iov_iter_bounce_write
-      block: export fs_bio_integrity_{alloc,free}
-      block: add a bio_prepare_reissue helper
-      block: pass a maxlen argument to bio_iov_iter_get_pages
-      block: warn on too larger integrity allocations
-      iomap: respect maximum I/O size in iomap_dio_bio_iter_one
-      iomap: add a iomap_ioend_flags helper
-      iomap: add a IOMAP_IOEND_INTEGRITY flag
-      iomap,xfs: move T10 PI handling for direct I/O into ->submit_io
-      xfs: move PI generation into xfs_submit_zoned_bio
-      block,iomap: fix protection information verification with initial bvec offset
-      iomap: better read bounce buffering support
-      xfs: use BIO_COMPLETE_IN_TASK for bounce buffered read I/Os
-      iomap,xfs: move integrity verification to the file system
-      xfs: add support for lazy direct read bounce buffering
-      xfs: add error injection for lazy bounce buffering
-      xfs: log a message at mount time when using integrity protection
-      block,iomap: remove the old read side bounce buffering support
-      iomap: use bio_complete_in_task for buffered read failures
-      iomap: use bio_complete_in_task for buffered write failures
-      iomap: use bio_complete_in_task for buffered simple dio read failures
+Shakeel Butt (18):
+      kernfs: Use VFS lookup context in d_revalidate()
+      kernfs: Prepare directory revisions for lockless reads
+      kernfs: Avoid namespace dereference in d_revalidate()
+      kernfs: Remove kernfs_rwsem from dentry revalidation
+      selftests: cover kernfs dentry revalidation
+      selftests: cover kernfs file handles and same-parent rename
+      kernfs: take kernfs_rename_lock for same-parent renames too
+      kernfs: don't lose IN_DELETE_SELF when decoding a file handle
+      kernfs: fix up the unlocked attribute reads on the creation paths
+      kernfs: allocate the open node outside the open file mutex
+      kernfs: don't hold kernfs_rwsem across notification delivery
+      kernfs: don't repeat or skip an entry when readdir resumes
+      kernfs: resume readdir on the full entry key
+      kernfs: don't hold kernfs_rwsem across dir_emit()
+      selftests: cover readdir resuming at a removed entry
+      kernfs: activate a new node without dropping kernfs_rwsem
+      kernfs: allocate the new name outside kernfs_rwsem
+      kernfs: free the old name outside kernfs_rwsem
 
-Hemanth Selam (2):
-      iomap: fix typo "metdata" in comment
-      iomap: fix repeated word 'the' in comment
-
-Muhammad Mahdi Amirpour (1):
-      fs/iomap: document ret parameter of iomap_iter_continue
-
-Pankaj Raghav (1):
-      iomap: remove the unused ifs parameter from ifs_find_dirty_range
-
-Qu Wenruo (1):
-      iomap: follow the alignment requirement for iomap_dio_hole_iter()
-
-Vincent Mailhol (1):
-      block: store GPT attributes as a raw value
-
- block/bio-integrity-fs.c      |  15 ++-
- block/bio-integrity.c         |   1 +
- block/bio.c                   | 219 ++++++++++++++----------------------------
- block/blk-map.c               |   2 +-
- block/blk-settings.c          |   6 ++
- block/fops.c                  |   3 +-
- block/partitions/efi.h        |   8 +-
- fs/iomap/bio.c                |  50 +---------
- fs/iomap/buffered-io.c        |   8 +-
- fs/iomap/direct-io.c          |  96 ++++++++----------
- fs/iomap/fiemap.c             |   8 +-
- fs/iomap/ioend.c              | 178 ++++++++++++++++++++++------------
- fs/iomap/iter.c               |   1 +
- fs/xfs/libxfs/xfs_errortag.h  |   8 +-
- fs/xfs/xfs_aops.c             |  13 +--
- fs/xfs/xfs_buf.c              |  11 +++
- fs/xfs/xfs_file.c             |  11 +--
- fs/xfs/xfs_ioend.c            | 137 ++++++++++++++++++++++++--
- fs/xfs/xfs_ioend.h            |   2 +
- fs/xfs/xfs_mount.h            |   8 ++
- fs/xfs/xfs_reflink.c          |   5 +
- fs/xfs/xfs_super.c            |   1 +
- fs/xfs/xfs_sysfs.c            |  78 ++++++++++++++-
- fs/xfs/xfs_trace.h            |   1 +
- fs/xfs/xfs_zone_alloc.c       |   4 +
- include/linux/bio-integrity.h |   3 +-
- include/linux/bio.h           |  11 ++-
- include/linux/blkdev.h        |   8 +-
- include/linux/iomap.h         |  38 +++++++-
- 29 files changed, 565 insertions(+), 369 deletions(-)
+ MAINTAINERS                                       |    1 +
+ fs/kernfs/dir.c                                   |  225 ++--
+ fs/kernfs/file.c                                  |   47 +-
+ fs/kernfs/kernfs-internal.h                       |   18 +-
+ fs/kernfs/mount.c                                 |   32 +-
+ fs/kernfs/symlink.c                               |   17 +-
+ tools/testing/selftests/filesystems/config        |    8 +
+ tools/testing/selftests/filesystems/kernfs_test.c | 1187 ++++++++++++++++++++-
+ 8 files changed, 1414 insertions(+), 121 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/config
