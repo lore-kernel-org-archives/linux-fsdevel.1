@@ -1,43 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242B83D093F;
-	Fri, 16 Oct 2026 20:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23F440B360
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 21:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792183403; cv=none; b=fvAYCe5lZvrNw/7pdYxNGRhI2nU6aOHCUy0yVlRf3nGkWnvpihSMKhviJOsirVEMywCCLH5K+xrfqSJeyo1Yf4ApLvMaewwS/bd62T13/W03PMxHuUVgAomuoPqXIY+3vucx4oRyJ+1Nh8czBohzScVxUmBYY06K1f8nQMjfIh0=
+	t=1792184582; cv=none; b=JdzgRTbIq89kbuDukK4lr6VMJP4DkbF2Ze774PGNuziSoJA8aD7Mz5PXljYTDq9ARmzty4nCNUJ3Sadu3ThgbjqD4v3Ppomw0AqTX5+jDX7n6qkrj4CXtD6Z2gs0wDRqnAN0GW0/m5m/jM9wikVfyUgGtafwEZkyHhAGmMdBTOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792183403; c=relaxed/simple;
-	bh=bIZH4VF2S1smufUb/Y0z0o1YzZgzasmGi7a+LzrNNdk=;
+	s=arc-20240116; t=1792184582; c=relaxed/simple;
+	bh=28ylzu+o5fZiKT36o+HUSHzro3k5S/9mBS+q1EJsaZM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WXWLophbygHTkFhJsQKU87Q2YMYRJDRWzp7dZ6rjz+xWFOQsvjsFpOOqgqRAkfif5wvkkX9GiLfivIBBcPwcaxuuIcIAffycuqhcX7EKvEym1LkV45cn7S9SoHAA+BwTHbx0MC/XAQKOdVxteY9pLvVzuecm/pJLYFHjwppn+TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WGtIPcW9; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZ2cE3pfAMcSCGGteNCR7FrqBu8+KzUMSD/n0a+t9KkzG0fs2Z4/32wFfsBoiGipr2Lhm/eucKTSgan3JOV2HyONIfROtCa7h0JtLahBcvK2Irhcn5gNrxB9JjIT/degCsegT9p8StythGOA1Yj5OK3vt1s0xr/jd+TdWjjhlIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=scbzIcyY; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WGtIPcW9"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id E97FF1F000C4;
-	Fri, 16 Oct 2026 20:43:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792183402;
-	bh=mA20y9t2rAIlIC+u80dzHCyhwA7TU+kr14wHaaQQU6U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WGtIPcW9IgcWOFJoloSUCJ/a/YW1LMnt0Y0Gf9mn1o4yYa3Xje3RX+HB+x0RtHVYR
-	 hl9KxOxjdI3+Aav8Ad2blqEAxu5PwOnkEydOJkJaxgMd8LTB5tDEPnrcpP9FEElIg9
-	 n/3YOz0IKPvylWC4u9T/wYZjPRwhiFpJXH0HKYc5Ov2chVfij4OmsyVl0HA7ZNo3iI
-	 PUZs3jtIscvXKUED8XVuGh9lX4gCokVn1ONwhw8gsAmeCh3AOqU0KMX9r00AY4uUcf
-	 Fghi4JbqF4IlpVC6lMbbEVHJpI3OMsX7YM5VosTviw0kfpS/h10R2jMaKJKyW7KSkx
-	 TEanbTwAbPm5g==
-Date: Fri, 16 Oct 2026 13:43:21 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: brauner@kernel.org, hch@lst.de, dgc@kernel.org, cem@kernel.org,
-	jack@suse.cz, axboe@kernel.dk, kbusch@kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [PATCH v6 0/8] xfs write streams
-Message-ID: <20261016204321.GN107986@frogsfrogsfrogs>
-References: <CGME20261015063425epcas5p23fd76d70af639f4bb138332ca3a575b0@epcas5p2.samsung.com>
- <20261015063246.103433-1-joshi.k@samsung.com>
- <bf0505d2-115d-43e9-95e8-2ed6a3404799@samsung.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="scbzIcyY"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=28ylzu+o5fZiKT36o+HUSHzro3k5S/9mBS+q1EJsaZM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792184577; v=1; x=1792789377;
+ b=scbzIcyY+L+NtDZielEU4Uq2X12ngiXj436+zmJI64+lvbHzCRgdR4NXymOCV2T69qlpcauX
+ 2ahKMunQg6fcNq4lW2E1xaxrzwsGsNKchtDeJH6OXuVDe4YDUGT+41cVwP9a0GVlZ5DSE4jaa2e
+ FmLQrAUXIT3gnTS0Nu+vOAdc=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id dad739c8675871cd;
+	Fri, 16 Oct 2026 21:02:57 +0000
+X-Mizu-Trace-ID: dad739c8675871cd
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 16 Oct 2026 14:02:56 -0700
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Tejun Heo <tj@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Christian Brauner <christian@brauner.io>, Meta kernel team <kernel-team@meta.com>, 
+	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] kernfs: allocate inodes and dentry outside
+ kernfs_rwsem
+Message-ID: <atKQcFFeKG76LkLQ@linux.dev>
+References: <20261016164345.31618-1-shakeel.butt@linux.dev>
+ <06b62af1faefaddcb9d5d09cbaf7a2ad@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,56 +48,58 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bf0505d2-115d-43e9-95e8-2ed6a3404799@samsung.com>
+In-Reply-To: <06b62af1faefaddcb9d5d09cbaf7a2ad@kernel.org>
 
-On Fri, Oct 16, 2026 at 11:20:41AM +0530, Kanchan Joshi wrote:
-> Christoph, Darrick
+On Fri, Oct 16, 2026 at 10:33:20AM -1000, Tejun Heo wrote:
+> Hello, Shakeel.
 > 
-> The shape of the series is aligned with your feedback on v4 [1]. 
-> Possible to take a look and tell if anything should be changed?
+> On Fri, Oct 16, 2026 at 09:43:45AM -0700, Shakeel Butt wrote:
+> > Allocate the inode with the lock dropped.  kernfs_iget() first looks for
+> > an existing inode.  If there is none, it pins the node, drops the lock,
+> > allocates, takes the lock again, and adds the inode only if the node is
+> > still active.  So __kernfs_remove() still finds every inode it must
+> > clear i_nlink on, as commit dc1a0cc95737 ("kernfs: don't lose
+> > IN_DELETE_SELF when decoding a file handle") needs.
+> 
+> Would it be simpler to allocate the inode before taking kernfs_rwsem and
+> free it if it ends up unused, as 8b64f32fee95 ("kernfs: allocate the new
+> name outside kernfs_rwsem") and 5ad03af18434 ("kernfs: allocate the open
+> node outside the open file mutex") do? Then the lock doesn't have to be
+> dropped, and there's no need for the pin and the active recheck. The
+> unused cases (negative lookups, inactive nodes, nodes which already have
+> an inode) are exceptions, and an inode alloc and free isn't expensive.
 
-I sent a few comments, but the big thing missing here is a design
-document -- what problem are you trying to solve by adding the ability
-to group files in flocks?  How mandatory vs. opportunistic is the stream
-id? etc.  What about Dave's comments about hard constraining files to
-particular AGs?
+Thanks for taking a look and yes, it is much better and simpler.
 
---D
+> 
+> The helper would then just run under kernfs_rwsem. Maybe
+> kernfs_get_inode_locked() would be a better name for it?
 
-> I can fold that with the fix for the only real issue (partition related) 
-> that Sashiko reported in this round.
+Ack
+
 > 
-> On 10/15/2026 12:02 PM, Kanchan Joshi wrote:
-> > since v5:
-> > https://lore.kernel.org/linux-xfs/20260921093147.59935-1- 
-> > joshi.k@samsung.com/
-> > 
-> > Fixes for issues found by Sashiko review; no changes in UAPI
-> > - fix 32-bit build: use do_div() for the inode-number hash in AG and
-> >    rtgroup selection
-> > - bound the stream pool to U16_MAX, the range of the stream id
-> > - cap the hardware stream count at U8_MAX, the most streams the block
-> >    layer can tag
-> > - tag the iomap_dio_zero() bio with the write stream, so sub-block
-> >    direct writes are not split across streams
-> > - document that the stream pool must outlive the mount a stream pins;
-> >    kernel-doc fixes
-> > - rebase on 7.3-rc7
+> kernfs_fill_super() can preallocate the same way, which gets rid of the
+> last inode allocation under kernfs_rwsem.
+
+Ack
+
+> cgroup_may_write() allocates
+> the inode under cgroup_mutex and could allocate before grabbing the
+> mutex too.
+
+Let me send this one as a separate patch.
+
 > 
-> [1] > since v4:
-> > https://lore.kernel.org/linux-xfs/20260717125538.508925-1- 
-> > joshi.k@samsung.com/
-> > 
-> > - stream reservation and fd handling moved to generic code, and the
-> >    stream id moved to struct inode from xfs inode (Darrick, Christoph)
-> > - stream id no longer shows in uapi: OPEN becomes ALLOC and returns
-> >    fd for any (unreserved) stream; OPEN_EXACT and GET are gone (Christoph)
-> > - ALLOC requires CAP_SYS_ADMIN (Christoph)
-> > - write stream and write life time hint are mutually exclusive at both
-> >    setters
-> > - stream pool lives on the buftarg (Christoph), which gives the realtime
-> >    device streams of its own: new patch to enable RT support (Christoph, Darrick)
-> > - software streams come first and work on any device; hardware streams
-> >    are enabled in the last (Christoph)
+> > kernfs_get_parent_dentry() also held the lock across d_obtain_alias(),
+> > which allocates a dentry.  Hold it only around kernfs_iget(), as
+> > __kernfs_fh_to_dentry() already does.
 > 
-> 
+> This also adds the active test to ->get_parent. A parent which is being
+> removed and has no inode now gets -ESTALE instead of a new inode with
+> i_nlink 1, which closes the window dc1a0cc95737 ("kernfs: don't lose
+> IN_DELETE_SELF when decoding a file handle") left open. Can you mention
+> it in the description?
+
+Yes, I will do.
+
+Thanks again for the review.
