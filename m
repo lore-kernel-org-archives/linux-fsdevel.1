@@ -1,158 +1,205 @@
-Received: from mail-43171.protonmail.ch (mail-43171.protonmail.ch [185.70.43.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C1B4718DE
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 10:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E684657F2;
+	Fri, 16 Oct 2026 10:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792146332; cv=none; b=vFhYNPqbFQjHwzcePf3tl/xYQGEY1PZ3OunyeEwXEvGzhWGM5Ifgnxqm68TMKtVqyvAE3k7wudPC1dPv8Yz6cXYf35/8bqgAa2U8ojljb+R068h1wusKBwuGHPLU9MOP/RkHpXQPo+UvCKv44ZWd/3gK+Ue0FfAaS/7i1wT/iUU=
+	t=1792146358; cv=none; b=eUfCkM54t8vbPti/26iUzM6I+79Rv/a6JtNfqlyRAJrYBCWMon+HtBm5br1leubljMxwxmqj2/Z3pr99aObSnr6YaH5QGeCxle5KWu3GZvFvdEg7r1jz85b611mXwSb1KHSQdAGAkI40JhJel2jSVSiEwf3u4IiUxMTA+TrN+0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792146332; c=relaxed/simple;
-	bh=+y5F4sNDPjHftsUFjQz9re9KbKNpidBYCZ04/lZzvlM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CXEOAyPhxxqOjioD/kpOvPK9jcGBBveDshEuoeLzUeRFLMq79BgAYx5zXa5DT84R1iOvh7dJCSu0dNKE61BuMphr7BQVW+YFrGMWdJjGFfE0YlMFIjDqwFsJ7uESxGp9gwXxbfSON7L+pfLeM3JxUCIcDtyA6FN3v5WL9ni8zCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=karaolidis.com; spf=pass smtp.mailfrom=karaolidis.com; dkim=pass (2048-bit key) header.d=karaolidis.com header.i=@karaolidis.com header.b=T7r9Bx03; arc=none smtp.client-ip=185.70.43.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=karaolidis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=karaolidis.com
+	s=arc-20240116; t=1792146358; c=relaxed/simple;
+	bh=4ri9Vi1vf0HFrjuQqJEH3mUXVtt0DeEwTPpjZcKTW5Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VHNCPmmmHiteorTvVHKoF6A/Ood4OasYasLl/3mO5gD6PDaoEWc0cgCDa9mh0whPpG+G4tKhLBQMb/Mtth1+hC+BHV8M5tLY+rMaukVgis5M/QQksYwb8zlp5bqswf1yl2c04xbn5/qlUBdjo++F4FqfhQpGqCsGfY2PU21VNGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JfYpYssP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=karaolidis.com header.i=@karaolidis.com header.b="T7r9Bx03"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karaolidis.com;
-	s=protonmail3; t=1792146321; x=1792405521;
-	bh=b04DOe8vmbq+QEfUbmjT3IlS1rtxforJbJCVtR4UErk=;
-	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
-	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=T7r9Bx03kZ1obL008QSpYAKFDmkSk37XBbQHx4AvZCIaA9xbTeoEXhc/cB3SMlI57
-	 MezU9GsTh0X2puV8/EOcBKYReV9Q0Si//bRYSnPbL1TcjaRYoTjnNgeVCaWCY1cVuK
-	 i0NDQkC539QboKy9GsknWUco5yAc/uayQ+OUsRMiUt4AiZlP5C9ARhF+WYL/nmv81S
-	 ZxQB5w17SwmyKQ1rAO3+8EVTWuE8LSrLytrXUjkwV3tKsFbCUSs8BIla7JbG1YM4+R
-	 d4C2VMC8QarJWifr87HQrFiLP5Coy2SvrrGakMNysf0RdIurfMPUjvoU/kLVO04JQM
-	 6rwEEXp/bHUpQ==
-X-Pm-Submission-Id: 4j5h0F5p8Zz1DDKp
-From: Nikolaos Karaolidis <nick@karaolidis.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Jan Kara <jack@suse.cz>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	Mateusz Guzik <mjguzik@gmail.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JfYpYssP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 679801F000C4;
+	Fri, 16 Oct 2026 10:25:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792146356;
+	bh=GI7pdd5vokOVrqgwDunEXuFThVQlPCFl+EbMFqxkB00=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=JfYpYssP1DO0BY4b1/Vtoy+HpySBZGh4RWSI5GNqGXZ/XT3Y6z3+dxVs5csxOmGZp
+	 5AVwqqbnVQu/s0aFQ8B9BgYScSgGhRPqBQvxneJw/QamLZjyAU2ZmkpnVkg5if5Oh6
+	 KSX1CpRXkMzkb03a43oYhkfyStYzdlGipDw5t7b+AHePoNbOD9X6eChnHdPiA+8GGq
+	 6Cpa4+sY7ESP3vCrKKICUwEmnbFFea1B1IPhe+P3jChHRFPteHxU//g2h4yo4x+lyf
+	 aLymdBL4l4EgXdKh5uHU4Eg9MCAgRX3EfLIXJDoO6cBYmGGHEbcGA2jIAd9sm8HfTf
+	 2arw70M76nBYw==
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Nikolaos Karaolidis <nick@karaolidis.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] fs: rotate inodes whose page cache could not be dropped
-Date: Fri, 16 Oct 2026 10:25:15 +0000
-Message-ID: <20261016102515.111285-1-nick@karaolidis.com>
-X-Mailer: git-send-email 2.55.0
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL 16/19 for v7.4] vfs netfs
+Date: Fri, 16 Oct 2026 12:25:40 +0200
+Message-ID: <20261016-vfs-7.4-rc1.netfs-9979cb10f896@brauner>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261016-vfs-v74-41eaf6c4712c@brauner>
+References: <20261016-vfs-v74-41eaf6c4712c@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7549; i=brauner@kernel.org; h=from:subject:message-id; bh=4ri9Vi1vf0HFrjuQqJEH3mUXVtt0DeEwTPpjZcKTW5Y=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRd/L3ikMrPrFmxaxZ9+8MXH+LjwejYkf3Y7U7tSS2bZ 7PYpv3P7ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIXRwjQ3eDQ3nBxpL1v5P/ tjtrBe68fMXarPyBd8VfETuL402ZOgz/NGfpauusvr/O9qFTl/g259RDv+/Wf0veqrV2eeUh5uh 3fAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-When inode_lru_isolate() drops the page cache of an unused inode, it
-has to unlock the list, so it returns LRU_RETRY and the walk restarts
-at the head of the list, where the inode still is. If
-invalidate_mapping_pages() could not empty the mapping, the restarted
-walk strips the same inode again, and so on until nr_to_walk runs out.
-Every walk of that list then ends on this inode, and nothing behind it
-is reclaimed for as long as its cache stays.
+Hey Linus,
 
-Before commit 2a0629834cd8 ("vfs: Don't evict inode under the inode lru
-traversing context") the walker pinned the inode with a reference, and
-dropping it in iput_final() set I_REFERENCED, so the restarted walk
-rotated the inode to the tail. Set I_REFERENCED again when the mapping
-is still populated after the invalidation, in the same i_lock section
-that clears I_LRU_ISOLATING. inode_unpin_lru_isolating() now expects
-i_lock to be held, like inode_pin_lru_isolating().
+/* Summary */
 
-On CONFIG_HIGHMEM kernels this can happen to any unused inode: a folio
-is left behind if it is locked, under writeback, spliced into a pipe,
-or still in another CPU's LRU-add batch after being read. Without
-HIGHMEM it happens to DAX inodes whose only entry is at index 0, which
-mapping_shrinkable() lets onto the LRU and invalidate_mapping_pages()
-never removes.
+This contains the netfs and cachefiles changes for this cycle from
+David.
 
-Fixes: 2a0629834cd8 ("vfs: Don't evict inode under the inode lru traversing context")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Nikolaos Karaolidis <nick@karaolidis.com>
----
+Cachefiles learns to cache the most common class of files properly,
+files that are created or truncated, written once sequentially and
+closed. So far it relied on the backing filesystem's idea of what is
+stored and asked with SEEK_DATA and SEEK_HOLE before every read it
+prepared, two seeks per read, and the backing filesystem is free to
+insert or remove runs of zeros which produces false positives and false
+negatives. The object type in the state xattr is now actually set to
+CACHEFILES_CONTENT_{SINGLE,ALL,BACKFS_MAP} instead of zero. For files
+written contiguously the type is ALL, the backing file's i_size tracks
+how much is cached and the object size lives in the xattr, and reads
+skip the seeks entirely. Netfslib queries the cache occupancy through a
+new ->query_occupancy() method that returns up to two extents at once,
+->prepare_read() only limits the size of a cache read anymore and a new
+->collect_write() lets the cache update its metadata once a contiguous
+run of writes completes. The state xattr is preset when the tmpfile is
+created so ENOSPC from setxattr can't scrap a fully written cache file.
+Two fixes for this followed, one for resize handling where the cache's
+idea of the size can be stale and one for an unset error that hung a
+request on a failed cache write.
 
-Found while working on reclaim of inodes pinned by page cache in
-ZONE_MOVABLE.
+Preparatory work converts file positions that can't be negative to
+uoff_t, removes the writethrough code whose locking looked like it
+could deadlock with ceph snapshots, makes the deprecated PG_private_2
+support opt-in so mm can get its page bit back, adds helpers for the
+NETFS_RREQ_ALL_QUEUED barriers and adds the cache object id to the read
+and write tracepoints. Plus an unused header removal and two
+documentation fixes.
 
-Tested in QEMU/KVM on master af32da41b032 (v7.3-rc6-232), with lockdep
-and KASAN enabled. A small init program makes one unused inode whose
-page can't be invalidated, lets it reach the head of the inode LRU,
-opens 2000 other files, does one "echo 2 > /proc/sys/vm/drop_caches"
-and counts the inodes left via umount; kprobes count the
-invalidate_mapping_pages() calls:
+/* Testing */
 
-                              without patch           with patch
-  i386 HIGHMEM, file read     2000 of 2000 left,      none left,
-  on another CPU              10300 strips, 1 inode   4 strips
-  i386 HIGHMEM, page          same                    same
-  spliced into a pipe
-  x86_64, ext4 -o dax,        same                    same
-  file mmap()ed
-  controls (no leftover,      none left               none left
-  shadow entry at index 0)
+No build failures or warnings were observed.
 
-2a0629834cd8^ behaves like the patched kernel, 2a0629834cd8 like
-master. On 5.15.y x86_64, where every unused inode with page cache is
-on the LRU, the read-on-another-CPU case blocks the walk as well.
+/* Conflicts */
 
-With "echo 64M > /sys/fs/cgroup/memory.reclaim" instead of
-drop_caches, the i386 pipe case does 262450 strips and frees nothing
-without the patch, 40 strips and frees everything with it. In the DAX
-case that write takes ~400ms with the patch instead of ~4ms:
-invalidate_mapping_pages() counts the DAX entry it leaves behind as
-reclaimed, so unpatched, the 64M are "reclaimed" by re-stripping one
-inode in a tight loop while nothing is freed.
+Merge conflicts with mainline
+=============================
 
-The reproducer is a single C file; I can post it.
+No known conflicts.
 
-An LLM was used to check the analysis against the code, write the
-reproducer and draft the changelog; I have reviewed all of it.
+Merge conflicts with other trees
+================================
 
- fs/inode.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+No known conflicts.
 
-diff --git a/fs/inode.c b/fs/inode.c
-index a9d37be390a1..1614a97ce953 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -593,12 +593,11 @@ static void inode_pin_lru_isolating(struct inode *inode)
- 
- static void inode_unpin_lru_isolating(struct inode *inode)
- {
--	spin_lock(&inode->i_lock);
-+	lockdep_assert_held(&inode->i_lock);
- 	WARN_ON(!(inode_state_read(inode) & I_LRU_ISOLATING));
- 	inode_state_clear(inode, I_LRU_ISOLATING);
- 	/* Called with inode->i_lock which ensures memory ordering. */
- 	inode_wake_up_bit(inode, __I_LRU_ISOLATING);
--	spin_unlock(&inode->i_lock);
- }
- 
- static void inode_wait_for_lru_isolating(struct inode *inode)
-@@ -981,7 +980,13 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
- 		else
- 			__count_vm_events(PGINODESTEAL, reap);
- 		mm_account_reclaimed_pages(reap);
-+
-+		spin_lock(&inode->i_lock);
-+		/* The walk restarts here: don't retry leftovers right away */
-+		if (!mapping_empty(&inode->i_data))
-+			inode_state_set(inode, I_REFERENCED);
- 		inode_unpin_lru_isolating(inode);
-+		spin_unlock(&inode->i_lock);
- 		return LRU_RETRY;
- 	}
- 
+The following changes since commit a90ee4305c4a5df72c11b31dacfdc76e00fcf78a:
 
-base-commit: af32da41b0327b9c6a37856ba82b6760d6c8d10e
--- 
-2.55.0
+  Linux 7.3-rc6 (2026-10-04 13:45:25 -0700)
 
+are available in the Git repository at:
+
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.4-rc1.netfs
+
+for you to fetch changes up to b6134f76740497004f72954ae67bd4ba45d2f044:
+
+  fscache, cachefiles: Fix resize handling (2026-10-16 11:02:26 +0200)
+
+----------------------------------------------------------------
+vfs-7.4-rc1.netfs
+
+Please consider pulling these changes from the signed vfs-7.4-rc1.netfs tag.
+
+Thanks!
+Christian
+
+----------------------------------------------------------------
+Christian Brauner (2):
+      Merge patch series "netfs: Miscellaneous preparatory changes"
+      Merge patch series "netfs, cachefiles: Changes for next, primarily occupancy tracking-related"
+
+David Howells (15):
+      netfs: Use uoff_t instead of unsigned long long and loff_t
+      netfs: Remove the writethrough code
+      netfs: trace: Change the "clear" folio traces to "endwb"
+      netfs: trace: Rejig a couple of the tracepoints
+      netfs: Add the cache object ID to netfs_read/write tracepoints
+      netfs: Make deprecated PG_private_2 support opt-in
+      netfs: Add some functions to wrap the all-queued handling
+      netfs: Set subrequest->source at alloc before trace emission
+      cachefiles: Clean up cachefiles_do_prepare_read()
+      netfs, cachefiles: Add a couple of traces for write failure
+      cachefiles: Add a tracepoint to log insufficient space errors
+      cachefiles: Don't rely on backing fs storage map for most use cases
+      cachefiles: Preset the state xattr when creating a new file
+      cachefiles: Fix unset error when calling netfs_prepare_write_failed()
+      fscache, cachefiles: Fix resize handling
+
+Ethan Nelson-Moore (1):
+      netfs: remove unused fscache_internal.h header
+
+Karl Mehltretter (1):
+      netfs: Document the remote size member and its accessors
+
+Zenghui Yu (1):
+      cachefiles: Fix path of the "debug" module parameter in help paragraph
+
+ Documentation/filesystems/caching/backend-api.rst |   2 +-
+ Documentation/filesystems/caching/netfs-api.rst   |   2 +-
+ Documentation/filesystems/netfs_library.rst       |   7 +-
+ fs/9p/vfs_addr.c                                  |   1 -
+ fs/9p/vfs_inode.c                                 |   6 +-
+ fs/9p/vfs_inode_dotl.c                            |   5 +-
+ fs/afs/file.c                                     |   8 +-
+ fs/afs/inode.c                                    |   4 +-
+ fs/afs/internal.h                                 |   2 +-
+ fs/cachefiles/Kconfig                             |   2 +-
+ fs/cachefiles/interface.c                         |  96 +----
+ fs/cachefiles/internal.h                          |  18 +-
+ fs/cachefiles/io.c                                | 474 ++++++++++++++--------
+ fs/cachefiles/namei.c                             |  34 +-
+ fs/cachefiles/xattr.c                             |  82 +++-
+ fs/ceph/Kconfig                                   |   1 +
+ fs/ceph/addr.c                                    |   4 +-
+ fs/ceph/cache.h                                   |   6 +-
+ fs/ceph/inode.c                                   |  16 +-
+ fs/ceph/super.h                                   |   3 +-
+ fs/netfs/Kconfig                                  |   3 +
+ fs/netfs/Makefile                                 |   2 +-
+ fs/netfs/buffered_read.c                          | 219 ++++++----
+ fs/netfs/buffered_write.c                         |  69 +---
+ fs/netfs/direct_read.c                            |  14 +-
+ fs/netfs/direct_write.c                           |   8 +-
+ fs/netfs/fscache_cookie.c                         |   8 +-
+ fs/netfs/fscache_internal.h                       |  14 -
+ fs/netfs/fscache_io.c                             |  12 +-
+ fs/netfs/internal.h                               |  70 +++-
+ fs/netfs/iterator.c                               |   2 +-
+ fs/netfs/main.c                                   |   1 -
+ fs/netfs/misc.c                                   |  10 +-
+ fs/netfs/objects.c                                |   7 +-
+ fs/netfs/read_collect.c                           |  14 +-
+ fs/netfs/read_pgpriv2.c                           |  13 +-
+ fs/netfs/read_retry.c                             |   7 +-
+ fs/netfs/read_single.c                            |  50 +--
+ fs/netfs/stats.c                                  |   4 +-
+ fs/netfs/write_collect.c                          | 157 +++++--
+ fs/netfs/write_issue.c                            | 142 ++-----
+ fs/netfs/write_retry.c                            |   8 +-
+ fs/nfs/Kconfig                                    |   1 +
+ fs/smb/client/cifsfs.c                            |   6 +-
+ fs/smb/client/inode.c                             |   2 +-
+ fs/smb/client/smb2ops.c                           |   9 +-
+ include/linux/fscache-cache.h                     |   2 +-
+ include/linux/fscache.h                           |  60 ++-
+ include/linux/netfs.h                             | 112 +++--
+ include/trace/events/cachefiles.h                 |  81 +++-
+ include/trace/events/fscache.h                    |  10 +-
+ include/trace/events/netfs.h                      | 145 +++----
+ 52 files changed, 1149 insertions(+), 886 deletions(-)
+ delete mode 100644 fs/netfs/fscache_internal.h
