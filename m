@@ -1,145 +1,115 @@
-Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44584519A2;
-	Fri, 16 Oct 2026 09:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.242
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2E53E51EC
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 09:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792142133; cv=none; b=E6Uibo8XP1a2xUQSVQfit3YdWrlSQ1c6mW6G0WfN8fppp/HNgDj96KFFiOaXEk5057vVGP1rynrFmrfJjn59AZ43STVvorYQ67smxfR7S9zANpS+e78YjDQedtNYI99uio1bhDJKlIiG1qP+CoaKpLy7T7Dm0vWvGBMoWjbTrds=
+	t=1792142370; cv=none; b=b/QmS/AoRLNf5Rawwo47Mnlg9JfWy0gIQugQuEGHZeEBh31yLLqxjt3U3S50MoO5m4FO5+nGsgSEQVkecBJQTJRX+XEWS97mJfgiBkEA786UU3AVPI0t1VPirpGt4qcZ2h2iFChf6ToH+jwPHIynlWs/NPN8z1q/OTlDjeMDwn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792142133; c=relaxed/simple;
-	bh=jFxdjNeoRfG8ftOzralff1RCNqbjsg7zyR8emO804GA=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=JmGS3PsN9kDG9+s102RzcIR4mDG1oxEbt4eT1wIadBsr32YYknRz1zzIOua9BJDGFwoq1Q66qnONamMtFDTeJk+gDVUL2SdfHiDUr+l79vEPr0Q/YQVyYFaRNEmta4w934WkPGt1R11AegDPSdGKLqT2oksxxYFaMpcy9pxqaHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=ssCfJXf8; arc=none smtp.client-ip=203.205.221.242
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1792142370; c=relaxed/simple;
+	bh=aTMUcqZURy19NxFvWbxUVqjPoyE/i6xWtuoBHgM6v5c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gFjyZ/shk7UC/YyCnT+wMVLvvDcCZ01g6B5Km/WpuIbvktD9JQJ90RV6sWh0Zten+mhnxb4zRoASF4yE7hle/EQo5wCJFpVbpb9Jf6xaLkfW+3RxbPGC11DgMuguGC+bSG6ECbNGEy4iGlXgOhj5a2ziUzFxubvzeqOIAwi+SFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FGFgvUJA; arc=none smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="ssCfJXf8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1792142120; bh=e7pZdn+FduIIviMFIGwAG6oP+v++QMQOhZst7W5M4gY=;
-	h=From:To:Cc:Subject:Date;
-	b=ssCfJXf839Z0yaz7AtZduRsbuSfXzrBmj8xdjARsF1ZIGoeNS0vpipzcpmLZBnBAw
-	 iJ5q5HewEFzQwq6vig0JK8pwnU2KFPno/3mKs9c8ojdXNcj9NQYPoJvUaVjZbac8ze
-	 gjEjq7P4D+0fEnaFyZK+5pQcl9WvEsR27ItDwnKM=
-Received: from [172.18.4.77] ([111.31.227.58])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id 3863503D; Fri, 16 Oct 2026 17:14:06 +0800
-X-QQ-mid: xmsmtpt1792142046tl54ybd4u
-Message-ID: <tencent_8EF7489193A3E97C94814F52145E2ADE3706@qq.com>
-X-QQ-XMAILINFO: MjmARJD6Rl8utq2V/UwT2c4NePRugwSD16/erS2VDcla28Tngq2UCkMp9cHhrD
-	 +JmGymMwX+BR0MxP+S+SUx8bUbzjCWkJKoP97VivmK4QuWdK9cVe5Nc0DW4ND1iTTOsDf9CRKvhy
-	 VbVHjun1YymeTYM42GTLXKPvvNfnPI07X++Nl6wkrKz0HADdlXLFdm3uoqgmlI9c/7RiCK+QL4Nw
-	 C0V4n6BUGMzjlzyKXxtZOL729A/da74MD4Zy4yeYHQApqb7HbvabS9yrxcqyjCWtNS9K3Ra+onjJ
-	 fImeEEHYg7C6AO1y67lEUpbfcI91MLydbYrHcJPz9U7u5lEZjanB4amkP0C+FmsO0B+/0XHxKMp5
-	 /7ipzJbL9Ux4oMB/GQmDYlyuArbe5csbSvOPt3AGYKuvlaudUYattiJagSctrF1xYigPXoi4vy5C
-	 NY2XZfXLGIGvokQvZT3NX7SqtfohjHzy9ANrkFKZyyukiPKHZjq5z0k8HFVzhmlqJYO387BA+Ubl
-	 Pb+o+qTk8BkOnq6O3nBafwIIkWHv31ZWvcIPZ/s7JqTRA1EbW1/heMED75SjQ+ud00RPz9mqUOAq
-	 qtGROzCC4JLmUUx3jw9Kyl/0vPonAjHzHxi/jDwIkk9/V9xhUns0P+CfusPeBij8exayWTZ9LMXh
-	 BnBtbnvCZthFl0v3JiO823dElqsWAVEyx4KL/1aj13ZgZv5HIPjmnCCoB0susSwIzFR1vhORwInF
-	 8hLfIBzV2fTtkIcbbej1qUU+mvYPGstTZk5cV/Frv7cPraCaImuEBvk2c1BcyhZYFekDW6HWFDd8
-	 ykcqoqoSlNljmSRuLgAXEvThl6GZExytSC361q6/VZdEow3TD8mGcG1e5bXbKMEFpDPtBS+avP+k
-	 Xbw20cwFTh8KHHyFlbKqr+JOpvL9GFDSn5rYwb1RRUgooN1bUDhnJlY+qkWShvTgIcqIhqNfsqBg
-	 C7wzEHIh5jeY8SyOLdG0cru2z8KG1poEWMkyyUEaIPfSGcv/64jbfMC6dtKTWaCJXr6BXnwOVYA0
-	 HwOWEarIKMAke/2toS6vA0LXwr0/uLpFkHUmw1otj7DCrUWLD9ZT2GfSye893gOBpVTm90EB6NDJ
-	 z0Aya2W0MPecgFUdSzj9qbQZYZ+b3DxmoX3Ong5jJy6ktu3UI=
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-From: yangguikun <yangguikun19@qq.com>
-To: Dave Kleikamp <shaggy@kernel.org>
-Cc: jfs-discussion@lists.sourceforge.net,
- linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] jfs: validate external log superblock fields in lmLogInit()
-Date: Fri, 16 Oct 2026 17:14:06 +0800
-X-OQ-MSGID: <20261016171406.95376-jfs-patch-yangguikun19@qq.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FGFgvUJA"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-15dd124bbe7so574159c88.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 02:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792142368; x=1792747168; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xKIcc9y2gPYr67ZGxXeokwj+kkWiL3V5XBf1VhWPUVU=;
+        b=FGFgvUJAv8s2A6YxIjHQoZU7x5wvf7kQ4xu+ZoTgCQWRbGCz1Xg9tKW93AcvOzwgAi
+         8LRnhT3op7JDqFFFmQhJ4CHy3tDzDHQq/eYpE7xf+7T08hE5qGPUvKu7A1V6tKUEqMrW
+         5rRbMspLxGfMii0OaJvlAtjKTnkXnh1k4qhjo0IfhzSLw28jh7uuFmG3QCeAQQKn7k4H
+         TwN4am2PyPHq0iS6sSwbdmsEjGQi+vItStQRrGaQDavCDjQJoP6a/OnKT0QxonRz6DUH
+         0A8hXHgezZb7NvG+bSP8Sjp7wAwRdQIxI2lWdw9ngKCyw7QFCCx01xdja1WWBgMAFpkO
+         3NcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792142368; x=1792747168;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xKIcc9y2gPYr67ZGxXeokwj+kkWiL3V5XBf1VhWPUVU=;
+        b=rxkts0nJ62FViVS6GnhTt8Dd1ff+Qiy2N5f0HoHr9urJARXpFgRc4PyGpKa9QEv+ZV
+         6fHgf9D0CYY/fPtyPrkCf9+QfbMMIYDkBO6rKgu2Nt6ii3VcRJj7z7/xy9YOB4UCN39c
+         gsvCESz/HxXwvWDRh0xS0o01GuljeAsqxNLvqPwFQZNCgnfJcPhFMmOe1U6G9UpL1Y0Q
+         zm9RoRV68FdAS6BsQVqiSNAe/oG2p0051QiUrLZqDylLMCveSbLCKZ82BlZrFB8Db/I0
+         rvPPptP3dhEzyrhKYvcKkmBUxpabc/m52kB50/A6edBOMj4ynV7pSTzsXz8Lv+IldKU4
+         Z92A==
+X-Forwarded-Encrypted: i=1; AKwUvBwU4uw+xAzv/i219GWYFsHovUzuDAETLtyLv8y97LFt6KupvKANGA9rnXXxOACFKJChEPgADig96WVr0bR7@vger.kernel.org
+X-Gm-Message-State: AFq9FYI/8MsCvvkt9awxb5Yt4BJaPpqRdPfg66Mffk8em+2x90uzTlcx
+	f2aFv4BEoWtdSEDdZ/486s4HKjV+e3XiQI1AHPdeQccqR/vhgmVr3zg=
+X-Gm-Gg: AYBFou0/YJVObXPt5F1z/eCMlh0Gu6her1Gj21JTnLx22g0Ajfo3LK7NCFMqB8eyznY
+	bf++u71tbTcR/YiZcBEL8q2XqzGXV+bVnlcTKrzd1AZ9bGAqSnH1OpgcKWQz9TfenYNWJjli+ub
+	Cq3n1qqXgCJ/6lEyw4he6gElWO9XI2GMSU0iuZznOFkRGoiZ4OR6gAYKazrWF30XJ2t2bsqrvJr
+	hY3lbdu6SRKha8IHK0SxzIH6sUkZK03gjF+N2W9KJIkFwwagROabrtxiMPEdAg4OXWwdM0B76ng
+	+sUC5i7CQkjagdQhv69ru0v1RaJr7AiOzZ49OA7vptBZ9lf3V1nLuXpxyVcRjGuMlRKLmBZEgFU
+	uZPzq1kEMdcpU6Z6pTjOvlwAG7Mny8L2Ft3VYnTuape72TyDkEUbtG04NBN5jWFLTpuWUYyFVqA
+	UpOlRkRSi8/ffIctqGjCTvTot74ymRwvcIWVQYE2R1uAyc/LY24YIphDJvSzLMDjGhv4p8Sfzth
+	CaDtV9oFsWNG0pCM+/dIDjtZ3iUwOuqfXmKKwCoL5m3md2U58sX/OtHOS5PVMY=
+X-Received: by 2002:a05:701b:4544:10b0:144:c12b:dfc6 with SMTP id a92af1059eb24-16a60ce7b43mr28678298c88.44.1792142368095;
+        Fri, 16 Oct 2026 02:19:28 -0700 (PDT)
+Received: from anuj-MacBookPro.. ([2406:7400:63:e55a:7bfc:fc3a:e718:89f6])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36082a7b33bsm9840943eec.24.2026.10.16.02.19.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 02:19:27 -0700 (PDT)
+From: Anuj Gupta <anuj1072538@gmail.com>
+To: asml.silence@gmail.com,
+	hch@lst.de,
+	djwong@kernel.org,
+	cem@kernel.org,
+	brauner@kernel.org,
+	axboe@kernel.dk
+Cc: linux-block@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	joshi.k@samsung.com,
+	anuj20.g@samsung.com,
+	nj.shetty@samsung.com
+Subject: [RFC 0/4] fs: support dma-buf backed direct I/O
+Date: Fri, 16 Oct 2026 14:49:10 +0530
+Message-ID: <20261016091919.971295-1-anuj1072538@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-lmLogInit() validates only the magic, state and uuid of the on-disk log
-superblock before copying its size and l2bsize fields into the in-memory
-log structure, and it overwrites the sane l2bsize value set up for the
-external-log case a few lines earlier:
+This series lets an application register a dma-buf against a file,
+so reads and writes go directly to the device as dma-buf backed
+bios with no per-command DMA mapping.
 
-    fs/jfs/jfs_logmgr.c:1271
-            if (!test_bit(log_INLINELOG, &log->flag))
-                    log->l2bsize = L2LOGPSIZE;
-    ...
-            } else {
-                    if (!uuid_equal(&logsuper->uuid, &log->uuid)) { ... }
-                    log->size    = le32_to_cpu(logsuper->size);
-                    log->l2bsize = le32_to_cpu(logsuper->l2bsize);
+This series builds on Pavel Begunkov's dma-buf block support v11,
+https://lore.kernel.org/all/cover.1791975048.git.asml.silence@gmail.com/
+which is queued in Jens Axboe's tree:
+https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git/log/?h=for-7.4/io_uring-dmabuf
 
-l2bsize is then used directly as a shift count:
+A separate kernel tree is present here:
+https://github.com/anuj7781/linux-kernel/tree/anuj/fs-dmabuf-rfc-v11-desc-v2
 
-    fs/jfs/jfs_logmgr.c:1892
-            bp->l_blkno = log->base + (pn << (L2LOGPSIZE - log->l2bsize));
-    fs/jfs/jfs_logmgr.c:1973
-            bio->bi_iter.bi_sector = bp->l_blkno << (log->l2bsize - 9);
-    fs/jfs/jfs_logmgr.c:2018, :2088
-            log->base + (bp->l_pn << (L2LOGPSIZE - log->l2bsize));
+Nitesh Shetty (4):
+  block: factor out bdev_init_dma_buf_io_ctx()
+  block: refuse a dma-buf bio for a disk the buffer was not registered
+    on
+  iomap: add dma-buf direct I/O guards and registration helper
+  xfs: support dma-buf registered buffers for direct I/O
 
-and size feeds log->logsize:
+ block/bio.c                | 15 +++++++++++++++
+ block/fops.c               | 19 +++++++++++++++----
+ fs/iomap/direct-io.c       | 31 ++++++++++++++++++++++++++++++-
+ fs/xfs/xfs_file.c          | 30 ++++++++++++++++++++++++++++++
+ include/linux/blkdev.h     |  3 +++
+ include/linux/dma-buf-io.h |  2 ++
+ include/linux/iomap.h      |  3 +++
+ 7 files changed, 98 insertions(+), 5 deletions(-)
 
-    fs/jfs/jfs_logmgr.c:1385
-            log->logsize = (log->size - 2) << L2LOGPSIZE;
-
-A crafted external log with l2bsize = 13 makes "L2LOGPSIZE - l2bsize"
-negative and "l2bsize - 9" 4, so the computed block number and sector are
-garbage.  Mounting such an image panics deterministically:
-
-    UBSAN: shift-out-of-bounds in fs/jfs/jfs_logmgr.c:1892:32
-    shift exponent -1 is negative
-    UBSAN: shift-out-of-bounds in fs/jfs/jfs_logmgr.c:2018:28
-    UBSAN: shift-out-of-bounds in fs/jfs/jfs_logmgr.c:2088:28
-    BUG: KASAN: slab-use-after-free in lmLogInit+0x16dd/0x1a90
-    Read of size 8 at addr ff110000413e4218 by task mount/8208
-    ...
-    Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
-    RIP: 0010:___free_pages+0x15b/0x190
-    Kernel panic - not syncing: Fatal exception
-
-Three runs on three fresh VMs, all panicked; a control image differing
-only in l2bsize = 12 mounts with no UBSAN and no KASAN report.
-
-The inline-log branch of the same function already validates its field
-(jfs_logmgr.c:1307 compares the on-disk size against the in-memory one),
-and jfs_mount() already validates sbi->l2bsize against the block size
-(jfs_mount.c:366).  The external-log branch is the only path that trusts
-the on-disk values unchecked.  Validate l2bsize against L2LOGPSIZE, which
-is what the external-log path sets it to, and reject a size too small for
-logsize to be meaningful.
-
-Found by inspection; the reproducer is a crafted image mounted through a
-loop device.
-
-Signed-off-by: yangguikun <yangguikun19@qq.com>
----
- fs/jfs/jfs_logmgr.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
---- a/fs/jfs/jfs_logmgr.c
-+++ b/fs/jfs/jfs_logmgr.c
-@@ -1316,6 +1316,17 @@
- 				rc = -EINVAL;
- 				goto errout20;
- 			}
-+			/*
-+			 * The external log must use the same block size as the
-+			 * file system.  log->l2bsize was set to L2LOGPSIZE above
-+			 * and is used as a shift count below.
-+			 */
-+			if (le32_to_cpu(logsuper->l2bsize) != L2LOGPSIZE ||
-+			    le32_to_cpu(logsuper->size) < 2) {
-+				jfs_warn("invalid log superblock");
-+				rc = -EINVAL;
-+				goto errout20;
-+			}
- 			log->size = le32_to_cpu(logsuper->size);
- 			log->l2bsize = le32_to_cpu(logsuper->l2bsize);
- 			jfs_info("lmLogInit: external log:0x%p base:0x%Lx size:0x%x",
+-- 
+2.43.0
 
