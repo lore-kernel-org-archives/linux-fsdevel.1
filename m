@@ -1,72 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07D4312815;
-	Fri, 16 Oct 2026 15:57:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E704DB547;
+	Fri, 16 Oct 2026 16:00:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792166254; cv=none; b=qWJn0Wj4lRIvIGWeFNrVSWArreALtCIMRh5YMs0t359/CW6l9VjvDDnxRM87tmw4SV5Zc+A+12n4oMTWFNC9jZ5ZxLpTrJUHP9sRJb8QVQqiCyVDjuNqXpinaWQAkbO8ldXAj5V1A4FMAEuU0gsTLzlanNzZq8JaMwAqQcp3l3E=
+	t=1792166439; cv=none; b=eoeD3iWTfWmD9EQx3Ne1rY5fn/E28mTK0iObme5/uBf2g//uG1v7vziFLXULYyAbZdzwO8/qgqEmYIBRQAO7Up6yUd5zTLJHl9gdobvACCb0vPkjO3sLO3CCuIlTIt+DO2KFq7cIMRPAVG46Rse135agPHL0lH9oW+vUTs1KEEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792166254; c=relaxed/simple;
-	bh=gOEwH8yU/F9Y/HxrcNSw3k1V15gWq0ScRHxiYP6dAnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sGDFsuPXSuohVo7gZP/oJVArZV7CAjK0nGBrphOc9Q+Je8w9c7S3mwkzGjwUSxVIWCFR1IC0gD5aIycFWKBleyPkmfEIooDxEKCuXzMsooGbOao6bNcACQETfIYARfbH4w4pqyo3tMKcyukAYFYjmMif/sICAsvyQHmy2F+Q6lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ep+qV2GK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792166439; c=relaxed/simple;
+	bh=wZWwAubiLeVzLQOEG3jpJGsWjZL6wE6Slmjn3p+wtD0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tVg5lYyK55WGYbiBQ9kY7vKnQ63qGduX8Hk3FGZOJoFTvT1GKCb0E4MzOarJxa1yU8hnTyeREo4QmkHs/iY5IQLZ/eZRm01R/Wb8hv3wiS6VHzVjtBo5Na9oYi5UcuOa7CfD330q7xMIKl7eihvY3HdyN48UX1i592tzZJPvXqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PB3fwH9a; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ep+qV2GK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 027601F000C4;
-	Fri, 16 Oct 2026 15:57:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PB3fwH9a"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 4EA461F000C5;
+	Fri, 16 Oct 2026 16:00:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792166253;
-	bh=LNZ/9AwYIVVQVx7xigaw8FPB4qK/S5erjaS0Vu8xy2c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Ep+qV2GKps74QhVDgCHJGaYtnCv38QC+IAgb/hHFMUerya4zXfd1a7B4wW3T3xzaN
-	 zMBW/brscnPEt6texzmnGsi/doVGEthjirhQXf/TTxF5hBhdSfyeyCJJ1HYVabdpKG
-	 wKhkl2iUrtzmxCoItpz6NtY+xy3WbuGpYqwlPdTUWDQfELYvgYG7CAGLEvfiydadm8
-	 gPTXSnrZ3mRQwauugD3KRYKuukiV080RINISW5Vm7fSYimejc5ds/XF1eMCpC96LwS
-	 RGw02KLsXdXqA4l3owuphYpFBYaLWSX3FIdxsq7yniQOHUV00CGSSdjOAc93gM57Ud
-	 dyW7WwSGtF8gg==
-Date: Fri, 16 Oct 2026 08:57:32 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Christian Brauner <brauner@kernel.org>, Konstantin Ryabitsev
- <konstantin@linuxfoundation.org>
-Cc: Paolo Abeni <pabeni@redhat.com>, Andrew Halaney <andrew@amutable.com>,
- Kuniyuki Iwashima <kuniyu@google.com>, Oleg Nesterov <oleg@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, Simon Horman <horms@kernel.org>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, Jan
- Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, Alexander Mikhalitsyn
- <alexander@mihalicyn.com>, Eric Dumazet <edumazet@kernel.org>
-Subject: Re: [PATCH v4 00/10] net: support thread-specific pidfds for send
- and connect
-Message-ID: <20261016085732.2f1ffb8a@kernel.org>
-In-Reply-To: <20261016-erdball-skisport-erhaben-93d64cfd2890@brauner>
-References: <20261005-work-unix-passpidfd-v4-0-350183b6e02a@amutable.com>
-	<1ab71b00-fbe1-42a0-a99e-27d5cd5e5a6e@redhat.com>
-	<20261016-erdball-skisport-erhaben-93d64cfd2890@brauner>
+	s=k20260515; t=1792166438;
+	bh=DPPtWJThkR1HSDGyZJb+uhlwde5r6SG1m/oIZY7KoAQ=;
+	h=Date:From:To:Subject;
+	b=PB3fwH9ad/RdxiI88KTVVyHt/5Qwa7WFh6uIqGh3S7bkddp7ETFj57SmN6Ag597p5
+	 9HTL3LBL4VJhisD5y/b8wfkfgg/syv10xSEx9Cdeb+AkpV7nuKMbYnJZEK8MWW73lG
+	 SGyHK1sdoy92vPvBJrn5kDMfWQAPYIzqa2+HHPhVnxXzFLwR/Qis6uiiDNFa0IctA6
+	 s7WqTB/ps18gHS6gKUwsQWkJvs9yEUAZA7c67ozjVI55kQWL8s1jhJ7PpXUR1gI6mm
+	 sPzTVvbDKNszOEwaN9py1n4wX+qeO+z0rx2pKkz3f7mAGQjih7Py0SPj6DI9kQX92z
+	 sz1OGa6AQVDew==
+Date: Fri, 16 Oct 2026 09:00:37 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: xfs <linux-xfs@vger.kernel.org>,
+	linux-ext4 <linux-ext4@vger.kernel.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	fuse-devel <fuse-devel@lists.linux.dev>,
+	fstests <fstests@vger.kernel.org>
+Subject: Farewell!
+Message-ID: <20261016160037.GA107919@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 16 Oct 2026 11:14:22 +0200 Christian Brauner wrote:
-> > I think that this late in the cycle, the series could go via Christian's
-> > tree only and we could get it back after the merge window. WDYT?  
-> 
-> Sounds good to me. Thanks for being flexible.
+Hi everyone,
 
-Yup, close enough to the merge window so risk is low.
+After 14 years at Oracle and 23 years working on Linux, I've decided to
+take an extended break.  Today, October 16th, 2026, is my last day.
 
-Then again, I don't understand why it's hard to apply
-something off of a shared point.
+I don't have any immediate plans to drop the djwong@kernel.org
+forwarding, though ultimately that's up to the sysadmins to decide.
 
-Konstantin, could you consider adding a b4 option which would
-make it apply the patches on the most recent Linus release tag
-and then merge them into current branch as normal?
-Simpler version is to let the user name the application base.
-This lets other trees trivially create a branch later if they
-want to.
+I have very much enjoyed working with you all, and I'm proud of what
+we've accomplished together.  Good luck!
+
+--Darrick
