@@ -1,45 +1,77 @@
-Received: from mta0.migadu.com (out-236.mta0.migadu.com [91.218.175.236])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389E54E50AA
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 16:43:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9944FDA69
+	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 17:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792169041; cv=none; b=FVQE9HQD7noK+hqDCHPOHgYxTLZdb6BosUF/IuXk40ZPxdZgY7nmLBBA3o6XTITkkIf9/3aW+/Bb0QXt7iTJF0ykEgN4dUpaoj/QBYO8MGB5jd9yEuz1f0Gclnc++7uCqX2DeTjBSNaET/+/BtmNaDQVuZFuc56Bta0ADwMX6OQ=
+	t=1792171046; cv=none; b=BdPLC29fIx4xnduHqeMq260fnBFvIngt2MzYztrtu2rmRYXSyzg3B3rDwD3XMHYGnvvTFwTbSk9LpKSEERasGFSYAV9Xme/esexQzgaMGdFhM4QKgi9C3GxRNuEXnI3U7ykLWELRh/Ezcjn4gtrfYMdm29Uh2zEOvrUkxUcJLcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792169041; c=relaxed/simple;
-	bh=ibFpth8wAFXUrM8GxlJIYQOA9JU+8ZJEHvofbY7B4qw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hOz/t5WUYKfs6if/top4Ru/R2ffK66o2oS2YDxG4AtMMr5sc+3gy7MHoGFRL/2DiJCXXHxQDnDfSzu938NSgcHNiZycJTQI/O3ogUO0B1q0APFNs5Eplj/oHKveGmwOOpw2R2pPPkjfdDDFhA8rp1ig3WvZgnD1KzIab41DyZbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wA1KoVTh; arc=none smtp.client-ip=91.218.175.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1792171046; c=relaxed/simple;
+	bh=PDeQKDGVqwZ4U/KLEclMbrbOGz/7Qym/qxwL0GKnZu0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JVhsjctfglJzW/M/C5+A+/LG8znYabwQVR2bwoJzE06a6pdoZc59JDMF9Nm9FlAQeMY9xxYaWCHmPgjXPyDUTfSE+YKSwFPtjuzPvfj4HP2rNbFINasHRb4d+pL5VtQRGbMHCQ+LXhdgax0ywnm0L0EgPz2j835QO+lpL4udOHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G6br5TzY; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wA1KoVTh"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=ibFpth8wAFXUrM8GxlJIYQOA9JU+8ZJEHvofbY7B4qw=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792169035; v=1; x=1792773835;
- b=wA1KoVThwZwANpLSglG1xln8yZqaaCmlio7fvwINb1cyEBkpfqvlYKZFtTmq4JskLt2RqgD7
- bCxE2xecDMf+cYU+iQ37mQuP+6lIBgREmkETCZMdz5T8+0qKU9DLAFGE1UX+om0Y0aY3VgBJIOf
- xDqss8UTm15BaVmkjvZHaonQ=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f4f175d3aae833e2;
-	Fri, 16 Oct 2026 16:43:54 +0000
-X-Mizu-Trace-ID: f4f175d3aae833e2
-X-Migadu-Flow: FLOW_OUT
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christian Brauner <christian@brauner.io>
-Cc: Meta kernel team <kernel-team@meta.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G6br5TzY"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-cc4aa18f9afso121407a12.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 10:17:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792171044; x=1792775844; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5Gmw5gaxDOzBmPpJ0CCQs51QbryjVy3dY9vuKu88q2A=;
+        b=G6br5TzYBZLXXOl1zZZw05WwsGCi/UvNYa2h1RWUOvUVC/QjbO1HvZvBF3Hw4FlN6d
+         NZ3vZh421tJa/5//thzU6qeQtT5xOP2sAmOptJ9W3U41mo9ThzcKVtohbpF6CVJ2UY+p
+         t9VeDRHPQE/KrppKwFpo/1hc03o0RK3RLp8OGiNJ8fMcydD1zFAZoV0KNBJc086NT6yr
+         bf9DyNpMHvLdmM+XzsV+C+5OzFySPrgN1awEeEQ6mvFMjXMbg1KvoY6+LBDP+eXV0QXv
+         tK9pDfdFyw9BD4QBOhsLRoXgfhFEogHtCgB2WJSeCzSHvXBZ/FceLocqmrgxScX2DGhj
+         /BVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792171044; x=1792775844;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5Gmw5gaxDOzBmPpJ0CCQs51QbryjVy3dY9vuKu88q2A=;
+        b=zEeAJEOFMWPYnZKQz0RUhR+aM+f2LE2RGQVYvfmow+3028y4VowKsJHDdjUYL3yQZJ
+         tGZprFaTkL+Kvfy602zDkXQm5JI5O2bfGo72sBrXnuz4qJK0ycpLOeoyyFuvZ5X26/ph
+         CPhACO4exABiaIvslDSl83KiCBM72HliVHRDjOZLgyCd43vtC5/k6N4qQuWfim5VXZK8
+         dBzFLjZQOB67txLXOqmddPQJCEr/IUdFScjdzNWj0EmbrduiWwinZrNJ0be3/osSoNdZ
+         Se/zrPXDXI1LlGIHmXpDEvBvUdiHhPEV/gg0MoLW/cIkv7RhUd08Xb6VdYthbegrmCx7
+         a7Ug==
+X-Forwarded-Encrypted: i=1; AKwUvBwtUbMRdnxzQBffLCkBiDSCfmwqOEjQCn/nkVjLLUXFJsdczB3FGNoQ1PeOMgR5Z/HvAEdldbxNnbZQNRTu@vger.kernel.org
+X-Gm-Message-State: AFq9FYIo6rQF4w6PDJ3JoVMvGfVzGdUl8YtPNQXBVzx1lmFq67Aj/6Ov
+	+nEhnCGNmdo4kjzzcPdpcq1ZRYtHshZCGdPixYyfQ/0NByjOo4M6n7pkuN4Pjp+w
+X-Gm-Gg: AYBFou3hnQGhOCS5iKl6CsPfBWQm9Gw1xZBf4/zI+j6U2UL0UAfkL3CXKG9o4nghXPI
+	kSCot8agGN6Y6mYNUVuWjQaxG8UOasoOVSJ9YeP2+zDzO2Bk4b4WwB9W5OmIU7pRxpbYqIqY0Cw
+	xkQOzkVV7Va6V6Z/ZXSAlf9bLirQyY8umO3E4oVP/5uRlugWQe8f1+XwN8dRw3b+pERvTmjncCE
+	O9Y72BjX8Qz7D4+9fVUzX33KH0jH2cXAR1JPPC1JH3sbwWtmoDcJVY9vFBhaYzZcSDfzEiSB4Bc
+	Rz1aUc4ZIZMTW3mu4/xp3K3NlNItA466ZkV7lc4M+IjpgdB4n0qfJyCLrlMGp0ajCpEK/EjVlTn
+	NIWEln9tUAbdPml6jJfSPn2lkt2522xOM2K93spVZu9ZcQJlfoJWgPLRy0aCjbNgOnU9VUfM99k
+	avz2tI8hTkUp9hpJdaO6K4OFeXbsgEFfdjPObJgDAbb2bMvRkQm5aEzf8EbWsL+a3swI58R9Lk
+X-Received: by 2002:a17:902:ea12:b0:2e5:78b1:33fc with SMTP id d9443c01a7336-2e9a705023emr5958185ad.53.1792171044290;
+        Fri, 16 Oct 2026 10:17:24 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2a09:bac5:d45a:16dc::247:b8])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e5d51b5sm13396075ad.8.2026.10.16.10.17.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 10:17:23 -0700 (PDT)
+From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org
+Cc: jack@suse.cz,
+	willy@infradead.org,
+	hughd@google.com,
+	baolin.wang@linux.alibaba.com,
+	akpm@linux-foundation.org,
 	linux-fsdevel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] kernfs: allocate inodes and dentry outside kernfs_rwsem
-Date: Fri, 16 Oct 2026 09:43:45 -0700
-Message-ID: <20261016164345.31618-1-shakeel.butt@linux.dev>
-X-Mailer: git-send-email 2.53.0
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+399510418a0b0cf1fc29@syzkaller.appspotmail.com
+Subject: [PATCH] fs: annotate lockless file position updates in sendfile
+Date: Sat, 17 Oct 2026 00:17:18 +0700
+Message-ID: <20261016171718.243099-1-ngocthang2710.1999@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,244 +80,110 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the Meta fleet, on 6.16 with the kernfs changes queued for 7.4
-backported, we still see long cgroupfs stalls:
+sendfile(2) does not take f_pos_lock, so with a NULL offset it reads
+and writes file->f_pos of both files locklessly. Two tasks sharing a
+file, or one running lseek(2), race on it. The splice read paths
+likewise update in->f_ra.prev_pos, a readahead hint, without
+serialization. KCSAN reports all of these:
 
-- oomd and below waited 72 seconds in kernfs_fop_readdir() while an out
-  of memory container created cgroups.  They resumed when the kernel OOM
-  killer killed the container's workload.
+  BUG: KCSAN: data-race in do_sendfile / do_sendfile
+  BUG: KCSAN: data-race in do_sendfile / generic_file_llseek_size
+  BUG: KCSAN: data-race in shmem_file_splice_read / shmem_file_splice_read
 
-- oomd waited 15 minutes in kernfs_iop_lookup().  PID 1 waited for
-  kernfs_rwsem in cgroup_rmdir() while holding cgroup_mutex.
+The races are benign. The worst outcome of concurrent sendfile() on a
+shared file position is an unpredictable offset, which is already the
+case for any caller that shares an fd without synchronizing. prev_pos
+only steers readahead.
 
-- A lock profiler sampling part of the fleet saw kernfs_iop_lookup()
-  hold kernfs_rwsem across memcg reclaim on 26 hosts in 29 days, for up
-  to 625 ms.
+Mark the accesses with data_race(). Locking f_pos in sendfile would
+change behavior for no gain.
 
-The profiler shows where these stalls come from.  kernfs_iop_lookup()
-and the export ops allocate a new inode while holding kernfs_rwsem for
-read.  The inode is charged to the caller's memcg.  If that memcg is at
-memory.max, the allocation can stay in reclaim for a long time,
-sometimes until an OOM kill.  A writer then queues on the lock and every
-new reader queues behind it.  On cgroup2 this blocks every cgroupfs user
-on the machine.
-
-Such lookups are common in a memcg that is out of memory.  Its reclaim
-drops its kernfs dentries fast, and the files of a new cgroup have no
-inodes yet.
-
-Allocate the inode with the lock dropped.  kernfs_iget() first looks for
-an existing inode.  If there is none, it pins the node, drops the lock,
-allocates, takes the lock again, and adds the inode only if the node is
-still active.  So __kernfs_remove() still finds every inode it must
-clear i_nlink on, as commit dc1a0cc95737 ("kernfs: don't lose
-IN_DELETE_SELF when decoding a file handle") needs.
-
-kernfs_get_parent_dentry() also held the lock across d_obtain_alias(),
-which allocates a dentry.  Hold it only around kernfs_iget(), as
-__kernfs_fh_to_dentry() already does.
-
-Tested on a 176-CPU machine.  A task in a full 256 MB memcg with slow
-swap looks up the files of new cgroups.  Worst waits in 60 seconds:
-
-                                  before    after
-  oomd, for kernfs_rwsem          577 ms   0.7 ms
-  below, for kernfs_rwsem         412 ms   1.0 ms
-  systemd, for kernfs_rwsem       449 ms    17 us
-  readdir of another directory   1154 ms   3.2 ms
-
-The lookup itself is still slow.  The VFS still holds its directory's
-lock, so other work in that one directory still waits.  Cold sysfs and
-cgroupfs walks are not slower.
-
-kernfs_fill_super() still allocates the root inode under the lock.  It
-runs once per superblock.
-
-Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+Reported-by: syzbot+399510418a0b0cf1fc29@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=399510418a0b0cf1fc29
+Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
 ---
-Changes since v1:
-- dentry allocation outside kernfs_rwsem (Sashiko).
-- Couple of comments updated.
+Reproduced in QEMU with the syzbot C repro on a KCSAN build of
+cfec639c844f: 42 and 43 reports over two boots, covering all three
+pairs above. With this patch there are none for those pairs over four
+boots. The remaining reports are lseek/lseek between the repro's own
+threads (a different pair) and an unrelated ps2 race.
 
- fs/kernfs/dir.c             | 11 +++---
- fs/kernfs/inode.c           | 69 +++++++++++++++++++++++++++++++++++++
- fs/kernfs/kernfs-internal.h |  2 ++
- fs/kernfs/mount.c           | 18 +++++-----
- 4 files changed, 88 insertions(+), 12 deletions(-)
+I used data_race() rather than taking f_pos_lock, which would change
+sendfile behavior. Happy to respin if you prefer locking.
 
-diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index 7e65854a09e4..70c114911063 100644
---- a/fs/kernfs/dir.c
-+++ b/fs/kernfs/dir.c
-@@ -37,7 +37,7 @@ static bool __kernfs_active(struct kernfs_node *kn)
- 	return atomic_read(&kn->active) >= 0;
- }
+No Fixes tag: the race predates the history I can bisect.
+ fs/read_write.c | 11 +++++++----
+ mm/filemap.c    |  3 ++-
+ mm/shmem.c      |  3 ++-
+ 3 files changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/fs/read_write.c b/fs/read_write.c
+index e8c14e2760b2..ca2916472e7d 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -1319,7 +1319,8 @@ static ssize_t do_sendfile(int out_fd, int in_fd, loff_t *ppos,
+ 	if (!(fd_file(in)->f_mode & FMODE_READ))
+ 		return -EBADF;
+ 	if (!ppos) {
+-		pos = fd_file(in)->f_pos;
++		/* f_pos is not locked here; racing updates are benign */
++		pos = data_race(fd_file(in)->f_pos);
+ 	} else {
+ 		pos = *ppos;
+ 		if (!(fd_file(in)->f_mode & FMODE_PREAD))
+@@ -1341,7 +1342,8 @@ static ssize_t do_sendfile(int out_fd, int in_fd, loff_t *ppos,
+ 		return -EBADF;
+ 	in_inode = file_inode(fd_file(in));
+ 	out_inode = file_inode(fd_file(out));
+-	out_pos = fd_file(out)->f_pos;
++	/* see above */
++	out_pos = data_race(fd_file(out)->f_pos);
  
--static bool kernfs_active(struct kernfs_node *kn)
-+bool kernfs_active(struct kernfs_node *kn)
- {
- 	lockdep_assert_held(&kernfs_root(kn)->kernfs_rwsem);
- 	return __kernfs_active(kn);
-@@ -1269,9 +1269,12 @@ static struct dentry *kernfs_iop_lookup(struct inode *dir,
- 			up_read(&root->kernfs_rwsem);
- 			return NULL;
+ 	if (!max)
+ 		max = min(in_inode->i_sb->s_maxbytes, out_inode->i_sb->s_maxbytes);
+@@ -1382,11 +1384,12 @@ static ssize_t do_sendfile(int out_fd, int in_fd, loff_t *ppos,
+ 		add_wchar(current, retval);
+ 		fsnotify_access(fd_file(in));
+ 		fsnotify_modify(fd_file(out));
+-		fd_file(out)->f_pos = out_pos;
++		/* see above */
++		data_race(fd_file(out)->f_pos = out_pos);
+ 		if (ppos)
+ 			*ppos = pos;
+ 		else
+-			fd_file(in)->f_pos = pos;
++			data_race(fd_file(in)->f_pos = pos); /* see above */
+ 	}
+ 
+ 	inc_syscr(current);
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 00fd89cf6f55..d5a4a5ead4e2 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -3146,7 +3146,8 @@ ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
+ 			len -= n;
+ 			total_spliced += n;
+ 			*ppos += n;
+-			in->f_ra.prev_pos = *ppos;
++			/* readahead hint, racy updates are benign */
++			data_race(in->f_ra.prev_pos = *ppos);
+ 			if (pipe_is_full(pipe))
+ 				goto out;
  		}
--		inode = kernfs_get_inode(dir->i_sb, kn);
--		if (!inode)
--			inode = ERR_PTR(-ENOMEM);
-+		inode = kernfs_iget(dir->i_sb, kn);
-+		if (!inode) {
-+			/* deactivated while kernfs_iget() dropped the lock */
-+			up_read(&root->kernfs_rwsem);
-+			return NULL;
-+		}
- 	}
- 	/*
- 	 * Needed for negative dentry validation.
-diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
-index 237dcdd73fc2..6c64bff0fc9f 100644
---- a/fs/kernfs/inode.c
-+++ b/fs/kernfs/inode.c
-@@ -256,6 +256,75 @@ struct inode *kernfs_get_inode(struct super_block *sb, struct kernfs_node *kn)
- 	return inode;
- }
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 897fa2b61346..56fa2bc520ed 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -3586,7 +3586,8 @@ static ssize_t shmem_file_splice_read(struct file *in, loff_t *ppos,
+ 		len -= n;
+ 		total_spliced += n;
+ 		*ppos += n;
+-		in->f_ra.prev_pos = *ppos;
++		/* readahead hint, racy updates are benign */
++		data_race(in->f_ra.prev_pos = *ppos);
+ 		if (pipe_is_full(pipe))
+ 			break;
  
-+static int kernfs_iget_test(struct inode *inode, void *data)
-+{
-+	return inode->i_ino == *(u64 *)data;
-+}
-+
-+static int kernfs_iget_set(struct inode *inode, void *data)
-+{
-+	inode->i_ino = *(u64 *)data;
-+	return 0;
-+}
-+
-+/**
-+ * kernfs_iget - get the inode of @kn, allocating it outside kernfs_rwsem
-+ * @sb: super block
-+ * @kn: kernfs_node to get the inode for
-+ *
-+ * Unlike kernfs_get_inode(), this never allocates with kernfs_rwsem held.
-+ * If @kn has no inode yet, the lock is dropped while allocating one, as
-+ * the allocation can stall in memcg reclaim.  The new inode is added only
-+ * if @kn is still active when the lock is taken again, so
-+ * __kernfs_remove() always finds it to clear i_nlink.
-+ *
-+ * Only @kn is pinned while the lock is dropped.  Its name and parent can
-+ * change in that time.
-+ *
-+ * Context: May sleep.  Called with kernfs_rwsem held for read.  Returns
-+ * with it held, but may have dropped and retaken it.
-+ *
-+ * Return: the inode, %NULL if @kn is inactive or became inactive while
-+ * the lock was dropped, or ERR_PTR(-ENOMEM).
-+ */
-+struct inode *kernfs_iget(struct super_block *sb, struct kernfs_node *kn)
-+{
-+	struct kernfs_root *root = kernfs_root(kn);
-+	u64 ino = kernfs_ino(kn);
-+	struct inode *inode, *new;
-+
-+	lockdep_assert_held_read(&root->kernfs_rwsem);
-+
-+	inode = ilookup(sb, ino);
-+	if (inode || !kernfs_active(kn))
-+		return inode;
-+
-+	kernfs_get(kn);
-+	up_read(&root->kernfs_rwsem);
-+	new = new_inode(sb);
-+	down_read(&root->kernfs_rwsem);
-+
-+	if (!new) {
-+		inode = ERR_PTR(-ENOMEM);
-+	} else if (!kernfs_active(kn)) {
-+		inode = NULL;
-+	} else {
-+		inode = inode_insert5(new, ino, kernfs_iget_test,
-+				      kernfs_iget_set, &ino);
-+		if (inode == new) {
-+			kernfs_init_inode(kn, inode);
-+			new = NULL;
-+		} else if (!inode) {
-+			inode = ERR_PTR(-ENOMEM);
-+		}
-+	}
-+
-+	kernfs_put(kn);
-+	if (new)
-+		iput(new);
-+	return inode;
-+}
-+
- /*
-  * The kernfs_node serves as both an inode and a directory entry for
-  * kernfs.  To prevent the kernfs inode numbers from being freed
-diff --git a/fs/kernfs/kernfs-internal.h b/fs/kernfs/kernfs-internal.h
-index 1609c1519698..6cc19c9ef47b 100644
---- a/fs/kernfs/kernfs-internal.h
-+++ b/fs/kernfs/kernfs-internal.h
-@@ -186,6 +186,7 @@ int kernfs_iop_getattr(struct mnt_idmap *idmap,
- 		       u32 request_mask, unsigned int query_flags);
- ssize_t kernfs_iop_listxattr(struct dentry *dentry, char *buf, size_t size);
- int __kernfs_setattr(struct kernfs_node *kn, const struct iattr *iattr);
-+struct inode *kernfs_iget(struct super_block *sb, struct kernfs_node *kn);
- 
- /*
-  * dir.c
-@@ -194,6 +195,7 @@ extern const struct dentry_operations kernfs_dops;
- extern const struct file_operations kernfs_dir_fops;
- extern const struct inode_operations kernfs_dir_iops;
- 
-+bool kernfs_active(struct kernfs_node *kn);
- struct kernfs_node *kernfs_get_active(struct kernfs_node *kn);
- void kernfs_put_active(struct kernfs_node *kn);
- int kernfs_add_one(struct kernfs_node *kn);
-diff --git a/fs/kernfs/mount.c b/fs/kernfs/mount.c
-index c15ba6357162..ccb7dc575c7c 100644
---- a/fs/kernfs/mount.c
-+++ b/fs/kernfs/mount.c
-@@ -125,11 +125,9 @@ static struct dentry *__kernfs_fh_to_dentry(struct super_block *sb,
- 	}
- 
- 	/*
--	 * Hold kernfs_rwsem across the lookup as well as kernfs_get_inode().
--	 * __kernfs_remove() deactivates the subtree and clears i_nlink on its
--	 * inodes under the write lock, so under the read lock either
--	 * kernfs_find_and_get_node_by_id() refuses the node, or the inode is
--	 * in the inode hash before the ilookup() pass goes looking for it.
-+	 * Hold kernfs_rwsem from the lookup through kernfs_iget().  Then
-+	 * __kernfs_remove() either finds the inode to clear i_nlink, or the
-+	 * node is already inactive and no inode is created.
- 	 */
- 	scoped_guard(rwsem_read, &info->root->kernfs_rwsem) {
- 		kn = kernfs_find_and_get_node_by_id(info->root, id);
-@@ -146,7 +144,7 @@ static struct dentry *__kernfs_fh_to_dentry(struct super_block *sb,
- 				return ERR_PTR(-ESTALE);
- 		}
- 
--		inode = kernfs_get_inode(sb, kn);
-+		inode = kernfs_iget(sb, kn);
- 		kernfs_put(kn);
- 	}
- 
-@@ -171,9 +169,13 @@ static struct dentry *kernfs_get_parent_dentry(struct dentry *child)
- {
- 	struct kernfs_node *kn = kernfs_dentry_node(child);
- 	struct kernfs_root *root = kernfs_root(kn);
-+	struct inode *inode;
-+
-+	scoped_guard(rwsem_read, &root->kernfs_rwsem) {
-+		inode = kernfs_iget(child->d_sb, kernfs_parent(kn));
-+	}
- 
--	guard(rwsem_read)(&root->kernfs_rwsem);
--	return d_obtain_alias(kernfs_get_inode(child->d_sb, kernfs_parent(kn)));
-+	return d_obtain_alias(inode);
- }
- 
- static const struct export_operations kernfs_export_ops = {
 -- 
-2.53.0-Meta
+2.43.0
 
