@@ -1,115 +1,171 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D79C4508E9;
-	Fri, 16 Oct 2026 10:06:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD28C416853;
+	Fri, 16 Oct 2026 10:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792145205; cv=none; b=c6pAC2VTkIQc1x+4dVge0ZAYa0PcA77Wus2MsXeP/LYF8flswrSfvV/53IOQt+lrydq2zOlCAR5Kg/AeDVkQIR/LV4EJ0Q88Yq96uqKG7XJs92nOYG372dB+7D2RYZ3fmgtmb20JD4H0OUXP5RbNtvPzxr39KTX0mucXMDYosnw=
+	t=1792145646; cv=none; b=jbqfFMHkXRgsd4Qi8nRDG2D6gsKVgk2N1YN5WvRlLQ6AqVxZMPS64Ugp8fsoIqEqYJYpFu4GAlZFxp3P4bp1Uq02dQ3pxyNv9D1F5ga+kz0nLFqP+Be6xbiRcmBCYblVGUJ3ABcvZ7n7vwUvcA2rn2pA47b/0o+dEQPqkVvFjcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792145205; c=relaxed/simple;
-	bh=SfMBzgk7p25AwDDti/OcTTOxuYfNAEw7WDRimDYYnl0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ANa1GAWeFRQKNym4UpgpnLL3Dpt+HPZPoAAVdDuZudg4HOHeplH/iU5Jjy3fFiwDwJNiXBZ4MARnmIHZ8eoXM140vnwA0Z0x3XD9/Lj0Tz19Ise8IiRj+p406T/Pyy+eKjiLutqN2zgnjbnESop7KxbzBGl0PIYoB+VD2lnx71w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j5gYZ66ZmzYQvcG;
-	Fri, 16 Oct 2026 18:05:38 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 1432840B70;
-	Fri, 16 Oct 2026 18:06:35 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgAnZPMj99Fq7MSZAg--.19410S4;
-	Fri, 16 Oct 2026 18:06:34 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-ext4@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	libaokun@linux.alibaba.com,
-	jack@suse.cz,
-	ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com,
-	error27@gmail.com,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	chengzhihao1@huawei.com,
-	yangerkun@huawei.com,
-	yukuai@fnnas.com
-Subject: [PATCH] ext4: return 0 instead of stale ret in ext4_iomap_writepages()
-Date: Fri, 16 Oct 2026 17:59:26 +0800
-Message-ID: <20261016095927.1762656-1-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <atHZN9YIl8T2E0tK@stanley.mountain>
-References: <atHZN9YIl8T2E0tK@stanley.mountain>
+	s=arc-20240116; t=1792145646; c=relaxed/simple;
+	bh=tKfn716cXNF8cVTlb7mqh7tKgPs6n2TVap2tkVo4jOo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YnELsAFPF6P52912TiUPQW/Ui4CKPAUjB0ocsqk461xu8ZkwJ15uot3AX8QoLWlvXLU+ZJDegR2RykVfYskdwL9DH+z9FOKJia6Eu7MkFjkaPjDqHpqg0R4c9pC5zBsCS6cahcaUf/oblv46EqSgYRMBlGODQH7bdxIhLeTF5rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bLtAQRdG; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bLtAQRdG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 068601F000C5;
+	Fri, 16 Oct 2026 10:14:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792145644;
+	bh=tKfn716cXNF8cVTlb7mqh7tKgPs6n2TVap2tkVo4jOo=;
+	h=From:To:Cc:Subject:Date;
+	b=bLtAQRdGFZu4iKIwPOKy/QMk3sERZ6G/ZPCgbx+E0mW3xg86laYSf7N4RBM0a0Hqy
+	 rsq3py2rNWLZRTHHGpek+yWrc6+aLLTa+UeNy5us18yED9GMwu6rViNy11wQYN8eUf
+	 54YkfxVFuPtyYK/wjXoeyqqcCEdbQ5wPTPpUO0wEkR760MabYucLYxtvBoJj8/Ya5u
+	 +mE1UK2lE5gPK37gP8uSD3A+68u4bpTX21hQiFVEQuIk6E4TtKrd8rlklHWNGoq5rh
+	 v9LloB7k+2TRiNrJH11Owfg9JfEMiI9q2ZxmgMKV33k53S2eCIO37FWHMiPu4AxJ21
+	 VLJ47DgEYzSZQ==
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL 00/19 for v7.4] v7.4
+Date: Fri, 16 Oct 2026 12:13:45 +0200
+Message-ID: <20261016-vfs-v74-41eaf6c4712c@brauner>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6899; i=brauner@kernel.org; h=from:subject:message-id; bh=tKfn716cXNF8cVTlb7mqh7tKgPs6n2TVap2tkVo4jOo=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRd/HGP6/7ypPiUcgWVMm/pKcUevUkzuu6bBf9a6tehe qxDSWFtRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwERmBDL8Fbp7O263ccrN6Q+a yh9UPvgSGen/rEmlWafqfLUxx43WeIZ/eo+eHLbkPXondN1n1f3HD134zpBx4+aLD6V9Ns1ec/M f8wEA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgAnZPMj99Fq7MSZAg--.19410S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZF1kuw1rKF1UtryDGrWkCrg_yoW8Xw18pF
-	W3G34kGr1kWrykua1vga43Zw10yayrGr4UWF15CFn8Z39xXFWFgF40gF12vF47ArWUC3ya
-	qF4F9F18uw1jvrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
-	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-	8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
-	Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
-	x4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
-	1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
-	JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
-	sGvfC2KfnxnUUI43ZEXa7VU1773PUUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-From: Zhang Yi <yi.zhang@huawei.com>
+Hey Linus,
 
-smatch reports a "missing error code" warning:
+This is the batch of pull requests for the v7.4 merge window. So I took
+the insane decision to follow-up LPC with a vacation and now I'm
+creating PRs next to a pool. So fsck me for great timing. This should
+hopefully explain why there's some delay in response time. The other
+half is that I'm getting carpet bombed with subtle bugs and I'm trying
+to fix them systematically. While LLMs are great at finding sh*t they
+certainly do still suck at coming up with architecturally clean fixes.
+90% of the proposed "fixes" are utter garbage.
 
-  fs/ext4/inode.c:4518 ext4_iomap_writepages() warn: missing error code? 'ret'
+Anyway, on to the content:
 
-The 'ret' variable has already been consumed by the ext4_emergency_state()
-check at the beginning of the function, so its value is always zero at this
-point.  Returning it is equivalent to returning 0, but it is misleading
-because it looks like an error code is being propagated.
+This cycle is heavier on uapi than the last two. close_range() grows
+two flags, the coredump socket protocol learns records, sparse dumps
+and per-request memory type selection, open_tree() gets a flag that
+container runtimes need and af_unix sockets can hand out thread
+specific pidfds. The rest is the exit, exec and coredump paths getting
+a lot of attention, kernfs scalability work out of Meta's fleet and a
+few treewide conversions.
 
-This branch handles the race with ext4_change_inode_journal_flag(), which
-flushes the dirty data and drops the page cache before switching the inode
-to the buffer_head path, so there is genuinely nothing to write back here.
-Return 0 explicitly to make the intent clear.
+Closing files is synchronous now for close_range(), exec and exit.
+Every final __fput() of an exiting task used to be queued on task work
+and run from exit_task_work(). For a large descriptor table that is a
+cmpxchg() and a TIF_NOTIFY_RESUME test-and-set per file and then a
+second pass over every struct file that isn't cache hot anymore.
+close_files(), close_range() and close-on-exec flush and put each file
+inline the way close(2) does. Tearing down 1M descriptors goes from 429
+to 306 ms on exit and from 471 to 325 ms on execve(). That is a 16-21%
+win or 40-150 ns per closed file. The spufs coredump support, the only
+reason do_coredump() unshared the descriptor table, goes away as part
+of this.
 
-Fixes: bdcbb0f19e92 ("ext4: partially enable iomap for the buffered I/O path of regular files")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <error27@gmail.com>
-Closes: https://lore.kernel.org/r/202610160314.PLMEXaOJ-lkp@intel.com/
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- fs/ext4/inode.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+close_range() gets CLOSE_RANGE_EXCEPT which makes it operate on all
+file descriptors outside of the range and CLOSE_RANGE_CLOEXEC_ONLY
+which closes only the close-on-exec descriptors in it. Together they
+let a task between clone(CLONE_FILES) and execve() shed everything
+except for a window of descriptors in one call and nothing outside of
+the window is ever referenced by the child.
 
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 1853fbdc2a5af..fb0fdfc43566b 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -4515,7 +4515,7 @@ static int ext4_iomap_writepages(struct address_space *mapping,
- 	 */
- 	if (!ext4_inode_buffered_iomap(inode)) {
- 		ext4_writepages_up_read(sb, alloc_ctx);
--		return ret;
-+		return 0;
- 	}
- 
- 	trace_ext4_writepages(inode, wbc);
--- 
-2.52.0
+The coredump socket protocol learns to send a coredump as records. A
+server raising COREDUMP_RECORDS gets a header in front of every chunk
+and an explicit end record. With COREDUMP_SPARSE holes cross the
+socket as a bare header saying how many zero bytes were skipped. A
+process with 128 threads sends 1424153 bytes for a coredump of
+1075150848 bytes since all the thread stacks are 8 MB reservations
+that are nearly all holes. COREDUMP_MEMORY_TYPES lets the server pick
+what memory to dump per request instead of relying on the static
+coredump_filter of the crashing task.
 
+TIF_NOTIFY_SIGNAL can no longer interrupt work that can't be restarted.
+It is used to kick a task out of an uninterruptible sleep to run task
+work but the pipe and socket paths a coredump goes through check
+signal_pending() deep down and bail. So a crashing process with
+io_uring requests in flight lost most of its coredump.
+PF_NO_NOTIFY_SIGNAL sections modelled on memalloc_nofs_save() fix that
+for coredumps, the smb send path and the pid namespace reaper. Looking
+at the coredump code with kres and TLA+ also turned up a UAF when
+releasing parked threads, shared signals retargeted to the dumper that
+truncated cores, io-wq workers that could join a thread group a
+coredump was already tearing down and an SQPOLL deadlock when a user
+worker ends up as the dumper.
+
+kernfs loses most of its kernfs_rwsem contention. The semaphore is per
+kernfs root so sysfs and cgroupfs each have one for the whole machine
+and rwsems don't let readers steal the lock once a writer is queued.
+So one cgroup creation parked every daemon polling cgroup files in
+uninterruptible sleep for minutes, oomd and below among them. Dentry
+revalidation runs under rcu now, readdir drops the lock across
+dir_emit() so a fault into reclaim can't hold it, and notification
+delivery, open node allocation and renames stop sleeping under it.
+Read acquisitions under churn drop from 48.6M to 1.3M and path walk
+throughput improves 35-53%.
+
+The buffer_head write completion handlers stop clearing BH_Uptodate
+when a write fails. The buffer still holds exactly the data the
+filesystem asked to be written and claiming otherwise made the retry
+WARN, re-read the stale on-disk copy over the good data and leaked an
+inconsistent state through the folio lock. Every consumer is moved to
+BH_Write_EIO. This also let jbd2's shadow buffers point at memory
+outside the page cache and removed b_page.
+
+struct mnt_idmap is const throughout the tree now. A mount's idmapping
+is immutable after creation so this follows the struct cred model all
+the way down into every inode operation, the LSM hooks and the
+filesystems, and nop_mnt_idmap and invalid_mnt_idmap live in rodata.
+
+iomap gains lazy bounce buffering for checksummed reads. XFS bounce
+buffered every direct read on a device requiring stable pages. Now the
+read goes to the user buffer first and only a checksum failure reads
+again into a bounce buffer. That branch is shared with the block tree.
+
+Neil's preparations for changing directory locking are in. The goal is
+to lock the dentry rather than the parent directory. d_splice_alias()
+handles hashed dentries, d_alloc_trylock() and d_duplicate() are added,
+LOOKUP_SHARED tells ->lookup() how the parent is locked and the
+in-lookup state is tracked by lockdep. Mateusz also removed a spurious
+dentry reference cycle on open which is a 39% win in will-it-scale.
+
+Cachefiles can now cache files that are written once sequentially
+without asking the backing filesystem with SEEK_DATA/SEEK_HOLE before
+every read, and netfslib drops the writethrough code and makes the
+deprecated PG_private_2 support opt-in.
+
+open_tree() gets OPEN_TREE_DROP_MNTNS_MOUNTS. A recursive clone picks up
+mount namespaces pinned below the source and attaching that inside a
+namespace created with OPEN_TREE_NAMESPACE fails with ELOOP since the
+new namespace is younger than everything else. crun hits this on every
+Ubuntu host because snapd pins mount namespaces under /run/snapd/ns.
+
+af_unix sockets return thread specific pidfds via SO_PASSPIDFD_THREAD
+and SO_PEERPIDFD_THREAD so a coredump server can get a handle on the
+thread that is actually writing the dump. That branch is shared with
+net-next.
+
+Smaller items include the removal of bfs, binfmt_misc only accepting
+punctuation as the delimiter of a register string, uid_map and gid_map
+writes rejecting values that don't fit in a u32 instead of truncating
+them, __counted_by_ptr annotations with KUnit tests for struct fdtable
+and struct uid_gid_map, a simplified FD_PREPARE(), get_tree_super()
+for erofs's shared superblocks, and the usual pile of fixes and
+selftest work.
+
+Thanks!
+Christian
