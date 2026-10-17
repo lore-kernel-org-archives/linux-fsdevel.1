@@ -1,38 +1,36 @@
 Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEE92EA15C;
-	Sat, 17 Oct 2026 02:06:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0582E62B7;
+	Sat, 17 Oct 2026 03:47:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.30.2.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792202805; cv=none; b=vDM4LxJagY3ckzFnB9SaMR7bRbeby5zH8BC8OASdudPnA3XeWG6f66QBTKbkiyRiMR4KUzxXKpLbDWJJuD36BX4MjjWzdaQPADTcRMk4KfL+mR2bkDO58OxQU67RGEfzR6Ak4thlzjjS/vp55u6+8zl1kloPqxh0mpA6onLaJJk=
+	t=1792208868; cv=none; b=hKLiVbN26BF5l6eCplN9EZ/vlEkYz2+u+qx6cMU0Btp0dqPT8zDLWIfRoPW+Muju1imfPTZQlbFkEMJQOoc+MSCyCJ8wWcNA0cN6wQ9V3DbCAWZwSHYPaFw8CfBvdP4gQvEfoF2Ly54o5wr4WgOCaRuVkzBt38Odv/7AoZTdkZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792202805; c=relaxed/simple;
-	bh=Cu+OSIQH8dP/eLmsqcJbGmKyOWUvKeB7xnH9dIGk8Og=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CEyLpt3+pBHcT0ah5cpEiqUyVsl9SgExh9Oveh4VJCSeEDyzgeow1qqj98xIk8wGKeAH6VhM3/erhPXm8sKfktoMnIfZ5tXV+9ikVAJh5gfU+txN7u1lefQI5ZR+JWZNoFHEt3URfb6/xehz8NCvOfx3X92JBysDKMVz1UHwi5g=
+	s=arc-20240116; t=1792208868; c=relaxed/simple;
+	bh=jS2WQmeVsBQvwfgeYGMlFoJ2QBJJO8EwOJG0aPMBSIs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=swDL2f3CfBLbmXaJzu6W/U0+dFiZRp+sbm2+65hdFOOtzuBg9MGeBI+QkYDI3mT/1AZd3LOJ2sSCWVWBDTUHtza6qvtT1ePyM0zVf3UZ7WOA/eSi4MhDjnB3B+9rVw/nZ3O/klV4X4GMTZgk/BKYJ2QF074pjaiPPcaWYLxBMt4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu; spf=pass smtp.mailfrom=csail.mit.edu; arc=none smtp.client-ip=128.30.2.78
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
 Received: from escalante.csail.mit.edu ([128.52.128.198])
 	by outgoing2021.csail.mit.edu with esmtp (Exim 4.95)
 	(envelope-from <nickolai@csail.mit.edu>)
-	id 1xHtog-00HOWO-Ar;
-	Fri, 16 Oct 2026 22:06:34 -0400
+	id 1xHvOV-000755-CI;
+	Fri, 16 Oct 2026 23:47:39 -0400
 From: Nickolai Zeldovich <nickolai@csail.mit.edu>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
+To: Omar Sandoval <osandov@osandov.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+	Baoquan He <baoquan.he@linux.dev>,
+	linux-debuggers@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Nickolai Zeldovich <nickolai@csail.mit.edu>
-Subject: [PATCH v1] pidfs: do not report fields that do not fit into the caller's struct
-Date: Fri, 16 Oct 2026 22:06:33 -0400
-Message-ID: <20261017020634.792390-1-nickolai@csail.mit.edu>
+Subject: [PATCH v1] proc/kcore: advance the vmalloc retry by the last copy, not the total
+Date: Fri, 16 Oct 2026 23:47:39 -0400
+Message-ID: <20261017034739.793431-1-nickolai@csail.mit.edu>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -42,161 +40,177 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The documentation of struct pidfd_info promises that "If the structure
-size is too small to contain a field (requested or not), to avoid
-confusion the mask will not contain a bit for that field", and asks
-userspace to trust the returned mask when deciding which fields hold
-valid data.
+A readv() or preadv() of /proc/kcore fails with EFAULT, although every
+byte of the destination is writable, when the page of a later iovec is
+not present at the moment the copy of a KCORE_VMALLOC chunk is retried:
+swapped out, migrated by compaction or NUMA balancing, write-protected
+by KSM, or unmapped by MADV_DONTNEED from another thread. Only root can
+read /proc/kcore, and the read must use more than one iovec. On an
+x86_64 defconfig kernel (v7.3-rc7) a preadv() of one vmalloc page into
+two 2 KiB iovecs on separate pages, with a second thread repeatedly
+unmapping the second page, failed 77701 of 200000 calls with EFAULT;
+with the fix all 200000 succeed. Affected since v6.4.
 
-pidfd_info() does not keep that promise. It builds kinfo.mask without
-looking at the size encoded in the ioctl command, and
-copy_struct_to_user() then truncates the copy to that size. A caller
-that passes a 64-byte struct (PIDFD_INFO_SIZE_VER0) and requests
-PIDFD_INFO_COREDUMP or PIDFD_INFO_SUPPORTED_MASK gets a mask with
-PIDFD_INFO_COREDUMP, PIDFD_INFO_COREDUMP_SIGNAL, PIDFD_INFO_COREDUMP_CODE
-and PIDFD_INFO_SUPPORTED_MASK set, while the coredump_* and
-supported_mask fields behind the 64 bytes were never written. Trusting
-the mask as documented, userspace then reads whatever its own buffer
-held at those offsets. The same happens for a 72- or 80-byte struct
-and the fields added after it.
+read_kcore_iter() copies a KCORE_VMALLOC chunk with vread_iter(), which
+writes to the user buffer with page faults disabled and stops at the
+first iovec whose page is absent, after the earlier iovecs were
+written; the loop then faults the rest of the buffer in and calls
+vread_iter() again for what is left. It keeps the running total in
+`read` and advances the source address and the remaining length by that
+total:
 
-Clear the bits of the fields that lie beyond the caller's size before
-the copy, in the one place that knows both the final mask and the size.
-A request for a field that cannot be returned is thereby answered the
-way the header describes: the field is simply absent from the mask.
+	read += vread_iter(iter, src, left);
+	if (read == tsz)
+		break;
+	src += read;
+	left -= read;
 
-The added selftest issues PIDFD_GET_INFO with the first published size
-over a full-size, poisoned struct and checks that the mask names none
-of the fields beyond that size and that the poison is intact. It fails
-on an unpatched kernel and passes with this change.
+In the reproducer the first call copies the 2048 bytes of the first
+iovec and stops at the second: read is 2048, and src and left move by
+2048, which is right. The page that fault_in_iov_iter_writeable() then
+faults in is unmapped again before the second call, which copies 0
+bytes: read is still 2048, but src moves by another 2048 to the end of
+the chunk and left drops to 0. The third call has nothing to copy, src
+moves by 2048 once more, left wraps around, and
+fault_in_iov_iter_writeable() fails on that length, so the read returns
+-EFAULT. When both short copies are non-zero (three or more iovecs) the
+extra call also copies bytes from the wrong offset of the page into the
+buffer before the failure. A single iovec is not affected: its nofault
+copy is all or nothing, so a short copy is always empty and the advance
+by the total is still the advance by the last copy.
 
-Found by formal verification of fs/pidfs.c against the kernel binary.
+Keep the return value of each vread_iter() call and advance src and
+left by that; `read` stays the running total compared with tsz.
 
-Fixes: 1d8db6fd698d ("pidfs, coredump: add PIDFD_INFO_COREDUMP")
+Found while formally verifying vread_iter() against the kernel binary.
+
+Fixes: 4c91c07c93bb ("mm: vmalloc: convert vread() to vread_iter()")
 Assisted-by: LLM
 Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
 ---
 
 Notes:
-    The three size thresholds follow the field layout: coredump_mask and
-    coredump_signal end at PIDFD_INFO_SIZE_VER1 (72), coredump_code at
-    PIDFD_INFO_SIZE_VER2 (80), supported_mask at PIDFD_INFO_SIZE_VER3 (88).
-    Masking the request bits early instead (before the coredump and
-    supported_mask blocks run) would save a little work for such callers
-    but leaves the bits set in the task->mm fallback path; clearing the
-    result once before copy_struct_to_user() covers every way a bit can be
-    set. No stable tag: the only callers affected pass a struct size
-    smaller than the fields they request, and the consequence is a wrong
-    mask bit, not a crash or corruption.
+    With a single iovec the destination of each vread_iter() call is one
+    copy_to_user_nofault() per source page, which copies all or nothing, so a
+    plain read()/pread() can only see a zero-length short copy and never hits
+    the second-short case; readv()/preadv() with several iovecs does, since
+    the nofault copy stops at the first iovec whose page is absent after the
+    earlier ones were written. The EFAULT is the same for any reason the
+    destination page is absent at the retry (swap, migration by compaction or
+    NUMA balancing, KSM write protection).
+    
+    The loop cannot return a full count with wrong data: once left wraps,
+    fault_in_iov_iter_writeable() fails before any further copy, and read ==
+    tsz is only reached when every short copy but the last was empty, in which
+    case advancing by the total is advancing by the last copy. With three or
+    more iovecs and two non-empty short copies the extra call copies bytes
+    from the wrong offset of the same page into the buffer, but the read still
+    fails with EFAULT.
+    
+    Reproducer (x86_64 defconfig, root, QEMU -smp 2; the second thread keeps
+    the second iovec's page unmapped):
+    
+      gcc -O2 -pthread -static -o kcore_readv_retry_short kcore_readv_retry_short.c
+      ./kcore_readv_retry_short
+      before: ok 122299 EFAULT 77701      (exit 1)
+      after:  ok 200000 EFAULT 0          (exit 0)
+    
+      /* preadv() of one vmalloc page from /proc/kcore into two iovecs while a
+       * thread keeps unmapping the second iovec's page; root, CONFIG_PROC_KCORE */
+      #define _GNU_SOURCE
+      #include <elf.h>
+      #include <errno.h>
+      #include <fcntl.h>
+      #include <pthread.h>
+      #include <stdio.h>
+      #include <stdlib.h>
+      #include <string.h>
+      #include <sys/mman.h>
+      #include <sys/uio.h>
+      #include <unistd.h>
+    
+      #define PG 4096UL
+      static volatile int stop;
+      static char *zap_page;
+    
+      static void *zapper(void *arg)
+      {
+      	while (!stop)
+      		madvise(zap_page, PG, MADV_DONTNEED);
+      	return NULL;
+      }
+    
+      int main(void)
+      {
+      	int fd = open("/proc/kcore", O_RDONLY), i, best = -1;
+      	long efault = 0, ok = 0;
+      	Elf64_Ehdr eh;
+      	Elf64_Phdr *ph;
+      	off_t off;
+      	unsigned long a;
+      	char *buf = mmap(NULL, 2 * PG, PROT_READ | PROT_WRITE,
+      			 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+      	char *ref = malloc(PG);
+      	struct iovec iov[2] = { { buf, PG / 2 }, { buf + PG, PG / 2 } };
+      	pthread_t th;
+    
+      	if (pread(fd, &eh, sizeof(eh), 0) != sizeof(eh))
+      		return 2;
+      	ph = calloc(eh.e_phnum, sizeof(*ph));
+      	if (pread(fd, ph, eh.e_phnum * sizeof(*ph), eh.e_phoff) < 0)
+      		return 2;
+      	for (i = 0; i < eh.e_phnum; i++)	/* vmalloc = largest non-RAM segment */
+      		if (ph[i].p_type == PT_LOAD && ph[i].p_paddr == (Elf64_Addr)-1 &&
+      		    (best < 0 || ph[i].p_memsz > ph[best].p_memsz))
+      			best = i;
+      	for (a = 0; ; a += PG) {		/* first page with live content */
+      		if (pread(fd, ref, PG, ph[best].p_offset + a) != (ssize_t)PG)
+      			continue;
+      		for (i = 0; i < PG && !ref[i]; i++)
+      			;
+      		if (i < PG)
+      			break;
+      	}
+      	off = ph[best].p_offset + a;
+      	zap_page = buf + PG;
+      	pthread_create(&th, NULL, zapper, NULL);
+      	for (i = 0; i < 200000; i++) {
+      		if (preadv(fd, iov, 2, off) == (ssize_t)PG)
+      			ok++;
+      		else if (errno == EFAULT)
+      			efault++;
+      	}
+      	stop = 1;
+      	pthread_join(th, NULL);
+      	printf("ok %ld EFAULT %ld\n", ok, efault);
+      	return efault != 0;
+      }
 
- fs/pidfs.c                                    |  8 ++++
- tools/testing/selftests/pidfd/pidfd.h         | 16 +++++++
- .../testing/selftests/pidfd/pidfd_info_test.c | 48 +++++++++++++++++++
- 3 files changed, 72 insertions(+)
+ fs/proc/kcore.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/fs/pidfs.c b/fs/pidfs.c
-index a6a643f15d08..b20f507c6bdf 100644
---- a/fs/pidfs.c
-+++ b/fs/pidfs.c
-@@ -485,6 +485,14 @@ static long pidfd_info(struct file *file, unsigned int cmd, unsigned long arg)
- 		kinfo.supported_mask = PIDFD_INFO_SUPPORTED;
- 	}
+diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
+index 390547b992ac..3264c99bd68a 100644
+--- a/fs/proc/kcore.c
++++ b/fs/proc/kcore.c
+@@ -531,12 +531,14 @@ static ssize_t read_kcore_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 			 * again until we are done.
+ 			 */
+ 			while (true) {
+-				read += vread_iter(iter, src, left);
++				size_t n = vread_iter(iter, src, left);
++
++				read += n;
+ 				if (read == tsz)
+ 					break;
  
-+	/* Only report fields that fit into the caller's struct. */
-+	if (usize < PIDFD_INFO_SIZE_VER1)
-+		kinfo.mask &= ~(PIDFD_INFO_COREDUMP | PIDFD_INFO_COREDUMP_SIGNAL);
-+	if (usize < PIDFD_INFO_SIZE_VER2)
-+		kinfo.mask &= ~PIDFD_INFO_COREDUMP_CODE;
-+	if (usize < PIDFD_INFO_SIZE_VER3)
-+		kinfo.mask &= ~PIDFD_INFO_SUPPORTED_MASK;
-+
- 	/* Are there bits in the return mask not present in PIDFD_INFO_SUPPORTED? */
- 	WARN_ON_ONCE(~PIDFD_INFO_SUPPORTED & kinfo.mask);
- 	/*
-diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
-index 5a4e78c10f43..cf146d327334 100644
---- a/tools/testing/selftests/pidfd/pidfd.h
-+++ b/tools/testing/selftests/pidfd/pidfd.h
-@@ -160,6 +160,22 @@
- #define PIDFD_INFO_COREDUMP_CODE	(1UL << 7)
- #endif
+-				src += read;
+-				left -= read;
++				src += n;
++				left -= n;
  
-+#ifndef PIDFD_INFO_SIZE_VER0
-+#define PIDFD_INFO_SIZE_VER0		64 /* sizeof first published struct */
-+#endif
-+
-+#ifndef PIDFD_INFO_SIZE_VER1
-+#define PIDFD_INFO_SIZE_VER1		72 /* sizeof second published struct */
-+#endif
-+
-+#ifndef PIDFD_INFO_SIZE_VER2
-+#define PIDFD_INFO_SIZE_VER2		80 /* sizeof third published struct */
-+#endif
-+
-+#ifndef PIDFD_INFO_SIZE_VER3
-+#define PIDFD_INFO_SIZE_VER3		88 /* sizeof fourth published struct */
-+#endif
-+
- #ifndef PIDFD_COREDUMPED
- #define PIDFD_COREDUMPED	(1U << 0) /* Did crash and... */
- #endif
-diff --git a/tools/testing/selftests/pidfd/pidfd_info_test.c b/tools/testing/selftests/pidfd/pidfd_info_test.c
-index 597012ed195f..ee08df3dc3d2 100644
---- a/tools/testing/selftests/pidfd/pidfd_info_test.c
-+++ b/tools/testing/selftests/pidfd/pidfd_info_test.c
-@@ -764,4 +764,52 @@ TEST(supported_mask_with_other_fields)
- 	close(pidfd);
- }
- 
-+/*
-+ * Test: fields beyond the caller's struct size are not reported
-+ *
-+ * Request the coredump and supported_mask fields with a struct of the
-+ * first published size. None of those fields fit, so the returned mask
-+ * must not name them and the memory behind the struct must be untouched.
-+ */
-+TEST(info_size_ver0_mask)
-+{
-+	struct pidfd_info info = {
-+		.mask = PIDFD_INFO_COREDUMP | PIDFD_INFO_SUPPORTED_MASK,
-+		.coredump_mask = 0xdeadbeef,
-+		.coredump_signal = 0xdeadbeef,
-+		.coredump_code = 0xdeadbeef,
-+		.supported_mask = 0xdeadbeefdeadbeefULL,
-+	};
-+	unsigned int cmd = _IOC(_IOC_READ | _IOC_WRITE, PIDFS_IOCTL_MAGIC, 11,
-+				PIDFD_INFO_SIZE_VER0);
-+	int pidfd;
-+	pid_t pid;
-+
-+	pid = create_child(&pidfd, 0);
-+	ASSERT_GE(pid, 0);
-+
-+	if (pid == 0)
-+		pause();
-+
-+	ASSERT_EQ(ioctl(pidfd, cmd, &info), 0);
-+
-+	/* The fields that fit are reported as usual. */
-+	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_PID));
-+	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_CREDS));
-+
-+	/* The fields that do not fit are neither reported nor written. */
-+	ASSERT_FALSE(!!(info.mask & (PIDFD_INFO_COREDUMP |
-+				     PIDFD_INFO_COREDUMP_SIGNAL |
-+				     PIDFD_INFO_COREDUMP_CODE |
-+				     PIDFD_INFO_SUPPORTED_MASK)));
-+	ASSERT_EQ(info.coredump_mask, 0xdeadbeef);
-+	ASSERT_EQ(info.coredump_signal, 0xdeadbeef);
-+	ASSERT_EQ(info.coredump_code, 0xdeadbeef);
-+	ASSERT_EQ(info.supported_mask, 0xdeadbeefdeadbeefULL);
-+
-+	sys_pidfd_send_signal(pidfd, SIGKILL, NULL, 0);
-+	sys_waitid(P_PIDFD, pidfd, NULL, WEXITED);
-+	close(pidfd);
-+}
-+
- TEST_HARNESS_MAIN
+ 				if (fault_in_iov_iter_writeable(iter, left)) {
+ 					ret = -EFAULT;
 
 base-commit: 70dd4ee72eb2d5793c62e71c14e3aba78e5a4e56
 -- 
