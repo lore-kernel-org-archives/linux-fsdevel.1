@@ -1,110 +1,129 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f0.google.com (mail-qk2-f0.google.com [74.125.230.192])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC8137701A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 19:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52963BFE3C
+	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 19:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.192
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792264927; cv=none; b=ZbWGVUZb6zwACaK8QpvYqCC/j85rNLMTG/HyzPxLxOA736I6vD9mOJuEzsA1BWcd3KiMCOfU/sPjh6Rxo1UndRA50pr9fI2SJzJyq42JSX+L6YDvTRW2nrWEKwNXUD2ovL/qg47C6E9YRpyNfPiF3r4fWcj/kho5Dyrqll36f1s=
+	t=1792265208; cv=none; b=F/eVUtYN++iRrW+lbOWXj5/K7j+GR5MzzMivIwJFgyskNhsaaAGKyHf03ZH5Lvc34PtsUlHKfyf4+zluSGEvG/VWqfaGN46dkD7LQqfsYE5s4B8QWsGzEI6sxOLK7GLPIlAiK/2NAxKk84fH+G+PIAWNdPs8fNUtkNFgQHqiDqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792264927; c=relaxed/simple;
-	bh=pUJ4t6fYR66T5Chk1hsszLOax4EyulaPaTgUdunIi44=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=qNdOlcLsQZ8wMs2uUmzx9Sxwsof9bdKQQJ4+pbnV36Z6nxbiEvVHMXhZZ6GvaQQYBgWtGzzMHhbKvGMuvVgmF4AdbG0HgtLy7bGMuTvl0bTQnBr2tZPK96fti7VMWGsD1zGdJpycpHRtSfkhHRjZb2PmQkdYAVjc2fbHj+sY5xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Zt4EsW5z; arc=none smtp.client-ip=203.254.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1792265208; c=relaxed/simple;
+	bh=0OJKu0//rXTQ5IjipRP9nhEDDza+d92k3Gj6AjLjKZQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ibj+CVHkfeA4KKRQTn8KXUchuvMDjQ4BpusVpYqO9ZuFoc2Kh9POXeC74UIlY2GPPSkqNX+yJLc2upLJ/DcmE46XmNQKWTwy7rEaPIwy5UvdNiMbJ4yct88l8OOiU+eIu2SSRXsWLAU4iLTILsHVx/QTZr/NFHpsDStJbmmpicY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxdMKXUJ; arc=none smtp.client-ip=74.125.230.192
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Zt4EsW5z"
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20261017192157epoutp04f8efd1b7df76616c77ded9e6f4b0e42b~fZ3JU1ZtC1751317513epoutp04_
-	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 19:21:57 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20261017192157epoutp04f8efd1b7df76616c77ded9e6f4b0e42b~fZ3JU1ZtC1751317513epoutp04_
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1792264917;
-	bh=xD9a7NYCcup25z9n2LZtGalPFX/FDsci29c5QBnpFK8=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=Zt4EsW5zUnVLcQK4HfKmcrRTQSw4l/MQLTDlVlaxv91K6KNeK51vTLPMPUUf94JrW
-	 SVJUxZ5HN1fuILCxQ2nauLvZezldx6Wdti8bKb2yjwT/AoWl0dj7CKDi8gvqQKIga/
-	 Qu1y7EwWjcYUpjwtm2OkEAGXPGp6F03Apni2Kweg=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
-	20261017192156epcas5p13d48c930f366ce79c27e31d461d2116c~fZ3Ii0ae40315903159epcas5p1r;
-	Sat, 17 Oct 2026 19:21:56 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.91]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4j6Wrz6fbkz2SSKY; Sat, 17 Oct
-	2026 19:21:55 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20261017192155epcas5p4ff4047dbc7a3d0f719fd0e5e3df983b7~fZ3HE24RB1137011370epcas5p4L;
-	Sat, 17 Oct 2026 19:21:55 +0000 (GMT)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261017192153epsmtip2c88ae0eebde1a6ed6a5223b78b45fd98~fZ3FOFagN2000820008epsmtip2I;
-	Sat, 17 Oct 2026 19:21:52 +0000 (GMT)
-Message-ID: <a6be7644-f04c-4af9-a49b-97d8997f90aa@samsung.com>
-Date: Sun, 18 Oct 2026 00:51:52 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxdMKXUJ"
+Received: by mail-qk2-f0.google.com with SMTP id af79cd13be357-93e5da88874so31226185a.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 12:26:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792265205; x=1792870005; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=z0y9+d29ww3KClrDVHBCic81sblNW2TUSZKqSM5Fl2c=;
+        b=fxdMKXUJZl0TH5ZxolG4VU6Sktt/cDCGjhG4wDZOXATHNiX4A492nYqugR02gImohm
+         72OkjURJjcVVN/0el3AZhHduX7dTxah/7lWxyG3VjqGeoG3Z5r+CoHoWJBXZ758xP6eQ
+         2BB8gF83d0Og+JEg7icu6ycfvaRWvZQx934CWHQj4s7D6WATUROpgJbHhGTnLeZC6351
+         wL+OrQPM2DdXERp26GIjAF2mwAH0bLgSZDyp2kD7Rfa4goTXm5BB7NC+oNj8hRbiA4ob
+         lqBqnUgZN6H/gUin0Avk2zITTQ8NKV6Eqk3i8E/KQFjL3wuBDnkNOKaxO/xcnK6iXhqp
+         x6rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792265205; x=1792870005;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=z0y9+d29ww3KClrDVHBCic81sblNW2TUSZKqSM5Fl2c=;
+        b=isYPrYZC52Flcfk2VHw3lLzlVm5+H70iYhJTudWokFuW7gJFVlZFU3LDRFS6bMBR/i
+         +/haWQoOWnMgRV5Qfcq7rXkmjAnEkGrDV6yH+Ww727jTsWLuTxqIqwEm5JSXMnTO/AUT
+         BuhJAcW3etGaIQQhUziLX9NPib0u/34KRnULIxaWGr1TWQafwmOfa1xrcPvypoteTiZX
+         Fx3dY2fPnVPL+ygF0b64A/4coJvZAayKIQjHBi5Qg5Z8dwzvX728DeS7BXYPFOw7vWXq
+         cBeXWtgleWlNfEUfkJWJ+7YKOh93ClIBs4NisDJ+xuJp0OjXuhOTLbc3P4gX9MoXDgzg
+         w/6g==
+X-Gm-Message-State: AFq9FYLarAIW7gaDppSe5rnwY3da8qVPeWwf8dYbfI27hP3ZcxCzOdAe
+	/oQH9Rp4k9WwPR6CSWP0wkh5LJyw22SC6XLYtBG9OcXVehp1bzKKrm7K
+X-Gm-Gg: AYBFou2jNF2nSeOVf5FhCC4UItoVcXo2k7HQUTxvGuISdxA2TNQ6qkwDRij+JWmbGxc
+	3j8dsXYiN+oVq5+rLnBbznPUpSBAEgqRDdKCKUs8FOL6Lw16JFEXktgQePmMtX8bS39tTWZVNBI
+	qmzBB63XZ/hsQZL/MHBHsasMbHqp2igq0WzzgUbY4p+KCh/QkofOgayCDFNMVb9Izb2Yq8gE1Lv
+	051IO96dPaAig7hd6RWD91IKv0W/BCCrfL1/oWwEEeD7oed9Kiis5rec7V2zeAYgj2WwZkgOdlS
+	p/pM0Vdwy++TK8xia84Ns4wot4fM23WIiOS7Xpx7lsdY9pETNPeYvgPFWHlilaF5zPyV1tC6rca
+	Wo4pEQ6of1PP/rG/AMBPUgF/LVdqdRYSEFyrXK8RshsHWZlCqCAdxGCghbSY98ZNnGByH+z/qci
+	b/3IrjFuiHf2vJQCDJ2j8X+AtIouz3F7BlQZjcRZl2P0n3BQmDOlMTT/uF42fxtgW5kVkYCdHdp
+	q1jIL0=
+X-Received: by 2002:a05:620a:8812:b0:93e:b7cc:67bb with SMTP id af79cd13be357-93f29d6ffd1mr559823685a.54.1792265205360;
+        Sat, 17 Oct 2026 12:26:45 -0700 (PDT)
+Received: from Fujo.localdomain ([142.188.41.221])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f29c5ae3fsm308636885a.40.2026.10.17.12.26.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Oct 2026 12:26:45 -0700 (PDT)
+From: fujo <hooyan2024@gmail.com>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] pidfs: don't report autoreaped tasks readable before
+ exit info exists
+Date: Sat, 17 Oct 2026 15:23:10 -0400
+Message-ID: <179226499044.847.6888435030853836469@gmail.com>
+In-Reply-To: <20261017054356.7874-1-hooyan2024@gmail.com>
+References: <20261017054356.7874-1-hooyan2024@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/8] xfs write streams
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: brauner@kernel.org, hch@lst.de, dgc@kernel.org, cem@kernel.org,
-	jack@suse.cz, axboe@kernel.dk, kbusch@kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
-	<anuj20.g@samsung.com>
-Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20261016204321.GN107986@frogsfrogsfrogs>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20261017192155epcas5p4ff4047dbc7a3d0f719fd0e5e3df983b7
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261015063425epcas5p23fd76d70af639f4bb138332ca3a575b0
-References: <CGME20261015063425epcas5p23fd76d70af639f4bb138332ca3a575b0@epcas5p2.samsung.com>
-	<20261015063246.103433-1-joshi.k@samsung.com>
-	<bf0505d2-115d-43e9-95e8-2ed6a3404799@samsung.com>
-	<20261016204321.GN107986@frogsfrogsfrogs>
 
-On 10/17/2026 2:13 AM, Darrick J. Wong wrote:
-> On Fri, Oct 16, 2026 at 11:20:41AM +0530, Kanchan Joshi wrote:
->> Christoph, Darrick
->>
->> The shape of the series is aligned with your feedback on v4 [1].
->> Possible to take a look and tell if anything should be changed?
-> I sent a few comments
+Hi Oleg,
 
-Thanks.
+thanks, and sorry for the unclear report.  You are right that the early
+wakeup is not specific to CLONE_AUTOREAP: exit_notify() always calls
+do_notify_pidfd() for an exiting non-delay_group_leader, so pollers are
+woken and pidfd_poll() returns EPOLLIN as soon as exit_state is set.
 
->, but the big thing missing here is a design
-> document -- what problem are you trying to solve by adding the ability
-> to group files in flocks?  How mandatory vs. opportunistic is the stream
-> id? etc.  
+What I observed is the window between that first wakeup and
+release_task() -> pidfs_exit() publishing PIDFS_ATTR_BIT_EXIT: poll()
+returns EPOLLIN to userspace at that point (it does not wait for the
+later wake_up_all() after the unhash), so a parent that follows the
+"poll and then PIDFD_GET_INFO" sequence from the series description can
+read a mask without PIDFD_INFO_EXIT.  The second wakeup only helps
+pollers that are still asleep when it happens.
 
-I guess you are not asking for answers here (given the cover letter, 
-commit description, past discussions etc). But under a new file in 
-'Documentation/filesystems".
+Test-case details, as requested:
 
-> What about Dave's comments about hard constraining files to
-> particular AGs?
+- clone3(CLONE_PIDFD | CLONE_AUTOREAP, exit_signal = 0, pidfd = &pidfd)
+- mode 0: the child creates one thread which exits after 500us and then
+  exits itself with 42; mode 1: the child exits immediately
+- parent: poll(pidfd, POLLIN, 5000), then
+  ioctl(pidfd, PIDFD_GET_INFO, {.mask = PIDFD_INFO_EXIT}) and counts
+  results whose mask lacks PIDFD_INFO_EXIT
+- x86_64 mainline 58161ead29e5 (v7.3-rc7), defconfig + KASAN + DEBUG_INFO
+  + DEBUG_KMEMLEAK, QEMU, 2G:
+    mode 0, SMP 2: 18/300
+    mode 0, SMP 1: 78/300
+    mode 1, SMP 2:  8/300
+- the in-tree pidfd_autoreap_test global.autoreap_multithreaded case
+  fails the same way: its poll() gets POLLIN and PIDFD_GET_INFO returns
+  mask 0x7 (PID|CREDS|CGROUPID) without EXIT.
 
-I had replied here:
-https://lore.kernel.org/linux-xfs/ef9844a0-3a9f-48e4-8092-2de2e03db1c8@samsung.com/#t
+Your POLLHUP remark resolves it: PIDFD_INFO_EXIT is published before the
+task linkage is removed, so POLLHUP is the right condition to wait for.
+I changed the autoreap tests to pfd.events = POLLHUP and to check
+POLLHUP in revents; on the *unpatched* kernel they now pass ten
+consecutive runs (19/19 each), and a POLLHUP variant of the reproducer
+gets 300/300 with PIDFD_INFO_EXIT.  So the kernel behaves as designed
+and the tests were wrong.
 
-In short, hard placement into a specific AG/RG (returning ENOSPC when 
-full) is a distinct XFS-specific contract and is better served by an XFS 
-ioctl rather than a generic interface. And, nothing in this series 
-prevents adding such an ioctl later, and perhaps some of the code can be 
-reused.
+I will withdraw the kernel patch and send a selftests-only v2.  Do you
+think the CLONE_AUTOREAP cover letter or some KAPI comment should also
+say explicitly that POLLHUP, not POLLIN, guarantees that
+PIDFD_INFO_EXIT is available?  The "poll the pidfd and retrieve the exit
+status via PIDFD_GET_INFO" wording is what led me there.
 
-Write-stream remains a layout-agnostic information, about file 
-relationship/lifecycle, provided by the application. This equips the 
-allocator (of device or FS) to do better spatial isolation than it could 
-otherwise.
+Thanks,
+fujo
