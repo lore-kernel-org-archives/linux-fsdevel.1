@@ -1,242 +1,234 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465921B4F09
-	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 10:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F27947B43A
+	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 12:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792232453; cv=none; b=uodrU5N3NzVfSDie6J5aH8A5T8qhVxVPR8WXWd4m6fXrutQ/zd0ZbmQDTRsNKGynOcR0B1mRFsHEatpVkabjV0FGMWvJOf1905tG61XYYoWyfRagWb2wkyjDDXH936Hib1exnhEYZpEzpUm+bjlbMKHd1rZkI+easmdN3t1/0DI=
+	t=1792240673; cv=none; b=gwSWnAM2DxsodfnfXru2cQBPvu93Okfz7Vv+pA8SUH9fNOQ0sBm8PLcixGvPyWwxfwZIF/7CBvvL7uueKlu1hHP9bQ0smc/8BTyoBOxv2LROIJHLUCL5uQMWILSm9+oC3pDpd6ASFTOezSw5FGsAbF+WygCylXB4qnbeUCXdwpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792232453; c=relaxed/simple;
-	bh=9FufBxS18S0dldWgNka4fjZzVhFxBqVzPaTUx6dFpcw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ENcnCrDCfk2WMt9Ywr+J/SepdsXPnBbyd4G/r9QN7Gul889CbmxthGvo1NAfmoTy4gM9dLhSIldKxJ1nTbeP8BIcrTi4ky9WY0ANmabEnW+ITsB7I19wOGfl0Axd45W3rXe1zj5mTeuWnswwr0v7QeWhpAcnVLBPs99nNmukxx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RmH9KjLj; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1792240673; c=relaxed/simple;
+	bh=aUrT+nVSDOfke71D9bNaxj810wNJzDs7psdvneAt1Lc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qJ/gp9PVG2uufqmvdvIfdQSzN58rcoDnp+aLCd8vBdR2RR6ETuk7PpMbF5L52ngKFHF7WPnBVfc7xQO9oiPoAulAIJtYY0D3Ts96IWR2h231zbGFXlh42c4yCGQdziBo5o6yqn3SQ4MVYE+5iiZ6zav+dIUy0FwdA5AKzXspBKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=du1X7Bnt; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RmH9KjLj"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a1d484b4a9so9285665e9.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 03:20:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="du1X7Bnt"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a1d484b4a9so10173815e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 05:37:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792232450; x=1792837250; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=F90DdJ/nHk53s3oA/K0TXq/qQno+kxaKM9BW1VR7338=;
-        b=RmH9KjLjHdKCuQXt7ujzkZllp07gYV7EsaJcPBPEeQAqieLcLQA3ja0ymH2r/ZHGpE
-         Y6pRGJ6ko3h4XldLt1+fo3VeBMoihEVkiVlZX9D+nO7JMW6cW1FAdSJblL5paDIeLYYi
-         icL6lSfq1Q2WfZiT28KcD42ozT/a8hzNXIZlNHuyXgDHwe3LQJg71bKVWAzjHue0hLIr
-         U7cUGVKf9qU+PMgSzkaeSHL6s4aHh0RlnYDKdyd+yRFFNl1n3wjCFvmsrSTU+mjgqjOq
-         0uAI2GvTHW2bMN/8kmyIRnX81urBkMk0S0CzB3TjAo2fVumkQiwHYtXJkLTeA37O/jA4
-         FB2g==
+        d=gmail.com; s=20251104; t=1792240670; x=1792845470; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4cj4POmn8nl8GvGmfpfjwWY0pFMOBaM2EXNXfoPc+dQ=;
+        b=du1X7Bnta3kF0mJ45qOkjPYT4v4yHt2JklzDFQugu4h5WhRir9YFzJX1qEgh9VVwCM
+         OA57nb+puyLKhnb08rOi+NjYErxmcVdpeP3V3Yp6QRxcyKsuyB0raUbP0Mx6NNsElsDI
+         nMmrkbDVnYVYjU6kYn9R7vsdMOINesYmObHDDiwlUl5BoxZLTL1jKfK4GOZ+aWWFTm9H
+         OCewp8fQTTVlYT7TMMkTqJ1rAb1sROPgxuYAe6bnyIXmddu3CvsvaTNT76WktNrlaZhl
+         shxNUT+EsLux5l5ReHGJGH7bjIoGQ5fC7XfEIm6bpRb4JzoVuu0A9gR+Q4qYHd/v3rCK
+         Dy0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792232450; x=1792837250;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=F90DdJ/nHk53s3oA/K0TXq/qQno+kxaKM9BW1VR7338=;
-        b=XERUiRfCLBFS8Zy80xQDiUWpxkPV8GiI0Us68liBh6ZkiemFopPANtFIKY1SXOktah
-         AyNHrEXpZYs25lcpw29CD1P+KXeRWWpM4DsE+ENnu5klT2di7DkF1Cd9uNkcjKa0p9nf
-         bQ1AuxQ6rM83DCNO5URkcdSOh7vShM1eXYco002Bbdmqa04CKgC7ZXXmI5udIGbahIpk
-         rr2fNjZMpkgaYaDZdQw0/2DztfuQAE8bcVrKpJo1fF3Mt5pgG1n5CFAR1QCTGOY99sd8
-         bksLPbD519jelUX5+RpR8buinj96EiAzS6PigSzZaWlcLPmqwf/tR8g3fwFvtNM4uHRj
-         HoVw==
-X-Forwarded-Encrypted: i=1; AKwUvBzOTzCcEY9ZZM9yAzGz6U6CG16bjyelw1X5BtlEvvmcKD218sThtATpvwpwzU3w6ZHksbZ5/P5SJyKHkiLE@vger.kernel.org
-X-Gm-Message-State: AFq9FYKQuYEKX9MVPSuITuvmprMJSvFzW8eYj5qlzixMp0WY1PNT6UVH
-	pgi6AQXj5voA0BLKCg3QBNvLKMIKCNqNmLxWmZIHipXjw/11wH5l3glg
-X-Gm-Gg: AYBFou1AYq1HlSzWboJA1eHewXrpuFylMy030mhTymOWwEKB3F0iwXLhOUVcLBa5hYI
-	Dkz8+ujsTuZx6tT51eCZNkMjOnf4LPcOQN2TfKH8u1LaWNkMnZIKCzLkeWPVcimAOP09/msEvcb
-	iYPJ1argd8QRf2gpOfDgB/i5akr8UZaD0AA6/67/ekoTXuhwbt/sdHnJcJQquujIzPVkpyZ6Ht+
-	SdsgJTnbEJhfLg8v1Bn05fJvMzW5Aan3XAqQgyRn7lB9iMUwI+8m+QXh8mhZ0SiVUfB3MVh6oQB
-	fYNl0xo3oaqxCEH1E7iB0g2hHDDw8calZKcXbWZisK8fO04S4PKq29ESQ7r3dT5rsqfXYWdQFg0
-	B8XHw5quW/fE9+PSEoggOrWFzU5NAW7Ufdp2QbhkwSiniVcV34Ob4xEKE2k8jSzjDf7Yy3qMiNx
-	2DKh/hr/+5lY/eEZITmlaqYgCWrxVcaK3WzbsUKiiV+hSBrrw6YfutdL9BMhjvSswxT43Oxe5oA
-	bL3MGyoRxpkCsPKI7GC2+i5/cMkOETnRg==
-X-Received: by 2002:a05:600c:4e45:b0:4a1:ac66:5f93 with SMTP id 5b1f17b1804b1-4a1d7607475mr50614295e9.8.1792232450432;
-        Sat, 17 Oct 2026 03:20:50 -0700 (PDT)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1c9a6787bsm79353855e9.1.2026.10.17.03.20.47
+        d=1e100.net; s=20260707; t=1792240670; x=1792845470;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4cj4POmn8nl8GvGmfpfjwWY0pFMOBaM2EXNXfoPc+dQ=;
+        b=R5ibdMIRu3+733gy0+f1a+yPGYb8i0hszmEQb7VqIaGoFkLJbulXQuk/nhd4ibQzS9
+         h/2dli4sbDf6Pit3D9FaaJKegnTHzgZBregylEIbKUuVOVa/3Wpiyq9y/UlmrdC9S3YC
+         68wMIkzSDGZh8Y7KmqW5FsJF5IPdfGjbTcGBct1TEeNiw+yQuM1pTbCerBvknbffk0SK
+         Y4W5WV60SasN/7iFa9SCAxXSzMK7uOYHCJ8WaYgiNdcPatN3O4e/9IEj3LxeZitYuciL
+         q3/A/kkrUz9EynSKOpaGBHcTLxpKYGFavm2/IfCOROyPvyU8XtPfWf2ZjpX5Hl8D7WyB
+         DLEw==
+X-Forwarded-Encrypted: i=1; AKwUvBywqfMGcynY+gkx5FEUQb4DEMsVjJSxn/yHvO9szure3MI9v4sBTMaPNR+4vWlb6OTOEPfg/dpnSeNuPldi@vger.kernel.org
+X-Gm-Message-State: AFq9FYIaRT6pvp2l8CXqXe/M0Oq18nqmxCQq+e/u/U0LDrrqtM7iealm
+	lg/ZuZGqIPvbOhKBeMTHCLPk8TZZZFmngOmKiWoVQS2oeY2geQId23q1
+X-Gm-Gg: AYBFou3Ui+RbrpcA8Bqj1yAYqNyk9kt/DhjmuwBDkuB44K+jA4fJlScv5HNY2elVVHs
+	/RpHqKJf7+opeAOkJE65WnPG+YyyCN+CnQKI0oBYi2qooaX/MWdVK4HvuvYHWTew1RHuqhE6I2R
+	WVczlbkPlcnGGOoj/VhFxp1jH2p3Wy4YpcC/5oPuyOQVWADZfa85hQF0DX+ARPkeaPaVHifJo6B
+	/6QolOmxjSEvQxHKldUjlIgewNKNU6tNJJO2UKXYRI1bhNjgrJhP9kxAM9sgzV3s6kDxfxbjPUS
+	kgCMIwcdNvV3ESeYqGmwVxTLOTpZagUcm+yVYNtpOIrYLh6kRRhfqR3FxmmmtR78Kf/et5+mEl1
+	EENCPGejRAxxQX17OH9ppq6Tiudd+Vti8Z5EoiE14aBb3tK5MFz0cWVx4udcIzmnjW+RW+AHidY
+	GondZlytVVSdn7qxGXQ1rKhW7B4h9f8h5bVJE8y8GiJM4SnrNwEsV1N9McYRVSPB1f53f3sNlfL
+	WTPvxefKw7G8Umi8q311RET6hq8GzlQ7ggRuLU++76ll7cwaw==
+X-Received: by 2002:a05:600c:3513:b0:4a1:d05d:2af7 with SMTP id 5b1f17b1804b1-4a1d7607497mr53066795e9.10.1792240670336;
+        Sat, 17 Oct 2026 05:37:50 -0700 (PDT)
+Received: from DESKTOP-IR7J1S9.localdomain ([105.102.86.180])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd50aafbsm11716185f8f.52.2026.10.17.05.37.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 03:20:48 -0700 (PDT)
-Date: Sat, 17 Oct 2026 12:20:45 +0200
-From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: Christian Brauner <brauner@kernel.org>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>,
-	"Serge E . Hallyn" <serge@hallyn.com>,
-	Daniel Durning <danieldurning.work@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Justin Suess <utilityemal77@gmail.com>,
-	Lennart Poettering <lennart@poettering.net>,
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Shervin Oloumi <enlightened@google.com>,
-	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v6 1/8] landlock: Rename quiet_masks to quiet_access
-Message-ID: <20261017.19431362edfa@gnoack.org>
-References: <20261014082718.1435842-1-mic@digikod.net>
- <20261014082718.1435842-2-mic@digikod.net>
+        Sat, 17 Oct 2026 05:37:49 -0700 (PDT)
+From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+To: Breno Leitao <leitao@debian.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>,
+	syzbot+63336d70e1af377d7388@syzkaller.appspotmail.com
+Subject: [PATCH] configfs: fix slab-UAF Write in config_item_put
+Date: Sat, 17 Oct 2026 13:37:47 +0100
+Message-ID: <20261017123748.4430-1-drifabdelmalekmohamedsaid@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261014082718.1435842-2-mic@digikod.net>
 
-On Wed, Oct 14, 2026 at 10:27:07AM +0200, Mickaël Salaün wrote:
-> The base stores the fs/net/scope quiet bitmasks in a struct access_masks
-> field named quiet_masks.  A following commit adds the sibling struct
-> permission_masks field quiet_permission for capabilities and namespaces.
-> quiet_masks drops the access category and keeps the type half ("masks"),
-> while quiet_permission keeps the category and drops the type half, so
-> the two read as an inconsistent pair.
-> 
-> Rename the base field to quiet_access, giving the symmetric,
-> category-named pair quiet_access/quiet_permission that also matches the
-> UAPI handled_access_*/quiet_access_* naming.  This is a
-> no-functional-change rename.
-> 
-> Cc: Günther Noack <gnoack@google.com>
-> Cc: Tingmao Wang <m@maowtm.org>
-> Reviewed-by: Tingmao Wang <m@maowtm.org>
-> Signed-off-by: Mickaël Salaün <mic@digikod.net>
-> ---
-> 
-> Changes since v3:
-> https://patch.msgid.link/20260726161400.3010511-5-mic@digikod.net
-> - Adapt the rename to the split ruleset/domain and logging code.
-> - Add Reviewed-by: Tingmao Wang.
-> 
-> Changes since v2:
-> - New patch.
-> ---
->  security/landlock/domain.c   |  2 +-
->  security/landlock/domain.h   |  4 ++--
->  security/landlock/log.c      |  6 +++---
->  security/landlock/ruleset.h  |  4 ++--
->  security/landlock/syscalls.c | 10 +++++-----
->  5 files changed, 13 insertions(+), 13 deletions(-)
-> 
-> diff --git a/security/landlock/domain.c b/security/landlock/domain.c
-> index 4031b581be07..c66663f8cd8b 100644
-> --- a/security/landlock/domain.c
-> +++ b/security/landlock/domain.c
-> @@ -479,7 +479,7 @@ landlock_merge_ruleset(struct landlock_domain *const parent,
->  		return ERR_PTR(err);
->  
->  #ifdef CONFIG_SECURITY_LANDLOCK_LOG
-> -	new_dom->hierarchy->quiet_masks = ruleset->quiet_masks;
-> +	new_dom->hierarchy->quiet_access = ruleset->quiet_access;
->  #endif /* CONFIG_SECURITY_LANDLOCK_LOG */
->  
->  	return no_free_ptr(new_dom);
-> diff --git a/security/landlock/domain.h b/security/landlock/domain.h
-> index 428c1d9890db..61d89261e280 100644
-> --- a/security/landlock/domain.h
-> +++ b/security/landlock/domain.h
-> @@ -130,10 +130,10 @@ struct landlock_hierarchy {
->  		 */
->  		log_new_exec : 1;
->  	/**
-> -	 * @quiet_masks: Bitmasks of access that should be quieted (i.e. not
-> +	 * @quiet_access: Bitmasks of access that should be quieted (i.e. not
->  	 * logged) if the related object is marked as quiet.
->  	 */
-> -	struct access_masks quiet_masks;
-> +	struct access_masks quiet_access;
->  #endif /* CONFIG_SECURITY_LANDLOCK_LOG */
->  };
->  
-> diff --git a/security/landlock/log.c b/security/landlock/log.c
-> index a8578a6f2ce9..3f9ae1bacb23 100644
-> --- a/security/landlock/log.c
-> +++ b/security/landlock/log.c
-> @@ -436,7 +436,7 @@ is_denial_quieted(const struct landlock_request *const request,
->  	if (object_quiet_flag) {
->  		const access_mask_t quiet_mask =
->  			pick_access_mask_for_request_type(
-> -				request->type, youngest_denied->quiet_masks);
-> +				request->type, youngest_denied->quiet_access);
->  
->  		return (quiet_mask & missing) == missing;
->  	}
-> @@ -447,10 +447,10 @@ is_denial_quieted(const struct landlock_request *const request,
->  	 */
->  	switch (request->type) {
->  	case LANDLOCK_REQUEST_SCOPE_SIGNAL:
-> -		return !!(youngest_denied->quiet_masks.scope &
-> +		return !!(youngest_denied->quiet_access.scope &
->  			  LANDLOCK_SCOPE_SIGNAL);
->  	case LANDLOCK_REQUEST_SCOPE_ABSTRACT_UNIX_SOCKET:
-> -		return !!(youngest_denied->quiet_masks.scope &
-> +		return !!(youngest_denied->quiet_access.scope &
->  			  LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET);
->  	/*
->  	 * Leave LANDLOCK_REQUEST_PTRACE and LANDLOCK_REQUEST_FS_CHANGE_TOPOLOGY
-> diff --git a/security/landlock/ruleset.h b/security/landlock/ruleset.h
-> index cf77f1806a95..8ebdd4fa098f 100644
-> --- a/security/landlock/ruleset.h
-> +++ b/security/landlock/ruleset.h
-> @@ -182,11 +182,11 @@ struct landlock_ruleset {
->  #endif /* CONFIG_TRACEPOINTS */
->  
->  	/**
-> -	 * @quiet_masks: Stores the quiet flags for an unmerged ruleset.  For a
-> +	 * @quiet_access: Stores the quiet flags for an unmerged ruleset.  For a
->  	 * merged domain, this is stored in each layer's struct
->  	 * landlock_hierarchy instead.
->  	 */
-> -	struct access_masks quiet_masks;
-> +	struct access_masks quiet_access;
->  	/**
->  	 * @handled_masks: Contains the subset of filesystem and network actions
->  	 * that are handled by this ruleset.
-> diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
-> index 1d02d57f4c48..17d8e9b7b0c6 100644
-> --- a/security/landlock/syscalls.c
-> +++ b/security/landlock/syscalls.c
-> @@ -280,9 +280,9 @@ SYSCALL_DEFINE3(landlock_create_ruleset,
->  	if (IS_ERR(ruleset))
->  		return PTR_ERR(ruleset);
->  
-> -	ruleset->quiet_masks.fs = ruleset_attr.quiet_access_fs;
-> -	ruleset->quiet_masks.net = ruleset_attr.quiet_access_net;
-> -	ruleset->quiet_masks.scope = ruleset_attr.quiet_scoped;
-> +	ruleset->quiet_access.fs = ruleset_attr.quiet_access_fs;
-> +	ruleset->quiet_access.net = ruleset_attr.quiet_access_net;
-> +	ruleset->quiet_access.scope = ruleset_attr.quiet_scoped;
->  
->  	/*
->  	 * Emits before anon_inode_getfd() installs the file descriptor, while
-> @@ -382,7 +382,7 @@ static int add_rule_path_beneath(struct landlock_ruleset *const ruleset,
->  		return -EINVAL;
->  
->  	/* Checks for useless quiet flag. */
-> -	if (flags & LANDLOCK_ADD_RULE_QUIET && !ruleset->quiet_masks.fs)
-> +	if (flags & LANDLOCK_ADD_RULE_QUIET && !ruleset->quiet_access.fs)
->  		return -EINVAL;
->  
->  	/* Gets and checks the new rule. */
-> @@ -423,7 +423,7 @@ static int add_rule_net_port(struct landlock_ruleset *ruleset,
->  		return -EINVAL;
->  
->  	/* Checks for useless quiet flag. */
-> -	if (flags & LANDLOCK_ADD_RULE_QUIET && !ruleset->quiet_masks.net)
-> +	if (flags & LANDLOCK_ADD_RULE_QUIET && !ruleset->quiet_access.net)
->  		return -EINVAL;
->  
->  	/* Denies inserting a rule with port greater than 65535. */
-> -- 
-> 2.55.0
-> 
+syzbot reported:
 
-Reviewed-by: Günther Noack <gnoack3000@gmail.com>
+BUG: KASAN: slab-use-after-free in instrument_atomic_read_write
+           include/linux/instrumented.h:112 [inline]
+BUG: KASAN: slab-use-after-free in atomic_fetch_sub_release
+           include/linux/atomic/atomic-instrumented.h:400 [inline]
+BUG: KASAN: slab-use-after-free in __refcount_sub_and_test
+           include/linux/refcount.h:389 [inline]
+BUG: KASAN: slab-use-after-free in __refcount_dec_and_test
+           include/linux/refcount.h:432 [inline]
+BUG: KASAN: slab-use-after-free in refcount_dec_and_test
+           include/linux/refcount.h:450 [inline]
+BUG: KASAN: slab-use-after-free in kref_put
+           include/linux/kref.h:64 [inline]
+BUG: KASAN: slab-use-after-free in config_item_put+0x26/0x90
+           fs/configfs/item.c:149
+Write of size 4 at addr ffff88803b6444b4 by task syz-executor324/5709
+
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
+ instrument_atomic_read_write include/linux/instrumented.h:112 [inline]
+ atomic_fetch_sub_release include/linux/atomic/atomic-instrumented.h:400 [inline]
+ __refcount_sub_and_test include/linux/refcount.h:389 [inline]
+ __refcount_dec_and_test include/linux/refcount.h:432 [inline]
+ refcount_dec_and_test include/linux/refcount.h:450 [inline]
+ kref_put include/linux/kref.h:64 [inline]
+ config_item_put+0x26/0x90 fs/configfs/item.c:149
+ configfs_symlink+0x6be/0x11d0 fs/configfs/symlink.c:225
+ vfs_symlink+0x18b/0x330 fs/namei.c:5823
+ filename_symlinkat+0x1cd/0x420 fs/namei.c:5848
+ __do_sys_symlinkat fs/namei.c:5868 [inline]
+ __se_sys_symlinkat+0x4e/0x2b0 fs/namei.c:5863
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Allocated by task 5712:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:426
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x3d5/0x680 mm/slub.c:5563
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ nvmet_ports_make+0xe6/0xf00 drivers/nvme/target/configfs.c:2054
+ configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1369
+ vfs_mkdir+0x408/0x620 fs/namei.c:5439
+ filename_mkdirat+0x289/0x520 fs/namei.c:5472
+ __do_sys_mkdir fs/namei.c:5499 [inline]
+ __se_sys_mkdir+0x34/0x150 fs/namei.c:5496
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 5712:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:264 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2748 [inline]
+ slab_free mm/slub.c:6509 [inline]
+ kfree+0x1c5/0x6d0 mm/slub.c:6802
+ config_item_cleanup fs/configfs/item.c:128 [inline]
+ config_item_release+0x13a/0x2d0 fs/configfs/item.c:137
+ configfs_rmdir+0x885/0x950 fs/configfs/dir.c:1580
+ vfs_rmdir+0x3e9/0x6b0 fs/namei.c:5544
+ filename_rmdir+0x292/0x520 fs/namei.c:5601
+ __do_sys_rmdir fs/namei.c:5624 [inline]
+ __se_sys_rmdir+0x2e/0x140 fs/namei.c:5621
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff88803b644000
+ which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 1204 bytes inside of
+ freed 4096-byte region [ffff88803b644000, ffff88803b645000)
+
+This is a race between a thread creating a symlink and another one
+doing rmdir on a parent (or ancestor) directory of symlink creation dir.
+
+configfs_symlink() takes a reference on parent_item, the directory the
+link is created in, and then drops the directory inode lock around
+get_target(). While the lock is dropped, a concurrent rmdir can remove
+the group that parent_item belongs to.
+
+If parent_item is a default group embedded in a larger object, such as
+nvmet_port.subsys_group, the reference on the embedded item does not
+keep the containing object alive. rmdir frees the object, and the final
+config_item_put(parent_item) in configfs_symlink() then decrements a
+kref inside freed memory.
+
+Fix this by not holding parent_item across the unlocked window. Drop
+the reference before inode_unlock() and look it up again from
+dentry->d_parent after inode_lock(). configfs_get_config_item() returns
+NULL if the parent dentry was unhashed in the meantime, in which case
+release the target references and return -ENOENT.
+
+Reported-by: syzbot+63336d70e1af377d7388@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=63336d70e1af377d7388
+Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+---
+ fs/configfs/symlink.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/fs/configfs/symlink.c b/fs/configfs/symlink.c
+index 89178f5d371a..51eb58b68b55 100644
+--- a/fs/configfs/symlink.c
++++ b/fs/configfs/symlink.c
+@@ -196,11 +196,21 @@ int configfs_symlink(const struct mnt_idmap *idmap, struct inode *dir,
+ 	 *
+ 	 *  AV, a thoroughly annoyed bastard.
+ 	 */
++
++	/* Put the reference back, retake and check after relocking*/
++	config_item_put(parent_item);
++	parent_item = NULL;
+ 	inode_unlock(dir);
+ 	ret = get_target(symname, &target_item, &target_sd, dentry->d_sb);
+ 	inode_lock(dir);
+ 	if (ret)
+-		goto out_put;
++		goto out_put; /* config_item_put on NULL, no problem */
++
++	parent_item = configfs_get_config_item(dentry->d_parent);
++	if (!parent_item) {
++		ret = -ENOENT;
++		goto out_put_target;
++	}
+ 
+ 	if (dentry->d_inode || d_unhashed(dentry))
+ 		ret = -EEXIST;
+@@ -218,6 +228,7 @@ int configfs_symlink(const struct mnt_idmap *idmap, struct inode *dir,
+ 						     target_item);
+ 	}
+ 
++out_put_target:
+ 	configfs_put(target_sd);
+ 	config_item_put(target_item);
+ 
+-- 
+2.43.0
+
