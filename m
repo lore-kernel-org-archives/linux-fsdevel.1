@@ -1,84 +1,84 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDA132D0F5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE30336881
 	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 13:40:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792244427; cv=none; b=fYHO7yH8lvwSsfYfi/KrkbGfptWq4N41S4g+BKnW9CzM8deYjUz4qjVMN6d8BxYniMuxLmn+um0l6N1i5xEoUgN3SQbZi2CoWXTS/eWfh3NkfhC/8N70ABL9XqO9DlaPevSIEY32qBVv/eR5dwKCPbKFePN6BCJLaHWZQpDF0ao=
+	t=1792244427; cv=none; b=HppxgtpojDSSgsOV9pOF3UhOXWjhdMCAn/SSglclbJiBeSvZi3OEq3BVYspiHT2LFt/sqMGWPm1NgeDJ6emhbv42cDVEf/2V6q+ryggQXDbvGI/+hyHl5HmGJg0fYI/br2PzA0lyTxDiEYKfNSXmnNOJmapIhbmCCTJBhuaxZeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792244427; c=relaxed/simple;
-	bh=L0SvlG0HgqpzEKFEwHq7wDfZkYZ0WTBPvieUdovJWzY=;
+	bh=fGhpFHhnxJbeuyXdQDXOoiQeUDoWhcJ8jAOHC6D6C1s=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PqIfRaPpJCuCqgoilbqVvs0Hl4i5Gbj8KoeslLANH6ljvngxLjDWn2971y7CtWZdWPiC3ndvtyJTch6UMVCrgxcPjR6yMLkpMo6GO+gCvTiuRoA1P52fTc7TVoPK39oaLtFCJqbjtoHe7oY2/FlNyBoJHGpI+JVcQJC6f6p6aV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NVWi+qVi; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=XyUnlntv; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=EqedP1uFg+ePrC6byrUSDwbOYKYajCwnVh+2451Jt2XcSrrt0jj9TC88BfVT0I/OpxRYTAQHkgiFRCU3r2gWtF/dKYyLE6aNKipAt/676IqL3knSFyeXRuTy3ornHj+yFyiWXzY9fzNdxA18XeRmoMXKXnedRV6V9lwIFHSdnoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JN7WN7yE; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=nQIaPBmg; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NVWi+qVi";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="XyUnlntv"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JN7WN7yE";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="nQIaPBmg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1792244425;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0ycK1hfInrWAuob/OJzi5liuKRYAR110GQUd0Dl9JT4=;
-	b=NVWi+qVi2G4ksjPapzfnA0sBP7SZDLW/Ovw4HYzxC7y+b6pLtmJ6Xz51Wokfk/UepZ283w
-	FySd6rNa5ywsTzMmneXolEOkuUyx+FGSdyUBfYJNcEr+a42nW2e3XTYVjOmeTl0wTqf+Sq
-	kPWN5NnrTESOa/V3ADVEfpU7LZSngkw=
+	bh=A3sJ25QlDwNYlnIG0z6n02tfJnAa4hWqpwhse3XHRzk=;
+	b=JN7WN7yEFKhMhj3KPj0mcwKmDGceHeNnlYvIVvHXBCbxoD52dqmVyld2P62BnogLydzsra
+	aHCP0MAGjp+9oAWPl8+Be7EgbFxF9URNEcXenFefydoL5qzjJuC6jTKW/Nv83UDMKxNrSB
+	bHmjxtrLb4DJsowy747I7W6e+dpShrE=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-277-4-pRj0USP9qB8AGRpWfMqg-1; Sat, 17 Oct 2026 13:40:24 +0000
-X-MC-Unique: 4-pRj0USP9qB8AGRpWfMqg-1
-X-Mimecast-MFC-AGG-ID: 4-pRj0USP9qB8AGRpWfMqg_1792244423
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6b1bc2e62d5so804131a12.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 06:40:23 -0700 (PDT)
+ us-mta-693-by0VT8QjPJW0W5txuNMxxg-1; Sat, 17 Oct 2026 13:40:23 +0000
+X-MC-Unique: by0VT8QjPJW0W5txuNMxxg-1
+X-Mimecast-MFC-AGG-ID: by0VT8QjPJW0W5txuNMxxg_1792244422
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6afa6850207so858000a12.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 06:40:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792244423; x=1792849223; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1792244422; x=1792849222; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0ycK1hfInrWAuob/OJzi5liuKRYAR110GQUd0Dl9JT4=;
-        b=XyUnlntvGLhTtVa4SSV6jfIrrEH2T1kOCiZ3wT3IlETiOOhk3wMCf6pndZWwVcXrJd
-         cv5/9zwXe9pTYBBtOQYgVlGbbXcAb23Ihi3wkl9qfNttUZTcBqXjiepBFH5gELPHf63H
-         WNxBHxGHRg6RgZAyxtFS/bSD96wOr4NcZlowC/R2RSKAHSAqtiICq01pJKHdSB9VN/EW
-         S8h77T/bECy+zN35uDrVPW/ADn9y10FsPXYbMu+EQ8jESJ6TX3ZIJFt8DfsgJkx3JAuX
-         YpRlu/DOCgjAWqF8q4cQmrhdUZKpZAPHRD0OrGg9WbkIhbAZFzZL7fTINM782+U0BLGm
-         ZpQQ==
+        bh=A3sJ25QlDwNYlnIG0z6n02tfJnAa4hWqpwhse3XHRzk=;
+        b=nQIaPBmgfWQI92C23rCovKoLyViOqODI9pG45SpqZO/rH+JM6HY+nQEVdj2MIi+UPN
+         awF9uG4jGGObFmGg+MKK7Xy1SdHv/ESBdRw1Mv5S9TjbnrDMbbdSqX6uye9dE8PPdrjl
+         o1llR+m0H2mdYOaqqMwRIeDfA0OMld9TUBwpPimwh0+ZGIXnScvA5u9g9oAnnQZl3rIp
+         2mVHeIzkxP3n63i0nV+N2QjOSNe0C9qrvFijZ8g4ViJ9L2yo95DCnfEnhTRKnj8lgnTg
+         oqHHHyDZs2sJcVBrBacBMrUKcA6UMGPZVl3KxTb0oGACs/kYPnc0VjP/g5W4QxTSrm7s
+         I9cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792244423; x=1792849223;
+        d=1e100.net; s=20260707; t=1792244422; x=1792849222;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0ycK1hfInrWAuob/OJzi5liuKRYAR110GQUd0Dl9JT4=;
-        b=s417lofM3UiKM6Whzsg+sYpUdnpUbH10YRrm7rR56O+DnC21VwRjP1HrIPD2cvQi2w
-         aaEIkrSmY/eUMizFbRF4dPBxxF1ij89g+R701/tSf19X4AkJlR8d3pPW20eDTUG0txG0
-         K9XtWC457kpQ80WKjSDs78mGKgwR4h4wGtmN98JuNYZn6NrZ9HRadyYM5wOPiHJvyNoO
-         4hT1WVnLm+L781UoH+QBqO1OHQ+2WSF6kgTGZbgdfFSh4/31FrC0hloxVr/uwmbVianU
-         UWM/ErigoeL5Kt3NddETp+/H+oUVihTtbWScaTqkQyFQW8knR2jBpFctgOU4bpGVVMOp
-         //DQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzgmpxx2RvMgZDc5xXzEqAheG9hEAa9wBoFkKfIfQQZT9WW+XgDQ1ufMOHukL2/4qkDXenMlFOQ2Kb5/+SN@vger.kernel.org
-X-Gm-Message-State: AFq9FYKmsYqDB2bssPFRNas/gACuemXPwCYBh3t+9dRWmX8X4Rp2UNw4
-	+Mn97VvHtQlbflzRFTSZtDpWuUEs5nQHskwmEtm50dg8a49uXo/20+cQ8MjjeHeCl0WVUyJBSXi
-	FSNWP9cEhw2IkV9gpqUPV2EmNAnCQ2ZhFVY3h4aAp9CCVxhfTCLLGMnT+HfrC4rTKcTQ=
-X-Gm-Gg: AYBFou2iFzp0nALedr7/g2ZmwbgDjZg0otbIUONMaEh3r4OZ2TpHxvz5uWrU1pLqaoS
-	RXpfYbjC1LKhRKOWHl3OAG0Pga+ork4zRBanRevmmbmpgM48bMJ7EQrom8fi5isMJQF4SpOgJ4r
-	dcs6FnqwvRv2srBDb5jCNldO4TxVPBkLlLF9bR0f0U5nLgBetYEdhRkHvaCiD5Y53t1e/SRIOrD
-	J67i6Ov1dIIhmfWkaFf82ZJI6obLi10/6GwQL+4ReAWweA7dL5WO3qAB6Z4iUvuIaKntjUylJx5
-	ctKkf3jX0V0C+/9tHXtfIion7yvwGHvqGucNzX2E23RCXfkaInicqYqljquMbCqmIh9dAMcI4mt
-	J56hXETfLgdBIDS8cIkMBUOSWGQuXiUBTzumVCdiGNNiCyGbuGFWpNPr+Gu4NmLLlrzXNlD4uJJ
-	YTTKil3vLCo45hOEUkFfWn0p3pTaz6fQRJ7vTAtJvryoiKD+cKdApBBr4vVTeKF+7UjdpH5yvXh
-	dc=
-X-Received: by 2002:a05:6402:4510:b0:6b1:ac0d:6f77 with SMTP id 4fb4d7f45d1cf-6b3a80cea6fmr1729590a12.5.1792244422913;
-        Sat, 17 Oct 2026 06:40:22 -0700 (PDT)
-X-Received: by 2002:a05:6402:4510:b0:6b1:ac0d:6f77 with SMTP id 4fb4d7f45d1cf-6b3a80cea6fmr1729571a12.5.1792244422538;
-        Sat, 17 Oct 2026 06:40:22 -0700 (PDT)
+        bh=A3sJ25QlDwNYlnIG0z6n02tfJnAa4hWqpwhse3XHRzk=;
+        b=vj0Bv2wCiRyTM2uSzcbvBnY65rE/PkVU9bbS6+aaCbr+0SS/ArgHKYcw6brUQs2AbK
+         cQ/4nL/Pce/lU9Fgru6bXpKKIzoXspfubSdROwhWKGOV0p884adEEytL97J1aCiWFRA5
+         16j5TPjpmHD4nVv7jrvKRpyjJBXu0sV6oHnMODqa9eDKAsjbhBV16XDPHVBL11QjkzxH
+         eivppjK8cxjC/zzfZMgo1/jSOWRydwRYnWKMHf8p+rB+1t3ZPFmIzMhFjGysiDVrd6zV
+         D+9ycOAAHyeWVN9RcIoLIV9hjEy1QsPTwtTdD12z2Af79h5QLqPiclaR9lW01xGIOFO4
+         Y4Gg==
+X-Forwarded-Encrypted: i=1; AKwUvBxMi+lf0KJiSU/Li8KDJBHC65O1jfv6YB1c3UsRgx7BzmDb/xu5DxzBh0gUMx+lzrX+uFQ+GodZZ/L3aGbG@vger.kernel.org
+X-Gm-Message-State: AFq9FYJxRaHpq8lK1SSFyBqfbc0DtGjWEmCH4dpkKk4vlpU/btJdmL0L
+	0Z6n72Wub4C1Kd0oz934TIE/cFjX2tXNQw+h6KTW2oZNHGZoFXpFJFmFCk2edhj2RtR2ajp9v07
+	HZQ0lwJrHISDVFIdMZ+hmlYm81ZvQ37dcf856jMA+f5u15udMJaOZcxw6F373oTzHKEo=
+X-Gm-Gg: AYBFou3mdmKw+yLflD+5iV5kyhqbqGB6/Lf3VZEw1hlaC5l/zdwl3FgdXw3YzI0Ilrm
+	HWzDMVhPKX/X3man9DkOrg/6CtJBXFiofYipcBKdS04jugZrgFf6MuVd/xHegl9/ZitSoTRsItf
+	cYf/SuQea5KPiGl1ZoRkbDC+Mspgk9FnTd8cbIVy5Hn/LoYr5EEtrIl9W/Lk9Z+xAPCvTy3BlSt
+	HGLGU3Ru6UhEjMy5WDhFdqZ401dg7uUDZnb1kPPvIXtHgtPqKlDxQTrZrdZAIQr0vEi0KXMeSRH
+	sThKiKa76JUGLvYrwKYvqs9spJPm2UAy/A5bCOdGSs4m5N26Bm0750/eFC/DL3aiROke/CJUlgX
+	xvt6TYY1jVLFXmQS1FxRT/7+SqEzj1GJ+IMMgEvZ1Cdut4t/yi9+Na8jcldqQ0Uk85AhPd48cuI
+	dhhiyQx/B2DaUQQ6iltC1CPTkMBKy7iorlNk6GPGtW17vr9D2IqAhDeiN3SKBuOFtfP3nik1MSe
+	gU=
+X-Received: by 2002:a05:6402:4018:b0:6b1:bcde:9f32 with SMTP id 4fb4d7f45d1cf-6b3a817697bmr1371826a12.7.1792244421888;
+        Sat, 17 Oct 2026 06:40:21 -0700 (PDT)
+X-Received: by 2002:a05:6402:4018:b0:6b1:bcde:9f32 with SMTP id 4fb4d7f45d1cf-6b3a817697bmr1371813a12.7.1792244421483;
+        Sat, 17 Oct 2026 06:40:21 -0700 (PDT)
 Received: from cluster.. (4f.55.790d.ip4.static.sl-reverse.com. [13.121.85.79])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b38a1b113dsm1913032a12.10.2026.10.17.06.40.21
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b38a1b113dsm1913032a12.10.2026.10.17.06.40.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 06:40:22 -0700 (PDT)
+        Sat, 17 Oct 2026 06:40:20 -0700 (PDT)
 From: Alex Markuze <amarkuze@redhat.com>
 To: ceph-devel@vger.kernel.org
 Cc: Alex Markuze <amarkuze@redhat.com>,
@@ -89,14 +89,13 @@ Cc: Alex Markuze <amarkuze@redhat.com>,
 	brauner@kernel.org,
 	jack@suse.cz,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v3 1/4] dcache: export d_find_alias_rcu() for modular filesystems
-Date: Sat, 17 Oct 2026 13:40:13 +0000
-Message-Id: <f93b4a902ed00af44019ca88eeffbf686d920e2c.1792241577.git.amarkuze@redhat.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/4] ceph: support subvolume quarantine
+Date: Sat, 17 Oct 2026 13:40:12 +0000
+Message-Id: <cover.1792241577.git.amarkuze@redhat.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1792241577.git.amarkuze@redhat.com>
-References: <cover.1792074165.git.amarkuze@redhat.com> <cover.1792241577.git.amarkuze@redhat.com>
+In-Reply-To: <cover.1792074165.git.amarkuze@redhat.com>
+References: <cover.1792074165.git.amarkuze@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -105,33 +104,87 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Ceph subvolume quarantine ancestry walk needs to find a dentry
-alias under RCU without taking a reference. d_find_alias_rcu() provides
-these semantics, but it is not exported, so a modular Ceph client fails
-at modpost with an undefined reference to the helper.
+CephFS subvolume quarantine isolates a subvolume while allowing access
+by recovery clients with q/Q MDS auth caps. The kernel client currently
+does not advertise quarantine support, so the MDS can hold its requests
+until quarantine is lifted.
 
-Export d_find_alias_rcu() to GPL modules so filesystem modules can use
-the existing RCU lookup without changing its lifetime rules.
+This series handles MClientCaps v14 quarantine notifications, checks
+cached data and metadata access, and handles disable notifications.
+Fresh MDS replies allow recovery after a lost disable. It applies directly
+to the base below and has no fscrypt prerequisite.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202610171220.i77KPiw5-lkp@intel.com/
-Signed-off-by: Alex Markuze <amarkuze@redhat.com>
----
- fs/dcache.c | 1 +
- 1 file changed, 1 insertion(+)
+The first patch exports d_find_alias_rcu() to GPL modules. The remaining
+three patches add the wire definitions, record quarantine state and
+ancestry generations, then install the access checks before advertising
+the session feature.
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 1b1a81f10da6..13ba553081b3 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1248,6 +1248,7 @@ struct dentry *d_find_alias_rcu(struct inode *inode)
- 	spin_unlock(&inode->i_lock);
- 	return de;
- }
-+EXPORT_SYMBOL_GPL(d_find_alias_rcu);
- 
- /*
-  *	Try to kill dentries associated with this inode.
+Changes since v2:
+- Add the VFS export prerequisite to fix the undefined d_find_alias_rcu
+  symbol reported by the kernel test robot with CONFIG_CEPH_FS=m.
+  The fix carries Reported-by and Closes tags.
+- Keep all three Ceph patches unchanged from v2.
+- Replace object-only compile validation with a complete W=1 kernel and
+  module build using GCC 14.2.0 and the robot's x86_64-rhel-9.4 config.
+
+Validation:
+A complete W=1 build with the kernel.org GCC 14.2.0 toolchain and the
+robot's x86_64-rhel-9.4 config after olddefconfig passes. It produces
+vmlinux, bzImage and all 2,233 configured modules, including ceph.ko and
+libceph.ko. MODPOST succeeds, and Module.symvers contains the GPL export
+of d_find_alias_rcu. Configuration changes are limited to olddefconfig's
+toolchain capability normalization; there are no manual config changes.
+W=1 warnings remain elsewhere in the kernel; none come from Ceph or
+dcache.c.
+All four patches pass strict checkpatch and apply in order to reproduce
+the tested source tree. Seven deterministic source-extraction regression
+runners pass; the ASan/UBSan/LSan VFS runner also demonstrates the remaining
+cached encrypted-readlink bypass.
+
+Known limitation: cached encrypted symlink targets can bypass quarantine
+checks. fscrypt populates inode->i_link, which the VFS can use for readlink
+or symlink traversal without calling Ceph's get_link operation. Uncached
+encrypted targets and plaintext symlinks still pass through Ceph's checks.
+Closing the encrypted-target cache gap needs the separate fscrypt support
+and Ceph opt-in follow-up.
+
+Live cluster, KASAN/lockdep, multi-MDS recovery and depth benchmarks have
+not been run for this version. Existing snapshot mappings need server
+notifications to revoke already installed PTEs. Disable messages carry
+no generation, so same-rank ordering relies on ordered MDS delivery.
+Recovery assumes the intended rwq/rwQ delegation; overlapping ordinary
+rw and read-only q/Q grants still need server-side cap filtering.
+
+v2: https://lore.kernel.org/r/cover.1792074165.git.amarkuze@redhat.com
+Robot report:
+https://lore.kernel.org/oe-kbuild-all/202610171220.i77KPiw5-lkp@intel.com/
+
+Alex Markuze (4):
+  dcache: export d_find_alias_rcu() for modular filesystems
+  ceph: add subvolume quarantine wire definitions
+  ceph: record subvolume quarantine from MDS cap updates
+  ceph: fail quarantined subvolume access with EACCES
+
+ fs/ceph/acl.c                |  28 +-
+ fs/ceph/addr.c               |  72 ++-
+ fs/ceph/caps.c               | 291 +++++++++++-
+ fs/ceph/debugfs.c            |   1 +
+ fs/ceph/dir.c                |  51 ++-
+ fs/ceph/file.c               | 117 +++--
+ fs/ceph/inode.c              | 841 ++++++++++++++++++++++++++++++++++-
+ fs/ceph/ioctl.c              |  13 +
+ fs/ceph/mds_client.c         |  23 +-
+ fs/ceph/mds_client.h         |  26 +-
+ fs/ceph/super.c              |   2 +
+ fs/ceph/super.h              |  80 +++-
+ fs/ceph/xattr.c              |  54 ++-
+ fs/dcache.c                  |   1 +
+ include/linux/ceph/ceph_fs.h |  13 +
+ net/ceph/ceph_common.c       |   2 +
+ 16 files changed, 1482 insertions(+), 133 deletions(-)
+
+
+base-commit: ed0502cb11f84fff29f374238e526ae94d9bdfde
 -- 
 2.34.1
 
