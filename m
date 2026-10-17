@@ -1,48 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB143A7F41;
-	Sat, 17 Oct 2026 16:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBB43AA9CA
+	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 16:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792255742; cv=none; b=t1bIhhuO7xK2i0ihFPH5UgHR11OnRbP+mdz1X5d9zMhgZEMrNcnc7ldCmGrlfw7if7Z3zksbbsiEhT3OHqeOZtrDmiJDu114j/jnB4UPqRMAkQ4cUjR9ZY8TCpmiII0StN0ngNlbcsjIw5XucctjD8e32MvO8mmDzlPjBc0uLCw=
+	t=1792255869; cv=none; b=KyRx4e+YdulxZ+q6R8idCgCQNx6NA1U0v491LTBezxEXGDiTXV1m+KBCxWuLHqa6/0vkNXRfMl2BTPRjwItqHpFYatCpxtdsPyLnV3k6+vZUqcbo1Z28AIY6IXcIgT8wK3+mQ/D3F0De92K+8F4nD0YApAza8qPVHY/GnOfxNPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792255742; c=relaxed/simple;
-	bh=nUugFOwlYFMOtuWEPg6Xpl18rX216FZa3eNW3Cmr/pk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dgiycPLJGTZzHkMQqZY4kA8JqtuO5vWFajy8hLsP3/6H/SHu/ZMOVi75gUQy7ka/kSMSINBQ33cN4tW11Iva/H4yyIckyNT2f0MKYxLptLK4tGvZoX+a+H2VmL7MkLxoZIWWY+i4F7ACL07ndlLewVMiqz7rSZXMHGA8BlzRl7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=aHhMClQe; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792255869; c=relaxed/simple;
+	bh=Drud1aITCIgS9zLpb0Jw3rnTUV1w7110x1Ghz3/vhzs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lnn6Ex8d8rFcfb4atFTT/YnjqVL8UTO7aEIN09vfaWOHrhPUNw2RVibWjnqamTqHjzFNcjtwx7a8YyBAbMXZL7MVWoYHN7vQx/d/eHcP7+ygOG4WfxE0fq/h7sMv2Y6raYywPzLe7/+0VSpVxYzlZ223apXCOEAtygmOBep88+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hdfFO59o; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aHhMClQe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB4E1F000C4;
-	Sat, 17 Oct 2026 16:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792255740;
-	bh=MlPUZ35hTcV++rBe1PHqRl77Ak7FpewK0YokX2RjYGM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=aHhMClQeUQSRLPB4TK57Iw1jqauTg9mD/SosfiNGahauFV/o2szsv0RKmocjiL+7B
-	 T1ifqKBZOzTncN/aDcGeNQwGz9/9C5N78aUnEmj0i1UPiJlTbuTVd3ZeWwdvZXFRdB
-	 sHQZPzMT5BVvXHa1jwF2ZvA8A1S2tnW4YQrmICME=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	netfs@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hdfFO59o"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c169ae1cb26so342485766b.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 09:51:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792255865; x=1792860665; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0mshVP6NJlRfasFPIJ362oVqpM5P4HZf/7dtAIJY1Aw=;
+        b=hdfFO59oSCwT6GhlClUhodohE7hxJ1SB6/4/qR7xUcfjSlNszrHDDe9LxIdZ0LGaGJ
+         ZMK6M+CWDIa1KEa0iY8ErvUKYXrIufG+GRhHk9KXCR2nqKImCqX2xkEjGB/5+DuQYY+6
+         nWNmADD5BMDSW1MOqG01ABo1Qg4gDouVPiavwVu/cOPGt/F9pEMZ/VCUXY2fo8Em4C6a
+         4HNcHSoyg/SXwoMbgzkYTyYZmzHJVFNivD9KvtRoVjXt2ucN6gs8r8MeC4Q6J0xjezwS
+         k9VMABhG9Y0Jo7GoZCgVeIn9WAKqdp1WkWrNdj7sqPC3BSi2E4D/AE8jVKmGxLW9hWna
+         xOog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792255865; x=1792860665;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0mshVP6NJlRfasFPIJ362oVqpM5P4HZf/7dtAIJY1Aw=;
+        b=B0agIGCbUH7DlBi0/v5Q6D9lMLJ5kFUqkyJjJEfMDY5eO8GVfmhNjf9qo1zM18jFNd
+         AYR9hY3VXw3nxY91bdExQUSmnE1CrD2gPABM5aKi6P7ZfLKtMaaQCtd7a34vqqfk0AH2
+         qn7kupq3HGruujOD5onEP+EEz4T3+pCLvBiuL8jXtVF3sHN/DUsJ1L7d2eqTCiEWv96n
+         ukdPfiinqobAu+HtaMm+J6IQw9cZE1M3PXvVdUGN3rZ/PR0f0vDmyfXjefqH33hTNC+m
+         +wJeSnRZX48QlTZVljBJmVELOs6SPVsyQ62lRJafidqELB3rO7guWdTV9JOeDkP3LZsM
+         kgAw==
+X-Forwarded-Encrypted: i=1; AKwUvByeU26iYcM5PVAars6/VRO2alPianqS9RQK8P5/5qfhCBa/th4JDFdGXBgWg1HeUzQZYgzOqgPO7rCkTxT3@vger.kernel.org
+X-Gm-Message-State: AFq9FYLvaxyRHL/VCIwN4nqcCZHEIOUXHUzRsOXcEopgSMNKfwGJXxzk
+	8xzUXQM6bjOM6tM0hFkOzC8WcDsODHWJknyJmD2wLPw4BuzaID8WZE6t10jCSg==
+X-Gm-Gg: AYBFou06TkiINcpw51Br+jh9DOc6pY7KqHLEUd51TxgjaowkSsmFLdKpTRYMs77hVBL
+	RiC4bR5fribmrhMz59E8XqjzB+WnZWx89sk0ZTR+utFNKT4F++OqWV0lmRM909hDr5IWmc6Mx9+
+	SZz5YKwkKkEP52EPjnjguzV4ls6IwVe7TUA+AC7b2h6BiJOIXVUUGVUK7kOHIxGNosqx09vtdZF
+	sii21AZcLkZ7EdPYQa0Hi4dBozbolHH8sR8nC3zWYLCEzEAGd8tnpktg9AyM4q+67rwiJZoT807
+	KtI/HGPHfzfRm7H6O+M5YpHZ6h1bnF+q/vgnPFVJFWg9GtbQvnZq+F1rgnFNt7hta08ECaQ0ieg
+	VqI8UKEq3xh3Eog/0LfFldeK8gbFpmv+1s5wiuhrrwlXGeY9+WiF5NzSIKnMNAsaYuuW/rTsG2J
+	MS9eyNDg8HTiar7OZqt01meF5PGVCmaSJpA7cIOiiXL63aA6CbTfBjV14y4Ooa9intsD4wR3Net
+	g07LHX5SJxT/qdVNELwKyNJ
+X-Received: by 2002:a17:906:99c2:b0:c41:825d:ed8c with SMTP id a640c23a62f3a-c41825dfa20mr232515666b.26.1792255864717;
+        Sat, 17 Oct 2026 09:51:04 -0700 (PDT)
+Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c42554cf6cesm58268566b.36.2026.10.17.09.51.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Oct 2026 09:51:04 -0700 (PDT)
+From: Amir Goldstein <amir73il@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
+	linux-unionfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.12 846/869] netfs: Fix folio state after ENOMEM whilst under writeback iteration
-Date: Sat, 17 Oct 2026 18:01:27 +0200
-Message-ID: <20261017160058.556176896@linuxfoundation.org>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261017160036.979869304@linuxfoundation.org>
-References: <20261017160036.979869304@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	Disha Goel <disgoel@linux.ibm.com>
+Subject: [PATCH] selftests/ovl: fix detached layer mountinfo expectations
+Date: Sat, 17 Oct 2026 18:51:03 +0200
+Message-ID: <20261017165103.2450042-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,49 +75,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-6.12-stable review patch.  If anyone has any objections, please let me know.
+set_layers_via_detached_mount_fds was copied from the attached-fd test
+and still looks for /tmp paths. Detached open_tree() layers are recorded
+by d_path() as upperdir=/upper, workdir=/work, and lowerdir+=/ and
+datadir+=/ for each cloned directory. The test has failed since it was
+added.
 
-------------------
-
-From: David Howells <dhowells@redhat.com>
-
-[ Upstream commit b6a713fd34b9498ee2164d5d3e8460732a392efc ]
-
-Fix the state of the current folio when ENOMEM occurs during writeback
-iteration.  The folio needs to be redirtied and unlocked before the
-terminal writeback_iter() is invoked.
-
-Fixes: 06fa229ceb36 ("netfs: Abstract out a rolling folio buffer implementation")
-Link: https://sashiko.dev/#/patchset/20260619140646.2633762-1-dhowells%40redhat.com
-Signed-off-by: David Howells <dhowells@redhat.com>
-Link: https://patch.msgid.link/20260625140640.3116900-15-dhowells@redhat.com
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Reported-by: Disha Goel <disgoel@linux.ibm.com>
+Link: https://lore.kernel.org/linux-unionfs/20260924112858.51392-2-disgoel@linux.ibm.com
+Fixes: ccc829b15d48a ("selftests: add tests for using detached mount with overlayfs")
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- fs/netfs/write_issue.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../filesystems/overlayfs/set_layers_via_fds.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
-index 4242cfc683d7c..b115f5285f434 100644
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -582,6 +582,10 @@ int netfs_writepages(struct address_space *mapping,
- 		}
+diff --git a/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c b/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c
+index 7a293544233d7..83bbacb2550f2 100644
+--- a/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c
++++ b/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c
+@@ -686,23 +686,23 @@ TEST_F(set_layers_via_fds, set_layers_via_detached_mount_fds)
+ 	while (getline(&line, &len, f_mountinfo) != -1) {
+ 		char *haystack = line;
  
- 		error = netfs_write_folio(wreq, wbc, folio);
-+		if (error == -ENOMEM) {
-+			folio_redirty_for_writepage(wbc, folio);
-+			folio_unlock(folio);
-+		}
- 	} while ((folio = writeback_iter(mapping, wbc, folio, &error)));
- 
- 	netfs_end_issue_write(wreq);
+-		if (strstr(haystack, "workdir=/tmp/w"))
++		if (strstr(haystack, "workdir=/work"))
+ 			layers_found[0] = true;
+-		if (strstr(haystack, "upperdir=/tmp/u"))
++		if (strstr(haystack, "upperdir=/upper"))
+ 			layers_found[1] = true;
+-		if (strstr(haystack, "lowerdir+=/tmp/l1"))
++		if (strstr(haystack, "lowerdir+=/"))
+ 			layers_found[2] = true;
+-		if (strstr(haystack, "lowerdir+=/tmp/l2"))
++		if (strstr(haystack, "lowerdir+=/"))
+ 			layers_found[3] = true;
+-		if (strstr(haystack, "lowerdir+=/tmp/l3"))
++		if (strstr(haystack, "lowerdir+=/"))
+ 			layers_found[4] = true;
+-		if (strstr(haystack, "lowerdir+=/tmp/l4"))
++		if (strstr(haystack, "lowerdir+=/"))
+ 			layers_found[5] = true;
+-		if (strstr(haystack, "datadir+=/tmp/d1"))
++		if (strstr(haystack, "datadir+=/"))
+ 			layers_found[6] = true;
+-		if (strstr(haystack, "datadir+=/tmp/d2"))
++		if (strstr(haystack, "datadir+=/"))
+ 			layers_found[7] = true;
+-		if (strstr(haystack, "datadir+=/tmp/d3"))
++		if (strstr(haystack, "datadir+=/"))
+ 			layers_found[8] = true;
+ 	}
+ 	free(line);
 -- 
-2.53.0
-
-
+2.55.0
 
