@@ -1,146 +1,61 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48073ADBA4
-	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 16:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151823A8753
+	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 17:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792255890; cv=none; b=OWSf/zwm6wubUpgsYF49bY9ccsST6xFcaD2nWozvKOGqt/SexZTkGPjtGZrXQc10kgYubpjs4i6J7eeNwdS2T3olk2DWyI3e5i3/J37RRgqXq8mc9caBsJyOTFlcXwFZtQVq/0Q4SoMPWB6xvARAzYZ2kHvDS8D5jF8Utx3HSkM=
+	t=1792257678; cv=none; b=GlRX1WulSPxuP9KnH7nMWW3sQjz0xrGWBL5CUG3hO9xzHSRB2YqiRuY6ZV4DPm+TRsEIZM0Bp1J8/ajOZuubgn8bWZ9kx0Dblyew6YXyWT9SkaLU9LLzOLYjQb/ae/uXZkRPfbN7k2RHylhqHYpoO125mSjvD/OiuIjqNxvQw8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792255890; c=relaxed/simple;
-	bh=pPWBmM/X+uYky/gKQ+5EBYcMPQ+iL6bPJtE8VbYUpwc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SGJscOQwf5DkGdIlWkAQrgWs9Lg/0GNwXWaYVtVmVLE+QisCtquHr++ep3WQoBLX2y4ShOgj+QbAScmEC4NyURAcBmpZQnQrWOXHNH5iYRy7VfkSIrI7kR9UnvBoWcCKMHtq3m0tt+Ju7kcgNVVrShE+8JN0iaXJ+Py1UaGDTGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SQMdXipJ; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792257678; c=relaxed/simple;
+	bh=rQSiJpdloOLk1IKxcIMyqUygHLmddA2G5OpVAwa/kZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H6sBG/KQ6M9GPUjmW40BlCuf98uf9qQUgTP5Ndn8o+T1jIDy+7vBWKxMBvJSsyp7qmmWQg4Lo1kFI7H33DqUFI1OTK+B3xN4Td6u9K3B7PhRA1O9LdITho0UtvG1/L6mh6yV5fEpAWXSdkr/rz/9sviKZS7StuBwwVQhpQfEOJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ifiMT4aV; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQMdXipJ"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c3fd91337baso119805166b.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 09:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792255887; x=1792860687; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zPmxIE9jKtEtBa3fhEQJEoH+3Pe3VBtJ1OEhScFLQkg=;
-        b=SQMdXipJcTnSkdIGdtzCdDzGcYwxa1YpZNAwlZt/b8fc/uLY/fjBHjIf+NNoV59nqc
-         cflleyxC6nZbEptKnxtwTMz8Fg6Ix/yMFWn4B1aPei/RTNA/8RnAKDlXMUMFu2blNVL2
-         VN/7dfqPVGoLXQ7sfyHe72buVr5GZ7NYbOjvDaXyoOSSYUHZDT8IMUSnkWTcG3Hhas8Z
-         3355SIJyPa7mA98qj5KaBHv6qsY2B1noPccuoFkI54T159/Dan91qbYaXmefQ47bp3FF
-         q2yWdQn47KNDjOctg5tWVgzzpEswxbjkKD8s91cvp7U4lOIsgfOd2wfiH7Bh+TQmo8Xf
-         vBjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792255887; x=1792860687;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zPmxIE9jKtEtBa3fhEQJEoH+3Pe3VBtJ1OEhScFLQkg=;
-        b=W+PpR24si+XZ4/spPtyvmAs58/DU0k/YUeyiw1Wv1KeTWdVuznfQqMEoMeTqWbU+zE
-         0yENvgdNwPW7b5OZ0K+lWdQfgzI6f9ymRoYx3/ppcUlS+ppjTcrulPTQZh2XBo8uyyGg
-         2wmjkwW75Gngf28v1nOeuRUYiCVZYMFeNrWWR4DAIyh4MOlyp1y4vmnKfPgkXkIOx/9K
-         6obaUkYDsMg4vt3d7kM+jbpYmGH9lBjlbiM0iibCDhkghoLc9sL3G86QhGS28qCHlTEq
-         iBixxEGz2VzkHTRumWghRv8TWgPz+52U6F9o0WmyZ3bxrzQ2ES3PffARwx6NygdX3SMM
-         RBQg==
-X-Forwarded-Encrypted: i=1; AKwUvBxX7qQZKd/j0Zi6fYYui2feCzRNgRC77bG5YIIugutu/DkcBZ2kSNwDoG5Tuq8DkZTfIv8xH6XlIMa8fc/M@vger.kernel.org
-X-Gm-Message-State: AFq9FYJCO2Iimyx7DCcWMnRn+h+6l1HuQ3IonS5q+WHVdYSupRayOhlv
-	/ue6TQXdXHDN0Bcbx2dQZLvv0zuoTY2SslO+QEmlHVZxrY0qnW8oNZiB
-X-Gm-Gg: AYBFou2UhEM0OizylAHed43seL/H4InCKqS2Yel4+x5E+DstS2pMuEXeLG2luyG0+W5
-	OSBPirpRJfThsFpBbdN0nJdlyUlVKfnuUKaIkPNOsah+blXd/APhiYnuqtvZoFZ6YbMvrEOzMv/
-	Aen2fqhbE2upz/pn1CuPPd4tC5J77Au6KBBzbIk7sObage48zyjHIVXJvYYib9ssvxSZN2RmGjq
-	CnQrTeJqICUsLVAjEGJj6v86Eb5ruRU4Q0VAHleETWRoE6u7bKv5+iWIShkaHpugdMH6KGnARhh
-	R+ftthgnzSP2wuc9HxCyVdxI0IciOyz4A0lH+wzx71bxvKD2AsecPEEPfJQ+2jJNm/Em2GjbSjW
-	iUJdjjnIeSbEb+bJEQj3HivmsOs8WznBnmP4lW8al2By8h0AAn5UTUw+DYy6fhrk7MQf9bW7Bbv
-	0I2O9RnxxUhDfYZ1Ww++pbt9uYEDfvqZaH6FOV3jkrFH8RmmUKRmCea++tedGpdh98Q4AwWnfCz
-	Qp8opFzq1rcJdXzlQUIf/XBTQ==
-X-Received: by 2002:a17:907:a892:b0:c3f:c10c:2178 with SMTP id a640c23a62f3a-c419eb337bbmr218862466b.28.1792255886777;
-        Sat, 17 Oct 2026 09:51:26 -0700 (PDT)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4090dd3190sm196301866b.23.2026.10.17.09.51.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 09:51:26 -0700 (PDT)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
-	linux-unionfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Disha Goel <disgoel@linux.ibm.com>
-Subject: [PATCH] ovl: fix mount setup failing when override_creds drops CAP_SYS_ADMIN
-Date: Sat, 17 Oct 2026 18:51:25 +0200
-Message-ID: <20261017165125.2450059-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ifiMT4aV"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=rQSiJpdloOLk1IKxcIMyqUygHLmddA2G5OpVAwa/kZM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792257673; v=1; x=1792862473;
+ b=ifiMT4aV5zslJeySpDz60H+c4cDPTZQ6qSlxrNRIUSwCQvVlxor/779hzsrEu7ittp5dAZTg
+ Us+tL6BKg/zNETor3yaCVAYLjerPNLLSB/SDJ/Chn/EH9tKZvsojg1+gxnrTD7Yxm0LKQgmx9gY
+ k/Iey0lr8ENEJgfAQp4G7Auw=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id abc17a2e3d72fc6a;
+	Sat, 17 Oct 2026 17:21:13 +0000
+X-Mizu-Trace-ID: abc17a2e3d72fc6a
+X-Migadu-Flow: FLOW_OUT
+Date: Sat, 17 Oct 2026 10:21:07 -0700
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tejun Heo <tj@kernel.org>, Christian Brauner <christian@brauner.io>, 
+	Meta kernel team <kernel-team@meta.com>, linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] kernfs: allocate inodes and dentry outside
+ kernfs_rwsem
+Message-ID: <20261017172000.GA204880@shakeel.butt@linux.dev>
+References: <20261016220029.3276154-1-shakeel.butt@linux.dev>
+ <236f5fe73f01f03d75dddca9362f39a7@kernel.org>
+ <2026101745-brisket-outspoken-ef6c@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026101745-brisket-outspoken-ef6c@gregkh>
 
-When a process drops CAP_SYS_ADMIN and calls fsconfig(FSCONFIG_SET_FLAG,
-"override_creds"), overlayfs saves those restricted credentials in
-ofs->creator_cred. ovl_fill_super() then wraps the entire mount setup in
-with_ovl_creds(), switching to those restricted credentials for the
-duration.
+On Sat, Oct 17, 2026 at 11:14:13AM +0200, Greg Kroah-Hartman wrote:
+[...]
+> 
+> This looks sane, but it's really late in the cycle, can we wait until
+> after -rc1 to add it to the tree for lots of testing in -next?
+> 
 
-Mount setup calls clone_private_mount(), which checks CAP_SYS_ADMIN
-against current credentials. With restricted credentials active, this
-check fails with -EPERM even though the task issuing
-FSCONFIG_CMD_CREATE is fully privileged.
-
-Use the mounter's real credentials only for cloning the private layer
-mounts. Keep all other backing filesystem operations during mount setup
-under the stashed credentials.
-
-Reported-by: Disha Goel <disgoel@linux.ibm.com>
-Closes: https://lore.kernel.org/linux-unionfs/20260924112858.51392-1-disgoel@linux.ibm.com
-Fixes: c28f922c9dcee ("clone_private_mnt(): make sure that caller has CAP_SYS_ADMIN in the right userns")
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
- fs/overlayfs/super.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-index bd0a3f9039d25..c8145b62ea99d 100644
---- a/fs/overlayfs/super.c
-+++ b/fs/overlayfs/super.c
-@@ -497,6 +497,20 @@ static int ovl_report_in_use(struct ovl_fs *ofs, const char *name)
- 	}
- }
- 
-+/*
-+ * clone_private_mount() checks CAP_SYS_ADMIN in current->cred.
-+ * ovl_fill_super_creds() runs under the stashed creator cred, which
-+ * override_creds may have dropped.
-+ * The task that issued FSCONFIG_CMD_CREATE is still current->real_cred, so
-+ * use that only for the clone. creator_cred stays in effect for every other
-+ * backing-fs operation.
-+ */
-+static struct vfsmount *ovl_clone_private_mount(const struct path *path)
-+{
-+	scoped_with_creds(current_real_cred())
-+		return clone_private_mount(path);
-+}
-+
- static int ovl_get_upper(struct super_block *sb, struct ovl_fs *ofs,
- 			 struct ovl_layer *upper_layer,
- 			 const struct path *upperpath)
-@@ -520,7 +534,7 @@ static int ovl_get_upper(struct super_block *sb, struct ovl_fs *ofs,
- 	if (err)
- 		goto out;
- 
--	upper_mnt = clone_private_mount(upperpath);
-+	upper_mnt = ovl_clone_private_mount(upperpath);
- 	err = PTR_ERR(upper_mnt);
- 	if (IS_ERR(upper_mnt)) {
- 		pr_err("failed to clone upperpath\n");
-@@ -1093,7 +1107,7 @@ static int ovl_get_layers(struct super_block *sb, struct ovl_fs *ofs,
- 			}
- 		}
- 
--		mnt = clone_private_mount(&l->path);
-+		mnt = ovl_clone_private_mount(&l->path);
- 		err = PTR_ERR(mnt);
- 		if (IS_ERR(mnt)) {
- 			pr_err("failed to clone lowerpath\n");
--- 
-2.55.0
-
+Yes, no objection from me.
