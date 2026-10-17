@@ -1,113 +1,135 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F170942AD9F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 23:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928B1361640
+	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 01:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792195088; cv=none; b=CH88BWncEgLzyFznMh4a80PfQ11AhpdBOp8h56oMFNJljmYYHvcM21GBeOse9eXRkQqhIJf96bjN+BWIrjSdiDGMtRYyGkfUT7973MbKgPlGAvNleDYLxdNjnTv5MxGIOrFSzULHzou/V16kW3qxhgrGxjRLKw9ECqyMQe88wLQ=
+	t=1792198964; cv=none; b=Rt3b9FXAmB2sqlW2NPKC+N9zNEy0sXn4wD3V6wObj4VzmSgOaJfuF0s4bx3VfIYcPC3nzFWaRj3Wd0VkeHIS/7D7xnBEPhSu4ANY0vgEXClf6sz7h9cQVqh47eBBdNbOk7VOLOJZfXbTOoRYrjMenxQWUNsrdzDKmugMSYpIzbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792195088; c=relaxed/simple;
-	bh=Sol7b/YHIC7fBZ3r1UNj405eVEsThuaewoMzP6GaWnY=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=iygSQb9zlALvnBjOWvdUvAOZeyGAm0Pz9ChcmeuLG3HMJ8TO4AMQOSdH32HtynBSFaDHu/zgnyp1Ab69Wsu8rFPEoN4YtDbhBLp6T8F47O8Dm49PbhQBqzyBTd2Mdf9o7YDqLa0Z9oRLIJhsSjkAg7AQeo+lIl53vBUaqOaYS2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=ulsBXqxM; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1792198964; c=relaxed/simple;
+	bh=dzEr3osBLfRb6demh+Mb+Xhthwdtfv/YBDFQk6e8JIY=;
+	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:In-Reply-To:
+	 References:MIME-Version; b=gMJ3ZeGJsCD+mFrmH+1Dmp8e/vm7gh5qiRfJUcHoDj2FOhX6BiXh7rWD/NqAvyHHwPZdfsQ0KQLk/OrreXpXC12/wG50QjWWqn5LgxvIpUpPY2l54Wt9nK/nX3KFfFTh6ZLy6zxQRlHIrJDQM7EexuxTdtAHQWOqiJx5ETa89RY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IkIIOwlb; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="ulsBXqxM"
-X-KPN-MessageId: 6aa0dac5-c9bd-11f1-bfc1-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 6aa0dac5-c9bd-11f1-bfc1-00505699b430;
-	Sat, 17 Oct 2026 01:58:00 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 6a9f658b-c9bd-11f1-ac19-00505699693e;
-	Sat, 17 Oct 2026 01:58:00 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IkIIOwlb"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ac91ac8924so342832a91.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 16 Oct 2026 18:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=nP905omsFDEXnfiXjNt86xtCsoYoZxyqyX9+gdjuAdU=;
-	b=ulsBXqxMEkKXsns1ECCv5AxFghkyHl2HTQGrLPX8zAXOsxllIlMbeQMeigZgghOt+f/MeCMCwmlAL
-	 HuUzxAaBiucl5xoXzdtw1vCYdIpD18fg1vfLn7JOVnq75AkxOu8F+V6qn22jES2F7iggK3nsK2n6Uh
-	 RbUO6Xc9R+4Aipt1mn+V94awoDZPc0T3bRFST2jaGLX/cmLv6Tr5cXDPVogss447QLXeMn43jP9Het
-	 U8M5OFlZnIPrOp0PPH2TVt1Ktk5cjIyWMDrJunx5K05Jz5dSldnfy95IdQPweFTlL1mBdGKcyiDxUs
-	 R+/zjPqOPBIYVffYmBnOuCrvl1k+HXA==
-X-KPN-MID: 33|4KkrTwsmvmLPOjDbP8/4VvjI5Egql+PqJfiQryUT8cMhNzTGJUqLK422dFR66ox
- TYPYn83v2Xzepu18SFQsr4uN+h4W2PfTRxOc6N9g5LOk=
-X-CMASSUN: 33|V02M0cnroX7SueAXwXU36SMJsDpH0uyW++JyHN9fUXFj+hzmu1qcBwgy6fsTQRc
- vC7lcEr8X1+WO5p3WZGGBiw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh04 (cpxoxapps-mh04.personalcloud.so.kpn.org [10.128.135.210])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 6a92e50e-c9bd-11f1-8edd-00505699eff2;
-	Sat, 17 Oct 2026 01:57:59 +0200 (CEST)
-Date: Sat, 17 Oct 2026 01:57:59 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
-	Aleksa Sarai <cyphar@cyphar.com>
-Message-ID: <2059185467.1255949.1792195079917@kpc.webmail.kpnmail.nl>
-In-Reply-To: <2026101626-idealist-overshoot-26d6@gregkh>
-References: <20261016143806.2946578-1-jkoolstra@xs4all.nl>
- <20261016143806.2946578-8-jkoolstra@xs4all.nl>
- <2026101626-idealist-overshoot-26d6@gregkh>
-Subject: Re: [PATCH v7 07/12] kernfs: hold kernfs_iattr_rwsem when
- initializing a new inode
+        d=gmail.com; s=20251104; t=1792198963; x=1792803763; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:cc:to
+         :from:subject:message-id:date:content-type:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FDPknGg5ZBDcxMmM/1N7ggpAZ9FP1SU1Vl3EerUriAk=;
+        b=IkIIOwlbuOeh6h+EQEtP3S/Ct5YPS5fHNwfPWibYiMlS038iGsYDs/Gmhtq6jFJv/M
+         YgxmkV8VUlJKm8b3vm0WSS9Z6lGiAlcdSjejhswyyGsQUOqnAs+ffNQhPjC2pI56eMQ0
+         f2V8ZfemWqldTikC9RF2UbdD9k5LDhQh/vXUWMwj3pJKgDuxXoatxRSuRnPP1OL51SKo
+         ExfDIwoKflxp5pHQmtydZGo9THe01Vaa8Kumho4y8sR33GIydTYmJeJrQJH7awNGDSla
+         WL4//XyBPTmcaaLbdwpFUdlDTxY/QmOm6UeEmFr2rXaFyPOIctPsYVKChG5tF+H47AW7
+         GDkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792198963; x=1792803763;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:cc:to
+         :from:subject:message-id:date:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FDPknGg5ZBDcxMmM/1N7ggpAZ9FP1SU1Vl3EerUriAk=;
+        b=T+LBCjcIjjofSVtHjzC/YA3+vpz23yr4MHR6RifrVdsU4JMZO/s3xOpH6Vn7qJZ5eR
+         RD6pEB74cUXvMwSsAoPIBnNpj7825W4cLFh7n3IO6LN5JvNyZP656FWoiLvFM23qzSUw
+         40g2QGfmjg63T71Xn/pkTAAAWl6kONtwEnGQwEsO2HywMXFoHx8Px1qSgqe49cvKKL0u
+         56/QnaxOgifFj04FMx1a00qrV1si+QY09IPafLR2jg0Jh0OEwnjUfolS6iYINA7dfMNo
+         +1sWZxA7KIc+p04VBZDY8pCYHYJbtD38Da+JzzSZiM2wmU6fGstTtHEPjemQSlG0zwKJ
+         YZkQ==
+X-Gm-Message-State: AFq9FYKU1Bd+zXLpX2Ni8uKy70eefWBBseCqZFM6AbO3kIcYymgQW10A
+	N/uN2uuep78MkBB3ErFPL0RzKz93gGP6e+SUGKeYCvkGgTzGi9Fe+6w+
+X-Gm-Gg: AYBFou0v9lU3fTeL3GTLx3FVZ4TCwhXbJYHWHqNAMZ1Sx33mH6g57hei70FKbBNgunI
+	MOWtsvuRspgDX75qyEaCB9//szgSQ/t7V914yknltR/QWdl2CvwQj4LUfzLfc8OUy0wFxTCAvC/
+	00/QnCIIcHYCjSrvNoVcue3j8zleISPL8t1k32bUr9yOXp+Ud9Pj+3NvpNZe4QgZW/UxdatM6Rr
+	hzdNd+HDjfjOe01DS8DdG+TV2mISC1cNMU8sF+rK+za96MAlJqrZ4OrKuDTA5u7gQHHXZMfHfiJ
+	IFTtoe53LygnqkmamsHBycBdvEaNuGhaqucPkgwnCzk8luaYzMouZ+k30GHZIh2KSSRH1pDit4S
+	HPzV1uMeBxVHmT+EW3kIgHPr/B8l5W4/VCrDfRj37n9EfC5t44KIPiN7WnqOm5JJx/VfSDoxfLv
+	6dSYnmrNosI8J/nQtBNhwretEqurNc8H6DhCsCf5XnZFU77jyveGBeEVmLJgBPqoIhuxBv8KEFr
+	pPpcxJZK0/rlnWkTaUva5gD1oEdj6uQGleT2l9FqBONZIo8qjoygd0uwmBqXM2kIAFzsVwdsfCV
+	Yq/X
+X-Received: by 2002:a17:90b:582f:b0:3aa:f4af:1e0b with SMTP id 98e67ed59e1d1-3acee98d90emr1287962a91.8.1792198962718;
+        Fri, 16 Oct 2026 18:02:42 -0700 (PDT)
+Received: from localhost ([153.61.198.242])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd093380dsm2979093a91.3.2026.10.16.18.02.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Oct 2026 18:02:41 -0700 (PDT)
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 17 Oct 2026 01:02:40 +0000
+Message-Id: <DM6PICFFAU5Z.14KOZT5YJO7MA@gmail.com>
+Subject: Re: [PATCH bpf-next v1 00/11] fs: unified VFS ancestor walk for
+ Landlock and BPF
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: "Justin Suess" <utilityemal77@gmail.com>, "Christian Brauner"
+ <brauner@kernel.org>, "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan
+ Kara" <jack@suse.cz>, "NeilBrown" <neil@brown.name>,
+ =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, "Daniel Borkmann"
+ <daniel@iogearbox.net>, "Andrii Nakryiko" <andrii@kernel.org>, "Song Liu"
+ <song@kernel.org>
+Cc: <linux-fsdevel@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-security-module@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, "Paul Moore"
+ <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>, "Serge E .
+ Hallyn" <serge@hallyn.com>, "Martin KaFai Lau" <martin.lau@linux.dev>,
+ "Eduard Zingerman" <eddyz87@gmail.com>, "Yonghong Song"
+ <yonghong.song@linux.dev>, "John Fastabend" <john.fastabend@gmail.com>,
+ "Kumar Kartikeya Dwivedi" <memxor@gmail.com>, "Jiri Olsa"
+ <jolsa@kernel.org>, "Jeff Layton" <jlayton@kernel.org>, "Amir Goldstein"
+ <amir73il@gmail.com>, "Mateusz Guzik" <mjguzik@gmail.com>, "Shuah Khan"
+ <shuah@kernel.org>, "Tingmao Wang" <m@maowtm.org>
+In-Reply-To: <20261013164800.2906577-1-utilityemal77@gmail.com>
+References: <20261013164800.2906577-1-utilityemal77@gmail.com>
+X-Mailer: mkdraft (claude review draft; edit before sending)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
 
+On Tue, Oct 13, 2026 at 12:47 PM Justin Suess <utilityemal77@gmail.com> wrote:
+> The structure is unchanged from the RFC [2]: a stepwise engine private
+> to namei.c, a callback front-end for in-kernel callers (Landlock
+> is converted, fixing the follow_up() race Al reported, hence the
+> Fixes: tag on patch 3), and open-coded BPF iterators over the engine in
+> referenced and rcu flavors, with bpf_path_ancestors_legitimize()
+> escalating from the latter to the former mid-walk.  Patch 1 is carried
+> from Song's series.  See the RFC cover for the full background and API
+> listing.
 
-> Op 16-10-2026 10:50 EDT schreef Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
-> 
->  
-> On Fri, Oct 16, 2026 at 04:38:01PM +0200, Jori Koolstra wrote:
-> > kernfs_refresh_inode() copies the uid, gid, timestamps and nlink of a
-> > kernfs_node into its VFS inode. Since commit 9caf69614225 ("kernfs:
-> > Introduce separate rwsem to protect inode attributes.") these are
-> > protected by kernfs_iattr_rwsem.
-> > 
-> > kernfs_init_inode() calls kernfs_refresh_inode(), but was not converted.
-> > Its callers in turn hold kernfs_rwsem (kernfs_iop_lookup(),
-> > kernfs_fill_super()) or no lock at all (__kernfs_fh_to_dentry()),
-> > neither of which excludes a concurrent
-> > kernfs_setattr()/kernfs_iop_setattr().
-> > 
-> > Take kernfs_iattr_rwsem for reading around the refresh in
-> > kernfs_init_inode(). This nests inside kernfs_rwsem, which matches
-> > kernfs_link_sibling() and kernfs_unlink_sibling().
-> > 
-> > Also, kernfs_get_inode() then does not need to hold kernfs_rwsem, so
-> > drop it from kernfs_fill_super().
-> 
-> Oh, nice, this fixes the issue of kernfs not keeping the inode like we
-> talked about at LPC?  Can't argue with this tiny patch, nice work!
+Song's series stopped at
+"It is a conceptual dead-end to expose these two modes via separate APIs
+and leak this implementation detail into non-core code. It will not
+happen as far as I'm concerned."
+VFS_WALK_RCU, -ECHILD to the caller, two bpf iterators and the
+legitimize kfunc are that leak.
+Landlock still passes flags == 0, so nothing in the kernel walks in
+rcu mode.
+Patches 1-3 fix a real race and don't need bpf.
+Send them to Christian, Al and Mickael on their own.
 
-No, that part is included in the patch following this one. This is a bit of
-preliminary work to fix the locking around kernfs_refresh_inode(). I think the
-memory requirement for the allocated inodes is not a blocker (but you judge, since
-you told me that's the primary concern here). The inode allocation only happens
-for userspace mkdir(2) calls afaict, and then you probably want to do a lookuo
-anyway.
+> Verifier fixes propagating the RCU-ness to trusted fields can be done,
+> but it's best as a separate series where the idea can be examined more
+> closely.  Then marking the dentry as trusted will allow you to use the
+> dentry xattr kfuncs.  Nothing in this series strictly depends on having
+> a trusted dentry, nor will marking it trusted require changes in this
+> API.  See my follow up [4].
 
-I see there's some work by a Meta team on kernfs. Since I'm in that code now
-I'll try to review that soon.
+Then what can a prog do with a position?
+pos->dentry is untrusted now.
+Marking it trusted will require changes.
+d = pos->dentry is not linked to pos. It will stay trusted after
+bpf_path_put(pos).
+pos of the rcu iterator points into bpf stack.
+MEM_RCU propagation fixes neither.
+What next() should return depends on how the verifier tracks it.
+Let's do the verifier part first.
 
-Enjoy the weekend!
-Jori.
-
-> 
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+pw-bot: cr
