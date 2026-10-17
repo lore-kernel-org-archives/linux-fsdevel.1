@@ -1,76 +1,125 @@
-Received: from mail-qk2-f9.google.com (mail-qk2-f9.google.com [74.125.230.201])
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C04B3E0725
-	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 19:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6CE2D738F
+	for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 22:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792265211; cv=none; b=RTHuY6dS6hL0/o6hyAxtrAHbGMsdeW4FOOdR+zmax1hE3eZhyd9FI4d3RU/4F0jBknTUdMh0jrPKODLgB8WOJXnRs6Rb/UxIakOQKZYaGPuIM9mLvFV/ZPXTztBL80m3TdjxEMlVpF9io5OKGwp1BHfxCkOcomxGYJ4BKlOP9vc=
+	t=1792276509; cv=none; b=krBzAdY93H5gYQtGcLzMA0OnM4yBSlWBMvHbjUU4bCCAdY3oJeabRJv7Oj1rlx+yhDMbi57ZgNN76smhj1FL5Z5WpXoxTcTxUTrPYpInqTD0FpnBHDVu/RMWtz+nlEfpRMsJDsxuKzhxdENOxutIpCQv6hwRGFU5Sy7vxu0ciqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792265211; c=relaxed/simple;
-	bh=ovgvca2sTQCkuo0abjJMCBhGt+FjMIENdXX+PywFOSw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Wwif9NCYHNbue+E5wsGNiXL2LXIQy6S2tzaUFrU7IXDNAXIM0ed7Nozk5+gIEyldVjevj33mIlTgf5N5DXFbFskDl1QfNz1U9qgF35FhEotpiv02tsAuRioh8ifmStNr3S4aoo5wEBDe61NGwOccnc4V4w8L6xW1nq1hxMwaeDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XkJQqIko; arc=none smtp.client-ip=74.125.230.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792276509; c=relaxed/simple;
+	bh=eMD/z5ouOPSSIXAXetxHaLog9Ak4StbU4LvjbPEuOsM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=GyabxlVGe5N98J1Rhdsb8TfhuH61BxLtxjJrA84933yBMW7IkRPtxLvD3dhfonwqx0ApLEchWjT30bp3FQumfvnV3aDkzuzjkYew2HWWLCDsO4t2sTX8+xQdRwjw9RvedGeQcNwONfy323q1+h7AJzPe5a3J/RvSkR54eBsS7vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=BhMBI12v; arc=none smtp.client-ip=74.125.224.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XkJQqIko"
-Received: by mail-qk2-f9.google.com with SMTP id af79cd13be357-930f7b1eb68so110521785a.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 12:26:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="BhMBI12v"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-679965fb848so1005052d50.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 15:35:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792265207; x=1792870007; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BMLx5qM62vWoOfAtAwn7HgXvltiKKbuv9z/3ifjwheI=;
-        b=XkJQqIkoJttVjlzxdSKXNhVyfRpeRmuSBme19MXlVm88+ZZkE9iiO6AOgTlYDnd15E
-         0oI5xLbLa8OSW46w/5ADarbGpN+o87ySEs3fNurOAqCWB0s5uUzY5PEGTu7q3KueNjZG
-         whkUJPO7r1azDdHI2FJ0fYAx4MUvxYpl+19qpV295tOThfUa4UCEzLqE6mvUrnSu6OGP
-         hf9cTaSvT4aMkp8tSlbp/ffPJpQycWk92UeqJSQ5TujUv8m6jTU2CC2/iM+PQldIxID2
-         Q+8deHTaRftXXm7Fld0NAiQtuLQa+DH+VBqR6da3qmnxYv3QpEAMAktFY2UCblfNbkeV
-         2CNw==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1792276506; x=1792881306; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=eMD/z5ouOPSSIXAXetxHaLog9Ak4StbU4LvjbPEuOsM=;
+        b=BhMBI12v4AquEAdSomWbB+zkYdHtP53CzBqCOgjNKCknR8LLWTBMgt6BO4LQEssVuc
+         WlUwcTSmOlVCCIBg+tzuj3VSQ2a8a0Rvt0X5sf50otSXEQt5KzLtsNyAEjfc81Y5vjTG
+         iBbgtDE61derbbFMHTJ8AZrmsNqNwzbNuDETzlCQkj/OayRSQ3UixMTOPafK6lAEYgcT
+         0Qloawg+c9hO9Qo3lYLljKhCWV4kinKwB5geyfLNg98d76gEq0bhiTxnElcBmXMIOXNC
+         9mLyq1/CJxRiQid7JUp5lUhAe/LsDuo2vDxGCXGxOrNE/NKw0pKgl/4T624EAo7M5e3K
+         gTSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792265207; x=1792870007;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BMLx5qM62vWoOfAtAwn7HgXvltiKKbuv9z/3ifjwheI=;
-        b=RPIzw3WUIass0msalrmd9kliWj3qkE75Ye061DQjp83B0i1+QmUKN6ZtdLvbPKoIZk
-         8ZWXPqT1U7TzkUe8mHw2xccjSvRAmiGZRZQ+/XBPUZLQ3xltbpAjSF4GN7eCgrNtBm8M
-         oeuwF7lE8G4p/nz4x49DmtZAZqbTkpmxJZJyKOmq6eRTJdrg34hdyxZPJmsnC8Sneyii
-         A/3+6P8MPyQUkRIIyoFcjjHoFP8jPOcPia28fNq+HmWmWzHzd1QNH4PWG8NBmkolUAPY
-         8cUqCBEEuMQf3GHJyW3ONvimAzJ9TwcWJ6pAVvXNvWYPlzmKVvFrht7XvbodSARcP8Jo
-         2t4Q==
-X-Gm-Message-State: AFq9FYIJ5cWDQ7kWDY4XTr9hCHa4Igjc7uJhEYhE9Jv1rJFQwR8e87aL
-	CnPgMm6E9WUtMUNgNrBcSQecbUIk1bRRNOqh0I5Z2drf/7sgcL0AbEExF9bCdUsR
-X-Gm-Gg: AYBFou00zfGmG4nson6phRif+C+fRO04tBU9erXjO6K0ATFTEvUli1j7NNW+eU3aBC9
-	R0EPlcj9nUeEB7kds5Quu4cvYmfaB6DVLbqBHkEQx4GmAfTXevqev614UJKvUKE0PYIZoe7mjDe
-	zjwJOKNkv1ohfv4xej6aE4h0lOYouaL/ENGWWDmP20NlRA2MWY248Gz+dzBwieLlh35Kuc/nTn+
-	QLJAEZPgc2U5Nz+bvP6H6Lg5UHb/4hTx2fZINskr5WggDM3axxdCJwtDGSyxmQMgQ0bNQgNlTog
-	tHJ1r/jL+NrlmD8QF0+FEZ293/no0/OUnarU1lcb3+qR4puZAlRzw+f6jmc1h/iHB5Arz9/CdkY
-	0iW8YD5IihX+6cnnQj/6IrQq8VBr7uEb/WbhqMRqjpGccGaU7LpKV/Dp97xPowCWnmIG/IUcnKT
-	wsyc666WKdeNcPJwudPAkyILcJAPngwcV6jt0Ny6Au2fP5R3YRM0TM45GV3RwKLFVZWRp+prqE7
-	nNYyNs=
-X-Received: by 2002:a05:620a:4448:b0:93f:22c4:e92f with SMTP id af79cd13be357-93f29d6744cmr621836085a.54.1792265206703;
-        Sat, 17 Oct 2026 12:26:46 -0700 (PDT)
-Received: from Fujo.localdomain ([142.188.41.221])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f29c5ae3fsm308636885a.40.2026.10.17.12.26.45
+        d=1e100.net; s=20260707; t=1792276506; x=1792881306;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=eMD/z5ouOPSSIXAXetxHaLog9Ak4StbU4LvjbPEuOsM=;
+        b=RgpRSH+qnNsK05sjJrRn/8SoeiLB2SpE52ueNNf2vOw7z9WgGvckC9aFPNThSxpkEN
+         OX4nPfE5MVvs9MNQdlztzH62i3k6YLGOQTQ9bRoQP5rVIwNSJZZFp5Tg4Gc1MM3kzocc
+         w5pQdlttn0LFt8DocnXCNJOoPJ6RAY3Z4/IfA0PCU1blUll54xhSMxI8eQ27zy/yE8Ui
+         Aok/9DMwl5MLEVPZ5oSCPTriQC1ldzbuZAC4I8cn3dj9HkAYYEsqoU450D+4M8CSvFQ1
+         wY9QTJwBqKhHiLFtXa/JSluwqyIKQ75qvmlCqQawzlMs0+gl7yb7f+Amrb3hNBPX0KOG
+         3qWA==
+X-Forwarded-Encrypted: i=1; AKwUvBy2BWw18Ai3Ml0Y5wrfqKVOG4VAOblf54tKmARvZXhsWHrwTT2HAaED7XC/V2tFIGPXtr7eiWOd1CElVLhD@vger.kernel.org
+X-Gm-Message-State: AFq9FYJVTpP+dH8JLNxsyb78Hw1A1pyF5ah9ppHTOaeRBEqhtVq43bBJ
+	GY7jN8p7UIaB6TetVhE9hITPUorHhXHwsuLcKcJBbfqC3H2LyygHR805QPQrgv6rmCo=
+X-Gm-Gg: AYBFou294WHEo7zuFDu0sDlxqUSwou5K6t6FuUY7LwVpSSF9y5MQZ2/BpMjmpX4dSwj
+	Cn3eoLQuPfxuIdjUg09XAHZbHlHPwkBg8rI6bxBtfwkmJRu/U0dtBlbGj8dWV4b/js7mw1L4kFp
+	+zlvlm4qAIwrTyUBvb8LukRTyxkyNpL6B99S0wrLYUYGBAusRo88I2Qv0eFufUQJiuZBLwj8CaL
+	i+QPker/YEe/UXAcneT3MTznp3TFtNFdd+gVRT5Fx8BQFh2FfbMSGNYxvDiW5Mq/VTLMhdytlTc
+	EuUN4fwlsS4hs4hxURTcSMIlLUsIc8A7GLcfSFJJ3WCkQfDw/G6OBPm+YE/el7+opx+u1YmDCqJ
+	7nMgHaG3OIuMqyOwzFFaIn93TvX404vBbrBpX5fCwodbk3BQyJBk3lsIEhKYB5DkMTKZZR7i1AI
+	Q0yU8NSWgaR/FeDHajoNXiCrDRf/2G2q+HwIGYbl/xVcYy8y2B1xfx1kxzIOA3G+diLDIfWsdNH
+	mjiI4BrVoFRjWILVdW6rTAHstzfiaXiToXJbriqgt6l4vd/CfjEZavlj4Uz2xegU7W11Sdk9D+U
+	/luoK8CjtTGOwueRKpNrbXvxYdKPflnnpR+TrdYFo7oF47lRWBlrFusJrF/guQpg
+X-Received: by 2002:a05:690e:1188:b0:679:9a92:5d59 with SMTP id 956f58d0204a3-679ca4d0a3fmr887670d50.13.1792276506309;
+        Sat, 17 Oct 2026 15:35:06 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:73b8:7067:c087:bc97? ([2600:1700:6476:1430:73b8:7067:c087:bc97])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-679b1f0784bsm2583995d50.19.2026.10.17.15.35.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 12:26:46 -0700 (PDT)
-From: fujo <hooyan2024@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: Oleg Nesterov <oleg@redhat.com>, Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] selftests/pidfd: wait for POLLHUP before reading exit info
-Date: Sat, 17 Oct 2026 15:23:10 -0400
-Message-ID: <179226499044.847.17334319321039510150@gmail.com>
-In-Reply-To: <20261017054356.7874-1-hooyan2024@gmail.com>
-References: <20261017054356.7874-1-hooyan2024@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Sat, 17 Oct 2026 15:35:05 -0700 (PDT)
+Message-ID: <9b478e124201b9e3fb3292f900f2ff287b31ad40.camel@dubeyko.com>
+Subject: Re: [PATCH] hfs: avoid reusing occupied CNIDs after deletion
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Hengyu Liang <hengyul@cs.unc.edu>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Sat, 17 Oct 2026 15:35:01 -0700
+In-Reply-To: <20261016023125.2271361-1-hengyul@cs.unc.edu>
+References: <20261015110114.1649059-1-hengyul@cs.unc.edu>
+	 <45b692cfda51e3b10caa27ae51609edc34efb0d0.camel@dubeyko.com>
+	 <20261016023125.2271361-1-hengyul@cs.unc.edu>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
+ zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
+ ZcvScAX2n/PlhpTnzJKf3JkHh3nM1ACO3jzSe2/muSQJvqMLG2D71ccekr1RyUh8V+OZdrPtfkDam
+ V6GOT6IvyE+d+55fzmo20nJKecvbyvdikWwZvjjCENsG9qOf3TcCJ9DDYwjyYe1To8b+mQM9nHcxp
+ jUsUuH074BhISFwt99/htZdSgp4csiGeXr8f9BEotRB6+kjMBHaiJ6B7BIlDmlffyR4f3oR/5hxgy
+ dvIxMocqyc03xVyM6tA4ZrshKkwDgZIFEKkx37ec22ZJczNwGywKQW2TGXUTZVbdooiG4tXbRBLxe
+ ga/NTZ52ZdEkSxAUGw/l0y0InTtdDIWvfUT+WXtQcEPRBE6HHhoeFehLzWL/o7w5Hog+0hXhNjqte
+ fzKpI2fWmYzoIb6ueNmE/8sP9fWXo6Av9m8B5hRvF/hVWfEysr/2LSqN+xjt9NEbg8WNRMLy/Y0MS
+ p5fgf9pmGF78waFiBvgZIQNuQnHrM+0BmYOhR0JKoHjt7r5wLyNiKFc8b7xXndyCDYfniO3ljbr0j
+ tXWRGxx4to6FwARAQABtCZWaWFjaGVzbGF2IER1YmV5a28gPHNsYXZhQGR1YmV5a28uY29tPokCVw
+ QTAQoAQQIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBFXDC2tnzsoLQtrbBDlc2cL
+ fhEB1BQJoGl5PAhkBAAoJEDlc2cLfhEB17DsP/jy/Dx19MtxWOniPqpQf2s65enkDZuMIQ94jSg7B
+ F2qTKIbNR9SmsczjyjC+/J7m7WZRmcqnwFYMOyNfh12aF2WhjT7p5xEAbvfGVYwUpUrg/lcacdT0D
+ Yk61GGc5ZB89OAWHLr0FJjI54bd7kn7E/JRQF4dqNsxU8qcPXQ0wLHxTHUPZu/w5Zu/cO+lQ3H0Pj
+ pSEGaTAh+tBYGSvQ4YPYBcV8+qjTxzeNwkw4ARza8EjTwWKP2jWAfA/ay4VobRfqNQ2zLoo84qDtN
+ Uxe0zPE2wobIXELWkbuW/6hoQFPpMlJWz+mbvVms57NAA1HO8F5c1SLFaJ6dN0AQbxrHi45/cQXla
+ 9hSEOJjxcEnJG/ZmcomYHFneM9K1p1K6HcGajiY2BFWkVet9vuHygkLWXVYZ0lr1paLFR52S7T+cf
+ 6dkxOqu1ZiRegvFoyzBUzlLh/elgp3tWUfG2VmJD3lGpB3m5ZhwQ3rFpK8A7cKzgKjwPp61Me0o9z
+ HX53THoG+QG+o0nnIKK7M8+coToTSyznYoq9C3eKeM/J97x9+h9tbizaeUQvWzQOgG8myUJ5u5Dr4
+ 6tv9KXrOJy0iy/dcyreMYV5lwODaFfOeA4Lbnn5vRn9OjuMg1PFhCi3yMI4lA4umXFw0V2/OI5rgW
+ BQELhfvW6mxkihkl6KLZX8m1zcHitCpWaWFjaGVzbGF2IER1YmV5a28gPFNsYXZhLkR1YmV5a29Aa
+ WJtLmNvbT6JAlQEEwEKAD4WIQRVwwtrZ87KC0La2wQ5XNnC34RAdQUCaBpd7AIbAQUJA8JnAAULCQ
+ gHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRA5XNnC34RAdYjFEACiWBEybMt1xjRbEgaZ3UP5i2bSway
+ DwYDvgWW5EbRP7JcqOcZ2vkJwrK3gsqC3FKpjOPh7ecE0I4vrabH1Qobe2N8B2Y396z24mGnkTBbb
+ 16Uz3PC93nFN1BA0wuOjlr1/oOTy5gBY563vybhnXPfSEUcXRd28jI7z8tRyzXh2tL8ZLdv1u4vQ8
+ E0O7lVJ55p9yGxbwgb5vXU4T2irqRKLxRvU80rZIXoEM7zLf5r7RaRxgwjTKdu6rYMUOfoyEQQZTD
+ 4Xg9YE/X8pZzcbYFs4IlscyK6cXU0pjwr2ssjearOLLDJ7ygvfOiOuCZL+6zHRunLwq2JH/RmwuLV
+ mWWSbgosZD6c5+wu6DxV15y7zZaR3NFPOR5ErpCFUorKzBO1nA4dwOAbNym9OGkhRgLAyxwpea0V0
+ ZlStfp0kfVaSZYo7PXd8Bbtyjali0niBjPpEVZdgtVUpBlPr97jBYZ+L5GF3hd6WJFbEYgj+5Af7C
+ UjbX9DHweGQ/tdXWRnJHRzorxzjOS3003ddRnPtQDDN3Z/XzdAZwQAs0RqqXrTeeJrLppFUbAP+HZ
+ TyOLVJcAAlVQROoq8PbM3ZKIaOygjj6Yw0emJi1D9OsN2UKjoe4W185vamFWX4Ba41jmCPrYJWAWH
+ fAMjjkInIPg7RLGs8FiwxfcpkILP0YbVWHiNAabQoVmlhY2hlc2xhdiBEdWJleWtvIDx2ZHViZXlr
+ b0BrZXJuZWwub3JnPokCVAQTAQoAPhYhBFXDC2tnzsoLQtrbBDlc2cLfhEB1BQJoVemuAhsBBQkDw
+ mcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDlc2cLfhEB1GRwP/1scX5HO9Sk7dRicLD/fxo
+ ipwEs+UbeA0/TM8OQfdRI4C/tFBYbQCR7lD05dfq8VsYLEyrgeLqP/iRhabLky8LTaEdwoAqPDc/O
+ 9HRffx/faJZqkKc1dZryjqS6b8NExhKOVWmDqN357+Cl/H4hT9wnvjCj1YEqXIxSd/2Pc8+yw/KRC
+ AP7jtRzXHcc/49Lpz/NU5irScusxy2GLKa5o/13jFK3F1fWX1wsOJF8NlTx3rLtBy4GWHITwkBmu8
+ zI4qcJGp7eudI0l4xmIKKQWanEhVdzBm5UnfyLIa7gQ2T48UbxJlWnMhLxMPrxgtC4Kos1G3zovEy
+ Ep+fJN7D1pwN9aR36jVKvRsX7V4leIDWGzCdfw1FGWkMUfrRwgIl6i3wgqcCP6r9YSWVQYXdmwdMu
+ 1RFLC44iF9340S0hw9+30yGP8TWwd1mm8V/+zsdDAFAoAwisi5QLLkQnEsJSgLzJ9daAsE8KjMthv
+ hUWHdpiUSjyCpigT+KPl9YunZhyrC1jZXERCDPCQVYgaPt+Xbhdjcem/ykv8UVIDAGVXjuk4OW8la
+ nf8SP+uxkTTDKcPHOa5rYRaeNj7T/NClRSd4z6aV3F6pKEJnEGvv/DFMXtSHlbylhyiGKN2Amd0b4
+ 9jg+DW85oNN7q2UYzYuPwkHsFFq5iyF1QggiwYYTpoVXsw
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,161 +127,73 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-The CLONE_AUTOREAP tests poll for POLLIN and then immediately call
-PIDFD_GET_INFO with PIDFD_INFO_EXIT.  PIDFD_INFO_EXIT is only published
-from release_task() -> pidfs_exit(), which runs after the pidfd already
-reported POLLIN for the exited task.  A poller woken by
-do_notify_pidfd() can therefore read a mask without PIDFD_INFO_EXIT;
-under KASAN the autoreap_multithreaded case fails this way.
+Hi Hengyu,
 
-POLLHUP is returned once the task linkage has been removed from
-struct pid, which happens after pidfs_exit() has published the exit
-information.  Wait for POLLHUP and check it in revents.
+On Thu, 2026-10-15 at 22:31 -0400, Hengyu Liang wrote:
+> Hi Slava,
+>=20
+> On Thu, Oct 15, 2026 at 12:58:14PM -0700, Viacheslav Dubeyko wrote:
+> > (1) The goal of hfs_correct_next_unused_CNID() was to fix the
+> > volume
+> > corruption issue. Have you run hfs.fsck tool to check that volume
+> > is
+> > valid (not corrupted) after your fix?
+>=20
+> Thanks for pointing this out. I have now run the additional checks on
+> v7.3-rc6 with this patch, using fsck.hfs 540.1-Linux:
+>=20
+> - All 14 normal-volume images from the original tests passed
+> =C2=A0 fsck.hfs -fn after unmount. This includes the reproducer, CNID
+> holes,
+> =C2=A0 missing optional file threads, concurrent operations, and reordere=
+d
+> =C2=A0 leaf node numbers. The checker did not modify the images.
+>=20
+> > (2) Have you run xfstests (especially, generic/736) with your fix?
+> > Because, the patch had goal to fix the generic/736 failure:
+>=20
+> - On a freshly formatted 64 MiB HFS volume, I ran:
+>=20
+> =C2=A0=C2=A0=C2=A0 ./check -i 10 generic/736
+>=20
+> =C2=A0 All 10 iterations passed, including the filesystem checks after
+> each
+> =C2=A0 iteration, with FSCK_OPTIONS=3D"-fn". A separate fsck.hfs -fn afte=
+r
+> =C2=A0 the run also passed. There was no "invalid MDB drNxtCNID" error.
+> =C2=A0 The unpatched v7.3-rc6 kernel also passed these 10 iterations.
+>=20
+> - I repeated the minimal reproducer on a separate fresh volume. The
+> =C2=A0 first creation of c failed with EEXIST without the patch and
+> succeeded
+> =C2=A0 with it. The surviving file's CNID and contents were unchanged, an=
+d
+> =C2=A0 the patched volume passed fsck.hfs -fn after unmount.
 
-With this change all tests pass ten consecutive runs on an unpatched
-kernel.
+Sounds great! Let me take a look into the code.
 
-Signed-off-by: fujo <hooyan2024@gmail.com>
----
- .../selftests/pidfd/pidfd_autoreap_test.c     | 36 +++++++++----------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+>=20
+> For completeness, I initially ran generic/736 on a 256 MiB HFS
+> volume.
+> The test body completed, but the final fsck reported:
+>=20
+> =C2=A0=C2=A0=C2=A0 Invalid map node linkage
+> =C2=A0=C2=A0=C2=A0 (4, 2048)
+>=20
+> I reproduced the same failure on unpatched v7.3-rc6 with the same
+> volume
+> size and tools. The catalog had 6129 nodes, while its header map and
+> single map node covered only 5984 nodes. I then used fresh 64 MiB
+> volumes
+> for the runs above; their filesystem checks passed without repair.
 
-diff --git a/tools/testing/selftests/pidfd/pidfd_autoreap_test.c b/tools/testing/selftests/pidfd/pidfd_autoreap_test.c
-index 1c586482f..b4f3699ef 100644
---- a/tools/testing/selftests/pidfd/pidfd_autoreap_test.c
-+++ b/tools/testing/selftests/pidfd/pidfd_autoreap_test.c
-@@ -149,7 +149,7 @@ TEST(autoreap_rejects_thread)
- 
- /*
-  * Basic test: create an autoreap child, let it exit, verify:
-- * - pidfd becomes readable (poll returns POLLIN)
-+ * - pidfd becomes readable (poll returns POLLHUP)
-  * - PIDFD_GET_INFO returns the correct exit code
-  * - waitpid() returns -1/ECHILD (no zombie)
-  */
-@@ -172,10 +172,10 @@ TEST(autoreap_basic)
- 
- 	/* Wait for the child to exit via pidfd poll. */
- 	pfd.fd = pidfd;
--	pfd.events = POLLIN;
-+	pfd.events = POLLHUP;
- 	ret = poll(&pfd, 1, 5000);
- 	ASSERT_EQ(ret, 1);
--	ASSERT_TRUE(pfd.revents & POLLIN);
-+	ASSERT_TRUE(pfd.revents & POLLHUP);
- 
- 	/* Verify exit info via PIDFD_GET_INFO. */
- 	ret = ioctl(pidfd, PIDFD_GET_INFO, &info);
-@@ -225,10 +225,10 @@ TEST(autoreap_signaled)
- 
- 	/* Wait for exit via pidfd. */
- 	pfd.fd = pidfd;
--	pfd.events = POLLIN;
-+	pfd.events = POLLHUP;
- 	ret = poll(&pfd, 1, 5000);
- 	ASSERT_EQ(ret, 1);
--	ASSERT_TRUE(pfd.revents & POLLIN);
-+	ASSERT_TRUE(pfd.revents & POLLHUP);
- 
- 	/* Verify signal info. */
- 	ret = ioctl(pidfd, PIDFD_GET_INFO, &info);
-@@ -334,10 +334,10 @@ TEST(autoreap_reparent)
- 
- 	/* Wait for it to exit via pidfd poll. */
- 	pfd.fd = pidfd;
--	pfd.events = POLLIN;
-+	pfd.events = POLLHUP;
- 	ret = poll(&pfd, 1, 5000);
- 	ASSERT_EQ(ret, 1);
--	ASSERT_TRUE(pfd.revents & POLLIN);
-+	ASSERT_TRUE(pfd.revents & POLLHUP);
- 
- 	/*
- 	 * The grandchild should have been autoreaped even though
-@@ -421,10 +421,10 @@ TEST(autoreap_multithreaded)
- 
- 	/* Wait for the process to fully exit via pidfd poll. */
- 	pfd.fd = pidfd;
--	pfd.events = POLLIN;
-+	pfd.events = POLLHUP;
- 	ret = poll(&pfd, 1, 5000);
- 	ASSERT_EQ(ret, 1);
--	ASSERT_TRUE(pfd.revents & POLLIN);
-+	ASSERT_TRUE(pfd.revents & POLLHUP);
- 
- 	/* Verify exit info. */
- 	ret = ioctl(pidfd, PIDFD_GET_INFO, &info);
-@@ -512,7 +512,7 @@ TEST(autoreap_no_inherit)
- 
- 	/* Wait for the autoreap child to exit. */
- 	pfd.fd = pidfd;
--	pfd.events = POLLIN;
-+	pfd.events = POLLHUP;
- 	ret = poll(&pfd, 1, 5000);
- 	ASSERT_EQ(ret, 1);
- 
-@@ -571,7 +571,7 @@ TEST(nnp_sets_no_new_privs)
- 
- 	/* Wait for child to exit. */
- 	pfd.fd = pidfd;
--	pfd.events = POLLIN;
-+	pfd.events = POLLHUP;
- 	ret = poll(&pfd, 1, 5000);
- 	ASSERT_EQ(ret, 1);
- 
-@@ -631,7 +631,7 @@ TEST(autoreap_no_new_privs_unset)
- 	ASSERT_GE(pidfd, 0);
- 
- 	pfd.fd = pidfd;
--	pfd.events = POLLIN;
-+	pfd.events = POLLHUP;
- 	ret = poll(&pfd, 1, 5000);
- 	ASSERT_EQ(ret, 1);
- 
-@@ -695,10 +695,10 @@ TEST(autokill_basic)
- 
- 	/* Wait for the child to die via the pidfd_open'd fd. */
- 	pfd.fd = pollfd_fd;
--	pfd.events = POLLIN;
-+	pfd.events = POLLHUP;
- 	ret = poll(&pfd, 1, 5000);
- 	ASSERT_EQ(ret, 1);
--	ASSERT_TRUE(pfd.revents & POLLIN);
-+	ASSERT_TRUE(pfd.revents & POLLHUP);
- 
- 	/* Child should be autoreaped — no zombie. */
- 	usleep(100000);
-@@ -799,7 +799,7 @@ TEST(autokill_pidfd_open_no_effect)
- 
- 	/* Verify child is still alive by polling the clone3 pidfd. */
- 	pfd.fd = pidfd;
--	pfd.events = POLLIN;
-+	pfd.events = POLLHUP;
- 	ret = poll(&pfd, 1, 0);
- 	ASSERT_EQ(ret, 0) {
- 		TH_LOG("Child died after closing pidfd_open fd — should still be alive");
-@@ -813,10 +813,10 @@ TEST(autokill_pidfd_open_no_effect)
- 	close(pidfd);
- 
- 	pfd.fd = open_fd;
--	pfd.events = POLLIN;
-+	pfd.events = POLLHUP;
- 	ret = poll(&pfd, 1, 5000);
- 	ASSERT_EQ(ret, 1);
--	ASSERT_TRUE(pfd.revents & POLLIN);
-+	ASSERT_TRUE(pfd.revents & POLLHUP);
- 
- 	/* Child should be autoreaped — no zombie. */
- 	usleep(100000);
-@@ -884,7 +884,7 @@ TEST(autokill_without_nnp_with_cap)
- 
- 	/* Wait for child to exit. */
- 	pfd.fd = pidfd;
--	pfd.events = POLLIN;
-+	pfd.events = POLLHUP;
- 	ret = poll(&pfd, 1, 5000);
- 	ASSERT_EQ(ret, 1);
- 
--- 
-2.53.0
+It looks that we have enough issues yet for the fix.
 
+Thanks,
+Slava.
+
+>=20
+> No KASAN report or kernel BUG/WARNING was observed during these runs.
+>=20
+> Thanks,
+> Hengyu
