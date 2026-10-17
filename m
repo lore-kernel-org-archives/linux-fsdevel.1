@@ -1,67 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC4B387585;
-	Sat, 17 Oct 2026 06:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A9A2D1F7B;
+	Sat, 17 Oct 2026 07:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792220318; cv=none; b=W4V+YxEmk0J3TuHyG64ufQ+V676IhfoSLjhTf++rvHXO1KGnLON1kSkfUSfTt1P4aCOk2NTg1524V295vWCtbuQLgBFhj2bythCFHwBDii+ucx2T38OvX8zmzh243mqN4bYfE+eeLJVJjDZQqjBvHh/McYIyh16yg4NmrSAkVJg=
+	t=1792222995; cv=none; b=RwiKxFKldoRHPGdvwZYhBWwxVTk/li3+1MQ55ZQaaMCnpyh4q7p60nyst8X8vdtmqDrqGrGVc0PovoXT5nFM8llfzx824ONc9q0zApqwWj2GAKuHhMxs7s+QW3Nk1fmopJ1d9ni1dn35Yj7N+WsnLyGoBpba1hJVKzgy8b+c7oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792220318; c=relaxed/simple;
-	bh=nNrxdpC1RYE46gNjJClSxUXx92PhQ8w/FYFLd3ZBIz8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CJOANjAMXq9IVZb4+QiuftcYGj4I5+6qPvogNemPOld721woJZqSEADuZlRj1ixgG4vy6vhZfnoXhJ5Xe+d1VyxNlm2c0csCYM1aQBLN1u6KqkutYHLbbyUP2ciFOlLRQVRvE2DLbdmUp360f/MLzkrI1sRB9N11SS6oivLHM04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VtWHYp6h; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792222995; c=relaxed/simple;
+	bh=L1ZzRUNO15Wcq1tW/lxQLVisoqfwoeeNEieUCfi5fnM=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=oXzd1oPQxDt9iqsvmclb1LPXm2g+DUpHMM4Q089bnZ5GxNvw5N1cgE5ocmXM/Z7wHIm0hn+VCPvMNSqYTGdbkhS3h6THc1TG7xlEpDLPPvdcMl9rfHaq9uVr1JgTC6sv28DDVGqiAqY6MvdC9mS4+xfDmW/jA7uHS++LKoH9d2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=bTUs22iq; arc=none smtp.client-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VtWHYp6h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFEC71F000C4;
-	Sat, 17 Oct 2026 06:58:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792220317;
-	bh=TTHPpIXRu4Ckk1sfPjs1uyCtE3BkU0tetlLETfkTw7M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VtWHYp6hp4ReH531epjxStz+U+G9QU+IV9qwuWDOGUXENR5Rz98aZEcFrBub/ewlj
-	 AzOT0HwlZaT29nDiRxekEOj2HyGyQtDZTYoFhSKauAPTgM0ifLhPUKnIbJlvQdpy76
-	 UuQetkyvMuZie5HDBDfbwg6rA978qmLm+DI5DNUBrFjEsM0c7wfHBFaeEnOQVLDE7O
-	 Xrbs7qHj9L6bnaALtMCWtg706eRBTOgp+uRKg943VfXk6nCsdfg6eQGhZa/V1W3dVo
-	 n6myNfFgsIdR+aHch4fe7icrY598xq0dKhZjwUes+xAOOINApbVjEOU/1q4pvD1Cew
-	 FG1yJobXa9Vjw==
-Date: Sat, 17 Oct 2026 08:58:31 +0200
-From: Carlos Maiolino <cem@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: xfs <linux-xfs@vger.kernel.org>, 
-	linux-ext4 <linux-ext4@vger.kernel.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	fuse-devel <fuse-devel@lists.linux.dev>, fstests <fstests@vger.kernel.org>
-Subject: Re: Farewell!
-Message-ID: <atMb74jop2vrPJxv@nidhogg.toxiclabs.cc>
-References: <20261016160037.GA107919@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="bTUs22iq"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=7Xa7wrZpzGbe9BZSoSeuK0FiGnGIBL2+6xHOdQnRNAQ=;
+	b=bTUs22iqp5UbfqcN34dlQW0hyXCkj7jsdSLiCwtJ/Sqb6zcv/sL3UkABoANOlHV4e2rRfbDtQ
+	KdJuFxM0q1yldyfqhBEuYM9Piwkkfrwl6SuIkBguAm9AjUSilKqI/wH3Lv+s2QHem5nzpONuDD/
+	0/l4+xyy9StCYPN8VGC4Tn4=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4j6DLb6T7mz1T4LX;
+	Sat, 17 Oct 2026 15:43:03 +0800 (CST)
+Received: from whupemo200011.china.huawei.com (unknown [7.152.185.179])
+	by mail.maildlp.com (Postfix) with ESMTPS id 144ED40537;
+	Sat, 17 Oct 2026 15:43:06 +0800 (CST)
+Received: from [10.174.178.46] (10.174.178.46) by
+ whupemo200011.china.huawei.com (7.152.185.179) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Sat, 17 Oct 2026 15:43:04 +0800
+Subject: Re: [PATCH] fs: rotate inodes whose page cache could not be dropped
+To: Nikolaos Karaolidis <nick@karaolidis.com>, Christian Brauner
+	<brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>
+CC: Jan Kara <jack@suse.cz>, Mateusz Guzik <mjguzik@gmail.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+References: <20261016102515.111285-1-nick@karaolidis.com>
+From: Zhihao Cheng <chengzhihao1@huawei.com>
+Message-ID: <5b74fceb-dc8d-21ad-d313-eba7a0009056@huawei.com>
+Date: Sat, 17 Oct 2026 15:43:03 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261016160037.GA107919@frogsfrogsfrogs>
+In-Reply-To: <20261016102515.111285-1-nick@karaolidis.com>
+Content-Type: text/plain; charset="gbk"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ whupemo200011.china.huawei.com (7.152.185.179)
 
-On Fri, Oct 16, 2026 at 09:00:37AM -0700, Darrick J. Wong wrote:
-> Hi everyone,
-> 
-> After 14 years at Oracle and 23 years working on Linux, I've decided to
-> take an extended break.  Today, October 16th, 2026, is my last day.
-> 
-> I don't have any immediate plans to drop the djwong@kernel.org
-> forwarding, though ultimately that's up to the sysadmins to decide.
-> 
-> I have very much enjoyed working with you all, and I'm proud of what
-> we've accomplished together.  Good luck!
+ÔÚ 2026/10/16 18:25, Nikolaos Karaolidis Ð´µÀ:
+> When inode_lru_isolate() drops the page cache of an unused inode, it
+> has to unlock the list, so it returns LRU_RETRY and the walk restarts
+> at the head of the list, where the inode still is. If
+> invalidate_mapping_pages() could not empty the mapping, the restarted
+> walk strips the same inode again, and so on until nr_to_walk runs out.
+> Every walk of that list then ends on this inode, and nothing behind it
+> is reclaimed for as long as its cache stays.
+[...]
+>   static void inode_wait_for_lru_isolating(struct inode *inode)
+> @@ -981,7 +980,13 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
+>   		else
+>   			__count_vm_events(PGINODESTEAL, reap);
+>   		mm_account_reclaimed_pages(reap);
+> +
+> +		spin_lock(&inode->i_lock);
+> +		/* The walk restarts here: don't retry leftovers right away */
+> +		if (!mapping_empty(&inode->i_data))
+> +			inode_state_set(inode, I_REFERENCED);
+>   		inode_unpin_lru_isolating(inode);
+> +		spin_unlock(&inode->i_lock);
+>   		return LRU_RETRY;
+>   	}
 
-Please make sure to always carry your towel and have a pack of salted
-peanuts with you...
+Hi Nikolaos,
+I find a possible BUG_ON if this patch applied, details shown as:
+    P1                          P2
+prune_icache_sb
+  lock(lru->lock)
+  inode_lru_isolate
+   if (!mapping_empty(&inode->i_data))
+    unlock(lru->lock)
+    spin_lock(&inode->i_lock)
+    inode_state_set(inode, I_REFERENCED)
+    inode_unpin_lru_isolating
+    spin_unlock(&inode->i_lock)
+                          unlink
+                           iget_locked // find_inode_fast gets the inode
+                           iput
+                            iput_final
+                             drop = 1
+                             evict
+                              BUG_ON(inode_state_read_once(inode) != 
+(I_FREEING | I_CLEAR))  // inode state with I_REFERENCED
 
-So long and thank you for all the fish my friend.
-
-> 
-> --Darrick
-> 
+Could that be possible?
