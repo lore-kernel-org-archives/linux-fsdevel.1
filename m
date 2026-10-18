@@ -1,137 +1,179 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pj2-f6.google.com (mail-pj2-f6.google.com [74.125.227.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4141361965
-	for <linux-fsdevel@vger.kernel.org>; Sun, 18 Oct 2026 05:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A426D41F353
+	for <linux-fsdevel@vger.kernel.org>; Sun, 18 Oct 2026 08:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.134
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792300636; cv=none; b=YbFp/LPHNgakdGbTnohpm20WJks16FTf+lnPG+bIRdtB9ZP5t4IAC6CKox2y9u5iFbxdXtbouZQz0Ms6uaQTOVwDIfpDLFFuvmHLBaNWlLS3ceEmOgaJ5cLv+dQ0kbvCuwJY2uyJhrdyF2n9RsByWXSjBVsMkKCEzayjN6BFMHw=
+	t=1792311145; cv=none; b=FYpFzegep+c+UN24Lhbvrxd6TH/Z+09kTWe6h9udBXDXuB39nfxyTTLsjeQAVS39DrI/DyI+/LCvfYhIkMXxGxljeAaPgBfyI0POO3LfcOLXc0cQZEtoEY4/atZAfB0qLfvnToZX5KHax1O8AWSIA6N3ASRPWvzVgIPM4kWA8N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792300636; c=relaxed/simple;
-	bh=KilMq05uzi4HI0Ezxaorsi5+F0WWcCljoUy8AG6YhJE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A7YWdyiT2wQe8hayyVzY1Uo1pXxE3rtSACWN5YstXXOZ8iREFTmFPNxP8bGs+nCT/DtCJ0F4D0nDli7kkmV1WCvRMhR02nOSddbr64uRpjbLxIZuvPwDhsU2MSVshoFQXDDwStdWyMRrdUMfQFehnVkAAASodInuJ7wkbqdDsxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QfJUqAxB; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1792311145; c=relaxed/simple;
+	bh=bqwd1tkIaEiz7ICq6XhgCjWOPBALhXUjko3GAdaePy0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cNp7EDRRD9H81jBzwGPT0B+AgvaMJsNPW1Iz9FQZUXXxX+FUmFFUWcDqzd98CE7IZVqwDEIAsME8zmGAgUcbAOO9i0A9PHrn/OX5WnKs9KFqFpMcivk7A6R2GTf/4gCkEk4xzsqzCq4VANhvD31UaehKbB4bJtbGmw4myh5GfLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f7LCpmjw; arc=none smtp.client-ip=74.125.227.134
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QfJUqAxB"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38d489b6b71so625064a91.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 17 Oct 2026 22:17:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f7LCpmjw"
+Received: by mail-pj2-f6.google.com with SMTP id 98e67ed59e1d1-3ad211ad92bso116147a91.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 18 Oct 2026 01:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792300634; x=1792905434; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792311144; x=1792915944; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VyyBqnBLxay79+QmsoCm7/qbWfkvgQCsej7i+h9gEsc=;
-        b=QfJUqAxBzhZnuepeH2i+cXu5PLoESB3x3z+OhLFsBVxzXinzLnHUC0hGLR/31tUCya
-         gRYXWTPph6V6ZFHpVSDgNdJlsHosH5F53jmD14plvKcvoH+/kpQzFfITSh76e1zxq/Ph
-         Fzc5+a7Fb6yt+dE0PaU54Lx8VBDGN1myh2HredveHff93hJJ16nMQWqTb8LrHOO9I+c3
-         BN3WJGArhOmZJErcCDFg3vKHIUIQgpm+5n+IVQMC9SZwx51RRmKPoXoCAfi9mwCgIFW6
-         8N8f+epYVp667ryK7nd5mOtRe9Pu6Zm9IBUkYzuMZVMwsNf4l14pmKND9Z5ECWwicXMU
-         NEGg==
+        bh=BPNQGJOaZ7JO7aKwrLR1/0X2/lBd0SCu4ixEzzZzDGs=;
+        b=f7LCpmjwO+dgi8YC/uKLaNYfhmu/yWvUWhMxNrIdi4bSinUslfA5btJZDxtyhtZRyR
+         cObTI5N6uKkQ/C+gY4HscJ/5FaUt4X2GzXJ+F/IfSBnLppLAYZbcZeVS7RcTcZZr33cG
+         mXb1MhwIQgO7sMpiNLuRQB3QrTN86LV29hZHsOgl45cGLC/zTP4r8Gd7Q8cig8/HvjyK
+         ieVHaMCiyqmz316z2RPJgv/J2k6P7NjfhVWow9COLZcqUcDaTeVoTEaIhdDH13Ov9CsZ
+         D9bWMOY8wbbIt6IKt51tXbgEPQFJYineeWmAyjBdIDdbNtjSYTw6WeesXX32v1FVSq2s
+         ogFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792300634; x=1792905434;
+        d=1e100.net; s=20260707; t=1792311144; x=1792915944;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VyyBqnBLxay79+QmsoCm7/qbWfkvgQCsej7i+h9gEsc=;
-        b=gk/qWcRVl9FbErB7QcnbLLJIUEXkCPiPYD++l5xD+QV15rlwLaNj5Ran/wqomKkJHn
-         TJVfS84kqUmfh8cN/bYRdGeT4tFbkw/Hx5k8XGOI/9Px1M1wVUUTF4EDP1IpGw3Vosh2
-         ZV9j32BUxBr9M11lEBnYQawR2zUlwVfPbsVSUXUJOfkbBVwRLR4r70O+wcfSnOtPbaNj
-         stOplHMhZku0ALUJelA6NLh0AuIY0hL2VNYKN52/dPkstiL4czl4ocQTTImxZrIcihHo
-         jY80fXBdY3XkW8Mqyz0DUZ7Nnn6o/cMELYOBokAtSD2L2cnvNfHETRskuXUosa6X9/hL
-         bZVw==
-X-Gm-Message-State: AFq9FYLu++ykTb2kzgznJSmtTaBZfBBjwuUfBEr7RT9KQjZsHTz+EjL9
-	YfpTInWjOTJTcV6DNjZQwYbhiLF80Z8egk7g8nRwcCfBYnNOW6ZQC4MM
-X-Gm-Gg: AYBFou3GgNTfWN4OyfKEiqGqhNE8V+mrExj1BrALz0LEOQL10K/jatSvGgQC8eV55Xl
-	gAEnGwNPCTZubuPT2KoE87e1takVbWpi8GZbgvPNyhhM63dIClTDXz0cnrqv8yt7u1ekDAobSZM
-	TU62HXY2kKP+ko2L4faJS7ymKpzZq2GUK4dtD5JFTRNyfS2xsBCP87q/dKXrBjqE3ECA37s0U/Y
-	NNwlTyLY2+rHlKLlxvUw8oESB//QcRxx2lsfCFba1rlZl98wLm2iM7inOqtiLvsyYDLETNeZFtm
-	05lYozNO317nV8OZIOURIPAiTPMtr/ezTSyJMlJD5chw1UI4x8tUdTK/M0YkMPzLFU/rboRuezI
-	0jm41Dy3dtxE7hpQtNgdVwy0QEMh1DD3n5G52Vo6oWJgvB7jW615nS4F5TCJh3H7NjljXfKeIBx
-	c1NwKvvkKJ63u1p8+idFBKq+pHYI4ASidSHTQzCIp8xXdtuSB8omUxlD7WPYSBY4YZo34SxHWIe
-	LRiwzUrChsnXH0EAlwPpQ==
-X-Received: by 2002:a17:90b:47:b0:3ac:8897:7b9f with SMTP id 98e67ed59e1d1-3acef0f4821mr3298541a91.43.1792300634197;
-        Sat, 17 Oct 2026 22:17:14 -0700 (PDT)
-Received: from ancienth-X870E-Nova-WiFi ([125.186.72.2])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac94627250sm15432955a91.8.2026.10.17.22.17.11
+        bh=BPNQGJOaZ7JO7aKwrLR1/0X2/lBd0SCu4ixEzzZzDGs=;
+        b=FZLAeQpNpKYG7X3vWnmQAiPTCVxovBEiFxVczd5kwp1FSyfj15Qeza6WElNvBc62l+
+         mBypgEFbgbLbBhYNyP2LiwNGyvE88DEw0ulatgDt3VPmW0VhcBy/XroFqQn2mmGeK49j
+         +LK4nF1szeJfYh5uduUeJ8CFi+XXALbtVnmpuXrtor9JgKbAD7DRXbgCk4gJ9y0YtIDy
+         yyp7kuQHuWoU2QQlp+nlfYd5//jreQV5wMuQ5gFbeRaFU9Siiqkf5YnFQcNACIEdSox9
+         C8PWYALdFCqTna6rRCc9DaEO0irHJ9/RmUkcOCAsFGTtQTkbcL5mQoOGLR9LZZktPh8z
+         t2Ng==
+X-Forwarded-Encrypted: i=1; AKwUvBxmS/ANhO61RVR5S9Jzpn2REBPsaMByiDyK7yQ7JDaafkhJwKFulAjkMxhTMP1Mzw8hMS4oiFiLSO2cRlAR@vger.kernel.org
+X-Gm-Message-State: AFq9FYID8xGFJ7f2uC+C4Y3/QxUasebmwx2iIATM0foEz7gflVYFYIA+
+	120itgAt0frF8u5GLSylgvYKKq1hNdNKe4S+683apUUvHnRyzUifwruf
+X-Gm-Gg: AYBFou1L6MA6x0CJ9XFRlyXEg3YekYpL+NiWb/b5HRSaw460MQ+I98FemgWgO6a3zFO
+	WSQcDDKpGibeifO3OIGZ3PaIz5F/QRkrayXpcRMYr1kmFVyllZXjeCRa+2MIYomo00+QXCjUUMD
+	A9UOITJWa0+bBjnYJdJuGD8LrTIdJIPGXiyNI9ZPP77xJmaP7V55BbYpBrVObEkCE3C4AIVnH5s
+	KWim0exmfkAVHCoBkQdSf1x6Gwf4XzKl2fLg9rQp8chRoCwINkxp4IS8iRr/alQAl0KSXcaF75F
+	H/6g/RUT+jrdYhqPG8dWQpU02rVvAIg/AvJwV6yR2i2VuVPYNy34+DibVl5XK+EXaduzRDEvLvB
+	B7buUqT/gdEowF8M25UwznC9zvailu3J8z3Sc9uMc50TOp/hndrRLHB4yWS4q912Npn0lDDdjeo
+	WHkqF+bxQxG2qG9ECGLJHVULFM2P4vMOUgeeXYwdLCWvrRibAIGpjafOEznVTEK1Fd49yfex/Qx
+	pb64No=
+X-Received: by 2002:a17:90b:5743:b0:3a4:e934:e85c with SMTP id 98e67ed59e1d1-3acef0f479dmr3814438a91.41.1792311143904;
+        Sun, 18 Oct 2026 01:12:23 -0700 (PDT)
+Received: from amax.cluster.local ([115.233.223.43])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc49c263asm10637039a91.17.2026.10.18.01.12.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 22:17:13 -0700 (PDT)
-From: Daehyeon Ko <4ncienth@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	jack@suse.cz,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] splice: avoid stale f_pos writeback on error
-Date: Sun, 18 Oct 2026 14:17:08 +0900
-Message-ID: <20261018051708.2422394-1-4ncienth@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Sun, 18 Oct 2026 01:12:23 -0700 (PDT)
+From: l1za0.sec@gmail.com
+To: viro@zeniv.linux.org.uk
+Cc: akpm@linux-foundation.org,
+	linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haocheng Yu <l1za0.sec@gmail.com>
+Subject: [BUG] KASAN: slab-out-of-bounds Read in copy_folio_from_iter_atomic
+Date: Sun, 18 Oct 2026 16:12:03 +0800
+Message-Id: <20261018081203.2431035-1-l1za0.sec@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-do_splice() snapshots an implicit file position before calling the splice
-helper. Since splice does not take f_pos_lock, another operation on the
-same open file description can update f_pos while the helper is blocked.
-If the helper then fails, the unconditional writeback restores the stale
-snapshot.
+From: Haocheng Yu <l1za0.sec@gmail.com>
 
-For a directory without ->splice_read, a file-to-pipe splice fails with
--EINVAL. A concurrent directory mutation and getdents() call can advance
-f_pos and refresh the filesystem's revalidation cookie before that failure
-restores only the old position. The next ext2 readdir can then trust an
-offset inside a directory entry and copy data from the adjacent page to
-userspace.
+Hi,
 
-Only update an implicit file position when splice returns a non-negative
-result, matching read and write. Keep explicit offset updates unchanged.
+We found a KASAN slab-out-of-bounds read in copy_folio_from_iter_atomic() w=
+hile=20
+fuzzing Linux with a modified version of syzkaller. We couldn't find a repo=
+rt=20
+of the same issue on syzbot. We are investigating the root cause and trying=
+ to=20
+develop a fix. Could you let us know whether this issue warrants a fix?
 
-Fixes: 7995bd287134 ("splice: don't pass the address of ->f_pos to methods")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
----
- fs/splice.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+The crash occurs on Linux v7.3.0-rc5. KASAN reports an 8-byte read 8 bytes =
+past=20
+a 144-byte allocation in kmalloc-192.
 
-diff --git a/fs/splice.c b/fs/splice.c
-index 9d8f63e2fd1ab..96378d3e65580 100644
---- a/fs/splice.c
-+++ b/fs/splice.c
-@@ -1349,10 +1349,10 @@ ssize_t do_splice(struct file *in, loff_t *off_in, struct file *out,
- 		ret = do_splice_from(ipipe, out, &offset, len, flags);
- 		file_end_write(out);
- 
--		if (!off_out)
--			out->f_pos = offset;
--		else
-+		if (off_out)
- 			*off_out = offset;
-+		else if (ret >= 0)
-+			out->f_pos = offset;
- 	} else if (opipe) {
- 		if (off_out)
- 			return -ESPIPE;
-@@ -1373,10 +1373,10 @@ ssize_t do_splice(struct file *in, loff_t *off_in, struct file *out,
- 
- 		ret = splice_file_to_pipe(in, opipe, &offset, len, flags);
- 
--		if (!off_in)
--			in->f_pos = offset;
--		else
-+		if (off_in)
- 			*off_in = offset;
-+		else if (ret >= 0)
-+			in->f_pos = offset;
- 	} else {
- 		ret = -EINVAL;
- 	}
+Relevant stack trace:
 
-base-commit: 58161ead29e50d70a317ea26b472e0c7508e69da
--- 
-2.55.0
+  iterate_iovec (include/linux/iov_iter.h:49)
+  __copy_from_iter (lib/iov_iter.c:261)
+  copy_folio_from_iter_atomic (lib/iov_iter.c:491)
+  generic_perform_write (mm/filemap.c:4392)
+  ext4_buffered_write_iter (fs/ext4/file.c:354)
+  ext4_file_write_iter (fs/ext4/file.c:794)
+  vfs_writev (fs/read_write.c:1058)
+  do_writev (fs/read_write.c:1104)
 
+The reproducer mounts an ext4 image, opens a file, performs write operation=
+s,=20
+and triggers the crash through writev() with a crafted iovec array.
+
+Full reproducer:
+# {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox: Sa=
+ndboxArg:0 Leak:false NetInjection:false NetDevices:false NetReset:false Cg=
+roups:false BinfmtMisc:false CloseFDs:false KCSAN:false DevlinkPCI:false Ni=
+cVF:false USB:false VhciInjection:false Wifi:false IEEE802154:false Sysctl:=
+false Swap:false UseTmpDir:false HandleSegv:false Trace:false CallComments:=
+true LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}
+syz_mount_image$ext4(&(0x7f0000000540)=3D'ext4\x00', &(0x7f0000000580)=3D'.=
+/file0\x00', 0x0, &(0x7f00000005c0), 0x1, 0x50d, &(0x7f0000000600)=3D"$eJzs=
+3F9oVNkZAPDvTv4YE9ukrS1V+pBiaQNqYpKpoWChgVIKlWLVh9L2JZg/hk6MNVGMpbSVQvWhD4W=
++tbT42qfQCqXtw+7Kwj7sg8uu7JOssPuy6xIiq/uyIrPcOzNqzCQxJuayzu8HZ+ac4x3PN3Pynb=
+lz4N4AGlZ3+pBE7IiIGxHRWWkuPaC78nR5cP5kWpIol48tJtlxZwfnT9YOrb2uI30oRLRFxLWLS=
+ez9w/JxZ+Yu/HKkVBo7U233zU6d7puZu7B/cmpkYmxi7FRxYGDoYLFYLA5t2nvtu3N+ouOlw/3/=
+PXF76pvf/t/RJL6Xve944n1slu7oXvpZVjUnEb2bPVjOvvxYPWnOMRCe2m9Lc9ubIuJLEbEny//=
+OaIrK5D348y8+6owPP1nptf//9d8/2MpYgc1XLndmZQV3ysALqxDpuX9S6K2csseOKBR6eyvn8D=
+ujvVCanpndOz599tRo5TdCV7QUxidLYweqvxW6oiVJ2/1Z/VF74In2YER8ISIuNW3P2r0npkujW=
+7vUAVU7It75969OtHaskP+pm015Rwk8D2n+j/+l6Xdp/Z48h4aS5v8/7039KOQ/NBz5D41L/kPj=
+kv/QuOQ/NC75D41L/kPjkv/QuOQ/NK5a/j+8DldFRaXhKnmvQwDA1iuXk8j7GmQgHyv/NMh7ZQK=
+et/a7zXH8sXahep+OQrV8PSK7I1haH4yI1ohoiogHUbm/X5KeQ+QYP/Bstp354628YwAAAAAAAA=
+AAAAAAAADWdnZw/mStbNWYo69t1UisZGG4coFnOu+Xq6XyL83ZNZ8RbdGSXSeaZNeB1iTV60I3Y=
+vF6RHeUFm/+6+qf0hLVv8MN/rd8Rsy/m3cE5Km1mHcE5Gn3T/KOgDxdv5R3BOTprYW8IyBPR4/l=
+HQF5+vHBvCMgT39dzDsCXh6OiH319v8K8ZXsuS17fHL/pyMi2xfaiCOvR3TH6P3H+5bv/xRub3A=
+YVrEwHHEoIi4v2/8r1A7paqq2Ppc2oiUZnyyNHYiIz0dET7RsS9v9q4zx/vSb5+r1H/tbOv8/76=
+3t/6UlHb+2F1iN43bztqWvGx2ZHdno+6Zi4fcRu5vrzX8t39uyvd72u4Vl+79d1ee07FxljBvtX=
+9tTr//ccDr/r/SsPv88T+UrEd+qm//Jw2PSWt/s1Om+mbkL+yenRibGJsZOFQcGhg4Wi8XiUF+2=
+HvTVVoXl3vvqP75Tr/+N++n8H7pq/vOT5n/76vOfrf+Pbg68/jF++Oo3dtXr/80P0vm/9fGzrP+=
+tyfEswNZq3/mR2dkz/RGtyeHl/QPrj/lFVfs8ap9XOv89e+p//38xe66t/81L1v/13Cf2Pz878v=
+16sVzszb7/98n//KTzP7pG/idL8n/9le/OvD1Xb+xdV9L5v/bTtfO/mAXTU+1x/re2p52gvOMEA=
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACARvJpAAAA//+F6yev")
+r0 =3D openat(0xffffffffffffff9c, &(0x7f0000000100)=3D'./file1\x00', 0x1250=
+82, 0x145)
+write$sequencer(r0, &(0x7f0000000c00)=3DANY=3D[], 0xfe00)
+r1 =3D openat(0xffffffffffffff9c, &(0x7f0000000100)=3D'./file1\x00', 0xe502=
+, 0x145)
+writev(r1, &(0x7f0000000ec0)=3D[{0x0}, {&(0x7f0000000840)=3D"586b0859f4af95=
+118770", 0xa}, {&(0x7f00000009c0)=3D"8ba6b3ff28e1552261532a8638589a01ca943d=
+1b338821b188f6fde1a219b32ce19f8a192be9a4cbfdaecab1b63dd528fd2a7b599fb7fda77=
+9c1bcdd4cc19869a665aec8de9cf096226d5a2eb4dbfc3a2cacb0deb4a2f7ed94b6df317a9e=
+3d7006cea5b4b74a6aa99d29e3b44743df80dcf0410bea753e08ea154402b9fc39c75ab138a=
+cbc6b78db0573b64f403e9936bcc0d5711e4b251bbaba470b70ec40969d972815b551b8ec8a=
+044571ef208f09e1c5a579cd099f92abbb9a91f04388779aabd0597f60fd3be4dd7ec5146d8=
+35a4e19bcbfde95601fe01e774a6c7f4ef1ec9187c539e1dcf0dfd16aecd883346646e2e61e=
+3219ecce73aa675cf8b565b0e14b248867f5e294c66cc9fe0a5ddd210f6aa39cddcc53f8090=
+d16a68e48ab4dd031081d884001a4f3c22a9c89a13ad23452176831bdce107ab98953a8eae1=
+84b620b3aa38571bb9fc3184dbd19f2a9ae40a43954989e99aebc611b8a8ac18296adee0fd1=
+74bdba86721352647a259d3457f739b041bb27fb275a5a5359e497ed1477ff9f2be119278ad=
+4385c7798ec6c9a677906a1fa3b1fde811a7a19bfb04d5a48941c30f8025bbef8a7535b3253=
+b79b34cc2994906dc16e4c58acad1ceaacb3d6e6768ef349ea1729186e0a7128c61099927b0=
+aa3920a3f26721aad8ca608faf2807c2c14cb203acad936b55b203dd6bee003597efc5ee82b=
+ce06cad5fe49aa3f43f779d2145c2233f79e369f07ad7a17e765326240a23101f3c77014468=
+7a7fca1ed59daf2ab4ec957ba25df7d26c59fd2d0f5524b5336b8a908fedac32413f35ae0b9=
+a5cd6320dbb5869a822af03e21ba13265d86272823ead509786b64198096b779eab4aee154c=
+491142ade2bea7fa138639fc639f6503d740fbce3b73d0999f85a8e7af2e7d265be30ac747a=
+84da01eb0ef658a54358b8f4760e2352b776f552d5ab5c51f5816c6829dd527b185833ee4ba=
+fc14db9a21041473242c0a1f68040c03f2a306fa980ccdaa52aa9a0c4859dca6f81eb4e5754=
+a821a6e6c3d99b5559328853e945a42a85f430e872164204652e7dd076c4ab71e80abeb509a=
+0681a352ee837aca34f3ab01fbb740a93f1cc1481730cd005db430bd6ce18a25a8fbfed6506=
+108e8a1d534aafa5c9281373ea9b435bd8f492c3702faf04fe364f31f360fec4503879d5763=
+14c353f315285e67c8f869d0809a6ab40dcf5804fb276b829714f99ece3b81490a2eb99521e=
+535e738ca97b55804bcda92bc907e14c6c5825487ddf026c9018c787acd028d8a38ca5d53b8=
+6169b7d0cf46c48f7e675bf7d876cca862bcd8115c2f72fac73f6f0db8de16f5a18c3110bf7=
+29ac7400591839b89bf63643610c168a76d466aab7eba6c20be83a419aba0ceab172824f21a=
+063a17ee3971ccf86a3cc410e03813b42a207536da", 0x3f7}, {0x0}, {0x0}, {0x0}, {=
+0x0}, {0x0}, {0x0}], 0x9)
+
+Best regards,
+Haocheng Yu=
