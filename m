@@ -1,75 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f11.google.com (mail-qk2-f11.google.com [74.125.230.203])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845683CBE6D
-	for <linux-fsdevel@vger.kernel.org>; Sun, 18 Oct 2026 16:32:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5903D9691
+	for <linux-fsdevel@vger.kernel.org>; Sun, 18 Oct 2026 16:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792341144; cv=none; b=bdgsJKCSJy3FDujgVyy3vzIxnrM1S3qW77RQ469VbKrqoVl5DKjRX3uxvdfDdBKr3/mUwcZPp5ClTLtOnTg8MlkXU40/QwdmAKCUMTL4rA2PoxVgQH6VLZS7tS9ofT69XfVUHoqLvLq783IroZYz9WKys1e4uRr4ko+SO7Be/6k=
+	t=1792342213; cv=none; b=lWxztRXl2sRY6Kyr474fJpNEUaeB+Vl5FzBSWiAR0WSaDbE/vLU0inoMAT6lTVXKcjgLwXiIurWfVJXlmBqG+8HLYpn2AkHlKYdYKUZjs2uhkaXjzOVxLss8oV8vHgcNHwUQ5lfy/k/gXQ3mt6hH5apyIomgN0HKfnKzgzneEh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792341144; c=relaxed/simple;
-	bh=yx1+qf0LHL8iPcxHgZWathnf4QuB2nKoPCx2gRSRAkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kcloL3DI/AgNqh9OTyMuiIM4oQCDUAMi22tkpdLn/QZfrdlMU326EhWFgIoF50u55jZ1E5EBQ4i4SUmuxMAUvMb6isErmqkjGqWs713eZvPN9XfT7+JxlmPksKi70P4DwjpP8ZK6YlBTxdwdngyRFmhLd9o/UTA1etbhn7WU8qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H6O9bqFZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792342213; c=relaxed/simple;
+	bh=Un8SXnxmeMZ0/+JHzIEU6RF8y5fORfeQWzRYSwHWMBo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=h7TaPY/ZFUJB9Q0jQKUgLn5Fwqngwvn6jODtAPQvVE8hXwZ32JH7yab0kPr/dMLnSnSnJP26y6N0PAdIZX/jh2fvD1lZOXPXzagefM762VGRDSUspUxv8rSrl46jFasdn6EG5WgHZkuKE319LkLf4au4nD7QI2TFIXk4U0B1nNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mHvwrGjL; arc=none smtp.client-ip=74.125.230.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H6O9bqFZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8296A1F000C4;
-	Sun, 18 Oct 2026 16:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792341142;
-	bh=vXmsXrW9g5ERWqw50Hle81CCneHAZD3UEJaJsVp8ZS0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=H6O9bqFZP2JKWY4AlFlUDZA2c+Zr9vks4muJaR8nwQIkFX/orrItuOlu3fw3PzZpw
-	 JQN+htMQlY9N3DjlxhMaQEYMoh8L/1dxIxa4CHiGRRIHqGErI4HxHvUvc7quSG/yUr
-	 4e3hD8bnkLPYbfrb0kxKEd58DOX4ll/PLAKC5pUPcPpPKEUMMNH5A1PztKLFUqn49H
-	 E246kZQF96yeRuw0zjkYzsim6As0Yg64K1bBInwl4CugCEzh1cDGRx0E3QylE5sAOB
-	 2vmqkzxdiYHahKmE/vv2/6frbH4ck25WIXW2u9eKM65VOQITko2cX7vl5+23CwutwI
-	 806TmX/IMKvZQ==
-Date: Sun, 18 Oct 2026 18:32:19 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Jan Kara <jack@suse.cz>, 
-	Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [PATCH 2/3] namespace: rework connected mounts
-Message-ID: <20261018-popsong-pracht-quark-a0f9a2d3734c@brauner>
-References: <20261002-work-mount-cover-v1-0-232a8f52b43c@kernel.org>
- <20261002-work-mount-cover-v1-2-232a8f52b43c@kernel.org>
- <20261018031522.GC3535232@ZenIV>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mHvwrGjL"
+Received: by mail-qk2-f11.google.com with SMTP id af79cd13be357-93e490d7b48so47567085a.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 18 Oct 2026 09:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792342211; x=1792947011; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tKvxLvNr2Cvow2Okndn43Axal8wMwUyP3NZs7lyino8=;
+        b=mHvwrGjLON/HeixKrQALJuiOIRQPKYJ46MdNQUKJtyu/6QtVlzZlz4ZxxbZTL8GXuZ
+         ZS8HSOlBhpFlz7tqnOcQLlqOUhgUeeHSEGkgFv4JAbt1/1AtuhEt5SDOvk+ypOYLNfJi
+         jg2c9nym9hJPKNICwXGCNUQTA9w8Ap8tSnIexEUfRZM5p2pTGhOzE9JGfAD/QW/n/t+m
+         uphr4JvDDIOzhbQU/Kgt4ay2LkRFIr+OGhw0x2xdyOk9iQcgJlmpr7qEcNJSC5vu5QyL
+         9v2g1qEF4txF3IlXJ8tx6mRdzN4MpB9v2TnTEnIJf6Oa0Aa3zjg7FzTL8yYAP4gjz9z1
+         e2cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792342211; x=1792947011;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tKvxLvNr2Cvow2Okndn43Axal8wMwUyP3NZs7lyino8=;
+        b=rvl0Xxd1OffY7rftBbwAxKVNFZSQXC0+g7XAg5f7MYEZujJaQ63Zj8dIseZNdAZueJ
+         BjpNx7FZMdlWyTnzXPrhMYT/eLe1699VFBIYezXXJPSNBfaRhtD+c+nbno4tUJii+AsN
+         axGczDdL/Pjww5EGslrnWWIzesAmre9MqkiIW0fFA0FLV6KGd2dXUBxvtlf6GsfwDIBY
+         MG8TPZFiTjzMpT93rNLedF76SWg8erCD4fNF9mOnjv7Jwfx8eMC2YsETNrIdF0W6UIVj
+         daJnP6SPmRJsUMXVXgf37QB/kMBMZX28QqJZ5AJRPWurrT1MztrEY1AsA640UOOeDt0L
+         ltsw==
+X-Gm-Message-State: AFq9FYLLJHb+E7/XrRkSItEptU/25G3zwFboL5SPe/2VbvTVYu4UcyWS
+	s/pTiMPTOI1geKRUYg8x6aWOZJhIcvWId3FS0G8P73o2nrVY/r27s5NR
+X-Gm-Gg: AYBFou13MiZ/HWiCG3QxoJJ8ZAudoTJK0hxS/wx9RSV9P+T+G2HmtIf9KqEZaym7XP6
+	mc/8fVsyIp5C74SC7dAPGR//DBfUuyn+pzOm2uri5E8QAEMgiTj0/bygQ9DoptjqwcoX6FQrGvO
+	i43yB/lop50xf65W6VBnyLPrDE5du8qpODmY99bK/k1tboqe3gDRT/19QaAnGvoLj+5nHCjmYkB
+	fPgx7nqPlQdivS3yDnTYz9zawPg2Ft3/WtyHaMyCVE6HP5LD93ZxyYoqG9UUkjXd0jnqL0OjjCu
+	f/73sKkDmO0R7gXCcVQA46uuL9lrWMEY5zuxtcEJ4c/ebp0JGYtOt8XSQb0j8UN6L+/QRKsSTAV
+	gbI5Dt3fRxs7q6q71/m8MoSozYPHtJKx0+jYoH4k3ieoEocSLWH8vbIXVnc+WcZ2oY8PzMxPnH0
+	5ty9cRlcVUoTkutKHPqRiQ9syyifoqgKLMX6vpAtI367OES5LT1uPdiLLj6fIX+Jjq/OHbfoP2F
+	tXqi1s=
+X-Received: by 2002:a05:620a:6f87:20b0:93f:2bc8:283d with SMTP id af79cd13be357-93f2bc82bbemr560917085a.47.1792342211235;
+        Sun, 18 Oct 2026 09:50:11 -0700 (PDT)
+Received: from Fujo.localdomain ([142.188.41.221])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f1a1688aesm740116685a.8.2026.10.18.09.50.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Oct 2026 09:50:10 -0700 (PDT)
+From: fujo <hooyan2024@gmail.com>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v2] selftests/pidfd: wait for POLLHUP before reading exit info
+Date: Sun, 18 Oct 2026 12:48:50 -0400
+Message-ID: <179234213014.649.13402722495876323247@gmail.com>
+In-Reply-To: <atTy6LziL5fdGTkn@redhat.com>
+References: <20261017054356.7874-1-hooyan2024@gmail.com>
+ <179226499044.847.17334319321039510150@gmail.com>
+ <atTy6LziL5fdGTkn@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261018031522.GC3535232@ZenIV>
 
-On Sun, Oct 18, 2026 at 04:15:22AM +0100, Al Viro wrote:
-> Is there any point for that to be an hlist?  I mean, you only ever add to
-> the head, walk it only forward and remove them one by one as you walk...
-> What's wrong with plain struct mnt_cover *next; instead?
+Hi Oleg,
 
-Not quite. The parent's final mntput() drops its covers as well and that
-removes from the middle of mp->m_covers. A mountpoint can carry covers
-of more than one unmounted parent. So with a plain next pointer that
-becomes a walk over the mountpoint's covers.
+> This chunk doesn't look right, POLLIN makes more sense in this case.
+> Unless I am confused, this poll(timeout = 0) tries to verify that the
+> child does not exit and report POLLIN, with or without POLLHUP.
 
-> ... and seeing that the only place where you have a lockless traversal of
-> ->node is only looking at ->dentry, it might make sense to make that
-> 	struct hlist_node node;		/* parent->mnt_covers, RCU */
-> 	struct dentry *dentry;
-> 	union {
-> 		struct {	// never used by lockless readers
-> 			struct mnt_cover *next;
-> 			struct mountpoint *mp;
-> 		}
-> 		struct rcu_head rcu;
-> 	}
-> perhaps?
+You are right, thanks.  That poll() is a liveness check, not an
+exit-info wait, so v3 keeps POLLIN there and only switches the polls
+that are followed by PIDFD_GET_INFO.
 
-Sure. Note that it's a separate allocation so 40 bytes land in
-kmalloc-64 just like 64 do. IOW, it's a cleanup, not a saving. I can do
-that for 7.4.
+About the documentation: there is no in-tree KAPI file for this; the
+wording I referred to is the CLONE_AUTOREAP series description ("poll
+the child's exit via poll() and retrieve exit status via
+PIDFD_GET_INFO").  If you or Christian think a clarifying sentence
+belongs somewhere in the tree, I'm happy to send it, but I didn't want
+to guess where.
+
+Thanks,
+fujo
