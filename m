@@ -1,34 +1,34 @@
 Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AC4332EAE;
-	Sun, 18 Oct 2026 02:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF6C35DA6A;
+	Sun, 18 Oct 2026 03:03:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.30.2.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792292148; cv=none; b=DxbR0plajIX729JY3bhdcxivNcp8NP6a0q4FMAQakwpTIaiq4foPJBiQDGqOglMnhcuI2VtdaFhni89Zpi/1UMZzjC98svEnEBTWfh9+9J/HzKJDMoTG+H0fvy/jDY1DcdQriHNd8GgP6C7B6Byhvc+vAuyIjL4iX5c4wYdeiB4=
+	t=1792292628; cv=none; b=POIjIT9cbg15C3HCou+viSnQo5NviUgm6N9mVv9EDlvbHfFThXo1UolEcbAPJKpYE5PdHCc0fCzzCFL2+jjHKAf+ZslMR/zevI09dbuhTip2DPhDg1dBKOE1BXoMtLllU15LQQdfj6I64PQ/nc/SCfRqhRg/SUMSpdavlHZYdcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792292148; c=relaxed/simple;
-	bh=XFsqnkhAoyYGTF88mgBQ1fcnUIdUfTLVik086Lc5+2I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RoFAMwhO6XXkZulrpsg8O8unmsm+7XDx6UkaziokjJ7bIRsuyHXq17AqvOfFw/d8JdPuq26mbWzZA56LHy2FJHtqpHPa3vO7bg9mYHnSeHMjqr6anzqduNYZilhLYnHfVlkiRXMMBNAN5xn+fW/zn3UYCESKUfKLuPZH6lrTKec=
+	s=arc-20240116; t=1792292628; c=relaxed/simple;
+	bh=gPCk6cz3/UNRaQoaTMI3n3BckGmxOk3Wy+w9bv5KzcY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ck1f32+PwqJHV3lrym0XO4kRT7sK5vbfpV9zdKt7vb/+lyIKVS9hTi+weK7LRk30sKU/tHGrRE6nSdtYMHA5ycR6beL5tmqaxRu3NhPUnV4jF7ZpaWbOU+V9Nprq8gsA99wlCuhEdPOVQF6nPDv9Bo71lHCpn5RhJ1+yQubHJTE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu; spf=pass smtp.mailfrom=csail.mit.edu; arc=none smtp.client-ip=128.30.2.78
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
 Received: from escalante.csail.mit.edu ([128.52.128.198])
 	by outgoing2021.csail.mit.edu with esmtp (Exim 4.95)
 	(envelope-from <nickolai@csail.mit.edu>)
-	id 1xIH3l-004RVH-E7;
-	Sat, 17 Oct 2026 22:55:41 -0400
+	id 1xIHBW-004T2R-7U;
+	Sat, 17 Oct 2026 23:03:42 -0400
 From: Nickolai Zeldovich <nickolai@csail.mit.edu>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Jan Kara <jack@suse.cz>,
-	Jens Axboe <axboe@kernel.dk>,
+	Amir Goldstein <amir73il@gmail.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Nickolai Zeldovich <nickolai@csail.mit.edu>
-Subject: [PATCH v1] splice: retry tee() instead of returning 0 when it races
-Date: Sat, 17 Oct 2026 22:55:41 -0400
-Message-ID: <20261018025541.799135-1-nickolai@csail.mit.edu>
+Subject: [PATCH v1] nsfs: check the trailing bytes of a file handle in bytes, not words
+Date: Sat, 17 Oct 2026 23:03:41 -0400
+Message-ID: <20261018030342.799383-1-nickolai@csail.mit.edu>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -38,174 +38,130 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-tee() can return 0 while the input pipe still has writers, when
-another task reads the input pipe or fills the output pipe at the same
-time. tee(2) documents 0 as "no data was copied" because the input pipe
-has no writers, and loops built on it (the man page example breaks out
-on 0) stop early. In a test with one thread writing 1 byte at a time
-to the input pipe, one reading it and one draining the output pipe,
-about one tee() call in 150 returned 0.
+open_by_handle_at(2) gets the wrong answer for a namespace file handle
+longer than struct nsfs_file_handle: a 16-byte handle padded with
+zeros to 48 bytes or more, which is what the comment above the check
+promises to accept, is refused with -ESTALE, while a 20-byte handle
+whose extra word is garbage is accepted. Reproduced on v7.0 and on
+mainline with the handle of /proc/self/ns/net from
+name_to_handle_at(AT_SYMLINK_FOLLOW); no privilege is needed, as
+nsfs_fh_to_dentry() admits the caller's own namespaces. Since v6.18.
 
-do_tee() runs ipipe_prep() and opipe_prep() to wait for data and room,
-each under its own pipe lock, and only then takes both locks in
-link_pipe(). If the input pipe was emptied or the output pipe filled in
-between, link_pipe() finds nothing to do and returns 0.
-splice_pipe_to_pipe(), which was modelled on tee(), handles the same
-race by dropping both locks and going back to the prep steps ("A zero
-return value means EOF, so retry instead"), and returns -EAGAIN for
-SPLICE_F_NONBLOCK.
+nsfs_fh_to_dentry() receives fh_len in 32-bit words, like every
+fh_to_dentry(), and NSFS_FID_SIZE_U32_LATEST is the struct size in
+words (4). The check that the bytes past the struct are zero adds that
+word count to a byte pointer and passes the word difference to
+memchr_inv() as a byte count: it inspects bytes 4 .. fh_len - 1 of the
+handle instead of bytes 16 .. 4 * fh_len - 1. Up to a 44-byte handle
+that range lies inside ns_id, ns_type and ns_inum, so the outcome
+depends on the values of those fields (a padded net namespace handle
+passes because the upper bytes of its ns_id and ns_type are zero) and
+the real trailing bytes are never looked at; from 48 bytes on the range
+always covers a non-zero field byte and every padded handle is refused.
 
-Do the same in link_pipe(): move the prep steps into it and retry when
-nothing was linked although the input pipe still has writers.
+Start NSFS_FILE_HANDLE_SIZE_LATEST bytes into the handle and check
+(fh_len - NSFS_FID_SIZE_U32_LATEST) * sizeof(u32) bytes.
 
-Tested under QEMU (x86_64) with the program in the notes: 154 of 22698
-tee() calls returned 0 before the change, none of 34429 after it.
+Tested with a program that encodes /proc/self/ns/net and opens the
+handle with handle_bytes 16, 20, 36, 48 and 128 (zero padding), and 20
+and 48 with a non-zero last byte. Before: 48 and 128 refused, the
+20-byte garbage handle accepted; after: every padded handle opens, both
+garbage handles are refused.
 
-Fixes: aadd06e5c56b ("[PATCH] splice: fix problems with sys_tee()")
+Fixes: 5222470b2fbb ("nsfs: support file handles")
 Assisted-by: LLM
 Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
 ---
 
 Notes:
-    Reproducer:
+    The arithmetic keeps the two existing constants: NSFS_FILE_HANDLE_SIZE_LATEST
+    is the struct size in bytes, NSFS_FID_SIZE_U32_LATEST the same in words, and
+    fh_len is in words as exportfs passes it (handle_bytes >> 2). pidfs has no
+    trailing-bytes check, so nothing else uses this pattern.
+    
+    Reproducer (any kernel >= 6.18 with CONFIG_FHANDLE, no privilege):
     
     #define _GNU_SOURCE
+    #include <errno.h>
     #include <fcntl.h>
-    #include <pthread.h>
     #include <stdio.h>
-    #include <time.h>
+    #include <string.h>
     #include <unistd.h>
     
-    static int a[2], b[2];
-    static volatile int stop;
+    #define MAX_HANDLE_SZ 128
     
-    static void *writer(void *arg)
+    static int fails;
+    
+    static void try(int mntfd, struct file_handle *fh, unsigned int bytes,
+    		unsigned int poison_at, int expect_ok, const char *what)
     {
-    	while (!stop)
-    		if (write(a[1], "x", 1) < 0)
-    			break;
-    	return NULL;
-    }
+    	int fd;
     
-    static void *drain(void *arg)
-    {
-    	char buf[4096];
-    	int fd = *(int *)arg;
-    
-    	while (!stop)
-    		if (read(fd, buf, sizeof(buf)) < 0)
-    			break;
-    	return NULL;
+    	memset(fh->f_handle + 16, 0, MAX_HANDLE_SZ - 16);
+    	if (poison_at)
+    		fh->f_handle[poison_at] = 0xff;
+    	fh->handle_bytes = bytes;
+    	fd = open_by_handle_at(mntfd, fh, O_RDONLY);
+    	if ((fd >= 0) != expect_ok)
+    		fails++;
+    	printf("%s handle_bytes=%u %s -> %s\n", (fd >= 0) == expect_ok ? "ok  " : "FAIL",
+    	       bytes, what, fd >= 0 ? "opened" : strerror(errno));
+    	if (fd >= 0)
+    		close(fd);
     }
     
     int main(void)
     {
-    	pthread_t t[3];
-    	long calls = 0, zero = 0;
-    	ssize_t ret;
+    	char buf[sizeof(struct file_handle) + MAX_HANDLE_SZ] = {};
+    	struct file_handle *fh = (struct file_handle *)buf;
+    	int mntfd, mnt_id;
     
-    	if (pipe(a) || pipe(b))
-    		return 1;
-    	pthread_create(&t[0], NULL, writer, NULL);
-    	pthread_create(&t[1], NULL, drain, &a[0]);	/* concurrent reader of the tee input */
-    	pthread_create(&t[2], NULL, drain, &b[0]);	/* keeps the tee output from filling */
-    	for (time_t end = time(NULL) + 5; time(NULL) < end; calls++) {
-    		ret = tee(a[0], b[1], 65536, 0);
-    		if (ret == 0)
-    			zero++;
-    		else if (ret < 0)
-    			perror("tee");
+    	fh->handle_bytes = MAX_HANDLE_SZ;
+    	mntfd = open("/proc/self/ns/net", O_RDONLY);
+    	if (mntfd < 0 || name_to_handle_at(AT_FDCWD, "/proc/self/ns/net", fh,
+    					   &mnt_id, AT_SYMLINK_FOLLOW)) {
+    		perror("name_to_handle_at");
+    		return 2;
     	}
-    	printf("%ld tee() calls, %ld returned 0 while the input pipe had a writer\n",
-    	       calls, zero);
-    	return zero != 0;
+    	try(mntfd, fh, 16, 0, 1, "as encoded");
+    	try(mntfd, fh, 20, 0, 1, "one zero word of padding");
+    	try(mntfd, fh, 48, 0, 1, "eight zero words of padding");
+    	try(mntfd, fh, 128, 0, 1, "zero-padded to MAX_HANDLE_SZ");
+    	try(mntfd, fh, 20, 19, 0, "non-zero byte 19 (past the struct)");
+    	try(mntfd, fh, 48, 47, 0, "non-zero byte 47 (past the struct)");
+    	printf("%s\n", fails ? "FAIL" : "PASS");
+    	return fails != 0;
     }
     
-    gcc -O2 -pthread -o tee-race tee-race.c && ./tee-race
+    gcc -O2 -Wall -o nsfs_fh_pad nsfs_fh_pad.c && ./nsfs_fh_pad
     
-    Before: 22698 tee() calls, 154 returned 0 while the input pipe had a writer
-    After:  34429 tee() calls, 0 returned 0 while the input pipe had a writer
-    
-    tee() with SPLICE_F_NONBLOCK on an empty pipe with a writer still returns
-    -EAGAIN, a tee() of queued data still leaves the data in the input pipe,
-    and an empty input pipe without writers still returns 0.
+    before: ok   handle_bytes=16 as encoded -> opened
+            ok   handle_bytes=20 one zero word of padding -> opened
+            FAIL handle_bytes=48 eight zero words of padding -> Stale file handle
+            FAIL handle_bytes=128 zero-padded to MAX_HANDLE_SZ -> Stale file handle
+            FAIL handle_bytes=20 non-zero byte 19 (past the struct) -> opened
+            ok   handle_bytes=48 non-zero byte 47 (past the struct) -> Stale file handle
+            FAIL
+    after:  all six ok, PASS
 
- fs/splice.c | 43 +++++++++++++++++++++++++++++++------------
- 1 file changed, 31 insertions(+), 12 deletions(-)
+ fs/nsfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/splice.c b/fs/splice.c
-index 9d8f63e2fd1a..baadec16d6df 100644
---- a/fs/splice.c
-+++ b/fs/splice.c
-@@ -1856,6 +1856,15 @@ static ssize_t link_pipe(struct pipe_inode_info *ipipe,
- 	unsigned int i_tail, o_tail;
- 	ssize_t ret = 0;
+diff --git a/fs/nsfs.c b/fs/nsfs.c
+index c3b6ae76594a..0ef4e1455b7a 100644
+--- a/fs/nsfs.c
++++ b/fs/nsfs.c
+@@ -529,8 +529,8 @@ static struct dentry *nsfs_fh_to_dentry(struct super_block *sb, struct fid *fh,
  
-+retry:
-+	ret = ipipe_prep(ipipe, flags);
-+	if (ret)
-+		return ret;
-+
-+	ret = opipe_prep(opipe, flags);
-+	if (ret)
-+		return ret;
-+
- 	/*
- 	 * Potential ABBA deadlock, work around it by ordering lock
- 	 * grabbing by pipe info address. Otherwise two different processes
-@@ -1877,13 +1886,32 @@ static ssize_t link_pipe(struct pipe_inode_info *ipipe,
- 		i_head = ipipe->head;
- 		o_tail = opipe->tail;
+ 	/* Check that any trailing bytes are zero. */
+ 	if ((fh_len > NSFS_FID_SIZE_U32_LATEST) &&
+-	    memchr_inv((void *)fid + NSFS_FID_SIZE_U32_LATEST, 0,
+-		       fh_len - NSFS_FID_SIZE_U32_LATEST))
++	    memchr_inv((void *)fid + NSFS_FILE_HANDLE_SIZE_LATEST, 0,
++		       (fh_len - NSFS_FID_SIZE_U32_LATEST) * sizeof(u32)))
+ 		return NULL;
  
-+		if (pipe_empty(i_head, i_tail) && !ipipe->writers)
-+			break;
-+
- 		/*
- 		 * If we have iterated all input buffers or run out of
- 		 * output room, break.
- 		 */
- 		if (pipe_empty(i_head, i_tail) ||
--		    pipe_full(o_head, o_tail, opipe->max_usage))
--			break;
-+		    pipe_full(o_head, o_tail, opipe->max_usage)) {
-+			if (ret)
-+				break;
-+
-+			if (flags & SPLICE_F_NONBLOCK) {
-+				ret = -EAGAIN;
-+				break;
-+			}
-+
-+			/*
-+			 * We raced with another reader/writer and haven't
-+			 * linked any buffers. A zero return value means EOF,
-+			 * so retry instead.
-+			 */
-+			pipe_unlock(ipipe);
-+			pipe_unlock(opipe);
-+			goto retry;
-+		}
- 
- 		ibuf = pipe_buf(ipipe, i_tail);
- 		obuf = pipe_buf(opipe, o_head);
-@@ -1954,16 +1982,7 @@ ssize_t do_tee(struct file *in, struct file *out, size_t len,
- 		if ((in->f_flags | out->f_flags) & O_NONBLOCK)
- 			flags |= SPLICE_F_NONBLOCK;
- 
--		/*
--		 * Keep going, unless we encounter an error. The ipipe/opipe
--		 * ordering doesn't really matter.
--		 */
--		ret = ipipe_prep(ipipe, flags);
--		if (!ret) {
--			ret = opipe_prep(opipe, flags);
--			if (!ret)
--				ret = link_pipe(ipipe, opipe, len, flags);
--		}
-+		ret = link_pipe(ipipe, opipe, len, flags);
- 	}
- 
- 	if (ret > 0) {
+ 	switch (fh_type) {
 
 base-commit: 58161ead29e50d70a317ea26b472e0c7508e69da
 -- 
