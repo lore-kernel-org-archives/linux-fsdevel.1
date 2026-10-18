@@ -1,60 +1,41 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68BBE4D37BA
-	for <linux-fsdevel@vger.kernel.org>; Sun, 18 Oct 2026 16:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFD54A2A46;
+	Sun, 18 Oct 2026 16:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792340724; cv=none; b=NojSaa7sEQ2NRN+/cHFzbU2iDYCm4n/FK34Yay1uw7TkumRdKQUVCwaKGuEYwi0iA4r0uIyMRbzbC4XOZv8ALyyz5FdwtbbisCnQMnGQHQS9WWtuB1RRkWZIz3sntaX5qwOUC7ntM4gKZ8UOIeylJa4jVo/aTIirDnRRypF0hbE=
+	t=1792340876; cv=none; b=A7d76ad0j2VOVxOqc+uxvZV9O0SzbkGoCedtKtJiS83w0z/sPEzszMI5lj1qnFBkHrRR0UxaTYsJ4YMlM6YAn9UUUp0jnTGfaNvQo9ykyxw1ENoDkEnqNKmsOKF3Ca9NM5V+4lkQlbASXDK0RW47GkToPJdfZtdhN86i5L8SGOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792340724; c=relaxed/simple;
-	bh=LVOU5EN0nNuE5SUEFfDRgCwZFML2wpcdMdaY84tmA7U=;
+	s=arc-20240116; t=1792340876; c=relaxed/simple;
+	bh=zFTCaKctHU/dgcTz4fJxnzuN9ChTCA4PFmsOdvp8W/U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IJOLGEF6oEmxrpEJXW/pZMLyLU2vSqiHq2myrhxVgXBwGs+SVDLvN06zR1wyyRpGfVDbAaDmNMIz8XeSrnkGVRrmqn7O+lR9G2Bam86NAx4OFtqpzQDbqOimFYbaPHeOZ/BkfxOkZocmm9HRvwBo+DrNLJP9p/WwWb9lkuImQS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BlZwxIr2; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Up7wd6BYL9q8RsYb6AwQ7J7x7fvgDneA+JdoacAfuuOoyBUkiVUGykDICjVTogSiz+IeeJ7U25tvGmdxOo1IrlZlVjBqtrFKJLDplTJF3jGSYEv/AuzEfXz9w9DwKaTdhNHl5f/qT/7UAfULjptuJit1zCx6C6hOv5MbFE+iuTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAsYlT86; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BlZwxIr2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792340721;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IzymMu6E66uKcf31alfKQY1FkHLHkmWyAc8j0DZ4tZY=;
-	b=BlZwxIr2A3WdIR/udjWewlF6qC5PTVpezKIL6kDBUXEFed4Fw8cBXYNOfNouYwhJgaYFl8
-	qnOf1w+P2uswOTF3YeIM1x4KqgC+csmsyyNjGCJq15XTDXkbBUYwvyOq8uALBzPIu+Ubr0
-	rtDHiH22Yfzi3+f1rZe3yrLvTlY5fRg=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-226-aAr_mqBBPm-jPG_96NKjYg-1; Sun,
- 18 Oct 2026 16:25:17 +0000
-X-MC-Unique: aAr_mqBBPm-jPG_96NKjYg-1
-X-Mimecast-MFC-AGG-ID: aAr_mqBBPm-jPG_96NKjYg_1792340716
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 20BA81955EAC;
-	Sun, 18 Oct 2026 16:25:16 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 30EEB30000E3;
-	Sun, 18 Oct 2026 16:25:13 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Sun, 18 Oct 2026 18:25:15 +0200 (CEST)
-Date: Sun, 18 Oct 2026 18:25:12 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: fujo <hooyan2024@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] selftests/pidfd: wait for POLLHUP before reading exit
- info
-Message-ID: <atTy6LziL5fdGTkn@redhat.com>
-References: <20261017054356.7874-1-hooyan2024@gmail.com>
- <179226499044.847.17334319321039510150@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAsYlT86"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 010F61F000C4;
+	Sun, 18 Oct 2026 16:27:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792340875;
+	bh=CJp7IGwRNv51s2AUzxgvpb1+5GYEYJb/XW2pP9VE+dY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hAsYlT86AAcKtKqIsma/Pck45sBR2SoBuYwWrmpq8rL4bUX728xlq+SN1aGh5eyoZ
+	 H/4AfGtkOQezjEQyNLxyxtY5l+ZH9pRkimpONwfWLr04XDlHGIIzVKFzwhYcdP1hiW
+	 mm9zr0gXYxwBatJVP4XROH6KTQk/2Vdkc78R4dY7mkfKqDBgydg5uGokLT7i4DM8jg
+	 /KLMV+HcEmCam6BIbfIyG36dV+lZYXmgp0/l11whWjQMXyzU8l1fyFoc0tYJJ/vXdc
+	 mzPpDDS4ECF6m2kev+KaQX31ZB7Rlps8svFwDPPd4M223FBqA7qIAKFRocE9pOWcFm
+	 vwUsUar3Ge4zw==
+Date: Sun, 18 Oct 2026 18:27:51 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jan Kara <jack@suse.cz>, stable@vger.kernel.org
+Subject: Re: [PATCH 5/8] fs: don't silently unmount busy mounts
+Message-ID: <20261018-haarausfall-erdarbeiten-aufwuchs-5f1467040468@brauner>
+References: <20260923-work-mount-fixes-v1-0-f424cf8d3242@kernel.org>
+ <20260923-work-mount-fixes-v1-5-f424cf8d3242@kernel.org>
+ <20261018013815.GA3535232@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -63,25 +44,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <179226499044.847.17334319321039510150@gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+In-Reply-To: <20261018013815.GA3535232@ZenIV>
 
-On 10/17, fujo wrote:
->
-> @@ -799,7 +799,7 @@ TEST(autokill_pidfd_open_no_effect)
->
->  	/* Verify child is still alive by polling the clone3 pidfd. */
->  	pfd.fd = pidfd;
-> -	pfd.events = POLLIN;
-> +	pfd.events = POLLHUP;
->  	ret = poll(&pfd, 1, 0);
->  	ASSERT_EQ(ret, 0) {
->  		TH_LOG("Child died after closing pidfd_open fd — should still be alive");
+On Sun, Oct 18, 2026 at 02:38:15AM +0100, Al Viro wrote:
+> [My apologies for being MIA since July - had been sick; should be
+> back to normal now]
 
-This chunk doesn't look right, POLLIN makes more sense in this case.
-Unless I am confused, this poll(timeout = 0) tries to verify that the
-child does not exit and report POLLIN, with or without POLLHUP.
+Glad you're better!
 
-Oleg.
+> >   mount --make-shared /mnt
+> nit: mkdir /mnt/a
+> >   mount -t tmpfs none /mnt/a
 
+Yep, lost that line.
+
+> > Teach propagate_mount_busy() the same checks that propagate_umount()
+> > does. It now checks for a single victim mount without children
+> > for which it can assume that MNT_LOCKED is cleared on every copy like
+> > propagate_umount() does.
+> 
+> Huh?  propagate_umount() does *not* assume anything of that sort - look for
+> those IS_MNT_LOCKED() in there.
+
+Badly worded, sorry. What I meant is that in the do_umount() path
+propagate_mount_unlock() has cleared MNT_LOCKED on every candidate by
+the time propagate_umount() looks at them. It's the same set. The mount
+at the mountpoint below each receiver. So for a single childless victim
+none of the IS_MNT_LOCKED() checks can trigger and
+propagate_mount_busy() doesn't need to mirror them.
+
+> Explanation is somewhat misleading here, IMO...  Sure, all candidate
+> victims have identical mountpoints, so they must have distinct parents,
+> etc., but "copy" is not a good word here - all of them *are* copies of
+> copies of the same mount, but the history of copying might have nothing
+> to do with your chains.
+
+Fair. "copy" was meant as "receives propagation from the victim's
+parent", the clone history doesn't matter.
+
+> ; umount /mnt/a			# takes out M1, M3 and M4
+> ; /bin/pwd
+> pwd: couldn't find directory entry in '..' with matching i-node
+> 
+> What happens is that propagate_mount_busy() sees that M3 has something
+> mounted _not_ on its root and decides that propagate_umount() will not
+> take it out.  M1 and M4 are not busy, so we proceed to propagate_umount(),
+> which notices what propagate_mount_busy() hadn't - the thing mounted on
+> M3/a is something we are taking out, so M3 is not pinned by remaining
+> mounts...
+
+That one is covered. M3 is the first candidate in the chain below M2
+and M4 is its next candidate, so chain_busy() does the refcount check
+on M3 and umount(2) fails with EBUSY. I ran your sequence on current
+mainline: EBUSY, cwd intact. On v7.1 it takes M3 out as you describe.
+
+> I'm not fond of the patch itself, TBH - the amount of work done under
+> mount_lock would better be linear by the number of mounts involved and
+> your variant is at least quadratic.  That's not hard to fix, but that'll
+> obviously have to wait - Saturday after -rc7 is not a good time for
+> that.
+
+Agreed, it isn't pretty. receives_from() walks the master chain for
+every candidate and chain_busy() walks every chain twice. But I very
+much didn't want to touch propagate_umount() in something that goes to
+stable.
+
+For 7.4 the obvious way is to run gather_candidates() and the trim
+passes without committing anything and refcount check whatever ends up
+in to_umount. If you have something send it my way, otherwise I'll do it
+for 7.4.
