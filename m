@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF954DDB40;
-	Sun, 18 Oct 2026 16:30:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495B9383305
+	for <linux-fsdevel@vger.kernel.org>; Sun, 18 Oct 2026 16:30:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792341023; cv=none; b=G5Jgqd6728waKbzJfsYLKjcgCi8bFzGx5OfgLcIky4wZsKxD8U5+/28QOZsRt7NaXG9ruqntKr5ugQun1rx/9yR55UMRR7LBvOUvxV+s9Gi9KgypI8iycl9dz04iPEnUgFHQ0eQOiyvCgvWGu0EYbg1pWrbgjQFsnsthdseQNf4=
+	t=1792341059; cv=none; b=A7vk7ExEMEr69ihkNaamDLEo4nUNCPudIC2M4z0Y8NzxOZDwtzu+MqnGpKHMj53wuJEidIBvqcIVjYVZMfA4wXOjArydW5L4odlocN8qGDldhVsEysqp635WQ5V7O5Ci9dNobbn/D7lXL5ZvPudedOVqKxJMCR4MZDwhHaLRq18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792341023; c=relaxed/simple;
-	bh=zs1HZ+KYef9n5R6g+gPrToq7opGyOT3ESvtuJ0X86GA=;
+	s=arc-20240116; t=1792341059; c=relaxed/simple;
+	bh=6x1BUdw6yVtnhFa+nwDC1vBpo3HUebWgie6OvRQvY1U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fGdB9laG4mDsfolhUrAxc4Jkdc5tEMbL3QE6VVMp53mDJzDcjNL9aWyI4o2h7YlVrqCBBk4x1MbfKvmNRZgpEjwtkeFj8tfJZ2TWi9UTA2ZETxCaC9RtVu4N0WJz+/PsoA1iSaPjuVOiE4xa7qky944HNxqjr6P6oHNiX3UNAUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jQ4xY/5+; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=CF1CokdXkSeFrutpbIWmW4RYskXp5r4aPUY4kVpjISSHF0fLyzTPIqweFQStiT2K937bw2kC9FEGfyPh1ry3GYdOMUEC/4KreQSVxn6/sGm7DAQvkr0occKu96xOTqnCG92NAWduNPyVdjG/WIXEon8zCHkENoahaQVr8dxTjMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nbT+n2i5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jQ4xY/5+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C24E1F000C4;
-	Sun, 18 Oct 2026 16:30:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nbT+n2i5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 878E41F000C4;
+	Sun, 18 Oct 2026 16:30:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792341022;
-	bh=jnxTrLkT+m0/E+lWq+6/KyoY58FjdiQYXFtFIAiRqew=;
+	s=k20260515; t=1792341058;
+	bh=V5ZX8pi5ujpw5zTKzYs7E/a15DUkelvrdb0cp0d83gU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jQ4xY/5+irwQ1zA5udD+PrrVTSVPO2RfJ3Jtr+NxF/Uov1CoL12b7VH+XhI/jCFVR
-	 hPPl9r02Ai3ePJmSox8Qf191nwRPa3AzQr7ngs3q0bsCw28284vaAGNVyoKbipN3NF
-	 emnU+hwx0aAW68EzB/82kUhiME9rFTZktG8pZ+VevxqR1tpyp4mRFN9rr5dEQCwRe/
-	 3mbcLg0Z5lxldiX8rMCEGEYvoIe4Ntp/iv/KBiTqjrnahYp6wEwx15YsdRF3/Zvfrp
-	 ZIBOtVuy1ifoItZ/nooWBq7WmnbONqiN3EI8fhzLvOZIjH51vVGgio8ZnbNYFsyJvn
-	 gMJC74Xk4kq9A==
-Date: Sun, 18 Oct 2026 18:30:18 +0200
+	b=nbT+n2i5H629u3B3EW5ydcTpnHQiN6vjXCPjnaurHPjHvXkfLJfv3GOqPsXO3+POs
+	 kRGfYV15LHcxxLu8Hcn7uBU5HgF7wTiPwDdWtoyT9OizJEl35dzSxaBrw/45CTuxWM
+	 p+bnVSvYEcnTQN/e2yxPam6H+7tVZdInHj/UAH+S93Suildz3S8nB42Wq4tQ3aIePM
+	 Bc84smJ1oKHizGlRwD2QZ1JAFP6bEPnzRVaXDAHgnewnIC33WqNLnb78Q4lw+gPZjO
+	 u0BJY+LUTyAcfvg7y3zWuqNglG79WpBCPvCvWJOGHAkbs59NTJ3gUJlpcp41wHbBYH
+	 9UDgQkP+vMmIw==
+Date: Sun, 18 Oct 2026 18:30:54 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>, 
-	Zhao Gongyi <zhaogongyi@bytedance.com>
-Cc: jack@suse.cz, jlayton@kernel.org, cel@kernel.org, neil@brown.name, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] vfs: keep the mount pinned while waiting for a parent
- delegation break
-Message-ID: <20261018-mehrpolig-goldschatz-medikament-3de24ee2cf35@brauner>
-References: <20261016093421.90725-1-zhaogongyi@bytedance.com>
- <20261016182927.GG989762@ZenIV>
- <20261016183845.GH989762@ZenIV>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Jan Kara <jack@suse.cz>, 
+	Amir Goldstein <amir73il@gmail.com>
+Subject: Re: [PATCH 2/3] namespace: rework connected mounts
+Message-ID: <20261018-ausrufen-triangel-weckruf-baf5c3e6df2d@brauner>
+References: <20261002-work-mount-cover-v1-0-232a8f52b43c@kernel.org>
+ <20261002-work-mount-cover-v1-2-232a8f52b43c@kernel.org>
+ <20261018035435.GD3535232@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,22 +45,12 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261016183845.GH989762@ZenIV>
+In-Reply-To: <20261018035435.GD3535232@ZenIV>
 
-On Fri, Oct 16, 2026 at 07:38:45PM +0100, Al Viro wrote:
-> > So why not have it acquire an active superblock reference at the
-> > same time?  We don't need struct mount reference there - all it
-> > takes in increment of inode->i_sb->s_active on try_break_deleg()
-> > side and deactivate_super() on ->i_sb fetched *before* iput()
-> > of ->di_inode on the break_deleg_wait() side...
-> > 
-> > No need to mess with every user of that thing...
+On Sun, Oct 18, 2026 at 04:54:35AM +0100, Al Viro wrote:
+> BTW, at that point we are left with only one caller of __umount_mnt(), always
+> with &ex_mountpoints as the second argument.
 
-Yeah, I like that a lot better than touching every caller. All the
-break_deleg_wait() callers wait in plain process context with the locks
-already dropped so deactivate_super() is fine there and the next caller
-can't get it wrong.
-
-Please respin it that way. Mind the missing & on s_active in the sketch.
+I can fold that into umount_mnt() for 7.4.
 
 -- 
