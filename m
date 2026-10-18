@@ -1,38 +1,34 @@
 Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66249341068;
-	Sun, 18 Oct 2026 02:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AC4332EAE;
+	Sun, 18 Oct 2026 02:55:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.30.2.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792291568; cv=none; b=mLU8jdOXlcSfQdTrDzgcsx8JO/NXMLPRK4jdZOLxYrxPb1+q5sXdXucYkdLJTDI+Mx9Q6hdKjMLKFNVfmjRK1CE2UjTRgPVitoL3cpK1mxlItkOMghAeutkkLXH6mMGMM/KQGtOH345zBywuEswRrjDsLTqvCwouAbPGB5Tx8eU=
+	t=1792292148; cv=none; b=DxbR0plajIX729JY3bhdcxivNcp8NP6a0q4FMAQakwpTIaiq4foPJBiQDGqOglMnhcuI2VtdaFhni89Zpi/1UMZzjC98svEnEBTWfh9+9J/HzKJDMoTG+H0fvy/jDY1DcdQriHNd8GgP6C7B6Byhvc+vAuyIjL4iX5c4wYdeiB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792291568; c=relaxed/simple;
-	bh=N3JZHamr3xmeGJnZ7mJpty8nceqWqiUlMmPZkiBjhXY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U1YWJV3PUGXFv3XiVNqPf0BZG/OKguqkpwe9fUMykPenP1p+BSYXeeRZrwSqeYjnS5PLSniVJH+EfP7YcqcC1xBxMzbWuaKof7by8+td7VB3VWU1ypfBDtFo2fKDm99n4WJO0kPo9+1bcxyCugdjkiwZEvpPcjJfuQaG1qgOPVo=
+	s=arc-20240116; t=1792292148; c=relaxed/simple;
+	bh=XFsqnkhAoyYGTF88mgBQ1fcnUIdUfTLVik086Lc5+2I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RoFAMwhO6XXkZulrpsg8O8unmsm+7XDx6UkaziokjJ7bIRsuyHXq17AqvOfFw/d8JdPuq26mbWzZA56LHy2FJHtqpHPa3vO7bg9mYHnSeHMjqr6anzqduNYZilhLYnHfVlkiRXMMBNAN5xn+fW/zn3UYCESKUfKLuPZH6lrTKec=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu; spf=pass smtp.mailfrom=csail.mit.edu; arc=none smtp.client-ip=128.30.2.78
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
 Received: from escalante.csail.mit.edu ([128.52.128.198])
 	by outgoing2021.csail.mit.edu with esmtp (Exim 4.95)
 	(envelope-from <nickolai@csail.mit.edu>)
-	id 1xIGuD-004PQI-7m;
-	Sat, 17 Oct 2026 22:45:49 -0400
+	id 1xIH3l-004RVH-E7;
+	Sat, 17 Oct 2026 22:55:41 -0400
 From: Nickolai Zeldovich <nickolai@csail.mit.edu>
-To: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Jan Kara <jack@suse.cz>,
-	Chuck Lever <cel@kernel.org>,
-	Yongjian Sun <sunyongjian1@huawei.com>,
-	Hugh Dickins <hughd@google.com>,
-	NeilBrown <neil@brown.name>,
+To: Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Jens Axboe <axboe@kernel.dk>,
 	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Nickolai Zeldovich <nickolai@csail.mit.edu>
-Subject: [PATCH v1] libfs: end the readdir walk when no entry is left at or below ctx->pos
-Date: Sat, 17 Oct 2026 22:45:48 -0400
-Message-ID: <20261018024549.798968-1-nickolai@csail.mit.edu>
+Subject: [PATCH v1] splice: retry tee() instead of returning 0 when it races
+Date: Sat, 17 Oct 2026 22:55:41 -0400
+Message-ID: <20261018025541.799135-1-nickolai@csail.mit.edu>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -42,155 +38,174 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On tmpfs, a getdents64() call that continues a directory listing
-returns the whole directory again if the entry it was due to resume at
-has been unlinked and no entry with a lower offset is left.  "ls" or any
-other readdir loop then reports every name twice.  It is enough that the
-oldest entry in the directory is removed while a listing that has
-returned all the other entries has not yet reached the end: create five
-files, read them one getdents64() call at a time until only the oldest
-is left, unlink it, and the next call returns the four newer names
-again instead of 0.  No privilege is needed beyond write access to the
-directory.
+tee() can return 0 while the input pipe still has writers, when
+another task reads the input pipe or fills the output pipe at the same
+time. tee(2) documents 0 as "no data was copied" because the input pipe
+has no writers, and loops built on it (the man page example breaks out
+on 0) stop early. In a test with one thread writing 1 byte at a time
+to the input pipe, one reading it and one draining the output pipe,
+about one tee() call in 150 returned 0.
 
-offset_iterate_dir() walks d_children from the newest entry towards
-the oldest and leaves ctx->pos at the offset of the next entry to emit.
-On the next call offset_dir_lookup() maps ctx->pos back to an entry
-with mas_find_rev(), which returns the entry at ctx->pos or, if that
-one is gone, the next older one.  When nothing is left at or below
-ctx->pos it returns NULL, and find_positive_dentry(parent, NULL, false)
-treats NULL as "start at the first child", so the walk restarts at the
-head of the list.
+do_tee() runs ipipe_prep() and opipe_prep() to wait for data and room,
+each under its own pipe lock, and only then takes both locks in
+link_pipe(). If the input pipe was emptied or the output pipe filled in
+between, link_pipe() finds nothing to do and returns 0.
+splice_pipe_to_pipe(), which was modelled on tee(), handles the same
+race by dropping both locks and going back to the prep steps ("A zero
+return value means EOF, so retry instead"), and returns -EAGAIN for
+SPLICE_F_NONBLOCK.
 
-mas_find_rev() came in with commit f70681e9e606 ("libfs: Fix
-duplicate directory entry in offset_dir_lookup"); with the forward
-mas_find() it replaced, NULL meant that nothing had been emitted yet and
-restarting at the head was right.  With the reverse search NULL means
-that every remaining entry has already been emitted, so return NULL and
-let offset_iterate_dir() report the end of the directory.
+Do the same in link_pipe(): move the prep steps into it and retry when
+nothing was linked although the input pipe still has writers.
 
-Reproduced on x86_64 under QEMU with the program in the notes: before
-the change the call after the unlink returns file4..file1 again, after
-it returns 0.
+Tested under QEMU (x86_64) with the program in the notes: 154 of 22698
+tee() calls returned 0 before the change, none of 34429 after it.
 
-Fixes: f70681e9e606 ("libfs: Fix duplicate directory entry in offset_dir_lookup")
+Fixes: aadd06e5c56b ("[PATCH] splice: fix problems with sys_tee()")
 Assisted-by: LLM
 Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
 ---
 
 Notes:
-    Reproducer (root, mounts a tmpfs on /t; any kernel since v6.14):
+    Reproducer:
     
-      gcc -O2 -static -o offset_eod offset_eod.c && ./offset_eod
+    #define _GNU_SOURCE
+    #include <fcntl.h>
+    #include <pthread.h>
+    #include <stdio.h>
+    #include <time.h>
+    #include <unistd.h>
     
-      /*
-       * List a tmpfs directory one entry per getdents64() call until only the
-       * oldest file is left, unlink that file, then call getdents64() again:
-       * the directory must be at its end.
-       */
-      #define _GNU_SOURCE
-      #include <fcntl.h>
-      #include <stdio.h>
-      #include <string.h>
-      #include <sys/mount.h>
-      #include <sys/stat.h>
-      #include <sys/syscall.h>
-      #include <unistd.h>
+    static int a[2], b[2];
+    static volatile int stop;
     
-      struct d64 {
-      	unsigned long long ino;
-      	long long off;
-      	unsigned short reclen;
-      	unsigned char type;
-      	char name[];
-      };
+    static void *writer(void *arg)
+    {
+    	while (!stop)
+    		if (write(a[1], "x", 1) < 0)
+    			break;
+    	return NULL;
+    }
     
-      #define NFILES 5
+    static void *drain(void *arg)
+    {
+    	char buf[4096];
+    	int fd = *(int *)arg;
     
-      int main(void)
-      {
-      	char buf[40], path[64];
-      	int fd, i, n, seen = 0, dups = 0;
-      	long r;
+    	while (!stop)
+    		if (read(fd, buf, sizeof(buf)) < 0)
+    			break;
+    	return NULL;
+    }
     
-      	mkdir("/t", 0755);
-      	if (mount("tmpfs", "/t", "tmpfs", 0, NULL))
-      		perror("mount tmpfs");
-      	mkdir("/t/d", 0755);
-      	for (i = 0; i < NFILES; i++) {
-      		snprintf(path, sizeof(path), "/t/d/file%d", i);
-      		close(open(path, O_CREAT | O_WRONLY, 0644));
-      	}
-      	fd = open("/t/d", O_RDONLY | O_DIRECTORY);
-      	/* newest first: file4 .. file1, file0 still to come */
-      	while (seen < NFILES - 1) {
-      		r = syscall(SYS_getdents64, fd, buf, sizeof(buf));
-      		if (r <= 0)
-      			return 1;
-      		for (n = 0; n < r; n += ((struct d64 *)(buf + n))->reclen) {
-      			struct d64 *d = (struct d64 *)(buf + n);
+    int main(void)
+    {
+    	pthread_t t[3];
+    	long calls = 0, zero = 0;
+    	ssize_t ret;
     
-      			if (d->name[0] != '.')
-      				seen++;
-      			printf("listed %s\n", d->name);
-      		}
-      	}
-      	unlink("/t/d/file0");
-      	printf("unlinked file0\n");
-      	while ((r = syscall(SYS_getdents64, fd, buf, sizeof(buf))) > 0) {
-      		for (n = 0; n < r; n += ((struct d64 *)(buf + n))->reclen) {
-      			printf("listed again %s\n", ((struct d64 *)(buf + n))->name);
-      			dups++;
-      		}
-      	}
-      	printf("%s: %d entries after the unlink\n", dups ? "FAIL" : "PASS", dups);
-      	return dups != 0;
-      }
+    	if (pipe(a) || pipe(b))
+    		return 1;
+    	pthread_create(&t[0], NULL, writer, NULL);
+    	pthread_create(&t[1], NULL, drain, &a[0]);	/* concurrent reader of the tee input */
+    	pthread_create(&t[2], NULL, drain, &b[0]);	/* keeps the tee output from filling */
+    	for (time_t end = time(NULL) + 5; time(NULL) < end; calls++) {
+    		ret = tee(a[0], b[1], 65536, 0);
+    		if (ret == 0)
+    			zero++;
+    		else if (ret < 0)
+    			perror("tee");
+    	}
+    	printf("%ld tee() calls, %ld returned 0 while the input pipe had a writer\n",
+    	       calls, zero);
+    	return zero != 0;
+    }
     
-    Before (master 70dd4ee72eb2, x86_64 defconfig, QEMU):
+    gcc -O2 -pthread -o tee-race tee-race.c && ./tee-race
     
-      listed .
-      listed ..
-      listed file4
-      listed file3
-      listed file2
-      listed file1
-      unlinked file0
-      listed again file4
-      listed again file3
-      listed again file2
-      listed again file1
-      FAIL: 4 entries after the unlink
+    Before: 22698 tee() calls, 154 returned 0 while the input pipe had a writer
+    After:  34429 tee() calls, 0 returned 0 while the input pipe had a writer
     
-    After:
-    
-      listed .
-      listed ..
-      listed file4
-      listed file3
-      listed file2
-      listed file1
-      unlinked file0
-      PASS: 0 entries after the unlink
+    tee() with SPLICE_F_NONBLOCK on an empty pipe with a writer still returns
+    -EAGAIN, a tee() of queued data still leaves the data in the input pipe,
+    and an empty input pipe without writers still returns 0.
 
- fs/libfs.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ fs/splice.c | 43 +++++++++++++++++++++++++++++++------------
+ 1 file changed, 31 insertions(+), 12 deletions(-)
 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index 27d7dc16fcb0..6ebffad7c028 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -485,7 +485,9 @@ offset_dir_lookup(struct dentry *parent, loff_t offset)
- 	else {
- 		rcu_read_lock();
- 		child = mas_find_rev(&mas, DIR_OFFSET_MIN);
--		found = find_positive_dentry(parent, child, false);
-+		/* nothing at or below @offset: no entry is left to emit */
-+		if (child)
-+			found = find_positive_dentry(parent, child, false);
- 		rcu_read_unlock();
+diff --git a/fs/splice.c b/fs/splice.c
+index 9d8f63e2fd1a..baadec16d6df 100644
+--- a/fs/splice.c
++++ b/fs/splice.c
+@@ -1856,6 +1856,15 @@ static ssize_t link_pipe(struct pipe_inode_info *ipipe,
+ 	unsigned int i_tail, o_tail;
+ 	ssize_t ret = 0;
+ 
++retry:
++	ret = ipipe_prep(ipipe, flags);
++	if (ret)
++		return ret;
++
++	ret = opipe_prep(opipe, flags);
++	if (ret)
++		return ret;
++
+ 	/*
+ 	 * Potential ABBA deadlock, work around it by ordering lock
+ 	 * grabbing by pipe info address. Otherwise two different processes
+@@ -1877,13 +1886,32 @@ static ssize_t link_pipe(struct pipe_inode_info *ipipe,
+ 		i_head = ipipe->head;
+ 		o_tail = opipe->tail;
+ 
++		if (pipe_empty(i_head, i_tail) && !ipipe->writers)
++			break;
++
+ 		/*
+ 		 * If we have iterated all input buffers or run out of
+ 		 * output room, break.
+ 		 */
+ 		if (pipe_empty(i_head, i_tail) ||
+-		    pipe_full(o_head, o_tail, opipe->max_usage))
+-			break;
++		    pipe_full(o_head, o_tail, opipe->max_usage)) {
++			if (ret)
++				break;
++
++			if (flags & SPLICE_F_NONBLOCK) {
++				ret = -EAGAIN;
++				break;
++			}
++
++			/*
++			 * We raced with another reader/writer and haven't
++			 * linked any buffers. A zero return value means EOF,
++			 * so retry instead.
++			 */
++			pipe_unlock(ipipe);
++			pipe_unlock(opipe);
++			goto retry;
++		}
+ 
+ 		ibuf = pipe_buf(ipipe, i_tail);
+ 		obuf = pipe_buf(opipe, o_head);
+@@ -1954,16 +1982,7 @@ ssize_t do_tee(struct file *in, struct file *out, size_t len,
+ 		if ((in->f_flags | out->f_flags) & O_NONBLOCK)
+ 			flags |= SPLICE_F_NONBLOCK;
+ 
+-		/*
+-		 * Keep going, unless we encounter an error. The ipipe/opipe
+-		 * ordering doesn't really matter.
+-		 */
+-		ret = ipipe_prep(ipipe, flags);
+-		if (!ret) {
+-			ret = opipe_prep(opipe, flags);
+-			if (!ret)
+-				ret = link_pipe(ipipe, opipe, len, flags);
+-		}
++		ret = link_pipe(ipipe, opipe, len, flags);
  	}
- 	return found;
+ 
+ 	if (ret > 0) {
 
 base-commit: 58161ead29e50d70a317ea26b472e0c7508e69da
 -- 
