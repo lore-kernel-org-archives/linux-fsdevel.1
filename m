@@ -1,87 +1,87 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB234973B1;
-	Mon, 19 Oct 2026 10:44:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465AF48E0D4;
+	Mon, 19 Oct 2026 11:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792406702; cv=none; b=ZT9Q5dFTQT1jLqCRoOztDB3hf91ikcd4jBwT9uLnJ5vHcVhEJXhfQf7kXHrrKfVAj5GQAeNNTWuGl43xw7TR8kJXYAVfsauH4sFxrc5iG7OPt0f5S/x3wr+JUbQjfKe+l3cSn5wc9ihrLZa4jfkhqn9MwTb0UCaARTAoFgniFXY=
+	t=1792408152; cv=none; b=G2eHVzGUzahhN1p53on9a2GpbkzcAqMSL4QgrMHa8TkiaIh875HePAygSfixsSj19fBVRfeiIvs7WB5lq3i1fzWS5GQuEGxOv52yB1/Xhg7Ed6eSOyYIIV4+uyi7rww0IwzyU9sKpRJQeVVnhHmlg0YEX7U+uTSDnS2Hiq3fy4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792406702; c=relaxed/simple;
-	bh=5fKUw3ye2dpBX7D02s0mOAzMeQdPOHkxfD4Y5oCcops=;
+	s=arc-20240116; t=1792408152; c=relaxed/simple;
+	bh=YKS1uBvejftmHFx6jUhtuLNG/o/oax5eGbeAyHS/iF0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aSd+QCf7P45NfxcQ14Ncui+VqkIjfq7KAohFWEDGxjg3IooOjGBgT5y6ZpQtGeQucXcDAsvAu5y3cxWodCOE1hA1kjFxwnujy5KnefqKZ2oqxIhGCn4JLeoS5d9Grs4csbWcVX7gUXZc+kEyQCD2nLk8Is26rcOFXG/ITQ9POAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JYNtwTyX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/J5cGy10; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=H+ASm309; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+l8kl4Yx; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=cRuv8tN1/OGGOcX6iM1R2WvXhv4/rVme0eluz0vKpsKfNpMxECtPog3gORyyZPzAlYtFu2ZN4hIGb6bpLA0rmEp8EGEoFCQoDPiXh4GmEQgJQme5YjbMg9z2J4+u3PGJMgXRR4zfEFKjAZ7EJTgh7bocoVN3wA/aW2TL1E3HNIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uBSHOhtp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=kCVNaaB7; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CXRSV57l; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=68FWpfje; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JYNtwTyX";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/J5cGy10";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="H+ASm309";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+l8kl4Yx"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uBSHOhtp";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="kCVNaaB7";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CXRSV57l";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="68FWpfje"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E34F921C94;
-	Mon, 19 Oct 2026 10:44:53 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 28DDA21C92;
+	Mon, 19 Oct 2026 11:09:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792406694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792408149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AzOS06+q7lTMT5iTkJ/yNXREo3iy8BxlycJzay+QDQM=;
-	b=JYNtwTyXj+H4IOFDTZCN4PFA8TV6ausm+PjxCdi210GJ6hL/c7CnySaGyFPAKp2b1ONpmM
-	G1xI37vDW6wDRcr1Aa5wOo1s0e+mOt2AMW6HzMHYhaKHtdhqyfXH6jo3d02ubHo7jD6orp
-	1MGNiKf2cnrMdMCo+wwYSER2hUBzgLQ=
+	bh=11z2qWpi42Rwu8TO6o4vcVqXgXps69LtjAEf/dfd4gs=;
+	b=uBSHOhtp3N7zzu3OgYJq++zleXKxOfWKjoAcx+1adMUV32u8cf/syk7A1pQTgWe/RqbXJw
+	OsY5yJUHMKn3ovxDw2CQ8zSCZahYL3r3P6P1uOVxmFT179ii8QAbJsj7bolDLMjSNbfKnd
+	7p5Nnx6jV2pBSCAk0gSg289OTex6NTw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792406694;
+	s=susede2_ed25519; t=1792408149;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AzOS06+q7lTMT5iTkJ/yNXREo3iy8BxlycJzay+QDQM=;
-	b=/J5cGy10RFixle1IZwG2w2AiabLRxv6QEAimh6DjFsbcjiM27rlrOmzV2eAct3gvLh2Zaq
-	+F8SAW55NzTleaDg==
+	bh=11z2qWpi42Rwu8TO6o4vcVqXgXps69LtjAEf/dfd4gs=;
+	b=kCVNaaB7xxJF1vWsrl2M4Xd5XpSBb6HmwIA34PJkN7xKQLC0udKbkUcAsIMQ2Ss9y7deQu
+	AAo70dVcO77nlQCA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=H+ASm309;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=+l8kl4Yx
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=CXRSV57l;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=68FWpfje
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792406693; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792408148; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AzOS06+q7lTMT5iTkJ/yNXREo3iy8BxlycJzay+QDQM=;
-	b=H+ASm309wNdQvHJW0atUwFnEcODdzQ5y4t024qpBR92MEQVsKdKmVN0KZ61dWmOVZOm5OY
-	RnhgNBuqpXcSqi0EsDBApKXkLUtW7qbp4zi7znPGKo9hfecYfgkpeVceapIC7yHWH01p/I
-	gucVvGK/KR/dTUl1Rqlrwc8cIYwTVrA=
+	bh=11z2qWpi42Rwu8TO6o4vcVqXgXps69LtjAEf/dfd4gs=;
+	b=CXRSV57lKvfRhATV4ut3Akmw4hB9UONE1lZXC5L9sfHFMzUY0V6Ii7C/var7jbJhNeV6QI
+	3a1v7F5tuBMRw78zrxJFdWJklOTDZa2gL/exbjmNLfYO+KJxfOKSMszq5gDD3JwBkoH0H8
+	x8YJemM+a+0RM7ofEavbbSLJMMFlBNE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792406693;
+	s=susede2_ed25519; t=1792408148;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AzOS06+q7lTMT5iTkJ/yNXREo3iy8BxlycJzay+QDQM=;
-	b=+l8kl4YxKc9Oe2gZx6Ye8iZYIYaPjHeVdP/JBQWubxm9qWknXnO/Bl0JO0C8y4Z/E/OSoZ
-	uL6Wv51+kRHsGqCw==
+	bh=11z2qWpi42Rwu8TO6o4vcVqXgXps69LtjAEf/dfd4gs=;
+	b=68FWpfjeq6UcQMaP3zVS3ajhrCp2oNgj+QGpTbM8zPio3CAqV0Fyr+x5Q33EL1eLvxbRfz
+	PsvkCEiXB086MSBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B949A136CC;
-	Mon, 19 Oct 2026 10:44:53 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F1E7F134B3;
+	Mon, 19 Oct 2026 11:09:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rQuJI6X01WqmeAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 19 Oct 2026 10:44:53 +0000
+	id O4YyM1P61WrlFAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 19 Oct 2026 11:09:07 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 3EEDDA1413; Mon, 19 Oct 2026 12:44:49 +0200 (CEST)
-Date: Mon, 19 Oct 2026 12:44:49 +0200
+	id 8311CA1413; Mon, 19 Oct 2026 13:09:03 +0200 (CEST)
+Date: Mon, 19 Oct 2026 13:09:03 +0200
 From: Jan Kara <jack@suse.cz>
-To: YouYou Yu <youyouyu@amazon.com>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Lichen Liu <lichliu@redhat.com>, Dylan Johnson <dgj@amazon.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Gunnar Kudrjavets <gunnarku@amazon.com>
-Subject: Re: [PATCH] quota: initialize dquot cache before mounting rootfs
-Message-ID: <4x3ngu2v723xnbommkln6yjwj27qdiy53dphxp74thsbihfqcr@rehvrhj7egvk>
-References: <20261015183608.22507-1-youyouyu@amazon.com>
+To: Nikolaos Karaolidis <nick@karaolidis.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+	Mateusz Guzik <mjguzik@gmail.com>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] fs: rotate inodes whose page cache could not be dropped
+Message-ID: <n6urwkuqd2vr6ednnp64y2a7tbgobbdwmog5i3plxtidb2goq3@ph52n25jnu7y>
+References: <20261016102515.111285-1-nick@karaolidis.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -90,186 +90,112 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261015183608.22507-1-youyouyu@amazon.com>
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: E34F921C94
+In-Reply-To: <20261016102515.111285-1-nick@karaolidis.com>
 X-Rspamd-Action: no action
-X-Spam-Level: 
+X-Spam-Score: -4.01
+X-Spam-Flag: NO
 X-Spamd-Result: default: False [-4.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,huawei.com,gmail.com,vger.kernel.org,kvack.org];
 	RCVD_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,karaolidis.com:email,suse.cz:email,suse.cz:dkim,suse.com:email];
+	RCVD_TLS_LAST(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 28DDA21C92
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-On Thu 15-10-26 18:36:08, YouYou Yu wrote:
-> Booting with CONFIG_TMPFS_QUOTA=y, an initramfs, no root= and
-> "initramfs_options=usrquota" panics at boot:
+On Fri 16-10-26 10:25:15, Nikolaos Karaolidis wrote:
+> When inode_lru_isolate() drops the page cache of an unused inode, it
+> has to unlock the list, so it returns LRU_RETRY and the walk restarts
+> at the head of the list, where the inode still is. If
+> invalidate_mapping_pages() could not empty the mapping, the restarted
+> walk strips the same inode again, and so on until nr_to_walk runs out.
+> Every walk of that list then ends on this inode, and nothing behind it
+> is reclaimed for as long as its cache stays.
 > 
->   BUG: kernel NULL pointer dereference, address: 0000000000000000
->   RIP: 0010:dqget+0x1ac/0x490
->   Call Trace:
->    __dquot_initialize
->    dquot_initialize
->    shmem_get_inode
->    shmem_fill_super
->    ...
->    mnt_init
->    vfs_caches_init
->    start_kernel
+> Before commit 2a0629834cd8 ("vfs: Don't evict inode under the inode lru
+> traversing context") the walker pinned the inode with a reference, and
+> dropping it in iput_final() set I_REFERENCED, so the restarted walk
+> rotated the inode to the tail. Set I_REFERENCED again when the mapping
+> is still populated after the invalidation, in the same i_lock section
+> that clears I_LRU_ISOLATING. inode_unpin_lru_isolating() now expects
+> i_lock to be held, like inode_pin_lru_isolating().
 > 
-> The rootfs is mounted from mnt_init(), but the dquot hash table and
-> cache are only set up later by dquot_init(), an fs_initcall. Creating
-> the root inode of a quota enabled rootfs thus dereferences the NULL
-> dquot_hash in dqget().
+> On CONFIG_HIGHMEM kernels this can happen to any unused inode: a folio
+> is left behind if it is locked, under writeback, spliced into a pipe,
+> or still in another CPU's LRU-add batch after being read. Without
+> HIGHMEM it happens to DAX inodes whose only entry is at index 0, which
+> mapping_shrinkable() lets onto the LRU and invalidate_mapping_pages()
+> never removes.
 > 
-> Rename dquot_init() to dquot_cache_init() and call it from
-> vfs_caches_init() before mnt_init(). The slab, percpu and early
-> workqueue code it relies on is available there, and the workqueue
-> rescuer and shrinker debugfs entries are set up later by their own
-> subsystems. Keep the sysctl registration in an fs_initcall, as done
-> for the dcache, inode and mount sysctls. This only moves existing
-> allocations earlier in boot.
-> 
-> Fixes: 278033a225e1 ("fs: Add 'initramfs_options' to set initramfs mount options")
+> Fixes: 2a0629834cd8 ("vfs: Don't evict inode under the inode lru traversing context")
 > Cc: stable@vger.kernel.org
 > Assisted-by: LLM
-> Co-developed-by: Dylan Johnson <dgj@amazon.com>
-> Signed-off-by: Dylan Johnson <dgj@amazon.com>
-> Signed-off-by: YouYou Yu <youyouyu@amazon.com>
-> Reviewed-by: Gunnar Kudrjavets <gunnarku@amazon.com>
+> Signed-off-by: Nikolaos Karaolidis <nick@karaolidis.com>
 
-Dunno, I'd say: "don't do it when it hurts"... I definitely don't think
-anybody sane wants quotas on initramfs. Is this just a fuzzing result or
-are you really interested in that functionality?
+Looks sensible. Feel free to add:
 
-Instead of pulling quota into early boot I'd just refuse tmpfs mount in
-this case (same result as original behavior but clearer error message :)).
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
-> ---
-> 
-> Notes:
->     Tested on v7.3-rc7, x86_64 QEMU/KVM, booting from an initramfs without root=:
->     - without this patch, initramfs_options=usrquota panics in dqget() as above
->     - with it, initramfs_options=usrquota,grpquota,usrquota_block_hardlimit=10M
->       boots, rootfs is mounted with quotas, and a non-root user is limited to
->       10M on rootfs
->     - /sys/kernel/slab/dquot, the quota_events_unbound rescuer, the fs/quota
->       sysctls and (with CONFIG_SHRINKER_DEBUG) the dquota-cache shrinker
->       debugfs entry are all created as expected
->     
->     An LLM (Claude Opus 5.5) helped drafting this changelog.
->     I reviewed the change and ran the tests above.
-> 
->  fs/dcache.c              |  2 ++
->  fs/quota/dquot.c         | 10 ++++++----
->  include/linux/quotaops.h |  5 +++++
->  3 files changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index f44c7b39c3b..b208cbdda0f 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -32,6 +32,7 @@
->  #include <linux/bit_spinlock.h>
->  #include <linux/rculist_bl.h>
->  #include <linux/list_lru.h>
-> +#include <linux/quotaops.h>
->  #include "internal.h"
->  #include "mount.h"
+
+> diff --git a/fs/inode.c b/fs/inode.c
+> index a9d37be390a1..1614a97ce953 100644
+> --- a/fs/inode.c
+> +++ b/fs/inode.c
+> @@ -593,12 +593,11 @@ static void inode_pin_lru_isolating(struct inode *inode)
 >  
-> @@ -3525,6 +3526,7 @@ void __init vfs_caches_init(void)
->  	inode_init();
->  	files_init();
->  	files_maxfiles_init();
-> +	dquot_cache_init();
->  	mnt_init();
->  	bdev_cache_init();
->  	chrdev_init();
-> diff --git a/fs/quota/dquot.c b/fs/quota/dquot.c
-> index 1c78c695d0d..cd142c9cc7e 100644
-> --- a/fs/quota/dquot.c
-> +++ b/fs/quota/dquot.c
-> @@ -2942,7 +2942,7 @@ static const struct ctl_table fs_dqstats_table[] = {
->  	},
->  };
->  
-> -static int __init dquot_init(void)
-> +void __init dquot_cache_init(void)
+>  static void inode_unpin_lru_isolating(struct inode *inode)
 >  {
->  	int i, ret;
->  	unsigned long nr_hash;
-> @@ -2950,8 +2950,6 @@ static int __init dquot_init(void)
->  
->  	printk(KERN_NOTICE "VFS: Disk quotas %s\n", __DQUOT_VERSION__);
->  
-> -	register_sysctl_init("fs/quota", fs_dqstats_table);
-> -
->  	dquot_cachep = kmem_cache_create("dquot",
->  			sizeof(struct dquot), sizeof(unsigned long) * 4,
->  			(SLAB_HWCACHE_ALIGN|SLAB_RECLAIM_ACCOUNT|
-> @@ -2992,7 +2990,11 @@ static int __init dquot_init(void)
->  					   WQ_UNBOUND | WQ_MEM_RECLAIM, WQ_MAX_ACTIVE);
->  	if (!quota_unbound_wq)
->  		panic("Cannot create quota_unbound_wq\n");
-> +}
->  
-> +static int __init init_fs_dquot_sysctls(void)
-> +{
-> +	register_sysctl_init("fs/quota", fs_dqstats_table);
->  	return 0;
->  }
-> -fs_initcall(dquot_init);
-> +fs_initcall(init_fs_dquot_sysctls);
-> diff --git a/include/linux/quotaops.h b/include/linux/quotaops.h
-> index f9c0f9d7c9d..bbe22c22439 100644
-> --- a/include/linux/quotaops.h
-> +++ b/include/linux/quotaops.h
-> @@ -40,6 +40,7 @@ void __quota_error(struct super_block *sb, const char *func,
->  /*
->   * declaration of quota_function calls in kernel.
->   */
-> +void dquot_cache_init(void);
->  int dquot_initialize(struct inode *inode);
->  bool dquot_initialize_needed(struct inode *inode);
->  void dquot_drop(struct inode *inode);
-> @@ -206,6 +207,10 @@ static inline int sb_has_quota_active(struct super_block *sb, int type)
->  	return 0;
+> -	spin_lock(&inode->i_lock);
+> +	lockdep_assert_held(&inode->i_lock);
+>  	WARN_ON(!(inode_state_read(inode) & I_LRU_ISOLATING));
+>  	inode_state_clear(inode, I_LRU_ISOLATING);
+>  	/* Called with inode->i_lock which ensures memory ordering. */
+>  	inode_wake_up_bit(inode, __I_LRU_ISOLATING);
+> -	spin_unlock(&inode->i_lock);
 >  }
 >  
-> +static inline void dquot_cache_init(void)
-> +{
-> +}
+>  static void inode_wait_for_lru_isolating(struct inode *inode)
+> @@ -981,7 +980,13 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
+>  		else
+>  			__count_vm_events(PGINODESTEAL, reap);
+>  		mm_account_reclaimed_pages(reap);
 > +
->  static inline int dquot_initialize(struct inode *inode)
->  {
->  	return 0;
+> +		spin_lock(&inode->i_lock);
+> +		/* The walk restarts here: don't retry leftovers right away */
+> +		if (!mapping_empty(&inode->i_data))
+> +			inode_state_set(inode, I_REFERENCED);
+>  		inode_unpin_lru_isolating(inode);
+> +		spin_unlock(&inode->i_lock);
+>  		return LRU_RETRY;
+>  	}
+>  
 > 
-> base-commit: 7c6f8a2841d4eeeceacf42689cd2717fe76d9f7c
+> base-commit: af32da41b0327b9c6a37856ba82b6760d6c8d10e
 > -- 
-> 2.47.3
+> 2.55.0
 > 
 -- 
 Jan Kara <jack@suse.com>
