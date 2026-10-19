@@ -1,127 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792425084;
-	b=ZF+itmaoaa7OuMYF3C89alzoAsgG5lc2oL6mBJojNqhibh0HHYG1+OZcAnEMUuWVIcUm
-	 pOZ0OngFhJUisMOBIwuAXhETnco/VNchGfiDkVCa4wRtZ5Cku0Gv+KFzGJLSZ5N1+eZMR
-	 sdidh/j+IXiPdNqz6ze/k56F3agKa/uZJZPQK8qeHRb/WlpG4alHxOq9jIv4SZ5m8pA8A
-	 BggNVvKjsCmITE8v8tFVZGp0aJ53A/K/Iwa45EbLq/A8+fz5I22oy2z8/eMG62vjhX06k
-	 wJr/tdi4eJljpnmvDmRlruM67kCeMO/c3OmSg3edHgIho3Zie9pqWIqMWfYVVknOlgQ==
+	t=1792426580;
+	b=bXHMq7dbhu2yFO1L0hXm2Bkv3tMbOzNjJSAGjxGscJO6qJkuaJuiJRM+f9by70y6x5jo
+	 PvT52E6R7gdUK2bl2BmsXweVK8+TfHY4tAJkEa8H913M4RG7TMq9zWvvaUtGDg+CZwZ2u
+	 cHp95STwir/T4odoGvSllqfsPqMJ7BBxLMKqOSX+5qjuVyhIvZM1F8fl6A3WIVumzT3bJ
+	 ELuyGIKjrln648tyz2jwYxWn2ZzO+q8HtbM6W2nyily2SWTSmB2ft3aOt1q1y208YGxQ4
+	 JqwO5z8lr6NCom3pB7il3bc3XCssla/0Fk6SIJhLS/XCGTzrY2/p+Gige/KvAm+uDHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792425084;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=V7LU7B522G/Nt7R0FiWPQqjn9CdYZiUxBthyqwKOD9Q=;
-	b=NFp2a1225O/l2u1LPM9RxhUXkgwcxyCPjUIykYY3kKqtrHO5Vqy8XcGpxs0TcJ069NiU
-	 Pt5qucWcoyXTPqG0QgAlSY3SHHWl1Jazfq/gDwU+GVFf+mUebC02d6pFRZ2YuKJRkY9ee
-	 VAlRFqW6n9HpZpyxdewERgsnqI6euF0C28HOFW6MQfZIr8s0+uHkgLxMBODlLo5UII1vH
-	 VvxVJw6qqZlvp5j9Bu/oNmq65FJ9CeIDqqTkj9YnJrKbu6K3cqmMyDxpkG7yILXtBfu5l
-	 Zr22jNZwa4VeYG9SsTTfrhF7qfqfRj1Mry/nCerEG7b4Pus5zPkFhQIawC/uu97VUnQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792426580;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 User-Agent:MIME-Version:Content-Type;
+	bh=U+tNFdMrtGJ7UXrgqf4t9vdI/NRpKFRzfQPtifY5ebM=;
+	b=VFIEvYPWW4sgC9cQcXnbpnQP/klXI//3g3zyt8MIhMR57Uav1V6x/GSYAxetxF6ukhAj
+	 rf4cU97dA3Y046Yw5YNBDpADnspid/HRCdM+UIqMkp0srJcT58L3ah5RJbA08Gt1uqdtC
+	 e7Ks5BqBfltfE7bF90gU6qVqU8LeYx3vn3w/oW8/mPFgdYrvBicpoob6RGmlR4rd3bBZZ
+	 LTrBge/eVkKPWz00LdAaa7VaycQYfvnyu7Pbi4SrdcqzuVKlX+XNtfxiA+s6FCETjdqPG
+	 0iNAceK7ZjDf8e8A/xBvBjDJfcsVL3m9ReyV8E2FvSBghBMKYyT2JEknA6SZoyd1xfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="j5mv/sgP";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=mail.parknet.co.jp;
+	spf=pass smtp.mailfrom=parknet.co.jp;
+	dkim=temperror header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b="E/fJLEI3";
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=NKaz5b5v;
+	arc=none smtp.remote-ip=210.171.160.6
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8212D606AFAF
-	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 15:51:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E123606A31A;
+	Mon, 19 Oct 2026 16:16:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E123606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j5mv/sgP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAE031F000C7;
-	Mon, 19 Oct 2026 15:51:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792425084;
-	bh=V7LU7B522G/Nt7R0FiWPQqjn9CdYZiUxBthyqwKOD9Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=j5mv/sgPvRDjlSSgi/KLxGr1Bndb/BpmvtZN5fck7Ojqxhckcal8Eweak2ZdA0oZv
-	 W6xS84c32iJ3RY0cKZimfZ3vjk8v8j2BEYOlGcjAqGBNaBbQ3SUOefZjsAsY7W6Dge
-	 nvMalS1cE/jxwlCkrV3XSKk44qHXJ4pXCymOdJj/CWo4sU/NQOeLoNLO8iJpWl9y6T
-	 92u3yhBHVi2Bhze8PbRSACprvNNiaHJ/0WzIPPliB4xmIPYCLPAyXX64NMpnmyMEnA
-	 dz3JAA1RXVj9rlIwWdq3GfPjhP5wOErklxqiJ3etrScQUxlMZmKNKHlLQWgNg+lo1X
-	 73g2NM/JlmS5g==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.ams.internal (Postfix) with ESMTP id A1B74198003A;
-	Mon, 19 Oct 2026 11:51:16 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Mon, 19 Oct 2026 11:51:20 -0400
-X-ME-Sender: <xms:dDzWau9M3FbVzylKyeuMuTbSvRi5IhIiOm5vggdDvmx2WLA7P_-HbQ>
-    <xme:dDzWaj-PHM48Ndlhrsp1ztoB7LRirKXS6TUWSubRL-nmTgJ5xnjPzKegBHPYb6Apa
-    lWzc8x9JYUVJwFZoc-_UAzZlg-D1yIhQhkrMadsKkA2-juVj8DIWp6B>
-X-ME-Received: <xmr:dDzWamrnOz-IYgpENDf9AHxZdMqOzb7vuLX2QCJm9BzNQsb3vG9t-cpq8-4>
-X-ME-Proxy-Cause: dmFkZTETM5HXVFLzPUxauAkBxER+Z+lTRQkwgIjXhOFN5THGlO0HVgKRB8Wd4BSXaHA5Bq
-    7Hki4AkN29JlsW7Oz4whntE9FU2sRh3n5MV6IVyinOcMZqrY6k/BF1c/BxQBvNlfSnbHPl
-    QW/SZQekiA5aLb3GJIUgrXyjACrHk/syVIVjTZfD7jaDpyMg1O/dYDf4I6wLOAEwx8xESw
-    vWlPZzevy9W/Bx8Vy1OTZuF/dkabbhGDCVd6eGxAa35wXpSJUVy0LPc7oPWN1fg8RR92+D
-    ECpc3fgxZvfIHD4VEls/NZQ+K0gffqxM1pWJS3eaXhIg/AZa9YCFosiagiRdAJgbrCIzoM
-    o7gldHTvIc7eDhtIlvlXL3C53Ed6FccoFxHkqxXLx6DesQwcRIq2OCKsz71WAjXT1lm5TM
-    Kg1S+IlqYIxSJe9HD2GKza9Xs/DT9IRo/iXi4/lAIHvx7zS5svU1pmtsJwFoiXOifXFOJS
-    c8+Oeh3NCwMTZdMLywvQlmAwW/Y7WDCES6B0jmV7pMkS4HcOooYUKfO5TR9lAZ5VoW9a8r
-    /Sd6cK2NtDUvPD7I9Une5gCLCi06S4ZQdRtRBV9yijBm9YZ31pf3G36MsRdGWua/hTa0oz
-    IXvg1wkV9fllJ5EjieDzrGee0JsCZ2XwYMKjT3W5rPPzBpPVPhNKsKgec/1w
-X-ME-Proxy: <xmx:dDzWamLg6cF_WAVSMmPrj6q7Spq9p4LSEZCHn9AirSi8MJz72J-B9g>
-    <xmx:dDzWaj0knTs9fAMwlRv2eWSSw3MmAJ-GD7Ro5x3412yILKFqsCQDGA>
-    <xmx:dDzWan5ODCRnQyiDwSCOgnm3bWqisXfjJ722uVIweErdBv-sNprqtg>
-    <xmx:dDzWapPZak97h7nUxuzK1D5s1DiIbQa1A6wNNRF5GxQLRsE0MFuLKQ>
-    <xmx:dDzWajL7V6ATZJcx30Qa3GWHT7z1tZ55WDYLNjnvd5l-RPejyxFAhMfr>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Oct 2026 11:51:15 -0400 (EDT)
-From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Hugh Dickins <hughd@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>,
-	Kairui Song <kasong@tencent.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Harry Yoo <harry@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Ilya Gladyshev <ilya.gladyshev@linux.dev>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	kernel-team@meta.com
-Subject: [RFC PATCH 18/18] mm/filemap: add a debugfs switch for lockless page cache reads
-Date: Mon, 19 Oct 2026 16:49:11 +0100
-Message-ID: <20261019154913.1765974-19-kas@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261019154913.1765974-1-kas@kernel.org>
-References: <20261019154913.1765974-1-kas@kernel.org>
+	dkim=temperror header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=E/fJLEI3;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=NKaz5b5v
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 0FC9D26F7699;
+	Tue, 20 Oct 2026 01:15:59 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1792426559;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U+tNFdMrtGJ7UXrgqf4t9vdI/NRpKFRzfQPtifY5ebM=;
+	b=E/fJLEI3wmXSab9vfYOruXzi54ytXo1B2fbkLmBG1jXZZULyL3ywX0HzE7YV5L+Gm7YmKP
+	6dBgr5uHnba0mxAKmx5JtIuBPeeWyEr0V6LjS/DuGTLPZfeQ/bSEfLrRskmGXL3lrwPW4J
+	lIGgRfgKcLB9hk999fHnsj54IRyMfTItYtDjH86mO0uhcynLLzL8mMKkntkfAir7GiKdrf
+	w61xgC+yXSt24e7GtwaqG5/t2q5WFRmpLYfrKISRuJK0DG+QwbyjgXvHncbMBkbRgDnFiQ
+	XPFnAVzPU6IIp2RuLbHjAZa+6g/Vv1TgVeGeCYHBnZfHTYuqf+KXv9VRsuWGuw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1792426559;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U+tNFdMrtGJ7UXrgqf4t9vdI/NRpKFRzfQPtifY5ebM=;
+	b=NKaz5b5vMmG3mea50pG6hwDzjpzg0TvAIRX1qLhJ42XGnWUskJAxO3OMDnjEvpgBQG1jk3
+	dUPZOCMSoLdv/CCw==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 76DF4E0036A;
+	Tue, 20 Oct 2026 01:15:58 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 6FD2F22000A9; Tue, 20 Oct 2026 01:15:58 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Cc: linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
+Subject: Re: [PATCH v4] fat: make rename recovery safe after metadata write
+ errors
+In-Reply-To: <20261019145146.539233-1-krystianmkaniewski@gmail.com>
+References: <6aa82300.a211d2ce.1a5198.0295.GAE@google.com>
+	<20260929090029.742579-1-krystianmkaniewski@gmail.com>
+	<87ld8j4161.fsf@mail.parknet.co.jp>
+	<1f18819d20c92960b8b2d6ccc8bc4506d346150e.1790779353.git.krystianmkaniewski@gmail.com>
+	<87bj90m6dq.fsf@mail.parknet.co.jp>
+	<20261014082315.190262-1-krystianmkaniewski@gmail.com>
+	<87qzhqvloo.fsf@mail.parknet.co.jp>
+	<55a1f016-a7a2-469f-b481-37223d695f29@gmail.com>
+	<87cxt921rc.fsf@mail.parknet.co.jp>
+	<f9b27432-4104-4323-8cd7-e2cda73db2f9@gmail.com>
+	<875wz11xfg.fsf@mail.parknet.co.jp>
+	<c820357a-a7cf-4f4b-ab23-91530a12218b@gmail.com>
+	<878q3uhv4h.fsf@mail.parknet.co.jp>
+	<20261019145146.539233-1-krystianmkaniewski@gmail.com>
+Date: Tue, 20 Oct 2026 01:15:58 +0900
+Message-ID: <87wlrdy8ch.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -131,126 +94,233 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Reading hot folios without a reference defers the free of their memory
-by an RCU grace period.  A workload that loses on that trade, or a bug
-in the lockless read, has no way to turn it off: CONFIG_PAGE_RCU_FREE is
-on in every 64-bit kernel.
+Krystian Kaniewski <krystianmkaniewski@gmail.com> writes:
 
-Add lockless_page_cache_read to debugfs.  Writing 0 stops filemap_read()
-and shmem_file_read_iter() from setting PG_rcu_free and from copying
-without a reference.  A static key keeps the test off the read path.
-debugfs, not a sysctl: the switch is not ABI and can go once the reads
-have proven themselves.
+> A failed synchronous FAT metadata write clears BH_Uptodate. Rename
+> recovery can then modify and dirty the same retained buffer, which
+> triggers the !buffer_uptodate warning in mark_buffer_dirty().
+>
+> Stop on-disk rollback after a failed dotdot update or old-entry removal,
+> where a complete rollback can no longer be guaranteed.
+>
+> An inode-position write can also fail through another associated metadata
+> buffer. In that case the retained new-entry buffer remains uptodate, so
+> remove the added entry directly. Check the buffer state and dirty the
+> entry while holding the buffer lock. If the entry buffer itself failed
+> writeback, leave it untouched instead of reading it again and submitting
+> another write from FAT.
+>
+> Keep the existing replacement and exchange inode-position recovery. When
+> recovery starts after an exchange position write fails, attempt both
+> restorations so a failure of one does not suppress the other.
+>
+> Report recovery errors as corruption and preserve the original forward
+> error.
+>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Reported-by: syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=b0aebd03565f5774f7f8
+> Signed-off-by: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+> ---
+> Changes in v4:
+> - Trust a final block-layer write error. Do not reread or retry the retained
+>   new-entry buffer from FAT when it is no longer uptodate.
+> - Remove the added entry directly when its retained buffer remains uptodate.
+>   Hold the buffer lock across the state check, entry mutation and dirty mark.
+> - Keep failed dotdot writes and failed old-entry removal on the v3
+>   no-rollback path.
+>
+> v3: https://lore.kernel.org/all/20261014082315.190262-1-krystianmkaniewski@gmail.com/
+>
+>  fs/fat/dir.c         | 27 +++++++++++++++++--
+>  fs/fat/fat.h         |  2 ++
+>  fs/fat/namei_msdos.c | 37 +++++++++----------------
+>  fs/fat/namei_vfat.c  | 64 ++++++++++++++++----------------------------
+>  4 files changed, 62 insertions(+), 68 deletions(-)
+>
+> diff --git a/fs/fat/dir.c b/fs/fat/dir.c
+> index 35bdb62944a2e..70433361359cb 100644
+> --- a/fs/fat/dir.c
+> +++ b/fs/fat/dir.c
+> @@ -1066,7 +1066,9 @@ static int __fat_remove_entries(struct inode *dir, loff_t pos, int nr_slots)
+>  	return err;
+>  }
+>  
+> -int fat_remove_entries(struct inode *dir, struct fat_slot_info *sinfo)
+> +static int fat_remove_entries_internal(struct inode *dir,
+> +				       struct fat_slot_info *sinfo,
+> +				       bool require_uptodate)
+>  {
+>  	struct super_block *sb = dir->i_sb;
+>  	struct msdos_dir_entry *de;
+> @@ -1079,8 +1081,15 @@ int fat_remove_entries(struct inode *dir, struct fat_slot_info *sinfo)
+>  	 */
+>  	nr_slots = sinfo->nr_slots;
+>  	de = sinfo->de;
+> -	sinfo->de = NULL;
+>  	bh = sinfo->bh;
+> +	if (require_uptodate) {
+> +		lock_buffer(bh);
+> +		if (!buffer_uptodate(bh)) {
+> +			unlock_buffer(bh);
+> +			return -EIO;
+> +		}
+> +	}
+> +	sinfo->de = NULL;
 
-Folios that have the flag keep it, and their free stays deferred: a read
-that tested the key before the switch may still be copying from them.
+Looks like strange to check buffer_uptodate() (or
+buffer_write_io_error()?) at here. Why lock_buffer is required (rename
+locks are not enough? which race?), and why not checked at rename error
+path?
 
-Assisted-by: LLM
-Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
----
- mm/Kconfig   |  3 +++
- mm/filemap.c | 51 ++++++++++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 51 insertions(+), 3 deletions(-)
+>  	sinfo->bh = NULL;
+>  	while (nr_slots && de >= (struct msdos_dir_entry *)bh->b_data) {
+>  		de->name[0] = DELETED_FLAG;
+> @@ -1088,6 +1097,8 @@ int fat_remove_entries(struct inode *dir, struct fat_slot_info *sinfo)
+>  		nr_slots--;
+>  	}
+>  	mmb_mark_buffer_dirty(bh, &MSDOS_I(dir)->i_metadata_bhs);
+> +	if (require_uptodate)
+> +		unlock_buffer(bh);
+>  	if (IS_DIRSYNC(dir))
+>  		err = sync_dirty_buffer(bh);
+>  	brelse(bh);
 
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 5af00db23f90..1ad1cb7969e7 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -730,6 +730,9 @@ config PAGE_RCU_FREE
- 	  64-bit only: it takes a page flag, and those are scarce on
- 	  32-bit.
- 
-+	  Writing 0 to lockless_page_cache_read in debugfs turns these
-+	  reads off.
-+
- config PHYS_ADDR_T_64BIT
- 	def_bool 64BIT
- 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index cde7bc68b32d..7021ed2ab6c9 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -48,6 +48,7 @@
- #include <linux/rcupdate_wait.h>
- #include <linux/sched/mm.h>
- #include <linux/sysctl.h>
-+#include <linux/debugfs.h>
- #include <linux/pgalloc.h>
- 
- #include <asm/tlbflush.h>
-@@ -2765,6 +2766,50 @@ static inline bool pos_same_folio(loff_t pos1, loff_t pos2, struct folio *folio)
- 	return (pos1 >> shift == pos2 >> shift);
- }
- 
-+#ifdef CONFIG_PAGE_RCU_FREE
-+/* Writing 0 to lockless_page_cache_read in debugfs turns the reads off */
-+static DEFINE_STATIC_KEY_TRUE(lockless_read_key);
-+
-+static bool lockless_read_enabled(void)
-+{
-+	return static_branch_likely(&lockless_read_key);
-+}
-+
-+#ifdef CONFIG_DEBUG_FS
-+static int lockless_read_get(void *data, u64 *val)
-+{
-+	*val = static_key_enabled(&lockless_read_key);
-+	return 0;
-+}
-+
-+static int lockless_read_set(void *data, u64 val)
-+{
-+	if (val > 1)
-+		return -EINVAL;
-+	if (val)
-+		static_branch_enable(&lockless_read_key);
-+	else
-+		static_branch_disable(&lockless_read_key);
-+	return 0;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(lockless_read_fops, lockless_read_get,
-+			 lockless_read_set, "%llu\n");
-+
-+static int __init lockless_read_debugfs_init(void)
-+{
-+	debugfs_create_file_unsafe("lockless_page_cache_read", 0644, NULL, NULL,
-+				   &lockless_read_fops);
-+	return 0;
-+}
-+late_initcall(lockless_read_debugfs_init);
-+#endif
-+#else
-+static bool lockless_read_enabled(void)
-+{
-+	return false;
-+}
-+#endif
-+
- /*
-  * Reads keep coming back to @folio: free it only after an RCU grace period
-  * from now on.  Not if its next read needs a reference anyway.  Not if it
-@@ -2775,7 +2820,7 @@ static void filemap_mark_hot(struct folio *folio)
- {
- 	struct address_space *mapping;
- 
--	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE))
-+	if (!lockless_read_enabled())
- 		return;
- 	if (folio_test_rcu_free(folio) || !folio_test_uptodate(folio) ||
- 	    folio_test_dropbehind(folio) || folio_test_unevictable(folio))
-@@ -3025,8 +3070,8 @@ size_t filemap_read_rcu(struct kiocb *iocb, struct iov_iter *iter,
- 	pgoff_t last_index = (last_pos - 1) >> PAGE_SHIFT;
- 	size_t copied = 0;
- 
--	/* Not on an inode that never had a folio flagged */
--	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE) ||
-+	/* Not when switched off, or on an inode that never had a folio flagged */
-+	if (!lockless_read_enabled() ||
- 	    !mapping_rcu_read(iocb->ki_filp->f_mapping))
- 		return 0;
- 
+[...]
+
+> diff --git a/fs/fat/namei_msdos.c b/fs/fat/namei_msdos.c
+> index d46d1a3851f25..6c833ed1affb3 100644
+> --- a/fs/fat/namei_msdos.c
+> +++ b/fs/fat/namei_msdos.c
+> @@ -441,7 +441,7 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+>  	struct fat_slot_info old_sinfo, sinfo;
+>  	struct timespec64 ts;
+>  	loff_t new_i_pos;
+> -	int err, old_attrs, is_dir, update_dotdot, corrupt = 0;
+> +	int err, old_attrs, is_dir, update_dotdot, rollback_err = 0;
+>  
+>  	old_sinfo.bh = sinfo.bh = dotdot_bh = NULL;
+>  	old_inode = d_inode(old_dentry);
+> @@ -533,7 +533,7 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+>  		if (IS_DIRSYNC(new_dir)) {
+>  			err = sync_dirty_buffer(dotdot_bh);
+>  			if (err)
+> -				goto error_dotdot;
+> +				goto error_no_rollback;
+>  		}
+>  		drop_nlink(old_dir);
+>  		if (!new_inode)
+> @@ -543,7 +543,7 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+>  	err = fat_remove_entries(old_dir, &old_sinfo);	/* and releases bh */
+>  	old_sinfo.bh = NULL;
+>  	if (err)
+> -		goto error_dotdot;
+> +		goto error_no_rollback;
+
+Hm, I may be confused more or less though, do we have to give up whole
+if dotdot_bh and here are failure? Maybe we give up only if old_sinfo.bh
+was the cause of I/O error actually? Checking and tracking the error
+state is too complex or something?
+
+>  	inode_inc_iversion(old_dir);
+>  	fat_truncate_time(old_dir, &ts, FAT_UPDATE_CMTIME);
+>  	mark_inode_dirty(old_dir);
+> @@ -561,37 +561,24 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+>  	brelse(old_sinfo.bh);
+>  	return err;
+>  
+> -error_dotdot:
+> -	/* data cluster is shared, serious corruption */
+> -	corrupt = 1;
+> -
+> -	if (update_dotdot) {
+> -		fat_set_start(dotdot_de, MSDOS_I(old_dir)->i_logstart);
+> -		mmb_mark_buffer_dirty(dotdot_bh,
+> -				      &MSDOS_I(old_inode)->i_metadata_bhs);
+> -		corrupt |= sync_dirty_buffer(dotdot_bh);
+> -	}
+> +error_no_rollback:
+> +	/* Do not continue an on-disk rollback that cannot be completed. */
+> +	rollback_err = err;
+>  error_inode:
+>  	fat_detach(old_inode);
+>  	fat_attach(old_inode, old_sinfo.i_pos);
+>  	MSDOS_I(old_inode)->i_attrs = old_attrs;
+>  	if (new_inode) {
+>  		fat_attach(new_inode, new_i_pos);
+> -		if (corrupt) {
+> +		if (!rollback_err) {
+>  			mark_inode_dirty(new_inode);
+> -			corrupt |= sync_inode_metadata(new_inode, 1);
+> +			rollback_err = sync_inode_metadata(new_inode, 1);
+>  		}
+> -	} else {
+> -		/*
+> -		 * If new entry was not sharing the data cluster, it
+> -		 * shouldn't be serious corruption.
+> -		 */
+> -		int err2 = fat_remove_entries(new_dir, &sinfo);
+> -		if (corrupt)
+> -			corrupt |= err2;
+> -		sinfo.bh = NULL;
+> +	} else if (!rollback_err) {
+> +		/* Do not retry a write error reported for this buffer. */
+> +		rollback_err = fat_remove_entries_if_uptodate(new_dir, &sinfo);
+>  	}
+> -	if (corrupt < 0) {
+> +	if (rollback_err < 0) {
+>  		fat_fs_error(new_dir->i_sb,
+>  			     "%s: Filesystem corrupted (i_pos %lld)",
+>  			     __func__, sinfo.i_pos);
+
+[...]
+
+> @@ -1067,7 +1056,7 @@ static int vfat_rename_exchange(struct inode *old_dir, struct dentry *old_dentry
+>  	struct inode *old_inode, *new_inode;
+>  	struct timespec64 ts = current_time(old_dir);
+>  	loff_t old_i_pos, new_i_pos;
+> -	int err, corrupt = 0;
+> +	int err, rollback_err = 0;
+>  	struct super_block *sb = old_dir->i_sb;
+>  
+>  	old_inode = d_inode(old_dentry);
+> @@ -1106,13 +1095,13 @@ static int vfat_rename_exchange(struct inode *old_dir, struct dentry *old_dentry
+>  		err = vfat_update_dotdot_de(new_dir, old_inode, old_dotdot_bh,
+>  					    old_dotdot_de);
+>  		if (err)
+> -			goto error_old_dotdot;
+> +			goto error_no_rollback;
+>  	}
+>  	if (new_dotdot_de) {
+>  		err = vfat_update_dotdot_de(old_dir, new_inode, new_dotdot_bh,
+>  					    new_dotdot_de);
+>  		if (err)
+> -			goto error_new_dotdot;
+> +			goto error_no_rollback;
+>  	}
+>  
+>  	/* if cross directory and only one is a directory, adjust nlink */
+> @@ -1135,24 +1124,17 @@ static int vfat_rename_exchange(struct inode *old_dir, struct dentry *old_dentry
+>  
+>  	return err;
+>  
+> -error_new_dotdot:
+> -	if (new_dotdot_de) {
+> -		corrupt |= vfat_update_dotdot_de(new_dir, new_inode,
+> -						 new_dotdot_bh, new_dotdot_de);
+> -	}
+> -
+> -error_old_dotdot:
+> -	if (old_dotdot_de) {
+> -		corrupt |= vfat_update_dotdot_de(old_dir, old_inode,
+> -						 old_dotdot_bh, old_dotdot_de);
+> -	}
+> -
+
+Here gives up whole if a buffer had error too?
+
+Thanks.
 -- 
-2.54.0
-
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
