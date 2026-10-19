@@ -1,46 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706885440B7;
-	Mon, 19 Oct 2026 13:56:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72779513BB9;
+	Mon, 19 Oct 2026 13:56:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418189; cv=none; b=V6FHvtVS8928PXS7jwJfKfqmE/oMUqNrnnhB61vA5d0fbc0Xbv5kfej/6kXFmE0sG3tlMUJSlopE2YWTH3/j7CYWhZwGC9E1otn41gwE6H0/FIFyHjJ+N7+LQ2DRd+bmSKm7rjSV+Ud3PITbvPCrlNzsgY3F3ShzjDdA6bAZqrE=
+	t=1792418222; cv=none; b=Xze10jUgCKwCAgRgW10pgs7XXDwe6gX3cToLi3fuzG2kN7ty/Nuc+f4wn0urYo7MiS8fLGltKghgGaC9HsHXGrkg2qtXusu6gHNfboW8jDSqZwld7GqTvFS4oO7zv2eJCZOx41gsM9SVLH+eutpy2Tcg+xHjdBkGzujrP4FLIvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418189; c=relaxed/simple;
-	bh=Su7odCwld2ZEjjMbvsIuAfENW70V/LsYaDrgciEWvtQ=;
+	s=arc-20240116; t=1792418222; c=relaxed/simple;
+	bh=cxkFP+7Zr8mgYtM6Y7zky3J6+jbW/OsGrn2CamG3hyg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u9p7F9maHicTOQPeCz2UB69urLhkn9c2n5XOigZ8zdBUn2yF3tDGfwMXJISc4A7wFMzJu+E5fFCUSyEboCm1N6UOOlE+oPsmEsHbgEcrWLJZPhiRG5wEjUrgQUhOztQA79K1V1FIJb9pHpYMl5XzuRuS6rCyN+PyOyte2T8xc1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SnAchmJu; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=O0rtPQ7uyP22fmgXrIR+Sdy3ONu08dJOdZaVZzrfBEmIGJm5WJjAFL3ePoRh/mX8T4gj2rWJaXTjV4x56WBqlmjhTkZp5qjU8eY6HCFSUBLz7lZWoyo4UxE3YNeo9YeCV9lyJj4WatSHAkz8eeo4mK4CB33KiWpH9EoIYeIqnWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AQaKM/T3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SnAchmJu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AE1C1F000C7;
-	Mon, 19 Oct 2026 13:56:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQaKM/T3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF0C1F000C7;
+	Mon, 19 Oct 2026 13:56:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418186;
-	bh=IADk5RTBOjulE82dL7hv754PZj7PHSe/oQHD0jA6uiI=;
+	s=k20260515; t=1792418219;
+	bh=nL4fSE6q4hzExWtxquVD6K/lhTni8lNaviwhzv76uJ4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=SnAchmJuKWxMjqrZ70rMAeemhFBNJZwEb7A9EofkYIvYL+sd7cSl3yuLG4teHT/nU
-	 0tpeE9qFFJNc2rDAx+H0VocfFDakI1kzTW1cI9aqxn/NoA4Mk0ollcpj2oq4pb5HZE
-	 0qvuJqN3RAPHGT4vLJLBoc3gXSDX3hJOKNE1zL/h8ZxvowPQAZ+djNJCjEDgyTgQWB
-	 e1D92CnkUeVqtXw6ebZWzt7rQLTEtRBpv6PueXkH2frMp+HgvPR3+zZr9uBnEriXAm
-	 bsO/Ecj0cJB2VJMrmhlJ8le7YLlAE/TLpO4ChvldKfB4eTmRi3v53b6JXj/5VPDd+5
-	 jbMSrS9eTqPrw==
+	b=AQaKM/T3k4ylXivoHvHpB6UgRRRkoukoLJCYM/m0wPma7nJE0kpCr+WFh4ppncDoM
+	 P7UChUrKlcWauPgQnFLD1xTFnOQQbOEA0Jq4VnWXUq4Eb8wCqat2krgi1ruR6n+0gC
+	 bj+EKj3wh6w6G9ZrkriXSL6o1wgXDK+PTc04rs3Fu9CBbuX6rmz+0kUrtaIwKeDF/z
+	 3V0ug9bLatT3nOeKxyN+lE9tv3OyvijsBv0G5euMPkn5s4N+sM740ybCJuct4j7nZo
+	 r0yf5Y+sFHFae9uk5M1ppNFrQVenw3BAsbk0CWpcN1vXIOpLzxka3SxF+rFd6pcv/g
+	 4xSb2gX4mxinw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: David Maximiliano Hermitte <davemadmaxxx@gmail.com>,
-	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com,
-	George Anthony Vernon <contact@gvernon.com>,
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
+Cc: Christian Brauner <brauner@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	frank.li@vivo.com,
+	viro@zeniv.linux.org.uk,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] hfs: validate catalog CNIDs before instantiating inodes
-Date: Mon, 19 Oct 2026 09:46:04 -0400
-Message-ID: <20261019135441.1420968-73-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] Revert "namei: don't reveal overmounted entries in refwalk"
+Date: Mon, 19 Oct 2026 09:46:28 -0400
+Message-ID: <20261019135441.1420968-97-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -56,580 +52,474 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
+From: Christian Brauner <brauner@kernel.org>
 
-[ Upstream commit 53c3c138d672765c26884c55728307a65c634328 ]
+[ Upstream commit 214897acc8c2e5d6b63189d23ccaed6fa2af45a9 ]
 
-hfs_cat_find_brec() first resolves a catalog thread record by CNID and
-then looks up the corresponding catalog record by parent/name. On a
-corrupted filesystem image, the second lookup may find a record whose
-CNID does not match the CNID that was requested.
+This reverts commit 8189ab688f5a2c745dc90b63374da02f213d6994.
 
-Validate the record found by the second lookup before returning it.
-Read the already-found record with hfs_bnode_read(), require the exact
-fixed size for file and directory records, reject other record types,
-and verify that the stored CNID matches the requested CNID.
+This bug class is bigger than can be fixed with this simple patch.
+Back out of it and give us some time to fix this properly.
 
-Also validate reserved CNIDs in hfs_read_inode() before populating the
-inode, propagate hfs_read_inode() failures from the resource-fork lookup
-path, and reject bad resource-fork and root inodes.
-
-Keep hfs_write_inode() unchanged, so corrupted catalog records are
-rejected before reaching its existing reserved-CNID BUG() path.
-
-Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=97e301b4b82ae803d21b
-Cc: George Anthony Vernon <contact@gvernon.com>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Signed-off-by: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Link: https://lore.kernel.org/r/20260708215636.73815-1-davemadmaxxx@gmail.com
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Signed-off-by: Christian Brauner <brauner@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local checkout is **7.3.0-rc4** (`v7.3-rc4-27-gf0100363d8c37`). The
-commit is `53c3c138d6727` and is already in this mainline history (first
-contained in `v7.3-rc1`). The evaluation below is whether that fix is
-suitable to take into stable from this tree: HFS is present, the `BUG()`
-path is ancient, and the patch is self-contained.
+This revert should go into this 6.18.57 tree. The incomplete
+`unlink_may_reveal()` check is already in v6.18.57, the VFS maintainer
+pulled it back as an rc8 fix, and leaving it here regresses common
+unlink/open races.
 
----
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
 
-## PHASE 1: COMMIT MESSAGE FORENSICS
+Step 1.1: PARSE THE SUBJECT LINE
+Record: `[vfs/namei] [Revert] undo "don't reveal overmounted entries in
+refwalk"`
 
-**Step 1.1: PARSE THE SUBJECT LINE**
-Record: **[hfs] [validate] Validate catalog CNIDs before instantiating
-inodes** — “validate” here is a correctness/safety check, not a feature.
-
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
 Record:
-- **Reported-by:** syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-  (fuzzer, reproducible)
-- **Closes:**
-  https://syzkaller.appspot.com/bug?extid=97e301b4b82ae803d21b
-- **Cc:** George Anthony Vernon, Tetsuo Handa
-- **Signed-off-by:** David Maximiliano Hermitte (author); Viacheslav
-  Dubeyko (HFS maintainer, twice)
-- **Reviewed-by:** Viacheslav Dubeyko
-- **Link:** https://lore.kernel.org/r/20260708215636.73815-1-
-  davemadmaxxx@gmail.com
-- **No Fixes:** tag (expected)
-- **No Cc: stable** (expected; not a negative)
+- No `Fixes:` tag on the revert itself (it names the reverted SHA in the
+  body)
+- No `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-by:`, `Link:`,
+  or `Cc: stable`
+- `Signed-off-by: Christian Brauner <brauner@kernel.org>` (VFS
+  maintainer; ignore Sasha Levin SOB)
+- Body: `This reverts commit 8189ab688f5a2c745dc90b63374da02f213d6994`
 
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+The original commit that is being reverted **did** have `Fixes:
+8ed936b5671b`, `Cc: stable@vger.kernel.org`, and `Link:
+https://patch.msgid.link/20261002-work-mount-
+fixes-4-v1-2-dd44b89d44ce@kernel.org`. That is why 8189ab68 already
+landed in this stable series; the revert is the follow-up.
+
+Step 1.3: ANALYZE THE COMMIT BODY TEXT
 Record:
-- **Bug:** `hfs_cat_find_brec()` resolves a thread by CNID, then looks
-  up the catalog record by parent/name. On a corrupted image that second
-  lookup can return a record whose stored CNID does not match the
-  requested CNID.
-- **Symptom/failure mode:** A corrupted catalog record is turned into an
-  inode with a reserved CNID (`i_ino < HFS_FIRSTUSER_CNID` and not
-  root/extents/catalog). Later writeback hits `BUG()` in
-  `hfs_write_inode()`.
-- **Version info:** none in the message; syzbot first crash is
-  2022-11-25.
-- **Root cause (author):** missing validation of the second catalog
-  lookup, plus missing reserved-CNID checks at inode instantiation;
-  resource-fork lookup ignored `hfs_read_inode()` failures.
+- Bug description: the earlier “simple patch” does not cover this bug
+  class
+- Symptom/failure mode: not a crash; an incomplete pathwalk/mount-cover
+  check that must be withdrawn
+- Version information: none in the revert message
+- Root cause (author): “This bug class is bigger than can be fixed with
+  this simple patch. Back out of it and give us some time to fix this
+  properly.”
 
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not a disguised cleanup. Explicit syzbot crash fix: reject bad
-catalog records so they never reach the reserved-CNID `BUG()`.
+Linus’s `vfs-7.3-rc8.fixes` pull restates the same thing: *Revert
+"namei: don't reveal overmounted entries in refwalk" from the rc7 fixes.
+The bug class is bigger than that patch.*
 
----
+Step 1.4: DETECT HIDDEN BUG FIXES
+Record: Not disguised cleanup. This is an explicit revert of a recently
+merged, incomplete VFS change. A later (unmerged) follow-up documented a
+real regression: any unlink/rename racing a refwalk returned `-ESTALE`
+and forced a full `LOOKUP_REVAL` walk, which on NFS/FUSE revalidates
+every path component.
 
-## PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
 
-**Step 2.1: INVENTORY THE CHANGES**
+Step 2.1: INVENTORY THE CHANGES
 Record:
-- `fs/hfs/catalog.c`: +40 / -1 — add `hfs_cat_validate_found_cnid()`,
-  call it from `hfs_cat_find_brec()`
-- `fs/hfs/hfs_fs.h`: +19 — add inline `hfs_is_valid_cnid()`
-- `fs/hfs/inode.c`: +12 / -1 — CNID checks in `hfs_read_inode()`;
-  propagate errors and `is_bad_inode()` in `hfs_file_lookup()`
-- `fs/hfs/super.c`: +5 — reject bad root inode in `hfs_fill_super()`
-- **Total:** +76 / -2 across 4 HFS files
-- **Scope:** single-subsystem surgical fix
+- File: `fs/namei.c` only
+- Mainline revert: remove `unlink_may_reveal()` (~27 lines) and its one
+  call site (2 lines). Net −29
+- Local 6.18.y equivalent of the original add is `5f97df8ca7fad`; the
+  revert is its inverse
+- Functions: delete `unlink_may_reveal`; one call removed from
+  `step_into()` (this tree) / `step_into_slowpath()` (mainline after a
+  later split)
+- Scope: single-file surgical revert
 
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
 Record:
-- **`hfs_cat_find_brec`:** Before: thread lookup, then `return
-  hfs_brec_find(fd)` with no check that the found record’s CNID matches.
-  After: on success, read the found record, require exact file/dir size,
-  reject other types, require `found_cnid == cnid`, else `-EIO`.
-- **`hfs_read_inode`:** Before: populate inode from any file/dir record,
-  including reserved CNIDs 0,1,5–15. After: `hfs_is_valid_cnid()`;
-  invalid → `-EIO` before `i_ino` is set.
-- **`hfs_file_lookup` (rsrc):** Before: ignored `hfs_read_inode()`
-  return, then `mark_inode_dirty()`. After: propagate errors;
-  `is_bad_inode()` → `-EIO` + `iput`.
-- **`hfs_fill_super`:** After `hfs_iget()`, `is_bad_inode(root)` →
-  `iput` and fail mount instead of `d_make_root()` on a bad inode.
+- Before (v6.18.57): in the non-RCU / refwalk arm of `step_into()`,
+  after `handle_mounts()`, `unlink_may_reveal()` returns true if the
+  dentry is `cant_mount()` **and** `d_unlinked()`, the walk has not
+  crossed a mount, and flags are not `WALK_NOFOLLOW`/`LOOKUP_REVAL`. It
+  `dput()`s `path->dentry` and the caller returns `-ESTALE`.
+- After: that check is gone; refwalk accepts the dentry as it did before
+  5f97.
+- Path: common pathname lookup (`open`/`stat`/`lookup`), refwalk only
+  (RCU walk already retries via `d_seq`/`mount_lock`).
 
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
+Step 2.3: IDENTIFY THE BUG MECHANISM
 Record:
-- **Category:** memory-safety / logic — corrupted on-disk metadata →
-  kernel `BUG()` (oops, invalid opcode).
-- **Mechanism:** Reserved CNIDs instantiated as normal inodes; writeback
-  `hfs_write_inode()` does `BUG()` in the default branch of
-  `inode->i_ino < HFS_FIRSTUSER_CNID`. Also bounds/type checks on
-  catalog record length.
-- **Not:** leak, UAF, or locking fix.
+- Category: revert of an incomplete logic/correctness change that also
+  caused a lookup-retry regression
+- Mechanism: `dont_mount()` runs on **every** successful `vfs_unlink()`
+  / `vfs_rmdir()` / rename-over, not only mountpoints. Combined with
+  `d_unlinked()`, the helper treated ordinary unlinks as “may reveal a
+  covered file” and forced `-ESTALE` → `LOOKUP_REVAL`. That is far
+  broader than the mount-cover race it meant to close, and it still did
+  not cover the rest of the bug class.
 
-**Step 2.4: ASSESS THE FIX QUALITY**
+Verified `dont_mount()` call sites in this tree: `vfs_rmdir()` ~4558,
+`vfs_unlink()` ~4679, `vfs_rename()` ~5230.
+
+Verified ESTALE retry in this tree:
+```2708:2709:fs/namei.c
+        if (unlikely(retval == -ESTALE))
+                retval = path_lookupat(&nd, flags | LOOKUP_REVAL, path);
+```
+Same pattern in `do_filp_open()` / `do_file_open_root()`. The helper
+itself skipped the check when `LOOKUP_REVAL` was already set, which
+matches the “fail once, then full revalidate” behavior.
+
+Step 2.4: ASSESS THE FIX QUALITY
 Record:
-- Obviously correct relative to HFS CNID rules: user CNIDs ≥ 16;
-  reserved 2=root dir, 3=extents file, 4=catalog file; others invalid
-  for catalog-instantiated inodes.
-- `iget5_locked` `set()` returning non-zero → `inode_insert5()` returns
-  NULL; `hfs_iget()` already treats NULL as failure.
-- New `hfs_read_inode()` code does not sleep (safe under
-  `inode_hash_lock`).
-- Maintainer asked to leave `hfs_write_inode()` unchanged; defense is at
-  instantiation. Remaining `BUG()` is only if some other path still
-  creates a reserved-CNID inode.
-- **Regression risk:** low. Could reject a theoretically weird volume
-  with catalog entries using CNIDs 1 or 5–15; that is invalid HFS and
-  those inodes would `BUG()` on writeback anyway.
-- No public API / data-structure change.
+- Quality: obviously correct as a revert — it is the exact inverse of
+  5f97 in this tree
+- Regression risk of the revert: re-opens the remaining refwalk window
+  where a walker that already held the dentry can see a file after its
+  covering mounts were detached. That race is old (Fixes target
+  8ed936b5671b, 2014). 6.18.y lived with it until 6.18.57. A sibling
+  backport, `d29cd99db3db7` (“unhash a dentry before detaching the
+  mounts”), remains and still shrinks the *new lookup* side of the race.
+- Risk of keeping 5f97: extra `LOOKUP_REVAL` on common unlink/create
+  storms; incomplete security fix in core pathwalk
 
----
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
 
-## PHASE 3: GIT HISTORY INVESTIGATION
+Step 3.1: BLAME THE CHANGED LINES
+Record: At v6.18.57, every `unlink_may_reveal` line and the
+`step_into()` call are `5f97df8ca7fad` (Christian Brauner, 2026-10-02;
+committed to 6.18.y by Greg Kroah-Hartman on 2026-10-15). Surrounding
+`step_into()` logic is old Al Viro/Linus code (2011–2022).
 
-**Step 3.1: BLAME THE CHANGED LINES**
-Record: `hfs_write_inode()` reserved-CNID `BUG()` and
-`hfs_cat_find_brec()` date to **1da177e4c3f41 (Linux-2.6.12-rc2,
-2005)**. Long-standing, not a newly introduced bug.
+Step 3.2: FOLLOW THE FIXES: TAG
+Record: The revert has no Fixes tag. It reverts mainline `8189ab688f5a`
+= local `5f97df8ca7fad`.
+- `git merge-base --is-ancestor 5f97df8ca7fad v6.18.57` → yes
+  (v6.18.57~479)
+- `git merge-base --is-ancestor 5f97df8ca7fad v6.18.56` → no
+- Original 8189ab68 `Fixes: 8ed936b5671b` **is** an ancestor of this
+  tree (2014-10-09)
 
-**Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. Buggy behavior is original HFS catalog/inode
-code, not a recent regression.
-
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record: Nearby HFS work (`hfs_correct_next_unused_CNID`, MDB locking) is
-independent. This commit is standalone, not `patch X/Y`. After it, later
-`fs/hfs/{inode,catalog,super,hfs_fs.h}` commits are unrelated (MDB,
-delayed work, ENOSPC). No follow-up fix to this patch.
-
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Only this HFS commit from David Maximiliano Hermitte. Weight
-comes from **Reviewed-by / Signed-off-by Viacheslav Dubeyko** (HFS
-maintainer). Earlier related attempts: George Vernon, Tetsuo Handa
-(syzbot thread).
-
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: Uses existing `hfs_bnode_read()`, `hfs_brec_find()`,
-`is_bad_inode()`, `HFS_*_CNID`, `hfs_read_inode()` already returning
-`int` since 2.6.12. **Can apply standalone.**
-
----
-
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-
-**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
 Record:
-- **b4 dig:**
-  https://patch.msgid.link/20260708215636.73815-1-davemadmaxxx@gmail.com
-- **Revisions:** v1 (2026-07-02) → v3 RESEND → v4 → **v5 (applied)**
-- Maintainer review drove exact size checks, signed `rec_len`, keep
-  `hfs_write_inode()` unchanged, preserve `hfs_file_lookup()` error
-  codes
-- v5: Slava: “Looks good. Thanks a lot for the fix.” + Reviewed-by
-- Tetsuo: not a NAK; points at sashiko notes on *pre-existing* issues
-- Author revalidated with HFS build and QEMU syzbot repro
-- **No NAKs** of the committed approach
+- `d29cd99db3db7 namespace: unhash a dentry before detaching the mounts
+  on it` is also in v6.18.57 (same Greg KH batch, same original series).
+  It stays; this revert does not undo it.
+- No other `unlink_may_reveal` / `DCACHE_UNCOVERED` commits in this tree
+- Standalone revert, not patch 2/N of something this tree still needs
 
-**Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (b4 dig -w): Viacheslav Dubeyko, Tetsuo Handa, George Vernon,
-Jori Koolstra, linux-fsdevel, syzbot. Maintainer reviewed and merged.
+Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
+Record: Christian Brauner is the VFS maintainer. Recent `fs/namei.c`
+work in this history includes the original add, this revert, and other
+VFS fixes. Weight: high.
 
-**Step 4.3: SEARCH FOR THE BUG REPORT**
-Record (syzbot, live page):
-- Title: **kernel BUG in hfs_write_inode**
-- First crash: **2022-11-25**; last listed ~35d before the page
-  snapshot; **243695 crashes**; C and syz reproducers
-- Stack: `hfs_write_inode` ← writeback `wb_workfn` (kworker), invalid
-  opcode at `BUG()`
-- Security assessment: DenialOfService yes, FilesystemTrigger yes,
-  **Unprivileged: no** (needs a mountable image)
-- Duplicate: “invalid opcode in hfs_write_inode”
-- Fix commit listed as `53c3c138d672`
+Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+Record: The only prerequisite is that 5f97 exists, which it does. The
+revert applies as the exact inverse of 5f97 (`step_into`, not mainline’s
+later `step_into_slowpath`). No new helpers. Standalone.
 
-**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Single-patch series (v1–v5 of the same change). Earlier
-alternate approaches (replace `BUG()` with `-EIO`/`-EFSCORRUPTED`,
-broader `BUG()` removal) were **not** what merged; this validation-at-
-instantiation patch is standalone.
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
 
-**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: **UNVERIFIED** — lore.kernel.org fetches returned 403. No `Cc:
-stable` in the fsdevel thread. That absence is not a reason to reject.
-
----
-
-## PHASE 5: CODE SEMANTIC ANALYSIS
-
-**Step 5.1: IDENTIFY KEY FUNCTIONS**
-Record: `hfs_cat_validate_found_cnid` (new), `hfs_cat_find_brec`,
-`hfs_is_valid_cnid` (new inline), `hfs_read_inode`, `hfs_file_lookup`,
-`hfs_fill_super`. `hfs_write_inode` unchanged.
-
-**Step 5.2: TRACE CALLERS**
+Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
 Record:
-- `hfs_cat_find_brec()` — only `hfs_fill_super()` (root at mount)
-- `hfs_read_inode()` — `iget5_locked` set callback from `hfs_iget()`
-  (`hfs_lookup` / `hfs_fill_super`) and direct call from
-  `hfs_file_lookup()` (rsrc)
-- `hfs_write_inode()` — `s_op->write_inode` from writeback (crash site)
+- `b4 dig -c 214897acc8c2` failed: lore.kernel.org returned errors
+  (UNVERIFIED: no dedicated mailed revert thread found; Brauner likely
+  committed this directly)
+- WebFetch of lore.kernel.org returned 403 (UNVERIFIED: full lore
+  thread)
+- Original add was series `work-mount-fixes-4` patch 02/21 (msgid
+  `20261002-work-mount-fixes-4-v1-2-dd44b89d44ce@kernel.org`); also on
+  lkml.iu.edu / patchew
+- Linus merged the revert in `1dbb7422053fa` *Merge tag
+  'vfs-7.3-rc8.fixes'* and called it out in the pull text
+- An unmerged follow-up (syzbot CI series) explained the LOOKUP_REVAL
+  regression and tried `DCACHE_UNCOVERED`; that approach was **not**
+  merged — they reverted instead
 
-**Step 5.3: TRACE CALLEES**
-Record: `hfs_bnode_read`, `hfs_brec_find`, `be32_to_cpu`,
-`is_bad_inode`, `iput`. No new allocations/locks.
+Step 4.2: CHECK WHO REVIEWED THE PATCH
+Record: `b4 dig -w` failed (lore error). Author is the VFS maintainer;
+Linus merged it as an rc8 VFS fix. That is stronger than a typical
+mailing-list Ack.
 
-**Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Reachable from **mounting an HFS image** and from **lookup /
-rsrc** on a mounted volume. Syzbot C repro mounts a crafted image;
-writeback then `BUG()`s. Userspace-triggerable if the caller can mount
-HFS (`CONFIG_HFS_FS`).
+Step 4.3: SEARCH FOR THE BUG REPORT
+Record: No syzbot/bugzilla on the revert. The **original** add included
+a userspace reproducer (`unlink_covered`) showing the mount-cover race
+(~27 hits/60s without widening). The unmerged follow-up’s `unlink_storm`
+reproducer showed 463 LOOKUP_REVAL retries in 16.8 million opens from
+the too-broad check.
 
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: HFS+ already special-cases reserved vs user CNIDs in
-`hfsplus_iget()` (`fs/hfsplus/super.c`). Classic HFS lacked that for
-catalog-instantiated inodes. Same class of bug, HFS-only fix.
+Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
+Record: Original add was 02/21 of a large mount-fixes series. Sibling
+`unhash a dentry before detaching` is already in 6.18.57 and is **not**
+reverted. No merged “proper” replacement for `unlink_may_reveal` exists
+in this tree or in the nearby mainline objects inspected.
 
----
+Step 4.5: CHECK STABLE MAILING LIST HISTORY
+Record: lore.kernel.org/stable search could not be fetched (403).
+UNVERIFIED whether anyone separately requested this revert on the stable
+list. Not needed: the original went to 6.18.57 via `Cc: stable`, and the
+author immediately backed it out in mainline.
 
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
 
-**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record: Yes. `BUG()` still in `hfs_write_inode()` at `fs/hfs/inode.c`
-(lines 479–491), present since 2.6.12. Validation from this commit is
-already applied here (`hfs_is_valid_cnid` in `hfs_fs.h`,
-`hfs_cat_validate_found_cnid` in `catalog.c`). Introduced: original HFS
-port, not post-7.3.
+Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+Record: `unlink_may_reveal` (removed), `step_into` (call removed). No
+semcode tools available.
 
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: **Expected apply: clean / minor context** on trees that still
-have `hfs_cat_find_brec`, `hfs_read_inode`, `hfs_file_lookup`,
-`hfs_fill_super`. New code does not depend on `inode_set_ctime_to_ts`,
-`set_default_d_op`, or CNID-correction helpers. Constants live in
-`include/linux/hfs_common.h` here; older trees may still have them in
-`fs/hfs/hfs.h` — only a context/include issue, not a logic dependency.
+Step 5.2: TRACE CALLERS
+Record: `step_into()` callers in this tree:
+- `handle_dots()` (WALK_NOFOLLOW — helper returned false anyway)
+- `walk_component()` — every normal path component
+- one more WALK_NOFOLLOW site ~2660
+- `open_last_lookups` path ~3922 (`WALK_TRAILING`)
+Impact surface: **every pathname lookup** that drops out of RCU-walk
+into refwalk.
 
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: This is the fix (`53c3c138d6727`). No earlier equivalent in-
-tree. Not in `v7.2`.
+Step 5.3: TRACE CALLEES
+Record: Helper used `cant_mount()`, `d_unlinked()`,
+`dput(no_free_ptr(path->dentry))`. Returning `-ESTALE` skipped the
+normal `dput(nd->path.dentry)` / `mntput` in `step_into()`;
+`terminate_walk()` still owns `nd->path`. The extra `dput` was only on
+the ESTALE path.
 
----
+Step 5.4: FOLLOW THE CALL CHAIN
+Record: userspace `open`/`openat`/`stat`/`fstatat`/etc. →
+`filename_lookup` / `do_filp_open` → `link_path_walk` → `walk_component`
+→ `step_into`. Unprivileged users trigger this constantly. The false
+ESTALE path is a realistic unlink vs open race, not only the exotic
+mount-cover case.
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+Step 5.5: SEARCH FOR SIMILAR PATTERNS
+Record: No other `unlink_may_reveal` copies. `cant_mount()` remains in
+`fs/namespace.c` and `fs/dcache.c` for mount setup, which is correct and
+unrelated.
 
-**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: **fs/hfs** — **PERIPHERAL** (legacy Mac HFS, `CONFIG_HFS_FS`,
-not the VFS core). Still a real on-disk filesystem; a `BUG()` on
-corrupted images is a kernel crash, not a cosmetic warning.
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
 
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Actively maintained under Viacheslav Dubeyko (`hfs-v7.3-tag1`
-and other recent HFS tags). Mature code with ongoing syzbot/hardening.
+Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
+Record: Yes, in **v6.18.57** (`fs/namei.c` `unlink_may_reveal` + call in
+`step_into`). Tree identity: `git describe HEAD` =
+`v6.18.57-155-gcdf239ca885b2`, `make kernelversion` = 6.18.57.
+Introduced here by 5f97 (upstream 8189ab68), first in 6.18.57, not
+6.18.56.
 
----
+Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
+Record: Clean apply. Local revert hunks match 5f97 exactly (`step_into`,
+not `step_into_slowpath`). No conflicting namei refactor between 5f97
+and v6.18.57.
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+Record: No later replacement for this check. `d29cd99` (unhash before
+detach) is present and complementary; it must stay. This revert does not
+remove it.
 
-**Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: **Config/driver-specific:** `CONFIG_HFS_FS`. Anyone who can
-mount HFS (including fuzzers, forensic mounts, old Mac volumes). Not
-universal.
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
 
-**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: Mount / use a **corrupted HFS image**. Syzbot has a C repro;
-240k+ crashes over ~4 years. Not unprivileged without mount capability.
-Timing-independent once the bad inode is instantiated and dirtied
-(`hfs_file_lookup` does `mark_inode_dirty` on rsrc).
+Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+Record: `fs/namei.c` — VFS pathname lookup. **CORE**. Affects every user
+of every filesystem.
 
-**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: **`BUG()` / invalid opcode in writeback kworker → oops.**
-**Severity: CRITICAL** (kernel crash). DoS, not a demonstrated
-privilege-escalation.
+Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+Record: Mature, still actively fixed (recent mount/namespace series).
+This is not staging/experimental code.
 
-**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
+
+Step 8.1: DETERMINE WHO IS AFFECTED
+Record: Universal for anyone running 6.18.57+. NFS/FUSE users feel the
+LOOKUP_REVAL retry cost most. Container/user-ns users care about the
+original mount-cover race; that race is only partially addressed by
+d29cd99 and was not fully fixed by 5f97.
+
+Step 8.2: DETERMINE THE TRIGGER CONDITIONS
 Record:
-- **Benefit:** high for HFS users and any tree that enables HFS — stops
-  a years-old reproducible `BUG()`.
-- **Risk:** low — +76 lines, HFS-only, reviewed, tested with QEMU repro;
-  failure mode on bad images becomes `-EIO` / failed mount instead of
-  oops.
-- **Ratio:** strongly favors backport.
+- False ESTALE: concurrent unlink/rename vs refwalk on any name
+  (`dont_mount` is unconditional). Common.
+- Original cover-reveal race: unlink of a mountpoint while another task
+  walks the covering name. Narrow but real; original commit measured 27
+  hits/60s.
+- Unprivileged users can trigger both (open/unlink). The cover case
+  typically needs mount privileges or a shared mount namespace.
 
----
+Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+Record:
+- Keeping 5f97: extra full-path revalidation (MEDIUM–HIGH on NFS/FUSE;
+  LOW on local tmpfs except under unlink storms). Incomplete mount-cover
+  fix (the author says the class is bigger).
+- After revert: restore pre-6.18.57 `step_into` behavior; remaining
+  cover-reveal race is the long-standing one (MEDIUM, security-adjacent,
+  narrow), with d29cd99 still reducing new-lookup hits.
+- Severity of **not** reverting a known-wrong core pathwalk change that
+  already shipped in 6.18.57: HIGH (stable regression vs 6.18.56).
 
-## PHASE 9: FINAL SYNTHESIS
+Step 8.4: CALCULATE RISK-BENEFIT RATIO
+Record:
+- Benefit: remove a too-broad ESTALE/LOOKUP_REVAL regression from core
+  lookup; align 6.18.y with the VFS maintainer’s rc8 correction; drop an
+  incomplete security bandage rather than pretend it closed the class
+- Risk: very low — exact inverse of a 29-line function added in 6.18.57
+- Ratio: strongly favors backporting the revert
 
-**Step 9.1: COMPILE THE EVIDENCE**
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
 
-**FOR:**
-- Syzbot kernel `BUG()` since 2022, C repro, hundreds of thousands of
-  crashes
-- Crash in writeback (`wb_workfn` → `hfs_write_inode`)
-- Small, contained HFS-only change (+76/-2)
-- Maintainer Reviewed-by after v1–v5
-- Bug in code since 2.6.12; no missing prerequisites in this tree
-- Matches stable rules: real crash, obviously correct validation, no new
-  API
+Step 9.1: COMPILE THE EVIDENCE
+FOR:
+- The commit being reverted **is in this tree** (5f97, v6.18.57~479)
+- VFS maintainer authored the revert; Linus merged it as
+  vfs-7.3-rc8.fixes
+- Documented too-broad check: every unlink/rename vs refwalk, not only
+  overmounts
+- Small, exact inverse, applies cleanly
+- Sibling unhash-before-detach fix remains
+- Revert of a stable-to-stable mistake (5f97 was itself a 6.18.57
+  backport)
 
-**AGAINST:**
-- HFS is a legacy/peripheral FS
-- Needs ability to mount HFS (not unprivileged syscall-only)
-- `hfs_write_inode()` `BUG()` remains as a backstop if another path
-  instantiates a reserved CNID
-- No `Cc: stable` (expected for this review queue)
+AGAINST:
+- Re-opens the remaining “walker already holds the dentry” cover-reveal
+  window
+- Original add had a reproducer and `Cc: stable`
 
-**UNRESOLVED:**
-- lore.kernel.org/stable search (HTTP 403)
-- Whether every older stable series has identical hunk context
-  (`hfs_common.h` vs `hfs.h`)
+UNRESOLVED:
+- Full lore thread for the revert itself (b4/lore failed)
+- Whether a later proper fix exists only on branches not in this object
+  store (none found on 214897’s nearby history)
 
-**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — maintainer review, QEMU
-   repro, syzbot
-2. Fixes a real bug that affects users? **PASS** — reproducible `BUG()`
-   on corrupted HFS
-3. Important issue? **PASS** — kernel oops (CRITICAL)
-4. Small and contained? **PASS** — 4 files, +76/-2, HFS only
-5. No new features or APIs? **PASS** — validation only
-6. Can apply to the local tree? **PASS** — code is present; patch is
-   self-contained (already merged here as of 7.3-rc1)
+The “against” point is why 5f97 was written. The maintainer’s later
+judgment, merged by Linus, is that keeping that patch is worse than
+living with the old narrow race until a real fix exists. For stable,
+shipping 5f97 for a few days and then following the revert is the
+conservative choice.
 
-**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: Not ID/quirk/DT/docs. Ordinary **crash fix** on filesystem
-corruption.
+Step 9.2: APPLY THE STABLE RULES CHECKLIST
+1. Obviously correct and tested? **PASS** — exact revert of a known SHA;
+   merged as an rc8 VFS fix
+2. Fixes a real bug that affects users? **PASS** — removes a too-broad
+   ESTALE/LOOKUP_REVAL pathwalk regression introduced in 6.18.57
+3. Important issue (crash, security, corruption, deadlock)? **PASS** —
+   core VFS lookup regression; incomplete security check is worse than
+   no check plus the remaining unhash fix
+4. Small and contained? **PASS** — −29 lines, one file
+5. No new features or APIs? **PASS**
+6. Can apply to the local tree? **PASS** — inverse of 5f97 on
+   `step_into()`
 
-**Step 9.4: MAKE YOUR DECISION**
-This is a real, long-standing, syzbot-reproduced kernel `BUG()` on
-corrupted HFS catalog data. The fix is small, reviewed, and stops bad
-CNIDs from becoming inodes that writeback will crash on. That is
-appropriate for stable.
+Step 9.3: CHECK FOR EXCEPTION CATEGORIES
+Record: Not a device-ID/quirk/DT/docs case. It is the documented revert
+case: original commit **is** in this stable tree, so the revert is
+needed.
 
----
+Step 9.4: MAKE YOUR DECISION
+This tree is 6.18.57. It already contains the incomplete refwalk check.
+The revert is the maintainer’s correction of that 6.18.57 backport and
+should be applied here.
 
-### What the commit solves and why it matters
-On a corrupted HFS catalog, a thread lookup by CNID can be followed by a
-parent/name lookup that returns a **different** record. That record can
-carry a reserved CNID (0, 1, 5–15, …). Instantiating it and dirtying it
-(notably the resource-fork path, which previously ignored
-`hfs_read_inode()` errors) causes **writeback to `BUG()`** in
-`hfs_write_inode()`. Stable kernels that still ship HFS will oops the
-same way; rejecting the record with `-EIO` is the right user-visible
-behavior.
+What it does for stable users: it takes `unlink_may_reveal()` out of
+`step_into()` so ordinary unlink/open races no longer force a full
+`LOOKUP_REVAL` walk, and it stops treating a known-incomplete mount-
+cover check as a finished fix. `d29cd99` still unhashes before detaching
+mounts.
 
-### Stable rules / risk
-Surgical, HFS-only, no new APIs, maintainer-acked, fuzzer-proven.
-Residual risk is failing mount/lookup on already-invalid volumes that
-used to oops instead.
+Risk vs benefit: benefit is high (undo a core-pathwalk regression that
+is only days old in 6.18.57); risk is very low (surgical revert).
 
-### Concerns
-Older trees may need a trivial context tweak if CNID macros are still in
-`fs/hfs/hfs.h`. No semantic prerequisites. The remaining `BUG()` in
-`hfs_write_inode()` is intentional per the maintainer.
+Concerns: the original cover-reveal race is not fully solved; that is
+intentional per the author. No extra prerequisites.
 
-### Verification
-- **[Phase 1]** Tags: syzbot Reported-by, Closes syzkaller URL,
-  Reviewed-by Dubeyko, lore Link; no Fixes/Cc-stable
-- **[Phase 2]** Diff: +76/-2 in catalog.c, hfs_fs.h, inode.c, super.c;
-  validation + error propagation
-- **[Phase 3]** `git describe HEAD` → v7.3-rc4-27-gf0100363d8c37; `make
-  kernelversion` → 7.3.0-rc4
-- **[Phase 3]** Commit `53c3c138d6727`; `git merge-base --is-ancestor
-  53c3c138d6727 HEAD` → yes
-- **[Phase 3]** `git merge-base --is-ancestor 53c3c138d6727 v7.2` → not
-  in v7.2; `git describe --contains` → v7.3-rc1~222^2~9
-- **[Phase 3]** Blame: `BUG()` in `hfs_write_inode` from 1da177e4c3f41
-  (2.6.12-rc2)
-- **[Phase 3]** `hfs_read_inode` already `static int` since 2.6.12; pre-
-  fix `hfs_file_lookup` discarded its return value
-- **[Phase 4]** `b4 dig -c 53c3c138d6727` → msgid
-  20260708215636.73815-1; v1/v3/v4/v5; v5 applied
-- **[Phase 4]** `b4 dig -w`: Dubeyko, Handa, fsdevel, syzbot
-- **[Phase 4]** `b4 dig -m`: Slava “Looks good” + Reviewed-by; asked to
-  leave `hfs_write_inode` unchanged
-- **[Phase 4]** WebFetch syzbot: kernel BUG in hfs_write_inode,
-  2022-11-25, C repro, 243695 crashes
-- **[Phase 4]** lore.kernel.org WebFetch: 403 — stable-list search
-  UNVERIFIED
-- **[Phase 5]** Callers: `hfs_cat_find_brec` only from `hfs_fill_super`;
-  `hfs_iget` from dir lookup + mount; rsrc via `hfs_file_lookup`
-- **[Phase 5]** `inode_insert5()` treats failed `set()` as NULL inode
-  (verified `fs/inode.c`)
-- **[Phase 6]** Local files already contain the new helpers; `BUG()`
-  path still present
-- **[Phase 8]** Failure mode: oops in kworker writeback, severity
-  CRITICAL
-- **UNVERIFIED:** stable@ discussion (lore 403); exact hunk context on
-  every LTS series
+Verification:
+- [Phase 1] Parsed revert tags: Brauner SOB only; body reverts
+  8189ab688f5a; original add had Fixes/Cc stable/Link
+- [Phase 1] Linus vfs-7.3-rc8.fixes pull explicitly names this revert
+- [Phase 2] Diff: −29 lines in fs/namei.c; removes unlink_may_reveal +
+  ESTALE return in step_into
+- [Phase 2] Verified dont_mount() on vfs_unlink/vfs_rmdir/vfs_rename;
+  ESTALE→LOOKUP_REVAL in filename_lookup/do_filp_open
+- [Phase 3] git describe HEAD: v6.18.57-155-gcdf239ca885b2;
+  kernelversion 6.18.57
+- [Phase 3] git merge-base --is-ancestor 5f97df8ca7fad v6.18.57: yes;
+  v6.18.56: no
+- [Phase 3] git blame v6.18.57: unlink_may_reveal entirely 5f97df8ca7fad
+- [Phase 3] 8ed936b5671b is an ancestor; d29cd99 unhash-before-detach is
+  in v6.18.57 and stays
+- [Phase 3] Local revert is the exact inverse of 5f97 on step_into (not
+  step_into_slowpath)
+- [Phase 4] b4 dig -c 214897acc8c2: lore server error — UNVERIFIED
+  mailed thread
+- [Phase 4] lore WebFetch 403 — UNVERIFIED lore discussion
+- [Phase 4] Unmerged DCACHE_UNCOVERED follow-up documents LOOKUP_REVAL
+  regression (syzbot CI / series text)
+- [Phase 5] step_into callers: walk_component, handle_dots,
+  open_last_lookups — core pathwalk
+- [Phase 6] Buggy helper present at v6.18.57:fs/namei.c:1983; clean
+  apply
+- [Phase 8] Failure mode: extra LOOKUP_REVAL on unlink vs open; NFS/FUSE
+  revalidate whole path
+- UNVERIFIED: stable@ mailing list discussion of this specific revert
 
 **YES**
 
- fs/hfs/catalog.c | 41 ++++++++++++++++++++++++++++++++++++++++-
- fs/hfs/hfs_fs.h  | 19 +++++++++++++++++++
- fs/hfs/inode.c   | 13 ++++++++++++-
- fs/hfs/super.c   |  5 +++++
- 4 files changed, 76 insertions(+), 2 deletions(-)
+ fs/namei.c | 29 -----------------------------
+ 1 file changed, 29 deletions(-)
 
-diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
-index ccdbbffaaf7c1..f3fd84cffed5f 100644
---- a/fs/hfs/catalog.c
-+++ b/fs/hfs/catalog.c
-@@ -182,6 +182,40 @@ int hfs_cat_keycmp(const btree_key *key1, const btree_key *key2)
- 			  key2->cat.CName.name, key2->cat.CName.len);
+diff --git a/fs/namei.c b/fs/namei.c
+index 2e86733b4bacb..003c9a1b2f904 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -1973,33 +1973,6 @@ static const char *pick_link(struct nameidata *nd, struct path *link,
+ 	return NULL;
  }
  
-+static int hfs_cat_validate_found_cnid(struct hfs_find_data *fd, u32 cnid)
-+{
-+	hfs_cat_rec rec;
-+	u32 found_cnid;
-+	int rec_len;
-+
-+	rec_len = fd->entrylength;
-+	if (rec_len <= 0 || (size_t)rec_len > sizeof(rec))
-+		return -EIO;
-+
-+	memset(&rec, 0, sizeof(rec));
-+	hfs_bnode_read(fd->bnode, &rec, fd->entryoffset, rec_len);
-+
-+	switch (rec.type) {
-+	case HFS_CDR_FIL:
-+		if ((size_t)rec_len != sizeof(struct hfs_cat_file))
-+			return -EIO;
-+		found_cnid = be32_to_cpu(rec.file.FlNum);
-+		break;
-+	case HFS_CDR_DIR:
-+		if ((size_t)rec_len != sizeof(struct hfs_cat_dir))
-+			return -EIO;
-+		found_cnid = be32_to_cpu(rec.dir.DirID);
-+		break;
-+	default:
-+		return -EIO;
-+	}
-+
-+	if (found_cnid != cnid)
-+		return -EIO;
-+
-+	return 0;
-+}
-+
- /* Try to get a catalog entry for given catalog id */
- // move to read_super???
- int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
-@@ -208,7 +242,12 @@ int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
- 		return -EIO;
- 	}
- 	memcpy(fd->search_key->cat.CName.name, rec.thread.CName.name, len);
--	return hfs_brec_find(fd);
-+
-+	res = hfs_brec_find(fd);
-+	if (res)
-+		return res;
-+
-+	return hfs_cat_validate_found_cnid(fd, cnid);
- }
- 
- static inline
-diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-index 86b5ae62247be..724b28bb8c6c4 100644
---- a/fs/hfs/hfs_fs.h
-+++ b/fs/hfs/hfs_fs.h
-@@ -156,6 +156,25 @@ extern int hfs_cat_move(u32 cnid, struct inode *src_dir,
- extern void hfs_cat_build_key(struct super_block *sb, btree_key *key,
- 			      u32 parent, const struct qstr *name);
- 
-+/*
-+ * Validate the CNID of a catalog record.
-+ */
-+static inline bool hfs_is_valid_cnid(u32 cnid, u8 type)
-+{
-+	if (likely(cnid >= HFS_FIRSTUSER_CNID))
-+		return true;
-+
-+	switch (cnid) {
-+	case HFS_ROOT_CNID:
-+		return type == HFS_CDR_DIR;
-+	case HFS_EXT_CNID:
-+	case HFS_CAT_CNID:
-+		return type == HFS_CDR_FIL;
-+	default:
-+		return false;
-+	}
-+}
-+
- /* dir.c */
- extern const struct file_operations hfs_dir_operations;
- extern const struct inode_operations hfs_dir_inode_operations;
-diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index f1796e4b07e83..e815e9a8ac6f2 100644
---- a/fs/hfs/inode.c
-+++ b/fs/hfs/inode.c
-@@ -365,6 +365,9 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 	rec = idata->rec;
- 	switch (rec->type) {
- 	case HFS_CDR_FIL:
-+		if (!hfs_is_valid_cnid(be32_to_cpu(rec->file.FlNum), rec->type))
-+			return -EIO;
-+
- 		if (!HFS_IS_RSRC(inode)) {
- 			hfs_inode_read_fork(inode, rec->file.ExtRec, rec->file.LgLen,
- 					    rec->file.PyLen, be16_to_cpu(rec->file.ClpSize));
-@@ -386,6 +389,9 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 		inode->i_mapping->a_ops = &hfs_aops;
- 		break;
- 	case HFS_CDR_DIR:
-+		if (!hfs_is_valid_cnid(be32_to_cpu(rec->dir.DirID), rec->type))
-+			return -EIO;
-+
- 		inode->i_ino = be32_to_cpu(rec->dir.DirID);
- 		inode->i_size = be16_to_cpu(rec->dir.Val) + 2;
- 		HFS_I(inode)->fs_blocks = 0;
-@@ -565,13 +571,18 @@ static struct dentry *hfs_file_lookup(struct inode *dir, struct dentry *dentry,
- 	res = hfs_brec_read(&fd, &rec, sizeof(rec));
- 	if (!res) {
- 		struct hfs_iget_data idata = { NULL, &rec };
--		hfs_read_inode(inode, &idata);
-+		res = hfs_read_inode(inode, &idata);
- 	}
- 	hfs_find_exit(&fd);
- 	if (res) {
- 		iput(inode);
- 		return ERR_PTR(res);
- 	}
-+
-+	if (is_bad_inode(inode)) {
-+		iput(inode);
-+		return ERR_PTR(-EIO);
-+	}
- 	HFS_I(inode)->rsrc_inode = dir;
- 	HFS_I(dir)->rsrc_inode = inode;
- 	igrab(dir);
-diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-index 97546d6b41f47..933aa04480899 100644
---- a/fs/hfs/super.c
-+++ b/fs/hfs/super.c
-@@ -372,6 +372,11 @@ static int hfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	if (!root_inode)
- 		goto bail_no_root;
- 
-+	if (is_bad_inode(root_inode)) {
-+		iput(root_inode);
-+		goto bail_no_root;
-+	}
-+
- 	set_default_d_op(sb, &hfs_dentry_operations);
- 	res = -ENOMEM;
- 	sb->s_root = d_make_root(root_inode);
+-/*
+- * Be careful in case the dentry is unlinked or renamed. Any mounts
+- * stacked on top of it are going away. We need to make sure that we
+- * don't reveal the underyling dentry during refwalk. In rcuwalk we
+- * catch this via d_seq and another lookup for the name. Give the same
+- * guarantee in refwalk.
+- */
+-static bool unlink_may_reveal(struct nameidata *nd, int flags,
+-			      struct path *path, struct dentry *dentry)
+-{
+-	/* ".." and LOOKUP_DOWN may land on an unhashed directory */
+-	if (flags & WALK_NOFOLLOW)
+-		return false;
+-	if (nd->flags & LOOKUP_REVAL)
+-		return false;
+-	/* We crossed onto a mount and the name led us here while it still existed */
+-	if (path->mnt != nd->path.mnt)
+-		return false;
+-	/* only a name on its way out is flagged */
+-	if (likely(!cant_mount(dentry)))
+-		return false;
+-	if (!d_unlinked(dentry))
+-		return false;
+-	dput(no_free_ptr(path->dentry));
+-	return true;
+-}
+-
+ /*
+  * Do we need to follow links? We _really_ want to be able
+  * to do this check without having to look at inode->i_op,
+@@ -2028,8 +2001,6 @@ static const char *step_into(struct nameidata *nd, int flags,
+ 			if (unlikely(!inode))
+ 				return ERR_PTR(-ENOENT);
+ 		} else {
+-			if (unlikely(unlink_may_reveal(nd, flags, &path, dentry)))
+-				return ERR_PTR(-ESTALE);
+ 			dput(nd->path.dentry);
+ 			if (nd->path.mnt != path.mnt)
+ 				mntput(nd->path.mnt);
 -- 
 2.53.0
 
