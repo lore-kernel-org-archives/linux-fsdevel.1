@@ -1,73 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792451012;
-	b=XNbbKldHtHTjwSpVnjTobmrJpWrw0mKUFrxoJ2xwY07Qmu68bly9/BJVlJJ53CclLmMM
-	 mViieTloAylIP7+uixq1zbsbMF/HJQHCnhrBPWMh5suTpIe2iOlHUVQbsEJRKJF2Zh8IY
-	 ijFIaZWUxy0uIf8a0NfeVP20UbGKdpj6HyU0d15XSpCYlb4oY7L9oYtTk5ZXgVdCLYXgn
-	 Ti9ay2CAX5e2wxQqbtasr00vgC/xQ0aRDohpQlhaP7/s+UiIvECUpQkKqBluY2w1xFGDd
-	 aJnTMKWsypR46HXVOiAEXma0ngre4c9APXtzBnV+CVoB+2T8ZnDmEioCYu9/5+AhwKg==
+	t=1792451551;
+	b=fmmitLQJ7+box2sceYE8jVP0RsiUqka5slogxzqwyPjbZMi8v+qTZoxx5/5lTWJwc/M1
+	 nybAZdbDfjy/O4rzaGxu7TY++ZhyAkZaL3lxsfiWsfJpyH0d/CGrqWh1RwXLJTlsl5WQl
+	 pNL6qBGQggVj43Mkp0hMHXPGv6QtwZ9seHbN5+ps/CUXN/JPF7vDEOG5TGa32fU2y9wWk
+	 JwrEsaCcCVfiuEw9FRR4sKuF/aJD1OkAVgl2oAegCOWtgV3njVgZdSTEDp+g43tNYQ/FW
+	 WLgO88na73VKLmZD1INHToILmRvOODxcandAD2smZz182keRapkpNwvokhvqwRijDxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792451012;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:MIME-Version:Content-Transfer-Encoding:X-Scanned-By;
-	bh=96qZrlKa0nMa4mVz4JEu16eJHxjAVrKtxFSmlRDsfC8=;
-	b=Y5Yxy3vJTiCcxL50SoLCuU2q6aJqc4T8NDogPf+s+HmCq3J5gaCw/7i2tKxZoJxAUt1d
-	 7+tq4VcyKacvXUvcYZu5IXu+qk4cNd1SRR2TcbqMJxaHjU81h/RjxbV2UKa1l7ZVnvNaz
-	 8ZehH8frOiSb9VnV7BhZ9EYragQ4NXCl0FZCZR1qZnOBBIWWSMd29Kw5tIJ+lgvKVx3Jl
-	 pjAxhr4c+WwafXV5s2qEh9KzQ40Ju5f8oSO+c28CPIh30aEtkfOVm/GhET1xfFLtMDAV2
-	 rH8uQRMJDsI+/cqev69dI1YcwnV2N2k12XrXTFZE9T55nU2iK7tKddwnsCWn5gow/Ug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792451551;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=AWMwpb1c3GewdK0NA9FnsQ5ripekQjx/SitnL4ttYRE=;
+	b=K/xJfkdxO6viaGwx+Zn2QRfWsh0Cr+T3nsrE3oj43BIOgFDHbanX1iJeD4uMrrH4UtYj
+	 tIR3oYWRDG8ANWpJ+FXnvKO/E7WyDGnM4K5gQ59nRDAcUF2mNPsP/QCuPUSS2pYXEhY0d
+	 QX6lVoVY6EuY/QlboGxBtqYmyCQSS3PUpshw7viIiU7CY1dnzvuPVacFqajSKONZzQcr/
+	 9LpmBX7eEUugAWXRpDDfzRToz76iKB2wqYAptWUacMaU9KJXqkWBzkO29oJZz/QbnRnKf
+	 Frcgb4Oh9+UQOimcX6QRAs7D+OvRqzOwaCnCh9l2cQ7zw/WjoFQX6F9YBx9hIAeM5iA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ELGNTuxq;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.210.69
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C59606A320
-	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 23:03:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07C59606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ELGNTuxq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792451011;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=96qZrlKa0nMa4mVz4JEu16eJHxjAVrKtxFSmlRDsfC8=;
-	b=ELGNTuxq0znCl95x9psQssyv6L2Uphvf9vSBAVmOq3Qt6+x42hR9npTKGUAvzPjsSsuihL
-	wVq1JKClz3+6+iz2n+VdBqAhqWy9dXXEytBlIYrto/CGPokwMvQK/eIQTR/fTb/8jMN64b
-	fQ+BMWnLqbWGJF/mIQwuXZ9TSbffY9A=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-636-PQOrDeJhOQamjiMghr3uvg-1; Mon,
- 19 Oct 2026 23:03:27 +0000
-X-MC-Unique: PQOrDeJhOQamjiMghr3uvg-1
-X-Mimecast-MFC-AGG-ID: PQOrDeJhOQamjiMghr3uvg_1792451006
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6E00C18052C1;
-	Mon, 19 Oct 2026 23:03:26 +0000 (UTC)
-Received: from snishika-thinkpadp16vgen1.tokyo.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1B42718005B7;
-	Mon, 19 Oct 2026 23:03:23 +0000 (UTC)
-From: Seiji Nishikawa <snishika@redhat.com>
-To: Jan Kara <jack@suse.cz>
-Cc: Amir Goldstein <amir73il@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+181b8b439f5207144b16@syzkaller.appspotmail.com,
-	Seiji Nishikawa <snishika@redhat.com>
-Subject: [PATCH] inotify: do not expose a zero mask while replacing a watch
-Date: Tue, 20 Oct 2026 08:03:20 +0900
-Message-ID: <20261019230320.1855016-1-snishika@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C0B606A31A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 23:12:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46C0B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-81447a16061so6020979a34.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 16:12:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792451550; x=1793056350;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AWMwpb1c3GewdK0NA9FnsQ5ripekQjx/SitnL4ttYRE=;
+        b=TJZ/9jTJpEmoM2jbT67xLRYbW4moTXiOEbOnGz6oPzC0NdiSTCAiR1rr9Edcuk9DBA
+         a0cts8L44w/IUve/SeR7d8T7Z3FBSZcCtf2qApdzKvpxCl2R4kQIAR2udpnMUzwTyvnz
+         l8RimtucrKgpoHDftY7GNrzVkuiUsqtSxgrMYYuBPr5QfC9SQP41k3LAPLBlcwp8gJ/S
+         nvZs7fHyBWLI/RaM/tmOeLPSMIUIPNSdh7tnzGbnaMh65421mVjbB1YhyPbSXeBmLjTR
+         bq+88FY9JFrlmJe8K6xfs/QBX2Q7v5bHRNXOp/sP/vlu08Fqg625UYstfCE2irvJlumm
+         /WAg==
+X-Forwarded-Encrypted: i=1; AKwUvBzgfzhsgZrK9iX5iLSvTNBAWl+QfeOFn4oa9jV8SuX9QO1a7aFdKEf2Hcpj9nRPL8XY2OTj8jbSrb5FAbvq@vger.kernel.org
+X-Gm-Message-State: AFq9FYI17ZE9aC1aYjxQd59OItiPVjKoSAcUrX+mj4RtdzkD/5ybRple
+	BMOOIVnT8eAmYcv481LIzDc5WpsqnBCqTpwMVHPF46A/sennWIEXBGUsTWoX4Nw8kXFdcXcb8lp
+	2x2JRfSVFoghO+7VauSPWlCVT3LP4NeqsMYMnk7teSXfYjux4fbQsV83Dg1g=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,264 +58,94 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Received: by 2002:a05:6808:1823:b0:4f3:e98f:fa1d with SMTP id
+ 5614622812f47-53cc5b5ba97mr9812625b6e.9.1792451550302; Mon, 19 Oct 2026
+ 16:12:30 -0700 (PDT)
+Date: Mon, 19 Oct 2026 16:12:30 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ad6a3de.f84f00d0.6bdd.000e.GAE@google.com>
+Subject: [syzbot] [jfs] WARNING in file_remove_privs_flags
+From: syzbot <syzbot+11df51d643e254ef16bb@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, jfs-discussion@lists.sourceforge.net, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	shaggy@kernel.org, syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-When inotify_add_watch() is called on an existing watch without
-IN_MASK_ADD, inotify_update_existing_watch() first sets mark->mask to 0
-and clears the inotify mark flags, and then sets the new bits. This is
-done under mark->lock, but event delivery reads mask and flags without
-that lock, in send_to_group(), fsnotify_iter_select_report_types(),
-fsnotify_ignore_mask(), fsnotify_handle_inode_event() and
-inotify_handle_inode_event().
+Hello,
 
-So if an event comes in the middle of the update, a lockless reader of
-mark->mask can see 0 and drop the event, even when both the old mask
-and the new mask include the bit for that event. KCSAN reports this as
-a data race:
+syzbot found the following issue on:
 
-==================================================================
-BUG: KCSAN: data-race in __se_sys_inotify_add_watch / fsnotify_handle_inode_event
+HEAD commit:    32c52ec87d62 x86/insn-eval: Fix shadowed segment index in ..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1308b20d580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b38d39c45202f4fa
+dashboard link: https://syzkaller.appspot.com/bug?extid=11df51d643e254ef16bb
+compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
 
-write to 0xffff88811afe9be0 of 4 bytes by task 3651 on cpu 0:
- inotify_update_existing_watch fs/notify/inotify/inotify_user.c:558 [inline]
- inotify_update_watch fs/notify/inotify/inotify_user.c:632 [inline]
- __do_sys_inotify_add_watch fs/notify/inotify/inotify_user.c:769 [inline]
- __se_sys_inotify_add_watch+0x2ea/0x720 fs/notify/inotify/inotify_user.c:717
- __x64_sys_inotify_add_watch+0x43/0x50 fs/notify/inotify/inotify_user.c:717
- x64_sys_call+0xa19/0x2550 arch/x86/include/generated/asm/syscalls_64.h:255
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x112/0x360 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Unfortunately, I don't have any reproducer for this issue yet.
 
-read to 0xffff88811afe9be0 of 4 bytes by task 3653 on cpu 1:
- fsnotify_handle_inode_event+0x18a/0x230 fs/notify/fsnotify.c:272
- fsnotify_handle_event fs/notify/fsnotify.c:330 [inline]
- send_to_group fs/notify/fsnotify.c:378 [inline]
- fsnotify+0x16ae/0x1860 fs/notify/fsnotify.c:597
- __fsnotify_parent+0x2f8/0x3a0 fs/notify/fsnotify.c:241
- fsnotify_parent include/linux/fsnotify.h:96 [inline]
- fsnotify_path include/linux/fsnotify.h:113 [inline]
- fsnotify_file include/linux/fsnotify.h:127 [inline]
- fsnotify_close include/linux/fsnotify.h:461 [inline]
- __fput+0x1e2/0x630 fs/file_table.c:498
- fput_close_sync+0xad/0x190 fs/file_table.c:617
- __do_sys_close fs/open.c:1560 [inline]
- __se_sys_close fs/open.c:1545 [inline]
- __x64_sys_close+0x55/0xf0 fs/open.c:1545
- x64_sys_call+0x812/0x2550 arch/x86/include/generated/asm/syscalls_64.h:4
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x112/0x360 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/77ec099385a8/disk-32c52ec8.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f5adfb921648/vmlinux-32c52ec8.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/65b38cab4ac2/bzImage-32c52ec8.xz
 
-value changed: 0x00002018 -> 0x00000000
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+11df51d643e254ef16bb@syzkaller.appspotmail.com
 
-Reported by Kernel Concurrency Sanitizer on:
-CPU: 1 UID: 0 PID: 3653 Comm: syz-executor126 Not tainted syzkaller #0 PREEMPT(lazy)
+------------[ cut here ]------------
+d_inode(dentry) != file_inode(file)
+WARNING: ./include/linux/fs.h:1363 at file_dentry include/linux/fs.h:1363 [inline], CPU#1: kworker/u8:2/48
+WARNING: ./include/linux/fs.h:1363 at file_remove_privs_flags+0x556/0x610 fs/inode.c:2373, CPU#1: kworker/u8:2/48
+Modules linked in:
+CPU: 1 UID: 0 PID: 48 Comm: kworker/u8:2 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-==================================================================
+Workqueue: loop0 loop_workfn
+RIP: 0010:file_dentry include/linux/fs.h:1363 [inline]
+RIP: 0010:file_remove_privs_flags+0x556/0x610 fs/inode.c:2373
+Code: 00 75 4d 44 89 e8 48 8d 65 d8 5b 41 5c 41 5d 41 5e 41 5f 5d e9 1b 61 13 09 cc e8 75 d0 7b ff e9 a5 fe ff ff e8 6b d0 7b ff 90 <0f> 0b 90 e9 b0 fb ff ff 44 89 e9 80 e1 07 80 c1 03 38 c1 0f 8c d9
+RSP: 0018:ffffc90000ba7480 EFLAGS: 00010293
+RAX: ffffffff824b0995 RBX: ffff8880317652a0 RCX: ffff88801e689f40
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffffc90000ba75d8 R08: 0000000000000000 R09: 0000000000000000
+R10: dffffc0000000000 R11: fffffbfff2164770 R12: 0000000000000000
+R13: 1ffff110062eca54 R14: 1ffff11007ff35fc R15: 1ffff92000174e9c
+FS:  0000000000000000(0000) GS:ffff888124abb000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffc491220d8 CR3: 0000000043560000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ shmem_file_write_iter+0xaa/0x120 mm/shmem.c:3437
+ lo_rw_aio+0xc78/0xf30 include/linux/percpu-rwsem.h:-1
+ do_req_filebacked drivers/block/loop.c:430 [inline]
+ loop_handle_cmd drivers/block/loop.c:1949 [inline]
+ loop_process_work+0x638/0x11d0 drivers/block/loop.c:1984
+ process_one_work kernel/workqueue.c:3396 [inline]
+ process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3479
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3560
+ kthread+0x38b/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
 
-The old value 0x00002018 in the report is FS_UNMOUNT |
-FS_CLOSE_NOWRITE | FS_CLOSE_WRITE. The syzbot reproducer has one thread
-that calls inotify_add_watch() on a regular file in a loop, always with
-IN_CLOSE_WRITE | IN_CLOSE_NOWRITE and without IN_MASK_ADD, and another
-thread that opens and closes the same file. Calling inotify_add_watch()
-again on a watched file with the same mask is allowed, and it returns
-the same watch descriptor. But each such call still sets the mask to 0
-first, as described above, so the mask changes from 0x2018 to 0 and
-then back to 0x2018. The report shows the first thread (task 3651, in
-inotify_add_watch()) setting the mask to 0 while the second thread
-(task 3653, in close()) was reading it.
 
-The same problem can happen to the IN_EXCL_UNLINK and IN_ONESHOT bits
-in mark->flags.
-
-To check that events are really dropped, the dropped events were
-counted with bpftrace while the syzbot reproducer was running. The
-kernel is v7.3-rc7 built with the syzbot config plus CONFIG_KPROBES and
-CONFIG_KPROBE_EVENTS. The script counts the calls of
-fsnotify_handle_inode_event() that return without calling
-inotify_handle_inode_event(), that is, the events dropped there:
-
-kprobe:fsnotify_handle_inode_event
-/comm == "repro" || comm == "repro_add"/
-{
-	@calls = count();
-	@pending[tid] = 1;
-}
-
-kprobe:inotify_handle_inode_event
-/@pending[tid] == 1/
-{
-	@passed = count();
-	@pending[tid] = 0;
-}
-
-kretprobe:fsnotify_handle_inode_event
-/@pending[tid] == 1/
-{
-	@dropped = count();
-	@pending[tid] = 0;
-}
-
-With the reproducer built as "repro", 1551 of 213431 events were
-dropped in 5 seconds:
-
-@calls: 213431
-@dropped: 1551
-@passed: 211880
-
-With IN_MASK_ADD added to the inotify_add_watch() call in the
-reproducer, built as "repro_add", no events were dropped:
-
-@calls: 195658
-@dropped: 0
-@passed: 195658
-
-With this patch, no events were dropped with "repro", even without
-IN_MASK_ADD:
-
-@calls: 337082
-@dropped: 0
-@passed: 337082
-
-Commit 38035c04f586 ("inotify: move control flags from mask to mark
-flags") changed the call without IN_MASK_ADD to first clear the mask and
-the inotify flags, and then OR in the new bits with the same code as the
-IN_MASK_ADD case. The mask is cleared and set again under mark->lock,
-but the lockless readers do not take that lock, so they can see the
-zero mask after it is cleared and before the new bits are set, and
-drop events.
-
-Write the new mask and flags to the mark with one WRITE_ONCE() each, so
-a lockless reader sees either the old value or the new value, never a
-zero mask in between. Also use READ_ONCE() in the lockless readers on
-the event delivery path, to pair with the WRITE_ONCE() and mark these
-reads as intentionally lockless.
-
-Fixes: 38035c04f586 ("inotify: move control flags from mask to mark flags")
-Reported-by: syzbot+181b8b439f5207144b16@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=181b8b439f5207144b16
-Cc: stable@vger.kernel.org
-Signed-off-by: Seiji Nishikawa <snishika@redhat.com>
 ---
- fs/notify/fsnotify.c                 | 10 +++++-----
- fs/notify/inotify/inotify_fsnotify.c |  2 +-
- fs/notify/inotify/inotify_user.c     | 17 +++++++++++++----
- include/linux/fsnotify_backend.h     |  4 ++--
- 4 files changed, 21 insertions(+), 12 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
-index 7e2f330fd283..4687ba54da01 100644
---- a/fs/notify/fsnotify.c
-+++ b/fs/notify/fsnotify.c
-@@ -264,12 +264,12 @@ static int fsnotify_handle_inode_event(struct fsnotify_group *group,
- 	if (WARN_ON_ONCE(!inode && !dir))
- 		return 0;
- 
--	if ((inode_mark->flags & FSNOTIFY_MARK_FLAG_EXCL_UNLINK) &&
-+	if ((READ_ONCE(inode_mark->flags) & FSNOTIFY_MARK_FLAG_EXCL_UNLINK) &&
- 	    path && d_unlinked(path->dentry))
- 		return 0;
- 
- 	/* Check interest of this mark in case event was sent with two marks */
--	if (!(mask & inode_mark->mask & ALL_FSNOTIFY_EVENTS))
-+	if (!(mask & READ_ONCE(inode_mark->mask) & ALL_FSNOTIFY_EVENTS))
- 		return 0;
- 
- 	return ops->handle_inode_event(inode_mark, mask, inode, dir, name, cookie);
-@@ -349,7 +349,7 @@ static int send_to_group(__u32 mask, const void *data, int data_type,
- 	/* clear ignored on inode modification */
- 	if (mask & FS_MODIFY) {
- 		fsnotify_foreach_iter_mark_type(iter_info, mark, type) {
--			if (!(mark->flags &
-+			if (!(READ_ONCE(mark->flags) &
- 			      FSNOTIFY_MARK_FLAG_IGNORED_SURV_MODIFY))
- 				mark->ignore_mask = 0;
- 		}
-@@ -358,7 +358,7 @@ static int send_to_group(__u32 mask, const void *data, int data_type,
- 	/* Are any of the group marks interested in this event? */
- 	fsnotify_foreach_iter_mark_type(iter_info, mark, type) {
- 		group = mark->group;
--		marks_mask |= mark->mask;
-+		marks_mask |= READ_ONCE(mark->mask);
- 		marks_ignore_mask |=
- 			fsnotify_effective_ignore_mask(mark, is_dir, type);
- 	}
-@@ -439,7 +439,7 @@ static bool fsnotify_iter_select_report_types(
- 			 * But is *this mark* watching children?
- 			 */
- 			if (type == FSNOTIFY_ITER_TYPE_PARENT &&
--			    !(mark->mask & FS_EVENT_ON_CHILD) &&
-+			    !(READ_ONCE(mark->mask) & FS_EVENT_ON_CHILD) &&
- 			    !(fsnotify_ignore_mask(mark) & FS_EVENT_ON_CHILD))
- 				continue;
- 
-diff --git a/fs/notify/inotify/inotify_fsnotify.c b/fs/notify/inotify/inotify_fsnotify.c
-index 7c326ec2e8a8..da506ef03a25 100644
---- a/fs/notify/inotify/inotify_fsnotify.c
-+++ b/fs/notify/inotify/inotify_fsnotify.c
-@@ -129,7 +129,7 @@ int inotify_handle_inode_event(struct fsnotify_mark *inode_mark, u32 mask,
- 		fsnotify_destroy_event(group, fsn_event);
- 	}
- 
--	if (inode_mark->flags & FSNOTIFY_MARK_FLAG_IN_ONESHOT)
-+	if (READ_ONCE(inode_mark->flags) & FSNOTIFY_MARK_FLAG_IN_ONESHOT)
- 		fsnotify_destroy_mark(inode_mark, group);
- 
- 	return 0;
-diff --git a/fs/notify/inotify/inotify_user.c b/fs/notify/inotify/inotify_user.c
-index 5f19c24ec187..98a13699ee66 100644
---- a/fs/notify/inotify/inotify_user.c
-+++ b/fs/notify/inotify/inotify_user.c
-@@ -554,12 +554,21 @@ static int inotify_update_existing_watch(struct fsnotify_group *group,
- 	i_mark = container_of(fsn_mark, struct inotify_inode_mark, fsn_mark);
- 
- 	spin_lock(&fsn_mark->lock);
-+	/*
-+	 * Event delivery reads mask and flags without mark->lock, so update
-+	 * each of them with a single store and never expose a partial value.
-+	 */
- 	if (replace) {
--		fsn_mark->mask = 0;
--		fsn_mark->flags &= ~INOTIFY_MARK_FLAGS;
-+		WRITE_ONCE(fsn_mark->mask, inotify_arg_to_mask(inode, arg));
-+		WRITE_ONCE(fsn_mark->flags,
-+			   (fsn_mark->flags & ~INOTIFY_MARK_FLAGS) |
-+			   inotify_arg_to_flags(arg));
-+	} else {
-+		WRITE_ONCE(fsn_mark->mask,
-+			   fsn_mark->mask | inotify_arg_to_mask(inode, arg));
-+		WRITE_ONCE(fsn_mark->flags,
-+			   fsn_mark->flags | inotify_arg_to_flags(arg));
- 	}
--	fsn_mark->mask |= inotify_arg_to_mask(inode, arg);
--	fsn_mark->flags |= inotify_arg_to_flags(arg);
- 	spin_unlock(&fsn_mark->lock);
- 
- 	fsnotify_recalc_mask(fsn_mark->connector);
-diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
-index a6d5c1a89cff..5f0b94bfde8e 100644
---- a/include/linux/fsnotify_backend.h
-+++ b/include/linux/fsnotify_backend.h
-@@ -802,7 +802,7 @@ static inline __u32 fsnotify_ignore_mask(struct fsnotify_mark *mark)
- 	__u32 ignore_mask = mark->ignore_mask;
- 
- 	/* The event flags in ignore mask take effect */
--	if (mark->flags & FSNOTIFY_MARK_FLAG_HAS_IGNORE_FLAGS)
-+	if (READ_ONCE(mark->flags) & FSNOTIFY_MARK_FLAG_HAS_IGNORE_FLAGS)
- 		return ignore_mask;
- 
- 	/*
-@@ -812,7 +812,7 @@ static inline __u32 fsnotify_ignore_mask(struct fsnotify_mark *mark)
- 	 */
- 	ignore_mask |= FS_ISDIR;
- 	ignore_mask &= ~FS_EVENT_ON_CHILD;
--	ignore_mask |= mark->mask & FS_EVENT_ON_CHILD;
-+	ignore_mask |= READ_ONCE(mark->mask) & FS_EVENT_ON_CHILD;
- 
- 	return ignore_mask;
- }
--- 
-2.55.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
