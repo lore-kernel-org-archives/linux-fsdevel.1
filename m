@@ -1,87 +1,86 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465AF48E0D4;
-	Mon, 19 Oct 2026 11:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD2A3DC4C8;
+	Mon, 19 Oct 2026 11:30:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792408152; cv=none; b=G2eHVzGUzahhN1p53on9a2GpbkzcAqMSL4QgrMHa8TkiaIh875HePAygSfixsSj19fBVRfeiIvs7WB5lq3i1fzWS5GQuEGxOv52yB1/Xhg7Ed6eSOyYIIV4+uyi7rww0IwzyU9sKpRJQeVVnhHmlg0YEX7U+uTSDnS2Hiq3fy4Y=
+	t=1792409448; cv=none; b=s09fwliMmaXz4VpImNieCKHRT399mE37dQ9HOMwJZvJ23So8OPY2WWsI11y096Pk8xlfpsUH5Bch9wiR3WMCKmv/XhAgOa9JNPj1U765RERAjnKizp0v5WjDHUD3XqTWtlCHU7tQW2o1g8Fs/2o2zBKsXgGp+LWM+CcjFX37Hg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792408152; c=relaxed/simple;
-	bh=YKS1uBvejftmHFx6jUhtuLNG/o/oax5eGbeAyHS/iF0=;
+	s=arc-20240116; t=1792409448; c=relaxed/simple;
+	bh=HslpktidHJ8ffLNJ3jl2Oo/mPmgry/UzkboytPQDsD8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cRuv8tN1/OGGOcX6iM1R2WvXhv4/rVme0eluz0vKpsKfNpMxECtPog3gORyyZPzAlYtFu2ZN4hIGb6bpLA0rmEp8EGEoFCQoDPiXh4GmEQgJQme5YjbMg9z2J4+u3PGJMgXRR4zfEFKjAZ7EJTgh7bocoVN3wA/aW2TL1E3HNIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uBSHOhtp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=kCVNaaB7; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CXRSV57l; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=68FWpfje; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=cKWPdlLR4otSn+rneQZ1kP3Aw7+utMCQ3jZJ3gORRvRP/5lzHZHIeXfpSXJIbc3J2AIiRXt1sdbNNsEPOJbkXYTExQuS1vNaf2Uzi9NPYIzeRKf9rloYOm/9dNHQa40Y7BtKgqrnRACbKutn8wJucK++2+VVNOyimBcaebKyvYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=L6O2T2x9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=H3OGq6vW; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=L6O2T2x9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=H3OGq6vW; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uBSHOhtp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="kCVNaaB7";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CXRSV57l";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="68FWpfje"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="L6O2T2x9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H3OGq6vW";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="L6O2T2x9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H3OGq6vW"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 28DDA21C92;
-	Mon, 19 Oct 2026 11:09:08 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 73CAB21C5D;
+	Mon, 19 Oct 2026 11:30:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792408149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792409444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=11z2qWpi42Rwu8TO6o4vcVqXgXps69LtjAEf/dfd4gs=;
-	b=uBSHOhtp3N7zzu3OgYJq++zleXKxOfWKjoAcx+1adMUV32u8cf/syk7A1pQTgWe/RqbXJw
-	OsY5yJUHMKn3ovxDw2CQ8zSCZahYL3r3P6P1uOVxmFT179ii8QAbJsj7bolDLMjSNbfKnd
-	7p5Nnx6jV2pBSCAk0gSg289OTex6NTw=
+	bh=gWeSLpyc5O1IcgR6SkOdVi69vnfzBIqmPx/MkGbdVCU=;
+	b=L6O2T2x9pSLXoAEQlsmjHrrlsPwnlVdfuIgN0qbTfEVWTSnrY/yP3H1h67Rrav/3ml7vgr
+	sYMquu3X0n2E0sMKEUYRRxoLXN/Fe+iFiwhrNTtrijGZZgPKPhw2o6UQ1Iocq+dLrXcQCE
+	rsRI1icyDY9oGLpqyZw2dBBw6l+GJcc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792408149;
+	s=susede2_ed25519; t=1792409444;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=11z2qWpi42Rwu8TO6o4vcVqXgXps69LtjAEf/dfd4gs=;
-	b=kCVNaaB7xxJF1vWsrl2M4Xd5XpSBb6HmwIA34PJkN7xKQLC0udKbkUcAsIMQ2Ss9y7deQu
-	AAo70dVcO77nlQCA==
+	bh=gWeSLpyc5O1IcgR6SkOdVi69vnfzBIqmPx/MkGbdVCU=;
+	b=H3OGq6vW1LSBbUwIQtir4GTqkGn4jFhwdkH2E4CLsHm/tdwz/hhMmQ+qR4wSWu0bBXSuWt
+	Gtx1HIIQndRXOtAA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=CXRSV57l;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=68FWpfje
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792408148; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792409444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=11z2qWpi42Rwu8TO6o4vcVqXgXps69LtjAEf/dfd4gs=;
-	b=CXRSV57lKvfRhATV4ut3Akmw4hB9UONE1lZXC5L9sfHFMzUY0V6Ii7C/var7jbJhNeV6QI
-	3a1v7F5tuBMRw78zrxJFdWJklOTDZa2gL/exbjmNLfYO+KJxfOKSMszq5gDD3JwBkoH0H8
-	x8YJemM+a+0RM7ofEavbbSLJMMFlBNE=
+	bh=gWeSLpyc5O1IcgR6SkOdVi69vnfzBIqmPx/MkGbdVCU=;
+	b=L6O2T2x9pSLXoAEQlsmjHrrlsPwnlVdfuIgN0qbTfEVWTSnrY/yP3H1h67Rrav/3ml7vgr
+	sYMquu3X0n2E0sMKEUYRRxoLXN/Fe+iFiwhrNTtrijGZZgPKPhw2o6UQ1Iocq+dLrXcQCE
+	rsRI1icyDY9oGLpqyZw2dBBw6l+GJcc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792408148;
+	s=susede2_ed25519; t=1792409444;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=11z2qWpi42Rwu8TO6o4vcVqXgXps69LtjAEf/dfd4gs=;
-	b=68FWpfjeq6UcQMaP3zVS3ajhrCp2oNgj+QGpTbM8zPio3CAqV0Fyr+x5Q33EL1eLvxbRfz
-	PsvkCEiXB086MSBw==
+	bh=gWeSLpyc5O1IcgR6SkOdVi69vnfzBIqmPx/MkGbdVCU=;
+	b=H3OGq6vW1LSBbUwIQtir4GTqkGn4jFhwdkH2E4CLsHm/tdwz/hhMmQ+qR4wSWu0bBXSuWt
+	Gtx1HIIQndRXOtAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F1E7F134B3;
-	Mon, 19 Oct 2026 11:09:07 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4A9A7134B3;
+	Mon, 19 Oct 2026 11:30:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id O4YyM1P61WrlFAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 19 Oct 2026 11:09:07 +0000
+	id 4JMqCmT/1WooLAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 19 Oct 2026 11:30:44 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 8311CA1413; Mon, 19 Oct 2026 13:09:03 +0200 (CEST)
-Date: Mon, 19 Oct 2026 13:09:03 +0200
+	id CE575A1413; Mon, 19 Oct 2026 13:30:39 +0200 (CEST)
+Date: Mon, 19 Oct 2026 13:30:39 +0200
 From: Jan Kara <jack@suse.cz>
-To: Nikolaos Karaolidis <nick@karaolidis.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Zhihao Cheng <chengzhihao1@huawei.com>, 
-	Mateusz Guzik <mjguzik@gmail.com>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] fs: rotate inodes whose page cache could not be dropped
-Message-ID: <n6urwkuqd2vr6ednnp64y2a7tbgobbdwmog5i3plxtidb2goq3@ph52n25jnu7y>
-References: <20261016102515.111285-1-nick@karaolidis.com>
+To: Nickolai Zeldovich <nickolai@csail.mit.edu>
+Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, Brian Foster <bfoster@redhat.com>, Theodore Ts'o <tytso@mit.edu>, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] mm/truncate: fix the zeroing end of
+ pagecache_isize_extended()
+Message-ID: <uolyy5wn2oc7iiu3e3vlsp5m6yjlsakwcjtsuzklbe3mk72ruu@qlrdp3q35igz>
+References: <20261016222721.791785-1-nickolai@csail.mit.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -90,112 +89,172 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261016102515.111285-1-nick@karaolidis.com>
-X-Rspamd-Action: no action
-X-Spam-Score: -4.01
+In-Reply-To: <20261016222721.791785-1-nickolai@csail.mit.edu>
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.01 / 50.00];
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,huawei.com,gmail.com,vger.kernel.org,kvack.org];
 	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,karaolidis.com:email,suse.cz:email,suse.cz:dkim,suse.com:email];
-	RCVD_TLS_LAST(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 28DDA21C92
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
 
-On Fri 16-10-26 10:25:15, Nikolaos Karaolidis wrote:
-> When inode_lru_isolate() drops the page cache of an unused inode, it
-> has to unlock the list, so it returns LRU_RETRY and the walk restarts
-> at the head of the list, where the inode still is. If
-> invalidate_mapping_pages() could not empty the mapping, the restarted
-> walk strips the same inode again, and so on until nr_to_walk runs out.
-> Every walk of that list then ends on this inode, and nothing behind it
-> is reclaimed for as long as its cache stays.
+On Fri 16-10-26 18:27:21, Nickolai Zeldovich wrote:
+> A process that extends a file by 4 GiB or more past a dirty folio, on a
+> file system whose block size is smaller than the page size (ext4 with 1k
+> blocks), reads back the bytes it wrote through a shared mapping beyond
+> the old end of file instead of zeroes, and a later write into that block
+> carries them to the disk. With the example of commit 52aecaee1c26 ("mm:
+> zero range of eof folio exposed by inode size extension") and the
+> truncate taken 4 GiB further (pwrite 2k at 0, mmap the first page and
+> write 'X' over [2k, 4k), truncate(2) to 4 GiB + 2k), the read of
+> [2k, 4k) returns the 2048 'X' bytes, and a pwrite of 16 bytes at 3k
+> followed by fsync() and a remount leaves 1008 'X' bytes on the disk in
+> [3k+16, 4k). No privilege is needed, and every size extension of 4 GiB
+> or more reaches it: truncate(2)/ftruncate(2) through truncate_setsize(),
+> writes beyond the end of file through generic_write_end(), ext4, iomap,
+> btrfs, exfat, ntfs, afs and orangefs. Affected since v6.13.
+
+Frankly, I find this paragraph useless. Everything is said below in a more
+understandable way. I'd just drop it.
+
+> pagecache_isize_extended() zeroes the part of the dirty folio straddling
+> the old end of file that the size extension exposes, from the old size
+> to the new size or the end of the folio, whichever comes first:
 > 
-> Before commit 2a0629834cd8 ("vfs: Don't evict inode under the inode lru
-> traversing context") the walker pinned the inode with a reference, and
-> dropping it in iput_final() set I_REFERENCED, so the restarted walk
-> rotated the inode to the tail. Set I_REFERENCED again when the mapping
-> is still populated after the invalidation, in the same i_lock section
-> that clears I_LRU_ISOLATING. inode_unpin_lru_isolating() now expects
-> i_lock to be held, like inode_pin_lru_isolating().
+> 	end = min_t(unsigned int, to - folio_pos(folio), folio_size(folio));
 > 
-> On CONFIG_HIGHMEM kernels this can happen to any unused inode: a folio
-> is left behind if it is locked, under writeback, spliced into a pipe,
-> or still in another CPU's LRU-add batch after being read. Without
-> HIGHMEM it happens to DAX inodes whose only entry is at index 0, which
-> mapping_shrinkable() lets onto the LRU and invalidate_mapping_pages()
-> never removes.
+> min_t() converts both operands to unsigned int before comparing, so the
+> loff_t difference to - folio_pos(folio) is reduced modulo 2^32 first.
+> When the file grows by 4 GiB or more past the folio, end is that residue
+> instead of folio_size(folio): below offset nothing is zeroed, above it
+> only [offset, end) is. The bytes beyond the old end of file stay in the
+> dirty folio and, now inside i_size, are file data.
 > 
-> Fixes: 2a0629834cd8 ("vfs: Don't evict inode under the inode lru traversing context")
-> Cc: stable@vger.kernel.org
+> Compare in loff_t; the result is at most folio_size(folio) and fits end.
+> 
+> Found while formally verifying pagecache_isize_extended() against the
+> kernel binary.
+> 
+> Fixes: 52aecaee1c26 ("mm: zero range of eof folio exposed by inode size extension")
 > Assisted-by: LLM
-> Signed-off-by: Nikolaos Karaolidis <nick@karaolidis.com>
+> Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
 
-Looks sensible. Feel free to add:
+The fix looks good. Feel free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
-
-> diff --git a/fs/inode.c b/fs/inode.c
-> index a9d37be390a1..1614a97ce953 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -593,12 +593,11 @@ static void inode_pin_lru_isolating(struct inode *inode)
+> ---
+> 
+> Notes:
+>     Tested on a 64 MiB ext4 image made with mkfs.ext4 -b 1024 and mounted in
+>     a QEMU guest, with the program below followed by umount, mount and a
+>     read of [3k+16, 4k). Unpatched 70dd4ee72eb2 (x86_64 and riscv64
+>     defconfig): 2048 of 2048 bytes non-zero ('X') after the truncate and
+>     1008 of 1008 'X' bytes on the disk after the remount. Patched: 0 and 0.
+>     The same sequence with a truncate to 8k reads zeroes on both kernels,
+>     which is the case commit 52aecaee1c26 fixed.
+>     
+>     The 32-bit conversion is visible in the riscv64 binary as a subw on the
+>     loff_t difference before the compare; with the patch it is a sub.
+>     
+>     Reproducer (ext4 with 1k blocks, mkfs.ext4 -b 1024):
+>     
+>     truncate -s 64M img && mkfs.ext4 -q -F -b 1024 img && mount -o loop img /mnt
+>     gcc -O2 -o isize_extended isize_extended.c
+>     ./isize_extended /mnt/f    # exit 1 and a non-zero count on an unpatched kernel
+>     
+>     /*
+>      * Stale post-EOF data after a size extension of 4 GiB or more on a file
+>      * system with a block size below the page size (ext4 -b 1024): [2k, 4k)
+>      * must read as zeroes after the truncate.  Exit status 1 when it does not.
+>      */
+>     #include <fcntl.h>
+>     #include <stdio.h>
+>     #include <string.h>
+>     #include <sys/mman.h>
+>     #include <unistd.h>
+>     
+>     int main(int argc, char **argv)
+>     {
+>     	const char *path = argc > 1 ? argv[1] : "/mnt/f";
+>     	unsigned char buf[4096];
+>     	unsigned int i, nz = 0;
+>     	char *map;
+>     	int fd;
+>     
+>     	fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
+>     	memset(buf, 'A', 2048);
+>     	if (fd < 0 || pwrite(fd, buf, 2048, 0) != 2048) {
+>     		perror("open/pwrite");
+>     		return 2;
+>     	}
+>     	/* 'X' beyond EOF, inside the first page; the folio stays dirty */
+>     	map = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+>     	if (map == MAP_FAILED) {
+>     		perror("mmap");
+>     		return 2;
+>     	}
+>     	memset(map + 2048, 'X', 2048);
+>     	munmap(map, 4096);
+>     	/* 4 GiB or more past the folio: to - folio_pos(folio) >= 2^32 */
+>     	if (ftruncate(fd, 4294967296LL + 2048)) {
+>     		perror("ftruncate");
+>     		return 2;
+>     	}
+>     	if (pread(fd, buf, 2048, 2048) != 2048) {
+>     		perror("pread");
+>     		return 2;
+>     	}
+>     	for (i = 0; i < 2048; i++)
+>     		nz += buf[i] != 0;
+>     	printf("[2k,4k) after truncate to 4 GiB + 2k: %u non-zero bytes of 2048\n", nz);
+>     	/* allocate block [3k, 4k): [3k+16, 4k) shows what reaches the disk */
+>     	memset(buf, 'B', 16);
+>     	if (pwrite(fd, buf, 16, 3072) != 16 || fsync(fd)) {
+>     		perror("pwrite/fsync");
+>     		return 2;
+>     	}
+>     	return nz ? 1 : 0;
+>     }
+> 
+>  mm/truncate.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/mm/truncate.c b/mm/truncate.c
+> index b58ba940be47..5c444812f37a 100644
+> --- a/mm/truncate.c
+> +++ b/mm/truncate.c
+> @@ -878,8 +878,7 @@ void pagecache_isize_extended(struct inode *inode, loff_t from, loff_t to)
+>  		unsigned int offset, end;
 >  
->  static void inode_unpin_lru_isolating(struct inode *inode)
->  {
-> -	spin_lock(&inode->i_lock);
-> +	lockdep_assert_held(&inode->i_lock);
->  	WARN_ON(!(inode_state_read(inode) & I_LRU_ISOLATING));
->  	inode_state_clear(inode, I_LRU_ISOLATING);
->  	/* Called with inode->i_lock which ensures memory ordering. */
->  	inode_wake_up_bit(inode, __I_LRU_ISOLATING);
-> -	spin_unlock(&inode->i_lock);
->  }
->  
->  static void inode_wait_for_lru_isolating(struct inode *inode)
-> @@ -981,7 +980,13 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
->  		else
->  			__count_vm_events(PGINODESTEAL, reap);
->  		mm_account_reclaimed_pages(reap);
-> +
-> +		spin_lock(&inode->i_lock);
-> +		/* The walk restarts here: don't retry leftovers right away */
-> +		if (!mapping_empty(&inode->i_data))
-> +			inode_state_set(inode, I_REFERENCED);
->  		inode_unpin_lru_isolating(inode);
-> +		spin_unlock(&inode->i_lock);
->  		return LRU_RETRY;
+>  		offset = from - folio_pos(folio);
+> -		end = min_t(unsigned int, to - folio_pos(folio),
+> -			    folio_size(folio));
+> +		end = min_t(loff_t, to - folio_pos(folio), folio_size(folio));
+>  		folio_zero_segment(folio, offset, end);
 >  	}
 >  
 > 
-> base-commit: af32da41b0327b9c6a37856ba82b6760d6c8d10e
+> base-commit: 70dd4ee72eb2d5793c62e71c14e3aba78e5a4e56
 > -- 
-> 2.55.0
+> 2.53.0
 > 
 -- 
 Jan Kara <jack@suse.com>
