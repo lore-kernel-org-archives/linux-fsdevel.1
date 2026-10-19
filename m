@@ -1,181 +1,129 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from out-zbxj-a65.jellyfish.systems (out-zbxj-a65.jellyfish.systems [198.54.127.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FD6277026;
-	Mon, 19 Oct 2026 09:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE74F48821A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 09:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792401367; cv=none; b=d7DD6tCK0UCwXgHMQ0/dyJ0XsgzVWNHLqNzNKIlsJH0zN/B/OLGnfdWkoM/AbaK16ATuC3f0FH16sgwfMMkrllxiO9i1jDsIq7EysYg3Ijsoj70822Q5L2vhct4/rrhNjyqHh7mDXgfxk4RD72LZ83FQG06IA6QXswS2R/j2hwg=
+	t=1792402833; cv=none; b=nCyOwXCRT1lXuasEVrFgPMAGSTv9hDJ1If0hndybJ98r7hTkcVH0ct+y+XbmL/E+HTVp0Do85BEs40x62P6NhTl+YTa2njHFY9ZscludyytRxNcPpJQkQEDyxEHdGT2gOi0LpnE46hzkmFoWC2DjPOWc0DlZ1BuneoxdwNK7Da4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792401367; c=relaxed/simple;
-	bh=88L7hie2tDkWe7PZYJG3j2OUPcoz6V6ev/d6mTgZGwU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PU6d/1Ik4vofrXalVL1SAZkOb5rh/D8JONcEjgEUMY8j7Qbs2u2hwndoNH1kaZoLgBIAG7KqYy5GNzzd8maKDsIUanCaTqEk4htfImRSqwbYQnIHCpJ/ck4Od6MrkZvpUo1bUEKfeVdPzVRTHanaYDoRC0ZjET/APPXGvw82pBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ghGHOwZ6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=NiyW3Nok; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yC77sQaB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OXbTTu5b; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1792402833; c=relaxed/simple;
+	bh=UClMkYBS145x75YYlnwvo5OtDimcpH8JH6ZsP6dQZtY=;
+	h=From:Date:Subject:To:Cc:Message-ID:MIME-Version:Content-Type; b=gtIcLggMEHpbkTXWUER3Ip7l9cuZQLav07caFdOxEsSFvBvNaDil6X0YQtx9hg7zWdsO1B1HIobwykKLOzFxDsg//RTSJtqYnrIYqv5/cBPJRrfi9tadkKt8jRPVFu9KaRyGbJGp9+SqMurOxi9MCVX8Z6WneGCvNTmKDxqrsTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tychen.cc; spf=pass smtp.mailfrom=tychen.cc; dkim=pass (2048-bit key) header.d=tychen.cc header.i=@tychen.cc header.b=YzBDFhBc; arc=none smtp.client-ip=198.54.127.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tychen.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tychen.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ghGHOwZ6";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="NiyW3Nok";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yC77sQaB";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OXbTTu5b"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (2048-bit key) header.d=tychen.cc header.i=@tychen.cc header.b="YzBDFhBc"
+Received: from [10.18.116.108] (unknown [151.145.76.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 36E7721C13;
-	Mon, 19 Oct 2026 09:16:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792401364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7yu3tr/XKjY08A8K99OkNRH8Z7mvGFgqqz1CA7bGCoQ=;
-	b=ghGHOwZ6JxMIYAZ26rWhTpweaoCboTRlTL999bMVvyF0E2aZvlajC6BK/JwQUb+GP8T6vZ
-	QpYJUF6W+y1mzomrimeyLNCvmnyrxjwp7Seri96i1piyel8vRzZVgO5dZWa2mhLkRaC+hO
-	33rSbF30BBO4HAdoMOLbGOQBAaetndA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792401364;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7yu3tr/XKjY08A8K99OkNRH8Z7mvGFgqqz1CA7bGCoQ=;
-	b=NiyW3NokfsPA3E7a9inhFGaT20Sl0YlKV0Mjp7kg8WBDh3ren76IclmzfKPO6t+0UBeewT
-	Aln5ixT4mweAfjAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=yC77sQaB;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=OXbTTu5b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792401363; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7yu3tr/XKjY08A8K99OkNRH8Z7mvGFgqqz1CA7bGCoQ=;
-	b=yC77sQaBlmmo4b7SixoP8v0ykVb8nEozZqjSpHaFK0Q0fFqDF87llv3DaPBzNzh5CWKXxE
-	8gosP/5itJsjOS62NqMDVHZ6RE8KHwU6Z6TD/DQLBDRiRDdTI6GbVTal3EcB41/okvGfzs
-	XYhpDE6XhOp3uEX3iDXLm00HlOVNL9U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792401363;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7yu3tr/XKjY08A8K99OkNRH8Z7mvGFgqqz1CA7bGCoQ=;
-	b=OXbTTu5bfXVm5PferY6twjbDiPg/4EpFJsGB4+Iw+QGZxYgpoXGqIFOBisjJhNvUhGnAuO
-	Hh+gTeNTZwQ1Z6AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ECE25134B3;
-	Mon, 19 Oct 2026 09:16:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1ML/MNLf1WrwFAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 19 Oct 2026 09:16:02 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 772FAA1413; Mon, 19 Oct 2026 11:16:02 +0200 (CEST)
-Date: Mon, 19 Oct 2026 11:16:02 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linuxppc-dev@lists.ozlabs.org, 
-	linux-gpio@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org, linux-media@vger.kernel.org, wine-devel@list.winehq.org, 
-	linux-xfs@vger.kernel.org, io-uring@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-mm@kvack.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] file: simplify and harden cleanup handling
-Message-ID: <p4eitjefwpwhfouwhmvxmelxl3yncv3vjdi7wsgu7rna2zorqd@rlvbcpzcpbid>
-References: <20260917-work-file-fd_prepare-v1-0-b87534ca49f3@kernel.org>
+	by mail.spacemail.com (Postfix) with ESMTPSA id 4j7Vs50Zd2z6tkN;
+	Mon, 19 Oct 2026 09:40:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tychen.cc;
+	s=spacemail; t=1792402827;
+	bh=AMgrGG42i9dcBRekdy3ZB4NasAQz7tvPBfGn1moPkiA=;
+	h=From:Date:Subject:To:Cc:From;
+	b=YzBDFhBckXvxr+vtblb9bjPozDLfAyKZKYWpC75FvlUYFV8oGNqPj1y/l1VtAlD4Z
+	 /r/CMl82W52/HBn39+3cxnswe1aL86bg5msa1Za5Zs+Sxk7agiO1ELlh4rAKSbIoQ4
+	 Fck+2k3pn6xlM4YC9RZFdf3RsEjxyWhi2C5fBsGCVCiBVtvNCy6gAN1dvo88PJwfTD
+	 XU67lsJUYnCvgonM9f++AmuTRvU1pL+L8CHajomhkJP9in0xpGUoDoGZeRFkoVzmMn
+	 Yv1fWqKUHiuAvSlASewtfoE6f2RS9qcs7bUPk2Dx9XxuwBA1WrTuIKsz4ht27LFGgQ
+	 rQ81bb2juvL/Q==
+From: Tianyi Chen <hi@tychen.cc>
+Date: Mon, 19 Oct 2026 18:39:27 +0900
+Subject: [PATCH] eventpoll: propagate wakeup source creation failure in
+ ep_modify()
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+    Christian Brauner <brauner@kernel.org>,
+    Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org,    linux-kernel@vger.kernel.org,
+    Rafael J. Wysocki <rjw@rjwysocki.net>,
+    Arve =?utf-8?q?Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+    NeilBrown <neil@brown.name>
+Message-ID: <179240281988.1700986.8309527041821666235@tychen.cc>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260917-work-file-fd_prepare-v1-0-b87534ca49f3@kernel.org>
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 36E7721C13
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:email,suse.cz:dkim,suse.com:email];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Envelope-From: hi@tychen.cc
 
-On Thu 17-09-26 11:09:41, Christian Brauner wrote:
-> The cleanup guards rely on unnecessary infrastructure and make the code
-> more complicated to follow than it needs to be. Clean it up. Also shrink
-> the struct a bit and get rid of the unnecessary error variable. We can
-> just make this more ergonomic by using fdf->fd directly. Also expose the
-> struct itself as const and hide the actual underlying local variable
-> behind a UNIQUE_ID() named variable so we avoid risking shadow variables
-> and polluting callsites. Code generation wise the outcome is exactly the
-> same but simpler.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+When EPOLL_CTL_MOD adds EPOLLWAKEUP, ep_modify() ignores the return
+value of ep_create_wakeup_source(). If allocation fails, it returns
+success with EPOLLWAKEUP set but no per-item wakeup source, so the
+requested suspend protection is missing.
 
-I know I'm really late but FWIW this looks really great! I know this is in
-PR to Linus so feel free to ignore:
+This can happen without fault injection on SELinux systems: creating
+the wakeup source's sysfs nodes can require GFP_KERNEL_ACCOUNT
+allocations for security.selinux xattrs, which can fail when the
+caller's memory cgroup is over its limit.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Create the wakeup source before updating the event mask and data, and
+return the error if creation fails. Leave any newly created per-epoll
+source in place until ep_free(), as ep_insert() does on failure.
 
-;)
-								Honza
+Fixes: 4d7e30d98939 ("epoll: Add a flag, EPOLLWAKEUP, to prevent suspend while epoll events are ready")
+Assisted-by: LLM
+Signed-off-by: Tianyi Chen <hi@tychen.cc>
+---
+Tested on v7.3-rc2 in QEMU/KVM:
+- fail-nth: MOD 256 trials, ADD 270 trials, and MOD with an existing
+  per-epoll source 120 trials; no contract violations.
+- SELinux + memcg: 20/20 MOD calls returned ENOMEM with the old mask.
+- tools/testing/selftests/filesystems/epoll/: 66/66 passed.
 
-> ---
-> Christian Brauner (4):
->       file: simplify FD_PREPARE()
->       file: declare the FD_PREPARE() variable with __cleanup() directly
->       cleanup: remove CLASS_INIT()
->       file: make struct fd_prepare const and kill its err field
-> 
->  arch/powerpc/platforms/cell/spufs/inode.c |  12 +--
->  drivers/gpio/gpiolib-cdev.c               |  18 ++---
->  drivers/gpu/drm/msm/msm_perfcntr.c        |   4 +-
->  drivers/media/mc/mc-request.c             |   8 +-
->  drivers/misc/ntsync.c                     |   6 +-
->  fs/eventfd.c                              |   4 +-
->  fs/eventpoll.c                            |   6 +-
->  fs/file.c                                 |   8 +-
->  fs/namespace.c                            |  12 +--
->  fs/nsfs.c                                 |   4 +-
->  fs/xfs/xfs_handle.c                       |   6 +-
->  include/linux/cleanup.h                   |   7 --
->  include/linux/file.h                      | 130 +++++++++++-------------------
->  io_uring/mock_file.c                      |   8 +-
->  kernel/bpf/bpf_iter.c                     |   6 +-
->  kernel/bpf/token.c                        |   6 +-
->  mm/userfaultfd.c                          |   6 +-
->  net/core/scm.c                            |   8 +-
->  net/handshake/netlink.c                   |   8 +-
->  net/kcm/kcmsock.c                         |   6 +-
->  20 files changed, 117 insertions(+), 156 deletions(-)
-> ---
-> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-> change-id: 20260917-work-file-fd_prepare-ea5966d68a95
-> 
+ fs/eventpoll.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index e0c4bf88a838..872396a0ad64 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -1982,11 +1982,22 @@ static int ep_modify(struct eventpoll *ep, struct epitem *epi,
+ {
+ 	int pwake = 0;
+ 	poll_table pt;
++	int error;
+ 
+ 	lockdep_assert_irqs_enabled();
+ 
+ 	init_poll_funcptr(&pt, NULL);
+ 
++	/*
++	 * Create the wakeup source before committing the new event mask.
++	 * Leave the old mask and data unchanged if allocation fails.
++	 */
++	if ((event->events & EPOLLWAKEUP) && !ep_has_wakeup_source(epi)) {
++		error = ep_create_wakeup_source(epi);
++		if (error)
++			return error;
++	}
++
+ 	/*
+ 	 * Set the new event interest mask before calling f_op->poll();
+ 	 * otherwise we might miss an event that happens between the
+@@ -1994,12 +2005,9 @@ static int ep_modify(struct eventpoll *ep, struct epitem *epi,
+ 	 */
+ 	epi->event.events = event->events; /* need barrier below */
+ 	epi->event.data = event->data; /* protected by mtx */
+-	if (epi->event.events & EPOLLWAKEUP) {
+-		if (!ep_has_wakeup_source(epi))
+-			ep_create_wakeup_source(epi);
+-	} else if (ep_has_wakeup_source(epi)) {
++	if (!(epi->event.events & EPOLLWAKEUP) &&
++	    ep_has_wakeup_source(epi))
+ 		ep_destroy_wakeup_source(epi);
+-	}
+ 
+ 	/*
+ 	 * The following barrier has two effects:
+
+base-commit: df2908090cda368b01ff43709f51890076c56157
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.56.0
+
