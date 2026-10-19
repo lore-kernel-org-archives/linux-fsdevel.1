@@ -1,73 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792425005;
-	b=x4DthK7caMbxMkmAjkNuu5DIxwCg5Ds4iQaS9mfcaLctBC8wFlOxBXGGAuc7WLaKL7t6
-	 G1DQcrSa/czpql3fjXad1vrzFIxbVX68+r3hKi8H+jJVFY6ByNQuN0e/c5+I0Js8wnZ6q
-	 IYMmeeFgVWbdVUCns7pF1ImgOmo7eRe4YG4W3VaIjzaBT5HA24tjN1WztSJKt11UVHfA6
-	 yw2vUkzbPzcjvArg802KELecEh+j3qxkHVH7wxulMcI7FWfbWb+SWoKEVocL42PjHHnAE
-	 2nsNuEZlyRYViZ3blmA7h7SYhweQ+d1Q6s+qopvRYqhhxkxdpHvcViA8eESwIVuCdIQ==
+	t=1792425019;
+	b=MdAppc35DIVMvHEGLNDZmSenIey2Cf7VjA1zeJqat/V+/6KAeEwgwZNZmpXJqWp506OL
+	 NsVRXZX/cntRuoOdcNBXd0d9WS1hbcYoVHVmvq9l8HSYdl0ZVf8KQ1VxOOK9lYjw7+WAN
+	 qwx521fB5/jyPpQ4lbI3S9RO8clIQEpYA8/F7nfMQxdd8tRd3M1NzLGQcab49zZ0RT4fs
+	 mPIQrTcRsD3aC7CzKshoi/4xikSqOoHdrXyHGKVCtccvRGSH2/VH92IZ863vfpomlYSUG
+	 LePVaIO4FsajC0VBWtYRDrW/AuncjRhx+YuPe+zCleaifhbA7tU4a86ipZJloZjUw+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792425005;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792425019;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
 	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=n+S/ugjb/OJ8R7PrPj5yXY/1bn/4OHkMP3wOgkiMBWs=;
-	b=IbM5Zmool280QPNquGT77OUBG1LhZdMfFLqJ30L+O68VrhRPy5fJ3oUf8xMUZD5hxVCv
-	 DoZjKb6k+o69BHhQDTY6v58SsQvfHoiKVK7hu4byyVt0j01oHmDgl1q1kzRrVl8ToNzTV
-	 Dv2PGE7/N04XEcDFvJSCg4eOXQ/R2/Yi58j6xkARAItB/CDjoFE+JN6ot4+BlEds2VB/o
-	 k6oHZNPxRiCMKvfTmck2LEnN/rFYFn2S5sLBA0eVy1s67lsntukWex6nHnRYljZhU8l9z
-	 DGhaMx4HjNdX5tFaJcQU2l68ksKg3L+bQ5XUAtyMVUhMb4lVxLSMj/73MNFlG1BK3yQ==
+	bh=PMTfPTsjqmbKCxNwaWHz1dgOx+TTOWHrc04S/ITwtbQ=;
+	b=HsQ0ofBSttPBK7KaXI7GjucIkc/BP9vpF/HPfluGn/+i1fb6JyAG8+JtHh7iJ2s5eBHG
+	 ZhQsVlWlSOrCtIuHrHafUnZ73Zx9FL5MULlaCGYZMBR+iwDLkAG0yXqbO5nbYd35GoQqI
+	 YmzwNtTHf8etD2iROSW+wPwloTgBEKlpn7XuFXpAJWXn3BIuaRVWCLY790+qF2SpEg73z
+	 idEVbFvneOEQT5evp1z8nTrJhopSEAuqE+9LShCOec5tQLhdn828HfJEyLfbM7uahkB0u
+	 3pyRpl4gGpf1XkJKG7w4uXWtjKLboQ3T2zDwXOmV2QsmB2+zVjdGiDiwnTwnKwzk+TQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m8LxZuuc;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hImCGeam;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B07E609A552;
-	Mon, 19 Oct 2026 15:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100A360A2628;
+	Mon, 19 Oct 2026 15:50:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m8LxZuuc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E33F61F000CB;
-	Mon, 19 Oct 2026 15:50:02 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hImCGeam
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3A301F000CA;
+	Mon, 19 Oct 2026 15:50:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792425005;
-	bh=n+S/ugjb/OJ8R7PrPj5yXY/1bn/4OHkMP3wOgkiMBWs=;
+	s=k20260515; t=1792425018;
+	bh=PMTfPTsjqmbKCxNwaWHz1dgOx+TTOWHrc04S/ITwtbQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=m8LxZuuclx4RHUS5jJjxSkOswRLlo5pjpQ9wupaEyFZ89DFiWI5oq+M9ZzjgAB5R1
-	 WPcMXMgZzy1vi4i/u5ggPMYZkLowHSr74F/i92yHV0QEVfNmxhyg8G2NeUkQZt799w
-	 feBYtEiHDm8syHRZsZGzw2kebSdhmFvt1+EMyEWvBGtehsIUQw+oa+wP7VGuomIw7Y
-	 2bEWbG6aITVhZMmPQKe416GSU50vDxW5pvwPhZwh6VKxax2HyQVGDCYHLo0qyFn5Dn
-	 uB7w65BUXz74SDKmQpLLGupvtAB6qxNXykZJ6azmmFMNxxmAOvK9eZbCPZmHmxrHPP
-	 8j2EK1MsXYTSA==
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfauth.ams.internal (Postfix) with ESMTP id A05B3198003A;
-	Mon, 19 Oct 2026 11:49:57 -0400 (EDT)
+	b=hImCGeamAmp+FYmHCgjT0+aC2HP0OJhG9IfHgF2YTc+c/Lg1JCdqfhZsR48XBx/EK
+	 g3218Ry6T4ZZJTTcb04LT7FE0brELiShRrpFIUFsUjvL5LWlhY5eRutVseYHR4uQim
+	 /1X7v5Yq2742O208tEu+CX/t9ehB8m3QfcjOO32lSugvlWN1qsOOKEp1WoJSBK6VCy
+	 udNboFaQbCEaKpzrZxbQ40MR0luvhb8si/ivsMBy9ofJ7g7IOjCDWnW+3SAOceChHh
+	 9cSsYkLERtYijtq+YdBCF4584X657Nl6PaGOoH8k+rQek3DNxzhqYyH+xBdCJ44VcS
+	 hCsk8uz+r0voQ==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.ams.internal (Postfix) with ESMTP id BFEF3198003A;
+	Mon, 19 Oct 2026 11:50:10 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Mon, 19 Oct 2026 11:50:01 -0400
-X-ME-Sender: <xms:JTzWaopAIuIDyf2I74LXEv-XB9cVY8to4rbSy9ZZmVSfqR6AKR35Ag>
-    <xme:JTzWagKTkPu3TQuZhTFQ0pY31niVDCx9HEIJNcWzTtu8xnox9YoMGBNc9j7643UPg
-    64JwUP8kKO9d9WaRGEZT-L2-1BboOAlMUiAbWbr-15PWaoUnWkyggV7>
-X-ME-Received: <xmr:JTzWal3ykveCNXQdPFRa5ZVVKd7BcXSNTlYTfQ0BKiesKt82pNTriG4lGtY>
+  by phl-compute-01.internal (MEProxy); Mon, 19 Oct 2026 11:50:14 -0400
+X-ME-Sender: <xms:MjzWaqk20WrAqHU7BWHXSIbeFWNU0KwfpFa7LosxR-uHCi6LzHBMAQ>
+    <xme:MjzWaoxrSIiA58OTdCL5J-YXqxeNMGt7scVysQso_9eJSVPwOMnseTr_f7smvLVYp
+    CmYWo5-uc4Jlc_S9TAuqU-IHgPF2mWBIlHYA2OY5RscVujFus_dP5d9>
+X-ME-Received: <xmr:MjzWatyuTGbpQEsZRkT2D7pUnoeJk6tql9SNTEoObpborfq4zLpiqnIG09M>
 X-ME-Proxy-Cause: dmFkZTFpjrG+2jfVBfklNRE95oThC60xlhUtv5sioyJrfpDDHbEB/2cXkTI411oJriXTLs
     N7RLfOUdBbmoibSFu4zT/f1BKPPyxkEYUp5eDeafGhPQjcnfJv/29ZtYwE6q77Fr7A6zQu
     C94bEu3EPqJJ50fLC5xP9PtYZOq3sS+jMfKkgkZFNUAdZxkDiyHArLijwBk9MwzijLWdvR
     4raSXvkSyIGvp9XYd2doZUGuEANzDQejgJzzg3ARZCjBL2yZfXIvLZCg0AMujDeTHEemYv
-    cvWt94P7AS+P1mtikHZvyS9eAaK3Fy2/TwDlvaPXULPDsZK9f0sj0aca+uCBBoNs4d3uVo
-    YdtzlwPs9YNSDvT8I3PUckOtBZwF77w7yengukH2a2sZdb3tiP6Qlt9T5excPi6bNA+J9g
-    mqbobw5Mi702UDCjkOsfr5wroidnBhzWPbrlA+FCXpkk1xOe0/EVkUvBzzMoafJuBeCCLL
-    WBPgNlBt2yek1h9VvQvgT19ztxgajydWWVggL5ja5MkU8lXwa1Ls+occorai2u4Q8LDn1P
-    8mDhUG6AEuUB2cC14L0ld1brKkx1KVX6VyYLkLq4OMYy5fXiCB2XT9oTKPtorFOMkSTp2b
-    he8TCnhUR6vRkWMBzCEpOD/1xv5Omsu8k9kWVo4e6H2Xrswc560yXC96kwaQ
-X-ME-Proxy: <xmx:JTzWah7SZciXoDdIPr_MZb8C70JfG8HRwOh9031XvV3-l1ZMoQnJBw>
-    <xmx:JTzWarOkSc0YPOKweoj6Gk8H_BneJzTgdHfoULE1UJS_dq_jlzagXw>
-    <xmx:JTzWatI3M2QHX0XvNPEGidQgeEZdeE5HtYJGCvCl_qU9LrUzxxhW7g>
-    <xmx:JTzWaupm7Od-1U0qODek8Ph3PRhfJ9-90Yvai0JtyCwnQy8v1fbzEw>
-    <xmx:JTzWaoZ3WArj8sNRHixTlUdM0S7AD21SZyTwmLZB8Z5Ha7ZLKfsOH_d5>
+    cvWt94P7AS+P1mtikHZvyS9eAaK3Fy2/TwDlvaPXULPDsZK9f0sj0aca+uCBBoNs4d3uHs
+    jMUJ1Iozqk5UdmIvSWusRKiLxZJibibQQ4io5vi2zZE/MO/E51//OOpVWfhv0zTt87YwNC
+    iT4vrAPyd6Zw38/TgZPAZuDM5MOQ5uy92jrk9+kPwi9FArfqH5nSplQoca7j1ODXWJuKjo
+    Dzl3htmBf/kiSZk95GYec6x/otNAVITvtIg8Nf+oD+dUiJA4EkTHkc1Gpwfmk27qWoZJfQ
+    yFrAjVY2J4RzUnQGa94QZsGOXiqq3U5awoY8NMbMgVRjboeQ00T7MEBaY6re66zsU4Ec9D
+    0R4U/ITBWynGFo5znxlH1QA0ft/B0hdJAgXaFWzh6VKsSmugq2I9X73PmpLw
+X-ME-Proxy: <xmx:MjzWai-qqCOJpGJhRbQV4nXeaainxxPUu5R9TpfLw5p8v-YvAMAIGQ>
+    <xmx:MjzWaojCY6I4q2rujQLWLvRQJjOsEVPcpkCiCGXwBGqdMdyaw0Du_Q>
+    <xmx:MjzWatU9IFKq5no1medm5OSxy82CGnApGBkARZ9zPJx5kPLb2uA3DQ>
+    <xmx:MjzWakz3fmhsJGVzIS0Qv7-erXcB1GyLj21qXl1v3ISN0yaIUJUNvw>
+    <xmx:MjzWatyJrBoAPWcxh0-1FEhlmxpkyQIR-0xbar9-2i-RsXPINpStpUzG>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Oct 2026 11:49:56 -0400 (EDT)
+ 19 Oct 2026 11:50:09 -0400 (EDT)
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
@@ -116,9 +116,9 @@ Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
 	kernel-team@meta.com
-Subject: [RFC PATCH 06/18] mm: free the pages waiting for a grace period before OOM
-Date: Mon, 19 Oct 2026 16:48:59 +0100
-Message-ID: <20261019154913.1765974-7-kas@kernel.org>
+Subject: [RFC PATCH 08/18] mm/memory-failure: handle folios with PG_rcu_free
+Date: Mon, 19 Oct 2026 16:49:01 +0100
+Message-ID: <20261019154913.1765974-9-kas@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261019154913.1765974-1-kas@kernel.org>
 References: <20261019154913.1765974-1-kas@kernel.org>
@@ -133,209 +133,94 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When reclaim fails, should_reclaim_retry() looks only at free and
-reclaimable pages.  It can hand the allocation to the OOM killer while
-enough memory is about to come back from the pages that wait for a
-grace period.
+A page whose free waits for an RCU grace period has refcount 0 and is
+neither on the LRU nor in the buddy allocator.  memory_failure() and
+soft_offline_page() cannot handle such a page: get_any_page() retries a
+few times and gives up.  Soft offline of the page fails, and a hard
+error is ignored.  If the page is part of a large folio, the folio is
+later freed with the poisoned page in it, and that page can be handed
+out again.
 
-Before should_reclaim_retry() gives up, free the waiting pages if they
-would bring an eligible zone above its min watermark, and retry.  That
-costs an expedited grace period, which is cheap next to the OOM killer.
-The retries are bounded per no-progress streak, so a drain that does not
-help still ends in an OOM kill.
+Free the waiting pages first when the page looks like one of them.
+memory_failure() has to do it before it sets PG_hwpoison.  The free of a
+poisoned order-0 page drops the page instead of returning it to the
+buddy allocator, so a later drain would still leave the error ignored.
 
-pgfree_rcu_drain in /proc/vmstat counts the drains that freed something.
+A folio with PG_rcu_free that is still in use may be copied by a reader
+that holds no reference.  When memory_failure() succeeds, its caller can
+unmap the page from the direct map under such a reader.  Wait for a
+grace period before returning success.  By then the page has left the
+page cache, or is an order-0 folio with PG_hwpoison, which a reader that
+starts after the grace period has to check.
+
+Wait at the end, not right after setting PG_hwpoison.  A large folio is
+split later, and until the new folios are in the page cache, a reader
+can still copy the poisoned page as part of the large one.
+
+Both callers hold mf_mutex and can wait for the grace period.
 
 Assisted-by: LLM
 Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 ---
- include/linux/vm_event_item.h |  2 +-
- mm/page_alloc.c               | 88 +++++++++++++++++++++++++++++++++--
- mm/vmstat.c                   |  1 +
- 3 files changed, 86 insertions(+), 5 deletions(-)
+ mm/memory-failure.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
-index 45527fa7d0c1..7626a3e3a07a 100644
---- a/include/linux/vm_event_item.h
-+++ b/include/linux/vm_event_item.h
-@@ -36,7 +36,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
- 		FOR_ALL_ZONES(ALLOCSTALL)
- 		FOR_ALL_ZONES(PGSCAN_SKIP)
- 		PGFREE, PGACTIVATE, PGDEACTIVATE, PGLAZYFREE,
--		PGFREE_RCU, PGFREE_RCU_EXPEDITE,
-+		PGFREE_RCU, PGFREE_RCU_EXPEDITE, PGFREE_RCU_DRAIN,
- 		PGFAULT, PGMAJFAULT,
- 		PGLAZYFREED,
- 		PGREUSE,
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index a9058d414f92..bec9128d80db 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -1445,6 +1445,29 @@ static void rcu_free_defer(struct folio *folio)
- 		queue_work(rcu_free_wq, &r->expedite);
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index 7dde7c3c9a0c..dc66cac05b1f 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -1565,6 +1565,21 @@ static int get_hwpoison_page(struct page *p, unsigned long flags)
+ 	return ret;
  }
  
-+/*
-+ * Free what every CPU's lists hold.  A concurrent drain holds the lock
-+ * until it has freed what it took.
-+ */
-+static void rcu_free_drain(void)
++/* A page waiting for a grace period is not in the buddy yet: free it */
++static void mf_free_rcu_pages(struct page *p)
 +{
-+	static DEFINE_MUTEX(lock);
-+	LIST_HEAD(list);
-+	int cpu;
-+
-+	mutex_lock(&lock);
-+	for_each_possible_cpu(cpu) {
-+		struct rcu_free_pcpu *r = per_cpu_ptr(&rcu_free_pcpu, cpu);
-+
-+		spin_lock_irq(&r->lock);
-+		rcu_free_take(r, &list);
-+		spin_unlock_irq(&r->lock);
-+	}
-+	if (rcu_free_flush(&list))
-+		count_vm_event(PGFREE_RCU_DRAIN);
-+	mutex_unlock(&lock);
-+}
-+
- static void __init rcu_free_init(void)
- {
- 	int cpu;
-@@ -4792,6 +4815,52 @@ bool gfp_pfmemalloc_allowed(gfp_t gfp_mask)
- 	return !!__gfp_pfmemalloc_flags(gfp_mask);
- }
- 
-+/*
-+ * Reclaim is about to give up: if the pages waiting for a grace period
-+ * would bring an eligible zone above its min watermark, free them and
-+ * retry.  Not for a dying task, which frees memory by exiting.
-+ */
-+static bool rcu_free_wait(gfp_t gfp_mask, unsigned int order,
-+			  struct alloc_context *ac, int alloc_flags,
-+			  int *rcu_free_waits)
-+{
-+	struct zone *zone;
-+	struct zoneref *z;
-+
 +	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE))
-+		return false;
-+	if (tsk_is_oom_victim(current) || fatal_signal_pending(current))
-+		return false;
-+	if (*rcu_free_waits >= MAX_RECLAIM_RETRIES ||
-+	    order > PAGE_ALLOC_COSTLY_ORDER)
-+		return false;
++		return;
++	if (page_count(p))
++		return;
++	if (!zone_page_state_snapshot(page_zone(p), NR_FREE_RCU_PAGES))
++		return;
++	if (is_free_buddy_page(p))
++		return;
 +
-+	for_each_zone_zonelist_nodemask(zone, z, ac->zonelist,
-+				ac->highest_zoneidx, ac->nodemask) {
-+		unsigned long waiting, available;
-+
-+		if (cpusets_enabled() && (alloc_flags & ALLOC_CPUSET) &&
-+		    !__cpuset_zone_allowed(zone, gfp_mask))
-+			continue;
-+
-+		waiting = zone_page_state_snapshot(zone, NR_FREE_RCU_PAGES);
-+		if (!waiting)
-+			continue;
-+
-+		available = waiting +
-+			    zone_page_state_snapshot(zone, NR_FREE_PAGES);
-+		if (__zone_watermark_ok(zone, order, min_wmark_pages(zone),
-+					ac->highest_zoneidx, alloc_flags,
-+					available)) {
-+			(*rcu_free_waits)++;
-+			rcu_free_drain();
-+			return true;
-+		}
-+	}
-+
-+	return false;
++	rcu_free_sync();
 +}
 +
  /*
-  * Checks whether it makes sense to retry the reclaim to make a forward progress
-  * for the given allocation request.
-@@ -4805,7 +4874,8 @@ bool gfp_pfmemalloc_allowed(gfp_t gfp_mask)
- static inline bool
- should_reclaim_retry(gfp_t gfp_mask, unsigned order,
- 		     struct alloc_context *ac, int alloc_flags,
--		     bool did_some_progress, int *no_progress_loops)
-+		     bool did_some_progress, int *no_progress_loops,
-+		     int *rcu_free_waits)
- {
- 	struct zone *zone;
- 	struct zoneref *z;
-@@ -4816,10 +4886,12 @@ should_reclaim_retry(gfp_t gfp_mask, unsigned order,
- 	 * their order will become available due to high fragmentation so
- 	 * always increment the no progress counter for them
- 	 */
--	if (did_some_progress && order <= PAGE_ALLOC_COSTLY_ORDER)
-+	if (did_some_progress && order <= PAGE_ALLOC_COSTLY_ORDER) {
- 		*no_progress_loops = 0;
--	else
-+		*rcu_free_waits = 0;
-+	} else {
- 		(*no_progress_loops)++;
-+	}
+  * The caller must guarantee the folio isn't large folio, except hugetlb.
+  * try_to_unmap() can't handle it.
+@@ -2440,6 +2455,7 @@ int memory_failure(unsigned long pfn, int flags)
+ 	if (res != -ENOENT)
+ 		goto unlock_mutex;
  
- 	if (*no_progress_loops > MAX_RECLAIM_RETRIES)
- 		goto out;
-@@ -4872,6 +4944,10 @@ should_reclaim_retry(gfp_t gfp_mask, unsigned order,
- 	else
- 		cond_resched();
- out:
-+	if (!ret && rcu_free_wait(gfp_mask, order, ac, alloc_flags,
-+				  rcu_free_waits))
-+		return true;
-+
- 	/* Before OOM, exhaust highatomic_reserve */
- 	if (!ret)
- 		return unreserve_highatomic_pageblock(ac, true);
-@@ -4961,6 +5037,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 	enum compact_result compact_result;
- 	int compaction_retries;
- 	int no_progress_loops;
-+	int rcu_free_waits;
- 	unsigned int cpuset_mems_cookie;
- 	unsigned int zonelist_iter_cookie;
- 	int reserve_flags;
-@@ -4985,6 +5062,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- restart:
- 	compaction_retries = 0;
- 	no_progress_loops = 0;
-+	rcu_free_waits = 0;
- 	compact_result = COMPACT_SKIPPED;
- 	compact_priority = DEF_COMPACT_PRIORITY;
- 	cpuset_mems_cookie = read_mems_allowed_begin();
-@@ -5163,7 +5241,8 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 		goto restart;
++	mf_free_rcu_pages(p);
+ 	if (TestSetPageHWPoison(p)) {
+ 		res = -EHWPOISON;
+ 		if (flags & MF_ACTION_REQUIRED)
+@@ -2612,6 +2628,13 @@ int memory_failure(unsigned long pfn, int flags)
  
- 	if (should_reclaim_retry(gfp_mask, order, ac, alloc_flags,
--				 did_some_progress > 0, &no_progress_loops))
-+				 did_some_progress > 0, &no_progress_loops,
-+				 &rcu_free_waits))
- 		goto retry;
+ identify_page_state:
+ 	res = identify_page_state(pfn, p, page_flags);
++	/*
++	 * The caller may unmap the page once this returns 0.  Lockless
++	 * readers that started before the page got PG_hwpoison, or before a
++	 * split left it in a folio of its own, may still be copying it.
++	 */
++	if (!res && folio_test_rcu_free(folio))
++		synchronize_rcu();
+ 	mutex_unlock(&mf_mutex);
+ 	return res;
+ unlock_page:
+@@ -3003,6 +3026,7 @@ int soft_offline_page(unsigned long pfn, int flags)
  
- 	/*
-@@ -5206,6 +5285,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 	/* Retry as long as the OOM killer is making progress */
- 	if (did_some_progress) {
- 		no_progress_loops = 0;
-+		rcu_free_waits = 0;
- 		goto retry;
- 	}
+ retry:
+ 	get_online_mems();
++	mf_free_rcu_pages(page);
+ 	ret = get_hwpoison_page(page, flags | MF_SOFT_OFFLINE);
+ 	put_online_mems();
  
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index aa7280b5e69c..d994de1fd739 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1346,6 +1346,7 @@ const char * const vmstat_text[] = {
- 	[I(PGLAZYFREE)]				= "pglazyfree",
- 	[I(PGFREE_RCU)]				= "pgfree_rcu",
- 	[I(PGFREE_RCU_EXPEDITE)]		= "pgfree_rcu_expedite",
-+	[I(PGFREE_RCU_DRAIN)]			= "pgfree_rcu_drain",
- 
- 	[I(PGFAULT)]				= "pgfault",
- 	[I(PGMAJFAULT)]				= "pgmajfault",
 -- 
 2.54.0
 
