@@ -1,96 +1,181 @@
-Received: from mail-10625.protonmail.ch (mail-10625.protonmail.ch [79.135.106.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8520472F87
-	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 08:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FD6277026;
+	Mon, 19 Oct 2026 09:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792399873; cv=none; b=ulGeRHkwM750vDDLZ+ot44OzoCSXmzhJrOK2lYMWLmhuthAejpu9TO2iRJBFy1VB/nxw3SCzoM2xDICIWUvK3NJuib7chV0EbSaYoEiAMPV86+FRkGs1Mn/awJexC39p0fyjHDc/HU6XsPNClJbpis+wSQDbmgT57CCGRpy3QOI=
+	t=1792401367; cv=none; b=d7DD6tCK0UCwXgHMQ0/dyJ0XsgzVWNHLqNzNKIlsJH0zN/B/OLGnfdWkoM/AbaK16ATuC3f0FH16sgwfMMkrllxiO9i1jDsIq7EysYg3Ijsoj70822Q5L2vhct4/rrhNjyqHh7mDXgfxk4RD72LZ83FQG06IA6QXswS2R/j2hwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792399873; c=relaxed/simple;
-	bh=1ezIW7jP9wyqxlPE1NcLyB4NHCHxjn3KBi+qknJXVSw=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SASOeU5wIz73FK3fhc/lUJgmKjxyTZMBC18cdAeqVCPWp1rJIvd3uSQvULp9r6tuXETW12OXV65MmsqxE5rPUhs/sCRTvFUqnXFcXd4K2mqxOd4iHIl7kzX6xe6y+47WmnTTsu+B2STiCI/6mV0tJmf44fzgic/AObjC089oRdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=karaolidis.com; spf=pass smtp.mailfrom=karaolidis.com; dkim=pass (2048-bit key) header.d=karaolidis.com header.i=@karaolidis.com header.b=EkMU7TSv; arc=none smtp.client-ip=79.135.106.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=karaolidis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=karaolidis.com
+	s=arc-20240116; t=1792401367; c=relaxed/simple;
+	bh=88L7hie2tDkWe7PZYJG3j2OUPcoz6V6ev/d6mTgZGwU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PU6d/1Ik4vofrXalVL1SAZkOb5rh/D8JONcEjgEUMY8j7Qbs2u2hwndoNH1kaZoLgBIAG7KqYy5GNzzd8maKDsIUanCaTqEk4htfImRSqwbYQnIHCpJ/ck4Od6MrkZvpUo1bUEKfeVdPzVRTHanaYDoRC0ZjET/APPXGvw82pBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ghGHOwZ6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=NiyW3Nok; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yC77sQaB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OXbTTu5b; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=karaolidis.com header.i=@karaolidis.com header.b="EkMU7TSv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karaolidis.com;
-	s=protonmail3; t=1792399862; x=1792659062;
-	bh=nxWiRzun1MUxXHHtwkjm2y/TD5zRPsCCzmyXZVf4DBo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=EkMU7TSv/sPpSb//opgCgtpPnFPfEK1cZE9o0zTsUUc8huV+SG0wgnm9U2f91bNCw
-	 KSTc/G5CxcD73YDpt5w0/grU/CHUe44Bi+KEKULxldGrZK1tXvvHhQkbZfYbrJJapv
-	 N+Oc2QsLXYublEw0Gt6bYySPU08EOaRQvCfeNOko9UoICxa2Cv+XHe9MrQIMTpsmTV
-	 f+I//a9qlTcDwY2qP6d2k7Xa6FJa0CeokK+1s0u1gCIym66jyWVEAyW8SM5E0DowY6
-	 vgdYUT9iVnNIcPpwUXXPCz1JrTMXcjUq6V47cf4kfkNgYC4Vxa1v0ox9tMmxwidA7E
-	 Js4kvMYxN9fyA==
-Date: Mon, 19 Oct 2026 08:50:52 +0000
-To: Zhihao Cheng <chengzhihao1@huawei.com>
-From: Nick Karaolidis <nick@karaolidis.com>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Mateusz Guzik <mjguzik@gmail.com>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] fs: rotate inodes whose page cache could not be dropped
-Message-ID: <qNyuimLVAkP0k7luIlbuqeg7Co3gXnyrzZ2fIuFjRZiKon2IaylrG1-_tkSRE_cWyOuq6eIzU6O12OvRg8J-ZszqHBaxE0XL2uYVhQ08MS8=@karaolidis.com>
-In-Reply-To: <5b74fceb-dc8d-21ad-d313-eba7a0009056@huawei.com>
-References: <20261016102515.111285-1-nick@karaolidis.com> <5b74fceb-dc8d-21ad-d313-eba7a0009056@huawei.com>
-Feedback-ID: 101209095:user:proton
-X-Pm-Message-ID: 56a8ba167d1bfe9de3fb76b4475e97c78503300d
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ghGHOwZ6";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="NiyW3Nok";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yC77sQaB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OXbTTu5b"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 36E7721C13;
+	Mon, 19 Oct 2026 09:16:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1792401364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7yu3tr/XKjY08A8K99OkNRH8Z7mvGFgqqz1CA7bGCoQ=;
+	b=ghGHOwZ6JxMIYAZ26rWhTpweaoCboTRlTL999bMVvyF0E2aZvlajC6BK/JwQUb+GP8T6vZ
+	QpYJUF6W+y1mzomrimeyLNCvmnyrxjwp7Seri96i1piyel8vRzZVgO5dZWa2mhLkRaC+hO
+	33rSbF30BBO4HAdoMOLbGOQBAaetndA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1792401364;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7yu3tr/XKjY08A8K99OkNRH8Z7mvGFgqqz1CA7bGCoQ=;
+	b=NiyW3NokfsPA3E7a9inhFGaT20Sl0YlKV0Mjp7kg8WBDh3ren76IclmzfKPO6t+0UBeewT
+	Aln5ixT4mweAfjAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=yC77sQaB;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=OXbTTu5b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1792401363; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7yu3tr/XKjY08A8K99OkNRH8Z7mvGFgqqz1CA7bGCoQ=;
+	b=yC77sQaBlmmo4b7SixoP8v0ykVb8nEozZqjSpHaFK0Q0fFqDF87llv3DaPBzNzh5CWKXxE
+	8gosP/5itJsjOS62NqMDVHZ6RE8KHwU6Z6TD/DQLBDRiRDdTI6GbVTal3EcB41/okvGfzs
+	XYhpDE6XhOp3uEX3iDXLm00HlOVNL9U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1792401363;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7yu3tr/XKjY08A8K99OkNRH8Z7mvGFgqqz1CA7bGCoQ=;
+	b=OXbTTu5bfXVm5PferY6twjbDiPg/4EpFJsGB4+Iw+QGZxYgpoXGqIFOBisjJhNvUhGnAuO
+	Hh+gTeNTZwQ1Z6AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ECE25134B3;
+	Mon, 19 Oct 2026 09:16:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1ML/MNLf1WrwFAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 19 Oct 2026 09:16:02 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 772FAA1413; Mon, 19 Oct 2026 11:16:02 +0200 (CEST)
+Date: Mon, 19 Oct 2026 11:16:02 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linuxppc-dev@lists.ozlabs.org, 
+	linux-gpio@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-media@vger.kernel.org, wine-devel@list.winehq.org, 
+	linux-xfs@vger.kernel.org, io-uring@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-mm@kvack.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] file: simplify and harden cleanup handling
+Message-ID: <p4eitjefwpwhfouwhmvxmelxl3yncv3vjdi7wsgu7rna2zorqd@rlvbcpzcpbid>
+References: <20260917-work-file-fd_prepare-v1-0-b87534ca49f3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917-work-file-fd_prepare-v1-0-b87534ca49f3@kernel.org>
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 36E7721C13
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:email,suse.cz:dkim,suse.com:email];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
 
-On Saturday, October 17th, 2026 at 8:43 AM, Zhihao Cheng <chengzhihao1@huaw=
-ei.com> wrote:
+On Thu 17-09-26 11:09:41, Christian Brauner wrote:
+> The cleanup guards rely on unnecessary infrastructure and make the code
+> more complicated to follow than it needs to be. Clean it up. Also shrink
+> the struct a bit and get rid of the unnecessary error variable. We can
+> just make this more ergonomic by using fdf->fd directly. Also expose the
+> struct itself as const and hide the actual underlying local variable
+> behind a UNIQUE_ID() named variable so we avoid risking shadow variables
+> and polluting callsites. Code generation wise the outcome is exactly the
+> same but simpler.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-> Hi Nikolaos,
-> I find a possible BUG_ON if this patch applied, details shown as:
->     P1                          P2
-> prune_icache_sb
->   lock(lru->lock)
->   inode_lru_isolate
->    if (!mapping_empty(&inode->i_data))
->     unlock(lru->lock)
->     spin_lock(&inode->i_lock)
->     inode_state_set(inode, I_REFERENCED)
->     inode_unpin_lru_isolating
->     spin_unlock(&inode->i_lock)
->                           unlink
->                            iget_locked // find_inode_fast gets the inode
->                            iput
->                             iput_final
->                              drop =3D 1
->                              evict
->                               BUG_ON(inode_state_read_once(inode) !=3D
-> (I_FREEING | I_CLEAR))  // inode state with I_REFERENCED
->=20
-> Could that be possible?
+I know I'm really late but FWIW this looks really great! I know this is in
+PR to Linus so feel free to ignore:
 
-Hi Zhihao,
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Thanks for looking at this. I don't think that BUG_ON can trigger.
+;)
+								Honza
 
-- The patch sets I_REFERENCED in the same i_lock section that clears
-  I_LRU_ISOLATING, and evict() waits in inode_wait_for_lru_isolating()
-  before calling ->evict_inode(), so the walker can only set the flag
-  before the filesystem's eviction runs.
-
-- clear_inode(), which every ->evict_inode() calls, sets i_state to
-  I_FREEING | I_CLEAR.
-
-- Evicting an inode that has I_REFERENCED set already happens.
-  iput_final() sets it through __inode_lru_list_add(inode, true) when
-  the inode is already on the LRU.
-
-Did I miss a path that checks i_state before clear_inode()?
-
-Thanks,
-Nikolaos
-
+> ---
+> Christian Brauner (4):
+>       file: simplify FD_PREPARE()
+>       file: declare the FD_PREPARE() variable with __cleanup() directly
+>       cleanup: remove CLASS_INIT()
+>       file: make struct fd_prepare const and kill its err field
+> 
+>  arch/powerpc/platforms/cell/spufs/inode.c |  12 +--
+>  drivers/gpio/gpiolib-cdev.c               |  18 ++---
+>  drivers/gpu/drm/msm/msm_perfcntr.c        |   4 +-
+>  drivers/media/mc/mc-request.c             |   8 +-
+>  drivers/misc/ntsync.c                     |   6 +-
+>  fs/eventfd.c                              |   4 +-
+>  fs/eventpoll.c                            |   6 +-
+>  fs/file.c                                 |   8 +-
+>  fs/namespace.c                            |  12 +--
+>  fs/nsfs.c                                 |   4 +-
+>  fs/xfs/xfs_handle.c                       |   6 +-
+>  include/linux/cleanup.h                   |   7 --
+>  include/linux/file.h                      | 130 +++++++++++-------------------
+>  io_uring/mock_file.c                      |   8 +-
+>  kernel/bpf/bpf_iter.c                     |   6 +-
+>  kernel/bpf/token.c                        |   6 +-
+>  mm/userfaultfd.c                          |   6 +-
+>  net/core/scm.c                            |   8 +-
+>  net/handshake/netlink.c                   |   8 +-
+>  net/kcm/kcmsock.c                         |   6 +-
+>  20 files changed, 117 insertions(+), 156 deletions(-)
+> ---
+> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+> change-id: 20260917-work-file-fd_prepare-ea5966d68a95
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
