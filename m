@@ -1,96 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792434598;
-	b=fyRYgk9UrxS3ksqOcN2sxYwkzdEog4Kp7S4xQVcd6Yl6MBQ47Q8UZoG42J3Y7lkR4eKY
-	 qd5MctvOtPS12O6PZA1uhG+V9EpPEROWD2F25STozotGifLbx63fCzTCIEP/BzUODf2WA
-	 ceQCp3/1hD6XIrX2FZQjRQSM+MY66ON2+206C4H7bgWxnHokYtjQiKQpZun6TE6687OLi
-	 4BD01Mq1/eJxqTrlBMKXOTV9fbYBKr/UPVPPxI570IXqKN4onDFHIiH3UKjU0c9PUWfF0
-	 zSMVtaW1LfwhipbjPRHZQiknU6bveq4ouwqwo7DET5t/uOkYkNxNObrLz/iCaItxxSw==
+	t=1792434850;
+	b=FvPiydJszkUgiWGCGNxU3SWorhFq7D6OO2/F/3NP/gx8pg3Bx/hF7bwY+FODXSPuY3a8
+	 1x7u+1MwyW/ZMtc75BSopGOm15DeSQbWqQNQIq5h8drafdJnSel1+t2t/obhxv7kAt8sw
+	 on0Ru6u3/tYvo5yVyW3qrk0vLsXqRq7heN+GILVLkXOiFzXZhp+7EFku67a8JA3oDbNzX
+	 CF4cYWckYb0RYIMr62hCpzCTovjqY+cZCdgLB2kkMBLBRkgtk1BHxszRDquYDvE/785Tr
+	 kXGM8XK/2Igcjvxyd3b+YtN+ynSyRY0IlIwJl0JyH6B/sFUXzZ9aWppitPGm9+M37Sg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792434598;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=ryMN7FspYYeuz9q2JwGP8JZkmnnmqzmHQjeHzQubOBI=;
-	b=GuKDSM6L+76QRkLJconbWC7b62vlD0lu+KDgylsI5fHcuG/mdelsfrCIR4t1S2RidX8y
-	 yeMaah5dLysMzE09t1Obtjdjb5SRQ4dhL5BGDchnZzqt25sZ+U0+f8HuWYKiC5lG9J41K
-	 NdeHwy/kgteLWEynaUr13HDZWS989mQWw+RlP1IOmNrDU6PvPTXfAujjFfVTDuJhMWMgg
-	 OHSrbqbFIfi7u2wQzJiptmacP8bmY+U+tfhDYWLcxFDO4xlTzGVIm0uJtZxdL/Qr5Gz0m
-	 IBOokaL9PyE4w5mKZfJiEya7TVu/Tn142kv9Mag+rE1vHobqS70tXbSYcMcasfrxxdw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792434850;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=fpSk/CbNOxgm/YwPtWLbatYprzPLT2PIdzvPIH54y58=;
+	b=jVgePBVBYHia7faYuspLzFEdcT7NQZRMx9KCgRN/wd6+mzR9WB8fUKo0MFICoym/gYpY
+	 LQmVKjX1j9on5Cstm3iy2oEO/cihT51F6UJ2A0a1z4B9YJOk03pfvSkqXOiUESDwcEDgN
+	 2+aNOWBOCR/VyPQWe0DnMXKtYwCAPOWO0h/yYi1qRDS/LQCT1I07LK+1cTNSJHK14nNKy
+	 lhpuDmYeQWB4s6pdkMb99z2GIuPgs1YL/yH9KaIflQkBpr6IBK6aR5bz2wr3NcOVBS/9u
+	 3hMCRutZHCSNM/UQhE1dicjctLB3E7/tUPqvvFebZHzv5t0isUhq6iWoKYzkwz1tTLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q5Q35urr;
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mcN3jL0x;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE55606A32D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 18:29:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CEE55606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8674606A31E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 18:34:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q5Q35urr
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-35ef6b49813so4600107eec.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 11:29:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792434597; x=1793039397; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ryMN7FspYYeuz9q2JwGP8JZkmnnmqzmHQjeHzQubOBI=;
-        b=q5Q35urr6rCgOeG2epMNHEQvKgYthXGp521NM1MXNt3XXReE+JJIpWG0cIjS0uIcEk
-         Aq6NeSKfc/eLfgYuZc1PH9xDTri5E6b6z4z2Ef/aFMR0HJ469oxDV0xel+ROneGh/imO
-         6nZv3ssnkA3ShD3k5y5l347ksRb/w06LH+dKrw1oVNwg1Mljso23Twjqi+7Mm9plkwJl
-         ILFMGOxy5EGKoRy31OldeknkpaII5Q//pW0gztLmwHxWUD5a0C46Zs/v/orLZoxieO3E
-         RSkT+lAhSY1Q85LhyCiV80UJ+k3mQlfOEmREQiK3wtdI2H3TvnWhIjo3ahfY0kSRh+ID
-         mGUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792434597; x=1793039397;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ryMN7FspYYeuz9q2JwGP8JZkmnnmqzmHQjeHzQubOBI=;
-        b=KR4DUeKSZGFnCJ8rngVDL7JHXUYQdrF32rwP2oOwqr4/V4sEXk4yV6P2tDTSMbZHuJ
-         kgL7raYHftAV+qpOKnX/EK36i/jhV0SwBSiKacDYaiCOSOLsoDuhncJLpiVKz3yFJ59u
-         CWBlzauFcGH2Q2JwTxj4ZW1Su2Ne3hjbsBlgD5IBmS0YTMClBzJixF1AXa9j+aCa7e8G
-         ZcHqf+f0SWGGDswlUnc3lppiEPAXB6S9IINMrLxcPg53KyTNRkJvwmgNl5X/DnDBHRe3
-         6YdSCbJCfPBzmqeqsQ/8XgLPN74bet6ot0KclYqF5jbS+J9a7gjKFax8Dcs975yltZ4U
-         PuFA==
-X-Forwarded-Encrypted: i=1; AKwUvBzZ1GV81FQqWt3YcvBJ6NEDyMpzfQlGGA5i6o+zlILmUl1yZtkSwroTbqIr0/Embk/37w9KkYB2fj7MyBOk@vger.kernel.org
-X-Gm-Message-State: AFq9FYJArYqjE52fL9SWWeAFUT3QJVr4ZANZEfYNgdMx3wIyJ/JJzy1k
-	o4CsLEMyVpfLTClHyThU3WyFgkHNu1kPLE1OiBvzoDQNW+WMdyKa4nmE
-X-Gm-Gg: AYBFou20eszr/qRk5jQsDcsfeYMckj7PBg2hBLF/GkniOlm/LPaLya8CbPwwIyTLIzF
-	4mYs42Vwa9ztu2AIolHrY7zZcq2RQ8D91i39EEmKd7cFof2ugoe5o5YZIptnPwwzQ9dt3EtRvQI
-	S2SINWt1b/PKAy4BPQ3Asz8HNRU25F50efj/5NGZJt5NG7TQ6/ww+hBbyqrfA2k+nVZBHjyuz5R
-	ShHKZ+SlnX9Is1GammKfQawPqBDwzOM0LvtLr9A7M8mJ/Ual1g+vuyERtav8GEA7eJq3ZAK4nRj
-	R5S0Hzpy6CP6L0yBO7i9EgsumjHDWPSCpYrWnR2+uSIVQttS6FsB7Z7dkqpyrGx0fL6wSixDFve
-	rrAW5usp9YD1mr5NWrm8Fti1CzNQs8r1Fe7Ze+l4osane/BR4zpChn0dObgOnAhaaYOt0o0GPJE
-	lR2CirXfOvNm+J7DKN3rpqATQ15C+Nggn5N5NKNYx08a7hJOqT7qQFB4bkNjhvTNfJ5UHyFnePi
-	HogjApgYWJnS+smA1xp0KImSwzUXkP8Rpo=
-X-Received: by 2002:a05:7301:7305:b0:34e:9923:e372 with SMTP id 5a478bee46e88-361a2b35aefmr11654736eec.29.1792434596820;
-        Mon, 19 Oct 2026 11:29:56 -0700 (PDT)
-Received: from pranith.org (c-67-164-4-239.hsd1.ca.comcast.net. [67.164.4.239])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-360813b792bsm35009576eec.5.2026.10.19.11.29.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 11:29:54 -0700 (PDT)
-From: Pranith Kumar <bobby.prani@gmail.com>
-To: target-maintainer@vger.kernel.org
-Cc: Pranith Kumar <bobby.prani@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 2/2] eventpoll: separate nested-check objects by cache line
-Date: Mon, 19 Oct 2026 11:29:33 -0700
-Message-ID: <f1968f55f65acf6e2f4edccb280e9d8c4dabe3d4.1792433364.git.bobby.prani@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1792432666.git.bobby.prani@gmail.com>
-References: <cover.1792432666.git.bobby.prani@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mcN3jL0x
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C6D1F000C6;
+	Mon, 19 Oct 2026 18:34:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792434849;
+	bh=fpSk/CbNOxgm/YwPtWLbatYprzPLT2PIdzvPIH54y58=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=mcN3jL0x7o07gopqYbe6aQDb3uAGUgaxOQsFsgcY4yYkKSBZUled8S3ng4uax5VRQ
+	 Y9ronnjw4+MQOAJ9bcE2XPVTC+D0sSvIDnqGKDIIoCDTO/HgDglU463/FRXUWMyIOl
+	 E69fanaXZo4amEpW0sIDvIE7dZ29p4YQTGmgqlH8Y9Q3F3yUyHBPIX/qrx2UehUV5H
+	 9nVtpPvCTMSm5twqXn/1Tb/qG6qUozGvtyuLn3/J5tLlNrz5sAjX4XrwemqsZ+4L/b
+	 78TxvmfIOzAkm0A0Igc0PpVop3siJ/0JzrnNxWlqiz7gDtTzm+i5tF/yB3WuJrcYRe
+	 f3y9qRN7JpvjQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 4D490F4006C;
+	Mon, 19 Oct 2026 14:34:08 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Mon, 19 Oct 2026 14:34:08 -0400
+X-ME-Sender: <xms:oGLWaiqFvBURSSl0gU0eKj5KT_8cztuwHdKcJzxtN62_DMkj1os5AA>
+    <xme:oGLWardCL6tbTZv4_8WDs5ufaImxCQYHhXsOCmshAhUZX4msruc9eO9PKjrOh7H4l
+    965XpDX4It-QlSsGFKWqt0ZIfzSMnP77CFjGn8babFZiYpXFAJkSa0>
+X-ME-Proxy-Cause: dmFkZTGU9dwEU4XRK5nfGJiAm4glnmpJQKWEZoqJtiBJkpSTPtHDUzcNFeKIV1MVYcCjaB
+    efQJ3D5ne3hBoH3g4G+5JTBy2dhL/NzUjEcCd+BKoakAPgCNfsgXVatn7K99IqrxC6wkvh
+    f4fbA5ujaLZZuTYe2mCnFgn7FxpCHqpKccrLgc8HDKj5jnv15GFdyQD448mH2wGhK6BKrj
+    yMg9Z1NF84Y98QZDVhK8TeJ2DayFiMqv3Tc3085uI9nJS8haoO7AhZVKfxsPTam18dQUX4
+    8jIE8Bd4OBWK4W5B+7a89Tju+Lo5PS0G5hg7LtnbEPb46Ao+zMycFo6IGpGotsiACSPPKu
+    n0Z3qJ6TLWRoynA1ICgbyIOI7SLHtquS6bEjnt/cfBzzF6PMEDQi1G+3jIuUx/Jb2fVxWv
+    UNTS2qjqCGQaMD+Zw5/mw10mpm/+KIDA8WNGtfsdTENCHHLdAfJOmBhYI8GvEHrKBTosCv
+    bcttISHXbnuav/VEFCbLqjn8eoZa60VOlJCbA3oB2kOIMYLlm0mFTIXt2HXTS6vUpjTMQt
+    n1JR5r+xM0IWuvKj3MXhSqv+gx9bmiCYBWVaEGB/pI7iadcisLm2WuOYQvlKrNAm/ZGoXx
+    tvbQsHJ9RW30Hz3VAAr1wWodOp7THzk2LTtEjRffH/gjhMQaXPe8u4finxog
+X-ME-Proxy: <xmx:oGLWavga5e8muFHTMT035QeK7vBI_wV2cOpOZB08fRRcN1NMQzB2tQ>
+    <xmx:oGLWakIdZhKUF7o5oh9j00VmfqpaThVo1RXc9HEVoJQVKeWPMPOmJA>
+    <xmx:oGLWaunONJIGdi-BAwdqq2J-acghmrbjGtT_mgDw7TciE8A3gdkeGQ>
+    <xmx:oGLWasPtl9EdzlHrFRNJNN9LJTTq05cjyP6goD9Yjcte01adCvc1NA>
+    <xmx:oGLWao6PAYSqOEbEf6Nt5kRINYVMyKxFvGlFOgEvVy6hpj5_u6h6ha4r>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 1A8A0782738; Mon, 19 Oct 2026 14:34:08 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,47 +77,83 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AS6kSLE8WzSk
+Date: Mon, 19 Oct 2026 14:33:47 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Mike Snitzer" <snitzer@kernel.org>
+Cc: "Jeff Layton" <jlayton@kernel.org>, linux-nfs@vger.kernel.org,
+ NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Christoph Hellwig" <hch@lst.de>, "Jens Axboe" <axboe@kernel.dk>,
+ "Matthew Wilcox" <willy@infradead.org>, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org
+Message-Id: <f39bfe92-8676-4241-bb4e-bccd838ab99b@slotpi15m67>
+In-Reply-To: <20261019150725.1507-2-snitzer@kernel.org>
+References: <20261019150725.1507-1-snitzer@kernel.org>
+ <20261019150725.1507-2-snitzer@kernel.org>
+Subject: Re: [PATCH v5 1/6] NFSD: add tracing for how direct-mode READ and WRITE are
+ serviced
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-The generation stamp, topology rwsem, and global mutex occupy one
-64-byte line in the ARM64 build. Readers of the stamp can therefore
-share a line with frequent rwsem updates from independent workers.
+On Mon, Oct 19, 2026, at 11:07 AM, Mike Snitzer wrote:
+> Add:
+>
+>  - nfsd_write_dio_split, emitted once per direct-mode WRITE before any
+>    segment is issued.  It records the advertised offset and memory
+>    alignments, the payload's offset within its first page, the start,
+>    middle and end segment sizes, a disposition naming the path taken
+>    (direct, no_alignment, too_small, no_middle, mem_misaligned), and
+>    whether buffered segments are issued IOCB_DONTCACHE.
 
-Align the stamp and rwsem independently on SMP builds. This leaves
-the mutex on a separate line as well. The rwsem reader count remains
-a shared object; this change only removes mixed-object sharing.
+Let's define a single event class and then use DEFINE_EVENT per outcome,
+rather than one event with a disposition field. You'll notice this
+pattern is used elsewhere in trace.h.
 
-On the local four-core workload, nested throughput rose
-from 5,325,959 to 5,487,081 pairs/s (+3.03%) over the parallel-add
-change.
+So nfsd_write_dio_class with the alignment and segment-size fields, and
+nfsd_write_dio_direct, _no_alignment, _too_small, _no_middle,
+_mem_misaligned fired at the site that makes each decision. An admin
+chasing "why isn't this direct" then enables only the decline events.
 
-Signed-off-by: Pranith Kumar <bobby.prani@gmail.com>
----
- fs/eventpoll.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Also, let's give the READ side the same treatment so admins can see
+the decisions that prevent reads from going direct.
 
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 5f7cd03107b3..ffe2c12858ab 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -422,7 +422,7 @@ static long max_user_watches __read_mostly;
- static DEFINE_MUTEX(epnested_mutex);
- /* Hash collisions only reduce concurrency. */
- #define EP_FILE_LOCK_BITS 8
--static DECLARE_RWSEM(epnested_rwsem);
-+static __cacheline_aligned_in_smp DECLARE_RWSEM(epnested_rwsem);
- static struct mutex ep_file_mutexes[1 << EP_FILE_LOCK_BITS];
- 
- static struct mutex *ep_file_mutex(struct file *file)
-@@ -430,7 +430,7 @@ static struct mutex *ep_file_mutex(struct file *file)
- 	return &ep_file_mutexes[hash_ptr(file, EP_FILE_LOCK_BITS)];
- }
- 
--static u64 loop_check_gen = 0;
-+static u64 loop_check_gen __cacheline_aligned_in_smp;
- 
- #define PATH_ARR_SIZE 5
- 
+With the per-outcome events in place, the dontcache field on the
+per-WRITE event is redundant: nfsd_write_direct/_dontcache/_vector
+already say how each segment was issued. As it stands it also
+misreports the direct middle, which carries dontcache_flags
+regardless of direct_misaligned_dontcache. Consider dropping that
+field.
+
+A few less critical items:
+
+- nfsd_write_dontcache and nfsd_write_vector are emitted only from
+  nfsd_direct_write(). The io_cache_write=dontcache and =buffered
+  paths in nfsd_vfs_write() emit neither, so the new DONTCACHE event
+  never fires in DONTCACHE mode and the commit message's "now fires
+  only for normal buffered I/O" isn't right either. nfsd_iter_read()
+  covers all three modes; please make the WRITE side match.
+
+- If any enum from vfs.h ends up in a TP_PROTO, note that trace.h's
+  own #include "vfs.h" is after the per-class events. It builds today
+  only because xdr4.h pulls vfs.h in first. Move the include up with
+  the other headers.
+
+- mem_offset records bvec[0].bv_offset, but the mem_misaligned test
+  is on bv_offset + prefix. With prefix=100 the event shows
+  mem_offset=0 next to a mem_misaligned verdict. Record the quantity
+  that was actually tested.
+
+- The doc says iomap_dio_invalidate_fail "reports an O_DIRECT middle
+  segment that the filesystem serviced with buffered IO instead". It
+  reports one cause of that, on iomap filesystems only. ext4's
+  fallbacks are silent. Let's narrow the wording.
+
+- The doc talks about start/middle/end segments while the event
+  prints prefix/middle/suffix. Let's pick one vocabulary.
+
+Jeff's comment about the ki_flags test in the hot path stands on its
+own. I'll leave that between you and Jeff.
+
 -- 
-2.47.3
-
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
