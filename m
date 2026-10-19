@@ -1,98 +1,141 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792448945;
-	b=uuupOIX5zbI/3Txs/BPjwnMOiyYcttWgdmLhnPxmBYzGCqF70zA1pSGDxEU42fyUpVHT
-	 E95VqdZosAxEbgjZ6lYHh0qsPGhs7ySG6GDSDnlrswZf5CKkQkghGs7kNo3xlJ1Na9uwe
-	 NHCV4GdzgIVH3GRa3Ut+l28P7DdlI5j/nOUJeJUqIeDnb+cjzv2iaMIney9mT6s6sl0+9
-	 Eax/EHZqMUFHtbM+5BDyv6GYlcf2T2tdJoDOJbbLXyr0Q+slI+aNew+Ae6P30ct2BWMmw
-	 EHuSo04Rj7SX2ZcmJBlg5MgX3lYVu3CtwB8INQxnqbctKmzwXfQ29VC7U6gDmrszqaQ==
+	t=1792449965;
+	b=OBdbbc6TaG+EN6QY9jqP+S4JANKfhCmK8FIie+CzDvWC+1KToNRRb2GcDIbPoqDgJ9zN
+	 EMjLO5e3aJtVsz7bCmSP+sdql7boHncguV/isk8FjlweNmfqqcSGGYxdmnciKRb6LjJFb
+	 XTHASlVFl8XPQzXTFmWV8oQs07waAIIOz/Ex0bpufhM+k5z9U9jbqsaAS6q30fiKQb9FR
+	 iXsjVBtuJpk57fOQD0vr9zR3MbBv+GAJ5QLW8t+FqDuZ0xlgEPmTmk0S9ct4pWGq/uaYM
+	 yWYrGNCqVbEU4KmIEUNPofMp+kgWk9hGZIgghm+VvRvidUbiQDZhlBzWwpkgh/7fR9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792448945;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792449965;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=grPMzPcjuw5NknkchPGY17WHY+uOk9YxlvMRLz3jlQ8=;
-	b=nYZ/VnPEZpY+L9g8ZJAgv7P81bezbR1QZbl8CbwvW01cRmAMWFWiuTOnAwYajyRucgaE
-	 lHrmU+jPS84n6LA37lHA+HrJNE4tzTOWrtCGvgNTheYxMzzHOoku5ddMGx8qTGa1CejTL
-	 A3MKi4nk6Ikmjn4dmOfCXqKs8fJ75uos70TXQWYKCF9ZJA+NAR3qQlvHT5h9ZE5VZVMjE
-	 jlT0XQIm5jDJfI98RZSjeq9VHLi+DaIQnsvQmJNnWeg9hgGCuXdQJhnnAtZxEOjzUT2YU
-	 hnoyHrE/AZGSYtbFyeeLRHRBT5Qd6m9WquZkS0cee+KjQJi2Ty9HfSCI/frpXKZT19Q==
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=D+7k2BcGFKfl9vkREhKXPJioddH9mZ6Bo1MP1qgEEWo=;
+	b=iqKMwIMPOvMvJgeSUEnFGVZVUcwrhXCJh6FS6MlQvcmTPghkSqZHjWl6/wNo/m+cXtMV
+	 6UouVB66L112XeJNk6t9bpPa7eS2YhbxEt7YrrVbHERxOG7QKKNNT7jsVf8DuMR0cLxxo
+	 VmuFsq37okdeM8gM9W9iOja4iNS6xTPtrwU5ItTezN907nuim9Du1bNNP23FqjybZMukM
+	 lFZ6wchdulhJ8xO4UKpxuQbCfzhLOpFsq3Jd7INini4oqwj9vCfT0c8EpQCIud5wCk/7d
+	 PtXVh3HItB/W+t1QLrHQtn/nd+jvCr2TvosZx4QNRfqPPwKt49RVd59RLMGcD8J/WnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pXYlgfS1;
-	arc=none smtp.remote-ip=209.85.221.48
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=RDqJicOo;
+	arc=none smtp.remote-ip=209.85.128.175
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791CE606A31A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 22:29:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 791CE606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC14606A31A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 22:46:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8AC14606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pXYlgfS1
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48afcd7ba9bso1545179f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 15:29:04 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=RDqJicOo
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-8b0d63f60bcso20916307b3.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 15:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792448943; x=1793053743; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=grPMzPcjuw5NknkchPGY17WHY+uOk9YxlvMRLz3jlQ8=;
-        b=pXYlgfS1gr29AG2ETT3tGp8vnAw3OYUwF9u9S1+h14H4z8PaaXwUwYa/x+kMzWr+iq
-         L/6gWmUy8KCi6Xf1AeD7LCF7dYBG1BbslumTqj3delnhMmtqach4KBDHoin5bnHKDenD
-         tKG8smktnJakoKQnD85begvJwgg4l9Kx+viAPm39Wj13vCiiOWelwE8wqJE9+snWNzSn
-         dZ/uiQhXk+8Ng2j3TzBlZ3Cou8gBYsMp09SGwSmu2UBnVr9RSKR2kRHUf01wfisrRNYf
-         xJjUuUUi68b0sPiUu2uHFedcSG3zdHG8yq6r2bD6tzeMqf7uOz+g+VJbUgwiQ7pHxlB1
-         yMSA==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1792449963; x=1793054763; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=D+7k2BcGFKfl9vkREhKXPJioddH9mZ6Bo1MP1qgEEWo=;
+        b=RDqJicOomt9XbQibjLRjtRbaBGUhCfX+j3NN6hFCE9Wvtj3loQfVBbW99e8Egre33J
+         gyCc4luiLmGRy4BLZAnijILzU41/0DuTYq9EhfV/e/iJoolXDBw93HDFLoVG/WSE17Te
+         JoAw1t+wlPZ6YMi4j6muUecOZunxQQ2eWIZf9jRQpQkBNQHHGDzeM/r4slfOSZ1tDMI3
+         cG0pxnoMGoyeurLb3Xr1duYHlDAEFEFOHcbzoGSy0V2Yskio9Q+BdvE4ths1z+6FG/oC
+         VtfDPlhCbkEPNtVtrXWnsPcWhZ4sC3xSFrRUZx1+pv9KY6nEhqeV3hDc5SrhYy+wQ10h
+         61fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792448943; x=1793053743;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=grPMzPcjuw5NknkchPGY17WHY+uOk9YxlvMRLz3jlQ8=;
-        b=0eJHUvTrm3OWrgAYVx9mCnf7NERdHFE/SLMHwYKCH1l8C3ro7RflHuhAvNalffAMrM
-         kao+WNVJKDDGE3dO5fkZvQrpPa9vQgFt/RpBLZC+hT9RKAwR/i9jvKNTt439EFJNw+7V
-         9bwMuCrXdNILIBcrnL7qQMABgdDnv4rmdsOmAprA1LbGqIIiCSkA+eBVrhE2NWsP/dwV
-         orGHpe30QXaSvg0gMVWpVioL2oTF1PmFvi4HdLSnlj4eaJtyonDjp7IqDWFxbZ9o4xza
-         u8u6LXgTiEcA1RbxUeI7F16LjS69vM5FVg1F6pTI8F/OMt+T8JCBbVHiskDkMIiMb/CG
-         PYTA==
-X-Forwarded-Encrypted: i=1; AKwUvBztaNCodPIWXaspB6m+3jbPtSs8XfS/VYtZdFNCngMS/JkV5yILqLglWL+VLhGBqJK7sQHGe7eSl3d5Z27t@vger.kernel.org
-X-Gm-Message-State: AFq9FYIxk5UrEhVKoiFRxrYSwVp4acA+tBY3E1MhXfoPZbTFcX5kmTVB
-	RavqyT3uvd0CqIWa3ysI7b4Xn+ya+eckd0VbXOE93pPhVY/jkdPI7VED
-X-Gm-Gg: AYBFou1PpmaJwt5UVTPY55aYx1BFuREbytTk6upZLTdVoPsAJjz216Cc/TTsihYLJ7O
-	kCnbHorvkYUuZ4rFrH0nHnMw0clbyDoZsZY3nKr4A/pYUYBEqpQyq7zbKkYxVs2rT7Pot1egUUs
-	oSfqyDkZn2EAlI0NnNyywE3XPVgf+fIVPJMubX49+Dw3ztnm8xlkeeuQRDPK/mUjL7CNU4R5nor
-	+07e43LILF6yUDHeIyn71kz78BX5jJPxz0C1xfPhdNeBVBOMeJzIEMxmhiysr8yN0tDzga4QxTJ
-	Y0rOVom7ecq3qRGm8kIMNmD9QAyzigOTLsUCAb7mmNVlmG0wSjhIDQ4VWZghRXq57wa4pGVN5NR
-	GIg4iGYmJQIfkcr9obyg8d0LH+E5oc7J1Fn+qYseFoTnDPT5v5t0SGkJD0HkHX9shUrT/twV8PJ
-	8xk2IpYdZgqWKSwrxmFLgtoEb8QOhzpnQDlV0L64p4q8W1K1kSStkChwHhP3SXa2JvwKy6N1bY/
-	o8T38tkTlgTpEYCo7XBj29/dVQ0iPdrsLUFjbcGMNTc8Jg+/wY=
-X-Received: by 2002:a5d:6b4c:0:b0:487:baa:aa6b with SMTP id ffacd0b85a97d-48e07fb1f63mr12709378f8f.43.1792448942577;
-        Mon, 19 Oct 2026 15:29:02 -0700 (PDT)
-Received: from DESKTOP-IR7J1S9.localdomain ([105.102.223.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d818d61sm1666544f8f.31.2026.10.19.15.29.01
+        d=1e100.net; s=20260707; t=1792449963; x=1793054763;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=D+7k2BcGFKfl9vkREhKXPJioddH9mZ6Bo1MP1qgEEWo=;
+        b=lmdujhYo9ElJAx/+a8jkmYGiWbQqLl9WAoqUN+/1jvSqGxyOJ2wNKvNgPE6H3eP1U0
+         Nbb0kzYA9vNSmj2aFrUeRD0+k9ic7kVS5UAqfTwAi/Hbkrxn7j10NYaHRccNs4gFEP9P
+         eLXDdrbeTy9QBjkrVtmiK8zq5Pk+jwamiD1ZC+nMBAYXPyevqnrKuQwdPuT3huDnYvk9
+         YfAq3X1Y4Casm0rNCMh2Fbm4EmxWQPaPCHX6v4/qEI3EtlAIMHutZj5jI/tKPZkOIsWs
+         zlw3qAvs1BcbqAczr/MpawJRJUFpa/jhAbA8eHagXYSCw04WRpJ+k1QiakhTnoA51FNX
+         Y7/w==
+X-Forwarded-Encrypted: i=1; AKwUvBy3UARCxbvCYhqdEbt1WZfLoEU7a6vt00btXUMgGWrM/RNsRwkUN1lFE30xGxy0+wg23brvIcGQ62bpyoLs@vger.kernel.org
+X-Gm-Message-State: AFq9FYJtw60JvHjv7rYgHlNCAc0Pgz79awl4K4Urvro0PHEgFgEVpxBh
+	E23FRsojwJLoPZFxjvJopfjrpPo+6C5eAe/N5gGXl/WIVqQ/5oraGy0izo6Z3fp46baIbCZA4kQ
+	RAdPp0yg=
+X-Gm-Gg: AYBFou0U8ug27LLNz23Bb/aeCboznt8ebTYhJvDhWJ+Zde3PxExm0nExFPsXLtKMRTy
+	A9QQ7msXNmHPFTIEk2svjd7VM8VktyycLR8rFXqLUX2EE9ZxqaoGzJktzplVx0+BFZ3P6hpQI4t
+	gznosAotseJlQZkvbsd0ti5WOrnNeSmAoyzoJgbZiFSGtqGn5qjxMCNYxRvK3UgU0hKtSJyxMFa
+	U0d3FQkJ3qSLSqviCWAVxffLrY0MTwlcjb4RSkpdn/nqDolACaIs2Iw/ngUUheqwrx4h713Hiv7
+	1e0xP/XiYKIhTRFBIjIRoWHyvwD2uH4w2giEbLB9FkYxeOpoFPOVy4CGYqoBirkR7gTG2Aim1to
+	rSqP/ii3yjJbS1jWFJfT6GdNuplafdxnbmsk5a5qXpFN0u/v6q2qRQuxQLpKA9U0ylbmWGxI1x/
+	g30hQa9MexFDoXecSaFzvyykURUtjPMzIRJVV7xC4PZYLReqmvzHosXYS7iR8r1gU8P+fWXf8P+
+	745wSaZnenU2tjnBrNacHp+elzSXVjWOKyXqaGNCyN674e0VWjlSXQED9tOkI9/XM/nZeQn+43C
+	P74rp7h7k+oLJeQsC5jeiuEBpmDQktopCV8csNXeZ78OPzHbWb0/rpy/HDZEatW/
+X-Received: by 2002:a05:690c:698b:b0:8b1:e7c:cdd0 with SMTP id 00721157ae682-8b10e7cd146mr14516227b3.64.1792449963155;
+        Mon, 19 Oct 2026 15:46:03 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:3d77:96bd:4263:c77d? ([2600:1700:6476:1430:3d77:96bd:4263:c77d])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b11b9cbf44sm5915427b3.44.2026.10.19.15.46.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 15:29:02 -0700 (PDT)
-From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-To: paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Cc: jack@suse.cz,
-	linux-security-module@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+975ace299d6ba2eb1cea@syzkaller.appspotmail.com,
-	neganhat@gmail.com,
-	Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-Subject: [PATCH] lsm: don't call d_path() when current->fs is NULL
-Date: Mon, 19 Oct 2026 23:28:58 +0100
-Message-ID: <20261019222858.1766-1-drifabdelmalekmohamedsaid@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Mon, 19 Oct 2026 15:46:02 -0700 (PDT)
+Message-ID: <209bd8166668e2ca3edce092c0480ec7f56a1fd8.camel@dubeyko.com>
+Subject: Re: [PATCH] hfs: report errors when extending files with setattr
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: hengyul@cs.unc.edu
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 19 Oct 2026 15:45:59 -0700
+In-Reply-To: <20261017160612.3740256-1-hengyul@cs.unc.edu>
+References: <20261017160612.3740256-1-hengyul@cs.unc.edu>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -102,138 +145,81 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-When the last reference to a file is put from exit_task_work(), the task
-has already run exit_fs(), so current->fs is NULL.
+On Sat, 2026-10-17 at 12:06 -0400, hengyul@cs.unc.edu wrote:
+> From: Hengyu Liang <hengyul@cs.unc.edu>
+>=20
+> hfs_inode_setattr() sets i_size and calls hfs_file_truncate() to
+> change
+> the allocation. If expansion fails, hfs_file_truncate() restores
+> i_size
+> to the allocated size, but its void return type leaves setattr
+> reporting
+> success.
+>=20
+> On a freshly formatted 64 MiB HFS volume, ftruncate() to 128 MiB
+> returns
+> zero while the file remains empty. When the requested size fits
+> within
+> the volume but exceeds the free space, it also returns zero, leaving
+> the file only partially extended.
+>=20
+> Call generic_cont_expand_simple() before truncate_setsize() when
+> growing
+> a file, and propagate its error. This makes failed extensions report
+> EFBIG or ENOSPC.
+>=20
+> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
 
-syzbot reported:
+Mostly, patch looks good and it mimics the HFS+ logic but I have
+several comments.
 
-Unable to handle kernel paging request at virtual address dfff800000000002
-KASAN: null-ptr-deref in range [0x0000000000000010-0x0000000000000017]
+> ---
+> Compared unpatched and patched v7.3-rc7 in KVM with GCC 10.5 and
+> identical KASAN configurations:
+> - 36 growth/shrink/error cases per kernel on 32/64/128 MiB HFS
+> volumes;
+> =C2=A0 content, zeroing and read-only remount checks passed.
+> - fsx (10,000 operations) and generic/736 (10 runs) passed on both
+> =C2=A0 kernels; post-test fsck.hfs -fn was clean.
 
-Call trace:
- kasan_mem_to_shadow include/linux/kasan.h:65 [inline] (P)
- kasan_byte_accessible+0xc/0x1c mm/kasan/generic.c:210 (P)
- kasan_check_byte include/linux/kasan.h:402 [inline]
- lock_acquire+0xa4/0x320 kernel/locking/lockdep.c:5916
- seqcount_lockdep_reader_access include/linux/seqlock.h:73 [inline]
- read_seqbegin+0x6c/0x144 include/linux/seqlock.h:838
- get_fs_root_rcu fs/d_path.c:244 [inline]
- d_path+0x224/0x4dc fs/d_path.c:287
- audit_log_d_path+0xdc/0x19c kernel/audit.c:2221
- audit_log_lsm_data+0xe0/0x12d0 security/lsm_audit.c:199
- dump_common_audit_data security/lsm_audit.c:421 [inline]
- common_lsm_audit+0x1d0/0x290 security/lsm_audit.c:451
- smack_log+0x1f4/0x264 security/smack/smack_access.c:400
- smk_tskacc+0x210/0x2ac security/smack/smack_access.c:255
- smack_file_open+0x1d0/0x230 security/smack/smack_lsm.c:2078
- security_file_open+0xec/0x258 security/security.c:2739
- do_dentry_open+0x2a8/0xfbc fs/open.c:973
- vfs_open+0x44/0x2dc fs/open.c:1101
- dentry_open+0x74/0xc0 fs/open.c:1124
- ima_calc_file_hash+0x120/0x5cc security/integrity/ima/ima_crypto.c:269
- ima_collect_measurement+0x420/0x874 security/integrity/ima/ima_api.c:300
- ima_update_xattr+0x160/0x230 security/integrity/ima/ima_appraise.c:617
- ima_check_last_writer security/integrity/ima/ima_main.c:227 [inline]
- ima_file_free+0x40c/0x528 security/integrity/ima/ima_main.c:251
- security_file_release+0x84/0x148 security/security.c:2424
- __fput+0x2c4/0x74c fs/file_table.c:506
- ____fput+0x20/0x30 fs/file_table.c:541
- task_work_run+0x1cc/0x25c kernel/task_work.c:233
- exit_task_work include/linux/task_work.h:40 [inline]
- do_exit+0x58c/0x1a74 kernel/exit.c:986
- do_group_exit+0x198/0x238 kernel/exit.c:1129
- __do_sys_exit_group kernel/exit.c:1140 [inline]
- __se_sys_exit_group kernel/exit.c:1138 [inline]
- pid_child_should_wake+0x0/0x104 kernel/exit.c:1138
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0x19c/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x60/0x1d8 arch/arm64/kernel/entry-common.c:796
- el0t_64_sync_handler+0x44/0x104 arch/arm64/kernel/entry-common.c:815
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:606
+I don't see any relation of this fix to generic/736. So, this comment
+is not very useful. It will be much better to run the whole set of
+xfstests and to check that this fix decrease, increase or keep the same
+the number of failures. This run results could be really good to have.
 
-d_path() renders a path relative to current->fs->root.  After exit_fs()
-there is no such root, and no substitute root is meaningful: the
-record's pid/comm describe a task that can no longer name the file, and
-the file may have been opened by a different task entirely.  Falling
-back to another root would produce a well-formed but misleading path,
-so report the field as unknown instead, as exe=(null) and name=(null)
-already do.
+> - fsck.hfs -fn was also clean for ordinary and recovery cases.
+>=20
+> No kernel BUG, WARN or KASAN report was observed.
+>=20
+> =C2=A0fs/hfs/inode.c | 6 ++++++
+> =C2=A01 file changed, 6 insertions(+)
+>=20
+> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+> index 2aef3c36a150..44b1735a54c2 100644
+> --- a/fs/hfs/inode.c
+> +++ b/fs/hfs/inode.c
+> @@ -684,6 +684,12 @@ int hfs_inode_setattr(struct mnt_idmap *idmap,
+> struct dentry *dentry,
+> =C2=A0		if (error)
+> =C2=A0			return error;
+> =C2=A0
+> +		if (attr->ia_size > inode->i_size) {
+> +			error =3D generic_cont_expand_simple(inode,
+> attr->ia_size);
+> +			if (error)
+> +				return error;
+> +		}
+> +
+> =C2=A0		truncate_setsize(inode, attr->ia_size);
+> =C2=A0		hfs_file_truncate(inode);
 
-Handle this in audit_log_lsm_data(), where the meaning of the field is
-known, for LSM_AUDIT_DATA_PATH (Smack file_open), LSM_AUDIT_DATA_FILE
-(SELinux file_open), LSM_AUDIT_DATA_IOCTL_OP and the AF_UNIX path in
-LSM_AUDIT_DATA_NET.
+Probably, we don't need to call the hfs_file_truncate() for the case of
+attr->ia_size > inode->i_size. We have the same code in HFS+ logic. Do
+you think this improvement makes sense?
 
-Alternative: omit " path=" as it is done for inode in audit_log_lsm_data.
+Thanks,
+Slava.
 
-Fixes: 4a9d4b024a31 ("switch fput to task_work_add")
-Reported-by: syzbot+975ace299d6ba2eb1cea@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=975ace299d6ba2eb1cea
-Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
----
- security/lsm_audit.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
-
-diff --git a/security/lsm_audit.c b/security/lsm_audit.c
-index 955b2e7b2c8e..5ed505d781bb 100644
---- a/security/lsm_audit.c
-+++ b/security/lsm_audit.c
-@@ -169,6 +169,15 @@ static inline void print_ipv4_addr(struct audit_buffer *ab, __be32 addr,
- 		audit_log_format(ab, " %s=%d", name2, ntohs(port));
- }
- 
-+static inline void audit_log_lsm_path(struct audit_buffer *ab,
-+									const struct path *path)
-+{
-+	if (current->fs)
-+		audit_log_d_path(ab, " path=", path);
-+	else
-+		audit_log_format(ab, " path=(null)");
-+}
-+
- /**
-  * audit_log_lsm_data - helper to log common LSM audit data
-  * @ab : the audit buffer
-@@ -196,7 +205,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
- 	case LSM_AUDIT_DATA_PATH: {
- 		struct inode *inode;
- 
--		audit_log_d_path(ab, " path=", &a->u.path);
-+		audit_log_lsm_path(ab, &a->u.path);
- 
- 		inode = d_backing_inode(a->u.path.dentry);
- 		if (inode) {
-@@ -209,7 +218,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
- 	case LSM_AUDIT_DATA_FILE: {
- 		struct inode *inode;
- 
--		audit_log_d_path(ab, " path=", &a->u.file->f_path);
-+		audit_log_lsm_path(ab, &a->u.file->f_path);
- 
- 		inode = file_inode(a->u.file);
- 		if (inode) {
-@@ -222,7 +231,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
- 	case LSM_AUDIT_DATA_IOCTL_OP: {
- 		struct inode *inode;
- 
--		audit_log_d_path(ab, " path=", &a->u.op->path);
-+		audit_log_lsm_path(ab, &a->u.op->path);
- 
- 		inode = a->u.op->path.dentry->d_inode;
- 		if (inode) {
-@@ -321,7 +330,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
- 				if (!addr)
- 					break;
- 				if (u->path.dentry) {
--					audit_log_d_path(ab, " path=", &u->path);
-+					audit_log_lsm_path(ab, &u->path);
- 					break;
- 				}
- 				len = addr->len-sizeof(short);
--- 
-2.43.0
-
+> =C2=A0		inode_set_mtime_to_ts(inode,
+> inode_set_ctime_current(inode));
