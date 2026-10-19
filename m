@@ -1,73 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792425037;
-	b=kp0mvP6KjQsU6i62XxZaGnUc38s92BDaTCJCE+KLR7imZbxXnRgCPOgWx8gaqkPovLiK
-	 oYeMxNrPCedxNdc5oAT9C4nfAm2dcV3bfXOZ9/MXjOVNPqy8VY/jgxoyXQxmgKkuJjynH
-	 GTIkdySfdkQFzAlq8vqZOj9g2P7P69UdEIX5UFHrEOX8B5Ps0cr8WnB+N/IbiWJnHFzNF
-	 URc5T9dQqxoPMjz3sZB2PpF8VZq3BaUlVX04F36cAQB2djkQ1DPrzRa9FwbMrHPTPvr3r
-	 9jWlSBA2sl6X92jwfOF5uWnEJaAxPuRaJIqBe63pm/26MaYGu1zjo6IUWlABByvZE6w==
+	t=1792425045;
+	b=yWushCv0OZGVjZxAz7qnSmXFW6azyMUR5gMjhdVARJAXlv7lRaZ6Ne2yyYd/gNsoXWiP
+	 8RfzHddu1f3k2qJADbQbxqZbZObKoCsy65njxKN+BwhORLWtV9SlX/bArFUefUNvppMLU
+	 4GTjZ+0NJRDPfeajdgXJevQ1Mj9W+Sd5lm2ppLhfTv0mHAhbm+ax693ERs2JuvkKA27Ll
+	 c/mbGHSt3sqCqxEkRwtaA6/8uGYZQNi1SSMM3pUSFpQwz09hkFGnlM3H2x22l4PVa2mdL
+	 nGh3An3SjxkDR8vJ33tvlunQVBdzCFLSgEvQC6lXQomNis0l5lwVOZDaScWuRC50seg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792425037;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792425045;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
 	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=UMGOxPNVHDCZHjJ/y4wrnwe474JMBsZe9H8zYo9bB5E=;
-	b=39C1qY4VrCfex9krgdlUlz2MR69bv2VaPNB5IUQnBt9q2YU7waNks2CVYqOOItz9okTx
-	 tWL83Oy/JifJuX45z9iwTXqJ6hdGOOm118pewLR0MtIQsH9755tE+LQB69lKMolHGkvSu
-	 QfRXjC/SvgD33D0CuHTSnN6X8dSIkAnpqemcMK/J5V2wCZZJTbeYGhS9waHtlIkuAqvM6
-	 +c7dxjAqSMYJA6azCgto/FLNEE6nsErC2w68PsXwN2j5mUXvbH1R8+u7gj0b9DKT8thOP
-	 VZIILzNR4GQskl+YDksSrxrrKz+nB+ll8pHBa3xVT+1Gh7uXCiampsjh9eiN8HTLP1Q==
+	bh=84kciOlrBZyXkODv4mERfw9QO7WVRKrOSp1zoHtEMTA=;
+	b=12m+4SoWbvA5Nk7l/2vgaNrYWkvWC2LPMp7ShAO0HUVmqzgMvWNA3UuVwdMUk1s8np8o
+	 2l8+9PzUnglNRD2uY/IRYS7lXrboM0QTr1zcmVEM4ZlFdv4iwk1jPbS26/HGb+Q3XcYBY
+	 CSMq4U5qXkKLYwcYlMQSatMRLoYOhHV4/f7J0oBg66VamE9laoWlhbISN09FSY53MVlkJ
+	 MCTS/ueMiG4FqFIUoDVNblmItNYH94YnKpppV5eXSETJG4o+5GtjJtnEUGO77K5L8rhuw
+	 K8WY1IHBkheW/bFcPQiGPyoeOjBq7fcTzjASX/a6/bNDa2XkZ3VslxP+RMvVF0dvLpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hufKA1g9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FcFoz3t/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A8D607F489
-	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 15:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FE7606C900;
+	Mon, 19 Oct 2026 15:50:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hufKA1g9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 473581F000C4;
-	Mon, 19 Oct 2026 15:50:35 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FcFoz3t/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E15511F000C8;
+	Mon, 19 Oct 2026 15:50:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792425037;
-	bh=UMGOxPNVHDCZHjJ/y4wrnwe474JMBsZe9H8zYo9bB5E=;
+	s=k20260515; t=1792425044;
+	bh=84kciOlrBZyXkODv4mERfw9QO7WVRKrOSp1zoHtEMTA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=hufKA1g97EKvBWIP9U+sEXfnsKRj7lxnGOyTt0Xt9hgyR0V/Mo7z+NOxdKx48r8m9
-	 MNQ/yZ1HcpdUeTq9MIKjHEdIslhkAz3yFFhBTd0ugIp2k2DOMSEuYWn65uKrt4wOnR
-	 TqwnI28qJcjbNinfyPf/xYD0CZWzOOlBBQXNNG1X3wYJBe+iLOIVyQ7NzKnrTmlYtW
-	 FVTV3v1cnRYTbh5b07M4qVHylGvjzfLatA/9myYFGp7lglyFfQbAvsuKDUyoEAowM/
-	 AHC9dV1vRe3/zxbp9roLIYqQwb9nvw7h2mXB4BybUJDZcC8wVYDtVy68jkB7m9B3l3
-	 IHaQqq+gIntfA==
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 486601980047;
-	Mon, 19 Oct 2026 11:50:30 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 19 Oct 2026 11:50:34 -0400
-X-ME-Sender: <xms:RTzWarrRMrVUJFi54EKx0DCmuyXlEG2ELefD-0EKzI8czGQ9GWmoVA>
-    <xme:RTzWasm31JalJVkj10loaHy77uZH3Ty5ZxKMaK7SBY_NTxYyvpPs3ti6kmQPM7jZi
-    _XtFAoTtmPuAy0eQHLJyF47YBkS8v0481twj1BfJoiXz3HQcvTLB0j4>
-X-ME-Received: <xmr:RTzWatXyw9LMVHLJz5MnfBiZPogV4NQxnsGEm0-LU067yKXiVW0mA8nhrRU>
+	b=FcFoz3t/L7qTPpklFErAcrar3ZSEdD4kbcutljvZlQbdPPmrbEwganGTEy/F0rOdm
+	 w/rxlzz2CqfPX9ErUCt6kVObwU6fHmiXNtqC8HAfibJx6H94LUxiF3Huq71bteGC7n
+	 15j8fJFXNUdfQ5mQJiGLiWIyRhacwAwqLFxZg8bcEDl59VSBXRPurf7y9hgPvIVv2K
+	 aLgjlMBP6NFkrHNqL0BOt1NtBV/sWdDCcEg1pBnqz4UON78dFNQIMOv7eR7pW4j6Aa
+	 hUPBLCG2K+fw1mYnLuJy59gQYV6YaduyCCjEqS5SsRRjY8aa8zswNYkbbyi3sWpsOp
+	 3sehmCa9MVXpw==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.ams.internal (Postfix) with ESMTP id E2028198003A;
+	Mon, 19 Oct 2026 11:50:36 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Mon, 19 Oct 2026 11:50:40 -0400
+X-ME-Sender: <xms:TDzWasO60PQvntzS9366fCY95rDVfKeIR3NJ7ADs4wV6sTUJjpwbGw>
+    <xme:TDzWaoPKS8FIYC618DvlO3pyALvXKjKQhn2vx3rhkDA0tTDewfl-I4kdm13kD98Tc
+    23RDfK5vMlPpiz-hsQaC_cfvN6_gIjd9p4KxXJBbaQSouuBtIMJHAplpQ>
+X-ME-Received: <xmr:TDzWal47R9QK2HPBOM5PFWfyKY1_XY1VmGEp4Lzi0bNCigy9R2QEHqVo-HA>
 X-ME-Proxy-Cause: dmFkZTE+kjgISKw/D5xbtovMvE/5+MXw9OAGtDBfqR9Zk5dZNOqhNWGTcEGO5Lmn7qsaMJ
     P+2+K5eT4SfShSSEvxMo9+0NhMtUrbV4W6Uy0A3XpuEB672w8089GbqFaxEF0wWgdpl5Mt
     ZGUplA1E9XDXzNgkO2MrFgMfcNS4u61SieDRP0v46gjH0l2eZ2DL9zme+jYfCIiYlLA1YJ
     nvbn1HssXPAJFHKdL+OCiEp78jaTWZC2fJHjA4vCnfghQrymIXyUGAHupLMJJEm2bjt0nv
-    kEsuBoXYnW/I4u0Q3SZjAxl07Y4ERxrcHOAeD/N6wYko4+jO11wXgs98kOmjLgJ2rMOJLr
-    4FP7CSXILgep+V+bnFblzLb2zNX5VOi9HTV33Avp2CU2x/3slL9UpGUX8QP3dV/RyCFMFG
-    7imraoXV3UkaOEWfGmHh0OoG9j6M1axwhaJN6nA2HyYr2TdqTNigjbOhwoon6MyVdyyZ+U
-    9DK1iVoT/QBuGfOV2J/7tFEPGkQChXo/3aa8Xv7Il7b4za6LWrtfdMTzCHeTrHOuCuyBi+
-    7sZr0XoHceQEgIL5FXJB/u/mTl9LrcQBv3ckBqQ40FYXHHMxv6YS0bNZIBfxbsZ3EpISc7
-    FhCZ+mKuDN/rcicdBgn/vjQLHJDQGooDmhyDm5AYtLzSQEnR+OVRpfY12e7g
-X-ME-Proxy: <xmx:RTzWajRRDhEXwNdv4QdP0IIVDhzS757ZHwZeCSwxqJe02U5VhKd1Tg>
-    <xmx:RTzWaqldVlkDWLJJTq6z3PL5cmBNLrOmpBc9C8GUUHT8H_Bbcb4Deg>
-    <xmx:RTzWauLwN8-iEtFQpRKWyz_SLVPxzM5NymW_8F2UJGthEucpDGN5aw>
-    <xmx:RTzWatXhb0yp2qE_Nc50LD2PMAYq1wBFgDVYpnHWI5ywE3RZIILLtg>
-    <xmx:RTzWajF8Q58INwrzpSXejkJdDR5V-g124CSsLWrJZoASPgC4ioqqoNu_>
+    kEsuBoXYnW/I4u0Q3SZjAxl07Y4ERxrcHOAeD/N6wYko4+jO11wXgs98kOmjLgJ2rMOJsz
+    18DGIkmN8sCfzQCV7sEJC2pxZj7RC8eMNg1UeU3okF34a7lwK/lwdys+qzGdOtcOrJ/aTC
+    NyiQb2ojE9CGVMmdY3XRIUnsiIK+vh2Qp4y529vGZS2ky5yIHL3l90Z6GWGm/WOIIfg5oK
+    Xg26A/pynhkh6hF6E3O78PaDtNLzaswXz7QJDAJiscbJuWQaSXJGKaFS8MYUIp92Gs9Bqi
+    sxgAWUCcGgxBqOARvxJ8DYrqTKwa3N7LrLH3zC2I6q2SQjdzl3j6BRuxDXQTf9D/aeV5Nz
+    GTRyl5naroztNsJRmBnZqOQ+gKUFxhFup+Qqs7PCujlpUVIZc9ZejZctTQDA
+X-ME-Proxy: <xmx:TDzWakbXGWKb0c3p3qtVBjmRHsel7_XO7EfjIjy1thc7dBUfGuN9jw>
+    <xmx:TDzWalEbCtrJtH572tDLhZDb3-jkcyazOMqru97D2XXJRJYZZP1pjw>
+    <xmx:TDzWagJ63Zx6R_4aGY5kpVgF0g9Bk1oj1YxX5n5-KI92AYhlhs7V6g>
+    <xmx:TDzWasf4QkPNubBlQgrobPTuLwGYevPvVymd_nKbfx0w0xeNw8_t-Q>
+    <xmx:TDzWalb8VXuZsly1wZFHr7B_OCOMH-ACacB-wGS81awYqeXdWE6YfBfS>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Oct 2026 11:50:28 -0400 (EDT)
+ 19 Oct 2026 11:50:35 -0400 (EDT)
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
@@ -79,7 +79,8 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Hugh Dickins <hughd@google.com>,
 	Christian Brauner <brauner@kernel.org>,
 	Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
+Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
 	Miaohe Lin <linmiaohe@huawei.com>,
 	Naoya Horiguchi <nao.horiguchi@gmail.com>,
 	Oscar Salvador <osalvador@suse.de>,
@@ -114,11 +115,10 @@ Cc: Miklos Szeredi <miklos@szeredi.hu>,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
-	kernel-team@meta.com,
-	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Subject: [RFC PATCH 11/18] mm/filemap: set PG_rcu_free on the folios that reads keep coming back to
-Date: Mon, 19 Oct 2026 16:49:04 +0100
-Message-ID: <20261019154913.1765974-12-kas@kernel.org>
+	kernel-team@meta.com
+Subject: [RFC PATCH 12/18] mm/filemap: don't defer the free of folios of an inode being evicted
+Date: Mon, 19 Oct 2026 16:49:05 +0100
+Message-ID: <20261019154913.1765974-13-kas@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261019154913.1765974-1-kas@kernel.org>
 References: <20261019154913.1765974-1-kas@kernel.org>
@@ -133,164 +133,74 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Linus Torvalds <torvalds@linux-foundation.org>
+A hot folio keeps PG_rcu_free until it is freed.  Deleting a file that
+was read a lot, or evicting its inode under memory pressure or at
+umount, then defers the free of all of its hot folios.
 
-A folio with PG_rcu_free can be read without a reference, but its
-memory is held back for a grace period after it is freed.  That trade
-is worth making only for folios that readers look up again and again.
-Flagging every page cache folio would also delay the free of streaming
-reads, truncated files and reclaimed cold data, which no reader comes
-back to.
+No lockless reader can be in the page cache of an inode being evicted:
+the read holds the file open, and the open file holds the inode.  Clear
+the flag when the final truncate removes the folio, which
+mapping_exiting() tells apart.  A truncate of a file that may still be
+open keeps the deferral.
 
-Set the flag in filemap_read(), under the read's reference, when the
-folio turns out to be hot:
-
- - folio_mark_accessed() finds it as accessed as the LRU records, or
- - the read goes back to bytes that the previous read through the same
-   open file has just read.
-
-filemap_read() does not mark accessed the folio that the previous read
-ended in, so re-reads through one open file do not make a folio hotter.
-The second test is for that folio.
-
-Leave alone a folio whose next read needs a reference anyway: not
-uptodate, readahead or dropbehind.  Leave alone unevictable folios too.
-folio_mark_accessed() calls them hot after at most one access, so every
-ramfs folio that is read would get the flag.  An initramfs deleted at
-switch_root would then have the free of all its folios deferred.
-
-AS_RCU_READ records that an inode has had a folio flagged, so that a
-lockless read can skip the inodes that never had one.
-
-pgfree_rcu_mark in /proc/vmstat counts the pages that get the flag.
-
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
 Assisted-by: LLM
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-[kas: count the marks, AS_RCU_READ, 64-bit only, shorter comment,
- rewrote the changelog]
 Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 ---
- include/linux/pagemap.h       | 12 +++++++++++
- include/linux/vm_event_item.h |  1 +
- mm/filemap.c                  | 40 +++++++++++++++++++++++++++++++++--
- mm/vmstat.c                   |  1 +
- 4 files changed, 52 insertions(+), 2 deletions(-)
+ include/linux/page-flags.h | 5 ++++-
+ mm/filemap.c               | 6 ++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index 0adfa6605653..6c7f58803eee 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -210,6 +210,7 @@ enum mapping_flags {
- 	AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM = 9,
- 	AS_KERNEL_FILE = 10,	/* mapping for a fake kernel file that shouldn't
- 				   account usage to user cgroups */
-+	AS_RCU_READ = 11,	/* a folio has had PG_rcu_free */
- 	/* Bits 16-25 are used for FOLIO_ORDER */
- 	AS_FOLIO_ORDER_BITS = 5,
- 	AS_FOLIO_ORDER_MIN = 16,
-@@ -269,6 +270,17 @@ static inline bool mapping_unevictable(const struct address_space *mapping)
- 	return mapping && test_bit(AS_UNEVICTABLE, &mapping->flags);
- }
- 
-+static inline void mapping_set_rcu_read(struct address_space *mapping)
-+{
-+	if (!test_bit(AS_RCU_READ, &mapping->flags))
-+		set_bit(AS_RCU_READ, &mapping->flags);
-+}
-+
-+static inline bool mapping_rcu_read(const struct address_space *mapping)
-+{
-+	return test_bit(AS_RCU_READ, &mapping->flags);
-+}
-+
- static inline void mapping_set_exiting(struct address_space *mapping)
- {
- 	set_bit(AS_EXITING, &mapping->flags);
-diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
-index 7626a3e3a07a..c1a63f070aa7 100644
---- a/include/linux/vm_event_item.h
-+++ b/include/linux/vm_event_item.h
-@@ -37,6 +37,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
- 		FOR_ALL_ZONES(PGSCAN_SKIP)
- 		PGFREE, PGACTIVATE, PGDEACTIVATE, PGLAZYFREE,
- 		PGFREE_RCU, PGFREE_RCU_EXPEDITE, PGFREE_RCU_DRAIN,
-+		PGFREE_RCU_MARK,
- 		PGFAULT, PGMAJFAULT,
- 		PGLAZYFREED,
- 		PGREUSE,
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index a1e52a1f8a52..4916b5713a74 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -608,17 +608,20 @@ FOLIO_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+ /*
+  * A lockless lookup that sees PG_rcu_free and then still finds the folio
+  * where it looked may read it until rcu_read_unlock().  Set under a
+- * reference, cleared only by the free.  Not for hugetlb or
++ * reference.  Cleared by the free, or when the folio's inode is evicted:
++ * no lockless lookup can reach it then.  Not for hugetlb or
+  * free_pages_nolock().
+  */
+ #ifdef CONFIG_PAGE_RCU_FREE
+ FOLIO_TEST_FLAG(rcu_free, FOLIO_HEAD_PAGE)
+ 	FOLIO_TEST_SET_FLAG(rcu_free, FOLIO_HEAD_PAGE)
++	FOLIO_CLEAR_FLAG(rcu_free, FOLIO_HEAD_PAGE)
+ 	__FOLIO_CLEAR_FLAG(rcu_free, FOLIO_HEAD_PAGE)
+ #define __PG_RCU_FREE (1UL << PG_rcu_free)
+ #else
+ FOLIO_TEST_FLAG_FALSE(rcu_free)
+ 	FOLIO_TEST_SET_FLAG_FALSE(rcu_free)
++	FOLIO_CLEAR_FLAG_NOOP(rcu_free)
+ 	__FOLIO_CLEAR_FLAG_NOOP(rcu_free)
+ #define __PG_RCU_FREE 0
+ #endif
 diff --git a/mm/filemap.c b/mm/filemap.c
-index 3508eea44ad9..b732ecaa78a9 100644
+index b732ecaa78a9..53ec92279977 100644
 --- a/mm/filemap.c
 +++ b/mm/filemap.c
-@@ -2759,18 +2759,54 @@ static inline bool pos_same_folio(loff_t pos1, loff_t pos2, struct folio *folio)
- 	return (pos1 >> shift == pos2 >> shift);
- }
+@@ -138,6 +138,9 @@ static void page_cache_delete(struct address_space *mapping,
+ 	nr = folio_nr_pages(folio);
  
-+/*
-+ * Reads keep coming back to @folio: free it only after an RCU grace period
-+ * from now on.  Not if its next read needs a reference anyway.  Not if it
-+ * is unevictable: folio_mark_accessed() calls such a folio hot after at
-+ * most one access, so every ramfs folio that is read would get the flag.
-+ */
-+static void filemap_mark_hot(struct folio *folio)
-+{
-+	struct address_space *mapping;
-+
-+	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE))
-+		return;
-+	if (folio_test_rcu_free(folio) || !folio_test_uptodate(folio) ||
-+	    folio_test_readahead(folio) || folio_test_dropbehind(folio) ||
-+	    folio_test_unevictable(folio))
-+		return;
-+	if (folio_test_set_rcu_free(folio))
-+		return;
-+
-+	count_vm_events(PGFREE_RCU_MARK, folio_nr_pages(folio));
-+	/* NULL if the folio was truncated meanwhile */
-+	mapping = READ_ONCE(folio->mapping);
-+	if (mapping)
-+		mapping_set_rcu_read(mapping);
-+}
-+
- /*
-  * filemap_read() is about to copy from @folio at @pos.  @last_pos is where
-  * the previous read of this open file ended, or how far this one has got.
-  *
-  * Reading on in the folio that the last read ended in is not another access
-  * to it: a folio read in small pieces is marked accessed once.
-+ *
-+ * The folio is hot when folio_mark_accessed() finds it as accessed as the
-+ * LRU records, or when this open file goes back to data that it has just
-+ * read.
-  */
- static void filemap_read_accessed(struct folio *folio, loff_t pos,
- 				  loff_t last_pos)
- {
--	if (!pos_same_folio(pos, last_pos - 1, folio))
--		folio_mark_accessed(folio);
-+	bool hot;
-+
-+	if (pos_same_folio(pos, last_pos - 1, folio))
-+		hot = pos < last_pos;
-+	else
-+		hot = folio_mark_accessed(folio);
-+	if (hot)
-+		filemap_mark_hot(folio);
- }
+ 	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
++	/* No lockless reader can be in an evicted inode */
++	if (folio_test_rcu_free(folio) && mapping_exiting(mapping))
++		folio_clear_rcu_free(folio);
  
- static void filemap_end_dropbehind_read(struct folio *folio)
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index d994de1fd739..c27caad017e3 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1347,6 +1347,7 @@ const char * const vmstat_text[] = {
- 	[I(PGFREE_RCU)]				= "pgfree_rcu",
- 	[I(PGFREE_RCU_EXPEDITE)]		= "pgfree_rcu_expedite",
- 	[I(PGFREE_RCU_DRAIN)]			= "pgfree_rcu_drain",
-+	[I(PGFREE_RCU_MARK)]			= "pgfree_rcu_mark",
+ 	xas_store(&xas, shadow);
+ 	xas_init_marks(&xas);
+@@ -306,6 +309,9 @@ static void page_cache_delete_batch(struct address_space *mapping,
+ 		}
  
- 	[I(PGFAULT)]				= "pgfault",
- 	[I(PGMAJFAULT)]				= "pgmajfault",
+ 		WARN_ON_ONCE(!folio_test_locked(folio));
++		/* No lockless reader can be in an evicted inode */
++		if (folio_test_rcu_free(folio) && mapping_exiting(mapping))
++			folio_clear_rcu_free(folio);
+ 
+ 		folio->mapping = NULL;
+ 		/* Leave folio->index set: truncation lookup relies on it */
 -- 
 2.54.0
 
