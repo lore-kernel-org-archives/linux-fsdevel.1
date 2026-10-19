@@ -1,72 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792424966;
-	b=uRboHSXpCd5CdCOdqY/Gdpft7QXCopNs9zO/jOaYMk88cZRW0/IKJUGyRU3BsIqC6v9a
-	 8XeZ3wy9SzNKLtmeHkkjuvX9hgT+pGGGF19hd8X2/FoNcTMui/w0EUaUmBA76rLV9AaC9
-	 YDqgX2nDSFSrsTM4+6eQxlb7VMbeYoQvHctx44EV5zrvPur0joTLJOIZrlPMh7JqioaMO
-	 PeJMxCZLvUYE30PJ4ncH+2yg2s4XS6LFOoTI4axLdAHqFnXj5M6CYGkpiWfchKGHGFs6q
-	 L3X30qeH5Rw3A6Qhhb32t9lKhem2fQPfF1PbCBPQhAdc2uHwHO07b+KuputN60SuHtw==
+	t=1792424973;
+	b=WBF6muUO7phudSO4i386bxhWQqlzawYQO28ANCZARvCCMiAhYqTBGBoq600bS78HmedV
+	 1S+ruHOtBV9bFkJoMItNB8EP4nfpF/CWZ4dFisCI4+UkiIBEKx0iJcgCaqYqx2Yrex7Q5
+	 gsUWk0wBbWgvrTHBvcjY0v2vXAeaGEh5JETMexWAQ/TPLD7BoPyEpycd+oYU0TKbCJNVd
+	 wASi+gbNQUbx4x7MVt/8sMO1e6pivICxAZN2DhxZMMI+pEb/ipaikIfL80B+WaIbWKjhJ
+	 qSO32wR5bVy6KqHYJycSnhZ41Hc4u5bXgLXHoO+YlQxCpUakuTgkE7QnEn6h4nVuCVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792424966;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792424973;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
 	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=wQ990R/5ZEFygzTrA1YWpJldH6G4pj9OJvJoQ4d/FzA=;
-	b=DkRdRZtHtKSl0SMX5OtV/SU45rzb1vSVUd4vYBr8RC85INAiGnFwKFJGx70RyFyy5h1y
-	 J9qBNvJQQ8mDCDSyB9CLdMyYNGcQJ+tdredP2ml+jU7z2kVOsP8WMR+KBrX6Y9I/ZNn3y
-	 fMgsaKlyTmDxTXz1RAd9WwuqXSAqrAoVGG0kduAnhZl8rkocjakom00VWItlsIKKY64Ag
-	 cL+YyYdfVXg+vIfnSHR0vybsJCdCIDBAwxS5SpAP1Jbw0lajpwslOpj1X/gSDznsOonAA
-	 wDxlZW5mufdMqhfGqdF4HhyyPt6B5sBXYNM6pQCbEZcMa9MXKNAoHf0Gg6wIcSyKetQ==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=5Nw+dRp3BsamXDt/gXHq20wL6FIVWvA/eL2Wq+/2wtQ=;
+	b=qH+t+S0nRtTYKqLihJW6UV7gr8F2lZ5Lh4GVRELwnTmHXRxpdJv3hQ+DVUL/ZOMqQl/V
+	 LgdS3zojMOcDZ+FE0v4H4oEPZKc8NSsyMPnOoiEHlyQ9G86vgeoV5V+UhH+ie6KhW6Aqc
+	 2JXTvciNsZ7BOEeKwNzZEeR+CoyR8mdD3IISY5+wUNZceNlCtl3PMNfCXSFZoSbPMA661
+	 RFqzMc+ztSA4URiECzI3RwjXqldCX8weRedI/RmPbuyxZbnTzMW2F1zgA5B1UyIoCHLCp
+	 rMVM8A54ZYgcjyY+aUQeJFmSYE0VW4x8yrV6X3N4Hy797yKfjfnv0viltCHywOicEXg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XO3Nb3pb;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A2SWU1YD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC98D60724A6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 15:49:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0C06075536
+	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 15:49:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XO3Nb3pb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E01DF1F000C6;
-	Mon, 19 Oct 2026 15:49:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A2SWU1YD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F651F00ADB;
+	Mon, 19 Oct 2026 15:49:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792424965;
-	bh=wQ990R/5ZEFygzTrA1YWpJldH6G4pj9OJvJoQ4d/FzA=;
-	h=From:To:Cc:Subject:Date;
-	b=XO3Nb3pbWKkDGqCqWt8s1g/51Qyc4mj4/fgl6/opq9MTwuO4eZBy+p3UjSvTVPCnB
-	 HFVv8NBrwMV+tzuD4W8FMgZLaYK66C/MnjxScnnxzcixTYjJHwEkRkaY8xYYKvGQ/O
-	 Tzcf6e3uDImMRgemALgvUquPxIcGzeXf3sAxvXZ3TokEVWYQfBy8jsilFN1dbVfCqE
-	 TTycvf2swMcdSUaeMvMIy1W0Tuza05QYaN4ykt2iyM5FGkCcTcyhGUZcKYOvhKoGhy
-	 6Q/jCd/LkeiM4lIWtlmSsyz5BHVYHnMG+07nA5x8v7EAZvlojWYt3RR8hfq/TkLZgg
-	 TX73pem4Gln5A==
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfauth.ams.internal (Postfix) with ESMTP id D5766198003A;
-	Mon, 19 Oct 2026 11:49:16 -0400 (EDT)
+	s=k20260515; t=1792424972;
+	bh=5Nw+dRp3BsamXDt/gXHq20wL6FIVWvA/eL2Wq+/2wtQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=A2SWU1YD2gmUSdWCu5DLVytZUw5Py0fBrWGuTB0H5kdVTyDuVh9DuTyMPkLzwu5qE
+	 J/MSvca/T8QWhr+3Ax0FXhcZly1nrzFloa2VYh6xUM8qYRfCegiNlOHWvQu/hxzrLF
+	 c8zkYzZ7bMgT1qlUKlmt8C/PFkaSIaGmPNbaFVCSxw7Nk0gnGqEC7qSloqN7UC5kOi
+	 Mobb7DCoyYkHWtv9dvFffZ9Z7ysyoKabAxVGb4nbc6KAy+5HqtPjC5KfBsiNRYfHtK
+	 CsttFzVG4NX8Ysr/J3DRrrURNY2l5KkCWMQVvNzOt0kXWVXOSWrvf7HKyMg7AyZzuv
+	 q/1JgL0FL+S3w==
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 46C781980047;
+	Mon, 19 Oct 2026 11:49:23 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Mon, 19 Oct 2026 11:49:20 -0400
-X-ME-Sender: <xms:_DvWarseNCNj-1K3ydVi1xpumSkQnRRl0n5vfaaii2blHYR3U61zXg>
-    <xme:_DvWahsrDgai0popxK3pq4Q1XluvLOGchJiOqe9xfkK9rqCfc4GcNjM3mY_DVY3Ge
-    zCamNpZGDe-iIKodklILTXSCMfjd1-cKkA7Q9HUjUnS7ku1nNezhEo>
-X-ME-Received: <xmr:_DvWahbs8pkdUrzHftHpVz-buvBTdJPgSIwm4Dc_26XSgKAyYT3HmhraTj0>
-X-ME-Proxy-Cause: dmFkZTFnkWJlnRk13lJhbRMMhE24dqHowqcTpm9YnVFCemJ9z1tAQpZ9UIKuKv51JTF9iU
-    2hhiCZ/IkT2KxjYD1ShgD9a8RgpKwa1ZheIFR1syQqOIS3t0DJ6bqLkU+G81/Jio6o2rdC
-    s/B/caTmFCInO3FojJZuX51tsa4/gHWZt0MUXYC9sddXDHQs46fNpBKHuKE6MOHDPyefYn
-    l6VnrgdUlXLxuiEoE2SiiLcfnf2ThqoippUJSZDkevty9fwgaade8PBXXf+tzNHIYFu07R
-    ynO280RbJB/GY1Qm4ViCxbIy3aeA969J+Dk/0GeiMVe/ykRsNG+2DaTjjzJSlq9y9IYoon
-    f53H32j06ZqUchtJR5QJZ7KWf4Ez+qIPEIT60hpoC9Th/vETMECu7oyXr1b7y6Cz5T9pgw
-    iDRLbIhl1oCHf7zZcI6zLLIQfq/4WmmOvW9O8Z7NG+pNWg/TYiAiWEj/yH2nTWiyCg0mlI
-    0bePk9NM6FmywzSzngeyGAfHaq8Ki8WT10Qy2PcyZxNnhBLVFV0TZLh29rlCfvXmU5/yFk
-    mXEQrbRzTxA4hJhJgUnPXqvy5Nl1LcCbvaaJn2KoCaJ2tHOjrKUOAcQRaxxQAPhKe3VL1L
-    NrtsEPA37iaCPnNH6VTmYZ2lB26fbsgdjj6pjobnvYH9rZyBMFQHP9vZylnw
-X-ME-Proxy: <xmx:_DvWap5lmUainyAt7bSZ6lkHgk4huaKIzOazymiC7u17IuILHkbjcw>
-    <xmx:_DvWasnGXEdbl4e6Hjht9bitXSO7XtEuY9_rhlDqZGTdOaU0FR-P2g>
-    <xmx:_DvWahpMvpEOY0yX0IfKKOvx2Fhm3-NSh4s2p-8uiVX3JfHKzEVAsA>
-    <xmx:_DvWav_83QHLq2h3tPtvvo-hEzPA7u3TKkvmmGzgs7R0-uGDUmNanA>
-    <xmx:_DvWai4YwVyeGoTNjWIJZm_bF08gZwsYe8RxVLfeEgRW1l9eqxILwns1>
+  by phl-compute-11.internal (MEProxy); Mon, 19 Oct 2026 11:49:28 -0400
+X-ME-Sender: <xms:AzzWavEvajVicTgJMss2wI1uROdTwu06WDtuBR0te8Tc-yyqfDZJTg>
+    <xme:AzzWat0LPBeoFs_y40xCqE4TVDKYDfq6AfE9YgSnYIPhrI1kotzMoKPA2daTgGfGl
+    RTcGRkP8pQTBk4fARNtue_WUERxovDtq5H92HMAjl4BOEveSW7dGSL7>
+X-ME-Received: <xmr:AzzWapwpDiIIiQEIJsb5xjsBqialvL5abOj_6gA0HrlXxI2la24xnAux8U8>
+X-ME-Proxy-Cause: dmFkZTESqR4vElUNfwe4Wb1kabMg9MdYUtHyNIvlHi5jfGRsEd0tjiYfzpqh5FemuLlMuA
+    +QzWL/iolJzzDzQk8vzuoT2/u2xyL/YZG/CihU2eaSQe3uAw7YKu/Z/hQfgMIJpEQrBQkK
+    hH3KJVpCmjg+gNXnnOIkdBMKpJa1pvTLqzuojrt68Uovke10kpOzVhZrNEf3d58NDgoR+6
+    GBwzdAiHoLFFDGJo3/r+XBHeUTBbw+IeFaYdgC0j5JEQlKAOMB5I7tBUfVMuw5hMfUnXf2
+    vE1DwOk7N/x2FbtU++Y3QX/1ODQhD5sTVGp3EMvK4jUTItTZrn4RBPsK+PhnbeHfl8JcOK
+    eC93Uux4gzDYkGL3LunO0coPzmDCOalx65wUsbcyE59TK2N8vbmnx/aORMfTFkjXU6EQa2
+    mvfPQs1C5tE6wzAWQ4KD9dF07RoozXA2WCG/KEiETgzvG/4lg3sjD1CtDs+wka96IlgryC
+    P3OuWIy05RuEXEfkgI1DdKyHfBIuYnnpY2rMFCYc0GWetFEbb36i18ArZE6KO7h4T1BDlj
+    9xsAsKEhI2XclfxVGU9Cb7sYpyUQzlQ1i5HYHsKck+DBb3JNGeyVRVXwi5QapHcy8Fzr8l
+    zk24zapjBXVNhkeLB6VEhlwqLebKeilb4kWe1F/FHBK5qEyPFy0X/65SepTA
+X-ME-Proxy: <xmx:AzzWavHxkiJnmEEpQZiznBQjxd0P3KcQ5XrpsricoeMVSTLdGxpQ0g>
+    <xmx:AzzWaorDmw31xAOF0GJN8Ma19OOZLE8MemPwg-IY1R475B-It64jXg>
+    <xmx:AzzWal2DE28L_LKuifAnxtBR5_0jsXZf7ykYvQhxzPcjFIIlOLtmSA>
+    <xmx:AzzWahlzbztQvbdoBAsxmChlmGKkqG0qNq9LfX9bjmz36dc2Arwf-Q>
+    <xmx:AzzWaonhalMgAJnM8vRePPJTMykAfycyPjaAD_HHojUhRO3QZc-z0Xjl>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Oct 2026 11:49:15 -0400 (EDT)
+ 19 Oct 2026 11:49:22 -0400 (EDT)
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
@@ -78,8 +79,7 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Hugh Dickins <hughd@google.com>,
 	Christian Brauner <brauner@kernel.org>,
 	Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
 	Miaohe Lin <linmiaohe@huawei.com>,
 	Naoya Horiguchi <nao.horiguchi@gmail.com>,
 	Oscar Salvador <osalvador@suse.de>,
@@ -114,11 +114,14 @@ Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
-	kernel-team@meta.com
-Subject: [RFC PATCH 00/18] mm: read the page cache without folio references
-Date: Mon, 19 Oct 2026 16:48:53 +0100
-Message-ID: <20261019154913.1765974-1-kas@kernel.org>
+	kernel-team@meta.com,
+	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Subject: [RFC PATCH 01/18] mm: free PG_rcu_free folios only after an RCU grace period
+Date: Mon, 19 Oct 2026 16:48:54 +0100
+Message-ID: <20261019154913.1765974-2-kas@kernel.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261019154913.1765974-1-kas@kernel.org>
+References: <20261019154913.1765974-1-kas@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -130,151 +133,315 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Small reads of one file from many CPUs all take and drop a reference on
-the same folio, and its refcount bounces between the CPUs.  This series
-lets filemap_read() and shmem copy from the page cache without taking a
-reference.  It is Linus' RFC [1], reworked: a folio that such a reader
-may copy from is freed only after an RCU grace period.
+From: Linus Torvalds <torvalds@linux-foundation.org>
 
-Only the folios that reads keep coming back to get the flag,
-PG_rcu_free: those that folio_mark_accessed() finds as accessed as the
-LRU records.  Streaming reads and data that never gets hot are not
-deferred, so the memory held back stays small and most frees are not
-touched.
+Reading a page cache folio without taking a reference would keep CPUs
+that read the same file from bouncing its refcount.  But without a
+reference the folio can be freed, and its memory reused, while the
+reader copies from it.
 
-  1      PG_rcu_free and the deferred free (64-bit only)
-  2-3    splice and fuse no longer reuse page cache folios that a
-         lockless reader may still copy from
-  4-7    NR_FREE_RCU_PAGES; an expedited grace period when a CPU's
-         deferred frees pile up and memory runs short; the waiting
-         pages are freed before the allocator, alloc_contig_range() or
-         memory offline give up
-  8      memory_failure() and soft offline deal with such pages
-  9-11   filemap_read() marks a folio accessed in one place and sets
-         PG_rcu_free on the folios that reads keep coming back to
-  12     the folios of an inode being evicted are freed at once
-  13     f_ra.prev_pos is written only when it changes
-  14     filemap_read() copies small folios without a reference
-  15     ... and large folios, with one more lookup per folio
-  16-17  shmem does the same
-  18     a debugfs switch to turn the reads off
+Add PG_rcu_free: the free of a folio with the flag waits for an RCU
+grace period.  A reader that saw the flag under rcu_read_lock(), and
+then still found the folio where it looked, can read it until
+rcu_read_unlock().  A split copies the flag, as such a reader may still
+be reading the new folios.
 
-Numbers: 64-vCPU KVM guest on a Threadripper 7975WX (Zen 4), 2G, no
-debug options; base is v7.3-rc7.
+The folios wait on per-CPU lists, one grace period in flight per CPU:
+call_rcu() per folio would queue a callback for every folio of a
+truncated file.  A work, which can reschedule, frees each batch.
+Reclaim depends on these frees, so the workqueue is WQ_MEM_RECLAIM.
 
-With the default mitigations, every read on this machine pays ~400 ns
-at the user/kernel boundary (TSA ~170 ns, SRSO ~230 ns): a single thread
-does ~1.8M reads/s.  With mitigations=off it does 7.1-8.8M, and the
-64-thread gain on ext4 grows from 4.5x to 13x.  Linus measured 7.4-7.8M
-for one thread and 13.3M -> 304M for 64 threads on a Threadripper 3970X
-[1].  Rows without "mit=off" use the default mitigations.
+The flag is 64-bit only (CONFIG_PAGE_RCU_FREE): page flags are scarce
+on 32-bit, and the contention this avoids is a problem of large
+machines.
 
-  16-byte pread() at offset 0, each thread with its own fd, M reads/s:
-                                 base           this series
-    ext4, 64 threads             15.0-15.7      68.9-70.1
-    ext4, 64 threads, mit=off    17.2           217-220
-    tmpfs, 64 threads            1.6-1.7        71-72
-    tmpfs, 64 threads, mit=off   1.8-1.9        230-239
-    XFS, 64 threads              11.3-11.4      20.4-20.5
-    block dev, 64 threads        14.7           28.8-28.9
-    1 thread, any of them        1.6-1.9        1.7-2.0
+pgfree_rcu in /proc/vmstat counts the deferred pages.  Nothing sets the
+flag yet.
 
-  The mit=off rows are from an earlier version with the same small-read
-  path.  Base tmpfs takes the folio lock on every read: 64 threads read
-  as fast as one.  XFS and the block device take i_rwsem shared on every
-  read (XFS_IOLOCK_SHARED, inode_lock_shared() in blkdev_read_iter()),
-  and its count bounces in place of the refcount.
-
-  64 threads reading 64K at offset 0 of one file, one large folio,
-  k MiB/s:
-                           base           this series
-    huge tmpfs             96-100         1370-1390
-    ext4                   756-775        1355-1373
-
-  Large sequential reads of a 256M file: single-thread within ~1% of
-  base, 16 threads at base.
-
-  Next to a process that touches 1400M in a loop: no OOM kill.  A load
-  that drops 1G of hot data with FADV_DONTNEED every round runs between
-  9% below and 1% above base, which itself spans 63-75k MiB/s there.  A
-  load that keeps refaulting loses 4-6%, as Linus' RFC does.
-
-Open:
-
-- Patch 12 relies on mapping_exiting() meaning that no file holds the
-  inode open.  f2fs called truncate_inode_pages_final() on open inodes
-  for atomic writes; a fix is on its way [2].
-- Patch 17 drops the folio lock from tmpfs reads.  shmem_get_folio()
-  held it only for the lookup, so a read was never atomic against a
-  write or a hole punch; now a read also does not wait for one that
-  holds the lock, as filemap_read() does not.  I believe this is safe,
-  but would like Hugh to double check.
-- A deferred folio is uncharged from its memcg before it waits, as every
-  page cache folio is.  For a grace period it counts towards no cgroup.
-- A migrated flagged folio is freed after a grace period, so a pageblock
-  that compaction just emptied is free only then.  defrag_mode leans on
-  free pageblocks; not measured yet.
-- The flag is a page flag, 64-bit only.  On large configs it costs MGLRU
-  one refs bit.
-- On writably mapped files, architectures that implement
-  flush_dcache_page() take the slow path.
-- filemap_mark_hot() still tests uptodate.  Willy pointed out that a
-  filesystem clearing it under a reader is a filesystem bug; the test is
-  cheap.
-
-The series is also at:
-  https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git rcu-free/rfc-v1
-
-[1] https://lore.kernel.org/all/CAHk-=wjLjgfwgSZ1RDk4YdNFcV0ntosMO5AmBoHD76Zb3HFY7Q@mail.gmail.com/
-[2] https://lore.kernel.org/all/20261015161714.1586334-1-daeho43@gmail.com/
-
-Kiryl Shutsemau (Meta) (11):
-  fuse: don't move a folio with PG_rcu_free into a fuse file
-  mm: count the pages waiting for a grace period
-  mm: free the pages waiting for a grace period before OOM
-  mm: free the pages waiting for a grace period before isolation fails
-  mm/memory-failure: handle folios with PG_rcu_free
-  mm/filemap: don't defer the free of folios of an inode being evicted
-  mm/filemap: store the end of a read in f_ra only when it changes
-  mm/filemap: read large folios without folio references
-  mm/shmem: count accesses to a folio the way filemap_read() does
-  mm/shmem: read without folio references
-  mm/filemap: add a debugfs switch for lockless page cache reads
-
-Linus Torvalds (7):
-  mm: free PG_rcu_free folios only after an RCU grace period
-  splice: don't steal page cache folios
-  mm: expedite the grace period when a CPU has many deferred frees
-  mm: have folio_mark_accessed() return whether the folio is hot
-  mm/filemap: mark a folio accessed in one place in filemap_read()
-  mm/filemap: set PG_rcu_free on the folios that reads keep coming back
-    to
-  mm/filemap: read from the page cache without folio references
-
- fs/fuse/dev.c                  |   4 +
- fs/splice.c                    |  51 -----
- include/linux/mmzone.h         |   1 +
- include/linux/page-flags.h     |  24 +++
- include/linux/pagemap.h        |  12 ++
- include/linux/swap.h           |   2 +-
- include/linux/vm_event_item.h  |   2 +
- include/trace/events/mmflags.h |   7 +
- mm/Kconfig                     |  15 ++
- mm/filemap.c                   | 337 +++++++++++++++++++++++++++++++--
- mm/folio.c                     |  46 +++--
+Assisted-by: LLM
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+[kas: rework for flagging at read time, 64-bit only, shorter comments
+ and changelog]
+Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+---
+ include/linux/page-flags.h     |  21 +++++++
+ include/linux/vm_event_item.h  |   1 +
+ include/trace/events/mmflags.h |   7 +++
+ mm/Kconfig                     |  12 ++++
  mm/huge_memory.c               |   1 +
- mm/internal.h                  |   3 +
- mm/memory-failure.c            |  28 +++
- mm/memory_hotplug.c            |   7 +
- mm/page_alloc.c                | 284 ++++++++++++++++++++++++++-
- mm/page_alloc.h                |   1 +
- mm/shmem.c                     |  22 ++-
- mm/show_mem.c                  |   9 +-
- mm/vmstat.c                    |   6 +
- 20 files changed, 770 insertions(+), 92 deletions(-)
+ mm/memory-failure.c            |   4 ++
+ mm/page_alloc.c                | 105 +++++++++++++++++++++++++++++++++
+ mm/vmstat.c                    |   1 +
+ 8 files changed, 152 insertions(+)
 
-
-base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 7a863572adce..a1e52a1f8a52 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -111,6 +111,9 @@ enum pageflags {
+ 	PG_swapbacked,		/* Page is backed by RAM/swap */
+ 	PG_unevictable,		/* Page is "unevictable"  */
+ 	PG_dropbehind,		/* drop pages on IO completion */
++#ifdef CONFIG_PAGE_RCU_FREE
++	PG_rcu_free,		/* free only after an RCU grace period */
++#endif
+ #ifdef CONFIG_MMU
+ 	PG_mlocked,		/* Page is vma mlocked */
+ #endif
+@@ -602,6 +605,24 @@ FOLIO_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+ 	FOLIO_TEST_CLEAR_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+ 	__FOLIO_SET_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+ 
++/*
++ * A lockless lookup that sees PG_rcu_free and then still finds the folio
++ * where it looked may read it until rcu_read_unlock().  Set under a
++ * reference, cleared only by the free.  Not for hugetlb or
++ * free_pages_nolock().
++ */
++#ifdef CONFIG_PAGE_RCU_FREE
++FOLIO_TEST_FLAG(rcu_free, FOLIO_HEAD_PAGE)
++	FOLIO_TEST_SET_FLAG(rcu_free, FOLIO_HEAD_PAGE)
++	__FOLIO_CLEAR_FLAG(rcu_free, FOLIO_HEAD_PAGE)
++#define __PG_RCU_FREE (1UL << PG_rcu_free)
++#else
++FOLIO_TEST_FLAG_FALSE(rcu_free)
++	FOLIO_TEST_SET_FLAG_FALSE(rcu_free)
++	__FOLIO_CLEAR_FLAG_NOOP(rcu_free)
++#define __PG_RCU_FREE 0
++#endif
++
+ #ifdef CONFIG_HIGHMEM
+ /*
+  * Must use a macro here due to header dependency issues. page_zone() is not
+diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
+index 2628ccda076a..cbe849701653 100644
+--- a/include/linux/vm_event_item.h
++++ b/include/linux/vm_event_item.h
+@@ -36,6 +36,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
+ 		FOR_ALL_ZONES(ALLOCSTALL)
+ 		FOR_ALL_ZONES(PGSCAN_SKIP)
+ 		PGFREE, PGACTIVATE, PGDEACTIVATE, PGLAZYFREE,
++		PGFREE_RCU,
+ 		PGFAULT, PGMAJFAULT,
+ 		PGLAZYFREED,
+ 		PGREUSE,
+diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+index 935893e5ea53..47c3411a75e8 100644
+--- a/include/trace/events/mmflags.h
++++ b/include/trace/events/mmflags.h
+@@ -117,6 +117,12 @@ TRACE_DEFINE_ENUM(___GFP_LAST_BIT);
+ #define IF_HAVE_PG_IDLE(_name)
+ #endif
+ 
++#ifdef CONFIG_PAGE_RCU_FREE
++#define IF_HAVE_PG_RCU_FREE(_name) ,{1UL << PG_##_name, __stringify(_name)}
++#else
++#define IF_HAVE_PG_RCU_FREE(_name)
++#endif
++
+ #ifdef CONFIG_ARCH_USES_PG_ARCH_2
+ #define IF_HAVE_PG_ARCH_2(_name) ,{1UL << PG_##_name, __stringify(_name)}
+ #else
+@@ -152,6 +158,7 @@ TRACE_DEFINE_ENUM(___GFP_LAST_BIT);
+ 	DEF_PAGEFLAG_NAME(swapbacked),					\
+ 	DEF_PAGEFLAG_NAME(unevictable),					\
+ 	DEF_PAGEFLAG_NAME(dropbehind)					\
++IF_HAVE_PG_RCU_FREE(rcu_free)						\
+ IF_HAVE_PG_MLOCK(mlocked)						\
+ IF_HAVE_PG_HWPOISON(hwpoison)						\
+ IF_HAVE_PG_IDLE(idle)							\
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 604c58199acb..5af00db23f90 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -718,6 +718,18 @@ config PCP_BATCH_SCALE_MAX
+ 	  latency.  This option sets the upper limit of scale factor to limit
+ 	  the maximum latency.
+ 
++config PAGE_RCU_FREE
++	def_bool 64BIT
++	help
++	  Reads from the page cache can copy from folios that are read
++	  again and again without taking a reference on them, so small
++	  reads of one file from many CPUs do not contend on the folio's
++	  reference count.  The cost is that memory freed from such
++	  folios becomes reusable only after an RCU grace period.
++
++	  64-bit only: it takes a page flag, and those are scarce on
++	  32-bit.
++
+ config PHYS_ADDR_T_64BIT
+ 	def_bool 64BIT
+ 
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 1e5d68acf62a..25082949a4ca 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -3743,6 +3743,7 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
+ #endif
+ 				 (1L << PG_dirty) |
+ 				 (1L << PG_dropbehind) |
++				 __PG_RCU_FREE |
+ 				 LRU_GEN_MASK | LRU_REFS_MASK));
+ 
+ 		new_folio->mapping = folio->mapping;
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index a8b03e2920ba..7dde7c3c9a0c 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -211,6 +211,10 @@ static bool page_handle_poison(struct page *page, bool hugepage_or_freepage, boo
+ 			return false;
+ 	}
+ 
++	/* The free of a hwpoisoned page is not deferred: wait for readers */
++	if (release && folio_test_rcu_free(page_folio(page)))
++		synchronize_rcu();
++
+ 	SetPageHWPoison(page);
+ 	if (release)
+ 		put_page(page);
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 12fac9084c48..a371e92da273 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -1313,6 +1313,96 @@ static inline void pgalloc_tag_sub_pages(struct alloc_tag *tag, unsigned int nr)
+ 
+ #endif /* CONFIG_MEM_ALLOC_PROFILING */
+ 
++/*
++ * Each CPU has at most one grace period in flight (@queued), covering
++ * @batch.  Folios freed meanwhile wait on @pending for the next one.
++ */
++struct rcu_free_pcpu {
++	spinlock_t lock;
++	bool queued;
++	struct list_head pending;
++	struct list_head batch;
++	struct rcu_work rwork;
++};
++
++static DEFINE_PER_CPU(struct rcu_free_pcpu, rcu_free_pcpu);
++
++static struct workqueue_struct *rcu_free_wq __ro_after_init;
++
++static void rcu_free_start(struct rcu_free_pcpu *r)
++{
++	lockdep_assert_held(&r->lock);
++
++	if (r->queued || list_empty(&r->pending))
++		return;
++
++	list_splice_init(&r->pending, &r->batch);
++	r->queued = true;
++	WARN_ON_ONCE(!queue_rcu_work(rcu_free_wq, &r->rwork));
++}
++
++static void rcu_free_pages(struct list_head *list)
++{
++	struct folio_batch fbatch;
++	struct folio *folio, *next;
++
++	folio_batch_init(&fbatch);
++	list_for_each_entry_safe(folio, next, list, lru) {
++		if (!folio_batch_add(&fbatch, folio)) {
++			free_unref_folios(&fbatch);
++			cond_resched_tasks_rcu_qs();
++		}
++	}
++	if (folio_batch_count(&fbatch))
++		free_unref_folios(&fbatch);
++}
++
++static void rcu_free_workfn(struct work_struct *work)
++{
++	struct rcu_free_pcpu *r = container_of(to_rcu_work(work),
++					       struct rcu_free_pcpu, rwork);
++	LIST_HEAD(done);
++
++	spin_lock_irq(&r->lock);
++	list_splice_init(&r->batch, &done);
++	r->queued = false;
++	rcu_free_start(r);
++	spin_unlock_irq(&r->lock);
++
++	rcu_free_pages(&done);
++}
++
++static void rcu_free_defer(struct folio *folio)
++{
++	struct rcu_free_pcpu *r = raw_cpu_ptr(&rcu_free_pcpu);
++	unsigned long flags;
++
++	spin_lock_irqsave(&r->lock, flags);
++	list_add_tail(&folio->lru, &r->pending);
++	rcu_free_start(r);
++	spin_unlock_irqrestore(&r->lock, flags);
++}
++
++static void __init rcu_free_init(void)
++{
++	int cpu;
++
++	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE))
++		return;
++
++	rcu_free_wq = alloc_workqueue("rcu_free",
++				      WQ_MEM_RECLAIM | WQ_PERCPU, 0);
++
++	for_each_possible_cpu(cpu) {
++		struct rcu_free_pcpu *r = per_cpu_ptr(&rcu_free_pcpu, cpu);
++
++		spin_lock_init(&r->lock);
++		INIT_LIST_HEAD(&r->pending);
++		INIT_LIST_HEAD(&r->batch);
++		INIT_RCU_WORK(&r->rwork, rcu_free_workfn);
++	}
++}
++
+ static __always_inline bool __free_pages_prepare(struct page *page,
+ 		unsigned int order, fpi_t fpi_flags)
+ {
+@@ -1327,6 +1417,19 @@ static __always_inline bool __free_pages_prepare(struct page *page,
+ 
+ 	VM_BUG_ON_PAGE(PageTail(page), page);
+ 
++	/*
++	 * Not for a hwpoisoned order-0 page: it never reaches the allocator,
++	 * and page_handle_poison() takes a reference right after this free.
++	 */
++	if (unlikely(folio_test_rcu_free(folio)) &&
++	    !(PageHWPoison(page) && !order)) {
++		VM_WARN_ON_ONCE(fpi_flags & FPI_NOLOCK);
++		__folio_clear_rcu_free(folio);
++		count_vm_events(PGFREE_RCU, 1 << order);
++		rcu_free_defer(folio);
++		return false;
++	}
++
+ 	trace_mm_page_free(page, order);
+ 	kmsan_free_page(page, order);
+ 
+@@ -6401,6 +6504,8 @@ void __init setup_per_cpu_pageset(void)
+ 	for_each_online_pgdat(pgdat)
+ 		pgdat->per_cpu_nodestats =
+ 			alloc_percpu(struct per_cpu_nodestat);
++
++	rcu_free_init();
+ }
+ 
+ __meminit void zone_pcp_init(struct zone *zone)
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index cb57714539fb..66ed017bde46 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1343,6 +1343,7 @@ const char * const vmstat_text[] = {
+ 	[I(PGACTIVATE)]				= "pgactivate",
+ 	[I(PGDEACTIVATE)]			= "pgdeactivate",
+ 	[I(PGLAZYFREE)]				= "pglazyfree",
++	[I(PGFREE_RCU)]				= "pgfree_rcu",
+ 
+ 	[I(PGFAULT)]				= "pgfault",
+ 	[I(PGMAJFAULT)]				= "pgmajfault",
 -- 
 2.54.0
 
