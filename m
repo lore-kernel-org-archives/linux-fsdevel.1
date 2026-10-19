@@ -1,63 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=128.30.2.78
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792439580;
-	b=wgJ0tLup4h0X5hRCcFLYIA+N0hJZ+T9+RI8kKEuBmMF9I9D4O3aCLNUR/qZmaaK1mC7u
-	 e31kqEb8e4Iu+z74jS2eVKvpoEgiu87esAfoKVr6eNlbqqjxVJcwIj4eWb7SpdFUCBrrj
-	 cnRy9fvwiqvMm3OOkV9gn1Es2Bx88uhQlcs6p7epP0mEBQ3QvhDcuipTDulv8zKIqHW0P
-	 oHDevc23KJvqgZhl3mqaH2KmUObELx5kdVpCF3Hm22E/QrKm7i1Ftj1yzH8aL5EpLdOCQ
-	 N+3+icEkK2rfX80zhuj3mh8QClfS1bXyJmdYeBUyTd48GW9Gnz43VpKG5Dbpnbbew6g==
+	t=1792439673;
+	b=aSF/meobnyqCKJSM+Fxj+MQBY9emPLAONdChJb/IYoNrpvHzckWK+MjsG3/EkBVN7Iv3
+	 GT+WsOIStsI0PPDom4rOGkK79OC4fVJm2sWM8tNmZp5k6hLIxWL3z/Few3ze8QFtK3ZTW
+	 h7Wh8T9WbidihoOg7SG08lfLAqgu86AlKnIzbSdmdJsLJ61NCfcOo2TSKQfmuQ2mdKCXx
+	 T0mAneqLmoDn8yVckTdcgYDr/g+4NgLvsFcAS8SueWMLbyKjVcnukEGF6KlAQGHpb1t/M
+	 E5bUouBeSikzSxR8XlkKUeorEGU324X0OE5Kaps2qHbRk9kgWJYO7c3zT1zPtwdXpfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792439580;
-	h=Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=/B8Sf2t/5DBguvLLrjlEO7Kkln0Oyn/55MT9a1pjZ1o=;
-	b=KdOqvTeGH8L9TI3ybkVU17ky7T3JY5rDUkUDmlMCX70LYfSaGdiEtrnaUBx0jkHFW0i8
-	 +eKVAQPPRGOwngyJtsG9v8YjDpx14Y7LjISGyT82Y9mYh6rc2Xe7RxDQsQhg2ccE7teNE
-	 O3XQtO/gS/FxXIgj7p36wMYQW8Mk5V2d3hJ4ew7pQB2g/qiPxh76PDKpTGyAT0RRsrWNK
-	 kLfI1uTvkmN3PsLsKBX+UHcqExFgU2rfd2HXtq9CXvTWxpLe26ecd9/nEye7aDky3XwiD
-	 STjNdxxoTGK0npf4Rgz7oLH5YpHSXXqx6JHuw95BKYDN9hCsTetML1ktZgqKfAShl3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792439673;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=r4Dziqd1OmNhjy33+aycNRkzYAof3VSJ+fHhVZGkSd8=;
+	b=yz0Alx5SZVf/JthG2fDuNxCtrtZqoiQTYQN/BDTizuGWZmrxm/OM8o7bjaP9U0Fk8wX+
+	 rcwuWyWk1sZrVx4V6eDSUb5D5q5MLmzqa6hm6s2AYZ3w609zmf8IrMF5HlPCelqMWeCFC
+	 Z8h4lyM2zQBRYFmA948mck8mVAV2J6+2shND3X9EeKby2hJ6FExm9o3Bb0nfGyRKYFiDt
+	 B33Q/P6KYmzcSNBhL9ceAXvf3/PaMTBRerCW0J25XY4M0lm0Ab92mGy8CyTkzOuOB1sQC
+	 MY5dBZ9+2C4Y69xf1nIyUZQv7dqvukiL5JIv6dFgw6C+e76KNIre+MKacU2AW6Inqqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XuNF1GbO;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=csail.mit.edu;
+	spf=pass smtp.mailfrom=csail.mit.edu;
+	dkim=pass header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.a=rsa-sha256 header.s=test20231205 header.b=meNaQKPb;
+	arc=none smtp.remote-ip=128.30.2.78
+Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539B9606A319;
-	Mon, 19 Oct 2026 19:53:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36644606A31C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 19:54:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36644606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XuNF1GbO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 592F91F000C4;
-	Mon, 19 Oct 2026 19:52:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792439579;
-	bh=/B8Sf2t/5DBguvLLrjlEO7Kkln0Oyn/55MT9a1pjZ1o=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=XuNF1GbOzd2BBEAJU6p1RypmvBu3/DMrL0b3wWdC+D++Poq0HXIRFWesrR1Oo8lL/
-	 mhtWvhuAYtWIocMai5rqtHzVncAteP+BI3w+hOW2hU6IBI6rvJPA15oR+4bdizjuTn
-	 dsf8kxRwLKdwlPv9l424Xna5CgBVMDCcZ1Jcc/qlP4AB/uOupNzjZvqcz7BE6QGBD7
-	 c7ltj0F3siFa6PMy6uq9tVAO//JSmGoFMld/h5nkyGLtrIXdadBY6yo0uZO+Vp3XbW
-	 h5+bZIQfi4A3lXHhXdvAJPgvsYBe0a+zHp1pPcLAaAFO9pB5lh38SAOIcLgJAfdjpA
-	 FaZxRbZ3iFzxw==
-Message-ID: <42964fa071bd8dcafd418c89be6d66856def4dc5.camel@kernel.org>
-Subject: Re: [linus:master] [sysctl]  8d75c338f0:
- BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
-From: Allison Henderson <achender@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>, Joel Granados <joel.granados@kernel.org>
-Cc: kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev, 
- lkp@intel.com, linux-kernel@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org,  linux-s390@vger.kernel.org,
- linux-fsdevel@vger.kernel.org,  netdev@vger.kernel.org,
- wireguard@lists.zx2c4.com, rds-devel@oss.oracle.com
-Date: Mon, 19 Oct 2026 12:52:58 -0700
-In-Reply-To: <atY42k00k0Waj6o4@redhat.com>
-References: <202610190310.9737b2e3-lkp@intel.com>
-	 <atYB0bm9eEXp8A2g@redhat.com> <atYW0K3t57puHeLW@hobbes>
-	 <atYuE1xnVYe0BDG4@redhat.com> <atY42k00k0Waj6o4@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+	dkim=pass (2048-bit key, unprotected) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.a=rsa-sha256 header.s=test20231205 header.b=meNaQKPb
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=outgoing.csail.mit.edu; s=test20231205; h=Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=r4Dziqd1OmNhjy33+aycNRkzYAof3VSJ+fHhVZGkSd8=; t=1792439671; x=1793303671; 
+	b=meNaQKPbcHHgKOYlUyYUdcyRP7GPKvYwxz6b7XHrLUp6kXIZVd0KCLb4NQYWqev/hItZqAKNHYP
+	kBHf2blUz6VnkxCGjnydK0y43cZ2LOT4yqYTKomo+wLWGgwrryVMyH0J6SLlwhbiHqinITZFuedUL
+	MxIr/Y9fA8K2TAYb0qr8M2FrESWIdiNp7LGcFbbwv9FXlq1kZ/pAo/3m8SuLHbmMEYaihIEI0evql
+	JP8tROrmhteU+tlNfCL5k//SAAcbFSF54Gc06f3Ntzl0lL8u+bmMxu3ystIySkEGdMUn70ul84uuj
+	LXCb/+iHtU47y3oOhitDLGbGLwS6LFki1iEQ==;
+Received: from mail-ej1-f53.google.com ([209.85.218.53])
+	by outgoing2021.csail.mit.edu with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.95)
+	(envelope-from <nickolai@csail.mit.edu>)
+	id 1xItRH-00C9Eh-4N
+	for linux-fsdevel@vger.kernel.org;
+	Mon, 19 Oct 2026 15:54:31 -0400
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c3f8d72d7ceso429070866b.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 12:54:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzE8/N4ixshIKUtS8cWsvqf47eiEcGpIIiwZKYjp2gdeanueyjjYx15jGhliWBMD+2WAvpl5flWkM61Qccr@vger.kernel.org
+X-Gm-Message-State: AFq9FYKFfF33kfRiObuSjrxt/orlgtV+66FGRLmEttgW8RbNsUjzsr09
+	SV9aC2Rv05fNMnbOrt+3Kifv3YJj8ycp3GGEGDUpv01zETGRsd1z9RVLHaGky2KTy7Mxi8rKaBU
+	dgKHieMvYMJ32SS8eZ25yMLjLooeZaEc=
+X-Received: by 2002:a17:907:86aa:b0:c26:1691:b364 with SMTP id
+ a640c23a62f3a-c419f314d81mr620262366b.29.1792439670207; Mon, 19 Oct 2026
+ 12:54:30 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,180 +71,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+References: <20261016222721.791785-1-nickolai@csail.mit.edu> <atZw_gtMIIKXgc1q@bfoster>
+In-Reply-To: <atZw_gtMIIKXgc1q@bfoster>
+From: Nickolai Zeldovich <nickolai@csail.mit.edu>
+Date: Mon, 19 Oct 2026 15:54:14 -0400
+X-Gmail-Original-Message-ID: <CADGQE7H91ZwPgUzPHoAJmF3WjzRKxeQkQcV8+BLdGn7+kkEduA@mail.gmail.com>
+X-Gm-Features: AclHuK89MSswr69kBbcBKYnmvmSPp-W3tduRDj-mdyB6dBht9FWZCtTRTbNC_Go
+Message-ID: <CADGQE7H91ZwPgUzPHoAJmF3WjzRKxeQkQcV8+BLdGn7+kkEduA@mail.gmail.com>
+Subject: Re: [PATCH v1] mm/truncate: fix the zeroing end of pagecache_isize_extended()
+To: Brian Foster <bfoster@redhat.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Theodore Ts'o" <tytso@mit.edu>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-10-19 at 17:35 +0200, Oleg Nesterov wrote:
-> On 10/19, Oleg Nesterov wrote:
+On Mon, Oct 19, 2026 at 3:35=E2=80=AFPM Brian Foster <bfoster@redhat.com> w=
+rote:
+> > --- a/mm/truncate.c
+> > +++ b/mm/truncate.c
+> > @@ -878,8 +878,7 @@ void pagecache_isize_extended(struct inode *inode, =
+loff_t from, loff_t to)
+> >               unsigned int offset, end;
+> >
+> >               offset =3D from - folio_pos(folio);
+> > -             end =3D min_t(unsigned int, to - folio_pos(folio),
+> > -                         folio_size(folio));
+> > +             end =3D min_t(loff_t, to - folio_pos(folio), folio_size(f=
+olio));
+>
+> Good catch...
+>
+> folio_size() returns size_t and folio_zero_segment() expects size_t for
+> the offset params. Perhaps we should that instead of loff_t?
 
-Hi Oleg, Joel,
+size_t is (unsigned int) on 32-bit machines, like i386, which has the
+same issue (reproducer from the patch).
 
-Thanks for running this down.  Agreed we shouldn't just fail to init becaus=
-e
-sysctl is off.  Some comments below:
-
-
-> >=20
-> > But. rds_init() can also fail even if CONFIG_SYSCTL=3Dy, after
-> > rds_sysctl_init(), so to me this looks like a bug in net/rds/.
-> >=20
-Yes that's a separate bug, so I'll send a separate fix for that.
-
-> >=20
-> > In any case, I guess net/rds/ init paths should not fail if
-> > CONFIG_SYSCTL=3Dn ?
->=20
-> So I think that something like the uncompiled/untested patch below makes
-> sense anyway even if doesn't fix all the potential problems with rds_wq.
->=20
-> What do you think?
->=20
-> Oleg.
-> ---
->=20
-> diff --git a/net/rds/ib_sysctl.c b/net/rds/ib_sysctl.c
-> index 2af678e71e3c..bccdb5c4df1d 100644
-> --- a/net/rds/ib_sysctl.c
-> +++ b/net/rds/ib_sysctl.c
-> @@ -36,19 +36,10 @@
-> =20
->  #include "ib.h"
-> =20
-> -static struct ctl_table_header *rds_ib_sysctl_hdr;
-> -
->  unsigned long rds_ib_sysctl_max_send_wr =3D RDS_IB_DEFAULT_SEND_WR;
->  unsigned long rds_ib_sysctl_max_recv_wr =3D RDS_IB_DEFAULT_RECV_WR;
->  unsigned long rds_ib_sysctl_max_recv_allocation =3D (128 * 1024 * 1024) =
-/ RDS_FRAG_SIZE;
-> -static unsigned long rds_ib_sysctl_max_wr_min =3D 1;
-> -/* hardware will fail CQ creation long before this */
-> -static unsigned long rds_ib_sysctl_max_wr_max =3D (u32)~0;
-> -
->  unsigned long rds_ib_sysctl_max_unsig_wrs =3D 16;
-> -static unsigned long rds_ib_sysctl_max_unsig_wr_min =3D 1;
-> -static unsigned long rds_ib_sysctl_max_unsig_wr_max =3D 64;
-> -
->  /*
->   * This sysctl does nothing.
->   *
-> @@ -61,6 +52,14 @@ static unsigned long rds_ib_sysctl_max_unsig_wr_max =
-=3D 64;
->   */
->  unsigned int rds_ib_sysctl_flow_control =3D 0;
-> =20
-> +#ifdef CONFIG_SYSCTL
-> +static unsigned long rds_ib_sysctl_max_wr_min =3D 1;
-> +/* hardware will fail CQ creation long before this */
-> +static unsigned long rds_ib_sysctl_max_wr_max =3D (u32)~0;
-> +
-> +static unsigned long rds_ib_sysctl_max_unsig_wr_min =3D 1;
-> +static unsigned long rds_ib_sysctl_max_unsig_wr_max =3D 64;
-> +
->  static struct ctl_table rds_ib_sysctl_table[] =3D {
->  	{
->  		.procname       =3D "max_send_wr",
-> @@ -105,6 +104,8 @@ static struct ctl_table rds_ib_sysctl_table[] =3D {
->  	},
->  };
-> =20
-> +static struct ctl_table_header *rds_ib_sysctl_hdr;
-> +
->  void rds_ib_sysctl_exit(void)
->  {
->  	if (rds_ib_sysctl_hdr)
-> @@ -118,3 +119,15 @@ int rds_ib_sysctl_init(void)
->  		return -ENOMEM;
->  	return 0;
->  }
-
-
-The real rds_sysctl_init() also does the runtime setup of
-rds_sysctl_reconnect_min_jiffies (msecs_to_jiffies(1)).  Without
-it, the reconnect back off is lost.
-
-Also, if register_net_sysctl_sz() returns NULL in rds_tcp_init_net(),
-it fails as an -ENOMEM.  So RDS/TCP would still fail to come up with
-CONFIG_SYSCTL=3Dn.  A simpler fix might be to just handle the NULL at the
-three call sites, e.g.:
-
-        rds_sysctl_reg_table =3D
-                register_net_sysctl(&init_net, "net/rds", rds_sysctl_rds_ta=
-ble);
-        if (!rds_sysctl_reg_table && IS_ENABLED(CONFIG_SYSCTL))
-                return -ENOMEM;
-
-And same for rds_ib_sysctl_init() and rds_tcp_init_net().  The exit
-paths are ok, since unregister_net_sysctl_table() is already a
-no-op stub when sysctl is off.
-
-Let me know if you want to respin or if you'd rather I send it.
-Either way is fine with me.
-
-Thanks
-Allison
-
-> +
-> +#else
-> +
-> +void rds_ib_sysctl_exit(void)
-> +{
-> +}
-> +
-> +int rds_ib_sysctl_init(void)
-> +{
-> +	return 0;
-> +}
-> +#endif
-> diff --git a/net/rds/sysctl.c b/net/rds/sysctl.c
-> index 025f518a4349..a0673a41633a 100644
-> --- a/net/rds/sysctl.c
-> +++ b/net/rds/sysctl.c
-> @@ -36,11 +36,6 @@
-> =20
->  #include "rds.h"
-> =20
-> -static struct ctl_table_header *rds_sysctl_reg_table;
-> -
-> -static unsigned long rds_sysctl_reconnect_min =3D 1;
-> -static unsigned long rds_sysctl_reconnect_max =3D ~0UL;
-> -
->  unsigned long rds_sysctl_reconnect_min_jiffies;
->  unsigned long rds_sysctl_reconnect_max_jiffies =3D HZ;
-> =20
-> @@ -49,6 +44,10 @@ unsigned int  rds_sysctl_max_unacked_bytes =3D (16 << =
-20);
-> =20
->  unsigned int rds_sysctl_ping_enable =3D 1;
-> =20
-> +#ifdef CONFIG_SYSCTL
-> +static unsigned long rds_sysctl_reconnect_min =3D 1;
-> +static unsigned long rds_sysctl_reconnect_max =3D ~0UL;
-> +
->  static struct ctl_table rds_sysctl_rds_table[] =3D {
->  	{
->  		.procname       =3D "reconnect_min_delay_ms",
-> @@ -91,6 +90,8 @@ static struct ctl_table rds_sysctl_rds_table[] =3D {
->  	},
->  };
-> =20
-> +static struct ctl_table_header *rds_sysctl_reg_table;
-> +
->  void rds_sysctl_exit(void)
->  {
->  	unregister_net_sysctl_table(rds_sysctl_reg_table);
-> @@ -107,3 +108,15 @@ int rds_sysctl_init(void)
->  		return -ENOMEM;
->  	return 0;
->  }
-> +
-> +#else
-> +
-> +void rds_sysctl_exit(void)
-> +{
-> +}
-> +
-> +int rds_sysctl_init(void)
-> +{
-> +	return 0;
-> +}
-> +#endif
->=20
-
+Nickolai.
