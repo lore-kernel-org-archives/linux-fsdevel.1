@@ -1,166 +1,109 @@
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5344F85AD;
-	Mon, 19 Oct 2026 12:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C388E4F4043;
+	Mon, 19 Oct 2026 13:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792414145; cv=none; b=o7nUoj+qc1Ctvc204lhqVAcMVR8iRKC2BAyCWuVQ/LEVD5zj4K/stKCNxZS7tsgXAwgAqfgnRN9B0Puil/hbC22IYkTSFkyScGPS8FwPUnPf+ZykmF+SocQaFzCvbKbv7mWQ9bL8S9S/ClSVwNTfrkeHHCQCOJxHOu001VDOUuE=
+	t=1792415807; cv=none; b=p9y034GIKmj4+x2ziW0SHvyiIy6KpV+4gM9hwHkf4SpI1WD5bNfXvlk6wmN02Rykiv/Br/YOrfokJtDWhbEBp2w5wD0E0f5eDZcI/DEJ7vTGT4uuIJEFNn/JnaJavg/lZ5aEaSbn/jbmcPsYyQrdRAZjxIa4CWLcNWCO2ECsWMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792414145; c=relaxed/simple;
-	bh=nSpM0j3+znkzFmIU9xoQSupcFMEyLp7bXuizXMaf/k0=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=sv3nSJ6Ujn2CnPeHgqjL+/Zg1oSDlGTfsHA+FkgQSbJUCeAsCqdCfzmXDw75bBhGvkgkM4iOEZh9AGc/3HDZHgGJ18/GcEWUuOaIWf7ys/VqFGa8/QEdsGzchY3X+RwNKxcLMMk1UZBTlJyWAVQLrvR6iju2bbs3eLYBdFwNnn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=5nPKjafy; arc=none smtp.client-ip=113.46.200.217
+	s=arc-20240116; t=1792415807; c=relaxed/simple;
+	bh=KEfUjJ+sWeyEpypWIo35O6elA0OeVZ28l/vNOIqBtYE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=mA5/VZwc5jpK8Yvou1ZFTHU80J2mswJ24LI3Boh1XORYUYOGJ7C3SX5xYGegXqi5nVbI2fdtrTIwxSDnvltkUUHaL/joIQZGSrD+FMg0OC0iXHsb3acLJ3cEb/9DU9OTaiHq+y4juD2qWTHboD48rp66iSVaQvrOSQp+um4GJGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=CGjJxHSS; arc=none smtp.client-ip=113.46.200.221
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="5nPKjafy"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="CGjJxHSS"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=sQXqHgnR+1pIPsUZEl3zynhZARYK4/So3jnkyAxXf8g=;
-	b=5nPKjafyrabzeYMbeC7CX7CvCEf/VurO0VfLru+paC6OxT8dAUxqnA/3sDANVSIoP4gpTLBEY
-	ldxw8tzmZwGk51W8BfpHKFDJJD4RLHv1UV4A24RPMjZlgVQ/YUDwP77ggmhZAPfiuKNURMSWASF
-	Xqc7BvH4tV0tVjx+5FQF5ZQ=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4j7b2Q3NYlzcb48;
-	Mon, 19 Oct 2026 20:48:46 +0800 (CST)
-Received: from whupemo200011.china.huawei.com (unknown [7.152.185.179])
-	by mail.maildlp.com (Postfix) with ESMTPS id F367C203AB;
-	Mon, 19 Oct 2026 20:48:52 +0800 (CST)
-Received: from [10.174.178.46] (10.174.178.46) by
- whupemo200011.china.huawei.com (7.152.185.179) with Microsoft SMTP Server
+	bh=KEfUjJ+sWeyEpypWIo35O6elA0OeVZ28l/vNOIqBtYE=;
+	b=CGjJxHSSLnLyFiBJ6fmCvw7MlJSp71N6IQMPcQkTfVBF4w4+qhSNBqybtc2YkWCvE5LwoEOVU
+	nkl6Q6kL3AgrL1evhkMPi2OeyEjemmmAVgbOgxQlks5tBhbrz4Ra7a12Oy27gvkosJfa6xtd7mk
+	IO1wVoLvEGKoMecheF6kbbs=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4j7bfV0G5ZzRhrQ;
+	Mon, 19 Oct 2026 21:16:34 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id 3320840575;
+	Mon, 19 Oct 2026 21:16:37 +0800 (CST)
+Received: from [10.67.110.140] (10.67.110.140) by
+ whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Mon, 19 Oct 2026 20:48:51 +0800
-Subject: Re: [PATCH] fs: rotate inodes whose page cache could not be dropped
-To: Nikolaos Karaolidis <nick@karaolidis.com>, Christian Brauner
-	<brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>
-CC: Jan Kara <jack@suse.cz>, Mateusz Guzik <mjguzik@gmail.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-References: <20261016102515.111285-1-nick@karaolidis.com>
-From: Zhihao Cheng <chengzhihao1@huawei.com>
-Message-ID: <9ea0c46f-a2b2-b18b-6b69-ca035b005bbe@huawei.com>
-Date: Mon, 19 Oct 2026 20:48:50 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ 15.2.2562.45; Mon, 19 Oct 2026 21:16:30 +0800
+Message-ID: <5e6e9ac9-172e-4434-a333-8bcad9e026de@huawei.com>
+Date: Mon, 19 Oct 2026 21:16:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20261016102515.111285-1-nick@karaolidis.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- whupemo200011.china.huawei.com (7.152.185.179)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 -next 09/18] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+To: Justin Suess <utilityemal77@gmail.com>
+CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
+	<jmorris@namei.org>, <serge@hallyn.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <ast@kernel.org>, <daniel@iogearbox.net>,
+	<andrii@kernel.org>, <eddyz87@gmail.com>, <memxor@gmail.com>,
+	<martin.lau@linux.dev>, <song@kernel.org>, <yonghong.song@linux.dev>,
+	<jolsa@kernel.org>, <emil@etsalapatis.com>, <ihor.solodrai@linux.dev>,
+	<rdunlap@infradead.org>, <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+	<dakr@kernel.org>, <johan@kernel.org>, <dlemoal@kernel.org>, <hch@lst.de>,
+	<axboe@kernel.dk>, <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+	<jack@suse.cz>, <dhowells@redhat.com>, <code@tyhicks.com>,
+	<linkinjeon@kernel.org>, <sj1557.seo@samsung.com>, <yuezhang.mo@sony.com>,
+	<hirofumi@mail.parknet.co.jp>, <cel@kernel.org>, <jlayton@kernel.org>,
+	<neil@brown.name>, <okorniev@redhat.com>, <Dai.Ngo@oracle.com>,
+	<tom@talpey.com>, <hyc.lee@gmail.com>, <miklos@szeredi.hu>,
+	<amir73il@gmail.com>, <senozhatsky@chromium.org>,
+	<chenxiaosong@chenxiaosong.com>, <kpsingh@kernel.org>, <matt@bobrowski.net>,
+	<rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <john.johansen@canonical.com>,
+	<georgia.garcia@canonical.com>, <zohar@linux.ibm.com>,
+	<roberto.sassu@huawei.com>, <dmitry.kasatkin@gmail.com>,
+	<eric.snowberg@oracle.com>, <stephen.smalley.work@gmail.com>,
+	<omosnacek@gmail.com>, <casey@schaufler-ca.com>, <takedakn@nttdata.co.jp>,
+	<penguin-kernel@i-love.sakura.ne.jp>, <xiujianfeng@huawei.com>,
+	<nanx95726@gmail.com>, <djwong@kernel.org>, <lujialin4@huawei.com>,
+	<bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+	<driver-core@lists.linux.dev>, <linux-block@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <netfs@lists.linux.dev>,
+	<ecryptfs@vger.kernel.org>, <exfat@lists.linux.dev>,
+	<linux-nfs@vger.kernel.org>, <ntfs@lists.linux.dev>,
+	<linux-unionfs@vger.kernel.org>, <linux-cifs@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <apparmor@lists.ubuntu.com>,
+	<linux-integrity@vger.kernel.org>, <selinux@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>
+References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+ <20261015125425.3246251-10-caixinchen1@huawei.com> <atI20Vs7Du9-g1Hz@zenbox>
+Content-Language: en-US
+From: Cai Xinchen <caixinchen1@huawei.com>
+In-Reply-To: <atI20Vs7Du9-g1Hz@zenbox>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
-ÔÚ 2026/10/16 18:25, Nikolaos Karaolidis Ð´µÀ:
-> When inode_lru_isolate() drops the page cache of an unused inode, it
-> has to unlock the list, so it returns LRU_RETRY and the walk restarts
-> at the head of the list, where the inode still is. If
-> invalidate_mapping_pages() could not empty the mapping, the restarted
-> walk strips the same inode again, and so on until nr_to_walk runs out.
-> Every walk of that list then ends on this inode, and nothing behind it
-> is reclaimed for as long as its cache stays.
-> 
-> Before commit 2a0629834cd8 ("vfs: Don't evict inode under the inode lru
-> traversing context") the walker pinned the inode with a reference, and
-> dropping it in iput_final() set I_REFERENCED, so the restarted walk
-> rotated the inode to the tail. Set I_REFERENCED again when the mapping
-> is still populated after the invalidation, in the same i_lock section
-> that clears I_LRU_ISOLATING. inode_unpin_lru_isolating() now expects
-> i_lock to be held, like inode_pin_lru_isolating().
-> 
-> On CONFIG_HIGHMEM kernels this can happen to any unused inode: a folio
-> is left behind if it is locked, under writeback, spliced into a pipe,
-> or still in another CPU's LRU-add batch after being read. Without
-> HIGHMEM it happens to DAX inodes whose only entry is at index 0, which
-> mapping_shrinkable() lets onto the LRU and invalidate_mapping_pages()
-> never removes.
-> 
-> Fixes: 2a0629834cd8 ("vfs: Don't evict inode under the inode lru traversing context")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Nikolaos Karaolidis <nick@karaolidis.com>
-> ---
-> 
-> Found while working on reclaim of inodes pinned by page cache in
-> ZONE_MOVABLE.
-> 
-> Tested in QEMU/KVM on master af32da41b032 (v7.3-rc6-232), with lockdep
-> and KASAN enabled. A small init program makes one unused inode whose
-> page can't be invalidated, lets it reach the head of the inode LRU,
-> opens 2000 other files, does one "echo 2 > /proc/sys/vm/drop_caches"
-> and counts the inodes left via umount; kprobes count the
-> invalidate_mapping_pages() calls:
-> 
->                                without patch           with patch
->    i386 HIGHMEM, file read     2000 of 2000 left,      none left,
->    on another CPU              10300 strips, 1 inode   4 strips
->    i386 HIGHMEM, page          same                    same
->    spliced into a pipe
->    x86_64, ext4 -o dax,        same                    same
->    file mmap()ed
->    controls (no leftover,      none left               none left
->    shadow entry at index 0)
-> 
-> 2a0629834cd8^ behaves like the patched kernel, 2a0629834cd8 like
-> master. On 5.15.y x86_64, where every unused inode with page cache is
-> on the LRU, the read-on-another-CPU case blocks the walk as well.
-> 
-> With "echo 64M > /sys/fs/cgroup/memory.reclaim" instead of
-> drop_caches, the i386 pipe case does 262450 strips and frees nothing
-> without the patch, 40 strips and frees everything with it. In the DAX
-> case that write takes ~400ms with the patch instead of ~4ms:
-> invalidate_mapping_pages() counts the DAX entry it leaves behind as
-> reclaimed, so unpatched, the 64M are "reclaimed" by re-stripping one
-> inode in a tight loop while nothing is freed.
-> 
-> The reproducer is a single C file; I can post it.
-> 
-> An LLM was used to check the analysis against the code, write the
-> reproducer and draft the changelog; I have reviewed all of it.
-> 
->   fs/inode.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
-> diff --git a/fs/inode.c b/fs/inode.c
-> index a9d37be390a1..1614a97ce953 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -593,12 +593,11 @@ static void inode_pin_lru_isolating(struct inode *inode)
->   
->   static void inode_unpin_lru_isolating(struct inode *inode)
->   {
-> -	spin_lock(&inode->i_lock);
-> +	lockdep_assert_held(&inode->i_lock);
->   	WARN_ON(!(inode_state_read(inode) & I_LRU_ISOLATING));
->   	inode_state_clear(inode, I_LRU_ISOLATING);
->   	/* Called with inode->i_lock which ensures memory ordering. */
->   	inode_wake_up_bit(inode, __I_LRU_ISOLATING);
-> -	spin_unlock(&inode->i_lock);
->   }
->   
->   static void inode_wait_for_lru_isolating(struct inode *inode)
-> @@ -981,7 +980,13 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
->   		else
->   			__count_vm_events(PGINODESTEAL, reap);
->   		mm_account_reclaimed_pages(reap);
-> +
-> +		spin_lock(&inode->i_lock);
-> +		/* The walk restarts here: don't retry leftovers right away */
-> +		if (!mapping_empty(&inode->i_data))
-> +			inode_state_set(inode, I_REFERENCED);
->   		inode_unpin_lru_isolating(inode);
-> +		spin_unlock(&inode->i_lock);
->   		return LRU_RETRY;
->   	}
->   
-> 
-> base-commit: af32da41b0327b9c6a37856ba82b6760d6c8d10e
-> 
+Hello Justin,
 
+Thank you for the review, and for thinking the implications through so
+carefully -- the concrete scenarios you describe were very helpful to
+settle the design.
+
+I agree it should be a conscious
+decision: the next revision will make the *_METADATA checked at open time
+
+and follow the mechanic for the truncate right
+
+On 10/16/2026 10:44 PM, Justin Suess wrote:
+> LANDLOCK_ACCESS_FS_*_METADATA should be checked at open time and follow
+> the mechanic for the truncate right. Otherwise the access for already
+> opened file descriptors would be changed. See hook_file_open in
+> security/landlock/fs.c and this discussion here [1]
+>
+> It should have clear documentation for this as well.
