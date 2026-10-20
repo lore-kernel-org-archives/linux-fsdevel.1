@@ -1,85 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.49
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792533832;
-	b=4IeILvHAjicqwITHHrztTGKQip53HWxEEhRtQD4vTN+i+PxkH7dOrFHxIQuTrZ5M8w4A
-	 rWgCbWWKYml/PlykfbhN3mjU6jIWo+fTM64gY6szu/L+8/ulr6vv4VeL1Eg4wArnTzOI/
-	 zrHpS1h6+3gM7DtzE2Y3VpzG/Gzq1GSQRSb6KUUzP1q7iEmUozq9Ouoyvk5t0C1UfBNuO
-	 kMXRZyJNpae6bcaqUKunUaYoqmr7NBUWJZavdNLwj8hl6dMqUp0ymK5isBSsRCaqRo549
-	 AIsBm8k+0wFv3WHyk5nT/LdIP8+QxbuTNZeajrwXxazwk3KvQRtu98fsJdLAXhXLuTg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792533832;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Sender:From:X-Google-Original-From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=KYIFZnbJ/tQXvMmHyoqaiwEU9dnEoX51wTobPwpbUYk=;
-	b=mUrYwmIRxGrxrrEDuN4IzJCEpqhKNRI10ZNMxg6LFF42C4zUcz80Nt7RKUaLw+0ah3rg
-	 qdOZkxKNhKZ8kntFzjnl8Vf87PB9DJDG0fVFPIsjPo7gTjTuMD6FxWW76RRdwHL56XWIz
-	 2QoTXtqQL00HWQp2q3wJ2o+2gD4J7K5xvyQWIesEGmiUW1jh+ACqOwy/Uu7+XT2waVlaq
-	 uk0Pr+7Zgx8FVLa9+kvMNj5CmGnsdMzMm1Cn8rSfU+E8HPuY76xlOz8avxPadPliBqigb
-	 1IHSKmtqGJ8HpmL4kXEYgPrGcwWfkQ229siosBlkVxYMPkeODApofRDuTRcMbepN4tQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=hammerspace.com;
-	spf=pass smtp.mailfrom=hammerspace.com;
-	dkim=pass header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=gUJJWDUq;
-	arc=none smtp.remote-ip=209.85.219.49
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF583606A319
-	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 22:03:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF583606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1DC606A323
+	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 22:03:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F1DC606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=gUJJWDUq
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-91befe703c4so1045156d6.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 15:03:51 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=KCHAIZ52
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-93f079a63b8so11256985a.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 15:03:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammerspace.com; s=google; t=1792533831; x=1793138631; darn=vger.kernel.org;
+        d=hammerspace.com; s=google; t=1792533836; x=1793138636; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KYIFZnbJ/tQXvMmHyoqaiwEU9dnEoX51wTobPwpbUYk=;
-        b=gUJJWDUqHGCWDoDo9er//1amH0yAKiu5TjEcW7IY8NYPKPPXAMPVb1+rcWaWvNksQV
-         DXI8o89JWj01QK323ShIUu0JyAIHjbipYHn+iWA+d/00MdpZaJKzJ2JyFHTXA9BH6TXd
-         6s2gfG1dbcNqprsD3XLZ7CmuoxhSo7Y02thj+RcdytV+FC/6dvULJ8BVLWLmpvRFJslk
-         +kKTi0EvnHeRMs/7dKiMD/4acKL7Nh9vdy+KsYfNvDD/fl5v2mmP6jZ103MSnojC3RUt
-         S0dmyN5cp9Hqqx5hlddNkAFuYp8Culf8ri/7urKZID9yDwWiMQpSHqrh5i5LUu2SF/vD
-         vhuA==
+        bh=ksFooBbHDKfmZxe5xUlfiBIprT9yVQQKPdOzVn3Oh+s=;
+        b=KCHAIZ52j/MrwJa9jN9Au1AsHJtGxbPeulfqDlWTrCm11mppPPuFDXu+GpigHGd215
+         GBYa+enbiDPfapAJoSlx6wvLuS/fkRAoqsIWhEhvfi0eQ4SQUTkv5uSlDorMMBp6ylu6
+         l1/5+22AsMjs7UEUq4XagT6EvUsUtMtlfl4JEhkAZwwYC910+C3wgb5FvwTXHapNJ1xe
+         ahNmEJ/JGxzBiVpkJC9aVforngwxPWuxpieW4NNVKuwsmCft1Cs7DStCdoqTPIGyuCUj
+         znRO7cRIp+zfp0r79DiUvMimQGTAMCDiS8yaj3hBEUBkc0JAU4wbE8zEL32TGBQQiczP
+         2Hxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792533831; x=1793138631;
+        d=1e100.net; s=20260707; t=1792533836; x=1793138636;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KYIFZnbJ/tQXvMmHyoqaiwEU9dnEoX51wTobPwpbUYk=;
-        b=a2h7HNTl28gXbFk5mjA8XuRED1rshsaL8WoG0GYK4T6v8OyoRl3KQNXTbrXLJrC94o
-         /gH1JAXiITqbBNtHZB8ZWjpGEWFCUQJePWtPV+JHbs+nPTfwry0dUE5AeiDFSh5PO6fD
-         oKhPxkWZDpGbOmCiILtLenuuPhW53cIG93b6l99w+nEty0+f1JuChg5rhcMt9xJCWYmx
-         lnF1hbnvmUDeWKO/bLQRF77q49kKgV+hGy3/0BCnoPWIkI78x/mBQjXiO2HBEoSHojJe
-         a/fn6bMwr6cII7ID1R/zFZl0aFZZvr3aHKZ9f9b3is6guS/D8SXc3Yj0M+GaOfueLXDj
-         9FUA==
-X-Forwarded-Encrypted: i=1; AKwUvBzSy1wW6QvhQkHMiDq0pEFGDPRqMnM9A8GBZibVlApDZjCJpkI53Nlq5X9q7hbJBuk0XjBByHJk1ZE+8Ji6@vger.kernel.org
-X-Gm-Message-State: AFq9FYJSdkP38ARb5JdqX9ifli7eRuzudlw+W7OYtHuWHQHeh25B5nEo
-	zkc2OBNfJ9aHsuBS19m67Fkgk0BbY0MxlUJlrfy4DNBK7mqIpLeym0RRHfcEzO8hSL4=
-X-Gm-Gg: AYBFou3hHAVKqf1jlg+soWAvPIzzIjOh396do1ajqpnw6fwelYsqSnNPizhj+igK7FF
-	hlXyLlWOB3KLbxvXI0Mz5Ilgl5bGYAxoWGHAy6gXWW5C4UGRatJIXVSCcjjF65zvFnifqTi9D/Y
-	YLuzbBEalqkmjBbSLA6Ifz2PvtH+FYeB4GtuRLMkGmXX6HpmXtLyNy6ib6pfrrxHyH/TfI46iXj
-	TNem7f8rJGq0ytdaB6JAdG/3+ueaaOgfSHxUL0uwhmHg30UkQFIpI+/UpONaOquYBc8yVvf7s2h
-	qsuGvkLdCkUZNCHpuIYw28nTNe2XRZzuWlttW0i/+CWPIX++gITnRyiQUtpw1ib3lH5XtLxTdHr
-	9/eDAuCd1AfE3rRNywY3copCamDbWiSMCtIYl6/ardZ8hkVhGmCYRkjOoHhBYxUFnIYMTji1ln0
-	rEkKcDZI8zBLJOizQ9oj2a3vcYdj6eTng8eV58aEIXe/G5YLc8NQNLaZ67I2+T4khEKFy5YYa1x
-	2o3FBu74MFEIuwit/Bq4cfhPJgFYF8MPNtx3ROP58oETnAlCXKKOGcHOWgVoyZ+W2UFt2Dt7qUm
-	uHtdvuf39A==
-X-Received: by 2002:a05:6214:8623:b0:91c:1061:f005 with SMTP id 6a1803df08f44-91c12eddb7emr2552846d6.20.1792533830405;
-        Tue, 20 Oct 2026 15:03:50 -0700 (PDT)
+        bh=ksFooBbHDKfmZxe5xUlfiBIprT9yVQQKPdOzVn3Oh+s=;
+        b=tBJD328Jp9oJ1eLI0c3XVJH1DHHLvFS+jYNXWpNtLRF7ZbsnaWv4m8anFJLaBrKK+D
+         3pxIZu6Gzrt0b5817FToFe4UxC3rP66DitF1VfYr+SWTSsy9BoRboEEuNWqWNTsDrc3w
+         Ytlh9VNwOtMkb5mY5SNml12GCgdC5jJPKCqNdyKs1kL5xD/jBcgHsRh1z7oOAFFf96O/
+         2CqJXIM/QY/NaFm023xYVAUglPcdTTPLXk9D926y/h/9MwSUgEU0RHZblqcDkU6Gy4eb
+         0pyzbb3mgBmFVaElJO+GVtfwGH9Vw3PntTkyaLVkvnaFrAWYXPJ3ET0WYASxYH06honY
+         r9Ig==
+X-Forwarded-Encrypted: i=1; AKwUvBymjr4rE0aFFr5/D3PuxGu4PqPA99MZ5RdwQT9/8M5Uoir92bQeSyRDGrZsBCM0whe4THJMm9J0jZrN+EoL@vger.kernel.org
+X-Gm-Message-State: AFq9FYJw06s4AELjD0SZ3UdMZwoDK/fSQNY/dIBFXwfTwuIZcjdsXgqp
+	eDLnwBCGWTXUR9O5INkco/0BjB/bJvIHduhEyXqQR6G4xwemQoPGZngFzz4gu5elodY=
+X-Gm-Gg: AYBFou1nsiUjMzcuGdxUqOlolpBXAUg/wDRGvy7Qt3X4+MVBVIBztRhYtpJ4zQfUcVq
+	jy+ltWT8URskRr6E915ADeAQjhYYEONRGaF0fGbY0HUrQe/Vm4/G12AgWDMDl86r4RSG0d0xCx5
+	aX7xfGlwuA8fZcliRuF93hva5T//gUqBtWZNa+OSTWGo7iXf1OQl0K3NQHJaIN6SpgRBkJ/qCqH
+	kOj/tTOQCxMlKKF7i/jRICefkvZdVSB6ZuLEal+1QOsvnSxPoJqR55ciqWInVw/FMBg7SLH+kMk
+	CFrotdQEwo7F19Uiod5nMWAqqNL8BVA98bcTiQ55E6zC3XLeLgEIiAMn2FFjWo1zXIRUydNEtr0
+	+N4YLWJAVK7JiP5e8WIkOn7+shKoPE52b4op7Es9ZaIEYWHqDuGN4iB/wvDgrTIJTTR/2qTs32z
+	O3NJUeaB8EHIwD8MDyOwC8cm9fr2N3nZWg9Q7wU8s8lbcDarcwgR/l9ZuJJzvQUShL6+gfLebaN
+	/2QtIQ2R1Q1yzOqlOQFuR665eCrLbWGbvGWfIFJVth+Tb4kqA0ki0KYUryCuUD1e5NZcBCREQUV
+	d95OrUON
+X-Received: by 2002:a05:620a:4592:b0:93f:2a95:a503 with SMTP id af79cd13be357-93f57f6c6acmr119603485a.67.1792533835652;
+        Tue, 20 Oct 2026 15:03:55 -0700 (PDT)
 Received: from localhost (pool-68-160-167-46.bstnma.fios.verizon.net. [68.160.167.46])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c116fa63bsm6647676d6.36.2026.10.20.15.03.49
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f56d98978sm89964885a.10.2026.10.20.15.03.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 15:03:49 -0700 (PDT)
+        Tue, 20 Oct 2026 15:03:55 -0700 (PDT)
 Sender: Mike Snitzer <mike.snitzer@hammerspace.com>
 From: Mike Snitzer <snitzer@hammerspace.com>
 X-Google-Original-From: Mike Snitzer <snitzer@kernel.org>
@@ -95,10 +69,11 @@ Cc: linux-nfs@vger.kernel.org,
 	Matthew Wilcox <willy@infradead.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v7 1/5] mm: expose WB_DONTCACHE_DIRTY in bdi debugfs stats
-Date: Tue, 20 Oct 2026 18:03:42 -0400
-Message-ID: <20261020220346.28020-2-snitzer@kernel.org>
+	linux-fsdevel@vger.kernel.org,
+	Jonathan Flynn <jonathan.flynn@hammerspace.com>
+Subject: [PATCH v7 5/5] NFSD: drop a shared boundary page only once both WRITEs have written it
+Date: Tue, 20 Oct 2026 18:03:46 -0400
+Message-ID: <20261020220346.28020-6-snitzer@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20261020220346.28020-1-snitzer@kernel.org>
 References: <20261020220346.28020-1-snitzer@kernel.org>
@@ -113,85 +88,265 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The per-bdi_writeback WB_DONTCACHE_DIRTY counter drives how much the
-flusher writes back in response to an IOCB_DONTCACHE kick, but it is
-not reported anywhere, so the DONTCACHE dirty backlog can only be
-inferred from MemFree/Cached movement.
+A buffered DONTCACHE segment of a direct-mode WRITE -- the misaligned
+start or end of a split WRITE, or the whole of one too small to split --
+covers its first and last page only partly when it does not start or end
+on a page boundary.  Such a page is shared with the neighbouring WRITE,
+which may arrive before, after or at the same time, from any client.
 
-Report it as BdiDontcacheDirty in /sys/kernel/debug/bdi/<dev>/stats
-and as WbDontcacheDirty in the per-wb stats, next to the
-Reclaimable line.  Use wb_stat_sum() rather than wb_stat() to fold in
-the per-cpu batches: the flusher targets the summed value and small
-backlogs would otherwise read as zero.
+The page cache keeps a page an uncached write covers only partly for the
+write that completes it ("mm, iomap: keep a partly covered page until an
+uncached write completes it"), so the second WRITE does not have to read
+it back from disk.  Left at that, the page cache marks the page drop-
+behind while it is still dirty, which counts it as DONTCACHE dirty and
+wakes the DONTCACHE writeback kick for every segment of a stable WRITE,
+only to write back what NFSD's single fsync is about to write.
 
-Fixes: 88d6f128d06d ("mm: track DONTCACHE dirty pages per bdi_writeback")
-Cc: Jeff Layton <jlayton@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-Cc: linux-mm@kvack.org
+Issue the buffered segments IOCB_DONTCACHE_DEFER and mark the pages here
+instead ("mm, iomap: let an uncached writer complete its shared pages
+itself").  Immediately before writing a segment, NFSD asks
+filemap_dontcache_edge_completes() whether each page it covers only
+partly has already been written by the neighbouring WRITE; once the
+whole WRITE, its fsync included, is complete, it calls
+filemap_dontcache_edge_complete() for those pages, which drops a clean
+page at once.  An UNSTABLE WRITE marks them dirty, and the writeback
+that cleans them, by the flusher or for the client's COMMIT, drops them.
+
+A page whose neighbouring WRITE never arrives, such as the last page of
+the file, or arrives at the same time, so that neither finds the other's
+part, stays cached until it is reclaimed.  Nothing changes when the
+buffered segments are normal buffered I/O (direct_misaligned_dontcache
+is N, or the file system lacks FOP_DONTCACHE); the page cache keeps
+partly covered pages only for file systems that use iomap for buffered
+writes.
+
+Measured with 32 interleaved writers of 47008-byte records over an
+emulated 4Kn NVMe with 4 KiB pages, NFSD DIRECT with
+direct_misaligned_dontcache=Y, each run from a freshly made file system:
+device reads per WRITE are 0.0001-0.0002 whether each record is one
+FILE_SYNC WRITE, two sent one after the other, two sent together, or two
+sent UNSTABLE, against 45144 reads for 45664 WRITEs with no shared-page
+handling, and the DONTCACHE writeback kick does not run at all for the
+FILE_SYNC WRITEs.
+
+On a four-server pNFS flexfiles rig (x86_64, 4 KiB logical blocks), three
+clients writing 47008-byte records for 240 s against 640 nfsd threads per
+server, keeping the shared page took device reads from 0.014-0.015 per
+record to 0.003, page-cache growth over the write phase from about
+11 GiB to 2.9 GiB, and write throughput up by 2.4% to 4.9%, with read
+throughput unchanged.  Keeping every boundary page cached instead, with
+direct_misaligned_dontcache=N, grows the page cache by about 630 GiB over
+the same runs.
+
+Reported-by: Jonathan Flynn <jonathan.flynn@hammerspace.com>
 Assisted-by: LLM
 Signed-off-by: Mike Snitzer <snitzer@kernel.org>
 ---
- mm/backing-dev.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .../filesystems/nfs/nfsd-io-modes.rst         | 17 ++++
+ fs/nfsd/vfs.c                                 | 99 ++++++++++++++++---
+ 2 files changed, 104 insertions(+), 12 deletions(-)
 
-diff --git a/mm/backing-dev.c b/mm/backing-dev.c
-index 18e999053bae..b8a2c27e07fa 100644
---- a/mm/backing-dev.c
-+++ b/mm/backing-dev.c
-@@ -46,6 +46,7 @@ struct wb_stats {
- 	unsigned long nr_dirty_time;
- 	unsigned long nr_writeback;
- 	unsigned long nr_reclaimable;
-+	unsigned long nr_dontcache_dirty;
- 	unsigned long nr_dirtied;
- 	unsigned long nr_written;
- 	unsigned long dirty_thresh;
-@@ -78,6 +79,12 @@ static void collect_wb_stats(struct wb_stats *stats,
+diff --git a/Documentation/filesystems/nfs/nfsd-io-modes.rst b/Documentation/filesystems/nfs/nfsd-io-modes.rst
+index 0e69b5fdd675..9c663ce97c48 100644
+--- a/Documentation/filesystems/nfs/nfsd-io-modes.rst
++++ b/Documentation/filesystems/nfs/nfsd-io-modes.rst
+@@ -167,6 +167,23 @@ Misaligned WRITE:
+     above. Set it to N for a workload that reads back or rewrites what
+     it just wrote.
  
- 	stats->nr_writeback += wb_stat(wb, WB_WRITEBACK);
- 	stats->nr_reclaimable += wb_stat(wb, WB_RECLAIMABLE);
++    The page holding a start or end segment is shared with the
++    neighbouring WRITE, which may arrive before, after or at the same
++    time, from any client. So that the second WRITE to such a page does
++    not have to read it back from disk, the page cache keeps a page an
++    uncached write covers only partly, unmarked, for the write that
++    completes it. NFSD asks, immediately before writing a start or end
++    segment, whether the neighbouring WRITE has already written its
++    part; if it has, NFSD marks the page DONTCACHE once its own WRITE,
++    including its fsync, is complete, and the page is dropped. A page
++    whose neighbouring WRITE never arrives, or arrives at the same time,
++    stays cached until it is reclaimed. The first and last pages of a
++    WRITE that is not split are handled the same way.
++
++    None of this applies when the start and end segments are normal
++    buffered IO, or for a filesystem that does not use iomap for
++    buffered writes.
++
+ Tracing:
+     The nfsd_read_direct trace event marks a READ that NFSD issues as
+     O_DIRECT. It records the offset and length the client requested.
+diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
+index 9219f8eb386d..3605ddf1ad1e 100644
+--- a/fs/nfsd/vfs.c
++++ b/fs/nfsd/vfs.c
+@@ -1387,6 +1387,7 @@ static int wait_for_concurrent_writes(struct file *file)
+ struct nfsd_write_dio_seg {
+ 	struct iov_iter			iter;
+ 	int				flags;
++	bool				claim;		/* completes shared pages */
+ };
+ 
+ static unsigned long
+@@ -1406,6 +1407,65 @@ nfsd_write_dio_seg_init(struct nfsd_write_dio_seg *segment,
+ 		iov_iter_advance(&segment->iter, start);
+ 	iov_iter_truncate(&segment->iter, len);
+ 	segment->flags = iocb->ki_flags;
++	segment->claim = false;
++}
++
++/* The shared pages a segment completes, and how much of it was written. */
++struct nfsd_write_dio_hold {
++	loff_t	first, last;
++	bool	complete_first, complete_last;
++	size_t	written;
++};
++
++/*
++ * A page that a buffered DONTCACHE segment covers only partly is shared with
++ * the neighbouring WRITE.  The page cache keeps it, unmarked, for the write
++ * that completes it; the segment is issued IOCB_DONTCACHE_DEFER so that this
++ * WRITE, not the page cache, marks it, once the whole WRITE, its fsync
++ * included, is complete.  Ask whether the neighbour has already written its
++ * part immediately before writing @seg: asking earlier gives the neighbour
++ * time to write its part and find this WRITE's part missing.
++ */
++static void
++nfsd_write_dio_seg_hold(struct file *file, const struct nfsd_write_dio_seg *seg,
++			loff_t pos, size_t len, struct nfsd_write_dio_hold *hold)
++{
++	struct address_space *mapping = file->f_mapping;
++
++	hold->first = pos;
++	hold->last = pos + len - 1;
++	hold->complete_first = false;
++	hold->complete_last = false;
++	hold->written = 0;
++	if (seg->claim && len) {
++		bool one_page = (hold->first >> PAGE_SHIFT) ==
++				(hold->last >> PAGE_SHIFT);
++		bool head = hold->first & ~PAGE_MASK;
++		bool tail = (hold->last + 1) & ~PAGE_MASK;
++
++		/* Only a page the segment covers partly is shared. */
++		if (head || (one_page && tail))
++			hold->complete_first =
++				filemap_dontcache_edge_completes(mapping, hold->first);
++		if (!one_page && tail)
++			hold->complete_last =
++				filemap_dontcache_edge_completes(mapping, hold->last);
++	}
++}
++
++/* Drop the shared pages this WRITE was the second of two to write. */
++static void
++nfsd_write_dio_seg_release(struct file *file,
++			   const struct nfsd_write_dio_hold *hold)
++{
++	struct address_space *mapping = file->f_mapping;
++
++	if (hold->complete_first && hold->written)
++		filemap_dontcache_edge_complete(mapping, hold->first);
++	/* A short write did not reach the last page. */
++	if (hold->complete_last &&
++	    hold->written == hold->last - hold->first + 1)
++		filemap_dontcache_edge_complete(mapping, hold->last);
+ }
+ 
+ static unsigned int
+@@ -1428,7 +1488,9 @@ nfsd_write_dio_iters_init(struct svc_rqst *rqstp, struct svc_fh *fhp,
+ 
+ 	if (nf->nf_file->f_op->fop_flags & FOP_DONTCACHE)
+ 		dontcache_flags = IOCB_DONTCACHE;
+-	buffered_flags = nfsd_direct_misaligned_dontcache ? dontcache_flags : 0;
++	/* NFSD marks their shared pages itself, see nfsd_write_dio_seg_hold() */
++	buffered_flags = nfsd_direct_misaligned_dontcache && dontcache_flags ?
++			 dontcache_flags | IOCB_DONTCACHE_DEFER : 0;
+ 
+ 	/*
+ 	 * Check if direct I/O is feasible for this write request.
+@@ -1483,7 +1545,8 @@ nfsd_write_dio_iters_init(struct svc_rqst *rqstp, struct svc_fh *fhp,
+ 	if (prefix) {
+ 		nfsd_write_dio_seg_init(&segments[nsegs], bvec,
+ 					nvecs, total, 0, prefix, iocb);
+-		segments[nsegs++].flags |= buffered_flags;
++		segments[nsegs].flags |= buffered_flags;
++		segments[nsegs++].claim = !!buffered_flags;
+ 	}
+ 
+ 	nfsd_write_dio_seg_init(&segments[nsegs], bvec, nvecs,
+@@ -1516,7 +1579,8 @@ nfsd_write_dio_iters_init(struct svc_rqst *rqstp, struct svc_fh *fhp,
+ 	if (suffix) {
+ 		nfsd_write_dio_seg_init(&segments[nsegs], bvec, nvecs, total,
+ 					prefix + middle, suffix, iocb);
+-		segments[nsegs++].flags |= buffered_flags;
++		segments[nsegs].flags |= buffered_flags;
++		segments[nsegs++].claim = !!buffered_flags;
+ 	}
+ 	return nsegs;
+ 
+@@ -1525,6 +1589,7 @@ nfsd_write_dio_iters_init(struct svc_rqst *rqstp, struct svc_fh *fhp,
+ 	nfsd_write_dio_seg_init(&segments[0], bvec, nvecs, total, 0,
+ 				total, iocb);
+ 	segments[0].flags |= buffered_flags;
++	segments[0].claim = !!buffered_flags;
+ 	return 1;
+ }
+ 
+@@ -1533,12 +1598,13 @@ nfsd_direct_write(struct svc_rqst *rqstp, struct svc_fh *fhp,
+ 		  struct nfsd_file *nf, unsigned int nvecs,
+ 		  unsigned long *cnt, struct kiocb *kiocb)
+ {
++	struct nfsd_write_dio_hold holds[3];
+ 	struct nfsd_write_dio_seg segments[3];
+ 	struct file *file = nf->nf_file;
+ 	loff_t start = kiocb->ki_pos;
+-	unsigned int nsegs, i;
++	unsigned int nsegs, nheld = 0, i;
++	ssize_t host_err = 0;
+ 	int sync_flags;
+-	ssize_t host_err;
+ 	size_t expected;
+ 
+ 	nsegs = nfsd_write_dio_iters_init(rqstp, fhp, nf, rqstp->rq_bvec,
+@@ -1567,23 +1633,32 @@ nfsd_direct_write(struct svc_rqst *rqstp, struct svc_fh *fhp,
+ 					kiocb->ki_flags);
+ 
+ 		expected = iov_iter_count(&segments[i].iter);
+-
++		nfsd_write_dio_seg_hold(file, &segments[i], kiocb->ki_pos,
++					expected, &holds[nheld]);
+ 		host_err = vfs_iocb_iter_write(file, kiocb, &segments[i].iter);
+ 		if (host_err < 0)
+-			return host_err;
++			break;
++		holds[nheld++].written = host_err;
+ 		*cnt += host_err;
+ 		if (host_err < (ssize_t)expected)
+ 			break;	/* partial write */
+ 	}
+ 
+-	if (sync_flags && *cnt) {
++	if (host_err >= 0 && sync_flags && *cnt)
+ 		host_err = vfs_fsync_range(file, start, start + *cnt - 1,
+ 					   !(sync_flags & IOCB_SYNC));
+-		if (host_err < 0)
+-			return host_err;
+-	}
+ 
+-	return 0;
 +	/*
-+	 * Sum the per-cpu batches: the dontcache flusher targets this
-+	 * counter via wb_stat_sum() and small backlogs would otherwise
-+	 * read as zero here.
++	 * Mark the pages this WRITE shares with its neighbours for dropping
++	 * only once the WRITE is complete, including its fsync if it has one.
++	 * A page marked while still dirty is counted as DONTCACHE dirty and
++	 * wakes the DONTCACHE writeback kick; a page marked once clean is
++	 * simply dropped.
 +	 */
-+	stats->nr_dontcache_dirty += wb_stat_sum(wb, WB_DONTCACHE_DIRTY);
- 	stats->nr_dirtied += wb_stat(wb, WB_DIRTIED);
- 	stats->nr_written += wb_stat(wb, WB_WRITTEN);
- 	stats->wb_thresh += wb_calc_thresh(wb, stats->dirty_thresh);
-@@ -125,6 +132,7 @@ static int bdi_debug_stats_show(struct seq_file *m, void *v)
- 	seq_printf(m,
- 		   "BdiWriteback:       %10lu kB\n"
- 		   "BdiReclaimable:     %10lu kB\n"
-+		   "BdiDontcacheDirty:  %10lu kB\n"
- 		   "BdiDirtyThresh:     %10lu kB\n"
- 		   "DirtyThresh:        %10lu kB\n"
- 		   "BackgroundThresh:   %10lu kB\n"
-@@ -139,6 +147,7 @@ static int bdi_debug_stats_show(struct seq_file *m, void *v)
- 		   "state:              %10lx\n",
- 		   K(stats.nr_writeback),
- 		   K(stats.nr_reclaimable),
-+		   K(stats.nr_dontcache_dirty),
- 		   K(stats.wb_thresh),
- 		   K(dirty_thresh),
- 		   K(background_thresh),
-@@ -163,6 +172,7 @@ static void wb_stats_show(struct seq_file *m, struct bdi_writeback *wb,
- 		   "WbCgIno:           %10lu\n"
- 		   "WbWriteback:       %10lu kB\n"
- 		   "WbReclaimable:     %10lu kB\n"
-+		   "WbDontcacheDirty:  %10lu kB\n"
- 		   "WbDirtyThresh:     %10lu kB\n"
- 		   "WbDirtied:         %10lu kB\n"
- 		   "WbWritten:         %10lu kB\n"
-@@ -179,6 +189,7 @@ static void wb_stats_show(struct seq_file *m, struct bdi_writeback *wb,
- #endif
- 		   K(stats->nr_writeback),
- 		   K(stats->nr_reclaimable),
-+		   K(stats->nr_dontcache_dirty),
- 		   K(stats->wb_thresh),
- 		   K(stats->nr_dirtied),
- 		   K(stats->nr_written),
++	for (i = 0; i < nheld; i++)
++		nfsd_write_dio_seg_release(file, &holds[i]);
++
++	return host_err < 0 ? host_err : 0;
+ }
+ 
+ /**
 -- 
 2.52.0
 
