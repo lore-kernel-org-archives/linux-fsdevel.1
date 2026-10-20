@@ -1,98 +1,128 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.43
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792458814;
-	b=XyJGykPB2RmW+vCgdIi9qutgcGsGXmeujPgCK/Ex0uFH7zIjRpeePWHzv4QWfZDaj43h
-	 VRhakugfRBdZiCKfy0SauQADftfgIJ74OyI1Wrr7IRWDUuFplF5NtNAe+cQig+04cOa4+
-	 IwtjBSJOyZn2mDQG3N2Yowqp5x8mp1QV8oJYNguHFlOrbPeGxiCQIwF7VAVUctOirdywl
-	 IV5FAzAZKOWXKAxF4IVU3sC9yAS2I58MXT3OQbHDiN40VyDb4Ed7sytg/G1SyfFQC/64X
-	 OJ6V5J2b2A1orVpwpsUz6n3iPig5WUUtSQIM+bnEQzRUsvsdz7LY1xuWDYxB9qMLCbw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792458814;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=vWohrLddgFMPiQASzL2j5mITQ0vuQuNAeviubWyE310=;
-	b=RlrR13lDhFEYb8QTs0J+a8n84KeLbeid01E59ao/ww2+CFhF/ya7ZSNSN0uAkoPGmjhY
-	 OlF9hidWyhCvcBfF0hljabm7xM9o8kkhitffn6eVBDGL2SutJ1LJ6QZTWOcN5p4P03ZUr
-	 hDrws+h/rrQg/4nVbhvcErxZByZ1KMht6KjUknbOpY3fT5+uMaJkbSArBRAU2LrQrSsCJ
-	 Pd4ESY7FLcbg5HNLU9Je9h0VtgTcYBeUg+nb1mvg4zGmS6OQfWb2sAHRHlW8G4XW1sMg/
-	 9Xs2CLD+G70dLC4OXBiYvl2EOTZk3jaf2dKSAbaaP98hf325jMjhm80Z+Gjerovy8+Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=clyso.com;
-	spf=pass smtp.mailfrom=clyso.com;
-	dkim=pass header.d=clyso.com header.i=@clyso.com header.a=rsa-sha256 header.s=google header.b=MPVnEsyY;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.43
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.148
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792459791;
+	b=fFIh+ktE3Sbm7EPr+HwRcnCyLhWT4zWkT6rcsfr/qLelcjjFLtUEh6WVAD2c9xXst80O
+	 GmsDCLOJSJHFbhAyMc5LJcx7hgUUfxqPVkZczONC5jdlbJ0L+RqpDKbLKzpr32nxLHzhY
+	 xEF1FK6zzAUv15gU71vZIoJ4c1KOoMpmcw057B4pbj30B+4gSCRaoPuc0GsfybLvpbmPv
+	 i6nsn2IoiluC8OSu9WVErbDKXp+uYbovhY0+sfEi4o3lMikLCMa2qsLBf7f45o3r1YFXm
+	 4znJuLYvgyf/VnLsTGJnSStIA46bkLwdnUoCBDqZp1UldAYV6fEgbv0FyGhwLNreIGw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792459791;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=4KxkXJ4nQz5KB2QlzezqufYuwFyMTZDhUK66xN2zGmU=;
+	b=rimX4BdF4+4ngivxdu/T+9w0XOwfAZV31McTCNaWRQqCnu2AGfABcqx6py/GRg5qkbah
+	 tUsE67OIJ84OVDkAzD5O5QVSsCNAwN83dXsNmtZIMaSkmesLiQdJgPC8V8/Mw/svvw+kp
+	 tNHc/5FivHuFHEvhtxZRxfHlcoJiDtVzlUo8WmqQe8vyqbNsZ7m9fBqhUmqQx8AnNOld1
+	 pVptbhLS/fdU5fPIXpJyFDgHfRrPdVfJco8ORJ4Vi/q0EnhMkHkFUBKavGq0vLV7dtpPY
+	 m+FZ53PrMHmU6byNwE0q6jK6+GIhEqK/cjfVpOItiAAUJjX/t+RLwa84DZP7Vw36hqQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=themaw.net;
+	spf=pass smtp.mailfrom=themaw.net;
+	dkim=temperror header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=SVcKanoO;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=LRKN6rvs;
+	arc=none smtp.remote-ip=202.12.124.148
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F30606A31C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 01:13:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53F30606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=clyso.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=clyso.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81EC0606A319
+	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 01:29:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81EC0606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=clyso.com header.i=@clyso.com header.a=rsa-sha256 header.s=google header.b=MPVnEsyY
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c445c95d553so187000766b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 18:13:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792458811; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IysUuiCdkTIW5/MWZQbmQ0nuX6MpLp85ZBZlFTVzCXME/2/pZ6dx91+oHCyurp2Y3f
-         g7MqUFDC5ONz3U/ufsvwIxacN6sif63/a5PU7RKtOvNeogh5cqX/edVTVEw7QGdaDHk1
-         U55i6hyyA9AXXZfQ2OS7H1L1axKtl0MywSNCJNWmgI6x5UKjJR1rbENhIFtBv3NIl4EW
-         d+giA4DNrPxzzx+pOUmngPuCCNNV3ljYZOLpC4Ejtry/9YF18iS8+SHEx9E68wVlp3/Y
-         jaTn4Me7uFztVuHsu8bAe8ifwG04WUIfCr6pWi2WsRu+nsBe4kS1OednYOE7jqA6IeSn
-         rFbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vWohrLddgFMPiQASzL2j5mITQ0vuQuNAeviubWyE310=;
-        fh=QyBSJeTQ/yL+xzlDdjfcs+m8Qm+YSQtpb9qQltIV5iI=;
-        b=I3cTmZRLk9jBOSOdQLyhyn050wu4EGikw90nWXNvNcn2tL0iParIKsjpysoVmzMYc4
-         KSKbJXBg9FTLTOlnLvomzQNMb1qxul7ZEGi85w5nXupCo7wUjWfQ7PKdwvZDKflUfqIW
-         HhOgtslnYHrEoRiqA5o9uf7H0lOVPFNJ+3kkHFMk0gBHRKbhIswSpSqNTkvuQbSzNh4M
-         rcWadV4YVDjti3sqBMStGWWk4HLo9I0nGLkq+vg2dM7ZZnk0ZZHb4qUQl8QXBT0sL1ol
-         ZrDybwrEJjUls5moq5AraAr/DtrnMszQTLPwF20p5ZtuIN5CZlO49MMQ+5Di24wVEkwe
-         TgFg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=clyso.com; s=google; t=1792458811; x=1793063611; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vWohrLddgFMPiQASzL2j5mITQ0vuQuNAeviubWyE310=;
-        b=MPVnEsyY+0yt8UETjEM4y5xC4f0Pr2RaqDBM4rw2SpMfOyvdSTNu/TUNTcGowQrb8u
-         ufz+Cl6YvwM7hxJn5m7om2ACEfpmJSMpUW54U8Sb4YNX3Ssdr4QEvQLrBYp7eNvKEPpp
-         Kuh+ni52jhurssSMvYmMOJdi8ufM2OjAnYVFbDwnwqMXA0WWiMIuPNLCIoXvF5ekKSuP
-         AN2bze9u+lH7OpPIUDz7GjEunvKzgYeiveJSuGzeMFphoJue9mr8XMWwb84CnDvc/KYN
-         pWI5rIpg/U/uYacpfRR0U9pL9cVL0j5S4SunKRy3V+6t9XqaXbuH33j7NOy9T7yKL+Ne
-         6Y3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792458811; x=1793063611;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=vWohrLddgFMPiQASzL2j5mITQ0vuQuNAeviubWyE310=;
-        b=sslCyKn01nlMGNyuTwgwINd/64OT0JNZrHRKiNgDP9WOjZPHMNA4RXdYxFJWsq8Z8s
-         7j3PyU5wINxArQmlybDcCzX1R9wQioC0A1I8xHlg9PEFJZQ72BHN+mdOJDavFq5DdOQN
-         FpPGJguznTWq35a4uviVicvbfnRw9xN8quCZQ908P1e5xso5vLvG3msrbjXXUFI905sw
-         MATEbwl1a4FXU8NzaZh7NdBjovc29fLnb9oyiXliAZdlV3UL95d4d63attlp5CyswPm6
-         +4Jvs/U8+sFZT0P+qCZUwyzzugBGtdlGSwEzUgIjqyq3WpAG+nux9cfR+m2cd0Yi5tOb
-         d8DA==
-X-Forwarded-Encrypted: i=1; AKwUvBxZyjdqvkbWoXd/xEz4eqdSmDKQ89cRhZdiZyGSIewTXqM7eYzK/l1gjgiLHysuplqIL0r44iTlu9Pvxnrf@vger.kernel.org
-X-Gm-Message-State: AFq9FYKsOKzRlCCvxPBojvmwkMTXL8NHJOd7YLe1IBLWGa6Wxgxibll8
-	JEfr89jEECHCTQKuLiA65DXfBcHfgm1uk2eznX4ssVU7kIvAIYp3h/OMCpamJL1hzmw8+tPsGAr
-	hqO0tjrof4yi54BYh+c+r9YzbWNkXNF/YxMIr2CXQIw==
-X-Gm-Gg: AYBFou3UJqbNd7MentFW01/7sPyQU+w3+DFOiEicg++7Wc3CVMvuYF4A0oPfgMnfVL4
-	y5dSEb8iq/VDRHwkkIEhaqzkQADgsXyZJBgRzAqoJ3F1BIyBpOm45Ew7vXaMlz1J9z8EKpQ56J+
-	i8nlJUfY/Y/E4dC3yrauroZAruPgSaZkfWQuXBnhWl/9o+ZdiruBI7EfDOU0CkXVl+lWL+9Glpc
-	crLfV36MbJq/HeFTKd1XTn0w4rtzhvvJAJOqL/18wf+0vjSboPAZTnwLCyCpp5ekrYsC0vbNKeG
-	it3Uc3qBgvqknDyfAlzdqo/Qak7w6amKKoVaYslmUVk+xJo085GeORZukYN14GhTA+4W
-X-Received: by 2002:a17:906:1001:10b0:c41:cf68:bbcf with SMTP id
- a640c23a62f3a-c41cf68f4a9mr393810066b.32.1792458811453; Mon, 19 Oct 2026
- 18:13:31 -0700 (PDT)
+	dkim=temperror header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=SVcKanoO;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=LRKN6rvs
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 956EC1D001F1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 19 Oct 2026 21:29:39 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Mon, 19 Oct 2026 21:29:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1792459778;
+	 x=1792546178; bh=4KxkXJ4nQz5KB2QlzezqufYuwFyMTZDhUK66xN2zGmU=; b=
+	SVcKanoORputMS9MO8AZ+m9CLbuEiMGHUFhu8+iq4XrQnvlronqdcgOyYQgirLwt
+	v+in1h9mrh5fqFtUjrWtripYx0aac65Ksu5psUX2IKyf3B/d7vc0QcXTvFHVJHcT
+	0rIPT6+DfKAitRd6QNk/7WsSdvDKtF7o+SDYEaaqwaCi5Dfbmh334Krz9CKZria4
+	gG4da+nk02euiIZa8epvSyBDlLq0tv8IcJqFpJB/kEWGNa+Fq5rERscXfkVJVsJX
+	X1RQS616RedgX5XhcQI7e7Ljgh1WAOQbee1s2eNp+AkoP3QRPTiXMFbyuR0rSxim
+	/LgokHKspJeMb9DPnix1sA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792459778; x=
+	1792546178; bh=4KxkXJ4nQz5KB2QlzezqufYuwFyMTZDhUK66xN2zGmU=; b=L
+	RKN6rvsLGKJEPn1a+HKIUTjGlhoNcbwA62lUK9av8hrXG1OrxrS8TVICDfygnSQd
+	ORlbI9T12cxNWDsefTeGTR7CWtbYzfPpLN/zYHquF96krWCXrZwgZMmdCISJrN6V
+	Wr+Sd2KQS+eKDOpqGHi3BLeDx2o/3xINgW5BEpjrxCb649M3kGMpeSijzIou9NvO
+	qte92R9ELwRViQbWxTihgoYQy+DAYefvnuWUGkqCgdtLCfDI4lvSCuxD9X5x43hb
+	fN/Ajfi2Sa+s4qmoPQpZbHavTCgBKq7XO5UtkGyYh0Bqhv1mgpSZhG2aj1iOmT4Y
+	3kIygFT01ZL7CWH03HjWg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
+	action=sign d=themaw.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1792459778; d=themaw.net;
+	mf=PHJhdmVuQHRoZW1hdy5uZXQ+;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm1:rsa-sha256:MkNtqSPG64RNE1ft+nit+0gxavUK3lHD9bb5ZczbZEYBASx
+	PPjyaiyHjsylwO9hWnDUQRX+B0s9q2oRZ1CfMt6Pv5vqhEa1KBWN/ZKo19yfvitX
+	tAoNSVHya1MrR53m1LCI4bTL2XXRvpAr7XLZO7YEilMzO0u4gnw9RLCmn0soxt5e
+	pDjq9BlTPzapbDgHgFgRme6iccSZ2wynMMbvuDrF6B6KZVB80+F47127jeUgluE6
+	mW8H+BpMyJdQzxlqFAtGY/HYQb+MgnLZWQVk6wdkZg5+iJ7EyexCH5LfynQsGhp6
+	Eo8dsaeMntfwlE2IBUvDpCX8HdDA0RKuu4cn0CQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to,
+	user-agent;
+Message-Instance: m=1; h=sha256:EN79Ak7wVgDgTEBK9FL+qs89KwROzfndLX4I0+ZDfkM=:4KxkXJ4nQz5KB2QlzezqufYuwFyMTZDhUK66xN2zGmU=;
+X-ME-Sender: <xms:AsTWasfqRNzjpJ9gg-BuufdKOj498BlH0X6g3r9grUPzdNfu2HdDHw>
+    <xme:AsTWagyhbujE37DIweAPH5lxhqLuobr_SMLFa5nbRw--KwKvJowbkeZcjxho0VIBP
+    5-7wc9FPicaf_guEh2MBjPiFw5ROU9fiB1EMgF9ImlMTwtMIw>
+X-ME-Received: <xmr:AsTWahIv-cEu1JAuQp4CCCA3ULid1ETlPWBjhViiJpZ8RNkU9_MmdcOqC_RkgEfMz22jrlHzj4W8cn_I60b2I1U-qoTxLdH3AFrHV4xqRhiA01Pmop5fHbazr4c>
+X-ME-Proxy-Cause: dmFkZTFI8fi4K3lVj+IvxJ7hiVFq2ywh9HFKS3KgmEYlO0KtXeRuLfVLPDQaPpNCmMQJrD
+    jTOYDRQ0ay4fbW6Hmhhfrv9rHJFRKQG2ouOqai0SmVtSTJ7ZihZZIcueBPLfYhxyTyAZ7H
+    WIr0nwr9SFuqPI/s6T/qRgUC0u7viODrwoTl8yxKgmUiyXDG6iz6EUtoccKCQCZQjVf5UK
+    qULd6zOA5Yxch1zmcTRetUQ2dBn39VzrPe5NKPuzT9mmc5yHGpkQzl8vtRFgIhsD+aR7em
+    9xoJ9fpRuaLYHBa4e8tnrc7ij5V1G/gxRVCwEHxdlaW9jQHZfx1ZQXIhTHqmYlGunLujOG
+    ykvhB2kqnrfwDzbj//+M/ttIVx1KcuwEnG0vgxZhvRyd5VWVnOVdtI5uqSlcMzRlYCGAn5
+    1/Uy5gyW4rbBATkWE0m/ZgcGrTpJZkn6OXgwqgN72yxRs3oRYPYbH32diAZAePFNnQNQ1I
+    MuDRNVP/G1J14ijqS6WKW15DTCaNesy8teY/B8ZxH9HDsm1rQ2SXGv1OFyK060WZxErRq3
+    Dz1MNiLWuP8lbrpW8xw4nbhf3j1D25iSDgYAQ9PCCPCAxp0+CbcBDbTwt+N/iiPPuvNbR7
+    rUNESjLG+ifBz/3Iza+eUKvTdjnzkBIhcva39IkNsFEpY6YJCWLA/YHvWtOA
+X-ME-Proxy: <xmx:AsTWaiHsh4W96KM4MtEEQSBrazKqucWCqF-OxgTrPCiBuFNqLZ9BYw>
+    <xmx:AsTWat9f8cYv3xql7QW8tJNzaLxauiHYK3Va9qYltCCdS78wwxaoEQ>
+    <xmx:AsTWaiLiHWa2rK6XDEttBDQcba2D7v5CnH_KBdQvLncbSX9-J2QLzg>
+    <xmx:AsTWarvQQhATPAuMnKENsKPn7_dX7X6j2Vl4sO0PdpMUhVTUR8pwsA>
+    <xmx:AsTWakxEawTDmazIV5bVgDu47kaeR4_P0Ga3H_eyp5IXDhIJrpUaUB0s>
+Feedback-ID: i31e841b0:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 19 Oct 2026 21:29:35 -0400 (EDT)
+Message-ID: <d0bc6eaac2fc84cb43b569f49ee503057784b45c.camel@themaw.net>
+Subject: Re: [PATCH v4 0/5] Fix easy bits of the negative dentry problem
+From: Ian Kent <raven@themaw.net>
+To: NeilBrown <neil@brown.name>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner	
+ <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Amir Goldstein
+ <amir73il@gmail.com>, 	linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jake Edge	 <jake@lwn.net>
+Date: Tue, 20 Oct 2026 09:29:31 +0800
+In-Reply-To: <179237697885.1724252.11956785709205194840@noble.neil.brown.name>
+References: <20261019000810.1837917-1-neilb@ownmail.net>
+	  <f1c42d0bd125c6b1c39f1ebaee41340b5f6f03f6.camel@themaw.net>
+	 <179237697885.1724252.11956785709205194840@noble.neil.brown.name>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -102,160 +132,141 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1792248177.33a6e2db0a.git.amarkuze@redhat.com>
-In-Reply-To: <cover.1792248177.33a6e2db0a.git.amarkuze@redhat.com>
-From: Xiubo Li <xiubo.li@clyso.com>
-Date: Tue, 20 Oct 2026 03:13:20 +0200
-X-Gm-Features: AclHuK8xRQ60_Sp6jEhfID8fqxoZeEsaAEzn1rhM-0x8VxJDaK0vnKxbNIyNoxo
-Message-ID: <CAOJNxRL5ZV6c-eR8f4XNwV8ehmtV-Mgknou=FqPTGMH7hbFqWw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] ceph: support subvolume quarantine
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: ceph-devel@vger.kernel.org, idryomov@gmail.com, slava@dubeyko.com, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Oct 17, 2026 at 01:40:12PM +0000, Alex Markuze wrote:
-> CephFS subvolume quarantine isolates a subvolume while allowing access
-> by recovery clients with q/Q MDS auth caps.
+On Mon, 2026-10-19 at 13:29 +1100, NeilBrown wrote:
+> On Mon, 19 Oct 2026, Ian Kent wrote:
+>=20
+> >=20
+> > As is so often the case you've come up with an interesting and
+> > useful
+> > proposal, ;)
+> >=20
+> > Nothing stood to me out as problematic given the scope of the
+> > series.
+>=20
+> Thanks :-)
+>=20
+>=20
+> >=20
+> > >=20
+> > >=20
+> > > =C2=A0[PATCH v4 1/5] VFS: don't count references through ->d_parent
+> > > =C2=A0[PATCH v4 2/5] fsnotify: update children flags only when adding
+> > > mask
+> > > =C2=A0[PATCH v4 3/5] fsnotify: don't hold i_lock while walking
+> > > d_children
+> > > =C2=A0[PATCH v4 4/5] Add d_for_each_positive_child family of iterator=
+s
+> > > =C2=A0[PATCH v4 5/5] Use d_for_each_positive_child() in fsnotify.
+> >=20
+> > Did you have any thoughts on how to contain the number of negative
+> > dentries, (perhaps) including directory entry counts, in an
+> > intelligent
+> > way (meaning "as you go" rather than "brute force" when needed)?
+> >=20
+> > A significant problem, particularly on systems that count their
+> > memory
+> > in TBs rather than GBs.
+>=20
+> I would need to understand *why* this is a significant problem, which
+> as
+> yet I don't.
 
-Hi Alex,
+I think there is something more needed to understand the problem.
 
-I tested v3 on a KASAN/lockdep kernel against a vstart cluster with
-MDS quarantine support.  Basic quarantine, held fds, disable/recovery,
-MDS failover, umount while quarantined and fsstress with quarantine
-cycling all behave as expected, with clean dmesg.  The v1 flock leak is
-fixed.  A recovery client with "allow rwq path=<subvol>" works, and a
-read-only "rq" client can read but not write.  I saw no hot-path
-regression on unrelated directories, with or without a quarantine
-active.
+The source of my concern was originally the traversal of the entire
+list of child directory dentries in the notification code to set a
+flag that depended on a parent dentry setting.
 
-Problems:
+From the information I got (which is usually somewhat limited) it
+was obvious the number of dentries was very large and there was a
+large proportion of negative dentries. The obvious assumption is
+that the implicated list traversal was causing the lock held too
+long messages due to the number of entries. There was evidence in
+the vmcore analysis the proportion negative dentries in the child
+list was unusually large too, similar to the proportion of system
+negative dentries.
 
-1) Snapshot access now costs an MDS round trip per operation, even
-   when no subvolume is quarantined.  __ceph_do_getattr() forces
-   snapshot inodes, the snapdir path does a forced getattr on the
-   parent, and __ceph_get_caps() calls ceph_snapshot_read_auth() on
-   every acquisition.  Compared with the base modules:
+I should be able to grab the vmcore again and get more details if
+that would be useful to you.
 
-     1000 x stat() of a file under .snap:    0.20s -> 20.07s,
-                                             0 -> 6000 MDS requests
-     1024 x 4k read() of a snapshot file:     0.51s -> 3.93s,
-                                             8 -> 1041 MDS requests
-     ls -l of a 52-entry snapshot dir:        0.64s -> 3.62s
+While the unbounded accumulation of negative dentries has often
+appeared to be a problem, and the case Miklos and I were looking
+at implicated that, I also thought that traversing the entire list
+of children to set a flag based on the parent dentry was not good
+design. After mentioning that Jan replied (wrt. using the parent
+dentry instead of setting a flag on the child) saying dget_parent()
+was high overhead. I let that go even though I didn't understand
+why dget_parent() was needed. Using dget_parent() would only ensure
+the parent dentry didn't disappear from under you (it wouldn't
+protect you from deletes or renames) but dentries are rcu managed
+so an rcu_read_lock() should do the same.
 
-   Backup workloads that read from .snap will notice.  Can this be
-   limited to clients that actually have quarantined state, or driven
-   by an MDS notification instead of per-operation requests?
+So what am I saying, I'm saying that I think the list traversal
+that was causing this particular problem can be eliminated. But
+that doesn't do anything to come up with a mechanism to better
+manage negative dentry accumulation which I think would be better
+done as part of the dentry life cycle than as a shrink operation.
+That's just my preference.
 
-2) Blocking read() and getdents() can fail with EAGAIN.  With one
-   subvolume quarantined, a file outside it at depth 300 gave 24 EAGAIN
-   out of 20000 preads and 16 out of 20000 listdirs, while another task
-   was creating, renaming and listing files on the same mount.  The
-   ancestry walk stops at 256 levels, the result is CEPH_Q_UNKNOWN, and
-   ceph_quarantine_revalidate() returns -EAGAIN when a splice is in
-   progress, the epoch is odd, or after three requests.  Callers pass
-   that straight to userspace.  Disconnected aliases (NFS re-export,
-   open_by_handle_at) should hit the same path.  These calls should
-   wait or retry rather than fail.
+> Allocating things that don't get used much isn't intrinsically a
+> problem.=C2=A0 We have a shrinker which will gradually removed them - or
+> less
+> gradually when memory is short.
 
-3) Some changes apply to every mount whether or not the MDS supports
-   quarantine: ACL_DONT_CACHE on all inodes, and quarantine_lock plus
-   two atomics on every d_splice_alias()/d_instantiate()/cross-directory
-   d_move().  Please gate them on the feature.
+But if there are Terabytes of memory it often doesn't become in
+short supply.
+
+This might be able to be better managed by updated or possibly
+expanded settings based more on number of (negative) dentries
+than memory size.
+
+TBH I haven't looked at that aspect.
+
+>=20
+> But maybe shrinker activity itself is a problem?=C2=A0 Is that it?
+
+Mostly only in so much as it not happening.
+
+Problems with shrinker operation don't come up as much as they
+used to so I don't see that as a problem myself.
+
+>=20
+> I think it could make sense to separate positive and negative
+> dentries
+> on the d_children list.=C2=A0 This is quite do-able, though there is a
+> small
+> cost when a dentry transitions from one to the other.
+
+Not sure about that.
+
+One thing a negative dentry needs to do is maintain it's
+linkages in directories and such so it can be located on
+lookup to effect caching benefit. So separate lists might
+be cumbersome and possibly problematic.
+
+>=20
+> The only other thing I remember from the lwn article and the various
+> other articles and emails it referenced, was something about poor LRU
+> performance.=C2=A0 Lots of largely useless negative dentries push more
+> useful
+> positive dentries to the end of the LRU and we lose them too soon.
+> I think that can be addressed by having separate LRUs for positive
+> and
+> negative dentries, and giving them different weights.=C2=A0 I think the
+> cost of this would be tiny, but I'm not confident of the benefit.
+
+Or maybe adding negative dentries to the end and positives to the
+front might be simpler.
+
+A ttl might be useful too, use it to discard stale entries as they
+are encountered (although the discard policy would probably be
+somewhat more involved taking into account positive vs. negatives
+etc.).
+
+This in line with my preference to mange these "on-the-go" so to
+speak, not necessarily related to any functional parameter
+improvement that might be possible.
 
 
-For reference, overlapping grants such as "allow rw fsname=a, allow rwq
-fsname=a path=<subvol>" (in either order) deny quarantined access with
-both the kernel client and ceph-fuse, so that one is on the MDS side,
-as the cover letter says.
-
-Thanks,
-Xiubo
-
-On Sat, 17 Oct 2026 at 16:48, Alex Markuze <amarkuze@redhat.com> wrote:
->
-> CephFS subvolume quarantine isolates a subvolume while allowing access
-> by recovery clients with q/Q MDS auth caps. The kernel client currently
-> does not advertise quarantine support, so the MDS can hold its requests
-> until quarantine is lifted.
->
-> This series handles MClientCaps v14 quarantine notifications, checks
-> cached data and metadata access, and handles disable notifications.
-> Fresh MDS replies allow recovery after a lost disable. It applies directly
-> to the base below and has no fscrypt prerequisite.
->
-> The first patch exports d_find_alias_rcu() to GPL modules. The remaining
-> three patches add the wire definitions, record quarantine state and
-> ancestry generations, then install the access checks before advertising
-> the session feature.
->
-> Changes since v2:
-> - Add the VFS export prerequisite to fix the undefined d_find_alias_rcu
->   symbol reported by the kernel test robot with CONFIG_CEPH_FS=m.
->   The fix carries Reported-by and Closes tags.
-> - Keep all three Ceph patches unchanged from v2.
-> - Replace object-only compile validation with a complete W=1 kernel and
->   module build using GCC 14.2.0 and the robot's x86_64-rhel-9.4 config.
->
-> Validation:
-> A complete W=1 build with the kernel.org GCC 14.2.0 toolchain and the
-> robot's x86_64-rhel-9.4 config after olddefconfig passes. It produces
-> vmlinux, bzImage and all 2,233 configured modules, including ceph.ko and
-> libceph.ko. MODPOST succeeds, and Module.symvers contains the GPL export
-> of d_find_alias_rcu. Configuration changes are limited to olddefconfig's
-> toolchain capability normalization; there are no manual config changes.
-> W=1 warnings remain elsewhere in the kernel; none come from Ceph or
-> dcache.c.
-> All four patches pass strict checkpatch and apply in order to reproduce
-> the tested source tree. Seven deterministic source-extraction regression
-> runners pass; the ASan/UBSan/LSan VFS runner also demonstrates the remaining
-> cached encrypted-readlink bypass.
->
-> Known limitation: cached encrypted symlink targets can bypass quarantine
-> checks. fscrypt populates inode->i_link, which the VFS can use for readlink
-> or symlink traversal without calling Ceph's get_link operation. Uncached
-> encrypted targets and plaintext symlinks still pass through Ceph's checks.
-> Closing the encrypted-target cache gap needs the separate fscrypt support
-> and Ceph opt-in follow-up.
->
-> Live cluster, KASAN/lockdep, multi-MDS recovery and depth benchmarks have
-> not been run for this version. Existing snapshot mappings need server
-> notifications to revoke already installed PTEs. Disable messages carry
-> no generation, so same-rank ordering relies on ordered MDS delivery.
-> Recovery assumes the intended rwq/rwQ delegation; overlapping ordinary
-> rw and read-only q/Q grants still need server-side cap filtering.
->
-> v2: https://lore.kernel.org/r/cover.1792074165.git.amarkuze@redhat.com
-> Robot report:
-> https://lore.kernel.org/oe-kbuild-all/202610171220.i77KPiw5-lkp@intel.com/
->
-> Alex Markuze (4):
->   dcache: export d_find_alias_rcu() for modular filesystems
->   ceph: add subvolume quarantine wire definitions
->   ceph: record subvolume quarantine from MDS cap updates
->   ceph: fail quarantined subvolume access with EACCES
->
->  fs/ceph/acl.c                |  28 +-
->  fs/ceph/addr.c               |  72 ++-
->  fs/ceph/caps.c               | 291 +++++++++++-
->  fs/ceph/debugfs.c            |   1 +
->  fs/ceph/dir.c                |  51 ++-
->  fs/ceph/file.c               | 117 +++--
->  fs/ceph/inode.c              | 841 ++++++++++++++++++++++++++++++++++-
->  fs/ceph/ioctl.c              |  13 +
->  fs/ceph/mds_client.c         |  23 +-
->  fs/ceph/mds_client.h         |  26 +-
->  fs/ceph/super.c              |   2 +
->  fs/ceph/super.h              |  80 +++-
->  fs/ceph/xattr.c              |  54 ++-
->  fs/dcache.c                  |   1 +
->  include/linux/ceph/ceph_fs.h |  13 +
->  net/ceph/ceph_common.c       |   2 +
->  16 files changed, 1482 insertions(+), 133 deletions(-)
->
->
-> base-commit: ed0502cb11f84fff29f374238e526ae94d9bdfde
-> --
-> 2.34.1
->
+Ian
