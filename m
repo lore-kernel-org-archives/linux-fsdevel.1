@@ -1,96 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792504441;
-	b=j+9wX/Q0RPsxMK+1nJe87/qLs0yGJNpTVm6A66Yb7/kQ0HxB3KFPOwlln9S5GS/MkRIC
-	 XCqhrbb+1lYbUxR6pT9FkKt/4Vq7ztJ6Lk74crNLCSbXuY3OCcbnlh/RMxxYbAltuUTbt
-	 +ejpA19TdVC4usGbKiCzin7tDMuIgix9yU2cIqLNuhx/E2Uc+8Xbg45/ZZFFc8JQvN8t0
-	 hOe5ve9zS/KCghn+DwfaDf3906+SGlYCheJzd8AcxY36c8cqHLHFBrxKSVST6I4k/IXsd
-	 P/Vxul05j6MbECfKQdhoi+lJA686dEWb26yXVCmgkj9O0ACk9yzRLgC0WFRY51kq7EQ==
+	t=1792505157;
+	b=lGEWqZ382T36OUqqSfqXe9Z4ml+1gLR7DdC+F0XnPhvi2sCflAcm19eBB/0fV7ZGHkoN
+	 ZaEy2ElcVyy6v4ANBohnCYOxlS5nq+8Ig7iy2rgPfpn8LsPCvW+3fspFKXNO+XJPRNrla
+	 UvHAbaylBGH+fPlADtrok/Y/SM+GaaEqbNd0GQ4oTFrYFOX6Z49xNwEYD6js8o2UQJrw+
+	 RPEk0LN9Tk4ym1R+ii5s38FDSTA4G4K2nUPq6Kjg18SW1rgOZX2KUt+rersQwcCAfQVh5
+	 /FIR19C/agxeCr5IAgz2MoMjwjP7M1vHTUAevIna1LLnMjxQxNDiDJXQaD7c8172cgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792504441;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792505157;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=eR7IAX7DYO3kX2lnFG0GVUYwCYi3YyU/eHHmvSkslxA=;
-	b=YXDeQjOrKXYAmBLvnCaeNxLyO6mzjoPQ94+44hbtvCM+Zfna5JANKDwxQ2ZaSelV9JcW
-	 Ekduar1TcErrwpLWmsXb7pW+RPFrN+Q6ue2fkKxJm8Of0wWFfz5fWYDR8GfqT9AepqnTm
-	 tInhnqKJ33m/R3oLIks1v5+dONwc8EC8rDYmel/41xwFOR3YOO3+uYc7HNagjnw/vciGD
-	 VM1n4tJDPIw4mO3wIzyDduNg9dKaWcgsIk3gDQGhwZWA0YGMsRfwq1/G9sV9GSMSqfXCN
-	 kVO5gqgmZWbng322PCztyPSY9Dm1J0EmKB3KbXirM4dBa+7Bc/0TGAE7KEL9InlfvXA==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=LdMIhIlvZTbrlYO+3j4hIx5IHxpdtNc/p0dXdNrCqlg=;
+	b=E4WNE2nuJJ34DVy1WTRfFWsFHEnTkthuo6WlZd+71IrTcJp2WrCMGv0vuQL+UGe1qXXJ
+	 Nh8menww9JvV8Lpq7yzq6q49gZVA8smPW5Wb6lmgzHEuYbw6QK7CukyUnMvCsqU+UVHEY
+	 UIUE4cbWO4Qaoo94QP/4Mp9ht4Eftz4/j/LIOj517J04r8gwNMYtg7kjQKePfX37Jal8J
+	 jMOPTTJHIwQdQ9VZxc/S7J2CAkFO6oLiZPWO0/H+ku6krUkLED+Ofoc6jsWM+AVNGQ0TF
+	 LNSv+WJv7WGBKQBKt3g2ie/6bfuE6ONE0QbNE5VSnCA0JK/9UwbLWYAWHrXRdeAZwwg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=nWbANXlW;
-	arc=none smtp.remote-ip=209.85.216.52
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=NU6pBVdp;
+	arc=none smtp.remote-ip=74.125.224.52
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49212606A322
-	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 13:54:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49212606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAAF60A262E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 14:05:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EAAF60A262E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=nWbANXlW
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3ac7538422bso413694a91.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 06:54:01 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=NU6pBVdp
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6711f05fb14so2602428d50.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 07:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792504441; x=1793109241; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eR7IAX7DYO3kX2lnFG0GVUYwCYi3YyU/eHHmvSkslxA=;
-        b=nWbANXlWQV6gBS3I36OZtuQ3J7ShKPu0A3xfLkoy1HQ7XVHK4ie0qF3nnGlRmoNfmo
-         f3tah0nHkKMQ9nV5vXrqWNqnuPpYW0tQy9G3qXgPtSGKI6YRss8KscXw5p37heaWVf+w
-         Fc1fLzttSoGGPm+hm98N5DJWUt+tSVoCQDtt2gfZ/zVFdRQLBdbUtymthfVJZbf+cDYH
-         RFHjXfKekZpEngZfHMKLGjRhIhCQsDLUyrtRLht21dkuH2j62ZOuw374o2hK0IoZ8GkO
-         HhVnSRWjwd/yFc8ytzv5aJXXy4n0JgnDIMTcSgFL6RFYo4226vBsijX4J0qSjVPfC+Qc
-         Q2CQ==
+        d=gmail.com; s=20251104; t=1792505156; x=1793109956; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LdMIhIlvZTbrlYO+3j4hIx5IHxpdtNc/p0dXdNrCqlg=;
+        b=NU6pBVdpXdS4zzTYissdBw/MDiiN5o5TlNwj//ZWFnIayDvxx9gDu9+hdW70Te0AMR
+         lJOPDNX3EmmlHKf5SjsRkfUSpS3+vwRua3DVosyQsGKHGKo8S+9RGOYoBbLl8ZOPexOA
+         xzzglLS59r9xTw+UX43wdSNz+zCsYBznrlPO1wxAJjJ4ycSSJkzbxvTL8dKWPvUT1ygb
+         zxmJFdEkKjhoPc+3QVIuFZWAzX+hKcUJT4cDBEGwXNO0XgunVCxvpiHtJFEnynNZm9WC
+         9StBMW9IYTJjpXxeP7pcleHsubJyMN/oKAkLJ5fmcxcdypeboIphMuGXqduwxNwTdvi8
+         u7vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792504441; x=1793109241;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eR7IAX7DYO3kX2lnFG0GVUYwCYi3YyU/eHHmvSkslxA=;
-        b=h+yM6EnxYOE/NRuo7ZtfWVqKFIdehjoiMjvt2wIMscWJd468K6zo8+bx808j3jSrCE
-         +cRl8hzMy/x+PbmDLisxqLp6/jt+Rq9iR+DbzvMPmTZBq20yW1P79RHtNmudOdMuiYSN
-         pDir94syYgPQKXJFtHQHezRydhIEP3XZLyWcf+S/LJkl0zl8EN4iKoNLKHxIXGCme1F+
-         0zPriCPrZ8OxhI8x1FtIuFoho20o8QNkmsjngrt2+zaS584ZlGNvqblkYp25tF7FOBD2
-         FGNNfDD4o2B43m4RX85mYFC7zxIQzkHK9/fLOUE4TlmcoQTy/zNeRkju1eJ+VOyuavA9
-         ZFyg==
-X-Forwarded-Encrypted: i=1; AKwUvBzFGw38Rnh08Em8jrjEMnYtMFeaDcdwS3gDlZEbklKRiMhPvYVey3ZW8S8/nCe7ru0pZ1ts+mlHSdg9aEP7@vger.kernel.org
-X-Gm-Message-State: AFq9FYLt8ZpIWmr/0yLThKSYooxzFP9XRJgQ0o1/ATs14GWy7Kfq/s0U
-	vEnaxaqC+HNdCPEufX/DDohhbOc5AthirYekIzeg2tV7Avkm9B5kunTH
-X-Gm-Gg: AYBFou2NWk9XYFVG7E/PsWQWvrhLu76Ts9Et3wCngVPsRWB6nSlQ9qt4Co1bmw/fsnw
-	G9hQnlfuTTiNAwOH8yZlYT52J9q0F8u6VmBBY83pGfb1jfgzg09MeF+5T+lsH+tajMnNfk89mcc
-	/nsnkLQc48iBRN+gcylhnYAhPZ7WIcNttvgpYxdVjFHlQSN4IOl+9YLq8dbvyk8rY0w7FvzljWX
-	+Kog1n6BtJHw16Y1fb/R/lR+slDaHTexRFrGu5ej2H9UVKNwC4Kaop6zmTNlahszLF2F4gh22T5
-	IPQo+A3fKfp95qTw8ylnpbW1qIDqEd5StCGQrYEDZ2skUCkbz6eehOb+kpkQbfLi+jwLHNkvqlX
-	dnY/NNM52C3dix1kkGZsa0A+6r6vO+12mGw9C73Y5+JzUAm+DhoccAaCpelCEIk1DEDCI9zulXq
-	eiFlth7ODr1TaBARXgExoS7cuzjftmjgHw5ZSTPg6UJKyQFR2Pc6byD/HU/K/fu5xIu7+l0kN/V
-	ab1H2NvL3SW6lS4C0SlmeVmVgt79QWWe8uYyykJLfUF3PS086rJ4ys7YjQ7ouu4fZExjN5CtDfN
-X-Received: by 2002:a17:90b:1f8f:b0:3ac:a11a:7c88 with SMTP id 98e67ed59e1d1-3aceec4ba18mr14269919a91.3.1792504440611;
-        Tue, 20 Oct 2026 06:54:00 -0700 (PDT)
-Received: from 1.0.0.127.in-addr.arpa ([188.253.120.76])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad5d6df894sm3604548a91.10.2026.10.20.06.53.54
+        d=1e100.net; s=20260707; t=1792505156; x=1793109956;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=LdMIhIlvZTbrlYO+3j4hIx5IHxpdtNc/p0dXdNrCqlg=;
+        b=RGHYaT9l/pVBqmDcTVVRRuGCltu6xjV7Y5h5hEUuefbSC8ApHHuhP6gdIK0pTKnSxK
+         4UkwOQIsAiTphDknu1gmPZTsfNDn2t1c+zSNhINIkeNjBvYpkTccCKRLDRWtYi9qpfF0
+         TFm6VDwEgsyhdXILMSvOllPna9enIs3J5rYoQ3cyxgowBOQG8NO0upjKE92oh1sOBn5J
+         9IOFfQ6zNUPTRL9AZiEV2Ir/KZngfX6P4RO0D4JndqNYUfCXoKZfNN2N7fFE3d5wF1pZ
+         tDPKQmQsW57cPI1XlAVbMJsNozT05mw04hzLv+nUJSnlT3v1tJKpQ1wdedQt0iBEQ7z+
+         LqJQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz87wUGoG91m3rxL9YhsWvyINhokbAEfebDD+p800fGuG12MGhgIHjgngECd/OcLNFADh8/AiEJvLApdUcW@vger.kernel.org
+X-Gm-Message-State: AFq9FYKxV72dmm3JeET3X86Q4ZxvDoSnj86lokraGdYOaN8AcB4uOq0X
+	+2uKMpPNcT3hm38tpx6QcHzFc5vNOdatDxk1oVeQQhzQfwbQE+VDLvkS
+X-Gm-Gg: AYBFou2apftY6yWFKySHQyWxEqVNzbkMZC/v+2rQzT0vgWQtxHjoZlz0HIXey9ym6g+
+	Pn5JD3Lt/uOfgNAk5Wh0N6JhyHBllpJC0LFYxjJBe6NXLx5e+xbNo2Lp+gL5PjQTvvxwWQpwQD/
+	ySCngRbzFzA/+JOpxRf2MCZNT7Kd+QgdWT6j9NTceyhcNbsuIJawBfknXfdRV4rnq0ZLsUZv1Op
+	tHnR5es6dz9+ap1xe0xgSXXZJ+VqN1nCHZXC6ln9KqsQf+U36cqk6FDrEt0yXUMXrtIFS12gvRI
+	iDbLuLSQxCbltZQ6YvQLLf794abf0RZVBaqp/0ubQW2s2zT8cA3K5p+NA/jC/G9l/zjT9TfIZGa
+	U83E/mLvqsKJDTIcAjh+2MjbcLl9TRo6VL++pYLwFqjJo4opFEH+KbFuB59SgWcubaeopQEJnyT
+	EkK3Htc1PPbetRZZEuUEUPULG5Q/UJBETN/DYit/D0h9nftJh1Ay169NpzSNtGBa10A0g8JJc=
+X-Received: by 2002:a05:690e:1443:b0:679:aeed:8900 with SMTP id 956f58d0204a3-679ca7343eamr4757054d50.22.1792505156161;
+        Tue, 20 Oct 2026 07:05:56 -0700 (PDT)
+Received: from zenbox ([2600:1700:18fb:6011:8701:205:573e:17eb])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-679b1c94c25sm5269200d50.3.2026.10.20.07.05.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 06:54:00 -0700 (PDT)
-From: Qihang <q.h.hack.winter@gmail.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: German Maglione <gmaglione@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	fuse-devel@lists.linux.dev,
-	virtualization@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Qihang <q.h.hack.winter@gmail.com>
-Subject: [PATCH] fuse: virtio-fs: don't process completions of aborted requests
-Date: Tue, 20 Oct 2026 21:53:50 +0800
-Message-ID: <20261020135350.7751-1-q.h.hack.winter@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        Tue, 20 Oct 2026 07:05:55 -0700 (PDT)
+Date: Tue, 20 Oct 2026 10:05:54 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
+	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Song Liu <song@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E . Hallyn" <serge@hallyn.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Yonghong Song <yonghong.song@linux.dev>, 
+	John Fastabend <john.fastabend@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Mateusz Guzik <mjguzik@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Tingmao Wang <m@maowtm.org>
+Subject: Re: [PATCH bpf-next v1 00/11] fs: unified VFS ancestor walk for
+ Landlock and BPF
+Message-ID: <atdw4wVVarvwgRH0@zenbox>
+References: <20261013164800.2906577-1-utilityemal77@gmail.com>
+ <DM6PICFFAU5Z.14KOZT5YJO7MA@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,132 +108,65 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <DM6PICFFAU5Z.14KOZT5YJO7MA@gmail.com>
 
-fuse_chan_abort() ends every request on the processing lists with
--ECONNABORTED, but virtio-fs keeps the request itself as the
-used-buffer token of the virtqueue.  When the host stalls a request
-until the request timeout aborts the connection and then completes the
-descriptor, virtio_fs_requests_done_work() gets the already freed
-request from virtqueue_get_buf() and moves its list node
-(list_move_tail()) and reads its arguments (copy_args_from_argbuf()),
-a use-after-free in the guest kernel.
+On Sat, Oct 17, 2026 at 01:02:40AM +0000, Alexei Starovoitov wrote:
+> On Tue, Oct 13, 2026 at 12:47 PM Justin Suess <utilityemal77@gmail.com> wrote:
+> > The structure is unchanged from the RFC [2]: a stepwise engine private
+> > to namei.c, a callback front-end for in-kernel callers (Landlock
+> > is converted, fixing the follow_up() race Al reported, hence the
+> > Fixes: tag on patch 3), and open-coded BPF iterators over the engine in
+> > referenced and rcu flavors, with bpf_path_ancestors_legitimize()
+> > escalating from the latter to the former mid-walk.  Patch 1 is carried
+> > from Song's series.  See the RFC cover for the full background and API
+> > listing.
+> 
+> Song's series stopped at
+> "It is a conceptual dead-end to expose these two modes via separate APIs
+> and leak this implementation detail into non-core code. It will not
+> happen as far as I'm concerned."
+> VFS_WALK_RCU, -ECHILD to the caller, two bpf iterators and the
+> legitimize kfunc are that leak.
+Following up on this, plan is I'll submit v2 of the verifier fixes
+series and get that finished first.
 
-Let the transport know about the abort and skip completions of requests
-that the abort has already ended.  This is safe because any request
-still represented by a virtqueue token when the abort starts must have
-been queued before virtio_fs_abort() set aborted:
-virtio_fs_enqueue_req() checks connected, adds the request to the
-virtqueue, and puts it on the processing list while holding fsvq->lock.
-virtio_fs_abort() takes the same lock before setting connected = false
-and aborted = true, and fuse_chan_abort() only splices and ends the
-processing lists after the transport callback returned.  A racing
-enqueue therefore either completes before the abort and is subsequently
-ended by it, or observes connected == false and returns -ENOTCONN
-without creating a token.
+Then after that I'll do a redesign around a single iterator
+implementation that decides the walk type and abstracts away the details.
+It will be KF_RCU_PROTECTED and callers will need to break out of the
+loop to do sleepable work. They'll be able to acquire the path
+references with a kfunc to take them out of the loop.
 
-in_flight is transport-owned accounting: it is incremented when a
-token is queued and must still be dropped when the virtqueue completion
-is consumed, even though the FUSE request itself has already been ended
-by the abort.
+That drops the __uninit iterator changes and the legitimize kfunc as
+well.
 
-Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
-Cc: stable@vger.kernel.org
-Signed-off-by: Qihang <q.h.hack.winter@gmail.com>
----
- fs/fuse/dev.c        |  4 ++++
- fs/fuse/fuse_dev_i.h |  5 +++++
- fs/fuse/virtio_fs.c  | 26 ++++++++++++++++++++++++++
- 3 files changed, 35 insertions(+)
+> Landlock still passes flags == 0, so nothing in the kernel walks in
+> rcu mode.
+Mickaël would you be interested in the hybrid walk conversion as part
+of this series? Or prefer sleepable walk be retained for now and
+converted later?
 
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 4fec31fc0b84..90b30c5034c4 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -2178,6 +2178,10 @@ void fuse_chan_abort(struct fuse_chan *fch, bool abort_with_err)
- 		spin_unlock(&fch->bg_lock);
- 
- 		fuse_chan_set_initialized(fch, NULL);
-+
-+		if (fiq->ops->abort)
-+			fiq->ops->abort(fiq);
-+
- 		list_for_each_entry(fud, &fch->devices, entry) {
- 			struct fuse_pqueue *fpq = &fud->pq;
- 
-diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-index 4b412a76225f..47697adf0eb6 100644
---- a/fs/fuse/fuse_dev_i.h
-+++ b/fs/fuse/fuse_dev_i.h
-@@ -148,6 +148,11 @@ struct fuse_iqueue_ops {
- 	 */
- 	void (*send_req)(struct fuse_iqueue *fiq, struct fuse_req *req);
- 
-+	/**
-+	 * @abort: Abort transport-specific state
-+	 */
-+	void (*abort)(struct fuse_iqueue *fiq);
-+
- 	/**
- 	 * @release: Clean up when fuse_iqueue is destroyed
- 	 */
-diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-index f15e516ebcb5..2db5faf5d865 100644
---- a/fs/fuse/virtio_fs.c
-+++ b/fs/fuse/virtio_fs.c
-@@ -55,6 +55,7 @@ struct virtio_fs_vq {
- 	struct work_struct dispatch_work;
- 	struct fuse_dev *fud;
- 	bool connected;
-+	bool aborted;
- 	long in_flight;
- 	struct completion in_flight_zero; /* No inflight requests */
- 	struct kobject *kobj;
-@@ -842,6 +843,15 @@ static void virtio_fs_requests_done_work(struct work_struct *work)
- 		virtqueue_disable_cb(vq);
- 
- 		while ((req = virtqueue_get_buf(vq, &len)) != NULL) {
-+			if (fsvq->aborted) {
-+				/*
-+				 * fuse_chan_abort() ended every request this
-+				 * queue still owns; the token may already be
-+				 * freed, do not touch it.
-+				 */
-+				dec_in_flight_req(fsvq);
-+				continue;
-+			}
- 			if (!virtio_fs_verify_response(req, len)) {
- 				req->out.h.error = -EIO;
- 				req->out.h.len = sizeof(struct fuse_out_header);
-@@ -1541,10 +1551,26 @@ static void virtio_fs_send_req(struct fuse_iqueue *fiq, struct fuse_req *req)
- 	}
- }
- 
-+static void virtio_fs_abort(struct fuse_iqueue *fiq)
-+{
-+	struct virtio_fs *fs = fiq->priv;
-+	int i;
-+
-+	for (i = 0; i < fs->nvqs; i++) {
-+		struct virtio_fs_vq *fsvq = &fs->vqs[i];
-+
-+		spin_lock(&fsvq->lock);
-+		fsvq->connected = false;
-+		fsvq->aborted = true;
-+		spin_unlock(&fsvq->lock);
-+	}
-+}
-+
- static const struct fuse_iqueue_ops virtio_fs_fiq_ops = {
- 	.send_forget	= virtio_fs_send_forget,
- 	.send_interrupt	= virtio_fs_send_interrupt,
- 	.send_req	= virtio_fs_send_req,
-+	.abort		= virtio_fs_abort,
- 	.release	= virtio_fs_fiq_release,
- };
- 
-
-base-commit: ac86e1112a6a
--- 
-2.51.0
-
+Justin
+> Patches 1-3 fix a real race and don't need bpf.
+> Send them to Christian, Al and Mickael on their own.
+> 
+> > Verifier fixes propagating the RCU-ness to trusted fields can be done,
+> > but it's best as a separate series where the idea can be examined more
+> > closely.  Then marking the dentry as trusted will allow you to use the
+> > dentry xattr kfuncs.  Nothing in this series strictly depends on having
+> > a trusted dentry, nor will marking it trusted require changes in this
+> > API.  See my follow up [4].
+> 
+> Then what can a prog do with a position?
+> pos->dentry is untrusted now.
+> Marking it trusted will require changes.
+> d = pos->dentry is not linked to pos. It will stay trusted after
+> bpf_path_put(pos).
+> pos of the rcu iterator points into bpf stack.
+> MEM_RCU propagation fixes neither.
+> What next() should return depends on how the verifier tracks it.
+> Let's do the verifier part first.
+> 
+> pw-bot: cr
