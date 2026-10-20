@@ -1,72 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792522938;
-	b=dyRgXalI4AJ4HuVH7xHKL72gKoKoZ9mCHkQoyU/0CjYkcc6lXzd1Bey5Bj8Lrvkxir6V
-	 YWapO7Tzusgopt1cupq//lrxxsOc+mpIQQEhskr1ib+0IQp0EQi2bsd5TaEf+Sa/nWggN
-	 wY49OX4Rys17pEcfRusU2IGGE+NrdlYRRxDYsZYdMOZ1qAFfpPG9q8FwaxH6Ai9XnyXJG
-	 UAl/u4feOe8PJ8TC+NgAXVl7YlxiBjdr7EWc3V2X01lp0nQ0S34EYp22nvsiIxHV6vScM
-	 FPmq5QbZxYfvc8aznA28YnqhaQ37YjxmeLX5f0sLEWSDgCvaJhnr4oYR4hGoYg+gZAQ==
+	t=1792525165;
+	b=uKfZGBZ9YFchaZTXguKB0TwaI9Z4vjHdudhsk3MsjlbuPvcyFpNrOwTh0pq0rICv3YYf
+	 mv4I0013yth4Bx0hS4OUSniiSm+eQbZiF3vGoLyqNmnYTgnVykZUEtpB+fysK634dORwm
+	 mbEFu+NjPaDfMEcEW+YVDKLaN7+SdvuGvXmkwGAsS4BZGEXyzBTZUKi7dYCYSOf/iPvkQ
+	 J3M/wzAGH+mgt7YXZAuNryz+fGbR3ikuIMovZPPA2xNdJFDTnjiEfPj0sN12W96G14Kfk
+	 WyMhv3Q352ygW6ttGrdEyOcrs8qnDVv5oGOg6hyNtGCZZIBb0sYilP/6H4hsFSruoRA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792522938;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:Sender;
-	bh=MAC3MjW2HkLElUNXBYu/aiadpeQcZyC0ydUhewAODQ4=;
-	b=3mpvaDiuEUjzWUa559jlIZnKNqLfSKJgCVOS9LwEbk+aJE7v47cvKGBFknJfCGBXMkDI
-	 NfdIZYJAx/4KTt9IdtqnklgZVaJBBIzTcHI9BwFUivkCLxkltjfGqhEvjezMRLDCBHliC
-	 ae1bZQf8fq4vxDBCbNXCRRYeAClqt6JbRmnkMcuyJaqm7fPJJKXjfh0gk+inqN9yPTXCW
-	 0lAki9gRMqTHatFmBPMpBTqEUdZ89P/49RAEBxKT3hYCcbgrOmNBkUvqPfkwX/O/iXmf3
-	 nuXaXETy68/2NyqAe/a8kMvAQNPGAeZWPbnA5eFDEVShPnAKx7JsbJIFC8NKZtUJo8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792525165;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=8tphokwrbS+HdbFZVHYS2Ey3PTd8HsI2I3XPiryFaz8=;
+	b=D3/gq+BHwPhvxDrodKTf7lpgSn91Mp0FncVYqbtRrhFZAhhWztMoeeDKcr0UmA01B+nh
+	 o82G7uSwT/HXXkkUZqIpqZKH09lrC+cVI47Bw+7YqTUHbE9I0yyxZEbszp6n1+Kapha0F
+	 Mz0pJonMAwAZAU76uaiIAm9bjQjppSTY44cPeT4uzqdEBBHw0QYC+NI2h3GEqLVIKaLUp
+	 bHJ6r6xJwGLueOMSIgNVFNh3H8/XMQlGFOTlyzZqnYBtE8NKvWI+v7q+MJOjLaHvQYm3L
+	 y1y2Mo5K7ro0qXP0OdnID2/BJYlKPw1i+K5dSucFD+1iU8NS0BRTvsX6b4x6/ypUL9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=zeniv.linux.org.uk;
-	spf=none smtp.mailfrom=ftp.linux.org.uk;
-	dkim=pass header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=MEFygLbn;
-	arc=none smtp.remote-ip=62.89.141.173
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="UAhxKh/m";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0281606A31A;
-	Tue, 20 Oct 2026 19:02:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0281606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72885606A321;
+	Tue, 20 Oct 2026 19:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=MEFygLbn
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=MAC3MjW2HkLElUNXBYu/aiadpeQcZyC0ydUhewAODQ4=; b=MEFygLbncK7KUHhg9Ph+6mYGfv
-	IvvgUJIhgp9tzDFUKBF7Kk4tlldUpoUttMNiLlU3z/bTD7cSrFdbUVUlCrrZljVT6b+uhDmlGA5hM
-	wOunZ3Qm9W0tPhbZtW8QRylBxWf0NQZ884lF4KCgMjAR05Do1lwKLiAjQfGNqL5VABE021z9v3VJs
-	ygPbU/7Hegx1SLijNRezOxvvc2yVxlo4JTepf5k8OniTzAVtcPr10gB9N/TbcLXpKfzE6z1P3u7mP
-	Y+Hvd3lN/lIeu5mZmlJSB7FjJIf1FYHKtA9ki+IJJQVQ3AYhcN9IV9bWt8e3gW7eJm/+lPp/IQ9AD
-	HJO51oNA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xJF6A-0000000HHqw-2FEs;
-	Tue, 20 Oct 2026 19:02:10 +0000
-Date: Tue, 20 Oct 2026 20:02:10 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Matt Bobrowski <matt@bobrowski.net>, bpf@vger.kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH bpf-next 1/2] bpf: fix crash in bpf_path_d_path() for
- exiting tasks
-Message-ID: <20261020190210.GM989762@ZenIV>
-References: <20261020105014.97985-1-matt@bobrowski.net>
- <20261020105014.97985-2-matt@bobrowski.net>
- <DM9VJTFJGVXB.3GH9LO3NGV5PO@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=UAhxKh/m
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 947C71F000C9;
+	Tue, 20 Oct 2026 19:39:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792525164;
+	bh=8tphokwrbS+HdbFZVHYS2Ey3PTd8HsI2I3XPiryFaz8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UAhxKh/mN7h5ci7uCwGPUZI2lvi2kyDTYDZ7j2ckCo/qpRwN9o65AyUnzUkpww67c
+	 Lx9MO/nT2bRnbxFc4KYvrLAOmED/6nUYALhFivIHGG96IGNGYSgMINsMo8G5W0QfeE
+	 gOJaTT92wsZhCHnYP5ZDFECUXHeK9p1eIWewIXck=
+Date: Tue, 20 Oct 2026 19:39:20 +0000
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Halaney <andrew@amutable.com>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, Oleg Nesterov <oleg@redhat.com>, 
+	"David S. Miller" <davem@davemloft.net>, Simon Horman <horms@kernel.org>, 
+	Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>, Eric Dumazet <edumazet@kernel.org>, broonie@kernel.org
+Subject: Re: [PATCH v4 00/10] net: support thread-specific pidfds for send
+ and connect
+Message-ID: <atfAmtsj0LmZtBZs@meerkat.local>
+References: <20261005-work-unix-passpidfd-v4-0-350183b6e02a@amutable.com>
+ <1ab71b00-fbe1-42a0-a99e-27d5cd5e5a6e@redhat.com>
+ <20261016-erdball-skisport-erhaben-93d64cfd2890@brauner>
+ <20261016085732.2f1ffb8a@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,23 +62,58 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <DM9VJTFJGVXB.3GH9LO3NGV5PO@gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20261016085732.2f1ffb8a@kernel.org>
 
-On Tue, Oct 20, 2026 at 06:24:42PM +0000, Alexei Starovoitov wrote:
+On Fri, Oct 16, 2026 at 08:57:32AM -0700, Jakub Kicinski wrote:
+> Konstantin, could you consider adding a b4 option which would
+> make it apply the patches on the most recent Linus release tag
+> and then merge them into current branch as normal?
+> Simpler version is to let the user name the application base.
+> This lets other trees trivially create a branch later if they
+> want to.
 
-> And it's not specific to bpf. The comment in fs/cachefiles/namei.c says
-> that current->fs == NULL in do_exit() breaks d_path() called from ext4
-> open.
-> 
-> can we fix it in d_path() instead ?
+This was a fairly frequent request, so I made this change now:
 
-Once more, with feeling: if you want a pathname relative to your chroot,
-use d_path(); otherwise, use d_absolute_path().  If you don't know what
-the difference is, just use "I don't give a fuck" and save the cycles
-(and avoid potential infoleaks, while we are at it).
+    b4 shazam -M <msgid>
 
-Folks, it's _not_ just about an oops - specific callers need to decide
-which string do they want.
+applies the series on the nearest annotated tag in the history of your current
+branch (e.g. v7.3-rc6), and then merges it into your branch with the cover
+letter as the merge message, just like a pull request. If the series doesn't
+apply cleanly on that tag, or there is no annotated tag, b4 falls back to
+applying on HEAD and tells you why.
+
+As previously, use -H instead of -M if you just want the result in FETCH_HEAD
+so you can look at it first.
+
+If you don't want to upgrade to current master, you can already use
+--merge-base to achieve the same effect:
+
+    b4 shazam -M --merge-base v7.3-rc6 <msgid>
+
+It takes any commit, branch, or tag. The most recent master also takes a few
+new markers: _tag (the nearest annotated tag, with no fallback to HEAD),
+_specified (the series' own base-commit, which is what -M used before), and
+_guess (guess from the blob hashes in the patches).
+
+The breaking change here is that b4 no longer uses the series' base-commit by
+default -- it was always envisioned as more of a hint for the CI systems. As
+far as I'm aware, almost every real maintainer wants to apply to HEAD or, at
+least, to the most recent tag as the base.
+
+One potential pitfall: b4 can't know if "the nearest ancestor annotated tag"
+is actually useful or meaningful, so if your own annotated pull request tags
+(e.g. net-7.3-rc7) are in the history of your branch, one of those could end
+up being the nearest tag. b4 always prints which tag it picked, so if you see
+that, just pass --merge-base with the release tag you wanted.
+
+The same logic now is in the "b4 review" TUI when taking a series with the
+merge method: the dialog shows which base it's going to use and lets you
+change it before anything is applied. I know Mark has been asking for this
+(cc'ing him for review).
+
+Please let me know if this works for your workflow, or if you run into
+problems, or if I completely misunderstood the request. :)
+
+-K
