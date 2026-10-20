@@ -1,92 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792486956;
-	b=rdgEKk45ESu9WuF4UoNtVK4OnFdd2bBBsjBnHjR4qhF8/UHnHUlw/Y1xUukFIf5cpUv6
-	 CUUFrdDr2Q1DgpDWKAQpY53aS7xx2t24nWAiEeEO+IxuXP5LdA45PQulMOVF5TzRsGIno
-	 ijX4Yf62Ot6ipcRbwBDjpGVsM6XK+405HbxxNM7tzQhiHENNbt8lGANi+Qa5b2gvYxQMd
-	 eK79SxiSew4mmeUrir+DJcT7j8zdm1GkG/Y5z9RcSI78h5vqKqoSpd2j+hWevpgp0BpMy
-	 6smeASb3G48O0R11z1gFGKtQM24CUyt69KMZ57tsPuuIbuCRgIeJnNT+IdIhwhRhSoA==
+	t=1792487194;
+	b=lMIF5G8hSnIDsSNpEbkxFIjnUeYX1131ahtQPgSpZ7EmXcFQjcUCnZs3yDGLvRsYEduC
+	 weyeUGAYof/M8ARnJjSaKY0Fk73RunXGChIbwhUE9LgyjDx7RYqYKjJhgjkEYpzPvNQuA
+	 20lOF52d+DbHu7rxUIregTJqioGrdYKjicdJmmWMznhOGZBLO0CJ4I6zozPnhU3irSZu4
+	 80pAU3dykihT7EWhTMk+CzCM4Kbr5N8/R0Z7OgF7Fba7IC19JLhG3gLL9fxSVQFdfpQLD
+	 pDyEingtD0MCwmoygbHTGmFC3Rx3Whba2o3vstvkBteKh8YuB2ZoxO5ilOsQpAjm+Bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792486956;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ppC8TRBPEanEndEB0ZLxZ/g+4/pJXzez/E6F6ayShus=;
-	b=SkvTIHFmZKF55XZTa0EhjTQMQ3OEi/ApXPqluvMSJPf9RuhEIcq06qS3SGSYh2iZr8Vn
-	 t+aEddF405gJ1Be7um8k795BcFQcQ/nkDpoUCgu72U6ojArVDYlZcw3qB9RakucX0+3vh
-	 fGLhssk0VTzqVUiEbtBPSBEvPs5N7m5jpn99669YlxRqm+CZaDWYYM7aj/QAHkSAqCFkG
-	 Nfcec5Hv3SauyVKmQpI/5ERcj1bzeifOksmlpuY/yVF5NKKclEUmlt3CWagAQ9Xo61xrm
-	 XiAh9sR3+FpIyUg5zteJLXzkCap0aMTxoJA0FiwlHJPPl/gEMBBRNFeWHu5a8LpvMfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792487194;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=byMpnzMiLTG8THNjkNmp9UgpYnNMNTx0auzeW57yB8U=;
+	b=DtLJAWSm6u9JGHTnz96Wvg+QhH2eX/jIcBCHC5FDpLnhaEai4CX9+EbmCPlMT/xG/T/g
+	 CW0LzQ8qiZDZc3VWDwhcaY99OiGzizFQ0t2U5FFQkhNcLV+v3HAtyGQ76pnmQLyrKkFuM
+	 6WTbm6m4w65C+8+0aeEDcUVMDd8nOTGWR04X3BX1VHFCqINf7WsDkl4BkXL1MaQt1j75B
+	 nnR/TmjwXNweeA/9+yIp4ON5P9ocKrXSZ247duhXMK62Mc2RKKa0Eb85IJ3ZmRWAGYTx4
+	 bes00efT0Q30H4rxHD38hjt3C/4coTTT41xK3DaGXIZlKuryyX+3FVvV7ngnxKzbwyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DKFP3HH5;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RtgQErrW;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFB8606A31D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 09:02:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FFB8606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03763606A31B;
+	Tue, 20 Oct 2026 09:06:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DKFP3HH5
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a1682bff3cso14330125e9.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 02:02:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792486953; x=1793091753; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ppC8TRBPEanEndEB0ZLxZ/g+4/pJXzez/E6F6ayShus=;
-        b=DKFP3HH5xkEVzudg7J2oCkxEv63gXy59fH6PmGnoXYbvc/Tpn7SgV8Dv5eYJWndKdF
-         0gPK2x7sAz3AYT8RhM/rHIAGIPXBDkqLTKvDbhEjSB4NOAXpwUrUWYuWZBbs+QX5g7EH
-         KHBuhZ60BQCzJV93iDirg+lePGYCDsw68pX8qHFwLpaXeoybsVRwJiU6FbG1Koyi3afU
-         LKu9EGas773lgo5srdIo/xgpLajo7HooInu/5WPcW47GgxVz3rvUPojFuKTiumaRzeTO
-         sVtXXwAJqhrVO8uj6GDvQI6nPca476LM1GgzAVdc5eYajgUqbR4TK/Y6/PJzWxvQ6pIl
-         WTOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792486953; x=1793091753;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ppC8TRBPEanEndEB0ZLxZ/g+4/pJXzez/E6F6ayShus=;
-        b=l9xYQAX/NHo4JOCfUNg3vid6V4UvqJcllybPENUoBjh0Otjmy3yfqYqbBm2Gg9XeAj
-         Q2M7Dx3/Thq5gRLWa9R2/AHtyRcky4sPYmSZ4wbOcW54H/nxJz+rq+jz35/4hZS3K53y
-         j/OntNt0fMSYZ6uQce9gPstetAyweSAgTkvWtymsCDFT9ipbJ6gGgaLJux2CWGfvXqAR
-         PhrH+IpL+4e1cr9pD28DPpglDsqe5Q/EJxjRDDNVH7Yx+iPYVMrUN7rX3naJ0BwHx/cz
-         27mCycrrlv5adGopzR8FAjJidGtNaFGy8z1J3BdkvZC6YIL7rMQD45I6iZaMqiksTMkr
-         P7qQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx6gO9Lp3qgmFWD3rQjFGC/7v70j5CQnqFRZglTZhYysVwRVFwjpQQM1RSOsgUMCpECkrOOPMQoHTG6ZGYb@vger.kernel.org
-X-Gm-Message-State: AFq9FYKOrYAWSejxh65h9Ro5Zdoej3b2m0QWd6Wwx3N81QzUn6hYwp3P
-	ytE6raoi6KkxIUM/SgjiqJTtOMtzyI6whacJZe9CTbHj5uxZ3vu3ben2
-X-Gm-Gg: AYBFou1/ZvAHlN6azCYJ57g3fDFFcm2XeVC6kk3Z9isqZH79hTRVu6FeMg4oFvvXZtn
-	prvZjjWk02QSwQArXtfwXhXNTRQ0ocaffyxPemsH4psmS6/lmh3d304jTxlQpfngoyuniAbzwpi
-	9epNKAlCG/E33P4+X/N+Vm1shMKNHtI0B3388WIPw4cRfRFJdxRSlNaqkJNPEoP7LRbeRrmjy/B
-	vSlQSdsCxU72V7Usj1r3chX+o7HYZNR2nT59+aRxUMsvtH9DdYt7tmGodjwyRt1jHttxhSBOHDJ
-	PTMGYg2GGbP6hhtJhVNLrHxaz4EMshAYid7HP6gkCbegdivYEqm3ZnYhAZlPMrEUKq42Q3eTVQD
-	KYdW+6EDysxNPXrw8NhT/9GwtzFXAJjS4odiuUOckZT859jA+Nvmj+u3tIU6XbT8sFEg+JUpT31
-	/Ia3cMiPQbc/BWCAFSTkO0Y8TIyGCgYNlgYjjayHqQgbzhI1unVGkNCDNMsUxbTFjB+9pvdrUDl
-	mvGBicQXrVGOJkwAIHz+4DIPnF7vxnpEBEnSF+NZKz7QnY=
-X-Received: by 2002:a05:600c:1f8d:b0:4a0:1b14:d00c with SMTP id 5b1f17b1804b1-4a1d75ab306mr239129235e9.3.1792486951816;
-        Tue, 20 Oct 2026 02:02:31 -0700 (PDT)
-Received: from DESKTOP-IR7J1S9.localdomain ([129.45.77.32])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1cf04ffe9sm243295495e9.0.2026.10.20.02.02.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 02:02:31 -0700 (PDT)
-From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-To: dhowells@redhat.com,
-	brauner@kernel.org
-Cc: netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-Subject: [PATCH] cachefiles: convert deprecated simple_strtoul() to kstrtoul() in percentage command handlers
-Date: Tue, 20 Oct 2026 10:02:26 +0100
-Message-ID: <20261020090226.271-1-drifabdelmalekmohamedsaid@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RtgQErrW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 340EF1F000C4;
+	Tue, 20 Oct 2026 09:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792487193;
+	bh=byMpnzMiLTG8THNjkNmp9UgpYnNMNTx0auzeW57yB8U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RtgQErrWcSXkn4om10fEUZVsYPQS8E0C/5ZMqJW739OOKCRRH5cgZYWz6k9JW+NEA
+	 TXlyeYKprnZiyrNMoxCJbbwx/VXBq45YssFHz1sFkjxDHLYntyV8QmG1eGeLwBJeXZ
+	 79cdAncfI+BcHaxn3CPdPzDm1iSaInRvneceLD7fGwATCqRl2B+GAqG6GeVWRk/KmF
+	 VR1bAD3ZDJ9IabcZtURZJUnMDYc5qfuKlPdxlUDPi5+ksFEQyy+2HiccWtke1b315Y
+	 4ytv3hocK/lsNGOKxbtNmiQHyzD5hUINETjPtNB7EMhCIC7slgaFYzF9BrNWaAmyJo
+	 lDTQCa4S6emGw==
+Date: Tue, 20 Oct 2026 11:06:18 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Allison Henderson <achender@kernel.org>, 
+	kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-s390@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, wireguard@lists.zx2c4.com, 
+	rds-devel@oss.oracle.com
+Subject: Re: [linus:master] [sysctl]  8d75c338f0:
+ BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
+Message-ID: <atctwUB5NlRLk4Wy@hobbes>
+References: <202610190310.9737b2e3-lkp@intel.com>
+ <atYB0bm9eEXp8A2g@redhat.com>
+ <atYW0K3t57puHeLW@hobbes>
+ <atYuE1xnVYe0BDG4@redhat.com>
+ <atY42k00k0Waj6o4@redhat.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -96,197 +64,226 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pcvh7stf5trtufk4"
+Content-Disposition: inline
+In-Reply-To: <atY42k00k0Waj6o4@redhat.com>
 
-Convert the six <N>% percentage command handlers -
-cachefiles_daemon_frun(), _fcull(), _fstop(), _brun(), _bcull(), and
-_bstop() - from the deprecated simple_strtoul() to kstrtoul(). These
-are the only handlers in this file that take a trailing '%' after
-the number; other nearby commands take plain values and are
-unaffected.
 
-Since kstrtoul() requires the whole input to be a valid number, each
-handler now walks the digit run itself, checks it's followed by '%'
-and NUL, and temporarily null-terminates at the '%' to isolate the
-number for kstrtoul(), restoring it afterwards.
+--pcvh7stf5trtufk4
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [linus:master] [sysctl]  8d75c338f0:
+ BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
+MIME-Version: 1.0
 
-Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
----
- fs/cachefiles/daemon.c | 78 +++++++++++++++++++++++++++++++++++-------
- 1 file changed, 66 insertions(+), 12 deletions(-)
+On Mon, Oct 19, 2026 at 05:35:54PM +0200, Oleg Nesterov wrote:
+> On 10/19, Oleg Nesterov wrote:
+> >
+> > But. rds_init() can also fail even if CONFIG_SYSCTL=3Dy, after
+> > rds_sysctl_init(), so to me this looks like a bug in net/rds/.
+> >
+> >
+> > In any case, I guess net/rds/ init paths should not fail if
+> > CONFIG_SYSCTL=3Dn ?
+>=20
+> So I think that something like the uncompiled/untested patch below makes
+> sense anyway even if doesn't fix all the potential problems with rds_wq.
+>=20
+> What do you think?
 
-diff --git a/fs/cachefiles/daemon.c b/fs/cachefiles/daemon.c
-index 1a66e0af2837..12c38b366881 100644
---- a/fs/cachefiles/daemon.c
-+++ b/fs/cachefiles/daemon.c
-@@ -331,16 +331,25 @@ static int cachefiles_daemon_range_error(struct cachefiles_cache *cache,
- static int cachefiles_daemon_frun(struct cachefiles_cache *cache, char *args)
- {
- 	unsigned long frun;
-+	char *end = args;
-+	int ret;
- 
- 	_enter(",%s", args);
- 
- 	if (!*args)
- 		return -EINVAL;
- 
--	frun = simple_strtoul(args, &args, 10);
--	if (args[0] != '%' || args[1] != '\0')
-+	while (isdigit(*end))
-+		end++;
-+	if (end == args || *end != '%' || end[1] != '\0')
- 		return -EINVAL;
- 
-+	*end = '\0';
-+	ret = kstrtoul(args, 10, &frun);
-+	*end = '%';
-+	if (ret)
-+		return ret;
-+
- 	if (frun <= cache->fcull_percent || frun >= 100)
- 		return cachefiles_daemon_range_error(cache, args);
- 
-@@ -355,16 +364,25 @@ static int cachefiles_daemon_frun(struct cachefiles_cache *cache, char *args)
- static int cachefiles_daemon_fcull(struct cachefiles_cache *cache, char *args)
- {
- 	unsigned long fcull;
-+	char *end = args;
-+	int ret;
- 
- 	_enter(",%s", args);
- 
- 	if (!*args)
- 		return -EINVAL;
- 
--	fcull = simple_strtoul(args, &args, 10);
--	if (args[0] != '%' || args[1] != '\0')
-+	while (isdigit(*end))
-+		end++;
-+	if (end == args || *end != '%' || end[1] != '\0')
- 		return -EINVAL;
- 
-+	*end = '\0';
-+	ret = kstrtoul(args, 10, &fcull);
-+	*end = '%';
-+	if (ret)
-+		return ret;
-+
- 	if (fcull <= cache->fstop_percent || fcull >= cache->frun_percent)
- 		return cachefiles_daemon_range_error(cache, args);
- 
-@@ -379,16 +397,25 @@ static int cachefiles_daemon_fcull(struct cachefiles_cache *cache, char *args)
- static int cachefiles_daemon_fstop(struct cachefiles_cache *cache, char *args)
- {
- 	unsigned long fstop;
-+	char *end = args;
-+	int ret;
- 
- 	_enter(",%s", args);
- 
- 	if (!*args)
- 		return -EINVAL;
- 
--	fstop = simple_strtoul(args, &args, 10);
--	if (args[0] != '%' || args[1] != '\0')
-+	while (isdigit(*end))
-+		end++;
-+	if (end == args || *end != '%' || end[1] != '\0')
- 		return -EINVAL;
- 
-+	*end = '\0';
-+	ret = kstrtoul(args, 10, &fstop);
-+	*end = '%';
-+	if (ret)
-+		return ret;
-+
- 	if (fstop >= cache->fcull_percent)
- 		return cachefiles_daemon_range_error(cache, args);
- 
-@@ -403,16 +430,25 @@ static int cachefiles_daemon_fstop(struct cachefiles_cache *cache, char *args)
- static int cachefiles_daemon_brun(struct cachefiles_cache *cache, char *args)
- {
- 	unsigned long brun;
-+	char *end = args;
-+	int ret;
- 
- 	_enter(",%s", args);
- 
- 	if (!*args)
- 		return -EINVAL;
- 
--	brun = simple_strtoul(args, &args, 10);
--	if (args[0] != '%' || args[1] != '\0')
-+	while (isdigit(*end))
-+		end++;
-+	if (end == args || *end != '%' || end[1] != '\0')
- 		return -EINVAL;
- 
-+	*end = '\0';
-+	ret = kstrtoul(args, 10, &brun);
-+	*end = '%';
-+	if (ret)
-+		return ret;
-+
- 	if (brun <= cache->bcull_percent || brun >= 100)
- 		return cachefiles_daemon_range_error(cache, args);
- 
-@@ -427,16 +463,25 @@ static int cachefiles_daemon_brun(struct cachefiles_cache *cache, char *args)
- static int cachefiles_daemon_bcull(struct cachefiles_cache *cache, char *args)
- {
- 	unsigned long bcull;
-+	char *end = args;
-+	int ret;
- 
- 	_enter(",%s", args);
- 
- 	if (!*args)
- 		return -EINVAL;
- 
--	bcull = simple_strtoul(args, &args, 10);
--	if (args[0] != '%' || args[1] != '\0')
-+	while (isdigit(*end))
-+		end++;
-+	if (end == args || *end != '%' || end[1] != '\0')
- 		return -EINVAL;
- 
-+	*end = '\0';
-+	ret = kstrtoul(args, 10, &bcull);
-+	*end = '%';
-+	if (ret)
-+		return ret;
-+
- 	if (bcull <= cache->bstop_percent || bcull >= cache->brun_percent)
- 		return cachefiles_daemon_range_error(cache, args);
- 
-@@ -451,16 +496,25 @@ static int cachefiles_daemon_bcull(struct cachefiles_cache *cache, char *args)
- static int cachefiles_daemon_bstop(struct cachefiles_cache *cache, char *args)
- {
- 	unsigned long bstop;
-+	char *end = args;
-+	int ret;
- 
- 	_enter(",%s", args);
- 
- 	if (!*args)
- 		return -EINVAL;
- 
--	bstop = simple_strtoul(args, &args, 10);
--	if (args[0] != '%' || args[1] != '\0')
-+	while (isdigit(*end))
-+		end++;
-+	if (end == args || *end != '%' || end[1] != '\0')
- 		return -EINVAL;
- 
-+	*end = '\0';
-+	ret = kstrtoul(args, 10, &bstop);
-+	*end = '%';
-+	if (ret)
-+		return ret;
-+
- 	if (bstop >= cache->bcull_percent)
- 		return cachefiles_daemon_range_error(cache, args);
- 
--- 
-2.43.0
+That is a good option. I also did not compile not test it, but guarding
+the error inside an ifdef would work and is a pattern that is used
+elsewhere.
 
+You can also do this (also untested and not compiled):
+
+diff --git i/net/rds/ib_sysctl.c w/net/rds/ib_sysctl.c
+index 2af678e71e3c6..bc97a3eecad69 100644
+--- i/net/rds/ib_sysctl.c
++++ w/net/rds/ib_sysctl.c
+@@ -114,7 +114,7 @@ void rds_ib_sysctl_exit(void)
+ int rds_ib_sysctl_init(void)
+ {
+        rds_ib_sysctl_hdr =3D register_net_sysctl(&init_net, "net/rds/ib", =
+rds_ib_sysctl_table);
+-       if (!rds_ib_sysctl_hdr)
++       if (!rds_ib_sysctl_hdr && IS_ENABLED(CONFIG_SYSCTL))
+                return -ENOMEM;
+        return 0;
+ }
+diff --git i/net/rds/sysctl.c w/net/rds/sysctl.c
+index 025f518a43495..41c65b98c94bd 100644
+--- i/net/rds/sysctl.c
++++ w/net/rds/sysctl.c
+@@ -93,7 +93,8 @@ static struct ctl_table rds_sysctl_rds_table[] =3D {
+
+ void rds_sysctl_exit(void)
+ {
+-       unregister_net_sysctl_table(rds_sysctl_reg_table);
++       if (rds_sysctl_reg_table)
++               unregister_net_sysctl_table(rds_sysctl_reg_table);
+ }
+
+ int rds_sysctl_init(void)
+@@ -103,7 +104,7 @@ int rds_sysctl_init(void)
+
+        rds_sysctl_reg_table =3D
+                register_net_sysctl(&init_net, "net/rds", rds_sysctl_rds_ta=
+ble);
+-       if (!rds_sysctl_reg_table)
++       if (!rds_sysctl_reg_table && IS_ENABLED(CONFIG_SYSCTL))
+                return -ENOMEM;
+        return 0;
+ }
+
+
+Both are ok IMO.
+
+Best
+
+>=20
+> Oleg.
+> ---
+>=20
+> diff --git a/net/rds/ib_sysctl.c b/net/rds/ib_sysctl.c
+> index 2af678e71e3c..bccdb5c4df1d 100644
+> --- a/net/rds/ib_sysctl.c
+> +++ b/net/rds/ib_sysctl.c
+> @@ -36,19 +36,10 @@
+> =20
+>  #include "ib.h"
+> =20
+> -static struct ctl_table_header *rds_ib_sysctl_hdr;
+> -
+>  unsigned long rds_ib_sysctl_max_send_wr =3D RDS_IB_DEFAULT_SEND_WR;
+>  unsigned long rds_ib_sysctl_max_recv_wr =3D RDS_IB_DEFAULT_RECV_WR;
+>  unsigned long rds_ib_sysctl_max_recv_allocation =3D (128 * 1024 * 1024) =
+/ RDS_FRAG_SIZE;
+> -static unsigned long rds_ib_sysctl_max_wr_min =3D 1;
+> -/* hardware will fail CQ creation long before this */
+> -static unsigned long rds_ib_sysctl_max_wr_max =3D (u32)~0;
+> -
+>  unsigned long rds_ib_sysctl_max_unsig_wrs =3D 16;
+> -static unsigned long rds_ib_sysctl_max_unsig_wr_min =3D 1;
+> -static unsigned long rds_ib_sysctl_max_unsig_wr_max =3D 64;
+> -
+>  /*
+>   * This sysctl does nothing.
+>   *
+> @@ -61,6 +52,14 @@ static unsigned long rds_ib_sysctl_max_unsig_wr_max =
+=3D 64;
+>   */
+>  unsigned int rds_ib_sysctl_flow_control =3D 0;
+> =20
+> +#ifdef CONFIG_SYSCTL
+> +static unsigned long rds_ib_sysctl_max_wr_min =3D 1;
+> +/* hardware will fail CQ creation long before this */
+> +static unsigned long rds_ib_sysctl_max_wr_max =3D (u32)~0;
+> +
+> +static unsigned long rds_ib_sysctl_max_unsig_wr_min =3D 1;
+> +static unsigned long rds_ib_sysctl_max_unsig_wr_max =3D 64;
+> +
+>  static struct ctl_table rds_ib_sysctl_table[] =3D {
+>  	{
+>  		.procname       =3D "max_send_wr",
+> @@ -105,6 +104,8 @@ static struct ctl_table rds_ib_sysctl_table[] =3D {
+>  	},
+>  };
+> =20
+> +static struct ctl_table_header *rds_ib_sysctl_hdr;
+> +
+>  void rds_ib_sysctl_exit(void)
+>  {
+>  	if (rds_ib_sysctl_hdr)
+> @@ -118,3 +119,15 @@ int rds_ib_sysctl_init(void)
+>  		return -ENOMEM;
+>  	return 0;
+>  }
+> +
+> +#else
+> +
+> +void rds_ib_sysctl_exit(void)
+> +{
+> +}
+> +
+> +int rds_ib_sysctl_init(void)
+> +{
+> +	return 0;
+> +}
+> +#endif
+> diff --git a/net/rds/sysctl.c b/net/rds/sysctl.c
+> index 025f518a4349..a0673a41633a 100644
+> --- a/net/rds/sysctl.c
+> +++ b/net/rds/sysctl.c
+> @@ -36,11 +36,6 @@
+> =20
+>  #include "rds.h"
+> =20
+> -static struct ctl_table_header *rds_sysctl_reg_table;
+> -
+> -static unsigned long rds_sysctl_reconnect_min =3D 1;
+> -static unsigned long rds_sysctl_reconnect_max =3D ~0UL;
+> -
+>  unsigned long rds_sysctl_reconnect_min_jiffies;
+>  unsigned long rds_sysctl_reconnect_max_jiffies =3D HZ;
+> =20
+> @@ -49,6 +44,10 @@ unsigned int  rds_sysctl_max_unacked_bytes =3D (16 << =
+20);
+> =20
+>  unsigned int rds_sysctl_ping_enable =3D 1;
+> =20
+> +#ifdef CONFIG_SYSCTL
+> +static unsigned long rds_sysctl_reconnect_min =3D 1;
+> +static unsigned long rds_sysctl_reconnect_max =3D ~0UL;
+> +
+>  static struct ctl_table rds_sysctl_rds_table[] =3D {
+>  	{
+>  		.procname       =3D "reconnect_min_delay_ms",
+> @@ -91,6 +90,8 @@ static struct ctl_table rds_sysctl_rds_table[] =3D {
+>  	},
+>  };
+> =20
+> +static struct ctl_table_header *rds_sysctl_reg_table;
+> +
+>  void rds_sysctl_exit(void)
+>  {
+>  	unregister_net_sysctl_table(rds_sysctl_reg_table);
+> @@ -107,3 +108,15 @@ int rds_sysctl_init(void)
+>  		return -ENOMEM;
+>  	return 0;
+>  }
+> +
+> +#else
+> +
+> +void rds_sysctl_exit(void)
+> +{
+> +}
+> +
+> +int rds_sysctl_init(void)
+> +{
+> +	return 0;
+> +}
+> +#endif
+>=20
+
+--pcvh7stf5trtufk4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmrXLwMACgkQupfNUreW
+QU9Yjwv/cCHjunDrXXsuyNvatzPDExXb5X0UzfkQLy2qA3coR/DKb4c6DSrxHAXb
+KpHrt6e9QT0I2SPoxXj4PltCuUz848uz0awIUBqnTzndf0VHj3hXQlnOzH0fZ65b
+Wn0qAyxnEitEIbt1uSa7Xq24CfbATRcSjtPthG34yTnbF733Fz4lvwVkXbJi4TPl
+uoyvrPEcXxnogCVN0W9XNu8u5UHk0CuHOFVj13NvhFcoykqRQbMQcpefAKpJzm2Y
+0yUyZK+zZ2CyFchpYt4khOGyW5RLiwV0d1kER0UKqD9lnH4cznErsgqU0tb34Rn1
+Xig5W0V/rLLEemKlyC6sdnq1ZeigxxSHlwcRUVMt1UOsECTmaTfaTaO79R2BVLSU
+y8a8NvfPWzuASlTcNMV+AT03DA/syjvh2OihVN7ec7ExnUAdfEmpibahUar/MDZA
+bBMHemB+kEmt61+nBWc6VAsa6/WJEzxKtDaaR4rMdSuyi20EQBPQsryOF1YPAYRT
+Lm5E7bEc
+=mg3e
+-----END PGP SIGNATURE-----
+
+--pcvh7stf5trtufk4--
