@@ -1,105 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792489879;
-	b=dsOSyKyF19MmlHk4J9rDm+3grqQBT+pJXii5/d8i+ZxRGpJE44SkH4ceb3Cg/aXEQ+uA
-	 1/lK3rbxuJmfLQODI8HS7/VzdZqM9CcZ0lazIxiCBi2xpeZLAbwNkmqKCnTcrR8p20cZF
-	 kaAvd1SEz7gWkUSRrd/zZ92Te576375k6+YAl6lTvjigXlqFgfqBtKl3TopNaoxfC93Or
-	 g+fesTpN4oYf/AG3ZO0QtcmnxeVal67Ks5l1toyQ18M/8A+r93aYcP/vvzxQPPC1fJq+X
-	 A2q/YK3GWzRdEsz4gjJXwhpIJYJBpQ4v30m9loKunQifN5B6B0/wr8sC8LOZbKeCziQ==
+	t=1792489985;
+	b=OzuVV6K70AlsyykqVu0PojSpbaYoTlWUfdGMkMW+l9blTuxqyZhzbmQSJt8uTxFX41IB
+	 eJXRD+Rzr6luGeSbGNwDiRG5NeHsqTJlp1qefnScMsQvSGgvORjsJ7bi6SftrghaUuORd
+	 aRhq+s22EX1iiMpwXMvRWEFJQe2wBq9AszTAt07SiBZPj1xJ1JV02gLwijQwmd+mctATU
+	 IgR226fn5KAjcoANl//wL7j/a05bs4Dxn0XkfMZ+sXxoawMNLq0ahwRUWSScBBUct7/yO
+	 moSg617mXkoN7mltGY6kamIN1igeFgyXTZgDqdyPegdoXhVUPgbY71hg99ui0VZiedw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792489879;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=SVD4ZQHZzkomN5H3MR1E2nf4gNfHbhQ1wUkPjw2O63k=;
-	b=a2JMUidnUNd5bwMpJPvhZExNI39CvFgKIQoLJ8q762NDmajROqo3EMD2eRZU+BAfyEpm
-	 bJeC+GX5Cj94YwpNkONXR2TR0Ig3StemyV8mgJDWrNj7TLNsAIBES9hpDkz+XHinHFbHx
-	 gdjX7FlRdYiGptDLz65kVzp3L5tDbaaKvJRkqiP2dueNZa8hWFVZ0GcHGPLGMs6PNhcvG
-	 0r+axxkXwtcwpJk9GbqyUK657+QNP4p7MM9aZwLyii6Lxv3CHHWRi+HddmafWZC7Jjd4o
-	 e7ZWwSQ91iHF76/PBMk3CD52bKnCkMR00F00oIiVmj79YaF6lw0raG0O87f9G6swMCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792489985;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=YS8avYxqYm9He26pPgQ1C7oVGAea1Xa+Sj31NtGOY38=;
+	b=dSenJRrkuz+746EkTybcctxNPIdtOkP9CBRs20eUOz6jblhk+B5MSF4EcRn2DId8YvDP
+	 1SOUMCjiNa47iMxMJOBnCAjWN86nZIVewRd0T2ZQNDYtuNfLYAlRrduY/ZTmtGmob0/jn
+	 NnSlyHyTlLQIDyvSnAz+I8USgzKnT6WQiOYHhncimlnai6NmFLD6rRInQ6yPuO5fB1KNq
+	 H4fEiHza8IUSAp4R4hbzzPh0LU2jLwyxkFOJ6ONliYWKc8yFcw71gTdzkN1Yi5ob0l5j5
+	 mlTHO4rgBaSdgP67FVQNsciYKREsFqFukAhV7/ywQ7IpCvEg7mTuaHtkVxV7twKlp5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=19JYsb+e;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mslJEbfz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=u0YYP65g;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=isRxgP5h;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iQUpYJlN;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A0F606A319;
-	Tue, 20 Oct 2026 09:51:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13A0F606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F70606A326
+	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 09:53:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1F70606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=19JYsb+e;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mslJEbfz;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=u0YYP65g;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=isRxgP5h
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iQUpYJlN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792489984;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YS8avYxqYm9He26pPgQ1C7oVGAea1Xa+Sj31NtGOY38=;
+	b=iQUpYJlNVECRTbFyFuzfit4mR2XUjriJ+kNglQ5GSAZjJ7P8AbYosxJ5etGKxBfBOaIOS4
+	wfoxVpwcyGqAgUJU23s30X7x62ImTxCUeEekd427jUlQln6Cl04fcBCSxUA5OGcvrSd7LV
+	EjvE6WPfPI0/V52CQ6F0R1IzdrR+XtI=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-228-fKxQD40XNpy74d3mygqPaQ-1; Tue,
+ 20 Oct 2026 09:52:58 +0000
+X-MC-Unique: fKxQD40XNpy74d3mygqPaQ-1
+X-Mimecast-MFC-AGG-ID: fKxQD40XNpy74d3mygqPaQ_1792489977
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2322121DC5;
-	Tue, 20 Oct 2026 09:51:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792489877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SVD4ZQHZzkomN5H3MR1E2nf4gNfHbhQ1wUkPjw2O63k=;
-	b=19JYsb+eRJeWNQYiCYSDwqH6KcYTkk+mExrkQK3kobqSWoa1/Thd7wgIoXbCbXsBNUIh9z
-	PbATJXQY7ZJt/ERxY+f48zEW78+rMvojy3JlqaPHO/fZ7oQ5CbQs/w79pDvGAry4yyBZMH
-	ZS10+SpYUGHf16xpb3CIakrfmKqMvoc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792489877;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SVD4ZQHZzkomN5H3MR1E2nf4gNfHbhQ1wUkPjw2O63k=;
-	b=mslJEbfzz7HjntSUdiLVYdK+I4nF3utKPZyJJa6P5iRB9Hj/MpU4/BvOknZxBSVHdZEOlS
-	jvZbMPWDXDe7C+BQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792489876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SVD4ZQHZzkomN5H3MR1E2nf4gNfHbhQ1wUkPjw2O63k=;
-	b=u0YYP65g1mUi11Eh0qKSRgPJqJoLdDhEkgOEBthNtzgiAFzStdjB5olQUnaG4cXr0ymT5O
-	zHy7qN2G3xbOU129bJb+DYiLyRaTiIaSlRVM1GxK/jgx8utInQSnmSeCPGMyFkR9iBm9Kc
-	Hs20e4/xMz9yAw+LwnYJHByVUO7eUnI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792489876;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SVD4ZQHZzkomN5H3MR1E2nf4gNfHbhQ1wUkPjw2O63k=;
-	b=isRxgP5hXruOQgqBAXom9zJtCkfj3kFgIPlLIVcISrkQQa42D9J0VJ8yseITrZQRGjBL9+
-	odHGHoJpwKB3ELBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EEEED136C6;
-	Tue, 20 Oct 2026 09:51:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id v0toMJM512oBFwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 20 Oct 2026 09:51:15 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 69A46A13DE; Tue, 20 Oct 2026 11:51:15 +0200 (CEST)
-Date: Tue, 20 Oct 2026 11:51:15 +0200
-From: Jan Kara <jack@suse.cz>
-To: yangguikun <yangguikun19@qq.com>
-Cc: Jan Kara <jack@suse.com>, linux-fsdevel@vger.kernel.org, 
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DCCAE180256B;
+	Tue, 20 Oct 2026 09:52:56 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id B358E195608B;
+	Tue, 20 Oct 2026 09:52:54 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Tue, 20 Oct 2026 11:52:56 +0200 (CEST)
+Date: Tue, 20 Oct 2026 11:52:53 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: fujo <hooyan2024@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
 	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] udf: KASAN use-after-free in udf_fill_super on crafted LVID
-Message-ID: <ixvlji3lnahqfybiwybclxwdgw5qfnftfwya4zxcwwpwih2l7k@elsnyr6f6qpy>
-References: <tencent_A6E5F84C4461A52A7F5B8E203A65989A460A@qq.com>
+Subject: Re: [PATCH v3] selftests/pidfd: wait for POLLHUP before reading exit
+ info
+Message-ID: <atc59R5-oBnyOIb8@redhat.com>
+References: <20261017054356.7874-1-hooyan2024@gmail.com>
+ <179226499044.847.17334319321039510150@gmail.com>
+ <atTy6LziL5fdGTkn@redhat.com>
+ <179234213014.649.6368924662349703640@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -111,144 +85,15 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_A6E5F84C4461A52A7F5B8E203A65989A460A@qq.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_TO(0.00)[qq.com];
-	FREEMAIL_ENVRCPT(0.00)[qq.com];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,qq.com:email,suse.com:email]
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+In-Reply-To: <179234213014.649.6368924662349703640@gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Hi!
+On 10/18, fujo wrote:
+>
+> The zero-timeout liveness check in autokill_pidfd_open_no_effect keeps
+> POLLIN; it verifies that the child has not exited yet.
 
-On Tue 20-10-26 16:28:07, yangguikun wrote:
-> Hi Jan,
-> 
-> Mounting a crafted UDF image gives a KASAN use-after-free in
-> udf_fill_super(), before any file operation:
-> 
->   BUG: KASAN: use-after-free in udf_fill_super+0x1ce4/0x1e10
->   Read of size 2 at addr ... by task mount
->   Call Trace:
->    udf_fill_super
->    get_tree_bdev_flags
->    path_mount
->    __x64_sys_mount
-> 
->   Kernel panic - not syncing: KASAN: panic_on_warn set ...
-> 
-> The root cause is that udf_lvid_valid() bounds-checks the start of the
-> implementation-use area but not the size of the structure read from it.
-> 
->   static bool udf_lvid_valid(struct super_block *sb,
->                              struct logicalVolIntegrityDesc *lvid)
->   {
->           parts = le32_to_cpu(lvid->numOfPartitions);
->           impuselen = le32_to_cpu(lvid->lengthOfImpUse);
->           if (parts >= sb->s_blocksize || impuselen >= sb->s_blocksize ||
->               sizeof(struct logicalVolIntegrityDesc) + impuselen +
->               2 * parts * sizeof(u32) > sb->s_blocksize)
->                   return false;
->           return true;
->   }
+Confused... V3 still changes the 1st poll(&pfd, 1, 0) to use POLLHUP?
 
-Yep. Should be fixed by commit a61fb39759d7 ("udf: Make sure there's enough
-space for LVID implementation use field") on its way to Linus in this merge
-window. Please make sure the problem does reproduce on linux-next before
-sending a report & a fix next time. Thanks!
+Oleg.
 
-								Honza
-
->   struct logicalVolIntegrityDescImpUse *udf_sb_lvidiu(struct super_block *sb)
->   {
->           partnum = le32_to_cpu(lvid->numOfPartitions);
->           offset = partnum * 2 * sizeof(uint32_t);
->           return (void *)(((uint8_t *)(lvid + 1)) + offset);
->   }
-> 
-> With blocksize = 2048, numOfPartitions = 246 and lengthOfImpUse = 0,
-> the check computes 80 + 0 + 1968 = 2048 and passes, while
-> udf_sb_lvidiu() returns lvid + 2048, i.e. exactly the end of the
-> block. udf_fill_super() then reads lvidiu->minUDFReadRev at +40,
-> which is past the buffer. Placing the LVID in the last block of the
-> image moves that read past the end of the file.
-> 
-> Reproducer
-> 
-> An 80 KiB image. The generator writes:
-> 
->   - VRS at offset 32768 (BEA01/NSR02/TEA01)
->   - AVDP, PVD, LVD, USD, IUVD, PD, TD
->   - the LVID as the last block, with numOfPartitions = 246 and
->     lengthOfImpUse = 0
-> 
-> Mount with:
-> 
->   mount -t udf -o loop,ro udf_lvid_oob.img /mnt
-> 
-> The crash is immediate; no other access is needed.
-> 
-> The image is included below, base64-encoded gzip. Decode with:
-> 
->   base64 -d udf_lvid_oob.b64 | gunzip > udf_lvid_oob.img
->   mount -t udf -o loop,ro udf_lvid_oob.img /mnt
-> 
-> udf_lvid_oob.b64:
-> 
-> H4sICKsg12oCA3VkZl9sdmlkX29vYi5pbWcA7d2/btNAHAfwswu9MCD6COZfi8oSsjCwEGiRiqJW
-> akIXpi5AJUgZQOI54BGYeAAW3oJHYGFh8YCY+dlNpFYIFRWkhubzOSnWxbZ0/nn43lmWnBIAAAAA
-> AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkO6t97u3CnUAgHmyOdzu9uQ/AMyVkfU/AAAAAAAA
-> AAAAAAAAAAAAAAAAAAAAAAAAAAAAHKdIZfoQv++/1blq+wcuPVp7MNjZWPvNablIB61UQgD47yxG
-> gj+LHH/7sc6Xo/8v8nypmTiM1oej07mkTrSUVreGo34Vs5jq/v6Ll8/3dsevmp1lsTA9Kl05UofJ
-> 3Ge1OWWwU22Mn+wf2l/OyieSY9wrzVgXfbMZgJPLkfi7kXzfH9a5ycOFaQ521AYAzqpzkf+fIvGf
-> 9up8te0fvwa+ONgbv35zakM+764BwN+Gadmu+N/F+v/aJFzbmL+5Odzu9n45flaeg0+HceMP5isA
-> wFGdyP+VNk3rfF05AGAulNG+RP7feVyl5eaPuylVh7cAwJlzIfK/F/l/+3Odm/fK09LXXJzgufmP
-> ybYPAMy8n4I53nYAQAEA
-> 
-> Fix
-> 
-> Check the size of the structure that is read afterwards:
-> 
->   --- a/fs/udf/super.c
->   +++ b/fs/udf/super.c
->   @@ -1619,7 +1619,8 @@ static bool udf_lvid_valid(struct super_block *sb,
->           impuselen = le32_to_cpu(lvid->lengthOfImpUse);
->           if (parts >= sb->s_blocksize || impuselen >= sb->s_blocksize ||
->               sizeof(struct logicalVolIntegrityDesc) + impuselen +
->   -           2 * parts * sizeof(u32) > sb->s_blocksize)
->   +           2 * parts * sizeof(u32) +
->   +           sizeof(struct logicalVolIntegrityDescImpUse) > sb->s_blocksize)
->                   return false;
->           return true;
->   }
-> 
-> With this applied the same image is rejected and mount fails with
-> -EINVAL; no KASAN report.
-> 
-> Tested on 7.3-rc7. The same image also crashes 7.2-rc5.
-> 
-> Found by syzkaller-style fuzzing of mounted filesystem images.
-> 
-> Signed-off-by: yangguikun <yangguikun19@qq.com>
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
