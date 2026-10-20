@@ -1,59 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.164
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792482926;
-	b=gT6poeKVfHA4bNerE6umsgG8oh9yZicElyU5eQ4vSSUBwLxMfvK6tuHDPyLRxoZQSUJC
-	 aTd7fKgS5UKFxt4Fk9zDuAkyOMiiOKVV2wOGIohxT/FWI9jxKXWPyeRKgEnfUD7WQdw/3
-	 kE/psJIeBVOgJEVQKhZHuj0EU6Gjg14h/V0QRC7k1hOiTlOahJOH/ZEVaBgNkircgHwee
-	 s1fNfeROFbrZtRW53In6A1bZpJS4EMzHmEDFAIQmeb3rn22ZJeoMm7wFr2DR3XVB9hbJV
-	 usOXW2lOBMBhdmF0W5G0WFzCiqDZ2OFeppU/PNUVaW9sLGKJ1+SfcEwV01UZwluYibQ==
+	t=1792484901;
+	b=kMEm5tMgFBcBuD16PC+n0+aX40EmdNqfKq463oCNq/NYo89AyJiu2k7ClKcMi8voEYwr
+	 Pw5asbT5W+UN7U337pJmaOB/7TuIQThOIBoh6bQvAwp8TrkfxqDJp27OdiBBv/acSTjA3
+	 THP8xQwekGWI+5sYpHe8CN7t0cOlQ+P3FjEcKxHGdWcB8+M1C/n3Op0QxLh2nPmChsusr
+	 fhCdjMzNhI3AKBDDrX0X6B+wtBHkvW6irBlvMjXZXR7uSDWbYHsmR9g0Gl6idogYpqE8M
+	 FF1Za/M5uLJyZWcGQEooiy74PEQE/lFUD2mv24UXMfgw3nil/284UyNb/rO0ZSKUY6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792482926;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=wiYcyYLmidZvaVJOjwXyMAgj6pRDKve8NH/1uX7Y5XE=;
-	b=B/eEuS64XcWEVp7dDlTsBT2trix8K/+ocIB1iBgbQKgj4X/LrnDOAVe0kwABPWpii6sp
-	 cdA94W8DmwFpWebaMpSukyATQrZczGG6by2huHPMGZqdT4hrjPeVBuMKlIM8Ibnn4ImeE
-	 ux9U6X/3+XLULf30It4FbyFw8BA0PveJj7YzKvfH88VnSORR3tObZk+zsXIZnen2WQ4js
-	 /ERwJet+/fVagHQAYeoTy1/ZK+iDyyEa1e65Ou2Bxx25nrUwU/08D0wG9mvQ5ML+5kDp3
-	 k0kpxQWbUPyOT1ryY4CY59ZZZxFUB+3vM5Ix5p+DQg+WJGVIyroY2uOF3+z/skIr2tA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792484901;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=/qgqb63emJtbmEvECWUBoG8vTCiAc0/8KBNN0ukAZoo=;
+	b=A8hEKhVQg6qiSIni6HHN+rZbEPDmW5zwaESk6SnmF/N8GrvIhRewkfkE7Cl+4SaM1LQf
+	 wxRG2iJy9JoG2tBg9wn846edXTZBasKEFCP+9xVMLTHjRlpRJ7jboEIyChFn55zHG9s10
+	 Ty8LKe5cgROZpFHfMZTYUEaiQdadRoghFfYMdIv8gcIXPfeE0rI5EQ5Y0TBCEEFbcPzgx
+	 IHRPYf7QcJble6aJKJYWyCPDZ96Qw7isylENwajHu/GGTltlH4efBIS+AWunO5oop/hv2
+	 SjqdFDJtQUV1RMGNav1SKyRnPobv/iohW/a2EllWR8Yob2jkdqbDMrW5y3nrv10lF2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MijKg5Pi;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=VBiXzFEn;
+	arc=none smtp.remote-ip=203.205.221.164
+Received: from out203-205-221-164.mail.qq.com (out203-205-221-164.mail.qq.com [203.205.221.164])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CB0606A31C;
-	Tue, 20 Oct 2026 07:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE64B606A319;
+	Tue, 20 Oct 2026 08:28:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE64B606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MijKg5Pi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EC1C1F000C4;
-	Tue, 20 Oct 2026 07:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792482926;
-	bh=wiYcyYLmidZvaVJOjwXyMAgj6pRDKve8NH/1uX7Y5XE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MijKg5PiQSN4IeG87vq5Yt3/rVEOVOiaPlYoJcUIm++uXCodktoqH3rFHZJ3vXLg3
-	 MbEvGyMVcu8ta0JQAZ/6/CyKJfnVs4NOL4EO+SuFnsyFAQfDFloIovKzTmVtFaywE7
-	 5MMyInA6heob1AvwY1YlJuSGSYD2epYDU9VT0CA8ur5h1stMY9++8Pt69cam5D5j34
-	 iMie7hxbn7ltrvpnSMwsadaWIPXrdctRpqpTxvJSgyhCjtXz0Swx33L9AsJADIY7qi
-	 ei8UsEfMAQ9C9tuXNadnmHWd63vc/UzaTHUiXU8zbmpRzPsHDUkiwnCjZDGuQVEOE7
-	 6TBQDsjEdSP2g==
-Date: Tue, 20 Oct 2026 09:55:20 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Allison Henderson <achender@kernel.org>, 
-	kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-s390@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, wireguard@lists.zx2c4.com, 
-	rds-devel@oss.oracle.com
-Subject: Re: [linus:master] [sysctl]  8d75c338f0:
- BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
-Message-ID: <atcS-NKX1TpbklyR@hobbes>
-References: <202610190310.9737b2e3-lkp@intel.com>
- <atYB0bm9eEXp8A2g@redhat.com>
- <atYW0K3t57puHeLW@hobbes>
- <atYuE1xnVYe0BDG4@redhat.com>
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=VBiXzFEn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1792484890; bh=/qgqb63emJtbmEvECWUBoG8vTCiAc0/8KBNN0ukAZoo=;
+	h=From:To:Cc:Subject:Date;
+	b=VBiXzFEnw5677L419ZmWNPfYL+QuAb0vpDvG/ct0CuQvDBpS59gaj6SbmoBdMEeZJ
+	 9sqiAt+FntDNok0Le2h8Z2kSa884vQHfNkeWBLHeyHVWf7x/Yz5vGxdhY3cbi84EBe
+	 J6ayDN/JFu8tfvCxlYVyVXL1J2ysIXi9sfAPL/sI=
+Received: from [172.18.4.77] ([111.31.227.58])
+	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
+	id 7080D04E; Tue, 20 Oct 2026 16:28:08 +0800
+X-QQ-mid: xmsmtpt1792484888t05nr2css
+Message-ID: <tencent_A6E5F84C4461A52A7F5B8E203A65989A460A@qq.com>
+X-QQ-XMAILINFO: NbgegmlEc3Julmld+xK4A0N40cbsy6xQLI2Nx8Szl7OLPpmra9kuqIGk4/E2Yz
+	 IRjCUEUZGT/GNG8GkNB49BeYR8Sd/w5AalcECFge1VnyVkiaA1HxaN7ijhKNEZ5ckXSoc+dMoEL+
+	 R/tXICU3+I/z57UhPPDMydEPnqhR3I8vzJ4MMFtenpJDxQjNvjqmzbSCWz32+g8K8kWvFnVF43DL
+	 lRDBo9AfpbN3ToB6HcVHVK2kVGe6ng+XvzFve84zP5/xD2qvTD70fOE/xwj9jWHs8F6IJbyIFwuo
+	 jO02rTn/gc7O5ggfNp17DI8z/fttP/3AQSs0MoMx8v7rPwORe57iOFM4o1OOKHa2c2kroPPW+6Hp
+	 M8zd6aFg7kOFXRv0hnR7bgHGPaewt53IiAmbOUqhQJdTu2GR20dvbu2wb/2fmyoBg5fNOhZFe8jF
+	 i42Y0xnJRftyPF0j0zTSbQIOjThWjeio+wMEp3Q9hFdP8H1H5irK+LsuD6KerAqG5xYfcUCGgTTl
+	 Dhiy1SRL1DNYbJ33mP44kvbMSBlJdt3aIE8Qrt2ke6NrYlXXoQZZyldKmmxys3UAPb9ObixLPzWz
+	 LxfRmhEOfpz0zqEYkgCmmsZzFGQXiFTIdKeKiIaOD8y4zDKW0I+M0BjrQSGND59GY9TNm9YZ05Di
+	 fS2oGK61Z/ezdWIDF0x+dogv9DeLlnN9f1gsNhfsPnC41EWHsEnIKuEGvZUx5ZKhYkNM9XlQ7WEM
+	 sOFeJUuq/6UGqa8iX2gzbqMbWRBlbGQtN+LHi4pZOdtHUPOvoqMGXmD6FYwfD/c2WrImd5Qu94Mx
+	 d6x9LKpNdwchHc+UjdgdqX+3WvhqmyUG5Ri4cGhgqLzGvN/6Jebl9qirYI+Jju1xczfwUkBjBegA
+	 +psFnV2DdtoErWs843JSPrquWmN3d7J+0TjPwNiguFoy7aYrXaQHLyl99zjnaJMOitqZHOCpRCgP
+	 kcvZYk981wIAc6xvuy8GsP03+R+jeQEqwlOPCroToneE6wk1ne5DgwwdlusU03I6M7sMQxJS0mKI
+	 usKEn8LiZQG6+fl9IpUMDOo6kvmVv0cj8VvluplNONa7X/DlBQri6fO+S6DgKCUEV+XleegsPpxv
+	 Iq+hX9
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+From: yangguikun <yangguikun19@qq.com>
+To: Jan Kara <jack@suse.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [BUG] udf: KASAN use-after-free in udf_fill_super on crafted LVID
+Date: Tue, 20 Oct 2026 16:28:07 +0800
+X-OQ-MSGID: <20261020162807.36228-udf-yangguikun19@qq.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,115 +75,108 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="a42qtuqnvg7yxrg6"
-Content-Disposition: inline
-In-Reply-To: <atYuE1xnVYe0BDG4@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+Hi Jan,
 
---a42qtuqnvg7yxrg6
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [linus:master] [sysctl]  8d75c338f0:
- BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
-MIME-Version: 1.0
+Mounting a crafted UDF image gives a KASAN use-after-free in
+udf_fill_super(), before any file operation:
 
-On Mon, Oct 19, 2026 at 04:49:55PM +0200, Oleg Nesterov wrote:
-> On 10/19, Joel Granados wrote:
-> >
-> > On Mon, Oct 19, 2026 at 01:41:05PM +0200, Oleg Nesterov wrote:
-> > > On 10/19, kernel test robot wrote:
-> > > >
-> > > >
-> > > > Hello,
-> > > >
-> > > > kernel test robot noticed "BUG:KASAN:slab-use-after-free_in_touch_w=
-q_lockdep_map" on:
-> > > >
-> > > > commit: 8d75c338f0bcecaa6c9af67f86c176b67b6acf3e ("sysctl: remove C=
-ONFIG_PROC_SYSCTL, it just mirrors CONFIG_SYSCTL") https://git.kernel.org/c=
-git/linux/kernel/git/torvalds/linux.git master
-> > >
-> > > I don't think that commit could cause such a problem. Please re-check.
-> > >
-> > > Oleg.
-> >
-> > That commit might not be the one that introduces the UAF, but it might
-> > be the one that exposes it?
-> >
-> > You have CONFIG_SYSCTL=3Dn & CONFIG_RDS=3Dy & CONFIG_RDS_RDMA=3Dy.
-> > Therefore rds_sysctl_init() returns -ENOMEM  and rds_ib_sysctl_init
-> > returns -ENOMEM.
-> >
-> > If rds_ib_sysctl_init is called after a failed rds_sysctl_init, then
-> > rds_ib_sysctl_init would call a flush_workqueue on a rds_wq that has
-> > already been freed by the failed rds_sysctl_init. Right?
-> >
-> > Please let me know if I missed anything.
->=20
-> I think you are right...
->=20
-> rds_init() does
->=20
-> 	rds_threads_init()
-> 		rds_wq =3D create_singlethread_workqueue("krdsd");
->=20
-> 	rds_sysctl_init()
-> 		fails due to CONFIG_SYSCTL=3Dn
->=20
-> 	out_threads:
-> 		destroy_workqueue(rds_wq);
->=20
-> After that any access to rds_wq is wrong.
->=20
-> If rds_rdma_init() runs after that, rds_ib_init() will call
-> rds_ib_unregister_client() -> flush_workqueue(rds_wq).
->=20
-> And this will equally happen before the blamed commit 8d75c338f0bc,
-> just you need CONFIG_PROC_SYSCTL=3Dn instead of CONFIG_SYSCTL=3Dn.
->=20
->=20
-> But. rds_init() can also fail even if CONFIG_SYSCTL=3Dy, after
-> rds_sysctl_init(), so to me this looks like a bug in net/rds/.
->=20
->=20
-> In any case, I guess net/rds/ init paths should not fail if
-> CONFIG_SYSCTL=3Dn ?
+  BUG: KASAN: use-after-free in udf_fill_super+0x1ce4/0x1e10
+  Read of size 2 at addr ... by task mount
+  Call Trace:
+   udf_fill_super
+   get_tree_bdev_flags
+   path_mount
+   __x64_sys_mount
 
-That is up to net/rds.=20
+  Kernel panic - not syncing: KASAN: panic_on_warn set ...
 
-The question is: do you have to fail if a sysctl registration fails? Or
-another way to ask it is: Can't it (net/rds or others) run while not
-being tuned or queried through sysctl?
+The root cause is that udf_lvid_valid() bounds-checks the start of the
+implementation-use area but not the size of the structure read from it.
 
-If the answer to these questions is that the sysctl path is necessary,
-then the failure is reasonable. But if they can work without the sysctl,
-the failure is an overreaction (IMO).
+  static bool udf_lvid_valid(struct super_block *sb,
+                             struct logicalVolIntegrityDesc *lvid)
+  {
+          parts = le32_to_cpu(lvid->numOfPartitions);
+          impuselen = le32_to_cpu(lvid->lengthOfImpUse);
+          if (parts >= sb->s_blocksize || impuselen >= sb->s_blocksize ||
+              sizeof(struct logicalVolIntegrityDesc) + impuselen +
+              2 * parts * sizeof(u32) > sb->s_blocksize)
+                  return false;
+          return true;
+  }
 
-Best
+  struct logicalVolIntegrityDescImpUse *udf_sb_lvidiu(struct super_block *sb)
+  {
+          partnum = le32_to_cpu(lvid->numOfPartitions);
+          offset = partnum * 2 * sizeof(uint32_t);
+          return (void *)(((uint8_t *)(lvid + 1)) + offset);
+  }
 
+With blocksize = 2048, numOfPartitions = 246 and lengthOfImpUse = 0,
+the check computes 80 + 0 + 1968 = 2048 and passes, while
+udf_sb_lvidiu() returns lvid + 2048, i.e. exactly the end of the
+block. udf_fill_super() then reads lvidiu->minUDFReadRev at +40,
+which is past the buffer. Placing the LVID in the last block of the
+image moves that read past the end of the file.
 
->=20
-> Oleg.
->=20
+Reproducer
 
---a42qtuqnvg7yxrg6
-Content-Type: application/pgp-signature; name="signature.asc"
+An 80 KiB image. The generator writes:
 
------BEGIN PGP SIGNATURE-----
+  - VRS at offset 32768 (BEA01/NSR02/TEA01)
+  - AVDP, PVD, LVD, USD, IUVD, PD, TD
+  - the LVID as the last block, with numOfPartitions = 246 and
+    lengthOfImpUse = 0
 
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmrXHlsACgkQupfNUreW
-QU912gv/eejjrtoxUgh51UagvsJXA0SMOI6Yaa+uIBcExUpCjVRcUBjhj2jT/GV9
-JRJK0zb9dOeEg4yIm/bzf4j3qYwBTqiRdVf5++8HB9yuqIx4w0NlVIbks9Q8YDQh
-QRXDBUAUoP6FxYb3jE1U49avWB37mPqj986qpNiwwqXq9nIRDKDf/9sPY/b2Vvyn
-RibI+hOi7hfCSUntOsrbN7NmOtV9e1FQtHZxCjHpdz51bQqn1S84/WJ0dDgy+RUT
-J1sLIQsUlmxKtJ78VYmaCPUJ+owrm3mFNvzmw2ERplHoA2JqT3r6lY1jP2G5Xi8y
-pRSKsCTfoRUgVrXh6yByuK/2ywuqzfTEneUTJ4F97bLgJClP+4FtYcUjnbZOvsrm
-l/VWLpeaTxFHDiDWu/rJ+K9YFs8JcsnTtmJqJ/pLJAW/IjvQ5sQsT6P+d04LgWQJ
-fRYc1/dcsViZ1Bz/LUpV4NWsMtqP70EPbjuvvPYA5GG5HRM1bj6x4hHL2e9gGsQ5
-vMczI+dC
-=OX/2
------END PGP SIGNATURE-----
+Mount with:
 
---a42qtuqnvg7yxrg6--
+  mount -t udf -o loop,ro udf_lvid_oob.img /mnt
+
+The crash is immediate; no other access is needed.
+
+The image is included below, base64-encoded gzip. Decode with:
+
+  base64 -d udf_lvid_oob.b64 | gunzip > udf_lvid_oob.img
+  mount -t udf -o loop,ro udf_lvid_oob.img /mnt
+
+udf_lvid_oob.b64:
+
+H4sICKsg12oCA3VkZl9sdmlkX29vYi5pbWcA7d2/btNAHAfwswu9MCD6COZfi8oSsjCwEGiRiqJW
+akIXpi5AJUgZQOI54BGYeAAW3oJHYGFh8YCY+dlNpFYIFRWkhubzOSnWxbZ0/nn43lmWnBIAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkO6t97u3CnUAgHmyOdzu9uQ/AMyVkfU/AAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAHKdIZfoQv++/1blq+wcuPVp7MNjZWPvNablIB61UQgD47yxG
+gj+LHH/7sc6Xo/8v8nypmTiM1oej07mkTrSUVreGo34Vs5jq/v6Ll8/3dsevmp1lsTA9Kl05UofJ
+3Ge1OWWwU22Mn+wf2l/OyieSY9wrzVgXfbMZgJPLkfi7kXzfH9a5ycOFaQ521AYAzqpzkf+fIvGf
+9up8te0fvwa+ONgbv35zakM+764BwN+Gadmu+N/F+v/aJFzbmL+5Odzu9n45flaeg0+HceMP5isA
+wFGdyP+VNk3rfF05AGAulNG+RP7feVyl5eaPuylVh7cAwJlzIfK/F/l/+3Odm/fK09LXXJzgufmP
+ybYPAMy8n4I53nYAQAEA
+
+Fix
+
+Check the size of the structure that is read afterwards:
+
+  --- a/fs/udf/super.c
+  +++ b/fs/udf/super.c
+  @@ -1619,7 +1619,8 @@ static bool udf_lvid_valid(struct super_block *sb,
+          impuselen = le32_to_cpu(lvid->lengthOfImpUse);
+          if (parts >= sb->s_blocksize || impuselen >= sb->s_blocksize ||
+              sizeof(struct logicalVolIntegrityDesc) + impuselen +
+  -           2 * parts * sizeof(u32) > sb->s_blocksize)
+  +           2 * parts * sizeof(u32) +
+  +           sizeof(struct logicalVolIntegrityDescImpUse) > sb->s_blocksize)
+                  return false;
+          return true;
+  }
+
+With this applied the same image is rejected and mount fails with
+-EINVAL; no KASAN report.
+
+Tested on 7.3-rc7. The same image also crashes 7.2-rc5.
+
+Found by syzkaller-style fuzzing of mounted filesystem images.
+
+Signed-off-by: yangguikun <yangguikun19@qq.com>
+
