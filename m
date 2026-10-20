@@ -1,83 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792501798;
-	b=Q5ZADKcBQCH3RZOGAve+kKI+wiRThh/MoEETGz4PQDf2YJXOx6+o4VvFYNBOHoHeMTBn
-	 z7GGVBVpg1hfd8PBWrFtrQ1JMgvkNgGV6gbEaEgkxIDIJ9RUcS9Ccp2rTBTfl+PCnm/8E
-	 lRH3XHD2DGtZp3vyG6rx8GZ/v3oRFrycZ+BkyPQ9nYUXfE6FFDfHsKIgM3TEtcz2+MxHx
-	 tXbeEZIxdJyX1p6xlKWUrCnK7cg0iBNzdUh2e+LFbDtrXK/sVeSjRpCX1xXt/nRuRoBG+
-	 6G0534I+1vhEB0CvrkKOkWxheoUv5itD8oyfhnaA6lQ4aEIFG3srFaJ6XOXW+kCexEg==
+	t=1792502326;
+	b=ukwTnrkbqoWbh0CQ9N2LvZs05DfiY3SlMLyAoe+18ALNRTeKAHee9RM/bxYTSjoRcKbQ
+	 jtp6jUGDc17A8dBYlShL1cm6UxCxLsQS0Snt7v0ZhwYtkl+fcWAf6XsaI3Vfvt50mAMHK
+	 bhTA3rWahznW3ocJfiyvwpHnijGd6fJzkwkqHF66BcpwQRW4M0iQXsu2U/vWSXh4IJ388
+	 0U+ceyxObgeL24MfiS4GOevNZjQ+kEcD1/iHR3dBMjHHKBbEnN2qMHmX8cBkSt68JYpQ8
+	 NIeYrqlG9Wa0kAe28x+7vbFlDC+DX67PoyoOlMseGJYD2fB4Tz2lyJ7HeTfH0fXIGdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792501798;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Scanned-By;
-	bh=r7db5+BopgpcFDUxO3SJq0ATIR0htP6s/SGZniIH6PQ=;
-	b=wjTmJdKIeaO5WqfrstKuaehVDz5ZwZWOTUWG0qXMspkI56riiC4wwPj11I2XHJJ3IW2R
-	 0vkG+UVu7fDRKQiucXiQjem1UfMld5+4idWSOnPjVPvx5xTemkYW+AhpPQAxf0wGuU/nc
-	 TX/cqlK5bhpZXNlnZge1GqlOXZn3FS36yFRQi61w77W2Oa7T7S2w6C8BjrFc5FzbzSbzr
-	 Txow5oMNkk7uc8IrXMo5lTFQ+MR3CA5VoOMC3bAW2ka8NCXWcacnSXBjz/N1cE052cTC7
-	 OJcR3qFB6bRKNS97qhkVTeR6Ze2WYqrfXzggKAMdQFhU7bYG0vV2adigjA0WlnpQ/4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792502326;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=nT5qVJtMsZOOQN5bDd9xQKpWcAmBmpPjDikwtQK4oYA=;
+	b=re6lgBTa3FNNGwTm948cbihoCcwD2ySqob23BF0Ecy9grN2qXlssSR52ekRsRvaDq1or
+	 cw3UPcyynG3ADYVW6zDuZ2q0hcHBaHIIv96G3FmphmRZdVvXlMsYuKN3T48RqvyUNrrBD
+	 D0BK/ySrZGKtzl0n0MHgFwRgiAs6yoct99Fffd7EDOo7hvoB9SGlIMJlGu1+Ee0mPd+7L
+	 5TUmQrV16JKyfz/I2I07PAcdL0Hcj/gRodNW5bZzT1vqs1nJfQM0XGzgFmCsL2UQf2a8s
+	 EdXha81IY+ojzo6LTlvkyYoLZ8RK3tJXEyrem9he2bzv8rm4glMLChMf5lcoJDsNRGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="E+jqSW/t";
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MXzD36CU;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC36606A31B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 13:09:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DC36606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F6A606A321
+	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 13:18:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E+jqSW/t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792501797;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r7db5+BopgpcFDUxO3SJq0ATIR0htP6s/SGZniIH6PQ=;
-	b=E+jqSW/tFnyhl8oQW42X5FBHi8aFnsN+oKNEBakDpbjuemVOgapS0puoX8pZxnJM7dIYjW
-	6NaGr5nH50J6e9xZ5JIT2aTL1d+7FFic9LQMaeqsDD/FGWUyvQUQa+Y4QMcdus9yQUV2No
-	rqs4dc3GOH9QEfkymWxUwMOXTmREiUw=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-300-GjRzZyDDNB-mlwpQ4uaVZg-1; Tue,
- 20 Oct 2026 13:09:53 +0000
-X-MC-Unique: GjRzZyDDNB-mlwpQ4uaVZg-1
-X-Mimecast-MFC-AGG-ID: GjRzZyDDNB-mlwpQ4uaVZg_1792501791
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B2A641954B14;
-	Tue, 20 Oct 2026 13:09:50 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 5CDEB362;
-	Tue, 20 Oct 2026 13:09:47 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Tue, 20 Oct 2026 15:09:50 +0200 (CEST)
-Date: Tue, 20 Oct 2026 15:09:46 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Allison Henderson <achender@kernel.org>
-Cc: Joel Granados <joel.granados@kernel.org>,
-	kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev,
-	lkp@intel.com, linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-s390@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org,
-	wireguard@lists.zx2c4.com, rds-devel@oss.oracle.com
-Subject: rds_wq UAF
-Message-ID: <atdoGiW_sHlWgOwt@redhat.com>
-References: <202610190310.9737b2e3-lkp@intel.com>
- <atYB0bm9eEXp8A2g@redhat.com>
- <atYW0K3t57puHeLW@hobbes>
- <atYuE1xnVYe0BDG4@redhat.com>
- <atY42k00k0Waj6o4@redhat.com>
- <42964fa071bd8dcafd418c89be6d66856def4dc5.camel@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MXzD36CU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71C6F1F000CC
+	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 13:18:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792502325;
+	bh=nT5qVJtMsZOOQN5bDd9xQKpWcAmBmpPjDikwtQK4oYA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=MXzD36CUho2eKSkBxRNu6P8CLs3bu7ImIjnUVFcPPTSnHTwb2gO3IhGWuNdOAkdbm
+	 2S29sSWAaRcj29ziXE7wk//nIjJzXZd6DLfxdQJk2TRRY4U2TNsuOXfNeycG10RHlK
+	 iZLiyy9TPE4l6RoPJtQoHoi7eJGfWfONBM/3QdgeQzCxrXPkBz2cCcfZRbhKRKDGuv
+	 +xJHwtaj1gepUKm2Nr7/a+2A74IcFiYuoyX4xYaSRzplCQWoqMqmR3urW/KgK5nRdk
+	 hOsyxnzgV8vvmk56GnAt+XtI+zSIfXvuga5wqsHPzScTbaXXtV6JvjbSE+hGhl/9Cw
+	 nyU4eNlHto96w==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5bce4e278baso907822e87.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 06:18:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByzHyjjN0c5QsA6zz00h3x6pIVOpgCtYFKyEwPjcwYfz7wtAT33dq0tlzOSMKfYEdAfYW9behjYHKhe2ToV@vger.kernel.org
+X-Gm-Message-State: AFq9FYIOf9xNudushd0mA+1AWr8Jt6v/3OOhW+4Gm3b/yKcZFV05Qs1j
+	8VdvT7rNnSMIEek6cVkC5hYTnu83JKA8DV9MHju0T0s/VALnOJ1a8XurvqkcpXv84m/RcrLUVpr
+	RLLc2wfYe4Q6cAiCKiyGJsvIqv0BEu7I=
+X-Received: by 2002:a05:6512:b8f:b0:5be:44be:569f with SMTP id
+ 2adb3069b0e04-5be66a23859mr739003e87.2.1792502323872; Tue, 20 Oct 2026
+ 06:18:43 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -87,61 +59,93 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <42964fa071bd8dcafd418c89be6d66856def4dc5.camel@kernel.org>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+References: <20261020121159.2154649-1-sadrul@google.com>
+In-Reply-To: <20261020121159.2154649-1-sadrul@google.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Tue, 20 Oct 2026 15:16:26 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hfGZWp9kWF1Fi4pYqwkukPrbw=MOiQ1yxd31mXg5zR6Q@mail.gmail.com>
+X-Gm-Features: AclHuK-M3XHHa8FV_F0N1LJ5FfL6gSK9Mdl9J8PTsQYLf0xcHyilyfaYZUWI-tU
+Message-ID: <CAJZ5v0hfGZWp9kWF1Fi4pYqwkukPrbw=MOiQ1yxd31mXg5zR6Q@mail.gmail.com>
+Subject: Re: [RESEND 1/2] fs/epoll: mark epoll_wait tasks TASK_FREEZABLE
+To: Sadrul Chowdhury <sadrul@google.com>
+Cc: linux-kernel@vger.kernel.org, 
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Pavel Machek <pavel@kernel.org>, linux-pm@vger.kernel.org, 
+	John Stultz <jstultz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-(change subject)
-
-On 10/19, Allison Henderson wrote:
+On Tue, Oct 20, 2026 at 2:12=E2=80=AFPM Sadrul Chowdhury <sadrul@google.com=
+> wrote:
 >
-> On Mon, 2026-10-19 at 17:35 +0200, Oleg Nesterov wrote:
-> > >
-> > > But. rds_init() can also fail even if CONFIG_SYSCTL=y, after
-> > > rds_sysctl_init(), so to me this looks like a bug in net/rds/.
-> > >
+> During system suspend (freeze_processes) and resume (thaw_processes),
+> threads blocked in epoll_wait() sleep in TASK_INTERRUPTIBLE. When
+> try_to_freeze_tasks() executes, it must wake up every sleeping thread
+> with a synthetic signal so the thread can schedule, run try_to_freeze(),
+> enter TASK_FROZEN, and sleep again. Upon resume, the freezer wakes them
+> all up simultaneously, only for each thread to re-enter ep_poll(),
+> observe no ready I/O events, and call schedule() to go back to sleep.
 >
-> Yes that's a separate bug, so I'll send a separate fix for that.
+> On systems with numerous event-driven daemons (where hundreds of
+> threads idle in event loops), this causes a large wakeup stampede and
+> thousands of redundant context switches per suspend/resume cycle.
+>
+> An earlier attempt to make epoll_wait() freezable in commit 1c441e921201
+> ("epoll: use freezable blocking call") was reverted in commit
+> c511851de162 ("Revert "epoll: use freezable blocking call"") due to
+> reports of userspace corruption (Bugzilla #61781). Under the legacy
+> freezer design, freezable tasks could wake up prematurely while
+> hardware and peripheral drivers were still suspended.
+>
+> With the 2022 core freezer rewrite (commit f5d39b020809 ("freezer,sched:
+> Rewrite core freezer logic")), the legacy fake-signal mechanism was
+> replaced with the TASK_FROZEN state. Tasks sleeping in TASK_FREEZABLE
+> are safely frozen in-place without waking them up, and the scheduler
+> guarantees they cannot be woken until thaw_processes() explicitly clears
+> the frozen state.
+>
+> Mark sleeping tasks in ep_poll() as TASK_FREEZABLE. Benchmarks on an
+> ARM64 test device demonstrate that combining this with freezable
+> select/poll reduces thaw latency by 63% (from 20.64 ms down to 7.55 ms
+> mean at fixed CPU frequency) and reduces context switches during
+> freeze/thaw by 87%.
+>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Signed-off-by: Sadrul Chowdhury <sadrul@google.com>
 
-Let me try to summarize.
+For both patches in the series:
 
-If rds_init() fails after rds_threads_init() for any reason,
-rds_threads_exit() will destroy/free rds_wq.
+Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
-If rds_rdma_init() is called after that, and rds_ib_init() fails
-after rds_ib_mr_init(), rds_ib_unregister_client() will try to
-flush the already freed rds_wq.
-
-But we have
-
-	module_init(rds_init);		// net/rds/af_rds.c
-	module_init(rds_rdma_init);	// net/rds/rdma_transport.c
-
-and IIUC the order of these initcalls is not defined. So if
-rds_rdma_init() -> rds_ib_init() is called before rds_init(), it
-can do flush_workqueue(rds_wq) when rds_wq == NULL on failure.
-
-With or without CONFIG_SYSCTL. Right?
-
-But it seems that rds_ib_init() doesn't need to flush rds_wq on failure,
-so how about the patch below? Of course, I have no idea if net/rds has
-more similar issues with rds_wq.
-
-Oleg.
----
-
-diff --git a/net/rds/ib.c b/net/rds/ib.c
-index 786f39169bc1..cde2d1bfabbd 100644
---- a/net/rds/ib.c
-+++ b/net/rds/ib.c
-@@ -619,7 +619,7 @@ int rds_ib_init(void)
- out_sysctl:
- 	rds_ib_sysctl_exit();
- out_ibreg:
--	rds_ib_unregister_client();
-+	ib_unregister_client(&rds_ib_client);
- out_mr_exit:
- 	rds_ib_mr_exit();
- out:
-
+> ---
+>  fs/eventpoll.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+> index 6cbef8b4c2e0..35992f6457bf 100644
+> --- a/fs/eventpoll.c
+> +++ b/fs/eventpoll.c
+> @@ -39,6 +39,7 @@
+>  #include <linux/rculist.h>
+>  #include <linux/capability.h>
+>  #include <net/busy_poll.h>
+> +#include <linux/freezer.h>
+>
+>  #include <trace/hooks/fs.h>
+>
+> @@ -1987,7 +1988,7 @@ static int ep_poll(struct eventpoll *ep, struct epo=
+ll_event __user *events,
+>                  * the same lock on wakeup ep_poll_callback() side, so it
+>                  * is safe to avoid an explicit barrier.
+>                  */
+> -               __set_current_state(TASK_INTERRUPTIBLE);
+> +               __set_current_state(TASK_INTERRUPTIBLE | TASK_FREEZABLE);
+>
+>                 /*
+>                  * Do the final check under the lock. ep_start/done_scan(=
+)
+> --
+> 2.56.0.212.g129ede20d9-goog
+>
+>
