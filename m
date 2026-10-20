@@ -1,66 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792534043;
-	b=lyRiEa/Zfwl9PgC59jWwf8eorXF1j08JlTw3PzDQ1tB9bbpbO+YiNcjPbCn7dCarFH3j
-	 mg4cVvmfaGhteebQAEobLQ0L9F2YP1hDujcKygJoLEu8jTcYAv8nxCsnUdIOA6p/Sae1d
-	 y6ovkefXtii2gG89UC/nFspHgYOLp31WiYK4Z+506WlDEQFswwlKy/RHM3SKcaN1J2ZZZ
-	 phYamRWlln57I/lE36WGj14nQzq4sYKYWc2kYyfy3JNK7V5e9RMgYIAu7MdketSzSTZv8
-	 tG4eSAPrpzaMwX856GM9nqYYZ7aQ2q0VkNZt/tEMe2kpBcEb+eVD67H+n/uXd+kFdlA==
+	t=1792534211;
+	b=LtxSHkUpTIp38Tb3Qt4KazEBodt9tyvBO93dcfvFwvvhMFb9MIEUHLo71tx9+bvsg5h5
+	 uAfc2HS5FHoQizLOZf++FQ+44Zv8TFOkPclvsMp0+qKEBa4XVcsodjYZ7AZfkrox9uDU5
+	 yywXzLj5eYzG/+CuA3RCDq6G5mbwWlByyxYW4vOv1Z1q8bOPjaxo/yWZGUCkSLUV85w3D
+	 ZDe7moGPaCdubQhncSshKOC0ZQXemfB2T4vftnMWQBj24BN6d2FTqkXR27U+iqCP/ETCm
+	 3gde5Ku8u1DCaSjFXtG+df0cBtT+5m9Bls2E7NooE0BF8E++QrgOr5ZnipzlicZrrpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792534043;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792534211;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=n9Uj6I/vyje6NpHmWRgLFomQk1yoneAGW7/KZ4kNqIY=;
-	b=Ospncj6P1pxnIKRwwnDTdJ2lw/FSgHaAJ4tFhS2GKK6SnMVowJxjsKA/VlLxqVbQXc8i
-	 aI5hqa/4W59TUbZ+CKYrWX+keUCJTby0VsGXjmjhBFoW6j7HAZvoU3ZL/+ytlSvFMAi4S
-	 U487NA6TOaGc38+UxSivcGCzRTCPcHd94aODsfLT/FWN0zhDU8j0sAv8Fo9rJ850yvKrA
-	 KD1TQDpLujgebKhAhpRiDbDCldwvVIPg9/F1AE8NGT1ELqiHaXsowdG3LAuF6yfm8QUr1
-	 eVbUrMR+IUUvKFtzNgfSajpJgnaSwQgitVmyekkcnzcoVi1tBlldwPO6kAsy1ItuIEg==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=wC7eO4Nqk4KZLdcN14swpHZxWyRamkg0re5UUTziYH4=;
+	b=b9MK4b1SDs31Wpz2/ztaCZTn3yLB62ebpZDNadiuwy6uwPSJzDePOl/KhZ0e41W6lfVL
+	 M69AUbNwZ5KqTSnUkF2FPL+ZfLlrKESiOIYUlH0jY4LBYHarGzBPqp+ntFbDOL/OyGnPW
+	 9z1xJG5vPABuH30wWeXrFqD9KkATjNXpjbZJME/N/yjm1KDwGdMDTou8gGpZjlopCa3xj
+	 Ac+HYl0YpgUdBPykx2pKy8rSg8yLjW0OQP9x+3994p+YMFWSTeJEkWJhw4BYvzMB4VmqW
+	 OgRlGxARo5DMtJyIM1n1bBVRihPQW7aO4aFjy36+UMm96SHgkoMymoFRN8cZPecyvsw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aPrrBgbU;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lmyAiEce;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1376606A319;
-	Tue, 20 Oct 2026 22:07:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97494606A319
+	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 22:10:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aPrrBgbU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9A841F000CA;
-	Tue, 20 Oct 2026 22:07:21 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lmyAiEce
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E78D1F000C9;
+	Tue, 20 Oct 2026 22:10:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792534042;
-	bh=n9Uj6I/vyje6NpHmWRgLFomQk1yoneAGW7/KZ4kNqIY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=aPrrBgbUNdrGEu1Uw4wv7tSFj4Ap2UM1XENFp6x4IdBcCzvtI2l+UzPXrSLsCQnor
-	 tCOxpGVbohItdMi5AmMfrSLtzsDTgm0UwOS95oCAtb8ptK1OzlejGcyfJ99PBU5xZZ
-	 koCO92tbqFX3EbZOloUqQq1RkuT9A5oNSAplXD3qWIscYjWmMlSYebeXA9NEcWvrWR
-	 s2kFepDeRuZhPn+/JO0BKq45nXpUZEuOKMf3bqgiaFMH/91tdGVjqncxM/hVOb5AWj
-	 OhKfDYdmoUp2BKjdSsutBdpwswI29+EeT03+4F4IwNRF4LCnPME4lk7Y7Xp7R+n9P9
-	 dyDS2Tt8yA49Q==
-Date: Tue, 20 Oct 2026 15:07:21 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Christian Brauner <brauner@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Andrew Halaney <andrew@amutable.com>, Kuniyuki Iwashima
- <kuniyu@google.com>, Oleg Nesterov <oleg@redhat.com>, "David S. Miller"
- <davem@davemloft.net>, Simon Horman <horms@kernel.org>, Willem de Bruijn
- <willemb@google.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Alexander Mikhalitsyn
- <alexander@mihalicyn.com>, Eric Dumazet <edumazet@kernel.org>,
- broonie@kernel.org
-Subject: Re: [PATCH v4 00/10] net: support thread-specific pidfds for send
- and connect
-Message-ID: <20261020150721.0f23d7ea@kernel.org>
-In-Reply-To: <atfAmtsj0LmZtBZs@meerkat.local>
-References: <20261005-work-unix-passpidfd-v4-0-350183b6e02a@amutable.com>
-	<1ab71b00-fbe1-42a0-a99e-27d5cd5e5a6e@redhat.com>
-	<20261016-erdball-skisport-erhaben-93d64cfd2890@brauner>
-	<20261016085732.2f1ffb8a@kernel.org>
-	<atfAmtsj0LmZtBZs@meerkat.local>
+	s=k20260515; t=1792534211;
+	bh=wC7eO4Nqk4KZLdcN14swpHZxWyRamkg0re5UUTziYH4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lmyAiEceiohjlomp5OsDg06G4lKBLeNOnePW/C6m+WLvbu7/GPwhyNtKMrag/G2ex
+	 n7+gXGQ76anfMREO1vbPugq1zolcX/+l+NCYmKEy/j6AeHEMuJ1ORGRw5qAiYcfTsl
+	 21fbb6mP55yEnv38n2jZrmcPzR02+v0iO8kbuOl62YG8ZXg7sFY8ymYNUuYaGKnH1w
+	 N5p9E8beCOJBLh21vIGh+PCKE17vU2ZE1o5XzZdTOhm1bZEctpgyS42lfERSUJQyX8
+	 0n/EKCtI7jBBt1vf4UYCWOSHhhZZdIKLLbhbHnnl551AX8HJifE2V9YYAzOoPKlIWp
+	 8AB9lK5JvLmzA==
+Date: Wed, 21 Oct 2026 09:10:02 +1100
+From: Dave Chinner <dgc@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	Christian Brauner <brauner@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Mikhail Rudenko <xyzzy@yandex-team.ru>,
+	Andreas Gruenbacher <agruenba@redhat.com>
+Subject: Re: [PATCH 0/7 v3] fs: Deferred inode reclaim
+Message-ID: <atfmukIp61u_dn6Z@dread>
+References: <20261009133253.20102-1-jack@suse.cz>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -70,60 +59,102 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261009133253.20102-1-jack@suse.cz>
 
-On Tue, 20 Oct 2026 19:39:20 +0000 Konstantin Ryabitsev wrote:
-> On Fri, Oct 16, 2026 at 08:57:32AM -0700, Jakub Kicinski wrote:
-> > Konstantin, could you consider adding a b4 option which would
-> > make it apply the patches on the most recent Linus release tag
-> > and then merge them into current branch as normal?
-> > Simpler version is to let the user name the application base.
-> > This lets other trees trivially create a branch later if they
-> > want to.  
+On Mon, Oct 12, 2026 at 10:23:38AM +0200, Jan Kara wrote:
+> Hello,
 > 
-> This was a fairly frequent request, so I made this change now:
+> here is the third revision of my patches implementing deferred inode reclaim to
+> deal with MM warnings due to GFP_NOFAIL allocations from reclaim paths. This
+> happens because to reclaim some inodes, filesystems have to do IO including
+> complex operations using journalling and forward progress of these depends on
+> successful memory allocations (which is impossible to guarantee from reclaim
+> context).
 > 
->     b4 shazam -M <msgid>
+> Since the last revision the most notable changes include addition of automatic
+> deferal of inode eviction from iput() when inode link-count is 0 and we are in
+> reclaim (PF_MEMALLOC flag set). This path gets triggered e.g. by overlayfs
+> whose inodes hold dentry references on upper filesystem and thus slab reclaim
+> of overlayfs inodes can trigger the last dput() (and thus iput()) of already
+> unlinked files. Since inode deletion is practically guaranteed to require IO
+> (and thus possibly e.g. loading allocation information into memory) I've
+> decided to unconditionally defer reclaim in this case instead of marking inodes
+> in each filesystem.
 > 
-> applies the series on the nearest annotated tag in the history of your current
-> branch (e.g. v7.3-rc6), and then merges it into your branch with the cover
-> letter as the merge message, just like a pull request. If the series doesn't
-> apply cleanly on that tag, or there is no annotated tag, b4 falls back to
-> applying on HEAD and tells you why.
+> Another bigger change in this series is that we now protect deferred inode
+> reclaim from filesystem freezing. Otherwise inode eviction could block the
+> reclaim worker on frozen filesystem which could stall deferred inode reclaim on
+> the whole system. Deferred reclaim workers now skip reclaiming inodes on frozen
+> filesystem and we block filesystem freezing while the worker is evicting
+> current batch of its inodes.
 > 
-> As previously, use -H instead of -M if you just want the result in FETCH_HEAD
-> so you can look at it first.
-> 
-> If you don't want to upgrade to current master, you can already use
-> --merge-base to achieve the same effect:
-> 
->     b4 shazam -M --merge-base v7.3-rc6 <msgid>
-> 
-> It takes any commit, branch, or tag. The most recent master also takes a few
-> new markers: _tag (the nearest annotated tag, with no fallback to HEAD),
-> _specified (the series' own base-commit, which is what -M used before), and
-> _guess (guess from the blob hashes in the patches).
-> 
-> The breaking change here is that b4 no longer uses the series' base-commit by
-> default -- it was always envisioned as more of a hint for the CI systems. As
-> far as I'm aware, almost every real maintainer wants to apply to HEAD or, at
-> least, to the most recent tag as the base.
-> 
-> One potential pitfall: b4 can't know if "the nearest ancestor annotated tag"
-> is actually useful or meaningful, so if your own annotated pull request tags
-> (e.g. net-7.3-rc7) are in the history of your branch, one of those could end
-> up being the nearest tag. b4 always prints which tag it picked, so if you see
-> that, just pass --merge-base with the release tag you wanted.
+> The last bigger change is that mark_inode_reclaim_deferred() does not block
+> when the queue of deferred inodes grows over limit anymore. Instead it queues
+> task work to delay the task appropriately when returning to userspace. This
+> solves possible lockups when tasks would get throttled when calling
+> mark_inode_reclaim_deferred() with some locks or transaction started.
 
-Hopefully it only looks for tags which haven't been deleted?
+Hmmm. This re-implements the XFS inodegc infrastructure at the VFs
+level, but without all the internal XFS knowledge of when background
+inodegc processing is required. It looks rather complex compared to
+the XFS inodegc code....
 
-> The same logic now is in the "b4 review" TUI when taking a series with the
-> merge method: the dialog shows which base it's going to use and lets you
-> change it before anything is applied. I know Mark has been asking for this
-> (cc'ing him for review).
-> 
-> Please let me know if this works for your workflow, or if you run into
-> problems, or if I completely misunderstood the request. :)
+Whilst I agree that the VFS should be able to do this for
+filesystems like ext4, we really don't want to be deferring inodegc
+processing twice.  Hence for XFS we really want the VFS to call
+evict() immediately for all inodes so that the filesystem can
+correctly decide if deferred processing is necessary or not...
 
-Looks like you got it right. Thanks a lot!
+> The patches have survived full fstests run on ext4 when marking all loaded ext4
+> inodes for deferred reclaim to stress the deferred reclaim paths. I have also
+> tested (when marking all inodes for deferred reclaim) the patches by creating a
+> memcg with 128m memory limit and then scanning from 10 processes 1m inodes in
+> total which heavily exercises deferred inode reclaim paths. This also verified
+> efficiency of throttling of marking of inodes for deferred reclaim. Basically
+> we cannot guarantee any particular limit on the number of inodes queued for
+> deferred reclaim as that is bound only by their number in memory and memory
+> pressure. But as the number of queued inodes grows, the tasks creating them get
+> slowed down so eventually some equilibrium is hit. In my VM this was at ~10k
+> inodes (only slightly above the 8k limit when throttling kicks in) but this all
+> very much depends on the reclaim pressure, speed of deferred reclaim etc. so I
+> don't think this is some representative number.
+
+XFS has a "almost-hard" queue limit is 256 queued inodes per CPU.
+Anything larger than that sees reduced performance under sustained
+inode cache pressure and latency problems when eviction processing
+of individual inodes takes a long time (e.g. deferred unlink of a
+set of inodes with millions of extents each).
+
+In normal operations, however, the low queue limit means triggers
+the scheduler to move the reclaiming thread to another CPU to allow
+the queued cleanup work to run on the same CPU it was last touched
+on. Performance testing showed that moving the reclaiming task was
+much, much better than pushing the reclaiming work to other CPUs
+whilst blocking on the throttle. Deep queues (like many thousands of
+inodes) caused other problems with ongoing (non-reclaim) operations
+then contending with resources with queued background inodegc.
+
+i.e. for XFS it has proven better to have short queues, short
+backoffs and schedule/process small batches concurrently than it is
+to have deep queues, spreading the work out many kworkers and having
+"end-of-queueing" throttling behaviour...
+
+> The first patch is a pure fix for a problem I've hit when running fstests.  The
+> second patch deals with lazy timestamp updates which I've decided to handle
+> better directly inside the writeback infrastructure instead of deferring
+> reclaim. The remaining patches implement the inode reclaim deferal. Ext4 use of
+> deferred inode reclaim is there mostly as a demonstration. Other filesystems
+> need to determine which inodes need deferred reclaim and mark them as such
+> which generally requires good internal knowledge of the filesystem. I'm hoping
+> that once the infrastructure is there, fs developers prompted by MM warnings
+> will start using it :). I know for a fact that besides ext4 e.g. gfs2 wants
+> to use this infrastructure.
+
+But XFS doesn't, so it needs to be optional. :)
+
+-Dave.
+-- 
+Dave Chinner
+dgc@kernel.org
