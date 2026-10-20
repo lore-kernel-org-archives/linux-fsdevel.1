@@ -1,86 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792482360;
-	b=na1QKy1kn8XJz3grNEGJBleXOM/JGEBooW+KmFbtOsvvRhhAIGeIjW1zvu2E6eMZqVu/
-	 sJsOmuXHcBaVmICkGbt+Ct2yorXRpc6A6rpaQb6Kd35GtTifWX3+FQuUBbViSJNfVnFHp
-	 Rp389PmaLETJz/WqowbsAFOjkbXvwNKfaTem7/k1VMSQpzAA1Dj+WykxpLj6oYNjs5x9o
-	 TESRQspfcLR8EVDq82y5z3Xfx0Vd+foDrxK9iL8qSmHxsJR8PpBEw7v3BjKARmRy0y2BP
-	 XUE/hSVd6U6jsuaQ7P0EsuC2tlyVZV+o9RGB46ZtaLAK2tRydNqUOJC+jM4Ej2UrUuA==
+	t=1792482926;
+	b=gT6poeKVfHA4bNerE6umsgG8oh9yZicElyU5eQ4vSSUBwLxMfvK6tuHDPyLRxoZQSUJC
+	 aTd7fKgS5UKFxt4Fk9zDuAkyOMiiOKVV2wOGIohxT/FWI9jxKXWPyeRKgEnfUD7WQdw/3
+	 kE/psJIeBVOgJEVQKhZHuj0EU6Gjg14h/V0QRC7k1hOiTlOahJOH/ZEVaBgNkircgHwee
+	 s1fNfeROFbrZtRW53In6A1bZpJS4EMzHmEDFAIQmeb3rn22ZJeoMm7wFr2DR3XVB9hbJV
+	 usOXW2lOBMBhdmF0W5G0WFzCiqDZ2OFeppU/PNUVaW9sLGKJ1+SfcEwV01UZwluYibQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792482360;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Organization:From:In-Reply-To:
-	 References:To:Cc:Subject:MIME-Version:Content-Type:Content-ID:Date:
-	 Message-ID:X-Scanned-By;
-	bh=etJHoXzss+lLgalBskXJJBLUzw7KY5e4yuY8e35KdUo=;
-	b=s/lqHQ7CrKJqFCQXqUCFTil1/TMzXBCL2F0YsGo7wXsii7KlI5Vt2roSeAocTDwWvEqZ
-	 3ZJxyL/JBjBQzU9TY5WZvv5rqbGjfhxPsMuA879268X5uItRMhiPohvfaRckK1P7wqaQy
-	 OdgpLhDtUmUrTYgckYUDKGYphcjCyiLJIs5NlTU97jTUVwnlIMlcQJBs2wiYQJOoHRDKb
-	 oC0I6qbB/38GSQLZvau1I6f9TtFT0XrAIoK2/g1Mix/qWrhW51NqmZuTU4isLqAsAdlLc
-	 cAzCv5QPzIL0np9oG0JoGPhDavgn5x2vzR6qFO2y4Z5DSJgr+Nnu2ZFyLnRp7iNGb1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792482926;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=wiYcyYLmidZvaVJOjwXyMAgj6pRDKve8NH/1uX7Y5XE=;
+	b=B/eEuS64XcWEVp7dDlTsBT2trix8K/+ocIB1iBgbQKgj4X/LrnDOAVe0kwABPWpii6sp
+	 cdA94W8DmwFpWebaMpSukyATQrZczGG6by2huHPMGZqdT4hrjPeVBuMKlIM8Ibnn4ImeE
+	 ux9U6X/3+XLULf30It4FbyFw8BA0PveJj7YzKvfH88VnSORR3tObZk+zsXIZnen2WQ4js
+	 /ERwJet+/fVagHQAYeoTy1/ZK+iDyyEa1e65Ou2Bxx25nrUwU/08D0wG9mvQ5ML+5kDp3
+	 k0kpxQWbUPyOT1ryY4CY59ZZZxFUB+3vM5Ix5p+DQg+WJGVIyroY2uOF3+z/skIr2tA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=XmLL1KVB;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MijKg5Pi;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77339606A31B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 07:45:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77339606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CB0606A31C;
+	Tue, 20 Oct 2026 07:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=XmLL1KVB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792482358;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=etJHoXzss+lLgalBskXJJBLUzw7KY5e4yuY8e35KdUo=;
-	b=XmLL1KVBiwZYd5csF4nWOTXy64qj0FDaTj/6KsChnqZz96++gde8Z3YXJYVsPiXgANAuCT
-	PqkNSsM9GfK147VFz2P9Mekafk/YunvOjuajLcAARAfbXTZotzMU1eqfWOmnetR6JQQ5z4
-	ARiU/kSsmD8WIh++uzKUtB7yvBhhfXM=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-672-y-UzeCQONTON4CooZ3kcPw-1; Tue,
- 20 Oct 2026 07:45:55 +0000
-X-MC-Unique: y-UzeCQONTON4CooZ3kcPw-1
-X-Mimecast-MFC-AGG-ID: y-UzeCQONTON4CooZ3kcPw_1792482352
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B27DD1955DC3;
-	Tue, 20 Oct 2026 07:45:50 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.48.11])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CED701800446;
-	Tue, 20 Oct 2026 07:45:43 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <1995693.1791971125@warthog.procyon.org.uk>
-References: <1995693.1791971125@warthog.procyon.org.uk> <20261013.cachefiles-partial-zeros-trace.pchmelar@innovatrics.com> <20260910220242.2165023-1-dhowells@redhat.com> <20260910220242.2165023-5-dhowells@redhat.com> <20261011.cachefiles-partial-zeros.pchmelar@innovatrics.com> <1655268.1791878098@warthog.procyon.org.uk>
-To: Petr Chmelar <petr.chmelar@innovatrics.com>
-Cc: dhowells@redhat.com, Christian Brauner <christian@brauner.io>,
-    Paulo Alcantara <pc@manguebit.org>,
-    Matthew Wilcox <willy@infradead.org>,
-    Namjae Jeon <linkinjeon@kernel.org>,
-    Marc Dionne <marc.dionne@auristor.com>,
-    Stefan Metzmacher <metze@samba.org>,
-    Eric Van Hensbergen <ericvh@kernel.org>,
-    Dominique Martinet <asmadeus@codewreck.org>,
-    Ilya Dryomov <idryomov@gmail.com>, netfs@lists.linux.dev,
-    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
-    linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-    v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v12 4/5] cachefiles: Don't rely on backing fs storage map for most use cases
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MijKg5Pi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EC1C1F000C4;
+	Tue, 20 Oct 2026 07:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792482926;
+	bh=wiYcyYLmidZvaVJOjwXyMAgj6pRDKve8NH/1uX7Y5XE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MijKg5PiQSN4IeG87vq5Yt3/rVEOVOiaPlYoJcUIm++uXCodktoqH3rFHZJ3vXLg3
+	 MbEvGyMVcu8ta0JQAZ/6/CyKJfnVs4NOL4EO+SuFnsyFAQfDFloIovKzTmVtFaywE7
+	 5MMyInA6heob1AvwY1YlJuSGSYD2epYDU9VT0CA8ur5h1stMY9++8Pt69cam5D5j34
+	 iMie7hxbn7ltrvpnSMwsadaWIPXrdctRpqpTxvJSgyhCjtXz0Swx33L9AsJADIY7qi
+	 ei8UsEfMAQ9C9tuXNadnmHWd63vc/UzaTHUiXU8zbmpRzPsHDUkiwnCjZDGuQVEOE7
+	 6TBQDsjEdSP2g==
+Date: Tue, 20 Oct 2026 09:55:20 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Allison Henderson <achender@kernel.org>, 
+	kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-s390@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, wireguard@lists.zx2c4.com, 
+	rds-devel@oss.oracle.com
+Subject: Re: [linus:master] [sysctl]  8d75c338f0:
+ BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
+Message-ID: <atcS-NKX1TpbklyR@hobbes>
+References: <202610190310.9737b2e3-lkp@intel.com>
+ <atYB0bm9eEXp8A2g@redhat.com>
+ <atYW0K3t57puHeLW@hobbes>
+ <atYuE1xnVYe0BDG4@redhat.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -90,15 +63,115 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2648475.1792482342.1@warthog.procyon.org.uk>
-Date: Tue, 20 Oct 2026 08:45:42 +0100
-Message-ID: <2648476.1792482342@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="a42qtuqnvg7yxrg6"
+Content-Disposition: inline
+In-Reply-To: <atYuE1xnVYe0BDG4@redhat.com>
 
-Hi Petr,
 
-Note that these patches are now upstream with this change incorporated.
+--a42qtuqnvg7yxrg6
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [linus:master] [sysctl]  8d75c338f0:
+ BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
+MIME-Version: 1.0
 
-David
+On Mon, Oct 19, 2026 at 04:49:55PM +0200, Oleg Nesterov wrote:
+> On 10/19, Joel Granados wrote:
+> >
+> > On Mon, Oct 19, 2026 at 01:41:05PM +0200, Oleg Nesterov wrote:
+> > > On 10/19, kernel test robot wrote:
+> > > >
+> > > >
+> > > > Hello,
+> > > >
+> > > > kernel test robot noticed "BUG:KASAN:slab-use-after-free_in_touch_w=
+q_lockdep_map" on:
+> > > >
+> > > > commit: 8d75c338f0bcecaa6c9af67f86c176b67b6acf3e ("sysctl: remove C=
+ONFIG_PROC_SYSCTL, it just mirrors CONFIG_SYSCTL") https://git.kernel.org/c=
+git/linux/kernel/git/torvalds/linux.git master
+> > >
+> > > I don't think that commit could cause such a problem. Please re-check.
+> > >
+> > > Oleg.
+> >
+> > That commit might not be the one that introduces the UAF, but it might
+> > be the one that exposes it?
+> >
+> > You have CONFIG_SYSCTL=3Dn & CONFIG_RDS=3Dy & CONFIG_RDS_RDMA=3Dy.
+> > Therefore rds_sysctl_init() returns -ENOMEM  and rds_ib_sysctl_init
+> > returns -ENOMEM.
+> >
+> > If rds_ib_sysctl_init is called after a failed rds_sysctl_init, then
+> > rds_ib_sysctl_init would call a flush_workqueue on a rds_wq that has
+> > already been freed by the failed rds_sysctl_init. Right?
+> >
+> > Please let me know if I missed anything.
+>=20
+> I think you are right...
+>=20
+> rds_init() does
+>=20
+> 	rds_threads_init()
+> 		rds_wq =3D create_singlethread_workqueue("krdsd");
+>=20
+> 	rds_sysctl_init()
+> 		fails due to CONFIG_SYSCTL=3Dn
+>=20
+> 	out_threads:
+> 		destroy_workqueue(rds_wq);
+>=20
+> After that any access to rds_wq is wrong.
+>=20
+> If rds_rdma_init() runs after that, rds_ib_init() will call
+> rds_ib_unregister_client() -> flush_workqueue(rds_wq).
+>=20
+> And this will equally happen before the blamed commit 8d75c338f0bc,
+> just you need CONFIG_PROC_SYSCTL=3Dn instead of CONFIG_SYSCTL=3Dn.
+>=20
+>=20
+> But. rds_init() can also fail even if CONFIG_SYSCTL=3Dy, after
+> rds_sysctl_init(), so to me this looks like a bug in net/rds/.
+>=20
+>=20
+> In any case, I guess net/rds/ init paths should not fail if
+> CONFIG_SYSCTL=3Dn ?
 
+That is up to net/rds.=20
+
+The question is: do you have to fail if a sysctl registration fails? Or
+another way to ask it is: Can't it (net/rds or others) run while not
+being tuned or queried through sysctl?
+
+If the answer to these questions is that the sysctl path is necessary,
+then the failure is reasonable. But if they can work without the sysctl,
+the failure is an overreaction (IMO).
+
+Best
+
+
+>=20
+> Oleg.
+>=20
+
+--a42qtuqnvg7yxrg6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmrXHlsACgkQupfNUreW
+QU912gv/eejjrtoxUgh51UagvsJXA0SMOI6Yaa+uIBcExUpCjVRcUBjhj2jT/GV9
+JRJK0zb9dOeEg4yIm/bzf4j3qYwBTqiRdVf5++8HB9yuqIx4w0NlVIbks9Q8YDQh
+QRXDBUAUoP6FxYb3jE1U49avWB37mPqj986qpNiwwqXq9nIRDKDf/9sPY/b2Vvyn
+RibI+hOi7hfCSUntOsrbN7NmOtV9e1FQtHZxCjHpdz51bQqn1S84/WJ0dDgy+RUT
+J1sLIQsUlmxKtJ78VYmaCPUJ+owrm3mFNvzmw2ERplHoA2JqT3r6lY1jP2G5Xi8y
+pRSKsCTfoRUgVrXh6yByuK/2ywuqzfTEneUTJ4F97bLgJClP+4FtYcUjnbZOvsrm
+l/VWLpeaTxFHDiDWu/rJ+K9YFs8JcsnTtmJqJ/pLJAW/IjvQ5sQsT6P+d04LgWQJ
+fRYc1/dcsViZ1Bz/LUpV4NWsMtqP70EPbjuvvPYA5GG5HRM1bj6x4hHL2e9gGsQ5
+vMczI+dC
+=OX/2
+-----END PGP SIGNATURE-----
+
+--a42qtuqnvg7yxrg6--
