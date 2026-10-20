@@ -1,58 +1,84 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.43
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792533833;
+	b=426AlgW7/1xdjnmumF3yUnxlzTY8okCGFa3MzZpQTa5Y3hCsNX1hRCVFpSSQ1mZTwrpK
+	 uVaRD0tr8Y/pGy+Ioi0eULsyoGw1z+gjsdBNsS9ug0jRWYTbBnKMpGCUU5TLhP0aWmicJ
+	 oypuLuKpKlUzqNh6xOwaS0VDRGmwNNAAphnNMIWqHsVeAjTv9U+3UD/Q4EiuSEOW21yaU
+	 0Ug89waU02Zy3ft262fndtuVFej/s9qtvlXa9ixZxqi61WcbotktYzHOD4N9fQO6BH4lf
+	 6QjuVlfQfAVquh8O5RmS2P11cQ61FrqP8dof5YlwwVEs2hs33lgzn4ACLo2lba2dDlw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792533833;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Sender:From:X-Google-Original-From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=7y3NOM7xqvWmL65AFq+ZWC79CgE7opPLQwAIectARfc=;
+	b=MaXmowjViiQZ53frc5HO1Pxs66aHLGWB6tKhwi98DmWR7MHwavIc4T/AhwanqukHXHY3
+	 6yEP3FCXMVF3zaq1XCtWAIwN30dH46VqoSx8xMZ6lRCudIwKposproLVk7nBiQJD4bO94
+	 c9aoMJo/c60zrzFjtnIOTXs3VydWyv8TCiFnXUjRJWvlPsdQYo7HST5tGu+atet4J3IU3
+	 IkU2NmLJ8+gGKIq0ahzheSRDINrxWqR01LZZUVF/aLkjejypooALkCwXL3ur9KyaUn61K
+	 s9Ass/Y9foqDiKylS+Scvo08kefUcP9wN598jEiVkAYwiznMwB1NpIkJS/y5noen4nQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=hammerspace.com;
+	spf=pass smtp.mailfrom=hammerspace.com;
+	dkim=pass header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=e7v4dX4R;
+	arc=none smtp.remote-ip=209.85.219.43
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C20E606A31D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 22:03:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C20E606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2B9606A31C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 22:03:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B2B9606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=owy5ZthE
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-91791ec1b83so1174656d6.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 15:03:56 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=e7v4dX4R
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-91b834592afso1650946d6.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 15:03:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammerspace.com; s=google; t=1792533833; x=1793138633; darn=vger.kernel.org;
+        d=hammerspace.com; s=google; t=1792533832; x=1793138632; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XAW+AstcWY6xdbUMT8c6ejV79mSagbIvsiRflolJ1vg=;
-        b=owy5ZthEue6QQOxJtKsPfLLvXClheXOgjB8GiT1eOxQ/hmKXG1JKJzBAtXwdjOpOPy
-         vw/A4kjVaWZEmv8IOnjSn6UshuyEeiFwTuaXtbVkg7x1hK8igt8jiWNLOJKLdHisjGUt
-         bL0bh4jLto6ckmgbI2Y1wAPuGKTyuuftNuqBafVfa+U3uTOadx7ktxxAIwQGSpSahCs8
-         97Ts/r3eDxhwApG1Dx9QzgTx4+rg6hEoNAkAsj/MUA3NXB7aoi8OYklWOTv2jH/Hy3mn
-         cH8nYuITdCyNmf4dk1aiQsrNkwbCMwULI3y7+QBq1mVUP4ExUOo1jMlVl5HnYlJL1rw+
-         V9+A==
+        bh=7y3NOM7xqvWmL65AFq+ZWC79CgE7opPLQwAIectARfc=;
+        b=e7v4dX4RkKze3IRJFHlD90GiiRunjf1dW7R0ovnU+GL0YUvG5uNrO6oe7nd8vkHp1d
+         ctyvI/jFJ6jCQ+EsmGNt9g9uXCJayx5vTOHlB0/45prHxEnD01+WxzIuTZ9oKFA0Je7B
+         xJolL9Gu2l+kSm7jYJvJfA20olJm6WWRpHH7XHyh6uLzWntCtpCmcq4HaN0MkHR2DqXA
+         l0w4btT6vddD/K6vPrJWBxM98p8iiNa1cksHwaZQwwnUtDC/hGh5q+iP9tfRDHGYNdqe
+         tqdrfSxhuf5O/ugDKxdhepK5xgcERJbyZZFD0Wipn9BQXiH1MJ9Iqhwi/936FbfaUMUT
+         38pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792533833; x=1793138633;
+        d=1e100.net; s=20260707; t=1792533832; x=1793138632;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=XAW+AstcWY6xdbUMT8c6ejV79mSagbIvsiRflolJ1vg=;
-        b=D+CMjDVLNEui9FYFHHJOUk+f/gh241cwnOX0yDeRRVrAe6UWoUXeOTz+U/ohL8HRj+
-         gkx+PgdmlLanH0YATpO53XsqIErGlg5+y9fhTcOr90yImjFKH9Bw/jjY8TRM9aIhHuHN
-         bzf1teknoQkD0hsyYqfeqlKHjDJxgIFHTbjlrCWdoYL+j2pw1eQrpzHqgUp9tQuGyQzA
-         IrhctUfAj3sXxA4BxcwZL8BWDpYp13atP+OjIHDNR4yZd8bXntJyeDbM0hNPeblQuNfD
-         vTxdNIBql7EAKdhwnFgyMsGShecfe7SAw+BzXavMY3vkb/YKMHIiVb6uU1+PbrzwsXzv
-         KKmQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwZfbeAiMdlD0KJiSYSSV3LB1iZTIN7McJau6f+6EP5tsS1MQixI4a5cAui/Hdywv4q9wI60QZE+5NklJa8@vger.kernel.org
-X-Gm-Message-State: AFq9FYIHdUKbWsR2r3x5ay5ekojdwAeXfs2CvOuCBh3+hZxgMVqBiPyL
-	JX+RY/607NwkveFaliBp1uoGzD1D3X73D+Jepu6NdSEC73HbXI1axp+DmBPRimRWnsI=
-X-Gm-Gg: AYBFou0oKn8+JGcsDzRvdAvFYcxvM7E/wuMt0thzKjqo9R2jmepAFzupP7fj0NmRBUF
-	GCggRDyi0vyCVv7obn2cGWhkqpYu/VI6kzJ204oQmiZzuz5gnkjT/JfLQ0GyzQ0lud/4dLWcF5m
-	E4E7fvYM5z8LMb9XJnzfxH9CkVt4solAfaepqwTW55LNFRSwy2tE+ZqysSreD7qzqGnXS17jLNS
-	xCtJhLFTSa2gPyc9pYc12ZA1Ek1G4SmPnb0nry9Pq9WHgZOcwnHrIn/A6AhAIJ+0dwaSXhECx5i
-	+C1OXT755c9S2S6z2GsHKCsBdUfTcvLiEcuh1jbDVRxbMbg9I9IsGZ1HQdLpqMpYxx34X8NL91d
-	t07Uizt7wtGZ+4NUIhMUX5GiWST8d48A1qLRSUC2IvblWuQWvQi8+hqqTclALtsFM6wDRH9XUgr
-	o8mI+OKRO04xIoshClCmokEMbasYjwafmYOC+DJEwPAp9Zy/5RhT0X/Jh84rguVksBeGwqkNm5w
-	XqFm80qExUu1TDfwe4cXMLIDbuu2y4NxvgUlxj2f5MdpIwwNhc18St5IXEKyTo45TNvo5HPAg==
-X-Received: by 2002:a05:6214:3c86:b0:91b:5d3a:5105 with SMTP id 6a1803df08f44-91c12f580cemr2460656d6.51.1792533833063;
-        Tue, 20 Oct 2026 15:03:53 -0700 (PDT)
+        bh=7y3NOM7xqvWmL65AFq+ZWC79CgE7opPLQwAIectARfc=;
+        b=V3+KVFXvKCXBqQtTlPD2NPlTT8PaS0rVp0yJCdCgCGQ5RDgUnV0josMBEaj1CNMsfl
+         lAbn/9WM6GId8eG26zBm8ul5lcJmKdR51QXyzKgv8PddzXtCDAAP1ruOG9/JFHJmJvOh
+         yhVRxQ1H7fqtkPTcD7Uw2OnU3K8tQ09gVGhYhIIUbdMVMB+W8vZSnaIYzWVfgQV6rJDd
+         tLN+Ny1CrZJ4t9fM5m98poBlwl+9kV4iqEfvOwx0wSwRYc2elRRUGxaedxZtYTczxXgs
+         jngWTl/JVOeOPi6sYmXvPU605h4c0AiwFr5MHW66AulDBN5YLqSI8HjrxFyEtsDlncBW
+         HEwA==
+X-Forwarded-Encrypted: i=1; AKwUvBzOb9zUcBL/6oF6fAv7B0nlTuj1tjzT2fJqYporQ/shLJfe8iH1bRdL1ZZqcl13u66wWkRPf1tyqK8ckEZz@vger.kernel.org
+X-Gm-Message-State: AFq9FYIUaZJy4fQSGDYkSztJ2tjH2fukJI6SKqqEYsQW8dqH1aGBUxwt
+	r2JWYb8/ZPrIXh82RJUqG0FiwxjdTzKXoJ0lS2lv4jDr2L1WB+JsRGyMbuAmW+q45cw=
+X-Gm-Gg: AYBFou3Vf64tGdVrNnwlEvtWYM/fJDA+sDFZWsodWhZCkjgE/fVVrjnboUa1b9lFJJM
+	POU4a9gqCnRFckLFUh5rDMoxH44eeCB/0Y1KZEcvnOkV4IJJkfeNZjeP33VkNbHayYtchVmiMG2
+	x4EHwGw02eIT3NFRSpJKWTLxGNipzpmI6C+vSSKDkyywzS7dCxLecaWUdDB7CSpKK8BX1JXe7ov
+	4F0iQrefDu/pkVW/FiVIahKWWtDTsbXIY9dIH5PH1oRr6XUg5p1V7THsQSx908qJOlUUr3leZsx
+	cX0J8HZV0HMaJVRs4yHRd7Ard4HKzTG5OmZLpOzWGUT3uiotpVmvcx3JaBaWGSl1zwBrHE4YJ2t
+	2Vj4o/RwrHAzDnmt5pdlB2JEiQvySq/uaRD0znh0ggz4z8paVjS2Y/PqvggmFDUnuoG4YPTyK63
+	RH1RKbFMp70bPzTyRNfPN6xE5hqScyr9y1At+FZHyZ6xC27G81nSqxjt/dvj07O4g2eyTNwXi8x
+	1Xb41WAKGmdybWwhE9EFKbEwFWe6ccIZC+tk/aHj+3uWhHwIIxbxD9gcewD9a5NIDKquATXcw==
+X-Received: by 2002:a05:6214:1bcd:b0:917:a2ba:e481 with SMTP id 6a1803df08f44-91c12edd30fmr2833036d6.15.1792533831883;
+        Tue, 20 Oct 2026 15:03:51 -0700 (PDT)
 Received: from localhost (pool-68-160-167-46.bstnma.fios.verizon.net. [68.160.167.46])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c10bd5d8csm8763286d6.24.2026.10.20.15.03.52
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c10b70c43sm8732996d6.10.2026.10.20.15.03.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 15:03:52 -0700 (PDT)
+        Tue, 20 Oct 2026 15:03:51 -0700 (PDT)
 Sender: Mike Snitzer <mike.snitzer@hammerspace.com>
 From: Mike Snitzer <snitzer@hammerspace.com>
 X-Google-Original-From: Mike Snitzer <snitzer@kernel.org>
@@ -69,9 +95,9 @@ Cc: linux-nfs@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v7 3/5] mm, iomap: keep a partly covered page until an uncached write completes it
-Date: Tue, 20 Oct 2026 18:03:44 -0400
-Message-ID: <20261020220346.28020-4-snitzer@kernel.org>
+Subject: [PATCH v7 2/5] mm: add folio_mark_dropbehind() to mark a folio dropbehind and account it
+Date: Tue, 20 Oct 2026 18:03:43 -0400
+Message-ID: <20261020220346.28020-3-snitzer@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20261020220346.28020-1-snitzer@kernel.org>
 References: <20261020220346.28020-1-snitzer@kernel.org>
@@ -86,160 +112,96 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-An uncached (RWF_DONTCACHE) buffered write marks drop-behind every folio
-it creates, so writeback drops each one as soon as this write's data is
-on disk.  A page the write covers only partly is usually shared with the
-neighbouring write, the one that ends or starts in it.  Once the first
-of the two has been written back, the page is gone, and the second has
-to read the block back from disk before it can write its part: one read
-per misaligned write.
+A folio allocated by an RWF_DONTCACHE write is marked dropbehind before
+it is dirtied, so folio_account_dirtied() adds it to WB_DONTCACHE_DIRTY
+and folio_clear_dirty_for_io() or folio_account_cleaned() subtracts it
+when it is cleaned.  Nothing marks a folio that already exists.  A
+caller that sets PG_dropbehind on a folio that is already dirty
+unbalances the counter: the clean subtracts what was never added, and
+once the counter goes negative, wb_stat_sum() reads it as zero and the
+DONTCACHE writeback kick stops writing anything back for every writer
+on that bdi_writeback.
 
-Measured locally on XFS (emulated 4Kn NVMe, 4 KiB pages), 32 threads
-writing interleaved records to one file with pwritev2(), 1 GiB per run,
-before and after this patch:
+Add folio_mark_dropbehind(), the inverse of the clear in
+__filemap_get_folio_mpol(): with the folio locked, mark it and, if it is
+dirty, add it to WB_DONTCACHE_DIRTY.  The folio lock orders this
+against dirtying and against folio_clear_dirty_for_io().  A concurrent
+lookup without FGP_DONTCACHE that clears the flag again subtracts what
+this added.
 
-  record  flags                     4 KiB device       MiB/s
-  bytes                             reads per write
-                                    before   after     before  after
-  47008   RWF_DONTCACHE             0.97     0.000     831     2281
-  47008   RWF_DONTCACHE|RWF_DSYNC   0.99     0.000     601     1227
-  6000    RWF_DONTCACHE             0.97     0.000     121      488
-  6000    RWF_DONTCACHE|RWF_DSYNC   0.99     0.000      90      206
+The name follows folio_set_dirty() and folio_mark_dirty(): the first
+only sets PG_dirty, the second also accounts the dirty folio.
+folio_set_dropbehind() likewise only sets PG_dropbehind, and
+folio_mark_dropbehind() also accounts it in WB_DONTCACHE_DIRTY.
 
-Before this patch every write waited for its read, and because XFS holds
-its IOLOCK exclusively across a buffered write, the other 31 writers
-waited too: both record sizes ran at about 20 thousand writes a second,
-one device read per write; after it nothing is read back.  With
-RWF_DSYNC each write still waits for its own sync, so the gain is
-smaller: the uncached write now runs as fast as the same write without
-RWF_DONTCACHE, 1237 and 209 MiB/s against 1227 and 206 in the table.
-Records of 49152 bytes, which cover only whole pages, read nothing
-before or after.
+A later commit uses it in NFSD to drop a page shared by two misaligned
+WRITEs once both have written it.
 
-NFSD DIRECT issues the misaligned ends of a WRITE as buffered uncached
-segments and gains the same way.  Without any handling of the shared
-page, 32 interleaved writers of 47008-byte records read 45144 blocks
-for 45664 WRITEs; with this patch, and no NFSD code for the shared page,
-0.0001 to 0.0008 blocks per WRITE whether each record is sent as one
-FILE_SYNC WRITE, as two one after the other, as two together, or as two
-UNSTABLE.  The page cache then marks the completed page while it is
-still dirty, so each segment of a stable WRITE wakes the DONTCACHE
-writeback kick (23 to 65 thousand rounds a run); the next two patches
-let NFSD mark it after its sync instead.
-
-Let the write path say which pages a write covers only partly
-(FGP_DONTCACHE_EDGE, set by iomap when the write starts inside a page or
-ends before its end) and get such a page as a single page.  A folio
-created for it is not marked, so writing back this write's part does not
-drop it.  A folio found uptodate is the neighbour's, already written:
-this write completes it, so mark it, under the folio lock and before its
-own data goes in, and the writeback that cleans both writes' data drops
-it.  The folio lock orders the two writes, so the second always finds
-the first's data in place.
-
-A page whose neighbour never writes, such as the last page of a file,
-stays cached until reclaim.  A partly covered page another task had
-cached and that is uptodate is now dropped after the write's writeback,
-where before an uncached write never dropped a page it did not create.
-
-Only iomap file systems say which pages a write covers partly so far;
-write_begin_get_folio() users such as ext4 and the NFS client do not.
-With blocks smaller than a page, a write that crosses an extent boundary
-inside a page asks for it as two partly covered halves, so the page,
-though one write covers it whole, stays cached until reclaim.
-
+Cc: Jeff Layton <jlayton@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+Cc: linux-mm@kvack.org
 Assisted-by: LLM
 Signed-off-by: Mike Snitzer <snitzer@kernel.org>
 ---
- fs/iomap/buffered-io.c  | 12 +++++++++++-
- include/linux/pagemap.h |  5 +++++
- mm/filemap.c            | 19 ++++++++++++++++++-
- 3 files changed, 34 insertions(+), 2 deletions(-)
+ include/linux/pagemap.h |  1 +
+ mm/filemap.c            | 31 +++++++++++++++++++++++++++++++
+ 2 files changed, 32 insertions(+)
 
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 0a5ebfda90f1..780a0186045d 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -802,8 +802,18 @@ struct folio *iomap_get_folio(struct iomap_iter *iter, loff_t pos, size_t len)
- 
- 	if (iter->flags & IOMAP_NOWAIT)
- 		fgp |= FGP_NOWAIT;
--	if (iter->flags & IOMAP_DONTCACHE)
-+	if (iter->flags & IOMAP_DONTCACHE) {
- 		fgp |= FGP_DONTCACHE;
-+		/*
-+		 * A page this write covers only partly is shared with a
-+		 * neighbouring write: get it as a single page, which is
-+		 * kept until the write that completes it.
-+		 */
-+		if (offset_in_page(pos) || len < PAGE_SIZE) {
-+			fgp |= FGP_DONTCACHE_EDGE;
-+			len = min_t(size_t, len, PAGE_SIZE - offset_in_page(pos));
-+		}
-+	}
- 	fgp |= fgf_set_order(len);
- 
- 	return __filemap_get_folio(iter->inode->i_mapping, pos >> PAGE_SHIFT,
 diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index 3012bd95812a..0c1d6bd09aa0 100644
+index 0adfa6605653..3012bd95812a 100644
 --- a/include/linux/pagemap.h
 +++ b/include/linux/pagemap.h
-@@ -701,6 +701,10 @@ pgoff_t page_cache_prev_miss(struct address_space *mapping,
-  * * %FGP_NOWAIT - Don't block on the folio lock.
-  * * %FGP_STABLE - Wait for the folio to be stable (finished writeback)
-  * * %FGP_DONTCACHE - Uncached buffered IO
-+ * * %FGP_DONTCACHE_EDGE - With %FGP_DONTCACHE: the write covers this page
-+ *   only partly, and a neighbouring write may complete it.  A folio created
-+ *   for it is not marked drop-behind; a folio found uptodate is, as the
-+ *   write that completes it.
-  * * %FGP_WRITEBEGIN - The flags to use in a filesystem write_begin()
-  *   implementation.
-  */
-@@ -715,6 +719,7 @@ typedef unsigned int __bitwise fgf_t;
- #define FGP_FOR_MMAP		((__force fgf_t)0x00000040)
- #define FGP_STABLE		((__force fgf_t)0x00000080)
- #define FGP_DONTCACHE		((__force fgf_t)0x00000100)
-+#define FGP_DONTCACHE_EDGE	((__force fgf_t)0x00000200)
- #define FGF_GET_ORDER(fgf)	(((__force unsigned)fgf) >> 26)	/* top 6 bits */
- 
- #define FGP_WRITEBEGIN		(FGP_LOCK | FGP_WRITE | FGP_CREAT | FGP_STABLE)
+@@ -1310,6 +1310,7 @@ void end_page_writeback(struct page *page);
+ void folio_end_writeback(struct folio *folio);
+ void folio_end_writeback_no_dropbehind(struct folio *folio);
+ void folio_end_dropbehind(struct folio *folio);
++void folio_mark_dropbehind(struct folio *folio);
+ void folio_wait_stable(struct folio *folio);
+ void __folio_mark_dirty(struct folio *folio, struct address_space *, int warn);
+ void folio_account_cleaned(struct folio *folio, struct bdi_writeback *wb);
 diff --git a/mm/filemap.c b/mm/filemap.c
-index ed7e4dbea653..0397ec771547 100644
+index 00fd89cf6f55..ed7e4dbea653 100644
 --- a/mm/filemap.c
 +++ b/mm/filemap.c
-@@ -2016,6 +2016,16 @@ struct folio *__filemap_get_folio_mpol(struct address_space *mapping,
+@@ -1644,6 +1644,37 @@ void folio_end_dropbehind(struct folio *folio)
+ }
+ EXPORT_SYMBOL_GPL(folio_end_dropbehind);
  
- 	if (fgp_flags & FGP_STABLE)
- 		folio_wait_stable(folio);
++/**
++ * folio_mark_dropbehind - mark an existing folio dropbehind
++ * @folio: the folio, locked by the caller
++ *
++ * Mark @folio so that the writeback that cleans it drops it.  A folio that
++ * is already dirty is added to WB_DONTCACHE_DIRTY, as folio_account_dirtied()
++ * would have added it had it been marked when dirtied, so that the clean
++ * that subtracts it leaves the counter balanced.
++ */
++void folio_mark_dropbehind(struct folio *folio)
++{
++	struct address_space *mapping = folio->mapping;
 +
-+	/*
-+	 * An uncached write that covers this folio only partly, finding it
-+	 * uptodate, is the write that completes it: the neighbouring write
-+	 * that left it here has written its part.  Mark it now, under the
-+	 * folio lock, so the writeback that cleans both writes' data drops it.
-+	 */
-+	if ((fgp_flags & FGP_DONTCACHE) && (fgp_flags & FGP_DONTCACHE_EDGE) &&
-+	    (fgp_flags & FGP_LOCK) && folio_test_uptodate(folio))
-+		folio_mark_dropbehind(folio);
- no_page:
- 	if (!folio && (fgp_flags & FGP_CREAT)) {
- 		unsigned int min_order = mapping_min_folio_order(mapping);
-@@ -2053,7 +2063,14 @@ struct folio *__filemap_get_folio_mpol(struct address_space *mapping,
- 			/* Init accessed so avoid atomic mark_page_accessed later */
- 			if (fgp_flags & FGP_ACCESSED)
- 				__folio_set_referenced(folio);
--			if (fgp_flags & FGP_DONTCACHE)
-+			/*
-+			 * A folio the write covers only partly is left
-+			 * unmarked, so that writing back this write's part
-+			 * does not drop it before a neighbouring write has
-+			 * written the rest.
-+			 */
-+			if ((fgp_flags & FGP_DONTCACHE) &&
-+			    !(fgp_flags & FGP_DONTCACHE_EDGE))
- 				__folio_set_dropbehind(folio);
- 
- 			err = filemap_add_folio(mapping, folio, index, gfp);
++	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
++
++	if (folio_test_dropbehind(folio))
++		return;
++	folio_set_dropbehind(folio);
++	if (mapping && folio_test_dirty(folio) &&
++	    mapping_can_writeback(mapping)) {
++		struct inode *inode = mapping->host;
++		struct bdi_writeback *wb;
++		struct wb_lock_cookie cookie = {};
++
++		wb = unlocked_inode_to_wb_begin(inode, &cookie);
++		wb_stat_mod(wb, WB_DONTCACHE_DIRTY, folio_nr_pages(folio));
++		unlocked_inode_to_wb_end(inode, &cookie);
++	}
++}
++EXPORT_SYMBOL_GPL(folio_mark_dropbehind);
++
+ /**
+  * folio_end_writeback_no_dropbehind - End writeback against a folio.
+  * @folio: The folio.
 -- 
 2.52.0
 
