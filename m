@@ -1,107 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792493446;
-	b=XuO1QFhl1j27EfgH5Eb7CxMyFDInSkNkFao4lhDp/BMP7Jdyqn3vMXQtQFMjxBaLXF1R
-	 RlQtopzJOzJ3XLFpIpqjdUFmtJddC5P8y+5HUQRKJqh9+t3624E5udmudXo6vpnDnXipH
-	 ajW8K30VLupgOup1I2N0IyVhZ/2GlDC4ZAiAxQFwOmDf04Et4/wGncaI7AWhq3aAl6rDh
-	 vv1pNSHYJtMgEzHWxCpi6/uGU9v2OG/KD3+Ks7yaoVuim0EBPsYya4HO55V0whVjf9efe
-	 z0wfQejLLKom2grIiL7vZi77eSIjxrxLobaltLMCkvpfc6zC47C+fY/TXzkz4qwBaEg==
+	t=1792493455;
+	b=311V6n7qIYOHNfC44ks8yFT05rHi8bJ3pi6KFPcD83nr2PFLTwWV9YF08OrwJlXzADr6
+	 GSeALuA638XdgSelB7as03E9KPoJkgDk0N3qDbYXGMbCwT4vkmCu1puMbebHj/tiiYLVD
+	 oci5y7CFNhDJbjt5hc/pwFiBOEt598H7sZuX+zlgCpHEYDootkknURYV0jr3fC2XTuf2V
+	 3XBw48qIJgrXOySkEk0mh6rx7VGfR0uBgXLRh5WDWkcPeqZYa5IKf5ecVMW2CrEXYA6v8
+	 ZsYA/uvDC1D0g02S2fIS8pOUQhkmvlAefWgeTK8qg2TAd8xvPKe2q0IXxuLs4p0h6ew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792493446;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=ijPSVZtN0wV/FObkbQ5coj1GUsZLgW/HlOlDTeZNmFI=;
-	b=fPDqYHlXIJ0t/LQlE7oCmj7YlXHmbw4hapEw00WX4sxkYqNeoCx5NdcDxHBpVjDvVT40
-	 Gd2R3EAxQoToMpHlNeOr3PWVHWmx33aLk8cPAfmxgbRKK6SCRgist8EvHEczX/DlEo+Mh
-	 7XqBXensPR++nGsUOMQCS1RtD9KAclLxw6/8MkCrZ5XG+RWvMVsJ2FZLK1oxejOFmePxc
-	 eLpMsG+HqHw+6AeBcKpkfpofiwAXZnagHybBvAdlT4sCsiXOL7njeZd4MA1ZX0ddGhLTZ
-	 8DriC5Etg3nx3sSGFEzzOZS03aLZ01EYvyF7WMkKmbcw39ZZWLeN0IKx5Jkjo6+4YNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792493455;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To:X-Scanned-By;
+	bh=JANbW0OsMsiIZhYIihCc20hPsaNmoKXg98JEd0I6bjw=;
+	b=IfTFl4TV90JcrO1Ev94GUhN6F7kEQy65LGau9iWnqZH6hTxA4g50ayjx+WHu0h2qWcem
+	 Fs6M07XqKZT3Dd6bo0Px7lIr+iD7ywKFK/Ko44Whm23XTbsO65WJCPgPxIsnn46PonF2i
+	 YAWOwe6YUF468M/gz3cy0ptbtDnl2k3tR3GcTW9jooihBz3xHcx3Qjk8ex+G/ICTJk2VA
+	 4F1K9tGk33cw6r0cb8qe8sl6v80VC+wUGOzxYeXdliOu0x0a3mP8AnFfANwGW/7I3effP
+	 eajlsHb12PkTC6F3kQGMJ4d/Om03dgI8tTPFyKtm+fwjxP65mwfPC0r3uxMJVVsqK5w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bobrowski.net;
-	spf=pass smtp.mailfrom=bobrowski.net;
-	dkim=pass header.d=bobrowski.net header.i=@bobrowski.net header.a=rsa-sha256 header.s=google header.b=CpFjF7HH;
-	arc=none smtp.remote-ip=209.85.215.173
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="I/eySZnY";
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34CC606A323
-	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 10:50:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C34CC606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bobrowski.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bobrowski.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBB1606A331
+	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 10:50:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FBB1606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bobrowski.net header.i=@bobrowski.net header.a=rsa-sha256 header.s=google header.b=CpFjF7HH
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cd6028ff33fso1186995a12.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 03:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bobrowski.net; s=google; t=1792493445; x=1793098245; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ijPSVZtN0wV/FObkbQ5coj1GUsZLgW/HlOlDTeZNmFI=;
-        b=CpFjF7HHjiBPEyxhDRihQ3nc60Cyw7biDO8DewrQJDjFdKjSR2q77jdcI1CmwnPdMZ
-         o4ylYaenRJ0i0c2ZUC37IwuqhT1jiKsZg0pxehLaIZdv3mEKzVRbkM3sLlY5gimJvxgz
-         hFrpy4bSAjXp2Ej4If0TH7VypNFaIOAUlKAk8IXr3sQMpNZ0OMq6UTYk+GK3l4acuY2r
-         D6wCZ7JWOXgS45XELV+UcEMeFsCo296qi5jaHfg8fWnqpwj6x0SZb8deUrJ10uat0gm7
-         8ehHCsjjtnf22GSXcc5xYv6kU7rudfhKMJlroNQb861zFTQbpmk0cC293LYzjq9zUOnd
-         wSBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792493445; x=1793098245;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ijPSVZtN0wV/FObkbQ5coj1GUsZLgW/HlOlDTeZNmFI=;
-        b=ZhaBwUyFEy50CH5enReK8MyIXLSmGKwH06yXqIk0uX3lsj9GFeMwKhFfw4qmaMHPxt
-         jhk/OiW4SqZzrui9IeDy+4oO5erEmlgtjI//SR68luczem617bEooRyHDO9Z9AdQGGf+
-         9/qx7qtZogEqikj7LNkEDKrTbkeFI9Eh1j1JQp4gOy7G/FQczmm/GbfjbOrIKif2O1M8
-         MDe3pkmJBfKIbn4EYweLMRZSFTXcmtd1u7/1Zx4wHyHJ2U8gi0jttBlIasR6cQCVpsoB
-         JpMYuWEAHrlK6Qfdh19S0pkxaSb2mcuRsMipBxil/TUTirLz+2pOVKXFpeB7I4pHjnRY
-         Nhmw==
-X-Forwarded-Encrypted: i=1; AKwUvBw/cBsaajRwLCgbisWJhZb2thEFqKgzPj9EJugjj+oXuEuAw/6JuvyyYa7TEbSyLhWs843Gj8cZGaKl9Xpb@vger.kernel.org
-X-Gm-Message-State: AFq9FYLG1sl6hJYSkBlbuYs1SsIf0whq8/vecD7vEI7NDguYCCSxFjWP
-	3i2ItAKjrawRkcZoqWK6Rv7aSBZkmORbNqnBoSybvgDo36lO7BavDGk9XHZaW0tG1IGe
-X-Gm-Gg: AYBFou2qPgNWRyt42PaOPw+VB+TZZz4+1VcsckFESvi6uqbz3D1sVJXTJSX7tVfGL6j
-	drwOW6X6jLbbi2SpKWDPOwN/goLLx1iQ2fKtPweFLU4dvf1RdEHIFDP3WHu/+AZjJ/SNlV0fTHA
-	VlqWJr9JzeQOQgwhbe0EZiW1dx/TXRMAdwrBRxdHKoNGLay4qL/R8uiJUaV5IB/FOrc4e9UIGBJ
-	e1kQos68R2A/MeSIB/nF3efZkgXtRsDg2YA2tOBfKRrwJM7oTmnGcpEUTnLGvBWY/YE/a4w6xhj
-	6GmvttsaTKfvnOuEa3b/XAiPbOJoDSbkqvc7LZXZ4Funv8dHuHcFHetKgoG7jVZfA7l0gYEhm4D
-	Z5qAhWNVd0vxGxmcInow4wu98SSMe4dve3ajVUqc15Ve5s9qcMGtYufaRsosVUVsSLHV4j7HVRM
-	TC6D1tYJ02Ew5X7NiazH3nEz+sxpFC7zhNmQ5IO9G7VzubW14rpvYjifXXfGVdzz8NabhUN/d1+
-	ljXIH3NoNTPZ/evBz1+Kr+nX51jo8+14nzt9gEEBEV0uA==
-X-Received: by 2002:a17:90b:5743:b0:3ac:9d14:feb2 with SMTP id 98e67ed59e1d1-3acef14fe3bmr8737797a91.35.1792493445059;
-        Tue, 20 Oct 2026 03:50:45 -0700 (PDT)
-Received: from workstation.. (163-53-146-70.ip4.superloop.au. [163.53.146.70])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad60f36a5asm3487902a91.9.2026.10.20.03.50.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 03:50:44 -0700 (PDT)
-From: Matt Bobrowski <matt@bobrowski.net>
-To: bpf@vger.kernel.org
-Cc: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Matt Bobrowski <matt@bobrowski.net>,
-	stable@vger.kernel.org
-Subject: [PATCH bpf-next 2/2] selftests/bpf: test bpf_path_d_path() on a file released at task exit
-Date: Tue, 20 Oct 2026 21:50:14 +1100
-Message-ID: <20261020105014.97985-3-matt@bobrowski.net>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261020105014.97985-1-matt@bobrowski.net>
-References: <20261020105014.97985-1-matt@bobrowski.net>
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=I/eySZnY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792493454;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JANbW0OsMsiIZhYIihCc20hPsaNmoKXg98JEd0I6bjw=;
+	b=I/eySZnYhvSK4q3f9XD0XqVpk1V2XNc4RIsTPxqWkPAc4lxMZ0if7tZsrnbjBE86m+ggkK
+	Eu2TsTVrOftqASVeCDKIKRkbub8fCNnE4Vn/vOIfsogKQQkhJT0O4X46q4okKfd8Xa4xY6
+	Igi63C/m71hRg8sDjq7fnPPdkLN8UC8=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-503-d1ZaYW2ONtaZUUzoThD6KQ-1; Tue,
+ 20 Oct 2026 10:50:50 +0000
+X-MC-Unique: d1ZaYW2ONtaZUUzoThD6KQ-1
+X-Mimecast-MFC-AGG-ID: d1ZaYW2ONtaZUUzoThD6KQ_1792493449
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 513181800655;
+	Tue, 20 Oct 2026 10:50:49 +0000 (UTC)
+Received: from bfoster (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CEF391956088;
+	Tue, 20 Oct 2026 10:50:47 +0000 (UTC)
+Date: Tue, 20 Oct 2026 06:50:45 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Nickolai Zeldovich <nickolai@csail.mit.edu>
+Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Theodore Ts'o <tytso@mit.edu>, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] mm/truncate: fix the zeroing end of
+ pagecache_isize_extended()
+Message-ID: <atdHhW7JU8j5pozl@bfoster>
+References: <20261016222721.791785-1-nickolai@csail.mit.edu>
+ <atZw_gtMIIKXgc1q@bfoster>
+ <CADGQE7H91ZwPgUzPHoAJmF3WjzRKxeQkQcV8+BLdGn7+kkEduA@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -111,148 +82,35 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADGQE7H91ZwPgUzPHoAJmF3WjzRKxeQkQcV8+BLdGn7+kkEduA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Add a fs_kfuncs subtest for the crash fixed by the previous commit. A
-child opens a file and exits without closing it, so exit_files() drops
-the last reference and the file is released from exit_task_work(),
-after exit_fs() has cleared the task's fs. A file_release program calls
-bpf_path_d_path() on that release, matched by the file's inode number,
-and records what it returned.
+On Mon, Oct 19, 2026 at 03:54:14PM -0400, Nickolai Zeldovich wrote:
+> On Mon, Oct 19, 2026 at 3:35 PM Brian Foster <bfoster@redhat.com> wrote:
+> > > --- a/mm/truncate.c
+> > > +++ b/mm/truncate.c
+> > > @@ -878,8 +878,7 @@ void pagecache_isize_extended(struct inode *inode, loff_t from, loff_t to)
+> > >               unsigned int offset, end;
+> > >
+> > >               offset = from - folio_pos(folio);
+> > > -             end = min_t(unsigned int, to - folio_pos(folio),
+> > > -                         folio_size(folio));
+> > > +             end = min_t(loff_t, to - folio_pos(folio), folio_size(folio));
+> >
+> > Good catch...
+> >
+> > folio_size() returns size_t and folio_zero_segment() expects size_t for
+> > the offset params. Perhaps we should that instead of loff_t?
+> 
+> size_t is (unsigned int) on 32-bit machines, like i386, which has the
+> same issue (reproducer from the patch).
+> 
 
-Without the fix the subtest crashes the kernel in d_path(). With it,
-bpf_path_d_path() returns -EINVAL.
+Ah, Ok. So loff_t makes sense for the min_t(). I do still wonder if it
+makes sense to switch offset and end to size_t while we're here though.
 
-Fixes: d08e2045ebf0 ("bpf: introduce new VFS based BPF kfuncs")
-Cc: stable@vger.kernel.org
-Signed-off-by: Matt Bobrowski <matt@bobrowski.net>
----
- .../selftests/bpf/prog_tests/fs_kfuncs.c      | 51 +++++++++++++++++++
- .../selftests/bpf/progs/test_path_d_path.c    | 35 +++++++++++++
- 2 files changed, 86 insertions(+)
- create mode 100644 tools/testing/selftests/bpf/progs/test_path_d_path.c
-
-diff --git a/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c b/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
-index 43a26ec69a8e..510cf11c8bd8 100644
---- a/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
-+++ b/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
-@@ -4,12 +4,15 @@
- #include <stdlib.h>
- #include <sys/types.h>
- #include <sys/xattr.h>
-+#include <sys/stat.h>
-+#include <sys/wait.h>
- #include <linux/fsverity.h>
- #include <unistd.h>
- #include <test_progs.h>
- #include "test_get_xattr.skel.h"
- #include "test_set_remove_xattr.skel.h"
- #include "test_fsverity.skel.h"
-+#include "test_path_d_path.skel.h"
- 
- static const char testfile[] = "/tmp/test_progs_fs_kfuncs";
- 
-@@ -268,6 +271,51 @@ static void test_fsverity(void)
- 	remove(testfile);
- }
- 
-+static void test_path_d_path_on_exit(void)
-+{
-+	struct test_path_d_path *skel = NULL;
-+	struct stat st;
-+	int fd, status;
-+	pid_t pid;
-+
-+	fd = open(testfile, O_CREAT | O_RDONLY, 0644);
-+	if (!ASSERT_GE(fd, 0, "create_file"))
-+		return;
-+	close(fd);
-+
-+	if (!ASSERT_OK(stat(testfile, &st), "stat"))
-+		goto out;
-+
-+	skel = test_path_d_path__open_and_load();
-+	if (!ASSERT_OK_PTR(skel, "test_path_d_path__open_and_load"))
-+		goto out;
-+
-+	skel->bss->monitored_ino = st.st_ino;
-+
-+	if (!ASSERT_OK(test_path_d_path__attach(skel), "test_path_d_path__attach"))
-+		goto out;
-+
-+	/*
-+	 * The child exits with testfile still open, so exit_files() drops
-+	 * the last reference and the file is released from exit_task_work(),
-+	 * after exit_fs().
-+	 */
-+	pid = fork();
-+	if (!ASSERT_GE(pid, 0, "fork"))
-+		goto out;
-+	if (pid == 0)
-+		_exit(open(testfile, O_RDONLY) < 0);
-+
-+	if (!ASSERT_EQ(waitpid(pid, &status, 0), pid, "waitpid"))
-+		goto out;
-+	ASSERT_TRUE(WIFEXITED(status) && !WEXITSTATUS(status), "child_open");
-+	ASSERT_EQ(skel->bss->called, 1, "called");
-+	ASSERT_EQ(skel->bss->ret, -EINVAL, "bpf_path_d_path");
-+out:
-+	test_path_d_path__destroy(skel);
-+	remove(testfile);
-+}
-+
- void test_fs_kfuncs(void)
- {
- 	/* Matches xattr_names in progs/test_get_xattr.c */
-@@ -288,4 +336,7 @@ void test_fs_kfuncs(void)
- 
- 	if (test__start_subtest("fsverity"))
- 		test_fsverity();
-+
-+	if (test__start_subtest("path_d_path_on_exit"))
-+		test_path_d_path_on_exit();
- }
-diff --git a/tools/testing/selftests/bpf/progs/test_path_d_path.c b/tools/testing/selftests/bpf/progs/test_path_d_path.c
-new file mode 100644
-index 000000000000..4ea50a067819
---- /dev/null
-+++ b/tools/testing/selftests/bpf/progs/test_path_d_path.c
-@@ -0,0 +1,35 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include "vmlinux.h"
-+#include <errno.h>
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+#include "bpf_misc.h"
-+#include "bpf_experimental.h"
-+
-+#define PF_EXITING 0x00000004
-+
-+char _license[] SEC("license") = "GPL";
-+
-+__u64 monitored_ino;
-+int called;
-+int ret;
-+
-+/*
-+ * A task that exits with a file still open releases it from
-+ * exit_task_work(), after exit_fs() has already cleared its fs.
-+ */
-+SEC("lsm/file_release")
-+int BPF_PROG(path_d_path_on_exit, struct file *file)
-+{
-+	struct task_struct *task = bpf_get_current_task_btf();
-+	char buf[64];
-+
-+	if (file->f_inode->i_ino != monitored_ino ||
-+	    !(task->flags & PF_EXITING))
-+		return 0;
-+
-+	ret = bpf_path_d_path(&file->f_path, buf, sizeof(buf));
-+	called = 1;
-+	return 0;
-+}
--- 
-2.47.3
+Brian
 
