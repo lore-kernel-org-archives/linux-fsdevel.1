@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792493438;
-	b=jI0sBXzE3TZ20jXexxjLrPcuvfD8ytQEIq+hlR4cy3pj/fEwcODuCrQCrbYU80/x3MFZ
-	 JmJyas/SkYPPm0eKwH6JDKjCkIb7Ur+r+5JCFHjbKyiYvB4pPdf3XYajtZRSd2BIdlZyR
-	 FFqqG4pHtPLaxV5hKbZ8ktMKefxYMFuIUFLp5YJV7cvCWi2X/Ea+I3VH59gNrLbR218Wq
-	 HzxvkV5W6GguLZ61K/E2y9CpCC1g4sEbONtvB9bD633EEvOK05x3YZerK4G7P6kKCbcNS
-	 6OpU0LgVyNQOaBi8UDWA4lDzx67puQA2741QArY10jtp+7Xw+pyZU74ONb/6uJt3f4Q==
+	t=1792493446;
+	b=XuO1QFhl1j27EfgH5Eb7CxMyFDInSkNkFao4lhDp/BMP7Jdyqn3vMXQtQFMjxBaLXF1R
+	 RlQtopzJOzJ3XLFpIpqjdUFmtJddC5P8y+5HUQRKJqh9+t3624E5udmudXo6vpnDnXipH
+	 ajW8K30VLupgOup1I2N0IyVhZ/2GlDC4ZAiAxQFwOmDf04Et4/wGncaI7AWhq3aAl6rDh
+	 vv1pNSHYJtMgEzHWxCpi6/uGU9v2OG/KD3+Ks7yaoVuim0EBPsYya4HO55V0whVjf9efe
+	 z0wfQejLLKom2grIiL7vZi77eSIjxrxLobaltLMCkvpfc6zC47C+fY/TXzkz4qwBaEg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792493438;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792493446;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=MhMu5FEtXkntHOOeoX3WjHhxNQ8l3+u41N1zcltWVZs=;
-	b=WiNXgPK+NkKrwxBto+1EB1jqN9h1X4SJrTnXb5VgZyrKR9MJFT2H8NvrFUpoa1MmQRXK
-	 78W7kjmLn+lU3duK0ndNkTXgMTyy0k13usMMrdnQCq1YVTvdTRQWRo/1GG1u1ZibnQ9Ed
-	 f0y80s3qEk22b9sjErDEftUkcD3V9mZWEBdPhfa5mr66nNohSq6q3EuQP/MBzH3EOW2Bn
-	 UsSw9X1wL9MLhUvHNbhugUyZ/VTxmB7pQnyfSNe3UL/eFNB2VJqMAN8cd90TM41ZyBswV
-	 LDsWsGYymBnnVBIk0wnQyr35lyLovxgSSe5yT1eR0BA/pc0Pji4zP/PHwtvX86y/nxA==
+	bh=ijPSVZtN0wV/FObkbQ5coj1GUsZLgW/HlOlDTeZNmFI=;
+	b=fPDqYHlXIJ0t/LQlE7oCmj7YlXHmbw4hapEw00WX4sxkYqNeoCx5NdcDxHBpVjDvVT40
+	 Gd2R3EAxQoToMpHlNeOr3PWVHWmx33aLk8cPAfmxgbRKK6SCRgist8EvHEczX/DlEo+Mh
+	 7XqBXensPR++nGsUOMQCS1RtD9KAclLxw6/8MkCrZ5XG+RWvMVsJ2FZLK1oxejOFmePxc
+	 eLpMsG+HqHw+6AeBcKpkfpofiwAXZnagHybBvAdlT4sCsiXOL7njeZd4MA1ZX0ddGhLTZ
+	 8DriC5Etg3nx3sSGFEzzOZS03aLZ01EYvyF7WMkKmbcw39ZZWLeN0IKx5Jkjo6+4YNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bobrowski.net;
 	spf=pass smtp.mailfrom=bobrowski.net;
-	dkim=pass header.d=bobrowski.net header.i=@bobrowski.net header.a=rsa-sha256 header.s=google header.b=n+VfWZJI;
-	arc=none smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	dkim=pass header.d=bobrowski.net header.i=@bobrowski.net header.a=rsa-sha256 header.s=google header.b=CpFjF7HH;
+	arc=none smtp.remote-ip=209.85.215.173
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71D360A261F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 10:50:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A71D360A261F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34CC606A323
+	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 10:50:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C34CC606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bobrowski.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bobrowski.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bobrowski.net header.i=@bobrowski.net header.a=rsa-sha256 header.s=google header.b=n+VfWZJI
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3ac451e128cso1907531a91.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 03:50:37 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=bobrowski.net header.i=@bobrowski.net header.a=rsa-sha256 header.s=google header.b=CpFjF7HH
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cd6028ff33fso1186995a12.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 03:50:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bobrowski.net; s=google; t=1792493437; x=1793098237; darn=vger.kernel.org;
+        d=bobrowski.net; s=google; t=1792493445; x=1793098245; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MhMu5FEtXkntHOOeoX3WjHhxNQ8l3+u41N1zcltWVZs=;
-        b=n+VfWZJIKH/eHZfmEe72UdQhnBP9Je9qNV4IRjnamQjgVdBQhPN9njTJVunf0jOrP6
-         oYbRpWsnOoeTevf0f/rjBxqKCdsWFINxEEZI79dSqk3R4Yyudue2Ks6o+EbPdSnADKWN
-         vDd9NZskb8KiLYgFUu10H3DsdkBofXbMl8JgNtb0j4e0ms70854zd8g0gCy+5zqLOb0T
-         3o4yrg0G4k+pJSzQiZ8Buupx7mDS8oRYfi1TEBlMDZ26NshhM4qoX6RaO0MUIlmYZtcI
-         uLZ8P/FtRFJOJ3EqY+p2tI1qJnPZgP5tXs2fu1vLAYm4iD3Mv69nNPVojREEGl2EgQEa
-         kkoQ==
+        bh=ijPSVZtN0wV/FObkbQ5coj1GUsZLgW/HlOlDTeZNmFI=;
+        b=CpFjF7HHjiBPEyxhDRihQ3nc60Cyw7biDO8DewrQJDjFdKjSR2q77jdcI1CmwnPdMZ
+         o4ylYaenRJ0i0c2ZUC37IwuqhT1jiKsZg0pxehLaIZdv3mEKzVRbkM3sLlY5gimJvxgz
+         hFrpy4bSAjXp2Ej4If0TH7VypNFaIOAUlKAk8IXr3sQMpNZ0OMq6UTYk+GK3l4acuY2r
+         D6wCZ7JWOXgS45XELV+UcEMeFsCo296qi5jaHfg8fWnqpwj6x0SZb8deUrJ10uat0gm7
+         8ehHCsjjtnf22GSXcc5xYv6kU7rudfhKMJlroNQb861zFTQbpmk0cC293LYzjq9zUOnd
+         wSBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792493437; x=1793098237;
+        d=1e100.net; s=20260707; t=1792493445; x=1793098245;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MhMu5FEtXkntHOOeoX3WjHhxNQ8l3+u41N1zcltWVZs=;
-        b=XtWQ3rftT+bNqyqYPDp63RMOd520h2xUur8wPJMMWFlwJq9dHZBvNzRoYATwqygYa/
-         eC3h7OByQqFk/KfseZjxgi1O1HgHlHKysiT1KqMi7f+L2mQR70nH4YvXfqomUT56Rd5I
-         rfAktnyCl1EGaOh6mwhmzGbyLduh4CpYggQ+Gm8bc+kVP38yIssm9ujvAcqWr3WBD/Ii
-         /cR+fgriuS0G4O++TcPdygf2MxACd1UwBDdlU/4d+/uU1QcgBD9x+0JnmB3tDPdtnA1P
-         k2gJqw0PcZ8da3QTu65rJ844uOPLKSrt91RNou41ODsEHBUf7HUeMoh8IDLdsQLqzvgS
-         tG4w==
-X-Forwarded-Encrypted: i=1; AKwUvBw5r9FsgX0Xs9CGpWlRzy+pZazUMldDzdG5nRbM0FjR1s+ok4hj+vFTfBkXR6YGwLWfsRsKUoJt6l9Y+2/Z@vger.kernel.org
-X-Gm-Message-State: AFq9FYIi+XIO+ftgt2bhaQryTpUOZs22dIqgz4sliVpq+UJMrQRjK5Ej
-	9BcUB1ocuJjH2PeezYJ8Yuor3JRiBryd6Mwgay+v7mmAMvQqdySjTBX7AFCoqqsOi6cl
-X-Gm-Gg: AYBFou24GYEmioQHKEHpbmwd5ji4WJsgxOJG/6GAXhFsEWOjODGnUqWfQnbAQDdmaGf
-	UN+GySs68CsaSiAObxQ+lpPJ3+ZM0ebBQxd04g8rZiMtrFNGMwLkGu+Bq9EOC298ipYsxSvoCGI
-	1hjVBuFWqypFtl8kvxVc4SnmR7FxlVCLoURSiZ8HuXtpYkwPMFjMchUtNkNcpPjg0/1ql3NyEYh
-	uORiLZac28xhA7MKaP5EatwLAvWwHnP0SABNX3vKMUYqaDN7lZpahce3141gnZFoBRKuP2n5s28
-	OUMHuISCl3I241KTNDVwxsTfGx1GxT61sy1AL6MmErhnmLSFRqZzy8+RPayVQrscV4x7kpLoVnt
-	4LH68T5Oryd1E9D7UEf+YomVVnFsURW2TtM7ibwT5yN5S07Ez+h9Qd/LHEWuNAFeY6zXpNOgp/X
-	pJzCtuGcQY0hLYW0GZG9UD71KdxSaKcLtocc+6syR/qDd5gMk/UT4a4M7/CT/UFWQ/5XdoaHkml
-	/7QlDKLQWySzp8mHMznqKxWtE35YfcnUlKzl3KzKAeWHxbZ+grhtpFx
-X-Received: by 2002:a17:90b:5109:b0:3a7:ef4:164b with SMTP id 98e67ed59e1d1-3acee2958cdmr7889908a91.2.1792493437009;
-        Tue, 20 Oct 2026 03:50:37 -0700 (PDT)
+        bh=ijPSVZtN0wV/FObkbQ5coj1GUsZLgW/HlOlDTeZNmFI=;
+        b=ZhaBwUyFEy50CH5enReK8MyIXLSmGKwH06yXqIk0uX3lsj9GFeMwKhFfw4qmaMHPxt
+         jhk/OiW4SqZzrui9IeDy+4oO5erEmlgtjI//SR68luczem617bEooRyHDO9Z9AdQGGf+
+         9/qx7qtZogEqikj7LNkEDKrTbkeFI9Eh1j1JQp4gOy7G/FQczmm/GbfjbOrIKif2O1M8
+         MDe3pkmJBfKIbn4EYweLMRZSFTXcmtd1u7/1Zx4wHyHJ2U8gi0jttBlIasR6cQCVpsoB
+         JpMYuWEAHrlK6Qfdh19S0pkxaSb2mcuRsMipBxil/TUTirLz+2pOVKXFpeB7I4pHjnRY
+         Nhmw==
+X-Forwarded-Encrypted: i=1; AKwUvBw/cBsaajRwLCgbisWJhZb2thEFqKgzPj9EJugjj+oXuEuAw/6JuvyyYa7TEbSyLhWs843Gj8cZGaKl9Xpb@vger.kernel.org
+X-Gm-Message-State: AFq9FYLG1sl6hJYSkBlbuYs1SsIf0whq8/vecD7vEI7NDguYCCSxFjWP
+	3i2ItAKjrawRkcZoqWK6Rv7aSBZkmORbNqnBoSybvgDo36lO7BavDGk9XHZaW0tG1IGe
+X-Gm-Gg: AYBFou2qPgNWRyt42PaOPw+VB+TZZz4+1VcsckFESvi6uqbz3D1sVJXTJSX7tVfGL6j
+	drwOW6X6jLbbi2SpKWDPOwN/goLLx1iQ2fKtPweFLU4dvf1RdEHIFDP3WHu/+AZjJ/SNlV0fTHA
+	VlqWJr9JzeQOQgwhbe0EZiW1dx/TXRMAdwrBRxdHKoNGLay4qL/R8uiJUaV5IB/FOrc4e9UIGBJ
+	e1kQos68R2A/MeSIB/nF3efZkgXtRsDg2YA2tOBfKRrwJM7oTmnGcpEUTnLGvBWY/YE/a4w6xhj
+	6GmvttsaTKfvnOuEa3b/XAiPbOJoDSbkqvc7LZXZ4Funv8dHuHcFHetKgoG7jVZfA7l0gYEhm4D
+	Z5qAhWNVd0vxGxmcInow4wu98SSMe4dve3ajVUqc15Ve5s9qcMGtYufaRsosVUVsSLHV4j7HVRM
+	TC6D1tYJ02Ew5X7NiazH3nEz+sxpFC7zhNmQ5IO9G7VzubW14rpvYjifXXfGVdzz8NabhUN/d1+
+	ljXIH3NoNTPZ/evBz1+Kr+nX51jo8+14nzt9gEEBEV0uA==
+X-Received: by 2002:a17:90b:5743:b0:3ac:9d14:feb2 with SMTP id 98e67ed59e1d1-3acef14fe3bmr8737797a91.35.1792493445059;
+        Tue, 20 Oct 2026 03:50:45 -0700 (PDT)
 Received: from workstation.. (163-53-146-70.ip4.superloop.au. [163.53.146.70])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad60f36a5asm3487902a91.9.2026.10.20.03.50.31
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad60f36a5asm3487902a91.9.2026.10.20.03.50.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 03:50:36 -0700 (PDT)
+        Tue, 20 Oct 2026 03:50:44 -0700 (PDT)
 From: Matt Bobrowski <matt@bobrowski.net>
 To: bpf@vger.kernel.org
 Cc: Alexei Starovoitov <ast@kernel.org>,
@@ -96,9 +96,9 @@ Cc: Alexei Starovoitov <ast@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	Matt Bobrowski <matt@bobrowski.net>,
 	stable@vger.kernel.org
-Subject: [PATCH bpf-next 1/2] bpf: fix crash in bpf_path_d_path() for exiting tasks
-Date: Tue, 20 Oct 2026 21:50:13 +1100
-Message-ID: <20261020105014.97985-2-matt@bobrowski.net>
+Subject: [PATCH bpf-next 2/2] selftests/bpf: test bpf_path_d_path() on a file released at task exit
+Date: Tue, 20 Oct 2026 21:50:14 +1100
+Message-ID: <20261020105014.97985-3-matt@bobrowski.net>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261020105014.97985-1-matt@bobrowski.net>
 References: <20261020105014.97985-1-matt@bobrowski.net>
@@ -113,66 +113,146 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-bpf_path_d_path() passes its path to d_path(), which resolves it
-against current->fs through get_fs_root_rcu() without checking that
-the calling task still has one. An exiting task does not. do_exit()
-calls exit_fs(), which clears tsk->fs, before exit_task_work(), and a
-file whose last reference the task drops in exit_files() has its final
-__fput() deferred to that task work.
+Add a fs_kfuncs subtest for the crash fixed by the previous commit. A
+child opens a file and exits without closing it, so exit_files() drops
+the last reference and the file is released from exit_task_work(),
+after exit_fs() has cleared the task's fs. A file_release program calls
+bpf_path_d_path() on that release, matched by the file's inode number,
+and records what it returned.
 
-A BPF LSM program attached to security_file_release, which may pass
-file->f_path to bpf_path_d_path() as a trusted argument, dereferences a
-NULL fs whenever a task exits with a file still open:
-
-  Call trace:
-   lock_acquire+0x8c/0x218
-   d_path+0x270/0x378
-   bpf_path_d_path+0x28/0x80
-   bpf_prog_9801cf2b982f05b2_file_release+0x1d0/0xc60
-   bpf_trampoline_6442515074+0x7c/0x100
-   bpf_lsm_file_release+0x8/0x20
-   security_file_release+0x58/0x90
-   __fput+0xcc/0x320
-   ____fput+0x1c/0x30
-   task_work_run+0x88/0x100
-   do_exit+0x210/0x3e8
-   do_group_exit+0x3c/0xa0
-   __arm64_sys_exit_group+0x20/0x30
-
-With lockdep enabled the fault is taken in lock_acquire(), from the
-seqcount read in get_fs_root_rcu(); without it, on the read of
-fs->seq itself.
-
-Fix this by returning -EINVAL from bpf_path_d_path() when current->fs
-is NULL. Only the task itself clears its fs, in exit_fs(), so the check
-cannot race with that.
+Without the fix the subtest crashes the kernel in d_path(). With it,
+bpf_path_d_path() returns -EINVAL.
 
 Fixes: d08e2045ebf0 ("bpf: introduce new VFS based BPF kfuncs")
 Cc: stable@vger.kernel.org
 Signed-off-by: Matt Bobrowski <matt@bobrowski.net>
 ---
- fs/bpf_fs_kfuncs.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../selftests/bpf/prog_tests/fs_kfuncs.c      | 51 +++++++++++++++++++
+ .../selftests/bpf/progs/test_path_d_path.c    | 35 +++++++++++++
+ 2 files changed, 86 insertions(+)
+ create mode 100644 tools/testing/selftests/bpf/progs/test_path_d_path.c
 
-diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
-index 08f0847c4970..6665a78218e1 100644
---- a/fs/bpf_fs_kfuncs.c
-+++ b/fs/bpf_fs_kfuncs.c
-@@ -87,6 +87,14 @@ __bpf_kfunc int bpf_path_d_path(const struct path *path, char *buf, size_t buf__
- 	if (!buf__sz)
- 		return -EINVAL;
+diff --git a/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c b/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
+index 43a26ec69a8e..510cf11c8bd8 100644
+--- a/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
++++ b/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
+@@ -4,12 +4,15 @@
+ #include <stdlib.h>
+ #include <sys/types.h>
+ #include <sys/xattr.h>
++#include <sys/stat.h>
++#include <sys/wait.h>
+ #include <linux/fsverity.h>
+ #include <unistd.h>
+ #include <test_progs.h>
+ #include "test_get_xattr.skel.h"
+ #include "test_set_remove_xattr.skel.h"
+ #include "test_fsverity.skel.h"
++#include "test_path_d_path.skel.h"
  
-+	/*
-+	 * An exiting task releases its last files from exit_task_work(), after
-+	 * exit_fs() has already dropped its ->fs, which d_path() uses to
-+	 * resolve against.
-+	 */
-+	if (!current->fs)
-+		return -EINVAL;
+ static const char testfile[] = "/tmp/test_progs_fs_kfuncs";
+ 
+@@ -268,6 +271,51 @@ static void test_fsverity(void)
+ 	remove(testfile);
+ }
+ 
++static void test_path_d_path_on_exit(void)
++{
++	struct test_path_d_path *skel = NULL;
++	struct stat st;
++	int fd, status;
++	pid_t pid;
 +
- 	ret = d_path(path, buf, buf__sz);
- 	if (IS_ERR(ret))
- 		return PTR_ERR(ret);
++	fd = open(testfile, O_CREAT | O_RDONLY, 0644);
++	if (!ASSERT_GE(fd, 0, "create_file"))
++		return;
++	close(fd);
++
++	if (!ASSERT_OK(stat(testfile, &st), "stat"))
++		goto out;
++
++	skel = test_path_d_path__open_and_load();
++	if (!ASSERT_OK_PTR(skel, "test_path_d_path__open_and_load"))
++		goto out;
++
++	skel->bss->monitored_ino = st.st_ino;
++
++	if (!ASSERT_OK(test_path_d_path__attach(skel), "test_path_d_path__attach"))
++		goto out;
++
++	/*
++	 * The child exits with testfile still open, so exit_files() drops
++	 * the last reference and the file is released from exit_task_work(),
++	 * after exit_fs().
++	 */
++	pid = fork();
++	if (!ASSERT_GE(pid, 0, "fork"))
++		goto out;
++	if (pid == 0)
++		_exit(open(testfile, O_RDONLY) < 0);
++
++	if (!ASSERT_EQ(waitpid(pid, &status, 0), pid, "waitpid"))
++		goto out;
++	ASSERT_TRUE(WIFEXITED(status) && !WEXITSTATUS(status), "child_open");
++	ASSERT_EQ(skel->bss->called, 1, "called");
++	ASSERT_EQ(skel->bss->ret, -EINVAL, "bpf_path_d_path");
++out:
++	test_path_d_path__destroy(skel);
++	remove(testfile);
++}
++
+ void test_fs_kfuncs(void)
+ {
+ 	/* Matches xattr_names in progs/test_get_xattr.c */
+@@ -288,4 +336,7 @@ void test_fs_kfuncs(void)
+ 
+ 	if (test__start_subtest("fsverity"))
+ 		test_fsverity();
++
++	if (test__start_subtest("path_d_path_on_exit"))
++		test_path_d_path_on_exit();
+ }
+diff --git a/tools/testing/selftests/bpf/progs/test_path_d_path.c b/tools/testing/selftests/bpf/progs/test_path_d_path.c
+new file mode 100644
+index 000000000000..4ea50a067819
+--- /dev/null
++++ b/tools/testing/selftests/bpf/progs/test_path_d_path.c
+@@ -0,0 +1,35 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include "vmlinux.h"
++#include <errno.h>
++#include <bpf/bpf_helpers.h>
++#include <bpf/bpf_tracing.h>
++#include "bpf_misc.h"
++#include "bpf_experimental.h"
++
++#define PF_EXITING 0x00000004
++
++char _license[] SEC("license") = "GPL";
++
++__u64 monitored_ino;
++int called;
++int ret;
++
++/*
++ * A task that exits with a file still open releases it from
++ * exit_task_work(), after exit_fs() has already cleared its fs.
++ */
++SEC("lsm/file_release")
++int BPF_PROG(path_d_path_on_exit, struct file *file)
++{
++	struct task_struct *task = bpf_get_current_task_btf();
++	char buf[64];
++
++	if (file->f_inode->i_ino != monitored_ino ||
++	    !(task->flags & PF_EXITING))
++		return 0;
++
++	ret = bpf_path_d_path(&file->f_path, buf, sizeof(buf));
++	called = 1;
++	return 0;
++}
 -- 
 2.47.3
 
