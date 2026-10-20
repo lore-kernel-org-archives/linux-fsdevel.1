@@ -1,102 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792500771;
-	b=onhhKubswiCEI3ecQyNlKb7qthTE66QVQCY9PD7fpB4MX1STmvx1hVGTMvA7f6uBsb/e
-	 ir3XccLCHOiy4B3nFEznK4V5ky4Li6TC38me2e/vJiinOn2au6TFVVipHTP8rzEmoOt4N
-	 1C7/FkPyFN2e8m7R6X+e1VC7ORLLgIgAyV6yk/zZ5E6/m7/6gU1kQL8CPX1Mvf3XP7SGp
-	 oBvfva4ulyCTUPmb4/5GsZFE8U4nH9BEmO2eYpWzVm8nogW2U25+vSn/Bo58mMYQLnuUz
-	 VTbrEl7Xqgyg7TtPcgtRd8645A0twKbVzqeb4lmFBt46grfq9xugj6vCIPF50fMkvdg==
+	t=1792500772;
+	b=cc+55X6p9ZTy2ktarDWk8l0dSIpOe++xQKtmusa6hH6/2aPzJHPzTlxzFw6Kzen01Ajs
+	 G5dvBcVA8W3M0nlrMRWKY2UaiCHtKEILNU5gbRsgySiKzpaBVxoItSaZMmPY4CJ9x/OKr
+	 RYX6pgGWGKECKW5w+o+rS6KYeL3GgS7Lz775NbDHQXChWO+8fTCi1uqFf4gqsByMGjt22
+	 5AkMIiwv1n9ztZzLIKhOrrhLnFb5S6J9d5fFn1OwSzQ+AdB1bmFMBIvoOdaj2fX24nPC4
+	 5KtWOi1VRNPSeABBmkvy4dy4hpIewPe77zeNHOJAnZzQpg+MRD/bxXkUQl02paf3inw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792500771;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792500772;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 X-Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=/4u1vmaSqipBM0zxv3OAa4p5s287MyrcxTiYmzVTx/k=;
-	b=VkqsGyF/BMd6ZUJjzyJ6lA1aFzB4ki95f2c6m7MOknQytjxtZC9sGMgh6B76x3l97TSg
-	 Yse3VhbxCHn1vbXGcR4i1VFFPwQ6yVxeoD2GAfqtG0TOGpFSF5q+tjXHgmIuEDNIuK0dQ
-	 GCSmtxJcah50IZkpj6cbxxAjLQ4jZco1aCR/Z/yYJxkSRtm++ROyflqHm2Pvhq2UZwavA
-	 LwRZrZvZ4nt3AOH1u+QPzo+ktt7OfueHsDPkmk2kIDYhI3rFsmUW1oVwycNc6hx/J+hTr
-	 oPO8w0S/k24jXoRqmQOqqtn1D7SPc8lDAM1hcvt22s6bayFMcJ0anN2NozkAXSIYMow==
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=NvN/9rdtCqBm0bPLQHSnHrWV0GBxmaW3XHbP7+iX0Ck=;
+	b=qxIdjfippd5LtQwTSVxy+S8MxL6Sc5DEqGnbvDMSX/fVi4eELie2LaNPvM7U4DP7/reD
+	 wi/BV+YV44AdpervIP8Tq79u4s9bpcBPfxEmxFuuAM7FQeSVxiO1iWcMtjpZYaDChUmHw
+	 GAo4aoMJAUv0usTm0YzPLx2T+4ArBmf8nEX18SDwVVQD7HDcRaMaW4MuEnrH7SRXXjxN1
+	 uvy++Y/r9IPDPlFoDyu+Yvto6wAKKy04MKMmeipSzdoEdmYw8rWJjUQEypIllOqkCkQ2z
+	 MoCcwCcRqciwgXzLAvGEtHif6PtgGdXprzv8iyXT+l3RlyCPGMmaVVNF0NkRMRlxXWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="F/wHtwNC";
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=JA+2g4IK;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KYDOdb4s;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=CB8KVfxc;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93336606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2840C60A2600
 	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 12:52:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93336606A32E
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2840C60A2600
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=F/wHtwNC;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=JA+2g4IK
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KYDOdb4s;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=CB8KVfxc
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792500769;
+	s=mimecast20190719; t=1792500770;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=/4u1vmaSqipBM0zxv3OAa4p5s287MyrcxTiYmzVTx/k=;
-	b=F/wHtwNCHtpvA4YrgXHagstXJ8f9K3UgdPFglAVNbJxgmwNs7v0DSDIMMAD+En7DmITb30
-	lxs06FvEHjb7hvirfnIxweyKuSMCb0ff7ZBtk/A9372BqtBN0GVRhPDTfYVOjiHjH7g6CJ
-	txxsUZS0ws3P+byQbu2Lw1i04XcJNAc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NvN/9rdtCqBm0bPLQHSnHrWV0GBxmaW3XHbP7+iX0Ck=;
+	b=KYDOdb4sG30ioKBjURH+nELiBrBm6IVmGuDvFipowBvKysGVNbcMp2j1mynKfHkTyj5KCr
+	NoWqaim5fsd1AdTJxeuYzHtI+6xh19lr4qd2UcpAJTh53He4AypqD9sgLjz/0pQ2aWZHc7
+	bNXUlfTJx5HjdGJoRIHClfGkaj4fye4=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-663-4hF2TXDLOwKx2nZ-4YD25Q-1; Tue, 20 Oct 2026 12:52:42 +0000
-X-MC-Unique: 4hF2TXDLOwKx2nZ-4YD25Q-1
-X-Mimecast-MFC-AGG-ID: 4hF2TXDLOwKx2nZ-4YD25Q_1792500760
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c41f85ee4a3so253887966b.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 05:52:41 -0700 (PDT)
+ us-mta-336-RIX65bwJMOaTS65QXtRIMg-1; Tue, 20 Oct 2026 12:52:48 +0000
+X-MC-Unique: RIX65bwJMOaTS65QXtRIMg-1
+X-Mimecast-MFC-AGG-ID: RIX65bwJMOaTS65QXtRIMg_1792500767
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-c42f98f354fso247162266b.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 05:52:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792500760; x=1793105560; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/4u1vmaSqipBM0zxv3OAa4p5s287MyrcxTiYmzVTx/k=;
-        b=JA+2g4IKo1TpGTA0gXPRIyNRyC4/A95C2h9G8LbDi/kNLz/YZijJfR9D24SfengdgI
-         wM0HcIpHAyqvXQjr+YMZa6onoQl1o980Nys5bJ1ZaHZtCfUNsuGd7YOPkqIke4T/fUU0
-         3ANrxBXbesNuVmXU6KRqqF6BY1uyrL/ksjS4zifrlB+35OnqgFGUh+tiCgcXOiU7YAmQ
-         Xulq+HU4UtsHtdqEVe+enpi+SMk7FgHe/kC8uUXr/LzkmbiareBGL5pk0f/Z5rQpM2N/
-         /6Ktt3H7FjKUqshLaJE1wXiZZ7BJvYAFWKSp+NvQOB1Q/KYQ6mhh8EoiMEjzg0hvC2U/
-         ml3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792500760; x=1793105560;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=redhat.com; s=google; t=1792500767; x=1793105567; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/4u1vmaSqipBM0zxv3OAa4p5s287MyrcxTiYmzVTx/k=;
-        b=wuMJZMS03MaxSOIaGXzILCAqQHBDTIb0+AH/OiNUk5t21crvh7H5SgJYnLK3a/R68k
-         SrnViWFhP9WryqKGudtjLC/EPKNvYsAyha2TPHjO/lAdn+auWmLcraDSKKHutariVWr2
-         QRY1qStgepz+d0YIsKNegpeTxGmh3itcC8cD7b6FQdP6suwPlb+AQwcF4YY1ERvDJBnw
-         CSG0LoZnMVz3J+JHuv0aXA7P7tMU0MlERU0weigpShPlHiPk6NJQTqbs7g9xXe2YqPyg
-         HZZRVQ3osP+E1nUHmTePSbm1r8EXkQG5yjghGsoO5ieNeu5Lhre5yVKOJ1HqkzL1+pQW
-         EiSw==
-X-Forwarded-Encrypted: i=1; AKwUvBwccONL2rzy9KIqE8vC7A0nTXvM1anpCHwNuqUBbqcuMu4L0tSZdv0YOTruEwqTqiGBRIPFTaNt54lhT+rZ@vger.kernel.org
-X-Gm-Message-State: AFq9FYK0gyYUNP6fht9FPqztbFG/2iEdxvtZ1WTkLKDeGP3gDX+OHutN
-	Gd6PIoTx5/P9a6rPPW6o3LmIb2JOfob2DVd4E+AwMwfl+gxyeDTzeIfwHaL14TRhZlZ/M8UUfCD
-	hSdh/MX92RgGJGSU9FeGJ5zQrpxH0I/4k4TtuwnArl3hmbWhVRi1eKhbprv7EM6p9R9Y=
-X-Gm-Gg: AYBFou3ZpjPUJL/zdyPXtcvNGu02ihQ2i21bL6SoTEpMnq/Iq4f2Z3IGRT9cNiqZRdU
-	hTGzpzWLtOhoKP0FQobjJNnNpbpIJhaEbaj2qvmyDbtp9ABFlGvUgQtDg/bao/sHWhsZrVEnaXc
-	LzfOjdx0JaIF5JS3eo2iiiZrcjHpcMn6/bMYk5pMvXOhRwh2zlm9VzDtgmcmthZ+ufFqKispmN7
-	Cg/hbJuzSlzTie4hd6LHBbOUFx7djyN2vMnCgoXDC7fQFxRUe6HY+HP6wLUWrSdTP3wudHMf3Dr
-	djX7R/foCQr19Yt/0mZSZPTsxeufE7MhNbU1O7ILv/b9QiOSoT011NIrXODT3+c9xwBSHiWgO+i
-	5Yp7wf/wCt/wjMPySdvxqJex3rbcOmW9UCRT7tfCpPd/SLGWha8T5z/wQbgrHEcojMB/JfUu9Qg
-	pTRAXKCoROChx7E4QjBaBRmYLrvaGN5kMjMdtSqwdmF2lv2aErafGgTWrCPaCro4m24AX2o1GJl
-	f0=
-X-Received: by 2002:a05:6402:11d1:b0:6b1:c5c3:9624 with SMTP id 4fb4d7f45d1cf-6b3a819086fmr6835222a12.22.1792500760223;
-        Tue, 20 Oct 2026 05:52:40 -0700 (PDT)
-X-Received: by 2002:a05:6402:11d1:b0:6b1:c5c3:9624 with SMTP id 4fb4d7f45d1cf-6b3a819086fmr6835205a12.22.1792500759746;
-        Tue, 20 Oct 2026 05:52:39 -0700 (PDT)
+        bh=NvN/9rdtCqBm0bPLQHSnHrWV0GBxmaW3XHbP7+iX0Ck=;
+        b=CB8KVfxcLT6Q9SXEsnHly3BROrWI2vAc8cBiNCxGnx4wtyaz/NwT4MR8sP9ybibeEQ
+         O4D/cjJxWwwR11JW1NVp0PDGDVAQa5Wfrp90IllCdc5A3W8WLJ3CKcEDFIMxYOjThuAq
+         9BsK/Ar/paM4tdBppHU6PX1PYXGPJwmauOJr/YTh0U2q2zsF3q9WB6bJxpk6N91iYYbp
+         JvYFl4OKtd6rDaYCeFbMFJU/ve9K8bdIvzB5BKGgz7oCz4hc0Pcfq3i9RI11ZNKSswmE
+         cg1p5dfZLKz3rArmnONj6JCbxjTrArz8HOqkjEJNQHwYINlVPrbzk+wYxVgshww8FyUU
+         qYVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792500767; x=1793105567;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NvN/9rdtCqBm0bPLQHSnHrWV0GBxmaW3XHbP7+iX0Ck=;
+        b=yrTgkQcRukJ1n7MpCW3NVIuld7hKLpIwI4Ojqy3xWsWDDFeKRg9GTYA8RBDm319xIR
+         mPgCtB14ByWWrwOu9h3XafkfC6lpBfLv+z2KNgMzd5zvzVjfpEqg2vsMxFUdUg+4aZh4
+         tk34mzOVsTKp1x0hPdTXVN0cH6wHImRrmBkR61ezhwUAdQC6E8YtPHiZnClFBkpQM6wn
+         Aig3GNOlkMoLfLWU/fwiSAhwnU3q9WaMsPp0vdhL8jbkuejGVrW2/e0W0GTDTSLe26Q+
+         h8qBCrS+/0m9cQ7mOJcnFNDnkrSSGttjXHgcMbj9jsfFfAbR16fJNCLbw+b0cEf75KVu
+         9M1g==
+X-Forwarded-Encrypted: i=1; AKwUvBxEpDK2DGxdmmM1SffWKoWaYqNcHm3CS+l8iYD3cHmC4Wx8XtqaEUb5HeOjeDRPDOWx6YgiUmzsHbDA33pu@vger.kernel.org
+X-Gm-Message-State: AFq9FYIlrj+f7Zyxu/VJgg6YgQBs+29hOebldoPKPYugtd74yJIgPcdR
+	XTrCMelgEdxP3/PDhYE/3lhRq1ngv1TISRQshlnxZ/6Me3se+9HiDIL0Lnpbl+/cs4cxd1GjNeT
+	my7PRMaczqtRYaEpnlPOZjA+RrgWMgwIm6y0UqVxoxhsiyERQmALlb1s1SGhb29n1CwQ=
+X-Gm-Gg: AYBFou2aDTVOHBakQODgaeNnc4FgaxKk4bhYWSXiRD+0Tqjf9lDIsox28cWwG/5nUSR
+	XDX48bTQ5K0h1z5h7IYbhBVIVDQSgwv4pu7HXdzD5UcLjsXUJdH1XxF0fOxceyfUnUB2V0qHzDh
+	z/N7Kk0IttHUcLxFjPTHYE6VmmF6q0t/uVWy3w6U7mjnu/fOaPkuJcfVxIAvujvgaTvo8OK+4w9
+	/aZ7R+q8meuuC8nUEr032kxCN/HXE8B1W0mXYN5UhwHfeeGDz5hOcxwRVSnx2Ni/qe2CbThqJ8O
+	vAQExGPyrxDBaMQ5fIblZ2boaSuDMi6lEOT19I+acx4Cup+6nNW2qp32SUwyNNRS2B9iyLCcgEn
+	yeDF8wnHhANeBz34JQiiJxOLiMMI68q7DmQPE8cej+gnEFaEMRrGF5J38ylLAGzCMXtkptl0bi6
+	RTWTjpRmBEJsfLXtSNuIz+7vc69UOPAZpbzSWfEcW5VnoPFmzzBvVM3dUn81V/4tBqb8HArgW3p
+	Ac=
+X-Received: by 2002:a17:907:720b:b0:c3f:153a:8663 with SMTP id a640c23a62f3a-c419e63930cmr813890866b.23.1792500766818;
+        Tue, 20 Oct 2026 05:52:46 -0700 (PDT)
+X-Received: by 2002:a17:907:720b:b0:c3f:153a:8663 with SMTP id a640c23a62f3a-c419e63930cmr813887766b.23.1792500766020;
+        Tue, 20 Oct 2026 05:52:46 -0700 (PDT)
 Received: from cluster.. (4f.55.790d.ip4.static.sl-reverse.com. [13.121.85.79])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b3c74eb8a7sm2982781a12.2.2026.10.20.05.52.38
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b3c74eb8a7sm2982781a12.2.2026.10.20.05.52.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 05:52:39 -0700 (PDT)
+        Tue, 20 Oct 2026 05:52:45 -0700 (PDT)
 From: Alex Markuze <amarkuze@redhat.com>
 To: ceph-devel@vger.kernel.org
 Cc: Alex Markuze <amarkuze@redhat.com>,
@@ -112,10 +114,12 @@ Cc: Alex Markuze <amarkuze@redhat.com>,
 	tytso@mit.edu,
 	jaegeuk@kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 0/5] ceph: support subvolume quarantine
-Date: Tue, 20 Oct 2026 12:52:32 +0000
-Message-Id: <cover.1792498351.git.amarkuze@redhat.com>
+Subject: [PATCH v4 4/5] ceph: record subvolume quarantine from MDS cap updates
+Date: Tue, 20 Oct 2026 12:52:36 +0000
+Message-Id: <ff90b10c248b7f46707d0448b5c05cffe85a2ce8.1792498351.git.amarkuze@redhat.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1792498351.git.amarkuze@redhat.com>
+References: <cover.1792498351.git.amarkuze@redhat.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -127,99 +131,1094 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-CephFS subvolume quarantine isolates a subvolume while allowing recovery
-clients with q/Q MDS auth caps to access it. Advertise support only after
-cached data and metadata access paths can enforce quarantine.
+MClientCaps v14 appends a signed quarantine errno after the v13
+subvolume ID. Decode it and keep a sticky, counted mark on the inode.
+A PIN-only update can reset the errno without clearing that mark.
+An accepted grant above PIN or a disable from the reporting rank
+clears it. A fresh metadata request can also confirm recovery across
+ranks. Ignore older cap sequences when changing quarantine state.
 
-This v4 combines the fscrypt symlink-cache prerequisite and the Ceph
-quarantine series as requested by Eric and Xiubo. The dcache export is
-retained. The generic fscrypt change precedes the Ceph patches, and its
-Ceph opt-in is folded into the patch adding the get_link checks.
+Retain a pending mark when the reporting cap or session is lost, so
+that later access must ask the MDS rather than reuse cached caps.
+Wake cap waiters when quarantine state changes.
 
-Changes since v3:
-- Disable only the two fscrypt symlink-cache writers. Leave cache readers
-  unchanged and update fscrypt_symlink_getattr() kernel-doc. Explain the
-  held O_PATH descriptor / empty-path readlinkat() bypass and the allocation
-  and decryption cost of uncached encrypted symlink accesses.
-- Avoid unconditional snapshot RPCs only when the connected head inode is
-  the target's actual subvolume root, identified by its nonzero MDS-provided
-  subvolume ID, with a valid AUTH_SHARED cap from a quarantine-aware MDS and
-  no local quarantine marks. A snapshot P/.snap/S/V/file cannot use ancestor
-  P's cap to authorize access in V. Synthetic snapdirs inherit their parent's
-  subvolume ID. Unknown IDs, other head ancestors, expired root caps and
-  disconnected snapshots retain MDS checks. 32-bit clients also revalidate
-  because membership IDs use plain 64-bit READ/WRITE_ONCE accesses.
-- Wait interruptibly and retry unstable namespace generations or MDS
-  authorizations in blocking cap acquisition and revalidation. Preserve
-  nonblocking behavior. Track splice owners and reject recursive LSM hooks
-  with EBUSY, including hooks outside MDS reply processing.
-- Gate ACL cache suppression and namespace mutation bookkeeping on
-  negotiated quarantine support. Invalidate older cached ACLs when support
-  is first enabled and pair namespace tokens across that transition.
-- Remove the impossible NULL d_parent guards raised during VFS review.
+Skip ancestry checks when no inode is marked. Otherwise cache
+complete RCU parent walks by generation; incomplete walks remain
+unknown and require an MDS answer. Bound retries and take no inode
+or dentry references during the walk. Invalidate generations across
+renames and alias attachments. Sleeping splices disable cached
+answers without leaving the generation odd across an LSM callback.
 
-Validation:
-Nine deterministic source-extraction regression runners pass, including
-ASan/UBSan/LSan checks of VFS readlink and fscrypt target ownership. A warm
-same-subvolume-root snapshot harness performs 1000 getattr calls, 1024 read
-authorizations and 52 snapdir checks without an MDS RPC. A depth-300
-harness completes 20000 blocking revalidations with injected namespace
-splices without EAGAIN. Additional cases cover feature activation, ACL
-cache invalidation, old-MDS caps, detached snapshots, epoch/rename races,
-interrupted waits, recovery permissions and stale cap messages. The ancestor
-snapshot regression fails on the earlier v4 draft and passes with the fix:
-zero local marks and a valid outside head cap still require per-operation
-MDS authorization for reads, cached stat and xattrs. Unknown IDs, non-root
-head caps and 32-bit clients also retain MDS revalidation.
-A complete W=1 kernel and module build passes with GCC 14.2.0 and the
-normalized x86_64-rhel-9.4 robot config: vmlinux, bzImage and all 2233
-configured modules, including ceph.ko and libceph.ko. MODPOST succeeds,
-and the GPL d_find_alias_rcu export resolves. Additional W=1 builds pass
-on x86-64 with ACL/encryption enabled and disabled, and on i386 with
-those features enabled. All five patches pass strict checkpatch and
-apply in order to reproduce the tested source tree.
-These are source harnesses, not live CephFS benchmark results. Live
-cluster, KASAN/lockdep, failover and snapshot throughput tests have not
-been rerun for v4. Xiubo's v3 runtime results are separate evidence.
+This patch records state without advertising quarantine support.
+The following patch adds the access checks before enabling it.
 
-Remaining protocol limits:
-Already installed snapshot PTEs still need server notifications to revoke
-access without a new filesystem callback. Snapshots without proven coverage
-by a cap on their own subvolume root, and all 32-bit snapshot operations,
-still authorize each operation through the MDS.
-Disable messages carry no generation, so same-rank ordering relies on
-ordered delivery. Overlapping ordinary rw and q/Q grants still require
-server-side auth-cap filtering; Xiubo reproduced that with ceph-fuse too.
+Signed-off-by: Alex Markuze <amarkuze@redhat.com>
+---
+ fs/ceph/caps.c       | 122 ++++++++++-
+ fs/ceph/dir.c        |   9 +
+ fs/ceph/file.c       |   2 +
+ fs/ceph/inode.c      | 476 ++++++++++++++++++++++++++++++++++++++++++-
+ fs/ceph/mds_client.c |  23 ++-
+ fs/ceph/mds_client.h |  16 ++
+ fs/ceph/super.c      |   2 +
+ fs/ceph/super.h      |  71 ++++++-
+ 8 files changed, 713 insertions(+), 8 deletions(-)
 
-v3: https://lore.kernel.org/r/cover.1792248177.33a6e2db0a.git.amarkuze@redhat.com/
-v2: https://lore.kernel.org/r/cover.1792074165.git.amarkuze@redhat.com/
-fscrypt discussion: https://lore.kernel.org/r/a01d0a297a3e174d21741a3ad586ce546327603e.1792081664.git.amarkuze@redhat.com/
-
-Alex Markuze (5):
-  dcache: export d_find_alias_rcu() for modular filesystems
-  fscrypt: allow filesystems to disable symlink target caching
-  ceph: add subvolume quarantine wire definitions
-  ceph: record subvolume quarantine from MDS cap updates
-  ceph: fail quarantined subvolume access with EACCES
-
- fs/ceph/acl.c                |  33 +-
- fs/ceph/addr.c               |  72 ++-
- fs/ceph/caps.c               | 317 +++++++++++-
- fs/ceph/crypto.c             |   1 +
- fs/ceph/debugfs.c            |   1 +
- fs/ceph/dir.c                |  54 +-
- fs/ceph/file.c               | 112 ++++-
- fs/ceph/inode.c              | 919 ++++++++++++++++++++++++++++++++++-
- fs/ceph/ioctl.c              |  13 +
- fs/ceph/mds_client.c         |  28 +-
- fs/ceph/mds_client.h         |  30 +-
- fs/ceph/super.c              |   4 +
- fs/ceph/super.h              |  99 +++-
- fs/ceph/xattr.c              |  54 +-
- fs/crypto/hooks.c            |  28 +-
- fs/dcache.c                  |   1 +
- include/linux/ceph/ceph_fs.h |  13 +
- include/linux/fscrypt.h      |   7 +
- net/ceph/ceph_common.c       |   2 +
- 19 files changed, 1676 insertions(+), 112 deletions(-)
+diff --git a/fs/ceph/caps.c b/fs/ceph/caps.c
+index b27bcdc24d29..94f015112942 100644
+--- a/fs/ceph/caps.c
++++ b/fs/ceph/caps.c
+@@ -692,8 +692,9 @@ void change_auth_cap_ses(struct ceph_inode_info *ci,
+  * @fmode is the open file mode, if we are opening a file, otherwise
+  * it is < 0.  (This is so we can atomically add the cap and add an
+  * open file reference to it.)
++ * Returns false when the raw grant predates the recorded cap sequence.
+  */
+-void ceph_add_cap(struct inode *inode,
++bool ceph_add_cap(struct inode *inode,
+ 		  struct ceph_mds_session *session, u64 cap_id,
+ 		  unsigned issued, unsigned wanted,
+ 		  unsigned seq, unsigned mseq, u64 realmino, int flags,
+@@ -706,6 +707,7 @@ void ceph_add_cap(struct inode *inode,
+ 	int mds = session->s_mds;
+ 	int actual_wanted;
+ 	u32 gen;
++	bool cap_current = true;
+ 
+ 	lockdep_assert_held(&ci->i_ceph_lock);
+ 
+@@ -737,6 +739,7 @@ void ceph_add_cap(struct inode *inode,
+ 		atomic64_inc(&mdsc->metric.total_caps);
+ 		spin_unlock(&session->s_cap_lock);
+ 	} else {
++		cap_current = ceph_seq_cmp(seq, cap->seq) >= 0;
+ 		spin_lock(&session->s_cap_lock);
+ 		list_move_tail(&cap->session_caps, &session->s_caps);
+ 		spin_unlock(&session->s_cap_lock);
+@@ -823,6 +826,7 @@ void ceph_add_cap(struct inode *inode,
+ 	cap->mseq = mseq;
+ 	cap->cap_gen = gen;
+ 	wake_up_all(&ci->i_cap_wq);
++	return cap_current;
+ }
+ 
+ /*
+@@ -1264,6 +1268,11 @@ static void __ceph_remove_cap(struct ceph_inode_info *ci, struct ceph_cap *cap,
+ 
+ 	mdsc = ceph_inode_to_fs_client(&ci->netfs.inode)->mdsc;
+ 
++	/* Losing the reporting cap requires fresh MDS revalidation. */
++	if (READ_ONCE(ci->i_qtine_mds) == cap->mds &&
++	    ceph_quarantine_reset(ci))
++		wake_up_all(&ci->i_cap_wq);
++
+ 	/* remove from inode's cap rbtree, and clear auth cap */
+ 	rb_erase(&cap->ci_node, &ci->i_caps);
+ 	if (ci->i_auth_cap == cap)
+@@ -3729,6 +3738,9 @@ struct cap_extra_info {
+ 	u8 *fscrypt_auth;
+ 	u32 fscrypt_auth_len;
+ 	u64 fscrypt_file_size;
++	/* MClientCaps v14 oserrno; valid only when oserrno_valid is set */
++	s32 oserrno;
++	bool oserrno_valid;
+ };
+ 
+ /*
+@@ -3757,6 +3769,45 @@ static int parse_inline_data(void **p, void *end,
+ 	return -EIO;
+ }
+ 
++/*
++ * Record quarantine state carried by an MClientCaps oserrno.
++ * Caller holds i_ceph_lock. Returns true when waiters should be woken
++ * because quarantine changed or a pending reset was resolved.
++ *
++ * -EQUARANTINED refreshes the sticky flag and its reporting MDS rank.
++ * A current grant above PIN with errno 0 clears only that rank's mark.
++ * Another rank needs a successful metadata request for the current epoch.
++ * A PIN-only update may zero qtine_errno while leaving the flag set.
++ */
++static bool ceph_apply_quarantine(struct ceph_inode_info *ci, int mds,
++				  int newcaps, int oserrno)
++{
++	bool was, now, pending;
++
++	was = READ_ONCE(ci->i_qtine_errno) == -CEPH_EQUARANTINED ||
++	      test_bit(CEPH_I_QUARANTINE_BIT, &ci->i_ceph_flags);
++	pending = test_bit(CEPH_I_QUARANTINE_PENDING_BIT, &ci->i_ceph_flags);
++
++	if ((newcaps & ~CEPH_CAP_PIN) && was && oserrno == 0 &&
++	    READ_ONCE(ci->i_qtine_mds) == mds)
++		ceph_quarantine_clear(ci);
++
++	if (oserrno == -CEPH_EQUARANTINED) {
++		ceph_quarantine_set(ci);
++		WRITE_ONCE(ci->i_qtine_mds, mds);
++	}
++
++	if (newcaps || was ||
++	    test_bit(CEPH_I_QUARANTINE_BIT, &ci->i_ceph_flags))
++		WRITE_ONCE(ci->i_qtine_errno, oserrno);
++
++	now = READ_ONCE(ci->i_qtine_errno) == -CEPH_EQUARANTINED ||
++	      test_bit(CEPH_I_QUARANTINE_BIT, &ci->i_ceph_flags);
++	return was != now ||
++	       pending != test_bit(CEPH_I_QUARANTINE_PENDING_BIT,
++				   &ci->i_ceph_flags);
++}
++
+ /*
+  * Handle a cap GRANT message from the MDS.  (Note that a GRANT may
+  * actually be a revocation if it specifies a smaller cap set.)
+@@ -3781,6 +3832,7 @@ static void handle_cap_grant(struct inode *inode,
+ 	u64 max_size = le64_to_cpu(grant->max_size);
+ 	unsigned char check_caps = 0;
+ 	bool was_stale = cap->cap_gen < atomic_read(&session->s_cap_gen);
++	bool quarantine_current = ceph_seq_cmp(seq, cap->seq) >= 0;
+ 	bool wake = false;
+ 	bool writeback = false;
+ 	bool queue_trunc = false;
+@@ -4128,6 +4180,15 @@ static void handle_cap_grant(struct inode *inode,
+ 			fill_inline = true;
+ 	}
+ 
++	if (quarantine_current && extra_info->oserrno_valid &&
++	    ceph_apply_quarantine(ci, session->s_mds, newcaps,
++				  extra_info->oserrno)) {
++		boutc(cl, "quarantine oserrno %d caps %s %llx.%llx\n",
++		      extra_info->oserrno, ceph_cap_string(newcaps),
++		      ceph_vinop(inode));
++		wake = true;
++	}
++
+ 	if (le32_to_cpu(grant->op) == CEPH_CAP_OP_IMPORT) {
+ 		if (ci->i_auth_cap == cap) {
+ 			if (newcaps & ~extra_info->issued)
+@@ -4826,6 +4887,20 @@ void ceph_handle_caps(struct ceph_mds_session *session,
+ 			goto bad;
+ 	}
+ 
++	if (msg_version >= 13) {
++		/* v13: subvolume_id. The inode id is learned from replies. */
++		ceph_decode_skip_64(&p, end, bad);
++	}
++
++	if (msg_version >= 14) {
++		u32 raw_errno;
++
++		/* v14: signed oserrno, -CEPH_EQUARANTINED when quarantined */
++		ceph_decode_32_safe(&p, end, raw_errno, bad);
++		extra_info.oserrno = (s32)raw_errno;
++		extra_info.oserrno_valid = true;
++	}
++
+ 	/* lookup ino */
+ 	inode = ceph_find_inode(mdsc->fsc->sb, vino);
+ 	boutc(cl, " caps mds%d op %s ino %llx.%llx inode %p seq %u iseq %u mseq %u\n",
+@@ -4981,6 +5056,51 @@ void ceph_handle_caps(struct ceph_mds_session *session,
+ 	goto out;
+ }
+ 
++void ceph_handle_quarantine_disable(struct ceph_mds_client *mdsc,
++				    struct ceph_mds_session *session,
++				    struct ceph_msg *msg)
++{
++	struct super_block *sb = mdsc->fsc->sb;
++	struct ceph_client *cl = mdsc->fsc->client;
++	struct ceph_mds_quarantine_disable *h = msg->front.iov_base;
++	struct ceph_vino vino;
++	struct inode *inode;
++	struct ceph_inode_info *ci;
++
++	if (!ceph_inc_mds_stopping_blocker(mdsc, session))
++		return;
++
++	if (msg->front.iov_len < sizeof(*h)) {
++		pr_err_client(cl, "corrupt quarantine_disable mds%d len %d\n",
++			      session->s_mds, (int)msg->front.iov_len);
++		ceph_msg_dump(msg);
++		goto out;
++	}
++
++	vino.ino = le64_to_cpu(h->ino);
++	vino.snap = CEPH_NOSNAP;
++	inode = ceph_find_inode(sb, vino);
++	if (!inode) {
++		doutc(cl, "quarantine disable ino %llx not cached\n", vino.ino);
++		goto out;
++	}
++
++	ci = ceph_inode(inode);
++	spin_lock(&ci->i_ceph_lock);
++	/* Another rank's disable must not erase a newer negative. */
++	if (!test_bit(CEPH_I_QUARANTINE_BIT, &ci->i_ceph_flags) ||
++	    READ_ONCE(ci->i_qtine_mds) == session->s_mds) {
++		ceph_quarantine_clear(ci);
++		WRITE_ONCE(ci->i_qtine_errno, 0);
++	}
++	spin_unlock(&ci->i_ceph_lock);
++	wake_up_all(&ci->i_cap_wq);
++	doutc(cl, "quarantine disable ino %llx\n", vino.ino);
++	iput(inode);
++out:
++	ceph_dec_mds_stopping_blocker(mdsc);
++}
++
+ /*
+  * Process the expired end of one delayed cap list, whose entries were
+  * queued @hold jiffies before they expire.
+diff --git a/fs/ceph/dir.c b/fs/ceph/dir.c
+index 384e9edabe2a..d8c8b7ad8930 100644
+--- a/fs/ceph/dir.c
++++ b/fs/ceph/dir.c
+@@ -795,7 +795,9 @@ struct dentry *ceph_handle_snapdir(struct ceph_mds_request *req,
+ 		struct dentry *res;
+ 		struct inode *inode = ceph_get_snapdir(parent);
+ 
++		ceph_quarantine_splice_start(parent->i_sb);
+ 		res = d_splice_alias(inode, dentry);
++		ceph_quarantine_splice_finish(parent->i_sb);
+ 		boutc_formats(cl,
+ 			      "ENOENT on snapdir %p '%s', linking to snapdir %p %llx.%llx. Spliced dentry %p\n",
+ 			      "ENOENT on snapdir %p '%pd', linking to snapdir %p %llx.%llx. Spliced dentry %p\n",
+@@ -1373,7 +1375,9 @@ static int ceph_link(struct dentry *old_dentry, struct inode *dir,
+ 		d_drop(dentry);
+ 	} else if (!req->r_reply_info.head->is_dentry) {
+ 		ihold(d_inode(old_dentry));
++		ceph_quarantine_splice_start(dir->i_sb);
+ 		d_instantiate(dentry, d_inode(old_dentry));
++		ceph_quarantine_splice_finish(dir->i_sb);
+ 	}
+ 	ceph_mdsc_put_request(req);
+ 	ceph_blog_exit(&__ji);
+@@ -1701,12 +1705,17 @@ static int ceph_rename(struct mnt_idmap *idmap, struct inode *old_dir,
+ 	}
+ 	err = ceph_mdsc_do_request(mdsc, old_dir, req);
+ 	if (!err && !req->r_reply_info.head->is_dentry) {
++		struct inode *moved;
++
+ 		/*
+ 		 * Normally d_move() is done by fill_trace (called by
+ 		 * do_request, above).  If there is no trace, we need
+ 		 * to do it here.
+ 		 */
++		moved = d_inode(old_dentry);
++		ceph_quarantine_move_start(moved, old_dir, new_dir);
+ 		d_move(old_dentry, new_dentry);
++		ceph_quarantine_move_finish(moved, old_dir, new_dir);
+ 	}
+ 	ceph_mdsc_put_request(req);
+ 	ceph_blog_exit(&__ji);
+diff --git a/fs/ceph/file.c b/fs/ceph/file.c
+index 856710c63765..9a6eadb94ab4 100644
+--- a/fs/ceph/file.c
++++ b/fs/ceph/file.c
+@@ -785,7 +785,9 @@ static int ceph_finish_async_create(struct inode *dir, struct inode *inode,
+ 		if (d_in_lookup(dentry) || d_really_is_negative(dentry)) {
+ 			if (!d_unhashed(dentry))
+ 				d_drop(dentry);
++			ceph_quarantine_splice_start(dir->i_sb);
+ 			dn = d_splice_alias(inode, dentry);
++			ceph_quarantine_splice_finish(dir->i_sb);
+ 			WARN_ON_ONCE(dn && dn != dentry);
+ 		}
+ 		file->f_mode |= FMODE_CREATED;
+diff --git a/fs/ceph/inode.c b/fs/ceph/inode.c
+index 94f5215f8eed..78e97cf2f9a4 100644
+--- a/fs/ceph/inode.c
++++ b/fs/ceph/inode.c
+@@ -15,6 +15,7 @@
+ #include <linux/sort.h>
+ #include <linux/iversion.h>
+ #include <linux/fscrypt.h>
++#include <linux/cred.h>
+ 
+ #include "super.h"
+ #include "mds_client.h"
+@@ -648,6 +649,11 @@ struct inode *ceph_alloc_inode(struct super_block *sb)
+ 	ci->i_max_bytes = 0;
+ 	ci->i_max_files = 0;
+ 	ci->i_subvolume_id = CEPH_SUBVOLUME_ID_NONE;
++	ci->i_qtine_errno = 0;
++	ci->i_qtine_mds = -1;
++	atomic64_set(&ci->i_qtag, 0);
++	atomic64_set(&ci->i_qmds, 0);
++	ci->i_qmds_cred = NULL;
+ 
+ 	memset(&ci->i_dir_layout, 0, sizeof(ci->i_dir_layout));
+ 	memset(&ci->i_cached_layout, 0, sizeof(ci->i_cached_layout));
+@@ -730,10 +736,461 @@ struct inode *ceph_alloc_inode(struct super_block *sb)
+ 	return &ci->netfs.inode;
+ }
+ 
++/*
++ * quarantine_epoch is a seqcount shared by every mark change and every
++ * cross-directory rename. The first writer flips it odd, the last
++ * writer flips it even. Readers must not trust or publish a cache
++ * while it is odd, so a cached false cannot outlive the mutation.
++ *
++ * quarantine_lock makes the writers update and the epoch bump one
++ * step. The epoch is already odd before this returns, and it does not
++ * go even until the last writer has finished the bit change or d_move.
++ * Callers that hold i_ceph_lock take this lock after it. The lock is
++ * not held across the mutation.
++ */
++static void ceph_quarantine_write_begin(struct ceph_mds_client *mdsc)
++{
++	if (!mdsc)
++		return;
++
++	spin_lock(&mdsc->quarantine_lock);
++	if (atomic_inc_return(&mdsc->quarantine_writers) == 1)
++		atomic64_inc_return(&mdsc->quarantine_epoch);
++	spin_unlock(&mdsc->quarantine_lock);
++}
++
++static void ceph_quarantine_write_end(struct ceph_mds_client *mdsc)
++{
++	if (!mdsc)
++		return;
++
++	spin_lock(&mdsc->quarantine_lock);
++	if (atomic_dec_return(&mdsc->quarantine_writers) == 0)
++		atomic64_inc_return(&mdsc->quarantine_epoch);
++	spin_unlock(&mdsc->quarantine_lock);
++}
++
++void ceph_quarantine_set(struct ceph_inode_info *ci)
++{
++	struct ceph_mds_client *mdsc;
++
++	mdsc = ceph_sb_to_mdsc(ci->netfs.inode.i_sb);
++	/* Every accepted negative invalidates earlier requests and receipts. */
++	ceph_quarantine_write_begin(mdsc);
++	if (mdsc)
++		atomic_inc(&mdsc->quarantine_count);
++	if (test_and_set_bit(CEPH_I_QUARANTINE_BIT, &ci->i_ceph_flags)) {
++		if (mdsc)
++			atomic_dec(&mdsc->quarantine_count);
++	}
++	clear_bit(CEPH_I_QUARANTINE_PENDING_BIT, &ci->i_ceph_flags);
++	ceph_quarantine_write_end(mdsc);
++}
++
++bool ceph_quarantine_clear(struct ceph_inode_info *ci)
++{
++	struct ceph_mds_client *mdsc;
++	bool cleared;
++
++	if (!test_bit(CEPH_I_QUARANTINE_BIT, &ci->i_ceph_flags))
++		return false;
++
++	mdsc = ceph_sb_to_mdsc(ci->netfs.inode.i_sb);
++	ceph_quarantine_write_begin(mdsc);
++	cleared = test_and_clear_bit(CEPH_I_QUARANTINE_BIT, &ci->i_ceph_flags);
++	if (cleared) {
++		clear_bit(CEPH_I_QUARANTINE_PENDING_BIT, &ci->i_ceph_flags);
++		WRITE_ONCE(ci->i_qtine_errno, 0);
++		WRITE_ONCE(ci->i_qtine_mds, -1);
++		if (mdsc)
++			atomic_dec(&mdsc->quarantine_count);
++	}
++	ceph_quarantine_write_end(mdsc);
++	return cleared;
++}
++
++/* Session loss requires an MDS answer without reopening cached snap caps. */
++bool ceph_quarantine_reset(struct ceph_inode_info *ci)
++{
++	struct ceph_mds_client *mdsc;
++
++	if (!test_bit(CEPH_I_QUARANTINE_BIT, &ci->i_ceph_flags) ||
++	    test_bit(CEPH_I_QUARANTINE_PENDING_BIT, &ci->i_ceph_flags))
++		return false;
++
++	mdsc = ceph_sb_to_mdsc(ci->netfs.inode.i_sb);
++	ceph_quarantine_write_begin(mdsc);
++	set_bit(CEPH_I_QUARANTINE_PENDING_BIT, &ci->i_ceph_flags);
++	WRITE_ONCE(ci->i_qtine_errno, 0);
++	ceph_quarantine_write_end(mdsc);
++	return true;
++}
++
++bool ceph_inode_quarantine_direct(struct inode *inode)
++{
++	struct ceph_inode_info *ci;
++
++	if (!inode)
++		return false;
++	ci = ceph_inode(inode);
++	return !test_bit(CEPH_I_QUARANTINE_PENDING_BIT, &ci->i_ceph_flags) &&
++		(READ_ONCE(ci->i_qtine_errno) == -CEPH_EQUARANTINED ||
++		 test_bit(CEPH_I_QUARANTINE_BIT, &ci->i_ceph_flags));
++}
++
++/* Low bit is the answer. The rest is quarantine_epoch, odd values excluded. */
++static u64 ceph_qtag_pack(u64 epoch, bool under)
++{
++	return epoch | (under ? 1ULL : 0);
++}
++
++static void ceph_quarantine_publish(struct ceph_inode_info *ci, bool under,
++				    u64 epoch)
++{
++	if (epoch & 1)
++		return;
++
++	/* Pairs with atomic64_read_acquire() of i_qtag. */
++	atomic64_set_release(&ci->i_qtag, ceph_qtag_pack(epoch, under));
++}
++
++static bool ceph_qtag_read(struct ceph_inode_info *ci, u64 epoch, bool *under)
++{
++	u64 packed;
++
++	if (epoch & 1)
++		return false;
++
++	/* Pairs with atomic64_set_release() in ceph_quarantine_publish(). */
++	packed = atomic64_read_acquire(&ci->i_qtag);
++	if ((packed & ~1ULL) != epoch)
++		return false;
++	*under = packed & 1ULL;
++	return true;
++}
++
++/* (epoch | 1) marks an MDS confirmation for this even epoch. */
++static bool ceph_qmds_confirmed(struct ceph_inode_info *ci, u64 epoch)
++{
++	u64 cookie;
++	bool confirmed;
++
++	if (epoch & 1)
++		return false;
++
++	/* Pairs with atomic64_set_release() in remember_clear(). */
++	if ((u64)atomic64_read_acquire(&ci->i_qmds) != (epoch | 1ULL))
++		return false;
++	/* The cookie and its immutable credentials are one locked receipt. */
++	spin_lock(&ci->i_ceph_lock);
++	cookie = atomic64_read(&ci->i_qmds);
++	confirmed = cookie == (epoch | 1ULL) &&
++		ci->i_qmds_cred == current_cred();
++	spin_unlock(&ci->i_ceph_lock);
++	return confirmed;
++}
++
++static void ceph_quarantine_forget_receipt(struct ceph_inode_info *ci)
++{
++	const struct cred *cred;
++
++	spin_lock(&ci->i_ceph_lock);
++	cred = ci->i_qmds_cred;
++	ci->i_qmds_cred = NULL;
++	atomic64_set_release(&ci->i_qmds, 0);
++	spin_unlock(&ci->i_ceph_lock);
++	put_cred(cred);
++}
++
++/* A finished walk reached a mark, an ancestor tag, or the mount root. */
++enum {
++	CEPH_QWALK_CLEAR,
++	CEPH_QWALK_UNDER,
++	CEPH_QWALK_INCOMPLETE,
++};
++
++/*
++ * Parent walk with no inode references. Caller holds rcu_read_lock().
++ * Stops at the mount root, at an MDS mark, or at an ancestor whose
++ * cached answer is for this epoch. No hashed alias, or the depth
++ * limit, is not an answer: the caller must not cache it.
++ */
++static int ceph_quarantine_walk_once(struct inode *inode, u64 epoch,
++				     bool use_cache)
++{
++	struct inode *cur = inode;
++	unsigned int depth = 0;
++	bool under = false;
++	bool done = false;
++
++	while (cur && depth++ < 256) {
++		struct ceph_inode_info *ci = ceph_inode(cur);
++		struct dentry *alias;
++		struct dentry *parent;
++		struct inode *next;
++
++		if (test_bit(CEPH_I_QUARANTINE_PENDING_BIT, &ci->i_ceph_flags))
++			break;
++		if (READ_ONCE(ci->i_qtine_errno) == -CEPH_EQUARANTINED ||
++		    test_bit(CEPH_I_QUARANTINE_BIT, &ci->i_ceph_flags)) {
++			under = true;
++			done = true;
++			break;
++		}
++
++		if (use_cache && cur != inode &&
++		    ceph_qtag_read(ci, epoch, &under)) {
++			done = true;
++			break;
++		}
++
++		alias = d_find_alias_rcu(cur);
++		if (!alias)
++			break;
++
++		parent = READ_ONCE(alias->d_parent);
++		/*
++		 * The mount root is its own parent. A disconnected
++		 * alias from d_obtain_alias(), or a secondary root from
++		 * d_obtain_root(), has the same shape and is not a
++		 * finished walk.
++		 */
++		if (!parent || parent == alias) {
++			if (parent == alias && S_ISDIR(cur->i_mode) &&
++			    alias == READ_ONCE(inode->i_sb->s_root))
++				done = true;
++			break;
++		}
++
++		next = d_inode_rcu(parent);
++		if (!next || next == cur || next->i_sb != inode->i_sb)
++			break;
++		cur = next;
++	}
++	if (!done)
++		return CEPH_QWALK_INCOMPLETE;
++	return under ? CEPH_QWALK_UNDER : CEPH_QWALK_CLEAR;
++}
++
++/*
++ * rename_lock covers d_move(). A chain observed across that move is
++ * not an answer. A few retries, then the caller asks the MDS.
++ */
++static int ceph_quarantine_walk(struct inode *inode, u64 epoch, bool use_cache)
++{
++	unsigned int seq;
++	unsigned int tries = 0;
++	int ret = CEPH_QWALK_INCOMPLETE;
++
++	rcu_read_lock();
++	do {
++		seq = read_seqbegin(&rename_lock);
++		ret = ceph_quarantine_walk_once(inode, epoch, use_cache);
++		if (!read_seqretry(&rename_lock, seq))
++			break;
++		ret = CEPH_QWALK_INCOMPLETE;
++		cpu_relax();
++	} while (++tries < 4);
++	rcu_read_unlock();
++	return ret;
++}
++
++/*
++ * CEPH_Q_UNDER when this inode or an ancestor was marked by an MDS cap
++ * update. Ancestors cover children that have not yet received their
++ * own cap message.
++ *
++ * quarantine_count is zero unless some inode is marked, so the common
++ * path does not walk. While a mark is set, a finished walk is one word
++ * on the inode. A walk stops at an ancestor that already holds that
++ * answer. A short walk is not stored in i_qtag. Callers ask the MDS.
++ * An MDS read receipt in i_qmds overrides inherited marks for the
++ * queried inode until the next epoch bump. It does not override a
++ * definite mark on that inode or authorize cached writes.
++ *
++ * An odd quarantine_epoch is a mark or a d_move() in progress. The
++ * observation is dropped and the check is repeated. Bounded retries
++ * return UNKNOWN, so a preempted writer cannot pin the CPU.
++ */
++static enum ceph_qstate __ceph_inode_quarantine_state(struct inode *inode,
++						      bool read_confirmed)
++{
++	struct ceph_mds_client *mdsc;
++	struct ceph_inode_info *ci;
++	unsigned int retries = 0;
++	u64 epoch;
++	bool under, splicing, cached;
++
++	if (!inode)
++		return CEPH_Q_CLEAR;
++
++	mdsc = ceph_sb_to_mdsc(inode->i_sb);
++	if (!mdsc || atomic_read(&mdsc->quarantine_count) == 0)
++		return CEPH_Q_CLEAR;
++
++	ci = ceph_inode(inode);
++	for (;;) {
++		/* Bound retries across both odd writers and changing even epochs. */
++		if (++retries > 32) {
++			cond_resched();
++			return CEPH_Q_UNKNOWN;
++		}
++		/* Pairs with atomic64_inc_return() in write_begin(). */
++		epoch = (u64)atomic64_read_acquire(&mdsc->quarantine_epoch);
++		if (epoch & 1) {
++			cpu_relax();
++			cond_resched();
++			continue;
++		}
++		splicing = atomic_read_acquire(&mdsc->quarantine_splices) != 0;
++
++		if (ceph_inode_quarantine_direct(inode)) {
++			under = true;
++			cached = true;
++		} else if (read_confirmed && !splicing &&
++			   ceph_qmds_confirmed(ci, epoch)) {
++			under = false;
++			cached = true;
++		} else {
++			cached = !splicing && ceph_qtag_read(ci, epoch, &under);
++		}
++		if (cached) {
++			/* Orders the marker, receipt, and tag loads before the retry. */
++			smp_rmb();
++			if ((u64)atomic64_read(&mdsc->quarantine_epoch) == epoch &&
++			    (splicing || !atomic_read(&mdsc->quarantine_splices)))
++				return under ? CEPH_Q_UNDER : CEPH_Q_CLEAR;
++			cpu_relax();
++			cond_resched();
++			continue;
++		}
++
++		switch (ceph_quarantine_walk(inode, epoch, !splicing)) {
++		case CEPH_QWALK_UNDER:
++			under = true;
++			break;
++		case CEPH_QWALK_CLEAR:
++			under = false;
++			break;
++		default:
++			/* Orders the walk before the retry. */
++			smp_rmb();
++			if ((u64)atomic64_read(&mdsc->quarantine_epoch) == epoch &&
++			    (splicing || !atomic_read(&mdsc->quarantine_splices))) {
++				return CEPH_Q_UNKNOWN;
++			}
++			cpu_relax();
++			cond_resched();
++			continue;
++		}
++		/* Orders the walk before the retry, as in read_seqcount_retry(). */
++		smp_rmb();
++		if ((u64)atomic64_read(&mdsc->quarantine_epoch) == epoch &&
++		    (splicing || !atomic_read(&mdsc->quarantine_splices))) {
++			if (!splicing)
++				ceph_quarantine_publish(ci, under, epoch);
++			return under ? CEPH_Q_UNDER : CEPH_Q_CLEAR;
++		}
++		cpu_relax();
++		cond_resched();
++	}
++}
++
++enum ceph_qstate ceph_inode_quarantine_state(struct inode *inode)
++{
++	return __ceph_inode_quarantine_state(inode, true);
++}
++
++enum ceph_qstate ceph_inode_quarantine_write_state(struct inode *inode)
++{
++	/* GETATTR can prove read recovery access under a read-only q grant. */
++	return __ceph_inode_quarantine_state(inode, false);
++}
++
++static struct ceph_mds_client *ceph_quarantine_move_mdsc(struct inode *inode,
++							 struct inode *old_dir,
++							 struct inode *new_dir)
++{
++	if (!inode || old_dir == new_dir)
++		return NULL;
++	return ceph_sb_to_mdsc(inode->i_sb);
++}
++
++/*
++ * Bracket d_move(). The epoch is odd across the parent change, so a
++ * cached false cannot be reused against the new parent. d_move() does
++ * not sleep. Same-directory renames do not take a writer slot.
++ *
++ * Sleeping alias splices use a separate counter below.
++ */
++void ceph_quarantine_move_start(struct inode *inode, struct inode *old_dir,
++				struct inode *new_dir)
++{
++	ceph_quarantine_write_begin(ceph_quarantine_move_mdsc(inode, old_dir,
++							      new_dir));
++}
++
++void ceph_quarantine_move_finish(struct inode *inode, struct inode *old_dir,
++				 struct inode *new_dir)
++{
++	ceph_quarantine_write_end(ceph_quarantine_move_mdsc(inode, old_dir,
++							    new_dir));
++}
++
++/*
++ * d_splice_alias() and d_instantiate() can sleep in the LSM hook before
++ * changing ancestry. Keep the epoch even for that hook, but disallow
++ * all cached answers throughout the splice. A fresh walk also samples
++ * rename_lock, so it cannot accept a chain torn by a move. Bracket
++ * first attachments too: descendants may hold MDS confirmations from
++ * when the directory had no connected alias.
++ *
++ * Fully ordered atomics and quarantine_lock make the counter and epoch
++ * transitions one writer operation. Entry disables cache use before
++ * invalidating tags; exit invalidates tags before enabling cache use.
++ * Adding two preserves the parity of any concurrent mark writer.
++ */
++void ceph_quarantine_splice_start(struct super_block *sb)
++{
++	struct ceph_mds_client *mdsc = ceph_sb_to_mdsc(sb);
++
++	spin_lock(&mdsc->quarantine_lock);
++	atomic_inc_return(&mdsc->quarantine_splices);
++	atomic64_add_return(2, &mdsc->quarantine_epoch);
++	spin_unlock(&mdsc->quarantine_lock);
++}
++
++void ceph_quarantine_splice_finish(struct super_block *sb)
++{
++	struct ceph_mds_client *mdsc = ceph_sb_to_mdsc(sb);
++
++	spin_lock(&mdsc->quarantine_lock);
++	atomic64_add_return(2, &mdsc->quarantine_epoch);
++	atomic_dec_return(&mdsc->quarantine_splices);
++	spin_unlock(&mdsc->quarantine_lock);
++}
++
++static bool ceph_quarantine_reply_can_clear(struct ceph_inode_info *ci,
++					    struct ceph_mds_session *session)
++{
++	struct ceph_mds_client *mdsc = ceph_sb_to_mdsc(ci->netfs.inode.i_sb);
++	struct ceph_mds_request *req;
++	u64 epoch;
++
++	if (READ_ONCE(ci->i_qtine_mds) == session->s_mds)
++		return true;
++	/* Different ranks have independent cap sequences. */
++	req = ceph_current_mds_request(mdsc->fsc);
++	epoch = (u64)atomic64_read_acquire(&mdsc->quarantine_epoch);
++	return req && !(epoch & 1) && req->r_quarantine_epoch == epoch &&
++		!atomic_read(&mdsc->quarantine_splices);
++}
++
+ void ceph_free_inode(struct inode *inode)
+ {
+ 	struct ceph_inode_info *ci = ceph_inode(inode);
+ 
++	put_cred(ci->i_qmds_cred);
+ 	kfree(ci->i_symlink);
+ #ifdef CONFIG_FS_ENCRYPTION
+ 	kfree(ci->fscrypt_auth);
+@@ -759,6 +1216,8 @@ void ceph_evict_inode(struct inode *inode)
+ 	percpu_counter_dec(&mdsc->metric.total_inodes);
+ 
+ 	ci->i_subvolume_id = CEPH_SUBVOLUME_ID_NONE;
++	ceph_quarantine_forget_receipt(ci);
++	ceph_quarantine_clear(ci);
+ 
+ 	netfs_wait_for_outstanding_io(inode);
+ 	truncate_inode_pages_final(&inode->i_data);
+@@ -1407,7 +1866,7 @@ int ceph_fill_inode(struct inode *inode, struct folio *locked_folio,
+ 	/* were we issued a capability? */
+ 	if (info_caps) {
+ 		if (!ceph_in_snap(inode)) {
+-			ceph_add_cap(inode, session,
++			bool cap_current = ceph_add_cap(inode, session,
+ 				     le64_to_cpu(info->cap.cap_id),
+ 				     info_caps,
+ 				     le32_to_cpu(info->cap.wanted),
+@@ -1416,6 +1875,14 @@ int ceph_fill_inode(struct inode *inode, struct folio *locked_folio,
+ 				     le64_to_cpu(info->cap.realm),
+ 				     info->cap.flags, &new_cap);
+ 
++			/*
++			 * Caps above PIN mean quarantine has been lifted,
++			 * including when the disable message was lost.
++			 */
++			if (cap_current && (info_caps & ~CEPH_CAP_PIN) &&
++			    ceph_quarantine_reply_can_clear(ci, session))
++				ceph_quarantine_clear(ci);
++
+ 			/* set dir completion flag? */
+ 			if (S_ISDIR(inode->i_mode) &&
+ 			    ci->i_files == 0 && ci->i_subdirs == 0 &&
+@@ -1618,6 +2085,7 @@ static int splice_dentry(struct dentry **pdn, struct inode *in)
+ 		realdn = d_find_any_alias(in);
+ 		if (realdn) {
+ 			struct ceph_dentry_info *di = ceph_dentry(realdn);
++
+ 			spin_lock(&realdn->d_lock);
+ 
+ 			realdn->d_op->d_prune(realdn);
+@@ -1634,7 +2102,9 @@ static int splice_dentry(struct dentry **pdn, struct inode *in)
+ 	/* dn must be unhashed */
+ 	if (!d_unhashed(dn))
+ 		d_drop(dn);
++	ceph_quarantine_splice_start(dn->d_sb);
+ 	realdn = d_splice_alias(in, dn);
++	ceph_quarantine_splice_finish(dn->d_sb);
+ 	if (IS_ERR(realdn)) {
+ 		pr_err_client(cl, "error %ld %p inode %p ino %llx.%llx\n",
+ 			      PTR_ERR(realdn), dn, in, ceph_vinop(in));
+@@ -1859,6 +2329,7 @@ int ceph_fill_trace(struct super_block *sb, struct ceph_mds_request *req)
+ 		/* rename? */
+ 		if (req->r_old_dentry && req->r_op == CEPH_MDS_OP_RENAME) {
+ 			struct inode *olddir = req->r_old_dentry_dir;
++			struct inode *moved;
+ 			BUG_ON(!olddir);
+ 
+ 			boutc(cl, " src %p '%s' dst %p '%s'\n",
+@@ -1869,7 +2340,10 @@ int ceph_fill_trace(struct super_block *sb, struct ceph_mds_request *req)
+ 			ceph_dir_clear_ordered(dir);
+ 			ceph_dir_clear_ordered(olddir);
+ 
++			moved = d_inode(req->r_old_dentry);
++			ceph_quarantine_move_start(moved, olddir, dir);
+ 			d_move(req->r_old_dentry, dn);
++			ceph_quarantine_move_finish(moved, olddir, dir);
+ 			boutc(cl, " src %p '%s' dst %p '%s'\n",
+ 			      req->r_old_dentry, req->r_old_dentry->d_name.name, dn, dn->d_name.name);
+ 
+diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
+index d4ef8a355a48..bb7cf9384fd6 100644
+--- a/fs/ceph/mds_client.c
++++ b/fs/ceph/mds_client.c
+@@ -2041,10 +2041,12 @@ static int remove_session_caps_cb(struct inode *inode, int mds, void *arg)
+ 	struct ceph_inode_info *ci = ceph_inode(inode);
+ 	struct ceph_client *cl = ceph_inode_to_client(inode);
+ 	bool invalidate = false;
++	bool reset;
+ 	struct ceph_cap *cap;
+ 	int iputs = 0;
+ 
+ 	spin_lock(&ci->i_ceph_lock);
++	reset = ceph_quarantine_reset(ci);
+ 	cap = __get_cap_for_mds(ci, mds);
+ 	if (cap) {
+ 		boutc(cl, " removing cap %p, ci is %p, inode is %p\n",
+@@ -2054,7 +2056,7 @@ static int remove_session_caps_cb(struct inode *inode, int mds, void *arg)
+ 	}
+ 	spin_unlock(&ci->i_ceph_lock);
+ 
+-	if (cap)
++	if (cap || reset)
+ 		wake_up_all(&ci->i_cap_wq);
+ 	if (invalidate)
+ 		ceph_queue_invalidate(inode);
+@@ -2860,6 +2862,7 @@ ceph_mdsc_create_request(struct ceph_mds_client *mdsc, int op, int mode)
+ 
+ 	mutex_init(&req->r_fill_mutex);
+ 	req->r_mdsc = mdsc;
++	req->r_quarantine_epoch = atomic64_read_acquire(&mdsc->quarantine_epoch);
+ 	req->r_started = jiffies;
+ 	req->r_start_latency = ktime_get();
+ 	req->r_resend_mds = -1;
+@@ -5009,6 +5012,7 @@ static int reconnect_caps_cb(struct inode *inode, int mds, void *arg)
+ 	struct ceph_path_info path_info = {0};
+ 	int err;
+ 	u64 snap_follows;
++	bool reset = false;
+ 
+ 	dentry = d_find_primary(inode);
+ 	if (dentry) {
+@@ -5023,9 +5027,16 @@ static int reconnect_caps_cb(struct inode *inode, int mds, void *arg)
+ 	}
+ 
+ 	spin_lock(&ci->i_ceph_lock);
++	/*
++	 * Require a fresh MDS answer after reconnect. A PIN import may
++	 * carry no quarantine errno, so it must not reopen cached snap caps.
++	 */
++	reset = ceph_quarantine_reset(ci);
+ 	cap = __get_cap_for_mds(ci, mds);
+ 	if (!cap) {
+ 		spin_unlock(&ci->i_ceph_lock);
++		if (reset)
++			wake_up_all(&ci->i_cap_wq);
+ 		err = 0;
+ 		goto out_err;
+ 	}
+@@ -5088,6 +5099,8 @@ static int reconnect_caps_cb(struct inode *inode, int mds, void *arg)
+ 		snap_follows = capsnap->follows;
+ 	}
+ 	spin_unlock(&ci->i_ceph_lock);
++	if (reset)
++		wake_up_all(&ci->i_cap_wq);
+ 
+ 	if (recon_state->msg_version >= 2) {
+ 		int num_fcntl_locks, num_flock_locks;
+@@ -6468,6 +6481,11 @@ int ceph_mdsc_init(struct ceph_fs_client *fsc)
+ 	init_completion(&mdsc->safe_umount_waiters);
+ 	spin_lock_init(&mdsc->stopping_lock);
+ 	atomic_set(&mdsc->stopping_blockers, 0);
++	atomic_set(&mdsc->quarantine_count, 0);
++	atomic_set(&mdsc->quarantine_writers, 0);
++	atomic_set(&mdsc->quarantine_splices, 0);
++	atomic64_set(&mdsc->quarantine_epoch, 0);
++	spin_lock_init(&mdsc->quarantine_lock);
+ 	init_completion(&mdsc->stopping_waiter);
+ 	atomic64_set(&mdsc->dirty_folios, 0);
+ 	init_waitqueue_head(&mdsc->flush_end_wq);
+@@ -7368,6 +7386,9 @@ static void mds_dispatch(struct ceph_connection *con, struct ceph_msg *msg)
+ 	case CEPH_MSG_CLIENT_QUOTA:
+ 		ceph_handle_quota(mdsc, s, msg);
+ 		break;
++	case CEPH_MSG_CLIENT_QUARANTINE_DISABLE:
++		ceph_handle_quarantine_disable(mdsc, s, msg);
++		break;
+ 
+ 	default:
+ 		pr_err_client(cl, "received unknown message type %d %s\n",
+diff --git a/fs/ceph/mds_client.h b/fs/ceph/mds_client.h
+index 863cdb8d588a..816f5f2d32cc 100644
+--- a/fs/ceph/mds_client.h
++++ b/fs/ceph/mds_client.h
+@@ -375,6 +375,7 @@ struct ceph_mds_request {
+ 	int r_fmode;        /* file mode, if expecting cap */
+ 	int r_request_release_offset;
+ 	const struct cred *r_cred;
++	u64 r_quarantine_epoch; /* generation when the request was created */
+ 	struct mnt_idmap *r_mnt_idmap;
+ 	struct timespec64 r_stamp;
+ 
+@@ -506,6 +507,21 @@ struct ceph_mds_client {
+ 	spinlock_t              stopping_lock;  /* protect snap_empty */
+ 	int                     stopping;      /* the stage of shutting down */
+ 	atomic_t                stopping_blockers;
++	/*
++	 * Inodes with CEPH_I_QUARANTINE set. Hot paths skip the
++	 * ancestor walk while this is zero.
++	 * quarantine_epoch is a seqcount: even while idle, odd while
++	 * quarantine_writers is non-zero. Writers are mark changes and
++	 * cross-directory renames. quarantine_lock covers the writers
++	 * update and the epoch bump together. Sleeping alias splices use
++	 * quarantine_splices instead: readers walk without cached answers
++	 * while it is non-zero. Each splice edge also bumps the epoch.
++	 */
++	atomic_t		quarantine_count;
++	atomic_t		quarantine_writers;
++	atomic_t		quarantine_splices;
++	atomic64_t		quarantine_epoch;
++	spinlock_t		quarantine_lock; /* writers update + epoch bump */
+ 	struct completion	stopping_waiter;
+ 
+ 	atomic64_t		dirty_folios;
+diff --git a/fs/ceph/super.c b/fs/ceph/super.c
+index 40be4b16e486..ad9460d9673c 100644
+--- a/fs/ceph/super.c
++++ b/fs/ceph/super.c
+@@ -1139,7 +1139,9 @@ static struct dentry *open_root_dentry(struct ceph_fs_client *fsc,
+ 		struct inode *inode = req->r_target_inode;
+ 		req->r_target_inode = NULL;
+ 		doutc(cl, "success\n");
++		ceph_quarantine_splice_start(fsc->sb);
+ 		root = d_make_root(inode);
++		ceph_quarantine_splice_finish(fsc->sb);
+ 		if (!root) {
+ 			root = ERR_PTR(-ENOMEM);
+ 			goto out;
+diff --git a/fs/ceph/super.h b/fs/ceph/super.h
+index 458fd63dd79f..0264bd9d705f 100644
+--- a/fs/ceph/super.h
++++ b/fs/ceph/super.h
+@@ -444,6 +444,33 @@ struct ceph_inode_info {
+ #define CEPH_SUBVOLUME_ID_NONE 0
+ 	u64 i_subvolume_id;
+ 
++	/*
++	 * Cap oserrno from the MDS. -CEPH_EQUARANTINED means this inode
++	 * was revoked because its subvolume is quarantined. Paired with
++	 * CEPH_I_QUARANTINE, which stays set when a later PIN-only update
++	 * clears the errno.
++	 */
++	int i_qtine_errno;
++	int i_qtine_mds; /* negative cap origin, retained across pending reset */
++	/*
++	 * Cached ancestry answer: epoch | under, where epoch is even.
++	 * Atomic64 accesses also prevent tearing on 32-bit clients. An odd
++	 * quarantine_epoch means a mark or a rename is in progress.
++	 * Do not trust this word while the epoch is odd or an alias
++	 * splice is in progress.
++	 * Zero means "not under" at epoch 0.
++	 *
++	 * i_qmds stores (epoch | 1) after the MDS confirms an inode
++	 * can be read despite uncertain or marked ancestry. This read
++	 * permission is scoped to this inode, never its descendants or
++	 * cached writes. The next epoch bump drops the confirmation.
++	 * Zero means there is no confirmation.
++	 */
++	atomic64_t i_qtag;
++	atomic64_t i_qmds;
++	/* Immutable request credentials scope the MDS read receipt. */
++	const struct cred *i_qmds_cred; /* protected with i_qmds by i_ceph_lock */
++
+ 	s32 i_dir_pin;
+ 
+ 	int i_fragtree_nsplits;
+@@ -773,6 +800,8 @@ static inline u64 ceph_get_truncate_pagecache_size(const struct ceph_inode_info
+ 					      * the deferred work completes
+ 					      */
+ #define CEPH_I_EVICT_ON_FINAL_IPUT_BIT	(16) /* evict at the final iput() */
++#define CEPH_I_QUARANTINE_BIT		(17) /* subvolume quarantine opt set */
++#define CEPH_I_QUARANTINE_PENDING_BIT	(18) /* quarantine needs MDS confirmation */
+ 
+ #define CEPH_I_DIR_ORDERED		(1 << CEPH_I_DIR_ORDERED_BIT)
+ #define CEPH_I_FLUSH			(1 << CEPH_I_FLUSH_BIT)
+@@ -1259,6 +1288,38 @@ extern int ceph_getattr(struct mnt_idmap *idmap,
+ 			u32 request_mask, unsigned int flags);
+ void ceph_inode_shutdown(struct inode *inode);
+ 
++/*
++ * CEPH_Q_CLEAR: cached ancestry is clear, or the MDS confirmed read
++ * access to this exact inode for the current epoch. Writers must use
++ * ceph_inode_quarantine_write_state(), which ignores read receipts.
++ * CEPH_Q_UNDER: this inode or a cached ancestor is marked.
++ * CEPH_Q_UNKNOWN: the parent chain is not fully cached. Ask the MDS.
++ * Do not treat that as quarantined and do not use cached caps.
++ */
++enum ceph_qstate {
++	CEPH_Q_CLEAR = 0,
++	CEPH_Q_UNDER,
++	CEPH_Q_UNKNOWN,
++};
++
++enum ceph_qstate ceph_inode_quarantine_state(struct inode *inode);
++enum ceph_qstate ceph_inode_quarantine_write_state(struct inode *inode);
++bool ceph_inode_quarantine_direct(struct inode *inode);
++int ceph_quarantine_revalidate(struct inode *inode);
++int ceph_snapshot_read_auth(struct inode *inode);
++void ceph_quarantine_set(struct ceph_inode_info *ci);
++bool ceph_quarantine_clear(struct ceph_inode_info *ci);
++bool ceph_quarantine_reset(struct ceph_inode_info *ci);
++void ceph_quarantine_move_start(struct inode *inode, struct inode *old_dir,
++				struct inode *new_dir);
++void ceph_quarantine_move_finish(struct inode *inode, struct inode *old_dir,
++				 struct inode *new_dir);
++void ceph_quarantine_splice_start(struct super_block *sb);
++void ceph_quarantine_splice_finish(struct super_block *sb);
++void ceph_handle_quarantine_disable(struct ceph_mds_client *mdsc,
++				    struct ceph_mds_session *session,
++				    struct ceph_msg *msg);
++
+ static inline bool ceph_inode_is_shutdown(const struct inode *inode)
+ {
+ 	unsigned long flags = READ_ONCE(ceph_inode(inode)->i_ceph_flags);
+@@ -1368,11 +1429,11 @@ extern void ceph_handle_caps(struct ceph_mds_session *session,
+ 			     struct ceph_msg *msg);
+ extern struct ceph_cap *ceph_get_cap(struct ceph_mds_client *mdsc,
+ 				     struct ceph_cap_reservation *ctx);
+-extern void ceph_add_cap(struct inode *inode,
+-			 struct ceph_mds_session *session, u64 cap_id,
+-			 unsigned issued, unsigned wanted,
+-			 unsigned cap, unsigned seq, u64 realmino, int flags,
+-			 struct ceph_cap **new_cap);
++bool ceph_add_cap(struct inode *inode,
++		  struct ceph_mds_session *session, u64 cap_id,
++		  unsigned int issued, unsigned int wanted,
++		  unsigned int seq, unsigned int mseq, u64 realmino, int flags,
++		  struct ceph_cap **new_cap);
+ 
+ /**
+  * Determine whether __ceph_remove_cap() has been called on this #cap
 
