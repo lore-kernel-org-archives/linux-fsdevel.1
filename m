@@ -1,73 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.202
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792491580;
-	b=SoBNW7ev1+ojWxgdwmJMPbFyitmSHyi47GEeQ21gysRSlnaqVtXeEIIuyRxHEvQ/dKx2
-	 lOoeWHbIJ1j//w4zzNUI4NUTvOYFZqMp5KObs2ALuEldcjfx8orToyPpF+uNdiBfsz1Tq
-	 ivk4ICRC3Ig2EKaqj9/oX7V/DiY4iCOdNIBNF4gquanTOdOR4tjZG4JJZqlhF9J9mlzbA
-	 YL9+yWoHTICou7w3H8bJM6hyJXikkm+lh8PHUH0DYaGJnEjHbUWMT5CFKJ0MsEV96SHr2
-	 zoRmAb945eUDoe6worPhtT8EcQNt0hzDSs4lVgyue5ee/IcpbzcFcmBsk5ncfRRctGg==
+	t=1792493000;
+	b=S2lU2uG59cx5f3MI3UK4EYNgBnN2RfPZiPwVVbrYbZxMVdkmVuQyzaYJqk/3o51V3olV
+	 Yy/VzjTZOK0WRABilWWfV768NMjaKGjddQ8BfycQA2qfpZQnoSADb+rinVUg1CkDijX5R
+	 nBoRH8yGXPc7o/IRbVkh5D8+qyHIecy5Sdxa7CVBY9g1Kru5jnjJL4ZP/MLcKo6nNrcuc
+	 zWry6tVTeGkAKbt7JAICZwEjdBU2HC4Bkwn7X2eQomo1GpiSQl0mpP+GJmvuErZoWX33R
+	 F+BqIlW7U54Tr8oPHo4rFufhNFXGAfSJnHhyE7meOBX+miI07IhBmxH4RZZNUf3VRgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792491580;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=DaYL+lq2X1jkyL5DAV0JgOaO+hwBEe6efZ7/qxEoSk4=;
-	b=nHX5Os1GpxCHMbobzFh7FBvZ80cyA4sh/QLXvG2gLL19biF9inwRKatlDf+szn6Nw+sb
-	 Z0xJxNvfaX4YFn+cd3lxeVZZ0clqB2VuGd/chCYt+QBLqgq3PStoeXiQ8fsVZWUPYTEMK
-	 O3kI4QgeuPnP+EdMALUPrVTZtZpKpzf5ZrR7+VdNeeIsmsfrUwsnol9rNwzgkroQX/8th
-	 JOfeIKRFG17NPzvz1DVy2LHvTrM5cUtfTj/A3093cTZLh29jrY32oqkfygQuDrMHb7XJu
-	 EV5TcqY+OKikQuAswKTKfa53l/s37ZZ62Ca+ClOHwx3hOg+dQyQ8fK/MEyYbuKD1fBg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792493000;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=1/383+dg5/KqVJ7YukiMnVebCTmoxJZhCn7AfSGB8Ik=;
+	b=o4b1bUh35aRCZdLW8hsxJM0IxCqCAW0RiLhkPvXvj2ozqok69k3/gAba4r+oAdLqJCs8
+	 d13t8yF198P31mODIbIwrlULpw6ZfN1uA+t1Sm2E6i7KfPyyfShgNJNnnwLcvA5vXdAsq
+	 SGxNBIh31SnIZihSBpUTb/wzuNJjbKLM0AfR82DyjGfL30mpFbrfNZzrmCqB33kKMRlL4
+	 zbfiwozPtGAU72D70A/A56tZBFqmEs6kPiNvwTBVAfTcp4GqJCpMzT/c6mPN7mxoLntZI
+	 iGJH8um34YC9kIEkzxZhPysKjPrcUun6axYfHVeVMT4v6azHKsf86UXcozjI3ZoyUyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=WFQxwIvq;
-	arc=none smtp.remote-ip=203.205.221.202
-Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ouKnRxHA;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824A7606A31B;
-	Tue, 20 Oct 2026 10:19:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 824A7606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912BA606A319;
+	Tue, 20 Oct 2026 10:43:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=WFQxwIvq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1792491575; bh=DaYL+lq2X1jkyL5DAV0JgOaO+hwBEe6efZ7/qxEoSk4=;
-	h=From:To:Cc:Subject:Date;
-	b=WFQxwIvqXYvgxkRhBXt0IY2eCVjCQxN4tygHLfyeB6Ld/8sBzk3Ci1sYkCGEprbr6
-	 FUocmCdC3PLyim5yX8GPY4zrH4To201PFDQwqCVJv1vgjoCn0e8CD4Cp3uC0Dv8fSE
-	 XFrGVZiQ8A0xVMnYQUIxpyYSHSP2PRIXzNY4tUVc=
-Received: from [172.18.4.77] ([61.136.26.103])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id 4E1B60EE; Tue, 20 Oct 2026 18:19:33 +0800
-X-QQ-mid: xmsmtpt1792491573t30mnsrro
-Message-ID: <tencent_63539C28151F9BA8C854BF6FAF9101A72707@qq.com>
-X-QQ-XMAILINFO: MipYEBg1qKqI2mwv4N+CJ2cDOe962AMH64FB71X/1VumkB693IqGWhfmqeVdBk
-	 JF5+Nc2qgkowGV/6/6cSTFh+/2TrH90Hu2yE5BKhAkBVht9zLwibhO7D04E80a5pdFKzxHolShlC
-	 p7yBUKLAZ+mBdVjxPXs7V1C1SysdaRp20qsKO+8Z2wAbVQp2eCGl19WZnlvI1z5/k1Uiqa/JzAUo
-	 c9svj0GDXE71+JIZ4RXQbCH2UR/lrcsDiyTCulQeO2Kkb3dgBp15MCp0ZUYKRLL68BDyJJWjn7QZ
-	 r7DYpagRKlRjaaE+5fVwc0P+wCvWsTMClfnMEihOw+1pOFRVynTSrYp4iTX6H3jf6wyx6TQUXhsR
-	 pRVIpGdgQGb2MAg1gyqXuk5Tvd5VFjnecBHlmhfAUWNnpQBOV//Knm8etVRyNOOPOW4AYWSiluQx
-	 1x2PHIBtPil1kXZeKHEy1RvYZlrPrn/63L8oYnnhwtlsDfrzGhL/yMv1gQAQZ+T79j342SA4mw0j
-	 H1Rd+ZGSpYGaCQdLMpiSKvLQV7lLChBHz9PtI9Ffq/LwVvQvYerP7fDP7iSkL6XEW5OwV4N1XUkp
-	 8s5MHqI4WSjzlgFFEAUfxkAMyH0D5iytmEHc/eyNp3Vf+jhNJQdDoulms7gxPMScIL3Yu8xPcARj
-	 OEFv/GZ/HtaxUDq2s8XczOVWcekUE1XgaNIcOcoVHMboafFSjCWEH/0PlaFHY2G9+siTX7JQPYW/
-	 AN7y+OC450nnVmbJCRmOrIhzarWzLps1tgP8a1AHF67ml7WqtLXrlJI8WWgY2amZKB2brms8vzDv
-	 fryXkopScdhbWyF60JcucXXj+Hdio3R3kT3MhLsO/Yleh6rXThfotq18XRyyQkFfJ7zPCzukVA3A
-	 BA9PeRRJor+ZbQe9+piZSuNogmxmIcRJ6wzGEnS0Pmf4sj1Vf33JDSopkRVFG5+URGGW+cWoIGXH
-	 UdTSzgoSPOMP1zuss1McP5GW0eX5GCUVQGfT8R64nVqjGAaUFlj3GQOGhq6r2iKdClVytBYjQMlr
-	 Cu8rJpKsiX+Xaf8dKLIjUAbrnfUDwRCqHKy1UFHYErA5l+uzXYZmC9JxBlxnz+6WPpdxq2UxSQRe
-	 +QCByBhVOMNTlbzGD93VlBW8aXWg==
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-From: yangguikun <yangguikun19@qq.com>
-To: Viacheslav Dubeyko <slava@dubeyko.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Yangtao Li <frank.li@vivo.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 1/2] hfs: initialize B-tree inodes and validate catalog CNIDs
-Date: Tue, 20 Oct 2026 18:19:33 +0800
-X-OQ-MSGID: <20261020181933.18360-v612-yangguikun19@qq.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ouKnRxHA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F9C41F000C4;
+	Tue, 20 Oct 2026 10:43:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792493000;
+	bh=1/383+dg5/KqVJ7YukiMnVebCTmoxJZhCn7AfSGB8Ik=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ouKnRxHA9IgwkQPYOaU0mdNgp7A3hnt/aGmB+cahZX/2cC1ljckHfhjaTuUL9g4tF
+	 Dd9bvTLTIzpLCW9RCvqIrP3Aux75d/KWxbNHmHdvioty7X3wX/i1vKSdxSNkqv9ulf
+	 iCfYIQjgo/Hb65sQ9C4NQyyeUjf9T1GfDQmC/Q6YklZJtnFfbFxiqKAgppzPFaRu2G
+	 jcPMuN2/x1/ErWEUS9z2uoF4Er535R1gInDllKsl1UmNyAb4cxyctzksp06UZTpduR
+	 dG8WCdle4JA7dhBQdFDuFjPlQchDIciqkDmxc2hKv7YgN1SsgCctuoIhO5yfjx+al6
+	 U3G+PZscxy4PA==
+Date: Tue, 20 Oct 2026 12:43:14 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Allison Henderson <achender@kernel.org>
+Cc: Oleg Nesterov <oleg@redhat.com>, kernel test robot <yi1.lai@intel.com>, 
+	oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-s390@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	netdev@vger.kernel.org, wireguard@lists.zx2c4.com, rds-devel@oss.oracle.com
+Subject: Re: [linus:master] [sysctl]  8d75c338f0:
+ BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
+Message-ID: <atdE-TB8hkqcwp6g@hobbes>
+References: <202610190310.9737b2e3-lkp@intel.com>
+ <atYB0bm9eEXp8A2g@redhat.com>
+ <atYW0K3t57puHeLW@hobbes>
+ <atYuE1xnVYe0BDG4@redhat.com>
+ <atY42k00k0Waj6o4@redhat.com>
+ <42964fa071bd8dcafd418c89be6d66856def4dc5.camel@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,196 +64,218 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="k5tdk5zotfl6lrfn"
+Content-Disposition: inline
+In-Reply-To: <42964fa071bd8dcafd418c89be6d66856def4dc5.camel@kernel.org>
 
-hfs_btree_open() leaves the internal B-tree inodes with i_mode == 0.
-A crafted catalog record naming CNID 3 or 4 can return one of these
-cached inodes through hfs_iget(), triggering VFS_BUG_ON_INODE() in
-may_open() with CONFIG_DEBUG_VFS=y.
 
-Initialize the B-tree inodes with S_IFREG and their address-space
-operations before publishing them. Reject attempts to reuse an
-already-cached B-tree inode.
+--k5tdk5zotfl6lrfn
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [linus:master] [sysctl]  8d75c338f0:
+ BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
+MIME-Version: 1.0
 
-Validate catalog CNIDs and record types before the inode-cache lookup,
-since cached inodes bypass hfs_read_inode() validation. This also
-prevents a crafted file record from aliasing the root directory inode.
+On Mon, Oct 19, 2026 at 12:52:58PM -0700, Allison Henderson wrote:
+> On Mon, 2026-10-19 at 17:35 +0200, Oleg Nesterov wrote:
+> > On 10/19, Oleg Nesterov wrote:
+>=20
+> Hi Oleg, Joel,
+>=20
+> Thanks for running this down.  Agreed we shouldn't just fail to init beca=
+use
+> sysctl is off.  Some comments below:
+>=20
+>=20
+> > >=20
+> > > But. rds_init() can also fail even if CONFIG_SYSCTL=3Dy, after
+> > > rds_sysctl_init(), so to me this looks like a bug in net/rds/.
+> > >=20
+> Yes that's a separate bug, so I'll send a separate fix for that.
+>=20
+> > >=20
+> > > In any case, I guess net/rds/ init paths should not fail if
+> > > CONFIG_SYSCTL=3Dn ?
+> >=20
+> > So I think that something like the uncompiled/untested patch below makes
+> > sense anyway even if doesn't fix all the potential problems with rds_wq.
+> >=20
+> > What do you think?
+> >=20
+> > Oleg.
+> > ---
+> >=20
+> > diff --git a/net/rds/ib_sysctl.c b/net/rds/ib_sysctl.c
+> > index 2af678e71e3c..bccdb5c4df1d 100644
+> > --- a/net/rds/ib_sysctl.c
+> > +++ b/net/rds/ib_sysctl.c
+> > @@ -36,19 +36,10 @@
+> > =20
+> >  #include "ib.h"
+> > =20
+> > -static struct ctl_table_header *rds_ib_sysctl_hdr;
+> > -
+> >  unsigned long rds_ib_sysctl_max_send_wr =3D RDS_IB_DEFAULT_SEND_WR;
+> >  unsigned long rds_ib_sysctl_max_recv_wr =3D RDS_IB_DEFAULT_RECV_WR;
+> >  unsigned long rds_ib_sysctl_max_recv_allocation =3D (128 * 1024 * 1024=
+) / RDS_FRAG_SIZE;
+> > -static unsigned long rds_ib_sysctl_max_wr_min =3D 1;
+> > -/* hardware will fail CQ creation long before this */
+> > -static unsigned long rds_ib_sysctl_max_wr_max =3D (u32)~0;
+> > -
+> >  unsigned long rds_ib_sysctl_max_unsig_wrs =3D 16;
+> > -static unsigned long rds_ib_sysctl_max_unsig_wr_min =3D 1;
+> > -static unsigned long rds_ib_sysctl_max_unsig_wr_max =3D 64;
+> > -
+> >  /*
+> >   * This sysctl does nothing.
+> >   *
+> > @@ -61,6 +52,14 @@ static unsigned long rds_ib_sysctl_max_unsig_wr_max =
+=3D 64;
+> >   */
+> >  unsigned int rds_ib_sysctl_flow_control =3D 0;
+> > =20
+> > +#ifdef CONFIG_SYSCTL
+> > +static unsigned long rds_ib_sysctl_max_wr_min =3D 1;
+> > +/* hardware will fail CQ creation long before this */
+> > +static unsigned long rds_ib_sysctl_max_wr_max =3D (u32)~0;
+> > +
+> > +static unsigned long rds_ib_sysctl_max_unsig_wr_min =3D 1;
+> > +static unsigned long rds_ib_sysctl_max_unsig_wr_max =3D 64;
+> > +
+> >  static struct ctl_table rds_ib_sysctl_table[] =3D {
+> >  	{
+> >  		.procname       =3D "max_send_wr",
+> > @@ -105,6 +104,8 @@ static struct ctl_table rds_ib_sysctl_table[] =3D {
+> >  	},
+> >  };
+> > =20
+> > +static struct ctl_table_header *rds_ib_sysctl_hdr;
+> > +
+> >  void rds_ib_sysctl_exit(void)
+> >  {
+> >  	if (rds_ib_sysctl_hdr)
+> > @@ -118,3 +119,15 @@ int rds_ib_sysctl_init(void)
+> >  		return -ENOMEM;
+> >  	return 0;
+> >  }
+>=20
+>=20
+> The real rds_sysctl_init() also does the runtime setup of
+> rds_sysctl_reconnect_min_jiffies (msecs_to_jiffies(1)).  Without
+> it, the reconnect back off is lost.
+>=20
+> Also, if register_net_sysctl_sz() returns NULL in rds_tcp_init_net(),
+> it fails as an -ENOMEM.  So RDS/TCP would still fail to come up with
+> CONFIG_SYSCTL=3Dn.  A simpler fix might be to just handle the NULL at the
+> three call sites, e.g.:
+>=20
+>         rds_sysctl_reg_table =3D
+>                 register_net_sysctl(&init_net, "net/rds", rds_sysctl_rds_=
+table);
+>         if (!rds_sysctl_reg_table && IS_ENABLED(CONFIG_SYSCTL))
+>                 return -ENOMEM;
+>=20
 
-Found by syzkaller-style fuzzing of v7.2-rc7.
+Remember to NULL check rds_sysctl_reg_table in rds_sysctl_exit(). You
+might hit another UAF on exit if you don't.
 
-Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Link: https://lore.kernel.org/linux-fsdevel/tencent_24D928451FEFA8A35482EFFA9132A7305307@qq.com/
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: yangguikun <yangguikun19@qq.com>
----
-Changes in v6:
- - Drop set_nlink() and tz_secondswest initialization for B-tree inodes.
- - Use WARN_ON_ONCE() for an already-cached B-tree inode.
- - Defer hfs_iget() error propagation to a separate patch.
+> And same for rds_ib_sysctl_init() and rds_tcp_init_net().  The exit
+> paths are ok, since unregister_net_sysctl_table() is already a
+> no-op stub when sysctl is off.
+>=20
+> Let me know if you want to respin or if you'd rather I send it.
+> Either way is fine with me.
+>=20
+> Thanks
+> Allison
+>=20
+> > +
+> > +#else
+> > +
+> > +void rds_ib_sysctl_exit(void)
+> > +{
+> > +}
+> > +
+> > +int rds_ib_sysctl_init(void)
+> > +{
+> > +	return 0;
+> > +}
+> > +#endif
+> > diff --git a/net/rds/sysctl.c b/net/rds/sysctl.c
+> > index 025f518a4349..a0673a41633a 100644
+> > --- a/net/rds/sysctl.c
+> > +++ b/net/rds/sysctl.c
+> > @@ -36,11 +36,6 @@
+> > =20
+> >  #include "rds.h"
+> > =20
+> > -static struct ctl_table_header *rds_sysctl_reg_table;
+> > -
+> > -static unsigned long rds_sysctl_reconnect_min =3D 1;
+> > -static unsigned long rds_sysctl_reconnect_max =3D ~0UL;
+> > -
+> >  unsigned long rds_sysctl_reconnect_min_jiffies;
+> >  unsigned long rds_sysctl_reconnect_max_jiffies =3D HZ;
+> > =20
+> > @@ -49,6 +44,10 @@ unsigned int  rds_sysctl_max_unacked_bytes =3D (16 <=
+< 20);
+> > =20
+> >  unsigned int rds_sysctl_ping_enable =3D 1;
+> > =20
+> > +#ifdef CONFIG_SYSCTL
+> > +static unsigned long rds_sysctl_reconnect_min =3D 1;
+> > +static unsigned long rds_sysctl_reconnect_max =3D ~0UL;
+> > +
+> >  static struct ctl_table rds_sysctl_rds_table[] =3D {
+> >  	{
+> >  		.procname       =3D "reconnect_min_delay_ms",
+> > @@ -91,6 +90,8 @@ static struct ctl_table rds_sysctl_rds_table[] =3D {
+> >  	},
+> >  };
+> > =20
+> > +static struct ctl_table_header *rds_sysctl_reg_table;
+> > +
+> >  void rds_sysctl_exit(void)
+> >  {
+> >  	unregister_net_sysctl_table(rds_sysctl_reg_table);
+> > @@ -107,3 +108,15 @@ int rds_sysctl_init(void)
+> >  		return -ENOMEM;
+> >  	return 0;
+> >  }
+> > +
+> > +#else
+> > +
+> > +void rds_sysctl_exit(void)
+> > +{
+> > +}
+> > +
+> > +int rds_sysctl_init(void)
+> > +{
+> > +	return 0;
+> > +}
+> > +#endif
+> >=20
+>=20
 
-diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
-index 41b4e8f..1891ad5 100644
---- a/fs/hfs/btree.c
-+++ b/fs/hfs/btree.c
-@@ -155,44 +155,9 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
- 	tree->cnid = id;
- 	tree->keycmp = keycmp;
- 
--	tree->inode = iget_locked(sb, id);
--	if (!tree->inode)
-+	tree->inode = hfs_system_iget(sb, id);
-+	if (IS_ERR(tree->inode))
- 		goto free_tree;
--	BUG_ON(!(inode_state_read_once(tree->inode) & I_NEW));
--	{
--	struct hfs_mdb *mdb = HFS_SB(sb)->mdb;
--	HFS_I(tree->inode)->flags = 0;
--	mutex_init(&HFS_I(tree->inode)->extents_lock);
--	switch (id) {
--	case HFS_EXT_CNID:
--		hfs_inode_read_fork(tree->inode, mdb->drXTExtRec, mdb->drXTFlSize,
--				    mdb->drXTFlSize, be32_to_cpu(mdb->drXTClpSiz));
--		if (HFS_I(tree->inode)->alloc_blocks >
--					HFS_I(tree->inode)->first_blocks) {
--			pr_err("invalid btree extent records\n");
--			unlock_new_inode(tree->inode);
--			goto free_inode;
--		}
--
--		tree->inode->i_mapping->a_ops = &hfs_btree_aops;
--		break;
--	case HFS_CAT_CNID:
--		hfs_inode_read_fork(tree->inode, mdb->drCTExtRec, mdb->drCTFlSize,
--				    mdb->drCTFlSize, be32_to_cpu(mdb->drCTClpSiz));
--
--		if (!HFS_I(tree->inode)->first_blocks) {
--			pr_err("invalid btree extent records (0 size)\n");
--			unlock_new_inode(tree->inode);
--			goto free_inode;
--		}
--
--		tree->inode->i_mapping->a_ops = &hfs_btree_aops;
--		break;
--	default:
--		BUG();
--	}
--	}
--	unlock_new_inode(tree->inode);
- 
- 	mapping = tree->inode->i_mapping;
- 	folio = filemap_grab_folio(mapping, 0);
-diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-index e250f87..8d52170 100644
---- a/fs/hfs/hfs_fs.h
-+++ b/fs/hfs/hfs_fs.h
-@@ -163,6 +163,11 @@ extern int hfs_cat_move(u32 cnid, struct inode *src_dir,
- extern void hfs_cat_build_key(struct super_block *sb, btree_key *key,
- 			      u32 parent, const struct qstr *name);
- 
-+static inline bool hfs_is_system_reserved_cnid(u32 cnid)
-+{
-+	return cnid > HFS_ROOT_CNID && cnid < HFS_FIRSTUSER_CNID;
-+}
-+
- /*
-  * Validate the CNID of a catalog record.
-  */
-@@ -219,6 +224,7 @@ extern void hfs_inode_read_fork(struct inode *inode, struct hfs_extent *ext,
- 				u32 clump_size);
- extern struct inode *hfs_iget(struct super_block *sb, struct hfs_cat_key *key,
- 				hfs_cat_rec *rec);
-+extern struct inode *hfs_system_iget(struct super_block *sb, u32 cnid);
- extern void hfs_evict_inode(struct inode *inode);
- extern void hfs_delete_inode(struct inode *inode);
- 
-diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index 2aef3c3..a66de7b 100644
---- a/fs/hfs/inode.c
-+++ b/fs/hfs/inode.c
-@@ -421,6 +421,69 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 	return 0;
- }
- 
-+static int hfs_system_read_inode(struct inode *inode)
-+{
-+	struct hfs_sb_info *hsb = HFS_SB(inode->i_sb);
-+	struct hfs_mdb *mdb = hsb->mdb;
-+
-+	HFS_I(inode)->flags = 0;
-+	HFS_I(inode)->rsrc_inode = NULL;
-+	mutex_init(&HFS_I(inode)->extents_lock);
-+
-+	inode->i_uid = hsb->s_uid;
-+	inode->i_gid = hsb->s_gid;
-+
-+	inode->i_mode = S_IFREG;
-+	inode->i_mapping->a_ops = &hfs_btree_aops;
-+
-+	switch (inode->i_ino) {
-+	case HFS_EXT_CNID:
-+		hfs_inode_read_fork(inode, mdb->drXTExtRec, mdb->drXTFlSize,
-+				    mdb->drXTFlSize, be32_to_cpu(mdb->drXTClpSiz));
-+		if (HFS_I(inode)->alloc_blocks > HFS_I(inode)->first_blocks) {
-+			pr_err("invalid btree extent records\n");
-+			return -EIO;
-+		}
-+		break;
-+	case HFS_CAT_CNID:
-+		hfs_inode_read_fork(inode, mdb->drCTExtRec, mdb->drCTFlSize,
-+				    mdb->drCTFlSize, be32_to_cpu(mdb->drCTClpSiz));
-+		if (!HFS_I(inode)->first_blocks) {
-+			pr_err("invalid btree extent records (0 size)\n");
-+			return -EIO;
-+		}
-+		break;
-+	default:
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+struct inode *hfs_system_iget(struct super_block *sb, u32 cnid)
-+{
-+	struct inode *inode;
-+	int err;
-+
-+	inode = iget_locked(sb, cnid);
-+	if (!inode)
-+		return ERR_PTR(-ENOMEM);
-+
-+	if (WARN_ON_ONCE(!(inode_state_read_once(inode) & I_NEW))) {
-+		iput(inode);
-+		return ERR_PTR(-EEXIST);
-+	}
-+
-+	err = hfs_system_read_inode(inode);
-+	if (err) {
-+		iget_failed(inode);
-+		return ERR_PTR(err);
-+	}
-+
-+	unlock_new_inode(inode);
-+	return inode;
-+}
-+
- /*
-  * __hfs_iget()
-  *
-@@ -446,6 +509,11 @@ struct inode *hfs_iget(struct super_block *sb, struct hfs_cat_key *key, hfs_cat_
- 	default:
- 		return NULL;
- 	}
-+
-+	if (!hfs_is_valid_cnid(cnid, rec->type) ||
-+	    hfs_is_system_reserved_cnid(cnid))
-+		return NULL;
-+
- 	inode = iget5_locked(sb, cnid, hfs_test_inode, hfs_read_inode, &data);
- 	if (inode && (inode_state_read_once(inode) & I_NEW))
- 		unlock_new_inode(inode);
--- 
-2.53.0.windows.1
+--k5tdk5zotfl6lrfn
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmrXRcEACgkQupfNUreW
+QU9Vmwv+KABo8H66uC9zN+BIViG4BwkS+VmBjReZy2Xda/8BJbPnZtceZTHzD5Ah
+UF/ntsWhxPNxWXpFluBxUWIbKVYnsLJ1H54JDOpS8on7zUQrAXCIB+fmHZJifIPu
+dcpKfBKioVGOmFVlN/7W64s1aH/xwzxUUCAsIGPZZVdydRAhpVS6mISEhlJotNmx
+dFDs9gMrdzltPNynitoyutyKYPAQh0qTnligX2Z2BXdxj8i1TCI/vzxhDD0FLtFp
+zOFM5NmzrpOx9e0h3/GE42v3djnMRsgnlF45j5GTMs3udYCgPtNnqOA/MUq4fcRv
+zYZgcKTrBGqqh0NMDlpXK7kB6dd25vv5a6SjyY32O+Bux12h0EF93Nk3mzFTuzZ3
+zGyY13cNu5JMe2AaiZGuyKcnhZoHo5zGACHxsEWXcg69sfX98L/ubPy0w0Gj12sq
+Alg/jYPMLj9LF+fA4qJNzY1oyNNBdWLpBRw/kUu4pB3LjvjZ5bVrobXcQmR2XvPQ
+TNlrjkC5
+=a2kQ
+-----END PGP SIGNATURE-----
+
+--k5tdk5zotfl6lrfn--
