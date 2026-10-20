@@ -1,104 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792505157;
-	b=lGEWqZ382T36OUqqSfqXe9Z4ml+1gLR7DdC+F0XnPhvi2sCflAcm19eBB/0fV7ZGHkoN
-	 ZaEy2ElcVyy6v4ANBohnCYOxlS5nq+8Ig7iy2rgPfpn8LsPCvW+3fspFKXNO+XJPRNrla
-	 UvHAbaylBGH+fPlADtrok/Y/SM+GaaEqbNd0GQ4oTFrYFOX6Z49xNwEYD6js8o2UQJrw+
-	 RPEk0LN9Tk4ym1R+ii5s38FDSTA4G4K2nUPq6Kjg18SW1rgOZX2KUt+rersQwcCAfQVh5
-	 /FIR19C/agxeCr5IAgz2MoMjwjP7M1vHTUAevIna1LLnMjxQxNDiDJXQaD7c8172cgw==
+	t=1792508036;
+	b=f5ZhU1Zby4A19J4+hUpXgyd73lLTBkwN8wlN1SuQEFKtxqmAb9bS5JU+ogGe4SEvzrc2
+	 Mvf7L01Iad55N1r9x5eZChZc9IkrxnedXE3xG/4sJ0BtLTXpa/8g7Xp2FRVF+J1FIIkGu
+	 Mvr+ddszbRUr+13nWVIhZrRooRwFFcfEZs8oY3lOd7RTo4UQ9iedP5zOwpuvDpMDBNg5a
+	 0Jx5uPOnYVf2tj4OpE4MxxyNbBnEX1aFER/CExmrkGNeebwiMBtFLJkIDoCkCvFysWEhT
+	 jWh6KC+0LItR3O1nuKGw+H5f8Qd8kL9AZb9gnqFSUqrx2/TstIsa5CxJrhpgtZocrmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792505157;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=LdMIhIlvZTbrlYO+3j4hIx5IHxpdtNc/p0dXdNrCqlg=;
-	b=E4WNE2nuJJ34DVy1WTRfFWsFHEnTkthuo6WlZd+71IrTcJp2WrCMGv0vuQL+UGe1qXXJ
-	 Nh8menww9JvV8Lpq7yzq6q49gZVA8smPW5Wb6lmgzHEuYbw6QK7CukyUnMvCsqU+UVHEY
-	 UIUE4cbWO4Qaoo94QP/4Mp9ht4Eftz4/j/LIOj517J04r8gwNMYtg7kjQKePfX37Jal8J
-	 jMOPTTJHIwQdQ9VZxc/S7J2CAkFO6oLiZPWO0/H+ku6krUkLED+Ofoc6jsWM+AVNGQ0TF
-	 LNSv+WJv7WGBKQBKt3g2ie/6bfuE6ONE0QbNE5VSnCA0JK/9UwbLWYAWHrXRdeAZwwg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792508036;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=/bwYNsuvdLOeGIvvyV7lXuTJEpgdy2xoAlb1KPVe2eU=;
+	b=kvGvn/yBRpq3pajMQq3GvJg6WTxWOpiWP+TIO49xEc2VKKZEV6ORne7hwamwk4JjIZiy
+	 /PDK7sGurlRcXU1l3fduhyn/FEdzKjDgME3CDeczbj6WzsT3xD/SEgGfWRioZPymQGw+s
+	 vi0LNy4menNgzDuRXO9O0pUAT8YQ8swM7ydHE18avHZ2g3EjBZ+X0EJgKcdLxQDQNfrKV
+	 gJXP+nAltnQiBJu7IUqC3S9sbnnGZRmI9jaaomBqLFd2NTkdnqkMAOEa/1zaQZQNgFUy5
+	 ybqtHiNo7+VZkZjwE3Vc3dvCx5Ob6XAdamaDzjR4CLNVG+r1/5ablyrTHfQySu5WilA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=NU6pBVdp;
-	arc=none smtp.remote-ip=74.125.224.52
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j+nClr50;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAAF60A262E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 14:05:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EAAF60A262E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9377C606A324;
+	Tue, 20 Oct 2026 14:53:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=NU6pBVdp
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6711f05fb14so2602428d50.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 07:05:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792505156; x=1793109956; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LdMIhIlvZTbrlYO+3j4hIx5IHxpdtNc/p0dXdNrCqlg=;
-        b=NU6pBVdpXdS4zzTYissdBw/MDiiN5o5TlNwj//ZWFnIayDvxx9gDu9+hdW70Te0AMR
-         lJOPDNX3EmmlHKf5SjsRkfUSpS3+vwRua3DVosyQsGKHGKo8S+9RGOYoBbLl8ZOPexOA
-         xzzglLS59r9xTw+UX43wdSNz+zCsYBznrlPO1wxAJjJ4ycSSJkzbxvTL8dKWPvUT1ygb
-         zxmJFdEkKjhoPc+3QVIuFZWAzX+hKcUJT4cDBEGwXNO0XgunVCxvpiHtJFEnynNZm9WC
-         9StBMW9IYTJjpXxeP7pcleHsubJyMN/oKAkLJ5fmcxcdypeboIphMuGXqduwxNwTdvi8
-         u7vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792505156; x=1793109956;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=LdMIhIlvZTbrlYO+3j4hIx5IHxpdtNc/p0dXdNrCqlg=;
-        b=RGHYaT9l/pVBqmDcTVVRRuGCltu6xjV7Y5h5hEUuefbSC8ApHHuhP6gdIK0pTKnSxK
-         4UkwOQIsAiTphDknu1gmPZTsfNDn2t1c+zSNhINIkeNjBvYpkTccCKRLDRWtYi9qpfF0
-         TFm6VDwEgsyhdXILMSvOllPna9enIs3J5rYoQ3cyxgowBOQG8NO0upjKE92oh1sOBn5J
-         9IOFfQ6zNUPTRL9AZiEV2Ir/KZngfX6P4RO0D4JndqNYUfCXoKZfNN2N7fFE3d5wF1pZ
-         tDPKQmQsW57cPI1XlAVbMJsNozT05mw04hzLv+nUJSnlT3v1tJKpQ1wdedQt0iBEQ7z+
-         LqJQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz87wUGoG91m3rxL9YhsWvyINhokbAEfebDD+p800fGuG12MGhgIHjgngECd/OcLNFADh8/AiEJvLApdUcW@vger.kernel.org
-X-Gm-Message-State: AFq9FYKxV72dmm3JeET3X86Q4ZxvDoSnj86lokraGdYOaN8AcB4uOq0X
-	+2uKMpPNcT3hm38tpx6QcHzFc5vNOdatDxk1oVeQQhzQfwbQE+VDLvkS
-X-Gm-Gg: AYBFou2apftY6yWFKySHQyWxEqVNzbkMZC/v+2rQzT0vgWQtxHjoZlz0HIXey9ym6g+
-	Pn5JD3Lt/uOfgNAk5Wh0N6JhyHBllpJC0LFYxjJBe6NXLx5e+xbNo2Lp+gL5PjQTvvxwWQpwQD/
-	ySCngRbzFzA/+JOpxRf2MCZNT7Kd+QgdWT6j9NTceyhcNbsuIJawBfknXfdRV4rnq0ZLsUZv1Op
-	tHnR5es6dz9+ap1xe0xgSXXZJ+VqN1nCHZXC6ln9KqsQf+U36cqk6FDrEt0yXUMXrtIFS12gvRI
-	iDbLuLSQxCbltZQ6YvQLLf794abf0RZVBaqp/0ubQW2s2zT8cA3K5p+NA/jC/G9l/zjT9TfIZGa
-	U83E/mLvqsKJDTIcAjh+2MjbcLl9TRo6VL++pYLwFqjJo4opFEH+KbFuB59SgWcubaeopQEJnyT
-	EkK3Htc1PPbetRZZEuUEUPULG5Q/UJBETN/DYit/D0h9nftJh1Ay169NpzSNtGBa10A0g8JJc=
-X-Received: by 2002:a05:690e:1443:b0:679:aeed:8900 with SMTP id 956f58d0204a3-679ca7343eamr4757054d50.22.1792505156161;
-        Tue, 20 Oct 2026 07:05:56 -0700 (PDT)
-Received: from zenbox ([2600:1700:18fb:6011:8701:205:573e:17eb])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-679b1c94c25sm5269200d50.3.2026.10.20.07.05.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 07:05:55 -0700 (PDT)
-Date: Tue, 20 Oct 2026 10:05:54 -0400
-From: Justin Suess <utilityemal77@gmail.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
-	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Song Liu <song@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E . Hallyn" <serge@hallyn.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Yonghong Song <yonghong.song@linux.dev>, 
-	John Fastabend <john.fastabend@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Mateusz Guzik <mjguzik@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Tingmao Wang <m@maowtm.org>
-Subject: Re: [PATCH bpf-next v1 00/11] fs: unified VFS ancestor walk for
- Landlock and BPF
-Message-ID: <atdw4wVVarvwgRH0@zenbox>
-References: <20261013164800.2906577-1-utilityemal77@gmail.com>
- <DM6PICFFAU5Z.14KOZT5YJO7MA@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j+nClr50
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BC0B1F000C4;
+	Tue, 20 Oct 2026 14:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792508035;
+	bh=/bwYNsuvdLOeGIvvyV7lXuTJEpgdy2xoAlb1KPVe2eU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=j+nClr509Ip2YmEn7/caQLmG/4tBtyXZnslPC9cLou/c2WF5cUyD8vV0z4nB9Tev2
+	 plhyZAe/DFKunvOqX8v/oXRElPiP3zxk2HziYyB5Fx7bPGt0t29G9UDf+1rfbuTFys
+	 26EzMGskCjKKCcH4vAuqOv+1PYrBjiQnY9DVI9Dr4fSEZ8yAk0LnKIRmk7JwU0k+tW
+	 rl99vZagqlR6jXNFfVasyDMk1PxV7oE6nRO/s1kciIZkWvnPgB1U5HfkO6NzVlXd9L
+	 pR5YKf1B76wv3ukXrumON6Rbv57+rbThp5bo1tebJ6WrsH6Sye8PXipcbNZHIwrAzz
+	 YGHmJPYOdgplw==
+Date: Tue, 20 Oct 2026 16:53:45 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Andreas Gruenbacher <agruenba@redhat.com>, Jan Kara <jack@suse.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, exfat@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, ntfs@lists.linux.dev, ocfs2-devel@lists.linux.dev, 
+	linux-btrfs@vger.kernel.org, gfs2@lists.linux.dev, linux-efi@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, linux-xfs@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 20/28] gfs2: wait for a pending withdraw before
+ remounting read-only
+Message-ID: <20261020-steinbock-sprachen-charmant-e4fd6d840395@brauner>
+References: <20261012-work-fs-sb_rdonly-v1-0-60743a3dc326@kernel.org>
+ <20261012-work-fs-sb_rdonly-v1-20-60743a3dc326@kernel.org>
+ <CAHc6FU5bdAjABRm=bnH68b2f66TZTDZ8sPdatLB2fS7-55U=yw@mail.gmail.com>
+ <20261018-ungemacht-sodbrennen-hausordnung-42d33a4f7098@brauner>
+ <wauqpgtmmf2beg3pc2kqlbizrigd4ew26do4zqch5ilwdjy4cd@brolwbx25sem>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -108,65 +65,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DM6PICFFAU5Z.14KOZT5YJO7MA@gmail.com>
+In-Reply-To: <wauqpgtmmf2beg3pc2kqlbizrigd4ew26do4zqch5ilwdjy4cd@brolwbx25sem>
 
-On Sat, Oct 17, 2026 at 01:02:40AM +0000, Alexei Starovoitov wrote:
-> On Tue, Oct 13, 2026 at 12:47 PM Justin Suess <utilityemal77@gmail.com> wrote:
-> > The structure is unchanged from the RFC [2]: a stepwise engine private
-> > to namei.c, a callback front-end for in-kernel callers (Landlock
-> > is converted, fixing the follow_up() race Al reported, hence the
-> > Fixes: tag on patch 3), and open-coded BPF iterators over the engine in
-> > referenced and rcu flavors, with bpf_path_ancestors_legitimize()
-> > escalating from the latter to the former mid-walk.  Patch 1 is carried
-> > from Song's series.  See the RFC cover for the full background and API
-> > listing.
+On Mon, Oct 19, 2026 at 11:52:25AM +0200, Jan Kara wrote:
+> On Sun 18-10-26 17:48:34, Christian Brauner wrote:
+> ...
+> > On Fri, Oct 16, 2026 at 02:32:01AM +0200, Andreas Gruenbacher wrote:
+> > > > diff --git a/fs/gfs2/util.c b/fs/gfs2/util.c
+> > > > index 83b8bb6446e5..1535ce2b7aa8 100644
+> > > > --- a/fs/gfs2/util.c
+> > > > +++ b/fs/gfs2/util.c
+> > > > @@ -122,7 +122,7 @@ static void do_withdraw(struct gfs2_sbd *sdp)
+> > > >                 up_write(&sdp->sd_log_flush_lock);
+> > > >                 return;
+> > > >         }
+> > > > -       clear_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags);
+> > > > +       clear_and_wake_up_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags);
+> > > >         gfs2_ail_drain(sdp); /* frees all transactions */
+> > > >         up_write(&sdp->sd_log_flush_lock);
+> > > >
+> > > >
+> > > > --
+> > > > 2.53.0
+> > > >
+> > > 
+> > > this looks good all around, thank you very much. Can I add it to my gfs2 queue?
+> > 
+> > I was planning to just provide a stable branch for everyone to pull post
+> > -rc1. Then you can just pull that in?
 > 
-> Song's series stopped at
-> "It is a conceptual dead-end to expose these two modes via separate APIs
-> and leak this implementation detail into non-core code. It will not
-> happen as far as I'm concerned."
-> VFS_WALK_RCU, -ECHILD to the caller, two bpf iterators and the
-> legitimize kfunc are that leak.
-Following up on this, plan is I'll submit v2 of the verifier fixes
-series and get that finished first.
+> On a related topic: I didn't find any branch with this work in vfs.git - I
+> wanted to check how all the things come together after adding the generic
+> emergency RO bit. So if you can push some inofficial branch for now it
+> would help me... Thanks!
 
-Then after that I'll do a redesign around a single iterator
-implementation that decides the walk type and abstracts away the details.
-It will be KF_RCU_PROTECTED and callers will need to break out of the
-loop to do sleepable work. They'll be able to acquire the path
-references with a kfunc to take them out of the loop.
+Absolutely:
 
-That drops the __uninit iterator changes and the legitimize kfunc as
-well.
-
-> Landlock still passes flags == 0, so nothing in the kernel walks in
-> rcu mode.
-Mickaël would you be interested in the hybrid walk conversion as part
-of this series? Or prefer sleepable walk be retained for now and
-converted later?
-
-Justin
-> Patches 1-3 fix a real race and don't need bpf.
-> Send them to Christian, Al and Mickael on their own.
-> 
-> > Verifier fixes propagating the RCU-ness to trusted fields can be done,
-> > but it's best as a separate series where the idea can be examined more
-> > closely.  Then marking the dentry as trusted will allow you to use the
-> > dentry xattr kfuncs.  Nothing in this series strictly depends on having
-> > a trusted dentry, nor will marking it trusted require changes in this
-> > API.  See my follow up [4].
-> 
-> Then what can a prog do with a position?
-> pos->dentry is untrusted now.
-> Marking it trusted will require changes.
-> d = pos->dentry is not linked to pos. It will stay trusted after
-> bpf_path_put(pos).
-> pos of the rcu iterator points into bpf stack.
-> MEM_RCU propagation fixes neither.
-> What next() should return depends on how the verifier tracks it.
-> Let's do the verifier part first.
-> 
-> pw-bot: cr
+vfs-7.5.super.ro
