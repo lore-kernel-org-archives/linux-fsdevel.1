@@ -1,64 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.249.212.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792571798;
-	b=rlwSVO0ZCnRePMieEXUqgR5pGvrQ7rfXYALufTREtpVJWAHwAJHPLWumOx61EC8KuJM3
-	 AoCP15RKP7j9mVOY8uB0gGNYa/VhDnFBmnrclRnBSh7d1VwmkX/syLxiogT5sPTRzBIiK
-	 EANOsB8qOBHs9Y4JgOOh6mMGLl0SoNBqd2z7tjIkCik7PnLsg+sl7NrEhyJxWgAaF5eiC
-	 fWKKuwYF37PMWa3D01Lcn1d+dkuIF3T8+mITIMnOHQnG2O10dfbSc/YE0mykzGQ/tCHqT
-	 jobo765VekWNAk60iOe6ZmXVrbS9HI4sBprPh8abmxfe54ckez084U+s+Y/8jXatGCg==
+	t=1792572841;
+	b=MEFrKV5N+ppDs9voIRjrfR3/NZQlMCatQ4rJUQlHSj3a3k+mfC6C6GKdzGFcqTQz3oKt
+	 FevCyh7gJ3FxzRMr6txrrNDNY4tQ3EzjB30pwqhVxaSy5KdzZQzmhYmrmhsFNxHv2Fitg
+	 2UF8qZ8mAM81uow5JCkDSawVLYq+AK6eGl0z4GKkRb8Fm4UtBa4yc9UOFPg8NFSIMNtxX
+	 ECBdvpUasfZkTqp+nq+ZwSZed4/Pmfods1JCdExQTFqDDtO022QioeO4ObyJ4NOSkXxiu
+	 BtypLo3y+xp+7bNWk6HHwAEVFXBfdYIlkYXePMHcJ9bKpKJy+6hvEHRufSHiNup92og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792571798;
-	h=Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=9K9KRsEaxoM/l89/G7N6lVBzd9yD1GfxwhXMyc+Mzdk=;
-	b=Zsbao67LUzrULRszENB5/1leF/ODU47xKmH0dKXzBpaprVqdvJ0b4mXMyA+/9Q+6tbe1
-	 6G2uZAY6LovoHRMwGNtUbUUT6WMNnrlL3dxGgJhA1MCRYgopvaDNE18KmZdZMmd0BrGw3
-	 IxQcTZ34G9peyJwXxiQkM0SndHTZAkRYVeIV9x0H6IQyGb7bgWC/D03A4G/KNS9F9DX+3
-	 y3Gj/U3yXjBtwPbWZDLKFqCAS0er863G3rayxLCuU/XlrLRf1wrOtnUdCL5tJS7Jr3mrv
-	 8ctMV5vLL5TdclczNvOn8IeKXAEFP0CJ42OVj4XZGW3g8iENIoVWsiI//N2j3Xys+Ag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792572841;
+	h=DMARC-Filter:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-CM-TRANSID:
+	 X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=2/ITxtFm7WzIeL9LaTvhshI8w/pfxnMxNXE8wbtMtC4=;
+	b=1VPgC9MO/rDmOkKpijsbk19jUnBxkyXk9pR81fwI3Bo/x5ZPaVn8aynNs1evD1JRXEVl
+	 rY88+mEE6zlZm3b654V6M+zqaJ1A29d2bzPYfUpCb4gcBprXtD36yPQVxKPWy0q50FFHy
+	 XKBV12x9tlTE3OtXQpjjFlBxaRpkBUQTO0ATuNuRwTTljtW2jnJ9tYmf3119blwI8eXzJ
+	 ZFw2C7obRstNMsqrYUZt0ZiRZ7iRPhepsrVaZHC2prvHrlZePjlX2zECX82QBM4rLzC2r
+	 LgU3nX5rPpSb1EeR41aQbffNAY3gOjtxt6KPqwTsLwdDhEgXhnttcZIDold6d9lxi+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hyTAEOUl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=huaweicloud.com;
+	spf=none smtp.mailfrom=huaweicloud.com;
+	arc=none smtp.remote-ip=45.249.212.56
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D1C606A319;
-	Wed, 21 Oct 2026 08:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hyTAEOUl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D01C1F000C9;
-	Wed, 21 Oct 2026 08:36:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792571797;
-	bh=9K9KRsEaxoM/l89/G7N6lVBzd9yD1GfxwhXMyc+Mzdk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=hyTAEOUlLJ/6crVLQzgFPw5YC+r+R5PbTBPw29STrIIYl2Cjfj+WPZsT/QLY5NUnu
-	 urFfRgJEQfsgwZnOQV8u9PGNchT8igPnjOfz/w1Qy3Jgyn9HJlpVMrYXSeOONeklbH
-	 Xj0kS2H2acSMiVJxLoxAqpEjUET8LaUL8UWCyPLd+GEsBSskNh8w/7I+TvaQwmPyri
-	 APQ0zQgHqoFxXSLTeJX48AWyUagcUZaiu8Zsaip8tMiG89VE/eNmTLqXAnng4UZWx7
-	 b/FDAEwBv0KglNmnfNdQkXU/MrQUO9sZQALThtBUm45H9CCpcRKzX+ZiFHLvlOEdFB
-	 GIxBg8zxlrUCw==
-Message-ID: <e7888169bdc76ea40fcfe782c2bc9b70e037dfc6.camel@kernel.org>
-Subject: Re: rds_wq UAF
-From: Allison Henderson <achender@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Joel Granados <joel.granados@kernel.org>, kernel test robot
-	 <yi1.lai@intel.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
-	linux-s390@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	netdev@vger.kernel.org, wireguard@lists.zx2c4.com, rds-devel@oss.oracle.com
-Date: Wed, 21 Oct 2026 01:36:36 -0700
-In-Reply-To: <atdoGiW_sHlWgOwt@redhat.com>
-References: <202610190310.9737b2e3-lkp@intel.com>
-	 <atYB0bm9eEXp8A2g@redhat.com> <atYW0K3t57puHeLW@hobbes>
-	 <atYuE1xnVYe0BDG4@redhat.com> <atY42k00k0Waj6o4@redhat.com>
-	 <42964fa071bd8dcafd418c89be6d66856def4dc5.camel@kernel.org>
-	 <atdoGiW_sHlWgOwt@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC41606A31A;
+	Wed, 21 Oct 2026 08:53:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DC41606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4j8jkD13CJzKHMfw;
+	Wed, 21 Oct 2026 16:53:40 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 62C0140576;
+	Wed, 21 Oct 2026 16:53:51 +0800 (CST)
+Received: from [10.174.179.19] (unknown [10.174.179.19])
+	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgAnZPOafdhqv4QRBQ--.29944S3;
+	Wed, 21 Oct 2026 16:53:47 +0800 (CST)
+Message-ID: <8add4484-aed2-4d43-b973-ae1396ee664d@huaweicloud.com>
+Date: Wed, 21 Oct 2026 16:53:45 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,91 +51,154 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot ci] Re: ext4: use iomap for regular file's buffered I/O
+ path
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Cc: syzbot ci <syzbot+ci46f64f7b6a2a188e@syzkaller.appspotmail.com>,
+ syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com,
+ adilger.kernel@dilger.ca, chengzhihao1@huawei.com, djwong@kernel.org,
+ hch@infradead.org, jack@suse.cz, libaokun@linux.alibaba.com,
+ linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, ritesh.list@gmail.com, tytso@mit.edu,
+ wangkefeng.wang@huawei.com, yangerkun@huawei.com, yi.zhang@huawei.com,
+ yizhang089@gmail.com, yukuai@fnnas.com
+References: <6ac92a4c.70ed5d86.2ac85.0072.GAE@google.com>
+ <34423908-aceb-4c57-9502-7da10b12e4a4@huaweicloud.com>
+ <athx6i4FVmzaCWXE@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <athx6i4FVmzaCWXE@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgAnZPOafdhqv4QRBQ--.29944S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxGr1kKFWrtw1UJr43CFyrXrb_yoWrZrykpr
+	WfKF4qkr4ktr1UAFs2qr1DXr1Utw4akF47XryfWr1xAFn09FyjqFyrJrW8ury7Gry7CF12
+	yF45A3s2vr1UtaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7
+	CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
+	rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4
+	IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
+	e7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
+	WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
+	jIksgUUUUU=
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On Tue, 2026-10-20 at 15:09 +0200, Oleg Nesterov wrote:
-> (change subject)
->=20
-> On 10/19, Allison Henderson wrote:
-> >=20
-> > On Mon, 2026-10-19 at 17:35 +0200, Oleg Nesterov wrote:
-> > > >=20
-> > > > But. rds_init() can also fail even if CONFIG_SYSCTL=3Dy, after
-> > > > rds_sysctl_init(), so to me this looks like a bug in net/rds/.
-> > > >=20
-> >=20
-> > Yes that's a separate bug, so I'll send a separate fix for that.
->=20
-> Let me try to summarize.
->=20
-> If rds_init() fails after rds_threads_init() for any reason,
-> rds_threads_exit() will destroy/free rds_wq.
->=20
-> If rds_rdma_init() is called after that, and rds_ib_init() fails
-> after rds_ib_mr_init(), rds_ib_unregister_client() will try to
-> flush the already freed rds_wq.
->=20
-> But we have
->=20
-> 	module_init(rds_init);		// net/rds/af_rds.c
-> 	module_init(rds_rdma_init);	// net/rds/rdma_transport.c
->=20
-> and IIUC the order of these initcalls is not defined. So if
-> rds_rdma_init() -> rds_ib_init() is called before rds_init(), it
-> can do flush_workqueue(rds_wq) when rds_wq =3D=3D NULL on failure.
-It is sort of defined.  When built as modules the order is enforced by
-symbol dependencies. rds_rdma and rds_tcp need symbols exported by rds
-(rds_wq itself is one of them), so they can't be loaded unless rds_init()
-succeeded.  So the rds_wq =3D=3D NULL case can't happen.
+On 10/21/2026 4:03 PM, Ojaswin Mujoo wrote:
+> On Sat, Oct 10, 2026 at 04:44:52PM +0800, Zhang Yi wrote:
+>> On 10/10/2026 1:54 AM, syzbot ci wrote:
+>>> syzbot ci has tested the following series
+>>>
+>>
+>> [...]
+>>
+>>> and found the following issue:
+>>> WARNING in ext4_do_writepages
+>>>
+>>> Full report is available here:
+>>> https://ci.syzbot.org/series/3711c951-acf4-4ebe-a920-9cc89b6be2ff
+>>>
+>>> ***
+>>>
+>>> WARNING in ext4_do_writepages
+>>>
+>>> tree:      vfs
+>>> URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
+>>> base:      3d399224425573875b6f6f1181bd8cf9a28cc7d1
+>>> arch:      amd64
+>>> compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+>>> config:    https://ci.syzbot.org/builds/c3c01f8c-846d-4c7a-955a-fd7427af6b0d/config
+>>>
+>>> ------------[ cut here ]------------
+>>> !err
+>>> WARNING: fs/ext4/inode.c:2512 at ext4_do_writepages+0x33b3/0x44a0, CPU#0: kworker/u9:3/147
+>>> Modules linked in:
+>>> CPU: 0 UID: 0 PID: 147 Comm: kworker/u9:3 Not tainted syzkaller #0 PREEMPT(full) 
+>>> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+>>> Workqueue: writeback wb_workfn (flush-7:1)
+>>> RIP: 0010:ext4_do_writepages+0x33b3/0x44a0
+>>> Code: 0f 0b 90 e9 b6 d9 ff ff e8 6a e2 36 ff 90 0f 0b 90 e9 e6 dc ff ff e8 5c e2 36 ff 90 0f 0b 90 e9 94 df ff ff e8 4e e2 36 ff 90 <0f> 0b 90 bb ea ff ff ff e9 ae f8 ff ff e8 3b e2 36 ff 48 8d 3d 64
+>>> RSP: 0018:ffffc90003106ce0 EFLAGS: 00010293
+>>> RAX: ffffffff8290e912 RBX: 0000000000000000 RCX: ffff8881053f9e00
+>>> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+>>> RBP: ffffc900031070f0 R08: ffff888025da4a37 R09: 1ffff11004bb4946
+>>> R10: dffffc0000000000 R11: ffffed1004bb4947 R12: ffffc900031071a0
+>>> R13: dffffc0000000000 R14: 0000000000000000 R15: 1ffff11004bb495d
+>>> FS:  0000000000000000(0000) GS:ffff88818d6c9000(0000) knlGS:0000000000000000
+>>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> CR2: 00005555565a5a28 CR3: 0000000031f66000 CR4: 00000000000006f0
+>>> Call Trace:
+>>>  <TASK>
+>>>  ext4_writepages+0x241/0x3b0
+>>>  do_writepages+0x338/0x560
+>>>  __writeback_single_inode+0x136/0x1220
+>>>  writeback_sb_inodes+0x9de/0x1b00
+>>>  wb_writeback+0x41c/0xad0
+>>>  wb_workfn+0x431/0x10f0
+>>>  process_scheduled_works+0xc3d/0x1630
+>>>  worker_thread+0xa47/0xfb0
+>>>  kthread+0x38b/0x480
+>>>  ret_from_fork+0x514/0xb70
+>>>  ret_from_fork_asm+0x1a/0x30
+>>>  </TASK>
+>>>
+>>>
+>>
+>> This WARNING was newly introduced by patch 8, "ext4: skip block
+>> allocation for holes in the data submission path". It doesn't actually
+>> cause a new regression, it just appears to expose a pre-existing issue
+>> in the buffer_head buffered I/O path, where an inconsistency between
+>> the bh and extent state could potentially lead to allocating a block and
+>> writing data into a hole. The logic of the patch itself is fine. To
+>> avoid noise, I can drop the WARN_ON_ONCE() while still keeping return
+>> -EINVAL. Thoughts?
+> 
+> Hi Zhang,
+> 
+> I think we can keep the WARN_ON. Failing in writeback here will anyways
+> throw out some error messages about data loss so having an extra WARN
+> dump should be okay. It will help us find and eliminate paths that cause
+> this quickly, like your patch for the inline truncate fix.
+> 
 
-What can happen is what was reported: built in, rds_init() fails,
-do_initcalls() keeps going, and rds_rdma_init()/rds_tcp_init() run against
-a core that has already been torn down.
+Yes, I agree. After all, now that we're encountering holes not being
+written, together with the existing logging, this WARN_ON can help us catch
+the problem.
 
+Thanks,
+Yi.
 
->=20
-> With or without CONFIG_SYSCTL. Right?
->=20
-> But it seems that rds_ib_init() doesn't need to flush rds_wq on failure,
-> so how about the patch below? Of course, I have no idea if net/rds has
-> more similar issues with rds_wq.
->=20
-> Oleg.
-> ---
->=20
-> diff --git a/net/rds/ib.c b/net/rds/ib.c
-> index 786f39169bc1..cde2d1bfabbd 100644
-> --- a/net/rds/ib.c
-> +++ b/net/rds/ib.c
-> @@ -619,7 +619,7 @@ int rds_ib_init(void)
->  out_sysctl:
->  	rds_ib_sysctl_exit();
->  out_ibreg:
-> -	rds_ib_unregister_client();
-> +	ib_unregister_client(&rds_ib_client);
-
-This works for when there are no IB devices, as in the report, but the flus=
-h
-is what ensures rds_ib_dev_free() has finished before rds_rdma.ko's text go=
-es away. =C2=A0
-
-If there is a device,  ib_register_client() has already called rds_ib_add_o=
-ne().
-Then ib_unregister_client() calls rds_ib_remove_one(), which drops the last
-reference.  And then rds_ib_dev_put() does queue_work(rds_wq, ...) on the
-freed workqueue anyway. =20
-
-So I think the fix belongs at the transport init: if the core didn't
-come up, rds_rdma_init() and rds_tcp_init() should return early,
-before they register anything.  I can send that along with the
-sysctl change tomorrow.
-
-Thanks for working on this!
-Allison
-
-
-
->  out_mr_exit:
->  	rds_ib_mr_exit();
->  out:
->=20
+> Regards,
+> ojaswin
+> 
+>>
+>> Thanks,
+>> Yi.
+>>
+>>> ***
+>>>
+>>> If these findings have caused you to resend the series or submit a
+>>> separate fix, please add the following tag to your commit message:
+>>>   Tested-by: syzbot@syzkaller.appspotmail.com
+>>>
+>>> ---
+>>> This report is generated by a bot. It may contain errors.
+>>> syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+>>>
+>>> To test a fix for this bug, please reply with `#syz test`
+>>> (on a separate line) and attach the patch to the email.
+>>>
+>>> Notes:
+>>> - The patch will be applied on top of the tested series (as an
+>>>   incremental fix).
+>>> - To test a new version of the whole series, please send it directly
+>>>   to syzbot@lists.linux.dev.
+>>> - Arguments like custom git repos and branches are not supported.
+>>
 
