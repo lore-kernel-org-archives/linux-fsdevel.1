@@ -1,62 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792578534;
-	b=Z7MNBSpeLAUVqwI1nRJM2/0WG6/lLwEm51HCQrhAJGyYfZ8JKNEf2slU9H5bJ9oIDHqr
-	 yRzw2wu2tcQ3v6Fd5s1J/3jfiSI/GkunhLwodxuy7CuptmAeGHXVevSlfeajtsSFUxslM
-	 1w8XnXbO55ZX5/9gVwg7tLZLN+gPIq0XQ5OX1ykfkP84rHEkL5qA6+XRIuLnrMIhrm13b
-	 MY3ZfyvBCv62YJnHz1tZynE/blWKqnN3kptTKKAMod5L6HpFaB2xPKCwpHv8lhAYH8BPA
-	 Rr5R9JX81MqjRkpWeXaxLE7c85cHUwIhfOFS34EZJAwjC5ZpuvXytUEzkHJ+9lr3kGQ==
+	t=1792578612;
+	b=HlHvzByG8OSR7PEnz8mkpV7apCCVqsKxCZRoII5+dElPICtILvlafvJwMJugdHGCi6gA
+	 +IE/mNpT7gO/bGq1sEeENh7rcxGypEOPfjyN4S1+XQXRT5QPmuxAo4O1db0dw9GEB7tM+
+	 ygg1BTyKNKdmqns4wcdJuAtvDWEntyLByX/j9bjp9rXmPKrKaTNaUPsngSxa3m4QSBBXQ
+	 hTWmWUSl9ZBZh48/S/lqnMy4CjRmEvRfg8hlTmDp/M/1y6B5PfPsmVwHRfavJFlUAF4+e
+	 FWCKodj5o/mOM6cdAfotqdF2Mcs5bjY0ql03a25hKSRhjemVREOu7SBE862rgRwu5oA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792578534;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=RyNlnTCg8f5jnRjirKufUnFU6MO9l6lq6sjeVEWl6yg=;
-	b=2ppiq38xkUomtfQVJrEckNOmntHG+mNUzD2ntGMgvzoBjSQAfsxCG8NtIpnYOcPGM2Ke
-	 CtokzYvPqFwq+8KbuL7tFSjJFeEKVJVCsrM1CiQ24WT3KHjFQnKMR5/UQpN0K4Ecc8ozh
-	 tf0vI8JwBDjJ5HRQsFvTmfyXztyYfju5C+ydIVgBZ6sOdHvrTCohtIE/XjscRfDCRPQAP
-	 6andBVkicVh2drh5tXBdRU1/SxKV4YtKXhLQIFnjGZkXxTpMHLGszRb8M/fWPxFggV2qd
-	 xY1XRW5OMazU0ma/J5TYEkn1NH1w8dK/QQzyYbC7qZ1BKdwgnj56iXa2Jiqz9kD9Bbw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792578612;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=W8edK1Xi3fKqCs4MYZhDfH0qfLfRnuuhcmFNKoFIYOo=;
+	b=sQeXEscfhuD5t9R6ok5TdJyqpq3b1yc5L8NddVjbxGHghm46wHMUlrxwH9Vm83jeRLOl
+	 /DxsflN0vzy4cePSFU+L5syKLh1vUZxnkwgtEGvNrvCV6bEwBddZ74OJqzc2b19y7VEvR
+	 vmz4ZdlXi68DArLyNB75zBJ9GV1yrw3V9eWQ8sqzD3zRjDt12B0YSiz0RwvFpsn6iclBR
+	 f58867loXMpI5ZZPmxj4TsMGsNxBg4qvyGD8MfcsrjxqYKVgIr+A6vhueyNkfiHxF+UjQ
+	 O6G+NdpcgldjF7jpsgXU9mI4snj1aEGiwZ80tzvyi+/sQILlFE5fS2TErCSGnRDrKqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=khVTwex6;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=npuiu8Zb;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7608260A2604;
-	Wed, 21 Oct 2026 10:28:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69EF606A31B;
+	Wed, 21 Oct 2026 10:30:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=khVTwex6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0013E1F000CF;
-	Wed, 21 Oct 2026 10:28:45 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=npuiu8Zb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F4551F000C9;
+	Wed, 21 Oct 2026 10:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792578529;
-	bh=RyNlnTCg8f5jnRjirKufUnFU6MO9l6lq6sjeVEWl6yg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=khVTwex6HuJEnfARXW1KWD+f7Ysf5SKiY9H9XV2U3S7JxHQmuSvwT/4ZS2f/4VdO+
-	 h7pOJT8bseaZKjMDxBQSn7DpA2lqtFPTi0ch7FnYNswC7YZlibEmBfC78gqGQbRP+v
-	 aOCzkJ1A+kkTuExGRevT+oYALDUEeY5GCEwE8w+g5WG7FK0sS+X1QuH6gsAcc7JE9x
-	 3wc2ArVPZ2j5ac0yLnHg4edaId3P8+TabR6hxTwHYX4xNP8dfbDd7WR9EH7O/4hgVo
-	 uYu0IK9t0JP5i41IdDOs1AIcd9ty6FyaOhZaEmr0Kq/AQv/954NfvBHguOld2t+Nsy
-	 fmR9FNGfELRNw==
-Date: Wed, 21 Oct 2026 12:28:43 +0200
+	s=k20260515; t=1792578611;
+	bh=W8edK1Xi3fKqCs4MYZhDfH0qfLfRnuuhcmFNKoFIYOo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=npuiu8ZbeBCUB/eaT8kTlOj1JSGVuD1Q5Ur9utmedIlIQT3szI/SXajQtD3/uHyT3
+	 DJd+HVY81WggR4V3GJFqpqyOuY4XR1jRNpoeWBzl0HyWGHrSvvXjYPyzuGZRAqXkAJ
+	 uyHKANHt9lEYXkUvWnaCzLsl9VKnFSf0Y2VRfaQR7vodyWcURKZal7WsfZVZypDndN
+	 X8aHo+JfJLy8wibOUWQDtrCERvZSYWQeWvFcu72V7ZBK3SJbDOlDiRk9YLCHiWo7Oe
+	 2OFSLIAJ03m82FVRDQReWcb/QCYt5JLQ0SIUUp/bImQKUx1s6Dr0t7YPZCh/fg0uSp
+	 A4xGFCSnCmRcg==
 From: Christian Brauner <brauner@kernel.org>
-To: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: Josef Bacik <josef@toxicpanda.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>, 
-	Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/5] capabilities: close the ways around the CAP_SETFCAP
- rule for uid 0
-Message-ID: <20261021-beisammen-pokal-unbefangen-436577686165@brauner>
-References: <20261006-b4-setfcap-userns-v1-0-f47e7ed66072@toxicpanda.com>
- <asehZEWAwsJcbqvM@hallyn.com>
- <179147397027.4.15064782992163283819@toxicpanda.com>
- <asfBRYy597qvzdCW@hallyn.com>
- <20261009-aussicht-wortbruch-bohnenkraut-9e7a1cfd7580@brauner>
- <179191993398.6.7035194670175996999@toxicpanda.com>
- <atYGiiGPs39lTFQ7@hallyn.com>
+To: Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Liz Fong-Jones <lizf@honeycomb.io>
+Cc: "Patrick Lu (Anthropic)" <perf.patrick.lu@gmail.com>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ ian@honeycomb.io
+In-Reply-To: <20261017040710.1174009-1-lizf@honeycomb.io>
+References: <20261017040710.1174009-1-lizf@honeycomb.io>
+Subject: Re: [PATCH v2] writeback: keep cleanup_offline_cgwb()'s scan out
+ of syncs
+Message-Id: <20261021-vagabunden-nullrunde-torpedieren-3b864a09e824@brauner>
+Date: Wed, 21 Oct 2026 12:30:04 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -66,63 +63,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <atYGiiGPs39lTFQ7@hallyn.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-3d1b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=894; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=xGvdJTJPwUrQmbSvbQg+cAG6DSz9S/AsFgM5IJB+gjs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdmKJXxrVq1n6OYnX2mKsvpjDdFwwLLlq35NWC6AOJT
+ fveMypqdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzk+VuG/6Gb37zOnN0mWL/0
+ XJGR0PKmnT9nKlsv8klYFPGfSbkl1omRYVlMl4rpxYMB/NtDU3k+87kY7hf0Et33J03/t+25Q4u
+ dmAE=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, Oct 19, 2026 at 07:01:14AM -0500, Serge Hallyn wrote:
-> On Tue, Oct 13, 2026 at 07:32:13PM +0000, Josef Bacik wrote:
-> > On Fri, Oct 09, 2026 at 09:41:59AM +0200, Christian Brauner wrote:
-> > > On Thu, Oct 08, 2026 at 11:13:57AM -0500, Serge Hallyn wrote:
-> > > > Yeah, that's what I was thinking.  Or even stricter: ensure that to join
-> > > > any user namespace, a process must have a superset of the namespace
-> > > > creator's capabilities.
-> > >
-> > > I think both are fine and I like this proposal.
-> > 
-> > One correction to what I wrote: the weaker version isn't enough.  A
-> > namespace that maps "0 100000 1000" doesn't map the parent's uid 0, so
-> > it passes that check.  But with an idmapped mount that maps fs 0 to
-> > 100000, a task that joined it can write fscaps that are stored with
-> 
-> I actually don't think that's something we should work around here.
-> 
-> Christian, what is your opinion on this?
+On Sat, 17 Oct 2026 04:07:11 +0000, Liz Fong-Jones wrote:
+> writeback: keep cleanup_offline_cgwb()'s scan out of syncs
 
-I want as little moving parts as possible. :)
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-> IMO most people should not do id-mapped mounts from host range anyway
-> (they should shift a base rootfs to a high range, then do idmapped
-> mounts from there),
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-So that's pretty common though. Doesn't Incus do exactly that? And it
-does write fscaps through onto the host on purpose and restricts access
-to /var/lib/containers via strict DAC.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-> > rootid 0 and honoured by the host.  We test that flow.  So it has to be
-> > Serge's stricter version.
-> > 
-> > > I think that this is an acceptable restriction. Mapping uid 0 to 0 and
-> > > dropping caps is borderline useless.
-> > 
-> > That makes the restriction wider than the 0 to 0 case.  A root task
-> > without CAP_SETFCAP couldn't join an ordinary "0 100000" container
-> > either.
-> > 
-> > setns() also only covers the routes that go through it.  These don't,
-> > and need their own checks either way:
-> > 
-> > - writing through a uid_map fd opened by a task with CAP_SETFCAP
-> > - ptrace and pidfd_getfd of an entitled task from outside
-> > - a task without CAP_SETFCAP creating its own namespace, which a
-> >   privileged task then maps "0 0 1" for
-> > 
-> > So v2 would be a level on the namespace computed at create time, the
-> > strict setns() check, and the checks at the map write, setxattr and
-> > ptrace reading the namespace's level instead of the cred's.  If that
-> > sounds right I'll put it together.
-> 
-> I still think it would be easier to reason about, long term, if we
-> could get away with storing the cap_eff of the process which creates
-> the user namespace, and check (ns-targeted) the capabilities of any task
-> trying to setns to it against that.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] writeback: keep cleanup_offline_cgwb()'s scan out of syncs
+      https://git.kernel.org/vfs/vfs/c/056b35228fad
+
