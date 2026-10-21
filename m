@@ -1,64 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=173.212.254.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792550268;
-	b=xRk+umjwVj3oRbXzO+Kl+w9yg/FtbGdKjPlQfJs21+pN+242OzMWNCUnTI0JIT5nByWG
-	 it+mcO7vzUexHQIqkWSERXrWdIdehZz8SpEK+lg9lS0ulfX0v0POLfAI2L8tuj2ZZ19GP
-	 mOdQhRGitXS9rKvH795wb1RS2g5e4aH0w5vG0oa837yhODDq8KT1IGeDa37b+rdYKJeyo
-	 DDQyXaulhc668l9OpIECSyxW8ZhzLpB1ruxKmpK6qsYhA5fzFqBG0g7VG6rQ2ieGN9BXJ
-	 rCjCld57kXVtdjFWGSMeVGWarDcShRneWK4pw8L2WsqIX8oWwkcEPwyDW2pTPlZ2E6Q==
+	t=1792552533;
+	b=laXYx8y82W4xTO0JdodbmeXF95x4duy+BOK2WJY3zFLoH8/Eybo02W9MM4USwx8u3IJM
+	 J0bczwF3rqU58CoOq6IPKnOBnVZhM0eX3ZpAY96R34jG3WsqOEdV2VkCnilrBKRpPfCdJ
+	 3byb3mzvQZ8b8TIDHc6HnsESX4wg6UwmauEwpd23wxYvn5AAj9dWnfVKqkFQLic09oio+
+	 NPGvP7p1+EWcgsdr8k6LzBTBZE8Pka96QSF7g10i5t8F8XfSLob+Aqu/QOSpKFBSgHfjw
+	 lLWWtg/+cwgToKoUYvd3XqXYGhxekkalQn0gNBtt1vIYPe4slQolE7h6YM9s3MmAfhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792550268;
-	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
-	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
-	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
-	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
-	bh=tmKwhz5nhSePOpHItD/dk/zdNqEuupgj6nHTXS50p4M=;
-	b=4TE6pQsotUqmYe/5HuUTXBa/jvBFepBaQQOJOEkQDzr7YH0ygpGnbPlGPgbr0ZWe9syZ
-	 ZHuzM4hclMJ+/MicbUwD/C36jP5s32K+H9zr7Yu4Jzf8vjl8+S0lEPaVn0h6Z7wEazF5U
-	 ejayTZq4ItoG03eVH8UyqIeZi2nCyPyqYkYcjKeW0/IHkWvKGGQ78rbjDwsOjaoyv6Qkb
-	 nL1lCXFZEeWpjtzPTBv+A6OiQ+mwB4+qIpCAScCRboSZmVukJ+pp6qxijxGARH+e9w7Xl
-	 6sYginNYeSHH3k+q4BrhqcGfcnPjjp/rf7chPk8vO+xeUyybk3qwGyTuLeazcY5S65Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792552533;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:In-Reply-To:
+	 References:From:Subject:To:Cc:Date;
+	bh=EfTRtZy0G2OuIXu4PScrnzWcsEd6oPudCAluCFucq4Q=;
+	b=HHPDGmseBhMaBymXXmQ0yhPxtk+XikZXYX6wwK2XmXZiRWsJktdjFcPH4g2CMCd9wJGE
+	 JohwYG3PyjViIBL2t3c1qWC1MP5Nv4EK+GZcTisnvTLiqxBiJ/wisOAsvczjz173o5ifj
+	 UzQCceirVJ7hKABsKuBN7bflXN6bcLdaQAs1sQtv1UAiLSYotSL9cEZnJlaMrdFOM9wEh
+	 nXeXlB2ZzLX0+miES9TcQbkLpwWGu0v7xQJVQx6IguJAGf5QT45CRq/rBVj8E6iUfwbHz
+	 U1sPrh6ERUGTNFxFZDY0oRDH3zzoG4rnb0GQI4/xzNX4FHlaeUfLvyXs55G21v59C+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kCwo26H5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=tuxist.de;
+	spf=fail smtp.mailfrom=tuxist.de;
+	dkim=pass header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b=Pf58hAVc;
+	arc=none smtp.remote-ip=173.212.254.19
+Received: from groupware.tuxist.de (groupware.tuxist.de [173.212.254.19])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D26606A319
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 02:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF38606A31D;
+	Wed, 21 Oct 2026 03:15:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EF38606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tuxist.de
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=tuxist.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kCwo26H5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0597C1F000CA;
-	Wed, 21 Oct 2026 02:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792550268;
-	bh=tmKwhz5nhSePOpHItD/dk/zdNqEuupgj6nHTXS50p4M=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=kCwo26H5R907MMvOq/dVvckn3wwwrfQmqcu/+jyS7unpueTx0GoHGPXynsk71s2z0
-	 dNXCsAzm4yJpsUUkh0Bq7BsrumGf6TZx+OTK/5wN5WW1C9KlUgsn2oSq53lXho6/kc
-	 CkpIe93pqeKMLRX+/J7SecmugMiynoCCJ5MEduyUOzmh0KHg9Y8I4AaMcXfSckBCqZ
-	 5lPNbfaaq3AKBVLAL25X/VewWzhpIzG6trBYjg93SJgcTI/oVQiafAdNaNqjl5/wzU
-	 MwWI7s4+2F41IF0xmv/bPu55YwKwgfbS5wfVuRtypthvkswz+y5ayOPHMy02mN1V0/
-	 c6QbTFXUUBS3Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F13133809A18;
-	Wed, 21 Oct 2026 02:37:47 +0000 (UTC)
-Subject: Re: [GIT PULL] fsnotify changes for 7.4-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <2zkvzrlxlbtreayny7ljhyy2jjny2mbpruz3j4dgjvxhq2ntkp@q6vb2gwvyf6z>
-References: <2zkvzrlxlbtreayny7ljhyy2jjny2mbpruz3j4dgjvxhq2ntkp@q6vb2gwvyf6z>
-X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <2zkvzrlxlbtreayny7ljhyy2jjny2mbpruz3j4dgjvxhq2ntkp@q6vb2gwvyf6z>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify_for_v7.4-rc1
-X-PR-Tracked-Commit-Id: ff05910cb1b77c2b229c5e6e260c6173a17b579b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: fefd797c4135f183f87cde5ed4ad7974af087143
-Message-Id: <179255026668.339009.3465595535442511268.pr-tracker-bot@kernel.org>
-Date: Wed, 21 Oct 2026 02:37:46 +0000
-To: Jan Kara <jack@suse.cz>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org
+	dkim=pass (2048-bit key, unprotected) header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b=Pf58hAVc
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tuxist.de; s=201705;
+	t=1792552531; bh=0PLU2tqzeCB9lkMpzBKLluy29433zzBAWGe4OWhQlrE=;
+	h=In-Reply-To:References:From:Subject:To:Cc:Date:From;
+	b=Pf58hAVcCvsS5lNh9fqRRUi3TwaXPunlCLXPI/td2NJ/6FEy3z79xJAxuUS2SoCjZ
+	 WEb3TENz5f62EOOs4A5a02u3F0nE/V1AE1YLBORyQihdlvpbLFcOu79QVbIyOFmarp
+	 m+I6tSLTEOmbWUgUHw+UsoAy9nbOt+pAvye4VcmB8PYLd2vKMb0L91M271usDv+W52
+	 xnaJJfpfRfpFCDZUZEOWCRwuEpyOX1QSysYCzb990kiVk50lcWn2BMFptVZOSKYXYv
+	 1ux91G3892m5rfY56V236tyQi82U36XcjKQEkpg2vzycz0kIXkh1QSOrnXqrodkLKW
+	 aHW6YUJ4vw0RA==
+Received: from [10.1.1.106] (unknown [10.1.2.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by groupware.tuxist.de (Postfix) with ESMTPSA id 8B28B8A08F4;
+	Wed, 21 Oct 2026 05:15:30 +0200 (CEST)
+Message-ID: <acd7e5be521cc2ba0526c45212e0c7b0010a6d16.1792552161.git.jan.koester@tuxist.de>
+In-Reply-To: <cover.1792552161.git.jan.koester@tuxist.de>
+References: <cover.1792552161.git.jan.koester@tuxist.de>
+From: Jan Koester <jan.koester@tuxist.de>
+Subject: [RFC PATCH v2 03/41] uidgid: add uid_is_legacy() and gid_is_legacy()
+To: Christian Brauner <brauner@kernel.org>,
+    Alexander Viro <viro@zeniv.linux.org.uk>,
+    "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Jan Kara <jack@suse.cz>,
+    "Theodore Y. Ts'o" <tytso@mit.edu>,
+    Paul Moore <paul@paul-moore.com>,
+    Arnd Bergmann <arnd@arndb.de>,
+    linux-fsdevel@vger.kernel.org,
+    linux-api@vger.kernel.org,
+    linux-security-module@vger.kernel.org,
+    linux-arch@vger.kernel.org,
+    linux-ext4@vger.kernel.org,
+    linux-nfs@vger.kernel.org,
+    linux-cifs@vger.kernel.org,
+    netdev@vger.kernel.org,
+    audit@vger.kernel.org,
+    keyrings@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Date: Wed, 21 Oct 2026 05:15:23 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,15 +79,46 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 
-The pull request you sent on Mon, 19 Oct 2026 14:15:57 +0200:
+User and group ids are about to become able to hold a UUID or a GUID
+besides a classic 32 bit id. Add the predicates code that can only keep
+a classic id (in 32 bits of a buffer, for instance) tests with, so it
+can be converted before the types change. For now every id is a classic
+one.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify_for_v7.4-rc1
+No functional change.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/fefd797c4135f183f87cde5ed4ad7974af087143
+Assisted-by: Claude:claude-opus-5-5
 
-Thank you!
+Signed-off-by: Jan Koester <jan.koester@tuxist.de>
+---
+ include/linux/uidgid.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
+diff --git a/include/linux/uidgid.h b/include/linux/uidgid.h
+index 2dc767e08f..182c682458 100644
+--- a/include/linux/uidgid.h
++++ b/include/linux/uidgid.h
+@@ -22,6 +22,20 @@ struct uid_gid_map;
+ #define KUIDT_INIT(value) (kuid_t){ value }
+ #define KGIDT_INIT(value) (kgid_t){ value }
+ 
++/*
++ * Whether an id is a classic 32 bit id. All of them are for now; code that
++ * needs one (to store it in 32 bits, for example) checks with these.
++ */
++static inline bool uid_is_legacy(kuid_t uid)
++{
++	return true;
++}
++
++static inline bool gid_is_legacy(kgid_t gid)
++{
++	return true;
++}
++
+ #ifdef CONFIG_MULTIUSER
+ static inline uid_t __kuid_val(kuid_t uid)
+ {
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.56.0
+
