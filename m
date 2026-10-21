@@ -1,100 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792585542;
-	b=u3lx8Ppt75WKgtaBidBXBlUamxgLIjwt4mdD/NHV6vll7uOj5GwiXQjigEDuGFBUZUMf
-	 KpHnJRnQAgfgRAa3RTlNBL2Sj45/4jfxcW/R98gjVvmBCN6aXuI/KsL0W6cis5VsJ7YpG
-	 o59eukiaOeHItqo9LUyDrDa7PBKJwB2k6DcIvHDHcfJfLO4DFAAwJS2c0IP6qnNtbNHv4
-	 UTDVpNhalMiqm8taSwOTJ0wXxWULBGkfo2v3/LnnljIfePKIwQPydx7D5qmD8zid/2UuA
-	 MNXNTZn6sCVUEWGnP79MTmu55X5gG66nK/11iluVLfwtyzO2e1UvG77YyL1sb6XzKfg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792585542;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.198
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792585567;
+	b=B2k+V4UaPeqQWhHrWPTZ+ZNYz6cKFIrvIQ+Wvp7c7RRVqKPuJTvk6GRu5zYRePfeyg58
+	 CMrKesY1l0AcrXLxlJRdLYPIh5qiHyhBHZpqrrz+PWSp3Cu/eSpDlPq2tGODq/6Qz8D8D
+	 zQibJkdDPzXQ1wHnU/uSL+m3VLSb5cXVuNy51LBi9hDQSW2LeElXjNAAEjt/giwv+t7yv
+	 93GUt3B+Fu8K1MQLxMTRn0FNZQ0fCwZ7l9YHTQPR8gdJhFLjdjigAoC77lpabnq5TUpZa
+	 TcWW7bCIFte5WyZTF6TMKOdxR87qFvdOjnSX8A6GKHeiP4G7TbEoVrErn54K8NZ5Tbg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792585567;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=C7rAKtaKaELVNFK0oBOpKXYxL6DNRFQYfosGXzXCAjo=;
-	b=ksVHTIv2F9IA6pUXtYAudJpv7cIwJ3vb9wZ2KgFFDPGQPp/9Ru1w8qWELAx73vbU7OLw
-	 lcEa/BxR8RJCx6CufUBWs09eujEoG7ADNUy3baRrlWWKg30ybYZ+2BKw40/aGNRYY4477
-	 7ss71m03eSp6XqeSBvn5TdVN29tyY5QtSsMX4Vp4QCXqwVhcPcoBEDZC0YzUekcfMQE8O
-	 GlCjaoJBzHXMqt0H19SC4c3xeDo7mPIf9Vsa3HidzMFpXEBl5QfbPrNa87m79rsW/h+9B
-	 txUid/0cMG8Bj78tv5YGxSygWA4K76S7jW/c78cDg1lJGjVyKWxlPqFpvQx6krZm3Cw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Gm-Message-State:X-Received:Date:Mime-Version:X-Mailer:Message-ID:
+	 Subject:From:To:Cc:Content-Type;
+	bh=NR/6ReBtZzWPhL7shMo8n0oVFcpdIbC1mfBQJ9hh1jE=;
+	b=j+9NUvWb+Zk9WqoPNJQxRhQ2zawVWFj5XrVkM6w3taybUoG1RP7JuEVXDrnjWFGZJYlH
+	 eA/+CzXgsGZ2PzLuLbak8yOuevYDz2DeWvuhtYuDWV+LlAGZ1wj8hsyGCX7go1vPYabDY
+	 /Z+MsCUH9X9Y7tIqPoIHLORRXyQG/kFELBam5Nfnilgb92XobvGnBELihTkD3ROA9MhWD
+	 vezy6pG+FDflsaGm5MUa7cDNjqPmLlceoIyBtg4lJ3c2YEo/jucfd3b7bwv/6zY1wQvu/
+	 T5FjM8IGHFVk7oswPsMGjJudDxZYvcfqxDKngfcMGG+Es0T7hLnhMB5ewLoroq+rU2Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=QcLGTjWT;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	spf=pass smtp.mailfrom=flex--sadrul.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=RDQptoAr;
+	arc=none smtp.remote-ip=209.85.160.198
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C97606A31D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 12:25:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0C97606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F88606A31D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 12:26:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9F88606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sadrul.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=QcLGTjWT
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5337c7b9937so298511cf.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 05:25:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792585536; cv=none;
-        d=google.com; s=arc-20260327;
-        b=LlHRqNnleWR4WvqR/G6ZeuS/1nOdM6KvSA433jAabIuCE8gFLpNAqoC5WfLwQPKQPN
-         2PpGMEs8JuRgxv/w5YT8QMqhfvLg5etkRlJbqRf6BWnNgcZdGDl/SMCpRd1bSAYoyHKp
-         J59Pfy/N2QLQ8PjzSyHpVQzwIFNV7NDEqgzZGPZm0kToPAC3BhHw8Eq3r2TWiqgMaLcn
-         zv5M2+DDGgfb9j0gbeYGTY9jR3HK3Z2xQ/c2Ml9hAyfnw1e9oR9QyUdgkHwVIFHIYNj0
-         g4Nw1yaieB5d8tS6JQhJyblYl45LpSbdlYkjUCnwdSyL3U7WDvVRnj4hfGL2YeGNvW6o
-         VjBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=C7rAKtaKaELVNFK0oBOpKXYxL6DNRFQYfosGXzXCAjo=;
-        fh=6ngsmEB0aOnNVkoLUFdh7V6D+6RAODhra408Eg+33h8=;
-        b=Lcqf9ysW2DV6u6cvaV7yLMmvPG6jcq1fbOzGNKnp1679LkGczUynXP14BnpqtbRdaM
-         ZzK9YBq7+IYqumeR0D+MHQWWgYIDeXyJc5+PTukQXBEa0m8dnMeNVEtUtgt3cPwGGruO
-         RO6gVs9Uj8QiRm5Rgo10C3ZKrzb2ymfhTCKW+anpa2CHNsdxinSjD1ZCXVK698g/sRN5
-         hD8mS1Y73PC/pCCgMd9tOJaO0cMD9nvlIDCgrmAcVBCRnG/u9zdeMNndu8Q/+XgvJoMT
-         ZO4bH+3Cz32FSuhbAdagqiYaqK3paddIn4R9Kg1rzGXAe5DYgD8E+38BFOHbr4OM6JZS
-         nP1A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=RDQptoAr
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5364605e74bso17080061cf.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 05:26:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792585536; x=1793190336; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=C7rAKtaKaELVNFK0oBOpKXYxL6DNRFQYfosGXzXCAjo=;
-        b=QcLGTjWTwPPBYCWoIqz7nnTEZjKof43bbn+N2cXXqOUKvghC7g4YC55UuHTzzBduS5
-         u5NxGvBekE6cVb/LRxpM4Fhlb7IOpgMc4uHIkT4wOmLyLzhaEbGsjLr1yQ2Zj1oFGmk2
-         iSWCaKP/JaMI8hdGvcCTph5pCapEaH0Jp0OFxmzOrkDvmk/5UPPJA9OIV+H/A9dvClGt
-         5UY6V9qOSMPL7b+v11w4uRNGWnVKqUMd3DRVJ9vlWkjb+YtddlzbRi+0tBQ4nBV7ApMi
-         iezj3vkUKORHJyZp23cCr7TnO2fHE4VoaTe1WL/HsPUt+VlClE7d2SjkgT/+fLQjPBuF
-         Owfg==
+        d=google.com; s=20251104; t=1792585566; x=1793190366; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NR/6ReBtZzWPhL7shMo8n0oVFcpdIbC1mfBQJ9hh1jE=;
+        b=RDQptoAr7ZarafLjdYmo2ZhJs4b25kqadd7r9xdWurdX2lBuxGBC9Un5Wy9mY8DA8s
+         S/EMrM1T7nR0PBt/Y0xm8VF9eNGiLRMoVXPt/kGWXFhWAcj7TRw4+Kiu3hHTHKThZw9u
+         6yD7HXvvIffk42RgAKcF0R3gIqmN2WrFdmIpZEkWOmcD6+TWDw8mNnyCclW0HuRUq8F+
+         HcVbwviKLbVDr5SOr7KfK5TXb7yEjdkwEyhNoQbWuJfo/H4d8WJ+tEbouL/sQx9/Mvdg
+         XtTdKWWip+Q0SF0MzPVNw6NXwEN15KIyzfU+5ajNZfiVxrSjsAVximiJRVsT0HvCgQ2/
+         4x4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792585536; x=1793190336;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1792585566; x=1793190366;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=C7rAKtaKaELVNFK0oBOpKXYxL6DNRFQYfosGXzXCAjo=;
-        b=Aw6saf7kECOvlQNvPCsy/k2XjZjRdMpdvFBlCjMWNBjBqpcz81CRWADKVKVLbTJpUZ
-         zM8xoLymFGQjPJICWO1wl6E9enVLz5r4Q6++gocrvQn5m9Unt7CLrlhguYl5CqsEVwmk
-         zbdz0ccSElTn9ueFmmeblvj+xILLOGY7xnTC78YYdyxU6SujytuTkTqJworoLC0TEzIi
-         +ZFqUT1pfEuLaJ8DdOWrVLlkY4hE38BCkk8Y6gRF7pw6LwMsnJ2vtr88Kh4buezzkKSy
-         nd4D6hAAyoxaBAdK/lY3DyNIjQ7JJ7541BNrbqgyrWrhkfM2BT+rR2hAgNhQ3bTlPPu1
-         T3Zw==
-X-Forwarded-Encrypted: i=1; AKwUvBwV+elxpwAQpCcn0CbodsxcuDG+7jElU6+LrMAHqQTSXATq8zVnhc/VSGpfGMWKTfrWNiiF+uz0z1jIxKY+@vger.kernel.org
-X-Gm-Message-State: AFq9FYKF0p4tqHGfHTqazYdt7WQ6LCo+BYicINnzpCZANktTHMFiTneg
-	+OXZfY9og6ZWsvSeI5wBaV1h/6uh0ryMZ9pZnAU0TzHqK/cCGtpw/Uz8+R8jkPUjxEPvHKXc+TM
-	VuqNbTsIMBYAFM8uJZ8UMBDZmeBK8lGKyX25fDJM5EPYUfIQcILJEHCFpbpg=
-X-Gm-Gg: AYBFou2V3MFkrHFiVWXXZLf/dL8LG9j1ydt0+huRLYTjeFNzazBdIrw4pce+/koon4l
-	WnE8D2GDDJg6QBcowTrLAuxpFOG1QSGQw81/ASwyDrjmBRBeMMjY/dTtmXPchQfrL/FTSpkq8oZ
-	SJUBLHOf8x7FRfzhbUzW1AHyIxqqdFgWcMbGJWClsZFfd+DNr1gfZAeommf/fjnqFpECubypJNh
-	re9haEJ1oKvZNWiUzq7S2QihW0wbsTDo05Lb6kDneo32iVK0/eY/anQgBylb0AdssfZhSfJ2/Zy
-	3RS8kNwxNVs2mZqBrZJxzHWqrz6RPN7KOmPqTCZpJ+UBe8GrNJxOa3uiO5JgKQjhSuAURZjgZLp
-	mhl9MVl9UvD7pabUUtFQGxGtclRcB+fIAUX1bl2MFHXR96PUvEfhVjOr5DolpW1qhF3Zz
-X-Received: by 2002:a05:622a:1103:b0:534:313:9b4e with SMTP id
- d75a77b69052e-5368512568emr39727821cf.5.1792585535104; Wed, 21 Oct 2026
- 05:25:35 -0700 (PDT)
+        bh=NR/6ReBtZzWPhL7shMo8n0oVFcpdIbC1mfBQJ9hh1jE=;
+        b=FhLsOEDE/zqyTSgWfZByahJVp32HyKx1NdUhVhfjPVmNBEVedOI9NyshE59SWL3tco
+         JfPytvOh2UddGB/b36G1aaOtYQbuDrg/gCUvpHnWpn1aR1X5Pys+A3jKOhBYj7h/fQif
+         mK86/FXcLoxAw0KEqJcMaJcf+lUSNPPclO8NkK137x1V9A2Birvx93KzwTIjekzhHUxv
+         rjfQlfvPdMYZzkS3qKPUWiI0AHgFh8p5s113wbRE6kzgEmVqUIBVrMFJuV9JW6peE8+G
+         4VkVgpA6ORNYN6lpChJZsqFcXbbS0+of2pOXPiGDWkAMbjtvtdj4mwLgQt8MyZs1YBU9
+         iwGQ==
+X-Gm-Message-State: AFq9FYJffP2jhexA4kTRwZYkzigDKhYHAJ8gtAlwmEe7kSBTQwHVAaWt
+	UrWINOWMB66cQQWZzWoMQ75uUnl035FeF+3KCEljo0BuG0HNStqOp7ZyTNBglhbDJpEKjX2gGei
+	e+iB3Qw==
+X-Received: from qvbfi13.prod.google.com ([2002:a05:6214:1a4d:b0:91b:88d2:29c0])
+ (user=sadrul job=prod-delivery.src-stubby-dispatcher) by 2002:a05:622a:488:b0:535:855e:6e25
+ with SMTP id d75a77b69052e-5369b8c7082mr28413131cf.47.1792585565409; Wed, 21
+ Oct 2026 05:26:05 -0700 (PDT)
+Date: Wed, 21 Oct 2026 12:25:42 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,32 +74,75 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261020121159.2154649-1-sadrul@google.com> <20261021-miserabel-zahnrad-gepachtet-9bacbeb24a4c@brauner>
-In-Reply-To: <20261021-miserabel-zahnrad-gepachtet-9bacbeb24a4c@brauner>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.212.g129ede20d9-goog
+Message-ID: <20261021122543.3547778-1-sadrul@google.com>
+Subject: [PATCH v2 1/2] fs/epoll: mark epoll_wait tasks TASK_FREEZABLE
 From: Sadrul Chowdhury <sadrul@google.com>
-Date: Wed, 21 Oct 2026 08:25:24 -0400
-X-Gm-Features: AclHuK8aD2JqJ1CUN-PK4H1g53g_Wt5nf2Vtd4t499zqOIAxdZ1WFXXEm-h8zAY
-Message-ID: <CAKgcGXiE6U-oBJ1sJS4fDurqRweSTdgYfoewLaTSJgi7kSqC3Q@mail.gmail.com>
-Subject: Re: [RESEND 1/2] fs/epoll: mark epoll_wait tasks TASK_FREEZABLE
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-kernel@vger.kernel.org, 
+To: linux-kernel@vger.kernel.org, 
 	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Pavel Machek <pavel@kernel.org>, linux-pm@vger.kernel.org, 
-	John Stultz <jstultz@google.com>
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, Pavel Machek <pavel@kernel.org>, 
+	linux-pm@vger.kernel.org, John Stultz <jstultz@google.com>, 
+	Sadrul Chowdhury <sadrul@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 21, 2026 at 6:54=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
-[snip]
->
-> Seems you generated this against an Android tree. Generate it against
-> current mainline and resend, please.
+During system suspend (freeze_processes) and resume (thaw_processes),
+threads blocked in epoll_wait() sleep in TASK_INTERRUPTIBLE. When
+try_to_freeze_tasks() executes, it must wake up every sleeping thread
+with a synthetic signal so the thread can schedule, run try_to_freeze(),
+enter TASK_FROZEN, and sleep again. Upon resume, the freezer wakes them
+all up simultaneously, only for each thread to re-enter ep_poll(),
+observe no ready I/O events, and call schedule() to go back to sleep.
 
-Thank you for the feedback. I will resend v2 shortly against current mainli=
-ne.
+On systems with numerous event-driven daemons (where hundreds of
+threads idle in event loops), this causes a large wakeup stampede and
+thousands of redundant context switches per suspend/resume cycle.
 
-Regards,
-Sadrul
+An earlier attempt to make epoll_wait() freezable in commit 1c441e921201
+("epoll: use freezable blocking call") was reverted in commit
+c511851de162 ("Revert "epoll: use freezable blocking call"") due to
+reports of userspace corruption (Bugzilla #61781). Under the legacy
+freezer design, freezable tasks could wake up prematurely while
+hardware and peripheral drivers were still suspended.
+
+With the 2022 core freezer rewrite (commit f5d39b020809 ("freezer,sched:
+Rewrite core freezer logic")), the legacy fake-signal mechanism was
+replaced with the TASK_FROZEN state. Tasks sleeping in TASK_FREEZABLE
+are safely frozen in-place without waking them up, and the scheduler
+guarantees they cannot be woken until thaw_processes() explicitly clears
+the frozen state.
+
+Mark sleeping tasks in ep_poll() as TASK_FREEZABLE. Benchmarks on an
+ARM64 test device demonstrate that combining this with freezable
+select/poll reduces thaw latency by 63% (from 20.64 ms down to 7.55 ms
+mean at fixed CPU frequency) and reduces context switches during
+freeze/thaw by 87%.
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+Signed-off-by: Sadrul Chowdhury <sadrul@google.com>
+---
+v1 -> v2:
+- Rebased against current mainline (torvalds/linux.git master).
+- Collected Reviewed-by from Jan Kara and Acked-by from Rafael J. Wysocki.
+
+ fs/eventpoll.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index f48b829a710f..76906ced2b86 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -2327,7 +2327,7 @@ static int ep_poll(struct eventpoll *ep, struct epoll_event __user *events,
+ 		 * the same lock on wakeup ep_poll_callback() side, so it
+ 		 * is safe to avoid an explicit barrier.
+ 		 */
+-		__set_current_state(TASK_INTERRUPTIBLE);
++		__set_current_state(TASK_INTERRUPTIBLE | TASK_FREEZABLE);
+ 
+ 		/*
+ 		 * Do the final check under the lock. ep_start/done_scan()
+-- 
+2.56.0.212.g129ede20d9-goog
+
