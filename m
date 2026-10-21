@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=173.212.254.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792552602;
-	b=cvMgTE0uURGseIZlyP6CKcQY2O1zm5w+YK9eE+DmUTmnVwzIB++81RZ7GlLzZ99ZasVy
-	 7DP8xY9zJciAVNH3OlH7rdyJkCYnKlHAdhcadarPaaWEcA1D/IKH8eXKb0lhNpnf3/YRc
-	 v+kiwfKqLb/QMC80oeoHsvYtsR1y6S5D2xHIeCICLpArxhjs4ruMeOplGzNWAjb1o+yRB
-	 dVkGf4wAtKkWUmxT8zeNP5vloEGE35f/tk5pprhuU026+e5k3fs5kD4PzXtW+FoQ65o4w
-	 0fKMyTrYdej5O0DYeODaJxL55b3mW4nK7WVqT2bbEV6rkZ/G2WR8INwJAlYjxJDLtNQ==
+	t=1792552609;
+	b=tuvzwwFaYT9bXoDLq4eXrznsJYIToZ4tnJrH9zqeB/zocppDHxhQtRXKXlo5aV0lgC+w
+	 a0QpUeNQmzlqBp+zaVz0smkNAl03rc7I7kR0/LFv1BVSIYh+Z34PoKq/nJbioTvyJusb6
+	 bVIvPF08Ssf7KmXskj9E8sJ6QbXYXFNCnYr/IVksuKjRzKuWfN7QTTw9hbKfYen6luhdB
+	 EODU0OXnI0UPYAbjaYUWrCNbex2UC3/Ov4XfvELxVBLWwLhZLEQXEYciyev7Zh6cM/fxf
+	 uBH0tkLop/zmA+QyGAwSz5Ula8oyiMGtav9d/BpBB5Zp60n+XklIoEDq3B/pej2sb+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792552602;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792552609;
 	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:In-Reply-To:
 	 References:From:Subject:To:Cc:Date;
-	bh=zPPD7WulZ+WhBnM43LljNf1bKM8kWj+WAvEVavMd2SA=;
-	b=lCFvS3nk/RktW8PJpo2P0kY7w9GK6mj+aU9xjAMpf45B+e52em+e649+3NnMvSTsy5fA
-	 G8jFCfbN0hM9Q0DSHtGDX6I3slCvdTQbAvgJE8XNF9a7ZfEL7fa4ZY/PdD9P3qM14gRcl
-	 MeqMnmAcfNUrLt0qMr5YQBrIjGbPHZme8q4R6AHMMY9fzR0em29fWHaZy8zUyctBF/TQW
-	 AAPc9C/o4WEoPZTdHCDkCAGSk6Jrqauz6zcPlKiPu8xtEWpmj3JGxwdSbkZzAPBLI9dWV
-	 JEWugHo3/l+NPN1fNbK5ce/OJhNnluGoZb+0pMNKADISaiWUHWMd/60c+iPDAOMk5Mw==
+	bh=XPetBJfDkAzAZ8UTDQicbQRK+iH8jjbopwvCHr+wr6I=;
+	b=xlRKqqNnHr5O2yYiHYPDxlX6Xrp63nWY9XDVOY5Ly/pIbS6Gd0vm3t8GDN8qzivoNUEp
+	 B7pDyQdjxfIY81Vbx1f28QUtwUcva9WqSryJk2RYW+btwyeX5D6sOd/FUpJ96oEj8tAy2
+	 y3Bc9zo4hqIe+seRORQEDx56+tC+EaRd4iUwfNrUoGDPmntyqntd2sUQiSVveAzkUPiSu
+	 X0QEsMrjF2NcjuX+qUxUK9FXLkOZrUYPBGsHTBNjDwO6eILxgTsPP2pTChVZ2xkMZYoyk
+	 8sxHUX47lvcw+QXHIbaemqTOcX9NyNyvdbGUZYEshnbhYwkOUv3hM4BP82WbDBu1NKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=tuxist.de;
 	spf=fail smtp.mailfrom=tuxist.de;
-	dkim=pass header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b=hxrAC8aP;
+	dkim=pass header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b=MvZnv28O;
 	arc=none smtp.remote-ip=173.212.254.19
 Received: from groupware.tuxist.de (groupware.tuxist.de [173.212.254.19])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73782606FB96;
-	Wed, 21 Oct 2026 03:16:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73782606FB96
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE5A607095A;
+	Wed, 21 Oct 2026 03:16:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BE5A607095A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tuxist.de
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=tuxist.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b=hxrAC8aP
+	dkim=pass (2048-bit key, unprotected) header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b=MvZnv28O
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tuxist.de; s=201705;
-	t=1792552599; bh=z1Yb30Fyj4Y2/LMUVQzwPTf4Flb12dTpFmXtDtP1XBE=;
+	t=1792552606; bh=vR17OcW5DP2to57LMQkJCXz9sOVicwks2xNBVa+gK/c=;
 	h=In-Reply-To:References:From:Subject:To:Cc:Date:From;
-	b=hxrAC8aPEK4ltg8wpgxYj+wByDqRN88quU9gGlDJw9t1k8bmImdnSPCfqogMkar+K
-	 vVWeT+QeziF0bSj8QXZKrWlqGLMJVui1yHtqrXnIh64G0yTbX5OHWDBXpvwz4vG2Gc
-	 1oqdfgttBZe9WFfi63lLGybt+9H0SQ4I/5no1O3G/Khij9DIaFUz4okI+8dMG8/S0U
-	 oMZ+XlE6noA5HLtvoV3izkoGQgapGMiWrdYn0pVCLAoP1vBAQ3IW84g8dtciRhOR31
-	 w3nsvuYqi79ScCCuQORfBNB86/q8hGF2H9krwUOa/FloiLG8ib0hZUkP6WgoTFZ9P+
-	 +kj4kBmlVlN6Q==
+	b=MvZnv28OBDboO1Uckg4VHuK/UCnr5rurzSeDn9rh3CM8Oi+8NpNgWNtkIccYx5qyF
+	 ndW6QFNpKp4H1P/4JvmDSWzdVIoAEaNqTq0xoPzvfxt/e9z2vys6oMeRq/oKDBtAKX
+	 +aN+sOmHrfuEdV51ZZ2r9g7Wr8TdKTAbfDMuwOcjaJRjx2hJlcsYGzARDsqfxqV/ox
+	 pXIMjzH5sYuB/rluXQcqmrcXuXG3EFvM9A7sdlk/Mb+bGwKBVX2e/Nd0FT74brAjMl
+	 Uv8wqwMlruNGr/0anQBZWwG1U3ZR6i99bXdWRuTg5MYbLZTBKM77f30XEu7RAoTaFi
+	 ZGVDd4t4+1GaQ==
 Received: from [10.1.1.106] (unknown [10.1.2.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by groupware.tuxist.de (Postfix) with ESMTPSA id 304A38A0964;
-	Wed, 21 Oct 2026 05:16:39 +0200 (CEST)
-Message-ID: <68b5679a91d1d0f017d088a05595d0bdcefd58f5.1792552161.git.jan.koester@tuxist.de>
+	by groupware.tuxist.de (Postfix) with ESMTPSA id B90608A096E;
+	Wed, 21 Oct 2026 05:16:45 +0200 (CEST)
+Message-ID: <1151adfbb3aeae57cb26df8723287857f8d0af57.1792552161.git.jan.koester@tuxist.de>
 In-Reply-To: <cover.1792552161.git.jan.koester@tuxist.de>
 References: <cover.1792552161.git.jan.koester@tuxist.de>
 From: Jan Koester <jan.koester@tuxist.de>
-Subject: [RFC PATCH v2 23/41] statx: report UUID and GUID owners
+Subject: [RFC PATCH v2 25/41] uidgid: parse and print ids in their text form
 To: Christian Brauner <brauner@kernel.org>,
     Alexander Viro <viro@zeniv.linux.org.uk>,
     "Serge E. Hallyn" <serge@hallyn.com>
@@ -69,7 +69,7 @@ Cc: Jan Kara <jack@suse.cz>,
     audit@vger.kernel.org,
     keyrings@vger.kernel.org,
     linux-kernel@vger.kernel.org
-Date: Wed, 21 Oct 2026 05:15:43 +0200
+Date: Wed, 21 Oct 2026 05:15:45 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,114 +79,243 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 
-Add stx_uid_r and stx_gid_r, the owner and group as __kernel_uid_r_t,
-taking 40 of the 64 spare bytes at the end of struct statx, and
-STATX_UID_R and STATX_GID_R for them. Every filesystem provides them,
-from the kstat the VFS has anyway. stx_uid and stx_gid keep showing a
-UUID or GUID as the overflow id.
+Add helpers for interfaces that pass ids as text:
 
-struct statx is designed to be extended this way, so there is no new
-system call: statx() with the new mask bits is the *_r variant.
+- make_kuid_str()/make_kgid_str() parse what kuid_str() writes: a
+  decimal number, a UUID, or a GUID in braces,
+- kuid_str_munged()/kgid_str_munged() write an id as seen from a user
+  namespace, the overflow id if it has no mapping there,
+- kuid_str_signed()/kgid_str_signed() write a legacy id as a signed
+  number, for output that used "%d",
+- KUID_STR() and friends wrap them as expressions with a buffer of the
+  enclosing block, so that printf-like calls can replace
+  "%u", from_kuid(&init_user_ns, uid) by "%s", KUID_STR(uid) and print
+  legacy ids exactly as before.
 
 Assisted-by: Claude:claude-opus-5-5
 
 Signed-off-by: Jan Koester <jan.koester@tuxist.de>
 ---
- fs/stat.c                 | 24 +++++++++++++++++++++++-
- include/uapi/linux/stat.h | 10 +++++++++-
- 2 files changed, 32 insertions(+), 2 deletions(-)
+ include/linux/uidgid.h |  19 ++++++
+ kernel/uidgid_r.c      | 152 +++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 167 insertions(+), 4 deletions(-)
 
-diff --git a/fs/stat.c b/fs/stat.c
-index c461c30542..993ca4907a 100644
---- a/fs/stat.c
-+++ b/fs/stat.c
-@@ -185,7 +185,7 @@ int vfs_getattr_nosec(const struct path *path, struct kstat *stat,
- 	struct inode *inode = d_backing_inode(path->dentry);
+diff --git a/include/linux/uidgid.h b/include/linux/uidgid.h
+index ac7786f760..03ece8a4cb 100644
+--- a/include/linux/uidgid.h
++++ b/include/linux/uidgid.h
+@@ -190,6 +190,25 @@ static inline u32 kgid_hash(kgid_t gid)
  
- 	memset(stat, 0, sizeof(*stat));
--	stat->result_mask |= STATX_BASIC_STATS;
-+	stat->result_mask |= STATX_BASIC_STATS | STATX_UID_R | STATX_GID_R;
- 	query_flags &= AT_STATX_SYNC_TYPE;
- 
- 	/* allow the fs to override these if it really wants to */
-@@ -206,6 +206,17 @@ int vfs_getattr_nosec(const struct path *path, struct kstat *stat,
- 	stat->attributes_mask |= (STATX_ATTR_AUTOMOUNT |
- 				  STATX_ATTR_DAX);
- 
-+	/*
-+	 * STATX_UID_R and STATX_GID_R are another view of the owner: ask the
-+	 * filesystem for STATX_UID and STATX_GID, and report them whenever
-+	 * those are valid, also from a ->getattr() that sets result_mask on
-+	 * its own.
-+	 */
-+	if (request_mask & STATX_UID_R)
-+		request_mask |= STATX_UID;
-+	if (request_mask & STATX_GID_R)
-+		request_mask |= STATX_GID;
+ char *kuid_str(kuid_t uid, char buf[KID_STR_LEN]);
+ char *kgid_str(kgid_t gid, char buf[KID_STR_LEN]);
++char *kuid_str_signed(kuid_t uid, char buf[KID_STR_LEN]);
++char *kgid_str_signed(kgid_t gid, char buf[KID_STR_LEN]);
 +
- 	idmap = mnt_idmap(path->mnt);
- 	if (inode->i_op->getattr) {
- 		int ret;
-@@ -218,6 +229,15 @@ int vfs_getattr_nosec(const struct path *path, struct kstat *stat,
- 		generic_fillattr(idmap, request_mask, inode, stat);
- 	}
++/*
++ * The text form of an id as an expression, in a buffer that lives until
++ * the end of the enclosing block -- for "%s" in place of "%u" (or "%d",
++ * with the _D variants, which write a legacy id as a signed number) of
++ * from_kuid(&init_user_ns, uid) in printf-like calls.
++ */
++#define KUID_STR(uid)	kuid_str(uid, (char [KID_STR_LEN]) {})
++#define KGID_STR(gid)	kgid_str(gid, (char [KID_STR_LEN]) {})
++#define KUID_STR_D(uid)	kuid_str_signed(uid, (char [KID_STR_LEN]) {})
++#define KGID_STR_D(gid)	kgid_str_signed(gid, (char [KID_STR_LEN]) {})
++char *kuid_str_munged(struct user_namespace *to, kuid_t uid,
++		      char buf[KID_STR_LEN]);
++char *kgid_str_munged(struct user_namespace *to, kgid_t gid,
++		      char buf[KID_STR_LEN]);
++kuid_t make_kuid_str(struct user_namespace *from, const char *str);
++kgid_t make_kgid_str(struct user_namespace *from, const char *str);
  
-+	if (stat->result_mask & STATX_UID)
-+		stat->result_mask |= STATX_UID_R;
+ #ifdef CONFIG_USER_NS
+ 
+diff --git a/kernel/uidgid_r.c b/kernel/uidgid_r.c
+index d71aecddb2..9bba60f413 100644
+--- a/kernel/uidgid_r.c
++++ b/kernel/uidgid_r.c
+@@ -12,6 +12,7 @@
+ #include <linux/uidgid.h>
+ #include <linux/uidgid_r.h>
+ #include <linux/user_namespace.h>
++#include <linux/uuid.h>
+ 
+ /*
+  * Whether @id is well formed: a known type, reserved bytes zero, a UUID of
+@@ -278,11 +279,12 @@ int put_kgid_r(struct user_namespace *to, kgid_t kgid,
+ }
+ EXPORT_SYMBOL(put_kgid_r);
+ 
+-static char *kid_str(u32 type, u32 legacy, const uuid_t *b, char *buf)
++static char *kid_str(u32 type, u32 legacy, const uuid_t *b, char *buf,
++		     bool sgn)
+ {
+ 	switch (type) {
+ 	case KID_LEGACY:
+-		snprintf(buf, KID_STR_LEN, "%u", legacy);
++		snprintf(buf, KID_STR_LEN, sgn ? "%d" : "%u", legacy);
+ 		break;
+ 	case KID_UUID:
+ 		snprintf(buf, KID_STR_LEN, "%pUb", b);
+@@ -304,7 +306,7 @@ static char *kid_str(u32 type, u32 legacy, const uuid_t *b, char *buf)
+  */
+ char *kuid_str(kuid_t uid, char buf[KID_STR_LEN])
+ {
+-	return kid_str(uid.type, __kuid_val(uid), &uid.uuid, buf);
++	return kid_str(uid.type, __kuid_val(uid), &uid.uuid, buf, false);
+ }
+ EXPORT_SYMBOL(kuid_str);
+ 
+@@ -318,6 +320,148 @@ EXPORT_SYMBOL(kuid_str);
+  */
+ char *kgid_str(kgid_t gid, char buf[KID_STR_LEN])
+ {
+-	return kid_str(gid.type, __kgid_val(gid), &gid.uuid, buf);
++	return kid_str(gid.type, __kgid_val(gid), &gid.uuid, buf, false);
+ }
+ EXPORT_SYMBOL(kgid_str);
++
++/**
++ * kuid_str_signed - like kuid_str(), but a legacy uid as a signed number
++ * @uid: the kuid
++ * @buf: buffer of KID_STR_LEN bytes
++ *
++ * For callers that used to print from_kuid() with "%d".
++ *
++ * Return: @buf.
++ */
++char *kuid_str_signed(kuid_t uid, char buf[KID_STR_LEN])
++{
++	return kid_str(uid.type, __kuid_val(uid), &uid.uuid, buf, true);
++}
++EXPORT_SYMBOL(kuid_str_signed);
++
++/**
++ * kgid_str_signed - like kgid_str(), but a legacy gid as a signed number
++ * @gid: the kgid
++ * @buf: buffer of KID_STR_LEN bytes
++ *
++ * For callers that used to print from_kgid() with "%d".
++ *
++ * Return: @buf.
++ */
++char *kgid_str_signed(kgid_t gid, char buf[KID_STR_LEN])
++{
++	return kid_str(gid.type, __kgid_val(gid), &gid.uuid, buf, true);
++}
++EXPORT_SYMBOL(kgid_str_signed);
++
++/*
++ * Parses the text forms of kuid_str() -- a decimal number, a UUID, a GUID
++ * in braces -- with an optional trailing newline.
++ */
++static int kid_r_from_str(const char *str, struct __kernel_uid_r *id)
++{
++	char buf[KID_STR_LEN];
++	size_t len = strlen(str);
++
++	if (len && str[len - 1] == '\n')
++		len--;
++	if (!len || len >= sizeof(buf))
++		return -EINVAL;
++	memcpy(buf, str, len);
++	buf[len] = '\0';
++	memset(id, 0, sizeof(*id));
++
++	if (len == UUID_STRING_LEN) {
++		id->type = UID_R_UUID;
++		return uuid_parse(buf, (uuid_t *)id->uuid);
++	}
++	if (len == UUID_STRING_LEN + 2 && buf[0] == '{' && buf[len - 1] == '}') {
++		buf[len - 1] = '\0';
++		id->type = UID_R_GUID;
++		return guid_parse(buf + 1, (guid_t *)id->guid);
++	}
++	id->type = UID_R_LEGACY;
++	return kstrtou32(buf, 10, &id->legacy);
++}
++
++/**
++ * make_kuid_str - map the text form of a uid into a kuid
++ * @from: user namespace the uid is in
++ * @str: a decimal number, a UUID, or a GUID in braces; a trailing newline
++ *       is allowed
++ *
++ * Return: the kuid, INVALID_UID if @str is malformed or has no mapping in
++ * @from.
++ */
++kuid_t make_kuid_str(struct user_namespace *from, const char *str)
++{
++	struct __kernel_uid_r id;
++
++	if (kid_r_from_str(str, &id))
++		return INVALID_UID;
++	return make_kuid_r(from, &id);
++}
++EXPORT_SYMBOL(make_kuid_str);
++
++/**
++ * make_kgid_str - map the text form of a gid into a kgid
++ * @from: user namespace the gid is in
++ * @str: a decimal number, a UUID, or a GUID in braces; a trailing newline
++ *       is allowed
++ *
++ * Return: the kgid, INVALID_GID if @str is malformed or has no mapping in
++ * @from.
++ */
++kgid_t make_kgid_str(struct user_namespace *from, const char *str)
++{
++	struct __kernel_uid_r id;
++
++	if (kid_r_from_str(str, &id))
++		return INVALID_GID;
++	return make_kgid_r(from, &id);
++}
++EXPORT_SYMBOL(make_kgid_str);
++
++/**
++ * kuid_str_munged - text form of a kuid in a user namespace
++ * @to: user namespace the uid is wanted in
++ * @uid: the kuid
++ * @buf: buffer of KID_STR_LEN bytes
++ *
++ * Return: @buf, holding the uid in @to like kuid_str() does, overflowuid if
++ * @uid has no mapping there.
++ */
++char *kuid_str_munged(struct user_namespace *to, kuid_t uid,
++		      char buf[KID_STR_LEN])
++{
++	if (!kuid_has_mapping(to, uid))
++		snprintf(buf, KID_STR_LEN, "%u", overflowuid);
++	else if (uid_is_legacy(uid))
++		snprintf(buf, KID_STR_LEN, "%u", from_kuid(to, uid));
 +	else
-+		stat->result_mask &= ~STATX_UID_R;
-+	if (stat->result_mask & STATX_GID)
-+		stat->result_mask |= STATX_GID_R;
++		kuid_str(uid, buf);
++	return buf;
++}
++EXPORT_SYMBOL(kuid_str_munged);
++
++/**
++ * kgid_str_munged - text form of a kgid in a user namespace
++ * @to: user namespace the gid is wanted in
++ * @gid: the kgid
++ * @buf: buffer of KID_STR_LEN bytes
++ *
++ * Return: @buf, holding the gid in @to like kgid_str() does, overflowgid if
++ * @gid has no mapping there.
++ */
++char *kgid_str_munged(struct user_namespace *to, kgid_t gid,
++		      char buf[KID_STR_LEN])
++{
++	if (!kgid_has_mapping(to, gid))
++		snprintf(buf, KID_STR_LEN, "%u", overflowgid);
++	else if (gid_is_legacy(gid))
++		snprintf(buf, KID_STR_LEN, "%u", from_kgid(to, gid));
 +	else
-+		stat->result_mask &= ~STATX_GID_R;
-+
- 	/*
- 	 * If this is a block device inode, override the filesystem attributes
- 	 * with the block device specific parameters that need to be obtained
-@@ -711,6 +731,8 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
- 	tmp.stx_nlink = stat->nlink;
- 	tmp.stx_uid = from_kuid_munged(current_user_ns(), stat->uid);
- 	tmp.stx_gid = from_kgid_munged(current_user_ns(), stat->gid);
-+	from_kuid_r_munged(current_user_ns(), stat->uid, &tmp.stx_uid_r);
-+	from_kgid_r_munged(current_user_ns(), stat->gid, &tmp.stx_gid_r);
- 	tmp.stx_mode = stat->mode;
- 	tmp.stx_ino = stat->ino;
- 	tmp.stx_size = stat->size;
-diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
-index 1686861aae..689757d8a1 100644
---- a/include/uapi/linux/stat.h
-+++ b/include/uapi/linux/stat.h
-@@ -3,6 +3,7 @@
- #define _UAPI_LINUX_STAT_H
- 
- #include <linux/types.h>
-+#include <linux/uidgid_r.h>
- 
- #if defined(__KERNEL__) || !defined(__GLIBC__) || (__GLIBC__ < 2)
- 
-@@ -187,7 +188,12 @@ struct statx {
- 	__u32	__spare2[1];
- 
- 	/* 0xc0 */
--	__u64	__spare3[8];	/* Spare space for future expansion */
-+	/* Owner and group, also UUIDs and GUIDs [STATX_UID_R, STATX_GID_R] */
-+	__kernel_uid_r_t	stx_uid_r;
-+	__kernel_gid_r_t	stx_gid_r;
-+
-+	/* 0xe8 */
-+	__u64	__spare3[3];	/* Spare space for future expansion */
- 
- 	/* 0x100 */
- };
-@@ -219,6 +225,8 @@ struct statx {
- #define STATX_SUBVOL		0x00008000U	/* Want/got stx_subvol */
- #define STATX_WRITE_ATOMIC	0x00010000U	/* Want/got atomic_write_* fields */
- #define STATX_DIO_READ_ALIGN	0x00020000U	/* Want/got dio read alignment info */
-+#define STATX_UID_R		0x00040000U	/* Want/got stx_uid_r */
-+#define STATX_GID_R		0x00080000U	/* Want/got stx_gid_r */
- 
- #define STATX__RESERVED		0x80000000U	/* Reserved for future struct statx expansion */
- 
++		kgid_str(gid, buf);
++	return buf;
++}
++EXPORT_SYMBOL(kgid_str_munged);
 -- 
 2.56.0
 
