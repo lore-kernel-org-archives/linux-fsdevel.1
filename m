@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792587121;
-	b=h4HTSuG1EqMK1fOimh/pDXlt1yFdSSF0KUasEGgUCs0PzXel83RVQNriM5mckrc6fqBZ
-	 fDJEAh2LB+nae3Yew2poc/y/jmaTT6fyT/AJpJbAkfMIwdYAJ6mcMKIFlEak9CAQasCUz
-	 dxL3ZYjM+xeUPA6gAPJ7RQY5R4pBQFomWqAZBDeOzNfDC+AXdvycjVHD9XaupeCx8ZEk/
-	 nFJ+6aFkfiLSjiNenkMdHgR8bond80MG37lD9gM6sJz/6QbT2tRTywY5mdp7Z1ZEFkkXA
-	 VtIskcRwiiRSWWk6MXirMFvgAtG62uAcS+TJxhQKIEKp+YDw9dSyKmDNX/b8CF7rNug==
+	t=1792587122;
+	b=OiplEDBuavG6MPqjSi0P9KF4efHhXjOO5Rzj5j2r1VnAzSVSaizJamJIVJYDsEiRxRDV
+	 Fxzx+p+/9kbJdbmFSy4NuwMYqFUPCAQmuSBHgjWVBseSlA/Z4lTNcMveg54WdCljdgttP
+	 LvFljhJz2Hvj9eagfv0h10oyWbl16Ch+o39vWziox70sdCxEte3X1QcCNoccHjzmM8Sn+
+	 kw0JWTh3tk2H/SYOAF5le8VPHx9+dOJ/ZQhyJ21r6QOM7kI8y4N9mJNmoNy0S9ry+OJL1
+	 /j6XVsn4HUlgIzlHJlDjy/aHlGEGzLPpF0w5o1yTRIFapBxAk9A5vS+ArnZaCC4HKzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792587121;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792587122;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Mn8oXMgO7ys8gs1NirtIayuQ3LSb5RT+jR9DaBN+G6Q=;
-	b=xCdvJaytlrcgImT85osUUo4BNLomwVm1/FfepwBKqVQHOrqAN6Y22Byawc27H51kIUIX
-	 jKLHXMVd3wVHi30bNikPffNJdGWbbZNQQn8ueJWzLGKUNLTsBfXOlIEFCOAifW9nTVS18
-	 ZXEkb/CXy1JHu3OxwjVt+33IQ2fxYB3z/NyFy7YbCl+q3w5JAhDLep9oqJ6rcB75zIfb1
-	 FuUtTM9ZQOvZq8AEk+EfGVHpIS/+TDZy8NrtmHOu7nmSkSUlgtI1dDNoWLaAeFeQ4aaWx
-	 CgoKSpl/fMP2I1vHS+A6yZ7cisNLo368cAdnixqh7oaxKr6ZZE4WNO07mUWdrXi7JrA==
+	bh=KpfC3ycXKcDQY4YCk1HOWqaHxlwyq5m57lBpzL91NVs=;
+	b=kfvhuKVugECXEeNFqtSYjCRIAX91VXlm0U+Y6O3hu6DDAy1OwcYavIE4QrGKU4AbAEbm
+	 GMVS3C8Agq5k6I8TLZKnK7fn57pGFLHxctyfYynDKRnbATBBU8Bj6wp6CwSmxo2llAbjR
+	 932lzmO38GjUODRmgvgZr/sbTnBye1GPGSYTFPdzsO0tYOOqIIX5wpmRjL9WW265YHVvU
+	 7oXh4WbB+u4zduOMeIm+605TLSvwvCQtAeK798NyoeGEw6i26b+LFsO+25TAquKKi5vmF
+	 r0LMUH0jOdEQvE4O/zjtZYNMj80gnAWQuhXJG/SYSe65FMXrMaelhk43YqlpMSUfbEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=cG6uo9BE;
-	arc=none smtp.remote-ip=209.85.218.54
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KWGA2gpR;
+	arc=none smtp.remote-ip=209.85.218.45
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2F6606A32E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 12:51:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD2F6606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CEB606A331
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 12:52:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93CEB606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=cG6uo9BE
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c247f6687dcso97932166b.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 05:51:59 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KWGA2gpR
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c169ae1cb26so285591866b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 05:52:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792587118; x=1793191918; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792587120; x=1793191920; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Mn8oXMgO7ys8gs1NirtIayuQ3LSb5RT+jR9DaBN+G6Q=;
-        b=cG6uo9BEELzaoqgbe11mFN6vTx1fa06/lNMCeAqI5ThvD52TIVBlyPaI/QS/zP5cj9
-         rsEWQebXUX6m4fBiYDoZXhb2PcgNDZwixWaus0ieF8GTUvVLCDg9TlrxbZcqTLasiCpt
-         xRFmwOAWYI4+lyJwIc1+qQGi50PtAnu2ULaE3nAfQndJz4auQmhDUR4otzAcBUfy+QDE
-         sVDyW8oHUOWXSvsswUPm+og9ZzPpUqrcZqfABBeI502ZA6bSjCaDu89akza/TTmRfWTs
-         GxKiz9C1DD4Gz08F4B8JAEvvVVY0Msvpi+eP8y1e7PteaV6i6MRasSpEKoW96ykirHED
-         ZOMA==
+        bh=KpfC3ycXKcDQY4YCk1HOWqaHxlwyq5m57lBpzL91NVs=;
+        b=KWGA2gpREMvYMM1CF07vH4HzUYaFCoJ3q5y3nhzAn1Y36pw6LIPljoCsjz83kfFjgq
+         Pua5u/pzW5BYoq85NI6/DlWo3WUv52WnFXluqBW82qMN+9vlQ8n4gONMCD+krDlVlVcX
+         r9ZS32/yndcazNNEYMF3Jfnr+KBf1MKQS+9gGXa9JApjCjWZDg89JBDrqR4pdLpl5yUR
+         2QjUQzhplZz62yV9XW1vzseL7xzAAEpXoVqY6KrMoqzinFxJ2MbsszjTZnVyKvzbLuBq
+         ZQsETKcJBKmG/77qKzJJWn2RQEu4IyFFhn6a1LX521fQ5bjgqZ7cwBoN/fEgaXnwV/s6
+         kdgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792587118; x=1793191918;
+        d=1e100.net; s=20260707; t=1792587120; x=1793191920;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Mn8oXMgO7ys8gs1NirtIayuQ3LSb5RT+jR9DaBN+G6Q=;
-        b=f+vrLspDzh+l4czvFqK1gLeCblCiZ2FdPij0eSp9dc7SDmvAWqcYPRHpaC0Kf+Gmhp
-         EwZs0cZ+j5Nqt02DuiKoJQrGv4k2G7dkzDUEmCAwau1zNEnSLkVAlVo+CJmD4fY3BrK4
-         EAw+Ree19iEDIeQmf8ZUdsUbDvc1LvQ3+qer2o4fdn0ijbAS0lGZsK70B666BZgM1za3
-         kvDj6oFhPt3OF+A/sUoFUqk3kbw/F2JsVwYCXauZC5itxGGM8ITviGn4P3juH4/rFkfA
-         YY2RtFvqF3wteWgyfPzBMlKdOSEqKlyQD9JLno5WRx3EGXtsmszcNDul0jkNaEhsVsPA
-         fE8g==
-X-Forwarded-Encrypted: i=1; AKwUvBwQgEkVZz0CIOZGjgbcw1fG0lKs3R5QERZHEflpetrhZbF5Zd26qw9oWBVYwFZLNBKTbuq6R4D8nR69g7z/@vger.kernel.org
-X-Gm-Message-State: AFq9FYJCF3NIi9WE1+GFc0Y69t/GHi9oZW36cDC7d37O4TDzfaBuoGQh
-	MzBlhWgID5PKaPIz8XInbJJ2x8W9gLF0PLch62Cokkn5ArV7jgs5TBoz
-X-Gm-Gg: AYBFou1YEOIXcktKMxljFFsLd9EYdZhgUMxyTQMot4nSEyBznS0hPuOVJwxuA5BnlSd
-	8k8I2ENkHBDxtoln6bIIdhVyp1OizN4Jx0LJ3k3M4X0TcifHZLnX4DBPsUuZIBLpC3cEcRZAS7f
-	zDMb9ZfpCQzPWNL03NQGcy1UYURaRpbmI9DK7K4vCtAO+Xss0kj7pB5bUSLAQEqk5KDBvYzSJbc
-	LhBtwa9uT1DpdvR1kKHzfldlN+PT/q62cJ9Tf2I1HZC8La9EckCe+ZxC8QBQIxyMy3q837FpWTd
-	YG1ISOrEl7bjIo+9NTKKIaGFKtqj77Ve2TfvkzOTcGwyHeRRa/wbDug4VYY6+bCI9i+VHUFD37k
-	XtccQAagEExQttyGFZ/NGNXWH5UQSqkSGH+ZLIVPTN6bax9pCoKGJZnvcr/w7h3U0AXsLoWbCu5
-	plF7yu845HKyVI9CgTWf45DxzTkt/5+lklqrbbFowzPVM0YNZdjDDSYuHteS5a1YFiqeV5BrTvl
-	QY1GaS5E5gqdMhBjt461UCvfuvqsTMp26VvJ01WxPvOGFt7Cuc50Lgv7EMUmlL9idpyNY9ervG3
-	BcCXSoerLJv5eq6aohuUmIXBQGdR7gSDEPKkR+Lno7TZVlE54Z92afhykqj2OhyFMPuqWSR06lb
-	/IzCQtZLxpSyjPQ/iNlRsqrpD21bBqUor7tzEEXHDxDdsOKdlxSJNw6mHPu40n0h7eAPZ1bGppN
-	laFW/c2IdjI+667/Npwbiyo4gj
-X-Received: by 2002:a17:906:99ca:b0:c40:9839:c892 with SMTP id a640c23a62f3a-c4679594c9bmr175067366b.19.1792587118009;
-        Wed, 21 Oct 2026 05:51:58 -0700 (PDT)
+        bh=KpfC3ycXKcDQY4YCk1HOWqaHxlwyq5m57lBpzL91NVs=;
+        b=QTCeznMMpKg6nr6vKYRAJKi2snYEWvArBllOnZW9BA4MqXPPqgIN1bJZATKQGyffwF
+         8eWYASDYht9kFyckZ8Aee63HZHvNPAMxjuNkM7RY/OUNjcmumDvuaCzdZhWhS35FtUTS
+         9b33BfivBje63Ay70L/s9Nq7Mb7bjHW/mT3rhgpe7zHz9BoQZMfknAu4fwjkwKyCCMuz
+         j3NOTboLRi8Y4ej6e2a2Ukx7Syiewh6BMAn9sFJ/JFZNqjJNGjBHQqus0bo6wTXZkGex
+         JiAsmmfv4lLNanBeBieXPZ8Y3krBISIbN0bYxDQ4eIc/fgQIf9KyEexIjROv2uHrb/HJ
+         nehg==
+X-Forwarded-Encrypted: i=1; AKwUvBzi336yE4IntHFwcFKJbUDIOykEE+hVxJAvhCeI84k986fJ6mq0TPKyaUXQ5iUoIC2K3MwZd/nd6i/2FWdd@vger.kernel.org
+X-Gm-Message-State: AFq9FYIU7jTReJEpE0+WhIRM8ipymv0+zzGTvNjRyiiHRw809Uv+Fv+q
+	xBekGCSV+Tm59xApdbHuJE+XVIrjFuPqL5atTHUxNj2bjNDpBAGVNK/O
+X-Gm-Gg: AYBFou2YZ/cWd4l/0cSZkiKgCR+/cUi4ZFUU8tpovuFDT+pX50wqFDxB/yUI1bV3akD
+	dRxBABuugYPjG7nBbZdagjhSxdb0lXvncmEdg2zixv0JaafrM2e5FoYkBUauJd2Eftew5mxVMKZ
+	bNVt8VX6ncglGexRRLrx6KMTfbsaVCyZ4+JY2GYrluigoeTLii5dlDE2jZ7T7f6/hukrEOwg9Zd
+	ZUW2OS5vWTl6Gztsuv/0toWe8FU8T38HJZB91rvQJiJInSXljJYOGC4NBKcQ3nUUkS9zScRrSSz
+	fHGykLyiRliKr/nWSBpFeosSOMQz53Bdex3na7iWo8wvxa2/XNqPVf7q7EYX1mSv2Q0vT8D3YRR
+	ztd9KbpUX5cTlGxq+wXCmSkQL3/V88WTAILZ1FD2sm9WepEnzfaQ+q+PiuthFt53BNGBJ7Y9mOJ
+	byhF1uDgY3BbApfx8HJvTt8cZdFPZ34LYmY/SSdOaQsjeH7YvAKmjXBiuvf/0FFtDbhvfwB7Ccg
+	A74zvPGqDadpK0M3UQ0v3C82yqnyr/4G1wWtVkwpW0K81C1M5EZ5Wmjrh6FDNSJEaqXTYPNf385
+	e0Dng1zoaBmvWniVL056kTYMmEIyGmyVmgTzPfe8TfNmjGAEMlqdfXDbGs+TEfIPP8mR5Rrs0RX
+	LKs76GuzDdoSl1zgF0wve5LOOelhqe5u2BOfJmoxS7nxmxK8y6fhksfjG3FMQry0IPZVlz4xoM5
+	lkj6Dj7Bv2cuacnMEBCV9J2Efv
+X-Received: by 2002:a17:907:97c9:b0:c42:4557:452c with SMTP id a640c23a62f3a-c460370cce2mr427858366b.8.1792587119735;
+        Wed, 21 Oct 2026 05:51:59 -0700 (PDT)
 Received: from Ubuntu.tail0f733b.ts.net (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4679004464sm73128366b.67.2026.10.21.05.51.55
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4679004464sm73128366b.67.2026.10.21.05.51.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 05:51:56 -0700 (PDT)
+        Wed, 21 Oct 2026 05:51:59 -0700 (PDT)
 From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Ian Kent <raven@themaw.net>
@@ -99,12 +99,12 @@ Cc: Tejun Heo <tj@kernel.org>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Subject: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs stores
-Date: Wed, 21 Oct 2026 14:51:48 +0200
-Message-ID: <cover.1792577179.git.krystianmkaniewski@gmail.com>
+Subject: [PATCH 1/2] kernfs: do not hold of->mutex across sysfs ->store()
+Date: Wed, 21 Oct 2026 14:51:49 +0200
+Message-ID: <cd417f2b7f3a978603853d5b0b85439fbbba4c15.1792577179.git.krystianmkaniewski@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
-References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
+In-Reply-To: <cover.1792577179.git.krystianmkaniewski@gmail.com>
+References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com> <cover.1792577179.git.krystianmkaniewski@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -116,47 +116,220 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-syzbot reports a lockdep cycle &pipe->mutex --> &of->mutex -->
-&sbi->pipe_mutex. splice holds a pipe mutex while it calls the write or
-read handler of a kernfs file, kernfs takes of->mutex there, and a write
-to /sys/power/resume looks up a path that can make autofs write a request
-into its daemon pipe and wait for the daemon.
+Lockdep reports a circular dependency &pipe->mutex --> &of->mutex -->
+&sbi->pipe_mutex. A splice between a pipe and a kernfs file calls
+->write_iter() or ->read_iter() of the file with the pipe locked, and
+kernfs takes of->mutex there. A write to /sys/power/resume runs
+resume_store() under of->mutex, and its lookup_bdev() can trigger an
+autofs mount request, whose autofs_write() takes sbi->pipe_mutex and then
+the mutex of the daemon pipe.
 
-Patch 1 stops holding of->mutex around the ->store() callback of regular
-sysfs attributes, which do not get the open file and already run
-concurrently for separate opens.
+of->mutex only has to keep the callbacks of one open file apart.
+sysfs_kf_write() does not pass the open file to ->store(), and two opens
+of the same attribute already run ->store() concurrently. Add a
+write_unlocked flag to struct kernfs_ops, cache it in struct
+kernfs_open_file next to atomic_write_len, and take of->mutex around
+->write() only when the flag is clear. Set it for the regular sysfs
+attributes. The preallocated buffer stays protected by
+of->prealloc_mutex, and the other kernfs users keep of->mutex.
 
-Patch 2 handles the case that patch 1 leaves. A store called from splice
-still runs with the pipe locked. autofs no longer sends or waits for a
-request in that context and returns -EAGAIN instead. A new mount is
-refused before it is marked pending, so no other lookup sends the request
-in its place. This also removes a deadlock in which the spliced pipe is
-the autofs daemon pipe itself.
+This does not remove every report through the autofs daemon pipe. A pipe
+spliced straight into such an attribute stays locked while ->store()
+looks up the path, and a ->store() that takes its own lock around a
+lookup keeps that dependency.
 
-Patch 2 changes behavior for one narrow case. A lookup from a splice
-callback that needs an automount fails with -EAGAIN instead of waiting.
-
-The series was tested in QEMU with lockdep using the original C and syz
-reproducers and focused splice and autofs cases. The target reports were
-not reproduced with the series applied, and the paired functional cases
-matched the unpatched baseline.
-
-Krystian Kaniewski (2):
-  kernfs: do not hold of->mutex across sysfs ->store()
-  autofs: do not wait for the daemon while splice holds a pipe
-
- fs/autofs/expire.c     |  6 +++++
- fs/autofs/root.c       | 28 +++++++++++++++++++++--
+Fixes: 1e8c813b083c ("PM: hibernate: don't use early_lookup_bdev in resume_store")
+Assisted-by: Gemini:gemini-3.8-flash syzbot
+Reported-by: syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=002fb7b2d0bc53bf7e75
+Link: https://syzkaller.appspot.com/ai_job?id=74fbf9ab-54e4-46c2-b9e9-7867573ff823
+Signed-off-by: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+---
  fs/kernfs/file.c       | 52 +++++++++++++++++++++++++++---------------
- fs/splice.c            | 13 ++++++++++-
  fs/sysfs/file.c        | 18 ++++++++++++++-
  include/linux/kernfs.h | 11 +++++++++
- include/linux/sched.h  |  2 ++
- kernel/fork.c          |  1 +
- 8 files changed, 109 insertions(+), 22 deletions(-)
+ 3 files changed, 62 insertions(+), 19 deletions(-)
 
-
-base-commit: 93f51579e7df248780214094418f205253383cc5
+diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+index 8e0e90c933720..c954543c1a583 100644
+--- a/fs/kernfs/file.c
++++ b/fs/kernfs/file.c
+@@ -291,6 +291,26 @@ static ssize_t kernfs_fop_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 	return kernfs_file_read_iter(iocb, iter);
+ }
+ 
++/* Call the ->write() operation of @of under an active reference. */
++static ssize_t kernfs_write_active(struct kernfs_open_file *of, char *buf,
++				   size_t len, loff_t pos)
++{
++	const struct kernfs_ops *ops;
++	ssize_t ret;
++
++	if (!kernfs_get_active_of(of))
++		return -ENODEV;
++
++	ops = kernfs_ops(of->kn);
++	if (ops->write)
++		ret = ops->write(of, buf, len, pos);
++	else
++		ret = -EINVAL;
++
++	kernfs_put_active_of(of);
++	return ret;
++}
++
+ /*
+  * Copy data in from userland and pass it to the matching kernfs write
+  * operation.
+@@ -305,7 +325,6 @@ static ssize_t kernfs_fop_write_iter(struct kiocb *iocb, struct iov_iter *iter)
+ {
+ 	struct kernfs_open_file *of = kernfs_of(iocb->ki_filp);
+ 	ssize_t len = iov_iter_count(iter);
+-	const struct kernfs_ops *ops;
+ 	char *buf;
+ 
+ 	if (of->atomic_write_len) {
+@@ -330,25 +349,18 @@ static ssize_t kernfs_fop_write_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 	buf[len] = '\0';	/* guarantee string termination */
+ 
+ 	/*
+-	 * @of->mutex nests outside active ref and is used both to ensure that
+-	 * the ops aren't called concurrently for the same open file.
++	 * @of->mutex nests outside active ref and keeps the ops of one open
++	 * file from running concurrently.  ->write() of files with
++	 * ->write_unlocked set does not need that and runs without it.
+ 	 */
+-	mutex_lock(&of->mutex);
+-	if (!kernfs_get_active_of(of)) {
++	if (of->write_unlocked) {
++		len = kernfs_write_active(of, buf, len, iocb->ki_pos);
++	} else {
++		mutex_lock(&of->mutex);
++		len = kernfs_write_active(of, buf, len, iocb->ki_pos);
+ 		mutex_unlock(&of->mutex);
+-		len = -ENODEV;
+-		goto out_free;
+ 	}
+ 
+-	ops = kernfs_ops(of->kn);
+-	if (ops->write)
+-		len = ops->write(of, buf, len, iocb->ki_pos);
+-	else
+-		len = -EINVAL;
+-
+-	kernfs_put_active_of(of);
+-	mutex_unlock(&of->mutex);
+-
+ 	if (len > 0)
+ 		iocb->ki_pos += len;
+ 
+@@ -651,6 +663,8 @@ static int kernfs_fop_open(struct inode *inode, struct file *file)
+ 	 * lockdep key, because the writable file /sys/power/resume may call vfs
+ 	 * lookup helpers for arbitrary paths and readonly files can be read by
+ 	 * overlayfs from vfs helpers when sysfs is a lower layer of overalyfs.
++	 * (Note that regular sysfs attributes no longer run ->store() under
++	 * @of->mutex, but other kernfs users still do.)
+ 	 *
+ 	 * All three cases look the same.  They're supposed to
+ 	 * look that way and give @of->mutex different static lockdep keys.
+@@ -666,10 +680,12 @@ static int kernfs_fop_open(struct inode *inode, struct file *file)
+ 	of->file = file;
+ 
+ 	/*
+-	 * Write path needs to atomic_write_len outside active reference.
+-	 * Cache it in open_file.  See kernfs_fop_write_iter() for details.
++	 * Write path needs atomic_write_len and write_unlocked outside
++	 * active reference.  Cache them in open_file.  See
++	 * kernfs_fop_write_iter() for details.
+ 	 */
+ 	of->atomic_write_len = ops->atomic_write_len;
++	of->write_unlocked = ops->write_unlocked;
+ 
+ 	error = -EINVAL;
+ 	/*
+diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
+index cd5bb0f9fee6d..71a7faf434073 100644
+--- a/fs/sysfs/file.c
++++ b/fs/sysfs/file.c
+@@ -132,7 +132,19 @@ static ssize_t sysfs_kf_read(struct kernfs_open_file *of, char *buf,
+ 	return min_t(ssize_t, count, len);
+ }
+ 
+-/* kernfs write callback for regular sysfs files */
++/*
++ * kernfs write callback for regular sysfs files.
++ *
++ * Regular sysfs files set .write_unlocked = true and are called without
++ * holding of->mutex. Sysfs ->store() maintains no per-open-file state, and
++ * concurrent opens already execute ->store() concurrently without
++ * serialization. Calling ->store() without of->mutex avoids circular
++ * locking dependencies when ->store() performs operations like path
++ * lookups or automounts while a generic VFS lock is held (such as a pipe
++ * lock during splice). Preallocated attributes still serialize buffer
++ * access via of->prealloc_mutex. Existing autofs and callback-owned lock
++ * dependencies remain outside this narrow change.
++ */
+ static ssize_t sysfs_kf_write(struct kernfs_open_file *of, char *buf,
+ 			      size_t count, loff_t pos)
+ {
+@@ -229,11 +241,13 @@ static const struct kernfs_ops sysfs_file_kfops_ro = {
+ 
+ static const struct kernfs_ops sysfs_file_kfops_wo = {
+ 	.write		= sysfs_kf_write,
++	.write_unlocked	= true,
+ };
+ 
+ static const struct kernfs_ops sysfs_file_kfops_rw = {
+ 	.seq_show	= sysfs_kf_seq_show,
+ 	.write		= sysfs_kf_write,
++	.write_unlocked	= true,
+ };
+ 
+ static const struct kernfs_ops sysfs_prealloc_kfops_ro = {
+@@ -244,12 +258,14 @@ static const struct kernfs_ops sysfs_prealloc_kfops_ro = {
+ static const struct kernfs_ops sysfs_prealloc_kfops_wo = {
+ 	.write		= sysfs_kf_write,
+ 	.prealloc	= true,
++	.write_unlocked	= true,
+ };
+ 
+ static const struct kernfs_ops sysfs_prealloc_kfops_rw = {
+ 	.read		= sysfs_kf_read,
+ 	.write		= sysfs_kf_write,
+ 	.prealloc	= true,
++	.write_unlocked	= true,
+ };
+ 
+ static const struct kernfs_ops sysfs_bin_kfops_ro = {
+diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
+index 351a5101c8628..cbb09f9533e72 100644
+--- a/include/linux/kernfs.h
++++ b/include/linux/kernfs.h
+@@ -272,6 +272,7 @@ struct kernfs_open_file {
+ 	char			*prealloc_buf;
+ 
+ 	size_t			atomic_write_len;
++	bool			write_unlocked;
+ 	bool			mmapped:1;
+ 	bool			released:1;
+ 	const struct vm_operations_struct *vm_ops;
+@@ -320,6 +321,16 @@ struct kernfs_ops {
+ 	 * ->prealloc.  Provide ->read and ->write with ->prealloc.
+ 	 */
+ 	bool prealloc;
++	/*
++	 * "write_unlocked" indicates that ->write() does not require
++	 * per-open-file serialization with of->mutex and can be called
++	 * concurrently for the same open file. Callbacks must handle
++	 * concurrent execution. Buffer access for preallocated attributes
++	 * is still protected by of->prealloc_mutex. Lock dependencies from
++	 * callers (such as pipe locks during splice) or within callbacks
++	 * remain outside this scope.
++	 */
++	bool write_unlocked;
+ 	ssize_t (*write)(struct kernfs_open_file *of, char *buf, size_t bytes,
+ 			 loff_t off);
+ 
 -- 
 2.53.0
 
