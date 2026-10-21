@@ -1,87 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.209.122
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792596728;
-	b=VuF7d9Wieg7Z4D37bPw5W9V0eiW+cmuJIehkrnM6j9+IJVPKjPKI/OjgE7K7uYVUiqJC
-	 dyYRcwltvbQn98A5RQvDhcVG/M3BLzKZalkzQwuIFfn7tVjc7tv0OIkF2Jm2H5UVdk9GA
-	 i5w/2sHba8wCqUFc8PrCQoqIMeHHMYdeWWhMBgqQrctsXgLB5COQi6jkMnSK9JCgzJMVZ
-	 mVUX9Q1MAxMUufMtXTgkJMdt/WL1tcOa+bd/M38GsWsoeSc9DpAzHknI3US5UhHDEqQXX
-	 O2dZ/qU25UbaXoecvta6+fjrYyCIAh82rjpoNC2it0DHx/76LetKs3BtlAu9GXb4+tg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792596728;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:User-Agent:Subject:To:
-	 Cc:References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=VY4/2EbML0oS/EYkPdnDhgkVZ8qPwL57pJ2Mlk3u4bQ=;
-	b=1tyqfsWqnTwF7W8pdtiebau2srRy84VwLZMn3gs/JPZl0bC005m/dY/F/pVqb8YIrfQ6
-	 KgeJISeUnWQb7T64tYTFOwng5Hd1j1SS5mHF2bFi4/VF183opHAA+eKlBS9pfeGSTWvb1
-	 0CyTNCwNlYqMh2X+Swa5ExMqN3BvvnXen+NKFBoUKONRmSBMCgZuz5AMu3aDCuTKViPUe
-	 gGq6IoShRSLMHX8eRyEHwyhwuGpq9ZDkXC7832EF5PDVmYd7uhH6Ft4mJH1HiY0nQj3i6
-	 bGqrAvwptyqu4jHCz/vTM1X5g8TXkwtu8fAkcc/tt3MymvV7puxfmHOSvC8D1tG2WDQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=talpey.com;
-	spf=pass smtp.mailfrom=talpey.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.209.122
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11022122.outbound.protection.outlook.com [40.107.209.122])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=143.54.11.23
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792597254;
+	b=eWFjwTU1pkXbNlUjo0vKqWxMCIXfFGLYi2JzKkjmERBmK2DjdnLhHm9f247XPDtVYZgd
+	 4iEX3fYUBAHO9IJTX/Il/fRY6CxqtFQkv1lbX7sGPWyg834WcNvsHXOzkVj8crr72CaRh
+	 cpNRXpC0L34G+iF/vcUhicI8uFKliWdEKMX6rlkP4HzFJtnQqT5zeHGuYZ17bmjvY6Rlz
+	 yIT5uFSxs8Z8cvkxmb2qtNOjiE9LG+7hijPtjglTi3gEPOW6ELa87i+wQ1S+hLWAsxdJo
+	 38u2SmAhYNjpaNfLdfsK4PyLKTmeSQ3X6vUPnIM+ZdsHcQ+YQ1wGBBq4v0S9PJorI7Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792597254;
+	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=0wrngVONHc9nJrhRKPV4wKnzIjyRYO2/pb5pVC+Qvxo=;
+	b=x66SXc6GQVj7Z4+7PEhgpKRdnZBbANoqw5mzg3z9HZoJOw0Hr9BtE26EkP0cq2KlDlnk
+	 6x6qSn/mGdC7OHosnULbuBw4o6kasbKtUcIpWX8FLoUxxuySRd8e+6NTrxYWAzB/F1dcQ
+	 i5BMiwkHgYPsI7LJxJ+Rc+JhxIIQs8RX52s/ioWXAIBiMeTC+t2wwKtsFKxw8GcN/d7OL
+	 fPos09FWDf/MWJ8aK9vG4TQz0bSjNhiixWh16WN1H0Ad+30RS/yRvsUVeLYgRVpNVE+M7
+	 JBC2ccOza84ke++t4quM2TFp0AmgQ4uda1IFJdZ8Wvpxr/otb+QsY3kW7C5A4339nYg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=inf.ufrgs.br;
+	spf=pass smtp.mailfrom=inf.ufrgs.br;
+	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=Cqzoaneo;
+	arc=none smtp.remote-ip=143.54.11.23
+Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BC6606A31E;
-	Wed, 21 Oct 2026 15:32:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45BC6606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=talpey.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=talpey.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SdWFnYKjQqCnIMUexgOkmPDrMBrj8yw/U1M0tZayqVl8g6K8N089WurRgs+3ry7de2KPlQeMKIbT5yOvolQv9YqOCa5T8oejCh8QFRpR12wKw/cKIAkWrrbcCGVl99m0DSES/+q3WFYgDZllJe728lA0j8Tq5b1c3fccXDSlhQVBbuMkGYKPh+WF9mtNdnIr+jDksaLNJMNvXU0OPs7uwSCzVx9p0nMHxadUk09rH81X6Cf4ChPvZMBatFd8FuYsRnE98IS472vjnTlp7pQhSTzgRI52U9+iHs1xXyo67WzFcE/axG85miFR30/tc1iNK6qzJdzbT9zdmoZdnHuHVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VY4/2EbML0oS/EYkPdnDhgkVZ8qPwL57pJ2Mlk3u4bQ=;
- b=JIBoF1OMY+pE1m8HmIjwEbAsWami/qH+vmThhnnH/OkZHWZ56QkLv8ZXKpeOQFzTGe4rbcRL9B35io5vqPo85niJJMs3DeQffg90qPh/raaMFk5hvXHhPo4KEajXMODJfeMCNUkGYlbkBK4MqgFpzOwNzw62Y5fGcLQnB7N2NbTpBaXZomNRs1EONSTdtnfygRQ8Nyi8w990JYkICkgM1pKbiKSH8s1dcuhGPq11CW/NVYSs+7gZgL8j0sy1CAQcdXdBc/pY84DFF9IJNdjB3wbGltUBhOYiDMQfFnKD+JRfput9jz2a4WJcwnK9hqMPUvBycs8q0A5/tFEYjvr6Sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=talpey.com; dmarc=pass action=none header.from=talpey.com;
- dkim=pass header.d=talpey.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=talpey.com;
-Received: from PH0PR01MB6344.prod.exchangelabs.com (2603:10b6:510:18::16) by
- LV2PR01MB459893.prod.exchangelabs.com (2603:10b6:408:3a8::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.569.2; Wed, 21 Oct 2026 15:32:04 +0000
-Received: from PH0PR01MB6344.prod.exchangelabs.com
- ([fe80::eddb:aaf5:fd79:2b08]) by PH0PR01MB6344.prod.exchangelabs.com
- ([fe80::eddb:aaf5:fd79:2b08%6]) with mapi id 15.21.0569.000; Wed, 21 Oct 2026
- 15:32:03 +0000
-Message-ID: <655e5d4f-7890-4956-88d2-cb571be218d6@talpey.com>
-Date: Wed, 21 Oct 2026 11:31:53 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] smb/client(cifs): prepare for locking changes.
-To: Christian Brauner <brauner@kernel.org>, NeilBrown <neil@brown.name>
-Cc: Paulo Alcantara <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jeff Layton <jlayton@kernel.org>,
- Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
- linux-cifs@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260928012812.2890035-1-neilb@ownmail.net>
- <20261021-sodbrennen-ausdruck-kurven-72d0b7cc7db9@brauner>
-From: Tom Talpey <tom@talpey.com>
-Content-Language: en-US
-In-Reply-To: <20261021-sodbrennen-ausdruck-kurven-72d0b7cc7db9@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0155.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:e::28) To PH0PR01MB6344.prod.exchangelabs.com
- (2603:10b6:510:18::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B5E606A319;
+	Wed, 21 Oct 2026 15:40:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13B5E606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=Cqzoaneo
+Received: from localhost.localdomain (unknown [187.91.217.172])
+	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 265041210B1;
+	Wed, 21 Oct 2026 12:40:48 -0300 (-03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
+	s=dkim2026; t=1792597248;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0wrngVONHc9nJrhRKPV4wKnzIjyRYO2/pb5pVC+Qvxo=;
+	b=CqzoaneoHh+gZLnZdthqGRNqhGGg3OrRslOOVNMfb5yalPYYZRpBVATRmsou3IveEMHnUL
+	aM0y9nQEeQKgZdbl+aMJRuqv19UybzDMV0LnbXLD55rzGU1/DOg9s2ncTB2hnLXhp+yebl
+	K/JfBL+42UGxZe+DBADq4g021oujnao20JnXesCfrbbB/Yw5p3fCTtxFjJ7mV1uyCB8Gcm
+	foMV18IGL5B5cAnNbnj3Yg2B9GlyjpBequS/HRj/bmSDDz5xns6qfampOtCjiPLyXOsrde
+	oL6ISg9krFshK3DuXng8cW5xbPIN93zl/Utkpqhi1Ghs/pjXsHQoOUv/UfKWIg==
+From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Subject: [PATCH v2] fat: preallocate space before expanding in fat_cont_expand()
+Date: Wed, 21 Oct 2026 12:40:24 -0300
+Message-ID: <20261021154024.56868-1-matheus.aalmeida@inf.ufrgs.br>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -91,96 +63,154 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR01MB6344:EE_|LV2PR01MB459893:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59189865-6f73-4edd-de4c-08df2f887525
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|18002099003|22082099003|10067099003|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	qdiZDXQNfLgu35slC9MSmzTLY84fMM+47eYmatE2ZCKtodGOgSgCOVYrtt+B0OHl6AYgt+L7u/m5EnyJzXVzcPP2xXTLEJF7z1tZVafqnzQqntmk1PJsu3kO588F8WNgKcBpy4rvo2w5FPB5kVe+KpB1tJwY7LawHoK/O0KpOF93OZ917jrSa2kTAYGoY59DbzAiy7T6/hL8SgE3s1F/VapNU7QFsz5l8aayvjLXtS3dZ9PVbjVVAJtOzHv8sl9szygI9hPzRJ7C6H+ezgDoXJJFbAF3lNOMedNPKUUgvuCp1wTrMF8nggBQIfkMxaTNwZWs6h1Y9ZpB0cGdmiha1+2XbDssVud13lHn8p+eTo5cOhS5jiNgbZIqI/oyF8spXm75ag4ziSos7LYXjPlbMqDS5KkTas1wLrCIX4qLsKmRyBJcGSuwAobwIw9Q53IXpsmGTlKBlaFyzuk3G6UQHrOkiuerLcym/H6Es0SXq8J7JDWtjwbUHswmI/tkUfpyMAf5N9MGvr3xktA1kOf6IW5sFS1dPp02FcUWDCAmUnG0Ipc8PuywAsYcori+HCzFIc6Satn1UTJjE8I3W7PtcZ54/KZ5NCv3wYNL/mb+v1OLJUoMCahfAWVya/wA3eVhEIfA2lmkDFFzvXLsAUPQwaiuLzaNEgrqm4SG05sn51E=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR01MB6344.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(18002099003)(22082099003)(10067099003)(4143699003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K0lIWTA4RlFXWEkvQjBPbVd4N2VGTDFTdlZDRDlqRTFraDhBUmpwQlFRNVNo?=
- =?utf-8?B?S29ZVk92V04wREJxYmtpOC9vQWVMK0lPUXhJTzdXQzI1MXIxZy9yMEVUWWpX?=
- =?utf-8?B?NlVHV1VRRFFvMkR6MEtxQnQwUnlDSWNrRUVFTkVzREM4NW5lS3hQNFM5UlJ0?=
- =?utf-8?B?d1NBTmd4V3Qxb29MNCsxaW40OTBrcmI5VzVYdFJJUWtXY0Q3ZitLOFAzRXJC?=
- =?utf-8?B?azJuUEZiZUxLc3MvaVo3Y0lSdFRBOVd0eExWd3hYb2E3QndUYkgrS1ZtZ0Zj?=
- =?utf-8?B?Q0VlTit6b0ZKSTZmZzhYVHRlUHlVZGR1NzJ4c25VMWQ5YTdicmthYzRybEJD?=
- =?utf-8?B?WU1Sd2d0RHlPRzBCRWxRRGRlRThjd2JLZTNDMUJGLzZBVGJEbDRXVjNuWEtK?=
- =?utf-8?B?dzRUSTJWcUdMcUd4TDc1TUliLytCeCtoVDNzVXMwME1mamU0NWliMkRPbmlU?=
- =?utf-8?B?Sis4QVNMeUY5T2ExVU1SbnhLYUtMbW5sdW43a0E5VGVybEN3RGkzSlpnQjhC?=
- =?utf-8?B?MC9QUTF1Y1dEbWYwQVZKS05MWURBZDlvNWRaMjZFT2tLZE9YemhaOWlaSVJi?=
- =?utf-8?B?cnI5T0M0TzU4ZndpZ2tEbEFCVW5jY3RhbERmdmg4Yy9YUHg1ckNXQ012bWFz?=
- =?utf-8?B?bVhxd0xUV1UrcWhXRDFhd1NLTU9BZFdZRG4rS1JwVURHN3N1enhrVW44aC80?=
- =?utf-8?B?aVlpSjRrek5JeUlhN1NCZlFJdThhTkpNbCs3QmxrQ0kxem1oQ2lmTk5tcjF2?=
- =?utf-8?B?T2VKZnVreEhMMnA0cnoxTXprdmF3NTVkVGhlbFNoK3M5cHQ2NVoxNElYZWxK?=
- =?utf-8?B?a1RjUW83aFh4bCsvVWIrS1BFZmRjTmdaa0QybWtGaHFJR1RNNENQSlNmQW5E?=
- =?utf-8?B?cmthZ3ZTa2V2dHIwekhIaUJ1SnppSTQwbzg4UjZWU25pamtyTTVzQ3hZaG5z?=
- =?utf-8?B?RzFCNHNHbm5PZktlWEFSV0xnQ2RGaUNtZjhWOGZJK0p2N0tETkVYNWZuNnJB?=
- =?utf-8?B?SGFrbzdqMVRsbWlqSFVRdS9zWjVxSE1ldDNKQjF1ZXNSSjVJMVdqeVk4aUZw?=
- =?utf-8?B?WktxaUw1ZFl5SDk2cHZGU1Z2MEVqU0YvQXBDUDBCSUd3dHUrMlFUNXBCTDZa?=
- =?utf-8?B?clRlV0JtNzJ0RUl6eEt0bHo1VkNIanpqYzExS0FoL3hTL0Z4a3VZczNtYmha?=
- =?utf-8?B?bGpISCt0ckRXTXJpRDZvUFVOWEVaQ284Y0FJRXhHQXZHbHZWTlhaL2pTRkg0?=
- =?utf-8?B?R3lJZFpqQlQyZVZ1WmpWVmQzaUJvc1l1LzdiMW9lWUxUcEVnejhXZE9SdFVU?=
- =?utf-8?B?akNza0lncGxGdjFEbDN4dDlrbjdZb1huN2llM1AwWjVBN1dFc0wzeTJrSUhO?=
- =?utf-8?B?Vkxad1JqOHNhRytzeTdpRy9iZ2NxUkdjVHlEc2xYUTdwUlloUkJNeWFCVlkz?=
- =?utf-8?B?NEk2dXIyVVBtaG1EeHlEU0R0dGpJZmQvTG55eWdNSXNoZVlOZVZHeXlYbm5i?=
- =?utf-8?B?cUl1L3JJTnhiOUpFVzRMWkk5bm1Xc3Fyc0dsOFNqYXNqYjFzeFVPSXFtcnly?=
- =?utf-8?B?RHVkMkQyWFdBd0NCVUtiTmhmWjZCRjg4NVhsK1hDdElIS2Z0V1VTK3BZVjFu?=
- =?utf-8?B?T2FTTlVGTmNLTmZmbi9aUkdLYk85QWRNRzJ6eEhqWUFtUjh2RjNWQ2YxcTFF?=
- =?utf-8?B?SkRRbktoS1hqSGhQcjVqM0MxOG1DY3FkMm5kc3AxOFRIL3hLVVFIeDlYaEgr?=
- =?utf-8?B?TGx1bnRMZzlSeksrcTc0Nll3cmhTdzg3eXNyOVFxVUNUU1ViSDYyR0lzdUNk?=
- =?utf-8?B?Tmlwa2V4cmkxanlVZmVkdDVIQTJJaFZHendzRDRrbUkrQnJCOFBHWnBNZ3lj?=
- =?utf-8?B?bXJnMUcxSENuTFVMQnNWNXhyWnhyYzJhTzN3bEtMSHZtaUN4MGFjRXJuVi9v?=
- =?utf-8?B?ZXowKzJJTWNqcnA1N1R1Sjg2NDUvV3BsaFpYVjVwZnV6Wmtsa1hLdmZsMlBZ?=
- =?utf-8?B?VmFQVXI3S3dITEQ0NmxlUG9ZdVBkbjlSY0N0VlRnMkhzbUJyUW8zYWY3dFBO?=
- =?utf-8?B?Z2NNaENkdjY2aFdKckQ3N2h1M283bm5saXpSU29vYjN1NFhsVUNacnd6by9u?=
- =?utf-8?B?dXVBU0I3WHh3Rnl2U3F5eVJYM2s3OW55VGlNcjdNK2pOOTBsd1VsakJHZnps?=
- =?utf-8?B?NFBmaHFFY3JNSE4yZ0VhVnlRUkJTMFlnMVUyc2dFZzhMVytMOEhRV2xFaUVi?=
- =?utf-8?B?Rmc3L25rYko5NXB3T1pBd20zelBTYi9hbUs4cGFSUDBMVTMzalA1UTYycFJ1?=
- =?utf-8?Q?RKaO/0vktMwuR6DcaC?=
-X-OriginatorOrg: talpey.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59189865-6f73-4edd-de4c-08df2f887525
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR01MB6344.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2026 15:32:03.9226
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 2b2dcae7-2555-4add-bc80-48756da031d5
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ij/rQVrBrp2Q3FyAxf71nXRPspQafAIS+sqy6zfUFOiOqqBLAoxI3WfgGCRI0hiA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR01MB459893
+Content-Transfer-Encoding: 8bit
 
-On 10/21/2026 5:55 AM, Christian Brauner wrote:
-> On Mon, Sep 28, 2026 at 11:25:01AM +1000, NeilBrown wrote:
->> I am working on changes to directory locking.  The medium term goal is
->> to lift d_alloc_parallel() locking above i_rwsem, so d_alloc_paralle()
->> can be run unlocked, and consequently cannot be called when ->i_rwsem is
->> held.
->>
->> The requires:
->>   1/ that d_alloc_parallel() not be called while i_rwsem is held.  cifs
->>      does this in a couple of places.  A new interface d_alloc_trylock()
->>      is now available and can be used instead.
->>
->>   2/ a dentry must not be d_drop()ed while an operation is ongoing, as an
->>      unlocked d_alloc_parallel() would then be able to create a new
->>      dentry with the same name.  In particular d_rehash() must be phased
->>      out as it won't be safe.  This particularly affects the mechanism to
->>      block lookups/revalidates while an unlink/rename is happening.  The
->>      mechanism is changed to use one similar to how NFS addresses this
->>      needed, though using the new LOOKUP_PRIVATE flag.
->>
->> The patches depend on patches recently added to the vfs tree.  I would
->> prefer these land in that tree too with an Acked-by or similar from cifs
->> maintainers.
-> 
-> Can do, will need an Ack.
-I will defer to Paulo for the Ack, but for the series, modulo my nit
-on DCACHE_BLOCKED:
+The fat_cont_expand() implementation leaves allocation of new clusters
+to generic_cont_expand_simple(). This path does many small cluster
+allocations, harming performance.
 
-Reviewed-by: Tom Talpey <tom@talpey.com>
+Preallocate cluster space in fat_cont_expand(). Move preallocation to
+a new fat_preallocate() helper used by both fat_cont_expand() and
+fat_fallocate(FALLOC_FL_KEEP_SIZE).
+
+Benchmarking was done under QEMU/KVM with a virtio-blk device using
+cache=none. Each result is the arithmetic mean of the listed samples.
+
+start = now_ns();
+for (unsigned i = 0; i < count; i++) {
+    if (truncate_mode)
+        ftruncate(fds[i], bytes);
+    else
+        fallocate(fds[i], 0, 0, bytes);
+}
+elapsed = now_ns() - start;
+
+16 files, 512-byte clusters:
+length    mode      sync?    before    after    improvement    samples
+256MiB    ftruncate no       9.576s    5.345s   1.79x          10
+256MiB    fallocate no       9.634s    5.640s   1.71x          10
+1MiB      ftruncate yes      58.66s    0.362s   162.15x        5
+1MiB      fallocate yes      61.36s    0.390s   157.15x        5
+
+128 files, 512-byte clusters:
+length    mode      sync?    before    after    improvement    samples
+512KiB    ftruncate no       0.433s    0.352s   1.23x          10
+512KiB    fallocate no       0.446s    0.393s   1.13x          10
+64KiB     ftruncate yes      31.32s    0.429s   73.00x         10
+64KiB     fallocate yes      29.59s    0.410s   72.42x         10
+
+16 files, 4096-byte clusters:
+length    mode      sync?    before    after    improvement    samples
+256MiB    ftruncate no       5.181s    4.417s   1.17x          10
+256MiB    fallocate no       5.166s    4.442s   1.16x          10
+1MiB      ftruncate yes      9.294s    0.111s   84.06x         10
+1MiB      fallocate yes      8.710s    0.110s   79.36x         10
+
+The biggest improvement is on filesystems with a small cluster size and
+on synchronous mounts.
+
+Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+---
+
+Changes in v2:
+- fat_cont_expand(): Hold truncate_lock around fat_truncate_blocks().
+
+This patch depends on:
+https://lore.kernel.org/linux-fsdevel/20261012171106.146243-1-matheus.aalmeida@inf.ufrgs.br/T/#t
+
+ fs/fat/file.c | 56 ++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 37 insertions(+), 19 deletions(-)
+
+diff --git a/fs/fat/file.c b/fs/fat/file.c
+index 3aa541c6b127..dd0ae795dc14 100644
+--- a/fs/fat/file.c
++++ b/fs/fat/file.c
+@@ -217,15 +217,50 @@ const struct file_operations fat_file_operations = {
+ 	.setlease	= generic_setlease,
+ };
+ 
++static int fat_preallocate(struct inode *inode, loff_t new_size)
++{
++	int nr_cluster; /* Number of clusters to be allocated */
++	loff_t mm_bytes; /* Number of bytes to be allocated for file */
++	loff_t ondisksize; /* block aligned on-disk size in bytes*/
++	struct super_block *sb = inode->i_sb;
++	struct msdos_sb_info *sbi = MSDOS_SB(sb);
++
++	ondisksize = inode->i_blocks << 9;
++	if (new_size <= ondisksize)
++		return 0;
++
++	/* First compute the number of clusters to be allocated */
++	mm_bytes = new_size - ondisksize;
++	nr_cluster = (mm_bytes + (sbi->cluster_size - 1)) >>
++		     sbi->cluster_bits;
++
++	/* Allocate the clusters. We are not zeroing them out */
++	return fat_add_clusters(inode, nr_cluster);
++}
++
+ static int fat_cont_expand(struct inode *inode, loff_t size)
+ {
+ 	struct address_space *mapping = inode->i_mapping;
+ 	loff_t start = inode->i_size, count = size - inode->i_size;
+ 	int err;
+ 
+-	err = generic_cont_expand_simple(inode, size);
++	/*
++	 * Preallocating space here is more efficient than during
++	 * generic_cont_expand_simple() because of batching.
++	 */
++	err = inode_newsize_ok(inode, size);
+ 	if (err)
+ 		goto out;
++	err = fat_preallocate(inode, size);
++	if (err)
++		goto out;
++	err = generic_cont_expand_simple(inode, size);
++	if (err) {
++		down_write(&MSDOS_I(inode)->truncate_lock);
++		fat_truncate_blocks(inode, inode->i_size);
++		up_write(&MSDOS_I(inode)->truncate_lock);
++		goto out;
++	}
+ 
+ 	fat_truncate_time(inode, NULL, FAT_UPDATE_CMTIME);
+ 	mark_inode_dirty(inode);
+@@ -263,12 +298,7 @@ static int fat_cont_expand(struct inode *inode, loff_t size)
+ static long fat_fallocate(struct file *file, int mode,
+ 			  loff_t offset, loff_t len)
+ {
+-	int nr_cluster; /* Number of clusters to be allocated */
+-	loff_t mm_bytes; /* Number of bytes to be allocated for file */
+-	loff_t ondisksize; /* block aligned on-disk size in bytes*/
+ 	struct inode *inode = file->f_mapping->host;
+-	struct super_block *sb = inode->i_sb;
+-	struct msdos_sb_info *sbi = MSDOS_SB(sb);
+ 	int err = 0;
+ 
+ 	/* No support for hole punch or other fallocate flags. */
+@@ -281,19 +311,7 @@ static long fat_fallocate(struct file *file, int mode,
+ 
+ 	inode_lock(inode);
+ 	if (mode & FALLOC_FL_KEEP_SIZE) {
+-		ondisksize = inode->i_blocks << 9;
+-		if ((offset + len) <= ondisksize)
+-			goto error;
+-
+-		/* First compute the number of clusters to be allocated */
+-		mm_bytes = offset + len - ondisksize;
+-		nr_cluster = (mm_bytes + (sbi->cluster_size - 1)) >>
+-			sbi->cluster_bits;
+-
+-		/* Allocate the clusters. We are not zeroing them out */
+-		err = fat_add_clusters(inode, nr_cluster);
+-		if (err)
+-			goto error;
++		err = fat_preallocate(inode, offset + len);
+ 	} else {
+ 		if ((offset + len) <= i_size_read(inode))
+ 			goto error;
+-- 
+2.43.0
+
