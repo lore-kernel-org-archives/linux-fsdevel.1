@@ -1,96 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792616730;
-	b=f8VUjmdIY1B1SJs4S8Wy8A0MZCRmPwqkvOG/0xKHVbdSM4YiAkScFZXvTCi1NP46arzD
-	 1troes3E1yfstFWw0LaPsU1zXd8xtsGvRa90aZa8pD05BYYHbNZ9mKNnFTm/y6wDYTw4z
-	 bYTmf1pyDGscI+wjwDfoiixN4uKPu7r6C9NyGui2AOHG3jf3c3tIDpmrhLNCjUj4CFYNq
-	 gOweH0otxlI0PlQaRyFlWMON9KKI0x8nukA/YPTHYhPE9e11ma9C+maMDulSz9+NNpwIw
-	 NGEEqxuYEl9y5/cTabzMEZQ7cD3hPMM9xDNMvpIP6GPJfIdEaShOqwE5aNwu4cFgtQA==
+	t=1792617768;
+	b=Ln7nHyaLxvyUa4SjzLAnGA9DHvD+mQe7Um+1YSvx2m78IqM33jxFJt4r0g3hUjXpLany
+	 vA9EnECK3TWnr9/1tdzUhZ5UDSmXLjIC43MYQKw5O2BexU8sDkdWNMN8eC5dSejKhM4ZC
+	 ozsB48hQWdyupUCGv+ihCFIasPs3pJ6f27FSfCv04E5phUJSDSpFeo3exggaUF5sVL1L2
+	 oOdORDDHKZaqn0HEhmW2Cm9j2s6kMT0x+EgKPuut7cPQnRoghi0w/J3uBQk5cG1h6AOJe
+	 iSL/6VcVKrxbktfjRAkYGQeDoGGd+VXr+/BLYC1DHGMuQyQh/Ik0F/Cacs2QPjBXk7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792616730;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792617768;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
 	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=LT1JAf9kkvowqyH9kJf6IgurjXnQY9I3ALSM776jlXM=;
-	b=qICcrqb5O9EsMV5iosZzyOLTSS9w0aTMQbjJLGnjkoRM1PRsdjvIMA4M81Bn4kiGL5Ek
-	 p1NjeLmokpingRsmoo5ndG4lndYGpo03pe78GP0kxIVLyMT1u6KyC0pF1/5puuZ6LGmVo
-	 8Yc1FsQOg2n0oG004YZ+aRoWMUOw+XICbg/3tYBc3qqyOsFCfUOUolxKQlFhPDBEwP8cE
-	 h/KZbxuyPs68ALpMmAMYdLZMPVmLGFxLAHRphGGQSPhC/vrvMfg9WStatZ1B9bOxbx/lf
-	 jom1MerwXNqJiR0udkElp2Qg+0G1dkHskX1Po68ElNpBMJ3s9U7u8/2fEzjNly3Gfmg==
+	bh=JC9fA4/O03RslRbGMA29FHUYG/vmJ+UslNVNMsIwusc=;
+	b=C/UWmiY34emI7qYdUYDtrFuE1aF2V4hUL/wk36d88Zvr3CKpxk1Xhe2IujXqnfzm/09m
+	 +TtmGO27/yNe9KfLTZQaw7rDVbzPJZKIIXDEv/MaFwPudRYR2YKnqqek7c00F6yCzJnEc
+	 YlPgq/5Ip8bEjfRev/BJcmqFybmbV8CS6IYGUhYodTbVgXrWNiVuZWBNoVg8KdqFuzVb8
+	 sm5UAz3/MIhOH2/G322wFo3VMPuvWg9SOWNs7g7tNqAmZ+W6GJl5OROz1flf4Kq+0Q3we
+	 Q5HZ/+acDai+lM1iATICTvIRyC5s4DtusIjAhPn3u6oiT0VCzWt3zKKh107wVE1WNGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=dubeyko.com;
 	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=0CRe+VKB;
-	arc=none smtp.remote-ip=74.125.224.53
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+	dkim=pass header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=cvPz83to;
+	arc=none smtp.remote-ip=209.85.128.171
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F039606A31B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 21:05:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F039606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107C2606A31B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 21:22:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 107C2606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=0CRe+VKB
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6798eb0d190so904446d50.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 14:05:29 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=cvPz83to
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-8b0d91601bdso2579967b3.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 14:22:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1792616728; x=1793221528; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1792617767; x=1793222567; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LT1JAf9kkvowqyH9kJf6IgurjXnQY9I3ALSM776jlXM=;
-        b=0CRe+VKBniDCapVbK9i9be9jLGijRJhke917oUr2GAO20usiOZSS0G0Qe+fc1YIaUc
-         IHDFAQcwNKH334Y8zXCRnO4771kZI6U5iXe1QhtiKlnP9bAwI09w6r3KRsYicXwV7gvF
-         EQHR01vmMDbGIdb1rrp4xGkvsOE3h8E4pom9gJGKrwWcOPij7IHJILjFnOGAsMBpdOTo
-         PsAARc/w0BgfPCir1lK/sEVwnGgCOfKzsxDjuqsbZt+d6PFL1jsmqbJEAh+7IHFrOHkg
-         Pxh4S28voc25eB1swyWJxoE1fPTkhChZo3hQh9Bed3jgpc/5Gb9XyKmgytylVnL+JcUj
-         ZFeQ==
+        bh=JC9fA4/O03RslRbGMA29FHUYG/vmJ+UslNVNMsIwusc=;
+        b=cvPz83toLcEF80lL7soZBtjNhFB0JG7be+pacF+F/ry1j9pAzvZG21KKvBobdeOWt1
+         fwhWTPyIKvJLrInd7IUJt6xNSAGc9WE2qo07O1Z/PveLP/MtKvFARMFfQAuX1G353H7S
+         OcPIprulerZspK/k/spcWaUGrTHkyOITK/6Sn9bBCUSo4i3Lwg3+ofxBwVUuBQXUbBc+
+         o0zr6eFIL1tZxN6gcmhplVzEkQtD+Gh0elU6KDum01AGhrZVodxJN+1uTkAPGXIcafpB
+         pH7oNJ6eKT8i2kKHW237bg0EozQ6H2P40V0u0aRBkMSDfD1KVdPoenycz64xvzCx6Byt
+         yOdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792616728; x=1793221528;
+        d=1e100.net; s=20260707; t=1792617767; x=1793222567;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=LT1JAf9kkvowqyH9kJf6IgurjXnQY9I3ALSM776jlXM=;
-        b=oGKHnMaafzJZUvSnwCe1q/jOWdKOpddliFtBj7CcAAViM5LN73yzBSzKR1NZ9Fy1UB
-         syT6wwfTKAfXAc/Q5nXXHbiJAKNEzX8zuYGeuw/ydyXWmRgBAf1WLCBIKNYPJRNjoWh1
-         qVJZDDqj82rWZCkwRkgWwlPcCnwm310CQ2rXGXF96h0ZoRaW/N1JdIHD2GvZvLT/4c/X
-         XNOmlqR9t9E8u7pnXQy8rYvhC7ILkT6rMi7dqwlTFrWAsPiy749YBCRpJn88M7N5IDW9
-         YZ6CEKp6hPDd7K8Um5+DKvbztaAPUFbUPzmRsCDYJSQoxCLF+2ec/mOeRs+Vcg6UBGdQ
-         HdqA==
-X-Forwarded-Encrypted: i=1; AKwUvBwK63NOsgehevDXHvGSLHvZV00ZjcHv2W5YtdD8vNHW4Oo6uTGp0zKIXEHLKy06x8NOGzLe5b+vibYw8ErO@vger.kernel.org
-X-Gm-Message-State: AFq9FYK/L0tgB39Dzla2WYpDJdKW6/XLx0krvYLwHOJduMtghr0ihl8K
-	sAzZfLwqUbBhuDdnbvojpj0c55CxK6q2I01+0zRHH79wmETeA9rqysJCpxyON4ShVaE=
-X-Gm-Gg: AYBFou0iC3gfiIP2dYO0hk0pEG1YKZJNzvjQ1Xx24Nb699OfJGnrQ336HYZ/bLRx7y2
-	YCytDwyZZ4lckdtjW7EIdLhIoAO0vLgY2R9MhwVA/zetF3o2lqjKOX44gYip5CjPzal0nmvdsCq
-	BpmKmfpsN3qsDZR/AeNEwRoW5hju7ckPfkMWbczNGifvBBkAUe075rFiOpxEXfxmX36YH9Ckdgj
-	dJ7bogg0umKcvR4umom14L3m915wb3WYeMjotmhvoATuEgeDJDSiKQcqK1hzvsJQQ7sRT+Ikwh6
-	drMpmIGmiaoi80Cu4tklmDUjdQI+tjoWLNJRNMCp2qgs8bTlzi1yl1lT770eSRaCFWtp5I28QJO
-	/xLMyEDe6jitjSyeR2+T91PuxtDi22AJ1I554PFUF7E4PMxNwW90iI+QT/BTPYbgYHOTYJjxUY6
-	olnI5Pzr5/SSmjm4uykhbqaNzAnZl6ozFogRYHR0lfYgZtjQDdhDhtNrMx3hvFbJWU8MrmB2sJi
-	pbSEA3MAhEPXnyHRecVGDmZP8ufhpLJVNWImkDAYoArGk+rsXV5tk1DD47z/64negW8SztJ9ufZ
-	rdOtbsPCwDWIVgwvC32GvsTqwccrgw4Gs0I8GhH9HmkwX847DVh76CNhgVuvo3ggffrZ7yFZBo1
-	oLsUhutdr
-X-Received: by 2002:a05:690e:4553:20b0:675:6168:8be3 with SMTP id 956f58d0204a3-67a0e4bf2a0mr1281644d50.24.1792616728244;
-        Wed, 21 Oct 2026 14:05:28 -0700 (PDT)
-Received: from pop-os.attlocal.net ([2600:1700:6476:1430:de6:d01d:526b:32a4])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67a0e4e5f3esm1621957d50.12.2026.10.21.14.05.25
+        bh=JC9fA4/O03RslRbGMA29FHUYG/vmJ+UslNVNMsIwusc=;
+        b=JM7mk/eD0naLuYwdDwocWuCJO1t1YSbdjyxJSXrl9gn3aPWrqWKuHcr4zb2V3AjVdm
+         bg6lWIVZv5Bi2VEPvhfTLn9xZuGkFtrk4H2uvbuy9IfSctKAlHBzfuUL8R/Qze+ix4ro
+         KIXcsmfT1bNTni2ffwboycutavjcFQZK4laU77ZBmFtVdi7Lsu09HWC/Gv+Q0WnoACjA
+         XS3dBjtymUUJYEoLDQHYvHbV+by6S8Rh4eOaRQB2mrgMF1Z3105CKXCbf/UyuZuBHh2u
+         9TtC4MPzefMRUM7ej7oXgQJ2lejyfjFyCFaMiA8dkM43GmYvjmkk+1VuDW8itQPqGAZ8
+         a/pA==
+X-Forwarded-Encrypted: i=1; AKwUvBzaKIddqVgV524vT2sAPCX/RQJvG/AZUZ+yT834uW4pH2KUqec94b9F/3yDuWfM5+hoIjFRLbqQalqD3aa/@vger.kernel.org
+X-Gm-Message-State: AFq9FYIVof2XNdTP1yw4O8+jGAK25BobX4g89VG0ghNIDKv/ZSJcJiY4
+	qB+4KFNo+K0EW79LK/nZAEnfwvGgsFtdZ82ELN0gQnXp0UodU6XbEHlS8g7kYADZEtI=
+X-Gm-Gg: AYBFou1Mgk8FwMVgCrHYGkSB5n3E4TbgZGfVtHe7WWXDDBNEca76kAJmrpROPVblZax
+	QSZ7g1mTJk4C4XflVY3eyp/mLEugDwqCSOQ7LARR4k2QLrWjf6bzxJRc5Sip0qQAKcHcu1ja+6t
+	3OpVk1HfdHCe7r8Gv8V5KdlgwgZCSvX+LK0CMSHpCZeEYAlmV4sNjGzpL3+mj48GlEx9Mp5g/EE
+	URoG6ogNFjiox1g/nwlMvrU6QwPMnArMlVkW7P0JsRdfe01F9noeD3QE9N/qqHcDhB1+yiaqO7v
+	rVwJP317C/Emsw22m9doQsqdjXp/3w/GBNQvBSUrgDxFwHZeXkkgkpXXjqUrqWDRDKkWsDzmq7V
+	+piCH82FMqDYW6DW8qMScb6nj8TZw4kTZrYMMvtpvK/1jjDESQl1Eg+7StNCXlZTnKuT9fm8Rsl
+	AIlP9gImQTlxF6T7p7pR/qe11M14w4QmJhV/hZhq22oJnpFjiB/AIREsOZbEVz2gSKtDqd2yEg4
+	pbxB7sdYz+e8DWo5EtJ7KL3kHQDMZ+kbgIqWM4iNZ9G1qrP6JT4A1edmlrYKH74flvQd2QmG4Rg
+	sPcF7+pjmAgm86xqY4rPbRieqJeM5d8AxNIH9FlZFiBkpixGi3iJl6JhAnpS0dE9sirkCoIAz95
+	JRmdciiAhfCbGfNy2PDofcTCBu1Y5WRuFJfaAl5fphng=
+X-Received: by 2002:a05:690c:348a:b0:88b:6ad8:48cc with SMTP id 00721157ae682-8b1456fbdefmr3878857b3.16.1792617767006;
+        Wed, 21 Oct 2026 14:22:47 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:de6:d01d:526b:32a4? ([2600:1700:6476:1430:de6:d01d:526b:32a4])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b13012f929sm17378997b3.33.2026.10.21.14.22.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 14:05:26 -0700 (PDT)
-Message-ID: <dc187921249a3f6716b829624853e64c10321cd1.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: preserve FinderInfo when listing extended
- attributes
+        Wed, 21 Oct 2026 14:22:44 -0700 (PDT)
+Message-ID: <2b9ea598558ed4b7dd25eb26a05f6667522c3afc.camel@dubeyko.com>
+Subject: Re: [PATCH v2] hfs: report errors when extending files with setattr
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: Hengyu Liang <hengyul@cs.unc.edu>
 Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Date: Wed, 21 Oct 2026 14:05:24 -0700
-In-Reply-To: <20261021174534.482192-1-hengyul@cs.unc.edu>
-References: <20261021174534.482192-1-hengyul@cs.unc.edu>
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Wed, 21 Oct 2026 14:22:41 -0700
+In-Reply-To: <20261021145627.288953-1-hengyul@cs.unc.edu>
+References: <20261021145627.288953-1-hengyul@cs.unc.edu>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -148,99 +146,126 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-On Wed, 2026-10-21 at 13:45 -0400, Hengyu Liang wrote:
-> Commit aef507847129 ("hfsplus: fix generic/062 xfstests failure")
-> made
-> hfsplus_listxattr() return zero when the inode has no records in the
-> attributes B-tree.
+On Wed, 2026-10-21 at 10:56 -0400, Hengyu Liang wrote:
+> hfs_inode_setattr() sets i_size and calls hfs_file_truncate() to
+> change
+> the allocation. If expansion fails, hfs_file_truncate() restores
+> i_size
+> to the allocated size, but its void return type leaves setattr
+> reporting
+> success.
 >=20
-> However, osx.com.apple.FinderInfo is stored in the catalog record,
-> and
-> hfsplus_listxattr() has already added it to the result at that point.
-> Setting the result to zero drops it. As of now, a file whose only
-> extended attribute is FinderInfo gets an empty list on a volume with
-> an attributes B-tree, which mkfs.hfsplus creates by default.
-> getxattr()
-> still returns the value.
+> On a freshly formatted 64 MiB HFS volume, ftruncate() to 128 MiB
+> returns
+> zero while the file remains empty. When the requested size fits
+> within
+> the volume but exceeds the free space, it also returns zero, leaving
+> the file only partially extended.
 >=20
-> The issue can be reproduced with:
->=20
-> =C2=A0=C2=A0=C2=A0 truncate -s 64M hfs.img
-> =C2=A0=C2=A0=C2=A0 mkfs.hfsplus hfs.img
-> =C2=A0=C2=A0=C2=A0 mount -o loop hfs.img /mnt
-> =C2=A0=C2=A0=C2=A0 touch /mnt/file
-> =C2=A0=C2=A0=C2=A0 v=3D0x54455854$(printf %056d 0)
-> =C2=A0=C2=A0=C2=A0 setfattr -n osx.com.apple.FinderInfo -v $v /mnt/file
-> =C2=A0=C2=A0=C2=A0 getfattr -m - /mnt/file
->=20
-> Without this patch, getfattr prints nothing. With this patch, it
-> lists
-> the FinderInfo entry.
->=20
-> This patch keeps the result of hfsplus_listxattr_finder_info() when
-> no
-> attributes B-tree records are found, as is already done when the
-> volume has no attributes B-tree. A file without extended attributes
-> still gets an empty list.
->=20
-> Fixes: aef507847129 ("hfsplus: fix generic/062 xfstests failure")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
-> ---
-> Tested in KVM with KASAN on a804c5742bff, without and with this
-> patch:
-> - The commands above, and a C test of listxattr() sizes and buffer
-> =C2=A0 lengths: a file with only FinderInfo gives 0 without the patch and
-> =C2=A0 25 with it; a file without extended attributes gives 0 on both.
-> - generic/062: 10/10 passed on both kernels.
-> - Full fstests (805 generic tests): 186 passed, 11 failed and 608 not
-> =C2=A0 run on both kernels, with the same failing tests. fsck.hfsplus -fn
-> =C2=A0 reported no new errors.
->=20
-> With this patch, getfattr above prints "osx.com.apple.FinderInf". The
-> last character is lost by a separate bug in copy_name(), which
-> Maurycy
-> Pawlowski-Wieronski's patch fixes:
-> https://lore.kernel.org/all/20260828-hfsplus-copy_name-fix-v1-1-75ed9f0f3=
-78c@maurycy.com/
+> Call generic_cont_expand_simple() when growing a file and propagate
+> its
+> error. Keep truncate_setsize() and hfs_file_truncate() in the
+> shrinking
+> path. This makes failed extensions report EFBIG or ENOSPC.
 
-Somehow, discussion went nowhere. I am still waiting answers on my
-questions. It will be great if you could revive the discussion or to
-resend the patch addressing my comments.
+I think now this code [1] becomes dead. And we need to rework it:
 
->=20
-> =C2=A0fs/hfsplus/xattr.c | 1 -
-> =C2=A01 file changed, 1 deletion(-)
->=20
-> diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-> index 71364e093fa7..c74c81966f12 100644
-> --- a/fs/hfsplus/xattr.c
-> +++ b/fs/hfsplus/xattr.c
-> @@ -838,7 +838,6 @@ ssize_t hfsplus_listxattr(struct dentry *dentry,
-> char *buffer, size_t size)
-> =C2=A0	err =3D hfsplus_find_attr(inode->i_sb, inode->i_ino, NULL,
-> &fd);
-> =C2=A0	if (err) {
-> =C2=A0		if (err =3D=3D -ENOENT || err =3D=3D -ENODATA) {
-> -			res =3D 0;
-> =C2=A0			goto end_listxattr;
-> =C2=A0		} else {
-> =C2=A0			res =3D err;
+void hfs_file_truncate(struct inode *inode)
+{
+        ...
+        hfs_dbg(...);
 
-I think the fix makes sense. Maybe, we need to slightly rework the code
-here:
+        if (WARN_ON_ONCE(inode->i_size > HFS_I(inode)->phys_size))
+                return;
+        if (inode->i_size =3D=3D HFS_I(inode)->phys_size)
+                return;
 
-err =3D hfsplus_find_attr(inode->i_sb, inode->i_ino, NULL, &fd);
-if (err) {
-    if (err !=3D -ENOENT && err !=3D -ENODATA)
-        res =3D err;
-    goto end_listxattr;
+        size =3D inode->i_size + HFS_SB(sb)->alloc_blksz - 1;
+        ...     /* existing shrink logic unchanged */
 }
 
-What do you think?
+It will be great if you could share another patch with the fix.
+
+>=20
+> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
+> ---
+> Changes in v2:
+> - Keep truncate_setsize() and hfs_file_truncate() in the shrinking
+> path,
+> =C2=A0 as suggested by Viacheslav Dubeyko.
+> - Replace the generic/736 and fsx runs with a comparison of the whole
+> =C2=A0 xfstests set selected for HFS, as requested.
+>=20
+> v1:
+> https://lore.kernel.org/r/20261017160612.3740256-1-hengyul@cs.unc.edu
+>=20
+> Compared unpatched and patched v7.3-rc7 with identical KASAN configs.
+> All 805 tests selected for HFS by "check -n -g all" were attempted,
+> using freshly formatted 2 GiB test and scratch volumes for each case:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 passed=C2=A0 failed=C2=A0 not run
+> =C2=A0 unpatched=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 109=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 27=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 669
+> =C2=A0 v2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 109=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 27=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 669
+>=20
+> The different results were generic/113, /394, /464 and /795. /113 and
+> /464 passed and failed in replays on the unpatched kernel, and the
+> /113
+> failures are the same existing workqueue warning from
+> hfs_file_fsync().
+> /795 failed on all three kernels in replays. On the 2 GiB volume,
+> /394
+> passes without the fix only because ftruncate() returns success after
+> a
+> partial extension; v1 and v2 report ENOSPC. It passes on all three
+> kernels with a 4 GiB volume.
+>=20
+> Also ran 39 functional and 18 recovery cases per kernel on 32/64/128
+> MiB
+> volumes. Content and read-only remount checks passed on unpatched, v1
+> and v2 kernels. All three had the same 12 post-ENOSPC fsck failures;
+> recovery fsck checks were clean.
+>=20
+> Functional/recovery cases and generic/394 were repeated on unpatched
+> and v2 kernels at the hfs 7.4 merge (dd7b15aeac80), with the same
+> results.
+>=20
+> =C2=A0fs/hfs/inode.c | 10 ++++++++--
+> =C2=A01 file changed, 8 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+> index 2aef3c36a150..9bdaa60fc392 100644
+> --- a/fs/hfs/inode.c
+> +++ b/fs/hfs/inode.c
+> @@ -684,8 +684,14 @@ int hfs_inode_setattr(struct mnt_idmap *idmap,
+> struct dentry *dentry,
+> =C2=A0		if (error)
+> =C2=A0			return error;
+> =C2=A0
+> -		truncate_setsize(inode, attr->ia_size);
+> -		hfs_file_truncate(inode);
+> +		if (attr->ia_size > inode->i_size) {
+> +			error =3D generic_cont_expand_simple(inode,
+> attr->ia_size);
+> +			if (error)
+> +				return error;
+> +		} else {
+> +			truncate_setsize(inode, attr->ia_size);
+> +			hfs_file_truncate(inode);
+> +		}
+> =C2=A0		inode_set_mtime_to_ts(inode,
+> inode_set_ctime_current(inode));
+> =C2=A0	}
+> =C2=A0
+
+Looks good.
+
+Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
 
 Thanks,
 Slava.
 
->=20
-> base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
+[1]
+https://elixir.bootlin.com/linux/v7.3-rc5/source/fs/hfs/extent.c#L488
