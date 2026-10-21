@@ -1,107 +1,108 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792598209;
-	b=De9BAQNwfKix8k7YfvXaJiFSXrjZcgw2rQDTxF0cgJ1hUCU8T98Ggco9QfotfMZLyGWl
-	 ETTnyukJVPQ/4tN2T+/s5YgK4YaKwqUSrslCl2kRAuQWyzqEtUk9h9q18CgDWE8pvV2Ng
-	 zgeF7r5h8cXXGVfEowk75MGy+mIuWo+Jn0GaRX4x0g5ShISmnwpz99/D1XMNYtRY43MaU
-	 XTfavP2FmNeuBACsj/9j7r2V2B09Km4iXq/6xOZkSMVKcf7RJhHOFB8pJvuFhMkm+j1GN
-	 9W9tMqMKLyeTQZ1aLiy1VjXNw8f51d7ll1lvt3GEebyV+Q79AZNbGP0A7tcPTvPeoDw==
+	t=1792599624;
+	b=mHGaxEN6UTmiWWplDsJcwqdwelAhUUBGSc+nEt5dCmzNEsiVsw5dHYgXHhQYYvp06C+q
+	 UUjELTpiGNNyzvpmSZbaiq6GLd8zPTW6Hvb31oL84hLKMSHPFTWlqu/Nv5WDPeSPWGald
+	 idGco3q8Xa/Q1Jpr+oHkhVJYhNb9oFMmeMzvFIly4SFgMXFnTy3ovhe9GtgkHPeZXTnb5
+	 rmuERyitSL8Pyf8Ou3WMM80GhNLi37FyL63u0mZuWyMz3x6mndcYTmJwVhIfovRXTUBQB
+	 hi+w4HJaIfoiIARWmrGsCl77sbicJY5/XPhZ3Hoe7MJEcMP0FRxgdlqh23fIBx9tLpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792598209;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792599624;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=jdCYLxMR/KDlJL5AcHTQ/nFiu/gS+Dwd0/bR4c9HPQQ=;
-	b=P8gwmuGihlT8dogPh/tGY7+MjTDvlhfnMY1LiXkSrza8ozUF+p60FsPtt/F4Fla9KaEQ
-	 yKQhgfnaacN1WfpfDqKiHNjdVZ7pdKcOBOf26SgsUGDCQfDjjUPdTNjWqSuuBDth4mhhz
-	 D5iCQ9u8RWmHJiDTdxoe4CuGALPST/h+Re52m3aPoub5U/3sSVXTaeojPS9QimjPp/F83
-	 u4zlRKBbH0zMe32w6dPNM6qzK1mrad4HTVCNsNIKJPrancf9WV1I9yALuYhuL3zemdCoP
-	 KjluU0TrCGPswmOCCPBFKoIWRYGdgDXPJ0LHvwIKF0oO/4/CjSKeqHr211HyVN9phKA==
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=Tav5y5jFkau2LmUYqTnA1wpMJIvN6h4hM3tj4E8VzrE=;
+	b=SYmHKcwP+xRf62wViLIsj1jP1uo1bbwoVOIy21ZY5CfAnCe53ZKG9B8XTcXXEdzokxxc
+	 FYGJfMMbRcccKikhh4/6dSX8lv3uth347fu6ioPp6FwXHLCgLePE3YVfGNElhE6Zht6Kz
+	 pklNk3r4+gilQ5XlAYEQxIMGTCmk1kxvpeMoRMaY5Pa5rptni5Zhix31jmkl+uq0xKY3f
+	 1gBt1cFqPb+He1uBCWWdVfcK0qTzT+446XI5B97qQan0EIcEx79VCKPO/n/x1cG5kwyr6
+	 SiA/gbqUZg3WATmjjgRkjHhtU2ivGVxfPfCX0ugjTuwaGC5s9mR8kUofyxA5+7U/NUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=otoRSIu1;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YmgB9wRh;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=otoRSIu1;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YmgB9wRh;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sazbDk7J;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Ymt8Kd2v;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sazbDk7J;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Ymt8Kd2v;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2AD606A320;
-	Wed, 21 Oct 2026 15:56:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF2AD606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B13606A31F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 16:20:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48B13606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=otoRSIu1;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YmgB9wRh;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=otoRSIu1;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YmgB9wRh
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sazbDk7J;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Ymt8Kd2v;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sazbDk7J;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Ymt8Kd2v
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A9EB21CD7;
-	Wed, 21 Oct 2026 15:56:47 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7232C21DD1;
+	Wed, 21 Oct 2026 16:20:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792598207; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792599622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jdCYLxMR/KDlJL5AcHTQ/nFiu/gS+Dwd0/bR4c9HPQQ=;
-	b=otoRSIu1HrFALEyWbolxbKSwqySa50/qVEXjq7qGQ++H0J6KSagnSdLuHNZkfnChoXkx6L
-	Hf6kjQ6miAU7LpCW7gQ6xm4R4Iw89SI10czPyYRbYAjL/YppjopwBe1E+S8yo9sQjnaPME
-	w/oC8xHuEj16HPMJxvaVu/t4sbxKoKU=
+	bh=Tav5y5jFkau2LmUYqTnA1wpMJIvN6h4hM3tj4E8VzrE=;
+	b=sazbDk7Jp42D9Z5NdeyLUE1OcGu1nRmZpajaw7CVCmsDZprfrotgkGsrQwQYe5/Bbxvcre
+	typgZVJwUShb1f0HcHtI6nycvsZTVVD5gDiTJAzIPvlyqRHKNvGgId6JCLI69hASVpJtBp
+	pwPTXZUruQuRogJc6W2aVTO+QOCGY6I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792598207;
+	s=susede2_ed25519; t=1792599622;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jdCYLxMR/KDlJL5AcHTQ/nFiu/gS+Dwd0/bR4c9HPQQ=;
-	b=YmgB9wRhAl+jzBk8lCyHWwn5dDv+VJKZhxjbfwQ5IiRmRfXEB23q023XowK5n+lp0QAl9d
-	D1nhZbH8/aSYuvDg==
+	bh=Tav5y5jFkau2LmUYqTnA1wpMJIvN6h4hM3tj4E8VzrE=;
+	b=Ymt8Kd2vfBHv+m/U7yEAQSPnS7zjXjOXil3bIAOaaAlo5Yt102QKVhbjyEMgJXB1Sg3xwY
+	B9MrwlRzWtDaHNCA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=otoRSIu1;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=YmgB9wRh
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792598207; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792599622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jdCYLxMR/KDlJL5AcHTQ/nFiu/gS+Dwd0/bR4c9HPQQ=;
-	b=otoRSIu1HrFALEyWbolxbKSwqySa50/qVEXjq7qGQ++H0J6KSagnSdLuHNZkfnChoXkx6L
-	Hf6kjQ6miAU7LpCW7gQ6xm4R4Iw89SI10czPyYRbYAjL/YppjopwBe1E+S8yo9sQjnaPME
-	w/oC8xHuEj16HPMJxvaVu/t4sbxKoKU=
+	bh=Tav5y5jFkau2LmUYqTnA1wpMJIvN6h4hM3tj4E8VzrE=;
+	b=sazbDk7Jp42D9Z5NdeyLUE1OcGu1nRmZpajaw7CVCmsDZprfrotgkGsrQwQYe5/Bbxvcre
+	typgZVJwUShb1f0HcHtI6nycvsZTVVD5gDiTJAzIPvlyqRHKNvGgId6JCLI69hASVpJtBp
+	pwPTXZUruQuRogJc6W2aVTO+QOCGY6I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792598207;
+	s=susede2_ed25519; t=1792599622;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jdCYLxMR/KDlJL5AcHTQ/nFiu/gS+Dwd0/bR4c9HPQQ=;
-	b=YmgB9wRhAl+jzBk8lCyHWwn5dDv+VJKZhxjbfwQ5IiRmRfXEB23q023XowK5n+lp0QAl9d
-	D1nhZbH8/aSYuvDg==
+	bh=Tav5y5jFkau2LmUYqTnA1wpMJIvN6h4hM3tj4E8VzrE=;
+	b=Ymt8Kd2vfBHv+m/U7yEAQSPnS7zjXjOXil3bIAOaaAlo5Yt102QKVhbjyEMgJXB1Sg3xwY
+	B9MrwlRzWtDaHNCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 886A2134FD;
-	Wed, 21 Oct 2026 15:56:46 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 45D5A134FD;
+	Wed, 21 Oct 2026 16:20:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +7XTF77g2Gp/MAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 21 Oct 2026 15:56:46 +0000
+	id TPcCCEbm2Gp9SAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 21 Oct 2026 16:20:22 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id E5F0FA1418; Wed, 21 Oct 2026 17:56:45 +0200 (CEST)
-Date: Wed, 21 Oct 2026 17:56:45 +0200
+	id C82A4A1418; Wed, 21 Oct 2026 18:20:21 +0200 (CEST)
+Date: Wed, 21 Oct 2026 18:20:21 +0200
 From: Jan Kara <jack@suse.cz>
-To: Avi Weiss <thnkslprpt@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fsnotify: preserve 64-bit pre-content ranges
-Message-ID: <4cak3zsam4wxdhmdvuq73ik6p2pu4peod7sr2etqtja4p5ebnw@7p55nlstgoph>
-References: <20261015175701.3674449-1-thnkslprpt@gmail.com>
+To: Dave Chinner <dgc@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, Christian Brauner <brauner@kernel.org>, 
+	Christoph Hellwig <hch@infradead.org>, Mikhail Rudenko <xyzzy@yandex-team.ru>, 
+	Andreas Gruenbacher <agruenba@redhat.com>
+Subject: Re: [PATCH 0/7 v3] fs: Deferred inode reclaim
+Message-ID: <pm2fqzpmq7pmv7csi7k7vmbugceblvjlzcaoq3a6itakkri3wz@oagg7akwqrjf>
+References: <20261009133253.20102-1-jack@suse.cz>
+ <atfmukIp61u_dn6Z@dread>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -113,151 +114,149 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261015175701.3674449-1-thnkslprpt@gmail.com>
-X-Rspamd-Queue-Id: 2A9EB21CD7
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-13.01 / 50.00];
+In-Reply-To: <atfmukIp61u_dn6Z@dread>
+X-Spamd-Result: default: False [-12.80 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email]
-X-Spam-Score: -13.01
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Thu 15-10-26 20:57:01, Avi Weiss wrote:
-> vfs_fallocate() and remap_verify_area() pass 64-bit lengths to
-> fsnotify_file_area_perm(), which truncates them to size_t on
-> 32-bit systems.
+On Wed 21-10-26 09:10:02, Dave Chinner wrote:
+> On Mon, Oct 12, 2026 at 10:23:38AM +0200, Jan Kara wrote:
+> > here is the third revision of my patches implementing deferred inode reclaim to
+> > deal with MM warnings due to GFP_NOFAIL allocations from reclaim paths. This
+> > happens because to reclaim some inodes, filesystems have to do IO including
+> > complex operations using journalling and forward progress of these depends on
+> > successful memory allocations (which is impossible to guarantee from reclaim
+> > context).
+> > 
+> > Since the last revision the most notable changes include addition of automatic
+> > deferal of inode eviction from iput() when inode link-count is 0 and we are in
+> > reclaim (PF_MEMALLOC flag set). This path gets triggered e.g. by overlayfs
+> > whose inodes hold dentry references on upper filesystem and thus slab reclaim
+> > of overlayfs inodes can trigger the last dput() (and thus iput()) of already
+> > unlinked files. Since inode deletion is practically guaranteed to require IO
+> > (and thus possibly e.g. loading allocation information into memory) I've
+> > decided to unconditionally defer reclaim in this case instead of marking inodes
+> > in each filesystem.
+> > 
+> > Another bigger change in this series is that we now protect deferred inode
+> > reclaim from filesystem freezing. Otherwise inode eviction could block the
+> > reclaim worker on frozen filesystem which could stall deferred inode reclaim on
+> > the whole system. Deferred reclaim workers now skip reclaiming inodes on frozen
+> > filesystem and we block filesystem freezing while the worker is evicting
+> > current batch of its inodes.
+> > 
+> > The last bigger change is that mark_inode_reclaim_deferred() does not block
+> > when the queue of deferred inodes grows over limit anymore. Instead it queues
+> > task work to delay the task appropriately when returning to userspace. This
+> > solves possible lockups when tasks would get throttled when calling
+> > mark_inode_reclaim_deferred() with some locks or transaction started.
 > 
-> Use 64 bit (unsigned) types throughout the entire pre-content
-> notification chain to keep the full range. The userspace range
-> field is already 64-bits.
-> 
-> Fixes: 9740d17162de ("fsnotify: pass optional file access range in pre-content event")
-> Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
+> Hmmm. This re-implements the XFS inodegc infrastructure at the VFs
+> level, but without all the internal XFS knowledge of when background
+> inodegc processing is required. It looks rather complex compared to
+> the XFS inodegc code....
 
-Thanks. I've added the patch to my tree.
+Yes, I took some inspiration from it. One big difference though is that
+deferred inode reclaim will be applied only to inode evictions done from
+SLAB reclaim and only for inodes explicitely marked for deferred reclaim by
+the filesystem. Just there's this exception that currently VFS would
+auto-offload (i.e. without explicit marking by fs) in the case SLAB reclaim
+happens to drop the last inode reference of unlinked inode. So in that case
+VFS could defer reclaim even for XFS inode but that is mostly performance
+irrelevant cornercase (in vast majority of cases unlink or file close does
+the last iput() of unlinked inodes and in that case we never offload in
+VFS). So I'm not sure we care about avoiding the extra offload for XFS for
+that case.
+
+> Whilst I agree that the VFS should be able to do this for
+> filesystems like ext4, we really don't want to be deferring inodegc
+> processing twice.  Hence for XFS we really want the VFS to call
+> evict() immediately for all inodes so that the filesystem can
+> correctly decide if deferred processing is necessary or not...
+
+Yep, that should mostly happen. See above.
+
+> > The patches have survived full fstests run on ext4 when marking all loaded ext4
+> > inodes for deferred reclaim to stress the deferred reclaim paths. I have also
+> > tested (when marking all inodes for deferred reclaim) the patches by creating a
+> > memcg with 128m memory limit and then scanning from 10 processes 1m inodes in
+> > total which heavily exercises deferred inode reclaim paths. This also verified
+> > efficiency of throttling of marking of inodes for deferred reclaim. Basically
+> > we cannot guarantee any particular limit on the number of inodes queued for
+> > deferred reclaim as that is bound only by their number in memory and memory
+> > pressure. But as the number of queued inodes grows, the tasks creating them get
+> > slowed down so eventually some equilibrium is hit. In my VM this was at ~10k
+> > inodes (only slightly above the 8k limit when throttling kicks in) but this all
+> > very much depends on the reclaim pressure, speed of deferred reclaim etc. so I
+> > don't think this is some representative number.
+> 
+> XFS has a "almost-hard" queue limit is 256 queued inodes per CPU.
+> Anything larger than that sees reduced performance under sustained
+> inode cache pressure and latency problems when eviction processing
+> of individual inodes takes a long time (e.g. deferred unlink of a
+> set of inodes with millions of extents each).
+> 
+> In normal operations, however, the low queue limit means triggers
+> the scheduler to move the reclaiming thread to another CPU to allow
+> the queued cleanup work to run on the same CPU it was last touched
+> on. Performance testing showed that moving the reclaiming task was
+> much, much better than pushing the reclaiming work to other CPUs
+> whilst blocking on the throttle. Deep queues (like many thousands of
+> inodes) caused other problems with ongoing (non-reclaim) operations
+> then contending with resources with queued background inodegc.
+> 
+> i.e. for XFS it has proven better to have short queues, short
+> backoffs and schedule/process small batches concurrently than it is
+> to have deep queues, spreading the work out many kworkers and having
+> "end-of-queueing" throttling behaviour...
+
+Yes, I was considering XFS inode reclaim design as well. The big difference
+to XFS case which offloads everything is that we expect to only have to
+defer inode reclaim if something expensive (like allocating blocks)
+happened to the inode. At least all usecases I have in mind are like that.
+Also except of rare cornercase races the reclaim of unlinked inodes will
+not be handled by deferred reclaim workers but directly inline in iput().
+That is why I didn't bother with per-cpu thing as I believe the performance
+of the offloading mechanism itself doesn't matter as much at that point.
+But I could be wrong...
+
+> > The first patch is a pure fix for a problem I've hit when running fstests.  The
+> > second patch deals with lazy timestamp updates which I've decided to handle
+> > better directly inside the writeback infrastructure instead of deferring
+> > reclaim. The remaining patches implement the inode reclaim deferal. Ext4 use of
+> > deferred inode reclaim is there mostly as a demonstration. Other filesystems
+> > need to determine which inodes need deferred reclaim and mark them as such
+> > which generally requires good internal knowledge of the filesystem. I'm hoping
+> > that once the infrastructure is there, fs developers prompted by MM warnings
+> > will start using it :). I know for a fact that besides ext4 e.g. gfs2 wants
+> > to use this infrastructure.
+> 
+> But XFS doesn't, so it needs to be optional. :)
+
+If you still want the rare cases where offload could happen for XFS optional
+after above explanations, I can do a filesystem_type flag for that.
 
 								Honza
-
-> ---
-> Tested on a 32-bit x86 kernel in QEMU with ext4 and
-> FAN_CLASS_PRE_CONTENT / FAN_PRE_ACCESS with regular 
-> (4KB), boundary, near-boundary, and beyond boundary counts.
-> 
-> requested count    before   with the fix
->           4096      4096           4096
->     4294967295         0     4294967296
->     4294967296         0     4294967296
->     4294971392      4096     4294971392
-> 
-> diff --git a/fs/notify/fanotify/fanotify.h b/fs/notify/fanotify/fanotify.h
-> index 3710543dbf827..225919d7347bf 100644
-> --- a/fs/notify/fanotify/fanotify.h
-> +++ b/fs/notify/fanotify/fanotify.h
-> @@ -441,7 +441,7 @@ struct fanotify_perm_event {
->  	struct fanotify_event fae;
->  	struct path path;
->  	loff_t pos;			/* FANOTIFY_NO_RANGE if unavailable */
-> -	size_t count;
-> +	u64 count;
->  	u32 response;			/* userspace answer to the event */
->  	unsigned short state;		/* state of the event */
->  	unsigned short watchdog_cnt;	/* already scanned by watchdog? */
-> diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
-> index 7e2f330fd2837..8657bb94dfa8b 100644
-> --- a/fs/notify/fsnotify.c
-> +++ b/fs/notify/fsnotify.c
-> @@ -157,7 +157,7 @@ static inline __u32 fsnotify_object_watched(struct inode *inode, __u32 mnt_mask,
->  
->  /* Report pre-content event with optional range info */
->  int fsnotify_pre_content(const struct path *path, const loff_t *ppos,
-> -			 size_t count)
-> +			 u64 count)
->  {
->  	struct file_range range;
->  
-> diff --git a/include/linux/fsnotify.h b/include/linux/fsnotify.h
-> index bda798bc67bc5..a4a29b3650080 100644
-> --- a/include/linux/fsnotify.h
-> +++ b/include/linux/fsnotify.h
-> @@ -135,7 +135,7 @@ int fsnotify_open_perm_and_set_mode(struct file *file);
->   * fsnotify_file_area_perm - permission hook before access to file range
->   */
->  static inline int fsnotify_file_area_perm(struct file *file, int perm_mask,
-> -					  const loff_t *ppos, size_t count)
-> +					  const loff_t *ppos, u64 count)
->  {
->  	/*
->  	 * filesystem may be modified in the context of permission events
-> @@ -213,7 +213,7 @@ static inline int fsnotify_open_perm_and_set_mode(struct file *file)
->  }
->  
->  static inline int fsnotify_file_area_perm(struct file *file, int perm_mask,
-> -					  const loff_t *ppos, size_t count)
-> +					  const loff_t *ppos, u64 count)
->  {
->  	return 0;
->  }
-> diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
-> index 618eed4d6d724..a25ae4ed879c7 100644
-> --- a/include/linux/fsnotify_backend.h
-> +++ b/include/linux/fsnotify_backend.h
-> @@ -323,7 +323,7 @@ struct fs_error_report {
->  struct file_range {
->  	const struct path *path;
->  	loff_t pos;
-> -	size_t count;
-> +	u64 count;
->  };
->  
->  static inline const struct path *file_range_path(const struct file_range *range)
-> @@ -945,12 +945,12 @@ static inline void fsnotify_init_event(struct fsnotify_event *event)
->  	INIT_LIST_HEAD(&event->list);
->  }
->  int fsnotify_pre_content(const struct path *path, const loff_t *ppos,
-> -			 size_t count);
-> +			 u64 count);
->  
->  #else
->  
->  static inline int fsnotify_pre_content(const struct path *path,
-> -				       const loff_t *ppos, size_t count)
-> +				       const loff_t *ppos, u64 count)
->  {
->  	return 0;
->  }
-> 
-> base-commit: 045958acaa75205b31578cb22c4345e28dd2e4bf
-> -- 
-> 2.43.0
-> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
