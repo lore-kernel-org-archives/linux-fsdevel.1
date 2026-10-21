@@ -1,71 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792613663;
-	b=W/fUvdaoAjXMqZsXhSJ7ihrQ5F/8SEzfbUWNtUUHsygo3z+OodIhNyK9J7nIN8e4/3P5
-	 hVVxUPRfoJGJ3ZqRloPX2FRBfsVJPZASCzsFMA8jtp87jjnMSPfsr0d15DjDStwEDsE29
-	 Vyjt98TvXLY2I/mWqwW24HcJl7FRiivKcnJlVSWM4yTH/k3SG9rPyXpWD1bAIxU6+dBJP
-	 63yklotdLQvC7UZn98bLu1Tq06CPvAQPnH//O5uKKHz5UBTfl3C4f/VMnHq3TBcB+Z4BB
-	 AIFznpfEwDta4LSHf+sHFyq5nrBXGA84/J5YQAHXOUHDVLDg0IiatmdjEwDYzEct6Ng==
+	t=1792613832;
+	b=CA9SuqEJJGq4bH/tcfAigHkiKiP65MuijQetNlCyFFNvHubV24+mWNQZsPteRcrJy4fb
+	 JmmDE8mv3YMK4TNV7TYFr3w6XNu+MYLOp0KPfslr4nXyLta5bC00uyBun26c2Bqh9rgZ0
+	 0tvbviS07GWk3ROJH2nVn1IOfp3SoS7VGNBpm7I3RH/23eKdIZWxAESi04Oz4tB5XPkcY
+	 rXjcCA1qPsyhPvs/tffI0GrskHcw5LCjle8Zsec+9Vt7zrcSiW1uXXdNw1abglbFZGJk9
+	 +MVKzrM6yVqCJWguvkOldxRAZRTCO0odQqz4WM586uTl2BRQmpzLT3EDtCRnsEeBmxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792613663;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=MK/sCNnQliqsRAgVoxF+hCWSDeszRLqOViWrqNvyhPc=;
-	b=e1+ukzw6EP8aGI4QUn0Ut1dqUogj0mv8pBT1z9Oy3IQcBLMPaWoewxgmJ0S15MDhR6/0
-	 eu6ZJkLpKUP4sL09gXuQutB6VvYSU75YUMAoaJffyzudzaQ/IQwkiVp/VJQjHL/k51Srw
-	 Q/NlNNn8vb0bSQCoSrTSH/9flNyI8lFXeZxU7gEVFs3aagWv7D4O+jVWkuEsvGxn8pN6i
-	 qAZClq9hJL7lGy+lXPbg7rLK1k1giAB+oB5jIqjwXvSnvpnlrmQZqnsSJk69l3gT57ugw
-	 KpjaoSCI+cxK8TUuy2lhFyq+XvSv5N1DghMJR3ram0RRc6zaGdfiIGM2LopZ0F9sCfA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792613832;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=At2A/wrqaAUfI4SKCwlEtMqC27pXN2/myITaZPv60nw=;
+	b=IkWSewlRO6pLcT1gIxlWgqfO0v5Tf63DYIygURl++S9korQWBwAqlzx04vuwgny7TAgV
+	 3pfyit8NkSF2uOEaL5dQJcJjZcgGJNhry7NALvHvMfHBmaBcSYY5WyhjKYs7IT2sI6tQf
+	 y0P/uEPfNw5b2geM6iFyiO8w9zVGlZtNYwh2HfMScmMKTN+NOQ+vxYG4LFhLDlbcm0zkh
+	 yuANafTD2WLBFfLVfQzXJ8F24vKmaZ71TY8hrTr3kIkVQqnmIvMBQMM/vQ3KhVI7NLhMv
+	 F3lP5Wy9rCJR1fD2R/8FfmRo+SRwWLRNO2JNY59dFEbz1O/CEertmpNhaYSr0+6qUkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ox2VFkCo;
-	arc=none smtp.remote-ip=91.218.175.118
-Received: from mta0.migadu.com (out-118.mta0.migadu.com [91.218.175.118])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=oyFHm1Hz;
+	arc=none smtp.remote-ip=209.85.214.173
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E75606A31B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 20:14:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72E75606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F51606A320
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 20:17:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0F51606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ox2VFkCo
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=w2yIvfdgGfmlQVpeDUGVxacsdJvhxz5P+RtAjBdIp+U=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792613658; v=1; x=1793218458;
- b=ox2VFkColxaQvhbRPAOwLuz+qjvZGykGQTMQ7lMfTeQyOsOtVRJkJMu7p9uCJ5Z2qdkKLftq
- GU7CY6UM+UuLov8zO7bMaBIrCLkO2D846eb5SZ+KV15g3NAtPdkArYViUJOZ6UPH59mcy4vJ1E+
- qNKh8sdfB1ahgePZnVF3feYc=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 19901bfe483d708d;
-	Wed, 21 Oct 2026 20:14:18 +0000
-X-Mizu-Trace-ID: 19901bfe483d708d
-X-Migadu-Flow: FLOW_OUT
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-To: Christian Brauner <brauner@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: [PATCH vfs v3] bpf: Allow bpf_d_path() from filp_close_sync()
-Date: Wed, 21 Oct 2026 13:13:59 -0700
-Message-ID: <20261021201400.5409-1-ihor.solodrai@linux.dev>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=oyFHm1Hz
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2db33db4de9so16735ad.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 13:17:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792613831; x=1793218631; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=At2A/wrqaAUfI4SKCwlEtMqC27pXN2/myITaZPv60nw=;
+        b=oyFHm1Hz0h2Qlknv1vsiheGJvlBp/hMgh02PzQTmYUIg+yqjimNbrLTG6YVDmdzSj7
+         2h924ZyPg/b7FshKCBPU8Wf34MK3PzDVh+JJCflUO1RAYaHXuXv6wBxYmUiPzwczzC6w
+         bGq67afFW30YUC+3zqYUjsX+7MoFVd5shYJCWSFseb2owxnYIjTAwTaK0aitNp4y5CHx
+         5ok324KMIwDUZkyogu3Gc+7rODb6jTgVHOgl4UjYKgFk3g+pst9EPpMXc/FwibEyyGkO
+         qbqM8aNdfBuih4c2QUv78AaB1MBNwVz+BUwlbiexmEA7RaPQMZ/69mzqr76MJIUIK66u
+         ks6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792613831; x=1793218631;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=At2A/wrqaAUfI4SKCwlEtMqC27pXN2/myITaZPv60nw=;
+        b=Ji0WeeMkex4zK9yRn2Djc+q5V4xjD5hatKFjG/edRV4CFjC9lyud8oBojEO1xssie8
+         TtfRvHRDYIYF+5VseMyzkk3OneiFtbl42OgsmEyG27WOluuonSn940+s2t0oRvdB9Rcq
+         Q7daQaXxifO4FZSW4Hcx8qVc1C4rvyLFK21FOI0kvwGrC/+2vXIjaRNnDm407tC7b25Y
+         a2FKTZ2eMzQGrE0tDyawluIyeo2qiZCYfhBgZ0XTKvc/LqA0QyvOAbEsMqkzhumpXMVK
+         HnGhQh55ZmEalSaSYGDEkdJbeEMrdP4tJD2z5R7z2gigacO1gznfc2tOszGK4QLfERxF
+         NcTA==
+X-Forwarded-Encrypted: i=1; AKwUvBxH50Wt25NbTa2Ai5cYTK4ht0v5FjA5DZA2fywNCgZOiBCFIGBVjlg+aI23eWDszBfKggGUVpekn1Xo+oNE@vger.kernel.org
+X-Gm-Message-State: AFq9FYJbw/6tiVeD3s+6ykGZiFJpSTYVvlzuD2N5CHgSiH8xhE5JPVhU
+	LoT3uXpZw5QES4seAODcyxecXypiWyyfwGfWVy0nzqhQEojakBe8VEYM+Fs46wgNWw==
+X-Gm-Gg: AYBFou32a2x0JxQQovGPEtuG3ndKJ6C1VShLqjfMdWAkuTSMEbPkhrEy6ulEbW5ri9J
+	hGT4fxBgFGc+pqZAQ9G1e2/5YJj0U93rHrjlNanepEHbr0W9EpX9mihIIyeycba+z6cq6wmenWs
+	PZ0M7lyUwtdwC0SUQIzAev9y/cyi04vZbsdS1COQUXqSS3nUZDPzX5c6xg6I9KwW3jhACWV1aGr
+	AsgEgDOAB2JnNtFlRiJPLEt3jIVnB97KoqKU2oCsYoOKdfXoiFFCRrsSHuu/tVzxKA6QTNQmFo6
+	tPxVbVmmaixGNfd1Ytequv33U4Z8H5U8g5ALzaHQjNCpMrpXc0c2Znxhe6NM2chL7Cfuy6CoiYy
+	dgS/e7vi/LW6WEQuaoLdJgnfZgEYF0sNCeb2jRfUGxm6ldn4uHKkSfYHnRZ/espJ/09EKCqBrKu
+	g7HEPEqdgljrYFsBt6ktRki/0J9iMintqI5unlgWq5RM4qvY2dVP26HowVnL4ziPwj2hAslwK9J
+	IWN8vdzG1rJJtR6Ss+8p9vcr33SGO/rrZ+z0Mpar3F70vuekEcohVYg8pn24I3DhUPrLT8lnSr6
+	faZMQ7SRHRXIpha67HmKmrKtsdV34aO7/n3GgPXaBAlsl5jR
+X-Received: by 2002:a17:903:24b:b0:2e6:d25:d874 with SMTP id d9443c01a7336-2ea6313172cmr689965ad.10.1792613830593;
+        Wed, 21 Oct 2026 13:17:10 -0700 (PDT)
+Received: from google.com (163.1.145.34.bc.googleusercontent.com. [34.145.1.163])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ada4896c71sm927197a91.6.2026.10.21.13.17.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 13:17:09 -0700 (PDT)
+Date: Wed, 21 Oct 2026 20:17:05 +0000
+From: Samiullah Khawaja <skhawaja@google.com>
+To: Fred Griffoul <griffoul@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, David Woodhouse <dwmw2@infradead.org>, 
+	Ackerley Tng <ackerleytng@google.com>, "Aneesh Kumar K . V" <aneesh.kumar@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH v2 06/11] iommufd: Map memory provider files
+Message-ID: <atkO08eCJzLX6R58@google.com>
+References: <20261014093733.90312-1-griffoul@gmail.com>
+ <20261014093733.90312-7-griffoul@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -75,160 +115,218 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20261014093733.90312-7-griffoul@gmail.com>
 
-The d_path selftest closes its descriptors with close_range() so that
-its fentry program on filp_close() runs.
+On Wed, Oct 14, 2026 at 09:37:28AM +0000, Fred Griffoul wrote:
+>From: Fred Griffoul <fgriffo@amazon.co.uk>
+>
+>IOMMU_IOAS_MAP_FILE pins the pages it maps, which cannot work for a
+>memory provider file: the frames may have no struct page, and the
+>provider can take any of them back at any time.
+>
+>Accept a provider file. iommufd neither pins nor accounts its pages.
+>It asks the provider for each frame when it fills a domain, and on a
+>revoke it unmaps the range in every domain and maps what the provider
+>backs now. A device that accesses the range in between faults. A
+>revoke charges the page tables it allocates to the memory cgroup that
+>mapped the file, not to the task that revoked.
+>
+>Each frame gets a PAGE_SIZE entry, so a partial revoke never splits a
+>large IOMMU page. The next patch maps larger blocks. Holes stay
+>unmapped, read-only pages are mapped without IOMMU_WRITE, and MMIO
+>pages with IOMMU_MMIO. Frame 0 is refused with -EINVAL: iova_to_phys()
+>returns 0 for an IOVA that is not mapped, so a revoke would take that
+>page for a hole and leave it mapped.
+>
+>A revoke would race a dirty bitmap read and lose the dirty bits of the
+>range, so provider pages and a dirty tracking domain cannot share an
+>IOAS: whichever comes second fails with -EOPNOTSUPP. A provider
+>mapping cannot be split by a partial unmap, and in-kernel accesses to
+>it are refused.
+>
+>Assisted-by: Claude:claude-opus-5-5
+>Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
+>---
+> drivers/iommu/iommufd/Kconfig        |   1 +
+> drivers/iommu/iommufd/io_pagetable.c |  13 +-
+> drivers/iommu/iommufd/io_pagetable.h |  27 ++-
+> drivers/iommu/iommufd/pages.c        | 288 ++++++++++++++++++++++++++-
+> include/uapi/linux/iommufd.h         |  11 +-
+> 5 files changed, 334 insertions(+), 6 deletions(-)
+>
 
-Commit 056069eb2b66 ("fs: make close_range() synchronous") switched
-close_range() to filp_close_sync(), so the program still attaches but
-is never called:
+[snip]
 
-  test_d_path_basic:FAIL:close trampoline for filp_close was not called
+>+
+> /* The pages are not pinned, so their domains are tracked in pages->tracker. */
+> static inline bool iopt_pages_tracked(struct iopt_pages *pages)
+> {
+>-	return iopt_is_dmabuf(pages);
+>+	return iopt_is_dmabuf(pages) || iopt_is_provider(pages);
+> }
+>
+> static inline bool iopt_dmabuf_revoked(struct iopt_pages *pages)
+>@@ -285,6 +306,10 @@ struct iopt_pages *iopt_alloc_dmabuf_pages(struct iommufd_ctx *ictx,
+> 					   unsigned long start_byte,
+> 					   unsigned long start,
+> 					   unsigned long length, bool writable);
+>+struct iopt_pages *iopt_alloc_provider_pages(struct file *file,
+>+					     unsigned long start,
+>+					     unsigned long length,
+>+					     bool writable);
+> void iopt_release_pages(struct kref *kref);
+> static inline void iopt_put_pages(struct iopt_pages *pages)
+> {
+>diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
+>index 660af3d46f5e..aa7740326ad6 100644
+>--- a/drivers/iommu/iommufd/pages.c
+>+++ b/drivers/iommu/iommufd/pages.c
+>@@ -52,6 +52,8 @@
+> #include <linux/iommu.h>
+> #include <linux/iommufd.h>
+> #include <linux/kthread.h>
+>+#include <linux/mem_provider.h>
+>+#include <linux/memcontrol.h>
+> #include <linux/overflow.h>
+> #include <linux/slab.h>
+> #include <linux/sched/mm.h>
+>@@ -238,6 +240,35 @@ static void iommu_unmap_nofail(struct iommu_domain *domain, unsigned long iova,
+> 	WARN_ON(ret != size);
+> }
+>
+>+/*
+>+ * Provider pages are mapped with PAGE_SIZE entries, and may have holes.  Some
+>+ * IOMMU drivers warn when asked to unmap an IOVA that is not mapped, so find
+>+ * the runs that are mapped and unmap each one, without touching the holes.
+>+ * iopt_provider_map() refuses frame 0, which iova_to_phys() reports for
+>+ * an IOVA that is not mapped.
+>+ */
+>+static void iopt_provider_unmap(struct iopt_area *area,
+>+				struct iommu_domain *domain,
+>+				unsigned long start_index,
+>+				unsigned long last_index)
+>+{
+>+	unsigned long iova = iopt_area_index_to_iova(area, start_index);
+>+	size_t left = (last_index - start_index + 1) * PAGE_SIZE;
+>+
+>+	while (left) {
+>+		size_t len = 0;
+>+
+>+		while (len < left && iommu_iova_to_phys(domain, iova + len))
+>+			len += PAGE_SIZE;
+>+		if (len)
+>+			iommu_unmap_nofail(domain, iova, len);
+>+		/* Step over the run and the hole page that ended it. */
+>+		len = min(len + PAGE_SIZE, left);
+>+		iova += len;
+>+		left -= len;
+>+	}
+>+}
+>+
+> static void iopt_area_unmap_domain_range(struct iopt_area *area,
+> 					 struct iommu_domain *domain,
+> 					 unsigned long start_index,
+>@@ -245,6 +276,11 @@ static void iopt_area_unmap_domain_range(struct iopt_area *area,
+> {
+> 	unsigned long start_iova = iopt_area_index_to_iova(area, start_index);
+>
+>+	if (area->provider) {
+>+		iopt_provider_unmap(area, domain, start_index, last_index);
+>+		return;
+>+	}
+>+
+> 	iommu_unmap_nofail(domain, start_iova,
+> 			   iopt_area_index_to_iova_last(area, last_index) -
+> 				   start_iova + 1);
+>@@ -1349,6 +1385,10 @@ static int pfn_reader_first(struct pfn_reader *pfns, struct iopt_pages *pages,
+> 	    WARN_ON(last_index < start_index))
+> 		return -EINVAL;
+>
+>+	/* Provider pages are read from the provider, see iopt_provider_map() */
+>+	if (WARN_ON(iopt_is_provider(pages)))
+>+		return -EINVAL;
+>+
+> 	rc = pfn_reader_init(pfns, pages, start_index, last_index);
+> 	if (rc)
+> 		return rc;
+>@@ -1647,6 +1687,228 @@ void iopt_pages_untrack_all_domains(struct iopt_area *area,
+> 	}
+> }
+>
+>+static int iopt_provider_prot(struct iopt_area *area, u32 attrs)
+>+{
+>+	int prot = area->iommu_prot;
+>+
+>+	if (attrs & MEM_PROVIDER_ATTR_READONLY)
+>+		prot &= ~IOMMU_WRITE;
+>+	if (mem_provider_type(attrs) != MEM_PROVIDER_TYPE_RAM) {
+>+		prot &= ~IOMMU_CACHE;
+>+		prot |= IOMMU_MMIO;
+>+	}
+>+	return prot;
+>+}
+>+
+>+/*
+>+ * Map what the provider backs in [start_index, last_index] of the area into
+>+ * @domain, and leave the holes unmapped.  Each frame is mapped with a
+>+ * PAGE_SIZE entry, so that a revoke of part of a large block never has to
+>+ * split a larger IOMMU page.  On failure nothing in the range is mapped.
+>+ */
+>+static int iopt_provider_map(struct iopt_area *area, struct iopt_pages *pages,
+>+			     struct iommu_domain *domain,
+>+			     unsigned long start_index,
+>+			     unsigned long last_index)
+>+{
+>+	unsigned long base = pages->provider.start >> PAGE_SHIFT;
+>+	unsigned long index = start_index;
+>+	int rc;
+>+
+>+	lockdep_assert_held(&pages->mutex);
+>+
+>+	if ((1UL << __ffs(domain->pgsize_bitmap)) > PAGE_SIZE)
+>+		return -EOPNOTSUPP;
+>+
+>+	/*
+>+	 * A revoke unmaps under pages->mutex only, so it would race with a
+>+	 * dirty bitmap read, and lose the dirty bits of what it unmaps.
+>+	 * Provider pages are not mapped in a domain with dirty tracking.
+>+	 */
+>+	if (domain->dirty_ops)
+>+		return -EOPNOTSUPP;
+>+
+>+	while (index <= last_index) {
+>+		unsigned long pfn, iova, block_end, nr, i;
+>+		int order = PUD_ORDER;
+>+		u32 attrs;
+>+		int prot;
+>+
+>+		rc = mem_provider_get_page(&pages->provider.att, base + index,
+>+					   &pfn, &order, &attrs);
+>+		if (rc == -EFAULT) {
+>+			index++;
+>+			continue;
 
-With that series, close(), close_range() and the closes on exec and
-exit all go through filp_close_sync(). Few paths still reach
-filp_close(), dup2() being one of them, so a program on filp_close()
-no longer sees most file closes.
+Hi Fred,
 
-Allow bpf_d_path() from filp_close_sync(), but only from fentry.
-filp_close_sync() drops the last file reference inline, so by the time
-an fexit program runs, file->f_path may already be freed, with no RCU
-delay for NORCU dentries such as pipes and sockets.
+Thanks for this.
 
-Attach the selftest program to filp_close_sync() and keep triggering
-it with close_range().
+With this approach, silently skipping holes during IOAS_MAP_FILE means
+iommufd has no tracking of which IOVA ranges in the area are actually
+mapped, which complicates unmap and could also hide a bug if a hole in
+the range was not expected?
 
-Add a test rejecting bpf_d_path() from fexit/filp_close_sync.
+I am wondering whether the areas can track the holes, or whether we
+should have areas for the mapped/unmapped ranges? This should allow
+proper sanity checks when doing revoke. I am also thinking about this
+from the live update point of view, where we might need to sanity check
+that the backing memory of mapped regions is preserved.
 
-Assisted-by: LLM
-Fixes: 056069eb2b66 ("fs: make close_range() synchronous")
-Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+Could you please CC me on v3? I'd like to follow this from the live
+update IOMMU and iommufd preservation side.
 
----
+https://lore.kernel.org/all/20260921004834.2601285-1-skhawaja@google.com/
 
-v2->v3:
-  * Drop the unreachable BPF_TRACE_FENTRY_MULTI check (Sashiko)
-  * Add a Fixes: tag
-v2: https://lore.kernel.org/bpf/20260925210347.1364191-1-ihor.solodrai@linux.dev/
-
-v1->v2:
-  * Allow bpf_d_path() from filp_close_sync() only for fentry (bpf-ci-bot)
-  * Add a verifier test rejecting bpf_d_path() from fexit/filp_close_sync
-v1: https://lore.kernel.org/bpf/20260924204226.190315-1-ihor.solodrai@linux.dev/
-
-The issue was found by BPF CI when running on linux-next:
-https://github.com/kernel-patches/bpf/actions/runs/35923662147/job/107398237366
----
- kernel/trace/bpf_trace.c                      | 15 +++++++++++--
- .../testing/selftests/bpf/prog_tests/d_path.c |  7 ++++---
- .../testing/selftests/bpf/progs/test_d_path.c |  2 +-
- .../selftests/bpf/progs/verifier_d_path.c     | 21 +++++++++++++++++++
- 4 files changed, 39 insertions(+), 6 deletions(-)
-
-diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-index 29260951aa87..4b2f944bf67f 100644
---- a/kernel/trace/bpf_trace.c
-+++ b/kernel/trace/bpf_trace.c
-@@ -974,6 +974,10 @@ BTF_ID(func, vfs_getattr)
- BTF_ID(func, filp_close)
- BTF_SET_END(btf_allowlist_d_path)
- 
-+BTF_SET_START(btf_allowlist_d_path_fentry)
-+BTF_ID(func, filp_close_sync)
-+BTF_SET_END(btf_allowlist_d_path_fentry)
-+
- static bool bpf_d_path_allowed(const struct bpf_prog *prog)
- {
- 	if (prog->type == BPF_PROG_TYPE_TRACING &&
-@@ -983,8 +987,15 @@ static bool bpf_d_path_allowed(const struct bpf_prog *prog)
- 	if (prog->type == BPF_PROG_TYPE_LSM)
- 		return bpf_lsm_is_sleepable_hook(prog->aux->attach_btf_id);
- 
--	return btf_id_set_contains(&btf_allowlist_d_path,
--				   prog->aux->attach_btf_id);
-+	if (btf_id_set_contains(&btf_allowlist_d_path,
-+				prog->aux->attach_btf_id))
-+		return true;
-+
-+	if (btf_id_set_contains(&btf_allowlist_d_path_fentry,
-+				prog->aux->attach_btf_id))
-+		return prog->expected_attach_type == BPF_TRACE_FENTRY;
-+
-+	return false;
- }
- 
- BTF_ID_LIST_SINGLE(bpf_d_path_btf_ids, struct, path)
-diff --git a/tools/testing/selftests/bpf/prog_tests/d_path.c b/tools/testing/selftests/bpf/prog_tests/d_path.c
-index 1a2a2f1abf03..7665e1d28a64 100644
---- a/tools/testing/selftests/bpf/prog_tests/d_path.c
-+++ b/tools/testing/selftests/bpf/prog_tests/d_path.c
-@@ -109,8 +109,9 @@ static int trigger_fstat_events(pid_t pid)
- 	fstat(indicatorfd, &fileStat);
- 
- out_close:
--	/* sys_close no longer triggers filp_close, but we can
--	 * call sys_close_range instead which still does
-+	/*
-+	 * filp_close_sync() may be inlined into close(2), so use
-+	 * close_range(2), which calls it directly.
- 	 */
- 	syscall_close(pipefd[0]);
- 	syscall_close(pipefd[1]);
-@@ -165,7 +166,7 @@ static void test_d_path_basic(void)
- 
- 	if (CHECK(!bss->called_close,
- 		  "close",
--		  "trampoline for filp_close was not called\n"))
-+		  "trampoline for filp_close_sync was not called\n"))
- 		goto cleanup;
- 
- 	for (int i = 0; i < MAX_FILES; i++) {
-diff --git a/tools/testing/selftests/bpf/progs/test_d_path.c b/tools/testing/selftests/bpf/progs/test_d_path.c
-index 561b2f861808..edb5494a47f7 100644
---- a/tools/testing/selftests/bpf/progs/test_d_path.c
-+++ b/tools/testing/selftests/bpf/progs/test_d_path.c
-@@ -41,7 +41,7 @@ int BPF_PROG(prog_stat, struct path *path, struct kstat *stat,
- 	return 0;
- }
- 
--SEC("fentry/filp_close")
-+SEC("fentry/filp_close_sync")
- int BPF_PROG(prog_close, struct file *file, void *id)
- {
- 	pid_t pid = bpf_get_current_pid_tgid() >> 32;
-diff --git a/tools/testing/selftests/bpf/progs/verifier_d_path.c b/tools/testing/selftests/bpf/progs/verifier_d_path.c
-index 87e51a215558..7ab9b6b1d589 100644
---- a/tools/testing/selftests/bpf/progs/verifier_d_path.c
-+++ b/tools/testing/selftests/bpf/progs/verifier_d_path.c
-@@ -45,4 +45,25 @@ __naked void d_path_reject(void)
- 	: __clobber_all);
- }
- 
-+SEC("fexit/filp_close_sync")
-+__description("d_path fexit reject")
-+__failure __msg("helper call is not allowed in probe")
-+__naked void d_path_fexit_reject(void)
-+{
-+	asm volatile ("					\
-+	r1 = *(u64 *)(r1 + 0);				\
-+	r2 = r10;					\
-+	r2 += -8;					\
-+	r6 = 0;						\
-+	*(u64*)(r2 + 0) = r6;				\
-+	r3 = 8 ll;					\
-+	call %[bpf_d_path];				\
-+	r0 = 0;						\
-+	exit;						\
-+	"
-+	:
-+	: __imm(bpf_d_path)
-+	: __clobber_all);
-+}
-+
- char _license[] SEC("license") = "GPL";
-
-base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
--- 
-2.56.0
-
+Thanks,
+Sami
