@@ -1,114 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792578518;
-	b=mGjf67VfkpSqW3wHYWf6YFyxTyqIRLoVlYd6H1jc9Rz9X43N82Ll+dNtvacv2zK1Xfql
-	 TSdo6CikvWr9huQkOb26hGu10A9H+SLHic463exeGHfG1fMYavvJIHzAGtep4Z3tIQ9Er
-	 jYQMcbsM0crEeDOWmjGsthtthjRkrRiAmzkmnBIkY6fC+ot6T7loFhrfbVW9mhAzphUXd
-	 QK/oexw92MIBlsw0q4pRcVgzMzi8wBpcoar6zlmuEdzVOMIkeTvCHZIDVOUoF7EbsQBWp
-	 XykwfaU/INtQbWcplEffZ8RCQybDOaLEqukqqwTKKVWh+GEhp1m0I2Z1BOw80rcOj/w==
+	t=1792578534;
+	b=Z7MNBSpeLAUVqwI1nRJM2/0WG6/lLwEm51HCQrhAJGyYfZ8JKNEf2slU9H5bJ9oIDHqr
+	 yRzw2wu2tcQ3v6Fd5s1J/3jfiSI/GkunhLwodxuy7CuptmAeGHXVevSlfeajtsSFUxslM
+	 1w8XnXbO55ZX5/9gVwg7tLZLN+gPIq0XQ5OX1ykfkP84rHEkL5qA6+XRIuLnrMIhrm13b
+	 MY3ZfyvBCv62YJnHz1tZynE/blWKqnN3kptTKKAMod5L6HpFaB2xPKCwpHv8lhAYH8BPA
+	 Rr5R9JX81MqjRkpWeXaxLE7c85cHUwIhfOFS34EZJAwjC5ZpuvXytUEzkHJ+9lr3kGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792578518;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
-	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
-	bh=TTOT2RHpdTNw/iL/eyTILsE04DtZ3hMxAYiwMsVpaqg=;
-	b=p84kUZIzk7gzU886OjiG2Z9cBOGxYhyPuA5KwL7U5xvpUeE5YmnQlJyghBVlHB7HQjOn
-	 8h7y/5beC8XDWQkuM/4LFSe4CT/lIV9TFnJhryuqV2YVDz/gUs/pdZHWzyjkHEbZg5dQ8
-	 IzaVMq60qCqWyiDlkC6WYg22/Yh6pcwBoodMqAMFD2X2YW2PW909b8vw/GEwrVnhb7ZRY
-	 Xl1CM1l78wiolOoYGTLNbK5Y2LmSPbp8lUskODgsGsXBVp5vmWfGun0Ag2LcO7fH8QmMZ
-	 u3s5v+7NufD7QV8iDxe6L+YAej8AZiykxQHVacyusLiYhbncJpm6vN9HncB5/0A6wmg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792578534;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=RyNlnTCg8f5jnRjirKufUnFU6MO9l6lq6sjeVEWl6yg=;
+	b=2ppiq38xkUomtfQVJrEckNOmntHG+mNUzD2ntGMgvzoBjSQAfsxCG8NtIpnYOcPGM2Ke
+	 CtokzYvPqFwq+8KbuL7tFSjJFeEKVJVCsrM1CiQ24WT3KHjFQnKMR5/UQpN0K4Ecc8ozh
+	 tf0vI8JwBDjJ5HRQsFvTmfyXztyYfju5C+ydIVgBZ6sOdHvrTCohtIE/XjscRfDCRPQAP
+	 6andBVkicVh2drh5tXBdRU1/SxKV4YtKXhLQIFnjGZkXxTpMHLGszRb8M/fWPxFggV2qd
+	 xY1XRW5OMazU0ma/J5TYEkn1NH1w8dK/QQzyYbC7qZ1BKdwgnj56iXa2Jiqz9kD9Bbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ownmail.net;
-	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=keKxA3eM;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=lY8Ea6t1;
-	arc=none smtp.remote-ip=202.12.124.151
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=khVTwex6;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88987606A31D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 10:28:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88987606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7608260A2604;
+	Wed, 21 Oct 2026 10:28:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=keKxA3eM;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=lY8Ea6t1
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id B36E81D0007C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 06:28:31 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Wed, 21 Oct 2026 06:28:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1792578511; x=1792664911; bh=TTOT2RHpdTNw/iL/eyTILsE04DtZ3hMxAYi
-	wMsVpaqg=; b=keKxA3eMvcD+mXNBpy4nSavhe/j4T9hKLqyhZ29lb/Q7PAveh7G
-	RLnMr/5n+ZTBUk/9+5HU3qOn8TK54Fqh7sj+mFM2RlrFX3PR/vlf53zAL1fg7nv4
-	q8kQiObjTjZ/lL+mhm7sJTk50fgwu1u6iqqXQ4YCnc6d71rNMGk7GY7GqNvjrUEe
-	NpBkOeASSxcP6DQ74PDew0nfEdqfM0toCYXnfEvchgUN8GkBdH6c2WmGuQb17cps
-	QhWvQp60aIFd1WdnpJEcs4o0tdHe2oe2GqkmUDLKk30JZ2SLTc5mgguDKeaeQvk+
-	aJ5UrUdQZ8WyyK1PZ+CsiwfM0DOz2iSOnLw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792578511; x=
-	1792664911; bh=TTOT2RHpdTNw/iL/eyTILsE04DtZ3hMxAYiwMsVpaqg=; b=l
-	Y8Ea6t181/RsG2QLGlV1LuJOFgTCECBBTIXRp0ZiNJ59udaZhyP4SzeyTTFKjBtE
-	OSDjqcYvC9w6dNtsZ8j2gTYY5pbUFd9gEsFcs3hGvAXZQ7y1KNfWdZlzPx3a1dSF
-	oVN+cE6HQSWBWgUXtm19NH2FRTVnyGYvHy6rmMDRkooV9Sr6icZC6kjG3K5k80w+
-	kqEbr8FkXJPjyr+5PDlWe1nTlUoDgsThHBrOZu4ShxWBNm+aYoVOd5IFdJ/tFCxG
-	c4E6DEgpqYdShqcjmwfvpMAYJt3tYyiC/BmzoiWr4rVWz49Rkt4HKug/uPObNGCQ
-	A8CihKAKaIYnUFFDNTEOQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792578511; d=ownmail.net;
-	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm2:rsa-sha256:kOGhIrBl1WWrKk9T5liS8qWnKATrNIQGN2dur+bYKy38IV+
-	csH1C/TX4DXwrTu5mLQQg0kMV684QRc+Aunjk+VCEPkJmccWOCCflbYIBljTPh2s
-	QAS3sPoeEY9UIh0An1RnWh4VvsPRGe1cMV+oYi3bPfXGCbfCxeJZbUomzvRqIUnc
-	hnOoDOG/ceWvLw3F9MUCOvfNJmginjPPvCU6NWP4MzcONziXWEjHOtcvTGnOrHyO
-	oehNH3GJ5WwPJhwRur0Vb5R7g+nBQtl4hCgTzMsC6ocsi8SxKCWao9D0oWLqTx3O
-	yi7GpLtrmdDc8jXXsmnnr8xW6sRI34wa6vvIEUQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,reply-to,
-	subject,to;
-Message-Instance: m=1; h=sha256:UBUAD6Qk2BxrzMWX35FlLANF0lEAxH+02kfEewzu/CU=:e0dXa1NlVGzzFYHfts24LsyDelKD5zggPEW+9apv6r0=;
-X-ME-Sender: <xms:zpPYar6ojw6njOjahzNcz3NqO1uQIe3WGFMSDps99zmNsBSdW6edsQ>
-    <xme:zpPYajdtocpyITF5WwVFBkmN_kLRug-QQQguyXyCps6WaHTR6fM1eObX4t924fkhM
-    awX9Bn0d846WTgToftLX3PqNq-vm9emBF32JIORY8a7aTJOv44>
-X-ME-Received: <xmr:zpPYamG_rDaN7F5D_ATk2HuwzX08-oYYWEvVjtXxaNOzc3pyy8NVskKCx0g3fgnxb0i04LsnyzvdBYrrxTDuZTXTh4je0P0>
-X-ME-Proxy-Cause: dmFkZTFf2LA/vJzIlKR7wQaDQy4m/7RZVCQrYJ1mUXlvFwTZkRrW23YBcuVJwGe2F78y2S
-    Oyq27n6nvC01YpiTo30OJjip71O8GACLUrJIMbZ+xsvapE4RJgh3jzg4G27EPsqHieDH73
-    rF3IgUKweWhvK2M+TsPybMcIEnvGyir4Sm/jSbDvafWYAO7AV48Pl3aywwGYQU80IlLBWS
-    N4cwZXJG1fZYJrydXu+7iHncfUEtdkdCvUsUFNiRaPxg5+TGB2cFElbYx2yeAfnd4BiDhT
-    DkhvU1j6WAis1hfat9QbIEmUPq7WbPo/PhM2cLiikgKM2q/OSl0jmTXTGYjtZrFOZbdPBc
-    hZUVuS1nwfOU+DbN5mTsw3oYMfpSBJcFpm6jnQenKyORZAsgpH7G9bVHc66A5hyz9J7iXK
-    6me4l/PLQwc0bi2g+H6XAxZNZdSE5eaApYd12KagBbwnPezmszF90FXvq6oPhCnHjmKQXP
-    Q/izCHtVrYDEkXJ5KwpfD5FZZrGZkmnjWK7olT4MTNHQ8n3AaA0oC0j8ZsOVhfCAih3mmP
-    mxVYKnkjVGa2FUbk47oIgxw1bqBoNWSKCsrKVywNEJ6Nwx1ocKvv+4xBAWvZ35redTNBNz
-    IJH+nHbKLgaLkh45XIeGxT+62tdaumpTxMOmh9RB7eEJoHXzq5zNf7zDNX8A
-X-ME-Proxy: <xmx:zpPYasRXdxQsA-c07navvw2J9MYwBwddE26qkfm2YFyyRiabRlJUXw>
-    <xmx:zpPYakam2lE-LAA_Ioyl1b3tcqYe_AAF-lAO8m1imW50p1FKrmVYfA>
-    <xmx:zpPYav1lpVn7Iuo8q9SaP5y7DwY7Zfr9FaQv533ag4qbDAgzOtjrWg>
-    <xmx:zpPYavq2UPnt0YUh21lZC5golbunisWKrL_nTKBxZA_JIyGcuhsUPA>
-    <xmx:z5PYatwuZT2Pe4kdDxFpMOeboRGv8hcWLqMV71MeKI1yIIL8sZR8fyuP>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Oct 2026 06:28:28 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=khVTwex6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0013E1F000CF;
+	Wed, 21 Oct 2026 10:28:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792578529;
+	bh=RyNlnTCg8f5jnRjirKufUnFU6MO9l6lq6sjeVEWl6yg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=khVTwex6HuJEnfARXW1KWD+f7Ysf5SKiY9H9XV2U3S7JxHQmuSvwT/4ZS2f/4VdO+
+	 h7pOJT8bseaZKjMDxBQSn7DpA2lqtFPTi0ch7FnYNswC7YZlibEmBfC78gqGQbRP+v
+	 aOCzkJ1A+kkTuExGRevT+oYALDUEeY5GCEwE8w+g5WG7FK0sS+X1QuH6gsAcc7JE9x
+	 3wc2ArVPZ2j5ac0yLnHg4edaId3P8+TabR6hxTwHYX4xNP8dfbDd7WR9EH7O/4hgVo
+	 uYu0IK9t0JP5i41IdDOs1AIcd9ty6FyaOhZaEmr0Kq/AQv/954NfvBHguOld2t+Nsy
+	 fmR9FNGfELRNw==
+Date: Wed, 21 Oct 2026 12:28:43 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Josef Bacik <josef@toxicpanda.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>, 
+	Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/5] capabilities: close the ways around the CAP_SETFCAP
+ rule for uid 0
+Message-ID: <20261021-beisammen-pokal-unbefangen-436577686165@brauner>
+References: <20261006-b4-setfcap-userns-v1-0-f47e7ed66072@toxicpanda.com>
+ <asehZEWAwsJcbqvM@hallyn.com>
+ <179147397027.4.15064782992163283819@toxicpanda.com>
+ <asfBRYy597qvzdCW@hallyn.com>
+ <20261009-aussicht-wortbruch-bohnenkraut-9e7a1cfd7580@brauner>
+ <179191993398.6.7035194670175996999@toxicpanda.com>
+ <atYGiiGPs39lTFQ7@hallyn.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,54 +66,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Christian Brauner" <brauner@kernel.org>
-Cc: "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Jeff Layton" <jlayton@kernel.org>, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH 0/9] nfs preparing for locking changes.
-In-reply-to: <20261021-hinbekommen-angedacht-bahnanlagen-d832186d3a71@brauner>
-References: <20260926001011.401824-1-neilb@ownmail.net>
-  <20261021-hinbekommen-angedacht-bahnanlagen-d832186d3a71@brauner>
-Date: Wed, 21 Oct 2026 21:28:24 +1100
-Message-id: <179257850450.1724252.1685434539612383422@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <atYGiiGPs39lTFQ7@hallyn.com>
 
-On Wed, 21 Oct 2026, Christian Brauner wrote:
-> On Sat, Sep 26, 2026 at 10:01:17AM +1000, NeilBrown wrote:
-> > I am working on changes to directory locking.  The medium term goal is
-> > to lift d_alloc_parallel() locking above i_rwsem, so d_alloc_paralle()
-> > can be run unlocked, and consequently cannot be called when ->i_rwsem is
-> > held.
-> >=20
-> > The requires:
-> >  1/ the d_alloc_parallel() not be called while i_rwsem is held.  NFS does
-> >     this in a few places. New interfaces d_alloc_trylock() and d_duplicat=
-e()
-> >     are now available and can be used instead.
-> >=20
-> >  2/ a dentry must not be d_drop()ed while an operation is ongoing, as an
-> >     unlocked d_alloc_parallel() would then be able to create a new
-> >     dentry with the same name.  In particular d_rehash() must be phased
-> >     out as it won't be safe.  Various techiniques are used to avoid the
-> >     need for d_drop(), particularly that d_splice_alias() is now able to
-> >     splice a hashed alias.
-> >=20
-> > Further, the first two patches here fixes bugs that I found while
-> > developing and reviewing these changes.
-> >=20
-> > The patches depend on patches recently added to the vfs tree.  I would
-> > prefer these land in that tree too with an Acked-by or similar from NFS
-> > maintainers.
->=20
-> I'm happy to take them. I just need an Ack from the nfs people.
->=20
+On Mon, Oct 19, 2026 at 07:01:14AM -0500, Serge Hallyn wrote:
+> On Tue, Oct 13, 2026 at 07:32:13PM +0000, Josef Bacik wrote:
+> > On Fri, Oct 09, 2026 at 09:41:59AM +0200, Christian Brauner wrote:
+> > > On Thu, Oct 08, 2026 at 11:13:57AM -0500, Serge Hallyn wrote:
+> > > > Yeah, that's what I was thinking.  Or even stricter: ensure that to join
+> > > > any user namespace, a process must have a superset of the namespace
+> > > > creator's capabilities.
+> > >
+> > > I think both are fine and I like this proposal.
+> > 
+> > One correction to what I wrote: the weaker version isn't enough.  A
+> > namespace that maps "0 100000 1000" doesn't map the parent's uid 0, so
+> > it passes that check.  But with an idmapped mount that maps fs 0 to
+> > 100000, a task that joined it can write fscaps that are stored with
+> 
+> I actually don't think that's something we should work around here.
+> 
+> Christian, what is your opinion on this?
 
-You have an Ack from Anna for v2.
+I want as little moving parts as possible. :)
 
-https://lore.kernel.org/all/68919e69-d97b-47a4-8695-8021f24f119c@app.fastmail=
-.com/
+> IMO most people should not do id-mapped mounts from host range anyway
+> (they should shift a base rootfs to a high range, then do idmapped
+> mounts from there),
 
-Thanks,
-NeilBrown
+So that's pretty common though. Doesn't Incus do exactly that? And it
+does write fscaps through onto the host on purpose and restricts access
+to /var/lib/containers via strict DAC.
+
+> > rootid 0 and honoured by the host.  We test that flow.  So it has to be
+> > Serge's stricter version.
+> > 
+> > > I think that this is an acceptable restriction. Mapping uid 0 to 0 and
+> > > dropping caps is borderline useless.
+> > 
+> > That makes the restriction wider than the 0 to 0 case.  A root task
+> > without CAP_SETFCAP couldn't join an ordinary "0 100000" container
+> > either.
+> > 
+> > setns() also only covers the routes that go through it.  These don't,
+> > and need their own checks either way:
+> > 
+> > - writing through a uid_map fd opened by a task with CAP_SETFCAP
+> > - ptrace and pidfd_getfd of an entitled task from outside
+> > - a task without CAP_SETFCAP creating its own namespace, which a
+> >   privileged task then maps "0 0 1" for
+> > 
+> > So v2 would be a level on the namespace computed at create time, the
+> > strict setns() check, and the checks at the map write, setxattr and
+> > ptrace reading the namespace's level instead of the cred's.  If that
+> > sounds right I'll put it together.
+> 
+> I still think it would be easier to reason about, long term, if we
+> could get away with storing the cap_eff of the process which creates
+> the user namespace, and check (ns-targeted) the capabilities of any task
+> trying to setns to it against that.
