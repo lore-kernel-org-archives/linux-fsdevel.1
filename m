@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792583564;
-	b=FjoRfoPynpv29LWThv9LIDlJtQUsP2Kq7aoZgHb/IvDYKepBJx+7yDPvtU5PFQsbaaic
-	 OUNNgX3Z/I/Z97L1m8OqH5fnoSSmDOaTCoxLU/iK24YultUVQAi5BcsUxqMdDQEXVBbUJ
-	 tIGWcnzPOtI1bRYYE2I3u8PBc6lDzDRDsmzCfz9Gmf7LOk9zl63s422gswuaq1WmqElf7
-	 lVuvAmbtyWgpF3LJskmUHsFW3etGdKP6RBd2rVTEyKaIjJE36y/f5tetzBbvJhj5jCxh/
-	 m7mHGIfrbcoxGW0pauIkDl2OB7/lmPRpSRFMbt1KpNs+5P9BU9PlsuplDqH7HjVHmGQ==
+	t=1792583748;
+	b=fQnIGQ/NwvQ+x9WS9omO0qxBv5lCvYHzB56zyLCsMNZtYLK4ikc5ddzhNAqDkReEwH0L
+	 PuyNUphXYQmrw8q9q1Zt30TsTmVNygxu0Vm1wglH3J3+3MkKwv+PaThCDKGqkklMhaIu3
+	 Z1G0wyR19Ch4hO63qdQzVCJkJcIiVmgihYc5u183grgtWNHiGs/lIKxnxcbGYylNeoNHn
+	 rUTiARZCTjugpC8Phssa70fceTBd7v4KUemclSNncx39rfG2A/LY/oqKkQufexW5ee6ha
+	 GnzRnEJoXn58nlJuhGWjljJbraOUyTcyNy7X8LCZfWfSblLvlJHuoUCDEsHhGEgoxgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792583564;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792583748;
 	h=Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
 	 In-Reply-To:References:Autocrypt:Content-Type:
 	 Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=ajkYgKvzH5kIT0dP+u4ZTQ6JdKUYzJv2pfQkDSv/NQQ=;
-	b=HlMOmv7Q1bI3EkeToWJnDuLmFtfbApeDfyAAwQVnLIMhTHHJbcH5n1u6AemNzV+VTt6P
-	 PoFhba2YYXbIF0JFGQqFB4oUznt7Y6TMRGSVek0ztQfjeqD6Z9H/Fe3WrWs2KGuqhuUwA
-	 hHCbWa7DLlPzQIS2SMzY8km8zGsWUig/Wzf6/DmIifDEdg9onohmOHreJIxKw20K0VUjT
-	 rH5U5+nqXpa+vDtX2T1Sf9R1wH20ZgII5WzTVCYk5R1zhUmC0q/K2NGcXxFh+lZ2WVzEX
-	 wSXeHKmUFZt4TzDK/hQNC/3AfYRK3vWit52MTO7nmToCiDgCbqoHU6UdTOItLdl394w==
+	bh=mwwp0gQt9PZ43YZnAx+gKuC2Zifd3eUojBewsisQdYE=;
+	b=QZStNfdMwvMvThr3xilkGoj6kSCCLn17dt64d7I9RB2yNl3O5IPFma8Zfo7lVc/M2K+n
+	 IJhlEw4YlEB8idQDMoAcVobB5bw21eqk6d23pJ/gvDouNL2YbmJC/2a4qClLTdPaZKdOP
+	 OIY5y3Q7WyYD/eDUKCn3ifeiLj6h3KDrcsf7Y17PfXRxQGpp6rrGITOBiWZBuCSaSlsPC
+	 EZfBAlsURvPCLD8uIngaRcGoFZnpGbmoonOQJisOTwukFG+x43d9qTzIpN0KpxTgqQKcb
+	 Bpb8ybaJ+BfI/u6jzhGtyaTZf3OhadQFnxqVnanzeoVZ3YV9s0jsjvS/DgXzuk0opDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XTZXOyx0;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IOLUgLMb;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3454A606A33E;
-	Wed, 21 Oct 2026 11:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A2D606A31D;
+	Wed, 21 Oct 2026 11:55:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XTZXOyx0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 456CA1F000CF;
-	Wed, 21 Oct 2026 11:52:43 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IOLUgLMb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F0371F000CA;
+	Wed, 21 Oct 2026 11:55:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792583563;
-	bh=ajkYgKvzH5kIT0dP+u4ZTQ6JdKUYzJv2pfQkDSv/NQQ=;
+	s=k20260515; t=1792583748;
+	bh=mwwp0gQt9PZ43YZnAx+gKuC2Zifd3eUojBewsisQdYE=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=XTZXOyx0ULb8VzKkfU2ag8JsvG6YuLsQad2gbg+qEM6DYWuqrypDNvVlYmDNmRby/
-	 PJ+sYJPnxbWIgmPQmqIXoozbov7mOHIt/cLUmKYagV7RQb+uZtaXoWLoLUnzXmOMvh
-	 BAuILsQk18XEWev9uPQ1+efaI5FkPiMbFAKaWlIANpI7bHjVAnY7CpYMXSB/4TnjJV
-	 cD8TNGkd3mSBT0o5BzXuAbBMES7sRjtDkukFXBcu0EFfr/n+2W49zLv8eu0qlwM6Gp
-	 rM+PGD16g8dWTHGxf7iEIUlCasx6dIJou1jS6HZSo3DFmSvePGZ0z55WLj/cKGoLlU
-	 G142Q8CmAD3Hg==
-Message-ID: <b559a65c2858d3046a6a92c1b78c7d40c14368a6.camel@kernel.org>
-Subject: Re: [PATCH 3/6] listmount: don't wrap around with a U64_MAX cursor
+	b=IOLUgLMbtyDZGJ+OhWHxvruNcUJC2KLHNeKC9RQ/7WJKQ5rgtawKij+f6jRxH2AJn
+	 YQvO4FfrGioGuOoHFlovKtzDjMlMwV2gGD2o7Uu9J6CJOXx5bVZercxu4lTj+E+wz2
+	 2kExSteo/iztBuUewK0BLe2nyoOVQymsQWcvnsQT1SXfWs/yM0bX71MdP0XbIbwBNx
+	 RsKhC0U4eVEj+6iQw0m+ATf1JU1lVBc0CXpEMZYel73M6enFCKv4zP8JkspcEwyUGf
+	 ke/J+WkdAtqWcDnoXXhJx0vvMwefZmT0t291RMuY9CeE2vjCNXjLwdLQ1KVl8gAFnw
+	 zo8ZQ/exvUtSw==
+Message-ID: <33ec91ed2a10afecee87c08b623f3d6f6949a4f7.camel@kernel.org>
+Subject: Re: [PATCH 5/6] listns: don't wrap around with a U64_MAX cursor
 From: Jeff Layton <jlayton@kernel.org>
 To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  Miklos Szeredi <mszeredi@redhat.com>, shaos <shawnq1@163.com>,
  linux-kernel@vger.kernel.org, 	stable@vger.kernel.org
-Date: Wed, 21 Oct 2026 07:52:41 -0400
-In-Reply-To: <20261021-work-mount-statmount_listns_fixes-v1-3-8917a4c1bd14@kernel.org>
+Date: Wed, 21 Oct 2026 07:55:45 -0400
+In-Reply-To: <20261021-work-mount-statmount_listns_fixes-v1-5-8917a4c1bd14@kernel.org>
 References: 
 	<20261021-work-mount-statmount_listns_fixes-v1-0-8917a4c1bd14@kernel.org>
-	 <20261021-work-mount-statmount_listns_fixes-v1-3-8917a4c1bd14@kernel.org>
+	 <20261021-work-mount-statmount_listns_fixes-v1-5-8917a4c1bd14@kernel.org>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -140,22 +140,22 @@ Precedence: list
 MIME-Version: 1.0
 
 On Wed, 2026-10-21 at 13:46 +0200, Christian Brauner wrote:
-> do_listmount() takes the last mount id the caller saw and looks up the
-> first mount after it by searching for last_mnt_id + 1. With U64_MAX
-> that wraps around to zero and the search finds the first mount in the
-> namespace. So a cursor at the largest possible id restarts the listing
-> from the beginning instead of ending it. A cursor of U64_MAX - 1
-> correctly returns nothing.
+> do_listns() and do_listns_userns() take the last namespace id the caller
+> saw and look up the first namespace after it by searching the rbtree for
+> last_ns_id + 1. With U64_MAX that wraps around to zero and the search
+> returns the namespace with the smallest id. So a cursor at the largest
+> possible id restarts the listing from the beginning instead of failing
+> with ENOENT like a cursor of U64_MAX - 1 does. That's the case for the
+> unified tree, the type-specific trees and the owner tree alike.
 >=20
-> No mount will ever have that id. Mount ids come from a counter that
-> starts at MNT_UNIQUE_ID_OFFSET + 1 and a caller that only feeds back
-> ids it got from us can't hit this. It's still wrong. Nothing can come
-> after the largest possible id so return no entries for it, just like
-> for any other cursor past the last mount.
+> No namespace will ever have that id. They come from a counter and a
+> caller that only feeds back ids it got from us can't hit this. It's
+> still wrong.
 >=20
-> The reverse direction isn't affected. A cursor of zero is special-cased
-> and anything else is larger than MNT_UNIQUE_ID_OFFSET so last_mnt_id - 1
-> can't underflow.
+> Instead of adding one to the cursor and searching for the smallest id
+> that's greater or equal make the lookup helpers search for the smallest
+> id that's strictly greater than the cursor. That's what both callers
+> want anyway and there's nothing left to overflow.
 >=20
 > Reproducer, unprivileged:
 >=20
@@ -165,68 +165,165 @@ On Wed, 2026-10-21 at 13:46 +0200, Christian Brauner wrote:
 >     #include <stdio.h>
 >     #include <sys/syscall.h>
 >     #include <unistd.h>
->     #define LSMT_ROOT 0xffffffffffffffffULL
->     struct mnt_id_req {
->     	uint32_t size, mnt_ns_fd;
->     	uint64_t mnt_id, param, mnt_ns_id;
+>     #ifndef __NR_listns
+>     #define __NR_listns 470
+>     #endif
+>     #define CLONE_NEWUSER		0x10000000U
+>     #define LISTNS_CURRENT_USER	0xffffffffffffffffULL
+>     struct ns_id_req {
+>     	uint32_t size, spare;
+>     	uint64_t ns_id;
+>     	uint32_t ns_type, spare2;
+>     	uint64_t user_ns_id;
 >     };
->     static void list(uint64_t cursor)
+>     static void list(const char *tree, uint32_t type, uint64_t owner,
+>     		 uint64_t cursor)
 >     {
->     	struct mnt_id_req req =3D {
->     		.size =3D sizeof(req), .mnt_id =3D LSMT_ROOT, .param =3D cursor,
+>     	struct ns_id_req req =3D {
+>     		.size =3D sizeof(req), .ns_id =3D cursor, .ns_type =3D type,
+>     		.user_ns_id =3D owner,
 >     	};
 >     	uint64_t ids[8];
 >     	long ret;
 >     	errno =3D 0;
->     	ret =3D syscall(__NR_listmount, &req, ids, 8, 0);
->     	printf("cursor %llu: ret %ld errno %d", (unsigned long long)cursor,
->     	       ret, errno);
->     	for (long i =3D 0; i < ret && i < 1; i++)
+>     	ret =3D syscall(__NR_listns, &req, ids, 8, 0);
+>     	printf("%s cursor %llu: ret %ld errno %d", tree,
+>     	       (unsigned long long)cursor, ret, errno);
+>     	for (long i =3D 0; i < ret && i < 3; i++)
 >     		printf("%s%llu", i ? "," : " ids ", (unsigned long long)ids[i]);
->     	printf("%s\n", ret > 1 ? ",..." : "");
+>     	printf("%s\n", ret > 3 ? ",..." : "");
 >     }
 >     int main(void)
 >     {
->     	list(0);
->     	list(UINT64_MAX - 1);
->     	list(UINT64_MAX);
+>     	static const uint64_t cursors[] =3D { 0, UINT64_MAX - 1, UINT64_MAX =
+};
+>     	for (int i =3D 0; i < 3; i++)
+>     		list("unified", 0, 0, cursors[i]);
+>     	for (int i =3D 0; i < 3; i++)
+>     		list("userns", CLONE_NEWUSER, 0, cursors[i]);
+>     	for (int i =3D 0; i < 3; i++)
+>     		list("owner", 0, LISTNS_CURRENT_USER, cursors[i]);
 >     	return 0;
 >     }
 >=20
 > Before, on 7.3.0-rc7-00252-g4e3259b08c54 (vfs.fixes) in a VM:
 >=20
->     cursor 0: ret 5 errno 0 ids 2147483651,...
->     cursor 18446744073709551614: ret 0 errno 0
->     cursor 18446744073709551615: ret 5 errno 0 ids 2147483651,...
+>     unified cursor 0: ret 8 errno 0 ids 1,2,3,...
+>     unified cursor 18446744073709551614: ret -1 errno 2
+>     unified cursor 18446744073709551615: ret 8 errno 0 ids 1,2,3,...
+>     userns cursor 0: ret 1 errno 0 ids 3
+>     userns cursor 18446744073709551614: ret -1 errno 2
+>     userns cursor 18446744073709551615: ret 1 errno 0 ids 3
+>     owner cursor 0: ret 8 errno 0 ids 1,2,4,...
+>     owner cursor 18446744073709551614: ret -1 errno 2
+>     owner cursor 18446744073709551615: ret 8 errno 0 ids 1,2,4,...
 >=20
 > After:
 >=20
->     cursor 0: ret 5 errno 0 ids 2147483651,...
->     cursor 18446744073709551614: ret 0 errno 0
->     cursor 18446744073709551615: ret 0 errno 0
+>     unified cursor 0: ret 8 errno 0 ids 1,2,3,...
+>     unified cursor 18446744073709551614: ret -1 errno 2
+>     unified cursor 18446744073709551615: ret -1 errno 2
+>     userns cursor 0: ret 1 errno 0 ids 3
+>     userns cursor 18446744073709551614: ret -1 errno 2
+>     userns cursor 18446744073709551615: ret -1 errno 2
+>     owner cursor 0: ret 8 errno 0 ids 1,2,4,...
+>     owner cursor 18446744073709551614: ret -1 errno 2
+>     owner cursor 18446744073709551615: ret -1 errno 2
 >=20
 > Reported-by: shaos <shawnq1@163.com>
 > Link: https://lore.kernel.org/r/20261020110732.959552-1-shawnq1@163.com
-> Fixes: b4c2bea8ceaa ("add listmount(2) syscall")
+> Fixes: 76b6f5dfb3fd ("nstree: add listns()")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
->  fs/namespace.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  kernel/nstree.c | 29 +++++++++++------------------
+>  1 file changed, 11 insertions(+), 18 deletions(-)
 >=20
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index 6c9c0cdbe890..dd60123a0cb0 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -6253,6 +6253,8 @@ static ssize_t do_listmount(struct klistmount *kls,=
- bool reverse)
->  	} else {
->  		if (reverse)
->  			first =3D mnt_find_id_at_reverse(ns, last_mnt_id - 1);
-> +		else if (last_mnt_id =3D=3D U64_MAX)
-> +			first =3D NULL; /* nothing comes after the largest id */
+> diff --git a/kernel/nstree.c b/kernel/nstree.c
+> index 831f279d174a..58b2b55fa8d2 100644
+> --- a/kernel/nstree.c
+> +++ b/kernel/nstree.c
+> @@ -459,10 +459,10 @@ static inline int prepare_klistns(struct klistns *k=
+ls, struct ns_id_req *kreq,
+>  }
+> =20
+>  /*
+> - * Lookup a namespace owned by owner with id >=3D ns_id.
+> - * Returns the namespace with the smallest id that is >=3D ns_id.
+> + * Lookup a namespace owned by owner with id > ns_id.
+> + * Returns the namespace with the smallest id that is > ns_id.
+>   */
+> -static struct ns_common *lookup_ns_owner_at(u64 ns_id, struct ns_common =
+*owner)
+> +static struct ns_common *lookup_ns_owner_after(u64 ns_id, struct ns_comm=
+on *owner)
+>  {
+>  	struct ns_common *ret =3D NULL;
+>  	struct rb_node *node;
+> @@ -476,10 +476,8 @@ static struct ns_common *lookup_ns_owner_at(u64 ns_i=
+d, struct ns_common *owner)
+>  		struct ns_common *ns;
+> =20
+>  		ns =3D node_to_ns_owner(node);
+> -		if (ns_id <=3D ns->ns_id) {
+> +		if (ns_id < ns->ns_id) {
+>  			ret =3D ns;
+> -			if (ns_id =3D=3D ns->ns_id)
+> -				break;
+>  			node =3D node->rb_left;
+>  		} else {
+>  			node =3D node->rb_right;
+> @@ -565,7 +563,7 @@ static ssize_t do_listns_userns(struct klistns *kls)
+>  	 * then use it's list entry to iterate from there.
+>  	 */
+>  	if (kls->last_ns_id) {
+> -		kls->first_ns =3D lookup_ns_owner_at(kls->last_ns_id + 1, ns);
+> +		kls->first_ns =3D lookup_ns_owner_after(kls->last_ns_id, ns);
+>  		if (!kls->first_ns)
+>  			return -ENOENT;
+>  		first_ns =3D kls->first_ns;
+> @@ -613,10 +611,10 @@ static ssize_t do_listns_userns(struct klistns *kls=
+)
+>  }
+> =20
+>  /*
+> - * Lookup a namespace with id >=3D ns_id in either the unified tree or a=
+ type-specific tree.
+> - * Returns the namespace with the smallest id that is >=3D ns_id.
+> + * Lookup a namespace with id > ns_id in either the unified tree or a ty=
+pe-specific tree.
+> + * Returns the namespace with the smallest id that is > ns_id.
+>   */
+> -static struct ns_common *lookup_ns_id_at(u64 ns_id, int ns_type)
+> +static struct ns_common *lookup_ns_id_after(u64 ns_id, int ns_type)
+>  {
+>  	struct ns_common *ret =3D NULL;
+>  	struct ns_tree_root *ns_tree =3D NULL;
+> @@ -643,13 +641,8 @@ static struct ns_common *lookup_ns_id_at(u64 ns_id, =
+int ns_type)
 >  		else
->  			first =3D mnt_find_id_at(ns, last_mnt_id + 1);
+>  			ns =3D node_to_ns_unified(node);
+> =20
+> -		if (ns_id <=3D ns->ns_id) {
+> -			if (ns_type)
+> -				ret =3D node_to_ns(node);
+> -			else
+> -				ret =3D node_to_ns_unified(node);
+> -			if (ns_id =3D=3D ns->ns_id)
+> -				break;
+> +		if (ns_id < ns->ns_id) {
+> +			ret =3D ns;
+>  			node =3D node->rb_left;
+>  		} else {
+>  			node =3D node->rb_right;
+> @@ -708,7 +701,7 @@ static ssize_t do_listns(struct klistns *kls)
 >  	}
+> =20
+>  	if (kls->last_ns_id) {
+> -		kls->first_ns =3D lookup_ns_id_at(kls->last_ns_id + 1, ns_type);
+> +		kls->first_ns =3D lookup_ns_id_after(kls->last_ns_id, ns_type);
+>  		if (!kls->first_ns)
+>  			return -ENOENT;
+>  		first_ns =3D kls->first_ns;
 
 Reviewed-by: Jeff Layton <jlayton@kernel.org>
