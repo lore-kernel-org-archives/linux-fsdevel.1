@@ -1,76 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792578331;
-	b=EjVzvbXI2YAzzrCLsIYrfiWEnd927BfHxKr3trAVqtA0xeUH1X+eY+ZQ1tNmQ3/oZkd/
-	 AG6Rvngehp2HdbB6EBonC6VPmHMZzSOXETGaIjq26xWm/q0yBcFeF1qHDxx1/UIZ3I3D+
-	 c+KoYKbiTwjqnvGMdwegLkRdjWMC2j4bqjZyAv3Y9g6ZxOGMRhl9FtHHvRJ4FXwAleb2E
-	 f/8UKmzHMwmX/BmfSz1Bp2elPrNlryd3/Umz/s+7XVGaUWow0rdSCbYxixeJ5koIbMd5S
-	 1WsRw1qGpd9BSWZ6OJEuUmouul55SxUcpEuCK95De5AM/rqx85QPKe0sLZYtVOdFxVw==
+	t=1792578399;
+	b=D6rirFXir8ESnoVs3m9V+EPNMd67y69OwKV9eYj3iLwBA1DusD1jzM5UUIYHMx5BhYEI
+	 3qeR1PfoBfKuoFNtawqmPerheihyD+/quqC0+ZHznidlyFXUsVe8ENGjx6kn29j1Sgo98
+	 AsvmkWq8cZUkrSf5vA5xiWz3VEzbjdF5l4Mq4yfMGZZC3Cwl2GwLte53M/FabWOqqHQO3
+	 3v5vpacKOApgpp0ythGWRD0CvVD+kGS2I6f/Ugd2ds2JYnMTPZdshN7pQ7S6IPvclTOK3
+	 CPtxMSQBZQftGXl/FNShT2nmhUAXyjpWNd9fhGI90vnSNIHV0d9jmux+nn2l9AkkPuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792578331;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=fyUFCbuePzC+XG2QW79bsjnDsYBX6lH465Zgu9TmAmA=;
-	b=T2aptLONDZ2m5Bod8KFCpux1s6M9OaOa1yPs22mnoS5ue0+JTk1mN0AnlVruz1JdNdjn
-	 KD9IO4KYJJyJAXQHgBhVaRFTDfaSCx9MGomCYtaD9fze25gP5h4wPjoICXDw5B0FkjLnG
-	 Vxl+ptGIJe3wpnkY7i6mKdzZcSE8WozuQaWKTGgAiD3ImJYPHrHD35yWs6/Pkr8oC9IlF
-	 rLpYm4t4wUI5AVjaAWUHwbM2zDC5cvQaX3bk6tUsIYdjUobyk7L1UBUXbhA/B5/xwqQsn
-	 rBg3fzJU42xxXsK970nb2+gAtg4Di8dKSVJymu4mO4lJ6I9uNmdO51icOjAzRRKa4hQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792578399;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=XaHS5CUayuZ4u9kYgWWlcU+lZAuboyv4HW7QhXr3ncE=;
+	b=ivboHv2D5w5f+BxnxNe0Dk9lFA91Aw1tDNmY0ledVf67AHPy1bWWZTrntJ8yW8xGMRQ9
+	 SgKR8+M9R+yWmZLKsfeQ5lnmww48pnGvwJuIsHGj4cHYjwyHwmhAnR5hsoEFqWt9vGobr
+	 5lgJekgRIoE4W90VvvuwhfKjiyIH69LGrVPurKkdk/pKj4BLNwjZoBt0j7BXjmzt81H7Q
+	 xb3sEzyXyEJBF/w0iquM9IawJdlpRGE10Ff2EbPb4YXsJZFb7LmmzksZnwVyEHTSxEsma
+	 j4jnzAa1oqDZCQBNHynA7zjDHfeL606vTRPZUHEJcu/iE83hHEHU9CcVuouVQ8H0o1w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WN+IUwrT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TGfrVpnG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB99606A319;
-	Wed, 21 Oct 2026 10:25:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05EAA606A31D;
+	Wed, 21 Oct 2026 10:26:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WN+IUwrT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B4A41F000C9;
-	Wed, 21 Oct 2026 10:25:12 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TGfrVpnG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A15FA1F000CC;
+	Wed, 21 Oct 2026 10:26:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792578330;
-	bh=fyUFCbuePzC+XG2QW79bsjnDsYBX6lH465Zgu9TmAmA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WN+IUwrT7l8rUPNHcaU/+gEKsExM+ioOu7ktOtPja5M+dDNUVwHb0vzRVzDdLmi2l
-	 ZVZx7zVWlmJhAl69UxYI+zhszNbxVxTNXOBiS7d6CtNd6WfNLIPJPJhmVTj0hz17Wh
-	 CBPrxhvYRreyd+T8w2TaPEcsFSkV4dKf9ocMHO00y4EhqsJSxfLpthpPmknHsz6GHD
-	 XVMxmeCP5wmxvrqe1pag4NI9ASSec8djC8iso0wCeNRusCl3OXQPYTQT30aPNOVjPM
-	 aOLdakMoHfKRaCd3xb8lP0LDs+OVib+4+C4N3+fUQQocX68feX4bzSiBxNtciCBsuG
-	 N0l+7t93qoF8A==
-Date: Wed, 21 Oct 2026 12:25:10 +0200
+	s=k20260515; t=1792578398;
+	bh=XaHS5CUayuZ4u9kYgWWlcU+lZAuboyv4HW7QhXr3ncE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=TGfrVpnGhhnz8+qNwr+F5pcYKC43Xf9ZcczIokuC0v1hPtmmCmJFr2xauE0qDt4pb
+	 XbK4/KakoluZiI6SwivbuUoXLiUyxZeRMjGm3hzKUHhpGkiK47M8vkn6F2pNst+AJL
+	 qRb1pXCujiW4DTLfmVmkaZseqovwIvkrK+iUzSWRMsPGkc8LNypyM7bWXBTTLOBES3
+	 Hu67TgcejmpIKFhHjJYnpD3I47/XGJcEob6IFWSUozEvlvlb5cndKjVztaUrTUbSGC
+	 2ZQcy7LeEu5ABVn81q7IkcFr0ZvtjkoIUvxfIO6VZQ+Wozc9hIDwbr4+BQ3IbYXdVy
+	 o9bpETxFMIQaw==
 From: Christian Brauner <brauner@kernel.org>
-To: Cai Xinchen <caixinchen1@huawei.com>
-Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
-	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, 
-	memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev, 
-	jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev, 
-	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
-	johan@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, 
-	viro@zeniv.linux.org.uk, jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, 
-	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
-	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, neil@brown.name, 
-	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, hyc.lee@gmail.com, 
-	miklos@szeredi.hu, amir73il@gmail.com, senozhatsky@chromium.org, 
-	chenxiaosong@chenxiaosong.com, kpsingh@kernel.org, matt@bobrowski.net, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, john.johansen@canonical.com, 
-	georgia.garcia@canonical.com, zohar@linux.ibm.com, roberto.sassu@huawei.com, 
-	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, 
-	omosnacek@gmail.com, casey@schaufler-ca.com, takedakn@nttdata.co.jp, 
-	penguin-kernel@i-love.sakura.ne.jp, xiujianfeng@huawei.com, nanx95726@gmail.com, djwong@kernel.org, 
-	lujialin4@huawei.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
-	linux-nfs@vger.kernel.org, ntfs@lists.linux.dev, linux-unionfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, linux-trace-kernel@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 -next 00/18] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <20261021-neugierig-abgemacht-umbenannt-c77d1addf517@brauner>
-References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Nikolaos Karaolidis <nick@karaolidis.com>
+Cc: Jan Kara <jack@suse.cz>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+ Mateusz Guzik <mjguzik@gmail.com>, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20261016102515.111285-1-nick@karaolidis.com>
+References: <20261016102515.111285-1-nick@karaolidis.com>
+Subject: Re: [PATCH] fs: rotate inodes whose page cache could not be
+ dropped
+Message-Id: <20261021-geburt-heimlaufen-junitag-f8fc6bf55c5d@brauner>
+Date: Wed, 21 Oct 2026 12:26:32 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -80,28 +61,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261015125425.3246251-1-caixinchen1@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-3d1b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=893; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=ENKdDygeOB3ZkTFNXhwRYoQgyxPbVZNMT5pmJM216mA=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdmBw1M21TvtRbzs1upidOfpL03edin8js9WqvfemUi
+ bfPyez71VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCR8DeMDA3TTBJz1WdP/nPG
+ 3i4riePENdfJDDK77AVzjUyUn6zd0cjI8OjYpV2+LPrcLzY9Pf/sZ8GarxbbjCetkq2OT2epW1o
+ swAcA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-> - The hooks consistently take struct path rather than struct file.  The
->   VFS call sites involved (chmod(2), chown(2), utimensat(2), xattr(2)
->   and ACL syscalls) operate on paths, and several of them (lstat(2),
->   lchown(2), llistxattr(2), ...) have no struct file to begin with.
-> 
-> - struct inode_operations->setattr still receives (idmap, dentry, attr).
->   Only the VFS boundary (notify_change()) and the LSM hook layer see the
->   path, which keeps the refactor contained to fs/attr.c and the LSM
->   infrastructure instead of touching every filesystem.
+On Fri, 16 Oct 2026 10:25:15 +0000, Nikolaos Karaolidis wrote:
+> fs: rotate inodes whose page cache could not be dropped
 
-I have no problem with that provided:
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-* all hooks take a const struct path argument
-* idmaps are passed separately so that VFS and filesystems are
-  guaranteed to see the same idmap
-* nobody gets any guarantees whatsoever wrt to path->mnt aka vfsmount
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-  layout and implementation details might change tomorrow and mounts are
-  subtle beasts so the security layer gets to keep pieces if it does
-  things that the VFS hasn't explicitly sanctioned as a guaranteed
-  property. Things continue to be in flux.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] fs: rotate inodes whose page cache could not be dropped
+      https://git.kernel.org/vfs/vfs/c/efe3ca110fdb
+
