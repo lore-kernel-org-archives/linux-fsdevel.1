@@ -1,139 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.149
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792534864;
-	b=d7QJO0L8wboikgSpBNGiCbX2XlFvBEqQGARL6/fjMUiGMGCqcbFAGxKO/ud0l5RoBiVP
-	 HrPgSsgrkGAnT+oSqJ6c1kf1JGg0qhP0pXs2G5ZnoxUBs8H8U9TYZy+XRm9wtWvxy+Iga
-	 ueL28kR48bxDtd1cB54AbrjQu5KxF06hyH7Dtil8WDvGQqqPOEDFAaf+d4cnO1ev4zNtj
-	 ST9UNAq8+Rvcmz5HWWlBmTzF71x3riJBOs7dCoca3qyV6RqeuD6QG90MYPIzrnMVWMP4a
-	 VlxFdkUo2iNBWTYVr/EVhMFQfeFgCvGjqU1pEYcc2xa/txLxJ4NNbN7th1/zREfXqiA==
+	t=1792540888;
+	b=QmTMklD8QEXTULYjtwJ9tv+MSOrQrzAivzWmgb6resSyEHuuYNAveaVSutABBRa8OmfP
+	 O1m1ca7Hp+50Tlj1ZkNaTfIjjHI92en0wpwXkXHkjv9IY4fGXbaE1Qr2tvEmtYmZ++Q/K
+	 1bcYmT/R01xQup4vyaxwj3t5JgF1E6igiixCj77lOep3QlpSFBcieCDeRlMIQTmB5CKiQ
+	 PCpYw5XZ1TM1eSnF7dN9G9b9/Q9OEd4g3T5nD1ot2KPREh88UgYtK9/Oyk7mwzLGyA1m1
+	 pW/zKlG/AJghmoGfDN31nMM2zGL6ZDWY017c+Cm1SWGbPcIAqX6COAF3khtuuLPwzVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792534864;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Subject:
-	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=pghdpTVdNq2MZRY0h0Gn+vje5VJFjDa/Zt8muo4zdOA=;
-	b=FTtvCVVNqxaj6iVnmgCeUTm2mFU3S+wPGZwf2DmUzZMn2SGGcdiDx41s9bzJGfbhl6kh
-	 8Ryc+THphFgB97evzh9OIR+rTcrJK3p9GzYw/8xCN2OnSdPmIDw3FxoHnlyG9KhI+MNvV
-	 hQcLNDAjYO+SdekxDeiGphdFRtpbP/LVLDW7dEM87rgxOjDL7PAyqi5OSMQnIjCAZpzCv
-	 0FbWI54FFSbLfURuH1wCs+ENGZLUq+V2D/9caeKremA9kqdCWgxssQcDP3a4dG3/tlZaI
-	 dtrg4rEXzqpyS/UPt8H6JvmPz0sW+t/YJ4MITs7sKtsbQK1NHhjaVj9thkR7AF/vGjw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792540888;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
+	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
+	bh=FUjxBUfQtSTNc73Rr/mRVxUWdJbji5FsW5pmpvQ/xMc=;
+	b=NM1ENZu7xK/+w4rD8QkT9qJSwAOMYoqdtuEefAlWtlcZfGfozsxJaS1HSB7XH7h8CtjA
+	 tC6zi5tATuHp+CeuH5OrBedmV1bDi0/8i45ZeNTwTCgchUOtlHkq1A81BSF7T7FkwONFr
+	 Fqmsw/P4MedE1wMrfThlK8XQvrXLmugv5gCVzOFcjj/Y7mdkxuLE+95aEXOMMpK2nLnia
+	 S/aW+olNygMgNEshekEIGt2FTqoHYE+ThcUjrGteo5MjxLIH7dYPoazZaioLIOp4kekyp
+	 UtZ6mAl6j1Yr2ZR0Q7YeYGjeP45lF+R8qM8mLqVvN7t4JPTwVl8lnumXAeiJHxL5qmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dubeyko.com;
-	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=vngB984g;
-	arc=none smtp.remote-ip=209.85.128.181
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=ownmail.net;
+	spf=pass smtp.mailfrom=ownmail.net;
+	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=MbIysY9O;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=EDo6Gzwh;
+	arc=none smtp.remote-ip=103.168.172.149
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70C6606A31B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 22:21:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A70C6606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CF6606A31A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 00:01:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49CF6606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=vngB984g
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-8b0d63f60bcso1206367b3.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 15:21:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1792534862; x=1793139662; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pghdpTVdNq2MZRY0h0Gn+vje5VJFjDa/Zt8muo4zdOA=;
-        b=vngB984guw4e/6yXsRFA0mI/1yvZR6zowP/Vyp8TvEB+TLQfLP0noNJy75rnmfeuwc
-         CCyvpm4I+jis5wvfVr8vDph1j/EgYVKQF546Upf7Y1E1DhL+2LGOKiJ52PbNwlSINjVQ
-         qsiX1XMyygB8vwGOGiwB8s4A2mJ65FCO/sRQZ+c5qZpeezuUN1JQiTb3H8v+IRBb7HzW
-         JTE5BZ3/FoZVuJ8Ui6gMuO2wup7/sBWyFW/I7rTuzANgC3S6eZlraTJi6azIPctLLVIm
-         ZzZoLUJEMvwwn92r1dt4fLDOiXezmkOc6KD0RHgJ5V1Fs1GLPjW1gQccZgPb3BiO/SLv
-         3AVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792534862; x=1793139662;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=pghdpTVdNq2MZRY0h0Gn+vje5VJFjDa/Zt8muo4zdOA=;
-        b=eb4ZJQNukFo4SQozs9in77gTuNVzwmdfQx0lL0mFpuOXRuzqwT/ZB4t89KKjKxFT9E
-         TAim/PHGU2O4zU/RSEi2xeKMWikCZWq9YXJGCJleBbAyA24Qtw80XAXQCGAE9aU5gnGv
-         GPnhRiv+NRq9z9akisnJQEh4OHGuvBxCmuVJNwzikZi4Owll6lMwGlHI+Q/v+XI+DZhk
-         edZ5o7XeNV7p5BidwHTCZ9zdQ7Yx7HCgD8pnaHKnWniOmGay8jOv4Ol6BvEQYqSMFamZ
-         aAeSWHtd34fBVKbo26B+agMbUEt1W4rH8/vwONFvTIpZiT1LCCGVpK7iVGsAuJG4rsZM
-         T+zA==
-X-Gm-Message-State: AFq9FYJKIpHae7jfzxmnAVzvGgg8KNbl2D2SFTUqocXyIqPVKTCoEuyg
-	XXQBWsvdym5/I0XSQA4nMMzCsd34KL6jrcTGSLExU3CEmPFrZfd/YZp+fDb/xmo+hVM=
-X-Gm-Gg: AYBFou13ygxtVciJmlw8HwyD+fkxVln7xgsbHWH2FNKxmuPDWWXEWYX6X/r2hAJ5l7L
-	OUACTSZ9snntG2pQulCRtQORF8CeswHmFbIh/2eJyHiA6/RwDkMs15pagI7PfMVYLiJA77uzEjj
-	sx278HRSgKnmfN3XI7+GhL//uu9agxwfvTaN30J2szPVWEbMnNURS8tsvjoI9mxLCYGzh8vxYW0
-	ze87SZQ6pJgRKdF1yC1bsplvj157T9XrzncG90N7bJLNfd/sdIzZwPzuV0dls4jrD+8bQdC5UiO
-	IiGPU9x+vc6bvNbX7QfgTM9/K80OCuNpTrOVgcS+IAwL161Bxk06M4KkTupudYY4Gmi90boQ234
-	dfEMIxEZb1zf7E6kBXZbFyRArHTzxUq0JzLj6rLTTondk/4krOFzVN6KxZVdBBTTv7+8CuzLEMI
-	Cj1RWOxnuCIUbuXCPfuySiNwfa+tV/ejDUb4eT/KD6lER6SAM1Scx+PLlkqdIIZbbsYl7SASjkJ
-	/sXAJ9AEnj7cVeF5U/nGpQGY5noOk/JA+ekSoQFxAWMx8YfUmpYrwYYcMVDfAVI0rkeLD5XhVG7
-	XeXeo9GRHtytTtWVGnOoA1pGa9z7
-X-Received: by 2002:a05:690c:6e84:b0:8b0:d75a:9cf8 with SMTP id 00721157ae682-8b133d2a29fmr1910447b3.41.1792534862540;
-        Tue, 20 Oct 2026 15:21:02 -0700 (PDT)
-Received: from pop-os.attlocal.net ([2600:1700:6476:1430:9597:5848:ae16:6bc])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b13012f929sm3810567b3.33.2026.10.20.15.21.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 15:21:02 -0700 (PDT)
-Message-ID: <74392849b266368d821d6dcaae4eda5d459d2e22.camel@dubeyko.com>
-Subject: Re: [PATCH v6 2/2] hfs: return ERR_PTR() from hfs_iget()
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: yangguikun <yangguikun19@qq.com>, John Paul Adrian Glaubitz
-	 <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Tue, 20 Oct 2026 15:21:00 -0700
-In-Reply-To: <tencent_190DA969DF79232C4E2FA681510C3E365108@qq.com>
-References: <tencent_190DA969DF79232C4E2FA681510C3E365108@qq.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=MbIysY9O;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=EDo6Gzwh
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 73213EC04F3
+	for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 20:01:27 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Tue, 20 Oct 2026 20:01:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1792540887; x=1792627287; bh=FUjxBUfQtSTNc73Rr/mRVxUWdJbji5FsW5p
+	mpvQ/xMc=; b=MbIysY9OzbvBGsPAIKD1fKkWvHnYJ4jpcoM9JqWWmWsiQCWWaC8
+	rdTcy0TNh7fL+fiOYCQGl+s6X1Wr+BOanVcucybvh8SDwzi1t2H1maDoalWaieYV
+	q4eBPaZZiPTgaVNZXTHTQWxIvF+BdXWTCWqYDS/yBYK7QUkgVu2t3Cr5V3UWrcgt
+	syKhi8uTWOIb/w1O4MCzH+QAkBUDexolWFznc/gQ5jGgbku5DvUDc3iLChfLuAzl
+	V40Iug5ijOoN+0WhMDWukVLp7zFIaelmt+LflP1UmBY93OmgO99KI6am/g6paEiy
+	7eiTxmv/L2sWDce5cGGd3hmFM3ovqUdeGog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792540887; x=
+	1792627287; bh=FUjxBUfQtSTNc73Rr/mRVxUWdJbji5FsW5pmpvQ/xMc=; b=E
+	Do6Gzwh6axbmRIOykaxwoXKzX5kYbfaawU3lyrMPrpgA8odfA1TMw0pDeiyr85lx
+	VjCB0I65msU1RFu8WZfVSsyC55DWf4MHrwdaTUXqvyYMMsFqBbj4jkGUL8ZlWJfI
+	JxJmBvPhNY5WZAUAKAZAOi3y9Z6V2OMnXd/yni4O0GnMkgWYID+CzhC9b2EZ2Utz
+	3jM2xmz51z4b9LORfMBDUmS2QwocW8ONK4px6BRklsMK2b3pu8QTHaTODjhqDJ99
+	WYoBUXnw/rq6UCY6vqMIsoK1CF8ifoTzQGt2DREpby1wO+m+JAfEaMaSlm3LAgWZ
+	2SYcICumBSJ9/cOOH/XdA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
+	action=sign d=ownmail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1792540887; d=ownmail.net;
+	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm2:rsa-sha256:KZb+KrRP/tz8BIeuthBbYTeotLvXQdoGeTFMkg9T9MEwFYQ
+	QLWHjpsJjdXhZF+qOk3e6RyxzdPJv1IP46naPL1oc0DPL2GAibC9ksbs4e6gNFyf
+	6TpbDWvek/91uMzNS9pYW+3A+mPmy16YCuJ5GMnkWplYtdFwvCpyVw+lKIX7Cjk4
+	UQvn34wkbHEo/RXLwmucvSlX/VT2MTDv4e3ZlVCtlYoGQtx/vYK0POpru4GZrKfq
+	Ap1FwMiTe8bmPUE4UCDTPdeFcrZgP+X+78z0PLM1MNcbR86PnrKUJCJ2xxXU3kem
+	QxsysJLmaKf4nzOfsmiOpn5xqnXCb8A6f3spFKg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,reply-to,
+	subject,to;
+Message-Instance: m=1; h=sha256:1ti1x+x3skVBe0LPGMAEfoTdgjCt5S9yzPDko83HJZY=:H5Cge+pDSLrEdpsqzXVywHlNnjtIfztkv25bR9thG9Q=;
+X-ME-Sender: <xms:1wDYaqAo1UemgoqMd6usoJsDd6GVxIfdaIJU_KGu8zDM4D_EbcHMQg>
+    <xme:1wDYanHsdX5HQFghvthE6dEkr8ek23jYAO79nbAdeRiBmiaofcJYbYOXlkVBrMHpB
+    CIcRWsPBYBHGZrgE4YcEQnV3iLRfuRh80278paLTAM1wkK3NVw>
+X-ME-Received: <xmr:1wDYahMH7UeBBs1B0qqSPIweKM-oB5zMqoAvkuikLjtm9iubAskI1ReJYH7wM-ISwLxWvLy9tCnjaK86JsvZMkkdh2lkrjE>
+X-ME-Proxy-Cause: dmFkZTF6ypRrMaPuD4qt69fhECHQW8nY+HctVORcXS5YCkizKAkk7nSYTXYqOSI7N13UQf
+    71/xt/WgdINEaCe0bifcL+DdhgeNGlv0jE7kE1Try6kqH/aQtUpuPHsDp+9gA9AErm4Jsz
+    dOPMHdI5gDiNjF3fzzjixSZ1rnFFLiq52F1E4ZitGzFJM32BPJ8Uo3XPlNIom6BVu/s+U0
+    B+e8q6bEHOMGfziEMKUK26atZAVsLflVC/oFPB848LL9cO8ZCeIR9t0W8uOUT4Xb5A66bw
+    KWIziooFS1oM93dG5muVkN86TAzrDMMJsneMdnRbHlMu/VWrIjUV+ckfqD9h59e5UbOIkr
+    cHgW0oHvq2Wa+RDqU0M8G91CEFeQGVg74lBgppz3YAmlu++vQMYgzvncvTxXQYbHxVWV3J
+    HGZSfnFLu7YnoF4SoZ0HFSfYV3I/cdySyNig4ctglneZWXEQWUG3TwvjQPL5eBgwkmbvcO
+    WFj787lmA3bNndQW1LJBdp2QXA8OZiOOaK2hzvFXTciFEVzjBePZPCbhgk987Y4CXn6sK3
+    p8f63xH1ap9rPtuBj0tcWwl00swdJIxr39MTJe3QYZ1UZtlnP1O8KqwhNgGvWYmiFUTyxl
+    FCo/Beq8M9bAZzRft4OYYy6KCpXOLQpYwAQ+iJWBLu/4WMfE3gHhEop+2uHw
+X-ME-Proxy: <xmx:1wDYao7KV6FwRIjTa1a5FrIwwjFUc3gCdFYWJo2GFubMG3gXh_G2jg>
+    <xmx:1wDYakgCxfII70qETXcC3eUY2vz6aSSYYuulMBWhB5b8ZjHMpTgVlA>
+    <xmx:1wDYatde8PlGsh-FKkZHPIzEXzH2PKrrt22l7Jv4SOSkOqQq7Hj0yw>
+    <xmx:1wDYasyHyAmkvB9pWm7BspqnfKC8NKqeyGSF4cinwXyq8yqXHJc9jg>
+    <xmx:1wDYaiTbAL43S4876XOHSRmbzgdSxe02K2hylmsN0hd4jfsfVoGGMXzK>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 20 Oct 2026 20:01:24 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -143,110 +118,221 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+From: NeilBrown <neilb@ownmail.net>
+To: "Ian Kent" <raven@themaw.net>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Amir Goldstein" <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Jake Edge" <jake@lwn.net>
+Subject: Re: [PATCH v4 0/5] Fix easy bits of the negative dentry problem
+In-reply-to: <d0bc6eaac2fc84cb43b569f49ee503057784b45c.camel@themaw.net>
+References: <20261019000810.1837917-1-neilb@ownmail.net>
+  <f1c42d0bd125c6b1c39f1ebaee41340b5f6f03f6.camel@themaw.net>
+  <179237697885.1724252.11956785709205194840@noble.neil.brown.name>
+  <d0bc6eaac2fc84cb43b569f49ee503057784b45c.camel@themaw.net>
+Date: Wed, 21 Oct 2026 11:01:20 +1100
+Message-id: <179254088039.1724252.11440960537426762855@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Tue, 2026-10-20 at 18:19 +0800, yangguikun wrote:
-> hfs_iget() returns NULL both for corrupted catalog records and for
-> allocation failures, so the callers cannot tell them apart:
-> hfs_lookup()
-> reports every case as -EACCES and hfs_fill_super() as -EINVAL.
->=20
-> Return ERR_PTR(-EIO) for the corruption cases and ERR_PTR(-ENOMEM)
-> when
-> the inode cannot be allocated, the same way minix_iget() does, and
-> let
-> the callers propagate the error.
->=20
-> Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
-> Signed-off-by: yangguikun <yangguikun19@qq.com>
->=20
-> diff --git a/fs/hfs/dir.c b/fs/hfs/dir.c
-> index e1f1fb3..0834d40 100644
-> --- a/fs/hfs/dir.c
-> +++ b/fs/hfs/dir.c
-> @@ -35,8 +35,6 @@ static struct dentry *hfs_lookup(struct inode *dir,
-> struct dentry *dentry,
-> =C2=A0			inode =3D ERR_PTR(res);
-> =C2=A0	} else {
-> =C2=A0		inode =3D hfs_iget(dir->i_sb, &fd.search_key->cat,
-> &rec);
-> -		if (!inode)
-> -			inode =3D ERR_PTR(-EACCES);
-> =C2=A0	}
-> =C2=A0	hfs_find_exit(&fd);
-> =C2=A0	return d_splice_alias(inode, dentry);
-> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-> index a66de7b..d28fbbd 100644
-> --- a/fs/hfs/inode.c
-> +++ b/fs/hfs/inode.c
-> @@ -484,15 +484,6 @@ struct inode *hfs_system_iget(struct super_block
-> *sb, u32 cnid)
-> =C2=A0	return inode;
-> =C2=A0}
-> =C2=A0
-> -/*
-> - * __hfs_iget()
-> - *
-> - * Given the MDB for a HFS filesystem, a 'key' and an 'entry' in
-> - * the catalog B-tree and the 'type' of the desired file return the
-> - * inode for that file/directory or NULL.=C2=A0 Note that 'type'
-> indicates
-> - * whether we want the actual file or directory, or the
-> corresponding
-> - * metadata (AppleDouble header file or CAP metadata file).
-> - */
-> =C2=A0struct inode *hfs_iget(struct super_block *sb, struct hfs_cat_key
-> *key, hfs_cat_rec *rec)
-> =C2=A0{
-> =C2=A0	struct hfs_iget_data data =3D { key, rec };
-> @@ -507,15 +498,17 @@ struct inode *hfs_iget(struct super_block *sb,
-> struct hfs_cat_key *key, hfs_cat_
-> =C2=A0		cnid =3D be32_to_cpu(rec->file.FlNum);
-> =C2=A0		break;
-> =C2=A0	default:
-> -		return NULL;
-> +		return ERR_PTR(-EIO);
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	if (!hfs_is_valid_cnid(cnid, rec->type) ||
-> =C2=A0	=C2=A0=C2=A0=C2=A0 hfs_is_system_reserved_cnid(cnid))
-> -		return NULL;
-> +		return ERR_PTR(-EIO);
-> =C2=A0
-> =C2=A0	inode =3D iget5_locked(sb, cnid, hfs_test_inode,
-> hfs_read_inode, &data);
-> -	if (inode && (inode_state_read_once(inode) & I_NEW))
-> +	if (!inode)
-> +		return ERR_PTR(-ENOMEM);
-> +	if (inode_state_read_once(inode) & I_NEW)
-> =C2=A0		unlock_new_inode(inode);
-> =C2=A0	return inode;
-> =C2=A0}
-> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-> index 5e6d66f..d201502 100644
-> --- a/fs/hfs/super.c
-> +++ b/fs/hfs/super.c
-> @@ -378,8 +378,10 @@ static int hfs_fill_super(struct super_block
-> *sb, struct fs_context *fc)
-> =C2=A0	res =3D -EINVAL;
-> =C2=A0	root_inode =3D hfs_iget(sb, &fd.search_key->cat, &rec);
-> =C2=A0	hfs_find_exit(&fd);
-> -	if (!root_inode)
-> +	if (IS_ERR(root_inode)) {
-> +		res =3D PTR_ERR(root_inode);
-> =C2=A0		goto bail_no_root;
-> +	}
-> =C2=A0
-> =C2=A0	if (is_bad_inode(root_inode)) {
-> =C2=A0		iput(root_inode);
+On Tue, 20 Oct 2026, Ian Kent wrote:
+> On Mon, 2026-10-19 at 13:29 +1100, NeilBrown wrote:
+> > On Mon, 19 Oct 2026, Ian Kent wrote:
+> > 
+> > > 
+> > > As is so often the case you've come up with an interesting and
+> > > useful
+> > > proposal, ;)
+> > > 
+> > > Nothing stood to me out as problematic given the scope of the
+> > > series.
+> > 
+> > Thanks :-)
+> > 
+> > 
+> > > 
+> > > > 
+> > > > 
+> > > >  [PATCH v4 1/5] VFS: don't count references through ->d_parent
+> > > >  [PATCH v4 2/5] fsnotify: update children flags only when adding
+> > > > mask
+> > > >  [PATCH v4 3/5] fsnotify: don't hold i_lock while walking
+> > > > d_children
+> > > >  [PATCH v4 4/5] Add d_for_each_positive_child family of iterators
+> > > >  [PATCH v4 5/5] Use d_for_each_positive_child() in fsnotify.
+> > > 
+> > > Did you have any thoughts on how to contain the number of negative
+> > > dentries, (perhaps) including directory entry counts, in an
+> > > intelligent
+> > > way (meaning "as you go" rather than "brute force" when needed)?
+> > > 
+> > > A significant problem, particularly on systems that count their
+> > > memory
+> > > in TBs rather than GBs.
+> > 
+> > I would need to understand *why* this is a significant problem, which
+> > as
+> > yet I don't.
+> 
+> I think there is something more needed to understand the problem.
+> 
+> The source of my concern was originally the traversal of the entire
+> list of child directory dentries in the notification code to set a
+> flag that depended on a parent dentry setting.
 
-Looks good. I have run the xfstests for both patches and I don't see
-any new issue.
+And why this is a problem?
+If it holds a lock for extended period, that is bad.  My patches address
+that.
+If it causes a noticeable delay for users, then that might be bad.
+I think I can fix that, but I would like a report of "task X takes 5
+seconds which is a problem because ...."
 
-Before the patch: Failed 121 of 786 tests
-After the patch: Failed 117 of 786 tests
+> 
+> From the information I got (which is usually somewhat limited) it
+> was obvious the number of dentries was very large and there was a
+> large proportion of negative dentries. The obvious assumption is
+> that the implicated list traversal was causing the lock held too
+> long messages due to the number of entries. There was evidence in
+> the vmcore analysis the proportion negative dentries in the child
+> list was unusually large too, similar to the proportion of system
+> negative dentries.
+> 
+> I should be able to grab the vmcore again and get more details if
+> that would be useful to you.
 
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Tested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+No, I don't think the vmcore would help thanks.  What I want is user
+experience reports which describe a symptom which is problematic.
+Saying "there are too mean negative dentries" is, but itself,
+uninteresting.  Saying "When I do X it takes a long time" is much more
+interesting.
+
+> 
+> While the unbounded accumulation of negative dentries has often
+> appeared to be a problem, and the case Miklos and I were looking
+> at implicated that, I also thought that traversing the entire list
+> of children to set a flag based on the parent dentry was not good
+> design. After mentioning that Jan replied (wrt. using the parent
+> dentry instead of setting a flag on the child) saying dget_parent()
+> was high overhead. I let that go even though I didn't understand
+> why dget_parent() was needed. Using dget_parent() would only ensure
+> the parent dentry didn't disappear from under you (it wouldn't
+> protect you from deletes or renames) but dentries are rcu managed
+> so an rcu_read_lock() should do the same.
+
+I think the point is that adding/removing fsnotify watches is relatively
+rare, and testing if a watch is present is extremely common.  I wouldn't
+say that dget_parent() is the problem, I would say that dereferencing
+->d_parent at all is the problem.  Almost always there are no fsnotify
+watchers, and we need to be able to know that with information that is
+already is a cacheline.  So a flag in the dentry is the right thing.  If
+it takes a long time to update the flag, then that is a price worth
+paying.  If we can make the update faster, then maybe that is worth
+while.
+
+> 
+> So what am I saying, I'm saying that I think the list traversal
+> that was causing this particular problem can be eliminated. But
+> that doesn't do anything to come up with a mechanism to better
+> manage negative dentry accumulation which I think would be better
+> done as part of the dentry life cycle than as a shrink operation.
+> That's just my preference.
+
+It isn't clear to me that we need to manage negative dentry
+accumulation.  But I'd be happy to see some evidence.
+
+> 
+> > Allocating things that don't get used much isn't intrinsically a
+> > problem.  We have a shrinker which will gradually removed them - or
+> > less
+> > gradually when memory is short.
+> 
+> But if there are Terabytes of memory it often doesn't become in
+> short supply.
+
+So why does the large number of dentries matter?  Genuine question.
+
+
+> 
+> This might be able to be better managed by updated or possibly
+> expanded settings based more on number of (negative) dentries
+> than memory size.
+> 
+> TBH I haven't looked at that aspect.
+> 
+> > 
+> > But maybe shrinker activity itself is a problem?  Is that it?
+> 
+> Mostly only in so much as it not happening.
+> 
+> Problems with shrinker operation don't come up as much as they
+> used to so I don't see that as a problem myself.
+> 
+> > 
+> > I think it could make sense to separate positive and negative
+> > dentries
+> > on the d_children list.  This is quite do-able, though there is a
+> > small
+> > cost when a dentry transitions from one to the other.
+> 
+> Not sure about that.
+> 
+> One thing a negative dentry needs to do is maintain it's
+> linkages in directories and such so it can be located on
+> lookup to effect caching benefit. So separate lists might
+> be cumbersome and possibly problematic.
+
+dentries are on lots of lists.
+
+They are on the d_hash list from the hash table, and this allows the
+name to be found in the parent directory.
+They are on d_children which is mostly used for freeing up children
+when the directory is removed from cache.  It is also used
+occasionally for readdir and for a few things like the fsnotify usage.
+
+Neither of these would be affected by using the d_lru list in a new way.
+There are currently two sorts of lists a dentry can be on via d_lru.
+Adding a third that is specific for negative dentries would be easy and
+low impact.
+
+> 
+> > 
+> > The only other thing I remember from the lwn article and the various
+> > other articles and emails it referenced, was something about poor LRU
+> > performance.  Lots of largely useless negative dentries push more
+> > useful
+> > positive dentries to the end of the LRU and we lose them too soon.
+> > I think that can be addressed by having separate LRUs for positive
+> > and
+> > negative dentries, and giving them different weights.  I think the
+> > cost of this would be tiny, but I'm not confident of the benefit.
+> 
+> Or maybe adding negative dentries to the end and positives to the
+> front might be simpler.
+
+An LRU must have most recently used at one end and least recently used at
+the other, or it isn't an LRU.  Treating negative dentries as not
+recently used would be wrong.
+
+> 
+> A ttl might be useful too, use it to discard stale entries as they
+> are encountered (although the discard policy would probably be
+> somewhat more involved taking into account positive vs. negatives
+> etc.).
+> 
+> This in line with my preference to mange these "on-the-go" so to
+> speak, not necessarily related to any functional parameter
+> improvement that might be possible.
+
+I think the big disconnect between your thinking and mine is that you
+see a problem, deduce that it is caused by a large number of negative
+dentries, and try to manage the large number of negative dentries.
+
+I see the same problem, deduce that it is caused by holding a lock when
+there is no need to hold the lock, and I rearrange the code so that the
+lock isn't held.
+
+Neither approach is intrinsically "right" or "wrong", but one has not
+been addressed after several years, and the other is addressed with a
+handful of patches.
 
 Thanks,
-Slava.
+NeilBrown
