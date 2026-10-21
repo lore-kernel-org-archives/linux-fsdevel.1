@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=173.212.254.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792552616;
-	b=r3KaUMOm9zmdo8evta9gm5kRlv0KQzImqJnm5hUuiOMZxNRAiCe5jV7/nJhy6YDsZ4Vv
-	 GQfIIyvtbgBjJbaWHnIv+33TX+jg7EmXUck67Ll1DkEhM+3TK0TYcbH2q6MMinweIa8Zc
-	 cpVoE//I+YbpL7tkoW1D2fQtNZREOAhf+a1vaJAd6/kf+wxJs5mDSLB6uQjCwafx4rVK8
-	 vEdrJeDO46JU3RaD0eu+FX1V8Zm9XHQ1rm6E7O1Tw8fhv9kqMQNPv/iGn+LHgO083F/BJ
-	 H/UVhnfaSul/gPGjvQ+o6mhQB4BvB4wuyFy+wjNbMbcpf4UDSLV71qASwePyLVx3YRA==
+	t=1792552626;
+	b=dUzqwv4EGp87HrBPFsc7x1SRge8BDwRLvNyskpKmmdm/ERd1qxVJuPbibxoYvbSn4GN9
+	 m1WxLBcUNqE8viYlqfdVc6TG8b3lqY+tXmbPeD9tasVCMnAZSCrmXk8tAPSzvRXvZfOFU
+	 IDSuutJnzaFSNjKyrrJtsfaesk6+A6Q9kkVFNDMgp/tKFRmxHlimgJZxFBV2m2+AOogvj
+	 8eGxCTUwRnEaq8ZOMbJVjjdpl9i0qdoLaYdd0qBBE6z7pmNznJHukTHiUt6F5zdGllIgu
+	 fuUS7Cls57wVo31+xGO6okGmAxiqleFC56v3YxLrPNINo4waNkk081zeNCnpHJu4FBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792552616;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792552626;
 	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:In-Reply-To:
 	 References:From:Subject:To:Cc:Date;
-	bh=nt7cLHURNtluowmxthejngLoiwA2fJyKtvuq7clRERg=;
-	b=i95E/nxy3t+mJN9u6KRYcr1aaquLD+E8jafHfGhIRI7yQk80y5UNl6KGu8mlrKdERqc2
-	 Rkkm5J0wNrDB6pSTrXevCD6GHRaSknOICjpA16I8YuWXrxgbx9BPClugOlii2HZpSzhrJ
-	 lqGHJuv9xj3OJjjwTg7YEy0VzDeZL81VcaFDlcaY3G4QVfRlYDeaYmKITNiPp7S2K5YLB
-	 fPTQhPmALnfTxg154TWnXVHep+Sl/DEcP8KuQ75mCfLva9wo0BRniJNUKyOqCIOe/q2ie
-	 5KP+OW93p45nP82ikD2YBWgTovkn4SVQuUPJsVRjkp22+A9ln7t2WzFW2fFWN4Y3h3w==
+	bh=xPPuSjLhDbMViYqpEHpt4dnNVDTdoh5q6lqQYXei5pA=;
+	b=CVfys4/AvH9+AelNGIOEupJoRwXW4NrB54AskXcZkiaYPTpdYaKpzyZ6sV8VgByR7fis
+	 FyX5nZnybT4fwr8n8rV2v9L8/Ui4BYQ/uYT3bOk4RpJ8NKUYNxeH5qfYeg7mI2fUv7Jog
+	 3/Qr1wQEWTuesearNXiuJ50Fm+PFg2+kFjZg1plYmgQTVjZY6UcUoPKz0iSoXSgdEn2PV
+	 whqSdfZBeVCOLLNgmXISpmqk1cJX7Jh110mQj3l7uRz8OKohVO1Y/DNQFBiabRdaOtX4H
+	 sKouaUM3E/wztBkLPrcmmNCocs2bvZKq0pAzaortdYLJ5QxXU6wNPHwlkz+9AJrBUAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=tuxist.de;
 	spf=fail smtp.mailfrom=tuxist.de;
-	dkim=pass header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b="GcJO0/JQ";
+	dkim=pass header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b=l6sqAx24;
 	arc=none smtp.remote-ip=173.212.254.19
 Received: from groupware.tuxist.de (groupware.tuxist.de [173.212.254.19])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C19260A3828;
-	Wed, 21 Oct 2026 03:16:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C19260A3828
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3256074AF1;
+	Wed, 21 Oct 2026 03:17:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE3256074AF1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tuxist.de
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=tuxist.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b=GcJO0/JQ
+	dkim=pass (2048-bit key, unprotected) header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b=l6sqAx24
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tuxist.de; s=201705;
-	t=1792552613; bh=GH5CB0HbuaUqvadscjavGQud3VU7e+MvMkrRNnhpO6g=;
+	t=1792552623; bh=7OhuYr1jzT08GfwqsT/yDIHMI0ebaXemXLD2jKJdeak=;
 	h=In-Reply-To:References:From:Subject:To:Cc:Date:From;
-	b=GcJO0/JQrcbzRRu5HNXnLUK64YbzdNVel1wJAZ5J9U9jhxmdjqaQOaQvFprktqegE
-	 76FFEgyQbMj0CXvjhvA4SKm17w6vnIpwxx9u/aFrkQwUDUo/SR5j9FFWT4Ed7fbTQg
-	 awEhLlIB9kXG6nZsFuNsOvaRpPfEJFgS7MD3GamXLtOWfUgSocCyYuS9ZO85xXeYpD
-	 kqNYj1NQIujn4tRpYkih8sLXiYW9T8HdcesTot6B8gFzq2X//DSKXzx+3bZBhYwv8z
-	 df0LWFHtR6/B9p8t36exn/n/vD2/EwmFKYaZ7x28jtLEej3mEF28SLxTUrREHPPaaH
-	 5V9yONXAqEPEw==
+	b=l6sqAx24f32iFDvNQPYmCz2mQIork2CZho4QaX7n4duiJm715lhI3Hl0W1nvJIYDv
+	 AVQWyb0V6WKgAm3CYTdY1Z1aXftHAxnwKahEkibu627MXgGu7fG1F5yESuDetRxXWP
+	 TpndRpd6PjP3HjXXz24bsk7FI83JMlw+lrUaUQj9+f1HAuNvcivO270Z1COlxj2Q70
+	 TPFi2s4yHDpkEyEDkgaocDWQrbL/pyurE9jFfqNjU2zg6TqFNcRGyrMxveCwdx7v1t
+	 KFn2xp0OIhZOarnx/1nxNeYc3c2hNrzKi7GCbEOV5FSzGZaW/BGgWLgrtIgsSo/yc+
+	 zMbdRey63iHAg==
 Received: from [10.1.1.106] (unknown [10.1.2.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by groupware.tuxist.de (Postfix) with ESMTPSA id A0A128A090C;
-	Wed, 21 Oct 2026 05:16:52 +0200 (CEST)
-Message-ID: <875406238f051dbc4b95221b301b311dc0b75f67.1792552161.git.jan.koester@tuxist.de>
+	by groupware.tuxist.de (Postfix) with ESMTPSA id 24F018A07DE;
+	Wed, 21 Oct 2026 05:17:03 +0200 (CEST)
+Message-ID: <b086aef70fd4516d33c535b4ea3d5d6f204c0af7.1792552161.git.jan.koester@tuxist.de>
 In-Reply-To: <cover.1792552161.git.jan.koester@tuxist.de>
 References: <cover.1792552161.git.jan.koester@tuxist.de>
 From: Jan Koester <jan.koester@tuxist.de>
-Subject: [RFC PATCH v2 27/41] audit: log UUID and GUID ids in full
+Subject: [RFC PATCH v2 30/41] ipc: add IPC_STAT_R and IPC_SET_R
 To: Christian Brauner <brauner@kernel.org>,
     Alexander Viro <viro@zeniv.linux.org.uk>,
     "Serge E. Hallyn" <serge@hallyn.com>
@@ -69,7 +69,7 @@ Cc: Jan Kara <jack@suse.cz>,
     audit@vger.kernel.org,
     keyrings@vger.kernel.org,
     linux-kernel@vger.kernel.org
-Date: Wed, 21 Oct 2026 05:15:47 +0200
+Date: Wed, 21 Oct 2026 05:15:50 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,438 +79,613 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 
-Audit records print ids with from_kuid(&init_user_ns, ...), which gives
--1 for a UUID or GUID. 4294967295 is what audit uses for "unset", so a
-UUID user's actions would be logged as if there were no login user.
+The ids of SysV message queues, semaphore sets and shared memory
+segments reach userspace in struct ipc64_perm, 32 bits each, so a UUID
+or GUID owner shows up as the overflow id and can't be set at all.
 
-Print all ids in audit records with KUID_STR()/KGID_STR(): classic ids
-come out exactly as before (signed where the format was "%d"), UUIDs and
-GUIDs in their text form. The binary AUDIT_SIGNAL_INFO reply keeps its
-32 bit field.
+Rather than doubling every *id64_ds, add two commands shared by
+msgctl(), semctl() and shmctl() that work on a struct ipc_perm_r with
+key, mode, and uid, gid, cuid and cgid as __kernel_uid_r_t:
+
+- IPC_STAT_R reads it, with the permission checks of IPC_STAT,
+- IPC_SET_R sets uid, gid and mode like IPC_SET does (a message queue
+  keeps its size).
+
+The IPC_SET path now works on the kernel ids of a struct ipc_set_ids,
+which the classic command fills from its ipc64_perm. The audit record
+of IPC_SET has the new owner as a kuid as well and logs it like the
+other audit ids, in the initial user namespace.
 
 Assisted-by: Claude:claude-opus-5-5
 
 Signed-off-by: Jan Koester <jan.koester@tuxist.de>
 ---
- drivers/tty/tty_audit.c              |  7 ++--
- kernel/audit.c                       | 50 ++++++++++++-------------
- kernel/auditsc.c                     | 55 ++++++++++++++--------------
- net/core/dev.c                       |  8 ++--
- net/netlabel/netlabel_user.c         |  4 +-
- security/apparmor/file.c             |  8 ++--
- security/integrity/integrity_audit.c |  6 +--
- security/ipe/audit.c                 | 12 +++---
- security/selinux/selinuxfs.c         |  8 ++--
- security/selinux/ss/services.c       |  4 +-
- 10 files changed, 78 insertions(+), 84 deletions(-)
+ include/linux/audit.h    |   8 +--
+ include/uapi/linux/ipc.h |  17 ++++++
+ ipc/msg.c                |  40 ++++++++++----
+ ipc/sem.c                |  31 ++++++++---
+ ipc/shm.c                |  32 ++++++++---
+ ipc/util.c               | 112 +++++++++++++++++++++++++++++++++++----
+ ipc/util.h               |  23 +++++++-
+ kernel/audit.h           |   4 +-
+ kernel/auditsc.c         |   8 +--
+ 9 files changed, 226 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/tty/tty_audit.c b/drivers/tty/tty_audit.c
-index d014af6ab0..03ad4961b8 100644
---- a/drivers/tty/tty_audit.c
-+++ b/drivers/tty/tty_audit.c
-@@ -65,8 +65,6 @@ static void tty_audit_log(const char *description, dev_t dev,
- {
- 	struct audit_buffer *ab;
- 	pid_t pid = task_pid_nr(current);
--	uid_t uid = from_kuid(&init_user_ns, task_uid(current));
--	uid_t loginuid = from_kuid(&init_user_ns, audit_get_loginuid(current));
- 	unsigned int sessionid = audit_get_sessionid(current);
- 	char name[TASK_COMM_LEN];
+diff --git a/include/linux/audit.h b/include/linux/audit.h
+index 45abb3722d..a769f04e45 100644
+--- a/include/linux/audit.h
++++ b/include/linux/audit.h
+@@ -428,7 +428,7 @@ static inline void audit_ptrace(struct task_struct *t)
  
-@@ -74,8 +72,9 @@ static void tty_audit_log(const char *description, dev_t dev,
- 	if (!ab)
- 		return;
- 
--	audit_log_format(ab, "%s pid=%u uid=%u auid=%u ses=%u major=%d minor=%d comm=",
--			 description, pid, uid, loginuid, sessionid,
-+	audit_log_format(ab, "%s pid=%u uid=%s auid=%s ses=%u major=%d minor=%d comm=",
-+			 description, pid, KUID_STR(task_uid(current)),
-+			 KUID_STR(audit_get_loginuid(current)), sessionid,
- 			 MAJOR(dev), MINOR(dev));
- 	get_task_comm(name, current);
- 	audit_log_untrustedstring(ab, name);
-diff --git a/kernel/audit.c b/kernel/audit.c
-index 9412af9144..ed4ac5c88d 100644
---- a/kernel/audit.c
-+++ b/kernel/audit.c
-@@ -1128,7 +1128,6 @@ static int audit_netlink_ok(struct sk_buff *skb, u16 msg_type)
- static void audit_log_common_recv_msg(struct audit_context *context,
- 					struct audit_buffer **ab, u16 msg_type)
- {
--	uid_t uid = from_kuid(&init_user_ns, current_uid());
- 	pid_t pid = task_tgid_nr(current);
- 
- 	if (!audit_enabled && msg_type != AUDIT_USER_AVC) {
-@@ -1139,7 +1138,7 @@ static void audit_log_common_recv_msg(struct audit_context *context,
- 	*ab = audit_log_start(context, GFP_KERNEL, msg_type);
- 	if (unlikely(!*ab))
- 		return;
--	audit_log_format(*ab, "pid=%d uid=%u ", pid, uid);
-+	audit_log_format(*ab, "pid=%d uid=%s ", pid, KUID_STR(current_uid()));
- 	audit_log_session_info(*ab);
- 	audit_log_task_context(*ab);
+ 				/* Private API (for audit.c only) */
+ extern void __audit_ipc_obj(struct kern_ipc_perm *ipcp);
+-extern void __audit_ipc_set_perm(unsigned long qbytes, uid_t uid, gid_t gid, umode_t mode);
++extern void __audit_ipc_set_perm(unsigned long qbytes, kuid_t uid, kgid_t gid, umode_t mode);
+ extern void __audit_bprm(struct linux_binprm *bprm);
+ extern int __audit_socketcall(int nargs, unsigned long *args);
+ extern int __audit_sockaddr(int len, void *addr);
+@@ -460,7 +460,7 @@ static inline void audit_fd_pair(int fd1, int fd2)
+ 	if (unlikely(!audit_dummy_context()))
+ 		__audit_fd_pair(fd1, fd2);
  }
-@@ -1658,10 +1657,10 @@ static void audit_log_multicast(int group, const char *op, int err)
- 
- 	cred = current_cred();
- 	tty = audit_get_tty();
--	audit_log_format(ab, "pid=%u uid=%u auid=%u tty=%s ses=%u",
-+	audit_log_format(ab, "pid=%u uid=%s auid=%s tty=%s ses=%u",
- 			 task_tgid_nr(current),
--			 from_kuid(&init_user_ns, cred->uid),
--			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
-+			 KUID_STR(cred->uid),
-+			 KUID_STR(audit_get_loginuid(current)),
- 			 tty ? tty_name(tty) : "(none)",
- 			 audit_get_sessionid(current));
- 	audit_put_tty(tty);
-@@ -2230,9 +2229,8 @@ void audit_log_d_path(struct audit_buffer *ab, const char *prefix,
- void audit_log_session_info(struct audit_buffer *ab)
+-static inline void audit_ipc_set_perm(unsigned long qbytes, uid_t uid, gid_t gid, umode_t mode)
++static inline void audit_ipc_set_perm(unsigned long qbytes, kuid_t uid, kgid_t gid, umode_t mode)
  {
- 	unsigned int sessionid = audit_get_sessionid(current);
--	uid_t auid = from_kuid(&init_user_ns, audit_get_loginuid(current));
--
--	audit_log_format(ab, "auid=%u ses=%u", auid, sessionid);
-+	audit_log_format(ab, "auid=%s ses=%u",
-+			 KUID_STR(audit_get_loginuid(current)), sessionid);
+ 	if (unlikely(!audit_dummy_context()))
+ 		__audit_ipc_set_perm(qbytes, uid, gid, mode);
+@@ -652,8 +652,8 @@ static inline void audit_seccomp_actions_logged(const char *names,
+ { }
+ static inline void audit_ipc_obj(struct kern_ipc_perm *ipcp)
+ { }
+-static inline void audit_ipc_set_perm(unsigned long qbytes, uid_t uid,
+-					gid_t gid, umode_t mode)
++static inline void audit_ipc_set_perm(unsigned long qbytes, kuid_t uid,
++					kgid_t gid, umode_t mode)
+ { }
+ static inline void audit_bprm(struct linux_binprm *bprm)
+ { }
+diff --git a/include/uapi/linux/ipc.h b/include/uapi/linux/ipc.h
+index 5995fc9d67..e927564fbb 100644
+--- a/include/uapi/linux/ipc.h
++++ b/include/uapi/linux/ipc.h
+@@ -3,6 +3,7 @@
+ #define _UAPI_LINUX_IPC_H
+ 
+ #include <linux/types.h>
++#include <linux/uidgid_r.h>
+ 
+ #define IPC_PRIVATE ((__kernel_key_t) 0)  
+ 
+@@ -40,6 +41,22 @@ struct ipc_perm
+ #define IPC_SET  1     /* set ipc_perm options */
+ #define IPC_STAT 2     /* get ipc_perm options */
+ #define IPC_INFO 3     /* see ipcs */
++#define IPC_SET_R  21  /* set uid, gid and mode from struct ipc_perm_r */
++#define IPC_STAT_R 22  /* get struct ipc_perm_r */
++
++/*
++ * The ids and mode of an ipc object for IPC_STAT_R and IPC_SET_R, which
++ * also hold UUIDs and GUIDs; IPC_SET_R uses uid, gid and mode. The other
++ * attributes of the object come from IPC_STAT.
++ */
++struct ipc_perm_r {
++	__kernel_key_t		key;
++	__u32			mode;
++	__kernel_uid_r_t	uid;
++	__kernel_gid_r_t	gid;
++	__kernel_uid_r_t	cuid;
++	__kernel_gid_r_t	cgid;
++};
+ 
+ /*
+  * Version flags for semctl, msgctl, and shmctl commands
+diff --git a/ipc/msg.c b/ipc/msg.c
+index 62996b97f0..a3f5287e54 100644
+--- a/ipc/msg.c
++++ b/ipc/msg.c
+@@ -398,8 +398,10 @@ copy_msqid_from_user(struct msqid64_ds *out, void __user *buf, int version)
+  * to be held in write mode.
+  * NOTE: no locks must be held, the rwsem is taken inside this function.
+  */
++/* IPC_SET_R is IPC_SET without a new queue size */
+ static int msgctl_down(struct ipc_namespace *ns, int msqid, int cmd,
+-			struct ipc64_perm *perm, int msg_qbytes)
++			const struct ipc_set_ids *set, int msg_qbytes,
++			bool set_qbytes)
+ {
+ 	struct kern_ipc_perm *ipcp;
+ 	struct msg_queue *msq;
+@@ -409,7 +411,7 @@ static int msgctl_down(struct ipc_namespace *ns, int msqid, int cmd,
+ 	rcu_read_lock();
+ 
+ 	ipcp = ipcctl_obtain_check(ns, &msg_ids(ns), msqid, cmd,
+-				      perm, msg_qbytes);
++				      set, msg_qbytes);
+ 	if (IS_ERR(ipcp)) {
+ 		err = PTR_ERR(ipcp);
+ 		goto out_unlock1;
+@@ -431,18 +433,19 @@ static int msgctl_down(struct ipc_namespace *ns, int msqid, int cmd,
+ 	{
+ 		DEFINE_WAKE_Q(wake_q);
+ 
+-		if (msg_qbytes > ns->msg_ctlmnb &&
++		if (set_qbytes && msg_qbytes > ns->msg_ctlmnb &&
+ 		    !capable(CAP_SYS_RESOURCE)) {
+ 			err = -EPERM;
+ 			goto out_unlock1;
+ 		}
+ 
+ 		ipc_lock_object(&msq->q_perm);
+-		err = ipc_update_perm(perm, ipcp);
++		err = ipc_update_perm(set, ipcp);
+ 		if (err)
+ 			goto out_unlock0;
+ 
+-		msq->q_qbytes = msg_qbytes;
++		if (set_qbytes)
++			msq->q_qbytes = msg_qbytes;
+ 
+ 		msq->q_ctime = ktime_get_real_seconds();
+ 		/*
+@@ -598,6 +601,7 @@ static long ksys_msgctl(int msqid, int cmd, struct msqid_ds __user *buf, int ver
+ {
+ 	struct ipc_namespace *ns;
+ 	struct msqid64_ds msqid64;
++	struct ipc_set_ids set;
+ 	int err;
+ 
+ 	if (msqid < 0 || cmd < 0)
+@@ -628,10 +632,17 @@ static long ksys_msgctl(int msqid, int cmd, struct msqid_ds __user *buf, int ver
+ 	case IPC_SET:
+ 		if (copy_msqid_from_user(&msqid64, buf, version))
+ 			return -EFAULT;
+-		return msgctl_down(ns, msqid, cmd, &msqid64.msg_perm,
+-				   msqid64.msg_qbytes);
++		ipc64_perm_to_set_ids(&msqid64.msg_perm, &set);
++		return msgctl_down(ns, msqid, cmd, &set, msqid64.msg_qbytes, true);
++	case IPC_SET_R:
++		if (ipc_perm_r_to_set_ids((void __user *)buf, &set))
++			return -EFAULT;
++		return msgctl_down(ns, msqid, IPC_SET, &set, 0, false);
++	case IPC_STAT_R:
++		return ipc_stat_r(ns, &msg_ids(ns), msqid,
++				  security_msg_queue_msgctl, (void __user *)buf);
+ 	case IPC_RMID:
+-		return msgctl_down(ns, msqid, cmd, NULL, 0);
++		return msgctl_down(ns, msqid, cmd, NULL, 0, false);
+ 	default:
+ 		return  -EINVAL;
+ 	}
+@@ -734,6 +745,7 @@ static long compat_ksys_msgctl(int msqid, int cmd, void __user *uptr, int versio
+ 	struct ipc_namespace *ns;
+ 	int err;
+ 	struct msqid64_ds msqid64;
++	struct ipc_set_ids set;
+ 
+ 	ns = current->nsproxy->ipc_ns;
+ 
+@@ -763,9 +775,17 @@ static long compat_ksys_msgctl(int msqid, int cmd, void __user *uptr, int versio
+ 	case IPC_SET:
+ 		if (copy_compat_msqid_from_user(&msqid64, uptr, version))
+ 			return -EFAULT;
+-		return msgctl_down(ns, msqid, cmd, &msqid64.msg_perm, msqid64.msg_qbytes);
++		ipc64_perm_to_set_ids(&msqid64.msg_perm, &set);
++		return msgctl_down(ns, msqid, cmd, &set, msqid64.msg_qbytes, true);
++	case IPC_SET_R:
++		if (ipc_perm_r_to_set_ids(uptr, &set))
++			return -EFAULT;
++		return msgctl_down(ns, msqid, IPC_SET, &set, 0, false);
++	case IPC_STAT_R:
++		return ipc_stat_r(ns, &msg_ids(ns), msqid,
++				  security_msg_queue_msgctl, uptr);
+ 	case IPC_RMID:
+-		return msgctl_down(ns, msqid, cmd, NULL, 0);
++		return msgctl_down(ns, msqid, cmd, NULL, 0, false);
+ 	default:
+ 		return -EINVAL;
+ 	}
+diff --git a/ipc/sem.c b/ipc/sem.c
+index 5ec41de7e8..ab456991e4 100644
+--- a/ipc/sem.c
++++ b/ipc/sem.c
+@@ -1599,7 +1599,7 @@ copy_semid_from_user(struct semid64_ds *out, void __user *buf, int version)
+  * NOTE: no locks must be held, the rwsem is taken inside this function.
+  */
+ static int semctl_down(struct ipc_namespace *ns, int semid,
+-		       int cmd, struct semid64_ds *semid64)
++		       int cmd, const struct ipc_set_ids *set)
+ {
+ 	struct sem_array *sma;
+ 	int err;
+@@ -1608,8 +1608,7 @@ static int semctl_down(struct ipc_namespace *ns, int semid,
+ 	down_write(&sem_ids(ns).rwsem);
+ 	rcu_read_lock();
+ 
+-	ipcp = ipcctl_obtain_check(ns, &sem_ids(ns), semid, cmd,
+-				      &semid64->sem_perm, 0);
++	ipcp = ipcctl_obtain_check(ns, &sem_ids(ns), semid, cmd, set, 0);
+ 	if (IS_ERR(ipcp)) {
+ 		err = PTR_ERR(ipcp);
+ 		goto out_unlock1;
+@@ -1629,7 +1628,7 @@ static int semctl_down(struct ipc_namespace *ns, int semid,
+ 		goto out_up;
+ 	case IPC_SET:
+ 		sem_lock(sma, NULL, -1);
+-		err = ipc_update_perm(&semid64->sem_perm, ipcp);
++		err = ipc_update_perm(set, ipcp);
+ 		if (err)
+ 			goto out_unlock0;
+ 		sma->sem_ctime = ktime_get_real_seconds();
+@@ -1653,6 +1652,7 @@ static long ksys_semctl(int semid, int semnum, int cmd, unsigned long arg, int v
+ 	struct ipc_namespace *ns;
+ 	void __user *p = (void __user *)arg;
+ 	struct semid64_ds semid64;
++	struct ipc_set_ids set;
+ 	int err;
+ 
+ 	if (semid < 0)
+@@ -1694,9 +1694,16 @@ static long ksys_semctl(int semid, int semnum, int cmd, unsigned long arg, int v
+ 	case IPC_SET:
+ 		if (copy_semid_from_user(&semid64, p, version))
+ 			return -EFAULT;
+-		fallthrough;
++		ipc64_perm_to_set_ids(&semid64.sem_perm, &set);
++		return semctl_down(ns, semid, cmd, &set);
++	case IPC_SET_R:
++		if (ipc_perm_r_to_set_ids(p, &set))
++			return -EFAULT;
++		return semctl_down(ns, semid, IPC_SET, &set);
++	case IPC_STAT_R:
++		return ipc_stat_r(ns, &sem_ids(ns), semid, security_sem_semctl, p);
+ 	case IPC_RMID:
+-		return semctl_down(ns, semid, cmd, &semid64);
++		return semctl_down(ns, semid, cmd, NULL);
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -1776,6 +1783,7 @@ static long compat_ksys_semctl(int semid, int semnum, int cmd, int arg, int vers
+ 	void __user *p = compat_ptr(arg);
+ 	struct ipc_namespace *ns;
+ 	struct semid64_ds semid64;
++	struct ipc_set_ids set;
+ 	int err;
+ 
+ 	ns = current->nsproxy->ipc_ns;
+@@ -1808,9 +1816,16 @@ static long compat_ksys_semctl(int semid, int semnum, int cmd, int arg, int vers
+ 	case IPC_SET:
+ 		if (copy_compat_semid_from_user(&semid64, p, version))
+ 			return -EFAULT;
+-		fallthrough;
++		ipc64_perm_to_set_ids(&semid64.sem_perm, &set);
++		return semctl_down(ns, semid, cmd, &set);
++	case IPC_SET_R:
++		if (ipc_perm_r_to_set_ids(p, &set))
++			return -EFAULT;
++		return semctl_down(ns, semid, IPC_SET, &set);
++	case IPC_STAT_R:
++		return ipc_stat_r(ns, &sem_ids(ns), semid, security_sem_semctl, p);
+ 	case IPC_RMID:
+-		return semctl_down(ns, semid, cmd, &semid64);
++		return semctl_down(ns, semid, cmd, NULL);
+ 	default:
+ 		return -EINVAL;
+ 	}
+diff --git a/ipc/shm.c b/ipc/shm.c
+index bb1a721a3e..33f30941c2 100644
+--- a/ipc/shm.c
++++ b/ipc/shm.c
+@@ -993,7 +993,7 @@ static void shm_get_stat(struct ipc_namespace *ns, unsigned long *rss,
+  * NOTE: no locks must be held, the rwsem is taken inside this function.
+  */
+ static int shmctl_down(struct ipc_namespace *ns, int shmid, int cmd,
+-		       struct shmid64_ds *shmid64)
++		       const struct ipc_set_ids *set)
+ {
+ 	struct kern_ipc_perm *ipcp;
+ 	struct shmid_kernel *shp;
+@@ -1002,8 +1002,7 @@ static int shmctl_down(struct ipc_namespace *ns, int shmid, int cmd,
+ 	down_write(&shm_ids(ns).rwsem);
+ 	rcu_read_lock();
+ 
+-	ipcp = ipcctl_obtain_check(ns, &shm_ids(ns), shmid, cmd,
+-				      &shmid64->shm_perm, 0);
++	ipcp = ipcctl_obtain_check(ns, &shm_ids(ns), shmid, cmd, set, 0);
+ 	if (IS_ERR(ipcp)) {
+ 		err = PTR_ERR(ipcp);
+ 		goto out_unlock1;
+@@ -1023,7 +1022,7 @@ static int shmctl_down(struct ipc_namespace *ns, int shmid, int cmd,
+ 		goto out_up;
+ 	case IPC_SET:
+ 		ipc_lock_object(&shp->shm_perm);
+-		err = ipc_update_perm(&shmid64->shm_perm, ipcp);
++		err = ipc_update_perm(set, ipcp);
+ 		if (err)
+ 			goto out_unlock0;
+ 		shp->shm_ctim = ktime_get_real_seconds();
+@@ -1246,6 +1245,7 @@ static long ksys_shmctl(int shmid, int cmd, struct shmid_ds __user *buf, int ver
+ 	int err;
+ 	struct ipc_namespace *ns;
+ 	struct shmid64_ds sem64;
++	struct ipc_set_ids set;
+ 
+ 	if (cmd < 0 || shmid < 0)
+ 		return -EINVAL;
+@@ -1284,9 +1284,17 @@ static long ksys_shmctl(int shmid, int cmd, struct shmid_ds __user *buf, int ver
+ 	case IPC_SET:
+ 		if (copy_shmid_from_user(&sem64, buf, version))
+ 			return -EFAULT;
+-		fallthrough;
++		ipc64_perm_to_set_ids(&sem64.shm_perm, &set);
++		return shmctl_down(ns, shmid, cmd, &set);
++	case IPC_SET_R:
++		if (ipc_perm_r_to_set_ids((void __user *)buf, &set))
++			return -EFAULT;
++		return shmctl_down(ns, shmid, IPC_SET, &set);
++	case IPC_STAT_R:
++		return ipc_stat_r(ns, &shm_ids(ns), shmid, security_shm_shmctl,
++				  (void __user *)buf);
+ 	case IPC_RMID:
+-		return shmctl_down(ns, shmid, cmd, &sem64);
++		return shmctl_down(ns, shmid, cmd, NULL);
+ 	case SHM_LOCK:
+ 	case SHM_UNLOCK:
+ 		return shmctl_do_lock(ns, shmid, cmd);
+@@ -1440,6 +1448,7 @@ static long compat_ksys_shmctl(int shmid, int cmd, void __user *uptr, int versio
+ {
+ 	struct ipc_namespace *ns;
+ 	struct shmid64_ds sem64;
++	struct ipc_set_ids set;
+ 	int err;
+ 
+ 	ns = current->nsproxy->ipc_ns;
+@@ -1479,9 +1488,16 @@ static long compat_ksys_shmctl(int shmid, int cmd, void __user *uptr, int versio
+ 	case IPC_SET:
+ 		if (copy_compat_shmid_from_user(&sem64, uptr, version))
+ 			return -EFAULT;
+-		fallthrough;
++		ipc64_perm_to_set_ids(&sem64.shm_perm, &set);
++		return shmctl_down(ns, shmid, cmd, &set);
++	case IPC_SET_R:
++		if (ipc_perm_r_to_set_ids(uptr, &set))
++			return -EFAULT;
++		return shmctl_down(ns, shmid, IPC_SET, &set);
++	case IPC_STAT_R:
++		return ipc_stat_r(ns, &shm_ids(ns), shmid, security_shm_shmctl, uptr);
+ 	case IPC_RMID:
+-		return shmctl_down(ns, shmid, cmd, &sem64);
++		return shmctl_down(ns, shmid, cmd, NULL);
+ 	case SHM_LOCK:
+ 	case SHM_UNLOCK:
+ 		return shmctl_do_lock(ns, shmid, cmd);
+diff --git a/ipc/util.c b/ipc/util.c
+index 1737d776bc..bc4df56193 100644
+--- a/ipc/util.c
++++ b/ipc/util.c
+@@ -681,28 +681,117 @@ int ipcget(struct ipc_namespace *ns, struct ipc_ids *ids,
+  * @in:  the permission given as input.
+  * @out: the permission of the ipc to set.
+  */
+-int ipc_update_perm(struct ipc64_perm *in, struct kern_ipc_perm *out)
++int ipc_update_perm(const struct ipc_set_ids *in, struct kern_ipc_perm *out)
+ {
+-	kuid_t uid = make_kuid(current_user_ns(), in->uid);
+-	kgid_t gid = make_kgid(current_user_ns(), in->gid);
+-	if (!uid_valid(uid) || !gid_valid(gid))
+-		return -EINVAL;
++	if (in->err)
++		return in->err;
+ 
+-	out->uid = uid;
+-	out->gid = gid;
++	out->uid = in->uid;
++	out->gid = in->gid;
+ 	out->mode = (out->mode & ~S_IRWXUGO)
+ 		| (in->mode & S_IRWXUGO);
+ 
+ 	return 0;
  }
  
- void audit_log_key(struct audit_buffer *ab, char *key)
-@@ -2465,20 +2463,20 @@ void audit_log_task_info(struct audit_buffer *ab)
- 	cred = current_cred();
- 	tty = audit_get_tty();
- 	audit_log_format(ab,
--			 " ppid=%d pid=%d auid=%u uid=%u gid=%u"
--			 " euid=%u suid=%u fsuid=%u"
--			 " egid=%u sgid=%u fsgid=%u tty=%s ses=%u",
-+			 " ppid=%d pid=%d auid=%s uid=%s gid=%s"
-+			 " euid=%s suid=%s fsuid=%s"
-+			 " egid=%s sgid=%s fsgid=%s tty=%s ses=%u",
- 			 task_ppid_nr(current),
- 			 task_tgid_nr(current),
--			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
--			 from_kuid(&init_user_ns, cred->uid),
--			 from_kgid(&init_user_ns, cred->gid),
--			 from_kuid(&init_user_ns, cred->euid),
--			 from_kuid(&init_user_ns, cred->suid),
--			 from_kuid(&init_user_ns, cred->fsuid),
--			 from_kgid(&init_user_ns, cred->egid),
--			 from_kgid(&init_user_ns, cred->sgid),
--			 from_kgid(&init_user_ns, cred->fsgid),
-+			 KUID_STR(audit_get_loginuid(current)),
-+			 KUID_STR(cred->uid),
-+			 KGID_STR(cred->gid),
-+			 KUID_STR(cred->euid),
-+			 KUID_STR(cred->suid),
-+			 KUID_STR(cred->fsuid),
-+			 KGID_STR(cred->egid),
-+			 KGID_STR(cred->sgid),
-+			 KGID_STR(cred->fsgid),
- 			 tty ? tty_name(tty) : "(none)",
- 			 audit_get_sessionid(current));
- 	audit_put_tty(tty);
-@@ -2693,7 +2691,6 @@ static void audit_log_set_loginuid(kuid_t koldloginuid, kuid_t kloginuid,
- 				   unsigned int sessionid, int rc)
++/**
++ * ipc64_perm_to_set_ids - the IPC_SET ids and mode of a classic ipc64_perm
++ * @in: user permissions
++ * @out: kernel ids and mode, -EINVAL in @out->err if an id is invalid
++ */
++void ipc64_perm_to_set_ids(const struct ipc64_perm *in, struct ipc_set_ids *out)
++{
++	out->uid = make_kuid(current_user_ns(), in->uid);
++	out->gid = make_kgid(current_user_ns(), in->gid);
++	out->mode = in->mode;
++	out->err = uid_valid(out->uid) && gid_valid(out->gid) ? 0 : -EINVAL;
++}
++
++/**
++ * ipc_perm_r_to_set_ids - the IPC_SET_R ids and mode of a struct ipc_perm_r
++ * @in: user permissions
++ * @out: kernel ids and mode, -EINVAL in @out->err if an id is invalid
++ *
++ * Return: 0 or -EFAULT.
++ */
++int ipc_perm_r_to_set_ids(const struct ipc_perm_r __user *in,
++			  struct ipc_set_ids *out)
++{
++	struct ipc_perm_r perm;
++
++	if (copy_from_user(&perm, in, sizeof(perm)))
++		return -EFAULT;
++	out->uid = make_kuid_r(current_user_ns(), &perm.uid);
++	out->gid = make_kgid_r(current_user_ns(), &perm.gid);
++	out->mode = perm.mode;
++	out->err = uid_valid(out->uid) && gid_valid(out->gid) ? 0 : -EINVAL;
++	return 0;
++}
++
++/**
++ * ipc_stat_r - IPC_STAT_R of an ipc object
++ * @ns: ipc namespace
++ * @ids: the table of ids where to look for the object
++ * @id: the id of the object
++ * @security: the security hook of the object's kind, asked for IPC_STAT
++ * @buf: where to put the struct ipc_perm_r
++ *
++ * Return: 0 or a negative error code.
++ */
++int ipc_stat_r(struct ipc_namespace *ns, struct ipc_ids *ids, int id,
++	       int (*security)(struct kern_ipc_perm *, int),
++	       struct ipc_perm_r __user *buf)
++{
++	struct user_namespace *user_ns = current_user_ns();
++	struct kern_ipc_perm *ipcp;
++	struct ipc_perm_r perm;
++	int err;
++
++	memset(&perm, 0, sizeof(perm));
++	rcu_read_lock();
++	ipcp = ipc_obtain_object_check(ids, id);
++	if (IS_ERR(ipcp)) {
++		err = PTR_ERR(ipcp);
++		goto out_unlock;
++	}
++
++	err = -EACCES;
++	if (ipcperms(ns, ipcp, S_IRUGO))
++		goto out_unlock;
++
++	err = security(ipcp, IPC_STAT);
++	if (err)
++		goto out_unlock;
++
++	ipc_lock_object(ipcp);
++	if (!ipc_valid_object(ipcp)) {
++		ipc_unlock_object(ipcp);
++		err = -EIDRM;
++		goto out_unlock;
++	}
++	perm.key = ipcp->key;
++	perm.mode = ipcp->mode;
++	from_kuid_r_munged(user_ns, ipcp->uid, &perm.uid);
++	from_kgid_r_munged(user_ns, ipcp->gid, &perm.gid);
++	from_kuid_r_munged(user_ns, ipcp->cuid, &perm.cuid);
++	from_kgid_r_munged(user_ns, ipcp->cgid, &perm.cgid);
++	ipc_unlock_object(ipcp);
++	rcu_read_unlock();
++
++	return copy_to_user(buf, &perm, sizeof(perm)) ? -EFAULT : 0;
++
++out_unlock:
++	rcu_read_unlock();
++	return err;
++}
++
+ /**
+  * ipcctl_obtain_check - retrieve an ipc object and check permissions
+  * @ns:  ipc namespace
+  * @ids:  the table of ids where to look for the ipc
+  * @id:   the id of the ipc to retrieve
+  * @cmd:  the cmd to check
+- * @perm: the permission to set
++ * @set: the ids and mode to set
+  * @extra_perm: one extra permission parameter used by msq
+  *
+  * This function does some common audit and permissions check for some IPC_XXX
+@@ -718,7 +807,8 @@ int ipc_update_perm(struct ipc64_perm *in, struct kern_ipc_perm *out)
+  */
+ struct kern_ipc_perm *ipcctl_obtain_check(struct ipc_namespace *ns,
+ 					struct ipc_ids *ids, int id, int cmd,
+-					struct ipc64_perm *perm, int extra_perm)
++					const struct ipc_set_ids *set,
++					int extra_perm)
  {
- 	struct audit_buffer *ab;
--	uid_t uid, oldloginuid, loginuid;
- 	struct tty_struct *tty;
+ 	kuid_t euid;
+ 	int err = -EPERM;
+@@ -732,8 +822,8 @@ struct kern_ipc_perm *ipcctl_obtain_check(struct ipc_namespace *ns,
  
- 	if (!audit_enabled)
-@@ -2703,15 +2700,14 @@ static void audit_log_set_loginuid(kuid_t koldloginuid, kuid_t kloginuid,
- 	if (!ab)
- 		return;
+ 	audit_ipc_obj(ipcp);
+ 	if (cmd == IPC_SET)
+-		audit_ipc_set_perm(extra_perm, perm->uid,
+-				   perm->gid, perm->mode);
++		audit_ipc_set_perm(extra_perm, set->uid,
++				   set->gid, set->mode);
  
--	uid = from_kuid(&init_user_ns, task_uid(current));
--	oldloginuid = from_kuid(&init_user_ns, koldloginuid);
--	loginuid = from_kuid(&init_user_ns, kloginuid);
- 	tty = audit_get_tty();
+ 	euid = current_euid();
+ 	if (uid_eq(euid, ipcp->cuid) || uid_eq(euid, ipcp->uid)  ||
+diff --git a/ipc/util.h b/ipc/util.h
+index a55d6cebe6..b0d57f4e64 100644
+--- a/ipc/util.h
++++ b/ipc/util.h
+@@ -177,10 +177,29 @@ struct kern_ipc_perm *ipc_obtain_object_idr(struct ipc_ids *ids, int id);
  
--	audit_log_format(ab, "pid=%d uid=%u", task_tgid_nr(current), uid);
-+	audit_log_format(ab, "pid=%d uid=%s", task_tgid_nr(current),
-+			 KUID_STR(task_uid(current)));
- 	audit_log_task_context(ab);
--	audit_log_format(ab, " old-auid=%u auid=%u tty=%s old-ses=%u ses=%u res=%d",
--			 oldloginuid, loginuid, tty ? tty_name(tty) : "(none)",
-+	audit_log_format(ab, " old-auid=%s auid=%s tty=%s old-ses=%u ses=%u res=%d",
-+			 KUID_STR(koldloginuid), KUID_STR(kloginuid),
-+			 tty ? tty_name(tty) : "(none)",
- 			 oldsessionid, sessionid, !rc);
- 	audit_put_tty(tty);
- 	audit_log_end(ab);
+ void kernel_to_ipc64_perm(struct kern_ipc_perm *in, struct ipc64_perm *out);
+ void ipc64_perm_to_ipc_perm(struct ipc64_perm *in, struct ipc_perm *out);
+-int ipc_update_perm(struct ipc64_perm *in, struct kern_ipc_perm *out);
++
++/*
++ * The new owner, group and mode of IPC_SET/IPC_SET_R. @err is an error of
++ * their conversion, reported once the object has been found.
++ */
++struct ipc_set_ids {
++	kuid_t uid;
++	kgid_t gid;
++	umode_t mode;
++	int err;
++};
++
++void ipc64_perm_to_set_ids(const struct ipc64_perm *in, struct ipc_set_ids *out);
++int ipc_perm_r_to_set_ids(const struct ipc_perm_r __user *in,
++			  struct ipc_set_ids *out);
++int ipc_update_perm(const struct ipc_set_ids *in, struct kern_ipc_perm *out);
+ struct kern_ipc_perm *ipcctl_obtain_check(struct ipc_namespace *ns,
+ 					     struct ipc_ids *ids, int id, int cmd,
+-					     struct ipc64_perm *perm, int extra_perm);
++					     const struct ipc_set_ids *set,
++					     int extra_perm);
++int ipc_stat_r(struct ipc_namespace *ns, struct ipc_ids *ids, int id,
++	       int (*security)(struct kern_ipc_perm *, int),
++	       struct ipc_perm_r __user *buf);
+ 
+ static inline void ipc_update_pid(struct pid **pos, struct pid *pid)
+ {
+diff --git a/kernel/audit.h b/kernel/audit.h
+index 92d5e723d5..6195f13882 100644
+--- a/kernel/audit.h
++++ b/kernel/audit.h
+@@ -168,8 +168,8 @@ struct audit_context {
+ 			umode_t			mode;
+ 			struct lsm_prop		oprop;
+ 			int			has_perm;
+-			uid_t			perm_uid;
+-			gid_t			perm_gid;
++			kuid_t			perm_uid;
++			kgid_t			perm_gid;
+ 			umode_t			perm_mode;
+ 			unsigned long		qbytes;
+ 		} ipc;
 diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index 2b9ce0b525..08d8f5af46 100644
+index 08d8f5af46..9abe0615a1 100644
 --- a/kernel/auditsc.c
 +++ b/kernel/auditsc.c
-@@ -1104,9 +1104,9 @@ static int audit_log_pid_context(struct audit_context *context, pid_t pid,
- 	if (!ab)
- 		return rc;
- 
--	audit_log_format(ab, "opid=%d oauid=%d ouid=%d oses=%d", pid,
--			 from_kuid(&init_user_ns, auid),
--			 from_kuid(&init_user_ns, uid), sessionid);
-+	audit_log_format(ab, "opid=%d oauid=%s ouid=%s oses=%d", pid,
-+			 KUID_STR_D(auid),
-+			 KUID_STR_D(uid), sessionid);
- 	if (lsmprop_is_set(prop) && audit_log_obj_ctx(ab, prop))
- 		rc = 1;
- 
-@@ -1309,9 +1309,9 @@ static void audit_log_fcaps(struct audit_buffer *ab, struct audit_names *name)
- 	}
- 	audit_log_cap(ab, "cap_fp", &name->fcap.permitted);
- 	audit_log_cap(ab, "cap_fi", &name->fcap.inheritable);
--	audit_log_format(ab, " cap_fe=%d cap_fver=%x cap_frootid=%d",
-+	audit_log_format(ab, " cap_fe=%d cap_fver=%x cap_frootid=%s",
- 			 name->fcap.fE, name->fcap_ver,
--			 from_kuid(&init_user_ns, name->fcap.rootid));
-+			 KUID_STR_D(name->fcap.rootid));
- }
- 
- static void audit_log_time(struct audit_context *context, struct audit_buffer **ab)
-@@ -1380,9 +1380,9 @@ static void show_special(struct audit_context *context, int *call_panic)
- 				context->socketcall.args[i]);
- 		break; }
- 	case AUDIT_IPC:
--		audit_log_format(ab, "ouid=%u ogid=%u mode=%#ho",
--				 from_kuid(&init_user_ns, context->ipc.uid),
--				 from_kgid(&init_user_ns, context->ipc.gid),
-+		audit_log_format(ab, "ouid=%s ogid=%s mode=%#ho",
-+				 KUID_STR(context->ipc.uid),
-+				 KGID_STR(context->ipc.gid),
- 				 context->ipc.mode);
- 		if (lsmprop_is_set(&context->ipc.oprop)) {
- 			if (audit_log_obj_ctx(ab, &context->ipc.oprop))
-@@ -1534,13 +1534,13 @@ static void audit_log_name(struct audit_context *context, struct audit_names *n,
- 		audit_log_format(ab, " name=(null)");
- 
- 	if (n->ino != AUDIT_INO_UNSET)
--		audit_log_format(ab, " inode=%llu dev=%02x:%02x mode=%#ho ouid=%u ogid=%u rdev=%02x:%02x",
-+		audit_log_format(ab, " inode=%llu dev=%02x:%02x mode=%#ho ouid=%s ogid=%s rdev=%02x:%02x",
- 				 n->ino,
- 				 MAJOR(n->dev),
- 				 MINOR(n->dev),
- 				 n->mode,
--				 from_kuid(&init_user_ns, n->uid),
--				 from_kgid(&init_user_ns, n->gid),
-+				 KUID_STR(n->uid),
-+				 KGID_STR(n->gid),
- 				 MAJOR(n->rdev),
- 				 MINOR(n->rdev));
- 	if (lsmprop_is_set(&n->oprop) &&
-@@ -1632,18 +1632,18 @@ static void audit_log_uring(struct audit_context *ctx)
- 				 ctx->return_code);
- 	audit_log_format(ab,
- 			 " items=%d"
--			 " ppid=%d pid=%d uid=%u gid=%u euid=%u suid=%u"
--			 " fsuid=%u egid=%u sgid=%u fsgid=%u",
-+			 " ppid=%d pid=%d uid=%s gid=%s euid=%s suid=%s"
-+			 " fsuid=%s egid=%s sgid=%s fsgid=%s",
- 			 ctx->name_count,
- 			 task_ppid_nr(current), task_tgid_nr(current),
--			 from_kuid(&init_user_ns, cred->uid),
--			 from_kgid(&init_user_ns, cred->gid),
--			 from_kuid(&init_user_ns, cred->euid),
--			 from_kuid(&init_user_ns, cred->suid),
--			 from_kuid(&init_user_ns, cred->fsuid),
--			 from_kgid(&init_user_ns, cred->egid),
--			 from_kgid(&init_user_ns, cred->sgid),
--			 from_kgid(&init_user_ns, cred->fsgid));
-+			 KUID_STR(cred->uid),
-+			 KGID_STR(cred->gid),
-+			 KUID_STR(cred->euid),
-+			 KUID_STR(cred->suid),
-+			 KUID_STR(cred->fsuid),
-+			 KGID_STR(cred->egid),
-+			 KGID_STR(cred->sgid),
-+			 KGID_STR(cred->fsgid));
- 	audit_log_task_context(ab);
- 	audit_log_key(ab, ctx->filterkey);
- 	audit_log_end(ab);
-@@ -1715,9 +1715,8 @@ static void audit_log_exit(void)
- 			audit_log_cap(ab, "pi", &axs->new_pcap.inheritable);
- 			audit_log_cap(ab, "pe", &axs->new_pcap.effective);
- 			audit_log_cap(ab, "pa", &axs->new_pcap.ambient);
--			audit_log_format(ab, " frootid=%d",
--					 from_kuid(&init_user_ns,
--						   axs->fcap.rootid));
-+			audit_log_format(ab, " frootid=%s",
-+					 KUID_STR_D(axs->fcap.rootid));
- 			break; }
- 
+@@ -1395,10 +1395,10 @@ static void show_special(struct audit_context *context, int *call_panic)
+ 			if (unlikely(!ab))
+ 				return;
+ 			audit_log_format(ab,
+-				"qbytes=%lx ouid=%u ogid=%u mode=%#ho",
++				"qbytes=%lx ouid=%s ogid=%s mode=%#ho",
+ 				context->ipc.qbytes,
+-				context->ipc.perm_uid,
+-				context->ipc.perm_gid,
++				KUID_STR(context->ipc.perm_uid),
++				KGID_STR(context->ipc.perm_gid),
+ 				context->ipc.perm_mode);
  		}
-@@ -2894,10 +2893,10 @@ static void audit_log_task(struct audit_buffer *ab)
- 	sessionid = audit_get_sessionid(current);
- 	current_uid_gid(&uid, &gid);
+ 		break;
+@@ -2585,7 +2585,7 @@ void __audit_ipc_obj(struct kern_ipc_perm *ipcp)
+  *
+  * Called only after audit_ipc_obj().
+  */
+-void __audit_ipc_set_perm(unsigned long qbytes, uid_t uid, gid_t gid, umode_t mode)
++void __audit_ipc_set_perm(unsigned long qbytes, kuid_t uid, kgid_t gid, umode_t mode)
+ {
+ 	struct audit_context *context = audit_context();
  
--	audit_log_format(ab, "auid=%u uid=%u gid=%u ses=%u",
--			 from_kuid(&init_user_ns, auid),
--			 from_kuid(&init_user_ns, uid),
--			 from_kgid(&init_user_ns, gid),
-+	audit_log_format(ab, "auid=%s uid=%s gid=%s ses=%u",
-+			 KUID_STR(auid),
-+			 KUID_STR(uid),
-+			 KGID_STR(gid),
- 			 sessionid);
- 	audit_log_task_context(ab);
- 	audit_log_format(ab, " pid=%d comm=", task_tgid_nr(current));
-diff --git a/net/core/dev.c b/net/core/dev.c
-index e76762e293..a726352114 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -9718,12 +9718,12 @@ int __dev_set_promiscuity(struct net_device *dev, int inc, bool notify)
- 			current_uid_gid(&uid, &gid);
- 			audit_log(audit_context(), GFP_ATOMIC,
- 				  AUDIT_ANOM_PROMISCUOUS,
--				  "dev=%s prom=%d old_prom=%d auid=%u uid=%u gid=%u ses=%u",
-+				  "dev=%s prom=%d old_prom=%d auid=%s uid=%s gid=%s ses=%u",
- 				  dev->name, (dev->flags & IFF_PROMISC),
- 				  (old_flags & IFF_PROMISC),
--				  from_kuid(&init_user_ns, audit_get_loginuid(current)),
--				  from_kuid(&init_user_ns, uid),
--				  from_kgid(&init_user_ns, gid),
-+				  KUID_STR(audit_get_loginuid(current)),
-+				  KUID_STR(uid),
-+				  KGID_STR(gid),
- 				  audit_get_sessionid(current));
- 		}
- 
-diff --git a/net/netlabel/netlabel_user.c b/net/netlabel/netlabel_user.c
-index 0da652844d..31ac4a0fcb 100644
---- a/net/netlabel/netlabel_user.c
-+++ b/net/netlabel/netlabel_user.c
-@@ -92,8 +92,8 @@ struct audit_buffer *netlbl_audit_start_common(int type,
- 	if (audit_buf == NULL)
- 		return NULL;
- 
--	audit_log_format(audit_buf, "netlabel: auid=%u ses=%u",
--			 from_kuid(&init_user_ns, audit_info->loginuid),
-+	audit_log_format(audit_buf, "netlabel: auid=%s ses=%u",
-+			 KUID_STR(audit_info->loginuid),
- 			 audit_info->sessionid);
- 	audit_log_subj_ctx(audit_buf, &audit_info->prop);
- 
-diff --git a/security/apparmor/file.c b/security/apparmor/file.c
-index 3e74b613db..74a168edae 100644
---- a/security/apparmor/file.c
-+++ b/security/apparmor/file.c
-@@ -60,10 +60,10 @@ static void file_audit_cb(struct audit_buffer *ab, void *va)
- 		audit_log_format(ab, " denied_mask=\"%s\"", str);
- 	}
- 	if (ad->request & AA_AUDIT_FILE_MASK) {
--		audit_log_format(ab, " fsuid=%d",
--				 from_kuid(&init_user_ns, fsuid));
--		audit_log_format(ab, " ouid=%d",
--				 from_kuid(&init_user_ns, ad->fs.ouid));
-+		audit_log_format(ab, " fsuid=%s",
-+				 KUID_STR_D(fsuid));
-+		audit_log_format(ab, " ouid=%s",
-+				 KUID_STR_D(ad->fs.ouid));
- 	}
- 
- 	if (ad->peer) {
-diff --git a/security/integrity/integrity_audit.c b/security/integrity/integrity_audit.c
-index d8d9e5ff1c..cc4959182a 100644
---- a/security/integrity/integrity_audit.c
-+++ b/security/integrity/integrity_audit.c
-@@ -47,10 +47,10 @@ void integrity_audit_message(int audit_msgno, struct inode *inode,
- 	ab = audit_log_start(audit_context(), GFP_KERNEL, audit_msgno);
- 	if (!ab)
- 		return;
--	audit_log_format(ab, "pid=%d uid=%u auid=%u ses=%u",
-+	audit_log_format(ab, "pid=%d uid=%s auid=%s ses=%u",
- 			 task_pid_nr(current),
--			 from_kuid(&init_user_ns, current_uid()),
--			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
-+			 KUID_STR(current_uid()),
-+			 KUID_STR(audit_get_loginuid(current)),
- 			 audit_get_sessionid(current));
- 	audit_log_task_context(ab);
- 	audit_log_format(ab, " op=%s cause=%s comm=", op, cause);
-diff --git a/security/ipe/audit.c b/security/ipe/audit.c
-index 93fb59fbdd..ace64cf218 100644
---- a/security/ipe/audit.c
-+++ b/security/ipe/audit.c
-@@ -220,8 +220,8 @@ void ipe_audit_policy_activation(const struct ipe_policy *const op,
- 		audit_log_format(ab, " ");
- 	}
- 	audit_policy(ab, AUDIT_NEW_ACTIVE_POLICY_FMT, np);
--	audit_log_format(ab, " auid=%u ses=%u lsm=ipe res=1",
--			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
-+	audit_log_format(ab, " auid=%s ses=%u lsm=ipe res=1",
-+			 KUID_STR(audit_get_loginuid(current)),
- 			 audit_get_sessionid(current));
- 
- 	audit_log_end(ab);
-@@ -248,8 +248,8 @@ void ipe_audit_policy_load(const struct ipe_policy *const p)
- 		err = PTR_ERR(p);
- 	}
- 
--	audit_log_format(ab, " auid=%u ses=%u lsm=ipe res=%d errno=%d",
--			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
-+	audit_log_format(ab, " auid=%s ses=%u lsm=ipe res=%d errno=%d",
-+			 KUID_STR(audit_get_loginuid(current)),
- 			 audit_get_sessionid(current), !err, err);
- 
- 	audit_log_end(ab);
-@@ -269,10 +269,10 @@ void ipe_audit_enforce(bool new_enforce, bool old_enforce)
- 		return;
- 
- 	audit_log(audit_context(), GFP_KERNEL, AUDIT_MAC_STATUS,
--		  "enforcing=%d old_enforcing=%d auid=%u ses=%u"
-+		  "enforcing=%d old_enforcing=%d auid=%s ses=%u"
- 		  " enabled=1 old-enabled=1 lsm=ipe res=1",
- 		  new_enforce, old_enforce,
--		  from_kuid(&init_user_ns, audit_get_loginuid(current)),
-+		  KUID_STR(audit_get_loginuid(current)),
- 		  audit_get_sessionid(current));
- 
- 	audit_log_end(ab);
-diff --git a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
-index c7d9147697..7db30ead97 100644
---- a/security/selinux/selinuxfs.c
-+++ b/security/selinux/selinuxfs.c
-@@ -163,10 +163,10 @@ static ssize_t sel_write_enforce(struct file *file, const char __user *buf,
- 		if (length)
- 			goto out;
- 		audit_log(audit_context(), GFP_KERNEL, AUDIT_MAC_STATUS,
--			"enforcing=%d old_enforcing=%d auid=%u ses=%u"
-+			"enforcing=%d old_enforcing=%d auid=%s ses=%u"
- 			" enabled=1 old-enabled=1 lsm=selinux res=1",
- 			new_value, old_value,
--			from_kuid(&init_user_ns, audit_get_loginuid(current)),
-+			KUID_STR(audit_get_loginuid(current)),
- 			audit_get_sessionid(current));
- 		enforcing_set(new_value);
- 		if (new_value)
-@@ -581,8 +581,8 @@ static ssize_t sel_write_load(struct file *file, const char __user *buf,
- 	selinux_policy_commit(&load_state);
- 	length = count;
- 	audit_log(audit_context(), GFP_KERNEL, AUDIT_MAC_POLICY_LOAD,
--		"auid=%u ses=%u lsm=selinux res=1",
--		from_kuid(&init_user_ns, audit_get_loginuid(current)),
-+		"auid=%s ses=%u lsm=selinux res=1",
-+		KUID_STR(audit_get_loginuid(current)),
- 		audit_get_sessionid(current));
- 
- out_unlock:
-diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
-index da77ad769c..dd42142e20 100644
---- a/security/selinux/ss/services.c
-+++ b/security/selinux/ss/services.c
-@@ -3012,11 +3012,11 @@ int security_set_bools(u32 len, const int *values)
- 		if (new_state != old_state) {
- 			audit_log(audit_context(), GFP_ATOMIC,
- 				AUDIT_MAC_CONFIG_CHANGE,
--				"bool=%s val=%d old_val=%d auid=%u ses=%u",
-+				"bool=%s val=%d old_val=%d auid=%s ses=%u",
- 				sym_name(&newpolicy->policydb, SYM_BOOLS, i),
- 				new_state,
- 				old_state,
--				from_kuid(&init_user_ns, audit_get_loginuid(current)),
-+				KUID_STR(audit_get_loginuid(current)),
- 				audit_get_sessionid(current));
- 			newpolicy->policydb.bool_val_to_struct[i]->state = new_state;
- 		}
 -- 
 2.56.0
 
