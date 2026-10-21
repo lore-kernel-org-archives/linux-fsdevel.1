@@ -1,91 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.230.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.230.196
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792605197;
-	b=guNmbd0UjnJYvyxUjXP7JklJgiQEGTAu50AXBu6TAq7nvJJm85cYzRoTMx3Sa68k8d23
-	 RCjVPMOhYrhTYh8u8xGdlGe8afukYobHLAtfmzDsuNzPGvngoMrd/xGgNs8C+MlPhFsKc
-	 dM0/Z7M9z3z90+dxvxV5anSutTBCAxe+AHMp3fDCP7JZ7h/37rI2h6JUXwqQToPsfe7e7
-	 7Dzt0l9AxxXjy8iK+hD7xN2ZdumXdklTpOvsO4lBktndXpIYDddGTkQA2ZGm/GPbPIRXn
-	 aPJajWluZOVDXlwVF3SCJv/2UKvRhJY3jc8vQU1TXXWxD7ayATYZCUQa5QSpXZyLhsA==
+	t=1792605198;
+	b=GpIxePvzU6t3v6KjOw3xpDeUYE2Kb3xDXLeEEEevriKNx+4MaNk5BpriH/JikKg/reWB
+	 y9doVGuymwQAggQQyJgovyUV0jhnnSApiC/anq7rKH5E2n9TQJM6xDQVSk660IezdPrTZ
+	 bWAZvOkUVYM48L64gwuLrSoF8JKLvimmCPre0B0biFlVIjhTNNHkpTB9GCgCu9/l/iSSQ
+	 2sLadAcSVqFjdTqjQBH/nPOSSj7ACY+BezsGDyA85eKZaVToGwAjWSjSRiksG8sauTOY2
+	 nYNptRBNv3fqxNn9+IjK/NulST7ZSFOJF9goiEOdZ/mPitKbrQ1iUlsZKFyZdsERX7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792605197;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792605198;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:In-Reply-To:References:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=Nkow2WxsbwgbBb3PRtxAKEX5ZOJS6u8PKRX/NW/T3IU=;
-	b=pzMB510r5qwnxI2Zg5cZxykbpx3i+ZRfht+5x2EbVKouxBTmvhh6QAdskDGTrcOXvggz
-	 cOSngDFZXbWxjFKW/kMrr/jlqfLvTHjcyrqSjwcRuEnTY1FNeUqJntlj7i/GxNbQMOH6B
-	 654jOrlGkJG1quoyMeouLvRLRTb698S+HIgGsd7TYCThFk54MKQwlwJzpBeFSj1BBukj9
-	 2iJIOFmlaQgz53LxEXjIwkXIYUmH+eUibHQZ5G71gXSfWEqFFsupGZHA6SUec5BXRXgMQ
-	 5ZLEp2DeZitzf7B978iGbCchcNJME650lramADX+32kfWwi91NKBfPUd53ogPYaxhIA==
+	bh=bvopn4Bqo5mm/LiFrwVnKxpY2c+FNJJoD3FpecADh3Q=;
+	b=tPrtiFqyeTzmyJlhUaVsOcqAaWDoGwxljdOpKj0BLHDIwrHdMkZ1LsNwqhNlFsdGMk0M
+	 u88OmfJpCruLbB+xNVfJyJrHp9y0ZK6EaidPGv+oeye3kOLuFr7tNQgkyFruhGqfAEuav
+	 Nw7LAVC+D7k8sVw/MRjSc3Wzm1lxqOvCVUpBaeAXIlSL6QU+xy1Gia76RKS/fP5jx6lL+
+	 TPje1qQKvene/hxRBPTewEjXunEF8xxdtNqbhKC2u6FNvGf5t1VNMm0gxxgRVWVa835a3
+	 yh+pP8Xt07N9s7lYjrkasxirB42BIFTBEDQJJEU7aC87W6siqCyKiP84a60atCFzktg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=apSsoOej;
-	arc=none smtp.remote-ip=74.125.230.198
-Received: from mail-qk2-f6.google.com (mail-qk2-f6.google.com [74.125.230.198])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KikB41Dn;
+	arc=none smtp.remote-ip=74.125.230.196
+Received: from mail-qk2-f4.google.com (mail-qk2-f4.google.com [74.125.230.196])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744A5606A326
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 17:53:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 744A5606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA9F606A321
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 17:53:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BA9F606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=apSsoOej
-Received: by mail-qk2-f6.google.com with SMTP id af79cd13be357-93c56ac78c5so10913285a.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 10:53:17 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KikB41Dn
+Received: by mail-qk2-f4.google.com with SMTP id af79cd13be357-93f38343369so62435085a.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 10:53:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792605196; x=1793209996; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792605197; x=1793209997; darn=vger.kernel.org;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Nkow2WxsbwgbBb3PRtxAKEX5ZOJS6u8PKRX/NW/T3IU=;
-        b=apSsoOejDjjcH5diiC2gbH+Z8kNd1Jauv+MSmpI4UZrUS2NjxhosEOAmgFyWIw1tK8
-         +lL2IKClK1IoBMMMjvQOFgoS9EqawBsXTPPTrExACDcEohGG3kebty5hpHgtEy/euVMa
-         ZjC8gDd7PKQ6LXTst2U3wP5xFcno9P7NShD2VCFtkqEyRd1hAKPc4wMSaxHZxtKp83hd
-         VZB788xsnGmHWOiEL/+bcOQ6dosna5Kvss+/yLjjUhJ0hk3NHjLSeoY85aYgLzKodOq5
-         UcOWYNdhwLapdAd44EFDaiinnPBQj/bJumTz5tnw8VcciX/ErEHPF76cIUw9e0N+DVky
-         nUGg==
+        bh=bvopn4Bqo5mm/LiFrwVnKxpY2c+FNJJoD3FpecADh3Q=;
+        b=KikB41DncDcSaFMtrZ6wcc4ELt/RfWPaAhey8DUp+d5ic6Qetl6NB/JqFWlb76earI
+         nDj1Lq3XmSNeRORBnCAak3AGcwDmmPHSoTsWHLoxjm60bnI7gvshiyGJ6BFfjARrSf52
+         ri7QKTPfM4nBSflJjnS8wJJFi6GxjChacXWI0ho+9pJQwF1kQ5O0E4tcZt7z0J2/2Uid
+         RY7U3VAwhx2OaF2JlJbMP3kFXvX3lGDpgGR2vYi6llvZklR9iQVAYtW2wvsxy5/xEiw/
+         KEibdGdHBOYCODDoZEHNQFbqYSi22GZJqR0NZJRdNUsysq2vWbT6SBRrrtv/tL4jEruk
+         VN5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792605196; x=1793209996;
+        d=1e100.net; s=20260707; t=1792605197; x=1793209997;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Nkow2WxsbwgbBb3PRtxAKEX5ZOJS6u8PKRX/NW/T3IU=;
-        b=Du1iXxD6uD0si69f1gaw1N8rI82wdoSvCfkePpc24wR17bZV2hQvj2u8F6/tigcOTn
-         wij7YmMNrpIdhS/FcLQoYL49LosLxGM8jkqXaeoT0c3mcCNccz4pAcbYjH/JkLQVr+FL
-         pMtlU/A7fLApbKMWnrYklA+JbnRf/umqk99BFMSQ0g0miJWqcKYCjRs07b5nlo9M46o9
-         HxPuiax+twr7jTLjW888SgCtguTTb1LxYDmWFZLxo8jglTZlLiMJZJUdpq/eMwuItPK8
-         n4b2I3/8MPAVWV49OUVetMM+k6TcWj7c6NxNt5VZ+mE/hbETFWZy09dWHoKAfJ5B8QFo
-         h2RQ==
-X-Gm-Message-State: AFq9FYJNH9LOQWUiPC5K3wNfgvAhNrXx0ch3QvL8g72pbXFdd1n4QTZB
-	1xhkwTWnOn/EEE6kTEZXLFuVQbL51i4viOiiiejOVTT5g2W32OB5GwsMARyDKfoM
-X-Gm-Gg: AYBFou1orhBE3vYEdIBCH0FhmQTXulwDqqo1IIPuVvn4zjCy/oIejL1BXTe7MlNwtc/
-	2sMwXA2UQRbGCE5o4Nep5DOesXTtgN52MzEbmRmmOEb9VR4mPv8Ze3JE8BSqE0lpHQBCebzNLI/
-	T2RHowof7RBYCLZDffk8sIFreDhdty6wSDsdxvd3ZGUhiHdntamQ5I7/TR6691KF1VuspxKWUEs
-	vZfhzlJmmfKonbtrAghmK/rj2k085q9/izRXufLfdv5VLclDqGG3+hAyhatdOR2KWE/AkQkIB3e
-	tqDOXPElQDsfmVKnpi316d8RnqOEOq9c1mnTVMWHLXirH2BjczqQI+g6gJVgShj2nNBtd1QFI5m
-	oXuy5z7HCo/OFmFpvepSdphaWqq8+RTAUw6L3LeK4f39LAz5dQpxey4ntUxWHVfAfn3VFkLzC4/
-	hrnud3unpjjB9earyRTFp/f77AC1DmszYyNTJaSokvZi77mEtRr0oAlnmvLyic2+jKSqoPjNGXl
-	fMB0x0lQViO6L7y4liAbhiHjntvYlk+9mVcWGvD9qSbsBw/7NjYUx7EAjU6qNbE
-X-Received: by 2002:a05:620a:2b92:b0:93e:7156:f814 with SMTP id af79cd13be357-93f624d257cmr17959385a.11.1792605196271;
-        Wed, 21 Oct 2026 10:53:16 -0700 (PDT)
+        bh=bvopn4Bqo5mm/LiFrwVnKxpY2c+FNJJoD3FpecADh3Q=;
+        b=o5Es9ARS5llrKXAnR1+R7hT5N1GjNqv0F+2SiO8qr3+wSyuA8hvwoyq9FjTz+r7Vjp
+         gvkZ0ypoQiQnYmZxa+l+sKaEssi0ASKu7DNUsvyPVqdawh8aiXtNfwDHrmb65szCkyw5
+         ikkcXNCLATFDrP4EMuu+MJIU6Vj413E4WgMnM6uR5qD5xs34CgRaLBT3cElwm30IjOp9
+         R+VzChIPh7N9ZaO8hBdHbytGbdMmtpgBPtlYfZBgI8+ke7O3y8pt/8R3YWceh1vG3K2h
+         97SSb0dF25Vqm7tCiQMkn01UyokqCSA21244P4sv4z8kS/9uJaiDwigCXkHWLx4BJ7cg
+         chag==
+X-Gm-Message-State: AFq9FYIaw4cEAmZGF1+9QW3LRaVT17BkHam+o77/ppucozawLjG3UBOS
+	vplO8nCrrZRyBNAkZE8fq59oasclRUkj6AJJBFn9gWpWtz5vfKIi7IZpIkVDtlOs
+X-Gm-Gg: AYBFou3LvuoTEZSLAK/zn9QEkbEZq8r9luG2uTQqWMqRaO3uYHC8+2/D4lL1suES4On
+	+lrT0MAvcS9Cgi271mmDJzmYpGP2YLBRV4dA5KJj9OCt2e9WcyMw9jw6HJeLAFmKRwADBwV6b17
+	65OStdVvV5LBUAIzRhnJy0mDeofgKMN0dCPTETKSdA30V5sQtRGqTN2rQCvnlb+CkcQ2hYj/zUu
+	dcmF+TcdNnh7NGMb/Q5yzjkHsBXn3Q0FBOa470GYALpOhIKlfHjTVfs/1/C3WkxEvFJL3JqH6g7
+	1oJyxs87q+fTrChE6111cP8hWcpOVKzj84g7SZmWvifTLtw4x5Am1uB1+TkHKuiudC/GNvJxza4
+	kX7KYKTgKT4x+AzCpPJO98x44dAAA9XrF3xcrVLJjBkOFerDCiQLn0xWkOgpFsot+vbTF8vEB9B
+	OllF5pXM4F1yn5/TkpjvVZMUmWQhdPWAe3Tx748usjwDRDfhI99OVMvsQJesCoDL//IYSI44GzN
+	lL62z17SZyBHY9lz8U0vrjXaDEkb6Z5w4w+VKrd+Dk2TnZ+aj1Fi22Rqz6VhW/4
+X-Received: by 2002:a05:620a:8909:b0:93e:5016:e3a6 with SMTP id af79cd13be357-93f57f05f2cmr574659985a.26.1792605197349;
+        Wed, 21 Oct 2026 10:53:17 -0700 (PDT)
 Received: from Fujo.localdomain ([142.188.41.221])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f56d9af50sm305675385a.8.2026.10.21.10.53.13
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f56d9af50sm305675385a.8.2026.10.21.10.53.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 10:53:15 -0700 (PDT)
+        Wed, 21 Oct 2026 10:53:16 -0700 (PDT)
 From: fujo <hooyan2024@gmail.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: Christian Brauner <brauner@kernel.org>,
  Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  linux-kernel@vger.kernel.org, shaos <shawnq1@163.com>
-Subject:
- [PATCH 1/2] fs: statmount: don't copy strings past the caller's buffer
+Subject: [PATCH 2/2] fs: reject U64_MAX cursors in listmount() and listns()
 Date: Wed, 21 Oct 2026 13:51:51 -0400
-Message-ID: <179260511193.411.4517720543579678364@gmail.com>
+Message-ID: <179260511193.411.8347258310589513211@gmail.com>
 In-Reply-To: <179260511193.411.2849255769062027805@gmail.com>
 References: <179260511193.411.2849255769062027805@gmail.com>
 Content-Type: text/plain; charset="utf-8"
@@ -100,56 +99,65 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-statmount(2) collects all strings in a kernel buffer and copies them to
-the user buffer after struct statmount.  copy_statmount_to_user() copies
-seq->count bytes at buf + sizeof(struct statmount), but only
-statmount_string() checks whether they fit: it returns early when the
-producer emitted nothing, before the size check.
+listmount(2) and listns(2) treat their cursor as the last ID returned by
+the previous invocation and look up the next entry at cursor + 1.  For
+U64_MAX that addition wraps to zero, so the enumeration silently
+restarts at the first visible entry instead of reporting that there are
+no more entries.
 
-If no producer emits anything -- for example STATMOUNT_MNT_UIDMAP on a
-mount that is not idmapped -- the reserved empty string is the only
-thing left in seq->buf.  statmount(2) then copies that single NUL at
-offset 512 even when the caller passed a smaller bufsize, and returns
-success with size = 101 for bufsize = 100.  The write is beyond the
-buffer the caller declared; if the following page is unmapped the
-syscall fails with EFAULT instead.  The same request with a producer
-that does emit data correctly returns EOVERFLOW.
+listmount(LSMT_ROOT, param = U64_MAX) returned the same first mount ID
+as param = 0, while param = U64_MAX - 1 returned no entries.  listns()
+repeated the first page of namespace IDs for a U64_MAX cursor;
+U64_MAX - 1 returned ENOENT.
 
-Validate that the string area fits into s->bufsize before copying it
-and return EOVERFLOW otherwise.
+U64_MAX can never be an ID returned by a previous call: mount IDs are
+allocated above MNT_UNIQUE_ID_OFFSET and are strictly increasing, and
+namespace IDs come from an increasing 64-bit counter.  Reject it as an
+invalid cursor, like the existing check for reserved mount IDs, so that
+the wrap cannot happen.
 
 Reported-by: shaos <shawnq1@163.com>
-Link: https://lore.kernel.org/all/20261020110747.959829-1-shawnq1@163.com/
+Link: https://lore.kernel.org/all/20261020110732.959552-1-shawnq1@163.com/
 Signed-off-by: fujo <hooyan2024@gmail.com>
 ---
- fs/namespace.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ fs/namespace.c  | 9 +++++++--
+ kernel/nstree.c | 3 +++
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/fs/namespace.c b/fs/namespace.c
-index c30f06374..c8aceeff6 100644
+index c8aceeff6..6806745a3 100644
 --- a/fs/namespace.c
 +++ b/fs/namespace.c
-@@ -5831,8 +5831,18 @@ static int copy_statmount_to_user(struct kstatmount *s)
- 	char __user *str = ((char __user *)s->buf) + sizeof(*sm);
- 	size_t copysize = min_t(size_t, s->bufsize, sizeof(*sm));
+@@ -6292,8 +6292,13 @@ static inline int prepare_klistmount(struct klistmount *kls, struct mnt_id_req *
+ 	u64 last_mnt_id = kreq->param;
+ 	struct mnt_namespace *ns;
  
--	if (seq->count && copy_to_user(str, seq->buf, seq->count))
--		return -EFAULT;
-+	if (seq->count) {
-+		/*
-+		 * The string area starts after the struct and must fit into the
-+		 * caller-provided buffer.  A request that emitted no strings
-+		 * still leaves the reserved empty string in seq->buf.
-+		 */
-+		if (s->bufsize < sizeof(*sm) ||
-+		    seq->count > s->bufsize - sizeof(*sm))
-+			return -EOVERFLOW;
-+		if (copy_to_user(str, seq->buf, seq->count))
-+			return -EFAULT;
-+	}
+-	/* The first valid unique mount id is MNT_UNIQUE_ID_OFFSET + 1. */
+-	if (last_mnt_id != 0 && last_mnt_id <= MNT_UNIQUE_ID_OFFSET)
++	/*
++	 * The first valid unique mount id is MNT_UNIQUE_ID_OFFSET + 1.  A
++	 * U64_MAX cursor is invalid as well: advancing it by one would wrap
++	 * around to zero and restart the enumeration.
++	 */
++	if (last_mnt_id != 0 &&
++	    (last_mnt_id <= MNT_UNIQUE_ID_OFFSET || last_mnt_id == U64_MAX))
+ 		return -EINVAL;
  
- 	/* Return the number of bytes copied to the buffer */
- 	sm->size = copysize + seq->count;
+ 	kls->last_mnt_id = last_mnt_id;
+diff --git a/kernel/nstree.c b/kernel/nstree.c
+index 831f279d1..39978b56b 100644
+--- a/kernel/nstree.c
++++ b/kernel/nstree.c
+@@ -450,6 +450,9 @@ static int copy_ns_id_req(const struct ns_id_req __user *req,
+ static inline int prepare_klistns(struct klistns *kls, struct ns_id_req *kreq,
+ 				  u64 __user *ns_ids, size_t nr_ns_ids)
+ {
++	/* A U64_MAX cursor would wrap when advanced. */
++	if (kreq->ns_id == U64_MAX)
++		return -EINVAL;
+ 	kls->last_ns_id = kreq->ns_id;
+ 	kls->user_ns_id = kreq->user_ns_id;
+ 	kls->nr_ns_ids	= nr_ns_ids;
 -- 
 2.53.0
 
