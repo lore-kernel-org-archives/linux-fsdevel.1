@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792579148;
-	b=hIs2du58GrOJNZloODnuPcGwCU5x6ZU87w8riFMLagXi8Cm8xgeAE5L9j0H13KO7nl4H
-	 BebZD+ySbNrI1xzF+fKO4Cu1fr2pNPZSQyP1Ma98OLHqcQ93G0AqN5wGPEWgVnbuglIGS
-	 OKKYvmKMCBfe2w3QgmDBj2NfxsdDS2deQXdIvfgcipIIWAqcVAv0qPPShgfaRz3tvgIJ+
-	 5IJyC3QRJf1gE0A1mXTx/CPVtJcuafkTqEg3KQfzwlP6CqN9C0rdWX7Fmdy1h4WCzbvqG
-	 TSkxagqun48awibp2HH37H6tm8hrxD/pqoya3Dlm+p2u63QcczCLfUq2Qmjibx2nJXw==
+	t=1792579304;
+	b=yd3Ricz7D4CTCHK6cFZB1BDINYKQwgpCQa8iv6rmsxglszAJXU1xXnwqy+J6sCe4t6kw
+	 SDZjn6Vm8KpK1W+OTsIb/YOBEetLeVbxbVl7mgCIu8r8utIlSfLnmLPp+C9ziaNnI7RGW
+	 WMImH+VlieoA+Q6BGW8QN1CXQV219T8YXZ/ZPj4DNlXUqpVQi/7UoHqzHOzmyW5/u126Y
+	 R0+YBpiamZopTSzps7nvx0eQeYaoBAk79mH4KXuV9uJFYeCqt+RqJ2QrG3gJSyU2EV2vY
+	 24wz/O2EzbqwpvYGWUGG3Vp+hEhIK8Ixo0lXrSbYQloWYNybOE4s+ARDwYsCpv21Yyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792579148;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=qzItkW3qABLkgzSm8HT/u5rwEuJC8InOKPTtRdx/4EA=;
-	b=nGR2I513wjCjiTbIUuwHeU0wz4/slTitChe82PMOTdRCYuXzSlZcn6IVVjY/9QVllE4+
-	 zaIBOEabqQFxHUzt7Xwtk9FsHEq+UcHlLmNb7ZQFrXt/tYLgIRTLByuMTBC2ATL0Iqs31
-	 fb4vOrq4xGjHq72B1DMqvd217nAWII1RNXTZ17Z+wYaqDl9yoxKvOOk7dxcmXCk+RTTuq
-	 ACFr87OJEZ2GbpQDM2hh+sM/fO8AlObxcpNyRgskRt84Vr5WtWH48ZOar7T5lO3mtlzVe
-	 xbNe2EwPXfFYB5z4wyugGt4/Kj1qR964+pJHQ7k/aMcrEf/lD24Con8j29EvkN4bE5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792579304;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=0BRupwIuqL6NOK9wHXgZQUdm9H5tKSR/x3n6IQwiFTk=;
+	b=SpqlrGmpiHw0Dl7SqZYtZOWCcQvHoUdhpej6kWdp/CG87zAlqBt7VTRonwRVaf6u35Mp
+	 90Nc6SFAU2rSWzZk2kVcYt0ZeXmqo6AJmZMZFSvk2hbN+1KvZlRcDta3xuxxDKyyCHG2i
+	 CKQPgnZ5U7NAa4d3EIC97SxZ3pz+YuP8Zwoz32HpJXOOpdWakNjQ+PJ7mhc/Lkfvtwy6D
+	 Kd0KX+XkR0x3aRWB6W9owbPP0VxZQG8R3dZo/nxEVBeriLTqDsQAUJPaSaSuR316WoIri
+	 ZZjLGaUL4GGVHgIDX9PXzRyfmbIiVw5bjARzUou65b1C7w8Ka08zjppY9wL26LllcNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IYadNbUf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cKEGBbQ7;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED655606A31D;
-	Wed, 21 Oct 2026 10:39:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0358B606A319;
+	Wed, 21 Oct 2026 10:41:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IYadNbUf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD331F000C9;
-	Wed, 21 Oct 2026 10:39:06 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cKEGBbQ7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3B5E1F000C9;
+	Wed, 21 Oct 2026 10:41:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792579147;
-	bh=qzItkW3qABLkgzSm8HT/u5rwEuJC8InOKPTtRdx/4EA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=IYadNbUfuvxSgYhhs1tHWzyjFPapOQuz9tPUamdSDBzA/fyp5x+JRkNdp7GcjGeTI
-	 tKWWDkiQjMcNJ7mStaOx9U4n/aahL4Qih71SyhJAKlUnIi/rvdD9N4luo1xbFdIJLK
-	 lYy+LT8c9D8JBBPeckcaD64DtpHdKqfoHtJkhv0XwQX5oUwH5FxdjJUD5FVUCxjUh1
-	 e63v36xC1rw7oSthqxLHvEDADAtkSNgQMvjvTOUDINTYIU1nMw465PH6w5Xkm1KbyM
-	 +hi+gYFl2pPHO7pJUsUOxtQuC7GygsKMg6au9FInK/cGyl3gBZd2TN6muuPN/C6iln
-	 qEEo9Q1qhJeuQ==
+	s=k20260515; t=1792579303;
+	bh=0BRupwIuqL6NOK9wHXgZQUdm9H5tKSR/x3n6IQwiFTk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cKEGBbQ77fa0tl/Tnjh2Mn5V32Be9U9fblyTD4ZKNIXcWBHpU5XKLQoGaEj6p2JfD
+	 CdnvHktuSMwwVFz6XxSoxRrEZ/APLzHHyo9MDNlilWiMR83Ojbjp15bLc+MhtBj+GY
+	 pUC+AtTx5ShOYkW/xLJvjC1Db8meifECrppYT4MTCv2ENlTUzt12bskQZ1X1zm0V7X
+	 yuNmYC/As2662G4lTQ4SZ48TVcMADn6owQLT42q3N045pXUtlmlbpEHg1y9vQEsD7F
+	 uPWsdoLDnnQ9Zrbmq0RBEFam2AnIbhzww4ssahPNF79ssZgHBUr5BaoM0QNaEkebIf
+	 7l9ETbyV6dYhg==
+Date: Wed, 21 Oct 2026 12:41:38 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Nickolai Zeldovich <nickolai@csail.mit.edu>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261018030342.799383-1-nickolai@csail.mit.edu>
-References: <20261018030342.799383-1-nickolai@csail.mit.edu>
-Subject: Re: [PATCH v1] nsfs: check the trailing bytes of a file handle in
- bytes, not words
-Message-Id: <20261021-minigolf-lockruf-kosmisch-8a8fa236dd46@brauner>
-Date: Wed, 21 Oct 2026 12:39:01 +0200
+To: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Josef Bacik <josef@toxicpanda.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>, 
+	Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 2/5] userns: don't let setns() lend CAP_SETFCAP
+Message-ID: <20261021-bioenergie-allheilmittel-undurchdringlichen-35666eb62cff@brauner>
+References: <20261014-b4-setfcap-userns-v2-0-fac4d19281d7@toxicpanda.com>
+ <20261014-b4-setfcap-userns-v2-2-fac4d19281d7@toxicpanda.com>
+ <atL0BtBrgCtb3QtY@hallyn.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,36 +61,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=916; i=brauner@kernel.org;
- h=from:subject:message-id; bh=M4CebLiLHCP85ip2GP1nTAk22k7weh7LAglnHUwF6pA=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdmOYRuy1oysOkOL1jGX/XOaatjQ7tV2FyYVv5w2TR9
- JuPN5oHdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkFj/D/9zDh53r+s+f/sHr
- Xrqw773xL9/umQxyu402/5o8bfaHnHcM/1Nn8p2I+cvAtO7i6Yvx7wW1NwT9bLwysXFCtum5wmv
- LJ3ECAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <atL0BtBrgCtb3QtY@hallyn.com>
 
-On Sat, 17 Oct 2026 23:03:41 -0400, Nickolai Zeldovich wrote:
-> nsfs: check the trailing bytes of a file handle in bytes, not words
+On Fri, Oct 16, 2026 at 11:05:26PM -0500, Serge Hallyn wrote:
+> On Wed, Oct 14, 2026 at 08:47:47PM +0000, Josef Bacik wrote:
+> > Mapping uid 0 of the parent into a user namespace requires CAP_SETFCAP,
+> > because a task in such a namespace can write file capabilities that are
+> > honoured in the parent.  A task that is already in the namespace has a
+> > full capability set there and can't be asked any more, so
+> > verify_root_map() goes by what the creator had, now ns->setfcap_level.
+> > 
+> > But setns() lets other tasks in, and they get the full set as well:
+> > 
+> >   task A: uid 0, full caps          task B: uid 0, no CAP_SETFCAP
+> >   unshare(CLONE_NEWUSER)
+> >                                     setns(A's user ns)
+> >                                       allowed, euid == ns->owner
+> >                                     write "0 0 1" to /proc/self/uid_map
+> >                                       ns->setfcap_level is A's -> allowed
+> > 
+> > or, if A's namespace maps uid 0 already, B sets security.capability on a
+> > file.  Either way B ends up with file capabilities that are honoured in
+> > the initial namespace, which it could not have written there, nor in a
+> > namespace it created itself.
+> > 
+> > Refuse setns() into a user namespace unless the joiner's CAP_SETFCAP
+> > reaches at least as far up as the namespace's setfcap_level.  Then every
+> > task in a namespace is entitled to what its setfcap_level says, and the
+> > checks on the way to file capabilities can go by the namespace.  This
+> > has to apply to every user namespace, also to those that don't map the
+> > parent's uid 0: through an idmapped mount, a root user that only exists
+> > in the namespace can be stored as the parent's.
+> 
+> Can you please explain what you mean by this about idmapped mounts?
+> 
+> It feels like something we should not be trying to protect against.  The
+> mere fact that an admin can create an id wormhole with an id mapped
+> mount where uid 100000 is mapped to 0 on the host, does not mean that
+> everyone who wants to setns to a namespace which maps uid 100000 should
+> require CAP_SETFCAP, imo.  It just means the admin should be careful.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] nsfs: check the trailing bytes of a file handle in bytes, not words
-      https://git.kernel.org/vfs/vfs/c/08a7d685fc61
-
+Yep. And it is in active use and was an explicit design requirement.
+Again, Incus and LXD both do this on purpose to avoid shifting an
+uid/gid and ensure that access to /var/lib/containers or whatever is
+restricted.
