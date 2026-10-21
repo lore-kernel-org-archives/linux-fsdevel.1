@@ -1,56 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792591849;
-	b=iJjr7RBc9oKS/vFC7uMcwuwFgG/zULIi6O7dgmlbVi342HebWaIcXH7sJBBx552sMLCH
-	 cxcjpQEp8rNwe3tEd1rupa3PC2OBjT2ggunXe0ZlXL50C+stG9hs7jxrfY1IZ1IRN8wk5
-	 b4nGmQWL2E8uHocXskBtjTxthpNzOlwd3FI03KYFWAQ8AomwPLR+ozIpPiNkYEPwdDTqw
-	 7Prtfy6T33pn78ukzowTk7mKh/Kd1lp99akAehSl84kFdhuGwMFJJ00evGhMvNp++e7e0
-	 1rzP+/if5/PszgHXB1ZmIHdQ0QRbwRQKcxTWCX2aJuQkMw9nF7OE9e0+1gogvOojIlg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792591849;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Cv6/eLa7YeLcn9KqPFfdkN+ZTh1nEyFi4NtZegl2CME=;
-	b=dIRh5g3S5sXDcIIBcVnG99S47ph4g8FkC6KKfya+yhQuOq/FdppZwOQtlOUfiy8zfk++
-	 oPZ5BQeO40IatFjrMU6oPlfPgvaTnba7oSMxbDDQGKnlZHIU8xFQ0jNAmEKHmBo/3ABT3
-	 FjQWHk5x4Dp4X4Cq6ZbEbM5QJLiIXShoePbPe9DGIVsu1bJ6bMz1V4FwZ95/OuH0NnkuA
-	 4Gjdl1uWzkLj8B2vJbKt/eor1f3yGYr5dd/bv6Hr1vyh3zSA7lTMrDghyBmA6fyh+2ixX
-	 WsHWJNJVny0dGt8KYooEMamRoAO7i32lvhLgm/WSjVrDYzARoFYMtN2Kr6Wf6URD7Kg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dNDAVZrt;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792592814;
+	b=HOJ9l4M/At/ZS/6BXLFykvUwpFTFNKetivakPrbmavretnnkntzX4okYiugBvPVE6Uby
+	 +0li5tx6Ml1X+YvZFtjNJDpTP8tCrc6Hip2Sx+CyY8fgYFHhVxvJjVi0WZ9xBTMI5UMGy
+	 NUerrd8178GrAXSd05XDci2XeD4yQb10tI75+AbDBcPSQtma4tiCnvrWNnoMxSFffbIYJ
+	 aiz7qwDis+HwwwHxAwdzAZUp3IMZq7qI0HEdIv1ftFhcMBE0Ld5nYy2Xjku4xh6+ORxaH
+	 Ctk+59ZReQZFzjMWBefO5UfTnurriSzjqWg0tNbgeXxk3+FgyVYnQoIoiiZl6Jn2cFA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792592814;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=HZWCDTWe8myvVLhLnC3gRwnDw2Z9dfDRU9KvUScIux8=;
+	b=AnJJGC5c1PsZs94wOv0IL4dTGkeNdJW6/v3CjVpwJOtgefpiGABbPCPy6a9vpKR9C5nT
+	 pXQ2BwinTB6SDENUFgWfg1LsGn5aDsWI85u9n0Dl2XJQoxB12/3LnExucVezpOx0BGx85
+	 rUkxIAW0cXnDWb7NNFyssZzyvKB6Ol5lVHybC7w9C59gDvJtfQXgwftIJsIMTWEB0qmLF
+	 2fLLc5vI1hyUy3P6ZFhiTs5oSNzDqsH01TbHd1/ZlpY4lLuVJ/3WPkjjagaXg+phZDe87
+	 ZnKmp2+w2bnfsowgcchmmETpfZdyNfkX28SMxB3mom5K+6/PgakNFjkoQ2wxcAArhHA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BRqHAhOJ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE1F606A31A;
-	Wed, 21 Oct 2026 14:10:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C71606A328
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 14:26:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37C71606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dNDAVZrt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DAEB1F000C4;
-	Wed, 21 Oct 2026 14:10:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792591848;
-	bh=Cv6/eLa7YeLcn9KqPFfdkN+ZTh1nEyFi4NtZegl2CME=;
-	h=From:To:Cc:Subject:Date;
-	b=dNDAVZrtWJ0XfeqLABWUwvYv5H8i/0Lbmv6x4QOIpAF7o+8cVyGX1Y6z5nCgJnBUO
-	 hxnNKvralu4sGjGMtViQBk05IZYitJ1JAHQWcCF2fS48sfC/OzlRM3f20qaIzsbgMG
-	 o+ycxZdfsKQ5hj3cBz6NkWb9+LH0ndS5iV5y9tptuhKaBGt0vTnvrqKFi1YCgwN4D6
-	 XPAibIDKA1P7ZWGZJyB2qX6bl4bmzRO+hkNGMTOsIaoKFASotyNmKzjSc2ktVFvgQt
-	 VNQ2eYRYgbcGkgxa72lSLFZzMpGX95CnBIRfRo7tiwVqPVPJPnSEqM5qdZS2u1Cv3e
-	 QowvMnFPDAF0Q==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: Alejandro Colomar <alx@kernel.org>,
-	linux-man@vger.kernel.org
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	linux-api@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v6 0/2] Introduce man pages for file_getattr() and file_setattr()
-Date: Wed, 21 Oct 2026 16:10:03 +0200
-Message-ID: <20261021141010.314835-1-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BRqHAhOJ
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c423b145922so98413366b.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 07:26:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792592812; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AwAGpYVNtj65c/H/i8Hv+H3ZE31CX1sWH5gptwHInNHl49sVE78rH6hfCuOtitw0rP
+         Spu1fmm9zENbiTN92+pQMA5OwTgUnQFnFTSpbzYDA8E/TUTW+hdYH1t02EDST05Qd6Cb
+         9BiVAOb6IOpuWvTXwsTKpS9UINZ51K++ZNa9ok/sVHNLJTXQwIAxXrsZ47v6CH/aYsun
+         iGSwxH/blKDU94eUonuntlJLA4EUEtn/4Vn9xCGyM2wsRKDciSZfdZ+eHDGcxaGmrMGH
+         9bHMFjEfABJGBGv2M/gXLKn+lVU7X3VMCCjEIuvehCT/41gilpoDl8ruA+20c8ZDspY5
+         wM9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=HZWCDTWe8myvVLhLnC3gRwnDw2Z9dfDRU9KvUScIux8=;
+        fh=owYz2WMrDLvq6P9zJLrZ4e0ruvv5EtTuUEk1r51yV+U=;
+        b=m97OaZk4AdkwnqaejXFfJu4ulRes4hBzZQ8gF3ffIz89QTu2j3EUr5nhnodoXa8jUX
+         Zd1tQYDTSCIJqtuegSF31f1B7udBRbCIDRmyU5A10tPt1/CovPC21Ggdf43CFjXvRg8v
+         +hScoEqzsLbengG3al106uotN7O/2GpfutiilnRsQEsZMTm9cJ9MG9mRxpz4jCljpnFu
+         2kkRSmlZLbbqRsGe1/UtvYJhsH5VZ/mp/+KnlkKGQIC6RWSXcjHH+ug5yN00LHuCZpyj
+         orKXeePplCdfkBrYnQY5kGtfkE9PmeEM+lVjNlEHrd0zUg2XyHy1uJ3S058TXz3IKrTU
+         T+5Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792592812; x=1793197612; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HZWCDTWe8myvVLhLnC3gRwnDw2Z9dfDRU9KvUScIux8=;
+        b=BRqHAhOJRFQGCZ0436cerbXsvDGcjOTtcEFCOpJRV+nbVKbSAKMl662tBLFTfb2Sg5
+         NFxQNyHoxxgYHQR13h13k71ankQp/N0fxgwfPZdFZZwD0LZwBvhOQiky2tnvBNcGVE92
+         vpRJ7hzp6lhKrZveGyDGkQ94JZjS5rrim4/SQCOenhyqo5st97RuKWVFwTkWZQ5bTbIw
+         iWX7FjROAHIvHplEaKREmJYGpSp7sUQFKLAPhXVjYlSpM8WQnUK4iSviJf2DCzgxJwf5
+         mmlBS+ISZT3vDsrX9Xx3+f3KYgz6TnHUVdIwJP9bY9OfNIdfJdTh5lFsIo+qwhCRzOmH
+         nAiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792592812; x=1793197612;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=HZWCDTWe8myvVLhLnC3gRwnDw2Z9dfDRU9KvUScIux8=;
+        b=wtlBrpJSXmn5k1QBHpPxkOFxYk7XnwjZ+TWzOlaB84BTwT4I5H1suwfDd9+kTUDcW4
+         IiWgMX1RbRMKjmwFE0TFXxfGUrYjgUbVuEIeuCOrYr90pROezfhBzFRz5o+8pSAg5HAO
+         r4B6bkbDJpjtKrr+o5MmRjdMmJwKUt1KW0SpiykCSGaJc8XFvY4/+LOalTVSQFY9czTQ
+         vGjKeTCQuvbC/ClLpfyEzlsjG2GwCm7CI0VjqjkvyULA99pXPTqsYIdznU+01EfAyFj0
+         86qwerSVBfevG3MhIdjZE4vXr/vjnpg898/enfhm7I34SquexE2H3bBmWtuWFW+4Pyj0
+         LM/g==
+X-Forwarded-Encrypted: i=1; AKwUvBzNcCQQJt7HQL1LhkO7b1Ri5T9lBcnw7u6QrD9/uLiytosS2i12Yi8p0JTR996pArklU568ykrbUzZ/HvYV@vger.kernel.org
+X-Gm-Message-State: AFq9FYKgJPnSblPHqpneHvrQHiU9Lj68DgapqM2+1kDA13AzCFGX8NxQ
+	/6Y3C5Byqg+uZK6GXME7+bz62ovE0ZkT35BqyrBmV72rJK3DLURMTtiiN7aH1O9WQA/8Mv6q/WS
+	PCWxW9ZhLiYEV5KUZ8Q/6aV3yqXu5NpM=
+X-Gm-Gg: AYBFou2uHmV1zj6U0hnpj5mKtLza27At+ELRN7dTVLnjWy7WPQ9gKg1wm+ZBhH4UEE+
+	GBklBPt/14fxE69XCyJSWgxw/EJWR4556nEdjfhinsk/HuDKd3sdr+1tRCipWjKP/fcJw/nVMgj
+	tCYoiVI0mNtnZ6kvZUy7PSDIOgZCtPqEO02pZeeqzAfJcIRrIjxr2FUYWFJlD6bWefQT1efAS7D
+	vmOoP2XkY6OY+0t89Eg0wEjnPQQ7hZw5/V6Ln2ZwlqGTRHVw03QRDPZJ634LpF9nHWSVaC9Gtcx
+	4JtqETnARsFmA3IkX3ctbRWx6AK76MWRFyKkQ1N+Ew9Ep2J3U0w9Sse357B1b6YBGWOnkyO+0lv
+	zAtByECoV7PR6O8GolxomwzeaJR7w7jBcqxYF
+X-Received: by 2002:a17:906:c105:b0:c33:ca5e:8ddb with SMTP id
+ a640c23a62f3a-c46796b58cdmr190770166b.28.1792592812271; Wed, 21 Oct 2026
+ 07:26:52 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,89 +103,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1792552161.git.jan.koester@tuxist.de>
+In-Reply-To: <cover.1792552161.git.jan.koester@tuxist.de>
+From: Lionel Cons <lionelcons1972@gmail.com>
+Date: Wed, 21 Oct 2026 16:26:15 +0200
+X-Gm-Features: AclHuK9oo5ZYObAiFZur0ih7xDKEBxlKdO-BvoDx6w0mXhpoTx1_PdEXJcogV54
+Message-ID: <CAPJSo4UJPnhLFAYRXE-_M2_Nin6=Ff02AjayD10cB7946MvJDQ@mail.gmail.com>
+Subject: Adding dreaded Windows SID-style, or. Repeating history, the bad
+ chapters. UUID/GUIDRe: [RFC PATCH v2 00/41] UUID and GUID user and group ids
+ (*_r system calls)
+To: Jan Koester <jan.koester@tuxist.de>
+Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Jan Kara <jack@suse.cz>, "Theodore Y. Ts'o" <tytso@mit.edu>, 
+	Paul Moore <paul@paul-moore.com>, Arnd Bergmann <arnd@arndb.de>, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-nfs <linux-nfs@vger.kernel.org>, linux-cifs@vger.kernel.org, 
+	netdev@vger.kernel.org, audit@vger.kernel.org, keyrings@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi folks,
+On Wed, 21 Oct 2026 at 13:24, Jan Koester <jan.koester@tuxist.de> wrote:
+>
+> Hi,
+>
+> this RFC series lets a user or group id be a UUID (RFC 9562, version 4)
+> or a Microsoft GUID as well as a classic 32-bit number. Processes can run
+> as such a user, files can be owned by one, and credentials, ACLs, keys,
+> System V IPC, sockets, signals, audit and procfs carry the whole id.
 
-This series introduce 2 man pages for file_getattr() and file_setattr()
-syscalls.
+Are you Linnux guys aware that this is just a variation of the
+*DREADED* Windows SID that this patch tries to introduce, just with a
+new name?
+Maybe, before doing this, read about Windows SIDs, and why they are so hated.
 
-Changes from v5:
-- rebase to 6.20 and dropped "struct file_attr" patch (merged)
-- change description of dirfd & path args to reference openat(2)
-Changes from v4:
-- Split single patch into 3 separate ones
-- Mark examples for linters
-- Use special char for empty lines in examples
-- Use w64/w32 in printf() in examples
-- Use const fattr in file_setattr() definition
-- Other minor fixes
-- A few fixes found by lint in examples
+Secondly, the whole idea of doing 128bit hashes as UUID is not new,
+IBM DFS had it, and had many iterations of security issues via hash
+collision exploits. 40 years later all this horror comes back. Does
+history really have to repeat itself?
 
-Changes from v3:
-- dropped VERSIONS section in file_attr.2type
-- reference arguments and errors from file_setattr to file_getattr
-- Minor wording fixes
-- Minor formatting fixes
-- Removed zero-initialized requirement
-- Interdiff with v3 below
-
-Changes from v2:
-- a few grammar fixes
-- styling fixes
-- sashiko.dev fixes (wrong AT_FDCWD combined with AT_EMPTY_PATH
-  description, unused "dfd")
-- dropped requirement to zero fattr before using file_setattr()
-- Pathname -> path
-- Dropped description of why FS_IOC_ aren't usable with special files
-- Fixed backslashes in the code examples
-
-Andrey Albershteyn (2):
-  man/man2: introduce man page for file_getattr(2) syscall
-  man/man2: introduce man page for file_setattr(2) syscall
-
- man/man2/file_getattr.2 | 252 ++++++++++++++++++++++++++++++++++++++++
- man/man2/file_setattr.2 | 183 +++++++++++++++++++++++++++++
- 2 files changed, 435 insertions(+)
- create mode 100644 man/man2/file_getattr.2
- create mode 100644 man/man2/file_setattr.2
-
-Range-diff against v5:
-1:  bfff306908cf ! 1:  c7df8a930c70 man/man2: introduce man page for file_getattr(2) syscall
-    @@ man/man2/file_getattr.2 (new)
-     +of the file
-     +specified by path.
-     +.P
-    -+As with
-    ++The
-    ++.I dirfd
-    ++and
-    ++.I path
-    ++arguments behave in the same way as in
-     +.BR openat (2),
-    -+if
-    ++with the difference that
-     +.I path
-    -+is relative,
-    -+then it is interpreted relative to the directory
-    -+referred to by the file descriptor
-    -+.IR dirfd .
-    -+The special
-    -+.I dirfd
-    -+value
-    -+.B AT_FDCWD
-    -+can be used to refer to the current working directory of the calling process.
-    -+If
-    -+.I path
-    -+is absolute,
-    -+then
-    -+.I dirfd
-    -+is ignored.
-    ++can be NULL meaning an empty string.
-     +.P
-     +The
-     +.I fattr
-2:  d81d763c4223 = 2:  9c7fbaab27e5 man/man2: introduce man page for file_setattr(2) syscall
--- 
-2.56.0
-
+Lionel
