@@ -1,92 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792612483;
-	b=CJymVDmpychezAZeNUS160mtlXIRulUPvzsOT5RgMsrRhUIYFY6g7IY2O7w4hVPE9k97
-	 7Bjvogo8tTkp7TgKzlrInr8tlawRkYmOakSRYs22egMDYPErqleUWdCTh+81IMgJi6soI
-	 7Z1g6ksQoCE8N3PUUIY9GP81Cv8bk9RbgJKPy8scvIQi46O06rS46nspVUldaX5dgXHdu
-	 2tOCg+n5dkZQUB+9I+l9823G/Oc2IyYI4m0WjwnL0bwYrZcH3ONJnVgyaF8eviDoNDMas
-	 Kgc5HH8VwZ6Mb+eaO5ve6PZOh3oOU5TVUiLyf6C3YJxsuRxMgDyxYy8+3cV0p7CGTSQ==
+	t=1792613663;
+	b=W/fUvdaoAjXMqZsXhSJ7ihrQ5F/8SEzfbUWNtUUHsygo3z+OodIhNyK9J7nIN8e4/3P5
+	 hVVxUPRfoJGJ3ZqRloPX2FRBfsVJPZASCzsFMA8jtp87jjnMSPfsr0d15DjDStwEDsE29
+	 Vyjt98TvXLY2I/mWqwW24HcJl7FRiivKcnJlVSWM4yTH/k3SG9rPyXpWD1bAIxU6+dBJP
+	 63yklotdLQvC7UZn98bLu1Tq06CPvAQPnH//O5uKKHz5UBTfl3C4f/VMnHq3TBcB+Z4BB
+	 AIFznpfEwDta4LSHf+sHFyq5nrBXGA84/J5YQAHXOUHDVLDg0IiatmdjEwDYzEct6Ng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792612483;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=p3XlkS0/fbGXIcy8WFlJhVYpe1sgISTA20pUdhYo1to=;
-	b=4XDgdGyiJkI7kBeUGfCNw/iixjsJrz/GBof8eX90NWpewhxaLEk/BU59N/3c006nDfLC
-	 tap28wmrg4zHNhuWeGZGihD3XJV6Cp7Fy2QcET74UXhySSXOayFq+DaaKQsmrd7DnTtu+
-	 c2EdkQdavmI0L6y889sbagJ4j4Otm0BOiKfLH9vgFmy56xh3EeO802PlhXQYnq+fNd2Jl
-	 tOQtQPIu1LJYc9ehKsNORnv9zXybZ+vl04j2D9Ask8HlyS+s6S//mea/H1eJ8InsjRQmX
-	 dY1LYqfu1Rhtm9oo6WvwBQm+6nObkClE6GeVTIQbQv1FGOD/XOo5W7UFA7urA1PgWCg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792613663;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=MK/sCNnQliqsRAgVoxF+hCWSDeszRLqOViWrqNvyhPc=;
+	b=e1+ukzw6EP8aGI4QUn0Ut1dqUogj0mv8pBT1z9Oy3IQcBLMPaWoewxgmJ0S15MDhR6/0
+	 eu6ZJkLpKUP4sL09gXuQutB6VvYSU75YUMAoaJffyzudzaQ/IQwkiVp/VJQjHL/k51Srw
+	 Q/NlNNn8vb0bSQCoSrTSH/9flNyI8lFXeZxU7gEVFs3aagWv7D4O+jVWkuEsvGxn8pN6i
+	 qAZClq9hJL7lGy+lXPbg7rLK1k1giAB+oB5jIqjwXvSnvpnlrmQZqnsSJk69l3gT57ugw
+	 KpjaoSCI+cxK8TUuy2lhFyq+XvSv5N1DghMJR3ram0RRc6zaGdfiIGM2LopZ0F9sCfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b="Ot/PRGVR";
-	arc=none smtp.remote-ip=74.125.224.42
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ox2VFkCo;
+	arc=none smtp.remote-ip=91.218.175.118
+Received: from mta0.migadu.com (out-118.mta0.migadu.com [91.218.175.118])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DD1606A31D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 19:54:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56DD1606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E75606A31B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 20:14:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72E75606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=Ot/PRGVR
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-677dbe051d4so966083d50.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 12:54:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20251104.gappssmtp.com; s=20251104; t=1792612482; x=1793217282; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=p3XlkS0/fbGXIcy8WFlJhVYpe1sgISTA20pUdhYo1to=;
-        b=Ot/PRGVRmvnQQKyCw0ja8DeSkNSwxZyYMh4WDwCmOkFTm4cKX8sQxnq949iW9Vw5Ae
-         wpCUD7VuxFLWCANhkX3rxduUy/i/Leq7ABSSh9D/ITwBmjLJwRJF5dG20v8gK+Oekq88
-         xMJO54PiNND52dMO89ahfL/wmJvLhhOTcluTOGVJNBLhpw79rjPC3BXBIpBm58cXau9n
-         bh239MPh24ZYundKEGuRgRAYzc0rx+h2f2eiFKpQiAOJ7Q6KkLpAQwKrGVBVJO/PCRFx
-         5hintytlQmvvhIp9/cHhX0WIsEcEWGP+RtpRNGacTEemE0KOGINKx4cq+flEAiTS1wA5
-         2zDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792612482; x=1793217282;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=p3XlkS0/fbGXIcy8WFlJhVYpe1sgISTA20pUdhYo1to=;
-        b=nh5aLS8wUp44Vkys6aN1cUSMKa2UQg3kQGc4cRrk5SAND5/D/Q0wdYKhqg3Wt3jYTT
-         Nq7E/Z9x3UbTnUuweD60Vv/NTAZOzh3QGmU3bFrDMmS8+7BBxGrw8sBcwAgdKxAdLv9t
-         E5+SsRDNl2kG2XuJ04o8hNlIdO2tpyyaq4ULwBJKAQ7nGpKsrhRmedV20aaGeMT38QAJ
-         9xzJQzJAsBw1u/PG7oyBHCJ2eaQrKTx2CjSdrG+Ch1iVzuD/V+bmKzldrVm+gMGhWwMC
-         U4MCmT9r6VDUb/YsF9VoPBPmkNrLPHnSWVJYvhnbOrREo7di+DNMCnUtIjkZ+UCiDkD+
-         OKYA==
-X-Forwarded-Encrypted: i=1; AKwUvByYEYkzw+o/Nm6LlDXpKKRnf2//X0IxMtRzTIu0vPIRXbm8uQUnideIL5zAZO90mNVGNydpg8nffX14rZRi@vger.kernel.org
-X-Gm-Message-State: AFq9FYJFQwjpnHUUfKcc+Kh2Fua1pQfU4Z9no2BRGgSBGvhkx9s/Svu6
-	ybxnzMfo1BEO1WKc614fFrai2uRbnp66zKhZaNVotEDASRCF7tya7qepM8xKtwodIIsOS4S4/8w
-	4RzKrlg==
-X-Gm-Gg: AYBFou322Rz2F9aUU6pxcygovPfBcT9jdbYG/cfcFmtx7w2DdUhjs/Gok7V5XnUM4Bu
-	ShlFYAA2PS8ZcaZ1AtP2oSeQ1s6XoA/kJxLfhZNdJ9oR/kM1G0ratGQSP8QVs7jGKjh7ici+DbX
-	huuESYcWX+pIVy5DiwKIiKip44mERUU7pjL/UTcFB7ToaEuOM3e3w/gPg0n8Pgsx5xybB93gba0
-	19ObgDLYxrqUfFgocSxTqLT2sdSGNeZSTxmMteH+u85Rq5bowEVhgXpiP5Bi/hQGIiKtXtVHcGC
-	N2hNkA5w6sOublI2vlLyz7eMXK2qUYNT9AhFtZoUxmU/+1y4OoF0YZIRDfAk4re6JJr3zZxRFMj
-	w/Hqe6MA0IKPfgV1TIrrc5BVi+NIYmR9NhQkyp5rJyHCpdY2yym+h/CdkeaPFOAQm3Uz9XiYSGW
-	17cq+WnH5n8L5n/U7t+t4szaJ2/AS8xmfCNH8an+gWD2Vw477lmqS5L6PJoV1b5a2cCfkW3t4dh
-	k0j7bMwjbQf8tv52NOmGS9JFBSoVqPXca82BfamDSoyuWVaSAyJrcOYBHY9d9wYh2NGOwUBdQbX
-	7TAmffv9pNkdBPtxe/ZAdqu8
-X-Received: by 2002:a05:690c:ec7:b0:8a8:6fac:217d with SMTP id 00721157ae682-8b1340ce1demr17081757b3.95.1792612482202;
-        Wed, 21 Oct 2026 12:54:42 -0700 (PDT)
-Received: from toolbx (104-53-165-62.lightspeed.stlsmo.sbcglobal.net. [104.53.165.62])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b1300734dasm16443067b3.12.2026.10.21.12.54.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 12:54:41 -0700 (PDT)
-Date: Wed, 21 Oct 2026 14:54:38 -0500
-From: Andrew Halaney <andrew@amutable.com>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC] cells: a container as one kernel object
-Message-ID: <atkV5pSBmZbLH_i-@toolbx>
-References: <20261019-cells-rfc-6f4c85415f29@toxicpanda.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ox2VFkCo
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=w2yIvfdgGfmlQVpeDUGVxacsdJvhxz5P+RtAjBdIp+U=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792613658; v=1; x=1793218458;
+ b=ox2VFkColxaQvhbRPAOwLuz+qjvZGykGQTMQ7lMfTeQyOsOtVRJkJMu7p9uCJ5Z2qdkKLftq
+ GU7CY6UM+UuLov8zO7bMaBIrCLkO2D846eb5SZ+KV15g3NAtPdkArYViUJOZ6UPH59mcy4vJ1E+
+ qNKh8sdfB1ahgePZnVF3feYc=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 19901bfe483d708d;
+	Wed, 21 Oct 2026 20:14:18 +0000
+X-Mizu-Trace-ID: 19901bfe483d708d
+X-Migadu-Flow: FLOW_OUT
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+To: Christian Brauner <brauner@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	NeilBrown <neil@brown.name>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: [PATCH vfs v3] bpf: Allow bpf_d_path() from filp_close_sync()
+Date: Wed, 21 Oct 2026 13:13:59 -0700
+Message-ID: <20261021201400.5409-1-ihor.solodrai@linux.dev>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -96,52 +75,160 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261019-cells-rfc-6f4c85415f29@toxicpanda.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 19, 2026 at 04:50:47PM +0000, Josef Bacik wrote:
+The d_path selftest closes its descriptors with close_range() so that
+its fentry program on filp_close() runs.
 
-(...)
+Commit 056069eb2b66 ("fs: make close_range() synchronous") switched
+close_range() to filp_close_sync(), so the program still attaches but
+is never called:
 
-> The system calls
-> ================
-> 
-> They are split by what they do, as the mount API is, so that "may look but not touch"
-> is a system call number: ``cell_info()`` changes nothing.
-> 
-> .. code-block:: c
-> 
->    int cell_create(int parent, unsigned int flags);
->    int cell_configure(int cfd, unsigned int cmd, const char *key,
->                       const void *value, int aux);
->    int cell_info(int cfd, struct cell_info *info, size_t size,
->                  unsigned int flags);
->    int cell_open(int cfd, unsigned int what, const char *key, const void *arg,
->                  unsigned int flags);
->    int task_configure(int pidfd, unsigned int cmd, const char *key,
->                       const void *value, int aux);
-> 
-> ``cell_create()``
->   makes a new, empty cell and returns a cellfd, which is always close-on-exec.
->   ``parent`` is ``CELL_SELF``.  It takes no privilege, but it makes a user namespace,
->   and what applies to those applies here: ``user.max_user_namespaces``, the LSM hook,
->   and no chrooted caller.
+  test_d_path_basic:FAIL:close trampoline for filp_close was not called
 
-One thing to consider here is how we want ucounts to be handled. I've
-been burned by those in the past, since if your container builder runs
-as root the ucount accounting rolls up the counts to the user in the
-initial user namespace who builds the container.
+With that series, close(), close_range() and the closes on exec and
+exit all go through filp_close_sync(). Few paths still reach
+filp_close(), dup2() being one of them, so a program on filp_close()
+no longer sees most file closes.
 
-e.g. it's easy for a bad inotify container to exhaust real root's inotify
-limits with ucounts if the builder itself isn't running as a unique
-user. We ended up making the user namespace as the container's kuid
-in containerd to deal with that, but with the "no provided uids"
-approach you don't have that option from the builder's point of view.
+Allow bpf_d_path() from filp_close_sync(), but only from fentry.
+filp_close_sync() drops the last file reference inline, so by the time
+an fexit program runs, file->f_path may already be freed, with no RCU
+delay for NORCU dentries such as pipes and sockets.
 
-Might be nice to kill the ucount rollup at the initial cell that was
-created... can't decide how to deal with that all offhand, I'm sure just
-stopping it there has its own issues.
+Attach the selftest program to filp_close_sync() and keep triggering
+it with close_range().
 
-Thanks,
-Andrew
+Add a test rejecting bpf_d_path() from fexit/filp_close_sync.
+
+Assisted-by: LLM
+Fixes: 056069eb2b66 ("fs: make close_range() synchronous")
+Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+
+---
+
+v2->v3:
+  * Drop the unreachable BPF_TRACE_FENTRY_MULTI check (Sashiko)
+  * Add a Fixes: tag
+v2: https://lore.kernel.org/bpf/20260925210347.1364191-1-ihor.solodrai@linux.dev/
+
+v1->v2:
+  * Allow bpf_d_path() from filp_close_sync() only for fentry (bpf-ci-bot)
+  * Add a verifier test rejecting bpf_d_path() from fexit/filp_close_sync
+v1: https://lore.kernel.org/bpf/20260924204226.190315-1-ihor.solodrai@linux.dev/
+
+The issue was found by BPF CI when running on linux-next:
+https://github.com/kernel-patches/bpf/actions/runs/35923662147/job/107398237366
+---
+ kernel/trace/bpf_trace.c                      | 15 +++++++++++--
+ .../testing/selftests/bpf/prog_tests/d_path.c |  7 ++++---
+ .../testing/selftests/bpf/progs/test_d_path.c |  2 +-
+ .../selftests/bpf/progs/verifier_d_path.c     | 21 +++++++++++++++++++
+ 4 files changed, 39 insertions(+), 6 deletions(-)
+
+diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+index 29260951aa87..4b2f944bf67f 100644
+--- a/kernel/trace/bpf_trace.c
++++ b/kernel/trace/bpf_trace.c
+@@ -974,6 +974,10 @@ BTF_ID(func, vfs_getattr)
+ BTF_ID(func, filp_close)
+ BTF_SET_END(btf_allowlist_d_path)
+ 
++BTF_SET_START(btf_allowlist_d_path_fentry)
++BTF_ID(func, filp_close_sync)
++BTF_SET_END(btf_allowlist_d_path_fentry)
++
+ static bool bpf_d_path_allowed(const struct bpf_prog *prog)
+ {
+ 	if (prog->type == BPF_PROG_TYPE_TRACING &&
+@@ -983,8 +987,15 @@ static bool bpf_d_path_allowed(const struct bpf_prog *prog)
+ 	if (prog->type == BPF_PROG_TYPE_LSM)
+ 		return bpf_lsm_is_sleepable_hook(prog->aux->attach_btf_id);
+ 
+-	return btf_id_set_contains(&btf_allowlist_d_path,
+-				   prog->aux->attach_btf_id);
++	if (btf_id_set_contains(&btf_allowlist_d_path,
++				prog->aux->attach_btf_id))
++		return true;
++
++	if (btf_id_set_contains(&btf_allowlist_d_path_fentry,
++				prog->aux->attach_btf_id))
++		return prog->expected_attach_type == BPF_TRACE_FENTRY;
++
++	return false;
+ }
+ 
+ BTF_ID_LIST_SINGLE(bpf_d_path_btf_ids, struct, path)
+diff --git a/tools/testing/selftests/bpf/prog_tests/d_path.c b/tools/testing/selftests/bpf/prog_tests/d_path.c
+index 1a2a2f1abf03..7665e1d28a64 100644
+--- a/tools/testing/selftests/bpf/prog_tests/d_path.c
++++ b/tools/testing/selftests/bpf/prog_tests/d_path.c
+@@ -109,8 +109,9 @@ static int trigger_fstat_events(pid_t pid)
+ 	fstat(indicatorfd, &fileStat);
+ 
+ out_close:
+-	/* sys_close no longer triggers filp_close, but we can
+-	 * call sys_close_range instead which still does
++	/*
++	 * filp_close_sync() may be inlined into close(2), so use
++	 * close_range(2), which calls it directly.
+ 	 */
+ 	syscall_close(pipefd[0]);
+ 	syscall_close(pipefd[1]);
+@@ -165,7 +166,7 @@ static void test_d_path_basic(void)
+ 
+ 	if (CHECK(!bss->called_close,
+ 		  "close",
+-		  "trampoline for filp_close was not called\n"))
++		  "trampoline for filp_close_sync was not called\n"))
+ 		goto cleanup;
+ 
+ 	for (int i = 0; i < MAX_FILES; i++) {
+diff --git a/tools/testing/selftests/bpf/progs/test_d_path.c b/tools/testing/selftests/bpf/progs/test_d_path.c
+index 561b2f861808..edb5494a47f7 100644
+--- a/tools/testing/selftests/bpf/progs/test_d_path.c
++++ b/tools/testing/selftests/bpf/progs/test_d_path.c
+@@ -41,7 +41,7 @@ int BPF_PROG(prog_stat, struct path *path, struct kstat *stat,
+ 	return 0;
+ }
+ 
+-SEC("fentry/filp_close")
++SEC("fentry/filp_close_sync")
+ int BPF_PROG(prog_close, struct file *file, void *id)
+ {
+ 	pid_t pid = bpf_get_current_pid_tgid() >> 32;
+diff --git a/tools/testing/selftests/bpf/progs/verifier_d_path.c b/tools/testing/selftests/bpf/progs/verifier_d_path.c
+index 87e51a215558..7ab9b6b1d589 100644
+--- a/tools/testing/selftests/bpf/progs/verifier_d_path.c
++++ b/tools/testing/selftests/bpf/progs/verifier_d_path.c
+@@ -45,4 +45,25 @@ __naked void d_path_reject(void)
+ 	: __clobber_all);
+ }
+ 
++SEC("fexit/filp_close_sync")
++__description("d_path fexit reject")
++__failure __msg("helper call is not allowed in probe")
++__naked void d_path_fexit_reject(void)
++{
++	asm volatile ("					\
++	r1 = *(u64 *)(r1 + 0);				\
++	r2 = r10;					\
++	r2 += -8;					\
++	r6 = 0;						\
++	*(u64*)(r2 + 0) = r6;				\
++	r3 = 8 ll;					\
++	call %[bpf_d_path];				\
++	r0 = 0;						\
++	exit;						\
++	"
++	:
++	: __imm(bpf_d_path)
++	: __clobber_all);
++}
++
+ char _license[] SEC("license") = "GPL";
+
+base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
+-- 
+2.56.0
+
