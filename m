@@ -1,88 +1,143 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792615081;
-	b=YTnrOvF/twKq6l2iW9HD7twFKatv8uOQwPF7xfrA9jbKIXZUtXGa5Q4yEUttcvk0/D8t
-	 f4SYh18wIlIabO7sfeztVW6/pj5o3ccceJtfn4db0eLLuxDL+14LxVDrFUnUPr2VraUoh
-	 r4mLOoGo0/9sJB9wpOoBQn2Z+c3FMNviQbNKMT527qXLWFVNHhFRTFopivUevuRwyXvUJ
-	 we5G6BRVNC+soFB40/5ppCbuMJ+hcE96zEL6Qg0LJJbsfaMcott68MK9XZ35wOy4BFsCz
-	 an/DkFn539veBqiZfL3wlmTEzUeaHRMYtMSKHYMGdZZVCG5xNgzsQ1HFC8SMUNQCNpA==
+	t=1792616730;
+	b=f8VUjmdIY1B1SJs4S8Wy8A0MZCRmPwqkvOG/0xKHVbdSM4YiAkScFZXvTCi1NP46arzD
+	 1troes3E1yfstFWw0LaPsU1zXd8xtsGvRa90aZa8pD05BYYHbNZ9mKNnFTm/y6wDYTw4z
+	 bYTmf1pyDGscI+wjwDfoiixN4uKPu7r6C9NyGui2AOHG3jf3c3tIDpmrhLNCjUj4CFYNq
+	 gOweH0otxlI0PlQaRyFlWMON9KKI0x8nukA/YPTHYhPE9e11ma9C+maMDulSz9+NNpwIw
+	 NGEEqxuYEl9y5/cTabzMEZQ7cD3hPMM9xDNMvpIP6GPJfIdEaShOqwE5aNwu4cFgtQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792615081;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792616730;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=w8r5S5TfbVKxJBCsITNfOxJTwKsk3ZajonF1pgsHV7c=;
-	b=YnfDAIBchlKZqP+akgCRntEq4Bp1Nb7gqIVxI6HiUb9FT6/SVdVLSiR/jTMjqDT+6bRE
-	 VLOiowOwdbxcnXbcakYG8vLKC1dw4Bg4Vilq+CD4f5M3+ZxLTVb6HDCkSHB9FQ9R/SreV
-	 ueMCNKj/ZB6XtAO4QIBPzp2k2Idu1r7iJuqDvJ8MGEUiSjXcoFcM6FycbRqUnoc35CLDt
-	 3PgIPfSQLeiOootnOa8XDr1ckZrBcKlVr/1Fgplajbwe7wR/SFwiVB0OBjC8zHsmbt8w7
-	 p7ScBDhX2qZ6OHKtUv6igJqd77hzMHfFu8uP+RTpm7Hy2NISv2wAbIyDwqN8OD2pBbw==
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=LT1JAf9kkvowqyH9kJf6IgurjXnQY9I3ALSM776jlXM=;
+	b=qICcrqb5O9EsMV5iosZzyOLTSS9w0aTMQbjJLGnjkoRM1PRsdjvIMA4M81Bn4kiGL5Ek
+	 p1NjeLmokpingRsmoo5ndG4lndYGpo03pe78GP0kxIVLyMT1u6KyC0pF1/5puuZ6LGmVo
+	 8Yc1FsQOg2n0oG004YZ+aRoWMUOw+XICbg/3tYBc3qqyOsFCfUOUolxKQlFhPDBEwP8cE
+	 h/KZbxuyPs68ALpMmAMYdLZMPVmLGFxLAHRphGGQSPhC/vrvMfg9WStatZ1B9bOxbx/lf
+	 jom1MerwXNqJiR0udkElp2Qg+0G1dkHskX1Po68ElNpBMJ3s9U7u8/2fEzjNly3Gfmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=toxicpanda.com;
-	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=TJJB0lK0;
-	arc=none smtp.remote-ip=209.85.222.172
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=0CRe+VKB;
+	arc=none smtp.remote-ip=74.125.224.53
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76C460A260B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 20:37:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D76C460A260B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F039606A31B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 21:05:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F039606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=TJJB0lK0
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-93e6eb77f0bso101967685a.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 13:37:47 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=0CRe+VKB
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6798eb0d190so904446d50.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 14:05:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1792615067; x=1793219867; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=w8r5S5TfbVKxJBCsITNfOxJTwKsk3ZajonF1pgsHV7c=;
-        b=TJJB0lK0ppJLS7oR3UyWcCtGx90PdBJLK7d8BmBxFSaqwOSCKUu0WT+qgbBwBxinVM
-         uq5Hj8rd51/hfGI3h12FWRMbVseZFui8W0rsIavs8AGgjXACyFzyGmK/vaWoZ1bDI1JJ
-         k5NvQ4DK+HUFtQJqrtz/RznhGuG1wwlM79AVUt/07u750lmOa9nC14nyZGa/+RMPeH4F
-         d5uANnP6SpoPhx39VaFC8u0yXG5kK/BRG9c8Jqtodx9g2wP6tOWM3m1s0cvck8Z88dz2
-         J0iIB4DjCkwHFCaNxDsvhLaUNRZb44NCqs2GnrojXxFWkbCkLlzLJcz0Xt8a7sWtvh9O
-         a6JQ==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1792616728; x=1793221528; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LT1JAf9kkvowqyH9kJf6IgurjXnQY9I3ALSM776jlXM=;
+        b=0CRe+VKBniDCapVbK9i9be9jLGijRJhke917oUr2GAO20usiOZSS0G0Qe+fc1YIaUc
+         IHDFAQcwNKH334Y8zXCRnO4771kZI6U5iXe1QhtiKlnP9bAwI09w6r3KRsYicXwV7gvF
+         EQHR01vmMDbGIdb1rrp4xGkvsOE3h8E4pom9gJGKrwWcOPij7IHJILjFnOGAsMBpdOTo
+         PsAARc/w0BgfPCir1lK/sEVwnGgCOfKzsxDjuqsbZt+d6PFL1jsmqbJEAh+7IHFrOHkg
+         Pxh4S28voc25eB1swyWJxoE1fPTkhChZo3hQh9Bed3jgpc/5Gb9XyKmgytylVnL+JcUj
+         ZFeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792615067; x=1793219867;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=w8r5S5TfbVKxJBCsITNfOxJTwKsk3ZajonF1pgsHV7c=;
-        b=ULmjve4WkvqsAYUxz6hdhgWP1SWlYuDRXcuPLfcPA9wfsxYKsgZpiDOXTze3o+qPWm
-         H+Rshb5ObIwycDmFCWe+AyQRbbAYjlfEImcXZ0I2b0/ZVOSXhVNegiQ+8UjJ4tcDDVcD
-         UxFhk2zKGEW1GJBaZpuwmS1W+0pmhmIRe0iN0JsOQz28wsyHvTgS9MC+wpA7HpKKudxn
-         yltuj/BlQbNvovocN2tJoCAVgQwoveBiojXqGBsM8OWk/lil7jFcY1voLSdhKlEGZPqN
-         UpfI8En6aRvJGzW/mFXBvWcv0ufxOhSZ1c9PYRkFAlqW95014lHHQh2HhFfroM6IybNd
-         KClQ==
-X-Forwarded-Encrypted: i=1; AKwUvByerNtZzdqo4Gc+xB7yUE/fy24Xzgk/Zj3YDlkfmvGLV7UceNe0PnLWkkhQOx+dgWibdwBDPjiULPeQfXG1@vger.kernel.org
-X-Gm-Message-State: AFq9FYJgd02FHeGoIGaS0OnNCDnx5jI/C5UqIu7GvDZIw6rghxO95TQ3
-	YdCqqDAF3pdF48rRhcRAc03bC4HBxs9QchlAA904uTfOBEZL+uGyy5Ul9aq/BItAdno=
-X-Gm-Gg: AYBFou18klYl/Q9c/5qXxXsHMihTfeCWWtVRX31Wu8UQuAIWw/5/A9KZ2prtZmeD7uH
-	4RqWCz9+Wl3MyM0+w85CP4s1u0LMfu/cxsgqLDG/DCZwdDZYzEiekvd/dNLAe2PpC7BgUl6XKne
-	81Y1WUtnaEphgISaZds6K37vtVJxGE9yrURm2y2pGkPC6P118ZMWWQd8gSfoYBHl0HXe43BPaCL
-	Pu7psLoGVnD6N8ov793Ok9PVtMt0EIaY6u1ZRBhmOcLTAyfLe9qb/nPN1wiawc4arrIwz8cPo4a
-	y+nyUk2muqY9eY+5SstUm0jwG8bb8omoxnvmoADFikBbxGKnvznnioVIbWzG1GP/pifsMdHQaPY
-	rXtVlTPdmUQ1qs5b6QFU8NbVPDF5+F7wM999Vg4F4QGolNLVz0ASR40loAUZyeF/NueoHV2eDEI
-	esb8Y0G7QWMN2yEk8DIRC9JtAjcGo4/w9/tZ0pGfRaH+NyfZiMN7Fz7ERY7RlFo1DL7YZQJLWHI
-	kyviWQ6Kps33L+p+judTc+2UeiG7VZTGwbJXkZwtmXypCnPbCycBn51bR6BAs4u9vWPASmm
-X-Received: by 2002:a05:620a:1b9b:b0:93e:d854:4b83 with SMTP id af79cd13be357-93f57f20218mr702292685a.22.1792615066863;
-        Wed, 21 Oct 2026 13:37:46 -0700 (PDT)
-Received: from toxicpanda.com ([153.61.196.245])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f56c70057sm343030785a.5.2026.10.21.13.37.46
+        d=1e100.net; s=20260707; t=1792616728; x=1793221528;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=LT1JAf9kkvowqyH9kJf6IgurjXnQY9I3ALSM776jlXM=;
+        b=oGKHnMaafzJZUvSnwCe1q/jOWdKOpddliFtBj7CcAAViM5LN73yzBSzKR1NZ9Fy1UB
+         syT6wwfTKAfXAc/Q5nXXHbiJAKNEzX8zuYGeuw/ydyXWmRgBAf1WLCBIKNYPJRNjoWh1
+         qVJZDDqj82rWZCkwRkgWwlPcCnwm310CQ2rXGXF96h0ZoRaW/N1JdIHD2GvZvLT/4c/X
+         XNOmlqR9t9E8u7pnXQy8rYvhC7ILkT6rMi7dqwlTFrWAsPiy749YBCRpJn88M7N5IDW9
+         YZ6CEKp6hPDd7K8Um5+DKvbztaAPUFbUPzmRsCDYJSQoxCLF+2ec/mOeRs+Vcg6UBGdQ
+         HdqA==
+X-Forwarded-Encrypted: i=1; AKwUvBwK63NOsgehevDXHvGSLHvZV00ZjcHv2W5YtdD8vNHW4Oo6uTGp0zKIXEHLKy06x8NOGzLe5b+vibYw8ErO@vger.kernel.org
+X-Gm-Message-State: AFq9FYK/L0tgB39Dzla2WYpDJdKW6/XLx0krvYLwHOJduMtghr0ihl8K
+	sAzZfLwqUbBhuDdnbvojpj0c55CxK6q2I01+0zRHH79wmETeA9rqysJCpxyON4ShVaE=
+X-Gm-Gg: AYBFou0iC3gfiIP2dYO0hk0pEG1YKZJNzvjQ1Xx24Nb699OfJGnrQ336HYZ/bLRx7y2
+	YCytDwyZZ4lckdtjW7EIdLhIoAO0vLgY2R9MhwVA/zetF3o2lqjKOX44gYip5CjPzal0nmvdsCq
+	BpmKmfpsN3qsDZR/AeNEwRoW5hju7ckPfkMWbczNGifvBBkAUe075rFiOpxEXfxmX36YH9Ckdgj
+	dJ7bogg0umKcvR4umom14L3m915wb3WYeMjotmhvoATuEgeDJDSiKQcqK1hzvsJQQ7sRT+Ikwh6
+	drMpmIGmiaoi80Cu4tklmDUjdQI+tjoWLNJRNMCp2qgs8bTlzi1yl1lT770eSRaCFWtp5I28QJO
+	/xLMyEDe6jitjSyeR2+T91PuxtDi22AJ1I554PFUF7E4PMxNwW90iI+QT/BTPYbgYHOTYJjxUY6
+	olnI5Pzr5/SSmjm4uykhbqaNzAnZl6ozFogRYHR0lfYgZtjQDdhDhtNrMx3hvFbJWU8MrmB2sJi
+	pbSEA3MAhEPXnyHRecVGDmZP8ufhpLJVNWImkDAYoArGk+rsXV5tk1DD47z/64negW8SztJ9ufZ
+	rdOtbsPCwDWIVgwvC32GvsTqwccrgw4Gs0I8GhH9HmkwX847DVh76CNhgVuvo3ggffrZ7yFZBo1
+	oLsUhutdr
+X-Received: by 2002:a05:690e:4553:20b0:675:6168:8be3 with SMTP id 956f58d0204a3-67a0e4bf2a0mr1281644d50.24.1792616728244;
+        Wed, 21 Oct 2026 14:05:28 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:de6:d01d:526b:32a4])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67a0e4e5f3esm1621957d50.12.2026.10.21.14.05.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 13:37:46 -0700 (PDT)
-From: Josef Bacik <josef@toxicpanda.com>
-Date: Wed, 21 Oct 2026 20:37:28 +0000
-Subject: [PATCH v3 4/5] capabilities: limit fscaps to where CAP_SETFCAP
- reaches
+        Wed, 21 Oct 2026 14:05:26 -0700 (PDT)
+Message-ID: <dc187921249a3f6716b829624853e64c10321cd1.camel@dubeyko.com>
+Subject: Re: [PATCH] hfsplus: preserve FinderInfo when listing extended
+ attributes
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Hengyu Liang <hengyul@cs.unc.edu>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Wed, 21 Oct 2026 14:05:24 -0700
+In-Reply-To: <20261021174534.482192-1-hengyul@cs.unc.edu>
+References: <20261021174534.482192-1-hengyul@cs.unc.edu>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -92,99 +147,100 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261021-b4-setfcap-userns-v3-4-97c7ed4e43e1@toxicpanda.com>
-References: <20261021-b4-setfcap-userns-v3-0-97c7ed4e43e1@toxicpanda.com>
-In-Reply-To: <20261021-b4-setfcap-userns-v3-0-97c7ed4e43e1@toxicpanda.com>
-To: Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>, 
- Christian Brauner <brauner@kernel.org>
-Cc: James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>, 
- Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>, 
- Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
- linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1792615055; l=3016;
- i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=wRQfv+uQ2WPQh0CvfROACNKqd38goOF6LfQfEeyNoYQ=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
- JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QA9EV/aZhjYX1t/oD79Yrsmszo2Y5fuSKVDRBIawa5XczpeHTSI83HjDgeu7Sa82cWNmCFmv/S5
- iT9jEBLsoqQ8=
-X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
- fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-Commit db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
-keeps a root process without CAP_SETFCAP from creating a user namespace
-that maps uid 0, in which it could attach capabilities to a file that
-are then honoured outside.  But the map doesn't have to be written by
-that process.  A privileged task can write it from the parent, and the
-file capabilities are not checked against the outside at all:
+On Wed, 2026-10-21 at 13:45 -0400, Hengyu Liang wrote:
+> Commit aef507847129 ("hfsplus: fix generic/062 xfstests failure")
+> made
+> hfsplus_listxattr() return zero when the inode has no records in the
+> attributes B-tree.
+>=20
+> However, osx.com.apple.FinderInfo is stored in the catalog record,
+> and
+> hfsplus_listxattr() has already added it to the result at that point.
+> Setting the result to zero drops it. As of now, a file whose only
+> extended attribute is FinderInfo gets an empty list on a volume with
+> an attributes B-tree, which mkfs.hfsplus creates by default.
+> getxattr()
+> still returns the value.
+>=20
+> The issue can be reproduced with:
+>=20
+> =C2=A0=C2=A0=C2=A0 truncate -s 64M hfs.img
+> =C2=A0=C2=A0=C2=A0 mkfs.hfsplus hfs.img
+> =C2=A0=C2=A0=C2=A0 mount -o loop hfs.img /mnt
+> =C2=A0=C2=A0=C2=A0 touch /mnt/file
+> =C2=A0=C2=A0=C2=A0 v=3D0x54455854$(printf %056d 0)
+> =C2=A0=C2=A0=C2=A0 setfattr -n osx.com.apple.FinderInfo -v $v /mnt/file
+> =C2=A0=C2=A0=C2=A0 getfattr -m - /mnt/file
+>=20
+> Without this patch, getfattr prints nothing. With this patch, it
+> lists
+> the FinderInfo entry.
+>=20
+> This patch keeps the result of hfsplus_listxattr_finder_info() when
+> no
+> attributes B-tree records are found, as is already done when the
+> volume has no attributes B-tree. A file without extended attributes
+> still gets an empty list.
+>=20
+> Fixes: aef507847129 ("hfsplus: fix generic/062 xfstests failure")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
+> ---
+> Tested in KVM with KASAN on a804c5742bff, without and with this
+> patch:
+> - The commands above, and a C test of listxattr() sizes and buffer
+> =C2=A0 lengths: a file with only FinderInfo gives 0 without the patch and
+> =C2=A0 25 with it; a file without extended attributes gives 0 on both.
+> - generic/062: 10/10 passed on both kernels.
+> - Full fstests (805 generic tests): 186 passed, 11 failed and 608 not
+> =C2=A0 run on both kernels, with the same failing tests. fsck.hfsplus -fn
+> =C2=A0 reported no new errors.
+>=20
+> With this patch, getfattr above prints "osx.com.apple.FinderInf". The
+> last character is lost by a separate bug in copy_name(), which
+> Maurycy
+> Pawlowski-Wieronski's patch fixes:
+> https://lore.kernel.org/all/20260828-hfsplus-copy_name-fix-v1-1-75ed9f0f3=
+78c@maurycy.com/
 
-  task A: uid 0, full caps          task B: uid 0, no CAP_SETFCAP
-                                    unshare(CLONE_NEWUSER)
-                                      ns->setfcap_level = 1
-  write "0 0 1" to B's uid_map, gid_map
-    A has CAP_SETFCAP -> allowed
-                                    setxattr(file, "security.capability")
-                                      rootid = kuid 0
-  uid 1000 in the initial namespace:
-  execve(file)
-    file capabilities apply
+Somehow, discussion went nowhere. I am still waiting answers on my
+questions. It will be great if you could revive the discussion or to
+resend the patch addressing my comments.
 
-The map doesn't even have to show uid 0 of the parent as uid 0, since a
-v3 xattr can name any mapped uid as the root user.
+>=20
+> =C2=A0fs/hfsplus/xattr.c | 1 -
+> =C2=A01 file changed, 1 deletion(-)
+>=20
+> diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+> index 71364e093fa7..c74c81966f12 100644
+> --- a/fs/hfsplus/xattr.c
+> +++ b/fs/hfsplus/xattr.c
+> @@ -838,7 +838,6 @@ ssize_t hfsplus_listxattr(struct dentry *dentry,
+> char *buffer, size_t size)
+> =C2=A0	err =3D hfsplus_find_attr(inode->i_sb, inode->i_ino, NULL,
+> &fd);
+> =C2=A0	if (err) {
+> =C2=A0		if (err =3D=3D -ENOENT || err =3D=3D -ENODATA) {
+> -			res =3D 0;
+> =C2=A0			goto end_listxattr;
+> =C2=A0		} else {
+> =C2=A0			res =3D err;
 
-Check at the place where it matters, in cap_convert_nscap().  On an
-idmapped mount the root user named in the xattr has two identities: the
-kuid seen through this mount, and the kuid that is stored and seen
-through every other mount of the filesystem.  If either of them is the
-root user of an ancestor of the caller's namespace too, CAP_SETFCAP has
-to reach up to there, which ns->setfcap_level tells.
+I think the fix makes sense. Maybe, we need to slightly rework the code
+here:
 
-Tasks in the initial namespace, tasks in namespaces created by a task
-with CAP_SETFCAP, and file capabilities for a root user that only exists
-in namespaces within reach are not affected.  That includes everything
-an unprivileged user does in its own namespaces.  The rest gets -EPERM.
+err =3D hfsplus_find_attr(inode->i_sb, inode->i_ino, NULL, &fd);
+if (err) {
+    if (err !=3D -ENOENT && err !=3D -ENODATA)
+        res =3D err;
+    goto end_listxattr;
+}
 
-Fixes: 8db6c34f1dbc ("Introduce v3 namespaced file capabilities")
-Assisted-by: LLM
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
----
- security/commoncap.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+What do you think?
 
-diff --git a/security/commoncap.c b/security/commoncap.c
-index b06914223039..1a419a4a872c 100644
---- a/security/commoncap.c
-+++ b/security/commoncap.c
-@@ -703,10 +703,24 @@ int cap_convert_nscap(const struct mnt_idmap *idmap, struct dentry *dentry,
- 	if (!vfsuid_valid(vfsrootid))
- 		return -EINVAL;
- 
-+	/*
-+	 * The root user may be the root user of ancestors of our namespace as
-+	 * well.  CAP_SETFCAP that we got for entering it doesn't cover those.
-+	 * On an idmapped mount the root user is vfsrootid as seen through
-+	 * this mount and rootid as seen through every other mount of the
-+	 * filesystem, so both have to stay within reach.
-+	 */
-+	if (cap_root_level(vfsuid_into_kuid(vfsrootid), task_ns) <
-+	    task_ns->setfcap_level)
-+		return -EPERM;
-+
- 	rootid = from_vfsuid(idmap, fs_ns, vfsrootid);
- 	if (!uid_valid(rootid))
- 		return -EINVAL;
- 
-+	if (cap_root_level(rootid, task_ns) < task_ns->setfcap_level)
-+		return -EPERM;
-+
- 	nsrootid = from_kuid(fs_ns, rootid);
- 	if (nsrootid == -1)
- 		return -EINVAL;
+Thanks,
+Slava.
 
--- 
-2.55.0
-
+>=20
+> base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
