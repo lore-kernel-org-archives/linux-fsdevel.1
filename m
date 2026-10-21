@@ -1,54 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.62
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792602912;
-	b=S0WYUfifZqqnUcte4N5ABKRhPlaoIVNZfe9t8fXE9MZZQcZUoX5JbPFkCR4GQMGgLGjq
-	 l37l23TEskpzL+Ntd6FQfSAgR/0cyvh7pVDUMt3GX1HnXxbXhZqMISwSSuqndxVSJWyLz
-	 FX54cJVdJLFWkOdb8YIGinfgLZPavYGRQoPIU6dWx0XN7gnODivg8OZ5sG3p7QZb9+jds
-	 s9o33gTCLB/2TFMzq0oUFYTgkfvycIPinZVeRgGNmoYaN12s+SbXCZZIp/T/AKUhcplsD
-	 lYHt/LvXBJkkrKiqYEYCOvAGNsYGxwTAJLDIrfWK8cIjPpaDRL3Kb0h/H3Na8kLnMIQ==
+	t=1792603361;
+	b=JnjRQ7+eOEH1S5e7GyvBtmVRp3QxTe5I0eKnxie6xNazUKRX4e8Bu4CKOAg4cX/mLY7p
+	 G8HtbtmH/z4U9+Vvq209dJQxBdARO/XdUyVqvaHtzEN9z684WLNc6uB8TXofaIaTX82Aj
+	 7p2sKuh7k3IIPccxJHzEJUwba3zmQ5xSLXqSq2VA12/dLVaJ2WQ9ELQIOqg5VAtgBOCE4
+	 FLoG+1unQPvGXhSKmk7/yeZc8PjjEBhYFE8OeS/J+Ef7yZOk3KI/HkQoy08V0X1FBQJUu
+	 Xg1Vd9KHAmBJV/KShUgH5LzL0vlLxKMB7zBROruKW9sFl8d5sbcP6o5HUKxN1cUh5NQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792602912;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=sqCbFUq57Nyuhu/s5jZ25/qkUoiEw9rvaZCGhH+XBfk=;
-	b=o1rdCLCMx3tfqLTk1L8Og4M2u09l3vtp/Q4lHkMjDh3HzPwXzE7keYZfPJegquj8V3Mh
-	 sG4L6cAWQBORjv+25bJa1Z0QQEh1LialtTYf+jVxGUSD5VYIjjeGTwJy1D8rGzItLE89r
-	 HZAgCERT8EoSoK50+92uQRBf+TDYckk+ZloqvAaYOMoU/MLh7a4HNqoCQB43HRWmLTCQl
-	 jXL5cYmdgqVy4fazwZWWsHOpxKLsXkc6Bq+MpSXrbC+qSiRF2cmoz8DjWg5329hcClVlC
-	 NzGZNszOxUx0GUMg+qEwR3PXZ6HZG/824RNlL0hUZDpTDpFre9Mt66Vzx3WpBvm58gw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792603361;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=6LqR1VzY/7CZkjbT+gr5Y/FfDEr1ngYlH55EfU+izAs=;
+	b=5as2pPlyBny93kQ8AdWgsor0GKesQFOMDM+OvyKN5FrEcVIrc1An76ABmwJLO5+9pPgp
+	 AUL0+G5OX4lya6OB9+jXt50XtM3bSLvm8/dzWayNFvOzwKRJmnSxD/SCQIWzwxPb4eUuU
+	 vS4e65Z7fgoxoNfvyNvigFJPP7wMxxXjF1pT4BsFxPHVwcF/vgI5NyiohwEOOGWSdtzl+
+	 MPjh4phWaSPtpuhKvEFQL8rq4Ih1gUs4EcEsQ009tgzPClKS+dyCbC35cEVntdZaL+P/O
+	 8R+3rBDfKUgbFzCdKI4IMkcXlu1KxroJ0k4NiYyPMcQWdJqI9lxQZlvGFdd+10gBWmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qrwyXJRZ;
-	arc=none smtp.remote-ip=91.218.175.62
-Received: from mta0.migadu.com (out-62.mta0.migadu.com [91.218.175.62])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S2rfc6jT;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C243860A2615
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 17:15:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C243860A2615
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BFA606A31A;
+	Wed, 21 Oct 2026 17:22:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qrwyXJRZ
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=R3rO7GMpAxVm6n8cNV2L8vfbkvcKtRqwWc2DdbOuAQk=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792602908; v=1; x=1793207708;
- b=qrwyXJRZ3lpugnMoJ4mbaM3vfmAUAnlNLD14G7yZraBru/h/gfcEr5+2CsyTG4NWESKHbspz
- zWqJkTz0XE6Lb+iCNCanD+rLkHz/z6Gw7pEERkOi2ATP32zJpI0aIzGYGXgord4ShhyiPWuyR6q
- bqjNXnfzv58jiBjROv4tvaCE=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2c2eaff682f769ba;
-	Wed, 21 Oct 2026 17:15:06 +0000
-X-Mizu-Trace-ID: 2c2eaff682f769ba
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <9bb73098-57c1-4754-9ecb-66cbb1e205ee@linux.dev>
-Date: Wed, 21 Oct 2026 10:15:01 -0700
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S2rfc6jT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 618E31F000C1;
+	Wed, 21 Oct 2026 17:22:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792603360;
+	bh=6LqR1VzY/7CZkjbT+gr5Y/FfDEr1ngYlH55EfU+izAs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=S2rfc6jTzi8rSn5ViYwDylfdCtbgIUsR9cMsl9JPmwcE2o7Shl124XcgoFdplNgUY
+	 GPvn7lOpmXk24mnVbuwXKEJuoFlSkh9CvOFLtv5Ydqnj9mLrVWdw1Uqer20V+Vrtt5
+	 70XBFTECdp07cRSdQvmKfaI9QNVcBMF9mAkdZVVh7Xyo3nhizBiuY0NaKiJbWLeQZc
+	 aG32N70AkZbF7TJUtzdJ5POtdgwYYyuBAEHVfC5AKiwK5hRb2cDDX1VPHZKoXJm6JK
+	 Owymr1kikulFhtwki7qcAxVGdjCwRSzwBQQLe2ZDGFPeIPNjWsjEXcIpfrgJ3Nix0Y
+	 1wOHycLudZl5g==
+Date: Wed, 21 Oct 2026 10:22:38 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Alex Markuze <amarkuze@redhat.com>
+Cc: ceph-devel@vger.kernel.org, idryomov@gmail.com, xiubo.li@clyso.com,
+	slava@dubeyko.com, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	jack@suse.cz, linux-fsdevel@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org, tytso@mit.edu, jaegeuk@kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 5/5] ceph: fail quarantined subvolume access with
+ EACCES
+Message-ID: <20261021172238.GD1879@quark>
+References: <cover.1792527529.git.amarkuze@redhat.com>
+ <345a4e8317cde90293b0d4ee9d8a3edfd229e204.1792527529.git.amarkuze@redhat.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,61 +61,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH vfs v2] bpf: Allow bpf_d_path() from filp_close_sync()
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Eduard Zingerman
- <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- NeilBrown <neil@brown.name>, Jiri Olsa <jolsa@kernel.org>,
- Mark Brown <broonie@kernel.org>, linux-fsdevel@vger.kernel.org,
- bpf@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-References: <20260925210347.1364191-1-ihor.solodrai@linux.dev>
- <20261021-ananas-siegen-kurstadt-24cc3e5c1ce6@brauner>
-Content-Language: en-US
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <20261021-ananas-siegen-kurstadt-24cc3e5c1ce6@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <345a4e8317cde90293b0d4ee9d8a3edfd229e204.1792527529.git.amarkuze@redhat.com>
 
-On 2026-10-21 1:54 a.m., Christian Brauner wrote:
-> On Fri, Sep 25, 2026 at 02:03:47PM -0700, Ihor Solodrai wrote:
->> The d_path selftest closes its descriptors with close_range() so that
->> its fentry program on filp_close() runs. The vfs commit
->> c1ed65ea167b ("fs: make close_range() synchronous") switched
->> close_range() to filp_close_sync(), so the program still attaches but
->> is never called:
->>
->>    test_d_path_basic:FAIL:close trampoline for filp_close was not called
->>
->> With that series, close(), close_range() and the closes on exec and
->> exit all go through filp_close_sync(). Few paths still reach
->> filp_close(), dup2() being one of them, so a program on filp_close()
->> no longer sees most file closes.
->>
->> Allow bpf_d_path() from filp_close_sync(), but only from fentry.
->> filp_close_sync() drops the last file reference inline, so by the time
->> an fexit program runs, file->f_path may already be freed, with no RCU
->> delay for NORCU dentries such as pipes and sockets.
->>
->> Attach the selftest program to filp_close_sync() and keep triggering
->> it with close_range().
->>
->> Add a test rejecting bpf_d_path() from fexit/filp_close_sync.
->>
->> Assisted-by: LLM
->> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
->>
->> ---
-> 
-> This seems fine to me. Sashiko has some comments though.
-> Maybe go through them and resend as necessary.
+On Tue, Oct 20, 2026 at 08:26:50PM +0000, Alex Markuze wrote:
+> +/*
+> + * fscrypt can cache the decrypted target in ->i_link, allowing the VFS to
+> + * bypass this callback. Checking those cache hits needs separate fscrypt
+> + * support; this check covers only accesses that reach ->get_link().
+> + */
+>  static const char *ceph_encrypted_get_link(struct dentry *dentry,
+>  					   struct inode *inode,
+>  					   struct delayed_call *done)
+>  {
+>  	struct ceph_inode_info *ci = ceph_inode(inode);
+> +	int err;
+>  
+>  	if (!dentry)
+>  		return ERR_PTR(-ECHILD);
+> +	err = ceph_symlink_revalidate(inode);
+> +	if (err)
+> +		return ERR_PTR(err);
+>  
+>  	return fscrypt_get_symlink(inode, ci->i_symlink, i_size_read(inode),
+>  				   done);
 
-I looked at them when sashiko replied and dismissed.
-Should've commented.
+The function comment seems out of sync with the actual code, as the
+actual code disables the symlink target caching.
 
-I'll respin anyways to rebase, it's been a month.
+>  	case FS_IOC_GET_ENCRYPTION_POLICY:
+>  		ret = vet_mds_for_fscrypt(file);
+> +		if (ret)
+> +			return ret;
+> +		ret = ceph_quarantine_revalidate(inode);
+>  		if (ret)
+>  			return ret;
+>  		return fscrypt_ioctl_get_policy(file, (void __user *)arg);
+>  
+>  	case FS_IOC_GET_ENCRYPTION_POLICY_EX:
+>  		ret = vet_mds_for_fscrypt(file);
+> +		if (ret)
+> +			return ret;
+> +		ret = ceph_quarantine_revalidate(inode);
+>  		if (ret)
+>  			return ret;
+>  		return fscrypt_ioctl_get_policy_ex(file, (void __user *)arg);
+> @@ -429,6 +439,9 @@ long ceph_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+>  
+>  	case FS_IOC_GET_ENCRYPTION_NONCE:
+>  		ret = vet_mds_for_fscrypt(file);
+> +		if (ret)
+> +			return ret;
+> +		ret = ceph_quarantine_revalidate(inode);
+>  		if (ret)
+>  			return ret;
+>  		return fscrypt_ioctl_get_nonce(file, (void __user *)arg);
 
-Thanks for taking a look.
+Can you clarify why FS_IOC_SET_ENCRYPTION_POLICY doesn't need this too?
 
+- Eric
