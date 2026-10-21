@@ -1,63 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=46.105.49.208
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792594373;
-	b=Ovk8eZP3hNqT7vuuh/5k9p1//FMsqQIHr8DNY62Oa35n+fvbLmBlg4cVWl3HVPpmtfrb
-	 AKe1B0HZvXtPZ4YeAn2AymdTZZSDL6mVnFMvRZkYzTlPYHgHsa9HeRwrfwR8CzizVEIrt
-	 25Q2JZWKkib4yRFU1p3HLpGzYhU6TZ2kwJzkMv40jGe2/8Z+2HuP0aAEln7TZfHH1KaB1
-	 DDpiJIHu7izwDlFXchPgyA69sozrXo7dZb4YCXYjKemaL/3aWINt9F9xpEg9BV9rIZTgs
-	 xN+7i2TUgCPD/uFBRge8NaUHQln0/u4j6ehSZMyMU55EkCvlOBGkRUf5wNe4+rFT0dg==
+	t=1792594599;
+	b=FLc/eJ3mbwRnvf1zFQv1Ucekej6OJ5Kn4aQ4af4o8hzV49/KXg9uX+Uum5QYacxNwLJf
+	 3nG6SGky3yARzRbygl1+23n6H2mtcecw5/mbhDkJp8naqrgvVJ3+iMpOm6oSfakOSt4vj
+	 qCnACenKjVFLqEmAPMEi32iQ7CA+eUlP8Jbzp0LzeVe6pdmUJLdQ8Q87I7dJ1ofK9AR+c
+	 puHNnGiEdNDSw+4G9q1ni4TAKeU7IalgAFgSf33ZhVaORyIXNfUBgK8EK2/C0HphnmI35
+	 93xQ75u7j+1SkMWlj+XqvHlHg/rMkyP6aitN1PHNqKAtvYg1N5mTu1E5YUyyGD4mmUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792594373;
-	h=DMARC-Filter:Received:Received:Received:X-OVh-ClientIp:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:x-ovh-tracer-id:X-VR-SPAMSTATE:
-	 X-VR-SPAMSCORE:X-VR-SPAMCAUSE:DKIM-Signature;
-	bh=rVPeZyjnWTeMFEHm1QO9kLK2bGrC/Twreh09E4sSMVg=;
-	b=Eq1R3eM9uQosNchkdADULsutFG1Ll+oamR33d8Zj+W1hp9n3YiJRmumKbhfBgzH80P/W
-	 YesHTcOpbU6Stgbc4vSwgjiyX1SnRTm8a3DUkDAXVrmgUMmvgFTEVrqnQwbZLDim4piIB
-	 twRa0R500mzois9CtROrofua6W7MsxgpnP3774mLkK20ea3Z7iNLReiiIj+/2LBiO8L10
-	 +uhnSs+kXdURlO4vff38YPDR/b3VFQcXtiQR3XoCLfuFPxbl60YwAFTBKy3Z8RKtbWfMx
-	 aeWYX13VP825d91siz7+Vpk9/dW8dhOAAORGn+YOEt8MalPNRThvQmpae9duAKMdekw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792594599;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=+D+uYFURRsfo5Ok/4sB6xpuqajcrbQ8BvhCvpo4B0eE=;
+	b=ijO662BXRV7JJmClx0Cnutw+qUWemaSYmChmRn/chd8oNUZJZn2jAxl8lhpdI0ul+Ari
+	 Ls68k0rGxhrB5/WlvlJVlBa3FpE/19MBYVdDFf9J+oPuhNtRzQrU6NENQboYi6EgqI0T+
+	 lkPA5D7p+IP94AF1d0qllsTXEBd7PMsbZWwVaWbv6JJKVnJC5uO5+aWvD2Xg7jy213obI
+	 rff5NvJKGmZp5hDDVnnHxwV1sfOKzwMuH77fqmYHpyKRh7n3S1Yj2I0KnPivrRZhk002t
+	 qBZ6WKo9+GVJJmY9Xtwk7y1EgR+Gh03oKJS5ORLK/e3dP0jHfxfnasHPYvluYdnoONA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=medichon.fr;
-	spf=pass smtp.mailfrom=medichon.fr;
-	dkim=pass header.d=medichon.fr header.i=@medichon.fr header.a=rsa-sha256 header.s=ovhmo3801317-selector1 header.b=mNgoGbMa;
-	arc=none smtp.remote-ip=46.105.49.208
-Received: from 20.mo581.mail-out.ovh.net (20.mo581.mail-out.ovh.net [46.105.49.208])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=cs.unc.edu;
+	spf=pass smtp.mailfrom=cs.unc.edu;
+	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=TZCFEfcK;
+	arc=none smtp.remote-ip=209.85.128.181
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2F8606A31E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 14:52:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B2F8606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=medichon.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=medichon.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF6B606A333
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 14:56:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFF6B606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=medichon.fr header.i=@medichon.fr header.a=rsa-sha256 header.s=ovhmo3801317-selector1 header.b=mNgoGbMa
-Received: from director7.ghost.mail-out.ovh.net (unknown [10.110.43.56])
-	by mo581.mail-out.ovh.net (Postfix) with ESMTP id 4j8shY1Vgsz5x55
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 14:52:45 +0000 (UTC)
-Received: from ghost-submission-7ccd8bbbb6-5czf8 (unknown [10.110.101.69])
-	by director7.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 8259CC008A;
-	Wed, 21 Oct 2026 14:52:44 +0000 (UTC)
-Received: from medichon.fr ([37.59.142.110])
-	by ghost-submission-7ccd8bbbb6-5czf8 with ESMTPSA
-	id j8enFLzR2GrXHAwAman/9w
-	(envelope-from <abo@medichon.fr>); Wed, 21 Oct 2026 14:52:44 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-110S0049fa76e51-f67e-46d9-8b0b-c690b20cdbb4,
-                    05BFDA4BFEC350FDF8004146BCFDBCA9DF17BA8C) smtp.auth=abo@medichon.fr
-X-OVh-ClientIp:88.190.90.129
-From: Arnaud Bonnet <abo@medichon.fr>
-To: dhowells@redhat.com,
-	marc.dionne@auristor.com
-Cc: linux-afs@lists.infradead.org,
+	dkim=pass (2048-bit key, unprotected) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=TZCFEfcK
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-8b056d58f2aso7618977b3.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 07:56:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.unc.edu; s=google; t=1792594597; x=1793199397; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+D+uYFURRsfo5Ok/4sB6xpuqajcrbQ8BvhCvpo4B0eE=;
+        b=TZCFEfcK0jcKKDGnj4MbvVG9coLx/enabViFZuQu6y5ZdCGHFoH1JiVFuMjS9GjozR
+         O1/LzvuMxYQBF0lGf9anI7JeWzTiGCwx3NOAuDN7vNU3D9WS8fXGJzpOMeQp8KnbZqt2
+         AjOutoqH4BB6K1WQgIsiSu7G7q50JtamVQ4fB1EY/iJ12LNZDhkF/Dx8Sgx/umnTqZiz
+         wr8cl0arj5vqLBxmve4T8QvrIBReKlwCGgbw5xWYTzny5cLzhk5JNCFg+i5VoCrjKs7C
+         0aZYmfrbfmIagq8BgFriXPImGEppjBBV2mgpzkG5lf4IV1xaPS7EXm1ps17BND0Gdvut
+         97SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792594597; x=1793199397;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+D+uYFURRsfo5Ok/4sB6xpuqajcrbQ8BvhCvpo4B0eE=;
+        b=UOZ9Bi6ibhAGkpeLByBmD8Z3rTjTIOC86Z5gHzCp1P9Fjn8BnNWrFmimcWvzfr3eKr
+         +2+oFkCjTfm79kVG8vo3xR/Od2IQymrVaOi0bMHenBXYUbEoHxZEmIIe06BqyqFm8uOB
+         yxPMLQjY1zRaQvWIV12sO9MWXOUwibr4p8zu689YZdFmehSwcUTa21PTi3x/upJ84UXg
+         eAt8F+FWaKQVn/eMguU/7Yjoxa+GWsm3pVI0FQt8tTNp7XTRgxIJEnlkRi0YGNr16nWb
+         oilTrDMz9AJfFJzA+wDkgbToX88WB5492lVDD04Bqt+7EI5Im10l92eaQCTwTy8+Thlc
+         DhrA==
+X-Forwarded-Encrypted: i=1; AKwUvBxSjCmia/gctxWbzWft6DCKxWVbVYgpD1Gfw9hIdZNV4MC5pPdtvI5hD9i5qJp1rxgTIZ5rbh/GlBu49mrS@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ0xGVVBiYwqbphIMJ2yu7p49ZzNOrzESxeb7gTHYSwVT/XY+tA
+	fDPtYtjtMAq61VRS7J9PSZK9bokRcMViu/BULIbhx0E7dbr5CzsJEFrEjcUKlAjeWYMhl2yg3lK
+	7grkBsA==
+X-Gm-Gg: AYBFou1q09C/Lhi9SuWN/tACIEct19jSVPMMbllunozuE0CsrGxKTXke++iirt0h0Wf
+	R9MX0/ZF2B8ie4ys8Ar5HIvDMB1/hd7W9COOBEAGXyOH8byGTvBl7cVUnYWBVBTJzWcKj9zdZDr
+	SisiPM5pnFzw35AVRpCr3tLrQpPjsh1vtIbHqixQ1lJQVDL0cxs9aIEtXoSVlcnIioaSx/AQiGC
+	jCLvppDiwnT0uNvjm7SbWqODwBfs5VnOcAaYrPM8PjmzkZM+eT+dekhug3ge8abExZ6Et0bkUN7
+	+Kx38P9RKxq93rI5A0WjiT3TsGicVJ9PiWx8m43E54Cp4P5TNH5YgFNMphL1crGU5hXe0KS64JJ
+	SpzmjEBHgnH3Acv9IZ+oeKiHlQvb4hBw+3DmiPCJNvy9A4KBScV0SXGVu2L4DqdaGppv+y7Yrsz
+	ZWCn7ylVz6TygQumyG+copLOLS6v/xsrchRq9XzmUD0qHKcEUIEwg1fhN+RJHfPWpJ07Vfv4J4P
+	tNDBZV9PbGXXzedYydLn+dIAhyagk+yXhYtk/UciSF7Ys27NabxsJlOvOVdGszid62tTT7aGY8R
+	ttYmVU7uBGHs6E1TYJkFjw4q
+X-Received: by 2002:a05:690c:c0d8:b0:89a:63bc:8d7 with SMTP id 00721157ae682-8b1340cc1e0mr8889117b3.97.1792594596537;
+        Wed, 21 Oct 2026 07:56:36 -0700 (PDT)
+Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b1300c00d3sm12495757b3.22.2026.10.21.07.56.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 07:56:36 -0700 (PDT)
+From: Hengyu Liang <hengyul@cs.unc.edu>
+To: slava@dubeyko.com
+Cc: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
 	linux-fsdevel@vger.kernel.org,
-	jkoolstra@xs4all.nl,
-	skhan@linuxfoundation.org,
-	Arnaud Bonnet <abo@medichon.fr>
-Subject: [PATCH v2] afs: Add barriers by using clear_and_wake_up_bit()
-Date: Wed, 21 Oct 2026 16:52:32 +0200
-Message-ID: <20261021145232.64710-1-abo@medichon.fr>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] hfs: report errors when extending files with setattr
+Date: Wed, 21 Oct 2026 10:56:27 -0400
+Message-ID: <20261021145627.288953-1-hengyul@cs.unc.edu>
 X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -69,120 +98,78 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-x-ovh-tracer-id: 15113235925343690334
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: dmFkZTFc76UFrlyWvkoOIBuvljYWYZFP91FI6MNEnmplunOQ+wNtRXQpAORL8rFvON15WZ36scDd4EOWHdN4ekO+VV4Z5WGMJQYl+8JDrX9bR2g7TMlNVadj7oQhXVtrfT+wi5hGzjQb68Ac38REv3A7bxiV2j5DSJzhAncERcvwnPpfiWfR5qKVEQ+3yc+rYrM96xilpIIS4wCbxZRGWN17SnOTJnXAl9QkrrptfvjRoDK0Vf8mY6oX2z9eVcADdsD+yxmhC1WnHlZh3pJqTzyNbXpnJT7hJ39RY55EXeky48u4RUFguideAKNZzmiIkfrWxK5pJxOFOO0YxJmquKm7TLxcsol4StuA7wx3guLP5CxvduzQahgIO6FZdeZC+J3tdgHohZN0lXlaX1PVaU0mmYyntK8gbT+bj8XfamXOJd/f2FZNURxWUdW8AUgpzOMFb3WEdpdIOyMYhyxXIJivoVUCuzH6+I2YGVHidR943JiX3rhI2MaEGaPq9r/z/8q1URbeZzi+b0ZE6ZslKPbbwoqZiFYU8taSW8EITTVh9Mg1+WWzlxk4UjqgNY7qQL37CWuUPO7azJDNdJkG2t2wlhMnEg5ovTiW8tcfy5WA0dbaWK1WZGqYOleFSUEA1YIDB9RyuNuYZDDgQ5c/H3UR4rkxp43JOPuSfgC1OH5x5GiHGA
-DKIM-Signature: a=rsa-sha256; bh=rVPeZyjnWTeMFEHm1QO9kLK2bGrC/Twreh09E4sSMVg=;
- c=relaxed/relaxed; d=medichon.fr; h=From; s=ovhmo3801317-selector1;
- t=1792594365; v=1;
- b=mNgoGbMaqZG+cY/DDehJE0nkQurckhKIC9h36vfqtMSAY554QksEM2/WOauuawNzIkO2v81K
- 35N7SKV1FZoBpIIc2DIHqWBKQrx3+nXmJ88reY2MyAG5B3FlEe6AQ0CUElK83Tax/AgekzfJJUy
- fFdhhwoXh1casX3tHqsLdZpJ4HysB2cG+5cDCv7hSQjeNBLnZ6yHVGELS0UAq7aRRdYbV9b7CyQ
- TH/itH9P9KyE7L5E18Uf4vXPUEU6ZtdtWLU4GDoBshEbryPOBF54U53HfMRosp7lP08TGgKjq9y
- 7u2KG7C8EaTxXOREbmE22T2W/WpuYIiVr4a0rYKptywpQ==
 
-The wake_up_bit() function requires a full memory barrier between the
-bit operation and itself. For atomic operations such as
-clear_bit_unlock(), it is enough to use a smp_mb__after_atomic()
-barrier.
+hfs_inode_setattr() sets i_size and calls hfs_file_truncate() to change
+the allocation. If expansion fails, hfs_file_truncate() restores i_size
+to the allocated size, but its void return type leaves setattr reporting
+success.
 
-Insert the smp_mb__after_atomic() barrier where missing. When
-appropriate, use the clear_and_wake_up_bit() helper which is a wrapper
-for the clear_bit_unlock() -> smp_mb__after_atomic() -> wake_up_bit()
-sequence.
+On a freshly formatted 64 MiB HFS volume, ftruncate() to 128 MiB returns
+zero while the file remains empty. When the requested size fits within
+the volume but exceeds the free space, it also returns zero, leaving
+the file only partially extended.
 
-Fixes: 3bf0fb6f33dd5 ("afs: Probe multiple fileservers simultaneously")
-Fixes: d2ddc776a4581 ("afs: Overhaul volume and server record caching and fileserver rotation")
-Signed-off-by: Arnaud Bonnet <abo@medichon.fr>
+Call generic_cont_expand_simple() when growing a file and propagate its
+error. Keep truncate_setsize() and hfs_file_truncate() in the shrinking
+path. This makes failed extensions report EFBIG or ENOSPC.
+
+Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
 ---
-Tested by building and manually checking generated assembly.
-Depending on the architecture it may:
-        1) have no effect,
-        2) supplement the release atomic with a full barrier, or
-        3) add a redundant but harmless full barrier.
-This fixes the second case.
+Changes in v2:
+- Keep truncate_setsize() and hfs_file_truncate() in the shrinking path,
+  as suggested by Viacheslav Dubeyko.
+- Replace the generic/736 and fsx runs with a comparison of the whole
+  xfstests set selected for HFS, as requested.
 
-Example in server.c function afs_check_server_record():
+v1: https://lore.kernel.org/r/20261017160612.3740256-1-hengyul@cs.unc.edu
 
-- x86: no change in generated code
+Compared unpatched and patched v7.3-rc7 with identical KASAN configs.
+All 805 tests selected for HFS by "check -n -g all" were attempted,
+using freshly formatted 2 GiB test and scratch volumes for each case:
+                passed  failed  not run
+  unpatched       109      27      669
+  v2              109      27      669
 
-- arm64(lse):
-        mov     x0, 2           # AFS_SERVER_FL_UPDATING (bit 1)
-        add     x1, x20, 232    # &server->flags 
-        .arch_extension lse
-        ldclrl  x0, x0, [x1]    # clear_bit_unlock(), release barrier
-.L264:
-+       dmb ish                 # full barrier from smp_mb__after_atomic()
-        mov     w1, 1
-        mov     x0, x19
-        bl      wake_up_bit     # wake_up_bit()
-        b       .L258           # return success
+The different results were generic/113, /394, /464 and /795. /113 and
+/464 passed and failed in replays on the unpatched kernel, and the /113
+failures are the same existing workqueue warning from hfs_file_fsync().
+/795 failed on all three kernels in replays. On the 2 GiB volume, /394
+passes without the fix only because ftruncate() returns success after a
+partial extension; v1 and v2 report ENOSPC. It passes on all three
+kernels with a 4 GiB volume.
 
-- rv64(a):
-        li      a5,-3                   # ~AFS_SERVER_FL_UPDATING
-        addi    a4,s3,232               # &server->flags
-        amoand.d.rl zero, a5, 0(a4)     # clear_bit_unlock(), acquire-release
-+               fence rw,rw             # redundant smp_mb__after_atomic()
-        li      a1,1
-        mv      a0,s5
-        call    wake_up_bit             # wake_up_bit()
-        j       .L279                   # return success
+Also ran 39 functional and 18 recovery cases per kernel on 32/64/128 MiB
+volumes. Content and read-only remount checks passed on unpatched, v1
+and v2 kernels. All three had the same 12 post-ENOSPC fsck failures;
+recovery fsck checks were clean.
 
-v2) Changes from v1:
-        * Added missing smp_mb__after_atomic() in fs/afs/volume.c.
-        * Reworked commit message.
-        * Added testing procedure description outside of commit message.
+Functional/recovery cases and generic/394 were repeated on unpatched
+and v2 kernels at the hfs 7.4 merge (dd7b15aeac80), with the same results.
 
- fs/afs/server.c   | 3 +--
- fs/afs/vl_probe.c | 3 +--
- fs/afs/volume.c   | 5 +++++
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ fs/hfs/inode.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/fs/afs/server.c b/fs/afs/server.c
-index 189138bd6d71..6953877c25b2 100644
---- a/fs/afs/server.c
-+++ b/fs/afs/server.c
-@@ -604,8 +604,7 @@ bool afs_check_server_record(struct afs_operation *op, struct afs_server *server
- 	if (!test_and_set_bit_lock(AFS_SERVER_FL_UPDATING, &server->flags)) {
- 		clear_bit(AFS_SERVER_FL_NEEDS_UPDATE, &server->flags);
- 		success = afs_update_server_record(op, server, key);
--		clear_bit_unlock(AFS_SERVER_FL_UPDATING, &server->flags);
--		wake_up_bit(&server->flags, AFS_SERVER_FL_UPDATING);
-+		clear_and_wake_up_bit(AFS_SERVER_FL_UPDATING, &server->flags);
- 		_leave(" = %d", success);
- 		return success;
- 	}
-diff --git a/fs/afs/vl_probe.c b/fs/afs/vl_probe.c
-index 3d2e0c925460..9850e028c44b 100644
---- a/fs/afs/vl_probe.c
-+++ b/fs/afs/vl_probe.c
-@@ -22,8 +22,7 @@ static void afs_finished_vl_probe(struct afs_vlserver *server)
- 		clear_bit(AFS_VLSERVER_FL_RESPONDING, &server->flags);
+diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+index 2aef3c36a150..9bdaa60fc392 100644
+--- a/fs/hfs/inode.c
++++ b/fs/hfs/inode.c
+@@ -684,8 +684,14 @@ int hfs_inode_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 		if (error)
+ 			return error;
+ 
+-		truncate_setsize(inode, attr->ia_size);
+-		hfs_file_truncate(inode);
++		if (attr->ia_size > inode->i_size) {
++			error = generic_cont_expand_simple(inode, attr->ia_size);
++			if (error)
++				return error;
++		} else {
++			truncate_setsize(inode, attr->ia_size);
++			hfs_file_truncate(inode);
++		}
+ 		inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
  	}
  
--	clear_bit_unlock(AFS_VLSERVER_FL_PROBING, &server->flags);
--	wake_up_bit(&server->flags, AFS_VLSERVER_FL_PROBING);
-+	clear_and_wake_up_bit(AFS_VLSERVER_FL_PROBING, &server->flags);
- }
- 
- /*
-diff --git a/fs/afs/volume.c b/fs/afs/volume.c
-index 4f79d25ec37f..ca8fec87a01b 100644
---- a/fs/afs/volume.c
-+++ b/fs/afs/volume.c
-@@ -444,6 +444,11 @@ int afs_check_volume_status(struct afs_volume *volume, struct afs_operation *op)
- 			set_bit(AFS_VOLUME_NEEDS_UPDATE, &volume->flags);
- 		clear_bit_unlock(AFS_VOLUME_WAIT, &volume->flags);
- 		clear_bit_unlock(AFS_VOLUME_UPDATING, &volume->flags);
-+		/* Memory barrier must be set between clearing AFS_VOLUME_WAIT and
-+		 * wake_up_bit() since clear_bit_unlock() is not a full barrier.
-+		 * See wake_up_bit() description for more information.
-+		 */
-+		smp_mb__after_atomic();
- 		wake_up_bit(&volume->flags, AFS_VOLUME_WAIT);
- 		_leave(" = %d", ret);
- 		return ret;
 -- 
 2.53.0
 
