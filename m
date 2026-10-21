@@ -1,56 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.92.8.66
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792580452;
-	b=yMb9JmSX9YeWbxe4LgP/KnGVqknJo4Mje54H2D1cTtW5+0NZU+0A2h04/g4GySEnHqF1
-	 hISiC5xbysm/aay3ByXKzFR/56/l3U8ICZS/YXaa2osmipYnUmcxxMfW2N7rqXryq6NhZ
-	 jxXxXZlBZEVNZJy5ESwQ4dAyFR759NGcJ9xJjXfjRJY2171BiOtEey16lLS6c1YY/K4Tj
-	 njzfIVCxNmeWinEyfCMKNUUfEK+hbFaQb/EXJOqaqBHmhzYZa8BTj335jRUcF1CL7wtke
-	 quQ+dwxKXrGj/pAa07j3+5HrauYUzewiJbuGtCfbDwk2bIgb4ZERv60S39ZVriTGk8Q==
+	t=1792580512;
+	b=3m9kT27wh8ucnG6t6v0EMosFz3uFu7lAusXQ0JHvYtoXFa5KBV/FxymJGrTU/PD6yt3/
+	 js9sAGHCXFLzp2TwqtGn1SQVyqRtyO89PASy6kt5RK+l/XT6I8Cw/CDUkg7yqmN7pVjqp
+	 0KvXRMAJPeOJWsNTeij/KS56nL1sBPvfIvxLBzgu5H/swQuz9dGaB2gQwPWlY/ykYqRGM
+	 O++sTUpQp3Bs9YdfjL2x0a4dl5TGnYz9/p26PpjlWIDT2mSvjQDF1WipHESzRO3uwacuf
+	 v4+h43W9YOP5k2AHCRnpa0Pj582SPIZN7aUkAUru9NAkhScV9JwbFkTkRbCpbXrEyTA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792580452;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=aZ9SAWkkwTTy4NnoMgvNraUdhnHDvEnXt6t9/TvONPg=;
-	b=g3FpQ0Setk1QhXPLgMCvht/gVYtiMYCLHB86rYzdD2sqVoJoOYJX2akvKDbA3m/yu2TQ
-	 bcf6ZTLPNr32ONdGa9ds1oPlU42UxYujj6EMOXwz99RDfF8u7wYJAaIY3eLzM96Tm4nur
-	 3VQ/w7mE6LEbKUPpB88QxMT3GsIRhsp1KZ+IVraV+euWGP9Dc8Kks4gcyQI+kXs1eIc9u
-	 sQ6Jsz5+x1Pzh5YsHlbagGLh5t9Brhjvj2FGe9RR8dhOa7HIzC15uSW2XBAT04j/1PORW
-	 jUN5MTXmaHGYdzDcklVn0SpoO9rjEbwehPsYbnvGiiITs4ldC7F3F31LF6mYMeJrcCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792580512;
+	h=DMARC-Filter:DKIM-Signature:Received:References:In-Reply-To:
+	 Message-ID:List-Unsubscribe-Post:From:To:Subject:List-Unsubscribe:
+	 Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
+	bh=E2qprF6FdVgTBcDTZe2XJmFw04za9FQ5JpaCXYKpPbQ=;
+	b=WVgzS7W62DryiPA8ggpYLRVyoFrPfB6WksjGjnY4aYb44asqJn/RDojCtUUxpypFWMMB
+	 UbzmppS92rWqq0JhQzEXf6xEmHuenYcCKquZB+drmqwTaS+409eNj47f4RfCTClV4p+um
+	 t5FiZa3Gz2o+x3zONiNHm8WRX/liWFx/KAZfNQNocs8kZId5iYvR5vPz3gGbgGxMqE7O0
+	 EszZ1KIiZm3Ho+yBWqcn5kmukhSEq1NUgH9Fx29Y9z5dtO9vAGT57YkzKeN4oViVsqG5I
+	 g0aA/LkvtdNXJT7ShEL6iEy00ZCWMNZASoVt5cG8Yc5vy+HOOdSuSHiO8BuhbhSJpuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HweTXTA7;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=planestimations.com;
+	spf=pass smtp.mailfrom=planestimations.com;
+	dkim=pass header.d=planestimations.com header.i=@planestimations.com header.a=rsa-sha256 header.s=202505 header.b=M8Z95ZQ1;
+	arc=none smtp.remote-ip=45.92.8.66
+Received: from mail.planestimations.com (mail.planestimations.com [45.92.8.66])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B06606A319;
-	Wed, 21 Oct 2026 11:00:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A84D606A31F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 11:01:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A84D606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=planestimations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=planestimations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HweTXTA7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52BD11F000C9;
-	Wed, 21 Oct 2026 11:00:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792580451;
-	bh=aZ9SAWkkwTTy4NnoMgvNraUdhnHDvEnXt6t9/TvONPg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=HweTXTA7etRFHCaPlJVEsL1HLJMWcPMjcHG4GmkaI4vVHFc6XfIm8d09zbkMtNMNH
-	 seVtvv8MImechffrqTnLC6ChEUY1zxmU36yzlMAaCqseeBxOTeWsTuS331wSyCx9l9
-	 RuQGrYjhhv2qzDaaLbLLePOg0iL7KE42jUzcsowqtMeqETZ85rcU1wUVScxovCux+h
-	 idBcx+lgwIsCnXBOn3DWdapXYKR/FVZMAPDat6LrVBqyyL/+whMVwAR7QfzW6iN7Is
-	 Hi0E4P1SK+2tQD0waAAPMLo6ZwToRmj8mOBA2kLB3oNaRSYoTxHt3/tr+PDAHDIWY3
-	 gL3KPByRbnasQ==
-From: Christian Brauner <brauner@kernel.org>
-To: David Howells <dhowells@redhat.com>, 
- Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Paulo Alcantara <pc@manguebit.org>, Jeff Layton <jlayton@kernel.org>, 
- netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260905051738.11317-1-kmehltretter@gmail.com>
-References: <20260905051738.11317-1-kmehltretter@gmail.com>
-Subject: Re: [PATCH] netfs: Restore selective debug mask handling
-Message-Id: <20261021-inzwischen-ufern-blasen-f5882ee63602@brauner>
-Date: Wed, 21 Oct 2026 13:00:48 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=planestimations.com header.i=@planestimations.com header.a=rsa-sha256 header.s=202505 header.b=M8Z95ZQ1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=planestimations.com;
+	s=202505; t=1792580502;
+	bh=E2qprF6FdVgTBcDTZe2XJmFw04za9FQ5JpaCXYKpPbQ=;
+	h=References:In-Reply-To:From:To:Subject:List-Unsubscribe:Date:
+	 From;
+	b=M8Z95ZQ1CIcoLUMI3cuQ7GGRiWiUlHKxO0vMMb6NAkICs+jYDAIPmzhWpEIXy2duF
+	 EmB1xmzcNdORChXaIYBQb9qE8YrzfqNtp1lkHXmta+GEXjfJls2yGpzPvCVaEB8S8Y
+	 ebrPIRqYZIWUOvB/R8bSP6tvjMYDGqnSZxNKvhLH98zf4y7LGr/mdjC0MjCF4k/th0
+	 O1WZEJz+XQ1RoDPE+UbdcS5h4yQrb7+2Qm3N9sRGteKcfG1+ny8QNxhH/hEOpEBQ3M
+	 PJPJofA8KWQ+MWdF5q+sUanbkVh/nydePY12Ozqk39eJcVYFXnz5Heovv+bCI+wUZc
+	 4J4JE1LmsV5gw==
+Received: from [127.0.0.1] (ec2-54-91-165-133.compute-1.amazonaws.com [54.91.165.133])
+	by mail.planestimations.com (Postfix) with ESMTPSA id 3663E5015F9
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 13:01:42 +0200 (CEST)
+References: <c25d4d3c-49d9-4c82-b40b-81a11361ecdc@planestimations.com>
+In-Reply-To: <c25d4d3c-49d9-4c82-b40b-81a11361ecdc@planestimations.com>
+Message-ID: <91deb3c3-0802-4075-9a08-6674c825464f@planestimations.com>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+From: Jane Wells <janew@planestimations.com>
+To: linux-fsdevel@vger.kernel.org
+Subject: Precise CSI Cost Takeoffs for Your Builds
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Oct 2026 11:01:41 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,39 +65,23 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-3d1b8
+Content-Type: text/plain; charset=utf-8
 
-On Sat, 05 Sep 2026 07:17:38 +0200, Karl Mehltretter wrote:
-> The netfs debug macros test only whether netfs_debug is nonzero.
-> Consequently, selecting one debug point enables every entry, exit and
-> general debug message.
-> 
-> Documentation/filesystems/caching/fscache.rst and the NETFS_DEBUG
-> Kconfig help still describe /sys/module/netfs/parameters/debug as a
-> bitmask of per-stream function entry, exit and general debugging
-> points, and the fscache_*.c files still define FSCACHE_DEBUG_LEVEL,
-> but nothing has decoded either since the mask handling was dropped
-> when FS-Cache was folded into netfs.
-> 
-> [...]
+Hi ,
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Just checking in in case my previous email got buried.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+We support developers with accurate CSI cost estimating to help reduce =
+bidding risk.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+If relevant, I can provide a sample estimate so you can =
+evaluate.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+Feel free to reply if you=E2=80=99d like to take a look.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
+Regards,
 
-[1/1] netfs: Restore selective debug mask handling
-      https://git.kernel.org/vfs/vfs/c/35f4755ed06f
+Jane Wells | Sales Representative
+Plan Estimating
 
+Click Here to Unsubscribe
