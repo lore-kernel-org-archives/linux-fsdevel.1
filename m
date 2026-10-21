@@ -1,108 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=46.105.49.208
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792594143;
-	b=e5CPyx1th2cz1cp9n1Ss5GiucAADOoJPGQhEuZ8E2jaiJ5NQowHzwLnKfZKVLGn9qbpf
-	 1kyZdtLy07XXZSpgW+/CJ8SATq3e83LkomJZOG2+49+LUIYz7yANdCWHJ88Ed6V/94ZY8
-	 9i0jvcNyMo2atH9FfCrm/Q1EZGBu3xPowe1GSylUELSs0jgURqj0guW2YxWkPGiNBKsrK
-	 DONFJc9Z1hvfk7o45U6Pf59i563juzwTb5GxwU/6onyHX444dfNHr8oflXltpoIXtj2ya
-	 iaeMKx9ZRQn/wvRJRIFAnlfIn9zvJgwonMVIQqb9KKmYNDBrU3gMYZyHkA/V/AYO11A==
+	t=1792594373;
+	b=Ovk8eZP3hNqT7vuuh/5k9p1//FMsqQIHr8DNY62Oa35n+fvbLmBlg4cVWl3HVPpmtfrb
+	 AKe1B0HZvXtPZ4YeAn2AymdTZZSDL6mVnFMvRZkYzTlPYHgHsa9HeRwrfwR8CzizVEIrt
+	 25Q2JZWKkib4yRFU1p3HLpGzYhU6TZ2kwJzkMv40jGe2/8Z+2HuP0aAEln7TZfHH1KaB1
+	 DDpiJIHu7izwDlFXchPgyA69sozrXo7dZb4YCXYjKemaL/3aWINt9F9xpEg9BV9rIZTgs
+	 xN+7i2TUgCPD/uFBRge8NaUHQln0/u4j6ehSZMyMU55EkCvlOBGkRUf5wNe4+rFT0dg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792594143;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=0FQjjH/1NaNGWFHzrSCjGz72MzCZ8wWJp/PHZdLvZfs=;
-	b=mwOn/zjFJOq+CbmexC1GYB0ZaZYomvfyRSMCARR+K/yZ7X8TgiPe/qpPjg0O20oFfAgx
-	 2XAk2lWQlVkd+09bhs1amUT2r63TywFCBbK0UjRgcS7l0qU4K9kBORTkd0g/TAFS1Be9v
-	 UA4PJ+VD7IoBQVgAKvgYMd8A9wcxJS3SxDDkw+R1vXOoLvz5uIFbIGIM32IuFKHE4ReG5
-	 qLJU15TE83E2LozqPcy5k1R6yleMV0KdQ59FYOhBNQX4OnS/tZMkzVbom5RsPcJWJIYMq
-	 Y1QsLFTbFP82C57SSLgT+Oex1UHGWKZTNudRwH2mcqtmyyR5YxYyRIIJYJZn0tVjjkA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792594373;
+	h=DMARC-Filter:Received:Received:Received:X-OVh-ClientIp:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:x-ovh-tracer-id:X-VR-SPAMSTATE:
+	 X-VR-SPAMSCORE:X-VR-SPAMCAUSE:DKIM-Signature;
+	bh=rVPeZyjnWTeMFEHm1QO9kLK2bGrC/Twreh09E4sSMVg=;
+	b=Eq1R3eM9uQosNchkdADULsutFG1Ll+oamR33d8Zj+W1hp9n3YiJRmumKbhfBgzH80P/W
+	 YesHTcOpbU6Stgbc4vSwgjiyX1SnRTm8a3DUkDAXVrmgUMmvgFTEVrqnQwbZLDim4piIB
+	 twRa0R500mzois9CtROrofua6W7MsxgpnP3774mLkK20ea3Z7iNLReiiIj+/2LBiO8L10
+	 +uhnSs+kXdURlO4vff38YPDR/b3VFQcXtiQR3XoCLfuFPxbl60YwAFTBKy3Z8RKtbWfMx
+	 aeWYX13VP825d91siz7+Vpk9/dW8dhOAAORGn+YOEt8MalPNRThvQmpae9duAKMdekw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=rtzPfR9F;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="454jNR/Q";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=rtzPfR9F;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="454jNR/Q";
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dmarc=none header.from=medichon.fr;
+	spf=pass smtp.mailfrom=medichon.fr;
+	dkim=pass header.d=medichon.fr header.i=@medichon.fr header.a=rsa-sha256 header.s=ovhmo3801317-selector1 header.b=mNgoGbMa;
+	arc=none smtp.remote-ip=46.105.49.208
+Received: from 20.mo581.mail-out.ovh.net (20.mo581.mail-out.ovh.net [46.105.49.208])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E007606A31D;
-	Wed, 21 Oct 2026 14:49:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E007606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2F8606A31E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 14:52:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B2F8606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=medichon.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=medichon.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=rtzPfR9F;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=454jNR/Q;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=rtzPfR9F;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=454jNR/Q
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 79FD121F56;
-	Wed, 21 Oct 2026 14:49:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792594141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0FQjjH/1NaNGWFHzrSCjGz72MzCZ8wWJp/PHZdLvZfs=;
-	b=rtzPfR9FePJ2r47F+PveX4OIB1+IorVJrjSSg4SQOcbcOHv3PeVsGxFQqvDsctBcoCyuy0
-	haAzfqoH84QIojIHDqVKQHb2KauK4D8C0pWlHm59DPwMhxcdjYRqoZj4M6o4DlCdcaZ2LO
-	BykU3yYd/Rjr6Y0t6vzBWdGYZ1LRyVk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792594141;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0FQjjH/1NaNGWFHzrSCjGz72MzCZ8wWJp/PHZdLvZfs=;
-	b=454jNR/QIWfKtrJftZjcGeT+gHPE9J8y3eTp31V0SB0I/fDprjIPCLuvLlCQwCEcemDBUH
-	mrkMQQxvpykXPZBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792594141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0FQjjH/1NaNGWFHzrSCjGz72MzCZ8wWJp/PHZdLvZfs=;
-	b=rtzPfR9FePJ2r47F+PveX4OIB1+IorVJrjSSg4SQOcbcOHv3PeVsGxFQqvDsctBcoCyuy0
-	haAzfqoH84QIojIHDqVKQHb2KauK4D8C0pWlHm59DPwMhxcdjYRqoZj4M6o4DlCdcaZ2LO
-	BykU3yYd/Rjr6Y0t6vzBWdGYZ1LRyVk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792594141;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0FQjjH/1NaNGWFHzrSCjGz72MzCZ8wWJp/PHZdLvZfs=;
-	b=454jNR/QIWfKtrJftZjcGeT+gHPE9J8y3eTp31V0SB0I/fDprjIPCLuvLlCQwCEcemDBUH
-	mrkMQQxvpykXPZBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 504D7134A5;
-	Wed, 21 Oct 2026 14:49:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XQOrC93Q2GquaAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 21 Oct 2026 14:49:01 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id D10A2A13C6; Wed, 21 Oct 2026 16:49:00 +0200 (CEST)
-Date: Wed, 21 Oct 2026 16:49:00 +0200
-From: Jan Kara <jack@suse.cz>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] fs: make the block device callbacks wait for
- superblocks being shut down
-Message-ID: <36qz7ogt6fkjcmiujvt5rsn3t47bhsnh2g5sinthabwakajvw6@l6hmukz4h66v>
-References: <20261021-b4-super-lock-dying-v1-0-2b35e86706ff@toxicpanda.com>
- <20261021-b4-super-lock-dying-v1-3-2b35e86706ff@toxicpanda.com>
+	dkim=pass (2048-bit key, unprotected) header.d=medichon.fr header.i=@medichon.fr header.a=rsa-sha256 header.s=ovhmo3801317-selector1 header.b=mNgoGbMa
+Received: from director7.ghost.mail-out.ovh.net (unknown [10.110.43.56])
+	by mo581.mail-out.ovh.net (Postfix) with ESMTP id 4j8shY1Vgsz5x55
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 14:52:45 +0000 (UTC)
+Received: from ghost-submission-7ccd8bbbb6-5czf8 (unknown [10.110.101.69])
+	by director7.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 8259CC008A;
+	Wed, 21 Oct 2026 14:52:44 +0000 (UTC)
+Received: from medichon.fr ([37.59.142.110])
+	by ghost-submission-7ccd8bbbb6-5czf8 with ESMTPSA
+	id j8enFLzR2GrXHAwAman/9w
+	(envelope-from <abo@medichon.fr>); Wed, 21 Oct 2026 14:52:44 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-110S0049fa76e51-f67e-46d9-8b0b-c690b20cdbb4,
+                    05BFDA4BFEC350FDF8004146BCFDBCA9DF17BA8C) smtp.auth=abo@medichon.fr
+X-OVh-ClientIp:88.190.90.129
+From: Arnaud Bonnet <abo@medichon.fr>
+To: dhowells@redhat.com,
+	marc.dionne@auristor.com
+Cc: linux-afs@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	jkoolstra@xs4all.nl,
+	skhan@linuxfoundation.org,
+	Arnaud Bonnet <abo@medichon.fr>
+Subject: [PATCH v2] afs: Add barriers by using clear_and_wake_up_bit()
+Date: Wed, 21 Oct 2026 16:52:32 +0200
+Message-ID: <20261021145232.64710-1-abo@medichon.fr>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -112,128 +68,121 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261021-b4-super-lock-dying-v1-3-2b35e86706ff@toxicpanda.com>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email,toxicpanda.com:email]
-X-Spam-Score: -12.80
+Content-Transfer-Encoding: 8bit
+x-ovh-tracer-id: 15113235925343690334
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: dmFkZTFc76UFrlyWvkoOIBuvljYWYZFP91FI6MNEnmplunOQ+wNtRXQpAORL8rFvON15WZ36scDd4EOWHdN4ekO+VV4Z5WGMJQYl+8JDrX9bR2g7TMlNVadj7oQhXVtrfT+wi5hGzjQb68Ac38REv3A7bxiV2j5DSJzhAncERcvwnPpfiWfR5qKVEQ+3yc+rYrM96xilpIIS4wCbxZRGWN17SnOTJnXAl9QkrrptfvjRoDK0Vf8mY6oX2z9eVcADdsD+yxmhC1WnHlZh3pJqTzyNbXpnJT7hJ39RY55EXeky48u4RUFguideAKNZzmiIkfrWxK5pJxOFOO0YxJmquKm7TLxcsol4StuA7wx3guLP5CxvduzQahgIO6FZdeZC+J3tdgHohZN0lXlaX1PVaU0mmYyntK8gbT+bj8XfamXOJd/f2FZNURxWUdW8AUgpzOMFb3WEdpdIOyMYhyxXIJivoVUCuzH6+I2YGVHidR943JiX3rhI2MaEGaPq9r/z/8q1URbeZzi+b0ZE6ZslKPbbwoqZiFYU8taSW8EITTVh9Mg1+WWzlxk4UjqgNY7qQL37CWuUPO7azJDNdJkG2t2wlhMnEg5ovTiW8tcfy5WA0dbaWK1WZGqYOleFSUEA1YIDB9RyuNuYZDDgQ5c/H3UR4rkxp43JOPuSfgC1OH5x5GiHGA
+DKIM-Signature: a=rsa-sha256; bh=rVPeZyjnWTeMFEHm1QO9kLK2bGrC/Twreh09E4sSMVg=;
+ c=relaxed/relaxed; d=medichon.fr; h=From; s=ovhmo3801317-selector1;
+ t=1792594365; v=1;
+ b=mNgoGbMaqZG+cY/DDehJE0nkQurckhKIC9h36vfqtMSAY554QksEM2/WOauuawNzIkO2v81K
+ 35N7SKV1FZoBpIIc2DIHqWBKQrx3+nXmJ88reY2MyAG5B3FlEe6AQ0CUElK83Tax/AgekzfJJUy
+ fFdhhwoXh1casX3tHqsLdZpJ4HysB2cG+5cDCv7hSQjeNBLnZ6yHVGELS0UAq7aRRdYbV9b7CyQ
+ TH/itH9P9KyE7L5E18Uf4vXPUEU6ZtdtWLU4GDoBshEbryPOBF54U53HfMRosp7lP08TGgKjq9y
+ 7u2KG7C8EaTxXOREbmE22T2W/WpuYIiVr4a0rYKptywpQ==
 
-On Wed 21-10-26 00:56:37, Josef Bacik wrote:
-> Three of the callbacks the block layer has into the filesystem using a
-> device rely on super_lock() sleeping on s_umount until an unmount is done,
-> in the same unspoken way as sync(2) and freezing for suspend:
-> 
->  - fs_bdev_sync() is there to get the filesystem onto the device.  While it
->    is being unmounted, the unmount is what does that.
-> 
->  - fs_bdev_freeze() promises that nothing writes to the device once it has
->    returned.  An unmount writes to it until ->put_super() is done.
-> 
->  - fs_bdev_mark_dead() without @surprise is an orderly removal, which syncs
->    the filesystem before the device goes away.  Going ahead while an
->    unmount is still writing would lose what it hasn't written yet.
-> 
-> Have them wait for SB_DYING when the superblock turns out to be going
-> away, ahead of super_lock() not sleeping on such a superblock any more.
-> With @surprise the device is gone already and there is nothing to wait
-> for.
-> 
-> Only fs_bdev_sync() can be killed while it waits.  Its one caller is
-> BLKFLSBUF, and all that does afterwards is invalidate_bdev(), which leaves
-> dirty pages and pages under writeback alone.
-> 
-> The other two use super_wait_shutdown() and can't be killed, as they can't
-> be today.  Killing the task doesn't call off the removal of the
-> device, it would only make it overtake the unmount.  fs_bdev_freeze() could
-> return an error, but by then it may have frozen other superblocks on the
-> device, which its caller doesn't thaw on failure.
-> 
-> For now SB_DYING is always set by the time super_lock() fails, so nothing
-> changes yet.
-> 
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+The wake_up_bit() function requires a full memory barrier between the
+bit operation and itself. For atomic operations such as
+clear_bit_unlock(), it is enough to use a smp_mb__after_atomic()
+barrier.
 
-Looks good. Feel free to add:
+Insert the smp_mb__after_atomic() barrier where missing. When
+appropriate, use the clear_and_wake_up_bit() helper which is a wrapper
+for the clear_bit_unlock() -> smp_mb__after_atomic() -> wake_up_bit()
+sequence.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Fixes: 3bf0fb6f33dd5 ("afs: Probe multiple fileservers simultaneously")
+Fixes: d2ddc776a4581 ("afs: Overhaul volume and server record caching and fileserver rotation")
+Signed-off-by: Arnaud Bonnet <abo@medichon.fr>
+---
+Tested by building and manually checking generated assembly.
+Depending on the architecture it may:
+        1) have no effect,
+        2) supplement the release atomic with a full barrier, or
+        3) add a redundant but harmless full barrier.
+This fixes the second case.
 
-								Honza
+Example in server.c function afs_check_server_record():
 
-> ---
->  fs/super.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/super.c b/fs/super.c
-> index 76101307da01..9baaaa3256b2 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -1572,8 +1572,12 @@ static void fs_bdev_mark_dead(struct block_device *bdev, bool surprise)
->  	for (sb_dev = super_dev_first(dev); sb_dev; sb_dev = super_dev_next(sb_dev)) {
->  		struct super_block *sb = sb_dev->sd_sb;
->  
-> -		if (!super_lock_shared(sb))
-> +		if (!super_lock_shared(sb)) {
-> +			/* don't take the device away from under an unmount */
-> +			if (!surprise)
-> +				super_wait_shutdown(sb);
->  			continue;
-> +		}
->  		if (sb->s_root && (sb->s_flags & SB_ACTIVE)) {
->  			if (!sb->s_op->remove_bdev ||
->  			    sb->s_op->remove_bdev(sb, bdev)) {
-> @@ -1599,8 +1603,13 @@ static void fs_bdev_sync(struct block_device *bdev)
->  	for (sb_dev = super_dev_first(dev); sb_dev; sb_dev = super_dev_next(sb_dev)) {
->  		struct super_block *sb = sb_dev->sd_sb;
->  
-> -		if (!super_lock_shared(sb))
-> +		if (!super_lock_shared(sb)) {
-> +			if (super_wait_shutdown_killable(sb)) {
-> +				super_dev_put(sb_dev);
-> +				return;
-> +			}
->  			continue;
-> +		}
->  		if (sb->s_root && (sb->s_flags & SB_ACTIVE))
->  			sync_filesystem(sb);
->  		super_unlock_shared(sb);
-> @@ -1631,8 +1640,11 @@ static int fs_bdev_freeze(struct block_device *bdev)
->  	mutex_unlock(&bdev->bd_holder_lock);
->  
->  	for (sb_dev = super_dev_first(dev); sb_dev; sb_dev = super_dev_next(sb_dev)) {
-> -		if (!get_active_super(sb_dev->sd_sb))
-> +		if (!get_active_super(sb_dev->sd_sb)) {
-> +			/* an unmount writes to the device until it is done */
-> +			super_wait_shutdown(sb_dev->sd_sb);
->  			continue;
-> +		}
->  		err = fs_super_freeze(sb_dev->sd_sb);
->  		if (err && !error)
->  			error = err;
-> 
-> -- 
-> 2.55.0
-> 
+- x86: no change in generated code
+
+- arm64(lse):
+        mov     x0, 2           # AFS_SERVER_FL_UPDATING (bit 1)
+        add     x1, x20, 232    # &server->flags 
+        .arch_extension lse
+        ldclrl  x0, x0, [x1]    # clear_bit_unlock(), release barrier
+.L264:
++       dmb ish                 # full barrier from smp_mb__after_atomic()
+        mov     w1, 1
+        mov     x0, x19
+        bl      wake_up_bit     # wake_up_bit()
+        b       .L258           # return success
+
+- rv64(a):
+        li      a5,-3                   # ~AFS_SERVER_FL_UPDATING
+        addi    a4,s3,232               # &server->flags
+        amoand.d.rl zero, a5, 0(a4)     # clear_bit_unlock(), acquire-release
++               fence rw,rw             # redundant smp_mb__after_atomic()
+        li      a1,1
+        mv      a0,s5
+        call    wake_up_bit             # wake_up_bit()
+        j       .L279                   # return success
+
+v2) Changes from v1:
+        * Added missing smp_mb__after_atomic() in fs/afs/volume.c.
+        * Reworked commit message.
+        * Added testing procedure description outside of commit message.
+
+ fs/afs/server.c   | 3 +--
+ fs/afs/vl_probe.c | 3 +--
+ fs/afs/volume.c   | 5 +++++
+ 3 files changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/fs/afs/server.c b/fs/afs/server.c
+index 189138bd6d71..6953877c25b2 100644
+--- a/fs/afs/server.c
++++ b/fs/afs/server.c
+@@ -604,8 +604,7 @@ bool afs_check_server_record(struct afs_operation *op, struct afs_server *server
+ 	if (!test_and_set_bit_lock(AFS_SERVER_FL_UPDATING, &server->flags)) {
+ 		clear_bit(AFS_SERVER_FL_NEEDS_UPDATE, &server->flags);
+ 		success = afs_update_server_record(op, server, key);
+-		clear_bit_unlock(AFS_SERVER_FL_UPDATING, &server->flags);
+-		wake_up_bit(&server->flags, AFS_SERVER_FL_UPDATING);
++		clear_and_wake_up_bit(AFS_SERVER_FL_UPDATING, &server->flags);
+ 		_leave(" = %d", success);
+ 		return success;
+ 	}
+diff --git a/fs/afs/vl_probe.c b/fs/afs/vl_probe.c
+index 3d2e0c925460..9850e028c44b 100644
+--- a/fs/afs/vl_probe.c
++++ b/fs/afs/vl_probe.c
+@@ -22,8 +22,7 @@ static void afs_finished_vl_probe(struct afs_vlserver *server)
+ 		clear_bit(AFS_VLSERVER_FL_RESPONDING, &server->flags);
+ 	}
+ 
+-	clear_bit_unlock(AFS_VLSERVER_FL_PROBING, &server->flags);
+-	wake_up_bit(&server->flags, AFS_VLSERVER_FL_PROBING);
++	clear_and_wake_up_bit(AFS_VLSERVER_FL_PROBING, &server->flags);
+ }
+ 
+ /*
+diff --git a/fs/afs/volume.c b/fs/afs/volume.c
+index 4f79d25ec37f..ca8fec87a01b 100644
+--- a/fs/afs/volume.c
++++ b/fs/afs/volume.c
+@@ -444,6 +444,11 @@ int afs_check_volume_status(struct afs_volume *volume, struct afs_operation *op)
+ 			set_bit(AFS_VOLUME_NEEDS_UPDATE, &volume->flags);
+ 		clear_bit_unlock(AFS_VOLUME_WAIT, &volume->flags);
+ 		clear_bit_unlock(AFS_VOLUME_UPDATING, &volume->flags);
++		/* Memory barrier must be set between clearing AFS_VOLUME_WAIT and
++		 * wake_up_bit() since clear_bit_unlock() is not a full barrier.
++		 * See wake_up_bit() description for more information.
++		 */
++		smp_mb__after_atomic();
+ 		wake_up_bit(&volume->flags, AFS_VOLUME_WAIT);
+ 		_leave(" = %d", ret);
+ 		return ret;
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.53.0
+
