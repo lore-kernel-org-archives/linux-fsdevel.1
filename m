@@ -1,73 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792585577;
-	b=FlrjSd64H9agHWdVHknKrhiAFD+F1bpqO7faCuam96P6QpUWZ+OVimW78tnzAH3g0Q8o
-	 qw5hqxUW7CN4TpE1yEm1uMq6AtXEq3VZDS0g6uttL6Pbcl6plDbdAmhrKlZJPxO56rhHp
-	 3RhEWx7GT2RwxTtzPmhoyUyySCr/mB4JJr1KcriJlv37Hri1U+GGw8mDP5MonaTkTxeAZ
-	 PxN9eUGyjJCF69HtgdnLAxiJlKPkV7owk6A1tCBOlAabxV4RhA3vLrMKVEAP7tLsizRKa
-	 P+rKukByC0dyEe9BKcSkGz2GjQqS6EizjLeIXfimNPMYAvPQRGpYmoVVoPixO6W3R3A==
+	t=1792585814;
+	b=GmODSlIVzRG+YpPYFTe1muB++JtwoIL4p5eKdr6MBOzAgOo3hJR54u5Wk6Zm6zvO63Hf
+	 8XKzhTVDfWfoM2BIynqPIbKJItWjENguP7bp5wv6S4hTX0Hqn9Cazl7ZFb8bG/imV8KXA
+	 Tt1jM4PQR5y/cfgd1k+DKrD6atj0pD4VJDnk42omRVyNBTVvn/u7bXPclKqcgV+yhPqrW
+	 YIJ/n2iST2Oiagwvd1Ff8vYgIO1yUtvuiNPrvZQIILukj0gUAOwf5R0L0G9sRmIp20lFy
+	 bIblO6ehwsYhO83R0mRDTiAUM6Nweq6Cm4EGOxzfhl+8Wua3YtlRquN3c7oygSQWneA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792585577;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Received:Date:In-Reply-To:Mime-Version:
-	 References:X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=H6i391iVh1dQ0VMmEwYNJCCdz9XRHgnpnKzdqGscyes=;
-	b=cDkwa/cqJ0eg8/RPLkwpO+y6jqbQKai799L2ciE9Onc8plQ8vdWV1jc83SBNUhoKustV
-	 YuHPOe9OwQInclGZsn2GXca4X9K2/It00+fZOa5usWqNMQqKyH8Cezma9Jkh/tu+qKhR5
-	 zHp+RJOhhQqUQEI6l4jZZZkXruNdRi4kPVqtsq1mCPFd/Vq4eoEYNFd8LnRce74XxCjnD
-	 BRBERNE0Acq1mGT4J/SIpUQy+Bp5V+LQOZNAISRkLQwNvqGxQgiBI9Hp8tqQe9fX4uU+9
-	 hHGrxXALH096wmdqwrxN3EzuldmlzfMrn8/K/cg2vK8kuMIFz0M2l5yUVYJqoG0xMKA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792585814;
+	h=Received:DKIM-Signature:From:To:Cc:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=SPvwqxlJ5BdpL7mIBDv6+lJZJJBo+NcQCFXkzsy92MU=;
+	b=Hb1xhR8ISzONsGfawI2ww51FHkPAxgc2oR78CyBLUSTVTVocU7KnERpewN89ZHivzewA
+	 bYWv5sTFGR7XKUqpgNw9h1peC/Z6rhbYNkQqY8ZBvqiAupR9aNVLr/dFzyTsFT7GeC83G
+	 ApyvwmjbJo3Gj9OafSkh837fbcG1MSrEj2WLNs9zF4lms9TYrTcQwCstDXxgfckcKxFFR
+	 sPVSTWNSo2jNkYkg9WjFdjyJQu69Zbird1fVETxx0V5KePGIykIRJnsDmtoxaSVaxnKeo
+	 8Dd4n73bC83nVYJXyUnO3CbPakPDSEi2u0KGvOJ4Dknl0LP5BAoIFPFtHbNe+adkUIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--sadrul.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b="HTTHA1t/";
-	arc=none smtp.remote-ip=209.85.222.197
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bwVUKj2u;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7603606A32C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 12:26:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7603606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sadrul.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222BF606A320;
+	Wed, 21 Oct 2026 12:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=HTTHA1t/
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93f2c0e6653so137234985a.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 05:26:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792585576; x=1793190376; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=H6i391iVh1dQ0VMmEwYNJCCdz9XRHgnpnKzdqGscyes=;
-        b=HTTHA1t/UNSB9VHcvbJrpVStFT9Odk53nzsQzxE88A1yTOvr5uHkBFp8z15z2vQUNo
-         4nzP5BjVA/n1AdXynVCGxWhr8Jc8iUBSzcPhGIpThrEtd+l3mJIzHUosr1aJmt9QUWlT
-         c8LO8/+FEjtogkt+bfj2QT2BIhAPk4kZGBGOxf4iROjHGuUHvuPTDdjvgihvIloTGz3A
-         PtEDJBC2uFE4jukeF05KCzZoXHQ2NH3qYfNxg/yql+n4wi3koVUnmXbwLkW316Fhx2CY
-         SFpBdxYdEGy5rhmen7loauYM5kP5fRhQozIDCT3F4d94MXwkP8CkA4Gc/DPlsqX5AEDR
-         eKgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792585576; x=1793190376;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=H6i391iVh1dQ0VMmEwYNJCCdz9XRHgnpnKzdqGscyes=;
-        b=MdjEjUizQrWyYPKds2IKnpumJjV9qnASOusJYaxtYslhgFRy3WwUwl26XaDOCqkKZj
-         IIbjegODbarmqbMrRnnazilHgu8q2ZBmgSGf0Qr482ny9lkNBR4PTRG7/qu8WMcU9lri
-         NR3Snxuivs+oWPz0h9ohtSFqKwELvFcid4wehlMYcdMkvHou3Ga0hEG9TLi3eCiPqWPX
-         2Az6bG8jIcmvYZVH14LQszAexcW9Lz/LeE4pucV4lR3jyr7bXQoqeqVDOIiXdPyIZM4J
-         LUdpxKhKqymHEC4VuXHSgpgKs6oiJfmnty0klQvNcozbxjw0VhiBweL8OdGf3XwJqtUp
-         xtLQ==
-X-Gm-Message-State: AFq9FYLlMHfjBAbcDDCWcdxets8Qc1HCvqJYLGL3xJOtUW8Wk/V0JkVM
-	f6xN1nBSefgsIkENcTmQl5geVjyaNRjynVCtJwQnp8S6T3DNKFDKYXrTp3NXHdnYlZqxwIripHq
-	nqTGePA==
-X-Received: from qvag18-n2.prod.google.com ([2002:a0c:f092:0:20b0:919:5a9b:414a])
- (user=sadrul job=prod-delivery.src-stubby-dispatcher) by 2002:a05:620a:4493:b0:93f:22f1:97bc
- with SMTP id af79cd13be357-93f57f639c0mr361670985a.67.1792585574428; Wed, 21
- Oct 2026 05:26:14 -0700 (PDT)
-Date: Wed, 21 Oct 2026 12:25:43 +0000
-In-Reply-To: <20261021122543.3547778-1-sadrul@google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bwVUKj2u
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE3C1F000C6;
+	Wed, 21 Oct 2026 12:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792585813;
+	bh=SPvwqxlJ5BdpL7mIBDv6+lJZJJBo+NcQCFXkzsy92MU=;
+	h=From:To:Cc:Cc:In-Reply-To:References:Subject:Date;
+	b=bwVUKj2upv4wcdd6/qk4FjjxJAKOtZW1lsW2rD0Fyzq9wHKmtU4HMi0mFyeC68OKA
+	 JV1E+MNSTpehRvU4ngvooue4SIO/6CnfN2UWea2d1yZP92YOuyxkksMHEY4HNUQKm4
+	 IObuk5hifb58gB71LM3H1nrwNI3zPNEIFrQUtUTEO/9Z0TD96UZnHwHRVAsXzL7hJm
+	 TaXojUlYJnExhVH5IuuGCqL4qzK9qTI5+3eKqjhPRFi0aHpGpBupVvjLVtwkms4mYt
+	 ejxGnI8uIEwg+3Ib9eefVu9D3yxmMvpcJNL6iyhUkWPDDl1go8qqwTMlDJqlzV1PXg
+	 CYITm/NKqANbA==
+From: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>, Josef Bacik <josef@toxicpanda.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261021-b4-super-lock-dying-v1-0-2b35e86706ff@toxicpanda.com>
+References: <20261021-b4-super-lock-dying-v1-0-2b35e86706ff@toxicpanda.com>
+Subject: Re: [PATCH 0/5] fs: don't let a stuck unmount take everybody else
+ with it
+Message-Id: <20261021-badeort-wichtel-ungebeten-b31df4d9153f@brauner>
+Date: Wed, 21 Oct 2026 14:29:47 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,74 +58,58 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261021122543.3547778-1-sadrul@google.com>
-X-Mailer: git-send-email 2.56.0.212.g129ede20d9-goog
-Message-ID: <20261021122543.3547778-2-sadrul@google.com>
-Subject: [PATCH v2 2/2] fs/select: mark select and poll tasks TASK_FREEZABLE
-From: Sadrul Chowdhury <sadrul@google.com>
-To: linux-kernel@vger.kernel.org, 
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, Pavel Machek <pavel@kernel.org>, 
-	linux-pm@vger.kernel.org, John Stultz <jstultz@google.com>, 
-	Sadrul Chowdhury <sadrul@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-3d1b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1750; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=DOy7ShPvFsan0CKTQzMgeLaSNJRaEOFdopVUo01lzco=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTd2BB0T2/2950//jqzfDb2d3YNVzi06FrO9jLn5Bi9n
+ mCFHas1OkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACais4iR4dehY1Mkzmxp2zit
+ SKLF5ONRSaMYkb9n4my8bgoars/t72f4n/Fs81GRJ9bXmdfmvl0+aVKDfNLyOfcPL49o0K2SuPU
+ hgBMA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Similar to epoll_wait(), threads sleeping in do_select() and do_poll()
-sleep in TASK_INTERRUPTIBLE via poll_schedule_timeout(). During system
-suspend and resume, these threads are woken up by the freezer solely to
-transition to TASK_FROZEN, and woken again upon thaw only to re-evaluate
-file descriptors with no pending activity and sleep again.
+On Wed, 21 Oct 2026 00:56:34 +0000, Josef Bacik wrote:
+> fs: don't let a stuck unmount take everybody else with it
+> 
+> Hello,
+> 
+> A consistent problem we have in containerized environments is a
+> misbehaving mount taking out all of the other containers. We hit the
+> super_lock() while we've got a stuck or slow umount and everything backs
+> up behind it, and there's no way to kill those things.
+> 
+> [...]
 
-A previous attempt to make select() and poll() freezable in commit
-9745cdb36da8 ("select: use freezable blocking call") was reverted in
-commit 59612d187912 ("Revert "select: use freezable blocking call"")
-alongside the epoll revert due to issues caused by the legacy freezer
-architecture.
+This makes sense to me.
 
-Following the freezer overhaul in commit f5d39b020809 ("freezer,sched:
-Rewrite core freezer logic"), tasks in TASK_FREEZABLE are safely frozen
-in-place into TASK_FROZEN without running userspace code or experiencing
-premature wakeups before resume completes.
-
-Pass TASK_FREEZABLE to poll_schedule_timeout() in do_select() and
-do_poll() (TASK_INTERRUPTIBLE | TASK_FREEZABLE) so that polling threads
-remain asleep undisturbed across suspend/resume cycles.
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-Acked-by: Rafael J. Wysocki <rafael@kernel.org>
-Signed-off-by: Sadrul Chowdhury <sadrul@google.com>
 ---
-v1 -> v2:
-- Rebased against current mainline (torvalds/linux.git master).
-- Collected Reviewed-by from Jan Kara and Acked-by from Rafael J. Wysocki.
 
- fs/select.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Applied to the vfs-7.5.super branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.super branch should appear in linux-next soon.
 
-diff --git a/fs/select.c b/fs/select.c
-index 95d76531015a..03318d678187 100644
---- a/fs/select.c
-+++ b/fs/select.c
-@@ -600,7 +600,7 @@ static noinline_for_stack int do_select(int n, fd_set_bits *fds, struct timespec
- 			to = &expire;
- 		}
- 
--		if (!poll_schedule_timeout(&table, TASK_INTERRUPTIBLE,
-+		if (!poll_schedule_timeout(&table, TASK_INTERRUPTIBLE | TASK_FREEZABLE,
- 					   to, slack))
- 			timed_out = 1;
- 	}
-@@ -962,7 +962,7 @@ static int do_poll(struct poll_list *list, struct poll_wqueues *wait,
- 			to = &expire;
- 		}
- 
--		if (!poll_schedule_timeout(wait, TASK_INTERRUPTIBLE, to, slack))
-+		if (!poll_schedule_timeout(wait, TASK_INTERRUPTIBLE | TASK_FREEZABLE, to, slack))
- 			timed_out = 1;
- 	}
- 	return count;
--- 
-2.56.0.212.g129ede20d9-goog
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.5.super
+
+[1/5] fs: make sync(2) wait for superblocks being shut down explicitly
+      https://git.kernel.org/vfs/vfs/c/4afadc443112
+[2/5] fs: make freezing for suspend wait for superblocks being shut down
+      https://git.kernel.org/vfs/vfs/c/86a14b765007
+[3/5] fs: make the block device callbacks wait for superblocks being shut down
+      https://git.kernel.org/vfs/vfs/c/3505dd5c488d
+[4/5] fs: don't sleep on s_umount of a superblock being shut down
+      https://git.kernel.org/vfs/vfs/c/e240433824ae
+[5/5] fs: let a mount waiting for the old superblock to die be killed
+      https://git.kernel.org/vfs/vfs/c/6f55404958eb
 
