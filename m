@@ -1,55 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792593775;
-	b=XO5QQMUrF3nYRpv52vz5w/9+tm7Ux77OKkEHqQUB29zsU5EW/Fs2O8Y0HOTei8h/oHYK
-	 B5JQGXjC7Uqe3goTTwTmArFlVn1BGVvTZyqXxR8oD/hL/dffaeBQCcMP4LB/mm7prDzLv
-	 f2rYwQCLqA5NneSclxf4IXhdTPjiTqg9rMA2MFf8lsA8z/QZlJDXgGf2PHF9FwkJ5Zwon
-	 i0/KN2+RMoFJjS7RZHuTbD44YYZIo+8aCx27/CEoyGWvviFAD+v7d5alYKoszU9n1H/AP
-	 sQw9LQpWYgWW4G24u6X0ZOmRlO21g6EwxHIuyOEjTKFwlJv1vJI1UPHXdZTexukZWow==
+	t=1792593809;
+	b=sUdobNT40rWm7RtqDyTbzkeXQrCl0Fg4iOy9YkYdHV1DYFnLrMTing8YAspw5JaERBN3
+	 T9MRaMk9Wk+H5ce63rQGcdqEF7N6gBchuuReyGyLm02d5NHIc6bieFvI/QmxRsAeJsT4s
+	 lPfxA5yXM6hb3gkkW/JfUSLmOkYQp+D0xwlF2CMuuiFsoekFLVdCRddfLZ+4jIy2nDu+J
+	 7n1H74qxX7UWfmHNGuso4y/N0l6C8BGO82gR60+lnccsfvCPQeezvrTk16e/fpHH44DY4
+	 QsN/iVwZ2fPl2GLNyzyNB6d92pzJLl6g3k4F/ykJo/rDj21z/S6WjZkZsq4uRMCvu0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792593775;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=k5c8dJ2C9kocOc+QpEeRoxnt4qOwYqzibxX7LQBazUY=;
-	b=WM0Jedu1ikLJmRqmM9Euyr5/AqWsi1ojieRBky+T3pHz2uX92gNEKOPJ+jUrkZwSCN4w
-	 oivKvZ+y3uxCNnziQjjFwidyifEBhf0uUyoFOWiV1F9C9+bu8z+LNzARHQhyyylJEZNTw
-	 2IcgamGkz7xnSeutQxNBM+SDcKauvIfPCUCYBqovGkI8doE4J/QmrCoD+sK6V0MZrOVUO
-	 592tXmEZuzJKMb9O46aMQeB8B9WHDu6agFTtIGoN/9w8iMsFhYYooWHWog7pyXcv8nJyc
-	 oW+qPyz9qOwWVz6mYsbeTSOe02mUHwFKxYawcjdt5M/UAM3YWTE1BVe3vNIxzGzGY0A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792593809;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=hUJNczgblYN6VobmOI7WLM+jfIuXl0vkwjK+W99ykX8=;
+	b=ob/Y0713ba9khUYs3fPuviwmBpjXT5kOTBpksrbSc40AGJ6gTy+Xr4gGmF7fOb/AXyv1
+	 WsIWebf95l8jN3KyJuI/g+1pyX944SBLZqbS0zmmrcOppVa++d+XIi9NW0YBPq12gfon7
+	 vYd0+KKHVwfVXP7RTjSYZiE7WV+kLzCMSWH9qxyg9ANfFK0KqjkSTn+7yFcklzjS28rtu
+	 jOmF0x1EKS3CwZxQ5My77bpTTDav9cH9WGjBBT2LiXVDlPaE+aulepeUEPsDo86AKNzEJ
+	 SKYgDIVo8kx/9p9x+76pi3pAhyqMAclf72FT5b9zzix/1qh0fdRiJvpr7IJ12Zr/67g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jyw3f3ez;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=1Gtx4C9f;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wJe3hhAF;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=1Gtx4C9f;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wJe3hhAF;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D85606A31A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 14:42:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCE8606A319;
+	Wed, 21 Oct 2026 14:43:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BCE8606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jyw3f3ez
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CFE11F000C7
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 14:42:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792593775;
-	bh=k5c8dJ2C9kocOc+QpEeRoxnt4qOwYqzibxX7LQBazUY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Jyw3f3ezwrlndH9Givay0JCwS7MLMtJHhej3yp/lIKXu5IdUP9x8rBI5Gffmomi0U
-	 LvpyoE8OrrTUkbOZJMNDPqDHgTmbGvI361y/W+YSbWBL3QAwOBjU5w4JmCHC/JmHI0
-	 8qFYhjJo6lib3afvIi13uVGJy3kE6soWtYng5T4fPNtho0VoDtihqPKyjuV4WRnhHZ
-	 4OTz3UaJF5t37FYMPhzVizMlMCnxNuT16ZU7K8bsawxt7VBIjBeNfo4EWmgn3aY0s0
-	 Sktk0p9AevN3JYu+3ySr8wTmv2OI/SgXcGTMQQXVccDUKSFJHZoggYxczhmWHkKAF3
-	 kpBjk6ReRBgaw==
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cc52c1b8286so498529a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 07:42:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxTspLVTgkAC1twOagL91aswUHrxmMmkJk/r8qOk/a9GQVKdCcZPvhUiRxo2dFt5lDZGUMzbeA5Wvv6C6tg@vger.kernel.org
-X-Gm-Message-State: AFq9FYIOCgtLV427Abzz5RuwnRzngzMOfrG6JbeDxTyYcKEa87RktMh2
-	jxbBoFz3FXICFeO8fCrDCkAnWFUyasykUM0CexXckzwu4vY0U5wbgXgTMmfJAU6n/A7Ss1aJ8GS
-	Oo47xOQJT8nBoLYKdL76FdYqtaKvrJhc=
-X-Received: by 2002:a17:90b:54cb:b0:3a4:7195:ecba with SMTP id
- 98e67ed59e1d1-3ad86eed516mr1070459a91.20.1792593774768; Wed, 21 Oct 2026
- 07:42:54 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=1Gtx4C9f;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wJe3hhAF;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=1Gtx4C9f;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wJe3hhAF
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 890E821F3A;
+	Wed, 21 Oct 2026 14:43:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1792593807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hUJNczgblYN6VobmOI7WLM+jfIuXl0vkwjK+W99ykX8=;
+	b=1Gtx4C9fKyps7T28JxwP9+OaeCJSHhOFKKYPd3DVkWZTofAZXL3F2xW4vdQj522cu0+FRk
+	HGTgWWJipUBl4I7eceu+godF1Rpg6HAh6EICLTdnSxBjcAVD1Yp86NsKYqPKnFT90S051Q
+	kBxKq2RdpG8ThM+xwWWXiXxykMnkVYM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1792593807;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hUJNczgblYN6VobmOI7WLM+jfIuXl0vkwjK+W99ykX8=;
+	b=wJe3hhAFXkpEuh7sxfZMApFPf6RgDTpKWqqYLAzV9LLPPPgs/T49qzHYp+Sj6CQpH/RE+0
+	Ph6MzVoJT1bT4dBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1792593807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hUJNczgblYN6VobmOI7WLM+jfIuXl0vkwjK+W99ykX8=;
+	b=1Gtx4C9fKyps7T28JxwP9+OaeCJSHhOFKKYPd3DVkWZTofAZXL3F2xW4vdQj522cu0+FRk
+	HGTgWWJipUBl4I7eceu+godF1Rpg6HAh6EICLTdnSxBjcAVD1Yp86NsKYqPKnFT90S051Q
+	kBxKq2RdpG8ThM+xwWWXiXxykMnkVYM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1792593807;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hUJNczgblYN6VobmOI7WLM+jfIuXl0vkwjK+W99ykX8=;
+	b=wJe3hhAFXkpEuh7sxfZMApFPf6RgDTpKWqqYLAzV9LLPPPgs/T49qzHYp+Sj6CQpH/RE+0
+	Ph6MzVoJT1bT4dBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5CAE1134FD;
+	Wed, 21 Oct 2026 14:43:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BCTxDY/P2GqNYgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 21 Oct 2026 14:43:27 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id D91D2A13C6; Wed, 21 Oct 2026 16:43:26 +0200 (CEST)
+Date: Wed, 21 Oct 2026 16:43:26 +0200
+From: Jan Kara <jack@suse.cz>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] fs: make sync(2) wait for superblocks being shut
+ down explicitly
+Message-ID: <taog42dri3duco4vv3i6pro73bttc6qhzp25f7dnzljoy3xr2f@vppgv55bry5f>
+References: <20261021-b4-super-lock-dying-v1-0-2b35e86706ff@toxicpanda.com>
+ <20261021-b4-super-lock-dying-v1-1-2b35e86706ff@toxicpanda.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,371 +112,234 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260929130200.1638343-1-ruanjinjie@huawei.com>
- <20260929130200.1638343-3-ruanjinjie@huawei.com> <atjN3JX7sWx9kpQ5@hallyn.com>
-In-Reply-To: <atjN3JX7sWx9kpQ5@hallyn.com>
-From: "Andrew G. Morgan" <morgan@kernel.org>
-Date: Wed, 21 Oct 2026 07:42:43 -0700
-X-Gmail-Original-Message-ID: <CACmP8ULW+COA17s6_UUKhQrJaviWmnUCjfite43Y0FgPN30-AQ@mail.gmail.com>
-X-Gm-Features: AclHuK8VpCzFoTf-puWToWEYcZE-hCU6pEvKbog_YpObEYZx-5WzGqZswN5CxgU
-Message-ID: <CACmP8ULW+COA17s6_UUKhQrJaviWmnUCjfite43Y0FgPN30-AQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/3] security: Add PR_CAPBSET_DROP_MASK for
- process-wide bounding-set drops
-To: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: Jinjie Ruan <ruanjinjie@huawei.com>, Oleg Nesterov <oleg@redhat.com>, kees@kernel.org, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, mingo@redhat.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
-	kprateek.nayak@amd.com, paul@paul-moore.com, jmorris@namei.org, 
-	shuah@kernel.org, brauner@kernel.org, alexjlzheng@tencent.com, 
-	jannh@google.com, jaime.saguillo@gmail.com, elver@google.com, 
-	blbllhy@gmail.com, bvanassche@acm.org, pjw@kernel.org, broonie@kernel.org, 
-	debug@rivosinc.com, tglx@kernel.org, aleksey.oladko@virtuozzo.com, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261021-b4-super-lock-dying-v1-1-2b35e86706ff@toxicpanda.com>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
+X-Spam-Score: -12.80
 
-There are a number of situations where existing code wants to
-(temporarily) affect the capabilities of a single thread, so a
-subsequent fork() starts with those without affecting the parent
-process as a whole. I've been wondering if this code could be
-structured to allow an argument of the prctl() to indicate if the call
-is "whole process" or "just this thread" scoped?
+On Wed 21-10-26 00:56:35, Josef Bacik wrote:
+> sync(2) walks the superblocks with iterate_supers().  For one which is
+> being unmounted, super_lock() sleeps on s_umount until
+> generic_shutdown_super() is done with it, finds SB_DYING set and fails, so
+> the superblock isn't passed to the callback.
+> 
+> sync(2) does get something out of that sleep.  The unmount has written the
+> filesystem out by the time s_umount is dropped, so that filesystem is on
+> disk like all the others when sync(2) returns.  The same goes for the
+> emergency sync and the emergency remount, after which one is supposed to
+> be able to reset the machine.
+> 
+> Nothing says so in the code, and super_lock() is about to stop sleeping on
+> a superblock which is being shut down.  Add
+> super_wait_shutdown_killable(), which waits for SB_DYING, and
+> a flag for __iterate_supers() to call it for each superblock super_lock()
+> fails on.  iterate_supers_sync() passes that flag, for the two syncs, and
+> so does the emergency remount.
+> 
+> If the task is killed the walk stops and ksys_sync() returns.  There is
+> nobody left to make a promise to.  The emergency sync and remount and the
+> sync before suspend and hibernation run from a workqueue, where that can't
+> happen.
+> 
+> For now SB_DYING is always set by the time super_lock() fails, so nothing
+> changes yet.
+> 
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 
-Cheers
+Looks good! Feel free to add:
 
-Andrew
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-On Wed, Oct 21, 2026 at 7:36=E2=80=AFAM Serge E. Hallyn <serge@hallyn.com> =
-wrote:
->
-> On Tue, Sep 29, 2026 at 09:01:59PM +0800, Jinjie Ruan wrote:
-> > PR_CAPBSET_DROP only affects the calling thread. Process-wide capabilit=
-y
-> > dropping requires user space to loop over every thread and every
-> > capability, which is highly expensive. For instance, long-lived
-> > multi-threaded processes (like gVisor's sentry) spend milliseconds
-> > trimming the bounding set because the runtime has to coordinate
-> > and signal every thread.
-> >
-> > Add PR_CAPBSET_DROP_MASK, an opt-in prctl that removes a set of
-> > capabilities from the entire thread group's bounding set in a single ca=
-ll.
-> > The capabilities are specified via a 64-bit mask across arg2 (low 32 bi=
-ts)
-> > and arg3 (high 32 bits).
-> >
-> > The drop is recorded in a per-thread-group mask,
-> > signal_struct::cap_bset_pending, under sighand->siglock. This pending d=
-rop
-> > is dynamically folded into the bounding set in critical paths:
-> > cap_capset(), PR_CAPBSET_READ(), and cap_bprm_creds_from_file().
-> > Running, concurrently created, or future threads within the group will
-> > all immediately observe the drop. A forked child inherits this mask
-> > in cap_bset_drop_fork() under siglock to close the race window
-> > against clone().
-> >
-> > The operation is drop-only, so concurrent callers commute and a single
-> > atomic OR is the linearization point.  It performs no per-thread alloca=
-tion
-> > and only the caller's replacement cred can fail, reported synchronously=
- as
-> > -ENOMEM before anything changes.
-> >
-> > In an arm64 KVM guest, trimming 41 capabilities of a multi-threaded Go
-> > process takes ~8.5-23.6ms with the per-thread PR_CAPBSET_DROP loop and
-> > ~11-14us with PR_CAPBSET_DROP_MASK, independent of the thread count.
-> >
-> > Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->
-> Interesting idea, storing it in the sighand.
->
-> Oleg, do you see any issues with that part of this?
->
-> Overall, this seems ok to me.  That is, I think it addresses all the
-> concerns I had with the previous version.
->
-> > ---
-> >  fs/proc/array.c              |  3 +-
-> >  include/linux/capability.h   |  5 ++
-> >  include/linux/sched/signal.h |  8 ++++
-> >  include/uapi/linux/prctl.h   |  1 +
-> >  kernel/fork.c                |  1 +
-> >  security/commoncap.c         | 91 ++++++++++++++++++++++++++++++++++--
-> >  6 files changed, 105 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/fs/proc/array.c b/fs/proc/array.c
-> > index f6f75d206762..f1cde26d079c 100644
-> > --- a/fs/proc/array.c
-> > +++ b/fs/proc/array.c
-> > @@ -63,6 +63,7 @@
-> >  #include <linux/tty.h>
-> >  #include <linux/string.h>
-> >  #include <linux/mman.h>
-> > +#include <linux/capability.h>
-> >  #include <linux/sched/mm.h>
-> >  #include <linux/sched/numa_balancing.h>
-> >  #include <linux/sched/task_stack.h>
-> > @@ -318,7 +319,7 @@ static inline void task_cap(struct seq_file *m, str=
-uct task_struct *p)
-> >       cap_inheritable =3D cred->cap_inheritable;
-> >       cap_permitted   =3D cred->cap_permitted;
-> >       cap_effective   =3D cred->cap_effective;
-> > -     cap_bset        =3D cred->cap_bset;
-> > +     cap_bset        =3D cap_bset_effective(p, cred);
-> >       cap_ambient     =3D cred->cap_ambient;
-> >       rcu_read_unlock();
-> >
-> > diff --git a/include/linux/capability.h b/include/linux/capability.h
-> > index 7921a0b3b04a..6413c7fedb69 100644
-> > --- a/include/linux/capability.h
-> > +++ b/include/linux/capability.h
-> > @@ -38,6 +38,7 @@ struct file;
-> >  struct inode;
-> >  struct dentry;
-> >  struct task_struct;
-> > +struct cred;
-> >  struct user_namespace;
-> >  struct mnt_idmap;
-> >
-> > @@ -197,6 +198,10 @@ bool capable_wrt_inode_uidgid(struct mnt_idmap *id=
-map,
-> >                             const struct inode *inode, int cap);
-> >  extern bool file_ns_capable(const struct file *file, struct user_names=
-pace *ns, int cap);
-> >  extern bool ptracer_capable(struct task_struct *tsk, struct user_names=
-pace *ns);
-> > +extern kernel_cap_t cap_bset_effective(const struct task_struct *task,
-> > +                                    const struct cred *cred);
-> > +extern void cap_bset_drop_fork(struct task_struct *p);
-> > +
-> >  static inline bool perfmon_capable(void)
-> >  {
-> >       return capable(CAP_PERFMON) || capable(CAP_SYS_ADMIN);
-> > diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.=
-h
-> > index d45a5476b97d..bda6f18b65b9 100644
-> > --- a/include/linux/sched/signal.h
-> > +++ b/include/linux/sched/signal.h
-> > @@ -98,6 +98,14 @@ struct signal_struct {
-> >       int                     quick_threads;
-> >       struct list_head        thread_head;
-> >
-> > +     /*
-> > +      * Capabilities being removed from the bounding set of every thre=
-ad in
-> > +      * this group by PR_CAPBSET_DROP_MASK.  Read on capability-transi=
-tion
-> > +      * paths without sighand->siglock, hence atomic64 (a 64-bit value=
- would
-> > +      * otherwise tear on 32-bit).
-> > +      */
-> > +     atomic64_t              cap_bset_pending;
-> > +
-> >       wait_queue_head_t       wait_chldexit;  /* for wait4() */
-> >
-> >       /* current thread group signal load-balancing target: */
-> > diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> > index b6ec6f693719..85ac71897070 100644
-> > --- a/include/uapi/linux/prctl.h
-> > +++ b/include/uapi/linux/prctl.h
-> > @@ -70,6 +70,7 @@
-> >  /* Get/set the capability bounding set (as per security/commoncap.c) *=
-/
-> >  #define PR_CAPBSET_READ 23
-> >  #define PR_CAPBSET_DROP 24
-> > +#define PR_CAPBSET_DROP_MASK 82
-> >
-> >  /* Get/set the process' ability to use the timestamp counter instructi=
-on */
-> >  #define PR_GET_TSC 25
-> > diff --git a/kernel/fork.c b/kernel/fork.c
-> > index 5ef413368912..bf671a85d39d 100644
-> > --- a/kernel/fork.c
-> > +++ b/kernel/fork.c
-> > @@ -2504,6 +2504,7 @@ __latent_entropy struct task_struct *copy_process=
-(
-> >        * before holding sighand lock.
-> >        */
-> >       copy_seccomp(p);
-> > +     cap_bset_drop_fork(p);
-> >
-> >       if (clone_flags & CLONE_NNP)
-> >               task_set_no_new_privs(p);
-> > diff --git a/security/commoncap.c b/security/commoncap.c
-> > index 3399535808fe..3bec15d43731 100644
-> > --- a/security/commoncap.c
-> > +++ b/security/commoncap.c
-> > @@ -3,6 +3,7 @@
-> >   */
-> >
-> >  #include <linux/capability.h>
-> > +#include <linux/cred.h>
-> >  #include <linux/audit.h>
-> >  #include <linux/init.h>
-> >  #include <linux/kernel.h>
-> > @@ -19,6 +20,7 @@
-> >  #include <linux/hugetlb.h>
-> >  #include <linux/mount.h>
-> >  #include <linux/sched.h>
-> > +#include <linux/sched/signal.h>
-> >  #include <linux/prctl.h>
-> >  #include <linux/securebits.h>
-> >  #include <linux/user_namespace.h>
-> > @@ -30,6 +32,25 @@
-> >  #define CREATE_TRACE_POINTS
-> >  #include <trace/events/capability.h>
-> >
-> > +/**
-> > + * Effective bounding set of @cred in @task's thread group
-> > + * @task: task whose thread group's pending drop applies
-> > + * @cred: credentials to read the bounding set from
-> > + *
-> > + * A drop recorded by PR_CAPBSET_DROP_MASK is authoritative on the thr=
-ead group
-> > + * and may not have been materialized into every thread's cred yet, so=
- the
-> > + * effective bounding set is the cred's own set minus the group's pend=
-ing drop.
-> > + */
-> > +kernel_cap_t cap_bset_effective(const struct task_struct *task,
-> > +                             const struct cred *cred)
-> > +{
-> > +     kernel_cap_t pending =3D {
-> > +             .val =3D atomic64_read(&task->signal->cap_bset_pending),
-> > +     };
-> > +
-> > +     return cap_drop(cred->cap_bset, pending);
-> > +}
-> > +
-> >  /*
-> >   * If a non-root user executes a setuid-root binary in
-> >   * !secure(SECURE_NOROOT) mode, then we raise capabilities.
-> > @@ -284,8 +305,8 @@ int cap_capset(struct cred *new,
-> >
-> >       if (!cap_issubset(*inheritable,
-> >                         cap_combine(old->cap_inheritable,
-> > -                                   old->cap_bset)))
-> >               /* no new pI capabilities outside bounding set */
-> > +                                   cap_bset_effective(current, old))))
-> >               return -EPERM;
-> >
-> >       /* verify restrictions on target's new Permitted set */
-> > @@ -849,7 +870,7 @@ static void handle_privileged_root(struct linux_bin=
-prm *bprm, bool has_fcap,
-> >        */
-> >       if (__is_eff(root_uid, new) || __is_real(root_uid, new)) {
-> >               /* pP' =3D (cap_bset & ~0) | (pI & ~0) */
-> > -             new->cap_permitted =3D cap_combine(old->cap_bset,
-> > +             new->cap_permitted =3D cap_combine(new->cap_bset,
-> >                                                old->cap_inheritable);
-> >       }
-> >       /*
-> > @@ -925,6 +946,8 @@ int cap_bprm_creds_from_file(struct linux_binprm *b=
-prm, const struct file *file)
-> >       int ret;
-> >       kuid_t root_uid;
-> >
-> > +     new->cap_bset =3D cap_bset_effective(current, new);
-> > +
-> >       if (WARN_ON(!cap_ambient_invariant_ok(old)))
-> >               return -EPERM;
-> >
-> > @@ -1283,6 +1306,63 @@ static int cap_prctl_drop(unsigned long cap)
-> >       return commit_creds(new);
-> >  }
-> >
-> > +static int cap_bset_drop_process(kernel_cap_t mask)
-> > +{
-> > +     kernel_cap_t pending;
-> > +     struct cred *new;
-> > +
-> > +     new =3D prepare_creds();
-> > +     if (!new)
-> > +             return -ENOMEM;
-> > +
-> > +     /*
-> > +      * Record the drop before committing the caller's cred, so that a
-> > +      * thread created from now on is guaranteed to observe it.  Apply=
- the
-> > +      * current union, not just this call's mask, to the caller's cred=
-.
-> > +      */
-> > +     spin_lock_irq(&current->sighand->siglock);
-> > +     atomic64_or(mask.val, &current->signal->cap_bset_pending);
-> > +     pending.val =3D atomic64_read(&current->signal->cap_bset_pending)=
-;
-> > +     spin_unlock_irq(&current->sighand->siglock);
-> > +
-> > +     new->cap_bset =3D cap_drop(new->cap_bset, pending);
-> > +     commit_creds(new);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +/*
-> > + * Propagate a pending process-wide bounding-set drop to @p, a task be=
-ing
-> > + * created by the current thread.  Threads sharing the group read
-> > + * current->signal->cap_bset_pending directly; a forked child gets its=
- own
-> > + * signal_struct and must carry the mask itself.  Called under
-> > + * current->sighand->siglock, which serializes it with cap_bset_drop_p=
-rocess().
-> > + */
-> > +void cap_bset_drop_fork(struct task_struct *p)
-> > +{
-> > +     kernel_cap_t mask =3D {
-> > +             .val =3D atomic64_read(&current->signal->cap_bset_pending=
-),
-> > +     };
-> > +
-> > +     if (cap_isclear(mask) || p->signal =3D=3D current->signal)
-> > +             return;
-> > +
-> > +     atomic64_or(mask.val, &p->signal->cap_bset_pending);
-> > +}
-> > +
-> > +static int cap_prctl_drop_mask(unsigned long low, unsigned long high)
-> > +{
-> > +     kernel_cap_t mask =3D mk_kernel_cap((u32)low, (u32)high);
-> > +
-> > +     if (cap_isclear(mask))
-> > +             return 0;
-> > +
-> > +     if (!ns_capable(current_user_ns(), CAP_SETPCAP))
-> > +             return -EPERM;
-> > +
-> > +     return cap_bset_drop_process(mask);
-> > +}
-> > +
-> >  /**
-> >   * cap_task_prctl - Implement process control functions for this secur=
-ity module
-> >   * @option: The process control function requested
-> > @@ -1308,11 +1388,16 @@ int cap_task_prctl(int option, unsigned long ar=
-g2, unsigned long arg3,
-> >       case PR_CAPBSET_READ:
-> >               if (!cap_valid(arg2))
-> >                       return -EINVAL;
-> > -             return !!cap_raised(old->cap_bset, arg2);
-> > +             return !!cap_raised(cap_bset_effective(current, old), arg=
-2);
-> >
-> >       case PR_CAPBSET_DROP:
-> >               return cap_prctl_drop(arg2);
-> >
-> > +     case PR_CAPBSET_DROP_MASK:
-> > +             if (arg4 || arg5)
-> > +                     return -EINVAL;
-> > +             return cap_prctl_drop_mask(arg2, arg3);
-> > +
-> >       /*
-> >        * The next four prctl's remain to assist with transitioning a
-> >        * system from legacy UID=3D0 based privilege (when filesystem
-> > --
-> > 2.34.1
+								Honza
+
+> ---
+>  fs/internal.h |  1 +
+>  fs/super.c    | 51 ++++++++++++++++++++++++++++++++++++++++++++++++---
+>  fs/sync.c     | 15 ++++++++-------
+>  3 files changed, 57 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/internal.h b/fs/internal.h
+> index e833c7e6e14f..71ab0ae11941 100644
+> --- a/fs/internal.h
+> +++ b/fs/internal.h
+> @@ -137,6 +137,7 @@ extern int reconfigure_super(struct fs_context *);
+>  extern bool super_trylock_shared(struct super_block *sb);
+>  struct super_block *user_get_super(dev_t, bool excl);
+>  void put_super(struct super_block *sb);
+> +int iterate_supers_sync(void (*f)(struct super_block *, void *), void *arg);
+>  void __init super_dev_init(void);
+>  extern bool mount_capable(struct fs_context *);
+>  
+> diff --git a/fs/super.c b/fs/super.c
+> index a1dc4de1b657..c33981d3f7c0 100644
+> --- a/fs/super.c
+> +++ b/fs/super.c
+> @@ -137,6 +137,26 @@ static __must_check bool super_lock(struct super_block *sb, bool excl)
+>  	return true;
+>  }
+>  
+> +/**
+> + * super_wait_shutdown_killable - wait for a superblock being shut down
+> + * @sb: superblock super_lock() failed on
+> + *
+> + * For those who have nothing to do on a superblock which is going away, but
+> + * who promise their caller that what it had to write has been written.
+> + *
+> + * Only for callers which give up altogether when they are killed.  If what
+> + * comes after the wait happens either way, the wait must not be cut short.
+> + *
+> + * The caller must have acquired a temporary reference on @sb->s_passive.
+> + *
+> + * Return: 0 once generic_shutdown_super() is done with @sb, -ERESTARTSYS if
+> + *         the task was killed first.
+> + */
+> +static int super_wait_shutdown_killable(struct super_block *sb)
+> +{
+> +	return wait_var_event_killable(&sb->s_flags, super_flags(sb, SB_DYING));
+> +}
+> +
+>  /* wait and try to acquire read-side of @sb->s_umount */
+>  static inline bool super_lock_shared(struct super_block *sb)
+>  {
+> @@ -938,6 +958,7 @@ enum super_iter_flags_t {
+>  	SUPER_ITER_EXCL		= (1U << 0),
+>  	SUPER_ITER_UNLOCKED	= (1U << 1),
+>  	SUPER_ITER_REVERSE	= (1U << 2),
+> +	SUPER_ITER_WAIT_SHUTDOWN = (1U << 3),
+>  };
+>  
+>  static inline struct super_block *first_super(enum super_iter_flags_t flags)
+> @@ -955,11 +976,12 @@ static inline struct super_block *next_super(struct super_block *sb,
+>  	return list_next_entry(sb, s_list);
+>  }
+>  
+> -static void __iterate_supers(void (*f)(struct super_block *, void *), void *arg,
+> -			     enum super_iter_flags_t flags)
+> +static int __iterate_supers(void (*f)(struct super_block *, void *), void *arg,
+> +			    enum super_iter_flags_t flags)
+>  {
+>  	struct super_block *sb, *p = NULL;
+>  	bool excl = flags & SUPER_ITER_EXCL;
+> +	int ret = 0;
+>  
+>  	spin_lock(&sb_lock);
+>  
+> @@ -979,16 +1001,21 @@ static void __iterate_supers(void (*f)(struct super_block *, void *), void *arg,
+>  		} else if (super_lock(sb, excl)) {
+>  			f(sb, arg);
+>  			super_unlock(sb, excl);
+> +		} else if (flags & SUPER_ITER_WAIT_SHUTDOWN) {
+> +			ret = super_wait_shutdown_killable(sb);
+>  		}
+>  
+>  		if (p)
+>  			put_super(p);
+>  		p = sb;
+>  		spin_lock(&sb_lock);
+> +		if (ret)
+> +			break;
+>  	}
+>  	spin_unlock(&sb_lock);
+>  	if (p)
+>  		put_super(p);
+> +	return ret;
+>  }
+>  
+>  void iterate_supers(void (*f)(struct super_block *, void *), void *arg)
+> @@ -996,6 +1023,23 @@ void iterate_supers(void (*f)(struct super_block *, void *), void *arg)
+>  	__iterate_supers(f, arg, 0);
+>  }
+>  
+> +/**
+> + * iterate_supers_sync - iterate_supers() for syncing all filesystems
+> + * @f: function to call
+> + * @arg: argument to pass to it
+> + *
+> + * A superblock which is being shut down isn't passed to @f, whoever shuts it
+> + * down writes it out.  Wait for that, so that it is on disk as well by the time
+> + * the walk is over.
+> + *
+> + * Return: 0 if all the superblocks were seen, -ERESTARTSYS if the task was
+> + *         killed while it waited for one.
+> + */
+> +int iterate_supers_sync(void (*f)(struct super_block *, void *), void *arg)
+> +{
+> +	return __iterate_supers(f, arg, SUPER_ITER_WAIT_SHUTDOWN);
+> +}
+> +
+>  /**
+>   *	iterate_supers_type - call function for superblocks of given type
+>   *	@type: fs type
+> @@ -1174,7 +1218,8 @@ static void do_emergency_remount_callback(struct super_block *sb, void *unused)
+>  static void do_emergency_remount(struct work_struct *work)
+>  {
+>  	__iterate_supers(do_emergency_remount_callback, NULL,
+> -			 SUPER_ITER_EXCL | SUPER_ITER_REVERSE);
+> +			 SUPER_ITER_EXCL | SUPER_ITER_REVERSE |
+> +			 SUPER_ITER_WAIT_SHUTDOWN);
+>  	kfree(work);
+>  	printk("Emergency Remount complete\n");
+>  }
+> diff --git a/fs/sync.c b/fs/sync.c
+> index 4a84dd837b86..0681bfcb2da6 100644
+> --- a/fs/sync.c
+> +++ b/fs/sync.c
+> @@ -99,9 +99,10 @@ void ksys_sync(void)
+>  	int nowait = 0, wait = 1;
+>  
+>  	wakeup_flusher_threads(WB_REASON_SYNC);
+> -	iterate_supers(sync_inodes_one_sb, NULL);
+> -	iterate_supers(sync_fs_one_sb, &nowait);
+> -	iterate_supers(sync_fs_one_sb, &wait);
+> +	if (iterate_supers_sync(sync_inodes_one_sb, NULL) ||
+> +	    iterate_supers_sync(sync_fs_one_sb, &nowait) ||
+> +	    iterate_supers_sync(sync_fs_one_sb, &wait))
+> +		return;
+>  	sync_bdevs(false);
+>  	sync_bdevs(true);
+>  }
+> @@ -121,11 +122,11 @@ static void do_sync_work(struct work_struct *work)
+>  	 * Sync twice to reduce the possibility we skipped some inodes / pages
+>  	 * because they were temporarily locked
+>  	 */
+> -	iterate_supers(sync_inodes_one_sb, NULL);
+> -	iterate_supers(sync_fs_one_sb, &nowait);
+> +	iterate_supers_sync(sync_inodes_one_sb, NULL);
+> +	iterate_supers_sync(sync_fs_one_sb, &nowait);
+>  	sync_bdevs(false);
+> -	iterate_supers(sync_inodes_one_sb, NULL);
+> -	iterate_supers(sync_fs_one_sb, &wait);
+> +	iterate_supers_sync(sync_inodes_one_sb, NULL);
+> +	iterate_supers_sync(sync_fs_one_sb, &wait);
+>  	sync_bdevs(false);
+>  	printk("Emergency Sync complete\n");
+>  	kfree(work);
+> 
+> -- 
+> 2.55.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
