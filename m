@@ -1,59 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792578612;
-	b=HlHvzByG8OSR7PEnz8mkpV7apCCVqsKxCZRoII5+dElPICtILvlafvJwMJugdHGCi6gA
-	 +IE/mNpT7gO/bGq1sEeENh7rcxGypEOPfjyN4S1+XQXRT5QPmuxAo4O1db0dw9GEB7tM+
-	 ygg1BTyKNKdmqns4wcdJuAtvDWEntyLByX/j9bjp9rXmPKrKaTNaUPsngSxa3m4QSBBXQ
-	 hTWmWUSl9ZBZh48/S/lqnMy4CjRmEvRfg8hlTmDp/M/1y6B5PfPsmVwHRfavJFlUAF4+e
-	 FWCKodj5o/mOM6cdAfotqdF2Mcs5bjY0ql03a25hKSRhjemVREOu7SBE862rgRwu5oA==
+	t=1792578693;
+	b=XomA4XrhCm+CaZFDtjw37XJvB4Ml/OnnBsglbf9SmP2TK1g3eKoB6CaaaAmu6paT0Tke
+	 /a4MTD1VgPjVgled7YkvJcmKBp0UDBeSrL0gm3bAHTv4YXg4+3ljA16xDwNd+XUzCLoVX
+	 0aE1ekfxQXXhUhL3Z/OicuG2F92oKdFMfhaCKUTNreTA6stzHJuzmFMsfLoTFCStzZ73o
+	 jrZQqDpbJvK9eomfsfZRLQczsXpNfeDP1+yv+0RJyhN/oumICdvnzVt7Ag0cs+C54z/2H
+	 D+npOTcFuJp+C1v5+fUR335R3AVhKstmdHlQIPgtY1pjiKZUtOarrgwIL1zaB2rdy7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792578612;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792578693;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=W8edK1Xi3fKqCs4MYZhDfH0qfLfRnuuhcmFNKoFIYOo=;
-	b=sQeXEscfhuD5t9R6ok5TdJyqpq3b1yc5L8NddVjbxGHghm46wHMUlrxwH9Vm83jeRLOl
-	 /DxsflN0vzy4cePSFU+L5syKLh1vUZxnkwgtEGvNrvCV6bEwBddZ74OJqzc2b19y7VEvR
-	 vmz4ZdlXi68DArLyNB75zBJ9GV1yrw3V9eWQ8sqzD3zRjDt12B0YSiz0RwvFpsn6iclBR
-	 f58867loXMpI5ZZPmxj4TsMGsNxBg4qvyGD8MfcsrjxqYKVgIr+A6vhueyNkfiHxF+UjQ
-	 O6G+NdpcgldjF7jpsgXU9mI4snj1aEGiwZ80tzvyi+/sQILlFE5fS2TErCSGnRDrKqA==
+	bh=c3b3TnWcnKzBp8T51teiihVygdav0y33qEDBPEk97Fk=;
+	b=SHmsOLaZtPu4UNnCCoMoOhuewIhPHBNlqQCJ45UOVqIN31/MJjvpQekhGV9yYNVrE56W
+	 1zjHYSgCu3yd0MgSbEGys0MVp/sDs4Y+DDxnqFDJyF8e6M9RFhhRZywI1b/R8tos1jWNm
+	 ORU2rPYHqGgAEcQsqw6+D8wlhbt9uRX6pg/YrlcILOJyOBmdE5zk8sAqdTBPhfWvEWidx
+	 iaOOTUDTxIKrtkl+KlL7ElUkE1MgXIB9iy73AaJe98R+V3saz9c4zA8PH/cPinVBeqG1o
+	 MsDjeK80Drhp9HbRw4+3ONbgZUjFRyqyX+wYvwe5cpcvkovccTTge7I3fkwPpWi967w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=npuiu8Zb;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dIpd4oo0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69EF606A31B;
-	Wed, 21 Oct 2026 10:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D14606A31D;
+	Wed, 21 Oct 2026 10:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=npuiu8Zb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F4551F000C9;
-	Wed, 21 Oct 2026 10:30:08 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dIpd4oo0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 977831F000C9;
+	Wed, 21 Oct 2026 10:31:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792578611;
-	bh=W8edK1Xi3fKqCs4MYZhDfH0qfLfRnuuhcmFNKoFIYOo=;
+	s=k20260515; t=1792578692;
+	bh=c3b3TnWcnKzBp8T51teiihVygdav0y33qEDBPEk97Fk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=npuiu8ZbeBCUB/eaT8kTlOj1JSGVuD1Q5Ur9utmedIlIQT3szI/SXajQtD3/uHyT3
-	 DJd+HVY81WggR4V3GJFqpqyOuY4XR1jRNpoeWBzl0HyWGHrSvvXjYPyzuGZRAqXkAJ
-	 uyHKANHt9lEYXkUvWnaCzLsl9VKnFSf0Y2VRfaQR7vodyWcURKZal7WsfZVZypDndN
-	 X8aHo+JfJLy8wibOUWQDtrCERvZSYWQeWvFcu72V7ZBK3SJbDOlDiRk9YLCHiWo7Oe
-	 2OFSLIAJ03m82FVRDQReWcb/QCYt5JLQ0SIUUp/bImQKUx1s6Dr0t7YPZCh/fg0uSp
-	 A4xGFCSnCmRcg==
+	b=dIpd4oo0/aewWd/SIqeyGgal7YA+FpunfdnepCjfqkS/aC44UE7aC/d8Yogo7n/JB
+	 u1MGl9KZsb9Oom0ASsarxDI2P1lwE80MT5QYpvW69BZkUSC4OGH4N/P836k7OqxjOL
+	 RWq+/gzW5huTYy6+PTciBdqP2hRJW21gT9OEU4aEgqymFd2r7ml9UkdsAktUplCoxh
+	 Earz7A/zQZLLUAPBalFyDuM7Qqu9ZNLpk7sowC0xPtbSIKTzgWy/4ln8hfj76CJODm
+	 ms3aFJwHuTBNSLf29UpTw5/I/VV7CK+fPwmz4RrsvUlnrKyIUj+vA+KUiV44pJZPxJ
+	 yV8LYL+5fiLIg==
 From: Christian Brauner <brauner@kernel.org>
-To: Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
- Liz Fong-Jones <lizf@honeycomb.io>
-Cc: "Patrick Lu (Anthropic)" <perf.patrick.lu@gmail.com>, 
- Roman Gushchin <roman.gushchin@linux.dev>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
- linux-mm@kvack.org, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
- ian@honeycomb.io
-In-Reply-To: <20261017040710.1174009-1-lizf@honeycomb.io>
-References: <20261017040710.1174009-1-lizf@honeycomb.io>
-Subject: Re: [PATCH v2] writeback: keep cleanup_offline_cgwb()'s scan out
- of syncs
-Message-Id: <20261021-vagabunden-nullrunde-torpedieren-3b864a09e824@brauner>
-Date: Wed, 21 Oct 2026 12:30:04 +0200
+To: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Tianyi Chen <hi@tychen.cc>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, 
+ =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, 
+ NeilBrown <neil@brown.name>
+In-Reply-To: <179240281988.1700986.8309527041821666235@tychen.cc>
+References: <179240281988.1700986.8309527041821666235@tychen.cc>
+Subject: Re: [PATCH] eventpoll: propagate wakeup source creation failure in
+ ep_modify()
+Message-Id: <20261021-bruder-chipkarte-entgleisen-676ef7e2fbf8@brauner>
+Date: Wed, 21 Oct 2026 12:31:27 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -66,17 +65,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=894; i=brauner@kernel.org;
- h=from:subject:message-id; bh=xGvdJTJPwUrQmbSvbQg+cAG6DSz9S/AsFgM5IJB+gjs=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdmKJXxrVq1n6OYnX2mKsvpjDdFwwLLlq35NWC6AOJT
- fveMypqdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzk+VuG/6Gb37zOnN0mWL/0
- XJGR0PKmnT9nKlsv8klYFPGfSbkl1omRYVlMl4rpxYMB/NtDU3k+87kY7hf0Et33J03/t+25Q4u
- dmAE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=907; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=e55wevqlC/z6UepoUIxWg9JZ/dfBdv0vvelULXgJULI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdmNLQFf8/+3Hnge+ili9XrbaLXiiRoZ8ymdei69Hiv
+ QXTxb6wdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzknwLD/4z/tUtZIm0WWbKe
+ Ufn27G9vixOzy6ko/QsGMi9PHjn/q5Dhv9dRlj3p88STeZ/WqK0x+DvNa5vDKYaSK9NlS5ab5dZ
+ IswMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Sat, 17 Oct 2026 04:07:11 +0000, Liz Fong-Jones wrote:
-> writeback: keep cleanup_offline_cgwb()'s scan out of syncs
+On Mon, 19 Oct 2026 18:39:27 +0900, Tianyi Chen wrote:
+> eventpoll: propagate wakeup source creation failure in ep_modify()
 
 Applied to the vfs.fixes branch of the vfs/vfs.git tree.
 Patches in the vfs.fixes branch should appear in linux-next soon.
@@ -93,6 +92,6 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs.fixes
 
-[1/1] writeback: keep cleanup_offline_cgwb()'s scan out of syncs
-      https://git.kernel.org/vfs/vfs/c/056b35228fad
+[1/1] eventpoll: propagate wakeup source creation failure in ep_modify()
+      https://git.kernel.org/vfs/vfs/c/4e3259b08c54
 
