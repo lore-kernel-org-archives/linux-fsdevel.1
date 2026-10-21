@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792580531;
-	b=ueZtqcUVx68jqbx+gkCl+yEjbYDBDz66TGlvmpNd2eUI6kLPr89eMfxDtUvnSR89kRMz
-	 NEBR1TIfA5M0zHcI3/5KLeof3xhBctxaWYRWMy4yIo2unaQ1t4gwDITWHh62DPL1UN+Ls
-	 OuZig5L0d6GbyZq9ir1UJdvAZ+xWl+xaRRwaS3KL3C8Z65cppijoTEsnR+ceFw24vJ0i9
-	 7iElBiRHEXqC/ERrGE8zs26G74pIK/59xxeGibaoPJuMe3Sfaq5OgfWU2Dssu9d/7+EFw
-	 StHlvhkdm8CHf3SNilHUftHH9SckMuuttlklVR3GIuu/JQb/UO6N3u2T6gd6OjRUs0w==
+	t=1792580651;
+	b=w3+eg7UK4jV/QT/VKqFmJNsMPSmoJ0sfvQlfsicadXYYkhklxRKhKWBdhslEaIRS5eAa
+	 oHmywjjDiYJp+ulpeI/EwDY8fyYfOMr+JPUc37aZXBSjMRyOX44rJGgLeJgknyxRpgaoy
+	 WFHNa9SvC3lSy9ugE7oPcMK75cQrle/vdbOxL6FZOkN29y/+E+gfDqydfnJJwc+7xsfYO
+	 IAYFpuOdfvpriuvKU/pPTMiVn0BSpblzFrelO1ioz3lCPSJHRyfZUug3K7Nbrr7GKLs1e
+	 N/OMVUXut5cCc/Iir4vnlbATL7xq6dRg1ly6Yooe2nk8OGeCNm7qJId+jOJ+/TSmz+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792580531;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=PdmJsgTpv+nptfyOOmmbrW0YrX6jCcLIr1uvv9rx8+8=;
-	b=P9Jo0D3l6v7K6+IYYzkqVVuDD3cIE1pgV7+dJu/W8zR55CFWXL4XBEcFwE/eMfJKRR3n
-	 P+VXjXxX7StJ6GE+4cC10ljcynZPG4lr/Xa6Gb9DzI2cIy3IrhT7/2ygVxfI7Y/llFEPn
-	 GGGUa7DyLoHRZW/d/fH8zhmPZU5MKSFSSlLFeJqPCBATp+RnMcEjEEcvLI2PPIllHHHt3
-	 p3Cec/UGc+lnps5h1UwIbg5FyYPOSGs+Lsw8U9pM3/jzLYjoeBODRLNy7pWc1P4cIvlTX
-	 tY2Wzo+3yy2gJwPc1KLbWFWBMIbaqoZCaWwpWDeSMbHaukllvWshR6X4kLMO+DN0EUA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792580651;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Y9BLVwAg7tky4u3+GEr1wy6UGxbwQP6C85M0OJGx/s4=;
+	b=N2RuxjKuR8CKPo49JnirdtTO7kJ3oPiHv7ihR7xNjY3agEMRB1V71nFkeBDEqb2fzk6b
+	 RVJY+AWPMb88nYrsSDPFNZ2RZBRaxVLK1cu0qLjOXn7mWa59Ahxh3oPfKnzSvgNikSUqs
+	 9KDm/LBHU2Evaa4UwaXtgrVQ6E/7DhzZZbQl8ZarnzcQPlldw65162Iugn/ZKzdiR3yaO
+	 NA9sJ6awXeOBahHCTpIZv03ZlZg35uDNmZc7f6NH4PXSGZ+PNZhCVzCIuDq38/20t0uw3
+	 j5SywYh5hGok20jyas11lL9zR/So0BPxHyQcq4wz9G9w5Xd2fzLAKu7zQEgQsgOvoHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TYxoOD1w;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hnesqSLc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF5A606A319;
-	Wed, 21 Oct 2026 11:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3825E606A319;
+	Wed, 21 Oct 2026 11:04:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TYxoOD1w
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61FB11F000CA;
-	Wed, 21 Oct 2026 11:02:09 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hnesqSLc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA0ED1F000C9;
+	Wed, 21 Oct 2026 11:04:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792580530;
-	bh=PdmJsgTpv+nptfyOOmmbrW0YrX6jCcLIr1uvv9rx8+8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=TYxoOD1wR4SOXzcuxepKrKZgUk5VXai1Af8sEauxt/cDng/w7j5AWg38BhHUzeLTG
-	 jcnXnAPVyieeuZNQUxd1hFsXLpl42cd0Dp8tXb1nEWdaEvp56cp2FgMYUY5qi9CQdt
-	 pM9fjfUJqGHT37aWawmWd+HAbJcmOpeEs5j6DLNYmu0pAj3WdTSSabIw9REi9o2qKN
-	 x/wCuB0MOaggT2MSMlB4mskvmbIRKGZ9vjv6Z8EdBIln2174e36RT238PertY+Cnls
-	 76vZyQTA1K+D/k+YJj3wIpxChBmuIG5aQ2l00e6picu5Iv6Pvl3LQaQ0NeR2qoyb3z
-	 1UUPIQptU434Q==
+	s=k20260515; t=1792580650;
+	bh=Y9BLVwAg7tky4u3+GEr1wy6UGxbwQP6C85M0OJGx/s4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hnesqSLc/QVmrQlrPJduUZ677oi7Ni7H+5+2iyvHJisqoOAjj+KoXFhNW7/+ZO7pO
+	 aLE1AOnjMTG1zBI1Jw05SMmJHNNcm30aeLUC3rCsaiWZXyn01hPCtW2Z85I0tL/0r1
+	 8orH+GynrxfXtBoCLNh6AHtyIZXea9Gp/0deezvnQFqAfSDjVTjX2UQsAghhoRqJRA
+	 eQev7pi/PkrTH44S9ugsarKHkhFQpM9wFhZi3FNaWBhHnbrN+mP3p5VXeR5OAoVqPN
+	 ZmhdF10S0JslMVMBJqkYR8nuG1+/6nyBvSOajBu9z1O4tc8kz0iuAAEApJhHy3CuMh
+	 K2fq5ugwAXhQg==
+Date: Wed, 21 Oct 2026 13:04:06 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Nicolas Pitre <nico@fluxnic.net>, Tal Zussman <tz2294@columbia.edu>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260906-cramfs-blkdev-read-folio-v1-1-1be99a82be55@columbia.edu>
-References: <20260906-cramfs-blkdev-read-folio-v1-1-1be99a82be55@columbia.edu>
-Subject: Re: [PATCH] cramfs: convert cramfs_blkdev_read() to use folios
-Message-Id: <20261021-perplex-bahnstation-beruhen-442c7b6f814a@brauner>
-Date: Wed, 21 Oct 2026 13:02:07 +0200
+To: Stefan Metzmacher <metze@samba.org>, Christoph Hellwig <hch@lst.de>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, io-uring@vger.kernel.org, 
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH] fs: add RWF_DIRECT for preadv2/pwritev2/io_uring to set
+ IOCB_DIRECT per io
+Message-ID: <20261021-kontakt-hauen-albern-9053a385d79e@brauner>
+References: <20261012184642.558349-1-metze@samba.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,29 +58,121 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-3d1b8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261012184642.558349-1-metze@samba.org>
 
-On Sun, 06 Sep 2026 19:45:33 -0400, Tal Zussman wrote:
-> Read the block device pages through read_mapping_folio() and copy with
-> memcpy_from_folio() instead of going through a page.
+On Mon, Oct 12, 2026 at 08:46:42PM +0200, Stefan Metzmacher wrote:
+> It's useful to control this per io request instead of using O_DIRECT
+> for the file descriptor.
 
-Applied to the vfs-7.5.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.misc branch should appear in linux-next soon.
+@Christoph thoughts on this?
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+> E.g. the SMB2_READFLAG_READ_UNBUFFERED and SMB2_WRITEFLAG_WRITE_UNBUFFERED
+> are also available per io request and this allows Samba to map then
+> to RWF_DIRECT.
+> 
+> kiocb_set_rw_flags() requires FMODE_CAN_ODIRECT (same check open()
+> does for O_DIRECT) and returns -EOPNOTSUPP otherwise, matching the
+> convention already used by RWF_NOWAIT/RWF_ATOMIC/RWF_DONTCACHE just
+> above it in the same function for "this flag isn't supported on this file".
+> 
+> IOCB_DIRECT predates RWF_DIRECT used a kernel-internal value,
+> but now IOCB_DIRECT is aligned with RWF_DIRECT the same way
+> commit ce71bfea207b ("fs: align IOCB_* flags with RWF_* flags")
+> already aligned the other shared flags.
+> 
+> The man-page.git will get something like this for man/man2/readv.2:
+> 
+>   RWF_DIRECT (since Linux XXX)
+>     Provide  a  per-I/O equivalent of the O_DIRECT open(2) flag.
+>     This allows a single preadv2() or pwritev2() call to bypass the
+>     page cache without the file descriptor having been opened with
+>     O_DIRECT.  Unlike enabling O_DIRECT with the fcntl(2) F_SETFL
+>     operation, this does not change the file status flags of
+>     the open file description, so other I/O on the same file
+>     descriptor, or on any file descriptor referring to the same
+>     open file description (see dup(2)), is not affected.
+>     If the underlying file or block device does not support
+>     O_DIRECT, the call fails; see ERRORS.  As with O_DIRECT open(2),
+>     the memory buffer, the file offset, and the I/O length
+>     generally need to be aligned to the logical block size of
+>     the underlying storage.
+> 
+> man/man2/io_submit.2 will also get updated and liburing
+> in man/io_uring_prep_readv2.3 and man/io_uring_prep_writev2.3
+> 
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: io-uring@vger.kernel.org
+> Cc: linux-api@vger.kernel.org
+> Signed-off-by: Stefan Metzmacher <metze@samba.org>
+> ---
+>  include/linux/fs.h      | 10 ++++++++--
+>  include/uapi/linux/fs.h |  5 ++++-
+>  2 files changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 83d41d9f1130..40d013a49378 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -344,10 +344,11 @@ struct readahead_control;
+>  #define IOCB_ATOMIC		(__force int) RWF_ATOMIC
+>  #define IOCB_DONTCACHE		(__force int) RWF_DONTCACHE
+>  #define IOCB_NOSIGNAL		(__force int) RWF_NOSIGNAL
+> +#define IOCB_DIRECT		(__force int) RWF_DIRECT
+>  
+>  /* non-RWF related bits - start at 16 */
+> +#define IOCB_NON_RWF_MASK	(~0xffff)
+>  #define IOCB_EVENTFD		(1 << 16)
+> -#define IOCB_DIRECT		(1 << 17)
+>  #define IOCB_WRITE		(1 << 18)
+>  /* iocb->ki_waitq is valid */
+>  #define IOCB_WAITQ		(1 << 19)
+> @@ -3453,7 +3454,7 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags,
+>  	int kiocb_flags = 0;
+>  
+>  	/* make sure there's no overlap between RWF and private IOCB flags */
+> -	BUILD_BUG_ON((__force int) RWF_SUPPORTED & IOCB_EVENTFD);
+> +	BUILD_BUG_ON((__force int) RWF_SUPPORTED & IOCB_NON_RWF_MASK);
+>  
+>  	if (!flags)
+>  		return 0;
+> @@ -3480,6 +3481,11 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags,
+>  		if (IS_DAX(ki->ki_filp->f_mapping->host))
+>  			return -EOPNOTSUPP;
+>  	}
+> +	if (flags & RWF_DIRECT) {
+> +		/* file system must support it, same as O_DIRECT */
+> +		if (!(ki->ki_filp->f_mode & FMODE_CAN_ODIRECT))
+> +			return -EOPNOTSUPP;
+> +	}
+>  	kiocb_flags |= (__force int) (flags & RWF_SUPPORTED);
+>  	if (flags & RWF_SYNC)
+>  		kiocb_flags |= IOCB_DSYNC;
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index a46c33692aa2..3aa5fd73d391 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -451,10 +451,13 @@ typedef int __bitwise __kernel_rwf_t;
+>  /* prevent pipe and socket writes from raising SIGPIPE */
+>  #define RWF_NOSIGNAL	((__force __kernel_rwf_t)0x00000100)
+>  
+> +/* per-IO O_DIRECT */
+> +#define RWF_DIRECT	((__force __kernel_rwf_t)0x00000200)
+> +
+>  /* mask of flags supported by the kernel */
+>  #define RWF_SUPPORTED	(RWF_HIPRI | RWF_DSYNC | RWF_SYNC | RWF_NOWAIT |\
+>  			 RWF_APPEND | RWF_NOAPPEND | RWF_ATOMIC |\
+> -			 RWF_DONTCACHE | RWF_NOSIGNAL)
+> +			 RWF_DONTCACHE | RWF_NOSIGNAL | RWF_DIRECT)
+>  
+>  #define PROCFS_IOCTL_MAGIC 'f'
+>  
+> -- 
+> 2.43.0
+> 
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.misc
-
-[1/1] cramfs: convert cramfs_blkdev_read() to use folios
-      https://git.kernel.org/vfs/vfs/c/06e2e8febbcc
-
+-- 
