@@ -1,56 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792572878;
-	b=wgzU0PHDhuczvYWBc44n+S69qrNEEFtFHy5i92j9CN+NF7JCjN0w6ksRDr8QhqIsXtQy
-	 M1UkDLQpVc0KManOW6XLATfOpHPd1TGZti7cTKZN6t6ulF9ouvK3WGdg6iREqUVrAgI/P
-	 6ch9DPb9uBg1Mj2P9ZI5fzJBp7LMiq9OFhAhg6uNlRe4q3rkmjcd/zLNX8zaoJUCG+3Fu
-	 cCvuDguSdIZja34paZl9/P70+QLjZo0OqCFrB0wYp23qQetPuEhE9cdZuOPW4wMQYrfwJ
-	 HFLH4UJF4NNXYYmplTFpqkJPoAn4A0VDNRT//1w4h+FnAW/RxKKWuvzrr64lSVAWK4A==
+	t=1792573081;
+	b=ej8brPmgZn+VeprsCqCwRn42BBOMUHZiRykZzdcuuRFGRq8OEGpWlaB2Sb3pvnsT2cvs
+	 VKhVZvmtp3yV2ngFComcg7IIehXISJOcNlsDme+3QNzhD5eciJe00kXyF6BSUE2PMvb5H
+	 yRKH33oVkmgWpq0rHVj0gWKPyCjgZOFbn/SY5zjrQXVvTRONaxz4/mgJiKQQcIYm2YqyE
+	 2MAJ/dYgAuB4G2BL/P2vLpkHlohdV1WFVv5i1/BTQrCRG8mnPtrbE5oMEF5AyqlXfdV/c
+	 u9jTcYoft9vBjTUMdYORRiMxomdonx+/lEtRQG6D4coAgsd4DU2NvRLUHEeRrr6oBTA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792572878;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792573081;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Ih0kmKcb+JTGX8X9TmKGdoWXmH5JYncIL9JCeP4tsvU=;
-	b=Rw5tXjFMU+IB14WLIU3AonNuyjR+tHHIcp+cXRLVK8+lBQz5Li2jj4iE7jwcquVMpgGr
-	 JUUpxfkkbvvE+na/ZH4gNzzWEqc6xUP2jWEpnVmLkDrYENGEYNliOMSSi5uwpxzQBcRuz
-	 HsNoXxiHA+CTNihO3IEH2WEJ7koo5/E/0KUfzIS7jVjVtReIyD89N5YgyTQ/kLAw5VGiP
-	 qlqpl/tw7FO8S2tkgkPgFLqwF9nVLZ7ZOa47dFfyZOazSN0LQONqfqcJickVgDcN/ZCZb
-	 F0nwquzbH9JvgVADytyDr+k90OCnsDqBtp2TIzdIkpPeNSiQLP6sbjrUzzLKcCs5hDQ==
+	bh=PZFsgaUptmthCT9AGjarLBj+dSK/kXdt7D60tO+Fc1E=;
+	b=5lmIdPgbB5l7krq4psi383vPIT7nGQrLsbg7GbQAENq7hRrMroe4OorFoofrQMucQmAH
+	 B54yv55MQQ5wEpv9Pnz4D96f6FWcN0Y0FwrZ3Xy2Nb3JA6vqGrSUm6MSRbnxkD3ZPmieA
+	 YC2maqAF11PwZcOorCDBtpue4kNr9zOQ96O6/Z+I7JwSTh/jnd0sR6VIGYvJoftxCBqdO
+	 lY7nP7pOjVIlCn1PGxRTOjmrpoiTxl5bN5deJumOGi8xfpT+VA/kz8obCiwIHf/UiV5SF
+	 FAniABIw1Rm+aFPhvWIsMMlL3TmSlO5TQbF3a1meO7g5rcsIiHe5qOBUjweLa0+AP9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V+MsoB9L;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="aYmuGmm/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9CD606A319;
-	Wed, 21 Oct 2026 08:54:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D99E606A31B;
+	Wed, 21 Oct 2026 08:58:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V+MsoB9L
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E60A1F000C9;
-	Wed, 21 Oct 2026 08:54:34 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aYmuGmm/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 939011F000CB;
+	Wed, 21 Oct 2026 08:58:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792572878;
-	bh=Ih0kmKcb+JTGX8X9TmKGdoWXmH5JYncIL9JCeP4tsvU=;
+	s=k20260515; t=1792573080;
+	bh=PZFsgaUptmthCT9AGjarLBj+dSK/kXdt7D60tO+Fc1E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=V+MsoB9LTGZnEE9Fye5EvMTP+G79p8Ot8rTKibVKnoqv6jEmhVeF3HkkkFCOLts8I
-	 EA9r1gCAFe4HbAc0HKOqNsBK0ehaKc8b6TfF63+Or3XdBUwIjb9EIAgZlIqrXCGccW
-	 2FQmR2/wZfbqaFZVfb64J8u7ZWvZEQeM5ouogy+iO5XKYy2o9TZSheakWuXdvW8Wza
-	 5DK77KeVgJ9TOZ86JrqkDfenBj89xOlSJqePj+WmrJ7lddpylMiUE1L9k/SDErZHdx
-	 09TCcn6bER55lOoTXP1CIoWaioSpuH1+rPVnk8vYY1wvjQzxwPigVY4f9Ejq6psb5e
-	 clbd3dOfVwVEA==
-Date: Wed, 21 Oct 2026 10:54:29 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: Alexei Starovoitov <ast@kernel.org>, 
-	Andrii Nakryiko <andrii@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
-	Jiri Olsa <jolsa@kernel.org>, Mark Brown <broonie@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH vfs v2] bpf: Allow bpf_d_path() from filp_close_sync()
-Message-ID: <20261021-ananas-siegen-kurstadt-24cc3e5c1ce6@brauner>
-References: <20260925210347.1364191-1-ihor.solodrai@linux.dev>
+	b=aYmuGmm/+X3TuMt6En/yuxlAevDmd0Bbvy4zAnvkecXFDCBCHH4BFV2HeLMyOncG6
+	 iKGNu8yvxaVvHYNxWEAcOVN5XFBxUULSVRqwdk8C1wabWjN9blXkG2dsAwo0wOz2hT
+	 mif8kBJMD1JtRyluN3jtJHEYpowNAAb1jQwIZ/Thfthe/YwWNZrd+u5P5X/YRZJrTI
+	 aD3T+PeiWZ6esjBFkbxkPU/x7zC6FMhPE9NGjjuHBE0rmfM1jCQ0Ypf5czE90KkfD7
+	 bfQzKNg7L4JGb9MoBPFM0DJ3BgiIuLatLnXE+esDNPjTCoLkzQ8plSnmclDPAZaIgf
+	 TJQiZ5tyQBJzQ==
+Date: Wed, 21 Oct 2026 10:57:53 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Allison Henderson <achender@kernel.org>, 
+	kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-s390@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, wireguard@lists.zx2c4.com, 
+	rds-devel@oss.oracle.com
+Subject: Re: [linus:master] [sysctl]  8d75c338f0:
+ BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
+Message-ID: <ath-VoGkY_1JBES9@hobbes>
+References: <202610190310.9737b2e3-lkp@intel.com>
+ <atYB0bm9eEXp8A2g@redhat.com>
+ <atYW0K3t57puHeLW@hobbes>
+ <atYuE1xnVYe0BDG4@redhat.com>
+ <atY42k00k0Waj6o4@redhat.com>
+ <42964fa071bd8dcafd418c89be6d66856def4dc5.camel@kernel.org>
+ <atdE-TB8hkqcwp6g@hobbes>
+ <atdK3ZkT4YqjGICq@redhat.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,38 +67,61 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bt355i3q7cyhktpe"
 Content-Disposition: inline
-In-Reply-To: <20260925210347.1364191-1-ihor.solodrai@linux.dev>
+In-Reply-To: <atdK3ZkT4YqjGICq@redhat.com>
 
-On Fri, Sep 25, 2026 at 02:03:47PM -0700, Ihor Solodrai wrote:
-> The d_path selftest closes its descriptors with close_range() so that
-> its fentry program on filp_close() runs. The vfs commit
-> c1ed65ea167b ("fs: make close_range() synchronous") switched
-> close_range() to filp_close_sync(), so the program still attaches but
-> is never called:
-> 
->   test_d_path_basic:FAIL:close trampoline for filp_close was not called
-> 
-> With that series, close(), close_range() and the closes on exec and
-> exit all go through filp_close_sync(). Few paths still reach
-> filp_close(), dup2() being one of them, so a program on filp_close()
-> no longer sees most file closes.
-> 
-> Allow bpf_d_path() from filp_close_sync(), but only from fentry.
-> filp_close_sync() drops the last file reference inline, so by the time
-> an fexit program runs, file->f_path may already be freed, with no RCU
-> delay for NORCU dentries such as pipes and sockets.
-> 
-> Attach the selftest program to filp_close_sync() and keep triggering
-> it with close_range().
-> 
-> Add a test rejecting bpf_d_path() from fexit/filp_close_sync.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
-> 
-> ---
 
-This seems fine to me. Sashiko has some comments though.
-Maybe go through them and resend as necessary.
+--bt355i3q7cyhktpe
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [linus:master] [sysctl]  8d75c338f0:
+ BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
+MIME-Version: 1.0
+
+On Tue, Oct 20, 2026 at 01:05:01PM +0200, Oleg Nesterov wrote:
+> On 10/20, Joel Granados wrote:
+> >
+> > On Mon, Oct 19, 2026 at 12:52:58PM -0700, Allison Henderson wrote:
+> > >
+> > > CONFIG_SYSCTL=3Dn.  A simpler fix might be to just handle the NULL at=
+ the
+> > > three call sites, e.g.:
+> > >
+> > >         rds_sysctl_reg_table =3D
+> > >                 register_net_sysctl(&init_net, "net/rds", rds_sysctl_=
+rds_table);
+> > >         if (!rds_sysctl_reg_table && IS_ENABLED(CONFIG_SYSCTL))
+> > >                 return -ENOMEM;
+> > >
+> >
+> > Remember to NULL check rds_sysctl_reg_table in rds_sysctl_exit(). You
+> > might hit another UAF on exit if you don't.
+>=20
+> Why? unregister_sysctl_table(header) does nothing if header =3D=3D NULL.
+Nice catch! You can forgo the check as it is the first thing that
+happens in unregister_sysctl_table.
+
+Best
+
+--bt355i3q7cyhktpe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmrYfooACgkQupfNUreW
+QU/WnAv/YVbhwQnlgm1v0MJMVqJO5TZOJ+RcOu/m4rFbvIPU8twKRupXLpWiQn/b
+ICa4TdGkh96N3eS3UkV+Iiv9cSUVYgRBt1AXsJZ+JHRaufbZJIVIPhejQnxhjJe9
+IQp55/hIG3MqlAbVIJBOgMKo5F7PbnElO2mRDkCXoc9KJ1wxvrjVCZodr+J6RWtt
+e5OdPT9V1YmTuf37xRxpDWt4VRAtIrKIGMg3IqxHPPhFQlvepKVGLzgJYLNy/Ovt
+vQkSONcvJhN1xkgKv+L+9cvlixaZaechi9psoCxWnDH0fxQBxamwcWmIKewNeoza
+0W1An6oKC7did7l+hnLFAHKkt/8ePeddQM6ImdSmgAXueiCJ/Nr6hnI21D8eKQoA
+U0n/7WU6S4/E7warmYG64iiAzKsI76Jd5nFYQY1feOLgQdMaa9RbcBFVqEAAoCQz
+HvCPKex1+h1Ah/HxuC2wrvmUI3dX9AxrSo7NpuhKtPTzgXaLEfaAfW8tINh4pRXR
+ZrHBWkU5
+=s4u6
+-----END PGP SIGNATURE-----
+
+--bt355i3q7cyhktpe--
