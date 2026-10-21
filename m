@@ -1,45 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792579378;
-	b=bkUXehA7T3b1+raezUT7+mFm0Bjy4mgaMyrKvEr/ohNZ3WACu64v+6TCjpFsGb2AxgYm
-	 LZFjZMUILYlWQpc+eZINRWDvPjlzcHc9/9aucetVsW8MLIAI5frVhgPYMg88PTcf2WJgZ
-	 XPY2m9JN1VNXuUHyGVQe1DGOgJXkuYJLB0Rl8mHuIXMjHi57qJFZ0VQexowkJkuNc+KxU
-	 46RurqafZ74vVhdpNMJ86jqlHmOj91pF/WDG/zZniDxBgphrpG8ENMX6hISn87FVDiemd
-	 37HFpHuNGe2/dfJAPFmFrPvXgcA539uDyF+00IfyiuY2Mj9sjLcZUnFOHbilIettH8w==
+	t=1792579755;
+	b=ciExzBgUkr2MGE16eWd6D/PugkSNSadjJxAdTLX08uplReqe5GIWAz20KsBgbkvLiFRR
+	 uxsF0kGth4du4RZX2Jq1B6ySTDcwo24PGrT/9mxMbeM5DT32icRDfpc94kYAL8Qj4N7ik
+	 gUTOa+RgBEeyASWggzWORafI2vWykX9umTRHv8dHnZuBfkAh7K6wPTtnrfBut23YSbgjZ
+	 PgalGmhtXPwK/Kf8mX/cD61FU45M0xoyPhtCFKwuAZzxeW/VobY/siCfcrBq2FQbzPrJo
+	 xFEWrGSMQS4+iFC2mLi6aSg/HZezj8jgqL+N6m1kcG05/07xxWfwcxVl8b6gZlKZ+rA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792579378;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=t90tvZS6oZQr0j8LPs+bmUY4QvpEatggf68p5mbwtZ8=;
-	b=3GfDjo6kkFBDZjNECPkB+1JTpySEXdBajlccOPiVYji5NSXEIWMTy1mkoVx6x5BK1pNH
-	 WMb4/vVpBECgpwjuBnUSsG1Hgx7wK9x9uWVRRfX6Na8/Z2dfO+5hEho1QuTusYuyZKJrp
-	 Paf8cLrANQ7wwsmZQxMlJvaHkvky0JVKWlgDc4Zax3KUYZcA3l0cnNzmaFUtpvzIY9Qwb
-	 KzdPa3APxs1m3Uov+BA1LbAyHbj6Usq797emjqloHNEyYWDhyeCuW7PHDfIRnp0WaJv84
-	 vZoXnf8cEuh96vlre+g5QbPp82ucpQdIxGC+oMzadiGAPsDDJJZr4dzwuDu+eucf2dg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792579755;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=a6j8VvuZql8VshmBaFWvTWJSnRqnfgGGAQcEU92nPh4=;
+	b=OHIc3zv8eXLpzaxVFBpiQHuqTgZKdzBc9Np+haYupQDLNKQjjTinpCeu5PRnh9VINGuo
+	 Jv+QV3P9wRqDlgJ3dgvJaNKIWdC3RoAC4U85cVKjxn74dGuIGRKaPla5utbKPfUkOsFe+
+	 gqZspPYjXpo/nUIFllIlFH3Fnna44SazPvp13MW+JenI5YOqD6rvbq0tFZM7mqLKNNOEm
+	 ZnI7dpJF+4dWu1FutQv2hFTN0CPUSuITsS5N5JHBTddBJLn/DFRU6xkYfpvatziH7vs3O
+	 Ezn+IGRXYNLtASjoaHs2ntm9MjnCEk16Y4N+UAweRekrinWKq8VLG111FZEEU5GINvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dsB1qgjp;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ktTFZgSa;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598D5606A322;
-	Wed, 21 Oct 2026 10:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03A3606A323;
+	Wed, 21 Oct 2026 10:49:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dsB1qgjp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 842F41F000C9;
-	Wed, 21 Oct 2026 10:42:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ktTFZgSa
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2974D1F000C9;
+	Wed, 21 Oct 2026 10:49:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792579378;
-	bh=t90tvZS6oZQr0j8LPs+bmUY4QvpEatggf68p5mbwtZ8=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=dsB1qgjpAnBJ2mwnX25B8XCsTjcViWTFyHTFd7hup+WM3+qNNpPq1BwW+MfkW2NcY
-	 p/Hkc4u6LeNdbJudbAQczNqkA8JIqDCIqrWPm624L9Wk47A94nph6qSByL+DKfu4HI
-	 U7kehuOF0Mmdx7K3hCQFFWlvukGZIwXKZSL/IamhVOmqW4L1YR7/v2VebS296RWIUe
-	 83+MfF7pLtfVjL1nDdMKPwWlzzQ/l327Iz20SogXjgDAQth0twB7INmV+LRItF4N7G
-	 utHNp5FTlFWPQtuA2F86RuSzddMuHiAFNXG01gS2IdqMNR/cMQ8rMIfrw/PyTRK5Td
-	 HYJ2APtRDYzfg==
+	s=k20260515; t=1792579754;
+	bh=a6j8VvuZql8VshmBaFWvTWJSnRqnfgGGAQcEU92nPh4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=ktTFZgSaXewBcZAJ7e4n0ylcCZtDk0VstshZqq5L+H5wUm+DlyHaZY4sBgoz+KoPa
+	 ENG3oelI37RsleO3YYEZO+unP/LpyOCn1vdAlOlguRoyr1MLEAvQ/4xPOi+OwriRcj
+	 1DyriKqEpho5M/Y2DZtLa38IoEt81Ztubhzkf0LIu2TQ5YKpSBWVOdjqvvwfXKaY1j
+	 twFxsKgHQ6lFYBGDyniCBCFZGKcgHHFR5eG/VYt6WdnTYp0FO56Y5EoNPC2dpd+dXT
+	 z175Q6JppgyH+z5XFxNXLbNpsI7f2R0EEGXRo2xSPqHShS6kBKROa7xVufU63GDN++
+	 ZoKOdBzBZPCQA==
+From: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>, Tejun Heo <tj@kernel.org>, 
+ Liz Fong-Jones <lizf@honeycomb.io>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Johannes Weiner <hannes@cmpxchg.org>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Xin Yin <yinxin.x@bytedance.com>, 
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, ian@honeycomb.io
+In-Reply-To: <20261015-wb-dying-cgwb-flush-v7-0-9278d9ebaf5d@honeycomb.io>
+References: <20261015-wb-dying-cgwb-flush-v7-0-9278d9ebaf5d@honeycomb.io>
+Subject: Re: [PATCH v7 0/3] writeback: let foreign flushes reach dying
+ cgwbs
+Message-Id: <20261021-anbot-mahlzeit-bankwesen-0c79e6d05fe2@brauner>
+Date: Wed, 21 Oct 2026 12:49:06 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,81 +67,48 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v1] pidfs: do not report fields that do not fit into
- the caller's struct
-From: Christian Brauner <brauner@kernel.org>
-To: Nickolai Zeldovich <nickolai@csail.mit.edu>
-Cc: Christian Brauner <brauner@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
- Alexander Mikhalitsyn <alexander@mihalicyn.com>, 
- Luca Boccassi <luca.boccassi@gmail.com>, linux-fsdevel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261017020634.792390-1-nickolai@csail.mit.edu>
-References: <20261017020634.792390-1-nickolai@csail.mit.edu>
-Date: Wed, 21 Oct 2026 12:42:51 +0200
-Message-Id: <20261021-trauen-wirft-hegen-847ed3b60f61@brauner>
 X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2907; i=brauner@kernel.org;
- h=from:subject:message-id; bh=pTFgFr7+/hXlFUZ+wq+itkgyJLMrzj6irJNX8yUZYyI=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdmK6bNL12jeIUriqpeUujV05YuumCd77jzkkn799aO
- VtJ7FSYWkcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBE7iUwMjzx9boXu5Q39Q7H
- u8z/mzc8WL5QkOVVx/37vl2HO6Q0PvYxMty5rbuxkkul9KoVd4Z9yozaCULrrlSd7vr1yt17V+b
- Kdg4A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1646; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=48o0GEFu3mgqTW8sPyMN6GkxqnwEI0p4H1ZDHkTr9zM=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdmLFU/a3Iiziezj9uslPWMUslzCxZ87Lhru9V/7sKs
+ XFC3o/mdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwk+RMjQ1vuqnOHSoMV9gut
+ rUxUfHPT55Hrpv8rNrddzTSIVEvzesnIMFkktz0z3C7W/uPcXbde2YfU76kun2OmwDvZb9GWtWW
+ P+AE=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-> The documentation of struct pidfd_info promises that "If the structure
-> size is too small to contain a field (requested or not), to avoid
-> confusion the mask will not contain a bit for that field", and asks
-> userspace to trust the returned mask when deciding which fields hold
-> valid data.
+On Thu, 15 Oct 2026 11:40:46 +0000, Liz Fong-Jones wrote:
+> writeback: let foreign flushes reach dying cgwbs
 > 
-> pidfd_info() does not keep that promise. It builds kinfo.mask without
-> looking at the size encoded in the ioctl command, and
-> copy_struct_to_user() then truncates the copy to that size. A caller
-> that passes a 64-byte struct (PIDFD_INFO_SIZE_VER0) and requests
-> PIDFD_INFO_COREDUMP or PIDFD_INFO_SUPPORTED_MASK gets a mask with
-> PIDFD_INFO_COREDUMP, PIDFD_INFO_COREDUMP_SIGNAL, PIDFD_INFO_COREDUMP_CODE
-> and PIDFD_INFO_SUPPORTED_MASK set, while the coredump_* and
-> supported_mask fields behind the 64 bytes were never written. Trusting
-> the mask as documented, userspace then reads whatever its own buffer
-> held at those offsets. The same happens for a 72- or 80-byte struct
-> and the fields added after it.
+> At Honeycomb, a container that reads from Kafka and writes columnar
+> files to a host volume stalls for 30-60s after each deploy replaces it
+> (v6.18). We're increasingly confident this is the cause: the stall
+> looks the same as in the reproducer (little CPU use, lag growing
+> linearly and then recovering), and the mitigation it predicts, moving
+> our final syncfs after the last write, worked in production (below).
+> We haven't caught it with probes in production yet.
 > 
-> Clear the bits of the fields that lie beyond the caller's size before
-> the copy, in the one place that knows both the final mask and the size.
-> A request for a field that cannot be returned is thereby answered the
-> way the header describes: the field is simply absent from the mask.
-> 
-> The added selftest issues PIDFD_GET_INFO with the first published size
-> over a full-size, poisoned struct and checks that the mask names none
-> of the fields beyond that size and that the poison is intact. It fails
-> on an unpatched kernel and passes with this change.
-> 
-> Found by formal verification of fs/pidfs.c against the kernel binary.
-> 
-> Fixes: 1d8db6fd698d ("pidfs, coredump: add PIDFD_INFO_COREDUMP")
-> Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
-> Notes:
->     The three size thresholds follow the field layout: coredump_mask and
->     coredump_signal end at PIDFD_INFO_SIZE_VER1 (72), coredump_code at
->     PIDFD_INFO_SIZE_VER2 (80), supported_mask at PIDFD_INFO_SIZE_VER3 (88).
->     Masking the request bits early instead (before the coredump and
->     supported_mask blocks run) would save a little work for such callers
->     but leaves the bits set in the task->mm fallback path; clearing the
->     result once before copy_struct_to_user() covers every way a bit can be
->     set. No stable tag: the only callers affected pass a struct size
->     smaller than the fields they request, and the consequence is a wrong
->     mask bit, not a crash or corruption.
-> 
->  fs/pidfs.c                                    |  8 ++++
->  tools/testing/selftests/pidfd/pidfd.h         | 16 +++++++
->  .../testing/selftests/pidfd/pidfd_info_test.c | 48 +++++++++++++++++++
+> [...]
 
-Semantic changes and selftest changes in separate patches, please.
+Applied to the vfs-7.5.writeback branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.writeback branch should appear in linux-next soon.
 
--- 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.5.writeback
+
+[1/3] writeback: clear the old wb's dirty IO state after switching inodes
+      https://git.kernel.org/vfs/vfs/c/d70ddc66a4ed
+[2/3] writeback: let foreign flushes reach dying cgwbs
+      https://git.kernel.org/vfs/vfs/c/27f228cac83e
+[3/3] writeback: switch a replaced cgwb's inodes to its successor
+      https://git.kernel.org/vfs/vfs/c/90158789e8a5
 
