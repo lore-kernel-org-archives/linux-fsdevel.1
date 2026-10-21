@@ -1,56 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792583840;
-	b=FG0RWxEHj58EYj+VrjduofaR1gs5zDr0TKEvvIM6iyf/auwoMXml82YV7+jcTzgbiwyW
-	 ED4Y+Os3w02FqoS6+2hRMbuujc2+2EQmlpsM5B/q7s/tZ3HpHscaAl12TSRYQ/nA6ye7u
-	 wdp4sxbCxOF88tNi+Qv9ot4NKPLUbB2oks/QR02PiALaH6DcZzqY/oCGKSNveXGb+v17L
-	 u6SHhBBrq9qWpNT5Gvf46Yg5+8sZ1Sb1RSZSF+O38QxXrKdw4ot0V6xEwsk73XmVNCg5J
-	 U9tRjK+HiZMk9pmZfKdkLzhBHcdr84w9FIeTQP7egFVQjDbrA9JIgXbZObnxLfQOicQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792583840;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=wYR+v2mdGZMLGWYFyc3YXeS168gKV1HRSfFeOK/0/mw=;
-	b=OqOnFHRRaF+NGjiat8Nr+wOi9qqolohlFJW3IQ0QZcUs6wEVC1eeXq2038wuYH8vdZkR
-	 +m8wD9Rg7W9vxj+/cUEaq/PvhVX+ZThVsLgGgHxZJJWdJ97D2KM1v0d4Cr27EaZJ3tanG
-	 cR8gxcEM01gQhhXGZ5VkxbCHg788NgjXXawXexBfWTYjU+GdJWpkz+oHRPI+dOD9L1vSQ
-	 GEse53cdHlTk4UDlngdxUDIjW5ghTzXggXIGkuGbW1mKmwFqPHS1ZgxnkgiMv5q4md8P/
-	 7udOJ7VqYbc6VEjBGPDeP0ZBVty3EBTokUdFTxTe1eBV7DSwOxlB1uXRRHOGZrVhjOw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SkDyOapE;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792585542;
+	b=u3lx8Ppt75WKgtaBidBXBlUamxgLIjwt4mdD/NHV6vll7uOj5GwiXQjigEDuGFBUZUMf
+	 KpHnJRnQAgfgRAa3RTlNBL2Sj45/4jfxcW/R98gjVvmBCN6aXuI/KsL0W6cis5VsJ7YpG
+	 o59eukiaOeHItqo9LUyDrDa7PBKJwB2k6DcIvHDHcfJfLO4DFAAwJS2c0IP6qnNtbNHv4
+	 UTDVpNhalMiqm8taSwOTJ0wXxWULBGkfo2v3/LnnljIfePKIwQPydx7D5qmD8zid/2UuA
+	 MNXNTZn6sCVUEWGnP79MTmu55X5gG66nK/11iluVLfwtyzO2e1UvG77YyL1sb6XzKfg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792585542;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=C7rAKtaKaELVNFK0oBOpKXYxL6DNRFQYfosGXzXCAjo=;
+	b=ksVHTIv2F9IA6pUXtYAudJpv7cIwJ3vb9wZ2KgFFDPGQPp/9Ru1w8qWELAx73vbU7OLw
+	 lcEa/BxR8RJCx6CufUBWs09eujEoG7ADNUy3baRrlWWKg30ybYZ+2BKw40/aGNRYY4477
+	 7ss71m03eSp6XqeSBvn5TdVN29tyY5QtSsMX4Vp4QCXqwVhcPcoBEDZC0YzUekcfMQE8O
+	 GlCjaoJBzHXMqt0H19SC4c3xeDo7mPIf9Vsa3HidzMFpXEBl5QfbPrNa87m79rsW/h+9B
+	 txUid/0cMG8Bj78tv5YGxSygWA4K76S7jW/c78cDg1lJGjVyKWxlPqFpvQx6krZm3Cw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=QcLGTjWT;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D88606A31B;
-	Wed, 21 Oct 2026 11:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C97606A31D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 12:25:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0C97606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SkDyOapE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B9E11F000C6;
-	Wed, 21 Oct 2026 11:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792583839;
-	bh=wYR+v2mdGZMLGWYFyc3YXeS168gKV1HRSfFeOK/0/mw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=SkDyOapEp2jkn5PeSxgZeVelgYAx5815MagRNye1j4z4Bh8mlLLokKF/85ImJD79M
-	 rgGVS4mrWFSFLxACj5qcyowsKnOx0PTuNImGCA1YYaRQLmq4/Qj7IBdklgZ1TuvhcQ
-	 Xyv+VLRMRWjQqnP8hT1qYDTVmPKWeONsNbAWEQ7fU9TKR7l2gfOITPP5Iwrxqx5Cqs
-	 /MtHfKpKuOePCglS2TbBHzNT5FUZuMciPm+KhusXiT8hTBMHabEoNiQHTze2/JDLdk
-	 KA2ws2HV2MsXj7731jgQCfAgtqoXVOyB/CO8w52aF9w5Ln92fMCNNTLPjPDNPbbXMk
-	 K3mPUEiZwz5fQ==
-From: Christian Brauner <brauner@kernel.org>
-To: viro@zeniv.linux.org.uk, jack@suse.cz, 
- Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzbot+1cfd29c242c7cd26da02@syzkaller.appspotmail.com
-In-Reply-To: <20261012132218.106771-1-ngocthang2710.1999@gmail.com>
-References: <20261012132218.106771-1-ngocthang2710.1999@gmail.com>
-Subject: Re: [PATCH] fs/dcache: annotate the lockless d_unhashed() check in
- retain_dentry()
-Message-Id: <20261021-endabrechnung-insofern-stiel-85a15aa120d1@brauner>
-Date: Wed, 21 Oct 2026 13:57:14 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=QcLGTjWT
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5337c7b9937so298511cf.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 05:25:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792585536; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LlHRqNnleWR4WvqR/G6ZeuS/1nOdM6KvSA433jAabIuCE8gFLpNAqoC5WfLwQPKQPN
+         2PpGMEs8JuRgxv/w5YT8QMqhfvLg5etkRlJbqRf6BWnNgcZdGDl/SMCpRd1bSAYoyHKp
+         J59Pfy/N2QLQ8PjzSyHpVQzwIFNV7NDEqgzZGPZm0kToPAC3BhHw8Eq3r2TWiqgMaLcn
+         zv5M2+DDGgfb9j0gbeYGTY9jR3HK3Z2xQ/c2Ml9hAyfnw1e9oR9QyUdgkHwVIFHIYNj0
+         g4Nw1yaieB5d8tS6JQhJyblYl45LpSbdlYkjUCnwdSyL3U7WDvVRnj4hfGL2YeGNvW6o
+         VjBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=C7rAKtaKaELVNFK0oBOpKXYxL6DNRFQYfosGXzXCAjo=;
+        fh=6ngsmEB0aOnNVkoLUFdh7V6D+6RAODhra408Eg+33h8=;
+        b=Lcqf9ysW2DV6u6cvaV7yLMmvPG6jcq1fbOzGNKnp1679LkGczUynXP14BnpqtbRdaM
+         ZzK9YBq7+IYqumeR0D+MHQWWgYIDeXyJc5+PTukQXBEa0m8dnMeNVEtUtgt3cPwGGruO
+         RO6gVs9Uj8QiRm5Rgo10C3ZKrzb2ymfhTCKW+anpa2CHNsdxinSjD1ZCXVK698g/sRN5
+         hD8mS1Y73PC/pCCgMd9tOJaO0cMD9nvlIDCgrmAcVBCRnG/u9zdeMNndu8Q/+XgvJoMT
+         ZO4bH+3Cz32FSuhbAdagqiYaqK3paddIn4R9Kg1rzGXAe5DYgD8E+38BFOHbr4OM6JZS
+         nP1A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792585536; x=1793190336; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=C7rAKtaKaELVNFK0oBOpKXYxL6DNRFQYfosGXzXCAjo=;
+        b=QcLGTjWTwPPBYCWoIqz7nnTEZjKof43bbn+N2cXXqOUKvghC7g4YC55UuHTzzBduS5
+         u5NxGvBekE6cVb/LRxpM4Fhlb7IOpgMc4uHIkT4wOmLyLzhaEbGsjLr1yQ2Zj1oFGmk2
+         iSWCaKP/JaMI8hdGvcCTph5pCapEaH0Jp0OFxmzOrkDvmk/5UPPJA9OIV+H/A9dvClGt
+         5UY6V9qOSMPL7b+v11w4uRNGWnVKqUMd3DRVJ9vlWkjb+YtddlzbRi+0tBQ4nBV7ApMi
+         iezj3vkUKORHJyZp23cCr7TnO2fHE4VoaTe1WL/HsPUt+VlClE7d2SjkgT/+fLQjPBuF
+         Owfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792585536; x=1793190336;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=C7rAKtaKaELVNFK0oBOpKXYxL6DNRFQYfosGXzXCAjo=;
+        b=Aw6saf7kECOvlQNvPCsy/k2XjZjRdMpdvFBlCjMWNBjBqpcz81CRWADKVKVLbTJpUZ
+         zM8xoLymFGQjPJICWO1wl6E9enVLz5r4Q6++gocrvQn5m9Unt7CLrlhguYl5CqsEVwmk
+         zbdz0ccSElTn9ueFmmeblvj+xILLOGY7xnTC78YYdyxU6SujytuTkTqJworoLC0TEzIi
+         +ZFqUT1pfEuLaJ8DdOWrVLlkY4hE38BCkk8Y6gRF7pw6LwMsnJ2vtr88Kh4buezzkKSy
+         nd4D6hAAyoxaBAdK/lY3DyNIjQ7JJ7541BNrbqgyrWrhkfM2BT+rR2hAgNhQ3bTlPPu1
+         T3Zw==
+X-Forwarded-Encrypted: i=1; AKwUvBwV+elxpwAQpCcn0CbodsxcuDG+7jElU6+LrMAHqQTSXATq8zVnhc/VSGpfGMWKTfrWNiiF+uz0z1jIxKY+@vger.kernel.org
+X-Gm-Message-State: AFq9FYKF0p4tqHGfHTqazYdt7WQ6LCo+BYicINnzpCZANktTHMFiTneg
+	+OXZfY9og6ZWsvSeI5wBaV1h/6uh0ryMZ9pZnAU0TzHqK/cCGtpw/Uz8+R8jkPUjxEPvHKXc+TM
+	VuqNbTsIMBYAFM8uJZ8UMBDZmeBK8lGKyX25fDJM5EPYUfIQcILJEHCFpbpg=
+X-Gm-Gg: AYBFou2V3MFkrHFiVWXXZLf/dL8LG9j1ydt0+huRLYTjeFNzazBdIrw4pce+/koon4l
+	WnE8D2GDDJg6QBcowTrLAuxpFOG1QSGQw81/ASwyDrjmBRBeMMjY/dTtmXPchQfrL/FTSpkq8oZ
+	SJUBLHOf8x7FRfzhbUzW1AHyIxqqdFgWcMbGJWClsZFfd+DNr1gfZAeommf/fjnqFpECubypJNh
+	re9haEJ1oKvZNWiUzq7S2QihW0wbsTDo05Lb6kDneo32iVK0/eY/anQgBylb0AdssfZhSfJ2/Zy
+	3RS8kNwxNVs2mZqBrZJxzHWqrz6RPN7KOmPqTCZpJ+UBe8GrNJxOa3uiO5JgKQjhSuAURZjgZLp
+	mhl9MVl9UvD7pabUUtFQGxGtclRcB+fIAUX1bl2MFHXR96PUvEfhVjOr5DolpW1qhF3Zz
+X-Received: by 2002:a05:622a:1103:b0:534:313:9b4e with SMTP id
+ d75a77b69052e-5368512568emr39727821cf.5.1792585535104; Wed, 21 Oct 2026
+ 05:25:35 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,36 +104,31 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=930; i=brauner@kernel.org;
- h=from:subject:message-id; bh=ohpQB5WQrXwaNpd16dEsBhXw8ko3wee3J5RAfgvYGPk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdWDGn/sia/1kTGucduGxoU2bIvM/xhPGpOTNtEy3Vf
- FOZTdendpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEykZSEjw+bvR+6arqjWizI9
- +kl//YW4RaZlEw0WKnflphWnCudc8GD4p8noKKPjuq6F9//sT0IJVblrVrwUMa78r7GQ5ZH0vSu
- buAE=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+References: <20261020121159.2154649-1-sadrul@google.com> <20261021-miserabel-zahnrad-gepachtet-9bacbeb24a4c@brauner>
+In-Reply-To: <20261021-miserabel-zahnrad-gepachtet-9bacbeb24a4c@brauner>
+From: Sadrul Chowdhury <sadrul@google.com>
+Date: Wed, 21 Oct 2026 08:25:24 -0400
+X-Gm-Features: AclHuK8aD2JqJ1CUN-PK4H1g53g_Wt5nf2Vtd4t499zqOIAxdZ1WFXXEm-h8zAY
+Message-ID: <CAKgcGXiE6U-oBJ1sJS4fDurqRweSTdgYfoewLaTSJgi7kSqC3Q@mail.gmail.com>
+Subject: Re: [RESEND 1/2] fs/epoll: mark epoll_wait tasks TASK_FREEZABLE
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-kernel@vger.kernel.org, 
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Pavel Machek <pavel@kernel.org>, linux-pm@vger.kernel.org, 
+	John Stultz <jstultz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 12 Oct 2026 20:22:18 +0700, Nguyen Ngoc Thang wrote:
-> fs/dcache: annotate the lockless d_unhashed() check in retain_dentry()
+On Wed, Oct 21, 2026 at 6:54=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+[snip]
+>
+> Seems you generated this against an Android tree. Generate it against
+> current mainline and resend, please.
 
-Applied to the vfs-7.5.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.misc branch should appear in linux-next soon.
+Thank you for the feedback. I will resend v2 shortly against current mainli=
+ne.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.misc
-
-[1/1] fs/dcache: annotate the lockless d_unhashed() check in retain_dentry()
-      https://git.kernel.org/vfs/vfs/c/5a298355d8e2
-
+Regards,
+Sadrul
