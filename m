@@ -1,57 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.230.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792604978;
-	b=oY+hvloFXuVZbO0/KI4H3m/v6ihlxI+z+DlYrC//9M6NcF462XcPNpMpWC1wy6Ngjo52
-	 yqUFjPordTRE+hkOQtF3QMM8mQj8qIYXk6uKQmULxZ2oUhw+4uB2MaD+GA7USpaK34N+7
-	 Igr4e+OU7PYqrA+LYy7WJRECsy3746Kb4tG/shJpo3H3B680YsnNAlKBEOH4n8BvDMlBC
-	 zIwVg+hQVGDHfowwREA9bP33AuogEU7NdnuC0q5AUr0B9xVA0jLr8LXJLcIfphcSd+1ku
-	 vfAWPvZlrdjwuBWEkvJ9WsdcXCg4fX6FRSjihThKVIvr0c3jlw02vRXtDVgu2V5dZvA==
+	t=1792605195;
+	b=YH2/NmJMictW98NhFGLSOS9NiyWF2H/wsh28cAxUu4tX/WTsYBQVtA6m8uuvPVMKu+vX
+	 TYM2EifGv1wORlnCiXN6D4M4rSZ0LczpvwTCz0oLcyyUkD97M8f84qBUqmXmjKllN23OV
+	 9/X3EZ0OghF/yBVTsbIFQrsTMooxZecfW3puSf5VGLfOI7wE6nnMWqhEg6Ja9caNV7Dfq
+	 0pB+jArkLS9G6on7KrLFjhkoHKMbbO26MUe+gQJOo/wEurF8SIyw5Ia2Cv+kEU0uKxius
+	 43cXZRCRc/SYIcN978Abu51VFhdU+sAlisOOJxxLWQwXnv+7KduG6ZtPmmqCdvHkNdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792604978;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=opB/5WIa71WGwgXNjnUdKA69+DZiYmo5oS6nfPVlS50=;
-	b=5NnG/KCA1ZNP8JHTyFktzpPK1ccRkOecjDQ0PWO/MeUxTp8ghBk0/wf+mQQWBYt1/qw5
-	 uRS+ipA3IfIZrpbXWJ4LRHb26tY4DKJ8diQcvpYoWxflJTOdwqPO8wkVo5MrUf8o5dWIa
-	 AzlJDca9lPI6Q135RQusB4G9yiA/m6Tfg5LDElYuGlWCtnJ6BrbNdQnxum/DIykfh2eQ/
-	 BgF09nulZUlhgLo46N1bZRAiUnmPjiIJFElRqztljiCHE+IvdSveDP8L643w+N2ecu7jl
-	 FEN0n1ermUz0dEoc2d1XMUPwONa7RMctrVVuK7pD6x1gG3pCKOygqZKmzdHJzNW1xig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792605195;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=EKHQEVKe3P8J8ao8BGzCfnwn7QspA2SFir6fQkjj/Rw=;
+	b=nxf9cegfiB4KEvXbtERpXSIr+3q2pAUNJVWnIkS8BGMBixYO9OHaARpR2TYtipCDkhMa
+	 rknKM5nhwPczHjyuLwj3oHc56L2axfZMK1MeEnscobTIFzXBzuPADVnJ7YhVxldp56lEU
+	 Ye2B3wncRt08DDVhMjCRNBdZWH/1pr8INV/Q23kk4qsAOSCaWW2H6Csc0LsErLyvzzjHx
+	 xLnFVIBzE5y4NsSq9uNAd+ciB1I4hBKsrRW7Ft2c/V//PM8tcUNbTXXG+u4EjcHF61Kvt
+	 fSOSDOWiXGzuhTAOrsbkzlfSut9tE/1zeQ6G8WjB5Lc6NY5oog47wGLpvKAP/3b+58A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bnt3TxOZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Xy9bMYJv;
+	arc=none smtp.remote-ip=74.125.230.200
+Received: from mail-qk2-f8.google.com (mail-qk2-f8.google.com [74.125.230.200])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64715606A319;
-	Wed, 21 Oct 2026 17:49:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8D2606A322
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 17:53:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC8D2606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bnt3TxOZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 878E51F000C1;
-	Wed, 21 Oct 2026 17:49:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792604978;
-	bh=opB/5WIa71WGwgXNjnUdKA69+DZiYmo5oS6nfPVlS50=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bnt3TxOZbWqYE/KHkoC3L4HdBDKXB63bgxGzuuzW+Pm4pctlqYpgCQDPK57SQAC/T
-	 /vJiQOayVS9Nd3OMwhG5x87Qwzqj7cmZ1lPcZhL2tKZmN94Q3ao8Sfsh1S1TQf/BCj
-	 R7b+wWLCdNjCz7JMYRKcYGyvxRNmLuluByNd/fmxJpPoAVytE37VjreEN184JJE61C
-	 JtyNejEG9pWg0cFthf5NUbP+pjeJM2WJQrTRxRQQxLD+uP4JJ14PydIKl243ZB4EkR
-	 JibRLw8Q7xgtnly4JmP8vhsyesjQejzgKaZSQ4z/g2bcuNMzqUGpTpvJWldjsftOCH
-	 N6r7J1MeuQ5xw==
-Date: Wed, 21 Oct 2026 19:49:29 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	djwong@kernel.org
-Subject: Re: [PATCH v5 2/3] man/man2: introduce man page for file_getattr(2)
- syscall
-Message-ID: <atj5s3WAmsjv9aq9@debian>
-References: <20260916115141.3500780-1-aalbersh@kernel.org>
- <20260929130234.3547891-3-aalbersh@kernel.org>
- <asvBPbDfCIVm71jg@debian>
- <as9EIPE2lLJs9ram@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Xy9bMYJv
+Received: by mail-qk2-f8.google.com with SMTP id af79cd13be357-9369a6afaf8so53450785a.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 10:53:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792605194; x=1793209994; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EKHQEVKe3P8J8ao8BGzCfnwn7QspA2SFir6fQkjj/Rw=;
+        b=Xy9bMYJv3tkYhDXnapLP6C0yHm2bzQ/rafwOM4Ilu01F65xSFOYh1wFyLwCwBjrT4t
+         eDu3BdrIiLJ/qxbERDrPAcbaSTeoA1FdVGyATVWd9xmHI4wkFg+AJDXYiyWhZ2cPaJ+0
+         xrXLoQ5Ri7zSUX3YnAWa+bKaJG//8f/f8niC5iQDny3H3Hd3eStHOXj/yUUcNEF6A3lS
+         zWuxaPHajm+xUTUSBz7b8JTEfNL2+kS3BB15EkFSgjhqN6OMUH6EF9bh7bBShV+ahGW7
+         hngoD7WHZ7YFr6IlRsPIM02XQ3oenYbeLj8qY5kBD02WbEX8g2XcyHE5EyzsGXbPmKEh
+         tsuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792605194; x=1793209994;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=EKHQEVKe3P8J8ao8BGzCfnwn7QspA2SFir6fQkjj/Rw=;
+        b=xWCqWyYI51atBoX7P6zaAtPJE0rLOzw5J1NfXcu5zIMzNC0GtxZHE5cu4dywRCQlVf
+         e0LHtdhPq5Kdu1ae5zsjRf0edMZpiTGOOtOl81xaD4Pvmn60tEFRXN3ffQBe6Ctwmy1M
+         53SVPNr9CrwwSmOARoj/aNJa80uAnOHp/AO1hnzgJ88No0mHMmvHKye8cAfWzdaXjuWA
+         9wJ6+IeEj2SbqmRKs5HlXprdgsHt/N4+eO3SxzuyaWeW3LZtghM+A+px9k6CvVlHw2W7
+         nRYXZHvYnZk0XR2BKPaSTfrZ5IOTCdrUYrlPQZ423K9fc2k69Op/smHw9aNqdoq/OqRq
+         +knA==
+X-Gm-Message-State: AFq9FYIoQLwSZ3b4Ei1YdkeqwWq9fJSmQ+DnVZu4pQdJSczWcVwNOG2D
+	mY0RR4F67CxtEp3i5vSJz881N3hw8oBOLqfzPIqWqM3vQo0pV78A2aQ1w87MHfxf
+X-Gm-Gg: AYBFou2ADg3drqnPs4BvmEW+jTUvbUg+xA0Xi5F8Te3rNZtYR3Ks0pKaiuzhO24K6Q8
+	Hq1pKGfOTvs4b0PfDax7ZgPWO7vrFXL5wXD8z5oNMyn0b5Z6oxa7+hoCBszuymVVjnPOLTXof50
+	FbF7gCGNPVTOhh+Dvwp3/6XTRD2ENeki09tLOKwW+GC9FktW3LLt0v16b7JlbTzIFJHIxOphVTQ
+	/8dlHtNlJRK9W1aejCleJgcWDd6x9x9MTqStptPSZaqu6CbVKCEsZSq5IKjIi52thl06D0SO0FT
+	8mUEL4G40lemMcgxyyBJeVEwFzsdyA0ssaPMvxBY+dp1BFSwUUYfYpodR5eBmMZJW1KcJS2U3af
+	SbpWFB5p6oECZJZVkmKKhxjzG95YDTBrCTjZ13lBh4ofOu8orWT17MfrXtYZGDIBJ/t1SfhypfL
+	7BiML9afEGzsJ1RxZTbEM8K7x7UWEpYkmPMSItXlyq+hBtaimFntjO1kLCr9pM62nQaV3m6v9/f
+	Qv2LD+jVAeDppd4weIYXYMSxf7la76cuVc2XWt7TtnAEc9M2AJGYlRAFseb23iJPXpyjFm3HD/r
+	sLyiO4fWLQ==
+X-Received: by 2002:a05:620a:2987:b0:93e:95ce:53c7 with SMTP id af79cd13be357-93f57f05babmr488590585a.4.1792605193584;
+        Wed, 21 Oct 2026 10:53:13 -0700 (PDT)
+Received: from Fujo.localdomain ([142.188.41.221])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f56d9af50sm305675385a.8.2026.10.21.10.53.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 10:53:13 -0700 (PDT)
+From: fujo <hooyan2024@gmail.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ linux-kernel@vger.kernel.org, shaos <shawnq1@163.com>
+Subject: [PATCH 0/2] fs: two mount API fixes
+Date: Wed, 21 Oct 2026 13:51:51 -0400
+Message-ID: <179260511193.411.2849255769062027805@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -61,130 +95,33 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="35izgnwpri3vnjrf"
-Content-Disposition: inline
-In-Reply-To: <as9EIPE2lLJs9ram@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 
+Two mount API edge cases reported by shaos, both reproduced on
+7.3.0-rc7 (58161ead2) with a small syscall probe run as /init under
+QEMU with KASAN:
 
---35izgnwpri3vnjrf
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	djwong@kernel.org
-Subject: Re: [PATCH v5 2/3] man/man2: introduce man page for file_getattr(2)
- syscall
-Message-ID: <atj5s3WAmsjv9aq9@debian>
-References: <20260916115141.3500780-1-aalbersh@kernel.org>
- <20260929130234.3547891-3-aalbersh@kernel.org>
- <asvBPbDfCIVm71jg@debian>
- <as9EIPE2lLJs9ram@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-MIME-Version: 1.0
-In-Reply-To: <as9EIPE2lLJs9ram@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+ - statmount(2) with STATMOUNT_MNT_UIDMAP on a mount that is not
+   idmapped and a short buffer copied the reserved empty string at
+   offset 512, one byte past the declared bufsize, and returned
+   success.
 
-Hi Andrey,
+ - listmount(2) and listns(2) with a U64_MAX cursor wrapped around to
+   zero and restarted the enumeration at the first entry.
 
-> Date: 2026-10-14 11:14:07+0200
-> From: Andrey Albershteyn <aalbersh@kernel.org>
->
-> On 2026-10-11 19:06:32, Alejandro Colomar wrote:
-> > Hi Andrey,
-> >=20
-> > > +As with
-> > > +.BR openat (2),
-> > > +if
-> > > +.I path
-> > > +is relative,
-> > > +then it is interpreted relative to the directory
-> > > +referred to by the file descriptor
-> > > +.IR dirfd .
-> > > +The special
-> > > +.I dirfd
-> > > +value
-> > > +.B AT_FDCWD
-> > > +can be used to refer to the current working directory of the calling=
- process.
-> > > +If
-> > > +.I path
-> > > +is absolute,
-> > > +then
-> > > +.I dirfd
-> > > +is ignored.
-> >=20
-> > Is there any difference with openat(2) regarding the handling of 'path'
-> > and 'dirfd'?  If not, we could say:
-> >=20
-> > 	The
-> > 	.I dirfd
-> > 	and
-> > 	.I path
-> > 	arguments behave in the same way as in
-> > 	.BR openat (2).
-> >=20
-> > Is there any small difference, or is it exactly as in openat(2)?
->=20
-> The difference I found is that
-> file_getattr(fd, NULL, ..., AT_EMPTY_PATH) succeeds but the
-> openat(fd, NULL, O_EMPTYPATH) returns -EFAULT. openat() always wants
-> an empty string while file_attr() can work with NULL.
->=20
-> 	The
-> 	.I dirfd
-> 	and
-> 	.I path
-> 	arguments behave in the same way as in
-> 	.BR openat (2),
-> 	with the divergence that
-> 	.I path
-> 	can be NULL meaning an empty string.
->=20
-> so maybe like this?
+Probe output before:
 
-Sorry that I missed this email.  I had an attack from a nation-state,
-and had to be very careful with my hardware and communications.  I will
-probably say something more detailed on the mailing list, but I'll only
-share some details encrypted with very few people to not give too much
-information that might help them.  Anyway, when I got back to normal, I
-missed this and some other emails.
+  uidmap buf=100  ret=0   size=101 byte512=0
+  lm cursor=MAX   ret=1   id0=2147483651
+  ln cursor=MAX   ret=8   id0=1 id1=2
 
-And yes, this text seems good to me.  I see your new revision, so I'll
-review that.  BTW, I wonder why there's this difference between
-openat(2); was it on purpose?  Should we maybe require that callers use
-an empty string with file_getattr(2) too?  Or perhaps allow NULL in
-openat(2)?  (I prefer the former.)
+after:
 
-In any case, I'll take your wording, since it documents reality.  I just
-wonder whether reality should be changed.
+  uidmap buf=100  ret=-75 (EOVERFLOW) byte512=170
+  lm cursor=MAX   ret=-22 (EINVAL)
+  ln cursor=MAX   ret=-22 (EINVAL)
 
+The in-tree statmount_test (17/17), statmount_test_ns (2/2) and
+listmount_test (2/2) pass with both patches applied.
 
-Have a lovely night!
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---35izgnwpri3vnjrf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrY+yIACgkQ64mZXMKQ
-wqnsyA/+ONTlNc9ceGf9tp3u+fjG0QzaCu2tdKnSP54L4FEi5aVcohf73cNa99qA
-aG+zMoRHEpkwr8PXEtKto1vKReyObJ1U2f3VsS972LyCTqwXnWyO8yIYuzBWSnfm
-7Ks9UdSS7es5at1hBYglnu1bkmZsT1dAaRHrBDGvgjCqnlw8T9ftjtrMGk+C3zcs
-zgUl1Msu7OCABPPe+73RANizNMTjD78il7XZGSRHQny2zuD9RUV8wDomUk3SHAx4
-E5wl8sj84Zlxx2QKSDHrW6O3WJ3Jc0xz41h901laTjSsXvM4FIAMIddteAwDwxZX
-z3vnD+C3flaZgLVFEZOvNplmMKYXsLFrlC4vRUnB+nD1o+CM2BiWjAS+0qy6ZtU3
-xGPMjJ+wHSwqNTp4qc5qYbWf/HoyErkFahcKFwYnzNxt7ky5ZSCSBvEb31wgGQJn
-jhnZOwoxQMKCujkYvIbnWrW05/iXNKl5aUyAa0sggRzThrFwdGd/ybLxdbDkxk0O
-pTL9+0iawkaBOWHiy1b4V3p3d3nwDmhw4ArdaMgfrWDbBTilM1BCyYXXqNXokI1W
-AD9WCzEL7JN7s2v8NRLUzsb+zzD5fhi1QXpQCJp3Ek/Ur66AsdLnpolATRhzrqR1
-NwPArjlquaKWUsQZYVAls66aExze5W9XSAfEt+BfXwtXsZx0wyA=
-=+/3/
------END PGP SIGNATURE-----
-
---35izgnwpri3vnjrf--
+Thanks,
+fujo
