@@ -1,54 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792582282;
-	b=1OJEBucS/r7r+U5/nhUW6R/Hn+TwQusyC/zoWaJxp8ZAQv/f8N8LTZGEOroGOqFQ9fay
-	 oos2zWjxsdgUGWi56L1eqvsgCJlmXpLzszVSDPFZ4WncYZUkBs0lPY2GRi+VDfuGdLu3f
-	 rcNa46K0EFEXXjhNfO6rZCh/II5B2/02B7Mr1yID9PYrjGhcuMc+W32rQwjgW2SL7Y5aK
-	 Kl6PcVjpLyWSfzjivXAjN8jbUp8rhFn8rPvnUAmSx85lEpZ1iyJjuBHpemqWl0y7xJLF5
-	 NKNePgvLprpWEVlTPnV9pqF8tbXyclMiHXvs7ofLvnoF2bUb02mGARN6iww/PKDO9nQ==
+	t=1792583224;
+	b=nNmPwZol+uCPOKk2Y9fdi+jwEVgt/mgaUJzuYVShuMIt7RdTa289wsTLiORbG65fnX26
+	 GneL+B+YToXjlo9Wfa5yAhoshu4q+nvkkRdwSIG9ZnmcIk/GcHKTM0g6K53vP5/DGKee2
+	 mJC89VFAmZg3i0dA7gaNg210dmOvuUByEWy8ugi2zr60oI/418fXqYZ4pTDXiutvb8Dlw
+	 MdeWpLq676X6IYBQI4/5qQOhRtJa8UG4bLVJ2uiZOmNaMPws+gRiHv/nl8JRXRfREHFZn
+	 r4I5PrgOVaSO3vzD9jOdcB3vgEWq+0CWeOeEJUkFGxrH5GP7he9W19eVE3jg3LA4iog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792582282;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=zzXLUvvYElCIwzO2oJqrs76hOODnjOjJTUE9c+S1f2s=;
-	b=ECrqwNv3pmVPwly9nenU3y+s/5kSNZ+HLpQ9SLKLQCaY0dYClFd2gW0rl8y7WacZuJuM
-	 6cZIFocwVLksv/97J9mZascihhkWsuF/wWLDsm5px7pym5mXW0EML9o8O/XQdyAAwuvjp
-	 76dvbYoj0OVv2oojUeORwo+x9nT2IUDu3vztLu8H6jayzWn4Wd79w3Wl6hZCUwTWIxZwE
-	 vESl/iT7ISAKoXCMDWGhjRSlBYhYL6Foo5r5y53r5UHo/Z6FB78vFKndduaugLBhEzhjy
-	 AZb5A+HPKL05gdBneuP5G8ZkNdmSZbKreHLFHFM2/EHQ3o63Zur5wQn5UCo54oCcAlQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792583224;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=BYBJSPvY2X+KL2BJLgT25RQ+sV06TbNGUVsplrREUjo=;
+	b=VHWmRaxn7YRY0v8JuAWut73k0DdMiIHckAVFEdNFlVGNPdZXOe9xxBaq/OpzdG6X6G1W
+	 2WgdcwBtasCkG69VVEIx6JbeWZs7kvttIdOIqHjtqd6kZsrH5W/bYUNwJkuByD0oPG1SE
+	 1qlZKAYH2GN4b4NRmgO0DCros7CZvax/Mmo95Hr3gUQsKejTg6tX/PFaljrI9cq3ORFoJ
+	 mGjjhM7FpcINZvM9VtC5hwaKr/aK9cbqI89w/goVj+CfpJ/BgsM/mdfCj4U9FGkHAAZmT
+	 ak3oh+aYgmCewa/0zhgeXfL11MEonK278n+Uz58LewSgOXaP21iSqrpt4UnRG7giOgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FUTMIgoS;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y1bhsBmT;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2322B606A319
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 11:31:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC54606A31A;
+	Wed, 21 Oct 2026 11:47:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FUTMIgoS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF5BA1F000C4;
-	Wed, 21 Oct 2026 11:31:19 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y1bhsBmT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FDA11F000C5;
+	Wed, 21 Oct 2026 11:47:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792582281;
-	bh=zzXLUvvYElCIwzO2oJqrs76hOODnjOjJTUE9c+S1f2s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FUTMIgoS+aBlqZ30wPqkpHMjxDoOzCNQP8AcmN02c/Vui2ZVKWu2TV6G7w1MVgmzF
-	 g2CbnmaghbylXozWCMrwomnqsEcQfOjjkjEbOja3V4oOgXmyifUY1QfMvMZvGkEo/B
-	 ganuKIbPE/Y2IJjKKUs6SUbBwDo2UFk6E8M6FD4IGbBGc86Z8UXghsEowXbqHWAXqi
-	 qefm14eZ+bogHps6bDrZRSEVYZ0OybF2UHjAoLGqO0ZR6oOS9kfsfmfQR6j6FW/E1I
-	 a55BbfxniS4mY1gkuGZntZwf6dZSLF4xZOD7ZfNdxmpT4Hysdu7kze5yZe8TcJPQBo
-	 z5xxQAMWyMRAQ==
-Date: Wed, 21 Oct 2026 13:31:17 +0200
+	s=k20260515; t=1792583224;
+	bh=BYBJSPvY2X+KL2BJLgT25RQ+sV06TbNGUVsplrREUjo=;
+	h=From:Subject:Date:To:Cc;
+	b=Y1bhsBmT1NwwgjsUshX0rfQfaftV/TZEIyM8KvOTyoxsRAoA/ZBWk0biPYG6LfSeD
+	 byzlqUM5CqGy/l3qgcjfVYHyf+qxzaJzQOoqImrn3xG84n9IZpiBBGULghwImbzQU0
+	 3I8T/lb4qYUB2dZVP1RJFplVB3usiEh+CYFT587pSRkcBDuTmB5c5/hN2lGSWkLWlS
+	 8Z+5eZpxbvq/kZcxWlsaDOkpO9Y86lgeRyk6yccIiMpim9Ka6e1vAH+RlChv7I9AEt
+	 BKpFzvenoV1Fhhlm3GspQZFLuJz6qOpSRKiqvx7M66h3qFGytIfe37yiXlGFZDF6pr
+	 n64SMu0f0r7ww==
 From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	Christoph Hellwig <hch@infradead.org>, Mikhail Rudenko <xyzzy@yandex-team.ru>, 
-	Andreas Gruenbacher <agruenba@redhat.com>
-Subject: Re: [PATCH 0/7 v3] fs: Deferred inode reclaim
-Message-ID: <20261021-korallen-hochzeit-jargon-5142e8e15fa7@brauner>
-References: <20261009133253.20102-1-jack@suse.cz>
- <tsjar7j52anyxrtfdqfhmp6enu4e32hsvtitk5gy3bpxvagsjx@5exi7yidgf66>
+Subject: [PATCH 0/6] fs: fixes for statmount() short buffers and
+ listmount()/listns() cursors
+Date: Wed, 21 Oct 2026 13:46:53 +0200
+Message-Id: <20261021-work-mount-statmount_listns_fixes-v1-0-8917a4c1bd14@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,16 +54,66 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <tsjar7j52anyxrtfdqfhmp6enu4e32hsvtitk5gy3bpxvagsjx@5exi7yidgf66>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMWw6DIBBFt2L47jSAxibdStMYwLFOH2AYtE2Me
+ y/o35y5955VMEZCFtdqFREXYgo+gzpVwo3GPxCozyy01K2SWsE3xBd8wuwTcDJpv7o3cfLcDfR
+ DBllb2cqmv9SNEtkzRdyDrLndD+bZPtGlIi4NaxjBRuPdWF7LwOdjsW1/jmqi5qEAAAA=
+X-Change-ID: 20261021-work-mount-statmount_listns_fixes-03b0604d7341
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Miklos Szeredi <mszeredi@redhat.com>, Jeff Layton <jlayton@kernel.org>, 
+ shaos <shawnq1@163.com>, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-3d1b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2110; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=3oijdhCB3aWTj3qJQGgUlAJYEtp2M1MvTuQf8jS0b3o=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdWGYc9WGHnO+TcL2uoyeYyzn+7JinPLPb9vsT8+IFy
+ 1YbLXVY3lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRgEkMfwVtT/mFRrH+djgV
+ IHHt78zuYOXn9pWBpW2tO0VMnRq3rmb4n7Xg6BRrzk/KZyXTPdh3ratS6pdr2rvgbrj0580pJSu
+ +MgIA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, Oct 19, 2026 at 11:43:58AM +0200, Jan Kara wrote:
-> Hi!
-> 
-> FWIW Sashiko still found some stupid mistakes I've made so I'll have to respin
-> this. However none of the issues Sashiko found are fundamental (just some
-> memory leaks, wrong memory ordering, ...) so the overall design should
-> stay so if someone has any comment to that, they will be still valid.
+shaos reported two issues in [1] and [2]. Both are real.
 
-I do like the direction of this design!
+- statmount() reserves the empty string in the seq buffer before a
+  handler runs but the early return for "nothing emitted" never checks
+  that byte against the caller's buffer. So ask for STATMOUNT_MNT_UIDMAP
+  on a mount that isn't idmapped with a buffer smaller than struct
+  statmount and we write one zero byte past the buffer. It's the
+  caller's own memory but that's still not ok. I'm fixing this in
+  prepare_kstatmount() where the exact-size check already lives so that
+  unset strings keep pointing at an empty string.
+
+- listmount() and listns() add one to the cursor before they look up
+  the next entry. With U64_MAX that wraps to zero and the listing starts
+  over. No real cursor can ever be U64_MAX so this only bites callers
+  that make up cursors but it's still wrong.
+
+All three come with selftests. I've tagged the two cursor fixes for
+stable as well since they're trivial but I don't feel strongly about
+that.
+
+[1]: https://lore.kernel.org/r/20261020110747.959829-1-shawnq1@163.com
+[2]: https://lore.kernel.org/r/20261020110732.959552-1-shawnq1@163.com
+
+---
+Christian Brauner (6):
+      statmount: don't copy the reserved empty string past the buffer
+      selftests/filesystems: check short buffers for statmount() strings
+      listmount: don't wrap around with a U64_MAX cursor
+      selftests/filesystems: check listmount() with a U64_MAX cursor
+      listns: don't wrap around with a U64_MAX cursor
+      selftests/namespaces: check listns() with a U64_MAX cursor
+
+ fs/namespace.c                                     |  5 +-
+ kernel/nstree.c                                    | 29 ++++------
+ .../filesystems/statmount/listmount_test.c         | 11 ++++
+ .../filesystems/statmount/statmount_test.c         | 61 +++++++++++++++++++++-
+ tools/testing/selftests/namespaces/listns_test.c   | 34 ++++++++++++
+ 5 files changed, 120 insertions(+), 20 deletions(-)
+---
+base-commit: 08a7d685fc611140f5d4244abef522b71900c563
+change-id: 20261021-work-mount-statmount_listns_fixes-03b0604d7341
+
