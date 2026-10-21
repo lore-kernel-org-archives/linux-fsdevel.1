@@ -1,86 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792601244;
-	b=H2OLhpQ3GUnotrJfHMv2BsEntjanwbP/Rfu8iMacvN4dbe3597nn+F4KnMkL3zBq8QhJ
-	 qU08ovNU5A1WA/6CKuEKYDkXhhnvLuzbgVUH/v7Fr5W4gc24RCrNrKS3jV9eaKrm1qWrq
-	 WIJOtl/ha4m4MPp1c4FOM3gGZocLlfl2pCPt+2cstooeRSRT00NIafP/jP9I+O/yu+pvu
-	 quErlNVRCBL/0PSjWadytJ8WXJ6PIeLeaMACu4+PjngIdfX717gsb+6kTvWJXMdHqJOEo
-	 1mzyPPzWOhA4pm4WbaKOckRhZVYpvTODxnNOLDcpOverfggW+pxzcoxvGofywZ/aABA==
+	t=1792601249;
+	b=aa8qb5CiJz4uS+GRuM0b9dWpTKIx34lMV+5hQuM6Kf+EISqX5PZlurfLMbHaIplwb/Yp
+	 hei1scuPAjkBx2ZvQcnYD7PuijevOqzZAsMuyiysWpcrd2bkQPD4cSldAaoSLIQ3ZqIq9
+	 cf/AVsD+PsX1Pq3s4W+zsyeVL6MKvFqtEuH4uCTQ1nShi/M5wKMa2jADy8mtabcwU8K4A
+	 GYJaBza5ibNluoh2q8aOOTn/RbHsDuOqV11hqtcWY6UFNNq5ZXS7R8jeBlnT6KA1qhjhd
+	 dxt3BiGNDRWx0U9se+PJPrwg5qhpmEvaC6twkCz/9xDxMN0bWU5DD2TJ6CPO7jTWWRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792601244;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792601249;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=zFBriUSj9bytcNqXsJKDPqvc2LC0Mk+ZZy+OgWQQbzs=;
-	b=0W5hQJJek9polrx0VneanNeGYcIrx62xN7X1rcGEWmFCqgjYErG5k/NMsirzwgEQ0du6
-	 FTeOu3Q3z8g22MICT0JGyJpuF+EDSxzcjna9901thxGbUj0WOKkiszPvEZBBoYXZkRdIg
-	 tIY2aZPD0nRF0GqqRKZkdrowGJqHLHYp9xp7FNmdJ0WDoLxouFX2ScI9C2NmfPL0o3sAj
-	 g/+JbRJDrJ5MnwKrAVBVBZLjUETyKqWMJn7Cw1A3AV1Mkw9xMQfm0gkdLNKQIz/qwcRwC
-	 DroJqV5J0W2ET4FoxP/Hm82He5DbZdqFVf536rfIGth0gB//TVrO3k30k0x/2UbK0oA==
+	bh=3ucwLQhUyHOpZ1AVuMoK9glRySug+tMEaFSniJcEzLw=;
+	b=hz4SRAw6FlzgTSMFO5axg/PciVs+pOBiMuDr+0G1ZkwQo2K0RSD+5iyUWbuIdQ7EydmG
+	 IR4ybxe5WvMY9SYHVWdRylEU7qFysqZA1K+ceWTx/xcjDTf2yqr6nZLGK2mB+JEl9U8Mz
+	 lqohtPHsMKyzF6wjGA8Q+jpj5D37TbUsHNiPHjjRT/dbiJKSAiYuoLwtovGWlvLk3dQ5W
+	 VKhVID8OhuKhI/dgsqnWmUK/BbGpQaAtljQtBif7XFgQkV60fTAJ2/Suf48U2JP7F8g6H
+	 GK95rIVgijzJnizJvuAy37XBavugQED5sBrUR0t1xC1xscCSzEc8bjyl4WthdJxIpmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=aHs6VCx4;
-	arc=none smtp.remote-ip=209.85.222.182
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=n3ziWuxj;
+	arc=none smtp.remote-ip=209.85.160.170
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A142C606A31D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 16:47:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A142C606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BB9606A338
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 16:47:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26BB9606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=aHs6VCx4
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93f20b304c0so107099185a.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 09:47:23 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=n3ziWuxj
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5361e313e63so9746781cf.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 09:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1792601242; x=1793206042; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1792601248; x=1793206048; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zFBriUSj9bytcNqXsJKDPqvc2LC0Mk+ZZy+OgWQQbzs=;
-        b=aHs6VCx4/D1CrwXv9YuCgzl1EKrTdhoAHn2kKKyNDMogiNXGXxhXk4rKQScS++NU0D
-         u05nXlhZOI0zRR8ZhOkGyk7qERZkoKVKgH3XhBxiRKfdxprVmgXBk7/el3Ns/ZVZ+E1c
-         M8Tv8MmxIfwqnyK0a31DkupsGm9YsQepI3RDi+HIsdS4Xasx+zquMF2sZGHC2uSkkxfs
-         wLL5+t2M6gggzABXxzQs2uXmK6Lj3IVHu0PBTspLAT3Lwt9akv7tt4FXn0DiKKHqJYjL
-         ymf+p0rhJLzont7GYEvovEQGtP5iXleHUGUurAXmLWHBcmPVkreJIAEj7Wiy2g3n731r
-         ix7w==
+        bh=3ucwLQhUyHOpZ1AVuMoK9glRySug+tMEaFSniJcEzLw=;
+        b=n3ziWuxjEYP3TkMRp+InA6lKnwVvotdjMQ755v3pqoaWVOIlqBPjwtOAMHJo2MAlyX
+         rBNdc1/b5e2NssFIvDFxXhGMAwy123+ePZZi9j1KdvDO2fvIahuOoFelmHKqLridkXbl
+         yxCcxROpm6voZj0HRuMohD0P+yTGYukPfwA3B31oJi+yeB2L6r5fuBhjsTF9b3+Q5PGk
+         3uvBhqd9FDcvgKcfM8FpX09GH4eZ+udeISLjT+0gTzpETbhwsAzhxo94RP7E8BaUlFlv
+         5RAv+s/vWCMGIniF16p3C+U320f/2v4k2yP0RdF2cHdO4CniAhWMiu0CUfaPcaCASSLZ
+         QN6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792601242; x=1793206042;
+        d=1e100.net; s=20260707; t=1792601248; x=1793206048;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=zFBriUSj9bytcNqXsJKDPqvc2LC0Mk+ZZy+OgWQQbzs=;
-        b=BHknIrA7OcCD1ACcczuXoPT5HX+i6SHNrYfZriWuBI5Kg6Um9Z5ikOtWazPOBW97dh
-         xlbVBWARNYDVYGcW90J7r7Cu+OcoHpZCZ8DRCe30dVxESRr60TwI46UvDq96vc0758J/
-         lU5wMcQ0JfyE23NMEXbqiLaDfyzA9i2jimzdlGX+rXslUS3jipOvT9p2cs+kw/waXmQ9
-         o0eYcDUfI2u3lNxRWbyrkfcozqMn/qvpo78Z4GCTMRl3dFeMBMl/qkajMGFjhtccsmsR
-         /Kdyf8pQdEN6EgqMYT/5wDPNlFG0uISNl9ecS/4oustNiaOBgsG1qHdKZc93KzgHiIg9
-         PDHA==
-X-Gm-Message-State: AFq9FYJjDpI/5gaEFB9AepkUr2Sq24ZJdbdwKkddIIkiUmcack/7E8OM
-	LN8NmrAIEwQRRuhom1Vfw7SvO88hI/XXPxLMxw8/d2mtFdMHNwOOHQNI9CS5PR63oK4=
-X-Gm-Gg: AYBFou23cdxf9uXqy1fjKcAeRgDMduVOmR3vLvNu9iMl3bdyty8l5zNPjxaqA5xaJib
-	eRy5ch/if3VmIhRcdaBwJ4nneJ2IXJU7XuagIJhV3jZYhMgwLS22Y/xw39BcmRSZeNasGa7qots
-	Vezzt80WpLwUb1MLD7Z82s7z9aiJAOVcB2ja5hyZVkxNCG6aBe3NvoLqzhfQFoovlhlqtLKIb5g
-	qpI7GCuu0zNuSMWnG1GeEm/J3jg0/QSFDcFpIodJv4k34XLGwHV/RW6lue4lyV+rKOZPrsAro1o
-	VTMwHZLNc2VroPDmQTL3ppOkN664+4z36PldHQgO3Xl2fghAYn+3q9cRjFUF6BTqsGH5G+2sC2y
-	mNetK3VE4PzhKeyhhZsKUk7FNNzZmDCXATeiMA43kZ30kgbQcVPiASnJHi9I10aphHYPnXgJYwP
-	ZxmNXbw6FnLC3MQDE+fChgDqLZEinT6x4PuTe0481f4yU1FhLKhQXlc3yrpkos9zVlolneGuLPj
-	l2e4q24xstvhddK98T/nNHhaSeM228iJBNu5dipsu7ukPEH/j4uLVGL8arAglo7lhUwUh+y
-X-Received: by 2002:a05:620a:839b:b0:93e:71b8:584b with SMTP id af79cd13be357-93f57f1bebbmr523838185a.34.1792601242445;
-        Wed, 21 Oct 2026 09:47:22 -0700 (PDT)
-Received: from toxicpanda.com ([153.61.196.241])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f56c70057sm296429385a.5.2026.10.21.09.47.20
+        bh=3ucwLQhUyHOpZ1AVuMoK9glRySug+tMEaFSniJcEzLw=;
+        b=DTlzfjSHFVWb1hIEid7B2e+RsXmMACgabcNacwWxeJL11xnlUkncGFqWE9tGsNrjvU
+         oAOYAwMf47Ww51T8PRl+8MUg+uECs/MLC3AfRLNHH/oRTndEfan1/CE60Wkq/EpiUqJe
+         nKPrzTcJ86DMiQSn0G3KJLjnR8VVrg6nfus6N53aHaBNTFKk350BWZEP9EQ3csDXHTC7
+         LYEb3Y4w7b3cBFZ5ninLAm25w4TSbM0+0F6zBiwT2cFA+8Uz3obUBdOt8urokKNBOr67
+         lm0flM8YJ9hXMAin7BA2rApndaaRuQVnJkHcTummhdHD6UIzn1UrOtJqF8WaPP3pq1w+
+         4DXg==
+X-Gm-Message-State: AFq9FYIkaumuoFolxg+FYi0Q2j8jEFwAuVIuORr6Ij+HJpF/mq+1me/c
+	5S5BXOBB2olKC/QI2OtO4x4B/+1c/lj0L2qy+uX24m9ErxYeh4JMHJWOPY0tMgwIIMw=
+X-Gm-Gg: AYBFou35nHLrpecNRBVSsyLOVlO4hSf/agp2GMbZk667GDk42Co8fYVyrCdmfVpahhO
+	oqiU+kSs0XsZ0YNxQuTdr6R3g1Ab5hpgco+4MdYjrp8bBrtFu7b8/qVjXscumU9EAGjxONVAJGM
+	1A9E6odOZTvf3neEmO2ganeFbupCMeKf3u2mQ/cCUgJUXIitYa/sG/bxatOQx3eZGJ2LxpLmhvz
+	4/ZM2Z7jXdRvAe7/XvX2QploKOTqbQvfvlVGZ5Oe/EHs4WzF9hrvZ5RLFqTyC635sxtYZF6VUZQ
+	4JBgGSjeht30Q6iQY1Dupy4gqQdbgDrcJzfJDbZANayK1excp75AQinEQ7fYjvZj0nuw1gNU59l
+	BdErkhEFlVtzpwf0bj/u1EmeD+u5A0JZmHwYK5E/mPQhchbARNJ1BHx+80uDPACvNCfc9HghDYr
+	4IHCYhxjUVp+N9dlRKb0XQzt0gi40DadCz7FObbQWBl45Ox+lNvQ3Gag5lGA9h3rAT0URUpTDrK
+	/WuqYpJt6LI8CO4qIQymOZ+kaxDgCiV9SMFT1MNwdxnnRw/Qk/UADNbVLpKYkuUdPgy2kD3wg==
+X-Received: by 2002:ac8:5c92:0:b0:535:7b01:1ac7 with SMTP id d75a77b69052e-5369b43e959mr42232871cf.6.1792601248051;
+        Wed, 21 Oct 2026 09:47:28 -0700 (PDT)
+Received: from toxicpanda.com ([153.61.196.247])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536ab7561f4sm3752791cf.18.2026.10.21.09.47.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 09:47:20 -0700 (PDT)
+        Wed, 21 Oct 2026 09:47:27 -0700 (PDT)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Wed, 21 Oct 2026 16:46:57 +0000
-Subject: [PATCH 1/5] fs: make a mount waiting on another mount killable
+Date: Wed, 21 Oct 2026 16:47:00 +0000
+Subject: [PATCH 4/5] fs: don't make sync(2) wait for unborn superblocks
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -92,7 +92,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261021-b4-super-lock-unborn-v1-1-0265eddb6dee@toxicpanda.com>
+Message-Id: <20261021-b4-super-lock-unborn-v1-4-0265eddb6dee@toxicpanda.com>
 References: <20261021-b4-super-lock-unborn-v1-0-0265eddb6dee@toxicpanda.com>
 In-Reply-To: <20261021-b4-super-lock-unborn-v1-0-0265eddb6dee@toxicpanda.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>, 
@@ -100,215 +100,79 @@ To: Alexander Viro <viro@zeniv.linux.org.uk>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1792601235; l=7064;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1792601235; l=2411;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=oem0YxBi5Eqp9PUi52iiFFznMlUh5YRAVDQEB/+TxY4=;
+ bh=swc7nbC0Clpg1auAQ6b5oTcxsIkyJYst+76/QwVgwwA=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QMkuwwamzhYpn8RQ+vOMsZ5agAs1ZX9jNKXTypdi+WoDT2A5/3+QK/viTg/6jJzLh/Y2XdlhOih
- U/hT5+Oykqg8=
+ QAICuJi547O1zICszPsndzjv/aqsGPoZhxxJBZn2o9z3kq/Ikk4ou98662mWpu3VK2UwYRiVmvi
+ hZhXTr0p06gw=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-A superblock is put on the lists by sget_fc() and becomes usable when
-vfs_get_tree() sets SB_BORN, after the filesystem has read what it needs
-from its device or its server.  If that doesn't answer, this takes forever.
+A mount which is stuck reading from its device or waiting for its server
+hangs every sync(2) on the machine, and the emergency sync as well, and
+they can't be killed.
 
-Somebody else mounting the same thing finds that superblock in sget_fc()
-and waits in grab_super() for it to be born, to share it, or to die, to
-make its own.  It has to.  But it does so in super_lock(), which can't be
-killed, so one stuck mount collects every later attempt.
+A superblock is on the list sync(2) walks from sget_fc() on, but isn't
+usable until vfs_get_tree() sets SB_BORN, and super_lock() waits for that
+uninterruptibly.
 
-mount(2) and fsconfig(2) can fail at this point, as they already do when
-they are killed while waiting for a superblock to die.
+There is nothing in that wait for them.  sync(2) is about what was written
+before it was called, and nobody can have written to a filesystem which
+isn't mounted yet.  What the filesystem writes on its own while it is being
+mounted, replaying a journal say, is the mount's business: it has to get
+that to disk whether or not anybody calls sync(2).
 
-Add super_lock_killable(), in which both the wait for SB_BORN and taking
-s_umount can be killed, and use it in grab_super().  It tells a superblock
-which is going away from a wait which was cut short, so it returns an int:
-0 with the lock held, -ENOENT, or the error from the wait.
+Add a flag for __iterate_supers() to skip superblocks without SB_BORN and
+pass it from iterate_supers_sync().
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- fs/super.c | 114 ++++++++++++++++++++++++++++++++++++++++++++-----------------
- 1 file changed, 82 insertions(+), 32 deletions(-)
+ fs/super.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/fs/super.c b/fs/super.c
-index 36fdf88ef88e..7164c92fe70e 100644
+index ecba64ed0c2a..b8d6f1c969ce 100644
 --- a/fs/super.c
 +++ b/fs/super.c
-@@ -62,6 +62,13 @@ static inline void __super_lock(struct super_block *sb, bool excl)
- 		down_read(&sb->s_umount);
- }
+@@ -1041,6 +1041,7 @@ enum super_iter_flags_t {
+ 	SUPER_ITER_UNLOCKED	= (1U << 1),
+ 	SUPER_ITER_REVERSE	= (1U << 2),
+ 	SUPER_ITER_WAIT_SHUTDOWN = (1U << 3),
++	SUPER_ITER_SKIP_UNBORN	= (1U << 4),
+ };
  
-+static inline int __super_lock_killable(struct super_block *sb, bool excl)
-+{
-+	if (excl)
-+		return down_write_killable(&sb->s_umount);
-+	return down_read_killable(&sb->s_umount);
-+}
+ static inline struct super_block *first_super(enum super_iter_flags_t flags)
+@@ -1073,6 +1074,10 @@ static int __iterate_supers(void (*f)(struct super_block *, void *), void *arg,
+ 		if (super_flags(sb, SB_DYING))
+ 			continue;
+ 
++		if ((flags & SUPER_ITER_SKIP_UNBORN) &&
++		    !super_flags(sb, SB_BORN))
++			continue;
 +
- static inline void super_unlock(struct super_block *sb, bool excl)
- {
- 	if (excl)
-@@ -94,28 +101,14 @@ static bool super_flags(const struct super_block *sb, unsigned int flags)
- 	return smp_load_acquire(&sb->s_flags) & flags;
- }
+ 		if (!refcount_inc_not_zero(&sb->s_passive))
+ 			continue;
  
--/**
-- * super_lock - wait for superblock to become ready and lock it
-- * @sb: superblock to wait for
-- * @excl: whether exclusive access is required
-- *
-- * If the superblock has neither passed through vfs_get_tree() or
-- * generic_shutdown_super() yet wait for it to happen. Either superblock
-- * creation will succeed and SB_BORN is set by vfs_get_tree() or we're
-- * woken and we'll see SB_DYING.
-- *
-- * A superblock which is being shut down is not waited for, see
-- * super_wait_shutdown() and super_wait_shutdown_killable() for that.
-- *
-- * The caller must have acquired a temporary reference on @sb->s_passive.
-- *
-- * Return: The function returns true if SB_BORN was set and with
-- *         s_umount held. The function returns false if the superblock
-- *         is being shut down or SB_DYING was set and without s_umount
-- *         held.
-+/*
-+ * Returns 0 with s_umount held, -ENOENT if the superblock is going away, or,
-+ * if @killable, the error from a wait which was cut short.
+@@ -1114,12 +1119,16 @@ void iterate_supers(void (*f)(struct super_block *, void *), void *arg)
+  * down writes it out.  Wait for that, so that it is on disk as well by the time
+  * the walk is over.
+  *
++ * A superblock which is still being set up isn't passed to @f either, and
++ * isn't waited for.  Nobody can have written to it yet.
++ *
+  * Return: 0 if all the superblocks were seen, -ERESTARTSYS if the task was
+  *         killed while it waited for one.
   */
--static __must_check bool super_lock(struct super_block *sb, bool excl)
-+static int super_lock_common(struct super_block *sb, bool excl, bool killable)
+ int iterate_supers_sync(void (*f)(struct super_block *, void *), void *arg)
  {
-+	int ret = 0;
-+
- 	lockdep_assert_not_held(&sb->s_umount);
- 
- 	/*
-@@ -125,16 +118,28 @@ static __must_check bool super_lock(struct super_block *sb, bool excl)
- 	 * and it can be a long one: the filesystem is written out first.
- 	 */
- 	if (!atomic_read(&sb->s_active))
--		return false;
-+		return -ENOENT;
- 
- 	/* wait until the superblock is ready or dying */
--	wait_var_event(&sb->s_flags, super_flags(sb, SB_BORN | SB_DYING));
-+	if (killable)
-+		ret = wait_var_event_killable(&sb->s_flags,
-+					      super_flags(sb, SB_BORN | SB_DYING));
-+	else
-+		wait_var_event(&sb->s_flags,
-+			       super_flags(sb, SB_BORN | SB_DYING));
-+	if (ret)
-+		return ret;
- 
- 	/* Don't pointlessly acquire s_umount. */
- 	if (super_flags(sb, SB_DYING))
--		return false;
-+		return -ENOENT;
- 
--	__super_lock(sb, excl);
-+	if (killable)
-+		ret = __super_lock_killable(sb, excl);
-+	else
-+		__super_lock(sb, excl);
-+	if (ret)
-+		return ret;
- 
- 	/*
- 	 * Has gone through generic_shutdown_super() in the meantime.
-@@ -143,11 +148,54 @@ static __must_check bool super_lock(struct super_block *sb, bool excl)
- 	 */
- 	if (sb->s_flags & SB_DYING) {
- 		super_unlock(sb, excl);
--		return false;
-+		return -ENOENT;
- 	}
- 
- 	WARN_ON_ONCE(!(sb->s_flags & SB_BORN));
--	return true;
-+	return 0;
-+}
-+
-+/**
-+ * super_lock - wait for superblock to become ready and lock it
-+ * @sb: superblock to wait for
-+ * @excl: whether exclusive access is required
-+ *
-+ * If the superblock has neither passed through vfs_get_tree() or
-+ * generic_shutdown_super() yet wait for it to happen. Either superblock
-+ * creation will succeed and SB_BORN is set by vfs_get_tree() or we're
-+ * woken and we'll see SB_DYING.
-+ *
-+ * A superblock which is being shut down is not waited for, see
-+ * super_wait_shutdown() and super_wait_shutdown_killable() for that.
-+ *
-+ * The caller must have acquired a temporary reference on @sb->s_passive.
-+ *
-+ * Return: The function returns true if SB_BORN was set and with
-+ *         s_umount held. The function returns false if the superblock
-+ *         is being shut down or SB_DYING was set and without s_umount
-+ *         held.
-+ */
-+static __must_check bool super_lock(struct super_block *sb, bool excl)
-+{
-+	return !super_lock_common(sb, excl, false);
-+}
-+
-+/**
-+ * super_lock_killable - killable super_lock()
-+ * @sb: superblock to wait for
-+ * @excl: whether exclusive access is required
-+ *
-+ * Only for callers which give up altogether when they are killed.
-+ *
-+ * The caller must have acquired a temporary reference on @sb->s_passive.
-+ *
-+ * Return: 0 if SB_BORN was set and with s_umount held. Without s_umount held,
-+ *         -ENOENT if the superblock is being shut down or SB_DYING was set,
-+ *         -EINTR or -ERESTARTSYS if the task was killed.
-+ */
-+static __must_check int super_lock_killable(struct super_block *sb, bool excl)
-+{
-+	return super_lock_common(sb, excl, true);
+-	return __iterate_supers(f, arg, SUPER_ITER_WAIT_SHUTDOWN);
++	return __iterate_supers(f, arg, SUPER_ITER_WAIT_SHUTDOWN |
++					SUPER_ITER_SKIP_UNBORN);
  }
  
  /**
-@@ -674,25 +722,27 @@ EXPORT_SYMBOL(deactivate_super);
-  * sb->kill() and be marked as SB_DEAD.
-  *
-  * Return: 0 if an active reference could be acquired, -EAGAIN if the
-- *         superblock is gone and the caller should look again,
-- *         -ERESTARTSYS if the task was killed while waiting for that.
-+ *         superblock is gone and the caller should look again, -EINTR or
-+ *         -ERESTARTSYS if the task was killed while waiting for either.
-  */
- static int grab_super(struct super_block *sb)
- {
--	bool locked;
- 	int ret;
- 
- 	refcount_inc(&sb->s_passive);
- 	spin_unlock(&sb_lock);
--	locked = super_lock_excl(sb);
--	if (locked) {
-+	ret = super_lock_killable(sb, true);
-+	if (!ret) {
- 		if (atomic_inc_not_zero(&sb->s_active)) {
- 			put_super(sb);
- 			return 0;
- 		}
- 		super_unlock_excl(sb);
-+		ret = -ENOENT;
- 	}
--	ret = wait_var_event_killable(&sb->s_flags, super_flags(sb, SB_DEAD));
-+	if (ret == -ENOENT)
-+		ret = wait_var_event_killable(&sb->s_flags,
-+					      super_flags(sb, SB_DEAD));
- 	put_super(sb);
- 	return ret ? ret : -EAGAIN;
- }
 
 -- 
 2.55.0
