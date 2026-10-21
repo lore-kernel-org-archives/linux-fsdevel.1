@@ -1,87 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792544226;
-	b=rnTJYSFTN+ba489a6Fdb+cCY+sIcq5VzeQO1SwLsfekGsaxbXsjAI8zUP1f5k1obzYKI
-	 3H3jgoXNBnb0uibkaCvl18V7HGErWBo9QSye5C552cfeZteM41+hrEbcEYM7CEa2gR6DT
-	 LnspLU2cEwHQFA3Ufs0374QUJg/waE32Raacl7tBx4HPfCM3To0p9OETvgGRgyTVxapOh
-	 KRyCOCmAufq7+UJXR/Ny/MnfZ7Lwxz3ev0lCoosBzmdKcwDxDli+kRxdWpj4Zm+gs2isO
-	 CwZ6iSbHM8jKeHcG1zzlsWGGyy/zdO8AgQwiQbDDzfVr0wDy/PFHTX2GIVnFDz/Gy2w==
+	t=1792546586;
+	b=VnR5wyanVLFnLWQJMTb1M/FBho2fJcgii/QHOHpBhLsUDKUUsBnJN3/VlSsOiA5mlyvb
+	 WPkrurEVmJcUNTjE93snbKv2vQXxJ1Hcp6qCM+s3Hzo/b9dIzl6wX61R3SLRqxfio9qUM
+	 Y+7P2bgJ9i6OwjECElB1ZBqqJT36cwtkp5lKkOuIpDe2atnlE1SfhjdiObRzFaF9OYQKO
+	 UAGM7b7Fs2ZGYKZg4lJ7ayVSZmtnuQSDzHd/3hbVy4ZsGk5ery66CuCV4Y3btej9GHbSG
+	 s0N5iqYHg4en8q7pz19PsGA+J64TyRCU8GwKOodFOtoEtUN1T1sKMI7SgbggoYZpzrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792544226;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792546586;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=XvdgI3fUAxy644OcYvPEMVJOC7V3Mgdv5TgcfGrHga4=;
-	b=RQ86XDqjLrKq2z9vAsnfQ66pCV25FM2DvIDe+34KB+XIFA6yasAx700UklEZXm3q9B4r
-	 8pOMqWRZgVFefT6Ac9n93oO5wfD7CyRUky/nj2yzCrJJ+oqB/DUmD+K7UiYInstpFhLys
-	 FFw+dxKz7ZyA7jTn+SZatnBX+KdcReWimvBBeF1F/N3gpWhIA/kttjvBuGFCGdoy/GL0C
-	 TZIm12B9gqONrl3CK1CBEqgyMuBg/x7YJOR+AcPGd8mgYy/nm6Ge/6TZmBssp+GbvoXow
-	 c5bwkDyQwbcASpAbpEp5c/FRLRnvpGK9XRa20CVch05oPGFuCC4tX95acZ38r8UiZnw==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Ax/MKBRp76FWn3h/ZPK32Hkl8AkiS00UsCUGIQD4n0E=;
+	b=gpTCPAarr1otvF58oHXiC9ilosSjQELi51NQNxfDBQgg+36mN2cWnYIyiGmW+mpnRuIw
+	 9LsVN+83wUzps/Ag7G+d5m+Rr7uvVHKnn8MGAtEh2ZK4jjKV3EHcWYd7t0nuDzJZsiKNH
+	 ZGHvJSsatgcPmJ5APuFL0/YHhMp37t28MG9zuUxoGqWc8L45UI0kA9KKYBQZ6vxBGPi0R
+	 2FWvLAYHbSI/Odu+SOnjdaVupMYq1LhWt1KOaVGwFt6fUSA7UTmy3XgOMnOQQPknjEPO/
+	 SJsMwHKky1ltlStM76p3mLcBquE8W3d6FKuflrNpZvhfLd4P02FK6oRyPVWxMcGwD8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=toxicpanda.com;
-	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=WDpfLD5Q;
-	arc=none smtp.remote-ip=209.85.222.178
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Ou9lYyav;
+	arc=none smtp.remote-ip=74.125.229.5
+Received: from mail-dy2-f5.google.com (mail-dy2-f5.google.com [74.125.229.5])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E21606A319
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 00:57:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6E21606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B4A606A31C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 01:36:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53B4A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=WDpfLD5Q
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-93f2049ea7aso11841385a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 17:57:05 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Ou9lYyav
+Received: by mail-dy2-f5.google.com with SMTP id 5a478bee46e88-35dc2af1f2fso63032eec.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 18:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1792544225; x=1793149025; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XvdgI3fUAxy644OcYvPEMVJOC7V3Mgdv5TgcfGrHga4=;
-        b=WDpfLD5QVTJcygAX45nKd2Dp6W1KL2wfrWZ2beietDVoMavuOi1Jes8TnW1HWOtxhU
-         ubtrdSCSeIvLV3TDNVft4hAmetJYSY024rG0ngX1qcj+BWB23zu9WtfCrj7OGn8AWaLg
-         seP6sC3Jg1q95XoLeVEq68BXDvLpHX9Yd4+0rMEdm7IujnkmvVqNGnzy40IqS+RHGRuK
-         +OLCklX/3AeE3Mm3SwC6fqK6j1sAQKZnklsTib44vFK4q4x4dXMqO5NuHlrxxjsTyxxd
-         iBvSLG5Dc7DnOEz/+g1INrqf6XAF8GH8AcMyhWkWrBQZViaTArgP0wuHVMUG0gZcHl7d
-         jHXg==
+        d=gmail.com; s=20251104; t=1792546584; x=1793151384; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ax/MKBRp76FWn3h/ZPK32Hkl8AkiS00UsCUGIQD4n0E=;
+        b=Ou9lYyavZBg15vkdakrlmd0FU6/TQ0XKtiphUaKiLjVJYw8DX8HQImOgtJvkvpTOFb
+         WrnHn2nCKay6lGUOfRAdPwEAHJWLdLJG10TmCjutc6vj/n2K6rYmYf3gbMDYQL6NkTHj
+         tadho/B+QJqjY+k9jtTed01CVh9zhA4pQ2pD4Ho/MFmefusfa7rW/mkoBCVyrf7v8ujI
+         snd+7YP2pY2HzTs+NNNVUEhJiTCChcsXo1HsgiAqwgbMv7OlzIM8tZtdE53/jRMFyLE/
+         MRiglMdmSTh946wRJh+jcnwyBg+XLDpzVPydwo830LEZsNUt8XIh8wLm8kKXpXPkityE
+         4UwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792544225; x=1793149025;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XvdgI3fUAxy644OcYvPEMVJOC7V3Mgdv5TgcfGrHga4=;
-        b=YdPY0vEQSA1DktoTqftUrEqfO10hYd9eeOuQFf8/4s/JhPdKgbbrthMrMtMqA6aVYa
-         L//FtAg73qJmOtH8NNCA4+mViUWfIClrNz7SwLOAEPE+yT0k6L+unhqUIkdqRHxn9P2J
-         Nf+OJi8FJNdOWDRZ0YiPfxhN0qL8WssjPE56cXuGNjLlGmuvXiVcH4eRCaRxr7ZM5Iqw
-         D6QyASqRK04AFrJCKD2ErHZmnt6SaN4PQxPrMblo+H5AI4dRnT1gVwkmExC8XJnN3nUP
-         m+Zlt+zUjYh3aLqfk/tb3qMfmbVRa67WZosiU5Qum4zQ+tOc1bZzVIlUKJA6B9okOGhv
-         Wjsw==
-X-Gm-Message-State: AFq9FYLpGOl+2hL3wM1zuRuogFGzI3Icw9WJScfpgkG3alvROdDkasyG
-	eEJxqFKtIVFdHpKCcTXrXD+F4dM3vpe7U1LjxENBPUba+8DrNnIWLmha9KAF07kU2kw=
-X-Gm-Gg: AYBFou1mIEnPbU/Df/xQ6kGhYREZsTcKEp474+e/Leoe1J4kYmhN10vpJBS7Zh8O51V
-	1fTYENXncmNzqcyJbMQdPSB6MHGQRcGUeVABlRENh4qZnl7ZjoHJbEeKaDokortxxNXBq2tgQ/d
-	tsbUEOYrOHjkZtxZ8BG8FRoCAI5ZNEgeIZriBRJV6UpzFyb/l+ZeMkf79obvYOMOIZb+LK/nUuO
-	gauISdlHIiGL8m9IFYPlQKBav1jgJAwD5yOzfKN25xwb3Ye1ZtcQc8g6NshWYqgCJpa2/mefkBY
-	7BpSKSg9Yu+xbYnsFIbzc2c6yJkthpHLyUQfeeWAchhigy8rMREw8v1R1gfieuLf7A6bBAC6grA
-	tNhNsJ3SzGcOWifEq9G3FBT0ut3+m9eTArO0z6sGy9Ur0SGLpZsHvb/5T4okRphpoDXvoD3UCmE
-	oifSdApZ09s85a3mbTUFlehJZt3+Fs1+Q/8LNF71ALhXMCMudYbPo+Fw5Fm7FWcrKg+DjDiLzRt
-	vkwF99xHfX95Rw=
-X-Received: by 2002:a05:620a:2585:b0:93c:bdb4:2be7 with SMTP id af79cd13be357-93f57f7933fmr155787285a.60.1792544224865;
-        Tue, 20 Oct 2026 17:57:04 -0700 (PDT)
-Received: from toxicpanda.com ([153.61.196.243])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f56c6f15asm119875185a.6.2026.10.20.17.57.03
+        d=1e100.net; s=20260707; t=1792546584; x=1793151384;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ax/MKBRp76FWn3h/ZPK32Hkl8AkiS00UsCUGIQD4n0E=;
+        b=MEkr62215p3vbH5yDySMaIyWOBQ83Q18J9TQJXW3L4OiRVMy0FlC22VofJTbUbCmdP
+         P3cFB7OrWwAWm2Aw6GyuAGfQ1enIg8sJ3UkSWj/YHPtecw2huvSwwyMSSdn7rgXLFlQg
+         tcPdg+CAPVkkDZ3rvP821skJFsZjgF+YpsnYCqnp9KZai3nID2KfuhcAVcEFPkkBrwes
+         YYnojqJ5KN3qTG23B4Ni7QkZdjmlko0wlCwa7SU0JQHq40b004ZBsvMzkd1oSbHb0h4F
+         VX7MQPHWMDViaY660oQ9W6kpBjLJfQ1n/0bghJEGq80kIBeYh9n8LczIoL782uB/EmaR
+         FkFA==
+X-Forwarded-Encrypted: i=1; AKwUvBzn6Q2O87jM/vMHXyyMs3YgnQTLuwq9pz40rDeRa2GxcfelQrPYAmy8Jy+B5SqxWdRAfVQtIpoXUHC3G5X+@vger.kernel.org
+X-Gm-Message-State: AFq9FYJJ5fJ2W/RutB8ytfB2SZAQN+aGKZH7za731XRmXR+wS3EOoSqC
+	fiH4vkz4rB6mCxNC1+paO45xEDGIUC0QSRTKMQaK9JHGlPiD9dzrFoVM
+X-Gm-Gg: AYBFou012SMM+yp9VmbCLLVaipJTUGOecQg1fuZm3dWbIhjd4T7KUBB4zztl7tcD2oE
+	R0D+uKPeFTfv5reVVoPka3wOHp3LUZVm/RrEn7d/GJ9UXO1LpcAPTGkRrAGqwnr3OBM0+cS72pu
+	4hoEWRIs3Pxf1GRV5UgRzhrekcI3r4BEnsDk6oVxw733cJr+bQeysqiWZWfn8rwtMxiDV9BNT+R
+	/z/Q0rPGsm2QkK4U/vtLgCPPw9iNC4lCxOWBRymnwFZYZHsRB3vhPUo6QB1ID38e9K38f4czkOC
+	Zr0ueMKwLlcYykQMYt3q400ak3K7yMx55N4RJ8lTX0DaOPGJmXk2r/WsXWqzSKoqeFH4wuq2yzW
+	h/Ws62X9snre9IJX6IofNcSr9ZzDIjkNdZ2ozUjaTXX9huw37k5oShR08LARA/n3t7o/ZzHdbZO
+	OCzL8txCk7r5bLj24V1liFBKl3SjipBj3kyooRSawp27mHeAZ0I0VdBXizwXMHx6NORW2gnng3e
+	btG5WxyCqFcxkwyfF+p+pSdgWOGPc1vWTPkMdUPMySvx6ydNXu68OFNJEm01dMTDaR2x5TEi3SL
+	fLZIQA8=
+X-Received: by 2002:a05:7023:a8b:b0:143:72b1:9004 with SMTP id a92af1059eb24-190a87a3b70mr819537c88.45.1792546584157;
+        Tue, 20 Oct 2026 18:36:24 -0700 (PDT)
+Received: from localhost.localdomain ([98.148.34.5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1903a275026sm2991870c88.5.2026.10.20.18.36.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 17:57:03 -0700 (PDT)
-From: Josef Bacik <josef@toxicpanda.com>
-Date: Wed, 21 Oct 2026 00:56:39 +0000
-Subject: [PATCH 5/5] fs: let a mount waiting for the old superblock to die
- be killed
+        Tue, 20 Oct 2026 18:36:23 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: willy@infradead.org,
+	jack@suse.cz
+Cc: akpm@linux-foundation.org,
+	shr@devkernel.io,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH] mm/page-writeback: avoid 32-bit overflow in dirty threshold shares
+Date: Wed, 21 Oct 2026 01:30:46 +0000
+Message-ID: <20261021013046.23997-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -91,99 +100,58 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261021-b4-super-lock-dying-v1-5-2b35e86706ff@toxicpanda.com>
-References: <20261021-b4-super-lock-dying-v1-0-2b35e86706ff@toxicpanda.com>
-In-Reply-To: <20261021-b4-super-lock-dying-v1-0-2b35e86706ff@toxicpanda.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Josef Bacik <josef@toxicpanda.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1792544204; l=2506;
- i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=cSy1A5KxOO/zha70i/ke44UVxaSubA7uEV1r4Q5nwgY=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
- JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QE2qlIvPWAmGLfM72sm8l9frO2dtZ7qnexsMOQljMoDQhc6rNShfMJ9LTw0kLqdrws8sW1iS4Yz
- g7pDQB7JHYgg=
-X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
- fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
+Content-Transfer-Encoding: 8bit
 
-When sget_fc() finds a superblock for what is being mounted and that
-superblock is being shut down, grab_super() waits for SB_DEAD and sget_fc()
-then looks again.  This one does have to wait: the old superblock owns the
-device until ->kill_sb() is done with it.
+The ratios used by __wb_calc_thresh() are scaled to parts per million,
+but the threshold and ratio operands are unsigned long. On 32-bit
+kernels, their multiplication can wrap before the result is assigned
+to u64.
 
-It doesn't have to be uninterruptible though.  If the unmount is stuck, so
-is every attempt to mount that device again, and none of them can be
-killed.  mount(2) and fsconfig(2) can fail at this point, nothing has been
-set up yet apart from a spare superblock which sget_fc() frees on its
-other ways out as well.
+For example, with a threshold of 25600 pages and the default maximum
+ratio of 1000000, wb_max_thresh becomes 4125 pages instead of 25600.
+The shared threshold and minimum share calculations can overflow in
+the same way, producing incorrect per-writeback dirty limits.
 
-Make the wait killable.  grab_super() now has three outcomes, so have it
-return 0, -EAGAIN for "look again", or the error from the wait.
+Promote the threshold before each ratio multiplication and use
+div_u64() to retain the existing division order and rounding.
 
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+Fixes: ae82291e9ca4 ("mm: use part per 1000000 for bdi ratios")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 ---
- fs/super.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ mm/page-writeback.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/fs/super.c b/fs/super.c
-index 9f76b399f3fb..36fdf88ef88e 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -673,12 +673,14 @@ EXPORT_SYMBOL(deactivate_super);
-  * superblock to either become SB_BORN or for it to pass through
-  * sb->kill() and be marked as SB_DEAD.
-  *
-- * Return: This returns true if an active reference could be acquired,
-- *         false if not.
-+ * Return: 0 if an active reference could be acquired, -EAGAIN if the
-+ *         superblock is gone and the caller should look again,
-+ *         -ERESTARTSYS if the task was killed while waiting for that.
-  */
--static bool grab_super(struct super_block *sb)
-+static int grab_super(struct super_block *sb)
- {
- 	bool locked;
-+	int ret;
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index eeab25d6ce36..451750df8b74 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -894,13 +894,14 @@ static unsigned long __wb_calc_thresh(struct dirty_throttle_control *dtc,
+ 	fprop_fraction_percpu(&dom->completions, dtc->wb_completions,
+ 			      &numerator, &denominator);
  
- 	refcount_inc(&sb->s_passive);
- 	spin_unlock(&sb_lock);
-@@ -686,13 +688,13 @@ static bool grab_super(struct super_block *sb)
- 	if (locked) {
- 		if (atomic_inc_not_zero(&sb->s_active)) {
- 			put_super(sb);
--			return true;
-+			return 0;
- 		}
- 		super_unlock_excl(sb);
- 	}
--	wait_var_event(&sb->s_flags, super_flags(sb, SB_DEAD));
-+	ret = wait_var_event_killable(&sb->s_flags, super_flags(sb, SB_DEAD));
- 	put_super(sb);
--	return false;
-+	return ret ? ret : -EAGAIN;
- }
+-	wb_thresh = (thresh * (100 * BDI_RATIO_SCALE - bdi_min_ratio)) / (100 * BDI_RATIO_SCALE);
++	wb_thresh = div_u64((u64)thresh * (100 * BDI_RATIO_SCALE - bdi_min_ratio),
++			    100 * BDI_RATIO_SCALE);
+ 	wb_thresh *= numerator;
+ 	wb_thresh = div64_ul(wb_thresh, denominator);
  
- /*
-@@ -960,9 +962,12 @@ struct super_block *sget_fc(struct fs_context *fc,
- 			warnfc(fc, "reusing existing filesystem in another namespace not allowed");
- 		return ERR_PTR(-EBUSY);
+ 	wb_min_max_ratio(wb, &wb_min_ratio, &wb_max_ratio);
+ 
+-	wb_thresh += (thresh * wb_min_ratio) / (100 * BDI_RATIO_SCALE);
++	wb_thresh += div_u64((u64)thresh * wb_min_ratio, 100 * BDI_RATIO_SCALE);
+ 
+ 	/*
+ 	 * It's very possible that wb_thresh is close to 0 not because the
+@@ -916,7 +917,7 @@ static unsigned long __wb_calc_thresh(struct dirty_throttle_control *dtc,
+ 			wb_thresh = max(wb_thresh, (thresh - dtc->dirty) / 8);
  	}
--	if (!grab_super(old))
-+	err = grab_super(old);
-+	if (err == -EAGAIN)
- 		goto retry;
- 	destroy_unused_super(s);
-+	if (err)
-+		return ERR_PTR(err);
- 	return old;
- }
- EXPORT_SYMBOL(sget_fc);
-
+ 
+-	wb_max_thresh = thresh * wb_max_ratio / (100 * BDI_RATIO_SCALE);
++	wb_max_thresh = div_u64((u64)thresh * wb_max_ratio, 100 * BDI_RATIO_SCALE);
+ 	if (wb_thresh > wb_max_thresh)
+ 		wb_thresh = wb_max_thresh;
+ 
 -- 
-2.55.0
+2.43.0
 
