@@ -1,50 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792583224;
-	b=nNmPwZol+uCPOKk2Y9fdi+jwEVgt/mgaUJzuYVShuMIt7RdTa289wsTLiORbG65fnX26
-	 GneL+B+YToXjlo9Wfa5yAhoshu4q+nvkkRdwSIG9ZnmcIk/GcHKTM0g6K53vP5/DGKee2
-	 mJC89VFAmZg3i0dA7gaNg210dmOvuUByEWy8ugi2zr60oI/418fXqYZ4pTDXiutvb8Dlw
-	 MdeWpLq676X6IYBQI4/5qQOhRtJa8UG4bLVJ2uiZOmNaMPws+gRiHv/nl8JRXRfREHFZn
-	 r4I5PrgOVaSO3vzD9jOdcB3vgEWq+0CWeOeEJUkFGxrH5GP7he9W19eVE3jg3LA4iog==
+	t=1792583230;
+	b=idKpCsgoN0pU+F7v4tgF47mUK8Gr4yUy0rYbUtFxsnruGiNBPpx0ZS8+XnKWSMBE6VEb
+	 676zPLqt0iZgiwlS03rhHVMse4ohvfT3QX5h6Vu6yNLMj5Sno5tX9C0D9FdhSd/CRIjgT
+	 ZmOsPAtyFp14KuiAjEOiOLY59dzXqJhy4WZqhs0VNy5xkXmhKN1De8mX16QHMGRF58eYR
+	 C94SLi/CdFN85j6wRwz13kq9HgOe3mcmkZbPEN2tep7GdkisQeptyi4kJfbzwJorrdh6T
+	 DGWe5RB4uyaI3WpfuF9Zft3jXVt5A+s0PGlT4NhsYUcoJ9YWtGzFMPshy48metQi0tA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792583224;
-	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=BYBJSPvY2X+KL2BJLgT25RQ+sV06TbNGUVsplrREUjo=;
-	b=VHWmRaxn7YRY0v8JuAWut73k0DdMiIHckAVFEdNFlVGNPdZXOe9xxBaq/OpzdG6X6G1W
-	 2WgdcwBtasCkG69VVEIx6JbeWZs7kvttIdOIqHjtqd6kZsrH5W/bYUNwJkuByD0oPG1SE
-	 1qlZKAYH2GN4b4NRmgO0DCros7CZvax/Mmo95Hr3gUQsKejTg6tX/PFaljrI9cq3ORFoJ
-	 mGjjhM7FpcINZvM9VtC5hwaKr/aK9cbqI89w/goVj+CfpJ/BgsM/mdfCj4U9FGkHAAZmT
-	 ak3oh+aYgmCewa/0zhgeXfL11MEonK278n+Uz58LewSgOXaP21iSqrpt4UnRG7giOgA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792583230;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=B9V+K2FHSVayRLHT+tOK0bpg2fWU8DMnB8OtEuqpFcI=;
+	b=gIPy7LO4IpEVDlS0y6xBMyiJCsmEpn2XulWgFy+hN5L0bz3VROGVt6Id7q6Y1lpMbOSC
+	 5HKTmdoyUcUwwLmgUnLudP9YN/h0H37/VRgSEO47wLO9yzt/DxqIUbpDoRLycjthi1fgk
+	 XYIIiU0hJwfhMswkzvPUXrNEPt8Bb+czXAigDumE3CtjKU2ks1arNHhjDaDQLCkX59uUv
+	 oQ+ScR2FoMDatbhicFOGbGAusSzDodEQhnbog+4Od4zAqlJPFsLCyuRYGVQfLpgF1ccyi
+	 Xjzd9QXeM+qtYR9g4fdpgW4RNxhSTNsyox60xw3s2YNnPhguOKv8DA5rucytXh5O2SA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y1bhsBmT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CNZhtGr1;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC54606A31A;
-	Wed, 21 Oct 2026 11:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64974606A32D;
+	Wed, 21 Oct 2026 11:47:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y1bhsBmT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FDA11F000C5;
-	Wed, 21 Oct 2026 11:47:02 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CNZhtGr1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7835D1F000C5;
+	Wed, 21 Oct 2026 11:47:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792583224;
-	bh=BYBJSPvY2X+KL2BJLgT25RQ+sV06TbNGUVsplrREUjo=;
-	h=From:Subject:Date:To:Cc;
-	b=Y1bhsBmT1NwwgjsUshX0rfQfaftV/TZEIyM8KvOTyoxsRAoA/ZBWk0biPYG6LfSeD
-	 byzlqUM5CqGy/l3qgcjfVYHyf+qxzaJzQOoqImrn3xG84n9IZpiBBGULghwImbzQU0
-	 3I8T/lb4qYUB2dZVP1RJFplVB3usiEh+CYFT587pSRkcBDuTmB5c5/hN2lGSWkLWlS
-	 8Z+5eZpxbvq/kZcxWlsaDOkpO9Y86lgeRyk6yccIiMpim9Ka6e1vAH+RlChv7I9AEt
-	 BKpFzvenoV1Fhhlm3GspQZFLuJz6qOpSRKiqvx7M66h3qFGytIfe37yiXlGFZDF6pr
-	 n64SMu0f0r7ww==
+	s=k20260515; t=1792583229;
+	bh=B9V+K2FHSVayRLHT+tOK0bpg2fWU8DMnB8OtEuqpFcI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=CNZhtGr1V573Lk7OxroMMTmwhGnSnHV4n7MCGdfueNNXZPzltUfshSJ6UoX1A3u82
+	 8LbeGuHHOQlLtGwUWVuA7EVN0DytpA3bN2BZ4jluKOdzvjyJUOCNKblHSZg+TaQdhF
+	 lFWth0NDpyi2T0LSr3E22SEnLUr6WDtear3wkJ+Nx6ZJPnfH72/lSDVlxhdKB2Myug
+	 s9w7IBsanJOmMYen5zq+bnkmwQr3GhlQb9i/n+ZF5EnVM6FbcIBoHA2yc46wmHAyxw
+	 UQPDbS3rZIFbAWLLSBYlXCT5r6hirlpjvLsg2Z0ANqWo7TH+tcgGrrWxAqr8KdTWgg
+	 3sC9hOd4lcHcQ==
 From: Christian Brauner <brauner@kernel.org>
-Subject: [PATCH 0/6] fs: fixes for statmount() short buffers and
- listmount()/listns() cursors
-Date: Wed, 21 Oct 2026 13:46:53 +0200
-Message-Id: <20261021-work-mount-statmount_listns_fixes-v1-0-8917a4c1bd14@kernel.org>
+Date: Wed, 21 Oct 2026 13:46:55 +0200
+Subject: [PATCH 2/6] selftests/filesystems: check short buffers for
+ statmount() strings
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -56,64 +55,135 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMWw6DIBBFt2L47jSAxibdStMYwLFOH2AYtE2Me
- y/o35y5955VMEZCFtdqFREXYgo+gzpVwo3GPxCozyy01K2SWsE3xBd8wuwTcDJpv7o3cfLcDfR
- DBllb2cqmv9SNEtkzRdyDrLndD+bZPtGlIi4NaxjBRuPdWF7LwOdjsW1/jmqi5qEAAAA=
-X-Change-ID: 20261021-work-mount-statmount_listns_fixes-03b0604d7341
+Message-Id: <20261021-work-mount-statmount_listns_fixes-v1-2-8917a4c1bd14@kernel.org>
+References: <20261021-work-mount-statmount_listns_fixes-v1-0-8917a4c1bd14@kernel.org>
+In-Reply-To: <20261021-work-mount-statmount_listns_fixes-v1-0-8917a4c1bd14@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  Miklos Szeredi <mszeredi@redhat.com>, Jeff Layton <jlayton@kernel.org>, 
  shaos <shawnq1@163.com>, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, "Christian Brauner (Amutable)" <brauner@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2110; i=brauner@kernel.org;
- h=from:subject:message-id; bh=3oijdhCB3aWTj3qJQGgUlAJYEtp2M1MvTuQf8jS0b3o=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdWGYc9WGHnO+TcL2uoyeYyzn+7JinPLPb9vsT8+IFy
- 1YbLXVY3lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRgEkMfwVtT/mFRrH+djgV
- IHHt78zuYOXn9pWBpW2tO0VMnRq3rmb4n7Xg6BRrzk/KZyXTPdh3ratS6pdr2rvgbrj0580pJSu
- +MgIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3620; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=eFchj9AL0dcLKoT/7ev1PhpZsH64hOw/E2yK/MCRkog=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdWGZ8xMtroo3hSrH+OZZ+ta8/bdvcX9RW0cN3cV7ex
+ +e27BPkO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYSocvwz8j4j5xhyD8hVaaq
+ i4XfFRs/c3CsVvh354H4w82BpypalzD8j7zQq5Lt8jiiekXZ9j+Niixa/yfeOjzjevO1Rrv7XeF
+ H+AA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-shaos reported two issues in [1] and [2]. Both are real.
+Request strings that end up empty with buffers that aren't larger than
+the fixed part of struct statmount and check that:
 
-- statmount() reserves the empty string in the seq buffer before a
-  handler runs but the early return for "nothing emitted" never checks
-  that byte against the caller's buffer. So ask for STATMOUNT_MNT_UIDMAP
-  on a mount that isn't idmapped with a buffer smaller than struct
-  statmount and we write one zero byte past the buffer. It's the
-  caller's own memory but that's still not ok. I'm fixing this in
-  prepare_kstatmount() where the exact-size check already lives so that
-  unset strings keep pointing at an empty string.
+- every request fails with EOVERFLOW
 
-- listmount() and listns() add one to the cursor before they look up
-  the next entry. With U64_MAX that wraps to zero and the listing starts
-  over. No real cursor can ever be U64_MAX so this only bites callers
-  that make up cursors but it's still wrong.
+- nothing is written past the end of the buffer, a guard page right
+  behind it catches that
 
-All three come with selftests. I've tagged the two cursor fixes for
-stable as well since they're trivial but I don't feel strongly about
-that.
+The buffer sizes run from zero up to sizeof(struct statmount) and the
+requests cover STATMOUNT_FS_TYPE, STATMOUNT_FS_SUBTYPE and
+STATMOUNT_MNT_UIDMAP.
 
-[1]: https://lore.kernel.org/r/20261020110747.959829-1-shawnq1@163.com
-[2]: https://lore.kernel.org/r/20261020110732.959552-1-shawnq1@163.com
-
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-Christian Brauner (6):
-      statmount: don't copy the reserved empty string past the buffer
-      selftests/filesystems: check short buffers for statmount() strings
-      listmount: don't wrap around with a U64_MAX cursor
-      selftests/filesystems: check listmount() with a U64_MAX cursor
-      listns: don't wrap around with a U64_MAX cursor
-      selftests/namespaces: check listns() with a U64_MAX cursor
-
- fs/namespace.c                                     |  5 +-
- kernel/nstree.c                                    | 29 ++++------
- .../filesystems/statmount/listmount_test.c         | 11 ++++
  .../filesystems/statmount/statmount_test.c         | 61 +++++++++++++++++++++-
- tools/testing/selftests/namespaces/listns_test.c   | 34 ++++++++++++
- 5 files changed, 120 insertions(+), 20 deletions(-)
----
-base-commit: 08a7d685fc611140f5d4244abef522b71900c563
-change-id: 20261021-work-mount-statmount_listns_fixes-03b0604d7341
+ 1 file changed, 60 insertions(+), 1 deletion(-)
+
+diff --git a/tools/testing/selftests/filesystems/statmount/statmount_test.c b/tools/testing/selftests/filesystems/statmount/statmount_test.c
+index 60c2c544db6a..2947546a9367 100644
+--- a/tools/testing/selftests/filesystems/statmount/statmount_test.c
++++ b/tools/testing/selftests/filesystems/statmount/statmount_test.c
+@@ -7,6 +7,7 @@
+ #include <sched.h>
+ #include <fcntl.h>
+ #include <sys/param.h>
++#include <sys/mman.h>
+ #include <sys/mount.h>
+ #include <sys/stat.h>
+ #include <sys/statfs.h>
+@@ -578,6 +579,63 @@ static void test_statmount_string(uint64_t mask, size_t off, const char *name)
+ 	free(sm);
+ }
+ 
++/*
++ * A string request needs a buffer that is larger than the fixed part of
++ * struct statmount. That's true even if the string turns out to be empty
++ * since the empty string itself is placed past the fixed part.
++ */
++static void test_statmount_string_short_buffer(void)
++{
++	const struct {
++		uint64_t mask;
++		const char *name;
++	} reqs[] = {
++		{ STATMOUNT_FS_TYPE,	"fs type" },
++		{ STATMOUNT_FS_SUBTYPE,	"fs subtype" },
++		{ STATMOUNT_MNT_UIDMAP,	"mount uidmap" },
++	};
++	const size_t sizes[] = { 0, 1, 100, sizeof(struct statmount) - 1,
++				 sizeof(struct statmount) };
++	long page = sysconf(_SC_PAGESIZE);
++	unsigned char *map;
++	size_t i, j;
++	int ret;
++
++	map = mmap(NULL, 2 * page, PROT_READ | PROT_WRITE,
++		   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	if (map == MAP_FAILED) {
++		ksft_test_result_fail("mmap: %s\n", strerror(errno));
++		return;
++	}
++
++	/* Anything written past the end of the buffer faults. */
++	if (mprotect(map + page, page, PROT_NONE)) {
++		ksft_test_result_fail("mprotect: %s\n", strerror(errno));
++		goto out;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(reqs); i++) {
++		for (j = 0; j < ARRAY_SIZE(sizes); j++) {
++			/* The buffer ends right at the guard page. */
++			struct statmount *sm = (void *)(map + page - sizes[j]);
++
++			errno = 0;
++			ret = statmount(root_id, 0, 0, reqs[i].mask, sm,
++					sizes[j], 0);
++			if (ret != -1 || errno != EOVERFLOW) {
++				ksft_test_result_fail("statmount %s with %zu byte buffer: %s\n",
++						      reqs[i].name, sizes[j],
++						      ret ? strerror(errno) : "success");
++				goto out;
++			}
++		}
++	}
++
++	ksft_test_result_pass("statmount string short buffer\n");
++out:
++	munmap(map, 2 * page);
++}
++
+ static void test_listmount_tree(void)
+ {
+ 	ssize_t res;
+@@ -869,7 +927,7 @@ int main(void)
+ 
+ 	setup_namespace();
+ 
+-	ksft_set_plan(17);
++	ksft_set_plan(18);
+ 	test_listmount_empty_root();
+ 	test_statmount_zero_mask();
+ 	test_statmount_mnt_basic();
+@@ -884,6 +942,7 @@ int main(void)
+ 	test_statmount_string(all_mask, str_off(mnt_root), "mount root & all");
+ 	test_statmount_string(all_mask, str_off(mnt_point), "mount point & all");
+ 	test_statmount_string(all_mask, str_off(fs_type), "fs type & all");
++	test_statmount_string_short_buffer();
+ 
+ 	test_listmount_tree();
+ 	test_statmount_by_fd_unmounted();
+
+-- 
+2.53.0
 
