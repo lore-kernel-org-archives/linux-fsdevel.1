@@ -1,48 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792583232;
-	b=er0G080X/BiVf/10gMjYUxOK5YbexLEV8xrES8m2125IzWe0swQ4cAXhTb7xwIz+IEjT
-	 hWRa9FvR6q1aj+MlKCDiGaUdp2FiHubvqt42uthdT/9uLTQsbZ3MsjRwg5+DXQ4yGiOkn
-	 LG5lkZC9iQPq/qMFBU/p9eLYsEmi7J2Jqskket/xKIVjtfupfTS8IpUbtzrg2OfBVI0bL
-	 gtnx6VEO8UcwB/GjGFF5Ks0H21obC54OEWoT5sygV8ZkHmxc8ICmZJwqlIUx3dYWONyyh
-	 ejk0GBqGU23TCdfp71nYvaA9FP55WFOQTWetfNCABk7UT1Sed6qGEykiASv1wQE3ytQ==
+	t=1792583244;
+	b=zUG3mWGxzlTEWvdLuMDAYYYFCvZUHTJL4kjWpYua+F04pnUTUcoF24xyHFWyMPVQEVq0
+	 QlwSxDZHzVgXcj9wZEbSkO7qDf2osbGY8v9peIpftP48RaJA+6wDvqozYLCpOu8OysSJr
+	 //bMmS8VB8ysMlHbVpp77vW3Z9RMChVItvFdGkBhaM79fPN5/O8ur2mS0dgapWg4TqaZa
+	 Dx5oXIbwPR4oEhMOr0Yn1f5gaBavx7euh97dFUyRvX6Pzmp9ZPfQLiKOIHPk0H9aIdc6+
+	 lBsqJ17eltepHW8xhNoDYbTAnFSGULIgbH7szGm/p3uUgWtkr4ul0DqfKSG+O0pEMLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792583232;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=xBhaq+Hp/Y6GG0ueDyyTHNNwzS/qSmC+5sxCYqoNHN8=;
-	b=F/P+eZeN8iZgbzl9ClKcFLJYwirSb+l6iJ48LHk0vmbwSbM5ga5HPXN6ifZ12rUUbmUw
-	 8e8TLmMUxjUacbEKTFdOibd2GMns9C/eOV+csE8PRoPJUItJqYQ7fzi7axtVqok0FAK58
-	 YOBptarOow4NeU0RkzLr+Xynbpp+39/4qUpDg+2ohlYPuCgAi7qEEi+MuKZ1i6dihAEbN
-	 rZvd0glW3gDhqElEd6BUQfIP0xbObQPK+EFLLdueD0DM9G8LJexyoM303EYYgPGtnINKP
-	 jcxGojV/thth+bYMjBGfa5E/B+oInf9pYKrlqoKkBzygA7NY+fVjuM/kQ8Hfe6t0uUQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792583244;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer;
+	bh=ni/h9FbFXhjgUwMn3rSI6p6WKM6vJUoZQ7p4kXWNy5U=;
+	b=H9y4nQ9fdSCMdOUlpX+oHX51SzCJ0oL7a3YO23aktKQm/wZE57FOA8OB+dD5Whb7c7d8
+	 a681kX16kGq7ot3wVb+K3eWr6bU2e0JJgtwtSQE+p9DN2/6YP2ACBQ7FlYZC7+2Cltlc7
+	 62JsjD85xMP7pluOrQvwWnyLHxM4eUX04PQgSABHrodpE+yKAyAuh50rItXgGi32QlDLO
+	 w23wRm6jEzC9QV/NojWGiOkdphVsy2DCGmBDhv0VjaiPjWae4Kt8e9siruldYHr59brFE
+	 WZiEmK+5VfQSQ1aY57U/TcyGEgwHOfv7lt2kJ1vmBVIj1CkQcGhFGqJ+uxr7OXiO83w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kg4lEghL;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CYoDM5Pa;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E813F606A32C;
-	Wed, 21 Oct 2026 11:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028E3606A336;
+	Wed, 21 Oct 2026 11:47:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kg4lEghL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE4EC1F000C4;
-	Wed, 21 Oct 2026 11:47:09 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CYoDM5Pa
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6273E1F000C9;
+	Wed, 21 Oct 2026 11:47:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792583231;
-	bh=xBhaq+Hp/Y6GG0ueDyyTHNNwzS/qSmC+5sxCYqoNHN8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=kg4lEghLeRSllYG20475Yf8QiziSosCP43YiwoDC1OX+ONw0KqlsR/k6+np4qlrLz
-	 kP2o1H3S+8gkIM29E9lcOIx5ovyaCSt5bW9LCvf6kHIc2TphQ7WiSazLBDfdiRoISS
-	 Miz+0ELEC1Gs2Spu066eChpT9UYegOhJUTATtUzPbw4AfniqOTmN6/58xpXKgpt/qx
-	 fQ/7q960B96RrR2LAQL177k4icUUbg7SMio2gTU6VMKcoDg3Y3Vif6YE5uzznwbRZQ
-	 RQZYxl3zDMrdr1TDtG/3kqddIyGIVpKusOJtimeIXiILn9qjNZXdkPxvmsfzOsbUls
-	 zmt8NJQFHl6VQ==
-From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 21 Oct 2026 13:46:56 +0200
-Subject: [PATCH 3/6] listmount: don't wrap around with a U64_MAX cursor
+	s=k20260515; t=1792583243;
+	bh=ni/h9FbFXhjgUwMn3rSI6p6WKM6vJUoZQ7p4kXWNy5U=;
+	h=From:Subject:Date:To:Cc;
+	b=CYoDM5Pavgm81Nyqql/3raaF54bJHC58QBIN2LWkciYwVz/5h0B59Mzqf+MizWhuG
+	 jz1jqdZBrCVcOiuBlNKByULWJ1opgAfsu6rGbrXchF6lDKL0n3E7YBPLDmlvH4SomP
+	 EwK6xf91kUvpKSYBLoN93tqkZEIIM+EQDd/MtGC+CkW8ELRb6JoLU0YWJID6o1xYYu
+	 ytarFAlqWQwFi5zehp/FR0wZedTqnzpswlsUkOJFSN4QGs/PJzNH/hWIdpDpjg095M
+	 iA9tNi2+MjR+D9YSXEgR0LJTuWJVOUDhF/C3a3+5nVsnJMgWNwZEK8lVMtS2+tpncg
+	 hi/X40TnN+WtA==
+From: "Harry Yoo (Meta)" <harry@kernel.org>
+Subject: [PATCH slab/for-next 00/14] mm/slab: mandate SLAB_MAY_ACCOUNT for
+ __GFP_ACCOUNT allocations to avoid wasting memory for slab metadata
+Date: Wed, 21 Oct 2026 12:46:41 +0100
+Message-Id: <20261021-memalloc-prof-dont-waste-slabobj-ext-metadata-v1-0-096800aa3330@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,112 +56,181 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261021-work-mount-statmount_listns_fixes-v1-3-8917a4c1bd14@kernel.org>
-References: <20261021-work-mount-statmount_listns_fixes-v1-0-8917a4c1bd14@kernel.org>
-In-Reply-To: <20261021-work-mount-statmount_listns_fixes-v1-0-8917a4c1bd14@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Miklos Szeredi <mszeredi@redhat.com>, Jeff Layton <jlayton@kernel.org>, 
- shaos <shawnq1@163.com>, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3046; i=brauner@kernel.org;
- h=from:subject:message-id; bh=zL2mGinbLKzrfxLe9+IFadCSq8H9JbpaiFIaP+FSnio=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdWGbc2550KSG54O66hw7MIuG5cpOORO9saKyf3hB35
- XFJuv7ajlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgInc+sjwvzbtn9KVg9UWs9Z4
- Lm67cUXKedp79r6sgp73b7aaKehkVDIyPL81Ne/Miv5TTLrPEhe5JjoJlQfd8/p7anlgbUbH/ZV
- LWQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+X-B4-Tracking: v=1; b=H4sIACGm2GoC/yWN2w7CIBBEf6XZZzf2go31VxofFliUhkIDqE2a/
+ rtUHyczZ84GiaPlBLdqg8hvm2zwJTSnCtST/IPR6pKhrdu+qRuBM8/kXFC4xGBQB5/xQykzJkc
+ yyAl5zWWUSVMm7IQZRMdm6C9XKJ9LZGPXn2+EgzibENEXBu7/Or3kxCofTtj3Lz+lqCygAAAA
+X-Change-ID: 20261014-memalloc-prof-dont-waste-slabobj-ext-metadata-34f943ef9658
+To: Vlastimil Babka <vbabka@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
+ David Rientjes <rientjes@google.com>, Muchun Song <muchun.song@linux.dev>, 
+ Hao Ge <hao.ge@linux.dev>, Pedro Falcato <pfalcato@suse.de>, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com, 
+ "Harry Yoo (Meta)" <harry@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Andrew Ballance <andrewjballance@gmail.com>, maple-tree@lists.infradead.org, 
+ Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jason Xing <kerneljasonxing@gmail.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ Mina Almasry <almasrymina@google.com>, 
+ =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org, 
+ Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Mark Rutland <mark.rutland@arm.com>, 
+ Anshuman Khandual <anshuman.khandual@arm.com>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+ linuxppc-dev@lists.ozlabs.org, Robin Murphy <robin.murphy@arm.com>, 
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, 
+ Niklas Schnelle <schnelle@linux.ibm.com>, 
+ Matthew Rosato <mjrosato@linux.ibm.com>, 
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, iommu@lists.linux.dev, 
+ linux-s390@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ Amir Goldstein <amir73il@gmail.com>, 
+ Casey Schaufler <casey@schaufler-ca.com>, Paul Moore <paul@paul-moore.com>, 
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+ linux-security-module@vger.kernel.org, Richard Weinberger <richard@nod.at>, 
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+ Johannes Berg <johannes@sipsolutions.net>, linux-um@lists.infradead.org, 
+ cgroups@vger.kernel.org
+X-Mailer: b4 0.16.0
 
-do_listmount() takes the last mount id the caller saw and looks up the
-first mount after it by searching for last_mnt_id + 1. With U64_MAX
-that wraps around to zero and the search finds the first mount in the
-namespace. So a cursor at the largest possible id restarts the listing
-from the beginning instead of ending it. A cursor of U64_MAX - 1
-correctly returns nothing.
+The purpose of this series is to convert existing slab users that
+specify __GFP_ACCOUNT on allocations to specify SLAB_MAY_ACCOUNT on
+cache creation, to reduce memory waste for slab metadata with
+CONFIG_MEMCG=y && CONFIG_MEM_ALLOC_PROFILING=y.
 
-No mount will ever have that id. Mount ids come from a counter that
-starts at MNT_UNIQUE_ID_OFFSET + 1 and a caller that only feeds back
-ids it got from us can't hit this. It's still wrong. Nothing can come
-after the largest possible id so return no entries for it, just like
-for any other cursor past the last mount.
+Currently, there are two ways to charge slab objects to memory
+cgroups: 1) specify SLAB_ACCOUNT during cache creation, or 2) specify
+__GFP_ACCOUNT on allocation. The latter method made it impossible to
+assume that certain slab caches are never charged to memory cgroups.
 
-The reverse direction isn't affected. A cursor of zero is special-cased
-and anything else is larger than MNT_UNIQUE_ID_OFFSET so last_mnt_id - 1
-can't underflow.
+Since commit d4404b0f5b8b ("mm/slab: stop allocating objcg pointers when
+unnecessary"), slabobj_ext allocates the space for the objcg pointer
+only for caches with SLAB_MAY_ACCOUNT. However, kmem_cache_create() sets
+the flag on every cache, because any cache may be used with
+__GFP_ACCOUNT.
 
-Reproducer, unprivileged:
+As a result, sizeof(struct obj_cgroup *) bytes are wasted for each
+unaccounted slab object when both memalloc profiling and memcg are
+enabled. This is suboptimal when memalloc profiling is used to
+profile memory allocations on production.
 
-    #define _GNU_SOURCE
-    #include <errno.h>
-    #include <stdint.h>
-    #include <stdio.h>
-    #include <sys/syscall.h>
-    #include <unistd.h>
-    #define LSMT_ROOT 0xffffffffffffffffULL
-    struct mnt_id_req {
-    	uint32_t size, mnt_ns_fd;
-    	uint64_t mnt_id, param, mnt_ns_id;
-    };
-    static void list(uint64_t cursor)
-    {
-    	struct mnt_id_req req = {
-    		.size = sizeof(req), .mnt_id = LSMT_ROOT, .param = cursor,
-    	};
-    	uint64_t ids[8];
-    	long ret;
-    	errno = 0;
-    	ret = syscall(__NR_listmount, &req, ids, 8, 0);
-    	printf("cursor %llu: ret %ld errno %d", (unsigned long long)cursor,
-    	       ret, errno);
-    	for (long i = 0; i < ret && i < 1; i++)
-    		printf("%s%llu", i ? "," : " ids ", (unsigned long long)ids[i]);
-    	printf("%s\n", ret > 1 ? ",..." : "");
-    }
-    int main(void)
-    {
-    	list(0);
-    	list(UINT64_MAX - 1);
-    	list(UINT64_MAX);
-    	return 0;
-    }
+So, let's make memcg charging opt-in and stop wasting memory!
 
-Before, on 7.3.0-rc7-00252-g4e3259b08c54 (vfs.fixes) in a VM:
+New rule for slab users: a cache must specify SLAB_MAY_ACCOUNT
+(explicitly or implied by SLAB_ACCOUNT) for its objects to be charged
+to a memcg. Otherwise __GFP_ACCOUNT is ignored and triggers a warning on
+debug kernels (CONFIG_DEBUG_VM=y).
 
-    cursor 0: ret 5 errno 0 ids 2147483651,...
-    cursor 18446744073709551614: ret 0 errno 0
-    cursor 18446744073709551615: ret 5 errno 0 ids 2147483651,...
+The approach is quite straightforward, but converting all caches that
+may pass __GFP_ACCOUNT without SLAB_ACCOUNT at once is not.
+As a best-effort approach, I swept the whole tree (with help of an
+LLM) for paths that pass __GFP_ACCOUNT into slab allocations either
+directly or indirectly.
 
-After:
+While I tried to make sure the sweep is exhaustive, there can be a
+missing conversion. However that is not a correctness problem:
+the objects are just no longer charged to memcgs. Patch 13 adds
+VM_WARN_ON_ONCE in __memcg_slab_post_alloc_hook() to catch such a
+missing conversion.
 
-    cursor 0: ret 5 errno 0 ids 2147483651,...
-    cursor 18446744073709551614: ret 0 errno 0
-    cursor 18446744073709551615: ret 0 errno 0
+Patch 1 allows passing SLAB_MAY_ACCOUNT to kmem_cache_create(),
+patches 2-12 specify SLAB_MAY_ACCOUNT for the caches found by
+the sweep, and patch 14 stops setting SLAB_MAY_ACCOUNT on all caches.
 
-Reported-by: shaos <shawnq1@163.com>
-Link: https://lore.kernel.org/r/20261020110732.959552-1-shawnq1@163.com
-Fixes: b4c2bea8ceaa ("add listmount(2) syscall")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On an idle x86 VM with both memalloc profiling and memcg enabled,
+slabobj_ext memory (the alloc_slab_obj_exts entry in /proc/allocinfo)
+drops from 1,280KB to 910KB (-29%) after boot. The savings are expected
+to be larger on real workloads, which allocate far more unaccounted slab
+objects (8 bytes per unaccounted slab object).
+
+Each tested cache was verified with the warning in patch 13:
+I confirmed that 1) the warning is triggered without the conversion,
+and 2) specifying SLAB_MAY_ACCOUNT resolves it. However I could not test
+io-pgtable_armv7s_l2 and sun50i's pt_pool caches due to lack of the
+hardware and emulation support. So they are compile-tested only.
+
+  cache                  tested  environment
+  ---------------------  ------  -----------------------
+  radix_tree_node        yes     x86
+  maple_node             yes     x86
+  buffer_head            yes     x86
+  skbuff_head_cache      yes     x86
+  fanotify_*_event       yes     x86
+  smack_rule             yes     x86
+  io-pgtable_armv7s_l2   no      compile-tested only
+  thread_stack           yes     ppc64le (64K pages)
+  pgd_cache (arm64)      yes     arm64 (64K pages)
+  PGT_CACHE (powerpc)    yes     ppc64le
+  PCI_DMA_*_tables       yes     s390x (zPCI + vfio)
+  hostfs_inode_cache     yes     UML
+  sun50i pt_pool         no      compile-tested only
+
+Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
 ---
- fs/namespace.c | 2 ++
- 1 file changed, 2 insertions(+)
+Harry Yoo (Meta) (14):
+      mm/slab: allow passing SLAB_MAY_ACCOUNT to kmem_cache_create()
+      lib/maple_tree: specify SLAB_MAY_ACCOUNT for maple_node cache
+      lib/xarray: specify SLAB_MAY_ACCOUNT for radix_tree_node cache
+      fs/buffer: specify SLAB_MAY_ACCOUNT for buffer_head cache
+      net: skbuff: specify SLAB_MAY_ACCOUNT for skbuff_head_cache
+      kernel/fork: specify SLAB_MAY_ACCOUNT for thread_stack cache
+      arm64/mm: specify SLAB_MAY_ACCOUNT for pgd_cache
+      powerpc/mm: specify SLAB_MAY_ACCOUNT for pgtable caches
+      iommu: specify SLAB_MAY_ACCOUNT for slab-backed page table caches
+      fanotify: specify SLAB_MAY_ACCOUNT for event caches
+      smack: specify SLAB_MAY_ACCOUNT for smack_rule cache
+      hostfs: specify SLAB_MAY_ACCOUNT for inode cache
+      mm/memcontrol: do not allow charging objects without SLAB_MAY_ACCOUNT
+      mm/slab: do not set SLAB_MAY_ACCOUNT for all caches
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 6c9c0cdbe890..dd60123a0cb0 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -6253,6 +6253,8 @@ static ssize_t do_listmount(struct klistmount *kls, bool reverse)
- 	} else {
- 		if (reverse)
- 			first = mnt_find_id_at_reverse(ns, last_mnt_id - 1);
-+		else if (last_mnt_id == U64_MAX)
-+			first = NULL; /* nothing comes after the largest id */
- 		else
- 			first = mnt_find_id_at(ns, last_mnt_id + 1);
- 	}
+ arch/arm64/mm/pgd.c                |  2 +-
+ arch/powerpc/mm/init-common.c      |  3 ++-
+ drivers/iommu/io-pgtable-arm-v7s.c |  2 +-
+ drivers/iommu/s390-iommu.c         |  4 ++--
+ drivers/iommu/sun50i-iommu.c       |  3 ++-
+ fs/buffer.c                        |  2 +-
+ fs/hostfs/hostfs_kern.c            |  2 +-
+ fs/notify/fanotify/fanotify_user.c | 10 ++++++----
+ include/linux/slab.h               | 16 +++++++++++++---
+ kernel/fork.c                      |  3 ++-
+ lib/maple_tree.c                   |  2 +-
+ lib/radix-tree.c                   |  2 +-
+ mm/memcontrol.c                    |  6 ++++++
+ mm/slab.h                          |  2 +-
+ mm/slab_common.c                   |  8 +++-----
+ net/core/skbuff.c                  |  2 +-
+ security/smack/smack_lsm.c         |  2 +-
+ 17 files changed, 45 insertions(+), 26 deletions(-)
+---
+base-commit: d15d7703166daf7bd62c844a3cb1b3a6279adb4c
+change-id: 20261014-memalloc-prof-dont-waste-slabobj-ext-metadata-34f943ef9658
 
--- 
-2.53.0
+Best regards,
+--  
+Cheers,
+Harry / Hyeonggon
 
