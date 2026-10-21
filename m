@@ -1,55 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792577971;
-	b=upRvx/2vIDn32b6sQYKAm0Hub7fWEM1ZKaNttMcOL8o2QAhMGBmt/uOvFFM1kWJhfEvg
-	 +odu3OT9PJykpM1FXtBtbO6tq5CwYGSizFgXSs1QGPZGH5I8PpAFJEKx5n/dFZ5ieCy4Q
-	 SoGHUt93JyaCgF9e/00UwDswJaZHKmhG6CMaMGqiKeNmn9BY5JIfRUBVMyBduMGBAFnGa
-	 pp9ZxNeYNlF9NC/dN+6sHd0tpJiXnn9c7H8X/Nx7G5qa1EjcpM0Fsf9AMUxLclTU37KSI
-	 CiPpP6IxNXnVtg3RuHseDY1oXEaT7SIk/xX7Rv/bK9sXnnSt2qXymZgt2Vmubqx5mgQ==
+	t=1792578116;
+	b=NL8ZpqZCWWwYYFAZoHYONQvHTrjJ09JyOIcJWYDNMqW4NcqVVRHJtR6mshvcfn6xXTW/
+	 5K7ttWzjWPAbK+2ufHIYXrJjzhaQpeU2tPcQGUjCNfbrwnUjwLO5X861cWLUvJm2f1Ie6
+	 cd0x7u0edN2SpdLWWefE0Mq6hC8uXaHNhpVd3nXSJg1+Xg8eTG0AEnwZBJGS2WDbqS5Qt
+	 KS45fbYnkOkbV5cfHNVjQm/lcg9BBpqSGyfcZUQtrBWqD/bvDpTil5Bhd17yFid/q5Nfl
+	 +fIK2p7KqPRYuNXwDPXKGxoYStzV4f5NAwcF8+e7oUjKE53YXyHuMxluFKkdx4qPODQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792577971;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=ay77EXNqEX7darV7/sCPxjt1o5SOM6DHgvAXWVRp7ws=;
-	b=ZRWv12tDXeuVDDK1us3WvMB2MJN/rOkdz8fhpv21vYFKtaxYAWZNZoGiWgWtqz8b+xKN
-	 uuVzp9r4vM/3NVzxa/rHADfR3x35PKzI6ciqlipJ4tqtEBiL3UXN6160guS6gjqpsa1sM
-	 C9kZ3UMfYLIRT5WWZ6/j5qgPjkaTeBbMYFYteQvp/WMuKEV0EtNijMVCfwO5QG+xM6jIb
-	 LBkvEHFxOuAFMFr1RAU+cUVPXkQFhEOEuMO14U5kPsMdLgQhTO/5t8OdqPpzWjYUZybgu
-	 89MqeZiz2kKwuGBtCZBKGW1HUXvRpeYKZeM1Bl+REGj76ernABVBLJoSc5yFz17G4Jw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792578116;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=IzO1E6ikKD8tl2Wsl1moqCKEq1l/nX4FZiTYItV58uI=;
+	b=Na30fbzbmF9ffbf88MZXidvz/GwP0bvyyaD5DJk/Q175LC/IAkZyAsAw9tbrBeHJXGew
+	 Yj9KBnaxHHKLm4e+o3xU3WHlgccBbjGC/vR5XkxsaDOEw/KiR2OV8Rer6hQiN0T36I6VV
+	 b7GZ1oBOsEmadAlzHtTKZxFP071Vtj1g3VMS/Ez+QR3ez3BVmy4lcQ3G26HCEXxiB+hsw
+	 oQbDef1Xa03LNaoDIQdKyN64ZILCgsOYNCVtf99Zq+QowwesxjDx8vdwrSrSVUaOwlZGz
+	 nsFCXFOEpna5ytlOKlJOg89WjYA1ebqNAN1bCyNDjeyclaf8lFc8+D1q7N2uPX8DcOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rfmz3zVs;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mxIJkEAE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6396D606A31A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 10:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812FE606A31A;
+	Wed, 21 Oct 2026 10:21:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rfmz3zVs
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 774FD1F000C9;
-	Wed, 21 Oct 2026 10:19:29 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mxIJkEAE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A92D1F000C9;
+	Wed, 21 Oct 2026 10:21:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792577971;
-	bh=ay77EXNqEX7darV7/sCPxjt1o5SOM6DHgvAXWVRp7ws=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Rfmz3zVsfTnHeRUuXrDDsIWpIWv5L6iazYomH1sErlTOR2SqlnrOu6dI6pL7jDHN7
-	 joOw0ZIzQSXLdm/HB/eBdHxEuTKv4wpKFPEEBTpB0UQpYCPI9vTbwHCHr57iSuoftw
-	 kdRzBlRz9j1GXPvBg0Lps75kUYcsw9xwz0rUVU9wy4/3jKWD5V8d1YMs+1Kiu5EDw+
-	 O5iFZJwsMHNGgM72iDaqQGUtUIzxX6PAzyH4CRN1imsl2Rgk717gEUnTzN6QIBVjfY
-	 Nzez3Cf/Drtb1QL1MUDV8rxy7HJrJKmlCUM1Xqgot9EA4EIxjdOgzDDOufW+/BMso1
-	 mwuEWbKDNWEgg==
+	s=k20260515; t=1792578116;
+	bh=IzO1E6ikKD8tl2Wsl1moqCKEq1l/nX4FZiTYItV58uI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mxIJkEAEUemoHzqFpjGOGsISTWbamBRSUja5/+PShimgeDu5pEKvopKkpU417cjQS
+	 LUqwYcw1SBOPpayMExd/35Gnzu6vWNYtpIRwMBn1YzbAVoItArpZDVk3V/2yxpBUSt
+	 9fzVhM7CM1JzxX/30rMD4LM/SMeQgvPK71uLA9cJ6KKuCcL9byzvEuq3NKJpBNSfkI
+	 hOZZhVe1KN8bfJmLl2/aV98mPzJLBOsp6PiULbCuee+h9exCxuOQwZCmfAA20lj/Y5
+	 rZglUOVWEtzU9bw0QJBCz7xQiasZhWom0scGxlDmBqafUSH/ovyAfRSFdg3IQhiHli
+	 c6Wa6I1EvnH2g==
+Date: Wed, 21 Oct 2026 12:21:35 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org, Julian Sun <sunjunchao@bytedance.com>
-Cc: viro@zeniv.linux.org.uk, jack@suse.cz, tj@kernel.org, 
- akpm@linux-foundation.org, roman.gushchin@linux.dev, dennis@kernel.org
-In-Reply-To: <20261016115230.3640770-1-sunjunchao@bytedance.com>
-References: <20261016115230.3640770-1-sunjunchao@bytedance.com>
-Subject: Re: [PATCH 0/2] writeback: fix timestamp and dirty-state handling
- in wb switches
-Message-Id: <20261021-geurteilt-rekord-bestbezahlt-3c84d037333d@brauner>
-Date: Wed, 21 Oct 2026 12:19:25 +0200
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, 
+	memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev, 
+	jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev, 
+	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+	johan@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, 
+	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
+	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, neil@brown.name, 
+	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, hyc.lee@gmail.com, 
+	miklos@szeredi.hu, amir73il@gmail.com, senozhatsky@chromium.org, 
+	chenxiaosong@chenxiaosong.com, kpsingh@kernel.org, matt@bobrowski.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, john.johansen@canonical.com, 
+	georgia.garcia@canonical.com, zohar@linux.ibm.com, roberto.sassu@huawei.com, 
+	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, 
+	omosnacek@gmail.com, casey@schaufler-ca.com, takedakn@nttdata.co.jp, 
+	penguin-kernel@i-love.sakura.ne.jp, xiujianfeng@huawei.com, nanx95726@gmail.com, djwong@kernel.org, 
+	lujialin4@huawei.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, ntfs@lists.linux.dev, linux-unionfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, linux-trace-kernel@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 -next 01/18] fs: pass struct path to notify_change()
+Message-ID: <20261021-nanotechnologie-gebadet-gepaukt-52a950759f0a@brauner>
+References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+ <20261015125425.3246251-2-caixinchen1@huawei.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,45 +80,19 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=brauner@kernel.org;
- h=from:subject:message-id; bh=RepdeC0du6R3CU1UYi3OtXy4LyJRRiD9aVnxAOiU66M=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdmLhezKH8JZvAopub7t0yvH/80KH5qiYtfyKeGZbZs
- iueWvy5qaOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi91MZGb6aG088ctUltPWk
- MIdm1qkI07dM3iudORv9XfSP26QnBjMyXJz3rvbh7yknrZdbbjv/X3H/HMOn1tuOxjer3mstey2
- wjBsA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261015125425.3246251-2-caixinchen1@huawei.com>
 
-On Fri, 16 Oct 2026 19:52:28 +0800, Julian Sun wrote:
-> writeback: fix timestamp and dirty-state handling in wb switches
-> 
-> Hi,
-> 
-> This series fixes two issues when moving inodes between writeback
-> structures:
-> 
-> [...]
+On Thu, Oct 15, 2026 at 08:54:07PM +0800, Cai Xinchen wrote:
+> notify_change() takes a struct mnt_idmap and a struct dentry even
+> though all of its callers either already hold a struct path (or a
+> struct file) or have to pass &nop_mnt_idmap because no idmapped
+> mount is involved.  Switch the helper and its declaration to take a
+> struct path instead and derive the idmap and dentry from it.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/2] writeback: reset dirtied_when when switching wbs
-      https://git.kernel.org/vfs/vfs/c/13b9a606dd0a
-[2/2] writeback: clear old wb dirty state after inode switches
-      https://git.kernel.org/vfs/vfs/c/a396fe9f74ea
-
+No, the idmap needs to be passed separately. The whole point is that
+during path lookup mnt->mnt_idmap can change. So mnt->mnt_idmap is taken
+of the mount at the time it was checked and passed down to the
+filesystem so that the VFS and the filesystem are guaranteed to see the
+same idmap.
