@@ -1,55 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792585814;
-	b=GmODSlIVzRG+YpPYFTe1muB++JtwoIL4p5eKdr6MBOzAgOo3hJR54u5Wk6Zm6zvO63Hf
-	 8XKzhTVDfWfoM2BIynqPIbKJItWjENguP7bp5wv6S4hTX0Hqn9Cazl7ZFb8bG/imV8KXA
-	 Tt1jM4PQR5y/cfgd1k+DKrD6atj0pD4VJDnk42omRVyNBTVvn/u7bXPclKqcgV+yhPqrW
-	 YIJ/n2iST2Oiagwvd1Ff8vYgIO1yUtvuiNPrvZQIILukj0gUAOwf5R0L0G9sRmIp20lFy
-	 bIblO6ehwsYhO83R0mRDTiAUM6Nweq6Cm4EGOxzfhl+8Wua3YtlRquN3c7oygSQWneA==
+	t=1792587121;
+	b=h4HTSuG1EqMK1fOimh/pDXlt1yFdSSF0KUasEGgUCs0PzXel83RVQNriM5mckrc6fqBZ
+	 fDJEAh2LB+nae3Yew2poc/y/jmaTT6fyT/AJpJbAkfMIwdYAJ6mcMKIFlEak9CAQasCUz
+	 dxL3ZYjM+xeUPA6gAPJ7RQY5R4pBQFomWqAZBDeOzNfDC+AXdvycjVHD9XaupeCx8ZEk/
+	 nFJ+6aFkfiLSjiNenkMdHgR8bond80MG37lD9gM6sJz/6QbT2tRTywY5mdp7Z1ZEFkkXA
+	 VtIskcRwiiRSWWk6MXirMFvgAtG62uAcS+TJxhQKIEKp+YDw9dSyKmDNX/b8CF7rNug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792585814;
-	h=Received:DKIM-Signature:From:To:Cc:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=SPvwqxlJ5BdpL7mIBDv6+lJZJJBo+NcQCFXkzsy92MU=;
-	b=Hb1xhR8ISzONsGfawI2ww51FHkPAxgc2oR78CyBLUSTVTVocU7KnERpewN89ZHivzewA
-	 bYWv5sTFGR7XKUqpgNw9h1peC/Z6rhbYNkQqY8ZBvqiAupR9aNVLr/dFzyTsFT7GeC83G
-	 ApyvwmjbJo3Gj9OafSkh837fbcG1MSrEj2WLNs9zF4lms9TYrTcQwCstDXxgfckcKxFFR
-	 sPVSTWNSo2jNkYkg9WjFdjyJQu69Zbird1fVETxx0V5KePGIykIRJnsDmtoxaSVaxnKeo
-	 8Dd4n73bC83nVYJXyUnO3CbPakPDSEi2u0KGvOJ4Dknl0LP5BAoIFPFtHbNe+adkUIg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792587121;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Mn8oXMgO7ys8gs1NirtIayuQ3LSb5RT+jR9DaBN+G6Q=;
+	b=xCdvJaytlrcgImT85osUUo4BNLomwVm1/FfepwBKqVQHOrqAN6Y22Byawc27H51kIUIX
+	 jKLHXMVd3wVHi30bNikPffNJdGWbbZNQQn8ueJWzLGKUNLTsBfXOlIEFCOAifW9nTVS18
+	 ZXEkb/CXy1JHu3OxwjVt+33IQ2fxYB3z/NyFy7YbCl+q3w5JAhDLep9oqJ6rcB75zIfb1
+	 FuUtTM9ZQOvZq8AEk+EfGVHpIS/+TDZy8NrtmHOu7nmSkSUlgtI1dDNoWLaAeFeQ4aaWx
+	 CgoKSpl/fMP2I1vHS+A6yZ7cisNLo368cAdnixqh7oaxKr6ZZE4WNO07mUWdrXi7JrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bwVUKj2u;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=cG6uo9BE;
+	arc=none smtp.remote-ip=209.85.218.54
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222BF606A320;
-	Wed, 21 Oct 2026 12:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2F6606A32E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 12:51:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD2F6606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bwVUKj2u
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE3C1F000C6;
-	Wed, 21 Oct 2026 12:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792585813;
-	bh=SPvwqxlJ5BdpL7mIBDv6+lJZJJBo+NcQCFXkzsy92MU=;
-	h=From:To:Cc:Cc:In-Reply-To:References:Subject:Date;
-	b=bwVUKj2upv4wcdd6/qk4FjjxJAKOtZW1lsW2rD0Fyzq9wHKmtU4HMi0mFyeC68OKA
-	 JV1E+MNSTpehRvU4ngvooue4SIO/6CnfN2UWea2d1yZP92YOuyxkksMHEY4HNUQKm4
-	 IObuk5hifb58gB71LM3H1nrwNI3zPNEIFrQUtUTEO/9Z0TD96UZnHwHRVAsXzL7hJm
-	 TaXojUlYJnExhVH5IuuGCqL4qzK9qTI5+3eKqjhPRFi0aHpGpBupVvjLVtwkms4mYt
-	 ejxGnI8uIEwg+3Ib9eefVu9D3yxmMvpcJNL6iyhUkWPDDl1go8qqwTMlDJqlzV1PXg
-	 CYITm/NKqANbA==
-From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>, Josef Bacik <josef@toxicpanda.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261021-b4-super-lock-dying-v1-0-2b35e86706ff@toxicpanda.com>
-References: <20261021-b4-super-lock-dying-v1-0-2b35e86706ff@toxicpanda.com>
-Subject: Re: [PATCH 0/5] fs: don't let a stuck unmount take everybody else
- with it
-Message-Id: <20261021-badeort-wichtel-ungebeten-b31df4d9153f@brauner>
-Date: Wed, 21 Oct 2026 14:29:47 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=cG6uo9BE
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c247f6687dcso97932166b.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 05:51:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792587118; x=1793191918; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Mn8oXMgO7ys8gs1NirtIayuQ3LSb5RT+jR9DaBN+G6Q=;
+        b=cG6uo9BEELzaoqgbe11mFN6vTx1fa06/lNMCeAqI5ThvD52TIVBlyPaI/QS/zP5cj9
+         rsEWQebXUX6m4fBiYDoZXhb2PcgNDZwixWaus0ieF8GTUvVLCDg9TlrxbZcqTLasiCpt
+         xRFmwOAWYI4+lyJwIc1+qQGi50PtAnu2ULaE3nAfQndJz4auQmhDUR4otzAcBUfy+QDE
+         sVDyW8oHUOWXSvsswUPm+og9ZzPpUqrcZqfABBeI502ZA6bSjCaDu89akza/TTmRfWTs
+         GxKiz9C1DD4Gz08F4B8JAEvvVVY0Msvpi+eP8y1e7PteaV6i6MRasSpEKoW96ykirHED
+         ZOMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792587118; x=1793191918;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Mn8oXMgO7ys8gs1NirtIayuQ3LSb5RT+jR9DaBN+G6Q=;
+        b=f+vrLspDzh+l4czvFqK1gLeCblCiZ2FdPij0eSp9dc7SDmvAWqcYPRHpaC0Kf+Gmhp
+         EwZs0cZ+j5Nqt02DuiKoJQrGv4k2G7dkzDUEmCAwau1zNEnSLkVAlVo+CJmD4fY3BrK4
+         EAw+Ree19iEDIeQmf8ZUdsUbDvc1LvQ3+qer2o4fdn0ijbAS0lGZsK70B666BZgM1za3
+         kvDj6oFhPt3OF+A/sUoFUqk3kbw/F2JsVwYCXauZC5itxGGM8ITviGn4P3juH4/rFkfA
+         YY2RtFvqF3wteWgyfPzBMlKdOSEqKlyQD9JLno5WRx3EGXtsmszcNDul0jkNaEhsVsPA
+         fE8g==
+X-Forwarded-Encrypted: i=1; AKwUvBwQgEkVZz0CIOZGjgbcw1fG0lKs3R5QERZHEflpetrhZbF5Zd26qw9oWBVYwFZLNBKTbuq6R4D8nR69g7z/@vger.kernel.org
+X-Gm-Message-State: AFq9FYJCF3NIi9WE1+GFc0Y69t/GHi9oZW36cDC7d37O4TDzfaBuoGQh
+	MzBlhWgID5PKaPIz8XInbJJ2x8W9gLF0PLch62Cokkn5ArV7jgs5TBoz
+X-Gm-Gg: AYBFou1YEOIXcktKMxljFFsLd9EYdZhgUMxyTQMot4nSEyBznS0hPuOVJwxuA5BnlSd
+	8k8I2ENkHBDxtoln6bIIdhVyp1OizN4Jx0LJ3k3M4X0TcifHZLnX4DBPsUuZIBLpC3cEcRZAS7f
+	zDMb9ZfpCQzPWNL03NQGcy1UYURaRpbmI9DK7K4vCtAO+Xss0kj7pB5bUSLAQEqk5KDBvYzSJbc
+	LhBtwa9uT1DpdvR1kKHzfldlN+PT/q62cJ9Tf2I1HZC8La9EckCe+ZxC8QBQIxyMy3q837FpWTd
+	YG1ISOrEl7bjIo+9NTKKIaGFKtqj77Ve2TfvkzOTcGwyHeRRa/wbDug4VYY6+bCI9i+VHUFD37k
+	XtccQAagEExQttyGFZ/NGNXWH5UQSqkSGH+ZLIVPTN6bax9pCoKGJZnvcr/w7h3U0AXsLoWbCu5
+	plF7yu845HKyVI9CgTWf45DxzTkt/5+lklqrbbFowzPVM0YNZdjDDSYuHteS5a1YFiqeV5BrTvl
+	QY1GaS5E5gqdMhBjt461UCvfuvqsTMp26VvJ01WxPvOGFt7Cuc50Lgv7EMUmlL9idpyNY9ervG3
+	BcCXSoerLJv5eq6aohuUmIXBQGdR7gSDEPKkR+Lno7TZVlE54Z92afhykqj2OhyFMPuqWSR06lb
+	/IzCQtZLxpSyjPQ/iNlRsqrpD21bBqUor7tzEEXHDxDdsOKdlxSJNw6mHPu40n0h7eAPZ1bGppN
+	laFW/c2IdjI+667/Npwbiyo4gj
+X-Received: by 2002:a17:906:99ca:b0:c40:9839:c892 with SMTP id a640c23a62f3a-c4679594c9bmr175067366b.19.1792587118009;
+        Wed, 21 Oct 2026 05:51:58 -0700 (PDT)
+Received: from Ubuntu.tail0f733b.ts.net (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4679004464sm73128366b.67.2026.10.21.05.51.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 05:51:56 -0700 (PDT)
+From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ian Kent <raven@themaw.net>
+Cc: Tejun Heo <tj@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	driver-core@lists.linux.dev,
+	autofs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+Subject: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs stores
+Date: Wed, 21 Oct 2026 14:51:48 +0200
+Message-ID: <cover.1792577179.git.krystianmkaniewski@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
+References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,57 +114,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1750; i=brauner@kernel.org;
- h=from:subject:message-id; bh=DOy7ShPvFsan0CKTQzMgeLaSNJRaEOFdopVUo01lzco=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTd2BB0T2/2950//jqzfDb2d3YNVzi06FrO9jLn5Bi9n
- mCFHas1OkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACais4iR4dehY1Mkzmxp2zit
- SKLF5ONRSaMYkb9n4my8bgoars/t72f4n/Fs81GRJ9bXmdfmvl0+aVKDfNLyOfcPL49o0K2SuPU
- hgBMA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Wed, 21 Oct 2026 00:56:34 +0000, Josef Bacik wrote:
-> fs: don't let a stuck unmount take everybody else with it
-> 
-> Hello,
-> 
-> A consistent problem we have in containerized environments is a
-> misbehaving mount taking out all of the other containers. We hit the
-> super_lock() while we've got a stuck or slow umount and everything backs
-> up behind it, and there's no way to kill those things.
-> 
-> [...]
+syzbot reports a lockdep cycle &pipe->mutex --> &of->mutex -->
+&sbi->pipe_mutex. splice holds a pipe mutex while it calls the write or
+read handler of a kernfs file, kernfs takes of->mutex there, and a write
+to /sys/power/resume looks up a path that can make autofs write a request
+into its daemon pipe and wait for the daemon.
 
-This makes sense to me.
+Patch 1 stops holding of->mutex around the ->store() callback of regular
+sysfs attributes, which do not get the open file and already run
+concurrently for separate opens.
 
----
+Patch 2 handles the case that patch 1 leaves. A store called from splice
+still runs with the pipe locked. autofs no longer sends or waits for a
+request in that context and returns -EAGAIN instead. A new mount is
+refused before it is marked pending, so no other lookup sends the request
+in its place. This also removes a deadlock in which the spliced pipe is
+the autofs daemon pipe itself.
 
-Applied to the vfs-7.5.super branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.super branch should appear in linux-next soon.
+Patch 2 changes behavior for one narrow case. A lookup from a splice
+callback that needs an automount fails with -EAGAIN instead of waiting.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+The series was tested in QEMU with lockdep using the original C and syz
+reproducers and focused splice and autofs cases. The target reports were
+not reproduced with the series applied, and the paired functional cases
+matched the unpatched baseline.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+Krystian Kaniewski (2):
+  kernfs: do not hold of->mutex across sysfs ->store()
+  autofs: do not wait for the daemon while splice holds a pipe
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+ fs/autofs/expire.c     |  6 +++++
+ fs/autofs/root.c       | 28 +++++++++++++++++++++--
+ fs/kernfs/file.c       | 52 +++++++++++++++++++++++++++---------------
+ fs/splice.c            | 13 ++++++++++-
+ fs/sysfs/file.c        | 18 ++++++++++++++-
+ include/linux/kernfs.h | 11 +++++++++
+ include/linux/sched.h  |  2 ++
+ kernel/fork.c          |  1 +
+ 8 files changed, 109 insertions(+), 22 deletions(-)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.super
 
-[1/5] fs: make sync(2) wait for superblocks being shut down explicitly
-      https://git.kernel.org/vfs/vfs/c/4afadc443112
-[2/5] fs: make freezing for suspend wait for superblocks being shut down
-      https://git.kernel.org/vfs/vfs/c/86a14b765007
-[3/5] fs: make the block device callbacks wait for superblocks being shut down
-      https://git.kernel.org/vfs/vfs/c/3505dd5c488d
-[4/5] fs: don't sleep on s_umount of a superblock being shut down
-      https://git.kernel.org/vfs/vfs/c/e240433824ae
-[5/5] fs: let a mount waiting for the old superblock to die be killed
-      https://git.kernel.org/vfs/vfs/c/6f55404958eb
+base-commit: 93f51579e7df248780214094418f205253383cc5
+-- 
+2.53.0
 
