@@ -1,54 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792576553;
-	b=qVs616oRACE0ABNuZypwThqKaLuR4HQLqC3ANJZfbUbu1SfX++4m/uQTSl8ph/A6xCul
-	 biGyLRmdOuS1uQIDiDYw+RQqJKDn87/CEsi0FzJGZ2uPuJE4bfX5x1PoYgs/QmU+BaBDI
-	 2uw9LfUfHHNYCf6VB9WbcycrrymbmQ54GPBZeH/Nj4T6UAdzjd3o28t9B0tFCMudJxzcl
-	 k0wHs7XP21nmAhLzuwN1Oqeszmif/cr0WVDIbVul2dZ0DWOfKGPK1w2adNjunJU8zb8CL
-	 xuG5ZZkkxGLRQjeBGRnB4ehlvV+cC3rr7FQXM/eKjjbMvbrDj9dwNwE3Oanf2JN/Dcg==
+	t=1792576627;
+	b=cRet/YOoFeT0OTYUCs7kznMCjs/jCYsdLAdOG5umKb5Uie3PkTVAqw5+/nZ8/VnGJN7N
+	 UpRCrNk0KDPLLgYubMeU6TipyW3mtkeeSkXAXBuv0of6Yg+22lF1C2mt3aKn4RDcYnKeb
+	 2BSMTmlcB1G+1AeC5aonk3zIavwmdx4rX3o2pbe6OORyI+/PV1M0+JCSV6BQmXb3DVo6o
+	 TpeIiUTKGWvO3Mj7B20+0DUOYO602qXLYES63ydSjkhMg7WJipWeyCam2tCh3xYJF+kl2
+	 OegYBPIgIhlJU26cC491AzLw/dlyj4W4DBptGyYlfmfKUPjyW1dbnPzcj2hZ6ufGJfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792576553;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=IIGWTKmOx1c83FVGvewRkmLSOibVGHHpVBo4E4/42Jo=;
-	b=nkpVFvn1BoDShA0ta9AB0qJaeCWlum7BjEym42lYBAppFRSs0tpthCTYHCN0mGOF+wD6
-	 oX9uI+5wYIX6i07MRlv1fkrdqDnoedV0Y0KMXaoO0vQ/6V7kid12N103DpOjyFvQz0lVR
-	 qHY+u8rbkaIi1SXJzT9t826Mhew2fm4Al9jhduAbV6YT0SRKis0Srph2v+59ZJVzMdKjr
-	 Q/WoM/V/3sNaZtH8lqscL//foBxZ9LT27Yt2DbqkiGPgYMqDfLPKhOU/lzpHE54eZAtat
-	 xkGr3MmVqIE0/fWY3rhIeno6FKJxxtpWtuwYZIV4oNuZEZlFP/js/o2o/RaA5IgkGGg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792576627;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=mmNDCdeKa3yD2Gl3CTC7+/aQ/aNMhU0J3kwcOnofaIg=;
+	b=g9tVliwp1DslEqJAaZALNg2OlkPV+FGXkHLj+L6AffdoOfV/YAiLiC6pr9dls9aCripZ
+	 wz8RjproOaXU/RvU9GL6FE50qJypcsCW8S76QQzAUPnyyKFFCKXySTguKW4GzKprGivgA
+	 ds8gkUECIc5ntocgz/kSkGwo8H5uLXINhEjoGhbfbKX6HnRrDCAlpvGFeFR+j0xySUJDk
+	 AOBL6p/eCmF8Bn2CG/gQ421JDKnzcAmIfLilX3I1MHz9tZO8G9caopRXgiUq7vqRGP3EG
+	 MLPpZPUXPOD6YIdk3RbfG9jVV403F76ZBNFge9GnZwGFU6DquQUuWsYkqPt5vFhBgmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lxb6M2eh;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FsbSL8lm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8524606A319;
-	Wed, 21 Oct 2026 09:55:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443DA606A31B;
+	Wed, 21 Oct 2026 09:57:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lxb6M2eh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 520C51F000C9;
-	Wed, 21 Oct 2026 09:55:50 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FsbSL8lm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D44D1F000C9;
+	Wed, 21 Oct 2026 09:57:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792576552;
-	bh=IIGWTKmOx1c83FVGvewRkmLSOibVGHHpVBo4E4/42Jo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Lxb6M2ehmlNxrSdK52xS7hR0Zf/zuU27nsuvJnITQdREM3X13JasaOw5sBhAI+Zjy
-	 YKT3nyR6IxOTVmg/T4litaQH5jzb2lPv+jIM8nyJiCZnXdJxuTIFJC8YOTstUT/cNr
-	 3BjGDbTY/AVnaNuV2k7zQmF8Ud/fsC1ugSkx4PX1Akivozx42Wp72xpH34xKcfyc4k
-	 AyWtiJQKCfnOilgCQ+IjI2dV5xQ2pKCeqSKGMxroNVmMhClzmCpdaOSGyoBHLnzf0U
-	 GnE6FUUp1oZm3pTa3Hah23IAnjLWoqBWRwlpCci/IttRHBd6jxG7NZ5XeMWuBnSj9q
-	 boSQIEitH/YDg==
-Date: Wed, 21 Oct 2026 11:55:47 +0200
+	s=k20260515; t=1792576627;
+	bh=mmNDCdeKa3yD2Gl3CTC7+/aQ/aNMhU0J3kwcOnofaIg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=FsbSL8lmB/UMYQbvLckJmDB1B0LWta/nkkM/K8PrFY4A7jN6lZFrsPy+jwxIW3AiQ
+	 Fu78ylkbyVpzqE5pzdcEYYExyWomuYz3qCqgRIgJEjr5aFXbFPXW3YjXqQNyoa5gnU
+	 SOMF91yYRynn5Hsjl80jkTsUTFC8kv2BtJafqhorcCM3R84CvL+uGFdbbBVmah5W0e
+	 9y68L76WlAtPEPEchM/q0olQkW++OJH8BNCWrsCYWlPnKDzQo/z8K6yfI7l+mspmV8
+	 Frm36bgNK2U9/ULmw414lvEM7AWL19RkOqof/s6zJ34phIQZCqPrRW+/QGAxnzhEdB
+	 W0uBfkwhvaUFQ==
 From: Christian Brauner <brauner@kernel.org>
-To: NeilBrown <neil@brown.name>
-Cc: Paulo Alcantara <pc@manguebit.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] smb/client(cifs): prepare for locking changes.
-Message-ID: <20261021-sodbrennen-ausdruck-kurven-72d0b7cc7db9@brauner>
-References: <20260928012812.2890035-1-neilb@ownmail.net>
+To: Matthias Goergens <matthias.goergens@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Hui Peng <benquike@gmail.com>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260927225002.509062-1-matthias.goergens@gmail.com>
+References: <20260927225002.509062-1-matthias.goergens@gmail.com>
+Subject: Re: [PATCH] qnx6: keep the top-level pointer index unsigned in
+ qnx6_block_map()
+Message-Id: <20261021-frohsinn-lawinen-fluggast-a2d6f13fe709@brauner>
+Date: Wed, 21 Oct 2026 11:57:00 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,31 +60,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260928012812.2890035-1-neilb@ownmail.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-3d1b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=924; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=8f56Pl6L+FfFM49t1sg2EGWfG/P+YKY3xO3hIxlGqfE=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTd6Mln2/wxL1NYRXq//aFHy1UFdpR0J5aV8b6f1mMWl
+ jzp1rz4jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIk81GdkuDI1z2rz7fnu7kub
+ ZN2687dx7v1Twe168v2H+9v+9QtNC2T4p5gw83S//AQx1YOuNpujz5atqT+U+8ip5Oz2qfte90g
+ 08wIA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, Sep 28, 2026 at 11:25:01AM +1000, NeilBrown wrote:
-> I am working on changes to directory locking.  The medium term goal is
-> to lift d_alloc_parallel() locking above i_rwsem, so d_alloc_paralle()
-> can be run unlocked, and consequently cannot be called when ->i_rwsem is
-> held.
-> 
-> The requires:
->  1/ that d_alloc_parallel() not be called while i_rwsem is held.  cifs
->     does this in a couple of places.  A new interface d_alloc_trylock()
->     is now available and can be used instead.
-> 
->  2/ a dentry must not be d_drop()ed while an operation is ongoing, as an
->     unlocked d_alloc_parallel() would then be able to create a new
->     dentry with the same name.  In particular d_rehash() must be phased
->     out as it won't be safe.  This particularly affects the mechanism to
->     block lookups/revalidates while an unlink/rename is happening.  The
->     mechanism is changed to use one similar to how NFS addresses this
->     needed, though using the new LOOKUP_PRIVATE flag.
-> 
-> The patches depend on patches recently added to the vfs tree.  I would
-> prefer these land in that tree too with an Acked-by or similar from cifs
-> maintainers.
+On Mon, 28 Sep 2026 06:50:02 +0800, Matthias Goergens wrote:
+> qnx6: keep the top-level pointer index unsigned in qnx6_block_map()
 
-Can do, will need an Ack.
+Applied to the vfs-7.5.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.misc branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.5.misc
+
+[1/1] qnx6: keep the top-level pointer index unsigned in qnx6_block_map()
+      https://git.kernel.org/vfs/vfs/c/345a23b25153
+
