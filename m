@@ -1,80 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.83.148.184
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792606343;
-	b=mlbX1qu8jRypQg/i+N/r4Uyn2vSuoDUs5OgfXhqCtGqLSjwAPC0gcHlac4JjJLf1jj+i
-	 AOxBIBeM8mIxAH7JnBT48lemTBeMlK6eKMVuYCACrvWL3YDyAi6UvhzHpcbG0E5P3kzKL
-	 1c0vcVzlKKE5pkQEqB1b0GrdF8uNvgFME9HRVo189hIl32YvWb2mXL3CfYMXvpXmQnrYv
-	 syPyDLMnAWqMcv5t0xXG1IZt5juEVtnP9SLiWlisQH+/O7LbTHuE1+ZBi2v7vQNZaY7BW
-	 LLL34RL9H2dPtdIcENHKLjUMHviIArOiaAhhbVnUFOfq/BNJFM+VcYrnFXQuU5Oz0hg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792606343;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
-	 From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=+PH9zTDs7qXdIs87sy4Roo89pD6vSPYgRkevIEWEu44=;
-	b=EikzgwOBBaClpJgKQNzRXsjH5j1B/dkYS9k8aqVDDupkGaAFIZ5ZZOUro7uTrUKCfFp2
-	 DZwrF5oiqLk6YPlJ8AJjvKB+iG3ed/60iHEof0DEglYYUJMZ3AsILUUgN2PfUFVpVdbiK
-	 ON+Pg3XL7moGB07LviZi69dHAS2KJneO1WWfrzEkjjsMnhw16gmLgmkXheJdPId1XNXJV
-	 oZ8H/0//gFC+Cq/GlohubAd6KcR7K9IgpNLOAxbyF8BGnMtU5LFr6NX+puQaEQ4q7zGN8
-	 7xV53z0xkeNXp4DYy+qZ+qQaObxmfdRsNziX19qLt9wml9si4G2R//fJWWhoAiEy0rw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amazon.com;
-	spf=pass smtp.mailfrom=amazon.com;
-	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=CbZRsVQa;
-	arc=none smtp.remote-ip=35.83.148.184
-Received: from pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.83.148.184])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.179
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792608117;
+	b=iRxITeAB/ERHh5aKucaW2rbAbzegBqQ4JUsydX4luQ5aGkma+cz5jfnUpmOSGLid35SO
+	 tzZuIviTc2nUFBc3mRcb0gZcS4J1OcDYA5+eCH/uC711MyC/YdxxnvyhwdcgJ/Gjj+XCi
+	 xgkOiFBYDG0nOgD+VZsiUgs3i3cYbhtlgupHDxnAOWtOesB6wUnlG+9ezQgk6ZUuru4Ay
+	 cL/0n/egYlA9tncICDIhrb4b7H3ntGS65AhXLrH2N+RIs6Q+sWA/82B5jwqYJeZ2JL5gD
+	 yA+YMd1mZ8c2TZS914PRg3bHydj43Ylt9tvPGYm4wS31ZCR/jbpL1Hdw7awAgs65Nnw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792608117;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=jbwEUgN2SVemlffka8Ya8uCbb80Pexet3eWRm3S/rx8=;
+	b=eAuXIH3nNuuHsqE8HYOEU7utpnhrAnA7e3ROO309WFHXiKB2gg7l2yPUFz5q4ay4zxX5
+	 2iL4D3X+rqmsKW3O28lSeHFnvyU7e8XRQOfquYsfh5fAnBKpvqirC3xT9CUcOlOaYpl+H
+	 zRhrbI8kiMGhDryVZJktIPjCtcPv35U/B+lvXLuKNR0WejjIIiy9tO1XNWN1g1hQErJbD
+	 OM4ywkPJNxhKXX3SOHKtwZPC+iBdmWdnIvwmiWyLFwFNrIow7qvryEPj8HRnQKWrvVDTV
+	 RRB4Lo0OH5i9mRk2GE2k14TBGCGtIjwt1t3J5jkKuBANAIDIE4uzO0hEfSAKy20jKFA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=omnibond.com;
+	spf=pass smtp.mailfrom=omnibond.com;
+	dkim=pass header.d=omnibond.com header.i=@omnibond.com header.a=rsa-sha256 header.s=google header.b=X3ECAfc0;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.179
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E55606A31B;
-	Wed, 21 Oct 2026 18:12:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1E55606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE853606A31A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 18:41:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE853606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omnibond.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omnibond.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=CbZRsVQa
+	dkim=pass (1024-bit key, unprotected) header.d=omnibond.com header.i=@omnibond.com header.a=rsa-sha256 header.s=google header.b=X3ECAfc0
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ea138a3497so6607515ad.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 11:41:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792608116; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AyBEYvQbG+wCjRYGJ/N9K+8lZdXtJ0gqQXdFB770KcPInS2Ynkt7ZHp9Qyi49xsTWA
+         txEDUkrL2zjAzelPp70zEDADkXZmbKIj4sq5uE6+YwzmhyC+Gam2M3jhHwsM7Bgub9cz
+         lxWOk7o6u8SoQuUEs7Mowxy9IxF5sWbxwInsLY4QH6B+AnhRCFR2ypqAcNUO1tBRlVM0
+         3RxUt5GFrHBrWZApx1tr0EbLtkpXffl/bGmFl6pU/PNVuZrd1bTVXpaqVFlUTHKczsBq
+         gheYs2xZeYfgQJIHUqx0YGh/HkbmaIzdmrMpvQyzGoyo78qPNEyL3yNaYHkUUgwq/43D
+         aPaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=jbwEUgN2SVemlffka8Ya8uCbb80Pexet3eWRm3S/rx8=;
+        fh=66MgICiou9MGI468SjnsJ88xX8AtBGGtHJGcOP7N9Js=;
+        b=adq+ltvjI3fDxlXFew1oM+PDvEh8IDPHiEl8jsmIsfIJ2dnB+1d7Uqi7gSS4ykHBOv
+         XRcMWmSJXV82RetnneqDEj4pBkXnHrJzA15SASIcIH30hONmsxeydlHO9DaZ0JgE8cvG
+         X9gudfIktxZLD5F8SggcHWrcSLzZboEMTyT3tHDOeFAqrwxPtX32LVhrrPsjimv7Xt9U
+         SXPHSiSqN7ZSogdQSW0hcaWnFKpibXW0ww8Yh1Ro3v0MgTox8gzx7/j3l7ZI+hxz1+o+
+         CL02xsPTkWrh18v4SOFnic7k9vWWo72Y//t3I+IS0qujZal/CBC2NWrwtBokxQutSUO1
+         zrRw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1792606342; x=1824142342;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+PH9zTDs7qXdIs87sy4Roo89pD6vSPYgRkevIEWEu44=;
-  b=CbZRsVQaYxyf4mOIhE51F6o96ESnlyt64OfzjuPoANme6YGKcuYN/NHO
-   g2P9SttCHVMy8gLhl9wnDf3pGwkaS1e5DQNs0f7p37XBC8+XqdPo0ct5V
-   1OBvz7eY1IIJXADqSOKnq1oVUW01/tKSlhK6i5JJGzd/X2xD30slLBH8/
-   Ff6MQIxy998Fu8ihZJwUYjT0/obQQyZgoneor1eloiLjotam4s16S3nij
-   K2y417kM5jkExbyVpwaUDl9IMqwpFIIo+YVndZb+1r8Haji5BMZoxhQtN
-   MttmXR8GkL/Rxkrab9h9iY2W6rlTTtOPokKphKE8df0vf/mZP8p8mWcoP
-   w==;
-X-CSE-ConnectionGUID: G3TrxJyyTa+g5VQvwbjqcA==
-X-CSE-MsgGUID: p6CqAlqYSceCiQKVC25+tA==
-X-IronPort-AV: E=Sophos;i="6.27,170,1787011200"; 
-   d="scan'208";a="31686578"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 18:12:22 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:24446]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.40.190:2525] with esmtp (Farcaster)
- id f0401e93-fdd5-44e8-9f5b-88715e886dd6; Wed, 21 Oct 2026 18:12:22 +0000 (UTC)
-X-Farcaster-Flow-ID: f0401e93-fdd5-44e8-9f5b-88715e886dd6
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
- Wed, 21 Oct 2026 18:12:21 +0000
-Received: from dev-dsk-youyouyu-2c-7ec217cf.us-west-2.amazon.com
- (10.189.234.25) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.53; Wed, 21 Oct 2026
- 18:12:21 +0000
-From: YouYou Yu <youyouyu@amazon.com>
-To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-CC: Alexander Viro <viro@zeniv.linux.org.uk>, Lichen Liu <lichliu@redhat.com>,
-	Dylan Johnson <dgj@amazon.com>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Gunnar Kudrjavets <gunnarku@amazon.com>
-Subject: [PATCH v2] quota: initialize dquot cache before mounting rootfs
-Date: Wed, 21 Oct 2026 18:12:17 +0000
-Message-ID: <20261021181217.20171-1-youyouyu@amazon.com>
-X-Mailer: git-send-email 2.47.3
+        d=omnibond.com; s=google; t=1792608116; x=1793212916; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jbwEUgN2SVemlffka8Ya8uCbb80Pexet3eWRm3S/rx8=;
+        b=X3ECAfc0m2RERpY2gLEqTj02jVL8Kbs/xwogKt0jm9huXu3mAunSe5grtCzQ/SM/0m
+         ruBiMDFnY8amOqTFI5bBDvKoYGDrF5Bksrr5AqNK8kUGFjZ1C9xsFYjfOQdYi8L8q4ds
+         AtgLzhhMMQ2CewxxYalf6ib8OwEJYIfVumV2c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792608116; x=1793212916;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=jbwEUgN2SVemlffka8Ya8uCbb80Pexet3eWRm3S/rx8=;
+        b=Z+//kFstYn6P6e+Xtbw70/pCku015sttkXMVE+7m185AeQ6aUMguvUAVrvMSqmE5Dr
+         6crCPLVc8i4Fy+RRGZp+Z6yAIqvVpNJVv009/3EQU4GDpHTSJhNTGp4DF8N9eK6vkit3
+         iDMgxjZiRtFQQ+7uuV7bvqZTZy7ggtWDZxGYJf4UW2iN2IL1cN7cpLyRkW5aTjgTiGCM
+         a4M7Dj71Jyl/Cjp/CJOrp2TokDA/CdsVHtkMggB/a/bKTHdYoixffLci3P9aMHR6pCdW
+         zz4rXebrGPbIjto1IWrBhjU8w7q5CzuCd+Csa/4PW3Bs8s/bFYDd58azvVpBn4R8UkXl
+         3pwQ==
+X-Gm-Message-State: AFq9FYLW5KGFYI+maU7ZYRwULLFOEjTTjWoJhFZxg5+P1+E0NFSygDCo
+	Rox13AWgzPa37w2oCdgvvgHj9qzYxOyVJ3po1eYuowmbr1yt5jw45PMsLJv1xizOzOSEvN3Dhbb
+	oKpxi1aYBo5IJyrkphrbQBymcOz7QukzeEP0T3QSHFYYwdn7ynviCHTiA
+X-Gm-Gg: AYBFou1iHd/VTg96a+0hr0+hGWkcg2mb7K/P6Nkg8FlKyUYeTjRN163r4cRcu/XnHsW
+	wwsCUjgwykPv/Yj8U05j456xW6Kn0k2Zx/RF0EI4MHuGCgpYLDgqulc+tPt5zpnObAlW69siDgY
+	vuaEFB2lThH6ZE6Su137U3eFb4XPJdNdP71aw4IOYO2Sm4CEWFx756IB2pBNOivmivmCu7jUuTj
+	hQo5timcP1VVmXo2HXkOghkWmgHqOUFGnB4UqNM97u/m/3wfzv4iAt293Al6u3yFtymdfLJvRvj
+	cm4UHbDYep0E+6HhHEWA+UP2cx+upZs/cdQrN75PjlEvscZu1avY1uqcPcaRoz77A48Qj5sjb/L
+	0sXBR72n4WhuOdc91sgKkYn1EZQvRSMlqYwPC7qnZZNYpoHXXRCG3XSZ3gMy+X2SwWvc0Lw==
+X-Received: by 2002:a17:903:2306:b0:2e5:cf33:80ca with SMTP id
+ d9443c01a7336-2ea43c23484mr23449325ad.52.1792608115956; Wed, 21 Oct 2026
+ 11:41:55 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,154 +96,55 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWC001.ant.amazon.com (10.13.139.241) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+From: Mike Marshall <hubcap@omnibond.com>
+Date: Wed, 21 Oct 2026 14:41:43 -0400
+X-Gm-Features: AclHuK9rFl9-kimsPODWvPfwKmZWbt_8EQf2PEkI_5AKcRbPJpWrC3mHpHaIbeo
+Message-ID: <CAOg9mSSxA7POTOHWrC-6Y5W-OAx=TaMLaCWuuA+e_0Y0+Mo7SA@mail.gmail.com>
+Subject: [GIT PULL] orangefs changes for 7.4
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, Mike Marshall <hubcap@omnibond.com>, 
+	devel@lists.orangefs.org
+Content-Type: text/plain; charset="UTF-8"
 
-On some systems, a tmpfs backed rootfs is extensively used throughout
-system's lifecycle. tmpfs quotas are needed to limit per user rootfs
-usage. However, booting with CONFIG_TMPFS_QUOTA=y, an initramfs, no root=
-and "initramfs_options=usrquota" panics at boot:
+The following changes since commit fd73f4a6659897191fa0d40695fe370925dd3780:
 
-  BUG: kernel NULL pointer dereference, address: 0000000000000000
-  RIP: 0010:dqget+0x1ac/0x490
-  Call Trace:
-   __dquot_initialize
-   dquot_initialize
-   shmem_get_inode
-   shmem_fill_super
-   ...
-   mnt_init
-   vfs_caches_init
-   start_kernel
+  Linux 7.3-rc3 (2026-09-13 14:38:02 -0700)
 
-The rootfs is mounted from mnt_init(), but the dquot hash table and
-cache are only set up later by dquot_init(), an fs_initcall. Creating
-the root inode of a quota enabled rootfs thus dereferences the NULL
-dquot_hash in dqget().
+are available in the Git repository at:
 
-Rename dquot_init() to dquot_cache_init() and call it from
-vfs_caches_init() before mnt_init(). The slab, percpu and early
-workqueue code it relies on is available there, and the workqueue
-rescuer and shrinker debugfs entries are set up later by their own
-subsystems. Keep the sysctl registration in an fs_initcall, as done
-for the dcache, inode and mount sysctls. This only moves existing
-allocations earlier in boot.
+  git://git.kernel.org/pub/scm/linux/kernel/git/hubcap/linux.git
+tags/for-linus-7.4-ofs1
 
-Fixes: 278033a225e1 ("fs: Add 'initramfs_options' to set initramfs mount options")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Co-developed-by: Dylan Johnson <dgj@amazon.com>
-Signed-off-by: Dylan Johnson <dgj@amazon.com>
-Signed-off-by: YouYou Yu <youyouyu@amazon.com>
-Reviewed-by: Gunnar Kudrjavets <gunnarku@amazon.com>
----
+for you to fetch changes up to 2bc09cb0e9e44c7e622b956332ebfb9b638fd5f7:
 
-Notes:
-    v2:
-    - Mention the use case in the changelog (Jan)
-    
-    v1:
-    https://lore.kernel.org/all/20261015183608.22507-1-youyouyu@amazon.com/
-    
-    Tested on v7.3-rc7, x86_64 QEMU/KVM, booting from an initramfs without root=:
-    - without this patch, initramfs_options=usrquota panics in dqget() as above
-    - with it, initramfs_options=usrquota,grpquota,usrquota_block_hardlimit=10M
-      boots, rootfs is mounted with quotas, and a non-root user is limited to
-      10M on rootfs
-    - /sys/kernel/slab/dquot, the quota_events_unbound rescuer, the fs/quota
-      sysctls and (with CONFIG_SHRINKER_DEBUG) the dquota-cache shrinker
-      debugfs entry are all created as expected
-    
-    An LLM (Claude Opus 5.5) helped drafting this changelog.
-    I reviewed the change and ran the tests above.
+  orangefs: don't continue on to gpf if client dies on write.
+(2026-09-15 12:24:35 -0400)
 
- fs/dcache.c              |  2 ++
- fs/quota/dquot.c         | 10 ++++++----
- include/linux/quotaops.h |  5 +++++
- 3 files changed, 13 insertions(+), 4 deletions(-)
+----------------------------------------------------------------
+Fixes:
+orangefs: don't continue on to gpf if client dies on write.
+If the orangefs userspace client died while writeback
+was occurring it led to a gpf. This patch allows
+the kernel to finish the writeback.
+Reported by Farhad Alemi.
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index f44c7b39c3b..b208cbdda0f 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -32,6 +32,7 @@
- #include <linux/bit_spinlock.h>
- #include <linux/rculist_bl.h>
- #include <linux/list_lru.h>
-+#include <linux/quotaops.h>
- #include "internal.h"
- #include "mount.h"
- 
-@@ -3525,6 +3526,7 @@ void __init vfs_caches_init(void)
- 	inode_init();
- 	files_init();
- 	files_maxfiles_init();
-+	dquot_cache_init();
- 	mnt_init();
- 	bdev_cache_init();
- 	chrdev_init();
-diff --git a/fs/quota/dquot.c b/fs/quota/dquot.c
-index 1c78c695d0d..cd142c9cc7e 100644
---- a/fs/quota/dquot.c
-+++ b/fs/quota/dquot.c
-@@ -2942,7 +2942,7 @@ static const struct ctl_table fs_dqstats_table[] = {
- 	},
- };
- 
--static int __init dquot_init(void)
-+void __init dquot_cache_init(void)
- {
- 	int i, ret;
- 	unsigned long nr_hash;
-@@ -2950,8 +2950,6 @@ static int __init dquot_init(void)
- 
- 	printk(KERN_NOTICE "VFS: Disk quotas %s\n", __DQUOT_VERSION__);
- 
--	register_sysctl_init("fs/quota", fs_dqstats_table);
--
- 	dquot_cachep = kmem_cache_create("dquot",
- 			sizeof(struct dquot), sizeof(unsigned long) * 4,
- 			(SLAB_HWCACHE_ALIGN|SLAB_RECLAIM_ACCOUNT|
-@@ -2992,7 +2990,11 @@ static int __init dquot_init(void)
- 					   WQ_UNBOUND | WQ_MEM_RECLAIM, WQ_MAX_ACTIVE);
- 	if (!quota_unbound_wq)
- 		panic("Cannot create quota_unbound_wq\n");
-+}
- 
-+static int __init init_fs_dquot_sysctls(void)
-+{
-+	register_sysctl_init("fs/quota", fs_dqstats_table);
- 	return 0;
- }
--fs_initcall(dquot_init);
-+fs_initcall(init_fs_dquot_sysctls);
-diff --git a/include/linux/quotaops.h b/include/linux/quotaops.h
-index f9c0f9d7c9d..bbe22c22439 100644
---- a/include/linux/quotaops.h
-+++ b/include/linux/quotaops.h
-@@ -40,6 +40,7 @@ void __quota_error(struct super_block *sb, const char *func,
- /*
-  * declaration of quota_function calls in kernel.
-  */
-+void dquot_cache_init(void);
- int dquot_initialize(struct inode *inode);
- bool dquot_initialize_needed(struct inode *inode);
- void dquot_drop(struct inode *inode);
-@@ -206,6 +207,10 @@ static inline int sb_has_quota_active(struct super_block *sb, int type)
- 	return 0;
- }
- 
-+static inline void dquot_cache_init(void)
-+{
-+}
-+
- static inline int dquot_initialize(struct inode *inode)
- {
- 	return 0;
+orangefs:don't wait on service operation on system shutdown.
+This patch avoids waiting an already dead userspace to
+process an unmount operation if the system is shutdown
+while orangefs filesystems are still mounted.
 
-base-commit: 7c6f8a2841d4eeeceacf42689cd2717fe76d9f7c
--- 
-2.47.3
+orangefs: use ssize_t instead of size_t for error codes...
+This patch fixes a situation where an unsigned variable was being
+used to collect a string size, or possibly a negative error code.
+Reported by lkp@intel.com
 
+----------------------------------------------------------------
+Mike Marshall (3):
+      orangefs: use ssize_t instead of size_t for error codes...
+      orangefs_super: don't wait on service operation on system shutdown.
+      orangefs: don't continue on to gpf if client dies on write.
+
+ fs/orangefs/inode.c            | 21 ++++++++++++++++++++-
+ fs/orangefs/orangefs-debugfs.c | 10 ++++++----
+ fs/orangefs/super.c            | 18 ++++++++++++++++++
+ 3 files changed, 44 insertions(+), 5 deletions(-)
