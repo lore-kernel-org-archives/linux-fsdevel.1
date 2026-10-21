@@ -1,85 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792575471;
-	b=k5JiVctPpLc8jAcC09vlWTCk4RK5Ft5KMnUgk0bbd6pQGNfTtqW1pkxRGD1meTcD0fj+
-	 5nvkZ+rr68CtQyxHXEiblBOaZ4/zl/mrchP1HMRGfC9PeU68UhY7plWvTvV6XXOXBbDEZ
-	 5Kqmi7OdiJm11u6dnwrir7ibIut0jeHDHh01NtQfUGj/h/zg+I2LIPZzhm1kZ+c1K75yT
-	 VCpuBrBHVx4aZWxarQ2ICh/zRhOq6xbCVuAu6koRkPtDXz6Tan17LkbYRuSGYIEB/qjZI
-	 QeitI7jsS250DgvO/gcbOtyYoXjQ0PQsurOCw9sKldnEOFYCkwgK4khl4jT7O+5EjYw==
+	t=1792575745;
+	b=FjXzQGT+9retPVkqM8nzclDkTadrnmjMPa6YwkIeJspRHhW1zsOJIHzPup1Z7nAmivjF
+	 b9VKE9HtHYr+fXS7/sDyxNgHi+UzrFBTgKLaYBDbkpRlne6JVsbqvsyurLLGM/5HjDmAH
+	 DCF9PJAf2W/g+8dHOkaRd4xuUTpDiJfYVtiQbX2u9XR/fOMpIp0pNHJLIiWNzbPOwnpit
+	 D4dID+F2BIpWEVpyhKXI5x8BxbfBD18mFmXPq6cmvXwZ2C/AlD0EbCTgeJY1L9yhPgwgB
+	 aq+VEy+JkQk9Z2bXEwmZqy2DlrLF1V8HeqUa5vbiGvVkOSB3q7ndopECOuZ3pMaTiNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792575471;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Scanned-By;
-	bh=zYYaJ3Cx83d1i6W0tWGXSMXeldqRUTYijFYdQSWTCqk=;
-	b=pHsubdFvagzqURMyfdHEn3e8jNPKtxHF0LAsiDbpKPyFt7uF/5y9ull2mA7qJNs8OoG6
-	 pla4+QtJrYMYk8Wyy/V9QNBtKy+qtFE0JMUpDC5fKoE9o7NdmJZiv5hDllXycPF0lOTzm
-	 rPv8IA8cMjYRSHiis60Gqcw/HpdPEwKUHy49cURfOD3makYEwfIyF7i02t7W+cyJpwoiC
-	 F7n8kuPHTE9nHnYZoW5Gvv3RxhzXQNNa8WOCqnD1XgXZxMjeyqCtHbv7/+iv3q2uUqaHD
-	 gfCJ7ZHcVjgsX2lD5VSEfwJEyVSWnV3LKSpUDfB4gRkxiYqS31FXM143Xlb2Nnt1sxw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792575745;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=SBj5f6bjIXnFqj6FChZR/C0/XDrMs6MSHUt/TvZ8Sj0=;
+	b=ajframwzXHtjSzZNkK/g3y3dq52lHbFVmJ0EddGbgO7zPDA+GKN7ghnxg6RPz6iiLvFT
+	 l5n/RCgs4BNWHdcnkjLXCwJUY1aEa5j22dRNjHeNWsOvllrNhVmj/oW1l9wyvJthiD0Ob
+	 yCiPBOZZqjCXJ6xkdg/RqA2zMzdYx0/9QqsXIHAgLA/2Pi6w7+NF2/EK5xyh4U7qyunkS
+	 88BMCFPUWKZjzshJIXipP21CtT+2kLf2uLZtY1sBTuDhyxYzScvIS4vrbNlktDriayvzn
+	 pK7/57rZ6Ak3OzRANhIICNiEbzE07e2A/QUXRLm0caIGRURVMAn+WWd1RWZzU+g/ABA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cgHOGJgN;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QMv1Fk0I;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CBE606A31F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 09:37:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60CBE606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1A8606A319
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 09:42:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cgHOGJgN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792575465;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zYYaJ3Cx83d1i6W0tWGXSMXeldqRUTYijFYdQSWTCqk=;
-	b=cgHOGJgNDHQVftR29sZ0Y8W3uymfxOZ+PpcOBOJTkNNPmFV5j/ClsawhkJkyJi3YkR0sLZ
-	P9dKxHC+Ax7IMn0ckxA+pUEX+iIAPQuKXXjVjJEyrQzDAuWnsBsbTBZfGX7A7G1nigD6Rx
-	Xp3PEQNmZ+pv8WLEqclCCFdGIIS3MHc=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-613-_u7xX48KOf-yVVlOyNLt4A-1; Wed,
- 21 Oct 2026 09:37:41 +0000
-X-MC-Unique: _u7xX48KOf-yVVlOyNLt4A-1
-X-Mimecast-MFC-AGG-ID: _u7xX48KOf-yVVlOyNLt4A_1792575460
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 826651800847;
-	Wed, 21 Oct 2026 09:37:39 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id D87471956087;
-	Wed, 21 Oct 2026 09:37:35 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Wed, 21 Oct 2026 11:37:39 +0200 (CEST)
-Date: Wed, 21 Oct 2026 11:37:34 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Allison Henderson <achender@kernel.org>
-Cc: Joel Granados <joel.granados@kernel.org>,
-	kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev,
-	lkp@intel.com, linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-s390@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org,
-	wireguard@lists.zx2c4.com, rds-devel@oss.oracle.com
-Subject: Re: rds_wq UAF
-Message-ID: <atiH3sYO8XvnP-Vn@redhat.com>
-References: <202610190310.9737b2e3-lkp@intel.com>
- <atYB0bm9eEXp8A2g@redhat.com>
- <atYW0K3t57puHeLW@hobbes>
- <atYuE1xnVYe0BDG4@redhat.com>
- <atY42k00k0Waj6o4@redhat.com>
- <42964fa071bd8dcafd418c89be6d66856def4dc5.camel@kernel.org>
- <atdoGiW_sHlWgOwt@redhat.com>
- <e7888169bdc76ea40fcfe782c2bc9b70e037dfc6.camel@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QMv1Fk0I
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9502A1F01804;
+	Wed, 21 Oct 2026 09:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792575745;
+	bh=SBj5f6bjIXnFqj6FChZR/C0/XDrMs6MSHUt/TvZ8Sj0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QMv1Fk0Ip/tMOYMfKHyEaBR6BOXpjj9J4flGAh22Z9tReOCbhoJSrcHspP/9bppq/
+	 +J64OU1fiZH0tBzh2TPSyk8AmJZyRSCLvAif4O6ACpfWL8ZvSgSCILyUf+RurtYSs7
+	 1Ct8wBThczQBt+hraqSumpvZ3Pi/j/jAwAP5W6cbehPM1u0CTab4fzGSZYQVi5TK+H
+	 xOM65m43fgMdafTIoreCIL8QxJ7gAKZrpxVnnydRiPGFZXxfmKNCByb4mWWgs6/+ui
+	 iwiZx0gK6QRRSLiUvSQFRXIvdlLjFVNYET1jnGvn6n6Ho1FpY4Gjh2n+IgKwgOYACC
+	 rSiF//dhPUtKA==
+Date: Wed, 21 Oct 2026 11:42:20 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Jan Kara <jack@suse.cz>, 
+	Amir Goldstein <amir73il@gmail.com>
+Subject: Re: [PATCH 2/3] namespace: rework connected mounts
+Message-ID: <20261021-zulassen-flatterhaft-tragik-e7c6cd72a700@brauner>
+References: <20261002-work-mount-cover-v1-0-232a8f52b43c@kernel.org>
+ <20261002-work-mount-cover-v1-2-232a8f52b43c@kernel.org>
+ <20261018031522.GC3535232@ZenIV>
+ <20261018-popsong-pracht-quark-a0f9a2d3734c@brauner>
+ <20261020184156.GL989762@ZenIV>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -89,51 +61,150 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e7888169bdc76ea40fcfe782c2bc9b70e037dfc6.camel@kernel.org>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+In-Reply-To: <20261020184156.GL989762@ZenIV>
 
-On 10/21, Allison Henderson wrote:
->
-> On Tue, 2026-10-20 at 15:09 +0200, Oleg Nesterov wrote:
-> >
-> > Let me try to summarize.
-> >
-> > If rds_init() fails after rds_threads_init() for any reason,
-> > rds_threads_exit() will destroy/free rds_wq.
-> >
-> > If rds_rdma_init() is called after that, and rds_ib_init() fails
-> > after rds_ib_mr_init(), rds_ib_unregister_client() will try to
-> > flush the already freed rds_wq.
-> >
-> > But we have
-> >
-> > 	module_init(rds_init);		// net/rds/af_rds.c
-> > 	module_init(rds_rdma_init);	// net/rds/rdma_transport.c
-> >
-> > and IIUC the order of these initcalls is not defined. So if
-> > rds_rdma_init() -> rds_ib_init() is called before rds_init(), it
-> > can do flush_workqueue(rds_wq) when rds_wq == NULL on failure.
->
-> It is sort of defined.  When built as modules the order is enforced by
-> symbol dependencies. rds_rdma and rds_tcp need symbols exported by rds
-> (rds_wq itself is one of them), so they can't be loaded unless rds_init()
-> succeeded.
+On Tue, Oct 20, 2026 at 07:41:56PM +0100, Al Viro wrote:
+> On Sun, Oct 18, 2026 at 06:32:19PM +0200, Christian Brauner wrote:
+> 
+> > Sure. Note that it's a separate allocation so 40 bytes land in
+> > kmalloc-64 just like 64 do. IOW, it's a cleanup, not a saving. I can do
+> > that for 7.4.
+> 
+> FWIW, I really don't like that separate allocation ;-/  For the majority
+> of struct mount instances we never access that thing after it's been set
+> up...
+> 
+> Sure, I see your point re separating the cleanup_mnt() guts and
+> detaching from the parent, and yes, having two separate structures
+> is a simple way to achieve that.  However, your variant pays for
+> that with overhead and I'm not convinced that it's actually simpler.
+> 
+> Consider the situation when mount reaches
+> 	call_rcu(&mnt->mnt_rcu, delayed_free_vfsmnt);
+> in the end of cleanup_mnt().  Possible states:
+> 
+> 1) never called leave_cover() at all.
+> 2) called leave_cover(), matching drop_cover() has already happened.
+> 3) called leave_cover(), matching drop_cover() is yet to come.
+> 
+> (1) is by far the most likely.  Suppose we have leave_cover() set
+> a new flag (MNT_COVER) and _not_ clear ->mnt_cover; that happens
+> under mount_lock and always ordered before cleanup_mnt().
+> Then we can have cleanup_mnt() do the following:
+> 
+> 	if no MNT_COVER		// case 1
+> 		call_rcu(...)
+> 	else
+> 		read_seqlock_excl(&mount_lock);
+> 		set MNT_MAY_FREE
+> 		if cover is already off the lists	// case 2
+> 			call_rcu(...)
+> 		read_sequnlock_excl(&mount_lock);
+> 
+> and in drop_cover()
+> 	remove from lists
+> 	if MNT_MAY_FREE		// case 3
+> 		call_rcu(...)
+> with delayed_free_vfsmnt() doing all freeing.  But then we don't
+> need the separate allocation at all.  What's more, we can reuse
+> ->mnt_mp for ->mnt_cover->mp and ->mnt_mp_list for ->mnt_cover->pin
+> just by having __umount_mnt() make
+> 	hlist_del_init(&mnt->mnt_mp_list);
+> 	mp = mnt->mnt_mp;   
+> 	mnt->mnt_mp = NULL;  
+> 	maybe_free_mountpoint(mp, shrink_list);
+> conditional upon the lack of MNT_COVER.  That kills your extra
+> check in maybe_free_mountpoint(), with the loops in __detach_mounts()
+> folded together (they'd walk the same list, using MNT_COVER to
+> discriminate between umount_tree() and drop_cover()).
+> 
+> ->cover->node moves to mount itself; it would be tempting to union
+> it with mnt_hash (making removal from mnt_hash in __umount_mnt()
+> also conditional upon !MNT_COVER).  _Probably_ safe - callers of
+> __lookup_mnt() either have mount_lock or check the seqcount side
+> of things soon enough.  Will need to check how that affects the
+> proof of safety in your "skip synchronize_rcu if possible" series,
+> though...
+> 
+> ->cover->dentry...  Fuck knows - might union with ->mnt_mountpoint
+> (again, conditional upon MNT_COVER), might put it separately;
+> ->mnt_cover goes away, so the size of struct mount won't grow.
+> Bits in ->mnt_flags are not scarce these days - we can afford stealing
+> two easily...
+> 
+> I'll try to cook something along those lines; looks at least plausible...
 
-Yes, somehow I forgot that rds_rdma depends on rds ...
+My original proposal reused struct mount just like this. It did it
+differently in other aspects but the idea was the same.
 
-> So the rds_wq == NULL case can't happen.
+And note that I had about 5 different solutions to this and every single
+one of them was performance tested and profiled and only this one didn't
+actually cause meaningful performance regressions.
 
-Well, in theory rds_threads_init() -> create_singlethread_workqueue() can
-fail too and leave rds_wq = NULL. Nevermind.
+Note that as written the pin cannot be mnt_mp_list. It's unioned with
+mnt_umount and umount_tree() puts every unmounted mount on the unmounted
+list through it right after umount_mnt(). A cover that stays on the
+mountpoint's list and goes on the unmounted list corrupts one of the
+two.
 
-> So I think the fix belongs at the transport init: if the core didn't
-> come up, rds_rdma_init() and rds_tcp_init() should return early,
-> before they register anything.  I can send that along with the
-> sysctl change tomorrow.
+The hash union is safe afaict. We already move a hash node between
+buckes without a gp in mnt_change_mountpoint() under the seqlock. That's
+fine a read will retry. It doesn't matter for the gp series.
 
-OK, thanks.
+But it makes dead mounts reachable when walking buckets and that's
+exactly the "nobody can find it anymore" argument in my gp series. So
+just put the cover into mnt_child. Nothing walks the mnt_child under rcu
+and a reader can't end up in the covers list through a stale next
+pointer. Plus, the proof stays as it is.
 
-Oleg.
+But, my main objection is this really ugly zombie state this creates and
+that I hate with a passion and tried to get rid of by explicitly not
+reusing struct mount itself and using a separate allocation.
 
+In this variant above a cover is a struct mount that has been through
+cleanup_mnt(). After that point its superblock has been deactivated and
+its root dentry put, so mnt_sb and mnt_root are unpinned and maybe
+freed. Its mount id has been freed and can be handed to the next mount.
+So the zombie carries a live mount's id and its counters are zero.
+
+Yet, the mount stays linked. It sits on the parent's covers list, which
+the lookup walks under rcu. It sits on the mountpoint's m_list which
+__detach_mounts() walks and maybe_free_mountpoint() counts.
+
+That struct mount-as-cover variant also keeps pinning completely
+arbitrary things like the devname, the idmap reference and the percpu
+counters and whatever else we might end up glueing to it.
+
+This has a bunch of ugly side-effects:
+
+* A parentless mount sits on its own root. Both vfs_create_mount() and
+  __umount_mnt() make that a fact. Now, a cover in this idea has itself
+  as parent and a mountpoint maybe on another superblock.
+
+* Current readers are only fine because they test for a parent first,
+  but the invariant itself is gone.
+
+* Since covers aren't mounted anywhere every walker of the mountpiont
+  list now needs to branch on yet another flag, forever.
+
+* Doomed and unreferenced on mainline now means: unlinked and rcu freed.
+  A cover here is doomed, unreferenced, yet on two lists, and
+  freed by whichever of two parties does touch that thing last.
+
+I dislike all of this fragility. I had to go through UMOUNT_CONNECTED
+and I kinda had enough of this.
+
+In the current approach nothing in struct mnt_cover can ever dagnle.
+Which was the point.
+
+With struct mount itself as a cover walking the covers,
+__detach_mounts() and any debug printk are one added dereference away
+from a UAF.
+
+So I'm not really on board with reusing struct mount for this. I think
+it adds unnecessary sublety without actually buying us anything just to
+shave off that allocation. For all I care we can make it a kmem cache.
+But I did profile this heavily and the performance numbers didn't move
+because of it.
