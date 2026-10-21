@@ -1,109 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792564221;
-	b=Cnpxd2U+z1dqcMhB25vNyMv1E1bG5NeM67Dt6Ar4WgSRkX7+ofj4GhnQ4OYuLyoWGMXk
-	 cu5IpQOfkfbwl8gos7uOc6kO5ajzIQGo+5g/acbI8KVV4oIOjLRZdCC0dN4YYkLOlSqZa
-	 0t9gIfiNvciV5W8ktXWXzJKj0RDQxMNlkBIPkxkGkQmFDVS42du3NyB35UbmnMxrfqMxi
-	 e1jJz4NTtb0XqsFpIjZvZ4ukai9aumlGrcYGrEPNyrsQTxi54aJ3Ta35MtbUNxCWj8yGk
-	 yJYe1I06dJEXyZ0yQA12gEUMtxxJdOpjX6/rnlsZe8JZQo1DITOd2ruyAVJHoeJEjKA==
+	t=1792568173;
+	b=rhJG0bMiZN8ENEhQBAHvqm8fu+X9VVYZizg5aLl+HI5tIoWFo8q98B5gdlqUTcxpxWn8
+	 Grd7XIvyQMqdgpvJPDrSu6KzUwIc+eSZpQJbt3iWVuAQFZXlJNG0TQY69+4airDdkDcZB
+	 NAYoUL3vmA+RgZzZgpbS5vQY4rTIIujPbE2cKGOhDMNnNuoEv74EMeb0WzyRi71rmqHs/
+	 oO9l2fqgBnSbwyFJ8p5+xObJQLHxk88tLq5BNRavSPXoluKMp8vTWeBtVOrorDc32f4vT
+	 avn/HN13auERcUGdA2E0vOkGG8xUxRhfF2Cs773RNeo4MfnxqjrHS7/4hWdw0TOVJ9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792564221;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Message-ID:In-Reply-To:References:Date:
-	 MIME-Version:Content-Type;
-	bh=L/PL4XjMYN8lulvNzXcbg/92o2tqbniVOi/bhb++huo=;
-	b=sTWz1Y2wr0FSmZlsfIoPWu2bgl9M5boipURpuG/LyuG5dy6CunmW/GzdL+quJW03PB5I
-	 pcpp//+Csp0eerVJGpbynMW+rQbipChkeiEV2Xu2keLz6a8SGyg+GKpgYCzkw9zQejp7Q
-	 KqR3URLwzapLZ30S6z9PN5EIDw2u+8WrVE8UcXwCNvss3q5DkjJqcngAHTQrCbiDRvX66
-	 fJb3nKEUY+DBOc7e3DVesotmKfKyKdU3+NJaSRJxukjKfAP+saJWOsVx/KlspSgMlMzqU
-	 r2t0fxTPO8RtRuFfNZhak94TMWVvdfIOtcpaWWv4OQ/P72e1cAAmmh+vPWHHc991SWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792568173;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=tSH1r9M+8L4bHYKhri3oj4xzwG7x+h1dMG66BLEyGEI=;
+	b=h8Im9vqbJNAQJvxLEbwWrdsW2D8hyGUNvxKZrIE2cGbirx53fbVzU7FMNr4tCBIwSm6D
+	 iv0UX7vaI2KCLR97ngU0fN5SwUepGaeKlmJlUZvzgWxuMDFyESSp8rqowe7EWuXsgNZRw
+	 A6hvuLnVIjFmmtOOGFDWiGT1vYg6wJVaKNyMwb2M0Ry3gGPOWfRcygexJg7VCIDMh5b+Q
+	 hbIeynna1CXGRtBWIb8WtVU/CE7VdHfHSDrFUpAc61KtonSQodlMQGnu11Y7/n7Xmmo0/
+	 tHLnP4Vc5uFG+4XKNEEcGssKySIaNrvzejilWI7x1KyZy9ksRx09I+cFckW2xIkktjA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=innovatrics.com;
-	spf=pass smtp.mailfrom=innovatrics.com;
-	dkim=pass header.d=innovatrics.com header.i=@innovatrics.com header.a=rsa-sha256 header.s=google header.b=RMvtwt52;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=coybd9x0;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EB6606A321
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 06:30:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40EB6606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innovatrics.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innovatrics.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397E4606A322
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 07:36:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 397E4606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=innovatrics.com header.i=@innovatrics.com header.a=rsa-sha256 header.s=google header.b=RMvtwt52
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a1cef0439aso3037555e9.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Oct 2026 23:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=innovatrics.com; s=google; t=1792564219; x=1793169019; darn=vger.kernel.org;
-        h=content-type:mime-version:date:references:in-reply-to:message-id
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=L/PL4XjMYN8lulvNzXcbg/92o2tqbniVOi/bhb++huo=;
-        b=RMvtwt52znjfh3eFK0WsQqMQmq6rfqSd+JWqNAaZ/96dENgIpioJJ2u5aCDwmJarL/
-         8q+K4znR8jUt9bxOHahO2F+OO+riu1+XWzgkaaqvVD+4hUQkyN8CaDMmpuktTsGbl1qi
-         6hrqNn7jHv6gCM/BwJN5ncp55U7Meg5rrpBJo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792564219; x=1793169019;
-        h=content-type:mime-version:date:references:in-reply-to:message-id
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=L/PL4XjMYN8lulvNzXcbg/92o2tqbniVOi/bhb++huo=;
-        b=AOoyZz5WTKWBVYKS87oFUCkaHeMn6DftJJRXEC3WdhvR3NQyE8yaDhVJxhmI2EdmtB
-         LrNtKohDCkxt0DdTpnVjAmeXox/wNJcRDgprodo7QFLU6ayknEQmcijMp48zNuqEJhys
-         MpdM8iphbqrlo85k8EkMA3LKvAEzg04eMQeFKCxDoQtfPPkLplyoOP8BQfPJRdp6qSgP
-         Rc4ZsR5RsELhnFB1Fgb0NdFBwxRnrrln9yyu8IADKD9lDp8KIyJ1vhVrSp7lyVaLwAjx
-         4W54CshwYJV4FgSjdVoauQTCz7l3ClIVxLJgxXOIUtgGYpfY4mAWPtsz86YaY5c/xdOw
-         GfeA==
-X-Forwarded-Encrypted: i=1; AKwUvByfYJ3DdmANULNb5+1qXJZCl0yAJFbhyqvmcy3nf0FKmoZLuZqzMSGknhGLiRkZP1GCWa3EyEJH5V3D+rWg@vger.kernel.org
-X-Gm-Message-State: AFq9FYIiGnxFlHdw+aS8qzlXZXrlCZsp19Fb6YrQXWLZKei8YP030RQZ
-	qsqADrrKqOzlD6gDL0MXOm7lAArI4S2ccQ6f4GdmU00p8HbBBEdzIOdzZy4MyuRTwQ==
-X-Gm-Gg: AYBFou1IchHtT8m0uEa+o3aELTfhiojrp+O/GQow+Ccho1pbGEHmbtDo7LkvYjmBGb4
-	pGjoR7JhOdhTPBVwSpfQYw+39bHWZGoVAjo6LUA08nBy/DbiMso6jSkZzDc35b6y1zZdIIU3vcz
-	TMRIAwOxf1yo1lJjG+jvHBH15aHbWJYYKOHe/7zmx8snXlU0/JMpKt4RljjUbhGDlv+hBx34DzM
-	f6td3pSNXPaaZD0+QT2FD8VxSVOxdxfHqv4ybjv3nOlXB/PXwvrrzo26MHr4Yc2oQiecoTSzKJt
-	b9446p1XlpoNck0gg4jr37offDR+xewHyx1Jq4p384tQgHlVKo8jEi9ofe3EnqGQ0jd7d4wPUSN
-	JEVMQKixPtuJM4COFHkJtoRO2HcnmhAFUgb/Mehix9Tgt4HjbUKGg2dRH4/lxSD5AN3os0iW+lm
-	lUvhMnhqfAA9SVJinXJ8jx5Sb2mMEwSr0Ea1LDV162Jz6EgBqSAObdbRFgQfM18Ui3DoXhBMlCp
-	dugTnjB+7q1knlDc1InUAG4pGpH5yOZ41Pc9YY9Dwu35rONHK6gi/iJ3hFfVhx/dNtVchAfDqUd
-	zuZlgoRNGlONgrXKAR631TKSc9YI7mP1zbj5hTYHYtsvmR9oXyCHjkYECe1jT8j5GgnzXKA8Pfu
-	LLDWKlEnPH+Aj
-X-Received: by 2002:a05:600c:34ca:b0:4a0:eae0:769a with SMTP id 5b1f17b1804b1-4a1fdd39e68mr18248775e9.28.1792564218396;
-        Tue, 20 Oct 2026 23:30:18 -0700 (PDT)
-Received: from [10.11.72.5] (bip-static-148.213-81-147.telecom.sk. [213.81.147.148])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2d85a9bsm143305775e9.15.2026.10.20.23.30.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 23:30:17 -0700 (PDT)
-From: Petr Chmelar <petr.chmelar@innovatrics.com>
-To: David Howells <dhowells@redhat.com>
-Cc: Christian Brauner <christian@brauner.io>,
-    Paulo Alcantara <pc@manguebit.org>,
-    Matthew Wilcox <willy@infradead.org>,
-    Namjae Jeon <linkinjeon@kernel.org>,
-    Marc Dionne <marc.dionne@auristor.com>,
-    Stefan Metzmacher <metze@samba.org>,
-    Eric Van Hensbergen <ericvh@kernel.org>,
-    Dominique Martinet <asmadeus@codewreck.org>,
-    Ilya Dryomov <idryomov@gmail.com>,
-    netfs@lists.linux.dev,
-    linux-afs@lists.infradead.org,
-    linux-cifs@vger.kernel.org,
-    linux-nfs@vger.kernel.org,
-    ceph-devel@vger.kernel.org,
-    v9fs@lists.linux.dev,
-    linux-fsdevel@vger.kernel.org,
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v12 0/5] netfs, cachefiles: Changes for next, primarily
- occupancy tracking-related
-Message-ID:
- <20261021.cachefiles-seekhole-granularity.pchmelar@innovatrics.com>
-In-Reply-To: <1655915.1791879248@warthog.procyon.org.uk>
-References: <20260910220242.2165023-1-dhowells@redhat.com>
- <20261011.cachefiles-seek-hole-walk.pchmelar@innovatrics.com>
- <1655915.1791879248@warthog.procyon.org.uk>
-Date: Wed, 21 Oct 2026 06:30:15 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=coybd9x0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792568172;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tSH1r9M+8L4bHYKhri3oj4xzwG7x+h1dMG66BLEyGEI=;
+	b=coybd9x0a29jk7p2ymo3x474P1JUeWwIGwpcBNLHArYvNf9oIaiQ2/4WRPqHXUUBKPvOCY
+	XqANwlr2CxNXl6cJCCYnCDprIIvH6uhG6aJt+rdteWxV2jr0lIDXfBnH4FLer/YtVkhcUh
+	mc9/bNw7axWYArg5S5nNv3rPFRm4Vys=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-692-JzWEAI2jOYWe2galHTihCg-1; Wed,
+ 21 Oct 2026 07:36:08 +0000
+X-MC-Unique: JzWEAI2jOYWe2galHTihCg-1
+X-Mimecast-MFC-AGG-ID: JzWEAI2jOYWe2galHTihCg_1792568166
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6D131195604D;
+	Wed, 21 Oct 2026 07:36:06 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 66E7146C;
+	Wed, 21 Oct 2026 07:36:04 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Wed, 21 Oct 2026 09:36:06 +0200 (CEST)
+Date: Wed, 21 Oct 2026 09:36:03 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: fujo <hooyan2024@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] selftests/pidfd: wait for POLLHUP before reading exit
+ info
+Message-ID: <athrY3NE41WWDj8k@redhat.com>
+References: <20261017054356.7874-1-hooyan2024@gmail.com>
+ <179234213014.649.6368924662349703640@gmail.com>
+ <atc59R5-oBnyOIb8@redhat.com>
+ <179252551833.59967.12617794775210688694@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -113,301 +83,34 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============6589919273872440461=="
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179252551833.59967.12617794775210688694@gmail.com>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
---===============6589919273872440461==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-David Howells <dhowells@redhat.com> wrote:
-
-> I have patches that store a bitmap in an xattr, with 1 bit per 256K block of
-> cachefile, for a 512 byte xattr able to map up to 1G of file size.  I need to
-> revisit this at some point soon.  It may be better to switch to storing an
-> extent list, but:
-[...]
-> Trying to store a million+ extent records in a single xattr would kind of
-> suck.  Now, it might be possible to collapse that somewhat if a lot of the
-> extents are virtually sequential within the file, since I don't care about
-> physical sequentiality.
+On 10/20, fujo wrote:
 >
-> Also, can you tell if you have a preferred cache granularity?  Would a 256K
-> granularity, say, use too much space?
-
-Sorry for the slow answer.  256K would be fine for us: our cache gets
-filled by random training reads of 64 to 256 KB.  The problem is the
-size of our files.  Many cached objects are hundreds of GB, the largest
-we've seen is 946 GB, so at 256K one object needs up to about 450 KB of
-bitmap - far more than a 512 byte xattr.
-
-An extent list would suit the case that hurts us.  An object only gets
-slow once it's fully or nearly fully cached, and then it's one virtually
-contiguous range, however many physical extents it has: for example
-569 GB in 2,528,439 extents.  While such an object is filling, though,
-it's scattered pieces at random offsets, so the list would stay long
-for weeks before it collapses.
-
-> > I can send the workaround if it's useful as a reference,
+> The CLONE_AUTOREAP tests poll for POLLIN and then immediately call
+> PIDFD_GET_INFO with PIDFD_INFO_EXIT.  PIDFD_INFO_EXIT is only published
+> from release_task() -> pidfs_exit(), which runs after the pidfd already
+> reported POLLIN for the exited task.  A poller woken by
+> do_notify_pidfd() can therefore read a mask without PIDFD_INFO_EXIT;
+> under KASAN the autoreap_multithreaded case fails this way.
 >
-> If you could, that would be great!
+> POLLHUP is returned once the task linkage has been removed from
+> struct pid, which happens after pidfs_exit() has published the exit
+> information.  Wait for POLLHUP and check it in revents.
+>
+> The zero-timeout liveness check in autokill_pidfd_open_no_effect keeps
+> POLLIN; it verifies that the child has not exited yet.
+>
+> With this change all tests pass ten consecutive runs on an unpatched
+> kernel.
+>
+> Signed-off-by: fujo <hooyan2024@gmail.com>
+> ---
+>  .../selftests/pidfd/pidfd_autoreap_test.c     | 34 +++++++++----------
+>  1 file changed, 17 insertions(+), 17 deletions(-)
 
-Attached, as a reference only.  It's a naive implementation I wrote
-with the help of an LLM, just to confirm where the time goes - I don't
-know the netfs and cachefiles internals well enough to propose it as a
-fix, and nobody has reviewed it.  It keeps the last SEEK_DATA/SEEK_HOLE
-answer in the cachefiles object, so it's lost when the cookie is
-withdrawn - 10 s after the file is closed, or on reboot - and each new
-open pays one full walk again.  It also still asks the backing
-filesystem where the data is, the opposite of where you're taking
-cachefiles.  It's written against vfs-7.4.netfs at 9f8b64f66, on top of
-your v12 series (cachefiles_query_occupancy()), and was only tested in
-a VM.  We also have a port to the Ubuntu 6.8 kernel our nodes run,
-under test but not deployed.
+Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 
-On our nodes we'll detect fragmented, fully cached objects and
-defragment them, and in the long run we'll move away from such large
-files, which aren't ideal for us in other ways either.  I'm still happy
-to test whatever you do for this case.
-
-Thanks,
-Petr
-
---===============6589919273872440461==
-Content-Type: text/x-patch; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-cachefiles-Remember-known-data-to-avoid-repeated-SEE.patch"
-MIME-Version: 1.0
-
->From ec2bbf3bfaaa09af48a416eb12d389b245a28bed Mon Sep 17 00:00:00 2001
-From: Petr Chmelar <petr.chmelar@innovatrics.com>
-Date: Sat, 10 Oct 2026 23:14:20 +0000
-Subject: [PATCH] cachefiles: Remember known data to avoid repeated SEEK_HOLE
- walks
-
-cachefiles_query_occupancy() locates the cached data of a
-CACHEFILES_CONTENT_BACKFS_MAP object with SEEK_DATA followed by SEEK_HOLE.
-SEEK_HOLE has no upper bound: on XFS, iomap_seek_hole() calls
-xfs_seek_iomap_begin() once per extent until it reaches a hole, and in a
-fully populated object the first hole is EOF.  netfslib queries the
-occupancy for each read request, so a sequential read of such an object
-walks the rest of its extent list once per readahead batch.
-
-An object gets into that state when a netfs file is read at random
-offsets.  Each read is copied to the cache at its own offset, the object
-is marked BACKFS_MAP on the first discontiguous write and stays so once
-it has filled in, and when other files are being cached at the same time
-each piece gets its own extent.  Large data sets that are read randomly,
-such as training data on NFS, end up as objects with hundreds of
-thousands of extents.
-
-In a VM with an NFSv4.2 loopback mount using fsc, a 1 GiB object filled
-by random 64 KiB reads ends up with about 16,300 extents.  A sequential
-read of it after dropping the page cache makes 4,098 SEEK_HOLE calls
-that take 176 s in total, and runs at 4.3 MiB/s.
-
-Remember the most recent region that SEEK_DATA/SEEK_HOLE found to be
-contiguous data and answer queries that start inside it without seeking.
-Overlapping and abutting regions merge, so a sequential read pays for one
-walk instead of one per request.  The read above then makes one SEEK_HOLE
-call taking 61 ms, and runs at 17 MiB/s.
-
-Cachefiles only ever adds data to a backing file except where it removes
-data itself, so forget the region after each of those: the punch on low
-space in __cachefiles_prepare_write(), the padding clear and the
-truncation in cachefiles_collect_write(), cachefiles_shorten_object()
-and invalidation.  A sequence number sampled before the seeks stops a
-query that raced with a removal from recording what it saw before it,
-and the cookie's invalidation counter ties the region to the backing
-file that the operation was started on.
-
-Assisted-by: LLM
----
- fs/cachefiles/interface.c |  3 ++
- fs/cachefiles/internal.h  | 10 ++++++
- fs/cachefiles/io.c        | 69 ++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 81 insertions(+), 1 deletion(-)
-
-diff --git a/fs/cachefiles/interface.c b/fs/cachefiles/interface.c
-index 789ff6abe9..a5eb874ce1 100644
---- a/fs/cachefiles/interface.c
-+++ b/fs/cachefiles/interface.c
-@@ -172,6 +172,7 @@ static bool cachefiles_shorten_object(struct cachefiles_object *object,
- 	ret = cachefiles_inject_remove_error();
- 	if (ret == 0)
- 		ret = vfs_truncate(&file->f_path, dio_size);
-+	cachefiles_forget_known_data(object);
- 	if (ret < 0) {
- 		trace_cachefiles_io_error(object, file_inode(file), ret,
- 					  cachefiles_trace_trunc_error);
-@@ -187,6 +188,7 @@ static bool cachefiles_shorten_object(struct cachefiles_object *object,
- 		if (ret == 0)
- 			ret = vfs_fallocate(file, FALLOC_FL_ZERO_RANGE,
- 					    new_size, dio_size - new_size);
-+		cachefiles_forget_known_data(object);
- 		if (ret < 0) {
- 			trace_cachefiles_io_error(object, file_inode(file), ret,
- 						  cachefiles_trace_fallocate_error);
-@@ -354,6 +356,7 @@ static bool cachefiles_invalidate_cookie(struct fscache_cookie *cookie)
- 	set_bit(FSCACHE_COOKIE_NEEDS_UPDATE, &object->cookie->flags);
- 
- 	spin_unlock(&object->lock);
-+	cachefiles_forget_known_data(object);
- 	_debug("subbed");
- 
- 	/* Allow I/O to take place again */
-diff --git a/fs/cachefiles/internal.h b/fs/cachefiles/internal.h
-index 664be64ab5..5e9394cadd 100644
---- a/fs/cachefiles/internal.h
-+++ b/fs/cachefiles/internal.h
-@@ -60,6 +60,15 @@ struct cachefiles_object {
- 	spinlock_t			lock;
- 	refcount_t			ref;
- 	enum cachefiles_content		content_info;	/* Info about content presence */
-+	/* Region of the backing file that SEEK_DATA/SEEK_HOLE last found to
-+	 * hold contiguous data, so that occupancy queries inside it don't have
-+	 * to walk the extent list of a fragmented file again.  Protected by
-+	 * ->lock.
-+	 */
-+	uoff_t				known_data_from;
-+	uoff_t				known_data_to;
-+	unsigned int			known_data_inval; /* cookie->inval_counter it applies to */
-+	unsigned int			known_data_seq;	/* Bumped when data is discarded */
- };
- 
- /*
-@@ -204,6 +213,7 @@ extern void cachefiles_put_object(struct cachefiles_object *object,
-  */
- extern bool cachefiles_begin_operation(struct netfs_cache_resources *cres,
- 				       enum fscache_want_state want_state);
-+extern void cachefiles_forget_known_data(struct cachefiles_object *object);
- extern int __cachefiles_prepare_write(struct cachefiles_object *object,
- 				      struct file *file,
- 				      uoff_t *_start, size_t *_len, size_t upper_len,
-diff --git a/fs/cachefiles/io.c b/fs/cachefiles/io.c
-index d050598222..a0a2835967 100644
---- a/fs/cachefiles/io.c
-+++ b/fs/cachefiles/io.c
-@@ -194,6 +194,46 @@ static int cachefiles_read(struct netfs_cache_resources *cres,
- 	return ret;
- }
- 
-+/*
-+ * Discard the record of where the backing file holds data.  This must be
-+ * called after anything that removes data from the backing file, so that an
-+ * occupancy query that raced with the removal can't record what it saw before.
-+ */
-+void cachefiles_forget_known_data(struct cachefiles_object *object)
-+{
-+	spin_lock(&object->lock);
-+	object->known_data_seq++;
-+	object->known_data_from = 0;
-+	object->known_data_to = 0;
-+	spin_unlock(&object->lock);
-+}
-+
-+/*
-+ * Record a region that SEEK_DATA/SEEK_HOLE found to hold contiguous data,
-+ * unless data has been discarded since the query sampled @seq.
-+ */
-+static void cachefiles_note_known_data(struct cachefiles_object *object,
-+				       struct netfs_cache_resources *cres,
-+				       unsigned int seq, uoff_t from, uoff_t to)
-+{
-+	spin_lock(&object->lock);
-+	if (object->known_data_seq != seq)
-+		goto out;
-+	if (object->known_data_inval == cres->inval_counter &&
-+	    from <= object->known_data_to &&
-+	    to >= object->known_data_from) {
-+		/* Overlapping or abutting regions of data merge. */
-+		object->known_data_from = umin(from, object->known_data_from);
-+		object->known_data_to = umax(to, object->known_data_to);
-+	} else {
-+		object->known_data_from = from;
-+		object->known_data_to = to;
-+		object->known_data_inval = cres->inval_counter;
-+	}
-+out:
-+	spin_unlock(&object->lock);
-+}
-+
- /*
-  * Query the occupancy of the cache in a region, returning the extent of the
-  * next two chunks of cached data and the next hole.
-@@ -205,6 +245,7 @@ static int cachefiles_query_occupancy(struct netfs_cache_resources *cres,
- 	struct inode *inode;
- 	struct file *file;
- 	uoff_t read_limit;
-+	unsigned int seq;
- 	loff_t ret;
- 	int i;
- 
-@@ -238,7 +279,28 @@ static int cachefiles_query_occupancy(struct netfs_cache_resources *cres,
- 		break;
- 	}
- 
--	for (i = 0; i < ARRAY_SIZE(occ->cached_from); i++) {
-+	/* SEEK_HOLE may have to walk every extent up to the next hole, which
-+	 * in a fully populated but fragmented backing file can be hundreds of
-+	 * thousands of them, so first check whether an earlier query already
-+	 * found data here.
-+	 */
-+	i = 0;
-+	spin_lock(&object->lock);
-+	seq = object->known_data_seq;
-+	if (object->known_data_inval == cres->inval_counter &&
-+	    occ->query_from >= object->known_data_from &&
-+	    occ->query_from < object->known_data_to) {
-+		occ->cached_type[0] = FSCACHE_EXTENT_DATA;
-+		occ->cached_from[0] = occ->query_from;
-+		occ->cached_to[0] = object->known_data_to;
-+		occ->query_from = object->known_data_to;
-+		i = 1;
-+	}
-+	spin_unlock(&object->lock);
-+	if (i > 0 && occ->query_from >= occ->query_to)
-+		goto done;
-+
-+	for (; i < ARRAY_SIZE(occ->cached_from); i++) {
- 		ret = cachefiles_inject_read_error();
- 		if (ret == 0)
- 			ret = vfs_llseek(file, occ->query_from, SEEK_DATA);
-@@ -263,6 +325,8 @@ static int cachefiles_query_occupancy(struct netfs_cache_resources *cres,
- 		}
- 		occ->cached_to[i] = ret;
- 		occ->query_from = ret;
-+		cachefiles_note_known_data(object, cres, seq,
-+					   occ->cached_from[i], ret);
- 		if (occ->query_from >= occ->query_to)
- 			break;
- 	}
-@@ -473,6 +537,7 @@ int __cachefiles_prepare_write(struct cachefiles_object *object,
- 	if (ret == 0)
- 		ret = vfs_fallocate(file, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
- 				    start, *_len);
-+	cachefiles_forget_known_data(object);
- 	if (ret < 0) {
- 		trace_cachefiles_io_error(object, file_inode(file), ret,
- 					  cachefiles_trace_fallocate_error);
-@@ -689,6 +754,7 @@ static void cachefiles_collect_write(struct netfs_io_request *wreq,
- 			ret = cachefiles_inject_remove_error();
- 			if (ret == 0)
- 				ret = vfs_truncate(&file->f_path, 0);
-+			cachefiles_forget_known_data(object);
- 			if (ret < 0) {
- 				trace_cachefiles_io_error(object, inode, ret,
- 							  cachefiles_trace_trunc_error);
-@@ -775,6 +841,7 @@ static void cachefiles_collect_write(struct netfs_io_request *wreq,
- 		if (ret == 0)
- 			ret = vfs_fallocate(file, FALLOC_FL_ZERO_RANGE,
- 					    data_to, old_size - data_to);
-+		cachefiles_forget_known_data(object);
- 		if (ret < 0) {
- 			trace_cachefiles_io_error(object, inode, ret,
- 						  cachefiles_trace_fallocate_error);
--- 
-2.52.0
-
-
---===============6589919273872440461==--
