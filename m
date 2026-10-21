@@ -1,61 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.92.8.66
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792580512;
-	b=3m9kT27wh8ucnG6t6v0EMosFz3uFu7lAusXQ0JHvYtoXFa5KBV/FxymJGrTU/PD6yt3/
-	 js9sAGHCXFLzp2TwqtGn1SQVyqRtyO89PASy6kt5RK+l/XT6I8Cw/CDUkg7yqmN7pVjqp
-	 0KvXRMAJPeOJWsNTeij/KS56nL1sBPvfIvxLBzgu5H/swQuz9dGaB2gQwPWlY/ykYqRGM
-	 O++sTUpQp3Bs9YdfjL2x0a4dl5TGnYz9/p26PpjlWIDT2mSvjQDF1WipHESzRO3uwacuf
-	 v4+h43W9YOP5k2AHCRnpa0Pj582SPIZN7aUkAUru9NAkhScV9JwbFkTkRbCpbXrEyTA==
+	t=1792580531;
+	b=ueZtqcUVx68jqbx+gkCl+yEjbYDBDz66TGlvmpNd2eUI6kLPr89eMfxDtUvnSR89kRMz
+	 NEBR1TIfA5M0zHcI3/5KLeof3xhBctxaWYRWMy4yIo2unaQ1t4gwDITWHh62DPL1UN+Ls
+	 OuZig5L0d6GbyZq9ir1UJdvAZ+xWl+xaRRwaS3KL3C8Z65cppijoTEsnR+ceFw24vJ0i9
+	 7iElBiRHEXqC/ERrGE8zs26G74pIK/59xxeGibaoPJuMe3Sfaq5OgfWU2Dssu9d/7+EFw
+	 StHlvhkdm8CHf3SNilHUftHH9SckMuuttlklVR3GIuu/JQb/UO6N3u2T6gd6OjRUs0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792580512;
-	h=DMARC-Filter:DKIM-Signature:Received:References:In-Reply-To:
-	 Message-ID:List-Unsubscribe-Post:From:To:Subject:List-Unsubscribe:
-	 Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
-	bh=E2qprF6FdVgTBcDTZe2XJmFw04za9FQ5JpaCXYKpPbQ=;
-	b=WVgzS7W62DryiPA8ggpYLRVyoFrPfB6WksjGjnY4aYb44asqJn/RDojCtUUxpypFWMMB
-	 UbzmppS92rWqq0JhQzEXf6xEmHuenYcCKquZB+drmqwTaS+409eNj47f4RfCTClV4p+um
-	 t5FiZa3Gz2o+x3zONiNHm8WRX/liWFx/KAZfNQNocs8kZId5iYvR5vPz3gGbgGxMqE7O0
-	 EszZ1KIiZm3Ho+yBWqcn5kmukhSEq1NUgH9Fx29Y9z5dtO9vAGT57YkzKeN4oViVsqG5I
-	 g0aA/LkvtdNXJT7ShEL6iEy00ZCWMNZASoVt5cG8Yc5vy+HOOdSuSHiO8BuhbhSJpuA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792580531;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=PdmJsgTpv+nptfyOOmmbrW0YrX6jCcLIr1uvv9rx8+8=;
+	b=P9Jo0D3l6v7K6+IYYzkqVVuDD3cIE1pgV7+dJu/W8zR55CFWXL4XBEcFwE/eMfJKRR3n
+	 P+VXjXxX7StJ6GE+4cC10ljcynZPG4lr/Xa6Gb9DzI2cIy3IrhT7/2ygVxfI7Y/llFEPn
+	 GGGUa7DyLoHRZW/d/fH8zhmPZU5MKSFSSlLFeJqPCBATp+RnMcEjEEcvLI2PPIllHHHt3
+	 p3Cec/UGc+lnps5h1UwIbg5FyYPOSGs+Lsw8U9pM3/jzLYjoeBODRLNy7pWc1P4cIvlTX
+	 tY2Wzo+3yy2gJwPc1KLbWFWBMIbaqoZCaWwpWDeSMbHaukllvWshR6X4kLMO+DN0EUA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=planestimations.com;
-	spf=pass smtp.mailfrom=planestimations.com;
-	dkim=pass header.d=planestimations.com header.i=@planestimations.com header.a=rsa-sha256 header.s=202505 header.b=M8Z95ZQ1;
-	arc=none smtp.remote-ip=45.92.8.66
-Received: from mail.planestimations.com (mail.planestimations.com [45.92.8.66])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TYxoOD1w;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A84D606A31F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 11:01:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A84D606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=planestimations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=planestimations.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF5A606A319;
+	Wed, 21 Oct 2026 11:02:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=planestimations.com header.i=@planestimations.com header.a=rsa-sha256 header.s=202505 header.b=M8Z95ZQ1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=planestimations.com;
-	s=202505; t=1792580502;
-	bh=E2qprF6FdVgTBcDTZe2XJmFw04za9FQ5JpaCXYKpPbQ=;
-	h=References:In-Reply-To:From:To:Subject:List-Unsubscribe:Date:
-	 From;
-	b=M8Z95ZQ1CIcoLUMI3cuQ7GGRiWiUlHKxO0vMMb6NAkICs+jYDAIPmzhWpEIXy2duF
-	 EmB1xmzcNdORChXaIYBQb9qE8YrzfqNtp1lkHXmta+GEXjfJls2yGpzPvCVaEB8S8Y
-	 ebrPIRqYZIWUOvB/R8bSP6tvjMYDGqnSZxNKvhLH98zf4y7LGr/mdjC0MjCF4k/th0
-	 O1WZEJz+XQ1RoDPE+UbdcS5h4yQrb7+2Qm3N9sRGteKcfG1+ny8QNxhH/hEOpEBQ3M
-	 PJPJofA8KWQ+MWdF5q+sUanbkVh/nydePY12Ozqk39eJcVYFXnz5Heovv+bCI+wUZc
-	 4J4JE1LmsV5gw==
-Received: from [127.0.0.1] (ec2-54-91-165-133.compute-1.amazonaws.com [54.91.165.133])
-	by mail.planestimations.com (Postfix) with ESMTPSA id 3663E5015F9
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 13:01:42 +0200 (CEST)
-References: <c25d4d3c-49d9-4c82-b40b-81a11361ecdc@planestimations.com>
-In-Reply-To: <c25d4d3c-49d9-4c82-b40b-81a11361ecdc@planestimations.com>
-Message-ID: <91deb3c3-0802-4075-9a08-6674c825464f@planestimations.com>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-From: Jane Wells <janew@planestimations.com>
-To: linux-fsdevel@vger.kernel.org
-Subject: Precise CSI Cost Takeoffs for Your Builds
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Oct 2026 11:01:41 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TYxoOD1w
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61FB11F000CA;
+	Wed, 21 Oct 2026 11:02:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792580530;
+	bh=PdmJsgTpv+nptfyOOmmbrW0YrX6jCcLIr1uvv9rx8+8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=TYxoOD1wR4SOXzcuxepKrKZgUk5VXai1Af8sEauxt/cDng/w7j5AWg38BhHUzeLTG
+	 jcnXnAPVyieeuZNQUxd1hFsXLpl42cd0Dp8tXb1nEWdaEvp56cp2FgMYUY5qi9CQdt
+	 pM9fjfUJqGHT37aWawmWd+HAbJcmOpeEs5j6DLNYmu0pAj3WdTSSabIw9REi9o2qKN
+	 x/wCuB0MOaggT2MSMlB4mskvmbIRKGZ9vjv6Z8EdBIln2174e36RT238PertY+Cnls
+	 76vZyQTA1K+D/k+YJj3wIpxChBmuIG5aQ2l00e6picu5Iv6Pvl3LQaQ0NeR2qoyb3z
+	 1UUPIQptU434Q==
+From: Christian Brauner <brauner@kernel.org>
+To: Nicolas Pitre <nico@fluxnic.net>, Tal Zussman <tz2294@columbia.edu>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260906-cramfs-blkdev-read-folio-v1-1-1be99a82be55@columbia.edu>
+References: <20260906-cramfs-blkdev-read-folio-v1-1-1be99a82be55@columbia.edu>
+Subject: Re: [PATCH] cramfs: convert cramfs_blkdev_read() to use folios
+Message-Id: <20261021-perplex-bahnstation-beruhen-442c7b6f814a@brauner>
+Date: Wed, 21 Oct 2026 13:02:07 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,23 +58,29 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-3d1b8
 
-Hi ,
+On Sun, 06 Sep 2026 19:45:33 -0400, Tal Zussman wrote:
+> Read the block device pages through read_mapping_folio() and copy with
+> memcpy_from_folio() instead of going through a page.
 
-Just checking in in case my previous email got buried.
+Applied to the vfs-7.5.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.misc branch should appear in linux-next soon.
 
-We support developers with accurate CSI cost estimating to help reduce =
-bidding risk.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-If relevant, I can provide a sample estimate so you can =
-evaluate.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-Feel free to reply if you=E2=80=99d like to take a look.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-Regards,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.5.misc
 
-Jane Wells | Sales Representative
-Plan Estimating
+[1/1] cramfs: convert cramfs_blkdev_read() to use folios
+      https://git.kernel.org/vfs/vfs/c/06e2e8febbcc
 
-Click Here to Unsubscribe
