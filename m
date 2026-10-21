@@ -1,63 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792573081;
-	b=ej8brPmgZn+VeprsCqCwRn42BBOMUHZiRykZzdcuuRFGRq8OEGpWlaB2Sb3pvnsT2cvs
-	 VKhVZvmtp3yV2ngFComcg7IIehXISJOcNlsDme+3QNzhD5eciJe00kXyF6BSUE2PMvb5H
-	 yRKH33oVkmgWpq0rHVj0gWKPyCjgZOFbn/SY5zjrQXVvTRONaxz4/mgJiKQQcIYm2YqyE
-	 2MAJ/dYgAuB4G2BL/P2vLpkHlohdV1WFVv5i1/BTQrCRG8mnPtrbE5oMEF5AyqlXfdV/c
-	 u9jTcYoft9vBjTUMdYORRiMxomdonx+/lEtRQG6D4coAgsd4DU2NvRLUHEeRrr6oBTA==
+	t=1792575471;
+	b=k5JiVctPpLc8jAcC09vlWTCk4RK5Ft5KMnUgk0bbd6pQGNfTtqW1pkxRGD1meTcD0fj+
+	 5nvkZ+rr68CtQyxHXEiblBOaZ4/zl/mrchP1HMRGfC9PeU68UhY7plWvTvV6XXOXBbDEZ
+	 5Kqmi7OdiJm11u6dnwrir7ibIut0jeHDHh01NtQfUGj/h/zg+I2LIPZzhm1kZ+c1K75yT
+	 VCpuBrBHVx4aZWxarQ2ICh/zRhOq6xbCVuAu6koRkPtDXz6Tan17LkbYRuSGYIEB/qjZI
+	 QeitI7jsS250DgvO/gcbOtyYoXjQ0PQsurOCw9sKldnEOFYCkwgK4khl4jT7O+5EjYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792573081;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=PZFsgaUptmthCT9AGjarLBj+dSK/kXdt7D60tO+Fc1E=;
-	b=5lmIdPgbB5l7krq4psi383vPIT7nGQrLsbg7GbQAENq7hRrMroe4OorFoofrQMucQmAH
-	 B54yv55MQQ5wEpv9Pnz4D96f6FWcN0Y0FwrZ3Xy2Nb3JA6vqGrSUm6MSRbnxkD3ZPmieA
-	 YC2maqAF11PwZcOorCDBtpue4kNr9zOQ96O6/Z+I7JwSTh/jnd0sR6VIGYvJoftxCBqdO
-	 lY7nP7pOjVIlCn1PGxRTOjmrpoiTxl5bN5deJumOGi8xfpT+VA/kz8obCiwIHf/UiV5SF
-	 FAniABIw1Rm+aFPhvWIsMMlL3TmSlO5TQbF3a1meO7g5rcsIiHe5qOBUjweLa0+AP9w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792575471;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=zYYaJ3Cx83d1i6W0tWGXSMXeldqRUTYijFYdQSWTCqk=;
+	b=pHsubdFvagzqURMyfdHEn3e8jNPKtxHF0LAsiDbpKPyFt7uF/5y9ull2mA7qJNs8OoG6
+	 pla4+QtJrYMYk8Wyy/V9QNBtKy+qtFE0JMUpDC5fKoE9o7NdmJZiv5hDllXycPF0lOTzm
+	 rPv8IA8cMjYRSHiis60Gqcw/HpdPEwKUHy49cURfOD3makYEwfIyF7i02t7W+cyJpwoiC
+	 F7n8kuPHTE9nHnYZoW5Gvv3RxhzXQNNa8WOCqnD1XgXZxMjeyqCtHbv7/+iv3q2uUqaHD
+	 gfCJ7ZHcVjgsX2lD5VSEfwJEyVSWnV3LKSpUDfB4gRkxiYqS31FXM143Xlb2Nnt1sxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="aYmuGmm/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cgHOGJgN;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D99E606A31B;
-	Wed, 21 Oct 2026 08:58:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CBE606A31F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 09:37:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60CBE606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aYmuGmm/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 939011F000CB;
-	Wed, 21 Oct 2026 08:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792573080;
-	bh=PZFsgaUptmthCT9AGjarLBj+dSK/kXdt7D60tO+Fc1E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aYmuGmm/+X3TuMt6En/yuxlAevDmd0Bbvy4zAnvkecXFDCBCHH4BFV2HeLMyOncG6
-	 iKGNu8yvxaVvHYNxWEAcOVN5XFBxUULSVRqwdk8C1wabWjN9blXkG2dsAwo0wOz2hT
-	 mif8kBJMD1JtRyluN3jtJHEYpowNAAb1jQwIZ/Thfthe/YwWNZrd+u5P5X/YRZJrTI
-	 aD3T+PeiWZ6esjBFkbxkPU/x7zC6FMhPE9NGjjuHBE0rmfM1jCQ0Ypf5czE90KkfD7
-	 bfQzKNg7L4JGb9MoBPFM0DJ3BgiIuLatLnXE+esDNPjTCoLkzQ8plSnmclDPAZaIgf
-	 TJQiZ5tyQBJzQ==
-Date: Wed, 21 Oct 2026 10:57:53 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Allison Henderson <achender@kernel.org>, 
-	kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-s390@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, wireguard@lists.zx2c4.com, 
-	rds-devel@oss.oracle.com
-Subject: Re: [linus:master] [sysctl]  8d75c338f0:
- BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
-Message-ID: <ath-VoGkY_1JBES9@hobbes>
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cgHOGJgN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792575465;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zYYaJ3Cx83d1i6W0tWGXSMXeldqRUTYijFYdQSWTCqk=;
+	b=cgHOGJgNDHQVftR29sZ0Y8W3uymfxOZ+PpcOBOJTkNNPmFV5j/ClsawhkJkyJi3YkR0sLZ
+	P9dKxHC+Ax7IMn0ckxA+pUEX+iIAPQuKXXjVjJEyrQzDAuWnsBsbTBZfGX7A7G1nigD6Rx
+	Xp3PEQNmZ+pv8WLEqclCCFdGIIS3MHc=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-613-_u7xX48KOf-yVVlOyNLt4A-1; Wed,
+ 21 Oct 2026 09:37:41 +0000
+X-MC-Unique: _u7xX48KOf-yVVlOyNLt4A-1
+X-Mimecast-MFC-AGG-ID: _u7xX48KOf-yVVlOyNLt4A_1792575460
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 826651800847;
+	Wed, 21 Oct 2026 09:37:39 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id D87471956087;
+	Wed, 21 Oct 2026 09:37:35 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Wed, 21 Oct 2026 11:37:39 +0200 (CEST)
+Date: Wed, 21 Oct 2026 11:37:34 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Allison Henderson <achender@kernel.org>
+Cc: Joel Granados <joel.granados@kernel.org>,
+	kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev,
+	lkp@intel.com, linux-kernel@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org, linux-s390@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org,
+	wireguard@lists.zx2c4.com, rds-devel@oss.oracle.com
+Subject: Re: rds_wq UAF
+Message-ID: <atiH3sYO8XvnP-Vn@redhat.com>
 References: <202610190310.9737b2e3-lkp@intel.com>
  <atYB0bm9eEXp8A2g@redhat.com>
  <atYW0K3t57puHeLW@hobbes>
  <atYuE1xnVYe0BDG4@redhat.com>
  <atY42k00k0Waj6o4@redhat.com>
  <42964fa071bd8dcafd418c89be6d66856def4dc5.camel@kernel.org>
- <atdE-TB8hkqcwp6g@hobbes>
- <atdK3ZkT4YqjGICq@redhat.com>
+ <atdoGiW_sHlWgOwt@redhat.com>
+ <e7888169bdc76ea40fcfe782c2bc9b70e037dfc6.camel@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,61 +89,51 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bt355i3q7cyhktpe"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <atdK3ZkT4YqjGICq@redhat.com>
+In-Reply-To: <e7888169bdc76ea40fcfe782c2bc9b70e037dfc6.camel@kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-
---bt355i3q7cyhktpe
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [linus:master] [sysctl]  8d75c338f0:
- BUG:KASAN:slab-use-after-free_in_touch_wq_lockdep_map
-MIME-Version: 1.0
-
-On Tue, Oct 20, 2026 at 01:05:01PM +0200, Oleg Nesterov wrote:
-> On 10/20, Joel Granados wrote:
+On 10/21, Allison Henderson wrote:
+>
+> On Tue, 2026-10-20 at 15:09 +0200, Oleg Nesterov wrote:
 > >
-> > On Mon, Oct 19, 2026 at 12:52:58PM -0700, Allison Henderson wrote:
-> > >
-> > > CONFIG_SYSCTL=3Dn.  A simpler fix might be to just handle the NULL at=
- the
-> > > three call sites, e.g.:
-> > >
-> > >         rds_sysctl_reg_table =3D
-> > >                 register_net_sysctl(&init_net, "net/rds", rds_sysctl_=
-rds_table);
-> > >         if (!rds_sysctl_reg_table && IS_ENABLED(CONFIG_SYSCTL))
-> > >                 return -ENOMEM;
-> > >
+> > Let me try to summarize.
 > >
-> > Remember to NULL check rds_sysctl_reg_table in rds_sysctl_exit(). You
-> > might hit another UAF on exit if you don't.
->=20
-> Why? unregister_sysctl_table(header) does nothing if header =3D=3D NULL.
-Nice catch! You can forgo the check as it is the first thing that
-happens in unregister_sysctl_table.
+> > If rds_init() fails after rds_threads_init() for any reason,
+> > rds_threads_exit() will destroy/free rds_wq.
+> >
+> > If rds_rdma_init() is called after that, and rds_ib_init() fails
+> > after rds_ib_mr_init(), rds_ib_unregister_client() will try to
+> > flush the already freed rds_wq.
+> >
+> > But we have
+> >
+> > 	module_init(rds_init);		// net/rds/af_rds.c
+> > 	module_init(rds_rdma_init);	// net/rds/rdma_transport.c
+> >
+> > and IIUC the order of these initcalls is not defined. So if
+> > rds_rdma_init() -> rds_ib_init() is called before rds_init(), it
+> > can do flush_workqueue(rds_wq) when rds_wq == NULL on failure.
+>
+> It is sort of defined.  When built as modules the order is enforced by
+> symbol dependencies. rds_rdma and rds_tcp need symbols exported by rds
+> (rds_wq itself is one of them), so they can't be loaded unless rds_init()
+> succeeded.
 
-Best
+Yes, somehow I forgot that rds_rdma depends on rds ...
 
---bt355i3q7cyhktpe
-Content-Type: application/pgp-signature; name="signature.asc"
+> So the rds_wq == NULL case can't happen.
 
------BEGIN PGP SIGNATURE-----
+Well, in theory rds_threads_init() -> create_singlethread_workqueue() can
+fail too and leave rds_wq = NULL. Nevermind.
 
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmrYfooACgkQupfNUreW
-QU/WnAv/YVbhwQnlgm1v0MJMVqJO5TZOJ+RcOu/m4rFbvIPU8twKRupXLpWiQn/b
-ICa4TdGkh96N3eS3UkV+Iiv9cSUVYgRBt1AXsJZ+JHRaufbZJIVIPhejQnxhjJe9
-IQp55/hIG3MqlAbVIJBOgMKo5F7PbnElO2mRDkCXoc9KJ1wxvrjVCZodr+J6RWtt
-e5OdPT9V1YmTuf37xRxpDWt4VRAtIrKIGMg3IqxHPPhFQlvepKVGLzgJYLNy/Ovt
-vQkSONcvJhN1xkgKv+L+9cvlixaZaechi9psoCxWnDH0fxQBxamwcWmIKewNeoza
-0W1An6oKC7did7l+hnLFAHKkt/8ePeddQM6ImdSmgAXueiCJ/Nr6hnI21D8eKQoA
-U0n/7WU6S4/E7warmYG64iiAzKsI76Jd5nFYQY1feOLgQdMaa9RbcBFVqEAAoCQz
-HvCPKex1+h1Ah/HxuC2wrvmUI3dX9AxrSo7NpuhKtPTzgXaLEfaAfW8tINh4pRXR
-ZrHBWkU5
-=s4u6
------END PGP SIGNATURE-----
+> So I think the fix belongs at the transport init: if the core didn't
+> come up, rds_rdma_init() and rds_tcp_init() should return early,
+> before they register anything.  I can send that along with the
+> sysctl change tomorrow.
 
---bt355i3q7cyhktpe--
+OK, thanks.
+
+Oleg.
+
