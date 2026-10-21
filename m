@@ -1,111 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792613832;
-	b=CA9SuqEJJGq4bH/tcfAigHkiKiP65MuijQetNlCyFFNvHubV24+mWNQZsPteRcrJy4fb
-	 JmmDE8mv3YMK4TNV7TYFr3w6XNu+MYLOp0KPfslr4nXyLta5bC00uyBun26c2Bqh9rgZ0
-	 0tvbviS07GWk3ROJH2nVn1IOfp3SoS7VGNBpm7I3RH/23eKdIZWxAESi04Oz4tB5XPkcY
-	 rXjcCA1qPsyhPvs/tffI0GrskHcw5LCjle8Zsec+9Vt7zrcSiW1uXXdNw1abglbFZGJk9
-	 +MVKzrM6yVqCJWguvkOldxRAZRTCO0odQqz4WM586uTl2BRQmpzLT3EDtCRnsEeBmxg==
+	t=1792615061;
+	b=Y3wlVEpS6v4Fn9ghwgxrQdLgJPR9y+SrX7vW2F/Gnx90qOyCHZZbSj9hrscEU5mGFJpv
+	 031ubNgichblHmjqEjoaPVlt1tYBmgm/t9CArJLaiNwC9QGPq1cq5JR2tI06Nz365I8DG
+	 PsrqqCDr+7Ck0g5tecXR4N/DwUvK3TyX2nHUo6nbmxFWKUwVcW6dMgJzMBuFBlY2yfoor
+	 pdTbGwl+NrmkP4WgwXNW28yMh8JHv9//sRjYs1uvFvMm8LESIhVn4QumxXjzM0U4s8xJ0
+	 9ngIfZ4Lk6XOGmcX6wCgJxE6VcQyNjFupxoGDD2jw7/TofATFThNQ7hOnjK8TVOEfDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792613832;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792615061;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=At2A/wrqaAUfI4SKCwlEtMqC27pXN2/myITaZPv60nw=;
-	b=IkWSewlRO6pLcT1gIxlWgqfO0v5Tf63DYIygURl++S9korQWBwAqlzx04vuwgny7TAgV
-	 3pfyit8NkSF2uOEaL5dQJcJjZcgGJNhry7NALvHvMfHBmaBcSYY5WyhjKYs7IT2sI6tQf
-	 y0P/uEPfNw5b2geM6iFyiO8w9zVGlZtNYwh2HfMScmMKTN+NOQ+vxYG4LFhLDlbcm0zkh
-	 yuANafTD2WLBFfLVfQzXJ8F24vKmaZ71TY8hrTr3kIkVQqnmIvMBQMM/vQ3KhVI7NLhMv
-	 F3lP5Wy9rCJR1fD2R/8FfmRo+SRwWLRNO2JNY59dFEbz1O/CEertmpNhaYSr0+6qUkw==
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=WaACaV6xM9a84qy7Jy4prPJeYb/jLSX2Z3z8XfcFBlc=;
+	b=0VRU+n9OowaEpVGgiAh0AEvC82naAWaeLCj4QrNpkh9xWaA4oKciZk7SAVcZZ9sFDMsK
+	 pHo7vR+p5qXsugB/Id1pPPl6B7rGwGLDJwtynMkkXWVvQnK/p7aKV9z6dL0wvw/S7amn0
+	 i4g06bVjJa2tOMwhYirPUjNttXkA2h+/PbEYDcBWPfMZnUtXwpSLjcU+7Xp0xZ4Eyuwvo
+	 xiPBvM4aP51D0AN/oekW40BXHOBp+4pMoyNZneq45CvYqcTPZoOOnck/87glEjpFSFHco
+	 +Qp2XG0vD+I+YiNvGRo2y4cjyB5NJvTYXWW+a79qxytU0gsZGFkdEVE2tFoIhXZK6AQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=oyFHm1Hz;
-	arc=none smtp.remote-ip=209.85.214.173
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=BdEWvEeF;
+	arc=none smtp.remote-ip=209.85.219.41
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F51606A320
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 20:17:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0F51606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF89D606A31B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 20:37:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF89D606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=oyFHm1Hz
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2db33db4de9so16735ad.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 13:17:11 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=BdEWvEeF
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-917b78dfe30so16082576d6.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 13:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792613831; x=1793218631; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=At2A/wrqaAUfI4SKCwlEtMqC27pXN2/myITaZPv60nw=;
-        b=oyFHm1Hz0h2Qlknv1vsiheGJvlBp/hMgh02PzQTmYUIg+yqjimNbrLTG6YVDmdzSj7
-         2h924ZyPg/b7FshKCBPU8Wf34MK3PzDVh+JJCflUO1RAYaHXuXv6wBxYmUiPzwczzC6w
-         bGq67afFW30YUC+3zqYUjsX+7MoFVd5shYJCWSFseb2owxnYIjTAwTaK0aitNp4y5CHx
-         5ok324KMIwDUZkyogu3Gc+7rODb6jTgVHOgl4UjYKgFk3g+pst9EPpMXc/FwibEyyGkO
-         qbqM8aNdfBuih4c2QUv78AaB1MBNwVz+BUwlbiexmEA7RaPQMZ/69mzqr76MJIUIK66u
-         ks6w==
+        d=toxicpanda.com; s=google; t=1792615060; x=1793219860; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=WaACaV6xM9a84qy7Jy4prPJeYb/jLSX2Z3z8XfcFBlc=;
+        b=BdEWvEeF/KXNOjM/q4vl2QvLIso3Ex+jXS8GKRDdEAZNl8KdXk0SDTeRc/HUTFa8XM
+         p4zBGFvXqBNdB4JYBSH5N4qIJnggTFeYBzJSKF+7nR2YTQN4OVEUXfoAYPSEbTidBg+I
+         4IUALp5I3F4nKlC1gT5aDM5b5sFThR+/hloIp1B1ZxTLYscLgW82wg+V0x5X5piCvqPY
+         /HCH491sH7XhQRteYqMKnA4Fb56Y9mHvbEkb1Ljd3EKZbef5mlz1xnp84OyIEm4iIvxO
+         W7YvTu9zqBillaQLCsn4OOXGynhEzghSV/kV+6L5NeZ5wF4LHfaryLI88cUIUtkk1SFG
+         NcHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792613831; x=1793218631;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=At2A/wrqaAUfI4SKCwlEtMqC27pXN2/myITaZPv60nw=;
-        b=Ji0WeeMkex4zK9yRn2Djc+q5V4xjD5hatKFjG/edRV4CFjC9lyud8oBojEO1xssie8
-         TtfRvHRDYIYF+5VseMyzkk3OneiFtbl42OgsmEyG27WOluuonSn940+s2t0oRvdB9Rcq
-         Q7daQaXxifO4FZSW4Hcx8qVc1C4rvyLFK21FOI0kvwGrC/+2vXIjaRNnDm407tC7b25Y
-         a2FKTZ2eMzQGrE0tDyawluIyeo2qiZCYfhBgZ0XTKvc/LqA0QyvOAbEsMqkzhumpXMVK
-         HnGhQh55ZmEalSaSYGDEkdJbeEMrdP4tJD2z5R7z2gigacO1gznfc2tOszGK4QLfERxF
-         NcTA==
-X-Forwarded-Encrypted: i=1; AKwUvBxH50Wt25NbTa2Ai5cYTK4ht0v5FjA5DZA2fywNCgZOiBCFIGBVjlg+aI23eWDszBfKggGUVpekn1Xo+oNE@vger.kernel.org
-X-Gm-Message-State: AFq9FYJbw/6tiVeD3s+6ykGZiFJpSTYVvlzuD2N5CHgSiH8xhE5JPVhU
-	LoT3uXpZw5QES4seAODcyxecXypiWyyfwGfWVy0nzqhQEojakBe8VEYM+Fs46wgNWw==
-X-Gm-Gg: AYBFou32a2x0JxQQovGPEtuG3ndKJ6C1VShLqjfMdWAkuTSMEbPkhrEy6ulEbW5ri9J
-	hGT4fxBgFGc+pqZAQ9G1e2/5YJj0U93rHrjlNanepEHbr0W9EpX9mihIIyeycba+z6cq6wmenWs
-	PZ0M7lyUwtdwC0SUQIzAev9y/cyi04vZbsdS1COQUXqSS3nUZDPzX5c6xg6I9KwW3jhACWV1aGr
-	AsgEgDOAB2JnNtFlRiJPLEt3jIVnB97KoqKU2oCsYoOKdfXoiFFCRrsSHuu/tVzxKA6QTNQmFo6
-	tPxVbVmmaixGNfd1Ytequv33U4Z8H5U8g5ALzaHQjNCpMrpXc0c2Znxhe6NM2chL7Cfuy6CoiYy
-	dgS/e7vi/LW6WEQuaoLdJgnfZgEYF0sNCeb2jRfUGxm6ldn4uHKkSfYHnRZ/espJ/09EKCqBrKu
-	g7HEPEqdgljrYFsBt6ktRki/0J9iMintqI5unlgWq5RM4qvY2dVP26HowVnL4ziPwj2hAslwK9J
-	IWN8vdzG1rJJtR6Ss+8p9vcr33SGO/rrZ+z0Mpar3F70vuekEcohVYg8pn24I3DhUPrLT8lnSr6
-	faZMQ7SRHRXIpha67HmKmrKtsdV34aO7/n3GgPXaBAlsl5jR
-X-Received: by 2002:a17:903:24b:b0:2e6:d25:d874 with SMTP id d9443c01a7336-2ea6313172cmr689965ad.10.1792613830593;
-        Wed, 21 Oct 2026 13:17:10 -0700 (PDT)
-Received: from google.com (163.1.145.34.bc.googleusercontent.com. [34.145.1.163])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ada4896c71sm927197a91.6.2026.10.21.13.17.09
+        d=1e100.net; s=20260707; t=1792615060; x=1793219860;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=WaACaV6xM9a84qy7Jy4prPJeYb/jLSX2Z3z8XfcFBlc=;
+        b=xLAOIoXq/bIBd242ajs0EssxsusBtMSJdWgepD9F+v4z5az15xHyfP0/6oETJmJQYG
+         emWsrioNDsytI1zyeKYp3qCFgJ3KBKneZi93LiBUyY1BFSxdEBACLXmPmFDQbvR1GcX7
+         5BWqy4fghnvICYvtWNCuYnwzh74aBwRTYoYDlSTACtvO+Cg9cEp/HMjUwtOLXYFgCFRQ
+         Ty0CNFLvPO5UiDhTD3Q49CUbsyzyL3Nkp8Un7DmFgZ2jkD/KglTKyfaUu8TUSRTqJDJM
+         veUi+89QGnzHxKAgAKP0BYYyXndpQ/vDxTKW9vrjuHSDWKYfKSEN7MsBGkIftjD1zeHS
+         urKw==
+X-Forwarded-Encrypted: i=1; AKwUvByHAX+Xu9OP9uucd2iVN+YQ2pIuWF7GzDLa7zRtatgFkn7ECsxOi6ssatrQnozofJI4ibe5p0+HJvFfXmle@vger.kernel.org
+X-Gm-Message-State: AFq9FYJOqFWceK/1vY+QgiCWbCWnSrkpgUtgqMzx3ohPfvli50bPWkk5
+	t7qk2L12Fp1eQWHKWnlOysA6OF+U/I0J6puGBCkvYDgbmC7N5/JNnJfNAK85a1sE0y4=
+X-Gm-Gg: AYBFou1UvGbctPZI8sOXVtgHoKIH6FFF/ORHXfbeMZoaJ2fzYxYUYnfLcGWduvCy68b
+	/Us7l9nmwGvVsrBPJSo+pgSlufV1H31QJq81vwOBDyJhs+HfwesSIq3rbUwojjvvxD23f1N+vSY
+	SF5V1nBfWFhHP1UUMbOD8/FpSPvXcuSE6cq10oUY3aVGbPz8S1kUbOeHtX0q2APgT1tNSbkUG83
+	qNPCp7IrEW8t1kT4h3h5PTFq0++rTMYDGlwzrbQkSOCVQXljwTYEX4ksS/hqHnzEkEl6oFovj2v
+	/Hb74XXbY+RyDrnznKMHqir0a2+sD6wls2Ytx8jViR7ejusONIi5fXTFQdDGzGs2WmUkcZ9IUe0
+	YgCDbyCq29W+wcVWeUegJ5C4ylKCoUS2D88aCVSKOt3QWayfcFgdzhRrUsRkPMGWFqFryXJYR5v
+	1YocOXJTmykWr5c380kUBRPVgbWDhhju1UVxQCM0CTEXHDShastvht9P6txAHRyAqogXecqs87Q
+	TmvmppdSJqRMwFKaxZsbpn+RwnUpH4A4ReG4D74M83Kr1EVhtB7jZphXUTpnlf1+Ir4Y2KF
+X-Received: by 2002:a05:6214:2261:b0:91b:5d39:e12c with SMTP id 6a1803df08f44-91c12f38a88mr54818826d6.53.1792615059560;
+        Wed, 21 Oct 2026 13:37:39 -0700 (PDT)
+Received: from toxicpanda.com ([153.61.196.245])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c10cf9f32sm33269736d6.45.2026.10.21.13.37.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 13:17:09 -0700 (PDT)
-Date: Wed, 21 Oct 2026 20:17:05 +0000
-From: Samiullah Khawaja <skhawaja@google.com>
-To: Fred Griffoul <griffoul@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, David Woodhouse <dwmw2@infradead.org>, 
-	Ackerley Tng <ackerleytng@google.com>, "Aneesh Kumar K . V" <aneesh.kumar@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Steffen Eiden <seiden@linux.ibm.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH v2 06/11] iommufd: Map memory provider files
-Message-ID: <atkO08eCJzLX6R58@google.com>
-References: <20261014093733.90312-1-griffoul@gmail.com>
- <20261014093733.90312-7-griffoul@gmail.com>
+        Wed, 21 Oct 2026 13:37:38 -0700 (PDT)
+From: Josef Bacik <josef@toxicpanda.com>
+Subject: [PATCH v3 0/5] capabilities: close the ways around the CAP_SETFCAP
+ rule for uid 0
+Date: Wed, 21 Oct 2026 20:37:24 +0000
+Message-Id: <20261021-b4-setfcap-userns-v3-0-97c7ed4e43e1@toxicpanda.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,218 +92,172 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20261014093733.90312-7-griffoul@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIUi2WoC/33OTQ6CMBAF4KuQrq20pRZ05T2Mi/4MUqMtaYFgC
+ HeX4kajcfkm8768CUUIFiI6ZBMKMNhovVtCscmQbqS7ALZmyYgRJighAiuOI3S1li3ul66L2Ii
+ CVjtZUA0FWnptgNqOq3k6v3Ls1RV0l6D0oWQErIJ0ukmnW5srnq/HTzr9NjZ2PjzWgQNN5r8tA
+ 8UE17yEEowQpGTHzo9Wt9IZudX+jtKggb0xlP9iWGKk5obuWUVN+cXM8/wE4BaoqTwBAAA=
+X-Change-ID: 20261006-b4-setfcap-userns-d63185a31ce3
+To: Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>, 
+ Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, Bradley Morgan <brads@mainlining.org>, 
+ Josef Bacik <josef@toxicpanda.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openssh-sha256; t=1792615055; l=6973;
+ i=josef@toxicpanda.com; h=from:subject:message-id;
+ bh=OCTzCzF6xbrNeax8f+4+604UcNM0s0xpehQTENXnCsU=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
+ JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QCBIqv0Oyyt/6cABl719ndFj9zZPh6GDediulNkL7LmlncdSow5CWRyMHCHYuT9QLzYUPMWsOcr
+ IZfnmHDdNvgg=
+X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
+ fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-On Wed, Oct 14, 2026 at 09:37:28AM +0000, Fred Griffoul wrote:
->From: Fred Griffoul <fgriffo@amazon.co.uk>
->
->IOMMU_IOAS_MAP_FILE pins the pages it maps, which cannot work for a
->memory provider file: the frames may have no struct page, and the
->provider can take any of them back at any time.
->
->Accept a provider file. iommufd neither pins nor accounts its pages.
->It asks the provider for each frame when it fills a domain, and on a
->revoke it unmaps the range in every domain and maps what the provider
->backs now. A device that accesses the range in between faults. A
->revoke charges the page tables it allocates to the memory cgroup that
->mapped the file, not to the task that revoked.
->
->Each frame gets a PAGE_SIZE entry, so a partial revoke never splits a
->large IOMMU page. The next patch maps larger blocks. Holes stay
->unmapped, read-only pages are mapped without IOMMU_WRITE, and MMIO
->pages with IOMMU_MMIO. Frame 0 is refused with -EINVAL: iova_to_phys()
->returns 0 for an IOVA that is not mapped, so a revoke would take that
->page for a hole and leave it mapped.
->
->A revoke would race a dirty bitmap read and lose the dirty bits of the
->range, so provider pages and a dirty tracking domain cannot share an
->IOAS: whichever comes second fails with -EOPNOTSUPP. A provider
->mapping cannot be split by a partial unmap, and in-kernel accesses to
->it are refused.
->
->Assisted-by: Claude:claude-opus-5-5
->Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
->---
-> drivers/iommu/iommufd/Kconfig        |   1 +
-> drivers/iommu/iommufd/io_pagetable.c |  13 +-
-> drivers/iommu/iommufd/io_pagetable.h |  27 ++-
-> drivers/iommu/iommufd/pages.c        | 288 ++++++++++++++++++++++++++-
-> include/uapi/linux/iommufd.h         |  11 +-
-> 5 files changed, 334 insertions(+), 6 deletions(-)
->
+v1: https://lore.kernel.org/all/20261006-b4-setfcap-userns-v1-0-f47e7ed66072@toxicpanda.com/
+v2: https://lore.kernel.org/all/20261014-b4-setfcap-userns-v2-0-fac4d19281d7@toxicpanda.com/
 
-[snip]
+v2->v3:
+- The setns() check in 2/5 and the ptrace check in 5/5 only apply to
+  namespaces that map the root user of an ancestor within the creator's
+  CAP_SETFCAP, or that have no uid_map yet.  Root users stored through
+  an idmapped mount are left to whoever sets up the mount, so a root
+  task without CAP_SETFCAP can join an ordinary "0 100000" container
+  again (Serge, Christian).
+- 2/5 adds cred_may_setfcap_userns() for those two checks and
+  cred_setfcap_reaches() for the uid_map check; nothing outside
+  create_user_ns() calls cap_setfcap_level() directly (Serge).
+- Fixed the cap_setfcap_level() kernel-doc, @ns doesn't have to be the
+  cred's namespace or below; cap_capable() is compared with != 0
+  (Serge).
+- Picked up Bradley's Reviewed-by on 1/5 and 3/5, not on 2/5, which
+  changed.
+- Rebased onto current vfs.all.
 
->+
-> /* The pages are not pinned, so their domains are tracked in pages->tracker. */
-> static inline bool iopt_pages_tracked(struct iopt_pages *pages)
-> {
->-	return iopt_is_dmabuf(pages);
->+	return iopt_is_dmabuf(pages) || iopt_is_provider(pages);
-> }
->
-> static inline bool iopt_dmabuf_revoked(struct iopt_pages *pages)
->@@ -285,6 +306,10 @@ struct iopt_pages *iopt_alloc_dmabuf_pages(struct iommufd_ctx *ictx,
-> 					   unsigned long start_byte,
-> 					   unsigned long start,
-> 					   unsigned long length, bool writable);
->+struct iopt_pages *iopt_alloc_provider_pages(struct file *file,
->+					     unsigned long start,
->+					     unsigned long length,
->+					     bool writable);
-> void iopt_release_pages(struct kref *kref);
-> static inline void iopt_put_pages(struct iopt_pages *pages)
-> {
->diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
->index 660af3d46f5e..aa7740326ad6 100644
->--- a/drivers/iommu/iommufd/pages.c
->+++ b/drivers/iommu/iommufd/pages.c
->@@ -52,6 +52,8 @@
-> #include <linux/iommu.h>
-> #include <linux/iommufd.h>
-> #include <linux/kthread.h>
->+#include <linux/mem_provider.h>
->+#include <linux/memcontrol.h>
-> #include <linux/overflow.h>
-> #include <linux/slab.h>
-> #include <linux/sched/mm.h>
->@@ -238,6 +240,35 @@ static void iommu_unmap_nofail(struct iommu_domain *domain, unsigned long iova,
-> 	WARN_ON(ret != size);
-> }
->
->+/*
->+ * Provider pages are mapped with PAGE_SIZE entries, and may have holes.  Some
->+ * IOMMU drivers warn when asked to unmap an IOVA that is not mapped, so find
->+ * the runs that are mapped and unmap each one, without touching the holes.
->+ * iopt_provider_map() refuses frame 0, which iova_to_phys() reports for
->+ * an IOVA that is not mapped.
->+ */
->+static void iopt_provider_unmap(struct iopt_area *area,
->+				struct iommu_domain *domain,
->+				unsigned long start_index,
->+				unsigned long last_index)
->+{
->+	unsigned long iova = iopt_area_index_to_iova(area, start_index);
->+	size_t left = (last_index - start_index + 1) * PAGE_SIZE;
->+
->+	while (left) {
->+		size_t len = 0;
->+
->+		while (len < left && iommu_iova_to_phys(domain, iova + len))
->+			len += PAGE_SIZE;
->+		if (len)
->+			iommu_unmap_nofail(domain, iova, len);
->+		/* Step over the run and the hole page that ended it. */
->+		len = min(len + PAGE_SIZE, left);
->+		iova += len;
->+		left -= len;
->+	}
->+}
->+
-> static void iopt_area_unmap_domain_range(struct iopt_area *area,
-> 					 struct iommu_domain *domain,
-> 					 unsigned long start_index,
->@@ -245,6 +276,11 @@ static void iopt_area_unmap_domain_range(struct iopt_area *area,
-> {
-> 	unsigned long start_iova = iopt_area_index_to_iova(area, start_index);
->
->+	if (area->provider) {
->+		iopt_provider_unmap(area, domain, start_index, last_index);
->+		return;
->+	}
->+
-> 	iommu_unmap_nofail(domain, start_iova,
-> 			   iopt_area_index_to_iova_last(area, last_index) -
-> 				   start_iova + 1);
->@@ -1349,6 +1385,10 @@ static int pfn_reader_first(struct pfn_reader *pfns, struct iopt_pages *pages,
-> 	    WARN_ON(last_index < start_index))
-> 		return -EINVAL;
->
->+	/* Provider pages are read from the provider, see iopt_provider_map() */
->+	if (WARN_ON(iopt_is_provider(pages)))
->+		return -EINVAL;
->+
-> 	rc = pfn_reader_init(pfns, pages, start_index, last_index);
-> 	if (rc)
-> 		return rc;
->@@ -1647,6 +1687,228 @@ void iopt_pages_untrack_all_domains(struct iopt_area *area,
-> 	}
-> }
->
->+static int iopt_provider_prot(struct iopt_area *area, u32 attrs)
->+{
->+	int prot = area->iommu_prot;
->+
->+	if (attrs & MEM_PROVIDER_ATTR_READONLY)
->+		prot &= ~IOMMU_WRITE;
->+	if (mem_provider_type(attrs) != MEM_PROVIDER_TYPE_RAM) {
->+		prot &= ~IOMMU_CACHE;
->+		prot |= IOMMU_MMIO;
->+	}
->+	return prot;
->+}
->+
->+/*
->+ * Map what the provider backs in [start_index, last_index] of the area into
->+ * @domain, and leave the holes unmapped.  Each frame is mapped with a
->+ * PAGE_SIZE entry, so that a revoke of part of a large block never has to
->+ * split a larger IOMMU page.  On failure nothing in the range is mapped.
->+ */
->+static int iopt_provider_map(struct iopt_area *area, struct iopt_pages *pages,
->+			     struct iommu_domain *domain,
->+			     unsigned long start_index,
->+			     unsigned long last_index)
->+{
->+	unsigned long base = pages->provider.start >> PAGE_SHIFT;
->+	unsigned long index = start_index;
->+	int rc;
->+
->+	lockdep_assert_held(&pages->mutex);
->+
->+	if ((1UL << __ffs(domain->pgsize_bitmap)) > PAGE_SIZE)
->+		return -EOPNOTSUPP;
->+
->+	/*
->+	 * A revoke unmaps under pages->mutex only, so it would race with a
->+	 * dirty bitmap read, and lose the dirty bits of what it unmaps.
->+	 * Provider pages are not mapped in a domain with dirty tracking.
->+	 */
->+	if (domain->dirty_ops)
->+		return -EOPNOTSUPP;
->+
->+	while (index <= last_index) {
->+		unsigned long pfn, iova, block_end, nr, i;
->+		int order = PUD_ORDER;
->+		u32 attrs;
->+		int prot;
->+
->+		rc = mem_provider_get_page(&pages->provider.att, base + index,
->+					   &pfn, &order, &attrs);
->+		if (rc == -EFAULT) {
->+			index++;
->+			continue;
+v1->v2:
+- The state lives on the user namespace now: ns->setfcap_level replaces
+  ns->parent_could_setfcap, and cred->setfcap_level is gone (Serge,
+  Christian).
+- New 2/5: setns() refuses a task whose CAP_SETFCAP doesn't reach as far
+  up as the namespace's setfcap_level.  It applies to every user
+  namespace, not only to those that map the parent's uid 0, because of
+  idmapped mounts (Serge, Christian).
+- 5/5 asks a tracer for what setns() asks for, also when the namespace
+  doesn't map an ancestor's root user, again because of idmapped mounts.
+- Dropped "userns: don't let setns() lend the right to map uid 0", the
+  setns() check covers it.  Its nested case moved into 3/5, which checks
+  the opener and the writer.
+- set_cred_user_ns() isn't touched anymore, so the put-before-use in
+  userns_install() is gone (Sashiko).
+- Rebased onto current vfs.all.
 
-Hi Fred,
+What it does now:
 
-Thanks for this.
+Every user namespace gets a setfcap_level when it's created, which is
+how far up the creator's CAP_SETFCAP counted.  If its tasks can write
+file capabilities for the root user of an ancestor, because the
+namespace maps that root user or can still map it, setns() only lets in
+tasks whose own CAP_SETFCAP reaches that far, and PTRACE_ATTACH asks the
+tracer for the same.  The checks on the way to file capabilities then go
+by the namespace instead of the cred: a uid_map write that maps the
+parent's uid 0 (opener and writer), and setting security.capability.
 
-With this approach, silently skipping holes during IOAS_MAP_FILE means
-iommufd has no tracking of which IOVA ranges in the area are actually
-mapped, which complicates unmap and could also hide a bug if a hole in
-the range was not expected?
+The visible difference from v1 is the setns() restriction.  A task
+without CAP_SETFCAP can't join, or attach to tasks in, a namespace that
+maps the root user of an ancestor, such as host uid 0, and was created
+by a task that had it.  A task that joins takes on the namespace's
+reach.  Containers that don't map host uid 0, unprivileged users and
+anything with CAP_SETFCAP aren't affected.
 
-I am wondering whether the areas can track the holes, or whether we
-should have areas for the mapped/unmapped ranges? This should allow
-proper sanity checks when doing revoke. I am also thinking about this
-from the live update point of view, where we might need to sanity check
-that the backing memory of mapped regions is preserved.
+Testing: the v1 flows plus the setns() and ptrace cases, 41 in all, on
+vfs.all with and without the series.  Every flow gives what's expected,
+and the only ones that changed from v2 are the five idmapped mount and
+"0 100000" container cases, which are allowed again.  The pidfd,
+namespaces, mount_setattr and ptrace selftests give identical results
+with and without.  The TLA+ model, which has no idmapped mounts, finds
+no violation with the narrower checks, and still finds the setns()
+bypass when the check is taken out.
 
-Could you please CC me on v3? I'd like to follow this from the live
-update IOMMU and iommufd preservation side.
+--- Original email (v1) ---
 
-https://lore.kernel.org/all/20260921004834.2601285-1-skhawaja@google.com/
+Hello,
 
-Thanks,
-Sami
+Commit db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
+stops a root task that has given up CAP_SETFCAP from creating a user
+namespace that maps uid 0 and then writing file capabilities in it that
+the initial namespace honours.  The check only looks at the task that
+creates the namespace, so if somebody who did have CAP_SETFCAP created
+one, there are still several ways around it:
+
+- setns() into their namespace and write uid_map from inside (patch 2)
+- write "0 0 1" through a uid_map fd that they opened (patch 3)
+- setns() into a namespace of theirs that already maps uid 0 and set
+  security.capability there, no map write needed (patch 4)
+- ptrace one of their tasks and have it do any of the above (patch 5)
+
+On an unmodified kernel we took a uid 0 task with CAP_SETFCAP dropped
+from its permitted, effective and bounding sets and, through each of
+these, ended up with a file that a uid 1000 user execs with
+CAP_SYS_ADMIN in its effective set.
+
+Patch 1 adds cred->setfcap_level, which records how far up the
+namespace tree a task's CAP_SETFCAP reached when it entered its
+namespace, and patches 2-5 check it.  Patch 4 is the check that closes
+the class, the map patches make the uid 0 map rule mean what
+db2e718a4798 meant it to, and patch 5 keeps ptrace from borrowing what
+the target is entitled to.
+
+This does change behaviour.  Everything new is -EPERM:
+
+- a task that entered a namespace without CAP_SETFCAP outside can't map
+  uid 0 of the outside or write fscaps for that root user anymore
+- a uid_map fd opened by a task with CAP_SETFCAP can't be used by a
+  task without it to map uid 0
+- if a privileged task maps "0 0 1" from the parent for a namespace
+  created by a task without CAP_SETFCAP, that namespace can no longer
+  write fscaps honoured outside
+- PTRACE_ATTACH and PTRACE_TRACEME fail when the tracer gave up
+  CAP_SETFCAP and CAP_SYS_PTRACE, the target didn't, and they share a
+  root user
+
+Rootless containers, privileged runtimes writing the map from the
+parent, nested unprivileged namespaces and containers that don't map
+host uid 0 aren't affected.  The ptrace check is one compare for
+targets in the initial namespace and in namespaces entered without
+the capability.
+
+Testing: a set of flows run on the base and patched kernels, every
+bypass route above gets -EPERM with the series and the 16 legitimate
+flows behave the same.  The capabilities, namespaces, ptrace, pidfd and
+proc selftests give the same results before and after. Thanks,
+
+Josef
+
+---
+Changes in v3:
+- Link to v2: https://patch.msgid.link/20261014-b4-setfcap-userns-v2-0-fac4d19281d7@toxicpanda.com
+
+Changes in v2:
+- Link to v1: https://patch.msgid.link/20261006-b4-setfcap-userns-v1-0-f47e7ed66072@toxicpanda.com
+
+---
+Josef Bacik (5):
+      userns: record how far up CAP_SETFCAP reaches
+      userns: don't let setns() lend CAP_SETFCAP
+      userns: check the opener and the writer before mapping uid 0
+      capabilities: limit fscaps to where CAP_SETFCAP reaches
+      capabilities: don't let ptrace borrow CAP_SETFCAP
+
+ include/linux/capability.h     |   7 ++
+ include/linux/user_namespace.h |   7 +-
+ kernel/user_namespace.c        |  37 ++++++---
+ security/commoncap.c           | 167 ++++++++++++++++++++++++++++++++++++++++-
+ 4 files changed, 202 insertions(+), 16 deletions(-)
+---
+base-commit: 2c3ba1f1cb416b81d617b92a24a4bcaa48d574e3
+change-id: 20261006-b4-setfcap-userns-d63185a31ce3
+
