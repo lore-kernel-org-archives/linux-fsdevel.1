@@ -1,110 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792595002;
-	b=EbBAMMepE9m3fzL6rCAqLmXTGSpSYmvo2x6xJ2M4SQxer683Z1m8Ow1e8z3PK0foMjBQ
-	 67GumgZAlsaNk15ILiYGBE9zp1MeZBR+Rx9Nh9ujb7zPuykbp1wzr8VS5PivqpEoFVBar
-	 +FXN0xRM1ncUwKn4NSdylSER3JYY1aPWQJkYZoKOBL+XXD5Xgy/Yvl/5KAR5+sFwgzpmH
-	 S4RGSOPl3YcdB54xpqn9pyZRYjERe0GyLl08G3EL9nyAu3n+4YOMZaQC88Z/MdqLu5DM8
-	 KeWvIhoG/f0w9robs/gSbBJe44ElsMVkOUrscU6LwBVjPXgxQYBswlLdp42U5fDBdJw==
+	t=1792595276;
+	b=pxV12KH2auRBMOROjLlDkIiAi8gPb2xuwKzANnLtQ+Drchs2tYxt4nunC1ckOLfQ+XUn
+	 ILW14ezccWO8+7inid8KhljRFAiQOR2/TYnFWitRAEtpKqM5xabaFJ8ChrdPQbFGLwf+/
+	 EjNzt/ypLe6hjDUvzFHLHNj9UzE7poMIiHAJBdWMp6yOw3pq5OB/mCb8ZBjblsZ8iUhqH
+	 meZWK9aRrMjh5giCSAXcCFWSzjClzC33mMQSNasDvKy1IeNdDPlQYsD6C01buuUuu3IcZ
+	 2pjj887se4oEd6R5uIR4Z2E2oz0WDAVq/WrAKrvNB6AFWIahtHtgnL9yL07JVN/UHkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792595002;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792595276;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=GxeHVT2qL6sGRauX1063cDj44dMqPtepnr8lk8BOP1U=;
-	b=fIAjl31JSLzBiT1dbQLaRtQQyZZVEx58iSQ+VeItTaQOMwy5oUvJYiiBSTn8IOg99DWS
-	 wU5GcsJENdUlGfV61+1a3aeRDa7cJAQDY/EpAV+w7QotJnA8q1pgyrQsJ9h5fMyhB1rmo
-	 kZBSF/sHtc/f7uItRy+i27ct/wwiEcDIeQhqt/cdCf04fyNxJJLYCgjpQ2noWRXJc63KD
-	 6UH1Bp1b+q7hRwV3X4Z8f7MX6TBEKTsMBKp4ObX9ow1HCHAnl2cOF5DKYu66Yh/gJv2t3
-	 0RPwBe6b0UzOL6TuO/yqsrdcLPbnnzVG21Cc9cCquBi9kveM1OHF0SlBlKO2QjtH41A==
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=4IL+wAUg2YMioNglotQqAajEtIi50oQ+jrWGTenLzTU=;
+	b=4QpnFbZ9dVgdiuvmzkn3JEpsZ41tIgJ8p3f5gaTJJfZE/kk31ykYgOE52tGO9LNIQ6yx
+	 wf9VHjrEWIHdKspw4YTaNbw9a16B7rCzDvSppK7U3BmVfWNvDYmlqEv0PlB2JpDG+MoQw
+	 j+fk4QeJu4QrTw4XEY2yL0O24RDntfWNtfWpUxa6qjPoTETXavz5+2KluylEYqUVVEXGi
+	 /FuuXoKzN0r3BnKYedeAR2IDqNfl9/1hwLhifzUkIwsLw8/d4YODtT8WyudN6kgjqMj7P
+	 xnBs76eQ9RNjtdJ4cj/mNSKixY8wmHbEeV55pxDHAUeZ7XKobNKvUhQ70cwgEzTBrdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=NsyeGYvZ;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="WkEjL+/F";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=NsyeGYvZ;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="WkEjL+/F";
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=kFdhW9k8;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=fjGwKxnF;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Afx3HhuS;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=41gz4xnp;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F009606A319;
-	Wed, 21 Oct 2026 15:03:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F009606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8E6606A319;
+	Wed, 21 Oct 2026 15:07:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE8E6606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=NsyeGYvZ;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WkEjL+/F;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=NsyeGYvZ;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WkEjL+/F
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=kFdhW9k8;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=fjGwKxnF;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Afx3HhuS;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=41gz4xnp
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C29D11FAB6;
-	Wed, 21 Oct 2026 15:03:19 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 04DAA21F93;
+	Wed, 21 Oct 2026 15:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792594999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792595274; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GxeHVT2qL6sGRauX1063cDj44dMqPtepnr8lk8BOP1U=;
-	b=NsyeGYvZgXGRuSzTYFo6f7/4ZEAoE35zzAVXVeL8Z+4CA+uwuMlB9S6DG9twr/ufPzCgT7
-	4+mYaRa7H7kanVNXIj2338pLTfL5AmhTVVzINE+NHQ7OtpLpciwR4NXzSKRVCFAKy3xwT4
-	b11QQHX1YYdAjQCwaDyndsgmTKcPmc0=
+	bh=4IL+wAUg2YMioNglotQqAajEtIi50oQ+jrWGTenLzTU=;
+	b=kFdhW9k85lZxkLuQFkoMN1Di1Ys1mAf090DUb/Ji7ixNmKq/7S+1NpATauaLFaNpF2ZyKE
+	tXYT4LFJFLCQW6Wl5eY6+3oDi5TVAEBQBS+HK0BUM8yMIN0itndeky0yVmXyMcz0xLZERu
+	JjA5PGnQ6zMwRZ3Avq2mAccSo0Trsew=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792594999;
+	s=susede2_ed25519; t=1792595274;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GxeHVT2qL6sGRauX1063cDj44dMqPtepnr8lk8BOP1U=;
-	b=WkEjL+/F/uB0cunI/gv/AUmolfNRDua1+0eh+Qp84i5BMpuAzAu6wA5aEOgz4GJ+Tr0v+2
-	xlz1L4mPYeglq5CA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=NsyeGYvZ;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="WkEjL+/F"
+	bh=4IL+wAUg2YMioNglotQqAajEtIi50oQ+jrWGTenLzTU=;
+	b=fjGwKxnF9K6US9y2Fxt0YOsr+du6LfzBFo8MYsB1tqkvVrOz6L1nti9tJZ0e46/PicKWhJ
+	UkJp5qKsFSvUBUAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792594999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792595272; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GxeHVT2qL6sGRauX1063cDj44dMqPtepnr8lk8BOP1U=;
-	b=NsyeGYvZgXGRuSzTYFo6f7/4ZEAoE35zzAVXVeL8Z+4CA+uwuMlB9S6DG9twr/ufPzCgT7
-	4+mYaRa7H7kanVNXIj2338pLTfL5AmhTVVzINE+NHQ7OtpLpciwR4NXzSKRVCFAKy3xwT4
-	b11QQHX1YYdAjQCwaDyndsgmTKcPmc0=
+	bh=4IL+wAUg2YMioNglotQqAajEtIi50oQ+jrWGTenLzTU=;
+	b=Afx3HhuSSFNpkakRqGh9I0RnIMjicwBbxKLXHp6MhGJOvuIdqA/BJL7AlsjoNTaBsB/05H
+	z0sM9DHquMUjpDCt6FqUdatEvbRv/JdU/JxnuhdM7WMYaWmTW4LW2MuC06qcQYUS2xxWnX
+	3ZCc8J8qQq6KJ/QMrwNHb9GahepSSYQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792594999;
+	s=susede2_ed25519; t=1792595272;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GxeHVT2qL6sGRauX1063cDj44dMqPtepnr8lk8BOP1U=;
-	b=WkEjL+/F/uB0cunI/gv/AUmolfNRDua1+0eh+Qp84i5BMpuAzAu6wA5aEOgz4GJ+Tr0v+2
-	xlz1L4mPYeglq5CA==
+	bh=4IL+wAUg2YMioNglotQqAajEtIi50oQ+jrWGTenLzTU=;
+	b=41gz4xnpCASbZfXud9a6C7Kcx7fCf3dbp8s0+8/xXgef7skC4pF/NTncrOEb2ewFJVQE7M
+	AI7f5EUdBu7Y/pAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 97F0E134A5;
-	Wed, 21 Oct 2026 15:03:19 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CFF70134A5;
+	Wed, 21 Oct 2026 15:07:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QaLlHDfU2Gq+dwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 21 Oct 2026 15:03:19 +0000
+	id ixtZKUbV2GrnfAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 21 Oct 2026 15:07:50 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 22A10A13C6; Wed, 21 Oct 2026 17:03:19 +0200 (CEST)
-Date: Wed, 21 Oct 2026 17:03:19 +0200
+	id 59E92A13C6; Wed, 21 Oct 2026 17:07:46 +0200 (CEST)
+Date: Wed, 21 Oct 2026 17:07:46 +0200
 From: Jan Kara <jack@suse.cz>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] fs: let a mount waiting for the old superblock to
- die be killed
-Message-ID: <mti6fpzjrw7xjvzn7j6cdoljtjpltuzdr4x6l7uvldiv6pe3rr@i6bplnpyrqsz>
-References: <20261021-b4-super-lock-dying-v1-0-2b35e86706ff@toxicpanda.com>
- <20261021-b4-super-lock-dying-v1-5-2b35e86706ff@toxicpanda.com>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: akpm@linux-foundation.org, willy@infradead.org, jack@suse.cz, 
+	shr@devkernel.io, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] mm/page-writeback: avoid 32-bit overflow in dirty
+ threshold shares
+Message-ID: <n6sci6hug3mywpnhcylk5b3fldm3xjekiexwugqgmxx35sotsc@wcdhaetb23jr>
+References: <20261021060654.27855-1-dennylin0707@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -116,123 +113,105 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261021-b4-super-lock-dying-v1-5-2b35e86706ff@toxicpanda.com>
-X-Rspamd-Queue-Id: C29D11FAB6
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+In-Reply-To: <20261021060654.27855-1-dennylin0707@gmail.com>
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-13.01 / 50.00];
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.80 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[toxicpanda.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:email,suse.com:email];
+	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_FIVE(0.00)[6];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Score: -13.01
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
+X-Spam-Score: -12.80
 
-On Wed 21-10-26 00:56:39, Josef Bacik wrote:
-> When sget_fc() finds a superblock for what is being mounted and that
-> superblock is being shut down, grab_super() waits for SB_DEAD and sget_fc()
-> then looks again.  This one does have to wait: the old superblock owns the
-> device until ->kill_sb() is done with it.
+On Wed 21-10-26 06:06:54, Hungyu Lin wrote:
+> The ratios used by __wb_calc_thresh() are scaled to parts per million,
+> but the threshold and ratio operands are unsigned long. On 32-bit
+> kernels, their multiplication can wrap before the result is assigned
+> to u64.
 > 
-> It doesn't have to be uninterruptible though.  If the unmount is stuck, so
-> is every attempt to mount that device again, and none of them can be
-> killed.  mount(2) and fsconfig(2) can fail at this point, nothing has been
-> set up yet apart from a spare superblock which sget_fc() frees on its
-> other ways out as well.
+> For example, with a threshold of 25600 pages and the default maximum
+> ratio of 1000000, wb_max_thresh becomes 4125 pages instead of 25600.
+> The shared threshold and minimum share calculations can overflow in
+> the same way, producing incorrect per-writeback dirty limits.
 > 
-> Make the wait killable.  grab_super() now has three outcomes, so have it
-> return 0, -EAGAIN for "look again", or the error from the wait.
+> Use a u64 threshold for the three ratio multiplications and div_u64()
+> to retain the existing division order and rounding.
 > 
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> Fixes: ae82291e9ca4 ("mm: use part per 1000000 for bdi ratios")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 
-Looks good. Feel free to add:
+Looks ok. Feel free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
 > ---
->  fs/super.c | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
+> Changes in v2:
+> - Use a u64 threshold variable instead of repeated casts, as suggested by
+>   Andrew Morton.
 > 
-> diff --git a/fs/super.c b/fs/super.c
-> index 9f76b399f3fb..36fdf88ef88e 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -673,12 +673,14 @@ EXPORT_SYMBOL(deactivate_super);
->   * superblock to either become SB_BORN or for it to pass through
->   * sb->kill() and be marked as SB_DEAD.
->   *
-> - * Return: This returns true if an active reference could be acquired,
-> - *         false if not.
-> + * Return: 0 if an active reference could be acquired, -EAGAIN if the
-> + *         superblock is gone and the caller should look again,
-> + *         -ERESTARTSYS if the task was killed while waiting for that.
->   */
-> -static bool grab_super(struct super_block *sb)
-> +static int grab_super(struct super_block *sb)
+>  mm/page-writeback.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+> index eeab25d6ce36..1d6aab8781a5 100644
+> --- a/mm/page-writeback.c
+> +++ b/mm/page-writeback.c
+> @@ -883,6 +883,7 @@ static unsigned long __wb_calc_thresh(struct dirty_throttle_control *dtc,
 >  {
->  	bool locked;
-> +	int ret;
+>  	struct wb_domain *dom = dtc_dom(dtc);
+>  	struct bdi_writeback *wb = dtc->wb;
+> +	u64 threshold = thresh;
+>  	u64 wb_thresh;
+>  	u64 wb_max_thresh;
+>  	unsigned long numerator, denominator;
+> @@ -894,13 +895,14 @@ static unsigned long __wb_calc_thresh(struct dirty_throttle_control *dtc,
+>  	fprop_fraction_percpu(&dom->completions, dtc->wb_completions,
+>  			      &numerator, &denominator);
 >  
->  	refcount_inc(&sb->s_passive);
->  	spin_unlock(&sb_lock);
-> @@ -686,13 +688,13 @@ static bool grab_super(struct super_block *sb)
->  	if (locked) {
->  		if (atomic_inc_not_zero(&sb->s_active)) {
->  			put_super(sb);
-> -			return true;
-> +			return 0;
->  		}
->  		super_unlock_excl(sb);
->  	}
-> -	wait_var_event(&sb->s_flags, super_flags(sb, SB_DEAD));
-> +	ret = wait_var_event_killable(&sb->s_flags, super_flags(sb, SB_DEAD));
->  	put_super(sb);
-> -	return false;
-> +	return ret ? ret : -EAGAIN;
->  }
+> -	wb_thresh = (thresh * (100 * BDI_RATIO_SCALE - bdi_min_ratio)) / (100 * BDI_RATIO_SCALE);
+> +	wb_thresh = div_u64(threshold * (100 * BDI_RATIO_SCALE - bdi_min_ratio),
+> +			    100 * BDI_RATIO_SCALE);
+>  	wb_thresh *= numerator;
+>  	wb_thresh = div64_ul(wb_thresh, denominator);
 >  
->  /*
-> @@ -960,9 +962,12 @@ struct super_block *sget_fc(struct fs_context *fc,
->  			warnfc(fc, "reusing existing filesystem in another namespace not allowed");
->  		return ERR_PTR(-EBUSY);
+>  	wb_min_max_ratio(wb, &wb_min_ratio, &wb_max_ratio);
+>  
+> -	wb_thresh += (thresh * wb_min_ratio) / (100 * BDI_RATIO_SCALE);
+> +	wb_thresh += div_u64(threshold * wb_min_ratio, 100 * BDI_RATIO_SCALE);
+>  
+>  	/*
+>  	 * It's very possible that wb_thresh is close to 0 not because the
+> @@ -916,7 +918,7 @@ static unsigned long __wb_calc_thresh(struct dirty_throttle_control *dtc,
+>  			wb_thresh = max(wb_thresh, (thresh - dtc->dirty) / 8);
 >  	}
-> -	if (!grab_super(old))
-> +	err = grab_super(old);
-> +	if (err == -EAGAIN)
->  		goto retry;
->  	destroy_unused_super(s);
-> +	if (err)
-> +		return ERR_PTR(err);
->  	return old;
->  }
->  EXPORT_SYMBOL(sget_fc);
-> 
+>  
+> -	wb_max_thresh = thresh * wb_max_ratio / (100 * BDI_RATIO_SCALE);
+> +	wb_max_thresh = div_u64(threshold * wb_max_ratio, 100 * BDI_RATIO_SCALE);
+>  	if (wb_thresh > wb_max_thresh)
+>  		wb_thresh = wb_max_thresh;
+>  
 > -- 
-> 2.55.0
+> 2.43.0
 > 
 -- 
 Jan Kara <jack@suse.com>
