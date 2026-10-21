@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792583257;
-	b=R62/+rpIuIiYtZ45IXCr4dZfZHApliq6JWsE+8QKonwBGRMGUQzqMHbNsfL1DgD4dFSS
-	 k15LJNSfGxrJgUrk/8eY7FkhOXB1tpjmpjnHvxxAIqBMd4TPToQV2xIFeFoMeqDMFeQzO
-	 90RiEibV2qU5352+DZPIjJyJOE8tBDb21yir+Sh5dFGZ70o3OryzQqLKPmM/hRq76mYRR
-	 wQvQQJGdxxWaZd7k48TtsT59LiW8uqMmHXhfsBU9OJIBo5qMi9beKmdUlvypGfOKbxFDE
-	 v5k1B1KqIrifQYcYHDDHVKE4GJwSi392XPX+gpL8WZVR90Qk/lVnrTL5wamCIK+bRjA==
+	t=1792583254;
+	b=HM8JjLNOIqa7qqm4wbQzKwe4gCTaCmA+IoNjr4K9oKDgS+NPNxS+lT9L8fAHytfUk2n0
+	 CHoaSyqKkbnU/RG6ZPOPcBbAwUxN3XxzI7bIDytY6emsmm09jMTNA3LLr/uDsFhJBrqS4
+	 iw0BEmzBUURHSUoMB1ewG1bcBpbZvDbPyfUMs3pIR3ibSYOwP99lKNQGHHUlqCLBVXXDO
+	 dPFCwKM9gfti5gT2gnS3OMoBd1YT5GRjtUznBxssJBHRWfI6CZGxYcRbOnibUnvh6qFBT
+	 4bsP/O/s0h2GFq1eRTBkWc4bZf191lcn9gIwsdEkLkPSR+P4YttqeFglwdM1KrEtqVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792583257;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792583254;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer;
-	bh=xmGAfN0OUSjom6l6tSM04XwloAAVNUFTiyZsdBthbKk=;
-	b=pVr8M/etpMzGWV6/5qdX4vx8f+rdagd0bFFSGCT+Ud6FaiiD+yY9731BZpKtdDt58u5C
-	 bcHfxBEa6zcxnOoCbY7V39KO/ULM/0/x86hsEPQxG0+68rg1VUg0mXDh6lB2uSEHsHOXi
-	 kSk8b4tVVjFtQrsAA9MjtE3S9UNQ1GR4Za3VhP1kLBudBd4mhG/gJENKSWEWYEhJQtWaT
-	 NL9xqoAX6qHO8YW6Lv+WHoXZZqWIjQWrrD4zONdIY0qY/9fLSKI9OXYZj87C4AzDBxr3T
-	 raL8Ne2I49DgcNuJCfhwV/ldKCfVLWkuGXIbltassjAYus7qlVVYp5ZYBy3HvkXsEdg==
+	bh=k5tAUz/tkiXqS8hJnljlzMQfqWaNZ/lYqApYxklXIbU=;
+	b=rtrcSRqx9A/W2zK6C9Jl0VnyNdHFYClPf0fd5cK7Bw9dCDpwy9wTwliyOXAsE1TB6wRd
+	 vgRdMGkGeFBVODZChZ/q2PzhU9XsjtUXZDTizPG6Tpyo1J1vae1jtJc5APXkCqn4aU4gq
+	 WdkTa8SlD1kIE//Ccvgy1KO/ihD6EnAdCgV8Sw3+K4JBwbuYw9VY6n2sTVckzcqKmC4x+
+	 FKU7otBSGc1CX3SpPVqmWQaCWa5s5RSkTdowf8XfEzx/8sGgAWcOVJVLcBskdI/tc6BfI
+	 d+g3O92A39bZvsZraX371e7RJ9IwmQ1EH2I8tSEForTcIKBox3iElzkWmCDej7E3z8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BeuXHl5T;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KmjfHBMG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800FB606A332;
-	Wed, 21 Oct 2026 11:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BeuXHl5T
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0DF41F000CC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85AE60A263C;
 	Wed, 21 Oct 2026 11:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KmjfHBMG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC8DB1F000C6;
+	Wed, 21 Oct 2026 11:47:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792583257;
-	bh=xmGAfN0OUSjom6l6tSM04XwloAAVNUFTiyZsdBthbKk=;
+	s=k20260515; t=1792583253;
+	bh=k5tAUz/tkiXqS8hJnljlzMQfqWaNZ/lYqApYxklXIbU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=BeuXHl5ThaznPZ77wIYWyo9/5rDjGihXybfs9KKYrGQFkrH9E7G9jjXt3F+L2XFBV
-	 failJjUnDCtrZ8vZHxg1VbR7sPAcVW/7xbsblf3OgQGzSF2pUNtsrezVuvkxupmPpA
-	 dh5LvFx7fFd9x5TgqRruffnnc4D7THmdb8+IwXX5mZ14w8s/Ja0UGtywNPUKpzmeVl
-	 T3yjRdZ7bFj5+gTCDphvRWwvbpUUWNfa+VUCjFXVCszdquxSnxlT5nxbbZgM05COw6
-	 aRLTyc8qmwwgVaQ6A86rB3onZXwCzSlUDawagaZ5KPEpAyuPr+4wwl3noa30meeuYT
-	 HNXFOurVa57Pw==
+	b=KmjfHBMGzG71BBUUV9FeGHY/xvy+/c4Vnrc44gX4jucXojg2nTgIi8T46RM+52sIh
+	 CgG/UumtBk/l6Hxq78hLSFQOHjHAwkdGcU95oPB8EuM5G24kWATQKMra0NMQ5LIC5M
+	 /SiAOtWXWIg7PBpFsBvaj+wOTBPbxZBoSVpR2W0+mjb1FFgW1ok87RIvDoDwfjG2g2
+	 WdZ78CMqOuBUccxQP77+dfbibnob4H0ZElJTlDuIQzHwMPTGWW6Pit98D/xJr8a4bR
+	 /0DG+ck0ogX23fUXpQ2jq2OGBtebDg7WQbfEmA1NTZkMosbIUkf3+MsGAYaZu9Bw52
+	 SJvrec4At6Jhw==
 From: "Harry Yoo (Meta)" <harry@kernel.org>
-Date: Wed, 21 Oct 2026 12:46:45 +0100
-Subject: [PATCH slab/for-next 04/14] fs/buffer: specify SLAB_MAY_ACCOUNT
- for buffer_head cache
+Date: Wed, 21 Oct 2026 12:46:44 +0100
+Subject: [PATCH slab/for-next 03/14] lib/xarray: specify SLAB_MAY_ACCOUNT
+ for radix_tree_node cache
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261021-memalloc-prof-dont-waste-slabobj-ext-metadata-v1-4-096800aa3330@kernel.org>
+Message-Id: <20261021-memalloc-prof-dont-waste-slabobj-ext-metadata-v1-3-096800aa3330@kernel.org>
 References: <20261021-memalloc-prof-dont-waste-slabobj-ext-metadata-v1-0-096800aa3330@kernel.org>
 In-Reply-To: <20261021-memalloc-prof-dont-waste-slabobj-ext-metadata-v1-0-096800aa3330@kernel.org>
 To: Vlastimil Babka <vbabka@kernel.org>, 
@@ -68,43 +68,40 @@ Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
  David Rientjes <rientjes@google.com>, Muchun Song <muchun.song@linux.dev>, 
  Hao Ge <hao.ge@linux.dev>, Pedro Falcato <pfalcato@suse.de>, 
  linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com, 
- "Harry Yoo (Meta)" <harry@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ "Harry Yoo (Meta)" <harry@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
  linux-fsdevel@vger.kernel.org
 X-Mailer: b4 0.16.0
 
-Buffer heads are allocated with __GFP_ACCOUNT to charge them to the
-memcg of the folio they are attached to. Specify SLAB_MAY_ACCOUNT when
-the object may be charged to a memcg. __GFP_ACCOUNT without
-SLAB_MAY_ACCOUNT will not be allowed.
+XArrays with XA_FLAGS_ACCOUNT (e.g. the page cache) allocate nodes with
+__GFP_ACCOUNT, and xarray/IDR callers can also pass GFP_KERNEL_ACCOUNT
+directly. Specify SLAB_MAY_ACCOUNT when the object may be charged to a
+memcg. __GFP_ACCOUNT without SLAB_MAY_ACCOUNT will not be allowed.
 
-Path: ext4_getblk() -> folio_alloc_buffers(GFP_NOFS | __GFP_ACCOUNT)
-  -> alloc_buffer_head() -> kmem_cache_zalloc(bh_cachep)
+Path: __filemap_add_folio() (i_pages has XA_FLAGS_ACCOUNT)
+  -> xas_store() -> xas_alloc() (gfp |= __GFP_ACCOUNT)
+  -> kmem_cache_alloc_lru(radix_tree_node_cachep)
 
 Assisted-by: LLM
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>
+Cc: Matthew Wilcox <willy@infradead.org>
 Cc: linux-fsdevel@vger.kernel.org
 Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
 ---
- fs/buffer.c | 2 +-
+ lib/radix-tree.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index ed966fa73b1b..1cbbd065cab6 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -2993,7 +2993,7 @@ void __init buffer_init(void)
- 	int ret;
- 
- 	bh_cachep = KMEM_CACHE(buffer_head,
--				SLAB_RECLAIM_ACCOUNT|SLAB_PANIC);
-+				SLAB_RECLAIM_ACCOUNT|SLAB_PANIC|SLAB_MAY_ACCOUNT);
- 	/*
- 	 * Limit the bh occupancy to 10% of ZONE_NORMAL
- 	 */
+diff --git a/lib/radix-tree.c b/lib/radix-tree.c
+index 976b9bd02a1b..2c7531deb0df 100644
+--- a/lib/radix-tree.c
++++ b/lib/radix-tree.c
+@@ -1600,7 +1600,7 @@ void __init radix_tree_init(void)
+ 	BUILD_BUG_ON(XA_CHUNK_SIZE > 255);
+ 	radix_tree_node_cachep = kmem_cache_create("radix_tree_node",
+ 			sizeof(struct radix_tree_node), 0,
+-			SLAB_PANIC | SLAB_RECLAIM_ACCOUNT,
++			SLAB_PANIC | SLAB_RECLAIM_ACCOUNT | SLAB_MAY_ACCOUNT,
+ 			radix_tree_node_ctor);
+ 	ret = cpuhp_setup_state_nocalls(CPUHP_RADIX_DEAD, "lib/radix:dead",
+ 					NULL, radix_tree_cpu_dead);
 
 -- 
 2.54.0
