@@ -1,73 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792604143;
-	b=PLhzBhrqawwcU34AXZjIbvL7L07/s/ldxWIfMUr0tj+2otHAzYVk6p2tHyDIEuDeoQxP
-	 vqEPdcJ+NhFAT+rcdNTReLBO/FDOMp69thjx26LtcPNelN08UKgpL8Gz6FuU/5LMBd6d/
-	 xG4rbTmm9fYycm8jeW8cdDohkrAsVQ31YhxfMj5B2st0qeJsBh/2ZcgD+XK64MFczYekz
-	 HxAWhPd2/qc9nPy0HhnelnG+oFyfnbYO7PzYGUsIzyZfYX84RMC+hqxJA8tuWAQKMPlOL
-	 LCib9jp3JZxIrtmfK1WVAU96kCnFHTWzm00Ao6/fCgo+/nsqNfxZhvymVyq1ff5l5yA==
+	t=1792604748;
+	b=uXCP9q1Z80aGZAmqv/lUscHSq5mStnUeLd3lP5DgJ5VwB/vyfGMgiebT+tZkhcMt4obL
+	 HymxZeFtCN6btG22yf6Ues2IH2bfhkym67hoSiLTZYyiE7cEK/F+nLrDKloOS8fhFkCxO
+	 5NVaFfzJQhUVQUx9EYRnY0GGwMcKu7v6B3j04FDp2nFvpjQJ5/T0wRE/H78/cYfmZtH6y
+	 hxmkYCNtXrQXiPSW+ZcUYUhenr59rUYYT5POkRJ39t0yA0Zu08L03LO+oxFT7gb/3VyXS
+	 56EQemJiz7tJhOUQWl2FzavQMk3aXfIreE1173kRcgzuZ8hqEUzKg1GT3yiSnk/dFYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792604143;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=nZQZSw18SACZ1al6YiSFkYg9oVM20D+TpFhKEJVNqeo=;
-	b=F5oiohnxOdXpOrZz9cqsdexPg/Jp9zimbyj1JlG2V5newQ7WSRVpaGo5+X6xWxokQRT6
-	 H2p5xvP3mYBrxgcDGSb4op4GKGZXzv4dEz2/qF1HYD3ARIzni6Hj0gmMZTomuuzRxIe4E
-	 UmEXOJ2eplRjUFB+Y7V0nQYUOkByik+VFr/SoqSN4xk+lDdWtmiwFJ1siNx9FUAEWWX67
-	 s1t5sxtjkSBhN+9PLE7MJXqYEEgoGZcWxQFBZzQ657wpDYeLRw92xG+myVCOsDJ7lclsG
-	 Kl9FOumk7YL/S4/GWwFXnZFfdzkuMjG7P+nCQ46tW2gxYe77o+UYHsP5xiqyYcuw5qg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792604748;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=qMSnAmvn+xg6zpwC7JmIegT9TgfMe039TBaNzlGjfQg=;
+	b=SVQF7lWAkf6IxvH72SA/Ij5mbj1o+LmVDF1/fvqrllSK8ap9TCpf4cX3yN05dbIXyito
+	 E2MstU3KI0F+z3MphwjaLnI98gF4ZUDxW0/hguJ7EEN2pYa6cWqoF2G7rUEk1+5xE8PVp
+	 fgScnT2U+WhC3YCCsidJXD+jUeQCZV6ocKeW0d6VoDBayYaRa5eD7NomanPlwosQ9DxnW
+	 fKZEcI7YbusIXB5hGsPs2GkCl3mRtYtGjgLrOcx8VN3Dz9op0czdDf42/QGaSXua6xsiV
+	 II/siKh8ErSvKzjCBoyJPW5ZKLP3c7r6tjo5Gi/VJkSw2ngtvrI6xeY3QanSIMrjdlg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtHPyv2D;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=cs.unc.edu;
+	spf=pass smtp.mailfrom=cs.unc.edu;
+	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=E4K0X3i8;
+	arc=none smtp.remote-ip=209.85.128.182
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEE6606A31F;
-	Wed, 21 Oct 2026 17:35:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77812606A31B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 17:45:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77812606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtHPyv2D
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C89561F000C7;
-	Wed, 21 Oct 2026 17:35:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792604142;
-	bh=nZQZSw18SACZ1al6YiSFkYg9oVM20D+TpFhKEJVNqeo=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=gtHPyv2DytAGwXwqP6AuPtrURaFm2Es6e2+bG+60zzEQjzkkjCH2xhWwDE3vMuH+W
-	 /njNlq5bKa1C0QFRO5yVl3CYVzjJuumbgjChgiKa5cNuoBqQPx3tzAXdWq2jpC+7y4
-	 xfZDP8ctYNyBUsoHqGnqbHyKWFyiydtg2UVaHKz1bxT0eH2yeW7iceeNsx9xDvff0D
-	 d4QWmsRgnZJm8URGCYwD8psqQME5NT4H5VD3SIk89SsgIA6HMZZEAsCYnJEPLVse/v
-	 1178n3snkCX5UTsdJTmWorxjZ/Nm5yhJmvMW7+8VBnvSRDFL7n1GBpZxztin4LJw2Z
-	 dpIDU4fmdMHjg==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 05E1FF40069;
-	Wed, 21 Oct 2026 13:35:41 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 21 Oct 2026 13:35:41 -0400
-X-ME-Sender: <xms:7PfYatFbK3SGvkv1PZ5WJiKqbnltKgPHrFocaFLc9JUp-IAv1dxn3A>
-    <xme:7PfYatKxLinDI60CCDCNz6n-Sj1DQX516hiu7qtOg8hUKZlVb4_0cJO4J4axVu7QJ
-    n1c5qECWdS6ItzXnr6A1UuwHQpES3rw0oSxFPHU6JXFRfYZownwzmuv>
-X-ME-Proxy-Cause: dmFkZTGCRjlnSR8Neg2mpGTDvJvFQ+WyF5lNldIB0q4zon/r5UxQ070SLuVQHGmuL/1IQs
-    hwZ/xhsfszkwm1t5IL5077RE9E1CmNJeGs5M0heUIqhUPsiPorYZOAoMMquElo45vQkPAL
-    5o6E0JGmgCcNf4/b7AK7NvmWD3X8w88YX8WwNKFCy2mAPFdtZUSubNdlIZYjAp45PwEKqJ
-    i3UG1z5Zs2Q6j+WxyzADnx++ZMd9/Av6U2d1l0Maysg4LiGWlPSZs2/UbKUPa/Sl9zQZru
-    JKCpo88uCIHH/dHiqwxA1Rv195n9u+MHvTsKxE7AJcpg1u+K44QfQeHXoE0mwvDOxUQdsz
-    OHmTRf4blfvfR3Bk+u0TWU/xBbokz/9rHk5FCnl/2PEY0GqpE8jafPjgMx2t9fOQOJifyb
-    OvUSDTZHBf0u1XXyfa1kBlP2Boe47OSRAIwc9jb99f+EMW67C7764RfA5PznCwLRSZ9f/o
-    OqZSXZnbCIdxRw/7VnpgCAqdpuDhD+HX6ju96Wrn7XD7EubQVkBsAIh+oYZKgKtNtPPOCs
-    t0TXsHLIYfOm/HdEysB64ZHxkNQcWRBrSFhbbsvaJxnVRZ1lGQHczXsHXxYjzTZbwDN6kx
-    XWhWdnja+2FHBWi51pwBJFQahQp7RP95auTW9R065CD/aDZKZ4I1gRWDnU2w
-X-ME-Proxy: <xmx:7PfYatVD__8wXb41zYEe29XHtozznhOzv0MZZN1eY7p2KicO12w-DA>
-    <xmx:7ffYaqyWNau02205DPQuCdlHluDhf9_AFQPdUjs5A-o56NnLQ2GlIQ>
-    <xmx:7ffYat4ndxHHVQANfVp63WjkU7APGZB5e8ZcmmUrAQOmxScV7dZNNg>
-    <xmx:7ffYash0_tdrm5M8iKwj5F7TeVZI76mm4tQp4HL6Y-vsbGuMimeBwA>
-    <xmx:7ffYaohOZRNYEwZe0HcPVW550R2avMTr5rBAQvWHh4KFch9VYCrntV3W>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id D6715782738; Wed, 21 Oct 2026 13:35:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key, unprotected) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=E4K0X3i8
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-8b0a28a720aso10719527b3.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Oct 2026 10:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.unc.edu; s=google; t=1792604746; x=1793209546; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qMSnAmvn+xg6zpwC7JmIegT9TgfMe039TBaNzlGjfQg=;
+        b=E4K0X3i8r+6CaMc7vAJpCu7jS+wDCnhpEaPPLdQvVZCLJD37G+UJgN38uvC4T8dzwr
+         NOfzj9+2eIomAlkoy02RfEzQG6qRQAhSVRjTdMvDG+rn1IW9pThm8Zqz/2dKsf1gIsmk
+         ZRTF66Ylj9OO0YQxDgt2uNJCVrMbUuVzKZy3NrjoQwf31cJ8d5szD90Rm+QWb7Rb+DYs
+         bRUTIH8nvFu/pqvIKTJhTz9gkdpR7+EpTOWmaB4k8JGZHf5tsS4ZbU8ueDmBuLQzm0z7
+         rVsGvLeT1cvTkdC41gXIHWzZ1zH8Mwtu1NverGxQJ1vrt7j2o3kdnqX/BhGPFAVSol9Z
+         wRxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792604746; x=1793209546;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qMSnAmvn+xg6zpwC7JmIegT9TgfMe039TBaNzlGjfQg=;
+        b=R3eTE6VmyTPQdUjwVn715Y84+m7LXQ0RI2EPlG7vjAVLc0jrSRuxLgB8wU8e/SW8Gj
+         8SYyxHLlBZFbISSPdCEHmnGSVZroELMoI70C8IgvkZQTk2DpnCp1bgKRkTg1BMnGb/sW
+         ZG/DIuT4+9l0jwBKL9b6vl6DEnEnt5QkPZQwVDSS2rEv4za9EFZTH6ceuwP1rVhokzhc
+         wfqrOeR2q6pDTn1kgq9zON8dD6xJNhV1jfioBXIJS2U50uVB646chup6p8JTnxVtA9QD
+         k5bQK+ERffWgIPANt2WiUZgNnG/yiWgr76luKqx9cvHCUlAP4O82LrMDgAENMpWpkrkw
+         nIig==
+X-Forwarded-Encrypted: i=1; AKwUvBzYsgfv9A/hlPzR2Ix8WQ93Qk3rOlCDIuxzq8ybPQyTBLq26h1Qp4UEVhmGwCsaNKDFXEPfSQHKysHS0imo@vger.kernel.org
+X-Gm-Message-State: AFq9FYIAbwlnIKHm8JCOfYvLJQwB5x8EfU2i5wae92orhRNEXzB1yLrV
+	upMfrYVYD0B06GJcGdTRlGwK8zi0K69ghloho4iXnpSdyvxpm6/fVFKO8RWstchboA==
+X-Gm-Gg: AYBFou2k6NkB7oLOgz9A8irDOSy6c8s6duwwbSMUFrCw1RapIHnQWXAc9jzCk+wn5t2
+	P49tjbzwxChtbQwsPEC6YnTDcUlLNV+4pfCS1KL2i19vQ9KYGujuVQy/vELsymWZ18ADYpYcMKx
+	YG0iEqwpwG7Cj9yLEj0MInn9Ql1lsbn6jxlZUq/QdmFCDGdHkRkdR4p7u2kBwKe3jKrUxP4n2a+
+	upXLIZcH2P+kCcV4E4fBOvp1NZ/nBa6Dv3Vz6ZvX9aYoptBGYLGB2IrFlAMRiEqEwmZxI+3fO4o
+	G9bOO+/3/OThuK56fJBKZoi/VpolDng9P07bUWRTqY1VpJ0CVGMsK5ZI5dmDx39feWzU6kzceew
+	ybF0+AbJC2dpmJ0ydrir4vyhBdypLZ5bHfwiobRBBVHxv92kZb2D28x/kBwCgU2dYsfwoyDOcxD
+	g1zhUSUKZ5tK0JNW0dKvajQ96tiKAM74xxaxmG3CtcHWMMlg9NfO2aNXyQ4sx6mP5XZIdqFZS6x
+	Ex6Y9IRmwtdC3jy64X4E9BGCAv7yll0A/rde776TAT77cAxFvE2dhVXMPKcvURTPdnTPo3HHIAY
+	SaI=
+X-Received: by 2002:a05:690c:e251:20b0:8b1:901:b9ee with SMTP id 00721157ae682-8b133e48cc2mr11819357b3.13.1792604745668;
+        Wed, 21 Oct 2026 10:45:45 -0700 (PDT)
+Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b1300f3cfesm14789647b3.27.2026.10.21.10.45.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 10:45:45 -0700 (PDT)
+From: Hengyu Liang <hengyul@cs.unc.edu>
+To: slava@dubeyko.com
+Cc: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] hfsplus: preserve FinderInfo when listing extended attributes
+Date: Wed, 21 Oct 2026 13:45:34 -0400
+Message-ID: <20261021174534.482192-1-hengyul@cs.unc.edu>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,66 +97,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: AwLsEl3CooH3
-Date: Wed, 21 Oct 2026 13:35:20 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jan Koester" <jan.koester@tuxist.de>
-Cc: "Christian Brauner" <brauner@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Serge E. Hallyn" <serge@hallyn.com>, "Jan Kara" <jack@suse.cz>,
- "Theodore Y. Ts'o" <tytso@mit.edu>, "Paul Moore" <paul@paul-moore.com>,
- "Arnd Bergmann" <arnd@arndb.de>, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- netdev@vger.kernel.org, audit@vger.kernel.org, keyrings@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <fd20b840-350e-469c-9fd2-008fa0ded62a@slotpi15m67>
-In-Reply-To: 
- <f444dffc8e6bf98bf44c02456adc2de40e4ecd95.1792552161.git.jan.koester@tuxist.de>
-References: <cover.1792552161.git.jan.koester@tuxist.de>
- <f444dffc8e6bf98bf44c02456adc2de40e4ecd95.1792552161.git.jan.koester@tuxist.de>
-Subject: Re: [RFC PATCH v2 40/41] nfsd, nfs: carry UUID and GUID owners as their text
- form
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/20/26 11:16 PM, Jan Koester wrote:
-> Encode such an id as its text form -- "xxxxxxxx-xxxx-xxxx-xxxx-
-> xxxxxxxxxxxx" for a UUID, the same in braces for a GUID -- in both
-> directions on the server and the client, and take such a string (it
-> has no '@', so it can't be a user@domain name) as that id again.
+Commit aef507847129 ("hfsplus: fix generic/062 xfstests failure") made
+hfsplus_listxattr() return zero when the inode has no records in the
+attributes B-tree.
 
-A bare UUID in an owner, owner_group, or ACE 'who' string is a new
-owner-string syntax for NFSv4, one that only Linux would recognize.
-Thus it isn't interoperable with other NFSv4 stacks as proposed
-here.
+However, osx.com.apple.FinderInfo is stored in the catalog record, and
+hfsplus_listxattr() has already added it to the result at that point.
+Setting the result to zero drops it. As of now, a file whose only
+extended attribute is FinderInfo gets an empty list on a volume with
+an attributes B-tree, which mkfs.hfsplus creates by default. getxattr()
+still returns the value.
 
-RFC 8881 Section 5.9 says a string without an '@' that is not a
-decimal number means no translation was available and the receiver
-"should not use that string as a basis for translation into its
-own internal format." RFC 8000 Section 6.1 forbids bare numeric
-ids in multi-domain deployments because they collide; the same
-applies to bare UUIDs, and more so to GUIDs.
+The issue can be reproduced with:
 
-If you are serious about pursuing this, you'll have to start by
-raising the proposed wire format on nfsv4@ietf.org before the
-Linux kernel's NFS stack commits to it.
+    truncate -s 64M hfs.img
+    mkfs.hfsplus hfs.img
+    mount -o loop hfs.img /mnt
+    touch /mnt/file
+    v=0x54455854$(printf %056d 0)
+    setfattr -n osx.com.apple.FinderInfo -v $v /mnt/file
+    getfattr -m - /mnt/file
 
-With nfs4_disable_idmapping and AUTH_SYS, numeric_name_to_id() and
-encode_ascii_id() handle decimal ids in the kernel because there is
-nothing to look up. Recognizing the text form in that branch only
-would be the natural analogue once the format is agreed. Everything
-else should go through the idmapper: extend the nametoid/idtoname
-channels and the client keyring upcall to carry a 128-bit id, and
-let rpc.idmapd and nfsidmap decide which strings map to which ids.
-As written, the UUID check runs before idmapd for every name and
-auth flavor, bypassing the cache and any site policy.
+Without this patch, getfattr prints nothing. With this patch, it lists
+the FinderInfo entry.
 
-So my general preference for NFSv4 would be to pass the new format
-up to the user space idmapper instead of handling these in-kernel
-with no opportunity to apply local policy.
+This patch keeps the result of hfsplus_listxattr_finder_info() when no
+attributes B-tree records are found, as is already done when the
+volume has no attributes B-tree. A file without extended attributes
+still gets an empty list.
 
+Fixes: aef507847129 ("hfsplus: fix generic/062 xfstests failure")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
+---
+Tested in KVM with KASAN on a804c5742bff, without and with this patch:
+- The commands above, and a C test of listxattr() sizes and buffer
+  lengths: a file with only FinderInfo gives 0 without the patch and
+  25 with it; a file without extended attributes gives 0 on both.
+- generic/062: 10/10 passed on both kernels.
+- Full fstests (805 generic tests): 186 passed, 11 failed and 608 not
+  run on both kernels, with the same failing tests. fsck.hfsplus -fn
+  reported no new errors.
 
+With this patch, getfattr above prints "osx.com.apple.FinderInf". The
+last character is lost by a separate bug in copy_name(), which Maurycy
+Pawlowski-Wieronski's patch fixes:
+https://lore.kernel.org/all/20260828-hfsplus-copy_name-fix-v1-1-75ed9f0f378c@maurycy.com/
+
+ fs/hfsplus/xattr.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+index 71364e093fa7..c74c81966f12 100644
+--- a/fs/hfsplus/xattr.c
++++ b/fs/hfsplus/xattr.c
+@@ -838,7 +838,6 @@ ssize_t hfsplus_listxattr(struct dentry *dentry, char *buffer, size_t size)
+ 	err = hfsplus_find_attr(inode->i_sb, inode->i_ino, NULL, &fd);
+ 	if (err) {
+ 		if (err == -ENOENT || err == -ENODATA) {
+-			res = 0;
+ 			goto end_listxattr;
+ 		} else {
+ 			res = err;
+
+base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
 -- 
-Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
+2.53.0
+
