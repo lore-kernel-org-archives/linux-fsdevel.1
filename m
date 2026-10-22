@@ -1,107 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792663892;
-	b=qXUocYMaSCxyEYvZNF3trolXuhDuVbAw9woNvBHMbGVMoIVrcc3AJJwJnbT4LZA3BjU6
-	 FSV4kcp//MOmWDE3ainUVrQuWbaT8DQsk3Q2w5F7p0TbhSXPyvp+FMYv2D85nJz0TxoSR
-	 /Rqw1JHgU89+0zDmGNBnlvPSctz8o5LUcqfW60SBJIHf4ovN3MlUmXqNWMU7ASMolUXn3
-	 tP+BvR16BMNpGwzlmRwU5znteHc8dGhG9MqeO9QyAeKaPZqw8M7ceL/j8tRDI0MQjXRki
-	 ceyN7PTE4nC1ZImbDMWXxk1Cb9/SdUk7EnUOc8gGkpxHKdNtGys0JVZu5eYdRVr266g==
+	t=1792664193;
+	b=zhiyJyEwb43fuA7ND+JXJXDlO8IP+DMjmnQN505YCFf1EtsJ7nWKyBs+PiOK76MYn01D
+	 4NQ5M2IBLdskeTSm00dI3SRuV9XR+J9+JM4jdpivFF0s6DDd8foV3VX8VcCza/kkV6UKE
+	 TkvR3x9o9ULF/Gh/Y/WmuWOQ93neKLJtZsld0UZv2mXtZGPOAT0Xm7Ub5rwONIpbpyQ9H
+	 DU1akCfoPqlXh0MFuHWUjBLORZNyfC6/+5He9iXLxP+bOKoECrvNN4IQ2qHeFHmDt8RsC
+	 HAD3EKGpsctgt/6UycQnf52lj3Rpv8jfzoINk0bb0z2w5Z7yW9N4wKSOhox5uRtrVjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792663892;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792664193;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=9uIn4padYD3xjTA9K5j43pMgEFbyWMwuQcDwN6P6dHg=;
-	b=qdJmI6m0emSSZiWCHGWNThvEVdJVJTUABfchVEJlDi4pNiJlHWYyydf7NwEqppF8mp5k
-	 4+X978TW/dI8UEw8/NgZvNzGjD+9EeVbIdToO5Oj0hjX0hE+k2Jt8aQmKE691txCus8CA
-	 2bKdL+LU+DVl6gAyhpHYbl7+q48DXLsyF/t8Mj+/q1v8BKvIz8z9iVkwAoc0hTEo9dCOW
-	 W9TxJKdANhXwJblnmFcyWWx6pvTSCvEAK/LKc6VM81/RrIAU4WgK/AmH0YLVNHepP+xTQ
-	 ub+K4eYRxqh7W2osQRLlazuIj6o4/tVPxjAs79Y9WJpT07Wm+TS/pK/gUVgc4zX3lXg==
+	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=DSqtth9Qpbenh9XOfaBd+IxI7HLc0qZps+kjeRep0FM=;
+	b=hTZu477+7Ool1eLmPzluovIhLQxYiogJ4753eNNfHpfY8uCYkHOkZBKcg9hbXco59Sbb
+	 Uk4wRytmubIHIAvTi2MuopMC2ECnn85j0N+eJuYQGqLeQtG1HfNazyEQT0gCfvyBiKWR/
+	 Ui52WoaOmtrx/Z+cCc+cSdArC0b19CIxpcGw/SZGtyOt86fZwq/ydOt9HDVj6WR+wG9Kw
+	 aWT9o8Q9kObvuirxYY1XuCJuCiGLZ6VycQnyrS4vzn6YXetijRQJQIdIVflziLx4KNVbH
+	 73OZeZKqZ3KniITyjsClZtbqBOJ1dq7OcUPO8D5CmRipBKj6d1TQFwhnisFfgVM1E7g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YIW6ZwWP;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=THo3mDq0;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YIW6ZwWP;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=THo3mDq0;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=yywi59M5;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3KzQR2VS;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=xc7S9+dI;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="0ZtVT/29";
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE24606A31B;
-	Thu, 22 Oct 2026 10:11:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ACE24606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22446606A319;
+	Thu, 22 Oct 2026 10:16:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22446606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YIW6ZwWP;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=THo3mDq0;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YIW6ZwWP;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=THo3mDq0
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=yywi59M5;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3KzQR2VS;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=xc7S9+dI;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0ZtVT/29
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 57E031FCE2;
-	Thu, 22 Oct 2026 10:11:29 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0290A21E93;
+	Thu, 22 Oct 2026 10:16:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792663889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792664191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9uIn4padYD3xjTA9K5j43pMgEFbyWMwuQcDwN6P6dHg=;
-	b=YIW6ZwWPVRkQ7MlOcTvAMKkgDQl/lptL/7E0V8kLTUWQqJkLdwbg+tJxPibGKA2tK1KKqE
-	4tYPc2Kr8oDdmgO+iVo5CvgKLW8PZCuI/TwmErUPWA6sEny2bvROXwtC5mdQ5LmFlJ8DwM
-	ebQffV4XECVhZlUZO1ZPLHhuAk5d1XE=
+	bh=DSqtth9Qpbenh9XOfaBd+IxI7HLc0qZps+kjeRep0FM=;
+	b=yywi59M5VteevZTydF2r2FFg41u4cYkjZRJ4cm24s52cVokTH68J8xf7gnE8XuORDIEoe8
+	oetfGJHeiCkqFzSaUB3rX8vKuhcqApwylYXsbm7TSLcoFVZ0lDhIj8fc+h1LVPsQn1QC+E
+	a+OW9pzS4c/tjJ2rUY/4uzMyo2B6DYw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792663889;
+	s=susede2_ed25519; t=1792664191;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9uIn4padYD3xjTA9K5j43pMgEFbyWMwuQcDwN6P6dHg=;
-	b=THo3mDq0cU8eeecT4SvTdZK9npDLIQIuYbH5yA68IW2pBVOOkn0Isvr2IDWuxb6tF3OK/4
-	hTKcn6jxhlEcZICQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=DSqtth9Qpbenh9XOfaBd+IxI7HLc0qZps+kjeRep0FM=;
+	b=3KzQR2VSEDYf6jeoVRESLjB6V4LdFeBmhzDqhUUYy9ZjwhG6y4viG2LKHTroMz/ece3uqT
+	CBgZ4autqDe51+CQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=xc7S9+dI;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="0ZtVT/29"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792663889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792664190; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9uIn4padYD3xjTA9K5j43pMgEFbyWMwuQcDwN6P6dHg=;
-	b=YIW6ZwWPVRkQ7MlOcTvAMKkgDQl/lptL/7E0V8kLTUWQqJkLdwbg+tJxPibGKA2tK1KKqE
-	4tYPc2Kr8oDdmgO+iVo5CvgKLW8PZCuI/TwmErUPWA6sEny2bvROXwtC5mdQ5LmFlJ8DwM
-	ebQffV4XECVhZlUZO1ZPLHhuAk5d1XE=
+	bh=DSqtth9Qpbenh9XOfaBd+IxI7HLc0qZps+kjeRep0FM=;
+	b=xc7S9+dIBZz0p2jz0JdP/QczrYlJFRJ3besi4I6wCDbHgcR2S+apk5vvv0EeQxdSJ/s3pm
+	wuxVp3oEVrngccDRszugz0GvFA26J7lfBzbMYsei4nyfls9zmgRen9wrn6q5gnZhD2o+3T
+	BHJ/YAFkdlhNoupjjSAg87IEVty4LS8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792663889;
+	s=susede2_ed25519; t=1792664190;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9uIn4padYD3xjTA9K5j43pMgEFbyWMwuQcDwN6P6dHg=;
-	b=THo3mDq0cU8eeecT4SvTdZK9npDLIQIuYbH5yA68IW2pBVOOkn0Isvr2IDWuxb6tF3OK/4
-	hTKcn6jxhlEcZICQ==
+	bh=DSqtth9Qpbenh9XOfaBd+IxI7HLc0qZps+kjeRep0FM=;
+	b=0ZtVT/29aGZ7kgiaJfMW5hzAaaqEPDcFoI29H6HCEAB/mIKDg+D8TTZkO7FQQIRmdaCUpK
+	mKgy2m1TzP/TECBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 07396134E6;
-	Thu, 22 Oct 2026 10:11:29 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C8EC0134E6;
+	Thu, 22 Oct 2026 10:16:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Nje1NFDh2WrXFwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 22 Oct 2026 10:11:29 +0000
+	id kLXBJ33i2WpwHQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 22 Oct 2026 10:16:29 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 833BFA1417; Thu, 22 Oct 2026 12:11:24 +0200 (CEST)
-Date: Thu, 22 Oct 2026 12:11:24 +0200
+	id 5545CA1417; Thu, 22 Oct 2026 12:16:29 +0200 (CEST)
+Date: Thu, 22 Oct 2026 12:16:29 +0200
 From: Jan Kara <jack@suse.cz>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 05/15] fserror: fully order the last pending error
- decrement
-Message-ID: <mv2ru5d6qiqad2hemlzbrd4kfrt6pnfqmozn45xtk3cbj77hwb@ymmm3kzopfwb>
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, 
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH 06/15] fserror: don't accept error reports before the
+ superblock is born
+Message-ID: <3mwfltl3u7sht7ubkui6nybkhzjhsjle6rzmbfuzgahee7q5la@zjkree24ksq2>
 References: <20261011-work-super-fixes-core-v1-0-c727176c5b53@kernel.org>
- <20261011-work-super-fixes-core-v1-5-c727176c5b53@kernel.org>
+ <20261011-work-super-fixes-core-v1-6-c727176c5b53@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -113,160 +116,134 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261011-work-super-fixes-core-v1-5-c727176c5b53@kernel.org>
-X-Spam-Flag: NO
+In-Reply-To: <20261011-work-super-fixes-core-v1-6-c727176c5b53@kernel.org>
+X-Rspamd-Queue-Id: 0290A21E93
 X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-13.01 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	MX_GOOD(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Score: -12.80
+	DKIM_TRACE(0.00)[suse.cz:+];
+	TO_DN_SOME(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Score: -13.01
 
-On Sun 11-10-26 17:56:05, Christian Brauner wrote:
-> fserror_unmount() drops the bias on s_pending_errors and waits for the
-> count to reach zero in wait_var_event() while the umount holds s_umount
-> exclusively. The worker that finishes the last pending error wakes it up
-> in fserror_pending_dec() through refcount_dec_and_test() and
-> wake_up_var().
+On Sun 11-10-26 17:56:06, Christian Brauner wrote:
+> alloc_super() biases s_pending_errors for every superblock but
+> generic_shutdown_super() only drops the bias and waits for pending error
+> reports if sb->s_root is set. fserror_alloc_event() accepts reports
+> whenever SB_ACTIVE is set. But xfs sets SB_ACTIVE around log recovery
+> and f2fs around gc for checkpoint=disable, both while filling the
+> superblock. If such a mount fails s_root stays NULL, nothing waits for
+> the queued reports and destroy_super_work() frees the superblock while
+> fserror_worker() is still pending. The worker holds no reference to the
+> superblock. It reads s_flags and s_op, puts the inode it pinned and
+> decrements s_pending_errors:
 > 
-> wake_up_var() requires a full barrier between the store that makes the
-> condition true and its waitqueue_active() check. refcount_dec_and_test()
-> isn't fully ordered though. It provides release ordering and acquire
-> ordering on success which orders the load of the decrement but not its
-> store against the later load of the waitqueue. So the worker can see an
-> empty waitqueue while the umount, already queued, still reads a count of
-> one. The umount then sleeps forever with s_umount held and sync(2) and
-> everything else that wants that superblock hangs behind it.
+>   BUG: KASAN: slab-use-after-free in fserror_worker (fs/fserror.c:54)
+>   Read of size 8 at addr ff11000107366060 by task kworker/1:0/25
+>   ...
+>   Allocated by task 120:
+>    __kmalloc_cache_noprof+0x27a/0x650
+>    sget_fc (fs/super.c:326 [alloc_super()] fs/super.c:874)
+>    get_tree_bdev_flags (fs/super.c:1479 fs/super.c:1866)
+>    vfs_get_tree+0x8b/0x2f0
+>   Freed by task 83:
+>    kfree+0x1e8/0x5e0
+>    process_one_work+0x953/0x1700
 > 
-> LKMM allows this and so do the herd7 models for arm64 (LDADDL; DMB
-> ISHLD; LDR) and POWER. x86 is safe because the locked xadd is a full
-> barrier. With smp_mb() before wake_up_var() all three forbid it.
+> Nobody can listen for errors of a superblock that isn't born yet.
+> fanotify marks need a path in the mounted filesystem and the xfs health
+> monitor is attached through an ioctl on a mounted filesystem as well. So
+> don't accept reports before SB_BORN is set. A born superblock always has
+> s_root set when it's shut down so every accepted report is waited for.
+> Errors during the mount are still logged as lost reports and xfs still
+> records them in its health state.
 > 
-> The litmus test (LKMM: Sometimes; with smp_mb() before the read of wq in
-> P1: Never). P0 is fserror_unmount() dropping the bias and queueing in
-> wait_var_event(), P1 is the last fserror_pending_dec():
+> Waiting for the reports of a failed mount in generic_shutdown_super()
+> instead wouldn't be enough. That runs from ->kill_sb() after the error
+> path of ->fill_super() and xfs and f2fs have already freed state there
+> that putting a pinned inode needs.
 > 
->   { cnt=2; wq=0; state=0; }
+> Reproducer, xfs with a dirty log and a bad crc in the refcount btree
+> root of AG 0. Log recovery reports the corruption while xfs has
+> SB_ACTIVE set and then the mount fails. The work item normally runs
+> right away, so a kprobe on queue_work_on() points it at a wrapper that
+> sleeps until destroy_super_work() has freed the superblock:
 > 
->   P0(atomic_t *cnt, int *wq, int *state, spinlock_t *wql)
->   {
->           int r0, r1, r2;
+>   mkfs.xfs -f /dev/vda
+>   mount /dev/vda /mnt && echo foo > /mnt/foo && sync
+>   xfs_io -x -c "shutdown -f" /mnt      # flush the log, then shut down
+>   umount /mnt                           # the log stays dirty
+>   xfs_db -x -c "agf 0" -c "addr refcntroot" -c "write -c numrecs 7" /dev/vda
+>   insmod r6_fshold.ko fserror_worker=0x$(awk '$3 == "fserror_worker" { print $1 }' /proc/kallsyms)
+>   echo 1 > /sys/module/r6_fshold/parameters/armed
+>   mount /dev/vda /mnt
 > 
->           r0 = atomic_fetch_sub_release(1, cnt);
->           if (r0 == 2) {
->                   r1 = atomic_read(cnt);
->                   if (r1 == 1) {
->                           spin_lock(wql);
->                           WRITE_ONCE(*wq, 1);
->                           smp_store_mb(*state, 2);
->                           spin_unlock(wql);
->                           r2 = atomic_read(cnt);
->                   }
->           }
->   }
+>   XFS (vda): Metadata CRC error detected at xfs_refcountbt_read_verify+0x1e/0x240, xfs_refcountbt block 0x30
+>   XFS (vda): Failed to recover leftover CoW staging extents, err -117.
+>   XFS (vda): Error -5 reserving per-AG metadata reserve pool.
+>   BUG: KASAN: slab-use-after-free in fserror_worker+0x2da/0x310
 > 
->   P1(atomic_t *cnt, int *wq, int *woken, spinlock_t *wql)
->   {
->           int r3, r4;
-> 
->           r3 = atomic_fetch_sub_release(1, cnt);
->           if (r3 == 1) {
->                   smp_rmb();
->                   r4 = READ_ONCE(*wq);
->                   if (r4 != 0) {
->                           spin_lock(wql);
->                           WRITE_ONCE(*woken, 1);
->                           spin_unlock(wql);
->                   }
->           }
->   }
-> 
->   exists (0:r0=2 /\ 0:r1=1 /\ 0:r2=1 /\ 1:r3=1 /\ 1:r4=0)
-> 
-> Not reproducible on x86 hardware. The consequence can be shown there by
-> emulating the reordering in fserror_worker(), debug only: sample
-> waitqueue_active() before the decrement, sleep, then decrement and only
-> wake if the sample saw a waiter:
-> 
->           iput(event->inode);
->   +       if (debug_reorder_ms) {
->   +               struct super_block *dsb = event->sb;
->   +               bool waiter;
->   +
->   +               mempool_free(event, &fserror_events_pool);
->   +               waiter = waitqueue_active(__var_waitqueue(&dsb->s_pending_errors));
->   +               msleep(debug_reorder_ms);
->   +               if (refcount_dec_and_test(&dsb->s_pending_errors) && waiter)
->   +                       wake_up_var(&dsb->s_pending_errors);
->   +               return;
->   +       }
->           fserror_free_event(event);
-> 
->   # boot with fserror.debug_reorder_ms=5000
->   mount -t ext4 /dev/vda /mnt
->   xfs_io -x -c "shutdown" /mnt      # EXT4_IOC_SHUTDOWN with NOLOGFLUSH
->   umount /mnt &                     # hangs forever
->   sync &                            # hangs behind s_umount
-> 
->   INFO: task umount:108 blocked for more than 30 seconds.
->    fserror_unmount+0x20d/0x2c0
->    generic_shutdown_super+0xac/0x530
->    kill_block_super+0x3b/0xa0
->    ext4_kill_sb+0x6c/0xc0
->   INFO: task sync:111 <reader> blocked on an rw-semaphore likely owned by task umount:108 <writer>
+> Not a selftest since the work item has to be held back with a kprobe.
 > 
 > Fixes: 21945e6cb516 ("fs: report filesystem and file I/O errors to fsnotify")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Geez this is subtle. In particular because it is different from
-atomic_dec_and_test() which *does* provide full ordering. Feel free to add:
+Looks sensible to me so feel free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
+
+but I've added Darrick to CC since he might have an opinion as well.
 
 								Honza
 
 > ---
->  fs/fserror.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  fs/fserror.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
 > diff --git a/fs/fserror.c b/fs/fserror.c
-> index 1e4d11fd9562..d8a800580012 100644
+> index d8a800580012..90ce04d58514 100644
 > --- a/fs/fserror.c
 > +++ b/fs/fserror.c
-> @@ -35,8 +35,15 @@ void fserror_unmount(struct super_block *sb)
+> @@ -96,6 +96,13 @@ static inline struct fserror_event *fserror_alloc_event(struct super_block *sb,
+>  		return NULL;
+>  	if (!(sb->s_flags & SB_ACTIVE))
+>  		goto out_pending;
+> +	/*
+> +	 * xfs and f2fs set SB_ACTIVE while filling the superblock. Nobody can
+> +	 * listen before the superblock is born and if the mount fails nothing
+> +	 * waits for the event.
+> +	 */
+> +	if (!(sb->s_flags & SB_BORN))
+> +		goto out_pending;
 >  
->  static inline void fserror_pending_dec(struct super_block *sb)
->  {
-> -	if (refcount_dec_and_test(&sb->s_pending_errors))
-> +	if (refcount_dec_and_test(&sb->s_pending_errors)) {
-> +		/*
-> +		 * refcount_dec_and_test() isn't fully ordered but wake_up_var()
-> +		 * needs a full barrier between the store and its waitqueue check.
-> +		 * Pairs with the barrier in prepare_to_wait_event().
-> +		 */
-> +		smp_mb();
->  		wake_up_var(&sb->s_pending_errors);
-> +	}
->  }
->  
->  static inline void fserror_free_event(struct fserror_event *event)
+>  	event = mempool_alloc(&fserror_events_pool, gfp_flags);
+>  	if (!event)
 > 
 > -- 
 > 2.53.0
