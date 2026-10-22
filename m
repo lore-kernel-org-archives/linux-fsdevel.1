@@ -1,61 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792705101;
-	b=I5Jeab4IIYr3Zo3e1QgA6rHZo+58bG06hc/pw6kMwp/oRNlWXdprU2dZVIN21jrbnpsu
-	 AVeM2u5RLZRSoqHvpkmYz+B1OIgn6BjOm1vyvOgnR13NnshkAO8Ks4NqGM/fV3DlrIv1e
-	 5AIxDoyIeHZpYwoZAGGwZdFJGGDGvU1pdfSMSLliSUizy1/N2CpSTy7TkZoBf8hM+B3Hg
-	 bjoAq4+3hNuUdKbkgrYEdAA8Buk91WBISuClQdq0gG0gCQ8zq4jwgtPcrf4V7DkP+ly76
-	 cvFYgK/7eVZVI5eLvQnJ6IQeD5Bf0legatoqeqkOvD27PkrD0hTnmqDB5kt5WY40Lnw==
+	t=1792706697;
+	b=lqOaisgXJM/ozZvcOFkqlo+6tf/HpgfGYW+S1UhSMuhtEKSG710zfMRHsSwq7sc9e31y
+	 pRXcO2U9QAJYpIwpwHTrdANsyO/w4+sNNVQ76JJl7p18yzMgrSWDbeTHCUUWTxjYSKQOk
+	 NByN8EDshiLJTWJOfYADisqphPSaCNDz6mF5LBV+IsKyjbhJj5uw9ABfv7eu8fgXy7nsE
+	 RqICgZiNdi2LFgP0OAIhODlUqj/uk1K0e5849tXCvVm4HtHXt388KmqCBWrAheVXjQsGG
+	 R3Q9YUYokk07wsl1b0Y0d7LP0D0WSvSj1/MHdnuASeDMbeobtPhcbh5nuDYL22lMHXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792705101;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792706697;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=50yYjaY+y96cqwOxv67YA9yqjn2siKXdLV0ULyvr6yM=;
-	b=jauxFwWR6QCpWoWbfmbBdDd7nW4S7ta3eYCjDa8r2AiuZXfQTwVvKv5udYUyg7p9FiPY
-	 K1BJAnVh1mIo4GC8kp7CrM8mp3TAFocSPa/dfh78qb44IC7wuTfXTv31N7j3jSsLZp3iD
-	 zB2W0NwxlUAefctKOqGZUiJhaoLawZZ56eHbctkA/0Y/LrKLwpFLH13s/KD8ahcgVsViX
-	 JpPrJkeytxE0X+2UcBD1ROliBiitM4x75yStsRr7k36T6coWOaNNCwSZyBZxJ5sOs5mjJ
-	 7SogFW1bTiwJwI9Rm10/szbDOsohsn+Jj1t7nx32ruex//2lfZRI7izouBXwUzuP+Bw==
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=zWkFFrCjzJ7Rb09dks5kAI7WSjnHbFizCZlsjSWaW68=;
+	b=a/pvRtB6MNZKpbk7Y6uYTuKWApQUChQplZIqWVrkZru1P1kp9gnrovPgrvnpI01JLCJ1
+	 55VmYxJZiarm2cgb+cS69DhCX8L8rj0lJXLQYnEvuKdm2ET4GRL6PquHpNhY7Hkdf41uT
+	 7/YJDRAecWyva6+6WVHKHKlYz6vsjC8kk8iILIYykL0HVDouRShJyKxp74hR6G51pTEcs
+	 a/y5Uwp30MeSYMZCYdYVvnZZHhr1o29thxXcBzoHC5oGjL1rTuqbOncq8G8f6JsvOFpq9
+	 Pj8x5zWCeMOUkMOVVALoDslRkqQiYznf08+6EKs9GdCpPW+5BOm84LdYDbtSYNucM1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PBRo7gdT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rqj0HHoS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7CF606A319;
-	Thu, 22 Oct 2026 21:38:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1B6606A319;
+	Thu, 22 Oct 2026 22:04:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PBRo7gdT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0D6F1F01825;
-	Thu, 22 Oct 2026 21:38:20 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rqj0HHoS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BA6B1F01828;
+	Thu, 22 Oct 2026 22:04:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792705101;
-	bh=50yYjaY+y96cqwOxv67YA9yqjn2siKXdLV0ULyvr6yM=;
+	s=k20260515; t=1792706696;
+	bh=zWkFFrCjzJ7Rb09dks5kAI7WSjnHbFizCZlsjSWaW68=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PBRo7gdTqnIgoF150jineM85hgi4fjPmYFKIpfo9uOJ3lkItGY2msTBCZ/KMO/gJd
-	 540aDBCg2Qy8Imwg5leZFDWqhK/IwgEYZAJ4IlaQ4yAWqyuh3Y8sJ4xWzOMt8yxPx8
-	 uKUB1YmDavp37wgBX1ZlFbL3ZqOgVa9tzNb+sjjJ2ynEMuUqGeK3I4H3YHhupVmYbJ
-	 tmn8flTmxnbuEALgeCiu4Dt2nhEL7ykZvjSzmIdQThmrnYSpQ6XyW/k2FKMJmAulfD
-	 KGX5027pXdOKb7aNtIZ2cfDHqnAmTAcVQJv/hBvVSzAtzSZ0hrCxig+NCXi42nu7F4
-	 6u5/9hr6xYOmw==
-Date: Thu, 22 Oct 2026 17:38:20 -0400
-From: Mike Snitzer <snitzer@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Mike Snitzer <snitzer@hammerspace.com>, Chuck Lever <cel@kernel.org>,
-	linux-nfs@vger.kernel.org, NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v7 3/5] mm, iomap: keep a partly covered page until an
- uncached write completes it
-Message-ID: <atqCTLf42kkGZmSd@kernel.org>
-References: <20261020220346.28020-1-snitzer@kernel.org>
- <20261020220346.28020-4-snitzer@kernel.org>
- <c3842f844845a0c461ed7a895cff3a6d3d3f74c0.camel@kernel.org>
+	b=Rqj0HHoSEP/g7GIhndcGRvVFz5o/sVqSQu6ndjYgZtxC7DdxRLAsff7z4mliNGYo8
+	 lxxktvxYqQbjzXcmMePZy0FR/RnvPzQP+AEgq845EUXq/NDHL7Hx08J7vU5xlV1DZn
+	 fTZGKPor23cE7I1I8UsxuHBn0TQMd6belOg203h+APRtvAsOnZWy3hnC0A9or29si4
+	 eVbZhYMjJ9nBM4Tmkg1mZilMSXDZ4hWubCMb2jjU0a0FNiaB25gBZCpZBqXNtXKYND
+	 M72+GUkvcm5ePJvMEz5/LzEfE4CJ3RW2VN0LgkFR/9JqaGIinAYgR1L+8ChAJ6ucyi
+	 z7OXIJYHp7VIA==
+Date: Thu, 22 Oct 2026 22:04:54 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: linux-ext4@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, jaegeuk@kernel.org, axboe@kernel.dk,
+	hch@lst.de, djwong@kernel.org, brauner@kernel.org, tytso@mit.edu,
+	berto@igalia.com, adilger.kernel@dilger.ca, jack@suse.cz,
+	yi.zhang@huawei.com, ojaswin@linux.ibm.com, ritesh.list@gmail.com
+Subject: Re: [PATCH 00/13] block, ext4: allow encryption with a block size
+ larger than the page size
+Message-ID: <20261022220454.GC1383716@google.com>
+References: <20261011170958.1759230-1-libaokun@linux.alibaba.com>
+ <20261015185325.GG2170687@google.com>
+ <625e5190-d43e-4a2b-9296-da15c52d1a9a@linux.alibaba.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,131 +64,110 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <c3842f844845a0c461ed7a895cff3a6d3d3f74c0.camel@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <625e5190-d43e-4a2b-9296-da15c52d1a9a@linux.alibaba.com>
 
-On Wed, Oct 21, 2026 at 10:36:07AM -0400, Jeff Layton wrote:
-> On Tue, 2026-10-20 at 18:03 -0400, Mike Snitzer wrote:
-> > An uncached (RWF_DONTCACHE) buffered write marks drop-behind every folio
-> > it creates, so writeback drops each one as soon as this write's data is
-> > on disk.  A page the write covers only partly is usually shared with the
-> > neighbouring write, the one that ends or starts in it.  Once the first
-> > of the two has been written back, the page is gone, and the second has
-> > to read the block back from disk before it can write its part: one read
-> > per misaligned write.
-> > 
-> > Measured locally on XFS (emulated 4Kn NVMe, 4 KiB pages), 32 threads
-> > writing interleaved records to one file with pwritev2(), 1 GiB per run,
-> > before and after this patch:
-> > 
-> >   record  flags                     4 KiB device       MiB/s
-> >   bytes                             reads per write
-> >                                     before   after     before  after
-> >   47008   RWF_DONTCACHE             0.97     0.000     831     2281
-> >   47008   RWF_DONTCACHE|RWF_DSYNC   0.99     0.000     601     1227
-> >   6000    RWF_DONTCACHE             0.97     0.000     121      488
-> >   6000    RWF_DONTCACHE|RWF_DSYNC   0.99     0.000      90      206
-> > 
-> > Before this patch every write waited for its read, and because XFS holds
-> > its IOLOCK exclusively across a buffered write, the other 31 writers
-> > waited too: both record sizes ran at about 20 thousand writes a second,
-> > one device read per write; after it nothing is read back.  With
-> > RWF_DSYNC each write still waits for its own sync, so the gain is
-> > smaller: the uncached write now runs as fast as the same write without
-> > RWF_DONTCACHE, 1237 and 209 MiB/s against 1227 and 206 in the table.
-> > Records of 49152 bytes, which cover only whole pages, read nothing
-> > before or after.
-> > 
-> > NFSD DIRECT issues the misaligned ends of a WRITE as buffered uncached
-> > segments and gains the same way.  Without any handling of the shared
-> > page, 32 interleaved writers of 47008-byte records read 45144 blocks
-> > for 45664 WRITEs; with this patch, and no NFSD code for the shared page,
-> > 0.0001 to 0.0008 blocks per WRITE whether each record is sent as one
-> > FILE_SYNC WRITE, as two one after the other, as two together, or as two
-> > UNSTABLE.  The page cache then marks the completed page while it is
-> > still dirty, so each segment of a stable WRITE wakes the DONTCACHE
-> > writeback kick (23 to 65 thousand rounds a run); the next two patches
-> > let NFSD mark it after its sync instead.
-> > 
-> > Let the write path say which pages a write covers only partly
-> > (FGP_DONTCACHE_EDGE, set by iomap when the write starts inside a page or
-> > ends before its end) and get such a page as a single page.  A folio
-> > created for it is not marked, so writing back this write's part does not
-> > drop it.  A folio found uptodate is the neighbour's, already written:
-> > this write completes it, so mark it, under the folio lock and before its
-> > own data goes in, and the writeback that cleans both writes' data drops
-> > it.  The folio lock orders the two writes, so the second always finds
-> > the first's data in place.
-> > 
-> > A page whose neighbour never writes, such as the last page of a file,
-> > stays cached until reclaim.  A partly covered page another task had
-> > cached and that is uptodate is now dropped after the write's writeback,
-> > where before an uncached write never dropped a page it did not create.
-> > 
-> > Only iomap file systems say which pages a write covers partly so far;
-> > write_begin_get_folio() users such as ext4 and the NFS client do not.
-> > With blocks smaller than a page, a write that crosses an extent boundary
-> > inside a page asks for it as two partly covered halves, so the page,
-> > though one write covers it whole, stays cached until reclaim.
-> > 
-> > Assisted-by: LLM
-> > Signed-off-by: Mike Snitzer <snitzer@kernel.org>
-> > ---
-> >  fs/iomap/buffered-io.c  | 12 +++++++++++-
-> >  include/linux/pagemap.h |  5 +++++
-> >  mm/filemap.c            | 19 ++++++++++++++++++-
-> >  3 files changed, 34 insertions(+), 2 deletions(-)
-> > 
+On Fri, Oct 23, 2026 at 12:30:39AM +0800, Baokun Li wrote:
+> Hi Eric, Thank you for your feedback!
+> On 2026/10/16 02:53, Eric Biggers wrote:
+> > On Mon, Oct 12, 2026 at 01:09:45AM +0800, Baokun Li wrote:
+> >> Motivation
+> >> ==========
+> >>
+> >> ext4 supports a block size larger than the page size (LBS), e.g. a 32k
+> >> block size on a machine with 4k pages [1].  Encryption, however, is
+> >> still refused on such a filesystem: file contents used to be encrypted
+> >> page by page in the fs-layer path, which cannot handle a folio that
+> >> covers several data units, so the checks that refuse encryption with
+> >> such a block size stayed in place.
+> >>
+> >> Since commit 5acc6f649a68 ("fscrypt: Always use blk-crypto for
+> >> contents on block-based filesystems") file contents are always
+> >> encrypted through blk-crypto.  Inline encryption hardware can already
+> >> en/decrypt a data unit that spans several pages, but the fallback and
+> >> the block layer cannot carry such a data unit:
+> >>
+> >>   1. blk-crypto-fallback en/decrypts a data unit with the bio_vecs of
+> >>      a single page-clamped segment, so a larger data unit fails with
+> >>      BLK_STS_INVAL;
+> >>   2. the block layer requires every bio_vec of an encrypted bio to be
+> >>      data unit aligned, and splits such a bio without rounding the
+> >>      split size down to the data unit size;
+> >>   3. iomap cuts the direct I/O bios of an encrypted file only at the
+> >>      logical block size of the device, so a bio can end in the middle
+> >>      of a data unit.
+> >>
+> >> This series adds the missing pieces on all three layers, removes the
+> >> refusals, and enables large folios for encrypted files on the way.
+> >>
+> >> [1]: https://lore.kernel.org/all/20251121090654.631996-1-libaokun@huaweicloud.com
+> > A high-level question: most of the complexity in this series is to
+> > support crypto_data_unit_size > PAGE_SIZE, despite the actual goal being
+> > to support fs_block_size > PAGE_SIZE.  It's left unstated that the
+> > default of crypto_data_unit_size == fs_block_size is used.  However,
+> > ext4 and f2fs already support crypto_data_unit_size < fs_block_size.
+> >
+> > Would leaving the crypto_data_unit_size at e.g. 4 KiB while increasing
+> > fs_block_size be a simpler way to achieve the goal of this series?
 > 
-> The nfsd case typically uses buffered or DONTCACHE for the unaligned
-> sub-page-sized "ends" when direct is in force, so mostly these ends get
-> submitted as small (< PAGE_SIZE or folio_size()) buffered I/Os.
+> I initially followed the LBS approach of lifting the page-size
+> restriction, keeping the existing default crypto_data_unit_size
+> equal to fs_block_size. I had not considered using sub-block DUs.
+> 
+> After your reply, I implemented a variant using min(bs, PS) for
+> new default v2 policies, recording a smaller DU explicitly on disk.
+> This avoids patches 3-6 and the per-bvec alignment relaxation in
+> patch 10, and is indeed much simpler.
+> 
+> Both variants retain large-folio support and showed similar gains,
+> about twice their respective 4K-block controls. Although 32K DUs reduced
+> decryption calls eightfold, I did not observe a consistent additional
+> throughput benefit, or CPU savings at matched bandwidth, in the tested
+> workloads.
+> 
+> > Or do you feel that would be incomplete, and you'd indeed like to
+> > support crypto_data_unit_size = fs_block_size > PAGE_SIZE?
+> 
+> However, keeping DU = bs has a compatibility advantage for existing
+> encrypted filesystems.
+> 
+> For example, a 64K-block filesystem created with a default v2 policy
+> on a 64K-page machine uses 64K DUs. Supporting DU > PAGE_SIZE would
+> allow a 4K-page machine to use that format without re-encryption,
+> assuming the other policy and backend requirements are met.
+> 
+> This also covers otherwise-supported legacy v1 policies, which cannot
+> encode smaller DUs.
+> 
+> Explicit 4K v2 DUs can also be portable across page sizes, but
+> choosing a smaller DU for new files does not make existing large-DU
+> ciphertext readable on a smaller-page machine. I have not yet tested
+> the cross-page-size migration.
+> 
+> If you think supporting DU = bs > PS makes this series too broad,
+> I can use the simpler sub-block version in the next revision and
+> develop larger-DU support separately.
+> 
+> Looking forward to hearing your thoughts.
 
-Yes.
- 
-> Why do we need this special casing instead of just making those
-> unaligned ends use regular buffered I/O? Isn't it basically the same
-> thing?
+I think I prefer the simpler version for now.  If someone wants to
+create encrypted files on a 64K block size filesystem on a 64K PAGE_SIZE
+system that are also readable on a 4K PAGE_SIZE system, for now they can
+just set crypto_data_unit_size = 4K.  v1 policies were deprecated 7
+years ago, so they shouldn't really factor into considerations here.
 
-No.
+Note also that setting crypto_data_unit_size too high can break write
+atomicity as well as compatibility with inline encryption hardware.
 
-For the first of the two writes that share a page it is the same
-thing: 3/5 gets that page as a single page and doesn't mark it
-drop-behind, just as a regular buffered write wouldn't.  The
-difference is what happens after the second write completes the page.
-With regular buffered I/O the page stays cached until reclaim; with
-3/5 the second write marks it, and the writeback that cleans both
-writes' data drops it.
+(Also, the more common use case these days is that someone is
+*increasing* their page size, not decreasing it.)
 
-That difference is the point of NFSD DIRECT: each misaligned WRITE
-leaves one shared page behind, so with buffered ends the page cache
-grows by about a page per WRITE and nothing ever reads it.  We
-measured exactly the alternative you describe, with NFSD's
-direct_misaligned_dontcache knob, on IOR-hard (47008-byte O_DIRECT
-records, 192 ranks on 3 clients, 4 NFS servers, XFS on NVMe, 240 s):
+I understand there's been a trend to lift limitations like these and
+make every size work on every system.  But the large crypto data unit
+sizes are difficult to implement correctly, and the proposed
+implementation slows down common cases that matter.  Let's focus on
+fs_block_size > PAGE_SIZE by itself first.
 
-  ends written as                write MiB/s  device reads  page cache
-                                              per record    growth
-  regular buffered               35,140       0.000         +653.7 GiB
-  DONTCACHE, the shared page     34,463       0.015         +10.7 GiB
-  kept until completed
-
-Same rate, and neither reads back, but buffered ends filled ~650 GiB of
-page cache in four minutes (about one 4 KiB page per 47008-byte record,
-8.7% of everything written), which a longer run turns into reclaim.
-The second row is an NFSD-only version of this (the shared page
-claimed in nfsd itself); Chuck asked for it to live in mm, which is
-patches 3/5 to 5/5 of this series -- which yields even less "device
-reads per record" than the 0.015 result above (again, because mm is
-the proper place for these changes, less unqualified work by NFSD).
-
-And it isn't only NFSD's: any RWF_DONTCACHE writer whose writes share
-pages reads each one back today (0.97 reads per write in the cover
-letter's pwritev2() table, 831 -> 2281 MiB/s with 3/5), because
-writeback drops the page after the first of the two writes.  Making
-those writes use regular buffered I/O isn't an option for an
-application that asked for RWF_DONTCACHE.
-
-Thanks,
-Mike
+- Eric
