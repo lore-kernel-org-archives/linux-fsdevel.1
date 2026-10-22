@@ -1,59 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792661283;
-	b=drmhf+myopomNJY7qi8pIw23WJXsGTgURss+E6/uygf8Cy+HUCV3HfIw2ubwZmZelNPG
-	 yVaQORj9TEGTIbgmQh2ZgkxEiRCKoet4m4SrbimM7Hwq3vrCp8Ja+/t7sNwhK5+fn0h7g
-	 MdM8nQMwT03X1VkPhk2tOjePrQPXZ5USLNEFG2qAlopwv8wZdcb3hKVR2vfuB74UH2h0l
-	 aBvhl9rGbYGmI34pb1E944D8Su+UnQIwktXrwsfdOZiR0GlNuJKsUuLVnUvt+L+2oopze
-	 f/tLcV2cIgm7+u+mup4SxIpplM/Xo/DWMyaRMZ7HTUh/575faN8cgs8RY1+lU1sbrmw==
+	t=1792662069;
+	b=HhVEWZkgxMIoQPdlTbtqg9XsNr67UIURIyoEwwbzDRXTacSdAXBHgVDhOWz4s++U5Q2R
+	 bbgiBF79A+2Stj0TdOWxAoFeF5o9zZquITVvzR7YC16vBn+0wrvy5cwA+ykMNah3jVmth
+	 QZX5AFhzML7tLuu4/ON2rEL3X68AK6ewJZB/0Yzipdl6/TZCXVl7vcKq+OVYDlI8tMIG0
+	 ToQLBmQBvSR2GfBXyLNa3CVHuXEoBvfkwdNUC0rjDISGz4tN70DuzadTM9AzCCeJLMHNO
+	 jk7zVEB1Uw47fI3/SqKjm0xqkXQKxnmxYXZWrDZlUU7lSOl6BXW4/URiFm7lsMB3K7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792661283;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=FN3sRWyIdvl/+txcRkdmNsRbF+3/wV+Y8oZpnnSep1g=;
-	b=tlJ7clgp/A8iC3SMglFEwCocWBQVUZt/y7FTYTgKqD6LaDVzIDh3TTaWpLqlC4T4ARch
-	 TUkbvIfFwMnuTY5QQLLIWffJSCHDE2tqkibPMd8e7o5BpYnBR0/4Jh7NhM6ZKZD7lI4wG
-	 tD9okAmmN66bY2UiljQyUZSE3OXPYAqAyMJnNXG00VFvzKduoFdEO3lnlVN35ypQMMqg3
-	 ObcrSkwHY8/g5ZjSrbjuIM9jtHpnzF1hLXzqampW4IXoIlx+qS7jq2OR/L7OknJESLyqZ
-	 tAfsG4HL7UuJuvAOJU1BZTDOHp/Qts+P9bAIrf+LJjeYzdvxKxP78rQdIy/k2TwzFTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792662069;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=XIEdpK6uoY0VcAn4RMjuLM3ziGKUkenXplth+Lt8Y7A=;
+	b=5fVuaqMBshmhuFtZCV9G0Rv5tWTKMoiqEniibdgw6BD/fExTZqTBnCFZmtyA5ChZxi1+
+	 hI7Bp8QhJlda/u/voE8bmtPQv5h8MeHExA7oqEMyXhyfREU/Bl1mV0LsyfmKktmK2ghRQ
+	 UxCXUZkPNCZbrzCF2Zl77wKo4tD06ovHobjG36/H3SKEkXKmRMuYU3gDhMm40FLSJ96/q
+	 ZnGGZ9/uO28/Ue1O8YHzeuLuQP73Kwl8tbBweEL6QpAbxw6c4jwSFHjumfRrWbA5Z9nPI
+	 oKCDnQoBtsdXukdBKuEjd5npXe52JYLii2mXJTWYSItyLBraL5T7D8sXHYg7BkjBYCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="P/PWFc/Y";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=cs.unc.edu;
+	spf=pass smtp.mailfrom=cs.unc.edu;
+	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=kz3Vg9pv;
+	arc=none smtp.remote-ip=209.85.219.46
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AC7606A32C;
-	Thu, 22 Oct 2026 09:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C9C606A33A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 09:41:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0C9C606A33A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P/PWFc/Y
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA7731F000C1;
-	Thu, 22 Oct 2026 09:27:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792661283;
-	bh=FN3sRWyIdvl/+txcRkdmNsRbF+3/wV+Y8oZpnnSep1g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=P/PWFc/YqvNU9ei16AIqKNdonKgOZYumNRDLlo+P2fkaRl2z2u1m+0KDcIGi5BPwN
-	 n+KN0LI5kzdGg/2zjH8zUpGhcBd99yne/RpX9Fw5JfYfWsTBI/+VwgYU/2IgzHdS+L
-	 0/IN0LpNt33sgel/q7GwhD+80qsQOX7gFCgNGbCc1s/YB25kpGdbBh6J4bVS1oBBpJ
-	 hEpEZn+SDUo2zBMlSwBnCTHluBxGzR724CnM+jqHLlSTN+7ZG5zGEskcyQJ4e0C6Tg
-	 fguVbNU8PNdqBXgpnHdwGpkWUCwJvovFAuf5IQPo7d9JVqQiePxRhbQhO0pxe/NP9g
-	 L4GIXe/B1pRdA==
-Date: Thu, 22 Oct 2026 11:27:55 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	djwong@kernel.org
-Subject: Re: [PATCH v5 2/3] man/man2: introduce man page for file_getattr(2)
- syscall
-Message-ID: <atnVqseSsHGMkzpH@debian>
-References: <20260916115141.3500780-1-aalbersh@kernel.org>
- <20260929130234.3547891-3-aalbersh@kernel.org>
- <asvBPbDfCIVm71jg@debian>
- <as9EIPE2lLJs9ram@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
- <atj5s3WAmsjv9aq9@debian>
- <atnFn3-KSPD3qmJU@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	dkim=pass (2048-bit key, unprotected) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=kz3Vg9pv
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-918f75a68f0so22439776d6.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 02:41:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.unc.edu; s=google; t=1792662067; x=1793266867; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XIEdpK6uoY0VcAn4RMjuLM3ziGKUkenXplth+Lt8Y7A=;
+        b=kz3Vg9pvKqAJ2lSpLZ/iAeT6tIlkg/q/lJDA65XliRZtEb1BP2h5McqrqUuHNE0A+Q
+         T9EOQwdqdK6yfwIGeUo6xoq2dQwQitTjYraLMBqq26QrO/IDS5sd4VHYo4z6/M1MoOyB
+         ZKc2iW9QbX2tDjW8lwIRHk4+AqR/joJ9OOmVHtvbiihqQbvYOCmvsop/a4capa5jPt5f
+         lMym/OyK57LJd+Wjf/8q1yUDG6hb62kEKbpIea7mKtrydASLGKyYE1ov/CCJsT2oDsi3
+         wisSn5UqPg+vcp1ZStL7L4Ctr/iQVO3K4ePRJlvpeODN7rNvki9IB7eSvRLerO8/ayfR
+         bGKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792662067; x=1793266867;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XIEdpK6uoY0VcAn4RMjuLM3ziGKUkenXplth+Lt8Y7A=;
+        b=sMAD9J6qCvWDabLAChPh+IPUCDz0gYPDu76mXRVU8mJa9O9JrhosOTwA96t1732G0+
+         uZh9hYle6IFxAhuAJwousnRoUP6PnoanZuNJNqlVU6YLl4uHet1zRZioUst29cWa1D15
+         8GYf7YQotp0ug0TJQVpAPoT0W+hUR4PB7wz/ixhNDCIFcDqlZn3ujlMbX+iBX7MCVeMx
+         f5kaEnD807QiUJuEWbGWq0kGPm7lBo0iQ9lZ5t63urElutPM3GyhlnqbCWR4xRojT8Nq
+         DpreoMSs/+BQe08rGB32h+OXDynWLCJwrAFctuLiu1Ut2mBoV5NYVSNqA6BfTV2ucqmj
+         boFg==
+X-Forwarded-Encrypted: i=1; AKwUvBzxrO18L+tH9zXEE9FIGXX0cnBxlnJzAQOBFwBSDl5yAmTz0B1FPD/kG4juLNzwZGckRolNFp15AKlCOaOA@vger.kernel.org
+X-Gm-Message-State: AFq9FYJNIUUMY7wbq0zufm8Tsx2VnFqfhAVdxxCtHj1//BZbYB8OB93s
+	NSoKVQf6W0k+oRPsNRwZ/tcFu8BIVFYZAjD9MohgPr/VYn1pJa0AnuiAGOSlFgZmMw==
+X-Gm-Gg: AYBFou0nHIrAyBHpRksHGW6w+6aR7FwyOYWt6uKBFZLQ7mAd7y2hef+JSx9N5t/n0so
+	mt5rCoSU2T/eraBIktO9wI1OWjPg/92y91AvoeVmxvkrYYJjovYgIovpLg17Idrt+11Ab8xfrpK
+	EUnrBqJLDLVR+KQGz9JfKUPQxQOjg8mbAPmmi9qZzIjNne+37z1qPvRv6T6THWwgxt51BTjutN3
+	6PkjTLQgjCLCHgi+3B7PZ/9nKXy5dhzLNgVl3OXF5YpjwGx3Sp0Mo1vxrYv2nDBtK8nqewBEgwh
+	7TmRovUAqG6V7tDM9QSS4njA1RdLeSDVUNlZoqCc9wbbfVd6jZckiQHntU3r6AFM/jDYCZ0E3AD
+	OEJIJE2yWlEtJsOW8dr0wi1MX0EDQt0VOpZVt6G/C50ECqY1Rkzeojsfhm4An4lhYt/wPqRQdR4
+	etAl2HHpXC7cNTpcJe52Yf1mvZx1+aE22mnup2+2Te9mKrDSAz5D5PgXEI3SkmQbWUkAH5/EpUL
+	FJU0gycfLsGX7ix+JNTB6SRgx2Xg/ZhbdxIf19mew2qorzRIj/TBOqjJdvpwd4Txe0kBTrBW/qN
+	wc4=
+X-Received: by 2002:a05:6214:418a:b0:91b:5d39:e13f with SMTP id 6a1803df08f44-91c12f339e4mr79983386d6.52.1792662066786;
+        Thu, 22 Oct 2026 02:41:06 -0700 (PDT)
+Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c10c0f838sm46074876d6.32.2026.10.22.02.41.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2026 02:41:06 -0700 (PDT)
+From: Hengyu Liang <hengyul@cs.unc.edu>
+To: slava@dubeyko.com
+Cc: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2] hfsplus: preserve FinderInfo when listing extended attributes
+Date: Thu, 22 Oct 2026 05:40:58 -0400
+Message-ID: <20261022094058.1169039-1-hengyul@cs.unc.edu>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,125 +97,90 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pjwzvbitjiassypm"
-Content-Disposition: inline
-In-Reply-To: <atnFn3-KSPD3qmJU@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+Content-Transfer-Encoding: 8bit
 
+Commit aef507847129 ("hfsplus: fix generic/062 xfstests failure") made
+hfsplus_listxattr() return zero when the inode has no records in the
+attributes B-tree.
 
---pjwzvbitjiassypm
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	djwong@kernel.org
-Subject: Re: [PATCH v5 2/3] man/man2: introduce man page for file_getattr(2)
- syscall
-Message-ID: <atnVqseSsHGMkzpH@debian>
-References: <20260916115141.3500780-1-aalbersh@kernel.org>
- <20260929130234.3547891-3-aalbersh@kernel.org>
- <asvBPbDfCIVm71jg@debian>
- <as9EIPE2lLJs9ram@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
- <atj5s3WAmsjv9aq9@debian>
- <atnFn3-KSPD3qmJU@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-MIME-Version: 1.0
-In-Reply-To: <atnFn3-KSPD3qmJU@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+However, osx.com.apple.FinderInfo is stored in the catalog record, and
+hfsplus_listxattr() has already added it to the result at that point.
+Setting the result to zero drops it. As of now, a file whose only
+extended attribute is FinderInfo gets an empty list on a volume with
+an attributes B-tree, which mkfs.hfsplus creates by default. getxattr()
+still returns the value.
 
-Hi Andrey,
+The issue can be reproduced with:
 
-> Date: 2026-10-22 10:43:08+0200
-> From: Andrey Albershteyn <aalbersh@kernel.org>
->
-[...]
-> > Sorry that I missed this email.  I had an attack from a nation-state,
-> > and had to be very careful with my hardware and communications.  I will
-> > probably say something more detailed on the mailing list, but I'll only
-> > share some details encrypted with very few people to not give too much
-> > information that might help them.  Anyway, when I got back to normal, I
-> > missed this and some other emails.
->=20
-> oh, sorry to here that, hope you're safe now
+    truncate -s 64M hfs.img
+    mkfs.hfsplus hfs.img
+    mount -o loop hfs.img /mnt
+    touch /mnt/file
+    v=0x54455854$(printf %056d 0)
+    setfattr -n osx.com.apple.FinderInfo -v $v /mnt/file
+    getfattr -m - /mnt/file
 
-Yes, I am.  They infected my phone, but let me free after several hours,
-and they couldn't infect my laptop as far as I could detect.  I got a
-new phone, but luckily I didn't have to buy a new laptop.
+Without this patch, getfattr prints nothing. With this patch, it lists
+the FinderInfo entry.
 
-> > And yes, this text seems good to me.  I see your new revision, so I'll
-> > review that.  BTW, I wonder why there's this difference between
-> > openat(2); was it on purpose? =20
->=20
-> Not on purpose, but because file_getattr() uses newer
-> filename_maybe_null() interface which works with a NULL.
+This patch keeps the result of hfsplus_listxattr_finder_info() when no
+attributes B-tree records are found, as is already done when the
+volume has no attributes B-tree. A file without extended attributes
+still gets an empty list.
 
-Hmmmm.
+Fixes: aef507847129 ("hfsplus: fix generic/062 xfstests failure")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
+---
+Changes in v2:
+- Restructure the error check as suggested by Viacheslav Dubeyko. No
+  functional change.
+- v1: https://lore.kernel.org/r/20261021174534.482192-1-hengyul@cs.unc.edu
 
->=20
-> > Should we maybe require that callers use
-> > an empty string with file_getattr(2) too?
->=20
-> I don't have opinion on that, this could be done by dropping the
->=20
-> > > 	with the divergence that
-> > > 	.I path
-> > > 	can be NULL meaning an empty string.
->=20
-> then.
+Tested in KVM with KASAN on a804c5742bff, without and with this patch:
+- The commands above, and a C test of listxattr() sizes and buffer
+  lengths: a file with only FinderInfo gives 0 without the patch and
+  25 with it; a file without extended attributes gives 0 on both.
+- generic/062: 10/10 passed on both kernels.
+- Full fstests (805 generic tests, 608 not run on both kernels): 186
+  passed and 11 failed without the patch, 187 and 10 with it. The only
+  difference is generic/795, which fails at random on both kernels
+  with fsck "Invalid volume file count" (1 of 11 runs without the
+  patch, 2 of 11 with it). generic/089 and a small test that only
+  creates files and unlinks them while open hit the same error on both
+  kernels. This looks like a separate race: hfsplus_file_release()
+  updates file_count without vh_mutex.
 
-I'm worried about this, because people might experimentally realize
-about the fact that NULL is accepted, and by saying that it behaves
-exactly like openat(2), we might confuse them to think that openat(2)
-also accepts it, so I think it's better to tell the truth.
+With this patch, getfattr above prints "osx.com.apple.FinderInf". The
+last character is lost by a separate bug in copy_name(), which Maurycy
+Pawlowski-Wieronski's patch fixes:
+https://lore.kernel.org/all/20260828-hfsplus-copy_name-fix-v1-1-75ed9f0f378c@maurycy.com/
 
->=20
-> > Or perhaps allow NULL in
-> > openat(2)?  (I prefer the former.)
->=20
-> This, probably, would be not easy to change without any particular
-> reason
+ fs/hfsplus/xattr.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-I've been lately thinking that we should have an at(2) manual page that
-describes the common features of all *at(2) syscalls.
+diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+index 71364e093fa7..45571d6f3abd 100644
+--- a/fs/hfsplus/xattr.c
++++ b/fs/hfsplus/xattr.c
+@@ -837,13 +837,9 @@ ssize_t hfsplus_listxattr(struct dentry *dentry, char *buffer, size_t size)
+ 
+ 	err = hfsplus_find_attr(inode->i_sb, inode->i_ino, NULL, &fd);
+ 	if (err) {
+-		if (err == -ENOENT || err == -ENODATA) {
+-			res = 0;
+-			goto end_listxattr;
+-		} else {
++		if (err != -ENOENT && err != -ENODATA)
+ 			res = err;
+-			goto end_listxattr;
+-		}
++		goto end_listxattr;
+ 	}
+ 
+ 	for (;;) {
 
-I'll CC you and linux-api@ to discuss details about it, and know which
-syscalls behave differently, because we should probably provide a
-unified UX, and only deviate when there's a good reason.  Once such a
-page exists, we could just refer to it in all *at(2) manual pages,
-instead of repeating all the details every time.
+base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
+-- 
+2.53.0
 
-But for this page, I'll take the text as is, I think.
-
-
-Have a lovely day!
-Alex
-
->=20
-> --=20
-> - Andrey
-
---=20
-<https://www.alejandro-colomar.es>
-
---pjwzvbitjiassypm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrZ1xoACgkQ64mZXMKQ
-wqmq0g//Vg5DDmOZ+ATIOwjWNR82KPU1ARvKusGnqD0UZqqFLdtAqBNaRSfIdQzg
-/J9NNbPzeQrL2dKUGnzHojVuMrvUNnNViDPsdB+GtA/3MXD8n46p0SLPGS4yvtUw
-n4IwvbhW5tmxhxta1kjGFowS4blAAlbnCErmI/35zsouUqrMIghYnNK34FGromjU
-t6YiFGQs+06uKCExMFlnUmQM8iOTdxCl2WNNCtQVIIHt5RBFQ+p/+zCj2/xH1izo
-kPfjdl6cem80TjGwGHdUmKLNO0dNYqvc+9Ezr9PDN2uR72TwsnuEAq0t7onilt16
-51507ZA9STXYnzCx1JOTpf1JGXHSVCT2Z/nYXYrYvedHQZi7TbdX9vtDiq1R8ZHp
-NpiUTII20jfRa9akuaSSodKmKKd1hSylKYcqrMR+eznxOwAc8sK8t+8leD0ys5QM
-ss9kQRPcIaJNsuIwrG4rl1N1hiLrKO0y299r/g94N+ew1zDBA9hEIvy4tTUjCPvT
-OtzPEopaC/axNIND9K1Bnqu9xD87ep7N+3dEsrEHps2t6CMjLriUTzeVwgUvltC/
-gLIPvLC7nMcl7vg8uViGF9dQoF4p09P7wIzEOrtI0WEaL9ywnxYMu9dvucUNfkg0
-N8KMdkauJ0y2zMW/AjREBBLv5tI3U4p2m2GQovKRbl5W7wk0Cn8=
-=wHGo
------END PGP SIGNATURE-----
-
---pjwzvbitjiassypm--
