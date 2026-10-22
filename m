@@ -1,60 +1,69 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792666893;
-	b=IvhAV8zW6miIJwngwPnMOIjRTeVnzRMHaP4IVw5oPsuuqcnfjz/Ifhv3Oox4hzUOxFJb
-	 QADGVUKn2fWX9VSZtcGmhek+2usEFOOxOkCsBSt21elgBSv4G/WOZUHpC0otij0KHpBQG
-	 LBUUmcVkm3kDqv2GWeadhQ+2pFYynaCmbxFMHVbaKM7fo4IxGALgox9YIDw8Lohj+o92/
-	 ls8xI34WbFj8eBmuWZZzGH0x0/SHZI+OKYU4yr+MlDP+coAdrBmuJ7QlbJNnXxJdfB0gB
-	 I43dwULnpM/55Ca6Tp9VLGVKJ6xs9Fu4ebi5vpxAH9I+Ur5/tK/CaE15XJu+dg4Kgig==
+	t=1792667069;
+	b=zooHvzA0/RSPhF3uDYIpcbhiVFie2maUU/ebzhCVSYS6pn5IhYTQPImg3xYDhfucNzmB
+	 gxsP/qIJIo2uonrgG9tM3sUiH37rm0e8UQNrv/UW8IFWpi48t8h652AQckEBGtiLs9Pqp
+	 VDbb/rt2LWG1BN+V9ND528tXwAzTvaySn8clzAiLLQmf1jM5FKVL4ECE9UZ5PRbFMf9Q8
+	 MoUwoq2bWoMWgPUhGKgLNRnE9G6lGn7z9RX9C5CCZXpDJMwOz1S0gnGLYWa3kPQVYpjCR
+	 4xNuuOpu52eBPf/Ei2yZJJx8iXp6R1i9QCE6FxMD4mKbtwjzJ/ESCtu+uCMoyc5/ziA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792666893;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792667069;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=FeBcB8xvZ2Pp6hLtOLFO9RpsTwcvbp4PO4RP7ourH6Y=;
-	b=WuQJX8ipWse5u2AxOTUV2FCK869wa952CF/UNz8lYpp6o3g6pubisDAPSE8FZAnGMx0k
-	 FbAfYn/rZJnT0dSi9HwhCl9qgmvt3ixwJWuOeG3krbI2OgsxFoxZjPzT3IsP65QUhDkz7
-	 W/8c4VE7XCVlP8jzQTKU+Xt8MZhMrQ4bJPAhahNoxyGJn13k82xpM8RXCkW3KNGQ6giyL
-	 5PVPDV0hertO2Aa3FxM3kL6PIHv6MJSGagdsPYKWrVJjHb1Pc1ZRI1mcwS+U91RBep46h
-	 CUaIJZvCevVDiaYZkFEa//yALTdblGdlO/a8qyqsjt/Z+o7qRPNdeM5nGC5IS6ClYDw==
+	 X-Developer-Signature:X-Developer-Key:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=Sqn9pseG7wRt4prvWukIecAYEmcXIrVRVsz6R735o78=;
+	b=PdjqQkcKGe3JXxZZi8NT1v0tcpuqCm1fLfUzqEiwXB4Y2T3hdn7gh0s4MQSf3GlEWVkJ
+	 cjByZDBQotipSsHg+3iJ50+OYaYUbr7LosE0kPLk3VG+tEM7o8Doq6GXs2dOWo/J3S7yB
+	 voGIPGyQnLGsCCKEFcDOKmBgJo6xNssPvsHshN6uDCH7mvhRt0qK6qkIjGZkN6Gd3Naee
+	 pV91In+5dUwh1fZ0iL1wZwPdhoqS7EEE/9NXIM+HKqYLH+Ala34JNC34jyCAcuUbnk2yg
+	 IDdyf2CkOaW4CT3KrYZ7e1sQYMYrN9wInHEqIPGk6AyuBWA692W0OfDBnP0AUFLgQug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RQGkSiJF;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JCltXfs1;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D020606A31E;
-	Thu, 22 Oct 2026 11:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028D4606A31D;
+	Thu, 22 Oct 2026 11:04:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RQGkSiJF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F28551F000C2;
-	Thu, 22 Oct 2026 11:01:30 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JCltXfs1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 934A91F000C1;
+	Thu, 22 Oct 2026 11:04:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792666892;
-	bh=FeBcB8xvZ2Pp6hLtOLFO9RpsTwcvbp4PO4RP7ourH6Y=;
+	s=k20260515; t=1792667068;
+	bh=Sqn9pseG7wRt4prvWukIecAYEmcXIrVRVsz6R735o78=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RQGkSiJF9w6My9PDxRHGukyjGhHJ4a5ZrgkE9Qn14vqTXh59yVnm1YXwuMlaXfZgf
-	 d6M59XbEusxBPZmhYaqg7gumT4mersscPc72azwmUhkjvIaqrlvKABLjnJGk5xGaO7
-	 ReEf0rYsajOyZx3/EP0LLyQPd+u70T0AHdZE503JRkczbJkaTeUwOeLpjXiTDQt1fP
-	 RCdlLexpApED23w28CfoGCvh9pBTfSYzv3/kXH3gflEqWSlTrq1ksAkecnl2Oygn3b
-	 8fvlHV3Ufu6feWqo3S31kG3WhnVq/3nxVKpb5qujY07vR8UByPxYCX5AnpnSKicqyS
-	 SHX+mDC8dyK4g==
-Date: Thu, 22 Oct 2026 13:01:28 +0200
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	djwong@kernel.org
-Subject: Re: [PATCH v5 2/3] man/man2: introduce man page for file_getattr(2)
- syscall
-Message-ID: <atnsT6ns6AADTaMP@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20260916115141.3500780-1-aalbersh@kernel.org>
- <20260929130234.3547891-3-aalbersh@kernel.org>
- <asvBPbDfCIVm71jg@debian>
- <as9EIPE2lLJs9ram@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
- <atj5s3WAmsjv9aq9@debian>
- <atnFn3-KSPD3qmJU@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
- <atnVqseSsHGMkzpH@debian>
+	b=JCltXfs1xsMt71gpnd06T4OWPy8EuDYL40dHQzuKXKwIk0tSzLJKBs1OltLYiIV8c
+	 WVH27s9EO33SpNqa06TGeLmxjZYDkp9mCGSWvVvFPwh5/YGWm1bvbIlRqQqQ4Kz3ku
+	 NZyQzTVJtNyzbhxOqqfG3ChU8Oc7uPv/BZzWK1KwpIiijEVRowAOVG8YiMIFoJJLpt
+	 cvJ+Qro8rt4KT4jH1iTeZU1sDoRF/OE5Cp+XbOOQouOOzqDayaOrHav4ZC7dp1Iyqm
+	 rUdgpqAu1Fpcy/Xtvb6LeK95FZatN+Ch09dQT614SssEyfQkRnOVZO+V/AzBQAt+yD
+	 W+E21PP4/BRMg==
+Date: Thu, 22 Oct 2026 13:04:22 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Paul Moore <paul@paul-moore.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	David Windsor <dwindsor@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+	Matt Bobrowski <matt@bobrowski.net>, bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [GIT PULL] BPF changes for 7.4
+Message-ID: <20261022-hartgesotten-zwanzig-zugleich-f6b59ab28bbd@brauner>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4907; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=u5ogV05odBsfhXHVH49I8N7WQ8PGeyx0Bca4hqE4eyE=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdfB7xeXXslnJW+y9XXp/8GnPElkElJ4nx9+WPddysN
+ Re31TuzdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzEagsjw5u4jzcurrl2Ufa7
+ xsae8L/9s0/Jeq/LP3Ar9l7AMpetDY6MDJtlGB/Y7Kp/JvM0JSl+dTeva4TPx+8PnZXiM2s8+pZ
+ m8gIA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+References: <20261021210147.3450677-1-alexei.starovoitov@gmail.com>
+ <CAHC9VhQGeZtDLKZ7iLYx-d1ua_CojCN03uSG25oVDqOm9GKFag@mail.gmail.com>
+ <DMAVQ90EWW3Q.44GJKDHWOSFC@gmail.com>
+ <CAHC9VhQz1aam-P+xh8CT=3V9fNtdrcFSZ6VEOWUGx1cKWV+WYQ@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,83 +73,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <atnVqseSsHGMkzpH@debian>
+In-Reply-To: <CAHC9VhQz1aam-P+xh8CT=3V9fNtdrcFSZ6VEOWUGx1cKWV+WYQ@mail.gmail.com>
 
-On 2026-10-22 11:27:55, Alejandro Colomar wrote:
-> Hi Andrey,
-> 
-> > Date: 2026-10-22 10:43:08+0200
-> > From: Andrey Albershteyn <aalbersh@kernel.org>
-> >
-> [...]
-> > > Sorry that I missed this email.  I had an attack from a nation-state,
-> > > and had to be very careful with my hardware and communications.  I will
-> > > probably say something more detailed on the mailing list, but I'll only
-> > > share some details encrypted with very few people to not give too much
-> > > information that might help them.  Anyway, when I got back to normal, I
-> > > missed this and some other emails.
-> > 
-> > oh, sorry to here that, hope you're safe now
-> 
-> Yes, I am.  They infected my phone, but let me free after several hours,
-> and they couldn't infect my laptop as far as I could detect.  I got a
-> new phone, but luckily I didn't have to buy a new laptop.
-> 
-> > > And yes, this text seems good to me.  I see your new revision, so I'll
-> > > review that.  BTW, I wonder why there's this difference between
-> > > openat(2); was it on purpose?  
-> > 
-> > Not on purpose, but because file_getattr() uses newer
-> > filename_maybe_null() interface which works with a NULL.
-> 
-> Hmmmm.
-> 
-> > 
-> > > Should we maybe require that callers use
-> > > an empty string with file_getattr(2) too?
-> > 
-> > I don't have opinion on that, this could be done by dropping the
-> > 
-> > > > 	with the divergence that
-> > > > 	.I path
-> > > > 	can be NULL meaning an empty string.
-> > 
-> > then.
-> 
-> I'm worried about this, because people might experimentally realize
-> about the fact that NULL is accepted, and by saying that it behaves
-> exactly like openat(2), we might confuse them to think that openat(2)
-> also accepts it, so I think it's better to tell the truth.
-> 
-> > 
-> > > Or perhaps allow NULL in
-> > > openat(2)?  (I prefer the former.)
-> > 
-> > This, probably, would be not easy to change without any particular
-> > reason
-> 
-> I've been lately thinking that we should have an at(2) manual page that
-> describes the common features of all *at(2) syscalls.
+On Wed, Oct 21, 2026 at 09:26:56PM -0400, Paul Moore wrote:
+> "... just as the maintenence of bpf_fs_funcs.c falls to the VFS." is
+> the rest of that sentence.  We're not asking for a type of
+> cross-subsystem relationship without precedent.
 
-sounds like a good idea, it will also help while developing syscalls
-like these ones. Having a good reference of how it should behave
-will make things easier, I think.
+I love how I always end up in the middle of this somehow. I'm really
+trying to be sympathetic to both sides.
 
-> 
-> I'll CC you and linux-api@ to discuss details about it, and know which
-> syscalls behave differently, because we should probably provide a
-> unified UX, and only deviate when there's a good reason.  Once such a
-> page exists, we could just refer to it in all *at(2) manual pages,
-> instead of repeating all the details every time.
+> As discussed previously, the kfunc in question isn't really a VFS
+> kfunc it's a LSM kfunc populating LSM managed buffers and calling into
+> LSM private APIs.
 
-sure
+It takes a name in the security.bpf. namespace checks it against
+XATTR_NAME_MAX and XATTR_SIZE_MAX, copies the value and fills a struct
+xattr that the filesystem's ->initxattrs() callback writes into the
+inode it is in the middle of creating.
 
-> 
-> But for this page, I'll take the text as is, I think.
+The LSM part is lsm_get_xattr_slot(), a static inline that hands out the
+next entry of an array.
 
-Thanks!
+The one problem the series ran into was ocfs2 keeping the name pointer
+around after the callback. Which is very much a filesystem contract and
+it got sorted out with the ocfs2 maintainers. This is a decent hint
+where this code belongs imho.
+
+> One might question the placement of some of the other BPF kfuncs
+> located in bpf_fs_kfuncs.c as the file is conditionally built based on
+> CONFIG_BPF_LSM as opposed to CONFIG_BPF_SYSCALL or some other generic
+> BPF Kconfig knob, but there is no sense in worrying about that until
+> we settle this.
+
+The CONFIG_BPF_LSM gate is historical. binfmt_misc BPF programs use
+the file as well. It says nothing about who owns the file though.
+
+My view is this:
+
+The lsm framework doesn't own code in other subsystems because it calls
+an lsm helper. The same way the vfs doesn't own the lsms simply because
+the majority of them live on vfs objects.
+
+I do understand the worry I guess. bpf lsm programs let people build
+policy that never shows up on the Lsm list, and kfuncs are ways to build
+that policy. For me that's a good thing because it moves a bunch of code
+out of the kernel. I understand that it's also something that feels
+uncomfortable. It does for me too because I keep worrying "what if we
+expose some really broken thing that burns the house down"? But hey, 50%
+of kernel development is constant change and 50% is shepherding people
+away from the abyss...
 
 -- 
-- Andrey
