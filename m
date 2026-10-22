@@ -1,105 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.24
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792745313;
-	b=TGPklLfSRXxEvyQuTjAEKNejpkGmtuq111BgFFbzUGTtQTIHKFgZu0ZpwOc7QLnbZMhO
-	 9PJIgT/w8w7UhESB+q7MruIleR1uuDRV/MHK+3GHvDrVoV3geMpszZBBKQphU9f71yiw/
-	 7FCN/+AlFBxZxo9mSczYH+I0TGsLTf6ovBOPOEwnr6YnWv/sBxhzfxsmtbftu3psIeM4+
-	 jJcbOqzGfR+bd+PBneh00L40BNSuWePORrNDihUPDzZTJgRjTFWTofWwi1n5ngR8JYD4j
-	 Wrv6+Wo0XKQH+ku3bi9vbMcazJyTsOjxaeMRL+wgu44b19vebknF6AG+2sF4vQRPj2A==
+	t=1792746868;
+	b=Z2gAZqGcQw+VnuotA3SSG8Hkthxq8Gb8EFy+DQhJkj2i/qWgH3HC+FRqq9+ILr/OPLGc
+	 YzxYsPUrTCMTt2AuWwL5adHmElQLZjWM7Cp7M3f+FzGA3jZxqaWm++RYTxbq8AR7OTsYQ
+	 LtnkOYKjPzrvbUkX36Xlp8tw23S9B5SjKYX4G66SpScwQ9+uITJ2yHEbQm+EKZW48RnE7
+	 9pdHyEccmPbAeq0RDP8zZUR1bVk520mJjnen3/5CkWIcLJgHIQ1kDIsrrEGrntjrDDpPT
+	 az0tqneNT2YgjxG3rVw26tzaF5Ge1LPsx3x9oErdEDpotGt4rgLODr8Ihm//9mxw7dg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792745313;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=eh+XeTghhNpEBCcLveL4eJ+dFfIWG6uFY0NZX4jjpUw=;
-	b=Mmo3LikDHp7bYfcQgYooxFKRf8r47Pnt/mFSVyLZ637qFYiGmIBu2usruB13QiwF4Oo9
-	 8McizkmsSHfUkm/G7fAU0Tn5mlGjB0hRcYtY1RJnPkY/Mo7Foz7TB5DVqyUMr4+SjFiSy
-	 tT7GjbK1VHapceqUhNRLare18GUbKPFvIY9I7dzfdhkk6ZQYOD4tbgLc5ZTmhSfyO4vmg
-	 3sbxE9017Vs186H5gNwQlxD5BdsmhrklEI78DKBiBtRehRTW07lnj8kwYHPrjpEFNEwCD
-	 dbYpTw70M93LTfmi9Nj5fH7LdgF/lYeZaOeZgOHzZ+yCTrXX6JM6fP0ryfa4+Gp/auA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792746868;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Received:Received:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+	 In-Reply-To:X-CMS-MailID:X-Msg-Generator:Content-Type:
+	 X-Sendblock-Type:CMS-TYPE:cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:
+	 References;
+	bh=KxRBaCl6SIR11QatilRX983Sq8/llllRV78Ep6I15c8=;
+	b=AXfIpUdGqU3VWii7MgG3/UAuKhhMzSCsD96PV0Waf5bKMfeTC4qyNyKXfmw4jjIkrnov
+	 X2Xadiggy23OSj12frs8bNK+oUXQY0PAMFSMNZKYRrlxGHqNKaXLJRi7OiVFP+7ClgmK6
+	 8e2HQ6tabUi9wfbPq+tpN1SQkIinOEenTz5yWFFULyX2augsL2gkgotY7o9HtyPRAMgnm
+	 oCxWCrXkz4H1GoOpBk4/H7cihBipQwxRJsM/an0ezgr7xzbzznO5hatthik85LA5ewLrQ
+	 mFIzAhEc8V9/6RWxxRxY8DhdsK3fUn29iQ4GuO5xPUg8fBb41v6/WU/vu4WApLwfQIw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RLYKsQHi;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JLKLr4Ia;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RLYKsQHi;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JLKLr4Ia;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=NTww7lbG;
+	arc=none smtp.remote-ip=203.254.224.24
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F036606A31A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 08:48:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F036606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E84606A320
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 09:14:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0E84606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RLYKsQHi;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JLKLr4Ia;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RLYKsQHi;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JLKLr4Ia
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 79CAE2211E;
-	Fri, 23 Oct 2026 08:48:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792745311; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eh+XeTghhNpEBCcLveL4eJ+dFfIWG6uFY0NZX4jjpUw=;
-	b=RLYKsQHiGbB73OAEcu4TQV5EoEXI47Y42kVlVgEkOX+reVfeyrxQgC9ql0N9ZF9vrtUzVc
-	GYysL4SXHSRV9z70Joss+33DC2mIOybIHJuiJZZnUyIsJL8vtSxFBU2e+LCbpTTvhmIdbr
-	AYtMm8O+kLueazqVJKiI8Dk/wgVOJoI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792745311;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eh+XeTghhNpEBCcLveL4eJ+dFfIWG6uFY0NZX4jjpUw=;
-	b=JLKLr4IaaDvExRCibs0/9+1QkEKc9bbMEXi0M9XcLE6UEqAOJV1QkmfL3Ocgw5aA6RUpWC
-	umPaxrvZabJyy9DA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792745311; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eh+XeTghhNpEBCcLveL4eJ+dFfIWG6uFY0NZX4jjpUw=;
-	b=RLYKsQHiGbB73OAEcu4TQV5EoEXI47Y42kVlVgEkOX+reVfeyrxQgC9ql0N9ZF9vrtUzVc
-	GYysL4SXHSRV9z70Joss+33DC2mIOybIHJuiJZZnUyIsJL8vtSxFBU2e+LCbpTTvhmIdbr
-	AYtMm8O+kLueazqVJKiI8Dk/wgVOJoI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792745311;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eh+XeTghhNpEBCcLveL4eJ+dFfIWG6uFY0NZX4jjpUw=;
-	b=JLKLr4IaaDvExRCibs0/9+1QkEKc9bbMEXi0M9XcLE6UEqAOJV1QkmfL3Ocgw5aA6RUpWC
-	umPaxrvZabJyy9DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 52965133F6;
-	Fri, 23 Oct 2026 08:48:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fa0JDl8f22pPHAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 23 Oct 2026 08:48:31 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 05F0BA1415; Fri, 23 Oct 2026 10:48:31 +0200 (CEST)
-Date: Fri, 23 Oct 2026 10:48:30 +0200
-From: Jan Kara <jack@suse.cz>
-To: Finke Lennart <lfinke@student.ethz.ch>
-Cc: "jack@suse.cz" <jack@suse.cz>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: Regression in udf_get_extendedattr()
-Message-ID: <v37eqgcl4l4vp4j42uictssgx7t3fzzlbdinejlmislskibqxo@jipytmhde75f>
-References: <E7E8CE97-3384-4FD3-BB91-B3DF393D45E1@student.ethz.ch>
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=NTww7lbG
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261023091419epoutp0164c4b0f0da02f3b0af2c832c3f72c1c0~hHcU6I_0b1405214052epoutp01E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 09:14:19 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261023091419epoutp0164c4b0f0da02f3b0af2c832c3f72c1c0~hHcU6I_0b1405214052epoutp01E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1792746859;
+	bh=KxRBaCl6SIR11QatilRX983Sq8/llllRV78Ep6I15c8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NTww7lbG6DNGSbYdJpQKW/4oLc1S4ixnafP49IKas3mC9sCYy0mZ/RYQwM35xquxi
+	 3LlVeX720+DIt31tVagsJuQG/9lDc4C5+1vj2esuEppM3IMFRsLKmttZaLZL4iCkU/
+	 6CTfROQdjsSJVFnU33yGdRRmi+eM0haOrPov7MxI=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20261023091419epcas5p471c3db4981fae6ad5fd9f843c319a218~hHcUhYtpu2146721467epcas5p4l;
+	Fri, 23 Oct 2026 09:14:19 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.93]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4j9y561PQ1z2SSKX; Fri, 23 Oct
+	2026 09:14:18 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20261022130134epcas5p23704ea4f10cd9d90762b89c3c9fdf254~g25c8K_br1950919509epcas5p2j;
+	Thu, 22 Oct 2026 13:01:34 +0000 (GMT)
+Received: from green245.gost (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20261022130132epsmtip19a5b77749906115956858b506dddc7c3~g25bZmdxB1541915419epsmtip1I;
+	Thu, 22 Oct 2026 13:01:32 +0000 (GMT)
+Date: Thu, 22 Oct 2026 18:30:53 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Anuj Gupta <anuj1072538@gmail.com>, hch@lst.de, djwong@kernel.org,
+	cem@kernel.org, brauner@kernel.org, axboe@kernel.dk,
+	linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, joshi.k@samsung.com, anuj20.g@samsung.com
+Subject: Re: [RFC 2/4] block: refuse a dma-buf bio for a disk the buffer was
+ not registered on
+Message-ID: <20261022130053.vhphcch4swb5xxih@green245.gost>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -109,59 +79,100 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <5f542a8d-c6c1-4c5d-b0c6-f761af2e126a@gmail.com>
+X-CMS-MailID: 20261022130134epcas5p23704ea4f10cd9d90762b89c3c9fdf254
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----VZDtnczHWjdXYXkjw.jkIJrU2UH2.1dU.Tnm2W3-fiUacbuL=_9f5cc_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261022130134epcas5p23704ea4f10cd9d90762b89c3c9fdf254
+References: <20261016091919.971295-1-anuj1072538@gmail.com>
+	<20261016091919.971295-3-anuj1072538@gmail.com>
+	<5f542a8d-c6c1-4c5d-b0c6-f761af2e126a@gmail.com>
+	<CGME20261022130134epcas5p23704ea4f10cd9d90762b89c3c9fdf254@epcas5p2.samsung.com>
+
+------VZDtnczHWjdXYXkjw.jkIJrU2UH2.1dU.Tnm2W3-fiUacbuL=_9f5cc_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Disposition: inline
-In-Reply-To: <E7E8CE97-3384-4FD3-BB91-B3DF393D45E1@student.ethz.ch>
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.80
-X-Spam-Level: 
-X-Spam-Flag: NO
 
-Hi!
+On 21/10/26 04:12PM, Pavel Begunkov wrote:
+>On 10/16/26 10:19, Anuj Gupta wrote:
+>>From: Nitesh Shetty <nj.shetty@samsung.com>
+>...> +static bool bio_dmabuf_map_valid(const struct bio *bio,
+>>+				 const struct iov_iter *iter)
+>>+{
+>>+	return iter->dmabuf_map->ctx->registered_devt ==
+>>+		disk_devt(bio->bi_bdev->bd_disk);
+>>+}
+>>+
+>>  /**
+>>   * bio_iov_iter_get_pages - add user or kernel pages to a bio
+>>   * @bio: bio to add pages to
+>>@@ -1300,6 +1312,9 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+>>  	if (WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED)))
+>>  		return -EIO;
+>>+	if (iov_iter_is_dmabuf_map(iter) && !bio_dmabuf_map_valid(bio, iter))
+>>+		return -EXDEV;
+>>+
+>>  	if (bio_iov_iter_set(bio, iter)) {
+>>  		if (iov_iter_is_bvec(iter) &&
+>>  		    !bio_iov_bvec_aligned(bio, mem_align_mask))
+>>diff --git a/block/fops.c b/block/fops.c
+>>index 18a755f6e0b0..b36dde10a4ac 100644
+>>--- a/block/fops.c
+>>+++ b/block/fops.c
+>>@@ -19,6 +19,7 @@
+>>  #include <linux/iomap.h>
+>>  #include <linux/module.h>
+>>  #include <linux/io_uring/cmd.h>
+>>+#include <linux/dma-buf-io.h>
+>>  #include "blk.h"
+>>  static inline struct inode *bdev_file_inode(struct file *file)
+>>@@ -938,6 +939,7 @@ int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
+>>  			     struct dma_buf_io_ctx *ctx)
+>>  {
+>>  	struct gendisk *disk = bdev->bd_disk;
+>>+	int ret;
+>>  	if (!(file->f_flags & O_DIRECT))
+>>  		return -EINVAL;
+>>@@ -945,7 +947,10 @@ int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
+>>  		return -EOPNOTSUPP;
+>>  	if (bdev_has_integrity_csum(bdev))
+>>  		return -EOPNOTSUPP;
+>>-	return disk->fops->init_dma_buf_io_ctx(bdev, ctx);
+>>+	ret = disk->fops->init_dma_buf_io_ctx(bdev, ctx);
+>>+	if (!ret)
+>>+		ctx->registered_devt = disk_devt(disk);
+>>+	return ret;
+>>  }
+>>  EXPORT_SYMBOL_GPL(bdev_init_dma_buf_io_ctx);
+>>diff --git a/include/linux/dma-buf-io.h b/include/linux/dma-buf-io.h
+>>index b9bbeca1744f..d42a79f2ac9b 100644
+>>--- a/include/linux/dma-buf-io.h
+>>+++ b/include/linux/dma-buf-io.h
+>>@@ -50,6 +50,8 @@ struct dma_buf_io_ctx {
+>>  	void					*dev_priv;
+>>  	const struct dma_buf_io_ops		*dev_ops;
+>>+
+>>+	dev_t					registered_devt;
+>
+>That wouldn't work well with multiple devices. Maybe reject it in
+>xfs / iomap for now?
+>
+>FWIW, a generic solution is for xfs to own the ctx passed on
+>registration instead of forwarding it to block, allocate an array
+>of new ctxs for each device and register them separately. This
+>should even be able to support dynamic device registration.
+>
+Agree, that works, keeps block layer clean, will update in next version.
 
-On Thu 22-10-26 15:36:26, Finke  Lennart wrote:
-> this is Lennart<https://finke.dev/>, I stumbled on what I think is a missing bounds check in udf_get_extendedattr(). Found with AI, so take with a grain of salt:
-> 
-> I think 127b0d87649f ("udf: Avoid confusion of missing and corrupted
-> extended attributes") reintroduced a missing bounds check in
-> udf_get_extendedattr(). In
-> 
-> while (offset <
->       iinfo->i_lenEAttr - sizeof(struct genericFormat)) {
-> 
-> i_lenEAttr is a u32 and is only checked against the block size in
-> udf_read_inode() (nothing enforces a minimum), so for 1 <= i_lenEAttr < 12
-> the subtraction wraps and the guard always holds.
-> 
-> Maybe something like
-> 
-> while (offset + sizeof(struct genericFormat) < iinfo->i_lenEAttr) {
-> 
-> should do it?
+--Nitesh
 
-I actually prefer a fix in udf_read_inode() - see the patch I've sent.
+------VZDtnczHWjdXYXkjw.jkIJrU2UH2.1dU.Tnm2W3-fiUacbuL=_9f5cc_
+Content-Type: text/plain; charset="utf-8"
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+
+------VZDtnczHWjdXYXkjw.jkIJrU2UH2.1dU.Tnm2W3-fiUacbuL=_9f5cc_--
