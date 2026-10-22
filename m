@@ -1,57 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792668493;
-	b=T0cVh9qCgWhvIpbXPwgZBMem7f2yT9fBoufvj53nvDbMVpIgcVtdjQteh2RAbdRIT4lx
-	 YX+joi+tWLy6Nd1xHjNtcpETwl0KLXpW3s5KjVk1vacwFd9jTyLtKsEdeMR2rNbH5xbbN
-	 MyGu6DhdDQsv/9rbps1yoYtpdpSy0WgG7DcKuS22JFKXe/+3523cZvCCnLjdPAMMHSxSB
-	 177N08kNq8X/VRHMrWNrQIwSex9qE+ykPZ0B/IgFMkBToCg+P1ibdAtoAlLfdwWGdynio
-	 TJlhOc2CLQwHUIdkk2OmFH1Qb423DFq+uf2uyq0TIS+d3qp1qDxFMO/1s9Nj3lHRA4A==
+	t=1792669087;
+	b=H9elo6zog80JhFKiV5sO2gbZeVQGz+kQKfpVbIYEJ5suI4AUB4vmTv+4H5dh8zHVokfc
+	 TjAqSqlqQg/r2VCzLle7pXfVF2JQiofQhN0yGmJcLyxLBlgRhmqKDtqxG6vYpy8iQZS5z
+	 P7O2Y7HPuXh5y0t6dj/9QUwc9geT99jBsC2XKWRRoR4p+sDNfUEqEWc0rD9J0uzTnltoP
+	 Guj9JW59BEatVbqT3lwOLtdtCMSjtfv51rg2zzN/da/OF98IwiG1Cd9upwkQRiuEDstJl
+	 mtMDF1SK+lZFUFpwxUGx2vsfZqtEW+t48GsRPgSNF9dtVQT6XWedTU0/jPlgo7BxOLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792668493;
-	h=DMARC-Filter:DKIM-Signature:Feedback-ID:X-Pm-Original-To:Received:
-	 Received:X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:
-	 X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=J6YI7+gHBY7EK1SmqLnbwCa4P9bf8M/zCyX1MY9akck=;
-	b=dPpY/RAxwwTBpXra1eWUd5Q3Ws36ng+RxjJo3BBtoolnQOWMSZDuMeOaXelDHAx6l+WD
-	 CYUZ5hFEzev0Mt1m1zq/6st2kCgLoSQrJw8JX5ALUrNVgi+rlRKmcWFHIdYdtyEKAYIW+
-	 NuS4w/kyo4fxRWlGg+5rq6Mguy9vSnmG/s+9rLdWjU5iRWZzvTOk7i8e7Q/Kroe617H10
-	 loxFgReGEbKju5vdpbUpRMQgW9G0TpG8c5vF0qXDnKiMxin0zMPx894bCyutcv6YZX58u
-	 e51z2PTOr1y06C9mq9x2O0eoh1IuyEHev6QFUt0xUklvh5VMM6vA5keDphERmePTGeA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792669087;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=7+QlMJtzdTUiaiMniT1YJj/g7FxrcjRnFfXwAlxNdpE=;
+	b=HRlc/jjfFWCrKj6nzWhCxPfLzFAApXiU4f2iokvN+GM6s7l6onUeT1s12PLKxhKjP4Dy
+	 9wyuZGCcC0agiifbF3zzdC9E5E3P7RcZqUNGdLahyXHfyuMB9MpZsLV+yyV3EPin76/a+
+	 x9eanOwI1rgPoPirSJLTil5FJdrYtD6DnENE9olDda8mkVMbMPjKn3K5ooCLfPJayek4x
+	 fRL/IeveGuP+iCpeU84pYicu1c6ozU6sBG3yJThgLN3PMNehGfpw7uTmxcGZFzaXTmK8a
+	 8h975zSjl1OpFoO4G64HPG/Tyf1SauCjvnaT/NMDBPt2GyXdKSgvilcYabnBvUZejEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=maurycy.com;
-	spf=pass smtp.mailfrom=maurycy.com;
-	dkim=pass header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b="Jnsfh/Rl";
-	arc=none smtp.remote-ip=34.202.193.197
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YZqXS8xB;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NkuvhItb;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YZqXS8xB;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NkuvhItb;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB940606A324
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 11:28:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB940606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=maurycy.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maurycy.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7682A606A319;
+	Thu, 22 Oct 2026 11:38:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7682A606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=Jnsfh/Rl
-DKIM-Signature: a=rsa-sha256; b=Jnsfh/RlLQA40lKTgFr0Sq3RqsRyXf/H7HBuYLCZLmaX69W+mkJM77pTndLi4f78Pvm2iKhiCpbNZcJBOpXOano9tjO9XdOHaLjdKrdZ2nFcZ76sbUaAIRRIfEZi/8QdbagPoSzITSeYVeUuUxZczw4qQIdOntJezTqJmMrhxBBs2n3YvTN0ONIU5DbLtoJNmjHatq+6+nbU+mnw2oC2cQ7juDFIcTXR9H0Jky43ZhJx6eDQlpym60GqfxPpz1awd3b6iAtZR2FkJfIce+Lpus6vqbZ+cfFLSf4DUK9jZ9Prw9QLEMfRH/uAIPNpzua+lTpDFjDBt5w22kyZP2vqRQ==; s=purelymail1; d=purelymail.com; v=1; bh=mimxsNqhVnd0lCdCb8owKuPr5DmEBgQ0iSGfQxmJLIA=; h=Feedback-ID:Received:Received:From:Date:Subject:To;
-Feedback-ID: 1351280:50731:null:purelymail
-X-Pm-Original-To: linux-fsdevel@vger.kernel.org
-Authentication-Results: purelymail.com; auth=pass
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -603348955
-          for <linux-fsdevel@vger.kernel.org>
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Thu, 22 Oct 2026 11:28:09 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8a06b436dffso726864b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 04:28:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByEwIuBo0QbOTBvtRQBLPpWW71XytFPgMLWyYD7c5/5HOS3qLym2ga+0pzERseRu0yqiBkc59TcvTugErmN@vger.kernel.org
-X-Gm-Message-State: AFq9FYK/Fq0m2zz5lPsrGF5g8VEZdb00caWU81mxDnQqk8uOKMPomJu8
-	KAbh5S0Hfq2Mp/NAY+opvQevt9lcfnAZ9Yw6rFL5eSCJW6c+RVUQhtp5F4ZapMYXuWbnrfM0MP/
-	ChOHgFmNFck5ITjbI5dh/Te0T/J5PLBk=
-X-Received: by 2002:a05:6a21:6b18:b0:3e2:200b:dc1f with SMTP id
- adf61e73a8af0-3e287f3fd67mr3785808637.74.1792668488506; Thu, 22 Oct 2026
- 04:28:08 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YZqXS8xB;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NkuvhItb;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YZqXS8xB;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NkuvhItb
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A5E9F220D3;
+	Thu, 22 Oct 2026 11:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1792669084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7+QlMJtzdTUiaiMniT1YJj/g7FxrcjRnFfXwAlxNdpE=;
+	b=YZqXS8xBsH92TnIuuGOOGOHPczGqHcNrQ/jcUU/kppQFj45I8SYdzFb9r3Vbo6tsDvdgtQ
+	d4RcUrId0dAPJGiqA/6Isvvj59MJfVyQHQB4YPwEaaevKA2sysza5hwcruRwfkBuST/qfr
+	sKbOUij96SqyXEuhNSFc69BMVstkU1I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1792669084;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7+QlMJtzdTUiaiMniT1YJj/g7FxrcjRnFfXwAlxNdpE=;
+	b=NkuvhItbYpR4cTQeyUF/6cHCgBX+2zvQpvSJA2H8P1cDjII2zRVaSfj6B/xHJTY6MREoDS
+	1NuHD5O6G6EjlcAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1792669084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7+QlMJtzdTUiaiMniT1YJj/g7FxrcjRnFfXwAlxNdpE=;
+	b=YZqXS8xBsH92TnIuuGOOGOHPczGqHcNrQ/jcUU/kppQFj45I8SYdzFb9r3Vbo6tsDvdgtQ
+	d4RcUrId0dAPJGiqA/6Isvvj59MJfVyQHQB4YPwEaaevKA2sysza5hwcruRwfkBuST/qfr
+	sKbOUij96SqyXEuhNSFc69BMVstkU1I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1792669084;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7+QlMJtzdTUiaiMniT1YJj/g7FxrcjRnFfXwAlxNdpE=;
+	b=NkuvhItbYpR4cTQeyUF/6cHCgBX+2zvQpvSJA2H8P1cDjII2zRVaSfj6B/xHJTY6MREoDS
+	1NuHD5O6G6EjlcAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7B32B133F3;
+	Thu, 22 Oct 2026 11:38:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hadAFpz12WpYdAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 22 Oct 2026 11:38:04 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 099CDA1417; Thu, 22 Oct 2026 13:38:04 +0200 (CEST)
+Date: Thu, 22 Oct 2026 13:38:04 +0200
+From: Jan Kara <jack@suse.cz>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] fs: make a mount waiting on another mount killable
+Message-ID: <tmw22jj2hn6g6lklme2j3rsfjvmstzpoicvibvmmv6sivd66oj@nhc4lng25gti>
+References: <20261021-b4-super-lock-unborn-v1-0-0265eddb6dee@toxicpanda.com>
+ <20261021-b4-super-lock-unborn-v1-1-0265eddb6dee@toxicpanda.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -61,126 +111,144 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261022111700.1288273-1-hengyul@cs.unc.edu>
-In-Reply-To: <20261022111700.1288273-1-hengyul@cs.unc.edu>
-From: Maurycy Pawlowski-Wieronski <maurycy@maurycy.com>
-Date: Thu, 22 Oct 2026 13:27:32 +0200
-X-Gmail-Original-Message-ID: <CANFf4eCN7rRRfts1pQozdAq2Nn_eKJCSBTAGNjx1BOEKTtLN-Q@mail.gmail.com>
-X-Gm-Features: AclHuK9kQpiKgR2aJ0KID_d9uvfCjDr7iW2kpKGkhhqYBC0Tuy32_mm2vN23hJs
-Message-ID: <CANFf4eCN7rRRfts1pQozdAq2Nn_eKJCSBTAGNjx1BOEKTtLN-Q@mail.gmail.com>
-Subject: Re: [PATCH v2] hfsplus: fix truncated xattr names in listxattr()
-To: Hengyu Liang <hengyul@cs.unc.edu>
-Cc: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	kees@kernel.org, justinstitt@google.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261021-b4-super-lock-unborn-v1-1-0265eddb6dee@toxicpanda.com>
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
+X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-I'm sorry for the late response. Fine with me! Everything looks good
-to me. Thank you for keeping me as the author.
+On Wed 21-10-26 16:46:57, Josef Bacik wrote:
+> A superblock is put on the lists by sget_fc() and becomes usable when
+> vfs_get_tree() sets SB_BORN, after the filesystem has read what it needs
+> from its device or its server.  If that doesn't answer, this takes forever.
+> 
+> Somebody else mounting the same thing finds that superblock in sget_fc()
+> and waits in grab_super() for it to be born, to share it, or to die, to
+> make its own.  It has to.  But it does so in super_lock(), which can't be
+> killed, so one stuck mount collects every later attempt.
+> 
+> mount(2) and fsconfig(2) can fail at this point, as they already do when
+> they are killed while waiting for a superblock to die.
+> 
+> Add super_lock_killable(), in which both the wait for SB_BORN and taking
+> s_umount can be killed, and use it in grab_super().  It tells a superblock
+> which is going away from a wait which was cut short, so it returns an int:
+> 0 with the lock held, -ENOENT, or the error from the wait.
+> 
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 
+...
 
-On Thu, Oct 22, 2026 at 1:17=E2=80=AFPM Hengyu Liang <hengyul@cs.unc.edu> w=
-rote:
->
-> From: Maurycy Pawlowski-Wieronski <maurycy@maurycy.com>
->
-> Commit 7dcbf17e3f91 ("hfsplus: refactor copy_name to not use strncpy")
-> made copy_name() build names in the osx. namespace with scnprintf().
->
-> However, the size passed to scnprintf() leaves no room for the
-> terminating NUL, so the last character of the name is dropped. As of
-> now, listxattr() returns every osx. name without its last character,
-> and these names cannot be passed back to getxattr().
->
-> The issue can be reproduced with:
->
->     truncate -s 64M hfs.img
->     mkfs.hfsplus hfs.img
->     mount -o loop hfs.img /mnt
->     touch /mnt/file
->     setfattr -n osx.test -v 1 /mnt/file
->     getfattr -m - /mnt/file
->
-> Without this patch, getfattr lists "osx.com.apple.FinderInf" and
-> "osx.tes". With this patch, it lists "osx.com.apple.FinderInfo" and
-> "osx.test".
->
-> This patch adds room for the NUL to the size passed to scnprintf().
->
-> Fixes: 7dcbf17e3f91 ("hfsplus: refactor copy_name to not use strncpy")
-> Cc: stable@vger.kernel.org # v6.10+
-> Signed-off-by: Maurycy Pawlowski-Wieronski <maurycy@maurycy.com>
-> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
-> ---
-> Changes in v2:
-> - Rewrite the commit message. No code change.
-> - v1: https://lore.kernel.org/r/20260828-hfsplus-copy_name-fix-v1-1-75ed9=
-f0f378c@maurycy.com
->
-> Maurycy, v1 got no follow-up, so I am resending it as Viacheslav asked
-> in the thread below, with you kept as the author. Let me know if you
-> would rather send it yourself.
-> https://lore.kernel.org/r/dc187921249a3f6716b829624853e64c10321cd1.camel@=
-dubeyko.com
->
-> Answers to the questions on v1:
-> - generic/377 passes with and without this patch. It only uses user.
->   names, which go through the strscpy() branch. That branch already
->   passes name_len + 1. No xfstests test uses osx. names.
-> - Why + 1 helps: the prefix and the name are name_len +
->   XATTR_MAC_OSX_PREFIX_LEN characters long, and scnprintf() writes at
->   most size - 1 characters before the NUL. Zeroing the buffer first
->   does not help, as the last character is never written.
-> - Why the write stays in bounds: both callers check that the buffer
->   has room for name_len() bytes, which covers the prefix, the name and
->   the NUL, before calling copy_name(). This is also the number of bytes
->   copy_name() wrote before commit 7dcbf17e3f91.
-> - All xfstests: see the full run below.
->
-> Tested in KVM with KASAN on a804c5742bff, without and with this patch:
-> - The commands above, and a C test that compares listxattr() with the
->   names set on files and a directory: short, long (up to 127
->   characters) and non-ASCII osx. names, FinderInfo, and user. and
->   trusted. names. Without the patch, every osx. name loses its last
->   character, fewer bytes are copied than the size query returns, a
->   buffer one byte short does not get -ERANGE, and getxattr() fails on
->   the listed osx. names. With it, the names match, the copied length
->   equals the size query, and a buffer one byte short gets -ERANGE.
->   KASAN reported nothing with exact-size buffers.
-> - generic/377 and generic/062: 5/5 passed on both kernels.
-> - Full fstests (805 generic tests, 608 not run on both kernels): 188
->   passed and 9 failed without the patch, 187 and 10 with it. The only
->   difference is generic/617, which fails on both kernels most of the
->   time (19 of 20 reruns without the patch, 18 of 20 with it).
->   fsck.hfsplus -fn reported no errors.
->
->  fs/hfsplus/xattr.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-> index 71364e093fa7..470f090b2699 100644
-> --- a/fs/hfsplus/xattr.c
-> +++ b/fs/hfsplus/xattr.c
-> @@ -515,8 +515,8 @@ static ssize_t copy_name(char *buffer, const char *xa=
-ttr_name, size_t name_len)
->         memset(buffer, 0, name_len);
->
->         if (!is_known_namespace(xattr_name)) {
-> -               len =3D scnprintf(buffer, name_len + XATTR_MAC_OSX_PREFIX=
-_LEN,
-> -                                "%s%s", XATTR_MAC_OSX_PREFIX, xattr_name=
-);
-> +               len =3D scnprintf(buffer, name_len + XATTR_MAC_OSX_PREFIX=
-_LEN + 1,
-> +                               "%s%s", XATTR_MAC_OSX_PREFIX, xattr_name)=
-;
->         } else {
->                 len =3D strscpy(buffer, xattr_name, name_len + 1);
->                 if (len < 0) {
->
-> base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
-> --
-> 2.53.0
->
->
+> +/**
+> + * super_lock - wait for superblock to become ready and lock it
+> + * @sb: superblock to wait for
+> + * @excl: whether exclusive access is required
+> + *
+> + * If the superblock has neither passed through vfs_get_tree() or
+> + * generic_shutdown_super() yet wait for it to happen. Either superblock
+> + * creation will succeed and SB_BORN is set by vfs_get_tree() or we're
+> + * woken and we'll see SB_DYING.
+> + *
+> + * A superblock which is being shut down is not waited for, see
+> + * super_wait_shutdown() and super_wait_shutdown_killable() for that.
+> + *
+> + * The caller must have acquired a temporary reference on @sb->s_passive.
+> + *
+> + * Return: The function returns true if SB_BORN was set and with
+> + *         s_umount held. The function returns false if the superblock
+> + *         is being shut down or SB_DYING was set and without s_umount
+> + *         held.
+> + */
+> +static __must_check bool super_lock(struct super_block *sb, bool excl)
+> +{
+> +	return !super_lock_common(sb, excl, false);
+> +}
+> +
+> +/**
+> + * super_lock_killable - killable super_lock()
+> + * @sb: superblock to wait for
+> + * @excl: whether exclusive access is required
+> + *
+> + * Only for callers which give up altogether when they are killed.
+> + *
+> + * The caller must have acquired a temporary reference on @sb->s_passive.
+> + *
+> + * Return: 0 if SB_BORN was set and with s_umount held. Without s_umount held,
+> + *         -ENOENT if the superblock is being shut down or SB_DYING was set,
+> + *         -EINTR or -ERESTARTSYS if the task was killed.
+> + */
+> +static __must_check int super_lock_killable(struct super_block *sb, bool excl)
+> +{
+> +	return super_lock_common(sb, excl, true);
+>  }
+
+IMHO it is subtle that super_lock() and super_lock_killable() have
+different convention for the return value (bool vs int). I'd just make both
+return int and 0 on success. There aren't that many users so the change
+won't even be that painful... Thanks.
+
+								Honza
+>  
+>  /**
+> @@ -674,25 +722,27 @@ EXPORT_SYMBOL(deactivate_super);
+>   * sb->kill() and be marked as SB_DEAD.
+>   *
+>   * Return: 0 if an active reference could be acquired, -EAGAIN if the
+> - *         superblock is gone and the caller should look again,
+> - *         -ERESTARTSYS if the task was killed while waiting for that.
+> + *         superblock is gone and the caller should look again, -EINTR or
+> + *         -ERESTARTSYS if the task was killed while waiting for either.
+>   */
+>  static int grab_super(struct super_block *sb)
+>  {
+> -	bool locked;
+>  	int ret;
+>  
+>  	refcount_inc(&sb->s_passive);
+>  	spin_unlock(&sb_lock);
+> -	locked = super_lock_excl(sb);
+> -	if (locked) {
+> +	ret = super_lock_killable(sb, true);
+> +	if (!ret) {
+>  		if (atomic_inc_not_zero(&sb->s_active)) {
+>  			put_super(sb);
+>  			return 0;
+>  		}
+>  		super_unlock_excl(sb);
+> +		ret = -ENOENT;
+>  	}
+> -	ret = wait_var_event_killable(&sb->s_flags, super_flags(sb, SB_DEAD));
+> +	if (ret == -ENOENT)
+> +		ret = wait_var_event_killable(&sb->s_flags,
+> +					      super_flags(sb, SB_DEAD));
+>  	put_super(sb);
+>  	return ret ? ret : -EAGAIN;
+>  }
+> 
+> -- 
+> 2.55.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
