@@ -1,79 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1792711693;
-	b=pQGOilMCkvZUer9RmNODfGpCOFVoUcHXq36R+bLfjNu45aAqXveRYSO6CBJD6Ldt8vfL
-	 i8LcKKfGBRlvjeNXIio9l7DUubgT37QVhI4osV5T1PVW4MyHLYMmTKF32Y2BpkZYJHfgx
-	 v6pU1vBPbcwSyer9dtEXMCRVqn33HjkavWgIEqPvCTS34GSmG0IsBbTPVGfaFA0kdj5SR
-	 Z82h9AAShQxAAll3/bVG8otbDiJSAOMnbgeT65u/w7oWrZHS+xOEtujQMq1/NKIxwfOIZ
-	 1h4IOvXpKfVVIm9neNuZ8gcIqA5liklk4S2QxXYY958tVlW5I+fc33eaKh0dwocHkaQ==
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792711700;
+	b=LRzNuidSOfrFiSK3ZwnqzmtJ8VN8o1pmR2KdpnucG+KzPFUB+TZrfXMRobU+3EjoQvyI
+	 7l6jBBhrOhENLZsJ3aK/a0OTdqcK8LL/HjQRnYYZAyaiHLDzU0qbRDWKpcMaRQWpUJsT+
+	 sZVxotd/d+YgSVmdltwVkuemcLSY665b8GrVhNwR+NtXemPoG9U0Lf7WJtcdvxTVhxo5z
+	 qOT4cURIARNZrOK83w32VtP3dALPkDe3ign/Z8F3OHOgyyKtoEjOkLcgcmldEdIyapCMN
+	 gUSfDhJOwO5UghLvU0YJr/CTsVJpVuC+ezqt4ahKIgQX+xCujSvfA2xnfVfBrRLZiow==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792711693;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792711700;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=/ahL4TP/omD5Vlmg3sgYIZkznIxNyj2E4z7Lb7O0L7o=;
-	b=et/2zWN5dco52nz+HLa4I7Ivoq1urj1eTev3hZMqh6CXyNpawDZfjS1lNysMhULCRNnG
-	 QJ/3aHBkTB6s8nyUlUeIUjXkOGmJb++daqkBnCsPXE8cZCE51+etox6L7FYuA7a1cIYyY
-	 FL7Kv/+nly8jUTY7h2YTgY5m51ynS4pXIuHiNlIjozU4kxRNAcCwJiIaweD4EESYWlV07
-	 3Kfa16FT+OMrWosxjJUkk+cIzQoDwnkD6A/rqujSt5GfE5I0HonfatGGFr07qtwSDlEf+
-	 ztkE+k3aaBG3bvDnlE+OGpimKzz4JOKvCjMZqBcD2qwTKn97fe8LeXESP1cbp+0HO+w==
+	bh=gtSjIpydTrMblhKZ8GTXpi+Aa3MTEkqowhZwXUPn67s=;
+	b=E9mnTECGs5U9rdHmCCu6W9D2QrrZMF69H+d0XSl1DJ/dI8df2EnSSXBTq1BXUjiA2+1+
+	 HsaSAN59KwO0/wUlgYbUC6IXg35Pc+bqSpIs90efZviVgb3sAL2zJy+0udfI859rcAqrK
+	 pw/ggDkGTjG94fyaEnU8t61p9O0VibZT3L0JgLc9PP9WoO+t9N8NvibWCAiCpSqWnl07L
+	 rwvXTlZL56YGsTVXZtDjLVABpTEOiK5wLhJG3j2AcZuTWyWsRgmoKlU2wO1J566KP+rDB
+	 ftXm6nIxAdJP+g54hL+QlrhuCVMXmMaGa/jdyW5X+auwmH9UwG4AAZgvJrEODvSEfTA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=akznfBkv;
-	arc=fail smtp.remote-ip=100.103.45.18
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=odrpe2S8;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD07606E792;
-	Thu, 22 Oct 2026 23:28:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B5460A5BD5;
+	Thu, 22 Oct 2026 23:28:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=akznfBkv
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=odrpe2S8
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792711693;
-	b=aQ/2lHoCNowyTs4+qDuz50kZmQGsrjj85kFi0K39nfswxuDu3ocflxFzurouJJMeeScw
-	 uzAkxkggNPgKMCDs+OhsYHbxJv8IyQxb3tjNfujJRoujYF0DRuwJIkDcNriOCxdPGYtRt
-	 C7QFflyMVdxOKpTd4FSbiGWeMd2fBMx3Pjp/8zjrR8rzX+mAWI04BE7ROnf9ob3ZUzXDa
-	 EzHltIu4c+4XdOgHIvQFKeY5oQprcwqGiYmMUR+7e2UOkBerZNv1dx9kEMO/Uo+dU7o2B
-	 zN5vp72Jamq0Mpp0IgTvPg54n4qDtvd3zjhVoatAxb81f8uKuQ64y877zp1ZuufH81w==
+	t=1792711699;
+	b=nQDiOpqNw88t42xWjNpgTpZztrx4s0JJ3a/OF/bNv7P9ijmVIAzdeenulKr78RobQg+J
+	 V+KnjvYsjKRPEM+E8xAx7i+ne1JMWkH3Sc0O2raWAkMUKdlWUEUv4kh2/WWn0SZQBTedr
+	 3pTr3w4p0LPRe53ZRZNFIQu9BX/+NKsyheXQJ7PJEofDWxC12qOquZXNjtwkz4pTOGpR1
+	 bf/3ILb2rQ64n6NgMYD2fvH7TSiKIv5qow7H3FgUE1wOYS1Vlgk/CIOAKJb4335HNyClj
+	 joMS0yu+DgkpL/nw4nHuNLujZ4vkfE2d3ONj1mqUGCrM6JMUIjFknxm8zqoPC006lCQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792711693;
+	c=relaxed/relaxed; t=1792711699;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=/ahL4TP/omD5Vlmg3sgYIZkznIxNyj2E4z7Lb7O0L7o=;
-	b=WENU9fIDjSZu5lPd+8BlQsV4LXc3b7uaebcrUKHNVz1Pwb0wsReHa4wvlAclYeW/6H8A
-	 WK8hrJUVUOT0k1PVbgp41hSMqKLm0No9a7JkdKHax7NwBM9GUb/IvWrbEZ85HIjs9/xu6
-	 6GuGW+N9B/JqPU06juQ06aTlPCYbNKr+jNdLRAYVQHJxOFXC1F+nPeUJr4mrew7/kKJFy
-	 r8oKD/BCkTj+iBCLM78E3xb7Pe1za3HrOBY+BoJchDx8l7cEFauZuk8vpfLSBzGW4/UjI
-	 PqSH6U1QRp0HKshHlOBQKHTx+mAqrpWLM5Zpttt1c7TFP6Wn2kSpeGn1IXqNltKUUSA==
+	bh=gtSjIpydTrMblhKZ8GTXpi+Aa3MTEkqowhZwXUPn67s=;
+	b=zeB/2QmTmL8UWJZTsehPhkQ/UbbQOXx/57WH42Lfh7nKjWkRElqKrEhyC51cLigEluDL
+	 w9IVZ8r/91+M+vuza3KkGKdcQOADA4qwqNAEvNFfAcbLh0NBK0o4g8yQ3qx4whPyVPKkO
+	 FpViZRT3XwhWISnJASItgphpWeAWga9z3HCZcDSuJJcA8mYRuwg9MEcPK5XkF/Wfloqh4
+	 Ypr8RooMt1GprKXlyHZHwetN7LooJLkZuJyClENtbTMBGikNlEVJOiJ1Pw5EIYHt3DDn9
+	 BC3Nzjd3QlsuiH254hpPRDAJgsjNa8DrQk9w94o/NzmEaxVkRbglRDW/UOI38fPC1jQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8FF561F01180;
-	Thu, 22 Oct 2026 23:28:09 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id D1E9E1F01182;
+	Thu, 22 Oct 2026 23:28:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792711693;
-	bh=/ahL4TP/omD5Vlmg3sgYIZkznIxNyj2E4z7Lb7O0L7o=;
+	s=k20260515; t=1792711699;
+	bh=gtSjIpydTrMblhKZ8GTXpi+Aa3MTEkqowhZwXUPn67s=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=akznfBkvda1EdCIgc0eTx9SRFSTr4nATaEn74QtSOTL86CsikVlWtlBIQ+Bn9L4Om
-	 Drma/nw1sXBRwyXpVLgOPmaxK29E3ZaHlN3TYkz3wYT4d3nWsl7Pm7e91Os/d9ZlMl
-	 /bu5e+hCkEjrFgA8ViyBvVwMfWBmNOvsXNgtskfZ9kmlh10uCjuPK9J39Z9i3seTyc
-	 JLbh2aW/boGfbP7HWRy+7rJsFcpuLwYBGRv9KTDI/N9utZ+aERyNXEBaOjhZXpyS6r
-	 t3fldebW3ujBUfqVScQCQH1pwogeo6N0M9kqsKhXaVk8wmFrD1kK/sqyQIKUJP2put
-	 NUb1rZQbHzmjA==
+	b=odrpe2S8HqmuCLF0WqmaMKTkp46Q2ZdM/nVioU77RizwgTgopEGnkT1l46eR+a+Ik
+	 +7WIPBI2WRf1u3ii9vYRixROC99dzrA+mmmMlvCtCJ85tqM1LVfAD417BeM5GaaDiO
+	 zQEPRerjALhlZvEW25ewhRHeEZN7N5MsK8IG8Pt9CZ8KiRkzjBnimOD1FsgdVxjK2H
+	 HmIPmA+Kc7lXkEc8ftpFp2VcoR0C6VySwRpN75SAlD7IIBfSp/UCeBqFvNU791DGjO
+	 g1PrC5kcyHRsfu8ajMhE8/HqIm8KaF/E9qLJRGK409y6WBrYzQNNumyZgFgWU2+8Xs
+	 x5JSRFMvyLFHw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id BE966420C0;
-	Thu, 22 Oct 2026 23:27:49 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 3621E420E4;
+	Thu, 22 Oct 2026 23:27:50 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Thu, 22 Oct 2026 16:28:03 -0700
-Subject: [PATCH RFC v2 31/50] KVM: guest_memfd: Support getting PFNs for
- stage 2 from providers
+Date: Thu, 22 Oct 2026 16:28:12 -0700
+Subject: [PATCH RFC v2 40/50] KVM: guest_memfd: Support put_pfn_range
+ provider op in PFN mode
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261022-gmem-alternative-providers-v2-31-5dd1dc6c660a@google.com>
+Message-Id: <20261022-gmem-alternative-providers-v2-40-5dd1dc6c660a@google.com>
 References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
 In-Reply-To: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
 To: Alex Williamson <alex@shazbot.org>, Alexander Graf <graf@amazon.de>, 
@@ -135,11 +135,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792711665; l=6020;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792711665; l=3575;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=jEkr/nY1nFVQLtsltdN4AJnwp36Iu4m7TarLTGyPZVc=;
- b=vAkluFarmlZI1TwtSGhLOd+jHlS0DLSrWj3cCriODu55Bs8Tz1V4Ot2NifETUEWZCMUMWV2GD
- CtaY4a2NaZCCpOvCQwRHzJ6wEKfOMC4mO8bqs82RiiNQXQnqSLT2A0P
+ bh=fQMRQxusZ1KmD4dPC2As64TjcyJvgKaoXqpKrVt4BKs=;
+ b=441+taHyVGg3FOmYBS6hIkVBssZuzaMXxGa8VYy3o42dXNzBFf0zRuCuCp0rd2+Xc7H6tCxAO
+ gOn8Ozq7ysEA0qQMA3sh6bogKiwLKMoH6biYx3NGNEr70RBWa44tYBz
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -150,171 +150,88 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-Add .get_pfn callback to struct guest_memfd_provider_operations to
-support physical memory providers (e.g. devices, DAX, or pre-allocated
-ranges) that supply PFNs directly without folio allocation or page cache
-insertion.
+When punching holes or destroying guest_memfd files in folio mode,
+folios are truncated and freed, allowing the backing filesystem to free
+or reset memory.
 
-Define GUEST_MEMFD_FLAG_PFN_MODE in uapi/linux/kvm.h and define
-kvm_gmem_is_pfn_mode() to check for this flag in gi->flags.
+In PFN mode, memory is not backed by page cache folios. To inform the
+provider that a physical range has been released by guest_memfd,
+introduce the .put_pfn_range callback to struct
+guest_memfd_provider_operations.
 
-In __kvm_gmem_get_pfn(), query .get_pfn() directly when in PFN mode
-and return NULL on success (instead of a struct folio *).
-
-Note that .alloc_folio is still required by kvm_gmem_attach_resource() and
-GUEST_MEMFD_FLAG_PFN_MODE is not yet enabled for userspace.  Subsequent
-patches will update the rest of guest_memfd (e.g. mmap, fallocate,
-truncation, and attributes) to support PFN mode before enabling the flag
-and allowing external PFN-backed providers to be attached.
+Invoke .put_pfn_range() after kvm_gmem_pfn_reclaim() during both hole
+punching and inode destruction, passing the file index and page count.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- include/linux/guest_memfd.h |  8 ++++++++
- include/uapi/linux/kvm.h    |  1 +
- virt/kvm/guest_memfd.c      | 42 +++++++++++++++++++++++++++++++++++++-----
- 3 files changed, 46 insertions(+), 5 deletions(-)
+ include/linux/guest_memfd.h |  5 +++++
+ virt/kvm/guest_memfd.c      | 16 ++++++++++++++--
+ 2 files changed, 19 insertions(+), 2 deletions(-)
 
 diff --git a/include/linux/guest_memfd.h b/include/linux/guest_memfd.h
-index f3e6077c39ac3..10c48f41a6d7e 100644
+index 2f1c679dd154c..3c0cc35f748bc 100644
 --- a/include/linux/guest_memfd.h
 +++ b/include/linux/guest_memfd.h
-@@ -18,6 +18,12 @@ struct mempolicy;
-  *               Must return a pointer to a struct folio on success, or an
-  *               ERR_PTR() error code on failure. Must never return NULL.
-  * @invalidate_folio: Notify provider that a folio has been invalidated.
-+ * @get_pfn: Obtain a PFN for a given index. The provider must ensure backing
-+ *           memory is present and is responsible for its contents, such as
-+ *           zeroing if necessary. On success, return 0 with the physical frame
-+ *           number in @pfn and, if @max_order is non-NULL, the maximum page
-+ *           order of contiguous backing memory containing @pfn. Returns a
-+ *           negative error code on failure.
+@@ -33,6 +33,10 @@ struct mempolicy;
+  *                    -ENOENT. Return a negative error code on other failure.
+  *                    The provider must define @get_pfn when @lookup_pfn_range
+  *                    is defined.
++ * @put_pfn_range: Release a range of PFNs previously obtained for a given
++ *                 index.  The provider does not need to ensure that backing
++ *                 memory is present. If backing memory is not available, the
++ *                 provider should skip the unbacked range.
   *
   * Used by filesystems and device drivers that provide memory for guest_memfd.
   */
-@@ -27,6 +33,8 @@ struct guest_memfd_provider_operations {
- 	struct folio *(*alloc_folio)(void *provider, pgoff_t index,
- 				     struct mempolicy *mpol);
- 	void (*invalidate_folio)(void *provider, struct folio *folio);
-+	int (*get_pfn)(void *provider, pgoff_t index, unsigned long *pfn,
-+		       int *max_order);
+@@ -46,6 +50,7 @@ struct guest_memfd_provider_operations {
+ 		       int *max_order);
+ 	int (*lookup_pfn_range)(void *provider, pgoff_t index,
+ 				unsigned long *pfn, size_t *nr_pages);
++	void (*put_pfn_range)(void *provider, pgoff_t index, size_t nr_pages);
  };
  
  #endif /* _LINUX_GUEST_MEMFD_H */
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index f4108bf7e3192..6798056f50e32 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1675,6 +1675,7 @@ struct kvm_memory_attributes2 {
- #define GUEST_MEMFD_FLAG_MMAP		(1ULL << 0)
- #define GUEST_MEMFD_FLAG_INIT_SHARED	(1ULL << 1)
- #define GUEST_MEMFD_FLAG_USE_RESOURCE	(1ULL << 2)
-+#define GUEST_MEMFD_FLAG_PFN_MODE	(1ULL << 3)
- 
- struct kvm_create_guest_memfd {
- 	__u64 size;
 diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index 84877beed6701..3d89bc76f3867 100644
+index 88eae9d6d249f..5741ff6ab94c6 100644
 --- a/virt/kvm/guest_memfd.c
 +++ b/virt/kvm/guest_memfd.c
-@@ -54,6 +54,11 @@ static __always_inline struct gmem_inode *GMEM_I(struct inode *inode)
- 	return container_of(inode, struct gmem_inode, vfs_inode);
+@@ -171,6 +171,13 @@ static void gmem_provider_invalidate_folio(struct gmem_inode *gi,
+ 		gi->provider_ops->invalidate_folio(gi->provider, folio);
  }
  
-+static bool kvm_gmem_is_pfn_mode(struct gmem_inode *gi)
++static void gmem_provider_put_pfn_range(struct gmem_inode *gi, pgoff_t index,
++					size_t nr_pages)
 +{
-+	return gi->flags & GUEST_MEMFD_FLAG_PFN_MODE;
++	if (gi->provider_ops && gi->provider_ops->put_pfn_range)
++		gi->provider_ops->put_pfn_range(gi->provider, index, nr_pages);
 +}
 +
- static void *gmem_native_attach(struct inode *gmem_inode,
- 				struct file *resource_file)
+ static void gmem_provider_release(struct gmem_inode *gi)
  {
-@@ -124,6 +129,20 @@ static struct folio *gmem_provider_alloc_folio(struct gmem_inode *gi,
- 	return ERR_PTR(-EOPNOTSUPP);
- }
- 
-+static int gmem_provider_get_pfn(struct gmem_inode *gi, pgoff_t index,
-+				 kvm_pfn_t *pfn, int *max_order)
-+{
-+	unsigned long raw_pfn;
-+	int r;
-+
-+	r = gi->provider_ops->get_pfn(gi->provider, index, &raw_pfn, max_order);
-+	if (r)
-+		return r;
-+
-+	*pfn = raw_pfn;
-+	return 0;
-+}
-+
- static void gmem_provider_invalidate_folio(struct gmem_inode *gi,
- 					   struct folio *folio)
- {
-@@ -1270,15 +1289,17 @@ void kvm_gmem_unbind(struct kvm_memory_slot *slot)
- 	filemap_invalidate_unlock(file->f_mapping);
- }
- 
--/* Returns a locked folio on success.  */
-+/* On success, return a locked folio in folio mode and NULL in PFN mode. */
- static struct folio *__kvm_gmem_get_pfn(struct file *file,
- 					struct kvm_memory_slot *slot,
- 					pgoff_t index, kvm_pfn_t *pfn,
- 					int *max_order)
- {
- 	struct file *slot_file = READ_ONCE(slot->gmem.file);
-+	struct gmem_inode *gi = GMEM_I(file_inode(file));
- 	struct gmem_file *f = file->private_data;
- 	struct folio *folio;
-+	int r;
- 
- 	if (file != slot_file) {
- 		WARN_ON_ONCE(slot_file);
-@@ -1290,6 +1311,13 @@ static struct folio *__kvm_gmem_get_pfn(struct file *file,
- 		return ERR_PTR(-EIO);
+ 	if (gi->provider_ops && gi->provider_ops->release)
+@@ -426,6 +433,7 @@ static long kvm_gmem_punch_hole(struct inode *inode, loff_t offset, loff_t len)
+ 	if (kvm_gmem_is_pfn_mode(GMEM_I(inode))) {
+ 		unmap_mapping_range(inode->i_mapping, offset, len, 0);
+ 		kvm_gmem_pfn_reclaim(GMEM_I(inode), start, end);
++		gmem_provider_put_pfn_range(GMEM_I(inode), start, end - start);
+ 	} else {
+ 		truncate_inode_pages_range(inode->i_mapping, offset, offset + len - 1);
  	}
- 
-+	if (kvm_gmem_is_pfn_mode(gi)) {
-+		r = gmem_provider_get_pfn(gi, index, pfn, max_order);
-+		if (r)
-+			return ERR_PTR(r);
-+		return NULL;
-+	}
+@@ -1647,8 +1655,12 @@ static void kvm_gmem_destroy_inode(struct inode *inode)
+ 	 * Skip if the provider was not yet set up, as iput() can reach this on
+ 	 * error paths before provider_ops is initialized.
+ 	 */
+-	if (gi->provider_ops && kvm_gmem_is_pfn_mode(gi))
+-		kvm_gmem_pfn_reclaim(gi, 0, i_size_read(inode) >> PAGE_SHIFT);
++	if (gi->provider_ops && kvm_gmem_is_pfn_mode(gi)) {
++		pgoff_t nr_pages = i_size_read(inode) >> PAGE_SHIFT;
 +
- 	folio = kvm_gmem_get_folio(file_inode(file), index);
- 	if (IS_ERR(folio))
- 		return folio;
-@@ -1338,8 +1366,10 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
- 		r = kvm_arch_gmem_make_private(kvm, gfn, *pfn,
- 					       (kvm_pfn_t)1 << *max_order);
- 
--	folio_unlock(folio);
--	folio_put(folio);
-+	if (folio) {
-+		folio_unlock(folio);
-+		folio_put(folio);
++		kvm_gmem_pfn_reclaim(gi, 0, nr_pages);
++		gmem_provider_put_pfn_range(gi, 0, nr_pages);
 +	}
  
- out:
- 	filemap_invalidate_unlock_shared(file_inode(file)->i_mapping);
-@@ -1366,7 +1396,8 @@ static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
- 		goto out_unlock;
- 	}
+ 	gmem_provider_release(gi);
  
--	folio_unlock(folio);
-+	if (folio)
-+		folio_unlock(folio);
- 
- 	if (!kvm_is_private_gfn(kvm, gfn)) {
- 		ret = -EINVAL;
-@@ -1376,7 +1407,8 @@ static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
- 	ret = post_populate(kvm, gfn, pfn, src_page, opaque);
- 
- out_put_folio:
--	folio_put(folio);
-+	if (folio)
-+		folio_put(folio);
- out_unlock:
- 	filemap_invalidate_unlock(file->f_mapping);
- 	return ret;
 
 -- 
 2.56.0.257.gf7497c7d27-goog
