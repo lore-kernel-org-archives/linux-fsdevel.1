@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792711701;
-	b=wJKNXixzmph5INYACP/86u9nPMAbgBwZdpZ7UTyDYI+JhBUS9n7VanRfJg7h1ySBObaL
-	 8nQOOAvNSK5F4w9cIYnQTFDhb1xJB1BTPpwUGKcQQy82ONSh9RhCFQOA9uZ673+V5gp6y
-	 nJbfgpDGA4GI7ivhBksw+2HptFs6IHBxcP1v/kiPVfOIzuTcUpzTusJfH9Oawmepn1wTC
-	 dfFDTjEE4t28VQ2oOBtjpKtZEAQErdAogheQTmA/OdZwJbxLaHi6H2P+dkJy12VJK/6Av
-	 UBPJPVewrpyJbjNAHXclgHhRG52WbSCNPGCB5cIznbaPlBWwYdneCRR3Fup18VvRGMA==
+	t=1792711706;
+	b=1oLK7xhV9W5/4hSgTus9P9W9JymlRw2PVUPx6z0DIPFutf30MxcogfA1k//EIm2lOjiG
+	 w5IzUhl+nkMEcHZo6lUCMgRHLkVP0A7jcOyKgcZVIb8pJpTmHCSgPcxo9pMvgsKw1yL3p
+	 EyMeaC2QG2GPuPxZet76xDhC0ZegDTngd/Cp7Rk22Sr0B/dP0elcZ2GLF5C7tDzHCL/40
+	 K5ZQ2LIxXw0srux1EIVceQrzYozNCSUt/wRF1ps/LPnQVyJ/8QEbn7Y8v0wXNyZLUojHd
+	 OT4DCF8OwFKisPj+TAfrBBpeDuGvMz/hhoZH4spmJdNtKDuGpS9xM0XK0U9hCiZfDew==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792711701;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792711706;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=wQV3qQ3k9uCjoMdvwJYY0xKD7Do9569EVepxRPPnbCc=;
-	b=HWHHbH5aGLzGoPrF3xyZQEauQ1KCrz3VS+0dWrOTih9XdqRetaVVVq8veqw7PFKf33Rq
-	 kDhNtQMJZ/+kb2/la2RBJiWveNdMATOScHnUg6uDBRAAlfbBoYk7J/4tSF10czeizTjrl
-	 6BJ/1M6Fr89HAVQDsIlGHK6z+9xCV9lQrOQlb6ceuo/da4PWRDG5qHZyvyRkTHNRPHY6d
-	 jaLQXGx64tmqRIHbcf1fqXtqiRt6wxM1hxAOM5yAEp+chDpgavPjpeUPwwISz4wEjRp2x
-	 9jI18Sdc13f9N4HvMCVFIBpdZPHbDH2VF1tokw0t74ar9WrPrxTlGNBKCpKU9tMYIhA==
+	bh=H6o5o2vytPuBo/EZgeDnQYvxCmd5Tc1l/WSMI7oVGNI=;
+	b=slBGwK/QTctYgzQ6MeZOHbWxPFdOxsp0pOpYyqkdYy4Z6DAM1dSBA82r/2HzkqmGizye
+	 8l8uIez8PuZg4LLvogJFYbpa9ee9mFdSyNUCCr1Ap31mmhD1D1JIDXH1GqCa45Po3iALG
+	 WTTOdWbuWVp9gXgoKARHvOhb6Q657sy9UxSyILnw5Zpq8BmZgWyZ55dwZYTITbNYRgL3e
+	 ClQK+HGOrJxtC3A0rIUMojcRQhMSpE3x0WOTJNTWpREyRbbv+nHxTzv1KUXU9CrajsS65
+	 8GJZOL/9s+E/svkFe92PWCC6pJQKHZ9PgB5qUkJyhuiao7BBAQ0W2GxwIviAHRWeeBA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lN0x9ppN;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UX6d6jQC;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5A3606AA52;
-	Thu, 22 Oct 2026 23:28:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E58560A6F4F;
+	Thu, 22 Oct 2026 23:28:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lN0x9ppN
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UX6d6jQC
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792711701;
-	b=BQZabtI2ZET+iUXjaDtrRzn26GfKmQPO/N2J+gKIocNpc+FI0Yn9byyeD/ZOoCYws06l
-	 y+tqrmQtvp+qlRnyfI1CVv9xkLghtGNUEfQCORmhYUR0IZC/OO+NVepq1tUNDc3osA6l/
-	 dQtICKAMjgMf4yIflCTvi5rghPBM6Qywou9hzoy4qvO+EKL0nsVSlgF4wIYQYlO/9Myai
-	 r79zu8ilQTPXsLwevX2O+IQXCSi3FK4/WHXVP59lpBg93xdPSUqnmLGEgyBBUWYjYE+G0
-	 HFelUmHgMwSF+a6KzWZquRroIBX//4W8EQ7hpDnUuvrOcEsDXacrONaAsx7Umxs+H2g==
+	t=1792711704;
+	b=Ub4rYvXqQFGSo6Dd/UX+4zo6DA2PJIZxf7AiXncrWDwGW4SD0Sqim4d/yBBdOupyL0HS
+	 VSkwE86aiduFBW7AmlMA5YPpxytQfxFPCZuzly8yx0iyCVIJFIfzPt9PZHpW/8fMTh2PP
+	 a5LTgIDf/qWXqAuIO/fKSQ+sEotDdyO/Z4DORGYjtpfenjqDqZqt8Epd10jmx+jY7eUlG
+	 tN2hTXx5L2JOFdbPqhjyD1ByaMAmGvdDZJ8ZhEM3zFoTo9QM5Y33z7uOtCSKClycxA35n
+	 SgNPJ7lrFguN6iEizD9hHCYi9HzgXBhv9ZCcN4S03nf4TIkR+vGZfbBSzVi94f9L9tg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792711701;
+	c=relaxed/relaxed; t=1792711704;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=wQV3qQ3k9uCjoMdvwJYY0xKD7Do9569EVepxRPPnbCc=;
-	b=ybqmtpsqyxJtm9vPfcza55mVhuD2ib4pJT8JJFrex2U6lM9q896T0Uw+rGquPOX0Z31R
-	 uu/B/nPd5VhV30oO+N5sBmmQUuc8Jlgix3KxQAWfgeStM5HJdV6ZHpPasuqA2sOEcKnPj
-	 7jXZVWxXb/Q0pk8QuVyCW4dQ3uYYkBIkZCF2oCcXMm1YC5aMGPMSbZesfdSA45yRkAf86
-	 2WtgdIc5eJyRiLlVupukx+hl/0gOJTpftICmmkg6qmW437cZ1tY+PUfxx78MDCz7Kf8R+
-	 0pKwjf7fOs8AZ7qFfrp0mEqk2oHCOnSy51FfWq8VvlvHbwVH2dwgGz5VziSVj+0P4hQ==
+	bh=H6o5o2vytPuBo/EZgeDnQYvxCmd5Tc1l/WSMI7oVGNI=;
+	b=hdI1LfKD56Qm3054Fy5HcaxsyO9YvP0peNsvjykgFDGx5osykJQcW9/uRYLCO2SAYtsb
+	 L9VGMFPkpAahwOoJ0ws8aj5Dpb1zmYLVwQUGTVXUHhWbKL+LHEPGGmFO9n9GOtMH9jA9B
+	 z5BiiYsoe4pHd8Khfdk5V+wtuyrswvj5KDP8gPJAEFKNcQ3mFNuXXIlyqTSMV3T2nPMG3
+	 GaBqUhMhtdeSduKB/M59fzF3rBk0xDGwcK61fq1PTPMXFwU4T6FbVjt8gr5TUrdAkzpzm
+	 cy7p69GMTUxMvPMLkJWHufFVrFfFdY32lLfQ7IcCqpYkDS8P5mH6/6Ok9VN3R2gQ7aQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8FC461F011BD;
-	Thu, 22 Oct 2026 23:28:11 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id A7CE11F01188;
+	Thu, 22 Oct 2026 23:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792711701;
-	bh=wQV3qQ3k9uCjoMdvwJYY0xKD7Do9569EVepxRPPnbCc=;
+	s=k20260515; t=1792711704;
+	bh=H6o5o2vytPuBo/EZgeDnQYvxCmd5Tc1l/WSMI7oVGNI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=lN0x9ppNPS44uy+ho+SdOpER4/D1FSzCTpjESm1KrU0LKAltU6hxv/854A00vrQEa
-	 NCRfwcQFu3qiksEBhbd+RRaC2nhiTkKwzOPy87lWWFAdghkxLRMguk5i+oFmS1homG
-	 5SygOBk5wb6j802l/cnsvlyrmEnK/IemHgJ71S26gFeCMAPWHxcIellK5VVrauQ+9j
-	 upIR2kCwu2NXVX3h8PCyAgcWB/ljNWe+6nK39o6gPaHQsHaoSTsR4TR5AofE3jWIUi
-	 eua0g7icM3KC1wmrkTFCLhef2S7rIQcHcp6/o10peO0q/47BHCYef6UwLSga80sNip
-	 SinU2y5mNbxgw==
+	b=UX6d6jQCfcyvfTqh3lHbgjahpTQRc8g2LMjo7+/d9jfrEGbBYQNIuqb2mT3WiCxOg
+	 pC0CF9hXwQPOg3alM7d3MA5rVOmkJmlY0JFtDi5q8Mb2sap55jB9KSPJz7VxGGbxxi
+	 9D+7YPkSOecvO/fqKii4CnYZAdPReloKXlz0OD8uCE5fipFbfT2lT9xvd2z1bV6/Ns
+	 mm0XV9yVv/RXm6HBgfMxgu63N+0EZ+6wSHeiFrcGspSDEc/Zwa5YZgbzbedP0FBmmn
+	 kmtwfpmkoRHVNmEoEwzxJmb4f5w/TX6JNBvJ6YRA+GySXS2v8HwQeK06jzfxeN2U8I
+	 orSD2r//RkueA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id D6DCC420C8;
-	Thu, 22 Oct 2026 23:27:49 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id A49974210C;
+	Thu, 22 Oct 2026 23:27:50 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Thu, 22 Oct 2026 16:28:05 -0700
-Subject: [PATCH RFC v2 33/50] KVM: guest_memfd: Support mmap and user fault
- handling in PFN mode
+Date: Thu, 22 Oct 2026 16:28:22 -0700
+Subject: [PATCH RFC v2 50/50] KVM: selftests: Test guest_memfd conversions
+ with sample memory provider backing
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261022-gmem-alternative-providers-v2-33-5dd1dc6c660a@google.com>
+Message-Id: <20261022-gmem-alternative-providers-v2-50-5dd1dc6c660a@google.com>
 References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
 In-Reply-To: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
 To: Alex Williamson <alex@shazbot.org>, Alexander Graf <graf@amazon.de>, 
@@ -135,11 +135,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792711665; l=3706;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792711665; l=5170;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=elLIGBYw0BUJ9IbNw0ScjqZOWht3JZnml1/BafVIxxA=;
- b=VW4cbdmPxp6Pao5q+UBf9fgRtR76zuJjTkAk5Ko45CrogkVItmv81as/Lvua8wCNXiykVR6H/
- c7oDGQMzSZXBixMwnUcjgTlSfcnS1H0bfnLQ5pnFxQgPtZqsEOfFJds
+ bh=rlB85PYh1jaJvMrL1kLAqla/p5s2l4avZfOOeeGlWDM=;
+ b=VSMpakwCoRWmpL30l5zo+rYlaAKf2cnLwpQ7a87uoka6eTdULgcyR5+xHnOSv19D2vO2aAMw7
+ uw5/EyEtXt5Amy29y7apd5iX/XRwsIqytyCd7Kch17Xizk0nX9V2GLL
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -150,97 +150,155 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-In PFN mode, guest_memfd memory is backed by raw PFNs rather than
-page-cache folios.
+Add fixture variant for the sample memory provider.
 
-Mark the VMA with VM_PFNMAP when setting up the VMA in PFN mode, and
-insert the PFN into the user page tables during fault handling.
+If /dev/mem_provider_sample cannot be opened because the module is not
+loaded, the mps variant is skipped gracefully via TEST_REQUIRE().
 
-In folio mode, the fault handler obtains a locked folio under the
-shared filemap invalidation lock and returns with the folio still
-locked so the core fault handler installs the PTE before unlocking the
-folio. Any concurrent truncation or invalidation must wait on the
-folio lock before unmapping and removing the folio.
-
-In PFN mode, there is no folio lock to bridge the gap after dropping
-the shared filemap invalidation lock. If the lock were dropped before
-inserting the PFN into the page tables, a concurrent hole punch or
-provider-driven revocation could acquire the exclusive filemap
-invalidation lock, unmap existing mappings (missing the not-yet-mapped
-PTE), and reclaim the backing memory, only for the fault handler to
-subsequently install a stale PTE pointing to the revoked PFN.
-
-Keep the shared filemap invalidation lock held across PFN insertion so
-that obtaining the PFN and installing the PTE are atomic with respect
-to operations holding the exclusive filemap invalidation lock. For
-provider-driven revocation to safely tear down mappings without races,
-the provider must first mark the range unavailable so new faults fail,
-and then invoke revocation, which acquires the exclusive filemap
-invalidation lock to wait for any in-flight faults to finish installing
-their PTEs before unmapping them. This also requires providers not to
-hold any lock across revocation that is also acquired during PFN
-lookup.
+Because PFN-backed memory cannot be pinned via GUP, expect pinning to fail
+for the mps variant in the elevated_refcount test.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- virt/kvm/guest_memfd.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ tools/testing/selftests/kvm/include/kvm_util.h     |  1 +
+ tools/testing/selftests/kvm/lib/kvm_util.c         |  9 ++++-
+ .../kvm/x86/guest_memfd_conversions_test.c         | 44 +++++++++++++++++++++-
+ 3 files changed, 51 insertions(+), 3 deletions(-)
 
-diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index 8588912cb0b82..50031e191968b 100644
---- a/virt/kvm/guest_memfd.c
-+++ b/virt/kvm/guest_memfd.c
-@@ -562,8 +562,10 @@ static bool kvm_gmem_supports_mmap(struct inode *inode)
- static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
+diff --git a/tools/testing/selftests/kvm/include/kvm_util.h b/tools/testing/selftests/kvm/include/kvm_util.h
+index eca296539db79..1a1387f36a52c 100644
+--- a/tools/testing/selftests/kvm/include/kvm_util.h
++++ b/tools/testing/selftests/kvm/include/kvm_util.h
+@@ -1350,6 +1350,7 @@ static inline int pin_self_to_any_cpu(void)
+ 	return pin_task_to_any_cpu(pthread_self());
+ }
+ 
++int __pin_pages(void *vaddr, uint64_t size);
+ void pin_pages(void *vaddr, uint64_t size);
+ void unpin_pages(void);
+ 
+diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
+index d42e201eba763..9793818f54d23 100644
+--- a/tools/testing/selftests/kvm/lib/kvm_util.c
++++ b/tools/testing/selftests/kvm/lib/kvm_util.c
+@@ -674,7 +674,7 @@ int __pin_task_to_cpu(pthread_t task, int cpu)
+ 
+ static int gup_test_fd = -1;
+ 
+-void pin_pages(void *vaddr, uint64_t size)
++int __pin_pages(void *vaddr, uint64_t size)
  {
- 	struct inode *inode = file_inode(vmf->vma->vm_file);
-+	struct gmem_inode *gi = GMEM_I(inode);
- 	vm_fault_t ret = VM_FAULT_LOCKED;
- 	struct folio *folio = NULL;
-+	kvm_pfn_t pfn;
- 	int r = 0;
+ 	const struct pin_longterm_test args = {
+ 		.addr = (uint64_t)vaddr,
+@@ -685,7 +685,12 @@ void pin_pages(void *vaddr, uint64_t size)
+ 	gup_test_fd = __open_path_or_exit("/sys/kernel/debug/gup_test", O_RDWR,
+ 					  "Is CONFIG_GUP_TEST enabled?");
  
- 	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
-@@ -572,6 +574,10 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
- 	filemap_invalidate_lock_shared(inode->i_mapping);
- 	if (!kvm_gmem_is_shared_mem(inode, vmf->pgoff)) {
- 		r = -EACCES;
-+	} else if (kvm_gmem_is_pfn_mode(gi)) {
-+		r = gmem_provider_get_pfn(gi, vmf->pgoff, &pfn, NULL);
-+		if (!r)
-+			ret = vmf_insert_pfn(vmf->vma, vmf->address, pfn);
- 	} else {
- 		folio = kvm_gmem_get_folio(inode, vmf->pgoff);
- 		if (IS_ERR(folio))
-@@ -586,6 +592,9 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
- 		return vmf_error(r);
- 	}
- 
-+	if (kvm_gmem_is_pfn_mode(gi))
-+		return ret;
+-	TEST_ASSERT_EQ(ioctl(gup_test_fd, PIN_LONGTERM_TEST_START, &args), 0);
++	return ioctl(gup_test_fd, PIN_LONGTERM_TEST_START, &args);
++}
 +
- 	if (WARN_ON_ONCE(folio_test_large(folio))) {
- 		ret = VM_FAULT_SIGBUS;
- 		goto out_folio;
-@@ -646,6 +655,8 @@ static const struct vm_operations_struct kvm_gmem_vm_ops = {
++void pin_pages(void *vaddr, uint64_t size)
++{
++	TEST_ASSERT_EQ(__pin_pages(vaddr, size), 0);
+ }
  
- static int kvm_gmem_mmap(struct file *file, struct vm_area_struct *vma)
+ void unpin_pages(void)
+diff --git a/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c b/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
+index 023df9cb9d4a6..b99e4cdbab8e6 100644
+--- a/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
++++ b/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
+@@ -16,11 +16,13 @@
+ #include "kselftest_harness.h"
+ #include "test_util.h"
+ #include "ucall_common.h"
++#include "../../../../samples/kvm/mem_provider_sample.h"
+ 
+ FIXTURE(gmem_conversions) {
+ 	struct kvm_vcpu *vcpu;
+ 	int gmem_fd;
+ 	int resource_fd;
++	bool expect_pin_failure;
+ 	/* HVA of the first byte of the memory mmap()-ed from gmem_fd. */
+ 	char *mem;
+ };
+@@ -29,10 +31,14 @@ typedef FIXTURE_DATA(gmem_conversions) test_data_t;
+ 
+ FIXTURE_VARIANT(gmem_conversions) {
+ 	int (*create_resource)(size_t size);
++	uint64_t extra_flags;
++	bool expect_pin_failure;
+ };
+ 
+ FIXTURE_VARIANT_ADD(gmem_conversions, native) {
+ 	.create_resource = NULL,
++	.extra_flags = 0,
++	.expect_pin_failure = false,
+ };
+ 
+ static int create_tmpfs_resource(size_t size)
+@@ -42,6 +48,34 @@ static int create_tmpfs_resource(size_t size)
+ 
+ FIXTURE_VARIANT_ADD(gmem_conversions, tmpfs) {
+ 	.create_resource = create_tmpfs_resource,
++	.extra_flags = 0,
++	.expect_pin_failure = false,
++};
++
++static int create_mps_resource(size_t size)
++{
++	struct mps_new_file nf = {
++		.size = size,
++	};
++	int dev_fd, fd;
++
++	dev_fd = open("/dev/mem_provider_sample", O_RDWR);
++	if (dev_fd < 0) {
++		TEST_REQUIRE(errno != ENOENT && errno != ENODEV);
++		TEST_FAIL("Failed to open /dev/mem_provider_sample: %d (%s)",
++			  errno, strerror(errno));
++	}
++
++	fd = ioctl(dev_fd, MPS_NEW_FILE, &nf);
++	TEST_ASSERT(fd >= 0, "MPS_NEW_FILE failed: %d (%s)", errno, strerror(errno));
++	close(dev_fd);
++	return fd;
++}
++
++FIXTURE_VARIANT_ADD(gmem_conversions, mps) {
++	.create_resource = create_mps_resource,
++	.extra_flags = GUEST_MEMFD_FLAG_PFN_MODE,
++	.expect_pin_failure = true,
+ };
+ 
+ FIXTURE_SETUP(gmem_conversions) { }
+@@ -75,10 +109,12 @@ static void gmem_conversions_do_setup(test_data_t *t,
+ 
+ 	vm = __vm_create_shape_with_one_vcpu(shape, &t->vcpu, nr_pages, guest_do_rmw);
+ 
++	t->expect_pin_failure = variant->expect_pin_failure;
+ 	t->resource_fd = -1;
+ 
+ 	if (variant->create_resource) {
+-		uint64_t flags = gmem_flags | GUEST_MEMFD_FLAG_USE_RESOURCE;
++		uint64_t flags = gmem_flags | GUEST_MEMFD_FLAG_USE_RESOURCE |
++				 variant->extra_flags;
+ 
+ 		t->resource_fd = variant->create_resource(size);
+ 		TEST_ASSERT(t->resource_fd >= 0, "Failed to create backing resource");
+@@ -506,6 +542,12 @@ GMEM_CONVERSION_MULTIPAGE_TEST_INIT_SHARED(elevated_refcount, 4)
  {
-+	struct gmem_inode *gi = GMEM_I(file_inode(file));
+ 	int i;
+ 
++	if (t->expect_pin_failure) {
++		TEST_ASSERT(__pin_pages(t->mem + test_page * page_size, page_size) < 0,
++			    "Pinning PFN-backed memory should fail");
++		return;
++	}
 +
- 	if (!kvm_gmem_supports_mmap(file_inode(file)))
- 		return -ENODEV;
+ 	pin_pages(t->mem + test_page * page_size, page_size);
  
-@@ -654,6 +665,9 @@ static int kvm_gmem_mmap(struct file *file, struct vm_area_struct *vma)
- 		return -EINVAL;
- 	}
- 
-+	if (kvm_gmem_is_pfn_mode(gi))
-+		vm_flags_set(vma, VM_PFNMAP);
-+
- 	vma->vm_ops = &kvm_gmem_vm_ops;
- 
- 	return 0;
+ 	for (i = 0; i < nr_pages; i++)
 
 -- 
 2.56.0.257.gf7497c7d27-goog
