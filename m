@@ -1,97 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.30.98
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792712197;
-	b=uH/IRaA13hbUtrMCHMX7pNnaQIKzbxrz7ecf/+4DNfaJbJC4He7bCecX8KM+FJRKzcYy
-	 L18mSTnenmSiq/rQGJsfvNNeWDAhOl4YhBK061GxEpdHelm98zuaji/Vp2y+t+0h4CQ48
-	 Ncg+dJvc3d1Gd48/zc5FXAc9HUwCdEho8SkYILjpmpC9QJLpKBYyBaH2fGdjZEODde4gS
-	 mCYvrRT0U468XRL43WR/lq079KIH5uRA6TNbMkG1GPNzthQ7FrtOuawrcKfx9fsclVNGk
-	 POi5dEm+qGJdgFU1mMLtDRRflNOtbARR6U5kByw9grsBROWNom49zQyER0vGsklfMcQ==
+	t=1792713083;
+	b=t1aSaFXBpc75i+C7xpr7IA3TE4MGuKVfQsumwJE1f+/IB/xsD5TVUpAcV+HI69D51SsE
+	 4T1wzZ2LKk8QCmAit01muqDn6JO38xRNnwxBYyLmgP3mIdyEGcWuknJQSrqNCWAxZFchS
+	 SkSgJUJ6mDOxwuYYnN6l+n+AaZeyv5pwtD+xalXjyfj5612jonGxm7IBN9qz+rkUqxXwg
+	 4b4eYg1waYLq2C2nyOvREflW1zjJ58lHK6VnLtiQ5O2D6v/7fHyhgJFbS/tGGNrlSIV1C
+	 OmZIfuYaSh7X029ICynr26CVHOHAqQjIgt4KA24En955Tun353YFyLH7HjdjdBXTuEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792712197;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792713083;
+	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=vd0cJ9duAzPWkS9K0wzMKp/efF51QEmYJSWs3p1I1Z0=;
-	b=pZOXQQNyGgCU6iXo4cHgH3aBsvTQOg2xXEhUbUxbnPznB8XSLsIlXRMSpuHum4t1NDFJ
-	 tS4lEJT49idc4wotTYw2lZK94MzGiI5cRDQL2P8ztrkAl2aEPt/5qftj5UdBNh/vt1Dzt
-	 jd87+prZsCM0nfiQIvFAXDT6nBkcMpbkjKtqZR9PWwGY06rFYmp7fKievQmGDo5my03Vz
-	 uXyIKnfXdxpfhXvjmh7JnVQJF4yjWhbyNScb4lUuEKb6o3ewA8MqAFQyfJAPVRj8q5nKL
-	 Mydr64hFNyJyOIaGAkFAb69K+Jf+lZfVS5h1OrhMauH7hia0vA5s4Hs3Rb1IjmndDaA==
+	bh=MWawHJcfRPvv2Lk5rcceD58Wf5MRh3mWCXal+COyIdw=;
+	b=W/TUDbZekP0/QZULg60FivvKUXh61HOhCnXw8SIFte24KS8sy3JiZWpE31OQM++npS+F
+	 lckgfnLem1mH+mtkKSfAt3OoIGELee/SFZ4aUZHj50TZzGp0rpoSIFH481sRKG2ICnqXk
+	 Qxuvp605wwfuy1cGrmt0xOBpCGHb6UdkeMVcUgDznoJgp552P5rKmuSuvFXFMV6O7m9HU
+	 dlYCvYFRlfiIKsH8oZNSyWLjfQvDcGz5VRIp54f2g21R7q8BqAhqC9XcW0Fd4eJ5ND/ur
+	 46mKksiZMks83ZRgI+knrQt2ndixNEHiTbCHXYaXk0HaqtwrPcyQ2ZHNoAR8b6AyAKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dubeyko.com;
-	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=YWEPFA6l;
-	arc=none smtp.remote-ip=74.125.224.43
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linux.alibaba.com;
+	spf=pass smtp.mailfrom=linux.alibaba.com;
+	dkim=pass header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=mLqVpbmZ;
+	arc=none smtp.remote-ip=115.124.30.98
+Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C265D606A745
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 23:36:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C265D606A745
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6F0606A319;
+	Thu, 22 Oct 2026 23:51:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E6F0606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=YWEPFA6l
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-6798eb0d13fso513419d50.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 16:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1792712196; x=1793316996; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vd0cJ9duAzPWkS9K0wzMKp/efF51QEmYJSWs3p1I1Z0=;
-        b=YWEPFA6luN/2OpWohFoAlb8EklkjVbTvPyIgVLi+PhE01t2fCYwAjeGq9IA9anJOb9
-         laSocgVZyAZ0X5vLaAsAH4oMV0MQjWWTPlX7EcMd+8ow7Jh652Q0SiQNRFVy3ZXVfnOf
-         hTx3BoHC7b5QyfMncfJD40E58RaTxbwiZgL/MLulV9hWpRsH8Ceb30musVmJTmTBCjJ3
-         9vtHXR6Q10Kj4OTPBl73ONZYlQq3VLhfURNL8rg6S3Ez9bZQb9gVHO5FWdEEPZ/nr/O9
-         9OwWLlxmowINoFJswGsElE1KTMR0IQwTEzQcq0ZiibCGTvtAdmML0fqJ183x7Q3BMGi4
-         FeJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792712196; x=1793316996;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vd0cJ9duAzPWkS9K0wzMKp/efF51QEmYJSWs3p1I1Z0=;
-        b=T+54LhjHIltPD1l1cNf0maMkSYU7MF02ukHyBUzkFqNLkdaEgDdCOHOuNmbOeB0ZwH
-         TK1qDrGX8OS4fxqCDdOerN5SVJu2N+llfKsxK8h0QZc2DwkDw+COQmGri0DlkGY68ZLU
-         1ERkMcu+jfVC3p91h/KhigUCwOUqecZ64UFxcYu9czZG3HDSu/3TaIjX7EVPGVeLkAkF
-         x3Rv3SrywZfbpYJ1IN4mFsdeJge9KaZxNevkQrpT7Yc2W1JD1gVaVYhux7J8qNzp2zL+
-         SoTZyR2qOk8c8aX8ZH+qkgr4ENBHdv80otXJOPMwu/BYXESRMOgOmZlzWhmM5w8qzw1l
-         5DLg==
-X-Gm-Message-State: AFq9FYILLC2nSSaDcZ7uYeAvKIZKEhJMLVMWLFhSj8whVQN+pGr1J2PR
-	XWiBDYUq934FvesmaLc8Rrzc7Dwgs9mB0NgcVI494iMcdOEsMOEGdGG+PTY49n1OWDG19ekclIr
-	KR1Wle8w=
-X-Gm-Gg: AYBFou0S4pf+yTWzcy9hZbpK2RmZ/RbO8MgMv1qNtaTcd1wnHkeF/atpPQWmT8BQaSU
-	yVgTY5IdkoUVW4YSveovMXxKaWkU2eozlAY0B2OeOj4ezRopeZ+FfF9Uax5XCCg2h8WmcnynVJo
-	IRZTCVLX7EsMF+C+gQGl/dkjW9iBBDUgyE8D/bt2GbIKedEe6HbMvZUd9MaZWZeMSyHNLLR85rj
-	liimEBw9XqunjXicZcqc45Mz4AJd6QYf9e+asd2fDOTe1xU+7yv0B+6i8C6CbVrNI21SWvAMZ7g
-	rQsVuYirjT0eYMbPKx8h4bojfUk9ESGadQMBiiFodCM1SC5FZVxTTbf4xz729gLPNYlUnVkiSXt
-	qKX3dbyL/pAiZ2iTMTQofbyfvZNE/TH4fngCXI0NNQ9ahpl7wg4wlib/FQX9QQkIXnUYh5YpYZa
-	0V27Jfyly6feM02Zw2BPME3Q2VDjwLJBviLFTSxvRyZ9UmKzlbDyRKSOXQgQetcO8ovbBLtJwN9
-	zH6LTLSCWi3SoM2ggffCkd+vDFkrvZ/r3U2Cs+O/GKkmVMl/bqmI04Y0dmqzjRtHGB6cbu6r0Hn
-	Q9vhUrGO5hGUytjcOzMcJKfznufCGj0roIEeX9SwR7q/34OAS4d/0BR3TI1zzI3eZsy2XJKPIYw
-	h+wT1jO/vHw==
-X-Received: by 2002:a05:690e:1507:b0:679:c803:98db with SMTP id 956f58d0204a3-67a35c0c3famr245359d50.149.1792712195858;
-        Thu, 22 Oct 2026 16:36:35 -0700 (PDT)
-Received: from pop-os.attlocal.net ([2600:1700:6476:1430:5551:17ca:f374:dc57])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67a34009247sm487643d50.11.2026.10.22.16.36.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 16:36:34 -0700 (PDT)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	vdubeyko@coreweave.com,
-	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH] hfs: fix potential race conditions in b-tree functionality
-Date: Thu, 22 Oct 2026 16:35:48 -0700
-Message-ID: <20261022233548.3481882-3-slava@dubeyko.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261022233548.3481882-1-slava@dubeyko.com>
-References: <20261022233548.3481882-1-slava@dubeyko.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=mLqVpbmZ
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1792713078; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=MWawHJcfRPvv2Lk5rcceD58Wf5MRh3mWCXal+COyIdw=;
+	b=mLqVpbmZM9f+bl/2zAzq44rmFgB9wnuLIUQ1rtRMtP+j2cDnXht9ChCfaf/O9US2ZJVQSMFGgvFk0Olv94jyGyeZofbT3aCkYsD4YaaEDGR7b2zoSGstpDCejz95PTKM2ED2Cg/U4C8Iucs5WwiEkL6iusqoPvEHb+wWbdG05Fs=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0XDKE1xm_1792713075;
+Received: from 30.170.203.187(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0XDKE1xm_1792713075 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 23 Oct 2026 07:51:16 +0800
+Message-ID: <edd2fe97-6b79-4b13-bb57-f47baff85506@linux.alibaba.com>
+Date: Fri, 23 Oct 2026 07:51:15 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -101,113 +54,131 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/13] block, ext4: allow encryption with a block size
+ larger than the page size
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-ext4@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, jaegeuk@kernel.org, axboe@kernel.dk, hch@lst.de,
+ djwong@kernel.org, brauner@kernel.org, tytso@mit.edu, berto@igalia.com,
+ adilger.kernel@dilger.ca, jack@suse.cz, yi.zhang@huawei.com,
+ ojaswin@linux.ibm.com, ritesh.list@gmail.com
+References: <20261011170958.1759230-1-libaokun@linux.alibaba.com>
+ <20261015185325.GG2170687@google.com>
+ <625e5190-d43e-4a2b-9296-da15c52d1a9a@linux.alibaba.com>
+ <20261022220454.GC1383716@google.com>
+Content-Language: en-US
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <20261022220454.GC1383716@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The HFS_BNODE_DELETED flag is checked in hfs_bnode_put()
-under locked tree->hash_lock. Add locking for the case of
-setting the HFS_BNODE_DELETED flag in hfs_bnode_unlink()
-with the goal to avoid potential race conditions.
+On 2026/10/23 06:04, Eric Biggers wrote:
+> On Fri, Oct 23, 2026 at 12:30:39AM +0800, Baokun Li wrote:
+>> Hi Eric, Thank you for your feedback!
+>> On 2026/10/16 02:53, Eric Biggers wrote:
+>>> On Mon, Oct 12, 2026 at 01:09:45AM +0800, Baokun Li wrote:
+>>>> Motivation
+>>>> ==========
+>>>>
+>>>> ext4 supports a block size larger than the page size (LBS), e.g. a 32k
+>>>> block size on a machine with 4k pages [1].  Encryption, however, is
+>>>> still refused on such a filesystem: file contents used to be encrypted
+>>>> page by page in the fs-layer path, which cannot handle a folio that
+>>>> covers several data units, so the checks that refuse encryption with
+>>>> such a block size stayed in place.
+>>>>
+>>>> Since commit 5acc6f649a68 ("fscrypt: Always use blk-crypto for
+>>>> contents on block-based filesystems") file contents are always
+>>>> encrypted through blk-crypto.  Inline encryption hardware can already
+>>>> en/decrypt a data unit that spans several pages, but the fallback and
+>>>> the block layer cannot carry such a data unit:
+>>>>
+>>>>   1. blk-crypto-fallback en/decrypts a data unit with the bio_vecs of
+>>>>      a single page-clamped segment, so a larger data unit fails with
+>>>>      BLK_STS_INVAL;
+>>>>   2. the block layer requires every bio_vec of an encrypted bio to be
+>>>>      data unit aligned, and splits such a bio without rounding the
+>>>>      split size down to the data unit size;
+>>>>   3. iomap cuts the direct I/O bios of an encrypted file only at the
+>>>>      logical block size of the device, so a bio can end in the middle
+>>>>      of a data unit.
+>>>>
+>>>> This series adds the missing pieces on all three layers, removes the
+>>>> refusals, and enables large folios for encrypted files on the way.
+>>>>
+>>>> [1]: https://lore.kernel.org/all/20251121090654.631996-1-libaokun@huaweicloud.com
+>>> A high-level question: most of the complexity in this series is to
+>>> support crypto_data_unit_size > PAGE_SIZE, despite the actual goal being
+>>> to support fs_block_size > PAGE_SIZE.  It's left unstated that the
+>>> default of crypto_data_unit_size == fs_block_size is used.  However,
+>>> ext4 and f2fs already support crypto_data_unit_size < fs_block_size.
+>>>
+>>> Would leaving the crypto_data_unit_size at e.g. 4 KiB while increasing
+>>> fs_block_size be a simpler way to achieve the goal of this series?
+>> I initially followed the LBS approach of lifting the page-size
+>> restriction, keeping the existing default crypto_data_unit_size
+>> equal to fs_block_size. I had not considered using sub-block DUs.
+>>
+>> After your reply, I implemented a variant using min(bs, PS) for
+>> new default v2 policies, recording a smaller DU explicitly on disk.
+>> This avoids patches 3-6 and the per-bvec alignment relaxation in
+>> patch 10, and is indeed much simpler.
+>>
+>> Both variants retain large-folio support and showed similar gains,
+>> about twice their respective 4K-block controls. Although 32K DUs reduced
+>> decryption calls eightfold, I did not observe a consistent additional
+>> throughput benefit, or CPU savings at matched bandwidth, in the tested
+>> workloads.
+>>
+>>> Or do you feel that would be incomplete, and you'd indeed like to
+>>> support crypto_data_unit_size = fs_block_size > PAGE_SIZE?
+>> However, keeping DU = bs has a compatibility advantage for existing
+>> encrypted filesystems.
+>>
+>> For example, a 64K-block filesystem created with a default v2 policy
+>> on a 64K-page machine uses 64K DUs. Supporting DU > PAGE_SIZE would
+>> allow a 4K-page machine to use that format without re-encryption,
+>> assuming the other policy and backend requirements are met.
+>>
+>> This also covers otherwise-supported legacy v1 policies, which cannot
+>> encode smaller DUs.
+>>
+>> Explicit 4K v2 DUs can also be portable across page sizes, but
+>> choosing a smaller DU for new files does not make existing large-DU
+>> ciphertext readable on a smaller-page machine. I have not yet tested
+>> the cross-page-size migration.
+>>
+>> If you think supporting DU = bs > PS makes this series too broad,
+>> I can use the simpler sub-block version in the next revision and
+>> develop larger-DU support separately.
+>>
+>> Looking forward to hearing your thoughts.
+> I think I prefer the simpler version for now.  If someone wants to
+> create encrypted files on a 64K block size filesystem on a 64K PAGE_SIZE
+> system that are also readable on a 4K PAGE_SIZE system, for now they can
+> just set crypto_data_unit_size = 4K.  v1 policies were deprecated 7
+> years ago, so they shouldn't really factor into considerations here.
+>
+> Note also that setting crypto_data_unit_size too high can break write
+> atomicity as well as compatibility with inline encryption hardware.
+>
+> (Also, the more common use case these days is that someone is
+> *increasing* their page size, not decreasing it.)
+>
+> I understand there's been a trend to lift limitations like these and
+> make every size work on every system.  But the large crypto data unit
+> sizes are difficult to implement correctly, and the proposed
+> implementation slows down common cases that matter.  Let's focus on
+> fs_block_size > PAGE_SIZE by itself first.
 
-The hfs_btree_write() method should be called under
-tree->tree_lock. Rework logic by adding locking
-the tree->tree_lock for the calls of hfs_btree_write()
-in hfs_write_inode() for the case of Extents and
-Catalog b-tree inodes.
+Agreed, that makes sense. I'll switch to sub-block data units
+in the next revision.
 
-Also, add the lockdep_assert_held() in
-hfs_bmap_reserve(), hfs_bmap_alloc(), and hfs_bmap_free().
+Thank you for your feedback!
 
-HFS port of the HFS+ commit:
-commit 6dca66d7ba17 ("hfsplus: fix potential race conditions in b-tree functionality")
 
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
----
- fs/hfs/bnode.c |  3 +++
- fs/hfs/btree.c |  5 +++++
- fs/hfs/inode.c | 13 +++++++++++--
- 3 files changed, 19 insertions(+), 2 deletions(-)
-
-diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
-index 1b331108d9c0..93a13ece1eb4 100644
---- a/fs/hfs/bnode.c
-+++ b/fs/hfs/bnode.c
-@@ -271,7 +271,10 @@ void hfs_bnode_unlink(struct hfs_bnode *node)
- 		tree->root = 0;
- 		tree->depth = 0;
- 	}
-+
-+	spin_lock(&tree->hash_lock);
- 	set_bit(HFS_BNODE_DELETED, &node->flags);
-+	spin_unlock(&tree->hash_lock);
- }
- 
- static inline int hfs_bnode_hash(u32 num)
-diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
-index 4f0ddc76e8c5..b140d8597474 100644
---- a/fs/hfs/btree.c
-+++ b/fs/hfs/btree.c
-@@ -398,6 +398,8 @@ int hfs_bmap_reserve(struct hfs_btree *tree, u32 rsvd_nodes)
- 	u32 count;
- 	int res;
- 
-+	lockdep_assert_held(&tree->tree_lock);
-+
- 	while (tree->free_nodes < rsvd_nodes) {
- 		res = hfs_extend_file(inode);
- 		if (res)
-@@ -424,6 +426,8 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
- 	u8 *data, byte, m;
- 	int i, res;
- 
-+	lockdep_assert_held(&tree->tree_lock);
-+
- 	res = hfs_bmap_reserve(tree, 1);
- 	if (res)
- 		return ERR_PTR(res);
-@@ -500,6 +504,7 @@ void hfs_bmap_free(struct hfs_bnode *node)
- 
- 	hfs_dbg("node %u\n", node->this);
- 	tree = node->tree;
-+	lockdep_assert_held(&tree->tree_lock);
- 	nidx = node->this;
- 	node = hfs_bnode_find(tree, 0);
- 	if (IS_ERR(node))
-diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index cce3a7bb95e9..9dde4b43c88f 100644
---- a/fs/hfs/inode.c
-+++ b/fs/hfs/inode.c
-@@ -468,6 +468,7 @@ int hfs_write_inode(struct inode *inode, struct writeback_control *wbc)
- {
- 	struct inode *main_inode = inode;
- 	struct hfs_find_data fd;
-+	struct hfs_btree *tree;
- 	hfs_cat_rec rec;
- 	int res;
- 
-@@ -481,10 +482,18 @@ int hfs_write_inode(struct inode *inode, struct writeback_control *wbc)
- 		case HFS_ROOT_CNID:
- 			break;
- 		case HFS_EXT_CNID:
--			hfs_btree_write(HFS_SB(inode->i_sb)->ext_tree);
-+			tree = HFS_SB(inode->i_sb)->ext_tree;
-+			mutex_lock_nested(&tree->tree_lock,
-+					  EXTENTS_BTREE_MUTEX);
-+			hfs_btree_write(tree);
-+			mutex_unlock(&tree->tree_lock);
- 			return 0;
- 		case HFS_CAT_CNID:
--			hfs_btree_write(HFS_SB(inode->i_sb)->cat_tree);
-+			tree = HFS_SB(inode->i_sb)->cat_tree;
-+			mutex_lock_nested(&tree->tree_lock,
-+					  CATALOG_BTREE_MUTEX);
-+			hfs_btree_write(tree);
-+			mutex_unlock(&tree->tree_lock);
- 			return 0;
- 		default:
- 			BUG();
--- 
-2.43.0
+Cheers,
+Baokun
 
