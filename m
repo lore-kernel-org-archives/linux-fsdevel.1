@@ -1,71 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.70
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792711282;
-	b=1wajzDE7qUnvVsYzMwVLGUs5RWQJij7md7l56SULZwSpAJwk6UMLN8x9hblHOAUlkqcG
-	 JtpxpR6NwfgX0BwCYeKh4sk2vA0e6FZaqXbjzORVsOaMAHoVLgZnhPYizi0Wo5G6+eAEB
-	 TPJAM6qJqkpGK5cEAsdf0GWkA0Cmim1A4rtzGXUZsu/DNVMIo99TvViivZzWN/4ByQRVN
-	 sL8f1nHnr2Bgzx1ESg3r27JljJB4YwCHI6472hfnf+5MQLq9A040Y/BsXDwpzjOUef0QL
-	 HRpsaz0n021F0fB9rMbIhuplNhEgSamI8gx84A1W6pXt1hKrQy7LbLb6IPANgsXAo3A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792711282;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Received:Date:Mime-Version:X-Mailer:Message-ID:
-	 Subject:From:To:Cc:Content-Type;
-	bh=xxiy5YwT+t7eFNzTkh9tKx/fcp0szthGkTB2aS2xJKI=;
-	b=ce3jpHcl9AjVUwtOj2vAv+hTxeF2rJo6Yl9961jKpD+xSHA6VYmAH7iq7mRHQpASd8vM
-	 7S2W8FMgx9e/wOuamlT6vHvx0YmVcCuf3T/PtiIH9WzHSQ6r8HvkzQ96oAiE0lfFcpGCu
-	 C0IXndA4+2kKs/miuXQerd3ltEjXb7xijXISlk2GHCI5mu/Wti14jOjFugHH/LWBfId83
-	 yt+4dOnsrCcjRLB1ZEF6sfVQp4TfV2t+qPsQKI+1H3r0tXUXK20ascfJyyR97L60oAi6/
-	 ZWBuuMAetoTLsBanKHDu4WHbIvhkt7VFld41IQz/d9q+s8gur0b8hV+6VuaLH5Ly9/Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--dmnk.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=npCtoIQU;
-	arc=none smtp.remote-ip=209.85.128.70
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792711672;
+	b=aTO/7llzLPMHXS/gBHE24nbdtp4p3tLfcALmD2XtEJTQbBkdKOrrCeb5QbCrB1nT0A60
+	 5661WB7clJJVeDZLgym3aafARWB02fxE+uOADkwvEQvcA57vnPVQq/Lm3sI+TUOvlYXIs
+	 XrtIveOjxgFCI2BP/hWZmJsTfsyNHcm7AS8/3K31U5xs42keNWt+l2AkQKQanbCr5WUoq
+	 cxnBX26xIyrcAcmXnieij5d+Nsrs2tnyc+NLV8FoiTClHAVJmDWFABKF7Gzf/lhwHpI3t
+	 Sx7GeiqaQIe/JdX41VpRw0mRts3VQA6H+G/PyIIK/M/sUIOVwi6Q2xwnGS7K/DHuy0g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792711672;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=6ISy2WsvQvNk1sV0mU5gPsd/VQEhvtewcEmpW1TLtd8=;
+	b=K1BS08YKOfbIoG7yvQ3/6CzXq0usFP8CpirwRKbYdLbzX5dMk5005GpmfcIBlDte1Uq7
+	 YXNG3+KYs0a/4kXeotCg4ovjvAkzNzg93WwiwjGyP8me2aiuTgpljmljTEDbc06HKAe+C
+	 XE0ssDZ2p3SllSpG9Q/9GLBSVGA95yPUw762/OQ585DndyuLI7E33EwGly8Fmkgyu5MUt
+	 lk1bvhBGnK/fVvKpxwE2WfY689/eE077m7UMUGl0s6nZ2WegOnSIZ6VRw5wqWMKPsGXZO
+	 0l6O4VEHS5n21S3Z8ADucZ+hPy0Hjh8YH5FOX5J1v2Mg9tpeFnYxC78qlid2TrwWUVQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UHeEfOjd;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA359606A335;
+	Thu, 22 Oct 2026 23:27:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UHeEfOjd
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1792711671;
+	b=dePsz3JxF4RJH28yw6Rdm5inXHOxP6kwo1W26Fsjn4Tttfx6SmAUPum+Ukqkz74f2/xd
+	 YnkhpAp9318Y6+RtkcHByT7pzc5EleB3XGMm0KQRbLfcAc7n5n0Ma6EunjyvRVxKqVgMa
+	 gBKl2BSN6w8fjPjZzlFsefJPMY1t9C+bbxGsnuq/Sf0Gbp+Xv1jDmMIJAord0wUxOWZhD
+	 WaZZP41bki687yn5+2lHVVpp2N+kCEOhmWvGhRBSWMN9+R/vbJIJu6o9xbvfsXHhRQl4z
+	 ntKJFnjxNRN/k8uQZvfNZnvJOokJfKA5EzKJVsFFSB8aHlgZGyDOQzLnB9XUTbTmhMA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1792711671;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=6ISy2WsvQvNk1sV0mU5gPsd/VQEhvtewcEmpW1TLtd8=;
+	b=r0S7r7Zj6ecmWLFHPZgEfy47fdhjiB3vTDaI0mTP8bpHmtNh0okvcLqLqRbGpSHCXd1z
+	 mVgCZD7U2Elfx/DAl5fCbzXBXY4Bdy7d66tWdCWZMotE8MdDiDWbJndPfD7MrCW1ExnYg
+	 NhPzRp8oHm6o3O3zuiEthsxTbDOF58NZ3aVLqwt8kgmFS0p1ObqSSLdMDUeprr9eZe1zg
+	 aCNHIfx72d3/sJkpXQEVrjT/uM0wVsyZT6J7b0f/VoBGho9U2ilxB81xZfSMe4hDrQyjf
+	 OL1k+VVsNuVNFQyweHrtFW0FgHdq+fbdLAXTE/q25LGHFdXzcADUawAesAyZKoSz7nA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABB8606A31F
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 23:21:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AABB8606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmnk.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=npCtoIQU
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a028616bebso1756225e9.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 16:21:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792711280; x=1793316080; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xxiy5YwT+t7eFNzTkh9tKx/fcp0szthGkTB2aS2xJKI=;
-        b=npCtoIQUKcGoaA3YVhMsfMDpednsvYAqT4GHduzfy6TwJP2/MjFg647m2lCZthU6eT
-         +eCCpQltgswM164+pzywMN1D2r/aoNZWvzNM4iYjBAsyNpSe0LpYUGKHYd42hA8Ss6FP
-         E6eRP9jvXIk825TjmMWr87g/SRsKXSDEd49sitH1ntNlJjytnZw6pjjGfsfTM2lX+MGB
-         Qqq3SQDWaoZAkDJtlqDzTLhoccrezS7WCysk+Q+f4gU2Ph3SpnqbturDzcrKzUd+n+QV
-         oCnVuwPhfP1EjSLWk9A86psziY8mqj13tlkSAONVvTdBZ45O7kRm0pfRZ6KYU5Mz0iXW
-         5tIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792711280; x=1793316080;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xxiy5YwT+t7eFNzTkh9tKx/fcp0szthGkTB2aS2xJKI=;
-        b=C1Pg6M0Ovv9qwyzoVDFiW0ePG3+eNbgxN+XBtrdiha+C+waRAplMrbk0I3HmHz43jg
-         j49GDLa6AOs2xbNjyrYLoNwn07+1JfzWNqhyiA0tWY9JH4lSw0tjL9Ay3lQUciOlD0v4
-         AsluLW8oyWW3dIx3JZd+59QdIeClW8OoUKDTSRpGZdXDyFCsiDYhEmB7y9jEYZDMP5v6
-         f5D65PEZiWUUeBVthdQNO26X0pA/psSgUtNKpOM+kRLOZr27RAMULpSziXUiisbAlIzZ
-         czXzNxPmoOQMh1F+4aXHmbnHfOrOcs92sOBqujHUe7/XW1EbuUAii/ndD88Nxs0b2Xd1
-         gPZA==
-X-Gm-Message-State: AFq9FYLVvMTuI5vkr3PQclNQX72BGhLKtuY7CNPB5q+r11ACIgf+sMkT
-	4V5i1LKJ02KeSdqx40qEHrbCDbcIvA+lVCE4Pyks9A/lNqUeQ1HDLy+dMwipB9ZPtR2i65fTkw=
-	=
-X-Received: from wmbg26.prod.google.com ([2002:a05:600c:a41a:b0:4a1:b000:6501])
- (user=dmnk job=prod-delivery.src-stubby-dispatcher) by 2002:a7b:cbc9:0:b0:4a1:efba:511
- with SMTP id 5b1f17b1804b1-4a211f0493bmr4527945e9.35.1792711280006; Thu, 22
- Oct 2026 16:21:20 -0700 (PDT)
-Date: Fri, 23 Oct 2026 01:21:19 +0200
+	by smtp.kernel.org (Postfix) with ESMTPS id 113931F031E2;
+	Thu, 22 Oct 2026 23:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792711671;
+	bh=6ISy2WsvQvNk1sV0mU5gPsd/VQEhvtewcEmpW1TLtd8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=UHeEfOjddIIbLsCmfRmyHOLnniIuXPKJoexYEgOoq534AUfB1zPYUlzm4qWGFkZHk
+	 JYpdhdXDDHUWHLeYqjlJ72xSuRm28TspPalts0vMyD6CRROvxnbVGuBoN8jkfPWEIG
+	 ybui5XwNjKtiMib2g0Q8h2J3EdvGlzc9IvkAL4EToD/ELRmsqh0GtKYEtqGT7xYOwI
+	 cdz/An3NXt2dc23g2GxkcHgQPC4kqrxCVmtdPmctsBYGTu/K2/4lScrL4aRTMXBAaz
+	 FOmUFcodONF6P40LiDx6wrmR+keck7CkNINXWOKUN8T9Byy5RB93jJ2ed0QoyV8MUv
+	 5SgqmgmQyMZBA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 4EF8142043;
+	Thu, 22 Oct 2026 23:27:48 +0000 (UTC)
+From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
+Date: Thu, 22 Oct 2026 16:27:34 -0700
+Subject: [PATCH RFC v2 02/50] KVM: guest_memfd: Route folio allocation
+ through native provider operations
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -74,70 +82,271 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.56.0.257.gf7497c7d27-goog
-Message-ID: <20261022232119.2537209-1-dmnk@google.com>
-Subject: [PATCH] xattr: always invoke cap_convert_nscap() for
- security.capability writes
-From: Dominik Maier <dmnk@google.com>
-To: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, dmnk+artist@google.com, 
-	Dominik Maier <dmnk@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261022-gmem-alternative-providers-v2-2-5dd1dc6c660a@google.com>
+References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
+In-Reply-To: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
+To: Alex Williamson <alex@shazbot.org>, Alexander Graf <graf@amazon.de>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Alexey Kardashevskiy <aik@amd.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Ashish Kalra <ashish.kalra@amd.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Baolu Lu <baolu.lu@linux.intel.com>, Bill Wendling <morbo@google.com>, 
+ Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>, 
+ Christian Brauner <brauner@kernel.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Connor Williamson <connordw@amazon.com>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, David Hildenbrand <david@kernel.org>, 
+ David Rientjes <rientjes@google.com>, David Woodhouse <dwmw2@infradead.org>, 
+ Erdem Aktas <erdemaktas@google.com>, Frank van der Linden <fvdl@google.com>, 
+ Fred Griffoul <fgriffo@amazon.co.uk>, Fred Griffoul <griffoul@gmail.com>, 
+ Gregory Price <gourry@gourry.net>, "H. Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>, 
+ Jacob Pan <jacob.pan@linux.microsoft.com>, 
+ James Houghton <jthoughton@google.com>, Jan Kara <jack@suse.cz>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Jianxiong Gao <jxgao@google.com>, 
+ Joerg Roedel <joro@8bytes.org>, Joey Gouly <joey.gouly@arm.com>, 
+ John Starks <John.Starks@microsoft.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Justin Stitt <justinstitt@google.com>, Kevin Tian <kevin.tian@intel.com>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+ Michael Roth <michael.roth@amd.com>, Mike Rapoport <rppt@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Nicolin Chen <nicolinc@nvidia.com>, Oliver Upton <oupton@kernel.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Pratyush Yadav <pratyush@kernel.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Robin Murphy <robin.murphy@arm.com>, 
+ Samiullah Khawaja <skhawaja@google.com>, 
+ Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, 
+ Steffen Eiden <seiden@linux.ibm.com>, Steven Price <steven.price@arm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Tarun Sahu <tarunsahu@google.com>, Thomas Gleixner <tglx@kernel.org>, 
+ Tom Lendacky <thomas.lendacky@amd.com>, Tycho Andersen <tycho@kernel.org>, 
+ Vishal Annapurve <vannapurve@google.com>, 
+ Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>, 
+ Xu Yilun <yilun.xu@linux.intel.com>, Yan Zhao <yan.y.zhao@intel.com>, 
+ Zenghui Yu <yuzenghui@huawei.com>, x86@kernel.org, 
+ Shuah Khan <skhan@linuxfoundation.org>, Fuad Tabba <fuad.tabba@linux.dev>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
+ Ackerley Tng <ackerleytng@google.com>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792711664; l=6480;
+ i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
+ bh=/6ChK+dhNyFC5epULer4MMTl5heO+eaQ0hyuSzmx3Fo=;
+ b=za/ALoHb/ybC9kgi6o2avnw/xTRhb+35RtnrYcvmZnrWvKtTjSZTkiZbEU0bys25KYfAoQfI6
+ RPM9vxjHJ70CI2szG/reUm3EdeeRow6j6qo08Wm3qQ7SAt8dhK26dXk
+X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
+ pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
+X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
+ auth_id=649
+X-Original-From: Ackerley Tng <ackerleytng@google.com>
+Reply-To: ackerleytng@google.com
+Content-Transfer-Encoding: 7bit
 
-Commit 8db6c34f1dbc ("Introduce v3 namespaced file capabilities") changed
-cap_inode_setxattr() to return 0 unconditionally for XATTR_NAME_CAPS
-("security.capability") and moved capability validation into
-cap_convert_nscap(), but placed the call inside the "if (size)" block in
-setxattr(). Commit 7c03e2cda4a5 ("vfs: move cap_convert_nscap() call into
-vfs_setxattr()") preserved that "size &&" condition in vfs_setxattr():
+From: Ackerley Tng <ackerleytng@google.com>
 
-	if (size && strcmp(name, XATTR_NAME_CAPS) == 0) {
-		error = cap_convert_nscap(idmap, dentry, &value, size);
-		...
-	}
+Conceptually refactor the buddy allocator providing guest_memfd with
+order-0 folios as the native provider.
 
-For security.* extended attributes, xattr_permission() skips
-inode_permission(MAY_WRITE) and leaves permission checks to the security
-module, while cap_inode_setxattr() returns 0 for XATTR_NAME_CAPS assuming
-cap_convert_nscap() has already validated the write. Because
-__vfs_setxattr() treats size == 0 as an empty attribute write (setting
-value = "") rather than a removal, calling setxattr(2) on
-"security.capability" with size == 0 bypasses cap_convert_nscap() and
-allows an unprivileged caller without CAP_SETFCAP or write permission on
-the target inode to write a 0-byte security.capability xattr (or
-overwrite an existing one).
+Define operations with an alloc_folio callback for the native provider,
+which still uses filemap_alloc_folio to allocate folios as before. Also
+define the attach callback to establish provider context. Route folio
+allocation in the get-folio path through provider ops, and set up the
+native provider during creation using a sentinel fd and attach.
 
-When that binary is subsequently executed, get_vfs_caps_from_disk() reads
-the 0-byte security.capability xattr and fails the
-size < sizeof(magic_etc) check with -EINVAL, causing execve(2) to fail
-with -EINVAL.
+Attach the provider only after the entire inode and pseudo-file have been
+initialized. Exposing the inode to external providers before allocating the
+file or populating the file list risks race conditions and use-after-free
+bugs if an external provider immediately triggers operations on the
+guest_memfd inode.
 
-Always invoke cap_convert_nscap() when strcmp(name, XATTR_NAME_CAPS) == 0
-regardless of size, so that 0-byte writes hit the existing !*ivalue /
-!validheader() checks in cap_convert_nscap() and are rejected with
--EINVAL.
+Now that the inode is exposed for other providers, add a write barrier to
+commit everything in the inode before the provider (and other racing
+provider threads) gets to use the gmem inode.
 
-Fixes: 8db6c34f1dbc ("Introduce v3 namespaced file capabilities")
-Assisted-by: ARTIST LLM
-Signed-off-by: Dominik Maier <dmnk@google.com>
+Expose provider operations so external providers across the kernel can
+implement them.
+
+Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- fs/xattr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/guest_memfd.h | 28 +++++++++++++++
+ virt/kvm/guest_memfd.c      | 86 ++++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 110 insertions(+), 4 deletions(-)
 
-diff --git a/fs/xattr.c b/fs/xattr.c
-index d9f035610f0b..0705801a62cc 100644
---- a/fs/xattr.c
-+++ b/fs/xattr.c
-@@ -332,7 +332,7 @@ vfs_setxattr(const struct mnt_idmap *idmap, struct dentry *dentry,
- 	const void  *orig_value = value;
- 	int error;
+diff --git a/include/linux/guest_memfd.h b/include/linux/guest_memfd.h
+new file mode 100644
+index 0000000000000..218de509769c1
+--- /dev/null
++++ b/include/linux/guest_memfd.h
+@@ -0,0 +1,28 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef _LINUX_GUEST_MEMFD_H
++#define _LINUX_GUEST_MEMFD_H
++
++#include <linux/types.h>
++
++struct file;
++struct folio;
++struct inode;
++struct mempolicy;
++
++/**
++ * struct guest_memfd_provider_operations - Operations for external memory providers
++ * @attach: Attach to a resource file, perform filesystem-specific validation,
++ *          and return an opaque provider context.
++ * @alloc_folio: Allocate an uninserted folio for a given index and NUMA policy.
++ *               Must return a pointer to a struct folio on success, or an
++ *               ERR_PTR() error code on failure. Must never return NULL.
++ *
++ * Used by filesystems and device drivers that provide memory for guest_memfd.
++ */
++struct guest_memfd_provider_operations {
++	void *(*attach)(struct inode *gmem_inode, struct file *resource_file);
++	struct folio *(*alloc_folio)(void *provider, pgoff_t index,
++				     struct mempolicy *mpol);
++};
++
++#endif /* _LINUX_GUEST_MEMFD_H */
+diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+index f865fa0e46840..545c3e646e9c1 100644
+--- a/virt/kvm/guest_memfd.c
++++ b/virt/kvm/guest_memfd.c
+@@ -3,6 +3,7 @@
+ #include <linux/backing-dev.h>
+ #include <linux/falloc.h>
+ #include <linux/fs.h>
++#include <linux/guest_memfd.h>
+ #include <linux/kvm_host.h>
+ #include <linux/maple_tree.h>
+ #include <linux/mempolicy.h>
+@@ -35,6 +36,9 @@ struct gmem_inode {
+ 	struct inode vfs_inode;
+ 	struct list_head gmem_file_list;
  
--	if (size && strcmp(name, XATTR_NAME_CAPS) == 0) {
-+	if (strcmp(name, XATTR_NAME_CAPS) == 0) {
- 		error = cap_convert_nscap(idmap, dentry, &value, size);
- 		if (error < 0)
- 			return error;
++	void *provider;
++	const struct guest_memfd_provider_operations *provider_ops;
++
+ 	u64 flags;
+ 	/*
+ 	 * Every index in this inode, whether memory is populated or
+@@ -50,6 +54,65 @@ static __always_inline struct gmem_inode *GMEM_I(struct inode *inode)
+ 	return container_of(inode, struct gmem_inode, vfs_inode);
+ }
+ 
++static void *gmem_native_attach(struct inode *gmem_inode,
++				struct file *resource_file)
++{
++	return GMEM_I(gmem_inode);
++}
++
++static struct folio *gmem_native_alloc_folio(void *provider, pgoff_t index,
++					     struct mempolicy *mpol)
++{
++	struct gmem_inode *gi = provider;
++	struct folio *folio;
++	gfp_t gfp;
++
++	gfp = mapping_gfp_mask(gi->vfs_inode.i_mapping);
++	folio = filemap_alloc_folio(gfp, 0, mpol);
++	if (!folio)
++		return ERR_PTR(-ENOMEM);
++
++	return folio;
++}
++
++static const struct guest_memfd_provider_operations gmem_native_provider_ops = {
++	.attach = gmem_native_attach,
++	.alloc_folio = gmem_native_alloc_folio,
++};
++
++#define GMEM_RESOURCE_FD_NATIVE (-1)
++
++static int kvm_gmem_attach_resource(struct inode *inode, int resource_fd)
++{
++	const struct guest_memfd_provider_operations *ops = NULL;
++	struct file *resource_file = NULL;
++	void *provider;
++
++	if (resource_fd == GMEM_RESOURCE_FD_NATIVE)
++		ops = &gmem_native_provider_ops;
++	else
++		return -EOPNOTSUPP;
++
++	provider = ops->attach(inode, resource_file);
++	if (IS_ERR(provider))
++		return PTR_ERR(provider);
++
++	GMEM_I(inode)->provider = provider;
++	GMEM_I(inode)->provider_ops = ops;
++
++	return 0;
++}
++
++static struct folio *gmem_provider_alloc_folio(struct gmem_inode *gi,
++					       pgoff_t index,
++					       struct mempolicy *mpol)
++{
++	if (gi->provider_ops && gi->provider_ops->alloc_folio)
++		return gi->provider_ops->alloc_folio(gi->provider, index, mpol);
++
++	return ERR_PTR(-EOPNOTSUPP);
++}
++
+ #define kvm_gmem_for_each_file(f, inode) \
+ 	list_for_each_entry(f, &GMEM_I(inode)->gmem_file_list, entry)
+ 
+@@ -143,11 +206,10 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+ 		return folio;
+ 
+ 	policy = mpol_shared_policy_lookup(&GMEM_I(inode)->policy, index);
+-	folio = filemap_alloc_folio(mapping_gfp_mask(inode->i_mapping), 0,
+-				    policy);
++	folio = gmem_provider_alloc_folio(GMEM_I(inode), index, policy);
+ 	mpol_cond_put(policy);
+-	if (!folio)
+-		return ERR_PTR(-ENOMEM);
++	if (IS_ERR(folio))
++		return folio;
+ 
+ 	r = filemap_add_folio(inode->i_mapping, folio, index, GFP_KERNEL);
+ 	if (r) {
+@@ -996,6 +1058,20 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+ 	xa_init(&f->bindings);
+ 	list_add(&f->entry, &GMEM_I(inode)->gmem_file_list);
+ 
++	/*
++	 * Ensure all inode and file initialization (such as gmem_file_list and
++	 * bindings) is globally visible before exposing the inode to the
++	 * provider in ->attach().
++	 */
++	smp_wmb();
++
++	err = kvm_gmem_attach_resource(inode, GMEM_RESOURCE_FD_NATIVE);
++	if (err) {
++		fput(file);
++		put_unused_fd(fd);
++		return err;
++	}
++
+ 	fd_install(fd, file);
+ 	return fd;
+ 
+@@ -1355,6 +1431,8 @@ static struct inode *kvm_gmem_alloc_inode(struct super_block *sb)
+ 	mt_init_flags(&gi->attributes, MT_FLAGS_LOCK_EXTERN | MT_FLAGS_USE_RCU);
+ 
+ 	gi->flags = 0;
++	gi->provider = NULL;
++	gi->provider_ops = NULL;
+ 	INIT_LIST_HEAD(&gi->gmem_file_list);
+ 	return &gi->vfs_inode;
+ }
+
 -- 
 2.56.0.257.gf7497c7d27-goog
+
 
