@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792711705;
-	b=S+PKTY0h3206Hr2eOB3ha7xLsQnXwAK2PePW30FQoyE77LAUGfcGJt91SgUn5BTANzV4
-	 DZWesvN5R8vkc0R5KwVWH6x40vyex97CBr9frrRo0aC6+tqsMmpA6fQJZ06wNEo7ASG7v
-	 CZBa6Xx462vq7U4ZKqONyjP9TpPdzqaXyzVRHpyo0+VQ6JzVZGNSobtGd5t9IjJi0JwGb
-	 saTrHRXg1kZSAT0OCYU+mNm4FEQVZRzafH85T/NlV2VJgCgUML2SYFl4qEnCsfkO2Wj64
-	 R3z0W1hqVGVIa9AZj/qWyoKyly1soBZrXm0KrB6t3Aah5gpn0zrrd+7q2ZDij8vgdiw==
+	t=1792711686;
+	b=mXbNp2umIGettitMCInqxdI/gptcQBx9nAI5DpmsyzWz9wyyiMdQhWzNw9hrOR71uhZf
+	 KH29ehwK1WF5dgyDObVjDxhp/Fh155900SFy2CXRSyihRuHWUKayz1zZHUZ88R2zKiIdF
+	 TO/5x9y48lDS0vgFbAm6pJJnOXX/k/rYw2E4XBuVLM2Ezj1nzfJb2C7rReEduZsyzsjtF
+	 chWGyArsNd0HWivbqCuDj+gF/pU75MUO8QY44POP5QWeqA6hUKR9hZKq3uBpCVO4NQEtm
+	 aBNDgHF04OVZcd3cm9CmQ8erK5+Oa8/bMibfGMML1FM2eG6loFbGbegxa4SsQfUMkXw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792711705;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792711686;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=GSyw6Ljics0B0SjVoVtEY0jzr9tQ8ltn7Ym8k/iOA0U=;
-	b=ANAB5patTfKntdzS9K9NERvcS93jqQ82MpabsI4PVICqvms/wQhBneVoGRF29+d71S53
-	 M7Pa0nRmdfctblgdTHFJCCpXA8wDV0wsi0IHwLB+EzjzQrCb3ipn85vMgczBruGDSVhJZ
-	 dH/K268GHfPWHfcYY+PNPY51uMoz73IOPYopJbviCQKq13xv6JeDHO51RlTuOS6ailz/8
-	 nmZ+H88BIcUM8gI3yIhwVIrwbJv8j1oQGdYMDD8VQuDPH2QqwdunEyaCcSe6pHA2tHJAs
-	 yl2T9rqqKMI4wkO1Sdc3pUS8N3WiMEcDY3zxAS6eGoeEN8XlZ8Ig/6PRR4cavIuZvxQ==
+	bh=7twd+WSZtzZqzcG2MmjFTpIoH9oGJ/O9bNcXdaq/s+I=;
+	b=RymDwuuQHGnZ46sD/2gLOVC6MyiSgyZF1a2enkziZZ7pW+qIe5hs6xYGFnQ690loYrdL
+	 DymAxq+t9NGTMdYyNoso3e+gQZ7SxP5twXesi7aJ/RJRyjfNFmvC3DyDsN2dazklYfOPP
+	 /vRgPe1tuSj4EJkS2lnQ33ZVGN4+Thoo1PaR5QubwCtdKNu0v7EfbIJ+bPzEgL3TGhx48
+	 P+uCMpDZhc+cEMML9yxH0zDWgSaueS18Sqk87+BsNN5dlAwVJc4rRYdHtRYA+V9b7m8xj
+	 oWzyvznb5lizdXWTgZJ9Eh1GDZIojdkzBQ1ugS0yLu+YG6CnOK02ybQ574q1MNu94Ag==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gFJYFEm9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=anNWY8zl;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326F16073FD7;
-	Thu, 22 Oct 2026 23:28:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2F0606A748;
+	Thu, 22 Oct 2026 23:28:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gFJYFEm9
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=anNWY8zl
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792711705;
-	b=X9ixk91bXKFYRmardpY49+nfd4BKvfg2Pd/G+kBE5kqIEvUgPlk13M/UsoEl5gI2A0jo
-	 yIAz1zbDFZE25o2dvC95O9ns7EPbS/CZhUWgjly2TVniFZrnpFhd23dgBBjlnKOmPmiUE
-	 paagw2b19eab3EEDreUaA4yd3clW2WOgAHLKmdrcvTHyvCM87lehF8JJuCxcnAk//9+rM
-	 2YOt8R9/rhjlsKOB0qi4emN7VB+OEARHVjOp2/KtVKcXGG+QTJz01UuYQBum8i1kD95Er
-	 RddLGHed74sOjLF829mfbBG4bj+pw/Qks0hxQSO1dyk2UntS5xRfOhKrgDeZ0uejkgA==
+	t=1792711685;
+	b=0lpZaCl10Ntmy1elZ3Qx/1gpc07iV0fbsCJwQ5/aZ77C99ikDNG8JmbFQNBpIdOCQ7Ar
+	 misMKEWBcpAbqOef5ZE2W+ykEadVajMEhbkId3y58QVDO7JtF2pzZXKmTJBLrsjTAzmQz
+	 4+0JU9pBPQmKHh3SVcXcuK69peRT0zdR+tiwqPHy2eV/qH1JxyuE/iI0s/FDkugUHqAxW
+	 mgWuAOgPosBiDnBVHIOHU2bJIm8bhGSPnYLrAxSZf4lelqgvEvtwHeCELW5qccUY4RlsG
+	 6QpYdKl407cOMTzPL4GKaQciVIN42PS4y9IIu7CV6H+qAlNoB7RT82jf5Sth1tqVTTw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792711705;
+	c=relaxed/relaxed; t=1792711685;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=GSyw6Ljics0B0SjVoVtEY0jzr9tQ8ltn7Ym8k/iOA0U=;
-	b=0y5u8C6lAc1ovphGEpOzYStrbT+SFL7KVRZadS8myc+pxvUrLiKtHHAu66figpIlZZq2
-	 PO8qBmTf4wguC7/ScNiyPtJ9VS3VbPmkXo0PeGXSSry2H+zL62c741wQcM3dk/61bp/j7
-	 hMncaBDQQnpcaKWnxZSCDoJTeOvFnYbUskAQHSRiZVvhEv+lVIn2vtcEsHWF1CWOlMChU
-	 MocuX/3XaFx/D0FuL87/w92Gs0fYKN6O0MfTPacoD6i8Pob13FI5lGMoKylCqn56TaBHC
-	 tZ67U4poQUzZaUmg3pPAb3akK+gi+XKA8ahI/67n8H2EIkKcAHo3FHYQtjD6bCwffSQ==
+	bh=7twd+WSZtzZqzcG2MmjFTpIoH9oGJ/O9bNcXdaq/s+I=;
+	b=tTqmPh4Y5lW1D71FuN0KQLRYxK+CDMCagIlBcJrcidGSHKjeArIK2s50hLpw20SFHo90
+	 qZq3PQmS2gvEJ9fRVdy5Y1SeEXE5LmCTaTiUar+8fN+zG3H/vyB3/s9oFGEyZt88XH0no
+	 niEZE0kw1jd1pie79hxKtDsH01uAk/JIE1QeeSAGoGVGn7m1O2P98GAqTE76pPq0gB6fQ
+	 uVIxV9ELf5TUZbh/nmVy1b6bnYsqRBMo+3VQGwPARQA7pNXOB6+XvlmHB+a1D5g6cIInU
+	 TCoSUKu9SlMNDSL+Rtzqxdnm25hWEwsEGbMXppMrro2iv8KKHeMCmstRe3cN3jSYVTw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 853E31F011BF;
-	Thu, 22 Oct 2026 23:28:18 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 579C81F011B3;
+	Thu, 22 Oct 2026 23:28:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792711705;
-	bh=GSyw6Ljics0B0SjVoVtEY0jzr9tQ8ltn7Ym8k/iOA0U=;
+	s=k20260515; t=1792711685;
+	bh=7twd+WSZtzZqzcG2MmjFTpIoH9oGJ/O9bNcXdaq/s+I=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=gFJYFEm94cycUDvhjQs84BUNbfD12od55Y9D9SwbKwwrcJONMi/Et+yVvxxbwYWNf
-	 nl+1iDhlPGLpD3YbiF3rpCV+KjJU1YFOZxMC31fR3LzlUHbKz/8hK1S18s2BF3vlVf
-	 XubnMuC5E3T5MbZdJxR9TNFTgUPHuWpPQnvJdHXl/i/FBaWKiXy6y8KytAwkYsN/Ht
-	 anQuVCixaHdCS5ujPhRcRrKG5lQ2Ztbt4Xn2lVC+rvrYy3RoSWoIhDNufjrs4IrsfW
-	 t8hNPnL0iAjxhZBBlsGveZaC86+YhHaPDhum+CRxmkfmHnayLsPRhewq0VmJg8WZdO
-	 MJ9s2pfctyZiw==
+	b=anNWY8zl6H4ptpNFtI1sMlOJnjw9tZKJmkP71LouszJusgtYlkBxtKngp+BCEuiHA
+	 SnbU7elJiP1zVAYPkPCutBxSxTUDBSPtEUnyuDvvDVgOU9J7xjRXRmH306fa9LQjjO
+	 8pgBbrL123somEIBdNzbbx46RO7YqepK4QioYViKD4U2O2Aq58TZ2D2duUY1iKQUS3
+	 x6Gvg85KiRbvPBS76GRHxWcOCQ7xL1ROn3oA8pftNVLbHTylcr+VTO4LVgG0htMTJu
+	 2eq2cOwWUFkV95AWDCkP/eKCrU8RGTUmtjS5yEB+ZIWsy2uHE59e2JPx9RyEChR9I8
+	 40NTk2pNT++/A==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 6D494420F7;
-	Thu, 22 Oct 2026 23:27:50 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 45D1442097;
+	Thu, 22 Oct 2026 23:27:49 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Thu, 22 Oct 2026 16:28:17 -0700
-Subject: [PATCH RFC v2 45/50] samples/kvm: Implement attach and release
- provider ops in sample provider
+Date: Thu, 22 Oct 2026 16:27:53 -0700
+Subject: [PATCH RFC v2 21/50] samples/kvm: Remove donate, reclaim, and move
+ operations from sample provider
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261022-gmem-alternative-providers-v2-45-5dd1dc6c660a@google.com>
+Message-Id: <20261022-gmem-alternative-providers-v2-21-5dd1dc6c660a@google.com>
 References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
 In-Reply-To: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
 To: Alex Williamson <alex@shazbot.org>, Alexander Graf <graf@amazon.de>, 
@@ -135,11 +135,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792711665; l=1898;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792711665; l=5139;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=KGuPGvRWcbKGcEsNC27FbqmF987N6l1g/xr1+ZAzxc4=;
- b=Z8JHLu6Ste4p8ZrYRqK06GDhAVo48QV4XZ+VWzhKHyf7aaqsyXhbrwWLtjaRHzGTMt3dr8qvY
- 4A+I9EpN32UAecHoaXDspE+Lg0dT9WcHVIl7AcXBRh4n+ovXjEly61w
+ bh=WTi8GNiGg+F2aaBuaZCq/EDwN8kKCvY/mAo+mn6OX58=;
+ b=v3QhsSEVYXAd028viNm8E7C+qHr9nyYz39aTz3RD6uY14m1o/VGPWhbErWNd6ZfBbEsWDSTBQ
+ MLBj6iPluokDwyJ+aEIZoq+Eozr60nK1kdDQ10JAa8cCaEYuDLEqG3P
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -150,65 +150,169 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-Implement the guest_memfd provider operations in the sample memory
-provider module, providing .attach and .release callbacks.
+Remove the MPS_MOVE, MPS_DONATE, and MPS_RECLAIM ioctls from the sample
+memory provider.
 
-In .attach, take a reference to the provider file (get_file) to keep the
-provider context alive while attached. In .release, release the file
-reference via fput.
-
-Attach the provider operations to mps_file_fops.gmem_provider_ops so that
-provider file descriptors created by the sample module can be passed as
-resource_fd to guest_memfd.
+These operations manage dynamic ownership transfers and returning memory
+to the root pool, which adds complexity that is not needed for the core
+interface design.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- samples/kvm/mem_provider_sample.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ samples/kvm/mem_provider_sample.c | 86 ---------------------------------------
+ samples/kvm/mem_provider_sample.h | 35 ----------------
+ 2 files changed, 121 deletions(-)
 
 diff --git a/samples/kvm/mem_provider_sample.c b/samples/kvm/mem_provider_sample.c
-index 397ebb3773f39..d9e57484c3933 100644
+index 8180959ab78ff..5afc433dce6e8 100644
 --- a/samples/kvm/mem_provider_sample.c
 +++ b/samples/kvm/mem_provider_sample.c
-@@ -17,6 +17,7 @@
- #include <linux/file.h>
- #include <linux/fs.h>
- #include <linux/gfp.h>
-+#include <linux/guest_memfd.h>
- #include <linux/io.h>
- #include <linux/miscdevice.h>
- #include <linux/mm.h>
-@@ -118,11 +119,30 @@ static long mps_file_ioctl(struct file *file, unsigned int cmd,
- 	}
+@@ -674,86 +674,6 @@ static bool mps_child_owns(struct mps_info *info, unsigned long first,
+ 	       find_next_zero_bit(info->owned, e, s) >= e;
  }
  
-+static void *mps_gmem_attach(struct inode *gmem_inode,
-+			     struct file *resource_file)
-+{
-+	return get_file(resource_file);
-+}
-+
-+static void mps_gmem_release(void *provider)
-+{
-+	struct file *resource_file = provider;
-+
-+	fput(resource_file);
-+}
-+
-+static const struct guest_memfd_provider_operations mps_gmem_provider_ops = {
-+	.attach		= mps_gmem_attach,
-+	.release	= mps_gmem_release,
-+};
-+
- static const struct file_operations mps_file_fops = {
- 	.owner		= THIS_MODULE,
- 	.release	= mps_file_release,
- 	.unlocked_ioctl	= mps_file_ioctl,
- 	.compat_ioctl	= compat_ptr_ioctl,
-+	.gmem_provider_ops = &mps_gmem_provider_ops,
- };
+-static long mps_ctl_move(void __user *uarg)
+-{
+-	struct mps_move mv;
+-	struct mps_info *src, *dst;
+-	unsigned long first, last;
+-	struct file *sf, *df;
+-	long ret;
+-
+-	if (copy_from_user(&mv, uarg, sizeof(mv)))
+-		return -EFAULT;
+-	sf = mps_get_child(mv.src_fd, &src);
+-	if (IS_ERR(sf))
+-		return PTR_ERR(sf);
+-	df = mps_get_child(mv.dst_fd, &dst);
+-	if (IS_ERR(df)) {
+-		fput(sf);
+-		return PTR_ERR(df);
+-	}
+-
+-	mutex_lock(&mps_root.lock);
+-	ret = mps_root_range(mv.offset, mv.len, &first, &last);
+-	if (ret)
+-		goto out;
+-	if (src == dst || !mps_child_owns(src, first, last) ||
+-	    !mps_child_covers(dst, first, last)) {
+-		ret = -EINVAL;
+-		goto out;
+-	}
+-	/* Revoke from the source before the destination gets the pages. */
+-	mps_child_lose(src, first, last);
+-	mps_child_gain(dst, first, last);
+-out:
+-	mutex_unlock(&mps_root.lock);
+-	fput(df);
+-	fput(sf);
+-	return ret;
+-}
+-
+-static long mps_ctl_donate(void __user *uarg, bool reclaim)
+-{
+-	struct mps_donate d;
+-	unsigned long first, last;
+-	struct mps_info *info;
+-	struct file *file;
+-	long ret;
+-
+-	if (copy_from_user(&d, uarg, sizeof(d)))
+-		return -EFAULT;
+-	if (d.pad)
+-		return -EINVAL;
+-	file = mps_get_child(d.fd, &info);
+-	if (IS_ERR(file))
+-		return PTR_ERR(file);
+-
+-	mutex_lock(&mps_root.lock);
+-	ret = mps_root_range(d.offset, d.len, &first, &last);
+-	if (ret)
+-		goto out;
+-	if (!reclaim) {
+-		if (!mps_child_owns(info, first, last)) {
+-			ret = -EINVAL;
+-			goto out;
+-		}
+-		mps_child_lose(info, first, last);
+-		bitmap_set(mps_root.donated, first, last - first);
+-	} else {
+-		if (!mps_child_covers(info, first, last) ||
+-		    find_next_zero_bit(mps_root.donated, last, first) < last) {
+-			ret = -EINVAL;
+-			goto out;
+-		}
+-		bitmap_clear(mps_root.donated, first, last - first);
+-		mps_child_gain(info, first, last);
+-	}
+-out:
+-	mutex_unlock(&mps_root.lock);
+-	fput(file);
+-	return ret;
+-}
+-
+ /*
+  * CTL_SET_READONLY and CTL_SET_PRESENT change a child's pages, by the owner on
+  * the control device.  A VMM that holds the child fd cannot, so it cannot undo
+@@ -795,12 +715,6 @@ static long mps_ctl_ioctl(struct file *file, unsigned int cmd,
+ 		return mps_ctl_setup(uarg);
+ 	case MPS_NEW_CHILD:
+ 		return mps_ctl_new_child(uarg);
+-	case MPS_MOVE:
+-		return mps_ctl_move(uarg);
+-	case MPS_DONATE:
+-		return mps_ctl_donate(uarg, false);
+-	case MPS_RECLAIM:
+-		return mps_ctl_donate(uarg, true);
+ 	case MPS_CTL_SET_READONLY:
+ 		return mps_ctl_set_range(uarg, true);
+ 	case MPS_CTL_SET_PRESENT:
+diff --git a/samples/kvm/mem_provider_sample.h b/samples/kvm/mem_provider_sample.h
+index 0e036d1c76a45..acff5785099b5 100644
+--- a/samples/kvm/mem_provider_sample.h
++++ b/samples/kvm/mem_provider_sample.h
+@@ -68,41 +68,6 @@ struct mps_new_child {
+ #define MPS_NEW_CHILD \
+ 	_IOW(MPS_IOCTL_BASE, 5, struct mps_new_child)
  
- static long mps_ctl_new_file(void __user *uarg)
+-/*
+- * ioctl on /dev/mem_provider_sample: move [@offset, @offset + @len) of the root
+- * from child @src_fd to child @dst_fd.  @src_fd must have every page of the
+- * range, and the range must be inside @dst_fd's.  The pages are revoked from
+- * the source before the destination gets them, so the consumers of the two
+- * children never map them at the same time.
+- */
+-struct mps_move {
+-	__s32 src_fd;
+-	__s32 dst_fd;
+-	__u64 offset;	/* bytes into the root, page aligned */
+-	__u64 len;	/* bytes, page aligned */
+-};
+-
+-#define MPS_MOVE \
+-	_IOW(MPS_IOCTL_BASE, 6, struct mps_move)
+-
+-/*
+- * ioctls on /dev/mem_provider_sample: DONATE takes [@offset, @offset + @len) of
+- * the root from child @fd, which must have all of it, and keeps it at the
+- * root.  RECLAIM gives a donated range to child @fd, whose range must
+- * contain it.  The sample does not scrub the pages.
+- */
+-struct mps_donate {
+-	__s32 fd;
+-	__u32 pad;
+-	__u64 offset;	/* bytes into the root, page aligned */
+-	__u64 len;	/* bytes, page aligned */
+-};
+-
+-#define MPS_DONATE \
+-	_IOW(MPS_IOCTL_BASE, 7, struct mps_donate)
+-#define MPS_RECLAIM \
+-	_IOW(MPS_IOCTL_BASE, 8, struct mps_donate)
+-
+ /* ioctl on a child fd: read the child's state, for tests. */
+ struct mps_stats {
+ 	__u64 region_offset;	/* the child's range in the root */
 
 -- 
 2.56.0.257.gf7497c7d27-goog
