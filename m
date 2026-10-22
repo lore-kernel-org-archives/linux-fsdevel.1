@@ -1,96 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792677099;
-	b=pO+CEi3e3ToR6hC9GNinTuMwxhv6NOa3ZcBqzGpvE3LmyEpD16jngjmdfWmqNEla6xW1
-	 DiLi32UIsNwRBo2XYse27dIHbcoNW1sxNeRamniJkshAwvm1e9gNtHlFdwToPBSVBRqU3
-	 oDwHOu87atcAByw2AeFUYe1buPfrLP5f9HYAiF/K8sabUNF8ccMS2nNDzJV0mNj3tTQ/Q
-	 Jr8Xu2PLczyZVqklhrqTodn4ZTNlT6d2dHibJBaljkPcovOEYHImPkhalhSbpbI4rQ0j5
-	 zOC49SHaVRU9pxv4UNqcyTR0LJDrgTH8SukDvxPebhas5gyFjztaUfkyj0BSvNzE/bg==
+	t=1792677648;
+	b=2MLQVIBqVIYgOOgISjEtghjXl0myFrL7CeUc6clSCIZTvhs8mjH5MVHrss3+za/srlrL
+	 7bWCkPDVBpy7vzR+JXIN2d8Qed+6B1y0cf+5ssZ1EA39LutV9cMANu26T3PEags5G65Iw
+	 5BHZu5YXNAa48RLa9y/quNtEguJSE3VVa7VhReK7H6iiH+uSSlV9C16vrEnqwZplb3ZUS
+	 c0SRUUeOTilERfyluEiLSoHCawJWEtVO1SvLbQ5PR2/Vkso7A2bcnLNqMeMS+6DVlUF52
+	 15V4C55EPoctUndWqB2RSiwvjMJsLI88ugv+TKHXt9kPGiuNimCY3ceNxPjIsXxw8zA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792677099;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792677648;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=3AMzmTxZ8irr3o941QbW5F8QIQhOchreftiX6DcpbdY=;
-	b=V/Q2f1Y9jt0V9CXe3N8GAhWjLDxWgW/rWoHOFY1AwqkCPtK0PKyqGjk47Eryi/r69i5R
-	 qlmeEFJsbvTaMfu1gMJitbvtDqi9ObENtDPUDLBCiMwS9HgT4/Arc0PsKm2S0W9m8rsNB
-	 8t8ONWF4gdUe89FtVQS7HrZGAVcWOFfaVtIuQ5/KZxmXrGCs6AZumgzfgmGRJPiteQ1tC
-	 tIBZg61fBA14qeoxlaofz2EqYAgLKvCQeujj0vpmaGYAwmvE9nUAAJoHQs+yVxDCiSDw4
-	 PxNZwJwkxZYiBRYvbDPYfHYDOK0p/7S75R8PHQwCdxPXc0WsoyDcZ5McpKlyUaMH8nQ==
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
+	bh=RYxKdG3hGFUHAS2wMT8TWf0HywRpu62ZcKtPYmwcpl4=;
+	b=RGc54SM6DJo2P3APkjXYYPU3EJY/f9cLId0uSc++1UDbfLLWJAoJjD9tnWTY02NgNvxP
+	 zFDzsz9hYeGc4TjSRHynhPB5Q/GU1MMV8u1RJm3lETSKidBfwEj1WK1q6icBKjVCOokFY
+	 IH69JwUZOOwfG7GX8dcKqjYtzQJIyedT2RF7O6lrwZT9roF8Z4yp54aPx3VdYt9nPL5tK
+	 DBh3Ro9X01pBKmPb6ZH7ks3B6/DrLXsHiJqJV6tP3H7EbDneVYEGI5Ceut9uICO9AbGQ/
+	 boXleM7Hzbavc082cQiW6YLxT79RtW7LILvIqfarWpZgwL9Vtd4EypVamgCrZie/b1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cs.unc.edu;
-	spf=pass smtp.mailfrom=cs.unc.edu;
-	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=P32fr4BZ;
-	arc=none smtp.remote-ip=74.125.224.54
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Bxh+hitZ;
+	arc=none smtp.remote-ip=74.125.82.172
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C25E606A31B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 13:51:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C25E606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68220606A31F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 14:00:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68220606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=P32fr4BZ
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-67a000ac7efso1810525d50.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 06:51:38 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Bxh+hitZ
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-35d0be18c71so1034306eec.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 07:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1792677098; x=1793281898; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3AMzmTxZ8irr3o941QbW5F8QIQhOchreftiX6DcpbdY=;
-        b=P32fr4BZjij+rD5LraykhzhDfK+ay3sYhjxH/jlCUBM+aixlrMyW9mHNIwV5haFGQv
-         7R2DpV0fqFMUpQMQ2mpn2Pg/ayPsrBt0rhnSNesomauMzfy9DyTdSGB96zrhDCgdx9gB
-         tSdkrzanKtOPXnR1D0GrGFYGIalJdtcRiZ1b34R3VLSBpxanlQ7jCWxgT6tg7Q7YbukY
-         cK2LRg0NuIiwKnrGlBqm6PDXCQSesSoxpTfXiJW5lUoDx8iWEa+BUdE41Swxqb9sCfmr
-         2Re9+tZCoz8Xhp3h1tS6jMPVLDqHAUNI9JIuD0YRtnzGCfmBb3lb9pjeuiMe59olYDn4
-         nGsQ==
+        d=gmail.com; s=20251104; t=1792677648; x=1793282448; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RYxKdG3hGFUHAS2wMT8TWf0HywRpu62ZcKtPYmwcpl4=;
+        b=Bxh+hitZO2FfVxuz5Qb9/4WIWAKO1lLwLLJ2tAGbDmc/XpxgVHZrEjIvDM/FXCMaOH
+         9ksyLbdCCzsT8O8/74+VYG6Jd5VDQvreFNb5S1p4n90dsLImy18AOoDlyNN3sRtvShor
+         Gj+utQlqLyd4ntudIORPMfB208zKeVn/eFPaD9M73Q/Jp3y40aAgvf+SYE/atC6e+3N1
+         JzK8uT4RTeUtrWvqXTNtzD+mRUCfqxdcIHSdI2NSgMILnxPqQJfUwB7IW1SlJMqGN+78
+         x6igq4CMTL2Uxeg2rNI3sussxWHoPv792Bk2Mew9uXxjg+nM7HOu7OPraJBXudKPCRK9
+         M2EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792677098; x=1793281898;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1792677648; x=1793282448;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3AMzmTxZ8irr3o941QbW5F8QIQhOchreftiX6DcpbdY=;
-        b=fiyWoYyzSeZVszLhfkhiluuhQ+kfmNKhCjMprCcjhiSXayO7yaQsVYgIv5K+SIu9kE
-         N7mrTWic/41ucQn89CSC3JfcXkUfxyi3QrSJ884HomArZ1950xXYGKBDwYZ1j4z0vyCb
-         BCC5V4KuMsVMOBUqqaE5+ezO5jXaUuLSxaip5hYoYY7SxuxEpFnx35MtuADOvoAsElgk
-         Pim4erflBHCMfSNzkHs9SZmjbkkCH8g/NYDRbaSUFwQVaOGKCKjE5SyYsqntH3OaqsLI
-         H00oEutFMrX+8q16J2IfxQehB3eHRP2p9IUJ4YmEc5afCqkf3jAqk2l1boj+PI+jQegu
-         BMiQ==
-X-Forwarded-Encrypted: i=1; AKwUvByDA6sja9AZOhDOPsVsshOVoK4ZjJDEaMNV/m2LgXZc+CUUvi+wVLhNCCSzY5KL2iWowqzg0En3GOE/hFRO@vger.kernel.org
-X-Gm-Message-State: AFq9FYIHj2DhhaAfZZCfpUu53KAl+nV48lg/yvlZ7ihQv1ddBfvTuc8o
-	T6fv3F7UWqAw3rmu7pCxmmuJdpEmirNtO/a+wwREyVoPfQVgSUPd/byAklxkxGvvIg==
-X-Gm-Gg: AYBFou0YV6F6E9WohTfyC4ifyQUJx16C73qwIFOdkIdBpr2oETb4IpXSdhSgKDJENBr
-	36T8SlMVMIYJmrdYWgsii+YXAXILXzIX0Mkbej5Zz89/M6cxT7ll7Fao1DHaTkgbKzcPFXb4zyT
-	uOn1JbhsDYZHVQi0ZqWctK6kZG6tD6D69u8PSKbOxZ6dH5RHH/+t18M/c03Xdot8VxjBXMU2tDK
-	nVod8wrCwOgiVH/xdZ1O5Xl8EO27CJF8myBsQ2pmaKIRpqNugQa9EiJpV0y2WLP6FrnDyEspOhq
-	vTDhwQXxSxys+kLc1usOLRNlCHA5ioK3YpH1mLoGoMS6uJoibZ5LyUi1Ebh0RFutVEK1O7ye24x
-	tqNAFfWadvFPAXO1zznMs4CbNiIlML3HiK6Kk+678AmD2TFeTbTPcpJ601kjrpev4CLrclgJkZr
-	7jrg6PduI3vJEoh4zDuSArQFO6dIEbHWCIMlsOZZ0DlqsELwEtjO7U2MlPAowG/HrwKSCwfc4q+
-	CGuTWMaSyp6oUIt27UbxixkyOWrfLEcu4ualLHkjs6yBUdeXxahdjBVW/t1xdBz6fmWAzC9g1id
-	M+4=
-X-Received: by 2002:a05:690e:4090:b0:66d:112b:769 with SMTP id 956f58d0204a3-67a0e02c93fmr2630941d50.1.1792677097897;
-        Thu, 22 Oct 2026 06:51:37 -0700 (PDT)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67a0e185441sm2707787d50.3.2026.10.22.06.51.37
+        bh=RYxKdG3hGFUHAS2wMT8TWf0HywRpu62ZcKtPYmwcpl4=;
+        b=WyGwBxKPLq217S9bM03BaVeOhJMxPOW1HV2N//r4v8mP0az0LQb1wdIVgHtcrIC6qL
+         +jOun2eN1WuEjvTECY9jZLJCG7xMnpxwNVZ1OnxGVShzKlIx84yrnPwYt6ZtUEXSyCjw
+         dXri4zLWIwTsZ7htYkTJTWjoP60B9pSMalCGKXSm8Vf99VoJRhcj3ppe0zWnPWDBMYe6
+         WiSuEdcY7fYaMc7SPimPsbY4jJtgHpYkEfkZkD69BpHY/SrIZhSFMUZ466aaOvS6l+Ol
+         LSFTnRZAV/42/C0nRE+xBnf3sem+QmkNz7YG4h2fNjuq4cZ4d7qjbzSvBk1EoOXJVonW
+         spNw==
+X-Forwarded-Encrypted: i=1; AKwUvByvdOgwwHFepuv6SKCvhUrS+S/i/bdjoYySRwZakQiHAV6ZyybtSiRQO7oQG0alH4by91erzAWqvvsQw/wH@vger.kernel.org
+X-Gm-Message-State: AFq9FYJuUDL04LPdaiLkdr+cqWMxcBXeHSKGNTwM0JxeYlq6dDCDeUfj
+	lmtzcrKYH6PpU2VSt+LANVUXg8My9BJcjbZP+yPwfSEJpO4o3+GfXm14
+X-Gm-Gg: AYBFou3zld3UzIrLiSa2mwxoRDUQHctsafCp8HhphAomY6dU+LAuRABxd8902HBRp26
+	746B47e5Svljss02KoL+yVP5aywI3ilheUyXEO+prnv2DxCERCDI2YOMyDgVKJgxtXvqBHVY5i7
+	jPWksNE6vVz+F0lgjiusEW5VNCXumSkz1HcdHfZvJGd4Tmm/j72eDoFK7hjJTIPZOh8ANc/3GyX
+	tPNj5DHUxJWXlXOePxZFwDygZDPVGAcMNGX1P+5xJkaAnawij5Yj5kIK5Gd9fDdoRJuK0SVMPiv
+	EkNpzZciLSE1/jLo5fXVcOb48dAn/iLzTuTDcckz6tzBjEzc6bnIETRkyp81dyBeJoDrF1Ho3da
+	1ywz1sb1msAnQgSQkLnJaGgXS5YET5UkqyoJQE6dXRSUETf2UYdzb/xEVA5QF6wJDGi/Tq3/MEO
+	l/RkIhXLyu8lrScVS3WPnvy+IO0Mxcu4tbL6Z0VEzdG8h2NOYgRhJpYyCVeBfPYCImpEkQ8gutR
+	SOKh0WvRgphKCiCOEuyBK2lMbj+cNsZo2HnXY52kYqynhmSDv1t+m0yUQw2Y3sc5XRdzx4h
+X-Received: by 2002:a05:7300:c392:b0:35c:49b9:3166 with SMTP id 5a478bee46e88-368aead362fmr3201965eec.6.1792677647279;
+        Thu, 22 Oct 2026 07:00:47 -0700 (PDT)
+Received: from [127.0.1.1] ([23.254.208.9])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3673e15353csm29420342eec.2.2026.10.22.07.00.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 06:51:37 -0700 (PDT)
-From: Hengyu Liang <hengyul@cs.unc.edu>
-To: slava@dubeyko.com
-Cc: glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hfs: report errors when extending files with setattr
-Date: Thu, 22 Oct 2026 09:51:33 -0400
-Message-ID: <20261022135133.1411613-1-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2b9ea598558ed4b7dd25eb26a05f6667522c3afc.camel@dubeyko.com>
-References: <20261021145627.288953-1-hengyul@cs.unc.edu> <2b9ea598558ed4b7dd25eb26a05f6667522c3afc.camel@dubeyko.com>
+        Thu, 22 Oct 2026 07:00:46 -0700 (PDT)
+From: Qiliang Yuan <odys.yuan@gmail.com>
+Date: Thu, 22 Oct 2026 22:00:36 +0800
+Subject: [PATCH 1/2] mm/filemap: read ahead downwards on descending
+ VM_HUGEPAGE faults
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,79 +91,198 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261022-bug-mm-mmap-readahead-descending-v1-1-6d08b34862f2@gmail.com>
+References: <20261022-bug-mm-mmap-readahead-descending-v1-0-6d08b34862f2@gmail.com>
+In-Reply-To: <20261022-bug-mm-mmap-readahead-descending-v1-0-6d08b34862f2@gmail.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
+ Vishal Moola <vishal.moola@gmail.com>, fujunjie <fujunjie1@qq.com>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>, 
+ Usama Arif <usama.arif@linux.dev>, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ Qiliang Yuan <odys.yuan@gmail.com>, stable@vger.kernel.org
+X-Mailer: b4 0.13.0
 
-Hi Slava,
+On a VM_HUGEPAGE file mapping, a synchronous fault reads the PMD-sized
+folio that holds the faulting address and the one above it, and maps
+the faulting folio with a PMD. do_sync_mmap_readahead() counts each such
+fault in mmap_miss and stops reading ahead once it passes
+MMAP_LOTSAMISS, while filemap_map_pages() lowers the count for faults
+served from the page cache, but only when it maps them with PTEs.
 
-On Wed, Oct 21, 2026 at 02:22:41PM -0700, Viacheslav Dubeyko wrote:
-> I think now this code [1] becomes dead. And we need to rework it:
->
-> void hfs_file_truncate(struct inode *inode)
-> {
->         ...
->         hfs_dbg(...);
->
->         if (WARN_ON_ONCE(inode->i_size > HFS_I(inode)->phys_size))
->                 return;
->         if (inode->i_size == HFS_I(inode)->phys_size)
->                 return;
-[...]
-> It will be great if you could share another patch with the fix.
+A reader that moves towards lower offsets, such as memmove() copying
+backwards out of a mapping, never finds its next folio cached: the
+folio above is the one it just read. Every folio is a miss and none is a
+hit, so after about a hundred folios mmap_miss passes the limit and
+every page after that is read on its own. Since the PTEs mapped around
+a fault no longer count as hits, nothing lowers the count for it.
 
-Thanks for the review. I made this change and ran the whole xfstests
-set, but the grow path is still reached. The WARN_ON_ONCE() fires under
-fsstress in generic/013, 076, 476, 650, 750 and 795, every time from
-close() through hfs_file_release().
+When the folio above the faulting one is cached, read the folio below
+instead, without a readahead mark, and count a PMD mapping of the
+faulting address as a hit the way a PTE mapping is. Such a reader then
+misses on every other folio and hits on the rest.
 
-It comes from direct writes:
+Reading one byte from each page of a 2 GiB file, last page first, in a
+MADV_HUGEPAGE mapping with a cold page cache, read_ahead_kb 8192:
 
-1. When an inode is read, phys_size is set to i_size, which does not
-   have to be block aligned, e.g. 100.
-2. A direct write does not go through cont_write_begin(). When it
-   needs a new block, hfs_get_block() only adds s_blocksize to
-   phys_size. A direct write of 512 bytes at offset 512 makes phys_size
-   612 and i_size 1024.
-3. At the last close, hfs_file_truncate() sees i_size > phys_size and
-   calls hfs_write_begin(). cont_write_begin() then zeroes
-   [phys_size, i_size) in the page cache, which overwrites the data
-   that the direct write has just written.
+                   before       after
+  time            36.76 s      0.41 s
+  major faults     473191         516
 
-So today this path loses data, and removing it would only replace that
-with the warning, while phys_size stays behind i_size.
+Fixes: 0b9c0aeba938 ("mm/filemap: count only the faulting address as a mmap hit")
+Cc: stable@vger.kernel.org
+Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
+---
+ mm/filemap.c | 101 ++++++++++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 72 insertions(+), 29 deletions(-)
 
-The issue can be reproduced with:
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 00fd89cf6f550..8a7d1238ae75d 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -3319,6 +3319,23 @@ static int lock_folio_maybe_drop_mmap(struct vm_fault *vmf, struct folio *folio,
+ 	return 1;
+ }
+ 
++/*
++ * Whether a miss at @index, right below @nr cached pages, comes from a
++ * stream that runs towards lower offsets.
++ */
++static bool filemap_descending(struct address_space *mapping, pgoff_t index,
++			       unsigned long nr)
++{
++	void *entry;
++
++	if (index < nr)
++		return false;
++	rcu_read_lock();
++	entry = xa_load(&mapping->i_pages, index + nr);
++	rcu_read_unlock();
++	return entry && !xa_is_value(entry);
++}
++
+ /*
+  * Synchronous readahead happens when we don't even find a page in the page
+  * cache at all.  We don't want to perform IO under the mmap sem, so if we have
+@@ -3392,13 +3409,20 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
+ 		fpin = maybe_unlock_mmap_for_io(vmf, fpin);
+ 		ractl._index &= ~(folio_nr_pages - 1);
+ 		ra->size = folio_nr_pages;
++		ra->async_size = folio_nr_pages;
+ 		/*
+ 		 * Fetch two folios so we get the chance to actually
+-		 * readahead, unless we've been told not to.
++		 * readahead, unless we've been told not to. A stream that
++		 * runs towards lower offsets gets the folio below.
+ 		 */
+-		if (!(vm_flags & VM_RAND_READ))
++		if (!(vm_flags & VM_RAND_READ)) {
+ 			ra->size *= 2;
+-		ra->async_size = folio_nr_pages;
++			if (filemap_descending(mapping, ractl._index,
++					       folio_nr_pages)) {
++				ractl._index -= folio_nr_pages;
++				ra->async_size = 0;
++			}
++		}
+ 		ra->order = thp_order;
+ 		page_cache_ra_order(&ractl, ra);
+ 		return fpin;
+@@ -3896,6 +3920,39 @@ static vm_fault_t filemap_map_order0_folio(struct vm_fault *vmf,
+ 	return ret;
+ }
+ 
++/*
++ * Whether mapping @folio at the faulting address counts as an mmap hit,
++ * which lowers mmap_miss in do_sync_mmap_readahead().
++ */
++static bool filemap_mmap_hit(struct vm_fault *vmf, struct folio *folio)
++{
++	/* Skip the retry of a fault, which maps the folio its miss read */
++	if (vmf->flags & FAULT_FLAG_TRIED)
++		return false;
++	/*
++	 * If there are too many folios that are recently evicted in a file,
++	 * they will probably continue to be evicted. In such situation,
++	 * read-ahead is only a waste of IO. Don't decrease mmap_miss in this
++	 * scenario to make sure we can stop read-ahead.
++	 */
++	if (folio_test_workingset(folio))
++		return false;
++	/*
++	 * VM_SEQ_READ and VM_EXEC mappings skip the mmap_miss increment in
++	 * do_sync_mmap_readahead(), so skip the decrement as well to keep
++	 * the counter symmetric.
++	 */
++	return !(vmf->vma->vm_flags & (VM_SEQ_READ | VM_EXEC));
++}
++
++static void filemap_count_mmap_hit(struct file *file)
++{
++	unsigned short mmap_miss = READ_ONCE(file->f_ra.mmap_miss);
++
++	if (mmap_miss)
++		WRITE_ONCE(file->f_ra.mmap_miss, mmap_miss - 1);
++}
++
+ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+ 			     pgoff_t start_pgoff, pgoff_t end_pgoff)
+ {
+@@ -3930,10 +3987,16 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+ 	 * Make an exception for shmem/tmpfs that for long time
+ 	 * intentionally mapped with PMDs across i_size.
+ 	 */
+-	if ((file_end >= folio_next_index(folio) || shmem_mapping(mapping)) &&
+-	    filemap_map_pmd(vmf, folio, start_pgoff)) {
+-		ret = VM_FAULT_NOPAGE;
+-		goto out;
++	if (file_end >= folio_next_index(folio) || shmem_mapping(mapping)) {
++		/* Check before filemap_map_pmd(), which may drop the last ref */
++		bool hit = filemap_mmap_hit(vmf, folio);
++
++		if (filemap_map_pmd(vmf, folio, start_pgoff)) {
++			if (hit)
++				filemap_count_mmap_hit(file);
++			ret = VM_FAULT_NOPAGE;
++			goto out;
++		}
+ 	}
+ 
+ 	addr = vma->vm_start +
+@@ -3968,28 +4031,8 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+ 		}
+ 		ret |= map_ret;
+ 
+-		/*
+-		 * If there are too many folios that are recently evicted
+-		 * in a file, they will probably continue to be evicted.
+-		 * In such situation, read-ahead is only a waste of IO.
+-		 * Don't decrease mmap_miss in this scenario to make sure
+-		 * we can stop read-ahead.
+-		 *
+-		 * VM_SEQ_READ and VM_EXEC mappings skip the mmap_miss
+-		 * increment in do_sync_mmap_readahead(), so skip the
+-		 * decrement here as well to keep the counter symmetric.
+-		 */
+-		if ((map_ret & VM_FAULT_NOPAGE) &&
+-		    !(vmf->flags & FAULT_FLAG_TRIED) &&
+-		    !folio_test_workingset(folio) &&
+-		    !(vma->vm_flags & (VM_SEQ_READ | VM_EXEC))) {
+-			unsigned short mmap_miss;
+-
+-			mmap_miss = READ_ONCE(file->f_ra.mmap_miss);
+-			if (mmap_miss)
+-				WRITE_ONCE(file->f_ra.mmap_miss,
+-					   mmap_miss - 1);
+-		}
++		if ((map_ret & VM_FAULT_NOPAGE) && filemap_mmap_hit(vmf, folio))
++			filemap_count_mmap_hit(file);
+ 
+ 		folio_unlock(folio);
+ 	} while ((folio = next_uptodate_folio(&xas, mapping, end_pgoff)) != NULL);
 
-    truncate -s 32M hfs.img
-    mkfs.hfsplus -h hfs.img
-    mount -t hfs -o loop hfs.img /mnt
-    printf 'A%.0s' $(seq 100) > /mnt/f
-    umount /mnt
-    mount -t hfs -o loop hfs.img /mnt
-    xfs_io -d -c 'pwrite -S 0x42 512 512' /mnt/f
-    umount /mnt
-    mount -t hfs -o loop hfs.img /mnt
-    od -An -tx1 -j 512 -N 512 /mnt/f
+-- 
+2.43.0
 
-On a804c5742bff, with and without the v2 patch, the last 412 bytes
-read back as zeros instead of 0x42, and fsck.hfs reports no error.
-With the cleanup applied, the data is intact but the warning fires.
-
-HFS+ has the same problem. hfsplus_file_truncate() has the same grow
-path, and commit 5f63ac80aef2 ("hfsplus: fix issue of direct writes
-beyond end-of-file") only covers writes that start past EOF. A direct
-write of 1024 bytes at offset 0 to the same 100-byte file loses 924
-bytes on HFS+.
-
-I think the direct write path should be fixed first, so that i_size
-can no longer get past phys_size. Then the grow path really is dead
-and your cleanup is right. The simplest way I see is what
-fat_direct_IO() does: if a direct write would end past phys_size,
-return 0 so that it falls back to a buffered write, which zeroes and
-accounts through cont_write_begin().
-
-Would that be fine with you? If so, I will send that fix for HFS with
-your cleanup on top, and a similar fix for HFS+.
-
-Thanks,
-Hengyu
