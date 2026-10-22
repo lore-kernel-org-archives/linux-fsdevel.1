@@ -1,93 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792662069;
-	b=HhVEWZkgxMIoQPdlTbtqg9XsNr67UIURIyoEwwbzDRXTacSdAXBHgVDhOWz4s++U5Q2R
-	 bbgiBF79A+2Stj0TdOWxAoFeF5o9zZquITVvzR7YC16vBn+0wrvy5cwA+ykMNah3jVmth
-	 QZX5AFhzML7tLuu4/ON2rEL3X68AK6ewJZB/0Yzipdl6/TZCXVl7vcKq+OVYDlI8tMIG0
-	 ToQLBmQBvSR2GfBXyLNa3CVHuXEoBvfkwdNUC0rjDISGz4tN70DuzadTM9AzCCeJLMHNO
-	 jk7zVEB1Uw47fI3/SqKjm0xqkXQKxnmxYXZWrDZlUU7lSOl6BXW4/URiFm7lsMB3K7w==
+	t=1792662766;
+	b=1BzY3T7OT6dH2QLaPsyituXE/VOGsTgonVFyEKNxkR5xtfEKW7Q0fGbl/VcW27o/hMGd
+	 Vj250+1mSuLgyqH7iQBZnoMPm34PlPvRReu095c3ClKIwYF4Ig+6nhqUDFgSN0pPFxKTU
+	 ss7C1YjE6cNxnjXrqTxw+3dV6o2m2zCsUdDDGj0+vjrbavL5/O5Kn16kN91zB3815aNL1
+	 oGdNdmhu2e2Ad+KEJsz3/Taw5lqIYxEpR7vksTHkMIPG6EHUMyeZqzpUK8DmnGKN7DTmz
+	 buXXJ+QHrJeTJHnD7GvUMuyQb2kTgTaQhJg+mti/4rNUNf4E/KpjUVkd6ZhMQ0E2kqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792662069;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=XIEdpK6uoY0VcAn4RMjuLM3ziGKUkenXplth+Lt8Y7A=;
-	b=5fVuaqMBshmhuFtZCV9G0Rv5tWTKMoiqEniibdgw6BD/fExTZqTBnCFZmtyA5ChZxi1+
-	 hI7Bp8QhJlda/u/voE8bmtPQv5h8MeHExA7oqEMyXhyfREU/Bl1mV0LsyfmKktmK2ghRQ
-	 UxCXUZkPNCZbrzCF2Zl77wKo4tD06ovHobjG36/H3SKEkXKmRMuYU3gDhMm40FLSJ96/q
-	 ZnGGZ9/uO28/Ue1O8YHzeuLuQP73Kwl8tbBweEL6QpAbxw6c4jwSFHjumfRrWbA5Z9nPI
-	 oKCDnQoBtsdXukdBKuEjd5npXe52JYLii2mXJTWYSItyLBraL5T7D8sXHYg7BkjBYCQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792662766;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=05Nb8YLu9YWXWXHPGusWiMczEkKLTdlNGiT1AxdnnfE=;
+	b=hr5vNKS1GE8IfuGAdL+XBWzDG9fwHyEbk+DFApLdZWBV1moWalwL/cPd/INz1C60kpBC
+	 vp7AUdqXaGUOUZLTuwjshC/LuAwJSBX4YmySRZlgqAReGvAwUZhtD7uHZmBN8P8dwC2Wi
+	 Ne1DC9j989g8MBHKQAptEpx/YdNfHa+r8O7aozqCRT9kw/QhzL9JYK8ae8ro+6OJWQM/M
+	 77s4mgR5BO/DmiL80t7uS94fTle+fNvaJwqLHhtlV/LiUvqMaUPrQq0vx1ep6KbObiUFp
+	 wD48MMEzK+z4mAOil2G886VINekl8N3WlDKSqQo3iKCUy/a5Vv85PaE9865oPJHGw0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cs.unc.edu;
-	spf=pass smtp.mailfrom=cs.unc.edu;
-	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=kz3Vg9pv;
-	arc=none smtp.remote-ip=209.85.219.46
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=A4bJ1+OO;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PygrsFCC;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=shhkZkAR;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dj5wIR94;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C9C606A33A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 09:41:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0C9C606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD596606A31D;
+	Thu, 22 Oct 2026 09:52:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD596606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=kz3Vg9pv
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-918f75a68f0so22439776d6.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 02:41:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1792662067; x=1793266867; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XIEdpK6uoY0VcAn4RMjuLM3ziGKUkenXplth+Lt8Y7A=;
-        b=kz3Vg9pvKqAJ2lSpLZ/iAeT6tIlkg/q/lJDA65XliRZtEb1BP2h5McqrqUuHNE0A+Q
-         T9EOQwdqdK6yfwIGeUo6xoq2dQwQitTjYraLMBqq26QrO/IDS5sd4VHYo4z6/M1MoOyB
-         ZKc2iW9QbX2tDjW8lwIRHk4+AqR/joJ9OOmVHtvbiihqQbvYOCmvsop/a4capa5jPt5f
-         lMym/OyK57LJd+Wjf/8q1yUDG6hb62kEKbpIea7mKtrydASLGKyYE1ov/CCJsT2oDsi3
-         wisSn5UqPg+vcp1ZStL7L4Ctr/iQVO3K4ePRJlvpeODN7rNvki9IB7eSvRLerO8/ayfR
-         bGKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792662067; x=1793266867;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XIEdpK6uoY0VcAn4RMjuLM3ziGKUkenXplth+Lt8Y7A=;
-        b=sMAD9J6qCvWDabLAChPh+IPUCDz0gYPDu76mXRVU8mJa9O9JrhosOTwA96t1732G0+
-         uZh9hYle6IFxAhuAJwousnRoUP6PnoanZuNJNqlVU6YLl4uHet1zRZioUst29cWa1D15
-         8GYf7YQotp0ug0TJQVpAPoT0W+hUR4PB7wz/ixhNDCIFcDqlZn3ujlMbX+iBX7MCVeMx
-         f5kaEnD807QiUJuEWbGWq0kGPm7lBo0iQ9lZ5t63urElutPM3GyhlnqbCWR4xRojT8Nq
-         DpreoMSs/+BQe08rGB32h+OXDynWLCJwrAFctuLiu1Ut2mBoV5NYVSNqA6BfTV2ucqmj
-         boFg==
-X-Forwarded-Encrypted: i=1; AKwUvBzxrO18L+tH9zXEE9FIGXX0cnBxlnJzAQOBFwBSDl5yAmTz0B1FPD/kG4juLNzwZGckRolNFp15AKlCOaOA@vger.kernel.org
-X-Gm-Message-State: AFq9FYJNIUUMY7wbq0zufm8Tsx2VnFqfhAVdxxCtHj1//BZbYB8OB93s
-	NSoKVQf6W0k+oRPsNRwZ/tcFu8BIVFYZAjD9MohgPr/VYn1pJa0AnuiAGOSlFgZmMw==
-X-Gm-Gg: AYBFou0nHIrAyBHpRksHGW6w+6aR7FwyOYWt6uKBFZLQ7mAd7y2hef+JSx9N5t/n0so
-	mt5rCoSU2T/eraBIktO9wI1OWjPg/92y91AvoeVmxvkrYYJjovYgIovpLg17Idrt+11Ab8xfrpK
-	EUnrBqJLDLVR+KQGz9JfKUPQxQOjg8mbAPmmi9qZzIjNne+37z1qPvRv6T6THWwgxt51BTjutN3
-	6PkjTLQgjCLCHgi+3B7PZ/9nKXy5dhzLNgVl3OXF5YpjwGx3Sp0Mo1vxrYv2nDBtK8nqewBEgwh
-	7TmRovUAqG6V7tDM9QSS4njA1RdLeSDVUNlZoqCc9wbbfVd6jZckiQHntU3r6AFM/jDYCZ0E3AD
-	OEJIJE2yWlEtJsOW8dr0wi1MX0EDQt0VOpZVt6G/C50ECqY1Rkzeojsfhm4An4lhYt/wPqRQdR4
-	etAl2HHpXC7cNTpcJe52Yf1mvZx1+aE22mnup2+2Te9mKrDSAz5D5PgXEI3SkmQbWUkAH5/EpUL
-	FJU0gycfLsGX7ix+JNTB6SRgx2Xg/ZhbdxIf19mew2qorzRIj/TBOqjJdvpwd4Txe0kBTrBW/qN
-	wc4=
-X-Received: by 2002:a05:6214:418a:b0:91b:5d39:e13f with SMTP id 6a1803df08f44-91c12f339e4mr79983386d6.52.1792662066786;
-        Thu, 22 Oct 2026 02:41:06 -0700 (PDT)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c10c0f838sm46074876d6.32.2026.10.22.02.41.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 02:41:06 -0700 (PDT)
-From: Hengyu Liang <hengyul@cs.unc.edu>
-To: slava@dubeyko.com
-Cc: glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] hfsplus: preserve FinderInfo when listing extended attributes
-Date: Thu, 22 Oct 2026 05:40:58 -0400
-Message-ID: <20261022094058.1169039-1-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=A4bJ1+OO;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PygrsFCC;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=shhkZkAR;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dj5wIR94
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E68791FCB6;
+	Thu, 22 Oct 2026 09:52:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1792662764; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=05Nb8YLu9YWXWXHPGusWiMczEkKLTdlNGiT1AxdnnfE=;
+	b=A4bJ1+OO5lCRsErwaFst3LPuO1wSP8NZR/4rHQ6pwRa7vQpUCfrLbFx5UZvx0RlGH8v0q0
+	RG9Xgv/x9Zr0y8Inwcswq7assU7Ri/p46hSoC3eo26h8dfVqz6IlwW2MV8rgH+FgC5esAh
+	QHY93vQ02jOntTmg7wBbkWOeI2M3WDs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1792662764;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=05Nb8YLu9YWXWXHPGusWiMczEkKLTdlNGiT1AxdnnfE=;
+	b=PygrsFCCtDK3yQz3CwaMhfu6JIMSTcJfK78AknBaEwUOS+P1ps7n+dIU3zj3bKYRHJh8hl
+	2Nf5B7NFbALhbVBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1792662763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=05Nb8YLu9YWXWXHPGusWiMczEkKLTdlNGiT1AxdnnfE=;
+	b=shhkZkARzbtekLHUkMPP7IV1edxr/0Opph4SCRAMFoQMAHACWhNdMMxtRMoVk+V/SaAd69
+	Kj4rCN6zcI1aGKAWJ8NUlEy0mEymqB2frBKvbuvWtGEkKlfDlb2LNsqoFErwI9k3r6aQX+
+	phwemMCDa+P45ycajsc7z5yFLbkvlPE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1792662763;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=05Nb8YLu9YWXWXHPGusWiMczEkKLTdlNGiT1AxdnnfE=;
+	b=dj5wIR94e1c7gxgfAldDVzLS5+R54gKYhm7zHal5lylSzlhp4xOSuQR7HqIDxZ57zD45YH
+	59dkJIHM/hdzmRAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BB25E133F3;
+	Thu, 22 Oct 2026 09:52:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Oy1lJevc2WpGBAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 22 Oct 2026 09:52:43 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 4538DA1417; Thu, 22 Oct 2026 11:52:43 +0200 (CEST)
+Date: Thu, 22 Oct 2026 11:52:43 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 01/15] super: don't put the remount context under s_umount
+Message-ID: <4zo5y25hnl7bo6tamysu3ortqloicmdcl6gm26aoua77jcjxyt@ncbgimqm6d5i>
+References: <20261011-work-super-fixes-core-v1-0-c727176c5b53@kernel.org>
+ <20261011-work-super-fixes-core-v1-1-c727176c5b53@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -97,90 +110,159 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261011-work-super-fixes-core-v1-1-c727176c5b53@kernel.org>
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
+X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Commit aef507847129 ("hfsplus: fix generic/062 xfstests failure") made
-hfsplus_listxattr() return zero when the inode has no records in the
-attributes B-tree.
+On Sun 11-10-26 17:56:01, Christian Brauner wrote:
+> do_emergency_remount_callback() is called from __iterate_supers() with
+> s_umount held exclusively. It creates a reconfigure context for the
+> superblock and fs_context_for_reconfigure() takes an active reference
+> for it. put_fs_context() drops that reference via deactivate_super()
+> while s_umount is still held.
+> 
+> The iterator itself only holds a passive reference. So if the
+> filesystem is unmounted while reconfigure_super() runs, the umount drops
+> the mount's active reference without ever taking s_umount because
+> atomic_add_unless() in deactivate_super() sees the context's reference.
+> Now the context holds the last active reference and we're fscked:
+> put_fs_context() ends up in deactivate_super() which tries to take
+> s_umount again and the kworker deadlocks on itself:
+> 
+>   WARNING: possible recursive locking detected
+>   kworker/1:1/53 is trying to acquire lock:
+>   (&type->s_umount_key#26){+.+.}-{4:4}, at: deactivate_super+0x6f/0x90
+>   but task is already holding lock:
+>   (&type->s_umount_key#26){+.+.}-{4:4}, at: super_lock+0x188/0x3a0
+>   ...
+>    down_write+0x90/0x1e0
+>    deactivate_super+0x6f/0x90
+>    put_fs_context+0xb1/0x7d0
+>    __iterate_supers+0x33d/0x410
+>    do_emergency_remount+0x20/0x40
+> 
+> "Emergency Remount complete" is never printed and the superblock's
+> s_umount stays held forever. Everything that needs it hangs after that,
+> including sync(2) and thus the clean reboot that usually follows a
+> sysrq-u. The window is all of reconfigure_super(), i.e., syncing a
+> read-write filesystem, so an umount racing with sysrq-u hits this
+> easily.
+> 
+> Iterate without holding s_umount and take it in the callback instead.
+> The context's active reference keeps the superblock alive while we hold
+> s_umount and we only drop it after we released s_umount again. If it is
+> the last reference deactivate_super() takes s_umount and shuts the
+> filesystem down, just as the umount would have done.
+> 
+> Reproducer. sysrq-u remounts every block filesystem read-only, so use a
+> throwaway VM. It needs CONFIG_SCSI_DEBUG and CONFIG_MAGIC_SYSRQ. The
+> scsi_debug delay keeps reconfigure_super() busy writing back the dirty
+> data long enough for the umount to land in the window:
+> 
+>   modprobe scsi_debug dev_size_mb=256
+>   dev=/dev/sda        # the scsi_debug disk
+>   mkfs.ext4 -q $dev
+>   mount $dev /mnt
+>   dd if=/dev/zero of=/mnt/dirty bs=1M count=32
+>   echo 20 > /sys/bus/pseudo/drivers/scsi_debug/delay
+>   echo u > /proc/sysrq-trigger
+>   sleep 1
+>   umount /mnt
+>   # lockdep: possible recursive locking detected in
+>   # do_emergency_remount(), "Emergency Remount complete" never shows up
+>   # and sync hangs.
+> 
+> Without the fix this reproduces on the first run on v7.3-rc6. With the
+> fix the remount completes and the kworker shuts the filesystem down.
+> 
+> Fixes: 8d0347f6c3a9 ("convert do_remount_sb() to fs_context")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-However, osx.com.apple.FinderInfo is stored in the catalog record, and
-hfsplus_listxattr() has already added it to the result at that point.
-Setting the result to zero drops it. As of now, a file whose only
-extended attribute is FinderInfo gets an empty list on a volume with
-an attributes B-tree, which mkfs.hfsplus creates by default. getxattr()
-still returns the value.
+Looks good. Feel free to add:
 
-The issue can be reproduced with:
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-    truncate -s 64M hfs.img
-    mkfs.hfsplus hfs.img
-    mount -o loop hfs.img /mnt
-    touch /mnt/file
-    v=0x54455854$(printf %056d 0)
-    setfattr -n osx.com.apple.FinderInfo -v $v /mnt/file
-    getfattr -m - /mnt/file
+								Honza
 
-Without this patch, getfattr prints nothing. With this patch, it lists
-the FinderInfo entry.
-
-This patch keeps the result of hfsplus_listxattr_finder_info() when no
-attributes B-tree records are found, as is already done when the
-volume has no attributes B-tree. A file without extended attributes
-still gets an empty list.
-
-Fixes: aef507847129 ("hfsplus: fix generic/062 xfstests failure")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
----
-Changes in v2:
-- Restructure the error check as suggested by Viacheslav Dubeyko. No
-  functional change.
-- v1: https://lore.kernel.org/r/20261021174534.482192-1-hengyul@cs.unc.edu
-
-Tested in KVM with KASAN on a804c5742bff, without and with this patch:
-- The commands above, and a C test of listxattr() sizes and buffer
-  lengths: a file with only FinderInfo gives 0 without the patch and
-  25 with it; a file without extended attributes gives 0 on both.
-- generic/062: 10/10 passed on both kernels.
-- Full fstests (805 generic tests, 608 not run on both kernels): 186
-  passed and 11 failed without the patch, 187 and 10 with it. The only
-  difference is generic/795, which fails at random on both kernels
-  with fsck "Invalid volume file count" (1 of 11 runs without the
-  patch, 2 of 11 with it). generic/089 and a small test that only
-  creates files and unlinks them while open hit the same error on both
-  kernels. This looks like a separate race: hfsplus_file_release()
-  updates file_count without vh_mutex.
-
-With this patch, getfattr above prints "osx.com.apple.FinderInf". The
-last character is lost by a separate bug in copy_name(), which Maurycy
-Pawlowski-Wieronski's patch fixes:
-https://lore.kernel.org/all/20260828-hfsplus-copy_name-fix-v1-1-75ed9f0f378c@maurycy.com/
-
- fs/hfsplus/xattr.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
-
-diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-index 71364e093fa7..45571d6f3abd 100644
---- a/fs/hfsplus/xattr.c
-+++ b/fs/hfsplus/xattr.c
-@@ -837,13 +837,9 @@ ssize_t hfsplus_listxattr(struct dentry *dentry, char *buffer, size_t size)
- 
- 	err = hfsplus_find_attr(inode->i_sb, inode->i_ino, NULL, &fd);
- 	if (err) {
--		if (err == -ENOENT || err == -ENODATA) {
--			res = 0;
--			goto end_listxattr;
--		} else {
-+		if (err != -ENOENT && err != -ENODATA)
- 			res = err;
--			goto end_listxattr;
--		}
-+		goto end_listxattr;
- 	}
- 
- 	for (;;) {
-
-base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
+> ---
+>  fs/super.c | 27 +++++++++++++++++++--------
+>  1 file changed, 19 insertions(+), 8 deletions(-)
+> 
+> diff --git a/fs/super.c b/fs/super.c
+> index 1d5ccf540a9b..15ecfbeb92ab 100644
+> --- a/fs/super.c
+> +++ b/fs/super.c
+> @@ -1158,23 +1158,34 @@ int reconfigure_super(struct fs_context *fc)
+>  
+>  static void do_emergency_remount_callback(struct super_block *sb, void *unused)
+>  {
+> -	if (sb->s_bdev && !sb_rdonly(sb)) {
+> -		struct fs_context *fc;
+> +	struct fs_context *fc = NULL;
+> +
+> +	if (!super_lock_excl(sb))
+> +		return;
+>  
+> +	/* Make sure no reference put under s_umount is the last one. */
+> +	atomic_inc(&sb->s_active);
+> +	if (sb->s_bdev && !sb_rdonly(sb)) {
+>  		fc = fs_context_for_reconfigure(sb->s_root,
+>  					SB_RDONLY | SB_FORCE, SB_RDONLY);
+> -		if (!IS_ERR(fc)) {
+> -			if (parse_monolithic_mount_data(fc, NULL) == 0)
+> -				(void)reconfigure_super(fc);
+> -			put_fs_context(fc);
+> -		}
+> +		if (!IS_ERR(fc) && parse_monolithic_mount_data(fc, NULL) == 0)
+> +			(void)reconfigure_super(fc);
+>  	}
+> +	super_unlock_excl(sb);
+> +
+> +	/*
+> +	 * Our active reference may be the last one by now, so only drop it
+> +	 * after s_umount has been released.
+> +	 */
+> +	if (!IS_ERR_OR_NULL(fc))
+> +		put_fs_context(fc);
+> +	deactivate_super(sb);
+>  }
+>  
+>  static void do_emergency_remount(struct work_struct *work)
+>  {
+>  	__iterate_supers(do_emergency_remount_callback, NULL,
+> -			 SUPER_ITER_EXCL | SUPER_ITER_REVERSE);
+> +			 SUPER_ITER_UNLOCKED | SUPER_ITER_REVERSE);
+>  	kfree(work);
+>  	printk("Emergency Remount complete\n");
+>  }
+> 
+> -- 
+> 2.53.0
+> 
 -- 
-2.53.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
