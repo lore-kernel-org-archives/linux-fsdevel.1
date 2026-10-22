@@ -1,100 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.30.97
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792684867;
-	b=jSlUownU7VkKfAGqv+z4WssLYZMHpQZg8UK/nwyGI7PvOKZFeAnXEaEX0rguEyGHquDz
-	 8bS2452kixOIU6DFDBYeSqv22zgU418UhLQ1L+ErQ7dXxsDtCMECLGVV7mnq/lkKQ6wiR
-	 IKk/Rr3O6C2GwpQ3kkTT7u4SZX4Dfe7MJReM91GcWLF2Nf6reTBScmWhRpa6fyasbGcXH
-	 SG7BL7qa9mfwzUI/KC/TMpX/+zW6qUkvZAVVR8Ml5BEaEAiu6WS/wyClZLyx1ZNdR81rO
-	 e5yGU1/CNlTgt7NC6eRqf/mM9oOLkToWcMb3jZLd0nrhdlWcqFy4ts5iXAoYeJaVkVQ==
+	t=1792686655;
+	b=muWpyt5EVA28Ioh1VpT2XWKaehyDRsvzeozzdsvh1juDR1m0X1nGobTqBA+HKqNzIAlA
+	 esNYzG4hYUd9dDAzqIoL5srloCb6BB0VK7CjpCXIQxkGengQVg9ar0heblJhyCapRIC1q
+	 pLQFGSpDfZkBnrjsO6qTRtvP9yeCUFL5YtGFINbwEvEWH8S1b3GqbKSlCB8O24J4eJsU3
+	 qu1YZJFLC+HRvu+7siF8wMu3+9qyYa2mqMdNg5jeLNrY7/KAETMvwdzLPvj8ysw3PB0kT
+	 kUOBMxhAq5vIkFfokJdWP26HkF4iguWLzSBqlXqDNj+i/UMqVbbcUdG4CNpHtXhTCoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792684867;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=eHHz19nOUlPLFRSL+CDhh91ENP/dHGkHNHTFaFg4hGw=;
-	b=Qswm7stjGZfCaMeIaeb1geQQn10Vhv0Z55lIa3RxnKIPpWso1gO+MSgDa1cLCs2tQOSr
-	 9SaCiMRaCCgQkeWK0ApvEodOYUTXe25SR96NAeiiQvQHRXvAJkUSZ+dOqpoduy7O2XUmN
-	 HIwGwrGzBlv6RI/ltrEHKXemxBLUl+3dUUIZv2inII8B4gunVFyJN2wAPQ3PYedHYV01g
-	 bpTdvRBguK4vJid+DTUl5sOq5xSWEHiK6cz3l2pzdUH3mdlrfdTjUdPhcI7agxgJ6BOg8
-	 6lHKlDTkv2O2GKm2MUytHQQRAIAgCt0wfIJGlBEZjomylAzr/w7jQMxD5LmfNwWujQg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792686655;
+	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=tc4RtQ+McDeq8l1s8m84usBk75s9ZYG6jo3YuZ+d7zc=;
+	b=QTW7cUeHnSTTZQDRAtGSdqaP4ncAId1WMVuExFpwe5ifd0+WGhRFuivzTmygOMwkKQmZ
+	 DfGzsK9pix5QCl883pYsXg3VSEYAi/NE6hVJp7GlcKBCW4Bs05bNSfOdnL4/ncNIEeJN5
+	 a+LMOrJgJUj1PakxreJGJp74n4IJl2UwRZnwEQOC+ONO+0KSVlnykVB41mbmRiJFkPfUE
+	 FGb6RWeZmUE94HEwF/MsJPtz6phX11cBzJkTggRXH7jmESIGp+nToTo8ovczPD3tPZW3w
+	 xNGEn55sV40RBE73eMAll042rirARV/j2DiGH5MABRGWEITUta9QrFdAFjzogmu8HZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="o/C8w0X1";
-	arc=none smtp.remote-ip=74.125.82.179
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linux.alibaba.com;
+	spf=pass smtp.mailfrom=linux.alibaba.com;
+	dkim=pass header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=cjeqLWZM;
+	arc=none smtp.remote-ip=115.124.30.97
+Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237D7606A319
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 16:01:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 237D7606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB43E606A31B;
+	Thu, 22 Oct 2026 16:30:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB43E606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=o/C8w0X1
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-36681e85e87so4247658eec.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 09:01:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792684866; x=1793289666; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:message-id
-         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eHHz19nOUlPLFRSL+CDhh91ENP/dHGkHNHTFaFg4hGw=;
-        b=o/C8w0X1JFCJCzsj9wqiMzBbf1HKiACo68tON325Bb5TJCx5AIRudOeR7R2v4ZO60f
-         gfgLUs65dWsklkvOCDmB97l7NGM75lpDcj0tJP7t0Jw1r65nOTExKzyu0UuR+W/RWR0a
-         /dXtzIqyPcJP9gmZgmRh6+6Xv0AAzlF7+CkBtVbF3ARCjet7gpCvueRIK3hjA/KdsnRa
-         i+UF7+O9TrCwDTA2tTxCo6wuz3TNPqOE4r5cUkkSX0ym8d6Zr3OgPd2gWPmVsR93qURd
-         3fyan+yckODDxP3JD9CqPzBZomT1rpbgLe6Nxtd55ln0tHsZW1fo63V2HoO4ZptuPVzV
-         6qNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792684866; x=1793289666;
-        h=mime-version:content-transfer-encoding:content-type:message-id
-         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eHHz19nOUlPLFRSL+CDhh91ENP/dHGkHNHTFaFg4hGw=;
-        b=ElkOBwyS8SdWAjyvDvZKILaoYRCIpyFf/qRHwftH3m5+PhTvFkPZuNeck0yGwnm6VG
-         YcDcKdRO4xNJZadgQN/m8NU02uqNGduiXikXdbTK35M87Euf5kUJ4WBoiD/ivI0fHfIA
-         LEZqcg/gVMGCpTsyO+vY+TFJmNPz9wGZ1GYRheut8iS8A6PEllwIzYQv6rxeUS+kAjYg
-         KJYxon2fk3m9SNvM9x8AusF41O25sq3em5qanTSI/+bJwqaeoXqH7iFGetFVsVhcE1pI
-         v3Vhl3eTorcT3g7lG9neBZPIegKrjQrPIAOGyN0rBYCN2xpdm4vfVHjgu7Gm9mmv0gYY
-         7TbA==
-X-Forwarded-Encrypted: i=1; AKwUvByT6+t0pNy1+dcqADS1j6yx14i+ZrzLkHJwFgSB/z9YUI3J79pi6aLURHidmIQaUWxRZeevLoS3D5dx0hD8@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ0NjW9V5qdxb7di9YIJoDJnBokk6f2z9+cbberZRo9fxyIAy1h
-	8uCPKXcXo8wiwP853BqurOYm30DXGJ/RqRqh/Zl69J0jGM8BVW21rMfV
-X-Gm-Gg: AYBFou19KbR0SO0l/6R3p3kxNyu5YN50tGn2Fm3Y/e2Uq8hiFPlIUMcu2Yg9uk4jhJI
-	sV9yrVj7u8JETJa1gb1RotaqqD+fUZxoV5iwHBqraXTkzmeRfPoK0iOueIIk3rbj/NeNVP4mWs7
-	gdMImfGmSW4zgNCXaNib+cQkhhZfnEWuEe2TBSzZYKQmC8BToa2kg7QK6G1ubUkuYf8xN+LULpE
-	o6FJ9KQWz2AvtIfILxH0fZLdRzAyfCMN7HfClpyGd9CHeQjTl6VwJ08AAa5Re8vCdRo2jQ2hF4V
-	/KGPylTgRbpgOLmFjjU29XB8wl6J5x8UwcLHj7ojHxC8T+7LKU9xqki4e+8hsi6EjKYQecv2Kbm
-	K+nw1qRqigo0nMxvfLLGjjDie9H7TFpGjtVLr7YiI8RXavFBbW2yrah7o7FeBMRSP5H5/bfwfNB
-	R2xISJ/s19TprEUs4XKBKW5nB8eiIjfe/8je1lwmilXcI3gwshNv05jUPhPWVfZ5TbQZ50DcTl7
-	Qf5h67n8I0PD7qMVV0opu4BCthHehR+eQwQghQYW8aN44f/gbWBYRVJplY+AgzQqdzke/XGj9c0
-	va1O
-X-Received: by 2002:a05:7300:c019:10b0:366:83dd:46f3 with SMTP id 5a478bee46e88-3674de4cb85mr8534410eec.14.1792684864580;
-        Thu, 22 Oct 2026 09:01:04 -0700 (PDT)
-Received: from [127.0.1.1] (67.216.200.102.16clouds.com. [67.216.200.102])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3674198f1cdsm19744253eec.25.2026.10.22.09.01.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 09:01:03 -0700 (PDT)
-Date: Thu, 22 Oct 2026 09:01:03 -0700 (PDT)
-From: Cheng Yongkang <teel4res@gmail.com>
-To: Benjamin LaHaise <ben@communityfibre.ca>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [BUG] fs/aio: io_setup integer wrap can exhaust global aio quota
-In-Reply-To: <20261022154852.GQ8374@kvack.org>
-References: <20261022091748.3653127-1-teel4res@gmail.com>
- <20261022152305.GP8374@kvack.org>
- <179268384018.50580.15623131516982541149@gmail.com>
- <20261022154852.GQ8374@kvack.org>
-Message-ID: <179268485745.64118.8307604514392982010@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=cjeqLWZM
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1792686643; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=tc4RtQ+McDeq8l1s8m84usBk75s9ZYG6jo3YuZ+d7zc=;
+	b=cjeqLWZMtA9n3tPAe9DC01AJAWrdB/em+IUMc+LyPICucgcT9moGv+RkfJIAun0Ejqt3xrNb44Zk8BLiXyK4NZS0rL3BezLsgz3yqxx1TYfVh5SzCwjzikS4P+et78CTp88iMwBS1b0JpxUUtvAofrpqZ/YB7BZFuZdX+EuVtN8=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R251e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0XDJckJa_1792686640;
+Received: from 30.170.203.187(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0XDJckJa_1792686640 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 23 Oct 2026 00:30:41 +0800
+Message-ID: <625e5190-d43e-4a2b-9296-da15c52d1a9a@linux.alibaba.com>
+Date: Fri, 23 Oct 2026 00:30:39 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,68 +54,107 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/13] block, ext4: allow encryption with a block size
+ larger than the page size
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-ext4@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, jaegeuk@kernel.org, axboe@kernel.dk, hch@lst.de,
+ djwong@kernel.org, brauner@kernel.org, tytso@mit.edu, berto@igalia.com,
+ adilger.kernel@dilger.ca, jack@suse.cz, yi.zhang@huawei.com,
+ ojaswin@linux.ibm.com, ritesh.list@gmail.com
+References: <20261011170958.1759230-1-libaokun@linux.alibaba.com>
+ <20261015185325.GG2170687@google.com>
+Content-Language: en-US
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <20261015185325.GG2170687@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Ben,
+Hi Eric, Thank you for your feedback!
+On 2026/10/16 02:53, Eric Biggers wrote:
+> On Mon, Oct 12, 2026 at 01:09:45AM +0800, Baokun Li wrote:
+>> Motivation
+>> ==========
+>>
+>> ext4 supports a block size larger than the page size (LBS), e.g. a 32k
+>> block size on a machine with 4k pages [1].  Encryption, however, is
+>> still refused on such a filesystem: file contents used to be encrypted
+>> page by page in the fs-layer path, which cannot handle a folio that
+>> covers several data units, so the checks that refuse encryption with
+>> such a block size stayed in place.
+>>
+>> Since commit 5acc6f649a68 ("fscrypt: Always use blk-crypto for
+>> contents on block-based filesystems") file contents are always
+>> encrypted through blk-crypto.  Inline encryption hardware can already
+>> en/decrypt a data unit that spans several pages, but the fallback and
+>> the block layer cannot carry such a data unit:
+>>
+>>   1. blk-crypto-fallback en/decrypts a data unit with the bio_vecs of
+>>      a single page-clamped segment, so a larger data unit fails with
+>>      BLK_STS_INVAL;
+>>   2. the block layer requires every bio_vec of an encrypted bio to be
+>>      data unit aligned, and splits such a bio without rounding the
+>>      split size down to the data unit size;
+>>   3. iomap cuts the direct I/O bios of an encrypted file only at the
+>>      logical block size of the device, so a bio can end in the middle
+>>      of a data unit.
+>>
+>> This series adds the missing pieces on all three layers, removes the
+>> refusals, and enables large folios for encrypted files on the way.
+>>
+>> [1]: https://lore.kernel.org/all/20251121090654.631996-1-libaokun@huaweicloud.com
+> A high-level question: most of the complexity in this series is to
+> support crypto_data_unit_size > PAGE_SIZE, despite the actual goal being
+> to support fs_block_size > PAGE_SIZE.  It's left unstated that the
+> default of crypto_data_unit_size == fs_block_size is used.  However,
+> ext4 and f2fs already support crypto_data_unit_size < fs_block_size.
+>
+> Would leaving the crypto_data_unit_size at e.g. 4 KiB while increasing
+> fs_block_size be a simpler way to achieve the goal of this series?
 
-Here is the exact path, step by step, with the values at each line of
-v7.3 fs/aio.c (commit 08ab31164c55). Precondition: root has set
-fs.aio-max-nr to 2147483649 (0x80000001); fs.aio-nr is 0.
+I initially followed the LBS approach of lifting the page-size
+restriction, keeping the existing default crypto_data_unit_size
+equal to fs_block_size. I had not considered using sub-block DUs.
 
-The caller does io_setup(0x80000001, &ctx).
+After your reply, I implemented a variant using min(bs, PS) for
+new default v2 policies, recording a smaller DU explicitly on disk.
+This avoids patches 3-6 and the per-bvec alignment relaxation in
+patch 10, and is indeed much simpler.
 
-1. Line 796:  max_reqs = nr_events;
-              max_reqs = 0x80000001
+Both variants retain large-folio support and showed similar gains,
+about twice their respective 4K-block controls. Although 32K DUs reduced
+decryption calls eightfold, I did not observe a consistent additional
+throughput benefit, or CPU savings at matched bandwidth, in the tested
+workloads.
 
-2. Line 807:  nr_events = max(nr_events, num_possible_cpus() * 4);
-              nr_events = 0x80000001
+> Or do you feel that would be incomplete, and you'd indeed like to
+> support crypto_data_unit_size = fs_block_size > PAGE_SIZE?
 
-3. Line 808:  nr_events *= 2;
-              0x80000001 * 2 = 0x100000002, which does not fit in
-              32 bits, so nr_events = 2
+However, keeping DU = bs has a compatibility advantage for existing
+encrypted filesystems.
 
-4. Line 811:  if (nr_events > 0x10000000U / sizeof(struct io_event))
-              2 > 8388608 is false, so no return
+For example, a 64K-block filesystem created with a default v2 policy
+on a 64K-page machine uses 64K DUs. Supporting DU > PAGE_SIZE would
+allow a 4K-page machine to use that format without re-encryption,
+assuming the other policy and backend requirements are met.
 
-5. Line 816:  if (!nr_events || max_reqs > aio_max_nr)
-              nr_events is 2, and 0x80000001 > 0x80000001 is false,
-              so no return
+This also covers otherwise-supported legacy v1 policies, which cannot
+encode smaller DUs.
 
-6. Line 845:  aio_setup_ring(ctx, nr_events)  with nr_events = 2
-              succeeds and builds a one-page ring (127 slots)
+Explicit 4K v2 DUs can also be portable across page sizes, but
+choosing a smaller DU for new files does not make existing large-DU
+ciphertext readable on a smaller-page machine. I have not yet tested
+the cross-page-size migration.
 
-7. Line 856:  if (aio_nr + ctx->max_reqs > aio_max_nr || ...)
-              0 + 0x80000001 > 0x80000001 is false, so no error
+If you think supporting DU = bs > PS makes this series too broad,
+I can use the simpler sub-block version in the next revision and
+develop larger-DU support separately.
 
-8. Line 862:  aio_nr += ctx->max_reqs;
-              aio_nr = 0x80000001        <-- aio_nr is updated here
+Looking forward to hearing your thoughts.
 
-9. Line 868:  err = ioctx_add_table(ctx, mm);
-              returns 0                  <-- ioctx_add_table() is called
-
-10. Line 877: return ctx;
-              io_setup() returns 0 and the context is live.
-
-You can check it in under a minute:
-
-  # sysctl -w fs.aio-max-nr=2147483649
-  # cat /proc/sys/fs/aio-nr
-  0
-  ... run io_setup(0x80000001, &ctx) ...
-  # cat /proc/sys/fs/aio-nr
-  2147483649
-
-If aio_nr were never updated, the second read would be 0. It is
-2147483649. The context returned in step 10 also works with
-io_submit() and io_getevents(), which is only possible if
-ioctx_add_table() installed it.
-
-The early return you describe is real, but it is step 5 with the
-default fs.aio-max-nr of 65536. That is not the configuration in
-the report.
-
-I am not asking you to take a patch. I only want the record to be
-accurate: on this path, aio_nr is updated and ioctx_add_table() is
-called.
 
 Thanks,
-Cheng
+Baokun
+
