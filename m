@@ -1,107 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792670096;
-	b=xLpBlb1XEDsr1+X+62Al/zKZjRQZdnxzIv4JHLppi99T4wHV4Mc7HQy1qBmefJuovcPG
-	 fZwrmg7DrnS8JPa+nBKnYh3Qzi4jiyBKiyX4ZF010N5fetN7LyXJkACNllMASlAnWMZHW
-	 87c0IDaVhMqN8KAJ5SgwtEwoUyNwwtyErntlm6mR5pkGgFIy6IB6boCPLkqK5Nb7jCGzd
-	 aP9KD6vQrJm4+w22kYgOMxySm5rY24Z3sGwoP4SiJvwMHkWWPWp7SilDLaRbztjw2Xt+0
-	 P0RuaGlXGjAp32bUkPOl0tCTpwf+KGRr/l1a303LYtqDbn7h/Wj25t4BYFncyKF3qzA==
+	t=1792670825;
+	b=FF4QtAFgN/HfIekHVDCsUoIYgKMsyFS92+bhI2VJ39sUCMruiHRH0M5Crjxd5n6yE4yI
+	 7s4eVYKGpdbe5qswL7fx5TsPKLr3N21XD+/kFWh2qYdRmeinPtNl4JIcW8KKHmAA+Vj5M
+	 5tt8mUIX3MkMbQx2Wy4tDoW9FlcH0KBw1qsjrBLgQS/vSLpgMOxdcErtZXsNwp9bSuSFq
+	 tZ84gPAZ04soY7l/wHL0Z1V1ta+XtGxsWGsTq6vxd+1kfjLyxSydmvSwB9I5/53REMvD8
+	 pyCs8MVoMvq14KKDK+paDSgRpvpIfimGUZz4Nl79W4wM0NHtz3h6PjActKv7/aeDuUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792670096;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=Ki1cwKJQTqrG9U30cei8QndCvChWE//Qsc4WNQH7Lyg=;
-	b=MnQkvsVXAVXiVsIIf3NrvgLIkXSD0laJWJNWUcofE6WYNMw0WaIbwp+m9661DQbEAcPu
-	 YmIolhE2N3RimvyH0tt7oKEM9s/+mcxqBAwYf1EPY7Z5bALEfqhD10QMxILw3+ft7FNtn
-	 l6YhRnx4ydBL37wX7nKsH6LbgBAHmjYyLNGmJeuk55BA5ajRpWq6homCrJZimcGMqflEn
-	 QRlEgf7ch67E4s8CQkhjV6TSjxvePmxuI/yj32F9nXNY3O50kk0S5K8IxD7XXLZlqDZ+i
-	 6jxzIqeW/f4ZmArlkTPBftwJYkmsDI35HArlg0WiqSg5wcp2ffaZyplN2OT4iMhTeDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792670825;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=f4Pj7b5+BCbfAUSTsrmqLzkuYkoyWrTz+YeW1iMb6p8=;
+	b=bB+aKk5ejwQKX8Tl03kIcuVr/9TWd1Xjta3haqnHHNSCpSyUJ2+BfsBPxphLBZmlsfvV
+	 QMja6kb3K8MtpA19yCbb+4HDspTiFmSLBcrkRmZFPoyHtFvvrRdIFrh6GhP6M3z05mH34
+	 jBtP7lOvbFmuFl5A8HnGJrb2ieHg0ft1EDokvi1DncTcDuJ9NUqASUa4Ua/3Sq/pNvVME
+	 7Cj8Id7hPrEKsXh/8tompXl36dvSt/UihcfuJ7uckLEQYLf5tjfUeYkOpLOx0MtFLXtkR
+	 4NrUHVctNn3biA3nNBNAPIU60+hLguPiXfFhkVVgK4XZY32+2KLsOAbyVn+7dnLtGfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=k0zHBfDA;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xK1C17rX;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Qi2Zl+TH;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="/84wopBr";
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=cs.unc.edu;
+	spf=pass smtp.mailfrom=cs.unc.edu;
+	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=DCho+HQ0;
+	arc=none smtp.remote-ip=209.85.128.178
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A60C606A319;
-	Thu, 22 Oct 2026 11:54:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A60C606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14814606A319
+	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 12:07:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14814606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=k0zHBfDA;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xK1C17rX;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Qi2Zl+TH;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/84wopBr
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A91D21FCEE;
-	Thu, 22 Oct 2026 11:54:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792670093; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ki1cwKJQTqrG9U30cei8QndCvChWE//Qsc4WNQH7Lyg=;
-	b=k0zHBfDAICL3Kxcvav5lltp+hWgJl+7/oBs0x3vVDZjFQIoHZwV5mqY3DbktLBb1eAeAfa
-	sG4OEU1LQbWNErkJkov9ln32JP/mME4NWBGiM5yixdKtLL9Sv8L0TCX0JTogkukrsSDk2Y
-	ahN226Ab27VFmXFIFUzUapwurYEpPRI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792670093;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ki1cwKJQTqrG9U30cei8QndCvChWE//Qsc4WNQH7Lyg=;
-	b=xK1C17rXEotnc53Uol0IfbGC+rMvzDjSKOMEn/5paQX713wGLwFhpINruA7jH9arwQVRzE
-	cOWqa0Jg2XcQPdCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792670092; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ki1cwKJQTqrG9U30cei8QndCvChWE//Qsc4WNQH7Lyg=;
-	b=Qi2Zl+THVkT4STr1sxzXp66ESUiop5PM64RaxCsb6pNIXDVDTVMbL6qu2tKadkBnznBb4B
-	hn2oLK/3ZoI04zlqJKZAkAnerc8szrnlGR9D6GmKOMPnVuc3X8myUTgYA9tD4fhN9i2JnL
-	4oYp5K6dT2LmJUmvH2syaUcDoqyxG/Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792670092;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ki1cwKJQTqrG9U30cei8QndCvChWE//Qsc4WNQH7Lyg=;
-	b=/84wopBroN8VpAI3cZ/sXPXQZzawN/MEKdt1M+jISb6ilLmwgNkTp5PWoD759+tqAhYWa5
-	aI2Zmv1s+z0bL2Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 89DE0133F3;
-	Thu, 22 Oct 2026 11:54:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 18MVG4z52WrPBwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 22 Oct 2026 11:54:52 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 32F38A1417; Thu, 22 Oct 2026 13:54:52 +0200 (CEST)
-Date: Thu, 22 Oct 2026 13:54:52 +0200
-From: Jan Kara <jack@suse.cz>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] fs: skip unborn superblocks in drop_caches and Q_SYNC
-Message-ID: <ghkbxk6qak6e6yeqi523egcyzig5pmrbzxbtpigm6zwyeao2vs@amvcxr7d33y3>
-References: <20261021-b4-super-lock-unborn-v1-0-0265eddb6dee@toxicpanda.com>
- <20261021-b4-super-lock-unborn-v1-5-0265eddb6dee@toxicpanda.com>
+	dkim=pass (2048-bit key, unprotected) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=DCho+HQ0
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8ac8a2ac52bso8656777b3.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 05:07:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.unc.edu; s=google; t=1792670824; x=1793275624; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=f4Pj7b5+BCbfAUSTsrmqLzkuYkoyWrTz+YeW1iMb6p8=;
+        b=DCho+HQ0HUQRh5vJ4m/7U8EaK1YUKYd0HqPcqV483E8mA8fjn+MUsZLKDRZAc54V2o
+         dq4aMXrXJqsfG0nTL8vatAr/OVoProMCvuAiOrYBGwToottVPhQ+JkGsA+pqysFAdqVU
+         WD2Tg54uWt6n1l51HQsRTxWtYDzUjdmgf1pSV6V2Eb9EHa1Wpo5jt9bSpqBEJY+DJsoR
+         owpIrpLxe1pfrNEaXNsZax7LCA+iPdJgPosYvSJ4YRVBHCCtDkm0Q7gbTwMCl5nAa3bL
+         Vppa5iAczQkqskWc/lpfDtHIuLdFFBMUcFsbFnPA/EttqYE0WiOBydE3whHqwbUFRdiH
+         BS1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792670824; x=1793275624;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=f4Pj7b5+BCbfAUSTsrmqLzkuYkoyWrTz+YeW1iMb6p8=;
+        b=wmyq6/h5CBgNBcF9qERthowsuOW2FnWDOzSpFwJfTVKg5goDeqQHKPq0QGnXR8CPqA
+         UrCGDkGTgjxcsKO6PmPeAQvm7+so051tXfwNShbQbVTYwt/CKzaLB5CQB6RxtMrNv7rU
+         9asTzoLeJciyUBNXHV+yXNpaG6v1iQSwRE99axfRNumBsQQGAIcAbgUb2FKfkGIT0Zd2
+         +uax8uZHP3t8hN3sb1EvtoV63lfOVDRAjIpguqKUXIlDeHMp45jI8qDo440yWDZPlvt3
+         Le1hK9wLmcRfLzORadYrg53qiT+AVZRcmAlXK0CwWh4zQADgKvFZq41L2LOzKQl5/IqZ
+         LNJQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz+uRmgf5sbMQVQogwPsGBiNZSvW2o3cqe9i3t3X+1i3RhM6UEyZUGC05YmGkBWmupECb1AOH7smVW30pWm@vger.kernel.org
+X-Gm-Message-State: AFq9FYJFsI8/8lMcvmGc8wgBj7bP20S3uR00tAJaOa6DYbO2a5nbSIPI
+	JM1FmDSvuc0iVssqgPu1zZQ9gXx0dleLKa6/7ARCnzFsQMU9DIZrGXUkNok/2yuTLg==
+X-Gm-Gg: AYBFou2UsHzBERj/JEWd9V9bw8mPD5tL1MP/hcPPzriXVueEZ4w2w3TYyUu0jUeHiMF
+	YmtE7U8xTmxz7puzHE/MZ8lRaQgrlMDv/T2Mtz8tIcJRYDpFwqN2/dGkVELrd0X/vdNFxhDPQ3s
+	94XMuySJXgCrn8MdE7p0Aq5EvP0ItqT7zr8MwY0+YAgFmj1Bw87iGvEbq3Bv4RAyxp2KbbiFmkS
+	sbepWkOJGnEEe4hat9i6LcBMtzGr8kUdfnjV/4EdNEGfnMeVL3ripvYzzRttcL9jCa7Ce0a3JjO
+	GXM1VcuzHIBbczGohuhhyeF121zngMXmRPd5BuxHjXKOoffCy3ilRdq1KhuCA5Bzm7rBnRUqJ8i
+	hx7Ri7zFI0dxa9ks7GIx8DmUAWQCM8IdIYJr/Xh1XMnvWig+P9Pg+LvpFdcVicN875XdJjv1/tQ
+	h5CGOep12zfPzwFZXMk5EjToCcIjvcVHjBDR8eVTs3JwOHdiYuLxYCp3+p4zqQ2Bh4ED58E7QJL
+	JZ0H1UYj7UheIxx65fq/4TIIznPfFTM6FIVLP6GMfY73HKSaHFp7UOFnhqRvpvihJTxU6FhjUZe
+	MqeN
+X-Received: by 2002:a05:690c:39a:b0:8b0:a171:65f7 with SMTP id 00721157ae682-8b145716d60mr15017307b3.19.1792670823891;
+        Thu, 22 Oct 2026 05:07:03 -0700 (PDT)
+Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b1300ae236sm25232857b3.20.2026.10.22.05.07.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2026 05:07:03 -0700 (PDT)
+From: Hengyu Liang <hengyul@cs.unc.edu>
+To: slava@dubeyko.com
+Cc: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] hfs: avoid reusing occupied CNIDs after deletion
+Date: Thu, 22 Oct 2026 08:06:57 -0400
+Message-ID: <20261022120658.1328124-1-hengyul@cs.unc.edu>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <1797b66dee80c9553748d4a961470894c917bf5f.camel@dubeyko.com>
+References: <20261015110114.1649059-1-hengyul@cs.unc.edu> <b6f1cb66778d09015ad5862ff273edc37c44ef28.camel@dubeyko.com> <20261021153141.311425-1-hengyul@cs.unc.edu> <1797b66dee80c9553748d4a961470894c917bf5f.camel@dubeyko.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -111,138 +101,58 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261021-b4-super-lock-unborn-v1-5-0265eddb6dee@toxicpanda.com>
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,toxicpanda.com:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed 21-10-26 16:47:01, Josef Bacik wrote:
-> Writing to /proc/sys/vm/drop_caches and quotactl(Q_SYNC) without a device
-> walk all the superblocks with iterate_supers(), and like sync(2) they hang,
-> unkillably, on one whose mount is stuck before SB_BORN.
-> 
-> Neither gets anything out of the wait.  A filesystem which isn't mounted
-> yet has no page cache anybody would miss.  It may well have quota turned
-> on, ext4 and XFS do that while they are being mounted, but nobody has used
-> it yet.  The only changes to the quota so far are the filesystem's own,
-> from cleaning up orphans say, and it has to get those to disk whether or
-> not anybody calls Q_SYNC.
-> 
-> Add iterate_supers_born(), which skips such superblocks, and use it for
-> the two.
-> 
-> iterate_supers() itself keeps waiting.  Its remaining user needs that:
-> selinux_complete_init() sets up the superblocks which came before the
-> policy was loaded.  NFS calls security_sb_set_mnt_opts() from its
-> ->get_tree(), so before SB_BORN, and without a policy SELinux puts the work
-> off until that walk.  Skipping the superblock there would leave it without
-> labels for good.
-> 
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+Hi Slava,
 
-Makes sense. Feel free to add:
+On Wed, Oct 21, 2026 at 03:26:10PM -0700, Viacheslav Dubeyko wrote:
+> I think I see your point. So, I think that fix is much simpler. We need
+> to add the thread records processing here [1]:
+[...]
+> The current logic simply misses the HFS_CDR_THD and HFS_CDR_FTH cases
+> processing.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Thanks. I tried this in KVM on a804c5742bff. It fixes the example from
+my last mail only in part, for two reasons.
 
-								Honza
+First, a thread record's own CNID is in its key. rec.thread.ParID is
+the CNID of the parent. In the example, a's thread is (17, "") with
+ParID 2, so taking rec.thread.ParID sets next_id to 16, and the next
+create fails with -EEXIST on z. Taking the CNID from the key gives 18,
+which is right.
 
-> ---
->  fs/drop_caches.c |  2 +-
->  fs/internal.h    |  1 +
->  fs/quota/quota.c |  2 +-
->  fs/super.c       | 15 +++++++++++++++
->  4 files changed, 18 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/drop_caches.c b/fs/drop_caches.c
-> index 49f56a598ecb..7ba726837075 100644
-> --- a/fs/drop_caches.c
-> +++ b/fs/drop_caches.c
-> @@ -61,7 +61,7 @@ static int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
->  
->  		if (sysctl_drop_caches & 1) {
->  			lru_add_drain_all();
-> -			iterate_supers(drop_pagecache_sb, NULL);
-> +			iterate_supers_born(drop_pagecache_sb, NULL);
->  			count_vm_event(DROP_PAGECACHE);
->  		}
->  		if (sysctl_drop_caches & 2) {
-> diff --git a/fs/internal.h b/fs/internal.h
-> index 71ab0ae11941..dd29e98e05fb 100644
-> --- a/fs/internal.h
-> +++ b/fs/internal.h
-> @@ -137,6 +137,7 @@ extern int reconfigure_super(struct fs_context *);
->  extern bool super_trylock_shared(struct super_block *sb);
->  struct super_block *user_get_super(dev_t, bool excl);
->  void put_super(struct super_block *sb);
-> +void iterate_supers_born(void (*f)(struct super_block *, void *), void *arg);
->  int iterate_supers_sync(void (*f)(struct super_block *, void *), void *arg);
->  void __init super_dev_init(void);
->  extern bool mount_capable(struct fs_context *);
-> diff --git a/fs/quota/quota.c b/fs/quota/quota.c
-> index 33bacd707580..713e66e4d00f 100644
-> --- a/fs/quota/quota.c
-> +++ b/fs/quota/quota.c
-> @@ -66,7 +66,7 @@ static int quota_sync_all(int type)
->  
->  	ret = security_quotactl(Q_SYNC, type, 0, NULL);
->  	if (!ret)
-> -		iterate_supers(quota_sync_one, &type);
-> +		iterate_supers_born(quota_sync_one, &type);
->  	return ret;
->  }
->  
-> diff --git a/fs/super.c b/fs/super.c
-> index b8d6f1c969ce..1cfacd71a0d8 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -1110,6 +1110,21 @@ void iterate_supers(void (*f)(struct super_block *, void *), void *arg)
->  	__iterate_supers(f, arg, 0);
->  }
->  
-> +/**
-> + * iterate_supers_born - iterate_supers() without the wait
-> + * @f: function to call
-> + * @arg: argument to pass to it
-> + *
-> + * Doesn't wait for superblocks which are still being set up, they are not
-> + * passed to @f.  For callers which are after what has piled up in a filesystem
-> + * in use.  Not for callers which have to get at every superblock there is: one
-> + * which is skipped may be in use a moment later.
-> + */
-> +void iterate_supers_born(void (*f)(struct super_block *, void *), void *arg)
-> +{
-> +	__iterate_supers(f, arg, SUPER_ITER_SKIP_UNBORN);
-> +}
-> +
->  /**
->   * iterate_supers_sync - iterate_supers() for syncing all filesystems
->   * @f: function to call
-> 
-> -- 
-> 2.55.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Second, even with the key, the scan still stops at the first record it
+finds, and the last record need not hold the largest CNID:
+
+    operation    allocated CNID
+    create a          16
+    mkdir y           17
+    create b          18
+    mv a y/
+    rm b
+
+The last records are now (17, "") for y's thread and (17, "a") for a's
+file record, with CNID 16. The scan stops at (17, "a") and sets next_id
+to 17, which y still uses, so the next create fails with -EEXIST.
+
+File threads are also optional (HFS_FIL_THD; hfs_cat_move() already
+handles files without one). If a (CNID 17) in the example has no
+thread, the next create gets CNID 17 as well, without an error, because
+hfs_cat_create() only checks for an existing thread.
+
+Result of creating the next file in each case:
+
+                        unpatched   thread ParID   thread key   patch
+    example (z, a, b)   -EEXIST     -EEXIST        18           18
+    mv a into y         -EEXIST     -EEXIST        -EEXIST      18
+    a without thread    17 (dup)    -EEXIST        17 (dup)     18
+
+So the scan needs the largest CNID over all records, not the first one
+it finds. This is what the patch does; the cnid - 1 lookup only avoids
+the full scan in the common case.
+
+If this looks right to you, I will send v2 without the != change.
+
+Thanks,
+Hengyu
