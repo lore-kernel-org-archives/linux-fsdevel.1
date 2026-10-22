@@ -1,108 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792663268;
-	b=o/PWVT8ydaaqK+Ta6+WFlwvS0/CfF1aAUwrU3cZK0V1O8wDqh2MUoQWuwZjupySjC+dd
-	 52yBKB26SyCnQw635Vl0tnHN/DpF1izoFFYsMumPPpsonpSdLMD42EqWJcgS8pKM1mlNJ
-	 TYgvhH4FP+yBr6eJBWC/aqR9sGwzySgrR+wcpge5tSCQ98ocJvlJS/a0dNaaKjfrmhB6z
-	 1V4VqgD+uoHhiSKLMTvevR9JYx65P4YiPjuIwshC286Z0IDHNpAt5oHW3kE1OlCVsHwB9
-	 uryzIav76zi5Nupk70D0Hp9vjdU5hUs3shBWkO2wEOo9vbhkRAASt4LkW+2sd+6yncQ==
+	t=1792663284;
+	b=uUPaQGXNl8DNPDQmqV8LaXj1kcKupy9Ld8u9DxZBwLrxZw7TTcguTt+TFTfPW/nyVY0v
+	 DiVCCwJnoYo/bO1smtcN59Y1ax1IEHa5Nlgjp/9dj/4rSa6UbWoHiZzMdWtho3uxIlGzo
+	 UhVn9YmQxKrt9Hh03cTNJ7qgm396IOykbbXSz3jrQDVq5JhoobIbo82fI8E43mcSF2LKc
+	 aNcbhpQe/33UXAzTSGSd3UUAReE6iozEDYCEXr1rgbRezNoM7Gz38kALLmdeQRrjbtHIR
+	 baIDTsiCqsn7BA2sT5O/u6oALNqAWexd98VULTi0K+KQYEbqGPLUgJKsREdfV3T0otQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792663268;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=xx5PWRnpBcaTq5EzVgkIhwjrcm3XGwseKhP5fVjXrZs=;
-	b=GwKG2J868wNI+mmX+9T92T5mEUNTzPNwQFGdXj37IQEpNCdwN4cK3Zoecj4Huat9MijH
-	 EpXq19jooG2XuvZrBNmyzasVn0u3Ii6JWju8RKLI+QPPGil0rG1b3493QX7dI2AVr5EhT
-	 hUxh3dZt8+ONLq+vvbYyO4aVi5kOey9WAcln7pgMTvhQNQ7EZBOeRLZHcZVAKK66yZ3UE
-	 XsIZL3zPNa3FpX9C33Sih1Ejo4m2HpaC7N+WjGOy+zXzPskHy9WcpkQPVEImluxp9z3Sf
-	 isSZxjUvO4HUZz+KoJ9k86LZOD/AOmFbw/3i+H1qvYOv7PbWsXYfLH5DjL08rFE5HAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792663284;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=BWI3Lrcifhq07nHl0S5uej8tCbV/Fgv3NaO9h++jNTo=;
+	b=tYkV3hxydHZ2CFVYaWzyhp1++T75qX40D7t5gYuotHLuwqOJwlUQrK3nkzXYiOEEwCtE
+	 efxM8S0e8D1rAkBcz1pYVnygZO/sIdkR1iyNbZp0l7aDUZh+bqJsZ38fwo6BfS62JBwfc
+	 0G8Hy9aVOF6qesgWiF71bdKQFYT1ggtb7tlC1FYWFoKjpQAI8AmsiIT/2Ut1sfMK4HVP9
+	 oPgTKMATiKceUnBOaKJif4gGwWViy1G/a8t/2feP+dyw8rgI0iY/vEIBglCLatvn3O9FV
+	 hTATYlvl/njgeQOlQAUSZ2Le5HHgapohchIEX+Uf4ODYC3GV6qdhOdo/G7RlijDLrrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=XsHZEXtt;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=4qt+iPl0;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=fRbJsRKd;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=yXzcqOCW;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.199
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0EF606A319;
-	Thu, 22 Oct 2026 10:01:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB0EF606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=XsHZEXtt;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=4qt+iPl0;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=fRbJsRKd;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=yXzcqOCW
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CD4261FCE2;
-	Thu, 22 Oct 2026 10:01:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792663266; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xx5PWRnpBcaTq5EzVgkIhwjrcm3XGwseKhP5fVjXrZs=;
-	b=XsHZEXtt16YszjQLzPJdOiTObZxqiue3i9dZruJj5NbRkxUIVU2VcHMlGFQ2hEXYDTjClW
-	WY4KwRkiLLcCvcsLVcDCt+/1VPIcwaDA7EXmXcLlRYeSXCDvgubeswx1cWuxeL4M80t466
-	Sxj1JTQe8m0d7rtXtwZBrAMTp2Eefi8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792663266;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xx5PWRnpBcaTq5EzVgkIhwjrcm3XGwseKhP5fVjXrZs=;
-	b=4qt+iPl0QgDN6y01/MLvSWfV+YktFHa5v8xtRi8RyAwW5+jedesfJGTSPd9Sq2SR++a6yF
-	4IJGROd4YxoBbqDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=fRbJsRKd;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=yXzcqOCW
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792663264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xx5PWRnpBcaTq5EzVgkIhwjrcm3XGwseKhP5fVjXrZs=;
-	b=fRbJsRKdg3/W9Y0S219wKFCsmQc/z1LupriN4SRD19Nv+SjN+NPSd+Cr6Adq9+KqhSkrqH
-	aHDIc8GPScaihJrhxGTDZMaelM4329az0rup+PSrFwcWQ2wAEIH0Q1HpowCFhDapAb5NiD
-	oSeXE6+LXGbykMi88rWSpmoEv8gnO6Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792663264;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xx5PWRnpBcaTq5EzVgkIhwjrcm3XGwseKhP5fVjXrZs=;
-	b=yXzcqOCWlMcStErxspXDl0EyhhiboKWsqC3Xh8if8itof1TTfIZz1Z3UdT4y+GAWPpp31k
-	lB31A1yMX8rexLBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A26C6134E6;
-	Thu, 22 Oct 2026 10:01:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3WS6HuDe2WovDQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 22 Oct 2026 10:01:04 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 2A5F5A1417; Thu, 22 Oct 2026 12:00:56 +0200 (CEST)
-Date: Thu, 22 Oct 2026 12:00:56 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 03/15] quota: really wait for the thaw in quotactl_block()
-Message-ID: <qvzylugu5zrrkjfznfnunimu6yyv3unaxppf7uxiobgx6pumta@n5h6ofkevlwt>
-References: <20261011-work-super-fixes-core-v1-0-c727176c5b53@kernel.org>
- <20261011-work-super-fixes-core-v1-3-c727176c5b53@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78814606A31D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 10:01:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78814606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-5587351d419so398710b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 03:01:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792663283; x=1793268083;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BWI3Lrcifhq07nHl0S5uej8tCbV/Fgv3NaO9h++jNTo=;
+        b=o1Nk7zZaDoGMOXaGGTADlnypwORtq0j/GS75ErtITvkg/g4NGgadqk5gUj1OH1W7rV
+         ThThUtFiWbnyKwnxVvLwlo5vy2krgzMlkg1y+30pv3mjOGGXvOmoI45hc7tlwu0xzpfM
+         BSCAz2Z4TGZYPFO+W5bP0S1hmu1wdtdQC40fA1RcO85bcnGC3rLmgGa/MBvO5/bAOx+K
+         m3F/2TMnucSgVYGXH0qzxlZRYq9bJ3Xr+JZNIDiv6Q+ODQxSYZ/Wdgqtzf1/0xDDzMuk
+         UVpvR00QUKohJczNgBkl3f/woLpU1m0p9FC44CCdIiooL/jyD4JQ2Dj5nuzCHOjRaCWH
+         vocQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwEas3JC3Jq80XinB3pun0XR12EDw0N6w7alpJ75dNpBbsyEbj2cFAOYmDZRYRuaARfUbY413DvUEp/AZbb@vger.kernel.org
+X-Gm-Message-State: AFq9FYKwGsGZCpqV2bpy7oOt/2H/Bf6nZ2IIEcjfrWQ1CP3KgP+E2NTb
+	o4/g4Hi5lo0Jvf+v62k7iPC27AQTnNsTcG4CWbNhyLTzUJx1zdIeqIR+P869rA810fj+qbkvu3B
+	ipQYexNSVZbYVpILE/2Usi8ilBgkEHru6OcuJmE17eVKfJxRBd0a7grkH64s=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -112,186 +58,122 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261011-work-super-fixes-core-v1-3-c727176c5b53@kernel.org>
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: CD4261FCE2
+X-Received: by 2002:a05:6808:152a:b0:4a4:744:a4ff with SMTP id
+ 5614622812f47-5534f045a74mr2683712b6e.4.1792663283371; Thu, 22 Oct 2026
+ 03:01:23 -0700 (PDT)
+Date: Thu, 22 Oct 2026 03:01:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ad9def3.3ebfcf67.79b0c.0095.GAE@google.com>
+Subject: [syzbot] [fs?] [mm?] KCSAN: data-race in xas_create / xas_find (10)
+From: syzbot <syzbot+73641b60a3bc11dfca8c@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	syzkaller-bugs@googlegroups.com, willy@infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun 11-10-26 17:56:03, Christian Brauner wrote:
-> quotactl_block() makes commands that modify quota wait for a frozen
-> superblock to be thawed. Since 576215cffdef ("fs: Drop wait_unfrozen
-> wait queue") it does that by taking and dropping s_writers via
-> sb_start_write() and sb_end_write() and retrying until the superblock
-> isn't frozen anymore.
-> 
-> But freeze_super() doesn't take s_writers for a read-only superblock. So
-> sb_start_write() never waits and quotactl_block() spins until the
-> superblock is thawed. The loop doesn't check for fatal signals and the
-> permission checks only happen after quotactl_block() returned. So any
-> user that can resolve the device node of a frozen read-only filesystem
-> can make a task burn a cpu without being killable until someone thaws
-> the filesystem.
-> 
-> Wait for the thaw with wait_var_event_killable() on s_writers.frozen
-> instead. freeze_super() and thaw_super() already wake waiters on it for
-> wait_for_partially_frozen(). That waiter only ever waits for the
-> superblock to leave SB_FREEZE_WRITE and gets away without a barrier
-> between the store to s_writers.frozen and wake_up_var() because
-> percpu_down_write() executes a full barrier after the store that moves
-> it out of SB_FREEZE_WRITE. That doesn't cover a waiter for SB_UNFROZEN.
-> So add the barrier wake_up_var() requires to all of these wakeups.
-> 
-> The cond_resched() that 77449e453dfc ("quota: fix livelock between
-> quotactl and freeze_super") added to the loop goes away with the
-> spinning. As a side-effect waiting for a read-write superblock is
-> killable now as well.
-> 
-> Fixes: 576215cffdef ("fs: Drop wait_unfrozen wait queue")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Hello,
 
-Good catch! Feel free to add:
+syzbot found the following issue on:
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+HEAD commit:    a804c5742bff Merge tag 'lsm-pr-20261016' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=10762231580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e0a09745349d136e
+dashboard link: https://syzkaller.appspot.com/bug?extid=73641b60a3bc11dfca8c
+compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
 
-							Honza
+Unfortunately, I don't have any reproducer for this issue yet.
 
-> ---
->  fs/quota/quota.c | 12 ++++++++----
->  fs/super.c       | 19 +++++++++++++------
->  2 files changed, 21 insertions(+), 10 deletions(-)
-> 
-> diff --git a/fs/quota/quota.c b/fs/quota/quota.c
-> index 33bacd707580..d55ef08de833 100644
-> --- a/fs/quota/quota.c
-> +++ b/fs/quota/quota.c
-> @@ -894,11 +894,15 @@ static struct super_block *quotactl_block(const char __user *special, int cmd)
->  			up_write(&sb->s_umount);
->  		else
->  			up_read(&sb->s_umount);
-> -		/* Wait for sb to unfreeze */
-> -		sb_start_write(sb);
-> -		sb_end_write(sb);
-> +		/*
-> +		 * Wait for sb to unfreeze. A read-only superblock is frozen
-> +		 * without taking s_writers so sb_start_write() won't wait.
-> +		 */
-> +		error = wait_var_event_killable(&sb->s_writers.frozen,
-> +				READ_ONCE(sb->s_writers.frozen) == SB_UNFROZEN);
->  		put_super(sb);
-> -		cond_resched();
-> +		if (error)
-> +			return ERR_PTR(error);
->  		goto retry;
->  	}
->  	return sb;
-> diff --git a/fs/super.c b/fs/super.c
-> index 4e8f7f48540c..2dc4ec2e8014 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -2068,6 +2068,13 @@ static void sb_freeze_unlock(struct super_block *sb, int level)
->  		percpu_up_write(sb->s_writers.rw_sem + level);
->  }
->  
-> +static inline void sb_freeze_wake(struct super_block *sb)
-> +{
-> +	/* wake_up_var() needs a full barrier after storing s_writers.frozen. */
-> +	smp_mb();
-> +	wake_up_var(&sb->s_writers.frozen);
-> +}
-> +
->  static int wait_for_partially_frozen(struct super_block *sb)
->  {
->  	int ret = 0;
-> @@ -2293,7 +2300,7 @@ int freeze_super(struct super_block *sb, enum freeze_holder who, const void *fre
->  		WARN_ON_ONCE(freeze_inc(sb, who) > 1);
->  		sb->s_writers.freeze_owner = freeze_owner;
->  		sb->s_writers.frozen = SB_FREEZE_COMPLETE;
-> -		wake_up_var(&sb->s_writers.frozen);
-> +		sb_freeze_wake(sb);
->  		super_unlock_excl(sb);
->  		return 0;
->  	}
-> @@ -2313,7 +2320,7 @@ int freeze_super(struct super_block *sb, enum freeze_holder who, const void *fre
->  	if (ret) {
->  		sb->s_writers.frozen = SB_UNFROZEN;
->  		sb_freeze_unlock(sb, SB_FREEZE_PAGEFAULT);
-> -		wake_up_var(&sb->s_writers.frozen);
-> +		sb_freeze_wake(sb);
->  		deactivate_locked_super(sb);
->  		return ret;
->  	}
-> @@ -2329,7 +2336,7 @@ int freeze_super(struct super_block *sb, enum freeze_holder who, const void *fre
->  				"VFS:Filesystem freeze failed\n");
->  			sb->s_writers.frozen = SB_UNFROZEN;
->  			sb_freeze_unlock(sb, SB_FREEZE_FS);
-> -			wake_up_var(&sb->s_writers.frozen);
-> +			sb_freeze_wake(sb);
->  			deactivate_locked_super(sb);
->  			return ret;
->  		}
-> @@ -2341,7 +2348,7 @@ int freeze_super(struct super_block *sb, enum freeze_holder who, const void *fre
->  	WARN_ON_ONCE(freeze_inc(sb, who) > 1);
->  	sb->s_writers.freeze_owner = freeze_owner;
->  	sb->s_writers.frozen = SB_FREEZE_COMPLETE;
-> -	wake_up_var(&sb->s_writers.frozen);
-> +	sb_freeze_wake(sb);
->  	lockdep_sb_freeze_release(sb);
->  	super_unlock_excl(sb);
->  	return 0;
-> @@ -2378,7 +2385,7 @@ static int thaw_super_locked(struct super_block *sb, enum freeze_holder who,
->  	if (sb_rdonly(sb)) {
->  		sb->s_writers.frozen = SB_UNFROZEN;
->  		sb->s_writers.freeze_owner = NULL;
-> -		wake_up_var(&sb->s_writers.frozen);
-> +		sb_freeze_wake(sb);
->  		goto out_deactivate;
->  	}
->  
-> @@ -2396,7 +2403,7 @@ static int thaw_super_locked(struct super_block *sb, enum freeze_holder who,
->  
->  	sb->s_writers.frozen = SB_UNFROZEN;
->  	sb->s_writers.freeze_owner = NULL;
-> -	wake_up_var(&sb->s_writers.frozen);
-> +	sb_freeze_wake(sb);
->  	sb_freeze_unlock(sb, SB_FREEZE_FS);
->  out_deactivate:
->  	deactivate_locked_super(sb);
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/171f09113e28/disk-a804c574.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0f8812b149fb/vmlinux-a804c574.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/6349a85938ab/bzImage-a804c574.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+73641b60a3bc11dfca8c@syzkaller.appspotmail.com
+
+loop6: detected capacity change from 0 to 1024
+EXT4-fs: Ignoring removed i_version option
+EXT4-fs (loop6): Unsupported encryption level 6
+==================================================================
+BUG: KCSAN: data-race in xas_create / xas_find
+
+write to 0xffff88811a8efda9 of 1 bytes by task 6715 on cpu 1:
+ xas_expand lib/xarray.c:620 [inline]
+ xas_create+0x685/0xbf0 lib/xarray.c:661
+ xas_store+0x6f/0xce0 lib/xarray.c:795
+ __filemap_add_folio+0x647/0x910 mm/filemap.c:915
+ filemap_add_folio+0x1cd/0x380 mm/filemap.c:972
+ page_cache_ra_unbounded+0x1a4/0x3a0 mm/readahead.c:293
+ do_page_cache_ra mm/readahead.c:348 [inline]
+ force_page_cache_ra+0x190/0x1d0 mm/readahead.c:378
+ page_cache_sync_ra+0x11d/0x560 mm/readahead.c:602
+ filemap_get_pages+0x2f2/0x1360 mm/filemap.c:2714
+ filemap_read+0x21c/0xad0 mm/filemap.c:2824
+ blkdev_read_iter+0x21e/0x2d0 block/fops.c:838
+ new_sync_read fs/read_write.c:493 [inline]
+ vfs_read+0x699/0x7c0 fs/read_write.c:574
+ ksys_read+0xdc/0x1a0 fs/read_write.c:716
+ __do_sys_read fs/read_write.c:725 [inline]
+ __se_sys_read fs/read_write.c:723 [inline]
+ __x64_sys_read+0x40/0x50 fs/read_write.c:723
+ x64_sys_call+0x2135/0x2550 arch/x86/include/generated/asm/syscalls_64.h:1
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x112/0x360 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+read to 0xffff88811a8efda9 of 1 bytes by task 6813 on cpu 0:
+ xas_find+0x360/0x3e0 lib/xarray.c:1421
+ find_get_entry mm/filemap.c:2085 [inline]
+ find_lock_entries+0xd4/0x6b0 mm/filemap.c:2189
+ mapping_try_invalidate+0xc7/0x430 mm/truncate.c:545
+ invalidate_mapping_pages+0x27/0x40 mm/truncate.c:602
+ invalidate_bdev+0x58/0x70 block/bdev.c:101
+ __ext4_fill_super fs/ext4/super.c:5840 [inline]
+ ext4_fill_super+0x2cd3/0x37c0 fs/ext4/super.c:5865
+ get_tree_bdev_flags+0x291/0x300 fs/super.c:1883
+ get_tree_bdev+0x1f/0x30 fs/super.c:1906
+ ext4_get_tree+0x1c/0x30 fs/ext4/super.c:5897
+ vfs_get_tree+0x57/0x1d0 fs/super.c:1943
+ fc_mount fs/namespace.c:1282 [inline]
+ do_new_mount_fc fs/namespace.c:3910 [inline]
+ do_new_mount+0x288/0x730 fs/namespace.c:3986
+ path_mount+0x4ad/0xb90 fs/namespace.c:4337
+ do_mount fs/namespace.c:4350 [inline]
+ __do_sys_mount fs/namespace.c:4565 [inline]
+ __se_sys_mount+0x28c/0x2e0 fs/namespace.c:4542
+ __x64_sys_mount+0x67/0x80 fs/namespace.c:4542
+ x64_sys_call+0xc3b/0x2550 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x112/0x360 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+value changed: 0x03 -> 0x00
+
+Reported by Kernel Concurrency Sanitizer on:
+CPU: 0 UID: 0 PID: 6813 Comm: syz.6.569 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/07/2026
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
