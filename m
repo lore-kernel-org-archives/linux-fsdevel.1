@@ -1,106 +1,107 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792665698;
-	b=Kop08zzyklDpl3zVpPYCH0V/3m3iCJ7LfIeyESVx6BE1l/5XBTbSt1uQzyFOXQeQoeCS
-	 CjU7vmlbneWAng54/Tw7q8CY3Uz1B3R+XzdTUB6KGc1gCF1vX7TrOFEneT4Smk8y7GgWE
-	 dkGuBfJXR6nD2+MtzpD7Pk81H3kxsZwag4vcEB+fs2t+b/02DC3D++TLVCq+xnxaeFm4M
-	 WLTbOQsl+vcCP/06JH3ZLtK8VvR0LdzZOAZE4LdY2QKFCqETt3NzOq6iW7+bEWfYWCQFM
-	 /5l/1FZFzU67wF5osUm5RJTeeOrmv+QwmnELrNrSdlrvoyZToOsYJQ5qWgRRdCIAdAA==
+	t=1792666628;
+	b=49ArijeaJVY4E39ll+4ez5ayjpLMXfafWroo7qXUlhq+edJu27VY1GigjnierzYnZ+r7
+	 Tf0G2pRbVLRdoxGVQbUCJdNylJnmeWwGCzHSi9P3M74fklSYIX9uQkSGr+c4qqbDLB5Hq
+	 IZgukloUzcMyCcPC4fKjsw8LE25x0CjfRNa3AmI4RfMsMFT0DFkPu4cjpz8Qi7KZ9uJol
+	 YA6+5lCRMefzv/QehYpMdR/WResSU9alDYXkW0eGdffZzAIVcrqPAX1sVWNKfI+AtiCz0
+	 FMJyV2TJ3a4/EmlryW1pjGv4fqXNPZNWBfFgmlmYuzapCBPENB3+hQzT9xeuP5ojqHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792665698;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792666628;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=0BBSJq2bncADkRtb7hx5gATlQxkx+9xJoVkEfuHB1FE=;
-	b=BZAZ6JHLwdaoAPFfrgUff3BCLkADWbem43oRiHkGzcxQQTK4WOKJc+1TuQzo0JuwrrPf
-	 pwZYK3twa0mlVInLtXZ67QxDYt6o/CB5MyXKKHPzT9bT8pnZ7tzxCOfpKP7K6aqsZ3MCo
-	 2esj5IjQf9UBwPxzFTXUrKk1I4zeVWWUIULJZU/g1k3CARDSsA9mp9j7kpxjRR4148pOY
-	 IvWAPDLNg5d5596bvjiftw7ZNB4M96zd9dk1h6Fg4bxoe5cJ967iifZKgZ28D90OaItg1
-	 IFFoZ9gQ+j22GUIHx6FtkklVgv5QQwXaKBKpYdaaUEd0YeHHtUvX5BhP7NxtNpEOGyQ==
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=FAyjraBBb9RMWkHn1WdC+mM+XPjw7nXzI5R/bAWnv5c=;
+	b=lGFkQ/B6pXFgqEVmxHtMWCdEFLOMvnak+SCjqPXmfIMqKNHieW4EMGISf1JmUqOdJT1L
+	 XwunTD+gFX4AATm9UhB9fzRBEkwBIHvFtUkWay0c/kElMKal+wNWGJgACTUT+hNVAUu2K
+	 i9LVVkUOG5VmJrkxSM0C14OFkAv53aFlC5+g2ubJJVIX1vCt9Zi3dPtSzJGcLv9TyOE+g
+	 7uamY3RKOHbudPufEPEX42DymoyEC3fO8N1wNlOB4VieFVspv8QMR6HNrdp1yEUroPl6b
+	 qAVDYsc3TWA0D2pRxMC2D9FCIU377rHnT+Zpu0UdCt4rPDpqoxCxATqA12ULpykWD4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=i4IZd4Lv;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3tMRewIy;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=i4IZd4Lv;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3tMRewIy;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LTbsAFvx;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FdLwxh0r;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LTbsAFvx;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FdLwxh0r;
 	arc=none smtp.remote-ip=195.135.223.131
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2638E606A319;
-	Thu, 22 Oct 2026 10:41:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2638E606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DB7606A31D;
+	Thu, 22 Oct 2026 10:57:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02DB7606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=i4IZd4Lv;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3tMRewIy;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=i4IZd4Lv;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3tMRewIy
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LTbsAFvx;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FdLwxh0r;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LTbsAFvx;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FdLwxh0r
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 72D1D1FB8B;
-	Thu, 22 Oct 2026 10:41:36 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 31F9C1F801;
+	Thu, 22 Oct 2026 10:57:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792665696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792666626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0BBSJq2bncADkRtb7hx5gATlQxkx+9xJoVkEfuHB1FE=;
-	b=i4IZd4LvMRfkX2VLa50rp0LhxWEHHMmk3RAHDxg1S/Ttq4NKpZJqJ5i0axW5bA6JVuJX4+
-	Ug3m74KPUnTDUajtS130AZWYfxJxFpiz3zLLSIwiqpS1R13VluFFrd6HqbLrPuFzhfo1Dj
-	hSZyc3D7tQBVFfV14rwgA62qsBqeoEs=
+	bh=FAyjraBBb9RMWkHn1WdC+mM+XPjw7nXzI5R/bAWnv5c=;
+	b=LTbsAFvxmNN/VbDwsM8gor2tT4swuPGtz2A/2Zzok4D+U5lr4zjXMKJFumgtNmYR8cAzwz
+	FA/QSoYGPv6a09iJUqCH2NDBeZ0DuKYtqugl2/v2V3KMbkIAzkqiUxVQxMy994EyOrq3rq
+	jMsyESVuTICrkOKJZycBThGubTO4vW4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792665696;
+	s=susede2_ed25519; t=1792666626;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0BBSJq2bncADkRtb7hx5gATlQxkx+9xJoVkEfuHB1FE=;
-	b=3tMRewIyAUtgD2xGLmRVC+VpkspMOMiVx62GeAKHHe41OO/rsH0BZdmJDFW0hsaQ9/yeUf
-	+OoZcoF0kyUupYBQ==
+	bh=FAyjraBBb9RMWkHn1WdC+mM+XPjw7nXzI5R/bAWnv5c=;
+	b=FdLwxh0rTUNtNG/OdXWB+WyqMooLT1kYGgelPbqfsGvwqMfNBDOTTteS+N97XV35RgFOZK
+	mKFrxox4AWl1sbAA==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792665696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792666626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0BBSJq2bncADkRtb7hx5gATlQxkx+9xJoVkEfuHB1FE=;
-	b=i4IZd4LvMRfkX2VLa50rp0LhxWEHHMmk3RAHDxg1S/Ttq4NKpZJqJ5i0axW5bA6JVuJX4+
-	Ug3m74KPUnTDUajtS130AZWYfxJxFpiz3zLLSIwiqpS1R13VluFFrd6HqbLrPuFzhfo1Dj
-	hSZyc3D7tQBVFfV14rwgA62qsBqeoEs=
+	bh=FAyjraBBb9RMWkHn1WdC+mM+XPjw7nXzI5R/bAWnv5c=;
+	b=LTbsAFvxmNN/VbDwsM8gor2tT4swuPGtz2A/2Zzok4D+U5lr4zjXMKJFumgtNmYR8cAzwz
+	FA/QSoYGPv6a09iJUqCH2NDBeZ0DuKYtqugl2/v2V3KMbkIAzkqiUxVQxMy994EyOrq3rq
+	jMsyESVuTICrkOKJZycBThGubTO4vW4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792665696;
+	s=susede2_ed25519; t=1792666626;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0BBSJq2bncADkRtb7hx5gATlQxkx+9xJoVkEfuHB1FE=;
-	b=3tMRewIyAUtgD2xGLmRVC+VpkspMOMiVx62GeAKHHe41OO/rsH0BZdmJDFW0hsaQ9/yeUf
-	+OoZcoF0kyUupYBQ==
+	bh=FAyjraBBb9RMWkHn1WdC+mM+XPjw7nXzI5R/bAWnv5c=;
+	b=FdLwxh0rTUNtNG/OdXWB+WyqMooLT1kYGgelPbqfsGvwqMfNBDOTTteS+N97XV35RgFOZK
+	mKFrxox4AWl1sbAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B4BE134E6;
-	Thu, 22 Oct 2026 10:41:36 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 07457134E6;
+	Thu, 22 Oct 2026 10:57:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yLLuCWDo2WrbNwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 22 Oct 2026 10:41:36 +0000
+	id CyMVNQHs2WquSAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 22 Oct 2026 10:57:06 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id E4C61A1417; Thu, 22 Oct 2026 12:41:35 +0200 (CEST)
-Date: Thu, 22 Oct 2026 12:41:35 +0200
+	id 8BEEDA1417; Thu, 22 Oct 2026 12:57:01 +0200 (CEST)
+Date: Thu, 22 Oct 2026 12:57:01 +0200
 From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 14/15] fs: reset the flag mask in vfs_clean_context()
-Message-ID: <5yepcwmwjcmahw6ayr5xbojmnwhm7rptk5uppsqyidh4ppsxu4@siegumbvc6hn>
-References: <20261011-work-super-fixes-core-v1-0-c727176c5b53@kernel.org>
- <20261011-work-super-fixes-core-v1-14-c727176c5b53@kernel.org>
+To: YouYou Yu <youyouyu@amazon.com>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Lichen Liu <lichliu@redhat.com>, Dylan Johnson <dgj@amazon.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Gunnar Kudrjavets <gunnarku@amazon.com>
+Subject: Re: [PATCH v2] quota: initialize dquot cache before mounting rootfs
+Message-ID: <oqejyckyaveuwypy3z7jv75qotfmcymzs7upabb4uif6ko7jgr@c6t4myvo56vn>
+References: <20261021181217.20171-1-youyouyu@amazon.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -112,9 +113,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261011-work-super-fixes-core-v1-14-c727176c5b53@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Level: 
+In-Reply-To: <20261021181217.20171-1-youyouyu@amazon.com>
 X-Spamd-Result: default: False [-12.80 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -122,81 +121,174 @@ X-Spamd-Result: default: False [-12.80 / 50.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
 	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
 X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Sun 11-10-26 17:56:14, Christian Brauner wrote:
-> vfs_clean_context() prepares a context for the next reconfiguration
-> after fsmount() and after every successful FSCONFIG_CMD_RECONFIGURE. It
-> resets fc->sb_flags but leaves fc->sb_flags_mask alone. So the next
-> FSCONFIG_CMD_RECONFIGURE on that file descriptor applies the old mask
-> to empty flags.
+On Wed 21-10-26 18:12:17, YouYou Yu wrote:
+> On some systems, a tmpfs backed rootfs is extensively used throughout
+> system's lifecycle. tmpfs quotas are needed to limit per user rootfs
+> usage. However, booting with CONFIG_TMPFS_QUOTA=y, an initramfs, no root=
+> and "initramfs_options=usrquota" panics at boot:
 > 
-> That makes a read-only superblock read-write without anyone asking for
-> it:
+>   BUG: kernel NULL pointer dereference, address: 0000000000000000
+>   RIP: 0010:dqget+0x1ac/0x490
+>   Call Trace:
+>    __dquot_initialize
+>    dquot_initialize
+>    shmem_get_inode
+>    shmem_fill_super
+>    ...
+>    mnt_init
+>    vfs_caches_init
+>    start_kernel
 > 
->   fsfd = fsopen("ext4", 0);
->   fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "/dev/vda", 0);
->   fsconfig(fsfd, FSCONFIG_SET_FLAG, "ro", NULL, 0);
->   fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
->   mntfd = fsmount(fsfd, 0, 0);
->   move_mount(mntfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
->   fsconfig(fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0);
+> The rootfs is mounted from mnt_init(), but the dquot hash table and
+> cache are only set up later by dquot_init(), an fs_initcall. Creating
+> the root inode of a quota enabled rootfs thus dereferences the NULL
+> dquot_hash in dqget().
 > 
->   EXT4-fs (vda): re-mounted 68db7463-95cb-47f9-ab87-d1fd35252958 r/w.
+> Rename dquot_init() to dquot_cache_init() and call it from
+> vfs_caches_init() before mnt_init(). The slab, percpu and early
+> workqueue code it relies on is available there, and the workqueue
+> rescuer and shrinker debugfs entries are set up later by their own
+> subsystems. Keep the sysctl registration in an fs_initcall, as done
+> for the dcache, inode and mount sysctls. This only moves existing
+> allocations earlier in boot.
 > 
-> The same happens for a second FSCONFIG_CMD_RECONFIGURE on a context
-> from fspick() after the first one set "ro". The stale mask also drops
-> SB_SYNCHRONOUS, SB_LAZYTIME and SB_MANDLOCK set in an earlier round.
-> And btrfs_reconfigure() adds SB_POSIXACL to the mask when "acl" or
-> "noacl" changes the ACL state so every later reconfiguration on that
-> file descriptor fails with -EINVAL as reconfigure_super() refuses
-> anything outside of MS_RMT_MASK.
-> 
-> Reset the mask as well so a cleaned context looks like a new one from
-> fspick() just as the comment in sys_fsmount() promises.
-> 
-> Fixes: ecdab150fddb ("vfs: syscall: Add fsconfig() for configuring and managing a context")
+> Fixes: 278033a225e1 ("fs: Add 'initramfs_options' to set initramfs mount options")
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Assisted-by: LLM
+> Co-developed-by: Dylan Johnson <dgj@amazon.com>
+> Signed-off-by: Dylan Johnson <dgj@amazon.com>
+> Signed-off-by: YouYou Yu <youyouyu@amazon.com>
+> Reviewed-by: Gunnar Kudrjavets <gunnarku@amazon.com>
 
-Good catch. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
+Thanks! I've added the patch to my tree.
 
 								Honza
 
 > ---
->  fs/fs_context.c | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/fs/fs_context.c b/fs/fs_context.c
-> index a50584df97be..ba99e673458a 100644
-> --- a/fs/fs_context.c
-> +++ b/fs/fs_context.c
-> @@ -544,6 +544,7 @@ void vfs_clean_context(struct fs_context *fc)
->  	fc->fs_private = NULL;
->  	fc->s_fs_info = NULL;
->  	fc->sb_flags = 0;
-> +	fc->sb_flags_mask = 0;
->  	security_free_mnt_opts(&fc->security);
->  	kfree(fc->source);
->  	fc->source = NULL;
+> Notes:
+>     v2:
+>     - Mention the use case in the changelog (Jan)
+>     
+>     v1:
+>     https://lore.kernel.org/all/20261015183608.22507-1-youyouyu@amazon.com/
+>     
+>     Tested on v7.3-rc7, x86_64 QEMU/KVM, booting from an initramfs without root=:
+>     - without this patch, initramfs_options=usrquota panics in dqget() as above
+>     - with it, initramfs_options=usrquota,grpquota,usrquota_block_hardlimit=10M
+>       boots, rootfs is mounted with quotas, and a non-root user is limited to
+>       10M on rootfs
+>     - /sys/kernel/slab/dquot, the quota_events_unbound rescuer, the fs/quota
+>       sysctls and (with CONFIG_SHRINKER_DEBUG) the dquota-cache shrinker
+>       debugfs entry are all created as expected
+>     
+>     An LLM (Claude Opus 5.5) helped drafting this changelog.
+>     I reviewed the change and ran the tests above.
 > 
+>  fs/dcache.c              |  2 ++
+>  fs/quota/dquot.c         | 10 ++++++----
+>  include/linux/quotaops.h |  5 +++++
+>  3 files changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/dcache.c b/fs/dcache.c
+> index f44c7b39c3b..b208cbdda0f 100644
+> --- a/fs/dcache.c
+> +++ b/fs/dcache.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/bit_spinlock.h>
+>  #include <linux/rculist_bl.h>
+>  #include <linux/list_lru.h>
+> +#include <linux/quotaops.h>
+>  #include "internal.h"
+>  #include "mount.h"
+>  
+> @@ -3525,6 +3526,7 @@ void __init vfs_caches_init(void)
+>  	inode_init();
+>  	files_init();
+>  	files_maxfiles_init();
+> +	dquot_cache_init();
+>  	mnt_init();
+>  	bdev_cache_init();
+>  	chrdev_init();
+> diff --git a/fs/quota/dquot.c b/fs/quota/dquot.c
+> index 1c78c695d0d..cd142c9cc7e 100644
+> --- a/fs/quota/dquot.c
+> +++ b/fs/quota/dquot.c
+> @@ -2942,7 +2942,7 @@ static const struct ctl_table fs_dqstats_table[] = {
+>  	},
+>  };
+>  
+> -static int __init dquot_init(void)
+> +void __init dquot_cache_init(void)
+>  {
+>  	int i, ret;
+>  	unsigned long nr_hash;
+> @@ -2950,8 +2950,6 @@ static int __init dquot_init(void)
+>  
+>  	printk(KERN_NOTICE "VFS: Disk quotas %s\n", __DQUOT_VERSION__);
+>  
+> -	register_sysctl_init("fs/quota", fs_dqstats_table);
+> -
+>  	dquot_cachep = kmem_cache_create("dquot",
+>  			sizeof(struct dquot), sizeof(unsigned long) * 4,
+>  			(SLAB_HWCACHE_ALIGN|SLAB_RECLAIM_ACCOUNT|
+> @@ -2992,7 +2990,11 @@ static int __init dquot_init(void)
+>  					   WQ_UNBOUND | WQ_MEM_RECLAIM, WQ_MAX_ACTIVE);
+>  	if (!quota_unbound_wq)
+>  		panic("Cannot create quota_unbound_wq\n");
+> +}
+>  
+> +static int __init init_fs_dquot_sysctls(void)
+> +{
+> +	register_sysctl_init("fs/quota", fs_dqstats_table);
+>  	return 0;
+>  }
+> -fs_initcall(dquot_init);
+> +fs_initcall(init_fs_dquot_sysctls);
+> diff --git a/include/linux/quotaops.h b/include/linux/quotaops.h
+> index f9c0f9d7c9d..bbe22c22439 100644
+> --- a/include/linux/quotaops.h
+> +++ b/include/linux/quotaops.h
+> @@ -40,6 +40,7 @@ void __quota_error(struct super_block *sb, const char *func,
+>  /*
+>   * declaration of quota_function calls in kernel.
+>   */
+> +void dquot_cache_init(void);
+>  int dquot_initialize(struct inode *inode);
+>  bool dquot_initialize_needed(struct inode *inode);
+>  void dquot_drop(struct inode *inode);
+> @@ -206,6 +207,10 @@ static inline int sb_has_quota_active(struct super_block *sb, int type)
+>  	return 0;
+>  }
+>  
+> +static inline void dquot_cache_init(void)
+> +{
+> +}
+> +
+>  static inline int dquot_initialize(struct inode *inode)
+>  {
+>  	return 0;
+> 
+> base-commit: 7c6f8a2841d4eeeceacf42689cd2717fe76d9f7c
 > -- 
-> 2.53.0
+> 2.47.3
 > 
 -- 
 Jan Kara <jack@suse.com>
