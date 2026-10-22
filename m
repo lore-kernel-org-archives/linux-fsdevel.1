@@ -1,55 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792674405;
-	b=TR8Hg/2MTya/I++qML6GC82xVwcfdEredm+cZ5TYyNdRthmAy0l3hX74/KQmeFEOOeT4
-	 pat5cysMmaIQ2U1awEX/HLr6tiMnYVqKXJGTtJn44//CZg7FGmK9wUssQoPbQ8xEQgSOy
-	 H/0Z8xPlXJoWG2fEirlOOsuNwF0EoYhni86+u7Olr1e3do89NRr8k29GutAV+wgZ6w3jl
-	 1cEcUun9BJ4PPghfQTT69He2MP45rkJKQK2GOl4wDuB5Ug/Dpp8KdGIAo5otrJpuw8xZH
-	 SfFVQPn7uRmpD/eOOn388GtJds5gtgMgHHDhrPWXHW79JsQ9T+EYvOMnEorwAyHu5Sw==
+	t=1792676018;
+	b=j+asWIV1smgsvg2k56fyuA4CqH0MjAhA8g/sPKIoMulZ1iGCrwbWnveVCBXEpVeDaavJ
+	 04r+x3sEWo08hi9GeyrRTdXFd5GmY2D+PJ3rwtI/TXRp/tXeJnAYIstnl2uwjK3ESp5t0
+	 yyPHtJusw93/pMI5TjvM4k4BMnPPSV7gFuUozMYR492dVM9T49IfGs1XQd2qC3YJWALhY
+	 uboL1t2PGkHjyH/qsRmUMK2XHNi62GL2WdFSSq7LGD2DeEZzkDpByB/MjpPiwHbv2Pa2H
+	 y7I+8KX9qzhleUX/EeMEDCkrbrpWg9H4N4UyPNFDYofE4Lcbv7cqNvX3SVd1txN++pg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792674405;
-	h=Received:DKIM-Signature:From:To:Cc:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=bwnwU5rYjaVApPDY1R+OeaLnX+sV5D1rI1i70ddm8ko=;
-	b=fhOCyJrVELCBTcDbQ4xB3FNL53R5m7za8lP+L2zZzq5LeC4BPi4oMPxKvaby8LMaRdeH
-	 63kOL9BZxBzOJRrC1b5EXs0DXByPACUmX532BmjDT+EK80NUEMvMuwASgl6mYusJPq1Kt
-	 P+S5vNdGD9mMWzX+edbUUg0nwwFXspyZ/fH25P+vj7E5BactBNDm8W5DrZkJ+GpN9Kbmo
-	 H0OGWPjcO8Q2pjCvJEZ8Ru3PWkOXVv5aQ5+azZHZs4dhWZ2F7IiYEsz39C2cnNmDw4PAf
-	 +XNp8Xz3HbugGT9qywB8Mc2EMfG/ZMNc8lQBI513Y52TNxaBqGwo6nJN3N9P0Xs2VxA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792676018;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=GWTLvmc4WFS/BtTfj6ZJvNI/0mzbNIBjmsCR+aCchQc=;
+	b=qip/tpysZ+jhQsAsupWWzlCuE7LXp3dPeGdLc3TgX62QYJ5j01AYLmENEWXRKrlQQdcH
+	 liQFcjGejkaffbX0bpGTpnv6pQMZiO1mQ2iVvir7Q/Ur43y8myeg5+P5/I4IcbDG7UMPR
+	 JzPaGl0qr2Ymq/LohTO3gMK0TxZqZVxH5pVxd35KIpwNm5nNALBME4LkgLuktbubWkgsC
+	 Sp1L13ODn4knaMInCKe4fe9IV7X8aMTxNZNcA3lVX3HSljdfAOv8dLyRJi/K7Omgvy6Zz
+	 /Lw/tT4cUH0AdKnjqq2Bdlz5ln1fEpX+RkJoWpk2NBVQSUrRcyec+CUqbSUSqoK4+Xg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UPd13Ive;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Og2nmNPv;
+	arc=none smtp.remote-ip=113.46.200.219
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C538F606A319;
-	Thu, 22 Oct 2026 13:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C0E606A319;
+	Thu, 22 Oct 2026 13:33:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90C0E606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UPd13Ive
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E2A91F000C2;
-	Thu, 22 Oct 2026 13:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792674404;
-	bh=bwnwU5rYjaVApPDY1R+OeaLnX+sV5D1rI1i70ddm8ko=;
-	h=From:To:Cc:Cc:In-Reply-To:References:Subject:Date;
-	b=UPd13IveMy2vSe/HFnfY8W3k0mp+nEMkSa/XuUkrIVCdjvBsZFoF2ckjpxiXBBVm/
-	 voa729hm8qNPWvFJQt7I72JmQFGGh6Lgt0FW/er46LdQ+iJFPHsEggtXgzDZHBoHIf
-	 TM66VEB9EFHc83G1ZchVFAeC0D4E4hbdffoNbw7xboY2wX9/mJUlZzrUItav53vnlg
-	 OIUY6qUNMB63O/6oQnICM0kyw6x+3C/8S5QNb9RrTq2h63n17tK40VZzj7b/Gpuu2P
-	 dVIde4idCzZBKI2y+LWr/vqPIN9q8cmOZ7LW+73Ew/g5u7dRlpLTqdX96xtInI2V29
-	 UqsDQowqLu2vw==
-From: Christian Brauner <brauner@kernel.org>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261021-b4-super-lock-unborn-v1-0-0265eddb6dee@toxicpanda.com>
-References: <20261021-b4-super-lock-unborn-v1-0-0265eddb6dee@toxicpanda.com>
-Subject: Re: [PATCH 0/5] fs: don't let a stuck mount take everybody else
- with it
-Message-Id: <20261022-gehackt-unscharf-neugliederung-0f5691b3a177@brauner>
-Date: Thu, 22 Oct 2026 15:06:11 +0200
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Og2nmNPv
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=GWTLvmc4WFS/BtTfj6ZJvNI/0mzbNIBjmsCR+aCchQc=;
+	b=Og2nmNPvpd1ApEK4OaDu/BtOYED7jApmfuBMGee9ns1X/azeOxOp4/sXs2gz1Cv+wyHaTLQ6r
+	JZTvEyNsQoM5XDRFLMinNyRdLi/17VQ+xIFjglzsZ0JUWQ/gzen56GxIyLZap8whMm9XxC6uinr
+	EQS0U2EjOBDTXwaJQn8ztyA=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4j9RtZ0YbGz1prMd;
+	Thu, 22 Oct 2026 21:33:26 +0800 (CST)
+Received: from whupemo200011.china.huawei.com (unknown [7.152.185.179])
+	by mail.maildlp.com (Postfix) with ESMTPS id ADE08203C1;
+	Thu, 22 Oct 2026 21:33:30 +0800 (CST)
+Received: from huawei.com (10.50.85.155) by whupemo200011.china.huawei.com
+ (7.152.185.179) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 22 Oct
+ 2026 21:33:29 +0800
+From: Zhihao Cheng <chengzhihao1@huawei.com>
+To: <jack@suse.com>
+CC: <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<chengzhihao1@huawei.com>, <yangerkun@huawei.com>, <yi.zhang@huawei.com>
+Subject: [PATCH] udf: Fix zero-length extent handling in udf_table_new_block()
+Date: Thu, 22 Oct 2026 21:26:03 +0800
+Message-ID: <20261022132603.2464065-1-chengzhihao1@huawei.com>
+X-Mailer: git-send-email 2.52.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,56 +68,114 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1584; i=brauner@kernel.org;
- h=from:subject:message-id; bh=xl7J3jxIvVE51xp4/7iYovq/Hbs3GdLm4/CkZk99kbI=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTd4krcqZ56k3312uIo1o6+47MEozZPfXsh/O197dsf7
- lkunzTVsaOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiz4QZ/sotUYppPx7UZf9d
- z6u65eCPCWvlfv2N5Npztbvze+zsHWsZGc60bN15muuR1sfU2o1zDtqKFuxer5ayOqLaYA2/jHp
- kLCMA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ whupemo200011.china.huawei.com (7.152.185.179)
 
-On Wed, 21 Oct 2026 16:46:56 +0000, Josef Bacik wrote:
-> fs: don't let a stuck mount take everybody else with it
-> 
-> Hello,
-> 
-> This is the follow up to the stuck unmount series, and it applies on top
-> of it (vfs-7.5.super).
-> 
-> [...]
+udf_table_new_block() keeps the remaining extent length together with the
+extent type in goal_elen and then uses the whole value to decide whether
+the extent is empty:
 
-I resolved the merge conflict locally. I'll massage the helpers a bit
-and get a patch out in a bit.
+	goal_elen = (etype << 30) | elen;
+	...
+	goal_elen -= sb->s_blocksize;
+	if (goal_elen)
+		udf_write_aext(...);
+	else
+		udf_delete_aext(...);
 
+On a table-managed partition, free extents may have non-zero type bits.
+If such an extent has exactly one block left, subtracting the block
+leaves only the type bits (e.g. 0x40000000 for type 1).  The test is
+still true, so instead of deleting the extent the function writes a
+zero-length extent at the next block back into the unallocated space
+table.
+
+Consider a free extent with type 1 and 9 blocks:
+
+	lb=55, len=9 blocks (55..63)
+
+A new file is allocated from it at lb=55, so the extent becomes
+"lb=56, len=8 blocks".  A huge write then extends the file with a hole.
+After the in-ICB allocation descriptor area fills, AED blocks 56..63 are
+allocated from this extent.  When lb=63 is allocated, goal_elen is
+0x40000200; after subtracting one block it becomes 0x40000000, so the
+extent is rewritten as
+
+	lb=64, len=0, type=1
+
+instead of being deleted.
+
+The next allocation with goal=63 prefers this zero-length extent
+(distance 1) over the real next extent "lb=65, len=31 blocks" (distance
+2) and allocates lb=64 from it.  Subtracting a block from the zero-length
+value borrows from the type field:
+
+	0x40000000 - 0x200 = 0x3FFFFE00
+
+and writes back a bogus ~1GB extent:
+
+	lb=65, len=0x3FFFFE00
+
+which now overlaps the real free extent "lb=65, len=31 blocks".  The next
+allocation with goal=64 picks the bogus extent first (both start at 65,
+the bogus one is encountered first and the search keeps the first
+minimum), so lb=65 is handed out and the bogus extent advances to lb=66.
+
+lb=65 is now the file's current AED.  After 60 short_ad descriptors are
+appended to it, epos->offset is 504 and aed->lengthAllocDescs is 480.
+The next append enters udf_setup_indirect_aext().  The allocation goal is
+65, and now the real extent "lb=65, len=31 blocks" wins: the goal lies
+inside it (distance 0), while the bogus extent has advanced to lb=66
+(distance 1).  udf_new_block() therefore returns 65 again, i.e. the block
+that is already the current AED.
+
+udf_setup_indirect_aext() then does:
+
+	sb_getblk() returns the buffer of the current AED
+	memset(bh->b_data, 0, sb->s_blocksize)
+	  -> clears aed->lengthAllocDescs
+
+Because epos->offset is still 504, the block is not considered full
+(504 + 8 <= 512) and the else branch calls __udf_add_aext(), which hits
+
+	WARN_ON(aed->lengthAllocDescs !=
+		epos->offset - sizeof(struct allocExtDesc))
+
+with lengthAllocDescs == 0 and offset == 504, i.e. 0 != 480.  The AED
+contents are destroyed and the filesystem is corrupted.
+
+This is reachable by mounting a table-based UDF image with
+adinicb,shortad and writing at a very large offset: the write creates a
+huge hole, fills the in-ICB allocation descriptor area and then
+allocates many AED blocks from the unallocated space table.
+
+Reproducer is https://syzkaller.appspot.com/x/repro.c?x=16562e75180000.
+
+Fix it by testing only the extent length field.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: syzbot+799a0e744ac47f928024@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=799a0e744ac47f928024
+Signed-off-by: Zhihao Cheng <chengzhihao1@huawei.com>
 ---
+ fs/udf/balloc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied to the vfs-7.5.super branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.super branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.super
-
-[1/5] fs: make a mount waiting on another mount killable
-      https://git.kernel.org/vfs/vfs/c/c1d254f3c8aa
-[2/5] fs: make ustat() and quotactl() killable in lookup
-      https://git.kernel.org/vfs/vfs/c/d88c310d4e27
-[3/5] fs: make BLKFLSBUF's wait for a superblock killable
-      https://git.kernel.org/vfs/vfs/c/e7c9543797a7
-[4/5] fs: don't make sync(2) wait for unborn superblocks
-      https://git.kernel.org/vfs/vfs/c/3924b255e480
-[5/5] fs: skip unborn superblocks in drop_caches and Q_SYNC
-      https://git.kernel.org/vfs/vfs/c/02303f78a82d
+diff --git a/fs/udf/balloc.c b/fs/udf/balloc.c
+index 30cec5600149..621656be65d2 100644
+--- a/fs/udf/balloc.c
++++ b/fs/udf/balloc.c
+@@ -646,7 +646,7 @@ static udf_pblk_t udf_table_new_block(struct super_block *sb,
+ 	goal_eloc.logicalBlockNum++;
+ 	goal_elen -= sb->s_blocksize;
+ 
+-	if (goal_elen)
++	if (goal_elen & UDF_EXTENT_LENGTH_MASK)
+ 		udf_write_aext(table, &goal_epos, &goal_eloc, goal_elen, 1);
+ 	else
+ 		udf_delete_aext(table, goal_epos, &freed);
+-- 
+2.52.0
 
