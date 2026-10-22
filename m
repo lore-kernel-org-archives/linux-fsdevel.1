@@ -1,64 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.33.45.107
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792676018;
-	b=j+asWIV1smgsvg2k56fyuA4CqH0MjAhA8g/sPKIoMulZ1iGCrwbWnveVCBXEpVeDaavJ
-	 04r+x3sEWo08hi9GeyrRTdXFd5GmY2D+PJ3rwtI/TXRp/tXeJnAYIstnl2uwjK3ESp5t0
-	 yyPHtJusw93/pMI5TjvM4k4BMnPPSV7gFuUozMYR492dVM9T49IfGs1XQd2qC3YJWALhY
-	 uboL1t2PGkHjyH/qsRmUMK2XHNi62GL2WdFSSq7LGD2DeEZzkDpByB/MjpPiwHbv2Pa2H
-	 y7I+8KX9qzhleUX/EeMEDCkrbrpWg9H4N4UyPNFDYofE4Lcbv7cqNvX3SVd1txN++pg==
+	t=1792676331;
+	b=KdIRXKEWddBuIR4tzM2npa3i7Leor+QRySVaxa0UHR+NCKEqQul/TynyJ5v0AuarqCmU
+	 htPGv9fUTHaLnAh7BcfrLoiG0r5cqNP8akW/ocTQwG6LQzyfUi9+xCbHG2X2dUxjCjxp/
+	 q8c/9/hIuHYhOATcrY3H5303cPYiuc9xZglnTFG+ecvOgzuTpaaFCCbRHYWN+TVjP87t6
+	 aV6rlE2NZUL5iWm9WD9DtaK60GpEMckkK7B9qNvmJEueEkxgFPXT/Ze3WibT2ew/8TAAI
+	 wMdLsqqOY/uyLP2RCtaNHsGWaJ4ouOfmMWDS0RFkPwXrrecW1kzAJwPYgkVKpUk35rg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792676018;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=GWTLvmc4WFS/BtTfj6ZJvNI/0mzbNIBjmsCR+aCchQc=;
-	b=qip/tpysZ+jhQsAsupWWzlCuE7LXp3dPeGdLc3TgX62QYJ5j01AYLmENEWXRKrlQQdcH
-	 liQFcjGejkaffbX0bpGTpnv6pQMZiO1mQ2iVvir7Q/Ur43y8myeg5+P5/I4IcbDG7UMPR
-	 JzPaGl0qr2Ymq/LohTO3gMK0TxZqZVxH5pVxd35KIpwNm5nNALBME4LkgLuktbubWkgsC
-	 Sp1L13ODn4knaMInCKe4fe9IV7X8aMTxNZNcA3lVX3HSljdfAOv8dLyRJi/K7Omgvy6Zz
-	 /Lw/tT4cUH0AdKnjqq2Bdlz5ln1fEpX+RkJoWpk2NBVQSUrRcyec+CUqbSUSqoK4+Xg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792676331;
+	h=DMARC-Filter:Received:Received:Received:X-OVh-ClientIp:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:x-ovh-tracer-id:X-VR-SPAMSTATE:
+	 X-VR-SPAMSCORE:X-VR-SPAMCAUSE:DKIM-Signature;
+	bh=/H+K2zS+8dAW31vNoVpWVBt83T6rRNKuKqYyPbCVKhg=;
+	b=ZfSQOu1onRtsJ+Z9uPXlT/xzjEvBgxkBSwHiiI60RegfNjaIXfoXkpvWmxqylGw8X4Bn
+	 yiHSgZ95AOm2Wv6Ae+L8uNbHA8h4abYTr2Tts2xc3CK7elNJhLMiSYQGNsC9HvjUL20lt
+	 YFnXS0AKqSQkEeK+EoKEui9k2zqVIMi5QOl5Y9zYCmtZkO2u+3bxJGSo+waey7BtHbhde
+	 aL4KbNy3CNFaAjo15X22DyYw62vZoSmx2SJFgNB/INTV9VAo0xHeef7JSMGEB9FVoY+SL
+	 zeIZSHkvijcB9XfcpeGHc8JBoYGcc0wae1LUWsMGAEPaykRXd5WmdsUCNeoA2LBp85w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Og2nmNPv;
-	arc=none smtp.remote-ip=113.46.200.219
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+	dmarc=none header.from=medichon.fr;
+	spf=pass smtp.mailfrom=medichon.fr;
+	dkim=pass header.d=medichon.fr header.i=@medichon.fr header.a=rsa-sha256 header.s=ovhmo3801317-selector1 header.b=Y8cL4gt5;
+	arc=none smtp.remote-ip=178.33.45.107
+Received: from 5.mo550.mail-out.ovh.net (5.mo550.mail-out.ovh.net [178.33.45.107])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C0E606A319;
-	Thu, 22 Oct 2026 13:33:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90C0E606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4A5606A319
+	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 13:38:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF4A5606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=medichon.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=medichon.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Og2nmNPv
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=GWTLvmc4WFS/BtTfj6ZJvNI/0mzbNIBjmsCR+aCchQc=;
-	b=Og2nmNPvpd1ApEK4OaDu/BtOYED7jApmfuBMGee9ns1X/azeOxOp4/sXs2gz1Cv+wyHaTLQ6r
-	JZTvEyNsQoM5XDRFLMinNyRdLi/17VQ+xIFjglzsZ0JUWQ/gzen56GxIyLZap8whMm9XxC6uinr
-	EQS0U2EjOBDTXwaJQn8ztyA=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4j9RtZ0YbGz1prMd;
-	Thu, 22 Oct 2026 21:33:26 +0800 (CST)
-Received: from whupemo200011.china.huawei.com (unknown [7.152.185.179])
-	by mail.maildlp.com (Postfix) with ESMTPS id ADE08203C1;
-	Thu, 22 Oct 2026 21:33:30 +0800 (CST)
-Received: from huawei.com (10.50.85.155) by whupemo200011.china.huawei.com
- (7.152.185.179) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 22 Oct
- 2026 21:33:29 +0800
-From: Zhihao Cheng <chengzhihao1@huawei.com>
-To: <jack@suse.com>
-CC: <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<chengzhihao1@huawei.com>, <yangerkun@huawei.com>, <yi.zhang@huawei.com>
-Subject: [PATCH] udf: Fix zero-length extent handling in udf_table_new_block()
-Date: Thu, 22 Oct 2026 21:26:03 +0800
-Message-ID: <20261022132603.2464065-1-chengzhihao1@huawei.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key, unprotected) header.d=medichon.fr header.i=@medichon.fr header.a=rsa-sha256 header.s=ovhmo3801317-selector1 header.b=Y8cL4gt5
+Received: from director1.ghost.mail-out.ovh.net (unknown [10.110.37.80])
+	by mo550.mail-out.ovh.net (Postfix) with ESMTP id 4j9S0c4Sdqz60PM
+	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 13:38:40 +0000 (UTC)
+Received: from ghost-submission-7ccd8bbbb6-pwghx (unknown [10.110.37.96])
+	by director1.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 8CC98C0F97;
+	Thu, 22 Oct 2026 13:38:39 +0000 (UTC)
+Received: from medichon.fr ([37.59.142.110])
+	by ghost-submission-7ccd8bbbb6-pwghx with ESMTPSA
+	id 3wIpG98R2mo1Kw4A/xTcRQ
+	(envelope-from <abo@medichon.fr>); Thu, 22 Oct 2026 13:38:39 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-110S0042b00e5ec-fa17-45f5-ac04-93ee996df457,
+                    D013C644F711C524BA86230872FEC141E60CBC53) smtp.auth=abo@medichon.fr
+X-OVh-ClientIp:88.190.90.129
+Message-ID: <fefff113-af7b-4a48-8d8b-53e011c51b9c@medichon.fr>
+Date: Thu, 22 Oct 2026 15:38:39 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,114 +59,69 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- whupemo200011.china.huawei.com (7.152.185.179)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] afs: Add barriers by using clear_and_wake_up_bit()
+To: dhowells@redhat.com, marc.dionne@auristor.com
+Cc: linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ jkoolstra@xs4all.nl, skhan@linuxfoundation.org
+References: <20261021145232.64710-1-abo@medichon.fr>
+Content-Language: en-US, fr
+From: Arnaud Bonnet <abo@medichon.fr>
+In-Reply-To: <20261021145232.64710-1-abo@medichon.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+x-ovh-tracer-id: 1288029495237762796
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: dmFkZTGL5cg6pxP0hbqA39lXjJ0fQyK6neT5LNuv5R1sOOIvSSV4QSNN8z7RNkW+7CoY9WFgWkNpEsgMtKmKwKmt3DqM2pthWK8XE3TaxqnEWcht8ePXUgU/LJ7eN/lG7dYR8l4kzctdBZZXEpegcYRgb6NRJl1/tuyEaaSYi963i9ycbeHOYGJheJzkw3TINT+uPBbwOAsXxClxN57gVx11D6JJi2LyFs6OLigl0IL2J2Ty5M6WzkDPoNa3VYFSfI4Y0KOhkzpukPrRxvC5Tn1WDuCndQylm65zaWuDgb9fNY/S9B2VPmlkQBBtzvhTnqohTQ7IchXI2DgxVI4tiza7Tp8gQvmTvZLinr22JwxjtIkBNHxIvS4nUjum+3i8/fSV3QukiCsZqqVrpjTJiDVE1HSpm+zXXF34099XnjHz9qJCd43uqp5KCaZz17gz6Tzc86kGNX5F3/m+x+pcEv3APtP44p6ikXNkRNX9AyT57R9q0YW4xbCLv8dXi84lQklikRUS+mcl9IXhHkJzKLU0kaM3TgGsyFWrFc2VQLs86WNpmL1Heweus0RNjWGZEaNFS9U+W21l1Uu24uB9d/1VYOb+pqL7t5KViX6F54bOcKVHoo0z9foZGj4NlTZYx7M7pt3g7n+ucY10GtKr2xI2CGA2K2hOTlQkJ/bqsdaYchBONg
+DKIM-Signature: a=rsa-sha256; bh=/H+K2zS+8dAW31vNoVpWVBt83T6rRNKuKqYyPbCVKhg=;
+ c=relaxed/relaxed; d=medichon.fr; h=From; s=ovhmo3801317-selector1;
+ t=1792676320; v=1;
+ b=Y8cL4gt5mjm88rasNDkemwlZZyR95X7TgRm8Ug96jmlB90Oy5FHUlUMmsl76l9sMT0KM62ex
+ 9SbOT8IElcxBy6aZolUfFEWmoXHIxKwD1BBJ0q1NAKdzQtI0PGiwuUt2dF+JQ0ZfFxW8BXHbMeL
+ KSBoI+v/raojqluwDCHjBobG0cqGh6eUmwoVRAE82tLf55KmIQ9FwpbPrxFVXSDzyNdG7YQBsVO
+ rU/M39uciQlhj/qTPHSklYsqhZ0CcnQ25ubBB/lGSICKgpBXdrH7zxw/qvGgz0sQ5/e8nKezuP2
+ HyCBe+h37dre+mGn0aZ/0iKzfKsGjBL47PAr+Gy40Ky0A==
 
-udf_table_new_block() keeps the remaining extent length together with the
-extent type in goal_elen and then uses the whole value to decide whether
-the extent is empty:
+On 10/21/26 4:52 PM, Arnaud Bonnet wrote:
+> Tested by building and manually checking generated assembly.
+> Depending on the architecture it may:
+>         1) have no effect,
+>         2) supplement the release atomic with a full barrier, or
+>         3) add a redundant but harmless full barrier.
+> This fixes the second case.
+> 
+> Example in server.c function afs_check_server_record():
+> 
+> - x86: no change in generated code
+> 
+> - arm64(lse):
+>         mov     x0, 2           # AFS_SERVER_FL_UPDATING (bit 1)
+>         add     x1, x20, 232    # &server->flags 
+>         .arch_extension lse
+>         ldclrl  x0, x0, [x1]    # clear_bit_unlock(), release barrier
+> .L264:
+> +       dmb ish                 # full barrier from smp_mb__after_atomic()
+>         mov     w1, 1
+>         mov     x0, x19
+>         bl      wake_up_bit     # wake_up_bit()
+>         b       .L258           # return success
+> 
+> - rv64(a):
+>         li      a5,-3                   # ~AFS_SERVER_FL_UPDATING
+>         addi    a4,s3,232               # &server->flags
+>         amoand.d.rl zero, a5, 0(a4)     # clear_bit_unlock(), acquire-release
+> +               fence rw,rw             # redundant smp_mb__after_atomic()
 
-	goal_elen = (etype << 30) | elen;
-	...
-	goal_elen -= sb->s_blocksize;
-	if (goal_elen)
-		udf_write_aext(...);
-	else
-		udf_delete_aext(...);
+I misread the amoand.rl op, this is actually only a release barrier
+and thus does require the fence, making it not redundant.
 
-On a table-managed partition, free extents may have non-zero type bits.
-If such an extent has exactly one block left, subtracting the block
-leaves only the type bits (e.g. 0x40000000 for type 1).  The test is
-still true, so instead of deleting the extent the function writes a
-zero-length extent at the next block back into the unallocated space
-table.
+This removes all cases of the 3) I found above, however as it is
+not part of the commit message I do not plan to fix with v3.
 
-Consider a free extent with type 1 and 9 blocks:
+>         li      a1,1
+>         mv      a0,s5
+>         call    wake_up_bit             # wake_up_bit()
+>         j       .L279                   # return success
 
-	lb=55, len=9 blocks (55..63)
-
-A new file is allocated from it at lb=55, so the extent becomes
-"lb=56, len=8 blocks".  A huge write then extends the file with a hole.
-After the in-ICB allocation descriptor area fills, AED blocks 56..63 are
-allocated from this extent.  When lb=63 is allocated, goal_elen is
-0x40000200; after subtracting one block it becomes 0x40000000, so the
-extent is rewritten as
-
-	lb=64, len=0, type=1
-
-instead of being deleted.
-
-The next allocation with goal=63 prefers this zero-length extent
-(distance 1) over the real next extent "lb=65, len=31 blocks" (distance
-2) and allocates lb=64 from it.  Subtracting a block from the zero-length
-value borrows from the type field:
-
-	0x40000000 - 0x200 = 0x3FFFFE00
-
-and writes back a bogus ~1GB extent:
-
-	lb=65, len=0x3FFFFE00
-
-which now overlaps the real free extent "lb=65, len=31 blocks".  The next
-allocation with goal=64 picks the bogus extent first (both start at 65,
-the bogus one is encountered first and the search keeps the first
-minimum), so lb=65 is handed out and the bogus extent advances to lb=66.
-
-lb=65 is now the file's current AED.  After 60 short_ad descriptors are
-appended to it, epos->offset is 504 and aed->lengthAllocDescs is 480.
-The next append enters udf_setup_indirect_aext().  The allocation goal is
-65, and now the real extent "lb=65, len=31 blocks" wins: the goal lies
-inside it (distance 0), while the bogus extent has advanced to lb=66
-(distance 1).  udf_new_block() therefore returns 65 again, i.e. the block
-that is already the current AED.
-
-udf_setup_indirect_aext() then does:
-
-	sb_getblk() returns the buffer of the current AED
-	memset(bh->b_data, 0, sb->s_blocksize)
-	  -> clears aed->lengthAllocDescs
-
-Because epos->offset is still 504, the block is not considered full
-(504 + 8 <= 512) and the else branch calls __udf_add_aext(), which hits
-
-	WARN_ON(aed->lengthAllocDescs !=
-		epos->offset - sizeof(struct allocExtDesc))
-
-with lengthAllocDescs == 0 and offset == 504, i.e. 0 != 480.  The AED
-contents are destroyed and the filesystem is corrupted.
-
-This is reachable by mounting a table-based UDF image with
-adinicb,shortad and writing at a very large offset: the write creates a
-huge hole, fills the in-ICB allocation descriptor area and then
-allocates many AED blocks from the unallocated space table.
-
-Reproducer is https://syzkaller.appspot.com/x/repro.c?x=16562e75180000.
-
-Fix it by testing only the extent length field.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Reported-by: syzbot+799a0e744ac47f928024@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=799a0e744ac47f928024
-Signed-off-by: Zhihao Cheng <chengzhihao1@huawei.com>
----
- fs/udf/balloc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/udf/balloc.c b/fs/udf/balloc.c
-index 30cec5600149..621656be65d2 100644
---- a/fs/udf/balloc.c
-+++ b/fs/udf/balloc.c
-@@ -646,7 +646,7 @@ static udf_pblk_t udf_table_new_block(struct super_block *sb,
- 	goal_eloc.logicalBlockNum++;
- 	goal_elen -= sb->s_blocksize;
- 
--	if (goal_elen)
-+	if (goal_elen & UDF_EXTENT_LENGTH_MASK)
- 		udf_write_aext(table, &goal_epos, &goal_eloc, goal_elen, 1);
- 	else
- 		udf_delete_aext(table, goal_epos, &freed);
--- 
-2.52.0
 
