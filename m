@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792711698;
-	b=VrhEcoWlQN+4RtAmy9PObNgjhzGmh/rRzMZuKajb2KdYCiqD4bDG8HKInKPgiHjk2N38
-	 kg5ZrX0QuRAq5mwqj04CZ4jfrgl1LaF+gh86NbUOnP34EBn3qwgBzGv+A28pWzYnPid3j
-	 cDDHchEcvpOcp6a6uwW6oHWTuGbcDA1xKDuoNsaGBAZeHfCin94E94nw9EI6SBmGIwpzl
-	 Ke1qsKEeksQ7vxac7DNkA6Ct26tLnoDOus7QgcRX83Teau36/++n1Cz5FenHTzSe78EAo
-	 ze4CdGmkZeZwA4Oww0WKp7UjD7Rr4i7cd1nie9CEtLZutWyrsKTXAcfYAePXSN+nP2g==
+	t=1792711699;
+	b=hCl6/Ia36GaoRRstfZKYV5dDBBAfYPMeILHyLcO1nDWke5RIYTlRJXFCPJ/wQ83j3IYB
+	 ZM+AD00M1ki5M6kNDGJrVdzadZl/5ADCURpIx+CFH0T+RbyQxkL9OsDb0CF/pTjyD/5z2
+	 DaQMC4G94e6SKEXYIVt2KpPm10UlVCA7TGWvqcTfmb/AWN5ES+nvJm6QNw35s2vfd1moW
+	 xAQl1t6wBm/FxjIQDFs6o/82dtrYTnNP0HKuquHwSGlbWQllHGRvnogAS2CCJ+Qz9oUsQ
+	 hKtatp4rt7/Nz4TbSiNzEjqLP+EKcUYI1Hi0qwFkFw3SIALfQ5r7dKlvFCZxDi/0N5g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792711698;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792711699;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=UylgyKGzjd6OFxQ++q6UaMzkTif56r+Bcgqiy41Jt9Q=;
-	b=V2AANZNW+awn9PtL5fBE6uixP8FxG8IA57uPThbL6isyhNKMylke4ifxVH2/Ps9E3OHH
-	 +6ybyqcsfOK/x0EOI6/qI13z01z0acJX0zk/M/jOeSSgTJGVXawFakvS3C24a8g75GjtA
-	 DbkDw+z2ZjyecdAEYNOkP0pJ2phXrdr9rEnoerOLZLfeF4HfyrhlcJRtKX+o9YD1Q15+g
-	 4j+M6ecq7hcv6MUOesvdXAURmYKkZ8qpS+qPR4Kcz3Y0akZC4cRCziSzBXNuL+e6OCCRe
-	 MGITbwrEh75ruUQhHngWmvPlQjeRLhQ3KaGx7yCk5ZV695PHopG8URcWaf485olafWw==
+	bh=CYCUv7MnUeP5VLQmaz6pPtkybPAJhWsMUOQImnoTeN8=;
+	b=QHPcxmfbbOqGly7SV39sgwWEKTEg62E5prfngxmYLGqCM4P3odS3WDU7yPBW4+YjppHG
+	 K5WecEqxd39GzHAn7ATGo60SofNgz47/9dHT+6GgdWojXi5S4vX1SrO8j4GDWfkGfG7OO
+	 o9rn3f3dVts0H1yzd+V1UdHIijqD3Dnhbw2WhMK7Pa1zfJlBfRNUyK9mjFFR+C0QfX3ho
+	 SbdMI2y6YaDivltLuJzNEaWPby3WiCYVkzCbJ3r20LJeZXTOKajGcJKrLDBUtMsraS8+W
+	 dm6Jn3jpicyjo56iIL3fKW9Q0YXpD/s4fflcj69e+2wTSdpPrQSUDXnsnteQUd0829Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LlxAhuND;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OsOY61i6;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDE9606FF1D;
-	Thu, 22 Oct 2026 23:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A756070BD4;
+	Thu, 22 Oct 2026 23:28:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LlxAhuND
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OsOY61i6
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792711697;
-	b=liQ0oyLem02oZ4umPcqGrr3RjDXi3hoHfFbkMwsWByuBAC/FL7BFKUJMBtggp91yAN8H
-	 Uv1O45L+KNLLeJk2dLRAImqPh7x2bHBT6V01hn2xJicie8UUUkHPmw61QltpNYDPNnsDh
-	 zIVTtHXO3buZvTbspAD/aXbAiQ2XpUaKVXjYnZRS1ZfnHh8rkcj3LWQtWYnEWSKE950nU
-	 nYwQUVF+o3UQ4qq/vJDfSdWqRZ3pmE19J2snJw4F41YlyFGdr1uEnkSaWbJ1YBzNnK3xQ
-	 HhnwvnAYqLvvmpNqwSU15mVdfYEXJdL/ZVPCwgstHlxqMG9vy+gnvJoX9SjjRiP+oxA==
+	t=1792711698;
+	b=ZpQUl/gS2VGn5ZwXsl0sFy7KOMqVES5L21WUfgzNpOSTvueEyq2IRSXPOkM5TRYLLSif
+	 sSxLYuD/N9xya/oeZ6FnAe+YgyYMK1P2UJUzQ+VlVfteZBIKE+YK3lwGezLUjdOxo8hi/
+	 1VF0GjAPDCQ7r0EdlsECIljN7ZoieK9W5J6e7/guWPOdVIODGOImuNpG4giu9VsqBsnZC
+	 lRAlP4gyCvepHpEIcYVmzmjsMO3KYa8Gvpnr2m5Ze2oiKicMYhi3+hKaKpqhI2V1YZ0bx
+	 AsQsG4lQnCmk9bTDSmHmpdH3sMcGOVA/UZLuSKOY9XI4dA0ggzvME7WYL/eGbhnZBkw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792711697;
+	c=relaxed/relaxed; t=1792711698;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=UylgyKGzjd6OFxQ++q6UaMzkTif56r+Bcgqiy41Jt9Q=;
-	b=eaPkjnWF1glwDpXDoY2ac9XRxfmaBq0vPiIOaRy2o2ygpm0E2/3PaPsWEpjUMG6YtQuI
-	 7A/YO3BhrmPMPz93jSmvTuIlvu00aKLsuu2LD0sjC1nk1GfnNViTzZV8AKVTyrCcBrDyA
-	 xOaidH4az4gmGvSnDYynzG13x+s6VzMcxfsphLvMgiGNVnNvYaXMO8KCbN9iT3K6BG+2h
-	 GvAjvr5PuCFN9PGcrN2QCSs0WeO/M/vqCzEATB1IHe+16s7u1B22K2sS4tAB1/LDTt9UQ
-	 2ZLXj71gMX4/oOdN/8iA1zs0+SfwEvT4FNZZVFp6HMGygGjW++sTI/STsyYowMefhDg==
+	bh=CYCUv7MnUeP5VLQmaz6pPtkybPAJhWsMUOQImnoTeN8=;
+	b=unH3hTyQS7LqUVbOAl1g/1V+6XQYf20VtZ9pGIFooU0ZAsEsbAyUMyqlVl/dUPzW707G
+	 HZ/IxNoMA5AuZNCpI4+rpUSpdTNDHVNtkVvm8J7Hm3eC2cpb/xlnc64qe1E12ZCjblUxo
+	 IQAgvlRad+4JR10Y2EhHFcihyRL8YyBdXoWa7/vG1wo7taS08eYejGPrLzkSrqNpgPQrx
+	 GfYOZEp8OO0hl7fdfZNSEJNtVlKfAAYWyYm8C3hT8OXOQMkoKFi5wCXJtVkZS732gQil2
+	 xoqa3jw97dxIGLyVTCtc+p5PpyRmVvcF9GOiKeCgh1P3XTPLqacSg0ugZ31v5RtJQMg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 9300C1F011BC;
-	Thu, 22 Oct 2026 23:28:15 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id C753D1F01829;
+	Thu, 22 Oct 2026 23:28:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792711697;
-	bh=UylgyKGzjd6OFxQ++q6UaMzkTif56r+Bcgqiy41Jt9Q=;
+	s=k20260515; t=1792711698;
+	bh=CYCUv7MnUeP5VLQmaz6pPtkybPAJhWsMUOQImnoTeN8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=LlxAhuNDvCbuazbKvwE0G8NGOf7iD0eNv1rANYzVJlDBzAdytO44b3+kGnbu97lvc
-	 g63la0GGfMBpgdAeySs6gaCgp1agrHXDsyRXiJeU8xsOkyN4SQuBizpShjGWNaDrrM
-	 d5Ua0GEkH36TbpBaLIRndRL6Wa1rO+LbcoerX39XWot0KLkB5PJQ4GfrnEXZQlxt/n
-	 IpVVMp97DhnfHRBtR1+S3GguTy0wZ5Oza7sG8m3FB/wBwlCcjVo/ODpkmJspKq7jTe
-	 RusOCzY4gh7VjsYb0HBrDfjIcxbNtbjNenWAzrXYy9e7q+iUjudYRecy0X4z3Xpq1K
-	 dr1qYajhaFQqQ==
+	b=OsOY61i6sJiV9m5vMJ7tr3w4bW4/ZHWHobAVp6XOMoSBoXHNkzXUjwFEp1jMoXcqG
+	 uURO13jvtIjnRkbSXYbnndzY3BMxI6C7oAXuAbZ74nR+rRSkb1cufphoCJYyAmu6UV
+	 +fkEBiFhGYWl5n74V1pMhMzfoUhTCoDG+9IYH2QsfZya+AnYuIj1l0Pv99rms4sjLx
+	 fpUQn6BLjOqqMi+pfQiGOJfT8VCfmBE7oRNILrt14Cm/E65xSimHx54Cg9tKg53Lec
+	 3mVG1ls6pFRpfnIu9OfiJDcTpvxQnqGFi/53pVCzYl0M2ZUnZEOTQHGG4UlKiNZ8GF
+	 VFZup9G/YITZw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 2B3EE420E0;
+	by lkml.kernel.org (Postfix) with ESMTP id 4296E420E8;
 	Thu, 22 Oct 2026 23:27:50 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Thu, 22 Oct 2026 16:28:11 -0700
-Subject: [PATCH RFC v2 39/50] KVM: guest_memfd: Support arch reclaim on
- inode destruction in PFN mode
+Date: Thu, 22 Oct 2026 16:28:13 -0700
+Subject: [PATCH RFC v2 41/50] KVM: guest_memfd: Add TODO for memory failure
+ handling in PFN mode
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261022-gmem-alternative-providers-v2-39-5dd1dc6c660a@google.com>
+Message-Id: <20261022-gmem-alternative-providers-v2-41-5dd1dc6c660a@google.com>
 References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
 In-Reply-To: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
 To: Alex Williamson <alex@shazbot.org>, Alexander Graf <graf@amazon.de>, 
@@ -135,11 +135,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792711665; l=1330;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792711665; l=995;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=NdiG9FPDlnNbsz2ib8/wlciF0KncQRew07nTG0ctD40=;
- b=CDdMamphZIbmfallZAf+zAlCSwYwHQvFF250PUqCiYstDOGo3XzHcZzpxt2LRa0pH1AMCoBPE
- zaP+413XJ8UCDzIJFydqCEK46oLrN7zsYHXw7ptoxdrrTrAK4IvEU59
+ bh=ywimPr8xM8W5IWC+IFHzZM+XE9Py2m+UQJgTrzAxKZc=;
+ b=AmJho2/OmL5iB6a3wmmUlrO/oEcg3/kVVcZkPZCjkwKxtxHbWU1NfSLey8pjERpooe/o5caEO
+ cTmpBxuPY05Cn9MXbqAN6Hlr9/+SNa1XkP1V/8eVUvxLXLs831J+mRv
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -150,40 +150,31 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-In folio mode, folios truncated on inode destruction are reclaimed via
-aops->free_folio (kvm_gmem_free_folio), calling kvm_arch_gmem_reclaim()
-to reset hardware confidential VM state (e.g. SEV-SNP RMP entries).
-
-In PFN mode, memory is not backed by page cache folios, so
-kvm_gmem_free_folio() is never invoked.
-
-Do the reclaim during kvm_gmem_destroy_inode() when in PFN mode across the
-entire file range, ensuring that any confidential architecture state on
-provider PFNs is reclaimed before releasing the provider.
+Add a TODO comment noting that PFN mode does not use page-cache folios, so
+->error_remove_folio() will not be called by the core memory failure
+infrastructure when physical memory errors occur.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- virt/kvm/guest_memfd.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ virt/kvm/guest_memfd.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index 0819c3653e88a..88eae9d6d249f 100644
+index 5741ff6ab94c6..c89df77df7146 100644
 --- a/virt/kvm/guest_memfd.c
 +++ b/virt/kvm/guest_memfd.c
-@@ -1643,6 +1643,13 @@ static void kvm_gmem_destroy_inode(struct inode *inode)
+@@ -1068,6 +1068,11 @@ static int kvm_gmem_migrate_folio(struct address_space *mapping,
+ 	return -EINVAL;
+ }
+ 
++/*
++ * TODO: Support memory failure notification for PFN mode. In PFN mode, memory
++ * is not backed by page cache folios, so ->error_remove_folio() will not be
++ * invoked by the core memory failure handler.
++ */
+ static int kvm_gmem_error_folio(struct address_space *mapping, struct folio *folio)
  {
- 	struct gmem_inode *gi = GMEM_I(inode);
- 
-+	/*
-+	 * Skip if the provider was not yet set up, as iput() can reach this on
-+	 * error paths before provider_ops is initialized.
-+	 */
-+	if (gi->provider_ops && kvm_gmem_is_pfn_mode(gi))
-+		kvm_gmem_pfn_reclaim(gi, 0, i_size_read(inode) >> PAGE_SHIFT);
-+
- 	gmem_provider_release(gi);
- 
- 	mpol_free_shared_policy(&gi->policy);
+ 	struct inode *inode = mapping->host;
 
 -- 
 2.56.0.257.gf7497c7d27-goog
