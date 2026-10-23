@@ -1,90 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792771704;
-	b=JtqSn9aJ8McGTxz0HjUkfd7e5+Gqsn1w/CqWWou9+VHLEQ0vsGYGeW9WOmJybO28T8S7
-	 XGcZpUoSdgJxc1oQs3BoDABdLYryll8DkHsp1Upr0/OYk53V8R+emhmPRgUab6HPH+BRq
-	 fG1Axaat7OGnPwKzM+hXUInoTKJZUJd+QxVobBgerl9Wf322TD0/ILK1OGnPeAgbprAV7
-	 vgvcdTLSXhQCBuuwmDovV6+S5SXs0arurJxhXLhVvdO17lMZOrqJWB/lClc9xYNnxl/Sb
-	 4QLzOBFkmCnDux/KJDCxyUFoc0oj5/t95rnzBWMaJhermRNtuvjsvRFDYSGB29iZgsg==
+	t=1792772953;
+	b=oPiXNEI94ZoqNA+NXmOm1PfuE5dFPa5UWUEo3TTQrOhZli/JAJ5BCq0wYTTbIwK+3NDB
+	 IIinnSRkTbcW2zyPj0PYXn0PbAB4kreWLQeHPFaQw0XppgeYMohLFp+IzlIwUGka3pvzg
+	 stktOmxgVEIw+OZ1yLSa3E2c+wmRA54zVHCQ5VJu+ueczWpIEjCkAXY+bfyLbNS1YnosK
+	 +nWtUd3cdbi0PrciPc2sRLKkdM0ZAcJpfpJs8Giqv4jSfoMQLCsWDmfYRgpxT4oG38om2
+	 5C7zX5kpWUFUoSJCZzMmycXB96hH+YtZDyf9G2f+DowHfFNfmWCMtYeCLL4hkyJir/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792771704;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792772953;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=2UFEqIWk1ABImIlxjhgrNeYHYvHVVjBGryjvG31fmWs=;
-	b=BpqCKivAaeqFTA3oAt3cEg67Gmk/QSmNIr8w5+e0z5YdSB8RFTPySTT1stwyschO4i4f
-	 YbeqAHC47DdueUJbzf1tvtAqSS/f13QHaHOTWR1Ng03PJWjHPieTmNY9AcL92t4yLEoJo
-	 y8WnHCqt7+L5/PLaqY0dp60E89crFdUMOKj2U4RyfBSw37FNk3fl/wwNSI7+vyHOLT8PA
-	 HjLs62zmbgMQgRCHOk8iPBvgz4nK+HvgKpm8QlvbaKNgntddVi81wZ8sTLuPenvjNTLYh
-	 H5Yh9HX09hb37Vs8qhamtfRJnroiC0yee12J+8Hx8immUnHuA422wFAvSQrD8hkPDxw==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=MCcCJzJcyMLfAALTRppy1JcclrYetPHK7Z4PTdaUix0=;
+	b=ES54PqCXPMXEMHbqjWXM+ouQv0sTZ0Uv58gLJigdQ3nbIpc4cxfu3KVhrBXVz+TTMOwG
+	 NLHhHL8r/+t+7IW+pzn8rVJm/S8nEbLf8mA57spDo+TI/YVmouJ7130wjeAMXxXGLjayb
+	 fZiEcoy+Mw1DbGN7T0xsPf68LiaTAIpu89VjYUzK/POVpBvSCUzzEQMsVQH9PdHYvOFus
+	 HpYi6HCXxOnzYzD2fBW+KdAIN9vebwOLb7MSie7WXu5P5fUKHqKUO08bFxaXAvQlPPGXm
+	 uE5dPk1kdMn+0VD9638dfOnBbXFzT8F9rjyOisMAFUbL4IOrxYNtMkQvr9+0vnUtpng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YhX+D7SF;
-	arc=none smtp.remote-ip=209.85.222.52
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PkVcJYAR;
+	arc=none smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A200606A31D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 16:08:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A200606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9465D606A31B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 16:29:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9465D606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YhX+D7SF
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-9907a58f14dso312072241.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 09:08:22 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PkVcJYAR
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48af4d4e61fso698023f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 09:29:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792771701; x=1793376501; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792772951; x=1793377751; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2UFEqIWk1ABImIlxjhgrNeYHYvHVVjBGryjvG31fmWs=;
-        b=YhX+D7SFeouSxmYDZQG70CRyQYgKpRBZJJSl6rd6R5qvaUaGKocsO9pBNW7QgWvzbr
-         9c0rnmbElF8jHtNiPWWJGfsOOjOWESDh3ExWYRYPwdOISiDNSlV4+LxnopvMRd0HGFTb
-         88VyabuEMr8pSlHw8cRS7JMlozKXHBXWm/tCIIMh00+Pm+qGNMfxCOMFZvl6wQKDtaGi
-         ynp25oqzFtAU95qfrgoHtQzDTqRfNLMqqzcOyZDL2wbpsqiX6gHntxfIb/DA8Vikzksl
-         GE+fUmdme0AdiyUifpyoOegT6uzg5W8vxDpRZX6N7VWxQyyv/bxJD+mditgnllkHnbJ9
-         hI3w==
+        bh=MCcCJzJcyMLfAALTRppy1JcclrYetPHK7Z4PTdaUix0=;
+        b=PkVcJYARO8fjYAI3jhqXDBujBBuUvnfVWUFmgjS7Z56NnLwAoDT8xOHqF7x5s68qgt
+         gaBLCllAu7gMpHkGD+KRyRkmdxdeW0S0danjpIRL7/U6KwJ5UNwVQKLXhfJ3NVuV0nE+
+         RnzMsEN5SU20V3+2KOftWZCjnPj/DYwyY3tJ6kMf06rW59smD996pB7UgOXZCoPj9kK1
+         1n72B1kbSCuZsYfgl5e596W2mUVwB4cfvgI7FbE3dqtvJyODPDXAE7xk0oQW0C56Umnd
+         s7lEoQYjYNFWYIOz2KHTw5qRIj4hP9rRQ9w4HL7ghsxBXa0PTYeCn/KZbKNxAUIDQKWJ
+         9Ssg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792771701; x=1793376501;
+        d=1e100.net; s=20260707; t=1792772951; x=1793377751;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2UFEqIWk1ABImIlxjhgrNeYHYvHVVjBGryjvG31fmWs=;
-        b=QNEQAf4zIkcWQHEW268PIMkoRJZ3iC9q1iBHKM26nEJ+bHVOLGeX+DCilJGRthFGgy
-         9bg8WyS8asBLqYKLwNJY2Fhtal9FwnTxgIFNbbuOUOajvraRedsqZNu8w2T6Q7Mcylz8
-         8SyK0t4sg0ZS1KC3+RF14GIYS1j1asvvO3xDJs4O+Ye+MBjUe0ycCXgPDnN7fQmbwyiO
-         UiDDsFlLdvB7GhZKGP7cE5xpUQp70b8Dyv5SHKpGJeok4TmLahbdrXeRK5XVdEjBB2mb
-         8HC+WYtgHQRZVQZ1WbuOzHsZCanAvD6OIUP0Vu44ulon4JWzP3RcAqHmnfK9sd20jJuN
-         hP3A==
-X-Gm-Message-State: AFq9FYKHXXtsy5cGVGfF0oxFcucQ0vZ0r1/H4mMyIDTVfRJ0y5SYULBJ
-	kt8+/4QPybwd7Za0ao23+RDk3ki4prdj0rg+s1X+DP/wmAqvnZ07S2SbRZe79opM
-X-Gm-Gg: AYBFou3g1jw/vgeQEYV6JAKq3Ae13qF5P2Vc7XEfHlrqfvJib7QWgXbBnvixYbQwj0l
-	IEQQCK+D3F6/ZFYgfl3Gnl9iULAI4Qc4mEAyKuRb4Xmw6+SO3X8zfVDT6XTAakha+yid+647j2w
-	GFdHQola0sSTeBw5969t7H2c2NE1Bqg0OboSD2AzzMUp3G/64TwHPoE15zS+ib1u1BWyMbClSsO
-	uR+vCAc9eF47h0wLAZiTmnfi6AOwc1L0XCTOeZRndjFGWNMhQK9ALrtXUfHdvi2Tb9RMZV7vZgm
-	iSEVE0ilUdhg159zbLxgiDZlvM3Z8stbGpQdhbzczQAVwd8cXuhiK7RtrLeMkqjO2VkuRix6mjC
-	vVwhOQG3zrNH6ioF2o2M7poAH/qskjsPZstRpyw32a+VCAUY5EfKr6VMI2wU6Np7KXvNhrIGJHb
-	L2G3mnlxSYpyGMbCyo37b3388FYfZXpEX1sa8MS8pPETq+pXZP1YPtCO2HOv+x2gZ1FktApA+PM
-	5yglpTcJjTGfUYgwgafev06iirQD8Na+eKFYGLA82CbEZWuz0Dqz0FoV2DdjzUKvVTFDPdifhI4
-	MOgu00oaXN4EFx8oMuD4LSo=
-X-Received: by 2002:a05:6102:2b9c:b0:7a6:85d6:8ae0 with SMTP id ada2fe7eead31-7ccc307a284mr1053168137.1.1792771701250;
-        Fri, 23 Oct 2026 09:08:21 -0700 (PDT)
-Received: from Biostar-A520MT ([187.94.15.233])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9910c0112dasm745461241.9.2026.10.23.09.08.18
+        bh=MCcCJzJcyMLfAALTRppy1JcclrYetPHK7Z4PTdaUix0=;
+        b=2nhVzxykY4lz4M/Nvk+O/3Uz3vQ10sexW7n7VLO2GtDB6J9X5dulrRT79CKzYdgUsC
+         RWTI7cPT6Ck0vB9ZFotKaomy9zw0u+/aFmHH2PRE1vySh7g7l1NeU+p5IHegcQooIe6W
+         eAi31kgEiAIR9LS73kCLoG5qbhinQx1XA4X1Qd3MbgUxK/JWJTTK0FUAZMNiffIjfXLX
+         O5UEeLQU+gbob4+SSmC8bjqffd7McKgpE9FkRH6/rjUhlEoSG6UcEmzY2eEky6CloE+1
+         I6hjAgJcKx5TJYLMz8mvydqs8n4suBO/AoQfgFQ8Ks1IuaLDfAC0fNuACF7eoDiiTl4i
+         X3ow==
+X-Forwarded-Encrypted: i=1; AKwUvBySww6xBxL3vmfjG64D4MoJofbkUVIkTvsofsfp4wPx29qpS51xEJYjP8ugO5rpRmKsbSznGGpulMYdvFCV@vger.kernel.org
+X-Gm-Message-State: AFq9FYIe0HqX/E6ZvopS/AsyH2UMvgeXNzyMGoaN6FF6BTrHBE5paXj+
+	Mr0BQIM7JvGbXHAnE/2X5x3OsLzgxzAxgpzuio3+MpeApeYmmfkhUwso
+X-Gm-Gg: AYBFou0XCVWTGsBq/Ty7aPYwBw3Z+/Gik36ikpys2Ih/XyJyGAqsUsbrgE2p++FIIBX
+	CQ4LCGV5p3Vj98j22wmKDr84QIaz/3oTM0dWyThyILjylVsai3FV84Zf+mX+/HdfLZwQuEnAel/
+	Cvuxu5RpKDHV5hV9zgu3nhslFGEiCCDqJ/yv6isAPq8sG7tWoQOLRlzO5RWECThFT5prHKrOapp
+	FXn6Bw0UesosisnygEn+z+RV6o8Al+pUhZTr9lW0Rz03xMfnTEGMwl4jd9Qs0VN+esXVDODJLIq
+	WOi9tYtR39tNtQkIy1ZwrHRT/UKUwLL+eb2PqE8/48RgGLK9AqidzgFucVZvBQRx+e4BiFfl2U9
+	UDkv+r/nN6edS2LMrc69fPGLUX+n2XcexmOUqq7H5rwyUckZQ7WyFr+wwo8/ZwN0bE2XzWBZOqC
+	PoJxizpMoTCIKsybiIkxqvv8wyHfPcWWb04toEuJLIFOZyYNAvfEj3uyXP8YZpsPCPjUPhIsnu1
+	2LAl+OejZiw7higCZEUcHFFP96kG6VeV8zHrc/80C98/6yzlhiCFe3A+1qDmQ7xxcRJfyxdZY2T
+	I584Z3DSmAHXmxOaGlUnr7hmag21
+X-Received: by 2002:a05:600c:3f16:b0:4a2:526b:d417 with SMTP id 5b1f17b1804b1-4a2526bd79fmr16181255e9.7.1792772950799;
+        Fri, 23 Oct 2026 09:29:10 -0700 (PDT)
+Received: from DESKTOP-IR7J1S9.localdomain ([105.98.0.106])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a2958bf246sm16379855e9.1.2026.10.23.09.29.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 09:08:20 -0700 (PDT)
-From: Breno Rodrigues Alves <breno3011alves@gmail.com>
-To: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Breno Rodrigues Alves <breno3011alves@gmail.com>,
-	Anders Larsen <al@alarsen.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: [PATCH] fs: remove qnx4 filesystem
-Date: Fri, 23 Oct 2026 13:08:05 -0300
-Message-ID: <20261023160806.103901-1-breno3011alves@gmail.com>
-X-Mailer: git-send-email 2.56.0
+        Fri, 23 Oct 2026 09:29:10 -0700 (PDT)
+From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+To: Breno Leitao <leitao@debian.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	syzbot+63336d70e1af377d7388@syzkaller.appspotmail.com,
+	Ran Hongyun <ranhongyun1@huawei.com>,
+	Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+Subject: [PATCH v2] configfs: fix slab-UAF Write in config_item_put
+Date: Fri, 23 Oct 2026 17:29:06 +0100
+Message-ID: <20261023162906.2938-1-drifabdelmalekmohamedsaid@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -96,973 +104,177 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The qnx4 filesystem driver has been orphaned and unmaintained for
-decades.  Write support was removed in 2009 as it was never fully
-implemented and was broken.  The remaining code is read-only and has
-no active users.
+syzbot reported:
 
-Remove the driver entirely, along with its Kconfig entry,
-MAINTAINERS entry, and CREDITS entries.
+BUG: KASAN: slab-use-after-free in instrument_atomic_read_write
+           include/linux/instrumented.h:112 [inline]
+BUG: KASAN: slab-use-after-free in atomic_fetch_sub_release
+           include/linux/atomic/atomic-instrumented.h:400 [inline]
+BUG: KASAN: slab-use-after-free in __refcount_sub_and_test
+           include/linux/refcount.h:389 [inline]
+BUG: KASAN: slab-use-after-free in __refcount_dec_and_test
+           include/linux/refcount.h:432 [inline]
+BUG: KASAN: slab-use-after-free in refcount_dec_and_test
+           include/linux/refcount.h:450 [inline]
+BUG: KASAN: slab-use-after-free in kref_put
+           include/linux/kref.h:64 [inline]
+BUG: KASAN: slab-use-after-free in config_item_put+0x26/0x90
+           fs/configfs/item.c:149
+Write of size 4 at addr ffff88803b6444b4 by task syz-executor324/5709
 
-The QNX4_SUPER_MAGIC value in include/uapi/linux/magic.h is kept for
-userspace ABI compatibility.  The UAPI format headers (qnx4_fs.h,
-qnxtypes.h) and defconfig cleanups will be sent separately.
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
+ instrument_atomic_read_write include/linux/instrumented.h:112 [inline]
+ atomic_fetch_sub_release include/linux/atomic/atomic-instrumented.h:400 [inline]
+ __refcount_sub_and_test include/linux/refcount.h:389 [inline]
+ __refcount_dec_and_test include/linux/refcount.h:432 [inline]
+ refcount_dec_and_test include/linux/refcount.h:450 [inline]
+ kref_put include/linux/kref.h:64 [inline]
+ config_item_put+0x26/0x90 fs/configfs/item.c:149
+ configfs_symlink+0x6be/0x11d0 fs/configfs/symlink.c:225
+ vfs_symlink+0x18b/0x330 fs/namei.c:5823
+ filename_symlinkat+0x1cd/0x420 fs/namei.c:5848
+ __do_sys_symlinkat fs/namei.c:5868 [inline]
+ __se_sys_symlinkat+0x4e/0x2b0 fs/namei.c:5863
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
+Allocated by task 5712:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:426
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x3d5/0x680 mm/slub.c:5563
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ nvmet_ports_make+0xe6/0xf00 drivers/nvme/target/configfs.c:2054
+ configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1369
+ vfs_mkdir+0x408/0x620 fs/namei.c:5439
+ filename_mkdirat+0x289/0x520 fs/namei.c:5472
+ __do_sys_mkdir fs/namei.c:5499 [inline]
+ __se_sys_mkdir+0x34/0x150 fs/namei.c:5496
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 5712:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:264 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2748 [inline]
+ slab_free mm/slub.c:6509 [inline]
+ kfree+0x1c5/0x6d0 mm/slub.c:6802
+ config_item_cleanup fs/configfs/item.c:128 [inline]
+ config_item_release+0x13a/0x2d0 fs/configfs/item.c:137
+ configfs_rmdir+0x885/0x950 fs/configfs/dir.c:1580
+ vfs_rmdir+0x3e9/0x6b0 fs/namei.c:5544
+ filename_rmdir+0x292/0x520 fs/namei.c:5601
+ __do_sys_rmdir fs/namei.c:5624 [inline]
+ __se_sys_rmdir+0x2e/0x140 fs/namei.c:5621
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff88803b644000
+ which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 1204 bytes inside of
+ freed 4096-byte region [ffff88803b644000, ffff88803b645000)
+
+This is a race between a thread creating a symlink and another one
+doing rmdir on a parent (or ancestor) directory of symlink creation dir.
+
+configfs_symlink() takes a reference on parent_item, the directory the
+link is created in, and then drops the directory inode lock around
+get_target(). While the lock is dropped, a concurrent rmdir can remove
+the group that parent_item belongs to.
+
+If parent_item is a default group embedded in a larger object, such as
+nvmet_port.subsys_group, the reference on the embedded item does not
+keep the containing object alive. rmdir frees the object, and the final
+config_item_put(parent_item) in configfs_symlink() then decrements a
+kref inside freed memory.
+
+Fix this by not holding parent_item across the unlocked window. Drop
+the reference before inode_unlock() and look it up again from
+dentry->d_parent after inode_lock(). configfs_get_config_item() returns
+NULL if the parent dentry was unhashed in the meantime, in which case
+release the target references and return -ENOENT.
+
+Re-looking up parent_item is not sufficient on its own.
+configfs_get_config_item() only fails if the parent dentry has been
+unhashed, and the rmdir path in another thread may skip that: if
+simple_rmdir() failed, the earlier d_drop() was skipped, so the dentry
+can stay hashed even though the directory has already been detached.
+
+Such a directory was created as a default group (CONFIGFS_USET_DIR), so
+configfs_rmdir() takes the CONFIGFS_USET_DIR branch and calls
+configfs_detach_group(). detach_groups() then marks each child inode
+S_DEAD (d_inode(child)->i_flags |= S_DEAD). Check IS_DEADDIR(dir)
+after retaking the inode lock and before taking a reference on the
+parent, and return -ENOENT. This also rejects a detached directory
+whose dentry is still hashed.
+
+Reported-by: syzbot+63336d70e1af377d7388@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=63336d70e1af377d7388
+Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
 ---
- CREDITS          |   3 -
- MAINTAINERS      |   8 -
- fs/Kconfig       |   1 -
- fs/Makefile      |   1 -
- fs/qnx4/Kconfig  |  16 --
- fs/qnx4/Makefile |   8 -
- fs/qnx4/bitmap.c |  45 -----
- fs/qnx4/dir.c    |  81 ---------
- fs/qnx4/inode.c  | 436 -----------------------------------------------
- fs/qnx4/namei.c  | 115 -------------
- fs/qnx4/qnx4.h   | 106 ------------
- fs/qnx6/Makefile |   2 +-
- 12 files changed, 1 insertion(+), 821 deletions(-)
- delete mode 100644 fs/qnx4/Kconfig
- delete mode 100644 fs/qnx4/Makefile
- delete mode 100644 fs/qnx4/bitmap.c
- delete mode 100644 fs/qnx4/dir.c
- delete mode 100644 fs/qnx4/inode.c
- delete mode 100644 fs/qnx4/namei.c
- delete mode 100644 fs/qnx4/qnx4.h
+v2: Added check for dead dir, this would be helpful when configfs_remove_dir skips
+unhashing the dentry.
+v1: https://lore.kernel.org/all/20261017123748.4430-1-drifabdelmalekmohamedsaid@gmail.com/T/
+ fs/configfs/symlink.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/CREDITS b/CREDITS
-index 882aad786df9..49296288adf4 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -947,7 +947,6 @@ S: France
+diff --git a/fs/configfs/symlink.c b/fs/configfs/symlink.c
+index 89178f5d371a..7d746a10c369 100644
+--- a/fs/configfs/symlink.c
++++ b/fs/configfs/symlink.c
+@@ -196,11 +196,26 @@ int configfs_symlink(const struct mnt_idmap *idmap, struct inode *dir,
+ 	 *
+ 	 *  AV, a thoroughly annoyed bastard.
+ 	 */
++
++	/* Put the reference back, retake and check after relocking*/
++	config_item_put(parent_item);
++	parent_item = NULL;
+ 	inode_unlock(dir);
+ 	ret = get_target(symname, &target_item, &target_sd, dentry->d_sb);
+ 	inode_lock(dir);
+ 	if (ret)
+-		goto out_put;
++		goto out_put; /* config_item_put on NULL, no problem */
++
++	if (IS_DEADDIR(dir)) {
++		ret = -ENOENT;
++		goto out_put_target;
++	}
++
++	parent_item = configfs_get_config_item(dentry->d_parent);
++	if (!parent_item) {
++		ret = -ENOENT;
++		goto out_put_target;
++	}
  
- N: Frank "Jedi/Sector One" Denis
- E: j@pureftpd.org
--D: QNX4 filesystem
+ 	if (dentry->d_inode || d_unhashed(dentry))
+ 		ret = -EEXIST;
+@@ -218,6 +233,7 @@ int configfs_symlink(const struct mnt_idmap *idmap, struct inode *dir,
+ 						     target_item);
+ 	}
  
- N: Peter Denison
- E: peterd@pnd-pc.demon.co.uk
-@@ -1341,7 +1340,6 @@ E: mid@zigamorph.net
++out_put_target:
+ 	configfs_put(target_sd);
+ 	config_item_put(target_item);
  
- N: Richard "Scuba" A. Frowijn
- E: scuba@wxs.nl
--D: QNX4 filesystem
- 
- N: Fernando Fuganti
- E: fuganti@conectiva.com.br
-@@ -2392,7 +2390,6 @@ D: Scalability, Time subsystem
- 
- N: Anders Larsen
- E: al@alarsen.net
--D: QNX4 filesystem
- 
- N: Paul Laufer
- E: paul@laufernet.com
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 943135302225..9e0354177307 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22352,14 +22352,6 @@ F:	drivers/leds/leds-qnap-mcu.c
- F:	drivers/mfd/qnap-mcu.c
- F:	include/linux/mfd/qnap-mcu.h
- 
--QNX4 FILESYSTEM
--M:	Anders Larsen <al@alarsen.net>
--S:	Maintained
--W:	http://www.alarsen.net/linux/qnx4fs/
--F:	fs/qnx4/
--F:	include/uapi/linux/qnx4_fs.h
--F:	include/uapi/linux/qnxtypes.h
--
- QNX6 FILESYSTEM
- S:	Orphan
- F:	Documentation/filesystems/qnx6.rst
-diff --git a/fs/Kconfig b/fs/Kconfig
-index ca84ee8a85ee..58cbeb507402 100644
---- a/fs/Kconfig
-+++ b/fs/Kconfig
-@@ -321,7 +321,6 @@ source "fs/cramfs/Kconfig"
- source "fs/squashfs/Kconfig"
- source "fs/minix/Kconfig"
- source "fs/omfs/Kconfig"
--source "fs/qnx4/Kconfig"
- source "fs/qnx6/Kconfig"
- source "fs/resctrl/Kconfig"
- source "fs/romfs/Kconfig"
-diff --git a/fs/Makefile b/fs/Makefile
-index a741172ac6d4..b98c05dbffa1 100644
---- a/fs/Makefile
-+++ b/fs/Makefile
-@@ -94,7 +94,6 @@ obj-$(CONFIG_JFFS2_FS)		+= jffs2/
- obj-$(CONFIG_UBIFS_FS)		+= ubifs/
- obj-$(CONFIG_AFFS_FS)		+= affs/
- obj-$(CONFIG_ROMFS_FS)		+= romfs/
--obj-$(CONFIG_QNX4FS_FS)		+= qnx4/
- obj-$(CONFIG_QNX6FS_FS)		+= qnx6/
- obj-$(CONFIG_AUTOFS_FS)		+= autofs/
- obj-$(CONFIG_ADFS_FS)		+= adfs/
-diff --git a/fs/qnx4/Kconfig b/fs/qnx4/Kconfig
-deleted file mode 100644
-index a2eb826e76c6..000000000000
---- a/fs/qnx4/Kconfig
-+++ /dev/null
-@@ -1,16 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--config QNX4FS_FS
--	tristate "QNX4 file system support (read only)"
--	depends on BLOCK
--	select BUFFER_HEAD
--	help
--	  This is the file system used by the real-time operating systems
--	  QNX 4 and QNX 6 (the latter is also called QNX RTP).
--	  Further information is available at <http://www.qnx.com/>.
--	  Say Y if you intend to mount QNX hard disks or floppies.
--
--	  To compile this file system support as a module, choose M here: the
--	  module will be called qnx4.
--
--	  If you don't know whether you need it, then you don't need it:
--	  answer N.
-diff --git a/fs/qnx4/Makefile b/fs/qnx4/Makefile
-deleted file mode 100644
-index 42d4fc263a3d..000000000000
---- a/fs/qnx4/Makefile
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--#
--# Makefile for the linux qnx4-filesystem routines.
--#
--
--obj-$(CONFIG_QNX4FS_FS) += qnx4.o
--
--qnx4-objs := inode.o dir.o namei.o bitmap.o
-diff --git a/fs/qnx4/bitmap.c b/fs/qnx4/bitmap.c
-deleted file mode 100644
-index 163afc4ba4b2..000000000000
---- a/fs/qnx4/bitmap.c
-+++ /dev/null
-@@ -1,45 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * QNX4 file system, Linux implementation.
-- *
-- * Version : 0.2.1
-- *
-- * Using parts of the xiafs filesystem.
-- *
-- * History :
-- *
-- * 28-05-1998 by Richard Frowijn : first release.
-- * 20-06-1998 by Frank Denis : basic optimisations.
-- * 25-06-1998 by Frank Denis : qnx4_is_free, qnx4_set_bitmap, qnx4_bmap .
-- * 28-06-1998 by Frank Denis : qnx4_free_inode (to be fixed) .
-- */
--
--#include <linux/buffer_head.h>
--#include <linux/bitops.h>
--#include "qnx4.h"
--
--unsigned long qnx4_count_free_blocks(struct super_block *sb)
--{
--	int start = le32_to_cpu(qnx4_sb(sb)->BitMap->di_first_xtnt.xtnt_blk) - 1;
--	int total = 0;
--	int total_free = 0;
--	int offset = 0;
--	int size = le32_to_cpu(qnx4_sb(sb)->BitMap->di_size);
--	struct buffer_head *bh;
--
--	while (total < size) {
--		int bytes = min(size - total, QNX4_BLOCK_SIZE);
--
--		if ((bh = sb_bread(sb, start + offset)) == NULL) {
--			printk(KERN_ERR "qnx4: I/O error in counting free blocks\n");
--			break;
--		}
--		total_free += bytes * BITS_PER_BYTE -
--				memweight(bh->b_data, bytes);
--		brelse(bh);
--		total += bytes;
--		offset++;
--	}
--
--	return total_free;
--}
-diff --git a/fs/qnx4/dir.c b/fs/qnx4/dir.c
-deleted file mode 100644
-index a9038d231be4..000000000000
---- a/fs/qnx4/dir.c
-+++ /dev/null
-@@ -1,81 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * QNX4 file system, Linux implementation.
-- *
-- * Version : 0.2.1
-- *
-- * Using parts of the xiafs filesystem.
-- *
-- * History :
-- *
-- * 28-05-1998 by Richard Frowijn : first release.
-- * 20-06-1998 by Frank Denis : Linux 2.1.99+ & dcache support.
-- */
--
--#include <linux/buffer_head.h>
--#include <linux/filelock.h>
--#include "qnx4.h"
--
--static int qnx4_readdir(struct file *file, struct dir_context *ctx)
--{
--	struct inode *inode = file_inode(file);
--	unsigned int offset;
--	struct buffer_head *bh;
--	unsigned long blknum;
--	int ix, ino;
--	int size;
--
--	QNX4DEBUG((KERN_INFO "qnx4_readdir:i_size = %ld\n", (long) inode->i_size));
--	QNX4DEBUG((KERN_INFO "pos                 = %ld\n", (long) ctx->pos));
--
--	while (ctx->pos < inode->i_size) {
--		blknum = qnx4_block_map(inode, ctx->pos >> QNX4_BLOCK_SIZE_BITS);
--		bh = sb_bread(inode->i_sb, blknum);
--		if (bh == NULL) {
--			printk(KERN_ERR "qnx4_readdir: bread failed (%ld)\n", blknum);
--			return 0;
--		}
--		ix = (ctx->pos >> QNX4_DIR_ENTRY_SIZE_BITS) % QNX4_INODES_PER_BLOCK;
--		for (; ix < QNX4_INODES_PER_BLOCK; ix++, ctx->pos += QNX4_DIR_ENTRY_SIZE) {
--			union qnx4_directory_entry *de;
--			const char *fname;
--
--			offset = ix * QNX4_DIR_ENTRY_SIZE;
--			de = (union qnx4_directory_entry *) (bh->b_data + offset);
--
--			fname = get_entry_fname(de, &size);
--			if (!fname)
--				continue;
--
--			if (!(de->de_status & QNX4_FILE_LINK)) {
--				ino = blknum * QNX4_INODES_PER_BLOCK + ix - 1;
--			} else {
--				ino = ( le32_to_cpu(de->link.dl_inode_blk) - 1 ) *
--					QNX4_INODES_PER_BLOCK +
--					de->link.dl_inode_ndx;
--			}
--
--			QNX4DEBUG((KERN_INFO "qnx4_readdir:%.*s\n", size, fname));
--			if (!dir_emit(ctx, fname, size, ino, DT_UNKNOWN)) {
--				brelse(bh);
--				return 0;
--			}
--		}
--		brelse(bh);
--	}
--	return 0;
--}
--
--const struct file_operations qnx4_dir_operations =
--{
--	.llseek		= generic_file_llseek,
--	.read		= generic_read_dir,
--	.iterate_shared	= qnx4_readdir,
--	.fsync		= simple_fsync,
--	.setlease	= generic_setlease,
--};
--
--const struct inode_operations qnx4_dir_inode_operations =
--{
--	.lookup		= qnx4_lookup,
--};
-diff --git a/fs/qnx4/inode.c b/fs/qnx4/inode.c
-deleted file mode 100644
-index 42fcd500fad2..000000000000
---- a/fs/qnx4/inode.c
-+++ /dev/null
-@@ -1,436 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * QNX4 file system, Linux implementation.
-- *
-- * Version : 0.2.1
-- *
-- * Using parts of the xiafs filesystem.
-- *
-- * History :
-- *
-- * 01-06-1998 by Richard Frowijn : first release.
-- * 20-06-1998 by Frank Denis : Linux 2.1.99+ support, boot signature, misc.
-- * 30-06-1998 by Frank Denis : first step to write inodes.
-- */
--
--#include <linux/module.h>
--#include <linux/init.h>
--#include <linux/slab.h>
--#include <linux/highuid.h>
--#include <linux/pagemap.h>
--#include <linux/buffer_head.h>
--#include <linux/writeback.h>
--#include <linux/statfs.h>
--#include <linux/fs_context.h>
--#include "qnx4.h"
--
--#define QNX4_VERSION  4
--#define QNX4_BMNAME   ".bitmap"
--
--static const struct super_operations qnx4_sops;
--
--static struct inode *qnx4_alloc_inode(struct super_block *sb);
--static void qnx4_free_inode(struct inode *inode);
--static int qnx4_statfs(struct dentry *, struct kstatfs *);
--static int qnx4_get_tree(struct fs_context *fc);
--
--static const struct super_operations qnx4_sops =
--{
--	.alloc_inode	= qnx4_alloc_inode,
--	.free_inode	= qnx4_free_inode,
--	.statfs		= qnx4_statfs,
--};
--
--static int qnx4_reconfigure(struct fs_context *fc)
--{
--	struct super_block *sb = fc->root->d_sb;
--	struct qnx4_sb_info *qs;
--
--	sync_filesystem(sb);
--	qs = qnx4_sb(sb);
--	qs->Version = QNX4_VERSION;
--	fc->sb_flags |= SB_RDONLY;
--	return 0;
--}
--
--static const struct fs_context_operations qnx4_context_opts = {
--	.get_tree	= qnx4_get_tree,
--	.reconfigure	= qnx4_reconfigure,
--};
--
--static int qnx4_get_block( struct inode *inode, sector_t iblock, struct buffer_head *bh, int create )
--{
--	unsigned long phys;
--
--	QNX4DEBUG((KERN_INFO "qnx4: qnx4_get_block inode=[%llu] iblock=[%ld]\n", inode->i_ino, iblock));
--
--	phys = qnx4_block_map( inode, iblock );
--	if ( phys ) {
--		// logical block is before EOF
--		map_bh(bh, inode->i_sb, phys);
--	}
--	return 0;
--}
--
--static inline u32 try_extent(qnx4_xtnt_t *extent, u32 *offset)
--{
--	u32 size = le32_to_cpu(extent->xtnt_size);
--	if (*offset < size)
--		return le32_to_cpu(extent->xtnt_blk) + *offset - 1;
--	*offset -= size;
--	return 0;
--}
--
--unsigned long qnx4_block_map( struct inode *inode, long iblock )
--{
--	int ix;
--	long i_xblk;
--	struct buffer_head *bh = NULL;
--	struct qnx4_xblk *xblk = NULL;
--	struct qnx4_inode_entry *qnx4_inode = qnx4_raw_inode(inode);
--	u16 nxtnt = le16_to_cpu(qnx4_inode->di_num_xtnts);
--	u32 offset = iblock;
--	u32 block = try_extent(&qnx4_inode->di_first_xtnt, &offset);
--
--	if (block) {
--		// iblock is in the first extent. This is easy.
--	} else {
--		// iblock is beyond first extent. We have to follow the extent chain.
--		i_xblk = le32_to_cpu(qnx4_inode->di_xblk);
--		ix = 0;
--		while ( --nxtnt > 0 ) {
--			if ( ix == 0 ) {
--				// read next xtnt block.
--				bh = sb_bread(inode->i_sb, i_xblk - 1);
--				if ( !bh ) {
--					QNX4DEBUG((KERN_ERR "qnx4: I/O error reading xtnt block [%ld])\n", i_xblk - 1));
--					return -EIO;
--				}
--				xblk = (struct qnx4_xblk*)bh->b_data;
--				if ( memcmp( xblk->xblk_signature, "IamXblk", 7 ) ) {
--					QNX4DEBUG((KERN_ERR "qnx4: block at %ld is not a valid xtnt\n", qnx4_inode->i_xblk));
--					return -EIO;
--				}
--			}
--			block = try_extent(&xblk->xblk_xtnts[ix], &offset);
--			if (block) {
--				// got it!
--				break;
--			}
--			if ( ++ix >= xblk->xblk_num_xtnts ) {
--				i_xblk = le32_to_cpu(xblk->xblk_next_xblk);
--				ix = 0;
--				brelse( bh );
--				bh = NULL;
--			}
--		}
--		if ( bh )
--			brelse( bh );
--	}
--
--	QNX4DEBUG((KERN_INFO "qnx4: mapping block %ld of inode %llu = %ld\n", iblock, inode->i_ino, block));
--	return block;
--}
--
--static int qnx4_statfs(struct dentry *dentry, struct kstatfs *buf)
--{
--	struct super_block *sb = dentry->d_sb;
--	u64 id = huge_encode_dev(sb->s_bdev->bd_dev);
--
--	buf->f_type    = sb->s_magic;
--	buf->f_bsize   = sb->s_blocksize;
--	buf->f_blocks  = le32_to_cpu(qnx4_sb(sb)->BitMap->di_size) * 8;
--	buf->f_bfree   = qnx4_count_free_blocks(sb);
--	buf->f_bavail  = buf->f_bfree;
--	buf->f_namelen = QNX4_NAME_MAX;
--	buf->f_fsid    = u64_to_fsid(id);
--
--	return 0;
--}
--
--/*
-- * Check the root directory of the filesystem to make sure
-- * it really _is_ a qnx4 filesystem, and to check the size
-- * of the directory entry.
-- */
--static const char *qnx4_checkroot(struct super_block *sb,
--				  struct qnx4_super_block *s)
--{
--	struct buffer_head *bh;
--	struct qnx4_inode_entry *rootdir;
--	int rd, rl;
--	int i, j;
--
--	if (s->RootDir.di_fname[0] != '/' || s->RootDir.di_fname[1] != '\0')
--		return "no qnx4 filesystem (no root dir).";
--	QNX4DEBUG((KERN_NOTICE "QNX4 filesystem found on dev %s.\n", sb->s_id));
--	rd = le32_to_cpu(s->RootDir.di_first_xtnt.xtnt_blk) - 1;
--	rl = le32_to_cpu(s->RootDir.di_first_xtnt.xtnt_size);
--	for (j = 0; j < rl; j++) {
--		bh = sb_bread(sb, rd + j);	/* root dir, first block */
--		if (bh == NULL)
--			return "unable to read root entry.";
--		rootdir = (struct qnx4_inode_entry *) bh->b_data;
--		for (i = 0; i < QNX4_INODES_PER_BLOCK; i++, rootdir++) {
--			QNX4DEBUG((KERN_INFO "rootdir entry found : [%s]\n", rootdir->di_fname));
--			if (strcmp(rootdir->di_fname, QNX4_BMNAME) != 0)
--				continue;
--			qnx4_sb(sb)->BitMap = kmemdup(rootdir,
--						      sizeof(struct qnx4_inode_entry),
--						      GFP_KERNEL);
--			brelse(bh);
--			if (!qnx4_sb(sb)->BitMap)
--				return "not enough memory for bitmap inode";
--			/* keep bitmap inode known */
--			return NULL;
--		}
--		brelse(bh);
--	}
--	return "bitmap file not found.";
--}
--
--static int qnx4_fill_super(struct super_block *s, struct fs_context *fc)
--{
--	struct buffer_head *bh;
--	struct inode *root;
--	const char *errmsg;
--	struct qnx4_sb_info *qs;
--	int silent = fc->sb_flags & SB_SILENT;
--
--	qs = kzalloc_obj(struct qnx4_sb_info);
--	if (!qs)
--		return -ENOMEM;
--	s->s_fs_info = qs;
--
--	if (!sb_set_blocksize(s, QNX4_BLOCK_SIZE))
--		return -EINVAL;
--
--	s->s_op = &qnx4_sops;
--	s->s_magic = QNX4_SUPER_MAGIC;
--	s->s_flags |= SB_RDONLY;	/* Yup, read-only yet */
--	s->s_time_min = 0;
--	s->s_time_max = U32_MAX;
--
--	/* Check the superblock signature. Since the qnx4 code is
--	   dangerous, we should leave as quickly as possible
--	   if we don't belong here... */
--	bh = sb_bread(s, 1);
--	if (!bh) {
--		printk(KERN_ERR "qnx4: unable to read the superblock\n");
--		return -EINVAL;
--	}
--
-- 	/* check before allocating dentries, inodes, .. */
--	errmsg = qnx4_checkroot(s, (struct qnx4_super_block *) bh->b_data);
--	brelse(bh);
--	if (errmsg != NULL) {
--		if (!silent)
--			printk(KERN_ERR "qnx4: %s\n", errmsg);
--		return -EINVAL;
--	}
--
-- 	/* does root not have inode number QNX4_ROOT_INO ?? */
--	root = qnx4_iget(s, QNX4_ROOT_INO * QNX4_INODES_PER_BLOCK);
--	if (IS_ERR(root)) {
--		printk(KERN_ERR "qnx4: get inode failed\n");
--		return PTR_ERR(root);
-- 	}
--
-- 	s->s_root = d_make_root(root);
-- 	if (s->s_root == NULL)
-- 		return -ENOMEM;
--
--	return 0;
--}
--
--static int qnx4_get_tree(struct fs_context *fc)
--{
--	return get_tree_bdev(fc, qnx4_fill_super);
--}
--
--static int qnx4_init_fs_context(struct fs_context *fc)
--{
--	fc->ops = &qnx4_context_opts;
--
--	return 0;
--}
--
--static void qnx4_kill_sb(struct super_block *sb)
--{
--	struct qnx4_sb_info *qs = qnx4_sb(sb);
--	kill_block_super(sb);
--	if (qs) {
--		kfree(qs->BitMap);
--		kfree(qs);
--	}
--}
--
--static int qnx4_read_folio(struct file *file, struct folio *folio)
--{
--	return block_read_full_folio(folio, qnx4_get_block);
--}
--
--static sector_t qnx4_bmap(struct address_space *mapping, sector_t block)
--{
--	return generic_block_bmap(mapping,block,qnx4_get_block);
--}
--
--static const struct address_space_operations qnx4_aops = {
--	.read_folio	= qnx4_read_folio,
--	.bmap		= qnx4_bmap
--};
--
--struct inode *qnx4_iget(struct super_block *sb, unsigned long ino)
--{
--	struct buffer_head *bh;
--	struct qnx4_inode_entry *raw_inode;
--	int block;
--	struct qnx4_inode_entry *qnx4_inode;
--	struct inode *inode;
--
--	inode = iget_locked(sb, ino);
--	if (!inode)
--		return ERR_PTR(-ENOMEM);
--	if (!(inode_state_read_once(inode) & I_NEW))
--		return inode;
--
--	qnx4_inode = qnx4_raw_inode(inode);
--	inode->i_mode = 0;
--
--	QNX4DEBUG((KERN_INFO "reading inode : [%d]\n", ino));
--	if (!ino) {
--		printk(KERN_ERR "qnx4: bad inode number on dev %s: %lu is "
--				"out of range\n",
--		       sb->s_id, ino);
--		iget_failed(inode);
--		return ERR_PTR(-EIO);
--	}
--	block = ino / QNX4_INODES_PER_BLOCK;
--
--	if (!(bh = sb_bread(sb, block))) {
--		printk(KERN_ERR "qnx4: major problem: unable to read inode from dev "
--		       "%s\n", sb->s_id);
--		iget_failed(inode);
--		return ERR_PTR(-EIO);
--	}
--	raw_inode = ((struct qnx4_inode_entry *) bh->b_data) +
--	    (ino % QNX4_INODES_PER_BLOCK);
--
--	inode->i_mode    = le16_to_cpu(raw_inode->di_mode);
--	i_uid_write(inode, (uid_t)le16_to_cpu(raw_inode->di_uid));
--	i_gid_write(inode, (gid_t)le16_to_cpu(raw_inode->di_gid));
--	set_nlink(inode, le16_to_cpu(raw_inode->di_nlink));
--	inode->i_size    = le32_to_cpu(raw_inode->di_size);
--	inode_set_mtime(inode, le32_to_cpu(raw_inode->di_mtime), 0);
--	inode_set_atime(inode, le32_to_cpu(raw_inode->di_atime), 0);
--	inode_set_ctime(inode, le32_to_cpu(raw_inode->di_ctime), 0);
--	inode->i_blocks  = le32_to_cpu(raw_inode->di_first_xtnt.xtnt_size);
--
--	memcpy(qnx4_inode, raw_inode, QNX4_DIR_ENTRY_SIZE);
--	if (S_ISREG(inode->i_mode)) {
--		inode->i_fop = &generic_ro_fops;
--		inode->i_mapping->a_ops = &qnx4_aops;
--		qnx4_i(inode)->mmu_private = inode->i_size;
--	} else if (S_ISDIR(inode->i_mode)) {
--		inode->i_op = &qnx4_dir_inode_operations;
--		inode->i_fop = &qnx4_dir_operations;
--	} else if (S_ISLNK(inode->i_mode)) {
--		inode->i_op = &page_symlink_inode_operations;
--		inode_nohighmem(inode);
--		inode->i_mapping->a_ops = &qnx4_aops;
--		qnx4_i(inode)->mmu_private = inode->i_size;
--	} else {
--		printk(KERN_ERR "qnx4: bad inode %lu on dev %s\n",
--			ino, sb->s_id);
--		iget_failed(inode);
--		brelse(bh);
--		return ERR_PTR(-EIO);
--	}
--	brelse(bh);
--	unlock_new_inode(inode);
--	return inode;
--}
--
--static struct kmem_cache *qnx4_inode_cachep;
--
--static struct inode *qnx4_alloc_inode(struct super_block *sb)
--{
--	struct qnx4_inode_info *ei;
--	ei = alloc_inode_sb(sb, qnx4_inode_cachep, GFP_KERNEL);
--	if (!ei)
--		return NULL;
--	return &ei->vfs_inode;
--}
--
--static void qnx4_free_inode(struct inode *inode)
--{
--	kmem_cache_free(qnx4_inode_cachep, qnx4_i(inode));
--}
--
--static void init_once(void *foo)
--{
--	struct qnx4_inode_info *ei = (struct qnx4_inode_info *) foo;
--
--	inode_init_once(&ei->vfs_inode);
--}
--
--static int init_inodecache(void)
--{
--	qnx4_inode_cachep = kmem_cache_create("qnx4_inode_cache",
--					     sizeof(struct qnx4_inode_info),
--					     0, (SLAB_RECLAIM_ACCOUNT|
--						SLAB_ACCOUNT),
--					     init_once);
--	if (qnx4_inode_cachep == NULL)
--		return -ENOMEM;
--	return 0;
--}
--
--static void destroy_inodecache(void)
--{
--	/*
--	 * Make sure all delayed rcu free inodes are flushed before we
--	 * destroy cache.
--	 */
--	rcu_barrier();
--	kmem_cache_destroy(qnx4_inode_cachep);
--}
--
--static struct file_system_type qnx4_fs_type = {
--	.owner			= THIS_MODULE,
--	.name			= "qnx4",
--	.kill_sb		= qnx4_kill_sb,
--	.fs_flags		= FS_REQUIRES_DEV,
--	.init_fs_context	= qnx4_init_fs_context,
--};
--MODULE_ALIAS_FS("qnx4");
--
--static int __init init_qnx4_fs(void)
--{
--	int err;
--
--	err = init_inodecache();
--	if (err)
--		return err;
--
--	err = register_filesystem(&qnx4_fs_type);
--	if (err) {
--		destroy_inodecache();
--		return err;
--	}
--
--	printk(KERN_INFO "QNX4 filesystem 0.2.3 registered.\n");
--	return 0;
--}
--
--static void __exit exit_qnx4_fs(void)
--{
--	unregister_filesystem(&qnx4_fs_type);
--	destroy_inodecache();
--}
--
--module_init(init_qnx4_fs)
--module_exit(exit_qnx4_fs)
--MODULE_DESCRIPTION("QNX4 file system");
--MODULE_LICENSE("GPL");
--
-diff --git a/fs/qnx4/namei.c b/fs/qnx4/namei.c
-deleted file mode 100644
-index bb8db6550ca5..000000000000
---- a/fs/qnx4/namei.c
-+++ /dev/null
-@@ -1,115 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/* 
-- * QNX4 file system, Linux implementation.
-- * 
-- * Version : 0.2.1
-- * 
-- * Using parts of the xiafs filesystem.
-- * 
-- * History :
-- * 
-- * 01-06-1998 by Richard Frowijn : first release.
-- * 21-06-1998 by Frank Denis : dcache support, fixed error codes.
-- * 04-07-1998 by Frank Denis : first step for rmdir/unlink.
-- */
--
--#include <linux/buffer_head.h>
--#include "qnx4.h"
--
--
--/*
-- * check if the filename is correct. For some obscure reason, qnx writes a
-- * new file twice in the directory entry, first with all possible options at 0
-- * and for a second time the way it is, they want us not to access the qnx
-- * filesystem when whe are using linux.
-- */
--static int qnx4_match(int len, const char *name,
--		      struct buffer_head *bh, unsigned long *offset)
--{
--	union qnx4_directory_entry *de;
--	const char *fname;
--	int fnamelen;
--
--	if (bh == NULL) {
--		printk(KERN_WARNING "qnx4: matching unassigned buffer !\n");
--		return 0;
--	}
--	de = (union qnx4_directory_entry *) (bh->b_data + *offset);
--	*offset += QNX4_DIR_ENTRY_SIZE;
--
--	fname = get_entry_fname(de, &fnamelen);
--	if (!fname || len != fnamelen)
--		return 0;
--
--	if (strncmp(name, fname, len) == 0)
--		return 1;
--
--	return 0;
--}
--
--static struct buffer_head *qnx4_find_entry(int len, struct inode *dir,
--	   const char *name, struct qnx4_inode_entry **res_dir, int *ino)
--{
--	unsigned long block, offset, blkofs;
--	struct buffer_head *bh;
--
--	*res_dir = NULL;
--	bh = NULL;
--	block = offset = blkofs = 0;
--	while (blkofs * QNX4_BLOCK_SIZE + offset < dir->i_size) {
--		if (!bh) {
--			block = qnx4_block_map(dir, blkofs);
--			if (block)
--				bh = sb_bread(dir->i_sb, block);
--			if (!bh) {
--				blkofs++;
--				continue;
--			}
--		}
--		*res_dir = (struct qnx4_inode_entry *) (bh->b_data + offset);
--		if (qnx4_match(len, name, bh, &offset)) {
--			*ino = block * QNX4_INODES_PER_BLOCK +
--			    (offset / QNX4_DIR_ENTRY_SIZE) - 1;
--			return bh;
--		}
--		if (offset < bh->b_size) {
--			continue;
--		}
--		brelse(bh);
--		bh = NULL;
--		offset = 0;
--		blkofs++;
--	}
--	brelse(bh);
--	*res_dir = NULL;
--	return NULL;
--}
--
--struct dentry * qnx4_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
--{
--	int ino;
--	struct qnx4_inode_entry *de;
--	struct qnx4_link_info *lnk;
--	struct buffer_head *bh;
--	const char *name = dentry->d_name.name;
--	int len = dentry->d_name.len;
--	struct inode *foundinode = NULL;
--
--	if (!(bh = qnx4_find_entry(len, dir, name, &de, &ino)))
--		goto out;
--	/* The entry is linked, let's get the real info */
--	if ((de->di_status & QNX4_FILE_LINK) == QNX4_FILE_LINK) {
--		lnk = (struct qnx4_link_info *) de;
--		ino = (le32_to_cpu(lnk->dl_inode_blk) - 1) *
--                    QNX4_INODES_PER_BLOCK +
--		    lnk->dl_inode_ndx;
--	}
--	brelse(bh);
--
--	foundinode = qnx4_iget(dir->i_sb, ino);
--	if (IS_ERR(foundinode))
--		QNX4DEBUG((KERN_ERR "qnx4: lookup->iget -> error %ld\n",
--			   PTR_ERR(foundinode)));
--out:
--	return d_splice_alias(foundinode, dentry);
--}
-diff --git a/fs/qnx4/qnx4.h b/fs/qnx4/qnx4.h
-deleted file mode 100644
-index 5c2b1fb6b952..000000000000
---- a/fs/qnx4/qnx4.h
-+++ /dev/null
-@@ -1,106 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#include <linux/fs.h>
--#include <linux/qnx4_fs.h>
--
--#define QNX4_DEBUG 0
--
--#if QNX4_DEBUG
--#define QNX4DEBUG(X) printk X
--#else
--#define QNX4DEBUG(X) (void) 0
--#endif
--
--struct qnx4_sb_info {
--	unsigned int		Version;	/* may be useful */
--	struct qnx4_inode_entry	*BitMap;	/* useful */
--};
--
--struct qnx4_inode_info {
--	struct qnx4_inode_entry raw;
--	loff_t mmu_private;
--	struct inode vfs_inode;
--};
--
--extern struct inode *qnx4_iget(struct super_block *, unsigned long);
--extern struct dentry *qnx4_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags);
--extern unsigned long qnx4_count_free_blocks(struct super_block *sb);
--extern unsigned long qnx4_block_map(struct inode *inode, long iblock);
--
--extern const struct inode_operations qnx4_dir_inode_operations;
--extern const struct file_operations qnx4_dir_operations;
--extern int qnx4_is_free(struct super_block *sb, long block);
--
--static inline struct qnx4_sb_info *qnx4_sb(struct super_block *sb)
--{
--	return sb->s_fs_info;
--}
--
--static inline struct qnx4_inode_info *qnx4_i(struct inode *inode)
--{
--	return container_of(inode, struct qnx4_inode_info, vfs_inode);
--}
--
--static inline struct qnx4_inode_entry *qnx4_raw_inode(struct inode *inode)
--{
--	return &qnx4_i(inode)->raw;
--}
--
--/*
-- * A qnx4 directory entry is an inode entry or link info
-- * depending on the status field in the last byte. The
-- * first byte is where the name start either way, and a
-- * zero means it's empty.
-- *
-- * Also, due to a bug in gcc, we don't want to use the
-- * real (differently sized) name arrays in the inode and
-- * link entries, but always the 'de_name[]' one in the
-- * fake struct entry.
-- *
-- * See
-- *
-- *   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99578#c6
-- *
-- * for details, but basically gcc will take the size of the
-- * 'name' array from one of the used union entries randomly.
-- *
-- * This use of 'de_name[]' (48 bytes) avoids the false positive
-- * warnings that would happen if gcc decides to use 'inode.di_name'
-- * (16 bytes) even when the pointer and size were to come from
-- * 'link.dl_name' (48 bytes).
-- *
-- * In all cases the actual name pointer itself is the same, it's
-- * only the gcc internal 'what is the size of this field' logic
-- * that can get confused.
-- */
--union qnx4_directory_entry {
--	struct {
--		const char de_name[48];
--		u8 de_pad[15];
--		u8 de_status;
--	};
--	struct qnx4_inode_entry inode;
--	struct qnx4_link_info link;
--};
--
--static inline const char *get_entry_fname(union qnx4_directory_entry *de,
--					  int *size)
--{
--	/* Make sure the status byte is in the same place for all structs. */
--	BUILD_BUG_ON(offsetof(struct qnx4_inode_entry, di_status) !=
--			offsetof(struct qnx4_link_info, dl_status));
--	BUILD_BUG_ON(offsetof(struct qnx4_inode_entry, di_status) !=
--			offsetof(union qnx4_directory_entry, de_status));
--
--	if (!de->de_name[0])
--		return NULL;
--	if (!(de->de_status & (QNX4_FILE_USED|QNX4_FILE_LINK)))
--		return NULL;
--	if (!(de->de_status & QNX4_FILE_LINK))
--		*size = sizeof(de->inode.di_fname);
--	else
--		*size = sizeof(de->link.dl_fname);
--
--	*size = strnlen(de->de_name, *size);
--
--	return de->de_name;
--}
-diff --git a/fs/qnx6/Makefile b/fs/qnx6/Makefile
-index bd4e6c8efbc6..8cbb75199aa8 100644
---- a/fs/qnx6/Makefile
-+++ b/fs/qnx6/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- #
--# Makefile for the linux qnx4-filesystem routines.
-+# Makefile for the linux qnx6-filesystem routines.
- #
- 
- obj-$(CONFIG_QNX6FS_FS) += qnx6.o
 -- 
-2.56.0
+2.43.0
 
