@@ -1,94 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792763852;
-	b=n2s14mP8wg5d/gTc80VD9C1TjJPUAdy2pzwqEhvGLIeMcAKN+/wCdfj1ejGPWwShTIe4
-	 vA90Gg2B+bEP3M5R3CFKYeWI6RyFnGOt89ILL210n81F3seBHQhOgat3c3SkfrMUdk+iC
-	 g4fYwpo7q5G3Y1E9tuU1NBnCB8wqpLMJklMeWcC1nrOQO0ER3N81SXdmL5EyTecpPm7QE
-	 +k0CfMJyEqaDU202rd7kcirL1mwEGZzhwf6dgWJAiuM+dsjLpqo7ueMGedk3zjge5sXZi
-	 3MQ3ylKc0KxYowNBZeq3ISsHMimyQUJLLGDDkbcD6p7SJcpOE7Fodoxr7DMJyE+9E3Q==
+	t=1792764342;
+	b=ZBSBrXkFjb865FwAMvWD/laqfAxNPFM0VDXH/u7S7dDxCTlioVHPFVHFfz/R9GUXgNNP
+	 iVA24ZO4E+/4I6jyCtSUvkpMYh5Ibgdcea/j5nbZ5PWArUTYqD7iykGvWj0gcKNuf/r45
+	 TaAhgso9HDvJ2dzYkE6X6SR5ielA950RqehiCqV/NSftbWbVoHXXYQf1KlOFFukUx3det
+	 rUzhZxq1lFRLw2P2C2KRiQ9HqKf5xUNNO2Ze/PC30RaTC+eBxLQvuHCvbpdv4oZ9XSZ7I
+	 TRSMNgZV7fJnxiJVuW/Mi6ozpTNxLpJOCoPl6u5mdOCa4ykYTmmNS5MXmkCH9W7aCMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792763852;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792764342;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=UnzrsY8G/SWjwoHnSGm3SIOWLUzW8i2qmZeZsBb1utE=;
-	b=z1boPcsRqKWig5+e7BZfsBr302Hf9R2Cs2YP6JFub4bcikjz2RenkFiyosJzmoBtGdWg
-	 rnwYjq2A5r69TRcGFj7BIRGcT7+01TzAsqBKoXAsoLnc8uu4gRR10jPFk6n83O8cRwxD+
-	 Fz8ZJliHgPJmnBbLfThjPgaC53W4OxSMT/QuqB+goFhfP58X8cdh5G7SuOQ72V61s6tjZ
-	 uygEJQ5VfSABX8fJspqpSavOipZDaaDVGcZuv33CCqHTc8YGbZXaYPjyzE5GixFlAyhLl
-	 QvzYFvvt8vrdkkqUNHGtZylE20K15nx8Gk2s2bjSF2xQqIS8cj3K0w4p2yGEs4BmDhQ==
+	bh=BUJVWluZQW/qDMSCSzMsGJRAgytWrmfDDzAkl2tvmys=;
+	b=SEUa77USO24W1PDGm1eLdFiKdS9EOFy+fkGjO7HILgshm2rsG0uivnIDD0HwDQ8UWqyz
+	 AtobXM2JMXeI7lx87Bg472eGd3ourR/SX34IPoTpeN7EBNdvX1SynAi6ryz0ViGuCLLj9
+	 ITomFPpXtyrylDw5NlKunnub8thLZINoQgpr7FVDFO2rjCouTxprerE7d8ZLancJxkiyi
+	 ITGYlUzMHZeks9DXerBqMPx7BWOHsyEc2E5pyZ+tgmYb6oFDEsSAoffaBxXKwxBwTmDOV
+	 gI+k/tjt+i0me/yvn/tTRLoyjgfbwHo/fOUwQWstwNqIo/ieJ6W4Kg/qQ58DSLyiv/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="aU/o+LQJ";
-	arc=none smtp.remote-ip=209.85.221.173
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qCHc+pkS;
+	arc=none smtp.remote-ip=209.85.218.42
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2099D606A32E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 13:57:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2099D606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB0E606A31B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 14:05:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BB0E606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=aU/o+LQJ
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5eaf34452a9so738352e0c.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 06:57:32 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qCHc+pkS
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c414e5d282eso110280966b.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 07:05:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792763851; x=1793368651; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UnzrsY8G/SWjwoHnSGm3SIOWLUzW8i2qmZeZsBb1utE=;
-        b=aU/o+LQJtik59Zp1xO1fBC3w0QQvJJw7j8sOXoWMy3T7Wg4GNBFcgE92bgA9TkzLgF
-         tOmnlrU8fpUya2eIsYzcXXNnqCKKOJG9qrZDFDGWHTRg/a944vgqJ4UaBPiJn4qwIuh3
-         681UyAM5Jj8V2lpy+Rpt5xfudXkUG0O04uMkRk7rsxE5AoQL+9VM3P8/+8NBVvD+N6d7
-         CocAvSW2yeAqv2vd38ePiQN/h62r2Z0h/1DOlbRGhBrkqjoHiAjy8XPJgt5EQDKsRkyB
-         xfeIj2ss+Lp3QCVhNpcandfFwB0H/yIq73O4KbYGdtbIRbwwCQ4pQC5hgW1c5J5YA4iz
-         8y1Q==
+        d=gmail.com; s=20251104; t=1792764340; x=1793369140; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BUJVWluZQW/qDMSCSzMsGJRAgytWrmfDDzAkl2tvmys=;
+        b=qCHc+pkSgGjiEkB+YGvSGYu0lSGIfzJY5pAXsLur0x09rjShylBp6MESq/gj/bUUeh
+         oyclnk95Q/C3POCVEUbNXFP4IqJXHSma/pajCGqeZyhCELztyVVVdT1KzN0/DiuOzsqL
+         9Y4ucHy3nxyJX8Jr5ptAo65RP1pHINUXa+j66SYOcgsW/4w3zWYQGyt0PS7DblO/Nj+F
+         6cR6Vpe8/G0OSomPI6w+IJAo/Vvsu/2p1/hH9GzjtiMu3Z4Skvxb6kisSSA+zwoRq2Uo
+         musg/d6JQTXlZ7Ewkk5COEiWzZeK+DPYSAkEQLuXc3Fsm1pX+6ug7EsLGn0NAOACqha8
+         +nVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792763851; x=1793368651;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UnzrsY8G/SWjwoHnSGm3SIOWLUzW8i2qmZeZsBb1utE=;
-        b=J6KbWmeORBHHpZFbEXUyHwwrvmzEWEqUqLppukFxoVmLqE9VNYm/ZvlzMsvmlmmhID
-         OkxmSsEm48pd7DvroLnSt00SDpsmGoWQvpWBkbc6mteVy/rZi+jbDW70692GZ4JI3fM5
-         mP5B0XqOHQJ82JrDdeuQlMmPXVRh/kOb9CrHZZ+5D69Rg9XUm5I4PX9WHKX/9ST3jJHJ
-         oJEr+DEL0VZiawUIwQMBmlRvyMoBGxA7FsK9QAEQU72WarsFSlVzBlnXMj4V1FRD0JEg
-         WzbxXc8pHgREGHoqi9d6w6QSxjqtDRIgTcgKFL5ho1d3CvhCGsahZxiQZ0rc65PuaCHo
-         l65w==
-X-Gm-Message-State: AFq9FYJhzhLd4WLTu6NnO/gjTKdox80SqA8KF2ZDIxKXvR5oI6G1qpNi
-	b9rdCU1Ti1J9K8tDZYFVJAmjqlKykeGVjpn9+DGpWYbYrOHTIM3H4THGPUEGAoDt
-X-Gm-Gg: AYBFou33ym248k+RdJgiCDOgljXxxOge3ZXXvCTiOud8iYD2g8QI/xfh0hErxIxiY2w
-	VGz8an6VlecYNzCSMus7B1GqFl9DHLuvrLDxoBx6qKySEck9CTHbiObEQHvL1Ogo72R5l1nfOT/
-	u/bgJq7V3nZc9pC2yDlPMX6yByeMyjNX54gWcqxBbl/Pj+VO3+i5FQrGWRgWfbAyXCduqDFOSOx
-	EPfsTR8KmEKIvPGoPL/BBVUH19MfXevGsVwLok+amu7IegouREPEBAjwNtfMysBQHNCTVLUm+2J
-	KVImuQlh1gk+xbOp4wD/bx9fGBc4f9pF2HGgz4UBa4YYcnzO5q3msSRF6SMVOXk3scxsoGD0rZY
-	oRf+WZrJW+xBpVYK5MZSwXuGTog2yZ9xhEYcgA/y1/2rXXRdKM999IDZa0JsyW+H4GZ9VR4zbeN
-	MS3imP4DVTsrlGRzIWU48HAJ36zaKGNm5rVJ4Qegf3YAzUdEhdm/toVvEwJjszvF5WCTWiONZcU
-	q7IBATZwloC0oRcCap0UgycWrfrVb7z3s0sJAFHBJc2NlbXHU8K0VQZmkTqgv23VQme0PzELdIj
-	xVQ4Kkdi19SMWa+e7kE5Buc=
-X-Received: by 2002:a05:6123:4009:b0:5ea:d2d7:37e4 with SMTP id 71dfb90a1353d-5eafa439734mr1174546e0c.5.1792763851035;
-        Fri, 23 Oct 2026 06:57:31 -0700 (PDT)
-Received: from Biostar-A520MT ([187.94.15.233])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec1feb44desm161827e0c.5.2026.10.23.06.57.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 06:57:30 -0700 (PDT)
-From: Breno Rodrigues Alves <breno3011alves@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: Breno Rodrigues Alves <breno3011alves@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	stable@vger.kernel.org
-Subject: [PATCH 1/1] exfat: fix bitmap lock ordering and inode cache reinitialization
-Date: Fri, 23 Oct 2026 10:57:13 -0300
-Message-ID: <20261023135714.49481-2-breno3011alves@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261023135714.49481-1-breno3011alves@gmail.com>
-References: <20261023135714.49481-1-breno3011alves@gmail.com>
+        d=1e100.net; s=20260707; t=1792764340; x=1793369140;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BUJVWluZQW/qDMSCSzMsGJRAgytWrmfDDzAkl2tvmys=;
+        b=1KCtFCM+6z2oDtHpTF8/psfbmDsHyL7ACC8qmWjuvyPQPCkGfs20ZlPJjW7X4nQ0VP
+         xmLOJ5ulwQEgZC2ue24ThHdUzittB/6Vt5z6g0uYiGpIPfBoizN4riJQns6MZPys0Uwd
+         7N6boE/2hYnM2RwDgu2w224aS/7ZCiCl6bBKx9Bnwd4wuDqi3r5mcTmF1kAavnSbvEqI
+         lKM32ZBoAI8DAn3mU5p/EW3iIlmUj/A3t+ipdqeQKF60AHV18x/iPB+E/PumUAN5qmq0
+         FH5KBpskqSsPYdxZzFOiVm8jaO3B5BOtTe6jYpmFT3fHCLJjXPAnDzFiscnH4m51E7+c
+         F1yA==
+X-Forwarded-Encrypted: i=1; AKwUvBxNbVXZ1n4HBkpj5BoNUD1RLQfOjmm7PYzZsdpsxMw2ENvT9P1GE2kqAIra/69mTiRtYke7rW7wXKRR3gfw@vger.kernel.org
+X-Gm-Message-State: AFq9FYKl1Y6AmHxGORkUbab8IPdkdhldWBMFiYhuWPCuHCqZ8yoWxIET
+	Rm+4ehtKvCML2pGFTKzD3iIxFq72u7twv3G3MD0SEwR6hNFUSsQKdnZG
+X-Gm-Gg: AYBFou3iqrvp11NX9roLUHnxqT24vmNSirv8RQeoOm4VABk6s9eZxdwrlMhht6zCyVV
+	ee+Xh2CQzAq/G+Hci5LjJuRXA9pA5qRVxkTW7s8nFipgeEar0a1+kDpvQ5LDXb/xg5V/eNOn1MD
+	rea9J1mtD7dzS62/Qy76fydN5ai/4FDgfOyBzxjdgaw7BQW072E037PJTJHZNM3x3/JY6+ZpAhN
+	uj+KLxOTWRfrXjxiJI9cjtu1KrdTPWzGIscylle/Fc0DLsy9pBLUX5uBJxYWLMK7jr78kI/Yz8P
+	495yT3cC4Pf/l3GzZPzTCcobZ7UipM5KObW762b7m2WNylsioN2W9CzgQ43ktzPQQxkrSYKXllc
+	NoboZnUeKShbRDwe7PFmjcaI+NLV6tnHJu8LDeQH4fprKSmgjTOMK12Q+IfcoO22oNLZAarUj/R
+	+ibcsHZQ4JoeW2Wwun24FKd4BgoKVSrwfgAyHOlPOxiWGYBp4yN2r39mdCkjJ/3H5LINP+PaeVK
+	V45yxp11qMUr+HcZ0x2gzcFMo0GH2ewl8c1mlmTpYni7P32h7zKfnjYQ6cIdOeLO7hgpBON/N7F
+	RzSIa0WvPzn2eoStv+walhXoApxW/Pclztm+N6T1Ntv3nneSldxgdwv5OiTv2njwxYbRTYWJDPs
+	x3ybeDTVzUYmUSWfwrERwhv5zJzN93o2pDuDmlpKfZS0me1YSqUgp/omp09mlDymbROPDzEoJn2
+	WAo7tIjuk+8nXiWA0=
+X-Received: by 2002:a17:907:930a:b0:c41:30be:4f84 with SMTP id a640c23a62f3a-c46a90ae916mr376211766b.9.1792764340190;
+        Fri, 23 Oct 2026 07:05:40 -0700 (PDT)
+Received: from [192.168.100.100] (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46b8ba181esm4707666b.25.2026.10.23.07.05.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Oct 2026 07:05:39 -0700 (PDT)
+Message-ID: <7a212208-74f2-4d79-8ca2-a1502d0e0a1c@gmail.com>
+Date: Fri, 23 Oct 2026 16:05:38 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -98,85 +94,120 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
+ stores
+To: Ian Kent <raven@themaw.net>, Tejun Heo <tj@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
+ driver-core@lists.linux.dev, autofs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
+ <cover.1792577179.git.krystianmkaniewski@gmail.com>
+ <649966b83b39fcdd25e892fc3c6732a1@kernel.org>
+ <22d41f2a5546d3bc90a1b3ad24ed3656588a854f.camel@themaw.net>
+Content-Language: en-US
+From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+In-Reply-To: <22d41f2a5546d3bc90a1b3ad24ed3656588a854f.camel@themaw.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Two correctness fixes for the exFAT allocator and inode cache.
+Hi Tejun, Ian,
 
-1) exfat_alloc_cluster() checks sbi->used_clusters and updates
-   sbi->clu_srch_ptr before acquiring sbi->bitmap_lock.  Concurrent
-   allocations can therefore observe an inconsistent bitmap state
-   and double-allocate clusters.  Take the lock before the checks
-   and route the early error paths through the existing 'unlock'
-   label.
+On 10/22/26 04:46, Ian Kent wrote:
+> On Wed, 2026-10-21 at 11:48 -1000, Tejun Heo wrote:
+>> it doesn't make sense to change the locking scheme for it.
+>> Can we just disallow splice on /sys/power/resume instead?
 
-2) exfat_alloc_inode() relies on exfat_inode_init_once() to seed
-   the cache_lru fields, but slab objects are reused without
-   re-running the constructor.  A stale cache_valid_id or a
-   non-empty cache_lru list can crash __exfat_cache_inval_inode()
-   when an inode is recycled.  Reinitialize the fields on every
-   allocation.
+That would address the direct case, but it would not make this report
+go away. The lockdep report combines two separate operations.
 
-Tested with 5000 create/delete cycles on a loop-mounted 100M
-exFAT image; fsck.exfat reports clean afterwards and dmesg
-shows no exFAT-related warnings.
+First, the reproducer splices a pipe into the cgroup v1 devices.deny
+file. This records:
 
-Fixes: 31023864e67a ("exfat: add fat entry operations")
-Fixes: 719c1e182916 ("exfat: add super block operations")
-Cc: stable@vger.kernel.org
-Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
----
- fs/exfat/fatent.c | 13 ++++++++-----
- fs/exfat/super.c  |  5 +++++
- 2 files changed, 13 insertions(+), 5 deletions(-)
+        &pipe->mutex -> &of->mutex
 
-diff --git a/fs/exfat/fatent.c b/fs/exfat/fatent.c
-index a8b11e2ce43f..7dcb2819849d 100644
---- a/fs/exfat/fatent.c
-+++ b/fs/exfat/fatent.c
-@@ -427,19 +427,22 @@ int exfat_alloc_cluster(struct inode *inode, unsigned int num_alloc,
- 	struct super_block *sb = inode->i_sb;
- 	struct exfat_sb_info *sbi = EXFAT_SB(sb);
- 
-+	mutex_lock(&sbi->bitmap_lock);
-+
- 	total_cnt = EXFAT_DATA_CLUSTER_COUNT(sbi);
- 
- 	if (unlikely(total_cnt < sbi->used_clusters)) {
- 		exfat_fs_error_ratelimit(sb,
- 			"%s: invalid used clusters(t:%u,u:%u)\n",
- 			__func__, total_cnt, sbi->used_clusters);
--		return -EIO;
-+		ret = -EIO;
-+		goto unlock;
- 	}
- 
--	if (num_alloc > total_cnt - sbi->used_clusters)
--		return -ENOSPC;
--
--	mutex_lock(&sbi->bitmap_lock);
-+	if (num_alloc > total_cnt - sbi->used_clusters) {
-+		ret = -ENOSPC;
-+		goto unlock;
-+	}
- 
- 	hint_clu = p_chain->dir;
- 	/* find new cluster */
-diff --git a/fs/exfat/super.c b/fs/exfat/super.c
-index a9ea36ba2693..2d142bf68b63 100644
---- a/fs/exfat/super.c
-+++ b/fs/exfat/super.c
-@@ -195,6 +195,11 @@ static struct inode *exfat_alloc_inode(struct super_block *sb)
- 	if (!ei)
- 		return NULL;
- 
-+	spin_lock_init(&ei->cache_lru_lock);
-+	ei->nr_caches = 0;
-+	ei->cache_valid_id = EXFAT_CACHE_VALID + 1;
-+	INIT_LIST_HEAD(&ei->cache_lru);
-+
- 	return &ei->vfs_inode;
- }
- 
+It later uses a normal write() to /sys/power/resume. That records:
+
+        &of->mutex -> &sbi->pipe_mutex -> &pipe->mutex
+
+There is no splice into /sys/power/resume in the reported sequence.
+Disabling splice on that file would prevent some direct deadlock
+cases, but the first edge of this report would still come from
+devices.deny.
+
+A complete restriction for this attribute would also have to cover
+both splice directions. With an O_RDWR open, a splice read takes the
+output pipe mutex before the same of->mutex. Another thread can write
+through the same open and reach autofs in the opposite order.
+
+Kernfs splice support is established behavior. Commit f2d6c2708bd8
+("kernfs: wire up ->splice_read and ->splice_write") explicitly
+restored it in v5.11 after the VFS stopped providing the implicit
+fallback. The pipe has been locked across ->write_iter() since 2014.
+
+I agree that changing serialization for every regular sysfs store is
+too broad for this case. Before preparing a v2, I would like to
+clarify the intended scope.
+
+> Not only is the description hard to follow the example is flawed
+
+You are right that the cover letter was hard to follow. I should have
+described the two operations separately. The automount itself uses the
+normal empty directory case.
+
+The reproducer creates a detached indirect autofs mount with its own
+daemon pipe. It changes its current directory to the root of that
+mount and moves out of the daemon process group. It then writes the
+relative name "0x0000000004000921" to /sys/power/resume.
+
+resume_store() calls lookup_bdev() on that string before trying to
+parse it as a device number. The pathname lookup therefore starts in
+the autofs root. The new negative name triggers the normal mount
+request for an empty indirect autofs directory.
+
+The dentry whose ->d_automount callback runs belongs to autofs, not
+to sysfs. There is no autofs mount on top of kernfs in this
+reproducer. Kernfs is involved only because resume_store() starts the
+pathname lookup.
+
+The change which made this path possible is 1e8c813b083c ("PM:
+hibernate: don't use early_lookup_bdev in resume_store"). It replaced
+early_lookup_bdev() with the normal pathname lookup in v6.5. That is
+what made autofs reachable from resume_store().
+
+> The other possibility I was thinking about when I saw that report
+> is to disallow file systems that don't make sense for automount.
+
+I may be misunderstanding this suggestion. In this reproducer, the
+filesystem which owns the automount dentry is autofs. A restriction
+based on the filesystem owning that dentry would therefore see autofs,
+not kernfs.
+
+The lookup from a sysfs store is also not unique to
+/sys/power/resume. For example, with CONFIG_BCACHE=y,
+sys/fs/bcache/register also resolves a user supplied pathname.
+
+The exact reproducer records the lockdep edges with different pipes
+and different open files. It does not deadlock on those mutex
+instances. After sending the request, it waits killably for a daemon
+reply that never arrives. Related setups can deadlock when the daemon
+pipe itself participates in splice or tee.
+
+Given these two separate paths, did you intend to prevent only direct
+splice operations on /sys/power/resume even though the reported class
+cycle would remain, or should a replacement also eliminate the
+lockdep report?
+
+A per-attribute splice restriction alone cannot do both. If this does
+not justify new kernfs infrastructure, I can leave it alone.
+
+Thanks,
 -- 
-2.56.0
-
+Krystian Kaniewski
