@@ -1,54 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792754901;
-	b=QUOmSSpN3rnJPzNa8ThF5KGkCRqT065D6ztKvedt/KSi0RdULZUThEJ0z+W4dgQEvBmk
-	 0dvD5qTTHt5dun7bh+7cMV9QcA92VOGn5zS2vsDmVFpttNAscSOoP6MDXNuyCcbtj3H4I
-	 EMkgCeMAglg8Ya+JuQWe/2iXmCpdldEjGPjr3xUlGWf68nJhYBuHu1qGP9OapavxE9x9S
-	 Dbc9gzarVh7G0LF/tZqTnSY7Uhv806TR1k9L6NzT1VodM1VGfkJQBETQ2/lCoxNnC5IYf
-	 wC0NCujkNwFf57eMJRQ91GONnsvEZcmrfeSKlggVsYxht1IzGGRXZF1VJD29A1pPByg==
+	t=1792754966;
+	b=KC0GPcETJy3e6h8MXUfp4yxfVjl0s9sRnfeiaObU/xzxr+LrRzmmMy2Sxjqm5DXDL8d4
+	 YTQs1hHzTdpdCNR/G2ym5Y9GQMUixsE759IMVy4GCkdS/ijIs/jd8q579s1+q9QR++FP9
+	 k3PobN4XCNHLJ4KxYq3DGVW8d/J64ViZeOtZsp026U4ot73EdXvkHB6jfSV62WpQJ562y
+	 JCnaEmuM3nY9UwQ4gIX6W4MoIDyKoLG79jm5cHrApOtXdqK/SS2+F4EiQqcbNFta2vYTG
+	 K/4L8guACghOfvgNnIZfMRXaMxq036JZqTs2OswffW2S4gHxER66JUmSjJkd2dxsbVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792754901;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=4KzbfWb4R5EF9vQndbPyhzkZkHPodQ4prV025x9/ldo=;
-	b=AijFimZOJWbQFW/T4tH3rSpJCDqyOT8GlVnEvL8dOvJrZPjkneM/h2qOPZU/W6MRIpc9
-	 JPecSgV1BwtuDTKLtXoAnpdK2e1p7g8I6ZkdctyJE6othLd9Yge0YAwo3pTThTg13dsW4
-	 y1c/YDcPohBz3o7XFesHQpnvBuYGS1V7481PsBKOB5zjxPPgxV6ps4bXycFdYFD9RZhj9
-	 pUKhoG++8sLJLEo+TJPWypRIaCyPwGHn/Y9CI34xy5lWQnrL7gRAgMSaFICFTonabaJDB
-	 VTz0IXaGOTUdqPdD9HdRChYpRUnzFXpzLIhWiuV4jmqeoq08Naf6604saf3/LDsbTgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792754966;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=siaaH19W0b1cnM6TcR3SUQHduqkChYWI/m2jWbai9r8=;
+	b=gid5QdqqCpErMT+0mK+CuTWwrZ7l0laOO2ALrbJYVvRLy+J7PmBZhGB4pXSKM5Fb/Z5y
+	 pvMgCPVF5upQ24bA+MK4rTbVFrqqcdB6gfbS/+xDLhrQTadnOzIpDBWSFLplS0xxCnI4B
+	 jwSoEwTqkCrRxpBZrRazycrMa+9fn74gXiZ58R+WyuEOeRpH1HmsSTt8yhOpKuUgXUurR
+	 xgsz7N6o/26MS9HGAncdi6UiHiTLd+6FT6t776oE7XWPW6PNFWH0k/5e6mNWxlpSxBeRC
+	 DHEk+Ropc4SzC8ejIRvm0LHv6wQHYJnjdagZ+D4ZeR3JoYX+PhhAhBw7q4ejYbI6r8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kKGPAaof;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=mlvHp1pM;
+	arc=none smtp.remote-ip=209.85.128.44
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD9C606A31A;
-	Fri, 23 Oct 2026 11:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA88B606A31A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 11:29:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA88B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kKGPAaof
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F04ED1F01825;
-	Fri, 23 Oct 2026 11:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792754900;
-	bh=4KzbfWb4R5EF9vQndbPyhzkZkHPodQ4prV025x9/ldo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kKGPAaofBrEX7ssLlFpzdZw3es7F0Zv/mPcfDWbhJhFaUcg/SCeBw9GLn4abp+5hD
-	 nTWKoDrbvJqwjAQ0hMn62gCFhAmCiYRJSAsi+AtQgM2APlcILhrMbQMs1r7yQoiPAA
-	 rXHiFbZ36uObjTepfLoo74ryNPGF3+a+ukmv53FCOXrVd9AGdOs4QfE3Uehz1yJ6ck
-	 mYFivhGed/lsICkoBuikZJKTdw+ulAxxXvFER1mtALtgQN5DkqW15+QfOvZTaQdpmx
-	 9UMz7N0EtQ6S6KEpxShco6Fza1eEtmBFsjX+rAdcHaPawuLokt8AXmABDXDjtG+BmH
-	 MsDzshzGMrs+g==
-Date: Fri, 23 Oct 2026 13:28:11 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v6 1/2] man/man2: introduce man page for file_getattr(2)
- syscall
-Message-ID: <attEnAMmcV2YuwtN@debian>
-References: <20261021141010.314835-1-aalbersh@kernel.org>
- <20261021141010.314835-2-aalbersh@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=mlvHp1pM
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso5107645e9.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 04:29:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792754964; x=1793359764; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=siaaH19W0b1cnM6TcR3SUQHduqkChYWI/m2jWbai9r8=;
+        b=mlvHp1pM9zfIVT0GFLmeVurTUjPudpQaip4Gzq4FRJ34lOuLYCAMw1XLczsDNPyNVc
+         +s6rxvO7PYoQr9DcsqfQTI6zEF9/uG8PIj9IUwC5Li9wxO6Z9fn4Vg5BcDUES1Cww0XN
+         gWFnxpAoUj15QGdp1SbwRmesBFYPgSRJA2fCPPLAfhIk1CI88ALT98tXYTFQQHv2PFNa
+         03wZ9aaon0vm3/JBESzRGVxI9My2ezsZJU4RujyVuPs9d1p72OhpQBy4bDA/oyjhVIKL
+         Hl0ONYWEky46/gR/a97LVhByxGIRva+lWQj4ITkrVbOoIeNtRj00VnrEoSjQSTMiBcxm
+         rlkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792754964; x=1793359764;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=siaaH19W0b1cnM6TcR3SUQHduqkChYWI/m2jWbai9r8=;
+        b=Mb/Z0HnS752FBUDr2n+F9ONGAlXqcyyHM9Diik68D3Q/61kpKpy9FAAAEH36uMsAQU
+         /5xDCdj3ryoVpdkNXc+EJH1ml7WxkOMhit2kUotO2c+/SQmL8pD0ewMkpO0tZ+KwGPu1
+         Wt1fbNGCPad4uhlBPUOOs+7Lk3wPHxR8tpCngWyhrTMdJqVb3MF1kYnZBw2sBnbidu2F
+         vEoa7HgKhK4vJmRsaUu2+B6SXzZAzhoN17lmAfS54PUQcpPNGY/yWl3dy81U0plyt4SX
+         13/7rPJKuM4fD1h+5HUA3cxCvZPGnJsUFl3RYsxWwDkt+DIVy0V0kLtCCPEOCmxwlStv
+         PkLg==
+X-Forwarded-Encrypted: i=1; AKwUvByk/jErB2LBe8Z/ZmlkX1D7Th2yaGO5A86K2AesxrcrdyVW/02NZb6CXlqec1FLle7tdqjVkh3behpnz/O+@vger.kernel.org
+X-Gm-Message-State: AFq9FYK3A+KEptZiYccQcRm5jgOUqK8njVnMTE6lg73/VO4h6y6OGaKt
+	1EYOgRzLsaJo5z7A01Glaws7kqe54drjZ+0bLkuDvbY/B/9ndEw/oJoD
+X-Gm-Gg: AYBFou20HnD2tJzojGJtWbsdPktEBCZA6j6Ip/F8QN6aSHwwzTlYTBC0dRvl0+vM/2z
+	UY0Ej+3kD0eN7LFI/3hKUpGbRjLkXwpBfT29VEcTJ867mUaPsonrd2dRcNByD9r9Hvxcy/H58NW
+	uiTjBNxy11YkCBJcS9i+KgPpm3FkRcrntkbHWYxwc4tHHxqlcv1dTLvcG1GDA3miUfyiF5uWiHK
+	zw1E45OL4OWa5Eg9o3sgCllrpoSYPjAZto4Dsfseglmy1MDFw85eiSCEXiMLRTScZp9tozWYKlb
+	X2uljO328KY0T06Hfruy9n7LvlG0BwvvT36eBGJ5fzQq+gtwCkeHan9o7vhjdrazIWIMx0Hh8Dd
+	nA3BF8VY4KrHb9ChFtJS5G3CLlwQS0fq4CGRFMMgii3gdPsiqWthwWhI7tbUpR3ZynjtBwPwhLa
+	HuEu26FpPCHev5e0+pDeGQm1BpGpZiBVVeDmU5r/5acYUdfNgSuBHQbf8mdNqv6aVreDbH4xw6r
+	QKlgt7gT1cj1U7hSbMoFVhYXMkainIEsCqGjR476AiExjui/BKdgWb8Alahzks0d0GZOb6fXcdn
+	yNh0HISdBeh1SDFJqD5MK1eisJt0
+X-Received: by 2002:a05:600c:19ca:b0:4a2:397:73f6 with SMTP id 5b1f17b1804b1-4a211c8fa81mr31321535e9.8.1792754963632;
+        Fri, 23 Oct 2026 04:29:23 -0700 (PDT)
+Received: from DESKTOP-IR7J1S9.localdomain ([105.98.0.106])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a21534a306sm25672665e9.0.2026.10.23.04.29.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 04:29:22 -0700 (PDT)
+From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+To: ranhongyun1@huawei.com
+Cc: a.hindborg@kernel.org,
+	brauner@kernel.org,
+	chengzhihao1@huawei.com,
+	drifabdelmalekmohamedsaid@gmail.com,
+	jack@suse.cz,
+	leitao@debian.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	viro@zeniv.linux.org.uk,
+	yangerkun@huawei.com,
+	yi.zhang@huawei.com
+Subject: Re: [PATCH] configfs: fix use-after-free in configfs_symlink() racing with rmdir()
+Date: Fri, 23 Oct 2026 12:29:20 +0100
+Message-ID: <20261023112920.188-1-drifabdelmalekmohamedsaid@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261023092541.1858529-1-ranhongyun1@huawei.com>
+References: <20261023092541.1858529-1-ranhongyun1@huawei.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,337 +106,54 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="544li3fyfgezh5tt"
-Content-Disposition: inline
-In-Reply-To: <20261021141010.314835-2-aalbersh@kernel.org>
+Content-Transfer-Encoding: 8bit
 
+Hi Ran,
 
---544li3fyfgezh5tt
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v6 1/2] man/man2: introduce man page for file_getattr(2)
- syscall
-Message-ID: <attEnAMmcV2YuwtN@debian>
-References: <20261021141010.314835-1-aalbersh@kernel.org>
- <20261021141010.314835-2-aalbersh@kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <20261021141010.314835-2-aalbersh@kernel.org>
+Thanks for reviewing the patch.
 
-Hi Andrey,
+There is an earlier unhash inside configfs_detach_group(child):
+it calls configfs_detach_item(child), which calls
+configfs_remove_dir(child). On successful simple_rmdir(),
+configfs_remove_dir() calls d_drop(child) while the child's inode
+lock is still held, before the later d_delete(child).
 
-> Date: 2026-10-21 16:10:04+0200
-> From: Andrey Albershteyn <aalbersh@kernel.org>
->
-> Add manual page for file_getattr().
->=20
-> Link: https://lore.kernel.org/all/20250630-xattrat-syscall-v6-0-c4e3bc352=
-27b@kernel.org/
-> Reviewed-by: Alejandro Colomar <alx@kernel.org>
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+Once configfs_rmdir() proceeds to detachment, both branches reach
+configfs_remove_dir():
 
-Thanks!  I've applied the patch (with very minor tweaks in the commit
-message an the diff).
+  CONFIGFS_USET_DIR:
+    configfs_detach_group(dentry)
+      configfs_detach_item(dentry)
+        configfs_remove_dir(dentry)
 
+  Otherwise:
+    configfs_detach_item(dentry)
+      configfs_remove_dir(dentry)
 
-Have a lovely day!
-Alex
+For default children, detach_groups() acquires each child's inode
+lock before following that same call chain.
 
-> ---
->  man/man2/file_getattr.2 | 252 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 252 insertions(+)
->  create mode 100644 man/man2/file_getattr.2
->=20
-> diff --git a/man/man2/file_getattr.2 b/man/man2/file_getattr.2
-> new file mode 100644
-> index 000000000000..9963eeaa7caf
-> --- /dev/null
-> +++ b/man/man2/file_getattr.2
-> @@ -0,0 +1,252 @@
-> +.\" Copyright, the authors of the Linux man-pages project
-> +.\"
-> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> +.\"
-> +.TH file_getattr 2 (date) "Linux man-pages (unreleased)"
-> +.SH NAME
-> +file_getattr \- get filesystem file attributes
-> +.SH SYNOPSIS
-> +.nf
-> +.BR "#include <linux/fcntl.h>" "      /* " AT_* " constants */"
-> +.BR "#include <linux/fs.h>" "         /* " FS_XFLAG_* " constants */"
-> +.BR "#include <sys/syscall.h>" "      /* " SYS_* " constants */"
-> +.B #include <unistd.h>
-> +.P
-> +.B long syscall(SYS_file_getattr,
-> +.BI "               int " dirfd ", const char *" path ,
-> +.BI "               struct file_attr *" fattr ", size_t " size ,
-> +.BI "               unsigned int " flags );
-> +.fi
-> +.SH DESCRIPTION
-> +The
-> +.BR file_getattr ()
-> +system call retrieves filesystem file attributes
-> +of the file
-> +specified by path.
-> +.P
-> +The
-> +.I dirfd
-> +and
-> +.I path
-> +arguments behave in the same way as in
-> +.BR openat (2),
-> +with the difference that
-> +.I path
-> +can be NULL meaning an empty string.
-> +.P
-> +The
-> +.I fattr
-> +argument is a pointer to a
-> +.I file_attr
-> +structure.
-> +This structure will be filled with file attributes.
-> +This structure is described in
-> +.BR file_attr (2type).
-> +.P
-> +The
-> +.I size
-> +argument specifies the size of the structure pointed to by
-> +.IR fattr .
-> +The size indicates the version of the structure in use,
-> +and should always be specified as
-> +.IR sizeof(struct file_attr) .
-> +.P
-> +The
-> +.I flags
-> +argument contains a bitwise OR of zero or more of the following constant=
-s:
-> +.TP
-> +.B AT_EMPTY_PATH
-> +If
-> +.I path
-> +is an empty string,
-> +operate on the file referred to by
-> +.IR dirfd .
-> +In this case,
-> +.I dirfd
-> +can refer to any type of file,
-> +not just a directory.
-> +.TP
-> +.B AT_SYMLINK_NOFOLLOW
-> +If
-> +.I path
-> +is a symbolic link,
-> +do not dereference it;
-> +instead,
-> +get attributes of the symbolic link inode itself.
-> +.SH RETURN VALUE
-> +On success,
-> +zero is returned.
-> +On error,
-> +\-1 is returned,
-> +and
-> +.I errno
-> +is set to indicate the error.
-> +.SH ERRORS
-> +.TP
-> +.B E2BIG
-> +.I size
-> +is too big (larger than
-> +.BR PAGE_SIZE ).
-> +.TP
-> +.B EACCES
-> +Search permission is denied for one of the directories
-> +in the path prefix of
-> +.IR path .
-> +.TP
-> +.B EBADF
-> +.I path
-> +is relative but
-> +.I dirfd
-> +is neither
-> +.B AT_FDCWD
-> +nor a valid file descriptor.
-> +.TP
-> +.B EBADF
-> +.I path
-> +is an empty string,
-> +.B AT_EMPTY_PATH
-> +was specified,
-> +but
-> +.I dirfd
-> +is neither
-> +.B AT_FDCWD
-> +nor a valid file descriptor.
-> +.TP
-> +.B EFAULT
-> +.I path
-> +or
-> +.I fattr
-> +is an invalid pointer.
-> +.TP
-> +.B EINVAL
-> +Unknown flags specified in
-> +.IR flags .
-> +.TP
-> +.B EINVAL
-> +.I size
-> +is smaller than
-> +.BR FILE_ATTR_SIZE_VER0 .
-> +.TP
-> +.B ELOOP
-> +Too many symbolic links encountered while resolving
-> +.IR path .
-> +.TP
-> +.B ENAMETOOLONG
-> +.I path
-> +is too long.
-> +.TP
-> +.B ENOENT
-> +A component of
-> +.I path
-> +does not exist.
-> +.TP
-> +.B ENOENT
-> +.I path
-> +is an empty string and
-> +.B AT_EMPTY_PATH
-> +was not specified in
-> +.IR flags .
-> +.TP
-> +.B ENOMEM
-> +Insufficient kernel memory was available.
-> +.TP
-> +.B ENOTDIR
-> +A component of the path prefix of
-> +.I path
-> +is not a directory.
-> +.TP
-> +.B ENOTDIR
-> +.I path
-> +is relative and
-> +.I dirfd
-> +is a file descriptor referring to a file other than a directory.
-> +.TP
-> +.B EOPNOTSUPP
-> +The filesystem does not support getting attributes on this type of inode.
-> +.SH HISTORY
-> +Linux 6.17
-> +.SH NOTES
-> +This system call is designed to be extensible.
-> +The
-> +.I size
-> +argument allows user-space applications to indicate
-> +which version of the
-> +.I file_attr
-> +structure they are using,
-> +enabling the kernel to support both old and new versions
-> +of the structure simultaneously.
-> +.P
-> +If
-> +.I size
-> +is smaller than the structure size the kernel expects,
-> +only the fields that fit within
-> +.I size
-> +will be filled in.
-> +If
-> +.I size
-> +is larger than the kernel's structure size,
-> +the extra bytes are zeroed.
-> +.SH EXAMPLES
-> +The program below demonstrates the use of
-> +.BR file_getattr ()
-> +to retrieve and display file attributes.
-> +.P
-> +.in +4n
-> +.\" SRC BEGIN (file_getattr.c)
-> +.EX
-> +#define _GNU_SOURCE
-> +#include <fcntl.h>
-> +#include <linux/fs.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <sys/syscall.h>
-> +#include <unistd.h>
-> +\&
-> +#ifndef SYS_file_getattr
-> +#define SYS_file_getattr 467
-> +#endif
-> +\&
-> +int
-> +main(int argc, char *argv[])
-> +{
-> +    struct file_attr fa;
-> +    long ret;
-> +\&
-> +    if (argc !=3D 2) {
-> +        fprintf(stderr, "Usage: %s <filename>\[rs]n", argv[0]);
-> +        exit(EXIT_FAILURE);
-> +    }
-> +\&
-> +    ret =3D syscall(SYS_file_getattr, AT_FDCWD, argv[1], &fa,
-> +                  sizeof(fa), 0);
-> +    if (ret =3D=3D \-1) {
-> +        perror("file_getattr");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +\&
-> +    printf("File attributes:\[rs]n");
-> +    printf("  xflags:     0x%w64x\[rs]n", fa.fa_xflags);
-> +    printf("  extsize:    %w32u\[rs]n", fa.fa_extsize);
-> +    printf("  nextents:   %w32u\[rs]n", fa.fa_nextents);
-> +    printf("  projid:     %w32u\[rs]n", fa.fa_projid);
-> +    printf("  cowextsize: %w32u\[rs]n", fa.fa_cowextsize);
-> +\&
-> +    /*
-> +     * Try setting NODUMP flag with chattr +d ./foo to see
-> +     * the difference.
-> +     */
-> +    if (fa.fa_xflags & FS_XFLAG_NODUMP)
-> +        printf("  NODUMP flag is set\[rs]n");
-> +\&
-> +    exit(EXIT_SUCCESS);
-> +}
-> +.EE
-> +.\" SRC END
-> +.in
-> +.SH SEE ALSO
-> +.BR file_setattr (2),
-> +.BR file_attr (2type),
-> +.BR ioctl (2),
-> +.BR ioctl_fs (2),
-> +.BR openat (2),
-> +.BR ioctl_xfs_fssetxattr (2)
-> --=20
-> 2.56.0
->=20
->=20
+However, d_drop() is conditional: if simple_rmdir() fails,
+configfs_remove_dir() skips it. In that case, the hash check alone
+does not cover the window you described. detach_groups() still sets
+S_DEAD before releasing the child's inode lock, so I plan to add
+an IS_DEADDIR(dir) check after relocking and before reacquiring
+parent_item. That covers this alternative path without accessing
+the potentially freed item.
 
---=20
-<https://www.alejandro-colomar.es>
+The reference handling in my patch remains necessary: put
+parent_item and set it to NULL before inode_unlock(), then obtain
+it again after relocking and validating the directory. The new
+failure path will release the target references via out_put_target.
 
---544li3fyfgezh5tt
-Content-Type: application/pgp-signature; name="signature.asc"
+I also noticed that your patch's new goto out_put still calls
+config_item_put(parent_item), although its containing object may
+already have been freed. It also bypasses the puts for target_sd
+and target_item after a successful get_target(). Additionally, the
+existing get_target() failure path still puts the stale parent.
 
------BEGIN PGP SIGNATURE-----
+I will include the dead-directory check in v2 and validate the
+updated patch.
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrbRMsACgkQ64mZXMKQ
-wqnYSg/8C3uP8izC0yO8ulYgq2QII1Fx6GtDZM2RzUS5nbltbs3B6TQ+qygT2EII
-ziOHSjXT0ZWFNG8xqjTTOt2DUv3j+GlE39idwNwDuBSvA7xiCfF7u7rVqlEdg1HE
-GNh/MJjVS5Y7oEldxPHDBeeK6JJifXiJMfaLGbYawQFMJYHarXWv59vUjskbe8D7
-0Hr4sPBax6iAmAAGhBdcDsK47I4zlej+VRsOkOU1vqHoJjmhtMekPEanrKlXKhBZ
-QVfuX925iv7x/fDqonc7sCVbnoFu/CRTwV3J5nuyN9TeN3t2ISSlc38a3A1bzB05
-kkeSUg2IauZqgn5lN26lGaWePUCMToYKkDtmd8WCP/BYBXkKjJiQJv0buQxyv5Ed
-oVXe87WxwZT1ulzJYcnMH5gQPsRfr0YC8yowwFKCH5UTKdu1I3Hz4Ivtx3KBj1Mm
-52X4Kd4F30bMYM0HsE1coCQy48chzyVoCNh3YYFN9rUOzhTyDK4iDm3a+pFmsCAL
-br6EYUbmmxI3fSmuJ2YHILh4pK3CeV7r/gcIqyZSP/vaWLbE+85E/6xVgE5pHl6A
-+qTqXaEDyiuL07Q0cPM9A11GwJOuvWXSJLKk9oOJbD2YSD/cdNkorGjqO36BX1j2
-ncQfr73e8VIszvaxfDMRZgRckmGXSSRjXzcK6ge4sYeUjlRwjUs=
-=BQwW
------END PGP SIGNATURE-----
-
---544li3fyfgezh5tt--
+Thanks,
+Drif
