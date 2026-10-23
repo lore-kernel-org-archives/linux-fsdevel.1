@@ -1,114 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.3.242.97
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792720476;
-	b=YMH5nOr73W/rVb6O1auyBnmbPmaBOuTXPDgmlt6Hl9T6dCAg/rODMvgx31oUXIWkqz50
-	 /OAYQarolj+W4AzLsG2LIRc40K7654jgZ6ZTFwCqumejviw7AmVVt/7LuakBxKb6cHMen
-	 UHaisXBugbFXhw1XwfFdrs613I+pTkMMbu4voNDq4qfCsjSroIiX3fxChH6gS2YvZtNrl
-	 eWhcyKRaZVGVNWxMurUWhlu7I//8zvtgvW8vIX24MSCIsn3skJ7g3f5NZlxJp401kIqX5
-	 pEMIzw7QncQtdnvf/q+pFam5tJM3F6Ey5cAjxG5urjITn8Kcv1qABYyBFQOMCHgxK8A==
+	t=1792720491;
+	b=uejD1edLMg3o2JxD8zVk0E+XISwIi3nSAFj7as3YqwIspHRlPkQjqQhaUdK+z4Cfrixr
+	 fJrLLyEAPcqHxYDarOTS6ypRUXE81FKxIZNKI3CwD2ppiCnUbFuKdqfjYg9hRTJJwKAL3
+	 hY4b4yYZwXPXrdw8q4wDit6VBeXOsr69jRsSJQKLsmLqS1Iag9Jm9ldwLWjwXLoTnuaLR
+	 bT7dpz1IBuZwM+D1ngrNFQ98sjkXNlK3qwb+ZslZmi/gMbO8ngCrYgS18tpIZF3V23Pq3
+	 oHGe29pwlMF1GN27dwttDFYm/2jhgKs+kFf+hOyboyxqyShkte6SblaiRxELjklwc8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792720476;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
-	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
-	bh=3cAVfwbFrCNgv2+EqKpRHgNC9c1tU6GEEeKaHSj02bk=;
-	b=27iFQt4UmkmiI4n9vCD1nBrTIPfSLDqSt/fOMah1hypMVC84K9dGkniKJF/MNkUXx8CC
-	 +ktaoYrvsyulWxhGQhH5ZJjiBgCv5cisjWuQphA1nwJ8x3ZseATkx4lWBHcK7L4A2zYHo
-	 yCuFMHTIBWtzfBbtBIfUuo8k37NOLPwZczY5RdtpSzdTowTG12xiaK+H/BPWXdik1OuUa
-	 onCKZ7IN0lf3EFzt/ccnimfubQS4TVRrp63/prtzQFXhrieFse0RHIV+oLOStcBgJuP1M
-	 W/DmJ0y9REv6DZLU8YaVXjhULKKiLQmaRJkRwy4dNrwxOisdzEE0JBoksFF0+DqJ/5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792720491;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CO-INDEX;
+	bh=4rTlpb7GfMR9wMDmMibWcW8o92S1RDunUKU4LVh+Jkc=;
+	b=ln5rETOO8LuicwFv4L8fD1rQ96oY9EQyMLoMmh1zXqn47FEN1ovFbv5Z7AwRJ7UpX09k
+	 0/vFQF9Z6PZqmUly0qf6n9wbWUGSe12WXJaNcY/dBP5/ECwvmFgPUl2FXdStnA+YAJsoQ
+	 j6/cUU1Emvt74UvA4WVufeoA+uD26Tj7ijT/U1Bu5sOuwf65NRpJ16qot/A4Ch5A9hpJ1
+	 dVdO08VIuSNSX2YtyJvA1AxTMIXMy+eF7QKm7V+6tXZyr7jfjKsFUgHiR4c+Rb9Tz3MBv
+	 zsXZSVsUIiYBd9HPCJiGGnF/Yh/e/mi8GbPG0IpXrDijoE4/zD9FGvS9TNQT8pxgrNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ownmail.net;
-	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=QpmGQ5bQ;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=x5w1ifjP;
-	arc=none smtp.remote-ip=202.12.124.146
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	dmarc=pass header.from=mailfence.com;
+	spf=pass smtp.mailfrom=mailfence.com;
+	dkim=pass header.d=mailfence.com header.i=brianwitte@mailfence.com header.a=rsa-sha256 header.s=20240605-akrp header.b=GrqaxEBa;
+	arc=none smtp.remote-ip=212.3.242.97
+Received: from mailout-l3b-97.contactoffice.com (mailout-l3b-97.contactoffice.com [212.3.242.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6237C606A31B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 01:54:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6237C606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026E3606A31F;
+	Fri, 23 Oct 2026 01:54:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 026E3606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailfence.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailfence.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=QpmGQ5bQ;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=x5w1ifjP
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id E02D51D001BB
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 21:54:35 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Thu, 22 Oct 2026 21:54:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1792720475; x=1792806875; bh=3cAVfwbFrCNgv2+EqKpRHgNC9c1tU6GEEeK
-	aHSj02bk=; b=QpmGQ5bQ/vFGcY0VBzyytV0t2d+LPSbUHKLzG85hBglwihSanA4
-	F3v5ta1m982ZZe4nU4yQVdHfDVJWwAInl75Jmpj1zfkwjvAmh8VIaHzVkmqktKyG
-	1qzq+fLC1uD6gyC4pplm1sm9J+QPF54hXjGidF6EybUNKdbWS07LMlkFQbuvUG13
-	/jVtM3xOOEpuVwbl000cjyUhDdbxYPIEId7sKpWArx7bfPzUPXRARdDupzzAItAS
-	+azNrOHUwAvtxNHcO/SOij/VGv6TkrCl0K5Bh081NJq8fWyuXXeOb5Skn7UpmaYl
-	85azQKcfx2SebICxXdvXVoK8jVi27mE0dWQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792720475; x=
-	1792806875; bh=3cAVfwbFrCNgv2+EqKpRHgNC9c1tU6GEEeKaHSj02bk=; b=x
-	5w1ifjPckwX6rKvqGid/Y7cCiumafYmu2kTKVlmWndhiFiTucwCDNjl1365yYi42
-	V1km69YPYLiz6O+7dsyc47tYKndIAamXFkEmQHcpa3NsL5WzGHpVagQoR9m/ofxK
-	CI/paASkAZy3P5sUptBQVK2BD+9odYRdRXuLi3inyMsbWpFS80SmYEDiaalqCqh1
-	4LhcSlTGgH2U/gZ42rlz8qlItfEVq3KtSfDQfORinMLRsCBVk1uYj8QeW1z4ZAOB
-	YuexRn7f1qLTrXMIP7sgbKQyh6HV3VsB5bJbK5MA+XQNuQc+sVwLURXlHOYIJe6S
-	/8DlwXrUOet1WlnyOFeQw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792720475; d=ownmail.net;
-	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm2:rsa-sha256:k2jM5GlrCEI5rAIiqiUgu59EL/H6u1XN6+m9ag9OWBM9EBS
-	L8t/cl2b/VohoyovLxvizr490U/IHcL0vV1eyzc/785ts2g2WmRFUEXfkJ1Ho/fX
-	UNwvGA0VIFkqSkOzILUzY3CD4TTSnouzqUqrEL0OCRuT1Fo8VAOdX1duJjbXYMX7
-	05Dj9dk4uIvH8POC54HARcj0QsHFQ74/melV3R7V4Qj/RE+11uzcCuMKx1jtjq99
-	QnxnOh2J/HQ+xesgqQyUqvsX5dyC5qAucMBnVo36DJyeWksWaNgb06NkRj9vzVXl
-	+fB4N8FRsUb1c82j2aknT4LnsqjCX8xc2XlV2NQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,reply-to,
-	subject,to;
-Message-Instance: m=1; h=sha256:0T7TgnvcBa5HjIfzaYDehm2MTArXF69IgxreKTEz3Go=:3kzvpiJ7RQhrlwH3lZ3Wft1zr+dxHyKsDs6G2XbelBw=;
-X-ME-Sender: <xms:W77aahzE8_h1hFtzVaj42l1tpdz1NqxVDJhh6gEi08EMD51nvXfnRg>
-    <xme:W77aakWpQESpJ_hvVqpX2DdfGnfln6uyQE3vEBhJrsFvgCyK-XKKIBSGwFr-txfyY
-    k0j89z6DULF6N1H75xu5a_q-vj57DT19SZRQVXCTSjPFS4N>
-X-ME-Received: <xmr:W77aal_oVWUzTOt1Z9CaqfdtNKhNfEzW4L3HklInr1gUCXotSpXIyNGVo2moS0JlJwdnTCBoidndssjImts0NmHVyr9seyk>
-X-ME-Proxy-Cause: dmFkZTFVW0+ou5GQ+tyQ7PbmYU7dwTTOW6VjzYJaNLufwkMo9mpseLPBHNMl4drdZj5kj6
-    JpHgXtotuosN1/JJDeTLVtlWX69alxRsy9PhU8qhpt7xFYDkNvJztS2+kB0QvVUhoH5FXA
-    ckVpc+dSK6JmSbWQA6nnnujkvjV+T+M8KFlshJ7mNhPLG3wxz/xCuhRl8oHEwtg+yUU/mA
-    ySJZ6h7+zkNRBW++vw72Oxzf4+Sm7WMqJPY1KMh8xSPZY4vLRt+YgOpsEZvnEtSCe2Fej0
-    AR3Hv6mGB6M2jgCGkr4zQe2q+ST/ZhiyqhQMuWqpJMF0RMrTyPABbDIJYykf88OlD+GTpd
-    9We682YOG/ax0nLOqBpheWrY6sGhyCcht7WPxUBGlsmTJaSPsFeroAplQP0Ve3zCm/kIP1
-    7ln+xAPsjn8o7BHUrNDpFrJzJ/rllHWKD3b7XfVYaxN+bY96Mtx7v33S/mnuNiVxl85HdA
-    xIJwRnOYtUZsn7bTJluwyid50+ckshzDm+N84pOKh4pb4j187RQsbisMihc3Hcxo+mao4o
-    sRajx8Vpp0EOrT8vex5RQ1EetoQWiKEELUNgMNj9zaFzzG62LtAav7mJq6ZW9kNbkdLjI3
-    4YcLWUXvCbN08pCxz9QYAy5/NEu5BhPzSLbZVo604YQ028YsdPORGWZq81kw
-X-ME-Proxy: <xmx:W77aavvB78a1w6lYBhrQHZI9Ewo1FBH8SvAfLJJ-Uc_nPmeWj2HxVQ>
-    <xmx:W77aat2CgS0G5XjuvYRAawgmTlVpdW_7N4roPVAlpJJ8KJ-Hkidzyw>
-    <xmx:W77aasRW5cdLTmN6FFCO_xxm85tJOtPRAdTP_EZJD7bkP5CWA5iydA>
-    <xmx:W77aapfLxKYJVO3BHRyvnC4LxrUQ1YDviZyxkIxqoCXwzvFvbqodQg>
-    <xmx:W77aargL6F7wj5i0ebC2fv9gO7VYdXgewP5Lud4Pygnzm6hxbtvncHmP>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 Oct 2026 21:54:32 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key, unprotected) header.d=mailfence.com header.i=brianwitte@mailfence.com header.a=rsa-sha256 header.s=20240605-akrp header.b=GrqaxEBa
+Received: from smtpauth1.co-bxl (smtpauth1.co-bxl [10.2.0.15])
+	by mailout-l3b-97.contactoffice.com (Postfix) with ESMTP id A504660A8;
+	Fri, 23 Oct 2026 03:54:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792720486;
+	s=20240605-akrp; d=mailfence.com; i=brianwitte@mailfence.com;
+	h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From;
+	bh=4rTlpb7GfMR9wMDmMibWcW8o92S1RDunUKU4LVh+Jkc=;
+	b=GrqaxEBaVJ0nFoAhJiYPusLDk3u11s7gpqWbOgCfiXe3pfgHHdoGnhazSqCJUEb5
+	fqxCG10DI8NDPxrkHUpU9zz350iA3W9YR0hCskfnaRo9p6bSgkxJXogHqn+Bq6S8HBS
+	Ic5xrbpOgEbPwTU1RMSwKkdMzJBqNzSjc1G/km/Us4pYzUgSq6aTKhtvgfOJQdshV0f
+	1mEl7r5Hmp1OO6vURXWsnY3Whi5KYCsoLLIh9+Ae/3W3Ym+5Id1p/cF1v/SsGsXepCj
+	OdbQTkUQDC9/0Emt9r5lifJrlzQC91TaEyWUFm9XAuJrbnCsJt79FG834xcYsP0AzHP
+	ajlKKIQdPQ==
+Received: by smtp.mailfence.com with ESMTPSA ; Fri, 23 Oct 2026 03:54:44 +0200 (CEST)
+From: Brian Witte <brianwitte@mailfence.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Brian Witte <brianwitte@mailfence.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Helge Deller <deller@gmx.de>,
+	Justin Stitt <justinstitt@google.com>,
+	Daniel Micay <danielmicay@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-hardening@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] selftests/exec: test the argument block's in-page offset
+Date: Fri, 23 Oct 2026 03:54:46 +0200 (CEST)
+Message-ID: <20261023015345.1594514-3-brianwitte@mailfence.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261023015345.1594514-1-brianwitte@mailfence.com>
+References: <20261023015345.1594514-1-brianwitte@mailfence.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,29 +79,313 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Paulo Alcantara" <pc@manguebit.org>,
- "Namjae Jeon" <linkinjeon@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>
-Cc: "Jeff Layton" <jlayton@kernel.org>, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/3] smb/client: prepare for locking changes.
-In-reply-to: <20261023014211.2120871-1-neilb@ownmail.net>
-References: <20261023014211.2120871-1-neilb@ownmail.net>
-Date: Fri, 23 Oct 2026 12:54:30 +1100
-Message-id: <179272047063.2068970.18335523787621027348@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Transfer-Encoding: 8bit
+X-CO-INDEX: b3VYll9dFyCFFB5P1wKTKlFLR1oD9XLpGvWEKkjq9pA=
 
+Exec a helper, argblock-report, 64 times per case. Each case checks that
+the in-page offset of argv[0] varies exactly when the stack top chosen
+by the ELF loader does:
+ - under ADDR_NO_RANDOMIZE: fixed;
+ - by default: random;
+ - a set-user-ID copy under ADDR_NO_RANDOMIZE: random;
+ - that copy on a nosuid mount, under no_new_privs, or in a new user
+   namespace where its owner has no mapping: fixed.
 
-[[Missed the Subject on the cover letter - sorry.  ]]
+The tests use the kselftest harness. The fixture keeps the copy in a
+private temporary directory and removes it on teardown. The copy is
+owned by the caller, so no privilege is needed.
 
-This v3 removes the DCACHE_BLOCKED #define and uses IS_ERR_OR_NULL() as reque=
-sted.
-Also adds the ack-ed by from Namjae Jeon - thanks!
-NeilBrown
+Link: https://github.com/KSPP/linux/issues/283
+Signed-off-by: Brian Witte <brianwitte@mailfence.com>
+---
+ tools/testing/selftests/exec/.gitignore       |   3 +
+ tools/testing/selftests/exec/Makefile         |   5 +
+ .../testing/selftests/exec/argblock-offset.c  | 214 ++++++++++++++++++
+ .../testing/selftests/exec/argblock-report.c  |  24 ++
+ 4 files changed, 246 insertions(+)
+ create mode 100644 tools/testing/selftests/exec/argblock-offset.c
+ create mode 100644 tools/testing/selftests/exec/argblock-report.c
 
-[PATCH v3 1/3] smb/client: don't unhash and rehash to prevent new
-[PATCH v3 2/3] smb/client: use d_alloc_trylock in
-[PATCH v3 3/3] smb/client: Use d_alloc_trylock() in
+diff --git a/tools/testing/selftests/exec/.gitignore b/tools/testing/selftests/exec/.gitignore
+index e42ecd4c908d..991097f7fc43 100644
+--- a/tools/testing/selftests/exec/.gitignore
++++ b/tools/testing/selftests/exec/.gitignore
+@@ -9,6 +9,9 @@ execveat.ephemeral
+ execveat.denatured
+ non-regular
+ null-argv
++/argblock-offset
++/argblock-offset.*
++/argblock-report
+ /check-exec
+ /false
+ /inc
+diff --git a/tools/testing/selftests/exec/Makefile b/tools/testing/selftests/exec/Makefile
+index 91decfa8ff2c..4835c7ca4a20 100644
+--- a/tools/testing/selftests/exec/Makefile
++++ b/tools/testing/selftests/exec/Makefile
+@@ -21,6 +21,11 @@ TEST_GEN_PROGS += recursion-depth
+ TEST_GEN_PROGS += null-argv
+ TEST_GEN_PROGS += check-exec
+ 
++# The argument block's in-page offset must be random exactly when the
++# ELF loader randomizes the stack. Unprivileged.
++TEST_GEN_PROGS += argblock-offset
++TEST_GEN_FILES += argblock-report
++
+ # binfmt_misc must not be reachable as an exec source or as a stacking layer,
+ # or an 'F' entry can pin the instance that owns it. Unprivileged, no bpf.
+ TEST_GEN_PROGS += binfmt_misc_selfpin
+diff --git a/tools/testing/selftests/exec/argblock-offset.c b/tools/testing/selftests/exec/argblock-offset.c
+new file mode 100644
+index 000000000000..6edf9e6aadaf
+--- /dev/null
++++ b/tools/testing/selftests/exec/argblock-offset.c
+@@ -0,0 +1,214 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * The argument block should land at a random offset within its page
++ * exactly when the ELF loader randomizes the stack: always, unless
++ * ADDR_NO_RANDOMIZE is set and the exec is not set-id. Each case
++ * execs argblock-report repeatedly and compares both.
++ *
++ * Runs unprivileged: the set-user-ID copy is owned by the caller and
++ * kept in a private directory.
++ */
++#define _GNU_SOURCE
++#include <sched.h>
++#include <sys/personality.h>
++#include <sys/prctl.h>
++#include <sys/stat.h>
++#include <sys/statvfs.h>
++
++#include "binfmt_misc_common.h"	/* artifact_path(), copy_file() */
++#include "kselftest_harness.h"
++
++/*
++ * A page holds at least 4088 possible offsets, so 64 samples all landing
++ * on one value happen by chance with probability at most (1/4088)^63.
++ */
++#define SAMPLES 64
++
++/* How the helper is exec'd. */
++#define NO_RAND	0x1	/* under ADDR_NO_RANDOMIZE */
++#define NNP	0x2	/* under no_new_privs */
++#define USERNS	0x4	/* in a new user namespace with no mappings */
++
++FIXTURE(argblock) {
++	char report[PATH_MAX];	/* the helper */
++	char dir[32];		/* private directory for the set-id copy */
++	char setid[PATH_MAX];	/* set-user-ID copy of the helper */
++	bool have_dir, have_setid, nosuid;
++	int randomize_va_space;
++};
++
++static int read_randomize_va_space(void)
++{
++	FILE *f = fopen("/proc/sys/kernel/randomize_va_space", "r");
++	int v = -1;
++
++	if (f) {
++		if (fscanf(f, "%d", &v) != 1)
++			v = -1;
++		fclose(f);
++	}
++	return v;
++}
++
++FIXTURE_SETUP(argblock)
++{
++	struct statvfs sv;
++
++	ASSERT_EQ(artifact_path(self->report, sizeof(self->report),
++				"argblock-report"), 0);
++	self->randomize_va_space = read_randomize_va_space();
++
++	/* A private directory keeps the set-user-ID copy out of reach. */
++	strcpy(self->dir, "argblock-offset.XXXXXX");
++	self->have_dir = mkdtemp(self->dir);
++	if (!self->have_dir)
++		return;
++	snprintf(self->setid, sizeof(self->setid), "%s/setid", self->dir);
++	self->have_setid = !copy_file(self->report, self->setid) &&
++			   !chmod(self->setid, 04755);
++	self->nosuid = !statvfs(self->dir, &sv) && (sv.f_flag & ST_NOSUID);
++}
++
++FIXTURE_TEARDOWN(argblock)
++{
++	if (!self->have_dir)
++		return;
++	unlink(self->setid);
++	rmdir(self->dir);
++}
++
++struct sample {
++	unsigned long offset;		/* argv[0] within its page */
++	unsigned long stack_top;	/* end of [stack], chosen by the loader */
++};
++
++static int sample(const char *path, int how, struct sample *s)
++{
++	int pfd[2], status;
++	char buf[64];
++	ssize_t n;
++	pid_t pid;
++
++	if (pipe(pfd))
++		return -1;
++	pid = fork();
++	if (pid < 0)
++		return -1;
++	if (pid == 0) {
++		char *argv[] = { (char *)path, NULL };
++		char *envp[] = { NULL };
++
++		if ((how & NO_RAND) && personality(ADDR_NO_RANDOMIZE) < 0)
++			_exit(2);
++		if ((how & NNP) && prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0))
++			_exit(2);
++		if ((how & USERNS) && unshare(CLONE_NEWUSER))
++			_exit(2);
++		dup2(pfd[1], STDOUT_FILENO);
++		execve(path, argv, envp);
++		_exit(3);
++	}
++	close(pfd[1]);
++	n = read(pfd[0], buf, sizeof(buf) - 1);
++	close(pfd[0]);
++	waitpid(pid, &status, 0);
++	if (n <= 0 || !WIFEXITED(status) || WEXITSTATUS(status))
++		return -1;
++	buf[n] = '\0';
++	return sscanf(buf, "%lx %lx", &s->offset, &s->stack_top) == 2 ? 0 : -1;
++}
++
++/*
++ * Exec @path SAMPLES times. The in-page offset must vary as @expect says,
++ * and vary exactly when the loader's stack top does.
++ */
++static void check(struct __test_metadata *_metadata, const char *path,
++		  int how, bool expect)
++{
++	bool offset_varies = false, stack_varies = false;
++	struct sample first, s;
++	int i;
++
++	for (i = 0; i < SAMPLES; i++) {
++		ASSERT_EQ(sample(path, how, &s), 0)
++			TH_LOG("exec of %s failed", path);
++		if (!i)
++			first = s;
++		offset_varies |= s.offset != first.offset;
++		stack_varies |= s.stack_top != first.stack_top;
++	}
++	EXPECT_EQ(stack_varies, expect)
++		TH_LOG("the loader %s the stack",
++		       stack_varies ? "randomized" : "did not randomize");
++	EXPECT_EQ(offset_varies, expect)
++		TH_LOG("the argument block offset is %s",
++		       offset_varies ? "random" : "fixed");
++}
++
++/* Can this process create a user namespace? */
++static bool have_userns(void)
++{
++	int status;
++	pid_t pid = fork();
++
++	if (pid == 0)
++		_exit(unshare(CLONE_NEWUSER) ? 1 : 0);
++	return pid > 0 && waitpid(pid, &status, 0) == pid &&
++	       WIFEXITED(status) && !WEXITSTATUS(status);
++}
++
++/* Without privilege, ADDR_NO_RANDOMIZE keeps the offset fixed. */
++TEST_F(argblock, addr_no_randomize_keeps_offset_fixed)
++{
++	check(_metadata, self->report, NO_RAND, false);
++}
++
++/* By default the offset is random. */
++TEST_F(argblock, offset_is_random)
++{
++	if (self->randomize_va_space <= 0)
++		SKIP(return, "randomize_va_space is 0");
++	check(_metadata, self->report, 0, true);
++}
++
++/* A set-id exec clears ADDR_NO_RANDOMIZE, so the offset is random again. */
++TEST_F(argblock, setid_ignores_addr_no_randomize)
++{
++	if (self->randomize_va_space <= 0)
++		SKIP(return, "randomize_va_space is 0");
++	if (!self->have_setid)
++		SKIP(return, "cannot create a set-user-ID copy");
++	if (self->nosuid)
++		SKIP(return, "set-user-ID copy is on a nosuid mount");
++	check(_metadata, self->setid, NO_RAND, true);
++}
++
++/* On a nosuid mount the exec gains nothing, so the flag holds. */
++TEST_F(argblock, setid_on_nosuid_keeps_offset_fixed)
++{
++	if (!self->have_setid)
++		SKIP(return, "cannot create a set-user-ID copy");
++	if (!self->nosuid)
++		SKIP(return, "set-user-ID copy is not on a nosuid mount");
++	check(_metadata, self->setid, NO_RAND, false);
++}
++
++/* no_new_privs makes the exec ignore the set-id bit. */
++TEST_F(argblock, setid_under_no_new_privs_keeps_offset_fixed)
++{
++	if (!self->have_setid)
++		SKIP(return, "cannot create a set-user-ID copy");
++	check(_metadata, self->setid, NO_RAND | NNP, false);
++}
++
++/* The copy's owner has no mapping there, so the set-id bit is ignored. */
++TEST_F(argblock, setid_in_user_namespace_keeps_offset_fixed)
++{
++	if (!self->have_setid)
++		SKIP(return, "cannot create a set-user-ID copy");
++	if (!have_userns())
++		SKIP(return, "cannot create a user namespace");
++	check(_metadata, self->setid, NO_RAND | USERNS, false);
++}
++
++TEST_HARNESS_MAIN
+diff --git a/tools/testing/selftests/exec/argblock-report.c b/tools/testing/selftests/exec/argblock-report.c
+new file mode 100644
+index 000000000000..45744ec9bda9
+--- /dev/null
++++ b/tools/testing/selftests/exec/argblock-report.c
+@@ -0,0 +1,24 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Helper for argblock-offset: print the in-page offset of argv[0] and the
++ * end of the [stack] VMA, which the ELF loader chooses.
++ */
++#include <stdio.h>
++#include <string.h>
++#include <unistd.h>
++
++int main(int argc, char **argv)
++{
++	unsigned long end = 0;
++	char line[256];
++	FILE *maps = fopen("/proc/self/maps", "r");
++
++	while (maps && fgets(line, sizeof(line), maps))
++		if (strstr(line, "[stack]"))
++			sscanf(line, "%*[0-9a-f]-%lx", &end);
++	if (argc < 1 || !end)
++		return 1;
++	printf("%lx %lx\n", (unsigned long)argv[0] & (sysconf(_SC_PAGESIZE) - 1),
++	       end);
++	return 0;
++}
+-- 
+2.47.3
+
