@@ -1,67 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792780382;
-	b=pXutUHV2OnKZOoB/l11GCqDFOJ/vRysRFvX45DclGb4DYI3dd46fLwSCyk9YTnCU9G+U
-	 c/4uFmyDl7YM1h7kVycuyzjz6bQceFjuAOYySxfLUwdoPUdCEjoDuQq7JKJBTk35t/pnl
-	 3+5HS4QwXOeU1sMXmMHcK8nzKkU7jX4z2mbBQ/wevnMIUP1nyBrHX8PV9LSjUgVcgNQn0
-	 guDcV5YAxwsAcg+et/2ye6EBx50BlNO+9uXY0cf0FAB9DB2OO0OpojTnqd6pmlpmuu5ZI
-	 wEQsdSyX8HnF8ds9ZxXdXBvAQXnE2ZxUAlU8qtR1eOrZa1k+sgC48swwrkKURW0xFRw==
+	t=1792780479;
+	b=d4qheJNeRBta2zq77LyLKWuiiPWfWcRszDBPlljrBzwNTrnqyxET9bGEnLN560XERnOU
+	 1SsCLqvCLtnnT2MkIrOdIkkZlAIFKq/ZomjqJlGWJthV2AVsMrXeFkBmyc9OfOYjVmjdT
+	 kyAYcB3s2UXxORlG1xov8d8GxEmYbe1puzXx1yfIW7jvaMy61rxsUy12QK6k3JXs2cp74
+	 LYOjTl/w0zp4huticQ0+RZAacSCURJlJtdhLFspciyWNM8VVqMojSW06hX650luI/dPwG
+	 ed38s4RSSCbS494KFMs3sraYyOn0Z7EDDbAmFfF7im4/tW3C8qQoNC7z0cMvdEZ9RGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792780382;
-	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=KAxQFAeQQPQpgLYQtsjV0kUzkeCj3wXnsII0CK5Zrx4=;
-	b=40u7sLZZLBoos9Eh8LyVXkZndYGg+7xk0DHNuQEA2pNc7QJ48VvSer4jJhwMroOjKa+m
-	 PH0w4taSeUQOefpIKz1tugGiYEvCNfM3W1sUcUFQ8X+Fw5YUig1Z3ZMT33PkeGhmsE/11
-	 EvkFiD5LWmIRZB9mlvummMnMZlErLoNAB2la/zdFYELzV3xvXifMRv2IXOI8TydEn/m6g
-	 pkbwznBS8ABDPo72k5y1wtK5UXCPWszm3gdDPYY1Lix9F5XL73khKhsi0ICKrz9todLPN
-	 t8GhNvZjSttdTppkzh/xMdhgnWXfPvQ3z975jA+XICBWn/0g1gSXasgkADl8YFz+4Jw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792780479;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=75mO7UG1vq+0X8jAgs1gX8uFdOb25/StouuKNbz6JpE=;
+	b=roZfHJ4wLkz1FJhpPxz0aajRmX0g7HBTWY0w1h5kwlQK9EGgFIgyNsYDT2FGthQttHTN
+	 WafupFXPaOyRtKRZpkMom4P/a0SOFYRkutzicfRy+7R8qPGeLqWBR0kabzFiJSzTnqJTX
+	 SD92NpeU7Dzd3mgOMec0+JLhFIa0YFQbJfkEPVDiBJhAAXjmih8nVvM784KlfDjGvl9/p
+	 /IMQtM51v8kLruv96wIxim4+cGvqu/4Faszt8Kbhih/VEU72L9pBB6M4qptbnf611bNdv
+	 +/Oir1Qp0iqE07I0Fq3BpNyYbvCbOfXVSLmWZqO0B2Ffzsr7Jefdfsa711ugUzeyYJg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MEKhaFyl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KTjbPWgY;
+	arc=none smtp.remote-ip=209.85.128.44
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238B1606A31A;
-	Fri, 23 Oct 2026 18:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45893606A31A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 18:34:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45893606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MEKhaFyl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C0F1F01825;
-	Fri, 23 Oct 2026 18:33:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792780381;
-	bh=KAxQFAeQQPQpgLYQtsjV0kUzkeCj3wXnsII0CK5Zrx4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=MEKhaFylL2Mm3oqorh1fLNWb5zHAkYoW22VF3+3JTivYNQ0mPy/iPbaUnRz1IqCPQ
-	 iad4WCsEAroHopYevsON8Uy42QdWKMIl4B3x8uNON/C7PktgbWetaP+l4QkTWbA1QS
-	 5n9/0uP6Qj3WGIBGiAvGve6oPg0gD1+U2tUpbffoJ9ImuwJrRhWOomhLe/J+bUoF+r
-	 g4fZxIZFQiVFAsa/b6P5GxXqC5sJdpRBpNy+vvG5D+brBFu6ggxh67texi91Acsa8X
-	 Aq1cXxSQZM+wCIwYNdPWoyRJ/VN6fbxbB3ajoSWxHy2SgMhX53pTMkb6Bx+34SthZP
-	 UX2vEImHgo/EQ==
-Date: Fri, 23 Oct 2026 08:33:00 -1000
-Message-ID: <ec0c2add83f18d7a3c726d5d219dfe42@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-Cc: Ian Kent <raven@themaw.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
- driver-core@lists.linux.dev, autofs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs stores
-In-Reply-To: <7a212208-74f2-4d79-8ca2-a1502d0e0a1c@gmail.com>
-References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
- <cover.1792577179.git.krystianmkaniewski@gmail.com>
- <649966b83b39fcdd25e892fc3c6732a1@kernel.org>
- <22d41f2a5546d3bc90a1b3ad24ed3656588a854f.camel@themaw.net>
- <7a212208-74f2-4d79-8ca2-a1502d0e0a1c@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KTjbPWgY
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a214af2076so7088545e9.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 11:34:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792780478; x=1793385278; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=75mO7UG1vq+0X8jAgs1gX8uFdOb25/StouuKNbz6JpE=;
+        b=KTjbPWgYAawsd7VLvnr57xCEXN4cQkVOrYV5Ymkgp5sgasW5Ulc9IxJpX3cDHDMs3m
+         o7w7+OJz2PUuV5BqKOisJR28/mtmTua1uahZBlUQFhmHYjgou12MUfgx/tDHt5JeCWg9
+         tYwtmoEpjuhVauVRqSOF0xEHUEuPQpyWD3E8Gep3JJUHD3B3rtjzxt2bDrkmWn7grpcr
+         R6hlfE8Dy19iXgG0nKWYXng8pRnMNrTO+98CFmLTufK+sQaD56lWquCmtk/8c+zUH4VY
+         WEHAONY0QbrHEW5WWjAnU/cwkYP9y0ANIypygetbm7PmatQ7hJjKhWgMpG31XKRZWbrl
+         eS2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792780478; x=1793385278;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=75mO7UG1vq+0X8jAgs1gX8uFdOb25/StouuKNbz6JpE=;
+        b=T/8KEcJp5kCsmoNRwVFsCgj/Zm1KLcDFcIUVStH/ngI+rjqmSOmpd3qZauqOn/6VfU
+         +y/H4jeIm2zpM3FGPHShdAHa7XvPP/9Kfo420laAJvZrmATu0Xc2i55EaSUhT7nBb3cO
+         ALfQk3ePZxzjxo3ZLlQhiHZ0sNcJlxVpcZclzHs7fMVvsWFtri3j3S5SJTmDGFZyNZTa
+         ozLdxscFeeSz8u0QEFSvYgUBWq/A4dLjJ3glcVAoeUH6kD+F2eBtLWaw5bXtGn+fbU2R
+         lEWPvLyLA0krikDymHJKbt+NzpMa/3AJTgflPz7+82/BdtUOTVlDdk3txgOHCO3B4UaM
+         aJlw==
+X-Gm-Message-State: AFq9FYKunliWENIdmX53TpYQ1gA30YLbLlVb8OEFsDrx2mHbt/8V9ric
+	oPQIFIQxKm+rQOaoK5Regq72NLwe6MqETrpgsFkjYuf/FitzRV1fCDfYNuVuTQ==
+X-Gm-Gg: AYBFou12GlthgmYPpO8b3fzDEb86ftGJsL6kNzU0Ty/WxZzKpG9syzL5m8uG9hJDSsX
+	pLrspQ2p2u3+P2tejr4zU+R6NkIk55ekQWUNoBQveh4eOoPFRWbRtHlNYdU43OGqpW/gqJuPyqr
+	iQtfItK1aRv3nrt1NXePRfxP5lsU4AK7iSgvIVW6S8WRay0Z7WkV8uKIqwFc+IUmXARlL840ZgR
+	1z7PKZFdV/76uNd+XNy4Chb9kqD1HWQhhR3LnFkkdiQoMUczxHSltWKeU2q8wj/HNVk2wYCszCt
+	fTuXLtZxx9r163SPFM5/Q1FCAGI4B8T4K54xPc6IwJhvQDJVnHLcnsVwJ1owxRjccNgh+WFldPY
+	PvH9zhyYgna/cmhI7VM+E7Y6VLlNKbG7l4yoEhm2tmDXFdyqUwINl8F2Cr6Y6t3t+6yk5AVzG1K
+	fTCWl5bTi/LFdRC8mGyJWSB/BlGNTDKZEN3BLw9jsjcV+0pYXViWmEECKkzSCztMvxfcpCTi8+e
+	CSrkZQBKdEfxgfiamVOsLXhcBZeh7If30GdZHDoSlHJbf5KXRSmFgRdq7nglkDyhhyp5mrbWOrf
+	eV0RVYAfpVlgE5edZDxBim7s0Xvt
+X-Received: by 2002:a05:600c:4f90:b0:4a2:1a:a11d with SMTP id 5b1f17b1804b1-4a211bb82ecmr57685885e9.0.1792780477504;
+        Fri, 23 Oct 2026 11:34:37 -0700 (PDT)
+Received: from DESKTOP-IR7J1S9.localdomain ([105.98.0.106])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a08013esm1084415e9.14.2026.10.23.11.34.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 11:34:37 -0700 (PDT)
+From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+To: Alexey Dobriyan <adobriyan@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+Subject: [PATCH] selftests/proc: proc-empty-vm: wait for child's SIGSEGV instead of sleep(1)
+Date: Fri, 23 Oct 2026 19:34:33 +0100
+Message-ID: <20261023183434.9109-1-drifabdelmalekmohamedsaid@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -71,28 +95,75 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello, Krystian.
+The test had a TODO asking for a reliable way to know when the child's
+munmap() has finished, and used sleep(1) in the meantime.
 
-On Fri, Oct 23, 2026 at 04:05:38PM +0200, Krystian Kaniewski wrote:
-> Given these two separate paths, did you intend to prevent only direct
-> splice operations on /sys/power/resume even though the reported class
-> cycle would remain, or should a replacement also eliminate the
-> lockdep report?
+Unmapping the whole address space leaves the child with no code to run,
+so it segfaults. Since it is traced, the SIGSEGV stop is reported to
+the parent through waitpid(), which is exactly the signal the TODO
+wanted. Wait for it there and drop the sleep and the TODO.
 
-The lockdep report should go away too.
+The stop is now consumed up front, so SIGKILL the child before the
+final reap.
 
-What about disabling splice only for the files whose ->store() can look
-up arbitrary paths, such as /sys/power/resume, and giving their of->mutex
-a separate lockdep class? Splice is what nests of->mutex inside
-pipe->mutex, so if those files can't be spliced, pipe->mutex never nests
-outside the new class and the cycle is gone. Commit 16b52bbee482
-("kernfs: annotate different lockdep class for of->mutex of writable
-files") did the same kind of split for writable files.
+Fixes: 5bc73bb3451b ("proc: test how it holds up with mapping'less process")
+Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+---
+ tools/testing/selftests/proc/proc-empty-vm.c | 24 ++++++++++++--------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
-Thanks.
+diff --git a/tools/testing/selftests/proc/proc-empty-vm.c b/tools/testing/selftests/proc/proc-empty-vm.c
+index b3f898aab4ab..cf65313a25f5 100644
+--- a/tools/testing/selftests/proc/proc-empty-vm.c
++++ b/tools/testing/selftests/proc/proc-empty-vm.c
+@@ -41,6 +41,7 @@
+ #include <sys/types.h>
+ #include <sys/wait.h>
+ #include <unistd.h>
++#include <signal.h>
+ 
+ #ifdef __amd64__
+ #define TEST_VSYSCALL
+@@ -500,13 +501,18 @@ int main(void)
+ #endif
+ 		return EXIT_FAILURE;
+ 	} else {
+-		/*
+-		 * TODO find reliable way to signal parent that munmap(2) completed.
+-		 * Child can't do it directly because it effectively doesn't exist
+-		 * anymore. Looking at child's VM files isn't 100% reliable either:
+-		 * due to a bug they may not become empty or empty-like.
+-		 */
+-		sleep(1);
++		int wstatus;
++		pid_t p;
++
++		for (;;) {
++			p = waitpid(pid, &wstatus, 0);
++			if (p == -1 && errno == EINTR)
++				continue;
++			break;
++		}
++		assert(p == pid);
++		assert(WIFSTOPPED(wstatus));
++		assert(WSTOPSIG(wstatus) == SIGSEGV);
+ 
+ 		if (rv == EXIT_SUCCESS) {
+ 			rv = test_proc_pid_maps(pid);
+@@ -525,10 +531,8 @@ int main(void)
+ 		}
+ 
+ 		/* Cut the rope. */
+-		int wstatus;
++		kill(pid, SIGKILL);
+ 		waitpid(pid, &wstatus, 0);
+-		assert(WIFSTOPPED(wstatus));
+-		assert(WSTOPSIG(wstatus) == SIGSEGV);
+ 	}
+ 
+ 	return rv;
+-- 
+2.43.0
 
---
-tejun
