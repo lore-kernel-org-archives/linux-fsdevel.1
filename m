@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792776231;
-	b=J87Z9bN83Crq+oBr48aTNiZhJRsgTiESDed6nePxwUaoMNJFbJBWE7sjUQFQUYc9r9xz
-	 RbAv+SgWtMT8bkfRNU48L4vACqcIJ2nQFkCG/Ol8EdY3xMD4kY0U5Xx0FtvFCR9PFx0nJ
-	 Pz/T5084Wj0VnToC2ib6kg2Nm/KvE4s4ic+z53wXn2oSOL+VLp70L11NhVq7b8m3ib7/n
-	 dE4ByP+By7EIBwIbp9E3xyqrme1VqdndOK7qZ0dbNlWcqhrt/21yekR0BS+kBZ0w/PGEe
-	 oZH3WZftjuYOFxZwPb7k6YLi0WuKyCs2qAZYu0o/8f3ntuo7HrcM4o7J1j5LLf4HaTA==
+	t=1792776556;
+	b=rc9w9CsNgfUVt1ClvDhEqItaEAJ9yVZ18zly+LaxFy69TlxTKxLth8dVmQHh2h5Ry9cB
+	 iZoCACNlHstE8GAPE2iDIxaYYw2AmrBAvZcY6q91yN7O0sq0nDdNjSrlOyFKME47BDfPu
+	 Xmb+Mg+OrrQeX7VSQAFEo1oro78oYWN7Q8zw9q9tcUi5ggVzHnX18l26bfQfjqbC03PpO
+	 wFowCQqyc43SveBzsOYymwm/QVKATYLE72uSZhpsVaEU+PyUtLlRtNDEuQwRweqoG3n0/
+	 UUID3NcC/EEDkEZQ0DKkGT3ZfeWeGGDZVy1xrwCrznzI0ftQOimjcCL8y+W5G39+xyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792776231;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792776556;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=b9U8BJjnSyQLu8vlmMN8CV+h3S1yPSnSBNwOLGcNxzs=;
-	b=iP5jjkPvvxOrEV+AYga1zKxeimIlb+/LfhMtSCOe4nYJhqYg/AWGePQExvA9D89Q9erz
-	 iFmE80ArdSkEXFrSZ7u5M7erB0dVDhNlkbCyxPxTbOsvz8CZz6S9oVAXponMHZyrgBV3g
-	 jtjvSSdu0wr3IIrtNAvCUQEf7s4yUTaG6b53sz2TegWbE58COSJsFchFYtxagmhCIOLrg
-	 tAurxXqSCMrTBQPC6eisWgYMiiFTvJEcJoQSrBY8/Osv5yiIKm9ACI5UGztAqOZvBYhQP
-	 xTUIxEbM3TgaoVSS380M+MYgUtbX4m9n8JDGTnbAVc2Fg6x/rfSr5p0IOGJ4uDT5Wdg==
+	bh=3Qj0y3/sB7EeSLYwSP8RPCK8AZrmLUoRtMMcxttoCbM=;
+	b=IXD8r2g8vF8iUWfN5dHYGWQieYuXVrw4VcupIB+2V37v/3N/Ruo/9GXDUja0ZmlPK1qr
+	 0dlwQziNWV4CGhZRdVXRIPtQVpiVDP4tT3S0ViPuPF2Lc9eCG/4lbru/z4OzhL15I9NE7
+	 FTf/B0EIqW2DH8TXUb6X9x6A7ogUhlqHdfBvpSD/qjbi1PfUhQCCLkPPEkpA4dhqpIni/
+	 O8XVoYEXDEvvhp9LO2IuJIZhtXE4zYxQrELEtBjytJhbtNaAeg4Vz7KJqtrSG+YuEXnOk
+	 FgOpvShFidbjwOgmyM8mBioeB3c82LZ9bdCbmV8FTZJ8x7MrDN9rJJHiO/ZADMz/aIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="m/lj/Off";
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FsXey+P0;
+	arc=none smtp.remote-ip=209.85.221.50
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E77B606A31E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 17:23:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E77B606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA7C606A31E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 17:29:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AA7C606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=m/lj/Off
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a1698ea378so8163005e9.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 10:23:51 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FsXey+P0
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48b042c0728so362503f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 10:29:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792776230; x=1793381030; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792776554; x=1793381354; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=b9U8BJjnSyQLu8vlmMN8CV+h3S1yPSnSBNwOLGcNxzs=;
-        b=m/lj/OffyrqASJ7/+k2ndy3ARnMmZ4ngzDDHOfoxfIyRpwQk+KAsWUQg3rrdg+qaNN
-         3TFoyZ+aewF8WQz7pGfyEVXk5pHwaqut5XJ5xuFHCeBh7vAoOzdEgwybgifqnIAZykIF
-         avAi8vIkMrmNGJPtKRcrpQfo9ODQv0n4tbspV4EXY1DvEzOb+OeH8TwDdedQ8F/jexXy
-         rs4p9x1faefX53U5CkJj3x29eWfVs5Ga8NTm2vD010Jv9UP2rh6zuzJFkWQHRz18S/te
-         y0hZ3bPqJeoOiYzcQCyxNZqytGu/jC/a9iGP3pmR3VmnMEoNj2iCNmhJDNd8HzM1Ilsh
-         GG1Q==
+        bh=3Qj0y3/sB7EeSLYwSP8RPCK8AZrmLUoRtMMcxttoCbM=;
+        b=FsXey+P0eeIEmJhBgBeUCGTebbSsxCz3o6QZLKul+LrAXxI5Iq6haR8I+mfQ26X3rv
+         jdictCITfezDnQnCYZ7j4HTg/tTcyUC/Drgp3vmWKgBrr8QxD8Lc9OWWfgyy8NXh/aVp
+         FU1i0kULfGHjxWSDkzzHhNYPQMA22NfAV96rytMgupGsdGonuZFqafUHqB4ni9qYpDM0
+         pMnX6nPNZmJtDzCa3r+7pjhGX+9lIH4WS1e9IAJRnvCXCHaSmtntU37q/aLnIzJzsrgt
+         wez8tRl8q/zWBYrqF7uksh+EHPqd6RxIvPagUfBww3wDRIPgVXt5ZOLUSwxJKgSTrUuS
+         E6Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792776230; x=1793381030;
+        d=1e100.net; s=20260707; t=1792776554; x=1793381354;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b9U8BJjnSyQLu8vlmMN8CV+h3S1yPSnSBNwOLGcNxzs=;
-        b=09+uZ7ztwz9RmfViV/HAaaULAGDB19E2j0hQvUJaGIiKOih1yn+auAdV3fnUwPOnTk
-         gg8BW/k+IHR+YObH2WomZkxKmresbSuxIAsGpUfoSVu9jSyvOSrEZcKOYdLK9mpxpNFb
-         66Zm2gUUfUxA0ZF5rukukw6OUBOjMCC8C6wsdJdjIiNFXqtsAdC6rofAP+Yp+v7H4X8X
-         FF2Ffua2izRXX1JuNaTWSKUIDfw+rvrTM9V1BI1iZsWdlna3Kh0i3ZOUAy5LVX7N7eq3
-         E36bAhIQTJV3kh7diAjF5Ys2beueys8xbUbUSBt2YaCy9IQxnCWqMh44Y8A15oKCaw2v
-         78Jw==
-X-Forwarded-Encrypted: i=1; AKwUvBxhz+QqenLPNmAkpB61lo+CDjInDE/WFs763QaDuB4zQh2GYTToVOQzFwocod+SqyT+bJLfylVt9Zoxrr4S@vger.kernel.org
-X-Gm-Message-State: AFq9FYIBOgEpdgN5XdVwDkX+KJScoUMxR7CS4UoTgZ5v4DcztmIZYzi0
-	oQJ+0mWccAO61RMfj3r0tkIEOpp+tvPRHNNv3ut24v4wFL/qextuPJGy
-X-Gm-Gg: AYBFou0SfERAytmV/MGAKDYchiBaUqU9mhvGdCbZDjSNIZjMWAgBxLeeNYnNv7NFiQ4
-	aKOFdqYczTo/4mQBf4iQ/ksVCRueXQCq6Nd2xgPlq43c5zsyNWjPYdI9ufsS7WXkJvCcLpnmDF+
-	n3r66sq8tTDyo6oq2d8+CxvQ/iZbFwP/vLTIKiWjm+jmG10AKSBFph9TIj2dRYQroO/4dWZIypG
-	O/uuAAvAwbuv2Kg9G/iK+9sz7A+h3mNkJaOh5e3pdIqWjVBBG4+IlySbZqwPWJ1PybhzvSBhGWG
-	69Q5b5Zw/DFizi5OTvIKiLPkWL8oKRb70gH6C78DA5jWUz5f2dVvUUVB7k6+PbQr8P6oMDMrEOe
-	gv+GH1ol9M2YSRt5cqgf6Bh35t8pBoSYNCQA0Te7bimO0RRPI9O0HknWeSz5vTmscUUN+PIrNoq
-	oGD6OUEXKuFwoB0e8wNoTI9RYFNbUjCoCCpB48coJWQAoYFgKbuiIQYbknATqGB+i1yLEDqq7hf
-	kzIeLejqrm2I6U08JZAXaYQvmyJo6dWwCb3IAB+d2NNzgdOBi8tVeyRRf1g4EeFATrlus59CBUV
-	MuWeGbYUkaEIl68Wt14lR+4Hsb9ZuhypTJlFl7tNAjzGSMFnDY3aaxeEW3C/MPtb9IQQjLihc2Z
-	ybxNoQxIX1bKMb7iW
-X-Received: by 2002:a05:600c:354c:b0:4a2:1197:1de0 with SMTP id 5b1f17b1804b1-4a211cb23f3mr50233895e9.19.1792776229374;
-        Fri, 23 Oct 2026 10:23:49 -0700 (PDT)
+        bh=3Qj0y3/sB7EeSLYwSP8RPCK8AZrmLUoRtMMcxttoCbM=;
+        b=vs2g5ck+eBFVwIyFPjVdiPYWBeIqrfzN2aLI3KuGbz7UbM4aBJltXJkA/AfSAx1k8W
+         R70V5wzGdip3JzIKAaFcFxYDVodDP4iF293kP1RtJop+Iv09fvkCV8BAD++9Kc6Whzh3
+         jsk4AymrZzCva4CJiAxQ0K4XBkzOhTusYlXKa9NWjbxEL3m4w2/5+aLg19OgEcgkI0Vn
+         zTCa3THSF6ifDt6mbTPBlHPLgq3YmkIhSGcYVdjxEBiigf7DVmg/GsCEG1mtAYNXIkmb
+         GM7fBU2QPsOeyCwV2dMYsTuj9phSmTUk5h200V++u5AbzzLXZI7AakS4AdytJunEflHa
+         LRGw==
+X-Forwarded-Encrypted: i=1; AKwUvBxBV/T/ORg+u1ZdNY42qdzouy/1DsPe0I7W7zxoOwIjePMpzM0BCb1OylfuLlqze/W+YDJBY084YRAjRVcX@vger.kernel.org
+X-Gm-Message-State: AFq9FYJgof1dRwG9ubWmuQnK8ccmyQPBrBkylYYdekaiIlAACMs61gq/
+	MWBWNBSNjXeDD4jbMI+3MYXiiMzUZxI3PHZMiay/cN6JchjEKHWC64gP
+X-Gm-Gg: AYBFou0ZyGqGKofjCL7l3MMpNw2RHKfWGsSNta1yUrbJZ2IqsRNyoVduMi3AfDMMTEk
+	RfaEUUFldbHnBv7jswsTNQnEeVGpdirq1WlV63m8lgr5pSEZPt8o8IQ60+VsH1Wt+mV2QAE/xOZ
+	YyqbtYWqPgkXSPZAoS2RFrZt50z/yKBhZs4Iks6CI9T252Tzq3eV0/e7pXpopIh93O2UXviJjEm
+	SYB/5/UoEbKHTZlbp1JNvg46u3CCe2HRvXbFL6WhS4K6aUeFujRHbAqr7Twbg4JbOIM5+jRpCo3
+	Inq4mKL4GmH4oW+0sOMo9bRygHjgFjw/jTBCrC9ZuOA70TH+I/WjiUTz70aTQsZ9ObwYFNnHHhA
+	Qkb7OiT0xkl+pvk8+oBwl/w7z7LvgzRUhvAgB7jHfm/jSnvU4dlwp24tc1As2K/sT1RPIYxcEGV
+	gU9Mxv6In6t8gt1RpJmRhQu7eRatxkx/gLWw9+uxHE38eSf/L3se2CtMhOmdA0V8jOBwCIgdLbg
+	nc2nUN5p9pmzHyBYRYZRcAurGHxzCQmWRsoJ2wuhcG/Gxq2C7XWSGnlvj0YEdZWqOupy6TaS/L/
+	9BsgnDOYU2oqu5ENtZ7lTjHqYt95FEnQw7/W3QaVPix0BWxLChSv9aw8BPrvu+MM8N4pRVHv0be
+	8p/lDWvull6+savgJ
+X-Received: by 2002:a05:6000:2004:b0:486:f9ea:796f with SMTP id ffacd0b85a97d-48e387d65ddmr4932292f8f.41.1792776554351;
+        Fri, 23 Oct 2026 10:29:14 -0700 (PDT)
 Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a30764e9e7sm17932475e9.2.2026.10.23.10.23.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d4144f8sm1120262f8f.41.2026.10.23.10.29.12
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 23 Oct 2026 10:23:48 -0700 (PDT)
+        Fri, 23 Oct 2026 10:29:13 -0700 (PDT)
 From: Fred Griffoul <griffoul@gmail.com>
 To: Ackerley Tng <ackerleytng@google.com>
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -156,12 +156,12 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	linux-kselftest@vger.kernel.org,
 	linux-mm@kvack.org,
 	llvm@lists.linux.dev
-Subject: Re: [PATCH RFC v2 31/50] KVM: guest_memfd: Support getting PFNs for stage 2 from providers
-Date: Fri, 23 Oct 2026 17:23:47 +0000
-Message-ID: <20261023172347.88443-1-griffoul@gmail.com>
+Subject: Re: [PATCH RFC v2 34/50] KVM: guest_memfd: Skip checking outstanding references in PFN mode
+Date: Fri, 23 Oct 2026 17:29:11 +0000
+Message-ID: <20261023172911.17557-1-griffoul@gmail.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261022-gmem-alternative-providers-v2-31-5dd1dc6c660a@google.com>
-References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com> <20261022-gmem-alternative-providers-v2-31-5dd1dc6c660a@google.com>
+In-Reply-To: <20261022-gmem-alternative-providers-v2-34-5dd1dc6c660a@google.com>
+References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com> <20261022-gmem-alternative-providers-v2-34-5dd1dc6c660a@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -173,23 +173,23 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> +	int (*get_pfn)(void *provider, pgoff_t index, unsigned long *pfn,
-> +		       int *max_order);
+> +		if (!kvm_gmem_is_pfn_mode(gi) &&
+> +		    kvm_gmem_has_outstanding_references(inode, start, nr_pages,
+> 							err_index)) {
 
-Should get_pfn() also return attributes of the frame? Only the provider
-knows them, and every mapping of the frame has to follow them. Two
-examples:
+In folio mode this check is also what guarantees that a private page
+belongs to the guest alone. In PFN mode there is nothing like it: if
+the provider also exposes the frame somewhere else, say a ring shared
+with a device, the VMM can still make it private.
 
-- Read only. A provider may lend a page that the guest can read but not
-  write. I know you dropped this from the sample to keep things simple,
-  but without it guest_memfd maps every frame writable, and there is no
-  other way to make a guest_memfd page read only.
+And it is not only this guest that suffers then. Whoever else uses the
+frame breaks: an RMP fault on SEV-SNP, a poisoned page or a machine
+check on TDX, a granule protection fault on CCA, or, with
+SW_PROTECTED, silent access to "private" memory.
 
-- Aliased. The frame is also reachable somewhere else, e.g. a ring
-  shared with a device. Such a frame must not become private; see my
-  reply to 34/50.
-
-A u32 of flags, with 0 for today's behaviour, would cover both and
-leave room for more later.
+Only the provider knows about such frames. With an attributes output
+from get_pfn() (see my reply to 31/50), it could flag them as aliased,
+and guest_memfd would keep them shared: refuse the conversion, treat a
+private fault as a hole, and refuse populate.
 
 Fred
