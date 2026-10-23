@@ -1,55 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.42.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792727015;
-	b=edQd2his5XX0aBTEHFKJ/EJoV34eFobOmb3EZtHSzp+6TJKxbCJC4y1bYNNU2VqN+yQG
-	 JfaBaCn2xVHJX2RoLVEnWJWNLImTDq3rbQ0riOZy4m59qwZ+q4hePKwUpdEmjoATfs/A/
-	 7seUphhXWDCbzk7XvUznXCFJnPFAQQO+R8fs62BcWUoAjj+TavPPqqdJPAJFOFNx18wGF
-	 /xxifPa0FwvCRFTPaSnOXomYo+e36992x2kVn9jXYiXyzu/cAn9uX0kquIrI3qYf1Ibjv
-	 9KpZaOfSbyZn9Tgj6ehA+4U3H8eOFFHjQvy67lC9M14ZDSfQEqOxliwWdUndmizRpnw==
+	t=1792737102;
+	b=TS5548k+iAHufYgIiUYXNqKtGMyUZMoZTRO1guZIi/hgpZjcOx86YjNPP5dv6SQZ+GaH
+	 Gsy0D+V7+SJ2kyDKSpTg8/cAYO6TK5/dQuBPBxEPW2tAeZ5Hsn6PzazkKmjWI7kFDM0XO
+	 NV7kRDn0183vM6V+VgIdSmA0XHDyb/8VGRm3vc/LKshW0fJ8fpUsshTjIYmNiIB0nBy9+
+	 ntmL9VJs9sNtB67REuvR7XL7piv1S+1iUDKDs6oOqTvZuuUhVmDJWqn1SZ7gkceeh2ssU
+	 Gtx9WGMPWbQyf/UpgSP4YVsWgInhp7NI4GgX7MOrRwX1bnuDSjvOTKfTDGTL6jw/jzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792727015;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:MIME-Version:Date:From:
-	 To:Cc:Subject:User-Agent:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=E50/RBqF2TPivq5LvTrJausyxc+RJyTt4pm/+y89sBM=;
-	b=bH/NLK+WVKvEcgYxdtW8tTANuE6N2ITd/4fhXtAu4H5+h2q8pKd81EBaXHjFxYsdywd8
-	 ssj2XWHioEqW1VE7HXGVT6hpo/wTUEGO1GAMUqbCj6xDocSopYBTmmbUP+5ahFxUxlXmk
-	 SM3/94nkSVYWSC8TxyO9SyixZUNhvRfWtDprVsWLUY5/9rIB6QfY8urJlEafQ6rhSC+vQ
-	 D3edDqi6V2xrmVN3XzV3QNvi/0CYNkt27z4tnHEIu0PU5wV2bcC95lnvceBrGJw/7u568
-	 iKGYJS9Mg6qz8AqqfYkQkCTxWdzIrDp8h2DPOqNZE/K0PECgsV5XUMP/NM4gXHuYapQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792737102;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=33tGxL4pQ37PAm6R2PA7y86/iQoPs+fP5QCASbIaiW4=;
+	b=xn1+RmYFdw7qrRYR9dl4JePRPxfSHmmoUuaMKbgZZPOQAU8LUTVS6MbyGc47mZGqmVMA
+	 9hTK5GHmkortqh/zmUl090slU7WW19KEOc/khfyQt8XE7JZiE8qgBaiDJ/eO1Kti9f0PI
+	 qzcEO95xoZzoJor2hANil8Yo/0sqFeiN0KWxzcn3SFcHtjmeHStqPTepLi10yjPOZ3IWO
+	 evsgaKf9GmrBjAUeMMfcNX8c+IgzgehralFgEcmf/hjRqa7AKO7RQhQKOBzZPP8OdZdl2
+	 ei84XwgD2c79KBKlc4HQnYg9BlEbzOf+pFLcu4BNZQKHr6kX0qNZr0u6HsvLcXsVqiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=free.fr;
-	spf=pass smtp.mailfrom=free.fr;
-	dkim=pass header.d=free.fr header.i=@free.fr header.a=rsa-sha256 header.s=smtp-20201208 header.b=Jl4vS7cB;
-	arc=none smtp.remote-ip=212.27.42.5
-Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fjsQ8MHy;
+	arc=none smtp.remote-ip=113.46.200.222
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0364606A31B;
-	Fri, 23 Oct 2026 03:43:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0364606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2176606A31B;
+	Fri, 23 Oct 2026 06:31:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2176606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=free.fr header.i=@free.fr header.a=rsa-sha256 header.s=smtp-20201208 header.b=Jl4vS7cB
-Received: from webmail.free.fr (unknown [172.20.246.1])
-	(Authenticated sender: test75@free.fr)
-	by smtp5-g21.free.fr (Postfix) with ESMTPA id 730495FFAF;
-	Fri, 23 Oct 2026 05:43:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1792727006;
-	bh=F9ALlbO6u0ptGfAVky2KFCZatwTm+yxf/LlcIJ/3bCQ=;
-	h=Date:From:To:Cc:Subject:From;
-	b=Jl4vS7cBMMSYgd0Gi8cFm9hkBEujPmkxWDhrrPtHdumoZu/VMPvc7UwtlG7NkP0Fy
-	 T57xROUcPRy+qktmzRV2bg4mcLk+lBdZoRyS0+9fhxtljxGCSlvXDk3v4q6Q8cMZgm
-	 6qbmAyLBor0Bx/PJZRqdVOSfj6KDQZH2nQqhSyztHmYvJSUWK77Ob9szG34oKvuYh+
-	 SaIoRUme3+hbCgyKICv6fiMGalM22Chaz/yftGCL9Eju1sE+kyP+G5TQgsyJF/nXBH
-	 PaUN91dRINMXytNi5m0HdSZmh3g/W8788Nwowrd2EvDz6XX1Ht8Z3AY1Ij4vbM94XI
-	 EaSkM5Ho9bnBw==
-Received: from 2a0d:e487:69e:6c5b:3ffa:e9c3:575:b5f7 via
- 2a0d:e487:69e:6c5b:3ffa:e9c3:575:b5f7 by webmail.free.fr with HTTP (HTTP/1.0
- POST); Fri, 23 Oct 2026 05:43:20 +0200
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fjsQ8MHy
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=33tGxL4pQ37PAm6R2PA7y86/iQoPs+fP5QCASbIaiW4=;
+	b=fjsQ8MHyFLg2DKpb+rChWOhrQ6Agx+aJ4B3WloBfzhk5I42lfFR8N28XAuSRbTqFZgHgChm3O
+	4OwNSVOJK87cDrNiMupTVhF9pAM7IdBGhA0OswOr1fHmf/8LmJiA8sNJ5JxoASQ+9LC7G7GDo6P
+	DlcW4ZEJB+N+XLWejTOA2kU=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4j9tTJ5rsczLlWr;
+	Fri, 23 Oct 2026 14:31:32 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id 10C6B40594;
+	Fri, 23 Oct 2026 14:31:36 +0800 (CST)
+Received: from [10.67.110.140] (10.67.110.140) by
+ whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 23 Oct 2026 14:31:29 +0800
+Message-ID: <a2832263-3e3b-4d05-98bd-dc006d5be689@huawei.com>
+Date: Fri, 23 Oct 2026 14:31:28 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,76 +62,66 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Fri, 23 Oct 2026 05:43:20 +0200
-From: test75@free.fr
-To: linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org
-Cc: miklos@szeredi.hu, senozhatsky@chromium.org, peterz@infradead.org,
- rafael@kernel.org
-Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
-User-Agent: Webmail Free/1.6.20
-Message-ID: <ba420b83d986313239d1252a94315790@free.fr>
-X-Sender: test75@free.fr
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 -next 01/18] fs: pass struct path to notify_change()
+To: Christian Brauner <brauner@kernel.org>
+CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
+	<jmorris@namei.org>, <serge@hallyn.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <ast@kernel.org>, <daniel@iogearbox.net>,
+	<andrii@kernel.org>, <eddyz87@gmail.com>, <memxor@gmail.com>,
+	<martin.lau@linux.dev>, <song@kernel.org>, <yonghong.song@linux.dev>,
+	<jolsa@kernel.org>, <emil@etsalapatis.com>, <ihor.solodrai@linux.dev>,
+	<rdunlap@infradead.org>, <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+	<dakr@kernel.org>, <johan@kernel.org>, <dlemoal@kernel.org>, <hch@lst.de>,
+	<axboe@kernel.dk>, <viro@zeniv.linux.org.uk>, <jack@suse.cz>,
+	<dhowells@redhat.com>, <code@tyhicks.com>, <linkinjeon@kernel.org>,
+	<sj1557.seo@samsung.com>, <yuezhang.mo@sony.com>,
+	<hirofumi@mail.parknet.co.jp>, <cel@kernel.org>, <jlayton@kernel.org>,
+	<neil@brown.name>, <okorniev@redhat.com>, <Dai.Ngo@oracle.com>,
+	<tom@talpey.com>, <hyc.lee@gmail.com>, <miklos@szeredi.hu>,
+	<amir73il@gmail.com>, <senozhatsky@chromium.org>,
+	<chenxiaosong@chenxiaosong.com>, <kpsingh@kernel.org>, <matt@bobrowski.net>,
+	<rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <john.johansen@canonical.com>,
+	<georgia.garcia@canonical.com>, <zohar@linux.ibm.com>,
+	<roberto.sassu@huawei.com>, <dmitry.kasatkin@gmail.com>,
+	<eric.snowberg@oracle.com>, <stephen.smalley.work@gmail.com>,
+	<omosnacek@gmail.com>, <casey@schaufler-ca.com>, <takedakn@nttdata.co.jp>,
+	<penguin-kernel@i-love.sakura.ne.jp>, <xiujianfeng@huawei.com>,
+	<nanx95726@gmail.com>, <djwong@kernel.org>, <lujialin4@huawei.com>,
+	<bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+	<driver-core@lists.linux.dev>, <linux-block@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <netfs@lists.linux.dev>,
+	<ecryptfs@vger.kernel.org>, <exfat@lists.linux.dev>,
+	<linux-nfs@vger.kernel.org>, <ntfs@lists.linux.dev>,
+	<linux-unionfs@vger.kernel.org>, <linux-cifs@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <apparmor@lists.ubuntu.com>,
+	<linux-integrity@vger.kernel.org>, <selinux@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>
+References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+ <20261015125425.3246251-2-caixinchen1@huawei.com>
+ <20261021-nanotechnologie-gebadet-gepaukt-52a950759f0a@brauner>
+Content-Language: en-US
+From: Cai Xinchen <caixinchen1@huawei.com>
+In-Reply-To: <20261021-nanotechnologie-gebadet-gepaukt-52a950759f0a@brauner>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
-Hi,
+Thanks for the explanation, you are right.  I will restore the idmap as 
+a separate argument
 
-A field report that may help with the design discussion in this
-thread. It is a case where freeze ordering alone would not help.
-
-Setup: Ubuntu 26.04, 7.0.0-38-generic, Framework 13 (AMD, s2idle),
-systemd 259, rclone 1.60 FUSE mounts (Google Drive, SMB, SFTP).
-
-On lid close, a gvfs backend thread was in statx() on an rclone mount.
-The rclone server was not frozen. It was waiting on the network, and
-NetworkManager takes the Wi-Fi down as part of the sleep sequence.
-That dependency is invisible to the kernel (the same point as the
-sshfs/ssh example earlier in the thread). The request never completed,
-so every suspend attempt failed. With the lid closed, logind retried
-every ~100 s for 6 hours (about 210 cycles):
-
-   Freezing user space processes failed after 20.003 seconds (3 tasks 
-refusing to freeze, wq_busy=0):
-   task:pool-906  state:D  pid:153003 tgid:6222 ppid:4922
-    request_wait_answer+0xd8/0x280
-    __fuse_simple_request+0x11f/0x370
-    fuse_lookup_name+0xd6/0x260
-    fuse_lookup+0x9d/0x1e0
-    __lookup_slow+0x86/0x150
-    lookup_slow+0x3c/0x60
-    link_path_walk+0x348/0x410
-    path_lookupat / filename_lookup / vfs_statx / do_statx
-   task:pool-907  state:D  pid:171158 tgid:6222 ppid:4922
-    request_wait_answer+0xd8/0x280
-    __fuse_simple_request+0x11f/0x370
-    fuse_dentry_revalidate+0x146/0x410
-    lookup_fast+0x15c/0x170
-    link_path_walk / ... / do_statx
-   task:pool-908  state:D  pid:197388 tgid:6222 ppid:4922
-    d_alloc_parallel+0x37b/0x460
-    __lookup_slow+0x5d/0x150
-    lookup_slow+0x3c/0x60
-    link_path_walk / ... / do_statx
-
-Two observations:
-
-1. pool-906 and pool-907 would be covered by a freezable wait in
-    request_wait_answer(). pool-906 sits in lookup_slow(), so it holds
-    the parent's i_rwsem shared at freeze time.
-
-2. pool-908 is the third task. It is not in FUSE code. It waits in
-    d_alloc_parallel() on the in-lookup dentry owned by pool-906. So
-    even with v2 applied, this suspend would still have failed. This
-    matches the "contended VFS lock" limitation in the v2 changelog,
-    but here the second waiter is a plain uninterruptible wait in the
-    dcache rather than a lock. This pattern looks common in practice:
-    desktop indexers and trash/thumbnail daemons stat the same
-    directory from several threads.
-
-The same signature shows up 1,000+ times in this machine's journal
-since April (gvfsd-trash, localsearch-extractor as clients). I can
-provide the full logs.
-
-Thanks,
-Phil
+On 10/21/2026 6:21 PM, Christian Brauner wrote:
+> On Thu, Oct 15, 2026 at 08:54:07PM +0800, Cai Xinchen wrote:
+>> notify_change() takes a struct mnt_idmap and a struct dentry even
+>> though all of its callers either already hold a struct path (or a
+>> struct file) or have to pass &nop_mnt_idmap because no idmapped
+>> mount is involved.  Switch the helper and its declaration to take a
+>> struct path instead and derive the idmap and dentry from it.
+> No, the idmap needs to be passed separately. The whole point is that
+> during path lookup mnt->mnt_idmap can change. So mnt->mnt_idmap is taken
+> of the mount at the time it was checked and passed down to the
+> filesystem so that the VFS and the filesystem are guaranteed to see the
+> same idmap.
