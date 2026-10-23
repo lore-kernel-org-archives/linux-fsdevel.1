@@ -1,51 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.230.115
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792753995;
-	b=xDAkvWxy/Bx/nblpkpwF6WhyeOf8fzmXE+LkZ4LrGoc5+LQQ+WxB3am2rPGIDVZ5jWgX
-	 M3cEBkq44q/920TV90a6ajZWNQnXh+HZWB29AxAPnMjnD47GjaiyXMYB9Byb1AJQzBaXa
-	 WVWfQDbTrCvBQqa/aU/lLsCvDz4rYPnc7k6cZwyoIvG3krQgX8YAN9Tb4sRi7MROfmHgP
-	 6OVTa80Ln72bHln4A1qjXg/W59Ar/cNrm8VPY+lR2mny1THBMO/P5RDsITzd4iqbTdRBQ
-	 rhPxbG6PwgWKffuJ9nbGPzWoQ2m3cxGKT4WpMWsepD6Mf/gmabcnXr+MiP0GPXz29Jw==
+	t=1792754901;
+	b=QUOmSSpN3rnJPzNa8ThF5KGkCRqT065D6ztKvedt/KSi0RdULZUThEJ0z+W4dgQEvBmk
+	 0dvD5qTTHt5dun7bh+7cMV9QcA92VOGn5zS2vsDmVFpttNAscSOoP6MDXNuyCcbtj3H4I
+	 EMkgCeMAglg8Ya+JuQWe/2iXmCpdldEjGPjr3xUlGWf68nJhYBuHu1qGP9OapavxE9x9S
+	 Dbc9gzarVh7G0LF/tZqTnSY7Uhv806TR1k9L6NzT1VodM1VGfkJQBETQ2/lCoxNnC5IYf
+	 wC0NCujkNwFf57eMJRQ91GONnsvEZcmrfeSKlggVsYxht1IzGGRXZF1VJD29A1pPByg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792753995;
-	h=DMARC-Filter:DKIM-Signature:Message-Id:Content-Transfer-Encoding:
-	 X-Original-From:Mime-Version:X-Lms-Return-Path:To:From:Date:Cc:
-	 Subject:X-Mailer:Content-Type;
-	bh=wNDIMRkMF3tcEtSy4kW/MkLFNBn6nfDXBhXmfecsvyw=;
-	b=4zrzGVNnVyv4n+r4ebFgD68B9jfHEz/6awbff48kv/gTk/AYqMLq7VtZ5sMNHA9B45Vd
-	 f0D+CuW/po/TOwz851g7i+pyStw8MJvnf8e4WzcVaShbXa33/o2ynOOnlbvEsTDz9/BBM
-	 B/fW86uYXDSYwF+Eum+AizYx3ZRQd+3iez47b4iQ38z9kihaxO2aqHSL5TQddyOfTQCoR
-	 BvYe8LRVCbGBqwBqI9Vs5p0Uzmgz8JrTiTbRWA/avxvvh0+FACqJMJj5tNM6vRBIrEEdp
-	 Px8ySTs5GAAOg5z6U8opBCE2EVD4oWnN3/REf4LwttzoZgKwFUW+V/jrARGo0rEG+TQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792754901;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=4KzbfWb4R5EF9vQndbPyhzkZkHPodQ4prV025x9/ldo=;
+	b=AijFimZOJWbQFW/T4tH3rSpJCDqyOT8GlVnEvL8dOvJrZPjkneM/h2qOPZU/W6MRIpc9
+	 JPecSgV1BwtuDTKLtXoAnpdK2e1p7g8I6ZkdctyJE6othLd9Yge0YAwo3pTThTg13dsW4
+	 y1c/YDcPohBz3o7XFesHQpnvBuYGS1V7481PsBKOB5zjxPPgxV6ps4bXycFdYFD9RZhj9
+	 pUKhoG++8sLJLEo+TJPWypRIaCyPwGHn/Y9CI34xy5lWQnrL7gRAgMSaFICFTonabaJDB
+	 VTz0IXaGOTUdqPdD9HdRChYpRUnzFXpzLIhWiuV4jmqeoq08Naf6604saf3/LDsbTgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bytedance.com;
-	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=FHaYMkIR;
-	arc=none smtp.remote-ip=209.127.230.115
-Received: from va-1-115.ptr.blmpb.com (va-1-115.ptr.blmpb.com [209.127.230.115])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kKGPAaof;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864C4606A31A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 11:13:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 864C4606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD9C606A31A;
+	Fri, 23 Oct 2026 11:28:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=FHaYMkIR
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1792753988; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=wNDIMRkMF3tcEtSy4kW/MkLFNBn6nfDXBhXmfecsvyw=;
- b=FHaYMkIRJZ+M7OQ3Jls/nE397gb1s9X223X7Phd7w7IUfDzfVhyJQCBrn/mFKv/iGO3w6B
- yCilbOTPmILFhoh6VSSmiF8zBuDx7Ora8PNZdWg6FeEVOIY5fdL5rlwsJwsqY0lixqNwwB
- 1fJzfQPuMs8zanv1uBTnV7DJJN3u/u+YhxTKMt3dvAVvYi2DsHUOfYM7lCxlTotdHotYYj
- R2CX3UIwJAxULEJe2Nel77O+zMMa3TMgDHjANirarghJtEdhaJLxdl90kaaersWapgo95p
- MZsygacZGVZZYOtpoO32jNY5IE4glEzscpHg0Kbl64SQ9bFx6jFrNYrXPuUuIg==
-Message-Id: <20261023111250.17696-1-zhaogongyi@bytedance.com>
-Content-Transfer-Encoding: 7bit
-X-Original-From: Zhao Gongyi <zhaogongyi@bytedance.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kKGPAaof
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F04ED1F01825;
+	Fri, 23 Oct 2026 11:28:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792754900;
+	bh=4KzbfWb4R5EF9vQndbPyhzkZkHPodQ4prV025x9/ldo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kKGPAaofBrEX7ssLlFpzdZw3es7F0Zv/mPcfDWbhJhFaUcg/SCeBw9GLn4abp+5hD
+	 nTWKoDrbvJqwjAQ0hMn62gCFhAmCiYRJSAsi+AtQgM2APlcILhrMbQMs1r7yQoiPAA
+	 rXHiFbZ36uObjTepfLoo74ryNPGF3+a+ukmv53FCOXrVd9AGdOs4QfE3Uehz1yJ6ck
+	 mYFivhGed/lsICkoBuikZJKTdw+ulAxxXvFER1mtALtgQN5DkqW15+QfOvZTaQdpmx
+	 9UMz7N0EtQ6S6KEpxShco6Fza1eEtmBFsjX+rAdcHaPawuLokt8AXmABDXDjtG+BmH
+	 MsDzshzGMrs+g==
+Date: Fri, 23 Oct 2026 13:28:11 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v6 1/2] man/man2: introduce man page for file_getattr(2)
+ syscall
+Message-ID: <attEnAMmcV2YuwtN@debian>
+References: <20261021141010.314835-1-aalbersh@kernel.org>
+ <20261021141010.314835-2-aalbersh@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,114 +57,338 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-X-Lms-Return-Path: <lba+26adb4142+b492f5+vger.kernel.org+zhaogongyi@bytedance.com>
-To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
-From: "Zhao Gongyi" <zhaogongyi@bytedance.com>
-Date: Fri, 23 Oct 2026 19:12:50 +0800
-Cc: <jack@suse.cz>, <jlayton@kernel.org>, <cel@kernel.org>, 
-	<neil@brown.name>, <linux-fsdevel@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>, "Zhao Gongyi" <zhaogongyi@bytedance.com>
-Subject: [PATCH v2] filelock: keep superblock active through delegation wait
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="544li3fyfgezh5tt"
+Content-Disposition: inline
+In-Reply-To: <20261021141010.314835-2-aalbersh@kernel.org>
 
-A caller may drop its path after try_break_deleg() returns a delegated
-inode but before break_deleg_wait() finishes. The extra inode reference
-held in struct delegated_inode does not keep the superblock active.
 
-After a lazy unmount, closing the delegation holder can release the last
-mount reference and shut down the superblock while another task waits for
-the delegation break. The waiter's final iput() can then enter the
-filesystem's eviction code after its superblock-private state was freed.
-This has been observed as a KASAN use-after-free in shmem_evict_inode().
+--544li3fyfgezh5tt
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v6 1/2] man/man2: introduce man page for file_getattr(2)
+ syscall
+Message-ID: <attEnAMmcV2YuwtN@debian>
+References: <20261021141010.314835-1-aalbersh@kernel.org>
+ <20261021141010.314835-2-aalbersh@kernel.org>
+MIME-Version: 1.0
+In-Reply-To: <20261021141010.314835-2-aalbersh@kernel.org>
 
-When try_break_deleg() saves a delegated inode, take an active reference
-to its superblock while the caller still pins the mount. Keep that
-reference through break_deleg_wait() and the final iput(), then release
-it with deactivate_super(). This protects every caller of the helpers,
-including the mknod, mkdir, symlink and rmdir paths that drop their path
-before waiting.
+Hi Andrey,
 
-Fixes: e12d203b8c88 ("vfs: allow mkdir to wait for delegation break on parent")
-Fixes: 4fa76319cd0c ("vfs: allow rmdir to wait for delegation break on parent")
-Fixes: c826229c6a82 ("vfs: make vfs_create break delegations on parent directory")
-Fixes: e8960c1b2ee9 ("vfs: make vfs_mknod break delegations on parent directory")
-Fixes: 92bf53577f01 ("vfs: make vfs_symlink break delegations on parent dir")
-Link: https://lore.kernel.org/r/20261016093421.90725-1-zhaogongyi@bytedance.com
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Zhao Gongyi <zhaogongyi@bytedance.com>
----
-Changes since v1:
-  - Hold an active superblock reference in the delegation helpers instead
-    of adding mount references to the four fs/namei.c callers, as suggested
-    by Al Viro and Christian Brauner.
-  - Use &inode->i_sb->s_active in atomic_inc().
+> Date: 2026-10-21 16:10:04+0200
+> From: Andrey Albershteyn <aalbersh@kernel.org>
+>
+> Add manual page for file_getattr().
+>=20
+> Link: https://lore.kernel.org/all/20250630-xattrat-syscall-v6-0-c4e3bc352=
+27b@kernel.org/
+> Reviewed-by: Alejandro Colomar <alx@kernel.org>
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 
-Validation:
-  Built an arm64 KASAN Image with LLVM=1 on af32da41b032, using the same
-  config, guest image, and local arm64 cpufeature compatibility change as
-  the v1 tests. The tested filelock.h diff is byte-identical to this patch,
-  which is based on v7.3-rc7 (24a19b953e2a). Image SHA-256:
-    b7ad342b0020c31ab2be97ceb441ebc38c5840f023350462bb816552fd175870
+Thanks!  I've applied the patch (with very minor tweaks in the commit
+message an the diff).
 
-  Ran the existing syzkaller reproducers under arm64 KVM with procs=6 and
-  repeat=0. Each test had one run:
 
-    syscall/variant    duration    programs    wait stack samples
-    mkdirat             300 s         2028          7
-    symlinkat           300 s         2064          8
-    mknodat S_IFREG     600 s         4168         18
-    mknodat S_IFIFO     600 s         4131         17
-    rmdir               600 s         4174         16
+Have a lovely day!
+Alex
 
-  The stack samples identified the corresponding filename_*() waiter in
-  break_lease(). Every VM remained responsive through the requested run;
-  no Busy inodes, KASAN, WARNING, BUG, or panic appeared in serial output.
-  The unpatched baseline crashes reported in v1 were not rerun.
+> ---
+>  man/man2/file_getattr.2 | 252 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 252 insertions(+)
+>  create mode 100644 man/man2/file_getattr.2
+>=20
+> diff --git a/man/man2/file_getattr.2 b/man/man2/file_getattr.2
+> new file mode 100644
+> index 000000000000..9963eeaa7caf
+> --- /dev/null
+> +++ b/man/man2/file_getattr.2
+> @@ -0,0 +1,252 @@
+> +.\" Copyright, the authors of the Linux man-pages project
+> +.\"
+> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+> +.\"
+> +.TH file_getattr 2 (date) "Linux man-pages (unreleased)"
+> +.SH NAME
+> +file_getattr \- get filesystem file attributes
+> +.SH SYNOPSIS
+> +.nf
+> +.BR "#include <linux/fcntl.h>" "      /* " AT_* " constants */"
+> +.BR "#include <linux/fs.h>" "         /* " FS_XFLAG_* " constants */"
+> +.BR "#include <sys/syscall.h>" "      /* " SYS_* " constants */"
+> +.B #include <unistd.h>
+> +.P
+> +.B long syscall(SYS_file_getattr,
+> +.BI "               int " dirfd ", const char *" path ,
+> +.BI "               struct file_attr *" fattr ", size_t " size ,
+> +.BI "               unsigned int " flags );
+> +.fi
+> +.SH DESCRIPTION
+> +The
+> +.BR file_getattr ()
+> +system call retrieves filesystem file attributes
+> +of the file
+> +specified by path.
+> +.P
+> +The
+> +.I dirfd
+> +and
+> +.I path
+> +arguments behave in the same way as in
+> +.BR openat (2),
+> +with the difference that
+> +.I path
+> +can be NULL meaning an empty string.
+> +.P
+> +The
+> +.I fattr
+> +argument is a pointer to a
+> +.I file_attr
+> +structure.
+> +This structure will be filled with file attributes.
+> +This structure is described in
+> +.BR file_attr (2type).
+> +.P
+> +The
+> +.I size
+> +argument specifies the size of the structure pointed to by
+> +.IR fattr .
+> +The size indicates the version of the structure in use,
+> +and should always be specified as
+> +.IR sizeof(struct file_attr) .
+> +.P
+> +The
+> +.I flags
+> +argument contains a bitwise OR of zero or more of the following constant=
+s:
+> +.TP
+> +.B AT_EMPTY_PATH
+> +If
+> +.I path
+> +is an empty string,
+> +operate on the file referred to by
+> +.IR dirfd .
+> +In this case,
+> +.I dirfd
+> +can refer to any type of file,
+> +not just a directory.
+> +.TP
+> +.B AT_SYMLINK_NOFOLLOW
+> +If
+> +.I path
+> +is a symbolic link,
+> +do not dereference it;
+> +instead,
+> +get attributes of the symbolic link inode itself.
+> +.SH RETURN VALUE
+> +On success,
+> +zero is returned.
+> +On error,
+> +\-1 is returned,
+> +and
+> +.I errno
+> +is set to indicate the error.
+> +.SH ERRORS
+> +.TP
+> +.B E2BIG
+> +.I size
+> +is too big (larger than
+> +.BR PAGE_SIZE ).
+> +.TP
+> +.B EACCES
+> +Search permission is denied for one of the directories
+> +in the path prefix of
+> +.IR path .
+> +.TP
+> +.B EBADF
+> +.I path
+> +is relative but
+> +.I dirfd
+> +is neither
+> +.B AT_FDCWD
+> +nor a valid file descriptor.
+> +.TP
+> +.B EBADF
+> +.I path
+> +is an empty string,
+> +.B AT_EMPTY_PATH
+> +was specified,
+> +but
+> +.I dirfd
+> +is neither
+> +.B AT_FDCWD
+> +nor a valid file descriptor.
+> +.TP
+> +.B EFAULT
+> +.I path
+> +or
+> +.I fattr
+> +is an invalid pointer.
+> +.TP
+> +.B EINVAL
+> +Unknown flags specified in
+> +.IR flags .
+> +.TP
+> +.B EINVAL
+> +.I size
+> +is smaller than
+> +.BR FILE_ATTR_SIZE_VER0 .
+> +.TP
+> +.B ELOOP
+> +Too many symbolic links encountered while resolving
+> +.IR path .
+> +.TP
+> +.B ENAMETOOLONG
+> +.I path
+> +is too long.
+> +.TP
+> +.B ENOENT
+> +A component of
+> +.I path
+> +does not exist.
+> +.TP
+> +.B ENOENT
+> +.I path
+> +is an empty string and
+> +.B AT_EMPTY_PATH
+> +was not specified in
+> +.IR flags .
+> +.TP
+> +.B ENOMEM
+> +Insufficient kernel memory was available.
+> +.TP
+> +.B ENOTDIR
+> +A component of the path prefix of
+> +.I path
+> +is not a directory.
+> +.TP
+> +.B ENOTDIR
+> +.I path
+> +is relative and
+> +.I dirfd
+> +is a file descriptor referring to a file other than a directory.
+> +.TP
+> +.B EOPNOTSUPP
+> +The filesystem does not support getting attributes on this type of inode.
+> +.SH HISTORY
+> +Linux 6.17
+> +.SH NOTES
+> +This system call is designed to be extensible.
+> +The
+> +.I size
+> +argument allows user-space applications to indicate
+> +which version of the
+> +.I file_attr
+> +structure they are using,
+> +enabling the kernel to support both old and new versions
+> +of the structure simultaneously.
+> +.P
+> +If
+> +.I size
+> +is smaller than the structure size the kernel expects,
+> +only the fields that fit within
+> +.I size
+> +will be filled in.
+> +If
+> +.I size
+> +is larger than the kernel's structure size,
+> +the extra bytes are zeroed.
+> +.SH EXAMPLES
+> +The program below demonstrates the use of
+> +.BR file_getattr ()
+> +to retrieve and display file attributes.
+> +.P
+> +.in +4n
+> +.\" SRC BEGIN (file_getattr.c)
+> +.EX
+> +#define _GNU_SOURCE
+> +#include <fcntl.h>
+> +#include <linux/fs.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <sys/syscall.h>
+> +#include <unistd.h>
+> +\&
+> +#ifndef SYS_file_getattr
+> +#define SYS_file_getattr 467
+> +#endif
+> +\&
+> +int
+> +main(int argc, char *argv[])
+> +{
+> +    struct file_attr fa;
+> +    long ret;
+> +\&
+> +    if (argc !=3D 2) {
+> +        fprintf(stderr, "Usage: %s <filename>\[rs]n", argv[0]);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +\&
+> +    ret =3D syscall(SYS_file_getattr, AT_FDCWD, argv[1], &fa,
+> +                  sizeof(fa), 0);
+> +    if (ret =3D=3D \-1) {
+> +        perror("file_getattr");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +\&
+> +    printf("File attributes:\[rs]n");
+> +    printf("  xflags:     0x%w64x\[rs]n", fa.fa_xflags);
+> +    printf("  extsize:    %w32u\[rs]n", fa.fa_extsize);
+> +    printf("  nextents:   %w32u\[rs]n", fa.fa_nextents);
+> +    printf("  projid:     %w32u\[rs]n", fa.fa_projid);
+> +    printf("  cowextsize: %w32u\[rs]n", fa.fa_cowextsize);
+> +\&
+> +    /*
+> +     * Try setting NODUMP flag with chattr +d ./foo to see
+> +     * the difference.
+> +     */
+> +    if (fa.fa_xflags & FS_XFLAG_NODUMP)
+> +        printf("  NODUMP flag is set\[rs]n");
+> +\&
+> +    exit(EXIT_SUCCESS);
+> +}
+> +.EE
+> +.\" SRC END
+> +.in
+> +.SH SEE ALSO
+> +.BR file_setattr (2),
+> +.BR file_attr (2type),
+> +.BR ioctl (2),
+> +.BR ioctl_fs (2),
+> +.BR openat (2),
+> +.BR ioctl_xfs_fssetxattr (2)
+> --=20
+> 2.56.0
+>=20
+>=20
 
- include/linux/filelock.h | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+--=20
+<https://www.alejandro-colomar.es>
 
-diff --git a/include/linux/filelock.h b/include/linux/filelock.h
-index ec11cc6b4..e909db319 100644
---- a/include/linux/filelock.h
-+++ b/include/linux/filelock.h
-@@ -530,8 +530,8 @@ static inline bool is_delegated(struct delegated_inode *di)
-  *
-  * Break delegations in a non-blocking fashion. If there are
-  * outstanding delegations and @di is set, then an extra reference
-- * will be taken on @inode and @di->di_inode will be populated so
-- * that it may be waited upon.
-+ * will be taken on @inode and its superblock, and @di->di_inode will
-+ * be populated so that it may be waited upon.
-  *
-  * Returns 0 if there is no need to wait or an error. If -EWOULDBLOCK
-  * is returned, then @di will be populated (if non-NULL).
-@@ -545,16 +545,21 @@ static inline int try_break_deleg(struct inode *inode, unsigned int flags,
- 	if (ret == -EWOULDBLOCK && di) {
- 		di->di_inode = inode;
- 		ihold(inode);
-+		/* The caller may drop its mount before break_deleg_wait(). */
-+		atomic_inc(&inode->i_sb->s_active);
- 	}
- 	return ret;
- }
- 
- static inline int break_deleg_wait(struct delegated_inode *di)
- {
-+	struct inode *inode = di->di_inode;
-+	struct super_block *sb = inode->i_sb;
- 	int ret;
- 
--	ret = break_deleg(di->di_inode, 0);
--	iput(di->di_inode);
-+	ret = break_deleg(inode, 0);
-+	iput(inode);
-+	deactivate_super(sb);
- 	di->di_inode = NULL;
- 	return ret;
- }
--- 
-2.39.5 (Apple Git-154)
+--544li3fyfgezh5tt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrbRMsACgkQ64mZXMKQ
+wqnYSg/8C3uP8izC0yO8ulYgq2QII1Fx6GtDZM2RzUS5nbltbs3B6TQ+qygT2EII
+ziOHSjXT0ZWFNG8xqjTTOt2DUv3j+GlE39idwNwDuBSvA7xiCfF7u7rVqlEdg1HE
+GNh/MJjVS5Y7oEldxPHDBeeK6JJifXiJMfaLGbYawQFMJYHarXWv59vUjskbe8D7
+0Hr4sPBax6iAmAAGhBdcDsK47I4zlej+VRsOkOU1vqHoJjmhtMekPEanrKlXKhBZ
+QVfuX925iv7x/fDqonc7sCVbnoFu/CRTwV3J5nuyN9TeN3t2ISSlc38a3A1bzB05
+kkeSUg2IauZqgn5lN26lGaWePUCMToYKkDtmd8WCP/BYBXkKjJiQJv0buQxyv5Ed
+oVXe87WxwZT1ulzJYcnMH5gQPsRfr0YC8yowwFKCH5UTKdu1I3Hz4Ivtx3KBj1Mm
+52X4Kd4F30bMYM0HsE1coCQy48chzyVoCNh3YYFN9rUOzhTyDK4iDm3a+pFmsCAL
+br6EYUbmmxI3fSmuJ2YHILh4pK3CeV7r/gcIqyZSP/vaWLbE+85E/6xVgE5pHl6A
++qTqXaEDyiuL07Q0cPM9A11GwJOuvWXSJLKk9oOJbD2YSD/cdNkorGjqO36BX1j2
+ncQfr73e8VIszvaxfDMRZgRckmGXSSRjXzcK6ge4sYeUjlRwjUs=
+=BQwW
+-----END PGP SIGNATURE-----
+
+--544li3fyfgezh5tt--
