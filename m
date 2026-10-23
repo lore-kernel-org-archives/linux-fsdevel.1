@@ -1,64 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.42.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792723554;
-	b=OtCF60WWUvMBaSy5fYGtdJOFkzRUw2XCBmBFHKtMRp2aNGCYjUgTXZcxEvib091wKfHL
-	 LVLzey34k/13cZexXNBhY2mnNYV33VoGaRjboeIP9AzYi1NCeoykaGJ8804GUkbNuSOGa
-	 KI2hiEE4AEqWEV+VVpaycDm7xMfI8l82nRPBkjiQMfSK7GUVBWaOTJzBhfOI6rVeKX/YW
-	 fppUyt0rdMd/LoSSCyYDQ4x/SAVf/f7eOkekOUaBlRMEgsb1O5+vkbOlrRrDNUGQEK65e
-	 WYm6r1oKwDEdG6ptZYFE8meYKBOgzpe2NESrHYFrYLEBB5zWmSQ0Yxhd3shFSb53wDw==
+	t=1792727015;
+	b=edQd2his5XX0aBTEHFKJ/EJoV34eFobOmb3EZtHSzp+6TJKxbCJC4y1bYNNU2VqN+yQG
+	 JfaBaCn2xVHJX2RoLVEnWJWNLImTDq3rbQ0riOZy4m59qwZ+q4hePKwUpdEmjoATfs/A/
+	 7seUphhXWDCbzk7XvUznXCFJnPFAQQO+R8fs62BcWUoAjj+TavPPqqdJPAJFOFNx18wGF
+	 /xxifPa0FwvCRFTPaSnOXomYo+e36992x2kVn9jXYiXyzu/cAn9uX0kquIrI3qYf1Ibjv
+	 9KpZaOfSbyZn9Tgj6ehA+4U3H8eOFFHjQvy67lC9M14ZDSfQEqOxliwWdUndmizRpnw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792723554;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=Tt8+p15e9DQsEZ+hqO3OeNWZ+sire2qJlEmWhnAKgA8=;
-	b=CljvqNY2C3x9g9YlQ93SzRbx8xjuOIAqkntVTnFnbH/vAG7aGQxOhMsqet4KfiVoB+WL
-	 5ZsIgoxxinoVTJkxqKYkh3dc2jC1T7PYRIN6L51L17UDcX8YUmxuVvKZTqrCtno2WHFp/
-	 N3PS+FPL34P6Ei6bTV9ulAyBYRYMhke0AvHxQdSbITiBkfSsyeN4ivcOzyDtcNGUu64Du
-	 vA49Lq+7kYSauMFvJin8F274wQW7IbgFkWOOESsNizl0M7iQTFjQlvdwdcSrJFFPY/RPF
-	 1yBC7kv/ny2zrMjehcExZCg8/49kk+XWcbeVbt6lHQv9jY65ogErpn/uBIQC3mTzU9w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792727015;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:MIME-Version:Date:From:
+	 To:Cc:Subject:User-Agent:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=E50/RBqF2TPivq5LvTrJausyxc+RJyTt4pm/+y89sBM=;
+	b=bH/NLK+WVKvEcgYxdtW8tTANuE6N2ITd/4fhXtAu4H5+h2q8pKd81EBaXHjFxYsdywd8
+	 ssj2XWHioEqW1VE7HXGVT6hpo/wTUEGO1GAMUqbCj6xDocSopYBTmmbUP+5ahFxUxlXmk
+	 SM3/94nkSVYWSC8TxyO9SyixZUNhvRfWtDprVsWLUY5/9rIB6QfY8urJlEafQ6rhSC+vQ
+	 D3edDqi6V2xrmVN3XzV3QNvi/0CYNkt27z4tnHEIu0PU5wV2bcC95lnvceBrGJw/7u568
+	 iKGYJS9Mg6qz8AqqfYkQkCTxWdzIrDp8h2DPOqNZE/K0PECgsV5XUMP/NM4gXHuYapQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JiBFwphp;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=free.fr;
+	spf=pass smtp.mailfrom=free.fr;
+	dkim=pass header.d=free.fr header.i=@free.fr header.a=rsa-sha256 header.s=smtp-20201208 header.b=Jl4vS7cB;
+	arc=none smtp.remote-ip=212.27.42.5
+Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F342606A331;
-	Fri, 23 Oct 2026 02:45:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0364606A31B;
+	Fri, 23 Oct 2026 03:43:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0364606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JiBFwphp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCC631F031E3;
-	Fri, 23 Oct 2026 02:45:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792723554;
-	bh=Tt8+p15e9DQsEZ+hqO3OeNWZ+sire2qJlEmWhnAKgA8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=JiBFwphpQ2Zr9t9oVnbUSwSxH/ibLXGpQXw9XfkP/b8Kd1+3kWSUdZoZqHB5u86H8
-	 h4a4iRVK3eNW2mS8lw3RrgQy2XqUjRtUZ/ICYL4oFywwJ6BRNwCCqQlpkg4UR3aHzj
-	 8v92Oe67+bA8g2Oc+lPIN7UAVUoc/mXrMUv2AV/52ChRicBVrWjzsz5F5YT3YirBc/
-	 l601up3GFLfdrCeqpBud6lxQhRXR29PlXTMQ3MNGwXPgMAjDq+w8h3VuD5a2a5Sjdz
-	 43esOWe2b4ZRnne3cD7Ne6icV9zWQ8yG6iYUuB6VIcHnsfj7h02M0ZJTyZLfztEbjl
-	 zIDj6jUROb+Lg==
-From: Mike Snitzer <snitzer@kernel.org>
-To: Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: linux-nfs@vger.kernel.org,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v8 3/7] mm: expose WB_DONTCACHE_DIRTY in bdi debugfs stats
-Date: Thu, 22 Oct 2026 22:45:44 -0400
-Message-ID: <20261023024548.71123-4-snitzer@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20261023024548.71123-1-snitzer@kernel.org>
-References: <20261023024548.71123-1-snitzer@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=free.fr header.i=@free.fr header.a=rsa-sha256 header.s=smtp-20201208 header.b=Jl4vS7cB
+Received: from webmail.free.fr (unknown [172.20.246.1])
+	(Authenticated sender: test75@free.fr)
+	by smtp5-g21.free.fr (Postfix) with ESMTPA id 730495FFAF;
+	Fri, 23 Oct 2026 05:43:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1792727006;
+	bh=F9ALlbO6u0ptGfAVky2KFCZatwTm+yxf/LlcIJ/3bCQ=;
+	h=Date:From:To:Cc:Subject:From;
+	b=Jl4vS7cBMMSYgd0Gi8cFm9hkBEujPmkxWDhrrPtHdumoZu/VMPvc7UwtlG7NkP0Fy
+	 T57xROUcPRy+qktmzRV2bg4mcLk+lBdZoRyS0+9fhxtljxGCSlvXDk3v4q6Q8cMZgm
+	 6qbmAyLBor0Bx/PJZRqdVOSfj6KDQZH2nQqhSyztHmYvJSUWK77Ob9szG34oKvuYh+
+	 SaIoRUme3+hbCgyKICv6fiMGalM22Chaz/yftGCL9Eju1sE+kyP+G5TQgsyJF/nXBH
+	 PaUN91dRINMXytNi5m0HdSZmh3g/W8788Nwowrd2EvDz6XX1Ht8Z3AY1Ij4vbM94XI
+	 EaSkM5Ho9bnBw==
+Received: from 2a0d:e487:69e:6c5b:3ffa:e9c3:575:b5f7 via
+ 2a0d:e487:69e:6c5b:3ffa:e9c3:575:b5f7 by webmail.free.fr with HTTP (HTTP/1.0
+ POST); Fri, 23 Oct 2026 05:43:20 +0200
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,78 +59,76 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Fri, 23 Oct 2026 05:43:20 +0200
+From: test75@free.fr
+To: linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org
+Cc: miklos@szeredi.hu, senozhatsky@chromium.org, peterz@infradead.org,
+ rafael@kernel.org
+Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
+User-Agent: Webmail Free/1.6.20
+Message-ID: <ba420b83d986313239d1252a94315790@free.fr>
+X-Sender: test75@free.fr
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-The per-bdi_writeback WB_DONTCACHE_DIRTY counter drives how much the
-flusher writes back in response to an IOCB_DONTCACHE kick, but it is
-not reported anywhere, so the DONTCACHE dirty backlog can only be
-inferred from MemFree/Cached movement.
+Hi,
 
-Report it as BdiDontcacheDirty in /sys/kernel/debug/bdi/<dev>/stats
-and as WbDontcacheDirty in the per-wb stats, next to the
-Reclaimable line.  Use wb_stat_sum() rather than wb_stat() to fold in
-the per-cpu batches: the flusher targets the summed value and small
-backlogs would otherwise read as zero.
+A field report that may help with the design discussion in this
+thread. It is a case where freeze ordering alone would not help.
 
-Fixes: 88d6f128d06d ("mm: track DONTCACHE dirty pages per bdi_writeback")
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
-Signed-off-by: Mike Snitzer <snitzer@kernel.org>
----
- mm/backing-dev.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Setup: Ubuntu 26.04, 7.0.0-38-generic, Framework 13 (AMD, s2idle),
+systemd 259, rclone 1.60 FUSE mounts (Google Drive, SMB, SFTP).
 
-diff --git a/mm/backing-dev.c b/mm/backing-dev.c
-index 18e999053bae..111b45262979 100644
---- a/mm/backing-dev.c
-+++ b/mm/backing-dev.c
-@@ -46,6 +46,7 @@ struct wb_stats {
- 	unsigned long nr_dirty_time;
- 	unsigned long nr_writeback;
- 	unsigned long nr_reclaimable;
-+	unsigned long nr_dontcache_dirty;
- 	unsigned long nr_dirtied;
- 	unsigned long nr_written;
- 	unsigned long dirty_thresh;
-@@ -78,6 +79,7 @@ static void collect_wb_stats(struct wb_stats *stats,
- 
- 	stats->nr_writeback += wb_stat(wb, WB_WRITEBACK);
- 	stats->nr_reclaimable += wb_stat(wb, WB_RECLAIMABLE);
-+	stats->nr_dontcache_dirty += wb_stat_sum(wb, WB_DONTCACHE_DIRTY);
- 	stats->nr_dirtied += wb_stat(wb, WB_DIRTIED);
- 	stats->nr_written += wb_stat(wb, WB_WRITTEN);
- 	stats->wb_thresh += wb_calc_thresh(wb, stats->dirty_thresh);
-@@ -125,6 +127,7 @@ static int bdi_debug_stats_show(struct seq_file *m, void *v)
- 	seq_printf(m,
- 		   "BdiWriteback:       %10lu kB\n"
- 		   "BdiReclaimable:     %10lu kB\n"
-+		   "BdiDontcacheDirty:  %10lu kB\n"
- 		   "BdiDirtyThresh:     %10lu kB\n"
- 		   "DirtyThresh:        %10lu kB\n"
- 		   "BackgroundThresh:   %10lu kB\n"
-@@ -139,6 +142,7 @@ static int bdi_debug_stats_show(struct seq_file *m, void *v)
- 		   "state:              %10lx\n",
- 		   K(stats.nr_writeback),
- 		   K(stats.nr_reclaimable),
-+		   K(stats.nr_dontcache_dirty),
- 		   K(stats.wb_thresh),
- 		   K(dirty_thresh),
- 		   K(background_thresh),
-@@ -163,6 +167,7 @@ static void wb_stats_show(struct seq_file *m, struct bdi_writeback *wb,
- 		   "WbCgIno:           %10lu\n"
- 		   "WbWriteback:       %10lu kB\n"
- 		   "WbReclaimable:     %10lu kB\n"
-+		   "WbDontcacheDirty:  %10lu kB\n"
- 		   "WbDirtyThresh:     %10lu kB\n"
- 		   "WbDirtied:         %10lu kB\n"
- 		   "WbWritten:         %10lu kB\n"
-@@ -179,6 +184,7 @@ static void wb_stats_show(struct seq_file *m, struct bdi_writeback *wb,
- #endif
- 		   K(stats->nr_writeback),
- 		   K(stats->nr_reclaimable),
-+		   K(stats->nr_dontcache_dirty),
- 		   K(stats->wb_thresh),
- 		   K(stats->nr_dirtied),
- 		   K(stats->nr_written),
--- 
-2.52.0
+On lid close, a gvfs backend thread was in statx() on an rclone mount.
+The rclone server was not frozen. It was waiting on the network, and
+NetworkManager takes the Wi-Fi down as part of the sleep sequence.
+That dependency is invisible to the kernel (the same point as the
+sshfs/ssh example earlier in the thread). The request never completed,
+so every suspend attempt failed. With the lid closed, logind retried
+every ~100 s for 6 hours (about 210 cycles):
 
+   Freezing user space processes failed after 20.003 seconds (3 tasks 
+refusing to freeze, wq_busy=0):
+   task:pool-906  state:D  pid:153003 tgid:6222 ppid:4922
+    request_wait_answer+0xd8/0x280
+    __fuse_simple_request+0x11f/0x370
+    fuse_lookup_name+0xd6/0x260
+    fuse_lookup+0x9d/0x1e0
+    __lookup_slow+0x86/0x150
+    lookup_slow+0x3c/0x60
+    link_path_walk+0x348/0x410
+    path_lookupat / filename_lookup / vfs_statx / do_statx
+   task:pool-907  state:D  pid:171158 tgid:6222 ppid:4922
+    request_wait_answer+0xd8/0x280
+    __fuse_simple_request+0x11f/0x370
+    fuse_dentry_revalidate+0x146/0x410
+    lookup_fast+0x15c/0x170
+    link_path_walk / ... / do_statx
+   task:pool-908  state:D  pid:197388 tgid:6222 ppid:4922
+    d_alloc_parallel+0x37b/0x460
+    __lookup_slow+0x5d/0x150
+    lookup_slow+0x3c/0x60
+    link_path_walk / ... / do_statx
+
+Two observations:
+
+1. pool-906 and pool-907 would be covered by a freezable wait in
+    request_wait_answer(). pool-906 sits in lookup_slow(), so it holds
+    the parent's i_rwsem shared at freeze time.
+
+2. pool-908 is the third task. It is not in FUSE code. It waits in
+    d_alloc_parallel() on the in-lookup dentry owned by pool-906. So
+    even with v2 applied, this suspend would still have failed. This
+    matches the "contended VFS lock" limitation in the v2 changelog,
+    but here the second waiter is a plain uninterruptible wait in the
+    dcache rather than a lock. This pattern looks common in practice:
+    desktop indexers and trash/thumbnail daemons stat the same
+    directory from several threads.
+
+The same signature shows up 1,000+ times in this machine's journal
+since April (gvfsd-trash, localsearch-extractor as clients). I can
+provide the full logs.
+
+Thanks,
+Phil
