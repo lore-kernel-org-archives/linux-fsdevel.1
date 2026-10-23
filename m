@@ -1,60 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792787400;
-	b=f8V93qX8qvPeGb/PWulQHb7omtwmbbblUjNS519dUKW8cldpWJXctiUHl01z+ge78A2y
-	 gutjzzTs0SDPtncI+0kifshAnGZhotp7obhWluSWrex2EtKSF5DpcyIXaPWAByUHoMd8J
-	 oYbbPsKIZiSeBbTtZ+3YVtL0pB6hwbt8p/ePnFxLoATXiMGGbzL3PrLAffaQ2rcDP5uLa
-	 752NpcZcxqnL/bCpEXmh5yF5NAGuQ4d7oO/HB9LiPwtzl/AAFPyNkopyJYJJ5VwCEaowf
-	 jQK3+7rmPIUFuRYu+AT9mjx+FGtxNC1jefRNDBVXdPYGu0h06ZDsjyng5dk4PMjXn0g==
+	t=1792787986;
+	b=TtQ+8kGaZc563AOArOVgS0LLKJAHednMmxiJQV0Sr0QS9PAiKoTAcHgdAhs26PAXgAFj
+	 Vcn9pM7GSQOzN8nh+4oYakhi7LL7dtgpFfOFKMdPxzPN3L26sX4JWq9uWCGysUYgS4C/V
+	 Uqqxt0uZQQF3V2ItW/qNt+aAWI9qlDKPKiYCbKM2ryUgBgYL9dVj7W8hvS4LEZE5tZLs4
+	 reCb3KFQ1V9hbUkzh4hP414I7+ABoxgQHcDc4de5ybKekqkHvdMmGq94HhRfQS4Zh4Jp7
+	 lubAFUUXABGxYjoG7UPxioMCaUx5ryeGVfg+4v8PHAdbtN3RCUUvAjneXpvez+wvLlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792787400;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=S/gS3BlmwBekgqi9/q5oJIhOXINLDyFzJjGA2lorCfA=;
-	b=k4/V6Qyntjg5FimMPjN2q/US1D5pfvaUXkQ4//p6F/yUGFzlfZWhVvau1feIso/3FkwL
-	 dmOWGL0c6oRzS3hzJxdEJDuY1iTNC0d0xv4KxAK1z2F7zjEddURjqqX+PcWO8xQx/0O3Z
-	 esa2u8bdso+QsWF3R4qaTVJNL4isLfzjm3i3xe1hzese9ZAJORkMcdToiwKfCrL0QnTZW
-	 wq5Bqx6L42UdeCi75Cg5rpCsus5ikeOMFydmSfqZVGuxzrYbmv5JCBf5e7IYCcGXvfkyn
-	 epGJFf9Pjc0hmzdLhPtIhKWgjsPoeOC5W/3GL/raqHJO2XATAcP6sg095XNZNCcDIOw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792787986;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=V7bVxjxfNJMJ9ikA6qreYHkI8rZ5PEd2tPNtK+tsbm4=;
+	b=QCwEOd7bw63+I22nrafmyO4tDuiBH2jbH9koHlgJzes2eA3WsaOTAiHC7Pj5aBQpGST0
+	 JDVT1D6ru3c1o8yAWe7ukxDGQ587t1lauLBkjTUl8w8zt8uVeFj+Dbqe1SFpKR9jix7sk
+	 ukxNXkd4Yogp6L6v7PUz5730LsrrtXlg/fuZ4gNzvMN1Z9azG594MT/DilMniMRLSvuzh
+	 UCZgVqKC6uXntt7quOP7wLSJzGC2zZ7GF5azg5cxJ/nipowW4f6s9LwrIjM4uwK0FGlgz
+	 Mctz53hQjewfqvX8YuoaXGLYQrgeEo+fq8s/bZk5nmEK3G3ub7PbXqIVnQDS/EkbZWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=VV9utfOJ;
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Pi1jAnCQ;
+	arc=none smtp.remote-ip=209.85.222.176
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC64606A31D;
-	Fri, 23 Oct 2026 20:29:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EBC64606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D646C606A320
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 20:39:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D646C606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=VV9utfOJ
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=S/gS3BlmwBekgqi9/q5oJIhOXINLDyFzJjGA2lorCfA=; b=VV9utfOJx1tEJkpEm9BSPQfel2
-	JRPtng5mWajAK1SORvPCY9N6sHojpuqUeUGiEIModXsqcRES58ouPBSI326gmmALL+9ChqFL74ToT
-	eP7RZxNHeudHW8xWqJ0KAitpuAF60i0uUyLvXJzDsexi6ymg8+Ca1dhwvppoPkgNZWNVImCR8U1Xs
-	4zIxFIz0XW4p82xJ4UL3b2nbgxsBDq680HXzc97ELuZQZpAGXWCmhZg/uf9MIkqHyAooKXw7tkwLD
-	cdpkdMOmG+xJjKZA9aHp29+z1EmXFHWweBIW7vPaEmm/Q1/jqWm1LSpRuzYgnDOelPtzo4Z7ViiGe
-	+bXwTtWw==;
-Received: from willy by casper.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKLti-0000000ER5N-2XP1;
-	Fri, 23 Oct 2026 20:29:54 +0000
-Date: Fri, 23 Oct 2026 21:29:54 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Nickolai Zeldovich <nickolai@csail.mit.edu>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] xarray: initialise the offset of a new root node
-Message-ID: <atvDwsWu-FDwtgnt@casper.infradead.org>
-References: <20261012181107.772545-1-nickolai@csail.mit.edu>
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Pi1jAnCQ
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-93f2ed2541aso100101385a.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 13:39:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda.com; s=google; t=1792787985; x=1793392785; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=V7bVxjxfNJMJ9ikA6qreYHkI8rZ5PEd2tPNtK+tsbm4=;
+        b=Pi1jAnCQp/bNBCDhhH8yUcJx9fE5XrYU4vuPxRlJv9rxDppk0ltamiAzl7JDuUiIX1
+         qkFAin9hMxWGsUEafR3iZkWYwKQdvogopSv09S8uZiu3di0UOv5I23nt9xI/kK7jm4rN
+         hYTulHmunI4CtSdYI34rbrz3h6Bz+gt8Lku52dr517dvo+PwWb940nPI7q2/vR9EPusV
+         sGxUnE4OM1H1c1+YZpCyOxANrxfy4/hSjSQeGjHErrth4P/dgdou0vubBAPGQ7KBuPSX
+         o6hWFSz+nFCoy2q86y13p32RlrmqCKTZhqUexO5eavtrUteqotE2iIelqbY8rSIXfICq
+         2O4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792787985; x=1793392785;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=V7bVxjxfNJMJ9ikA6qreYHkI8rZ5PEd2tPNtK+tsbm4=;
+        b=lQv1K7H6MixjZgfY+JT9uAUi6XPT/YlPpg43sT63YasIXPG+bSB4QmyXjpXMMQwl4I
+         VFi9qUTyNfanY096FbvNac4dYKHxnv6w48C/KfJgSloiPc4jF+aX1LDaP3biQA9jdp+s
+         rFtEGgkyofkzAoliyMF56MsOKIOGNFECOMNzFyPlb5sScaFMgs0mYicEABsohxdJbYZA
+         6/fkqLULWotqi0onj5xiaKKBGWGIn993JP/G04K+GpZiMB8ZvfW2WhDMx7Gihz+0MU1c
+         grr9gRW49LMMr02l9FixnwsnGdJlVQTSvJapvZn70CYFI0qAFV3aDluBqjzQs0VWqLOT
+         keoQ==
+X-Gm-Message-State: AFq9FYLIU1VLfTgHam1bYtmBSv3Gc08AK8O0+7+XiYJAtXg/ZrPae91r
+	ozdZ+ioA7Rraix0zsbxcwQ1o88p30eeJR0Gkf1h5h0JrmtHxNix6wns/j22OeRl7DOQ=
+X-Gm-Gg: AYBFou30WpSNxWaUkE3DGPI8SeGK3E8F3TgWIukUmd1eizRa9BqbI8fYKIDOpzYX+1J
+	eWcet9BYjYy3A3dCyywH5uae2FwJ7yrOvYZvMu7mIz/wvbV8kzaKGEtQUkPXWQIMHSHBgUtHRz7
+	K5AATQDSs9Hk19v2gZUM4c133MXLSzVsrq0AcsWguYrDxZw/MNmfTBxWKHoo78IZ4MQ3WJaK8WW
+	alMtWTMt2XKZw3GZzVu9YErDU0Znl24rcFCe1mipLHd2gR7DxYCy9jW4fgNxj1edn9+hx6WaiYw
+	BlzJp+sUQsfHs9Mkm0oHIW9bpk1UOItD1ggTTc0k24zG0GjlmDCvbdHtFzGSevSNNc3GiS3nxIO
+	mUDm+Wuyg3N+lv1KMhL0YVzF7/cayl1ItJAo8ePBxBD+wJmgYJgs14yrADA3jk2+cPIDVCVhMkU
+	7T1VX/LrIps7PI/Yv6vNX2+ewnbeVcPcULGPL3+iQ6F7vMC6dhqKuNOjf0tXbjCHamDyqw6vrAH
+	f7NWspG0Z2W0wpyQ+o7PtiGIsPPyo6eS1H3IqvTmhKIjc4Fdcl7VyMic89ugPOmNcvwVdht
+X-Received: by 2002:a05:620a:2b83:b0:93f:1600:481a with SMTP id af79cd13be357-940efa11fefmr22310885a.5.1792787984882;
+        Fri, 23 Oct 2026 13:39:44 -0700 (PDT)
+Received: from toxicpanda.com ([153.61.196.250])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-940f0a912d5sm2143785a.40.2026.10.23.13.39.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 13:39:44 -0700 (PDT)
+From: Josef Bacik <josef@toxicpanda.com>
+Date: Fri, 23 Oct 2026 20:39:30 +0000
+Subject: [PATCH 1/5] fs: make syncfs(2) killable on s_umount
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,185 +90,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261012181107.772545-1-nickolai@csail.mit.edu>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261023-b4-s-umount-killable-v1-1-844a341ff1df@toxicpanda.com>
+References: <20261023-b4-s-umount-killable-v1-0-844a341ff1df@toxicpanda.com>
+In-Reply-To: <20261023-b4-s-umount-killable-v1-0-844a341ff1df@toxicpanda.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Jan Kara <jack@suse.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Josef Bacik <josef@toxicpanda.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openssh-sha256; t=1792787980; l=1241;
+ i=josef@toxicpanda.com; h=from:subject:message-id;
+ bh=9tTHvzdIGkeCZRT40x/w5oXKIY3j5URO5x0Y7DuGFv0=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
+ JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QDNM2h9XGKfC52ZUUVpGP87Zjrw09KIERumqmEPJ8TNlGZLvunsB/mC+Y3PnmmAU9T443/8lscB
+ 46rwKu2/DRQY=
+X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
+ fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
+A syncfs(2) which has to wait for s_umount sits in D state and can't be
+killed, for as long as whoever has the lock takes.
 
-Same comment about the verbosity of the commit message.
+That can be very long.  Another syncfs(2) holds s_umount shared while it
+writes the filesystem out, which on a slow or dead device takes forever.
+That alone doesn't keep other readers out, but as soon as somebody wants
+the lock exclusively, a remount say, that writer queues up, and every
+reader which comes after it queues up behind the writer.
 
-On Mon, Oct 12, 2026 at 02:11:07PM -0400, Nickolai Zeldovich wrote:
-> xas_alloc() sets node->offset only when the new node has a parent.  A
-> root node, allocated by xas_create() for an empty array or by
-> xas_expand() when the tree grows, keeps the offset its slab object had
-> before: radix_tree_node_cachep has a constructor, so the slab does not
-> clear the object, and radix_tree_node_rcu_free() only clears the slots
-> and marks.  A node freed from slot N of its parent comes back as a root
-> with offset N.
-> 
-> xas_expand() stores 0 to the old root's offset just before publishing it
-> as slot 0 of the new root, so the value is right once the expansion is
-> visible, but an RCU walker can see the old value.  The iterators climb
-> out of a node with
-> 
-> 	xas->xa_offset = xas->xa_node->offset + 1;
-> 	xas->xa_node = xa_parent(xas->xa, xas->xa_node);
-> 
-> (xas_find(), xas_find_marked() and __xas_next(); __xas_prev() uses
-> "- 1").  A walker under rcu_read_lock() that reaches the end of the root
-> while another thread expands the tree can load the stale offset before
-> xas_expand() clears it and the parent pointer after xas_expand() sets
-> it.  No reordering is needed: the two loads only have to straddle the
-> two stores.  The walker then continues in the new root at slot
-> (stale offset + 1) while xa_index is the first index of slot 1.  If that
-> slot is populated by then (for example by the store that caused the
-> expansion), the walker returns its entry with the wrong index.  With a
-> root covering 0-63 and a stale offset of 5, xa_for_each() that runs
-> concurrently with xa_store(xa, 384, p) can report p at index 64, and
-> then again at 384; xa_find() stores the wrong index in *indexp.  Any
-> entries in slots 1..5 of the new root are skipped.
-> 
-> The radix tree's radix_tree_node_alloc() always sets the offset, and
-> radix_tree_extend() passes 0 for a new root.  xas_alloc() dropped this
-> for root nodes when the XArray was introduced.
-> 
-> Set the offset of a node allocated without a parent to 0.  A node's
-> offset then never changes while readers can see it: a child's offset is
-> set before the node is published, xas_expand()'s store to the old root
-> writes the value it already has, and the root that xas_shrink() leaves
-> behind was the child in slot 0.  A walker climbing out of a root
-> continues at slot 1 whichever parent pointer it loads.
-> 
-> The new test frees two nodes with non-zero offsets and checks that the
-> roots created by xas_create() and xas_expand() have offset 0.  Its
-> checks use a new XA_WARN_ON(), which warns and carries on, counted like
-> XA_BUG_ON().  The test relies on the slab handing the freed nodes back;
-> without this patch both checks fail in the userspace harness and in the
-> self-test booted on x86_64 and riscv64 under QEMU.  The race itself has
-> no deterministic test.
+Taking the lock is the first thing syncfs(2) does and it can return an
+error, so use down_read_killable().
 
-No, we don't want XA_WARN_ON.  We want XA_BUG_ON so it _stops_.  This
-is really important.
+This only covers the wait for the lock.  Once syncfs(2) has it, it still
+waits for the writeback uninterruptibly.
 
-> Found while formally verifying the lockless XArray iterators against the
-> kernel binary.
-> 
-> Fixes: 58d6ea3085f2 ("xarray: Add XArray unconditional store operations")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
-> ---
-> 
-> Notes:
->     - The patch and its analysis were drafted with an LLM coding assistant
->       and then reviewed and tested as described here and in the commit
->       message.
->     
->     - Reproduction of the race (test build only, not part of this patch): in
->       tools/testing/radix-tree (XA_CHUNK_SHIFT 3), a hook between the two
->       loads of the climb in xas_find() runs the expanding store, i.e. the
->       writer runs after the walker loaded the root's offset and before it
->       loaded the parent.  The root was reallocated from a leaf freed at
->       offset 5.  Without this patch xa_for_each() prints "index 8 entry 48",
->       then "index 48 entry 48"; with it, only "index 48 entry 48".  Nothing
->       was reproduced without the injected hook: the window is two loads wide.
->     
->  lib/test_xarray.c | 50 +++++++++++++++++++++++++++++++++++++++++++++++
->  lib/xarray.c      |  2 ++
->  2 files changed, 52 insertions(+)
-> 
-> diff --git a/lib/test_xarray.c b/lib/test_xarray.c
-> index 5ca0aefee9aa..27988441e71c 100644
-> --- a/lib/test_xarray.c
-> +++ b/lib/test_xarray.c
-> @@ -32,6 +32,22 @@ void xa_dump(const struct xarray *xa) { }
->  } while (0)
->  #endif
->  
-> +/*
-> + * Warn if @x holds and return whether it did, so that the caller can skip
-> + * checks which would not terminate or would not mean anything on the
-> + * broken state.  Counted with tests_run and tests_passed like the rest.
-> + */
-> +#define XA_WARN_ON(xa, x) ({					\
-> +	bool __failed = WARN_ON(x);				\
-> +								\
-> +	tests_run++;						\
-> +	if (__failed)						\
-> +		xa_dump(xa);					\
-> +	else							\
-> +		tests_passed++;					\
-> +	__failed;						\
-> +})
-> +
->  static void *xa_mk_index(unsigned long index)
->  {
->  	return xa_mk_value(index & LONG_MAX);
-> @@ -370,6 +386,39 @@ static noinline void check_xa_shrink(struct xarray *xa)
->  	}
->  }
->  
-> +static noinline void check_xa_root_offset(struct xarray *xa)
-> +{
-> +	DEFINE_XARRAY(tmp);
-> +	struct xa_node *node;
-> +
-> +	/* Free two nodes with non-zero offsets so the slab can reuse them */
-> +	xa_store_index(&tmp, 0, GFP_KERNEL);
-> +	xa_store_index(&tmp, 5UL << XA_CHUNK_SHIFT, GFP_KERNEL);
-> +	xa_store_index(&tmp, 6UL << XA_CHUNK_SHIFT, GFP_KERNEL);
-> +	xa_store_index(&tmp, 7UL << XA_CHUNK_SHIFT, GFP_KERNEL);
-> +	xa_erase_index(&tmp, 5UL << XA_CHUNK_SHIFT);
-> +	xa_erase_index(&tmp, 6UL << XA_CHUNK_SHIFT);
-> +	rcu_barrier();
-> +
-> +	/* A root created by xas_create() must have offset 0 */
-> +	XA_WARN_ON(xa, xa_store_index(xa, 0, GFP_KERNEL));
-> +	XA_WARN_ON(xa, xa_store_index(xa, 1, GFP_KERNEL));
-> +	rcu_read_lock();
-> +	node = xa_to_node(xa_head(xa));
-> +	XA_WARN_ON(xa, node->offset != 0);
-> +	rcu_read_unlock();
-> +
-> +	/* And so must a root created by xas_expand() */
-> +	XA_WARN_ON(xa, xa_store_index(xa, XA_CHUNK_SIZE, GFP_KERNEL));
-> +	rcu_read_lock();
-> +	node = xa_to_node(xa_head(xa));
-> +	XA_WARN_ON(xa, node->offset != 0);
-> +	rcu_read_unlock();
-> +
-> +	xa_destroy(xa);
-> +	xa_destroy(&tmp);
-> +}
-> +
->  static noinline void check_insert(struct xarray *xa)
->  {
->  	unsigned long i;
-> @@ -2235,6 +2284,7 @@ static int xarray_checks(void)
->  	check_xa_load(&array);
->  	check_xa_mark(&array);
->  	check_xa_shrink(&array);
-> +	check_xa_root_offset(&array);
->  	check_xas_erase(&array);
->  	check_insert(&array);
->  	check_cmpxchg(&array);
-> diff --git a/lib/xarray.c b/lib/xarray.c
-> index bfe7bef80f34..720d46e8b14a 100644
-> --- a/lib/xarray.c
-> +++ b/lib/xarray.c
-> @@ -387,6 +387,8 @@ static void *xas_alloc(struct xa_state *xas, unsigned int shift)
->  		parent->count++;
->  		XA_NODE_BUG_ON(node, parent->count > XA_CHUNK_SIZE);
->  		xas_update(xas, parent);
-> +	} else {
-> +		node->offset = 0;
->  	}
->  	XA_NODE_BUG_ON(node, shift > BITS_PER_LONG);
->  	XA_NODE_BUG_ON(node, !list_empty(&node->private_list));
-> 
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+---
+ fs/sync.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-I think we should include Baoli's addition as well, but other than that,
-I think the patch is correct.  (I have a suspicion that xas->xa_offset
-will be 0 if !parent, so we could just initialise node->offset to
-xas->xa_offset unconditionally, but I'm not sure that level of
-microoptimisation is worth it at this point).
+diff --git a/fs/sync.c b/fs/sync.c
+index 0681bfcb2da6..ea54af59cf4a 100644
+--- a/fs/sync.c
++++ b/fs/sync.c
+@@ -156,7 +156,9 @@ SYSCALL_DEFINE1(syncfs, int, fd)
+ 		return -EBADF;
+ 	sb = fd_file(f)->f_path.dentry->d_sb;
+ 
+-	down_read(&sb->s_umount);
++	ret = down_read_killable(&sb->s_umount);
++	if (ret)
++		return ret;
+ 	ret = sync_filesystem(sb);
+ 	up_read(&sb->s_umount);
+ 
+
+-- 
+2.55.0
+
