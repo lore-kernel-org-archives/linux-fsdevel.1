@@ -1,61 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=143.54.11.23
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.186
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792790631;
-	b=31hf44LC5PdhHqO+p6YVm59YjtofKCgL6p0smLWJv0i+84DD33WOY6E3dWXXyfx2uuFu
-	 GEq7PN90UhQvQH6rIvjoqUOEDjeYwtAwMLA50a/2R9INMPpF7L0oboEWh6mhy49uqsbVA
-	 bGuDqIZQasTu/chAIj9thY4/gpz+oq3r4cxQnizW97d7E0XbgIHOiq8yOqD3N3lbv4qF8
-	 Fn0e1ryBqZMjU5rSg/7Lf4btcIoER9WE3dw/qC5xHhqKwrteQ1DyQxkGCZNomcCjbwLjZ
-	 iQ0rngOVtJ8lH31/Fdnx0inBr6uO70jSqgEHxHT4C4D2FkhsY+j5nm8wQ+nWmA0hpMw==
+	t=1792790962;
+	b=OzT7E2kL8hL87jCb4WCeGAt9m3H5nhbt+EeP2wKKXzFs7x5GFoJkyrooprqzE+DnU3LZ
+	 rRdRmO/xDlzDdKHnlC+3vlJcK9QHSzC+DmDHnPt4vsurnVeXFWXDTk0SFASWGXGWmyiad
+	 iEp4cmOXjMYpqvT+ITd+aCMtKI1i2u0NRgjTnUiOHPsQGacavgUo/tB4y1Zd3nUMoPVUG
+	 UPf3NaToJViFrTk/hHyPD0JtIsD09Mkl6DwHzWF7cX9lQZcCGo9zwTStWk/kwQ5c8yd4O
+	 K4OhxDt9nNllO4UEGRfo2h7/UQ7jgwTyKE/R+eYwquNxjh+dciqWYInc5LWt0EjXQSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792790631;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=uKNq1msWpEbhg9s+tTL/ikKHTKFpOaGVgqPoQcsclJk=;
-	b=yY7Mfe3QdXHJjXtqQfzNRIB3pONWti9/vQdPImlZifUPVYj+JIpmpK+bMnrvKBrsZili
-	 TY17HIuzEYW0XhpWxCzKC6wyE8dftDYMm8CFDhk6EmlAoENaE9Qi+pr0NH9pFLMQ4KyWO
-	 P9T77qKAPmrn/m+exsCuzvZRANtLXaKeSUYzmSsmIzcWE9QfUxNX2Rg7BhMH25JLdQw81
-	 1s4rGFwmMp1F0YGHasaPYKG0wCJ/0g81LIA3QF/MbwPexj/oPr2vkAhAk3WWjvjI0AwHB
-	 bcrpWZ5yMimDlJjS+Eud9XCLMB0kqOs8j4RqIuoqeG9n0oFPxGW9Pb41KK0vy1HihxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792790962;
+	h=DMARC-Filter:X-KPN-MessageId:Received:Received:DKIM-Signature:
+	 X-KPN-MID:X-CMASSUN:X-KPN-VerifiedSender:Received:Date:From:To:Cc:
+	 Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Priority:Importance:X-Originating-IP;
+	bh=P8r/Csn/92j4h8MtHtX1sZoBvM1beEuyAAhxjMFapGU=;
+	b=VLaNcjEzbqbaHk65qa6bosbS2Kj2ngC5QqIQlHBH8HfeeJA1J0rLehOsGP2yVSeqbdb5
+	 SQ3W/maXpnKvleXQ/LanVegkOCVZ0dXSVfppb5j9JYZ9fnFCNNZ1AOFk/ZsWY8zkwsQvQ
+	 /iFQG4sYaWsOSuD2R+1VTTVwBDQGet44Kw/eJkGc1PUL6519GV+w/MuBEbGq6M1npjex/
+	 Uy34DXBtZ2pS+mdmNnLYhtG0Wbyqp/Rb/g6mpIkU6pVGuSHOPRZioIAV7HIF8KwQxqdeL
+	 FfJshQTdy5krFTcg9KGkaxf5btN7AmKXWhYbRvHpHyS6LcQQIglHgl0CHV0B3zjMPAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=inf.ufrgs.br;
-	spf=pass smtp.mailfrom=inf.ufrgs.br;
-	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=gHv+Jd3g;
-	arc=none smtp.remote-ip=143.54.11.23
-Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=xs4all.nl;
+	spf=pass smtp.mailfrom=xs4all.nl;
+	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=Cv9qmTOd;
+	arc=none smtp.remote-ip=195.121.94.186
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6991606A31D;
-	Fri, 23 Oct 2026 21:23:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6991606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3AE606A31F
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 21:29:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF3AE606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=gHv+Jd3g
-Received: from DESKTOP-PJTTJ93.localdomain (unknown [189.6.233.4])
-	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 35238120357;
-	Fri, 23 Oct 2026 18:23:47 -0300 (-03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
-	s=dkim2026; t=1792790627;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uKNq1msWpEbhg9s+tTL/ikKHTKFpOaGVgqPoQcsclJk=;
-	b=gHv+Jd3gaLDQVZv4vtBLWDS2uv+kUSFaskope7Pd5kVnMatxI198267LmBaRXue+V5zTJD
-	MVMKcvxZ/4zS0a8Zwqa6Z/p3/nJgLHkAitK1th+ZjcgVVjJPJWlqC/VAQJ/jsKlLzOtAUl
-	CoWNDKBlUXTJAB0f9aXsYOsFE2mu0/F47GuTyKjx3mAaeJc1XCBeHU5mSOsmuom3rIifm1
-	FASwpuu7alj82nBP2HImbzs8FJ8KU966PX/3n/Id5KfCJYcOEUVNUZyNye8RlSLaAN1iWq
-	/0jLbrAvZFh1FNdpHKxI5kC9WWV0HhmmFcW5GoOw7/ErHEBOlGxNxE3QXU2y5Q==
-Date: Fri, 23 Oct 2026 18:23:43 -0300
-From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] fat: preallocate space before expanding in
- fat_cont_expand()
-Message-ID: <atvP82ca9Gl0DiAG@DESKTOP-PJTTJ93.localdomain>
-References: <20261021154024.56868-1-matheus.aalmeida@inf.ufrgs.br>
- <87wlr8j2gs.fsf@mail.parknet.co.jp>
- <87ld7oqv5n.fsf@mail.parknet.co.jp>
+	dkim=pass (2048-bit key, unprotected) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=Cv9qmTOd
+X-KPN-MessageId: c83ea5f0-cf28-11f1-87e5-00505699b430
+Received: from mta.kpnmail.nl (unknown [10.31.161.190])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id c83ea5f0-cf28-11f1-87e5-00505699b430;
+	Fri, 23 Oct 2026 23:29:09 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id c83dac1e-cf28-11f1-a8ab-0050569977a2;
+	Fri, 23 Oct 2026 23:29:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=P8r/Csn/92j4h8MtHtX1sZoBvM1beEuyAAhxjMFapGU=;
+	b=Cv9qmTOdqfL9hpKDjDDeRhSW+jMdxGpjw5yoMBp7Dw3ot7ZsadfOJ+/LgbxsYYNGHgSSi4rW0kZEb
+	 STgzOljDaEM+voHExGKw618OMl7IigX1EiUt9I+SNRTOZ+yKxgZHzua+0LcLmqyS13vmv1f8IGur80
+	 hFmxkhCo9kvU2QfHuCFIePvidKEYaGXrKuEfv2eMKfSY/rRkrEvTJ1dS3H43rUGA9SgHZF5fe/jB8i
+	 BKTrVyiifXfyIxwh6UTP0Ah82TbeROVKwf+GOj955nUYJjOzeCCI9Ce3atB+Xf4mWlZc/zA0X/cqG9
+	 FPuNPa3YBzkq8o3mYLgFVtMZEyfci8g==
+X-KPN-MID: 33|1IzAEM6rixJ+Yc595J1FUe0NB+J4eIXJuyF9t9cRGlboL+T2pvIhzimUEjN7av8
+ Oy6sJHeKyAQQdxtPBm/jEb/e68SHFGrtc2DtrCD9vBa0=
+X-CMASSUN: 33|hsnx0XdPDNSjIeH+evRzrTLkxbIwPEYQkvUHp9XVoxbyrzMy6+d7WmjjUDON01c
+ uxoxT+DnmkYxVF4FyEYbObg==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh04 (cpxoxapps-mh04.personalcloud.so.kpn.org [10.128.135.210])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id c8381e70-cf28-11f1-a030-005056995d6c;
+	Fri, 23 Oct 2026 23:29:09 +0200 (CEST)
+Date: Fri, 23 Oct 2026 23:29:08 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>, Christian Brauner <christian@brauner.io>,
+	Meta kernel team <kernel-team@meta.com>,
+	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Message-ID: <1780856356.2118300.1792790948991@kpc.webmail.kpnmail.nl>
+In-Reply-To: <ataWrUkD-rqeoFcV@linux.dev>
+References: <20261016220029.3276154-1-shakeel.butt@linux.dev>
+ <atUkrrdfu_ihfmZ8@daedalus> <ataWrUkD-rqeoFcV@linux.dev>
+Subject: Re: [PATCH v3] kernfs: allocate inodes and dentry outside
+ kernfs_rwsem
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,57 +84,87 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ld7oqv5n.fsf@mail.parknet.co.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Sat, Oct 24, 2026 at 12:44:04AM +0900, OGAWA Hirofumi wrote:
->OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> writes:
->
->>>  static int fat_cont_expand(struct inode *inode, loff_t size)
->>>  {
->>>  	struct address_space *mapping = inode->i_mapping;
->>>  	loff_t start = inode->i_size, count = size - inode->i_size;
->>>  	int err;
->>>  
->>> -	err = generic_cont_expand_simple(inode, size);
->>> +	/*
->>> +	 * Preallocating space here is more efficient than during
->>> +	 * generic_cont_expand_simple() because of batching.
->>> +	 */
->>> +	err = inode_newsize_ok(inode, size);
->>>  	if (err)
->>>  		goto out;
->>> +	err = fat_preallocate(inode, size);
->>> +	if (err)
->>> +		goto out;
->>> +	err = generic_cont_expand_simple(inode, size);
->>> +	if (err) {
->>> +		down_write(&MSDOS_I(inode)->truncate_lock);
->>> +		fat_truncate_blocks(inode, inode->i_size);
->>> +		up_write(&MSDOS_I(inode)->truncate_lock);
->>
->> Is this fat_truncate_blocks() really required?
->>
->>> +		goto out;
->>> +	}
->
->And maybe this will change the user visible behavior for ENOSPC. (I'm
->not sure if it is ok for now)
->
->Thanks.
->-- 
->OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Hi Shakeel,
 
-The behavior on a fallocate() ENOSPC failure seems to differ across
-filesystems, some (e.g. exFAT, NTFS3) keep the original size while others
-(e.g. ext4) keep the partially extended size.
+> Op 19-10-2026 19:34 EDT schreef Shakeel Butt <shakeel.butt@linux.dev>:
+> 
+>  
+> Hi Jori and thanks a lot for taking a look.
+> 
 
-If preserving the current FAT behavior is preferred, I can look into that
-for a v3. Maybe adding a new fat_try_alloc_chain() helper that allocates
-as many clusters as it can instead of failing the entire allocation.
+You're welcome! Thanks for looking into this.
 
-What do you think?
+> > 
+> > I understand this is intended to have some kind of ownership semantics,
+> > but I must say for such a simple function, I find the contract quite
+> > complex to check. Do we really need an out parameter here?
+> 
+> Not really. I just used it simply call iput(new) without a check. I can change
+> it and make it more like inode_insert5() and let caller do check before calling
+> iput().
+> 
 
-Thanks,
-Matheus
+I'd prefer no out parameter then. I actually need the same function, more or less.
+My problem is that I want inode allocation before calling scops->mkdir, so that
+if that goes -ENOMEM, then we don't create the directory. However, since I can
+expect that there's not going to be an inode present, the ilookup is not needed.
+So I guess I need a kernfs_get_inode_locked_fast() or something.
+
+But also, shouldn't we just replicate the structure of iget5_locked() here? Except
+that we pass in an allocated inode. We invoke a lot more code if we rely on iput()
+instead of destroy_inode(). Then maybe we need to use alloc_inode() instead of
+new_inode() as well.
+
+> > 
+> [...]
+> > > @@ -294,7 +298,7 @@ static int kernfs_fill_super(struct super_block *sb, struct kernfs_fs_context *k
+> > >  {
+> > >  	struct kernfs_super_info *info = kernfs_info(sb);
+> > >  	struct kernfs_root *kf_root = kfc->root;
+> > > -	struct inode *inode;
+> > > +	struct inode *inode, *new;
+> > >  	struct dentry *root;
+> > >  
+> > >  	info->sb = sb;
+> > > @@ -314,10 +318,12 @@ static int kernfs_fill_super(struct super_block *sb, struct kernfs_fs_context *k
+> > >  	sb->s_shrink->seeks = 0;
+> > >  
+> > >  	/* get root inode, initialize and unlock it */
+> > > +	new = new_inode(sb);
+> > >  	down_read(&kf_root->kernfs_rwsem);
+> > > -	inode = kernfs_get_inode(sb, info->root->kn);
+> > > +	inode = kernfs_get_inode_locked(sb, info->root->kn, &new);
+> > 
+> > What are you serializing against here? I've been looking at this as well
+> > recently, and I thought we could just get rid of the locking here. But
+> > on second look, I am not so sure what is correct.
+> > 
+> > Is there anything that serializes kernfs_get_tree() with root node
+> > removal?
+> 
+> That is a good question and honestly I didn't know the answer. After digging a
+> bit, I think 07/12 patch [1] of your series is right.
+> 
+> Superblock is still private here and it is added to the supers list after
+> kernfs_fill_super. Root removal is not serialized by kernfs and kernfs users
+> keep the root alive across the mount.
+> 
+
+I am not sure that last statement is true for all kernfs users. I will have to
+verify.
+
+> I can drop the kernfs_fill_super change from my patch and I think your patch
+> will cover it better.
+> 
+
+OK.
+
+> [1] https://lore.kernel.org/20261016143806.2946578-8-jkoolstra@xs4all.nl
+
+Best,
+Jori.
