@@ -1,101 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792763688;
-	b=v+yknj2eXFsjv7ehU2JZW9PX1wZ4gzvjirC2H07ioamO2qeccHBoNjXIlmeMxyL6mpZs
-	 bdoYsiixmsJsyhS3jOm9wgH40y52CQtrQ+6+jJse9NL0f6Xvk4HW2ukrdj15vcVEbo+a1
-	 lkFR4lAGhLUR1UwfRF4eSwK5POUvNKSezaBhTyihFfT9rLwzP/oJVu+nYphcC1KP2T4c2
-	 6sCPJup7sEGNRzHIl1UAbfUaWxtD5QtLmQcdY7YQIxyv25EsO2VqCkqORfxAhpACBs4j/
-	 L/3hHr11+hSKbc75eNjL0iMK+IRtvtlHDQgEVreHwu/fWsfqvpgvtl0Fp8PbKL7bLPA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792763688;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=2+AhzJ7L8tQJlY/aZD4qLJRxC1d8AyZMihzE03ThXFg=;
-	b=4uu/hRLonPtupL6UCrPxSdW3yPtRFjq8JaP9xYkPELpcUS0MpTMINWBGXPYclE1PYH3e
-	 2/2YeDda3NrVmfwESIHqljSB6AcMxFfAgX/TELKtOJ1GGnR4AJI82TUSTg8vWi6ju/J/x
-	 CfurI16suVE8iQJznCaWjLf/wmNMgpH1biIQsipYfLE2KFk348rRYh9xQhxZOqSY5N41S
-	 Yq8eZJZUgViCRr9UnPAM/mPh+nLW7VUdg39Rp/LDibgXJ68XOPIvplQfLZDl9fbZu98GO
-	 b+m9XY6JAFnMICitSthHRma9MX272hc224Yivv0iKlXeEyyw80wxKUY8fM8HIl+E4Dg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=toxicpanda.com;
-	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=r2Zn7V1M;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792763795;
+	b=ll9pUf3eS4NUpK00XiJg89CuA3lZmoeY0U29OG6dsMi+sV/gACAfNtSkLAeJRaQ2KG/O
+	 uv2EDXSv+FthY0iv0X79pmCv7EoM082xstkLpMwH+txAKf15qQzKozK9Rf5dhFU5wTPl0
+	 yQXR6dlD9Audwwm7BErjpion+XuLzY9zDWL7rRtLdIxCulvbGkFbDTSuQm2JrKNTXvhYb
+	 efHprDJtQnUbQu2POsboptUZwX55+ac15dlX9us6Ea6CadS9Ld1nHQ+HpQOUp6QN76PbB
+	 xA1UbqN1N4KmkoVTdauy3vc0lyngbmllLgnneExuBEvAVjwhB6lhVQjrZXysF//Wu0g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792763795;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=lIJyEq8ZKuIwJ9GhjyFiU/zdqQFZt2seSEYMO8dYYws=;
+	b=rqDwYH1wanwLsrhCIVdqWuNpNkj4kgkgTySNuAI+CWHPp1Eh4B+jRKgxVdEWuDM2p++u
+	 xLkeeCnzGfupxMCwzdFursQ8a3VuBmKahS2CUxFLjMoZL1nlnkE3mOzpeXjkFinocFzAh
+	 nPhSwQwE4JTorsSG4hCVJagRU6lj/O4tZFBpwnYWme3w4pMT4CvvF/70gjr0WpPK03lOg
+	 JA9qKQrFOmDRNSX7U47dzZFplDrtae55YBHXHQMecGUHbvWJeJ1s2ixN7FiuoVn+o3nba
+	 DEYFRXLUWmaAU6puoU3C9FixeUq2jVWrJs9RcA/C4QHtP4672iQFuQGDNmEI2zgqqNA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MPB1CMTS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF71606A31D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 13:54:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFF71606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC35606A31B;
+	Fri, 23 Oct 2026 13:56:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=r2Zn7V1M
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6b1b13e09ffso1164480a12.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 06:54:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792763686; cv=none;
-        d=google.com; s=arc-20260327;
-        b=U0vao3H7WkfLzHm7/9hjhFTZDPT2JPtL9qPeiRq6DPDP57zuKFS1Yf+hvdtwxetQAT
-         xsCqUqT4tIrnZd2MKQisFNzm1JbukrVT6c54keea5eZlGVl6HiCtAbxk4b52+Te5ZhKB
-         RCN+1YFAKXDUVeldXdU69freY4HU/SxZXvL+n2sM/RFyY77/zx96dWKl8cnDhEZQT0/W
-         7Y/AlHfS8OYkO7v2vVtLd5wkXNV3oh+q69flpbElsBa1sF5BVdWRXmBWsdgwkDRrpCtb
-         GU5n3dtHGfqBefsaOy5LqaLM6vJONsEyLcIoGxYV3xDf3JlfoVFYh+YM3P3BoUfBV96z
-         dodA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2+AhzJ7L8tQJlY/aZD4qLJRxC1d8AyZMihzE03ThXFg=;
-        fh=POaA8RlCNWn/Bc01IU/mb2GKA0i3Nz2o29tbopu0PCc=;
-        b=nY5QM5Vrql+LCHsAWQxQuqUH1VdUbO2oitUfR5Ms5Bm6osoKFGRLAncy27g6Z+WXRe
-         cYTkrFV4cFIIFuN8nicB37L0849VQJKuQp+XRg2SD2bwbSxqoldjEge1WLMcg1Bhw42I
-         i3i4EgAKX+pMn13v7tWu5w7ZHD/qNnEVjaBnVls3AO0A1ZW7XJjXXgjfFP3cGjbJNq47
-         mHGq79C0uXlVvFSXPvX3Ym0XqPiDmiMPp4oOvVLvcKKuKoIMrgkA9LDw9zUbQ/QvYC+g
-         rUKc5p6Y5Wbc7yy2CER8wMaipyZQbWoIEO3BbeLhvGURsqWFu9yKN4HyU0W/yw+FzAHO
-         LZWA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1792763686; x=1793368486; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2+AhzJ7L8tQJlY/aZD4qLJRxC1d8AyZMihzE03ThXFg=;
-        b=r2Zn7V1MeWwdfM/XmXgX9Sb84phDtlFGMHpyF7f9b9hCLBBS/fiDx3QC3JKDSFP5MD
-         LWQ0mvzZR2ib0k5Sh/fltlQ0/NnyUUVx9ZzWYyzdbJiDuDizFcQdztFRtnyvrG6Yu+Cn
-         dvlCigenjv8rIBI/nDd/Tx9ovJlyN4m0YM5sxFEF19gvlPGiYeJRAhqohMyZb1roVg/C
-         qdD8SuipZCYMOJetG8RiUa1eJCvCukyHsZ9U/TL5XxFMe5MibuLwLOcB8om7U2NNAWKw
-         bzGhi3rE0IuDTA677sgSXJrswpj5FaoBdyAz0AEfJsArOSE8Irdz4hc7IqLBw0eFAEHK
-         eizw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792763686; x=1793368486;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2+AhzJ7L8tQJlY/aZD4qLJRxC1d8AyZMihzE03ThXFg=;
-        b=SOgtqxhHCCSKJPRlvce7TJYMcmEj1CEL/Y/Pf1qvpUrueKrxTfRFd74aIh05SzFz5j
-         nNNawm8YOF2cgxHzTLwB8LHHDqWKRyB+X2DxOyWMiHpGma6wj00uwES3Hu9yRUfnUTDw
-         RFs8qY9X83+NrDtUJ1ofqNJ+s/ipMlQVd8sfY5hL8DkEVic+3C+TxLgWayz4oUaqjrZp
-         cQDfronIaD8V1sSRUiy0mIxO1BV1beCrrdSz7smxAFJrGHVoJ4uV2v8bfqVaDEA9+lYg
-         fmalDh+RjQN8c4IJuSbPxtp6rUH3GEhDz/P+Ei0WI1e4RohAeujBUoOrXWzbpkQSUl+b
-         vciQ==
-X-Forwarded-Encrypted: i=1; AKwUvBysYBNJvX8NsClJgu4/A/7woQbS4QHiJX8KkEYBSljtx/rqkZCYhxLeWAGGMlgyaV5xzHucTuA967rqkTyd@vger.kernel.org
-X-Gm-Message-State: AFq9FYKdBIpBBkQ7+fvOoY5dm1Wr+Va2v2klsNIJ1WeW6EQih7IMjLn/
-	a5XOskneSBnFL4yMryVcN7UwVIHTxwHs7ZHikn8DEe/bycYPGb6RAav0EYmu3893LXCNloTs3je
-	SJUd61xCyPmM69oH3+T16N7eKKesVGezKLXjIXVBktQ==
-X-Gm-Gg: AYBFou32s/8J4dRZCQORaypXUFvezbunR9FfN3dQlZWbMUjIdTq11Q2gMQJhaxcp3xf
-	/fJaDguaWBLpmZ1qRWkz2mgUHaPtpi0VWsdHdSE8rUmM6WbKqupXl5yYgPAgBGoryaPNRCSLvgH
-	lYBWKPHSh57ofjwsBp5rk/TVOghaYlbZO3G6e62GtzjZupghMr15UGLg7Gd9MmK3NT7PhV5N+Zo
-	I8AYO1PkYHjnDCiuiXmfWV47C5DGVo+NvLSUYoGM4ZYA256/ave95lxEANpNCelgSpBLJaDlNiO
-	L6hOmWNxaLqbiSIKn4akEhXLGfXu2GFtwRRKU2MKmbsIa2U9SB95aqBG2QZL83u/cqr7sYYy/U1
-	ZWr3T92T9GOTXwua/hqyGkIwKLwoMuTtmycZRyyvkSaoDimY4dUGZz050N8xgf+mInlG7ypKs/9
-	cUlPrpNJKD4Ht1BsLY
-X-Received: by 2002:a05:6402:1492:b0:6b4:2aa6:2bf7 with SMTP id
- 4fb4d7f45d1cf-6b432bf16e8mr2720618a12.17.1792763685720; Fri, 23 Oct 2026
- 06:54:45 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MPB1CMTS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E3EA1F01825;
+	Fri, 23 Oct 2026 13:56:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792763795;
+	bh=lIJyEq8ZKuIwJ9GhjyFiU/zdqQFZt2seSEYMO8dYYws=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MPB1CMTSu4zCHKYvwWZBFqExMatWRRpkb16SY8XSpHTd3Ozd1PdRtZPLUfXdjguYi
+	 dvdNW2dCmykiljYG8gKy6ZIEcO5ONl2y1u0TL7RkRTCKQllycezL9oSzkgFqGEDJ2s
+	 boSp8scc5dsiM0JHucAq2B8OBsV+m9NxCXx8bZ/DE12IerpVVbN+ZsVxkrocETfiG9
+	 XqgvX72CLJ35n/Qus5aFYwq5no5/tL+7tXsPlLzygY+E952GLJlAkrww69YYEEWrUl
+	 9a3GZeuNO/BWOY0hpy1asVsGRez/xgL80nLRD6QdvU2RynOVIWXgoH07/qQqOPnqOJ
+	 pF7PRQ64Ywtpw==
+Date: Fri, 23 Oct 2026 15:56:30 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v6 2/2] man/man2: introduce man page for file_setattr(2)
+ syscall
+Message-ID: <attnd98FtIIuGYA-@debian>
+References: <20261021141010.314835-1-aalbersh@kernel.org>
+ <20261021141010.314835-3-aalbersh@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,56 +58,268 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261023-work-super-lock_helpers-v1-0-d0fcb3f2f275@kernel.org>
-In-Reply-To: <20261023-work-super-lock_helpers-v1-0-d0fcb3f2f275@kernel.org>
-From: Josef Bacik <josef@toxicpanda.com>
-Date: Fri, 23 Oct 2026 09:54:33 -0400
-X-Gm-Features: AclHuK9zlK4tzMFGd7noBnaTxOTknDoJhgjCCtyLPmJXdPLrb9-AWs7tjRyMZTo
-Message-ID: <CAEzrpqd6bW5tDMox92VJEMVJb6ohzg55KFzZAXCiQNGxvecWaw@mail.gmail.com>
-Subject: Re: [PATCH 0/5] super: rework super_lock()
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6lplldpsfphxly7c"
+Content-Disposition: inline
+In-Reply-To: <20261021141010.314835-3-aalbersh@kernel.org>
+
+
+--6lplldpsfphxly7c
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v6 2/2] man/man2: introduce man page for file_setattr(2)
+ syscall
+Message-ID: <attnd98FtIIuGYA-@debian>
+References: <20261021141010.314835-1-aalbersh@kernel.org>
+ <20261021141010.314835-3-aalbersh@kernel.org>
+MIME-Version: 1.0
+In-Reply-To: <20261021141010.314835-3-aalbersh@kernel.org>
 
-On Fri, Oct 23, 2026 at 5:42=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
+> Date: 2026-10-21 16:10:05+0200
+> From: Andrey Albershteyn <aalbersh@kernel.org>
 >
-> Josef's two series (cf. [1], [2]) left us with four ways to lock a
-> superblock and two ways to wait for one that's being shut down.
-> super_lock(), super_lock_shared() and super_lock_excl() return true on
-> success while super_lock_killable() returns 0. And callers that need an
-> unmount to be over pair super_lock() with super_wait_shutdown() or
-> super_wait_shutdown_killable() and have to pick the one that matches
-> the lock they took. Jan pointed out the bool vs int mess (cf. [3]).
->
-> So fold it all into a single super_lock() that takes SUPER_LOCK_EXCL,
-> SUPER_LOCK_KILLABLE and SUPER_LOCK_WAIT_SHUTDOWN and returns 0 with
-> s_umount held or a negative error code. The first three patches don't
-> change behavior.
->
-> The fourth patch makes sync(2) killable while it waits for s_umount of
-> a live superblock. Right now a freeze or remount that's stuck under
-> s_umount hangs every sync(2) on the machine and nobody can kill it.
-> fs_bdev_sync() already works that way.
->
-> The last patch adds a guard for super_lock() for the callers that take
-> and drop s_umount in the same scope.
->
-> This sits on top of vfs-7.5.super which carries Josef's series.
->
-> [1]: https://lore.kernel.org/20261021-b4-super-lock-dying-v1-0-2b35e86706=
-ff@toxicpanda.com
-> [2]: https://lore.kernel.org/20261021-b4-super-lock-unborn-v1-0-0265eddb6=
-dee@toxicpanda.com
-> [3]: https://lore.kernel.org/tmw22jj2hn6g6lklme2j3rsfjvmstzpoicvibvmmv6si=
-vd66oj@nhc4lng25gti
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Add manual pages for file_setattr() syscall.
+>=20
+> Link: https://lore.kernel.org/all/20250630-xattrat-syscall-v6-0-c4e3bc352=
+27b@kernel.org/
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 
-Reviewed-by: Josef Bacik <josef@toxicpanda.com>
+Hi Andrey,
 
-Thanks,
+I've applied this patch with some tweaks.  Thanks!
 
-Josef
+
+Cheers,
+Alex
+
+> ---
+>  man/man2/file_setattr.2 | 183 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 183 insertions(+)
+>  create mode 100644 man/man2/file_setattr.2
+>=20
+> diff --git a/man/man2/file_setattr.2 b/man/man2/file_setattr.2
+> new file mode 100644
+> index 000000000000..b11c9ff9277f
+> --- /dev/null
+> +++ b/man/man2/file_setattr.2
+> @@ -0,0 +1,183 @@
+> +.\" Copyright, the authors of the Linux man-pages project
+> +.\"
+> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+> +.\"
+> +.TH file_setattr 2 (date) "Linux man-pages (unreleased)"
+> +.SH NAME
+> +file_setattr \- set filesystem file attributes
+> +.SH SYNOPSIS
+> +.nf
+> +.BR "#include <linux/fcntl.h>" "      /* Definition of " AT_* " constant=
+s */"
+> +.BR "#include <linux/fs.h>" "         /* Definition of " FS_XFLAG_* " co=
+nstants */"
+> +.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constan=
+ts */"
+> +.B #include <unistd.h>
+> +.P
+> +.B long syscall(SYS_file_setattr,
+> +.BI "               int " dirfd ", const char *" path ,
+> +.BI "               const struct file_attr *" fattr ", size_t " size ,
+> +.BI "               unsigned int " flags );
+> +.fi
+> +.SH DESCRIPTION
+> +The
+> +.BR file_setattr ()
+> +system call sets filesystem file attributes
+> +on the file specified by path.
+> +.P
+> +The
+> +.IR dirfd ,
+> +.IR path ,
+> +.IR size ,
+> +and
+> +.I flags
+> +arguments behave in the same way as in
+> +.BR file_getattr (2).
+> +The
+> +.IR fattr ,
+> +is read-only argument with
+> +file attributes to set.
+> +User-space applications should use
+> +.BR file_getattr (2)
+> +to initialize
+> +.I fattr
+> +argument beforehand.
+> +.SH RETURN VALUE
+> +On success,
+> +zero is returned.
+> +On error,
+> +\-1 is returned,
+> +and
+> +.I errno
+> +is set to indicate the error.
+> +.SH ERRORS
+> +The errors are the same as returned by
+> +.BR file_getattr (2)
+> +with the addition of following ones:
+> +.TP
+> +.B E2BIG
+> +.I size
+> +indicates a version which the kernel doesn't support
+> +(the size is larger than the kernel expects)
+> +and new fields are non-zero.
+> +.TP
+> +.B EINVAL
+> +Invalid combination of parameters provided in
+> +.I fattr
+> +for this type of file or filesystem.
+> +.TP
+> +.B EPERM
+> +The caller does not have the necessary permissions
+> +to change the file attributes.
+> +.TP
+> +.B EROFS
+> +The file is on a read-only filesystem.
+> +.SH HISTORY
+> +Linux 6.17
+> +.SH NOTES
+> +This system call is designed to be extensible.
+> +The
+> +.I size
+> +argument allows user-space applications to indicate
+> +which version of the
+> +.I file_attr
+> +structure they are using,
+> +enabling the kernel to support both old and new versions
+> +of the structure simultaneously.
+> +.P
+> +If
+> +.I size
+> +is smaller than the structure size the kernel expects,
+> +the kernel treats the missing fields as having zero values
+> +(which is a no-op).
+> +If
+> +.I size
+> +is larger than expected,
+> +the kernel checks that all unknown (to the kernel) fields are zero;
+> +if not,
+> +the call fails with
+> +.BR E2BIG .
+> +.SH EXAMPLES
+> +The program below demonstrates the use of
+> +.BR file_setattr ()
+> +to set the
+> +.B FS_XFLAG_NODUMP
+> +flag on a file.
+> +.P
+> +.in +4n
+> +.\" SRC BEGIN (file_setattr.c)
+> +.EX
+> +#define _GNU_SOURCE
+> +#include <fcntl.h>
+> +#include <linux/fs.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <sys/syscall.h>
+> +#include <unistd.h>
+> +\&
+> +#ifndef SYS_file_getattr
+> +#define SYS_file_getattr 467
+> +#endif
+> +\&
+> +#ifndef SYS_file_setattr
+> +#define SYS_file_setattr 468
+> +#endif
+> +\&
+> +int
+> +main(int argc, char *argv[])
+> +{
+> +    struct file_attr fa;
+> +    int dfd;
+> +    long ret;
+> +\&
+> +    if (argc !=3D 2) {
+> +        fprintf(stderr, "Usage: %s <filename>\[rs]n", argv[0]);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +\&
+> +    dfd =3D open(argv[1], O_RDONLY);
+> +    if (dfd =3D=3D \-1) {
+> +        perror("open");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +\&
+> +    ret =3D syscall(SYS_file_getattr, dfd, "", &fa, sizeof(fa),
+> +                  AT_EMPTY_PATH);
+> +    if (ret =3D=3D \-1) {
+> +        perror("file_getattr");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +\&
+> +    printf("Current flags: 0x%w64x\[rs]n", fa.fa_xflags);
+> +\&
+> +    fa.fa_xflags |=3D FS_XFLAG_NODUMP;
+> +\&
+> +    ret =3D syscall(SYS_file_setattr, dfd, "", &fa, sizeof(fa),
+> +                  AT_EMPTY_PATH);
+> +    if (ret =3D=3D \-1) {
+> +        perror("file_setattr");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +\&
+> +    ret =3D syscall(SYS_file_getattr, dfd, "", &fa, sizeof(fa),
+> +                  AT_EMPTY_PATH);
+> +    if (ret =3D=3D \-1) {
+> +        perror("file_getattr");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +\&
+> +    if (fa.fa_xflags & FS_XFLAG_NODUMP)
+> +        printf("flags 0x%w64x (NODUMP flag is set)\[rs]n", fa.fa_xflags);
+> +\&
+> +    exit(EXIT_SUCCESS);
+> +}
+> +.EE
+> +.\" SRC END
+> +.in
+> +.SH SEE ALSO
+> +.BR file_getattr (2),
+> +.BR ioctl (2),
+> +.BR ioctl_fs (2),
+> +.BR openat (2),
+> +.BR file_attr (2type),
+> +.BR path_resolution (7),
+> +.BR ioctl_xfs_fssetxattr (2)
+> --=20
+> 2.56.0
+>=20
+>=20
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--6lplldpsfphxly7c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrbZ40ACgkQ64mZXMKQ
+wqnfYA/+M1RS8G+Fb54XK+3BeSdRr1wQ7l7BiSa/aYW+J4IAfYIggc7wF+5The7a
+qTkeRYSTFVtXjjEkkDfU/Zd54kjegSURkzdN5jjBYx4WHhE7VTqY4r0YrnwwF5D2
+jl4aK6MkHJ4MdXRVskEsE0sCX/yQn2+gY7TWGv6+J0JDbGe2zBgrpp/L8AvkBB+w
+ReLGG4RG/ntJb22cusjYEKHiSaSpV5xP4KH0IxviJLKkqi4R0k+YMietwUYhSNlO
+xUB8NSUgam55jm3uAr/lnfZUwEk7BvEJX7wRuFwD1qictgKamVnfd/XzzByqf+lQ
+TwEMz9rcNfkuraeftG1dIPUJRdVRBA0KwQPGgHlOHmIwnx2d+7hEHXEAC0efZLD1
+nZ11iGql30ikBZ7hWdv1tG7tZQbCnmu86FEQhro2xtQa1YOKN4bDRmAp7ql7aZgD
+Y5jwubN4cWrA0QP2qM8Z6Ihq7ng++mdRvlttqI5im6lmYCZ/7DPCH9xNyLPvAT9c
+We6rT0GIV68aBXYYYAgckYwi3SW1uggyR3gSW8cLydhmyvc8sHzPoyw2lznl4SE8
+Y6w2kCD9U87KIW310D73g3PNlDF3j5Z8HObd/1iGvwlDVy27CDWFAmPhp9qAClDU
+ppP3o0RsyzfY8zYbOp0DRUUaePBi9OVCBNX2hjUEV2LYIH1H710=
+=FcUn
+-----END PGP SIGNATURE-----
+
+--6lplldpsfphxly7c--
