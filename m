@@ -1,61 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.155
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792716842;
-	b=J0DiinaN45ppqWR8wf7DI+cJqTIMaKTT/3TVIsAK5NfsOGLyf8tczEqTmjQcaThlytQy
-	 83+MYJJoZq5EEE2JElfTihhELxG+eEVxhehWa7ZQnI4ybXawlMx2SgxJPdyjvQiaqC55c
-	 MSs6US2ZMMU1WVREB9jGqxsk65vFHVbDmSyhvfeP/vKdOMgWG/GlzjR/KIGHebhSQirFR
-	 TGjRy3SGulQyK1k8gcUTM1veDyXNybVHeC/kQ+/4Qz0I60++WrjH/RHjMUsN9axgUe3PT
-	 lwZJuk8AB5IUOc3EzLITdaeGMaXWFpYNVgRp7qsdEHUxFioo8pFseex+q3gO8mGPiuw==
+	t=1792718600;
+	b=LJGzkfXEX+1GCRdTBldnEVFxTlYRvp6UpAIgpJ7KeEnVknvZRoF2fvSXnv7obwZt46eh
+	 RDdQ1MFz4NoHX/acArrqSwr3KU3TAWGOTlva5E4zMgTeLD4OzQ0BqXkycKbwW6gU2/qNa
+	 cmaVfV3pSWHWE3tUWNDaUTbcCP/3jK3vJdAl1OGwGHV88BW80KMfAAWSqwecYhBejMDcX
+	 LVw/7Os4qZUdRHyfNH8O46MJvZpo+UfRNKp+KbhzECnBI40/GRWmLasJjxU8OUbZT21pr
+	 E4ehpL0uM/zW8DOJYxS6/ZpjjCeJjGLhoWX1qTuDWIsrvsmbWknGzUHtqtpUpWcRKtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792716842;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=nYW9SB9bemiFfYhVQt1sKLx4FrVO5SfLiirdrRHkEdY=;
-	b=LIH1asld3kLKjk/KqoY5B5eHIipJC6NxFSU36W2zhBQdt65ZdQZ+Vrlza05WpoMTfD5m
-	 SOk5720JVSH72IJBjs/08H2rz8VHGEl+ohphEYDHMnUqDBnH/9xO8HweyS5DduhAcOxDI
-	 qfeac/KBaBOivCzwtt6PrWrNue2v18It+qMfS1YZjnAA9oojpNmEadGLEEEJb5s82Uz8q
-	 tOd8W/yggrAUYvgHxk81n0PHSpo4GHBowlGrTdDmAz2lDn6naoHHCeDMjUXeYsrhNmaF3
-	 +sItJRmiHQKR5ewETiNaIsK5iTOdmgHvv/lgXLzFGaZ3zav+p98E7KBmzWa7PazfzVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792718600;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
+	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
+	bh=7cFXi0L/JdhyCBHsqgbk8A7Ch3+1Xn76JLKJNL9bMo0=;
+	b=yZltmjbktGrdIHrWVFj0DTGn1aiBa44CvUmv7rFhxvC8W1jAq03Kj6Y3I5XT1tTWSoTf
+	 5fKHD6ms80yIEmd7ljcH4e4m7CxbMk4eIQemAMBrlM2uk6co4zvwqbcLanF9VVZj1UclO
+	 J7fs8EyEaJES2D/JDD35FrtyQob/S1lQiV7rTIyRgE4fTSd43G+Z+usFk7BydPlVuwEoq
+	 EdRB+fvcxkuxFBsC5BjXEfPlqBE6rKYEsDTEhUqxAajz4wp/PGH0KS/bJdcxixvQWJgww
+	 Bc9f4PmRQ0JupZET7vNFD6XkEEjHn06gXY8LcRQ68gpFJ6cKlskR7uVI3Cjz98KgTKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ckQTyi5t;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=ownmail.net;
+	spf=pass smtp.mailfrom=ownmail.net;
+	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=UfZqc+3Q;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=cmsmFIxe;
+	arc=none smtp.remote-ip=202.12.124.155
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230BC606A319;
-	Fri, 23 Oct 2026 00:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7912606A31B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 01:23:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7912606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ckQTyi5t
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C6BE1F01825;
-	Fri, 23 Oct 2026 00:54:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792716841;
-	bh=nYW9SB9bemiFfYhVQt1sKLx4FrVO5SfLiirdrRHkEdY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ckQTyi5tq4/uNcGqzn0KrC0dZAdPhP/AtBfqNIwiBRoxxCCUvlBw4H1j+3rB3M53r
-	 jpJQZCRg9VLrGMFib3wkr2lp8KeoljEIShPdDkA3ryT0MmkYynXQawdcEx171/gsDc
-	 KUc3enj+LPcxyRMpLzF1bY7CzpZPRiq+oM7b036qeX0DhVbxhesZ4ZGlBCu3Jw/7px
-	 v5Aa+OZT3wA/Zm5LV59lZsIocOLhltNd8hqgejsmGrhBZJcT7fECtijN8iylmXOYpY
-	 LQGALnFQQe2Tn26eRXn7ZUBDzU9rnDcE8EhPLzf67NPrQFbns2cx+RElemCH3D5lZb
-	 FYrI1CATMzysg==
-Date: Thu, 22 Oct 2026 20:54:00 -0400
-From: Mike Snitzer <snitzer@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Mike Snitzer <snitzer@hammerspace.com>, Chuck Lever <cel@kernel.org>,
-	linux-nfs@vger.kernel.org, NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v7 4/5] mm, iomap: let an uncached writer complete its
- shared pages itself
-Message-ID: <atqwKE2fJ1mH3s4p@kernel.org>
-References: <20261020220346.28020-1-snitzer@kernel.org>
- <20261020220346.28020-5-snitzer@kernel.org>
- <39b14c2a978ec71138492debe95d883aebc3cfe5.camel@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=UfZqc+3Q;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=cmsmFIxe
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 1AD897A015E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Oct 2026 21:23:19 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Thu, 22 Oct 2026 21:23:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1792718598; x=1792804998; bh=7cFXi0L/JdhyCBHsqgbk8A7Ch3+1Xn76JLK
+	JNL9bMo0=; b=UfZqc+3Qrfv23fsfZc2jvmU7RuFQ/CB0TSGHl3tztznkVS9LqM7
+	u7tpvfZq9C7l71qOZ+tfjia2OgBi6BVDn8ZeNRHSsWtc15OSsiGGbH4P5FmSu4XL
+	hXH0IvFh4K5NEEMEykG2IpTO3rkf/uLChSXzE3/7CqFcu71j1S2uCch/nOMebIFg
+	N+OY8EJpSLd8vzn8zDmmRz1lW8uy3OThMVirxrFNsUh3MkEUrDSCBmAWSIQOFR3o
+	t8oB00oO5c9eveC8hTgi/InXp019gaOPxDsU8DaPRWYGqmfgsCGyBSShFyd4s7g8
+	qyzvhPAs2+HQqWQF8lv1iP9Lp4vCFHAqgbA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792718598; x=
+	1792804998; bh=7cFXi0L/JdhyCBHsqgbk8A7Ch3+1Xn76JLKJNL9bMo0=; b=c
+	msmFIxeN/qxDjXj7JHu74YT46slPjygG0V4YKZ0ulfTzTIB2SMU/d5W+9bYZQkzO
+	Z9U9BDdFOc/PBjzz8vt2JlQzMpyPDoA43SKp869dWkWRNol/in13WFQu1cgMuJ4T
+	g38w357DCAY3rOla4Uy16+UM4nfm2hJ13WULtrYDvfJLs0StgxJO3u6tbt23fcQf
+	Xo6p1qshEEvLbT/q7KHC5zOfGHt90oLMUE7Z8lqkgmJiJ+tGGr+D4HqNkjuSmou7
+	RPDcIVjqmP9RCyCiuU6Og54Yv0jjZbVzPmkY0LjmHSYon0Ndl3I1UKXdFFTRZsGT
+	Fw3O4OBK3dbe6yheVRr4A==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=sign d=ownmail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1792718598; d=ownmail.net;
+	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm2:rsa-sha256:kbrJ04nA07GjGcyQpl/EC7UNyZPJcYwRHTr2p/yOgi+Ib2i
+	7B73WqncK5Vyv9b7eITLuVh3SZTHcyBvIKH4rNOxdIw2kf6ej6LrZKJ/WM18rZAf
+	PKQ2VjgwDfUfJySHi9mp6T13/j4UKlAJhglypYngnfAilvsflwA2o9BMJQgeoHdq
+	hTD8gGuEzcjPlLMLvVa5AAvS+AIcNO98119SRrTY3j0AQTV731fSvNUJ2DxwFL/G
+	bGWgV7rhGbaniGNbtO3c/D7CmzUFc8Na4S5LX4zPTOX0svifXBWp3qtQPQwzIHdB
+	RREiBN4MHQ9cyWlAGEkAlE80C6UXaDsCrkKJ2hg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,reply-to,
+	subject,to;
+Message-Instance: m=1; h=sha256:YrN/KlqvJbuKZP5+/zhM5/JVYqXjcKZo0i2ywgzsSYM=:hXcREjO32Ld50T+nbL2hR5exmKKcdTu1Lk84ebTml1k=;
+X-ME-Sender: <xms:BrfaamyaXVGxedXYMFvgKLZdAq8aTe1L7ZMtzPVKUFiRKuiY21AcQw>
+    <xme:BrfaaghOoCO7v3toHGHJI6Nxnvf5DQfxG6kyXV4ot6uGHswML_FQ9ODAJltSPLV9L
+    mhPyeIjLcB0yP5G9GYzXnd6wuixkDzGbhmqwAIlO7dzSeCNF5jo>
+X-ME-Received: <xmr:BrfaahqtCgjZh9fnhHbqjalQDsOuvi1S_aC8Dt44_R4I5wsgak7fcHni8MR37xS_W1SwoFZgH1HHm_nUFIh0DPgIRLFJ6vs>
+X-ME-Proxy-Cause: dmFkZTFOPz9kVuRAJKXCexeAqCEJ3ruIe2UMXhbQkPVg2UFXrQecH2TQP0Zr0KlAgTNkSp
+    FQPdZUhOcjOrbo3H82A3HH0nhqFCKDcix67y6wDLuWb2jiToCxZBBM2lrdj+ind51vGAwU
+    GR9ab9wjgvmbx6ujLCAi0MMKBZUaxKiIob5+udC4a7+6gWEoQa4Hiq3BpWTO2vf+gKIp6J
+    vm4y2vlh8d5zJAhFQ4naGPAGMt1hlMHD1YJj5d/Q8aRxan9IWFa6XtjtvQuLnfb4Vf7d4K
+    Cbifv+b2sOwLuGZ/kXWROmW0/wbwEzJjoyEPVRrFkHmHXubXLJQNaPaw7Uw4JI1G5sePuG
+    OhD5y0oLLdgt0FqDcj++kBSuJY9geFZGVApMi9XaTOhDTzNejzdNxccn4QvU+pvqtUDbyE
+    cWofaU+0T+UxBnz2W7juRDB+jnt08EV0bdc0V7KvSwBe0299ybp65cehBMq8VoAJyeMv9B
+    96VdUM+iq0U9/qjH3z0cfywfuuQlBwjuPLzTgPluPvNvwIzfLwHcXPDetLYYkDXbrVUayB
+    mbQNC8VW5APsArPbdFOAvJqMHCjtQdVuEjtpTemJaE/IIMPEIktQuiJr/VdwweJzA4Jtaa
+    9gjf8hrA3mnx68lCNYA9Ao7nbV2k99y3PRkwZt2Hc4DF3lXZ+ihGwtIYdkqw
+X-ME-Proxy: <xmx:Brfaavji7RqzwhfR13ZV_DCsuBKIsH-quVNcy4lpnxBQYhZtVaIUlw>
+    <xmx:BrfaarOOn01-vrZm67Wv3971pvk2uuVoaFX5XWd9UQxuwh9rox6yOQ>
+    <xmx:Brfaahz_WetjwDvrsrgntQ0787cceiiVZLYM67C9eQFVfn40mpURcQ>
+    <xmx:BrfaaloApk53qIOMRg-shDhcJPwjZEd0lV1M4NJUopTm7DZWWNUA9w>
+    <xmx:BrfaaqcDF_DQeZh0rDC46IK5HxHcb8X-UGBenopU5gf6-uiO-OgFxEeb>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 22 Oct 2026 21:23:15 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,82 +118,274 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <39b14c2a978ec71138492debe95d883aebc3cfe5.camel@kernel.org>
+From: NeilBrown <neilb@ownmail.net>
+To: "Tom Talpey" <tom@talpey.com>
+Cc: "Paulo Alcantara" <pc@manguebit.org>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
+ "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
+ linux-cifs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 1/3] smb/client: don't unhash and rehash to prevent new opens.
+In-reply-to: <6233e33a-e6e2-4c9d-8372-5aa75f4f3314@talpey.com>
+References: <20260928012812.2890035-1-neilb@ownmail.net>
+  <20260928012812.2890035-2-neilb@ownmail.net>
+  <6233e33a-e6e2-4c9d-8372-5aa75f4f3314@talpey.com>
+Date: Fri, 23 Oct 2026 12:23:11 +1100
+Message-id: <179271859119.2068970.332034501939522955@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Wed, Oct 21, 2026 at 06:54:14AM -0400, Jeff Layton wrote:
-> 
-> 2 comments from Chuck's sashiko on this one:
-> 
-> [Severity: Low]
-> Could filemap_dontcache_edge_complete() in mm/filemap.c avoid missing the
-> immediate drop when another task acquires the folio lock between
-> folio_unlock() and folio_end_dropbehind()? In that case folio_end_dropbehind()
-> fails its folio_trylock() and does not retry; if the folio is already clean,
-> there may be no later writeback completion to drop it, so it can remain cached
-> until unrelated activity or reclaim.
+On Thu, 22 Oct 2026, Tom Talpey wrote:
+> One nit below...
+>=20
+> On 9/27/2026 9:25 PM, NeilBrown wrote:
+> > From: NeilBrown <neil@brown.name>
+> >=20
+> > smb/client needs to block new opens of the target of unlink and rename
+> > while the operation is progressing.  This stablises d_count() and allows
+> > a determination of whether a "silly-rename" is required.
+> >=20
+> > It currently unhashes the dentry which will cause lookup to block on
+> > the parent directory i_rwsem.  Proposed changes to locking will cause
+> > this approach to stop working as the exclusivity will be provided for
+> > the dentry only, and only while it is hashed.
+> >=20
+> > So we introduce a new machanism similar to that used by nfs.
+> > DCACHE_PRIVATE (given the name DCACHE_BLOCKED) is set when lookups need
+> > to be blocked.  ->d_revalidate checks for this and blocks.  This might
+> > still allow d_count() to increment, but once it has been tested as 1,
+> > there can be no new opens completed.
+> >=20
+> > Unlike unhash which does not need to be reverted on error, and which
+> > must not be reverted on a successful d_move, blocking of opens must
+> > always be reverted.  So we don't block the open until after the last
+> > early "return", and we always unblock on the final "return".
+> >=20
+> > Strictly speaking it is only necessary to block opens before the value
+> > of d_count() is tested under ->d_lock. But we block as early as possible
+> > to discourage new opens from starting.  As open is path-based in cifs a
+> > concurrent rename can be confused a rename of one other the paths.  Once
+> > cifs_open() has generated the full_path it doesn't hold any locks to
+> > prevent a rename from making that path invalid.
+> >=20
+> > The important details of the interlock between __cifs_unlink (which both
+> > unlink and rename use) and "open" are that __cifs_unlink() sets
+> > DCACHE_BLOCKED  *before* testing d_count() which is
+> > in a d_lock locked region,  and cifs_d_revalidate() tests the bit *after*
+> > ->d_lock is taken by e.g. __d_lookup() to increment d_count().
+> > Thus ->d_lock provide serialization between the set and the test
+> > even though the test isn't in a locked region.
+> > (The fact that cifs_d_revalidate() always returned -ECHILD when
+> >   LOOKUP_RCU is important for this sequencing to work as it ensures
+> >   d_revalidate() is called *after* d_count() is incremented).
+> >=20
+> > Signed-off-by: NeilBrown <neil@brown.name>
+> > ---
+> >   fs/smb/client/cifsfs.h |  8 +++++
+> >   fs/smb/client/dir.c    |  3 ++
+> >   fs/smb/client/inode.c  | 68 ++++++++++++++++++++++++------------------
+> >   3 files changed, 50 insertions(+), 29 deletions(-)
+> >=20
+> > diff --git a/fs/smb/client/cifsfs.h b/fs/smb/client/cifsfs.h
+> > index 0c85daa8386e..bcc0fb5c2c9b 100644
+> > --- a/fs/smb/client/cifsfs.h
+> > +++ b/fs/smb/client/cifsfs.h
+> > @@ -42,6 +42,14 @@ static inline unsigned long cifs_get_time(struct dentr=
+y *dentry)
+> >   	return (unsigned long) dentry->d_fsdata;
+> >   }
+> >  =20
+> > +/*
+> > + * This is set to block d_revalidate on a dentry that is being removed -
+> > + * the target of unlink or rename.  This causes any open attempt to
+> > + * block.  There may be existing opens but they can be detected by
+> > + * checking d_count() under ->d_lock.
+> > + */
+> > +#define DCACHE_BLOCKED DCACHE_PRIVATE
+>=20
+> Why the alias? The blocking behavior is reasonable but #defining a
+> flag value which is purely local to this file seems unnecessary and
+> confusing. What if another file in fs/smb/client also overloads the
+> DCACHE_PRIVATE flag, for example. Consider removing this hunk.
 
-Yes.  There was no reason to let go of the lock first: the folio is
-locked and we are in task context, so v8 drops it with
-filemap_end_dropbehind() before the unlock, as folio_end_dropbehind()
-does once its trylock succeeds.
 
-> [Severity: Medium]
-> Could filemap_dontcache_edge_complete() in mm/filemap.c restrict marking to
-> the boundary page when the mapping returns a large folio? iomap_get_folio()
-> in fs/iomap/buffered-io.c limits a partial edge request to one page, but the
-> mapping's minimum folio order can still cause __filemap_get_folio_mpol() to
-> return a multi-page folio, or the lookup can find an existing large folio.
-> This helper then marks the entire folio for drop-behind. For example, if a
-> caller uses deferred completion on an XFS mapping with a minimum folio order,
-> marking one edge can account the whole dirty folio for DONTCACHE writeback or
-> invalidate the whole clean, unmapped folio. Could this path handle only the
-> page covered by the completed edge?
-
-Also right, and it applied to 3/5 as well: the folio a write finds
-uptodate there was marked whole in the same way.  3/5 only creates the
-edge as a single page; a lookup can find a larger folio that readahead
-or an earlier buffered write left, and dropping it drops everything in
-it, including other edges whose second write hasn't come yet, which
-then pay the read-back this series is meant to remove.  A folio can't
-be dropped in part, so v8 marks a found folio only when it is the
-smallest the mapping allows, folio_nr_pages(folio) ==
-mapping_min_folio_nrpages(mapping): a single page, or a single block
-where the block is larger than a page, which is then the unit two
-writes share.  A larger folio is left unmarked, cached until reclaim
-as it is without the series.  That is in 3/5's lookup and in both 4/5
-helpers.
-
-Looking at that turned up two more places that used the page where the
-smallest folio is the unit, both fixed in v8:
-
-- 3/5's iomap change decided that a write covers its first or last page
-  only partly by page offset, so on a mapping whose blocks are larger
-  than a page a write starting on a page boundary inside a block didn't
-  ask for its block as an edge.  It now tests against
-  mapping_min_folio_nrbytes().
-- NFSD cuts a misaligned end of a direct-mode WRITE on a page boundary
-  (80728157d1bd, "NFSD: cut a misaligned direct-mode WRITE at page
-  boundaries", in Chuck's nfsd-testing), so there the direct middle and
-  a buffered end could share a block.  v8 has a fix for that at the
-  front, so the end is cut at the smallest folio as well.
-
-Measured on XFS on an emulated 4Kn NVMe, 4 KiB pages, 32 threads writing
-interleaved 47008-byte records, 1 GiB, 4 KiB reads per write from the
-device, v7 against v8:
-
-                                                v7        v8
-  RWF_DONTCACHE over large folios readahead
-    left (pages resident after)          0.94 (6%)  0.0026 (100%)
-  RWF_DONTCACHE, 16 KiB blocks              1.62    0.0014
-    (12288-byte records)                    2.89    0.0004
-  NFS WRITEs through NFSD DIRECT,
-    16 KiB blocks                           3.46    0.0016
-
-(v7 in 128 MiB runs, v8 in 1 GiB runs; 16384-byte records, which cover
-only whole blocks, read 0 either way.  On 16 KiB blocks one block read
-back per write is 4.0 here.)
+I thought that giving the flag a meaningful name would make the code
+that uses it easier to read. But I'm happy to drop it.
+I'll resend with the IS_ERR_OR_NULL change too.
 
 Thanks,
-Mike
+NeilBrown
+
+
+
+
+>=20
+> Tom.
+>=20
+>=20
+> > +
+> >   extern struct file_system_type cifs_fs_type, smb3_fs_type;
+> >   extern const struct address_space_operations cifs_addr_ops;
+> >   extern const struct address_space_operations cifs_addr_ops_smallbuf;
+> > diff --git a/fs/smb/client/dir.c b/fs/smb/client/dir.c
+> > index 6fa6d48fdfd3..88fff65320f5 100644
+> > --- a/fs/smb/client/dir.c
+> > +++ b/fs/smb/client/dir.c
+> > @@ -872,6 +872,9 @@ cifs_d_revalidate(struct inode *dir, const struct qst=
+r *name,
+> >   	if (flags & LOOKUP_RCU)
+> >   		return -ECHILD;
+> >  =20
+> > +	/* Wait for pending rename/unlink */
+> > +	wait_var_event(&direntry->d_flags, !(direntry->d_flags & DCACHE_BLOCKED=
+));
+> > +
+> >   	if (d_really_is_positive(direntry)) {
+> >   		int rc;
+> >   		struct inode *inode =3D d_inode(direntry);
+> > diff --git a/fs/smb/client/inode.c b/fs/smb/client/inode.c
+> > index 12ed8db10e00..4d34c5622cd4 100644
+> > --- a/fs/smb/client/inode.c
+> > +++ b/fs/smb/client/inode.c
+> > @@ -1967,24 +1967,31 @@ static int __cifs_unlink(struct inode *dir, struc=
+t dentry *dentry, bool sillyren
+> >   	__u32 dosattr =3D 0, origattr =3D 0;
+> >   	struct TCP_Server_Info *server;
+> >   	struct iattr *attrs =3D NULL;
+> > -	bool rehash =3D false;
+> > +	bool unblock =3D false;
+> >  =20
+> >   	cifs_dbg(FYI, "cifs_unlink, dir=3D0x%p, dentry=3D0x%p\n", dir, dentry);
+> >  =20
+> >   	if (unlikely(cifs_forced_shutdown(cifs_sb)))
+> >   		return smb_EIO(smb_eio_trace_forced_shutdown);
+> >  =20
+> > -	/* Unhash dentry in advance to prevent any concurrent opens */
+> > -	spin_lock(&dentry->d_lock);
+> > -	if (!d_unhashed(dentry)) {
+> > -		__d_drop(dentry);
+> > -		rehash =3D true;
+> > -	}
+> > -	spin_unlock(&dentry->d_lock);
+> > -
+> >   	tlink =3D cifs_sb_tlink(cifs_sb);
+> >   	if (IS_ERR(tlink))
+> >   		return PTR_ERR(tlink);
+> > +
+> > +	/* opens might already be blocked by rename */
+> > +	if (!(dentry->d_flags & DCACHE_BLOCKED)) {
+> > +		/*
+> > +		 * Block opens - and all lookups that involve d_revalidate.
+> > +		 * This guarantees that if another thread tries to open(), it
+> > +		 * will either block, or will increment d_count()
+> > +		 * before we test it below.
+> > +		 */
+> > +		spin_lock(&dentry->d_lock);
+> > +		dentry->d_flags |=3D DCACHE_BLOCKED;
+> > +		spin_unlock(&dentry->d_lock);
+> > +		unblock =3D true;
+> > +	}
+> > +
+> >   	tcon =3D tlink_tcon(tlink);
+> >   	server =3D tcon->ses->server;
+> >  =20
+> > @@ -2107,8 +2114,13 @@ static int __cifs_unlink(struct inode *dir, struct=
+ dentry *dentry, bool sillyren
+> >   	kfree(attrs);
+> >   	free_xid(xid);
+> >   	cifs_put_tlink(tlink);
+> > -	if (rehash)
+> > -		d_rehash(dentry);
+> > +	/* Allow lookups/opens */
+> > +	if (unblock) {
+> > +		spin_lock(&dentry->d_lock);
+> > +		store_release_wake_up(&dentry->d_flags,
+> > +				      dentry->d_flags &~ DCACHE_BLOCKED);
+> > +		spin_unlock(&dentry->d_lock);
+> > +	}
+> >   	return rc;
+> >   }
+> >  =20
+> > @@ -2536,7 +2548,6 @@ cifs_rename2(struct mnt_idmap *idmap, struct inode =
+*source_dir,
+> >   	struct cifs_sb_info *cifs_sb;
+> >   	struct tcon_link *tlink;
+> >   	struct cifs_tcon *tcon;
+> > -	bool rehash =3D false;
+> >   	unsigned int xid;
+> >   	int rc, tmprc;
+> >   	int retry_count =3D 0;
+> > @@ -2552,20 +2563,20 @@ cifs_rename2(struct mnt_idmap *idmap, struct inod=
+e *source_dir,
+> >   	if (unlikely(cifs_forced_shutdown(cifs_sb)))
+> >   		return smb_EIO(smb_eio_trace_forced_shutdown);
+> >  =20
+> > -	/*
+> > -	 * Prevent any concurrent opens on the target by unhashing the dentry.
+> > -	 * VFS already unhashes the target when renaming directories.
+> > -	 */
+> > -	if (d_is_positive(target_dentry) && !d_is_dir(target_dentry)) {
+> > -		if (!d_unhashed(target_dentry)) {
+> > -			d_drop(target_dentry);
+> > -			rehash =3D true;
+> > -		}
+> > -	}
+> > -
+> >   	tlink =3D cifs_sb_tlink(cifs_sb);
+> >   	if (IS_ERR(tlink))
+> >   		return PTR_ERR(tlink);
+> > +
+> > +	/*
+> > +	 * Block opens - and all lookups that involve d_revalidate.
+> > +	 * This guarantees that if another thread tries to open(), it
+> > +	 * will either block, or will increment d_count()
+> > +	 * before we test it in __cifs_unlink().
+> > +	 */
+> > +	spin_lock(&target_dentry->d_lock);
+> > +	target_dentry->d_flags |=3D DCACHE_BLOCKED;
+> > +	spin_unlock(&target_dentry->d_lock);
+> > +
+> >   	tcon =3D tlink_tcon(tlink);
+> >   	server =3D tcon->ses->server;
+> >  =20
+> > @@ -2605,8 +2616,6 @@ cifs_rename2(struct mnt_idmap *idmap, struct inode =
+*source_dir,
+> >   		}
+> >   	}
+> >  =20
+> > -	if (!rc)
+> > -		rehash =3D false;
+> >   	/*
+> >   	 * No-replace is the natural behavior for CIFS, so skip unlink hacks.
+> >   	 */
+> > @@ -2698,8 +2707,6 @@ cifs_rename2(struct mnt_idmap *idmap, struct inode =
+*source_dir,
+> >   			}
+> >   			rc =3D cifs_do_rename(xid, source_dentry, from_name,
+> >   					    target_dentry, to_name);
+> > -			if (!rc)
+> > -				rehash =3D false;
+> >   		}
+> >   	}
+> >  =20
+> > @@ -2713,8 +2720,11 @@ cifs_rename2(struct mnt_idmap *idmap, struct inode=
+ *source_dir,
+> >   	CIFS_I(source_dir)->time =3D CIFS_I(target_dir)->time =3D 0;
+> >  =20
+> >   cifs_rename_exit:
+> > -	if (rehash)
+> > -		d_rehash(target_dentry);
+> > +	/* Allow lookups/opens */
+> > +	spin_lock(&target_dentry->d_lock);
+> > +	store_release_wake_up(&target_dentry->d_flags,
+> > +			      target_dentry->d_flags &~ DCACHE_BLOCKED);
+> > +	spin_unlock(&target_dentry->d_lock);
+> >   	kfree(info_buf_source);
+> >   	free_dentry_path(page2);
+> >   	free_dentry_path(page1);
+> >=20
+> > base-commit: 3879f51857325da9bf3cfb073280257cd16ae067
+>=20
+>=20
+
