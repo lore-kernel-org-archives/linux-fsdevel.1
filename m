@@ -1,97 +1,167 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792776785;
-	b=g8C2ElPdML26OY2VD+eJvwL7FBjnjq1XqC85NNQyuQisv58thk9cgkaeBgy9V+qFber9
-	 aI+jLbyoOur0Tpiq/ShWmxi6drIi3rFtevhi2nT17z8/KBxNJG6X/90+v3PVV5axN1J5Q
-	 ahio15pzeUVTukWeSDr8hH58JxSRLilAnJgulhvMAwpI0T2DxiyI8gYhDdMXNWGFWKO9g
-	 DKO3yw151J39ylQ5sUJair8sCuhraPnXeQ2LC4yR8CouNAU42I0ThlCPuUSB59G8jf5uB
-	 ZkA0+P5Sy+XNEDl8PPO5tE03IwJIIDKSbVptPN+giznuIMnuwagcy5UjLYfjG5/0EzQ==
+	t=1792777343;
+	b=tns+T0sLDnsGvAPwT9ECiFHjtAX/VkvjbqlAt2TQ4tWxA5pzIFXcfYcW3AmihFDGpLj4
+	 Y8wss8su3+6ymQj/rS+QMtpTvZvszBrz2QTt1elLsQteUmYbWAVsRigch7kbdz93Ywaga
+	 rbqZ8KkU28576dRAaS4aH9c5arMWWNVHJcO7aBetpL0i45XMFJUwTpfI/cYQgwXLKqjLT
+	 lHmi+CEqyr6tE9ATkV+DIBe878XnBrbW0328tcRQ06c6su1/+eDjkNkLETJw+YFBtVT3K
+	 Ln6CHqBRODmKpivhr8tUnfa94GRv2nH8OEkRiaCljQ9YJqPC5wFFryONGBEsHybd4dw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792776785;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792777343;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=cfFhlHkKVrFXSmeZYo5gvz1zhcXjNjoycIItBCRV3ic=;
-	b=sNZd0j2IbyjXv//WnwzKyRjMVuujMaXvmVMDwXv5U/Yo4MIEZGR3gQ+/KCvLtMp2C5C5
-	 ytuHJmPv6q+m6A7miMXzE3nXZ+QO+RaDzjtCMYhBuPYyM+JUe/Dp02XB841bQL3peRaWp
-	 SGacAdzEg7S7cZAMZwNvvEmo6VaA4IJ21FtRDv2ntQNc7dIhtCdzW2Oks5IOsy+4YJmeE
-	 yEfQYJvFZeZ1eMufi0VcSHWake48NOBghVjb2VOAJjA2AKRIF0wmAhdoiopkynpR2NVXq
-	 +RkPLuHpiB6kuTm3RauUXLrXk/1TIQhQTdP7axPkb/YdREQO/e91BNY28WMOuGO7Dcg==
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=IArJW2D7DC4NrWDvM238weKBxrWboHP+GmGljUSheNA=;
+	b=kzwd+DGffTpvw+NR3KyNoSEEeeeiFtiNMmC8pAGRt40LU71E0sb4SprlhkHzwnUhqOX2
+	 R5WzDxqYM9EC1D6v9GW/ets/X0W8Py8pGvkLb35vyQq3Y7E+xJHTO+WeaBliNhg9LBuXF
+	 07AtfKhW/DKy3vLhilUVrHAI3AvuoJeZppqWLvJ87k9tWGwQILZYA27fC9Np4g7LrS7ux
+	 zmjOchusBKzymDyoKNVuQuQ+0soRpcCI01KC7vTJBAAg6KHVBXEfdyJPDJSz/oNtQaPnL
+	 p/iUvqU4kvqjceWgecel99mGiWarEMIuKKCdRVd6nic3BNZd9lTBz4TxtHxWfEoNg1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cs.unc.edu;
-	spf=pass smtp.mailfrom=cs.unc.edu;
-	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=VaUL86p9;
-	arc=none smtp.remote-ip=209.85.128.180
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qE15pYgN;
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487B3606A31B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 17:33:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 487B3606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDB9606A31E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 17:42:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFDB9606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=VaUL86p9
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-8b10ac6ab7bso12082327b3.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 10:33:04 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qE15pYgN
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48df4f540ebso674824f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 10:42:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1792776784; x=1793381584; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cfFhlHkKVrFXSmeZYo5gvz1zhcXjNjoycIItBCRV3ic=;
-        b=VaUL86p9W8Ij7nYadvTnLVjLIfxoXTnftnSupztuaXFLBc6HgsqzB7Ud1HU3voaBfV
-         c2YTLHbQHqYx2hkLgch0SU0B3lGA/gmKMIPW9VNGGCnHWFAFLxwS484qhvmHUJtoyB4U
-         q2lFWjW0nq/2sf7CYgxkhuwWcEw43EF6y5znee2MjSsvzNxINWEHc4ljORwkMTsmrvPo
-         s7HWAHb3HuI+5eNje7YQ2qyjU6I+vqiE7JDVD+pvU5F1MR6onOkC7wwX8GdI8yxmvUws
-         5v5BFI9yt3KWaO3GLPyjmFYDh/LS0ZqzRrqFuwIXL7nRitjGWEBgml9N7vpBtdPzWlzv
-         teXA==
+        d=gmail.com; s=20251104; t=1792777341; x=1793382141; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IArJW2D7DC4NrWDvM238weKBxrWboHP+GmGljUSheNA=;
+        b=qE15pYgNtOgyK2wp9uhHmPW3lpnIrQjWDDouCy3JYbd1IPAGnpkiQ1sFjBCfeqsgVk
+         11lRWEucebETVSgkVRwe4eQ7IHe8OlPrizWnzae5mEN51Lz7LmMQAvfowgfp7pp9VjSY
+         8ojMFcQ8Y/cMXl9Vl5ClHIKs8MbSDwSpdyrxKk5eONs/+iNwEGuTjszhx81xmGle2j3u
+         5SttvDKVdVVC6L1H6oJIFjikyY5gkiye6rcli8bFHH5Otyy3QtD+qvimrzBlONJNZ6SJ
+         X5NX0lfRgpuebTW3dXrYQ6ah5QMTrTT9+wd/GIR0AgncOrzQqe42eAZ9koOBhOXDH0X3
+         DVDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792776784; x=1793381584;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cfFhlHkKVrFXSmeZYo5gvz1zhcXjNjoycIItBCRV3ic=;
-        b=WbFKVehS7FoBXpIck/bpKUeumDfyA6HQEUteemLnFHx+x31bsBepCXKiPO3ipfLH2O
-         oM/Dexl8rfwAYNS4i4/zJsFbbdXtI/S/EHcAIxCwGJuNoPoXyELU0a9OeASNnXj+4iP9
-         kd4dhGhGZPdok/UOWX7yeaLt5Zl8sTevr0geQLwjiidFjiW0UZyz60a6fqZh1gssIa0e
-         anMW0M/B3GLNUK6+4PELTt8u+jGuzKetoTF3OQCnhFZJSbrJkVOWvMfCk5vduT+38eN5
-         LSpa734zFNV7cfDAfk90JduMoN1WzEDVu9cXsZFe4QY3cOmvn8zQOG5SL0lcVUhWkTNV
-         OtQg==
-X-Forwarded-Encrypted: i=1; AKwUvBydcmL4mc9X4m4VyEjqrRRKnQHXGtWt2KxZw4T0++h1D+hxipNUs880aadGiHpkRm2mJiNVbs31+5VWUy8r@vger.kernel.org
-X-Gm-Message-State: AFq9FYKsWZW8Yzq4Q4wcS97yF8O4HKUWYlX9gt5Cp/TZEvM8cxiYsfoD
-	rpPDfY8uTj5Wxvh+Y7DrhRweZFwDzBFBoSvvUqPvBmj8LaVxgkG1TFHILhUJRZc+WQ==
-X-Gm-Gg: AYBFou3Nldc91wlKf2XWOylp87sBeOMHUDEOsXA6LOs7qNjW4NKcsPMhy4+3ptYvQ3O
-	0tz4/FpFoT4/0lsBDekupuUyO4PqXudhlXIb9z6mkdw4Ug1xYy1yfoicgn33empi9Zs0b3fBXEw
-	9cNGGBJ/E6mvMe0dwizbhY7meHQ7fZ0RuFDYw4vVg6AExO6v8qAAQzfAFefB6FkFv+rqhxEyhQi
-	MaDQTxmTl2z3xr3VBOBscEh2BcQbANbOVzouZpAK600/XQ3B7EeHnzUTjkY4na1pm/5TvffkYPj
-	njq4lN/s4RqCMsBLjLtvoh/XvlEGgd/aJ8wZS/rv7IPY+kEOsMbvcpen7vERp6cFcOULKPUDLKG
-	jGOOWluOB4ytUO58k4XZcjW9iQTIgo6SApf+rp0srqZnQco7WcE6WlEpGn+98OGCFAJsh+A5QbB
-	XrO5i7xUg61+rtQw2PGL9QfAXO4yE5KUDyqIQH5JAhNOS982w9k2SGaill22KFOWyOxDrUpcjT9
-	8kFpX1vkW39Uhp+PdGIywX/PBgLs12XO62sez1vTC5x4/4dv/Rz06oNxgpODZ/vXvlhyv1Lb3YQ
-	0QZeIRk5loCej1jV4VjM1rQ=
-X-Received: by 2002:a05:690c:4f81:10b0:8ac:d999:c588 with SMTP id 00721157ae682-8b157ebbd25mr16750107b3.69.1792776783879;
-        Fri, 23 Oct 2026 10:33:03 -0700 (PDT)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b163d54053sm2770937b3.20.2026.10.23.10.33.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 10:33:03 -0700 (PDT)
-From: Hengyu Liang <hengyul@cs.unc.edu>
-To: slava@dubeyko.com
-Cc: glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
+        d=1e100.net; s=20260707; t=1792777341; x=1793382141;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IArJW2D7DC4NrWDvM238weKBxrWboHP+GmGljUSheNA=;
+        b=aSZDKDSMFcIEJaFXrfDLnKRH2MkQTwgKI18zdye7oOa+4OKdrHuu1BGv/ii1A8qkMj
+         +wYp3rDE+BZyxM5S7p1wYkl6mf+2/rEffFC2nvqCZNrcpIC8vTQvTdktMn4aG//WIA8u
+         VkpPhFAKpsUDdEn6GqTXA8ojxWxp30ajagWBI01t1Ap0NpvAJfxKvvRDMhIcEtrpj/g/
+         fuSIdYlhyyXAAFpztTcPHIofzPHnDpIuNTiS1/90rzfhTxICpWqWlf2Vj/Nj2OchYnPe
+         6Z7E5sUXihtckYyQBFvqHmtgwAphFVAJO0MQLjx7oB6qLn1WGCp4SUdzQPw2TkGBvPMD
+         Kz0w==
+X-Forwarded-Encrypted: i=1; AKwUvBxD65IBZWjtJGr42DWPYw6hDEMoW+JsloDLnrBLHRrLpPwPVfOT3gdRiKze9kPItDmuZaaWUe8VpCsTqFI6@vger.kernel.org
+X-Gm-Message-State: AFq9FYK/KcKINxMPNJXYPd83iVedIRn1umMSZespqPNsxlFwAhpo8IDS
+	Mh0vyUarRVIdBPCwv2rkcza1quu1E1wue0PLkrHKE1TsVNbm1MzEepyp
+X-Gm-Gg: AYBFou2yKzApzPID6gsIZrs3qT9gOLr9W6FC/RcBiWOITDc7E8X7pw4YdRarxNum0C0
+	rWJW/b0MwCRo5+b1mmCafND4X1r43nXUCJ4u9PBo+HAES8CfKWaGVx69rn1qDx4SwTKoMk1uezo
+	LxCKw3HW6k+cqJaCtZNMhcDIwO+5kCw7AAvoU/R4nz4RxDh1ZTa9VjOf9b2R2VpGZZmVkwjcB+w
+	0kMHOf+CFSeWfDu5ZuMyIA9QhCmkpxo4cXRdOxGOVcCHG4rV6lJt0hkydhm12D90csccYlDqhrb
+	SGntP5eml7d+Y6INNEr65KGHN0JocR2NkqwGANBG5vmzE7Dh7h48OWj/Tjy1Ug/3WRxsH/mF540
+	jZ1TBKTXxkhgAOOObYqr3z2yURR93Pa0eKFyS+FEPLzcmMTHKukF3AlkEx2v5+9pcgT8Er7O6w2
+	o/EiGGYttZV2MHCjpAJi62rO8jqpK2ttjc6TvM80IP6HRV7wi0VDXlNuf9K3ukqxT1oSzQwad57
+	pdAVSMaP1ldB5N+4P0GlMSw2W52jh3E/MA+41Rstfaqv+Rf6Jn6Ked9l8gEg3FYa+rWRlbJbNtW
+	eLzLYiSi54R0+ukfHdl2vJcx7tU7RmBnXajEjo0fPsYET7w2RNmsAJc20nTMRGOADkDKw2214By
+	GElMjfXPNtBWCGKky
+X-Received: by 2002:a05:6000:98e:b0:48d:ea67:79d4 with SMTP id ffacd0b85a97d-48e385af0d1mr4196895f8f.53.1792777340908;
+        Fri, 23 Oct 2026 10:42:20 -0700 (PDT)
+Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d40c182sm1118217f8f.34.2026.10.23.10.42.18
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 23 Oct 2026 10:42:20 -0700 (PDT)
+From: Fred Griffoul <griffoul@gmail.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Alex Williamson <alex@shazbot.org>,
+	Alexander Graf <graf@amazon.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Baolu Lu <baolu.lu@linux.intel.com>,
+	Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christian Brauner <brauner@kernel.org>,
+	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+	Connor Williamson <connordw@amazon.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	David Hildenbrand <david@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Erdem Aktas <erdemaktas@google.com>,
+	Frank van der Linden <fvdl@google.com>,
+	Gregory Price <gourry@gourry.net>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Hugh Dickins <hughd@google.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	James Houghton <jthoughton@google.com>,
+	Jan Kara <jack@suse.cz>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Jianxiong Gao <jxgao@google.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	John Starks <John.Starks@microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Justin Stitt <justinstitt@google.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Michael Roth <michael.roth@amd.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Oliver Upton <oupton@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	Steven Price <steven.price@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Tarun Sahu <tarunsahu@google.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Tycho Andersen <tycho@kernel.org>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Xu Yilun <yilun.xu@linux.intel.com>,
+	Yan Zhao <yan.y.zhao@intel.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	x86@kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] hfs: avoid reusing occupied CNIDs after deletion
-Date: Fri, 23 Oct 2026 13:32:59 -0400
-Message-ID: <20261023173259.3275078-1-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cd6cc32dd2aae90b88b4c3d19e1fb35a5be6f4ac.camel@dubeyko.com>
-References: <20261015110114.1649059-1-hengyul@cs.unc.edu> <b6f1cb66778d09015ad5862ff273edc37c44ef28.camel@dubeyko.com> <20261021153141.311425-1-hengyul@cs.unc.edu> <1797b66dee80c9553748d4a961470894c917bf5f.camel@dubeyko.com> <20261022120658.1328124-1-hengyul@cs.unc.edu> <cd6cc32dd2aae90b88b4c3d19e1fb35a5be6f4ac.camel@dubeyko.com>
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH RFC v2 31/50] KVM: guest_memfd: Support getting PFNs for stage 2 from providers
+Date: Fri, 23 Oct 2026 17:42:18 +0000
+Message-ID: <20261023174218.54790-1-griffoul@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261022-gmem-alternative-providers-v2-31-5dd1dc6c660a@google.com>
+References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com> <20261022-gmem-alternative-providers-v2-31-5dd1dc6c660a@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -101,56 +171,24 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Slava,
+> +	if (kvm_gmem_is_pfn_mode(gi)) {
+> +		r = gmem_provider_get_pfn(gi, index, pfn, max_order);
+> +		if (r)
+> +			return ERR_PTR(r);
+> +		return NULL;
+> +	}
 
-On Thu, 2026-10-22 at 15:40 -0700, Viacheslav Dubeyko wrote:
-> (1) Check that deleted CNID is the previous to the next CNID. If it is
-> not, then do nothing.
-> (2) Oppositely, we need to execute standard b-tree search in the loop
-> by decrementing the CNID.
+The order goes from the provider to the fault handler unchecked. MPS
+reports 0, but a provider with contiguous memory won't, and then a
+fault can map a block that the gfn and pfn aren't aligned to, one that
+mixes shared and private pages, or one that covers a page being revoked
+or converted at the same time: only that page's gfn is marked as being
+invalidated, so the fault doesn't retry.
 
-I tried this loop in KVM on a804c5742bff. It fixes the first two cases
-from my last mail, but not the third one. There a (CNID 17) has no
-thread, so the search for 17 fails, next_id goes back to 17, and the
-next file c gets CNID 17 too. a and c then share one inode, and
-fsck.hfs -fn reports nothing:
+Clamping the order in kvm_gmem_get_pfn() to an aligned block of uniform
+attributes, and widening invalidations to the surrounding blocks, would
+cover it.
 
-    echo AAA > a; rm b; echo CCC > c
-
-                          unpatched or loop    patch
-    CNIDs of a and c      17, 17               17, 18
-    cat a, cat c          CCC, CCC             AAA, CCC
-
-A search by CNID only finds threads, so it can show that a CNID is in
-use, but not that it is free. A file without a thread has its CNID
-only in its file record, which is keyed by parent and name. That is
-why the patch walks the leaf records when cnid - 1 is not found. Its
-first check, do nothing unless the deleted CNID is next_id - 1, is
-your step (1).
-
-> Potentially, we can consider to have a small bitmap of allocated CNID
-> in every b-tree's node. Any other optimization ideas?
-
-A bitmap in the nodes would change the on-disk format.
-
-Deleting 8000 files (KASAN kernel):
-
-                                   unpatched   loop     patch
-    newest first                   13.1 s      0.40 s   0.44 s
-    odd ones, then even ones
-    newest first                   3.6 s       0.26 s   9.3 s
-
-The patch is slow in the second case, because cnid - 1 is free on
-every delete there and each delete walks the catalog. One idea:
-next_id only has to stay above all CNIDs in use, and fsck.hfs accepts
-drNxtCNID up to 4096 above the largest CNID. So a delete could leave
-next_id alone when cnid - 1 is not found, and the walk could run once
-at unmount.
-
-Would you prefer that, or the walk on delete as in the patch?
-
-Thanks,
-Hengyu
+Fred
