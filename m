@@ -1,114 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792795113;
-	b=Lx4Cml/TI2FCz+F9BfHB/YgjrP6sX3cykKI8Nf/9dyvDzDbh6Bcx7kq6A2NtCclDnWOr
-	 JQ9v4bcoJk5R/4WNCa8M2lvWpMW3zvnSd4i7lDP2BU1Roz+9ki95f+nH6CCPMuYE4LEzs
-	 x0Cb6qgI/u8aYEfCc2UvGRWvX7abOjtFwL06JVl2OXWgHuxxgvMsbcByEzREweOJJoDys
-	 Freqsi5wmNR4kxAtOz0OFLR3E5aGw4ZGIvEQnF/TLKP66pvH8EzVLiMdTgRJ6QzTiThZu
-	 ai82SBslzB2P/23elEOWLIM1wlv02yRB00t41g4i47KO0B/vEnnJEt1wGY9Buo8/j2Q==
+	t=1792798104;
+	b=bJ8z29tcMSvczonD+Ggs4V6EOMdmw2EmsKrrmtWJuxqNkj4N021imbSiz37TEv+9qtXd
+	 iYdj7i4DaMXImM5VQZmirxqcaqcaOVkn1TYsLvuIlL46IyNqEZ8tsUgo0+26gvu3NfFPl
+	 4xWOVh/A+CtysA+19ral4+qOTM1e74osrWgvYpoB8GqDB2ATJMfqsrJdJ/oLDd0RUeozF
+	 o6G8g6k9czEIAlmM/cqVsNpcNYr1CtiGpOlnxKZdUrFG8A60sr9lnOa13HHv3OzqoSB3p
+	 WejARCPwVCJA619vYzp1er81n56qGzAVfaBn+reQTYCifUdBw2xhrpqZ8a19GHNCyHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792795113;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
-	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
-	bh=CXpjL5aV+fL/tQYDIsd7gu8pYrT13G45saJG84Sqomw=;
-	b=0jbnsViL4Aml7MM3jiuxKVNBQqHUBszolU3lTN/Om/J721fUtDqnJplAC/GkVr9bczqK
-	 Q+jJZQ2nUhvhV8jWm2mXuKoMJZ2JYvcur3evGU5rTowFqhoA/ZJYKC4eJwnuUkYjfYuvb
-	 IbWfW9yUmH8MTZLKQ3uZYyQuZsIbRNlGbd7oj4QR1EANwclXqCXIT8B/jqS/n1XRC4+Ox
-	 fwpUA+3ObJEktA/uYjMote4BcvUrF4i3qLTiS4QTcTtuXC1VHPwv6C+fLwHpGuu3sVnUH
-	 Db0PkFUJ4cGrSj1GG77nb4K/+Ou7KclvuXUX/8b3FCzjIv2Yp0BCwVvDoStcCVdCz4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792798104;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=AhPa34WjyM0Rk+T0nHyrrXNrKgrug39dI/CFZCoWjh0=;
+	b=Rm/5/ZhIfh62kdPY4NnBEz4hK1b1H3UboVXtvReNHZQ2PetLhOuGoPZiNYYOJ3m32b+e
+	 VzHAkP9HT2tYebHvNXabJh73yCfwqJMP98RJSCFz5RBaFh1sM/HT/1+V5Ew+OkZO0CFxK
+	 aH0MJA9LglbDrOdPhb40BWqnJlUQnyx3OGNmxaWvyOvnoDXFTBTOaep4+1EXWx2G5aYZR
+	 zf4wJq82/lE5nVQAq99UsJOYw8PTh6nVronn3ol9ktYAwYrAhdnIn//G8eXiveCQK/A7i
+	 dTWII9FJblCaxKtXxyn+Qbp0Y47aGLpbs/pFfxi4rY6mtHc6WieRuAz3l2ncoL32Qdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ownmail.net;
-	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=k9NO7nUw;
-	dkim=temperror header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b="Y7J+9/EW";
-	arc=none smtp.remote-ip=103.168.172.146
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=euaf7HDf;
+	arc=none smtp.remote-ip=209.85.221.178
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BC9606A322
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 22:38:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61BC9606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928DB606A329
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 23:28:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 928DB606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=k9NO7nUw;
-	dkim=temperror header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Y7J+9/EW
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id 8B3A1EC0195
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 18:38:26 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Fri, 23 Oct 2026 18:38:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1792795106; x=1792881506; bh=CXpjL5aV+fL/tQYDIsd7gu8pYrT13G45saJ
-	G84Sqomw=; b=k9NO7nUwus6pgom+xJ3Prj6B7WYKUU6iuNkvaMBD4fEtpk5/Tyl
-	+nITaTlHB+oLEhndk/KHP8Dt6B/+XbLy1+qZfUa+hTkpV75NAHRK7ud14lokFSJM
-	0ZHmL3XQSHT+LCp3031Ju1pFelvJOLUXWrC+zHGHwuYD/BiD34vMi2Sw1wwh9boy
-	5Ar1R03kPEn+OXIFlRAM5WZ4xOSvYtksf/caK9sGPD+F9/kbbbBB0FATprhLYFD9
-	KBEcSUPYE06e6i5S1Nh9Qm1Bcm0Ammz3hDNtDkqRURgMrGC8tGjbneeNpND65Fnq
-	DBd5heCpHPzJNEeg+luBU85MGhSHySANDig==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792795106; x=
-	1792881506; bh=CXpjL5aV+fL/tQYDIsd7gu8pYrT13G45saJG84Sqomw=; b=Y
-	7J+9/EWOXaB0LzEx5mgwKelbGgi89TUuSfSSKznxAuR7DNlDhCe+F10bXsHoTi6d
-	S08Lvz+/9ihvDuCRl+DDVGVNGMhi06Q3KAI1qs0xFkchU1/C0CjH0HzcZwchFbu1
-	DsV52aHkXYeRdcA22Pg8ThUxJIDtCFyXmNm6ri3l9q6PEHNSF1TSQpqac4ZYwoci
-	irtZPU2zirm3pv3M4kc0+4Hfb3ML567EoKqYi2l6gEq4YJs7mLhH0x836hBT9BTv
-	oJTxq6Q+b99kBFxsbVLzAYTJbXlqRaHaU0Odnb9Rcob2XW4tvWufp3Q+Fd6grqZo
-	hUVPqef1AH2llpB3K7ZXQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792795106; d=ownmail.net;
-	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm2:rsa-sha256:f6SfKACIPBdE79m3S1Aau3Rfdqk99DXSi0YEsHZF1VLaT4V
-	lxbXH37EvJ9a32SUSsXw6XjunSx43D/GIsF/dEP0rV8LkwFQyHSMGUgJpZPSIM6U
-	fc+3wgUi9PinELq0xb4dCPIuw4e60+15NxnWUVucRjRXzXYyzl2FNK4CL7TrOc7E
-	dVO21Ies9HEQ+Jh8PhN+CzdyvMTkOH6A1+dNSyVG/ix/ZJwYhLm2oOinIhu7oveY
-	hM0Xx1FON0zj4sIA5YW6gLfjqzg8cKjwkDEjNE/L7DtvveANjQq2BAV2qfcHXXxA
-	0DPVJmeIBJZW/8czJUw9lPEy5EIvP5YpOe9jUoA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,reply-to,
-	subject,to;
-Message-Instance: m=1; h=sha256:KmLnJKZDRE19PAX56rvC54Ee6o1ap2dCE9utRFVjjL0=:wEUenmc4EYB8ur+IAcaeJAPVN3w/PSx3oXhanP+XV3c=;
-X-ME-Sender: <xms:4uHbagj4QnAUlrcQZct5Cbs--ItFzGvlkiKsie4pFfwxInLm0Bt54g>
-    <xme:4uHbanRRM_H6eAsin1dYZv6--GGXkDplmBKmBCeJ1oPPik87i5SHq_3Sn86hPr3zp
-    GX-0dPhYL3DcC53edx7vnatP3VvfdJR6glD8hGIQzQjWMyI3BY>
-X-ME-Received: <xmr:4uHbahYqRnSzPGk0LwAw7gpA5LX39nDoszXFiZ36shL4DWZcscgJzDuCeNCz1U0oFqz9IlSeXablvRe39zUTSrCNtIQRhK4>
-X-ME-Proxy-Cause: dmFkZTG3Q/70zTOldkKwQ/nRgy4pIRffckwi2d0zpsPIWfS8PNEp1RPAIJQ+x4vQcGat3g
-    qzQdPStc3TCac79qZLXbXiD3sTtVOHHv5cqUO1Wd+MwnhD0WzDnwjLyE8D1QBMRZ7Q3PXG
-    zjxO1rKtu2atByIb/LLvCdY896C8BgpqdgbIwmsyP3bfg8lLjtyy1K1KC97OCP8Li3II3v
-    BfY9tHc/0LsAp61D4lhkbW0+R9rbMeDd+9etu8BTxzXXVbxKxJxRdiFACgx4/sL3n/EIde
-    4TPcJjZ/Ri7DlwgnKPWVVOP8jqSk37nWVK5cfE0Q8ZpFFKxpP5+CKFxupBfedjqGeHqaAY
-    Ps5NSPTyhLbgfZd84yro+dup3JiuMW6kKtCgerFIyzbKVHBAUOjUIldRsPIRmJ+igIp3fy
-    PtR9hqheMmajfBBchViUWLWyviR6XtD2Hz7ijxcFALDL9qkqVZ2elQnrYfrlfJuoxrSOrF
-    v7lw4XZmc9Ffv3wqSSftRZSUCu+Yc+9NmuFvzB/L1xaeKvuf4oUsHDrW/fV82GMN9ueRDN
-    eue/iSTcuaqJzYD0iWtxDmiNH2GfKDxc/7yhPj8sw610ii4+5lilSf1/buThdElax9LfgJ
-    Y4YkzjykyTuzKmRY9rGkBhvu/+2DS4HX4hgbv/i0lbwVSBR+weE8EP5l+Pag
-X-ME-Proxy: <xmx:4uHbakSC3GKcUcsT3aQ3WTEn1GdBsYRvZNtVYa7VCKMjI_CTUEyuyg>
-    <xmx:4uHbag-qZxOfqU5eNfQ8tYsyt_Je-LSBSer_6MgfIZuui0Hle2BJ2Q>
-    <xmx:4uHbakhN8urUjjOdSgzTyxskPC0P0OxBqN_fSZIt-VK2GjoklUbdbg>
-    <xmx:4uHbahbRSjFaFCYIoNzBQG6nNzukQO_PmNXmusvcsyERO649tkhe9A>
-    <xmx:4uHbasFkA85Uc_YspYqqeG3u4x7oct4lPV_fPyRLidJNztOtYYmhHag0>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 23 Oct 2026 18:38:22 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=euaf7HDf
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5eac6c5f927so558475e0c.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 16:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792798102; x=1793402902; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AhPa34WjyM0Rk+T0nHyrrXNrKgrug39dI/CFZCoWjh0=;
+        b=euaf7HDfGOvMTtBYQz52bNcERTURIMXSM4+PjNFp86cK5pUaVQXlZR0zTCCky68xqh
+         0uua6T2fBrdEDDr0TjfMj9RMcWbAut/UlY0jWEH14aWOy7PEnjDgqZfp89KoxnyWyTo4
+         AiUxIx5WNSpaz88zLBTP5gBq9yYnaR/nNpTSKZ85WuSHTVG3n6A55Hs6l6HNze3ti7Rz
+         QG57o5SfLcR2fuUI6+ru5Zby5MmtCi5dm/LhPfgdY3yE6oU9x+gjPi5YXua4gn5jamS0
+         4Qh+RgM/iDhhwewSgrOYmRFvT52OmIl5JFjt7QlNqx89gVIU2b3mkUgeafM7e9Y5s7bs
+         W1Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792798102; x=1793402902;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AhPa34WjyM0Rk+T0nHyrrXNrKgrug39dI/CFZCoWjh0=;
+        b=hsUcQfk//naPGF+AUEyK0deSsz1r5AR9ko59TIJV9OserIkyPRW8iXVsYiBk3NKiR1
+         ulmsiXnxashOIgA8qsAhRQrJ3OmBJuIEGkXOY2uZBX5jP+pqgjWpJkAR67S9EP3hgD3Y
+         xIbqi+RCFJZBsX3I8ywz9eU0BXZiitRnYwOrPaJA7UHfLLPO1lj+olhHdp7I9EevQP+c
+         zxoPttYrNP/cDmqckXcVH4deF3xp6WJMfldSc88c3fGJDK+KwaLExY578fMHmzO+sp30
+         DOPjz5v4IsqnzW4omwzxO3UUd5tvSoPv5qfxQZ1ykwj+CgCml8DPuxy7anwDhDSU5Qm8
+         og1w==
+X-Gm-Message-State: AFq9FYLaB922spLiciVDJiBndOjVziwY0eaSYs5qjs36cT9Hcl4yE1Td
+	Bh5xoho6G9aPUuyLZmJDF0/Lqq0Az6jUsBxwpjvAnk+9tUj1u9sSU143
+X-Gm-Gg: AYBFou19p9fhQFTjyPaq3EbUQwJfU+Yhp0ZfzDNJ/MkPSJNLWwr41IBrOyS1wFel0f7
+	rzMqobDG1LQFoDhtjukF8h28Do3PRKD0MSjtXvzG+D8H0hTZGAKGPJh9dzS6cVugq43z2nSoplv
+	izmf9ZHEvmi+bozoQQkqFSLn/2JUMya2ZH30K6wGdGWlPaB779qBVwqU7J8jxfHMf/huVXrGCFa
+	YQXpTTNzMdXDssCXfU7o2sbyOasL26UDfqSzUOPr3vMs2q0rCnMGyZjVoV+9NyCcWm/BUivd2cZ
+	emvDrKFU4DxK+B2K6/64KPWhgLY8WsKn9pqaW4mG6INApuhVXEEhEi0OdKYYTQ2BDp6+RpC6rQN
+	RIIqxqT0dpg2P8WEnTCclJWxoyDQJxXkfnsMaTN9ANnKI9SNAMwPnJItucVdnpHfTrnt4bd13O7
+	jqMkIG5RQ34LtGZCQkRhns9h8ba0J8YtqQxJ1C664qASCd2x3E5EN9jsuzNvaUefwBzL8dSCTbu
+	gDmlTw1OaRZwEA0NmyzCun9kblKWu2PWGoZgjz5T4+etEJ/zI3e1Sdsd3/MgRjx1x81lR6TFb0o
+	sl9DhdhW5CFH93tiZS1KleI=
+X-Received: by 2002:a05:6122:552:b0:5c9:c60a:e9b6 with SMTP id 71dfb90a1353d-5ec232dd5cbmr149854e0c.22.1792798102466;
+        Fri, 23 Oct 2026 16:28:22 -0700 (PDT)
+Received: from Biostar-A520MT ([187.94.15.233])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec234a940bsm418764e0c.15.2026.10.23.16.28.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 16:28:21 -0700 (PDT)
+From: Breno Rodrigues Alves <breno3011alves@gmail.com>
+To: Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Breno Rodrigues Alves <breno3011alves@gmail.com>
+Subject: [PATCH v2 0/1] MAINTAINERS: mark HPFS as orphaned
+Date: Fri, 23 Oct 2026 20:28:06 -0300
+Message-ID: <20261023232807.206097-1-breno3011alves@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261023151850.96475-0-breno3011alves@gmail.com>
+References: <20261023151850.96475-0-breno3011alves@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,115 +99,35 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jonathan Flynn" <jonathan.flynn@hammerspace.com>
-Cc: "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
- "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nfs: set NFS_FSDATA_BLOCKED before invalidating d_seq
-In-reply-to: <20261023192215.1795577-1-jonathan.flynn@hammerspace.com>
-References: <20261023015239.2163480-2-neilb@ownmail.net>
-  <20261023192215.1795577-1-jonathan.flynn@hammerspace.com>
-Date: Sat, 24 Oct 2026 09:38:18 +1100
-Message-id: <179279509880.1157394.17104184170834248641@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Transfer-Encoding: 8bit
 
-On Sat, 24 Oct 2026, Jonathan Flynn wrote:
-> block_revalidate() calls write_seqcount_invalidate(&dentry->d_seq) and
-> only then sets dentry->d_fsdata to NFS_FSDATA_BLOCKED.  Because ->d_seq
-> is invalidated before NFS_FSDATA_BLOCKED is set, an RCU-walk open can
-> get past an unlink that is in progress.
-> 
-> The barrier in write_seqcount_invalidate() is issued before the
-> increment, so it orders only the stores made before the call.  An
-> RCU-walk lookup that samples ->d_seq after the increment can still read
-> the old ->d_fsdata, and so ->d_revalidate() accepts the dentry.  The
-> walker then waits for ->d_lock in lockref_get_not_dead(), takes its
-> reference, and passes the ->d_seq recheck in __legitimize_path(),
-> because ->d_seq still holds the value the walker sampled.  By then
-> nfs_unlink() has seen d_count() == 1 and sends the REMOVE instead of
-> silly-renaming, so the open proceeds on a file the server is removing.
-> 
-> Set NFS_FSDATA_BLOCKED first, then call write_seqcount_invalidate().  A
-> walker that samples the new ->d_seq then also sees NFS_FSDATA_BLOCKED
-> and returns -ECHILD.  A walker that sampled the old ->d_seq fails the
-> recheck and retries in ref-walk, which waits for the unlink to finish.
-> __d_drop() follows the same order: unhash the dentry, then invalidate
-> ->d_seq.
-> 
-> Also correct the comment in block_revalidate(): the ->d_seq recheck is
-> in __legitimize_path() and try_to_unlazy_next(), not in
-> legitimize_mnt().
-> 
-> Signed-off-by: Jonathan Flynn <jonathan.flynn@hammerspace.com>
-> ---
-> Neil, this answers Sashiko's second point on 1/9: v3 still calls
-> write_seqcount_invalidate() before it sets NFS_FSDATA_BLOCKED.  This
-> patch applies on top of v3; fold it into 1/9 if you prefer.
-> 
-> The window with the v3 order:
-> 
->   CPU0: nfs_unlink(), ->d_lock held     CPU1: RCU-walk open, same name
->   d_count() == 1, no silly-rename
->   write_seqcount_invalidate(&d_seq)
->                                         __d_lookup_rcu() samples the
->                                           new ->d_seq
->                                         ->d_revalidate() reads ->d_fsdata,
->                                           not yet NFS_FSDATA_BLOCKED
->   d_fsdata = NFS_FSDATA_BLOCKED
->   spin_unlock(&dentry->d_lock)
->   REMOVE sent                           lockref_get_not_dead() takes a ref
->                                         read_seqcount_retry() passes
->                                         the open proceeds
+This is v2 of the HPFS series.  Based on the feedback from Mikulas
+Patocka on v1, the approach has changed substantially:
 
-Thanks. This diagram is really helpful.
+ - Instead of removing the HPFS driver, mark it as orphaned in
+   MAINTAINERS and route patches to linux-fsdevel.  This respects
+   Mikulas's use of the filesystem with OS/2 and the fact that
+   MAINTAINERS still listed him as the maintainer.
 
-I think I will move the d_fsdata = NFS_FSDATA_BLOCKED assignment before
-the comment and maybe add a bit of explanation.
+ - Drop the stale maintainer entry (Mikulas has confirmed he is not
+   actively maintaining the code) and the personal website URL.
 
-Thanks for helping me understand this problem.
+ - Keep the driver in the tree.  A future removal can be proposed if
+   no new maintainer or additional users step up.
 
-NeilBrown
+ - The HPFS_SUPER_MAGIC value in include/uapi/linux/magic.h remains
+   untouched, as does userspace ABI compatibility.
 
+I'm sending this as v2 of the same series rather than as a new thread
+so that the discussion stays together.  If reviewers prefer a fresh
+thread, I'm happy to resend with a new subject.
 
-> 
-> Your afs 1/5 also sets DCACHE_BLOCKED after write_seqcount_invalidate().
-> 
->  fs/nfs/dir.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
-> index 53cd3adf3ffe..79331e0fa044 100644
-> --- a/fs/nfs/dir.c
-> +++ b/fs/nfs/dir.c
-> @@ -1879,15 +1879,20 @@ static void block_revalidate(struct dentry *dentry)
->  	/* Any new reference that could lead to an open
->  	 * will either:
->  	 *  - take ->d_lock in lookup_open() -> d_lookup() or
-> -	 *  - will check d_seq in legitimize_mnt()
-> +	 *  - will check d_seq in __legitimize_path() or try_to_unlazy_next()
->  	 *
->  	 * Holding this lock and invalidating ->d_seq ensures we cannot
->  	 * race with __nfs_lookup_revalidate().
->  	 */
->  	lockdep_assert_held(&dentry->d_lock);
-> -	write_seqcount_invalidate(&dentry->d_seq);
-> -
->  	dentry->d_fsdata = NFS_FSDATA_BLOCKED;
-> +
-> +	/*
-> +	 * Set NFS_FSDATA_BLOCKED before invalidating ->d_seq: the barrier in
-> +	 * write_seqcount_invalidate() orders only earlier stores, so an
-> +	 * RCU-walk that samples the new ->d_seq also sees NFS_FSDATA_BLOCKED.
-> +	 */
-> +	write_seqcount_invalidate(&dentry->d_seq);
->  }
->  
->  static void unblock_revalidate(struct dentry *dentry)
-> -- 
-> 2.43.0
-> 
-> 
+Breno Rodrigues Alves (1):
+  MAINTAINERS: mark HPFS as orphaned
+
+ MAINTAINERS | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+-- 
+2.56.0
 
