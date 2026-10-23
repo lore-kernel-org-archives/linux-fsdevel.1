@@ -1,85 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792757976;
-	b=q//6OzPX0jzVrV110uD5w2eyk6FZ5Jxh0GuX0WglKCLS7XsvLJYpR9JXDd4U3SbDouHi
-	 vlWOzuoMLZm6lseAhaQ5MyH73BKpSWWsW44MuKj1lSm+jiI35Y0BL8pMxY4gCyfKbZCJX
-	 d4xcTn3QcG/Of+2LUK6/TMnOEO1yB9JyCFgSLrYetkvNMg6JJ5mURY7xC860zM8JJo4B2
-	 snozK5UkUcdMOObATXlxEKxx2JnqJ0v/SlXbnrSFqPcLuedl3tlgjdBci0lknrTZ4j042
-	 O70bj37hy6PTDuitNe0HaE80Nf6lEt/Onj2HXuBQEMuiRAA/ankPbDnVHERGkEbDSXQ==
+	t=1792759498;
+	b=qcckd07B0h2CZjYD1z/0oAUBASrQBICFs0KjQyBDYeOLT3u8BzXTDxpzTGrgRt9iwbVf
+	 pLZFNHj1c87Sh9RVBpf++64Td6B1Kasubj16DEPy3Vk8u64z6ZVd1DInz/oqLDqjLcdw0
+	 c3gHKjbUwVBVgSK4j7ph+AdYLCapPFreAkA1J2Qd/FEHaJgPqNTNxUaWb+8IkWFR6/Vbb
+	 XYFReXbo1Cl1gItXDpHIunUf+2aYDkvmag/udGdhJdSurxMSFDd6UPlJx4A1X0AcH49wc
+	 9AQ3iI+JKpCVO5jx8FyFJZdXH1wlnjqcItUf2/bntxi0uxSBUwwKwsqNj77iVkI1RSQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792757976;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=tnGVfmtDG/ydhJPk7ys/dw5eqE6jQ7yst5vq99GgEUc=;
-	b=4VGG6yssY10IELa8OAj8yXySCbuOREgeO/Px2Z1pm3CcXJMo6ZQbhCZ086xsdLSY84cU
-	 DhYbG1+YcdiEEMo0rDzPP4T/Wce1QsrUHj1w2emxW/Bk/SB+uxbP0r1xSoQkMoHWjrVnP
-	 g7TZgIYWPQuY/VZcA6JUfGW8XCv59tIt3zg3PZiaxn8jsLZ+vb6qzIwaW4HR8ILsMjNfg
-	 1VeRK07gi6/IyCJqo0sTlG9qehDoheiGfXwamGdtAHBj5RP6tpN8P9cPl3ma/Z0YYjIHJ
-	 A9wGuz9FXYaxll7gUBa8SD/Is8L1SZTgBZfmddQejPRlZV7hG6YQnJYPGAEclWUQFdQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792759498;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=FwsiwRKiI1Uau+Y+PkzA6OeDUQSFcjgWcDHJQI69nMA=;
+	b=t8sBVQ7LY19O0QWld875HvKZO0TV5D5xWI64l2R532w+H+HOlAQrLQPNdWn+EQKNkeCA
+	 /2xLC7QDjToQvK5+vDtW404HRpt2uqTP7JC4kuaXmbqjyhhQqqrg4C9ZdXgIaip3M5Jx9
+	 b2xS38/FWW0LwBsT6JoxJ563qWOWKY2wiXG3ydXbzgDBBiQiswzn09b2+HB1G2PLZspc4
+	 ty7u9QGMlSJV6nhte5s6TkEfMJhsP9BLVGyjgXZU2rHWBtZa4VAfqpEIUwUn6S9puA4z/
+	 j49QKBMv3Py6R38TIUGWIFALWCQETCET7AT5HloJ1ctrj1sX+OmKlU9sM4i7kE1WCIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=F2TQAH1U;
-	arc=none smtp.remote-ip=209.85.160.171
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dBm9hVmb;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3450F606A31A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 12:19:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3450F606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F28606A31F;
+	Fri, 23 Oct 2026 12:44:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=F2TQAH1U
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-5337c7b9937so282071cf.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 05:19:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792757975; x=1793362775; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tnGVfmtDG/ydhJPk7ys/dw5eqE6jQ7yst5vq99GgEUc=;
-        b=F2TQAH1UGfo5urpj36D52CgpWbpLq/4rhoCaUHWj+fMCW5N9rI4EYeoGgwqVL8C3NG
-         uQHlBOky0ylWwx4hh43MaRqRH14Rj6FlUHW9YI+I+6hvM23ZeBNOKTBN9xSGlQt3XXG0
-         TLCeM/N6rKLL7a1NFNs9yN4//+xv49JRniXWA4wxGdwJJlCfWvEg673k+K+Nz+gnO2h9
-         GpwnSxZRm3P4FYenWeXnSOoNYGJvuSCy4Dcqbw8C1cHA6s3Ep+IUyWk786A30Zs5g9sF
-         nQp090TodLyk9KWku9/79U3vb2JonZ7DxXoX1GLzTcGrkI3W+venBllrVKUOXcupK88g
-         iG0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792757975; x=1793362775;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tnGVfmtDG/ydhJPk7ys/dw5eqE6jQ7yst5vq99GgEUc=;
-        b=tKvJknY0WAd+gGS3bTkClddbe+yijVNhLnlbZtuLiOrbW/CJLi4ioO1dYAgiB6kSmc
-         ceHSvrEiaj4hfbf7hABogDFGyBwOFVvq88RQYILuM80eusWoqK9RNxT8SoJMDSequV4G
-         erxa0C8K3UXhFwH5O1BvjDu1sDxbeGqvfbmNonA+YVhB5pKiNhDaanRJrLg8t9xwmETX
-         EnGErLxsyQNqyrpV+3OhXOMSLwLS/kTRWRNoIdT+uce8cKe6UcQbs0KwUaucVv3uBCl/
-         hGTxrfm7volbwVr+bXEhkS36bgjJxJ4Z/D2wojQYrMzx79Ouwy6zy/xpNh+ryymMeCaV
-         mxfw==
-X-Forwarded-Encrypted: i=1; AKwUvBzmVJeOyANMI5v07R3DY+QhJKual71VTwwXOlTrcT4FAUKKe75BtIfYgS4uraWVKGfCgxBdhx2zMZCbLstL@vger.kernel.org
-X-Gm-Message-State: AFq9FYKjstjkHgDnrXY5AqqlWWSUzWhPh091H3n+QvFZAsk0+duI2tn8
-	/Ip4K+AgAi3Z9FaQQvpdVOH0GSXn/cQs9k8WANEL/60LkNGJ4RT1mve25Gxx9gM5WQ==
-X-Gm-Gg: AYBFou2Mi7WpoBcVoGcbHWs/G5i59eYiIZyviQiBLQGtDBIKMoYepBrIJtGNqAzaCpE
-	+z/0No5bdijfQibJomC7zIeI51/ZPq0pqdmHKmqejmmQFOG2abYNXXMzUnniCcx75eFG/IS4qAC
-	XyLjG6V6AKl4nqmQR+lpteL4ma90FTLZ484pb8mr5Wtb95IX90I3ZGm3efho2Q9h4w1xiYAsoFj
-	g1gGM37fZe+Xo8t078SthHJTnyxW9Jm9CIO4+P8SMThA7N3MTYJaQA4j+z0UBwIho3+y1zxGwpL
-	AcG0j0io9v3JsTUX3grCwijpX8v6IM/I3aC4SszC/PUBmdOcntU+pxCM9KNli4/wc9sjCB/xyxl
-	c3LbHSmXbiES5Ah7slXfh6AlKtxvR/tpGwApmKnnmovgrVdLBIE/SoLLvyqzBSQhe1KOZDwQiaD
-	x9j0uSXrIobl35/Nhjr0EhdOb05/r4Z3jVAy313LRe4RcnbTrdpNUGVZZ1Tc9biLkDRE/kc9ZiU
-	Kax2bCmsNJcMHhI/phhZh7+WEM0EJhw2hPB84qCYtzBvCSNjJOU/A==
-X-Received: by 2002:a05:622a:4ccf:b0:532:8423:1e78 with SMTP id d75a77b69052e-536c48d0a54mr12945341cf.10.1792757974681;
-        Fri, 23 Oct 2026 05:19:34 -0700 (PDT)
-Received: from [192.168.1.27] ([130.44.176.244])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c45228b6asm128676d6.19.2026.10.23.05.19.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Oct 2026 05:19:34 -0700 (PDT)
-Message-ID: <3d5f70fa-64e6-4df5-bda9-6d3cdd00682b@google.com>
-Date: Fri, 23 Oct 2026 08:19:33 -0400
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dBm9hVmb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71A4A1F01825;
+	Fri, 23 Oct 2026 12:44:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792759498;
+	bh=FwsiwRKiI1Uau+Y+PkzA6OeDUQSFcjgWcDHJQI69nMA=;
+	h=From:Subject:Date:To:Cc;
+	b=dBm9hVmbTmxT/mZyPVXQ3yWu0AtZ0D4zG2iG/IMEfQ+Lqbh4iycAWhG3LDRbg4a/q
+	 alLa5vlpUAVvBLT0KAbuxsAPsfcN6RC7LHa3thjaQPdUFW2iSisZne5MS7u1b1X+LI
+	 j3DtDumnjEesTL5+RCebpZ6G56BLMnQQLhmVbYGsg7p8Whh7zKTeZLCoiMN+EWfy79
+	 FWPRrZrzmD9nMj1lOVkkVVVYyJwNqFFDgjxBHk0XxbOTBdKDwq8tNVmb45p0bNlUCu
+	 kIvZTfGESvh8cK8fpxj+LngmYEoqeP2SMP4p7iASKQyDH7qVz0jGlwDzmq7ZTgJO3f
+	 SOvJ8M1UKavug==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/2] dcache: don't leave negative dentries in casefolded
+ directories
+Date: Fri, 23 Oct 2026 14:44:21 +0200
+Message-Id: <20261023-work-dcache-casefold-v1-0-1b0bd5c73a69@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -89,92 +54,69 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] 9p: treat read return values of 0 as EOF
-To: Dominique Martinet <asmadeus@codewreck.org>
-Cc: David Howells <dhowells@redhat.com>,
- Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov
- <lucho@ionkov.net>, Christian Schoenebeck <linux_oss@crudebyte.com>,
- v9fs@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-References: <akfHGcqke9qixd3Q@codewreck.org>
- <20260702090941.1298188-1-brho@google.com>
- <2237820.1783934942@warthog.procyon.org.uk>
- <f7005841-80a9-4c21-a114-6cfd6ee63a58@google.com>
- <aqbGBMJ6bntYB1t2@codewreck.org>
-From: Barret Rhoden <brho@google.com>
-Content-Language: en-US
-In-Reply-To: <aqbGBMJ6bntYB1t2@codewreck.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMSw7CMAwFr1J5jaUkiCJxFcQicR0SPgmyy0eqe
+ ncSWM7Tm1lAWTIrHIYFhF9Zcy0N7GYASr6cGfPUGJxxozVui+8qV5zIU2IkrxzrbcLoRmd2zDa
+ EPTT1IRzz55c9nv6sz3BhmnurP0JTMYgvlPp09zqzwLp+AUZjeLaRAAAA
+X-Change-ID: 20261023-work-dcache-casefold-f26205ee1bb7
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+ linux-xfs@vger.kernel.org, Gabriel Krisman Bertazi <krisman@kernel.org>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2103; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=obwKYrdv+CuHpmSgJz0cQ4xOBXMWUIzAFLxt/IHP2aQ=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdDjvGE+n59XDUZUseP4uX30vFowIbgl9nzFH+phswf
+ /LFl5FKHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABO5o8Lwz3huybO/VRkqGR/l
+ n921rmxZ3RM42//il4Jsz+2X89/IaDAybL/gwjf/wow902W8Fp4SqVjwPeBf8yTGCWdjFVvapl2
+ cwwwA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 9/13/26 11:49 AM, Dominique Martinet wrote:
-> Sorry for dropping the ball here, I haven't had any time to do 9p stuff
-> at all recently and the wave of LLM generated patches hasn't helped...
+ext4, f2fs and tmpfs keep negative dentries out of casefolded
+directories. A negative dentry remembers one spelling of the name and
+the next create() through it would write that spelling to disk.
 
-no problem.
+So their ->lookup() doesn't cache a miss and their ->unlink() and
+->rmdir() call d_invalidate() on the dentry so that d_delete() doesn't
+turn it into a negative dentry.
 
-as far as resolving the underlying netfs stuff goes, i don't know how 
-much of the logic about "are we at EOF" should be in netfs or in the 
-servers (9p).
+But d_invalidate() is the wrong primitive for that. It's for a name that
+went stale. It walks the subtree, prunes it and detaches every mount it
+finds, under namespace_sem, and here that runs from inside the
+filesystem's own directory operation. ext4_rmdir() does it with the
+journal handle still open and ext4_unlink() does it even when the
+unlink failed. All anyone wanted is the unhash.
 
-would you be OK with merging my original patch so that at least 9p works?
+So d_delete() now unhashes the dentry when the parent is casefolded,
+next to the dentry-negative sysctl that does the same for every
+directory. ext4, f2fs and tmpfs drop their d_invalidate() calls.
 
-thanks,
-barret
+xfs's ascii-ci doesn't set S_CASEFOLD and can't so it d_drop()s instead.
+I did consider setting S_CASEFOLD on ascii-ci directories and didn't.
+overlayfs warns when a layer's casefold flag disagrees with the
+superblock having an encoding, and xfs has none.
 
+Nothing changes for userspace. A miss still isn't cached and a removed
+name still leaves no negative dentry behind. Verified with the same
+create, unlink, create, readdir and stat sequence in a plain and in a
+casefolded directory on tmpfs and on ext4, before and after.
 
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (2):
+      dcache: don't leave negative dentries in casefolded directories
+      xfs: unhash a removed name in ascii-ci mode instead of invalidating it
 
-> 
-> Barret Rhoden wrote on Mon, Jul 27, 2026 at 01:38:16PM -0400:
->> On 7/13/26 5:29 AM, David Howells wrote:
->>> This is kind of a weird situation.  We're caching locally the content of files
->>> aren't really regular files and probably shouldn't be cached.  I'm not sure
->>> what the best way to deal with that is.  I wonder if there's some way to
->>> detect that and mark then non-cacheable.  (Assuming the server can be told not
->>> to even serve them).
->>>
->>> Can we detect that the EOF length doesn't match i_size and set a flag to say
->>> "don't cache" in netfs_inode::flags?
->> Possibly, but could you have false positives from this?  e.g. if a file's
->> size is changed concurrently with a read returning EOF?
->>
->> As far as detecting EOF in the first place, my patch had the 9p client doing
->> it.  Not sure, but Dominique's question might have been whether netfs should
->> have done the detecting instead?
->>
->>  From what I can see, the netfs clients were responsible for setting EOF
->> (except in netfs_clear_unread()).  Some in response to an ENODATA error,
->> others due to the "did we read past the end of the file size."  Not sure
->> whose responsibility it is to detect these cases: netfs or the FSes
->> themselves.
-> 
-> Right, that was my question; I honestly just don't understand the
-> requirement/promises of the netfs layer.
-> 
-> In this particular case we have two patterns to address:
-> - synthetic files with stat size > actual size,
-> e.g. /sys/devices/system/cpu/online
-> - synthetic files with stat size = 0 (rarer),
-> e.g. /sys/devices/virtual/net/br0/brforward
-> 
-> For two at least two modes:
-> - cache=none
-> - cache=loose (writeback I guess)
-> 
-> Right now, none of these work, with various degrees of not working;
-> I'm not sure we can do much about some of them (e.g. stat size=0 with
-> cache enabled I'm fine getting empty data), but imo
-> - cache=none should just try reading as userspace request anyway and
-> stop as soon as the server returns 0, that's not a 9p specific behavior
-> and I wouldn't have expected having to do any special handling for it.
-> (but if you tell me it's to be done in 9p case, then sure, we'll do it
-> here)
-> - cache=writeback + stat size > read size should also stop when the
-> server returns 0 and truncate its view of the size to that; the problem
-> in 9p is that we'll reset the size again to the remote size shortly
-> afterwards so that will need more thinking (and overlaps with the other
-> cache size bugs we have in flight), so let's focus on cache=none for now
-> 
-> Thanks,
+ fs/dcache.c       |  8 +++++++-
+ fs/ext4/namei.c   | 18 ------------------
+ fs/f2fs/namei.c   |  9 ---------
+ fs/xfs/xfs_iops.c |  4 ++--
+ mm/shmem.c        |  7 -------
+ 5 files changed, 9 insertions(+), 37 deletions(-)
+---
+base-commit: 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
+change-id: 20261023-work-dcache-casefold-f26205ee1bb7
 
