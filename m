@@ -1,107 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792757243;
-	b=3uTCJJdlAT+p75CnDowovC75UnLXjLlAlxWuNBuJnhkxwkzUU4SVaFihBtLyn/fNCrBb
-	 GA4Lgr6qNl7TBz0RUPrgwjibW5kFFCq8BUiMWdhzi+J4K2C1CN/A9MROOU1mn0rjg8cmD
-	 M7XA9gOGuHQ2J7gdDH0XgCDi+WmwJywRWtjmUB2lS6VRpZdsYMV3ayEI1oXaTUV1Y83Of
-	 VQhi381B/TbH1M4l7xrk7P+wkMyMCSEOH1/l4unj01OXfJFBbQSD1cYIO3iqCJVvLWzhe
-	 vQ/rjqmBTVOJoMTnqDNDi8AIRPyW+KIEU91ZIXeglnK8VzNc0luypzQ0yfHKuBaUeXQ==
+	t=1792757976;
+	b=q//6OzPX0jzVrV110uD5w2eyk6FZ5Jxh0GuX0WglKCLS7XsvLJYpR9JXDd4U3SbDouHi
+	 vlWOzuoMLZm6lseAhaQ5MyH73BKpSWWsW44MuKj1lSm+jiI35Y0BL8pMxY4gCyfKbZCJX
+	 d4xcTn3QcG/Of+2LUK6/TMnOEO1yB9JyCFgSLrYetkvNMg6JJ5mURY7xC860zM8JJo4B2
+	 snozK5UkUcdMOObATXlxEKxx2JnqJ0v/SlXbnrSFqPcLuedl3tlgjdBci0lknrTZ4j042
+	 O70bj37hy6PTDuitNe0HaE80Nf6lEt/Onj2HXuBQEMuiRAA/ankPbDnVHERGkEbDSXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792757243;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=XUbrPeQnOgIZP6pGS1DKqXoqEXyF7r5wbaFScABPre4=;
-	b=S9jEiiPSUQRk6RjNyuMLGoX3gCRM3+X2MURjdP+mPuBTTBsaVo+U/+MFAyuyJ8GtDDD9
-	 6f1DRmdc5cfXtcgPNghBC4OjdLpB5rRu/vrid/5CfjhOw7t+rQ5veOxsrGaQtmFNK6Vp8
-	 X0QpnyQCCt1o8J0oX0OUGid8Fmq9YO7YWQ67jZnhl1b6vWNCKe2GVj1monqMA2c7uZ2Fs
-	 LHLHSfx3taTPf6lkNS4hGkorbcVW1n+rTnuG+MXeoBhhllSjeFYbqQMKRwuXsS2ccyiZI
-	 YSaebn3aF03IOD/D85yjuLS/0OMOFviAi+mDIOAEXIycLFF85n+iKLLYq0HXyT2A9Rw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792757976;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=tnGVfmtDG/ydhJPk7ys/dw5eqE6jQ7yst5vq99GgEUc=;
+	b=4VGG6yssY10IELa8OAj8yXySCbuOREgeO/Px2Z1pm3CcXJMo6ZQbhCZ086xsdLSY84cU
+	 DhYbG1+YcdiEEMo0rDzPP4T/Wce1QsrUHj1w2emxW/Bk/SB+uxbP0r1xSoQkMoHWjrVnP
+	 g7TZgIYWPQuY/VZcA6JUfGW8XCv59tIt3zg3PZiaxn8jsLZ+vb6qzIwaW4HR8ILsMjNfg
+	 1VeRK07gi6/IyCJqo0sTlG9qehDoheiGfXwamGdtAHBj5RP6tpN8P9cPl3ma/Z0YYjIHJ
+	 A9wGuz9FXYaxll7gUBa8SD/Is8L1SZTgBZfmddQejPRlZV7hG6YQnJYPGAEclWUQFdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=wWhhu1eB;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xK+GmPxI;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=wWhhu1eB;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xK+GmPxI;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=F2TQAH1U;
+	arc=none smtp.remote-ip=209.85.160.171
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87451606A31B;
-	Fri, 23 Oct 2026 12:07:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87451606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3450F606A31A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 12:19:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3450F606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=wWhhu1eB;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xK+GmPxI;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=wWhhu1eB;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xK+GmPxI
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A6BD11F78D;
-	Fri, 23 Oct 2026 12:07:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792757240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XUbrPeQnOgIZP6pGS1DKqXoqEXyF7r5wbaFScABPre4=;
-	b=wWhhu1eBUmCFKlUZYc7uF/hO9bF8w/izQ8jpz5Hpf0fS+LurDRacXMSjJmvcOA4xypmTul
-	5+G4pK35yh68L4+mNt1ty9o/tikdDXQe2ZC9BDdjzwB0qcu8ZyHBcQsGfeOxbNoLREYHiw
-	9l55VtkliyBU7N3xmonF6t2bywv3KKg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792757240;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XUbrPeQnOgIZP6pGS1DKqXoqEXyF7r5wbaFScABPre4=;
-	b=xK+GmPxIpDQK7qAIntmy+r6ZNsSSuOpWutnmoJEHadSIsf74TzsQFg9wrXYRSNs5UewBTq
-	NXc1wKSQxDh/21Ag==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1792757240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XUbrPeQnOgIZP6pGS1DKqXoqEXyF7r5wbaFScABPre4=;
-	b=wWhhu1eBUmCFKlUZYc7uF/hO9bF8w/izQ8jpz5Hpf0fS+LurDRacXMSjJmvcOA4xypmTul
-	5+G4pK35yh68L4+mNt1ty9o/tikdDXQe2ZC9BDdjzwB0qcu8ZyHBcQsGfeOxbNoLREYHiw
-	9l55VtkliyBU7N3xmonF6t2bywv3KKg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1792757240;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XUbrPeQnOgIZP6pGS1DKqXoqEXyF7r5wbaFScABPre4=;
-	b=xK+GmPxIpDQK7qAIntmy+r6ZNsSSuOpWutnmoJEHadSIsf74TzsQFg9wrXYRSNs5UewBTq
-	NXc1wKSQxDh/21Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 84DA7133F3;
-	Fri, 23 Oct 2026 12:07:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Ux6cGvhN22okcQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 23 Oct 2026 12:07:20 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 1BF12A1415; Fri, 23 Oct 2026 14:07:16 +0200 (CEST)
-Date: Fri, 23 Oct 2026 14:07:16 +0200
-From: Jan Kara <jack@suse.cz>
-To: Zhao Gongyi <zhaogongyi@bytedance.com>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	jlayton@kernel.org, cel@kernel.org, neil@brown.name, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] filelock: keep superblock active through delegation
- wait
-Message-ID: <qtone4v3wl4dualmn744jmywp6newrftdoqomsrstcfniv3zxs@wsln5r4vk32o>
-References: <20261023111250.17696-1-zhaogongyi@bytedance.com>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=F2TQAH1U
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-5337c7b9937so282071cf.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 05:19:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792757975; x=1793362775; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tnGVfmtDG/ydhJPk7ys/dw5eqE6jQ7yst5vq99GgEUc=;
+        b=F2TQAH1UGfo5urpj36D52CgpWbpLq/4rhoCaUHWj+fMCW5N9rI4EYeoGgwqVL8C3NG
+         uQHlBOky0ylWwx4hh43MaRqRH14Rj6FlUHW9YI+I+6hvM23ZeBNOKTBN9xSGlQt3XXG0
+         TLCeM/N6rKLL7a1NFNs9yN4//+xv49JRniXWA4wxGdwJJlCfWvEg673k+K+Nz+gnO2h9
+         GpwnSxZRm3P4FYenWeXnSOoNYGJvuSCy4Dcqbw8C1cHA6s3Ep+IUyWk786A30Zs5g9sF
+         nQp090TodLyk9KWku9/79U3vb2JonZ7DxXoX1GLzTcGrkI3W+venBllrVKUOXcupK88g
+         iG0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792757975; x=1793362775;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tnGVfmtDG/ydhJPk7ys/dw5eqE6jQ7yst5vq99GgEUc=;
+        b=tKvJknY0WAd+gGS3bTkClddbe+yijVNhLnlbZtuLiOrbW/CJLi4ioO1dYAgiB6kSmc
+         ceHSvrEiaj4hfbf7hABogDFGyBwOFVvq88RQYILuM80eusWoqK9RNxT8SoJMDSequV4G
+         erxa0C8K3UXhFwH5O1BvjDu1sDxbeGqvfbmNonA+YVhB5pKiNhDaanRJrLg8t9xwmETX
+         EnGErLxsyQNqyrpV+3OhXOMSLwLS/kTRWRNoIdT+uce8cKe6UcQbs0KwUaucVv3uBCl/
+         hGTxrfm7volbwVr+bXEhkS36bgjJxJ4Z/D2wojQYrMzx79Ouwy6zy/xpNh+ryymMeCaV
+         mxfw==
+X-Forwarded-Encrypted: i=1; AKwUvBzmVJeOyANMI5v07R3DY+QhJKual71VTwwXOlTrcT4FAUKKe75BtIfYgS4uraWVKGfCgxBdhx2zMZCbLstL@vger.kernel.org
+X-Gm-Message-State: AFq9FYKjstjkHgDnrXY5AqqlWWSUzWhPh091H3n+QvFZAsk0+duI2tn8
+	/Ip4K+AgAi3Z9FaQQvpdVOH0GSXn/cQs9k8WANEL/60LkNGJ4RT1mve25Gxx9gM5WQ==
+X-Gm-Gg: AYBFou2Mi7WpoBcVoGcbHWs/G5i59eYiIZyviQiBLQGtDBIKMoYepBrIJtGNqAzaCpE
+	+z/0No5bdijfQibJomC7zIeI51/ZPq0pqdmHKmqejmmQFOG2abYNXXMzUnniCcx75eFG/IS4qAC
+	XyLjG6V6AKl4nqmQR+lpteL4ma90FTLZ484pb8mr5Wtb95IX90I3ZGm3efho2Q9h4w1xiYAsoFj
+	g1gGM37fZe+Xo8t078SthHJTnyxW9Jm9CIO4+P8SMThA7N3MTYJaQA4j+z0UBwIho3+y1zxGwpL
+	AcG0j0io9v3JsTUX3grCwijpX8v6IM/I3aC4SszC/PUBmdOcntU+pxCM9KNli4/wc9sjCB/xyxl
+	c3LbHSmXbiES5Ah7slXfh6AlKtxvR/tpGwApmKnnmovgrVdLBIE/SoLLvyqzBSQhe1KOZDwQiaD
+	x9j0uSXrIobl35/Nhjr0EhdOb05/r4Z3jVAy313LRe4RcnbTrdpNUGVZZ1Tc9biLkDRE/kc9ZiU
+	Kax2bCmsNJcMHhI/phhZh7+WEM0EJhw2hPB84qCYtzBvCSNjJOU/A==
+X-Received: by 2002:a05:622a:4ccf:b0:532:8423:1e78 with SMTP id d75a77b69052e-536c48d0a54mr12945341cf.10.1792757974681;
+        Fri, 23 Oct 2026 05:19:34 -0700 (PDT)
+Received: from [192.168.1.27] ([130.44.176.244])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c45228b6asm128676d6.19.2026.10.23.05.19.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Oct 2026 05:19:34 -0700 (PDT)
+Message-ID: <3d5f70fa-64e6-4df5-bda9-6d3cdd00682b@google.com>
+Date: Fri, 23 Oct 2026 08:19:33 -0400
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -111,142 +89,92 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261023111250.17696-1-zhaogongyi@bytedance.com>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,bytedance.com:email,suse.cz:email]
-X-Spam-Score: -12.80
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] 9p: treat read return values of 0 as EOF
+To: Dominique Martinet <asmadeus@codewreck.org>
+Cc: David Howells <dhowells@redhat.com>,
+ Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov
+ <lucho@ionkov.net>, Christian Schoenebeck <linux_oss@crudebyte.com>,
+ v9fs@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <akfHGcqke9qixd3Q@codewreck.org>
+ <20260702090941.1298188-1-brho@google.com>
+ <2237820.1783934942@warthog.procyon.org.uk>
+ <f7005841-80a9-4c21-a114-6cfd6ee63a58@google.com>
+ <aqbGBMJ6bntYB1t2@codewreck.org>
+From: Barret Rhoden <brho@google.com>
+Content-Language: en-US
+In-Reply-To: <aqbGBMJ6bntYB1t2@codewreck.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri 23-10-26 19:12:50, Zhao Gongyi wrote:
-> A caller may drop its path after try_break_deleg() returns a delegated
-> inode but before break_deleg_wait() finishes. The extra inode reference
-> held in struct delegated_inode does not keep the superblock active.
-> 
-> After a lazy unmount, closing the delegation holder can release the last
-> mount reference and shut down the superblock while another task waits for
-> the delegation break. The waiter's final iput() can then enter the
-> filesystem's eviction code after its superblock-private state was freed.
-> This has been observed as a KASAN use-after-free in shmem_evict_inode().
-> 
-> When try_break_deleg() saves a delegated inode, take an active reference
-> to its superblock while the caller still pins the mount. Keep that
-> reference through break_deleg_wait() and the final iput(), then release
-> it with deactivate_super(). This protects every caller of the helpers,
-> including the mknod, mkdir, symlink and rmdir paths that drop their path
-> before waiting.
-> 
-> Fixes: e12d203b8c88 ("vfs: allow mkdir to wait for delegation break on parent")
-> Fixes: 4fa76319cd0c ("vfs: allow rmdir to wait for delegation break on parent")
-> Fixes: c826229c6a82 ("vfs: make vfs_create break delegations on parent directory")
-> Fixes: e8960c1b2ee9 ("vfs: make vfs_mknod break delegations on parent directory")
-> Fixes: 92bf53577f01 ("vfs: make vfs_symlink break delegations on parent dir")
-> Link: https://lore.kernel.org/r/20261016093421.90725-1-zhaogongyi@bytedance.com
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Zhao Gongyi <zhaogongyi@bytedance.com>
+On 9/13/26 11:49 AM, Dominique Martinet wrote:
+> Sorry for dropping the ball here, I haven't had any time to do 9p stuff
+> at all recently and the wave of LLM generated patches hasn't helped...
 
-I'm a bit worried by the prospect of running superblock shutdown from
-break_deleg_wait(). But at this point I didn't find a site where this could
-happen and be problematic so feel free to add:
+no problem.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+as far as resolving the underlying netfs stuff goes, i don't know how 
+much of the logic about "are we at EOF" should be in netfs or in the 
+servers (9p).
 
-								Honza
+would you be OK with merging my original patch so that at least 9p works?
 
-> ---
-> Changes since v1:
->   - Hold an active superblock reference in the delegation helpers instead
->     of adding mount references to the four fs/namei.c callers, as suggested
->     by Al Viro and Christian Brauner.
->   - Use &inode->i_sb->s_active in atomic_inc().
+thanks,
+barret
+
+
+
 > 
-> Validation:
->   Built an arm64 KASAN Image with LLVM=1 on af32da41b032, using the same
->   config, guest image, and local arm64 cpufeature compatibility change as
->   the v1 tests. The tested filelock.h diff is byte-identical to this patch,
->   which is based on v7.3-rc7 (24a19b953e2a). Image SHA-256:
->     b7ad342b0020c31ab2be97ceb441ebc38c5840f023350462bb816552fd175870
+> Barret Rhoden wrote on Mon, Jul 27, 2026 at 01:38:16PM -0400:
+>> On 7/13/26 5:29 AM, David Howells wrote:
+>>> This is kind of a weird situation.  We're caching locally the content of files
+>>> aren't really regular files and probably shouldn't be cached.  I'm not sure
+>>> what the best way to deal with that is.  I wonder if there's some way to
+>>> detect that and mark then non-cacheable.  (Assuming the server can be told not
+>>> to even serve them).
+>>>
+>>> Can we detect that the EOF length doesn't match i_size and set a flag to say
+>>> "don't cache" in netfs_inode::flags?
+>> Possibly, but could you have false positives from this?  e.g. if a file's
+>> size is changed concurrently with a read returning EOF?
+>>
+>> As far as detecting EOF in the first place, my patch had the 9p client doing
+>> it.  Not sure, but Dominique's question might have been whether netfs should
+>> have done the detecting instead?
+>>
+>>  From what I can see, the netfs clients were responsible for setting EOF
+>> (except in netfs_clear_unread()).  Some in response to an ENODATA error,
+>> others due to the "did we read past the end of the file size."  Not sure
+>> whose responsibility it is to detect these cases: netfs or the FSes
+>> themselves.
 > 
->   Ran the existing syzkaller reproducers under arm64 KVM with procs=6 and
->   repeat=0. Each test had one run:
+> Right, that was my question; I honestly just don't understand the
+> requirement/promises of the netfs layer.
 > 
->     syscall/variant    duration    programs    wait stack samples
->     mkdirat             300 s         2028          7
->     symlinkat           300 s         2064          8
->     mknodat S_IFREG     600 s         4168         18
->     mknodat S_IFIFO     600 s         4131         17
->     rmdir               600 s         4174         16
+> In this particular case we have two patterns to address:
+> - synthetic files with stat size > actual size,
+> e.g. /sys/devices/system/cpu/online
+> - synthetic files with stat size = 0 (rarer),
+> e.g. /sys/devices/virtual/net/br0/brforward
 > 
->   The stack samples identified the corresponding filename_*() waiter in
->   break_lease(). Every VM remained responsive through the requested run;
->   no Busy inodes, KASAN, WARNING, BUG, or panic appeared in serial output.
->   The unpatched baseline crashes reported in v1 were not rerun.
+> For two at least two modes:
+> - cache=none
+> - cache=loose (writeback I guess)
 > 
->  include/linux/filelock.h | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
+> Right now, none of these work, with various degrees of not working;
+> I'm not sure we can do much about some of them (e.g. stat size=0 with
+> cache enabled I'm fine getting empty data), but imo
+> - cache=none should just try reading as userspace request anyway and
+> stop as soon as the server returns 0, that's not a 9p specific behavior
+> and I wouldn't have expected having to do any special handling for it.
+> (but if you tell me it's to be done in 9p case, then sure, we'll do it
+> here)
+> - cache=writeback + stat size > read size should also stop when the
+> server returns 0 and truncate its view of the size to that; the problem
+> in 9p is that we'll reset the size again to the remote size shortly
+> afterwards so that will need more thinking (and overlaps with the other
+> cache size bugs we have in flight), so let's focus on cache=none for now
 > 
-> diff --git a/include/linux/filelock.h b/include/linux/filelock.h
-> index ec11cc6b4..e909db319 100644
-> --- a/include/linux/filelock.h
-> +++ b/include/linux/filelock.h
-> @@ -530,8 +530,8 @@ static inline bool is_delegated(struct delegated_inode *di)
->   *
->   * Break delegations in a non-blocking fashion. If there are
->   * outstanding delegations and @di is set, then an extra reference
-> - * will be taken on @inode and @di->di_inode will be populated so
-> - * that it may be waited upon.
-> + * will be taken on @inode and its superblock, and @di->di_inode will
-> + * be populated so that it may be waited upon.
->   *
->   * Returns 0 if there is no need to wait or an error. If -EWOULDBLOCK
->   * is returned, then @di will be populated (if non-NULL).
-> @@ -545,16 +545,21 @@ static inline int try_break_deleg(struct inode *inode, unsigned int flags,
->  	if (ret == -EWOULDBLOCK && di) {
->  		di->di_inode = inode;
->  		ihold(inode);
-> +		/* The caller may drop its mount before break_deleg_wait(). */
-> +		atomic_inc(&inode->i_sb->s_active);
->  	}
->  	return ret;
->  }
->  
->  static inline int break_deleg_wait(struct delegated_inode *di)
->  {
-> +	struct inode *inode = di->di_inode;
-> +	struct super_block *sb = inode->i_sb;
->  	int ret;
->  
-> -	ret = break_deleg(di->di_inode, 0);
-> -	iput(di->di_inode);
-> +	ret = break_deleg(inode, 0);
-> +	iput(inode);
-> +	deactivate_super(sb);
->  	di->di_inode = NULL;
->  	return ret;
->  }
-> -- 
-> 2.39.5 (Apple Git-154)
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> Thanks,
+
