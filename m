@@ -1,167 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792777343;
-	b=tns+T0sLDnsGvAPwT9ECiFHjtAX/VkvjbqlAt2TQ4tWxA5pzIFXcfYcW3AmihFDGpLj4
-	 Y8wss8su3+6ymQj/rS+QMtpTvZvszBrz2QTt1elLsQteUmYbWAVsRigch7kbdz93Ywaga
-	 rbqZ8KkU28576dRAaS4aH9c5arMWWNVHJcO7aBetpL0i45XMFJUwTpfI/cYQgwXLKqjLT
-	 lHmi+CEqyr6tE9ATkV+DIBe878XnBrbW0328tcRQ06c6su1/+eDjkNkLETJw+YFBtVT3K
-	 Ln6CHqBRODmKpivhr8tUnfa94GRv2nH8OEkRiaCljQ9YJqPC5wFFryONGBEsHybd4dw==
+	t=1792777543;
+	b=yT6WK/pBueT+8aFUI7D4LdU29jDTMo5/89IEpqxn9ajemxzrl+Pa8UuY3TkpRkwqhVjz
+	 mdN1B1uFOmKm4R4FSC/Q2NX2+MfbIqrunGKNi43YO669GJOSfBeliqNEFDbgjEGvEQywf
+	 iO+C+fmZyd7rAm9aE7lSkrzyYIOyby+p3f3mW5FeHhTK/UUxKXtj5erK+BKEwW5+bSx9E
+	 00D5ciMS9pVcCwtByYfNXBdjokhIeTa3w+WWyUxeZdV2V8Bdswg2kkp66R/gG005QvuvW
+	 1HqWYT1MUu1noy653WwReGScqMXiOGqHUOh7fjOxENcFyZV+ShrvYINY2UPz9IpTBRA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792777343;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=IArJW2D7DC4NrWDvM238weKBxrWboHP+GmGljUSheNA=;
-	b=kzwd+DGffTpvw+NR3KyNoSEEeeeiFtiNMmC8pAGRt40LU71E0sb4SprlhkHzwnUhqOX2
-	 R5WzDxqYM9EC1D6v9GW/ets/X0W8Py8pGvkLb35vyQq3Y7E+xJHTO+WeaBliNhg9LBuXF
-	 07AtfKhW/DKy3vLhilUVrHAI3AvuoJeZppqWLvJ87k9tWGwQILZYA27fC9Np4g7LrS7ux
-	 zmjOchusBKzymDyoKNVuQuQ+0soRpcCI01KC7vTJBAAg6KHVBXEfdyJPDJSz/oNtQaPnL
-	 p/iUvqU4kvqjceWgecel99mGiWarEMIuKKCdRVd6nic3BNZd9lTBz4TxtHxWfEoNg1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792777543;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=+K8VmVMqKOof2bN/ApBJbL1jV/83LdW4iTCquE9kKQw=;
+	b=SQAJMZXV96Ouss/q3/6QhHy43Y7mO1GmjPU2bJcWqxguT8QlY9IjEkHLN3Cqw1H1SXQp
+	 HR2R5Nb15FN2k2aPtpASdNH8Y8EapVQVUN3e8g91024SsA6MMfaPIWtBgG6Yq82VcTQ4c
+	 GNgMkXbiXZasx0o3OAUWcvKGJhFY+lNjBq51vxYW0d0yXODjEU4qS23+tBoSDcPGZj1mr
+	 CLmGTZRiof2wpW8J35cEYJs1Ft633m7JQtoMZbD4RvRYNh77j8Rm1u9dxzLKG9lOF7sOY
+	 hoX62IJLgaAszblMAFgnH9kg8vz5S0hZvkfkRjIDcBwjilW9mPmrNxtvHgn6TjThu2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qE15pYgN;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MKrt8z95;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDB9606A31E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 17:42:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFDB9606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3548F606A31A;
+	Fri, 23 Oct 2026 17:45:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qE15pYgN
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48df4f540ebso674824f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 10:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792777341; x=1793382141; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=IArJW2D7DC4NrWDvM238weKBxrWboHP+GmGljUSheNA=;
-        b=qE15pYgNtOgyK2wp9uhHmPW3lpnIrQjWDDouCy3JYbd1IPAGnpkiQ1sFjBCfeqsgVk
-         11lRWEucebETVSgkVRwe4eQ7IHe8OlPrizWnzae5mEN51Lz7LmMQAvfowgfp7pp9VjSY
-         8ojMFcQ8Y/cMXl9Vl5ClHIKs8MbSDwSpdyrxKk5eONs/+iNwEGuTjszhx81xmGle2j3u
-         5SttvDKVdVVC6L1H6oJIFjikyY5gkiye6rcli8bFHH5Otyy3QtD+qvimrzBlONJNZ6SJ
-         X5NX0lfRgpuebTW3dXrYQ6ah5QMTrTT9+wd/GIR0AgncOrzQqe42eAZ9koOBhOXDH0X3
-         DVDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792777341; x=1793382141;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IArJW2D7DC4NrWDvM238weKBxrWboHP+GmGljUSheNA=;
-        b=aSZDKDSMFcIEJaFXrfDLnKRH2MkQTwgKI18zdye7oOa+4OKdrHuu1BGv/ii1A8qkMj
-         +wYp3rDE+BZyxM5S7p1wYkl6mf+2/rEffFC2nvqCZNrcpIC8vTQvTdktMn4aG//WIA8u
-         VkpPhFAKpsUDdEn6GqTXA8ojxWxp30ajagWBI01t1Ap0NpvAJfxKvvRDMhIcEtrpj/g/
-         fuSIdYlhyyXAAFpztTcPHIofzPHnDpIuNTiS1/90rzfhTxICpWqWlf2Vj/Nj2OchYnPe
-         6Z7E5sUXihtckYyQBFvqHmtgwAphFVAJO0MQLjx7oB6qLn1WGCp4SUdzQPw2TkGBvPMD
-         Kz0w==
-X-Forwarded-Encrypted: i=1; AKwUvBxD65IBZWjtJGr42DWPYw6hDEMoW+JsloDLnrBLHRrLpPwPVfOT3gdRiKze9kPItDmuZaaWUe8VpCsTqFI6@vger.kernel.org
-X-Gm-Message-State: AFq9FYK/KcKINxMPNJXYPd83iVedIRn1umMSZespqPNsxlFwAhpo8IDS
-	Mh0vyUarRVIdBPCwv2rkcza1quu1E1wue0PLkrHKE1TsVNbm1MzEepyp
-X-Gm-Gg: AYBFou2yKzApzPID6gsIZrs3qT9gOLr9W6FC/RcBiWOITDc7E8X7pw4YdRarxNum0C0
-	rWJW/b0MwCRo5+b1mmCafND4X1r43nXUCJ4u9PBo+HAES8CfKWaGVx69rn1qDx4SwTKoMk1uezo
-	LxCKw3HW6k+cqJaCtZNMhcDIwO+5kCw7AAvoU/R4nz4RxDh1ZTa9VjOf9b2R2VpGZZmVkwjcB+w
-	0kMHOf+CFSeWfDu5ZuMyIA9QhCmkpxo4cXRdOxGOVcCHG4rV6lJt0hkydhm12D90csccYlDqhrb
-	SGntP5eml7d+Y6INNEr65KGHN0JocR2NkqwGANBG5vmzE7Dh7h48OWj/Tjy1Ug/3WRxsH/mF540
-	jZ1TBKTXxkhgAOOObYqr3z2yURR93Pa0eKFyS+FEPLzcmMTHKukF3AlkEx2v5+9pcgT8Er7O6w2
-	o/EiGGYttZV2MHCjpAJi62rO8jqpK2ttjc6TvM80IP6HRV7wi0VDXlNuf9K3ukqxT1oSzQwad57
-	pdAVSMaP1ldB5N+4P0GlMSw2W52jh3E/MA+41Rstfaqv+Rf6Jn6Ked9l8gEg3FYa+rWRlbJbNtW
-	eLzLYiSi54R0+ukfHdl2vJcx7tU7RmBnXajEjo0fPsYET7w2RNmsAJc20nTMRGOADkDKw2214By
-	GElMjfXPNtBWCGKky
-X-Received: by 2002:a05:6000:98e:b0:48d:ea67:79d4 with SMTP id ffacd0b85a97d-48e385af0d1mr4196895f8f.53.1792777340908;
-        Fri, 23 Oct 2026 10:42:20 -0700 (PDT)
-Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d40c182sm1118217f8f.34.2026.10.23.10.42.18
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 23 Oct 2026 10:42:20 -0700 (PDT)
-From: Fred Griffoul <griffoul@gmail.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Alex Williamson <alex@shazbot.org>,
-	Alexander Graf <graf@amazon.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Baolu Lu <baolu.lu@linux.intel.com>,
-	Bill Wendling <morbo@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christian Brauner <brauner@kernel.org>,
-	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	Connor Williamson <connordw@amazon.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Erdem Aktas <erdemaktas@google.com>,
-	Frank van der Linden <fvdl@google.com>,
-	Gregory Price <gourry@gourry.net>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Hugh Dickins <hughd@google.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	James Houghton <jthoughton@google.com>,
-	Jan Kara <jack@suse.cz>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Jianxiong Gao <jxgao@google.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	John Starks <John.Starks@microsoft.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Justin Stitt <justinstitt@google.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Michael Roth <michael.roth@amd.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Oliver Upton <oupton@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Steven Price <steven.price@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Tarun Sahu <tarunsahu@google.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Tycho Andersen <tycho@kernel.org>,
-	Vishal Annapurve <vannapurve@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Yan Zhao <yan.y.zhao@intel.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	x86@kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Fuad Tabba <fuad.tabba@linux.dev>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH RFC v2 31/50] KVM: guest_memfd: Support getting PFNs for stage 2 from providers
-Date: Fri, 23 Oct 2026 17:42:18 +0000
-Message-ID: <20261023174218.54790-1-griffoul@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261022-gmem-alternative-providers-v2-31-5dd1dc6c660a@google.com>
-References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com> <20261022-gmem-alternative-providers-v2-31-5dd1dc6c660a@google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MKrt8z95
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F4E61F01829;
+	Fri, 23 Oct 2026 17:45:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792777542;
+	bh=+K8VmVMqKOof2bN/ApBJbL1jV/83LdW4iTCquE9kKQw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=MKrt8z95nduJMsZ46pem/LKNckFHs4IOKk0GiFUkc3kcey7f8+E15FB5XwT6Vw94A
+	 ROw7OoY/0zcGxwSht62YfzAZPKY5kg+9qq+99CUpROhWdi68EVj1Oow08v1xWlk60w
+	 rOyCjvc1N9sycWvglR7FXgBk3MQoeHL9wS4ZbjDg8lNW9hQ/E4xfuafur/6cixXsUK
+	 3wk8bvH6TjHQ46YUyxGTiOCspzoTqaDpdqrPlO05KH7WJHHVQa2Gk1xHFiA69+5O1c
+	 GTUI9mbf/OJD05Z4QeGfzXWSugs0/vBBSDlOJSJM8Yck8onToyGp2RC66pUFuzHAH9
+	 rvh1MsNeZ+prw==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id A82B9F40067;
+	Fri, 23 Oct 2026 13:45:41 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Fri, 23 Oct 2026 13:45:41 -0400
+X-ME-Sender: <xms:RZ3baiRgESbIfk8wp9J4GDntN9ZHLzKsIejKjhDrXylUTqZSc7OtIA>
+    <xme:RZ3baikbhYbg9_KJmjqNbuHwj38uFWUCI2e8xlDBrTc3Im5t3Okte2kkFF2N884-h
+    JmO15WeN1S5CFsTC_hXbiFczUcd5m4vWa_gQlRzGZJpLWX65XNR5yU>
+X-ME-Proxy-Cause: dmFkZTGw9D+wWvKhDs5hJFHaE33hWLdp5MJJPRON22Zj+F2eCnb7T3BTPUqogEpOQrGpoU
+    X53T4/KSX1qcP6T682bAHoWiDbSAvDlKrXjoqUAXHJ+X7DuUjowthh/75oLiGbHVGRrYvy
+    Ovxp/qIK0TBACpUtpr9HPOhI/W2aQ0NGI72CDCLfYSyzrinyf2y5Gqt9WZXJirg/VcS2wT
+    KyOdEZpnkBtl+peUqWtft1knu0XgIWpBIBcqUUnM3VtMFZcAeRnPDS9Gxo76KWvXUoNzCf
+    +dUggxkUwUiEH4RQkmSeyVrhCYKPh8Ucvj6N6zYPK0vcUWmb3W2SiJCxsX5b/HNxc5KZsP
+    9xHa/wLBKF8Pm7Hmru+7M0hW2UddErbUSA563BeoGzDDauHiqI1VMpsakrbLG7zeJKmGhZ
+    59c/kcupFWVb//JPZAPvOQID0NUlNil8cywKpk8d07LqtLq3EvK9a4DVpp2RknuyHnVZk+
+    TSoi+tRv/xUCqRV71Cesv/nC/VV7NoGe8xlYVKq7mbxfT80K4U5WlLP3TVWPr4WCnCwbYC
+    g7V2SxXA4RaWKiweCOGD6TSOVF/MJQ+dqamZc7tLBcz09vNRR7UyYR+xdb7h3O8GmdSNsr
+    BsPc8f3hwH/a5Ln1Hhp1tYUMJKBRmSg2BFXhm+zQj8nQ4ZFlsNITgmC5qhww
+X-ME-Proxy: <xmx:RZ3banEdxmK5GIshwTV18B6HDRUCrQjQGipd6QkFV_2NDPHigXiZlQ>
+    <xmx:RZ3bahBbpDx8lD1TeNgaYKt4j52Xvakw_Dqt3-AyFnLwcJ1aeh2P3Q>
+    <xmx:RZ3batAIeciA0vfdxa-vLOKT4C0Nei_1GaGckaDgGvsrsuGL6l70lg>
+    <xmx:RZ3bavOT-TZZgCJvN4KIld23RQQWCYjYGbtxo7kiHmSm0ousICc6JQ>
+    <xmx:RZ3bahOeq4hd0P8PRPwhP2_dJRcQC3CEJ4Fu4AdiaOIuvO2BJXKZSJrM>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 8303778273B; Fri, 23 Oct 2026 13:45:41 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -171,24 +77,98 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AnedLfdbxVbc
+Date: Fri, 23 Oct 2026 13:45:21 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Mike Snitzer" <snitzer@kernel.org>, "Jeff Layton" <jlayton@kernel.org>
+Cc: linux-nfs@vger.kernel.org, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Christoph Hellwig" <hch@lst.de>,
+ "Jens Axboe" <axboe@kernel.dk>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org
+Message-Id: <36498551-15ee-4a55-9757-54aa8a07085a@app.fastmail.com>
+In-Reply-To: <20261023024548.71123-2-snitzer@kernel.org>
+References: <20261023024548.71123-1-snitzer@kernel.org>
+ <20261023024548.71123-2-snitzer@kernel.org>
+Subject: Re: [PATCH v8 1/7] NFSD: cut a misaligned direct-mode WRITE at the mapping's
+ smallest folio
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-> +	if (kvm_gmem_is_pfn_mode(gi)) {
-> +		r = gmem_provider_get_pfn(gi, index, pfn, max_order);
-> +		if (r)
-> +			return ERR_PTR(r);
-> +		return NULL;
-> +	}
 
-The order goes from the provider to the fault handler unchecked. MPS
-reports 0, but a provider with contiguous memory won't, and then a
-fault can map a block that the gfn and pfn aren't aligned to, one that
-mixes shared and private pages, or one that covers a page being revoked
-or converted at the same time: only that page's gfn is marked as being
-invalidated, so the fault doesn't retry.
 
-Clamping the order in kvm_gmem_get_pfn() to an aligned block of uniform
-attributes, and widening invalidations to the surrounding blocks, would
-cover it.
+On Thu, Oct 22, 2026, at 10:45 PM, Mike Snitzer wrote:
+> nfsd_write_dio_iters_init() cuts a misaligned end of a direct-mode
+> WRITE at a multiple of the larger of offset_align and PAGE_SIZE, so
+> that the direct middle, which invalidates the page cache over its
+> range, never shares a page with a buffered end.  But where the
+> mapping's minimum folio order makes the smallest folio a block larger
+> than a page, the page cache holds that block as one folio: an end cut
+> on a page boundary inside a block leaves the middle and the buffered
+> end in the same folio.  The middle's invalidation then drops the folio
+> the end wrote, and whichever of the two neighbouring WRITEs comes second
+> reads the block back.
+>
+> Cut a misaligned end at a multiple of the smallest folio the mapping
+> allows as well.  Where that is a page, nothing changes.
+>
+> Fixes: 80728157d1bd ("NFSD: cut a misaligned direct-mode WRITE at page 
+> boundaries")
+> Signed-off-by: Mike Snitzer <snitzer@kernel.org>
+> ---
+>  fs/nfsd/vfs.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+>
+> diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
+> index 9219f8eb386d..ade00dabef18 100644
+> --- a/fs/nfsd/vfs.c
+> +++ b/fs/nfsd/vfs.c
+> @@ -1452,13 +1452,15 @@ nfsd_write_dio_iters_init(struct svc_rqst 
+> *rqstp, struct svc_fh *fhp,
+> 
+>  	/*
+>  	 * The direct middle invalidates the page cache over its range, so it
+> -	 * must not share a page with a buffered end.  An aligned end needs no
+> -	 * buffered segment; a misaligned one is cut on a page boundary even
+> -	 * where the offset alignment is finer than a page.  A WRITE may end
+> -	 * at OFFSET_MAX, so the prefix is sized as a distance rather than
+> -	 * by rounding @offset up, which could wrap.
+> +	 * must not share a folio with a buffered end.  An aligned end needs no
+> +	 * buffered segment; a misaligned one is cut on a boundary of the
+> +	 * smallest folio the mapping allows, a page or, where the block is
+> +	 * larger, a block, even where the offset alignment is finer.  A WRITE
+> +	 * may end at OFFSET_MAX, so the prefix is sized as a distance rather
+> +	 * than by rounding @offset up, which could wrap.
+>  	 */
+> -	cut = max_t(u32, offset_align, PAGE_SIZE);
+> +	cut = max3(offset_align, PAGE_SIZE,
+> +		   mapping_min_folio_nrbytes(nf->nf_file->f_mapping));
+>  	prefix_end = offset;
+>  	if (!IS_ALIGNED(offset, offset_align))
+>  		prefix_end += min_t(loff_t, cut - (offset & (cut - 1)), total);
+> -- 
+> 2.52.0
 
-Fred
+PAGE_SIZE looks dead in the max3(). mapping_min_folio_nrbytes() is always
+at least PAGE_SIZE, so the cut is just max(offset_align, min folio). The
+new commit message and comment both describe three independent bounds, but
+the accurate statement is two: the DIO offset alignment and the mapping's
+smallest folio.
+
+Also I would like to keep the helper's unsigned long type instead of
+narrowing to u32.
+
+Post an updated version of the v7 patch so we can test and review that
+as a single change. This will also archive that revision in the lore
+archive. This will likely result in merge conflicts with subsequent
+patches in the series. If those are just comment conflicts I can fix
+those up when I apply the revised version.
+
+Do not include the new revision of this patch in v9. v9 is now patches
+destined for the MM tree(s) while this patch goes to NFSD.
+
+
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
