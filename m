@@ -1,61 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792766767;
-	b=EcLiaIvTt62y4+S5w/6+DglaSYOURUi+IseTdnCiP0HaXrmPTPb9Jv6uScBNFHHx8QAs
-	 adM66QoTeQJIEzLCyD9DVYSE5tY5deCP3n4rlg/awLp6Ffl2ihpxI9Ikwy5PXqRoNHnHu
-	 BCXoNT5Y6tubQUo534A9aTSTujjCXUV64zrwEzRH95uBmI65FSQhxJX7fdaBBFiRj6RhJ
-	 9bOrVclVdcwouc/7F1gvu2rrO8sADuovv3pihthueqL0SnZYV7Bx3T4SI+svmOBe4ZM5p
-	 +ATQnD4/gvAN5RlRjBoHp2oi7AvjLGsd87kdutOTp15wkoH6dKTFUdmnMTnaKyYFBLg==
+	t=1792768745;
+	b=VQUPGYenOhSk+uTC0HQb1dwHkN1WBRSmPMbTx9dRhhpZNXfVkr7GFKFTQf3DvEq/8uIe
+	 O16rOj//T+KPaLUG/Jsv8ZlIj07u3/3GX2aeR+vIwjKLkJkAZ0q/65edul1Vv7rwP48sg
+	 ay+di3VXDMn30TRLCyEo40ZFeXUyje7WL2mC0ZmKv5oza4qx7fPEP8GTGza5GZEhkbiza
+	 8SrAC1AWd1qshCY90ZlUvPBkNZXZOMy0bOI/L9mRIn5ULAhJ/twHx1XG8KqB9TeuBNmUB
+	 ozvf9WZqf61ABFN0PT2c2dKqrsj2HF9e55/uqG01WnrY/TZ4NPfLo6Ndld7krFe7Xmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792766767;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=/fiO3+QdsE/BfanTbW7upLzdgUQUluHoCjZtUMQ3uBk=;
-	b=dOhBv6zIJlOscHx1uMY0OWRK/3g7Y8s0oYKYhDLhNAq9Zvu+HS8HelOgl/Fg4aa2W91J
-	 jw+7aU/SHxj4b7iJTqApnf2P0HXej35izVfn8fAUsFysA1LIb3X23R00ERoKf4s6JBUwY
-	 OqlWNRYJo+3PyT/n79cb77sNVGir9V+FfxHGppK4E9cGmxQ+of+gL1cVgWzBhtHK0x+ua
-	 P3Q8rXB++yOFirh9j+1qfuk/QqSWdm6Qk7eMLw/g/UlNpFTxjLTLkyUOoV1M5yP87X8Pw
-	 ER1e0PTreB00YCFiQp6Z60FjD7HyIwY3bB7Yqw7s913vT55wLJP2XksuJI9+V69HE6Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792768745;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=r5fNrV91FJf9Qmtk1w/48jj0AR/BtrB4UlrPJW4rMRE=;
+	b=x1SUK5Aq6DcM+QUOnJ498oivuvhMEk5lCA3wQ7XWyQFOSIdDJ5jJYKeD9S5lDVgAkOz9
+	 p5xmOFD6VNXYnIRPswvjeWvM25RCAkN1XmUU0yrFkDmbkMfrs5CmJ2Iw3+GtVZ3zlpbFC
+	 aXvprlNeLE6cFtY1iUR0JxjeaANIcrrpNC8naFB95Tk88YmQ1GwD4WMGaAdQvG+GHELrB
+	 VNdGDj69wzD3VNIgf65VPVEXdlmMgu9YNRK7KoBc+KpGAXKbAts1wl3yaGagwx4RFHRJY
+	 VD7VE4U92PY6JVxA3FNG3bCFvXugfVLpdrYWNWblfm/w0WXgb+56mGJiFxGLC8ope8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=kMkUSEcD;
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=XkeWrjBq;
+	arc=none smtp.remote-ip=209.85.222.42
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56984606A31A;
-	Fri, 23 Oct 2026 14:46:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56984606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E50606A31A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 15:19:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37E50606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=kMkUSEcD
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/fiO3+QdsE/BfanTbW7upLzdgUQUluHoCjZtUMQ3uBk=; b=kMkUSEcD/LSfqTU7gNyl/t4tZF
-	zdvV22g3LYXk8cowEg4+mfo+xrqqvN48gAscXUOli6NUPVPGIk3knPM8cFUNCVB3ISM9a6F+t5f/k
-	9vKDliaAhsHfqVaJqWcH4TIl25cesWtdJtXyG+3/Rtcug72SVWSsUJKfJuqVP6oS0TquTIkAz+dD5
-	FDQWoMgjvTAxG5ar2cABmn/NW1JprWWG7txkNiQP3pBwABKI8wk4PAbRpa7xi5YCAQjg92aYp22G6
-	9DHf3VZZgnYUxt4hEaDnpqA42SLa4Gk2HH+L5/NKY1RwnwyB+G+I8uWmnJLJRZ3RiYF1aSUi2gCm4
-	KlBsWx1A==;
-Received: from willy by casper.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKGWq-0000000CF1Z-05ce;
-	Fri, 23 Oct 2026 14:45:56 +0000
-Date: Fri, 23 Oct 2026 15:45:55 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Nickolai Zeldovich <nickolai@csail.mit.edu>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v1] xarray: clear the new head's parent before freeing
- the old head
-Message-ID: <attzI4sj2Pagmvkd@casper.infradead.org>
-References: <20261012202549.772887-1-nickolai@csail.mit.edu>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=XkeWrjBq
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-990fbae94f5so815688241.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 08:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792768744; x=1793373544; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=r5fNrV91FJf9Qmtk1w/48jj0AR/BtrB4UlrPJW4rMRE=;
+        b=XkeWrjBq/oeQte8WoGdsjzOJKt05yIYRZpR/ymVWmhKRVT/vAokSRL6gefGK6SbH30
+         wPON8Yfiu9pi7Z0XTGlwYvnao59S/7UjK8+MOuhwT4S7HnuHh6X+JCYI7RNLQLJOwpO6
+         yjtV/aQEAniws9EZAreu+MSxONgDqkorlvxwYd6ifCxPw/4sZv0uK9jX7pOU9pEKoQDZ
+         aIUulY/GW6KxtxAZ29KzTa+NMNhix2yrHHKPDnFTX0Z1Fme8MO3y3RU24v1zS92uheo6
+         DXtG3avjs7Jv8Iik4DRdbjEacMolpNx2X8vc3q3rUncbkuD9mdBnGiUoOA4niad5vUPW
+         R89A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792768744; x=1793373544;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=r5fNrV91FJf9Qmtk1w/48jj0AR/BtrB4UlrPJW4rMRE=;
+        b=Zdjv6xK8hjmLKodEKOx5zIGhm/rHAFiSl04JdJF4XrBYiV8EvbiED3or+0NpNoHEz1
+         czYaoFbFB4BHjZ/gO6LyoU/IlfwVFPPzwmVUghK7qIRq/HBuw1QQihgtuBom+2Pmrca3
+         +ssBwWahf75EZOFMDz79zI29jL3YfY4EEhOu+Ib/Lrsjc3xtvkw4I68Cyxtew0iR+dIt
+         TLe2srBSIgqkBYxSDV58birbzm+BOxlHL2AJnGOrwGTcmFCpS6BgrABiPHGaaJqZVVlL
+         C9B6FTbLgGCsdmKKZn7AtSnZxWbA1U9qtWqzBDqkd/NS9gcJ0xOzOvKK/pNQhOd+V0Yn
+         gs+g==
+X-Gm-Message-State: AFq9FYIgk0al6iPcOsmNUD2CIlNAEe0z5AhYcbf6FJfCK9Cyr8D9jacV
+	O2cZLGwJIicRk/q2hShRGNn/kHIYexFSIKnQAMqcICjobMF5Ja1fbEIHhTKwhEBE
+X-Gm-Gg: AYBFou2EUGTHyrjNEQrbuV3VbtlS0QKaOt1++TJxkAjQZZTOoTu/g6e1MokOsiupxKX
+	Buwh8rhyouKCuArBwg/Sv1iOcbUJwxbfk2A96jEpxfe+N0gYNcKoFHUZR7z1Z1HBfl5/K3B0jk+
+	Ui9mnCqCYoo1VZu3MjwWixYrHfMY5JbzoDpwa2FFU1trtiL8rJisAIFQbyQ49vKqnwn5jV50h2X
+	/bAEbZZeuwtghu9sM+CTJ6quE0DdqpqicG6feT0WVXTVN35EaaNjKbssw7PUaszVcqi87t1yzZA
+	W+PsppyZsSWR6z2HIXUyWm5Rl9rKM3kyvXB4z2Uwt/YAQ5TbiDKCM6NBGUNXkf9RdYy0LQQQfL7
+	tHeMTQUrqYmFlATyk6fUdt+XX3woTsvDqSlm8jd8k3QqSY/XdJHv/X2o0n5grJ26VduKd9pbXxN
+	N6W1Ws401Tlw4C6AWNj1WSosl8XJdvl6J9mRs11HnGfEsdyMX6d5hg1yzxfoxOUNcC0GT6NILPu
+	hG/SI6s3iA/kTtjUUV8TkBG71+m7r6AzrVkokRz7QNFHQjqvpowa9WUxog10xUuCe0lzcCSwpYa
+	67Mj0D3n41Ve1I072ESHNF7mUmsaUpb56QHRGzDtJ+zK
+X-Received: by 2002:a05:6102:1487:b0:7be:25d4:7ff0 with SMTP id ada2fe7eead31-7ccc308886dmr1098358137.4.1792768744042;
+        Fri, 23 Oct 2026 08:19:04 -0700 (PDT)
+Received: from Biostar-A520MT ([187.94.15.233])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9910c006d21sm601040241.7.2026.10.23.08.19.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 08:19:03 -0700 (PDT)
+From: Breno Rodrigues Alves <breno3011alves@gmail.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Breno Rodrigues Alves <breno3011alves@gmail.com>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH 0/1] fs: remove hpfs filesystem
+Date: Fri, 23 Oct 2026 12:18:47 -0300
+Message-ID: <20261023151850.96475-1-breno3011alves@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,151 +94,67 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261012202549.772887-1-nickolai@csail.mit.edu>
+Content-Transfer-Encoding: 8bit
 
 
-If you must have your AI write the commit message, please tell it to
-be less verbose.  I start losing the will to live after about three
-paragraphs of this.
+The HPFS filesystem driver has been orphaned and unmaintained for a
+long time.  An RFC on linux-fsdevel stated that HPFS is about to be
+removed as it has no remaining users and is no longer supported on
+SMP or PREEMPT kernels.  Recent vulnerabilities (e.g.,
+CVE-2026-97486) further highlight the lack of maintenance.
 
-On Mon, Oct 12, 2026 at 04:25:49PM -0400, Nickolai Zeldovich wrote:
-> When xas_shrink() replaces the head node of an array with the node in its
-> slot 0, it stores the child in xa_head, passes the old head to
-> xa_node_free(), which queues it with call_rcu(), and only then clears the
-> child's ->parent pointer.  In between, a lockless walker can still reach
-> the old head, not from xa_head but upwards from the new head:
-> xas_find(), xas_find_marked(), xas_next() and xas_prev() climb through
-> xa_parent() when they step past the end of a node.  RCU does not protect
-> a walker that gets there: call_rcu() waits only for the read-side
-> critical sections that were running when the callback's grace period
-> started, and that grace period can start before the parent pointer is
-> cleared.
-> 
->   CPU 0: xa_erase(), xa_lock held   CPU 1: RCU walker, e.g. xa_find()
-> 
->   xas_shrink()
->     xa->xa_head = child
->     xa_node_free(old head)
->       call_rcu()
->                     <grace period starts>
->                                      passes a quiescent state
->                                      rcu_read_lock()
->                                      xas_find(): loads xa_head (child),
->                                      steps past its last slot,
->                                      child->parent is still old head
->     child->parent = NULL
->   xa_unlock()
->   quiescent state
->                     <grace period ends>
->   radix_tree_node_rcu_free(old head)
->                                      reads old head's slots[], shift,
->                                      offset and parent
-> 
-> The grace period does not wait for CPU 1, which reported its quiescent
-> state before its critical section began; holding xa_lock delays the end
-> of the grace period, not its start.  The start can fall inside the
-> window when an interrupt arrives in it (interrupts are enabled under
-> xa_lock(), and RCU core processing may run on interrupt exit), when
-> callbacks are offloaded (rcu_nocbs=) and the rcuog kthread on another CPU
-> handles the callback, when many callbacks are queued, or while the
-> writer is preempted under PREEMPT_RT.  Interrupts, and in a guest a
-> preempted vCPU, also stretch the window.
-> 
-> After the climb, xas_find(), xas_find_marked() and xas_next() resume in
-> the old head at the slot after the child and read its slots[] and shift
-> (xas_find_marked() also its mark bitmaps); xas_prev(), for which the
-> child is the first slot, steps past the old head at once and reads its
-> offset and parent, as the others do when they reach its end.  Nothing in
-> the walk notices that the node is gone.  The climb takes ->parent as it
-> is, no lockless path looks at node->array (XA_RCU_FREE), and
-> xas_shrink() stores XA_RETRY_ENTRY in slot 0 of the old head only when
-> the head shrinks to a single entry, not to a node; the walker does not
-> look at slot 0 anyway.  radix_tree_node_cachep is not
-> SLAB_TYPESAFE_BY_RCU, so the walker reads freed memory.  Once the object
-> is reused for a node of another array, the walker returns that array's
-> entries or descends and climbs into its nodes.
-> 
-> The order dates from the introduction of xas_shrink() in the commit
-> below, which reimplemented radix_tree_shrink().  radix_tree_shrink()
-> clears the child's parent pointer before it replaces the head and frees
-> the old node, and still does in lib/radix-tree.c.  The commit gives no
-> reason for the different order and nothing depends on it: xas_update()
-> and xa_node_free() only touch the old head.
-> 
-> Clear the child's parent pointer before freeing the old head, as
-> radix_tree_shrink() does.  The stores are the same, the tree and the
-> xa_state the caller sees are the same, and a walker that starts after
-> the callback's grace period has begun sees the cleared pointer, like
-> every store before call_rcu(), and ends its walk at the new head, which
-> covers every index that the old head had an entry for.
-> 
-> A check in the radix-tree test harness that no node passed to
-> xa_node_free() is still the parent of a node reachable from xa_head
-> fails in xas_shrink() 4731 times in the XArray tests without this patch
-> and never with it.  No test is added: the race is not deterministic and
-> the check needs a hook on xa_node_free().  A harness race test (readers
-> walking the whole array with the four climbing walkers while a writer
-> stores and erases an entry that adds three levels above the leaf) did
-> not hit the window in 20 runs of 200000 erases; with a 1 ms sleep
-> injected after xa_node_free() in xas_shrink(), every one of 20 runs
-> reported a heap-use-after-free in __xas_next() or __xas_prev() under
-> AddressSanitizer, and none did with this patch and the same sleep.  On a
-> kernel (x86_64 defconfig + KASAN, QEMU), with a 100 ms delay injected at
-> the same place, a walk that starts on another CPU 20 ms into the window
-> climbs to the old head in each of 20 rounds, and KASAN reports a
-> slab-use-after-free of the radix_tree_node freed from rcu_core() when
-> the walk takes its next step; with this patch, the walk ends at the new
-> head.  The XArray and IDA self-tests pass on x86_64 and riscv64.
-> 
-> Found while formally verifying xas_store() against the kernel binary.
-> 
-> Fixes: 58d6ea3085f2 ("xarray: Add XArray unconditional store operations")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
-> ---
-> 
-> Notes:
->     Reproduction details: the ordering check wraps each xa_node_free(node)
->     call in a copy of lib/xarray.c with a function that walks the tree from
->     xa_head and reports the node if it is still reachable or still the
->     ->parent of a reachable node.  The harness race test links a copy of
->     lib/xarray.c with a hook right after the xa_node_free() in xas_shrink()
->     that sleeps 1 ms in the writer; 32 threads, liburcu-registered readers.
->     Without that sleep, this patch alone still showed a use-after-free in 3
->     of 20 runs; those come from the xas_delete_node() bug (the race test
->     also erases nodes), and with both patches 20 of 20 runs were clean.
->     With only the xas_delete_node() fix, the sleep still gives 20 of 20
->     failures.  The kernel demonstration is a test build with mdelay(100)
->     after xa_node_free() in xas_shrink() for one test array, a writer
->     kthread on CPU 0 doing xa_store()/xa_erase() and a reader kthread on
->     CPU 1 doing xas_load()/xas_next() under rcu_read_lock().  The window
->     has not been hit on an unmodified kernel.  I can send any of these if
->     useful.
-> 
->  lib/xarray.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/lib/xarray.c b/lib/xarray.c
-> index bfe7bef80f34..ae9d7fc68861 100644
-> --- a/lib/xarray.c
-> +++ b/lib/xarray.c
-> @@ -471,11 +471,12 @@ static void xas_shrink(struct xa_state *xas)
->  		if (!xa_is_node(entry))
->  			RCU_INIT_POINTER(node->slots[0], XA_RETRY_ENTRY);
->  		xas_update(xas, node);
-> +		if (xa_is_node(entry))
-> +			xa_to_node(entry)->parent = NULL;
->  		xa_node_free(node);
->  		if (!xa_is_node(entry))
->  			break;
->  		node = xa_to_node(entry);
-> -		node->parent = NULL;
->  	}
->  }
+This patch removes the driver along with its Kconfig entry,
+documentation, and CREDITS entries.  The HPFS_SUPER_MAGIC value in
+include/uapi/linux/magic.h is kept for userspace ABI compatibility,
+and defconfig cleanups will be sent separately to the respective
+architecture maintainers.
 
-I think the patch is fine.  I understand the infeasibility of adding
-a test into the test suite.  I've had a good think about other ways we
-might spot this happening and haven't come up with anything.
+Breno Rodrigues Alves (1):
+  fs: remove hpfs filesystem
+
+ CREDITS                             |    2 -
+ Documentation/filesystems/hpfs.rst  |  353 ---------
+ Documentation/filesystems/index.rst |    1 -
+ MAINTAINERS                         |    6 -
+ fs/Kconfig                          |    1 -
+ fs/Makefile                         |    1 -
+ fs/hpfs/Kconfig                     |   17 -
+ fs/hpfs/Makefile                    |    9 -
+ fs/hpfs/alloc.c                     |  582 --------------
+ fs/hpfs/anode.c                     |  498 ------------
+ fs/hpfs/buffer.c                    |  232 ------
+ fs/hpfs/dentry.c                    |   62 --
+ fs/hpfs/dir.c                       |  331 --------
+ fs/hpfs/dnode.c                     | 1095 ---------------------------
+ fs/hpfs/ea.c                        |  368 ---------
+ fs/hpfs/file.c                      |  276 -------
+ fs/hpfs/hpfs.h                      |  579 --------------
+ fs/hpfs/hpfs_fn.h                   |  379 ---------
+ fs/hpfs/inode.c                     |  318 --------
+ fs/hpfs/map.c                       |  335 --------
+ fs/hpfs/name.c                      |  114 ---
+ fs/hpfs/namei.c                     |  621 ---------------
+ fs/hpfs/super.c                     |  789 -------------------
+ 23 files changed, 6969 deletions(-)
+ delete mode 100644 Documentation/filesystems/hpfs.rst
+ delete mode 100644 fs/hpfs/Kconfig
+ delete mode 100644 fs/hpfs/Makefile
+ delete mode 100644 fs/hpfs/alloc.c
+ delete mode 100644 fs/hpfs/anode.c
+ delete mode 100644 fs/hpfs/buffer.c
+ delete mode 100644 fs/hpfs/dentry.c
+ delete mode 100644 fs/hpfs/dir.c
+ delete mode 100644 fs/hpfs/dnode.c
+ delete mode 100644 fs/hpfs/ea.c
+ delete mode 100644 fs/hpfs/file.c
+ delete mode 100644 fs/hpfs/hpfs.h
+ delete mode 100644 fs/hpfs/hpfs_fn.h
+ delete mode 100644 fs/hpfs/inode.c
+ delete mode 100644 fs/hpfs/map.c
+ delete mode 100644 fs/hpfs/name.c
+ delete mode 100644 fs/hpfs/namei.c
+ delete mode 100644 fs/hpfs/super.c
+
+-- 
+2.56.0
+
