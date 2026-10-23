@@ -1,98 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792772953;
-	b=oPiXNEI94ZoqNA+NXmOm1PfuE5dFPa5UWUEo3TTQrOhZli/JAJ5BCq0wYTTbIwK+3NDB
-	 IIinnSRkTbcW2zyPj0PYXn0PbAB4kreWLQeHPFaQw0XppgeYMohLFp+IzlIwUGka3pvzg
-	 stktOmxgVEIw+OZ1yLSa3E2c+wmRA54zVHCQ5VJu+ueczWpIEjCkAXY+bfyLbNS1YnosK
-	 +nWtUd3cdbi0PrciPc2sRLKkdM0ZAcJpfpJs8Giqv4jSfoMQLCsWDmfYRgpxT4oG38om2
-	 5C7zX5kpWUFUoSJCZzMmycXB96hH+YtZDyf9G2f+DowHfFNfmWCMtYeCLL4hkyJir/Q==
+	t=1792773032;
+	b=u4FgzHVcleKOXg2h0G+A2R4wM2irz/7onObpdaqJcPdwhgxsWtt+k6p/cMiAfnZeL5u0
+	 tNuOJgqXqEoxkyhZlvTa06LqvIx4fWJbKTPjTumwX6n+mKcq3jSn4q5KSLSsQxPbEMzk5
+	 afJPT4cgBCX8hr7xUpLGkvQQ+czevMRAs33/sxLm0tByoZKOvrKXOxbFSSfO3j6cnasW5
+	 uZUnlrREofk8pfwa11aC4DOXNVkncl/n9y3mNvavnCkcOQ9Tom5Tp35jxUGGcFBBKz5LZ
+	 shkvSWQVEWXYBGiWZr+lAkQoLDreAC7fnRrwWGNclgrdUr9p3xYJUmVkvdlckkegg+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792772953;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792773032;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=MCcCJzJcyMLfAALTRppy1JcclrYetPHK7Z4PTdaUix0=;
-	b=ES54PqCXPMXEMHbqjWXM+ouQv0sTZ0Uv58gLJigdQ3nbIpc4cxfu3KVhrBXVz+TTMOwG
-	 NLHhHL8r/+t+7IW+pzn8rVJm/S8nEbLf8mA57spDo+TI/YVmouJ7130wjeAMXxXGLjayb
-	 fZiEcoy+Mw1DbGN7T0xsPf68LiaTAIpu89VjYUzK/POVpBvSCUzzEQMsVQH9PdHYvOFus
-	 HpYi6HCXxOnzYzD2fBW+KdAIN9vebwOLb7MSie7WXu5P5fUKHqKUO08bFxaXAvQlPPGXm
-	 uE5dPk1kdMn+0VD9638dfOnBbXFzT8F9rjyOisMAFUbL4IOrxYNtMkQvr9+0vnUtpng==
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=Qz7r+A/D6KnqK0PO5YdI2E3CPVQcCuCNvAghnich9pU=;
+	b=5O0IAHvI4UTpuetjC4f6iE0flgeAWndmdW32hclSazcaNwUD3p1M5yfXl5t7GvVlSUCI
+	 UY7USUg2Hu0DBmgnufhSFDXg+wsqPf1F5SFhpi2tAuT2U8GbZiiLoeNsgxUVDKoy44qVI
+	 vDCIsZUj9L9a5VDkQAjmZ/5iRHix7YC/atk45gq/W7PMxxSX+rcfAhtvKW9nnYRGxTYcR
+	 FBrI3WTJ8pP8Hi9Cg4brzmXslrtHokZoUQEFItUubu/0Zn+gXbKyeANXUqSxnS+VqN0bf
+	 SGYC2Kxnuhwr+wmr8vTAX/eUDwDoBbhfSUfVvIyCU7uQBybTUqFIcX7YIAplhgoYYZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PkVcJYAR;
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Eg0DI9sn;
+	arc=none smtp.remote-ip=209.85.160.172
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9465D606A31B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 16:29:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9465D606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE09606A333
+	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 16:30:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FE09606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PkVcJYAR
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48af4d4e61fso698023f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 09:29:12 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Eg0DI9sn
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-536c8f958d7so4405731cf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 09:30:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792772951; x=1793377751; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MCcCJzJcyMLfAALTRppy1JcclrYetPHK7Z4PTdaUix0=;
-        b=PkVcJYARO8fjYAI3jhqXDBujBBuUvnfVWUFmgjS7Z56NnLwAoDT8xOHqF7x5s68qgt
-         gaBLCllAu7gMpHkGD+KRyRkmdxdeW0S0danjpIRL7/U6KwJ5UNwVQKLXhfJ3NVuV0nE+
-         RnzMsEN5SU20V3+2KOftWZCjnPj/DYwyY3tJ6kMf06rW59smD996pB7UgOXZCoPj9kK1
-         1n72B1kbSCuZsYfgl5e596W2mUVwB4cfvgI7FbE3dqtvJyODPDXAE7xk0oQW0C56Umnd
-         s7lEoQYjYNFWYIOz2KHTw5qRIj4hP9rRQ9w4HL7ghsxBXa0PTYeCn/KZbKNxAUIDQKWJ
-         9Ssg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792772951; x=1793377751;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=toxicpanda.com; s=google; t=1792773030; x=1793377830; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MCcCJzJcyMLfAALTRppy1JcclrYetPHK7Z4PTdaUix0=;
-        b=2nhVzxykY4lz4M/Nvk+O/3Uz3vQ10sexW7n7VLO2GtDB6J9X5dulrRT79CKzYdgUsC
-         RWTI7cPT6Ck0vB9ZFotKaomy9zw0u+/aFmHH2PRE1vySh7g7l1NeU+p5IHegcQooIe6W
-         eAi31kgEiAIR9LS73kCLoG5qbhinQx1XA4X1Qd3MbgUxK/JWJTTK0FUAZMNiffIjfXLX
-         O5UEeLQU+gbob4+SSmC8bjqffd7McKgpE9FkRH6/rjUhlEoSG6UcEmzY2eEky6CloE+1
-         I6hjAgJcKx5TJYLMz8mvydqs8n4suBO/AoQfgFQ8Ks1IuaLDfAC0fNuACF7eoDiiTl4i
-         X3ow==
-X-Forwarded-Encrypted: i=1; AKwUvBySww6xBxL3vmfjG64D4MoJofbkUVIkTvsofsfp4wPx29qpS51xEJYjP8ugO5rpRmKsbSznGGpulMYdvFCV@vger.kernel.org
-X-Gm-Message-State: AFq9FYIe0HqX/E6ZvopS/AsyH2UMvgeXNzyMGoaN6FF6BTrHBE5paXj+
-	Mr0BQIM7JvGbXHAnE/2X5x3OsLzgxzAxgpzuio3+MpeApeYmmfkhUwso
-X-Gm-Gg: AYBFou0XCVWTGsBq/Ty7aPYwBw3Z+/Gik36ikpys2Ih/XyJyGAqsUsbrgE2p++FIIBX
-	CQ4LCGV5p3Vj98j22wmKDr84QIaz/3oTM0dWyThyILjylVsai3FV84Zf+mX+/HdfLZwQuEnAel/
-	Cvuxu5RpKDHV5hV9zgu3nhslFGEiCCDqJ/yv6isAPq8sG7tWoQOLRlzO5RWECThFT5prHKrOapp
-	FXn6Bw0UesosisnygEn+z+RV6o8Al+pUhZTr9lW0Rz03xMfnTEGMwl4jd9Qs0VN+esXVDODJLIq
-	WOi9tYtR39tNtQkIy1ZwrHRT/UKUwLL+eb2PqE8/48RgGLK9AqidzgFucVZvBQRx+e4BiFfl2U9
-	UDkv+r/nN6edS2LMrc69fPGLUX+n2XcexmOUqq7H5rwyUckZQ7WyFr+wwo8/ZwN0bE2XzWBZOqC
-	PoJxizpMoTCIKsybiIkxqvv8wyHfPcWWb04toEuJLIFOZyYNAvfEj3uyXP8YZpsPCPjUPhIsnu1
-	2LAl+OejZiw7higCZEUcHFFP96kG6VeV8zHrc/80C98/6yzlhiCFe3A+1qDmQ7xxcRJfyxdZY2T
-	I584Z3DSmAHXmxOaGlUnr7hmag21
-X-Received: by 2002:a05:600c:3f16:b0:4a2:526b:d417 with SMTP id 5b1f17b1804b1-4a2526bd79fmr16181255e9.7.1792772950799;
-        Fri, 23 Oct 2026 09:29:10 -0700 (PDT)
-Received: from DESKTOP-IR7J1S9.localdomain ([105.98.0.106])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a2958bf246sm16379855e9.1.2026.10.23.09.29.09
+        bh=Qz7r+A/D6KnqK0PO5YdI2E3CPVQcCuCNvAghnich9pU=;
+        b=Eg0DI9snt5My0sv+YEzPYCpV+u/w6o3PwIj2s/JtkMmoJzU5N6Y3sQmwmrVs5eCfST
+         5hCAkRXPtWyk7Xz4w6Ohk25k+nW14MWApZ7Ti9eDCuF1+lKap8MS0kEXmui2WkdM5LNY
+         XM8UwR54MhqsMmExkuTv/ykzg4HPsgHPuCSrt5SBZvhYzzYhPWnEiO3r+UcIgutH78TX
+         xid3EaYb7wg6IColU8rtKtETLMniDB/Xv5k/oBlXP79u2EZi8tSwNDzwqRoHORuvv9X5
+         rcUudSTwhDjS6xTER0AnhlhCnbrikDMJFeD9aii676jErJ5argoG9qNRuJIVRHt4dGL1
+         NxqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792773030; x=1793377830;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Qz7r+A/D6KnqK0PO5YdI2E3CPVQcCuCNvAghnich9pU=;
+        b=gY82Kyj2KhzfrOb2F1JtgVk/NXpSQTUjN1ILFG91smIa1MkLAq6DNSimTZ5yNbiLQ6
+         hNbnKXfFRnB1T/kTkH8FeqVxA/4IPxA7gebDOx3aTf6uZQeotzOf4YJhgh6tUFTcB4Uo
+         XheY3b/me3onRbPNyVpbCQYngo4CD+uCmZqqQqR6JxPB/lJ05HJw5xqgrjyb77L5Z4IC
+         XUAuiKIFhb9PfibxqegKjZDpuAfMBb+rAABMVAV2isKLmyDZiO8TM/9OwE/osErJTDgl
+         VbD4ZXng+31HNyN3sNX9BKEuL3iQdj/nOWROFAul+SWBsuTRUBC3hOd0k2a6DdH/nEkR
+         fVCw==
+X-Forwarded-Encrypted: i=1; AKwUvBwUQFnuWD8BWq7KpzXCdtyKjkLnzvofi+eXrSlmcCjJ9KQNPiLlMt8ke/6Qb7cvJEOqpx8svW4WmEOJpZ1C@vger.kernel.org
+X-Gm-Message-State: AFq9FYIpD3xtcqaxspH4UzmZVCi+ZQo6wJT+6bNKCbdapnc0AWNqusRh
+	ODMOG5iTA6s8hUX61B0cL2wpzIivxmCBYgSRIACrodPC8xwmFGKaUh6okXMM7ya/uyc=
+X-Gm-Gg: AYBFou1VUQgBwadrR185h4UjX3ruFdUHv/ldmaBhdE7Hrr2Nl5rRc7khE+xkDKQ6WvK
+	PQgcwYqwWyb3fVhhIqGhqC32C2aKtAF2V6LegxkOc18uMLXsRFKBFNBpjKx/qTiFl3XW023ON/w
+	KV8OOck0JTGUqENuML7Wv+wImUwjvlPu3Vx97zl6FpJGnrOtKTTWQpYYI6hr9nwl4KpAlSHT9F6
+	b6D4DrQLZajGGCq+pmZI7Gxo1uoSjiyidJv5Mc7m+i9+Ba1YvXGzb6uEl2qzVuJjxnGw4ubKkHL
+	HkkQBHyLzuuzZXkSVXs7huxwFeAdqZi9nQ+D1+eK6JmjY3qiMMcKUm09mOFIGCKAfC3S+fUJtE1
+	MUUAL+ITn5yEa6MSUbpjpKTHb3+WX3Yg5h7PAdcpRIjtXfOjKtyLzS/qDve6iiR5J0T39M0TN9Z
+	bUOzSUU3hC5AbA9gO4P9/rY/yAGSRXJdTtGEmLvy/qeyClJu2IZ5f92F9AIvlshxYRael9yL3Fv
+	IXNpygwnUk3tAnnsQ6w1cWwh6UnFEF9eZhIv7RgL9RW5E8Mzc5E/hUE4sTKg5at82TVSZWr
+X-Received: by 2002:a05:622a:c86:b0:536:2e47:f5ab with SMTP id d75a77b69052e-536c2136769mr38971691cf.9.1792773029863;
+        Fri, 23 Oct 2026 09:30:29 -0700 (PDT)
+Received: from toxicpanda.com ([153.61.196.253])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-53836c4c71fsm1340051cf.25.2026.10.23.09.30.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 09:29:10 -0700 (PDT)
-From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-To: Breno Leitao <leitao@debian.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	syzbot+63336d70e1af377d7388@syzkaller.appspotmail.com,
-	Ran Hongyun <ranhongyun1@huawei.com>,
-	Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-Subject: [PATCH v2] configfs: fix slab-UAF Write in config_item_put
-Date: Fri, 23 Oct 2026 17:29:06 +0100
-Message-ID: <20261023162906.2938-1-drifabdelmalekmohamedsaid@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 23 Oct 2026 09:30:28 -0700 (PDT)
+From: Josef Bacik <josef@toxicpanda.com>
+Date: Fri, 23 Oct 2026 16:30:08 +0000
+Subject: [PATCH v5 2/5] userns: don't let setns() lend CAP_SETFCAP
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -102,179 +91,179 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261023-b4-setfcap-userns-v5-2-0620223be951@toxicpanda.com>
+References: <20261023-b4-setfcap-userns-v5-0-0620223be951@toxicpanda.com>
+In-Reply-To: <20261023-b4-setfcap-userns-v5-0-0620223be951@toxicpanda.com>
+To: Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>, 
+ Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openssh-sha256; t=1792773019; l=6171;
+ i=josef@toxicpanda.com; h=from:subject:message-id;
+ bh=n4GgDASw93W0W4hVR9BfgOUvZQHADy8KOEbGO3+EfSU=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
+ JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QP2Uui21+ven36CKL6xikVUA2x0eTMOw5aUJbW4U7EVNW7o1QZuGQlTLSPgO8CVPWQ1SorTk+55
+ 4NE3zF8AYyAc=
+X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
+ fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-syzbot reported:
+Mapping uid 0 of the parent into a user namespace requires CAP_SETFCAP,
+because a task in such a namespace can write file capabilities that are
+honoured in the parent.  A task that is already in the namespace has a
+full capability set there and can't be asked any more, so
+verify_root_map() goes by what the creator had, now ns->setfcap_level.
 
-BUG: KASAN: slab-use-after-free in instrument_atomic_read_write
-           include/linux/instrumented.h:112 [inline]
-BUG: KASAN: slab-use-after-free in atomic_fetch_sub_release
-           include/linux/atomic/atomic-instrumented.h:400 [inline]
-BUG: KASAN: slab-use-after-free in __refcount_sub_and_test
-           include/linux/refcount.h:389 [inline]
-BUG: KASAN: slab-use-after-free in __refcount_dec_and_test
-           include/linux/refcount.h:432 [inline]
-BUG: KASAN: slab-use-after-free in refcount_dec_and_test
-           include/linux/refcount.h:450 [inline]
-BUG: KASAN: slab-use-after-free in kref_put
-           include/linux/kref.h:64 [inline]
-BUG: KASAN: slab-use-after-free in config_item_put+0x26/0x90
-           fs/configfs/item.c:149
-Write of size 4 at addr ffff88803b6444b4 by task syz-executor324/5709
+But setns() lets other tasks in, and they get the full set as well:
 
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- check_region_inline mm/kasan/generic.c:-1 [inline]
- kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
- instrument_atomic_read_write include/linux/instrumented.h:112 [inline]
- atomic_fetch_sub_release include/linux/atomic/atomic-instrumented.h:400 [inline]
- __refcount_sub_and_test include/linux/refcount.h:389 [inline]
- __refcount_dec_and_test include/linux/refcount.h:432 [inline]
- refcount_dec_and_test include/linux/refcount.h:450 [inline]
- kref_put include/linux/kref.h:64 [inline]
- config_item_put+0x26/0x90 fs/configfs/item.c:149
- configfs_symlink+0x6be/0x11d0 fs/configfs/symlink.c:225
- vfs_symlink+0x18b/0x330 fs/namei.c:5823
- filename_symlinkat+0x1cd/0x420 fs/namei.c:5848
- __do_sys_symlinkat fs/namei.c:5868 [inline]
- __se_sys_symlinkat+0x4e/0x2b0 fs/namei.c:5863
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+  task A: uid 0, full caps          task B: uid 0, no CAP_SETFCAP
+  unshare(CLONE_NEWUSER)
+                                    setns(A's user ns)
+                                      allowed, euid == ns->owner
+                                    write "0 0 1" to /proc/self/uid_map
+                                      ns->setfcap_level is A's -> allowed
 
-Allocated by task 5712:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:426
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x3d5/0x680 mm/slub.c:5563
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- nvmet_ports_make+0xe6/0xf00 drivers/nvme/target/configfs.c:2054
- configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1369
- vfs_mkdir+0x408/0x620 fs/namei.c:5439
- filename_mkdirat+0x289/0x520 fs/namei.c:5472
- __do_sys_mkdir fs/namei.c:5499 [inline]
- __se_sys_mkdir+0x34/0x150 fs/namei.c:5496
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+or, if A's namespace maps uid 0 already, B sets security.capability on a
+file.  Either way B ends up with file capabilities that are honoured in
+the initial namespace, which it could not have written there, nor in a
+namespace it created itself.
 
-Freed by task 5712:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:264 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2748 [inline]
- slab_free mm/slub.c:6509 [inline]
- kfree+0x1c5/0x6d0 mm/slub.c:6802
- config_item_cleanup fs/configfs/item.c:128 [inline]
- config_item_release+0x13a/0x2d0 fs/configfs/item.c:137
- configfs_rmdir+0x885/0x950 fs/configfs/dir.c:1580
- vfs_rmdir+0x3e9/0x6b0 fs/namei.c:5544
- filename_rmdir+0x292/0x520 fs/namei.c:5601
- __do_sys_rmdir fs/namei.c:5624 [inline]
- __se_sys_rmdir+0x2e/0x140 fs/namei.c:5621
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Refuse setns() into a user namespace whose tasks can write file
+capabilities for the root user of an ancestor that the joiner's
+CAP_SETFCAP doesn't reach.  That is the case when the namespace maps
+such a root user, or has no uid map yet and its parent maps one.
+cred_may_setfcap_userns() checks it, and cred_setfcap_reaches() is the
+comparison it and the later checks use.  Then every task in such a
+namespace is entitled to what its setfcap_level says, and the checks on
+the way to file capabilities can go by the namespace.
 
-The buggy address belongs to the object at ffff88803b644000
- which belongs to the cache kmalloc-4k of size 4096
-The buggy address is located 1204 bytes inside of
- freed 4096-byte region [ffff88803b644000, ffff88803b645000)
+An idmapped mount can store a root user that the namespace doesn't map,
+for example a "0 100000" container whose rootfs maps 100000 to host uid
+0.  That is a deliberate setup and up to whoever creates the mount, so
+it is not considered here.
 
-This is a race between a thread creating a symlink and another one
-doing rmdir on a parent (or ancestor) directory of symlink creation dir.
+The change in behaviour is that a task without CAP_SETFCAP gets -EPERM
+when it tries to setns() into a user namespace that maps the root user
+of an ancestor, and was created by a task whose CAP_SETFCAP reached that
+far.  Containers that don't map host uid 0, tasks with CAP_SETFCAP, and
+unprivileged users joining their own namespaces are not affected.
 
-configfs_symlink() takes a reference on parent_item, the directory the
-link is created in, and then drops the directory inode lock around
-get_target(). While the lock is dropped, a concurrent rmdir can remove
-the group that parent_item belongs to.
-
-If parent_item is a default group embedded in a larger object, such as
-nvmet_port.subsys_group, the reference on the embedded item does not
-keep the containing object alive. rmdir frees the object, and the final
-config_item_put(parent_item) in configfs_symlink() then decrements a
-kref inside freed memory.
-
-Fix this by not holding parent_item across the unlocked window. Drop
-the reference before inode_unlock() and look it up again from
-dentry->d_parent after inode_lock(). configfs_get_config_item() returns
-NULL if the parent dentry was unhashed in the meantime, in which case
-release the target references and return -ENOENT.
-
-Re-looking up parent_item is not sufficient on its own.
-configfs_get_config_item() only fails if the parent dentry has been
-unhashed, and the rmdir path in another thread may skip that: if
-simple_rmdir() failed, the earlier d_drop() was skipped, so the dentry
-can stay hashed even though the directory has already been detached.
-
-Such a directory was created as a default group (CONFIGFS_USET_DIR), so
-configfs_rmdir() takes the CONFIGFS_USET_DIR branch and calls
-configfs_detach_group(). detach_groups() then marks each child inode
-S_DEAD (d_inode(child)->i_flags |= S_DEAD). Check IS_DEADDIR(dir)
-after retaking the inode lock and before taking a reference on the
-parent, and return -ENOENT. This also rejects a detached directory
-whose dentry is still hashed.
-
-Reported-by: syzbot+63336d70e1af377d7388@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=63336d70e1af377d7388
-Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+Link: https://lore.kernel.org/all/20261021-bioenergie-allheilmittel-undurchdringlichen-35666eb62cff@brauner/
+Fixes: db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
+Assisted-by: LLM
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
-v2: Added check for dead dir, this would be helpful when configfs_remove_dir skips
-unhashing the dentry.
-v1: https://lore.kernel.org/all/20261017123748.4430-1-drifabdelmalekmohamedsaid@gmail.com/T/
- fs/configfs/symlink.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ include/linux/capability.h |  3 +++
+ kernel/user_namespace.c    |  6 +++++
+ security/commoncap.c       | 58 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 67 insertions(+)
 
-diff --git a/fs/configfs/symlink.c b/fs/configfs/symlink.c
-index 89178f5d371a..7d746a10c369 100644
---- a/fs/configfs/symlink.c
-+++ b/fs/configfs/symlink.c
-@@ -196,11 +196,26 @@ int configfs_symlink(const struct mnt_idmap *idmap, struct inode *dir,
- 	 *
- 	 *  AV, a thoroughly annoyed bastard.
- 	 */
+diff --git a/include/linux/capability.h b/include/linux/capability.h
+index 026974a5111b..e4199b03668b 100644
+--- a/include/linux/capability.h
++++ b/include/linux/capability.h
+@@ -224,5 +224,8 @@ int cap_convert_nscap(const struct mnt_idmap *idmap, struct dentry *dentry,
+ 		      const void **ivalue, size_t size);
+ 
+ int cap_setfcap_level(const struct cred *cred, struct user_namespace *ns);
++bool cred_setfcap_reaches(const struct cred *cred, struct user_namespace *ns,
++			  int level);
++bool cred_may_setfcap_userns(const struct cred *cred, struct user_namespace *ns);
+ 
+ #endif /* !_LINUX_CAPABILITY_H */
+diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
+index a5a94367600d..7bd3692c2f3e 100644
+--- a/kernel/user_namespace.c
++++ b/kernel/user_namespace.c
+@@ -1390,6 +1390,12 @@ static int userns_install(struct nsset *nsset, struct ns_common *ns)
+ 	if (!ns_capable(user_ns, CAP_SYS_ADMIN))
+ 		return -EPERM;
+ 
++	/* Tasks in the namespace may have CAP_SETFCAP that counts outside of
++	 * it, so only let in tasks whose own counts as far.
++	 */
++	if (!cred_may_setfcap_userns(current_cred(), user_ns))
++		return -EPERM;
 +
-+	/* Put the reference back, retake and check after relocking*/
-+	config_item_put(parent_item);
-+	parent_item = NULL;
- 	inode_unlock(dir);
- 	ret = get_target(symname, &target_item, &target_sd, dentry->d_sb);
- 	inode_lock(dir);
- 	if (ret)
--		goto out_put;
-+		goto out_put; /* config_item_put on NULL, no problem */
+ 	cred = nsset_cred(nsset);
+ 	if (!cred)
+ 		return -EINVAL;
+diff --git a/security/commoncap.c b/security/commoncap.c
+index 4f49dba65426..8a9d998b1897 100644
+--- a/security/commoncap.c
++++ b/security/commoncap.c
+@@ -158,6 +158,64 @@ int cap_setfcap_level(const struct cred *cred, struct user_namespace *ns)
+ 	return cred->user_ns->level + 1;
+ }
+ 
++/**
++ * cred_setfcap_reaches - Check how far up CAP_SETFCAP of a cred reaches
++ * @cred: The credentials to use
++ * @ns: The user namespace to look from
++ * @level: The ->level of the ancestor of @ns it has to count in
++ *
++ * Return: true if CAP_SETFCAP of @cred counts in @ns and in its ancestors
++ * up to the one at @level.
++ */
++bool cred_setfcap_reaches(const struct cred *cred, struct user_namespace *ns,
++			  int level)
++{
++	return cap_setfcap_level(cred, ns) <= level;
++}
 +
-+	if (IS_DEADDIR(dir)) {
-+		ret = -ENOENT;
-+		goto out_put_target;
++/*
++ * The topmost ancestor of @ns whose root user tasks in @ns can write file
++ * capabilities for: within @ns->setfcap_level, and mapped into @ns, or into
++ * its parent while @ns has no uid_map yet.  NULL if there is none.  An
++ * idmapped mount can store other root users, but that is up to whoever sets
++ * up the mount.
++ */
++static struct user_namespace *setfcap_top(struct user_namespace *ns)
++{
++	struct user_namespace *seen, *p, *top = NULL;
++
++	if (ns->setfcap_level >= ns->level)
++		return NULL;
++
++	seen = READ_ONCE(ns->uid_map.nr_extents) ? ns : ns->parent;
++	for (p = ns->parent; p; p = p->parent) {
++		if (p->level < ns->setfcap_level)
++			break;
++		if (kuid_has_mapping(seen, make_kuid(p, 0)))
++			top = p;
 +	}
 +
-+	parent_item = configfs_get_config_item(dentry->d_parent);
-+	if (!parent_item) {
-+		ret = -ENOENT;
-+		goto out_put_target;
-+	}
- 
- 	if (dentry->d_inode || d_unhashed(dentry))
- 		ret = -EEXIST;
-@@ -218,6 +233,7 @@ int configfs_symlink(const struct mnt_idmap *idmap, struct inode *dir,
- 						     target_item);
- 	}
- 
-+out_put_target:
- 	configfs_put(target_sd);
- 	config_item_put(target_item);
- 
++	return top;
++}
++
++/**
++ * cred_may_setfcap_userns - Check whether a cred covers what a userns can do
++ * @cred: The credentials to use
++ * @ns: The user namespace
++ *
++ * Tasks in @ns can have CAP_SETFCAP that counts in ancestors of @ns, see
++ * cap_setfcap_level().  Check that CAP_SETFCAP of @cred reaches as far up as
++ * tasks in @ns can make use of theirs.
++ *
++ * Return: true if it does.
++ */
++bool cred_may_setfcap_userns(const struct cred *cred, struct user_namespace *ns)
++{
++	struct user_namespace *top = setfcap_top(ns);
++
++	return !top || cred_setfcap_reaches(cred, ns->parent, top->level);
++}
++
+ /**
+  * cap_settime - Determine whether the current process may set the system clock
+  * @ts: The time to set
+
 -- 
-2.43.0
+2.55.0
 
