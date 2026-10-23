@@ -1,75 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792746868;
-	b=Z2gAZqGcQw+VnuotA3SSG8Hkthxq8Gb8EFy+DQhJkj2i/qWgH3HC+FRqq9+ILr/OPLGc
-	 YzxYsPUrTCMTt2AuWwL5adHmElQLZjWM7Cp7M3f+FzGA3jZxqaWm++RYTxbq8AR7OTsYQ
-	 LtnkOYKjPzrvbUkX36Xlp8tw23S9B5SjKYX4G66SpScwQ9+uITJ2yHEbQm+EKZW48RnE7
-	 9pdHyEccmPbAeq0RDP8zZUR1bVk520mJjnen3/5CkWIcLJgHIQ1kDIsrrEGrntjrDDpPT
-	 az0tqneNT2YgjxG3rVw26tzaF5Ge1LPsx3x9oErdEDpotGt4rgLODr8Ihm//9mxw7dg==
+	t=1792747071;
+	b=0xcaSPOS8dSjFxDy5XN59169BsU1XDLhf2WYzoWcRxdwLGU98vtZcrZviJXqd3FN82UO
+	 E+bKzMiAbiQcKSNpKJAIaxKF59bF8W0ugVthoomr46DNdB0vkMr5ekfYBmTzbcSBLJF3z
+	 l2lHRlCNt6YXKNqxH/llgCrsXV3GiPebxEVYG1CBAfWlKF+1R2n44dPq+r66psu+uwQcB
+	 k5v8C5s/KwtoC1EfS00C1mrbMa7PxszXI1jDsgzg7fAl12BkO690li6TYQF8owg99n3hh
+	 DBUMcZK0nxUDuBfOjqdndDWSaUbujB+te21D9i9jItpQrzgeAoKCBFWaeGBfAJKDN9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792746868;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Received:Received:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 In-Reply-To:X-CMS-MailID:X-Msg-Generator:Content-Type:
-	 X-Sendblock-Type:CMS-TYPE:cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:
-	 References;
-	bh=KxRBaCl6SIR11QatilRX983Sq8/llllRV78Ep6I15c8=;
-	b=AXfIpUdGqU3VWii7MgG3/UAuKhhMzSCsD96PV0Waf5bKMfeTC4qyNyKXfmw4jjIkrnov
-	 X2Xadiggy23OSj12frs8bNK+oUXQY0PAMFSMNZKYRrlxGHqNKaXLJRi7OiVFP+7ClgmK6
-	 8e2HQ6tabUi9wfbPq+tpN1SQkIinOEenTz5yWFFULyX2augsL2gkgotY7o9HtyPRAMgnm
-	 oCxWCrXkz4H1GoOpBk4/H7cihBipQwxRJsM/an0ezgr7xzbzznO5hatthik85LA5ewLrQ
-	 mFIzAhEc8V9/6RWxxRxY8DhdsK3fUn29iQ4GuO5xPUg8fBb41v6/WU/vu4WApLwfQIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792747071;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=G9hhphCfXkWd1gXgevV297lbX/bMFLQG58MmKTmaWao=;
+	b=kYrPS8Wq16Rk0QXEcNYnZRcDaGr1rE+qIFanglfDLERrw59465yf3L/i+gLe5R17u2UT
+	 fAQZNH1nzBf9jbrHrQc5hktyO5N4o+/8tEsMQyUTmMp9vERIxcgRCNpAqebgPpPJHQf2z
+	 3sMdo8gv1GtkbPW+TraG3NrOryHDjTcQjAiwRW6MTsx285W64+Pt1fwrPHu4skxEKrcij
+	 DvmxOiteKfLFRQHZALTMYZLnnZH8FRjdtaxEOzhqlOBrJNLRRcpeRqqNyqjKwJxxxWzDo
+	 mLIojuCGeGdFgZ1PFdq+pNk6iIS08ET3vzgbU3O4zMKzlhdj0LE7u3Ln5TJNnOF6LCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=NTww7lbG;
-	arc=none smtp.remote-ip=203.254.224.24
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GaKroY9Q;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E84606A320
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 09:14:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0E84606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996D3606A31A;
+	Fri, 23 Oct 2026 09:17:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=NTww7lbG
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261023091419epoutp0164c4b0f0da02f3b0af2c832c3f72c1c0~hHcU6I_0b1405214052epoutp01E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 09:14:19 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261023091419epoutp0164c4b0f0da02f3b0af2c832c3f72c1c0~hHcU6I_0b1405214052epoutp01E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1792746859;
-	bh=KxRBaCl6SIR11QatilRX983Sq8/llllRV78Ep6I15c8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NTww7lbG6DNGSbYdJpQKW/4oLc1S4ixnafP49IKas3mC9sCYy0mZ/RYQwM35xquxi
-	 3LlVeX720+DIt31tVagsJuQG/9lDc4C5+1vj2esuEppM3IMFRsLKmttZaLZL4iCkU/
-	 6CTfROQdjsSJVFnU33yGdRRmi+eM0haOrPov7MxI=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
-	20261023091419epcas5p471c3db4981fae6ad5fd9f843c319a218~hHcUhYtpu2146721467epcas5p4l;
-	Fri, 23 Oct 2026 09:14:19 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.93]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4j9y561PQ1z2SSKX; Fri, 23 Oct
-	2026 09:14:18 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20261022130134epcas5p23704ea4f10cd9d90762b89c3c9fdf254~g25c8K_br1950919509epcas5p2j;
-	Thu, 22 Oct 2026 13:01:34 +0000 (GMT)
-Received: from green245.gost (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20261022130132epsmtip19a5b77749906115956858b506dddc7c3~g25bZmdxB1541915419epsmtip1I;
-	Thu, 22 Oct 2026 13:01:32 +0000 (GMT)
-Date: Thu, 22 Oct 2026 18:30:53 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Anuj Gupta <anuj1072538@gmail.com>, hch@lst.de, djwong@kernel.org,
-	cem@kernel.org, brauner@kernel.org, axboe@kernel.dk,
-	linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, joshi.k@samsung.com, anuj20.g@samsung.com
-Subject: Re: [RFC 2/4] block: refuse a dma-buf bio for a disk the buffer was
- not registered on
-Message-ID: <20261022130053.vhphcch4swb5xxih@green245.gost>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GaKroY9Q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAE271F01825;
+	Fri, 23 Oct 2026 09:17:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792747071;
+	bh=G9hhphCfXkWd1gXgevV297lbX/bMFLQG58MmKTmaWao=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GaKroY9QzHsWaUe/EZC3VG9JBoYLi/XSpfpnK7nFGGJYGwPlAT/lyJleZ9II1JCEJ
+	 o0sIgPQT3AUXy7APbcUMIvYBRUBjm6Vec5PIECcwHyxMX9R7aBCTOvCabrXt+5sHnY
+	 r2K0AfemTVNGjECZ3QrGBuq3O45Ck2LArpozXHL8DspxtbIlWCXE8bHXeBtSuLQfma
+	 hsUUlj57mOdi8XpIbbrKBGfbhjTnRDG+o9GT6G46vGqZ3WBq8ik7XrTY4T8jgSxr1t
+	 LQN5YQ6Hu7wn0B9uYwMqwNTXUZKxNrAtwkHD6CmSXr6uXXtSdYC3SdeYL2sVU4vfP/
+	 3gCMRbqL1aCVw==
+Date: Fri, 23 Oct 2026 11:17:44 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Joel Granados <joel.granados@kernel.org>
+Cc: Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <kees@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
+	Serge Hallyn <serge@hallyn.com>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] sysctl: add typed field descriptors
+Message-ID: <atsmOMeBfkMQgzQV@example.org>
+References: <cover.1789987960.git.legion@kernel.org>
+ <cover.1790439358.git.legion@kernel.org>
+ <aszj54qPIdorUTO8@example.org>
+ <atoDngZsxy3TWmO_@hobbes>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,100 +63,111 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <5f542a8d-c6c1-4c5d-b0c6-f761af2e126a@gmail.com>
-X-CMS-MailID: 20261022130134epcas5p23704ea4f10cd9d90762b89c3c9fdf254
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----VZDtnczHWjdXYXkjw.jkIJrU2UH2.1dU.Tnm2W3-fiUacbuL=_9f5cc_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261022130134epcas5p23704ea4f10cd9d90762b89c3c9fdf254
-References: <20261016091919.971295-1-anuj1072538@gmail.com>
-	<20261016091919.971295-3-anuj1072538@gmail.com>
-	<5f542a8d-c6c1-4c5d-b0c6-f761af2e126a@gmail.com>
-	<CGME20261022130134epcas5p23704ea4f10cd9d90762b89c3c9fdf254@epcas5p2.samsung.com>
-
-------VZDtnczHWjdXYXkjw.jkIJrU2UH2.1dU.Tnm2W3-fiUacbuL=_9f5cc_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <atoDngZsxy3TWmO_@hobbes>
 
-On 21/10/26 04:12PM, Pavel Begunkov wrote:
->On 10/16/26 10:19, Anuj Gupta wrote:
->>From: Nitesh Shetty <nj.shetty@samsung.com>
->...> +static bool bio_dmabuf_map_valid(const struct bio *bio,
->>+				 const struct iov_iter *iter)
->>+{
->>+	return iter->dmabuf_map->ctx->registered_devt ==
->>+		disk_devt(bio->bi_bdev->bd_disk);
->>+}
->>+
->>  /**
->>   * bio_iov_iter_get_pages - add user or kernel pages to a bio
->>   * @bio: bio to add pages to
->>@@ -1300,6 +1312,9 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
->>  	if (WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED)))
->>  		return -EIO;
->>+	if (iov_iter_is_dmabuf_map(iter) && !bio_dmabuf_map_valid(bio, iter))
->>+		return -EXDEV;
->>+
->>  	if (bio_iov_iter_set(bio, iter)) {
->>  		if (iov_iter_is_bvec(iter) &&
->>  		    !bio_iov_bvec_aligned(bio, mem_align_mask))
->>diff --git a/block/fops.c b/block/fops.c
->>index 18a755f6e0b0..b36dde10a4ac 100644
->>--- a/block/fops.c
->>+++ b/block/fops.c
->>@@ -19,6 +19,7 @@
->>  #include <linux/iomap.h>
->>  #include <linux/module.h>
->>  #include <linux/io_uring/cmd.h>
->>+#include <linux/dma-buf-io.h>
->>  #include "blk.h"
->>  static inline struct inode *bdev_file_inode(struct file *file)
->>@@ -938,6 +939,7 @@ int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
->>  			     struct dma_buf_io_ctx *ctx)
->>  {
->>  	struct gendisk *disk = bdev->bd_disk;
->>+	int ret;
->>  	if (!(file->f_flags & O_DIRECT))
->>  		return -EINVAL;
->>@@ -945,7 +947,10 @@ int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
->>  		return -EOPNOTSUPP;
->>  	if (bdev_has_integrity_csum(bdev))
->>  		return -EOPNOTSUPP;
->>-	return disk->fops->init_dma_buf_io_ctx(bdev, ctx);
->>+	ret = disk->fops->init_dma_buf_io_ctx(bdev, ctx);
->>+	if (!ret)
->>+		ctx->registered_devt = disk_devt(disk);
->>+	return ret;
->>  }
->>  EXPORT_SYMBOL_GPL(bdev_init_dma_buf_io_ctx);
->>diff --git a/include/linux/dma-buf-io.h b/include/linux/dma-buf-io.h
->>index b9bbeca1744f..d42a79f2ac9b 100644
->>--- a/include/linux/dma-buf-io.h
->>+++ b/include/linux/dma-buf-io.h
->>@@ -50,6 +50,8 @@ struct dma_buf_io_ctx {
->>  	void					*dev_priv;
->>  	const struct dma_buf_io_ops		*dev_ops;
->>+
->>+	dev_t					registered_devt;
->
->That wouldn't work well with multiple devices. Maybe reject it in
->xfs / iomap for now?
->
->FWIW, a generic solution is for xfs to own the ctx passed on
->registration instead of forwarding it to block, allocate an array
->of new ctxs for each device and register them separately. This
->should even be able to support dynamic device registration.
->
-Agree, that works, keeps block layer clean, will update in next version.
+On Thu, Oct 22, 2026 at 04:04:39PM +0200, Joel Granados wrote:
+> On Mon, Oct 12, 2026 at 03:43:03PM +0200, Alexey Gladkov wrote:
+> > On Sat, Sep 26, 2026 at 06:22:07PM +0200, Alexey Gladkov wrote:
+> > > Hi,
+> > > 
+> > > Some sysctl users copy an otherwise static ctl_table for each namespace or
+> > > device, then replace data and limit pointers before registration. Besides
+> > > the per-instance allocation, these fixups often depend on table indices:
+> > > reordering an entry without updating the fixup can silently bind it to the
+> > > wrong data or limits.
+> > > 
+> > > This series lets such users describe a table once with static, read-only
+> > > sysctl_field entries. Each field names a data type and an offset into an
+> > > object selected by a sysctl_context at registration time. The offset
+> > > helpers check the member type at build time. Limits and custom handlers
+> > > remain optional properties of a field; the field type does not encode a
+> > > choice of handler or whether limits are present. A subsystem that needs
+> > > more than a namespace can embed sysctl_context in its own registration
+> > > context.
+> > > 
+> > > The sysctl core keeps the context with the table header and materializes
+> > > a ctl_table entry when an existing handler, permission check or BPF hook
+> > > needs one. Legacy ctl_table registrations retain their own path, and
+> > > subsystems can convert tables independently. The IPC, mqueue and ucount
+> > > conversions here remove table copies without changing their backing data.
+> > > 
+> > > Changes since v2:
+> > > 
+> > > - Drop sysctl_uint_vals, as requested by Joel. Existing limit constants
+> > >   suffice for these conversions.
+> > > - Drop the *_MINMAX field types. A field's type now describes its data,
+> > >   while optional min/max pointers supply bounds to the selected handler.
+> > > - Keep __register_sysctl_table() and __register_sysctl_fields() as separate
+> > >   registration paths, sharing only allocation and tree insertion helpers.
+> > > - Address the sashiko findings: avoid calling mode_fn under sysctl_lock,
+> > >   validate the effective maxlen against the context object, and reject
+> > >   NO_DATA fields paired with standard handlers that require data.
+> > > 
+> > > This is the first part of the conversion. Network sysctls and other
+> > > subsystem-specific users will follow in separate series for review by
+> > > their maintainers.
+> > > 
+> > > 
+> > > Alexey Gladkov (5):
+> > >   proc: sysctl: address table entries by index
+> > >   sysctl: add typed field descriptors
+> > >   sysctl: ipc: use typed fields for IPC namespace sysctls
+> > >   sysctl: mq: use typed fields for IPC namespace sysctls
+> > >   sysctl: use typed fields for ucount limits
+> > 
+> > Gentle reminder about the patchset.
+> Thx for persisting and sorry for the late reply.
+> 
+> The more I look at this, the more I am convinced that the first problem
+> that we should address is having a .data, .extra1 and .extra2 as void
+> pointers. Once that is out of the way, then we can focus on getting rid
+> of the kmemdup of the ctl_tables.
+> 
+> Motivation
+> ==========
+> 
+> Here are the motivational points for this series:
+> 1. Remove the per-instance allocation thereby reducing the memory
+>    footprint
+>   * This one is relevant for instances with lots of NSs.
+> 
+> 2. Remove the possibility of mistakenly associating one variable with a
+>    different sysctl name (because of un-synced changes)
+>   * This one is the least important for me. Keeping it synced is a
+>     little scary but something that I would be willing to live with.
+> 
+> 3. Type checking .data, .extra1 and .extra2. "unambiguous pointer" that
+>    answers what it is.
+>   * I think if we are serious about type checking, we need to fix the
+>     existing (potentially uneeded) void pointers (.data, extra{1,2}).
+>     Which is not an easy as there are callers that (mis)use these in
+>     different ways. This has been discussed before (in [1,2,3] among
+>     others)
+> 
+> 4. Don't bleed caller structs/types/logic into sysctl.
+>   * This one is mine and is the reason I really don't want it done in
+>     the manner that you propose. IMO, having network (or other callers
+>     logic) inside sysctl makes no sense.
+> 
+> I'll come back to these series after having yet another look at the void
+> pointers in ctl_table.
 
---Nitesh
+In that case, I'll step back with my patches for now.
 
-------VZDtnczHWjdXYXkjw.jkIJrU2UH2.1dU.Tnm2W3-fiUacbuL=_9f5cc_
-Content-Type: text/plain; charset="utf-8"
+Thanks for review.
+
+> Best
+> 
+> [1] https://lore.kernel.org/all/87zgpte9o4.fsf@email.froward.int.ebiederm.org
+> [2] https://lore.kernel.org/all/875xyczpzm.fsf@email.froward.int.ebiederm.org
+> [3] https://lore.kernel.org/all/cover.1739115369.git.wen.yang@linux.dev
+> 
+> 
 
 
-------VZDtnczHWjdXYXkjw.jkIJrU2UH2.1dU.Tnm2W3-fiUacbuL=_9f5cc_--
+
+-- 
+Rgrds, legion
+
