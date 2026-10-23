@@ -1,49 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792759500;
-	b=Hod6/J1kJUgO1n3Y/zBFVnGE+RB8sjYZ9WFSrG600OqMbIOPkTamusPFPDsfk71IArTM
-	 YRedWDcr822OVqI5nu6XuDPxQGC80ywaWooOOzhxeD2bChGXYhzLTIyTxrtWqRy3CaZ52
-	 p4OVAnvqe5ZRvvbWYhYQwrxEebZueVm7xs+vOpLWN5hL+XBeXRHqD+tJyiuoFKXgGo+HW
-	 7QICw8DzSRMx0aUF7ShTMHU/pw2mvARNnl/Kl+FY/RlVcrZ6JsztC8kbSb3sH2srE9wWX
-	 VlZlupXrWLK6p6wkYiYU62pH0jMtgBAAj6MZ4T8qZRhZfyJ9sO56/MrnLO1gR28K6GA==
+	t=1792759903;
+	b=SZB+u4quGgMRVny6gBDhFILJ3I9uMOTNzV0GedGQmYdebzu7h6OB0546oaFMSQ2Wxp5U
+	 Ej2W0OydidzJH2W4JjqydT/o8TYqJKg9dHpnI2zmwHCea4ZMBog2yp5jP2bc3J87ZfqxH
+	 iTiiDKv+eOwF1apo/d1bwyn7Wj2pZgZmnzlXXwcl0bA1dKKHixYpvt6sbLTFZYqLGV1G7
+	 YZW/xgZvy157Hg1fa834tAfj8jThmp323nk4z5svPfGlm798oKVKxkjYgLUZvSG6B4n9Q
+	 5nl0sVxPxH0A5/CiQ6jIJ+q1bGgeJWd9b4ZvYLB0Mv7+UJFddFP1Bh4xKlhslu9jQMg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792759500;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=f/jgck1/B2jP5Cxin5WuX27Pbk4Su0v7UABSBfjcW6U=;
-	b=00NWqeuOXZCceENcCgDBbvJRf9YqVOHOl50not8bPcfRL5xZy49Rl2Pi04zHHFm2BbJd
-	 BfHQRpodEoRSQY2lMaAJmow0+gkVOax7g+xWDDBBY69Ypt3zL+jJGU/a24kyJmZmJJ2UL
-	 9s/uNZQ8BXHlnHzPMtD5XBBKqA5Ariq3Mr8AsYfQTTOm9doZMnTRc7CB5d4MPn2gJtCpb
-	 ztOlbLWX94p0tUemYmjWcCeFrOGZTUpi2jj6DsbxJoDuxffYThDhCDmZhhJNUjHfFtFyv
-	 ouT2zv6ymACs7r2rUxu47R3i7WmI1X6hU92wSG9PvmeoIG4jeODIHTqtS71ZUSB9rGQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792759903;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=FUY8HE4caiim0rKNRrIv4YMWGEkX3tdGclChTl8rWf0=;
+	b=e+juO8PyM2p5uIsPe2NycxmuFMlU586d9PzO4gsEnQjfLP9tzkQ3lj6RadzSW2Snb+bW
+	 MstFWHlUBtIfuZEGfghaovQX00+1twj4GHwZQ1Ml3rrMxJVm8P4y/Cvpy+vqVISyuRQnr
+	 eBp8pzIbf5yphKcP6Gs57te1QP6CZVw+OxANLdrb6kgBI6mxYoWbLjmP8xl5yZEHhmUMR
+	 A2EUsvyd0B686Yn0VkQSVIM6vb82oY5siQ3RrIiGmvLQf/B/D0L8mJBFUzKqj3e2ZuIf4
+	 iD7JTu33/Rz6uDYzj+4MLfpnnYFuZSGKghCzLX7YG1a0wM62iP7UieUzZfP6/0uCy1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="jfH/qyuZ";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EZYMEKbB;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63129606A323;
-	Fri, 23 Oct 2026 12:45:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04A3606A31A;
+	Fri, 23 Oct 2026 12:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jfH/qyuZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 930841F01829;
-	Fri, 23 Oct 2026 12:44:58 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EZYMEKbB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B56C81F01825;
+	Fri, 23 Oct 2026 12:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792759500;
-	bh=f/jgck1/B2jP5Cxin5WuX27Pbk4Su0v7UABSBfjcW6U=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=jfH/qyuZd3kejUmi+LHhUQ0Lbt0Z0Q5dfbUYU7ekb7mW5joY66m+94DK4KZVWLEAM
-	 vC6brHn4cEX1u7aQfAoTpGVteyuiBO7CfhaFOlu743UQqMqLn5WdIq86Epvlam7Zhe
-	 6cRjxXn04WU3XdFtNncm/RTYvdJ/nwJKZwvdnE+sQTWZ/4HvabUPzpO979kd+h4IME
-	 VAl5n5PMo3ThrjPVYm2yR8ZtQrALZ7xGIzkUdhVtDf75UvIkmWyO9/Qky/p+zDdvj1
-	 QDgOiEuS9YKhIe093TNlY8bw5QDSYa+0A3BJp3MUcLite6i7OjH6qVkZrpjtuyqI4w
-	 ms+TP81QUf7yQ==
-From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 23 Oct 2026 14:44:22 +0200
-Subject: [PATCH 1/2] dcache: don't leave negative dentries in casefolded
- directories
+	s=k20260515; t=1792759902;
+	bh=FUY8HE4caiim0rKNRrIv4YMWGEkX3tdGclChTl8rWf0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EZYMEKbBWtfHidFmonELquhOlALlNAKDHGmspPQTcMbL9S25Ow7PBFN67MrIPDWnk
+	 H1gJvia1TWo4lRuy1+olF6GxY3/65OWLVtalpsJpKZScSLl4ot84m1gqgUjGJH6Jtz
+	 SELhsyw2meUa4rFYCm6Jd+H+b6nIQTlTzzRwMCl4yVfu7C6TfHqcNrPBprkgqpLyim
+	 EdGylvPEQfZnH6DIOHbjS+Wodyk05+TLjIEvG8e69ql1m/P1aUE8UeXE6K2JgSGQIW
+	 7WYLmQnsHwY4IYADp12EJ3eG53KkRgP/DQ4RuqLgkUeaJI5yX+YVGMAuXAThAK/gST
+	 RVDruefMHdTxw==
+Date: Fri, 23 Oct 2026 07:51:39 -0500
+From: "Serge Hallyn (AMD)" <sergeh@kernel.org>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Paul Moore <paul@paul-moore.com>, linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH 01/13] cred: gather the rules for acting on a task by uid
+Message-ID: <attYWxUJXfZX0MyN@shallyn-amd>
+References: <20261018-b4-cred-ids-v1-0-7bdf2db4ea9f@toxicpanda.com>
+ <20261018-b4-cred-ids-v1-1-7bdf2db4ea9f@toxicpanda.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,162 +58,295 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261023-work-dcache-casefold-v1-1-1b0bd5c73a69@kernel.org>
-References: <20261023-work-dcache-casefold-v1-0-1b0bd5c73a69@kernel.org>
-In-Reply-To: <20261023-work-dcache-casefold-v1-0-1b0bd5c73a69@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
- linux-xfs@vger.kernel.org, Gabriel Krisman Bertazi <krisman@kernel.org>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5070; i=brauner@kernel.org;
- h=from:subject:message-id; bh=uraFryhr3pXYI4wU9TenrkcrtkF88x7auRzStx88u1E=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdDjv2oVz49tkJNl2JXV+dnCKtFrBrLtl0Qmf9av/KC
- 7V98w6d6ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiI8Q9Ghkeqkkcn2hrHL7t7
- jPHItQWbdCyc8uUOBFscOsTM8WpBXyUjw8ZDeRzfZlxIcbdUKLjFXMBS+Y+TYYP1Mh/ZR8XvbKf
- m8QAA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261018-b4-cred-ids-v1-1-7bdf2db4ea9f@toxicpanda.com>
 
-ext4, f2fs and tmpfs keep negative dentries out of casefolded
-directories. A negative dentry remembers one spelling of the name and
-the next create() through it would write that spelling to disk.
+On Sun, Oct 18, 2026 at 05:31:43PM +0000, Josef Bacik wrote:
+> A number of operations let one task act on another without any capability,
+> because the two belong to the same user: signals, scheduling attributes,
+> priorities, resource limits, ptrace and more. Each of them compares the
+> ids of the two credentials by hand. There are twelve such places, in six
+> flavours that differ in which ids they look at, and nothing says that they
+> belong together.
+> 
+> That makes them hard to review and hard to change. Nobody can tell from
+> one of them whether it differs from its neighbour on purpose. Whoever
+> wants to know what an equal uid is good for has to find all twelve, and so
+> does whoever has to change it. A place that is overlooked is a hole.
+> 
+> Gather the rules in kernel/cred.c, side by side:
+> 
+>  rule     of the subject    of the object      euid 0 used for
+>  signal   euid or uid       suid or uid        no     kill()
+>  sigio    euid or uid       suid or uid        yes    SIGIO, SIGURG
+>  sched    euid              euid or uid        no     scheduler, nice
+>  ioprio   euid or uid       uid                no     ioprio_set()
+>  move     euid              uid or suid        yes    cgroup v1, resctrl
+>  control  one uid, one gid  all three of each  no     ptrace, prlimit, keys
+> 
+> Where it says so, a subject with euid 0 may act on anybody. That is a
+> capability by another name, from before there were any, and it belongs
+> with the rest: it is a uid that decides whether one task may act on
+> another.
+> 
+> What each operation means by "the same user" has grown separately and
+> cannot be changed now, so every rule is kept as it is. The functions only
+> speak for the ids. A capability that does as well, and the LSM hook that
+> goes with the operation, remain with the caller.
+> 
+> The callers are converted one by one in the patches that follow.
 
-So their ->lookup() doesn't cache a miss and their ->unlink() and
-->rmdir() call d_invalidate() on the dentry so that d_delete() doesn't
-turn it into a negative dentry.
+Overall I like this, thanks.
 
-But d_invalidate() is the wrong primitive for that. It's for a name that
-went stale. It walks the subtree, prunes it and detaches every mount it
-finds, under namespace_sem, and here that runs from inside the
-filesystem's own directory operation. ext4_rmdir() does it with the
-journal handle still open and ext4_unlink() does it even when the
-unlink failed. All anyone wanted is the unhash.
+One question below:
 
-So d_delete() now unhashes the dentry when the parent is casefolded,
-next to the dentry-negative sysctl that does the same for every
-directory. ext4, f2fs and tmpfs drop their d_invalidate() calls.
+> Assisted-by: LLM
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> ---
+>  Documentation/security/credentials.rst |  19 ++++
+>  include/linux/cred.h                   |  20 +++++
+>  kernel/cred.c                          | 160 +++++++++++++++++++++++++++++++++
+>  3 files changed, 199 insertions(+)
+> 
+> diff --git a/Documentation/security/credentials.rst b/Documentation/security/credentials.rst
+> index a39a2a2f67aa..b095c03b4531 100644
+> --- a/Documentation/security/credentials.rst
+> +++ b/Documentation/security/credentials.rst
+> @@ -422,6 +422,25 @@ magic.  This may not be used for pointer members as what they point to may
+>  disappear the moment the RCU read lock is dropped.
+>  
+>  
+> +Comparing the Ids of Two Tasks
+> +------------------------------
+> +
+> +Whether one task may act on another because both belong to the same user must not
+> +be decided by comparing the ids of their credentials by hand.  The rules for that
+> +are kept in one place:
+> +
+> +.. kernel-doc:: kernel/cred.c
+> +   :doc: One task acting on another on the strength of its ids
+> +
+> +.. kernel-doc:: kernel/cred.c
+> +   :identifiers: cred_ids_allow_signal cred_ids_allow_sigio
+> +                 cred_ids_allow_sched cred_ids_allow_ioprio
+> +                 cred_ids_allow_move cred_ids_allow_control
+> +
+> +.. kernel-doc:: include/linux/cred.h
+> +   :identifiers: cred_ids
+> +
+> +
+>  Altering Credentials
+>  --------------------
+>  
+> diff --git a/include/linux/cred.h b/include/linux/cred.h
+> index 6ef1750c93e2..c92031269f76 100644
+> --- a/include/linux/cred.h
+> +++ b/include/linux/cred.h
+> @@ -171,6 +171,26 @@ extern int cred_fscmp(const struct cred *, const struct cred *);
+>  extern void __init cred_init(void);
+>  extern int set_cred_ucounts(struct cred *);
+>  
+> +/**
+> + * enum cred_ids - which of its ids a subject acts with
+> + * @CRED_IDS_REAL:      uid and gid
+> + * @CRED_IDS_EFFECTIVE: euid and egid
+> + * @CRED_IDS_FS:        fsuid and fsgid
+> + */
+> +enum cred_ids {
+> +	CRED_IDS_REAL,
+> +	CRED_IDS_EFFECTIVE,
+> +	CRED_IDS_FS,
+> +};
+> +
+> +bool cred_ids_allow_signal(const struct cred *subj, const struct cred *obj);
+> +bool cred_ids_allow_sigio(const struct cred *subj, const struct cred *obj);
+> +bool cred_ids_allow_sched(const struct cred *subj, const struct cred *obj);
+> +bool cred_ids_allow_ioprio(const struct cred *subj, const struct cred *obj);
+> +bool cred_ids_allow_move(const struct cred *subj, const struct cred *obj);
+> +bool cred_ids_allow_control(const struct cred *subj, enum cred_ids which,
+> +			    const struct cred *obj);
+> +
+>  static inline bool cap_ambient_invariant_ok(const struct cred *cred)
+>  {
+>  	return cap_issubset(cred->cap_ambient,
+> diff --git a/kernel/cred.c b/kernel/cred.c
+> index 3df4e15bd67f..c067ef72b563 100644
+> --- a/kernel/cred.c
+> +++ b/kernel/cred.c
+> @@ -540,6 +540,166 @@ void __init cred_init(void)
+>  			      SLAB_HWCACHE_ALIGN | SLAB_PANIC | SLAB_ACCOUNT);
+>  }
+>  
+> +/**
+> + * DOC: One task acting on another on the strength of its ids
+> + *
+> + * A number of operations let one task act on another without any capability,
+> + * because the two belong to the same user. What "the same user" means has grown
+> + * separately for each of them and cannot be changed now. All of it is kept
+> + * here, side by side, so that there is one place to read it.
+> + *
+> + * =======  ================  =================  ======  =====================
+> + * Rule     Of the subject    Of the object      euid 0  Used for
+> + * =======  ================  =================  ======  =====================
+> + * signal   euid or uid       suid or uid        no      kill()
+> + * sigio    euid or uid       suid or uid        yes     SIGIO, SIGURG
+> + * sched    euid              euid or uid        no      scheduler, nice
+> + * ioprio   euid or uid       uid                no      ioprio_set()
+> + * move     euid              uid or suid        yes     cgroup v1, resctrl
+> + * control  one uid, one gid  all three of each  no      ptrace, prlimit, keys
+> + * =======  ================  =================  ======  =====================
+> + *
+> + * Where it says so, a subject with euid 0 may act on anybody. That is a
+> + * capability by another name, from before there were any.
+> + *
+> + * These functions only speak for the ids. A capability that does as well, and
+> + * the LSM hook that goes with the operation, remain with the caller.
+> + *
+> + * Do not compare the ids of two credentials by hand to decide whether one task
+> + * may act on another. Use one of these, or add one.
+> + */
+> +
+> +#define CRED_RUID	BIT(0)
+> +#define CRED_EUID	BIT(1)
+> +#define CRED_SUID	BIT(2)
+> +
+> +static bool cred_euid_is_root(const struct cred *subj)
+> +{
+> +	return uid_eq(subj->euid, GLOBAL_ROOT_UID);
+> +}
+> +
+> +static bool cred_has_uid(const struct cred *cred, unsigned int ids, kuid_t uid)
+> +{
+> +	return ((ids & CRED_RUID) && uid_eq(cred->uid, uid)) ||
+> +	       ((ids & CRED_EUID) && uid_eq(cred->euid, uid)) ||
+> +	       ((ids & CRED_SUID) && uid_eq(cred->suid, uid));
+> +}
+> +
+> +/*
+> + * Is any of the @subj_ids of @subj any of the @obj_ids of @obj? No rule looks at
+> + * the saved uid of the subject.
+> + */
+> +static bool cred_uid_match_any(const struct cred *subj, unsigned int subj_ids,
+> +			       const struct cred *obj, unsigned int obj_ids)
+> +{
+> +	return ((subj_ids & CRED_RUID) && cred_has_uid(obj, obj_ids, subj->uid)) ||
+> +	       ((subj_ids & CRED_EUID) && cred_has_uid(obj, obj_ids, subj->euid));
+> +}
+> +
+> +/**
+> + * cred_ids_allow_signal - do its ids allow a subject to signal an object?
+> + * @subj: the credentials of whoever sends the signal
+> + * @obj:  the credentials of the task it is for
+> + *
+> + * Return: true if the euid or the uid of @subj is the suid or the uid of @obj.
+> + */
+> +bool cred_ids_allow_signal(const struct cred *subj, const struct cred *obj)
+> +{
+> +	return cred_uid_match_any(subj, CRED_EUID | CRED_RUID,
+> +				  obj, CRED_SUID | CRED_RUID);
+> +}
+> +
+> +/**
+> + * cred_ids_allow_sigio - do its ids allow a subject to have SIGIO sent?
+> + * @subj: the credentials of whoever made the object the owner of a file
+> + * @obj:  the credentials of the task that SIGIO or SIGURG is for
+> + *
+> + * Return: true if cred_ids_allow_signal() says so, or the euid of @subj is 0.
+> + */
+> +bool cred_ids_allow_sigio(const struct cred *subj, const struct cred *obj)
+> +{
+> +	return cred_euid_is_root(subj) || cred_ids_allow_signal(subj, obj);
+> +}
+> +
+> +/**
+> + * cred_ids_allow_sched - do its ids allow a subject to schedule an object?
+> + * @subj: the credentials of whoever asks
+> + * @obj:  the credentials of the task whose policy, affinity or nice value is
+> + *        to change
+> + *
+> + * Return: true if the euid of @subj is the euid or the uid of @obj.
+> + */
+> +bool cred_ids_allow_sched(const struct cred *subj, const struct cred *obj)
+> +{
+> +	return cred_uid_match_any(subj, CRED_EUID, obj, CRED_EUID | CRED_RUID);
+> +}
+> +
+> +/**
+> + * cred_ids_allow_ioprio - do its ids allow a subject to set an I/O priority?
+> + * @subj: the credentials of whoever asks
+> + * @obj:  the credentials of the task whose I/O priority is to change
+> + *
+> + * Return: true if the euid or the uid of @subj is the uid of @obj.
+> + */
+> +bool cred_ids_allow_ioprio(const struct cred *subj, const struct cred *obj)
+> +{
+> +	return cred_uid_match_any(subj, CRED_EUID | CRED_RUID, obj, CRED_RUID);
+> +}
+> +
+> +/**
+> + * cred_ids_allow_move - do its ids allow a subject to move an object about?
+> + * @subj: the credentials of whoever asks
+> + * @obj:  the credentials of the task that is to be moved to another group of a
+> + *        cgroup v1 hierarchy or of resctrl
+> + *
+> + * Return: true if the euid of @subj is the uid or the suid of @obj, or is 0.
+> + */
+> +bool cred_ids_allow_move(const struct cred *subj, const struct cred *obj)
+> +{
+> +	return cred_euid_is_root(subj) ||
+> +	       cred_uid_match_any(subj, CRED_EUID, obj, CRED_RUID | CRED_SUID);
+> +}
+> +
+> +/**
+> + * cred_ids_allow_control - do its ids give a subject the run of an object?
+> + * @subj:  the credentials of whoever asks
+> + * @which: which of its ids @subj acts with
+> + * @obj:   the credentials of the task that is to be traced, limited or the like
+> + *
+> + * The strictest of the rules, for what amounts to taking the object over. It
+> + * fails for an object that has changed any of its ids, a set-id program say.
+> + *
+> + * Return: true if the uid @subj acts with is the uid, the euid and the suid of
+> + * @obj, and the gid it acts with is the gid, the egid and the sgid of @obj.
+> + */
+> +bool cred_ids_allow_control(const struct cred *subj, enum cred_ids which,
+> +			    const struct cred *obj)
+> +{
+> +	kuid_t uid;
+> +	kgid_t gid;
+> +
+> +	switch (which) {
+> +	case CRED_IDS_REAL:
+> +		uid = subj->uid;
+> +		gid = subj->gid;
+> +		break;
+> +	case CRED_IDS_EFFECTIVE:
+> +		uid = subj->euid;
+> +		gid = subj->egid;
+> +		break;
+> +	case CRED_IDS_FS:
+> +		uid = subj->fsuid;
+> +		gid = subj->fsgid;
+> +		break;
+> +	default:
+> +		return false;
 
-Nothing changes for a casefolded directory. A miss still isn't cached
-and a removed name still doesn't leave a negative dentry behind. The
-target of a rename over an existing name, which tmpfs also passes
-through shmem_unlink(), doesn't turn negative either. vfs_rename()
-detaches its mounts and d_move() unhashes it. A failed unlink or rmdir
-now leaves the dentry hashed and its mounts in place, as in any other
-directory.
+What do you think about putting a BUG HERE?  It's not actually
+your intent for this ever to be called with 'which' not being
+a valid value, right?
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/dcache.c     |  8 +++++++-
- fs/ext4/namei.c | 18 ------------------
- fs/f2fs/namei.c |  9 ---------
- mm/shmem.c      |  7 -------
- 4 files changed, 7 insertions(+), 35 deletions(-)
-
-diff --git a/fs/dcache.c b/fs/dcache.c
-index efd9332c8407..f5cbb2e24e53 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -2746,6 +2746,12 @@ struct dentry *d_hash_and_lookup(struct dentry *dir, struct qstr *name)
- 	return d_lookup(dir, name);
- }
- 
-+static __always_inline bool d_delete_drop(struct dentry *dentry)
-+{
-+	return dentry_negative_policy ||
-+	       IS_CASEFOLDED(d_inode(dentry->d_parent));
-+}
-+
- /*
-  * When a file is deleted, we have two options:
-  * - turn this dentry into a negative dentry
-@@ -2777,7 +2783,7 @@ void d_delete(struct dentry * dentry)
- 	 * Are we the only user?
- 	 */
- 	if (dentry->d_lockref.count == 1) {
--		if (dentry_negative_policy)
-+		if (d_delete_drop(dentry))
- 			__d_drop(dentry);
- 		dentry->d_flags &= ~DCACHE_CANT_MOUNT;
- 		dentry_unlink_inode(dentry);
-diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
-index 6e0630a49e48..c4b1121471e6 100644
---- a/fs/ext4/namei.c
-+++ b/fs/ext4/namei.c
-@@ -3209,15 +3209,6 @@ static int ext4_rmdir(struct inode *dir, struct dentry *dentry)
- 	ext4_fc_track_unlink(handle, dentry);
- 	retval = ext4_mark_inode_dirty(handle, dir);
- 
--	/* VFS negative dentries are incompatible with Encoding and
--	 * Case-insensitiveness. Eventually we'll want avoid
--	 * invalidating the dentries here, alongside with returning the
--	 * negative dentries at ext4_lookup(), when it is better
--	 * supported by the VFS for the CI case.
--	 */
--	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
--		d_invalidate(dentry);
--
- end_rmdir:
- 	brelse(bh);
- 	if (handle)
-@@ -3320,15 +3311,6 @@ static int ext4_unlink(struct inode *dir, struct dentry *dentry)
- 
- 	retval = __ext4_unlink(dir, &dentry->d_name, d_inode(dentry), dentry);
- 
--	/* VFS negative dentries are incompatible with Encoding and
--	 * Case-insensitiveness. Eventually we'll want avoid
--	 * invalidating the dentries here, alongside with returning the
--	 * negative dentries at ext4_lookup(), when it is  better
--	 * supported by the VFS for the CI case.
--	 */
--	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
--		d_invalidate(dentry);
--
- out_trace:
- 	trace_ext4_unlink_exit(dentry, retval);
- 	return retval;
-diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
-index 233c07fec171..30f6b8448eee 100644
---- a/fs/f2fs/namei.c
-+++ b/fs/f2fs/namei.c
-@@ -631,15 +631,6 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
- 	if (err)
- 		goto out;
- 
--	/* VFS negative dentries are incompatible with Encoding and
--	 * Case-insensitiveness. Eventually we'll want avoid
--	 * invalidating the dentries here, alongside with returning the
--	 * negative dentries at f2fs_lookup(), when it is better
--	 * supported by the VFS for the CI case.
--	 */
--	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
--		d_invalidate(dentry);
--
- 	if (IS_DIRSYNC(dir))
- 		err = f2fs_sync_fs(F2FS_I_SB(dir)->sb, 1);
- out:
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 0d891ade18b5..5a353ac32573 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -3953,13 +3953,6 @@ static int shmem_unlink(struct inode *dir, struct dentry *dentry)
- 	inode_inc_iversion(dir);
- 	simple_unlink(dir, dentry);
- 
--	/*
--	 * For now, VFS can't deal with case-insensitive negative dentries, so
--	 * we invalidate them
--	 */
--	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
--		d_invalidate(dentry);
--
- 	return 0;
- }
- 
-
--- 
-2.53.0
-
+> +	}
+> +
+> +	return uid_eq(uid, obj->uid) && uid_eq(uid, obj->euid) &&
+> +	       uid_eq(uid, obj->suid) && gid_eq(gid, obj->gid) &&
+> +	       gid_eq(gid, obj->egid) && gid_eq(gid, obj->sgid);
+> +}
+> +
+>  /**
+>   * prepare_kernel_cred - Prepare a set of credentials for a kernel service
+>   * @daemon: A userspace daemon to be used as a reference
+> 
+> -- 
+> 2.55.0
+> 
