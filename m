@@ -1,98 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.182
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792832811;
-	b=ugmeJAI2s7md2gl+ZWArsycmcT5/3cXnaZwYBdVF8Pp+9S5G2aDt1ziLl/FJQDBDf4UT
-	 4t8KD4qBGCxu2onC7mcgRxH7eNi1EntSx2pbECqlh7JvigtvqS2+x/uYKEYi82CEdpIG3
-	 MY7Pzrh7x4t4JI7V2zW9UCG0e3gabGO39y6cDQxXuKDJ22lKuifuwc0nNFeu2rHHyYO+1
-	 L0VDzdbv59OiuTY40RkwH/5lmmF5tKIq5if2+U1Axz3QyLaomI1J87+fwXwb1Zm6IFkhY
-	 BmF5rIBmJPJJwkNGkE5e1kXtEVjHpZHNjTfb9Ui9vqw5dZOJUBEPpy8R2c/cPdujHgg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792832811;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=bwcOgZhzB8pVzIxjNmq1w6fxr7yFdfROLxQ8KM4F66w=;
-	b=IeTm0QLtZphNnpcHjdJcDsaoB+Ir/Y9xaxfSarSV8Lhvt+4pcQ/wJts8izqO8+B6/ZxY
-	 X9oJDhlJZuRYcdVHXKhxkLhVL41m9U9lBa+CsFM0sMSK6Ox8PY1ffiVhoZTqj6mJp7VMy
-	 LpeGhe3s+vzjXs6kHI5l3+aFNI7Rd1pTj37Gs7iZU1SiYmg9crsEod+pkfTMAOzp33KOz
-	 uG8RrpBaelLpFHmPkazTBCuf2ifOgh6nDQ12xPWJkMFxPNVwUzafhY2Qk3fVFpS9F+Ny2
-	 SGnGXXdio1woyXQCI6O+HzZhenDWnrYXhfPCp8tTZ65D713YOwk8YZZ1lA2LCOPFq2g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=peA8j1u8;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.182
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792838328;
+	b=uv5mT24Jp/VrWg1vg8cT8ZGj4/6nw/IGpNfea3DQdRF4uhzQkSA7q/XfJcVHU7WWtW0r
+	 K02ElRSfnF5AwFupHpaCUtStTpWlfO9dcc2xZTER8MYxzObUG3C5mZyM19oJVX+0IxkSR
+	 h8uf+U06MXlCMTjzCoIAhOH57D5m23rD2+4vOX33XLkTwnmCnTNnwtTAcvNLdo2S0V24U
+	 sP7AYaZJPSBXdpniEBBUNSJueqKNexWNVjYvKHauFlOBB6sIKvbe3Os7ZJ5wZQvJXP/MS
+	 NTLiHLK8jkRsrOpI9Uz/jFvs+jxJ/qTHZX5Kkv7flsJVl+2R177crrIlqFjEZuQIM6w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792838328;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=sXodnFMdq0P0MxpAQHlPP6y5dA9ltED1V+HSlKENf2Q=;
+	b=OHSbFDwV5r+1DLhJXas6+XXQPXc6Kq1858lz/I69gqyMB1afm6ahLu7LjGFJQIMQQc1W
+	 o5Y9Djv0EINXoI83OoidAnNu67oYWwfhoSDZ6f6O245xUWMQ4AELUYOd3uv8kK2PYtfgP
+	 qUAVZiJtxxiqFIjpiRL4UokVenlAIZ7Rvxs8Ipu+pzEQKnISPvILEkTiJq9r5eqvXJpLx
+	 JTVh83CmSBDEFxnzI3qR0WaKIBEga+e6HXmJGcxDhSkODvs36iYv9PpaGBsbebsStvP/N
+	 V1Il73TfD13z9s3DJqO58awcWIy0PJxmF4ZM/GgCrGKe+M+aTI45J0q7slJAFBynOPA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VgyS6mqQ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DFF606A31D
-	for <linux-fsdevel@vger.kernel.org>; Sat, 24 Oct 2026 09:06:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12DFF606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635E6606A31E;
+	Sat, 24 Oct 2026 10:38:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=peA8j1u8
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-8ac4806e210so12807567b3.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 24 Oct 2026 02:06:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792832810; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RDEdHbUZbT0x4+zEC00cyMtw+PBb47C2Dyxt9aoUDpnW2zjNq5zuHswdErKeZrQreF
-         10T5s8jDi91FFGL2CLPtKdq9hNUAfEqEwELmS7x+PT+PvyMKA8Klc8MHGbVBrsnu3OHT
-         48gIhwMa3UFt9yg8bFognfiTX7uf9F9jw/AUkZ+8mm4JG5epkSwoQBOEgKGPQt9ElJvx
-         gwe9w53+unlzYc0lDX4Qfm2FgQ9yIw6+iNns2B9e07HpVskBJbINiLcVKIOOdC4TPvgY
-         SB7sSndCuPyRDFkmnYU/qHqPDGGgjZq4rZRfYupS61KOkwMF0oUGt6b6te4T6VDT1B+I
-         mFBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=bwcOgZhzB8pVzIxjNmq1w6fxr7yFdfROLxQ8KM4F66w=;
-        fh=EPneUy8qzlSYMAp5vX4UzCsAZkJdT4AQU0Mv2/2Y+ds=;
-        b=BAGSz4Eulyg+KYqd9lRXhPx5+DPtIol0Ui/nq4dMrbHsm8CWkuEqjvGl6XTYE9h2FK
-         WacwPDtYiXHOuLTVutZORLHWRSJm0C9Pm0kxs/bMIMWeC3+5uT099VIt+0rzmTSsY7Q2
-         bAhTbimMmxF16SncogSIaIaq2MYaY2Ar6pngsazkHRToFahQwqzsLbWRFVrelPkZ3z3S
-         KCV7tz3MMqGf6CqoEzqgFRB0wtHCZ6/Z1fQxlDODk7bxrJaAG51x24lp5pD0wONZ6O41
-         DFtrS+ao9TF4lr46aYk1VvPliWJRT3jX1XL7edYC+tAdVU/jkAakgzdSfLZQYTioHeLg
-         MLrg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792832810; x=1793437610; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bwcOgZhzB8pVzIxjNmq1w6fxr7yFdfROLxQ8KM4F66w=;
-        b=peA8j1u8fL46r7ULUkBuBOrWgZjcZROMYGZ7QeWZumuU39NtAgwbi4lKLjEZaLpi47
-         QUg2Z6kytDvoBooMMz+RxpxpxOyX0nTLXumOofYA3zDvaLw3eSjq6g8XG5abZjxmwb1X
-         lwYYayYMe06KZol633gBGMa9TG9uuDAUqcj7dXfLtMD6f3NfIwLnsj1LL/momBthowgu
-         QZx5ma2WqvHDDmnQ4+lOruyPixXvHY9CzMrDSVsXvXD2T8AS9pqeR52DysctWcB8Pdn6
-         1ceY6Rd1dN+cDp2NgeNqz3BGo7J1Yzd+gMjD3f229idHPJxrCUHKfs6N1Z8N+QrzXgr4
-         Yaug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792832810; x=1793437610;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=bwcOgZhzB8pVzIxjNmq1w6fxr7yFdfROLxQ8KM4F66w=;
-        b=el5vhtSCOAFkHTSncvJxALNLduZeolVrauZL2BuJL9nUFklo2ySrx+cCwaLG8PfFTo
-         MxhTB+9bY6YhUvVIeigdSUdjowyZ4n4HS8QkYpp1cID8eChc3/0OcJvsaDKjv70AgDt4
-         j6x0epOhid/RoAQOfCWjvSCKRubC7CSHhH0WAoLrIgZpnbSUX71nl/f5oOWB+775JCwW
-         R1y3CJAeOb155ACQsVt6Whf4tCuQyiwQuBAi+QNE4eYWSgMQo+ANl46gTqQVof+MIxnZ
-         L5rp8tAJPDfLw6mTXEtfMTDQ4xgJu87LSb47dbOx6peGTlalDTZmxVtGUIOTQOcCwae3
-         E0fg==
-X-Gm-Message-State: AFq9FYIC4Owfit8wzz6xhOi/iz581pacID73E17yZpCW+25k3nwBtqfU
-	fT4oy9mp5r+6BOLFgowusvmec2TfmMGpD9yV8u/TIVEjB67AF3oOWavSVKsELnCrs9um1JsAxBa
-	241oaeLYj4FnJoilUJW/MAEfPjsKoPNQ=
-X-Gm-Gg: AYBFou2rjubKkhQlPWlVBjL8LvtoflswmRunhMGWTqK+MWd8DBErpv0vHxl1WXxurCX
-	a0akZU2e4N2S/wi+ePQwJ696guwWKfjH8MTZACoVcwTqM/sT5PS0nKEiIme950K2s4Mjp9/Cl/8
-	safmJh8RvOCYfUsToDw919sZDgu6RkbQ8p2zTc6JC4djCPP1dR2FjfTJn58XP+X6++Q1ad7CrWB
-	1miLXPadShdsVWHgmxot2aesr8BTrGDWqWffCBSQzZOQB9NJrIZCwa4mSbuv+HwJSmvAsgX6pKR
-	P3pyoXGTIr1Plj1mESWlXySlUtC1GaAZRJddHRplRmPLEMzbSFBbV3uEHU4Fd4DeZiubCoPJNnu
-	/RYKAEbvZpxKnL6taMx7xNMuUbrIHqBmzNGhbG7bDKrazPNNRAv8A48RxlQyviTqXSZDsWXM=
-X-Received: by 2002:a05:690c:f07:b0:873:5c0f:28b with SMTP id
- 00721157ae682-8b166cb996cmr13153177b3.53.1792832809935; Sat, 24 Oct 2026
- 02:06:49 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VgyS6mqQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DC9F1F01825;
+	Sat, 24 Oct 2026 10:38:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792838328;
+	bh=sXodnFMdq0P0MxpAQHlPP6y5dA9ltED1V+HSlKENf2Q=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=VgyS6mqQpZY5LufmLVJv+UgMUebZBuNfDazazEI17Y3Pk5WnhpI1Iyvol5q5Bc/dH
+	 k7FVfAUvyokxAJ4/ii5DtUVnVHvV+Hmg7ECwPD8PVlf+izF5sLo6LnoMkbK4twluiE
+	 DOlKK5EF6CZgtuQ2ml2FUiaGHf3x/b35lt62xAZjY3uCV9eiJOhCHQVcW1hcsHLKRD
+	 YOkcNC47FzuMrHGNB3YgjPDV6Fv24LCBzPNLMegArq6JuBrnbekGHLUBgDZNzHSlfS
+	 S0KEw/bvwpkkI6WWPJ8FoHBMWwwHK8AzRDRmMT0DxImmMweIJ1PaT/GMgI8qEFuw0+
+	 AwEuwuRUeTpYg==
+From: Christian Brauner <brauner@kernel.org>
+Date: Sat, 24 Oct 2026 12:38:28 +0200
+Subject: [PATCH 2/7] proc: don't let /proc/self and /proc/thread-self be
+ mountpoints
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -102,60 +53,67 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261017020634.792390-1-nickolai@csail.mit.edu>
- <20261024041334.831273-1-nickolai@csail.mit.edu> <20261024041334.831273-2-nickolai@csail.mit.edu>
-In-Reply-To: <20261024041334.831273-2-nickolai@csail.mit.edu>
-From: Luca Boccassi <luca.boccassi@gmail.com>
-Date: Sat, 24 Oct 2026 10:06:37 +0100
-X-Gm-Features: AclHuK-67mTcSnyua7KyheG5Qgmdf3UD4Himo3_0JnMqb1NB2HpTAb2W0dS9rpE
-Message-ID: <CAMw=ZnRpCvUBzHb+-vbvgoefZetrnqJc2DNjDKiKKup=J+SVqg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] pidfs: do not report fields that do not fit into
- the caller's struct
-To: Nickolai Zeldovich <nickolai@csail.mit.edu>
-Cc: linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261024-work-procfs-fixes-v1-2-46b03c3a8fac@kernel.org>
+References: <20261024-work-procfs-fixes-v1-0-46b03c3a8fac@kernel.org>
+In-Reply-To: <20261024-work-procfs-fixes-v1-0-46b03c3a8fac@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Aleksa Sarai <cyphar@cyphar.com>, Chris Mason <mason@kernel.org>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1542; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=GymrroAnGNh475bQ1tWnOZq0e6I6+VtHGEMxiEdv290=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTd6VoX5LvUgKtmucuWbeoBcu+ezFxx66ilm+Ovc53+e
+ 8N+z+xa3VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRFwsY/gqsvLxxhfS3DK36
+ p68fOi5lP7PQ3FerP9jyy9eDfnE6fx0Z/vu9v8vwzbmm0GAOm+dsn9NJvS4RvS/TvXXXXt7zQt2
+ 1hAEA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Sat, 24 Oct 2026 at 05:13, Nickolai Zeldovich <nickolai@csail.mit.edu> wrote:
->
-> The documentation of struct pidfd_info promises that "If the structure
-> size is too small to contain a field (requested or not), to avoid
-> confusion the mask will not contain a bit for that field", and asks
-> userspace to trust the returned mask when deciding which fields hold
-> valid data.
->
-> pidfd_info() does not keep that promise. It builds kinfo.mask without
-> looking at the size encoded in the ioctl command, and
-> copy_struct_to_user() then truncates the copy to that size. A caller
-> that passes a 64-byte struct (PIDFD_INFO_SIZE_VER0) and requests
-> PIDFD_INFO_COREDUMP or PIDFD_INFO_SUPPORTED_MASK gets a mask with
-> PIDFD_INFO_COREDUMP, PIDFD_INFO_COREDUMP_SIGNAL, PIDFD_INFO_COREDUMP_CODE
-> and PIDFD_INFO_SUPPORTED_MASK set, while the coredump_* and
-> supported_mask fields behind the 64 bytes were never written. Trusting
-> the mask as documented, userspace then reads whatever its own buffer
-> held at those offsets. The same happens for a 72- or 80-byte struct
-> and the fields added after it.
->
-> Clear the bits of the fields that lie beyond the caller's size before
-> the copy, in the one place that knows both the final mask and the size.
-> A request for a field that cannot be returned is thereby answered the
-> way the header describes: the field is simply absent from the mask.
->
-> Fixes: 1d8db6fd698d ("pidfs, coredump: add PIDFD_INFO_COREDUMP")
-> Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
-> ---
->
-> Notes:
->     The three size thresholds follow the field layout: coredump_mask and
->     coredump_signal end at PIDFD_INFO_SIZE_VER1 (72), coredump_code at
->     PIDFD_INFO_SIZE_VER2 (80), supported_mask at PIDFD_INFO_SIZE_VER3 (88).
->     Masking the request bits early instead (before the coredump and
->     supported_mask blocks run) would save a little work for such callers
->     but leaves PIDFD_INFO_COREDUMP set by the dumpable-state fallback for a
->     live task; clearing the result once before copy_struct_to_user() covers
->     every way a bit can be set.
->
->  fs/pidfs.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+/proc/self and /proc/thread-self resolve to a different directory for
+every process that walks through them. A mount on one of the links
+itself is crossed by every lookup of /proc/self/... in that mount
+namespace, so it redirects all processes at once, not just the one that
+created the mount. There's no good reason to ever do that.
 
-Acked-by: Luca Boccassi <luca.boccassi@gmail.com>
+Mark both links with dont_mount() before they become visible.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ fs/proc/self.c        | 2 ++
+ fs/proc/thread_self.c | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/fs/proc/self.c b/fs/proc/self.c
+index 56adf1c68f7a..63120ab7704c 100644
+--- a/fs/proc/self.c
++++ b/fs/proc/self.c
+@@ -48,6 +48,8 @@ int proc_setup_self(struct super_block *s)
+ 			inode->i_uid = GLOBAL_ROOT_UID;
+ 			inode->i_gid = GLOBAL_ROOT_GID;
+ 			inode->i_op = &proc_self_inode_operations;
++			/* a mount here would redirect every process */
++			dont_mount(self);
+ 			d_make_persistent(self, inode);
+ 			ret = 0;
+ 		}
+diff --git a/fs/proc/thread_self.c b/fs/proc/thread_self.c
+index 61ac62c3fd9f..a4f803daf589 100644
+--- a/fs/proc/thread_self.c
++++ b/fs/proc/thread_self.c
+@@ -48,6 +48,8 @@ int proc_setup_thread_self(struct super_block *s)
+ 			inode->i_uid = GLOBAL_ROOT_UID;
+ 			inode->i_gid = GLOBAL_ROOT_GID;
+ 			inode->i_op = &proc_thread_self_inode_operations;
++			/* a mount here would redirect every thread */
++			dont_mount(thread_self);
+ 			d_make_persistent(thread_self, inode);
+ 			ret = 0;
+ 		}
+
+-- 
+2.53.0
+
