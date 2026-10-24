@@ -1,79 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792800399;
-	b=ChhnrSaMFCUVg0bRYb2sOvtmv6RNJaKMDkuhtoDIqzvcHKzdEn8WBMzYSb76YUu3kTuy
-	 wt4ajdyKPfw+eVVNc/wIsQCShCR+1g1depcg1MxZ+S6/ttOJ+sDRYpMM/ZHyO9nFydyLh
-	 FcaRUE6ryEhlboaICWefPxJEFrddXFzJmNZ8LdZTJnmxGGFxq+EMv+0I9+Y+KmbRXO9an
-	 o9T6vLK0P9eamDs1D2f42tw5X16QN2mq7Bxw/Rz8sEZb+3yXX9SXNbEcN8jpEhbDKahGT
-	 K074vx9eWtSm6TYJALShIcAuNTa5nUOsovKGvO3H9wK3+mmH2X3WuEirWIbllg5p6Ig==
+	t=1792804320;
+	b=aBqhBYVyzlguhGcOvtg4CiMS/iN+85M3bnaAU6vZqLB9w36z5txsUlP/jGYPDI+B7Mdn
+	 XARNDpw0n1ia1USfroISpZkrKL7GCQ7+TSHLTGZLZQI9H2VWcLG/7bEBffTgdZyaZoPT5
+	 h3Ba0HnZcYtcBDC0XXVdlcYcM6Ue08UsnSYcppM1PYMdU3knm07DSX7yui06X79smNrPI
+	 /bc+8U5BvEU7iuMBjreOpnrCG9PzVhiH/k7ieS3ckhO/yKlHlzdzzrc8uFhOJhcoPq/Xf
+	 r674OEMb8vA/l8nXHHkz7k02jfvKTmXf9F1Z4RQma4yvXWI9axiSAiKMx0jOPX63r7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792800399;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 User-Agent:MIME-Version:Content-Type;
-	bh=g/FsAaW0AkvetNdniR3rKpNT8FlLHkuJIvhVHN7TT80=;
-	b=GCz0c6ziE71nY+c31jFsSlTmUia/IvecPLu/r2jqJ8+Aiwi72M9rfVSlr9rU7HDF3Xgc
-	 aQE6x49avQEux9Le6M2jbyknQKNrLCbFLX6KZ+6h0+xZzD96/Jylf2GOZQr0pxUb25y+d
-	 IOsRDySgkyXK/7nXWJQ1BHl/NN+fS6pT82/8xcApC5hbVVGeq6MZfa38T3v3MNACQQ5a5
-	 oTIVQlig4MfHsLxe3YPWiQwtxN5KDIG0kH79kDpnVPmwmMQmgM0HTUPc2zVrGQoH422vS
-	 rXj7qMcirkx5qOsKNaXkchaarff/wePEUONmL5rfc6lEM2u9EL29mWJKDYMpLqbeUBQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792804320;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=qqcjA7DNdTq+xZwtRnwCLNkrsUov1CecwEVrKr3pes8=;
+	b=fOPEd1nUNKPjYGTzvqD75K8jAbw1b/g+gtxSSIjMPlPybsOxnzO4K+4PuGdDM4imfAIX
+	 XsMZawLYp7ERslcD89NndleVBkB/JuKTCa6C2VCtjqaE1/rxYeJpfAgnZWst1Z/uLvNA/
+	 F0UlValE+7oHibhuH+unxf0ZyYfMq538snvLU9GZ4Lo4RLk+m450jLAm/dDxYKfsOqUZF
+	 idzASwNakx4QhHNJVUXAvRHFudfPDVyZXcb4i3BdVbf+rc1F/PXapO0+iVy2PjDhUVYKC
+	 9m/o+/3MOMACf6yd30tmf0bCODnrS2hhLQVXfxBRvECdOoqmSuNZLExxQ9YLmjSne3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.parknet.co.jp;
-	spf=pass smtp.mailfrom=parknet.co.jp;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=znn0iOTU;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=TOd9WEIj;
-	arc=none smtp.remote-ip=210.171.160.6
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JB9GbvwY;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EAF606A320;
-	Sat, 24 Oct 2026 00:06:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02EAF606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E8C606A31A;
+	Sat, 24 Oct 2026 01:11:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=znn0iOTU;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=TOd9WEIj
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 368BC26F7694;
-	Sat, 24 Oct 2026 09:06:36 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1792800396;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g/FsAaW0AkvetNdniR3rKpNT8FlLHkuJIvhVHN7TT80=;
-	b=znn0iOTUuWSnSH4V+QnSwn64eLNjkx+F+uoW/Xey7w7iBMJsZaDiEMXPzv+IFacSLTUVEE
-	VT+2gJmuVOU/6QX4PvSYA+7OjGh9HBkTkWH2Jf3SoQDFhkbw/Jp4p4gh/U6ktEK0bbDAQ2
-	qvPSU15RRIm81pa1vQXXsbMRf089+2Jzsjxhe8vwYkKLeeXyyGryIQKdOJuM7GfXz0GvAq
-	fdpFIUdOOu0eRVJU9YfgCaamJFVZzaEj5fEA9IglzK7nA2Hg8VbvJcPstjR4lSDUZu8KYd
-	n+qIXO/PjUKuxNLwAIceOxEMIRT2T8XFDBxr8Jt5xYQaAQsP1eWkdE4RslsfTw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1792800396;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g/FsAaW0AkvetNdniR3rKpNT8FlLHkuJIvhVHN7TT80=;
-	b=TOd9WEIj+OVUzjyxuZWvgdZzblZNybkkI1uLKRlltuJyjubl+Q87ykicmMQciPzAFpGawM
-	LbiH585vPYE17uBg==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id B64B7E00135;
-	Sat, 24 Oct 2026 09:06:35 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id A4E3422000A7; Sat, 24 Oct 2026 09:06:35 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Cc: linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] fat: preallocate space before expanding in
- fat_cont_expand()
-In-Reply-To: <atvP82ca9Gl0DiAG@DESKTOP-PJTTJ93.localdomain>
-References: <20261021154024.56868-1-matheus.aalmeida@inf.ufrgs.br>
-	<87wlr8j2gs.fsf@mail.parknet.co.jp>
-	<87ld7oqv5n.fsf@mail.parknet.co.jp>
-	<atvP82ca9Gl0DiAG@DESKTOP-PJTTJ93.localdomain>
-Date: Sat, 24 Oct 2026 09:06:35 +0900
-Message-ID: <8733twq7w4.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JB9GbvwY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E6E51F01825;
+	Sat, 24 Oct 2026 01:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792804319;
+	bh=qqcjA7DNdTq+xZwtRnwCLNkrsUov1CecwEVrKr3pes8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JB9GbvwYUPYu2AenF8uiR5+l/yJlmYsyVbpE5bjdXpbiNpcMEu4A+zbRAGiFuQrKV
+	 lAH9sjVruL0NoEC4b45IRnzOd+ue2Xg+QmfwVwdYKi57DDN35Nt2+OJZaqWOUknrJF
+	 kpGU8VWhL87l2F0PgDsav9PgAEIQZn7q9mXAxEpuSTyrtl7A73SwzQQ+1RI+37OKXR
+	 b7kBNAdR9lsOR1Mg0J8REHrYPrSUqd5mP8jZxguQa9TGrklVdop/NKfhivSBCynqxm
+	 TAk2zyy5KVGDryqPIFGoyLvQO1kJhmq6BrRtqj1l1+VuBF0yLVT6fpdhHMkTgKa8Kp
+	 mHe3pNskHcJxA==
+Date: Fri, 23 Oct 2026 21:11:58 -0400
+From: Mike Snitzer <snitzer@kernel.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v8 1/7] NFSD: cut a misaligned direct-mode WRITE at the
+ mapping's smallest folio
+Message-ID: <atwF3s3-VtUkooZI@kernel.org>
+References: <20261023024548.71123-1-snitzer@kernel.org>
+ <20261023024548.71123-2-snitzer@kernel.org>
+ <36498551-15ee-4a55-9757-54aa8a07085a@app.fastmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -83,59 +65,92 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <36498551-15ee-4a55-9757-54aa8a07085a@app.fastmail.com>
 
-Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+On Fri, Oct 23, 2026 at 01:45:21PM -0400, Chuck Lever wrote:
+> 
+> 
+> On Thu, Oct 22, 2026, at 10:45 PM, Mike Snitzer wrote:
+> > nfsd_write_dio_iters_init() cuts a misaligned end of a direct-mode
+> > WRITE at a multiple of the larger of offset_align and PAGE_SIZE, so
+> > that the direct middle, which invalidates the page cache over its
+> > range, never shares a page with a buffered end.  But where the
+> > mapping's minimum folio order makes the smallest folio a block larger
+> > than a page, the page cache holds that block as one folio: an end cut
+> > on a page boundary inside a block leaves the middle and the buffered
+> > end in the same folio.  The middle's invalidation then drops the folio
+> > the end wrote, and whichever of the two neighbouring WRITEs comes second
+> > reads the block back.
+> >
+> > Cut a misaligned end at a multiple of the smallest folio the mapping
+> > allows as well.  Where that is a page, nothing changes.
+> >
+> > Fixes: 80728157d1bd ("NFSD: cut a misaligned direct-mode WRITE at page 
+> > boundaries")
+> > Signed-off-by: Mike Snitzer <snitzer@kernel.org>
+> > ---
+> >  fs/nfsd/vfs.c | 14 ++++++++------
+> >  1 file changed, 8 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
+> > index 9219f8eb386d..ade00dabef18 100644
+> > --- a/fs/nfsd/vfs.c
+> > +++ b/fs/nfsd/vfs.c
+> > @@ -1452,13 +1452,15 @@ nfsd_write_dio_iters_init(struct svc_rqst 
+> > *rqstp, struct svc_fh *fhp,
+> > 
+> >  	/*
+> >  	 * The direct middle invalidates the page cache over its range, so it
+> > -	 * must not share a page with a buffered end.  An aligned end needs no
+> > -	 * buffered segment; a misaligned one is cut on a page boundary even
+> > -	 * where the offset alignment is finer than a page.  A WRITE may end
+> > -	 * at OFFSET_MAX, so the prefix is sized as a distance rather than
+> > -	 * by rounding @offset up, which could wrap.
+> > +	 * must not share a folio with a buffered end.  An aligned end needs no
+> > +	 * buffered segment; a misaligned one is cut on a boundary of the
+> > +	 * smallest folio the mapping allows, a page or, where the block is
+> > +	 * larger, a block, even where the offset alignment is finer.  A WRITE
+> > +	 * may end at OFFSET_MAX, so the prefix is sized as a distance rather
+> > +	 * than by rounding @offset up, which could wrap.
+> >  	 */
+> > -	cut = max_t(u32, offset_align, PAGE_SIZE);
+> > +	cut = max3(offset_align, PAGE_SIZE,
+> > +		   mapping_min_folio_nrbytes(nf->nf_file->f_mapping));
+> >  	prefix_end = offset;
+> >  	if (!IS_ALIGNED(offset, offset_align))
+> >  		prefix_end += min_t(loff_t, cut - (offset & (cut - 1)), total);
+> > -- 
+> > 2.52.0
+> 
+> PAGE_SIZE looks dead in the max3(). mapping_min_folio_nrbytes() is always
+> at least PAGE_SIZE, so the cut is just max(offset_align, min folio). The
+> new commit message and comment both describe three independent bounds, but
+> the accurate statement is two: the DIO offset alignment and the mapping's
+> smallest folio.
+> 
+> Also I would like to keep the helper's unsigned long type instead of
+> narrowing to u32.
+> 
+> Post an updated version of the v7 patch so we can test and review that
+> as a single change. This will also archive that revision in the lore
+> archive. This will likely result in merge conflicts with subsequent
+> patches in the series. If those are just comment conflicts I can fix
+> those up when I apply the revised version.
+> 
+> Do not include the new revision of this patch in v9. v9 is now patches
+> destined for the MM tree(s) while this patch goes to NFSD.
 
-> On Sat, Oct 24, 2026 at 12:44:04AM +0900, OGAWA Hirofumi wrote:
->>OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> writes:
->>
->>>>  static int fat_cont_expand(struct inode *inode, loff_t size)
->>>>  {
->>>>  	struct address_space *mapping = inode->i_mapping;
->>>>  	loff_t start = inode->i_size, count = size - inode->i_size;
->>>>  	int err;
->>>>  
->>>> -	err = generic_cont_expand_simple(inode, size);
->>>> +	/*
->>>> +	 * Preallocating space here is more efficient than during
->>>> +	 * generic_cont_expand_simple() because of batching.
->>>> +	 */
->>>> +	err = inode_newsize_ok(inode, size);
->>>>  	if (err)
->>>>  		goto out;
->>>> +	err = fat_preallocate(inode, size);
->>>> +	if (err)
->>>> +		goto out;
->>>> +	err = generic_cont_expand_simple(inode, size);
->>>> +	if (err) {
->>>> +		down_write(&MSDOS_I(inode)->truncate_lock);
->>>> +		fat_truncate_blocks(inode, inode->i_size);
->>>> +		up_write(&MSDOS_I(inode)->truncate_lock);
->>>
->>> Is this fat_truncate_blocks() really required?
->>>
->>>> +		goto out;
->>>> +	}
->>
->>And maybe this will change the user visible behavior for ENOSPC. (I'm
->>not sure if it is ok for now)
->>
->>Thanks.
->>-- 
->>OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
->
-> The behavior on a fallocate() ENOSPC failure seems to differ across
-> filesystems, some (e.g. exFAT, NTFS3) keep the original size while others
-> (e.g. ext4) keep the partially extended size.
->
-> If preserving the current FAT behavior is preferred, I can look into that
-> for a v3. Maybe adding a new fat_try_alloc_chain() helper that allocates
-> as many clusters as it can instead of failing the entire allocation.
->
-> What do you think?
+v7 didn't have this 1/7 patch.  But seems you're saying the fix for
+nfsd-testing commit 80728157d1bd (which started as v4 1/10) would be
+to have max_t() use mapping_min_folio_nrbytes(nf->nf_file->f_mapping)
+instead of PAGE_SIZE?
 
-fallocate() or expand truncate() path. Hm, well, we can try to change
-the error behavior (if failed, revert then).
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+I think you're saying post a revised version of commit 80728157d1bd as
+a standalone NFSD patch?  I can check if it causes the other patches
+you've staged to have conflicts (but like you say, should be simple to
+resolve).
+
+Thanks,
+Mike
