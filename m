@@ -1,56 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.25
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792862976;
-	b=4ysRzNni/MWt//UNapOJJ+xh0tTCisYlT3J9jGClaavB22edA3D3dOIBl7DtugMMNEFe
-	 nZm84tj89Wr5h+ROaVLTmvSIeBTBnoKK8COraQkDvIvWbl9IoQHRs9DIhqHJq8idNYAem
-	 OeB4KMVoQlPxrV9OyBxI4cBykxI876eSgDTidUpWSeA/npAwOzn797T/a1iRvuj1oGGX6
-	 OIUdLLBn2VBKKW46nemLzoBGv9iwIxLU5dykqugKQ4uBanyJJiVcrMt7z1kXiN4J/QwUn
-	 edfq3X13eTHd7ksy1yEfG2JQdAkNxpUVpLVWG1VF9pVCTlOncg1b7HyoIJpPi0iv/gQ==
+	t=1792869144;
+	b=0Bn4lC9bWe2oUoJlIPFuz7ikCeBA84EsmeXIVv0xsBuKfqdS3YAcGSCn15fzzedskDhT
+	 Yov3FoIlG1vEmXoQPQ6ZvHhn//OQ4Jt/CRYLs+OGvpm7cf30plcRjNr87La0EdFeZ1JZF
+	 8Yw8SMk2GRx902NLCy6HXQUtSHA/ADml0w2HsjWZZ9S4dBdmshgSZzLZyX5HZ0xKvPrBr
+	 fwy7Rcf9qxyCEtIbu99O7y89Z9wyRjuTMGHm2bAlki/a8n5GmleZT8u9EHShTwrUvUgV9
+	 ufpFhHW19b2QTDHyFzBNL0xgKQUs9RctCtMDxe2uy5YzGgzlOtZbPOzX03NvVetNOyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792862976;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type;
-	bh=uSwBoXXR0278lCz88tFScOKYUs1WlmzxQUkqwc84UV4=;
-	b=oL5HLBFSpEPhL2GraRaxLHOWlJkB4GnV1VAENpH4SRX4d7+hxNTHst2tizczRRJ2Zpwd
-	 FwbomBTyhXKLNMLtaTKz+o5EwxQQKeqfNFlcTd9ji8F1vsQiJGm0u0A4K/DPonpT9uc7l
-	 TtbWIwYdeQSy9P3WVHGMrpZnv0oJuoTHD3VUaCbgq0OyMpkDs1fB5oaxLuHZmbDfLHhEg
-	 5QdN2FfMnVGHpboirNaVqEVzTBSUv4yRy5bh92rlfKvtnTIif0Les+sxkYO6q7UBq/qXL
-	 ACRqeErNQQYJ1ABfsvi9KUgqdyNARCZp6Rhw+FkLHLGTdtejXL/9h3yb9EqNSDXQJiA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792869144;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition;
+	bh=tWWiAhD1q3SGqZytIYj8Vfqab8KfOk5ANJFgDlntlxg=;
+	b=B/0k3vj9+vQ6Lb8W3ZK4IDkhWlhKRTzz1O0H+xZuGgiBeFHVEeL+sEPIcEO0GNKTkTpL
+	 NSYsNvXHX0wvdDmK0VK78NajDHuNz6bEXPMf+oqyw794pcpuZT0QjWQv4TNOIIhY0TSr+
+	 UWWYX5Vb0DIEJyOd7BmO14eWSwSy3UuVdP3/YMG0qgKELvo1PEWgf7PfJPNWiXTSsq0St
+	 hU8RzGaCzRgga7vbjmA+ElsCoNjRh3mSpARME1Gx1kYR3pb+vhIL8NVQecvnFTU16vSNv
+	 hc7SUmAt8kR+8LJT/U6rKnTa6DjrxFr+vKSSbH8aozC9RteaZLWbIH65YLlOgfMHUQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b="PiI3/OF9";
-	arc=none smtp.remote-ip=185.70.43.25
-Received: from mail-4325.protonmail.ch (mail-4325.protonmail.ch [185.70.43.25])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k4vB6PT7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DE9606A31A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 24 Oct 2026 17:29:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2DE9606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0711606A31A;
+	Sat, 24 Oct 2026 19:12:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=PiI3/OF9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1792862972; x=1793122172;
-	bh=uSwBoXXR0278lCz88tFScOKYUs1WlmzxQUkqwc84UV4=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=PiI3/OF9Ufuyyj3aO8eCO/1tEHvsGaLkYocLXcRHq1ObnRjeSj66aMGBF08+jsIEK
-	 OzQuv4WCtGM00qcXbO2vRBBSlDSE04eGBpXs/fPUfogDdbytC1je+yDuhhFYX3vW+n
-	 LAb8VumFcqPVAMz9X2yDukd373oPdAXblM8ueo9IsTmV1sBqnvdz7G6P5bPp+uxWyf
-	 VDlB08X4w/lMP0+feKvFD2zpXl8YQpkWqx2bppO5tmJKptYZ8WuZC+VVNV79ixDGAO
-	 zO8k1tT97FfTqo1Wub00uGJCTekDeEYTaSrXc9LJFxkJJsuo1v4qnBYGdm56tx+FDE
-	 XwnJyGBdeaswQ==
-Date: Sat, 24 Oct 2026 17:29:26 +0000
-To: "brauner@kernel.org" <brauner@kernel.org>, "kees@kernel.org" <kees@kernel.org>, "rostedt@goodmis.org" <rostedt@goodmis.org>
-From: BoxStrikesTeam <BoxStrikesTeam@proton.me>
-Cc: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "jack@suse.cz" <jack@suse.cz>, "mhiramat@kernel.org" <mhiramat@kernel.org>, "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "jkoolstra@xs4all.nl" <jkoolstra@xs4all.nl>, "farid.m.zakaria@gmail.com" <farid.m.zakaria@gmail.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>
-Subject: [RFC] binfmt_misc: add a tracepoint for BPF-selected interpreters
-Message-ID: <21bBRWi4dDGR7l5TdmShL09exFRFwQA8c-1U_QlNoY2L7LGzDCNfypM9VECtuwD7mkrG1Cw8uXSLLdHmXsYsMARBbGn-mIl3Mutmeku-2zg=@proton.me>
-Feedback-ID: 205449183:user:proton
-X-Pm-Message-ID: 9a4226781f6ad8bab2fb7d82922320196d2e2407
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k4vB6PT7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B5A01F01825;
+	Sat, 24 Oct 2026 19:12:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792869143;
+	bh=tWWiAhD1q3SGqZytIYj8Vfqab8KfOk5ANJFgDlntlxg=;
+	h=Date:From:To:Cc:Subject;
+	b=k4vB6PT74tlNmxhi9L2GOANsPAVqfX1q2JmIvaC2bdL0QQzOXPu91DEM+YEY8YmL7
+	 Ipn+cIXjJJj92UpMbUzvspL0eLaZHA8WyBl9grp+FeepHs0AZnPwVytpeFbtHaP3s7
+	 qcE5YOJW23SbpEB3S75h3GCouQSguWnZgE2FuztQv8N77fweEp9pyqXMEu6/68CCPR
+	 0zEY8OoEA8qIul/i2czY+AkLUo8+RlW77envDwY21N0biXqvJCAFcQeePCioHJjz/1
+	 1Mi4JIs/NL1A7o25TPjX9YiUoWKFry33ar3PRFcxFFXf0UJkCbKBLhBMfxghp/9gl+
+	 jF8UX1y1CZ1Hw==
+Date: Sat, 24 Oct 2026 15:12:22 -0400
+From: Mike Snitzer <snitzer@kernel.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH cel/nfsd-testing replacement] NFSD: cut a misaligned
+ direct-mode WRITE at folio boundaries
+Message-ID: <at0DFod8CcUfus2S@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,224 +62,153 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="b1=_ypzT8Pl0sSG9XfrFKv1IRmPTSVHPbQ69Wlkmf6LTY"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---b1=_ypzT8Pl0sSG9XfrFKv1IRmPTSVHPbQ69Wlkmf6LTY
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+nfsd_write_dio_iters_init() splits a misaligned direct-mode WRITE into a
+direct middle and buffered ends.  Then as little of the WRITE as
+possible goes through the page cache.  That works only if direct and
+buffered I/O never meet inside a folio.  The direct middle invalidates
+the page cache over its range.  So a middle that starts or stops inside
+the folio of a buffered end drops that folio.  Then the second of the
+two neighbouring WRITEs reads it back from the device.
 
-Hello,
-The 'B' (BPF struct_ops) binfmt_misc handlers added in v7.3 can
-select an interpreter per exec. =C2=A0In transparent mode the selected
-interpreter is not visible through the usual interfaces:
-/proc/PID/exe, /proc/PID/cmdline and sched_process_exec all describe
-the binary, not the interpreter that actually runs. =C2=A0That is useful
-for concealment, and it also leaves tracing and security monitoring
-blind to the dispatch.
+The middle was cut at the file system's direct I/O offset alignment:
 
-I built a small PoC to understand the mechanism and measure the gap.
-It registers three struct_ops handlers (classic, transparent, loader)
-and runs each target twice: once without a handler, once with the
-handler and entry active. =C2=A0In the transparent case the process sees
-/tmp/target_trans as its exe and keeps its argv, while the code that
-runs is /tmp/poc_interp, reached through AT_EXECFD. =C2=A0In the loader
-case the binary runs natively and only the PT_INTERP loader changes;
-/proc/self/maps and AT_BASE show the substitution. =C2=A0The match program
-checks the ELF magic and marker bytes in the e_ident padding; it does
-not check the machine type, so the PoC is architecture-independent
-and does not target a specific real binary format.
+        prefix_end = round_up(offset, offset_align);
+        middle_end = round_down(orig_end, offset_align);
 
-The official binfmt_misc_bpf selftest passes 16/16 on the same
-kernel (v7.3-rc7). =C2=A0The test needed a small arm64 adaptation because
-it assumes an x86_64 host: the foreign-architecture constants and the
-interp_bind match rule were adjusted, while the assertions and
-coverage are unchanged.
+Where that alignment is a multiple of the smallest folio the mapping
+allows, the cut is a folio boundary, and the problem cannot occur.  This
+is the case for 4 KiB pages over 4096-byte blocks.  It is broken where
+the smallest folio is larger than the alignment.  Examples are 16 and
+64 KiB pages over 4096-byte blocks, and 4 KiB pages over 512-byte
+blocks.
 
-The gap is not a bug in the feature; it is a missing observation
-point. =C2=A0I would like to propose a tracepoint after the entry has
-selected its interpreter and the invocation flags are final:
+Another is a block larger than the page, which the page cache holds as
+one folio.  There a misaligned WRITE costs a read per shared folio on
+top of its three I/Os.
 
-=C2=A0 binfmt_misc_select(struct linux_binprm *bprm, const char *interp,
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0const char *handler, unsigned long flags)
+Cut each end of a WRITE on its own:
 
-The event would record filename, interp, handler, flags and pid.
-handler is the struct_ops name for a 'B' entry and empty for a static
-entry; flags is masked with MISC_FMT_INVOCATION_FLAGS so only the
-P/C/O/F/T/L bits are reported. =C2=A0The event is disabled by default and
-costs a static key check when off. =C2=A0It does not change dispatch
-behaviour.
+- an end that is already an offset_align multiple needs no buffered
+  segment, and the middle starts or stops there, inside a folio or not.
+  A WRITE aligned to the device stays fully direct at every page size.
+- a misaligned end needs a buffered segment in any case.  That segment
+  now runs to the nearest boundary of the smallest folio inside the
+  WRITE.
 
-I tested a patch on v7.3-rc7-32-g0fcb05b72344 (2 files, 60
-insertions). =C2=A0In an A/B run the event does not fire without a
-matching entry; with a classic handler it reports flags=3D0x0, and
-with a transparent handler it reports:
+That is one rule: a misaligned end is cut at a multiple of the larger of
+offset_align and mapping_min_folio_nrbytes().  Both are powers of two.
 
-=C2=A0 binfmt_misc_select: pid=3D96 filename=3D/tmp/target_trans \
-=C2=A0 =C2=A0 =C2=A0 interp=3D/tmp/poc_interp handler=3Dpoc_transparent fla=
-gs=3D0x48000000
+The segments still tile exactly the bytes of the WRITE: a buffered end
+grows inward, at the middle's expense, never outward.  A misaligned
+WRITE that holds no whole folio of the smallest size has no middle, and
+is issued as one buffered segment.  Where offset_align is a multiple of
+the smallest folio, nothing changes.
 
-while the process itself still sees /tmp/target_trans as its exe.
-The selftest stays at 16/16 with the patch applied.
+A folio larger than the smallest that the mapping allows can still span
+the cut.  Readahead or an earlier buffered write can leave one, and only
+the lookup that finds it learns its size.  The direct middle then
+invalidates it as a whole, and the neighbouring WRITE reads its part
+back once.  Direct I/O always has that read-back for a cached folio, and
+the cut cannot prevent it.
 
-Before sending the patch, I would like to ask:
+nfsd-io-modes.rst said that DONTCACHE is not used for the misaligned
+segments.  The write loop already contradicted that: every segment
+without IOCB_DIRECT gets IOCB_DONTCACHE when the file system supports
+it.  Replace that sentence with one that says so, next to one that
+describes the new cut.
 
-- Is a tracepoint the right primitive here, or would you prefer
-=C2=A0 another interface (audit, a /proc file, a BPF iterator)?
-- Is the event name and placement acceptable? =C2=A0I put it in
-=C2=A0 fs/binfmt_misc.c and the header in include/trace/events/.
-- Should this go through the VFS tree or the tracing tree?
-- Is the flags mask the right ABI, or should the event report the raw
-=C2=A0 entry flags and the resolved BPF flags separately?
-- Would you want this at all?
+Fixes: 06c5c97293e3 ("NFSD: Implement NFSD_IO_DIRECT for NFS WRITE")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mike Snitzer <snitzer@kernel.org>
+---
+This replaces 80728157d1bd ("NFSD: cut a misaligned direct-mode WRITE at
+page boundaries") in cel/nfsd-testing.  Changes from that commit:
 
-The tracepoint is observability, not enforcement. =C2=A0tracefs is
-normally root-only, and a root-capable attacker can turn the event
-off; I am not claiming it stops a rootkit. =C2=A0If the approach is
-acceptable, I can send the patch as an RFC PATCH or a formal PATCH,
-rebased on whichever tree you prefer. =C2=A0If not, I would rather hear
-that now than send code that is not wanted.
+- the cut is max_t(unsigned long, offset_align,
+  mapping_min_folio_nrbytes(nf->nf_file->f_mapping)).  PAGE_SIZE is
+  gone, and cut keeps the helper's unsigned long type.
+- the subject, the commit message, the comment and nfsd-io-modes.rst
+  name two bounds: the DIO offset alignment and the mapping's smallest
+  folio.
 
-The PoC is attached as binfmt-poc-upstream.tar.gz (source and logs,
-about 70K). =C2=A0It includes an English README.upstream.md; some of the
-original notes are in Turkish. =C2=A0It needs v7.3+ with
-CONFIG_BINFMT_MISC_BPF=3Dy and root inside the VM. =C2=A0The patch is not
-attached yet; I can send it inline on request. =C2=A0If the list strips the
-PoC attachment, I can send it directly.
+It also takes the place of v8 1/7, which will not be in v9.
 
-I prepared this email and the PoC with an LLM assistant; I reviewed
-the code and ran the tests above.
+Heads-up for applying the commits after 80728157d1bd: of the 27 in
+cel/nfsd-testing (6d13b7f74eec), only fcd8823db80e ("NFSD: only split a
+direct-mode WRITE for a worthwhile direct middle") conflicts, in
+nfsd-io-modes.rst.  Take its paragraph with "page" changed to "folio" in
+"nearest page boundary" and "never shares a page".  Nothing conflicts in
+code.  The other 26 apply cleanly, and the result differs from
+cel/nfsd-testing only in this change.
 
-Thanks,
-Eneshan Erdo=C4=9Fan Karaca
---b1=_ypzT8Pl0sSG9XfrFKv1IRmPTSVHPbQ69Wlkmf6LTY
-Content-Type: application/gzip; name="binfmt-poc (1).tar.gz"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="binfmt-poc (1).tar.gz"
+ .../filesystems/nfs/nfsd-io-modes.rst         |  9 ++++++---
+ fs/nfsd/vfs.c                                 | 20 +++++++++++++++++--
+ 2 files changed, 24 insertions(+), 5 deletions(-)
 
-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
-geCF8BP2ykhBAKAAAA==
+diff --git a/Documentation/filesystems/nfs/nfsd-io-modes.rst b/Documentation/filesystems/nfs/nfsd-io-modes.rst
+index 0fd6e82478fe6..8f5e6872f1004 100644
+--- a/Documentation/filesystems/nfs/nfsd-io-modes.rst
++++ b/Documentation/filesystems/nfs/nfsd-io-modes.rst
+@@ -126,9 +126,12 @@ Misaligned WRITE:
+     middle and end as needed. The large middle segment is DIO-aligned
+     and the start and/or end are misaligned. Buffered IO is used for the
+     misaligned segments and O_DIRECT is used for the middle DIO-aligned
+-    segment. DONTCACHE buffered IO is _not_ used for the misaligned
+-    segments because using normal buffered IO offers significant RMW
+-    performance benefit when handling streaming misaligned WRITEs.
++    segment. A misaligned start or end segment runs to the nearest folio
++    boundary inside the WRITE, not just to the nearest DIO-aligned
++    offset, so the O_DIRECT segment never shares a folio with a buffered
++    one; a start or end that is already DIO-aligned gets no buffered
++    segment at all. If the filesystem supports FOP_DONTCACHE, the
++    misaligned segments are marked DONTCACHE.
+ 
+ Tracing:
+     The nfsd_read_direct trace event shows how NFSD expands any
+diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
+index c4b32e41b4c5e..f18309d4609b7 100644
+--- a/fs/nfsd/vfs.c
++++ b/fs/nfsd/vfs.c
+@@ -1396,6 +1396,7 @@ nfsd_write_dio_iters_init(struct nfsd_file *nf, struct bio_vec *bvec,
+ 	size_t prefix, middle, suffix;
+ 	loff_t offset = iocb->ki_pos;
+ 	unsigned int nsegs = 0;
++	unsigned long cut;
+ 
+ 	/*
+ 	 * Check if direct I/O is feasible for this write request.
+@@ -1406,9 +1407,24 @@ nfsd_write_dio_iters_init(struct nfsd_file *nf, struct bio_vec *bvec,
+ 	    unlikely(total < max(offset_align, mem_align)))
+ 		goto no_dio;
+ 
+-	prefix_end = round_up(offset, offset_align);
+ 	orig_end = offset + total;
+-	middle_end = round_down(orig_end, offset_align);
++
++	/*
++	 * The direct middle invalidates the page cache over its range, so it
++	 * must not share a folio with a buffered end.  An aligned end needs no
++	 * buffered segment.  A misaligned one is cut on a boundary of the
++	 * smallest folio the mapping allows, even where the offset alignment
++	 * is finer.  A WRITE may end at OFFSET_MAX, so the prefix is sized as
++	 * a distance rather than by rounding @offset up, which could wrap.
++	 */
++	cut = max_t(unsigned long, offset_align,
++		    mapping_min_folio_nrbytes(nf->nf_file->f_mapping));
++	prefix_end = offset;
++	if (!IS_ALIGNED(offset, offset_align))
++		prefix_end += min_t(loff_t, cut - (offset & (cut - 1)), total);
++	middle_end = orig_end;
++	if (!IS_ALIGNED(orig_end, offset_align))
++		middle_end = max(round_down(orig_end, cut), prefix_end);
+ 
+ 	prefix = prefix_end - offset;
+ 	middle = middle_end - prefix_end;
 
---b1=_ypzT8Pl0sSG9XfrFKv1IRmPTSVHPbQ69Wlkmf6LTY--
+base-commit: 4e84914d70a0194e18bba6d814cfe71b340aadc8
+-- 
+2.52.0
 
