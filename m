@@ -1,67 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=128.30.2.78
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792812632;
-	b=MZJ4jWEhyUemjfIWNbdo1/1zoOSAmO+jIAn7foNZPFtsncVTdtwC3Cl0ejU9vqSK/UmR
-	 0O8BGmN7loHvKNz5pSQ+mnqVZ+PRgVmfPhiBw62YLDTBMksJJrO1bzdCqwBJJr7RlzI8t
-	 vJ/dOIOIGOTZQ8qTVNQOLZX3YDpi33rqQucz+7/AdcNQJZ3w6+Fc952rg0oaIsFmgRABW
-	 SWn6QBpNbkoOyExg5kOwdlDm9RrI7Ap9leG87rVlRI16hZOTbeJaUpsgbKfB2RStYm81e
-	 MeTMi6V5/GaUmVaSRgOd1aR588ZubAHIisl2JW1U6ECTatdeNkV6495AKRWvh0jnevQ==
+	t=1792815225;
+	b=hwXu/5KmA0cp1PqLU41rdszW7bPZiR6C/mKf6k+27uNb1Vt11mej67jlICsZIYy7VQSH
+	 oLHiVVGfCEZ5OTiWVWWHaTFHtz3uCjEpQHBKvMKTMUPi4Ft/ktBcS28l4b8Tgo7LcObpC
+	 FLghqxh1eI7/XPtAhCIEKemlIKhYYU1I+CPgQZ2bisNFBAMPqUZIgYRgOYe2iXTqo21gY
+	 b5eXCG0GBIVmUOXTYhRY1IsDYYaXCym8Op1XmhBX6OPd5hzeFvZOCJpAES870I7NPxF1V
+	 Q7XdjG9hiL/RicMGCeEtHTFZD457N/i4M3viMegCjHfi6ZY797wQDZvPqcO496/kzNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792812632;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=DxREnxXFL74zEXnlXFVXWPlkVOMBFqhGQRo3iyJ0jLE=;
-	b=xruNQKGy5Egc/n2uzQJQ9DuMpYwPOAxAAvf7xxGTUGhAxQKNVqrK5i36CATHkfluDd9v
-	 mn8FhO+1XBHVM50KWhmjpR6UzlPoaTQtv5bFBO0pqgQhm5hvC7khYeUz68bIVE5U0avJL
-	 IPNF45qzgc0txhXK1tLKmEuDgf+kKh4i2mvxlJPHUV02jTcLDX93rg8qprJD0qS2w2jO1
-	 k0MoHmuSK5mRP3ecwRWBdOKDLCFoQJe6KSYVOiuU18UfkdZzJajLNhQmY2qcFnlMszjNm
-	 kyIF03Ow5xcsifBUa/QHFmt654d+TpbZ/k8qUhD131I3eajXD8cuZUusKspjTq4g06g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792815225;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=VTbLNMP+UpXniIrujxXe7sYDHvjBTEb8cMy7ABMULcc=;
+	b=mRPOG9ZLzWypheFaSZDAaxC+G9ICu1ZXbWrcSrzTuq24t2hdaxkcMT/k+hMi/24deHo5
+	 bAkrcv4SmLf3ygeBQYHLPd8jmVH+BdaIhVgqLNHv/+HKTfnHrxMKTKszWVGIOPArhrzS3
+	 eX0KgID3c2EKfiQYGQDpZoxvtybcWVCFHkFZts0irwi6TBXuEg5acWhJ/S635Drk5r+rJ
+	 kKz7nmWuNeIK/1ijCTf/nItpUmCucpdNGXaM/bUuIrUkzZcJzq9L8f7Ldx8IxpR3lmqam
+	 CtAVj2EXWyDIAzSJOg0giZxK5563paxLlQmwTl71HsiQqP/6Jyj3Icv/f9u2O1fERaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=csail.mit.edu;
 	spf=pass smtp.mailfrom=csail.mit.edu;
-	dkim=pass header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.a=rsa-sha256 header.s=test20231205 header.b=XlupHKHL;
 	arc=none smtp.remote-ip=128.30.2.78
 Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8016D606A31A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 24 Oct 2026 03:30:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8016D606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BE2606A31A;
+	Sat, 24 Oct 2026 04:13:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38BE2606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.a=rsa-sha256 header.s=test20231205 header.b=XlupHKHL
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=outgoing.csail.mit.edu; s=test20231205; h=Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=DxREnxXFL74zEXnlXFVXWPlkVOMBFqhGQRo3iyJ0jLE=; t=1792812631; x=1793676631; 
-	b=XlupHKHLpRFmdluWHfjziaHaQxpnzyIc15B0KGp+IoxQJED0J9Erd/yDzNGAseaEJ0Wx8wo0OSg
-	aNRoZl8uJx2PbB7LvwxFu/uHmfJWiUqKW1GrJaBcXbc5s9OzwOONJL51e71f75Sgw/gq88eo1qU3k
-	+MiB7VDXOgoA74MXJ0EkGeKZW6amuAR9M2LkN8/QdY2y1XkA1ApHnpYf7PD9KNLjQsvcbQJvPvwCU
-	x5T//BAry6XuMSJtevZaCST60tpwg8Z29ZAdcVj/4Q2NVRiv9gZj1h8nvilpyEuiBm40RPJd1Ej0j
-	+px0EfzXuA4PHi1AVAU/RxYa9zX/0qCUCdug==;
-Received: from mail-dl1-f49.google.com ([74.125.82.49])
-	by outgoing2021.csail.mit.edu with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.95)
+Received: from escalante.csail.mit.edu ([128.52.128.198])
+	by outgoing2021.csail.mit.edu with esmtp (Exim 4.95)
 	(envelope-from <nickolai@csail.mit.edu>)
-	id 1xKSSk-00EHej-Dy
-	for linux-fsdevel@vger.kernel.org;
-	Fri, 23 Oct 2026 23:30:30 -0400
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-15943c9c005so1931580c88.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Oct 2026 20:30:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBywJbTu0r+QSluoFgmdqfDv7l//fN0OG1h7KpVwMuztgOVXe7OCaETUMSYh1nr5RkRRTKzinGZ0f6XFw+im@vger.kernel.org
-X-Gm-Message-State: AFq9FYLokbbZcHy8+FAf25jTwiYr/vuihPxJMpNYnVdUlhO7LH01lv12
-	w++W2gnI4fptQXWOFaxyVhCDGBOzkZ8r42N3e+Jn0qdeF5xo8yH8vf7Kdg3BMOLH0ONDhiACZYI
-	3MSxfQx8siXQdkGAHU9PBGznt2IuZ7Nk=
-X-Received: by 2002:a05:701b:2915:b0:196:e254:db24 with SMTP id
- a92af1059eb24-199375eb26amr1030037c88.21.1792812629421; Fri, 23 Oct 2026
- 20:30:29 -0700 (PDT)
+	id 1xKT8Q-00EPeW-TB;
+	Sat, 24 Oct 2026 00:13:34 -0400
+From: Nickolai Zeldovich <nickolai@csail.mit.edu>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Shuah Khan <shuah@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nickolai Zeldovich <nickolai@csail.mit.edu>
+Subject: [PATCH v2 2/2] selftests/pidfd: test that fields beyond the struct size are not reported
+Date: Sat, 24 Oct 2026 00:13:34 -0400
+Message-ID: <20261024041334.831273-3-nickolai@csail.mit.edu>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261024041334.831273-1-nickolai@csail.mit.edu>
+References: <20261017020634.792390-1-nickolai@csail.mit.edu>
+ <20261024041334.831273-1-nickolai@csail.mit.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -71,55 +62,120 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261016222721.791785-1-nickolai@csail.mit.edu>
- <atZw_gtMIIKXgc1q@bfoster> <CADGQE7H91ZwPgUzPHoAJmF3WjzRKxeQkQcV8+BLdGn7+kkEduA@mail.gmail.com>
- <atdHhW7JU8j5pozl@bfoster>
-In-Reply-To: <atdHhW7JU8j5pozl@bfoster>
-From: Nickolai Zeldovich <nickolai@csail.mit.edu>
-Date: Fri, 23 Oct 2026 23:30:17 -0400
-X-Gmail-Original-Message-ID: <CADGQE7Gaw9t14nOr_FYcT4d5y+VEjX+oSgkQoNWiNtomCfkVRQ@mail.gmail.com>
-X-Gm-Features: AclHuK8U-00Ea83CZV1_hG7vFrciQgbpxapAyoOn_d2XFtjDVI9f8nU_G2FcSqA
-Message-ID: <CADGQE7Gaw9t14nOr_FYcT4d5y+VEjX+oSgkQoNWiNtomCfkVRQ@mail.gmail.com>
-Subject: Re: [PATCH v1] mm/truncate: fix the zeroing end of pagecache_isize_extended()
-To: Brian Foster <bfoster@redhat.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Theodore Ts'o" <tytso@mit.edu>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 20, 2026 at 6:51=E2=80=AFAM Brian Foster <bfoster@redhat.com> w=
-rote:
-> On Mon, Oct 19, 2026 at 03:54:14PM -0400, Nickolai Zeldovich wrote:
-> > On Mon, Oct 19, 2026 at 3:35=E2=80=AFPM Brian Foster <bfoster@redhat.co=
-m> wrote:
-> > > > --- a/mm/truncate.c
-> > > > +++ b/mm/truncate.c
-> > > > @@ -878,8 +878,7 @@ void pagecache_isize_extended(struct inode *ino=
-de, loff_t from, loff_t to)
-> > > >               unsigned int offset, end;
-> > > >
-> > > >               offset =3D from - folio_pos(folio);
-> > > > -             end =3D min_t(unsigned int, to - folio_pos(folio),
-> > > > -                         folio_size(folio));
-> > > > +             end =3D min_t(loff_t, to - folio_pos(folio), folio_si=
-ze(folio));
-> > >
-> > > Good catch...
-> > >
-> > > folio_size() returns size_t and folio_zero_segment() expects size_t f=
-or
-> > > the offset params. Perhaps we should that instead of loff_t?
-> >
-> > size_t is (unsigned int) on 32-bit machines, like i386, which has the
-> > same issue (reproducer from the patch).
-> >
->
-> Ah, Ok. So loff_t makes sense for the min_t(). I do still wonder if it
-> makes sense to switch offset and end to size_t while we're here though.
+PIDFD_GET_INFO must not set the mask bit of a field that lies beyond
+the struct size encoded in the ioctl command. Add a test that requests
+the coredump fields and the supported mask with PIDFD_INFO_SIZE_VER0
+over a full-size, poisoned struct, and checks that the mask names none
+of those fields and that the poison behind the first 64 bytes is
+intact.
 
-I believe they're always pretty small (bounded by folio_size, which is
-bounded by 2^MAX_PAGECACHE_ORDER), so size_t isn't going to make a
-difference here.
+Add fallback definitions of PIDFD_INFO_SIZE_VER0 to VER3 to pidfd.h,
+like the other uapi constants there.
 
-Nickolai.
+Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
+---
+
+Notes:
+    Result in a QEMU x86_64 guest on mainline 17bb0e2f6c80, without
+    patch 1:
+    
+      # pidfd_info_test.c:801:info_size_ver0_mask:Expected 0 (0) == !!(info.mask & (PIDFD_INFO_COREDUMP | ...)) (1)
+      not ok 3 global.info_size_ver0_mask
+    
+    With patch 1:
+    
+      ok 3 global.info_size_ver0_mask
+
+ tools/testing/selftests/pidfd/pidfd.h         | 16 +++++++
+ .../testing/selftests/pidfd/pidfd_info_test.c | 48 +++++++++++++++++++
+ 2 files changed, 64 insertions(+)
+
+diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
+index 5a4e78c10f434..cf146d3273348 100644
+--- a/tools/testing/selftests/pidfd/pidfd.h
++++ b/tools/testing/selftests/pidfd/pidfd.h
+@@ -160,6 +160,22 @@
+ #define PIDFD_INFO_COREDUMP_CODE	(1UL << 7)
+ #endif
+ 
++#ifndef PIDFD_INFO_SIZE_VER0
++#define PIDFD_INFO_SIZE_VER0		64 /* sizeof first published struct */
++#endif
++
++#ifndef PIDFD_INFO_SIZE_VER1
++#define PIDFD_INFO_SIZE_VER1		72 /* sizeof second published struct */
++#endif
++
++#ifndef PIDFD_INFO_SIZE_VER2
++#define PIDFD_INFO_SIZE_VER2		80 /* sizeof third published struct */
++#endif
++
++#ifndef PIDFD_INFO_SIZE_VER3
++#define PIDFD_INFO_SIZE_VER3		88 /* sizeof fourth published struct */
++#endif
++
+ #ifndef PIDFD_COREDUMPED
+ #define PIDFD_COREDUMPED	(1U << 0) /* Did crash and... */
+ #endif
+diff --git a/tools/testing/selftests/pidfd/pidfd_info_test.c b/tools/testing/selftests/pidfd/pidfd_info_test.c
+index 597012ed195f0..ee08df3dc3d2b 100644
+--- a/tools/testing/selftests/pidfd/pidfd_info_test.c
++++ b/tools/testing/selftests/pidfd/pidfd_info_test.c
+@@ -764,4 +764,52 @@ TEST(supported_mask_with_other_fields)
+ 	close(pidfd);
+ }
+ 
++/*
++ * Test: fields beyond the caller's struct size are not reported
++ *
++ * Request the coredump and supported_mask fields with a struct of the
++ * first published size. None of those fields fit, so the returned mask
++ * must not name them and the memory behind the struct must be untouched.
++ */
++TEST(info_size_ver0_mask)
++{
++	struct pidfd_info info = {
++		.mask = PIDFD_INFO_COREDUMP | PIDFD_INFO_SUPPORTED_MASK,
++		.coredump_mask = 0xdeadbeef,
++		.coredump_signal = 0xdeadbeef,
++		.coredump_code = 0xdeadbeef,
++		.supported_mask = 0xdeadbeefdeadbeefULL,
++	};
++	unsigned int cmd = _IOC(_IOC_READ | _IOC_WRITE, PIDFS_IOCTL_MAGIC, 11,
++				PIDFD_INFO_SIZE_VER0);
++	int pidfd;
++	pid_t pid;
++
++	pid = create_child(&pidfd, 0);
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0)
++		pause();
++
++	ASSERT_EQ(ioctl(pidfd, cmd, &info), 0);
++
++	/* The fields that fit are reported as usual. */
++	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_PID));
++	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_CREDS));
++
++	/* The fields that do not fit are neither reported nor written. */
++	ASSERT_FALSE(!!(info.mask & (PIDFD_INFO_COREDUMP |
++				     PIDFD_INFO_COREDUMP_SIGNAL |
++				     PIDFD_INFO_COREDUMP_CODE |
++				     PIDFD_INFO_SUPPORTED_MASK)));
++	ASSERT_EQ(info.coredump_mask, 0xdeadbeef);
++	ASSERT_EQ(info.coredump_signal, 0xdeadbeef);
++	ASSERT_EQ(info.coredump_code, 0xdeadbeef);
++	ASSERT_EQ(info.supported_mask, 0xdeadbeefdeadbeefULL);
++
++	sys_pidfd_send_signal(pidfd, SIGKILL, NULL, 0);
++	sys_waitid(P_PIDFD, pidfd, NULL, WEXITED);
++	close(pidfd);
++}
++
+ TEST_HARNESS_MAIN
+-- 
+2.53.0
+
