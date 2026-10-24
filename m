@@ -1,77 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.186
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792870027;
-	b=RtVWL3PdF3eIpSCXtrF29qRxRewpyZPbUNyVBhLvB+i6664koL+oqDKm8zGXAJfnJZRQ
-	 Bgdo3vKg0FSciP+clnfAMiv7BCiL24xX5D8XzSFFCmwvQgOMRJrOmNbRqn9xgnitUh6Mi
-	 mmp9a571/0B1diX9RqfcemDpHfKeuPX1n+s0v+8Oi8HRZKE59OQhYxjjS5pi8ndJg1riz
-	 iGLVzy5QOSlAEPNUzYGCcL4oaC1T9klhoJZbuT4mP4LKcfhPHfyLEXJc4+KNrUod3DNfZ
-	 cZjdd9a+rOTgKpbajelM6Z2wdrCxT/jT02xsMC0ToLTsQlO+coaSX/ES113T2IgJZ+A==
+	t=1792877667;
+	b=SRm18bV3bcHXIjxcLBgvWesTKdeSTZt0lQ57o8cOc0nF4XvBhlGjrjlhNL3AOBAm2qlX
+	 wFLfi/Tsa05cSWg9mm6ZEsvTBxVI+4z+UroqYIBCg2VOijCl4cjAeaHojMF4uBChAuPrO
+	 PhyMJckTZmG2WCZosfh0rPLvP3zodi7gvgobbjH35fOGbhlN/eYZCXN6xmrwCxRBL3Xg/
+	 6YB6CKKh7XQqt0ANwrniDhzoUoWwbwP6d5JKzSSsokpxD0WO8wNsCB3XpDK1Kbs+mK5jF
+	 Pxy3uLcYMo2KSQZVrfV4eLayUiye4gBerSrfuexdgTi1iRl+HxwF9oTj47FVZDaMgvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792870027;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 User-Agent:MIME-Version:Content-Type;
-	bh=IoudTpnQUTJwPoVFKl0N7MQn0fubXyU9972/M5yWtg0=;
-	b=WPwRtVM5UyJogBNdAxcCbtIQSuOa95gr3g/n23gfApIMc4nW/1gRRvpypFFT1Rb6VvOe
-	 I9klw6lIYOGau6498JF8i5FZ1LBjoi0hCjTOO2Ipo70U2UW7aQvrDXS5DIZB8JbkLHGBc
-	 dBB0aI1Pd0TqeYgD16VhMQOeoLrwuthUB+j+5xbUVoy5tNCAW+24mHz5phKZebMOYGXCQ
-	 VkXFtfrefeGvbHELem+0RYm3JAaFnMaXf1p9k9JuEYQI/HO/rEBQPFRK5WEtLZkJnYwwb
-	 tmUl7D1zebEdqXm3vDgFtsbcPv/z9AigajX6fTYG+nlHkEUoxXx8ZVzNbn9RVG89HPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792877667;
+	h=DMARC-Filter:X-KPN-MessageId:Received:DKIM-Signature:X-KPN-MID:
+	 X-KPN-VerifiedSender:X-CMASSUN:X-Originating-IP:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=qu19ttKoFm8YEIfP2PLvpChIRrU1lR+re7nUflZOGdM=;
+	b=QhpfuPpIRlJfoXK4rTbdhfWE2zQQj1tLMInizZtCBQCZwpYC9fI9qG9VydJYW7obtVT2
+	 VGzYgq4O1zFldt2gFfS1fGQ5ZWvU0JR6uy3m5VfHjDOY3L4eITgijP0IaZnP2XPWEimPP
+	 9zblFT4/DFl9dLUbHAVCvftXYt5/xrd0XTNXmCE1XIM+mlwUloTy22NsyyCXOC7HsgNfp
+	 XXA8IyiUPMaUcbIDFog6K+Lkp6J6yE1MmpObQflNq6nQLjkGCgYt5zBUFChIhrv0SSym1
+	 lIxzRr0RE3oUxmi1SDKhHTzTPAqQHIAnvMHv4MWXP/0JZWBg1Ee6xG8xn+TeE+0tS2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.parknet.co.jp;
-	spf=pass smtp.mailfrom=parknet.co.jp;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=YTH9swQF;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=OjDgjSWT;
-	arc=none smtp.remote-ip=210.171.160.6
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=xs4all.nl;
+	spf=pass smtp.mailfrom=xs4all.nl;
+	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=vZhT1EIA;
+	arc=none smtp.remote-ip=195.121.94.186
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4B8606A31B;
-	Sat, 24 Oct 2026 19:27:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C4B8606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C03606A31E
+	for <linux-fsdevel@vger.kernel.org>; Sat, 24 Oct 2026 21:34:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52C03606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=YTH9swQF;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=OjDgjSWT
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 9AC8826F768C;
-	Sun, 25 Oct 2026 04:27:04 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1792870024;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IoudTpnQUTJwPoVFKl0N7MQn0fubXyU9972/M5yWtg0=;
-	b=YTH9swQFWeDZEKvY/dB7HIUmqY41YtlQ0sDMgaMOYaXmxYBlW9sMTaA3wZmRraAmkP7QFQ
-	6CT0+q1brjU6KjvVQEWdcjy5hizVQIi4dJG22WnAf/Ry6BPC3Iw/2U27096XcyOt0lUGSG
-	lB0sIQ0lKNK7u01HUMPHyS3ZxQtqICkvlwga+c6qQrvdSd+tEbvvVTVVxc9ZomjsdAS7vV
-	2r98PM4stmpPQK3A3Rp3c+MI7sQOIqLbRgjuskoUCjclir3xWVs/QRqQEecbmeX3WSR+J0
-	o3HLduuQBTZWjtIPlEx7oJrw8dI01BJ3GE05d+TTTduawLWz4Fs5tX8HE50o4Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1792870024;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IoudTpnQUTJwPoVFKl0N7MQn0fubXyU9972/M5yWtg0=;
-	b=OjDgjSWTLtyMdY5r0vR0yi8F6wWO5b7jDn6tencEdNXRHdhpkomD3+3UixGFEfjagN3m7d
-	RQd1njq2ui/6cGCw==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 2FA7EE0008F;
-	Sun, 25 Oct 2026 04:27:04 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 2361B22000A4; Sun, 25 Oct 2026 04:27:04 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>,
- linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] fat: preallocate space before expanding in
- fat_cont_expand()
-In-Reply-To: <20261024013021.251898-1-matheus.aalmeida@inf.ufrgs.br>
-References: <20261024013021.251898-1-matheus.aalmeida@inf.ufrgs.br>
-Date: Sun, 25 Oct 2026 04:27:04 +0900
-Message-ID: <875wyqdhmf.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key, unprotected) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=vZhT1EIA
+X-KPN-MessageId: acb905b2-cff2-11f1-87e5-00505699b430
+Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id acb905b2-cff2-11f1-87e5-00505699b430;
+	Sat, 24 Oct 2026 23:34:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=qu19ttKoFm8YEIfP2PLvpChIRrU1lR+re7nUflZOGdM=;
+	b=vZhT1EIAndUYNmiLUmL9gpD36g7nMthZ3Nhk2fTE6CnHgIiw6TSzNP6HARWCfKOCmCtgs0KxYXWyJ
+	 Wmbw5qpkbdzRx4EzPOXcbs/oEzIxrIGKBG9eUfqMIBd28RHOXLnKA0aY+6BUgAoA7JtW8R+R14lJmB
+	 U21js6gnZrnjwRzJdr197uCjXq87sCRQg7x1qakaU5nLSA89TMPHrFd5eHeWDsMUcdVwkMj7kvChew
+	 GpBumLzQ78s0vZgiHr1SMhxxLXoNvIIrFpvkKBx+lVAK+5A6PxAztTGGy6Yde3PQ1SNHgmcA+xa7bW
+	 5w4NO0wuhS7uOtsuZvJZTtXPK3vKdbw==
+X-KPN-MID: 33|GB8kk1C5gM3lD3CSPXcxj+vt9flM+urEatqRXcdhNE7xIixQrNj+QzlZ2mIYTDV
+ 4Mze87XXlhrhmH1DsCP2nsw==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|hhZ4ehZ1bU02j2B9yyTSqXe1xj951aE5Ci8ZpqhrMm09yi2d/TmtWF7z1/sC0mR
+ Mx7a6nLZxAa9Vpq1IEzSRfA==
+Received: from daedalus.home (unknown [178.227.247.81])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id ac5a0424-cff2-11f1-8686-00505699b758;
+	Sat, 24 Oct 2026 23:34:21 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org
+Cc: jack@suse.cz,
+	neil@brown.name,
+	cyphar@cyphar.com,
+	jlayton@kernel.org,
+	amir73il@gmail.com,
+	shakeel.butt@linux.dev,
+	gregkh@linuxfoundation.org,
+	tj@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Subject: [PATCH v8 02/12] vfs: prepare vfs_creat|mkdir_no_perm for reuse in lookup_open()
+Date: Sat, 24 Oct 2026 23:35:29 +0200
+Message-ID: <20261024213539.1307600-3-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261024213539.1307600-1-jkoolstra@xs4all.nl>
+References: <20261024213539.1307600-1-jkoolstra@xs4all.nl>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -81,178 +86,153 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+To implement O_CREAT|O_DIRECTORY we will have to repeat some of the
+logic that is now in vfs_mkdir() (e.g. do error checks in the same
+order). Separate this out in vfs_mkdir_no_perm(), which does all the
+non-permission related work of vfs_mkdir(). Permission checking for the
+lookup_open() path is timed differently because we may just be doing an
+open and no create. Similar considerations give rise to
+vfs_create_no_perm().
 
-> The fat_cont_expand() implementation leaves allocation of new clusters
-> to generic_cont_expand_simple(). This path does many small cluster
-> allocations, harming performance.
->
-> Preallocate cluster space in fat_cont_expand(). Move preallocation to
-> a new fat_preallocate() helper used by both fat_cont_expand() and
-> fat_fallocate(FALLOC_FL_KEEP_SIZE). Use a FAT-specific
-> fat_cont_expand_simple() instead of generic_cont_expand_simple() to
-> avoid rechecking the new size after clusters have been allocated.
->
-> Benchmarking was done under QEMU/KVM with a virtio-blk device using
-> cache=none. Each result is the arithmetic mean of the listed samples.
->
-> start = now_ns();
-> for (unsigned i = 0; i < count; i++) {
->     if (truncate_mode)
->         ftruncate(fds[i], bytes);
->     else
->         fallocate(fds[i], 0, 0, bytes);
-> }
-> elapsed = now_ns() - start;
->
-> 16 files, 512-byte clusters:
-> length    mode      sync?    before    after    improvement    samples
-> 256MiB    ftruncate no       9.576s    5.345s   1.79x          10
-> 256MiB    fallocate no       9.634s    5.640s   1.71x          10
-> 1MiB      ftruncate yes      58.66s    0.362s   162.15x        5
-> 1MiB      fallocate yes      61.36s    0.390s   157.15x        5
->
-> 128 files, 512-byte clusters:
-> length    mode      sync?    before    after    improvement    samples
-> 512KiB    ftruncate no       0.433s    0.352s   1.23x          10
-> 512KiB    fallocate no       0.446s    0.393s   1.13x          10
-> 64KiB     ftruncate yes      31.32s    0.429s   73.00x         10
-> 64KiB     fallocate yes      29.59s    0.410s   72.42x         10
->
-> 16 files, 4096-byte clusters:
-> length    mode      sync?    before    after    improvement    samples
-> 256MiB    ftruncate no       5.181s    4.417s   1.17x          10
-> 256MiB    fallocate no       5.166s    4.442s   1.16x          10
-> 1MiB      ftruncate yes      9.294s    0.111s   84.06x         10
-> 1MiB      fallocate yes      8.710s    0.110s   79.36x         10
->
-> The biggest improvement is on filesystems with a small cluster size and
-> on synchronous mounts.
->
-> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+---
+ fs/namei.c | 77 +++++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 53 insertions(+), 24 deletions(-)
 
-Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-
-> ---
-> Changes in v2:
-> - fat_cont_expand(): Hold truncate_lock around fat_truncate_blocks().
->
-> Changes in v3:
-> - Add a new fat_cont_expand_simple() helper that does the same as
->   generic_cont_expand_simple() but without the inode_newsize_ok() check.
-> - Use the new helper in fat_cont_expand() instead of
->   generic_cont_expand_simple(), removing the now-unnecessary cleanup.
->
-> This patch depends on:
-> https://lore.kernel.org/linux-fsdevel/20261012171106.146243-1-matheus.aalmeida@inf.ufrgs.br/T/#t
->
->  fs/fat/file.c | 70 +++++++++++++++++++++++++++++++++++++--------------
->  1 file changed, 51 insertions(+), 19 deletions(-)
->
-> diff --git a/fs/fat/file.c b/fs/fat/file.c
-> index 3aa541c6b127..a25531d9451e 100644
-> --- a/fs/fat/file.c
-> +++ b/fs/fat/file.c
-> @@ -217,13 +217,62 @@ const struct file_operations fat_file_operations = {
->  	.setlease	= generic_setlease,
->  };
->  
-> +static int fat_preallocate(struct inode *inode, loff_t new_size)
-> +{
-> +	int nr_cluster; /* Number of clusters to be allocated */
-> +	loff_t mm_bytes; /* Number of bytes to be allocated for file */
-> +	loff_t ondisksize; /* block aligned on-disk size in bytes*/
-> +	struct super_block *sb = inode->i_sb;
-> +	struct msdos_sb_info *sbi = MSDOS_SB(sb);
-> +
-> +	ondisksize = inode->i_blocks << 9;
-> +	if (new_size <= ondisksize)
-> +		return 0;
-> +
-> +	/* First compute the number of clusters to be allocated */
-> +	mm_bytes = new_size - ondisksize;
-> +	nr_cluster = (mm_bytes + (sbi->cluster_size - 1)) >>
-> +		     sbi->cluster_bits;
-> +
-> +	/* Allocate the clusters. We are not zeroing them out */
-> +	return fat_add_clusters(inode, nr_cluster);
-> +}
-> +
-> +static int fat_cont_expand_simple(struct inode *inode, loff_t size)
-> +{
-> +	struct address_space *mapping = inode->i_mapping;
-> +	const struct address_space_operations *aops = mapping->a_ops;
-> +	struct folio *folio;
-> +	void *fsdata = NULL;
-> +	int err;
-> +
-> +	err = aops->write_begin(NULL, mapping, size, 0, &folio, &fsdata);
-> +	if (err)
-> +		goto out;
-> +
-> +	err = aops->write_end(NULL, mapping, size, 0, 0, folio, fsdata);
-> +
-> +out:
-> +	return err;
-> +}
-> +
->  static int fat_cont_expand(struct inode *inode, loff_t size)
->  {
->  	struct address_space *mapping = inode->i_mapping;
->  	loff_t start = inode->i_size, count = size - inode->i_size;
->  	int err;
->  
-> -	err = generic_cont_expand_simple(inode, size);
-> +	/*
-> +	 * Preallocating space here is more efficient than during
-> +	 * fat_cont_expand_simple() because of batching.
-> +	 */
-> +	err = inode_newsize_ok(inode, size);
-> +	if (err)
-> +		goto out;
-> +	err = fat_preallocate(inode, size);
-> +	if (err)
-> +		goto out;
-> +	err = fat_cont_expand_simple(inode, size);
->  	if (err)
->  		goto out;
->  
-> @@ -263,12 +312,7 @@ static int fat_cont_expand(struct inode *inode, loff_t size)
->  static long fat_fallocate(struct file *file, int mode,
->  			  loff_t offset, loff_t len)
->  {
-> -	int nr_cluster; /* Number of clusters to be allocated */
-> -	loff_t mm_bytes; /* Number of bytes to be allocated for file */
-> -	loff_t ondisksize; /* block aligned on-disk size in bytes*/
->  	struct inode *inode = file->f_mapping->host;
-> -	struct super_block *sb = inode->i_sb;
-> -	struct msdos_sb_info *sbi = MSDOS_SB(sb);
->  	int err = 0;
->  
->  	/* No support for hole punch or other fallocate flags. */
-> @@ -281,19 +325,7 @@ static long fat_fallocate(struct file *file, int mode,
->  
->  	inode_lock(inode);
->  	if (mode & FALLOC_FL_KEEP_SIZE) {
-> -		ondisksize = inode->i_blocks << 9;
-> -		if ((offset + len) <= ondisksize)
-> -			goto error;
-> -
-> -		/* First compute the number of clusters to be allocated */
-> -		mm_bytes = offset + len - ondisksize;
-> -		nr_cluster = (mm_bytes + (sbi->cluster_size - 1)) >>
-> -			sbi->cluster_bits;
-> -
-> -		/* Allocate the clusters. We are not zeroing them out */
-> -		err = fat_add_clusters(inode, nr_cluster);
-> -		if (err)
-> -			goto error;
-> +		err = fat_preallocate(inode, offset + len);
->  	} else {
->  		if ((offset + len) <= i_size_read(inode))
->  			goto error;
-
+diff --git a/fs/namei.c b/fs/namei.c
+index b90263a07e4e..9fa94e8079db 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -4166,6 +4166,24 @@ static inline umode_t vfs_prepare_mode(const struct mnt_idmap *idmap,
+ 	return mode;
+ }
+ 
++static inline
++int vfs_create_no_perm(struct mnt_idmap *idmap, struct dentry *dentry,
++		       umode_t mode, struct delegated_inode *di)
++{
++	struct inode *dir = d_inode(dentry->d_parent);
++	int error;
++
++	error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, di);
++	if (error)
++		return error;
++
++	error = dir->i_op->create(idmap, dir, dentry, mode);
++	if (!error)
++		fsnotify_create(dir, dentry);
++
++	return error;
++}
++
+ /**
+  * vfs_create - create new file
+  * @idmap:	idmap of the mount the inode was found from
+@@ -4198,13 +4216,8 @@ int vfs_create(const struct mnt_idmap *idmap, struct dentry *dentry, umode_t mod
+ 	error = security_inode_create(idmap, dir, dentry, mode);
+ 	if (error)
+ 		return error;
+-	error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, di);
+-	if (error)
+-		return error;
+-	error = dir->i_op->create(idmap, dir, dentry, mode);
+-	if (!error)
+-		fsnotify_create(dir, dentry);
+-	return error;
++
++	return vfs_create_no_perm(idmap, dentry, mode, di);
+ }
+ EXPORT_SYMBOL(vfs_create);
+ 
+@@ -4418,6 +4431,7 @@ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry
+ 		dput(dentry);
+ 		dentry = ERR_PTR(error);
+ 	}
++
+ 	return dentry;
+ }
+ 
+@@ -4546,6 +4560,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 			dentry = res;
+ 		}
+ 	}
++
+ 	if (dentry->d_inode || !(op->open_flag & O_CREAT)) {
+ 		/*
+ 		 * No need to create a file.  If lookup returned a positive
+@@ -5368,6 +5383,33 @@ SYSCALL_DEFINE3(mknod, const char __user *, filename, umode_t, mode, unsigned, d
+ 	return filename_mknodat(AT_FDCWD, name, mode, dev);
+ }
+ 
++static inline
++struct dentry *vfs_mkdir_no_perm(struct mnt_idmap *idmap, struct inode *dir,
++				 struct dentry *dentry, umode_t mode,
++				 struct delegated_inode *di)
++{
++	unsigned max_links = dir->i_sb->s_max_links;
++	struct dentry *de;
++	int error;
++
++	if (max_links && dir->i_nlink >= max_links)
++		return ERR_PTR(-EMLINK);
++
++	error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, di);
++	if (error)
++		return ERR_PTR(error);
++
++	de = dir->i_op->mkdir(idmap, dir, dentry, mode);
++	if (IS_ERR(de))
++		return de;
++	if (de) {
++		dput(dentry);
++		dentry = de;
++	}
++	fsnotify_mkdir(dir, dentry);
++	return dentry;
++}
++
+ /**
+  * vfs_mkdir - create directory returning correct dentry if possible
+  * @idmap:		idmap of the mount the inode was found from
+@@ -5395,7 +5437,6 @@ struct dentry *vfs_mkdir(const struct mnt_idmap *idmap, struct inode *dir,
+ 			 struct delegated_inode *delegated_inode)
+ {
+ 	int error;
+-	unsigned max_links = dir->i_sb->s_max_links;
+ 	struct dentry *de;
+ 
+ 	error = may_create_dentry(idmap, dir, dentry);
+@@ -5411,24 +5452,12 @@ struct dentry *vfs_mkdir(const struct mnt_idmap *idmap, struct inode *dir,
+ 	if (error)
+ 		goto err;
+ 
+-	error = -EMLINK;
+-	if (max_links && dir->i_nlink >= max_links)
+-		goto err;
+-
+-	error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+-	if (error)
++	de = vfs_mkdir_no_perm(idmap, dir, dentry, mode, delegated_inode);
++	if (IS_ERR(de)) {
++		error = PTR_ERR(de);
+ 		goto err;
+-
+-	de = dir->i_op->mkdir(idmap, dir, dentry, mode);
+-	error = PTR_ERR(de);
+-	if (IS_ERR(de))
+-		goto err;
+-	if (de) {
+-		dput(dentry);
+-		dentry = de;
+ 	}
+-	fsnotify_mkdir(dir, dentry);
+-	return dentry;
++	return de;
+ 
+ err:
+ 	end_creating(dentry);
 -- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+2.56.0
+
