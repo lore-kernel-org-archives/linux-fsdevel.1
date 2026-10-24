@@ -1,59 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=143.54.11.23
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=128.30.2.78
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792805478;
-	b=tlh5CS6ydVrD4wR0Vu17P23SAQTZrevKB7357Xw+u3WUBlfkZEe/V2pidoXNWpk2y/+h
-	 lWoDlakQcTIV1dsEsyaWbbtTrwo1qILASbg/JesDXEWtgtsPq9E0SjJK/zRiURZKcINUd
-	 9/Gxw29R4VTSjaFWAj/TiIKdJEzs0Amzev1QScPz8cVWK8LBs7hGob7DxeSIvgoxECDKE
-	 1rdyhDJVjtKzkZ0pmQT8mtuRjcd36Tz0f+cTljdz6t4rqcm3jjP4Q77FT0l5pQWgMyyZR
-	 mC1/KI81ydzcV8QiyTg9ZoG21U+/ORY5mrisQ8d0cvS7z82YYCRnlSBj9jaQZx+H1Pg==
+	t=1792806234;
+	b=beJX3B26wRHJxaFQDGJPpQ/OFGU4LFqMUXua5zgl0F1Zd2q3RHula7a2Wg3sIRIQuKtt
+	 0zMNcjKdbJTCUvfsMs17i3nkfJT8S2Q0iVMfSi2EBQXdYMyMuItiuWVxNv2KuwI75Q6D/
+	 xv/Xl8mIu23vl/4+id0e5JE9LDmsLEMeEQfhr0tOuR2hMEcWp2N0AR3Uj4W9p9C/PsN4q
+	 yn/Jgdc+C9fGx9xGh05L8ShU3LCcM44nSroshH7x6cbB6CC+/goyfOM4Wnoqk4L2OWxAt
+	 xfqmOW4S5zXIusCfOERZk3KmrGAU7Wg01iFxl2mC3isnd/sxRvqUdwbewXfFMxpGdUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792805478;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=bIQNFRBEogEOnXf1jgKA1R9yJLIY80QynVCpComj5fs=;
-	b=KLziix6pltWLG5TfB4vdGYK4e33h2ic3yBz6vBHKaHv0NZKSuqRqnx8TQXCN9K2tPOJB
-	 Os2M4CXb9Rnkuqlly9C5q/duqAW9c1XWGPoS2gytFVXwU206cYeAWeOAAWiOs4C9LwYRn
-	 3w6+60fPQ4hd7hXYtKDLwrs/z44nXC7rbZJ0ve6CHkb2vbucAvrDUTLQdlfYOvlNQRwwA
-	 alV9JEIaMQdOm2B/2rldCpLuFz/74z6YHFqME8xKSy0w4Ny7XKE8w7QfiCGhCJxI+hzfh
-	 sPteUypoIekiAD4rBDJYOxnUMlR/67K3dXysnu/a0hMZwkmK917arB8ViLFtl1SF/Ag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792806234;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=wyVREYXOxjrzUhwVsdrv5z52bG4LokTjT1gazbHkJ+o=;
+	b=AuFGneTT1baedeHDGOUVrcTo2evNsQEInZU5UKdVw5afKnSfbRyayNcJ7Usg57ajWOJd
+	 azY5V3ar7CQLFAPLbkyLua8MjtjXOl2YlK8unhE4du4yfPRjCRyMf98o3vcMw1F9SLOPm
+	 s4etPxByiyGgivPYx92F6eHi7bwpTt2YYhRyoKI99BSHYPk6xSy1+d9GpnyNAkMr1ScIV
+	 Q3hlDcaA2ZoquTYuO5R1EUa/+WBk6Gmv2lx0dxBT14LpCr9JmDwugP0s18wkZ8AhAL5nP
+	 0U1kSAHVolXRu0TC1s7aXUW+3Lpd/HjQuIQZIH2YhmrTBBZ6H2KUb3+aNPx1EFEtoAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=inf.ufrgs.br;
-	spf=pass smtp.mailfrom=inf.ufrgs.br;
-	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=GqegVoAJ;
-	arc=none smtp.remote-ip=143.54.11.23
-Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=csail.mit.edu;
+	spf=pass smtp.mailfrom=csail.mit.edu;
+	arc=none smtp.remote-ip=128.30.2.78
+Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710E3606A31A;
-	Sat, 24 Oct 2026 01:31:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 710E3606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=GqegVoAJ
-Received: from LAPTOP-R01LEAQM.localdomain (unknown [189.6.233.4])
-	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 4DBAF120357;
-	Fri, 23 Oct 2026 22:31:13 -0300 (-03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
-	s=dkim2026; t=1792805473;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=bIQNFRBEogEOnXf1jgKA1R9yJLIY80QynVCpComj5fs=;
-	b=GqegVoAJskYTCeNk0UNUdJb+MG627nbsa5vh0CKG8ttBhb/8eciOViztY5aY9c5L86ZgN7
-	tgGZibjzfD+vCJwn5VrbboI44aVCjR13ifngmaQOVJ/6mU1hdptIEu0mRegp0h31bJQXDl
-	gmX2LXFXH/0K8U0z+LQkIHF+8qFqa6lXjfr/CQ2XsX6WSweNiR6pmz4sPB6OqxhjjBeKMO
-	TpYRuAlY1d12xCap8fdbKFN4xKRFXbGGiPIg5og2WqQxLCHnp/ZSQEOetL5YaVEfthX+J7
-	C9+/3NV3m+OcmupERI2SwOk8l+WxNz6c6kZWWtcgfiLoSlHYb7a5idx2fpBuPA==
-From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: linux-fsdevel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1813B606A31A;
+	Sat, 24 Oct 2026 01:43:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1813B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
+Received: from escalante.csail.mit.edu ([128.52.128.198])
+	by outgoing2021.csail.mit.edu with esmtp (Exim 4.95)
+	(envelope-from <nickolai@csail.mit.edu>)
+	id 1xKQnR-00DwZT-3H;
+	Fri, 23 Oct 2026 21:43:45 -0400
+From: Nickolai Zeldovich <nickolai@csail.mit.edu>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Subject: [PATCH v3] fat: preallocate space before expanding in fat_cont_expand()
-Date: Fri, 23 Oct 2026 22:30:20 -0300
-Message-ID: <20261024013021.251898-1-matheus.aalmeida@inf.ufrgs.br>
-X-Mailer: git-send-email 2.43.0
+	Baoli Zhang <baoli.zhang@intel.com>,
+	Nickolai Zeldovich <nickolai@csail.mit.edu>
+Subject: [PATCH v2] xarray: initialise the offset of a new root node
+Date: Fri, 23 Oct 2026 21:43:44 -0400
+Message-ID: <20261024014344.830116-1-nickolai@csail.mit.edu>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261012181107.772545-1-nickolai@csail.mit.edu>
+References: <20261012181107.772545-1-nickolai@csail.mit.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,171 +59,188 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The fat_cont_expand() implementation leaves allocation of new clusters
-to generic_cont_expand_simple(). This path does many small cluster
-allocations, harming performance.
+An RCU walker such as xas_find() that climbs out of the root while
+xas_expand() adds a level above it can resume in the new root at the
+wrong slot and return an entry with the wrong index.
 
-Preallocate cluster space in fat_cont_expand(). Move preallocation to
-a new fat_preallocate() helper used by both fat_cont_expand() and
-fat_fallocate(FALLOC_FL_KEEP_SIZE). Use a FAT-specific
-fat_cont_expand_simple() instead of generic_cont_expand_simple() to
-avoid rechecking the new size after clusters have been allocated.
+xas_alloc() sets node->offset only for a node with a parent, so a new
+root keeps the offset its slab object had before.  xas_expand() stores
+0 to the old root's offset just before linking it below the new root,
+and a walker can load the stale offset before that store and the new
+parent pointer after it.
 
-Benchmarking was done under QEMU/KVM with a virtio-blk device using
-cache=none. Each result is the arithmetic mean of the listed samples.
+Set the offset of a node allocated without a parent to 0.  The store in
+xas_expand() then writes the value the old root already has, so remove
+it.
 
-start = now_ns();
-for (unsigned i = 0; i < count; i++) {
-    if (truncate_mode)
-        ftruncate(fds[i], bytes);
-    else
-        fallocate(fds[i], 0, 0, bytes);
-}
-elapsed = now_ns() - start;
-
-16 files, 512-byte clusters:
-length    mode      sync?    before    after    improvement    samples
-256MiB    ftruncate no       9.576s    5.345s   1.79x          10
-256MiB    fallocate no       9.634s    5.640s   1.71x          10
-1MiB      ftruncate yes      58.66s    0.362s   162.15x        5
-1MiB      fallocate yes      61.36s    0.390s   157.15x        5
-
-128 files, 512-byte clusters:
-length    mode      sync?    before    after    improvement    samples
-512KiB    ftruncate no       0.433s    0.352s   1.23x          10
-512KiB    fallocate no       0.446s    0.393s   1.13x          10
-64KiB     ftruncate yes      31.32s    0.429s   73.00x         10
-64KiB     fallocate yes      29.59s    0.410s   72.42x         10
-
-16 files, 4096-byte clusters:
-length    mode      sync?    before    after    improvement    samples
-256MiB    ftruncate no       5.181s    4.417s   1.17x          10
-256MiB    fallocate no       5.166s    4.442s   1.16x          10
-1MiB      ftruncate yes      9.294s    0.111s   84.06x         10
-1MiB      fallocate yes      8.710s    0.110s   79.36x         10
-
-The biggest improvement is on filesystems with a small cluster size and
-on synchronous mounts.
-
-Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Fixes: 58d6ea3085f2 ("xarray: Add XArray unconditional store operations")
+Reported-by: syzbot+73641b60a3bc11dfca8c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=73641b60a3bc11dfca8c
+Tested-by: Baoli Zhang <baoli.zhang@intel.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
 ---
-Changes in v2:
-- fat_cont_expand(): Hold truncate_lock around fat_truncate_blocks().
 
-Changes in v3:
-- Add a new fat_cont_expand_simple() helper that does the same as
-  generic_cont_expand_simple() but without the inode_newsize_ok() check.
-- Use the new helper in fat_cont_expand() instead of
-  generic_cont_expand_simple(), removing the now-unnecessary cleanup.
+Notes:
+    Changes in v2:
+    - The test uses XA_BUG_ON() instead of a new XA_WARN_ON() (Matthew Wilcox).
+    - Remove the store to the old root's offset in xas_expand(), which now
+      writes the value already there (Baoli Zhang).
+    - The first root in the test now comes from xas_create(); in v1 both
+      came from xas_expand().
+    v1: https://lore.kernel.org/all/20261012181107.772545-1-nickolai@csail.mit.edu/
+    
+    Setting node->offset = xas->xa_offset for a root too does not work:
+    xas_set() keeps xa_offset, so a loop like the one in check_xas_erase()
+    (xas_set(&xas, j); xas_store(&xas, ...)) grows the tree with the offset
+    of the previous index.  In the XArray tests 2929 of 104963 allocations
+    without a parent see a non-zero xa_offset, and with that variant
+    check_xas_erase() fails.
+    
+    The syzbot report is this race seen by KCSAN: xas_expand() changes the
+    old root's offset from 3 to 0 while xas_find() reads it.  After this
+    patch xas_expand() no longer writes it.
+    
+    Reproducer (tools/testing/radix-tree with a hook in xas_find() between
+    "xas->xa_offset = xas->xa_node->offset + 1;" and the xa_parent() load:
+    "if (xa_climb_hook) xa_climb_hook();"; add "rootoff: rootoff.o
+    $(CORE_OFILES)" to the Makefile):
+    
+    #include <stdio.h>
+    #include <linux/xarray.h>
+    #include "test.h"
+    
+    extern void (*xa_climb_hook)(void);
+    static DEFINE_XARRAY(tmp);
+    static DEFINE_XARRAY(xa);
+    
+    static void expand(void)
+    {
+    	xa_climb_hook = NULL;
+    	xa_store(&xa, 6UL << XA_CHUNK_SHIFT, xa_mk_value(48), GFP_KERNEL);
+    }
+    
+    int main(void)
+    {
+    	unsigned long index;
+    	void *entry;
+    
+    	rcu_register_thread();
+    	radix_tree_init();
+    
+    	/* free a leaf that sat in slot 5 of its parent */
+    	xa_store(&tmp, 0, xa_mk_value(0), GFP_KERNEL);
+    	xa_store(&tmp, 5UL << XA_CHUNK_SHIFT, xa_mk_value(0), GFP_KERNEL);
+    	xa_store(&tmp, 7UL << XA_CHUNK_SHIFT, xa_mk_value(0), GFP_KERNEL);
+    	xa_erase(&tmp, 5UL << XA_CHUNK_SHIFT);
+    	rcu_barrier();
+    
+    	/* the new root of xa reuses it */
+    	xa_store(&xa, 1, xa_mk_value(1), GFP_KERNEL);
+    	printf("root offset %u\n", xa_to_node(xa.xa_head)->offset);
+    
+    	xa_climb_hook = expand;
+    	xa_for_each(&xa, index, entry)
+    		printf("index %lu entry %lu\n", index, xa_to_value(entry));
+    	return 0;
+    }
+    
+    $ make rootoff && ./rootoff
+    Without this patch:       With it:
+    root offset 5             root offset 0
+    index 1 entry 1           index 1 entry 1
+    index 8 entry 48          index 48 entry 48
+    index 48 entry 48
+    
+    Tested with tools/testing/radix-tree and with test_xarray built in on
+    x86_64 and riscv64 under QEMU; without the lib/xarray.c change both new
+    checks fail.
+    
+    The analysis, the patch and the tests were done with the help of an AI
+    coding assistant.
 
-This patch depends on:
-https://lore.kernel.org/linux-fsdevel/20261012171106.146243-1-matheus.aalmeida@inf.ufrgs.br/T/#t
+ lib/test_xarray.c | 33 +++++++++++++++++++++++++++++++++
+ lib/xarray.c      |  6 +++---
+ 2 files changed, 36 insertions(+), 3 deletions(-)
 
- fs/fat/file.c | 70 +++++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 51 insertions(+), 19 deletions(-)
-
-diff --git a/fs/fat/file.c b/fs/fat/file.c
-index 3aa541c6b127..a25531d9451e 100644
---- a/fs/fat/file.c
-+++ b/fs/fat/file.c
-@@ -217,13 +217,62 @@ const struct file_operations fat_file_operations = {
- 	.setlease	= generic_setlease,
- };
+diff --git a/lib/test_xarray.c b/lib/test_xarray.c
+index 5ca0aefee9aa5..046abad609648 100644
+--- a/lib/test_xarray.c
++++ b/lib/test_xarray.c
+@@ -370,6 +370,38 @@ static noinline void check_xa_shrink(struct xarray *xa)
+ 	}
+ }
  
-+static int fat_preallocate(struct inode *inode, loff_t new_size)
++static noinline void check_xa_root_offset(struct xarray *xa)
 +{
-+	int nr_cluster; /* Number of clusters to be allocated */
-+	loff_t mm_bytes; /* Number of bytes to be allocated for file */
-+	loff_t ondisksize; /* block aligned on-disk size in bytes*/
-+	struct super_block *sb = inode->i_sb;
-+	struct msdos_sb_info *sbi = MSDOS_SB(sb);
++	DEFINE_XARRAY(tmp);
++	struct xa_node *node;
 +
-+	ondisksize = inode->i_blocks << 9;
-+	if (new_size <= ondisksize)
-+		return 0;
++	/* Free two nodes with non-zero offsets so the slab can reuse them */
++	xa_store_index(&tmp, 0, GFP_KERNEL);
++	xa_store_index(&tmp, 5UL << XA_CHUNK_SHIFT, GFP_KERNEL);
++	xa_store_index(&tmp, 6UL << XA_CHUNK_SHIFT, GFP_KERNEL);
++	xa_store_index(&tmp, 7UL << XA_CHUNK_SHIFT, GFP_KERNEL);
++	xa_erase_index(&tmp, 5UL << XA_CHUNK_SHIFT);
++	xa_erase_index(&tmp, 6UL << XA_CHUNK_SHIFT);
++	rcu_barrier();
 +
-+	/* First compute the number of clusters to be allocated */
-+	mm_bytes = new_size - ondisksize;
-+	nr_cluster = (mm_bytes + (sbi->cluster_size - 1)) >>
-+		     sbi->cluster_bits;
++	/* A root created by xas_create() must have offset 0 */
++	XA_BUG_ON(xa, xa_store_index(xa, 1, GFP_KERNEL));
++	rcu_read_lock();
++	node = xa_to_node(xa_head(xa));
++	XA_BUG_ON(xa, node->offset != 0);
++	rcu_read_unlock();
 +
-+	/* Allocate the clusters. We are not zeroing them out */
-+	return fat_add_clusters(inode, nr_cluster);
++	/* And so must a root created by xas_expand() */
++	XA_BUG_ON(xa, xa_store_index(xa, XA_CHUNK_SIZE, GFP_KERNEL));
++	rcu_read_lock();
++	node = xa_to_node(xa_head(xa));
++	XA_BUG_ON(xa, node->offset != 0);
++	rcu_read_unlock();
++
++	xa_destroy(xa);
++	xa_destroy(&tmp);
 +}
 +
-+static int fat_cont_expand_simple(struct inode *inode, loff_t size)
-+{
-+	struct address_space *mapping = inode->i_mapping;
-+	const struct address_space_operations *aops = mapping->a_ops;
-+	struct folio *folio;
-+	void *fsdata = NULL;
-+	int err;
-+
-+	err = aops->write_begin(NULL, mapping, size, 0, &folio, &fsdata);
-+	if (err)
-+		goto out;
-+
-+	err = aops->write_end(NULL, mapping, size, 0, 0, folio, fsdata);
-+
-+out:
-+	return err;
-+}
-+
- static int fat_cont_expand(struct inode *inode, loff_t size)
+ static noinline void check_insert(struct xarray *xa)
  {
- 	struct address_space *mapping = inode->i_mapping;
- 	loff_t start = inode->i_size, count = size - inode->i_size;
- 	int err;
- 
--	err = generic_cont_expand_simple(inode, size);
-+	/*
-+	 * Preallocating space here is more efficient than during
-+	 * fat_cont_expand_simple() because of batching.
-+	 */
-+	err = inode_newsize_ok(inode, size);
-+	if (err)
-+		goto out;
-+	err = fat_preallocate(inode, size);
-+	if (err)
-+		goto out;
-+	err = fat_cont_expand_simple(inode, size);
- 	if (err)
- 		goto out;
- 
-@@ -263,12 +312,7 @@ static int fat_cont_expand(struct inode *inode, loff_t size)
- static long fat_fallocate(struct file *file, int mode,
- 			  loff_t offset, loff_t len)
- {
--	int nr_cluster; /* Number of clusters to be allocated */
--	loff_t mm_bytes; /* Number of bytes to be allocated for file */
--	loff_t ondisksize; /* block aligned on-disk size in bytes*/
- 	struct inode *inode = file->f_mapping->host;
--	struct super_block *sb = inode->i_sb;
--	struct msdos_sb_info *sbi = MSDOS_SB(sb);
- 	int err = 0;
- 
- 	/* No support for hole punch or other fallocate flags. */
-@@ -281,19 +325,7 @@ static long fat_fallocate(struct file *file, int mode,
- 
- 	inode_lock(inode);
- 	if (mode & FALLOC_FL_KEEP_SIZE) {
--		ondisksize = inode->i_blocks << 9;
--		if ((offset + len) <= ondisksize)
--			goto error;
--
--		/* First compute the number of clusters to be allocated */
--		mm_bytes = offset + len - ondisksize;
--		nr_cluster = (mm_bytes + (sbi->cluster_size - 1)) >>
--			sbi->cluster_bits;
--
--		/* Allocate the clusters. We are not zeroing them out */
--		err = fat_add_clusters(inode, nr_cluster);
--		if (err)
--			goto error;
-+		err = fat_preallocate(inode, offset + len);
- 	} else {
- 		if ((offset + len) <= i_size_read(inode))
- 			goto error;
+ 	unsigned long i;
+@@ -2235,6 +2267,7 @@ static int xarray_checks(void)
+ 	check_xa_load(&array);
+ 	check_xa_mark(&array);
+ 	check_xa_shrink(&array);
++	check_xa_root_offset(&array);
+ 	check_xas_erase(&array);
+ 	check_insert(&array);
+ 	check_cmpxchg(&array);
+diff --git a/lib/xarray.c b/lib/xarray.c
+index bfe7bef80f34e..1e2380e3194d6 100644
+--- a/lib/xarray.c
++++ b/lib/xarray.c
+@@ -387,6 +387,8 @@ static void *xas_alloc(struct xa_state *xas, unsigned int shift)
+ 		parent->count++;
+ 		XA_NODE_BUG_ON(node, parent->count > XA_CHUNK_SIZE);
+ 		xas_update(xas, parent);
++	} else {
++		node->offset = 0;
+ 	}
+ 	XA_NODE_BUG_ON(node, shift > BITS_PER_LONG);
+ 	XA_NODE_BUG_ON(node, !list_empty(&node->private_list));
+@@ -616,10 +618,8 @@ static int xas_expand(struct xa_state *xas, void *head)
+ 		 * Now that the new node is fully initialised, we can add
+ 		 * it to the tree
+ 		 */
+-		if (xa_is_node(head)) {
+-			xa_to_node(head)->offset = 0;
++		if (xa_is_node(head))
+ 			rcu_assign_pointer(xa_to_node(head)->parent, node);
+-		}
+ 		head = xa_mk_node(node);
+ 		rcu_assign_pointer(xa->xa_head, head);
+ 		xas_update(xas, node);
+
+base-commit: 26344c0dd32af8790d8474d233619db825441138
 -- 
-2.43.0
+2.53.0
 
