@@ -1,62 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.186
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792877669;
-	b=pupT/ZygpM7NpTL0FHLAkQcWdpbisKoH1eWNsNahTwjUUjHFVkBdp3h/+7HxKQ1oBd7I
-	 IPHAEKppWWadiwitNIRQTmValtgAoXfkvjmp5qmqFROjlqg1TwGCAphpoCfCzbwKtnvZU
-	 5PMiIQvVDLwr06kL4YNdpqD96pMpjxSaQEkmNKSG8X1AI4JiMZQ2bD2ejAuvPekzfbOmW
-	 tgAdz8iV5Io1SgTsu1lFCHvzmqqQYmuMUxQ6DYM9X1BPi+m0GH3rS2ExvWjipIel0Cy8u
-	 KLmVPQxXkvjIOMR1xqNtVdLrQ6+b15SEy8znGu+E0zMzfBjnwq0hnB6jUKePx3JP/PA==
+	t=1792877666;
+	b=5srSfg2yRYlYXDu32YTO3pA0KfynN7dCPpjHDFsGmCYfJ+aFnSmQUNRStJYmIfcJJT3X
+	 GFLw4yET7+ChH8ACowwzI/psbtfplJwOs2chSB1vGKM3/SFn5qtijmqMLQiTDIV5InbcQ
+	 /33++rpGi0J3QsAp7f1qNn6xhXPXj1bT1+bkediwGe7hMBvV+xGJ6k/ArqW13qK40D+Dv
+	 J+CPLPtyCxietwbe+PEgCSDYQmWIa8jrsnvNCqGFOrhcn92jpR8lFqdd8NY1NbxBkheCl
+	 YVTc2IJgMcE5lbJ9umxdRWrWqIx3THIhmQwXTrNRv3rihYyy0FiLV2P658HjzEbdB9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792877669;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792877666;
 	h=DMARC-Filter:X-KPN-MessageId:Received:DKIM-Signature:X-KPN-MID:
 	 X-KPN-VerifiedSender:X-CMASSUN:X-Originating-IP:Received:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=4rq6SNd3qgJAF7LHCk9l0O7pVqpDieM+QwGPe5DTXZw=;
-	b=DRcLL1S3JwSZlkXMrarjMdKre6qu2zXHIxhlMKkayaz+t1il0wPosU3aQas5zisosqpP
-	 uvO3yqegaC7f1MLDKc5og/kTTbGkVqj5BKHydbQNUbjX3yum00RC0ED3f/vRSZf6xWLhA
-	 n2cViGNa1C+Nx1Ggdc7omu71ub6lcqRkRzjlbV6ZcFE+BfsQ2/KofywC0PR9NxOjc9ntq
-	 xdcZNoRSj0XMAuRkwCA5HuaCfY8omEAHCltpZ3eqXzUAPTioAjk0tuA9EzeXiSB6oCZ9Z
-	 uNquZwyziXnck77OsH1ffRAetNr8xObiKG+P4mF7URmvyNwUduILUNdI9hjX+L0m6CQ==
+	bh=n1ASQiBeiy0/TyX2PUTRONzaubde+XGUSDZ7NVCzFF0=;
+	b=w5auEvTjac4PtGZ1m/qBl0ct2ITlGmwhm3ARAUBHhX9nsKTS9ahYz7UR44HYd3hUTS1P
+	 I0tHk5jh7qC4ACL86nHvZUZOSmVbbG9K/+GuByzOrVILOMhibyPgDgei5cyqG8RmkGm3V
+	 s11IN8CF3eZKLJcmBHq38/YVBYRMjcVIdFPtWfxU96Vb+27P543jM/c3eZKEYb+QWZXmS
+	 TDrJgZpnfR2RsSJZsMg4oCzqPmYFGfQjPldYJVvJT/5CUnyVD9Ii0W57JwOFCGn3+Z03w
+	 4QTO1wVNrhCQIAg14cH4EjV0K5z0OKIgHT1l3Ijimo8HbxP6rsSYMGzvdLFe2T/lAnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=xs4all.nl;
 	spf=pass smtp.mailfrom=xs4all.nl;
-	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=DyHGawhM;
-	arc=none smtp.remote-ip=195.121.94.185
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=rQZIPvvg;
+	arc=none smtp.remote-ip=195.121.94.186
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C81606A31E
-	for <linux-fsdevel@vger.kernel.org>; Sat, 24 Oct 2026 21:34:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24C81606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B6D606A31A
+	for <linux-fsdevel@vger.kernel.org>; Sat, 24 Oct 2026 21:34:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A5B6D606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=DyHGawhM
-X-KPN-MessageId: aa069e97-cff2-11f1-9136-005056999439
+	dkim=pass (2048-bit key, unprotected) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=rQZIPvvg
+X-KPN-MessageId: a7bf5de5-cff2-11f1-87e5-00505699b430
 Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id aa069e97-cff2-11f1-9136-005056999439;
-	Sat, 24 Oct 2026 23:34:16 +0200 (CEST)
+	id a7bf5de5-cff2-11f1-87e5-00505699b430;
+	Sat, 24 Oct 2026 23:34:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=4rq6SNd3qgJAF7LHCk9l0O7pVqpDieM+QwGPe5DTXZw=;
-	b=DyHGawhMsxSOFSDzydXxUzU8ujN3tgJkKAKuAKnj0t5GXcyZ/AQRiQ6y2AQLV5Ahr/Fe7SpxeQjae
-	 igIB1N60WyjTHwwZ3v7zPLtcGwkQbh7WoxrENzb9DzxG+CW1QZzwkQXPPRhuN719qj4D7diwj+prYn
-	 BYHzwgB2Pz64oqcYX7VO1GjjAx1LEUELgIYLOwf7eiyB0XcGSEUpudAUvnMd7CxnLJERnpErTeDtvF
-	 WQjH0kELGQlZRT0KAFOOJW/L3idshFzqRUrWfHby+Q2Wu5NM58IiDiJppggD+q+OKB81i1RpaNo5Co
-	 /XqORKZtTXFFUc0+ZSvaLEPUDEUNhPQ==
-X-KPN-MID: 33|YdICPgyF075u80d9SmzFn2/DvwaVx1dTlFexsJA0fjVv7RVZjDu9PFx7EqD66G5
- ezgS1qFlZ8ngxtmvj8k/X6XhKAYXZExckAJ1yp5r224Y=
+	bh=n1ASQiBeiy0/TyX2PUTRONzaubde+XGUSDZ7NVCzFF0=;
+	b=rQZIPvvgGv5Hd40M/LiJG05ClYIJ9E+YEjEiSyyCvljBCHxbFdTp6T+oeJUwC4yAbkWl9+5veIXXI
+	 ZP2oICbEEmUoVJWrBubX3Aj/2nt0RZ3popclFP7ndKCxhm4g/ok/CLbanFTs/IiAl52sh9kIQB9ota
+	 lQrrrndIWy9pqMAEImLUQmBQav9s/1j1FmZnS49GvNDx7jL1tK0lTqypXto1JYc7IRUPFBgztl/i+/
+	 TREW1YH9gpiYbgnaUYdLvwZNgFvdIr6fduE5U2V5m4TE9cFZ8qSYgRHpUWyLSEJBpHp3cf/SJnwtk1
+	 1Q6Klc3E8K5mBF2Tyhxc22zBwxT8zWQ==
+X-KPN-MID: 33|+seAJrZKYOGAuJwvNZgVn6VSv8P0b70NKE6F/nBIriyooeJUbjJmtSpQTDWy+uc
+ XILOvq1+cvxNRTTQd6HmW2QiE7pm4u1F4cEML8kRPjc8=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|gj2cmCZew2x5bTEp/moicMlZGw5ATxqWXOek1ANYA8bNTgcDIXHosRK4uJPtePH
- Xkm/M4yP/1uoetxM/lwRvBA==
+X-CMASSUN: 33|gBnN1WpvIeOeLouyCwebPLkswTPD0UntvZ0iDkx82YwntRwhqSMn4Ap0/F3SYs5
+ qjjZlo7xzNLA/f5KBWuH61w==
 Received: from daedalus.home (unknown [178.227.247.81])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id a9cb24ec-cff2-11f1-8686-00505699b758;
-	Sat, 24 Oct 2026 23:34:16 +0200 (CEST)
+	id a50dd341-cff2-11f1-8686-00505699b758;
+	Sat, 24 Oct 2026 23:34:12 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: viro@zeniv.linux.org.uk,
 	brauner@kernel.org
@@ -71,12 +71,10 @@ Cc: jack@suse.cz,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH v8 01/12] fs/namei.c: use trailing_slashes()
-Date: Sat, 24 Oct 2026 23:35:28 +0200
-Message-ID: <20261024213539.1307600-2-jkoolstra@xs4all.nl>
+Subject: [PATCH v8 00/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Date: Sat, 24 Oct 2026 23:35:27 +0200
+Message-ID: <20261024213539.1307600-1-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261024213539.1307600-1-jkoolstra@xs4all.nl>
-References: <20261024213539.1307600-1-jkoolstra@xs4all.nl>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -88,105 +86,141 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are several places in fs/namei.c that can use the
-trailing_slashes() function to improve context. To allow this broader
-use its signature is changed to take a struct qstr instead of a struct
-nameidata.
+This series implements new semantics for the O_CREAT|O_DIRECTORY flag
+combination for open*(2): perform a mkdir and open the resulting
+directory; return a pinning fd (which mkdir does not).
 
-Reviewed-by: NeilBrown <neil@brown.name>
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
----
- fs/namei.c | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+The v6 was found by Brauner to contain a bug because ->mkdir
+implementations may leave the dentry negative, and do_open() cannot deal
+with that (NULL pointer deref.) This behavior occurs in kernfs and
+tracefs at least. Since atomic mkdir is wanted for cgroupfs (as per
+Brauner at LPC26), kernfs is changed to return the new kernfs_node from
+the kernfs_syscall_ops ->mkdir() callbacks and splicing its inode.
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 22c4f328b8a9..b90263a07e4e 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -2781,9 +2781,16 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
- 	return s;
- }
- 
-+static inline bool trailing_slashes(const struct qstr *last)
-+{
-+	/* last->len is set by hash_name() to the length of the current
-+	 * component ->name, terminating with '/' or a NUL character. */
-+	return (bool)last->name[last->len];
-+}
-+
- static inline const char *lookup_last(struct nameidata *nd)
- {
--	if (nd->last_type == LAST_NORM && nd->last.name[nd->last.len])
-+	if (nd->last_type == LAST_NORM && trailing_slashes(&nd->last))
- 		nd->flags |= LOOKUP_FOLLOW | LOOKUP_DIRECTORY;
- 
- 	return walk_component(nd, WALK_TRAILING);
-@@ -4697,17 +4704,12 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
- }
- EXPORT_SYMBOL_FOR_MODULES(vfs_lookup_open, "nfsd");
- 
--static inline bool trailing_slashes(struct nameidata *nd)
--{
--	return (bool)nd->last.name[nd->last.len];
--}
--
- static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_flag)
- {
- 	struct dentry *dentry;
- 
- 	if (open_flag & O_CREAT) {
--		if (trailing_slashes(nd))
-+		if (trailing_slashes(&nd->last))
- 			return ERR_PTR(-EISDIR);
- 
- 		/* Don't bother on an O_EXCL create */
-@@ -4715,7 +4717,7 @@ static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_flag)
- 			return NULL;
- 	}
- 
--	if (trailing_slashes(nd))
-+	if (trailing_slashes(&nd->last))
- 		nd->flags |= LOOKUP_FOLLOW | LOOKUP_DIRECTORY;
- 
- 	dentry = lookup_fast(nd);
-@@ -5097,7 +5099,7 @@ static struct dentry *filename_create(int dfd, struct filename *name,
- 	 * Do the final lookup.  Suppress 'create' if there is a trailing
- 	 * '/', and a directory wasn't requested.
- 	 */
--	if (last.name[last.len] && !want_dir)
-+	if (trailing_slashes(&last) && !want_dir)
- 		create_flags &= ~LOOKUP_CREATE;
- 	dentry = start_dirop(path->dentry, &last, reval_flag | create_flags);
- 	if (IS_ERR(dentry))
-@@ -5713,7 +5715,7 @@ int filename_unlinkat(int dfd, struct filename *name)
- 		goto exit_drop_write;
- 
- 	/* Why not before? Because we want correct error value */
--	if (unlikely(last.name[last.len])) {
-+	if (unlikely(trailing_slashes(&last))) {
- 		if (d_is_dir(dentry))
- 			error = -EISDIR;
- 		else
-@@ -6315,16 +6317,16 @@ int filename_renameat2(int olddfd, struct filename *from,
- 	if (flags & RENAME_EXCHANGE) {
- 		if (!d_is_dir(rd.new_dentry)) {
- 			error = -ENOTDIR;
--			if (new_last.name[new_last.len])
-+			if (trailing_slashes(&new_last))
- 				goto exit_unlock;
- 		}
- 	}
- 	/* unless the source is a directory trailing slashes give -ENOTDIR */
- 	if (!d_is_dir(rd.old_dentry)) {
- 		error = -ENOTDIR;
--		if (old_last.name[old_last.len])
-+		if (trailing_slashes(&old_last))
- 			goto exit_unlock;
--		if (!(flags & RENAME_EXCHANGE) && new_last.name[new_last.len])
-+		if (!(flags & RENAME_EXCHANGE) && trailing_slashes(&new_last))
- 			goto exit_unlock;
- 	}
- 
+Filesystems that do not support O_CREAT|O_DIRECTORY set
+SB_I_NO_ATOMIC_MKDIR, and lookup_open() refuses the open with EOPNOTSUPP
+for them before doing any lookup. These are all ->atomic_open()
+filesystems, which cannot create directories without protocol
+extensions, and tracefs, whose ->mkdir() drops the parent's i_rwsem so
+that the directory at the name may not be the one created by the call
+(or at least it has to be verified that this plays well with the
+atomicity guarantee that O_CREAT|O_DIRECTORY attempts to provide.) For
+ecryptfs and apparmorfs there are similar concerns and hence they are
+also blocked for now.
+
+Most of the work happens in "vfs: add O_CREAT|O_DIRECTORY to open*(2),"
+as may be expected. Before that there is some clean-up work and
+preparation. The "vfs: short-circuit MAY_WRITE access for O_DIRECTORY
+opens" patch is also worth paying extra attention to as it
+short-circuits doomed opening of directories as writable. This check (to
+prevent one from opening directories as writable) is currently done very
+late in do_open(), after an inode has been obtained. However, when
+introducing O_CREAT|O_DIRECTORY this is unacceptable as it would create
+the directory and then still fail. This patch does however change some
+user visible error codes.
+
+Moreover, "vfs: change ->create/->mkdir operations unavailable errno"
+also changes the ->create and ->mkdir unavailable errnos to -EOPNOTSUPP.
+A previous attempt to do this more widely stranded before.[1] However,
+that regression was only for vfat and does seem specific to changing the
+return code from vfs_symlink(). We can drop this patch if needed, but it
+would be _really_ ugly.
+
+Changes from vn to v(n+1):
+v7: https://lore.kernel.org/linux-fsdevel/20261016143806.2946578-1-jkoolstra@xs4all.nl/
+   - Rebased on Neil's shared lookup changes to lookup_open()
+   - Fix implementation of kernfs_get_inode_prealloc() after
+     discussion with Shakeel Butt.[2] The new kernfs_get_inode_locked()
+     takes the kernfs_rwsem for reading, so that __kernfs_remove()
+     always finds the inode to clear its i_nlink. The @lookup argument
+     is added so that their patch can use the same function.
+v6: https://lore.kernel.org/linux-fsdevel/20260913185016.523376-1-jkoolstra@xs4all.nl/
+   - Change kernfs to instantiate ->mkdir dentry.
+   - Fix kernfs locking when initializing a new inode to hold
+     kernfs_iattr_rwsem.
+   - Add flag SB_I_NO_ATOMIC_MKDIR to disable O_CREAT|O_DIRECTORY on
+     unsupported filesystems (instead of only looking at ->atomic_open.)
+   - Add tests to verify behavior of O_CREAT|O_DIRECTORY on cgroupfs and
+     tracefs.
+v5: https://lore.kernel.org/linux-fsdevel/20260823160706.358293-1-jkoolstra@xs4all.nl/
+   - Uniformize ->create and ->mkdir unavailable errnos to -EOPNOTSUPP.
+   - Return -EOPNOTSUPP instead of -ENOENT when O_CREAT|O_DIRECTORY is
+     not supported by a ->atomic_open filesystem.
+   - Added test cases for dangling symlink and sticky directory
+     behaviour, and a test that verifies O_TMPFILE|O_CREAT is still
+     -EINVAL.
+   - Split off "vfs: lookup_open(): lock the parent as I_MUTEX_PARENT"
+     as a separate patch.
+   - Fixed the issues pointed out by Brauner in v5.
+v4: https://lore.kernel.org/linux-fsdevel/20260712175539.1565444-1-jkoolstra@xs4all.nl/
+   - rebased on 7.2, which includes my changes to auditing in
+     lookup_open() as well as Neil Brown's changes to the same function
+     for the implementation of vfs_lookup_open().
+v3: https://lore.kernel.org/linux-fsdevel/20260704164149.3480051-1-jkoolstra@xs4all.nl/
+   - address the inconsistency in calling audit_inode_child() in
+     lookup_open() versus vfs_create() in a separate series.
+   - fclog.c selftest header fix moved to separate patch.
+   - add a "with trailing slash test" success test to the included
+     selftests. 
+   - pass struct qstr by pointer to trailing_slashes() and add a comment
+     on what it does
+   - changed commit message of "vfs: add O_CREAT|O_DIRECTORY to
+     open*(2)" to address comments of Brauner
+
+[1]: https://lore.kernel.org/linux-fsdevel/90228c39-04e7-41ef-ad91-84a8bb866650@sirena.org.uk/
+[2]: https://lore.kernel.org/linux-fsdevel/20261016220029.3276154-1-shakeel.butt@linux.dev/
+
+
+
+Jori Koolstra (12):
+  fs/namei.c: use trailing_slashes()
+  vfs: prepare vfs_creat|mkdir_no_perm for reuse in lookup_open()
+  vfs: lookup_open(): move setting FMODE_CREATED down
+  vfs: move ->create check in lookup_open() to before try_break_deleg()
+  vfs: lookup_open(): use vfs_create_no_perm()
+  vfs: lookup_open(): lock the parent as I_MUTEX_PARENT
+  vfs: short-circuit MAY_WRITE access for O_DIRECTORY opens
+  kernfs: hold kernfs_iattr_rwsem when initializing a new inode
+  vfs: add O_CREAT|O_DIRECTORY to open*(2)
+  vfs: use finish_lookup() helper in __lookup_slow() and lookup_open()
+  vfs: change ->create/->mkdir operations unavailable errno
+  selftest: add tests for open*(O_CREAT|O_DIRECTORY)
+
+ arch/alpha/include/uapi/asm/errno.h           |   2 +-
+ arch/mips/include/uapi/asm/errno.h            |   2 +-
+ arch/parisc/include/uapi/asm/errno.h          |   2 +-
+ arch/sparc/include/uapi/asm/errno.h           |   2 +-
+ fs/9p/vfs_super.c                             |   1 +
+ fs/ceph/super.c                               |   1 +
+ fs/ecryptfs/main.c                            |   1 +
+ fs/fuse/inode.c                               |   1 +
+ fs/gfs2/ops_fstype.c                          |   1 +
+ fs/kernfs/dir.c                               |  38 +-
+ fs/kernfs/inode.c                             |  60 ++-
+ fs/kernfs/kernfs-internal.h                   |   4 +
+ fs/namei.c                                    | 278 +++++++++-----
+ fs/nfs/super.c                                |   1 +
+ fs/open.c                                     |  42 ++-
+ fs/resctrl/rdtgroup.c                         |  35 +-
+ fs/smb/client/cifsfs.c                        |   1 +
+ fs/tracefs/inode.c                            |   1 +
+ fs/vboxsf/super.c                             |   1 +
+ include/linux/fcntl.h                         |   6 +
+ include/linux/fs/super_types.h                |   1 +
+ include/linux/kernfs.h                        |   7 +-
+ include/uapi/asm-generic/errno.h              |   2 +-
+ kernel/cgroup/cgroup-internal.h               |   3 +-
+ kernel/cgroup/cgroup.c                        |  16 +-
+ security/apparmor/apparmorfs.c                |   1 +
+ .../testing/selftests/filesystems/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/Makefile  |   2 +-
+ .../filesystems/open_o_creat_o_dir.c          | 346 ++++++++++++++++++
+ .../testing/selftests/filesystems/wrappers.h  |  11 +
+ 30 files changed, 724 insertions(+), 146 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/open_o_creat_o_dir.c
+
+
+base-commit: 5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f
 -- 
 2.56.0
 
