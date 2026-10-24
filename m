@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792838326;
-	b=PzKyPkqeum4/JHp1S8HjArowg6MTeq3mpS5cX1GF/QQGfNDbCWxi2g+brxBa+vGcQynW
-	 eiS9VQmadgTPi+lDdnOIGHKEA6cCrOe1VVYU4W07YxM2psEdojA9XWJR3TcOBi/6Nrjvp
-	 ahZbCoULWhITPU84do/aeCZnBhD9odesz9l2WIbgeyuN6Rnr154kQ/yyVoMiOHLvk9xQz
-	 Pm6rPQ7ijEfIUdQxEmMW7wUpjHdJ5SK3HzGneLwPo4UCW2SXR2YiJr4CU60JyK8J410Vp
-	 4T2eGPscW6O6gzobwVEJEO8A6RO7mc4S9SsQTP69o97cQnKOLmZKwaFDK+xNEo4DhDg==
+	t=1792838339;
+	b=Ckgilsuxxg8z5n7i2VM4DosjfLG5etjCYfml2o1n36PYwvTPvNFgIq4b/xxhwSRVWzh3
+	 ERxqJPysMxa8I6UbcPFU3gUtqW2Tn5ru+zqJu2UJLA3hPmiN6jlQItD1xDxR+NLVtneCR
+	 /51IzqXggihwyGNXbYQv2+Cep2iC0D8Skgo6+YBp8tigmoqb0L+Dm3Ac+DW4bDwalBsaN
+	 gquj7skGI5LujIItGCJ5yDLzHdIhmlDvaf9XAuCUfeMpLkZL3IqCuJUmrmu5JAiX1ZFuq
+	 hysBiW9VgTNRGdzR6oxs5ZhSgeI+xgIFOsoOIxsApMFFqsnAiTymf4JC1gpWauUqjjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792838326;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792838339;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=yWwT+kP05w2NBKJwPtdQDFBE6/jAoeiFgQsCR3SGh/Q=;
-	b=Q0tNLidZVUBc9A8S2GMLuLwEbd1gSWjIHHM+gm0iPJ0OahBphxuQ29YpM0G4QhQ/ez7d
-	 dx8KF51iDfBhxfBJx6uYLRnAuw/gJYTGPAiOZmaPfYr+CPS9AE3rllUFv7cP/87EioiZI
-	 GqRR6NZP8t8a0HQD9MXyKiJ9lz/aA24QAhAENuwN9l0ZEFZQbSzAqnVnd6HxtIFuHX9zN
-	 TMMaysAvQrpoZBtYEx6VSg9KqXt/H9pASmYWpz2te4iOqS5tZiPeAeKaHp2BoRfvyNxot
-	 t2pTPXlU9nXM87wpjMT1gZ7n1k5uMsc8SHRdl4Fl73jvaJ5QTJ3/qHq56vGJJSnX2Fw==
+	bh=aKsV5UoY36/Ov6bUxmA2+A8FEK5UCURxr90KKYuXoE4=;
+	b=lmsjBKZ7S9qkvQyAyugyC4K+qjT3HlG3b8AQ+cV6slzy1vyK786yzBTcbiapqZ/s1iA8
+	 u8bDSHBOdP+YU2s+fWzQ0pOAhVwaaF+2g8bHbNw52q9MOnN7zqaCZkxwcSPDQN1XlXn9E
+	 OMBaxKH4OvRUW7GQfoInulClHWhwyeUPIzQ8tQYYUq6WTmTKJAVLU9RfACxOaXcHd5wG2
+	 jeEtijeGYql5r6zIJLKzhpdDU2KE7nDF+cD8T88cRFKn3DeWIs04XfodPwaHJVg8PP2bd
+	 1Swef8DNESCl5W2KIm3dweiClQCcvJMsmvWe3QGAHrwmu0xxMwwp2H92Ro56m5rXGtQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MpKWtfHY;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hRw1b7eb;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC13606A31D;
-	Sat, 24 Oct 2026 10:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA1F606A321;
+	Sat, 24 Oct 2026 10:38:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MpKWtfHY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA0B11F01829;
-	Sat, 24 Oct 2026 10:38:43 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hRw1b7eb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA4AD1F01825;
+	Sat, 24 Oct 2026 10:38:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792838325;
-	bh=yWwT+kP05w2NBKJwPtdQDFBE6/jAoeiFgQsCR3SGh/Q=;
+	s=k20260515; t=1792838338;
+	bh=aKsV5UoY36/Ov6bUxmA2+A8FEK5UCURxr90KKYuXoE4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=MpKWtfHYawCai2OgwdZgrBkDMmO61mHxOZ7xqChZbDTl8Fzsu38yv6kveM41//Wiy
-	 XQPCLAPjWP4s4YKl1Iw4Vv8MPMdHYWUlQLb9rAEkarvHRHRBxnsiBdnyofnT7Y5RqG
-	 XVouVVAYmZd7sOOAka3A8f1+8JN3yVVgZngM5XoXEynKGpPnN+ckgoqYebx7qeaoW6
-	 5m2JWx/k4+QyELVfEE81xAP/FJz7x48qjiM7JsJqORx0XDjV3zFxaxqc/DhTDEZtyU
-	 xgJMcHdmdpDeXg1raJXM/uHL5TzlsY32ZQP16WQ3orNY+w0HapwPuhW+18NrxNBvBW
-	 r8RYQzXLfY0JA==
+	b=hRw1b7eb48fPA8C51wMXs1/N1OO76hZTW5G7uGebxIKlpdR6V2WoSIuMKAeUg/Q2L
+	 da4w/4o/mXjvNudKnp/QYW7e4CPnj6BCs7vF2gh05TD6vrTiuuF1/UfB9Cih+OcVIS
+	 H24qGhT/WmYay+x+WQ0zaHhpWXjK8c99UhXaV/dsNbCRePSBzHEVlSoIMWhEh9iU0L
+	 NkhoXf2DsoNbfGg9/3DwbiFzJDcOGYTw3gplNHuGrq5mh6+rPVf/cfFpfy7LVs1Rnf
+	 YH3ShZj+guJZlDBJvB2mXpjcUAVVhu5KpCdfu1so3u7StPmasHzPU4Mluz0A7NYoKj
+	 p1c/6D1FQ9n0Q==
 From: Christian Brauner <brauner@kernel.org>
-Date: Sat, 24 Oct 2026 12:38:27 +0200
-Subject: [PATCH 1/7] proc: don't let an entry below /proc/<pid>/net be a
- mountpoint
+Date: Sat, 24 Oct 2026 12:38:33 +0200
+Subject: [PATCH 7/7] selftests/proc: test which entries can't be
+ mountpoints
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,256 +55,219 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261024-work-procfs-fixes-v1-1-46b03c3a8fac@kernel.org>
+Message-Id: <20261024-work-procfs-fixes-v1-7-46b03c3a8fac@kernel.org>
 References: <20261024-work-procfs-fixes-v1-0-46b03c3a8fac@kernel.org>
 In-Reply-To: <20261024-work-procfs-fixes-v1-0-46b03c3a8fac@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org, 
  Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  Aleksa Sarai <cyphar@cyphar.com>, Chris Mason <mason@kernel.org>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7492; i=brauner@kernel.org;
- h=from:subject:message-id; bh=e+uwrBNgPx9bcNUPhir+thevzEAZ1nCjrVmGPoEc4hA=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTd6Vq303DNatNZTatcyyMv+xtPZfO+OmX9+tOpUx7Md
- rU/ybShp6OUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi77UZ/iceE9PqbTSZ/5x1
- yeGXO6K0Ga3rdF+9vnt/bcnEzsD7d/4z/M9yPXIuhcticV3U6vfhLVN/WehO3hHXIbP/kZTQP+n
- Ss0wA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5560; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=cRXTA+r+4IRbQumKHnKzi0P+onITLsuXyi/JuGCYSGk=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTd6Vr/+mCUtFNNWfqsywtXVT7b3HrQyNwukf3JriN+3
+ 77c7j7A0FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjAR2+mMDHu2SxuEck9M+qwz
+ +3bGDR+HmuR1BUwP/y5W9ZvhXjbbtJWR4UalsZbqDpEV+9+cv3d+Ztz6Nxov+zXWSAeunb2cS2i
+ NBAcA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-proc_net_d_revalidate() always returns 0 so that a dentry below
-/proc/<pid>/net is never reused after setns(). So lookup_fast() will end
-up calling d_invalidate(), which unhashes the dentry and detaches every
-mount on it, in every mount namespace; including locked mounts.
+Check that nothing can be mounted on:
 
-Then lookup_slow() creates a new dentry for the same entry. So a mount
-on /proc/<pid>/net/dev succeeds and goes away with the first lookup of
-the name by anybody with search permission on the directory. Given it's
-0555 that's everyone's grandma. A mask on such a name hides nothing as
-the repro below shows.
+- /proc/self, /proc/thread-self, /proc/mounts and /proc/net themselves
+- the entries below /proc/<pid>/net
+- the entries below /proc/<pid>/fd and /proc/<pid>/fdinfo
 
-Treat those entries like I did fd/, fdinfo/ and map_files/ and refuse to
-mount on them in the first place. It's nonsensical theater otherwise:
+Mounting through /proc/mounts still works and lands on the entry of the
+caller.
 
-  procnet net/dev stat
-
-  // SPDX-License-Identifier: GPL-2.0
-  /*
-   * procnet: cover an entry of /proc/<pid>/ with a bind mount, lock the mount,
-   * then look the name up.
-   *
-   * The first task stays alive, <pid> is its pid. The "container" task has its
-   * own mount namespace. There it binds a mask on /proc/<pid>/<name>. It drops to
-   * uid 1000 and enters a new user namespace with a new mount namespace, so that
-   * the mask is locked. Then one task looks the name up:
-   *
-   *   stat    the container calls stat() on the name
-   *   umount  the container calls umount2(MNT_DETACH) on the name
-   *   nobody  a task with uid 65534 in the first namespaces calls stat()
-   *
-   * The container lists its mounts before and after (that does not look the
-   * name up) and then reads the name. MASK is fine. Anything else means that
-   * the lookup uncovered the entry.
-   *
-   * usage: procnet <name> stat|umount|nobody
-   *   name "status" is the control, "net/dev" is a file below net, "net/stat" is
-   *   a directory below net
-   */
-  #define _GNU_SOURCE
-  #include <dirent.h>
-  #include <errno.h>
-  #include <fcntl.h>
-  #include <sched.h>
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <string.h>
-  #include <time.h>
-  #include <unistd.h>
-  #include <sys/mount.h>
-  #include <sys/prctl.h>
-  #include <sys/stat.h>
-  #include <sys/wait.h>
-
-  #define WORK "/run/pn"
-
-  static char target[128];
-
-  static void die(const char *what)
-  {
-  	fprintf(stderr, "FATAL %s: %s\n", what, strerror(errno));
-  	exit(2);
-  }
-
-  static void write_str(const char *path, const char *s, int flags)
-  {
-  	int fd = open(path, O_WRONLY | flags, 0644);
-
-  	if (fd < 0 || write(fd, s, strlen(s)) < 0)
-  		die(path);
-  	close(fd);
-  }
-
-  /* list the mounts below /proc without a lookup of the target */
-  static void mounts(const char *when)
-  {
-  	char line[512];
-  	FILE *f = fopen("/proc/self/mountinfo", "r");
-  	int n = 0;
-
-  	if (!f)
-  		die("mountinfo");
-  	while (fgets(line, sizeof(line), f)) {
-  		if (!strstr(line, " /proc/"))
-  			continue;
-  		printf("container: %s: mount: %s", when, line);
-  		n++;
-  	}
-  	fclose(f);
-  	if (!n)
-  		printf("container: %s: nothing is mounted below /proc\n", when);
-  }
-
-  static void show(const char *when, int isdir)
-  {
-  	char buf[48] = "";
-  	int fd;
-
-  	if (isdir) {
-  		struct dirent *de;
-  		DIR *d = opendir(target);
-  		int hit = 0;
-
-  		if (!d) {
-  			printf("container: %s: opendir(%s) = %s\n", when, target, strerror(errno));
-  			return;
-  		}
-  		printf("container: %s: readdir(%s) =", when, target);
-  		while ((de = readdir(d))) {
-  			if (de->d_name[0] == '.')
-  				continue;
-  			printf(" %s", de->d_name);
-  			hit |= strcmp(de->d_name, "MASK");
-  		}
-  		closedir(d);
-  		printf("%s\n", hit ? "   <-- HIT" : "");
-  		return;
-  	}
-  	fd = open(target, O_RDONLY);
-  	if (fd < 0) {
-  		printf("container: %s: open(%s) = %s\n", when, target, strerror(errno));
-  		return;
-  	}
-  	if (read(fd, buf, sizeof(buf) - 1) < 0)
-  		die("read");
-  	close(fd);
-  	if (strchr(buf, '\n'))
-  		*strchr(buf, '\n') = 0;
-  	printf("container: %s: read(%s) = \"%s\"%s\n", when, target, buf,
-  	       strncmp(buf, "MASK", 4) ? "   <-- HIT" : "");
-  }
-
-  int main(int argc, char **argv)
-  {
-  	const char *name = argc > 1 ? argv[1] : "net/dev";
-  	const char *op = argc > 2 ? argv[2] : "stat";
-  	int isdir = !strcmp(name, "net/stat");
-  	int to_host[2], to_cont[2];
-  	struct stat st;
-  	pid_t pid;
-  	char c;
-
-  	setvbuf(stdout, NULL, _IOLBF, 0);
-  	snprintf(target, sizeof(target), "/proc/%d/%s", getpid(), name);
-  	if (unshare(CLONE_NEWNS) || mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL))
-  		die("unshare");
-  	mkdir(WORK, 0755);
-  	if (mount("W", WORK, "tmpfs", 0, NULL))
-  		die("mount W");
-  	write_str(WORK "/mask", "MASK", O_CREAT);
-  	mkdir(WORK "/maskdir", 0755);
-  	write_str(WORK "/maskdir/MASK", "MASK", O_CREAT);
-  	if (pipe(to_host) || pipe(to_cont))
-  		die("pipe");
-
-  	pid = fork();
-  	if (pid < 0)
-  		die("fork");
-  	if (!pid) {
-  		if (unshare(CLONE_NEWNS))
-  			die("container unshare");
-  		if (mount(isdir ? WORK "/maskdir" : WORK "/mask", target, NULL, MS_BIND, NULL)) {
-  			printf("container: bind the mask on %s: %s\n", target, strerror(errno));
-  			exit(0);
-  		}
-  		printf("container: bind the mask on %s: ok\n", target);
-  		if (setgid(1000) || setuid(1000) || prctl(PR_SET_DUMPABLE, 1))
-  			die("setuid");
-  		/* lock the mount: a new user namespace with a copy of the tree */
-  		if (unshare(CLONE_NEWUSER | CLONE_NEWNS))
-  			die("container userns");
-  		write_str("/proc/self/setgroups", "deny", 0);
-  		write_str("/proc/self/uid_map", "0 1000 1", 0);
-  		write_str("/proc/self/gid_map", "0 1000 1", 0);
-  		mounts("before");
-  		errno = 0;
-  		if (!strcmp(op, "stat")) {
-  			stat(target, &st);
-  			printf("container: stat(%s): %s\n", target, strerror(errno));
-  		} else if (!strcmp(op, "umount")) {
-  			umount2(target, MNT_DETACH);
-  			printf("container: umount2(%s, MNT_DETACH): %s\n", target, strerror(errno));
-  		} else if (write(to_host[1], "g", 1) != 1 || read(to_cont[0], &c, 1) != 1) {
-  			die("sync");
-  		}
-  		mounts("after");
-  		show("after", isdir);
-  		exit(0);
-  	}
-  	close(to_host[1]);
-  	if (read(to_host[0], &c, 1) == 1) {
-  		pid_t p2 = fork();
-
-  		if (!p2) {
-  			if (setgid(65534) || setuid(65534))
-  				die("setuid");
-  			errno = 0;
-  			stat(target, &st);
-  			printf("nobody: uid %u: stat(%s): %s\n", getuid(), target, strerror(errno));
-  			exit(0);
-  		}
-  		waitpid(p2, NULL, 0);
-  		if (write(to_cont[1], "g", 1) != 1)
-  			die("sync");
-  	}
-  	waitpid(pid, NULL, 0);
-  	return 0;
-  }
-
-Fixes: 1fde6f21d90f ("proc: fix /proc/net/* after setns(2)")
-Cc: <stable@vger.kernel.org>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/proc/generic.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ tools/testing/selftests/proc/.gitignore         |   1 +
+ tools/testing/selftests/proc/Makefile           |   1 +
+ tools/testing/selftests/proc/proc-unmountable.c | 150 ++++++++++++++++++++++++
+ 3 files changed, 152 insertions(+)
 
-diff --git a/fs/proc/generic.c b/fs/proc/generic.c
-index 2b1971da4a85..4c3fcaf68ef4 100644
---- a/fs/proc/generic.c
-+++ b/fs/proc/generic.c
-@@ -256,9 +256,10 @@ struct dentry *proc_lookup_de(struct inode *dir, struct dentry *dentry,
- 		inode = proc_get_inode(dir->i_sb, de);
- 		if (!inode)
- 			return ERR_PTR(-ENOMEM);
-+		/* never reused and so never a mountpoint for long */
- 		if (de->flags & PROC_ENTRY_FORCE_LOOKUP)
--			return d_splice_alias_ops(inode, dentry,
--						  &proc_net_dentry_ops);
-+			return proc_splice_unmountable(inode, dentry,
-+						       &proc_net_dentry_ops);
- 		return d_splice_alias_ops(inode, dentry,
- 					  &proc_misc_dentry_ops);
- 	}
+diff --git a/tools/testing/selftests/proc/.gitignore b/tools/testing/selftests/proc/.gitignore
+index 9c9735570abf..1dd43799ec45 100644
+--- a/tools/testing/selftests/proc/.gitignore
++++ b/tools/testing/selftests/proc/.gitignore
+@@ -20,6 +20,7 @@
+ /proc-uptime-001
+ /proc-uptime-002
+ /proc-pidns
++/proc-unmountable
+ /read
+ /self
+ /setns-dcache
+diff --git a/tools/testing/selftests/proc/Makefile b/tools/testing/selftests/proc/Makefile
+index a7de2bb6d8be..49afe08daebe 100644
+--- a/tools/testing/selftests/proc/Makefile
++++ b/tools/testing/selftests/proc/Makefile
+@@ -30,5 +30,6 @@ TEST_GEN_PROGS += thread-self
+ TEST_GEN_PROGS += proc-multiple-procfs
+ TEST_GEN_PROGS += proc-fsconfig-hidepid
+ TEST_GEN_PROGS += proc-pidns
++TEST_GEN_PROGS += proc-unmountable
+ 
+ include ../lib.mk
+diff --git a/tools/testing/selftests/proc/proc-unmountable.c b/tools/testing/selftests/proc/proc-unmountable.c
+new file mode 100644
+index 000000000000..a1282927cfff
+--- /dev/null
++++ b/tools/testing/selftests/proc/proc-unmountable.c
+@@ -0,0 +1,150 @@
++// SPDX-License-Identifier: GPL-2.0
++/* The entries in /proc that can't be mountpoints. */
++
++#ifndef _GNU_SOURCE
++#define _GNU_SOURCE
++#endif
++#include <errno.h>
++#include <fcntl.h>
++#include <limits.h>
++#include <sched.h>
++#include <stdio.h>
++#include <sys/mount.h>
++#include <sys/stat.h>
++#include <sys/syscall.h>
++#include <unistd.h>
++
++#include "kselftest_harness.h"
++
++#ifndef OPEN_TREE_CLONE
++#define OPEN_TREE_CLONE 1
++#endif
++
++#ifndef MOVE_MOUNT_F_EMPTY_PATH
++#define MOVE_MOUNT_F_EMPTY_PATH 0x00000004
++#endif
++
++#ifndef MOVE_MOUNT_T_EMPTY_PATH
++#define MOVE_MOUNT_T_EMPTY_PATH 0x00000040
++#endif
++
++#ifndef __NR_open_tree
++#define __NR_open_tree 428
++#endif
++
++#ifndef __NR_move_mount
++#define __NR_move_mount 429
++#endif
++
++static int sys_open_tree(int dfd, const char *path, unsigned int flags)
++{
++	return syscall(__NR_open_tree, dfd, path, flags);
++}
++
++static int sys_move_mount(int from_dfd, const char *from_path, int to_dfd,
++			  const char *to_path, unsigned int flags)
++{
++	return syscall(__NR_move_mount, from_dfd, from_path, to_dfd, to_path,
++		       flags);
++}
++
++/* Mount a bind of /dev/null right on the object @fd refers to. */
++static int move_mount_null(int fd)
++{
++	int fd_tree, ret;
++
++	fd_tree = sys_open_tree(AT_FDCWD, "/dev/null", OPEN_TREE_CLONE);
++	if (fd_tree < 0)
++		return -1;
++	ret = sys_move_mount(fd_tree, "", fd, "",
++			     MOVE_MOUNT_F_EMPTY_PATH | MOVE_MOUNT_T_EMPTY_PATH);
++	close(fd_tree);
++	return ret;
++}
++
++FIXTURE(unmountable) {
++	char path[PATH_MAX];
++};
++
++FIXTURE_SETUP(unmountable)
++{
++	if (geteuid())
++		SKIP(return, "mounting needs root");
++
++	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
++	ASSERT_EQ(mount(NULL, "/", NULL, MS_PRIVATE | MS_REC, NULL), 0);
++}
++
++FIXTURE_TEARDOWN(unmountable)
++{
++}
++
++/* Nothing may be mounted on a link into /proc/self itself. */
++TEST_F(unmountable, self_links)
++{
++	static const char *const links[] = {
++		"/proc/self", "/proc/thread-self", "/proc/mounts", "/proc/net",
++	};
++
++	for (size_t i = 0; i < ARRAY_SIZE(links); i++) {
++		int fd;
++
++		fd = open(links[i], O_PATH | O_NOFOLLOW | O_CLOEXEC);
++		/* /proc/net needs CONFIG_NET */
++		if (fd < 0 && errno == ENOENT)
++			continue;
++		ASSERT_GE(fd, 0);
++		EXPECT_EQ(move_mount_null(fd), -1) {
++			TH_LOG("mounted on %s", links[i]);
++		}
++		EXPECT_EQ(errno, ENOENT);
++		close(fd);
++	}
++}
++
++/* Mounting through a link into /proc/self lands on the entry of the caller. */
++TEST_F(unmountable, through_links)
++{
++	struct stat st;
++
++	ASSERT_EQ(mount("/dev/null", "/proc/mounts", NULL, MS_BIND, NULL), 0);
++	/* the caller's /proc/<pid>/mounts is covered */
++	ASSERT_EQ(stat("/proc/self/mounts", &st), 0);
++	EXPECT_TRUE(S_ISCHR(st.st_mode));
++	/* the link itself is not */
++	ASSERT_EQ(lstat("/proc/mounts", &st), 0);
++	EXPECT_TRUE(S_ISLNK(st.st_mode));
++}
++
++/* The entries below /proc/<pid>/net take no mount. */
++TEST_F(unmountable, net_entries)
++{
++	if (access("/proc/self/net/dev", F_OK))
++		SKIP(return, "needs CONFIG_NET");
++
++	ASSERT_EQ(mount("/dev/null", "/proc/self/net/dev", NULL, MS_BIND, NULL), -1);
++	ASSERT_EQ(errno, ENOENT);
++}
++
++/* Neither do the entries below /proc/<pid>/fd and /proc/<pid>/fdinfo. */
++TEST_F(unmountable, fd_entries)
++{
++	int fd, fd_link;
++
++	fd = open("/dev/null", O_RDONLY | O_CLOEXEC);
++	ASSERT_GE(fd, 0);
++
++	snprintf(self->path, sizeof(self->path), "/proc/self/fd/%d", fd);
++	fd_link = open(self->path, O_PATH | O_NOFOLLOW | O_CLOEXEC);
++	ASSERT_GE(fd_link, 0);
++	EXPECT_EQ(move_mount_null(fd_link), -1);
++	EXPECT_EQ(errno, ENOENT);
++	close(fd_link);
++
++	snprintf(self->path, sizeof(self->path), "/proc/self/fdinfo/%d", fd);
++	EXPECT_EQ(mount("/dev/null", self->path, NULL, MS_BIND, NULL), -1);
++	EXPECT_EQ(errno, ENOENT);
++	close(fd);
++}
++
++TEST_HARNESS_MAIN
 
 -- 
 2.53.0
