@@ -1,78 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.25
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792861573;
-	b=ZGBatJIFVUxB/2gA1B9qAsjUTU5xEWmCS5fEy8s070JY/ilWmQQZq0lmuJ4BfDdkv184
-	 /cwPSEmfUt3blN25mSSdoiu2uyZpww27UGjGhtekWSmigNcry086N3BjwOjvfOVB3D68L
-	 bVeyuHoTfKcptZb2aUQN3EGedKbGi0fpyKPrMWzIzKPapGUTlvif3Lb2JbfSqDWZng4og
-	 k3XjUoA2vNAdHQo++dRCVlOJMgSDmxtA+zh9cwpnkSBnzTtweqM/SvadUy1cSQF5ppsp1
-	 Gp6xzG4DUKBfQ7vrjBtz5Wt+xJrpi7PnoacH+yA8UfNwfH9XpGZGCl53t/QRD7bJ99A==
+	t=1792862976;
+	b=4ysRzNni/MWt//UNapOJJ+xh0tTCisYlT3J9jGClaavB22edA3D3dOIBl7DtugMMNEFe
+	 nZm84tj89Wr5h+ROaVLTmvSIeBTBnoKK8COraQkDvIvWbl9IoQHRs9DIhqHJq8idNYAem
+	 OeB4KMVoQlPxrV9OyBxI4cBykxI876eSgDTidUpWSeA/npAwOzn797T/a1iRvuj1oGGX6
+	 OIUdLLBn2VBKKW46nemLzoBGv9iwIxLU5dykqugKQ4uBanyJJiVcrMt7z1kXiN4J/QwUn
+	 edfq3X13eTHd7ksy1yEfG2JQdAkNxpUVpLVWG1VF9pVCTlOncg1b7HyoIJpPi0iv/gQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792861573;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=VD0DJQifxWqmFqvxgKLhw5iI9/XvTtH/bBB6CwZQaeQ=;
-	b=g5kEZETL0SQ1h2QEJJ6I6OCj7KbOaXlT4KkflBM3b3I2FTFprIvQ3+4SScGR/VlSkYps
-	 /auol/wqc4kJ37a3hjF7JexSnQeV/V98ZA/GAsaowsfRjw2l9Fs2eDOOSqc3hDgiuMB8/
-	 SpO4bKt5MVA9+d1GFcJ2mbNPPxWLTQBbFGKOfJsY8xvuUiZTKFpB2x5aPKQ33qhIiFXIS
-	 YEEet9LW3rBWxluSuZ0OBMi8YIjtjEVHXlDKj8bewgc0y8aBBl5qP2hsiXJt2lVOInpsW
-	 jmdekpH4fZxmN5ShZfX3eFzs6ZBSgurojXkJ4b9MERmXRay3wODKMW4d0hT28/GwOZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792862976;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type;
+	bh=uSwBoXXR0278lCz88tFScOKYUs1WlmzxQUkqwc84UV4=;
+	b=oL5HLBFSpEPhL2GraRaxLHOWlJkB4GnV1VAENpH4SRX4d7+hxNTHst2tizczRRJ2Zpwd
+	 FwbomBTyhXKLNMLtaTKz+o5EwxQQKeqfNFlcTd9ji8F1vsQiJGm0u0A4K/DPonpT9uc7l
+	 TtbWIwYdeQSy9P3WVHGMrpZnv0oJuoTHD3VUaCbgq0OyMpkDs1fB5oaxLuHZmbDfLHhEg
+	 5QdN2FfMnVGHpboirNaVqEVzTBSUv4yRy5bh92rlfKvtnTIif0Les+sxkYO6q7UBq/qXL
+	 ACRqeErNQQYJ1ABfsvi9KUgqdyNARCZp6Rhw+FkLHLGTdtejXL/9h3yb9EqNSDXQJiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hackers.camp;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b="PiI3/OF9";
+	arc=none smtp.remote-ip=185.70.43.25
+Received: from mail-4325.protonmail.ch (mail-4325.protonmail.ch [185.70.43.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F53606A31D
-	for <linux-fsdevel@vger.kernel.org>; Sat, 24 Oct 2026 17:06:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01F53606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a20be3b39eso2362885e9.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 24 Oct 2026 10:06:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792861571; x=1793466371;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VD0DJQifxWqmFqvxgKLhw5iI9/XvTtH/bBB6CwZQaeQ=;
-        b=DZ9a465CO4FBvnf0f0Z21ETIFT+3m5j4kVNGQndQS7JygRvadiuNiGNrmPcaBhJ0II
-         nZRbCq9Ob7ffHweHo3Gw+ARZDu9HYoJhq8tsh76CWMzUCO8MY5Irn9jIS0HdihKP7pAS
-         ozPDFRYjSqyVVqHdC+aMVB7pZM6BOnhwLiXe+EqUpky8B7KRm7/pdMv4WgC+d8c313tH
-         qI5q2XGrenSDdRpgXrkNednLNejVo9lwYe9BBMKT2eLZt7Qjb7+62r3D2QL0aZKzDAd9
-         r8u9Q+FcxiV010FEEvqub0sL8JYk/PwwXIP9OLBA5H05gPboFLGceqhCR4WDb3gS0Blr
-         DsXQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwEJgL58XnUQgeIZKV70PDSBAB+/ooQIaNVoOmBZEuSRVTpbxiRiW9tHchXGwBZPD2M8zU+DF9QmQRnOngb@vger.kernel.org
-X-Gm-Message-State: AFq9FYJqwbs/tFbEXwIfY32rq5iefxQgrdLXn5a9OjFM1L2C0GvVxpqu
-	FedlkAZeSaYgN3F2Wl3rUFWJTJHusnUSSHc7aqUrcVEZHKP8n10tgTcu
-X-Gm-Gg: AYBFou1zUz23q7L8hj6EqbysDe82KMAemaXz2Ozn7o6E6Z7HzbUIZ7RCjkFr0bGTlYP
-	I2d6WiEtA98l/PF1mJsd64vyUaMvU7inpo5/O4zsOCB7lsKvSV5Bc6pLJBbFiaSiAqKT9gNAR6q
-	nWYCIyonYQJXS5KWUCkHTyx3dsKVi6QQ0p52VwP6h0NRA/BXzQG9OhzbGUIpjj0T3BD4Y2cils5
-	XwSQy11iu0Fux7e3vbLbMZv6LDFNRVQK9Fg7FIk9KJfHgA4unufpaH47/P09JSKo5aX1Tsz3R6q
-	Uu8K44cSg/ouWowIq4idDdkJusP2HdiEwHsO2EDcRRGJQmu+8ZBpXg55Dvnf6dNpeQW7aibRmT6
-	A/eQdKl1MjBkauFTiGrO8bZJgn6uo9EuwScuYNVsXGFBPYs+IxSSY7XgLZqIRY4AmNFmEqUZA44
-	WPwXRY6BSkgJbcTogOr4vMBCx7gUAWThL066+2uPK54t6OqsjHLKgMStZFm0mp2OJcelcxfNrKH
-	HXCh1aEcUFEi0jCUc3PLTdoTyBU+FRSdkIOqFhV7reQpqP9guGcw74UApJajqsclLO+hoMwP4Nu
-	AbldvuDl8GCqFIZqSQ==
-X-Received: by 2002:a05:6000:2905:b0:48d:f14a:9186 with SMTP id ffacd0b85a97d-48e3eb97829mr4555971f8f.6.1792861571101;
-        Sat, 24 Oct 2026 10:06:11 -0700 (PDT)
-Received: from spartian.home ([2a01:cb1c:76:ed00:602f:c5f4:d108:b925])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3eb40733sm4164240f8f.0.2026.10.24.10.06.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 10:06:10 -0700 (PDT)
-From: Aurelien DESBRIERES <aurelien@hackers.camp>
-To: jack@suse.cz
-Cc: brauner@kernel.org,
-	willy@infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	aurelien.desbrieres@gmail.com
-Subject: mmb_sync: b_mmb NULL window races mmb_mark_buffer_dirty
-Date: Sat, 24 Oct 2026 19:06:09 +0200
-Message-ID: <20261024170609.125348-1-aurelien@hackers.camp>
-X-Mailer: git-send-email 2.55.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DE9606A31A
+	for <linux-fsdevel@vger.kernel.org>; Sat, 24 Oct 2026 17:29:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2DE9606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=PiI3/OF9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1792862972; x=1793122172;
+	bh=uSwBoXXR0278lCz88tFScOKYUs1WlmzxQUkqwc84UV4=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=PiI3/OF9Ufuyyj3aO8eCO/1tEHvsGaLkYocLXcRHq1ObnRjeSj66aMGBF08+jsIEK
+	 OzQuv4WCtGM00qcXbO2vRBBSlDSE04eGBpXs/fPUfogDdbytC1je+yDuhhFYX3vW+n
+	 LAb8VumFcqPVAMz9X2yDukd373oPdAXblM8ueo9IsTmV1sBqnvdz7G6P5bPp+uxWyf
+	 VDlB08X4w/lMP0+feKvFD2zpXl8YQpkWqx2bppO5tmJKptYZ8WuZC+VVNV79ixDGAO
+	 zO8k1tT97FfTqo1Wub00uGJCTekDeEYTaSrXc9LJFxkJJsuo1v4qnBYGdm56tx+FDE
+	 XwnJyGBdeaswQ==
+Date: Sat, 24 Oct 2026 17:29:26 +0000
+To: "brauner@kernel.org" <brauner@kernel.org>, "kees@kernel.org" <kees@kernel.org>, "rostedt@goodmis.org" <rostedt@goodmis.org>
+From: BoxStrikesTeam <BoxStrikesTeam@proton.me>
+Cc: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "jack@suse.cz" <jack@suse.cz>, "mhiramat@kernel.org" <mhiramat@kernel.org>, "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "jkoolstra@xs4all.nl" <jkoolstra@xs4all.nl>, "farid.m.zakaria@gmail.com" <farid.m.zakaria@gmail.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>
+Subject: [RFC] binfmt_misc: add a tracepoint for BPF-selected interpreters
+Message-ID: <21bBRWi4dDGR7l5TdmShL09exFRFwQA8c-1U_QlNoY2L7LGzDCNfypM9VECtuwD7mkrG1Cw8uXSLLdHmXsYsMARBbGn-mIl3Mutmeku-2zg=@proton.me>
+Feedback-ID: 205449183:user:proton
+X-Pm-Message-ID: 9a4226781f6ad8bab2fb7d82922320196d2e2407
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -82,94 +60,224 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed;
+ boundary="b1=_ypzT8Pl0sSG9XfrFKv1IRmPTSVHPbQ69Wlkmf6LTY"
 
-Hi Jan,
+--b1=_ypzT8Pl0sSG9XfrFKv1IRmPTSVHPbQ69Wlkmf6LTY
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-While measuring beamfs on vfs.all (2c3ba1f1cb41, on v7.3-rc7) we hit a
-list corruption in fs/buffer.c that I think is a window in mmb_sync()
-rather than anything specific to our filesystem, so here it is with
-the trace. beamfs was attaching buffers that several inodes share
-(bitmap blocks, parity regions) to the allocating inode's
-i_metadata_bhs, so the same buffer_head moved from one inode's list to
-another's. We have since given those buffers a list of their own and
-the problem is gone on our side; the window remains.
+Hello,
+The 'B' (BPF struct_ops) binfmt_misc handlers added in v7.3 can
+select an interpreter per exec. =C2=A0In transparent mode the selected
+interpreter is not visible through the usual interfaces:
+/proc/PID/exe, /proc/PID/cmdline and sched_process_exec all describe
+the binary, not the interpreter that actually runs. =C2=A0That is useful
+for concealment, and it also leaves tracing and security monitoring
+blind to the dispatch.
 
-The window
+I built a small PoC to understand the mechanism and measure the gap.
+It registers three struct_ops handlers (classic, transparent, loader)
+and runs each target twice: once without a handler, once with the
+handler and entry active. =C2=A0In the transparent case the process sees
+/tmp/target_trans as its exe and keeps its argv, while the code that
+runs is /tmp/poc_interp, reached through AT_EXECFD. =C2=A0In the loader
+case the binary runs natively and only the PT_INTERP loader changes;
+/proc/self/maps and AT_BASE show the substitution. =C2=A0The match program
+checks the ELF magic and marker bytes in the e_ident padding; it does
+not check the machine type, so the PoC is architecture-independent
+and does not target a specific real binary format.
 
-mmb_sync() does, under mmb_A->lock:
+The official binfmt_misc_bpf selftest passes 16/16 on the same
+kernel (v7.3-rc7). =C2=A0The test needed a small arm64 adaptation because
+it assumes an x86_64 host: the foreign-architecture constants and the
+interp_bind match rule were adjusted, while the assertions and
+coverage are unchanged.
 
-	__remove_assoc_queue(mmb, bh);	/* list_del_init, b_mmb = NULL */
-	smp_mb();
-	if (buffer_dirty(bh) || buffer_locked(bh)) {
-		list_add(&bh->b_assoc_buffers, &tmp);
-		bh->b_mmb = mmb;
+The gap is not a bug in the feature; it is a missing observation
+point. =C2=A0I would like to propose a tracepoint after the entry has
+selected its interpreter and the invocation flags are final:
 
-Between the NULL store and the restore, mmb_mark_buffer_dirty(bh, mmb_B)
-on another CPU sees !bh->b_mmb, takes mmb_B->lock (a different lock),
-its cmpxchg(&bh->b_mmb, NULL, mmb_B) succeeds, and list_move_tail()
-writes bh->b_assoc_buffers while CPU A's list_add() does the same.
-The second loop of mmb_sync() has the same shape (remove, then
-list_add back to mmb->list when still dirty).
+=C2=A0 binfmt_misc_select(struct linux_binprm *bprm, const char *interp,
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0const char *handler, unsigned long flags)
 
-The old mark_buffer_dirty_inode() took the bdev mapping's
-i_private_lock, shared by every inode of the device, so the two
-writers could not overlap. A per-mmb lock protects a buffer that
-belongs to one mmb for life; it does not protect the moment a buffer
-changes hands. The comment above the cmpxchg says it is there for a
-corrupted filesystem with multiply claimed blocks, and the kernel-doc
-says the buffer is added "if it is not already on a list": that is
-exactly the case the window lets through, so a corrupted ext2, fat,
-minix or udf volume in which two inodes claim one indirect block
-should be able to reach it as well, given an fsync on one inode while
-the other dirties the buffer.
+The event would record filename, interp, handler, flags and pid.
+handler is the struct_ops name for a 'B' entry and empty for a static
+entry; flags is masked with MISC_FMT_INVOCATION_FLAGS so only the
+P/C/O/F/T/L bits are reported. =C2=A0The event is disabled by default and
+costs a static key check when off. =C2=A0It does not change dispatch
+behaviour.
 
-What it does when it hits
+I tested a patch on v7.3-rc7-32-g0fcb05b72344 (2 files, 60
+insertions). =C2=A0In an A/B run the event does not fire without a
+matching entry; with a classic handler it reports flags=3D0x0, and
+with a transparent handler it reports:
 
-With CONFIG_DEBUG_LIST, __list_del_entry_valid_or_report() refuses the
-del, list_del_init() does nothing, and the first loop of mmb_sync()
-is `while (!list_empty(&mmb->list))` on a list whose head never
-leaves: the CPU spins holding mmb->lock. We lost the node to it
-(soft lockup from 48 s up, then kmemleak and the OOM killer).
+=C2=A0 binfmt_misc_select: pid=3D96 filename=3D/tmp/target_trans \
+=C2=A0 =C2=A0 =C2=A0 interp=3D/tmp/poc_interp handler=3Dpoc_transparent fla=
+gs=3D0x48000000
 
-  list_del corruption. next->prev should be ffffa26a6e8d4820, but was ffffa26a63804190. (next=ffffa26a432e1238)
-  WARNING: /lib/list_debug.c:65 at __list_del_entry_valid_or_report+0xf6/0x110, CPU#0: dbench/16440
-  CPU: 0 UID: 0 PID: 16440 Comm: dbench Not tainted 7.3.0-rc7 #1 PREEMPT(lazy)
-  Call Trace:
-   __remove_assoc_queue+0x20/0x80
-   mmb_sync+0xba/0x300
-   beamfs_write_inode+0x45/0x190
-   __writeback_single_inode+0x480/0x630
-   writeback_single_inode+0x11d/0x4d0
-   sync_inode_metadata+0x46/0x70
-   simple_fsync_noflush+0x55/0x90
-   simple_fsync+0x16/0x40
-   do_fsync+0x50/0xc0
-   __x64_sys_fsync+0x13/0x20
-  [...]
-  rcu: INFO: rcu_preempt self-detected stall on CPU
-  RIP: 0010:mmb_sync+0xc0/0x300
-  [...]
-  watchdog: BUG: soft lockup - CPU#0 stuck for 48s! [dbench:16440]
-  watchdog: BUG: soft lockup - CPU#0 stuck for 413s! [dbench:16440]
+while the process itself still sees /tmp/target_trans as its exe.
+The selftest stays at 16/16 with the patch applied.
 
-xfstests generic/241 (dbench) on a 4-CPU x86_64 guest, kernel vfs.all
-at 2c3ba1f1cb41 with CONFIG_DEBUG_LIST, PROVE_LOCKING and kmemleak.
+Before sending the patch, I would like to ask:
 
-A thought, not a patch
+- Is a tracepoint the right primitive here, or would you prefer
+=C2=A0 another interface (audit, a /proc file, a BPF iterator)?
+- Is the event name and placement acceptable? =C2=A0I put it in
+=C2=A0 fs/binfmt_misc.c and the header in include/trace/events/.
+- Should this go through the VFS tree or the tracing tree?
+- Is the flags mask the right ABI, or should the event report the raw
+=C2=A0 entry flags and the resolved BPF flags separately?
+- Would you want this at all?
 
-The NULL is observable only because the buffer is unlinked and then
-relinked. Keeping b_mmb set while the buffer merely moves between
-mmb->list and tmp (list_move() instead of __remove_assoc_queue() plus
-list_add(), clearing b_mmb only when the buffer is actually dropped as
-clean and unlocked) would leave mmb_mark_buffer_dirty() nothing to
-race with inside mmb_sync(); the lockless check would then see either
-the old mmb or none, never a transient NULL on a buffer that is about
-to come back. I have not written or tested that, and you know what
-else looks at b_mmb.
+The tracepoint is observability, not enforcement. =C2=A0tracefs is
+normally root-only, and a root-capable attacker can turn the event
+off; I am not claiming it stops a rootkit. =C2=A0If the approach is
+acceptable, I can send the patch as an RFC PATCH or a formal PATCH,
+rebased on whichever tree you prefer. =C2=A0If not, I would rather hear
+that now than send code that is not wanted.
 
-If a fix is wanted, we can run it against the module as it was before
-our change, on the same guest: that is where the race showed, and the
-same test passes 24 of 24 trials with the shared buffers on one list.
+The PoC is attached as binfmt-poc-upstream.tar.gz (source and logs,
+about 70K). =C2=A0It includes an English README.upstream.md; some of the
+original notes are in Turkish. =C2=A0It needs v7.3+ with
+CONFIG_BINFMT_MISC_BPF=3Dy and root inside the VM. =C2=A0The patch is not
+attached yet; I can send it inline on request. =C2=A0If the list strips the
+PoC attachment, I can send it directly.
 
-Aurelien
+I prepared this email and the PoC with an LLM assistant; I reviewed
+the code and ran the tests above.
+
+Thanks,
+Eneshan Erdo=C4=9Fan Karaca
+--b1=_ypzT8Pl0sSG9XfrFKv1IRmPTSVHPbQ69Wlkmf6LTY
+Content-Type: application/gzip; name="binfmt-poc (1).tar.gz"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="binfmt-poc (1).tar.gz"
+
+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
+geCF8BP2ykhBAKAAAA==
+
+--b1=_ypzT8Pl0sSG9XfrFKv1IRmPTSVHPbQ69Wlkmf6LTY--
+
