@@ -1,49 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792933442;
-	b=dGES3ZmtCiARAy6ay50gM9/1J2OpRZxK7lAwTisrqyDaaNzruWfk6OxoMvZcwGfeF+bN
-	 hCdHg5U94h12t2TMEZ3qs5HX9n+3n6L1SPbRSvQWyCtocJN00LNPgJngVZ2MQfm77hRN9
-	 rmYaJKI5E22hSkQqbz49dmY++GNgxcBPdVivTk8dc+My7xjuxDLpSIT8eWGleVePACA17
-	 FvSQ782RM4oXUodNTreugCsL3A6f4KcZ+5FvJ+V6eQ5yRApFWH0LFsh/ZHn4XxXM4rRbZ
-	 iwJaMmwtZVKFVHsW/InLbrjFexv0KR2ep83Hi73appTLS3oZTIOUa0Sv8PlDGLiVClg==
+	t=1792933459;
+	b=jhoddoF4ajbFHkJP8ed7BPb8WCDWMhXEB6lFpw/nm0rIRwDXY3myeiJL5CZwnwIeXquq
+	 qqj/zaJThh5iaCUr5IUG6M9iNWM869gQIHOMD42QJkgJlmEg4vjt7NeJGWKsM9EUgdCo/
+	 zUoNum/ysf65wHmL5i//rXveZFdLD+qVyesOKJYG39jdUIskri2wIq0Kw8sCTwrReBhlx
+	 5JS26wqOXIsTP6brJ+HyCynXvxJ6P0hQi9Gj4OZeKGWo9V8tqS401g87eaMX5mY8W4LaU
+	 /ibMkg4GR+F7IlonkHJmfwu4opLADCcKjYZc8iJhGmQXzjkhozVq0E55L0TZ7YAUfsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792933442;
-	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=nAkrtA6faTl+77otH7gJTheo2PlzrcNoGoMjrDipjzo=;
-	b=Cnj5gjEhKlO5d8WHB/0oORF38aGoHwEm836ck2e8BxdUYgwVLmLU+Muns1wbp/4a7xev
-	 L4q+Tt35kdmtXLMWwonC95wPz1DyaHtifihepthJAUYLlNaC84Y+4WPZXd3zhzqnkQZ/9
-	 U9jFdTc58Ez/I4BSNNNmDyb8L+jwNqsHnGSglNxUoHbcLy/cbd2dp1SF4QvukRHxzpDXP
-	 Y5Ad2xKfTTLtns558FZ/UwY+xDyzV2F+ObXyVonl+DDjLuIrEILgme20tvOa5peUtCXEX
-	 olwOcZ9G7J/HU4tUCDE1aTqIM51vfzvCfZ0xliNpAeiz8W507D+r183nbXWYS3EvESw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792933459;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=aYHwF3IFjs91ZIwWHkSx6BD45r73mPOX4rJ7UhJZg6A=;
+	b=cRKfOvWkoKvFWTDjSyo1xh5TVp/E9Qe5wxiK0HyY0jvARTniJClE5lXngmOJ/50aVDI8
+	 k8b+DBQGRvJ0OqRn20pBBHGAbUg2b5mvlV/GPOhBIECl1HlyjrAWD/hi7Rtilcbf3z2rn
+	 kirW6T/RrbcTTKBY6//MQr13K3rTfryUgcpzSh8HW+Jxc0d1MJohr9FXzlvBVZQMJRd1F
+	 dhYBc9qzniYHiEf+yt0SmyhqV5HSPwDVJdMnYjANFINDt9qxKO43F6cAD6d/qeGA+QWD0
+	 8SWkMovlt/nJc/p5RqxTX01XUGDMjlPNLyjNzUw/uw+FS2eBu8wE7kie26nOPqNQHSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=InYdQ6OT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XF6MIimt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C70B606A31A;
-	Sun, 25 Oct 2026 13:04:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39AE606A326;
+	Sun, 25 Oct 2026 13:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=InYdQ6OT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FC91F01825;
-	Sun, 25 Oct 2026 13:03:56 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XF6MIimt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FB381F01829;
+	Sun, 25 Oct 2026 13:04:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792933441;
-	bh=nAkrtA6faTl+77otH7gJTheo2PlzrcNoGoMjrDipjzo=;
-	h=From:Subject:Date:To:Cc;
-	b=InYdQ6OTrY1ycFnT2z3WRHWS2U+8oQmAXcC9ZCIPG8zrVR+iXVVM/shM6qhqdxuUi
-	 2DPzZvXN8e6tqHA1g5hrr0KFTaHMt8lXJYh/BeovHYt/amxAtpNIanqN5A7MeTdwXY
-	 zt79d2JFUsuLB92e6e3evbr+VXlXrV1BChS1IQaRd8d7cc7EOFTnQsLnMAPpW1iHC5
-	 6sKdZMWi3t4nHm7d/ULKXz7YGtszFOZJfAY4/LXd0YY8YUGxFEpte32PF/oxPBKqtA
-	 ZFZjHppZq+VC4vqCcrH3teG/NpIt6KnONoXTQVlVPfL9abJF3LS5PBGs77Znu5voyr
-	 VfZmhfHAmRZWA==
+	s=k20260515; t=1792933458;
+	bh=aYHwF3IFjs91ZIwWHkSx6BD45r73mPOX4rJ7UhJZg6A=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=XF6MIimte8tV5OVSZT4CM+PCZisGKakquOEyYSFj8Uf64rwARQm/nVnAnhvNdnCZG
+	 AqkKVq5HdU0tIAR86O3168JZ7FSRFTFoF9rVoq24V+jGZ7OEXanyI6f2nd4XBni2IM
+	 YLJ3ghhRJp5Qc+xRQjTpx88FfMIPnc++h7FQo9ZbP6iOZ7EV92IQH9niD7t1sGHbro
+	 ZaIpkiJ5DbbtZ4h4tblkONSjo1pOAKMWbwTcCowSXEFkXFAjEbs3pVLYTQPbm72aAr
+	 pM+Y4vP19vjjXCTi20QcDDsifI44b362r/tCAT82+twUP0DrSNR4mWRXZgv/tsxPWT
+	 FUhme9zlofWqA==
 From: Vincent Mailhol <mailhol@kernel.org>
-Subject: [PATCH v2 0/7] init: discoverable root partitions
-Date: Sun, 25 Oct 2026 14:03:10 +0100
-Message-Id: <20261025-discoverable-root_partitions-v2-0-fb77d0821fab@kernel.org>
+Date: Sun, 25 Oct 2026 14:03:14 +0100
+Subject: [PATCH v2 4/7] init: discover root by DPS partition type UUID
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,12 +53,10 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32PQQ6CMBBFr0K6tgpVUFl5D0PM0A4wEShOK9EQ7
- m6FuHX5JvnvZSbhkAmdyKNJMI7kyPYB1CYSuoG+RkkmsFCxyuIsSaQhp+2IDGWLkq31twHYkw8
- 7J0sDugQD6TE2IigGxopei/5aBG7IecvvpTYm3+tPnP4Xj4mM5f6sj6cK9EGhutyRe2y3lmtRz
- GuK8fEMD/i1J0pwKLXtOvJ5ZJlq6ncdOI8cFvMHbpwu9voAAAA=
-X-Change-ID: 20260611-discoverable-root_partitions-bdacbada570d
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261025-discoverable-root_partitions-v2-4-fb77d0821fab@kernel.org>
+References: <20261025-discoverable-root_partitions-v2-0-fb77d0821fab@kernel.org>
+In-Reply-To: <20261025-discoverable-root_partitions-v2-0-fb77d0821fab@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>, 
  Alexander Viro <viro@zeniv.linux.org.uk>, 
  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
@@ -68,176 +65,272 @@ Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
  Dave Hansen <dave.hansen@intel.com>, 
  James Bottomley <James.Bottomley@HansenPartnership.com>, 
  Helge Deller <deller@gmx.de>, Matthew Wilcox <willy@infradead.org>, 
- Vincent Mailhol <mailhol@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+ Vincent Mailhol <mailhol@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6866; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=dGMb8OmA1Qh/i9fSPAL4WkcqHv77KtSDbe4mIbxDBCs=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDFl3/1nohjflPi67dm3iuXnzvppc1NAtyjzceJfXJrVTR
- X7uhwdiHRNZGMS4GCzFFFmWlXNyK3QUeocd+msJM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
- Ahk6RgxcnAIw1ZMsGf5KqTtwvplpfyt7wew8i7j41IvrL96ZoXnlx6PZrbGGOhfbGX6zLCti+HI
- pPfP45193jet/211TntwZ8PvHdyuRsnQd4xOcAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8417; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=CKqxMdoeyJnkfk4nzwC6ALG1A1CK/ITEq2rjTsTcLr0=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDFl3/9nMsjs74b4c8zrH07Yz3r14xJ6zuPp5qvqiLINn2
+ QGK/jEOHRNZGMS4GCzFFFmWlXNyK3QUeocd+msJM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ Ahk6RgxcnAIw1a58jAy9+9cvP3CJkXWNwWEnTuW85NBEzblRIaatj+7fuZVw5/oUhn/qR69GPby
+ 1qvi0baR/8lH5LzuO877Q/8pcdGWXwMW7d54zAAA=
 X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
  fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 
-DPS [1] defines GPT partition type UUIDs for OS partitions and
-attributes that control whether such partitions should be
-automatically discovered. The specification states that:
+When root= and ROOT_DEV are not set, discover the root block device
+using the architecture's DPS root partition type UUID. Preserve explicit
+root selection and an existing ROOT_DEV supplied by the boot protocol.
 
-  The OS can discover and mount the necessary file systems with a
-  non-existent or incomplete /etc/fstab file and without the root=
-  kernel command line option.
+DPS [1] restricts discovery to the disk containing the active EFI System
+Partition. Read LoaderDevicePartUUID from the Boot Loader Interface to
+identify that disk and cache the UUID for subsequent lookup attempts.
 
-DPS is already implemented in systemd-gpt-auto-generator [2], which,
-when embedded in an initrd, indeed allows automatic detection of the
-root filesystem through its partition type UUID.
+Add early_lookup_bdev_by_type_uuid() to select the first matching
+partition. The EFI System Partition may become visible before the root
+partition has been registered. Hold the disk's open_mutex during lookup
+so partition scanning finishes before returning -ENODEV.
 
-This series adds root discovery directly into the kernel so that people
-who are not using an initrd can still benefit from it.
-
-The scope is deliberately limited to block devices that the kernel can
-already mount through the root= parameter. Other DPS features, such as
-setting up LUKS-encrypted partitions, mounting partitions other than
-root or container setup, remain userspace responsibilities, with no
-future plan to implement them in the kernel. The intended usage is
-thus a hybrid approach in which the kernel DPS only mounts the root
-partition and leaves the remaining setup to userspace (either with DPS
-or with a classic fstab), just as it does today when root= specifies
-the root device.
-
-The benefit is being able to boot a kernel with no accompanying
-bootloader configuration: no root= parameter and no initramfs. The root
-partition is identified from the existing on-disk metadata instead.
-
-This is useful for booting a kernel manually, for example from the edk2
-file browser, or recovering from a lost or corrupted bootloader
-configuration without having to supply the correct root= argument or
-load an initrd from the grub shell. Finally, it allows systems that
-otherwise need no initrd to discover their root partition through DPS
-without introducing an early userspace environment solely for that
-lookup.
-
-The implementation follows these rules:
-
-  - GPT partition type UUIDs are used for automatic discovery policy
-    only. No root=PARTTYPEUUID=xxx cmdline option or similar syntax is
-    added.
-
-  - An initramfs providing an early userspace init, a root= command-line
-    option, or a root device supplied by the boot loader takes
-    precedence. Existing working boot configurations therefore retain
-    their current behaviour. Automatic discovery triggers only when
-    booting without any of these, where the kernel would otherwise panic
-    because no root device was specified.
-
-  - As required by DPS, discovery is restricted to the disk containing
-    the active EFI System Partition, identified through the
-    LoaderDevicePartUUID EFI variable. This avoids selecting a root
-    partition on another disk, such as a potentially malicious USB thumb
-    drive.
-
-  - If several eligible partitions have the selected type, the first
-    match in block-device enumeration order is used.
-
-  - The native architecture's root partition type takes precedence.
-    Where the kernel supports compatible 32-bit userspace, its root
-    partition type is accepted as a fallback.
-
-  - Partitions carrying the DPS no-auto attribute are excluded.
-
-  - The DPS read-only attribute is intentionally not enforced. The
-    kernel already mounts the root filesystem read-only by default and
-    if the command line requests rw, it takes precedence over the DPS
-    attribute. User space remains responsible for deciding whether a
-    discovered root should later be remounted read-write based on DPS
-    metadata and local policy.
-
-Patch 1 retains GPT partition type UUIDs in partition metadata for early
-block lookup.
-
-Patch 2 defines the architecture-specific DPS root partition type UUIDs
-and the derived DPS_ROOT_AUTO_DISCOVERY symbol in Kconfig.
-
-Patch 3 factors out lookup_root_device() so initial root lookup and
-rootwait retries share the same lookup policy.
-
-Patch 4 implements DPS root discovery through early_lookup_dps_root()
-and integrates it into the root mount path.
-
-Patch 5 excludes partitions marked no-auto.
-
-Patch 6 adds the compatible 32-bit root partition type UUID as a
-fallback when no partition with the native type UUID can be found.
-
-Finally, patch 7 documents automatic root discovery.
-
-Tested with the Linux EFI stub [3] and with GRUB [4], which both expose
-the LoaderDevicePartUUID EFI variable.
+Add early_lookup_dps_root() and have lookup_root_device() call it when
+root= is absent. early_lookup_bdev() is kept unchanged so other callers
+cannot trigger root discovery inadvertently. Return -EINVAL if the EFI
+variable cannot be read or does not contain a valid UUID, so
+lookup_root_device() disables rootwait. Return -EAGAIN if the EFI
+partition is not available yet so rootwait can retry. Return -ENODEV if
+its disk has no matching root partition. In that case, have
+lookup_root_device() disable rootwait, clear the device number and
+return zero to stop retries.
 
 [1] The Discoverable Partitions Specification (DPS)
 Link: https://uapi-group.org/specifications/specs/discoverable_partitions_specification/
 
-[2] systemd-gpt-auto-generator
-Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-gpt-auto-generator.html
-
-[3] commit 0f7d63d9a725 ("efi/libstub: add initial Boot Loader Interface
-    support")
-Link: https://git.kernel.org/torvalds/c/0f7d63d9a725
-
-[4] GRUB -- §16.20 bli
-Link: https://www.gnu.org/software/grub/manual/grub/html_node/bli_005fmodule.html
-
 Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 ---
-Changes in v2:
+ block/early-lookup.c   | 115 +++++++++++++++++++++++++++++++++++++++++++++++--
+ include/linux/blkdev.h |  10 +++++
+ init/do_mounts.c       |  25 +++++++++--
+ 3 files changed, 143 insertions(+), 7 deletions(-)
 
-  - Remove all architectures which do not have CONFIG_EFI.
+diff --git a/block/early-lookup.c b/block/early-lookup.c
+index 3fb57f7d2b12..a1cb67eab4a0 100644
+--- a/block/early-lookup.c
++++ b/block/early-lookup.c
+@@ -5,10 +5,14 @@
+  */
+ #include <linux/blkdev.h>
+ #include <linux/ctype.h>
++#include <linux/efi.h>
++#include <linux/ucs2_string.h>
++#include <linux/uuid.h>
+ 
+ struct uuidcmp {
+ 	const char *uuid;
+ 	int len;
++	struct gendisk *disk;
+ };
+ 
+ /**
+@@ -45,13 +49,11 @@ static int __init match_dev_by_uuid(struct device *dev, const void *data)
+  */
+ static int __init devt_from_partuuid(const char *uuid_str, dev_t *devt)
+ {
+-	struct uuidcmp cmp;
++	struct uuidcmp cmp = { .uuid = uuid_str };
+ 	struct device *dev = NULL;
+ 	int offset = 0;
+ 	char *slash;
+ 
+-	cmp.uuid = uuid_str;
+-
+ 	slash = strchr(uuid_str, '/');
+ 	/* Check for optional partition number offset attributes. */
+ 	if (slash) {
+@@ -252,6 +254,113 @@ int __init early_lookup_bdev(const char *name, dev_t *devt)
+ 	return devt_from_devnum(name, devt);
+ }
+ 
++#ifdef CONFIG_DPS_ROOT_AUTO_DISCOVERY
++static int __init match_dev_by_type_uuid(struct device *dev, const void *data)
++{
++	struct block_device *bdev = dev_to_bdev(dev);
++	const struct uuidcmp *cmp = data;
++
++	return bdev->bd_disk == cmp->disk && bdev->bd_meta_info &&
++		!strcasecmp(cmp->uuid, bdev->bd_meta_info->type_uuid);
++}
++
++/*
++ * Search the ESP's disk for an eligible partition of the requested type.
++ * Return -EAGAIN until the ESP is available, or -ENODEV if no match exists.
++ */
++static int __init early_lookup_bdev_by_type_uuid(const char *type_uuid,
++						 const char *esp_partuuid,
++						 dev_t *devt)
++{
++	struct uuidcmp esp_cmp = {
++		.uuid = esp_partuuid,
++		.len = UUID_STRING_LEN,
++	};
++	struct uuidcmp type_cmp = {
++		.uuid = type_uuid,
++	};
++	struct device *esp_dev;
++	struct device *type_dev;
++
++	esp_dev = class_find_device(&block_class, NULL, &esp_cmp,
++				    &match_dev_by_uuid);
++	if (!esp_dev)
++		return -EAGAIN;
++
++	type_cmp.disk = dev_to_disk(esp_dev);
++	scoped_guard(mutex, &type_cmp.disk->open_mutex)
++		type_dev = class_find_device(&block_class, NULL, &type_cmp,
++					     &match_dev_by_type_uuid);
++	put_device(esp_dev);
++	if (!type_dev)
++		return -ENODEV;
++
++	*devt = type_dev->devt;
++	pr_info("VFS: Discovered root partition /dev/%pg with GPT type UUID %s\n",
++		dev_to_bdev(type_dev), type_uuid);
++	put_device(type_dev);
++	return 0;
++}
++
++static int __init efi_get_esp_partuuid(char *partuuid, size_t size)
++{
++	static efi_guid_t loader_guid __initdata = LINUX_EFI_LOADER_ENTRY_GUID;
++	efi_char16_t partuuid_ucs2[UUID_STRING_LEN + 1] = {};
++	unsigned long partuuid_ucs2_size = sizeof(partuuid_ucs2);
++	efi_status_t status;
++
++	if (!efi_rt_services_supported(EFI_RT_SUPPORTED_GET_VARIABLE))
++		return -EOPNOTSUPP;
++
++	status = efi.get_variable(L"LoaderDevicePartUUID", &loader_guid, NULL,
++				  &partuuid_ucs2_size, partuuid_ucs2);
++	if (status != EFI_SUCCESS)
++		return efi_status_to_err(status);
++
++	if (ucs2_as_utf8((u8 *)partuuid, partuuid_ucs2, size) != UUID_STRING_LEN ||
++	    !uuid_is_valid(partuuid))
++		return -EINVAL;
++
++	return 0;
++}
++
++/**
++ * early_lookup_dps_root - discover the root device by DPS partition type UUID
++ * @dev: receives the discovered device number
++ *
++ * Return: 0 on success, -EINVAL if the ESP partition UUID cannot be read or
++ * is invalid, -EAGAIN if the EFI partition is not yet available, or -ENODEV
++ * if no matching root exists.
++ * With DPS disabled, return 0 and set @dev to zero.
++ */
++int __init early_lookup_dps_root(dev_t *dev)
++{
++	static const char root_type_uuids[][UUID_STRING_LEN + 1] __initconst = {
++		CONFIG_DPS_ROOT_PARTITION_TYPE_UUID,
++	};
++	static char esp_partuuid[UUID_STRING_LEN + 1] __initdata;
++	int err;
++
++	if (!esp_partuuid[0]) {
++		err = efi_get_esp_partuuid(esp_partuuid, sizeof(esp_partuuid));
++		if (err) {
++			pr_err("VFS: Unable to get EFI partition UUID: %pe, skipping root partition discovery\n",
++				ERR_PTR(err));
++			return -EINVAL;
++		}
++	}
++
++	for (int i = 0; i < ARRAY_SIZE(root_type_uuids); i++) {
++		err = early_lookup_bdev_by_type_uuid(root_type_uuids[i],
++						     esp_partuuid, dev);
++		if (err != -ENODEV)
++			return err;
++	}
++
++	return -ENODEV;
++}
++#endif /* CONFIG_DPS_ROOT_AUTO_DISCOVERY */
++
+ static char __init *bdevt_str(dev_t devt, char *buf)
+ {
+ 	if (MAJOR(devt) <= 0xff && MINOR(devt) <= 0xff) {
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index b99a59cd1120..52bd5683da77 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1746,6 +1746,16 @@ static inline int early_lookup_bdev(const char *pathname, dev_t *dev)
+ }
+ #endif /* CONFIG_BLOCK */
+ 
++#ifdef CONFIG_DPS_ROOT_AUTO_DISCOVERY
++int __init early_lookup_dps_root(dev_t *dev);
++#else
++static inline int early_lookup_dps_root(dev_t *dev)
++{
++	*dev = 0;
++	return 0;
++}
++#endif
++
+ int bdev_freeze(struct block_device *bdev);
+ int bdev_thaw(struct block_device *bdev);
+ int bdev_deny_freeze(struct block_device *bdev);
+diff --git a/init/do_mounts.c b/init/do_mounts.c
+index b9814d0cc5a6..0dd9d2a6c00b 100644
+--- a/init/do_mounts.c
++++ b/init/do_mounts.c
+@@ -406,10 +406,24 @@ static int __init lookup_root_device(const char *root_device_name, dev_t *dev)
+ {
+ 	int err;
+ 
+-	err = early_lookup_bdev(root_device_name, dev);
++	if (root_device_name[0]) {
++		err = early_lookup_bdev(root_device_name, dev);
++		if (err == -EINVAL && root_wait) {
++			pr_err("VFS: root= is invalid; disabling rootwait.\n");
++			root_wait = 0;
++		}
++		return err;
++	}
++
++	err = early_lookup_dps_root(dev);
+ 	if (err == -EINVAL && root_wait) {
+-		pr_err("VFS: root= is invalid; disabling rootwait.\n");
++		pr_err("VFS: Root discovery is unavailable; disabling rootwait.\n");
+ 		root_wait = 0;
++	} else if (err == -ENODEV) {
++		pr_err("VFS: No discoverable root partition found; aborting.\n");
++		root_wait = 0;
++		*dev = 0;
++		return 0;
+ 	}
+ 	return err;
+ }
+@@ -422,7 +436,10 @@ static void __init wait_for_root(char *root_device_name)
+ 	if (ROOT_DEV != 0)
+ 		return;
+ 
+-	pr_info("Waiting for root device %s...\n", root_device_name);
++	if (root_device_name[0])
++		pr_info("Waiting for root device %s...\n", root_device_name);
++	else if (IS_ENABLED(CONFIG_DPS_ROOT_AUTO_DISCOVERY))
++		pr_info("Waiting for discoverable root partition...\n");
+ 
+ 	end = ktime_add_ms(ktime_get_raw(), root_wait);
+ 
+@@ -480,7 +497,7 @@ void __init prepare_namespace(void)
+ 
+ 	md_run_setup();
+ 
+-	if (saved_root_name[0])
++	if (saved_root_name[0] || !ROOT_DEV)
+ 		ROOT_DEV = parse_root_device(saved_root_name);
+ 
+ 	initrd_load();
 
-  - Replace the per-architecture UUID headers with Kconfig definitions.
-
-  - Move most of the DPS lookup logic to block/early-lookup.c.
-
-  - Bail out if ROOT_DEV already exists.
-
-  - Hold the disk's open_mutex during lookup so partition scanning
-    finishes before reporting -ENODEV. This is a prerequisite for the
-    next two changes.
-
-  - Do an early abort when early_lookup_dps_root() returns -ENODEV.
-
-  - Add the secondary partition type UUID as a fallback.
-
-  - Small tweaks in log messages.
-
-  - Documentation is updated accordingly.
-
-Link to v1: https://lore.kernel.org/r/20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org
-
----
-Vincent Mailhol (7):
-      block: store GPT partition type UUID
-      init: add DPS root partition type UUID definitions
-      init: factor out root device lookup into lookup_root_device()
-      init: discover root by DPS partition type UUID
-      block: skip partitions with DPS no-auto GPT attribute
-      init: add secondary DPS root partition type UUID
-      docs: document discoverable root partitions
-
- Documentation/admin-guide/discoverable-root.rst |  40 ++++++++
- Documentation/admin-guide/index.rst             |   1 +
- Documentation/admin-guide/kernel-parameters.txt |   5 +
- block/early-lookup.c                            | 119 +++++++++++++++++++++++-
- block/partitions/efi.c                          |   2 +
- include/linux/blkdev.h                          |  15 +++
- init/Kconfig                                    |  21 +++++
- init/do_mounts.c                                |  44 +++++++--
- 8 files changed, 234 insertions(+), 13 deletions(-)
----
-base-commit: 21a7f44fd0765fcc5194130b28767786eba1d1e7
-change-id: 20260611-discoverable-root_partitions-bdacbada570d
-
-Best regards,
---  
-Vincent Mailhol <mailhol@kernel.org>
+-- 
+2.55.0
 
