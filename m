@@ -1,93 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.3
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792931206;
-	b=5AWecEoJGcnuqEyxQUPq6s/XypM9f2ekcdexP8sDJPC0lESKAlUMEc+gdx5BesJpZWrE
-	 HuK8kbDpxpiofp/aO2pll+N0JkYu/gEdKqAjRvZdrXs7z9PkR5vcbs1Uj30o1qFvDidlF
-	 aeawoRKEGeM4TWPnSRRLfA1ixmgboZbOYwJuh0ZWUQgr5lCKmr8cTop9a4MttztGevb6+
-	 jXjgraFRp4vRGMd4CNLZ/4BN1xmLIyUKBsYJ9az9e+NMoMLqBGBxXlb+By40JA2gGM2WP
-	 9iXmr7iR8CdEDJ3NabuF/UdMbt07XY8bM3WbJf3r0Xf/qGWpQRZjh1HDHx5/QG06yLQ==
+	t=1792932098;
+	b=A2hU5cecNrhDZOT2TU59Suy0Qwo6JsgCktX1WXe3jreHiMJvE0j1kc8jWB9y3zW3C1es
+	 cKSl5pankp5bWzE54CHvZZnFX+GuJ5MNEAtYXe0s7O0X5tOSAPhXfe/EF0NwongLEn19z
+	 26XwjagdXnauPKtTSXZdutgfHvthzcxfFFeGkTezTItPOZW+1hPQPmOdzcYhHSfZATgi2
+	 YMaaEi3mLAT82isNXpzNUpcN08LhWFgqUp+9ITcUwzWN0KlaYdtVpc+4DelBvMd42YTrW
+	 VJ6kNCVy8kkx1WcjQs0gdabjZXxBn+3oX7QkNgRP+1wGo6g/F2Dbr2vjEs49OI6Sb5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792931206;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=bJHM7BaL1qbpdXNxhWlZ4r8HgQW68d95SLx6NWeVvUc=;
-	b=we1v10JxAPz8jRpLib5Uvan48lM7uORNRubntmq5vu2lhrji+Z+Yk9Y6OMTNY73VzpN/
-	 aAOiG7nfJKQino5BLnue6bHo9zs4S3OFDqhVSP9hos5GQMcii8g6bjd9YmwC/GIrDJa4p
-	 ERmGLpTCUOOgvrFdnO0P9pHka/P6anQA/hkefXE8Zh/576J7XgGSuTCoVnzBD7Z/2IqgY
-	 qZA0jme0mq0xJ2dUu8Ox1zf0HaCxnEIalVouh0Twav0msX699zfqkokmtsV5Ad+Oe1l0H
-	 1CetrqZ/6KiZhQMiN1JiHwqKBf8eAjz3FFBS2Ot3/T02nhhSNdBmjH/+3bJjBLFE1Hw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792932098;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=kBj+4RxwijaLWN5ITLDs5hsE3jd/u1ixbAu4cXW/vcs=;
+	b=SJjMbN3Ts/w34jwgeY1joZ6ETRjeKEHgCZIIEy5U0xCcsOjnxGs5cZySIccwRZfYTGmv
+	 1+NrNbYEXYf1bkfzcRfKIWve4pdHSFvLeXaSWvqYDMYsqZmLLsU72tRAUK/uvktI4qWY/
+	 0ANBKp8xNjGr2HmAfigk7tIILrXzneMjZHJF/7CYyjDXUzxEekhM5y1rmkj4Ma2/mn7oP
+	 hIWz55EGu+hQncQUnfXzeD2naVEpbbVjnvXML42NCVv2cmU+AHafXnsS/2hnD03LE3Rin
+	 WqmPcKxFb71uI3tTnQDGP1tihuNlqjp/xbJSR7oy/pYl1FE9nGQlVmR0AJ9uoXF/a9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DRU1BRlJ;
-	arc=none smtp.remote-ip=209.85.222.50
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=irqm4AVT;
+	arc=none smtp.remote-ip=117.135.210.3
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0837E606A31B
-	for <linux-fsdevel@vger.kernel.org>; Sun, 25 Oct 2026 12:26:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0837E606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC34A606A31A;
+	Sun, 25 Oct 2026 12:41:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC34A606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DRU1BRlJ
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-9907ab5b65dso52229241.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 25 Oct 2026 05:26:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792931205; x=1793536005; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bJHM7BaL1qbpdXNxhWlZ4r8HgQW68d95SLx6NWeVvUc=;
-        b=DRU1BRlJD7yIjrLohRUi541MlsFW5Lri6kvwcCMgGONGnrf+LHAkLrgZ+BxXdTrcGZ
-         oDzY44gcxqw/lJY3zP1uob+CeudjQgrbbpFpgrOdr1KDctU2ShloQr3/FsQr/2eR7MVh
-         Td5D8xqcqKNvad9zfgIX4KLLeY1pSc57Kbe7pWILm2JsZfV0zVcH7WrWri1a5jwlyAKX
-         ta8RxRdFxilJlHzUCOqBrcfSm+dyet5yTfCB2a1EzIZ4Fy+D+H7JGq1O7tz21L9z/qn0
-         OTyPjJLIG/CtrSFV13yr7YcfyUwqMdm8KnhMP2JK0+K8FoLGiFMnWw7jhzwsdP86wauz
-         ulow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792931205; x=1793536005;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bJHM7BaL1qbpdXNxhWlZ4r8HgQW68d95SLx6NWeVvUc=;
-        b=m5C/fYdlqyq6NG9DLaUoE4bs84ym9Y02xzBzWpe+jStIYmP9dlGIHEYglI7smEx0J2
-         xJ0NFRMYVqQ7htVIcEfb2Y9nCFwOhgSaGK2vSMVos1r4xh40yLgSGywiiOXkV0HNI0n9
-         4nb6PHr6NK4lfGt38IpourIVEm/CQLm2mbfBPVOsicdNHXWnfI0MJaF0Zn5lvYanK6Jh
-         kWmLhsivwrWtksDLWfQRZ8ECTjcDyPQTa0usCw+3PaUVqv9otYBgCqrWgepYfgEiJih5
-         ji+p8BiBMpo4e3hd7Vp41gSCbfjfM4dbWxL0aOOcegRAqsHtnBotHJ5zVbplht6/TIAl
-         OoEw==
-X-Forwarded-Encrypted: i=1; AKwUvBwYXIITnbAcRnsAHAS0yyU+TxyC25ZbTQSau+ThTKkeJmOM2x9Xz8jIIzvIaw8D3Hzlp2pxGp8t2vagtcx7@vger.kernel.org
-X-Gm-Message-State: AFq9FYKQ7gOkpYUqo5OJyodwlSSW0UeXcnIeKW7O2wNp7BDUzpDvxjce
-	kEtnsL0BeeR77kCESsbcWyLCW8ACrQ5MhyQbt5WEmXnNNlX05ZS+3MlY
-X-Gm-Gg: AYBFou2mklVqh8P+ZRv/Jlyd9a6Ta1d6lywujYPC9+UboGykBKTWDB42tG/bsmgv7aP
-	DlldrLvF5xGLlKEJGksD1pRmY71kc1shugvK78+BgfIM1Ru38+TFFPYZRz1fGA0MjjEy2KnxUTl
-	h/KOoDySZnhFPEy4w6vA25WYxs70UMeZSaOpbg2wA0+YQ5ZfXqjOC8RpHogjQ0X0UNsLTOYhFQg
-	pgBvb8KlAXkJ0zHZzEDTzJKnFRVgPm9XYI3llaGljYdxsP2stDxS0Xz4XumYs0qAMzy8Meqyi+v
-	IKaqPwbx9hss/Gh0V6hkzScB3u2d34OaG7D9ENnLBCooaZg9MG+KFpy5Kb7opgW+BpMmopALehG
-	pBWthj7v099kJZWA6AbxGRQ7GnPs+FK6eYqZma1hzgLhjX0W0NqUBa37IIVi3o9kQnmGWoC4ih7
-	1cJCKJIL3N/+Scneu6lCebDtzZUyry5+39DvDuYluADDKYpgbHLwzWgZV/sNfaAHdf5lTstp5M1
-	XVN7HZsTl82e+UA0gsrGvCUBiR5m46w64fKYSNj+vpa4ZheFxX1f/9/ya0PwVhJJSto+9DjIL38
-	jKTmjy+Uql6/RA==
-X-Received: by 2002:a05:6102:1458:b0:7ae:545d:f97c with SMTP id ada2fe7eead31-7ce5ccddcb1mr755537137.3.1792931204840;
-        Sun, 25 Oct 2026 05:26:44 -0700 (PDT)
-Received: from tacolabs ([2a02:6ea0:cc02:5480::14])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7ce5df708e3sm4694536137.2.2026.10.25.05.26.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 05:26:44 -0700 (PDT)
-From: Reid Downing <skibletz@gmail.com>
-To: linkinjeon@kernel.org,
-	sj1557.seo@samsung.com
-Cc: yuezhang.mo@sony.com,
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=irqm4AVT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=kB
+	j+4RxwijaLWN5ITLDs5hsE3jd/u1ixbAu4cXW/vcs=; b=irqm4AVTDaZMMfbMc9
+	ZI3mPqcgCSZgPdSKM8qtMSLspV66/LzvQCoE6pZXc/59gHIy7jRTG9e503ChvQCt
+	V28xRWnjS+yxejDfzXcgNWJMkeJJehpfrhhGIf3gr5SX/q0VxYQ4mCr6Bf2C6uE5
+	LRikHUBT52D1uuRDeaRVq4OIk=
+Received: from pc.localdomain (unknown [])
+	by gzsmtp3 (Coremail) with SMTP id PigvCgDnvTzs+N1qxJALCA--.54355S7;
+	Sun, 25 Oct 2026 20:41:23 +0800 (CST)
+From: Jiale Yao <yaojiale02@163.com>
+To: Damien Le Moal <dlemoal@kernel.org>,
+	Naohiro Aota <naohiro.aota@wdc.com>,
+	Johannes Thumshirn <jth@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Reid Downing <skibletz@gmail.com>
-Subject: [PATCH] exfat: fix upcase table validation to require all entries consumed
-Date: Sun, 25 Oct 2026 08:26:39 -0400
-Message-ID: <20261025122639.1173247-1-skibletz@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH 5/5] zonefs: drain in-flight DIO before buffered writes
+Date: Sun, 25 Oct 2026 20:41:14 +0800
+Message-Id: <20261025124115.3178287-6-yaojiale02@163.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261025124115.3178287-1-yaojiale02@163.com>
+References: <20261025124115.3178287-1-yaojiale02@163.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -98,49 +66,49 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PigvCgDnvTzs+N1qxJALCA--.54355S7
+X-Coremail-Antispam: 1Uf129KBjvJXoW7XF13Ww17XFy8CF45XF43Jrb_yoW8Jr4DpF
+	9xKF13GF95ZrWxC3yvka1UX3ZYkF1kXr43WrWqq3W7Aa4DJr1jgF4jyry29a45AFsrAFWI
+	vF4kWryUuryqy3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07URCJQUUUUU=
+X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC7xOMxmrd+PM7ngAA3v
 
-exfat_load_upcase_table() and exfat_load_default_upcase_table()
-accept the table when index >= 0xFFFF, but a correct table must
-process all 0x10000 entries, leaving index at 0x10000.
+Conventional zone files allow both direct and buffered writes. An
+asynchronous direct write can remain active after its submitting thread
+releases the inode lock. A buffered write can then dirty page cache before
+direct I/O completion performs post-write invalidation, causing the
+invalidation to fail and record -EIO in the mapping error sequence.
 
-a crafted filesystem image can use the compressed skip encoding
-to advance index to exactly 0xFFFF without filling the remaining
-entries. the checksum covers only the on-disk bytes so it can be
-made to match. the kernel accepts the table while the unfilled
-entries silently remain zero, causing incorrect uppercase mappings
-for the affected codepoints and breaking case-insensitive filename
-comparison for non-ascii characters.
+After taking the exclusive inode lock, wait for active DIO before running
+buffered write checks. Return -EAGAIN when an IOCB_NOWAIT request would
+otherwise block.
 
-fix both checks to require index >= UTBL_COUNT.
-
-Fixes: 370e812b3ec1 ("exfat: add nls operations")
-Signed-off-by: Reid Downing <skibletz@gmail.com>
+Fixes: 4008e2a0b01a ("zonefs: Reorganize code")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jiale Yao <yaojiale02@163.com>
 ---
- fs/exfat/nls.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ fs/zonefs/file.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/fs/exfat/nls.c b/fs/exfat/nls.c
-index 055447edc..7afc86ea2 100644
---- a/fs/exfat/nls.c
-+++ b/fs/exfat/nls.c
-@@ -691,7 +691,7 @@ static int exfat_load_upcase_table(struct super_block *sb,
- 		brelse(bh);
+diff --git a/fs/zonefs/file.c b/fs/zonefs/file.c
+index 5b34849be7a2..8635a795c24c 100644
+--- a/fs/zonefs/file.c
++++ b/fs/zonefs/file.c
+@@ -576,6 +576,14 @@ static ssize_t zonefs_file_buffered_write(struct kiocb *iocb,
+ 		inode_lock(inode);
  	}
  
--	if (index >= 0xFFFF && utbl_checksum == chksum)
-+	if (index >= UTBL_COUNT && utbl_checksum == chksum)
- 		return 0;
- 
- 	exfat_err(sb, "failed to load upcase table (idx : 0x%08x, chksum : 0x%08x, utbl_chksum : 0x%08x)",
-@@ -728,7 +728,7 @@ static int exfat_load_default_upcase_table(struct super_block *sb)
- 		}
- 	}
- 
--	if (index >= 0xFFFF)
-+	if (index >= UTBL_COUNT)
- 		return 0;
- 
- 	/* FATAL error: default upcase table has error */
++	if (atomic_read(&inode->i_dio_count)) {
++		if (iocb->ki_flags & IOCB_NOWAIT) {
++			ret = -EAGAIN;
++			goto inode_unlock;
++		}
++		inode_dio_wait(inode);
++	}
++
+ 	ret = zonefs_write_checks(iocb, from);
+ 	if (ret <= 0)
+ 		goto inode_unlock;
 -- 
-2.53.0
+2.34.1
 
