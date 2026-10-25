@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792925824;
-	b=PNYkl18VLwdT67NpSpMUEbqLLljoY8ZE3tIpTx8I0t5PAekXguAlGlCP1o966PvtQOK/
-	 u15ClmPrgzBy3aPQ5JcNgzRE55rzl38rbnyUCuwP/mbDA//9DrrcnLqRkGLt0y2irN7lT
-	 dpUGLhi7aJyMuaWCqUMdeZd4KK2oDKlAZVq8FOn1WewSsPfgO4TrKmepApKOdOL98N32C
-	 nCFuiF3cnEoGJx5uFICZHaIZ/vzFbmVSAzV7NvToYLasa+iefHk7JunNheJRBNe57KClP
-	 v0SRbGmqKKhDR5U7BWD0Ap9OGANjZe0n8j3iONa/pVwc/6RMAZHKpy8brqoWERKnZmw==
+	t=1792929153;
+	b=04tH+KlZpKJI8vzCBmEvl0ShUjQlhu8incnuSj7vGaKDp7abqC+4+JHxWnDubxlLeg0b
+	 TqjMLnzwJVtxGoo5LduN1ctbCiBCe/t1bTwMEZrIacU75oTfwLI2JojFQFQozyYBZE2XA
+	 8Ugwm1OSQcAk96CIrkK1M6uQB/OMjmVd12OOrWHhT6QSkZ6WOsmrRMP/H39ZUJlI0iwiy
+	 rHY6NsQBBg4UxPuKId12WkmkmDClkbQVIXcNiNTFE4zclGzq8aB8xv66nIdC8IWAyWh1f
+	 ohuC6A3xHV10QTHouD3keECe+5FplCGvdTXKK9EL7FIXaPLWcwe5y/oiJfCslFZItEg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792925824;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792929153;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=WxGHp2cRhL5SwPo0OwBRfhp0Jz+5ULz4/oEe6eLF81A=;
-	b=Db5Wsm/RqwkyWo/9mBuQQvUdoiIfaw6qFDiSfLO/IKnd2+EP1UVfE7nVMpJezEVw8COj
-	 CkaOAzOdNbrNFUOFMY9IKR/Z2k3ie8lNMt9UGjgpkIdfOuXT4GzT6qo8ve440zWd+9uwq
-	 AHKY6uOTCwYvxmKwDR20Y4zkCKm9qBeKi13N9SAnM88Z9Ia/2/ZxCuno+pK6Ux/YAqrRx
-	 fIK+EnXukrnCLuiKRxJHgDgobvW3OUFlAFrWGp73Gt6gv8r/w+slTf0q9bqB+kkmNP+fe
-	 l4Qw27osVdIKhnIQKiFsNgp/0XUyRACrXHDVvx1QpwRgmxBHkvJBkA5Bb18R+h/WfGQ==
+	bh=9CEWfORfntv8VkhsX5SGmYSPLl0+f9APEy3k75g3Ges=;
+	b=PTLlWtamVb7vaYK90q/zDJPVyvC06kOEH8VkM82zXekNnp+NrxElQbE5gEu27jNL71UV
+	 iZqSIpuS5oDXK08DmX2U6x9UI321KnragK0f7Ky5nG9R6g+f+u9XQrWo+BOVtzHw8SmJQ
+	 krE53fpo+aj0wUPiw5Soo3dgskwaqUpZmIWzmtKnXvya8T7+zP8UOOyF9FM9YRBNVN0FK
+	 84SqWDyqCpmv1RRCQOZsv0Jf/PfPODkyovN81kpw3bvncMs0HOqKUVjQoOPS1NGlB6J4s
+	 85zMN5bT+9g6+jh9rcg/BIIr3medXUMW85hx3ML3cIjuYQq2R69IP46cTdusLxxP5gQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=blPOGtHH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kXvSlVnD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EE2606A31B;
-	Sun, 25 Oct 2026 10:57:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81698606A31A;
+	Sun, 25 Oct 2026 11:52:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=blPOGtHH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1336A1F01825;
-	Sun, 25 Oct 2026 10:57:00 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kXvSlVnD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46D311F01825;
+	Sun, 25 Oct 2026 11:52:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792925824;
-	bh=WxGHp2cRhL5SwPo0OwBRfhp0Jz+5ULz4/oEe6eLF81A=;
+	s=k20260515; t=1792929153;
+	bh=9CEWfORfntv8VkhsX5SGmYSPLl0+f9APEy3k75g3Ges=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=blPOGtHHu1tq3dB00Ujh+vtvVYU+cG9XGGANoibb6V930ieUlGbThJR+UuVR5cEbd
-	 VDxHHioU5Hje8/Bmd1zSATXRtXaqJ9kl4uv8M/A2r1CF7seZT7bVSEoy53/lqc5FJU
-	 hjOb1vaWSnLDDFQP7W6iS9d+m9w9BjQqTReqGEnGK0c++AFP05BLJJZ6qpqfHYt0we
-	 tDS/J1Oom1CD5WxjzTCiI+tVn5uu8mJ6/9kWgudDMDN9VJvTniA8vjcs5F0p2RdjqQ
-	 VnkTzliosOQ4wMTZFG7/8Lwjt8/PHd78lWpeF3K2r+jObJgsTzLeBkEVrVTjApt3vN
-	 QRD3NcP3ba2ZA==
-Message-ID: <d5dc39ba-6af9-484a-9e3d-9c73662c431c@kernel.org>
-Date: Sun, 25 Oct 2026 11:56:16 +0100
+	b=kXvSlVnDH15cWbO+1dz7W4fA+T+ypLAoZ5VIau7XmbxS6feD3VAzBV1LffLw5p6nH
+	 NQGjuMGAlXxYHVEuvpQ0vcRtODFwdjaIc0xgimwJ4L/8XTFRcIN9lwnrg0BoCXQTqk
+	 386sgwGM/6HyI+6Tuz5K8dPrXes8XavbQRl9tpJKTcviHkxSJb1Knt8DPmVJw+J9zN
+	 poVRvHhxtbzIXdvplQThOA+xbji8a5V3vMiF9TSUAjcLn8ogW4RhCHq9dwQuEuLFJE
+	 oThSBPZwm4yzahMxKEfSeVBAu7ay/18ITsC084l18AwdnVqAfO7yH3ERFL3W36MsR7
+	 HQiXEUK1N8C8g==
+Message-ID: <78127b64-d4ba-4e72-87fd-28e26f989de9@kernel.org>
+Date: Sun, 25 Oct 2026 11:56:58 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,15 +52,15 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/proc/task_mmu: pin mm_users in do_pagemap_scan()
-To: Ngoc Quy <ngocquy0700@gmail.com>, akpm@linux-foundation.org,
- liam@infradead.org, ljs@kernel.org
-Cc: Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>,
- Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20261014095540.3261469-1-ngocquy0700@gmail.com>
+Subject: Re: [PATCH] fs/proc/task_mmu: return -ENOTTY for unknown pagemap
+ ioctls
+To: Hengyu Liang <hengyul@cs.unc.edu>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, jannh@google.com,
+ pfalcato@suse.de, usama.anjum@arm.com, avagin@gmail.com,
+ mirq-linux@rere.qmqm.pl, arnd@arndb.de, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20261023181300.3366487-1-hengyul@cs.unc.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -107,79 +107,53 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261014095540.3261469-1-ngocquy0700@gmail.com>
+In-Reply-To: <20261023181300.3366487-1-hengyul@cs.unc.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/14/26 11:55, Ngoc Quy wrote:
-> The PAGEMAP_SCAN ioctl takes mmap_read_lock() on an mm obtained from
-> /proc/<pid>/pagemap without holding a reference to mm_users.
+On 10/23/26 20:13, Hengyu Liang wrote:
+> Commit 52526ca7fdb9 ("fs/proc/task_mmu: implement IOCTL to get and
+> optionally clear info about PTEs") made do_pagemap_cmd() the ioctl
+> handler of /proc/<pid>/pagemap.
 > 
-> proc_mem_open() deliberately grabs only mm_count, so a consumer that
-> touches the address space has to call mmget_not_zero() first. Every
-> other consumer in this file does -- m_start(), do_procmap_query(),
-> show_smaps_rollup() and pagemap_read() -- but do_pagemap_scan() does
-> not.
+> However, do_pagemap_cmd() returns -EINVAL for every command other than
+> PAGEMAP_SCAN. Before that commit, pagemap had no ioctl handler, and
+> the VFS returned -ENOTTY for these commands. As of now, they fail with
+> EINVAL, so tcgetattr() and isatty() on pagemap report EINVAL instead
+> of ENOTTY.
 > 
-> Without that reference the target can reach exit_mmap() concurrently,
-> and exit_mmap() calls unmap_vmas() while holding mmap_lock only for
-> reading, which does not exclude the scanner. For ordinary VMAs this is
-> harmless, as free_pgtables() and remove_vma() run afterwards under
-> mmap_write_lock. A shared hugetlb VMA is different: __hugetlb_zap_end()
-> frees the VMA's hugetlb_vma_lock inside the read-locked phase.
+> The issue can be reproduced with a simple C program:
 > 
-> walk_hugetlb_range() can therefore load vma->vm_private_data, have the
-> lock freed underneath it, and then down_read() a freed rw_semaphore.
-> The load happens before the freeing side clears the pointer, so this is
-> a use-after-free and not a NULL dereference. Any unprivileged user can
-> reach it with no huge pages configured, as hugetlb_reserve_pages()
-> allocates the lock before the VM_NORESERVE early return.
+>     #include <fcntl.h>
+>     #include <stdio.h>
+>     #include <termios.h>
 > 
-> Pin mm_users across the scan, the way the other consumers do. mmput()
-> from the exiting task can then no longer reach exit_mmap() while a walk
-> is in progress.
+>     int main(void)
+>     {
+>             struct termios t;
+>             int fd = open("/proc/self/pagemap", O_RDONLY);
+> 
+>             if (tcgetattr(fd, &t) < 0)
+>                     perror("tcgetattr");
+>             return 0;
+>     }
+> 
+> Before that commit, the result is:
+> 
+>     tcgetattr: Inappropriate ioctl for device
+> 
+> After that commit, the result is:
+> 
+>     tcgetattr: Invalid argument
+> 
+> This patch will return -ENOIOCTLCMD for unknown commands, as
+> procfs_procmap_ioctl() in the same file does, so that the VFS turns it
+> into -ENOTTY.
 > 
 > Fixes: 52526ca7fdb9 ("fs/proc/task_mmu: implement IOCTL to get and optionally clear info about PTEs")
 > Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-5
-> Signed-off-by: Ngoc Quy <ngocquy0700@gmail.com>
+> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
 > ---
->  fs/proc/task_mmu.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index 5c54aebe2118..8825b01f5e38 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -3231,15 +3231,18 @@ static long do_pagemap_scan(struct mm_struct *mm, unsigned long uarg)
->  	size_t n_ranges_out = 0;
->  	int ret;
->  
-> +	if (!mm || !mmget_not_zero(mm))
-> +		return -ESRCH;
-> +
->  	ret = pagemap_scan_get_args(&p.arg, uarg);
->  	if (ret)
-> -		return ret;
-> +		goto out_mmput;
->  
->  	p.masks_of_interest = p.arg.category_mask | p.arg.category_anyof_mask |
->  			      p.arg.return_mask;
->  	ret = pagemap_scan_init_bounce_buffer(&p);
->  	if (ret)
-> -		return ret;
-> +		goto out_mmput;
->  
->  	for (walk_start = p.arg.start; walk_start < p.arg.end;
->  			walk_start = p.arg.walk_end) {
-> @@ -3294,6 +3297,8 @@ static long do_pagemap_scan(struct mm_struct *mm, unsigned long uarg)
->  		ret = -EFAULT;
->  
->  	kfree(p.vec_buf);
-> +out_mmput:
-> +	mmput(mm);
->  	return ret;
->  }
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
