@@ -1,77 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.218
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792900637;
-	b=gygm+l/4ff6WJZg3es6f3ZOHY39BAnULsabqHrQeLVHwxD3IxNKdSpPujpX41U1OAyIz
-	 CqB2yQnSKg5rHtKt+Ec2qZlLNKU0+D4yXHszMuBuSEhfRV3BG7yY4bUtZTI8H8TG+mHav
-	 yNGppR8cZFS/kdQlY2D8PHRDN2jTpySkIaPn+GGJq7XE5L/J9AicAJDSoFbJQBAXTNGq/
-	 XxL5CjefCAPVVxcaSTqxT7JwCo4IiV0XiGxGoQlun+plnVAV8Lt9MuOneQxZlgen02mPg
-	 x1F4DHsNl8bsCQQUp9q9jeQe7ATKGpb+OksuPNjTZ7WvcC6crrhGgcbc+esTVQjcsIw==
+	t=1792920226;
+	b=IDTU/l5xLceD46djcb0ujjwGfmJrYlyyAu2y7pYPW+9nuAcefmKkf2C2ZYmUys93t+1W
+	 LtdbKwZsk620m9NeYl7YP8Z1KWj9wEZjQiEwtUHn5JJ8D8oSNhnHsLH8+ifo8xANYNJ4V
+	 NpcncJWHngS5P3OLzjgWlXU2BLnWPfbjGlqR7jh07nBpxpAs+mCpTYEiSsWSCm+EBeYgh
+	 Y45vwpR29lCHkvmg6Ei0CfSEpGlGVu8w2TvleJKQPW1KS/24NJm9sCwkEHoBExwZZFX2F
+	 LAsdm2TPH7YCx/+iJV4hliZQvTPKvCfJuMW4ST1sG4AHA/XVsfeqUFlJz+Zz5/krm9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792900637;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 User-Agent:MIME-Version:Content-Type;
-	bh=NNFR6FJKi6I9EGLzIHV/Jr57n48wyxeld8lJYI4FqTY=;
-	b=xOtxGEDK3VQfII8nE4J5jli6s951N1/rF1di1NiAMwNKH8HwgfJ53trLwO0Otjc3CSa2
-	 i0fW9rSnEHx5oPBQ1vYE4J0vfs8yHSX+nf/WvDHP12GkZ5WT1/irAtOgj1Gl5Rxu/pTvI
-	 ZJ7pArOW0ERTeHN5gB27E7OEf5QbDYrCHM0jNUd56AoN0vyaS920oOnHr/ykGG93gUKQ3
-	 aFyLbq8YnOQsfUpMkfuVaORHpqfS9GdQ6EYJfMejfwtdd0WXWbftD5jmLjp2K6+MSaIji
-	 8K8i93mtX/bFahsFtbhXnKm9Se5+aFERiyIWyEeSRjIPCxiMfUkL0wUSDVrYR8MGR3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792920226;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Received:From:
+	 To:CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-originating-ip:Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=IqKI4LM6XVwEFw5OcR4MCKFBHEzsLZL8E7gqK3/pUrI=;
+	b=kmyf63LXoMcD7aDGvInhZSS8jif9M4dPJ+SNcvXOuhSJGPoWoPWBttWGj9Rr+iXjynKc
+	 3ECCgBtkHwOsavwFNJM43EAKI+bdeYTINn/slzmdO4qiIxCwU295C0jNUPeqybs9zteM/
+	 WO51gnDEi2f9PEZzk27QisUIHx9xgXnGs1unGnK4THzYGlzuhyw4U8YiqXTfTEA97WV2h
+	 NzPm8T7xtIAtwYSpAh8wTOI5wPiTUTzgTotWJyGOd0AVlWvwKM6IrcYIO1JhSEDeQ944a
+	 FkyyoYwhXWfEnDf6+SLKRKGpkaEHpmYLi/+HusYSNLFwD5uLo0JckzGDIhEpgtbe7ig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.parknet.co.jp;
-	spf=pass smtp.mailfrom=parknet.co.jp;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=nQZzq031;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=JIory6u6;
-	arc=none smtp.remote-ip=210.171.160.6
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=hf9PQs5u;
+	arc=none smtp.remote-ip=113.46.200.218
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8391C606A31A;
-	Sun, 25 Oct 2026 03:57:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8391C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5342606A31A;
+	Sun, 25 Oct 2026 09:23:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5342606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=nQZzq031;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=JIory6u6
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 64C1826F768C;
-	Sun, 25 Oct 2026 12:57:13 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1792900633;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NNFR6FJKi6I9EGLzIHV/Jr57n48wyxeld8lJYI4FqTY=;
-	b=nQZzq0314uWY8R5x9cHFSpiejQnL1UQWDFj0KMQx+w/Vv26oyRzlwMJZa1AQPzAO9H4xBB
-	P6yEnkQNzDNxWebNSy4P+8II0uaadqlzJugLgV7JS7teQk2U57pSKTWOe+nC1S8pUZ+sLh
-	TC1xIMkrlAjjaU5U9/HPPaURsKJ6nS9eQ1NEvsdpQF+1fi4BEIqpKNDsNQoUWsAG6epe5y
-	3nq1ZmsKWuPeq5zkihhPgW+9hEzC2BdmUkujIn1/KbIHIDLOYf+HytghHVoZ6ht++P1MT9
-	1OVrP+ExfrQq/sZVOH/z21nCxzIDW+Mg2aeRdtjwLSclBRqP1cnb5ZzVsxFQkg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1792900633;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NNFR6FJKi6I9EGLzIHV/Jr57n48wyxeld8lJYI4FqTY=;
-	b=JIory6u6Nvzq3BJaETR2UNGhwRZw6xJDMMayds/jsG/2mDSXYs9os7QjZ200lFWRjQn1fm
-	49GsZVPUvF/DpEDg==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id DBBFEE00A4D;
-	Sun, 25 Oct 2026 12:57:12 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id C33DB220019D; Sun, 25 Oct 2026 12:57:12 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fat: hold truncate_lock in fat_write_failed()
-In-Reply-To: <20261024172458.48c825a7a36a3802313a0ed3@linux-foundation.org>
-References: <20261021162105.62525-1-matheus.aalmeida@inf.ufrgs.br>
-	<20261024172458.48c825a7a36a3802313a0ed3@linux-foundation.org>
-Date: Sun, 25 Oct 2026 12:57:12 +0900
-Message-ID: <871p9ecu07.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=hf9PQs5u
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=IqKI4LM6XVwEFw5OcR4MCKFBHEzsLZL8E7gqK3/pUrI=;
+	b=hf9PQs5uTVJI34XIOJvVBBspkD8VpedxsNnj/tsSl+9WWD/04DxV4c8Pf3BUpl5p/NuGLlNPW
+	INVQ2g0L2nQ4kKS8cl7etHGk/L3NNimjwDnT/gpUsRgvubyI+nfROBMfrotd0Igl8Fni1ZThBT3
+	NXTVF+96M9GsrijX7TN31mI=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4jCBBk4D47zpSt9;
+	Sun, 25 Oct 2026 17:23:26 +0800 (CST)
+Received: from kwepemf200008.china.huawei.com (unknown [7.202.181.234])
+	by mail.maildlp.com (Postfix) with ESMTPS id C3F2740538;
+	Sun, 25 Oct 2026 17:23:33 +0800 (CST)
+Received: from kwepemf100015.china.huawei.com (7.202.181.14) by
+ kwepemf200008.china.huawei.com (7.202.181.234) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Sun, 25 Oct 2026 17:23:33 +0800
+Received: from kwepemf100015.china.huawei.com ([7.202.181.14]) by
+ kwepemf100015.china.huawei.com ([7.202.181.14]) with mapi id 15.02.2562.045;
+ Sun, 25 Oct 2026 17:23:33 +0800
+From: "Liuwenliang (Abbott Liu)" <liuwenliang@huawei.com>
+To: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "brauner@kernel.org"
+	<brauner@kernel.org>, "jack@suse.cz" <jack@suse.cz>, "pliard@google.com"
+	<pliard@google.com>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"phillip@squashfs.org.uk" <phillip@squashfs.org.uk>, "cem@kernel.org"
+	<cem@kernel.org>, "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+	"tytso@mit.edu" <tytso@mit.edu>, "adilger.kernel@dilger.ca"
+	<adilger.kernel@dilger.ca>, "libaokun@linux.alibaba.com"
+	<libaokun@linux.alibaba.com>, "ojaswin@linux.ibm.com"
+	<ojaswin@linux.ibm.com>, "ritesh.list@gmail.com" <ritesh.list@gmail.com>,
+	"zhangyi (F)" <yi.zhang@huawei.com>
+CC: "yangzhuohao (A)" <yangzhuohao1@huawei.com>, douzhaolei
+	<douzhaolei@huawei.com>, Wangbing <wangbing6@huawei.com>, Nixiaoming
+	<nixiaoming@huawei.com>, liaohua <liaohua4@huawei.com>, "Chenjie (K)"
+	<chenjie6@huawei.com>, chengzhihao <chengzhihao1@huawei.com>, heyuqiang
+	<heyuqiang1@huawei.com>
+Subject: Re: [PATCH] initrd: flush deferred fput() before mounting root
+Thread-Topic: [PATCH] initrd: flush deferred fput() before mounting root
+Thread-Index: Ad1kX9AjglmBfdg0QUm6eVPEjTE/+g==
+Date: Sun, 25 Oct 2026 09:23:33 +0000
+Message-ID: <3d64d109188e492da5939ebacc8631f4@huawei.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -81,98 +92,174 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
 
-Andrew Morton <akpm@linux-foundation.org> writes:
-
-> On Wed, 21 Oct 2026 13:21:04 -0300 Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> wrote:
->
->> The current fat_write_failed() implementation calls into
->> fat_truncate_blocks() without holding truncate_lock. Make it so it is
->> held exclusive while truncating.
->> 
->> Fixes: 459f6ed3b8c7 ("fat: convert to use the new truncate convention.")
->> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
->
-> Thanks.  My AI reviewbot said:
->
-> : Please expand the changelog to describe the failed/short extending write
-> : racing with FIBMAP. The mapper uses i_blocks, so it can walk beyond i_size
-> : while fat_write_failed() is cutting that part of the chain. That can
-> : produce a bogus "request beyond EOF" error and make the filesystem
-> : read-only with the default error policy.
-> : 
-> : Also, please change the Fixes attribution to 16fab2015099:
-> : "fat: permit to return phy block number by fibmap in fallocated region".
-> : That introduced the beyond-EOF FIBMAP lookup. Before it, the lookup was
-> : bounded by i_size, so the removed clusters were outside its range.
-> : 459f6ed3b8c7 introduced the helper, but not this failure mechanism.
-> : 
-> : I don't see a need to move the lock above truncate_pagecache(). Ordinary
-> : reads are bounded by i_size, and the cluster containing the partial EOF
-> : block is retained. FIBMAP is the case which needs this exclusion.
-> : 
-> : This looks like a stable candidate once validated and merged upstream.
-> : Please consider adding Cc: stable@vger.kernel.org. I checked the source
-> : and a reduced TLA+ model, but haven't built or runtime-tested the patch.
->
-> So I made some changes and ended up with the below.  Please check.
->
-> From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-> Subject: fat: hold truncate_lock in fat_write_failed()
-> Date: Wed, 21 Oct 2026 13:21:04 -0300
->
-> The current fat_write_failed() implementation calls into
-> fat_truncate_blocks() without holding truncate_lock.
->
-> A failed or short extending write racing with FIBMAP can spuriously make a
-> FAT filesystem read-only.  FIBMAP bounds its lookup by i_blocks, so it can
-> walk allocated clusters beyond i_size while fat_write_failed() is removing
-> them.  If the chain is shortened during the walk, the mapper can report a
-> bogus "request beyond EOF" error, triggering the default read-only error
-> policy.  Hold truncate_lock for write around the block cleanup to
-> serialize it with _fat_bmap().
->
-> For comparison, fat_setattr() correctly holds truncate_lock during
-> truncation:
->
-> 	down_write(&MSDOS_I(inode)->truncate_lock);
-> 	truncate_setsize(inode, attr->ia_size);
-> 	fat_truncate_blocks(inode, attr->ia_size);
-> 	up_write(&MSDOS_I(inode)->truncate_lock);
->
-> Make it so ->truncate_lock is held exclusive while truncating.
->
-> Link: https://lore.kernel.org/20261021162105.62525-1-matheus.aalmeida@inf.ufrgs.br
-> Fixes: 16fab2015099 ("fat: permit to return phy block number by fibmap in fallocated region")
-> Fixes: 459f6ed3b8c7 ("fat: convert to use the new truncate convention.")
-> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-> Cc: Pedro Falcato <pfalcato@suse.de>
-> Cc: <stable@vger.kernel.org>
-
-Looks good. Thanks.
-
+On Wed, 30 Sep 2026 16:47 +0800 Abbott Liu <liuwenliang@huawei.com> wrote:
+> Booting an old-style initrd, i.e. a bare filesystem image rather than a
+> cpio archive, with "root=3D/dev/ram rootfstype=3Dsquashfs" can fail to
+> mount the root filesystem and panic:
+>=20
+>     RAMDISK: squashfs filesystem found at block 0
+>     RAMDISK: Loading 68449KiB [1 disk] into ram disk... done.
+>     No filesystem could mount root, tried:
+>      squashfs
+>     Kernel panic - not syncing: VFS: Unable to mount root fs on
+>     "/dev/ram" or unknown-block(1,0)
+>=20
+> The panic requires three conditions to hold simultaneously:
+>=20
+>  1. The initrd is a filesystem image, so initrd_load() copies it into
+>     /dev/ram with rd_load_image() instead of unpacking a cpio archive
+>     into rootfs.
+>  2. The root filesystem is mounted from that ramdisk and reads it with
+>     bios that bypass the block device page cache. Squashfs has done so
+>     for every read since commit 93e72b3c612a ("squashfs: migrate from
+>     ll_rw_block usage to BIO").
+>  3. The ramdisk's block size equals squashfs's device block size:
+>     inode->i_blkbits =3D=3D blksize_bits(SQUASHFS_DEVBLK_SIZE).  The firs=
+t
+>     open of /dev/ram computes i_blkbits in set_init_blocksize() from
+>     the queue's logical block size (512 for brd) and the ramdisk size,
+>     capped at 12 (blksize_bits(PAGE_SIZE)).  When the ramdisk size is
+>     aligned to PAGE_SIZE, inode->i_blkbits =3D blksize_bits(PAGE_SIZE).
+>     The ramdisk size comes from CONFIG_BLK_DEV_RAM_SIZE at build time
+>     and can be overridden on the kernel command line with ramdisk_size=3D
+>     (or the rd_size module parameter when brd is built as a module);
+>     all sizes are in kibibytes.
+>=20
+> When the conditions hold, the boot races as follows:
+>=20
+>  1. rd_load_image() opens /dev/ram for buffered writing; the first open
+>     fixes i_blkbits as described above.
+>  2. Its copy loop writes the image with kernel_write(), which leaves
+>     all of the data dirty in the block device page cache.  Nothing has
+>     reached the ramdisk's backing store yet.
+>  3. rd_load_image() then drops the ramdisk file with fput() and no
+>     explicit sync.  The final __fput() - and with it blkdev_put() ->
+>     blkdev_flush_mapping() -> sync_blockdev(), the writeback that would
+>     push the dirty pages into the ramdisk - is asynchronous.  While
+>     init was a kernel thread, __fput() ran as delayed fput work at
+>     least a jiffy later; since commit 343f4c49f243 ("kthread: Don't
+>     allocate kthread_struct for init and umh") init is a user mode
+>     task, so __fput() is deferred via task_work and only runs once init
+>     returns to user space, i.e. after mount_root().
+>  4. prepare_namespace() calls mount_root() right after initrd_load().
+>     squashfs_fill_super() starts with
+>     sb_min_blocksize(sb, SQUASHFS_DEVBLK_SIZE), which ultimately calls
+>     set_blocksize().  That function reconfigures the device only when
+>     the requested block size differs from the device's current block
+>     size, and it calls sync_blockdev() and kill_bdev() first - a page
+>     cache geometry change that incidentally flushes the dirty pages.
+>     With both block sizes equal, this incidental rescue is skipped, and
+>     the mount path contains no other writeback point.
+>  5. squashfs reads the superblock via squashfs_bio_read(), which builds
+>     BIOs on its own pages and submits them with submit_bio_wait() -
+>     raw I/O that bypasses the block device page cache completely.  brd
+>     has no backing page for that range yet and zero-fills the result,
+>     so the "hsqs" magic check fails and the mount returns -EINVAL.
+>  6. mount_root_generic() calls init_flush_fput() only after the failed
+>     mount.  Since rootfstype=3D names a single filesystem type and the
+>     root device is read-only by default, no candidate is left to retry
+>     with.  It panics.
+>=20
+> The failure is intermittent because most geometries get the incidental
+> sync from step 4: the race only surfaces when both block sizes match.
+> Such a geometry arises when CONFIG_SQUASHFS_4K_DEVBLK_SIZE=3Dy.  The
+> ramdisk size is normally aligned to PAGE_SIZE, so on the first open of
+> /dev/ram the ramdisk block size equals PAGE_SIZE (4K on typical
+> systems).  Without CONFIG_SQUASHFS_4K_DEVBLK_SIZE,
+> SQUASHFS_DEVBLK_SIZE
+> is 1K and differs from the ramdisk block size, so set_blocksize()
+> calls sync_blockdev() and kill_bdev() and flushes the dirty pages.
+> With CONFIG_SQUASHFS_4K_DEVBLK_SIZE=3Dy, SQUASHFS_DEVBLK_SIZE is 4K
+> and
+> matches the ramdisk block size, the flush in set_blocksize() is
+> skipped, and the mount panics.
+>=20
+> Several ways to close this window were considered.
+>=20
+> Fixing the reader, e.g. by syncing in squashfs_fill_super(), addresses
+> the wrong end of the race.  Reading a block device with bios that
+> bypass the page cache is not a squashfs peculiarity: of the 28
+> block-backed filesystems in the tree, 26 do it in at least one read
+> stage.  squashfs, xfs, gfs2, zonefs, hfsplus and ntfs read their
+> superblock with raw bios; btrfs, f2fs and jfs read their metadata that
+> way; and the file data of ext4 and 20 more filesystems is read through
+> mpage, iomap or block_read_full_folio into the file's own address
+> space instead of the block device cache.  Only romfs and cramfs
+> consult bd_mapping at every stage.  A squashfs-only fix would leave
+> the same race in place everywhere else, where it usually does not even
+> fail loudly - the mount succeeds and file data silently reads back as
+> zeros - and repeating a sync in every filesystem would scatter the
+> same barrier across the tree.
+>=20
+> That leaves the producer, rd_load_image(), with two candidates:
+>=20
+>  1. Call vfs_fsync(out_file, 0) once the copy loop is done.  This
+>     pushes the ramdisk's dirty pages into the backing store and waits
+>     for them, costs a single batched writeback, and returns an error
+>     that can be checked.
+>=20
+>  2. Keep fput(out_file) and follow it with init_flush_fput(), which
+>     drains both deferral mechanisms - the delayed fput work and the
+>     task_work - so the final __fput() and its
+>     blkdev_put() -> blkdev_flush_mapping() -> sync_blockdev() run to
+>     completion before rd_load_image() returns.  The ramdisk then
+>     reaches the mount closed, synced and with its page cache dropped,
+>     i.e. in the state it would have in without the deferral.
+>=20
+> Both options complete the writeback before the mount and either one
+> fixes the race.  Take the second one, which matches the established
+> use of the helper in the boot path: mount_root_generic() already
+> calls init_flush_fput() before retrying the mount with another
+> filesystem type, and flush_delayed_fput() documents the boot as its
+> only user.  Draining the deferred closes here is also well contained,
+> as at this point in the boot they all belong to files the boot itself
+> created: the ramdisk file just written, the /initrd.image it was
+> copied from, and the files unpacked into rootfs.
+>=20
+> Flush the deferred __fput() right after dropping the last reference to
+> the ramdisk file, so the writeback completes before mount_root() runs.
+>=20
+> Verified on arm64 QEMU with an openEuler Embedded rootfs image packed
+> as squashfs: the boot panics as shown above without the fix and boots
+> to userspace with it.
+>=20
+> Fixes: 93e72b3c612a ("squashfs: migrate from ll_rw_block usage to BIO")
+> Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
 > ---
->
->  fs/fat/inode.c |    2 ++
->  1 file changed, 2 insertions(+)
->
-> --- a/fs/fat/inode.c~fat-hold-truncate_lock-in-fat_write_failed
-> +++ a/fs/fat/inode.c
-> @@ -217,7 +217,9 @@ static void fat_write_failed(struct addr
->  
->  	if (to > inode->i_size) {
->  		truncate_pagecache(inode, inode->i_size);
-> +		down_write(&MSDOS_I(inode)->truncate_lock);
->  		fat_truncate_blocks(inode, inode->i_size);
-> +		up_write(&MSDOS_I(inode)->truncate_lock);
->  	}
->  }
->  
-> _
->
+>  init/do_mounts_rd.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>=20
+> diff --git a/init/do_mounts_rd.c b/init/do_mounts_rd.c
+> index 48bfab2fc62f..24e57f30e167 100644
+> --- a/init/do_mounts_rd.c
+> +++ b/init/do_mounts_rd.c
+> @@ -258,6 +258,17 @@ int __init rd_load_image(void)
+>  	fput(in_file);
+>  noclose_input:
+>  	fput(out_file);
+> +	/*
+> +	 * The image data is still dirty in the ramdisk's block device page
+> +	 * cache and only reaches the ramdisk once the final __fput() of
+> +	 * out_file runs blkdev_put() -> blkdev_flush_mapping() ->
+> +	 * sync_blockdev().  That __fput() is deferred (delayed fput work,
+> +	 * or task_work that runs when init returns to user mode), while
+> +	 * mount_root() runs right after this and may read the ramdisk with
+> +	 * bios bypassing the page cache (e.g. squashfs).  Flush it now so
+> +	 * the ramdisk is up to date before it gets mounted.
+> +	 */
+> +	init_flush_fput();
+>  out:
+>  	kfree(buf);
+>  	init_unlink("/dev/ram");
+> --
+> 2.43.0
 
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Hi,
+Friendly ping on this patch.=20
+
+Please let me know if there is anything inappropriate in the patch
+or if it is ready to be applied to the tree.
+
+Best regards,
+Abbott Liu
