@@ -1,60 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=143.54.11.23
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792881023;
-	b=40riiPcXEPvMGy5b3ZGAWrw8lLkG93NiPyN5QYd3ZbHsP/ZI834TnQuNcLMNQpIciBgk
-	 AixsdzrTPV78AqP5wm+9uPYrPFla8yBVysAOgSqug9GXbHbUFdneokeCm5Hk2eHR5CnfI
-	 WQfyr729vQC4ATlvr8s/C6poAglS3UfkCFhTWNLYKquxVS3ldVUYdIYitzqyZCUkm8IOU
-	 0fOnENtvVRAfNQZ895/UyEkCJG2u6I8B4VspfDpeUKF2mtcb4E/L56paj1UDclAt+1zbR
-	 J4ROIYqSrxPiAgLaH5i5RXBFV2DghBiu2orrwcmiFPC390/3DEB+beibWVLH5gpIowQ==
+	t=1792887900;
+	b=KFeeBpJbKKwqmqmFpn3uSQ69jqG7oTdExzvfTeatGgK9+rTtS42LD7h2pmde35NXzeUt
+	 +L2iKpAvlXk7EYZ9lzutAJ4FZ8Rg3ocGzt5qfld93KHC5B3Nx2i4GsaVeiEtY/JPCTHtc
+	 CmLWMwUM6uDydEdE0k88Oa/qlQNwy5JczvdHgmTFQFkL/GmftL9FOLgYtvx32wLfAN/ue
+	 4wvWdHlt3EhhLjsoXsjFdNn5cDR8BZx/qwpOPn+efsFkXJ47+JERglvZgjBMq7Bjm3zgT
+	 g1nGnTyDonoOjJo/wGrJZMB7n9/4yxtIlujtwFfchyraSXg+E+l0DN4uj21ra89hn1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792881023;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=vJgzqHcBsfs4faDREqkt6EK1r4wJAxa4ufgaTxHf+T4=;
-	b=WyGrgZLTaLYLTeOa2F6f6eUjHSpqGP6c9kuTOGQkZvYhkzUx9n/wPH22s2jduDRualZ/
-	 JaDJqLKMUGYV6j1BOrBEDz8bJwVb1pExNM2Tfrqoo1PiCSWe6PHBpcdhP68M6X3KaWv2t
-	 66FG8RJ17hRZsXWtzhfhvUUYjwPJv9RqJSZiaPQ0bJVRlQmrBb+Zjzp1lhO0ONzG2KOaf
-	 v+96V3NGDBwnNQXbggRFHm206OtKxOvHwpX0kTOgfhtYAGP9izO9Yuae5NgcOlVGKdOCt
-	 ffQ+Fb8LWcAABYvN97yPfteCgftcwneX3XPud+gLnoD7nw8bAkuW1/bPzgdnlE0c+Ow==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792887900;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=5lWlaiiAmnWQZRyAcYV8DoDniVOniM3DV7xr7qTGKSY=;
+	b=iEs9q4pMec18KgbsMOKxPvN24jXFVFRMKtJelRrJm/flvwJhpWAxxErQClQLe54kpcMs
+	 nQ9o5d1qf10PR4grTxa/RSV++qsLX6ZjEm86lVJitk833/SkYM659RSJelupWk5wbrrIj
+	 WeMzkaJMUkuIPYCZCSDNFfHAyjbb0z4FJfvLD+jPubIx8Fv3vf4ESJaAcogkZ5b2q15yh
+	 RFbcELbjxKWvc0iw/wXGJsPqA45zrvedDiokk/xWhL/9YPpWDk/1YcoHR7dk7ce6Nwxpk
+	 FPzIHKebxg7Pmto+y4loPx+18ejHDIpLvyNJJlYvwQerrR11hwgd+afkt+qqMnLLG4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=inf.ufrgs.br;
-	spf=pass smtp.mailfrom=inf.ufrgs.br;
-	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=mWL1i5ul;
-	arc=none smtp.remote-ip=143.54.11.23
-Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=T2ij2Vys;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2835A606A31A;
-	Sat, 24 Oct 2026 22:30:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2835A606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0C5606A31A;
+	Sun, 25 Oct 2026 00:24:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=mWL1i5ul
-Received: from DESKTOP-PJTTJ93.localdomain (unknown [189.6.233.4])
-	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 2EFAE120590;
-	Sat, 24 Oct 2026 19:30:11 -0300 (-03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
-	s=dkim2026; t=1792881011;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vJgzqHcBsfs4faDREqkt6EK1r4wJAxa4ufgaTxHf+T4=;
-	b=mWL1i5ulK/dXg4fcOfJtBOpgIApoywQQ3pBo9/IdGEduLJoP27seAmwb8DIKSS7djPC6Js
-	l7vsUd5Fq0O2EmXmzx+1Bt5qGFR6hMr3zKQbdc4mx7qaL+vqI+AErOxmTH2lrwVpSsJ9kX
-	vtil/hivYfq4/gPPCWyGveEUl1cocZjPqcq3XcZSm5rsbqaKg6Coc5PZFt8s1zglODz1D9
-	Mg70+ZbPDD97c7BJAWut9ZGt0pReUnBj9X6X7NeYk/Kmz+3ja44xK9dtn5cVavvGiWvztn
-	B2SFWJ47coW+jRUNBivjAnCqcux4eKdHFT4sLeHG7a5cGOieuWwBSJlt74p2Cg==
-Date: Sat, 24 Oct 2026 19:30:05 -0300
-From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=T2ij2Vys
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5CC81F01825;
+	Sun, 25 Oct 2026 00:24:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1792887898;
+	bh=5lWlaiiAmnWQZRyAcYV8DoDniVOniM3DV7xr7qTGKSY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=T2ij2Vys887yvaz1gCcsnJ2SUxdjMlZiaGsYXK1dkTtOhpM00qtn2430nO4sf3C8c
+	 4EW3+J91a82CCYSw9U7/nEohJCPBNbNhmk3t7YZ6XOvutHv45Ubp5R8/VjKnLnbuML
+	 w8JI2zRZwuQOU9ituJH8g9BfeyYrmig5ODPrM/Go=
+Date: Sat, 24 Oct 2026 17:24:58 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Cc: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] fat: hold truncate_lock in fat_write_failed()
-Message-ID: <at0v6ghpGLC5VO_h@DESKTOP-PJTTJ93.localdomain>
+Message-Id: <20261024172458.48c825a7a36a3802313a0ed3@linux-foundation.org>
+In-Reply-To: <20261021162105.62525-1-matheus.aalmeida@inf.ufrgs.br>
 References: <20261021162105.62525-1-matheus.aalmeida@inf.ufrgs.br>
- <at0kGRzkfLeqD7yq@pedro-suse.tail5790ac.ts.net>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,50 +55,92 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <at0kGRzkfLeqD7yq@pedro-suse.tail5790ac.ts.net>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Oct 24, 2026 at 10:39:30PM +0100, Pedro Falcato wrote:
->On Wed, Oct 21, 2026 at 01:21:04PM -0300, Matheus Alves de Almeida wrote:
->> The current fat_write_failed() implementation calls into
->> fat_truncate_blocks() without holding truncate_lock. Make it so it is
->> held exclusive while truncating.
->> 
->> Fixes: 459f6ed3b8c7 ("fat: convert to use the new truncate convention.")
->> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
->> ---
->>  fs/fat/inode.c | 2 ++
->>  1 file changed, 2 insertions(+)
->> 
->> diff --git a/fs/fat/inode.c b/fs/fat/inode.c
->> index 141276fcf8db..2a16ed415631 100644
->> --- a/fs/fat/inode.c
->> +++ b/fs/fat/inode.c
->> @@ -216,7 +216,9 @@ static void fat_write_failed(struct address_space *mapping, loff_t to)
->>  
->>  	if (to > inode->i_size) {
->>  		truncate_pagecache(inode, inode->i_size);
->> +		down_write(&MSDOS_I(inode)->truncate_lock);
->>  		fat_truncate_blocks(inode, inode->i_size);
->> +		up_write(&MSDOS_I(inode)->truncate_lock);
->
->Hmm, I think there's still a race here. Nothing's stopping a sequence of
->events like:
->
->1) truncate_pagecache
->2) concurrent pagecache look creates mapping for out-of-range blocks
->3) fat_truncate_blocks() truncates the blocks out from the inode
->4) page cache has stale pages pointing at stale blocks
->
->-- 
->Pedro
+On Wed, 21 Oct 2026 13:21:04 -0300 Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> wrote:
 
-The read/fault path eventually reaches fat_bmap() with from_bmap = false,
-which does not return mappings for blocks at or beyond i_size.
+> The current fat_write_failed() implementation calls into
+> fat_truncate_blocks() without holding truncate_lock. Make it so it is
+> held exclusive while truncating.
+> 
+> Fixes: 459f6ed3b8c7 ("fat: convert to use the new truncate convention.")
+> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
 
-Do you have a specific path in mind that can cause this race?
+Thanks.  My AI reviewbot said:
 
-Thanks,
-Matheus
+: Please expand the changelog to describe the failed/short extending write
+: racing with FIBMAP. The mapper uses i_blocks, so it can walk beyond i_size
+: while fat_write_failed() is cutting that part of the chain. That can
+: produce a bogus "request beyond EOF" error and make the filesystem
+: read-only with the default error policy.
+: 
+: Also, please change the Fixes attribution to 16fab2015099:
+: "fat: permit to return phy block number by fibmap in fallocated region".
+: That introduced the beyond-EOF FIBMAP lookup. Before it, the lookup was
+: bounded by i_size, so the removed clusters were outside its range.
+: 459f6ed3b8c7 introduced the helper, but not this failure mechanism.
+: 
+: I don't see a need to move the lock above truncate_pagecache(). Ordinary
+: reads are bounded by i_size, and the cluster containing the partial EOF
+: block is retained. FIBMAP is the case which needs this exclusion.
+: 
+: This looks like a stable candidate once validated and merged upstream.
+: Please consider adding Cc: stable@vger.kernel.org. I checked the source
+: and a reduced TLA+ model, but haven't built or runtime-tested the patch.
+
+So I made some changes and ended up with the below.  Please check.
+
+From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Subject: fat: hold truncate_lock in fat_write_failed()
+Date: Wed, 21 Oct 2026 13:21:04 -0300
+
+The current fat_write_failed() implementation calls into
+fat_truncate_blocks() without holding truncate_lock.
+
+A failed or short extending write racing with FIBMAP can spuriously make a
+FAT filesystem read-only.  FIBMAP bounds its lookup by i_blocks, so it can
+walk allocated clusters beyond i_size while fat_write_failed() is removing
+them.  If the chain is shortened during the walk, the mapper can report a
+bogus "request beyond EOF" error, triggering the default read-only error
+policy.  Hold truncate_lock for write around the block cleanup to
+serialize it with _fat_bmap().
+
+For comparison, fat_setattr() correctly holds truncate_lock during
+truncation:
+
+	down_write(&MSDOS_I(inode)->truncate_lock);
+	truncate_setsize(inode, attr->ia_size);
+	fat_truncate_blocks(inode, attr->ia_size);
+	up_write(&MSDOS_I(inode)->truncate_lock);
+
+Make it so ->truncate_lock is held exclusive while truncating.
+
+Link: https://lore.kernel.org/20261021162105.62525-1-matheus.aalmeida@inf.ufrgs.br
+Fixes: 16fab2015099 ("fat: permit to return phy block number by fibmap in fallocated region")
+Fixes: 459f6ed3b8c7 ("fat: convert to use the new truncate convention.")
+Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: Pedro Falcato <pfalcato@suse.de>
+Cc: <stable@vger.kernel.org>
+---
+
+ fs/fat/inode.c |    2 ++
+ 1 file changed, 2 insertions(+)
+
+--- a/fs/fat/inode.c~fat-hold-truncate_lock-in-fat_write_failed
++++ a/fs/fat/inode.c
+@@ -217,7 +217,9 @@ static void fat_write_failed(struct addr
+ 
+ 	if (to > inode->i_size) {
+ 		truncate_pagecache(inode, inode->i_size);
++		down_write(&MSDOS_I(inode)->truncate_lock);
+ 		fat_truncate_blocks(inode, inode->i_size);
++		up_write(&MSDOS_I(inode)->truncate_lock);
+ 	}
+ }
+ 
+_
+
