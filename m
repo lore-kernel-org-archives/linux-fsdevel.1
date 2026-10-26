@@ -1,85 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793038726;
-	b=ApMVJt0gV4BMnjNiTs2I3Y428VYCggXLDooD2AQOUzxMKumk3CQvNOrOlpeuVLPJbQ0B
-	 c4UScV423O6j2WGgdS+EHskHRIGF7IFxw+4b9sIEsyVy3xTXSyKb1iHLjGaj9yazu+cze
-	 rnuh6IFL+rZXbbZjFJcl48/p3PAQPqSkVtCSoHJ0GrwgfZoHY4H/Jog4zjJk/xg20v6/+
-	 Fh+0WeqwQSnVHrouf3rTzFi0XC0Y4urTYga7ZYCtxqIOncQ2uPmptLwZwKA2RQU33UKyp
-	 +LuReeyIs6xunMD9Il2mUq1Dr0NTJgnBkvngMoH5y5oTosPXDsH0CT6pszaoXdPGgKw==
+	t=1793043611;
+	b=qzKoEqzuz9CIXmtBuFAA9USz1PlxIEuulzBEeBcgkkyxMFLGxRTcIwFB/2Xsat0RGe6n
+	 Ee1XIyKEaa9dTU0iqkJVYrkIeF8mHHZgeSR/uOv06+0WbGyBNOanYryDexzasEMIx7eDp
+	 /0Hu2o1/oOD5T3warOcHRaixncQpuxMdnKkp9b++KDKpZSPoTSM4RZQUNEygv0a3Y3GRs
+	 E3lqBnvEcPVC7IMe7ZJiS7tMVAZTJzVagwF0+M0HlzjArm2pKEcLdzQSt46CyecDDB6wl
+	 j9wUI7RjmSHOwbl3+kIKalH2NCbP5YM2I41vsYLW6W3IYc1YnJ0ku96wp2wXUQtJt9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793038726;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=hF6zy/Y0w18f+U5+lO+T+mBpU9y/36ue5olFOfJt/uo=;
-	b=K5zUrr2mP0QcoyP+aGeXglmdxlwLotB2fILLWaJ/2r5/smvEW7V1mYP6q7W0CGBGBtNI
-	 FO8nYa49IXqiepELO9ALqmCdbyUxzjtd3WWuBYEjjmNBbh28G6DvUokwOBmtwenLtzDwo
-	 USTMjVtoEVEW9bVZNsW5wtRQbea2EKT5+2TyE+An1/DUsmF+uWC3ZH0ej6JJj5v386kMI
-	 1ofnclrxJGO8B2DbQcSFK3VloGIayfGGZnyj8+R3ZHQZuNEI/Uvmn2cpfBIuB/LWtIkfb
-	 ZtLm+csarOqisftrXNxvvcJbuirTDN/ZdCvXTqnbSBYErYmUyp2p5KmqeZyGrckIIEg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793043611;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=ffTkvk1rfJfkBRMi2MyNyvy85ELVUN80pjUBdv6nFjQ=;
+	b=q0Q8ON1tH5WDuP6ztHIg8wMCgb3O37oPsyTIGc4o3di5n3bH9KSfoFTdPQ2SwgCVP6E3
+	 WDvRAqxoTK55kPvyy5poraXx4PLoZIMp5JSSKDAAHKNlQREYsky0aOVBFArs/7WSnYJRh
+	 0nMV4bJmCIwU/nb6jpogiBE0fs5PuDSAyGe7vdNu8oP84XsR15AzV6A5p3x0Z4OxbI0NQ
+	 UgPpWwL0pxthB5wLQbl708JdJ7h48TR6Qi76D37GngTZDC2/B8ksiug/6r1PXcJK+zCRZ
+	 46ZJz7RqHsY7zHiLvadBqhDed3MC82bjqV+7F4vs32hGuNmOpdyVi4I8SHBPtTbaOsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W9GnUFoc;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XgaP1jU+;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1278606A31E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 18:18:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802B7606A31A;
+	Mon, 26 Oct 2026 19:40:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W9GnUFoc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED2151F01828;
-	Mon, 26 Oct 2026 18:18:44 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XgaP1jU+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20A871F01825;
+	Mon, 26 Oct 2026 19:40:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793038725;
-	bh=hF6zy/Y0w18f+U5+lO+T+mBpU9y/36ue5olFOfJt/uo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=W9GnUFocgwsxd9FmECRmMuS13L+i3z/j/5i+ff/vMPfHNfN5P2uwHVuqthdn9HP/L
-	 fIyKKWJNGHCuksVDuMKvwwh9vUpBY0N1KbHC9Y2dt0Uh+ozXHlEHfnfMfjCEyAFzux
-	 6bthXZXG1RnQonjMEcs/M/RDrYaLHejEdIDVJZNyo+BEucPqzeVeAZtmGgyDlYKupD
-	 RJh2XcDQoY69BxDkPtnQX22voeppBJSHfwJSFYB5WLPbUuuFQDMtl0ct0tcswfYgHK
-	 S1gmjO6TA8izLPdb34wJRY+2HnHo3sarTOikw0TWEKi1BFk20HbtTFdB97nb5ji2Ks
-	 rmZ0TffR5xwZw==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 9A5FC198003A;
-	Mon, 26 Oct 2026 14:18:41 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Mon, 26 Oct 2026 14:18:43 -0400
-X-ME-Sender: <xms:gZnfajZ-BHts4MBHXWFnW-gFp81JJN1vpJiEKvdsdfrbKSJhN8knDg>
-    <xme:gZnfamWIQGYuHM68Kd6jnmjPguLYksU5g4Jw_AddnVo2gcvKZ_0da_c7maXj23Hof
-    _T8rAAC1UhevvlnBddDZKe3O1kxHrTrd4SMmYPOc2HfZ9Ew74LqzJnbcA>
-X-ME-Received: <xmr:gZnfaucQ3h9h4FkGosoq6ov7rhDK0QujE015HThBnfJxyGvlZYeJK4tt-sA>
-X-ME-Proxy-Cause: dmFkZTEC6jaU8WSvdlYj4erYp5aRUyJbFL4tgzgG/uQqFE4vkk2Ztkn6i+N1Ul3PwjXj5u
-    D20bYcJ5jjhuGT8nryltaojXVsoT+8ZOnEMBt9S/7aS1YRSG7dsokqX+kHK4DEBIg4c5Eo
-    5xlUdcBx/qw2dml5xc1tuTg/O+U3f6ne+q9J03Y2b95iSFa8NrzvpAM47RG8hhktz73InX
-    SFDDxM0RUNrTg8iD0m2U31nVOYGD5BcF18/dItqb/iD5FcOTNFNOOeEgPKogiCBuWIZfgV
-    iI1kRdoA4bLUgQZcqKXElpW7HW7jbsF9gaHt8mu/7Ht6wXzutN6KcNIZflodDM92pgq5e6
-    CLBddXVbonCCpdm9uNlwGyShwzs1vPdX853BI882TVLTvRSFRDEjJyE/oZEeo89hKoY6Ut
-    sRPvR0dpJ+IZx6OBXXpX/u99FYSgbXkvjNzjC7a3sq7f3ATNFPFo22uZZqB3nmQWJC0oHf
-    dUpW1W+mUrrtc7GaGQUQJxeFY/+0Mo6LEObWdXzJ6bOm9LLFMjGJq1YmfF5flTd0iuaJku
-    fLLV0X8YfRAppyG4sYKpGui02bQvVMr8lCIOBecMZVZTmW8q1HDHnIdD6nME48ZsPCN2Dx
-    3kGIVDkAlPbzvruiVEZcky8DfF/YWgAoeauu8l/u2z/YFRtQh9ishjxf3Pjg
-X-ME-Proxy: <xmx:gZnfajPNjG2RbHJxB75I-_r715n7cKOjptqf11wBj9HCFJW9PnwwiA>
-    <xmx:gZnfamKDG1lQgXhV-HyfW2-wrvQnTb8NGhOkgAakKn6hIvmKN05Nwg>
-    <xmx:gZnfapkOYsIM1ZxSuCF8K8UHrW4QN15-y51cOf1JB4A5lBr2FhqhCQ>
-    <xmx:gZnfalbT2k_iMvQpQnfHXYxI2Um8QTaZNros-SDUE7Kl1JVTGxzFrg>
-    <xmx:gZnfaohu9Vkucs2pLBN8yypcdtfw3NWKeOnFysRWS4miLEyctDXIPwEj>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Oct 2026 14:18:40 -0400 (EDT)
-Date: Mon, 26 Oct 2026 18:18:39 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Hungyu Lin <dennylin0707@gmail.com>, willy@infradead.org, 
-	hughd@google.com, baolin.wang@linux.alibaba.com, akpm@linux-foundation.org, 
-	dave.hansen@linux.intel.com, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] shmem: do not extend i_size when no data was copied
-Message-ID: <at-XtWBQg3jv3H8Z@thinkstation>
-References: <20261025164619.89992-1-dennylin0707@gmail.com>
- <at9xXRhD2xZhszEj@thinkstation>
- <xmp7ni65vbinfj4j2baisrhp6xzro3asbepuq7xp3mvx6maptn@r4dnoj63uw4t>
+	s=k20260515; t=1793043611;
+	bh=ffTkvk1rfJfkBRMi2MyNyvy85ELVUN80pjUBdv6nFjQ=;
+	h=From:To:Cc:Subject:Date;
+	b=XgaP1jU+fEN5sj227lCA0SM9/qpJGUvQKwKiGM3vBlDlz+4CpL3cY1yrj077URtNj
+	 KXhYyjqSQJychUZoMfLqhca1sze7H8ryzKN8mWOFQbdTCRzEUcUG2tAuSGiRioWmPl
+	 UNwjjnjMLuhh6+JI/9zY4kbkIzrLIioAihjS4SOPMNnLquYfPMZ6tMNbo7D+w/Qdpc
+	 Y7uUUz+SDsKcRxTluzAlwFW/Fy3NEui+vf+4qXwgscaf4ef0Jl8ZhMhwFPKPUAfafQ
+	 0Qv8+TsieREg7fX41hB1unf2am5U5TnkepZG3fLzGXWW9zyduaCv/fdtTcsmJHibQ5
+	 T6el0LjF7+ixw==
+From: Sasha Levin <sashal@kernel.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Luis Henriques <luis@igalia.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] selftests/fuse: add the missing symlink caching test
+Date: Mon, 26 Oct 2026 15:40:08 -0400
+Message-ID: <20261026194008.274349-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -89,53 +62,206 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <xmp7ni65vbinfj4j2baisrhp6xzro3asbepuq7xp3mvx6maptn@r4dnoj63uw4t>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 26, 2026 at 04:48:58PM +0100, Jan Kara wrote:
-> On Mon 26-10-26 15:34:08, Kiryl Shutsemau wrote:
-> > On Sun, Oct 25, 2026 at 04:46:19PM +0000, Hungyu Lin wrote:
-> > > shmem_write_end() advances i_size to pos + copied even when copied is
-> > > zero. A buffered write past EOF can therefore extend a tmpfs file
-> > > without writing any data.
-> > 
-> > + willy, jack, fsdevel.
-> > 
-> > This doesn't seem to be tmpfs-specific, right? I see the same with ext4.
-> > 
-> > simple_write_end() and generic_write_end() check pos + copied the same
-> > way, so filesystems that use them through generic_perform_write() are
-> > affected too.
-> > 
-> > It makes me think maybe generic_perform_write() is the right place to
-> > fix it. Hm?
-> 
-> Well, that would be nice. But how'd you like to do that? i_size update is
-> the responsibility of ->write_end and we have to call ->write_end if copied
-> == 0 so that is undoes what ->write_begin has prepared.
+Commit 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
+registered fuse_symlink_cache_test in the fuse selftest Makefile and
+.gitignore, but the test source was not part of the applied commit, so
+building the fuse selftests fails:
 
-Hm.
+  make[1]: *** No rule to make target 'fuse_symlink_cache_test.c', needed by '.../fuse_symlink_cache_test'.
 
-A zero-length copy only moves i_size if the write starts beyond EOF.
-So we can bring the prefault back just for that case, before
-->write_begin():
+Add fuse_symlink_cache_test.c as posted in Luis Henriques's v5
+submission. The test serves a file and a symlink to it from a libfuse
+low-level filesystem, resolves the symlink 100 times, and counts the
+readlink requests that reach the server: one when FUSE_CAP_CACHE_SYMLINKS
+is set during FUSE_INIT, and all 100 when it is not.
 
-        if (unlikely(pos > i_size_read(mapping->host)) &&
-            fault_in_iov_iter_readable(i, bytes) == bytes) {
-                status = -EFAULT;
-                break;
-        }
+Fixes: 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/r/202610170822.oEJ1Autq-lkp@intel.com/
+Link: https://lore.kernel.org/r/20261001164916.15311-8-luis@igalia.com
+Originally-by: Luis Henriques <luis@igalia.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+As with e64a46aefc01 ("selftests/fuse: add the missing FUSE_HAS_SYNCFS
+privilege test"), the new file in the posted patch is not in the applied
+commit; the other files did land.
 
-Overwrites and appends keep skipping the prefault. It is racy against
-a concurrent munmap(), as it was before 665575cff098, but that is
-userspace racing with itself.
+ .../fuse/fuse_symlink_cache_test.c            | 162 ++++++++++++++++++
+ 1 file changed, 162 insertions(+)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
 
-The per-filesystem alternative is a 'copied &&' in every ->write_end.
+diff --git a/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
+new file mode 100644
+index 0000000000000..7b53734995736
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
+@@ -0,0 +1,162 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Simple filesystem to test FUSE symlink cache
++ *
++ * This is a simple FUSE filesystem that contains two objects: a file named
++ * 'file' and a symlink to that file named 'link'.  If symlink caching is
++ * disabled (i.e. FUSE_CAP_CACHE_SYMLINKS is reset during FUSE_INIT), whenever
++ * the ->readlink() is executed to resolve 'link' a counter will be incremented.
++ *
++ * If symlink caching is enabled (i.e. FUSE_CAP_CACHE_SYMLINKS is set during
++ * FUSE_INIT), resolving a symlink will only call into user-space the first
++ * time.
++ */
++
++#define FUSE_USE_VERSION 31
++
++#include <stdio.h>
++#include <fuse_lowlevel.h>
++
++#include "kselftest_harness.h"
++
++#include "fuse_common.h"
++
++#define FILENAME "file"
++#define FILE_INO 42
++
++#define LINKNAME "link"
++#define LINK_INO 43
++
++#define TIMEOUT	86400.0f
++
++struct test_state {
++	pthread_mutex_t lock;
++	int readlink_counter;
++	bool cache;
++} test_state = {
++	.lock = PTHREAD_MUTEX_INITIALIZER,
++};
++
++static void fs_init(void *userdata, struct fuse_conn_info *conn)
++{
++	pthread_mutex_lock(&test_state.lock);
++	if (test_state.cache)
++		fuse_set_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
++	else
++		fuse_unset_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
++	pthread_mutex_unlock(&test_state.lock);
++}
++
++static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
++{
++	struct fuse_entry_param e = {};
++
++	if (parent != FUSE_ROOT_ID ||
++	    (strcmp(name, FILENAME) != 0 && strcmp(name, LINKNAME) != 0)) {
++		fuse_reply_err(req, ENOENT);
++		return;
++	}
++
++	if (!strcmp(name, FILENAME)) {
++		e.ino = FILE_INO;
++		e.attr.st_mode = S_IFREG | 0444;
++		e.attr.st_nlink = 2;
++	} else if (!strcmp(name, LINKNAME)) {
++		e.ino = LINK_INO;
++		e.attr.st_mode = S_IFLNK | 0444;
++		e.attr.st_nlink = 1;
++		e.attr.st_size = strlen(FILENAME);
++	}
++	e.attr_timeout = TIMEOUT;
++	e.entry_timeout = TIMEOUT;
++
++	fuse_reply_entry(req, &e);
++}
++
++static void fs_readlink(fuse_req_t req, fuse_ino_t ino)
++{
++	char buf[PATH_MAX];
++	size_t sz = strlen(FILENAME);
++
++	if (ino != LINK_INO) {
++		fuse_reply_err(req, ENOENT);
++		return;
++	}
++
++	memcpy(buf, FILENAME, sz);
++	buf[sz] = '\0';
++	pthread_mutex_lock(&test_state.lock);
++	test_state.readlink_counter++;
++	pthread_mutex_unlock(&test_state.lock);
++
++	fuse_reply_readlink(req, buf);
++}
++
++static const struct fuse_lowlevel_ops fs_ops = {
++	.init           = fs_init,
++	.lookup		= fs_lookup,
++	.readlink	= fs_readlink,
++};
++
++FIXTURE(symlink_cache)
++{
++	struct fuse_common_ctx ctx;
++};
++FIXTURE_VARIANT(symlink_cache)
++{
++	const bool cache;
++};
++FIXTURE_VARIANT_ADD(symlink_cache, symlinks_nocache)
++{
++	/* Variant with symlink cache disabled */
++	.cache = false,
++};
++FIXTURE_VARIANT_ADD(symlink_cache, symlinks_cache)
++{
++	/* Variant with symlink cache enabled */
++	.cache = true,
++};
++
++FIXTURE_SETUP(symlink_cache)
++{
++	char err[MAX_ERR_MSG];
++
++	pthread_mutex_lock(&test_state.lock);
++	test_state.readlink_counter = 0;
++	test_state.cache = variant->cache;
++	pthread_mutex_unlock(&test_state.lock);
++
++	if (fs_setup(&fs_ops, &self->ctx, err))
++		SKIP(return, err);
++}
++
++FIXTURE_TEARDOWN(symlink_cache)
++{
++	fs_teardown(&self->ctx);
++}
++
++TEST_F(symlink_cache, test_symlink_cache)
++{
++	char pathname[PATH_MAX];
++	char buf[PATH_MAX];
++	ssize_t sz;
++	int counter;
++	int i;
++
++	sprintf(pathname, "%s/%s", self->ctx.mountpoint, LINKNAME);
++	for (i = 0; i < 100; i++) {
++		sz = readlink(pathname, buf, PATH_MAX);
++		ASSERT_NE(sz, -1);
++	}
++	pthread_mutex_lock(&test_state.lock);
++	counter = test_state.readlink_counter;
++	pthread_mutex_unlock(&test_state.lock);
++
++	if (variant->cache) {
++		ASSERT_EQ(counter, 1);
++	} else {
++		ASSERT_EQ(counter, 100);
++	}
++}
++
++TEST_HARNESS_MAIN
 
-And generic_write_end() cannot take it as is: generic_cont_expand_simple()
-relies on a zero-length ->write_end() extending i_size. So we need some
-replacement.
-
+base-commit: 9b1da7b4a4e197072e630c3b85d4100a399752ff
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.53.0
+
