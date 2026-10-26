@@ -1,107 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793018386;
-	b=ItQC79zZ9VNUdW/IcV3B32ErBpUEs1/lXUC0Q2mE6x5L6pqmexEz8hOATg8HGrRMUrWf
-	 fzF4Hr958BEnBUqwIZrsb0wvAfiU8/dzFJYTkkZvLxBeqWIgomQH9m0yE+6hrGI70vHIK
-	 T7idnz3UXkRE9fQV6MsZh/zqlr5aOlvfwNZuUtIZ/tht2Wdxzg5EGu7eLqZXUsPdB0dd9
-	 QgYacha22et1MXuWNmETud3WwZkeYEzBBHv3XJsekWBfuExjV+FTjbdwCrWUHndLCvKwQ
-	 b1QwmTkVR5Qs60WV9MR5PW2a8J0rLXwCcNAQJyMiU2snh5QopSVOHxSgaBAGYnr+Zxg==
+	t=1793018447;
+	b=L80E1sVY/hOMWmMn77hMLr5mHwdpWkETG+99Qz18o2x/KfinZ3yPXUyqPT8kdPXbolYQ
+	 cuz+YsM7XS0azOG9r0fUsQC2dgo8WB2ceGpU53WO9s5lpyyhObvnsDVRQHpOYA7nP07OM
+	 sI3y9KOyhffldJTFTa6MVhgWVrWD0YnH07bA/5hlZnQrTJ0piZR4rHWcdtSrLVU9II1jj
+	 Wxs8rfvrTQYhgmDJne0ynUf+YZw1AouyN3Li4QTWfvnGxPIDBP8SiUzdBSUHsIGHM8mmO
+	 CsP0ECJ/UHFyHFGsnu822MojAE6+bY47/+cK+8OHHCHvauOKXj4+Oavnynsqo8j0dkg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793018386;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793018447;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
 	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=NGOYvwWXtHCtXAoCdL/2EsRICoNUM1uFaxEPB0yTgrg=;
-	b=osellOhcQxVfV8CAob7Tkac9CrCdi9BjvIztYXW34hZyDPGTA4MgMvc7VPdDqjoh5309
-	 G0mDhTrIeNZj8Ij7c9YkZB0LtOo0iapZDNLwCHbnuTbCFwMoJTutmMMd7IdDZmDQU2WL1
-	 hwayQ720t2DwqkIN1JdzjmsbgkTiuBxZkCHac0J6d5T0Sz5/fMd6Pip5e19bK5C2HNpMr
-	 10qTHp15eNh+WzR3AzwUkRVrDwy0d2Qt7/8wLylp2xV2iRZfvOL2+eHhMmBMnXN+uAAF/
-	 WUUbNwX/FM55M50qtFrTcp3hw2STW6sfncSvnl+wowzsEfnntBcuSdkmpin6X5oeQUw==
+	bh=/kwG2YQoJFCFbw38hNfSgANa0YU3Rq+hQqp8ug6/osM=;
+	b=0ucBanLX2mlyuTJ2qLeDBjmkafaoiwYdHbVyfTefIix6EwLmncPiwQbtteqxnGcPdBRd
+	 bhUjAkIeoxS8SeTZf1/5T5KhE3zX+9FZVv8Z0S/8Rsi0siIdTtcOX24amgxxB1E7LnhyQ
+	 rUU9ZsBuAe6gcvUamOlF80JE5IxQpQXyn73SGnvnrpBvUqweYjkba+jp+1Ei5CxErqN/P
+	 BTGo9BX9qoho2kjJ0CiW6Mtsy5DcFRsIh5y5WuKop9Oz4/nD0qsjEwSQHruxhLAe6F44y
+	 9nkheypO1JEHuunyZSgi3sHN2YUWFBn8AK0M4bWxp8C/bki3YUsfe04BgXRnekAI+uA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="i/Qotwak";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NPbnbhH1;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=UyBkdwTm;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="/jbCXYqr";
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=xUuahssk;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="u+FRX/7f";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="aLlsaM/g";
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5tNs6La8;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD347606A31A;
-	Mon, 26 Oct 2026 12:39:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD347606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5620B606A321;
+	Mon, 26 Oct 2026 12:40:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5620B606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=i/Qotwak;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NPbnbhH1;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=UyBkdwTm;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/jbCXYqr
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=xUuahssk;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=u+FRX/7f;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=aLlsaM/g;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5tNs6La8
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1D8631F807;
-	Mon, 26 Oct 2026 12:39:41 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7C37422295;
+	Mon, 26 Oct 2026 12:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793018384; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793018444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NGOYvwWXtHCtXAoCdL/2EsRICoNUM1uFaxEPB0yTgrg=;
-	b=i/QotwakT0gNRHREU1wFt/wueTqEGMxkEwBZeAfvtg2vOQK5MYdjocpFukd6OPnCPB/HBb
-	BS0H0i4lis8Cx5HxUegab52ZMYIDulElTF5aTBb4Hap0VclwXxLjUKay5gMGoKDFBAw/gO
-	anMbeiMRLXl/qiNjvli9BmC5o5g5fSc=
+	bh=/kwG2YQoJFCFbw38hNfSgANa0YU3Rq+hQqp8ug6/osM=;
+	b=xUuahsskBxurJE0ph6XjKTnV2LIs8dm+LdN0cTEluPOt8Dbx80LFszbeysa41pe5aoS7Lf
+	txAyaMrtjzmTi59wzEw851aHTYtEg/M90Z1HgA26vrF3V0p37fa0sA5DJkZeFBiw4Pt9OT
+	dO4T/HbPQyh/pWm5SxYkZlXPiZcSUxc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793018384;
+	s=susede2_ed25519; t=1793018444;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NGOYvwWXtHCtXAoCdL/2EsRICoNUM1uFaxEPB0yTgrg=;
-	b=NPbnbhH1+/ni7hIQiLvEz0Rw5mCTPrjqGt7I2H76ldS/ThhDXfkF8lfkKoBLAi7flQa7sI
-	AFYw0bBdP9G4PIBw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=/kwG2YQoJFCFbw38hNfSgANa0YU3Rq+hQqp8ug6/osM=;
+	b=u+FRX/7fWSL5Dibzn+3Vq0F5jvdNguhY2baZ7AS5iqSOh5l9f8LUzUhnuM2dRxroCAxH8b
+	m4Ji1em2daTPkoBQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793018381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793018443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NGOYvwWXtHCtXAoCdL/2EsRICoNUM1uFaxEPB0yTgrg=;
-	b=UyBkdwTm5idr9gRs92m2eXllZTQxCYHgb6mSyGPn3DAQii7ZPZorI6hRb5yz437E6K8JRt
-	9pOQjbje6tYo+E1xUamu/s+LJWs2gVfm2XsRkhf8at6dGKTDCHLAc33wjhqLyl1FQZJ5Tu
-	RVFUKsWGY9W3ynWQXI3luWhJsu7g258=
+	bh=/kwG2YQoJFCFbw38hNfSgANa0YU3Rq+hQqp8ug6/osM=;
+	b=aLlsaM/gll3Y2wPv9RJuAde8qEghjzb9abkxcjyAADovnWZlTYIX3j8+KtamLElrVaXm/e
+	ECQiAWYZDSKMymzu4+y2+2SJS38hMufDFPWF1B9dvkFrPmP5FZ9WOtE7aqbbNYqW9l3IiR
+	6BH27SvAi/UE9MgkSWLaF0IYO6uxdpg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793018381;
+	s=susede2_ed25519; t=1793018443;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NGOYvwWXtHCtXAoCdL/2EsRICoNUM1uFaxEPB0yTgrg=;
-	b=/jbCXYqrtbqaIP7dJVxN5S4mQ57yZnFtClcNfpzjJKt3CjU7A46+Pv9vRDGjctpBpT3HIY
-	FqElgoIqGoH83JAQ==
+	bh=/kwG2YQoJFCFbw38hNfSgANa0YU3Rq+hQqp8ug6/osM=;
+	b=5tNs6La8sIXq4V32UM0a43UPebztqIuZ+2A+6WL8J1H8b9KvIv1fosnFalhewDYIiigyQ5
+	8dpnD0FejX2IgUAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E89A713319;
-	Mon, 26 Oct 2026 12:39:40 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57386134EA;
+	Mon, 26 Oct 2026 12:40:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 39IFMQxK32qJQgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 12:39:40 +0000
+	id UnQLD0tK32oDRAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 12:40:43 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 7EA71A1419; Mon, 26 Oct 2026 13:39:40 +0100 (CET)
-Date: Mon, 26 Oct 2026 13:39:40 +0100
+	id F3BFDA1419; Mon, 26 Oct 2026 13:40:38 +0100 (CET)
+Date: Mon, 26 Oct 2026 13:40:38 +0100
 From: Jan Kara <jack@suse.cz>
 To: Josef Bacik <josef@toxicpanda.com>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
 	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] fs: make mount(2) remounts killable on s_umount
-Message-ID: <3x3n2vfnyy3nmhz3rd56q6ygm72252gy26lxrf2kmhdrxg7f5d@q56ow6psbtpb>
+Subject: Re: [PATCH 4/5] fs: make FSCONFIG_CMD_RECONFIGURE killable on
+ s_umount
+Message-ID: <jzatew3pxuudsgposjygrdezxfms5hmhc2emsjfhjh56ibntnw@pi2tc6qkkydh>
 References: <20261023-b4-s-umount-killable-v1-0-844a341ff1df@toxicpanda.com>
- <20261023-b4-s-umount-killable-v1-3-844a341ff1df@toxicpanda.com>
+ <20261023-b4-s-umount-killable-v1-4-844a341ff1df@toxicpanda.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -113,7 +114,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261023-b4-s-umount-killable-v1-3-844a341ff1df@toxicpanda.com>
+In-Reply-To: <20261023-b4-s-umount-killable-v1-4-844a341ff1df@toxicpanda.com>
 X-Spamd-Result: default: False [-12.80 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -126,7 +127,7 @@ X-Spamd-Result: default: False [-12.80 / 50.00];
 	MISSING_XM_UA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.cz:email,suse.com:email,toxicpanda.com:email,imap1.dmz-prg2.suse.org:helo];
+	URIBL_BLOCKED(0.00)[toxicpanda.com:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email];
 	RCVD_COUNT_THREE(0.00)[3];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
@@ -134,24 +135,19 @@ X-Spamd-Result: default: False [-12.80 / 50.00];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email,toxicpanda.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,toxicpanda.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
 X-Spam-Score: -12.80
 X-Spam-Level: 
 X-Spam-Flag: NO
 
-On Fri 23-10-26 20:39:32, Josef Bacik wrote:
-> mount(2) with MS_REMOUNT takes s_umount exclusively, with MS_BIND as well
-> it takes it shared.  If the lock is held for a long time, by a syncfs(2) on
-> a device which doesn't answer say, the remount sits in D state and can't be
-> killed.
+On Fri 23-10-26 20:39:33, Josef Bacik wrote:
+> fsconfig(2) with FSCONFIG_CMD_RECONFIGURE is the remount of the new mount
+> API, and like mount(2) with MS_REMOUNT it waits for s_umount in D state,
+> can't be killed, and keeps every later reader of the lock waiting behind
+> it.
 > 
-> The one which wants the lock exclusively makes matters worse for everybody
-> else: while it is queued, every new reader of s_umount queues up behind it.
-> Killing it gets it out of the way, the rwsem wakes those behind a waiter
-> which gives up.
-> 
-> Nothing has been changed yet when the lock is taken, and both can fail.
-> Use the killable variants.
+> Use down_write_killable().  A wait which is cut short is treated like any
+> other failure to reconfigure, the context ends up in FS_CONTEXT_FAILED.
 > 
 > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 
@@ -159,38 +155,31 @@ Looks good. Feel free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
-								Honza
+							Honza
 
 > ---
->  fs/namespace.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  fs/fsopen.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index e5feb4e48290..837f531e494b 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -3485,7 +3485,9 @@ static int do_reconfigure_mnt(const struct path *path, unsigned int mnt_flags)
->  	 * We're only checking whether the superblock is read-only not
->  	 * changing it, so only take down_read(&sb->s_umount).
->  	 */
-> -	down_read(&sb->s_umount);
-> +	ret = down_read_killable(&sb->s_umount);
-> +	if (ret)
-> +		return ret;
->  	lock_mount_hash();
->  	ret = change_mount_ro_state(mnt, mnt_flags);
->  	if (ret == 0)
-> @@ -3531,8 +3533,9 @@ static int do_remount(const struct path *path, int sb_flags,
->  	fc->oldapi = true;
+> diff --git a/fs/fsopen.c b/fs/fsopen.c
+> index 70024870fefa..c139cec2f1fe 100644
+> --- a/fs/fsopen.c
+> +++ b/fs/fsopen.c
+> @@ -267,9 +267,11 @@ static int vfs_cmd_reconfigure(struct fs_context *fc)
+>  		return -EPERM;
+>  	}
 >  
->  	err = parse_monolithic_mount_data(fc, data);
-> +	if (!err)
-> +		err = down_write_killable(&sb->s_umount);
->  	if (!err) {
-> -		down_write(&sb->s_umount);
->  		err = -EPERM;
->  		if (ns_capable(sb->s_user_ns, CAP_SYS_ADMIN)) {
->  			err = reconfigure_super(fc);
+> -	down_write(&sb->s_umount);
+> -	ret = reconfigure_super(fc);
+> -	up_write(&sb->s_umount);
+> +	ret = down_write_killable(&sb->s_umount);
+> +	if (!ret) {
+> +		ret = reconfigure_super(fc);
+> +		up_write(&sb->s_umount);
+> +	}
+>  	if (ret) {
+>  		fc->phase = FS_CONTEXT_FAILED;
+>  		return ret;
 > 
 > -- 
 > 2.55.0
