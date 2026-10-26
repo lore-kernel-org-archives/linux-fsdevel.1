@@ -1,107 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793051768;
-	b=XgEF9h4yQXTWFl6VMymTFUTz9DfrUwKOJfCpeiqEtasp2KDxTdxDMqZj4Jq83v+NNFYs
-	 s/h6WKkqhPGadwLJt5tO3RvwWMhF72oK/E88UFPVxnfs5H+DxlsT8gJ5Z24/IuAGWTpF+
-	 N0bAXtbq9FE1arHMkSkv/W5B5ZjzQX1/ej1mAS+3iHZZG3Gued50Fo9YttLZuRcGXPHk2
-	 s6HSe3+cB7MfKXGH6okq6RpiWHkYEIWJO8TWEtlR7vDVvD6NeDFO7X0G7PC0TQVav61BT
-	 qEThBw2vEZBJAqWOEAd1wXRqdJVk0UUgVQdoS31yrv4tbSMGWZ8bC+rMQnLHxqcabmA==
+	t=1793052392;
+	b=ZUSApvkFfMPDhLTFsoMtFrVFwH9mjB944GXGfi5cTtnsAv1L0QIXg7cLa1jMaqDuPjgt
+	 DsQ33ujG/2jzYPZK/GReTzQ/JRqVG1uHsso6Up1yZCO1YxGqLE4N+yCCBWkiqrZpnQuyk
+	 FQBGeeXnYfu0hN2JCYefXO8F9LKTl6DwHPnxsJ+k85IZrhEBhER9uuRPUMJaXo9439cfW
+	 NM5S/i9NQD5ZQ2+/9OIMGaJ2vpWd+rOLDIgB5fRqmhaKYgtI0FbTFe6ob8SFfu05CR7fv
+	 Qb2CPTkLbrxqyVEiv98wdZPV26r2A5l0a+Gn25dnE348ROtLh7Ta7rwQNo9cSU9mV9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793051768;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793052392;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=MCaOqkvghFdjPjEBy1YWJcxG17ikaMSWnkn1If8Ln38=;
-	b=bT5B4fJHcdhkjE4pbGARfT6i/5m7o0cRkLf0y7p72evVKVd2MXETUXwcTX/jDutCYrOI
-	 8jDOO+r4OeoxmkhW6fNJp8mI6vUrLzZ44MqXz0euT8TySUhh/l9kTsPKWbSJH6q/Wm5db
-	 dPV7Vr8Qsp6sqZcdAZFnRNPj++RwBhWYXOSiUebm2KPOTEoB9ewm9QA7z2aW7j/GXv0lZ
-	 tF9nPc8f7nnseL4J8f9jy56mGq5EX3hwFSce+Ux853LmvfWJSMX5f3ovdyAZm1g2nRAuE
-	 bJotQ9T9gU6lpp6Qi6e5I5mJcybz08r7pR1UDAOQ+sHGglKOzn9RuMWnkR/31qBbCKw==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=J8qqAYIAfPgq1UPwTJslv5kHWAuX4fEMnW0g2gFuydk=;
+	b=honUTK4DtbB2HuW3klzxhCkIyl/UntwhBhHkIts1g4oXDoMctacvuJS0IqKiD5Esa/Pl
+	 atwSt4UTOkVk2MZdl1Tw8br4hLOVSemznPLdHLAlGD5ipQWBRWWw/gnxyS9nib6nBGOs1
+	 ibkoi3Q7Bvolc8YNGQ1gU2RQqFOzmJuU/6vLmhsBtXZ+r8MVwXU1yQGuC6Quv8ko/ZODB
+	 kUu7RJaJiMy7G6i84pmX/WO9g5TF4UBBu8cSgvdBBGcVPk7NS/ebLUDZWR9ujh20rjM7Y
+	 NyHQrw9F4tM+h07/qfMi/looZYPh+JS4Ova6uitFpj88U6jjqgsau1Av9oDYuBfHPtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bobrowski.net;
-	spf=pass smtp.mailfrom=bobrowski.net;
-	dkim=pass header.d=bobrowski.net header.i=@bobrowski.net header.a=rsa-sha256 header.s=google header.b=r6qzBHbJ;
-	arc=none smtp.remote-ip=209.85.214.173
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--skhawaja.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=pmobPYnf;
+	arc=none smtp.remote-ip=209.85.214.200
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B728606A31B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:56:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B728606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bobrowski.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bobrowski.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4584D606A325
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 22:06:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4584D606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--skhawaja.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bobrowski.net header.i=@bobrowski.net header.a=rsa-sha256 header.s=google header.b=r6qzBHbJ
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2e95bd1c14cso30959765ad.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 14:56:07 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=pmobPYnf
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2e869e00005so56452745ad.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 15:06:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bobrowski.net; s=google; t=1793051767; x=1793656567; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MCaOqkvghFdjPjEBy1YWJcxG17ikaMSWnkn1If8Ln38=;
-        b=r6qzBHbJ+Y6VySD4piiJQaxG3nmkcim5EedbVvJDLrFKh/z/zfWGVfhzESZgtJcOTT
-         mOo5hPQeKtOllDCqHQ+bRmmdG88imPwjlx7DaOoM0KaMz1KXsKT7apGPB22NyoerYTZQ
-         /4vIHuibqhucsMEMxk6fldlNHvt+fNxp1ovjKGI/eW/I63Ib5IBoE4CjQEJudyO76Wtf
-         1D4vXfgdUVq64lyBYfYwd63VG89p4VOSXiOVGnpeaDouPGJAbGZiYCtI1VTyrXIr7v33
-         A771pKw10Qc39HU/IR1PbeHnB+RlD52C7qD/1DVFZS4Ju3IhXtUDcV290iNJz9ZhBNR4
-         wpoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793051767; x=1793656567;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1793052392; x=1793657192; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=MCaOqkvghFdjPjEBy1YWJcxG17ikaMSWnkn1If8Ln38=;
-        b=zEML+0sAMAPASx4vW+4JrCKhXNZ0rtzq3kp8eqHl8xTO1DLwstkO3esyrED9RXCcEb
-         Inq5fcgka6kf9SOmSLrHLonGtx2N54Dob5PQ5B2zWyEqp94uCf0WySIpSfzCSiLGuqHZ
-         f3OKlyrnL1dgYu67j3XHVf5hlYD/VC0koF++IxKsc+MqsObTN2znkGRpv9ThP3Uiifpc
-         e8XLWYN7xNuKkpJojc9t7lu07uVjI0oactcSFl8o+ztrmCgK/MGQAA5PX9pkLXq+X/3E
-         eaO17Ra1cAbMVZ03UWAd3Ix7Nue8Og2E1N1VZDZvcH8tRP0ORUPI//VWlHDPk0SToRGX
-         u8lQ==
-X-Forwarded-Encrypted: i=1; AKwUvBygLbRp4rMssOzV15qzWMtyZCoRtHfB4QJYyoxJ3cNSGQfk4PwfeE+RRXR0P34BjcVY6edHq/3inUePGj3g@vger.kernel.org
-X-Gm-Message-State: AFq9FYJwiasg308bUtDW9l+USU3afzAHx9bmwFD/6/GmYWRZvnmtKiTC
-	fx6JaZlqSiemk7qSxUxpClTyiyxqfWh64FLpHMn9lseUlSrshUSwlaOrNCUaa4BeIwDq
-X-Gm-Gg: AYBFou29ew+2tWpCJxTK1Ji1T+HUYZQ4uWdUN8WR09quTVcTB1nK0AspG6pRHPO+xce
-	cIhB7yUENThMpD7Zwggy/6sKbWRMUNDWmSdQfQ1lT3RzJQVKSECX0WKo6LV9Hd/U35lO+UMyDWi
-	Le2VB5UAqgxpV9YVQAQSaECJRCKPL9bJzJYNVIrxqBnwRx1HEn+Rgaj4lA+RK9HsesIPNPVQgvH
-	LmGA1rO2agloMLsGQr5dCt6XmINceTAWgJY3ekwdVqlvSiUJ2Y01JhhR4hrCJP3wVeSsgJ/NZxF
-	ew3dNiDc+eCqZK2FjCwC3YWNVGCMTUdPIk9ZObDPli7hLuwfiLAnfRlVzEa9dC3cKBrKGnnLYad
-	0FB8shBQ+8wBaiqsKsRcW2qB/lnFmkgwi7UhfF63wx1UHmg7vsENgFiHkQ/+5gkYciGkqqAmDec
-	OkBD1C++rJu01ZzEJg5uEqIqOJ5HgIC0m59D8AT5qAq1szfUgH2mKWLxD/eP5u/6rJah75abtLK
-	6e7BXqTcECLw6jIOqkfUziVgsJuFVv3n3SrGFH02I9Xjj1KQDny/in/bU92IJrOXEDYflKefuXQ
-	x1u2hO6xvofdGOyUhDcjRrcqmZdMhTQ0Vg==
-X-Received: by 2002:a17:902:db0f:b0:2df:9a7e:d41f with SMTP id d9443c01a7336-2ea9c8740edmr75437265ad.41.1793051767231;
-        Mon, 26 Oct 2026 14:56:07 -0700 (PDT)
-Received: from lima-development (163-53-146-70.ip4.superloop.au. [163.53.146.70])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eae6455a00sm1186455ad.2.2026.10.26.14.55.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 14:56:06 -0700 (PDT)
-Date: Tue, 27 Oct 2026 08:55:57 +1100
-From: Matt Bobrowski <matt@bobrowski.net>
-To: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: bpf@vger.kernel.org, Daniel Borkmann <daniel@iogearbox.net>,
-	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH bpf-next 1/2] bpf: fix crash in bpf_path_d_path() for
- exiting tasks
-Message-ID: <at_MbcW0OlciNLrE@lima-development>
-References: <20261020105014.97985-1-matt@bobrowski.net>
- <20261020105014.97985-2-matt@bobrowski.net>
- <DM9VJTFJGVXB.3GH9LO3NGV5PO@gmail.com>
- <atiawbBo6WRPA6QA@lima-development>
+        bh=J8qqAYIAfPgq1UPwTJslv5kHWAuX4fEMnW0g2gFuydk=;
+        b=pmobPYnfMJPqBM9Z2kYaYIgwBT2yWQssyZu5gvBp2NKVN36E2dDLYsrHEFRe5KgliF
+         4hy5KUYQ+476vAgt4RxvQpkVgT+z4C+aVr6SO9j+NN4uSpNMMLDM5W0JOfLydG9X6W26
+         6tsR2VHZYXtaoro27T7eQ65iH0o7KXbsGl60BUaOb4ytZCIg80t34G+1Gtoe2pjjoTy5
+         lt99/WwCPg1IeTfNJgku25/LiVIBtv/XqyiRxtW4KE5QtbvBrofxt93NuHTLQ6zmplXo
+         I1f0/BWxMB696eG2Zj1903ndtVAWoh2o/bIQVU5tCTp6NT2kXs1AbEzt/ADPI2wnNQfz
+         aqzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793052392; x=1793657192;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=J8qqAYIAfPgq1UPwTJslv5kHWAuX4fEMnW0g2gFuydk=;
+        b=BYwjfxSCA7FSqILTDewVMtlYxbkoyt5SeuAUxOgHkxY8t0oWmjHkiYBGPBxlq1+Xa1
+         WxrKK7eQFagtVLpY/D8Bq07sW41q4SicCq1OSB1IJExtndafe/1ZWFnWHiQbDY6drbkE
+         bCZuQNpms+n2K01B0IzSjPfOXXtnRcOyzi0p8ILXbLo31+mkv0xYfxMd4eKkmPY3Cstg
+         jVZJlsEkthzpF2sLngnTzRJcG9gRDxIj+wSvPXSjszMo7IwyH2fEHT+MNBhXSgTsRWxt
+         o/SN0hujL3bxIhOcbPptBV+ZEuDf6pVkVDM7MKgbxs5bsa3SH+0Qk0Bq+8BydXdmdk4+
+         N/og==
+X-Forwarded-Encrypted: i=1; AKwUvByKwTiwgTHxkga0s5JYloskUCCSVfNXn8sc6KvwH5WrxTn3nFT/kIQDJxWJ8Dy9tjY6rT1U6Wu1dcZq9BaX@vger.kernel.org
+X-Gm-Message-State: AFq9FYJlCXF+g/YaR3epATTkCX1UMH3RCJe9q9wTEySmlWa9ERWwvaQA
+	WP+ITh7/iCIyla8g+0sddeYtzBxW7QPeHSuh12sBhFDphGSn7ubuxhY1IsOiR8cwRXkJdOJmY2y
+	w6swsQ3emvTQXNQ==
+X-Received: from plbjv3.prod.google.com ([2002:a17:903:583:b0:2ea:7f89:8fce])
+ (user=skhawaja job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:902:d4c4:b0:2e9:5c55:c46a with SMTP id d9443c01a7336-2ea9c03edbfmr70987685ad.7.1793052391484;
+ Mon, 26 Oct 2026 15:06:31 -0700 (PDT)
+Date: Mon, 26 Oct 2026 22:05:45 +0000
+In-Reply-To: <20261026220546.3114241-1-skhawaja@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -110,100 +78,115 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <atiawbBo6WRPA6QA@lima-development>
+Mime-Version: 1.0
+References: <20261026220546.3114241-1-skhawaja@google.com>
+X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
+Message-ID: <20261026220546.3114241-2-skhawaja@google.com>
+Subject: [PATCH 1/2] mm/memfd: add F_SEAL_PUNCH_HOLE
+From: Samiullah Khawaja <skhawaja@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>, David Hildenbrand <david@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <cel@kernel.org>, 
+	Alexander Aring <alex.aring@gmail.com>, Shuah Khan <shuah@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Gerd Hoffmann <kraxel@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+	Jeff Xu <jeffxu@google.com>, David Matlack <dmatlack@google.com>, 
+	Pasha Tatashin <tatashin@google.com>, linux-mm@kvack.org, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Samiullah Khawaja <skhawaja@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Oct 21, 2026 at 09:58:09PM +1100, Matt Bobrowski wrote:
-> On Tue, Oct 20, 2026 at 06:24:42PM +0000, Alexei Starovoitov wrote:
-> > On Tue, Oct 20, 2026 at 03:50 AM Matt Bobrowski <matt@bobrowski.net> wrote:
-> > > Fix this by returning -EINVAL from bpf_path_d_path() when current->fs
-> > > is NULL. Only the task itself clears its fs, in exit_fs(), so the check
-> > > cannot race with that.
-> > 
-> > The crash is gone, but so is the path. file_release progs will get
-> > -EINVAL for every file that a task still has open when it exits.
-> > 
-> > It also breaks what works today. The d_dname branch in d_path() returns
-> > before it looks at current->fs, so at task exit a pipe or a socket
-> > resolves to "pipe:[123]" now and to -EINVAL with this patch.
-> > 
-> > And it's not specific to bpf. The comment in fs/cachefiles/namei.c says
-> > that current->fs == NULL in do_exit() breaks d_path() called from ext4
-> > open.
-> > 
-> > can we fix it in d_path() instead ?
-> > With an empty root prepend_path() goes up to the global root, the same
-> > way d_absolute_path() does. Then the check in bpf_path_d_path() is not
-> > needed and the selftest can expect the path. A chrooted task gets the
-> > path from the global root, but it doesn't have a root anymore.
-> > 
-> > Something like this (compile tested only):
-> 
-> Prior to sending out the fix, I also considered addressing this directly
-> within d_path(), much like you've proposed here, but decided against
-> it. d_path()'s contract is to build a pathname relative to the current
-> root. It does fall back to a root-independent name when the path isn't
-> reachable from that root, but that fallback still presupposes the caller
-> has a root to measure against. An exiting task past exit_fs() has no
-> root, so d_path() has no correct answer to give in that state, and I'm
-> not convinced we should invent one for it.  That's what
-> d_absolute_path() is for.
-> 
-> You're right that my patch regresses the d_dname case though, since
-> pipes and sockets resolve today without ever looking at current->fs.
-> Rather than replicating the d_dname check in bpf_path_d_path(), which
-> would mean duplicating VFS logic such as the mounted pseudo-inode
-> special case, I think the cleaner fix is to move the "no root, no
-> answer" check into d_path() itself, after the d_dname branch:
-> 
-> 	if (unlikely(!current->fs))
-> 		return ERR_PTR(-ENOENT);
-> 
-> That keeps d_path()'s semantics intact, keeps pipe:[N] and socket:[N]
-> working at exit, and turns the oops into an error for every caller,
-> including the ext4 open path you mentioned. Nothing that works today
-> changes behaviour; only calls that currently oops are affected.  Callers
-> that want a name in that state then have to choose one explicitly, which
-> I take to be Al's point.
-> 
-> For BPF, that choice could be a new BPF kfunc wrapping
-> d_absolute_path(), so programs can pick whichever semantics they actually
-> want, and file_release programs that need a name at exit get one whose
-> format doesn't depend on how far the task got through do_exit(). I'd
-> prefer that over silently falling back to d_absolute_path() inside
-> bpf_path_d_path(), which would return chroot-relative names before
-> exit_fs() and absolute ones after, and still wouldn't help pipes and
-> sockets since d_absolute_path() rejects internal mounts.
-> 
-> Al, would a check like the above in d_path() be acceptable to you?
+Users of memfd_pin_folios(), such as udmabuf and iommufd
+(IOMMU_IOAS_MAP_FILE), pin the folios backing a memfd range and keep
+using them for DMA. A pin keeps a folio alive, but it does not keep the
+folio in the file. If userspace later punches a hole with
+fallocate(FALLOC_FL_PUNCH_HOLE) or madvise(MADV_REMOVE), the folio is
+removed from the page cache while the pin still holds it, and the pin
+holder is not told. From then on the device and the file no longer
+share memory: data written by the device is not visible through the
+file, and data written through the file never reaches the device.
 
-Al, what do you think about what I've proposed above?
+udmabuf already requires F_SEAL_SHRINK so that truncation cannot remove
+pages, but there is no seal that prevents punching holes without also
+preventing writes. F_SEAL_WRITE and F_SEAL_FUTURE_WRITE do block hole
+punching, but they cannot be used for memory that has to stay writable,
+and udmabuf rejects memfds that carry them.
 
-> > diff --git a/fs/d_path.c b/fs/d_path.c
-> > index c253090..ea49d33 100644
-> > --- a/fs/d_path.c
-> > +++ b/fs/d_path.c
-> > @@ -265,7 +265,7 @@ static void get_fs_root_rcu(struct fs_struct *fs, struct path *root)
-> >  char *d_path(const struct path *path, char *buf, int buflen)
-> >  {
-> >  	DECLARE_BUFFER(b, buf, buflen);
-> > -	struct path root;
-> > +	struct path root = {};
-> > 
-> >  	/*
-> >  	 * We have various synthetic filesystems that never get mounted.  On
-> > @@ -284,7 +284,9 @@ char *d_path(const struct path *path, char *buf, int buflen)
-> >  		return path->dentry->d_op->d_dname(path->dentry, buf, buflen);
-> > 
-> >  	rcu_read_lock();
-> > -	get_fs_root_rcu(current->fs, &root);
-> > +	/* Past exit_fs() there is no root to stop at, go up to the global one. */
-> > +	if (current->fs)
-> > +		get_fs_root_rcu(current->fs, &root);
-> >  	if (unlikely(d_unlinked(path->dentry)))
-> >  		prepend(&b, " (deleted)", 11);
-> >  	else
-> > 
-> > pw-bot: cr
+Add F_SEAL_PUNCH_HOLE, which makes fallocate(FALLOC_FL_PUNCH_HOLE) fail
+with -EPERM on shmem and hugetlbfs memfds. MADV_REMOVE is covered as
+well, because it is implemented with vfs_fallocate() and
+FALLOC_FL_PUNCH_HOLE.
+
+Signed-off-by: Samiullah Khawaja <skhawaja@google.com>
+---
+ fs/hugetlbfs/inode.c       | 3 ++-
+ include/uapi/linux/fcntl.h | 1 +
+ mm/memfd.c                 | 4 +++-
+ mm/shmem.c                 | 3 ++-
+ 4 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index e8a05d3de327..65034b72b98e 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -660,7 +660,8 @@ static long hugetlbfs_punch_hole(struct inode *inode, loff_t offset, loff_t len)
+ 	inode_lock(inode);
+ 
+ 	/* protected by i_rwsem */
+-	if (info->seals & (F_SEAL_WRITE | F_SEAL_FUTURE_WRITE)) {
++	if (info->seals & (F_SEAL_WRITE | F_SEAL_FUTURE_WRITE |
++			   F_SEAL_PUNCH_HOLE)) {
+ 		inode_unlock(inode);
+ 		return -EPERM;
+ 	}
+diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+index e43e3de3e9ee..f9dd929adaf4 100644
+--- a/include/uapi/linux/fcntl.h
++++ b/include/uapi/linux/fcntl.h
+@@ -50,6 +50,7 @@
+ #define F_SEAL_WRITE	0x0008	/* prevent writes */
+ #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
+ #define F_SEAL_EXEC	0x0020  /* prevent chmod modifying exec bits */
++#define F_SEAL_PUNCH_HOLE	0x0040  /* prevent punching holes */
+ /* (1U << 31) is reserved for signed error codes */
+ 
+ /*
+diff --git a/mm/memfd.c b/mm/memfd.c
+index 0f6fff004f5e..3f0ef72fb301 100644
+--- a/mm/memfd.c
++++ b/mm/memfd.c
+@@ -227,7 +227,8 @@ static unsigned int *memfd_file_seals_ptr(struct file *file)
+ 		     F_SEAL_SHRINK | \
+ 		     F_SEAL_GROW | \
+ 		     F_SEAL_WRITE | \
+-		     F_SEAL_FUTURE_WRITE)
++		     F_SEAL_FUTURE_WRITE | \
++		     F_SEAL_PUNCH_HOLE)
+ 
+ int memfd_add_seals(struct file *file, unsigned int seals)
+ {
+@@ -253,6 +254,7 @@ int memfd_add_seals(struct file *file, unsigned int seals)
+ 	 *   SEAL_GROW: Prevent the file from growing
+ 	 *   SEAL_WRITE: Prevent write access to the file
+ 	 *   SEAL_EXEC: Prevent modification of the exec bits in the file mode
++	 *   SEAL_PUNCH_HOLE: Prevent punching holes into the file
+ 	 *
+ 	 * As we don't require any trust relationship between two parties, we
+ 	 * must prevent seals from being removed. Therefore, sealing a file
+diff --git a/mm/shmem.c b/mm/shmem.c
+index fd0953d55fd6..e79a298d6292 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -3853,7 +3853,8 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
+ 		DECLARE_WAIT_QUEUE_HEAD_ONSTACK(shmem_falloc_waitq);
+ 
+ 		/* protected by i_rwsem */
+-		if (info->seals & (F_SEAL_WRITE | F_SEAL_FUTURE_WRITE)) {
++		if (info->seals & (F_SEAL_WRITE | F_SEAL_FUTURE_WRITE |
++				   F_SEAL_PUNCH_HOLE)) {
+ 			error = -EPERM;
+ 			goto out;
+ 		}
+-- 
+2.56.0.307.g5fe7bd680c-goog
+
