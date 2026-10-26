@@ -1,57 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793002364;
-	b=Ad312p+VPxkaD8xUnpf+k7gD7D5O5ARpITmhYecOphaQZ3R1b0q9TqnVF8nfHjRo6swA
-	 mU5mU9/Nufz5fALCeakGJHNzpFErG/QO+UYwFBVL5uMgUDwy+odPYJIiS/Y8Nhx48hxE1
-	 MbpyoikQ7CN74Fvv/P9WifrsyTa2M2A7vdRqyecQts9VMi3vC3d8qtIxbuV7++DCvnkS3
-	 L//UDMYPsIUnApfwLy85mvE3V1P8anwB+pDC9YeGYZXlf02nLlnk2HC13iEcoiatUuqB1
-	 1EHikZMbRTPoDdo2BoN7+nk+i5XD9NQ0FCvtxTgQd0iit3utyDBWutS6ErN1lrkBpjg==
+	t=1793002797;
+	b=OU51OjrYfVKfrOn+Ep4moJQrMTi9/+ebK+AlPwJbycoRIlNFhLGamqkJ/XSENOIkZ1W3
+	 RZiXfbf8tRiT+9EsQKZ7CE9R0ie+bwfMrGdc7Zqk0CCE8jXBu0+G9A0YT3JitoAzzjD9r
+	 CXeLTIPqbVE3W4lzQxaUGqEbF4YQtxwxmgUhWEV39MzQA2Sgl/sSKVHl1J5pJhU8wTtWp
+	 aMtVuYgj7f8ZGw/VOtiLFlJIkzh/ssJGOCYEAfQITYErUCFRrSY6dlaJFd5I2QiSzhoJJ
+	 uS7KztN+xXt6Oy9MnBgCKqYQtFE+xING7CsW6T92+2QUp4HJMTrRUBJ5v1DF4Yj+ICg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793002364;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793002797;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=twvo2S5XjbqEkOWkAQpnGbrW91qUdbVnGPc73sw06G4=;
-	b=qp9WLMiM+KUsJYD+64bAXe3GTd5T8fhRh5cjZlzPfA+r1NkAoaoTchQbSmqVKEpcKi9e
-	 FlUH9yzvpD+5uQ5L9H0sVSnBRjP4BqTWSnhR5tzGfmsjsBF9WDRcVnkzCzY2YGWCxzbVj
-	 TARDOhGXeCBU9TXyV4Lf4XzNig9DaKaGT/83kIdLU2Cxk63jnp0BtmOAg+HOSlNJZcP7P
-	 /6+pZ9ghdrrwdU1BJJJ+s+H2a13e46HA6VF4UL/5Mu21uXNWlbQn+g3YhYMFbhfPGpn+J
-	 iRrAslpu2CZmrO7EYC6f8Q9AE8v0Bf09fy4HxbHRwrSTJxd9iwFDW3Ue/e6PnI1Vbdw==
+	 X-Developer-Signature:X-Developer-Key:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=IDp3KuAS1tro98BIfEQGyxBAwx1zOi6kq5PMpMaxJjg=;
+	b=exaKtq8UHdTVf+MjL2RhCSh9irltUTUZY5NPiZXDiC8OcBbEb8Wl+Ia9WPK32Zi1TDl6
+	 3F7GSScD6gNx5EgYzKB8keglkiziug0rIgBHUtcSOSzlzvzbLb96OYmUzvr7GGgrlIE6M
+	 zPffAUaLucDl/X9JFtLZBOdCOWXW5KH4GjOwnVcnQLpaVGY1f7Lmu6IUOp9G8LtyZa3Oy
+	 UdDd7luseFZzERDxXyH+nP2NCP/Az0g5GQuj7P/X69pfViGHRkIcg2eNbGyIFtROKzP64
+	 YjknCJH5k232c7mJ/tpjchJCyQNjtEZ+GbI6moG4Anh3rPM+zc8AE6gwZIDQOruN+uw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NFNJNicX;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O9VHz9Jt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E59606A31A;
-	Mon, 26 Oct 2026 08:12:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E61606A323;
+	Mon, 26 Oct 2026 08:19:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NFNJNicX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8936D1F01825;
-	Mon, 26 Oct 2026 08:12:41 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O9VHz9Jt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7A841F01825;
+	Mon, 26 Oct 2026 08:19:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793002363;
-	bh=twvo2S5XjbqEkOWkAQpnGbrW91qUdbVnGPc73sw06G4=;
+	s=k20260515; t=1793002796;
+	bh=IDp3KuAS1tro98BIfEQGyxBAwx1zOi6kq5PMpMaxJjg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NFNJNicX6mXjCGpZhiZiDheE4OhQLW4CMPrvMwmhEQV6Sq1TxOHedI51pkk8pDhNS
-	 PD8CDdmWZcRxvMEAmdne/GyfcWHutE84sT6cGLcWhob6VmPa5DFpancxtpgIemAgaS
-	 Syt6R0JdrMc6iqm2autEf7mFIGcPTNXDKMxLPI46onGdFDgqyEisFCvH98js/oc5pU
-	 jM8ULVd2dxYAzoC1xbI9lwPXYMmb7C/wYJ76l99gv+eqVsclhAXbj6jhGt5Uw/LQHn
-	 Ef+4BnJX9phtyvdah+Yl5c8tgHidpPYY8nqarZoU5Tcpt3/1EROrnWsO+G0qqdn24z
-	 J/Upbu1Wh0rbg==
-Date: Mon, 26 Oct 2026 09:12:38 +0100
+	b=O9VHz9JtYo98sgJWsBa8YuuwzTFvQS7xl8hvVKP4mprLg/Mkx8tnP0ZZ9mmqkUIu8
+	 SQ+/J4/iNCUEPx+cSsEkQLGcDX2FtpN9cIgLrDUEkITF2X0h4opy/iLo0+t2QLAh0H
+	 Q6AYwB//FEDbUgEHGo3ecm9NWxnw3m8bqFzJKnblD686i3ADKPr3mqc8M9zf3T9Skc
+	 +hZjk1dKf5eab8JHzVFEYGa3yKg8lTtXL00V/m6uEzic35JKAbMi8sESURXbFqCDne
+	 dvqAkQgCLMarAW1jyTBz64FnQ6DrurShCpc2hay0T5d5aTHaEG8x81gPMICA4JjAZ/
+	 FtugDkyI+BZHQ==
+Date: Mon, 26 Oct 2026 09:19:53 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org, 
-	Gabriel Krisman Bertazi <krisman@kernel.org>
-Subject: Re: [PATCH 1/2] dcache: don't leave negative dentries in casefolded
- directories
-Message-ID: <20261026-virologen-abtropfen-endlich-b6ffb9111409@brauner>
-References: <20261023-work-dcache-casefold-v1-0-1b0bd5c73a69@kernel.org>
- <20261023-work-dcache-casefold-v1-1-1b0bd5c73a69@kernel.org>
- <20261024192017.GG2553@quark>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [GIT PULL for v7.4] vfs keyring
+Message-ID: <20261026-bauordnung-gestiegen-buden-b22e45a2c1c3@brauner>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3635; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=c8YDQuzod5d24jCN1aOg9riFbzVfK5JShO72FagV3Gc=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTd55rv/XJ6PqPGk/vtNUfEBDlj3kms62+pUwmOerwlj
+ 2fO5M7pHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABMROcDIsE/ny8Z1BakV5dM4
+ p0xZvvzlrt0nzDO8dNUuX4qVPb3pyWpGhkmiSo+yRfZ8O7e6MUnY3NNo5ne1yV9ibMo/1l/77Mi
+ /nAEA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+References: <20261016-vfs-v74-41eaf6c4712c@brauner>
+ <20261024-vfs-7.4-rc1.keyring-db88a8f3b5b1@brauner>
+ <CAHk-=wh0gCvsC7A9z_H7her218kSCmd16dqtd9uMfO5ZrSvxLw@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,17 +68,88 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261024192017.GG2553@quark>
+In-Reply-To: <CAHk-=wh0gCvsC7A9z_H7her218kSCmd16dqtd9uMfO5ZrSvxLw@mail.gmail.com>
 
-On Sat, Oct 24, 2026 at 12:20:17PM -0700, Eric Biggers wrote:
-> On Fri, Oct 23, 2026 at 02:44:22PM +0200, Christian Brauner wrote:
-> > +static __always_inline bool d_delete_drop(struct dentry *dentry)
-> > +{
-> > +	return dentry_negative_policy ||
-> > +	       IS_CASEFOLDED(d_inode(dentry->d_parent));
-> > +}
-> 
-> Should this also check IS_ENABLED(CONFIG_UNICODE), so there will be no
-> overhead when CONFIG_UNICODE=n?
+On Sun, Oct 25, 2026 at 04:35:56PM -1000, Linus Torvalds wrote:
+> This explanation reads *very* oddly. It doesn't actually explain at
+> all what the patches do or why they do it.
 
-Sounds good. I'll fold then in when applying.
+Ok, sorry about that.
+
+> The only explanations about what the patches actually do are complete
+> and utter nonsense. They claim it adds some kind of "well-known key
+> IDs". That's complete BS. There is absolutely nothing "well known"
+> about any of that: they are completely new random key IDs that nobody
+> has ever heard of before, but that are meant to be used as fixed known
+> key IDs.
+
+I meant "well-known" in the sense of "fixed ids" that userspace can rely
+on them being fixed. Certainly wasn't meant to mislead. Ok, here's my
+rephrased proposal:
+
+---
+
+The kernel has two keyrings that userspace fills with X.509 certificates
+at boot: .fs-verity for fs-verity built-in signatures and .dm-verity for
+dm-verity root hash signatures.
+
+Neither is linked into any process keyring. Hence, request_key() and
+KEYCTL_SEARCH can't find them. The only way for userspace to identify
+them is to read their serial number out of /proc/keys. That is not just
+a large file often the names can also be reused and appear multiple
+times which allows forging these keyrings.
+
+This adds two fixed special key ids, KEY_SPEC_DM_VERITY_KEYRING and
+KEY_SPEC_FS_VERITY_KEYRING next to KEY_SPEC_BPF_KEYRING. The latter went
+in through bpf-next this merge window.
+
+lookup_user_key() resolves the fixed key ids to the two keyrings. So
+userspace can add a certificate with
+
+    keyctl padd asymmetric "" -10 < cert.der
+
+and seal the keyring with
+
+    keyctl restrict_keyring <keyring-id>
+
+without looking anything up first.
+
+The following changes since commit 1b7415bf70be95b9a1e7e87d544867881065613f:
+
+  Merge git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf 7.3-rc2 (2026-09-06 16:17:40 -0700)
+
+are available in the Git repository at:
+
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.4-rc1.keyring
+
+for you to fetch changes up to 503b65da9a7e5447d91222f62399522f2f62a0fa:
+
+  Merge patch series "keys: Add well known IDs for fs-verity/dm-verity keys" (2026-10-12 23:37:42 +0200)
+
+----------------------------------------------------------------
+vfs-7.4-rc1.keyring
+
+Please consider pulling these changes from the signed vfs-7.4-rc1.keyring tag.
+
+Thanks!
+Christian
+
+----------------------------------------------------------------
+Andrew Halaney (3):
+      keys: add KEY_SPEC_DM_VERITY_KEYRING
+      keys: add KEY_SPEC_FS_VERITY_KEYRING
+      Documentation: keys: document IDs added since KEY_SPEC_REQKEY_AUTH_KEY
+
+Christian Brauner (2):
+      Merge bpf keyring work from of git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
+      Merge patch series "keys: Add well known IDs for fs-verity/dm-verity keys"
+
+ Documentation/security/keys/core.rst | 13 ++++++++
+ drivers/md/dm-verity-verify-sig.c    |  3 ++
+ fs/verity/signature.c                |  2 ++
+ include/linux/key.h                  |  2 ++
+ include/uapi/linux/keyctl.h          |  2 ++
+ security/keys/process_keys.c         | 58 ++++++++++++++++++++++++++++++++++++
+ 6 files changed, 80 insertions(+)
+
+-- 
