@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793051575;
-	b=d+kzwRZNSF+xyKyV3waOy7zITdQ3/giLjkJ6NwG0uv8dXrRkAyMrn97XPJmNM4u4LPIR
-	 mP51DhHUanJ2pF3RtVK1MWZ0u+5Yrz+i6ss6RCdqDDR2J/3RXaequkMgNFRH/S216S7gN
-	 90cIbZot1D5NAatn93BKaUoE7mqD+V2TJNW6Na8k4Thn0miRLSLypcLCdzUzVGuUm8Byg
-	 JbpEqtraBnov7Rhuwj+PMCGqU1HDVu40R3pSYKETE+7xd7zrHcSbnnZ0Bew7lpt2VjUqJ
-	 ugwsB7qVLwdflLrQERZtOJfP56unqydzBYMUoWRfuH44QWHjM5CB/l5RypJyj/mOyPw==
+	t=1793051581;
+	b=pNZGOJ94hISskW5DtLdQ6Nyn/lYIUerpmaAYe697CE/6/+ESp55y3evsJ3enwVnBHjHq
+	 VoiBP3xq90ekytohgxn9shjXtpyOXb/PuPmFQnFEySxPwffA0oszZIaQVkDpp6TvmxKYU
+	 KkKo/LlC7LieySK9HxGzc8uspa2Kvu7MB2yPU017BSNU0wPtEHIupHuyErY/KuoDr01jR
+	 4fV7GA+Ig21qh0Bei3Ps5uCqwvWjuAR3ieB2IRtrzWoDFkykpmRuhiy+FWtcQmahu1tCS
+	 NWkYRxYZey/AO8BRsCDOeKbHrab0w9dRtjJqy2u9bpUx0NL2pbsqyz6BhBxNa24VNsg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793051575;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793051581;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=UPD1DyegWTB9pcC/MXMtMDXG2VZzMQeq5nacp4T1bXw=;
-	b=WHR/Spmv7FB+8TiH4oHTXASanq39vw6xHvptBdtTXuS1+xMu/xsEufhz0vbUikZwQuVl
-	 AGSP5aeC5n20sMs3RCyg20tZj8tQ93W4QGQsy0/pLZ+e0m7I8/RomHErkLwz2ZT+U81y1
-	 YPNGw+LzVij3Q3BU8RfrfBruyySR5h6f7Y876Rv1yS/5c5dSv8e8NgD3w5rQxnqle9psB
-	 dIb8IEVUXSamV830vF25HcLc7m/gDJ8NdAujARLlDjwpkWQyejirBnEbdAucyizrKCbyl
-	 5+XHXrT9dsreA2NoSyncIhA8SSXxPrA8fjO5ey3JQmogk1SJvAIpHMusMvs76EfH8RQ==
+	bh=/8L34Uc9Xo1d4oJ1WUUvtNMd/yh9NNapi89sPDAfm6Y=;
+	b=YAiUDr/xRLyrdYjzsPod/JSLkR0sxveva5iZGyNqPEbLbD3/gLSol/pFO9Y8H+MaV/D9
+	 9nDJ6M7CqYcLEQqRsjsauD7x5CA82fkN5Ffzp2x2h7oCLCLOOaQpa/e3xCGPKT7Obs93N
+	 S7SI7Nst8bz8lecuL8L14c2GKD1w2QLtIDhpJ8FvRhMDu8pFX5bNEAxQy0MerxmlqqY0t
+	 tPkXta3xq95Tw8Ihr5E1zswvPyiNcXwrbuIZZBnxWlpI1s4KTC72m061BW3OSIhg5xRQ7
+	 Te9UoOXIcy4KXH+qFEvgO9vvV39M0DgRNwkLdG+ea10Eu8mGRNUMQJ2WaNOCJodktog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b="rIaWZp/G";
-	arc=none smtp.remote-ip=209.85.216.70
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	spf=(null) smtp.mailfrom=flex--jthoughton.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=fU7gA7Dl;
+	arc=none smtp.remote-ip=209.85.215.200
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68FC60A6F56
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:52:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A68FC60A6F56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566EF60A2621
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:52:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 566EF60A2621
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=tempfail smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=rIaWZp/G
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3ab7f1efe5dso5902354a91.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 14:52:54 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=fU7gA7Dl
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cd6969473a4so2053546a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 14:52:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1793051574; x=1793656374; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1793051570; x=1793656370; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=UPD1DyegWTB9pcC/MXMtMDXG2VZzMQeq5nacp4T1bXw=;
-        b=rIaWZp/GdR9oaew/m3Hzd8eSd5saoP8GWO0K4K0joO8XQTv842j2gsBeHsxwEdM/8M
-         MFM6vhduv3Y3n3hCqiAUqsnfRPKP9yOwLSHx/clGiyqH9Rxk0fMKXZZ7stPFt1zjCupR
-         xRNu/7MegW08r0ydYWSIUj+FAUa3Ae6wfRzfeoO5pFfoBcMeRGz13T6mBB5UdlXqWjMq
-         KF0ceJ1w9rr7iREcUm2HrRNiOXTB+r76yUWxKyQJbGshWQiGe6+nr3XF10eZqmjVMTie
-         XjqLxoc2jQjq3WGmj9HfzvPA3b7EhbSB0eKWlpooXrtzhqxcQ9G3H1+HZnwFZsc4Q9d0
-         dwdg==
+        bh=/8L34Uc9Xo1d4oJ1WUUvtNMd/yh9NNapi89sPDAfm6Y=;
+        b=fU7gA7DljvCqdvdMpaU2dp8kIrEccZFKOmWnfW6sw+A054S6dlNZugZLhIYYcfiePQ
+         hsLgQW99gw7/40gSfJI6nU0rtnm0+1dPDbRaUoY665tdkjNVHr2UFbegtIbotfU9v9/A
+         uK7QOilz2oAfaWXl/tsF91D3vAUMVrFCU+UmdWgUF2++tfRICFcImVM7cH8b81croIe/
+         3gbPbeDpIxRnPDaXaoU22kL/RynJy6L0hYZfzyDRTzTeCDcQlDb8FUzF1BEGuZLmjKzH
+         eeONqBOhxrAFnMU8HI0VT7oOvpOxL8LajgaOKQMUvvRXhW0M5pmi7s9QGStFhbTf6Lb8
+         9JRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793051574; x=1793656374;
+        d=1e100.net; s=20260707; t=1793051570; x=1793656370;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=UPD1DyegWTB9pcC/MXMtMDXG2VZzMQeq5nacp4T1bXw=;
-        b=oNhmx4qnPFEh36V/hbZPFEoxWTQmf/wMFJAHBKLiaMGBZ/Oz2U+ELzjXzsz7y8NpAR
-         +hTI7NUlPsmQzOglLqPM9VbQE7xCLeSEKEuWKISrrbhkBoXkLvlISl7EieeCUfhXREwL
-         vSjcI9VcNbZVaHtTvyYMfFOtfL9Hp+3ZLaH/PGw7uYzSzAxjNT3SuL0ZVIap98+4Tssz
-         e78Umm1atGJJ6Jf4Snie5XUDMMgnHwnTbUM8hxrX0Fg0v0TI2YgMCx36yBID7F+Sp/U4
-         gz/FuzaAUUVUfHT2lKyQVBlT8tClFtSKLl2JmdgXleSuUyFYcgUg+qCrb9g46YOZhbO+
-         RQsA==
-X-Forwarded-Encrypted: i=1; AKwUvBwdI3TCwhAPhdavRiEROgjrSjy1swyD0SIKopcOOWyXRR30uKxkgYgl1Exfj+zJjtB376/DfuNqNU0rtFia@vger.kernel.org
-X-Gm-Message-State: AFq9FYInFdYPWgBDTomSACwKJ9YKkFL/Ymr7/4ekD3dQ8muzSJ9lVTlm
-	pRZcUwqeRizc2nyhxx4jm5vMfff3mGFPU0BYwI+0GO4nzf3PIw3MUbo1zFgL/ZjqY4IFkDxsJ8E
-	iZ7foYWXYtjp47haPZ54eCw==
-X-Received: from pjyp7.prod.google.com ([2002:a17:90a:e707:b0:3ab:c373:bf62])
+        bh=/8L34Uc9Xo1d4oJ1WUUvtNMd/yh9NNapi89sPDAfm6Y=;
+        b=hwlJE7Ak6K5pGiiu8MmCfaAete7On35L3Wjxy9a7IexTn7VzyBjX1uOHLJb54fCyvz
+         dGoWfRpExAFWEGAhKjXY4e7Fs79OrZ08ayxFLXQY+o/Kxjh2lAqlEVerz1LfNJhoUt6x
+         18zHcPFrVtYRhr391fzIsESTAjjQHc1piY+U7bS9q4UENZ7WgpF6wvM/bn00Nd/fWnGv
+         uwK10+rAEJtTuwAZQYt71CnUEFv0l8SiDIjW5UB2UH6xJUdZwreMCDPQb3lpkzjJm37Z
+         vMt5SmNVYz7WCtW+MSiV6Pc+06OIbwS+/ouZyBkcJZPsJJ6VS24p4lnLeYIrLRH5wcsw
+         uSrw==
+X-Forwarded-Encrypted: i=1; AKwUvBzuWLX1tTgyL18mcTmwwLxGNNy+Vjf+JdDANXtPL3ap2dXQeaCLaTp2/4GPRYTN9YA0/M1wcdrwLhl+rhKO@vger.kernel.org
+X-Gm-Message-State: AFq9FYKXhMKf0/sA9yJzPPWgOJsjrskgLCPeo5ZK1MTbmpz52sxIqR2x
+	MxFDsyKkTSHDpXLvVCibdEYrhHjwRzlh9EMlu4TS+6ZsBP/UJZ5eYsPoVSEqGnJOOHkf5Pj7H+0
+	h0dHDZ7m2TW1xnls3deTR0A==
+X-Received: from pjbme4.prod.google.com ([2002:a17:90b:17c4:b0:3ae:349e:2bcd])
  (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:3e4d:b0:3ac:403d:6232 with SMTP id 98e67ed59e1d1-3adeb120167mr6870324a91.55.1793051573802;
- Mon, 26 Oct 2026 14:52:53 -0700 (PDT)
-Date: Mon, 26 Oct 2026 21:52:23 +0000
+ 2002:a17:90b:35cc:b0:3ad:1b31:92d8 with SMTP id 98e67ed59e1d1-3adeb16ecffmr5865801a91.60.1793051569572;
+ Mon, 26 Oct 2026 14:52:49 -0700 (PDT)
+Date: Mon, 26 Oct 2026 21:52:18 +0000
 In-Reply-To: <20261026215226.3713941-1-jthoughton@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,9 +81,9 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261026215226.3713941-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
-Message-ID: <20261026215226.3713941-8-jthoughton@google.com>
-Subject: [RFC PATCH 07/10] uaccess: Fail user nofault helpers quietly when
- current->mm is NULL
+Message-ID: <20261026215226.3713941-3-jthoughton@google.com>
+Subject: [RFC PATCH 02/10] btrfs: Don't copy encoded read data to user memory
+ when canceled
 From: James Houghton <jthoughton@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>
 Cc: Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>, 
@@ -106,96 +106,48 @@ Cc: Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ke
 	linux-kernel@vger.kernel.org, James Houghton <jthoughton@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-The user nofault helpers (copy_{from,to}_user_nofault(),
-strncpy_from_user_nofault() and strnlen_user_nofault()) are meant to be
-callable from any context, e.g. from BPF programs, kprobes or perf, which
-may run on behalf of a kernel thread or of a task that has already gone
-through exit_mm(). In such a context, there is no user memory to access,
-and the right answer is simply to fail.
+btrfs_uring_read_finished() copies the data of an io_uring encoded read
+to the submitter's buffers with copy_page_to_iter(). It runs as io_uring
+task work, but io_uring may also run it with tw.cancel set from other
+contexts when the submitting task can't run it: from a kworker when the
+submitting task has exited (io_tctx_fallback_work()), or from
+io_cancel_local_task_work() when a DEFER_TASKRUN ring is torn down.
 
-Since the previous commit, the uaccess helpers they use warn when
-current->mm is NULL, e.g. bpf_probe_read_user_str() from a BPF program
-attached to a function called by a kernel thread would now trip the
-WARN_ON_ONCE() in strncpy_from_user().
+In a kworker, current->mm is NULL, and the copy does not reliably fail:
+the user half of the address space belongs to whatever mm happens to be
+lazily loaded, if any, so the data may be written into an unrelated
+process.
 
-Check for a NULL current->mm up front in these helpers, and fail without
-warning and without attempting the access.
+Don't copy the data when the task work is canceled, and complete the
+command with -ECANCELED.
 
-On x86, copy_from_user_nofault() was already refusing such accesses, as
-nmi_uaccess_okay() returns false when current->mm is not the loaded mm.
-
-For the same reason, make copy_to_user_iter_nofault() use
-should_fail_usercopy() directly, leaving the NULL mm check to
-copy_to_user_nofault().
-
+Fixes: 34310c442e17 ("btrfs: add io_uring command for encoded reads (ENCODED_READ ioctl)")
 Signed-off-by: James Houghton <jthoughton@google.com>
 ---
- lib/iov_iter.c |  2 +-
- mm/maccess.c   | 17 +++++++++++++++++
- 2 files changed, 18 insertions(+), 1 deletion(-)
+ fs/btrfs/ioctl.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 3d6ecb50d778..21e2ccf1e8f2 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -33,7 +33,7 @@ size_t copy_to_user_iter_nofault(void __user *iter_to, size_t progress,
- {
- 	ssize_t res;
- 
--	if (uaccess_should_fail())
-+	if (should_fail_usercopy())
- 		return len;
- 
- 	from += progress;
-diff --git a/mm/maccess.c b/mm/maccess.c
-index 486559d68858..678bb6165b39 100644
---- a/mm/maccess.c
-+++ b/mm/maccess.c
-@@ -121,6 +121,14 @@ long copy_from_user_nofault(void *dst, const void __user *src, size_t size)
- {
- 	long ret = -EFAULT;
+diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
+index f3e2afe221be..d9044fbd9547 100644
+--- a/fs/btrfs/ioctl.c
++++ b/fs/btrfs/ioctl.c
+@@ -4609,6 +4609,16 @@ static void btrfs_uring_read_finished(struct io_tw_req tw_req, io_tw_token_t tw)
+ 		goto out;
+ 	}
  
 +	/*
-+	 * The user nofault helpers may be called from any context, including
-+	 * from tasks that have no user memory to access (e.g. kernel threads).
-+	 * Fail quietly instead of tripping the warning in the uaccess helpers.
++	 * If the request is being canceled, e.g. because the submitting task
++	 * has exited, this may run from a kworker or in a different task, so
++	 * don't copy the data to the submitter's buffers.
 +	 */
-+	if (!current->mm)
-+		return ret;
++	if (unlikely(tw.cancel)) {
++		ret = -ECANCELED;
++		goto out;
++	}
 +
- 	if (!__access_ok(src, size))
- 		return ret;
- 
-@@ -150,6 +158,9 @@ long copy_to_user_nofault(void __user *dst, const void *src, size_t size)
- {
- 	long ret = -EFAULT;
- 
-+	if (!current->mm)
-+		return ret;
-+
- 	if (access_ok(dst, size)) {
- 		pagefault_disable();
- 		ret = __copy_to_user_inatomic(dst, src, size);
-@@ -188,6 +199,9 @@ long strncpy_from_user_nofault(char *dst, const void __user *unsafe_addr,
- 	if (unlikely(count <= 0))
- 		return 0;
- 
-+	if (!current->mm)
-+		return -EFAULT;
-+
- 	pagefault_disable();
- 	ret = strncpy_from_user(dst, unsafe_addr, count);
- 	pagefault_enable();
-@@ -222,6 +236,9 @@ long strnlen_user_nofault(const void __user *unsafe_addr, long count)
- {
- 	int ret;
- 
-+	if (!current->mm)
-+		return 0;
-+
- 	pagefault_disable();
- 	ret = strnlen_user(unsafe_addr, count);
- 	pagefault_enable();
+ 	if (priv->compressed) {
+ 		index = 0;
+ 		page_offset = 0;
 -- 
 2.56.0.307.g5fe7bd680c-goog
 
