@@ -1,99 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793057499;
-	b=owCckunh29E/u34HOphJhyUW85kcixHzSuYc5KMsEOb3+IC4H2Ug+IQrn+ipYHCE/1wL
-	 25qCUz0BxGu1igmrYh0LS5jcc2bunjNv23HaKdHCP4HCUzAkl38BT6kHilgixgxXNkmCS
-	 PH1AFGVUcsbERwxw9lGYnSiZkNG0ns4U2yEkTgI5xa4+Y8J2HGdGjImd3sj9k7BPWxspb
-	 rEtj6qkCoo354cNSN3yDfEP8uDXn7Fnf33A3431pRyY0dfo+KQrbZfjF23tsxC7ptHHZT
-	 TyBIBPYp7PkIGd1UeTCROKro4h+biYMMrrYXs/TOMqHkuU1cztiqJx4fTy7pDttY6Cw==
+	t=1793057505;
+	b=J9U5pTCoZD7miQQYUaNx5XxOHlNpeMFIGq9EhNaNrnQlUrWLFVAmVaOogcm9Lv4kSpKn
+	 8bwtx0SBheQ3gJc6VfyeuNKq9Skbuse3Iz97mh1pE9YwqhBJ4cDOIS1LX05HQ7wBgHe0E
+	 QYX3aJ4955QVuLpIPuKTG0HHvqVav/Y2Uf+kdkzzZVJKmtUS23qadTyT6UlsS2XSvLfFv
+	 tOz9NOtGzf99vIy2r8QJJRkn6zXR2tWHwU8FLLnZ1CuzQK+9P2c0EaxHJaJbtS73ej3VE
+	 2k3vZW69XUYXkESkv5ZThhxqmZu4Pq8COkpw8MTXhH4WRj5i8vsLGT6gkEQNs06jxMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793057499;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Content-Type:Date:Message-Id:To:Cc:Subject:From:In-Reply-To:
-	 References:X-Mailer:Content-Transfer-Encoding:MIME-Version;
-	bh=MNAuIEGmBIPL3LGhEiC7AZdHVvxraynZTpB2Bey0XaQ=;
-	b=r9id45jj12tO+KuQJqp2LHJhv9d5tCToCHLKR0RGoggzcGxE3eHd3KDjb/Jx4JMy7WSC
-	 rzC1tTsGiUUc2rGpztidWpwgmWOz2vxU+1V6ldOpFXNc5qGCCFznbkWd1rj/uxdwzkL/Y
-	 602boyCOy+XnY+LCbRt2LxTyxcrsc0hOO49/m+p/PSEtCNRZZSFOKOYss7RuEcHLoPibT
-	 33wRKqpGTpS2U7hVJInyo3nhV9J0zZb9caVvjJcxyga1Eg21LVPyze7Xreisf5t4o8o9Y
-	 WIrgtm6a2LjMtRz9QHFyw1E8LVOKNKrj0L+43hkyuO5K8NL0zXGRqVbb7Izb3sAsnFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793057505;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=JOZA/d3RnlEXnMB1S+vtRBXnoN845YtQMJ+bQJINkeg=;
+	b=sOWdGnuQeORTVJhsGJ113sfp2yH+IJMW22PzaFSrnGIb58pmh8OI35flgFI5LMVPeSid
+	 E9oDz3WtvEoNCHPCnCClfeZ8K7m/Sub7D+UmTih9z6XKJHHq6gXoO2e87+meZJX3GhwOr
+	 fMbwHjPXsKNZFSUizDMQKPYrr3rRRgT2oQsRatwgWlvuoD8NY9hL5ajfv0qlsS8pllrWe
+	 eIAxlkk+p/otf/UomCBJuJ5fu/1RIalBsk/qtGpTHks1kQp18LPZcaDjqz9zrzCVFIT+p
+	 rW8bJ0czHvGcHB5bARHlnGH507c4bAfehgbBvBazlpI9Ls6JN5IZ8WsOdhVQLuEWttA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="NV/brdlI";
-	arc=none smtp.remote-ip=209.85.214.177
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ox2i2FSH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41ED0606A324
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 23:31:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41ED0606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3AB606A31D;
+	Mon, 26 Oct 2026 23:31:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=NV/brdlI
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ea0efd636dso28202985ad.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 16:31:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793057499; x=1793662299; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:from
-         :subject:cc:to:message-id:date:content-type:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MNAuIEGmBIPL3LGhEiC7AZdHVvxraynZTpB2Bey0XaQ=;
-        b=NV/brdlIm/TuLhSF4NjeqNzM1PHfukJQnnGZ9bTpCILFizEdQUMsFtq7b5UMvLbjVa
-         kxM811X6dWeM+zRT1gLhyyoBW2AXk9+oEm2z57RGUs1hn7oZvQNq7XV2HCrlhJde/HQV
-         x5JcXglSOlEL7r82xWwt8HWzIyfCCM+Fg7vz5VItHODO7Ph3YdkCRyPnbRl6JqVOpL72
-         AnGWWK0u9voc96aqUrn7GzvY1TcacWupUg0DdfWWRf03Qp00sf0OmelsWZfX9u6qb5yQ
-         QCDFOCuUTy/G7BMfglpUlV9odeFRZhR7zjY3xDWStpxqyViOoVqufwZPc7J7LWpXtgzF
-         K0Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793057499; x=1793662299;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:from
-         :subject:cc:to:message-id:date:content-type:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MNAuIEGmBIPL3LGhEiC7AZdHVvxraynZTpB2Bey0XaQ=;
-        b=FO4mXw/bzPLGJKpb01kcqoWAVMc1XaqqJn4o9b1sq2BgqQVOghVlLTyi50mQSNX5yN
-         XDZ17uraAuESLw0WHNIXia0+/9L5l4vkrK0tdS8RWWOMYUuSqdiTT5FlkhnT76+Lz+M1
-         MeBcAZ+RMlXpALQFXa/OglJF16Qr1C5BOgfO3fXyWjBn5iC5w+haXyY3TYZaBSlDuTdZ
-         /Cfr2jQGbSfMFO0CJRfTWZOivQ8Ia6gCFO9FoSTcU5EAChyjG22Ve+5N8qHwo0sF9Uvn
-         QdzlfE3eTk9x67b08CeBlhvISCU2O45bPmiOK20bQQvttwrrxpPm0zSbg6iubOYl2khH
-         Vr0Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxxNNuWFUJ0bakVtPtjL4uXiReO8jnpM1lEcJi1J+cYYc3UnOnhKkNIWpNjvUjbc1SKwmx4NiVOvwCG/ysj@vger.kernel.org
-X-Gm-Message-State: AFq9FYIYD4WF0Ucjwag+W+8a8mOh0g2/q2xd3isZIzz/mCWW2T0ZVuIH
-	s0fAFcTZj6SMjy86XvN4Ym0etRyBmUtSG6X9eCwKwB9TgJCqMUAbbC6Y
-X-Gm-Gg: AYBFou2qQuRfQMDTvsJmoHHd3CKOQNGf+JeBZUQOIxMm99KRLu9vOCzZDFQeMJbVPmY
-	yrr7HRxsN5ARajjlGmwFjroK5tw5Osl7R/NhGSrM9AhWTDtQ3ux3e+mnpYvbqCvO7+uONyU19fp
-	gTf6QDsDf7voQoXxhMrSIyPPTSkFYEqtz5NL80WOb5+ch2+qLvYPYAqtd4nayfeQM5Tganyxh30
-	F8nN1wzvrQbEjWQhZwG35cJe/aXqQxrYkMmfyfeYA0tvK5+nRJV+XMMgEch83NsX99OD0ZVfqtu
-	YT1APXJG4OKlBDb5iWnQFBSq5b5Bg3b8NOV77KI6UEjByWU5XK44JcSJddcKEXnXF574k5jEM6a
-	TaqKLvO+ROq9VbFoWn3gKzxDhEr9bDxIf3X+OVR9m710pEI430O7NJT6k/nsZkGzkBhpimjpw3p
-	2bZnu08dHgaMpekur9Syc7Fq1Ww7wcmDTAhF0SCSmJpS5grqz+R9Fjt57Cuyx6xVm7gbQV8dsbJ
-	3RELdDrcBOmdSEG84jVT3XNF7A1usWidLtRM5P4E8f+OyuD+tKN2iH+rucvvH6ZLqCLunCGSSD1
-	j71JvuNWKVxtaXmKw3AvvNHvfgnkYcMhaAJCHRnxmPOQt7OLZvS2CbmTZy6ccUEwCTZOihCcrq9
-	1hik/o+c=
-X-Received: by 2002:a17:90b:528c:b0:3ac:8897:7b9d with SMTP id 98e67ed59e1d1-3ade9b2ee97mr7287988a91.1.1793057494026;
-        Mon, 26 Oct 2026 16:31:34 -0700 (PDT)
-Received: from localhost ([153.61.198.246])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adeba38910sm6631220a91.1.2026.10.26.16.31.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2026 16:31:33 -0700 (PDT)
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 26 Oct 2026 23:31:32 +0000
-Message-Id: <DMF5U0PAK4HE.2QQ66SZMEMQLA@gmail.com>
-To: "Christian Brauner" <brauner@kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <bpf@vger.kernel.org>
-Cc: <linux-security-module@vger.kernel.org>, "Daniel Borkmann"
- <daniel@iogearbox.net>, "Paul Moore" <paul@paul-moore.com>,
- <netdev@vger.kernel.org>, <stable@kernel.org>
-Subject: Re: [PATCH 0/8] ns: fixes for the namespace LSM hooks
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
-In-Reply-To: <20261026-work-security-namespace_free-v1-0-ffa3ebbf71bd@kernel.org>
-References: <20261026-work-security-namespace_free-v1-0-ffa3ebbf71bd@kernel.org>
-X-Mailer: mkdraft (claude review draft; edit before sending)
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ox2i2FSH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A76E1F01825;
+	Mon, 26 Oct 2026 23:31:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793057504;
+	bh=JOZA/d3RnlEXnMB1S+vtRBXnoN845YtQMJ+bQJINkeg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=Ox2i2FSHOypqrcZwgXnwxa5pmucASOgMRL5vDYqMTASHl2rf75YW3wQoVrkuPIuIi
+	 qWBaawkuI8mbHfObP4rg08odrulxxwWOwc2kIfSbm6V7kYxzS7kix5XDxbFQgiI57R
+	 vd/KGBmW9fqjr2ojLTHGLQyXB6fpiqHp4DCbdpXJvJtGtlMg8tu48HAXtQUxYfibsT
+	 JsLarU2SHDjaAj8xnSGSrXvbdAGQU1FoX1lIooc+b6p0m+NHqmvpSisMO7dcd3rVVw
+	 AUARD/nIWCCPO2WzwdlkLwUwJeQDZtBN2zbbbs27Pi0cCpSRpugWYDmuEeJDHrz0qE
+	 2Nr+Rh3Vvxf7Q==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Date: Tue, 27 Oct 2026 00:18:04 +0100
+Subject: [PATCH 44/46] mm/cma: don't release CMA pages still in use
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,18 +52,118 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261027-fixes_core-v1-44-6f74bec9a5bb@kernel.org>
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+In-Reply-To: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>, 
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+ Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>, 
+ Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>, 
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+ Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>, 
+ Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Nick Piggin <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
+ Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>, 
+ Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, 
+ stable@vger.kernel.org, "David Hildenbrand (Arm)" <david@kernel.org>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2157; i=david@kernel.org;
+ h=from:subject:message-id; bh=nx05kHs+vYnlpcYo2GO368aldzvpDGoDSteIsZANA+4=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLu359h9zUpMrRK7P9OThHTp6//rRVNZj6uMbl9Wn3v9
+ c5EY4H9HaUsDGIcDLJiiixBwfcNXr5cV1vtxscMM4eVCWQIAxenAEzk7RKG/1EXTeqmP/GzifCZ
+ ePbvbCfeC7W/VWUvTCi5K3vki/Mam/cM/ytneLn+m+4vm8X6VsRtVrGe72WWIDPnlSqnFA5NmLY
+ kmAMA
+X-Developer-Key: i=david@kernel.org; a=openpgp;
+ fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-On Mon, Oct 26, 2026 at 02:57 AM Christian Brauner <brauner@kernel.org> wrote:
-> I'd want to get the first three patches into v7.4 since the hooks are
-> new this cycle. The systemd change I have for this uses the
-> namespace_free hook whenever the kernel has it. On a kernel with the
-> hook but without the first fix it would never learn about dead user
-> namespaces.
+From: Rik van Riel <riel@surriel.com>
 
-Why not the whole series?
-Otherwise 7.4 will be the only release where namespace_init sees
-ns_id == 0 and bpf progs that key by it will have to deal with that.
-Also the test for patch 1 is in patch 8 and it needs patch 5.
+When a driver calls dma_free_contiguous() before quiescing DMA, the
+page might still have a reference from the device.
+put_page_testzero() there returns false, WARN fires, but the code proceeds
+to free_contig_frozen_range() putting a live page onto buddy and clearing
+the bitmap. A subsequent allocation can hand the same PFN to a new
+owner while the original holder still references it.
 
-For bpf bits:
-Acked-by: Alexei Starovoitov <ast@kernel.org>
+A concurrent put_page() that drops the last reference between the
+testzero loop and free_contig_frozen_range() can double-queue the page
+via page->lru, corrupting buddy lists.
+
+Avoid the corruption by not freeing a CMA region if any of the
+pages inside are still in use.
+
+Make it explicit in the warning that the driver allowed a leak.
+
+While at it, use page_ref_freeze() to make the semantics clearer and
+switch to pr_warn_ratelimited().
+
+Fixes: 9bda131c6093 ("mm: cma: add cma_alloc_frozen{_compound}()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Rik van Riel <riel@surriel.com>
+Link: https://patch.msgid.link/20260811132045.5f114772@fangorn
+[ david: use page_ref_freeze() + pr_warn_ratelimited() ]
+Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+---
+ mm/cma.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/mm/cma.c b/mm/cma.c
+index a10ea37a261da..871f95c9ae9f0 100644
+--- a/mm/cma.c
++++ b/mm/cma.c
+@@ -1020,7 +1020,7 @@ bool cma_release(struct cma *cma, const struct page *pages,
+ 		 unsigned long count)
+ {
+ 	struct cma_memrange *cmr;
+-	unsigned long ret = 0;
++	unsigned long leaked = 0;
+ 	unsigned long i, pfn;
+ 
+ 	cmr = find_cma_memrange(cma, pages, count);
+@@ -1029,9 +1029,13 @@ bool cma_release(struct cma *cma, const struct page *pages,
+ 
+ 	pfn = page_to_pfn(pages);
+ 	for (i = 0; i < count; i++, pfn++)
+-		ret += !put_page_testzero(pfn_to_page(pfn));
++		leaked += !page_ref_freeze(pfn_to_page(pfn), 1);
+ 
+-	WARN(ret, "%lu pages are still in use!\n", ret);
++	if (leaked) {
++		pr_warn_ratelimited("%lu pages are still in use, not freeing CMA region!\n",
++				   leaked);
++		return true;
++	}
+ 
+ 	__cma_release_frozen(cma, cmr, pages, count);
+ 
+
+-- 
+2.43.0
+
