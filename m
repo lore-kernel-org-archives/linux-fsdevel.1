@@ -1,63 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.14
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793046534;
-	b=tIJ0ZbVQUXrrzEwABhepXQHO3Rzkue24NeGFAhcnJ1wlC4+nAzysCsTW8d9F7PzTcHSp
-	 tl5VRmntb889ycLCGsu73JJ6ZDKlKsZnolW0Ui+mY4FhfsGNge70OGHuhYjirRknwwzGb
-	 wbA6QXWMGo05YfDUTp325MacA7pZaMih3KXZfFYZf5SFRZf5fq/1awJLDwqkmjdIK4VPH
-	 7w/7aJ4YlFKhk0mJEhT46WRWt42zYTihXCg1CUNcWEDyPKsPPYEfht0AkUpDDtr1t/QkI
-	 chH/RuA1yJH6u7GWDNEk8sx75jyoLBSOUAnBHlV8+oy+Otob7xERcc99T1Ks2OLr/Ew==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793046534;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
-	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:
-	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=JOR5bbIbiInINDDKl8udJD2n2rQt1cixikmX67XYQ94=;
-	b=q4oQJW3inJkJywzlbMBBJ1WYUSbGhdm18EtP1Rqx8w8Y72IXNansu7VjjMJRg+/t85pg
-	 0K39Yb5MDhyGKEz1ZSsyR5pir0ELpbqm6BnhbbMWIrh7WekgiBMj0NpEQBv3BYH+zgUfE
-	 gxvWahL/F3tgraubpev3+VYIsuK5dc2TXDgJ/3Gl4KLpHmhekpBQ/8U5mGJgrleUK6UD1
-	 YhQMmbFIweI+YnrZpi6nY/yrc1nDOPE36HBoU0xGAlNhM/CMdyitT5j0CHTK7oCilptmE
-	 pe6GQUCSB4HMFA4mtI5BsbZaGd6BVuSuP2FtmwT+EPOVStENGsdDui2TF73s7Z5WEyQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goodmis.org;
-	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b="5G/pFS4k";
-	arc=none smtp.remote-ip=216.40.44.14
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.169
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793046699;
+	b=eJwovL/2T2xi4T19A/ki4aqOZVxsQ1Jr4zRzM4aheGEXtHsMAtnQcNINSx+VIiuOFPD7
+	 R90cjozLbVaCAU/cI2jjt9Yv2tb4otXMwS/qtd6/yJLYYekSbHXsXHpSiF0RuQl4eGObK
+	 T0Fkp6zy3Pz5v8oWLGl1vctBSN80mzs1XnjKkBBIjc8JBccKnQ6CdMOooe25tPXWzfsbo
+	 wH19QlW4jWHaRDDJ6wegHZlkqxLc0Gwso7LX+GzpKOiGII20PNmncGlUnTutpAPIF63Ck
+	 1zkgHnEdP0lo/Zm70+fqmEJrInJkuWFEMdSai3O6GOP1Dx0KNCZz+gQuY6tvMASDU4A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793046699;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=oLlOcSCQ32pMuVJGiKdjmwfrqV55t/QVJ+mNxxfwt1w=;
+	b=1yJG5/uCR62drM2Jen5aztZw8FgQD+LgsM7T4r7YwlJYTdIjyvfA9qkfjR86O7zZRnhH
+	 /ekOO/espb03nGTF6iVeRFWapuynjmNMOGWotdZ9DXz25nzTtvZNrQcB/2KA5H4OdwHWH
+	 Iu9yOWoZ5dQUKfaEMu+FNXF7lcL2RXjD6b9nuuOqkiIiyPzsvSXsebf00b2lcDsiV+IGd
+	 3TC/usbZZAeGVllye51Ztlyw2IgTECCBpvtizJW3/pqzE15OtORWiSW2m7I3dva3fUx4F
+	 eW3IX5drmXSQakzkRspzhUEAL4ld8eA/Ge9dNTf8GeYfG18/AGvuzrc32xju5TZMQjA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=paul-moore.com;
+	spf=pass smtp.mailfrom=paul-moore.com;
+	dkim=pass header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=L+wootqW;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.169
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5153C606A31A;
-	Mon, 26 Oct 2026 20:28:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5153C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D3B606A31A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 20:31:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94D3B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=5G/pFS4k
-Received: from omf17.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay08.hostedemail.com (Postfix) with ESMTP id ECC7D140864;
-	Mon, 26 Oct 2026 20:28:50 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf17.hostedemail.com (Postfix) with ESMTPA id 1955118;
-	Mon, 26 Oct 2026 20:28:48 +0000 (UTC)
-Date: Mon, 26 Oct 2026 16:28:46 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: BoxStrikesTeam <BoxStrikesTeam@proton.me>
-Cc: "brauner@kernel.org" <brauner@kernel.org>, "kees@kernel.org"
- <kees@kernel.org>, "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
- "jack@suse.cz" <jack@suse.cz>, "mhiramat@kernel.org" <mhiramat@kernel.org>,
- "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
- "jkoolstra@xs4all.nl" <jkoolstra@xs4all.nl>, "farid.m.zakaria@gmail.com"
- <farid.m.zakaria@gmail.com>, "linux-fsdevel@vger.kernel.org"
- <linux-fsdevel@vger.kernel.org>, "linux-trace-kernel@vger.kernel.org"
- <linux-trace-kernel@vger.kernel.org>, "linux-mm@kvack.org"
- <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>
-Subject: Re: [RFC PATCH] binfmt_misc: add binfmt_misc_select tracepoint
-Message-ID: <20261026162846.23686159@gandalf.local.home>
-In-Reply-To: <cmtfuzYFZMj7WozUoEjFs3RxYWe9UgdY5rK3ZGT7CPwO1mpemvEwNhG4v5ucoKBgUHMqFa7kSzOvLjFcVcxAybfmKdURZ4h-qoKX1lHXlAA=@proton.me>
-References: <cmtfuzYFZMj7WozUoEjFs3RxYWe9UgdY5rK3ZGT7CPwO1mpemvEwNhG4v5ucoKBgUHMqFa7kSzOvLjFcVcxAybfmKdURZ4h-qoKX1lHXlAA=@proton.me>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=L+wootqW
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2e8246b13cbso30312085ad.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 13:31:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793046698; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sAxKKM4jo+F33Z8Pw3JB2fDvxRxJa2MphnUDMpQV1C+kgFxD4cb1qIGRHsY+/kmd5i
+         4TuMt2zcTBUtZF1Np9G/j81ZQyP0c5KsjDDwEg1xgwlJbL+BSI3jTLn0p4YapySSgcP0
+         sYrT2zjQwf4fIoobkX/PaZLD3ByU3e/7nbvHPz+sxr5ljgVBHFCb9Hc6epirEYtecMNZ
+         4nMegt3ff3/nepd+oFq5PGcPSGV4mV7qS0ZM0I/G24VQ4lyA7XG1vf+eA5IdJMDHIifc
+         NcZiR2quObz/OjuMc2oMsvdlSnn5ofXm35CzrkYv5UpxKu0g4WpC4XxXnJW3aYR+je1/
+         UvOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=oLlOcSCQ32pMuVJGiKdjmwfrqV55t/QVJ+mNxxfwt1w=;
+        fh=JbH9auQTjv+lhcKDipyCaKb98OQ4p7gHQEfuMatDpIE=;
+        b=SrhZ6mDwRpclkGLVYCx/48docTXCTfBGyXnkxp3ldR0+7m4+kS2CcSysiyB4MNVMLi
+         8jDjeWZa69pdIZ+l1oXvUZdlQdQSbN2Xib5B8UYhyf4OaSdQdMA3MoCrO8IiotzInPD0
+         2c5j5ISDcZylWn81XGWru2K+wLRwDd6nh0FDiNjFBqATulULQMCexoPsS/wzxtLhw1VC
+         HKMttz14vB9Lyh4sYYnpZhGINt7xstMGbQviphBdPzMAGNSHltB+Vq97LY0F9ShBo8Kj
+         jdXEYfojSlJWuMQTJuUpXh1XKAi+O+Y2OhcbNVTDMbet2+ksPho8cOrV8rmi+XXpOx02
+         UqJQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1793046698; x=1793651498; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oLlOcSCQ32pMuVJGiKdjmwfrqV55t/QVJ+mNxxfwt1w=;
+        b=L+wootqW5T77UGOryyw3TrOnPRmPjLL2i4uoI36Fb52hAChavbUjC2oAErcwcWcJq1
+         gwgn++rWkrUiN4eZmtVkxuIBOAsAZefl8wqr6EQCDZZBTjk1hO2UkuEyI8i5m5RjX7DJ
+         EK1ndGeANRMX4aTbpO+nvR7fIU63VxFQ9ffp4FXCojFjYD+fdWAL9RHBV9A1L4pnrwWe
+         CwArxDWTNOmGZ0DS0oKM86YGqSE9zdjWjrY330iiwsDo23ENOID23IQ7tNUIGTMjbHgT
+         BUbvwez+Hzl4lCCb8TSHKJZNqHNNnbu8YjtxV98iTts8xUYoVruc0kCp8wqVv0S6jf5w
+         /EUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793046698; x=1793651498;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oLlOcSCQ32pMuVJGiKdjmwfrqV55t/QVJ+mNxxfwt1w=;
+        b=pdYKWDKgYCOJedo8FkDvKwGDF+q6ciCAZPm+7QznktiaGiHGmZsLHW4ikLr5L1OAsY
+         AqnAeLpb9/pKfHNAwGNxlVG/Qf11S/oTv3CFIGH/H6mEyw8R1FVaQ5TuI9gGp0Xwep0u
+         0So9XRTf6HEk4SYKQImufGLUwHfan+QFAiwOjBGF7brr5K4OpYa4Ko38Ou2j+oBUUUr6
+         KNa6wsMaWGvc6IqbHEH+gDngeSEfTvEBIeWgO05efG3stWwqufsuH2PRvbrJ0vVtqMkk
+         15r1Af5wF5QphA2TaPm6gUQg6fF1bZhgqcluRhyqrGXek3xbaHO+F9CLRQCjMaUTeSip
+         LUqg==
+X-Gm-Message-State: AFq9FYIHoBLh3myiSuoGIA1UweBZomMG5ATbfi0Y5SwZaizC60vHFDcb
+	uqYFVP/RB74oiUdz7DMzDU6Ofxhcxl/QQ3EODDvnqUiAEvhwBsSoXdKymMpGFNob69Rh0bI4d9f
+	htqk8lZbB9v6Zh5+qqOJSMkRUn1V18A5e83fUqqWY
+X-Gm-Gg: AYBFou1GBUiAG7fjOn6CrWVO/Ij4y9RU5OUj4YYOAxI1ui5nunIoTWoZuJTHwZwqIY0
+	oSaBzQ1fRJQ8mwAJ/+FAXBEklzTyeOTGUSe+zO1IHoDSihC7Fb6IqYro/9bSXPjuX4ufpjHid5O
+	Rl7qEZIPcs/Mqwis5NBh57BvVqija0RtmFNS1bqeJB4W7AUSWql3RGeZQwsJUZPn4EqF0nuVfCp
+	ff5h+BQacMBRbN2VEy4QBlYrdN/5dkViY0T0w/nyP8sAr5hsvRsTVPxGuI47iZngSZLotfFOruB
+	xedT6bbSmKQ+QDyrujCDV8BHgDsfBfeMsEtICyA7BWnf8QSmdhYPQck7o7+81QMzaLcV3udIUkQ
+	R5WA4Lsrx4ke9nK+kw6UkuWz5AyTYhihDZC5HvSb17H5txmNdBDijDkX819TjwSvmCg6LGR46yj
+	+7Ni5JRLkYJFLv2A==
+X-Received: by 2002:a17:902:ecd2:b0:2e8:30dd:523d with SMTP id
+ d9443c01a7336-2ea9c620609mr71569325ad.13.1793046697876; Mon, 26 Oct 2026
+ 13:31:37 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,167 +104,109 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20261026-work-security-namespace_free-v1-0-ffa3ebbf71bd@kernel.org>
+In-Reply-To: <20261026-work-security-namespace_free-v1-0-ffa3ebbf71bd@kernel.org>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 26 Oct 2026 16:31:25 -0400
+X-Gm-Features: AclHuK_MBYtdpmV00LiIGiHwgdDyciJ8YZFfqnRLK0ynU1qoZWOLvejR9vdc3xM
+Message-ID: <CAHC9VhR4rMydWiD-RFv-ABiYSG_txJuyrtdaowEXPY=CHEvFXA@mail.gmail.com>
+Subject: Re: [PATCH 0/8] ns: fixes for the namespace LSM hooks
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, netdev@vger.kernel.org, stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 1955118
-X-Stat-Signature: nk3fjntisjjnbaxtd3wt5bdqzs5m9dw7
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX193Yt8I2BKFgojrvTfdeQfvY6W/MQa/MvM=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=JOR5bbIbiInINDDKl8udJD2n2rQt1cixikmX67XYQ94=; b=5G/pFS4kvRmY+FpqSfvYmgy1VmMMFvFIYFHxl+48nU9Q+OVL316//PslVP42qJzTQy+TJdC59hDbcVyb1GLW1YoUSJhkbm7wiSUUMR9Sjq9f8n1Pm5As6qgNjijzS9k+qBLc2+9PswJgFqS5pc0EMZ49z1Q22DHKMvSYB6pNQBk=
-X-HE-Tag: 1793046528-319477
-X-HE-Meta: U2FsdGVkX1/JMOcv1OjDojaLV+nCutKkXq36M/X9yG5D2u9mr6nzoEnPM7M+QucS41MT2z3fV9QQaSDEg85HXXiQNmFkcUj/ElBU/bA3Jkb7czxONW7s8b61PU1nZlCTSiML7BF9dwTqD2SZ7yx8ZbmmNRjnv7V3rmABebYT8ErViBrHGIsfMPR7RUNkjGK0k1fFKfcz+Gc+pGArKoXCTiN9yDmPU7zluTP3b7rRr7S1HiOvmwdEPIfrZ3QSWvtB7BOUc0RSnQl0LCaWjyeFkb7lgp/pxtVNMggzodPwzdzG2I/aFD2+mHADp3cLjs25m5aAwMwAAz5VYXAM7zgMk7TUC6+CmMfk
 
+On Mon, Oct 26, 2026 at 5:57=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> I tried to switch systemd-nsresourced over to the namespace_free LSM
+> hook that went in this cycle. I explicitly developed it to work nicely
+> with that. But the version that is merged is broken for that case.
+>
+> The namespace_free hook is never called. security_namespace_free() bails
+> if ns->ns_security is NULL and that's only allocated if an LSM requests
+> a namespace blob. Nobody does. Landlock doesn't care as it only uses
+> namespace_init and namespace_install but a bpf program attached to
+> namespace_free never runs. And it can't work around that either. We
+> could make the bpf LSM request a blob but that would just be a way to
+> make the hook fire. So call it unconditionally like we do for
+> superblocks, files and bpf maps.
+>
+> The bpf LSM also marks the arguments of namespace_init and
+> namespace_free as trusted. Curiously that patch was also dropped.
+>
+> namespace_init is called before the namespace is set up and if anything
+> fails afterwards the namespace is freed without looking at its reference
+> count. namespace_free is called on the way out. There's no kfunc that
+> takes a namespace yet but once there is one a program could take a
+> reference to a namespace that's about to be freed. So add both hooks to
+> untrusted_lsm_hooks.
+>
+> The namespace_init hook also always sees a namespace id of zero because
+> the id is only allocated after the hook has run. The id is the only
+> identifier of a namespace that is never recycled. So it's what a bpf LSM
+> wants to use to track a namespace from namespace_init until
+> namespace_free.
+>
+> The inode number is recycled way too quickly for that. So allocate the
+> id in __ns_common_init() before the hook is called. Then ns_tree_add()
+> doesn't need to allocate ids anymore and ns_tree_add_raw() can go.
+> Landlock keeps logging zero for denied namespace creation because that's
+> what it documents.
+>
+> I'd want to get the first three patches into v7.4 since the hooks are
+> new this cycle. The systemd change I have for this uses the
+> namespace_free hook whenever the kernel has it. On a kernel with the
+> hook but without the first fix it would never learn about dead user
+> namespaces.
 
-You shouldn't attach patches but inline them. Yeah, I know a lot of email
-clients can't handle that. But claws-mail can! (and it can also reply to
-attachments like they were inlined ;-) ).
+From what I'm reading the LSM framework patches don't meet the typical
+LSM criteria for stable/RC fixes: there is no serious bug/panic, and
+there is no functional regression from a previous release.  It also
+appears that the existing Landlock namespace code still works as
+expected.  This looks like one of those unfortunate circumstances
+where a new use case wasn't tested thoroughly enough before the merge
+window, so it can wait for the next one.  We've already identified
+other LSM/namespace issues that are targeting Linux v7.5, the
+security_namespace_free() change is one of those as far as I'm
+concerned.
 
-I'll let others comment on whether or not this patch is needed, but I'll
-comment on the tracing side of things.
-
-
-On Mon, 26 Oct 2026 20:17:26 +0000
-BoxStrikesTeam <BoxStrikesTeam@proton.me> wrote:
-
-> From: Eneshan Erdo=C4=9Fan Karaca <BoxStrikesTeam@proton.me>
-> Subject: [RFC PATCH] binfmt_misc: add binfmt_misc_select tracepoint
->=20
-> A binfmt_misc entry can select an interpreter for an exec.  With a BPF
-> 'B' handler, that selection can be made by a BPF struct_ops program.
-> The kernel commits the decision in bprm->interp and bprm->flags, but it
-> does not emit an event at the selection point.
->=20
-> Existing observers have to reconstruct the decision from
-> /proc/PID/exe, AT_EXECFD, AT_FLAGS, or /proc/PID/maps.  These sources
-> are mode-dependent: a transparent dispatch still reports the original
-> binary in /proc/PID/exe, and a short-lived process can exit before the
-> observer reads it.  A classic dispatch reports the interpreter, but
-> not which handler selected it or which invocation flags were used.
->=20
-> Add a tracepoint after the interpreter and the invocation flags are
-> selected.  It reports the binary filename, the selected interpreter,
-> the handler name (for BPF handlers), the invocation flags, and the
-> pid.  The flags are masked with MISC_FMT_INVOCATION_FLAGS so that
-> static entry state does not leak into the event.
->=20
-> The tracepoint is observability only; it does not change exec
-> behavior.
->=20
-> Assisted-by: LLM
-> Signed-off-by: Eneshan Erdo=C4=9Fan Karaca <BoxStrikesTeam@proton.me>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
->=20
-> This is an RFC.  A small PoC and short A/B results are available for
-> context; they are not needed to review the patch.
->=20
->  fs/binfmt_misc.c                  |  8 ++++++++
->  include/trace/events/binfmt_misc.h | 52 ++++++++++++++++++++++++++++++++=
+> Christian Brauner (8):
+>       lsm: always call the namespace_free hook
+>       bpf: don't mark namespace_init and namespace_free arguments as trus=
+ted
+>       selftests/bpf: add verifier tests for the namespace LSM hooks
+>       landlock: pass the namespace id to log to check_ns_type()
+>       ns: allocate the namespace id before the namespace_init hook
+>       nstree: drop ns_tree_add_raw()
+>       lsm: fix the security_namespace_init() kernel-doc
+>       selftests/bpf: add a lifecycle test for the namespace LSM hooks
+>
+>  fs/namespace.c                                     |   6 +-
+>  include/linux/ns_common.h                          |  16 ++-
+>  include/linux/nstree.h                             |  29 +----
+>  ipc/namespace.c                                    |   3 +-
+>  kernel/bpf/bpf_lsm.c                               |   2 +
+>  kernel/nscommon.c                                  |   7 +-
+>  kernel/nstree.c                                    |   2 +-
+>  net/core/net_namespace.c                           |   4 +-
+>  security/landlock/ns.c                             |  11 +-
+>  security/security.c                                |   9 +-
+>  .../selftests/bpf/prog_tests/ns_lifecycle.c        | 145 +++++++++++++++=
 ++++++
->  2 files changed, 60 insertions(+)
->=20
-> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-> --- a/fs/binfmt_misc.c
-> +++ b/fs/binfmt_misc.c
-> @@ -41,6 +41,9 @@
-> =20
->  #include "internal.h"
-> =20
-> +#define CREATE_TRACE_POINTS
-> +#include <trace/events/binfmt_misc.h>
-> +
->  /* Entry status and match type bit numbers. */
->  enum binfmt_misc_entry_bits {
->  	MISC_FMT_ENABLED_BIT	=3D 0,
-> @@ -644,6 +647,11 @@
-> =20
->  	flags =3D entry_invocation_flags(fmt, bprm);
-> =20
-> +	trace_binfmt_misc_select(bprm, interpreter,
-> +				 test_bit(MISC_FMT_BPF_BIT, &fmt->flags) ?
-> +				 fmt->bpf_ops->name : "",
-> +				 flags & MISC_FMT_INVOCATION_FLAGS);
+>  tools/testing/selftests/bpf/prog_tests/verifier.c  |   2 +
+>  .../selftests/bpf/progs/test_ns_lifecycle.c        |  88 +++++++++++++
+>  .../selftests/bpf/progs/verifier_lsm_namespace.c   |  38 ++++++
+>  .../testing/selftests/bpf/test_kmods/bpf_testmod.c |   5 +
+>  .../selftests/bpf/test_kmods/bpf_testmod_kfunc.h   |   1 +
+>  16 files changed, 314 insertions(+), 54 deletions(-)
+> ---
+> base-commit: 21a7f44fd0765fcc5194130b28767786eba1d1e7
+> change-id: 20261026-work-security-namespace_free-7aaf89b5b00e
 
-Logic like the above should be done in the trace event itself. Not in the
-code path. That is, pass in fmt and flags.
-
-> +
->  	/* No argv is built for a staged argument to land in. */
->  	if ((flags & (MISC_FMT_LOADER | MISC_FMT_TRANSPARENT)) &&
->  	    bprm->bpf_interp_arg)
->=20
-> diff --git a/include/trace/events/binfmt_misc.h b/include/trace/events/bi=
-nfmt_misc.h
-> new file mode 100644
-> --- /dev/null
-> +++ b/include/trace/events/binfmt_misc.h
-> @@ -0,0 +1,52 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Tracepoint for binfmt_misc binary type handler dispatch.
-> + *
-> + * Fires once for every exec a binfmt_misc entry matches, after the
-> + * interpreter and the invocation flags have been selected. Unlike
-> + * sched_process_exec (which reports bprm->filename) and /proc/PID/exe
-> + * (which a transparent dispatch sets to the binary), this reports the
-> + * interpreter that actually runs, so observers can see through a
-> + * transparent dispatch.
-> + */
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM binfmt_misc
-> +
-> +#if !defined(_TRACE_BINFMT_MISC_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#define _TRACE_BINFMT_MISC_H
-> +
-> +#include <linux/tracepoint.h>
-> +#include <linux/binfmts.h>
-> +
-> +TRACE_EVENT(binfmt_misc_select,
-> +
-> +	TP_PROTO(struct linux_binprm *bprm, const char *interp,
-> +		 const char *handler, unsigned long flags),
-> +
-> +	TP_ARGS(bprm, interp, handler, flags),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(filename,	bprm->filename)
-> +		__string(interp,	interp)
-> +		__string(handler,	handler)
-
-Then here you would have:
-
-		__string(handler, test_bit(MISC_FMT_BPF_BIT, &fmt->flags) ?
-				 fmt->bpf_ops->name : "")
-
-
-> +		__field(unsigned long,	flags)
-> +		__field(pid_t,		pid)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(filename);
-> +		__assign_str(interp);
-> +		__assign_str(handler);
-> +		__entry->flags =3D flags;
-
-and here:
-
-		__entry->flags =3D flags & MISC_FMT_INVOCATION_FLAGS;
-
--- Steve
-
-
-> +		__entry->pid =3D current->pid;
-> +	),
-> +
-> +	TP_printk("pid=3D%d filename=3D%s interp=3D%s handler=3D%s flags=3D%#lx=
-",
-> +		  __entry->pid, __get_str(filename), __get_str(interp),
-> +		  __get_str(handler), __entry->flags)
-> +);
-> +
-> +#endif /* _TRACE_BINFMT_MISC_H */
-> +
-> +/* This part must be outside protection */
-> +#include <trace/define_trace.h>
-
+--=20
+paul-moore.com
