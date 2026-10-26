@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793008668;
-	b=TPW/v+7Np6iQqwbmyT6vc0/StvEopIDvx32Yy2Mk8so8oRWpyLrPCvzS3DzqfjIzyg1K
-	 P3+FuaGhXS5R3WOqhP0T8ONEp8jHLO8qx/7eHRn5HFcrbFyIYm6sb/3fD74xp6uTkwM23
-	 Lu/DPN1sJv+NnMaZLVw6e3mporBu+lbPcIoTE1ktN42G6HFfkqK+/v4VsaN/PmaN5F+WJ
-	 q/e7+11mDhlZuG/LHsQ3PQwzQzZMJ11wqYNHnSKPHF5zqmqRbSVDAk57s8IPA2NZGBhY/
-	 2s8peJmOv7Bz1IVWuikfwgVmzaAb53Yqwh1fRSxrgTMG5D9XdY1dwToi6y4v1ewoPbg==
+	t=1793008648;
+	b=l9LHwq4GHMkB20bBt2ttqhroTvJANyTDZCBflitt8pYzyrblIqsZYdbOcM8sl0mwcT/X
+	 ruT7jRJ3RMennYjZ1b4A4yR8oua2xYa8zULxcl2dbu1RsHGinuDXECP/HHcZIE8lQEqbm
+	 VDKWK0N2gM/t0r7JVeeCjpyzgI/+n8SghZu8+iLLfeVmAyOuYNJkCfK7zHIkMPUcCk1+X
+	 5wNUDNRHqHd6PQyJ0hE2hshJTLzcU0R/Zk4hyFRPSXY4bxGBcssBXeFnXKudTi6Hq57Ud
+	 qUAJSKfOvP3TRRZqZwc20jfxr4nuexds47crh1EEJ7DxLeSsdTwIM2EVBmyw1SWz2Yw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793008668;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=nujbxywysw1THYDbs5pJnpdFcGsTn9DNVHlZbLoNeO0=;
-	b=NdXR6JupmirnFqjdVRqb/ujzpMYWfK2nqxULW1EJYyqgDgvs1qU4ICQg1H102TiodCF4
-	 RjGLAu32kuo6+FP31LbPhPtvGh79mISG3nS8Uqwe3h3kKbqCygnuad4dH+jbeSuWnHygs
-	 8T97Ax3jlfwLkuMZOhCnRmkm4Ukv6tEvyCJ9QfydSvNEVa6BO2kcIdFPDSUUxlf59uOwd
-	 5UJsFyHaQ/pY3KAbm/WOsn71E21W4s/EZA0J7CFGwvMouzE3TIrpsCUJ9kyYWLrUSE2uu
-	 CDtT6qtib/GcLluR5V5BYsaVDsaPU9ZhvrlrWWJpoLxXmQQ4epz6MGMl1mvz80a7AUQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793008648;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=quNXUpQyV0xVvloki+qOFC1yS6qzAqdmYWGNEfjadOs=;
+	b=TMFnq2FeOe00OWfU+N0AAJOC18Ox1EAU9Hxm3DRTGWCfuwSt7hlXKgpsFBnKrZYzlT50
+	 pjJQSKsaTgSDUkDJcp+GPZnxL19yHIN5UOI+qLcrhtLH4XB/7GO3f4/C/whE/22KX7xFJ
+	 VBVtIiNMjOn4RS/dIPRo2Jc+FASEsz41n2nByuaU9I5VeQBL+/9P9e2ccfUf6wl2aAxj/
+	 pl02zW+2H0FhNjRuWfKHbWyq0mt6xAgzDCqIt2OFb86hEw+XRccyJSEU7dClrUqWJNZMT
+	 BDniksjtd38hI0D3TiE9RwFc9eeFfrm4KOx1gQYbmeddPpCycNd2PpfNSlohF7e6ugw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aVszNAVi;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GQPMEuos;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D78606A9DF;
-	Mon, 26 Oct 2026 09:57:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3DB606A324;
+	Mon, 26 Oct 2026 09:57:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aVszNAVi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3DEF1F01189;
-	Mon, 26 Oct 2026 09:57:45 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GQPMEuos
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D00A1F01828;
+	Mon, 26 Oct 2026 09:57:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793008667;
-	bh=nujbxywysw1THYDbs5pJnpdFcGsTn9DNVHlZbLoNeO0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=aVszNAVisauaQUvQDEhMMsU4Hq+b4XrxWm+JJK4b4zTPzkR9OfJc+Kgao/yPRvB8C
-	 VZWVdZXDMh56LuhNco81/eSOD8HbuWbthsiZKLUaMWWdDjSdAz2uVfGDaMlQo7qDLb
-	 S+LCjCo6/8qs2X19zhYjt1+ITKCGo5JqbpZwN05/S+WCSwtozU+uOXM+OdL49KlOwO
-	 1EjjIo5goNGwaFTz+G5HVhb+2Qaa2hSWn/IgZHHxmM9lC4yy01JQ4JCBOU5t4o/lX9
-	 OUdDzM4QmrJuEOLmnhtLcMrcitNQJdDyuUhp6MD16p5vTxMVvr1UApekd9nFi3/ORN
-	 vGbijlj1waOcQ==
+	s=k20260515; t=1793008647;
+	bh=quNXUpQyV0xVvloki+qOFC1yS6qzAqdmYWGNEfjadOs=;
+	h=From:Subject:Date:To:Cc;
+	b=GQPMEuostipK8qJ1TCmPvG0u89rYztqBG38ooQLWCJETmnyKUtxJ88bl82bmVeIJL
+	 3gD8PI2YwYV88zRxT2xXfoPR8VX5Bf1oBdJupUJ2oQPA0zIwKpKy4CmzxT5NNrPST8
+	 nOiezxdRD0VWS2adTgtFKBDM7Ugh+aAB3N/TDXYFu4eK0+QdHF5GUxZgrY19SUznVk
+	 QiYNTY/POc1BWF2jQzxONLXsBfYS2q9aAEy0gJtH7sE8Tn+EDhQ3nqHpASoKL6JdBV
+	 epRGmWOWpHlVFbE146PbAE4MyIKdJZExtlMEWF9lvnMRPz/eLy0cLqTGAOZ+PmcwCG
+	 usKCm9I1h9Ehw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 26 Oct 2026 10:57:16 +0100
-Subject: [PATCH 8/8] selftests/bpf: add a lifecycle test for the namespace
- LSM hooks
+Subject: [PATCH 0/8] ns: fixes for the namespace LSM hooks
+Date: Mon, 26 Oct 2026 10:57:08 +0100
+Message-Id: <20261026-work-security-namespace_free-v1-0-ffa3ebbf71bd@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,287 +55,96 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261026-work-security-namespace_free-v1-8-ffa3ebbf71bd@kernel.org>
-References: <20261026-work-security-namespace_free-v1-0-ffa3ebbf71bd@kernel.org>
-In-Reply-To: <20261026-work-security-namespace_free-v1-0-ffa3ebbf71bd@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMywqDMBBFf0Vm3UAU+vyVUmSSXmtajDIT+0D89
+ ybt4i7O5XAWUkiA0qlaSPAMGsaYod5U5HuON5hwzUyNbXZ1nnmN8jAKP0tIHxN5gE7s0XYCmD1
+ zdzi6rbMWlBOToAvvX/58+bPO7g6fSrMYjhXGCUffl2tgTRBa1y87r++dmQAAAA==
+X-Change-ID: 20261026-work-security-namespace_free-7aaf89b5b00e
 To: linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org
 Cc: linux-security-module@vger.kernel.org, 
  Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
  Paul Moore <paul@paul-moore.com>, netdev@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@kernel.org
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7056; i=brauner@kernel.org;
- h=from:subject:message-id; bh=x/mOnOiE+IxXo39rBsPXme0Vz67VAdaym4XN6zZLZEg=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdV2GaGL5u+3zZzkiDp9uPC3OqCVre/J15z1ZTtX/Kv
- uD24vmMHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABM5torhn0nNK9Y07ZT0Rfmn
- UqvXaK4KCynz11550vRA+7zvvY+nLWRkeNnms6zkEI/th8Nn/pdcjG+/N22l3VfD6apbtM6ELXp
- +kQkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3933; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=lFrGpq5vFucUuuqzkgVPP61G9ITiLYWgPS3DopPkmb4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdV2GSfqoz+7o5a+gyw9b3hpezWV5zlzXfU5PgPWN1f
+ cbSBXa8HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABMRecbwh2+X+bNHJfu2KgXc
+ s2M5213Uu3gT46abaa94zqX1Kxrt6mNk6DBg+8InnvHnRF+1F0/2tIkm+fuDbus2lDUl+S5y0fr
+ PBgA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Track new uts, ipc and net namespaces from a bpf LSM by their namespace
-id and check that:
+I tried to switch systemd-nsresourced over to the namespace_free LSM
+hook that went in this cycle. I explicitly developed it to work nicely
+with that. But the version that is merged is broken for that case.
 
-- namespace_init already sees the id that NS_GET_ID reports
+The namespace_free hook is never called. security_namespace_free() bails
+if ns->ns_security is NULL and that's only allocated if an LSM requests
+a namespace blob. Nobody does. Landlock doesn't care as it only uses
+namespace_init and namespace_install but a bpf program attached to
+namespace_free never runs. And it can't work around that either. We
+could make the bpf LSM request a blob but that would just be a way to
+make the hook fire. So call it unconditionally like we do for
+superblocks, files and bpf maps.
 
-- namespace_init, namespace_install and namespace_free fire exactly once
-  for each of them
+The bpf LSM also marks the arguments of namespace_init and
+namespace_free as trusted. Curiously that patch was also dropped.
 
-The test fails if the namespace_free hook isn't called or if the
-namespace id is allocated after namespace_init.
+namespace_init is called before the namespace is set up and if anything
+fails afterwards the namespace is freed without looking at its reference
+count. namespace_free is called on the way out. There's no kfunc that
+takes a namespace yet but once there is one a program could take a
+reference to a namespace that's about to be freed. So add both hooks to
+untrusted_lsm_hooks.
+
+The namespace_init hook also always sees a namespace id of zero because
+the id is only allocated after the hook has run. The id is the only
+identifier of a namespace that is never recycled. So it's what a bpf LSM
+wants to use to track a namespace from namespace_init until
+namespace_free.
+
+The inode number is recycled way too quickly for that. So allocate the
+id in __ns_common_init() before the hook is called. Then ns_tree_add()
+doesn't need to allocate ids anymore and ns_tree_add_raw() can go.
+Landlock keeps logging zero for denied namespace creation because that's
+what it documents.
+
+I'd want to get the first three patches into v7.4 since the hooks are
+new this cycle. The systemd change I have for this uses the
+namespace_free hook whenever the kernel has it. On a kernel with the
+hook but without the first fix it would never learn about dead user
+namespaces.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
+Christian Brauner (8):
+      lsm: always call the namespace_free hook
+      bpf: don't mark namespace_init and namespace_free arguments as trusted
+      selftests/bpf: add verifier tests for the namespace LSM hooks
+      landlock: pass the namespace id to log to check_ns_type()
+      ns: allocate the namespace id before the namespace_init hook
+      nstree: drop ns_tree_add_raw()
+      lsm: fix the security_namespace_init() kernel-doc
+      selftests/bpf: add a lifecycle test for the namespace LSM hooks
+
+ fs/namespace.c                                     |   6 +-
+ include/linux/ns_common.h                          |  16 ++-
+ include/linux/nstree.h                             |  29 +----
+ ipc/namespace.c                                    |   3 +-
+ kernel/bpf/bpf_lsm.c                               |   2 +
+ kernel/nscommon.c                                  |   7 +-
+ kernel/nstree.c                                    |   2 +-
+ net/core/net_namespace.c                           |   4 +-
+ security/landlock/ns.c                             |  11 +-
+ security/security.c                                |   9 +-
  .../selftests/bpf/prog_tests/ns_lifecycle.c        | 145 +++++++++++++++++++++
+ tools/testing/selftests/bpf/prog_tests/verifier.c  |   2 +
  .../selftests/bpf/progs/test_ns_lifecycle.c        |  88 +++++++++++++
- 2 files changed, 233 insertions(+)
-
-diff --git a/tools/testing/selftests/bpf/prog_tests/ns_lifecycle.c b/tools/testing/selftests/bpf/prog_tests/ns_lifecycle.c
-new file mode 100644
-index 000000000000..8ea4939efb23
---- /dev/null
-+++ b/tools/testing/selftests/bpf/prog_tests/ns_lifecycle.c
-@@ -0,0 +1,145 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Exercise all namespace LSM hooks from a BPF LSM: unshare() new
-+ * namespaces (namespace_init), setns() into them (namespace_install) and
-+ * drop the last reference (namespace_free).
-+ */
-+
-+#define _GNU_SOURCE
-+#include <test_progs.h>
-+#include <sched.h>
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <sys/ioctl.h>
-+#include <sys/stat.h>
-+#include <linux/nsfs.h>
-+#include "task_local_storage_helpers.h"
-+#include "test_ns_lifecycle.skel.h"
-+
-+struct ns_stat {
-+	__u32 ns_type;
-+	__u32 init_count;
-+	__u32 install_count;
-+	__u32 free_count;
-+};
-+
-+static const struct {
-+	const char *path;
-+	int type;
-+} namespaces[] = {
-+	{ "/proc/self/ns/uts", CLONE_NEWUTS },
-+	{ "/proc/self/ns/ipc", CLONE_NEWIPC },
-+	{ "/proc/self/ns/net", CLONE_NEWNET },
-+};
-+
-+#define NR_NS ARRAY_SIZE(namespaces)
-+
-+static bool all_freed(int map_fd, const __u64 *ns_id)
-+{
-+	struct ns_stat stat;
-+	int i;
-+
-+	for (i = 0; i < NR_NS; i++) {
-+		if (bpf_map_lookup_elem(map_fd, &ns_id[i], &stat) || !stat.free_count)
-+			return false;
-+	}
-+	return true;
-+}
-+
-+void test_ns_lifecycle(void)
-+{
-+	int orig_fd[NR_NS] = { -1, -1, -1 }, new_fd[NR_NS] = { -1, -1, -1 };
-+	struct test_ns_lifecycle *skel = NULL;
-+	int pidfd, map_fd, err, i, tries;
-+	struct ns_stat stat;
-+	__u64 ns_id[NR_NS];
-+	struct stat st;
-+
-+	for (i = 0; i < NR_NS; i++) {
-+		orig_fd[i] = open(namespaces[i].path, O_RDONLY | O_CLOEXEC);
-+		if (!ASSERT_OK_FD(orig_fd[i], "open orig ns"))
-+			goto close_fds;
-+	}
-+
-+	pidfd = sys_pidfd_open(getpid(), 0);
-+	if (!ASSERT_OK_FD(pidfd, "pidfd_open"))
-+		goto close_fds;
-+	err = fstat(pidfd, &st);
-+	close(pidfd);
-+	if (!ASSERT_OK(err, "fstat pidfd"))
-+		goto close_fds;
-+
-+	skel = test_ns_lifecycle__open_and_load();
-+	if (!ASSERT_OK_PTR(skel, "skel open_and_load"))
-+		goto close_fds;
-+
-+	err = test_ns_lifecycle__attach(skel);
-+	if (!ASSERT_OK(err, "skel attach"))
-+		goto destroy;
-+
-+	map_fd = bpf_map__fd(skel->maps.ns_lifecycle);
-+	skel->bss->monitored_pidfd_ino = st.st_ino;
-+
-+	err = unshare(CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWNET);
-+	if (!ASSERT_OK(err, "unshare"))
-+		goto disarm;
-+
-+	for (i = 0; i < NR_NS; i++) {
-+		new_fd[i] = open(namespaces[i].path, O_RDONLY | O_CLOEXEC);
-+		if (!ASSERT_OK_FD(new_fd[i], "open new ns"))
-+			goto restore;
-+		if (!ASSERT_OK(ioctl(new_fd[i], NS_GET_ID, &ns_id[i]), "NS_GET_ID"))
-+			goto restore;
-+	}
-+
-+	/* Leave the new namespaces and install them again. */
-+	for (i = 0; i < NR_NS; i++) {
-+		if (!ASSERT_OK(setns(orig_fd[i], namespaces[i].type), "setns orig"))
-+			goto restore;
-+		if (!ASSERT_OK(setns(new_fd[i], namespaces[i].type), "setns new"))
-+			goto restore;
-+		if (!ASSERT_OK(setns(orig_fd[i], namespaces[i].type), "setns orig again"))
-+			goto restore;
-+	}
-+
-+	skel->bss->monitored_pidfd_ino = 0;
-+
-+	/* Drop the last references. Network namespaces are freed asynchronously. */
-+	for (i = 0; i < NR_NS; i++) {
-+		close(new_fd[i]);
-+		new_fd[i] = -1;
-+	}
-+
-+	for (tries = 0; tries < 1000 && !all_freed(map_fd, ns_id); tries++) {
-+		kern_sync_rcu();
-+		usleep(10000);
-+	}
-+
-+	for (i = 0; i < NR_NS; i++) {
-+		/* namespace_init must already have seen the id. */
-+		if (!ASSERT_OK(bpf_map_lookup_elem(map_fd, &ns_id[i], &stat), "lookup ns_stat"))
-+			continue;
-+
-+		ASSERT_EQ(stat.ns_type, namespaces[i].type, "ns_type");
-+		ASSERT_EQ(stat.init_count, 1, "init_count");
-+		ASSERT_EQ(stat.install_count, 1, "install_count");
-+		ASSERT_EQ(stat.free_count, 1, "free_count");
-+	}
-+	goto destroy;
-+
-+restore:
-+	for (i = 0; i < NR_NS; i++)
-+		setns(orig_fd[i], namespaces[i].type);
-+disarm:
-+	skel->bss->monitored_pidfd_ino = 0;
-+destroy:
-+	test_ns_lifecycle__destroy(skel);
-+close_fds:
-+	for (i = 0; i < NR_NS; i++) {
-+		if (new_fd[i] >= 0)
-+			close(new_fd[i]);
-+		if (orig_fd[i] >= 0)
-+			close(orig_fd[i]);
-+	}
-+}
-diff --git a/tools/testing/selftests/bpf/progs/test_ns_lifecycle.c b/tools/testing/selftests/bpf/progs/test_ns_lifecycle.c
-new file mode 100644
-index 000000000000..88c5d40ba27a
---- /dev/null
-+++ b/tools/testing/selftests/bpf/progs/test_ns_lifecycle.c
-@@ -0,0 +1,88 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include "vmlinux.h"
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+
-+struct ns_stat {
-+	__u32 ns_type;
-+	__u32 init_count;
-+	__u32 install_count;
-+	__u32 free_count;
-+};
-+
-+/* Unlike inode numbers namespace ids are never recycled. */
-+struct {
-+	__uint(type, BPF_MAP_TYPE_HASH);
-+	__uint(max_entries, 16);
-+	__type(key, __u64);
-+	__type(value, struct ns_stat);
-+} ns_lifecycle SEC(".maps");
-+
-+__u64 monitored_pidfd_ino = 0;
-+
-+char _license[] SEC("license") = "GPL";
-+
-+static bool is_monitored(void)
-+{
-+	struct task_struct *task;
-+
-+	if (!monitored_pidfd_ino)
-+		return false;
-+
-+	task = bpf_get_current_task_btf();
-+	return task->thread_pid->ino == monitored_pidfd_ino;
-+}
-+
-+SEC("lsm/namespace_init")
-+int BPF_PROG(ns_init, struct ns_common *ns, int ret)
-+{
-+	struct ns_stat new = {}, *stat;
-+	__u64 ns_id;
-+
-+	if (ret)
-+		return ret;
-+
-+	if (!is_monitored())
-+		return 0;
-+
-+	ns_id = ns->ns_id;
-+	new.ns_type = ns->ns_type;
-+	bpf_map_update_elem(&ns_lifecycle, &ns_id, &new, BPF_NOEXIST);
-+	stat = bpf_map_lookup_elem(&ns_lifecycle, &ns_id);
-+	if (stat)
-+		__sync_fetch_and_add(&stat->init_count, 1);
-+	return 0;
-+}
-+
-+SEC("lsm/namespace_install")
-+int BPF_PROG(ns_install, const struct nsset *nsset, struct ns_common *ns, int ret)
-+{
-+	struct ns_stat *stat;
-+	__u64 ns_id;
-+
-+	if (ret)
-+		return ret;
-+
-+	if (!is_monitored())
-+		return 0;
-+
-+	ns_id = ns->ns_id;
-+	stat = bpf_map_lookup_elem(&ns_lifecycle, &ns_id);
-+	if (stat)
-+		__sync_fetch_and_add(&stat->install_count, 1);
-+	return 0;
-+}
-+
-+SEC("lsm/namespace_free")
-+int BPF_PROG(ns_free, struct ns_common *ns)
-+{
-+	struct ns_stat *stat;
-+	__u64 ns_id;
-+
-+	ns_id = ns->ns_id;
-+	stat = bpf_map_lookup_elem(&ns_lifecycle, &ns_id);
-+	if (stat)
-+		__sync_fetch_and_add(&stat->free_count, 1);
-+	return 0;
-+}
-
--- 
-2.53.0
+ .../selftests/bpf/progs/verifier_lsm_namespace.c   |  38 ++++++
+ .../testing/selftests/bpf/test_kmods/bpf_testmod.c |   5 +
+ .../selftests/bpf/test_kmods/bpf_testmod_kfunc.h   |   1 +
+ 16 files changed, 314 insertions(+), 54 deletions(-)
+---
+base-commit: 21a7f44fd0765fcc5194130b28767786eba1d1e7
+change-id: 20261026-work-security-namespace_free-7aaf89b5b00e
 
