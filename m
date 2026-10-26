@@ -1,134 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793052493;
-	b=s6H9v+A/8rmlB19nrlb9gkJvdVW1NMlW7X9j2wv808Cifrpl7AGTfe2Ku0Pv9ZKiRXS2
-	 zU2GFuSh5+gXrl6veaVTzCmbMIk3JgjN0Zv23/8umZtI/gnZDSNwf3ylz1YuMl+QBzH14
-	 7gHN1Bwa2aTtBXHquZJvV3SL5IoWKX2clw9yi8bTLhfawxN1RU3TFFdP+wuf9oLzSxgu7
-	 G42AaGR9ocQoGCW2K1d5yTsWIU/5ejat9+RrrP5VBOK4Dzh/gtFHdGKkv3tUTyAOgDncU
-	 rnvzM6cm/8sdG+kAT3bpEWO/DO1SWc73q32OzE6/eJJIEoifK9qfTxFE6vL/M40G3DQ==
+	t=1793053844;
+	b=GpDNJ4gGZyfLWJ5cV1hGblC8sRyf8zajUKyGXcnI6oDZUzdbWUlplz7OCd3kgcT+d2Yw
+	 ka4FXNAkp+a9VKSmToACWw3HKkvwnw8MVxoT9EIYNVHjvL4YmKH4SH+TrSLKguX+Dojf3
+	 Ae/rF1ooXGLI2Xj7/CEl7ApSUCL2NmDD97Djm2Kzm3IM3H4x5f7k291wbc21ZzCxZ7Gqi
+	 fnmMWnTD0u/3b/gIqnXql0IdCJYdmBHvwN4EwHuZeuBNMIWQQvHKliKx2e7qDB69bxffI
+	 cweerDNk93OYb1DZogS21AL3NF3eMmw/hYXj4kMFUXH7k0X0LoRHp/5iTRGDFfgMDwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793052493;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=;
-	b=KQwW2QiKS5H8oUPg9AO9N6/eNyyFCCPoETj4c+m9HIdzzvLv/ArzO9tJToE96swsDcpd
-	 Xv02VM2iO5xhKSkWGNDM5Kl7O/PXld9VOcdCw5uztRcUgY6bWb/7AfksHiVnMTRdByjNG
-	 9TIMUHYg2x4bLzGLlTVXVqILIus0r3rGtZGLb8tZFIq4qofX+D2xDnPh/efiAjGS5mDjo
-	 YyIy6ir6DZ7eXNC3DfZ0haeMYsL5d5G+QMUh0UasStIlS/AI04yAQd6LC3lUw89j4tes6
-	 38Qmbfjy4mUcNfHwFTrzPsOUPCIgqu/3px7g2gmshWxHnKBc+3IuBW0zz3AHHMZma/A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793053844;
+	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
+	 In-Reply-To:References:Subject:From:To:Cc:Date;
+	bh=dmscNNXpR9Tlb5LZlm76LmXvzMKP1GvB98Aa5akaxVg=;
+	b=roF2vcylbXjHHmBtey48wbiwzWjbnbqr0abKVkOtfsUyG+f3rKp48NBZ99BOz8h7zs/5
+	 b4ds34yZhn3us/Rc03vRvPeQBw6XLmj8qKcJOYKBAB7hqRtqjcxTP+D9gRFC/KK7BnteV
+	 0nAB+HZErlusxAydn5MHf/I+Yx6nboD37jxhNbZVktg+0+ewNofQDJ2tBeK53yNO1Axd2
+	 lLZb0U4XNJ/BYrN9++oJT7Y8sT+FFNyPGJMuhIflRuRe9GsTxevz34Cdxj0b60xtM4MrS
+	 zjWaWl2YAVVbYzN5jOBbaLfD8EBdiw0BsRVzzcw3jgOy6ZYBm/GrKNpBOGb5+xve0Vw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=themaw.net;
-	spf=pass smtp.mailfrom=themaw.net;
-	dkim=pass header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=UrEV8CO1;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=avGk9PqI;
-	arc=none smtp.remote-ip=202.12.124.148
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+	dkim=fail reason="signature verification failed" header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dr+bFo+7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282FA606A31E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 22:08:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 282FA606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A93606A31A;
+	Mon, 26 Oct 2026 22:30:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=UrEV8CO1;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=avGk9PqI
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 8D1FB1D003C8
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 18:08:12 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Mon, 26 Oct 2026 18:08:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793052490;
-	 x=1793138890; bh=yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=; b=
-	UrEV8CO1TUZnK8PJPLQEQ+mBDacfr1ualCI79fofyFxHp/qlH67Qk1zDha6ZDsUD
-	FAJJYbbVRZH706lqEQ1NMx+s1EL71CQ+qJsAggeKG0vqBj/xL0+g9/cQe3EmmVdf
-	OBP9oeiZdtOdhVjy/9V65hXNxM/X0M6KX3SXFOfk0nMcUaC4TuW9Lzuv2ZezXmX2
-	Xm4f4UvRS5LSth3SslZmRV6M1ryJPxSBz8w0BPf9Iigy7LFomt5f2d4ANnD3HKLz
-	lcSjcD+UjlJRdGQsr5RE78TsLBdHTwyWipS6UmHptFiSmVIO1/Q2QG9HEyR7jwi2
-	EYnYOOJt/YEUKLEp9QlmYA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793052490; x=
-	1793138890; bh=yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=; b=a
-	vGk9PqIr6hEzkBG77k8GkpXeSQRT+MVDN4DUxSMcA1igxPIR/+ga1iuhPR87rrch
-	o39J5JLbaroJv+WocVTRVwIurwoXClx0UWuccJ+RgdT0YRqkRq3PW3yzZKClbwX5
-	3PZHhRjN82XGlHlJbp/bOyza6RhwVbJRIEDqU5PO7X908wlAZXc7i09ujPK/uSwP
-	maqeWiARyT+wYltmETV8RrnGseapHSWp99e0Cf5kBm0Whh7W7jcTP1gtIbhSpiyR
-	0u/vnbhHjLT8RNpOZZfIxnpiwmL5vNgnvKvxOb8zxwiBvIQ76xAQd8Rnn2fR98xe
-	yIS/MWt0ERu5CwEw/HwWw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=themaw.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793052490; d=themaw.net;
-	mf=PHJhdmVuQHRoZW1hdy5uZXQ+;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm1:rsa-sha256:AfQbJIjqooQSTgKQmEueZOqTY2LQheoyRYPwMjta8OKFYDZ
-	WZC00Vwg58LViKWvL9vyGS7tx6OITRDcBQBhUAYRoXV1CA3n+gpvieH8wg/6wuKh
-	NcBsRIigFEMIkPzQrJOBcfUg84Tya0hKrngP3lbpJpT2exPWtKVZhsGDYaX4xPo+
-	jkVvL3zRFPLHkQjyyp5UgOG9CT786IbeXyt8VTY0VctDVsdIPoEW2R/hgxwkFTCC
-	7dHqg4QpNMh0SgYL7o64BpLamFBwKG6GBXtB2GzTsa7AYKWVqkv2WFSBf30d+pqz
-	6xLn8gZdaTglwa21OB1e5XYM8DLyTxEwduw2hIA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to,
-	user-agent;
-Message-Instance: m=1; h=sha256:tdg6ua8/hQS/iYkk+8+1oIbT4XjyplM8CQ3hPjDL8gU=:yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=;
-X-ME-Sender: <xms:SM_falmJYKjuMXVHDQt2QQt2e9GRe6P_ZlHx9B0jy3DtnwU-Mhwilw>
-    <xme:SM_fanzOb00shgf6BVLGTvm3wWAEqDvLNbmTrEUBM6t2vXp1Jn27RhxW-QSd6_ZcG
-    FynuGh_Zd1AH-3TXIyVt0MGvELm2hQ0AdlawiG__NQvzM1M>
-X-ME-Received: <xmr:SM_fagulXQAxGdh47J-3Sc9EZB76wUhrIZV1bSoHJVRcNT9CV3-XLvoY5_ae3ExFkPIKFqbwCSLPkds1UqaKAorpiepGRidZUelVzfY9gax3aZgg4D9bQFfcjNM>
-X-ME-Proxy-Cause: dmFkZTF5HCOsxN9EPzsQKkgStD/Ff4WaJ8kNbHpSExIutymQMzNLPQM/4D7eFPnNuRZhMM
-    yiFZU29YFLK097HXfiVZtxDexZrGtWPk8oIS0KHK9LJ+COj6lx72D3NGicQiveM66XsuuI
-    T5hdMIkNOs99rmLKIhonQkKb4GS6BpcgwfRht1cF14LSexGc7Vuh+dOSrMRFPPDR2vDdp+
-    I2Kj5kQbVl3rdYwlSzYKD6Ljbc/jI3yCouc8I227ttT1dc69wA3DVKDYh6Dxx4CnJAsGMx
-    dRdBm2OsEUCbGYBG+rLKXIe7ZjFMsj4ic7Jo/KwKEtc8FlEvgmpa4M2QKds/GCXUxeH3mV
-    hlatiPuA1PlYXizqCztg6HNVhQRmacIaSHc8Qwq2Br5SvRSQdKCk92iWVbYNmY5u7sdCPv
-    eI9FmIM1vtGGAJVQBqh7+2hzdk6ENCtM8BtYfw4MCq8+yiVA4HOqdWvKKVC2aMSUyYSNNs
-    GjuuWW6QfDWQPLpxyjyyRbSKdpIIyL3Tg4q94xEIkUtYDseeq5zvDy0TxIe/8uq6trsyvq
-    12FxalXYe67wUyQOKOMK+vxsxR9oRudyupWfujyodN+jFjBk8gVG3TaBeGM0J1IM+Kt/YQ
-    9kpaZYdH824878CQeB9Hov1Tbl+TNTcopCEAWeu9r3TVYfVORKt387XTeRNw
-X-ME-Proxy: <xmx:SM_fastfAR-nbfD779bC72wWAQSNDoTOifg7ia6nkQp1Uu6Wl9JC8w>
-    <xmx:SM_faukfKeNv0QfbzQ1Mdz-dRnCEs-2QfPbeNcc7818FyLAicMNf6g>
-    <xmx:SM_faqvDy6DYaKkRzWH01Rnp9FtgDFJd7PuUy91kFsJxUMfQVADTGw>
-    <xmx:SM_falM6fmdy7zX8HjhUCgmquQTDw-Dbj4SPd2ytgaZzwcTjJj6Log>
-    <xmx:Ss_fas8XLcMNaCaKXBRNJwdR2hfN8SrYNk_YE7dtRdyQgT0KrlyGPJI4>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Oct 2026 18:08:03 -0400 (EDT)
-Message-ID: <dc65c28e408d6b64d4b13b7ad30e5fe70ddaa441.camel@themaw.net>
-Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
- stores
-From: Ian Kent <raven@themaw.net>
-To: Krystian Kaniewski <krystianmkaniewski@gmail.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
- Danilo Krummrich	 <dakr@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner	 <brauner@kernel.org>, Jan
- Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>,  Peter Zijlstra
- <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Jens
- Axboe <axboe@kernel.dk>, 	driver-core@lists.linux.dev,
- autofs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, 
-	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Date: Tue, 27 Oct 2026 06:07:59 +0800
-In-Reply-To: <cover.1792577179.git.krystianmkaniewski@gmail.com>
-References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
-	 <cover.1792577179.git.krystianmkaniewski@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dr+bFo+7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E46EC1F01825;
+	Mon, 26 Oct 2026 22:30:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793053843;
+	bh=dmscNNXpR9Tlb5LZlm76LmXvzMKP1GvB98Aa5akaxVg=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=dr+bFo+7z5+CTwiGHeYIy9H24IjvPgf4TRxSimSjSs3n/yAhL9aRSZINo/x5mroHe
+	 IomSvINKTXigvFZ4T2r4pQS6DcTQna3EE9nzEaCD82hejA4AZ3C7UlSxPbJbhFSHxy
+	 Di/MXuc0u3/DB8dqNapb7z2siMBwUqQB6nYCMuq4/0PMPiMdvRGNrUrJkXSpvs0w3z
+	 2AT3Q8x/a6nwJyggelSWmXb4qTG5Z6QAbLhvcEzt6dxwgv3iYRFYhWUqc9QXSKF1rA
+	 6AS+VQieQSX/Ma92ZXhyBaeeXWlR1S0w7QnMoMkQeDXfNXkfAbaABsGjNgcpENxttB
+	 vTydLvfW/5xGw==
+Content-Type: multipart/mixed; boundary="===============5289104665204023220=="
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -138,71 +49,81 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Message-Id: <bce97570ea9665a2f83216d4dfd7ab7ce17d54aa777f761c3d12db430ba21bb9@mail.kernel.org>
+In-Reply-To: <20261026215226.3713941-5-jthoughton@google.com>
+References: <20261026215226.3713941-5-jthoughton@google.com>
+Subject: Re: [RFC PATCH 04/10] stacktrace: Don't unwind the user stack without an mm
+From: bot+bpf-ci@kernel.org
+To: jthoughton@google.com,akpm@linux-foundation.org,viro@zeniv.linux.org.uk
+Cc: tglx@kernel.org,peterz@infradead.org,kees@kernel.org,arnd@arndb.de,david@kernel.org,ljs@kernel.org,liam@infradead.org,vbabka@kernel.org,rppt@kernel.org,surenb@google.com,mhocko@suse.com,seanjc@google.com,pbonzini@redhat.com,jmattson@google.com,axboe@kernel.dk,asml.silence@gmail.com,James.Bottomley@HansenPartnership.com,mkp@kernel.org,dsterba@suse.com,mason@kernel.org,ast@kernel.org,daniel@iogearbox.net,john.fastabend@gmail.com,jpoimboe@kernel.org,rostedt@goodmis.org,mhiramat@kernel.org,mathieu.desnoyers@efficios.com,mingo@redhat.com,acme@kernel.org,namhyung@kernel.org,linux-mm@kvack.org,linux-fsdevel@vger.kernel.org,kvm@vger.kernel.org,io-uring@vger.kernel.org,linux-scsi@vger.kernel.org,linux-btrfs@vger.kernel.org,bpf@vger.kernel.org,linux-trace-kernel@vger.kernel.org,linux-perf-users@vger.kernel.org,linux-kernel@vger.kernel.org,jthoughton@google.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.
+ org,ihor.solodrai@linux.dev
+Date: Mon, 26 Oct 2026 22:30:42 +0000 (UTC)
 
-On Wed, 2026-10-21 at 14:51 +0200, Krystian Kaniewski wrote:
-> syzbot reports a lockdep cycle &pipe->mutex --> &of->mutex -->
-> &sbi->pipe_mutex. splice holds a pipe mutex while it calls the write
-> or
-> read handler of a kernfs file, kernfs takes of->mutex there, and a
-> write
-> to /sys/power/resume looks up a path that can make autofs write a
-> request
-> into its daemon pipe and wait for the daemon.
->=20
-> Patch 1 stops holding of->mutex around the ->store() callback of
-> regular
-> sysfs attributes, which do not get the open file and already run
-> concurrently for separate opens.
->=20
-> Patch 2 handles the case that patch 1 leaves. A store called from
-> splice
-> still runs with the pipe locked. autofs no longer sends or waits for
-> a
-> request in that context and returns -EAGAIN instead. A new mount is
-> refused before it is marked pending, so no other lookup sends the
-> request
-> in its place. This also removes a deadlock in which the spliced pipe
-> is
-> the autofs daemon pipe itself.
->=20
-> Patch 2 changes behavior for one narrow case. A lookup from a splice
-> callback that needs an automount fails with -EAGAIN instead of
-> waiting.
->=20
-> The series was tested in QEMU with lockdep using the original C and
-> syz
-> reproducers and focused splice and autofs cases. The target reports
-> were
-> not reproduced with the series applied, and the paired functional
-> cases
-> matched the unpatched baseline.
-I can't seem to find a reproducer that reproduces the bug or maybe
-I don't know what to expect from running the syzbot reproducer I
-did locate.
+--===============5289104665204023220==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Can anyone help please.
+> stacktrace: Don't unwind the user stack without an mm
 
-Ian
->=20
-> Krystian Kaniewski (2):
-> =C2=A0 kernfs: do not hold of->mutex across sysfs ->store()
-> =C2=A0 autofs: do not wait for the daemon while splice holds a pipe
->=20
-> =C2=A0fs/autofs/expire.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++++
-> =C2=A0fs/autofs/root.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 28 +++++++++=
-++++++++++++--
-> =C2=A0fs/kernfs/file.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 52 +++++++++=
-++++++++++++++++++-------------
-> --
-> =C2=A0fs/splice.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 13 ++++++++++-
-> =C2=A0fs/sysfs/file.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 18 ++++=
-++++++++++-
-> =C2=A0include/linux/kernfs.h | 11 +++++++++
-> =C2=A0include/linux/sched.h=C2=A0 |=C2=A0 2 ++
-> =C2=A0kernel/fork.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 1 +
-> =C2=A08 files changed, 109 insertions(+), 22 deletions(-)
->=20
->=20
-> base-commit: 93f51579e7df248780214094418f205253383cc5
+TL;DR: Commit message only: the Fixes: tag may point at the wrong commit;
+7e8e6816c649, which dropped the !current->mm check, looks like the real
+culprit rather than 214d8ca6ee85.
+
+> stacktrace: Don't unwind the user stack without an mm
+>
+> stack_trace_save_user() only refuses to unwind the user stack of tasks
+> with PF_KTHREAD set. That doesn't cover all tasks without an mm:
+>  - A user task that has already gone through exit_mm(), e.g. when an
+>    event fires from exit_files(), exit_task_work() or the final context
+>    switch in do_exit().
+>  - PID 1 before it execs init, and usermode helper children before they
+>    exec, which are created with user_mode_thread() and don't have
+>    PF_KTHREAD set. E.g. booting with trace_options=userstacktrace and
+>    an event enabled with trace_event= unwinds PID 1's "user stack"
+>    during initcalls.
+> With the ftrace userstacktrace option enabled, the architecture
+> unwinders then read the user stack without an mm. That access does not
+> reliably fail: the user half of the address space belongs to whatever
+> mm happens to be lazily loaded, if any, so the unwinder may read
+> another task's memory.
+> Use is_user_task() instead, which also checks current->mm, as perf
+> already does for the same reason since commit 76ed27608f7d ("perf:
+> sched: Fix perf crash with new is_user_task() helper"). This also stops
+> unwinding the user stack of PF_USER_WORKER threads, which never run in
+> user space, matching perf.
+> Fixes: 214d8ca6ee85 ("stacktrace: Provide common infrastructure")
+> Signed-off-by: James Houghton <jthoughton@google.com>
+
+Is the Fixes: tag pointing at the right commit?
+
+When 214d8ca6ee85 added the ARCH_STACKWALK version of
+stack_trace_save_user(), it guarded the unwind with:
+
+	/* Trace user stack if not a kernel thread */
+	if (!current->mm)
+		return 0;
+
+That check already covers both cases described above (a task past exit_mm(),
+and PID 1 or usermode helpers before exec, which have mm == NULL).
+
+The check was replaced by commit 7e8e6816c649 ("stacktrace: Use PF_KTHREAD to
+check for kernel threads"), which switched it to:
+
+	if (current->flags & PF_KTHREAD)
+		return 0;
+
+That dropped the no-mm protection, which looks like what this patch restores
+via is_user_task().
+
+Should this be:
+
+  Fixes: 7e8e6816c649 ("stacktrace: Use PF_KTHREAD to check for kernel threads")
+
+
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/40410166379
+--===============5289104665204023220==--
