@@ -1,110 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793019667;
-	b=dr2zQGDJjIO9DKXBswhF8SjzcIi9X8HT3aC8VzN/Fheho5BOSg4PnaU8mptGJjhJ/mYi
-	 otSfMPYvwhfKFRmUwqBlLO9O4RZWNGKm010NJG60Zam3xSYywFrrtacChZgaGVZzAqhOk
-	 53C7sJlkiWTR50rnZX5cbtnn9DGGC9da/Igr49arByIOg1E2OkKdkYgmKk9B1jd2ItHmX
-	 w6l23y82E0N72BBaJxSDxu0q3xJmq8ipEzzgYCXb/VUdv6vXwr7z4HzIpCsAZR3Eu7GnX
-	 00auRrWGVqMUREkZy1RToL7uy9SyqpPdlGrOdn1AEBDnivhAtHzdXHe3Aj1Ph/nbLuA==
+	t=1793020099;
+	b=t7kF8ObXs2VYijTjiMdtF2PH8nhEWr9pYulTFuHg30OMjfL0vQ17PGAo5FwiWZPq/0u5
+	 Mb3E8ViE2TaTx9Wj2chXOJazQeqyZ8DiP745C4lWqylX7IjFXS9q+peUlTUkHKTo2zcZv
+	 wj9TFv1bvV0vAvUoHrYbgclAXGph4GGiMwrpGnkUWpK/q9JzHmVLraOhoU14vmBKrV0Nw
+	 S0GiiY3gOpTaRL3oxaME04PfdiHa/R0xy107nv6f5eV2rWepqFKXYjuv0cyYwuuuOCM57
+	 1yIrSU3l/mbqnm09r5a9WBWptlcYH2K14vC8w29lUBJzj/LfnX16+936J2jAYz5scIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793019667;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793020099;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=ZVvR8/vPkVFRStnVaizcQOKEZOW0iOsbBk9wkmC0Mj8=;
-	b=kBwYwBKT1wtvTUbRpnf+MkA3OHy0sCCpFmI8EII+MKvbAL65lY6tsQADT/wlndHuhM23
-	 FxZDVPph5LPKfWDeYRm+2Ol8DsVFL9zdS2EvECjLzYR1lxbFtYhjMGNtrlyeyX74RJUOl
-	 SxQ9NLdPR777GJWdI+29I4oqlUijYwHQqcD1l5U4yAg9rENADtgxqbjHlB0Pw1WpyZt6x
-	 +SdCppJo8giaVHhiP8XE0+ytUxxXun62ymrUxx7cOJWdnfPGpeuvoXLv2oEXnQTsoDXMm
-	 dXvaTW12WWi7bDiJPccEOPK5UAtQ/jcsDJHf0dItNZcZRoRdtiIN+RxOuV0zn62dhnA==
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=/LaJPNgoMxQGKTEoJPunrzJNT9OGNjl3wT3+JfDy8Hg=;
+	b=Sccc1Ye/daaCBeMqfi5+WMXODSCxaMKIuVW26av2W8uwBf6ll67UiOCi4X4Amsjefca4
+	 92+6kcoudjs0MNcDxW3WDoyTZC6wHKTi3lEVdmfPrrMWryugjiv/KCa/NeeMisYsi0ZEm
+	 kp5SRBzmrzBUNWakBoCtj6Ofqvta6A8X/o04ivK+2OGrXmXwyHJlfGY7VVGqMWdfc+maw
+	 1c3aKMt9IEwOs7zwC7j9eicgCJEEtYK8Dle7y10QhbJudkEYegOe1g4NNhqLkIrFYc/br
+	 Je/3LrFmooK3mLdME12Kl8keFF+eOHn/pmK75kvoESj9LT2uRkkggTsatpOMVWTrgpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=yxS9FDwj;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FwPZWA1d;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ADBqsyFF;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=B5ghY57L;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="qelMB/Bj";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DQqv8XHd;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="qelMB/Bj";
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DQqv8XHd;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B55606A31B;
-	Mon, 26 Oct 2026 13:01:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91B55606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA9B606A31A;
+	Mon, 26 Oct 2026 13:08:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFA9B606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=yxS9FDwj;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FwPZWA1d;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ADBqsyFF;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=B5ghY57L
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=qelMB/Bj;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DQqv8XHd;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=qelMB/Bj;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DQqv8XHd
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id ED958222CD;
-	Mon, 26 Oct 2026 13:01:02 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C34F11F461;
+	Mon, 26 Oct 2026 13:08:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793019664; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793020096; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZVvR8/vPkVFRStnVaizcQOKEZOW0iOsbBk9wkmC0Mj8=;
-	b=yxS9FDwjEthDr6gpT+8E0Hhv7czGi1FcGngK3+U+31zorp8Y88ojShwmdyhmapORqcywoG
-	20jlAyA3NoEP2XiCJGaLrp8vlhmpfeFH3KRKKPSsmqrnoIpn9wMQiTfoo8WtD6NAkUKdR2
-	ep1qzDVwQNDQwk7IdM/Fn7R6R/ybH9A=
+	bh=/LaJPNgoMxQGKTEoJPunrzJNT9OGNjl3wT3+JfDy8Hg=;
+	b=qelMB/BjFqgvBS9P67zjljz5Wws2dZUqmlkIhVigU025OG7xbEOxO/aUr8LR0pJ/gDOoe3
+	W2flsV0wedLYw7sbrt5eyJ0RVRjs42T6t/hjeu5v5KE1JO6TJEQ52OK7Zk9cIYfPO8BPcn
+	PqtpXX6ISIhgl6StiyqFj884id5bZLQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793019664;
+	s=susede2_ed25519; t=1793020096;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZVvR8/vPkVFRStnVaizcQOKEZOW0iOsbBk9wkmC0Mj8=;
-	b=FwPZWA1d7393CQtx2xk6xIa5ARejrxq59hWGvkcRCn8b6JmfdhSuR7MySCcquFOCw28oKK
-	MwNsEEd7YFw2QdDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=ADBqsyFF;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=B5ghY57L
+	bh=/LaJPNgoMxQGKTEoJPunrzJNT9OGNjl3wT3+JfDy8Hg=;
+	b=DQqv8XHd7HzpJlYdj0mmdtWpp4P1dANZjsxxD7uRLKcapc5xxTgEn+x/I1wEPMqRG6XPwx
+	12GSjdEpXKpjylDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="qelMB/Bj";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=DQqv8XHd
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793019662; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793020096; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZVvR8/vPkVFRStnVaizcQOKEZOW0iOsbBk9wkmC0Mj8=;
-	b=ADBqsyFFDf8/RduuUBqT2VLneVtUVz45qxGEnzDNSJ6DjaY7rCcZDHMdDlobVXJtbULzqw
-	02RO7LAzZKzTMbyF/s8sQw/EDiv/zZTUDpCGt4UwqB5KNp7yJHsqLBKAxgAC9bAmIrvD6d
-	1d87355WGuJTyS6StCNJz8exV68gcNk=
+	bh=/LaJPNgoMxQGKTEoJPunrzJNT9OGNjl3wT3+JfDy8Hg=;
+	b=qelMB/BjFqgvBS9P67zjljz5Wws2dZUqmlkIhVigU025OG7xbEOxO/aUr8LR0pJ/gDOoe3
+	W2flsV0wedLYw7sbrt5eyJ0RVRjs42T6t/hjeu5v5KE1JO6TJEQ52OK7Zk9cIYfPO8BPcn
+	PqtpXX6ISIhgl6StiyqFj884id5bZLQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793019662;
+	s=susede2_ed25519; t=1793020096;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZVvR8/vPkVFRStnVaizcQOKEZOW0iOsbBk9wkmC0Mj8=;
-	b=B5ghY57LbYWjz+dF40Qrg1Cw6IDGF5Qn7AwfVuNKMTR3YWuu+ovY7mzqPnIylrcGmW77gq
-	GIIlvVJ606g1QKCA==
+	bh=/LaJPNgoMxQGKTEoJPunrzJNT9OGNjl3wT3+JfDy8Hg=;
+	b=DQqv8XHd7HzpJlYdj0mmdtWpp4P1dANZjsxxD7uRLKcapc5xxTgEn+x/I1wEPMqRG6XPwx
+	12GSjdEpXKpjylDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BEFF013408;
-	Mon, 26 Oct 2026 13:01:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 95A6913408;
+	Mon, 26 Oct 2026 13:08:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ruRAJg5P32pjWQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 13:01:02 +0000
+	id CtXvG8BQ32qwYAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 13:08:16 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 4D3CCA1419; Mon, 26 Oct 2026 14:00:58 +0100 (CET)
-Date: Mon, 26 Oct 2026 14:00:58 +0100
+	id 2597DA1419; Mon, 26 Oct 2026 14:08:12 +0100 (CET)
+Date: Mon, 26 Oct 2026 14:08:12 +0100
 From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org, 
-	linux-nfs@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Aleksa Sarai <cyphar@cyphar.com>, Chris Mason <mason@kernel.org>, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH 0/7] proc: block mounts below /proc/<pid>/net and on the
- links into /proc/self
-Message-ID: <zdwikcjfr2h3a5lifdjuw7dwrrqcptjxsyuqh4pd7hihhmwke4@k7pegq4xwfxi>
-References: <20261024-work-procfs-fixes-v1-0-46b03c3a8fac@kernel.org>
+To: Aurelien DESBRIERES <aurelien@hackers.camp>
+Cc: jack@suse.cz, brauner@kernel.org, willy@infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, aurelien.desbrieres@gmail.com
+Subject: Re: mmb_sync: b_mmb NULL window races mmb_mark_buffer_dirty
+Message-ID: <q472nkbfcfdumbxm3cebfnnmueqyl6uhhnper5t6e2cxajpvtu@7prjjo7k6ia3>
+References: <20261024170609.125348-1-aurelien@hackers.camp>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -116,199 +113,145 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261024-work-procfs-fixes-v1-0-46b03c3a8fac@kernel.org>
-X-Rspamd-Queue-Id: ED958222CD
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-13.01 / 50.00];
+In-Reply-To: <20261024170609.125348-1-aurelien@hackers.camp>
+X-Spamd-Result: default: False [-11.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.cz,kernel.org,infradead.org,vger.kernel.org,gmail.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TAGGED_RCPT(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:email,suse.com:email]
-X-Spam-Score: -13.01
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -11.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: C34F11F461
 
-On Sat 24-10-26 12:38:26, Christian Brauner wrote:
-> In Linux 6.12 I stopped allowing mounts on the entries below
-> /proc/<pid>/fd/, /proc/<pid>/fdinfo/ and /proc/<pid>/map_files/ (cf.
-> [1]). This extends that to two more groups of entries:
-> 
-> (1) Everything below /proc/<pid>/net/.
-> 
->     proc_net_d_revalidate() fails on every lookup since 1fde6f21d90f
->     ("proc: fix /proc/net/* after setns(2)"). lookup_fast() answers that
->     with d_invalidate() which detaches every mount on the dentry. That
->     affects every mount namespace and includes locked mounts.
-> 
->     So a mask on /proc/<pid>/net/dev goes away the first time anybody
->     looks the name up. The directory is 0555 so anybody really means
->     anybody. This is reproducible with a container that masks
->     /proc/<pid>/net/dev with a locked bind mount and a stat() by nobody
->     in the initial namespaces makes the real file show up again. So it's
->     pointless.
-> 
->     A mount that can't stick is better refused than taken away. I also
->     have a version that makes proc_net_d_revalidate() check the network
->     namespace instead so mounts there stick. But I think that's
->     bullsh*t. It would make mounts on the net entries of other processes
->     stick as well and the few users that try to mount there fail today
->     anyway (see below).
-> 
-> (2) The links into /proc/self: /proc/self, /proc/thread-self,
->     /proc/mounts, /proc/net and the afs and nfs links below /proc/fs/.
-> 
->     These resolve to a different directory for every process. A mount
->     on the link itself is crossed by every lookup through it in that
->     mount namespace, so it redirects all processes at once. Mounting
->     through the links keeps working and lands on the caller's own entry
->     as before.
-> 
-> What I really wanted was to block mounting on anything below
-> /proc/<pid>/. That was the big hammer I mentioned in [1] years ago. We
-> can't... I did a pretty exhaustive survey of who mounts on the entries
-> below /proc/<pid>/ or on the links into it:
-> 
-> - GitHub code search and regex searches on Sourcegraph
-> - Debian Code Search over unstable
-> - the systemd units of every binary package in Debian 11, 12, 13 and
->   sid, Ubuntu 22.04, 24.04 and 26.04, Fedora 43 and 44, CentOS Stream
->   10, openSUSE Leap 16 and Tumbleweed and Arch
-> - clones of 46 container runtimes and orchestrators, the sandboxes
->   (systemd, bubblewrap, flatpak, firejail, snapd, nsjail, minijail,
->   Chromium and Firefox), Android and the rooting tools on top of it,
->   and the AppArmor and SELinux policies
-> - detection rules, issue trackers, lore, LWN and the Q&A sites
-> 
-> The legitimate users all mount on entries of the process that does the
-> mount:
-> 
-> (1) systemd units that list /proc/self/... in ReadOnlyPaths=,
->     ReadWritePaths= or ReadWriteDirectories=. systemd resolves
->     /proc/self in the child of the service and binds the entry onto
->     itself before it execs the service. If the mount fails the unit
->     fails with 226/NAMESPACE and the "-" prefix doesn't help. That's
->     netdata in Debian 11 and 12 and Ubuntu 22.04 and 24.04, opendht in
->     Debian 12 and sid, Ubuntu 24.04 and Arch, accountsservice 22.x in
->     Debian 12 and Ubuntu 22.04, OpenSearch 3, wazuh-indexer, TrueNAS
->     SCALE, OONI's backend and the JupyterHub systemdspawner example. Of
->     the 731 unit files on GitHub that name a /proc path in one of these
->     directives 53 name an entry of the service itself.
-> 
-> (2) systemd's make_filesystem() binds /dev/null over /proc/self/mounts
->     before it execs mkfs.btrfs so that it doesn't refuse a device whose
->     other partitions are mounted. systemd-repart, systemd-homed and
->     systemd-makefs use that.
-> 
-> (3) mkosi binds a fake /proc/self/mountinfo for grub-bios-setup.
-> 
-> (4) runc applies maskedPaths such as /proc/1/environ from the
->     container's init when a config asks for it, bwrap does the same
->     from its pid 1, firejail hides the name of its pid 1 and clampdown
->     masks /proc/1/mem.
-> 
-> (5) Shell scripts that mount on /proc/$$/... and then exec, e.g.,
->     luci-app-shadowrt on OpenWrt.
-> 
-> (6) Tests in systemd, elogind, LXC, libpathrs and bun.
-> 
-> Fedora's SELinux policy even grants fsadm_t and init_t the permission to
-> mount over their own entries because of (1) and (2). Sad, very sad...
-> 
-> Everything else I found is malware or offensive tooling:
-> 
-> Hiding a process by mounting over /proc/<pid> is catalogued as MITRE
-> ATT&CK T1564.013 and used in the wild by TeamTNT, Commando Cat, the KONO
-> DIO DA miner, KV-botnet, UNC2891 and kbotne. hackshell and emp3r0r ship
-> it and Elastic's endpoint rule kills any process that does it.
-> 
-> So blocking all of /proc/<pid>/ would break units in released
-> distributions and systemd itself. A rule that only lets a process
-> mount on its own entries, and on a directory only a bind of itself,
-> keeps (1) to (4) working, except for a few bwrap sandboxes that put a
-> tmpfs over directories like /proc/1/task, and stops all of the attacks.
-> I have that as well but it's not really a fix so we can delay it.
-> 
-> The remaining entries of a process only fail pid_revalidate() once the
-> task is gone and proc_flush_pid() invalidates them when it is reaped.
-> Their mounts go away together with the task and nothing gets revealed.
-> 
-> Nothing I found mounts on the links themselves and crun even has a
-> test that expects it to fail. The handful of units that mask entries
-> below /proc/<pid>/net/, e.g., Algo VPN's ReadOnlyPaths=/proc/net/pfkey
-> for strongswan, already fail today.
-> 
-> systemd's own lookup invalidates the dentry before it can bind onto it.
-> With this series they fail the same way. Apart from tests in libpathrs
-> and securejoin that had to be adapted the only fallout from the 6.12
-> change we found is one small project that handed libmount's new mount
-> api a /proc/self/fd/N target that move_mount() doesn't follow without
-> MOVE_MOUNT_T_SYMLINKS. Ubuntu even backported the 6.12 change to their
-> 22.04 and 24.04 kernels this year.
-> 
-> Nuke this crap.
-> 
-> [1]: https://lore.kernel.org/r/20240806-work-procfs-v1-0-fb04e1d09f0c@kernel.org
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Hi!
 
-Makes sense to me although I don't dare to judge all possible consequences
-(I don't have much practical experience with container runtimes that play
-these games). Anyway, feel free to add:
+On Sat 24-10-26 19:06:09, Aurelien DESBRIERES wrote:
+> While measuring beamfs on vfs.all (2c3ba1f1cb41, on v7.3-rc7) we hit a
+> list corruption in fs/buffer.c that I think is a window in mmb_sync()
+> rather than anything specific to our filesystem, so here it is with
+> the trace. beamfs was attaching buffers that several inodes share
+> (bitmap blocks, parity regions) to the allocating inode's
+> i_metadata_bhs, so the same buffer_head moved from one inode's list to
+> another's. We have since given those buffers a list of their own and
+> the problem is gone on our side; the window remains.
 
-Acked-by: Jan Kara <jack@suse.cz>
+Well, yes, mmb code is all built on the assumption that each buffer has at
+most one inode with which it can be tracked. If the filesystem tries to
+attach it to more than one inode, all bets are off and we give no
+guarantees what happens. I guess we should add an assertion to
+mmb_mark_buffer_dirty() for that to warn about buggy filesystem code early.
+
+So what you did - handling shared buffers separately - is the right fix for
+the problem you were hitting.
 
 								Honza
 
-> ---
-> Christian Brauner (7):
->       proc: don't let an entry below /proc/<pid>/net be a mountpoint
->       proc: don't let /proc/self and /proc/thread-self be mountpoints
->       proc: don't let /proc/mounts and /proc/net be mountpoints
->       afs: create /proc/fs/afs with proc_self_symlink()
->       nfs: create the /proc/fs/nfsfs links with proc_self_symlink()
->       proc: explain which entries can't be mountpoints
->       selftests/proc: test which entries can't be mountpoints
+> The window
 > 
->  fs/afs/main.c                                   |   2 +-
->  fs/nfs/client.c                                 |   4 +-
->  fs/proc/generic.c                               |  31 ++++-
->  fs/proc/internal.h                              |  18 ++-
->  fs/proc/proc_net.c                              |   2 +-
->  fs/proc/root.c                                  |   2 +-
->  fs/proc/self.c                                  |   2 +
->  fs/proc/thread_self.c                           |   2 +
->  include/linux/proc_fs.h                         |   5 +
->  tools/testing/selftests/proc/.gitignore         |   1 +
->  tools/testing/selftests/proc/Makefile           |   1 +
->  tools/testing/selftests/proc/proc-unmountable.c | 150 ++++++++++++++++++++++++
->  12 files changed, 208 insertions(+), 12 deletions(-)
-> ---
-> base-commit: 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
-> change-id: 20261024-work-procfs-fixes-8b21a6d17448
+> mmb_sync() does, under mmb_A->lock:
 > 
+> 	__remove_assoc_queue(mmb, bh);	/* list_del_init, b_mmb = NULL */
+> 	smp_mb();
+> 	if (buffer_dirty(bh) || buffer_locked(bh)) {
+> 		list_add(&bh->b_assoc_buffers, &tmp);
+> 		bh->b_mmb = mmb;
+> 
+> Between the NULL store and the restore, mmb_mark_buffer_dirty(bh, mmb_B)
+> on another CPU sees !bh->b_mmb, takes mmb_B->lock (a different lock),
+> its cmpxchg(&bh->b_mmb, NULL, mmb_B) succeeds, and list_move_tail()
+> writes bh->b_assoc_buffers while CPU A's list_add() does the same.
+> The second loop of mmb_sync() has the same shape (remove, then
+> list_add back to mmb->list when still dirty).
+> 
+> The old mark_buffer_dirty_inode() took the bdev mapping's
+> i_private_lock, shared by every inode of the device, so the two
+> writers could not overlap. A per-mmb lock protects a buffer that
+> belongs to one mmb for life; it does not protect the moment a buffer
+> changes hands. The comment above the cmpxchg says it is there for a
+> corrupted filesystem with multiply claimed blocks, and the kernel-doc
+> says the buffer is added "if it is not already on a list": that is
+> exactly the case the window lets through, so a corrupted ext2, fat,
+> minix or udf volume in which two inodes claim one indirect block
+> should be able to reach it as well, given an fsync on one inode while
+> the other dirties the buffer.
+> 
+> What it does when it hits
+> 
+> With CONFIG_DEBUG_LIST, __list_del_entry_valid_or_report() refuses the
+> del, list_del_init() does nothing, and the first loop of mmb_sync()
+> is `while (!list_empty(&mmb->list))` on a list whose head never
+> leaves: the CPU spins holding mmb->lock. We lost the node to it
+> (soft lockup from 48 s up, then kmemleak and the OOM killer).
+> 
+>   list_del corruption. next->prev should be ffffa26a6e8d4820, but was ffffa26a63804190. (next=ffffa26a432e1238)
+>   WARNING: /lib/list_debug.c:65 at __list_del_entry_valid_or_report+0xf6/0x110, CPU#0: dbench/16440
+>   CPU: 0 UID: 0 PID: 16440 Comm: dbench Not tainted 7.3.0-rc7 #1 PREEMPT(lazy)
+>   Call Trace:
+>    __remove_assoc_queue+0x20/0x80
+>    mmb_sync+0xba/0x300
+>    beamfs_write_inode+0x45/0x190
+>    __writeback_single_inode+0x480/0x630
+>    writeback_single_inode+0x11d/0x4d0
+>    sync_inode_metadata+0x46/0x70
+>    simple_fsync_noflush+0x55/0x90
+>    simple_fsync+0x16/0x40
+>    do_fsync+0x50/0xc0
+>    __x64_sys_fsync+0x13/0x20
+>   [...]
+>   rcu: INFO: rcu_preempt self-detected stall on CPU
+>   RIP: 0010:mmb_sync+0xc0/0x300
+>   [...]
+>   watchdog: BUG: soft lockup - CPU#0 stuck for 48s! [dbench:16440]
+>   watchdog: BUG: soft lockup - CPU#0 stuck for 413s! [dbench:16440]
+> 
+> xfstests generic/241 (dbench) on a 4-CPU x86_64 guest, kernel vfs.all
+> at 2c3ba1f1cb41 with CONFIG_DEBUG_LIST, PROVE_LOCKING and kmemleak.
+> 
+> A thought, not a patch
+> 
+> The NULL is observable only because the buffer is unlinked and then
+> relinked. Keeping b_mmb set while the buffer merely moves between
+> mmb->list and tmp (list_move() instead of __remove_assoc_queue() plus
+> list_add(), clearing b_mmb only when the buffer is actually dropped as
+> clean and unlocked) would leave mmb_mark_buffer_dirty() nothing to
+> race with inside mmb_sync(); the lockless check would then see either
+> the old mmb or none, never a transient NULL on a buffer that is about
+> to come back. I have not written or tested that, and you know what
+> else looks at b_mmb.
+> 
+> If a fix is wanted, we can run it against the module as it was before
+> our change, on the same guest: that is where the race showed, and the
+> same test passes 24 of 24 trials with the shared buffers on one list.
+> 
+> Aurelien
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
