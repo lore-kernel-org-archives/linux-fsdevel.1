@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793051573;
-	b=KNGOEJ/8VLROB5koZgNFBep6qlPjr22DnknYCFn2xHNu+XSXr2EMVMIJZ1h4jNJzKuMc
-	 IBwbeKius8mYoMDQjQ8pi6xTPQan9pxcF3f1KKsamIHjQ5rV7GFHrkj4aiC3HHT+LM7He
-	 vR5rnQLwKVNSfUqpXXBh0ksXxGG9ESSfL//2og75ymDyg+IxZd/EPV29PRFk419kAqnvr
-	 kxt5HbtOhPlxfPQcgBh1qDFMkZ+A9A2QcJRsiefHuDRhX8mQuvXZGQUAsyY6OFAh2KsCM
-	 KRfomOvbsIX1NSrROBVB+S0peNhSspwZqC+2itUPGiNVN0ecmfVoZFzyNjDqfSDfGbg==
+	t=1793051580;
+	b=IaZh2lB/hLNZoTu8WkDAQ1uRVX6x44PbYTKoL9zJEzXSqhS/KOvdgsVUCoonhVzAsExz
+	 0DHc+FPlBnETzdH5NWD4oNKtltnaPwkzjCuRiA/mO2UJ979RcUNDIEf2a5pZHhTSZP/nf
+	 wJgtRlDj8CvEvhRgw2RO7Lsn8ajigxXPOUYq5M1HFhhdl47O0L0aHRcsF1AcZy1BHswFb
+	 uTt5paIx+vaCYVcgEhfgidfvG/os542VxDlSaZhetL1Ok6h/7XHKczjI5KL3aRm9SaUvJ
+	 P5S/SRVUhWFDjD1UuE7aaGWi0h5wUqwDog3gEsjTk9GYRX5TLVx/+d4CQoCxqAK5Jqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793051573;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793051580;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=OQEJn1r6phHG9JJTEKXNjl8UbrwqhLU2o1gcr6ks6C0=;
-	b=D1C+XayJqIJm2HRG8Ex5kzo4hhN/qKTFPRbug7s+XW63doo30M/IPdb6jp2hoYv349XX
-	 c9yrV2KuN/0c/oTdbYS44umbSOCrc5HMykfn7V8zkmqsQkUKJLZb2+6V2fT603TFukFCt
-	 fx50ouDEM0bkB04vEzFL0vRNMqwavhSWCVBZUhcdjDCXzXeg7zFaO0eDFjaNnVwO5Ys2d
-	 rcyRh1Av23GRhAYFWol2klSOxEKHzPXclIOQUCpPxzYIjjSBm5EyVlQKRhsw9lxuXlA91
-	 aB4Z9ggPt6THilzB1qnR+ePfLuVzh6Vhr62G1we8g4ZHlDA7hD38Z+PvWh7Xp7522MA==
+	bh=CxmWryDZw0sLLhu4Yu8pG4ro8w6TSaSVJ3F6CzsZUrg=;
+	b=yofOsYacdTLIlVXA+Ytj2rhOS0yeZmWYs1qvWY/wR6fBviYSp65Tj19EhFJt2W2t+ESG
+	 ipaXUYPzA29rUaPiVbyKrbNEZS2S77TnuP0mUkdgvH31KeNFkziUsd69q0pbH8ZajbrB/
+	 KU8iCqpXnfhFXVNSvexPHQopsUw+IhIzxx2MAcQvGM4CFX3A9BVvcSrDnOJkVkAgHTJag
+	 MHNJSmCwQUVG1ycaLu0NJ0qDKiaj4wnOuSPNonT+qwKSeCUm7l5elm2NwnkunTWP5vBKf
+	 7rFrmIBST1xX7mbXH/OOho5kNK50iCgRm0BbuDs69BBVP20jugJLGbERmjOUj3DmtuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=ApDjmBZ2;
-	arc=none smtp.remote-ip=209.85.216.70
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=vwBVk4Eg;
+	arc=none smtp.remote-ip=209.85.216.69
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFBDD60A382D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:52:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFBDD60A382D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B30060A5BCE
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:52:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B30060A5BCE
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=ApDjmBZ2
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3ac6795617aso3081258a91.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 14:52:52 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=vwBVk4Eg
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3adc5b185bfso3742017a91.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 14:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1793051572; x=1793656372; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1793051576; x=1793656376; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=OQEJn1r6phHG9JJTEKXNjl8UbrwqhLU2o1gcr6ks6C0=;
-        b=ApDjmBZ2P5IY9M07VtIw4q1PCPK6CpIgTYTWQMTnhd4WbvnSeK4y3f8atnn7QA9cjB
-         pATuIJVRmfxmUb6DVTcY2TSWeqihjk7sAkqWl2p7EJ+Outh4lOM6tfOP5bdm3xMdvvxm
-         Gz5j1WDaxuKn1Qo4ZRLEMmGLuAM8u+S9GjSAdvAH/B5Z9aOkw665P34Qp/haslR+DdAh
-         6Cf+TsLq3VxdxXfhvV5luqaTWzWAuM2gDcXBE0x9iCsw+vaQTyRrV4cFglmiecBVNbcN
-         5aCJa8Oo3N1GkKfrvyeHtHj7KXN2+Rosy5Vsb+br/0l+WNOkW/XGL3x3Tqqyd1sNMI9t
-         cLgw==
+        bh=CxmWryDZw0sLLhu4Yu8pG4ro8w6TSaSVJ3F6CzsZUrg=;
+        b=vwBVk4Eg09FolRMa6tRB7d5lsew1CjWLZH1mRph6PMJYmgjTNheP7Sd4o5eGAMvAyY
+         V6sX3O8qxifPaSM8SAimDe/+474bzlMc2Hcqs3VRVifNP9e/pO75qbo0cfoBQ/27vhk+
+         JXvvG9sZISWS1NB0aufLlMc0OIIJHXqaCUXAPnJL4/0XCYPBLthPEcFHCd3d1mhXVjBH
+         uW0/e9bzH62zgLC2NePzoB0tOVy9OUIaj99j0tsvFGNNDGBEBfG+TbAY7CA/G1KN9e2s
+         0j7vDCaNYVA+byW3gUlOfgD/e4GxYBsUCGsfK3BvvvyuSSHn51A+ijlMc9HrDdl/yQvB
+         Gu+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793051572; x=1793656372;
+        d=1e100.net; s=20260707; t=1793051576; x=1793656376;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OQEJn1r6phHG9JJTEKXNjl8UbrwqhLU2o1gcr6ks6C0=;
-        b=AWWfBi6tv5os5PoyzHYhql4v+ZdxANmSm1p/vtfABpjF/xUgUFxa1ToaZn7B2+rd8i
-         OrkemuBigR++30iFprIZiWpQO0MXPKqZCFBp+OkjNaEVxhMNMicVAfZfOvMw09/HFAsF
-         0mKUDryiqREX/H1ems/QTmb61FHydsJOhKclW9uSDeBM6wML5DFskwSv69UBYThj1wR1
-         559QzT0YhT+CzESNvO/1ut/yIz/pxRkOH2mBhwKOIlzdmQ1U1RZmHcROdWYtFKoUpoY/
-         RefyLlYggV6iy1CHKeVNZ0fWpunWbXL+ij4MnNu+06RZEb2WxmciMsI2MqklMkPLXLXj
-         w1RA==
-X-Forwarded-Encrypted: i=1; AKwUvBxt5KilIIP+6LzxVyHkQmlSe7N92F+JB0QX9N/xlE4wzRIgfg+U9EG7le2nA9EGE+VxsGUaLCWuUhbFCaJI@vger.kernel.org
-X-Gm-Message-State: AFq9FYIfFhKgDQjSLx/6JaeoXXvkTIwX0d62zkeOr8dj8Ebb6cYhUYJw
-	2TxC2dSMGBrK4OO0xdyhVQq/lfKSe/orDzh+41hrTtOr+qLrCg0TZlkS5pQzzDyzMmGvbn36CVf
-	Qnk5J68Ss/oGOGKyJ0JXSWw==
-X-Received: from pjbee5.prod.google.com ([2002:a17:90a:fc45:b0:3ad:f864:f94f])
+        bh=CxmWryDZw0sLLhu4Yu8pG4ro8w6TSaSVJ3F6CzsZUrg=;
+        b=g/JC7ziRFbIPu9RW0Js3tvaYifOg5bNdjw5EFkUrYmNWMamPOk57LJhNKUdOjscRJx
+         00tzFpnzglv4y14z53yiyHL7/De1jqi87O/1k2lM1t8z3Yz8xuq1tJpKSvRd6j3aDNMx
+         dT0QpLoGLsj36FeFtyyVIZkAg/uVSzd2SmG/Vl9yxDC08qO8sJPwSCHRu/iG0pCrr+FH
+         Y/qdRT3vN4N3h6JLTMY+TD6kpJ3ekVLreLDrmVKd4gSi8128ebdKbUt6npzlkOkMIDGD
+         PrwOcFSNbXNAxx+mGVprkBXHD0yNc//R3vVjZWC4k0n0c8evGLc1xFKXzOuToxcr6BKv
+         k6Xw==
+X-Forwarded-Encrypted: i=1; AKwUvBzi0+COZ/YnI3oRhNkdCfRg+jSEA2sEJ55oiNRE+7rDEiITUgQH0UCBydaBJinrU5lmG/cWsxr4seQ4dSkO@vger.kernel.org
+X-Gm-Message-State: AFq9FYJUH7jEHmMfQwCpGzypzygY5b60a0tdFS/J9sLGIVr92TZjW8YT
+	yS93d5L04eBSWqR14KBp3dOMkGh4ALIQYQ7/R0nbOYm8O7bmp27vnpk4XRPRJGX+sHQvud4hVvy
+	c3QhR9FeOivNah+8SYy/K2A==
+X-Received: from pjuy5.prod.google.com ([2002:a17:90a:d705:b0:3a8:211b:6c8b])
  (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:4d8c:b0:3ac:a521:95e with SMTP id 98e67ed59e1d1-3adead4f7ebmr6876350a91.47.1793051572060;
- Mon, 26 Oct 2026 14:52:52 -0700 (PDT)
-Date: Mon, 26 Oct 2026 21:52:21 +0000
+ 2002:a17:90b:3b8f:b0:3ac:450a:f9d4 with SMTP id 98e67ed59e1d1-3adeb16364bmr7181921a91.64.1793051575471;
+ Mon, 26 Oct 2026 14:52:55 -0700 (PDT)
+Date: Mon, 26 Oct 2026 21:52:25 +0000
 In-Reply-To: <20261026215226.3713941-1-jthoughton@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,8 +81,9 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261026215226.3713941-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
-Message-ID: <20261026215226.3713941-6-jthoughton@google.com>
-Subject: [RFC PATCH 05/10] perf/core: Don't unwind the user stack without an mm
+Message-ID: <20261026215226.3713941-10-jthoughton@google.com>
+Subject: [RFC PATCH 09/10] uaccess: Refuse and warn on more user accesses
+ without an mm
 From: James Houghton <jthoughton@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>
 Cc: Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>, 
@@ -105,54 +106,117 @@ Cc: Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ke
 	linux-kernel@vger.kernel.org, James Houghton <jthoughton@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-get_perf_callchain() only checks is_user_task(current) when the regs it
-is given aren't user mode regs. However, BPF's bpf_get_task_stack() (and
-bpf_get_task_stack_sleepable()) pass task_pt_regs(current) when called on
-the current task, which are user mode regs for a user task, even if that
-task has already gone through exit_mm(), e.g. when called from a program
-attached to exit_files() or to the dying task's final sched_switch.
+Several generic user access paths don't go through the copy helpers
+that check for a NULL current->mm. Add the uaccess_without_mm() check to
+them as well, so that they warn and fail without attempting the access:
 
-perf_callchain_user() then unwinds the user stack without an mm. That
-access does not reliably fail: the user half of the address space
-belongs to whatever mm happens to be lazily loaded, if any, so the
-unwinder may read another task's memory. This affects e.g. arm64,
-riscv, loongarch and csky, whose perf_callchain_user() doesn't check
-current->mm itself. perf events themselves are not affected, as
-perf_callchain() already clears the user callchain request when
-current is not a user task with an mm.
+ - __scoped_user_access_begin(), covering scoped_user_*_access() and
+   get_user_inline()/put_user_inline() on all architectures, including
+   when masked user access is used.
+ - strnlen_user().
+ - check_zeroed_user().
+ - The iov_iter user copy routines that call into architecture-specific
+   helpers: copy_to_user_iter_mc() (copy_mc_to_user()),
+   copy_from_user_iter_nocache() (copy_from_user_inatomic_nontemporal()),
+   copy_from_user_iter_flushcache() (copy_from_user_flushcache()) and
+   zero_to_user_iter() (clear_user()).
 
-Check is_user_task(current) regardless of the regs' mode.
+Only check for a NULL mm here rather than using uaccess_should_fail(),
+so as not to start injecting failures in these paths.
 
-Fixes: fa28dcb82a38 ("bpf: Introduce helper bpf_get_task_stack()")
+Paths implemented entirely by architectures, e.g. get_user(),
+put_user(), clear_user(), and direct users of user_access_begin() or
+masked_user_access_begin(), are still not covered.
+
 Signed-off-by: James Houghton <jthoughton@google.com>
 ---
- kernel/events/callchain.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ include/linux/uaccess.h | 2 ++
+ lib/iov_iter.c          | 8 ++++++++
+ lib/strnlen_user.c      | 3 +++
+ lib/usercopy.c          | 3 +++
+ 4 files changed, 16 insertions(+)
 
-diff --git a/kernel/events/callchain.c b/kernel/events/callchain.c
-index 9d24b6e0c91f..a451ca2a5573 100644
---- a/kernel/events/callchain.c
-+++ b/kernel/events/callchain.c
-@@ -245,11 +245,15 @@ get_perf_callchain(struct pt_regs *regs, bool kernel, bool user,
- 	}
+diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
+index eae204f7261b..7d26d2de9599 100644
+--- a/include/linux/uaccess.h
++++ b/include/linux/uaccess.h
+@@ -781,6 +781,8 @@ static __always_inline void __scoped_user_rw_access_end(const void *p)
+ ({									\
+ 	typeof(uptr) __retptr;						\
+ 									\
++	if (uaccess_without_mm())					\
++		goto elbl;						\
+ 	if (can_do_masked_user_access()) {				\
+ 		__retptr = masked_user_##mode##_access_begin(uptr);	\
+ 	} else {							\
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 21e2ccf1e8f2..a0769874241c 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -204,6 +204,8 @@ static __always_inline
+ size_t copy_to_user_iter_mc(void __user *iter_to, size_t progress,
+ 			    size_t len, void *from, void *priv2)
+ {
++	if (uaccess_without_mm())
++		return len;
+ 	if (access_ok(iter_to, len)) {
+ 		from += progress;
+ 		instrument_copy_to_user(iter_to, from, len);
+@@ -277,6 +279,8 @@ static __always_inline
+ size_t copy_from_user_iter_nocache(void __user *iter_from, size_t progress,
+ 				   size_t len, void *to, void *priv2)
+ {
++	if (uaccess_without_mm())
++		return len;
+ 	return copy_from_user_inatomic_nontemporal(to + progress, iter_from, len);
+ }
  
- 	if (user && !crosstask) {
--		if (!user_mode(regs)) {
--			if (!is_user_task(current))
--				goto exit_put;
-+		/*
-+		 * Even if @regs are user mode regs, e.g. task_pt_regs(current)
-+		 * passed in by bpf_get_task_stack(), current may already have
-+		 * gone through exit_mm().
-+		 */
-+		if (!is_user_task(current))
-+			goto exit_put;
-+		if (!user_mode(regs))
- 			regs = task_pt_regs(current);
--		}
+@@ -296,6 +300,8 @@ static __always_inline
+ size_t copy_from_user_iter_flushcache(void __user *iter_from, size_t progress,
+ 				      size_t len, void *to, void *priv2)
+ {
++	if (uaccess_without_mm())
++		return len;
+ 	return copy_from_user_flushcache(to + progress, iter_from, len);
+ }
  
- 		if (defer_cookie) {
- 			/*
+@@ -451,6 +457,8 @@ static __always_inline
+ size_t zero_to_user_iter(void __user *iter_to, size_t progress,
+ 			 size_t len, void *priv, void *priv2)
+ {
++	if (uaccess_without_mm())
++		return len;
+ 	return clear_user(iter_to, len);
+ }
+ 
+diff --git a/lib/strnlen_user.c b/lib/strnlen_user.c
+index 4a6574b67f82..45709798eb8f 100644
+--- a/lib/strnlen_user.c
++++ b/lib/strnlen_user.c
+@@ -96,6 +96,9 @@ long strnlen_user(const char __user *str, long count)
+ 	if (unlikely(count <= 0))
+ 		return 0;
+ 
++	if (uaccess_without_mm())
++		return 0;
++
+ 	if (can_do_masked_user_access()) {
+ 		long retval;
+ 
+diff --git a/lib/usercopy.c b/lib/usercopy.c
+index e2f0bf104a59..9146c729c47a 100644
+--- a/lib/usercopy.c
++++ b/lib/usercopy.c
+@@ -48,6 +48,9 @@ int check_zeroed_user(const void __user *from, size_t size)
+ 	if (unlikely(size == 0))
+ 		return 1;
+ 
++	if (uaccess_without_mm())
++		return -EFAULT;
++
+ 	from -= align;
+ 	size += align;
+ 
 -- 
 2.56.0.307.g5fe7bd680c-goog
 
