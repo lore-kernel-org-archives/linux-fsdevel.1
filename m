@@ -1,108 +1,106 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793029018;
-	b=f3YEb5lEn7JwcP/f9rtYZMQuHXudZnVUCAdKw3Zroz6mrCyzU39Tc10qvikjps7oPCIm
-	 m2XWxOsQoSxoJiG8zfKfioKfnfxImbcYG50nUmJNaAXfyTVdXVykwLP4Pv0h6xctJZ2zf
-	 bTH8XnHRJqG2jZok1nqU6eMc6tBYQCH5KNwVLCy2CWgvRVlAeTLSiNvkDdJe9L8YJroha
-	 tvcPSo3fPT1g7OYOqpBSy0VPsazSmIeMZz+JM6GGHxQXfqsoIG4QELcrHIt1mdmxkbgTo
-	 mR3f3gOfz7ABhT0X82WEMe39rLNYBSPU84RqledBemDU6QNGEl1d4TRDzH/vf5Wr4cw==
+	t=1793029185;
+	b=Y0HNlR861+XkxGepdAnycWMHaVJCunKYgdfNO6jtElI3LW9wiolvBPDpSyvwfRe/kDWa
+	 ah+gS52gkYMaud3Y34s6guUsiHbMdNjl2tkfMSPqeUhhg4bF9Banyhow8/ylxrOqAm3OJ
+	 WAtPJ65cJN7LdJdjkegTW+7rZ+Vi3yGfvxfe8sbIvoa9p0N228eLvPsVnQzNh1r3aWUQk
+	 tobwjFwXx9jP5IYfkyDXV6KTtGq3mD0TwNHnpQGGOxbDisSV7oHj2Mmtp0nuxOqKh0uE9
+	 ZXZS2Fi4aGPf1BIxCh+ayXUc+BGXbd0eTv6J70j4VZap6755zq0jhyAuMnjmoeM5xxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793029018;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793029185;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:From:To:Cc:Subject:In-Reply-To:
-	 Organization:References:Date:Message-ID:MIME-Version:Content-Type:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=cF2LelxJ3MDx6ecMIAXwpCiisZ4MqO9Mbe0g8HDsS6s=;
-	b=k73SJMCfYVAxm899nETXLEYMjVpYhPg4tipfnrev+/pC4kMqf3hUhKoVa6CzQsBENRkP
-	 ubl1DZu3GaeNItx2Li5yRUc6a+EBd5ZRR0+tWcVlNdlFeP3I4JB6hOMCRnBUYGW5vmM+n
-	 gxI0oHuBkYv5Pkp84J8jmng3vc6iZqZG0Gti1aMEEayBDZdKBiA9Utlro50Ry9uyVMznB
-	 k64Z86+MsyIICvKsxRnGnAFatStjlJm7y88k5aVWYp0oUX9GqYufJVispjfutE2zoUiN0
-	 /AlK98IV2Ta67ijQhdk2YNYMIwZB0vZ6XeY/qOC8Wl6pHwvGze0LHwl9Kv/yy8V2azg==
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=D05ewPEuAJZzEFDiKa2w3FtXGZkgmoPcWa67JO5EvJ0=;
+	b=BwMCq2TDjxE2dYIYLet5KCuHN1SQ2UWr7P+t5afbOzbdYo8pIy7BjJqKXXlXm6c32laf
+	 jUpkhj6YwXWHD271N6ukcGNJXsAAWlfVJb8vid3PmNF0mzyPgwbF3yjS2G34oThql6o1i
+	 z4aDkSiuT851WEaHdq2C/Ar3GNL+C1bFuCQbjUYJYULSRIH4dynioWAuvNCMTg9+u1aXu
+	 s5dl3mFK+w/iGUZ/WIkb534sY8YvKeDGFEKuIm+5nGRMzatam5j050COHCT9t9N2mWXQQ
+	 baJdHptnOBfQDMgNbRRUP4BtVrBPdTrmsjpBEriAAqw3QxOiEd1uxSXzSbgYJI+bt/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="iAXN/Nag";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JNbRYef1;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="iAXN/Nag";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JNbRYef1;
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=HnEVeoAb;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PDoVoGk1;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=HnEVeoAb;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PDoVoGk1;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831BD606A31A;
-	Mon, 26 Oct 2026 15:36:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 831BD606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8598606A31A;
+	Mon, 26 Oct 2026 15:39:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8598606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=iAXN/Nag;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JNbRYef1;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=iAXN/Nag;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JNbRYef1
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=HnEVeoAb;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PDoVoGk1;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=HnEVeoAb;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PDoVoGk1
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CB4C422006;
-	Mon, 26 Oct 2026 15:36:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793029015; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0D98F21FEA;
+	Mon, 26 Oct 2026 15:39:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793029183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cF2LelxJ3MDx6ecMIAXwpCiisZ4MqO9Mbe0g8HDsS6s=;
-	b=iAXN/Nag4cQ5zMf3PtgdB40d+rYxX9JJN392R9AezuxUIItNEQ/LY77WUmZXGiI+Kau6jF
-	EUjwcW/0CsKEYhNOhVu/Klm1vydI+Krvw9KcB/8R3CZnxZjAewQxYpXaduCDyngii1qj+O
-	93ayObOHgbUgLno/tEFsOXWtAD5Y1dA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793029015;
+	bh=D05ewPEuAJZzEFDiKa2w3FtXGZkgmoPcWa67JO5EvJ0=;
+	b=HnEVeoAbWTDhutgYy79N1iz1CKHRSTQ3U5LK2i6Y20S5DdKCAC2bscupYcqD7fPdM+OW2T
+	h89vV4z1NQt2gQvMgLPjRRAGOR/NWVIEnhuKgJmtvVjd9yYJ+3naafmyfnXf3dffEg8Ctv
+	emqeCNJs4wiYbqNLNWmRx9+OHgsCENQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793029183;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cF2LelxJ3MDx6ecMIAXwpCiisZ4MqO9Mbe0g8HDsS6s=;
-	b=JNbRYef1E6RPpmJFcMsn/WUm7pdSpJLIiRoVJ+/h1NgtY/IBx57KvXgX79gIHfUFPKx1ml
-	xZApWHb5f0C9gTCA==
+	bh=D05ewPEuAJZzEFDiKa2w3FtXGZkgmoPcWa67JO5EvJ0=;
+	b=PDoVoGk1X9qDtU+NargLh4ZpL//Na8zTy7o4AyxW2RMmMV8rROf54NeI4Oz5JnPQvkVk+b
+	C2S38ewYTlE2rgCg==
 Authentication-Results: smtp-out1.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793029015; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793029183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cF2LelxJ3MDx6ecMIAXwpCiisZ4MqO9Mbe0g8HDsS6s=;
-	b=iAXN/Nag4cQ5zMf3PtgdB40d+rYxX9JJN392R9AezuxUIItNEQ/LY77WUmZXGiI+Kau6jF
-	EUjwcW/0CsKEYhNOhVu/Klm1vydI+Krvw9KcB/8R3CZnxZjAewQxYpXaduCDyngii1qj+O
-	93ayObOHgbUgLno/tEFsOXWtAD5Y1dA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793029015;
+	bh=D05ewPEuAJZzEFDiKa2w3FtXGZkgmoPcWa67JO5EvJ0=;
+	b=HnEVeoAbWTDhutgYy79N1iz1CKHRSTQ3U5LK2i6Y20S5DdKCAC2bscupYcqD7fPdM+OW2T
+	h89vV4z1NQt2gQvMgLPjRRAGOR/NWVIEnhuKgJmtvVjd9yYJ+3naafmyfnXf3dffEg8Ctv
+	emqeCNJs4wiYbqNLNWmRx9+OHgsCENQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793029183;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cF2LelxJ3MDx6ecMIAXwpCiisZ4MqO9Mbe0g8HDsS6s=;
-	b=JNbRYef1E6RPpmJFcMsn/WUm7pdSpJLIiRoVJ+/h1NgtY/IBx57KvXgX79gIHfUFPKx1ml
-	xZApWHb5f0C9gTCA==
+	bh=D05ewPEuAJZzEFDiKa2w3FtXGZkgmoPcWa67JO5EvJ0=;
+	b=PDoVoGk1X9qDtU+NargLh4ZpL//Na8zTy7o4AyxW2RMmMV8rROf54NeI4Oz5JnPQvkVk+b
+	C2S38ewYTlE2rgCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 56F0C13408;
-	Mon, 26 Oct 2026 15:36:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF43C13408;
+	Mon, 26 Oct 2026 15:39:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id E23TBZdz32pSfwAAD6G6ig
-	(envelope-from <krisman@suse.de>); Mon, 26 Oct 2026 15:36:55 +0000
-From: Gabriel Krisman Bertazi <krisman@suse.de>
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-xfs@vger.kernel.org, "Christian Brauner (Amutable)"
- <brauner@kernel.org>
-Subject: Re: [PATCH 0/2] dcache: don't leave negative dentries in casefolded
- directories
-In-Reply-To: <20261023-work-dcache-casefold-v1-0-1b0bd5c73a69@kernel.org>
-Organization: SUSE
-References: <20261023-work-dcache-casefold-v1-0-1b0bd5c73a69@kernel.org>
-Date: Mon, 26 Oct 2026 11:36:53 -0400
-Message-ID: <87y0bkqxre.fsf@mailhost.krisman.be>
+	id otRjMD5032oUAwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 15:39:42 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 3C5ECA1419; Mon, 26 Oct 2026 16:39:38 +0100 (CET)
+Date: Mon, 26 Oct 2026 16:39:38 +0100
+From: Jan Kara <jack@suse.cz>
+To: Hongyu Jin <hongyu.jin.cn@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, jack@suse.cz, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [RESEND PATCH] writeback: don't requeue inode already on b_dirty
+Message-ID: <xbfjoavzv74apeefktnyeapj6rnhkxxpcb47f4ffezq2bx2qzd@enb63e3ypf7u>
+References: <20261023023707.263101-1-hongyu.jin@unisoc.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -112,70 +110,164 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-13.30 / 50.00];
+Content-Type: multipart/mixed; boundary="rzkagmlapmodioo3"
+Content-Disposition: inline
+In-Reply-To: <20261023023707.263101-1-hongyu.jin@unisoc.com>
+X-Spamd-Result: default: False [-11.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
 	ARC_NA(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+,1:+,2:+];
 	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	URIBL_BLOCKED(0.00)[suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,unisoc.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -13.30
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	HAS_ATTACHMENT(0.00)[]
+X-Spam-Score: -11.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Christian Brauner <brauner@kernel.org> writes:
 
-> ext4, f2fs and tmpfs keep negative dentries out of casefolded
-> directories. A negative dentry remembers one spelling of the name and
-> the next create() through it would write that spelling to disk.
->
-> So their ->lookup() doesn't cache a miss and their ->unlink() and
-> ->rmdir() call d_invalidate() on the dentry so that d_delete() doesn't
-> turn it into a negative dentry.
->
-> But d_invalidate() is the wrong primitive for that. It's for a name that
-> went stale. It walks the subtree, prunes it and detaches every mount it
-> finds, under namespace_sem, and here that runs from inside the
-> filesystem's own directory operation. ext4_rmdir() does it with the
-> journal handle still open and ext4_unlink() does it even when the
-> unlink failed. All anyone wanted is the unhash.
->
-> So d_delete() now unhashes the dentry when the parent is casefolded,
-> next to the dentry-negative sysctl that does the same for every
-> directory. ext4, f2fs and tmpfs drop their d_invalidate() calls.
->
-> xfs's ascii-ci doesn't set S_CASEFOLD and can't so it d_drop()s instead.
-> I did consider setting S_CASEFOLD on ascii-ci directories and didn't.
-> overlayfs warns when a layer's casefold flag disagrees with the
-> superblock having an encoding, and xfs has none.
->
-> Nothing changes for userspace. A miss still isn't cached and a removed
-> name still leaves no negative dentry behind. Verified with the same
-> create, unlink, create, readdir and stat sequence in a plain and in a
-> casefolded directory on tmpfs and on ext4, before and after.
+--rzkagmlapmodioo3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I think the change looks fine and it passed fstests.
+On Fri 23-10-26 10:37:07, Hongyu Jin wrote:
+> Since commit 846a3351ddfe ("writeback: Avoid skipping inode writeback"),
+> writeback_single_inode() calls redirty_tail_locked() for any inode left
+> dirty. When that inode is already on b_dirty and older than the newest
+> inode there, redirty_tail_locked() moves it to the head and stamps
+> dirtied_when with jiffies.
+> 
+> Append to an f2fs file so the i_size update puts it on DIRTY_META, and
+> dirty a newer inode before each checkpoint. Every 17s the checkpoint
+> syncs that file and redirty_tail_locked() stamps a new dirtied_when.
+> 17s is shorter than the default 30s dirty_expire_interval, so kupdate
+> never expires it. Dirty pages pile up until writeback or fsync().
+> 
+> An inode that was I_DIRTY on entry is already on b_dirty, so only
+> redirty it if it was not. The b_dirty_time case fixed by commit
+> 846a3351ddfe ("writeback: Avoid skipping inode writeback") enters without
+> I_DIRTY and is still handled.
+> 
+> Fixes: 846a3351ddfe ("writeback: Avoid skipping inode writeback")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hongyu Jin <hongyu.jin@unisoc.com>
 
-Reviewed-by: Gabriel Krisman Bertazi <krisman@suse.de>
+I was mulling over this for quite some time (which is why I didn't reply to
+your patch earlier - plus the fact that currently there a *lot* of things
+going on). I agree the current behavior is problematic - in particular that
+if sync_inode_metadata() is called frequently enough, we never get to
+kupdate style data writeback.
 
-Of course, the better approach would be to enable negative dentries
-but the last attempt went sideways, though not for any good reason.
+But I wasn't quite sure your fix is correct. In the end I've convinced
+myself it is fine but we can actually go even further and remove the
+redirty_tail() logic altogether. So I'm now testing the attached patch.
+If my testing passes, I'll send it for inclusion.
 
-thanks!
-
+								Honza
 -- 
-Gabriel Krisman Bertazi
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
+
+--rzkagmlapmodioo3
+Content-Type: text/x-patch; charset=us-ascii
+Content-Disposition: attachment;
+	filename="0001-writeback-Avoid-postponing-periodic-data-writeback-i.patch"
+
+From 4261c07e3cb809f9bfac3b1da529b21bcd9da42d Mon Sep 17 00:00:00 2001
+From: Jan Kara <jack@suse.cz>
+Date: Mon, 26 Oct 2026 16:16:15 +0100
+Subject: [PATCH] writeback: Avoid postponing periodic data writeback
+ indefinitely
+
+Hongyu Jin has reported that f2fs periodically calls
+sync_inode_metadata() for some inodes. The logic in
+writeback_single_inode() thus periodically calls to redirty_tail() and
+the inode's dirtied_when timestamp never gets old enough for the inode
+to be eligible for periodic data writeback. Thus dirty data from it is
+only ever written on explicit request (fsync(2), sync(2), unmount) or
+on dirty limit pressure.
+
+The redirty_tail() logic in writeback_single_inode() actually should not
+be necessary. Since this function is used only for once-off writeback,
+there's no need for any livelock protection among inodes and
+writeback_single_inode() is only responsible for demoting inode to "less
+dirty" list based on dirty bits cleared as a result of writeback. So
+remove the redirty_tail() logic and add a comment explaining the rules.
+
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/fs-writeback.c | 35 ++++++++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 13 deletions(-)
+
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index 58a6403780aa..de86c9055ffb 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -1946,22 +1946,31 @@ static int writeback_single_inode(struct inode *inode,
+ 	 * as it can be finally deleted at this moment.
+ 	 */
+ 	if (!(inode_state_read(inode) & I_FREEING)) {
++		enum inode_state_flags_enum istate = inode_state_read(inode);
++
+ 		/*
+-		 * If the inode is now fully clean, then it can be safely
+-		 * removed from its writeback list (if any). Otherwise the
+-		 * flusher threads are responsible for the writeback lists.
++		 * __mark_inode_dirty() is responsible for promoting inode to
++		 * the proper list (b_attached -> b_dirty_time -> b_dirty).
++		 * Here we are responsible for demoting inode after some dirty
++		 * bits were cleared.
++		 * 
++		 * If the inode is now fully clean, then it can be safely moved
++		 * to b_attached list. If the inode is dirty, we don't want to
++		 * touch it - it should be already put to the dirty list by
++		 * __mark_inode_dirty() and we'd just unnecessarily clobber the
++		 * dirtied_when stamp (which is particularly problematic when
++		 * we were called from sync_inode_metadata()). We also cannot
++		 * touch the dirty list association when I_SYNC_QUEUED is set
++		 * and flush worker is responsible for it. Otherwise move the
++		 * inode to b_dirty_time list as that's the only remaining
++		 * possibility.
+ 		 */
+-		if (!(inode_state_read(inode) & I_DIRTY_ALL))
++		if (!(istate & I_DIRTY_ALL))
+ 			inode_cgwb_move_to_attached(inode, wb);
+-		else if (!(inode_state_read(inode) & I_SYNC_QUEUED)) {
+-			if ((inode_state_read(inode) & I_DIRTY))
+-				redirty_tail_locked(inode, wb);
+-			else if (inode_state_read(inode) & I_DIRTY_TIME) {
+-				inode->dirtied_when = jiffies;
+-				inode_io_list_move_locked(inode,
+-							  wb,
+-							  &wb->b_dirty_time);
+-			}
++		else if (!(istate & I_SYNC_QUEUED) && !(istate & I_DIRTY)) {
++			WARN_ON_ONCE(!(istate & I_DIRTY_TIME));
++			inode->dirtied_when = jiffies;
++			inode_io_list_move_locked(inode, wb, &wb->b_dirty_time);
+ 		}
+ 	}
+ 
+-- 
+2.51.0
+
+
+--rzkagmlapmodioo3--
