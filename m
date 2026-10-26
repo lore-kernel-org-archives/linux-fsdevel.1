@@ -1,58 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.223
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793043611;
-	b=qzKoEqzuz9CIXmtBuFAA9USz1PlxIEuulzBEeBcgkkyxMFLGxRTcIwFB/2Xsat0RGe6n
-	 Ee1XIyKEaa9dTU0iqkJVYrkIeF8mHHZgeSR/uOv06+0WbGyBNOanYryDexzasEMIx7eDp
-	 /0Hu2o1/oOD5T3warOcHRaixncQpuxMdnKkp9b++KDKpZSPoTSM4RZQUNEygv0a3Y3GRs
-	 E3lqBnvEcPVC7IMe7ZJiS7tMVAZTJzVagwF0+M0HlzjArm2pKEcLdzQSt46CyecDDB6wl
-	 j9wUI7RjmSHOwbl3+kIKalH2NCbP5YM2I41vsYLW6W3IYc1YnJ0ku96wp2wXUQtJt9g==
+	t=1793044178;
+	b=accgCRw5oimoh8udZZ/Naf49xsR5yzOyAhOSs+GISKUpl4zK0MsflUgXW9XLCeBeqpPi
+	 vEHcD7gF70QEwVG8usLj+41TzNZrn2eADk+Jy+sXjbnLyhdZOjlUJzRcd23ZMZQ0yuNoH
+	 pFygSwRpBE1zYcarj5ktl7jebXCheux1L5bngYTJP0B0cEGOeOWRkIXPOZZZMCLZv/ash
+	 00iU7m6ICVC7iPfg1MEBDfKAmYYc0jilqOCXzCjYXEp8dGvw/UuF5wKBzYZpmRsxj37pn
+	 URl2EcWgbkIJ2Z4k/io0E7HhTCBIr15q9lUVS/5vlRVToYSCdlDC6t4Jcsq+hKUcv1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793043611;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=ffTkvk1rfJfkBRMi2MyNyvy85ELVUN80pjUBdv6nFjQ=;
-	b=q0Q8ON1tH5WDuP6ztHIg8wMCgb3O37oPsyTIGc4o3di5n3bH9KSfoFTdPQ2SwgCVP6E3
-	 WDvRAqxoTK55kPvyy5poraXx4PLoZIMp5JSSKDAAHKNlQREYsky0aOVBFArs/7WSnYJRh
-	 0nMV4bJmCIwU/nb6jpogiBE0fs5PuDSAyGe7vdNu8oP84XsR15AzV6A5p3x0Z4OxbI0NQ
-	 UgPpWwL0pxthB5wLQbl708JdJ7h48TR6Qi76D37GngTZDC2/B8ksiug/6r1PXcJK+zCRZ
-	 46ZJz7RqHsY7zHiLvadBqhDed3MC82bjqV+7F4vs32hGuNmOpdyVi4I8SHBPtTbaOsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793044178;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=s5o1JfZ8s8OZpHikjU8eofXmAg3HiXGsG3uK535DyTU=;
+	b=glRecAsZHPG1rAIKnxFBfUuc5US8fMiXlcCfPH0+z4ng3N+I+F41Mha4zKCmK53P16Sk
+	 Y4u20u6Gz6mb7e9DheKnhcM19nkSEggHFjBEN8KsTJEzd/ZTsKM3vbvgr4df0MbtbJrvY
+	 knM9S8M4lGT9LHsT3LZ7C11iNOjaaGSGlgJA2BIEDmmkUz6a2EWKMUc9fNkAUwUZflAbM
+	 Qwm1BstEqElZjRYvMT7ZEMUEAcApwXC50ZpbX4Lrs34PLAS/+423rYdbp0EbyduoyUlrM
+	 D6y6G8rUikypmIeXuu/DC0VVZDCQ/cwvVjQy/9ETSY4qwVwzEcnO0Fg1IRhxZz8ZnDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XgaP1jU+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=p1Kpo35T;
+	arc=none smtp.remote-ip=91.218.175.223
+Received: from mta0.migadu.com (out-223.mta0.migadu.com [91.218.175.223])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802B7606A31A;
-	Mon, 26 Oct 2026 19:40:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21959606A31E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 19:49:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21959606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XgaP1jU+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20A871F01825;
-	Mon, 26 Oct 2026 19:40:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793043611;
-	bh=ffTkvk1rfJfkBRMi2MyNyvy85ELVUN80pjUBdv6nFjQ=;
-	h=From:To:Cc:Subject:Date;
-	b=XgaP1jU+fEN5sj227lCA0SM9/qpJGUvQKwKiGM3vBlDlz+4CpL3cY1yrj077URtNj
-	 KXhYyjqSQJychUZoMfLqhca1sze7H8ryzKN8mWOFQbdTCRzEUcUG2tAuSGiRioWmPl
-	 UNwjjnjMLuhh6+JI/9zY4kbkIzrLIioAihjS4SOPMNnLquYfPMZ6tMNbo7D+w/Qdpc
-	 Y7uUUz+SDsKcRxTluzAlwFW/Fy3NEui+vf+4qXwgscaf4ef0Jl8ZhMhwFPKPUAfafQ
-	 0Qv8+TsieREg7fX41hB1unf2am5U5TnkepZG3fLzGXWW9zyduaCv/fdtTcsmJHibQ5
-	 T6el0LjF7+ixw==
-From: Sasha Levin <sashal@kernel.org>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Luis Henriques <luis@igalia.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] selftests/fuse: add the missing symlink caching test
-Date: Mon, 26 Oct 2026 15:40:08 -0400
-Message-ID: <20261026194008.274349-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=p1Kpo35T
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=PjbJJelvVJ6B6cPqisk1DgDrVh3aptAEhIYn4TN7GLU=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793044175; v=1; x=1793648975;
+ b=p1Kpo35TcU+dvKKO1OILqLn4Ac+xPSxW4VbLgPyK8twr003AqiowVmd19eSOLykKahuAZt8G
+ rv3DCRqvRvddEJI8oRSgo84hrpRND4h8nOWoGzfsCeFPOStRuERl/9sm6hF6/7LfcZt/KIcfc7T
+ JJr2HxM5YHZqSSzplN5+LOmA=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id efdcd7248784fbba;
+	Mon, 26 Oct 2026 19:49:35 +0000
+X-Mizu-Trace-ID: efdcd7248784fbba
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 26 Oct 2026 20:49:26 +0100
+From: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
+To: Qu Wenruo <wqu@suse.com>
+Cc: linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, da.gomez@kernel.org, 
+	gost.dev@samsung.com
+Subject: Re: [PATCH] iomap: only follow dio alignment requirement if specified
+Message-ID: <at-p1QXETaTvvj_r@quentin>
+References: <9fae60fcce5ae356deef5e38931124b9634dba3b.1792997261.git.wqu@suse.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,206 +64,74 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9fae60fcce5ae356deef5e38931124b9634dba3b.1792997261.git.wqu@suse.com>
 
-Commit 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
-registered fuse_symlink_cache_test in the fuse selftest Makefile and
-.gitignore, but the test source was not part of the applied commit, so
-building the fuse selftests fails:
+On Mon, Oct 26, 2026 at 05:18:13PM +1030, Qu Wenruo wrote:
+> 
+> [CAUSE]
+> The failed command of fsx is COPY_RANGE:
+> 
+>  copy range: 0x6800 to 0xa200 at 0x3f200
+>  do_copy_range:: Resource temporarily unavailable
+>  LOG DUMP (8 total operations):
+>  1(  1 mod 256): SKIPPED (no operation)
+>  2(  2 mod 256): SKIPPED (no operation)
+>  3(  3 mod 256): WRITE    0x14400 thru 0x211ff	(0xce00 bytes) HOLE
+>  4(  4 mod 256): FALLOC   0x72bf4 thru 0x76221	(0x362d bytes) EXTENDING
+>  5(  5 mod 256): SKIPPED (no operation)
+>  6(  6 mod 256): INSERT 0x11000 thru 0x13fff	(0x3000 bytes)
+>  7(  7 mod 256): TRUNCATE DOWN	from 0x79221 to 0xa800
+>  8(  8 mod 256): COPY 0x6800 thru 0xa1ff	(0x3a00 bytes) to 0x3f200 thru 0x42bff
+>  Log of operations saved to "/mnt/test/junk.fsxops"; replay with --replay-ops
+>  Correct content saved for comparison
+>  (maybe hexdump "/mnt/test/junk" vs "/mnt/test/junk.fsxgood")
+> 
+> Both ext4 and xfs only require direct IO to be aligned to the logical
+> block size of the device, not the fs block size. So the 0x3a00 bytes
+> read at 0x6800 is allowed, and should succeed.
+> 
+> But that range is a hole, and that commit makes iomap_dio_hole_iter()
+> round the zeroed length down to the fs block size unconditionally.
+> The first iteration zeroes 0x3a00 bytes but only advances 0x3000 bytes,
+> then the next iteration zeroes the remaining 0xa00 bytes, which is
+> rounded down to 0, so -EFAULT is returned.
+> 
+> As ext4 and xfs do not pass IOMAP_DIO_PARTIAL, the whole read fails
+> with -EFAULT, which is then converted to -EAGAIN by copy_splice_read().
+> Every retry of fsx hits the same -EAGAIN, failing the run.
+> 
+> That commit breaks all direct reads which range is not fs block aligned
+> for ext4 and xfs.
+> 
+> [FIX]
+> Do not revert the range unless the dio has IOMAP_DIO_FSBLOCK_ALIGNED flag.
+> 
+> iomap_dio_hole_iter() is only called for reads, and for now only btrfs
+> reads can reach this path with the flag set. Btrfs has the proper
+> fallback when dio returns -EFAULT.
+> 
+> Fixes: 4025185cf953 ("iomap: follow the alignment requirement for iomap_dio_hole_iter()")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Qu Wenruo <wqu@suse.com>
+> ---
+>  fs/iomap/direct-io.c | 26 ++++++++++++++++----------
+>  1 file changed, 16 insertions(+), 10 deletions(-)
+> 
 
-  make[1]: *** No rule to make target 'fuse_symlink_cache_test.c', needed by '.../fuse_symlink_cache_test'.
+Ignore my previous question (I had a old version of xfstests).
+I was able to reproduce the error on XFS, ext4 and this patch fixes it.
 
-Add fuse_symlink_cache_test.c as posted in Luis Henriques's v5
-submission. The test serves a file and a symlink to it from a libfuse
-low-level filesystem, resolves the symlink 100 times, and counts the
-readlink requests that reach the server: one when FUSE_CAP_CACHE_SYMLINKS
-is set during FUSE_INIT, and all 100 when it is not.
+One small nit: should we update the IOMAP_DIO_FSBLOCK_ALIGNED flag
+documentation to reflect this?
 
-Fixes: 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/r/202610170822.oEJ1Autq-lkp@intel.com/
-Link: https://lore.kernel.org/r/20261001164916.15311-8-luis@igalia.com
-Originally-by: Luis Henriques <luis@igalia.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-As with e64a46aefc01 ("selftests/fuse: add the missing FUSE_HAS_SYNCFS
-privilege test"), the new file in the posted patch is not in the applied
-commit; the other files did land.
+At the moment the document says "Ensure each bio is aligned to fs block
+size". Should we expand it to say "Ensure each bio and any progress
+reported for hole/unwritten extents is aligned to fs block size"?
 
- .../fuse/fuse_symlink_cache_test.c            | 162 ++++++++++++++++++
- 1 file changed, 162 insertions(+)
- create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
+But the changes look good to me, so:
+Reviewed-by: Pankaj Raghav <p.raghav@samsung.com>
 
-diff --git a/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
-new file mode 100644
-index 0000000000000..7b53734995736
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
-@@ -0,0 +1,162 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Simple filesystem to test FUSE symlink cache
-+ *
-+ * This is a simple FUSE filesystem that contains two objects: a file named
-+ * 'file' and a symlink to that file named 'link'.  If symlink caching is
-+ * disabled (i.e. FUSE_CAP_CACHE_SYMLINKS is reset during FUSE_INIT), whenever
-+ * the ->readlink() is executed to resolve 'link' a counter will be incremented.
-+ *
-+ * If symlink caching is enabled (i.e. FUSE_CAP_CACHE_SYMLINKS is set during
-+ * FUSE_INIT), resolving a symlink will only call into user-space the first
-+ * time.
-+ */
-+
-+#define FUSE_USE_VERSION 31
-+
-+#include <stdio.h>
-+#include <fuse_lowlevel.h>
-+
-+#include "kselftest_harness.h"
-+
-+#include "fuse_common.h"
-+
-+#define FILENAME "file"
-+#define FILE_INO 42
-+
-+#define LINKNAME "link"
-+#define LINK_INO 43
-+
-+#define TIMEOUT	86400.0f
-+
-+struct test_state {
-+	pthread_mutex_t lock;
-+	int readlink_counter;
-+	bool cache;
-+} test_state = {
-+	.lock = PTHREAD_MUTEX_INITIALIZER,
-+};
-+
-+static void fs_init(void *userdata, struct fuse_conn_info *conn)
-+{
-+	pthread_mutex_lock(&test_state.lock);
-+	if (test_state.cache)
-+		fuse_set_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
-+	else
-+		fuse_unset_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
-+	pthread_mutex_unlock(&test_state.lock);
-+}
-+
-+static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
-+{
-+	struct fuse_entry_param e = {};
-+
-+	if (parent != FUSE_ROOT_ID ||
-+	    (strcmp(name, FILENAME) != 0 && strcmp(name, LINKNAME) != 0)) {
-+		fuse_reply_err(req, ENOENT);
-+		return;
-+	}
-+
-+	if (!strcmp(name, FILENAME)) {
-+		e.ino = FILE_INO;
-+		e.attr.st_mode = S_IFREG | 0444;
-+		e.attr.st_nlink = 2;
-+	} else if (!strcmp(name, LINKNAME)) {
-+		e.ino = LINK_INO;
-+		e.attr.st_mode = S_IFLNK | 0444;
-+		e.attr.st_nlink = 1;
-+		e.attr.st_size = strlen(FILENAME);
-+	}
-+	e.attr_timeout = TIMEOUT;
-+	e.entry_timeout = TIMEOUT;
-+
-+	fuse_reply_entry(req, &e);
-+}
-+
-+static void fs_readlink(fuse_req_t req, fuse_ino_t ino)
-+{
-+	char buf[PATH_MAX];
-+	size_t sz = strlen(FILENAME);
-+
-+	if (ino != LINK_INO) {
-+		fuse_reply_err(req, ENOENT);
-+		return;
-+	}
-+
-+	memcpy(buf, FILENAME, sz);
-+	buf[sz] = '\0';
-+	pthread_mutex_lock(&test_state.lock);
-+	test_state.readlink_counter++;
-+	pthread_mutex_unlock(&test_state.lock);
-+
-+	fuse_reply_readlink(req, buf);
-+}
-+
-+static const struct fuse_lowlevel_ops fs_ops = {
-+	.init           = fs_init,
-+	.lookup		= fs_lookup,
-+	.readlink	= fs_readlink,
-+};
-+
-+FIXTURE(symlink_cache)
-+{
-+	struct fuse_common_ctx ctx;
-+};
-+FIXTURE_VARIANT(symlink_cache)
-+{
-+	const bool cache;
-+};
-+FIXTURE_VARIANT_ADD(symlink_cache, symlinks_nocache)
-+{
-+	/* Variant with symlink cache disabled */
-+	.cache = false,
-+};
-+FIXTURE_VARIANT_ADD(symlink_cache, symlinks_cache)
-+{
-+	/* Variant with symlink cache enabled */
-+	.cache = true,
-+};
-+
-+FIXTURE_SETUP(symlink_cache)
-+{
-+	char err[MAX_ERR_MSG];
-+
-+	pthread_mutex_lock(&test_state.lock);
-+	test_state.readlink_counter = 0;
-+	test_state.cache = variant->cache;
-+	pthread_mutex_unlock(&test_state.lock);
-+
-+	if (fs_setup(&fs_ops, &self->ctx, err))
-+		SKIP(return, err);
-+}
-+
-+FIXTURE_TEARDOWN(symlink_cache)
-+{
-+	fs_teardown(&self->ctx);
-+}
-+
-+TEST_F(symlink_cache, test_symlink_cache)
-+{
-+	char pathname[PATH_MAX];
-+	char buf[PATH_MAX];
-+	ssize_t sz;
-+	int counter;
-+	int i;
-+
-+	sprintf(pathname, "%s/%s", self->ctx.mountpoint, LINKNAME);
-+	for (i = 0; i < 100; i++) {
-+		sz = readlink(pathname, buf, PATH_MAX);
-+		ASSERT_NE(sz, -1);
-+	}
-+	pthread_mutex_lock(&test_state.lock);
-+	counter = test_state.readlink_counter;
-+	pthread_mutex_unlock(&test_state.lock);
-+
-+	if (variant->cache) {
-+		ASSERT_EQ(counter, 1);
-+	} else {
-+		ASSERT_EQ(counter, 100);
-+	}
-+}
-+
-+TEST_HARNESS_MAIN
-
-base-commit: 9b1da7b4a4e197072e630c3b85d4100a399752ff
 -- 
-2.53.0
-
+Pankaj
