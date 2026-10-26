@@ -1,135 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793056309;
-	b=Hkrjkwmy7mjN2YpWZ2k/J7Eikw6MhjBzfQRyuK3e2mVX4Ey7ur1QW+HaP6LS+qtEdJbD
-	 /WnvAd3fU83gdGnFmAmgvqVdprTB4pkxsv7F1xmpTwOTCItfBklchycjiTwYEe0UJLFen
-	 kQuJmaSv13Tc30hleRZuZBeKHOCgLrdGRJQmaJCmK/CFz8xOfTkoNqCU+tk8DiQk+sQZG
-	 6YgF+KVTunAz450CBb7aRXYaQw4KD4LOBzp+ROBesNAwOgGXMM+F99H3UmP1oklKAAs7b
-	 UtwREhiI6bt33/dA5X5S6iB6nce4dgqmZGieyFqSLdfkR6ocnwM9OgD6vPj3RrLpQqA==
+	t=1793056680;
+	b=0ZxoPQhEOpyHsnGSEDmJjgdEzFGtGxByVY9LRSG0/415ioY9hjHFOvBTIOi6oFqyPy/T
+	 AKHdYKSVp++7pssxQSCiNkm0L3wFQqKHOTCX1SrAoFWxpKRE2XaQTHfqib83NfqVnAvVg
+	 9dIvGhUsOVrCYCsiOOerlfkankAqTB3irGykFAPAYZ9IrIQbn3vD78lmyN55w1y3CWYFQ
+	 GlOey1NIEBBtseF25VDuNQvunKsRkJQu6qRgw9deUhBymVQ/TONdxij/PTrTDGyOO3KOs
+	 0eRgxfsYEI+S3F8VFhXDXSaGdLVWbs7+4oSVYkiaYIpoXv2np5D2U42K8erVG7kUEGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793056309;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=dvML+/R4qQbTxhU2z6PfyaJFwg8cDUrAEKJw4xPVIt0=;
-	b=PpN500XK0STDY0F72u6j83b2pwidSGQCJwxvC3cOYV/F8TY6iY75N5RtL3aoXiH4FlTT
-	 Jwt9cuJxWjdC4PPtyYv6srGKa3e+PZ9K8UdcmiDVuEo0Khuewy8WiXbCrPArC4szb1wDB
-	 +IWRm+5vQga3Pl4DPQXVp9jjKfwqVsOJYWESOgf4pN9kKsk+R9BcoywF4Cp5vhIX7xkjk
-	 aE6UtZOoDxnpP0eShNQRsTVMbEKRVnnF/NFYEqhuH81iYi0yb7ph+SSI56wz8BXEBzSeQ
-	 6ZwZ2WQCSWVv4ThXZTQjbjLStI81KeLmT5BlusARc8G7BnQN5ep3rGi444MjukDZmWA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793056680;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=ayLTO25mv8hsmSbKJI2pgTaDpBZ/HN5CAIFHS8ZziNk=;
+	b=yMRbsVUjJ5EnZVLa4xtc3xN3EH4UvnU/SPNVPgyMeY8u9GWEZOMbhfWcWpn0NLq8QJK0
+	 Es3ivmOopfylVu6HUqF6tmgh/YfuZjHFNfRHzXFA0We08U81Z8EkAQ6gjWH0EYG+8aSQy
+	 +nn+UnQK/9vkThvWTl5Pjgd3kvbz77X0+gONBcz7cku/b2cqBmUJNGJIQ+aEicG4bahk9
+	 2veOUQx9V0uFwhr49WNX4dsJh0GzOs2A/sncn9AAx7cNoQTAlY6Wdk6ivXbWuP3xA1jDA
+	 wCjDXQ8Xwe5F22ixWz1x6sQx1JsYqipmKgwTS5CacwhX0RvAML5clTNbEHIzVfA2vog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=themaw.net;
-	spf=pass smtp.mailfrom=themaw.net;
-	dkim=pass header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=eF47GSn9;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=n8Dv85jI;
-	arc=none smtp.remote-ip=202.12.124.149
-Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c0btN4RF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFCA606A31D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 23:11:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AFCA606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BE8606A31D;
+	Mon, 26 Oct 2026 23:17:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=eF47GSn9;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=n8Dv85jI
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 8D99A1D003FD
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 19:11:47 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Mon, 26 Oct 2026 19:11:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793056305;
-	 x=1793142705; bh=dvML+/R4qQbTxhU2z6PfyaJFwg8cDUrAEKJw4xPVIt0=; b=
-	eF47GSn9FIOirROKVFcXBmktSKnI31tpcGER4Q9xGqhk39aCWQfoZa3Lm7CACJYw
-	fVHcnPwYX2ma0tfoOMkmLYMRzYcAoNxr+pNmWMouR4bYMWO9oqDwyn283q9XpWJ6
-	4MNKxnJKzbEDUkilxZXsp1VXYkgjE4IjdYT/uyA4FSWOo96tWJtdZyihCUZys3hK
-	2QDeL3Uhdyu7d4ZAsewtPPXCpXcEIdpeHNcnTKBr5P7owpj1DZkLUfKn7lnZB4Rf
-	ZicwkQJ7zMGYvvA4VDdMwVobSkSHhRIHM9BZlBAGW1hjIz1Tor4ZB19pTxajuQLa
-	47YbAXhNaWBieUr1bTo8ng==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793056305; x=
-	1793142705; bh=dvML+/R4qQbTxhU2z6PfyaJFwg8cDUrAEKJw4xPVIt0=; b=n
-	8Dv85jI+8C/MNhFNCCIXYqCcshAF8dbb9g/N0GwJRSFhwYCD+zXrCBBsURU3bTSk
-	8jlrC1pX8a68+fxFVH0CWRNoBSjs8JOKpk1xWAXPHEb5naBjxJIZI4kVX1GJoYeX
-	IxgGlH0agkPMHbpGKXeFzLkzdFu8O4pckeySBCMTR8H6mu2Y4gnBELiKh07d1nYx
-	Ryw5XfJMpIuQVQfizYzQbKQqLIY3gUmTHeWl74FcYc7mIqmY+3rNyLieXBuWm6Dw
-	5d251R+UHyuWseBz5NtjXxPa8UXJiXiiVnkfbqpphxx3aTvhK4smWyXPcfAFqrm6
-	EdRcHt9nU0LfHQxRC2zAw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=themaw.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793056305; d=themaw.net;
-	mf=PHJhdmVuQHRoZW1hdy5uZXQ+;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm1:rsa-sha256:FY4zR5afpW7Cd4gF9zh27UPFcLlnLgfU8wahFC2h9635uoC
-	bqjfzJ3y3bpNF3hPpsqQgUDAS1wCdUGeaou7k/sk3v28S4U0CN9C3v1pOsSK80jh
-	BmDAiUrIS0SFwGTN9AfaV9+O4ymck5jGJB5deEcWROOPrfa49Qnp++zst7aPqbQO
-	tyguKxN3/mV5UlrqqXyG1PRY1jrL3ZNojdzq2TE+tzPoUI4ND2B/lrp/RWbJ0O2r
-	1U2AqQkNr5vTK8LOIC1AYdjzXE4E5/AWQTzwr87PGErNwdAKr/y4W9dZZoqSc9z3
-	2FeCy01MD8q+ePoz/sbRpCp0V07ARL/nBnKEEHg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to,
-	user-agent;
-Message-Instance: m=1; h=sha256:vPusySQWVNzJFF54CdHHDfiPLt7mpt6sO2TlTCCEQWI=:dvML+/R4qQbTxhU2z6PfyaJFwg8cDUrAEKJw4xPVIt0=;
-X-ME-Sender: <xms:MN7fagMmxjqXRUL9aqo6FPAmYSgnud9gkzoDPwcZyYx6L6C4U0X2Ng>
-    <xme:MN7fat4-LMa6NTmzFI3l_ucCq-9QCy9WAgqm9KF0q1MtPcamV2J2q7fiCmWYDHDhN
-    xDis-1IXreWyODvEAKvpiLeyxzt-xzqNlovPKQoV35HMhnI>
-X-ME-Received: <xmr:MN7fasWK6Ut_3eAGiLn98SEo8l_L8nO_K1LpvsziKTeuNJAhMgcxEV1argJv9YhJrTZ6PmLhAzc9UqLrs_IUAYtxd1dTfjQ8uy0ggQ1NXFsX6qFFKwHoG9gpdxI>
-X-ME-Proxy-Cause: dmFkZTEyzjjaeQZJI/HSd3tpXSqYi01yU3P3/gK5SMN8wdEOWguYY1wXiE1GG6AojV+QZn
-    Rrd8nivv5YeCrOrqBgj9sZ6l7GKzSUoNcbhot48nAQcX6YMBwJLeRLJ4VkXadZFqyn07ur
-    D1aOfKyqkboA+Ewom2Ofk/Nj8VjAohFzhpDY/z5kDx9YPFVYvkz6kOssnxzL1PL/K63CX3
-    e4JAWbp5m8M+8yTCemGdtASRGGm5koyhSvgfTarM2LSLutLrM7kZ6nJhhe6uO17RCILbvp
-    CYu1T0dF1FXTF+J4vT72krSyimQh/BjxPUMLaVaS55ARGYeANDrleXwwXWliq4KhS26/hj
-    kyK4x8Ih3ZqS+refPXHiSfHJRqyv6h5huOtmYa6DxgvQ8tZix32SxngBS5UAnfAgg4aFei
-    qiyJ/RYrf40f3iwCK3ypCEJHC+OJVRcrpygmffiY3epFoK3ixNQqcVhqC56sjf9HWKpau5
-    OF49zxfozS/+m7Xv2M4/Epvq4Dl8cggFLk9hBvzqd5Uw2FMSU3kDL2l/CQxBYdpDoNlx99
-    0s+P7E+sr2dUQb2wjKmmkK9uvhgpo1D0iiknUP2sf2/vSAfpN+0/fNa3GO/YomQEo/bcNs
-    OiHdHE86XF6h+0S6s2YYoWYkdxAl9JGAjcBnC9XeBOadE9JUdGIQgKyP2J8Q
-X-ME-Proxy: <xmx:MN7fav1Lbw2OGyNFnSzlwfOk_8bW3ADI9pxz9x0XLO-PSiZSi9dlxQ>
-    <xmx:MN7fajOdQ0SE8DAEIVKT845WJJKd6W3exuyaL-mCVCu6FEXJpCJ6gg>
-    <xmx:MN7fai2Y23G0x_9cCtqafEcrIMxHLZ8_IecYpOW_PW5WOpNH2v5KAQ>
-    <xmx:MN7faq2BAEidWJUisI6-nzczcPB96Z9UFwXHjor8z9esYIiVudKDWw>
-    <xmx:Md7farpABo2w_IxuVO7e3DOz0_2mHDyGyGv7yWm14tpkkdHKxW5DxoYq>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Oct 2026 19:11:38 -0400 (EDT)
-Message-ID: <4f56c93a9fc5fee152364974773df0a319c84af9.camel@themaw.net>
-Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
- stores
-From: Ian Kent <raven@themaw.net>
-To: Krystian Kaniewski <krystianmkaniewski@gmail.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
- Danilo Krummrich	 <dakr@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner	 <brauner@kernel.org>, Jan
- Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>,  Peter Zijlstra
- <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Jens
- Axboe <axboe@kernel.dk>, 	driver-core@lists.linux.dev,
- autofs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, 
-	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Date: Tue, 27 Oct 2026 07:11:35 +0800
-In-Reply-To: <dc65c28e408d6b64d4b13b7ad30e5fe70ddaa441.camel@themaw.net>
-References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
-		 <cover.1792577179.git.krystianmkaniewski@gmail.com>
-	 <dc65c28e408d6b64d4b13b7ad30e5fe70ddaa441.camel@themaw.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c0btN4RF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A7691F01825;
+	Mon, 26 Oct 2026 23:17:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793056679;
+	bh=ayLTO25mv8hsmSbKJI2pgTaDpBZ/HN5CAIFHS8ZziNk=;
+	h=From:Subject:Date:To:Cc;
+	b=c0btN4RFNd+JK9rkuoTETc7VF6swnFyYz0/L+oSt8CLgeMxb0G2BDek2IJa55YHgH
+	 jxflLIlpQ2WjGfXinmpmDcTPwOBNahVU3Fpt2SewilRmN+LtujcaoK9avQFbHhbqJn
+	 AToCFd3ZAWENyki274UuV7Hrzyj3mkZx+lZBHJAgQM7sMTU2YygJXf/22VO7LBayGo
+	 z1SiNI6qekyGCy9Qj3o0FBTBaCDVIkViGvV5TMESpQllEDQfyei0P9tTKvJQ0Me/gK
+	 wyAA7x7FGyfUCmcqmTS1uQLx7441jdglWG11IvyD9a9d/vtZG2IIN5UFht4h5Bdhmc
+	 BcrYLm+fhg8gw==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: [PATCH 00/46] mm: various (urgent?) fixes
+Date: Tue, 27 Oct 2026 00:17:20 +0100
+Message-Id: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -139,93 +53,191 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIHf32oC/yXM3wpAMBQH4FfRubbapiSvIsnmjOMCnYOU9u6Gy
+ 6/fnxsEmVCgzm5gPEloXRJMnoGf+mVERUMyWG1Lo61RgS6Uzq+Myg2hLKrQB20LSION8UtTv2l
+ /y+Fm9Pv7ADE+TOnff24AAAA=
+X-Change-ID: 20261021-fixes_core-bdf638faf023
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>, 
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+ Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>, 
+ Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>, 
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+ Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>, 
+ Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Nick Piggin <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
+ Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>, 
+ Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, 
+ Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org, 
+ "David Hildenbrand (Arm)" <david@kernel.org>, 
+ Chris Mason <mason@kernel.org>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6096; i=david@kernel.org;
+ h=from:subject:message-id; bh=M759dBMTTuWvoyATaey2hLe92rKyKdXXWLH+ZXFHlx8=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLu358o8+hoapKLufs0q+lpn12ZBLcv/3an4MwBsxfcD
+ JVLS+V0OkpZGMQ4GGTFFFmCgu8bvHy5rrbajY8ZZg4rE8gQBi5OAZhI7S6Gf7r9S3UXX2XVt/qw
+ JKtmldaMlmu2mzm5VXc2e62fdZhNyJrhn9WBe3v8/NPeHmqUd+L4lrf/+qQda2pP1TYyKv7KKbp
+ 1jA8A
+X-Developer-Key: i=david@kernel.org; a=openpgp;
+ fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-On Tue, 2026-10-27 at 06:07 +0800, Ian Kent wrote:
-> On Wed, 2026-10-21 at 14:51 +0200, Krystian Kaniewski wrote:
-> > syzbot reports a lockdep cycle &pipe->mutex --> &of->mutex -->
-> > &sbi->pipe_mutex. splice holds a pipe mutex while it calls the
-> > write
-> > or
-> > read handler of a kernfs file, kernfs takes of->mutex there, and a
-> > write
-> > to /sys/power/resume looks up a path that can make autofs write a
-> > request
-> > into its daemon pipe and wait for the daemon.
-> >=20
-> > Patch 1 stops holding of->mutex around the ->store() callback of
-> > regular
-> > sysfs attributes, which do not get the open file and already run
-> > concurrently for separate opens.
-> >=20
-> > Patch 2 handles the case that patch 1 leaves. A store called from
-> > splice
-> > still runs with the pipe locked. autofs no longer sends or waits
-> > for
-> > a
-> > request in that context and returns -EAGAIN instead. A new mount is
-> > refused before it is marked pending, so no other lookup sends the
-> > request
-> > in its place. This also removes a deadlock in which the spliced
-> > pipe
-> > is
-> > the autofs daemon pipe itself.
-> >=20
-> > Patch 2 changes behavior for one narrow case. A lookup from a
-> > splice
-> > callback that needs an automount fails with -EAGAIN instead of
-> > waiting.
-> >=20
-> > The series was tested in QEMU with lockdep using the original C and
-> > syz
-> > reproducers and focused splice and autofs cases. The target reports
-> > were
-> > not reproduced with the series applied, and the paired functional
-> > cases
-> > matched the unpatched baseline.
-> I can't seem to find a reproducer that reproduces the bug or maybe
-> I don't know what to expect from running the syzbot reproducer I
-> did locate.
+Another set of fixes from the current batch that focuses on all core-mm
+things that won't be sent out separately by others. I decided to bundle
+these together as they are all over the place.
 
-I think I have found the appropriate reproducer, certainly looks
-like it.
+I have some hugetlb stuff in the works which is pretty horrible
+(code wise ;) ), that I will send out once ready. Plus some
+low-prio migrate_device oddities + two core-mm things that need more
+thought.
 
-Commit 1e8c813b083c ("PM: hibernate: don't use early_lookup_bdev
-in resume_store") looks like it's been around for a while so I
-assume the reproducer should work on 7.2.12?
+This is the biggest set of patches coming from me, so don't be
+scared ;)
 
-What should I expect, a hang, it doesn't.
+Once more, some of the stuff is more urgent than others. No fixes are
+crazy big and most are easy to review.
 
-Also it looks to me like the reproducer is trying exploit an
-invalid request similar to what I described earlier but I can't
-test to see if my simple autofs resolution fixes it if I don't
-know what to expect from the reproducer.
+The majority are again fixes from Anthropic that I cleaned up or reworked.
+While doing that, I found a bunch of other issues and tried to fix them
+somewhat cleanly.
 
-Ian
->=20
-> Can anyone help please.
->=20
-> Ian
-> >=20
-> > Krystian Kaniewski (2):
-> > =C2=A0 kernfs: do not hold of->mutex across sysfs ->store()
-> > =C2=A0 autofs: do not wait for the daemon while splice holds a pipe
-> >=20
-> > =C2=A0fs/autofs/expire.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++++
-> > =C2=A0fs/autofs/root.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 28 +++++++=
-++++++++++++++--
-> > =C2=A0fs/kernfs/file.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 52 +++++++=
-++++++++++++++++++++-----------
-> > --
-> > --
-> > =C2=A0fs/splice.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 13 ++++++++++-
-> > =C2=A0fs/sysfs/file.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 18 ++=
-++++++++++++-
-> > =C2=A0include/linux/kernfs.h | 11 +++++++++
-> > =C2=A0include/linux/sched.h=C2=A0 |=C2=A0 2 ++
-> > =C2=A0kernel/fork.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 1 +
-> > =C2=A08 files changed, 109 insertions(+), 22 deletions(-)
-> >=20
-> >=20
-> > base-commit: 93f51579e7df248780214094418f205253383cc5
+I gave it at least some basic testing on x86-64; more testing will be
+highly appreciated.
+
+This is based on akpm/mm-stable.
+
+As with the shmem fixes, please prioritize review of these fixes, I want
+to get fixes for the issues in a timely manner upstream.
+
+Thanks to everyone helping out with moving the flood of fixes forward :)
+
+---
+Chris Mason (11):
+      mm/huge_memory: fix truncate racing with PMD zapping
+      mm/huge_memory: fix zapping migration entries for device-private THPs
+      mm/khugepaged: preserve dirty bits when collapsing PTE-mapped THPs
+      mm/gup: fix clearing folios in memfd_pin_folios()
+      mm/gup: fix out-of-bounds write for nr_pages == 0 in GUP-fast
+      mm/mmu_notifier: set ->mm only after mmgrab()
+      mm/memory: reject remote COW faults on PFN mappings
+      mm: fix unkillable fault loop on MAP_DROPPABLE memory
+      mm: fix deadlock of mremap() against UFFDIO_MOVE
+      mm/ksm: check large swap-cache folios before mapping them
+      mm/vma: call ->may_split() before a partial merge
+
+David Hildenbrand (Arm) (20):
+      fork: take mmap_lock before copying mm_struct
+      mm/memfd: check for real shmem inodes before accessing shmem state
+      mm/truncate: look again if a folio left the mapping
+      mm/filemap: finish fault cleanup before dropping the fault lock
+      mm/rmap: handle device-exclusive entries in folio_referenced_one()
+      mm/huge_memory: fix list corruption when deferred_split_scan() races with deferred_split_folio()
+      mm/huge_memory: properly handle refcounted PUD mappings on fork
+      mm/khugepaged: check if PTE table is empty in try_collapse_pte_mapped_thp()
+      mm/gup: recheck the PUD under PTL in follow_pud_mask()
+      mm/gup: check for overflow when converting nr_pages to bytes in GUP-fast
+      mm/userfaultfd: write-lock the VMA before waking waiters when unregistering
+      mm/userfaultfd: wake waiters when registration modes are removed
+      mm/mremap: use pudp_huge_get_and_clear() when moving huge PUDs
+      mm/mremap: recheck PUDs under the page table lock
+      mm/madvise: fix data loss from MADV_FREE on a KSM page
+      mm/ksm: reset the unstable trees of all nodes
+      mm/ksm: fix use of a freed anon_vma at swap-in
+      mm/huge_memory: split huge PUDs when adjusting VMA boundaries
+      mm/vma: don't leak the charge for stack growth
+      mm/memory-tiers: unregister empty tiers outside memory_tier_lock
+
+Josef Bacik (14):
+      mm/mglru: don't use stack pointers when walking PUD and PMD tables
+      mm/memfd: make f_pos accesses atomic
+      mm/filemap: read mapping->a_ops->free_folio under i_lock
+      mm/filemap: don't lose a folio lock wakeup to a signal
+      mm/huge_memory: fix livelock on device private folio
+      mm/khugepaged: always recheck the pmd in try_collapse_pte_mapped_thp()
+      mm/khugepaged: fix PMD table lock leak in try_collapse_pte_mapped_thp()
+      mm/userfaultfd: wake all waiters on unregister
+      mm/mmu_gather: fix flushing ranges with 4 GiB or larger
+      mm/mmu_notifier: finish non-blocking interval invalidation on error
+      mm/mremap: fix moving PUD leaves
+      mm/memory_hotplug: avoid races in pfn_to_online_page() with dying pgmap
+      mm: fix unmap_mapping_range() beyond 4 GiB on 32-bit
+      fs/proc/task_mmu: refuse addresses beyond 32 bits on 32bit
+
+Rik van Riel (1):
+      mm/cma: don't release CMA pages still in use
+
+ fs/proc/task_mmu.c            |   6 ++
+ include/asm-generic/tlb.h     |   3 +-
+ include/linux/huge_mm.h       |   5 +-
+ include/linux/ksm.h           |   6 +-
+ include/linux/memremap.h      |   6 ++
+ include/linux/mmu_notifier.h  |   3 +-
+ include/linux/shmem_fs.h      |   6 ++
+ include/linux/userfaultfd_k.h |   2 -
+ kernel/fork.c                 |  20 ++++--
+ mm/cma.c                      |  10 ++-
+ mm/filemap.c                  |  88 ++++++++++++-------------
+ mm/gup.c                      |  53 ++++++++++-----
+ mm/huge_memory.c              | 149 ++++++++++++++++++++++++++++++------------
+ mm/hugetlb.c                  |  14 +---
+ mm/internal.h                 |  28 ++++++++
+ mm/khugepaged.c               |  77 +++++++++++-----------
+ mm/ksm.c                      |  56 ++++++++++++----
+ mm/madvise.c                  |   9 +++
+ mm/memfd.c                    |  10 ++-
+ mm/memfd_luo.c                |   2 +-
+ mm/memory-tiers.c             |  29 ++++----
+ mm/memory.c                   |  30 ++++++---
+ mm/memory_hotplug.c           |  13 ++--
+ mm/memremap.c                 |  13 ++++
+ mm/mmap.c                     |   8 +--
+ mm/mmu_notifier.c             |  24 +++++--
+ mm/mremap.c                   | 103 +++++++++++++----------------
+ mm/nommu.c                    |   2 +-
+ mm/rmap.c                     |  23 +++++--
+ mm/shmem.c                    |   5 ++
+ mm/swapfile.c                 |   3 +-
+ mm/truncate.c                 |  17 ++++-
+ mm/userfaultfd.c              |  72 ++++++++++----------
+ mm/util.c                     |  13 ++++
+ mm/vma.c                      |  24 +++++--
+ mm/vmscan.c                   |   4 +-
+ 36 files changed, 588 insertions(+), 348 deletions(-)
+
+---
+
+base-commit: 183895979c441e52dbd651b388553b09eaa35cfa
+
+change-id: 20261021-fixes_core-bdf638faf023
+
+--
+
+Cheers,
+
+David
+
