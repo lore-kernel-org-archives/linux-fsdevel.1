@@ -1,100 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.208.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793005367;
-	b=Q01q2FvLHzHEE+2Xabc3m0uULQNo6xYrx22bokWPdgOX5lA0y7wxs7YOcUWgcShO1vO+
-	 9+GL1Hlt+np8ggZCALRWcNM2ZNS1DcOwKVJvWb5hdLzVYOptmIowP4qfvDiPka7QlSzXz
-	 Jsem8qHzi1HJjy/p5I7vhhQ+XM1m5M5ol20UQP9oni2kSWvX+Z5BcTt93Wvr2MWWTmgga
-	 bv3vryzlyJMWOYNIb0kxPKOUsYxiTgpdmK2iedijZAY20t4JDPTG1y6w3RDaAf9qladuG
-	 plAn+ftajZd5omUTDjqqjON4AiGdH64hFh0gprzRYqzcZOLL4u7adpqQvX+fFQL4dpQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793005367;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793006905;
+	b=NEjnZSXN56XrOB4HFBAOG5xVKEYQrDdByE10vgfa4bEseyfHcBnahDiRyN7PXvZFpTuX
+	 58kgXSoACQcWLMDGr7dXH3nJ9hGlm+FZk6iR/sgPAJnFPQBD40mmiQ19CbEewbuL2Yrv1
+	 uJhT3fHWerUq8EFt/bkgnPHaVTKIWiI+hJDBsu86dLZbUUTbZjWWdOncp3afhNHGBNQia
+	 +AsAbAOUhYMbXYVYzzl27vL3Yh/NvMjls1rpC5UQHaYAPrKU1sI9aoGWaQ4eFGU8CPMPW
+	 ubipKhe0WwodlGOSZCFh4YkJBCZH1o7bv2pARizuOPMJn0uDLt3MoQaZGKPx6Ep73FQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793006905;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=g4ANt8QiPje/vd+XmOCfwQ8O8188yDlc5I5mBp2AsQY=;
-	b=aOPKilvkiodeFdVrGyI+c/an+BIYzR2MeNK6OsUIzcOStNWGj68QRHLeUUKFw5pCVxg3
-	 8+a/GjL/46VgI2FUXokGsPA1KEpsftjz6hvsLFl9IWGuNc1ZS6lkK+U4XBDgR8CCE+IP6
-	 q4pIGBc6rrj/yhi5JEdLnHLouVZoN8r66E59VwnCAJ8SsgtCwqJpPwE8QjCC0Go7UNwk8
-	 khMMqWpOESamAKmNbUQlSk2E4mEyX1+ynesKAJxjBZos59tOLYXK0b0NMAC/Nx9atxhRR
-	 /7GfEDtUFk3NG2+85WTEj7N2d972ozSKOPD9XeCekOEQJJnLcPhpgvlgZCMvtnY+T0w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:X-Google-Original-From:Date:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=6Q5jKmXgzoo+WiVGo4LfNDJTiePFUGEuuUfFv2a/kxQ=;
+	b=IsWLh+3aN5+5I0B+0q6SEmqlGwq9Ftk+b9wpOHJxJnlFqxpXEzVV9T+0h4v5T8dxgaG5
+	 96RSr6E1SMcmyQNmrYBmbQF04TkDmuR11EY5BwuWE2xMqssB7a+/6YJEaElxDHl3E/LCs
+	 XLHILLDHs4jVjdKKav2VU/VORgvIBgYNTL4iLb7yECgxlDEABCMIZM7U6EYEjMVC8efbh
+	 XFG+w1WH0lBHhNJ148vw4zHdd9Q7Ik76If6S9A06njYm4+ChjWoWKSEUm//drYlFncwRY
+	 WDMOuPxnvKTQFKqbhQ23isfvIMuXOrl7vs6la8wVrUGktsDcJ+/0tYjUJ8AUSKASf4g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qLZsAbGj;
-	arc=fail smtp.remote-ip=209.85.208.44
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CZ4B9P7w;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C59606A31D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 09:02:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90C59606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2473360A262C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 09:28:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2473360A262C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qLZsAbGj
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b1aa4d71e7so2888325a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 02:02:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793005365; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HQsKtomuEitTLd8tdWt+/nt/83DdaiIjby6BGevL4JT8s0gv+F+4rZbBPhvKgVAPJZ
-         gFSUsyDvt43ydHcNePLNpoCrJxS8N1maEET6mrWHNGLp9J+nm9aR1qWkGcyM15h59/xh
-         7ciO+5t0ERfenzQI6SxxPtg6x8sKTj+sSqfxPkPCnpb6ipZa5pS9OVoTmlI0TC6Iu0zc
-         pyJOkExWpJX0X8hc94breFlYEvyKPDifDQBxii/N4DQruD6yGlknW7fQnIw3srqLjuB7
-         0MRVS9ZUVbYCy2Xpnap74DTSMeMG+5Zv9AFhsuOUaaSzx9z8q3eKw45hu/G2sEZv9s+o
-         kNKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=g4ANt8QiPje/vd+XmOCfwQ8O8188yDlc5I5mBp2AsQY=;
-        fh=PAilnqcIpWI8Qlww5ueWWwlVeXXN8phguuQMW7BD7+M=;
-        b=IjhXahEvC3f/7V2Ln0aWeCwoCnrW1FsS4GKDhm4MCD5F4JZePGCr2YvxE5r4k1PqoT
-         OVkZ3iHHhzAXdWBdxfwx4ck/TTls0BUWCCEtUkJVBW3I38NFZKvhnC1zSE/0agfWvJRx
-         HK9nEo/QUT3NQcylenwnGy20zqj58L4Xd2ZkU+jdfyzI9MRkXZ4ObSL+3lVU+NN34Xdl
-         4VNkkiIpMpxgZz3AAmf+ZVwaK5RjKUhYxgcL7JpNbCRv2318X/p2hfxEFk6PbugocWqY
-         Yghb5A89CWXOvCd09qRDX47qPPkCftnXvRBXmnkA9QVof+XPQQLQikczE35RUbyWql8X
-         Ovwg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CZ4B9P7w
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a1df4c0966so17431515e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 02:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793005365; x=1793610165; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1793006903; x=1793611703; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=g4ANt8QiPje/vd+XmOCfwQ8O8188yDlc5I5mBp2AsQY=;
-        b=qLZsAbGjyhOdJYoX4EsSnYS4ZxHYKYOA5sWs+jPhLE8FVmdXf2M5MlK6AoPKeVw0EC
-         IFKRqq3vpCOpcybm9W8p1utbSK78D+GC7CKCDRA7EzPslPZda9G4Hx+aUNowG5n9m5HH
-         Q7zI0oz7lBoS+j8xPojdDeBhv5h4sNXUM2hnlQVTcSFrGFS9L4vZscL1pUk5xM4TGx+Q
-         IshB5L7JTrlqlJsEkQ3vmOcc3EmCW2eFVJwkM9CUTM7ldURZC0zw8XuiLgqPiRLSt9P2
-         GxnWMgavOQuFtwmggQY/pXnr3BrFQ+IyKQZf1tTCSMvUOPrN/ZKbUxJ70XDEAIaa+era
-         wW8w==
+        bh=6Q5jKmXgzoo+WiVGo4LfNDJTiePFUGEuuUfFv2a/kxQ=;
+        b=CZ4B9P7wQDiCoHwSght5HMF1Reu0ZpEa5W9PxymJM4iRKAeArJA9+p8mAQXrRP0Y5A
+         533t1AnsPiaCD41CbQs4XdyVl85RGWOO2pjj95r+rqneOJOXEwburRPd+pn4RRpCkkjO
+         9BynAhJWvsvPV8cU6J/Kj7PEUdurJMpgy/N0wkHcDKZPOtPNtlEZVJBt6agC7TcorWLo
+         ZcoVuCinwHjIjKyFJwHBsfK3FTyHH8JKDImrVugE1Q0JThuEUCMT7WXn+R+Fgm8Zv8Vz
+         F2ab9z3r5ovxvhgO8V5SRxUTac/RZ8vyZAKQD9TaKGf3RXpiJdWrhWVCK1SInHdQ/Qyx
+         98JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793005365; x=1793610165;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1793006903; x=1793611703;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=g4ANt8QiPje/vd+XmOCfwQ8O8188yDlc5I5mBp2AsQY=;
-        b=Qt6YVU37DewQhWR3cCSL0jn7Emeov5zEcHYIin9/1KKsEp36l1VHginLyFMQQkDgvK
-         5CesjuUW7Db9w5/3azWgBV9ArfVJ9XEYDt/wHsgtXqcJgRLpNik+RXDS6pBPFPz3jD44
-         XKuvXlzCxdUrDb8+4T+hd9Dtt7phSm8Wr3QGDsQcx3jmfg8VqLJCk8erBqH1Aym2Y65J
-         dJTidU9V8uI10ectiRBC/C6NcYWbgtfW8zbujRLKbx/Iury+lLTnwPU4Vi1UYQyCREuZ
-         PFwzBeZVDV2dXCV53yQgu56DC/DIsQ8KKnq3iyr5pUtZUGlk5fSi6bqkqezFGi7xMtLN
-         XceA==
-X-Forwarded-Encrypted: i=1; AKwUvBxZABffuk9ZzsF4b6OAGDD5mmW7VjGSX9EMo2zTQfyfV3HIeI22AQt6VoD+hlixpz2Pt0rUYDw5fDHxPOC5@vger.kernel.org
-X-Gm-Message-State: AFq9FYLtUIOrD+XueS6yyDwOCrwVIbPEKF21LnlpKJb9HwFXOtga7tae
-	XlgNblm9RWp33Pgh+OI+cE9SAuLGCxtzLjR/n4pQmiCnSm2+z75jQr13FcfYKEp5ApGJmbWDYk3
-	KFYZmCoEITYiiUohWiewFbOEHizPFbsY=
-X-Gm-Gg: AYBFou1Zgz8bMxlBFWuh4A/Jgquf1Gr6agRbiKj/1WNrGA1ugpv0PqQmU72yMBDmbGV
-	kwbwloylDtt0NS7ZkmEBcnBU04ZcwNaFVZ/GJId+7vp9fXrWNzcZ1nY5LMmheXj/qkgkhsHcM2U
-	EiF3NM7Jtcsh7GrYbpvEAN4bHiE9Opx2v+ddjVCOI4fBJYiULNtQ4xP4bdzgQEPBCzBa6jD0GZZ
-	Rk/6/csuKxuIbqY9HgdhD0tzb5ceVwiaPyOcTE89iOg9Az11fIl7AXPy0PG7DTYhsFI8X+g2sR2
-	tZEEOBkNid5ct0uj+kHodcZkLt6vuNRNm0Hdb3pQXCfeKPVFoVwnuaDsoImgWmSeIFMrqVVl52S
-	/tEf+JiD/Zsx3byZv2JZngpN8R9rqMSdJP82QECd8lCv51lgtR1RKagk10BU4LGEAJRD8Cg==
-X-Received: by 2002:a05:6402:4410:b0:6b4:203:a182 with SMTP id
- 4fb4d7f45d1cf-6b442a89b98mr8306001a12.3.1793005363531; Mon, 26 Oct 2026
- 02:02:43 -0700 (PDT)
+        bh=6Q5jKmXgzoo+WiVGo4LfNDJTiePFUGEuuUfFv2a/kxQ=;
+        b=Yxlo1oq0l2A3I+AZItiL4RyrX67qLC8jEld6YX1NtHChsT6+VuH3wv0PwG8PnPvRPr
+         on6ZyEh//1kk685dFR0W1l2ILFc0JZD2O80Rqq05zRHhmgTC90LG7Tu2ueT4HireBehA
+         +jYD57BkGbjK6qLntbFzov4CfEj/Re/IDhhh8GMRSZoJnH6msTI8n/tqx26PYTSz6eMj
+         Q8vcG3IP0BWbFci/N6wMaOsYPqUxIlrGli32dnQlBtzOoxLsgRWASD3UuzJnRAA+39Tz
+         EYuffppw2u0kVrN4gw0pJPZMwSr12chuhI/tpJ4kjzALPZYgIHVhm1ZPWEmnimrA7K9d
+         9TcQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxBLMOLiX5B/ruVmAo/pb9G59Or1YNoM0GzgstD7PKVLC3qzejHZSGhK2Pko5IcGe/DhnchEhRzb5/6tKlq@vger.kernel.org
+X-Gm-Message-State: AFq9FYJoy7pTZyJ1d+hsyzufnJ5En8RtR1MrUDyJZZidp+3Gw3NhYsDd
+	hyry3uoTkhCcS/2k22agzlZMTNzGd2FpuSHO+F6X67VIaAzPKTbkUtHS
+X-Gm-Gg: AYBFou2D6/+IEaMOAoH4ujoqpirP3FTACq8OOXkP6tmVHXe8HkG748buvP/+JrQhgER
+	jbfM4fqfsullIeaGZ7IJEoMjmk9tshMV/RVBpjha266OMsoLv+E8FM2ANfHHMqvOafYFpPh7uIZ
+	vj4z24gOP8bYQHO4tzFqTC6PFnKTe5wJYwD/UiuPMQmm8tFcrGbDN+wUuJmtNOACK+LmYXPfujm
+	nI6de0FSOk+fQp+5n6oBSWBLwRD47pcAPspM8jW+FbUYeab6ZG2eI5Md91RLUxZScBPWaaoiQd2
+	rdLKAVkJoLjw0NKi5d60Ct6Wn+EoB1aL+RqVdqUYKxbL9gmdPUDB57sWWfntl8z1cbj48WQS0wK
+	od8Xq7TMEFTyvBeEwnkrvKnJCTbpujO8grA/5DCRkayBq2f6BO0TCE7lI+tGf51y/kTZE7mHlMM
+	3otHqfqPj2M2q6voBAWfmpdQNUIczpGfKz7ZaMOD6ixHUdpSc7SqvzW0d2zVWVqoq5+yQxER9Hm
+	ksQzOmJkQgPjv1jRViFx/xUA09m
+X-Received: by 2002:a05:600c:3553:b0:4a0:20b4:ba93 with SMTP id 5b1f17b1804b1-4a35aead203mr116295105e9.16.1793006903112;
+        Mon, 26 Oct 2026 02:28:23 -0700 (PDT)
+Received: from krava ([2a02:8308:a00c:e200::25dc])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a359ff2189sm215058535e9.1.2026.10.26.02.28.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 02:28:22 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Mon, 26 Oct 2026 10:28:20 +0100
+To: Samuel Wu <wusamuel@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, kernel-team@android.com,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH bpf-next v2 4/6] libbpf: Resolve typeless ksyms via
+ KALLSYMS_QUERY ioctl
+Message-ID: <at8dNNb4vwovNZcZ@krava>
+References: <20261023001603.560210-8-wusamuel@google.com>
+ <20261023001603.560210-12-wusamuel@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,69 +117,93 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026015738.46230-1-dennylin0707@gmail.com>
-In-Reply-To: <20261026015738.46230-1-dennylin0707@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 26 Oct 2026 11:02:31 +0200
-X-Gm-Features: AclHuK8o2w3ue0fEsBYRmit5mrje2LPX_3oSwwLStLIHIXFr91Z3Gm5NRG4zIpo
-Message-ID: <CAOQ4uxhxwOw4LNi6NV1FZzSePHZ4_SEg5QikvoH-L7GcKrkoPw@mail.gmail.com>
-Subject: Re: [PATCH] fs: skip copy_file_range write limits when there is no data
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	djwong@kernel.org, dchinner@redhat.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261023001603.560210-12-wusamuel@google.com>
 
-On Mon, Oct 26, 2026 at 3:58=E2=80=AFAM Hungyu Lin <dennylin0707@gmail.com>=
- wrote:
->
-> generic_copy_file_checks() reduces count to zero for a source offset at
-> or beyond EOF, but still checks the destination write limits. If pos_out
-> is at RLIMIT_FSIZE, this sends SIGXFSZ and returns -EFBIG even though
-> there is no data to write.
->
-> For example, GNU cat copying a 1024-byte regular file to another regular
-> file with RLIMIT_FSIZE=3D1024 copies all bytes and is then killed by its
-> next copy_file_range() call at EOF. A zero-length request can fail in
-> the same way.
->
-> Check write limits only when count is nonzero, as the ordinary write
-> checks already do. Keep the other copy validation in place.
->
-> Fixes: 96e6e8f4a68d ("vfs: add missing checks to copy_file_range")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+On Thu, Oct 22, 2026 at 05:16:05PM -0700, Samuel Wu wrote:
 
-Thanks for the fix!
+SNIP
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+> +static int bpf_object__query_ksyms(struct bpf_object *obj)
+> +{
+> +	struct kallsyms_query q;
+> +	struct extern_desc *ext;
+> +	int err = 0;
+> +	int fd;
+> +	int i;
+> +
+> +	fd = open("/proc/kallsyms", O_RDONLY | O_CLOEXEC);
+> +	if (fd < 0)
+> +		return -errno;
+> +
+> +	for (i = 0; i < obj->nr_extern; i++) {
+> +		ext = &obj->externs[i];
+> +		if (ext->type != EXT_KSYM || ext->ksym.type_id)
+> +			continue;
+> +
+> +		q = (struct kallsyms_query){
+> +			.size = sizeof(q),
+> +			.query_flags = KALLSYMS_QUERY_BY_SYMBOL,
+> +			.sym_name_addr = ptr_to_u64(ext->name),
+> +		};
+> +
+> +			err = -errno;
+> +			if (err == -ENOENT) {
+> +				err = 0;
+> +				continue;
+> +			}
+> +			if (err == -EADDRNOTAVAIL)
+> +				pr_warn("extern (ksym) '%s': resolution is ambiguous\n",
+> +					ext->name);
+> +			break;
+> +		}
+> +		ext->is_set = true;
+> +		ext->ksym.addr = q.sym_addr;
+> +		pr_debug("extern (ksym) '%s': resolved in kernel to 0x%llx\n",
+> +			 ext->name, ext->ksym.addr);
+> +	}
+> +	close(fd);
+> +	return err;
+> +}
+> +
+> +static int bpf_object__resolve_typeless_ksyms(struct bpf_object *obj)
+>  {
+> +	int err;
+> +
+> +	err = bpf_object__query_ksyms(obj);
 
-> ---
->  fs/read_write.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index 4da846a2bf17..c05ad2c42e75 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -1531,9 +1531,11 @@ static int generic_copy_file_checks(struct file *f=
-ile_in, loff_t pos_in,
->         else
->                 count =3D min(count, size_in - (uint64_t)pos_in);
->
-> -       ret =3D generic_write_check_limits(file_out, pos_out, &count);
-> -       if (ret)
-> -               return ret;
-> +       if (count) {
-> +               ret =3D generic_write_check_limits(file_out, pos_out, &co=
-unt);
-> +               if (ret)
-> +                       return ret;
-> +       }
->
->         /* Don't allow overlapped copying within the same file. */
->         if (inode_in =3D=3D inode_out &&
-> --
-> 2.43.0
->
+hi,
+we could also add similar support for libbpf_available_kallsyms_parse and
+probably in some other places like bpf_get_ksyms.. which makes me think it
+could be useful to have KALLSYMS_QUERY support for multiple symbols
+
+thanks,
+jirka
+
+
+> +	/*
+> +	 * Fall back to parsing /proc/kallsyms only if the ioctl is not
+> +	 * accessible: not present (-ENOTTY on older kernels) or kallsyms
+> +	 * addresses hidden from this opener (-EPERM, e.g. kptr_restrict).
+> +	 */
+> +	if (err != -ENOTTY && err != -EPERM)
+> +		return err;
+> +
+> +	pr_debug("KALLSYMS_QUERY unavailable (%s), falling back to /proc/kallsyms\n",
+> +		 errstr(err));
+>  	return libbpf_kallsyms_parse(kallsyms_cb, obj);
+>  }
+>  
+> @@ -9922,7 +9996,7 @@ static int bpf_object__resolve_externs(struct bpf_object *obj,
+>  			return -EINVAL;
+>  	}
+>  	if (need_kallsyms) {
+> -		err = bpf_object__read_kallsyms_file(obj);
+> +		err = bpf_object__resolve_typeless_ksyms(obj);
+>  		if (err)
+>  			return -EINVAL;
+>  	}
+> -- 
+> 2.56.0.257.gf7497c7d27-goog
+> 
