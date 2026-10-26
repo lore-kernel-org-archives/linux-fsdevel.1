@@ -1,83 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792997327;
-	b=O9mrjxGkPhy3PGmzJMrGykCYW7sMlRALZI6Oapip/23BEaFmqi1FKgXqPM3QQiYc/3A+
-	 x2p+ZDLjD+wrHvo92BQFLPXRla/4O+PtB7pr49vhEMbr1ab9V/7csL8NOvjU2X6ijhh04
-	 3lim7uY6oxeHSto7tzZWlhx/pR4SXttbkQGk/f1BwG7Re7RrCVJZFn0ma9uWWrJkbv12z
-	 +cE+5slYf+8598YGCpxSUwNseQ+iSBdcoji+WOcchgg/ZE167CD/2TA6fTdLVAbHtL54M
-	 rPIRPSHu2sUkEKB/qzCPHeGHenPJ0r+UeT/oKAC1b1Rlso7u47LpyPUmoIY5s4K/p2A==
+	t=1793000244;
+	b=JScCRfmlsldaxmR3zWAcwiZia6shRzXv01W9QY9NZtfVcZ1C2Zn1NRaTRNTEnAqrikKM
+	 FqHV3SXpbEQHwlqYwYIZbEeWXIdJxZaIOd5mWkTfs3baMurqJFzHC/jRmQ0d4uKDClPz3
+	 Yi2/KTlSQ5vmABx2wMKGnm5t6Wk37hTIIFZK1naBUL9S3mPHMj8Why097YkEvZW0B+12b
+	 09Egj/b729grbtVckvyNxjSqGQVCbQlzTNxrhZkrgtw0FZ4HvGDiPu0LYQ/sJiHlSD5sE
+	 aU95WBPbg7nkXXO03GAQDdSbIatuPIqqZKCSpXYX8GiWkWQktGSmFHSiR0dhh55PVDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792997327;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793000244;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Rspamd-Queue-Id:X-Spam-Level:
-	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=6SYtVd4CVR46l3U3CLp+YsdzpJcvQkabNRi0opV71vI=;
-	b=DyYnN1eAxeIOnyeWFuryp/5uW+YHnRsWBEscz3kKvCbHMxYh4/UhE4b0t0lRqE8ZIZwl
-	 uf3sYgJbsiKUtp0TaO6+M+BNbsMLVLSAnsJDIyJcgqPrtRiDkXuD6Oec9UvC2TV5gFXI6
-	 +zzYTUeVai8+K4CIHQHuE8q4NZXM0dCEsJqUniY3sPZVA2d7rqfnvMkLGhuxR0Lu/toVP
-	 IfGrITD3fch/qUu5adMDbPzi89BFErjp7YFOGAFNRl0n2aI63cmr3NMMDGXSUOCOF/2zC
-	 YzY96xLVi7QxC7Q8J3ZZSml3WVFrQjal7dcn9qTptZRNDzDZAVcRLPzf8px9+ItBkrg==
+	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 User-Agent:MIME-Version:Content-Type;
+	bh=2vp3QjJ817iw+uy+pcrWq/RDVWdRNpTEg9ybL2+diMQ=;
+	b=su1btq3Wyx+hHcGsBn2grUHpgdK9IOA343moc4mbQuJGtqk6d5UB54z6/0rIe3YDVlF5
+	 OG6tejVA4b+zm9ljKVPA8RtKy6vJ8HDf7EoVcUIAv7XI1ovPJ3VgIiDyvSdRGmO50cIoo
+	 ozXfosY4oOZTnynIXY4g1IWihjLZ1HteFjilXqz+rhUf7jK/FH/cKBwV3Tf6JasDrVdyB
+	 wf9nOy8Pi56UCQyvXt9+W83gBxvgfRyODOPVimyLuDOLJdRLoixqFEdXxtOWva7Q3Lgx2
+	 DpLOoP3gUQFET4Ly3oJsT8ozbSN/pkYpKJhSxFw4g1sc7YvV2McI9lnm6klgw39ITgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=pB7yboWZ;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=pB7yboWZ;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=mail.parknet.co.jp;
+	spf=pass smtp.mailfrom=parknet.co.jp;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=tcpGJ6HM;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=NJG1i8Px;
+	arc=none smtp.remote-ip=210.171.160.6
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0585C606A31F;
-	Mon, 26 Oct 2026 06:48:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0585C606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0730606A31E;
+	Mon, 26 Oct 2026 07:37:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0730606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=pB7yboWZ;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=pB7yboWZ
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BF3901F453;
-	Mon, 26 Oct 2026 06:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1792997318; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=6SYtVd4CVR46l3U3CLp+YsdzpJcvQkabNRi0opV71vI=;
-	b=pB7yboWZs3AuGtJ3iJiuBeDI7mNR5IXjA++oJYsK5gqF+WSvgnDcK3/rqEHwc5Zl0qFFtx
-	GBHUVeQnp0jrpUY3ehabQ+wJdSCYM3fQM+Q1dtVqMOGKdzb9G6l15vflssD4ZVpOaycR1A
-	kqR2pBm+009whGEt5b7RCZ5x8Uv7KOY=
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=pB7yboWZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1792997318; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=6SYtVd4CVR46l3U3CLp+YsdzpJcvQkabNRi0opV71vI=;
-	b=pB7yboWZs3AuGtJ3iJiuBeDI7mNR5IXjA++oJYsK5gqF+WSvgnDcK3/rqEHwc5Zl0qFFtx
-	GBHUVeQnp0jrpUY3ehabQ+wJdSCYM3fQM+Q1dtVqMOGKdzb9G6l15vflssD4ZVpOaycR1A
-	kqR2pBm+009whGEt5b7RCZ5x8Uv7KOY=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7027D13408;
-	Mon, 26 Oct 2026 06:48:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6flVK8P33mrhTwAAD6G6ig
-	(envelope-from <wqu@suse.com>); Mon, 26 Oct 2026 06:48:36 +0000
-From: Qu Wenruo <wqu@suse.com>
-To: linux-btrfs@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: stable@vger.kernel.org
-Subject: [PATCH] iomap: only follow dio alignment requirement if specified
-Date: Mon, 26 Oct 2026 17:18:13 +1030
-Message-ID: <9fae60fcce5ae356deef5e38931124b9634dba3b.1792997261.git.wqu@suse.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=tcpGJ6HM;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=NJG1i8Px
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 4F44426F7658;
+	Mon, 26 Oct 2026 16:37:13 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1793000233;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2vp3QjJ817iw+uy+pcrWq/RDVWdRNpTEg9ybL2+diMQ=;
+	b=tcpGJ6HMXlfIONcreIbHlyJFH5AsaoMz+8VE0snqTbIhrEakFRC7ts1VvQBNSa8PjqPA+9
+	mVDLlbb2/1esUdIvvk+X7WYhRiU74HMKlDFzXoCBxaX75j4QRYC8mOS7a7StSqJZ2XS97l
+	bN0bS8AlTdRZN3z4b5GVqJzdaIfLPZE5+GD/8irrNfcISYUBZI6GJ8123nnZYxoLjNv+6m
+	zjq77ZvGS1IrJDYOi93yF05wfX4MCgX64VvoI2kvxUTWYBQq0l8/p25et9Cb8w45bNdIWo
+	jMU0HLo0ptObmtp6HIDv4ZMj6l9uIZY0kjlNrUAo5eJJt/neBpeBPLEZe2NUXA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1793000233;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2vp3QjJ817iw+uy+pcrWq/RDVWdRNpTEg9ybL2+diMQ=;
+	b=NJG1i8PxSDqk+iaOWqE1F/2WQENTpl4yyUDuMM/eiX+0Ua1TxhMuwmPMJNo8+IjkKfndI0
+	7bp70YMMYKRhOoDg==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id C5802E00171;
+	Mon, 26 Oct 2026 16:37:12 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id B8565220019C; Mon, 26 Oct 2026 16:37:12 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Cc: linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] fat: batch synchronous mirror writes
+In-Reply-To: <20261025191006.407209-2-matheus.aalmeida@inf.ufrgs.br>
+References: <20261025191006.407209-1-matheus.aalmeida@inf.ufrgs.br>
+	<20261025191006.407209-2-matheus.aalmeida@inf.ufrgs.br>
+Date: Mon, 26 Oct 2026 16:37:12 +0900
+Message-ID: <87ecdchpzr.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -87,155 +80,189 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: BF3901F453
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+];
-	TO_DN_NONE(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.01
+Content-Type: text/plain
 
-[BUG]
-After commit 4025185cf953 ("iomap: follow the alignment requirement for
-iomap_dio_hole_iter()"), generic/091 fails on both xfs and ext4:
+Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
 
- FSTYP         -- ext4
- PLATFORM      -- Linux/x86_64 btrfs-vm 7.3.0-custom+ #6 SMP PREEMPT_DYNAMIC Mon Oct 26 16:04:56 ACDT 2026
- MKFS_OPTIONS  -- -F /dev/mapper/test-scratch1
- MOUNT_OPTIONS -- -o acl,user_xattr /dev/mapper/test-scratch1 /mnt/scratch
+> fat_mirror_bhs() currently synchronizes buffer-by-buffer on synchronous
+> mounts, serializing I/O and degrading performance.
+>
+> Make fat_mirror_bhs() batch dirty buffer heads and use fat_sync_bhs()
+> to sync several at once. Add a fat_brelse_array() helper that releases
+> buffer heads in an array.
+>
+> Benchmarking was done under QEMU/KVM with a virtio-blk device using
+> cache=directsync. Each result is the arithmetic mean of 10 samples.
+>
+> start = now_ns();
+> for (unsigned i = 0; i < count; i++) {
+> 	fallocate(fds[i], FALLOC_FL_KEEP_SIZE, 0, bytes);
+> }
+> elapsed = now_ns() - start;
+>
+> Sync-mounted FAT32 using count=16 files:
+> File size    Cluster size    Before    After    Improvement
+> 256MiB       512B            49.81s    12.26s   4.06x
+> 1MiB         512B            0.198s    0.057s   3.50x
+> 256MiB       4096B           7.060s    1.640s   4.31x
+> 1MiB         4096B           0.073s    0.028s   2.60x
+>
+> Asynchronous mounts were also benchmarked with no noticeable performance
+> change.
+>
+> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+> ---
+>  fs/fat/fat.h    |  1 +
+>  fs/fat/fatent.c | 81 +++++++++++++++++++++++++++++++++++--------------
+>  fs/fat/misc.c   |  6 ++++
+>  3 files changed, 65 insertions(+), 23 deletions(-)
+>
+> diff --git a/fs/fat/fat.h b/fs/fat/fat.h
+> index b18385461de8..5086c35230ac 100644
+> --- a/fs/fat/fat.h
+> +++ b/fs/fat/fat.h
+> @@ -479,6 +479,7 @@ void fat_truncate_time(struct inode *inode, struct timespec64 *now,
+>  int fat_update_time(struct inode *inode, enum fs_update_time type,
+>  		unsigned int flags);
+>  extern int fat_sync_bhs(struct buffer_head **bhs, int nr_bhs);
+> +void fat_brelse_array(struct buffer_head *bhs[], int n);
+>  
+>  int fat_cache_init(void);
+>  void fat_cache_destroy(void);
+> diff --git a/fs/fat/fatent.c b/fs/fat/fatent.c
+> index 8897a5dd522d..4fa1fae5abf9 100644
+> --- a/fs/fat/fatent.c
+> +++ b/fs/fat/fatent.c
+> @@ -376,39 +376,74 @@ int fat_ent_read(struct inode *inode, struct fat_entry *fatent, int entry)
+>  	return ops->ent_get(fatent);
+>  }
+>  
+> -/* FIXME: We can write the blocks as more big chunk. */
+> -static int fat_mirror_bhs(struct super_block *sb, struct buffer_head **bhs,
+> -			  int nr_bhs)
+> +static int fat_mirror_one(struct super_block *sb, struct buffer_head **bhs,
+> +			  int nr_bhs, int target)
+>  {
+>  	struct msdos_sb_info *sbi = MSDOS_SB(sb);
+> +	sector_t backup_fat = sbi->fat_length * target;
+> +	/*
+> +	 * Use the value of MAX_BUF_PER_PAGE for 4K pages. This reduces stack
+> +	 * usage on large-page architectures as callers may already have a
+> +	 * MAX_BUF_PER_PAGE-sized array in their stack.
+> +	 */
+> +	struct buffer_head *dirty[8];
+>  	struct buffer_head *c_bh;
+> -	int err, n, copy;
+> +	int err, err2, n, nr_dirty;
+>  
+> +	nr_dirty = 0;
+>  	err = 0;
+> -	for (copy = 1; copy < sbi->fats; copy++) {
+> -		sector_t backup_fat = sbi->fat_length * copy;
+> -
+> -		for (n = 0; n < nr_bhs; n++) {
+> -			c_bh = sb_getblk(sb, backup_fat + bhs[n]->b_blocknr);
+> -			if (!c_bh) {
+> -				err = -ENOMEM;
+> -				goto error;
+> +	for (n = 0; n < nr_bhs; n++) {
+> +		c_bh = sb_getblk(sb, backup_fat + bhs[n]->b_blocknr);
+> +		if (!c_bh) {
+> +			err = -ENOMEM;
+> +			goto error;
+> +		}
+> +		/* Avoid race with userspace read via bdev */
+> +		lock_buffer(c_bh);
+> +		memcpy(c_bh->b_data, bhs[n]->b_data, sb->s_blocksize);
+> +		set_buffer_uptodate(c_bh);
+> +		unlock_buffer(c_bh);
+> +		mmb_mark_buffer_dirty(c_bh,
+> +			&MSDOS_I(sbi->fat_inode)->i_metadata_bhs);
+> +		if (sb->s_flags & SB_SYNCHRONOUS) {
+> +			dirty[nr_dirty] = c_bh;
+> +			++nr_dirty;
+> +			if (nr_dirty == ARRAY_SIZE(dirty)) {
+> +				err = fat_sync_bhs(dirty, nr_dirty);
+> +				fat_brelse_array(dirty, nr_dirty);
+> +				nr_dirty = 0;
+> +				if (err)
+> +					goto error;
+>  			}
+> -			/* Avoid race with userspace read via bdev */
+> -			lock_buffer(c_bh);
+> -			memcpy(c_bh->b_data, bhs[n]->b_data, sb->s_blocksize);
+> -			set_buffer_uptodate(c_bh);
+> -			unlock_buffer(c_bh);
+> -			mmb_mark_buffer_dirty(c_bh,
+> -				&MSDOS_I(sbi->fat_inode)->i_metadata_bhs);
+> -			if (sb->s_flags & SB_SYNCHRONOUS)
+> -				err = sync_dirty_buffer(c_bh);
+> +		} else {
+>  			brelse(c_bh);
+> -			if (err)
+> -				goto error;
+>  		}
+>  	}
+> +
+>  error:
+> +	if (nr_dirty) {
+> +		err2 = fat_sync_bhs(dirty, nr_dirty);
 
- generic/091  6s ... [failed, exit status 1]- output mismatch (see /home/adam/xfstests/results//generic/091.out.bad)
-     --- /home/adam/xfstests/tests/generic/091.out	2022-05-11 11:25:30.766666664 +0930
-     +++ /home/adam/xfstests/results//generic/091.out.bad	2026-10-26 16:43:49.387401669 +1030
-     @@ -1,7 +1,25 @@
-      QA output created by 091
-      fsx -N 10000 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -R -W
-     -fsx -N 10000 -o 8192 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -R -W
-     -fsx -N 10000 -o 32768 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -R -W
-     -fsx -N 10000 -o 8192 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -R -W
-     -fsx -N 10000 -o 32768 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -R -W
-     -fsx -N 10000 -o 128000 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -W
-     ...
-     (Run 'diff -u /home/adam/xfstests/tests/generic/091.out /home/adam/xfstests/results//generic/091.out.bad'  to see the entire diff)
- Ran: generic/091
- Failures: generic/091
- Failed 1 of 1 tests
+		int err2 = fat_sync_bhs(dirty, nr_dirty);
 
-[CAUSE]
-The failed command of fsx is COPY_RANGE:
+I'd like to see err2 as local.
 
- copy range: 0x6800 to 0xa200 at 0x3f200
- do_copy_range:: Resource temporarily unavailable
- LOG DUMP (8 total operations):
- 1(  1 mod 256): SKIPPED (no operation)
- 2(  2 mod 256): SKIPPED (no operation)
- 3(  3 mod 256): WRITE    0x14400 thru 0x211ff	(0xce00 bytes) HOLE
- 4(  4 mod 256): FALLOC   0x72bf4 thru 0x76221	(0x362d bytes) EXTENDING
- 5(  5 mod 256): SKIPPED (no operation)
- 6(  6 mod 256): INSERT 0x11000 thru 0x13fff	(0x3000 bytes)
- 7(  7 mod 256): TRUNCATE DOWN	from 0x79221 to 0xa800
- 8(  8 mod 256): COPY 0x6800 thru 0xa1ff	(0x3a00 bytes) to 0x3f200 thru 0x42bff
- Log of operations saved to "/mnt/test/junk.fsxops"; replay with --replay-ops
- Correct content saved for comparison
- (maybe hexdump "/mnt/test/junk" vs "/mnt/test/junk.fsxgood")
+> +		if (!err)
+> +			err = err2;
+> +		fat_brelse_array(dirty, nr_dirty);
+> +	}
+> +
+> +	return err;
+> +}
+> +
+> +static int fat_mirror_bhs(struct super_block *sb, struct buffer_head **bhs,
+> +			  int nr_bhs)
+> +{
+> +	struct msdos_sb_info *sbi = MSDOS_SB(sb);
+> +	int err, copy;
+> +
+> +	err = 0;
+> +	for (copy = 1; copy < sbi->fats; copy++) {
+> +		err = fat_mirror_one(sb, bhs, nr_bhs, copy);
+> +		if (err)
+> +			break;
+> +	}
+> +
+>  	return err;
 
-Both ext4 and xfs only require direct IO to be aligned to the logical
-block size of the device, not the fs block size. So the 0x3a00 bytes
-read at 0x6800 is allowed, and should succeed.
+		int err = fat_mirror_one(sb, bhs, nr_bhs, copy);
+		if (err)
+			return err;
+	}
 
-But that range is a hole, and that commit makes iomap_dio_hole_iter()
-round the zeroed length down to the fs block size unconditionally.
-The first iteration zeroes 0x3a00 bytes but only advances 0x3000 bytes,
-then the next iteration zeroes the remaining 0xa00 bytes, which is
-rounded down to 0, so -EFAULT is returned.
+	return 0;
 
-As ext4 and xfs do not pass IOMAP_DIO_PARTIAL, the whole read fails
-with -EFAULT, which is then converted to -EAGAIN by copy_splice_read().
-Every retry of fsx hits the same -EAGAIN, failing the run.
+very minor (either is ok actually)
 
-That commit breaks all direct reads which range is not fs block aligned
-for ext4 and xfs.
+>  }
+>  
+> diff --git a/fs/fat/misc.c b/fs/fat/misc.c
+> index e79762cf1975..f8f89b947baf 100644
+> --- a/fs/fat/misc.c
+> +++ b/fs/fat/misc.c
+> @@ -365,3 +365,9 @@ int fat_sync_bhs(struct buffer_head **bhs, int nr_bhs)
+>  	}
+>  	return err;
+>  }
+> +
+> +void fat_brelse_array(struct buffer_head *bhs[], int n)
+> +{
+> +	while (--n >= 0)
+> +		brelse(bhs[n]);
+> +}
 
-[FIX]
-Do not revert the range unless the dio has IOMAP_DIO_FSBLOCK_ALIGNED flag.
+I'd like this is noop if n == 0, possibly easier to use and safer in future.
 
-iomap_dio_hole_iter() is only called for reads, and for now only btrfs
-reads can reach this path with the flag set. Btrfs has the proper
-fallback when dio returns -EFAULT.
-
-Fixes: 4025185cf953 ("iomap: follow the alignment requirement for iomap_dio_hole_iter()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Qu Wenruo <wqu@suse.com>
----
- fs/iomap/direct-io.c | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
-
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index 45bb24934f3d..ad041ac3252a 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -590,18 +590,24 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- static int iomap_dio_hole_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- {
- 	loff_t copied = iov_iter_zero(iomap_length(iter), dio->submit.iter);
--	unsigned int bs = i_blocksize(iter->inode);
--	loff_t aligned_copied = round_down(copied, bs);
- 
--	/*
--	 * If fs block size is larger than page size, page fault failure
--	 * can cause @copied to be page aligned but not fs block aligned.
--	 */
--	iov_iter_revert(dio->submit.iter, copied - aligned_copied);
--	dio->size += aligned_copied;
--	if (!aligned_copied)
-+	if (dio->flags & IOMAP_DIO_FSBLOCK_ALIGNED) {
-+		loff_t aligned_copied = round_down(copied,
-+						   i_blocksize(iter->inode));
-+
-+		/*
-+		 * For fs passing IOMAP_DIO_FSBLOCK_ALIGNED flag, if fs block
-+		 * size is larger than page size, page fault failure
-+		 * can cause @copied to be page aligned but not fs block
-+		 * aligned.
-+		 */
-+		iov_iter_revert(dio->submit.iter, copied - aligned_copied);
-+		copied = aligned_copied;
-+	}
-+	dio->size += copied;
-+	if (!copied)
- 		return -EFAULT;
--	return iomap_iter_advance(iter, aligned_copied);
-+	return iomap_iter_advance(iter, copied);
- }
- 
- static int iomap_dio_inline_iter(struct iomap_iter *iomi, struct iomap_dio *dio)
+Thanks.
 -- 
-2.56.0
-
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
