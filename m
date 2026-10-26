@@ -1,87 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.216
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792982177;
-	b=qqmYwIYsXBnkg/NXrbxza+ZpVx4CNWtT97zGoOw1CgPyvgq+a8hThlI8Blrmsuj227Jb
-	 NUg7lfm3avXE/ArHMJDQ4+soIx/pNqco+Ry88hy3wfghSkxIf1/kGi9qq4SxDS2fyISyN
-	 O3V0BddaqqObZSr2/8dV8deXonfnJT1GEyZYKQ9u6HzY773TVRUQzpcKSXZYSIcLl8p9Z
-	 gcBMFMryZIFaS6h535mE25IsR93far1GPz0Uij3F2Et7Dqih/hLY9RsW5C8Yhyzl/MWSL
-	 R5iSpxNfnsrls0qAK/ERTT6iUDQ3l28TQAyDQUBkWYexyJtWFI6+8dewRPCae4ZrHmw==
+	t=1792982473;
+	b=s5cUDlYK3H0sfmsp9Zf8vxm5wBP+zF00lIS28uxSI2337MaZiPtamMPnqofAfgKfGX1R
+	 Qx4TjlXuW3CdP+M9vNY1SAfw/gHDgNQr71zss0B/gaVAUDtvfLVcVmLAQc6KB8sSF/scr
+	 pbUAl6enjnRoFOTpwKppYSLmUIJA0x6nDD5BgjE20GdllVgZhnQPjrcIzHomh0JSK17Wc
+	 wWHsxDBeiEv7tr+U0eTBzGNsVXu4i0fBs2pmSCWm33D9hfd/rLAcbwDeoDZHLJ/wZ1Xts
+	 lJM0Yjkpvq9BiGccEF3+8tvd55KfkPLQcjz6M81Rpu/TuiytVU+0y917OFLNwuLZPng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792982177;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:
-	 X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=opVpgEYV9gBtf6yQWstiOV78EVjFTqAa0i4kc/jTqnc=;
-	b=WEfwY7DZfvfTsjfS02XhI8JjCt+XI8+O/3myEaWSmzsWqO5t9Z7QhKXI7cH6/NOjhkbD
-	 K1xeGH+CI4+1CLlWE2kqoJc8VCmxbudeS94iRGt4ZvVklsPY5MXKEApRmCLSJbQF6J7HB
-	 W/icEYBWQ2Hyw6ypkLePJgoqMBt9G71kYnGQxpv9/yz2KXm/Fumd5ydJPwpADGhLOf73t
-	 7/7HokdNGnOLX7tld9NBQ6o19Ohm8QkWd5l+It7kt1ekeAKBGbrfkMUnBypk+CtGm+yk4
-	 ybHj93xG2pc79t2T2KLuSD40ov272+2KIvbJO9uuk3es1wV1KOLGy3N3Zr4CgGW1yGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792982473;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=8md3aC1uv79iBkW0iZ31AbdvtK6VKNmFBBO3obnuVyw=;
+	b=LYvTzB6fFNXinImAVDPG7vyu54+ohy1a2RnFGZ+LlcYy6Cfi1PjefSGrJvbHFELpHM5p
+	 vvFBmol3j+jFwzNZuqsELQHRmJULXFtJ0g7epJQuCCJynL5w/ZvmKDo/I13EAjq7netqN
+	 qWyEqNaS6fCGoyhNXOD/xpXc6gMiKHPn14708XejRdfRslLJF+gwzE8xT8si+dwShdg6a
+	 6ep5q8MYRkYJ4iG/t30BZb/f/nWQuErdcJtS+2UH+9+QdImtVCSvMtB7bzETToIOcI4zp
+	 K9oyQqLS6+y/IsJcX5P9Y42lJk/Y5vABfAlJLgLJWaqagjjFXlExl1sJ8AHYLP0g1Gw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-foundation.org;
-	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=ed83bYUX;
-	arc=none smtp.remote-ip=209.85.208.44
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=JTSuRcbb;
+	arc=none smtp.remote-ip=113.46.200.216
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABB4606A31D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 02:36:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CABB4606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0714606A31D;
+	Mon, 26 Oct 2026 02:41:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0714606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=ed83bYUX
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b1f31c63ebso6140606a12.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 25 Oct 2026 19:36:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1792982174; x=1793586974; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=opVpgEYV9gBtf6yQWstiOV78EVjFTqAa0i4kc/jTqnc=;
-        b=ed83bYUXTCIkrhzksy4x3pzmpKMBgYQHrvFqoBH540ywzekGYs0w8L+Na+thNsrfzu
-         gp+m5pREcmBAjD4TTrTfILsxc6CwxgnmqRQG293eNQDvhmXGnSogegooX8jlsr8k/FC9
-         qA4Y83KOjl0sUKdoArFVQSHIuyAlTmmpc6634=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792982174; x=1793586974;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=opVpgEYV9gBtf6yQWstiOV78EVjFTqAa0i4kc/jTqnc=;
-        b=IgaV0YCUC5RjoLXtHxC+Eekc7d3+P++n0EuAJbKSENdGDcfCZpJjHOrc7zSafjtkkn
-         hJAU6PqDVdQFlHL3aLHBlvS4CiN/sltP04H9zU9iAz7UZ4fskGf0vPrmnjYRWFmstN2u
-         ggMJJnWw/f54c28Wv5Vn4CgqCP+onxjCOKY+yiuFPKLgCrz//RmK28URWAHXPfZ3SnGZ
-         3g8HyNw87/GJNIciPGaVsvJkhEBs81BmgzZ2quzB0589Jp78K9uSnLKeASSHomP2/x4N
-         wHNo1n/NG5PaYaCijtuqnDUsrd5bRrfsmxkGfrN8gwuv7oo22zmCmwH6tmOiubATTH7s
-         rHeg==
-X-Gm-Message-State: AFq9FYLt9peMWAz2oYXqXNph5554Trf15oqQzXkgvyWXoGGlRZ46yhC3
-	8hdvDtVH2sHXw6OXLzRRXcO2yaF5dqb0Opgd8cXJbaUGWNfqRhiWcFgTMT+csP7lkEkzalRE6Kk
-	W/7ypyQk=
-X-Gm-Gg: AYBFou0aqKVyEaseEwINkX9vjglZG1DabTzuWdKHOdVDBxMp4PQd7xsn/jjUEfnWvIW
-	SLPu+WV/lS+XOz9nnIIsTFTuN5XTpQXgMyp6waQqivhq1a0sHTDqIaxcFj12sK1MXwVB0h8v6N0
-	jfkSGZbGZ0vLKz/QZ9MstlXNVcl0q0biHLSXhiJBTXLPu7BOT/fMZ8/2VsV3uckSJB+/nw+XU7d
-	toUzJMrKm1x+xRGVlDPmJNrToPJ/HvxaevBZnlVOo8U+vBl6eF9YLySdhzjZ0VLUb/vLdOQejIa
-	9hcGVa3XCW87ohYPOyUUYvPKuRCwERYbxLfPT7cyy7+0dVf0pa/3FsWdIFJ67ebo9wu0Ai/W+r+
-	p+daCqipXBrsM6yzJ7RTdked28A5N2qMLhhvCxxzVDZm1ctFiZtzNVKjyWNnlg8QOPb9SRNcttI
-	XVXrNy+tRxcLn1GO+SZHJe9yvSzV0gHIay0Dp/OTy8/sJ2VKMAr4EdOiGjNokwGHcecuJgZXU5X
-	HLQCT/sezxWMabGnpzLjlDMt1fIF3kQUd8Nn1ZRDiE2Dt4u75RZSrNWga0I3FHA/y4WF+QkNg07
-	TtYrjhg6gHd/521SDNSjP88ZOBBEPQ==
-X-Received: by 2002:a17:907:6d0a:b0:c42:4f89:13 with SMTP id a640c23a62f3a-c46bdc13042mr614061366b.15.1792982174171;
-        Sun, 25 Oct 2026 19:36:14 -0700 (PDT)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd5202d9sm270128166b.32.2026.10.25.19.36.13
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Oct 2026 19:36:14 -0700 (PDT)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c434376dbebso461577066b.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 25 Oct 2026 19:36:13 -0700 (PDT)
-X-Received: by 2002:a17:907:3e8d:b0:c46:7fa4:9212 with SMTP id
- a640c23a62f3a-c46be5e3d65mr763708766b.23.1792982173252; Sun, 25 Oct 2026
- 19:36:13 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=JTSuRcbb
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=8md3aC1uv79iBkW0iZ31AbdvtK6VKNmFBBO3obnuVyw=;
+	b=JTSuRcbbjtl1P87qGeQqwzfuIBaibQP3rmYWsWmdXuosNrD+8IpuVY7IxAcUP+PcG4jmofV9d
+	38fLxi+vrSxaCEFNtqRmaH78UoxqgIRYQo3GQQRD4HD3AQLv6RvsW7aT/Wr8d4OEnptOEs+MfmQ
+	YlYPeCPoQ5eOIhkjr/lL5Go=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4jCdCq5m07z1T4j9;
+	Mon, 26 Oct 2026 10:40:55 +0800 (CST)
+Received: from dggpemr200001.china.huawei.com (unknown [7.185.36.96])
+	by mail.maildlp.com (Postfix) with ESMTPS id 3EC0540537;
+	Mon, 26 Oct 2026 10:41:02 +0800 (CST)
+Received: from huawei.com (10.50.85.155) by dggpemr200001.china.huawei.com
+ (7.185.36.96) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Mon, 26 Oct
+ 2026 10:41:01 +0800
+From: Ran Hongyun <ranhongyun1@huawei.com>
+To: <drifabdelmalekmohamedsaid@gmail.com>
+CC: <a.hindborg@kernel.org>, <brauner@kernel.org>, <jack@suse.cz>,
+	<leitao@debian.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <ranhongyun1@huawei.com>,
+	<syzbot+63336d70e1af377d7388@syzkaller.appspotmail.com>,
+	<syzkaller-bugs@googlegroups.com>, <viro@zeniv.linux.org.uk>,
+	<chengzhihao1@huawei.com>, <yangerkun@huawei.com>, <yi.zhang@huawei.com>
+Subject: Re: [PATCH v2] configfs: fix slab-UAF Write in config_item_put
+Date: Mon, 26 Oct 2026 10:33:26 +0800
+Message-ID: <20261026023326.4041232-1-ranhongyun1@huawei.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20261023162906.2938-1-drifabdelmalekmohamedsaid@gmail.com>
+References: <20261023162906.2938-1-drifabdelmalekmohamedsaid@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -91,53 +74,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261016-vfs-v74-41eaf6c4712c@brauner> <20261024-vfs-7.4-rc1.keyring-db88a8f3b5b1@brauner>
-In-Reply-To: <20261024-vfs-7.4-rc1.keyring-db88a8f3b5b1@brauner>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 25 Oct 2026 16:35:56 -1000
-X-Gmail-Original-Message-ID: <CAHk-=wh0gCvsC7A9z_H7her218kSCmd16dqtd9uMfO5ZrSvxLw@mail.gmail.com>
-X-Gm-Features: AclHuK9j_db__idbNB1VD4BAB9oEUCi3kHT1x-yRvpTXB0AMWOknVyDLChen_N8
-Message-ID: <CAHk-=wh0gCvsC7A9z_H7her218kSCmd16dqtd9uMfO5ZrSvxLw@mail.gmail.com>
-Subject: Re: [GIT PULL for v7.4] vfs keyring
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ dggpemr200001.china.huawei.com (7.185.36.96)
 
-On Sat, 24 Oct 2026 at 00:45, Christian Brauner <brauner@kernel.org> wrote:
->
-> Neither keyring is linked into any other keyring so request_key() and
-> KEYCTL_SEARCH can't find them. Userspace has to scrape the serial out
-> of /proc/keys before it can add a key to either of them. That's not
-> great as any user can add a key with a newline in its description and
-> make /proc/keys show a fake .dm-verity keyring line with whatever
-> serial they like.
+Hi Drif,
 
-This explanation reads *very* oddly. It doesn't actually explain at
-all what the patches do or why they do it.
+Thanks for your detailed reply and the new patch. I agree that the
+IS_DEADDIR() check is needed when simple_rmdir() fails, and that my
+error paths mishandle parent_item and leak target references.
 
-Instead it states *another* problem entirely that it doesn't actually
-fix, and almost entirely ignores what the patches actually do.
+With IS_DEADDIR() added, the patch looks functionally correct. There
+is one small point: in the CONFIGFS_USET_DIR path of configfs_rmdir,
+S_DEAD is set regardless of whether simple_rmdir() succeeds or fails,
+so the subsequent parent_item check appears redundant there. It is
+still necessary for the non-CONFIGFS_USET_DIR paths, though.
 
-That's not at all helpful.
+I have not found a clean way to avoid this redundancy, but it does not
+cause any functional issue. It may be the best way to fix the UAF issue
+so far.
 
-Yes, yes, that *other* problem is some of the *impetus* for doing
-this, but at the same time it is absolutely *NOT* an explanation for
-what this code actually does, and why I should pull it. It talks about
-what the patches *don't* do, and rambles about the background, but
-nary a word about what is actually happening.
-
-The only explanations about what the patches actually do are complete
-and utter nonsense. They claim it adds some kind of "well-known key
-IDs". That's complete BS. There is absolutely nothing "well known"
-about any of that: they are completely new random key IDs that nobody
-has ever heard of before, but that are meant to be used as fixed known
-key IDs.
-
-To clarify: I'm not pulling this.  The code looks fine, but I had to
-*look* at the code to try to even guess at what the hell you asked me
-to pull, and that's not fine.
-
-The pull request was an incomprehensible word salad that makes no
-sense and doesn't describe anything. Please fix it.
-
-                Linus
+Thanks,
+Ran Hongyun
