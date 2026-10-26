@@ -1,74 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793051581;
-	b=pNZGOJ94hISskW5DtLdQ6Nyn/lYIUerpmaAYe697CE/6/+ESp55y3evsJ3enwVnBHjHq
-	 VoiBP3xq90ekytohgxn9shjXtpyOXb/PuPmFQnFEySxPwffA0oszZIaQVkDpp6TvmxKYU
-	 KkKo/LlC7LieySK9HxGzc8uspa2Kvu7MB2yPU017BSNU0wPtEHIupHuyErY/KuoDr01jR
-	 4fV7GA+Ig21qh0Bei3Ps5uCqwvWjuAR3ieB2IRtrzWoDFkykpmRuhiy+FWtcQmahu1tCS
-	 NWkYRxYZey/AO8BRsCDOeKbHrab0w9dRtjJqy2u9bpUx0NL2pbsqyz6BhBxNa24VNsg==
+	b=XjBYWdRCbAavP8V+VmdeHW6pt1NPsvIs6PzSP2mAovIXIuBGMYc4WZIaL9Mhra+v8uDx
+	 JPwBQjs6OxVr6DMEqZY6o8Mn45JOwvk5jf2CISaoYVJcSFi1wA7wpiv9I1BUDDn7V9bRy
+	 qHGTN3nJHelKsMFQOzLthxCxWZXCz99b7ocNIzMiywlx3XjM7YDXvWcdjr+pWDbA8gaYV
+	 hUhUb1n7vISFp64eIrnnLBiRBQ7T6p39Bt4g2X8aOmGeAWbZiD/Eszl6u/i+Hw/C8uQv1
+	 sdmm0w0/uv8G1teBoKdZqrZ6KxCDzzTkeyqHxo8U7caiAeyS4vHwDn+suJCFUgXAWQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793051581;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=/8L34Uc9Xo1d4oJ1WUUvtNMd/yh9NNapi89sPDAfm6Y=;
-	b=YAiUDr/xRLyrdYjzsPod/JSLkR0sxveva5iZGyNqPEbLbD3/gLSol/pFO9Y8H+MaV/D9
-	 9nDJ6M7CqYcLEQqRsjsauD7x5CA82fkN5Ffzp2x2h7oCLCLOOaQpa/e3xCGPKT7Obs93N
-	 S7SI7Nst8bz8lecuL8L14c2GKD1w2QLtIDhpJ8FvRhMDu8pFX5bNEAxQy0MerxmlqqY0t
-	 tPkXta3xq95Tw8Ihr5E1zswvPyiNcXwrbuIZZBnxWlpI1s4KTC72m061BW3OSIhg5xRQ7
-	 Te9UoOXIcy4KXH+qFEvgO9vvV39M0DgRNwkLdG+ea10Eu8mGRNUMQJ2WaNOCJodktog==
+	bh=bFIgocNkSNISRV4CHBI3t0UD1tr56XsmI6e/PuL6mFQ=;
+	b=YjUX+CXkd8iadocU1nbgNvvx9PslEF5o6Oi9+V8ZL7iWhxoFagquhEbbyNRmSghLUCZd
+	 W+YuGamqp18sEfuUav4NP2zfsgvyT0hA7Z/zgKlS/uojFWYXAKgFTeFyp2goyJYKrpV4o
+	 MkExsIfxDAaleySH8HV852Fg0uvdAPx8EOCTFWUo+JfkPo8szX+n86pVZOPoJsKdFtMNb
+	 Rb9Sp4dh/EvOxeB4yaxM0R1dF5QtZFgt2tPoooJLPis9nKEUqCFffXCX3sYWpSzauGbnz
+	 QxBQVynREXzSTIwgqZIRrMY1UMk47x6gOEi5bozk2DVhhOFYNuuCHkzXbtgADUvl/qQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
-	spf=(null) smtp.mailfrom=flex--jthoughton.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=fU7gA7Dl;
-	arc=none smtp.remote-ip=209.85.215.200
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.214.200
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566EF60A2621
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:52:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 566EF60A2621
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF11606AB10
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:52:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BF11606AB10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=tempfail smtp.mailfrom=flex--jthoughton.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=fU7gA7Dl
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cd6969473a4so2053546a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 14:52:50 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2df8484f12cso33290665ad.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 14:52:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1793051570; x=1793656370; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1793051575; x=1793656375; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/8L34Uc9Xo1d4oJ1WUUvtNMd/yh9NNapi89sPDAfm6Y=;
-        b=fU7gA7DljvCqdvdMpaU2dp8kIrEccZFKOmWnfW6sw+A054S6dlNZugZLhIYYcfiePQ
-         hsLgQW99gw7/40gSfJI6nU0rtnm0+1dPDbRaUoY665tdkjNVHr2UFbegtIbotfU9v9/A
-         uK7QOilz2oAfaWXl/tsF91D3vAUMVrFCU+UmdWgUF2++tfRICFcImVM7cH8b81croIe/
-         3gbPbeDpIxRnPDaXaoU22kL/RynJy6L0hYZfzyDRTzTeCDcQlDb8FUzF1BEGuZLmjKzH
-         eeONqBOhxrAFnMU8HI0VT7oOvpOxL8LajgaOKQMUvvRXhW0M5pmi7s9QGStFhbTf6Lb8
-         9JRA==
+        bh=bFIgocNkSNISRV4CHBI3t0UD1tr56XsmI6e/PuL6mFQ=;
+        b=HZDE5/h8w3OLnXIxK6aJgBJe5iwYfPAwmjEpbW/4ftuyFH9ujuIrSw0dznV9OUyE6F
+         vLLrtdw5C1f/2X+KE5a5AjTR0OVlTErAcMYLlhQ5t2W88/kgSbZ50jbWTAgaZjq8AYcS
+         4LLCa+on0oJ7TLoL82cJ6x9U3nUI29G0f4PX+yu671qzXzwpuN6+UwWx7JShwc/LkLfM
+         GRw34cZFEGEcFhzeutRJqBfkALCNUgi6P0+zbacA4vpG0KwtbVgvsMdzT9Ez5Kd0LgzS
+         r7YDxe2JSHaiPCcL0fARduZEtNb5N686qJeDu/bTRdIxd0MlXDFjjdccfXbzfnsu4WZc
+         oRRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793051570; x=1793656370;
+        d=1e100.net; s=20260707; t=1793051575; x=1793656375;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/8L34Uc9Xo1d4oJ1WUUvtNMd/yh9NNapi89sPDAfm6Y=;
-        b=hwlJE7Ak6K5pGiiu8MmCfaAete7On35L3Wjxy9a7IexTn7VzyBjX1uOHLJb54fCyvz
-         dGoWfRpExAFWEGAhKjXY4e7Fs79OrZ08ayxFLXQY+o/Kxjh2lAqlEVerz1LfNJhoUt6x
-         18zHcPFrVtYRhr391fzIsESTAjjQHc1piY+U7bS9q4UENZ7WgpF6wvM/bn00Nd/fWnGv
-         uwK10+rAEJtTuwAZQYt71CnUEFv0l8SiDIjW5UB2UH6xJUdZwreMCDPQb3lpkzjJm37Z
-         vMt5SmNVYz7WCtW+MSiV6Pc+06OIbwS+/ouZyBkcJZPsJJ6VS24p4lnLeYIrLRH5wcsw
-         uSrw==
-X-Forwarded-Encrypted: i=1; AKwUvBzuWLX1tTgyL18mcTmwwLxGNNy+Vjf+JdDANXtPL3ap2dXQeaCLaTp2/4GPRYTN9YA0/M1wcdrwLhl+rhKO@vger.kernel.org
-X-Gm-Message-State: AFq9FYKXhMKf0/sA9yJzPPWgOJsjrskgLCPeo5ZK1MTbmpz52sxIqR2x
-	MxFDsyKkTSHDpXLvVCibdEYrhHjwRzlh9EMlu4TS+6ZsBP/UJZ5eYsPoVSEqGnJOOHkf5Pj7H+0
-	h0dHDZ7m2TW1xnls3deTR0A==
-X-Received: from pjbme4.prod.google.com ([2002:a17:90b:17c4:b0:3ae:349e:2bcd])
+        bh=bFIgocNkSNISRV4CHBI3t0UD1tr56XsmI6e/PuL6mFQ=;
+        b=1FWsM/H4YqgJBc9NUYqu2H0TzBVaff6O5IwkP8YBo7KptzGGRsUGkn90q1FHrVN6Qb
+         60K7on7Pska9+ERHBKcLSsNOwQXW1iDpK74Z5Wj1W1EpGcuc3lO6JecbukYfmluLRSjY
+         fCvHNB2xkxfdPZlY6JNp/BpmlVEsELC7yHk0seKlr3yIWjBii/rA8zf5L4K/luVgJmSU
+         fFZHmIT6QboHQSc2HBcn7eTcIPRa/PoxB8Uq8Zf81/IVW7/IFHZwQwHSvTrUrSKv9xdj
+         c/1glujBtF6qkPGcNs+yVHaJiqnbSUYP/EHbgrYqoFqxvsPdOgqni0/oDiulhe/rAhzb
+         QXUA==
+X-Forwarded-Encrypted: i=1; AKwUvByNu5SxrpGwBX624RYF59Q80KWTvxX8hVUJCDzFPw8d1c4HH5OgK8nD6E2pC8KSoJ07Gx4HxJj/lIAGt3ac@vger.kernel.org
+X-Gm-Message-State: AFq9FYI064kMCwzZqVg3FUh39cvWOP2nAzqg/pXwa8X3cdQV+v4R9hM3
+	4KNd7liBRoPJ6z+jroqj1Of1LbVelkx1Pfem51JNuGyglnHj7QiOA3/RBWnBH2McOdCqIBvNoRg
+	Ai3oV3C1G8IG+SDHHwniMjQ==
+X-Received: from plblg15.prod.google.com ([2002:a17:902:fb8f:b0:2e5:712c:5c7])
  (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:35cc:b0:3ad:1b31:92d8 with SMTP id 98e67ed59e1d1-3adeb16ecffmr5865801a91.60.1793051569572;
- Mon, 26 Oct 2026 14:52:49 -0700 (PDT)
-Date: Mon, 26 Oct 2026 21:52:18 +0000
+ 2002:a17:902:ebc8:b0:2e2:e0f8:e57c with SMTP id d9443c01a7336-2ea9c95ba58mr63848015ad.70.1793051574627;
+ Mon, 26 Oct 2026 14:52:54 -0700 (PDT)
+Date: Mon, 26 Oct 2026 21:52:24 +0000
 In-Reply-To: <20261026215226.3713941-1-jthoughton@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,9 +78,9 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261026215226.3713941-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
-Message-ID: <20261026215226.3713941-3-jthoughton@google.com>
-Subject: [RFC PATCH 02/10] btrfs: Don't copy encoded read data to user memory
- when canceled
+Message-ID: <20261026215226.3713941-9-jthoughton@google.com>
+Subject: [RFC PATCH 08/10] uaccess: Refuse and warn on __copy_from_user_inatomic()
+ without an mm
 From: James Houghton <jthoughton@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>
 Cc: Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>, 
@@ -106,48 +103,83 @@ Cc: Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ke
 	linux-kernel@vger.kernel.org, James Houghton <jthoughton@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-btrfs_uring_read_finished() copies the data of an io_uring encoded read
-to the submitter's buffers with copy_page_to_iter(). It runs as io_uring
-task work, but io_uring may also run it with tw.cancel set from other
-contexts when the submitting task can't run it: from a kworker when the
-submitting task has exited (io_tctx_fallback_work()), or from
-io_cancel_local_task_work() when a DEFER_TASKRUN ring is torn down.
+__copy_from_user_inatomic() never called should_fail_usercopy(), so the
+NULL current->mm check added to uaccess_should_fail() does not cover it.
+It is used e.g. by KVM's kvm_read_guest_atomic(), by several
+architectures' perf callchain and stack trace code, and by the generic
+copy_from_user_inatomic_nontemporal().
 
-In a kworker, current->mm is NULL, and the copy does not reliably fail:
-the user half of the address space belongs to whatever mm happens to be
-lazily loaded, if any, so the data may be written into an unrelated
-process.
+Split the NULL mm check out of uaccess_should_fail() into
+uaccess_without_mm(), and use it in __copy_from_user_inatomic() to warn
+and refuse the copy.
 
-Don't copy the data when the task work is canceled, and complete the
-command with -ECANCELED.
+Don't use uaccess_should_fail() there, as that would also start injecting
+failures into __copy_from_user_inatomic(), which some callers don't
+expect to fail in practice, e.g. __wp_page_copy_user() warns if the copy
+fails twice.
 
-Fixes: 34310c442e17 ("btrfs: add io_uring command for encoded reads (ENCODED_READ ioctl)")
+copy_from_user_nofault() already fails quietly when current->mm is NULL,
+and the generic user stack unwinding entry points (perf_callchain(),
+get_perf_callchain() and stack_trace_save_user()) only unwind the user
+stack of a user task with an mm, so neither is affected.
+
 Signed-off-by: James Houghton <jthoughton@google.com>
 ---
- fs/btrfs/ioctl.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/linux/uaccess.h | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
 
-diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
-index f3e2afe221be..d9044fbd9547 100644
---- a/fs/btrfs/ioctl.c
-+++ b/fs/btrfs/ioctl.c
-@@ -4609,6 +4609,16 @@ static void btrfs_uring_read_finished(struct io_tw_req tw_req, io_tw_token_t tw)
- 		goto out;
- 	}
+diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
+index 8ab24e706a22..eae204f7261b 100644
+--- a/include/linux/uaccess.h
++++ b/include/linux/uaccess.h
+@@ -51,20 +51,33 @@
+ #endif
  
-+	/*
-+	 * If the request is being canceled, e.g. because the submitting task
-+	 * has exited, this may run from a kworker or in a different task, so
-+	 * don't copy the data to the submitter's buffers.
-+	 */
-+	if (unlikely(tw.cancel)) {
-+		ret = -ECANCELED;
-+		goto out;
-+	}
+ /*
+- * Return true if a user copy must not be attempted, either because a failure
+- * is being injected, or because the current task has no mm.
++ * Return true, and warn, if the current task has no mm, in which case user
++ * memory must not be accessed.
+  *
+  * Accessing user memory without an mm (e.g. from a kernel thread that is not
+  * using kthread_use_mm(), or from a task that has already gone through
+  * exit_mm()) is always a bug: the user portion of the address space belongs to
+  * whatever mm happens to be lazily loaded, if any, so the access could
+  * silently hit another task's memory.
++ *
++ * Note that this only catches a missing mm. It cannot catch a valid mm that
++ * isn't the one the caller expects, e.g. when a file's release or ioctl
++ * handlers run in a different process than the one that created it. Code
++ * that keeps user addresses belonging to a specific mm must check
++ * current->mm against that mm itself (see e.g. KVM's kvm->mm checks).
++ */
++static __always_inline bool uaccess_without_mm(void)
++{
++	return WARN_ON_ONCE(!current->mm);
++}
 +
- 	if (priv->compressed) {
- 		index = 0;
- 		page_offset = 0;
++/*
++ * Return true if a user copy must not be attempted, either because the
++ * current task has no mm, or because a failure is being injected.
+  */
+ static __always_inline bool uaccess_should_fail(void)
+ {
+-	if (WARN_ON_ONCE(!current->mm))
+-		return true;
+-	return should_fail_usercopy();
++	return uaccess_without_mm() || should_fail_usercopy();
+ }
+ 
+ /*
+@@ -117,6 +130,8 @@ __copy_from_user_inatomic(void *to, const void __user *from, unsigned long n)
+ {
+ 	unsigned long res;
+ 
++	if (uaccess_without_mm())
++		return n;
+ 	instrument_copy_from_user_before(to, from, n);
+ 	check_object_size(to, n, false);
+ 	res = raw_copy_from_user(to, from, n);
 -- 
 2.56.0.307.g5fe7bd680c-goog
 
