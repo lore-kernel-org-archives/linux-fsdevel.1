@@ -1,108 +1,108 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793014747;
-	b=rCnIfUDJ1EbmRfdmqCdEQHhWbE7rhzzw5U3qOXGlCO335VpRNrAZNcQq13+T++LUAqMr
-	 RFFQqRJmhSAPI+xd2/UqY+2MH7HQfUnvqZg3eAqH/4ss+9KFs+lGoJVBzjvrZVl79Cp1d
-	 +zkEjCW8nvRNiqS3Z/bAG084L2jtb9H94L9lzc4qcdDyaJzOamVV6IufAXKCW3h6yp3aZ
-	 PBLGK/iX5OImo7KRH/JismQ+6fD/Rzm3jueQLhJLh3Rix5oWgBMEYYb+TkiZl5fCtedJn
-	 8R5btjHROy0RIGNUodQMIVqIdTxPROg7xG5p5PDOrCv/CF0Ct+6PBNneoIenUcPNLxA==
+	t=1793015313;
+	b=j45DMrmaq+ptNKTE62lVwlKn3qKD50jAizwnD3a0OZId8g2Teo3hqiLT51WXUmx6lgwz
+	 tzRy2qrzm4NAiCOHbFphLd5/akNwLs9bn7DUwuoIwImwr7LWVmbFbLx6rDHk//jsuV3B6
+	 4hiKnwhPScEd8I7NRgwni8cZGF/OuPrleB11an2VECsUIyKDR8VPEGaq3zt9UcRk6CMeY
+	 j6JJGwEauF4yeHvw5+NYscguW/tWVu/CRYLLpMTuWJp6LRkePWlfD5VxUdJUft6dtE8A8
+	 KPduyb171xb4iOm31sgSPJkmCqn17xYqmfDgwgrL9EnN2ztXpTfukUOufdosJESuSlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793014747;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793015313;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
 	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
 	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=5lzl3a2q3yo0vQ5DNzROwnjbKC32Dj14awVRc53VOJs=;
-	b=F6qqDWhRSjPppUKJfFC92Vuw8HHzSQXFg2UKFhuKot6hWdtcueUrZLkBEP8N3Pqzqkj7
-	 HUSMnKfxM7QtRTMaG4C9NUwbgQrQWN2Ir6j4htnvp+5BEBh44/VUx/feD6xIDX0qNSn4K
-	 siPpm/3p0t0M3ww2qZch1cXiKaAqq7VV3W2hyCvlzn4//zGY6hHn67mKm9jNpCIvLdwwH
-	 V9CcXqasWxJq7FfpSgEC1kWnKbSsFw/KhpP/XX4QqCyWaUR0A2m3os+pg4N3UE+yWK0Ky
-	 jkBG3QTXlptbI+VcLhn4U1npzN4uXrP8tAyNfDchCxh4iOQLL5WKIiCNtleDoV2KxCw==
+	bh=fM/46f3Fbq+EIxzw9hwaJdKkJPiA0eFwBSlBaZv8UD4=;
+	b=OTfARobKRD7CBP3si00POOqmhdOqKWxR50yK1FCpAF0OkM4yePAH/jZ0EcgAHYr8R0tV
+	 LR2USQqwsEG1cISCgrT46wYxufO58n2sbFf3tXkoONlr0k4rAX/jrPR7rRkWwJJQPCY0P
+	 fb0Sui5SY0RUNema3amk1M1eiukHTZDDFF+FI2HZ8TJ3PIyGZMSDmfvHwUGHcRQZR2iOY
+	 L01ntL2U25W96p6FjDjVffrPWRDjQiQMzgYD0o54G5oMxGe1TfWJzY0vyduhdRym/me6M
+	 8yz+0lSeZW2MGg8D+8UFb8PdLEkstppSn/89UQt3cdRdFSlGU/MlCTBe7R51bFQJeTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=U9XGRtwP;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q6vSWwaz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LVOAQol7;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=TB17vIPY;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RC+jjzXj;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8SqA6sFi;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RC+jjzXj;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8SqA6sFi;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A575E606A31B;
-	Mon, 26 Oct 2026 11:39:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A575E606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4321B606A322;
+	Mon, 26 Oct 2026 11:48:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4321B606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=U9XGRtwP;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q6vSWwaz;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LVOAQol7;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=TB17vIPY
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RC+jjzXj;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8SqA6sFi;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RC+jjzXj;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8SqA6sFi
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6ED4821EEB;
-	Mon, 26 Oct 2026 11:39:03 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 54290222E9;
+	Mon, 26 Oct 2026 11:48:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793014744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793015311; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5lzl3a2q3yo0vQ5DNzROwnjbKC32Dj14awVRc53VOJs=;
-	b=U9XGRtwPBKjdVclnfqvGZBVo1I2/7m+LRBoJ0Vs1RrWviTHpdVJAvtBiYPBhY31I+ghjbH
-	jst0Tm+iEBYcf15MQXUcddhCuBAGLr/mBmIN2jVc7Xg47+TL5+ACR/09IX55cOcmHqRa1L
-	CtXFc25nzhbKbE5VAw9GNi1ln/5DRW0=
+	bh=fM/46f3Fbq+EIxzw9hwaJdKkJPiA0eFwBSlBaZv8UD4=;
+	b=RC+jjzXjBbCHL5jzDEay57Y7AYjYPFjnMO5Zq0DIxz1GBfqNznEDfN/FcBMJzWK79j1u66
+	3hpM0gJ5xmokVpyeI5IfeA5NwpK2VnADHM9uBGhYonbQpoicthT1QbIvvF8LVSiXE7F2O3
+	/r7I2thkEEno2yeZl3KXWd5tDXp2u/w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793014744;
+	s=susede2_ed25519; t=1793015311;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5lzl3a2q3yo0vQ5DNzROwnjbKC32Dj14awVRc53VOJs=;
-	b=q6vSWwazTrBP8f9blH2NO+ztt8WSXQLyBBDDIZOa10bXziJctnQnGcyxXdrH7I5f7f0FF1
-	m6Hmgx+4qlLRg5Bg==
+	bh=fM/46f3Fbq+EIxzw9hwaJdKkJPiA0eFwBSlBaZv8UD4=;
+	b=8SqA6sFiPB5Rgjt0wRttZqzNOCdZVf+DKpHW+eIFj8NW8oFHvmwektJSrs4Sw5Fxej+wCV
+	VBYEpfMNrIa2VdBw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=LVOAQol7;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=TB17vIPY
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=RC+jjzXj;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=8SqA6sFi
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793014743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793015311; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5lzl3a2q3yo0vQ5DNzROwnjbKC32Dj14awVRc53VOJs=;
-	b=LVOAQol7xoQrEusYksZpD0Kftmwpy7cbbOlg3s0M6ntEEU6cxSzZg1YeeANFp2aA15muFs
-	REmVZ35icO59UPvxUB77Da4p0XSh5M7CAnCo8jyQ1auLgXXqbOAB71QbR5ISYHa6vUzcpP
-	WWxMLqXQ8rfGslfGQ/bIVKnXgYaKshQ=
+	bh=fM/46f3Fbq+EIxzw9hwaJdKkJPiA0eFwBSlBaZv8UD4=;
+	b=RC+jjzXjBbCHL5jzDEay57Y7AYjYPFjnMO5Zq0DIxz1GBfqNznEDfN/FcBMJzWK79j1u66
+	3hpM0gJ5xmokVpyeI5IfeA5NwpK2VnADHM9uBGhYonbQpoicthT1QbIvvF8LVSiXE7F2O3
+	/r7I2thkEEno2yeZl3KXWd5tDXp2u/w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793014743;
+	s=susede2_ed25519; t=1793015311;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5lzl3a2q3yo0vQ5DNzROwnjbKC32Dj14awVRc53VOJs=;
-	b=TB17vIPY3aVaxbIuKRsj8vXl6PcAiJ3hOnJxXLIZhv6lDq62aAmwrvSzCM7FjAPeKaZkBc
-	Trd3M0ex9IY8E7Cg==
+	bh=fM/46f3Fbq+EIxzw9hwaJdKkJPiA0eFwBSlBaZv8UD4=;
+	b=8SqA6sFiPB5Rgjt0wRttZqzNOCdZVf+DKpHW+eIFj8NW8oFHvmwektJSrs4Sw5Fxej+wCV
+	VBYEpfMNrIa2VdBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4426213408;
-	Mon, 26 Oct 2026 11:39:03 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 27B9913408;
+	Mon, 26 Oct 2026 11:48:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MCniB9c732pxAgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 11:39:03 +0000
+	id z940AQ8+32pIDAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 11:48:31 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C0FE9A1419; Mon, 26 Oct 2026 12:38:58 +0100 (CET)
-Date: Mon, 26 Oct 2026 12:38:58 +0100
+	id A9551A1419; Mon, 26 Oct 2026 12:48:30 +0100 (CET)
+Date: Mon, 26 Oct 2026 12:48:30 +0100
 From: Jan Kara <jack@suse.cz>
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	akpm@linux-foundation.org, dave.hansen@linux.intel.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] libfs: do not extend i_size when no data was copied
-Message-ID: <ak7araqwhxjj67qmxrq4efjuuhnjudrr2bcc75i2ieqsvrqkkm@ryrg2hpu6wdt>
-References: <20261025171130.16115-1-dennylin0707@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Josef Bacik <josef@toxicpanda.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] super: add super_wait()
+Message-ID: <hcaql2pfvlhp3hin437vwo7cycgk4i7hwuprwniv5alz7fo3be@dljf4hop2vaj>
+References: <20261023-work-super-lock_helpers-v1-0-d0fcb3f2f275@kernel.org>
+ <20261023-work-super-lock_helpers-v1-1-d0fcb3f2f275@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -114,8 +114,8 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261025171130.16115-1-dennylin0707@gmail.com>
-X-Rspamd-Queue-Id: 6ED4821EEB
+In-Reply-To: <20261023-work-super-lock_helpers-v1-1-d0fcb3f2f275@kernel.org>
+X-Rspamd-Queue-Id: 54290222E9
 X-Spam-Level: 
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
@@ -129,45 +129,36 @@ X-Spamd-Result: default: False [-13.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_FIVE(0.00)[6];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.cz:dkim,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_TLS_LAST(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[suse.cz:+]
 X-Spam-Score: -13.01
 
-On Sun 25-10-26 17:11:30, Hungyu Lin wrote:
-> simple_write_end() updates i_size to pos + copied even when copied is
-> zero. A failed buffered write past EOF can therefore extend a ramfs file
-> without writing any data.
+On Fri 23-10-26 11:41:01, Christian Brauner wrote:
+> We wait for SB_BORN, SB_DYING and SB_DEAD in five places now, each with
+> an open-coded wait_var_event(), wait_var_event_killable() or
+> wait_var_event_state() on sb->s_flags and super_lock_common() picking
+> between the first two depending on @killable. Add super_wait() which
+> takes the flags to wait for and the task state to sleep in and use it
+> everywhere.
 > 
-> Since prefaulting was moved to the slow write path, this is reproducible
-> with a one-byte pwrite() at offset 4096 into an empty ramfs file using an
-> unreadable source buffer. The call fails with EFAULT but leaves the file
-> size at 4096. generic_perform_write() calls ->write_end() with copied == 0
-> before trying to fault in the source buffer.
+> No functional changes.
 > 
-> Only extend i_size when data was copied. Keep the existing folio handling
-> so that zero-progress retries and successful writes retain their current
-> behavior.
-> 
-> Fixes: 665575cff098 ("filemap: move prefaulting out of hot write path")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
 Looks good. Feel free to add:
 
@@ -176,24 +167,88 @@ Reviewed-by: Jan Kara <jack@suse.cz>
 								Honza
 
 > ---
->  fs/libfs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  fs/super.c | 30 +++++++++++++++++-------------
+>  1 file changed, 17 insertions(+), 13 deletions(-)
 > 
-> diff --git a/fs/libfs.c b/fs/libfs.c
-> index 8e2cc627bc7f..d889a4a14f41 100644
-> --- a/fs/libfs.c
-> +++ b/fs/libfs.c
-> @@ -1007,7 +1007,7 @@ static int simple_write_end(const struct kiocb *iocb,
->  	 * No need to use i_size_read() here, the i_size
->  	 * cannot change under us because we hold the i_rwsem.
->  	 */
-> -	if (last_pos > inode->i_size)
-> +	if (copied && last_pos > inode->i_size)
->  		i_size_write(inode, last_pos);
+> diff --git a/fs/super.c b/fs/super.c
+> index 63e85794ea4d..16b9d7ac381c 100644
+> --- a/fs/super.c
+> +++ b/fs/super.c
+> @@ -102,6 +102,17 @@ static bool super_flags(const struct super_block *sb, unsigned int flags)
+>  	return smp_load_acquire(&sb->s_flags) & flags;
+>  }
 >  
->  	folio_mark_dirty(folio);
+> +/*
+> + * Wait for one of @sb_flags to be set on @sb, sleeping in @state.  Returns 0
+> + * or -ERESTARTSYS if @state allowed the wait to be cut short.
+> + */
+> +static int super_wait(struct super_block *sb, unsigned int sb_flags,
+> +		      unsigned int state)
+> +{
+> +	return wait_var_event_state(&sb->s_flags, super_flags(sb, sb_flags),
+> +				    state);
+> +}
+> +
+>  /*
+>   * Returns 0 with s_umount held, -ENOENT if the superblock is going away, or,
+>   * if @killable, the error from a wait which was cut short.
+> @@ -122,12 +133,8 @@ static int super_lock_common(struct super_block *sb, bool excl, bool killable)
+>  		return -ENOENT;
+>  
+>  	/* wait until the superblock is ready or dying */
+> -	if (killable)
+> -		ret = wait_var_event_killable(&sb->s_flags,
+> -					      super_flags(sb, SB_BORN | SB_DYING));
+> -	else
+> -		wait_var_event(&sb->s_flags,
+> -			       super_flags(sb, SB_BORN | SB_DYING));
+> +	ret = super_wait(sb, SB_BORN | SB_DYING,
+> +			 killable ? TASK_KILLABLE : TASK_UNINTERRUPTIBLE);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -216,7 +223,7 @@ static __must_check int super_lock_killable(struct super_block *sb, bool excl)
+>   */
+>  static int super_wait_shutdown_killable(struct super_block *sb)
+>  {
+> -	return wait_var_event_killable(&sb->s_flags, super_flags(sb, SB_DYING));
+> +	return super_wait(sb, SB_DYING, TASK_KILLABLE);
+>  }
+>  
+>  /**
+> @@ -230,7 +237,7 @@ static int super_wait_shutdown_killable(struct super_block *sb)
+>   */
+>  static void super_wait_shutdown(struct super_block *sb)
+>  {
+> -	wait_var_event(&sb->s_flags, super_flags(sb, SB_DYING));
+> +	super_wait(sb, SB_DYING, TASK_UNINTERRUPTIBLE);
+>  }
+>  
+>  /* wait and try to acquire read-side of @sb->s_umount */
+> @@ -606,9 +613,7 @@ static struct super_block *super_dev_next(struct super_dev *cursor,
+>  				return sb;
+>  			}
+>  		}
+> -		ret = wait_var_event_state(&sb->s_flags,
+> -					   super_flags(sb, SB_BORN | SB_DYING),
+> -					   state);
+> +		ret = super_wait(sb, SB_BORN | SB_DYING, state);
+>  		put_super(sb);
+>  		if (ret) {
+>  			super_dev_walk_end(cursor);
+> @@ -731,8 +736,7 @@ static int grab_super(struct super_block *sb)
+>  		ret = -ENOENT;
+>  	}
+>  	if (ret == -ENOENT)
+> -		ret = wait_var_event_killable(&sb->s_flags,
+> -					      super_flags(sb, SB_DEAD));
+> +		ret = super_wait(sb, SB_DEAD, TASK_KILLABLE);
+>  	put_super(sb);
+>  	return ret ? ret : -EAGAIN;
+>  }
+> 
 > -- 
-> 2.43.0
+> 2.53.0
 > 
 -- 
 Jan Kara <jack@suse.com>
