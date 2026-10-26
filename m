@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.71.93.99
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793015966;
-	b=XBowGIa9pzTFz/t5/GsI+9AdTHqywP2R48OLw0B5EBS1UOcGVP1pmReNwmkpKrh0XMAd
-	 fVWplf4gGqe6514r6+xkJV16l7ynxjFeAywcWAB6aaucPmdALmGNXIwRiHNcwCklzNtQn
-	 kpBPpyTqPeeNmXfgpEVzwIR5d1EX5C11vuxKONoKNCkE0ZYO6KkVTZ9AiKuOzKufFsHoS
-	 OpgdJOSrhZvqmlJ81nHmUOanLkGjLhhbt9RIFVTMq9nwD4/VsTLwfynJPHqupRfwQ/m5g
-	 8U/tZM5IoSbjBQ7RFwnUJqB2jK0TRtePxrCt4VUWugZUPfXHubZRV5AXQ7jZqVa6wPQ==
+	t=1793015965;
+	b=wN1ecu40uTct25kfedoG4695Gt+ciNkmv1DIX+wR4R6Vvv7ii457FfrKcadT4bedxLLE
+	 Ft0ChQEvlHd4Jw6KXhrwHoRlqcxilfKDYbCSCyZhwYM4yMvDxn0NQ2m2r3zLAbqnVVbBW
+	 Yrkw16fA98ew5QjKaEcBlUHaASEQ2crD6l2PXjW64dZAnBDGEzQ/xlAGyZxT0VpeWVmRU
+	 HUF5rdaD1X4cUiD8GYpNgI63pv6uMy32OwSX21gAeaJRcUKl1mJvdoySYsLutLDxkRFTj
+	 zjS+GR3cjXjORVqQQ54Pb+PuJTujtHL/bpOcrjDGtpObXpfx/VDunbZkJiUevb/RxBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793015966;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793015965;
 	h=DMARC-Filter:Received:Received:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
 	 X-CM-SenderInfo;
-	bh=fuxILKIBlqafUPpm4FalHB7THGnKSbpGvyxYNqYhqTc=;
-	b=YjJG5TVJf4r68HI+mduUEF3Xgim8oxI0wPvyAZbRjhhuZJitJmOEoIqLWjSJwIKcfq8B
-	 F/io0tYHYrcu7KLmAvRSBITIJGgRsqJhFegUlo9GZjVz2+8LSkB3jwoR6aUXsVxpsRkce
-	 q+oiPBCeWRCliVtEg7te65ajtF7LS6uqPjwnrAzCpdsFJIDaxga+4Ec2PNFSLzIa3GDSL
-	 OFwQAoMR5KmAUcRE2yYJPq4mqEZxD1H29Ag54D7UAitL8wi8HUbeio2eQH/cIL2lc5Y6c
-	 IHbyVOboxyA+7hFe4r8fCrFZEnZZdjSac3lan5g4VCJFAogSQgVQh1zttT8vn+E3ChQ==
+	bh=+A5fOQg3hWrYBJHmdOnGd7jiJw4YBzFsEeP29AgOyd8=;
+	b=XqctPKAJV5TjiUCQqQ22h4RyHwfBrq/93g/OubWtEjoPp07yCwjxV17Th14TCm2uCXWa
+	 o1IIdreFtjuFyZ+BBkHDUv8XWCNnCSMSHBTl7b1ejetqHdu+3aC/zWvX4hj/C+7BhGqUs
+	 CTGMk7qJqVFB1SE1fKh5hIgTzuMQZNgqiqQUZguwteapedKREnpKnFwe7PgalVRKuf9ZJ
+	 oBSowAd5mpidBEAe1fgwjpN1eOwccid1vG2xXiuWfkfMMdr0q5XYkE+7iRJuOTzGE2ASk
+	 NCCoPRTZvvKXi/BqbqJK7HiexreASdl928IE6WhpSx9JP7uMRA/GAyMhTN5x/N7fNqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=huaweicloud.com;
 	spf=pass smtp.mailfrom=huaweicloud.com;
 	arc=none smtp.remote-ip=124.71.93.99
 Received: from dggmsgout11.his.huawei.com (dggmsgout11.his.huawei.com [124.71.93.99])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53183606A323;
-	Mon, 26 Oct 2026 11:59:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53183606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C288E606A322;
+	Mon, 26 Oct 2026 11:59:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C288E606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
 Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggmsgout11.his.huawei.com (SkyGuard) with ESMTP id 4jCsbr6077z1c1cT;
+	by dggmsgout11.his.huawei.com (SkyGuard) with ESMTP id 4jCsbr4QN2z1c05c;
 	Mon, 26 Oct 2026 19:59:04 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 2AB6B4056B;
-	Mon, 26 Oct 2026 19:59:16 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTP id EA4A44056F;
+	Mon, 26 Oct 2026 19:59:15 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgAnZvWLQN9q6RyfBw--.40032S7;
+	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgAnZvWLQN9q6RyfBw--.40032S5;
 	Mon, 26 Oct 2026 19:59:15 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-ext4@vger.kernel.org
@@ -56,9 +56,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	chengzhihao1@huawei.com,
 	yangerkun@huawei.com,
 	yukuai@fnnas.com
-Subject: [PATCH 3/4] ext4: add inode to orphan list before extent conversion
-Date: Mon, 26 Oct 2026 19:51:30 +0800
-Message-ID: <20261026115131.1735014-4-yi.zhang@huaweicloud.com>
+Subject: [PATCH 1/4] ext4: return 0 instead of stale ret in ext4_iomap_writepages()
+Date: Mon, 26 Oct 2026 19:51:28 +0800
+Message-ID: <20261026115131.1735014-2-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20261026115131.1735014-1-yi.zhang@huaweicloud.com>
 References: <20261026115131.1735014-1-yi.zhang@huaweicloud.com>
@@ -72,148 +72,65 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgAnZvWLQN9q6RyfBw--.40032S7
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw4xJr4UKrW5Jw1DJw47urg_yoWrZr1kpr
-	W3Ar1rGanYqa4Ygas7ZF4jv3WYkayxGrWUXrySgry0vas8Xr1rKrW5Ka4j9FZYqrZ5XF1Y
-	vF4UtryUCa1DZ3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
-	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
-	8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
-	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
-	IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
-	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
-	xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
-	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
-	Ja73UjIFyTuYvjfUO_MaUUUUU
+X-CM-TRANSID:gCh0CgAnZvWLQN9q6RyfBw--.40032S5
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZF1kuw1rKF1UtryDGrWkCrg_yoW8Xw18pF
+	W3G34kCr1kWrykuan2ga43Zw1jka9rGr4UWF15CFn0v398XFWFgF40gF12vF47CrW8CayY
+	qF4F9F48uw1jvrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmj14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+	x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
+	ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+	xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+	vE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+	r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04
+	v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
+	6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
+	AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
+	2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
+	C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
+	nUUI43ZEXa7VUjrHUDUUUUU==
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-ext4_alloc_file_blocks() zeroes the blocks it has just allocated and
-converts their unwritten extents in a handle started with
-ext4_chunk_trans_blocks(), which reserves credits for a single extent.
-The range is allocated with ext4_map_blocks() first and converted
-afterwards, and only the unwritten extent conversion which runs on I/O
-completion can modify the extent tree of that range in between, since
-this path holds i_rwsem. If such a conversion converts part of the
-range first, it splits the extent, and converting the whole range then
-needs more credits than the handle has reserved.
+smatch reports a "missing error code" warning:
 
-Before commit 10660a0ca7ed ("ext4: rework handle credit accounting for
-unwritten extent conversion"), this race condition led to insufficient
-credits, which made the conversion fail with -ENOSPC in the middle of
-the range. After it, ext4_convert_unwritten_extents() can extend or
-restart the transaction. Restarting commits everything modified so
-far, so the extents converted by the first iterations reach the disk
-before this function adds the inode to the orphan list. A crash in
-between leaves written extents beyond i_disksize on disk with the
-inode not on the orphan list, which fsck complains about.
+  fs/ext4/inode.c:4518 ext4_iomap_writepages() warn: missing error code? 'ret'
 
-Add the inode to the orphan list before the conversion instead and keep
-it there until i_disksize has caught up. A restart then commits the
-orphan entry together with the extents converted so far, and the entry
-is only removed by the transaction which raises i_disksize and i_size.
+The 'ret' variable has already been consumed by the
+ext4_emergency_state() check at the beginning of the function, so its
+value is always zero at this point. Returning it is equivalent to
+returning 0, but it is misleading because it looks like an error code is
+being propagated.
 
-Fixes: 10660a0ca7ed ("ext4: rework handle credit accounting for unwritten extent conversion")
-Fixes: f7237a775c8f ("ext4: protect WRITE_ZEROES written extents with orphan list")
+This branch handles the race with ext4_change_inode_journal_flag(),
+which flushes the dirty data and drops the page cache before switching
+the inode to the buffer_head path, so there is genuinely nothing to
+write back here. Return 0 explicitly to make the intent clear.
+
+Fixes: bdcbb0f19e92 ("ext4: partially enable iomap for the buffered I/O path of regular files")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Closes: https://lore.kernel.org/r/202610160314.PLMEXaOJ-lkp@intel.com/
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 ---
- fs/ext4/extents.c | 49 +++++++++++++++++++++++++++++++----------------
- 1 file changed, 32 insertions(+), 17 deletions(-)
+ fs/ext4/inode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-index ad0d80e33f609..71dda0ffeb34a 100644
---- a/fs/ext4/extents.c
-+++ b/fs/ext4/extents.c
-@@ -4701,6 +4701,23 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
- 				break;
- 			}
- 
-+			/*
-+			 * Add the inode to the orphan list before the
-+			 * conversion, as it may restart the transaction and
-+			 * commit the extents converted so far.  Written
-+			 * extents must stay covered by the orphan list until
-+			 * i_disksize catches up.
-+			 */
-+			if (new_size) {
-+				ret2 = ext4_orphan_add(handle, inode);
-+				orphan = true;
-+				if (unlikely(ret2)) {
-+					ret = ret2;
-+					ext4_journal_stop(handle);
-+					break;
-+				}
-+			}
-+
- 			ret = ext4_convert_unwritten_extents(handle,
- 					inode, (loff_t)map.m_lblk << blkbits,
- 					(loff_t)map.m_len << blkbits,
-@@ -4708,23 +4725,19 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
- 			if (ret)
- 				map.m_len = converted;
- 
--			/*
--			 * If blocks beyond i_disksize are converted, add
--			 * the inode to the orphan list and advance the epos.
--			 */
--			if (new_size && converted) {
--				ret2 = ext4_orphan_add(handle, inode);
--				ret = ret ? ret : ret2;
--				orphan = true;
--			}
--
- 			ret3 = ext4_journal_stop(handle);
- 			ret = ret ? ret : ret3;
- 		}
- 
--		map.m_lblk += map.m_len;
--		map.m_len = len_lblk = len_lblk - map.m_len;
--		epos = EXT4_LBLK_TO_B(inode, map.m_lblk);
-+		/*
-+		 * The conversion may have failed without converting
-+		 * anything.
-+		 */
-+		if (map.m_len) {
-+			map.m_lblk += map.m_len;
-+			map.m_len = len_lblk = len_lblk - map.m_len;
-+			epos = EXT4_LBLK_TO_B(inode, map.m_lblk);
-+		}
- 		if (ret)
- 			break;
- 	}
-@@ -4732,12 +4745,13 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
- 	if (ret == -ENOSPC && ext4_should_retry_alloc(inode->i_sb, &retries))
- 		goto retry;
- 
--	if (!epos || !new_size)
-+	if (!new_size || (!epos && !orphan))
- 		return ret;
- 
- 	/*
--	 * Allocate blocks, update the file size to match the size of the
--	 * already successfully allocated blocks.
-+	 * Update the file size to match the size of the already
-+	 * successfully allocated blocks, and release the orphan entry
-+	 * if we added one.
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index b4d581aa5ee1a..6b2f1b07f41e6 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -4515,7 +4515,7 @@ static int ext4_iomap_writepages(struct address_space *mapping,
  	 */
- 	if (epos > new_size)
- 		epos = new_size;
-@@ -4755,7 +4769,8 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
- 		goto out;
+ 	if (!ext4_inode_buffered_iomap(inode)) {
+ 		ext4_writepages_up_read(sb, alloc_ctx);
+-		return ret;
++		return 0;
  	}
  
--	ext4_update_inode_size(inode, epos);
-+	if (epos)
-+		ext4_update_inode_size(inode, epos);
- 	if (orphan && inode->i_nlink)
- 		ext4_orphan_del(handle, inode);
- 
+ 	trace_ext4_writepages(inode, wbc);
 -- 
 2.52.0
 
