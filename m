@@ -1,75 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.148
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793052393;
-	b=b82cvmdJlhZqJGVTSujF/9OEyWkkJQNXTBZioJfmL65BtJz7S26COVBbVeeganrJ3yKV
-	 cC3c18RnJieNOmieQbJEe7W5XqyeQIECKFtQF5jJeZCF0rYsGQUEmx9o/r+L7yv9GmVlT
-	 m+DAdxDE18JRUOHgNLryMDfhirZFresxGWMSs+cyNvlxjbIaWlQHhT63fjSohC1r4CB2K
-	 3M4CZjFR1ir83iU2pG5zmlxoHoTG7nbyLFTQC6gXwtnKKzTLHFVgYnfkAlwFHBnHSblm9
-	 nQCBjB+YJGwBY0KrJ+piRRuj+b2JzLzSLawWCOsdqDeIKdDgwEzZHGdfeXJ6t4GZGfA==
+	t=1793052493;
+	b=s6H9v+A/8rmlB19nrlb9gkJvdVW1NMlW7X9j2wv808Cifrpl7AGTfe2Ku0Pv9ZKiRXS2
+	 zU2GFuSh5+gXrl6veaVTzCmbMIk3JgjN0Zv23/8umZtI/gnZDSNwf3ylz1YuMl+QBzH14
+	 7gHN1Bwa2aTtBXHquZJvV3SL5IoWKX2clw9yi8bTLhfawxN1RU3TFFdP+wuf9oLzSxgu7
+	 G42AaGR9ocQoGCW2K1d5yTsWIU/5ejat9+RrrP5VBOK4Dzh/gtFHdGKkv3tUTyAOgDncU
+	 rnvzM6cm/8sdG+kAT3bpEWO/DO1SWc73q32OzE6/eJJIEoifK9qfTxFE6vL/M40G3DQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793052393;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=JbeI020SnpugISxSyc+z9N6JHGvPCZP0HYKr/jk1BYM=;
-	b=QWiHNJnw/GgVACpNk78dU7YiOniF3lpOCoF6WrDidrbed88jNnSyD04ZzP+KHGmWA9tJ
-	 jp/c4T3rp2xuB8vdmxbCp4Dbfsus0MDZ9u24AewerBZQjoOrS4go6llVQQctwJhW6mfb9
-	 p6QIWTeYezBzJV6PrSNfW38wCLnBtcOAzMey2fdQpR19y+6P32u04JGgwboReLFTohPnb
-	 nNaKKjr5R1bNvCeS71Pp5bZrkis4uwzhoE2lqyV/XEGY3Vn5Q7EPDQlChY/cq0J8lAmA1
-	 ZTSzz4TdNuzp0qP0DvKo39e7xGB3k9xzLVSThEmPZFGd9BX27nF28nqFTV/sfKngjfw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793052493;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=;
+	b=KQwW2QiKS5H8oUPg9AO9N6/eNyyFCCPoETj4c+m9HIdzzvLv/ArzO9tJToE96swsDcpd
+	 Xv02VM2iO5xhKSkWGNDM5Kl7O/PXld9VOcdCw5uztRcUgY6bWb/7AfksHiVnMTRdByjNG
+	 9TIMUHYg2x4bLzGLlTVXVqILIus0r3rGtZGLb8tZFIq4qofX+D2xDnPh/efiAjGS5mDjo
+	 YyIy6ir6DZ7eXNC3DfZ0haeMYsL5d5G+QMUh0UasStIlS/AI04yAQd6LC3lUw89j4tes6
+	 38Qmbfjy4mUcNfHwFTrzPsOUPCIgqu/3px7g2gmshWxHnKBc+3IuBW0zz3AHHMZma/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--skhawaja.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=TPbFrQyD;
-	arc=none smtp.remote-ip=209.85.210.197
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=themaw.net;
+	spf=pass smtp.mailfrom=themaw.net;
+	dkim=pass header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=UrEV8CO1;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=avGk9PqI;
+	arc=none smtp.remote-ip=202.12.124.148
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F38606A339
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 22:06:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11F38606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--skhawaja.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282FA606A31E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 22:08:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 282FA606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=TPbFrQyD
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-8a01ea9e318so4935672b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 15:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1793052392; x=1793657192; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JbeI020SnpugISxSyc+z9N6JHGvPCZP0HYKr/jk1BYM=;
-        b=TPbFrQyDnQ3X2ODTkC5Ghf3QJey5ayVfOW9a6h/mIXdaI4wS7Zuy7Lm3Ye14m2RZIr
-         W/ysoFKbYw6B010/w/3MTtieRdYsfbDLUbTd9sRVoRySVf9nuhXNUMjL8VyUSGhNyDUt
-         FxdLBk6fq4BekRTUR170BUsK1G0XLlrtqliDoAu7JTbzUnCWYKSQs9hDza91b+0AEGH0
-         cz76REwf49YYA/LjIZ1GnRJA0+6lAEKCfmbxkUsBNzCEkD4TcOdoVp4T4lhhR6Q6RNpl
-         ++GYdo0/v+KIeLNVAQzc6JOcJ8EiAyTL7xBr3qGRdPVjSvpu9FAoqpr5seFlRHyosc7m
-         sFow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793052392; x=1793657192;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JbeI020SnpugISxSyc+z9N6JHGvPCZP0HYKr/jk1BYM=;
-        b=qrnVF6iVv1/G9guI8euj+8Fecv8Zp++o4SAhhUnUaXbcD6Y2Gi7kfRE0YsN/WPsd5B
-         /K4zovSe1mAhfLhHYD8XBSaDFdiuFYxkIUR2Vb7FoDewfAH1y4AW1LbBogieSLx0XkoJ
-         LB0TVqsu9lbPhD6JOlVSQu+C2J/Sn3z6aTO/e9Gjgk/c6NujH3Oxk/HyKBW/9H+njD2W
-         QSK807pASQObvf4Oq8b24vXHWy87vCMXYTHBFNso8cjh0Bx+XUKD1kAsvo3uvBDaTUBj
-         4Qjfp2kWo8B7zRlpmMKDJsgNr45ytKifOKEepMnGYda98pCiwd5kc+PsLdwmTA3XwFrO
-         neWA==
-X-Forwarded-Encrypted: i=1; AKwUvBxK2tOyVbQUfaL3mxaqtLCS3dsPK/Nhq0acRbzlENyUjDAdiWZGGqZdNKN45klFr5q7jFfBioKq4lN61oZi@vger.kernel.org
-X-Gm-Message-State: AFq9FYJvycZ8pNY2CzrgWrENp/cp69LNuLiZvED9/tuFuLTIk5ewO/JR
-	U3ejS9EWsFtOSBfDEk2Ki3rQBeL9cDBI8vsqQ+468F5GHRV62RADF44ajb1wf7QcDlmvwvD6swp
-	3N8P5p+Mj4h4+Gw==
-X-Received: from pgdo1-n2.prod.google.com ([2002:a05:6a02:6201:20b0:cd6:b08a:e7cb])
- (user=skhawaja job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a21:4e0b:b0:3e1:8890:8400 with SMTP id adf61e73a8af0-3e7bfbdb8dcmr6859849637.15.1793052392197;
- Mon, 26 Oct 2026 15:06:32 -0700 (PDT)
-Date: Mon, 26 Oct 2026 22:05:46 +0000
-In-Reply-To: <20261026220546.3114241-1-skhawaja@google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=UrEV8CO1;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=avGk9PqI
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 8D1FB1D003C8
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 18:08:12 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Mon, 26 Oct 2026 18:08:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793052490;
+	 x=1793138890; bh=yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=; b=
+	UrEV8CO1TUZnK8PJPLQEQ+mBDacfr1ualCI79fofyFxHp/qlH67Qk1zDha6ZDsUD
+	FAJJYbbVRZH706lqEQ1NMx+s1EL71CQ+qJsAggeKG0vqBj/xL0+g9/cQe3EmmVdf
+	OBP9oeiZdtOdhVjy/9V65hXNxM/X0M6KX3SXFOfk0nMcUaC4TuW9Lzuv2ZezXmX2
+	Xm4f4UvRS5LSth3SslZmRV6M1ryJPxSBz8w0BPf9Iigy7LFomt5f2d4ANnD3HKLz
+	lcSjcD+UjlJRdGQsr5RE78TsLBdHTwyWipS6UmHptFiSmVIO1/Q2QG9HEyR7jwi2
+	EYnYOOJt/YEUKLEp9QlmYA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793052490; x=
+	1793138890; bh=yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=; b=a
+	vGk9PqIr6hEzkBG77k8GkpXeSQRT+MVDN4DUxSMcA1igxPIR/+ga1iuhPR87rrch
+	o39J5JLbaroJv+WocVTRVwIurwoXClx0UWuccJ+RgdT0YRqkRq3PW3yzZKClbwX5
+	3PZHhRjN82XGlHlJbp/bOyza6RhwVbJRIEDqU5PO7X908wlAZXc7i09ujPK/uSwP
+	maqeWiARyT+wYltmETV8RrnGseapHSWp99e0Cf5kBm0Whh7W7jcTP1gtIbhSpiyR
+	0u/vnbhHjLT8RNpOZZfIxnpiwmL5vNgnvKvxOb8zxwiBvIQ76xAQd8Rnn2fR98xe
+	yIS/MWt0ERu5CwEw/HwWw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=sign d=themaw.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793052490; d=themaw.net;
+	mf=PHJhdmVuQHRoZW1hdy5uZXQ+;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm1:rsa-sha256:AfQbJIjqooQSTgKQmEueZOqTY2LQheoyRYPwMjta8OKFYDZ
+	WZC00Vwg58LViKWvL9vyGS7tx6OITRDcBQBhUAYRoXV1CA3n+gpvieH8wg/6wuKh
+	NcBsRIigFEMIkPzQrJOBcfUg84Tya0hKrngP3lbpJpT2exPWtKVZhsGDYaX4xPo+
+	jkVvL3zRFPLHkQjyyp5UgOG9CT786IbeXyt8VTY0VctDVsdIPoEW2R/hgxwkFTCC
+	7dHqg4QpNMh0SgYL7o64BpLamFBwKG6GBXtB2GzTsa7AYKWVqkv2WFSBf30d+pqz
+	6xLn8gZdaTglwa21OB1e5XYM8DLyTxEwduw2hIA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to,
+	user-agent;
+Message-Instance: m=1; h=sha256:tdg6ua8/hQS/iYkk+8+1oIbT4XjyplM8CQ3hPjDL8gU=:yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=;
+X-ME-Sender: <xms:SM_falmJYKjuMXVHDQt2QQt2e9GRe6P_ZlHx9B0jy3DtnwU-Mhwilw>
+    <xme:SM_fanzOb00shgf6BVLGTvm3wWAEqDvLNbmTrEUBM6t2vXp1Jn27RhxW-QSd6_ZcG
+    FynuGh_Zd1AH-3TXIyVt0MGvELm2hQ0AdlawiG__NQvzM1M>
+X-ME-Received: <xmr:SM_fagulXQAxGdh47J-3Sc9EZB76wUhrIZV1bSoHJVRcNT9CV3-XLvoY5_ae3ExFkPIKFqbwCSLPkds1UqaKAorpiepGRidZUelVzfY9gax3aZgg4D9bQFfcjNM>
+X-ME-Proxy-Cause: dmFkZTF5HCOsxN9EPzsQKkgStD/Ff4WaJ8kNbHpSExIutymQMzNLPQM/4D7eFPnNuRZhMM
+    yiFZU29YFLK097HXfiVZtxDexZrGtWPk8oIS0KHK9LJ+COj6lx72D3NGicQiveM66XsuuI
+    T5hdMIkNOs99rmLKIhonQkKb4GS6BpcgwfRht1cF14LSexGc7Vuh+dOSrMRFPPDR2vDdp+
+    I2Kj5kQbVl3rdYwlSzYKD6Ljbc/jI3yCouc8I227ttT1dc69wA3DVKDYh6Dxx4CnJAsGMx
+    dRdBm2OsEUCbGYBG+rLKXIe7ZjFMsj4ic7Jo/KwKEtc8FlEvgmpa4M2QKds/GCXUxeH3mV
+    hlatiPuA1PlYXizqCztg6HNVhQRmacIaSHc8Qwq2Br5SvRSQdKCk92iWVbYNmY5u7sdCPv
+    eI9FmIM1vtGGAJVQBqh7+2hzdk6ENCtM8BtYfw4MCq8+yiVA4HOqdWvKKVC2aMSUyYSNNs
+    GjuuWW6QfDWQPLpxyjyyRbSKdpIIyL3Tg4q94xEIkUtYDseeq5zvDy0TxIe/8uq6trsyvq
+    12FxalXYe67wUyQOKOMK+vxsxR9oRudyupWfujyodN+jFjBk8gVG3TaBeGM0J1IM+Kt/YQ
+    9kpaZYdH824878CQeB9Hov1Tbl+TNTcopCEAWeu9r3TVYfVORKt387XTeRNw
+X-ME-Proxy: <xmx:SM_fastfAR-nbfD779bC72wWAQSNDoTOifg7ia6nkQp1Uu6Wl9JC8w>
+    <xmx:SM_faukfKeNv0QfbzQ1Mdz-dRnCEs-2QfPbeNcc7818FyLAicMNf6g>
+    <xmx:SM_faqvDy6DYaKkRzWH01Rnp9FtgDFJd7PuUy91kFsJxUMfQVADTGw>
+    <xmx:SM_falM6fmdy7zX8HjhUCgmquQTDw-Dbj4SPd2ytgaZzwcTjJj6Log>
+    <xmx:Ss_fas8XLcMNaCaKXBRNJwdR2hfN8SrYNk_YE7dtRdyQgT0KrlyGPJI4>
+Feedback-ID: i31e841b0:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 26 Oct 2026 18:08:03 -0400 (EDT)
+Message-ID: <dc65c28e408d6b64d4b13b7ad30e5fe70ddaa441.camel@themaw.net>
+Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
+ stores
+From: Ian Kent <raven@themaw.net>
+To: Krystian Kaniewski <krystianmkaniewski@gmail.com>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+ Danilo Krummrich	 <dakr@kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner	 <brauner@kernel.org>, Jan
+ Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>,  Peter Zijlstra
+ <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Jens
+ Axboe <axboe@kernel.dk>, 	driver-core@lists.linux.dev,
+ autofs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, 
+	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+Date: Tue, 27 Oct 2026 06:07:59 +0800
+In-Reply-To: <cover.1792577179.git.krystianmkaniewski@gmail.com>
+References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
+	 <cover.1792577179.git.krystianmkaniewski@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,205 +137,72 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261026220546.3114241-1-skhawaja@google.com>
-X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
-Message-ID: <20261026220546.3114241-3-skhawaja@google.com>
-Subject: [PATCH 2/2] selftests/memfd: add F_SEAL_PUNCH_HOLE tests
-From: Samiullah Khawaja <skhawaja@google.com>
-To: Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>, David Hildenbrand <david@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Jeff Layton <jlayton@kernel.org>, Chuck Lever <cel@kernel.org>, 
-	Alexander Aring <alex.aring@gmail.com>, Shuah Khan <shuah@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Gerd Hoffmann <kraxel@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
-	Jeff Xu <jeffxu@google.com>, David Matlack <dmatlack@google.com>, 
-	Pasha Tatashin <tatashin@google.com>, linux-mm@kvack.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Samiullah Khawaja <skhawaja@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
 
-Add tests for the new F_SEAL_PUNCH_HOLE seal. Like the rest of
-memfd_test, they run on shmem memfds by default and on hugetlbfs memfds
-when memfd_test is invoked with the "hugetlbfs" argument.
+On Wed, 2026-10-21 at 14:51 +0200, Krystian Kaniewski wrote:
+> syzbot reports a lockdep cycle &pipe->mutex --> &of->mutex -->
+> &sbi->pipe_mutex. splice holds a pipe mutex while it calls the write
+> or
+> read handler of a kernfs file, kernfs takes of->mutex there, and a
+> write
+> to /sys/power/resume looks up a path that can make autofs write a
+> request
+> into its daemon pipe and wait for the daemon.
+>=20
+> Patch 1 stops holding of->mutex around the ->store() callback of
+> regular
+> sysfs attributes, which do not get the open file and already run
+> concurrently for separate opens.
+>=20
+> Patch 2 handles the case that patch 1 leaves. A store called from
+> splice
+> still runs with the pipe locked. autofs no longer sends or waits for
+> a
+> request in that context and returns -EAGAIN instead. A new mount is
+> refused before it is marked pending, so no other lookup sends the
+> request
+> in its place. This also removes a deadlock in which the spliced pipe
+> is
+> the autofs daemon pipe itself.
+>=20
+> Patch 2 changes behavior for one narrow case. A lookup from a splice
+> callback that needs an automount fails with -EAGAIN instead of
+> waiting.
+>=20
+> The series was tested in QEMU with lockdep using the original C and
+> syz
+> reproducers and focused splice and autofs cases. The target reports
+> were
+> not reproduced with the series applied, and the paired functional
+> cases
+> matched the unpatched baseline.
+I can't seem to find a reproducer that reproduces the bug or maybe
+I don't know what to expect from running the syzbot reproducer I
+did locate.
 
-mfd_assert_write() checks that the file can be written, and then also
-checks that a hole can be punched into it. The second check no longer
-holds once F_SEAL_PUNCH_HOLE is set. Move the write checks into
-__mfd_assert_write() and the punch check into mfd_assert_punch_hole(),
-and have mfd_assert_write() call both, so the existing tests keep doing
-exactly what they did before.
+Can anyone help please.
 
-Add mfd_fail_punch_hole(), which checks that both
-fallocate(FALLOC_FL_PUNCH_HOLE) and madvise(MADV_REMOVE) fail with
-EPERM, and use it in two new tests. SEAL-PUNCH-HOLE sets only the new
-seal and checks that punching a hole fails, while writing, shrinking and
-growing the file still work. SEAL-PUNCH-HOLE-SHRINK adds F_SEAL_SHRINK
-as well and checks that the file can neither have holes punched into it
-nor be shrunk, while it can still grow.
-
-Signed-off-by: Samiullah Khawaja <skhawaja@google.com>
----
- tools/testing/selftests/memfd/memfd_test.c | 111 ++++++++++++++++++++-
- 1 file changed, 110 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/memfd/memfd_test.c b/tools/testing/selftests/memfd/memfd_test.c
-index cdab3a837624..095c5eb255af 100644
---- a/tools/testing/selftests/memfd/memfd_test.c
-+++ b/tools/testing/selftests/memfd/memfd_test.c
-@@ -35,6 +35,10 @@
- 
- #define F_SEAL_EXEC	0x0020
- 
-+#ifndef F_SEAL_PUNCH_HOLE
-+#define F_SEAL_PUNCH_HOLE	0x0040
-+#endif
-+
- #define F_WX_SEALS (F_SEAL_SHRINK | \
- 		    F_SEAL_GROW | \
- 		    F_SEAL_WRITE | \
-@@ -455,7 +459,7 @@ static void mfd_assert_fork_private_write(int fd)
- 	munmap(p, mfd_def_size);
- }
- 
--static void mfd_assert_write(int fd)
-+static void __mfd_assert_write(int fd)
- {
- 	ssize_t l;
- 	void *p;
-@@ -523,6 +527,11 @@ static void mfd_assert_write(int fd)
- 
- 	*(char *)p = 0;
- 	munmap(p, mfd_def_size);
-+}
-+
-+static void mfd_assert_punch_hole(int fd)
-+{
-+	int r;
- 
- 	/* verify PUNCH_HOLE works */
- 	r = fallocate(fd,
-@@ -535,6 +544,49 @@ static void mfd_assert_write(int fd)
- 	}
- }
- 
-+static void mfd_fail_punch_hole(int fd)
-+{
-+	void *p;
-+	int r;
-+
-+	/* verify PUNCH_HOLE fails */
-+	r = fallocate(fd,
-+		      FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
-+		      0,
-+		      mfd_def_size);
-+	if (r >= 0 || errno != EPERM) {
-+		printf("expected EPERM on fallocate(PUNCH_HOLE), but got %d: %m\n",
-+		       r);
-+		abort();
-+	}
-+
-+	/* verify MADV_REMOVE fails, it punches a hole as well */
-+	p = mmap(NULL,
-+		 mfd_def_size,
-+		 PROT_READ | PROT_WRITE,
-+		 MAP_SHARED,
-+		 fd,
-+		 0);
-+	if (p == MAP_FAILED) {
-+		printf("mmap() failed: %m\n");
-+		abort();
-+	}
-+
-+	r = madvise(p, mfd_def_size, MADV_REMOVE);
-+	if (r >= 0 || errno != EPERM) {
-+		printf("expected EPERM on madvise(MADV_REMOVE), but got %d: %m\n",
-+		       r);
-+		abort();
-+	}
-+	munmap(p, mfd_def_size);
-+}
-+
-+static void mfd_assert_write(int fd)
-+{
-+	__mfd_assert_write(fd);
-+	mfd_assert_punch_hole(fd);
-+}
-+
- static void mfd_fail_write(int fd)
- {
- 	ssize_t l;
-@@ -1117,6 +1169,61 @@ static void test_seal_resize(void)
- 	close(fd);
- }
- 
-+/*
-+ * Test SEAL_PUNCH_HOLE
-+ * Test whether SEAL_PUNCH_HOLE actually prevents punching holes, but still
-+ * allows writing and resizing
-+ */
-+static void test_seal_punch_hole(void)
-+{
-+	int fd;
-+
-+	printf("%s SEAL-PUNCH-HOLE\n", memfd_str);
-+
-+	fd = mfd_assert_new("kern_memfd_seal_punch_hole",
-+			    mfd_def_size,
-+			    MFD_CLOEXEC | MFD_ALLOW_SEALING);
-+	mfd_assert_has_seals(fd, 0);
-+	mfd_assert_add_seals(fd, F_SEAL_PUNCH_HOLE);
-+	mfd_assert_has_seals(fd, F_SEAL_PUNCH_HOLE);
-+
-+	mfd_assert_read(fd);
-+	__mfd_assert_write(fd);
-+	mfd_fail_punch_hole(fd);
-+	mfd_assert_shrink(fd);
-+	mfd_assert_grow(fd);
-+	mfd_assert_grow_write(fd);
-+
-+	close(fd);
-+}
-+
-+/*
-+ * Test SEAL_PUNCH_HOLE | SEAL_SHRINK
-+ * Test whether SEAL_PUNCH_HOLE | SEAL_SHRINK prevents removing pages from
-+ * the file
-+ */
-+static void test_seal_punch_hole_shrink(void)
-+{
-+	int fd;
-+
-+	printf("%s SEAL-PUNCH-HOLE-SHRINK\n", memfd_str);
-+
-+	fd = mfd_assert_new("kern_memfd_seal_punch_hole_shrink",
-+			    mfd_def_size,
-+			    MFD_CLOEXEC | MFD_ALLOW_SEALING);
-+	mfd_assert_has_seals(fd, 0);
-+	mfd_assert_add_seals(fd, F_SEAL_PUNCH_HOLE | F_SEAL_SHRINK);
-+	mfd_assert_has_seals(fd, F_SEAL_PUNCH_HOLE | F_SEAL_SHRINK);
-+
-+	mfd_assert_read(fd);
-+	__mfd_assert_write(fd);
-+	mfd_fail_punch_hole(fd);
-+	mfd_fail_shrink(fd);
-+	mfd_assert_grow(fd);
-+
-+	close(fd);
-+}
-+
- /*
-  * Test SEAL_EXEC
-  * Test fd is created with exec and allow sealing.
-@@ -1736,6 +1843,8 @@ int main(int argc, char **argv)
- 	test_seal_shrink();
- 	test_seal_grow();
- 	test_seal_resize();
-+	test_seal_punch_hole();
-+	test_seal_punch_hole_shrink();
- 
- 	if (pid_ns_supported()) {
- 		test_sysctl_simple();
--- 
-2.56.0.307.g5fe7bd680c-goog
-
+Ian
+>=20
+> Krystian Kaniewski (2):
+> =C2=A0 kernfs: do not hold of->mutex across sysfs ->store()
+> =C2=A0 autofs: do not wait for the daemon while splice holds a pipe
+>=20
+> =C2=A0fs/autofs/expire.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++++
+> =C2=A0fs/autofs/root.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 28 +++++++++=
+++++++++++++--
+> =C2=A0fs/kernfs/file.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 52 +++++++++=
+++++++++++++++++++-------------
+> --
+> =C2=A0fs/splice.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 13 ++++++++++-
+> =C2=A0fs/sysfs/file.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 18 ++++=
+++++++++++-
+> =C2=A0include/linux/kernfs.h | 11 +++++++++
+> =C2=A0include/linux/sched.h=C2=A0 |=C2=A0 2 ++
+> =C2=A0kernel/fork.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 1 +
+> =C2=A08 files changed, 109 insertions(+), 22 deletions(-)
+>=20
+>=20
+> base-commit: 93f51579e7df248780214094418f205253383cc5
