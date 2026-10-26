@@ -1,106 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793016173;
-	b=lGPaKgGx+vT2KWEzd7kdD2nBttyklcRn56ktS8ph5Q3LD21mfFdZqa0NW7XXfnbn09iB
-	 M2VkbxVOD9YhMzPnPc6lNUwGGVMvcBT/tElgaP842VecdEjPhqR0kaPEaE7KkUzM1nlrU
-	 CHtL8pjcCOImDLsxifJylxDHswbvcosyYnOlYDo0TbfmXiU8ZS85b2hQKHlG7yjKa/D20
-	 s1d4w9VUFoenaUgPNsDb29mZESSPzPlKJrWq4IUL0+hSkVwf9JTowDZr3EPTfJ0jHymF4
-	 YkCdLJAOARSbzDk1COUvceK7+mp75nyEB3BP2/sJycKP0ngLYiOh2j/B9zjlTfdELww==
+	t=1793016755;
+	b=tDDjk5A0Oh1LLCGe+XPNcV0a+XVFmjsNo55/HxRvtwlFnJAETmJPfGfVrffQeGBEXRLF
+	 6eTe4kakYphfQZ3jGaFy4YtYuV1sK+e/lP6ga+1GxNycz3V0fFaf+mGbKZoDktEmE9Kf1
+	 WlI9pT4Y/qKUBKRySA+XFkUcmmunbYSDi7WcijY9Tbo0HIrfA2Jzb4HVnoMBo1hfCdvG3
+	 yWXRUXbxd0ArydmPf5pgLYMk4Y/e5rLMQmFOxBFIFhlJxC1fdHG2xVeNLB5qNM/hw+E3B
+	 tfXRrIipxXU3FrEZqeYZKEb4ZSj9PWZBWCwNgVgTOdxxOSo/mjEaCsgLg6ZjHoPGShw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793016173;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793016755;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
 	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=zlmTMmi6YudkfPu7PQopDM7ohP807S77yK/bEEbWsyw=;
-	b=AxQVnf48kU1QwgmruFb7/YJdJxgMN2l1pfT9dwf0fSH0YXk3dy/BhFkJb5CgQA/BokmW
-	 sEfHhQGTC5ur+UO/z+hZEZCyOdgpmpOQl06cskKay7dl6KiYa2Oghd6nm+mXrsuNGX+Lw
-	 IyWOLo2EoUSFy66OKJtwdR6iUg58wxIFHB2asKedbJ8eUZjKGQ8X0LShtday/tXrr+d4w
-	 /+z6g5b6S8OJukhNzlrbMvmLsCRSM8VPgqSRsseXHHd+m7RfNMby5rSeaxuK3ZKQV+E/n
-	 sG02aLvpe5YijQ/VLw4gMMJUDDqyEcRZ8TRIdwuvrE80M8k/C3j5SkYKDgyo9hPg1Rw==
+	bh=oLO6wJvlhFQRSfA1FFml5hXTIiBGjyJ1NcHfVuDpvf8=;
+	b=fuNxdSCV9sIusw2d/66lOFaDzwjI4P5rc1ld0hZZ/KookDcx4yTVjmhop+gh3y9zSsIW
+	 SbWKMTCHcZHw5kQ+eVSndFwAPQlA9zlLqa1nFZ84XJ+KW7S1F7zpSr5668xGNk8YQWpsD
+	 3/abemQbRpUUIIAvwI1/jxeDgfY/xLfQ+yY2ve0SaqIzbfi220fF8BdE3QOLOSGOd9bNF
+	 kByPwOEaufP09vC17/bItaUIWSGR0BtqQapC053vmlFHGjxivycRwnymcQWI5wNlqxb2k
+	 XCxYTojkzgDaCCXynt6dxOr0fo2DrH74/JmOZx0TghkLoGcI3HJ452FWg5CwFvQ+xbA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FTmYjyKn;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=4Mg8YKoq;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FTmYjyKn;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=4Mg8YKoq;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=kMTLS57r;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="pSr/7ddw";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=kMTLS57r;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="pSr/7ddw";
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52298606A31E;
-	Mon, 26 Oct 2026 12:02:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52298606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85308606A32F;
+	Mon, 26 Oct 2026 12:12:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85308606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FTmYjyKn;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=4Mg8YKoq;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FTmYjyKn;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=4Mg8YKoq
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=kMTLS57r;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pSr/7ddw;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=kMTLS57r;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pSr/7ddw
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6E28A1F43B;
-	Mon, 26 Oct 2026 12:02:51 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A0935221F6;
+	Mon, 26 Oct 2026 12:12:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793016171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793016752; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zlmTMmi6YudkfPu7PQopDM7ohP807S77yK/bEEbWsyw=;
-	b=FTmYjyKnXuz+M22Q+mfqbSj6/T0RlrpgAX8TNuLV+Gg0qTUxAs7JCesva4HdWI/YoDh1xT
-	O+YQrKbcx0GG13sZwvdwMNwzGPgMJFqFBr1aJNSuOMKfrqfSeXnY/1CBJTNg55KC4tlFar
-	zE92SmgX9kH+RK1SA9BshbjHOWgMUWA=
+	bh=oLO6wJvlhFQRSfA1FFml5hXTIiBGjyJ1NcHfVuDpvf8=;
+	b=kMTLS57rwPg0Q6zT0aGhZZGMMOKPWa5pfedZMabCbyrRCq4QXBTatWqor+RUuASwvISQrs
+	jgLxtVDa2ThIka7v94Hn50i8YRgxSvTOGIH5Tp948wj9SoZWG0p62bu+S6jIEvUF6lh3SX
+	nKaT1VwrYS1T9GMCVx1zINMpBuc8eiY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793016171;
+	s=susede2_ed25519; t=1793016752;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zlmTMmi6YudkfPu7PQopDM7ohP807S77yK/bEEbWsyw=;
-	b=4Mg8YKoqM3mMVBgLb7V41KBwnjE00rEZ9nZBiYx1zpFYMpO7KF1MqMoyhxiAYToaez1VM9
-	9xJr06wBjPLp+UCg==
-Authentication-Results: smtp-out2.suse.de;
+	bh=oLO6wJvlhFQRSfA1FFml5hXTIiBGjyJ1NcHfVuDpvf8=;
+	b=pSr/7ddwsEu+1H5JWtLspRoOtDXev2smp3uQGECwPgGt9Q/3dQN93QAeBxIuelWWGESGlu
+	PVdQPCn/nIPJpdDQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793016171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793016752; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zlmTMmi6YudkfPu7PQopDM7ohP807S77yK/bEEbWsyw=;
-	b=FTmYjyKnXuz+M22Q+mfqbSj6/T0RlrpgAX8TNuLV+Gg0qTUxAs7JCesva4HdWI/YoDh1xT
-	O+YQrKbcx0GG13sZwvdwMNwzGPgMJFqFBr1aJNSuOMKfrqfSeXnY/1CBJTNg55KC4tlFar
-	zE92SmgX9kH+RK1SA9BshbjHOWgMUWA=
+	bh=oLO6wJvlhFQRSfA1FFml5hXTIiBGjyJ1NcHfVuDpvf8=;
+	b=kMTLS57rwPg0Q6zT0aGhZZGMMOKPWa5pfedZMabCbyrRCq4QXBTatWqor+RUuASwvISQrs
+	jgLxtVDa2ThIka7v94Hn50i8YRgxSvTOGIH5Tp948wj9SoZWG0p62bu+S6jIEvUF6lh3SX
+	nKaT1VwrYS1T9GMCVx1zINMpBuc8eiY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793016171;
+	s=susede2_ed25519; t=1793016752;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zlmTMmi6YudkfPu7PQopDM7ohP807S77yK/bEEbWsyw=;
-	b=4Mg8YKoqM3mMVBgLb7V41KBwnjE00rEZ9nZBiYx1zpFYMpO7KF1MqMoyhxiAYToaez1VM9
-	9xJr06wBjPLp+UCg==
+	bh=oLO6wJvlhFQRSfA1FFml5hXTIiBGjyJ1NcHfVuDpvf8=;
+	b=pSr/7ddwsEu+1H5JWtLspRoOtDXev2smp3uQGECwPgGt9Q/3dQN93QAeBxIuelWWGESGlu
+	PVdQPCn/nIPJpdDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 40B5813319;
-	Mon, 26 Oct 2026 12:02:51 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D99613319;
+	Mon, 26 Oct 2026 12:12:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YdaJCGtB32oQHAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 12:02:51 +0000
+	id 652LGLBD32rjJQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 12:12:32 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C4A2BA1419; Mon, 26 Oct 2026 13:02:46 +0100 (CET)
-Date: Mon, 26 Oct 2026 13:02:46 +0100
+	id 19040A1419; Mon, 26 Oct 2026 13:12:28 +0100 (CET)
+Date: Mon, 26 Oct 2026 13:12:28 +0100
 From: Jan Kara <jack@suse.cz>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
 	Josef Bacik <josef@toxicpanda.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] super: make sync(2)'s wait for s_umount killable
-Message-ID: <tqgqwii6it4zxhtsfgnkri2mppbcijvsdnywrsbsyrsc3ey6w5@ts5aqmpikwyv>
+Subject: Re: [PATCH 5/5] super: add a guard for super_lock()
+Message-ID: <5n2zjrxtkvjkj7eb3qtugk6s3hj7ki7mh6va5fmailrsonqkio@25bxng5aduhz>
 References: <20261023-work-super-lock_helpers-v1-0-d0fcb3f2f275@kernel.org>
- <20261023-work-super-lock_helpers-v1-4-d0fcb3f2f275@kernel.org>
+ <20261023-work-super-lock_helpers-v1-5-d0fcb3f2f275@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -112,7 +112,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261023-work-super-lock_helpers-v1-4-d0fcb3f2f275@kernel.org>
+In-Reply-To: <20261023-work-super-lock_helpers-v1-5-d0fcb3f2f275@kernel.org>
 X-Spam-Flag: NO
 X-Spam-Level: 
 X-Spamd-Result: default: False [-12.80 / 50.00];
@@ -136,115 +136,190 @@ X-Spamd-Result: default: False [-12.80 / 50.00];
 	RCPT_COUNT_FIVE(0.00)[6]
 X-Spam-Score: -12.80
 
-On Fri 23-10-26 11:41:04, Christian Brauner wrote:
-> iterate_supers_sync() waits killably for a superblock that's being shut
-> down, but it takes s_umount of a live superblock uninterruptibly. So a
-> freeze_super() or remount that's stuck under s_umount, in
-> sync_filesystem() or ->freeze_fs() say, still hangs every sync(2) on
-> the machine without anyone being able to kill it.
+On Fri 23-10-26 11:41:05, Christian Brauner wrote:
+> Six callers take s_umount and drop it again in the same scope and have
+> to pick the unlock that matches the lock they took. Add a guard for
+> super_lock() that unlocks with the flags it locked with and convert
+> them. Similar to irqdesc_lock let's build it from
+> __DEFINE_UNLOCK_GUARD() as super_lock() takes its flags at runtime.
 > 
-> That's inconsistent with fs_bdev_sync() which already uses a killable
-> super_lock() for both waits. And the reasoning is the same: if the task
-> is killed the walk stops and ksys_sync() returns, there's nobody left to
-> make a promise to. The emergency sync and the sync before suspend and
-> hibernation run from a workqueue where that can't happen. The PROM sync
-> on sparc32 runs in whatever task it interrupted but that one could
-> already be cut short while it waited for a superblock being shut down.
+> The device walks use ACQUIRE() instead of scoped_guard() so a continue
+> still moves on to the next superblock. __iterate_supers() uses ACQUIRE()
+> as well because, like fs_bdev_sync(), it needs ACQUIRE_ERR() to tell
+> -ENOENT from a fatal signal. The callers that hand the lock off stay as
+> they are.
 > 
-> Let __iterate_supers() pass SUPER_LOCK_KILLABLE together with
-> SUPER_LOCK_WAIT_SHUTDOWN for SUPER_ITER_WAIT_SHUTDOWN. Only
-> iterate_supers_sync() passes that flag.
-
-This might get surprising in the future, I guess SUPER_ITER_KILLABLE flag
-might be a more explicit way to control this but I can live with what we
-have now.
-
-> The wait for SB_BORN doesn't
-> matter for sync(2) as iterate_supers_sync() skips unborn superblocks
-> anyway.
-> 
-> This can be reproduced by freezing a filesystem on a suspended dm-linear
-> device and calling sync(2) behind the freeze:
-> 
->   truncate -s 512M img
->   DEV=$(losetup -f --show img)
->   mke2fs -q $DEV
->   dmsetup create t --table "0 $(blockdev --getsz $DEV) linear $DEV 0"
->   mount -t ext2 /dev/mapper/t /mnt
->   dd if=/dev/urandom of=/mnt/f bs=1M count=64
->   dmsetup suspend --nolockfs t
->   fsfreeze --freeze /mnt &
->   sleep 3
->   sync &
->   sleep 3
->   kill -9 $!
-> 
-> fsfreeze sits in sync_filesystem() with s_umount held for writing.
-> Without this patch the sync stays in down_read() after the SIGKILL. With
-> it the sync goes away.
+> No functional changes.
 > 
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Looks good. Feel free to add:
+Ok, I have mixed feelings about this. Some places definitely look better,
+the ones in the loops IMHO uglier but overall there's nothing I would
+consider really bad so feel free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
 > ---
->  fs/super.c | 22 ++++++++++++++--------
->  1 file changed, 14 insertions(+), 8 deletions(-)
+>  fs/super.c | 83 ++++++++++++++++++++++++++++++++++++++------------------------
+>  1 file changed, 51 insertions(+), 32 deletions(-)
 > 
 > diff --git a/fs/super.c b/fs/super.c
-> index 0f3308fb99aa..a0f9eadf0da7 100644
+> index a0f9eadf0da7..aff2169ca94d 100644
 > --- a/fs/super.c
 > +++ b/fs/super.c
-> @@ -1010,9 +1010,13 @@ static inline struct super_block *next_super(struct super_block *sb,
->  static int __iterate_supers(void (*f)(struct super_block *, void *), void *arg,
->  			    enum super_iter_flags_t flags)
->  {
-> +	enum super_lock_flags_t lock_flags = 0;
->  	struct super_block *sb, *p = NULL;
->  	int ret = 0;
+> @@ -206,6 +206,31 @@ static __must_check int super_lock(struct super_block *sb,
+>  	return -ENOENT;
+>  }
 >  
-> +	if (flags & SUPER_ITER_WAIT_SHUTDOWN)
-> +		lock_flags |= SUPER_LOCK_KILLABLE | SUPER_LOCK_WAIT_SHUTDOWN;
+> +static inline void super_unlock_guard(struct super_block *sb,
+> +				      enum super_lock_flags_t flags)
+> +{
+> +	if (!IS_ERR_OR_NULL(sb))
+> +		super_unlock(sb, flags);
+> +}
 > +
->  	spin_lock(&sb_lock);
->  
->  	for (sb = first_super(flags);
-> @@ -1032,12 +1036,14 @@ static int __iterate_supers(void (*f)(struct super_block *, void *), void *arg,
->  
+> +/* Unlocks with the flags it locked with. */
+> +__DEFINE_CLASS_IS_CONDITIONAL(super_lock, true);
+> +__DEFINE_UNLOCK_GUARD(super_lock, struct super_block,
+> +		      super_unlock_guard(_T->lock, _T->flags),
+> +		      enum super_lock_flags_t flags);
+> +
+> +static inline class_super_lock_t
+> +class_super_lock_constructor(struct super_block *sb, enum super_lock_flags_t flags)
+> +{
+> +	class_super_lock_t _t = { .lock = sb, .flags = flags };
+> +	int ret;
+> +
+> +	ret = super_lock(sb, flags);
+> +	if (ret)
+> +		_t.lock = ERR_PTR(ret);
+> +	return _t;
+> +}
+> +
+>  /* wake waiters */
+>  #define SUPER_WAKE_FLAGS (SB_BORN | SB_DYING | SB_DEAD)
+>  static void super_wake(struct super_block *sb, unsigned int flag)
+> @@ -1037,13 +1062,13 @@ static int __iterate_supers(void (*f)(struct super_block *, void *), void *arg,
 >  		if (flags & SUPER_ITER_UNLOCKED) {
 >  			f(sb, arg);
-> -		} else if (!super_lock(sb, 0)) {
-> -			f(sb, arg);
-> -			super_unlock_shared(sb);
-> -		} else if (flags & SUPER_ITER_WAIT_SHUTDOWN) {
-> -			/* whoever shuts it down writes it out, wait for that */
-> -			ret = super_wait(sb, SB_DYING, TASK_KILLABLE);
-> +		} else {
-> +			ret = super_lock(sb, lock_flags);
-> +			if (!ret) {
-> +				f(sb, arg);
-> +				super_unlock_shared(sb);
-> +			} else if (ret == -ENOENT) {
-> +				ret = 0;
-> +			}
+>  		} else {
+> -			ret = super_lock(sb, lock_flags);
+> -			if (!ret) {
+> +			ACQUIRE(super_lock, lock)(sb, lock_flags);
+> +
+> +			ret = ACQUIRE_ERR(super_lock, &lock);
+> +			if (!ret)
+>  				f(sb, arg);
+> -				super_unlock_shared(sb);
+> -			} else if (ret == -ENOENT) {
+> +			else if (ret == -ENOENT)
+>  				ret = 0;
+> -			}
 >  		}
 >  
 >  		if (p)
-> @@ -1085,8 +1091,8 @@ void iterate_supers_born(void (*f)(struct super_block *, void *), void *arg)
->   * A superblock which is still being set up isn't passed to @f either, and
->   * isn't waited for.  Nobody can have written to it yet.
->   *
-> - * Return: 0 if all the superblocks were seen, -ERESTARTSYS if the task was
-> - *         killed while it waited for one.
-> + * Return: 0 if all the superblocks were seen, -EINTR or -ERESTARTSYS if the
-> + *         task was killed while it waited for one.
->   */
->  int iterate_supers_sync(void (*f)(struct super_block *, void *), void *arg)
+> @@ -1124,10 +1149,8 @@ void iterate_supers_type(struct file_system_type *type,
+>  
+>  		spin_unlock(&sb_lock);
+>  
+> -		if (!super_lock(sb, 0)) {
+> +		scoped_guard(super_lock, sb, 0)
+>  			f(sb, arg);
+> -			super_unlock_shared(sb);
+> -		}
+>  
+>  		if (p)
+>  			put_super(p);
+> @@ -1274,18 +1297,18 @@ static void do_emergency_remount_callback(struct super_block *sb, void *unused)
+>  	struct fs_context *fc = NULL;
+>  
+>  	/* the unmount writes the filesystem out, wait for that */
+> -	if (super_lock(sb, SUPER_LOCK_EXCL | SUPER_LOCK_WAIT_SHUTDOWN))
+> -		return;
+> -
+> -	/* Make sure no reference put under s_umount is the last one. */
+> -	atomic_inc(&sb->s_active);
+> -	if (sb->s_bdev && !sb_rdonly(sb)) {
+> -		fc = fs_context_for_reconfigure(sb->s_root,
+> -					SB_RDONLY | SB_FORCE, SB_RDONLY);
+> -		if (!IS_ERR(fc) && parse_monolithic_mount_data(fc, NULL) == 0)
+> -			(void)reconfigure_super(fc);
+> +	scoped_cond_guard(super_lock, return, sb,
+> +			  SUPER_LOCK_EXCL | SUPER_LOCK_WAIT_SHUTDOWN) {
+> +		/* Make sure no reference put under s_umount is the last one. */
+> +		atomic_inc(&sb->s_active);
+> +		if (sb->s_bdev && !sb_rdonly(sb)) {
+> +			fc = fs_context_for_reconfigure(sb->s_root,
+> +						SB_RDONLY | SB_FORCE, SB_RDONLY);
+> +			if (!IS_ERR(fc) &&
+> +			    parse_monolithic_mount_data(fc, NULL) == 0)
+> +				(void)reconfigure_super(fc);
+> +		}
+>  	}
+> -	super_unlock_excl(sb);
+>  
+>  	/*
+>  	 * Our active reference may be the last one by now, so only drop it
+> @@ -1318,13 +1341,9 @@ void emergency_remount(void)
+>  static inline bool get_active_super(struct super_block *sb,
+>  				    enum super_lock_flags_t flags)
 >  {
+> -	bool active = false;
+> -
+> -	if (!super_lock(sb, SUPER_LOCK_EXCL | flags)) {
+> -		active = atomic_inc_not_zero(&sb->s_active);
+> -		super_unlock_excl(sb);
+> -	}
+> -	return active;
+> +	scoped_guard(super_lock, sb, SUPER_LOCK_EXCL | flags)
+> +		return atomic_inc_not_zero(&sb->s_active);
+> +	return false;
+>  }
+>  
+>  static void do_thaw_all_callback(struct super_block *sb, void *unused)
+> @@ -1646,7 +1665,9 @@ static void fs_bdev_mark_dead(struct block_device *bdev, bool surprise)
+>  
+>  	for_each_dev_super(sb, &cursor) {
+>  		/* don't take the device away from under an unmount */
+> -		if (super_lock(sb, surprise ? 0 : SUPER_LOCK_WAIT_SHUTDOWN))
+> +		ACQUIRE(super_lock, lock)(sb, surprise ? 0 :
+> +					      SUPER_LOCK_WAIT_SHUTDOWN);
+> +		if (ACQUIRE_ERR(super_lock, &lock))
+>  			continue;
+>  		if (sb->s_root && (sb->s_flags & SB_ACTIVE)) {
+>  			if (!sb->s_op->remove_bdev ||
+> @@ -1659,7 +1680,6 @@ static void fs_bdev_mark_dead(struct block_device *bdev, bool surprise)
+>  					sb->s_op->shutdown(sb);
+>  			}
+>  		}
+> -		super_unlock_shared(sb);
+>  	}
+>  }
+>  
+> @@ -1671,10 +1691,10 @@ static void fs_bdev_sync(struct block_device *bdev)
+>  	mutex_unlock(&bdev->bd_holder_lock);
+>  
+>  	for_each_dev_super_killable(sb, &cursor) {
+> -		int ret;
+> +		ACQUIRE(super_lock, lock)(sb, SUPER_LOCK_KILLABLE |
+> +					      SUPER_LOCK_WAIT_SHUTDOWN);
+> +		int ret = ACQUIRE_ERR(super_lock, &lock);
+>  
+> -		ret = super_lock(sb, SUPER_LOCK_KILLABLE |
+> -				     SUPER_LOCK_WAIT_SHUTDOWN);
+>  		if (ret == -ENOENT)
+>  			continue;
+>  		if (ret) {
+> @@ -1684,7 +1704,6 @@ static void fs_bdev_sync(struct block_device *bdev)
+>  		}
+>  		if (sb->s_root && (sb->s_flags & SB_ACTIVE))
+>  			sync_filesystem(sb);
+> -		super_unlock_shared(sb);
+>  	}
+>  }
+>  
 > 
 > -- 
 > 2.53.0
