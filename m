@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793050590;
-	b=TD2vFi9e01XgTrtVE1vFHjRC47s7A0PwXcWwTbJ8u6cKMHBmc3gyCzF/m/nC9sfB6GsS
-	 4KJYy6jCpZrB9TLButZXr6TU3xRdGoONh/3L/6d5e6H06Ae6Xsi9eku7feqdIPYlgWgTc
-	 3P0DOgfEhLbwrMeKpmbi0RJ+Q4UmaY0wFQ7gCNHjsKdVlRTLqeY6QFB+i5C0pNoim0w+Q
-	 w6FPdaW2toTFcLgw4Sncbtw4NRJ6T4qYK0LbZJIzP5ZTRfUQm6gDT4PXwxL+7PxsWRJyp
-	 DWqVDQamaLbszGj1Yj4biK2PXAVzmgHTOiCHwNGF8p7gZiML6cq+ON9jd7diynnoijw==
+	t=1793050585;
+	b=xUHw6lOUVOmwuVoSq6zsE8LVY9VIXAqmRDxsQVw24ehPqUGYW1YXRGbeMJLdTYZz0Ndi
+	 HJ+DdGvvnIKLcTsCRwMfP1EvQRF5qpaI3oMu1hclfY0gz17vPIglIE8pyg2FgtqXh8b0r
+	 jh90Xb1tE9/Z/U/M2eVFi0GgSXVn/1DFDOrQKHBl6NTTaU4w6GDIgx93/RpKNEGmJpRsO
+	 USCRmn4pU1eHXk/w/WoINpMmYp2SAfv2yummCsSh2cPcapCQGRFhWZgi/q7aRr7LEt1p3
+	 s9S4k9OjFA6tsK6nvHmuCg+nER2x56/y1zmK8JbJpB0UdYn7qo8sh93YOcPPWmkuy7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793050590;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=dDFWPJ5XjzGS4FuGMJGtbP6vWBRuxVwEHY2kwulZBI8=;
-	b=AjsZVuf9NlH0ufhUBGYSTf31j3l8Mr++FUbX/JtX1GBBT2bbL/sz5MspBON2ABlSfQ37
-	 JjPpgDt08yM9gFYfJKhnYpikWwvgVtL49fbrrY1zb78KbO7+yvA40vtlO7qARc/CwgR/N
-	 rzK39anHrR0Q0LrHJ+vEC16MmL+U11BtM1Ygr/znwKcFfj0YkPLSgtB50cNolKmghKFdo
-	 /dA2jBlKNqa8PFkFrFOyZ7xYXWCkFsQQ2iNMqMEAjRUu9Qzd28rZmOuColacA4c4o8cic
-	 ZdSUpJyLzCRgNS/PBhtQKYj9YfrcT5WAAiKWeAwFrGSuVwLlFeM6NGVMRQN8Au2z3uA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793050585;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
+	 X-Spam-Score;
+	bh=h4TtMxiD7qIIu9haOuhPNclvY/+UQ3UGNUpsBEbNloQ=;
+	b=Irs4J/MrNAvjhHwLm6sTG2s5KogXU890rYGXLl+07KGxTPPMm/Z+qmvaMUmybvLEdXnV
+	 eh3BrtJVddoGb+elY2MfUOCkfrw8aWZY8wh/lJU87s92iNiMU76P3vuCDmOsWVgZn9onH
+	 7FIqLwNHKH656ztKuwr09zRs2h7Y+rEL7yPe7tG879Ll7HtO2SmRMJPcq81hxmS6D4rEU
+	 5f5V/KLvJ08n7jSZj2qYEydBzLy3HMNmGrVLAIABpLHPwFMrNR+BwD2q7xZqsVOSdCxZx
+	 BVaVLkpSLTWnOMoIxcxnX4w+Zx8NZlymJnNVvq3CATzmjO7DiGNapbX1YFeoDz0HLpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hackers.camp;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=bUscyYxT;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=CtlJPjFD;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00975606A325
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:36:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00975606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a215344409so6098505e9.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 14:36:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793050588; x=1793655388;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dDFWPJ5XjzGS4FuGMJGtbP6vWBRuxVwEHY2kwulZBI8=;
-        b=IYe9mNxxqik9RbNxFDyXgKo5+LKJepCJIWIIkP5vqBJTOxZy2tWILTk0g7wJ8Dh/2d
-         6ufafrZORWcARBTtAshGmzfOtDU0kALfCLcvqLCPzKbHS0ZIywHiHepWD4GAZSA0wF+j
-         eBDuqOy96uXGEGFRChIK/ZCqziVStoIQ3j3ziARHQQl3SWkIxav5u0fk4aMWbxb2L8Cn
-         GDJ2QNtIZ3T5QXJrEhv5RhXA8No7w6Ku43GXcDUylht4OVTLn4EBPkum0xa/sYs5M5FX
-         09mWpnn3MHlfolJD8hxxoT1BWide9c7HJd4M8NEElFAwy/O+t53ry0SsStIJU9YyAlQV
-         O+Sg==
-X-Forwarded-Encrypted: i=1; AKwUvBzCb3NeEWiZ0K4H+qKQEkdu7WGuZg4bEsQgYtGq4AFpKXGzMBRhcByk2wj04XPDPsb1tT6yGiwj4dB2skhk@vger.kernel.org
-X-Gm-Message-State: AFq9FYK86+dES0ehVxTX0yrvMg6HanM6d0Nm/w/daEQ6t02hHbK9RyPt
-	OrwK27cv0PgD5w4K47K5otQw/zalndHT95sTM+LKACJXGhdoH/qtAg98cQwZ8AtrAiN/FA==
-X-Gm-Gg: AYBFou2CmVWYsxLlGp85wsxA3IMoTp3VFwDDT7l+AWAlUVR0b5TcVh7pk0tGsR7KC0z
-	aNhqo0DClbbHKrrXdX15m/xhC8/6LzQ8ffHisaBCnN6Id8hrG1kivsUX/TDQOzOmQ9r/bblKKV1
-	W2swb3pIVEacB34uOB+zatvcxZZk47jBuhbtfE6r2d1KxFWvzB88xZemhe9rw3jGB4b29k1ND1r
-	NuULtoUB+zsCvebYzUovk1acfGw0q27UQMZJg2C2pqQEOQmvIkktbRWQdEtbBiTulQspViP01Ra
-	/qrTHUaUOHwU8iZNgEyBkln6bfAtX1FE9qDW+lU99JhdJmLfkelcEZEyLrQTXXvKU6WbiblsMG4
-	ZpegoL9vxlQSO2b8v3YzJupEOCTrCcKujW1Uy7J04y3RZl4p7aYWBmCi/i447NmBO4snsqQUjls
-	TaAkzVYgH+tmdwez0iFozFtpT694sEW0H4VdgfPKhZXjN4JRMFeMIaPR9cAWYkY2Vtej8ucUlwd
-	5QGG3xspUc1sB0q6wq3W5ROf9nbBKwIWafjHlMHeMjzO1g1Zi2HXxjYzSEfyfZV0AGlwZMHYeiP
-	0EQnscLbWShGhP9f6w==
-X-Received: by 2002:a05:600c:6206:b0:4a2:6ef:d1dc with SMTP id 5b1f17b1804b1-4a35ac6fe89mr141539865e9.1.1793050588225;
-        Mon, 26 Oct 2026 14:36:28 -0700 (PDT)
-Received: from spartian.home ([2a01:cb1c:76:ed00:602f:c5f4:d108:b925])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a2c0458sm218806205e9.11.2026.10.26.14.36.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 14:36:27 -0700 (PDT)
-From: Aurelien DESBRIERES <aurelien@hackers.camp>
-To: jack@suse.cz
-Cc: brauner@kernel.org,
-	willy@infradead.org,
-	viro@zeniv.linux.org.uk,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	aurelien.desbrieres@gmail.com
-Subject: [PATCH] buffer: warn when a buffer is attached to a second mmb
-Date: Mon, 26 Oct 2026 22:36:26 +0100
-Message-ID: <20261026213626.301480-1-aurelien@hackers.camp>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <q472nkbfcfdumbxm3cebfnnmueqyl6uhhnper5t6e2cxajpvtu@7prjjo7k6ia3>
-References: <q472nkbfcfdumbxm3cebfnnmueqyl6uhhnper5t6e2cxajpvtu@7prjjo7k6ia3>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C26606A327;
+	Mon, 26 Oct 2026 21:36:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4C26606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=bUscyYxT;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=CtlJPjFD
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 519E11F387;
+	Mon, 26 Oct 2026 21:36:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1793050580; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=h4TtMxiD7qIIu9haOuhPNclvY/+UQ3UGNUpsBEbNloQ=;
+	b=bUscyYxTzRHt7QzisXqdXlxQUubRjiOUGOidOft0pS+MW5uKQpOzP97RW1o9ZvAu0mrLSL
+	UkNv7f4VGOeLWWU9116tuM5kvC57BVLgh1xpXFIwnFpaikH0J8zpCcuKxJVp4Wck964Ff1
+	jtT18Lw6jtTCKd3mXSfU+x1aTc/vrkU=
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1793050579; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=h4TtMxiD7qIIu9haOuhPNclvY/+UQ3UGNUpsBEbNloQ=;
+	b=CtlJPjFDCyd41j9BThmW9qsY23WmTQboRN+liXN7lS6xSvKvQM9D9qNCFj+n+zDsNmz3kx
+	urv7G3eSGrDb/GjU+VJwvIMNwMd9lk3sV2+2UHASugLYSplWmRuIqJjzISZsdFVBrmQlxg
+	UOFCiTMXtLC+05jKSraiTeafvUixCdU=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 34A8E13408;
+	Mon, 26 Oct 2026 21:36:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9xdpIdDH32qmdQAAD6G6ig
+	(envelope-from <wqu@suse.com>); Mon, 26 Oct 2026 21:36:16 +0000
+From: Qu Wenruo <wqu@suse.com>
+To: linux-btrfs@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH v2] iomap: only follow dio alignment requirement if specified
+Date: Tue, 27 Oct 2026 08:05:58 +1030
+Message-ID: <28b1681495dc0b46d8bf98364e471be9f4eb0ba4.1793050525.git.wqu@suse.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -87,74 +87,167 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -11.80
 
-mmb_mark_buffer_dirty() tracks a buffer on one mapping_metadata_bhs at
-most. The per-mmb lock does not protect a buffer that changes lists,
-and mmb_sync() clears b_mmb for a moment under its own lock, so a
-filesystem that attaches a buffer shared by several inodes to each
-inode's list in turn corrupts b_assoc_buffers eventually. With
-CONFIG_DEBUG_LIST the list_del is refused and mmb_sync() spins on a
-list that never empties, holding mmb->lock: seen with beamfs under
-dbench (xfstests generic/241) as list_del corruption, a soft lockup and
-a node lost to the OOM killer, with nothing naming the filesystem.
+[BUG]
+After commit 4025185cf953 ("iomap: follow the alignment requirement for
+iomap_dio_hole_iter()"), generic/091 fails on both xfs and ext4:
 
-Warn once when a buffer already tracked by another mmb is marked dirty
-through a second one, so that the misuse is named at its first
-occurrence rather than at the corruption it leads to. A corrupted
-volume in which two inodes claim the same block reaches this as well;
-the cmpxchg below keeps the lists sound in that case, and the warning
-then says which filesystem believed its block map.
+ FSTYP         -- ext4
+ PLATFORM      -- Linux/x86_64 btrfs-vm 7.3.0-custom+ #6 SMP PREEMPT_DYNAMIC Mon Oct 26 16:04:56 ACDT 2026
+ MKFS_OPTIONS  -- -F /dev/mapper/test-scratch1
+ MOUNT_OPTIONS -- -o acl,user_xattr /dev/mapper/test-scratch1 /mnt/scratch
 
-Suggested-by: Jan Kara <jack@suse.cz>
-Link: https://lore.kernel.org/linux-fsdevel/q472nkbfcfdumbxm3cebfnnmueqyl6uhhnper5t6e2cxajpvtu@7prjjo7k6ia3/
-Assisted-by: LLM
-Signed-off-by: Aurelien DESBRIERES <aurelien@hackers.camp>
+ generic/091  6s ... [failed, exit status 1]- output mismatch (see /home/adam/xfstests/results//generic/091.out.bad)
+     --- /home/adam/xfstests/tests/generic/091.out	2022-05-11 11:25:30.766666664 +0930
+     +++ /home/adam/xfstests/results//generic/091.out.bad	2026-10-26 16:43:49.387401669 +1030
+     @@ -1,7 +1,25 @@
+      QA output created by 091
+      fsx -N 10000 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -R -W
+     -fsx -N 10000 -o 8192 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -R -W
+     -fsx -N 10000 -o 32768 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -R -W
+     -fsx -N 10000 -o 8192 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -R -W
+     -fsx -N 10000 -o 32768 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -R -W
+     -fsx -N 10000 -o 128000 -l 500000 -r PSIZE -t BSIZE -w BSIZE -Z -W
+     ...
+     (Run 'diff -u /home/adam/xfstests/tests/generic/091.out /home/adam/xfstests/results//generic/091.out.bad'  to see the entire diff)
+ Ran: generic/091
+ Failures: generic/091
+ Failed 1 of 1 tests
+
+[CAUSE]
+The failed command of fsx is COPY_RANGE:
+
+ copy range: 0x6800 to 0xa200 at 0x3f200
+ do_copy_range:: Resource temporarily unavailable
+ LOG DUMP (8 total operations):
+ 1(  1 mod 256): SKIPPED (no operation)
+ 2(  2 mod 256): SKIPPED (no operation)
+ 3(  3 mod 256): WRITE    0x14400 thru 0x211ff	(0xce00 bytes) HOLE
+ 4(  4 mod 256): FALLOC   0x72bf4 thru 0x76221	(0x362d bytes) EXTENDING
+ 5(  5 mod 256): SKIPPED (no operation)
+ 6(  6 mod 256): INSERT 0x11000 thru 0x13fff	(0x3000 bytes)
+ 7(  7 mod 256): TRUNCATE DOWN	from 0x79221 to 0xa800
+ 8(  8 mod 256): COPY 0x6800 thru 0xa1ff	(0x3a00 bytes) to 0x3f200 thru 0x42bff
+ Log of operations saved to "/mnt/test/junk.fsxops"; replay with --replay-ops
+ Correct content saved for comparison
+ (maybe hexdump "/mnt/test/junk" vs "/mnt/test/junk.fsxgood")
+
+Both ext4 and xfs only require direct IO to be aligned to the logical
+block size of the device, not the fs block size. So the 0x3a00 bytes
+read at 0x6800 is allowed, and should succeed.
+
+But that range is a hole, and that commit makes iomap_dio_hole_iter()
+round the zeroed length down to the fs block size unconditionally.
+The first iteration zeroes 0x3a00 bytes but only advances 0x3000 bytes,
+then the next iteration zeroes the remaining 0xa00 bytes, which is
+rounded down to 0, so -EFAULT is returned.
+
+As ext4 and xfs do not pass IOMAP_DIO_PARTIAL, the whole read fails
+with -EFAULT, which is then converted to -EAGAIN by copy_splice_read().
+Every retry of fsx hits the same -EAGAIN, failing the run.
+
+That commit breaks all direct reads which range is not fs block aligned
+for ext4 and xfs.
+
+[FIX]
+Do not revert the range unless the dio has IOMAP_DIO_FSBLOCK_ALIGNED flag.
+
+iomap_dio_hole_iter() is only called for reads, and for now only btrfs
+reads can reach this path with the flag set. Btrfs has the proper
+fallback when dio returns -EFAULT.
+
+Also update the comment of IOMAP_DIO_FSBLOCK_ALIGNED flag, to indicate
+that both bio and hole zeroing are all fs block aligned.
+
+Fixes: 4025185cf953 ("iomap: follow the alignment requirement for iomap_dio_hole_iter()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Qu Wenruo <wqu@suse.com>
 ---
-Tested on vfs.all with beamfs, x86_64 guest, 4 CPUs:
+Changelog:
+v2:
+- Update the comment of IOMAP_DIO_FSBLOCK_ALIGNED
+  To indicate that hole zeroing is also affected.
+---
+ fs/iomap/direct-io.c  | 26 ++++++++++++++++----------
+ include/linux/iomap.h |  3 ++-
+ 2 files changed, 18 insertions(+), 11 deletions(-)
 
-- the module as it was before our fix, attaching the shared bitmap
-  block to each allocating inode's list in turn: the warning fires at
-  boot, 8.6 s in, on the first truncate that frees blocks of a file
-  another inode had allocated, long before the dbench run that used
-  to corrupt the list:
-
-    WARNING: fs/buffer.c:639 at mmb_mark_buffer_dirty+0x46/0xd0, CPU#3: S01hostname-cmd/111
-     beamfs_write_bitmap_block+0x191/0x1c0
-     beamfs_inline_free_blocks_from+0x64/0x390
-     beamfs_inline_setattr+0x127/0x4c0
-     notify_change+0x33b/0x520
-     do_truncate+0xbf/0xf0
-     path_openat+0x8c1/0xaa0
-
-- the module with the shared buffers on one superblock list: no
-  warning at boot or under the filesystem's own tests.
-
- fs/buffer.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 1dc933ba6925..e503a7ed9c37 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -627,6 +627,16 @@ void write_boundary_block(struct block_device *bdev,
- void mmb_mark_buffer_dirty(struct buffer_head *bh,
- 			   struct mapping_metadata_bhs *mmb)
+diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+index 45bb24934f3d..ad041ac3252a 100644
+--- a/fs/iomap/direct-io.c
++++ b/fs/iomap/direct-io.c
+@@ -590,18 +590,24 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
+ static int iomap_dio_hole_iter(struct iomap_iter *iter, struct iomap_dio *dio)
  {
-+	struct mapping_metadata_bhs *cur = READ_ONCE(bh->b_mmb);
+ 	loff_t copied = iov_iter_zero(iomap_length(iter), dio->submit.iter);
+-	unsigned int bs = i_blocksize(iter->inode);
+-	loff_t aligned_copied = round_down(copied, bs);
+ 
+-	/*
+-	 * If fs block size is larger than page size, page fault failure
+-	 * can cause @copied to be page aligned but not fs block aligned.
+-	 */
+-	iov_iter_revert(dio->submit.iter, copied - aligned_copied);
+-	dio->size += aligned_copied;
+-	if (!aligned_copied)
++	if (dio->flags & IOMAP_DIO_FSBLOCK_ALIGNED) {
++		loff_t aligned_copied = round_down(copied,
++						   i_blocksize(iter->inode));
 +
-+	/*
-+	 * A buffer is tracked by one mmb at most. The per-mmb lock does
-+	 * not cover a buffer that changes lists, and mmb_sync() clears
-+	 * b_mmb for a moment under its own lock, so a filesystem that
-+	 * attaches a buffer to a second mmb corrupts b_assoc_buffers
-+	 * sooner or later. Name it here, before the lists do.
-+	 */
-+	WARN_ON_ONCE(cur && cur != mmb);
- 	mark_buffer_dirty(bh);
- 	if (!bh->b_mmb) {
- 		spin_lock(&mmb->lock);
-
-base-commit: 2c3ba1f1cb416b81d617b92a24a4bcaa48d574e3
++		/*
++		 * For fs passing IOMAP_DIO_FSBLOCK_ALIGNED flag, if fs block
++		 * size is larger than page size, page fault failure
++		 * can cause @copied to be page aligned but not fs block
++		 * aligned.
++		 */
++		iov_iter_revert(dio->submit.iter, copied - aligned_copied);
++		copied = aligned_copied;
++	}
++	dio->size += copied;
++	if (!copied)
+ 		return -EFAULT;
+-	return iomap_iter_advance(iter, aligned_copied);
++	return iomap_iter_advance(iter, copied);
+ }
+ 
+ static int iomap_dio_inline_iter(struct iomap_iter *iomi, struct iomap_dio *dio)
+diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+index 59718f73c15a..5254430844b2 100644
+--- a/include/linux/iomap.h
++++ b/include/linux/iomap.h
+@@ -693,7 +693,8 @@ struct iomap_dio_ops {
+ #define IOMAP_DIO_PARTIAL		(1 << 2)
+ 
+ /*
+- * Ensure each bio is aligned to fs block size.
++ * Ensure every operation, including bio and hole zeroing, is aligned to fs
++ * block size.
+  *
+  * For filesystems which need to calculate/verify the checksum of each fs
+  * block. Otherwise they may not be able to handle unaligned bios.
 -- 
-2.55.0
+2.56.0
 
