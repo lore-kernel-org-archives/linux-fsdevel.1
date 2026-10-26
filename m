@@ -1,55 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793046922;
-	b=fhZ5TfVOnVy21SCE5gt/hjBMBFIYzUKwEblKaB3ZUNgcMyxT1HnlZF4nXcv5k9Qwd5IM
-	 CFLjBUYilRxJA27EFVHm1x9UQ7WI8p2vucyS2ahDgeeLzCGP/G2Q0qqCrK7CQ4oEayB85
-	 IIY69L5h13MMbOw+ss7wkjtz1L2+YLO/y1rJtpSI0dp/1PjRcFqLwFd/bvMOx94XHuLrk
-	 Bv8eQB4LCdF2fdw+9qbMqzYSz6gSSIet1CpOyZMp0w4EWeAZhmX6iSpj2vNtTPYKsjtxx
-	 2RziIojusrZk+ekUZK6s3/b2ttl3pFJWxxpd4tPy35ViU/nAyvM7aqvxGqRDj3Tn3BA==
+	t=1793048047;
+	b=A2TlWt/2ZyaJ2bb1KNXoAdOkQFYP2By89wC1OnjWWRZeCxciIT9/O+F/GBTK+zpWAajN
+	 ufyt4SDkdNvV4kU+pPjHMOYiKAZvZ8izgY7nvo8RHrhOPEW1b9S1EVJrlIhbGbPmLJwdQ
+	 2sM4PfmK0XoQmh5UmzNwmbMa+mUb3lT2MPANlJwHbiDf9CU9q1nswnYQzFQDTiAXg/RCs
+	 20rGpy8/I3h7xTzzVBHU/csoTIKEm+ew7ickMB2IbhvOltiOYiS/XXhBLa809LssBb7ox
+	 GAc5A7e2nz3gDEzWz9b1ySz8Tik3kLDuYIAGyT45m4x2MdPvCDoZIM/kBW0Eh/VoHCQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793046922;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=SfxvCvNIgMd82NMe/dMUUlbFHffdL/sfl2g3on4+8kM=;
-	b=Q8x9G7o0vAf0MfQqw8GyHZmWtbV/4IINAt+w3f2nxuDnjZ5wIn3AfBzvO4kDBMkDlQsi
-	 llhg9FpXj0MFkXi0NDlqQLg4WETILXu35tm18kJysv6YGMRCIEe0DgAO/zvf1XP1DmAOY
-	 8d0uhTa5p5JEC4ogG6E6A3rnVxG89+MnXbfVTQvM0MM0w21yuSyWCD0S9hAhBtEgHwjxJ
-	 rclhEQPbfsCZ6FG/X0p8D24WXM0HgEl78VvU4oeXxoeHdLa8J7lW6iAeEd/0rmORF8f3w
-	 3AQibC/kninKkwrumkAERvA+ZxAFMfIfZniGB9h4XFbmfuLTVpyuZ6fuWZiRTvt5gxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793048047;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=NIm3ZS5KbjzsYJ0WSulRKaxitX/G7rtbCDL/MIRA6Dk=;
+	b=gBFDK0kEs/77OiU4TgBmmXyuCHpAap2YF0+n2I07XlO6iW0P6RZb8UYuDaJIR1I0aJRT
+	 NiXQ0jKJHYIRlC7JiKEK1U+y83k0L9axe9oUwnYLqOKpY1v2uQf9SvzRQugaotyIt890n
+	 AuYz/9Ob+ewkw3rhziSsvOjSjBnNh8he6A8whOSSifpCp05NekcbAJTwyw/QXLDNbuhee
+	 CyaxPLlQpUzTTJ+tXz9KdvMwwGkNusNoMEsSLBVIGR3dS7iBNvgoqn586Pz3Eox+SOAw9
+	 CkQ+PU51FXcTP7z8gAsqmzPcSYEnhraJEPv03VFMW9V9Za4Vy0ST7SM6DzMHr6bIb/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SEFmFLEY;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NxkksvOg;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88904606A31D;
-	Mon, 26 Oct 2026 20:35:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0AF606A31E;
+	Mon, 26 Oct 2026 20:54:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SEFmFLEY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A6181F01825;
-	Mon, 26 Oct 2026 20:35:20 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NxkksvOg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4966D1F01828;
+	Mon, 26 Oct 2026 20:54:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793046922;
-	bh=SfxvCvNIgMd82NMe/dMUUlbFHffdL/sfl2g3on4+8kM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SEFmFLEYOYC59BcW3gsooaCFsNGdzwsis6g69hePysXLEhlGCDOFyObKBEcAAl2rP
-	 eobK9DCR29DX6gpBhKTNLmKXhGi3KRAoI1L68JXEkJsG3kX9TbAYRPvNMBwULBbx+y
-	 CYd/p5gM4DBzXlX1UkQS7Kf2sRthlJnJWjgd2cRp6rgP8yaGwlHenDxBEfNLoDzd6c
-	 ERcPlBE2kxtGLDI+ab+j6Vc3ManoG8gYRC8+0XIIIVRu1eOjp/SANH7UhnoZ0/DGnH
-	 tgrXSKhydzDpdyLp9bZsue3GMFhau9uOUeaoa4wehVkmpXAoGB6VUQ1MVZ4i/PJA7L
-	 yLvT3BukCyt/Q==
-Date: Mon, 26 Oct 2026 21:35:18 +0100
+	s=k20260515; t=1793048047;
+	bh=NIm3ZS5KbjzsYJ0WSulRKaxitX/G7rtbCDL/MIRA6Dk=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=NxkksvOgoUJHDLEYuqZxoDN5w6CVnX11WAHXavjWLJdqMAD7f4eIg6lK7/L6FE42Y
+	 mDawIcxsUDXZB96MfiHTVnvxKvW84UxjxKGbhI5jX08pPzNU4+wCJj96guJTzgbhdP
+	 ySjO1NE7g4mrWrlDutJuY01uq16Eq0ZXqYGGXp3d3QNxRqtAB8pRMrRKWw8sYSfw1J
+	 huEYOB8iz4jSxyI6UgiF1MoW/dw8NSvpcS8jQRYvh4RfJ3ZsxSYxWxV6OFflFgC5Xs
+	 cJ/ZxtgWZnDoh1Gtp4Nzd5n3XbpZ8hNW/VPjKJTfL+RUbArRbUnkTGUHJNmzcgHZO1
+	 c0M9B2lg17dUg==
 From: Christian Brauner <brauner@kernel.org>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL for v7.4] vfs keyring
-Message-ID: <20261026-semester-gabel-hallimasch-34a1d883b295@brauner>
-References: <20261016-vfs-v74-41eaf6c4712c@brauner>
- <20261024-vfs-7.4-rc1.keyring-db88a8f3b5b1@brauner>
- <61898b2b9de5e6be98c7b8e462ba29595cae3e26.camel@HansenPartnership.com>
+Date: Mon, 26 Oct 2026 21:53:29 +0100
+Subject: [PATCH 1/2] userns: don't drop the exec securebits
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,111 +52,122 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <61898b2b9de5e6be98c7b8e462ba29595cae3e26.camel@HansenPartnership.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261026-work-securebits-userns-v1-1-b35473fa1a34@kernel.org>
+References: <20261026-work-securebits-userns-v1-0-b35473fa1a34@kernel.org>
+In-Reply-To: <20261026-work-securebits-userns-v1-0-b35473fa1a34@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+ Serge Hallyn <serge@hallyn.com>, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, Jann Horn <jannh@google.com>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4204; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=yXUxhGjrM0vd95PWJeUZxGZvenzi/6XOwtjTBjMe3FE=;
+ b=kA0DAAoWkcYbwGV43KIByyZiAGrfveijG/63VwF2dnEFNKUYyMAEz4cxYRc2NV6OHRsTnZeRt
+ Yh0BAAWCgAdFiEEQIc0Vx6nDHizMmkokcYbwGV43KIFAmrfvegACgkQkcYbwGV43KIu2AD4nj3u
+ VIkyHvgxybscgEGv//3yG9Ldw5lqqzgdkEbALwD/cz6zk+fUQ9NjW+dckrZYKWtR+NuGsOsh9XU
+ g0aP6zQg=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, Oct 26, 2026 at 10:10:54AM -0400, James Bottomley wrote:
-> On Sat, 2026-10-24 at 12:44 +0200, Christian Brauner wrote:
-> > Hey Linus,
-> > 
-> > This is a delayed pull request which was waiting for the bpf merge.
-> > This used a shared branch.
-> > 
-> > /* Summary */
-> > This adds well-known key ids for the .dm-verity and .fs-verity
-> > keyrings.
-> > 
-> > Neither keyring is linked into any other keyring so request_key() and
-> > KEYCTL_SEARCH can't find them. Userspace has to scrape the serial out
-> > of /proc/keys before it can add a key to either of them. That's not
-> > great as any user can add a key with a newline in its description and
-> > make /proc/keys show a fake .dm-verity keyring line with whatever
-> > serial they like.
-> > 
-> > /* Testing */
-> > 
-> > No build failures or warnings were observed.
-> > 
-> > /* Conflicts */
-> > 
-> > Merge conflicts with mainline
-> > =============================
-> > 
-> > No known conflicts.
-> > 
-> > Merge conflicts with other trees
-> > ================================
-> > 
-> > No known conflicts.
-> > 
-> > The following changes since commit
-> > 1b7415bf70be95b9a1e7e87d544867881065613f:
-> > 
-> >   Merge git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf 7.3-rc2
-> > (2026-09-06 16:17:40 -0700)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-
-> > 7.4-rc1.keyring
-> > 
-> > for you to fetch changes up to
-> > 503b65da9a7e5447d91222f62399522f2f62a0fa:
-> > 
-> >   Merge patch series "keys: Add well known IDs for fs-verity/dm-
-> > verity keys" (2026-10-12 23:37:42 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > vfs-7.4-rc1.keyring
-> > 
-> > Please consider pulling these changes from the signed vfs-7.4-
-> > rc1.keyring tag.
-> > 
-> > Thanks!
-> > Christian
-> > 
-> > ----------------------------------------------------------------
-> > Andrew Halaney (3):
-> >       keys: add KEY_SPEC_DM_VERITY_KEYRING
-> >       keys: add KEY_SPEC_FS_VERITY_KEYRING
-> >       Documentation: keys: document IDs added since
-> > KEY_SPEC_REQKEY_AUTH_KEY
-> 
-> It would actually have been nice to copy the keyrings list and
-> maintainers on this.  I don't think there's an objection but not cc'ing
-> the list and maintainers makes it look like some type of end run.
+SECBIT_EXEC_RESTRICT_FILE and SECBIT_EXEC_DENY_INTERACTIVE tell script
+interpreters to only run what AT_EXECVE_CHECK allows and to refuse
+interactive input. A service manager sets them together with their lock
+bits so that nothing below it can turn them off again.
 
-Uhm, they were?...
+But set_cred_user_ns() resets all securebits to SECUREBITS_DEFAULT. So
+any task that can create a user namespace sheds the locked exec bits
+with a single unshare(CLONE_NEWUSER) and joining one with setns() does
+the same. The lock is pointless if anyone who may create a user
+namespace can drop it, and that is pretty much everyone.
 
-    From: Andrew Halaney <andrew@amutable.com>
-    To: Alexei Starovoitov <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,  Alasdair Kergon <agk@redhat.com>, Mike
-            Snitzer <snitzer@kernel.org>,  Mikulas Patocka <mpatocka@redhat.com>, Benjamin Marzinski <bmarzins@redhat.com>,  David Howells <dhowells@redhat.com>,
-            Jarkko Sakkinen <jarkko@kernel.org>,  Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,  "Serge E. Hallyn" <serge@hallyn.com>, Eric
-            Biggers <ebiggers@kernel.org>,  "Theodore Y. Ts'o" <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>,  Shuah Khan <skhan@linuxfoundation.org>, Randy
-            Dunlap <rdunlap@infradead.org>
-    Cc: dm-devel@lists.linux.dev, linux-kernel@vger.kernel.org,  keyrings@vger.kernel.org, linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^
-            fsverity@lists.linux.dev, linux-doc@vger.kernel.org, Andrew Halaney <andrew@amutable.com>,  "Christian Brauner (Amutable)" <brauner@kernel.org>
-    Subject: [PATCH bpf-next v2 0/3] keys: Add well known IDs for fs-verity/dm-verity keys
-    Message-Id: <20261008-ajhalaney-dmverity-key-identifier-v2-0-008456d189cb@amutable.com>
+Resetting the other bits is fine. They are about how capabilities are
+computed and a new user namespace starts out with a full set of
+capabilities anyway. The exec bits grant nothing though. They are
+restrictions a task placed on itself, just like no_new_privs which a
+user namespace doesn't touch either. So keep them and their locks.
 
-> > Christian Brauner (2):
-> >       Merge bpf keyring work from of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
-> >       Merge patch series "keys: Add well known IDs for fs-verity/dm-
-> > verity keys"
-> 
-> This is a bit nasty because the keyring specs get renumbered inside the
-> merges ... it would have been much clearer to people looking at the
-> history if the patches were rebased instead.
+Reproducer:
 
-Nothing got renumbered. Both merges are clean.
-The only commits that touch the ids are Daniel's bpf one adding -9 in
-bpf-next and Andrew's two adding -10 and -11. The branch is the three
-patches on top of the bits shared with bpf-next with an explanation why
-this was needed.
+  // SPDX-License-Identifier: GPL-2.0
+  /* Lock the exec securebits, then create a user namespace and look at them again. */
+  #define _GNU_SOURCE
+  #include <sched.h>
+  #include <stdio.h>
+  #include <sys/prctl.h>
 
-A rebase would given the same commit but would've meant invalidating
-things that were already in -next.
+  #define SECBIT_EXEC_RESTRICT_FILE		(1 << 8)
+  #define SECBIT_EXEC_RESTRICT_FILE_LOCKED	(1 << 9)
+  #define SECBIT_EXEC_DENY_INTERACTIVE		(1 << 10)
+  #define SECBIT_EXEC_DENY_INTERACTIVE_LOCKED	(1 << 11)
+
+  int main(void)
+  {
+  	int bits = SECBIT_EXEC_RESTRICT_FILE | SECBIT_EXEC_RESTRICT_FILE_LOCKED |
+  		   SECBIT_EXEC_DENY_INTERACTIVE | SECBIT_EXEC_DENY_INTERACTIVE_LOCKED;
+
+  	if (prctl(PR_SET_SECUREBITS, bits, 0, 0, 0)) {
+  		perror("PR_SET_SECUREBITS");
+  		return 1;
+  	}
+  	printf("before: 0x%x\n", prctl(PR_GET_SECUREBITS, 0, 0, 0, 0));
+  	printf("clear locked bits: %s\n", prctl(PR_SET_SECUREBITS, 0, 0, 0, 0) ? "refused" : "ALLOWED");
+
+  	if (unshare(CLONE_NEWUSER)) {
+  		perror("unshare(CLONE_NEWUSER)");
+  		return 1;
+  	}
+  	printf("after unshare(CLONE_NEWUSER): 0x%x\n", prctl(PR_GET_SECUREBITS, 0, 0, 0, 0));
+  	return 0;
+  }
+
+On v7.1 this prints "before: 0xf00", "clear locked bits: refused" and
+"after unshare(CLONE_NEWUSER): 0x0". With this patch the last line
+reads 0xf00 as well.
+
+Fixes: a0623b2a1d59 ("security: Add EXEC_RESTRICT_FILE and EXEC_DENY_INTERACTIVE securebits")
+Cc: stable@vger.kernel.org # v6.14+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ Documentation/userspace-api/check_exec.rst | 4 ++++
+ kernel/user_namespace.c                    | 5 ++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/userspace-api/check_exec.rst b/Documentation/userspace-api/check_exec.rst
+index 05dfe3b56f71..0904810e1d8d 100644
+--- a/Documentation/userspace-api/check_exec.rst
++++ b/Documentation/userspace-api/check_exec.rst
+@@ -99,6 +99,10 @@ This secure bit may be set by user session managers, service managers,
+ container runtimes, sandboxer tools...  Except for test environments, the
+ related ``SECBIT_EXEC_DENY_INTERACTIVE_LOCKED`` bit should also be set.
+ 
++Both secure bits and their locks are inherited across :manpage:`fork(2)` and
++:manpage:`execve(2)`, and they are kept when a task creates or joins a user
++namespace.
++
+ Here is the expected behavior for a script interpreter according to combination
+ of any exec securebits:
+ 
+diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
+index 50c374ed4687..cd748e1cbace 100644
+--- a/kernel/user_namespace.c
++++ b/kernel/user_namespace.c
+@@ -46,8 +46,11 @@ static void set_cred_user_ns(struct cred *cred, struct user_namespace *user_ns)
+ {
+ 	/* Start with the same capabilities as init but useless for doing
+ 	 * anything as the capabilities are bound to the new user namespace.
++	 * The exec securebits grant nothing, they are restrictions the task
++	 * placed on itself. Keep them and their locks.
+ 	 */
+-	cred->securebits = SECUREBITS_DEFAULT;
++	cred->securebits = SECUREBITS_DEFAULT |
++		(cred->securebits & (SECURE_ALL_UNPRIVILEGED | SECURE_ALL_UNPRIVILEGED << 1));
+ 	cred->cap_inheritable = CAP_EMPTY_SET;
+ 	cred->cap_permitted = CAP_FULL_SET;
+ 	cred->cap_effective = CAP_FULL_SET;
+
+-- 
+2.53.0
+
