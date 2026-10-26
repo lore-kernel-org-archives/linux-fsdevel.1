@@ -1,53 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793021793;
-	b=lClPhfH1a1pvP9moc/OmUnqFddu6maw6YhUYj8OEEfOvajNpWJQK5P2UstspHMLYVLd9
-	 fKV6U4igeRJ2Ihvgfaum5wbDyspNMMA6Ybf74Wa8OTOqevKlzgTi9/ZzAuNo0riHlUCnw
-	 c9NatIJE5aAg+Xy4tijXrgVqWkkGyaNt0QurVlH2mvD5iiY4VEVYbQS1vQ6qEWCMNvQX3
-	 6j6Yg0gA0lK4Q74qvIBtOo2NCd+OsMqkZLrj2SZRQJb/7mB8nNGbQbYRDBN5G+ZyRKOyA
-	 O4XwXJk286O6noEvQ60xOuWgY3AAB6zjLqgzn9Gisrjxqf1I2THeE3H3seQCMmFlK/w==
+	t=1793021985;
+	b=FPQimlQp12dDaCwIvGD4HtuxcaW/3pHMDTP82TMcT0KOwbnZM6zPb8bjXWTbuK698fgk
+	 IYUl1lsX6zOk59wd+niTswzpK5mujY6uk0n3Kdz6NrOhVIMjzqSjLX46SdxJNIZM1bS7l
+	 OhmKYGGv3AiVnEyNgTM12nJ/QifZriYOuoBFrf+yr8XaTt0CyYb2dCBX3FE2sdxh1qkND
+	 WckciVqc2XI8xovuueoPEaoGMqmvubHdh0lqemU209t2jJRoo4f+1zuRI2Qq6xeZ336O1
+	 swKfA4smzeyF+IACUkbhqxM9wLVqWex59uY9RysyxGuC/recc5msSMBZJlZK7gLMlXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793021793;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793021985;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=TLbxcjc9HC/bzrb00HtQdr6XFdlMjDXglTQf+OuewPw=;
-	b=nO807PRkicIEn5eFOnZELhzbOVSjLg6s1rqaDq+l8/pO56oDvQ57hMPhRp+wWErTxYR7
-	 m53bBXE7GaOQbKAb/HSQztBJ1EZArgPQOC9fii+VF9mSiodU167dR5Je1MvIPj2yQuph9
-	 5Jx4A5v3UKlmSIXF+PvJhNm2XgQTCpsCr195i/QzOYFKSu7KUyroown8By0TA/3i4ckrn
-	 7ulw2wlL4k36WyIybSaVeulxHd7uMhwYN8/nPPumNBlvgIbE3ZgepOXOZwznT4tVVBKGN
-	 ryPK+KxfTLhA93V+xzYkoeNqSRKjMWWmaUjV/XQ+RMGhrZUkt+FockUMGZm/Z2KGXWw==
+	bh=+29/JeDTgI2q6Zdd2oPF6MhnTmquWtxwp3oevCRZyMI=;
+	b=Z4JKQNR0yYKTIclB46BXsZSrEzdhkxnvJMxi/6wwwS4Id4NJJC+w9JvS7RkA3xsHqzYT
+	 mLZ5aVf5l70QTaJc0/waliH4LJM5k+4E0M5gCy0bw32py9pho5KUgj9QKfzirrwkc7LuX
+	 8QJDeVSImsaXiuEDMAXrFajI5XjkH/xYC4U5TJxou49srKll5rBrGicO2b8yhmjH6CoeP
+	 iWNSq9ghJFKoHz20AFyiCfl6qGr1a0px6m4nTAzP4xIKOLqzKTshND51jrLIOvz433VBK
+	 HZmmqZRGycP5nCvrey61p3f3LyrXI1tVHZRweHDxfTa+hOUKQdlLlTwq5Lsun/StIhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XZTPUJtW;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i5V4VCQr;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C05E606A31A;
-	Mon, 26 Oct 2026 13:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1B3606A31A;
+	Mon, 26 Oct 2026 13:39:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XZTPUJtW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07E731F01829;
-	Mon, 26 Oct 2026 13:36:31 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i5V4VCQr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8DFA1F01825;
+	Mon, 26 Oct 2026 13:39:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793021793;
-	bh=TLbxcjc9HC/bzrb00HtQdr6XFdlMjDXglTQf+OuewPw=;
+	s=k20260515; t=1793021984;
+	bh=+29/JeDTgI2q6Zdd2oPF6MhnTmquWtxwp3oevCRZyMI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XZTPUJtWABGcedlMro6yimEbn8xlo60A7Qc8l4MW5KsLnAVkqewN+JtiFH+BZNwHa
-	 UF8FcEhomFiGAdDhmZ5KthOuCUwLNV7Gt4Tspz2lRzEdjnin1HAk1sN174Cg9GQoii
-	 sqLcXtUONkz34uYcdGsBIaDM85pd7zUPdu/+fUHh1iRWA9OKXaoewsV28FWBd/lUV0
-	 VHaFgYlLzQHlGRJq7i4PwjV+c9lFxajsapWunv9GPOqVRrbLUYg64wg/lVlx6rco8j
-	 uAufYyaGQeWolhc48Sa6TqTzwIr/pioMvBItowZ0vXtudAu5+DQDwz9DTCqxNRalti
-	 /Rev7H41aedTg==
-Date: Mon, 26 Oct 2026 14:36:29 +0100
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] fsverity: Explicitly require FMODE_READ to retrieve
- hashes
-Message-ID: <at9WRK2L4GtBjo2v@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20261022211522.1489943-1-ebiggers@kernel.org>
+	b=i5V4VCQrdHU+uG2pJYqRPhqkSzGsM4xSLU1XJ0z+Tn+sGBvGl6PS5AjTKVdmcv7K9
+	 UfzYyrhEX+CTogKDpTIY8lSfX1ObveUxmAkok+oz+mpAYPvI8fHZHyt0umP7bvrRHs
+	 BeNRToBTnOZoQW8aS/ryia3YZ/4UTSkJso5hJLv3xJLZ2C51/dd1tulN+/RHimZul7
+	 DiXbkdNPUq/Nv5Ktmq35EoqixXG6MoyeZZg4wNF0PxRH4sBVkkbdL3yOv4vcKZi4tz
+	 BpWuka+s9hoS3MQ0yrRcYrO7hYd8o7kThsrGemf08Ua37ljn+RT6XbUviQ0AeCcBh0
+	 YvlSe4qWWm1Sw==
+Date: Mon, 26 Oct 2026 13:39:39 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Ngoc Quy <ngocquy0700@gmail.com>, liam@infradead.org, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] fs/proc/task_mmu: pin mm_users in do_pagemap_scan()
+Message-ID: <at9YDZXEccL0a1Pn@gremlin>
+References: <20261014095540.3261469-1-ngocquy0700@gmail.com>
+ <20261019174659.42c3529d5e35563cc6e5244c@linux-foundation.org>
+ <9aa49812-1132-458e-9bf5-6dba8b476b26@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,43 +63,30 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261022211522.1489943-1-ebiggers@kernel.org>
+In-Reply-To: <9aa49812-1132-458e-9bf5-6dba8b476b26@kernel.org>
 
-On 2026-10-22 21:15:22, Eric Biggers wrote:
-> The comment in fsverity_ioctl_read_metadata(), which justifies not
-> checking for FMODE_READ, doesn't consider that the nonstandard access
-> mode 3 (ioctl-only) exists.
-> 
-> Opening an ioctl-only fd generally requires read (and write) permission.
-> However, there are gaps with certain LSMs: an ioctl-only fd requests
-> read (and write) permission via security_inode_permission, but not
-> security_file_open.  With certain LSMs relying on the latter, such as
-> Landlock and AppArmor, an ioctl-only fd can be opened without the LSM
-> granting read (and write) permission.
-> 
-> Since FS_IOC_READ_VERITY_METADATA returns hashes of file contents
-> blocks, it should require read permission.  This also applies to
-> FS_IOC_MEASURE_VERITY, which returns a hash for the whole file.
-> 
-> Meanwhile, ioctl-only fds are a rarely-used feature, not known to be
-> used with either ioctl.
-> 
-> Therefore, just disallow these ioctls on ioctl-only file descriptors,
-> similar to what was already done with FS_IOC_ENABLE_VERITY.
-> 
-> More specifically, explicitly check for FMODE_READ.  This also covers
-> write-only fds to non-verity files which otherwise would have failed
-> with ENODATA.  This change in error code for write-only fds should be
-> fine too, as these ioctls cannot be usefully used with write-only fds
-> anyway, but it's worth noting as another technicality.
-> 
-> Fixes: 4dd893d832cf ("fs-verity: implement FS_IOC_MEASURE_VERITY ioctl")
-> Fixes: e17fe6579de0 ("fs-verity: add FS_IOC_READ_VERITY_METADATA ioctl")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+On Sun, Oct 25, 2026 at 11:55:59AM +0100, David Hildenbrand (Arm) wrote:
+> On 10/20/26 02:46, Andrew Morton wrote:
+> > All looks good and checks out for me, thanks.
+> >
+> > Except...
+> >
+> >> --- a/fs/proc/task_mmu.c
+> >> +++ b/fs/proc/task_mmu.c
+> >> @@ -3231,15 +3231,18 @@ static long do_pagemap_scan(struct mm_struct *mm, unsigned long uarg)
+> >>  	size_t n_ranges_out = 0;
+> >>  	int ret;
+> >>
+> >> +	if (!mm || !mmget_not_zero(mm))
+> >> +		return -ESRCH;
+> >
+> > Why the new test for !mm?  The current call chain guarantees this is a
+> > cant-happen and the current do_pagemap_scan will cheerfully oops if
+> > mm==NULL.
+>
+> I'd just keep it for consistency with all the other checks in this file?
 
-Looks good too
-Reviewed-by: Andrey Albershteyn <aalbersh@kernel.org>
+Agreed.
 
--- 
-- Andrey
+--
+Cheers, Lorenzo
