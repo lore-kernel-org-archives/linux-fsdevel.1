@@ -1,74 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.98
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793045473;
-	b=WhCNyJ6H36b/WEfcAGpbl7xdGSQyI0jZ2/Ivcx6a3o27vilZyvv2LsOtjZMynDc8uN/O
-	 zBn2KCqSJlqBuia9QZpDhOQw0g3RVabKV4LPo1ih2/jqSq+IodJxaBOtPnvObTz1GXGV3
-	 aj9UlGWOInJItC8nPrecbkKh9NFzJrZRZWVqsyw8wMuOwqU2dm3PpCcN2EMhX30eTpFyT
-	 e/H0hSjLxD7CGsUPZJMchYrzo4RKRkUhP55TTPN3zoJHZZyF3eo2eFAM3YLVimOKOwlZb
-	 ZvbaNmDy/hZkOP/HJ5mY2T9ncDaKNcFFpefdEEfApemTVyXeE6rpNvhGqkZYFbW1uKg==
+	t=1793045856;
+	b=vLHtX7kRbtkWuBPvN2BFxupeYxn7NgFYgCXYxhWuFkyrEsEXuwOSJEIg8VYWYLlA9kKz
+	 OoLgWtxtIsr3/Y+siPT1Bn0cWM7z6W7uS9YQ+5wg0fHgKfb9kwP0KJWmKbCO9BxszK5+x
+	 rsPFgLFwXiW4UShohI1YfoEtTFxrk3rZ+WnTzQrP/4ksaFzd6E/ltzavjTdBSa53n9oM3
+	 nkjaSJUF0tln7GJw4PuzqvZ9xEBU00gfgW1Jd7mjfmto30is8c/sraM8IzFmTTCmRy42h
+	 cYYVcX7/8nKbGkkIimcx3TgNGo13m7nDltGMro9HsxnjBn5KovCgZ2LqHjHymLnOaNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793045473;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:From:
-	 To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-FB-Internal:Content-Type:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Virus-Version;
-	bh=qYGmspSDri8F9HUYFDu6GHeZDiCWXNATZ3rpWuwaMVI=;
-	b=WS7lMMhDIkdHTSoO50/zLXLrCsQgZqfXatfdOTYTITwl1uAerQ8NRW0YRw0UgEqE2DXy
-	 Mj9X9V9hhCbSNxxfo+ov70982Fdzewdi0ZxVYItol60H9wj9TqZtkJmKwLRSdwl2RRDyz
-	 YVpjEBMog7ka5oAycpqSZI7xIJTbsK1ZFnfhBaxCnBCkcQrWU5dUCPSnEnAmu0BH5CJF3
-	 J2V4Y51oJTpPx1gT6UkScfWoDfjAppRXsu7Ixs1YV1y5fwO5TJNtR5buWaMUIYaA1F0zw
-	 SLKLRSpHYYH0ZuAcSIe4PVe56wDnhcH48F4Vm5PeXxYT22DsyeO3UWSj6hjQEDIu1Yg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793045856;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type;
+	bh=sVSjN/XqWDLZDr7IXQQnJDQT7Ga3u1tyb5UkYEWZhRk=;
+	b=s/ftkaUpAjtrhATCCWmcC1s7UiffxO79atnkbMQe9AwlmCSYmFZ4no2gGvS7FRXiZHSe
+	 3ZQBxhrbk6kdiyyozKxt1+3us6RcRvLLIzzQEcx4nJ+a6ktQj5InIC8Wi/mDOCr4PjNgA
+	 XeaCzltaecfO36OdX4T2BjNPIKDN61NaPWDlhLan7j5S7+bWmKyIA45/eNuiuCr/N4lnr
+	 SQMC3srSjtH9z06JMvYzCb2LYhbS/mZoGzPqCH4iaSXO3Waa6NG0yB4jkKye5P+lVkG2g
+	 wo+3c8DseMlpKlHO5m4eiey4WdtbG1irQaUIHf2DF8lk2edhYF996DGJr0Ii1FU/AwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=meta.com;
-	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=hJcciEKi;
-	arc=none smtp.remote-ip=67.231.145.42
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=yvlmz5wuurh5rfsoiol3dfcmfy.protonmail2 header.b=zU2lBZAR;
+	arc=none smtp.remote-ip=79.135.106.98
+Received: from mail-10698.protonmail.ch (mail-10698.protonmail.ch [79.135.106.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FDB606A324
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 20:11:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96FDB606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8928606A31E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 20:17:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8928606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=hJcciEKi
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69QImdrm772693
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 13:11:12 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pps82601-s2048-2026-q3; bh=qYGmspSDr
-	i8F9HUYFDu6GHeZDiCWXNATZ3rpWuwaMVI=; b=hJcciEKiP7JOPDYk195bCDe8l
-	3soiDm3V5iFNcCOk5pK+koJcFLBsV/McUy5VDqOBqa6y9mhTDmRvpNR4B6gedjwY
-	joKth85BBuRSubR4RJmGypC/w38DqTH9/H2ffQWND7SCKL4Qki5qtAPmxJfJnAmN
-	WdVw5UJDFnhTTThI/SxfORejketSRoAQVOMeoJk8gF+sM9l4+Mo3iHRvbL313QH+
-	tZNbsJ+zTtf4gftfI/BCRT/NFaNB3JbEuHnL+WfFopWDya+Ttl2qV9mM2x817IvB
-	wKWFl9Tc4PMWghQV6u0vw6ykLZBTMw0YyI+4N0Iee+Srx1AswPtuWTR3ZBPxg==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hgss7d65d-10
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 13:11:11 -0700 (PDT)
-Received: from twshared0305.01.snb2.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.56; Mon, 26 Oct 2026 20:11:07 +0000
-Received: by devvm33008.atn0.facebook.com (Postfix, from userid 228142)
-	id AAC9B131419B40; Mon, 26 Oct 2026 13:11:04 -0700 (PDT)
-From: Leon Ming <leonming@meta.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-CC: <fuse-devel@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Luis Henriques <luis@igalia.com>,
-        Joanne
- Koong <joannelkoong@gmail.com>, <leonming@meta.com>,
-        <stable@vger.kernel.org>
-Subject: [PATCH] fuse: set dentry epoch before making the dentry visible
-Date: Mon, 26 Oct 2026 13:11:01 -0700
-Message-ID: <20261026201101.3915217-1-leonming@meta.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=yvlmz5wuurh5rfsoiol3dfcmfy.protonmail2 header.b=zU2lBZAR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=yvlmz5wuurh5rfsoiol3dfcmfy.protonmail2; t=1793045853;
+	x=1793305053; bh=sVSjN/XqWDLZDr7IXQQnJDQT7Ga3u1tyb5UkYEWZhRk=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=zU2lBZAR2+tXbDzRvPC8eEgaPslt5ccH5CgJ6w6DgGQIWCDYiaWlrkAc90YdsVG0H
+	 iMeWt3zEBBBZwAF01E+bVRJYqKV6oPWPndut+foblGBxfiG8SXEUiLEIlLly/x94nr
+	 TQ8tFAiYAf2rJBwCoEx0POuwvDgGv9xXvOwQLMHabQVY4/4h8O21RIPM3zdREbOqOs
+	 DIhPCcoXZRa2ylzG2mRWwlKunEdsbcOescd62Pk7phVGhshd3wDWMvJovMYgAs6oZ4
+	 5pxZdgru7l4ckNfqzdsR+ZiqdQ8WNqZ6vc1HEPMD6uNrfqyQ0ZHLf8nb6sgvW2R1J1
+	 eIfaJvPymTZtg==
+Date: Mon, 26 Oct 2026 20:17:26 +0000
+To: "brauner@kernel.org" <brauner@kernel.org>, "kees@kernel.org" <kees@kernel.org>, "rostedt@goodmis.org" <rostedt@goodmis.org>
+From: BoxStrikesTeam <BoxStrikesTeam@proton.me>
+Cc: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "jack@suse.cz" <jack@suse.cz>, "mhiramat@kernel.org" <mhiramat@kernel.org>, "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "jkoolstra@xs4all.nl" <jkoolstra@xs4all.nl>, "farid.m.zakaria@gmail.com" <farid.m.zakaria@gmail.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>
+Subject: [RFC PATCH] binfmt_misc: add binfmt_misc_select tracepoint
+Message-ID: <cmtfuzYFZMj7WozUoEjFs3RxYWe9UgdY5rK3ZGT7CPwO1mpemvEwNhG4v5ucoKBgUHMqFa7kSzOvLjFcVcxAybfmKdURZ4h-qoKX1lHXlAA=@proton.me>
+Feedback-ID: 205449183:user:proton
+X-Pm-Message-ID: c38ae376d3bc2a6c337eca8d28b04e53faf2a787
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,154 +60,96 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="b1=_kzBFLx7iHgjUHNurMWuTQCh250lsH2OVRDJ5zxSdQ4M"
+
+--b1=_kzBFLx7iHgjUHNurMWuTQCh250lsH2OVRDJ5zxSdQ4M
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: pNGSYILwoUJsAbRmftsXyLwWIdGvQmHd
-X-Proofpoint-GUID: pNGSYILwoUJsAbRmftsXyLwWIdGvQmHd
-X-Authority-Analysis: v=2.4 cv=BsYIUoX5 c=1 sm=1 tr=0 ts=6adfb3df cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=03ozwUkBphtHgyqjj1sw:22 a=VwQbUJbxAAAA:8 a=VabnemYjAAAA:8
- a=fdC3CPP0TigLrd-b9RYA:9 a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI2MDA4MCBTYWx0ZWRfX8eLJ3UbkpZZO
- QB/7mtAWorvNIowkp9ANa0uBsDkgT+YYVwqwqA+ZW2sVEbkKTFsLh2qUIa94rgKlQDPnoXfXkn5
- H2qgKPDY2BwjkMkqCsERzSKsdgKph/iMtXNdTphepCd4dXCsR7BjCn+SibIBPwZF+HAUUUDHTR7
- YyXqJ95/ZaIx6Cel3+Ywzy8TRl1uStANm5dU2m8fG7lL/y4Z2WM+sonIyeexrWw/Khm57MWLgCS
- wmjESueNKzoCqORvQyxtftbxmzVqHJDuDCrWZvTUajHEHE0mm/VQeIAb2DmLePeUfu/xd+WvjeY
- dvWrzp87E3SuBomn3RO2NhQ1wzJnsp3pFJyLBDdbIz425ev/dPhP/3bpMvWWtZ4GGeT8WJD2zJu
- 2PD1M9UmhMNU7i0E3cPVKUtKsw66YWO0OCdOZ/y9nU/OH0N62AEMq0xNuvG4UySX+nR4NAicbKT
- UpWPlSW6fmBTLX3hsKQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI2MDA4MCBTYWx0ZWRfX0Fxo/aPtbCl2
- uREvY2Lo2u/pxUazFHh1obekz4o/6gseMVI2lyHfKV366y44nDT543+0UBrTPrwuXZ/Bopg0lWo
- chc/R9RxWz72gPDL1abyJbGSwAyWO1w=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-26_04,2026-10-21_02,2025-10-01_01
 
-fuse_lookup(), create_new_entry(), fuse_create_open() and
-fuse_direntplus_link() all record the connection epoch in the new dentry
-only after d_splice_alias() or d_instantiate() has published it.  A new
-dentry starts with an epoch of zero (fuse_dentry_init()), and the
-connection epoch starts at one, so in that window the dentry is hashed
-but fails the epoch check in fuse_dentry_revalidate().
+Hi,
 
-d_splice_alias() hashes the dentry and wakes the lookups waiting on it
-in d_alloc_parallel().  A waiter, or a concurrent lookup_fast() that
-finds the dentry in the hash, calls ->d_revalidate(), gets 0 and
-d_invalidate()s the dentry the original lookup is about to return.  The
-caller still gets a valid dentry, but it is now unhashed.  One visible
-result is that readlink() of /proc/self/fd/N for an O_PATH fd opened on
-that path returns "<path> (deleted)" for a file that exists.
+This is an RFC patch for a binfmt_misc_select tracepoint. The patch
+was tested on v7.3-rc7, but I currently have limited computer access
+and no usable SMTP setup, so I could not send it with git send-email.
+I know patches should be inline; the patch is attached as
+0001-binfmt_misc-select-tracepoint.patch, and I can resend it inline
+once I have access to a suitable environment.
+--b1=_kzBFLx7iHgjUHNurMWuTQCh250lsH2OVRDJ5zxSdQ4M
+Content-Type: text/x-diff; name=0001-binfmt_misc-select-tracepoint.patch
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=0001-binfmt_misc-select-tracepoint.patch
 
-This shows up when many threads look up the same uncached path at once.
-TypeScript's native compiler (tsgo) resolves real paths with
-open(O_PATH) + readlink(/proc/self/fd/N), and when it type-checks a
-project in a FUSE-backed checkout it intermittently caches the
-"(deleted)" path and fails to resolve a package that is installed.
+RnJvbTogRW5lc2hhbiBFcmRvxJ9hbiBLYXJhY2EgPEJveFN0cmlrZXNUZWFtQHByb3Rvbi5tZT4K
+U3ViamVjdDogW1JGQyBQQVRDSF0gYmluZm10X21pc2M6IGFkZCBiaW5mbXRfbWlzY19zZWxlY3Qg
+dHJhY2Vwb2ludAoKQSBiaW5mbXRfbWlzYyBlbnRyeSBjYW4gc2VsZWN0IGFuIGludGVycHJldGVy
+IGZvciBhbiBleGVjLiAgV2l0aCBhIEJQRgonQicgaGFuZGxlciwgdGhhdCBzZWxlY3Rpb24gY2Fu
+IGJlIG1hZGUgYnkgYSBCUEYgc3RydWN0X29wcyBwcm9ncmFtLgpUaGUga2VybmVsIGNvbW1pdHMg
+dGhlIGRlY2lzaW9uIGluIGJwcm0tPmludGVycCBhbmQgYnBybS0+ZmxhZ3MsIGJ1dCBpdApkb2Vz
+IG5vdCBlbWl0IGFuIGV2ZW50IGF0IHRoZSBzZWxlY3Rpb24gcG9pbnQuCgpFeGlzdGluZyBvYnNl
+cnZlcnMgaGF2ZSB0byByZWNvbnN0cnVjdCB0aGUgZGVjaXNpb24gZnJvbQovcHJvYy9QSUQvZXhl
+LCBBVF9FWEVDRkQsIEFUX0ZMQUdTLCBvciAvcHJvYy9QSUQvbWFwcy4gIFRoZXNlIHNvdXJjZXMK
+YXJlIG1vZGUtZGVwZW5kZW50OiBhIHRyYW5zcGFyZW50IGRpc3BhdGNoIHN0aWxsIHJlcG9ydHMg
+dGhlIG9yaWdpbmFsCmJpbmFyeSBpbiAvcHJvYy9QSUQvZXhlLCBhbmQgYSBzaG9ydC1saXZlZCBw
+cm9jZXNzIGNhbiBleGl0IGJlZm9yZSB0aGUKb2JzZXJ2ZXIgcmVhZHMgaXQuICBBIGNsYXNzaWMg
+ZGlzcGF0Y2ggcmVwb3J0cyB0aGUgaW50ZXJwcmV0ZXIsIGJ1dApub3Qgd2hpY2ggaGFuZGxlciBz
+ZWxlY3RlZCBpdCBvciB3aGljaCBpbnZvY2F0aW9uIGZsYWdzIHdlcmUgdXNlZC4KCkFkZCBhIHRy
+YWNlcG9pbnQgYWZ0ZXIgdGhlIGludGVycHJldGVyIGFuZCB0aGUgaW52b2NhdGlvbiBmbGFncyBh
+cmUKc2VsZWN0ZWQuICBJdCByZXBvcnRzIHRoZSBiaW5hcnkgZmlsZW5hbWUsIHRoZSBzZWxlY3Rl
+ZCBpbnRlcnByZXRlciwKdGhlIGhhbmRsZXIgbmFtZSAoZm9yIEJQRiBoYW5kbGVycyksIHRoZSBp
+bnZvY2F0aW9uIGZsYWdzLCBhbmQgdGhlCnBpZC4gIFRoZSBmbGFncyBhcmUgbWFza2VkIHdpdGgg
+TUlTQ19GTVRfSU5WT0NBVElPTl9GTEFHUyBzbyB0aGF0CnN0YXRpYyBlbnRyeSBzdGF0ZSBkb2Vz
+IG5vdCBsZWFrIGludG8gdGhlIGV2ZW50LgoKVGhlIHRyYWNlcG9pbnQgaXMgb2JzZXJ2YWJpbGl0
+eSBvbmx5OyBpdCBkb2VzIG5vdCBjaGFuZ2UgZXhlYwpiZWhhdmlvci4KCkFzc2lzdGVkLWJ5OiBM
+TE0KU2lnbmVkLW9mZi1ieTogRW5lc2hhbiBFcmRvxJ9hbiBLYXJhY2EgPEJveFN0cmlrZXNUZWFt
+QHByb3Rvbi5tZT4KLS0tCgpUaGlzIGlzIGFuIFJGQy4gIEEgc21hbGwgUG9DIGFuZCBzaG9ydCBB
+L0IgcmVzdWx0cyBhcmUgYXZhaWxhYmxlIGZvcgpjb250ZXh0OyB0aGV5IGFyZSBub3QgbmVlZGVk
+IHRvIHJldmlldyB0aGUgcGF0Y2guCgogZnMvYmluZm10X21pc2MuYyAgICAgICAgICAgICAgICAg
+IHwgIDggKysrKysrKysKIGluY2x1ZGUvdHJhY2UvZXZlbnRzL2JpbmZtdF9taXNjLmggfCA1MiAr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCA2
+MCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZnMvYmluZm10X21pc2MuYyBiL2ZzL2JpbmZt
+dF9taXNjLmMKLS0tIGEvZnMvYmluZm10X21pc2MuYworKysgYi9mcy9iaW5mbXRfbWlzYy5jCkBA
+IC00MSw2ICs0MSw5IEBACiAKICNpbmNsdWRlICJpbnRlcm5hbC5oIgogCisjZGVmaW5lIENSRUFU
+RV9UUkFDRV9QT0lOVFMKKyNpbmNsdWRlIDx0cmFjZS9ldmVudHMvYmluZm10X21pc2MuaD4KKwog
+LyogRW50cnkgc3RhdHVzIGFuZCBtYXRjaCB0eXBlIGJpdCBudW1iZXJzLiAqLwogZW51bSBiaW5m
+bXRfbWlzY19lbnRyeV9iaXRzIHsKIAlNSVNDX0ZNVF9FTkFCTEVEX0JJVAk9IDAsCkBAIC02NDQs
+NiArNjQ3LDExIEBACiAKIAlmbGFncyA9IGVudHJ5X2ludm9jYXRpb25fZmxhZ3MoZm10LCBicHJt
+KTsKIAorCXRyYWNlX2JpbmZtdF9taXNjX3NlbGVjdChicHJtLCBpbnRlcnByZXRlciwKKwkJCQkg
+dGVzdF9iaXQoTUlTQ19GTVRfQlBGX0JJVCwgJmZtdC0+ZmxhZ3MpID8KKwkJCQkgZm10LT5icGZf
+b3BzLT5uYW1lIDogIiIsCisJCQkJIGZsYWdzICYgTUlTQ19GTVRfSU5WT0NBVElPTl9GTEFHUyk7
+CisKIAkvKiBObyBhcmd2IGlzIGJ1aWx0IGZvciBhIHN0YWdlZCBhcmd1bWVudCB0byBsYW5kIGlu
+LiAqLwogCWlmICgoZmxhZ3MgJiAoTUlTQ19GTVRfTE9BREVSIHwgTUlTQ19GTVRfVFJBTlNQQVJF
+TlQpKSAmJgogCSAgICBicHJtLT5icGZfaW50ZXJwX2FyZykKCmRpZmYgLS1naXQgYS9pbmNsdWRl
+L3RyYWNlL2V2ZW50cy9iaW5mbXRfbWlzYy5oIGIvaW5jbHVkZS90cmFjZS9ldmVudHMvYmluZm10
+X21pc2MuaApuZXcgZmlsZSBtb2RlIDEwMDY0NAotLS0gL2Rldi9udWxsCisrKyBiL2luY2x1ZGUv
+dHJhY2UvZXZlbnRzL2JpbmZtdF9taXNjLmgKQEAgLTAsMCArMSw1MiBAQAorLyogU1BEWC1MaWNl
+bnNlLUlkZW50aWZpZXI6IEdQTC0yLjAgKi8KKy8qCisgKiBUcmFjZXBvaW50IGZvciBiaW5mbXRf
+bWlzYyBiaW5hcnkgdHlwZSBoYW5kbGVyIGRpc3BhdGNoLgorICoKKyAqIEZpcmVzIG9uY2UgZm9y
+IGV2ZXJ5IGV4ZWMgYSBiaW5mbXRfbWlzYyBlbnRyeSBtYXRjaGVzLCBhZnRlciB0aGUKKyAqIGlu
+dGVycHJldGVyIGFuZCB0aGUgaW52b2NhdGlvbiBmbGFncyBoYXZlIGJlZW4gc2VsZWN0ZWQuIFVu
+bGlrZQorICogc2NoZWRfcHJvY2Vzc19leGVjICh3aGljaCByZXBvcnRzIGJwcm0tPmZpbGVuYW1l
+KSBhbmQgL3Byb2MvUElEL2V4ZQorICogKHdoaWNoIGEgdHJhbnNwYXJlbnQgZGlzcGF0Y2ggc2V0
+cyB0byB0aGUgYmluYXJ5KSwgdGhpcyByZXBvcnRzIHRoZQorICogaW50ZXJwcmV0ZXIgdGhhdCBh
+Y3R1YWxseSBydW5zLCBzbyBvYnNlcnZlcnMgY2FuIHNlZSB0aHJvdWdoIGEKKyAqIHRyYW5zcGFy
+ZW50IGRpc3BhdGNoLgorICovCisjdW5kZWYgVFJBQ0VfU1lTVEVNCisjZGVmaW5lIFRSQUNFX1NZ
+U1RFTSBiaW5mbXRfbWlzYworCisjaWYgIWRlZmluZWQoX1RSQUNFX0JJTkZNVF9NSVNDX0gpIHx8
+IGRlZmluZWQoVFJBQ0VfSEVBREVSX01VTFRJX1JFQUQpCisjZGVmaW5lIF9UUkFDRV9CSU5GTVRf
+TUlTQ19ICisKKyNpbmNsdWRlIDxsaW51eC90cmFjZXBvaW50Lmg+CisjaW5jbHVkZSA8bGludXgv
+YmluZm10cy5oPgorCitUUkFDRV9FVkVOVChiaW5mbXRfbWlzY19zZWxlY3QsCisKKwlUUF9QUk9U
+TyhzdHJ1Y3QgbGludXhfYmlucHJtICpicHJtLCBjb25zdCBjaGFyICppbnRlcnAsCisJCSBjb25z
+dCBjaGFyICpoYW5kbGVyLCB1bnNpZ25lZCBsb25nIGZsYWdzKSwKKworCVRQX0FSR1MoYnBybSwg
+aW50ZXJwLCBoYW5kbGVyLCBmbGFncyksCisKKwlUUF9TVFJVQ1RfX2VudHJ5KAorCQlfX3N0cmlu
+ZyhmaWxlbmFtZSwJYnBybS0+ZmlsZW5hbWUpCisJCV9fc3RyaW5nKGludGVycCwJaW50ZXJwKQor
+CQlfX3N0cmluZyhoYW5kbGVyLAloYW5kbGVyKQorCQlfX2ZpZWxkKHVuc2lnbmVkIGxvbmcsCWZs
+YWdzKQorCQlfX2ZpZWxkKHBpZF90LAkJcGlkKQorCSksCisKKwlUUF9mYXN0X2Fzc2lnbigKKwkJ
+X19hc3NpZ25fc3RyKGZpbGVuYW1lKTsKKwkJX19hc3NpZ25fc3RyKGludGVycCk7CisJCV9fYXNz
+aWduX3N0cihoYW5kbGVyKTsKKwkJX19lbnRyeS0+ZmxhZ3MgPSBmbGFnczsKKwkJX19lbnRyeS0+
+cGlkID0gY3VycmVudC0+cGlkOworCSksCisKKwlUUF9wcmludGsoInBpZD0lZCBmaWxlbmFtZT0l
+cyBpbnRlcnA9JXMgaGFuZGxlcj0lcyBmbGFncz0lI2x4IiwKKwkJICBfX2VudHJ5LT5waWQsIF9f
+Z2V0X3N0cihmaWxlbmFtZSksIF9fZ2V0X3N0cihpbnRlcnApLAorCQkgIF9fZ2V0X3N0cihoYW5k
+bGVyKSwgX19lbnRyeS0+ZmxhZ3MpCispOworCisjZW5kaWYgLyogX1RSQUNFX0JJTkZNVF9NSVND
+X0ggKi8KKworLyogVGhpcyBwYXJ0IG11c3QgYmUgb3V0c2lkZSBwcm90ZWN0aW9uICovCisjaW5j
+bHVkZSA8dHJhY2UvZGVmaW5lX3RyYWNlLmg+Cg==
 
-Before commit 5a6baf204610 ("fuse: fix uninit-value in
-fuse_dentry_revalidate()") initialised the epoch to zero, it held
-whatever the slab left there, so the check usually passed by accident.
-
-Set the epoch on the new dentry before it is published.  If
-d_splice_alias() returns an existing alias, keep setting the epoch on
-that dentry afterwards, as before.
-
-Reproducer: N processes start together and each run open(O_PATH) +
-readlink(/proc/self/fd/N) over the same list of files in a freshly
-mounted FUSE filesystem, counting results that end in " (deleted)".
-On this tree under UML (16 CPUs, squashfuse_ll, 6000 files, 32
-processes, a fresh mount per round):
-
-  before: 3519 of 10.75M lookups "(deleted)", in 51 of 56 rounds
-  after:  0 of 10.75M lookups
-
-On v7.1-based production kernels with EdenFS the same test returned
-"(deleted)" for 5.5% of lookups.
-
-Fixes: 2396356a945b ("fuse: add more control over cache invalidation beha=
-viour")
-Cc: stable@vger.kernel.org
-Signed-off-by: Leon Ming <leonming@meta.com>
----
- fs/fuse/dir.c     | 16 ++++++++++++----
- fs/fuse/readdir.c |  1 +
- 2 files changed, 13 insertions(+), 4 deletions(-)
-
-diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index 28516a1760e..b7af3f5a3bb 100644
---- a/fs/fuse/dir.c
-+++ b/fs/fuse/dir.c
-@@ -644,13 +644,21 @@ static struct dentry *fuse_lookup(struct inode *dir=
-, struct dentry *entry,
- 	if (inode && get_node_id(inode) =3D=3D FUSE_ROOT_ID)
- 		goto out_iput;
-=20
-+	/*
-+	 * Set the epoch before d_splice_alias() makes the dentry visible.
-+	 * Otherwise a concurrent lookup can find it with an epoch of zero, fai=
-l
-+	 * fuse_dentry_revalidate() and invalidate it under us.
-+	 */
-+	fuse_dentry_set_epoch(entry, epoch);
- 	newent =3D d_splice_alias(inode, entry);
- 	err =3D PTR_ERR(newent);
- 	if (IS_ERR(newent))
- 		goto out_err;
-=20
--	entry =3D newent ? newent : entry;
--	fuse_dentry_set_epoch(entry, epoch);
-+	if (newent) {
-+		entry =3D newent;
-+		fuse_dentry_set_epoch(entry, epoch);
-+	}
- 	if (outarg_valid)
- 		fuse_change_entry_timeout(entry, &outarg);
- 	else
-@@ -907,8 +915,8 @@ static int fuse_create_open(struct mnt_idmap *idmap, =
-struct inode *dir,
- 		goto out_err;
- 	}
- 	kfree(forget);
--	d_instantiate(entry, inode);
- 	fuse_dentry_set_epoch(entry, epoch);
-+	d_instantiate(entry, inode);
- 	fuse_change_entry_timeout(entry, &outentry);
- 	fuse_dir_changed(dir);
- 	err =3D generic_file_open(inode, file);
-@@ -1030,6 +1038,7 @@ static struct dentry *create_new_entry(struct mnt_i=
-dmap *idmap, struct fuse_moun
- 		fuse_chan_queue_forget(fm->fc->chan, forget, outarg.nodeid, 1);
- 		return ERR_PTR(-ENOMEM);
- 	}
-+	fuse_dentry_set_epoch(entry, epoch);
- 	kfree(forget);
-=20
- 	d =3D d_splice_alias(inode, entry);
-@@ -1040,7 +1049,6 @@ static struct dentry *create_new_entry(struct mnt_i=
-dmap *idmap, struct fuse_moun
- 		fuse_dentry_set_epoch(d, epoch);
- 		fuse_change_entry_timeout(d, &outarg);
- 	} else {
--		fuse_dentry_set_epoch(entry, epoch);
- 		fuse_change_entry_timeout(entry, &outarg);
- 	}
- 	fuse_dir_changed(dir);
-diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-index 83a1cc46fe4..ffce4031892 100644
---- a/fs/fuse/readdir.c
-+++ b/fs/fuse/readdir.c
-@@ -239,6 +239,7 @@ static int fuse_direntplus_link(struct file *file,
- 		if (!inode)
- 			inode =3D ERR_PTR(-ENOMEM);
-=20
-+		fuse_dentry_set_epoch(dentry, epoch);
- 		alias =3D d_splice_alias(inode, dentry);
- 		d_lookup_done(dentry);
- 		if (alias) {
-
-base-commit: 416fd13cb4b789b78304ef1b8579125106ba3ffc
---=20
-2.53.0-Meta
+--b1=_kzBFLx7iHgjUHNurMWuTQCh250lsH2OVRDJ5zxSdQ4M--
 
