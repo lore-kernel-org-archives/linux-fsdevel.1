@@ -1,72 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793052393;
-	b=V/TYi+PA5tbK9VU/zcwQmPW9NrI9eaIkfwtyHfCY5j0ogbMNC95uyM3caMkMVXBLMyP5
-	 FgVRIsHHawa6MAAjMguM+9GQVmFI9k1leEer9E9qDLVw+HjX5Ve1fxxbFfu8gUVRbYcQE
-	 1cNeUsovss7zihIfqcOXdpwz64giSOXd4Bc6A/l81gnmB/qvhxP77ZltnaibSYkLDxArq
-	 C9Z7saxmMXWHk3ghq7C34g12VtxNKCuCxkEY4J7uApeYh8wpkS6nzU9wgrITcK6TnTWdp
-	 nuZde1ROvtZj+hgnTa8LpIcF9YQeZxFcmidTZ3efmrsTY9c2lHwUlUH39nVbLbPxq8g==
+	b=b82cvmdJlhZqJGVTSujF/9OEyWkkJQNXTBZioJfmL65BtJz7S26COVBbVeeganrJ3yKV
+	 cC3c18RnJieNOmieQbJEe7W5XqyeQIECKFtQF5jJeZCF0rYsGQUEmx9o/r+L7yv9GmVlT
+	 m+DAdxDE18JRUOHgNLryMDfhirZFresxGWMSs+cyNvlxjbIaWlQHhT63fjSohC1r4CB2K
+	 3M4CZjFR1ir83iU2pG5zmlxoHoTG7nbyLFTQC6gXwtnKKzTLHFVgYnfkAlwFHBnHSblm9
+	 nQCBjB+YJGwBY0KrJ+piRRuj+b2JzLzSLawWCOsdqDeIKdDgwEzZHGdfeXJ6t4GZGfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793052393;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=4Disj2F29OKR5YWAXzU4pjttlvpvFspexRzVXwUoCj0=;
-	b=vXPyFln16v+M+H6Smdzhv91e5CojcukZMESkahGa76dZOuN1oeQCVW3hegagstFzZlMI
-	 U5ldBYnPKEAf6+TLLOZjROTSlO/tyFnAaCJ6S7cADi8KcBkM2IRFg9S7+QJKc9rSDHVTi
-	 9Pdgv3/gnm+FtNpOeHXd501cJFx+Ai61Fjv2B1PMH9NuDsMJ4nSbegfqz5adwf8+aq/Me
-	 p7MGpkUP6dnda+FQCUwZY+5CvzV5dFVw1ZODaayZ1f4c7JAAr69cAN7EHWRkJyClx5e0c
-	 4uZvjWEv9PrmiT5IgV39Q0G5J6MkVjVuvwEnpcCFdV3VQZR2eZUIB7bNTi9CxkxaJiQ==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=JbeI020SnpugISxSyc+z9N6JHGvPCZP0HYKr/jk1BYM=;
+	b=QWiHNJnw/GgVACpNk78dU7YiOniF3lpOCoF6WrDidrbed88jNnSyD04ZzP+KHGmWA9tJ
+	 jp/c4T3rp2xuB8vdmxbCp4Dbfsus0MDZ9u24AewerBZQjoOrS4go6llVQQctwJhW6mfb9
+	 p6QIWTeYezBzJV6PrSNfW38wCLnBtcOAzMey2fdQpR19y+6P32u04JGgwboReLFTohPnb
+	 nNaKKjr5R1bNvCeS71Pp5bZrkis4uwzhoE2lqyV/XEGY3Vn5Q7EPDQlChY/cq0J8lAmA1
+	 ZTSzz4TdNuzp0qP0DvKo39e7xGB3k9xzLVSThEmPZFGd9BX27nF28nqFTV/sfKngjfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--skhawaja.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b="HdLd/6k1";
-	arc=none smtp.remote-ip=209.85.215.197
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=TPbFrQyD;
+	arc=none smtp.remote-ip=209.85.210.197
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EED0606A31A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 22:06:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8EED0606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F38606A339
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 22:06:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11F38606A339
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--skhawaja.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=HdLd/6k1
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cca35cf9f77so1934017a12.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 15:06:31 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=TPbFrQyD
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-8a01ea9e318so4935672b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 15:06:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1793052391; x=1793657191; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4Disj2F29OKR5YWAXzU4pjttlvpvFspexRzVXwUoCj0=;
-        b=HdLd/6k1Vn3/4JJBps1LmdwjQ4X79XpP/LH725YPOhZXCz4X4QTFggZUzYVISvXqmw
-         4jew6YxeUf6yvf/qibWlWFYzNwu216oAPbx/1sAGfUdCoULXE5SN4gfR5GapdmeTZh9c
-         pDHVlDR2wWd13tKtnCMeM4qD3ch+Dsb6MWhpX1Xv51Jwo4eNnqMF8p3bmUwvgLH9YrvZ
-         PfWL5P9xinxpahNsTeOfnYxBIIMJojHTy1vjDHrrEaRawn5zEogAyitwihkRkbBpl3dT
-         K6qReh9NN8qUCryz40TH3XOQMqCw2V7WKvFXN/a6XsPIKgTJJotQJp/lR/f2Aym2i8JU
-         qh9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793052391; x=1793657191;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1793052392; x=1793657192; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4Disj2F29OKR5YWAXzU4pjttlvpvFspexRzVXwUoCj0=;
-        b=SPf9bUuiKxnhtGC1t794E2Knni5QbirP7kfoPkYALEkmGGSj7w2t5PuOlxYea8aZ3+
-         H2zBWQIX7cq6dKqV4bRYafG73c9xY4QPogIZWJ9hp3IW+CA4UmK4IU2eIyTs3MfJ1+Xi
-         A4AiX/bzP+GiglLDoM+L5EQOIOFs9wbdrXLTbvmf3x2TnoO0DB/7QtksTlju8c3oYKRt
-         twIN1Y+JAWzWWwrRUDoPxeoMpe9lA/YWpCknhl81hymxa+AoXncGLIf/PzISsGZNnsSF
-         ZfzdZX7G+WV4KKXQ0HQ9t9w81E6h6o9EuT6aRtNfUkzwrb3RcFOmRfaDRLkEJcHxlroq
-         PuLw==
-X-Forwarded-Encrypted: i=1; AKwUvBxzK0cOa5D3wrBr0vdEUQYrN1b/QM9+zcxwq30xtyKT0RvAWJn0kXNtGathrMTHoAPtK8eM/E5LRPzKZ6H5@vger.kernel.org
-X-Gm-Message-State: AFq9FYJLI9cz6qk5eYohstjlvUYe8QNaibDlcLTpbQP/yIrpIXlezQ74
-	nh7vWzYnXgmE9rL0G06kXFyCw7aVlj6Yeq/oZsMUN87PDA4JqkOayF1Z73WtdomQIkJ77ZID1U4
-	is4glWQsQ7vBglg==
-X-Received: from plblk3.prod.google.com ([2002:a17:903:8c3:b0:2e5:ff91:ecf1])
+        bh=JbeI020SnpugISxSyc+z9N6JHGvPCZP0HYKr/jk1BYM=;
+        b=TPbFrQyDnQ3X2ODTkC5Ghf3QJey5ayVfOW9a6h/mIXdaI4wS7Zuy7Lm3Ye14m2RZIr
+         W/ysoFKbYw6B010/w/3MTtieRdYsfbDLUbTd9sRVoRySVf9nuhXNUMjL8VyUSGhNyDUt
+         FxdLBk6fq4BekRTUR170BUsK1G0XLlrtqliDoAu7JTbzUnCWYKSQs9hDza91b+0AEGH0
+         cz76REwf49YYA/LjIZ1GnRJA0+6lAEKCfmbxkUsBNzCEkD4TcOdoVp4T4lhhR6Q6RNpl
+         ++GYdo0/v+KIeLNVAQzc6JOcJ8EiAyTL7xBr3qGRdPVjSvpu9FAoqpr5seFlRHyosc7m
+         sFow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793052392; x=1793657192;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JbeI020SnpugISxSyc+z9N6JHGvPCZP0HYKr/jk1BYM=;
+        b=qrnVF6iVv1/G9guI8euj+8Fecv8Zp++o4SAhhUnUaXbcD6Y2Gi7kfRE0YsN/WPsd5B
+         /K4zovSe1mAhfLhHYD8XBSaDFdiuFYxkIUR2Vb7FoDewfAH1y4AW1LbBogieSLx0XkoJ
+         LB0TVqsu9lbPhD6JOlVSQu+C2J/Sn3z6aTO/e9Gjgk/c6NujH3Oxk/HyKBW/9H+njD2W
+         QSK807pASQObvf4Oq8b24vXHWy87vCMXYTHBFNso8cjh0Bx+XUKD1kAsvo3uvBDaTUBj
+         4Qjfp2kWo8B7zRlpmMKDJsgNr45ytKifOKEepMnGYda98pCiwd5kc+PsLdwmTA3XwFrO
+         neWA==
+X-Forwarded-Encrypted: i=1; AKwUvBxK2tOyVbQUfaL3mxaqtLCS3dsPK/Nhq0acRbzlENyUjDAdiWZGGqZdNKN45klFr5q7jFfBioKq4lN61oZi@vger.kernel.org
+X-Gm-Message-State: AFq9FYJvycZ8pNY2CzrgWrENp/cp69LNuLiZvED9/tuFuLTIk5ewO/JR
+	U3ejS9EWsFtOSBfDEk2Ki3rQBeL9cDBI8vsqQ+468F5GHRV62RADF44ajb1wf7QcDlmvwvD6swp
+	3N8P5p+Mj4h4+Gw==
+X-Received: from pgdo1-n2.prod.google.com ([2002:a05:6a02:6201:20b0:cd6:b08a:e7cb])
  (user=skhawaja job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:3803:b0:2e9:5829:9b48 with SMTP id d9443c01a7336-2ea9c6c359dmr62263545ad.20.1793052390732;
- Mon, 26 Oct 2026 15:06:30 -0700 (PDT)
-Date: Mon, 26 Oct 2026 22:05:44 +0000
+ 2002:a05:6a21:4e0b:b0:3e1:8890:8400 with SMTP id adf61e73a8af0-3e7bfbdb8dcmr6859849637.15.1793052392197;
+ Mon, 26 Oct 2026 15:06:32 -0700 (PDT)
+Date: Mon, 26 Oct 2026 22:05:46 +0000
+In-Reply-To: <20261026220546.3114241-1-skhawaja@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,9 +79,10 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
+References: <20261026220546.3114241-1-skhawaja@google.com>
 X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
-Message-ID: <20261026220546.3114241-1-skhawaja@google.com>
-Subject: [PATCH 0/2] mm/memfd: add F_SEAL_PUNCH_HOLE
+Message-ID: <20261026220546.3114241-3-skhawaja@google.com>
+Subject: [PATCH 2/2] selftests/memfd: add F_SEAL_PUNCH_HOLE tests
 From: Samiullah Khawaja <skhawaja@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>
 Cc: Baolin Wang <baolin.wang@linux.alibaba.com>, David Hildenbrand <david@kernel.org>, 
@@ -92,79 +96,187 @@ Cc: Baolin Wang <baolin.wang@linux.alibaba.com>, David Hildenbrand <david@kernel
 	linux-kernel@vger.kernel.org, Samiullah Khawaja <skhawaja@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-This series introduces F_SEAL_PUNCH_HOLE, a new memfd seal that prevents
-holes from being punched into a shmem or hugetlbfs memfd while leaving
-the file fully writable.
+Add tests for the new F_SEAL_PUNCH_HOLE seal. Like the rest of
+memfd_test, they run on shmem memfds by default and on hugetlbfs memfds
+when memfd_test is invoked with the "hugetlbfs" argument.
 
-Background
-==========
+mfd_assert_write() checks that the file can be written, and then also
+checks that a hole can be punched into it. The second check no longer
+holds once F_SEAL_PUNCH_HOLE is set. Move the write checks into
+__mfd_assert_write() and the punch check into mfd_assert_punch_hole(),
+and have mfd_assert_write() call both, so the existing tests keep doing
+exactly what they did before.
 
-Drivers such as udmabuf and iommufd (via IOMMU_IOAS_MAP_FILE) use
-memfd_pin_folios() to pin the folios backing a memfd and hand them to a
-device for DMA. Pinning keeps those folios allocated, but it does not
-keep them in the file. If userspace later calls
-fallocate(FALLOC_FL_PUNCH_HOLE) or madvise(MADV_REMOVE) on the range,
-the folios are dropped from the page cache while the device continues
-to use them. The pin holder is never notified, and from that point on
-the device and the file silently diverge.
-
-The existing seals only partially address this. F_SEAL_SHRINK prevents
-pages from being dropped by truncation, which is why udmabuf requires
-it. Hole punching, however, is only blocked by F_SEAL_WRITE and
-F_SEAL_FUTURE_WRITE, and both of those also forbid writes. That makes
-them unusable for memory that must stay writable, such as guest RAM or
-DMA buffers, and udmabuf explicitly rejects memfds that carry them.
-
-Proposal
-========
-
-F_SEAL_PUNCH_HOLE fills this gap. Once it is set,
+Add mfd_fail_punch_hole(), which checks that both
 fallocate(FALLOC_FL_PUNCH_HOLE) and madvise(MADV_REMOVE) fail with
--EPERM, while reads, writes and resizing are unaffected. Combined with
-F_SEAL_SHRINK, it guarantees that userspace cannot remove pages from
-the memfd while the memfd remains writable.
+EPERM, and use it in two new tests. SEAL-PUNCH-HOLE sets only the new
+seal and checks that punching a hole fails, while writing, shrinking and
+growing the file still work. SEAL-PUNCH-HOLE-SHRINK adds F_SEAL_SHRINK
+as well and checks that the file can neither have holes punched into it
+nor be shrunk, while it can still grow.
 
-Motivation
-==========
-
-The immediate user is IOMMU live update. Before iommufd preserves a
-memfd-backed mapping across kexec, it must confirm that every pinned
-page still belongs to the file. Today this requires walking each mapped
-page at preserve time, which is costly for large mappings. With
-F_SEAL_PUNCH_HOLE and F_SEAL_SHRINK in place, iommufd can verify the
-seals once at IOMMU_IOAS_MAP_FILE time and skip the walk entirely.
-udmabuf can benefit in the same way. Neither user is changed in this
-series.
-
-The iommufd change that would use the seal is discussed in the IOMMU
-live update series:
-https://lore.kernel.org/all/arVYa_90j0oN1hnu@google.com/
-
-Testing
-=======
-
-Patch 2 extends the memfd selftests to cover the new seal on both shmem
-and hugetlbfs. Both "memfd_test" and "memfd_test hugetlbfs" pass in
-QEMU.
-
-The hugetlbfs run depends on a separately posted fix. Without it, the
-run aborts in the existing SEAL-EXEC test before it reaches the new
-tests:
-https://lore.kernel.org/all/20261026-fixes_shmem-v1-5-703206d5fa0c@kernel.org/
-
-Samiullah Khawaja (2):
-  mm/memfd: add F_SEAL_PUNCH_HOLE
-  selftests/memfd: add F_SEAL_PUNCH_HOLE tests
-
- fs/hugetlbfs/inode.c                       |   3 +-
- include/uapi/linux/fcntl.h                 |   1 +
- mm/memfd.c                                 |   4 +-
- mm/shmem.c                                 |   3 +-
+Signed-off-by: Samiullah Khawaja <skhawaja@google.com>
+---
  tools/testing/selftests/memfd/memfd_test.c | 111 ++++++++++++++++++++-
- 5 files changed, 118 insertions(+), 4 deletions(-)
+ 1 file changed, 110 insertions(+), 1 deletion(-)
 
-
-base-commit: 7bf01f16a4d05028fbeff4d90bab40df25142a24
+diff --git a/tools/testing/selftests/memfd/memfd_test.c b/tools/testing/selftests/memfd/memfd_test.c
+index cdab3a837624..095c5eb255af 100644
+--- a/tools/testing/selftests/memfd/memfd_test.c
++++ b/tools/testing/selftests/memfd/memfd_test.c
+@@ -35,6 +35,10 @@
+ 
+ #define F_SEAL_EXEC	0x0020
+ 
++#ifndef F_SEAL_PUNCH_HOLE
++#define F_SEAL_PUNCH_HOLE	0x0040
++#endif
++
+ #define F_WX_SEALS (F_SEAL_SHRINK | \
+ 		    F_SEAL_GROW | \
+ 		    F_SEAL_WRITE | \
+@@ -455,7 +459,7 @@ static void mfd_assert_fork_private_write(int fd)
+ 	munmap(p, mfd_def_size);
+ }
+ 
+-static void mfd_assert_write(int fd)
++static void __mfd_assert_write(int fd)
+ {
+ 	ssize_t l;
+ 	void *p;
+@@ -523,6 +527,11 @@ static void mfd_assert_write(int fd)
+ 
+ 	*(char *)p = 0;
+ 	munmap(p, mfd_def_size);
++}
++
++static void mfd_assert_punch_hole(int fd)
++{
++	int r;
+ 
+ 	/* verify PUNCH_HOLE works */
+ 	r = fallocate(fd,
+@@ -535,6 +544,49 @@ static void mfd_assert_write(int fd)
+ 	}
+ }
+ 
++static void mfd_fail_punch_hole(int fd)
++{
++	void *p;
++	int r;
++
++	/* verify PUNCH_HOLE fails */
++	r = fallocate(fd,
++		      FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
++		      0,
++		      mfd_def_size);
++	if (r >= 0 || errno != EPERM) {
++		printf("expected EPERM on fallocate(PUNCH_HOLE), but got %d: %m\n",
++		       r);
++		abort();
++	}
++
++	/* verify MADV_REMOVE fails, it punches a hole as well */
++	p = mmap(NULL,
++		 mfd_def_size,
++		 PROT_READ | PROT_WRITE,
++		 MAP_SHARED,
++		 fd,
++		 0);
++	if (p == MAP_FAILED) {
++		printf("mmap() failed: %m\n");
++		abort();
++	}
++
++	r = madvise(p, mfd_def_size, MADV_REMOVE);
++	if (r >= 0 || errno != EPERM) {
++		printf("expected EPERM on madvise(MADV_REMOVE), but got %d: %m\n",
++		       r);
++		abort();
++	}
++	munmap(p, mfd_def_size);
++}
++
++static void mfd_assert_write(int fd)
++{
++	__mfd_assert_write(fd);
++	mfd_assert_punch_hole(fd);
++}
++
+ static void mfd_fail_write(int fd)
+ {
+ 	ssize_t l;
+@@ -1117,6 +1169,61 @@ static void test_seal_resize(void)
+ 	close(fd);
+ }
+ 
++/*
++ * Test SEAL_PUNCH_HOLE
++ * Test whether SEAL_PUNCH_HOLE actually prevents punching holes, but still
++ * allows writing and resizing
++ */
++static void test_seal_punch_hole(void)
++{
++	int fd;
++
++	printf("%s SEAL-PUNCH-HOLE\n", memfd_str);
++
++	fd = mfd_assert_new("kern_memfd_seal_punch_hole",
++			    mfd_def_size,
++			    MFD_CLOEXEC | MFD_ALLOW_SEALING);
++	mfd_assert_has_seals(fd, 0);
++	mfd_assert_add_seals(fd, F_SEAL_PUNCH_HOLE);
++	mfd_assert_has_seals(fd, F_SEAL_PUNCH_HOLE);
++
++	mfd_assert_read(fd);
++	__mfd_assert_write(fd);
++	mfd_fail_punch_hole(fd);
++	mfd_assert_shrink(fd);
++	mfd_assert_grow(fd);
++	mfd_assert_grow_write(fd);
++
++	close(fd);
++}
++
++/*
++ * Test SEAL_PUNCH_HOLE | SEAL_SHRINK
++ * Test whether SEAL_PUNCH_HOLE | SEAL_SHRINK prevents removing pages from
++ * the file
++ */
++static void test_seal_punch_hole_shrink(void)
++{
++	int fd;
++
++	printf("%s SEAL-PUNCH-HOLE-SHRINK\n", memfd_str);
++
++	fd = mfd_assert_new("kern_memfd_seal_punch_hole_shrink",
++			    mfd_def_size,
++			    MFD_CLOEXEC | MFD_ALLOW_SEALING);
++	mfd_assert_has_seals(fd, 0);
++	mfd_assert_add_seals(fd, F_SEAL_PUNCH_HOLE | F_SEAL_SHRINK);
++	mfd_assert_has_seals(fd, F_SEAL_PUNCH_HOLE | F_SEAL_SHRINK);
++
++	mfd_assert_read(fd);
++	__mfd_assert_write(fd);
++	mfd_fail_punch_hole(fd);
++	mfd_fail_shrink(fd);
++	mfd_assert_grow(fd);
++
++	close(fd);
++}
++
+ /*
+  * Test SEAL_EXEC
+  * Test fd is created with exec and allow sealing.
+@@ -1736,6 +1843,8 @@ int main(int argc, char **argv)
+ 	test_seal_shrink();
+ 	test_seal_grow();
+ 	test_seal_resize();
++	test_seal_punch_hole();
++	test_seal_punch_hole_shrink();
+ 
+ 	if (pid_ns_supported()) {
+ 		test_sysctl_simple();
 -- 
 2.56.0.307.g5fe7bd680c-goog
 
