@@ -1,75 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793051582;
-	b=nNRXIKN3ArL8eOOkZeteRJEUmfapP2NB7TJxW1vt1Fkt51hJWalCX2kfYOnNvNSDiMIY
-	 GHWPrUBh6sa+8JXCIVt17C4/ke2g0H5kZgs4NNMsqrldV2qFErwrW6wVul5Bfasiw1tXQ
-	 lGO2PCUrywocQ+0sbgdsQB3FYCyCa9/HwOIAkhgfiaa+A1ONp1qN1L7OssfQ+GF72jzbZ
-	 QPoMalFPlzV4ra4L7jt3Bd9hHAvf+yB2//POAXkoyqErAx+RY2MuQvJX4R4LWz45P23OA
-	 KmaGljumAd3L+qzUtIfeOjqUW8HbeO6spAeVu4Sq1xE3ed/einqwQtriR0NUJ1nm2PQ==
+	t=1793051648;
+	b=dpfZT1K/U1/vOgdYUrBNiI6U/Nld3zrrPMsxbfF5DIhlG2Z7luirA4FukJgqvf/+3+IU
+	 A2jLzF9XZWki/XeFRkcoSWs0xPcX66PmJU00hLzL4+ZNWorozKuxf1kSQIgFpXLVgj582
+	 HeWZBI1WqmQQZtvcyFINPsE7GPb67g4/wRmxIzk0RrBtkPdNCsLd8nWxjIvuRybNpHX/G
+	 l5E7RNsc+ccfCQAxZjXRZBHuVHiuovhyBy1P6rL7ThTI76U1QmJKoNAhbshTjA2QucP3k
+	 LiF0mStcS0EJO8HwPBzlID1bFzjT7c4o1pIjZOc+tU//4/GVVrlBNMnxacqtJNWaWNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793051582;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=HQqGCLRyEFq1Qmw7LfzuGpexsFHiUvTKIyODgPSn6eE=;
-	b=xE7/cug5BSswMXcm0si7IPqSQSDyohlCbGlaoDrASQwsx6tBqpgl8cCCWq+sRqbyQcn3
-	 j7bIzpgnCtj3Sdti4M1yRjzdJbblkSDmvvXdtRBFe4iPFXPu/JToKpUwiGja6vRONIac9
-	 Aa/dX1Xme+YifsB/u1CWZ22u8h9x+HeTfj3CIUrqVKDoG7d1Ji6szFj017+dJXHeb5//b
-	 ZlBYjtLLQGdf+cRcRN7wJ9E0/qFvK7FaMzITmXfx6THCAlxjI9hhPeaK/wVqURrKBwo+P
-	 VF5X8i0iL2dB+vKHFsrD4QPOgDEb7WFZT2eJPaEmX2okpeLUCiMi6HVgnlr3RZCT6/g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793051648;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=pf3S30pSW0zRv1AOVALzxFmv0Ce8aBbZC2HWrVwtQ0k=;
+	b=n3rP2adYulaFsDe9OVR+BdGJiVSEB6d3XQZeyuaAwRTnRNkn6D+bX78SAFe2jwPQg3ED
+	 4Osg7cQoYyFBxMeZVJ18ekUSG5mxuAPHthKsaTNC32fmstsLSMM51/dwLZn6ZXRc/mLm4
+	 2+Za+HL3jpoQx8Ki3yvHcKTPbC0h8lXGzA0W5iFMjvy0lmcbakZemEWOP1FdmT8RAUHIj
+	 CKmDPHWXLFOTZVA8GPWAcQ0wwJqsDNfkFZiHUAJxRzZFLt2luoL7aqldHyLxB+ErVG55j
+	 31yFx5q3SS1OC2ESQ3oU9myJtAa5mCUwkunRL9cRNfkD/t8I30e4cSu/Ju7Cu3F2saA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=ZslLM7db;
-	arc=none smtp.remote-ip=209.85.216.71
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=of181jWl;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8QG2qy3k;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=vmUyTTmL;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ksiUWbKe;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248D0606C178
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:53:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 248D0606C178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DF8606A31E;
+	Mon, 26 Oct 2026 21:54:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02DF8606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=ZslLM7db
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3abfcf726dcso5159070a91.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 14:53:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1793051576; x=1793656376; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HQqGCLRyEFq1Qmw7LfzuGpexsFHiUvTKIyODgPSn6eE=;
-        b=ZslLM7dbmVgAFSoPUZOqKRrOoyj122fasUGdKYfOjOXbcRPiRB7feP6J+Octqg8Oa7
-         CYkNSyaJ5iygpnvzIZzKMr56CyR1UQjGhD0SeSiR+jnjKI891alYSFsfCdQyY1fP7lfK
-         jjHyo984JGh2+H77mvNAAdFd04oUnBl94P2xuFqBjmjJW2DRxyJuLJmIcvB/faohDtvh
-         cqjWch4Zsyk+B3JEvHSIHxZJLF7Wuqc+8XgYW91lxZJfWyN17H1WnMId3q2wh0N/6TLC
-         csdE1br/thP+JMpWf4qCqC7rGrBz4jRcA0dSFFpspmprnoJ9hiOa+NbLKfXhqIJIfOQ1
-         +hfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793051576; x=1793656376;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HQqGCLRyEFq1Qmw7LfzuGpexsFHiUvTKIyODgPSn6eE=;
-        b=xnaZDIoOvHR7gZDz1C9ahw5Yp5YhahLkmXcp/d7C4aZaHKRYIOmbGSOgK1N23eV+Nt
-         Aegd6QsQoC0GpgrtOktUQZHNRlJzQuZJyD0uXGqEgg89IVNSkfZEiVZ7rNZoMoyk0F9q
-         TroQcgKVFlYC/CA7DpVgQ24N/3nM3EGQpz17Gesz/wXuEOMDzifLfi7vhBR0hFbWIdGG
-         4JSqjS19/V2NTS6ZfwoPV+nHoLthKLK9Dah5NhP8KWD8E12Cr1xFsHPJb9abwTbmxXOr
-         gWf2WQnBJk+mZAezO9QpxnTIzDRp9LbW14KqySBMOj5sQnsYtkBOLZ0K/kVhODtJINt2
-         T26Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxAYkHe3JOM/vgCUtWHoc3aGmLnRgx8wiv813JXpSVnhegrhRHHQ7FF/VPsK73f5BcYYVjibrprmyr+18nx@vger.kernel.org
-X-Gm-Message-State: AFq9FYJUJcILXBv2KBP1MAr2b7xIPovLSDmERHNPEGDuwn8nS4zrl6CB
-	ov/VABvxphVMsUn4VR/iZmtsFkzzs5qDymC4klBivgokXehP3IRsSaAXNodaZ3DFMSHeH0XrARF
-	0QN6a493XsZ221j1SNXYERg==
-X-Received: from pjbst6.prod.google.com ([2002:a17:90b:1fc6:b0:3ac:989f:b65f])
- (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:1a92:b0:3a8:211b:6c8c with SMTP id 98e67ed59e1d1-3adeaae6e15mr7057279a91.22.1793051576336;
- Mon, 26 Oct 2026 14:52:56 -0700 (PDT)
-Date: Mon, 26 Oct 2026 21:52:26 +0000
-In-Reply-To: <20261026215226.3713941-1-jthoughton@google.com>
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=of181jWl;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8QG2qy3k;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=vmUyTTmL;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ksiUWbKe
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 310B41F457;
+	Mon, 26 Oct 2026 21:54:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793051646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pf3S30pSW0zRv1AOVALzxFmv0Ce8aBbZC2HWrVwtQ0k=;
+	b=of181jWlE24V1YchHTnAbfa6DvBROfm21FOhrvZxE3/WE3ub/jzfqztQ7ZEyVUzvmYHWLf
+	Wk5QuyNTssa8db2DAeGfRinabyX/tcaMR13itFnGHT0KkwbGDVnzzO8QJ8TY8gNOif6JlJ
+	hrwoI+QoC6qWwvDLZ+exOZNyqS46gd4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793051646;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pf3S30pSW0zRv1AOVALzxFmv0Ce8aBbZC2HWrVwtQ0k=;
+	b=8QG2qy3kxjDS8gWtfiZZb82xl4IPeo20JBGmqFR3Aedrls2FqL2P9OK/lzC9kOWh8MhaQo
+	eitJKcOutKC5mkBw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=vmUyTTmL;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ksiUWbKe
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793051645; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pf3S30pSW0zRv1AOVALzxFmv0Ce8aBbZC2HWrVwtQ0k=;
+	b=vmUyTTmLdaZAwBYgjkw/QyA2Xjjfz8UchViKglAwbb7oYI/lpYIQAwW5JECH48zIBNNHCX
+	klnjCNBQNqophVhLIEvEy+tIg0u7iE0Yh3OXfSNVXEy59dv+g6abh/u6eB7UhmXzjV8s4g
+	UinrVww4MeOy7BUhnF5bkqypVkcIQSI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793051645;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pf3S30pSW0zRv1AOVALzxFmv0Ce8aBbZC2HWrVwtQ0k=;
+	b=ksiUWbKeDvuES6KhGnl/L/nFOP8h6joc4JaID0sI6C7U2W/N2hsN5czxgK9P2fq25VfY5V
+	+qMllW8R0lWikNCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D807F13408;
+	Mon, 26 Oct 2026 21:54:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iOpCK/zL32onCQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 21:54:04 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 612ACA1419; Mon, 26 Oct 2026 22:54:04 +0100 (CET)
+Date: Mon, 26 Oct 2026 22:54:04 +0100
+From: Jan Kara <jack@suse.cz>
+To: Aurelien DESBRIERES <aurelien@hackers.camp>
+Cc: jack@suse.cz, brauner@kernel.org, willy@infradead.org, 
+	viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	aurelien.desbrieres@gmail.com
+Subject: Re: [PATCH] buffer: warn when a buffer is attached to a second mmb
+Message-ID: <lmns74nam22ljcd4lhdyoel3vvxmhf6gakggmbtxbmkpgzhiva@xqlyexvgkwcy>
+References: <q472nkbfcfdumbxm3cebfnnmueqyl6uhhnper5t6e2cxajpvtu@7prjjo7k6ia3>
+ <20261026213626.301480-1-aurelien@hackers.camp>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,103 +112,122 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261026215226.3713941-1-jthoughton@google.com>
-X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
-Message-ID: <20261026215226.3713941-11-jthoughton@google.com>
-Subject: [RFC PATCH 10/10] uaccess: Move the NULL mm warning out of line
-From: James Houghton <jthoughton@google.com>
-To: Andrew Morton <akpm@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jim Mattson <jmattson@google.com>, Jens Axboe <axboe@kernel.dk>, 
-	Pavel Begunkov <asml.silence@gmail.com>, 
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, David Sterba <dsterba@suse.com>, Chris Mason <mason@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, io-uring@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-btrfs@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, James Houghton <jthoughton@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261026213626.301480-1-aurelien@hackers.camp>
+X-Spamd-Result: default: False [-11.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,kernel.org,infradead.org,zeniv.linux.org.uk,vger.kernel.org,gmail.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,hackers.camp:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -11.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 310B41F457
 
-uaccess_without_mm() is inlined into every user copy, including every
-copy_{to,from}_user() call site on architectures that define
-INLINE_COPY_USER, such as arm64. Each inlined WARN_ON_ONCE() adds its
-own __bug_table entry.
+On Mon 26-10-26 22:36:26, Aurelien DESBRIERES wrote:
+> mmb_mark_buffer_dirty() tracks a buffer on one mapping_metadata_bhs at
+> most. The per-mmb lock does not protect a buffer that changes lists,
+> and mmb_sync() clears b_mmb for a moment under its own lock, so a
+> filesystem that attaches a buffer shared by several inodes to each
+> inode's list in turn corrupts b_assoc_buffers eventually. With
+> CONFIG_DEBUG_LIST the list_del is refused and mmb_sync() spins on a
+> list that never empties, holding mmb->lock: seen with beamfs under
+> dbench (xfstests generic/241) as list_del corruption, a soft lockup and
+> a node lost to the OOM killer, with nothing naming the filesystem.
+> 
+> Warn once when a buffer already tracked by another mmb is marked dirty
+> through a second one, so that the misuse is named at its first
+> occurrence rather than at the corruption it leads to. A corrupted
+> volume in which two inodes claim the same block reaches this as well;
+> the cmpxchg below keeps the lists sound in that case, and the warning
+> then says which filesystem believed its block map.
+> 
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Link: https://lore.kernel.org/linux-fsdevel/q472nkbfcfdumbxm3cebfnnmueqyl6uhhnper5t6e2cxajpvtu@7prjjo7k6ia3/
+> Assisted-by: LLM
+> Signed-off-by: Aurelien DESBRIERES <aurelien@hackers.camp>
 
-Keep the NULL current->mm check inline, but move the warning into a
-single out-of-line, __cold function, uaccess_warn_without_mm().
+Thanks! Looks good! Feel free to add:
 
-The trade-off is that only the first offending access in the system
-warns, rather than the first one from each call site. The stack trace
-still identifies the caller, and the access is refused either way.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Compared to the base of this series, with defconfig + KVM:
+								Honza
 
-                     inline WARN_ON_ONCE()    out-of-line warning
-  x86_64 total       +5,884 B (+0.014%)       +9,714 B (+0.023%)
-  arm64  total      +40,948 B (+0.10%)       +24,609 B (+0.06%)
-
-On arm64, this removes the ~16 KB of __bug_table growth, while text
-size is unchanged, as a call is the same size as the inline brk. On
-x86_64, the call is larger than the inline ud2 and causes more .cold
-splitting, so this is a slight regression.
-
-Signed-off-by: James Houghton <jthoughton@google.com>
----
-NOTE: This patch is included for reference only, to show the cost of the
-      inline warning.
----
- include/linux/uaccess.h | 8 +++++++-
- lib/usercopy.c          | 6 ++++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index 7d26d2de9599..6a5b6c2b3388 100644
---- a/include/linux/uaccess.h
-+++ b/include/linux/uaccess.h
-@@ -66,9 +66,15 @@
-  * that keeps user addresses belonging to a specific mm must check
-  * current->mm against that mm itself (see e.g. KVM's kvm->mm checks).
-  */
-+void __cold uaccess_warn_without_mm(void);
-+
- static __always_inline bool uaccess_without_mm(void)
- {
--	return WARN_ON_ONCE(!current->mm);
-+	if (likely(current->mm))
-+		return false;
-+	/* Warn out of line to keep inlined user copies small. */
-+	uaccess_warn_without_mm();
-+	return true;
- }
- 
- /*
-diff --git a/lib/usercopy.c b/lib/usercopy.c
-index 9146c729c47a..3d547ecb74df 100644
---- a/lib/usercopy.c
-+++ b/lib/usercopy.c
-@@ -26,6 +26,12 @@ unsigned long _copy_to_user(void __user *to, const void *from, unsigned long n)
- EXPORT_SYMBOL(_copy_to_user);
- #endif
- 
-+void __cold uaccess_warn_without_mm(void)
-+{
-+	WARN_ON_ONCE(1);
-+}
-+EXPORT_SYMBOL(uaccess_warn_without_mm);
-+
- /**
-  * check_zeroed_user: check if a userspace buffer only contains zero bytes
-  * @from: Source address, in userspace.
+> ---
+> Tested on vfs.all with beamfs, x86_64 guest, 4 CPUs:
+> 
+> - the module as it was before our fix, attaching the shared bitmap
+>   block to each allocating inode's list in turn: the warning fires at
+>   boot, 8.6 s in, on the first truncate that frees blocks of a file
+>   another inode had allocated, long before the dbench run that used
+>   to corrupt the list:
+> 
+>     WARNING: fs/buffer.c:639 at mmb_mark_buffer_dirty+0x46/0xd0, CPU#3: S01hostname-cmd/111
+>      beamfs_write_bitmap_block+0x191/0x1c0
+>      beamfs_inline_free_blocks_from+0x64/0x390
+>      beamfs_inline_setattr+0x127/0x4c0
+>      notify_change+0x33b/0x520
+>      do_truncate+0xbf/0xf0
+>      path_openat+0x8c1/0xaa0
+> 
+> - the module with the shared buffers on one superblock list: no
+>   warning at boot or under the filesystem's own tests.
+> 
+>  fs/buffer.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index 1dc933ba6925..e503a7ed9c37 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -627,6 +627,16 @@ void write_boundary_block(struct block_device *bdev,
+>  void mmb_mark_buffer_dirty(struct buffer_head *bh,
+>  			   struct mapping_metadata_bhs *mmb)
+>  {
+> +	struct mapping_metadata_bhs *cur = READ_ONCE(bh->b_mmb);
+> +
+> +	/*
+> +	 * A buffer is tracked by one mmb at most. The per-mmb lock does
+> +	 * not cover a buffer that changes lists, and mmb_sync() clears
+> +	 * b_mmb for a moment under its own lock, so a filesystem that
+> +	 * attaches a buffer to a second mmb corrupts b_assoc_buffers
+> +	 * sooner or later. Name it here, before the lists do.
+> +	 */
+> +	WARN_ON_ONCE(cur && cur != mmb);
+>  	mark_buffer_dirty(bh);
+>  	if (!bh->b_mmb) {
+>  		spin_lock(&mmb->lock);
+> 
+> base-commit: 2c3ba1f1cb416b81d617b92a24a4bcaa48d574e3
+> -- 
+> 2.55.0
+> 
 -- 
-2.56.0.307.g5fe7bd680c-goog
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
