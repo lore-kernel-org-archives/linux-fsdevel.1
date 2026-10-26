@@ -1,77 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793000384;
-	b=4rcl6hRNZXi+cL5NbRxL4dZF+VFDMglNJXV3ts80hwxun104YIgI7Pjr8TWY2gWlDj5L
-	 /ySJDtxNBWxa9wCSJId0PrgoW75PuTsFQPEIgAGSL6DXUDLAzXGH4k4wGDza9DJpZ2LUM
-	 CTsQe4wQciuTb2CqSstIMc+SqoJjKAqL3rfHVgvjEfcctKjSkUFNJTPorcYwLZhYot/O7
-	 zcauTyGPSoP9R6RFt8xj2tSyhlzTWD40iFxJjEYuHULhzdxJyaQoNgFKMPMnio8wAlFX0
-	 Mft+jmbYJ6rd/no5SdmcAGbiPFnJpcyRB7sbsjPLCmRj1zZOeDrGHNcuIoa/Oq+ZYFA==
+	t=1793002364;
+	b=Ad312p+VPxkaD8xUnpf+k7gD7D5O5ARpITmhYecOphaQZ3R1b0q9TqnVF8nfHjRo6swA
+	 mU5mU9/Nufz5fALCeakGJHNzpFErG/QO+UYwFBVL5uMgUDwy+odPYJIiS/Y8Nhx48hxE1
+	 MbpyoikQ7CN74Fvv/P9WifrsyTa2M2A7vdRqyecQts9VMi3vC3d8qtIxbuV7++DCvnkS3
+	 L//UDMYPsIUnApfwLy85mvE3V1P8anwB+pDC9YeGYZXlf02nLlnk2HC13iEcoiatUuqB1
+	 1EHikZMbRTPoDdo2BoN7+nk+i5XD9NQ0FCvtxTgQd0iit3utyDBWutS6ErN1lrkBpjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793000384;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 User-Agent:MIME-Version:Content-Type;
-	bh=y7rMtNEmj8RP/Ie2Tkpn7XyZKLs6qIaLRaODfWpvLLE=;
-	b=FWT9AqNU/OpDpQP3eaEG31UE/Gg2bg7DGp/v893Iutit9MsPd3yI0t2wfIlmditaSLXn
-	 fvN5b6ENUSYTkla11Au0N1VA5MwyCJctakGePT98oOhQjJ4rCxo31BCLCinCRz6dS4fxQ
-	 4dAMFaINizuxiVPCmsf4OQg7+6GNychzs2VSqf0QwcELWVSzLhLlq0Wd5dpi3u1co0KFJ
-	 xnca0dC8MZU9mGoOOyEn5kwB6q+qQu5pMTnP35v1ist09hn3CypuTBI0AmqejMbVRP3cJ
-	 ktkE7HphZ2+Rgtb5593CUSwMZbmHj4zopBot428qPkfo2aOo5dGJllR1goJh8DNUURw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793002364;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=twvo2S5XjbqEkOWkAQpnGbrW91qUdbVnGPc73sw06G4=;
+	b=qp9WLMiM+KUsJYD+64bAXe3GTd5T8fhRh5cjZlzPfA+r1NkAoaoTchQbSmqVKEpcKi9e
+	 FlUH9yzvpD+5uQ5L9H0sVSnBRjP4BqTWSnhR5tzGfmsjsBF9WDRcVnkzCzY2YGWCxzbVj
+	 TARDOhGXeCBU9TXyV4Lf4XzNig9DaKaGT/83kIdLU2Cxk63jnp0BtmOAg+HOSlNJZcP7P
+	 /6+pZ9ghdrrwdU1BJJJ+s+H2a13e46HA6VF4UL/5Mu21uXNWlbQn+g3YhYMFbhfPGpn+J
+	 iRrAslpu2CZmrO7EYC6f8Q9AE8v0Bf09fy4HxbHRwrSTJxd9iwFDW3Ue/e6PnI1Vbdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.parknet.co.jp;
-	spf=pass smtp.mailfrom=parknet.co.jp;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=XAV8to4M;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=e5qLOOEs;
-	arc=none smtp.remote-ip=210.171.160.6
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NFNJNicX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21354606A31A;
-	Mon, 26 Oct 2026 07:39:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21354606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E59606A31A;
+	Mon, 26 Oct 2026 08:12:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=XAV8to4M;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=e5qLOOEs
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 291AD209655C;
-	Mon, 26 Oct 2026 16:39:41 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1793000381;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y7rMtNEmj8RP/Ie2Tkpn7XyZKLs6qIaLRaODfWpvLLE=;
-	b=XAV8to4MlASI92ZZ4Y++BsVyass7q/oR8mlDsKzN3w7BRtv/cif5PnITtsj27Z1x8DM8CF
-	4BNT7/cylcjj6oRZ6bEeEwwe+qsTvQJNaliDBsxc/HtmSCupRwa5sddBQAw7aeRthJZS9O
-	Kux69XAieW7WMecZXsvrRyXZyI2g9W0XIKYC+RIC2Qed9uDElsgMoUVE/zTMGUdDLu3L2O
-	KzbfiIb9OyRrt5sBPhaYw09tfNk+G0AjDMiVvxXqYQ1/1BMyEn0FuZO7YIKNM688PZAsHr
-	/O+9REUBEBytCH/h6mOZk0Q1W2YZDGYdjs7v+HRByLuhO0VWU8vVAyiQQSi86w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1793000381;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y7rMtNEmj8RP/Ie2Tkpn7XyZKLs6qIaLRaODfWpvLLE=;
-	b=e5qLOOEssTVR2M/bd35xKtnR4KShxcL02+wlX2OUAxJJwmKq67NESQmXUrAHMY6taOpBS2
-	T6Hfyt65/x0ZCzBw==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id AFD4DE000CD;
-	Mon, 26 Oct 2026 16:39:40 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 9BA38220019C; Mon, 26 Oct 2026 16:39:40 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Cc: linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] fat: batch synchronous mirror writes
-In-Reply-To: <87ecdchpzr.fsf@mail.parknet.co.jp>
-References: <20261025191006.407209-1-matheus.aalmeida@inf.ufrgs.br>
-	<20261025191006.407209-2-matheus.aalmeida@inf.ufrgs.br>
-	<87ecdchpzr.fsf@mail.parknet.co.jp>
-Date: Mon, 26 Oct 2026 16:39:40 +0900
-Message-ID: <87a4o0hpvn.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NFNJNicX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8936D1F01825;
+	Mon, 26 Oct 2026 08:12:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793002363;
+	bh=twvo2S5XjbqEkOWkAQpnGbrW91qUdbVnGPc73sw06G4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NFNJNicX6mXjCGpZhiZiDheE4OhQLW4CMPrvMwmhEQV6Sq1TxOHedI51pkk8pDhNS
+	 PD8CDdmWZcRxvMEAmdne/GyfcWHutE84sT6cGLcWhob6VmPa5DFpancxtpgIemAgaS
+	 Syt6R0JdrMc6iqm2autEf7mFIGcPTNXDKMxLPI46onGdFDgqyEisFCvH98js/oc5pU
+	 jM8ULVd2dxYAzoC1xbI9lwPXYMmb7C/wYJ76l99gv+eqVsclhAXbj6jhGt5Uw/LQHn
+	 Ef+4BnJX9phtyvdah+Yl5c8tgHidpPYY8nqarZoU5Tcpt3/1EROrnWsO+G0qqdn24z
+	 J/Upbu1Wh0rbg==
+Date: Mon, 26 Oct 2026 09:12:38 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-ext4@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org, 
+	Gabriel Krisman Bertazi <krisman@kernel.org>
+Subject: Re: [PATCH 1/2] dcache: don't leave negative dentries in casefolded
+ directories
+Message-ID: <20261026-virologen-abtropfen-endlich-b6ffb9111409@brauner>
+References: <20261023-work-dcache-casefold-v1-0-1b0bd5c73a69@kernel.org>
+ <20261023-work-dcache-casefold-v1-1-1b0bd5c73a69@kernel.org>
+ <20261024192017.GG2553@quark>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -81,29 +61,19 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261024192017.GG2553@quark>
 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> writes:
+On Sat, Oct 24, 2026 at 12:20:17PM -0700, Eric Biggers wrote:
+> On Fri, Oct 23, 2026 at 02:44:22PM +0200, Christian Brauner wrote:
+> > +static __always_inline bool d_delete_drop(struct dentry *dentry)
+> > +{
+> > +	return dentry_negative_policy ||
+> > +	       IS_CASEFOLDED(d_inode(dentry->d_parent));
+> > +}
+> 
+> Should this also check IS_ENABLED(CONFIG_UNICODE), so there will be no
+> overhead when CONFIG_UNICODE=n?
 
-> Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
->
->> diff --git a/fs/fat/misc.c b/fs/fat/misc.c
->> index e79762cf1975..f8f89b947baf 100644
->> --- a/fs/fat/misc.c
->> +++ b/fs/fat/misc.c
->> @@ -365,3 +365,9 @@ int fat_sync_bhs(struct buffer_head **bhs, int nr_bhs)
->>  	}
->>  	return err;
->>  }
->> +
->> +void fat_brelse_array(struct buffer_head *bhs[], int n)
->> +{
->> +	while (--n >= 0)
->> +		brelse(bhs[n]);
->> +}
->
-> I'd like this is noop if n == 0, possibly easier to use and safer in future.
-
-Ouch, it works as is.
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Sounds good. I'll fold then in when applying.
