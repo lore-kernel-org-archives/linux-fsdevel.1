@@ -1,111 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793051364;
-	b=vMNqSfRnWS88rpQMdgm8gCbXhMRvEAsCogkVXolv6vdKNlAR65ybD2xTb6DjwWlLdIvW
-	 i5BPlcao0fUNXFppsbsuq+UsIMy12J8LIL/PSTvkWV/AjOloQ17lfFj6zaKS8c9HXFvqT
-	 8P9P9fdG7JKxZPWwcKtVCp6q+UMINL1HfJlhrV3+6s7dzBMowxBeap5V8vNWPFzECqlUy
-	 YtrC3tXePU21DaUXQG3BLHaJ2hM9t/yoIq2bvaH82W3uynoaH8IeixD/MwqqEPMU6K6kb
-	 VjI3QMp93+wBDeq34adSKJJ4X2CFVAuyKF7euPs1otkrVoIuJTrXByEkCwz1k2+k2aA==
+	t=1793051569;
+	b=1q4vVT/RZkEskz4UZjKZ3g4iVu5RWx+KKuXbQnCZ5320CpUDFbKdFfj9eRsUzxIx1cDm
+	 3EeC4FLU0cHqArA3htjI656jpCPdZSf6Cqk0cWCUttO3YTv6e5d4z07pr4xZyLKkyf6Ut
+	 WlBsMAkbZA/J+StywLGTUFRYElN3JFMIihl2JhTr6vg9mHEZH6+wzCzBLnO+GlFcfD570
+	 2SExJa40M2y+uRtdsywjD9bI2KSAqjj1YYCA+kEZGgNL1lBryCiT1v95moHnq7/7Jl+Nb
+	 MvBoAC/F8ajj+zJjDK5glrHGp4svXupaEPEaNw8EeIJW81BQiNsud4p/2C/WHkwEcGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793051364;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=bVpJ81jbb6s/k9oeKUE3zACKDLs87mB6qiXsiIpROrw=;
-	b=IRmMZOUsVjPwVEtZIRj5TQyF7YGybUL87uW5/NC3ENoG7NwLUsmhzinJbji+l1KrLpBs
-	 +E0PqmlolLk2qinWO2+nTTjtWcPPi4vFvCkhmljRz6MSQ492o66IRwkIpG/U5EA6FgJBS
-	 uS7qTmb/939sTygT97pOUNfsdygOrB0bfCYE76bzFqQWlfktMVmb7jTarcrrEh9/0iTrp
-	 MVAp31LvvDyu100Q8M0OODIyLZkmIEAEbGp6oHOnAnZPvU6VfUwnTD2ae53u7bXLFNJXw
-	 SiV/C29ftaDXQu8q6yTPjDCcBcRvSVY6wgMYa0/DSWNazXS0vNKqe9cS5jRRHIYhEfw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793051569;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=nNWbrH52AzRslkHtbLVib7oaB3pAEHtIJlP9l4sYI30=;
+	b=EdzLM/g8+/CweIiM6KBhuMHGlOtUWf+rpdd4ILrVZNg1oljQ++Po40P6D1HywDO1P9Wo
+	 te8dsM9Fh0/SISzIc4dZH23zQXawvgSnpy1nqnxcbaSmeLTOp5X1aqo91X7D5QTgqLwVs
+	 WCdtt2+yBUksDZYzU5IvYGTaFCzW81cv2/y4k0qJWPDGudi8DIhcoNuinutCbjuhh9yzG
+	 6q3JKl9Ht4gnsCR6GBlWiwp68alwxZTd/GMiWGW3bV3Y7Y7O6aEJdAaNZIw/GWb1oJFpy
+	 9DaILOVFMyF6u+BqF1qZJAKnXeceYKwQgYTzUt+9DQPz0aTdspieBcgksYifCjCA4xA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=eCinZKry;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=c7Cedkm8;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=eCinZKry;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=c7Cedkm8;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=RFIxgHQB;
+	arc=none smtp.remote-ip=209.85.215.198
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B196606A326;
-	Mon, 26 Oct 2026 21:49:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B196606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FFB606A320
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:52:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2FFB606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=eCinZKry;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=c7Cedkm8;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=eCinZKry;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=c7Cedkm8
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F2381F395;
-	Mon, 26 Oct 2026 21:49:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793051354; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bVpJ81jbb6s/k9oeKUE3zACKDLs87mB6qiXsiIpROrw=;
-	b=eCinZKry9BdBG2Tuub+XI9hK94YcOOBUoAy5NiqDtrxCIfhiDCpKBYosrzHbGoQPdqVcVF
-	/qUyW0flh+XLgtYLcWFiEdoa2BT99gfRo3PcAl738bcEs9klDFkXP6z2X4Nbo/EaPFu13F
-	/G1VPtqe+OHGGNMTOwe+xOIuqM2+o+Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793051354;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bVpJ81jbb6s/k9oeKUE3zACKDLs87mB6qiXsiIpROrw=;
-	b=c7Cedkm86DrLmBhaRecl63q8E2NQXs91lGx1midza1J1rGGNKflLD0QKxcMpGk83nRyC0X
-	IUBu035ZLkrDe3DA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=eCinZKry;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=c7Cedkm8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793051354; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bVpJ81jbb6s/k9oeKUE3zACKDLs87mB6qiXsiIpROrw=;
-	b=eCinZKry9BdBG2Tuub+XI9hK94YcOOBUoAy5NiqDtrxCIfhiDCpKBYosrzHbGoQPdqVcVF
-	/qUyW0flh+XLgtYLcWFiEdoa2BT99gfRo3PcAl738bcEs9klDFkXP6z2X4Nbo/EaPFu13F
-	/G1VPtqe+OHGGNMTOwe+xOIuqM2+o+Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793051354;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bVpJ81jbb6s/k9oeKUE3zACKDLs87mB6qiXsiIpROrw=;
-	b=c7Cedkm86DrLmBhaRecl63q8E2NQXs91lGx1midza1J1rGGNKflLD0QKxcMpGk83nRyC0X
-	IUBu035ZLkrDe3DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4D9BA13408;
-	Mon, 26 Oct 2026 21:49:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eRk0CtrK32pSBAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 21:49:14 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id CCA06A1419; Mon, 26 Oct 2026 22:49:09 +0100 (CET)
-Date: Mon, 26 Oct 2026 22:49:09 +0100
-From: Jan Kara <jack@suse.cz>
-To: Andrea Parri <parri.andrea@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org, linux-mm@kvack.org, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iov_iter: take an unsigned long segment count in
- import_iovec()
-Message-ID: <yb2p27fkrqamzmzfwqbqjwsxhw7cdlpgjzc26eqtimw2puhxrz@mhrjegarlm5a>
-References: <20261026180619.4147910-1-parri.andrea@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=RFIxgHQB
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cd67e98f68fso4693103a12.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 14:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1793051568; x=1793656368; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nNWbrH52AzRslkHtbLVib7oaB3pAEHtIJlP9l4sYI30=;
+        b=RFIxgHQBLA5kwXeKeZ7BbXe0EEOafgFGP6cFlYVWixeuRgrG4hX0zvT1DtthEHURdd
+         4h29lzMH98SKcMcg6ASHzle56OYbArDK7a6MjfuTiMXPxXwo0zPzx/IAwkzjDehcb8sA
+         JV5rcHcILXMzSiTp/BBX54to4mvdoGoA9s0pP15/ZfmclpvyZ7ncKJ3qETO0P+2PtzW+
+         e89gMiBeQnyIvImbQ4X8TbE4LbCYzSe09Gcom0qmEakRnZAAjSNivHZ736gNxEzeHuLh
+         6N4H52f7m6P4cLzI3i5axB9WEX44AJSAZr7me/AQyWAS7HkIClpNysvWlG9RgONwSoaU
+         u2Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793051568; x=1793656368;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nNWbrH52AzRslkHtbLVib7oaB3pAEHtIJlP9l4sYI30=;
+        b=S6JyqW8Dm779yNDFIYIdPh8YcpVXixFV2f608TNP0Ax0B5RtkDF/mEuxwsgu/yGlGp
+         8Q8+eu8qzXo4dLT30unzYlyCmXVweat/9nns3JKMiDeBIRLebk4ma7RlSNplPVvVOZ8O
+         ISddydcQQ1ofn2UHCZjJjP95KEI2sdgd1ISlXfab719V/9YGLYZvayd/gjF0NF5NTT4q
+         KXAbDHFmL/gwMHAiWFlg4j3I4NFe8subej98D8OS0tYDIA0J2lb+QfI/rabqsJrqjkk0
+         khB8e/DpUdXNRvoYYzf0OZoLSdTKy0Vk+qchzXj4/5frWND9k/zbf1ogJ2FOUmY3wMtU
+         xdlg==
+X-Forwarded-Encrypted: i=1; AKwUvBxQXMl9RZkzOkkLRsQl2TAIv6wVsBRhikbvCfr0P9BnYMALzJRH/QC8lmNL7FMaVkrCh6mr8LbaUum+s/1S@vger.kernel.org
+X-Gm-Message-State: AFq9FYKAFyaa5ZmviPoLAw++bv4ZUvRaxNWr7JjKkXVq+iAF/5stXKct
+	5jhybj7vxeEwFHrmoNyqsagMVQ7v2V0pw5ZhrkocKIHcap5gh+IN2KT8HbU826A9ISluP/WSXUG
+	QykHwPAjOhzOVPiI1/4VHkg==
+X-Received: from pjbfa12.prod.google.com ([2002:a17:90a:f0cc:b0:3ab:c012:2f80])
+ (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:280c:b0:3aa:ff19:42b8 with SMTP id 98e67ed59e1d1-3adead4792bmr6561021a91.27.1793051567868;
+ Mon, 26 Oct 2026 14:52:47 -0700 (PDT)
+Date: Mon, 26 Oct 2026 21:52:16 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -114,182 +75,224 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261026180619.4147910-1-parri.andrea@gmail.com>
-X-Rspamd-Queue-Id: 9F2381F395
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:email,suse.com:email]
-X-Spam-Score: -11.51
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
+Message-ID: <20261026215226.3713941-1-jthoughton@google.com>
+Subject: [RFC PATCH 00/10] uaccess: Refuse and warn on user accesses when
+ current->mm is NULL
+From: James Houghton <jthoughton@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jim Mattson <jmattson@google.com>, Jens Axboe <axboe@kernel.dk>, 
+	Pavel Begunkov <asml.silence@gmail.com>, 
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, David Sterba <dsterba@suse.com>, Chris Mason <mason@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, io-uring@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-btrfs@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, James Houghton <jthoughton@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon 26-10-26 19:06:18, Andrea Parri wrote:
-> readv(), writev() and their positional variants, process_vm_readv(),
-> process_vm_writev(), vmsplice(), process_madvise(), vectored aio and
-> the btrfs encoded I/O ioctls all take a full-width segment count, and
-> all of them hand it to import_iovec() or __import_iovec().  Those take
-> an unsigned int count, so on 64-bit kernels the upper 32 bits are
-> dropped before iovec_from_user() checks the count against UIO_MAXIOV.
-> 
-> A count of 0x100000001 is therefore imported as one segment: writev()
-> on a pipe writes a byte and readv() reads it back, instead of both
-> failing with EINVAL.  A count of 0x100000000 returns 0 as an empty
-> vector.
-> 
-> import_iovec() was added with an unsigned int count, but the helper it
-> wrapped, rw_copy_check_uvector(), took an unsigned long, as does
-> iovec_from_user() today.  Until v4.1, readv(), writev(), preadv(),
-> pwritev(), process_vm_readv(), process_vm_writev() and vectored aio
-> therefore failed these counts with EINVAL, as did vmsplice() until
-> v4.18.
-> 
-> Widen nr_segs in both import helpers so the UIO_MAXIOV check sees the
-> count the caller passed.  Callers with 32-bit counts are unaffected.
-> 
-> AI assistance was used to find the bug, develop the fix, and run the
-> reproducers.
-> 
-> Fixes: bc917be81059 ("saner iov_iter initialization primitives")
-> Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
+Hi everyone,
 
-Looks good. Feel free to add:
+This series comes out of a set of bugs that were found in KVM where the
+kernel can sometimes write to a random process's user memory[1]. The KVM
+fixes at [1] are still required, even with this uaccess series, as noted
+by Sean here[2] and below in this cover letter. The beginning of this
+series includes fixes for similar bugs found through static analysis
+with Claude Opus 5.5. I don't think any of these bugs are more severe
+than the KVM bugs[1].
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+We hit one of the KVM bugs in production, and it was challenging to
+debug. This series makes such bugs, where the kernel is doing uaccess
+without an mm, much more obvious.
 
-								Honza
+The Cc list is wide because the fixes at the start of the series touch
+several subsystems: SCSI (patch 1), btrfs (patch 2), BPF (patch 3),
+tracing (patch 4) and perf (patch 5). They're included because the new
+warning in patches 6-10 would otherwise fire on those paths. The core
+uaccess change is in patches 6-10.
 
-> ---
-> Tested on x86_64 with virtme-ng, base 734bef548a96e vs patched:
-> readv, writev, preadv, pwritev, preadv2, pwritev2, vectored aio,
-> process_madvise, process_vm_readv, process_vm_writev and vmsplice with
-> counts 0, 1, 1024, 1025, UINT_MAX, 2^32, 2^32+1, 2^32+1024, 2^32+1025
-> and ULONG_MAX (LONG_MAX for aio).  The base kernel accepts 2^32,
-> 2^32+1 and 2^32+1024 on every path; the patched kernel rejects every
-> count above 1024 with EINVAL.  Also built every caller with
-> allmodconfig W=1, and lib/iov_iter.o and the readv, vmsplice and
-> process_vm callers with i386 defconfig W=1.
-> 
-> Reproducer (64-bit userspace):
->   cc -Wall -Wextra -O2 repro.c -o repro
->   ./repro
-> 
-> // SPDX-License-Identifier: GPL-2.0-only
-> #define _GNU_SOURCE
-> #include <errno.h>
-> #include <stdio.h>
-> #include <stdlib.h>
-> #include <string.h>
-> #include <sys/syscall.h>
-> #include <sys/uio.h>
-> #include <unistd.h>
-> 
-> int main(void)
-> {
-> 	char source = 'x', received = '-';
-> 	struct iovec wiov = { .iov_base = &source, .iov_len = 1 };
-> 	struct iovec riov = { .iov_base = &received, .iov_len = 1 };
-> 	const unsigned long count = (1UL << 32) + 1;
-> 	long wret, rret;
-> 	int pipefd[2], werr;
-> 
-> 	if (pipe(pipefd)) {
-> 		perror("pipe");
-> 		return EXIT_FAILURE;
-> 	}
-> 	errno = 0;
-> 	wret = syscall(SYS_writev, pipefd[1], &wiov, count);
-> 	werr = errno;
-> 	close(pipefd[1]);
-> 	errno = 0;
-> 	rret = syscall(SYS_readv, pipefd[0], &riov, count);
-> 	printf("writev=%ld (%s) readv=%ld (%s) byte=%c\n",
-> 	       wret, strerror(werr), rret, strerror(errno), received);
-> 	close(pipefd[0]);
-> 	return EXIT_SUCCESS;
-> }
-> 
->  include/linux/uio.h | 8 ++++----
->  lib/iov_iter.c      | 6 +++---
->  2 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/linux/uio.h b/include/linux/uio.h
-> index fe2e985d74d24..529c6cd53df7a 100644
-> --- a/include/linux/uio.h
-> +++ b/include/linux/uio.h
-> @@ -362,11 +362,11 @@ struct iovec *iovec_from_user(const struct iovec __user *uvector,
->  		unsigned long nr_segs, unsigned long fast_segs,
->  		struct iovec *fast_iov, bool compat);
->  ssize_t import_iovec(int type, const struct iovec __user *uvec,
-> -		 unsigned nr_segs, unsigned fast_segs, struct iovec **iovp,
-> -		 struct iov_iter *i);
-> +		 unsigned long nr_segs, unsigned int fast_segs,
-> +		 struct iovec **iovp, struct iov_iter *i);
->  ssize_t __import_iovec(int type, const struct iovec __user *uvec,
-> -		 unsigned nr_segs, unsigned fast_segs, struct iovec **iovp,
-> -		 struct iov_iter *i, bool compat);
-> +		 unsigned long nr_segs, unsigned int fast_segs,
-> +		 struct iovec **iovp, struct iov_iter *i, bool compat);
->  int import_ubuf(int type, void __user *buf, size_t len, struct iov_iter *i);
->  
->  static inline void iov_iter_ubuf(struct iov_iter *i, unsigned int direction,
-> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-> index 2072c04e99d05..55cf2ff5bfdad 100644
-> --- a/lib/iov_iter.c
-> +++ b/lib/iov_iter.c
-> @@ -1362,8 +1362,8 @@ static ssize_t __import_iovec_ubuf(int type, const struct iovec __user *uvec,
->  }
->  
->  ssize_t __import_iovec(int type, const struct iovec __user *uvec,
-> -		 unsigned nr_segs, unsigned fast_segs, struct iovec **iovp,
-> -		 struct iov_iter *i, bool compat)
-> +		 unsigned long nr_segs, unsigned int fast_segs,
-> +		 struct iovec **iovp, struct iov_iter *i, bool compat)
->  {
->  	ssize_t total_len = 0;
->  	unsigned long seg;
-> @@ -1434,7 +1434,7 @@ ssize_t __import_iovec(int type, const struct iovec __user *uvec,
->   * Return: Negative error code on error, bytes imported on success
->   */
->  ssize_t import_iovec(int type, const struct iovec __user *uvec,
-> -		 unsigned nr_segs, unsigned fast_segs,
-> +		 unsigned long nr_segs, unsigned int fast_segs,
->  		 struct iovec **iovp, struct iov_iter *i)
->  {
->  	return __import_iovec(type, uvec, nr_segs, fast_segs, iovp, i,
-> 
-> base-commit: 734bef548a96e8774d6eef5dfa2026c6edc4e80b
-> -- 
-> 2.53.0
-> 
+I have a reproducer only for patch 3 (a bpf_wq callback calling
+bpf_copy_from_user(), which triggers the new WARN without the patch and
+fails with -EFAULT with it); some details are in the notes section of
+patch 3.
+
+Patches 1, 2, 4 and 5 are only build-tested (plus syzkaller running on
+the final kernel). Let me know if you'd like to see reproducers (or if
+any of the patches are incorrect and should be dropped).
+
+== Introduction ==
+
+Accessing user memory from a task that has no mm is always a bug. This
+can happen from a kernel thread that is not using kthread_use_mm(), or
+from a task that has already gone through exit_mm(), e.g. when the last
+reference to a file is dropped at exit and its release handler runs
+from exit_task_work(). For example, KVM's nVMX code can write to guest
+memory while a vCPU is being freed during VM destruction[1], and other
+drivers may have similar bugs.
+
+Such an access does not reliably fail. The user portion of the address
+space belongs to whatever mm happens to be lazily loaded, if any. If
+the access faults, the fault handler refuses to handle it and the copy
+fails, but if the page is already mapped, the access silently reads or
+writes another task's memory.
+
+== Fixes ==
+
+Patches 1-5 fix existing places that access current's user memory
+without an mm:
+
+ - Patches 1 and 2 fix io_uring passthrough completions in scsi_bsg and
+   btrfs that copy to the submitter's user memory even when io_uring
+   runs them canceled from a kworker, e.g. after the submitter exited.
+   These are real bugs of the kind this series is meant to catch.
+
+ - Patch 3 makes the sleepable BPF user copy helpers fail when
+   current->mm is NULL, e.g. for bpf_wq callbacks or lsm.s programs
+   running from kernel threads or exiting tasks.
+
+ - Patches 4 and 5 make stack_trace_save_user() (ftrace's
+   userstacktrace option) and get_perf_callchain() (bpf_get_task_stack()
+   on the current task) use is_user_task(), so that they don't unwind
+   the user stack of PID 1 before exec, usermode helpers before exec,
+   or tasks that have gone through exit_mm().
+
+== The New WARN ==
+
+The rest of the series makes the generic uaccess helpers WARN_ON_ONCE()
+and refuse the access when current->mm is NULL:
+
+ - Patch 6 adds uaccess_should_fail(), which combines the existing
+   should_fail_usercopy() fault injection check with the NULL mm check,
+   and uses it in place of should_fail_usercopy(). This covers
+   copy_{to,from}_user() on all architectures (including the masked
+   user access paths, which never call access_ok()), the
+   __copy_{to,from}_user() variants used by KVM's guest memory
+   accessors, the user-backed iov_iter copy routines and
+   strncpy_from_user().
+
+ - Patch 7 makes the user nofault helpers fail quietly when
+   current->mm is NULL. They are meant to be callable from any context
+   (BPF, kprobes, perf), including from kernel threads, where failing
+   is the expected outcome rather than a bug.
+
+ - Patch 8 splits the NULL mm check out into uaccess_without_mm() and
+   adds it to __copy_from_user_inatomic(), without also enabling fault
+   injection there.
+
+ - Patch 9 adds the check to the remaining generic paths: the scoped
+   user access helpers, strnlen_user(), check_zeroed_user(), and the
+   iov_iter routines that call into architecture-specific helpers.
+
+ - Patch 10 is included for reference only. It moves the warning out of
+   line, which removes ~16 KB of __bug_table growth on arm64 (where
+   copy_{to,from}_user() are inlined), at the cost of warning only once
+   system-wide and a slight size regression on x86_64. With defconfig +
+   KVM, patches 6-9 grow vmlinux by +5,884 B (+0.014%) on x86_64 and
+   +40,948 B (+0.10%) on arm64 without it, and by +9,714 B (+0.023%)
+   and +24,609 B (+0.06%) with it.
+
+The checks are deliberately limited to generic code. Accesses
+implemented entirely by architectures (get_user(), put_user(),
+clear_user(), and direct users of user_access_begin() or
+masked_user_access_begin()) are not covered. Please let me know if the
+new check should be placed elsewhere.
+
+The check also cannot catch a valid mm that isn't the one the caller
+expects, e.g. when a file's release or ioctl handlers run in a
+different process than the one that created it. Code that keeps user
+addresses belonging to a specific mm still has to compare current->mm
+against that mm itself. For KVM, Sean's series[1] does exactly that for
+guest memory accesses, and so complements this one: it handles the case
+where the VM is destroyed from another process, which this series cannot
+detect.
+
+Without [1], the nVMX vCPU teardown path described there may trigger
+the new warning when the last reference to a VM is dropped by an
+exiting task or by the delayed fput kworker. The write to guest memory
+is then refused, which is also what [1] does.
+
+For example, running Jim Mattson's selftest for that bug[3] (adapted
+slightly) on a kernel with this series but without [1] gives the
+following warning, and the write to guest memory is refused. The warning
+comes from uaccess_warn_without_mm() because patch 10 was applied;
+without it, it points at the inlined copy helper in the caller instead.
+
+  WARNING: lib/usercopy.c:31 at uaccess_warn_without_mm+0xa/0x12, CPU#2: vmx_shadow_vmcs/5299
+  Call Trace:
+   kvm_write_guest_offset_cached.cold+0xa/0xf
+   __nested_vmx_vmexit+0x1974/0x3fd0
+   nested_vmx_free_vcpu+0xb3/0xd0
+   vmx_vcpu_free+0x96/0x350
+   kvm_arch_vcpu_destroy+0x15c/0x400
+   kvm_destroy_vcpus+0x270/0x3f0
+   kvm_arch_destroy_vm+0xc7/0x230
+   kvm_put_kvm+0x560/0xbf0
+   kvm_vm_release+0x3c/0x50
+   __fput+0x3f8/0xb50
+   fput_close_sync+0x113/0x250
+   filp_close_sync+0x75/0xa0
+   put_files_struct+0x201/0x390
+   exit_files+0x97/0xd0
+   do_exit+0x872/0x2a00
+   do_group_exit+0xd5/0x2a0
+   __x64_sys_exit_group+0x3c/0x50
+
+== Testing ==
+
+Build-tested on x86_64 and arm64. Verified that the KVM reproducer hits
+the new WARN, and that the BPF reproducer hits it without patch 3.
+
+I'm also fuzzing this series with syzkaller on x86_64 (syzbot's
+upstream KASAN config, nested VMX enabled), so far for about a day and
+a half. syzkaller hasn't triggered the new warning yet, i.e. it hasn't
+found any other path that accesses user memory without an mm. Fuzzing
+is ongoing, and I'll report anything it finds in reply to this RFC.
+
+Please let me know what you think. Thank you!
+
+[1] https://lore.kernel.org/kvm/20261001202234.3794060-1-seanjc@google.com
+[2] https://lore.kernel.org/kvm/aqMBidJ_96qroogH@google.com/
+[3] https://lore.kernel.org/kvm/20260911191011.528460-1-jmattson@google.com/
+
+James Houghton (10):
+  scsi: bsg: Don't copy sense data to user memory when canceled
+  btrfs: Don't copy encoded read data to user memory when canceled
+  bpf: Fail sleepable user copy helpers when current->mm is NULL
+  stacktrace: Don't unwind the user stack without an mm
+  perf/core: Don't unwind the user stack without an mm
+  uaccess: Refuse and warn on user copies when current->mm is NULL
+  uaccess: Fail user nofault helpers quietly when current->mm is NULL
+  uaccess: Refuse and warn on __copy_from_user_inatomic() without an mm
+  uaccess: Refuse and warn on more user accesses without an mm
+  uaccess: Move the NULL mm warning out of line
+
+ drivers/scsi/scsi_bsg.c   | 10 +++++++-
+ fs/btrfs/ioctl.c          | 10 ++++++++
+ include/linux/uaccess.h   | 50 +++++++++++++++++++++++++++++++++++----
+ kernel/bpf/helpers.c      | 11 +++++++--
+ kernel/events/callchain.c | 12 ++++++----
+ kernel/stacktrace.c       |  8 +++++--
+ kernel/trace/bpf_trace.c  |  4 ++++
+ lib/iov_iter.c            | 12 ++++++++--
+ lib/strncpy_from_user.c   |  2 +-
+ lib/strnlen_user.c        |  3 +++
+ lib/usercopy.c            |  9 +++++++
+ mm/maccess.c              | 17 +++++++++++++
+ 12 files changed, 131 insertions(+), 17 deletions(-)
+
+
+base-commit: 2a08195e4db5aba84600db6518089a1dbe2d04c7
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.56.0.307.g5fe7bd680c-goog
+
