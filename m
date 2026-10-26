@@ -1,106 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793029185;
-	b=Y0HNlR861+XkxGepdAnycWMHaVJCunKYgdfNO6jtElI3LW9wiolvBPDpSyvwfRe/kDWa
-	 ah+gS52gkYMaud3Y34s6guUsiHbMdNjl2tkfMSPqeUhhg4bF9Banyhow8/ylxrOqAm3OJ
-	 WAtPJ65cJN7LdJdjkegTW+7rZ+Vi3yGfvxfe8sbIvoa9p0N228eLvPsVnQzNh1r3aWUQk
-	 tobwjFwXx9jP5IYfkyDXV6KTtGq3mD0TwNHnpQGGOxbDisSV7oHj2Mmtp0nuxOqKh0uE9
-	 ZXZS2Fi4aGPf1BIxCh+ayXUc+BGXbd0eTv6J70j4VZap6755zq0jhyAuMnjmoeM5xxw==
+	t=1793029309;
+	b=VVgFETnSqj95pqGDZt/OOaPAqUegVmxiZ+H87AGyiPYBM0WUFSScP/c9nbOAHqEw297f
+	 paod7w1vQjVnQl6xn9wKU3X0ZyO41704sYj+wPSD4okbDEYqYr91tftI7QKM1FlpAreGl
+	 tf2sYi9VBrb1U8I8kaOHeWVCMl3jDf9zGnzYjyClgRFGalqmK+Bd0znjJictIO3fUHCct
+	 Y06Ib/H3LDw83KqBLTDBLthBwlKbfXLLwJChAm2byzL2SkxQanRC9eAD/2VEYf+wY3D5G
+	 HJliVTTOSWJ2UoX9mL7IC1z9cJY+n4f0CJpBhiX7hS95DfI5+KzjbH7qhal5HxoeGPQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793029185;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=D05ewPEuAJZzEFDiKa2w3FtXGZkgmoPcWa67JO5EvJ0=;
-	b=BwMCq2TDjxE2dYIYLet5KCuHN1SQ2UWr7P+t5afbOzbdYo8pIy7BjJqKXXlXm6c32laf
-	 jUpkhj6YwXWHD271N6ukcGNJXsAAWlfVJb8vid3PmNF0mzyPgwbF3yjS2G34oThql6o1i
-	 z4aDkSiuT851WEaHdq2C/Ar3GNL+C1bFuCQbjUYJYULSRIH4dynioWAuvNCMTg9+u1aXu
-	 s5dl3mFK+w/iGUZ/WIkb534sY8YvKeDGFEKuIm+5nGRMzatam5j050COHCT9t9N2mWXQQ
-	 baJdHptnOBfQDMgNbRRUP4BtVrBPdTrmsjpBEriAAqw3QxOiEd1uxSXzSbgYJI+bt/A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793029309;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=lo1Co26bSeUKxfLlIH6ftVWFXXXapCMDqueoz1J2jS4=;
+	b=V1tE/5dAijFE7C/eaW2S6MSGH93g99EElXZj0exUP552hFUTPBG/rhtNOuLRO7rj02hY
+	 DaDp/DzgxEY4TIOjm8H7q3SaF4gJglkr5xQgjpyUqOtFkDwqIINM5Qf8I3cYTldpjH01p
+	 igFwNFRSAcPhA89yy9/tHMmMx06dl3wlAnJID64C956I4GGX9xoqM8tnvkEtq6ISRINXT
+	 VF+LI7fqWzTFu2b9daQZaq0UqsFbZWjhpThXsMjdvcW0MDGlM4QLjBO4waHfIT7bkAXe7
+	 c8uHNRYhHvo0lv47gh3aS7kJE7QK6WpPRCX54kn0rgwqdmRBB0+TAw4lWWvBqNfFh0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=HnEVeoAb;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PDoVoGk1;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=HnEVeoAb;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PDoVoGk1;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b="CjJ/Hz5A";
+	arc=none smtp.remote-ip=209.85.160.178
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8598606A31A;
-	Mon, 26 Oct 2026 15:39:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8598606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E6B606A327
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 15:41:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26E6B606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=HnEVeoAb;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PDoVoGk1;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=HnEVeoAb;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PDoVoGk1
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0D98F21FEA;
-	Mon, 26 Oct 2026 15:39:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793029183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D05ewPEuAJZzEFDiKa2w3FtXGZkgmoPcWa67JO5EvJ0=;
-	b=HnEVeoAbWTDhutgYy79N1iz1CKHRSTQ3U5LK2i6Y20S5DdKCAC2bscupYcqD7fPdM+OW2T
-	h89vV4z1NQt2gQvMgLPjRRAGOR/NWVIEnhuKgJmtvVjd9yYJ+3naafmyfnXf3dffEg8Ctv
-	emqeCNJs4wiYbqNLNWmRx9+OHgsCENQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793029183;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D05ewPEuAJZzEFDiKa2w3FtXGZkgmoPcWa67JO5EvJ0=;
-	b=PDoVoGk1X9qDtU+NargLh4ZpL//Na8zTy7o4AyxW2RMmMV8rROf54NeI4Oz5JnPQvkVk+b
-	C2S38ewYTlE2rgCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793029183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D05ewPEuAJZzEFDiKa2w3FtXGZkgmoPcWa67JO5EvJ0=;
-	b=HnEVeoAbWTDhutgYy79N1iz1CKHRSTQ3U5LK2i6Y20S5DdKCAC2bscupYcqD7fPdM+OW2T
-	h89vV4z1NQt2gQvMgLPjRRAGOR/NWVIEnhuKgJmtvVjd9yYJ+3naafmyfnXf3dffEg8Ctv
-	emqeCNJs4wiYbqNLNWmRx9+OHgsCENQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793029183;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D05ewPEuAJZzEFDiKa2w3FtXGZkgmoPcWa67JO5EvJ0=;
-	b=PDoVoGk1X9qDtU+NargLh4ZpL//Na8zTy7o4AyxW2RMmMV8rROf54NeI4Oz5JnPQvkVk+b
-	C2S38ewYTlE2rgCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF43C13408;
-	Mon, 26 Oct 2026 15:39:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id otRjMD5032oUAwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 26 Oct 2026 15:39:42 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 3C5ECA1419; Mon, 26 Oct 2026 16:39:38 +0100 (CET)
-Date: Mon, 26 Oct 2026 16:39:38 +0100
-From: Jan Kara <jack@suse.cz>
-To: Hongyu Jin <hongyu.jin.cn@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, jack@suse.cz, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [RESEND PATCH] writeback: don't requeue inode already on b_dirty
-Message-ID: <xbfjoavzv74apeefktnyeapj6rnhkxxpcb47f4ffezq2bx2qzd@enb63e3ypf7u>
-References: <20261023023707.263101-1-hongyu.jin@unisoc.com>
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=CjJ/Hz5A
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-53669f7b518so32396491cf.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 08:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda.com; s=google; t=1793029308; x=1793634108; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=lo1Co26bSeUKxfLlIH6ftVWFXXXapCMDqueoz1J2jS4=;
+        b=CjJ/Hz5A6Yyt5Bhrd18QDSz5+Aq0mLiokCYaI/51qnZeHvFeKB5T7obiumGZbK7BDs
+         m0paZtG7e3i8PsaXLIFSY4sMcbgdrRAOOnAZhTXnQvkPgCo4H8e645b8gVMAp/+ptGp3
+         JS7QNgUxkxlCvH59t31G64WdpcA5CYx8Rhv39WSKVo65udid2j9CYU92+cTwN0GcZLmY
+         KHCTn9kEGGoBq5gqtjWNVRniE9zXygl54dtKU/TfXdR7w5eWfndVoNJB9L94xG640KVj
+         UyaxkpqNMmR0b1dGkuuYv8t6ZAS+pMnFMBG7rzWWA371Uu/BFT3RL6KVUEy0eJU0DCDB
+         +prQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793029308; x=1793634108;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=lo1Co26bSeUKxfLlIH6ftVWFXXXapCMDqueoz1J2jS4=;
+        b=kReWx7Zg1nRD2vUgkW+nNYcGzOdQq/bjM50fQ+wFY84dYeH5D51uyxAb8dOqgs7IcN
+         S1PIFs2c6rUiglDcnIu/WDavsBBepueQV3FmPZED7HmiOpaMoIzKjgOhbf/S3NwdhZUk
+         k3AIFnE+MrOyRUx1CtZy1xWTm1TSRHU8K7lbaB1rKPFLTHBH76v4q9OPf6E9817gS19n
+         md32KR+twLsvzA+mO7rjdbG+5jlrT+k1aSmsH89y+lSEEYahhrIWQffjdeSIXpYvR4sE
+         9FTCZlCCsURW8YXM2awB6+j4F9IgSYPToriiuXPNRxFoapSqyrdfQTKMw/MBLwjlW6XV
+         XyYA==
+X-Forwarded-Encrypted: i=1; AKwUvBwsr1ETdbCMjkx+Wav8tIIpQtf+NNhVrqggOeEFuFInIJiYXnNI/JEErlXx5MQkpgIiP5iKfC0qUicEYK4V@vger.kernel.org
+X-Gm-Message-State: AFq9FYIuNoPurU26b8P6FfOnajkQQkz7yJh2jVarr0YnuOMXXZAweM6e
+	Gu5tuUFudG3+9S3Cs0d4EBE032i/nr604oTgtZt6rmpB01uH3Lsug1mniQMozXe/j4k=
+X-Gm-Gg: AYBFou1D8szEeSLRcs0V9Liz2QdDxY3sduFWOUEqg2oeLebXloNHkLQV5cUYN9M6qch
+	kd3FKcj9vfMQ7kbySWTpn/b+L1NJgYh+vM4UQdM+Ifd4pGkEf37EEmethW68GCkSh9q+Z47Zlbl
+	tQE/4ab0csPzwRUQalSYW01pu5Eoq+o3/tT+77nmQQ4AjJZQUkQkKjRloV4n1YBL//h0d9C/Id8
+	ntr8sXeQMVklh5coyStOEMnm+hHI0kHIhd8WMnWYbVis5BJ0+XUGSYAToqb6aW2QNKDGCVsv1so
+	n5xDJRU9y5vcHuvxQa5COnVmkkkcYMQvBQsvyi6WTiYIroBHDwMmP5UgHfytK5QFq+yWa0qYam2
+	bJCSqiisiCT08SV8zSAMXj5LW+pyvaerUI5SwNCHLIArXl2s2jFPOS1hYgprjWfkRA5LzVtgy3/
+	N25uqnoq9mjpki7dFu2xbBLAeI9TlgUCEaYwnePUVq16eKXBVgUzMpNcC/hlS4AMHg7D/4KJsmp
+	urEH0gBx4lOThTJ54/sT1CK/P64pg0vjV+clOR/RJfhKeg/6g/KaJwy2TFrs8YuP81JKq9L
+X-Received: by 2002:a05:622a:2488:b0:535:bfc:329 with SMTP id d75a77b69052e-5383b5ce214mr117985951cf.61.1793029307757;
+        Mon, 26 Oct 2026 08:41:47 -0700 (PDT)
+Received: from toxicpanda.com ([153.61.196.241])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5383973f314sm56699951cf.24.2026.10.26.08.41.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 08:41:46 -0700 (PDT)
+From: Josef Bacik <josef@toxicpanda.com>
+Subject: [PATCH v6 0/6] capabilities: close the ways around the CAP_SETFCAP
+ rule for uid 0
+Date: Mon, 26 Oct 2026 15:41:36 +0000
+Message-Id: <20261026-b4-setfcap-userns-v6-0-25f10b7ca497@toxicpanda.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -110,164 +92,220 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="rzkagmlapmodioo3"
-Content-Disposition: inline
-In-Reply-To: <20261023023707.263101-1-hongyu.jin@unisoc.com>
-X-Spamd-Result: default: False [-11.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+,1:+,2:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	URIBL_BLOCKED(0.00)[suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,unisoc.com:email];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	HAS_ATTACHMENT(0.00)[]
-X-Spam-Score: -11.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALF032oC/33Oy27DIBAF0F+JWJeGl8Huqv9RZcFjqKlabIFjJ
+ Yr87wV346qom5FmdOfoPlCGFCCjl9MDJVhDDlMsi3w6ITvq+A44uLIjRpikhEhsBM6weKtnfC2
+ /MWMnOe07zakFjsrfnMCH226+XX72fDUfYJcK1YTRGbBJOtqxnj7nsxHn/fibrtkx5GVK973gS
+ qv5X5eVYoK9UKDASUkUe12mW7Czjk4/2+kL1UIrOzBUtBhWGW2FowPrqVNNhh8YRlsML8ygbCk
+ jQHCgTUYcGdZiRGH6XmvifRm9bzLdkeEtpisMkSXBuIGh+9tm27Zvq6xP1hECAAA=
+X-Change-ID: 20261006-b4-setfcap-userns-d63185a31ce3
+To: Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>, 
+ Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, 
+ linux-kselftest@vger.kernel.org, Bradley Morgan <brads@mainlining.org>, 
+ Josef Bacik <josef@toxicpanda.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793029304; l=9539;
+ i=josef@toxicpanda.com; h=from:subject:message-id;
+ bh=pDF44xAdDeLNnAjZIkEGCwfjtZtRw0H1dx24aBVtyK4=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
+ JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QJEtKzgs7AEqEmF8b9zWu4rgSvdnuUmjIwMW5jg3DkSR1Rnup0XAr9mJ4IxxzvHxifXCulDpnKK
+ 1Ixms51jirQ8=
+X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
+ fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
+v1: https://lore.kernel.org/all/20261006-b4-setfcap-userns-v1-0-f47e7ed66072@toxicpanda.com/
+v2: https://lore.kernel.org/all/20261014-b4-setfcap-userns-v2-0-fac4d19281d7@toxicpanda.com/
+v3: https://lore.kernel.org/all/20261021-b4-setfcap-userns-v3-0-97c7ed4e43e1@toxicpanda.com/
+v4: https://lore.kernel.org/all/20261022-b4-setfcap-userns-v4-0-88aa0ffaa08f@toxicpanda.com/
+v5: https://lore.kernel.org/all/20261023-b4-setfcap-userns-v5-0-0620223be951@toxicpanda.com/
 
---rzkagmlapmodioo3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+v5->v6:
+- New 6/6: a kselftest with every case the series has been through,
+  48 of them.  Without the series 22 fail, with v5 the 4 below fail.
+- 3/5: a task inside the namespace that is being mapped also has to
+  hold CAP_SETFCAP there to open or write a uid_map that maps an
+  ancestor's root user.  Before, a task that gave up CAP_SETFCAP could
+  write "0 0 1" and get it back from execve() (Sashiko).
+- 4/5: a v2 xattr on a filesystem whose namespace has no uid 0 is
+  refused with -EINVAL instead of stored unconverted, where it was
+  honoured nowhere.  Falling through to the conversion would not do:
+  for a writer outside that namespace it names the writer's root user
+  instead (Sashiko).
 
-On Fri 23-10-26 10:37:07, Hongyu Jin wrote:
-> Since commit 846a3351ddfe ("writeback: Avoid skipping inode writeback"),
-> writeback_single_inode() calls redirty_tail_locked() for any inode left
-> dirty. When that inode is already on b_dirty and older than the newest
-> inode there, redirty_tail_locked() moves it to the head and stamps
-> dirtied_when with jiffies.
-> 
-> Append to an f2fs file so the i_size update puts it on DIRTY_META, and
-> dirty a newer inode before each checkpoint. Every 17s the checkpoint
-> syncs that file and redirty_tail_locked() stamps a new dirtied_when.
-> 17s is shorter than the default 30s dirty_expire_interval, so kupdate
-> never expires it. Dirty pages pile up until writeback or fsync().
-> 
-> An inode that was I_DIRTY on entry is already on b_dirty, so only
-> redirty it if it was not. The b_dirty_time case fixed by commit
-> 846a3351ddfe ("writeback: Avoid skipping inode writeback") enters without
-> I_DIRTY and is still handled.
-> 
-> Fixes: 846a3351ddfe ("writeback: Avoid skipping inode writeback")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hongyu Jin <hongyu.jin@unisoc.com>
+v4->v5:
+- 3/5: the uid_map check only looked for an extent at the parent's uid
+  0.  The root user of an ancestor can sit at any uid in the parent, so
+  a task without CAP_SETFCAP could map "0 1000 1" under a "1000 0 1"
+  and get host uid 0 as its uid 0 unchecked.  It now finds every
+  ancestor root user the map contains.  4/5 already refused the file
+  capabilities after such a map, so this is the map rule itself
+  (Sashiko).  Dropped Bradley's Reviewed-by on 3/5, which changed.
 
-I was mulling over this for quite some time (which is why I didn't reply to
-your patch earlier - plus the fact that currently there a *lot* of things
-going on). I agree the current behavior is problematic - in particular that
-if sync_inode_metadata() is called frequently enough, we never get to
-kupdate style data writeback.
+v3->v4:
+- 4/5: a v2 security.capability xattr skipped the new checks, it was
+  written as is whenever the writer had CAP_SETFCAP over the
+  filesystem's namespace.  It now only does that when the filesystem's
+  root user is within reach, and goes through the v3 conversion and its
+  checks otherwise (Sashiko).
 
-But I wasn't quite sure your fix is correct. In the end I've convinced
-myself it is fine but we can actually go even further and remove the
-redirty_tail() logic altogether. So I'm now testing the attached patch.
-If my testing passes, I'll send it for inclusion.
+v2->v3:
+- The setns() check in 2/5 and the ptrace check in 5/5 only apply to
+  namespaces that map the root user of an ancestor within the creator's
+  CAP_SETFCAP, or that have no uid_map yet.  Root users stored through
+  an idmapped mount are left to whoever sets up the mount, so a root
+  task without CAP_SETFCAP can join an ordinary "0 100000" container
+  again (Serge, Christian).
+- 2/5 adds cred_may_setfcap_userns() for those two checks and
+  cred_setfcap_reaches() for the uid_map check; nothing outside
+  create_user_ns() calls cap_setfcap_level() directly (Serge).
+- Fixed the cap_setfcap_level() kernel-doc, @ns doesn't have to be the
+  cred's namespace or below; cap_capable() is compared with != 0
+  (Serge).
+- Picked up Bradley's Reviewed-by on 1/5 and 3/5, not on 2/5, which
+  changed.
+- Rebased onto current vfs.all.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+v1->v2:
+- The state lives on the user namespace now: ns->setfcap_level replaces
+  ns->parent_could_setfcap, and cred->setfcap_level is gone (Serge,
+  Christian).
+- New 2/5: setns() refuses a task whose CAP_SETFCAP doesn't reach as far
+  up as the namespace's setfcap_level.  It applies to every user
+  namespace, not only to those that map the parent's uid 0, because of
+  idmapped mounts (Serge, Christian).
+- 5/5 asks a tracer for what setns() asks for, also when the namespace
+  doesn't map an ancestor's root user, again because of idmapped mounts.
+- Dropped "userns: don't let setns() lend the right to map uid 0", the
+  setns() check covers it.  Its nested case moved into 3/5, which checks
+  the opener and the writer.
+- set_cred_user_ns() isn't touched anymore, so the put-before-use in
+  userns_install() is gone (Sashiko).
+- Rebased onto current vfs.all.
 
---rzkagmlapmodioo3
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-writeback-Avoid-postponing-periodic-data-writeback-i.patch"
+What it does now:
 
-From 4261c07e3cb809f9bfac3b1da529b21bcd9da42d Mon Sep 17 00:00:00 2001
-From: Jan Kara <jack@suse.cz>
-Date: Mon, 26 Oct 2026 16:16:15 +0100
-Subject: [PATCH] writeback: Avoid postponing periodic data writeback
- indefinitely
+Every user namespace gets a setfcap_level when it's created, which is
+how far up the creator's CAP_SETFCAP counted.  If its tasks can write
+file capabilities for the root user of an ancestor, because the
+namespace maps that root user or can still map it, setns() only lets in
+tasks whose own CAP_SETFCAP reaches that far, and PTRACE_ATTACH asks the
+tracer for the same.  The checks on the way to file capabilities then go
+by the namespace instead of the cred: a uid_map write that maps the
+parent's uid 0 (opener and writer), and setting security.capability.
 
-Hongyu Jin has reported that f2fs periodically calls
-sync_inode_metadata() for some inodes. The logic in
-writeback_single_inode() thus periodically calls to redirty_tail() and
-the inode's dirtied_when timestamp never gets old enough for the inode
-to be eligible for periodic data writeback. Thus dirty data from it is
-only ever written on explicit request (fsync(2), sync(2), unmount) or
-on dirty limit pressure.
+The visible difference from v1 is the setns() restriction.  A task
+without CAP_SETFCAP can't join, or attach to tasks in, a namespace that
+maps the root user of an ancestor, such as host uid 0, and was created
+by a task that had it.  A task that joins takes on the namespace's
+reach.  Containers that don't map host uid 0, unprivileged users and
+anything with CAP_SETFCAP aren't affected.
 
-The redirty_tail() logic in writeback_single_inode() actually should not
-be necessary. Since this function is used only for once-off writeback,
-there's no need for any livelock protection among inodes and
-writeback_single_inode() is only responsible for demoting inode to "less
-dirty" list based on dirty bits cleared as a result of writeback. So
-remove the redirty_tail() logic and add a comment explaining the rules.
+Testing: 6/6 runs every case on its own, 48 in all, as root in private
+mount namespaces.  On vfs.all without the series 22 of them fail: the
+ways around the rule, and the two v2 xattrs without a root user that are
+now refused; with the series all pass, including the idmapped mount
+ones.  The pidfd, namespaces, mount_setattr and ptrace selftests give
+identical results with and without.  The TLA+ model, which has no
+idmapped mounts, no v2 xattrs and maps only uid 0 of the parent, finds
+no violation with the narrower setns() and ptrace checks, and still
+finds the setns() bypass when the check is taken out.
 
-Signed-off-by: Jan Kara <jack@suse.cz>
+--- Original email (v1) ---
+
+Hello,
+
+Commit db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
+stops a root task that has given up CAP_SETFCAP from creating a user
+namespace that maps uid 0 and then writing file capabilities in it that
+the initial namespace honours.  The check only looks at the task that
+creates the namespace, so if somebody who did have CAP_SETFCAP created
+one, there are still several ways around it:
+
+- setns() into their namespace and write uid_map from inside (patch 2)
+- write "0 0 1" through a uid_map fd that they opened (patch 3)
+- setns() into a namespace of theirs that already maps uid 0 and set
+  security.capability there, no map write needed (patch 4)
+- ptrace one of their tasks and have it do any of the above (patch 5)
+
+On an unmodified kernel we took a uid 0 task with CAP_SETFCAP dropped
+from its permitted, effective and bounding sets and, through each of
+these, ended up with a file that a uid 1000 user execs with
+CAP_SYS_ADMIN in its effective set.
+
+Patch 1 adds cred->setfcap_level, which records how far up the
+namespace tree a task's CAP_SETFCAP reached when it entered its
+namespace, and patches 2-5 check it.  Patch 4 is the check that closes
+the class, the map patches make the uid 0 map rule mean what
+db2e718a4798 meant it to, and patch 5 keeps ptrace from borrowing what
+the target is entitled to.
+
+This does change behaviour.  Everything new is -EPERM:
+
+- a task that entered a namespace without CAP_SETFCAP outside can't map
+  uid 0 of the outside or write fscaps for that root user anymore
+- a uid_map fd opened by a task with CAP_SETFCAP can't be used by a
+  task without it to map uid 0
+- if a privileged task maps "0 0 1" from the parent for a namespace
+  created by a task without CAP_SETFCAP, that namespace can no longer
+  write fscaps honoured outside
+- PTRACE_ATTACH and PTRACE_TRACEME fail when the tracer gave up
+  CAP_SETFCAP and CAP_SYS_PTRACE, the target didn't, and they share a
+  root user
+
+Rootless containers, privileged runtimes writing the map from the
+parent, nested unprivileged namespaces and containers that don't map
+host uid 0 aren't affected.  The ptrace check is one compare for
+targets in the initial namespace and in namespaces entered without
+the capability.
+
+Testing: a set of flows run on the base and patched kernels, every
+bypass route above gets -EPERM with the series and the 16 legitimate
+flows behave the same.  The capabilities, namespaces, ptrace, pidfd and
+proc selftests give the same results before and after. Thanks,
+
+Josef
+
 ---
- fs/fs-writeback.c | 35 ++++++++++++++++++++++-------------
- 1 file changed, 22 insertions(+), 13 deletions(-)
+Changes in v6:
+- Link to v5: https://patch.msgid.link/20261023-b4-setfcap-userns-v5-0-0620223be951@toxicpanda.com
 
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index 58a6403780aa..de86c9055ffb 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -1946,22 +1946,31 @@ static int writeback_single_inode(struct inode *inode,
- 	 * as it can be finally deleted at this moment.
- 	 */
- 	if (!(inode_state_read(inode) & I_FREEING)) {
-+		enum inode_state_flags_enum istate = inode_state_read(inode);
-+
- 		/*
--		 * If the inode is now fully clean, then it can be safely
--		 * removed from its writeback list (if any). Otherwise the
--		 * flusher threads are responsible for the writeback lists.
-+		 * __mark_inode_dirty() is responsible for promoting inode to
-+		 * the proper list (b_attached -> b_dirty_time -> b_dirty).
-+		 * Here we are responsible for demoting inode after some dirty
-+		 * bits were cleared.
-+		 * 
-+		 * If the inode is now fully clean, then it can be safely moved
-+		 * to b_attached list. If the inode is dirty, we don't want to
-+		 * touch it - it should be already put to the dirty list by
-+		 * __mark_inode_dirty() and we'd just unnecessarily clobber the
-+		 * dirtied_when stamp (which is particularly problematic when
-+		 * we were called from sync_inode_metadata()). We also cannot
-+		 * touch the dirty list association when I_SYNC_QUEUED is set
-+		 * and flush worker is responsible for it. Otherwise move the
-+		 * inode to b_dirty_time list as that's the only remaining
-+		 * possibility.
- 		 */
--		if (!(inode_state_read(inode) & I_DIRTY_ALL))
-+		if (!(istate & I_DIRTY_ALL))
- 			inode_cgwb_move_to_attached(inode, wb);
--		else if (!(inode_state_read(inode) & I_SYNC_QUEUED)) {
--			if ((inode_state_read(inode) & I_DIRTY))
--				redirty_tail_locked(inode, wb);
--			else if (inode_state_read(inode) & I_DIRTY_TIME) {
--				inode->dirtied_when = jiffies;
--				inode_io_list_move_locked(inode,
--							  wb,
--							  &wb->b_dirty_time);
--			}
-+		else if (!(istate & I_SYNC_QUEUED) && !(istate & I_DIRTY)) {
-+			WARN_ON_ONCE(!(istate & I_DIRTY_TIME));
-+			inode->dirtied_when = jiffies;
-+			inode_io_list_move_locked(inode, wb, &wb->b_dirty_time);
- 		}
- 	}
- 
--- 
-2.51.0
+Changes in v5:
+- Link to v4: https://patch.msgid.link/20261022-b4-setfcap-userns-v4-0-88aa0ffaa08f@toxicpanda.com
 
+Changes in v4:
+- Link to v3: https://patch.msgid.link/20261021-b4-setfcap-userns-v3-0-97c7ed4e43e1@toxicpanda.com
 
---rzkagmlapmodioo3--
+Changes in v3:
+- Link to v2: https://patch.msgid.link/20261014-b4-setfcap-userns-v2-0-fac4d19281d7@toxicpanda.com
+
+Changes in v2:
+- Link to v1: https://patch.msgid.link/20261006-b4-setfcap-userns-v1-0-f47e7ed66072@toxicpanda.com
+
+---
+Josef Bacik (6):
+      userns: record how far up CAP_SETFCAP reaches
+      userns: don't let setns() lend CAP_SETFCAP
+      userns: check the opener and the writer before mapping uid 0
+      capabilities: limit fscaps to where CAP_SETFCAP reaches
+      capabilities: don't let ptrace borrow CAP_SETFCAP
+      selftests/namespaces: test the CAP_SETFCAP rule for user namespaces
+
+ include/linux/capability.h                        |    6 +
+ include/linux/user_namespace.h                    |    7 +-
+ kernel/user_namespace.c                           |   95 +-
+ security/commoncap.c                              |  184 ++-
+ tools/testing/selftests/namespaces/Makefile       |    3 +-
+ tools/testing/selftests/namespaces/config         |    3 +
+ tools/testing/selftests/namespaces/setfcap_test.c | 1362 +++++++++++++++++++++
+ 7 files changed, 1626 insertions(+), 34 deletions(-)
+---
+base-commit: 2c3ba1f1cb416b81d617b92a24a4bcaa48d574e3
+change-id: 20261006-b4-setfcap-userns-d63185a31ce3
+
