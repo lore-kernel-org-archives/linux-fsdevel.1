@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793116056;
-	b=4j56bw3Ugm2KPHhsMb5VIhPO8n5ZjFxsMvPUcTUhcnp2wF9WMAKhzVUuP2l+52FJ9Gwy
-	 Fa4CDPSzNvWnB35ZHFdyHZYOk73imYkwyOi7yypcl4aNjPi/iX/3RY2oWfNW/9YMzZ4fl
-	 kWUv49wN+gZaEHduNR4EBPB9nZINxGnFTZSayOEGxERZzXZ1n6NxKbTZvoKozpbgApSfq
-	 BHnhGA6AQ9h+E3KAIMfFHfY17SsrKsJ8Qmlv8czuLeC8Va9fbha11Y4AdOhUytsV7g7Sg
-	 v7PHX2he3t0tQzI+0Z7n64DczvmFQ9PJK+F6lkFuTxbiZELeg3aupNNDNJWpROyiMxw==
+	t=1793116046;
+	b=tS8/VVEl79LCv8JLQ3Ng2+r0tAxBwbRYmQu/D7KJdA/PrNt4H7lbFyvIezXaGBF1ZcPm
+	 zkioFQ4U7YJTfRHqGY6qKEALDxqZBLR/rJlgY3KminVNIeqIvuarPDmO8K45//9tNB1lI
+	 Ua93dzhxQ+cb1Jig7u9cUY81a5Usr7e1PDioFRp19wNcxLEkyIfILOOHna1xPLNGe1OAs
+	 nHFAJRhh7Oxv5czdyzKkMWh0QgjoxXxFIKxIV97gUDdVlmenZY8/fr22/QD/WLjurJY4P
+	 CQ2MZ81ySlPRB5lkbdB/UoWB/wDMjnIgV5UFk0i7xxoImww6Xc22Mt1rhrCJek+3Esg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793116056;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793116046;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=gS6y/3KjxOydBhZJSD+gtRhGgJ+Jkrm6htgWmalHK40=;
-	b=JtsZRdjcEmW4UbaVfU0Tq5ZxI5nLQzLDuwNpde6cJJIvt06XXoOjn0RfV3Ap7TA5U0mH
-	 quvsG/dCRSwWlGfX5PpUYRWulSTBrPTtL/B0ef6hTyG9y+N7VoKhWQMjaYACUSJ4QQJLE
-	 UJHPvjJ5qKCo58FvKjhjtA3DVlDfJnkQryRqOhNOVp14PfUhz/F2wA8CxhEZLVoJSKrhj
-	 poedS5viJQJI3foczXNW10qHL8+kRP4rdkGiAP2NNO7MwwV+w2NlbKoPvGg/5C6rg3Ku6
-	 P3Fx2ifrC+mSCKxkeDR/ph+6jmTSpeF0mdMFBhnS4RGfhqHntMuQMQ+k3IubO3OhgQA==
+	bh=sPt0JYZ7MHrW6GDHRZTQpzJzKe8DOikeeLCfWsSdkp8=;
+	b=Q6BloI+w1M1fLzbLA6pizyEKDQS9Y8CeycfMegKpc4aufa9+XokDjAx/jbTl6ZNsDtME
+	 trYb5aGu7HsWoEQ8s7ZvaEAACgIzqpAlrV7h6kCWJTGWUxJDyHwO/StUkqfVxLRgkHrRM
+	 Ny1kZyrAwoE74MFQaa0Plw4BOXCV6hwl8wwwGbuPDZp3xLRZKeF1yx6xX1kJq2Kipsxqv
+	 84XxFmfC0erw/+bhCtatlnhC+JM2n54DJAku2roDKTHPoE6tyrCcRHxSmXfb6cduXH6oA
+	 kYWFlCsK780kEN8oR2Nzcej/o/3NMk6lVxrc6+/PPFaNhtWqM6OpWphPsPyWetRFcAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yEgxyWvi;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LPWL960n;
+	arc=none smtp.remote-ip=209.85.208.41
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9620060709EF
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 15:47:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9620060709EF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505C8606FCAC
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 15:47:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 505C8606FCAC
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yEgxyWvi
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48c4be28b82so3895260f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 08:47:29 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LPWL960n
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6b1ab2ad719so48723a12.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 08:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793116048; x=1793720848; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793116045; x=1793720845; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=gS6y/3KjxOydBhZJSD+gtRhGgJ+Jkrm6htgWmalHK40=;
-        b=yEgxyWviAdo7c5Mbz0gdrv2KwZfehl5bYRI3bKV9g/72JVBgvpQgsvnnXf24XR9uy9
-         YB0Zf8K//kH5RtHMIZwpqV6i+WYSzeBpFBd/nHYF9zRv08UPhamJeZmweVW8C8m0Ttfm
-         YskcD7XaTxSzyq2eJ0F+bVOEnLvAtboOvz3vFBLaYfUgLiQaT1n1HgxWPRY4vxe93Vn5
-         w/b/7yBCy6UoTCYxppaLoOo+BgFB3aSsbtg5XCp8oTryDG+IyBuUUKxGBFOVgVk+w14u
-         h3n1HLwoT0jfUxY6z3ISOCIDuVsAAufX7GsHiMyqH8GB7aPhQOA3usFEIxe6RrYbuX9D
-         DTig==
+        bh=sPt0JYZ7MHrW6GDHRZTQpzJzKe8DOikeeLCfWsSdkp8=;
+        b=LPWL960nVHKQe4f6DzO+O2y27fHJqtZSsJML7XraqDK2y2aueanQrZnmUWHU/wFPnl
+         gmZr+DZBmUKau+QZmI6Ipkh8Qw6gVWxklW6TRsIqDPeItMSV4d4Y7UzOOpbDRqXYQ1W3
+         HOqk5aWYSCYFx0dXIkhZSBeulxJ6Zy8Ide1yyHtWgSdZK6cnY43+DVwI2I7A9xeWohAy
+         xXWNT8jKit0wBFRKNEUTg7VcL3XnM5nhkqPz+HLrmQD4JeYHA7A4rEnCI69+5f8I2Kks
+         CCo7VFRnNftzALsrt+5Va9L09MoyFm3BhHXFfHS7f2JwZWI6Vw5A1m6kNE984Z98cW9Y
+         dUXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793116048; x=1793720848;
+        d=1e100.net; s=20260707; t=1793116045; x=1793720845;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gS6y/3KjxOydBhZJSD+gtRhGgJ+Jkrm6htgWmalHK40=;
-        b=oB1Gn7j0oX7cIjBEmk6njijih/BAB239l6CT/aQhkfhxyg4QmkTsOKpCdAxX4ELg3g
-         PPQzFlAvBTp+gORUiy8xZYoT3ZKN7YXF0z/t3S3fysOACqjVbvDyS29rcKZU4Ay7UKuV
-         +nERajV6D6jhl+FzDXAoz1eZsw6ZBiVdlbLlTEVwWkV6XiWN1925s+uQW/pVUXEhUZ/b
-         h2oV6hJhQSkXsADL5gI0Bp4BYO8AqKTvUPIDDvCLowkJ9p8A/F1LCbExcqDiKuKJZECa
-         1Kdn+I+LLbCsWEouR23U98tusxx2Ygb5yEKRdZ4GCw6N4ev0Yt0oS13UOvpQXvmLn4uQ
-         tfBQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxJ+gjqAq62OhqwDLX6T4JP/vo3vAhep7BzWU6K6PZfYex9SNBX6uhMTtUwAQcnDOkXj0SKeoDlthIHUpnw@vger.kernel.org
-X-Gm-Message-State: AFq9FYKa/YZGTsvKwDtgcvmtUy7Y/k/S299UVL58Djs8fMXpEIr5sX39
-	e4AyHW2Ew8n8hkddtNzI/PSF8jQwbQJ1IkRopq5Gp7gM7yEvj0xuprax
-X-Gm-Gg: AYBFou2TolOKWr0EF9urls+Hq20DTPMKhVmiCPp/IFoboIC1oIFc07kvElBr1t6AHbQ
-	2VxYqPmhMMlAxW28+1TxMbmrzN3YNyV6E2SP4vIb6dkeZCKu803Zli+KT7uxVwYF4psnHkvYnq1
-	yrZOtrpjCggV8LAf7XhN/5I0fZY2DFAU0dgcEHn7ja/KaU4eIeZ4KE2/CuPfwW4L6+gfJteaaUK
-	6BwqJBK53zsGkD+OG1+RpZLD+NCPYXmdaHyR1LnzJSqcCEWMr36tVII3zss+zmPp97sNEKscub6
-	RnasYtbKFFqQGiae+D8yy3SIeR7oeM2QV+jbwUbNGYz/iJTp3LQ93EK0pfnYUXW31yR71XgsMBW
-	hfn4ktRdGZtqg1HDH6jEzxjAc0MM/BO4pp3oUt/IEc8W7d3UFojxdn0OFDrYqXuL7Js7lJPyP/M
-	6EPdpyJzb75ZkPEu9CoyxkMp8i7EFVP0zpaaHs53JQIHuI/i5TQY3+LgSY1AR/gBU+N9/dIqpuX
-	64mLgomoCGEsaCMM86dh0cnyqO+bEDx5/Cq9+CjjxYp2+BoU6rV0N8oIgH20pdgrNvyuHt7JZ2e
-	KtKzFdj8p1TolB9fchGyaHRYVJ7PuUBtISo8/QDhxxBTs90Q/tOvemxevw+mPFb3pCBhpnElxNI
-	eAwro1WdciOjJuiHA
-X-Received: by 2002:a05:6000:46d4:b0:48e:543f:4467 with SMTP id ffacd0b85a97d-48e543f451bmr6160346f8f.52.1793116047466;
-        Tue, 27 Oct 2026 08:47:27 -0700 (PDT)
+        bh=sPt0JYZ7MHrW6GDHRZTQpzJzKe8DOikeeLCfWsSdkp8=;
+        b=F3tVS44XJI2oCZz0/CYDg8vo2uKKjg+kRr0VIeobLNA7UCOy/CjEk0tVVxx2DSzDZd
+         sS+rfPstihWSUM3kx3vjFyWb+FwnIvTfhbNB2e2cVLsZ78axzrTNI4uF4UDSThpl2q21
+         ziJSQPs+zejwfD0Kr5T2Hae0Oon5Fa4PccddU5jO4akpkM1m2XXCUkYWH8COXf+cvlV0
+         7ZEUlo333bYenFbozMaS3YboVD4G6+jI7d7tRrkms4e9bUqMEAf8/FLQcszpklI/EB4E
+         +DZRAVm6V0SdMXizSR4jApH1NmqgGcHdHzyxTJTs6YHwrmkvJiZylonKRvDSPDTsSAtB
+         H33Q==
+X-Forwarded-Encrypted: i=1; AKwUvByQV/X1VjObiNot+5dN0hPwcXKfBER+Tnk9k8wlrNrGg2FFyUWULaSVEYUNZ4TBnDpfzvA/ILiYTZP45TKe@vger.kernel.org
+X-Gm-Message-State: AFq9FYLDu3FsqWBH4pAmE2bh8P2kaWgVFqiHan1FDZL0uOCaFGxgZd+z
+	l2qqMJT9fx/t8dV/JleRMphbBuqLtm/RE9v8Jgc5WFINcLRvly/RmxhO
+X-Gm-Gg: AYBFou0covcchfXNfXgCXQkbjRfX8+tUbF2WItPIbyOEWkVBYGfrtqdUkPS7ypp52A/
+	B9s+8tf+Ea+hCWiHDvw/rEezhxZHTzpNsK8rYq4WXz+fepV4hR298Gdo8/8d/IdmnfG8m0Ztfke
+	pAAyKOf1lMPG3FdWhxb8u8vwpmnqPPeYJviV22VWFJtZRxKJF2u6NFmX7TvtUrk7J9lANMnLpX8
+	pVxjKE/uiI7+2FVwTUPwEu8CUR8gHpsYWVsCnTMp01j4srwJeEUTFaE5KsMYa3soq4B1JMSzdHO
+	dgvW7+ZWqla/2zSysItVIYBtYMlCIjPyBuy1HaqeOTKDDZp1fDqMcWB0EIbp5BK2XznhaK+bPXy
+	vx2M9FxVNq+zODC2hpgp7DJSzd9k/7dCNnMfXLjc3mbHcnbK5WW/L54cJoQOYXyYU1gb41IsmvX
+	+95b6md32gl6pxP+6ZjSlvhtq6EqBidqGDrlo3IQcNG3O6Wrrsp7F4oYsE29CDuf3vVuc+1Qn6T
+	kAhrL+kZt5AwB/33HWYyrui59VZHJyGGMGzIzMW6wXHa3O6UECEXoEEd4V5SmSaQELn5JwWmBxX
+	3JkjyqgC8ftoZI2ubdhJ/suwVIgNKZKvWjiJkviLHfphP/dzGal2xd4KDg4nMp5FVXWcDE1KGj8
+	kKojXanxklM1+YVPT
+X-Received: by 2002:a05:600c:8183:b0:4a2:8c5:5f2 with SMTP id 5b1f17b1804b1-4a35ac99b41mr172717785e9.5.1793116032487;
+        Tue, 27 Oct 2026 08:47:12 -0700 (PDT)
 Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb958sm23845574f8f.21.2026.10.27.08.47.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb958sm23845574f8f.21.2026.10.27.08.47.09
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Oct 2026 08:47:26 -0700 (PDT)
+        Tue, 27 Oct 2026 08:47:11 -0700 (PDT)
 From: Fred Griffoul <griffoul@gmail.com>
 To: Ackerley Tng <ackerleytng@google.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
@@ -157,9 +157,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	linux-mm@kvack.org,
 	llvm@lists.linux.dev,
 	iommu@lists.linux.dev
-Subject: [RFC PATCH 14/14] KVM: selftests: Test guest_memfd mapped by iommufd
-Date: Tue, 27 Oct 2026 15:46:49 +0000
-Message-ID: <20261027154649.91571-15-griffoul@gmail.com>
+Subject: [RFC PATCH 08/14] iommufd: Track the domains of revocable pages in struct iopt_pages
+Date: Tue, 27 Oct 2026 15:46:43 +0000
+Message-ID: <20261027154649.91571-9-griffoul@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261027154649.91571-1-griffoul@gmail.com>
 References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
@@ -177,998 +177,359 @@ Content-Transfer-Encoding: 8bit
 
 From: Fred Griffoul <fgriffo@amazon.co.uk>
 
-Nothing tests that a device mapping of a guest_memfd follows the file.
+guest_memfd pages, like dma-buf pages, can be taken away from iommufd
+whatever references it holds, but the list of (area, domain) pairs to
+unmap on a revoke lives in struct iopt_pages_dmabuf.
 
-Add gmem_conversion_iommufd_test. A KVM_X86_SW_PROTECTED_VM maps its
-guest_memfd into an iommufd mock domain, on native folios, a tmpfs
-resource and the sample provider in PFN mode, and the test checks what
-the guest, the VMM and the device see after each change: conversions,
-allocations, punch holes, memory failure, and the provider's revokes and
-restores. It is skipped without CONFIG_IOMMUFD_TEST, the PFN mode cases
-without the sample, and memory failure without CONFIG_MEMORY_FAILURE.
+Move it to struct iopt_pages, rename the iopt_dmabuf_*track* helpers to
+iopt_pages_*, and add iopt_pages_tracked() for the page types that need
+it, so that other page types can use it. No functional change.
 
 Assisted-by: Claude:claude-opus-5-5
 Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
 ---
- tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../kvm/x86/gmem_conversion_iommufd_test.c    | 956 ++++++++++++++++++
- 2 files changed, 957 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86/gmem_conversion_iommufd_test.c
+ drivers/iommu/iommufd/io_pagetable.c | 24 +++++-----
+ drivers/iommu/iommufd/io_pagetable.h | 33 +++++++++-----
+ drivers/iommu/iommufd/pages.c        | 67 ++++++++++++++--------------
+ 3 files changed, 67 insertions(+), 57 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index 5f7118bddfc3..4520c102b695 100644
---- a/tools/testing/selftests/kvm/Makefile.kvm
-+++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -162,6 +162,7 @@ TEST_GEN_PROGS_x86 += x86/triple_fault_event_test
- TEST_GEN_PROGS_x86 += x86/recalc_apic_map_test
- TEST_GEN_PROGS_x86 += x86/aperfmperf_test
- TEST_GEN_PROGS_x86 += x86/guest_memfd_conversions_test
-+TEST_GEN_PROGS_x86 += x86/gmem_conversion_iommufd_test
- TEST_GEN_PROGS_x86 += access_tracking_perf_test
- TEST_GEN_PROGS_x86 += coalesced_io_test
- TEST_GEN_PROGS_x86 += dirty_log_perf_test
-diff --git a/tools/testing/selftests/kvm/x86/gmem_conversion_iommufd_test.c b/tools/testing/selftests/kvm/x86/gmem_conversion_iommufd_test.c
-new file mode 100644
-index 000000000000..5d17b0e2dd43
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86/gmem_conversion_iommufd_test.c
-@@ -0,0 +1,956 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * gmem_conversion_iommufd_test - guest_memfd mapped by iommufd.
-+ *
-+ * A software protected VM has its guest_memfd mapped into an iommufd mock
-+ * domain, and converts pages between shared and private.  A conversion to
-+ * private must take the page away from the device before the guest can use
-+ * it as private; a conversion to shared gives the device the frame again.
-+ * The same scenario runs on each backing of a guest_memfd:
-+ *
-+ *  - native folios;
-+ *  - folios from a tmpfs resource (GUEST_MEMFD_FLAG_USE_RESOURCE on a mount);
-+ *  - frames of a PFN mode provider (a file of the sample provider).
-+ *
-+ * The folio backings also check that the device gets the pages that
-+ * fallocate() or a first host access allocates, whether the guest_memfd is
-+ * mapped before or after, that it loses a page that memory failure poisons,
-+ * and that two IOAS mapping one guest_memfd both follow it.  The PFN mode
-+ * provider then gets its own checks: read-only frames, which the guest and the
-+ * VMM cannot write and the device keeps mapped, private frames, read-only
-+ * frames as private holes, absent frames made private, the provider taking
-+ * back a private page and giving it back, a punch hole, a 2 MiB private
-+ * mapping, and a provider that backs a whole 2 MiB block when one page of it
-+ * is asked for and frees it on a punch hole.
-+ *
-+ * Requires CONFIG_IOMMUFD_TEST; the PFN mode scenarios also require
-+ * samples/kvm/mem_provider_sample.ko.
-+ */
-+#include <fcntl.h>
-+#include <errno.h>
-+#include <setjmp.h>
-+#include <signal.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+
-+#include <linux/iommufd.h>
-+
-+#include "test_util.h"
-+#include "kvm_util.h"
-+#include "processor.h"
-+
-+/*
-+ * The iommufd mock domain test interface.  The iommufd selftest helpers
-+ * bring their own harness, which does not mix with the KVM selftest library.
-+ */
-+#include "../../../../../drivers/iommu/iommufd/iommufd_test.h"
-+#include "../../../../../samples/kvm/mem_provider_sample.h"
-+
-+#define PAGE		0x1000ULL
-+#define HPAGE		0x200000ULL		/* 2 MiB */
-+#define FILE_SIZE	0x400000ULL		/* 4 MiB per guest_memfd */
-+#define GPA		(1ULL << 32)		/* the VM maps its file here */
-+#define IOVA		(1ULL << 28)		/* inside the mock aperture */
-+
-+struct guest_args {
-+	uint64_t write_gpa;	/* 0 to skip */
-+	uint64_t write_val;
-+	uint64_t read_gpa;	/* 0 to skip; the value goes to GUEST_SYNC */
-+};
-+
-+static __maybe_unused void guest_code(struct guest_args *a)
-+{
-+	if (a->write_gpa)
-+		*(volatile uint64_t *)a->write_gpa = a->write_val;
-+	if (a->read_gpa)
-+		GUEST_SYNC(*(volatile uint64_t *)a->read_gpa);
-+	GUEST_DONE();
-+}
-+
-+static int ctl = -1;	/* /dev/mem_provider_sample */
-+
-+static int mps_new_file(uint64_t size)
-+{
-+	struct mps_new_file nf = { .size = size };
-+	int fd = ioctl(ctl, MPS_NEW_FILE, &nf);
-+
-+	TEST_ASSERT(fd >= 0, "MPS_NEW_FILE(%#llx) errno=%d",
-+		    (unsigned long long)size, errno);
-+	return fd;
-+}
-+
-+/* MPS_SET_PRESENT or MPS_SET_READONLY on a range. */
-+static void mps_set(int fd, unsigned long cmd, uint64_t off, uint64_t len,
-+		    bool value)
-+{
-+	struct mps_set_present sp = { .value = value, .offset = off,
-+				      .len = len };
-+
-+	TEST_ASSERT(!ioctl(fd, cmd, &sp), "MPS ioctl %#lx errno=%d", cmd,
-+		    errno);
-+}
-+
-+struct vmm {
-+	const char *name;
-+	int child;		/* the resource file, or -1 */
-+	bool pfn;		/* the resource is a provider file (PFN mode) */
-+	int gmem;		/* the guest_memfd backed by it */
-+	int iommufd;
-+	uint32_t ioas, stdev, hwpt;
-+	struct kvm_vm *vm;
-+	struct kvm_vcpu *vcpu;
-+	void *hva;		/* host mapping of the whole guest_memfd */
-+	gva_t args_gva;
-+};
-+
-+static void vmm_create_type(struct vmm *v, unsigned long type)
-+{
-+	const struct vm_shape shape = {
-+		.mode = VM_MODE_DEFAULT,
-+		.type = type,
-+	};
-+
-+	v->vm = __vm_create_shape_with_one_vcpu(shape, &v->vcpu, 0, guest_code);
-+	v->args_gva = vm_alloc_page(v->vm);
-+}
-+
-+static bool vmm_iova_mapped(struct vmm *v, uint64_t iova, uint64_t len,
-+			    bool mapped)
-+{
-+	struct iommu_test_cmd cmd = {
-+		.size = sizeof(cmd), .op = IOMMU_TEST_OP_MD_CHECK_MAPPED,
-+		.id = v->hwpt,
-+		.check_mapped = { .mapped = mapped, .iova = iova,
-+				  .length = len },
-+	};
-+
-+	return !ioctl(v->iommufd, IOMMU_TEST_CMD, &cmd);
-+}
-+
-+static uint64_t vmm_iova_phys(struct vmm *v, uint64_t iova)
-+{
-+	struct iommu_test_cmd cmd = {
-+		.size = sizeof(cmd), .op = IOMMU_TEST_OP_MD_IOVA_TO_PHYS,
-+		.id = v->hwpt,
-+		.iova_to_phys = { .iova = iova },
-+	};
-+
-+	if (ioctl(v->iommufd, IOMMU_TEST_CMD, &cmd))
-+		return 0;
-+	return cmd.iova_to_phys.out_phys;
-+}
-+
-+/*
-+ * Map the guest_memfd on a 2 MiB boundary: KVM uses large pages only if the
-+ * memslot's guest and host addresses are aligned alike.
-+ */
-+static void *vmm_map_gmem(struct vmm *v)
-+{
-+	uint8_t *area, *aligned;
-+
-+	area = mmap(NULL, FILE_SIZE + HPAGE, PROT_NONE,
-+		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	TEST_ASSERT(area != MAP_FAILED, "%s: mmap(reserve) errno=%d", v->name,
-+		    errno);
-+	aligned = (uint8_t *)(((uintptr_t)area + HPAGE - 1) & ~(HPAGE - 1));
-+	if (aligned > area)
-+		munmap(area, aligned - area);
-+	munmap(aligned + FILE_SIZE, area + HPAGE - aligned);
-+
-+	return mmap(aligned, FILE_SIZE, PROT_READ | PROT_WRITE,
-+		    MAP_SHARED | MAP_FIXED, v->gmem, 0);
-+}
-+
-+/*
-+ * Give @resource_fd (a provider file of the sample, a tmpfs mount, or -1 for
-+ * native folios) to KVM as the guest_memfd's resource, and the guest_memfd to
-+ * iommufd.
-+ */
-+static void vmm_attach(struct vmm *v, int resource_fd)
-+{
-+	struct iommu_ioas_alloc alloc = { .size = sizeof(alloc) };
-+	struct iommu_test_cmd mock = {
-+		.size = sizeof(mock), .op = IOMMU_TEST_OP_MOCK_DOMAIN,
-+	};
-+	struct iommu_ioas_map_file map = {
-+		.size = sizeof(map),
-+		.flags = IOMMU_IOAS_MAP_FIXED_IOVA | IOMMU_IOAS_MAP_READABLE |
-+			 IOMMU_IOAS_MAP_WRITEABLE,
-+		.start = 0, .length = FILE_SIZE, .iova = IOVA,
-+	};
-+	int r;
-+
-+	uint64_t flags = GUEST_MEMFD_FLAG_MMAP | GUEST_MEMFD_FLAG_INIT_SHARED;
-+
-+	v->child = resource_fd;
-+	if (v->pfn)
-+		flags |= GUEST_MEMFD_FLAG_PFN_MODE;
-+
-+	/* KVM: a guest_memfd on the resource, behind one memslot. */
-+	if (resource_fd >= 0)
-+		v->gmem = vm_create_guest_memfd_resource(v->vm, FILE_SIZE,
-+							 flags | GUEST_MEMFD_FLAG_USE_RESOURCE,
-+							 resource_fd);
-+	else
-+		v->gmem = vm_create_guest_memfd(v->vm, FILE_SIZE, flags);
-+	v->hva = vmm_map_gmem(v);
-+	TEST_ASSERT(v->hva != MAP_FAILED, "%s: mmap(guest_memfd) errno=%d",
-+		    v->name, errno);
-+	r = __vm_set_user_memory_region2(v->vm, 10, KVM_MEM_GUEST_MEMFD, GPA,
-+					 FILE_SIZE, v->hva, v->gmem, 0);
-+	TEST_ASSERT(!r, "%s: SET_USER_MEMORY_REGION2 errno=%d", v->name,
-+		    errno);
-+	virt_map(v->vm, GPA, GPA, FILE_SIZE / PAGE);
-+
-+	/* iommufd: the guest_memfd, in an IOAS on a mock domain. */
-+	v->iommufd = open("/dev/iommu", O_RDWR);
-+	__TEST_REQUIRE(v->iommufd >= 0, "iommufd unavailable");
-+	TEST_ASSERT(!ioctl(v->iommufd, IOMMU_IOAS_ALLOC, &alloc),
-+		    "IOAS_ALLOC errno=%d", errno);
-+	v->ioas = alloc.out_ioas_id;
-+
-+	mock.id = v->ioas;
-+	__TEST_REQUIRE(!ioctl(v->iommufd, IOMMU_TEST_CMD, &mock),
-+		       "no iommufd mock domain (CONFIG_IOMMUFD_TEST?)");
-+	v->stdev = mock.mock_domain.out_stdev_id;
-+	v->hwpt = mock.mock_domain.out_hwpt_id;
-+
-+	map.ioas_id = v->ioas;
-+	map.fd = v->gmem;
-+	TEST_ASSERT(!ioctl(v->iommufd, IOMMU_IOAS_MAP_FILE, &map),
-+		    "%s: IOAS_MAP_FILE(guest_memfd) errno=%d", v->name, errno);
-+}
-+
-+/*
-+ * Continue the guest.  KVM_RUN fails with EFAULT for KVM_EXIT_MEMORY_FAULT,
-+ * which several scenarios expect; the expect_*() helpers check the exit.
-+ */
-+static void vmm_resume(struct vmm *v)
-+{
-+	int r = _vcpu_run(v->vcpu);
-+
-+	TEST_ASSERT(!r || (errno == EFAULT &&
-+			   v->vcpu->run->exit_reason == KVM_EXIT_MEMORY_FAULT),
-+		    "%s: KVM_RUN r=%d errno=%d exit=%s", v->name, r, errno,
-+		    exit_reason_str(v->vcpu->run->exit_reason));
-+}
-+
-+static void vmm_run(struct vmm *v, uint64_t write_gpa, uint64_t write_val,
-+		    uint64_t read_gpa)
-+{
-+	struct guest_args *a = addr_gva2hva(v->vm, v->args_gva);
-+
-+	a->write_gpa = write_gpa;
-+	a->write_val = write_val;
-+	a->read_gpa = read_gpa;
-+	vcpu_arch_set_entry_point(v->vcpu, guest_code);
-+	vcpu_args_set(v->vcpu, 1, v->args_gva);
-+	vmm_resume(v);
-+}
-+
-+static void expect_done(struct vmm *v)
-+{
-+	struct kvm_run *run = v->vcpu->run;
-+	struct ucall uc;
-+
-+	TEST_ASSERT(run->exit_reason != KVM_EXIT_MEMORY_FAULT,
-+		    "%s: unexpected memory fault at gpa %#llx", v->name,
-+		    (unsigned long long)run->memory_fault.gpa);
-+	switch (get_ucall(v->vcpu, &uc)) {
-+	case UCALL_DONE:
-+		return;
-+	case UCALL_ABORT:
-+		REPORT_GUEST_ASSERT(uc);
-+	default:
-+		TEST_FAIL("%s: guest exit %s, ucall %lu", v->name,
-+			  exit_reason_str(run->exit_reason), uc.cmd);
-+	}
-+}
-+
-+static uint64_t expect_sync_then_done(struct vmm *v)
-+{
-+	struct ucall uc;
-+	uint64_t val;
-+
-+	TEST_ASSERT(get_ucall(v->vcpu, &uc) == UCALL_SYNC, "%s: guest exit %s",
-+		    v->name, exit_reason_str(v->vcpu->run->exit_reason));
-+	val = uc.args[1];
-+	vmm_resume(v);
-+	expect_done(v);
-+	return val;
-+}
-+
-+static void expect_memory_fault(struct vmm *v, uint64_t gpa)
-+{
-+	struct kvm_run *run = v->vcpu->run;
-+
-+	TEST_ASSERT(run->exit_reason == KVM_EXIT_MEMORY_FAULT,
-+		    "%s: want KVM_EXIT_MEMORY_FAULT, got %s", v->name,
-+		    exit_reason_str(run->exit_reason));
-+	TEST_ASSERT(run->memory_fault.gpa == gpa,
-+		    "%s: fault at gpa %#llx, want %#llx", v->name,
-+		    (unsigned long long)run->memory_fault.gpa,
-+		    (unsigned long long)gpa);
-+}
-+
-+static void vmm_destroy(struct vmm *v)
-+{
-+	close(v->iommufd);
-+	kvm_vm_free(v->vm);
-+	munmap(v->hva, FILE_SIZE);
-+	close(v->gmem);
-+	if (v->child >= 0)
-+		close(v->child);
-+}
-+
-+static sigjmp_buf host_jmp;
-+
-+static void host_sig(int sig)
-+{
-+	siglongjmp(host_jmp, sig);
-+}
-+
-+/*
-+ * Read @addr, or write @val to it, through a host mapping.  Return the
-+ * signal that the access raised, or 0.
-+ */
-+static int host_access(volatile uint64_t *addr, bool write, uint64_t val)
-+{
-+	struct sigaction sa = { .sa_handler = host_sig }, old_bus, old_segv;
-+	int sig;
-+
-+	sigaction(SIGBUS, &sa, &old_bus);
-+	sigaction(SIGSEGV, &sa, &old_segv);
-+	sig = sigsetjmp(host_jmp, 1);
-+	if (!sig) {
-+		if (write)
-+			*addr = val;
-+		else
-+			(void)*addr;
-+	}
-+	sigaction(SIGBUS, &old_bus, NULL);
-+	sigaction(SIGSEGV, &old_segv, NULL);
-+	return sig;
-+}
-+
-+/*
-+ * Poison the page at @addr with MADV_HWPOISON.  Memory failure kills the task
-+ * that maps a dirty page with SIGBUS, which counts as done.  Returns 0, or
-+ * the errno of madvise().
-+ */
-+static int host_poison(void *addr)
-+{
-+	struct sigaction sa = { .sa_handler = host_sig }, old_bus;
-+	int r = 0;
-+
-+	sigaction(SIGBUS, &sa, &old_bus);
-+	if (!sigsetjmp(host_jmp, 1) && madvise(addr, PAGE, MADV_HWPOISON))
-+		r = errno;
-+	sigaction(SIGBUS, &old_bus, NULL);
-+	return r;
-+}
-+
-+#define host_read_faults(p)	(host_access(p, false, 0) == SIGBUS)
-+#define host_write_faults(p, v)	(host_access(p, true, v) == SIGBUS)
-+
-+#define MAGIC		0xc0c0a000c0c0a000ULL
-+
-+/* The page that is converted, inside the file. */
-+#define CONV_OFF	(16 * PAGE)
-+#define CONV_GPA	(GPA + CONV_OFF)
-+#define CONV_IOVA	(IOVA + CONV_OFF)
-+
-+/* Pages that only fallocate() or the host touch first. */
-+#define FALLOC_OFF	(32 * PAGE)
-+#define FALLOC2_OFF	(33 * PAGE)
-+#define HOST_OFF	(34 * PAGE)
-+
-+/* A page that memory failure poisons, and its neighbour. */
-+#define POISON_OFF	(80 * PAGE)
-+#define POISON_IOVA	(IOVA + POISON_OFF)
-+
-+/* Pages of the file that the PFN mode checks use. */
-+#define RO_OFF		(48 * PAGE)
-+#define RO_GPA		(GPA + RO_OFF)
-+#define PFN_OFF		(64 * PAGE)
-+#define PFN_GPA		(GPA + PFN_OFF)
-+#define PFN_IOVA	(IOVA + PFN_OFF)
-+
-+/* The second 2 MiB block of the file, for the large mapping. */
-+#define LARGE_OFF	HPAGE
-+#define LARGE_GPA	(GPA + LARGE_OFF)
-+#define LARGE_IOVA	(IOVA + LARGE_OFF)
-+
-+enum backing { BACKING_FOLIO, BACKING_TMPFS, BACKING_PFN, NR_BACKINGS };
-+
-+static const char *const backing_names[] = { "folio", "tmpfs", "pfn" };
-+
-+/* A software protected VM on @backing, mapped into a mock domain. */
-+static void vmm_setup(struct vmm *v, enum backing backing)
-+{
-+	int resource;
-+
-+	vmm_create_type(v, KVM_X86_SW_PROTECTED_VM);
-+	switch (backing) {
-+	case BACKING_FOLIO:
-+		resource = -1;
-+		break;
-+	case BACKING_TMPFS:
-+		resource = create_tmpfs_pool_fd("never", true, FILE_SIZE);
-+		break;
-+	default:
-+		resource = mps_new_file(FILE_SIZE);
-+		v->pfn = true;
-+		break;
-+	}
-+	vmm_attach(v, resource);
-+}
-+
-+/*
-+ * Convert a page to private and back, and check the device, the host and
-+ * the guest at each step.  The host and the device reach the page first, so
-+ * that a host mapping or an IOPTE left behind would show.
-+ */
-+static void scenario_convert(enum backing backing)
-+{
-+	struct vmm v = { .name = backing_names[backing] };
-+	volatile uint64_t *host;
-+	uint64_t frame, err = 0;
-+
-+	pr_info("%d. conversions on %s\n", backing + 1, backing_names[backing]);
-+	vmm_setup(&v, backing);
-+	host = (volatile uint64_t *)(v.hva + CONV_OFF);
-+
-+	/* Shared: the guest writes, the host and the device see the page. */
-+	vmm_run(&v, CONV_GPA, MAGIC, 0);
-+	expect_done(&v);
-+	TEST_ASSERT(*host == MAGIC, "%s: host does not see the guest's write",
-+		    v.name);
-+	frame = vmm_iova_phys(&v, CONV_IOVA);
-+	TEST_ASSERT(frame, "%s: device does not map the page", v.name);
-+
-+	/* Private: the device and the host lose it; the guest keeps it. */
-+	TEST_ASSERT(!__gmem_set_private(v.gmem, CONV_OFF, PAGE, &err),
-+		    "%s: conversion to private errno=%d", v.name, errno);
-+	TEST_ASSERT(!vmm_iova_phys(&v, CONV_IOVA),
-+		    "%s: device still maps the private page", v.name);
-+	TEST_ASSERT(host_read_faults(host),
-+		    "%s: host mapping of a private page readable", v.name);
-+	vmm_run(&v, 0, 0, CONV_GPA);
-+	TEST_ASSERT(expect_sync_then_done(&v) == MAGIC,
-+		    "%s: the private page lost the guest's write", v.name);
-+	TEST_ASSERT(!vmm_iova_phys(&v, CONV_IOVA),
-+		    "%s: device maps the page the guest uses as private",
-+		    v.name);
-+
-+	/* Shared again: the same frame for everyone, contents kept. */
-+	TEST_ASSERT(!__gmem_set_shared(v.gmem, CONV_OFF, PAGE, &err),
-+		    "%s: conversion to shared errno=%d", v.name, errno);
-+	TEST_ASSERT(vmm_iova_phys(&v, CONV_IOVA) == frame,
-+		    "%s: device does not map the frame again", v.name);
-+	TEST_ASSERT(*host == MAGIC, "%s: host does not see the page again",
-+		    v.name);
-+	vmm_run(&v, 0, 0, CONV_GPA);
-+	TEST_ASSERT(expect_sync_then_done(&v) == MAGIC,
-+		    "%s: the guest lost the page on the way back", v.name);
-+
-+	/* Folios: a punch hole takes the page from the device too. */
-+	if (backing != BACKING_PFN) {
-+		TEST_ASSERT(!fallocate(v.gmem,
-+				       FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE,
-+				       CONV_OFF, PAGE),
-+			    "%s: punch hole errno=%d", v.name, errno);
-+		TEST_ASSERT(!vmm_iova_phys(&v, CONV_IOVA),
-+			    "%s: device maps a punched page", v.name);
-+		/* Touching it allocates a new page, which the device gets. */
-+		vmm_run(&v, CONV_GPA, MAGIC, 0);
-+		expect_done(&v);
-+		TEST_ASSERT(vmm_iova_phys(&v, CONV_IOVA),
-+			    "%s: device does not map the new page", v.name);
-+	}
-+
-+	vmm_destroy(&v);
-+}
-+
-+static void ioas_map_gmem(struct vmm *v)
-+{
-+	struct iommu_ioas_map_file map = {
-+		.size = sizeof(map),
-+		.flags = IOMMU_IOAS_MAP_FIXED_IOVA | IOMMU_IOAS_MAP_READABLE |
-+			 IOMMU_IOAS_MAP_WRITEABLE,
-+		.ioas_id = v->ioas, .fd = v->gmem,
-+		.start = 0, .length = FILE_SIZE, .iova = IOVA,
-+	};
-+
-+	TEST_ASSERT(!ioctl(v->iommufd, IOMMU_IOAS_MAP_FILE, &map),
-+		    "%s: IOAS_MAP_FILE errno=%d", v->name, errno);
-+}
-+
-+static void ioas_unmap_gmem(struct vmm *v)
-+{
-+	struct iommu_ioas_unmap unmap = {
-+		.size = sizeof(unmap), .ioas_id = v->ioas,
-+		.iova = IOVA, .length = FILE_SIZE,
-+	};
-+
-+	TEST_ASSERT(!ioctl(v->iommufd, IOMMU_IOAS_UNMAP, &unmap),
-+		    "%s: IOAS_UNMAP errno=%d", v->name, errno);
-+}
-+
-+/*
-+ * Folios: the device gets a page as soon as it exists, whichever path
-+ * allocates it, and whether the guest_memfd was mapped before or after.
-+ */
-+static void scenario_alloc(enum backing backing)
-+{
-+	struct vmm v = { .name = backing_names[backing] };
-+	volatile uint64_t *host;
-+
-+	pr_info("   allocations on %s\n", backing_names[backing]);
-+	vmm_setup(&v, backing);
-+
-+	/* Mapped first: fallocate() allocates the page. */
-+	TEST_ASSERT(!vmm_iova_phys(&v, IOVA + FALLOC_OFF),
-+		    "%s: device maps a page that does not exist", v.name);
-+	TEST_ASSERT(!fallocate(v.gmem, FALLOC_FL_KEEP_SIZE, FALLOC_OFF, PAGE),
-+		    "%s: fallocate errno=%d", v.name, errno);
-+	TEST_ASSERT(vmm_iova_phys(&v, IOVA + FALLOC_OFF),
-+		    "%s: device does not map a page fallocate() allocated",
-+		    v.name);
-+
-+	/* Mapped first: the host's first access allocates the page. */
-+	host = (volatile uint64_t *)(v.hva + HOST_OFF);
-+	TEST_ASSERT(!vmm_iova_phys(&v, IOVA + HOST_OFF),
-+		    "%s: device maps a page the host never touched", v.name);
-+	*host = MAGIC;
-+	TEST_ASSERT(vmm_iova_phys(&v, IOVA + HOST_OFF),
-+		    "%s: device does not map a page the host allocated", v.name);
-+	vmm_run(&v, 0, 0, GPA + HOST_OFF);
-+	TEST_ASSERT(expect_sync_then_done(&v) == MAGIC,
-+		    "%s: guest does not see the host's write", v.name);
-+
-+	/* Allocated first, while nothing maps the file, then mapped. */
-+	ioas_unmap_gmem(&v);
-+	TEST_ASSERT(!fallocate(v.gmem, FALLOC_FL_KEEP_SIZE, FALLOC2_OFF, PAGE),
-+		    "%s: fallocate errno=%d", v.name, errno);
-+	ioas_map_gmem(&v);
-+	TEST_ASSERT(vmm_iova_phys(&v, IOVA + FALLOC2_OFF),
-+		    "%s: device does not map a page allocated before the map",
-+		    v.name);
-+	TEST_ASSERT(vmm_iova_phys(&v, IOVA + HOST_OFF),
-+		    "%s: device lost a page across the remap", v.name);
-+
-+	vmm_destroy(&v);
-+}
-+
-+/* An IOAS without a domain: nothing maps an area until a device attaches. */
-+static void ioas_check_map_overflow(void)
-+{
-+	struct vmm v = { .name = "folio" };
-+	struct iommu_ioas_alloc alloc = { .size = sizeof(alloc) };
-+	struct iommu_ioas_map_file map = {
-+		.size = sizeof(map),
-+		.flags = IOMMU_IOAS_MAP_FIXED_IOVA | IOMMU_IOAS_MAP_READABLE,
-+		.start = -PAGE, .length = PAGE, .iova = IOVA,
-+	};
-+
-+	pr_info("   a guest_memfd range that wraps\n");
-+	vmm_setup(&v, BACKING_FOLIO);
-+	TEST_ASSERT(!ioctl(v.iommufd, IOMMU_IOAS_ALLOC, &alloc),
-+		    "IOAS_ALLOC errno=%d", errno);
-+	map.ioas_id = alloc.out_ioas_id;
-+	map.fd = v.gmem;
-+	TEST_ASSERT(ioctl(v.iommufd, IOMMU_IOAS_MAP_FILE, &map) && errno == EINVAL,
-+		    "IOAS_MAP_FILE of a wrapping range: errno=%d, want EINVAL",
-+		    errno);
-+	vmm_destroy(&v);
-+}
-+
-+/*
-+ * Memory failure on a page the device maps: the device loses it, and the
-+ * poisoned folio stays in the file, so the host cannot fault in a new one.
-+ */
-+static void scenario_poison(enum backing backing)
-+{
-+	struct vmm v = { .name = backing_names[backing] };
-+	volatile uint64_t *host, *next;
-+	int r;
-+
-+	pr_info("   memory failure on %s\n", backing_names[backing]);
-+	vmm_setup(&v, backing);
-+	host = (volatile uint64_t *)(v.hva + POISON_OFF);
-+	next = (volatile uint64_t *)(v.hva + POISON_OFF + PAGE);
-+	*host = MAGIC;
-+	*next = MAGIC;
-+	TEST_ASSERT(vmm_iova_phys(&v, POISON_IOVA),
-+		    "%s: device does not map the page", v.name);
-+
-+	r = host_poison((void *)host);
-+	if (r == EINVAL || r == EPERM) {
-+		pr_info("   skipped: no MADV_HWPOISON (errno %d)\n", r);
-+		vmm_destroy(&v);
-+		return;
-+	}
-+	TEST_ASSERT(!r, "%s: MADV_HWPOISON errno=%d", v.name, r);
-+
-+	TEST_ASSERT(!vmm_iova_phys(&v, POISON_IOVA),
-+		    "%s: device maps a poisoned page", v.name);
-+	TEST_ASSERT(host_read_faults(host),
-+		    "%s: host faulted in a new page over a poisoned one",
-+		    v.name);
-+	TEST_ASSERT(!vmm_iova_phys(&v, POISON_IOVA),
-+		    "%s: device maps a poisoned page after a host fault",
-+		    v.name);
-+	TEST_ASSERT(vmm_iova_phys(&v, POISON_IOVA + PAGE) && *next == MAGIC,
-+		    "%s: the next page was lost", v.name);
-+
-+	vmm_destroy(&v);
-+}
-+
-+/* A second IOAS on the same guest_memfd, with its own mock domain. */
-+static void ioas_attach_second(struct vmm *v, struct vmm *w)
-+{
-+	struct iommu_ioas_alloc alloc = { .size = sizeof(alloc) };
-+	struct iommu_test_cmd mock = {
-+		.size = sizeof(mock), .op = IOMMU_TEST_OP_MOCK_DOMAIN,
-+	};
-+
-+	*w = *v;
-+	w->name = "second IOAS";
-+	TEST_ASSERT(!ioctl(v->iommufd, IOMMU_IOAS_ALLOC, &alloc),
-+		    "IOAS_ALLOC errno=%d", errno);
-+	w->ioas = alloc.out_ioas_id;
-+	mock.id = w->ioas;
-+	TEST_ASSERT(!ioctl(v->iommufd, IOMMU_TEST_CMD, &mock),
-+		    "MOCK_DOMAIN errno=%d", errno);
-+	w->stdev = mock.mock_domain.out_stdev_id;
-+	w->hwpt = mock.mock_domain.out_hwpt_id;
-+	ioas_map_gmem(w);
-+}
-+
-+/*
-+ * Two IOAS map one guest_memfd: both follow its conversions, and either can
-+ * go away while the other keeps following.
-+ */
-+static void scenario_two_ioas(void)
-+{
-+	struct vmm v = { .name = "folio" }, w;
-+	volatile uint64_t *host;
-+	uint64_t frame, err = 0;
-+
-+	pr_info("   two IOAS mapping one guest_memfd\n");
-+	vmm_setup(&v, BACKING_FOLIO);
-+	ioas_attach_second(&v, &w);
-+	host = (volatile uint64_t *)(v.hva + CONV_OFF);
-+	*host = MAGIC;
-+	frame = vmm_iova_phys(&v, CONV_IOVA);
-+	TEST_ASSERT(frame && vmm_iova_phys(&w, CONV_IOVA) == frame,
-+		    "the two IOAS do not map the same frame");
-+
-+	TEST_ASSERT(!__gmem_set_private(v.gmem, CONV_OFF, PAGE, &err),
-+		    "conversion to private errno=%d", errno);
-+	TEST_ASSERT(!vmm_iova_phys(&v, CONV_IOVA) && !vmm_iova_phys(&w, CONV_IOVA),
-+		    "an IOAS maps a private page");
-+	TEST_ASSERT(!__gmem_set_shared(v.gmem, CONV_OFF, PAGE, &err),
-+		    "conversion to shared errno=%d", errno);
-+	TEST_ASSERT(vmm_iova_phys(&v, CONV_IOVA) == frame &&
-+		    vmm_iova_phys(&w, CONV_IOVA) == frame,
-+		    "an IOAS does not map the page shared again");
-+
-+	/* The second goes away; the first keeps following. */
-+	ioas_unmap_gmem(&w);
-+	TEST_ASSERT(!__gmem_set_private(v.gmem, CONV_OFF, PAGE, &err),
-+		    "conversion to private errno=%d", errno);
-+	TEST_ASSERT(!vmm_iova_phys(&v, CONV_IOVA),
-+		    "the first IOAS maps a private page");
-+	TEST_ASSERT(!__gmem_set_shared(v.gmem, CONV_OFF, PAGE, &err),
-+		    "conversion to shared errno=%d", errno);
-+	TEST_ASSERT(vmm_iova_phys(&v, CONV_IOVA) == frame,
-+		    "the first IOAS does not map the page shared again");
-+
-+	vmm_destroy(&v);
-+}
-+
-+/*
-+ * PFN mode: a read-only frame is mapped read only for the guest and the VMM,
-+ * and stays mapped for the device.  The guest maps the page first, so that
-+ * marking it read only must zap it.
-+ */
-+static void scenario_readonly(void)
-+{
-+	struct vmm v = { .name = "pfn" };
-+	volatile uint64_t *page;
-+
-+	pr_info("   read-only frames on a PFN mode provider\n");
-+	vmm_setup(&v, BACKING_PFN);
-+	page = (volatile uint64_t *)(v.hva + RO_OFF);
-+
-+	*page = MAGIC;
-+	vmm_run(&v, 0, 0, RO_GPA);
-+	TEST_ASSERT(expect_sync_then_done(&v) == MAGIC,
-+		    "guest does not read the host's write");
-+
-+	mps_set(v.child, MPS_SET_READONLY, RO_OFF, PAGE, true);
-+	TEST_ASSERT(vmm_iova_mapped(&v, IOVA + RO_OFF, PAGE, true),
-+		    "read-only page not mapped for the device");
-+	vmm_run(&v, 0, 0, RO_GPA);
-+	TEST_ASSERT(expect_sync_then_done(&v) == MAGIC,
-+		    "guest cannot read a read-only page");
-+	vmm_run(&v, RO_GPA, ~MAGIC, 0);
-+	expect_memory_fault(&v, RO_GPA);
-+	TEST_ASSERT(host_write_faults(page, ~MAGIC),
-+		    "host write to a read-only page did not fault");
-+	TEST_ASSERT(*page == MAGIC, "write to a read-only page landed");
-+
-+	/* Writable again: the guest retries the same write. */
-+	mps_set(v.child, MPS_SET_READONLY, RO_OFF, PAGE, false);
-+	vmm_resume(&v);
-+	expect_done(&v);
-+	TEST_ASSERT(*page == ~MAGIC, "write after clearing read only lost");
-+	TEST_ASSERT(!host_write_faults(page, MAGIC),
-+		    "host write after clearing read only faulted");
-+
-+	vmm_destroy(&v);
-+}
-+
-+/* PFN mode: private frames, and the provider's changes. */
-+static void scenario_pfn(void)
-+{
-+	struct vmm v = { .name = "pfn" };
-+	volatile uint64_t *host;
-+	uint64_t err = 0, frame;
-+
-+	pr_info("4. private pages on a PFN mode provider\n");
-+	vmm_setup(&v, BACKING_PFN);
-+	host = (volatile uint64_t *)(v.hva + PFN_OFF);
-+
-+	vmm_run(&v, PFN_GPA, MAGIC, 0);
-+	expect_done(&v);
-+
-+	/* Private: the device and the host lose it, the guest keeps it. */
-+	TEST_ASSERT(!__gmem_set_private(v.gmem, PFN_OFF, PAGE, &err),
-+		    "conversion to private errno=%d", errno);
-+	TEST_ASSERT(!vmm_iova_phys(&v, PFN_IOVA), "device maps a private page");
-+	TEST_ASSERT(host_read_faults(host),
-+		    "host mapping of a private page readable");
-+	vmm_run(&v, 0, 0, PFN_GPA);
-+	TEST_ASSERT(expect_sync_then_done(&v) == MAGIC,
-+		    "the private page lost the guest's write");
-+
+diff --git a/drivers/iommu/iommufd/io_pagetable.c b/drivers/iommu/iommufd/io_pagetable.c
+index 4e447ce74cf6..43d518e4ce58 100644
+--- a/drivers/iommu/iommufd/io_pagetable.c
++++ b/drivers/iommu/iommufd/io_pagetable.c
+@@ -1086,14 +1086,14 @@ static void iopt_unfill_domain(struct io_pagetable *iopt,
+ 				WARN_ON(!area->storage_domain);
+ 			if (area->storage_domain == domain)
+ 				area->storage_domain = storage_domain;
+-			if (iopt_is_dmabuf(pages)) {
++			if (iopt_pages_tracked(pages)) {
+ 				if (!iopt_dmabuf_revoked(pages))
+ 					iopt_area_unmap_domain(area, domain);
+-				iopt_dmabuf_untrack_domain(pages, area, domain);
++				iopt_pages_untrack_domain(pages, area, domain);
+ 			}
+ 			mutex_unlock(&pages->mutex);
+ 
+-			if (!iopt_is_dmabuf(pages))
++			if (!iopt_pages_tracked(pages))
+ 				iopt_area_unmap_domain(area, domain);
+ 		}
+ 		return;
+@@ -1111,8 +1111,8 @@ static void iopt_unfill_domain(struct io_pagetable *iopt,
+ 		WARN_ON(area->storage_domain != domain);
+ 		area->storage_domain = NULL;
+ 		iopt_area_unfill_domain(area, pages, domain);
+-		if (iopt_is_dmabuf(pages))
+-			iopt_dmabuf_untrack_domain(pages, area, domain);
++		if (iopt_pages_tracked(pages))
++			iopt_pages_untrack_domain(pages, area, domain);
+ 		mutex_unlock(&pages->mutex);
+ 	}
+ }
+@@ -1143,15 +1143,15 @@ static int iopt_fill_domain(struct io_pagetable *iopt,
+ 			continue;
+ 
+ 		guard(mutex)(&pages->mutex);
+-		if (iopt_is_dmabuf(pages)) {
+-			rc = iopt_dmabuf_track_domain(pages, area, domain);
++		if (iopt_pages_tracked(pages)) {
++			rc = iopt_pages_track_domain(pages, area, domain);
+ 			if (rc)
+ 				goto out_unfill;
+ 		}
+ 		rc = iopt_area_fill_domain(area, domain);
+ 		if (rc) {
+-			if (iopt_is_dmabuf(pages))
+-				iopt_dmabuf_untrack_domain(pages, area, domain);
++			if (iopt_pages_tracked(pages))
++				iopt_pages_untrack_domain(pages, area, domain);
+ 			goto out_unfill;
+ 		}
+ 		if (!area->storage_domain) {
+@@ -1180,8 +1180,8 @@ static int iopt_fill_domain(struct io_pagetable *iopt,
+ 			area->storage_domain = NULL;
+ 		}
+ 		iopt_area_unfill_domain(area, pages, domain);
+-		if (iopt_is_dmabuf(pages))
+-			iopt_dmabuf_untrack_domain(pages, area, domain);
++		if (iopt_pages_tracked(pages))
++			iopt_pages_untrack_domain(pages, area, domain);
+ 		mutex_unlock(&pages->mutex);
+ 	}
+ 	return rc;
+@@ -1393,7 +1393,7 @@ static int iopt_area_split(struct iopt_area *area, unsigned long iova)
+ 		return -EBUSY;
+ 
+ 	/* Maintaining the domains_itree below is a bit complicated */
+-	if (iopt_is_dmabuf(pages))
++	if (iopt_pages_tracked(pages))
+ 		return -EOPNOTSUPP;
+ 
+ 	if (new_start & (alignment - 1) ||
+diff --git a/drivers/iommu/iommufd/io_pagetable.h b/drivers/iommu/iommufd/io_pagetable.h
+index 27e3e311d395..0dddfb5db5fd 100644
+--- a/drivers/iommu/iommufd/io_pagetable.h
++++ b/drivers/iommu/iommufd/io_pagetable.h
+@@ -70,15 +70,14 @@ void iopt_area_unfill_domain(struct iopt_area *area, struct iopt_pages *pages,
+ void iopt_area_unmap_domain(struct iopt_area *area,
+ 			    struct iommu_domain *domain);
+ 
+-int iopt_dmabuf_track_domain(struct iopt_pages *pages, struct iopt_area *area,
+-			     struct iommu_domain *domain);
+-void iopt_dmabuf_untrack_domain(struct iopt_pages *pages,
+-				struct iopt_area *area,
+-				struct iommu_domain *domain);
+-int iopt_dmabuf_track_all_domains(struct iopt_area *area,
+-				  struct iopt_pages *pages);
+-void iopt_dmabuf_untrack_all_domains(struct iopt_area *area,
+-				     struct iopt_pages *pages);
++int iopt_pages_track_domain(struct iopt_pages *pages, struct iopt_area *area,
++			    struct iommu_domain *domain);
++void iopt_pages_untrack_domain(struct iopt_pages *pages, struct iopt_area *area,
++			       struct iommu_domain *domain);
++int iopt_pages_track_all_domains(struct iopt_area *area,
++				 struct iopt_pages *pages);
++void iopt_pages_untrack_all_domains(struct iopt_area *area,
++				    struct iopt_pages *pages);
+ 
+ static inline unsigned long iopt_area_index(struct iopt_area *area)
+ {
+@@ -194,7 +193,8 @@ enum iopt_address_type {
+ 	IOPT_ADDRESS_DMABUF,
+ };
+ 
+-struct iopt_pages_dmabuf_track {
++/* One (area, domain) mapping of revocable pages, on iopt_pages::tracker. */
++struct iopt_pages_track {
+ 	struct iommu_domain *domain;
+ 	struct iopt_area *area;
+ 	struct list_head elm;
+@@ -205,7 +205,6 @@ struct iopt_pages_dmabuf {
+ 	struct phys_vec phys;
+ 	/* Always PAGE_SIZE aligned */
+ 	unsigned long start;
+-	struct list_head tracker;
+ };
+ 
+ /*
+@@ -246,6 +245,12 @@ struct iopt_pages {
+ 	struct rb_root_cached access_itree;
+ 	/* Of iopt_area::pages_node */
+ 	struct rb_root_cached domains_itree;
 +	/*
-+	 * The provider takes the private page back: a hole for the guest until
-+	 * it comes back, zeroed by the sample.
++	 * Of iopt_pages_track::elm.  The owner of these pages can revoke them
++	 * whatever references iommufd holds, so every (area, domain) that
++	 * maps them is listed here for the revoke.  See iopt_pages_tracked().
 +	 */
-+	mps_set(v.child, MPS_SET_PRESENT, PFN_OFF, PAGE, false);
-+	vmm_run(&v, 0, 0, PFN_GPA);
-+	expect_memory_fault(&v, PFN_GPA);
-+	mps_set(v.child, MPS_SET_PRESENT, PFN_OFF, PAGE, true);
-+	vmm_run(&v, 0, 0, PFN_GPA);
-+	TEST_ASSERT(!expect_sync_then_done(&v),
-+		    "the page came back with old contents");
-+	TEST_ASSERT(!vmm_iova_phys(&v, PFN_IOVA),
-+		    "device maps a private page given back");
-+
-+	/* A page that is not backed may become private; the guest faults. */
-+	TEST_ASSERT(!__gmem_set_shared(v.gmem, PFN_OFF, PAGE, &err),
-+		    "conversion to shared errno=%d", errno);
-+	mps_set(v.child, MPS_SET_PRESENT, PFN_OFF, PAGE, false);
-+	TEST_ASSERT(!__gmem_set_private(v.gmem, PFN_OFF, PAGE, &err),
-+		    "conversion of an absent page errno=%d", errno);
-+	vmm_run(&v, 0, 0, PFN_GPA);
-+	expect_memory_fault(&v, PFN_GPA);
-+	mps_set(v.child, MPS_SET_PRESENT, PFN_OFF, PAGE, true);
-+	vmm_run(&v, PFN_GPA, MAGIC, 0);
-+	expect_done(&v);
-+
-+	/* A read-only frame never backs a private page: a hole until writable. */
-+	mps_set(v.child, MPS_SET_READONLY, PFN_OFF, PAGE, true);
-+	vmm_run(&v, 0, 0, PFN_GPA);
-+	expect_memory_fault(&v, PFN_GPA);
-+	mps_set(v.child, MPS_SET_READONLY, PFN_OFF, PAGE, false);
-+	vmm_run(&v, 0, 0, PFN_GPA);
-+	TEST_ASSERT(expect_sync_then_done(&v) == MAGIC,
-+		    "the private page lost its contents while read only");
-+
-+	/* Back to shared: the device maps it again, with the contents. */
-+	TEST_ASSERT(!__gmem_set_shared(v.gmem, PFN_OFF, PAGE, &err),
-+		    "conversion to shared errno=%d", errno);
-+	TEST_ASSERT(vmm_iova_phys(&v, PFN_IOVA), "device does not map the page");
-+	TEST_ASSERT(*host == MAGIC, "host does not see the page");
-+
-+	/* A shared page taken back and given back: the device follows. */
-+	mps_set(v.child, MPS_SET_PRESENT, PFN_OFF, PAGE, false);
-+	TEST_ASSERT(!vmm_iova_phys(&v, PFN_IOVA), "device maps an absent page");
-+	TEST_ASSERT(host_read_faults(host), "host maps an absent page");
-+	mps_set(v.child, MPS_SET_PRESENT, PFN_OFF, PAGE, true);
-+	TEST_ASSERT(vmm_iova_phys(&v, PFN_IOVA),
-+		    "device does not map a page given back");
-+
-+	/*
-+	 * A punch hole gives the frame back to the provider, which zeroes it
-+	 * and keeps backing the page: the device maps the same frame
-+	 * afterwards, and the host reads it zeroed.
-+	 */
-+	frame = vmm_iova_phys(&v, PFN_IOVA);
-+	*host = MAGIC;
-+	TEST_ASSERT(!fallocate(v.gmem, FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE,
-+			       PFN_OFF, PAGE),
-+		    "punch hole errno=%d", errno);
-+	TEST_ASSERT(vmm_iova_phys(&v, PFN_IOVA) == frame,
-+		    "device does not map the page after a punch hole");
-+	TEST_ASSERT(!*host, "a punched page kept its contents");
-+
-+	vmm_destroy(&v);
-+}
-+
-+/*
-+ * A private 2 MiB block of a PFN mode provider gets one stage-2 mapping, which a
-+ * change inside the block takes away; the rest of the block stays readable.
-+ */
-+static void scenario_large(void)
++	struct list_head tracker;
+ };
+ 
+ static inline bool iopt_is_dmabuf(struct iopt_pages *pages)
+@@ -255,6 +260,12 @@ static inline bool iopt_is_dmabuf(struct iopt_pages *pages)
+ 	return pages->type == IOPT_ADDRESS_DMABUF;
+ }
+ 
++/* The owner of the pages can revoke them, so their domains are tracked. */
++static inline bool iopt_pages_tracked(struct iopt_pages *pages)
 +{
-+	struct vmm v = { .name = "pfn" };
-+	uint64_t before, after, err = 0;
-+
-+	pr_info("5. a 2 MiB private mapping on a PFN mode provider\n");
-+	vmm_setup(&v, BACKING_PFN);
-+
-+	if (vmm_iova_phys(&v, IOVA) & (HPAGE - 1)) {
-+		pr_info("   skipped: the file's frames are not 2 MiB aligned\n");
-+		vmm_destroy(&v);
-+		return;
-+	}
-+
-+	/* Fault in the guest's code and stack first, then count. */
-+	vmm_run(&v, 0, 0, 0);
-+	expect_done(&v);
-+	TEST_ASSERT(!__gmem_set_private(v.gmem, LARGE_OFF, HPAGE, &err),
-+		    "conversion of a 2 MiB block errno=%d", errno);
-+	TEST_ASSERT(vmm_iova_mapped(&v, LARGE_IOVA, HPAGE, false),
-+		    "device maps part of a private block");
-+	before = vm_get_stat(v.vm, pages_2m);
-+
-+	vmm_run(&v, LARGE_GPA, MAGIC, 0);
-+	expect_done(&v);
-+	after = vm_get_stat(v.vm, pages_2m);
-+	TEST_ASSERT(after == before + 1, "%llu 2 MiB mappings, want %llu",
-+		    (unsigned long long)after, (unsigned long long)before + 1);
-+
-+	/*
-+	 * A page taken out of the block removes the 2 MiB mapping; the other
-+	 * pages still work.
-+	 */
-+	mps_set(v.child, MPS_SET_PRESENT, LARGE_OFF + PAGE, PAGE, false);
-+	TEST_ASSERT(vm_get_stat(v.vm, pages_2m) == before,
-+		    "the 2 MiB mapping survived a change inside it");
-+	vmm_run(&v, 0, 0, LARGE_GPA);
-+	TEST_ASSERT(expect_sync_then_done(&v) == MAGIC,
-+		    "the rest of the block lost the guest's write");
-+	TEST_ASSERT(vm_get_stat(v.vm, pages_2m) == before,
-+		    "a 2 MiB mapping over a block with a hole");
-+	vmm_run(&v, 0, 0, LARGE_GPA + PAGE);
-+	expect_memory_fault(&v, LARGE_GPA + PAGE);
-+	mps_set(v.child, MPS_SET_PRESENT, LARGE_OFF + PAGE, PAGE, true);
-+	vmm_run(&v, 0, 0, LARGE_GPA + PAGE);
-+	TEST_ASSERT(!expect_sync_then_done(&v),
-+		    "a page given back kept its contents");
-+
-+	/* Shared again: the device maps the whole block. */
-+	TEST_ASSERT(!__gmem_set_shared(v.gmem, LARGE_OFF, HPAGE, &err),
-+		    "conversion to shared errno=%d", errno);
-+	TEST_ASSERT(vmm_iova_mapped(&v, LARGE_IOVA, HPAGE, true),
-+		    "device does not map the shared block");
-+
-+	vmm_destroy(&v);
++	return iopt_is_dmabuf(pages);
 +}
 +
-+/*
-+ * A provider that backs a hole with the whole 2 MiB block around it: the
-+ * device maps the block, whether a host fault or fallocate() asks for one
-+ * page of it.
-+ */
-+static void scenario_fill(void)
-+{
-+	struct mps_new_file nf = { .flags = MPS_NEW_FILE_FILL,
-+				   .size = FILE_SIZE };
-+	struct vmm v = { .name = "pfn" };
-+	volatile uint64_t *host;
-+	int fd;
-+
-+	pr_info("6. a provider that backs 2 MiB blocks on demand\n");
-+	fd = ioctl(ctl, MPS_NEW_FILE, &nf);
-+	TEST_ASSERT(fd >= 0, "MPS_NEW_FILE(FILL) errno=%d", errno);
-+	vmm_create_type(&v, KVM_X86_SW_PROTECTED_VM);
-+	v.pfn = true;
-+	vmm_attach(&v, fd);
-+
-+	mps_set(v.child, MPS_SET_PRESENT, 0, FILE_SIZE, false);
-+	TEST_ASSERT(vmm_iova_mapped(&v, IOVA, FILE_SIZE, false),
-+		    "device maps absent pages");
-+
-+	host = (volatile uint64_t *)(v.hva + LARGE_OFF + 5 * PAGE);
-+	TEST_ASSERT(!*host, "a page backed on demand is not zeroed");
-+	TEST_ASSERT(vmm_iova_mapped(&v, LARGE_IOVA, HPAGE, true),
-+		    "device does not map the block backed for a host fault");
-+
-+	TEST_ASSERT(!fallocate(v.gmem, FALLOC_FL_KEEP_SIZE, 3 * PAGE, PAGE),
-+		    "fallocate errno=%d", errno);
-+	TEST_ASSERT(vmm_iova_mapped(&v, IOVA, HPAGE, true),
-+		    "device does not map the block backed for fallocate()");
-+
-+	/*
-+	 * A punch hole gives the block back and the provider frees it: the
-+	 * device sees a hole until the next access backs the block again.
-+	 */
-+	*host = MAGIC;
-+	TEST_ASSERT(!fallocate(v.gmem, FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE,
-+			       LARGE_OFF, HPAGE),
-+		    "punch hole errno=%d", errno);
-+	TEST_ASSERT(vmm_iova_mapped(&v, LARGE_IOVA, HPAGE, false),
-+		    "device maps a block the provider freed");
-+	TEST_ASSERT(vmm_iova_mapped(&v, IOVA, HPAGE, true),
-+		    "device lost the block next to the punch hole");
-+	TEST_ASSERT(!*host, "a block backed again is not zeroed");
-+	TEST_ASSERT(vmm_iova_mapped(&v, LARGE_IOVA, HPAGE, true),
-+		    "device does not map the block backed again");
-+
-+	vmm_destroy(&v);
-+}
-+
-+int main(void)
-+{
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_VM_TYPES) &
-+		     BIT(KVM_X86_SW_PROTECTED_VM));
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES));
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_GUEST_MEMFD_FLAGS) &
-+		     GUEST_MEMFD_FLAG_USE_RESOURCE);
-+
-+	scenario_convert(BACKING_FOLIO);
-+	scenario_alloc(BACKING_FOLIO);
-+	scenario_convert(BACKING_TMPFS);
-+	scenario_alloc(BACKING_TMPFS);
-+	ioas_check_map_overflow();
-+	scenario_poison(BACKING_FOLIO);
-+	scenario_poison(BACKING_TMPFS);
-+	scenario_two_ioas();
-+
-+	ctl = open("/dev/mem_provider_sample", O_RDWR);
-+	if (ctl < 0) {
-+		pr_info("PFN mode scenarios skipped: mem_provider_sample not loaded\n");
-+		return 0;
-+	}
-+
-+	scenario_convert(BACKING_PFN);
-+	scenario_readonly();
-+	scenario_pfn();
-+	scenario_large();
-+	scenario_fill();
-+
-+	close(ctl);
-+	pr_info("gmem_conversion_iommufd: all scenarios passed\n");
-+	return 0;
-+}
+ static inline bool iopt_dmabuf_revoked(struct iopt_pages *pages)
+ {
+ 	lockdep_assert_held(&pages->mutex);
+diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
+index 404f31d8f729..cf0f08c4e9a6 100644
+--- a/drivers/iommu/iommufd/pages.c
++++ b/drivers/iommu/iommufd/pages.c
+@@ -1384,6 +1384,7 @@ static struct iopt_pages *iopt_alloc_pages(unsigned long start_byte,
+ 	pages->npages = DIV_ROUND_UP(length + start_byte, PAGE_SIZE);
+ 	pages->access_itree = RB_ROOT_CACHED;
+ 	pages->domains_itree = RB_ROOT_CACHED;
++	INIT_LIST_HEAD(&pages->tracker);
+ 	pages->writable = writable;
+ 	if (capable(CAP_IPC_LOCK))
+ 		pages->account_mode = IOPT_PAGES_ACCOUNT_NONE;
+@@ -1434,13 +1435,13 @@ struct iopt_pages *iopt_alloc_file_pages(struct file *file,
+ static void iopt_revoke_notify(struct dma_buf_attachment *attach)
+ {
+ 	struct iopt_pages *pages = attach->importer_priv;
+-	struct iopt_pages_dmabuf_track *track;
++	struct iopt_pages_track *track;
+ 
+ 	guard(mutex)(&pages->mutex);
+ 	if (iopt_dmabuf_revoked(pages))
+ 		return;
+ 
+-	list_for_each_entry(track, &pages->dmabuf.tracker, elm) {
++	list_for_each_entry(track, &pages->tracker, elm) {
+ 		struct iopt_area *area = track->area;
+ 
+ 		iopt_area_unmap_domain_range(area, track->domain,
+@@ -1557,7 +1558,6 @@ struct iopt_pages *iopt_alloc_dmabuf_pages(struct iommufd_ctx *ictx,
+ 	pages->account_mode = IOPT_PAGES_ACCOUNT_NONE;
+ 	pages->type = IOPT_ADDRESS_DMABUF;
+ 	pages->dmabuf.start = start - start_byte;
+-	INIT_LIST_HEAD(&pages->dmabuf.tracker);
+ 
+ 	rc = iopt_map_dmabuf(ictx, pages, dmabuf);
+ 	if (rc) {
+@@ -1568,16 +1568,16 @@ struct iopt_pages *iopt_alloc_dmabuf_pages(struct iommufd_ctx *ictx,
+ 	return pages;
+ }
+ 
+-int iopt_dmabuf_track_domain(struct iopt_pages *pages, struct iopt_area *area,
+-			     struct iommu_domain *domain)
++int iopt_pages_track_domain(struct iopt_pages *pages, struct iopt_area *area,
++			    struct iommu_domain *domain)
+ {
+-	struct iopt_pages_dmabuf_track *track;
++	struct iopt_pages_track *track;
+ 
+ 	lockdep_assert_held(&pages->mutex);
+-	if (WARN_ON(!iopt_is_dmabuf(pages)))
++	if (WARN_ON(!iopt_pages_tracked(pages)))
+ 		return -EINVAL;
+ 
+-	list_for_each_entry(track, &pages->dmabuf.tracker, elm)
++	list_for_each_entry(track, &pages->tracker, elm)
+ 		if (WARN_ON(track->domain == domain && track->area == area))
+ 			return -EINVAL;
+ 
+@@ -1586,21 +1586,20 @@ int iopt_dmabuf_track_domain(struct iopt_pages *pages, struct iopt_area *area,
+ 		return -ENOMEM;
+ 	track->domain = domain;
+ 	track->area = area;
+-	list_add_tail(&track->elm, &pages->dmabuf.tracker);
++	list_add_tail(&track->elm, &pages->tracker);
+ 
+ 	return 0;
+ }
+ 
+-void iopt_dmabuf_untrack_domain(struct iopt_pages *pages,
+-				struct iopt_area *area,
+-				struct iommu_domain *domain)
++void iopt_pages_untrack_domain(struct iopt_pages *pages, struct iopt_area *area,
++			       struct iommu_domain *domain)
+ {
+-	struct iopt_pages_dmabuf_track *track;
++	struct iopt_pages_track *track;
+ 
+ 	lockdep_assert_held(&pages->mutex);
+-	WARN_ON(!iopt_is_dmabuf(pages));
++	WARN_ON(!iopt_pages_tracked(pages));
+ 
+-	list_for_each_entry(track, &pages->dmabuf.tracker, elm) {
++	list_for_each_entry(track, &pages->tracker, elm) {
+ 		if (track->domain == domain && track->area == area) {
+ 			list_del(&track->elm);
+ 			kfree(track);
+@@ -1610,36 +1609,36 @@ void iopt_dmabuf_untrack_domain(struct iopt_pages *pages,
+ 	WARN_ON(true);
+ }
+ 
+-int iopt_dmabuf_track_all_domains(struct iopt_area *area,
+-				  struct iopt_pages *pages)
++int iopt_pages_track_all_domains(struct iopt_area *area,
++				 struct iopt_pages *pages)
+ {
+-	struct iopt_pages_dmabuf_track *track;
++	struct iopt_pages_track *track;
+ 	struct iommu_domain *domain;
+ 	unsigned long index;
+ 	int rc;
+ 
+-	list_for_each_entry(track, &pages->dmabuf.tracker, elm)
++	list_for_each_entry(track, &pages->tracker, elm)
+ 		if (WARN_ON(track->area == area))
+ 			return -EINVAL;
+ 
+ 	xa_for_each(&area->iopt->domains, index, domain) {
+-		rc = iopt_dmabuf_track_domain(pages, area, domain);
++		rc = iopt_pages_track_domain(pages, area, domain);
+ 		if (rc)
+ 			goto err_untrack;
+ 	}
+ 	return 0;
+ err_untrack:
+-	iopt_dmabuf_untrack_all_domains(area, pages);
++	iopt_pages_untrack_all_domains(area, pages);
+ 	return rc;
+ }
+ 
+-void iopt_dmabuf_untrack_all_domains(struct iopt_area *area,
+-				     struct iopt_pages *pages)
++void iopt_pages_untrack_all_domains(struct iopt_area *area,
++				    struct iopt_pages *pages)
+ {
+-	struct iopt_pages_dmabuf_track *track;
+-	struct iopt_pages_dmabuf_track *tmp;
++	struct iopt_pages_track *track;
++	struct iopt_pages_track *tmp;
+ 
+-	list_for_each_entry_safe(track, tmp, &pages->dmabuf.tracker,
++	list_for_each_entry_safe(track, tmp, &pages->tracker,
+ 				 elm) {
+ 		if (track->area == area) {
+ 			list_del(&track->elm);
+@@ -1656,6 +1655,7 @@ void iopt_release_pages(struct kref *kref)
+ 	WARN_ON(!RB_EMPTY_ROOT(&pages->domains_itree.rb_root));
+ 	WARN_ON(pages->npinned);
+ 	WARN_ON(!xa_empty(&pages->pinned_pfns));
++	WARN_ON(!list_empty(&pages->tracker));
+ 	if (iopt_is_dmabuf(pages) && pages->dmabuf.attach) {
+ 		struct dma_buf *dmabuf = pages->dmabuf.attach->dmabuf;
+ 
+@@ -1664,7 +1664,6 @@ void iopt_release_pages(struct kref *kref)
+ 		dma_resv_unlock(dmabuf->resv);
+ 		dma_buf_detach(dmabuf, pages->dmabuf.attach);
+ 		dma_buf_put(dmabuf);
+-		WARN_ON(!list_empty(&pages->dmabuf.tracker));
+ 	} else if (pages->type == IOPT_ADDRESS_FILE) {
+ 		fput(pages->file);
+ 	}
+@@ -1749,7 +1748,7 @@ static void __iopt_area_unfill_domain(struct iopt_area *area,
+ 
+ 	lockdep_assert_held(&pages->mutex);
+ 
+-	if (iopt_is_dmabuf(pages)) {
++	if (iopt_pages_tracked(pages)) {
+ 		if (WARN_ON(iopt_dmabuf_revoked(pages)))
+ 			return;
+ 		iopt_area_unmap_domain_range(area, domain, start_index,
+@@ -1917,8 +1916,8 @@ int iopt_area_fill_domains(struct iopt_area *area, struct iopt_pages *pages)
+ 		return 0;
+ 
+ 	mutex_lock(&pages->mutex);
+-	if (iopt_is_dmabuf(pages)) {
+-		rc = iopt_dmabuf_track_all_domains(area, pages);
++	if (iopt_pages_tracked(pages)) {
++		rc = iopt_pages_track_all_domains(area, pages);
+ 		if (rc)
+ 			goto out_unlock;
+ 	}
+@@ -1983,8 +1982,8 @@ int iopt_area_fill_domains(struct iopt_area *area, struct iopt_pages *pages)
+ 	}
+ 	pfn_reader_destroy(&pfns);
+ out_untrack:
+-	if (iopt_is_dmabuf(pages))
+-		iopt_dmabuf_untrack_all_domains(area, pages);
++	if (iopt_pages_tracked(pages))
++		iopt_pages_untrack_all_domains(area, pages);
+ out_unlock:
+ 	mutex_unlock(&pages->mutex);
+ 	return rc;
+@@ -2024,8 +2023,8 @@ void iopt_area_unfill_domains(struct iopt_area *area, struct iopt_pages *pages)
+ 		WARN_ON(RB_EMPTY_NODE(&area->pages_node.rb));
+ 	interval_tree_remove(&area->pages_node, &pages->domains_itree);
+ 	iopt_area_unfill_domain(area, pages, area->storage_domain);
+-	if (iopt_is_dmabuf(pages))
+-		iopt_dmabuf_untrack_all_domains(area, pages);
++	if (iopt_pages_tracked(pages))
++		iopt_pages_untrack_all_domains(area, pages);
+ 	area->storage_domain = NULL;
+ out_unlock:
+ 	mutex_unlock(&pages->mutex);
 -- 
 2.47.3
 
