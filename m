@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793122263;
-	b=pzro98yz/DhvENOPwR0gGATGvCKLmXqLl86SleNFBbmCBUTmCZyMyK7DOD6omm33yVBu
-	 xqe+5BczohH81Rdn49RfoodCw95ENKdz2Y3vIsYWwBpUjSzLIIxpNrhgG21oQcTgvhKKH
-	 14CXo0Ccx1KadUTR9im1fvhc0ypKiE2pMfv3SOluniUAZrrD3HDSSK06sNe6FBqYP3dlC
-	 EBrmESku9hWZSk6owSayC6oxs+TTBaZ2j+0aNvE1jEooola6pTSaHeHzVf6GcuDuunmRU
-	 PR4o/8Eu+ludzNhhLPQJ+Et2A1Q78M8etw06ANAzCgJ3wcZsyI+Eu84HG1oMlQKJEPw==
+	t=1793122268;
+	b=nSywFEv/X5x3sd5Nn/yWdEeXwbZ0LzduiQLnMsHdGIPTyPxV3Ogyu3xZlrNcRXgTrTwd
+	 IU0PYWhKPT1u+bNgnR9uBuwQdwnbvGXrbNmmJOVc/tGzsPpwpc8zYKaco9cPn+jYAGnHd
+	 C0a4QuG6f/NYIzTtATzmZgtGmmkuL9c6+lcqpvCAjcZn3Cm5ub7lPz4N4WjNFDsB2Walc
+	 kL8n+MLS4lxYxK6agTBMoyvxYUTjtWtPesXnUFTAPqVOuITDLA0kF+Y4BbUijZJNU6Ysi
+	 kKCtZr88ODiE6HDKJnLrb1kGgD5ZW2/dGBseDx6Y1PLpZj8WVe/2ZYyFDZo2AnzMPaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793122263;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793122268;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=0FxSL0MdIFT3YqQ6rFC+3X+II8bjQEN1UeBYeSrjwsA=;
-	b=npOa+sS8WSArzQi00ZsNKsoKNTFaKruaU/0sEKpVKl5ionHJO9wbDLjds2Oarylyi2cE
-	 bg1QbM8awB/bmOW9+AfOgfbVcsrJpolkrYtNpulONfi+P+E1WuO7BB8oVmj39up8cfkl1
-	 2X3qJ48SEKgCtaO/xWZRREuUCMfGwAnyhBaVwx7ZtVOnfwoH12BHUswybNemsLKouDA5K
-	 RdqOhTiPmAsBqagvmzQBS7U60ZEZuWywIZ9tTVBSwyfCk/U7w2GReFnFlJ70VEYhjUxvJ
-	 Uc9RSkWJudfgdcRI+e11KdlED7q01HMX5vJVUzF+ayaN0q645QshSqF/hhymD2+lJGQ==
+	bh=0rXX72QkkMNxUUHqhgUYPlP4XJOtkfbvlqTiUHhhmKA=;
+	b=4p79GP3DnEiybFgpwKNKxjay8jaiv3SUjTjFUADT9q8VOQaY9mCyPMkPBDVH6Ec1g5kS
+	 tYyZKTdP4IUYqTBt1y6CAQB+PI/n0cIEhFLkj7lPgEpCVdjHIVrWUrfAJmYr7ZXycQjPN
+	 pOqZR11StcfpzGPb6/rWfdZr6FlAgKTA0fAAXLjik1qGxgZIL/FSbbum8w4c7Hngzenhc
+	 n0RdA33nDZjucL1GPhZyw8XTrlS2To841V82ZTOZM4P4tYJRh+2q4LhigMlPdTLdKIpkt
+	 2QWeGQ8W7yzsy0gDaV7dsY7dymtCHMUb7EPoVjy8//DS5s0QcCx6gZSBdIVxr+m/OIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Jreo/L3e";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aF6xwySZ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97543606A320;
-	Tue, 27 Oct 2026 17:31:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716B4606A329;
+	Tue, 27 Oct 2026 17:31:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jreo/L3e
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1BA31F01825;
-	Tue, 27 Oct 2026 17:30:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aF6xwySZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 363341F01828;
+	Tue, 27 Oct 2026 17:31:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793122261;
-	bh=0FxSL0MdIFT3YqQ6rFC+3X+II8bjQEN1UeBYeSrjwsA=;
+	s=k20260515; t=1793122268;
+	bh=0rXX72QkkMNxUUHqhgUYPlP4XJOtkfbvlqTiUHhhmKA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Jreo/L3e5xwWTvSvRS206htvxymahCL0ryi4wO8XiG0exKfY8QEdWdab98t8wWAZV
-	 WAOicGqJ6dUYBtdyE/Jxb1L0snF2sLRyi93Kz4l6jOWZZ+VKIeuOyoHXItffNbHN2K
-	 PaQ9UYzd5TexHNoEkNOEYdiVzlxbJZrW6LFLGHQMYC6osGRwpGTT4R5qrL0VUiz/Ke
-	 +2YmV9tF9GRkFFZAvbPB2sjJSGU4gz/ksw08mwaPzEQuLzi7izEhDNiTiKtuuU/yPv
-	 Odh53wXbLHPEWPTzSPH1RxI7IUWHnSpMCUycOtz5VdRRUD7N+QBbkPDAVateqn1kCj
-	 6DEC6HT5irkZw==
+	b=aF6xwySZZApmTdpaCXSatBfnZOOotDVkR8I9FkO8yyQ+Cs4uq13zPHKU/3ixjDepY
+	 8JdleieyT5tKH9Y/pUSFeZRxl94f5TfnRu2sjweU96LACHrKcQQxK8CEwErEVpOnHy
+	 rFpGUKDOZZTiXestura3Qyb8exjTZZdNHYYK3LxJGkSq3Sa0pDLJypB7epi5mhuEaD
+	 r2UXNflmSzRbC2cNyxlrjXDe+XThO74Lt/uHmRnv/4p6kOinjIpDTzHo2T1/vSfHdU
+	 BCtxgBWxGZ6fIb8iF52KdauoT5bJ3+d6B/CHlvovKVeXS9695U1D+TmplXLh0UNl1F
+	 bXu0n9iDHSbsQ==
 From: Pratyush Yadav <pratyush@kernel.org>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>,
@@ -80,9 +80,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	kexec@lists.infradead.org
-Subject: [PATCH 2/3] mm: allow freezing i_pages
-Date: Tue, 27 Oct 2026 18:30:27 +0100
-Message-ID: <20261027173031.763213-3-pratyush@kernel.org>
+Subject: [PATCH 3/3] mm: shmem: use mapping_set_frozen() for memfd preservation
+Date: Tue, 27 Oct 2026 18:30:28 +0100
+Message-ID: <20261027173031.763213-4-pratyush@kernel.org>
 X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
 In-Reply-To: <20261027173031.763213-1-pratyush@kernel.org>
 References: <20261027173031.763213-1-pratyush@kernel.org>
@@ -99,372 +99,164 @@ Content-Transfer-Encoding: 8bit
 
 From: "Pratyush Yadav (Google)" <pratyush@kernel.org>
 
-Live update preserves file-backed memory across kexec by serializing the
-index -> folio relationship of the file's page cache. Once serialized, the
-page cache must not change, otherwise the serialized data goes stale. memfd
-preservation currently does this with a shmem-only flag that just blocks
-size changes and fallocate. This leaves other paths that change the page
-cache, like reclaim, migration, and THP split and collapse, unchecked. It
-also can't be reused for hugetlb or guest_memfd preservation.
+memfd preservation via LUO freezes the shmem mapping with
+SHMEM_F_MAPPING_FROZEN. That flag only blocks size changes and
+fallocate(), so other paths can still change the page cache of a
+preserved memfd. memfd_luo avoids it by pinning all folios and faulting
+in all the holes.
 
-Add AS_FROZEN, a mapping flag that freezes the page cache. While it is
-set, no folio can be added to, removed from, or replaced in the mapping.
-Check it in the core paths that change i_pages and refuse the change
-there. The flag is set and cleared under the i_pages lock.
+The page cache now natively supports freezing mappings. Switch over the
+code to use that instead.
 
-Setting the flag can race with truncation or fallocate, causing them to
-fail mid-way. The file systems must ensure that these operations don't
-race with the flag setter.
+Disallow any type of truncation on frozen mappings, even one with same
+size, since it might drop fallocated folios past EOF, and would fail in
+shmem_undo_range() with a warning.
 
-The freezer must hold a reference to the inode until it is unfrozen.
-This is because eviction will naturally result in changes to i_pages.
-Evicting a frozen inode is a bug and will trigger a warning, but it
-still frees the pages to avoid leaking memory.
+memfd_luo_preserve() now freezes the mapping after grabbing the folios,
+instead of before. The grabbing fills holes in the file and may migrate
+folios, both of which a frozen mapping refuses. The inode lock is held
+throughout, so truncate, fallocate and writes can't change the file in
+between.
 
 Signed-off-by: Pratyush Yadav (Google) <pratyush@kernel.org>
 ---
- fs/inode.c              |  9 +++++++++
- include/linux/pagemap.h | 35 +++++++++++++++++++++++++++++++++++
- mm/filemap.c            |  7 +++++++
- mm/huge_memory.c        | 10 ++++++++++
- mm/khugepaged.c         | 12 ++++++++++++
- mm/migrate.c            | 14 ++++++++++++--
- mm/shmem.c              | 19 +++++++++++++++++++
- mm/truncate.c           | 16 +++++++++++++++-
- mm/vmscan.c             |  3 +++
- 9 files changed, 122 insertions(+), 3 deletions(-)
+ include/linux/shmem_fs.h | 17 -----------------
+ mm/memfd_luo.c           | 11 ++++++++---
+ mm/shmem.c               | 15 +++++++--------
+ 3 files changed, 15 insertions(+), 28 deletions(-)
 
-diff --git a/fs/inode.c b/fs/inode.c
-index a9d37be390a17..635083c42419f 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -7,6 +7,7 @@
- #include <linux/fs.h>
- #include <linux/filelock.h>
- #include <linux/mm.h>
-+#include <linux/pagemap.h>
- #include <linux/backing-dev.h>
- #include <linux/hash.h>
- #include <linux/swap.h>
-@@ -818,6 +819,14 @@ static void evict(struct inode *inode)
- 	inode_wait_for_writeback(inode);
- 	spin_unlock(&inode->i_lock);
+diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+index a7c7a96a7cbf9..5b48598a7b952 100644
+--- a/include/linux/shmem_fs.h
++++ b/include/linux/shmem_fs.h
+@@ -23,14 +23,6 @@
+ #define SHMEM_F_NORESERVE	BIT(0)
+ /* Disallow swapping. */
+ #define SHMEM_F_LOCKED		BIT(1)
+-/*
+- * Disallow growing, shrinking, or hole punching in the inode. Combined with
+- * folio pinning, makes sure the inode's mapping stays fixed.
+- *
+- * In some ways similar to F_SEAL_GROW | F_SEAL_SHRINK, but can be removed and
+- * isn't directly visible to userspace.
+- */
+-#define SHMEM_F_MAPPING_FROZEN	BIT(2)
  
-+	/*
-+	 * Whoever froze the mapping must hold an inode reference until it is
-+	 * unfrozen, so this should never happen. If it does, unfreeze it so
-+	 * the final truncate does not leak folios.
-+	 */
-+	if (WARN_ON_ONCE(mapping_frozen(&inode->i_data)))
-+		clear_bit(AS_FROZEN, &inode->i_data.flags);
-+
- 	if (op->evict_inode) {
- 		op->evict_inode(inode);
- 	} else {
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index 73af18a373670..9b9d0459f3992 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -209,6 +209,7 @@ enum mapping_flags {
- 	AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM = 9,
- 	AS_KERNEL_FILE = 10,	/* mapping for a fake kernel file that shouldn't
- 				   account usage to user cgroups */
-+	AS_FROZEN = 11,		/* index -> folio mapping must not change */
- 	/* Bits 16-25 are used for FOLIO_ORDER */
- 	AS_FOLIO_ORDER_BITS = 5,
- 	AS_FOLIO_ORDER_MIN = 16,
-@@ -344,6 +345,40 @@ static inline bool mapping_writeback_may_deadlock_on_reclaim(const struct addres
- 	return test_bit(AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM, &mapping->flags);
+ struct shmem_inode_info {
+ 	spinlock_t		lock;
+@@ -202,15 +194,6 @@ static inline bool shmem_file(struct file *file)
+ 	return shmem_mapping(file->f_mapping);
  }
  
-+/*
-+ * A frozen mapping disallows any change to its i_pages: no folio can be added,
-+ * removed, replaced (migration, swap out), split, or collapsed.
-+ *
-+ * Only the page cache is frozen, not the file. Operations that need to change
-+ * the page cache fail with -EBUSY, e.g. a write or fault that needs to allocate
-+ * a new folio. Others, like reading or writing (to pages already in i_pages),
-+ * still work.
-+ *
-+ * Locking: the flag is flipped under the i_pages lock. The filesystem must
-+ * ensure mapping_set_frozen() doesn't race with a truncate or fallocate, since
-+ * those can fail if frozen mid-way.
-+ *
-+ * The mapping must be unfrozen before the inode is evicted.
-+ */
-+static inline void mapping_set_frozen(struct address_space *mapping)
-+{
-+	xa_lock_irq(&mapping->i_pages);
-+	set_bit(AS_FROZEN, &mapping->flags);
-+	xa_unlock_irq(&mapping->i_pages);
-+}
-+
-+static inline void mapping_clear_frozen(struct address_space *mapping)
-+{
-+	xa_lock_irq(&mapping->i_pages);
-+	clear_bit(AS_FROZEN, &mapping->flags);
-+	xa_unlock_irq(&mapping->i_pages);
-+}
-+
-+static inline bool mapping_frozen(const struct address_space *mapping)
-+{
-+	return test_bit(AS_FROZEN, &mapping->flags);
-+}
-+
- static inline gfp_t mapping_gfp_mask(const struct address_space *mapping)
- {
- 	return mapping->gfp_mask;
-diff --git a/mm/filemap.c b/mm/filemap.c
-index b74bc1e5015c6..d040c69177f79 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -138,6 +138,7 @@ static void page_cache_delete(struct address_space *mapping,
- 	nr = folio_nr_pages(folio);
- 
- 	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
-+	VM_WARN_ON_ONCE_FOLIO(mapping_frozen(mapping), folio);
- 
- 	xas_store(&xas, shadow);
- 	xas_init_marks(&xas);
-@@ -284,6 +285,7 @@ static void page_cache_delete_batch(struct address_space *mapping,
- 	int i = 0;
- 	struct folio *folio;
- 
-+	VM_WARN_ON_ONCE(mapping_frozen(mapping));
- 	mapping_set_update(&xas, mapping);
- 	xas_for_each(&xas, folio, ULONG_MAX) {
- 		if (i >= folio_batch_count(fbatch))
-@@ -826,6 +828,7 @@ void replace_page_cache_folio(struct folio *old, struct folio *new)
- 	mem_cgroup_replace_folio(old, new);
- 
- 	xas_lock_irq(&xas);
-+	VM_WARN_ON_ONCE_FOLIO(mapping_frozen(mapping), old);
- 	xas_store(&xas, new);
- 
- 	old->mapping = NULL;
-@@ -873,6 +876,10 @@ noinline int __filemap_add_folio(struct address_space *mapping,
- 		void *entry, *old = NULL;
- 
- 		xas_lock_irq(&xas);
-+		if (unlikely(mapping_frozen(mapping))) {
-+			xas_set_err(&xas, -EBUSY);
-+			goto unlock;
-+		}
- 		xas_for_each_conflict(&xas, entry) {
- 			old = entry;
- 			if (!xa_is_value(entry)) {
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index bd44d58e86845..06d2f71ec7498 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -3948,6 +3948,10 @@ int folio_check_splittable(struct folio *folio, unsigned int new_order,
- 	if (!folio->mapping && !is_anon)
- 		return -EBUSY;
- 
-+	/* Splitting would change a frozen mapping. */
-+	if (!folio_test_anon(folio) && mapping_frozen(folio->mapping))
-+		return -EBUSY;
-+
- 	/* order-1 is not supported for anonymous THP. */
- 	if (is_anon && new_order == 1)
- 		return -EINVAL;
-@@ -4186,6 +4190,12 @@ static int __folio_freeze_split_file(struct folio *folio,
- 
- 	xas_lock_irq(&xas);
- 
-+	/* Can't change a frozen mapping. */
-+	if (mapping_frozen(mapping)) {
-+		ret = -EBUSY;
-+		goto fail;
-+	}
-+
- 	/*
- 	 * Check if the folio is present in page cache.
- 	 * We assume all tail are present too, if folio is there.
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index da91762f6358f..5c78573f57c47 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -2531,6 +2531,12 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
- 		i_mmap_lock_read(mapping);
- 		xas_lock_irq(&xas);
- 
-+		/* Can't collapse folios in a frozen mapping. */
-+		if (mapping_frozen(mapping)) {
-+			result = SCAN_FAIL;
-+			goto immap_locked;
-+		}
-+
- 		xas_set(&xas, start);
- 		for (index = start; index < end; index++) {
- 			if (!xas_next(&xas)) {
-@@ -2582,6 +2588,12 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
- 		}
- 	} else {
- 		xas_lock_irq(&xas);
-+		/* Can't collapse folios in a frozen mapping. */
-+		if (mapping_frozen(mapping)) {
-+			xas_unlock_irq(&xas);
-+			result = SCAN_FAIL;
-+			goto rollback;
-+		}
- 	}
- 
- 	if (is_shmem) {
-diff --git a/mm/migrate.c b/mm/migrate.c
-index d649a6cfce6c0..6ce01871d72e3 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -614,10 +614,16 @@ static int __folio_migrate_mapping(struct address_space *mapping,
- 	oldzone = folio_zone(folio);
- 	newzone = folio_zone(newfolio);
- 
--	if (folio_test_swapcache(folio))
-+	if (folio_test_swapcache(folio)) {
- 		ci = swap_cluster_get_and_lock_irq(folio);
+-/* Must be called with inode lock taken exclusive. */
+-static inline void shmem_freeze(struct inode *inode, bool freeze)
+-{
+-	if (freeze)
+-		SHMEM_I(inode)->flags |= SHMEM_F_MAPPING_FROZEN;
 -	else
-+	} else {
- 		xas_lock_irq(&xas);
-+		/* Can't replace folios in a frozen mapping. */
-+		if (mapping_frozen(mapping)) {
-+			xas_unlock_irq(&xas);
-+			return -EBUSY;
-+		}
-+	}
+-		SHMEM_I(inode)->flags &= ~SHMEM_F_MAPPING_FROZEN;
+-}
+-
+ /*
+  * If fallocate(FALLOC_FL_KEEP_SIZE) has been used, there may be pages
+  * beyond i_size's notion of EOF, which fallocate has committed to reserving:
+diff --git a/mm/memfd_luo.c b/mm/memfd_luo.c
+index fe182d5057890..ec5abd41ecb8b 100644
+--- a/mm/memfd_luo.c
++++ b/mm/memfd_luo.c
+@@ -84,6 +84,7 @@
+ #include <linux/swap.h>
+ #include <linux/vmalloc.h>
+ #include <linux/memfd.h>
++#include <linux/pagemap.h>
+ #include <uapi/linux/memfd.h>
  
- 	if (!folio_ref_freeze(folio, expected_count)) {
- 		if (ci)
-@@ -750,6 +756,10 @@ int migrate_huge_page_move_mapping(struct address_space *mapping,
- 		return rc;
+ #include "internal.h"
+@@ -323,7 +324,6 @@ static int memfd_luo_preserve(struct liveupdate_file_op_args *args)
+ 	int err = 0, seals;
  
- 	xas_lock_irq(&xas);
-+	if (mapping_frozen(mapping)) {
-+		xas_unlock_irq(&xas);
-+		return -EBUSY;
-+	}
- 	if (!folio_ref_freeze(src, expected_count)) {
- 		xas_unlock_irq(&xas);
- 		return -EAGAIN;
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 13e0786436cda..6507b4246c8af 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -1121,6 +1121,10 @@ int shmem_add_to_page_cache(struct folio *folio,
- 	do {
- 		iter = swap;
- 		xas_lock_irq(&xas);
-+		if (unlikely(mapping_frozen(mapping))) {
-+			xas_set_err(&xas, -EBUSY);
-+			goto unlock;
-+		}
- 		xas_for_each_conflict(&xas, entry) {
- 			/*
- 			 * The range must either be empty, or filled with
-@@ -1345,6 +1349,10 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
- 	if (lend == -1)
- 		end = -1;	/* unsigned, so actually very big */
+ 	inode_lock(inode);
+-	shmem_freeze(inode, true);
  
-+	/* Callers must not try to truncate a frozen mapping. */
-+	if (WARN_ON_ONCE(mapping_frozen(mapping)))
-+		return;
-+
- 	if (info->fallocend > start && info->fallocend <= end && !unfalloc)
- 		info->fallocend = start;
- 
-@@ -1822,6 +1830,10 @@ int shmem_writeout(struct swap_io_ctx *ctx, struct folio *folio,
- 	if ((info->flags & SHMEM_F_LOCKED) || sbinfo->noswap)
- 		goto redirty;
- 
-+	/* Swapping out would replace the folio in a frozen mapping. */
-+	if (mapping_frozen(mapping))
-+		goto redirty;
-+
- 	if (!total_swap_pages)
- 		goto redirty;
- 
-@@ -2483,6 +2495,13 @@ static int shmem_swapin_folio(struct inode *inode, pgoff_t index,
- 	if (softleaf_is_poison_marker(index_entry))
- 		return -EIO;
+ 	/* Allocate the main serialization structure in preserved memory */
+ 	ser = kho_alloc_preserve(sizeof(*ser));
+@@ -355,6 +355,12 @@ static int memfd_luo_preserve(struct liveupdate_file_op_args *args)
+ 	if (err)
+ 		goto err_free_ser;
  
 +	/*
-+	 * Swapping in would change the i_pages of a frozen mapping. A frozen
-+	 * mapping should not have swap entries in the first place.
++	 * All the folios in the file are now stable. Freeze the mapping to make
++	 * sure new ones can't be added.
 +	 */
-+	if (unlikely(mapping_frozen(mapping)))
-+		return -EBUSY;
++	mapping_set_frozen(inode->i_mapping);
 +
- 	si = get_swap_device(index_entry);
- 	order = shmem_confirm_swap(mapping, index, index_entry);
- 	if (IS_ERR_OR_NULL(si)) {
-diff --git a/mm/truncate.c b/mm/truncate.c
-index 733d2713a875a..6512f460a28e9 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -171,6 +171,8 @@ int truncate_inode_folio(struct address_space *mapping, struct folio *folio)
- {
- 	if (folio->mapping != mapping)
- 		return -EIO;
-+	if (mapping_frozen(mapping))
-+		return -EBUSY;
+ 	ser->nr_folios = nr_folios;
+ 	inode_unlock(inode);
  
- 	truncate_cleanup_folio(folio);
- 	filemap_remove_folio(folio);
-@@ -367,6 +369,8 @@ long mapping_evict_folio(struct address_space *mapping, struct folio *folio)
- 		return 0;
- 	if (folio_test_dirty(folio) || folio_test_writeback(folio))
- 		return 0;
-+	if (mapping_frozen(mapping))
-+		return 0;
- 	/* The refcount will be elevated if any page in the folio is mapped */
- 	if (folio_ref_count(folio) >
- 			folio_nr_pages(folio) + folio_has_private(folio) + 1)
-@@ -419,6 +423,13 @@ void truncate_inode_pages_range(struct address_space *mapping,
- 	if (mapping_empty(mapping))
+@@ -366,7 +372,6 @@ static int memfd_luo_preserve(struct liveupdate_file_op_args *args)
+ err_free_ser:
+ 	kho_unpreserve_free(ser);
+ err_unlock:
+-	shmem_freeze(inode, false);
+ 	inode_unlock(inode);
+ 	return err;
+ }
+@@ -398,7 +403,7 @@ static void memfd_luo_unpreserve(struct liveupdate_file_op_args *args)
  		return;
  
-+	/*
-+	 * Callers must not try to truncate a frozen mapping. Filesystems that
-+	 * support frozen mappings must refuse shrinking and hole punching
-+	 * before getting here.
-+	 */
-+	if (WARN_ON_ONCE(mapping_frozen(mapping)))
-+		return;
- 	/*
- 	 * 'start' and 'end' always covers the range of folios to be fully
- 	 * truncated, with both boundaries aligned inwards to 1 << min_order.
-@@ -668,6 +679,9 @@ int folio_unmap_invalidate(struct address_space *mapping, struct folio *folio,
+ 	inode_lock(inode);
+-	shmem_freeze(inode, false);
++	mapping_clear_frozen(inode->i_mapping);
  
- 	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
+ 	ser = phys_to_virt(args->serialized_data);
  
-+	if (mapping_frozen(mapping))
-+		return -EBUSY;
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 6507b4246c8af..1c70fd306bec2 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -1570,8 +1570,6 @@ static int shmem_setattr(struct mnt_idmap *idmap,
+ 			return -EPERM;
+ 
+ 		if (newsize != oldsize) {
+-			if (info->flags & SHMEM_F_MAPPING_FROZEN)
+-				return -EPERM;
+ 			error = shmem_reacct_size(SHMEM_I(inode)->flags,
+ 					oldsize, newsize);
+ 			if (error)
+@@ -1583,6 +1581,11 @@ static int shmem_setattr(struct mnt_idmap *idmap,
+ 		}
+ 		if (newsize <= oldsize) {
+ 			loff_t holebegin = round_up(newsize, PAGE_SIZE);
 +
- 	if (folio_mapped(folio))
- 		unmap_mapping_folio(folio);
- 	BUG_ON(folio_mapped(folio));
-@@ -682,7 +696,7 @@ int folio_unmap_invalidate(struct address_space *mapping, struct folio *folio,
- 
- 	spin_lock(&mapping->host->i_lock);
- 	xa_lock_irq(&mapping->i_pages);
--	if (folio_test_dirty(folio))
-+	if (folio_test_dirty(folio) || mapping_frozen(mapping))
- 		goto failed;
- 
- 	BUG_ON(folio_has_private(folio));
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 9959ca158ce83..86ef233e8752e 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -766,6 +766,9 @@ static int __remove_mapping(struct address_space *mapping, struct folio *folio,
- 	} else {
- 		spin_lock(&mapping->host->i_lock);
- 		xa_lock_irq(&mapping->i_pages);
-+		/* Can't remove folios from a frozen mapping. */
-+		if (mapping_frozen(mapping))
-+			goto cannot_free;
++			/* No truncation allowed on a frozen mapping. */
++			if (mapping_frozen(inode->i_mapping))
++				return -EBUSY;
++
+ 			if (oldsize > holebegin)
+ 				unmap_mapping_range(inode->i_mapping,
+ 							holebegin, 0, 1);
+@@ -3482,10 +3485,6 @@ shmem_write_begin(const struct kiocb *iocb, struct address_space *mapping,
+ 			return -EPERM;
  	}
  
- 	/*
+-	if (unlikely((info->flags & SHMEM_F_MAPPING_FROZEN) &&
+-		     pos + len > inode->i_size))
+-		return -EPERM;
+-
+ 	ret = shmem_get_folio(inode, index, pos + len, &folio, SGP_WRITE);
+ 	if (ret)
+ 		return ret;
+@@ -3860,8 +3859,8 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
+ 
+ 	inode_lock(inode);
+ 
+-	if (info->flags & SHMEM_F_MAPPING_FROZEN) {
+-		error = -EPERM;
++	if (mapping_frozen(inode->i_mapping)) {
++		error = -EBUSY;
+ 		goto out;
+ 	}
+ 
 -- 
 2.56.0.307.g5fe7bd680c-goog
 
