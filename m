@@ -1,88 +1,122 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=96.67.55.147
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793068958;
-	b=FmQlk6gT6ayScbQ6bDcqX3jZsz932zO3phz9oK8EUnoCEBTmnRm55e4KEOLSg70lccRw
-	 It34aoO6sp5DQ/cO7Sy8ShMlRxceeS37sUYIxjnQs2NbXxsiwExaGhmgE4nZNTYl7bbpl
-	 Kyty0yN81kBtJGduIzL+On69D2eBo4k7eblu8wrnNf9IqMWyLA6TDnsT6xrQ90AJH+FIf
-	 Q2pvSWu4jgDfGNz6395PX4r5tp4/K4b5w2SOx8ZD6BbKOUD4b+9CNUQ894B2YK2F7K6mb
-	 w1s0H+pIGrGtl8zlmfCMwhf2EfTkIbHYgTFnbm9V7R5coB2Fq7uvFrgutpP2AUADthw==
+	t=1793069071;
+	b=yKzyj+0G/Kxs2S0KLo8qwftHN6uLMNXbAk0w24+FR4MGesDtrSU19WsTDKtpx1NmVdzW
+	 3+42hwOv1vx+zwVJ/OPU968PzsnvJa5QJhgseyy3GGg7gH0sGe/3CcnLQipchYxxHSsC+
+	 bSTIM//M0vvXPt7+3Qu4+9bQsf4Hivyrw70zpmDSi4T8MzESv8YC4Q60MX5k8RrOl8hhh
+	 ElA3g6PE9REr6wleVZmnzQEO6ooZxelzZf+Y+G7TwwO33M11NdIBV1tA1ZmI1MK1P6TC2
+	 3e+GwdJs1WUjOqB/S9IvfiJo1wV1QSrZL/uBK8G81RGHZQLr0lEcgW2FdwVt0XNGI0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793068958;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=/+f5haOvY7V5aJLRvqMe+OKgyMJap2D1kg9AHRnXBFo=;
-	b=MGhPdCfDmlYWh4Q4bltd+AavKwzA05TzxGhYfSZQGOty+AThIoMGktjscMKqeK+ieDHt
-	 2rVxbCOih5b/M4vJ9vdwOxFufJ6zIoZbPhLUbZB2WBtGsIJ4J9x1U20lLHyM32HOogb0G
-	 hwvAQtYXNpOqJzhmflqWqvHjGboYz4kOnted6S+PmdTGMz1HxV7iDbtBkE8e2ZxKloGae
-	 gHeKqfmUXWhsHWssGipa3G2j8iZ49IOO6t+oXlx91eauMpBZQsfU/afz00m9ar44aqJPm
-	 JDL85to1KeOOjMalicfbhYtLlY2duaa7LnOmwIN+osNqfcWOpx3rZCtudn4td/RbruA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793069071;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=jD8NrEF10P2VtaMB8bhjtU6NtVeQsEVr6wPPMXQfP+A=;
+	b=bt0pP6/Ir90aiJXqNx9D6khfgUpD+TWKyBskyCOrrPwo1q0kuL+Kx6NkrrTRW3Qf2dL1
+	 FvHOXiFnhnjPxRw36osK3/Ql0NklsCpsno3Ulcqtr6zvSz5K61t0i3wDTqZvCFb3YYFcC
+	 FkyITDoR/wBgCohR+rmFdRCzgeenFDQIEcJCim42K8Ixr7HHLfWWrVDQ2HB8ThamDSZXK
+	 0fYXKbM4LkN1OaHUTbjV514aC8cDsBvTNbEIy6bDL1MmMp2cCMO/XukfBnf1RQTvc29jG
+	 VU0DcmTO4vK2xf3NfQsJydZbSp+ZrW9UXvVb7zzfuIhSm4sDschjCAP3RN1sY6/WmFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kernel.dk;
-	spf=pass smtp.mailfrom=kernel.dk;
-	dkim=pass header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=nAMLJ4po;
-	arc=none smtp.remote-ip=74.125.82.45
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=surriel.com;
+	spf=pass smtp.mailfrom=surriel.com;
+	dkim=pass header.d=surriel.com header.i=@surriel.com header.a=rsa-sha256 header.s=mail header.b=iBq+nqKL;
+	arc=none smtp.remote-ip=96.67.55.147
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C8E606A320
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 02:42:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64C8E606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D9B606A31A;
+	Tue, 27 Oct 2026 02:44:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9D9B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=nAMLJ4po
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1846bc43c28so4071748c88.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 19:42:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1793068957; x=1793673757; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/+f5haOvY7V5aJLRvqMe+OKgyMJap2D1kg9AHRnXBFo=;
-        b=nAMLJ4pov/UKnTCLgH305UyFiee1Kbb1n3tCzOl712VaepOkFQaBHOfe8TqG3p1lZU
-         FcmqVqrrqUreTloBdzXh9C3S8RzvKdqK0Wdm3ymTtA2e7F8hg+g3tAXi0qMz5tjjKhfg
-         XZsmI+gaR0xwl7nmIQiVOSWVXQuFdQ0nDSV/JTrdP8vh+zCmGEp4ByKhGzO7Q9EFAqG7
-         Z9UxSRbzl1SyjYddPBfqeotnjUxiWUf5QMQHMI+2cHXwFS8e7Vcd6faApvoLAEI8hyVq
-         H9p+0vB8HKXlTDO8gBcIdyEeUOqojMCpKudjjewsxrlbiMp0bSMq+X14CJGfZa/XuOHM
-         djkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793068957; x=1793673757;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/+f5haOvY7V5aJLRvqMe+OKgyMJap2D1kg9AHRnXBFo=;
-        b=FbRgBD+9NDCmX98FTn9XcXkqFo/X7j/fZWlQxW+i9tCHJJ5/mRKaFwY4UPhlFv3VwP
-         uusRtLXdx7Wq5NPKebP6zR00oGXZJjnCfoPXma+9CEnaMXiLM1CWNfC6A2o6sSvm3/x9
-         1RNrdEtVhjHGyrbd3X1875UD+cKMdHl7xPkQtEOqxu7f0nJrJXgRKdEYPbEZI3UokLHQ
-         TWF+51iC5QmMy2mi3UamTMRAox5WsucfWP3WiDyKV8scWLWxQHhk6+0plAS5UlHrnSuo
-         uYUG4/IAZwCZS0vAF5k+aUNf9gaVIAYZkG+S9f69zS2MrwQ0I5743enFlsDWJV9/PJ7C
-         YSZA==
-X-Forwarded-Encrypted: i=1; AKwUvBxf9SSja+RB5ank97oTv7piAlVK8Qd4HBFH29Ms2k6j4OBXYttE+oHG0q1eoGxIr1+3YZMtBOSLCWJ1S+3P@vger.kernel.org
-X-Gm-Message-State: AFq9FYKmlHVRvfqLN5BfGlf5F/LQWG0D954Ydwo9XAV6wmaPUw+3nYbS
-	+Wcm02adgystmDUqtrnoc+UW6l0dJZ4UoJOAheuK9r7kjbus6jMznyvvD0kqnScc2wA=
-X-Gm-Gg: AYBFou2J9QPoCndDvXxNgs44J/YFe6zFWHAwzxsp/pbHXf49Uu+ElaCGFcKjLJuJije
-	Djz08G49RzlueOEariNdu1x4A2EoCvRbn/qJgsF/S1UStgl+7wbxe8Vc2UQvy/he2g9kfKyaHGx
-	mB3LiSMWGjEcatJvOc0HzrLlXX7FemB+9guZyCrfiglLqknuuh7c6j0MvmtQYfdo998BqJ7v2S4
-	HN4cD4QxmtRhF+yANoactnjFCC7vE1Q8cEE8KH+OJhXuShxoxGdR23RLifnMACYwwKCR7C1fz9Y
-	jM7qWjS3QEJm4WqhVv6rbgwvCwQkaRx0s5zz7tce2Om0IO5+5fEbv/sMqRuSlaVxfsoY38V9EB9
-	T64b8mGxdgspynAWG4FzCcFW9bllmbs7nxr6dsVNjUmALFNlbrl20Evxa+rAQOKLNRbIDDxiczJ
-	yCaVvqTsPfu6gBVy75jQNEWRxMcQClTOUrf8/ifKPvXr2l+FybzWeaVA96Fw4ztOHc4fBh97fAd
-	GIkPmj5JZiNhrL8Zk9SV3EqZxKcEJDq1OUlOQs57OZWxL4TWdIwnPWMmgLBm6bn2Nn+xLA1uFgf
-	2OD7yh3qPX6lSCknAHG7bNcU8JrZYlE5TQcfq8k=
-X-Received: by 2002:a05:701a:ca07:b0:144:fd7c:84fe with SMTP id a92af1059eb24-19937307669mr13761314c88.35.1793068957501;
-        Mon, 26 Oct 2026 19:42:37 -0700 (PDT)
-Received: from [192.168.1.106] ([198.8.77.135])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-198a249c331sm59514670c88.17.2026.10.26.19.42.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2026 19:42:36 -0700 (PDT)
-Message-ID: <30b1cf28-61e6-4f28-8e28-79815bd87617@kernel.dk>
-Date: Mon, 26 Oct 2026 20:42:35 -0600
+	dkim=pass (2048-bit key, unprotected) header.d=surriel.com header.i=@surriel.com header.a=rsa-sha256 header.s=mail header.b=iBq+nqKL
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
+	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID; bh=jD8NrEF10P2VtaMB8bhjtU6NtVeQsEVr6wPPMXQfP+A=; b=iBq+nq
+	KLOEjbYYdUAPAEsZwkrsVlsMbau8sPaQUcFxapsXRqkp5x7L0HKbiz1V+JwuKcTR/GBqgaCvr71vs
+	Azl5exRlAEe+DimTQWh8fS0vwDU2CsiljZsMdUYZDAPvE5/hwXnoNhMGxlXeqfF7JYCSjK6mmcfeW
+	BfiPVgT3S4zTiGr3VU359pUEU7q0FHXgB6OThiw+NTjQPpMdcwrnSU5ZEyXwFVFYW0t+NalyqESRH
+	CfKP89P11ExVsiA3ldtFd1nVlkbgGl6/jisI5NTNJX9ju733TLXV4llbeM7Mjm7VlOJ93SU0QV4F4
+	bX5UR21h5xQnnQD/hzqAbQwGl8zw==;
+Received: from [2601:18c:8100:a0e0:2541:b86e:2586:d219]
+	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.5)
+	(envelope-from <riel@surriel.com>)
+	id 1xLX9Q-0000000B2wR-2Z6a;
+	Tue, 27 Oct 2026 02:43:00 +0000
+Message-ID: <f12ffd4cf8933452ef13adae55d6d238a3069235.camel@surriel.com>
+Subject: Re: [PATCH 06/46] mm/filemap: read mapping->a_ops->free_folio under
+ i_lock
+From: Rik van Riel <riel@surriel.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>, Andrew Morton	
+ <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, Michal
+ Hocko	 <mhocko@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt	
+ <shakeel.butt@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, Kairui Song	
+ <kasong@tencent.com>, Barry Song <baohua@kernel.org>, Axel Rasmussen	
+ <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu	
+ <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, Baolin Wang	
+ <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
+ Baghdasaryan <surenb@google.com>,  Michal Hocko <mhocko@suse.com>, Kees
+ Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Jann Horn	
+ <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, Hugh Dickins	
+ <hughd@google.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush
+ Yadav	 <pratyush@kernel.org>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
+ Lance Yang <lance.yang@linux.dev>, Harry Yoo	 <harry@kernel.org>, Alistair
+ Popple <apopple@nvidia.com>, Nico Pache	 <nico.pache@linux.dev>, Ryan
+ Roberts <ryan.roberts@arm.com>, Dev Jain	 <dev.jain@arm.com>, Usama Arif
+ <usama.arif@linux.dev>, Kiryl Shutsemau	 <kas@kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>, John Hubbard	 <jhubbard@nvidia.com>, Peter Xu
+ <peterx@redhat.com>, Will Deacon <will@kernel.org>,  "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Oscar Salvador
+ <osalvador@suse.de>,  Minchan Kim <minchan@kernel.org>, Muchun Song
+ <muchun.song@linux.dev>, Xu Xin <xu.xin@linux.dev>,  Chengming Zhou
+ <chengming.zhou@linux.dev>, Chris Li <chrisl@kernel.org>, Kemeng Shi
+ <shikemeng@huaweicloud.com>,  Nhat Pham <nphamcs@gmail.com>, Youngjun Park
+ <youngjun.park@lge.com>, Gregory Price <gourry@gourry.net>,  Joshua Hahn
+ <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Ying Huang	
+ <ying.huang@linux.alibaba.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ kexec@lists.infradead.org, 	linux-fsdevel@vger.kernel.org,
+ linux-arch@vger.kernel.org, 	linux-cxl@vger.kernel.org, Josef Bacik
+ <josef@toxicpanda.com>, 	stable@vger.kernel.org
+Date: Mon, 26 Oct 2026 22:43:00 -0400
+In-Reply-To: <20261027-fixes_core-v1-6-6f74bec9a5bb@kernel.org>
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+	 <20261027-fixes_core-v1-6-6f74bec9a5bb@kernel.org>
+Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
+ keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
+ eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
+ Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
+ lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
+ dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
+ mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
+ gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
+ r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
+ WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
+ 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
+ Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
+ +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
+ g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
+ KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
+ fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
+ 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
+ G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
+ okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
+ TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
+ cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
+ omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
+ QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
+ c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -92,45 +126,30 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 02/10] btrfs: Don't copy encoded read data to user
- memory when canceled
-To: James Houghton <jthoughton@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jim Mattson <jmattson@google.com>,
- Pavel Begunkov <asml.silence@gmail.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, David Sterba <dsterba@suse.com>,
- Chris Mason <mason@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Josh Poimboeuf <jpoimboe@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org,
- io-uring@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-btrfs@vger.kernel.org, bpf@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261026215226.3713941-1-jthoughton@google.com>
- <20261026215226.3713941-3-jthoughton@google.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20261026215226.3713941-3-jthoughton@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
+On Tue, 2026-10-27 at 00:17 +0100, David Hildenbrand (Arm) wrote:
+> From: Josef Bacik <josef@toxicpanda.com>
+>=20
+> The bug was found by code inspection and has not been reproduced.
+>=20
+I can't say I'm surprised ;)
 
--- 
-Jens Axboe
+I see clues that a most bunch of these issues
+occasionally happen in our (rather large) fleet,=C2=A0
+but not this one.
 
+> Fix generated by an LLM and sent by Josef Bacik in private.
+>=20
+> Fixes: 59c66c5f8c4f ("mm: factor out page cache page freeing into a
+> separate function")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> [ david: get rid of filemap_free_folio() entirely; improve patch
+> description ]
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+>=20
+
+Reviewed-by: Rik van Riel <riel@surriel.com>
+
+--=20
+All Rights Reversed.
