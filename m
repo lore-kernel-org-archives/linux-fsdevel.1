@@ -1,100 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.43
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793137573;
-	b=o2eP6dyfTMFy6KLAS6sP3AHPuQJIsLZVPR0Qcpo8zJKZlGjTOM7q5DhBMkqYikTa/O50
-	 7JfxJGb7W4t92smB9nf/P2QazWVEAbjOl/9F9Xh3tPT7RU7oTPACLUH1P+waKDXaHhEHY
-	 pvk77DCwrMcWF3igF04Uw+WrtZEFzfwpJRaOV/ExtBE+6t6Kfx0VZjv4WOa9Wg0etibci
-	 ZEBpftC48mYhbgdIoz0pJzYdErmWjM7weFH5e4KrkILwM1P08BnNknEx9QnZx7E+6LsoQ
-	 BEPV1eomSGTShkuXY1TGvLyXRRdDQquUGAYgGNBPSSn0V45tlVMoKSJmyXdJ8+5jHVA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793137573;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.182
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793138313;
+	b=T2yVKsE3QQ3VFWGCp7WawIcpsPwivNbVG79TbSP5ukb73PApLhNm83bNl6bA1V2fPA/D
+	 Rov1GfuJE/rsvRf3Gz48+5tnrw9AVH73ab2v6+hp0hO8qtS5VPLfbIXWSjej5IybrKdE1
+	 lhB1CSvvUPeKJV4YZn9Z6JBDUH3fOu/ueU793jHyTKPVaYWPYTtXrM/JzYUk78tGNFqb4
+	 0Zrnp4GVqRlIMMx41LDB6y8MKvkgud31J5u+0zB0qT56zKWjgy0fP2pDI2MXvZV8D1qzm
+	 beKd6J1K+3iYQtBMo+X3CTnNIX6buKfIHbSBMP5yfXi/k1dyjey94G3pRZTsFTFhM1A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793138313;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=eVSNb0KQbTxZM+AQXhdYZUTzoSM560pyx9+jZ9Z1qdI=;
-	b=L+g9c+cfOGHLJw0R6GoXw66GiofUXnFQxCWYY54YW8QasM9Y2ieR9O/utXXTDlT4n4HV
-	 2XpO5moEO+hKLd7N5oRgEgVbmJoGmaM9DMCz/PsoJUxrS5U63SAyEI8buws55t6qg8fic
-	 ZVaVNII7+i9uP2Qk/ep0FFTAJu8bR9X5o3q6GMHsa/fw5n0vwuXWNwqc2oii2jJOk4upF
-	 njFWBye4UhMj7RPyBS86kyKfX2JucSSGhxNV7tpUXbXivDxWiVRv9T3sG9Pfs1Vn9teEN
-	 j+MHPjPDAY5GHfSO+jkl+Gkicf4JWq8C+PC/KCzprLfvlkcPjqrrTtVPapR3pJOFy4A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Wbne8OHp;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.43
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=fKH8lEROlToWUaFVk6HBGi+a3bbRsRUnkhgJ3/v+Ess=;
+	b=aJogAo5f0Pd0XlvPfE13UeOtmM5SJte3+HF7np2nCO0eCjUWeC3RTFKW1iR5zs8J/XiP
+	 xuSDZxdQ35mR8TGkucRdQkElVpaFz4OzkPkHNTyv/PB2iNsl5bah+Pj0o2kjquUMWdSzx
+	 UrB+bEmCZc3MLnffEixpumbeM80GvhpMynNppCBLYkYsRnvpfKsNf6ljJGksBLbn353QQ
+	 nYINYuGelDUQwUX0QRaL2DOonsbIldrE6fhU/AgrvTFRfII58airW4piWerzizSIpwEoJ
+	 aK5blY7CPkqHm5RR+ZzejuxmR+ry3maIWtKuG1hNv1oL8ydeYgXZkQ50ktOIyVKE1nQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Kktk5MvT;
+	arc=none smtp.remote-ip=209.85.128.182
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1ADC606A320
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 21:46:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1ADC606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF556606A320
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 21:58:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF556606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Wbne8OHp
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6b1aa377c61so531204a12.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 14:46:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793137571; cv=none;
-        d=google.com; s=arc-20260327;
-        b=S65F48VZ7xLzbDi4HGCjw4/WKjr0eMtkq0ypMiBb6hkYsTbyXWbAAV7bcg7jO9us84
-         f0TNLAt8PKSimGbZhZS+nlRvN8eDixM+ybCwzOHT1Lpl51fV4eWftFSdCZ72sE3ePoxv
-         6KPKHgW8chlnKifoegNHReQ3oz9yLSHSyuACLuh9EkC28nkXDGUmA+u3VhlUXAWV31q7
-         JE3PatY1C0RY/N5lBPs2mThZejhGvtoCj9j7CfuLQS/CTxubwBnxHngXMeZV0g1zTBtw
-         ETHFxbcQ50IG/zDMfDJ8cxCsDZ9UdPkYCI/bdhXNzeAMXdu3Xo2xgaO62oijGjcrEc2+
-         XZTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eVSNb0KQbTxZM+AQXhdYZUTzoSM560pyx9+jZ9Z1qdI=;
-        fh=Nyeja+PAgGJXw0sVbeV9anCFnaiuSqqzaLAWgFGb93w=;
-        b=FoEjU1h5S8HEV+/ayCkWZ+4VKSWJcd9fJGfsXanxlDs61BGTQC7SHeXnyf1gcZ8FIr
-         mv3VzTkSqJvJVX+0pScei16Yi5TaK63K4G2dxJClTljuq/hnAiLopvN6V1FKvrEaR7/s
-         kykMfS48Z7H3btRlQ35r7IqtQ0EoENjK0/LOWYhrMhr60UjerkahjA5v8Y7r5fcc4gWC
-         UsQmDlS+sSmMQ1KW44n9FlDm5guA/h6SaJgrW8hS2CFWekOHopOIq/viZODx3fqNmCXO
-         ZNahbRZO/Odv9vSnmIE0jNPlddkYTudX/krvkqEtzVD+efXPWd8Sr7NI1Sza7fTqwLP9
-         /ilg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Kktk5MvT
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-8ac525c1f05so3337367b3.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 14:58:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793137571; x=1793742371; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eVSNb0KQbTxZM+AQXhdYZUTzoSM560pyx9+jZ9Z1qdI=;
-        b=Wbne8OHp5wFBPP5dxuR8+Kp5ZHrm8v80mBFme9V3XRymOzyPXT+ANjuS8mZtAutbOt
-         ODy1sui91Ycwohd+oEsUjL53uPSBpLjWgEgWbT0Ma2aK7Hvfe3g01z4xkvRH6s2A/fGZ
-         +Zbv9XzVpEdyJwXjAhRmHLJ3XY730+XSfkzgh8qi4omMFnsRCwCi2Puq9v4j/9LjCquY
-         7A7TovQ1C2rR2zd4geupuZI+05Cnugg1XhJ4MHSma5JAUcS+LWaaA2qCMueEuNn/BKvO
-         xSW9c+bot29ZINzBkQ0CD12vMG5F6NsY2dux4jMT3EVU1twWW7mORuqkOTF0o5JB3euK
-         EGbg==
+        d=gmail.com; s=20260707; t=1793138312; x=1793743112; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fKH8lEROlToWUaFVk6HBGi+a3bbRsRUnkhgJ3/v+Ess=;
+        b=Kktk5MvTTmooZ0Q3aCi26vX768BMQ/1m/1iozUmZR0IzIeWf2BuQjazLJfG3476g/r
+         8kvrHa8KOzQV8RrLyDJ1RlEwNQ7Be2n0AY1iiRRdIvzRuc1oPn4B9jjY/M5c2//4SLMj
+         USKthEZZWMli+0SNU4AVBbstq5kepiLkMHCLjcclCHsvypIYeFeeQS+wYw7Tchrd69SR
+         Mqo4l3cOiuk8Ls1Fk9pOGcS/WnltZVnMA+jAYh1/nSwoFzCdA70wDWhzfkrisd+SUrQE
+         6YLG1ywmQCVUi4C6A9d96MuXY2i6KxrufWZylWKs6C1OPJqhIo/CTS2nFacO58n+P2BA
+         axtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793137571; x=1793742371;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eVSNb0KQbTxZM+AQXhdYZUTzoSM560pyx9+jZ9Z1qdI=;
-        b=ZjmQHXlqJ20zjqlBO4yEyhqIxEmLuNRmiluxf30aN86oXed6oClr4FXglkOTFuc8Tc
-         MWUgMT7Zv9tT66OKW6vqfG+7OoH7xVB6o/lGgFz5nPBmJhG1B3IlTBrASnhdU98ruXA9
-         4xhBVlDAhLzI/JF7I1mGxWQ5iiIC6EIXwh6w+9xd1xWgXfzeuF58yTmGBiP2xjAHUB4i
-         EraqzHV1Soo+nwNCiMatwTE7xPdretl1aKAEhY4D0MOKUyxrtvbpIo+pq3MJdJr2lk4l
-         kIjjP3DvhdZEzWuf+Xlhw/9ohr9FUdX1ux51QC/KKMtcOugkzOQLw+6RLwi1izRw1lJu
-         zItA==
-X-Forwarded-Encrypted: i=1; AKwUvByWQHEQci/R0GnnEbQo68Ise78bF9PiC8RUsIM52ntX/odgMVCcFtYVwwTPtGK5oEnYE+XThzvnXb23siNn@vger.kernel.org
-X-Gm-Message-State: AFq9FYJwC8PgWBRzd42kc51qEAAFkGoKSGQ9G9dRdHNlUT7jr7S2BKVq
-	0TTzVLxvkKMnNVqUwchnFud+VnfFMXZlEqj4S3GGGOp9pTi1XPfeOXoJDRPqonZI2Eg7xRpZhBO
-	/IOkxdYAdNtgMsYzM003ijKlYJv92gvOEP0XYYCns
-X-Gm-Gg: AYBFou079AokrPrh2rAo2qoePVsFrHq/gr0T2FvazO3In3LcBOKv+vZZOocCwYQwH/p
-	ZFdv2sDj3MudNmvDSqscknMXk03eQzcDI3GBKoyqO8MUN+az8BC3jFWWeK9pRJFYHf8GFvczqDr
-	r3szlHVI9LFO/h6caL/PT6XX+bccTdxXvece2RgFlsfWIVZjHUOP9WxN9aqy6tlRsraqLugst8t
-	mjLACiaL5nryys7NHsOIa4f+/z8C2boe5weoxyLWstYrykGdKdCIcBevqEDS5RhY39fDcUoOyfD
-	b7wHcMhdENPSO40jcFN+4XXmCOVdTfX8MsMSZI1TJxigCmc11cLZmprV50fz6U3lS61CWXKJEB4
-	+4+EkP9iEkalu4VjWQxNmR5zuus3D5f9n6zCetqTfHac3TLieSynkqQaRUQqNZndCfUc=
-X-Received: by 2002:a17:906:794a:b0:c36:7579:fe6d with SMTP id
- a640c23a62f3a-c49bdf3769bmr41163366b.11.1793137570881; Tue, 27 Oct 2026
- 14:46:10 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793138312; x=1793743112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fKH8lEROlToWUaFVk6HBGi+a3bbRsRUnkhgJ3/v+Ess=;
+        b=xY01Df4nnIMkCnyLaGv4i+3uAJ1ZtVfPkM1oOez7zTmevhBMpOxevLCpIPt3DxeOTT
+         BGTHD0QzSP4HufR9qpEcD2V5MIBs1Zc479PT4eQ3JSp5ueywspV+LKx4b/y19VMOYbvj
+         wNQelradcPUZ08kl7ruj3Fn9qPgj5ZGVJqY3o2iA+GGwzKsZCM2SuJhJWR+SFDunG/VG
+         fu9J5pODqKwBHSK/5v1/DLJv9/ltnIbioJhy7Iloejus55/xOwRAMP/KPz6qu1RY9T7G
+         ZHhFYldtrldHly+1WBtt9k4KA0zIokuUMauby0VarQUeLyqNCKkUZc5UqWCandgUWnJm
+         oPAw==
+X-Gm-Message-State: AFq9FYJyd8B4TLsA/5vdHU4jv9+wPg2Sel/h99lgCy8LxjzU9QEvCObN
+	WSPVFhP+GqVnixkCO8eaDKw8fOnLttZ7hffnjCD9nfr/Um6GXtXqNMpb
+X-Gm-Gg: AYBFou1UmVxanEAv1pHEN/I8SB8+FMuo9N8ThBs0c3KrNWNwiku3qVr2cGY7ur8R3Hb
+	9tMLldArF9K2kSyGq8c3L1A8017sMJIm1A5oS69m5R3eoKvqzCeebjXdtfBlvdf5/GyQjv0t7xh
+	f+1aGzSWx/6nX4bOElfdNHeCFj6/5gSAjJ/ReYhsV4MLfu1BT8peo5cpwwZfm/M4I8VCdecp5ZW
+	Dti2zI8SpOzbWY26ODPex28UNX6VOe0CJfIrFKQhf8obV/DgqY74I3uknlA+flver1jp3XdjOQU
+	LWQXwB4vD7N7ITqulGpBUBriNEmVlR2XelUiwNB3WgQvCxwmBxcHwux3ZftuADs5GD3KyJROYa3
+	SXLbMHrWhnYpcxAfE/80LdqT88n+/cCGPf2l1h5TJkEfEi5Gl6wTuYc1bnDM4DN3XyiKFpN6Lse
+	aHioxr6zZpLU3tqoEdvGDU6pjZrgs5Vw5Ci/OP7hejUXhoOzQVYzVowXpNuLbFxcvafPRyFEdlS
+	uGZfpIx3dEG0kQcoWFZDnT3weRFrIwECTKdEf24Lpz94Qr8WqNgH89a6JtEoJnas1xzApNQkfyi
+	TaAGsuuSpBl7f01rPU6CFLanF7DwdbZ6
+X-Received: by 2002:a05:690c:7108:b0:8b0:7c36:4afc with SMTP id 00721157ae682-8b1b5e81826mr2719877b3.58.1793138311531;
+        Tue, 27 Oct 2026 14:58:31 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:71::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b19e59400csm19360677b3.22.2026.10.27.14.58.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2026 14:58:30 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	changfengnan@bytedance.com,
+	kbusch@kernel.org,
+	Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Sterba <dsterba@suse.com>,
+	Gao Xiang <xiang@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Carlos Maiolino <cem@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	libaokun@linux.alibaba.com,
+	bfoster@redhat.com,
+	linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	linux-nilfs@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	Zhang Yi <yi.zhang@huawei.com>
+Subject: [PATCH 0/5] iomap: remaining patches for iomap_iter_next conversion
+Date: Tue, 27 Oct 2026 14:53:21 -0700
+Message-ID: <20261027215326.2693300-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,59 +119,106 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261023001603.560210-12-wusamuel@google.com> <90371d2279a5eb08966a82325922e1f15eb93560d4019f5c9020956cadb4120a@mail.kernel.org>
-In-Reply-To: <90371d2279a5eb08966a82325922e1f15eb93560d4019f5c9020956cadb4120a@mail.kernel.org>
-From: Samuel Wu <wusamuel@google.com>
-Date: Tue, 27 Oct 2026 14:45:59 -0700
-X-Gm-Features: AclHuK8QaCDsAbnjPaGufNN4kMFz5cqAaOc_WFmJQjgBqVdaEIaSp_a56eCEZoc
-Message-ID: <CAG2KctpuWLxdxB+LzrBO8eGsL2E0m_DphcG4cauB0cHuEDEoRw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 4/6] libbpf: Resolve typeless ksyms via
- KALLSYMS_QUERY ioctl
-To: bot+bpf-ci@kernel.org
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, andrii@kernel.org, 
-	eddyz87@gmail.com, ihor.solodrai@linux.dev, ast@kernel.org, 
-	daniel@iogearbox.net, memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, 
-	yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com, 
-	nathan@kernel.org, ndesaulniers@google.com, morbo@google.com, 
-	justinstitt@google.com, kernel-team@android.com, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev, martin.lau@kernel.org, 
-	mason@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 22, 2026 at 5:51=E2=80=AFPM <bot+bpf-ci@kernel.org> wrote:
+Hi Christian,
 
-[...]
+This is a resend of the last 3 patches from the "iomap: convert to in-iter
+iomap_next() model" patch series [1].
 
-> Would it work to fall back to libbpf_kallsyms_parse() for typeless extern=
-s
-> that are still unresolved after the ioctl pass?  That only costs extra ti=
-me
-> when a symbol is actually missing.  Alternatively, the kernel query could
-> match the .llvm. suffix for data symbols.  I did not find a fix for this =
-in
-> the rest of the series.
+Those 3 patches are rebased on top of current mainline (commit 83f32c773255
+("Merge tag 'erofs-for-7.4-rc1-2' ...")) in Linus's tree. They require two new
+preparatory patches (patches 1 and 2 in this series), which are trivial
+->iomap_next() conversions of the nilfs2 and fuse iomap code that was added
+during this merge window. There were conflicts with "iomap: pass
+iomap_iter_next_fn directly instead of struct iomap_ops" (patch 4 in this
+series) during the rebase. These are resolved in the patch, which now also
+converts the iomap users added this merge window (ext4 iomap buffered I/O,
+exfat swap activation, nilfs2, and fuse ext_map). Jan's Acked-by and
+Christoph's Reviewed-by on it predate these changes.
 
-Yes, for strong externs. In v3, if a strong extern returns -ENOENT,
-I'll fallback to /proc/kallsyms to scanning .llvm.<hash> suffix,
-keeping the same semantics as before.
+These patches are being sent out now in case anyone wants to look at the
+preparatory patches or patch 4. This series applies cleanly to both current
+mainline and next-20261027. If anything conflicts by the time you pick it up
+at the end of the merge window, I'll rebase and resend.
 
-Weak misses must default to zero without falling back to a scan.
-Otherwise, all objects marked __weak would pay the full /proc/kallsyms
-scanning cost. This is a slight semantic change, as a weak symbol with
-a ThinLTO-renamed static now resolves to zero. However, this is the
-behavior of the light skeleton (gen_loader.c), so perhaps it's
-acceptable. I'll note this in the v3 commit message.
+Thanks,
+Joanne
 
-[...]
+[1] https://lore.kernel.org/linux-fsdevel/20260729192737.3190206-1-joannelkoong@gmail.com/
 
-> Should the fallback cover any error other than -EADDRNOTAVAIL (and other
-> real lookup errors), or at least -EACCES as well, with a pr_warn() for th=
-e
-> errors that are not handled?
+Joanne Koong (5):
+  nilfs2: convert iomap ops to ->iomap_next()
+  fuse: convert ext_map iomap ops to ->iomap_next()
+  iomap: remove ->iomap_begin()/->iomap_end() legacy path
+  iomap: pass iomap_iter_next_fn directly instead of struct iomap_ops
+  Documentation: iomap: update docs to reflect iomap_iter_next model
 
-I'll update v3 to log pr_warn() and return on open() failure or lookup
-errors. And then I think I should reset partial state and fall back to
-/proc/kallsyms on ENOTTY, EPERM, EACCES, and EOPNOTSUPP.
+ Documentation/filesystems/iomap/design.rst    | 140 +++++++++++++-----
+ .../filesystems/iomap/operations.rst          |  68 ++++-----
+ Documentation/filesystems/iomap/porting.rst   |  16 +-
+ block/fops.c                                  |  10 +-
+ fs/btrfs/direct-io.c                          |   8 +-
+ fs/dax.c                                      |  48 +++---
+ fs/erofs/data.c                               |  28 ++--
+ fs/erofs/internal.h                           |   3 +-
+ fs/erofs/zmap.c                               |   7 +-
+ fs/exfat/file.c                               |  14 +-
+ fs/exfat/inode.c                              |   6 +-
+ fs/exfat/iomap.c                              |  22 +--
+ fs/exfat/iomap.h                              |   6 +-
+ fs/ext2/ext2.h                                |   3 +-
+ fs/ext2/file.c                                |   4 +-
+ fs/ext2/inode.c                               |   9 +-
+ fs/ext4/ext4.h                                |  10 +-
+ fs/ext4/extents.c                             |   8 +-
+ fs/ext4/file.c                                |  22 +--
+ fs/ext4/inode.c                               |  58 +++-----
+ fs/f2fs/data.c                                |   6 +-
+ fs/f2fs/f2fs.h                                |   3 +-
+ fs/f2fs/file.c                                |   4 +-
+ fs/fuse/dax.c                                 |  10 +-
+ fs/fuse/ext_map.c                             |  11 +-
+ fs/fuse/file.c                                |  10 +-
+ fs/fuse/virtio_fs.c                           |   3 +-
+ fs/gfs2/aops.c                                |   6 +-
+ fs/gfs2/bmap.c                                |   9 +-
+ fs/gfs2/bmap.h                                |   2 +-
+ fs/gfs2/file.c                                |   6 +-
+ fs/gfs2/inode.c                               |   6 +-
+ fs/hpfs/file.c                                |   6 +-
+ fs/internal.h                                 |   1 -
+ fs/iomap/buffered-io.c                        |  40 ++---
+ fs/iomap/direct-io.c                          |   8 +-
+ fs/iomap/fiemap.c                             |   8 +-
+ fs/iomap/iter.c                               |  13 +-
+ fs/iomap/seek.c                               |   8 +-
+ fs/iomap/swapfile.c                           |   4 +-
+ fs/iomap/trace.h                              |  12 +-
+ fs/nilfs2/file.c                              |   2 +-
+ fs/nilfs2/iomap.c                             |   4 +-
+ fs/nilfs2/iomap.h                             |   4 +-
+ fs/ntfs/aops.c                                |   6 +-
+ fs/ntfs/file.c                                |  20 +--
+ fs/ntfs/inode.c                               |   2 +-
+ fs/ntfs/iomap.c                               |  42 ++----
+ fs/ntfs/iomap.h                               |  10 +-
+ fs/ntfs3/file.c                               |  16 +-
+ fs/ntfs3/inode.c                              |  13 +-
+ fs/ntfs3/ntfs_fs.h                            |   3 +-
+ fs/remap_range.c                              |   6 +-
+ fs/xfs/xfs_aops.c                             |   8 +-
+ fs/xfs/xfs_file.c                             |  53 +++----
+ fs/xfs/xfs_iomap.c                            |  55 ++-----
+ fs/xfs/xfs_iomap.h                            |  16 +-
+ fs/xfs/xfs_iops.c                             |   4 +-
+ fs/xfs/xfs_reflink.c                          |   6 +-
+ fs/zonefs/file.c                              |  22 +--
+ include/linux/dax.h                           |  18 +--
+ include/linux/fs.h                            |   7 +-
+ include/linux/iomap.h                         |  66 +++++----
+ 63 files changed, 492 insertions(+), 557 deletions(-)
+
+-- 
+2.52.0
+
