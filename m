@@ -1,100 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.176
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793133222;
-	b=pq1FrVeIj/10IsUxpVOgSnFpHK2wyQGChAFIpfvW36Yp2hfeR0M0NlRAAgcd3nd+DkWZ
-	 RMjiZrl30pIvw/8QJJ+aFoDSX9ueZ7x7/QOO7TUmnsAMWzD6ApU0riWXX+sffBNWPnVXR
-	 Gtpg9CBjEB32f0BkjFJ7O8P7mtj0TCwVvHnRANb2BhJzmfLtIrGwZ9RiKGIXtyj1jNZkh
-	 9WagdsIgSbZD8blonMIvlDoCgjCXtBM+u+5k3ganywUrQ8rBwmPEuEDQt6Q73yeOoLpiX
-	 mENZiK86/0uZL/A6cBPZVqK1lhTUE403+iPJ4AVca5wFT6vX5vHDm4IX/XRF/YXErug==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793133222;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=nGVzZSBgakxWmcqzfl+9A2MiYwXiZAI9axGmW3aBX1Q=;
-	b=L0NbdRS4p5XRDuZKAfVg7+BdwldtZajqAwlbZ/O32T3WEFAmCPJwjPMqsf4IYLEdVCsV
-	 gNxlrRL6nqylNegz0fntU3zfz2eZ/ktbVLQ0iZforZtpcHuWJw4lpBApEw1DzVHPcpo9b
-	 7DdnBc1NLikRO2CXpGrtC6WJNwqrFom7+KrUZ+RdqJHCClBwbYrOCdzyzlN9ENsSHNYpO
-	 lRYQnmZb0NfoLPE6rWvXr8WFgVbuutQbF0XlXkFKrwjNvbW/QhC6AErWY0HhIRi7IT8Qz
-	 xixn7NW5AhKZPz64d64vWajssjp3fnrj0gvN7CGjwXmkMGJhyhaShZt5Gt0kiXsMBBA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=AazctrpI;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.176
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.99
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793134948;
+	b=DOGuC+S5cIegMUnYLHWAEG91bne7aHhyYxUWyR0yl/Li2yuCVHo5t66EcUxhS9h+rtZ/
+	 6iv16lPmlVztC9AVIBGDD6mMPcqYDoBhOpjW6r5JMawXj7HmPaXZe8I37yfjTniiYq/6q
+	 UT4uoJz7qFWhdi01ZNIcxyiMTs3KYClZpiGr7QcMYVhdQDK9KI8wPQGS/r9I8mPEHGdvC
+	 nAOemcE+rqeLbiSBgjrjj1UMeITZEcCj1vPd5luHbFFIF0ispH0i5kdvQIPVV14AhRaNG
+	 NkKHqrrQCnpwMGDSGLauxBRJiu2DB1ueIp2AZtybDIkh/oFyppbG/p+STJ5C4TdQgQQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793134948;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=0gdBK2a/7BtrvxXUlX9He8n64shVCDBHPI0R3YZSOO8=;
+	b=WQ+/3F9rWefVt7PiygCYt9Z/kD913kLbHPlsb8r+9DTgo7d9qkVB9wG1dEVbpgprJbS4
+	 0wucca7u9OOSkBRz9ofantEn1Dp3A9nfYP5qBxcj925UMQ6rW3eKgW68eBIVvw6f9Bxh4
+	 X6IQpO4Xtp7ZgFBBLWmOesQwTHC4Blv5Sxv7XH6sNp7tYbqMfRogM0LTelzG9QHg2kxXa
+	 Uk2hK14xR5rKQc3r4yEvFuT/lIDgjjPX6r+JCscjc68JJjjI0wkU3T05XfECrPZzdUrMm
+	 2fXnFJk87aDM/In7TUg27DdbHF8NeEBWoZAuSVODN3OFCTk/JEPDFm7HtAoidE0FeUg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=RPvtGViX;
+	arc=none smtp.remote-ip=79.135.106.99
+Received: from mail-10699.protonmail.ch (mail-10699.protonmail.ch [79.135.106.99])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C724606A320
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 20:33:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C724606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA6B606A31A;
+	Tue, 27 Oct 2026 21:02:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ACA6B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=AazctrpI
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-533202fe429so89931cf.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 13:33:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793133220; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YLx3SH/igTRpjaCBQ4TBiRCDA8xS8EjfJX1q5YdUvG6GE6k2UuGWXUYgayfLfs2M7p
-         ESCcqK59IwDu4S4/u/ejIltP/PH5vwTc371nhIP+bhWXezczbXQ5GPBZqJoB+zNJ6sLt
-         G6DVxXZZsncRKlABLPRc6Jj/TP2BeKMugqDkZc6yiAT8mCYAljapBjZJxx0NstP/s5Q8
-         3/WbgtVtWS9f61LUSdUmQV6Zha8Ywbq33SPkwmh5mKWBzwpbGiaAX5AytySmjZxwE2zT
-         3nrIbhJCbzwaRQ7UfdKSXW6ZsJZbtgOhZBsHLmn2cnhxAAQnpzD/Fk1XOnV7WtOuQS44
-         uYbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nGVzZSBgakxWmcqzfl+9A2MiYwXiZAI9axGmW3aBX1Q=;
-        fh=g2K4js6Uyg6y0kmkDq3iajDZyW93AwZuymBX6DAq7YM=;
-        b=fqCLEGui/mDhFJK7nyXt/1MM1x9D2dB4EBK4AP/FRqjFvaYAnKgMJal3rJcOT3Yo2r
-         qjvbKMSyn20CyDSWjrhrMYqpobDf+niWD0Jd8/44SU3bzBqHo17UvAAfcjo42jG208/3
-         rP7Xmu+38K3DzyaBm0aNU63+4uIh4AiGRHRBPBE0/wUO4l9VWc9X+q9q3D0QkJsCpEyE
-         WO0fXGvFN2R+3mzRgkTda4rIupNx0ZZWA0rGlG02k++2Ve6Pn3ja4/8A14nojA+563/B
-         PUpOaSOgXmQRPhxjx2sWQhLbhaS9Ab4NFLOdAYsMmmgXJKgtNNqbOpQDvJkmg3BtZ6Gq
-         w9oA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793133220; x=1793738020; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=nGVzZSBgakxWmcqzfl+9A2MiYwXiZAI9axGmW3aBX1Q=;
-        b=AazctrpICW2zMwn0pJv0V+ui8SqH0lZFUAOxjdI7vsy6kYFFQI6dtBz5CmM8lOufyv
-         gDxsWdUn29S6BhIsbBRpMahWK3QnYEztvVM5gmq0am4j9py6bk5eM08HKknhgB+m6nzJ
-         EMvU43G3qILhj6zvDZNAk2VeUs9ApIO8MFBLjMWfJ6A5u9iQFxR8KwycA0gJtP6FMQvr
-         +MJdmHLjPV70IFNji12TDt3qigbuF2RdiWXGuBtiNZwdu9i4LAzz52Kw8E++SQWPIydD
-         vYs+XGpd2QUuVzrmYWBzibq71mxpMCmt6AggXhAVKHAank2z6JSbC4Sq2KRqyA7JxPjd
-         Ic2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793133220; x=1793738020;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nGVzZSBgakxWmcqzfl+9A2MiYwXiZAI9axGmW3aBX1Q=;
-        b=SKVV0kw2Qf7vIX9DmMJe10F7fH285+tB5dHSdK4M+wO3ZN/nFyvwIF8dyfiIR95G5B
-         G82nB75hSL5yx58VGhMeb1MrdUpmZkHGO2eVgs5yYDdGl9LzBM91p47msQcqq0s+w4cl
-         6yHBuxg9HqDBF3Chf7sOEfsYydWONNpVz7FAU9hPiU7OsxY+wWO6c3lB7cNgeslWKKlv
-         Td6fDO2xHnxS3vHfXKXq4gbk2NewWbwrRbb+Mulvhm4YYw4E2CmKIvq6vesQkLpr+JWb
-         0zuTV1bq41+tp/DpUli+pvnASoXqn2FIedqRPqJC4wtMtz8d3SlrLCoe0w9hSfVDgnmz
-         Z8+Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxBZBHEJCGjZp92gS4akX9lIhpv5j/J9MvWsX5yafOXdgGGHBvzD1Xs8j50yIYt+xs+/e7RxU7NppAHGAJm@vger.kernel.org
-X-Gm-Message-State: AFq9FYJLLA10kq3eOcchgNzTHIWMrqiGzlhbNMdFBserow06Mx5SBO4m
-	eY+T1h/09luW4y+uWZT+uPgMttldCw9hev1q71/DkVsCyMN+Eh6ibo8PtuywljzTvjL+B1AgkO9
-	11YcoLw2Q1aoOIVKwhVf/esLPRegLYZF893TpJ2ys
-X-Gm-Gg: AYBFou0uGE+6SrNAFVYWJAO287ZadoyX/fLP3UK3tVlFx9qvalyysCpfvfJ9+OqXFXh
-	c75xcdfsRy8OI6XsVU3YcKl+1nZ44Buqimp5gDE6ZtfZ6E/EQ8xsqW3URViv1G+i7ghbKcGVRQa
-	XXTB48WiEqiRAeh/0RbMH5NdpPfz2QVZJvpg1nWpzvsCgsu0UxWICVD9VcmPAWRsSSv/r64pVTm
-	0JK6Opu2z5POCJuv3VPErwHC1uMXkq+QLqr8pjglBQX0bk0F6Ubkx/tAayDSFqQsORtLqSSXrMi
-	9+2+NSLZ80OIcdhQtQ8eR7Z62hGt0KiWPguXexve9es9sviIYnz/mzXJbvXthxxlxRzzPnaAmM8
-	xGhuuFAiUZiAm4eI33qswarRQke5eIbsc+Nx7pBYl3dfrOOgjXnL2RJCDQbZWjFV/akA=
-X-Received: by 2002:a05:622a:2488:b0:534:b7b2:634f with SMTP id
- d75a77b69052e-53fe2554767mr1314101cf.8.1793133219456; Tue, 27 Oct 2026
- 13:33:39 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=RPvtGViX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1793134944; x=1793394144;
+	bh=0gdBK2a/7BtrvxXUlX9He8n64shVCDBHPI0R3YZSOO8=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=RPvtGViX8DtOI+cYibDYRy7LwnkDbu8zH1jzLEv9eW8+BP0fHvfB4+MkW/x7UxS2J
+	 dzER/G6vV7gCCK3TFaFCiuR04uvdpoIh0uQkl4yLM/t1zkehwDOQwXjsBN3Q1XeO9N
+	 c3VFwUSEc0XmqrnZd4Vv3KvF8/JNCxePthUV5MFS48HYFmRTZzIH3WnQiZr3zccZ6d
+	 hzBYwCs5bqVRt5DKj7qKynQ7BvfBb0WVED7vph2zIkwghsuNdQ6CECjjdXPcOLtrmy
+	 BlWFBr8Bx8/H8KUgUQT8NRlFK1PPxWBAWk+taXftlZ/diT6g/c3/iKj6H7QT6uQmj4
+	 rrrHzr3ZcXPMQ==
+Date: Tue, 27 Oct 2026 21:02:16 +0000
+To: Steven Rostedt <rostedt@goodmis.org>, "kees@kernel.org" <kees@kernel.org>, "brauner@kernel.org" <brauner@kernel.org>
+From: BoxStrikesTeam <BoxStrikesTeam@proton.me>
+Cc: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "jack@suse.cz" <jack@suse.cz>, "mhiramat@kernel.org" <mhiramat@kernel.org>, "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "jkoolstra@xs4all.nl" <jkoolstra@xs4all.nl>, "farid.m.zakaria@gmail.com" <farid.m.zakaria@gmail.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>
+Subject: Ynt: Re: [RFC PATCH] binfmt_misc: add binfmt_misc_select tracepoint
+Message-ID: <Z3h154GvGuNo0lQQgNCwWxpvOkPCUZblnFrYRF1R9dx3Lqyh7mG96XAdo4GDq2Sy-wjlmqcQKcgmosaapO4gy82voeR2rAerZh9u2LmCEiA=@proton.me>
+In-Reply-To: <20261026162846.23686159@gandalf.local.home>
+References: <cmtfuzYFZMj7WozUoEjFs3RxYWe9UgdY5rK3ZGT7CPwO1mpemvEwNhG4v5ucoKBgUHMqFa7kSzOvLjFcVcxAybfmKdURZ4h-qoKX1lHXlAA=@proton.me> <20261026162846.23686159@gandalf.local.home>
+Feedback-ID: 205449183:user:proton
+X-Pm-Message-ID: 9f98da1da7a4f9aead59ee0aee5c9d5707e0cf2b
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,263 +64,180 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261027-fix-proc-pid-maps-missing-vmas-v2-1-2791cc9fc95f@kernel.org>
- <CAJuCfpELhxhyVQANspX14OBLbghiAqndYcfv1hnmh4Nvo=1vAQ@mail.gmail.com> <auDEn8GmB0H7zj99@gremlin>
-In-Reply-To: <auDEn8GmB0H7zj99@gremlin>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 27 Oct 2026 13:33:28 -0700
-X-Gm-Features: AclHuK9xIitY88h9-xQmFSg95vDMG0XSmM9H59NNZztoY7Pi5T1zymOIAg7NNiM
-Message-ID: <CAJuCfpFqYcbw4rOhd+Q4PGryXjzTxYXpwmS7Ag_cbtPOYBW0Aw@mail.gmail.com>
-Subject: Re: [PATCH v2] fs/proc/task_mmu: fix missed VMAs when reading
- /proc/PID/maps and friends
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, SJ Park <sj@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, stable@vger.kernel.org, 
-	"David Hildenbrand (Arm)" <david@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 27, 2026 at 10:49=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.=
-org> wrote:
->
-> On Tue, Oct 27, 2026 at 08:34:10AM -0700, Suren Baghdasaryan wrote:
-> > Overall the code looks correct bit I have a couple of questions below.
->
-> Thanks!
+Thank you! Steve, for your suggestions.
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+I=E2=80=99ll take a look at the suggested fixes for the patch tomorrow. The=
+ main issue I ran into was that Proton Mail=E2=80=99s SMTP submission setup=
+ requires a paid plan, which caused me quite a bit of trouble. That=
+=E2=80=99s why I=E2=80=99ve included the patch as an attachment for now.
 
->
+It seems that Yandex Mail doesn=E2=80=99t have the same limitation. Once I=
+=E2=80=99ve prepared version 2 of the patch, I=E2=80=99ll send it to you us=
+ing Yandex Mail.
+
+Thanks again for your help and suggestions!
+
+
+
+Proton Mail g=C3=BCvenli e-posta ile g=C3=B6nderildi.
+
+Steven Rostedt <rostedt@goodmis.org>, 26 Ekim 2026 Pazartesi saat 23:28 tar=
+ihinde =C5=9Funu yazd=C4=B1:
+
+>=20
+> You shouldn't attach patches but inline them. Yeah, I know a lot of email
+> clients can't handle that. But claws-mail can! (and it can also reply to
+> attachments like they were inlined ;-) ).
+>=20
+> I'll let others comment on whether or not this patch is needed, but I'll
+> comment on the tracing side of things.
+>=20
+>=20
+> On Mon, 26 Oct 2026 20:17:26 +0000
+> BoxStrikesTeam <BoxStrikesTeam@proton.me> wrote:
+>=20
+> > From: Eneshan Erdo=C4=9Fan Karaca <BoxStrikesTeam@proton.me>
+> > Subject: [RFC PATCH] binfmt_misc: add binfmt_misc_select tracepoint
 > >
-> > > ---
-> > > Note that I decided it's best to defer any VMA iterator stuff to a
-> > > follow-up - with the abstractions added it's clear what's going on an=
-d
-> > > easier for backporting.
+> > A binfmt_misc entry can select an interpreter for an exec.  With a BPF
+> > 'B' handler, that selection can be made by a BPF struct_ops program.
+> > The kernel commits the decision in bprm->interp and bprm->flags, but it
+> > does not emit an event at the selection point.
 > >
-> > Ok. But once we get VMA iterator validation routine implemented, we
-> > won't need vma_rcu_iter and its helpers, I think. Are you ok with the
-> > fact that most of this change will have to be removed later?
->
-> No, I don't think this is correct.
->
-> The iterator can't validate itself - the failure case is invisible to it,
-> something changed in the tree and it has no way of knowing, it has to be
-> prompted to re-init etc.
->
-> I tried a version of the code with vma_iter_next_before() and it really d=
-idn't
-> provide much delta.
->
-> So I think any version of this has to have the rvmi stuff.
-
-Hmm. I though the fact that we store from_addr and can compare it with
-mas->last could help us detect VMA skips but I'll have to think some
-more about this.
-
->
-> In any case, I am happy to replace all this with whatever makes most sens=
-e
-> going forwards.
->
-> Key here is to fix the bug + get it backported :) [ before moving on to t=
-he
-> N other AI-reported bugs ;) ]
-
-Understood. Yeah, I'm not going to nitpick here as you have your hands
-full. If we find a better way we can improve it later.
-
->
-> > > +static inline void vma_rcu_iter_init(struct vma_rcu_iter *rvmi,
-> > > +               struct mm_struct *mm, struct vma_iterator *vmi,
-> > > +               unsigned long addr)
-> > > +{
-> > > +       vma_iter_init(vmi, mm, addr);
-> > > +       rvmi->mm =3D mm;
-> > > +       rvmi->vmi =3D vmi;
-> > > +       rvmi->mm_wr_seq =3D UINT_MAX; /* Start odd so changed by defa=
-ult. */
+> > Existing observers have to reconstruct the decision from
+> > /proc/PID/exe, AT_EXECFD, AT_FLAGS, or /proc/PID/maps.  These sources
+> > are mode-dependent: a transparent dispatch still reports the original
+> > binary in /proc/PID/exe, and a short-lived process can exit before the
+> > observer reads it.  A classic dispatch reports the interpreter, but
+> > not which handler selected it or which invocation flags were used.
 > >
-> > Why not initialize mm_wr_seq correctly using
-> > mmap_lock_speculate_try_begin(mm, &rvmi->mm_wr_seq)? That way on the
-> > first call to lock_next_vma() you won't be resetting vmi
-> > unnecessarily.
->
-> It doesn't really save anything, the init already sets you up in start st=
-ate
-> where you need to do a traversal anyway, and vma_next() will trigger a wa=
-lk
-> either way.
-
-You might end up with an extra vma_iter_set() call but it's not critical at=
- all.
-
->
-> What's useful about it is it makes it such that only lock_next_vma() does=
- the
-> speculation (and thus sampling of mm_wr_seq).
-
-OTOH you won't be exposing these odd/even seqcount details. Anyway,
-I'm fine with what you have.
-
->
-> > > @@ -471,14 +505,9 @@ struct vm_area_struct *lock_next_vma(struct mm_s=
-truct *mm,
-> > >          * installed ahead of it. Otherwise we might observe a gap th=
-at should
-> > >          * not be there.
-> > >          */
-> > > -       if (from_addr < vma->vm_start) {
-> > > -               /* Verify only if the address space might have change=
-d since vma lookup. */
-> > > -               if (!mmap_unlocked || mmap_lock_speculate_retry(mm, m=
-m_wr_seq)) {
-> > > -                       vma_iter_set(vmi, from_addr);
-> > > -                       if (vma !=3D vma_next(vmi))
-> > > -                               goto fallback_unlock;
-> > > -               }
-> > > -       }
-> > > +       if (from_addr < vma->vm_start &&
-> > > +           vma_rcu_iter_may_have_skipped(rvmi, from_addr, vma->vm_st=
-art - 1))
-> > > +               goto fallback_unlock;
+> > Add a tracepoint after the interpreter and the invocation flags are
+> > selected.  It reports the binary filename, the selected interpreter,
+> > the handler name (for BPF handlers), the invocation flags, and the
+> > pid.  The flags are masked with MISC_FMT_INVOCATION_FLAGS so that
+> > static entry state does not leak into the event.
 > >
-> > Before this change we fell back only if the new search yielded a
-> > different VMA (the vma !=3D vma_next(vmi) condition) while now we
-> > fallback unconditionally. Note that the VMA that we are rechecking is
-> > already locked, so it can't change. Was the previous logic invalid?
->
-> It's not unconditional - it requires that we have progressed and we may h=
-ave
-> skipped a VMA change.
->
-> The 'we have progressed' bit was there before (from_addr < vma->vm_start)=
-, and
-> vma_rcu_iter_may_have_skipped() wraps the previous check plus actually wa=
-lks to
-> check if something is there to traverse,
-
-Ok, I see. vma_rcu_iter_may_have_skipped() effectively replaces (vma
-!=3D vma_next(vmi)).
-
->
-> So this is strictly an improvement.
->
-> And yes the previous logic was invalid - the issue is with an unlocked VM=
-A
-> in the range [from_addr, vma->vm_start - 1].
->
-> It's really the gap that's the problem AND a race against node replacemen=
-t,
-> which means that 'X' is skipped by vma_next().
->
-> vma_next() is a walk to from_addr, then runs mas_next_slot() which advanc=
-es
-> to the next entry. If a gap, then the walk assigns mas->last to the end o=
-f
-> the gap, and if a node is killed before that happens, due to a VMA
-> expanding _backwards_ like:
->
-> vma_iter_set(vmi, from_addr), then mas_walk() from mas_find():
->
->         from_addr
->            |
->            v
->  |---------|      |-----|   |---------|
->  |    A    |      |  X  |   |    B    |
->  |---------|      |-----|   |---------|
->            ^     ^
->            |     |
->      mas->index  mas->last
->
-> The walk lands in the gap. mas_next_slot() saves mas->last as its
-> rewalk point.
->
-> X expands backwards, the node containing the gap is replaced:
->
->         from_addr
->            |
->            v
->  |---------|  |---------|   |---------|
->  |    A    |  |    X    |   |    B    |
->  |---------|  |---------|   |---------|
->                  ^
->                  |
->              mas->last
->
-> mas_next_slot() finds the node dead and calls mas_rewalk(mas->last),
-> which now lands inside X:
->
->         from_addr
->            |
->            v
->  |---------|  |---------|   |---------|
->  |    A    |  |    X    |   |    B    |
->  |---------|  |---------|   |---------|
->                ^        ^
->                |        |
->          mas->index  mas->last
->
-> mas_next_slot() then advances past the entry it is on, which is X:
->
->         from_addr           vmi
->            |                |
->            v                v
->  |---------|  |---------|   |---------|
->  |    A    |  |    X    |   |    B    |
->  |---------|  |---------|   |---------|
->
-> So vma_next() returns B, having stepped over X. We lock B:
->
->         from_addr           vmi
->            |                |
->            v                v
->  |---------|  |---------|   |---------|
->  |    A    |  |    X    |   |    B    |
->  |---------|  |---------|   |---------|
->                               locked
-
-Ok, so here we hit this "if (from_addr < vma->vm_start)" condition and
-have to verify that we did not skip a VMA.
-
->
-> Then if you get (really) unlucky, the same race happens again for the
-> existing code:
->
-> vma_iter_set(vmi, from_addr);
-> if (vma !=3D vma_next(vmi))
->     goto fallback_unlock;
->
-> The walk lands in the gap before X, something else is merged into X from
-> below, the rewalk lands inside X and the advance steps over it again:
->
->         from_addr           vmi
->            |                |
->            v                v
->  |---------| |----------|   |---------|
->  |    A    | |     X    |   |    B    |
->  |---------| |----------|   |---------|
->                               locked
->
-> And suddenly vma =3D=3D vma_next(vmi), no fallback, and X is never report=
-ed.
-
-Got it. The same skip must happen the first time and then during our
-verification. Thanks for the detailed explanation.
-
->
-> With the new approach you simply can't miss it, as
-> vma_rcu_iter_maybe_changed() will see a change could have happened, and
-> vma_range_is_empty() tells you explicitly, with a brand new separate walk=
-,
-> whether e.g. X is there.
-
-Yep, that function name is indeed very clear.
-
->
-> It's finnicky, finnicky stuff, which is probably why AI found it :))
->
-> --
-> Cheers, Lorenzo
+> > The tracepoint is observability only; it does not change exec
+> > behavior.
+> >
+> > Assisted-by: LLM
+> > Signed-off-by: Eneshan Erdo=C4=9Fan Karaca <BoxStrikesTeam@proton.me>
+> > ---
+> >
+> > This is an RFC.  A small PoC and short A/B results are available for
+> > context; they are not needed to review the patch.
+> >
+> >  fs/binfmt_misc.c                  |  8 ++++++++
+> >  include/trace/events/binfmt_misc.h | 52 ++++++++++++++++++++++++++++++=
+++++++++
+> >  2 files changed, 60 insertions(+)
+> >
+> > diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+> > --- a/fs/binfmt_misc.c
+> > +++ b/fs/binfmt_misc.c
+> > @@ -41,6 +41,9 @@
+> >
+> >  #include "internal.h"
+> >
+> > +#define CREATE_TRACE_POINTS
+> > +#include <trace/events/binfmt_misc.h>
+> > +
+> >  /* Entry status and match type bit numbers. */
+> >  enum binfmt_misc_entry_bits {
+> >  =09MISC_FMT_ENABLED_BIT=09=3D 0,
+> > @@ -644,6 +647,11 @@
+> >
+> >  =09flags =3D entry_invocation_flags(fmt, bprm);
+> >
+> > +=09trace_binfmt_misc_select(bprm, interpreter,
+> > +=09=09=09=09 test_bit(MISC_FMT_BPF_BIT, &fmt->flags) ?
+> > +=09=09=09=09 fmt->bpf_ops->name : "",
+> > +=09=09=09=09 flags & MISC_FMT_INVOCATION_FLAGS);
+>=20
+> Logic like the above should be done in the trace event itself. Not in the
+> code path. That is, pass in fmt and flags.
+>=20
+> > +
+> >  =09/* No argv is built for a staged argument to land in. */
+> >  =09if ((flags & (MISC_FMT_LOADER | MISC_FMT_TRANSPARENT)) &&
+> >  =09    bprm->bpf_interp_arg)
+> >
+> > diff --git a/include/trace/events/binfmt_misc.h b/include/trace/events/=
+binfmt_misc.h
+> > new file mode 100644
+> > --- /dev/null
+> > +++ b/include/trace/events/binfmt_misc.h
+> > @@ -0,0 +1,52 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Tracepoint for binfmt_misc binary type handler dispatch.
+> > + *
+> > + * Fires once for every exec a binfmt_misc entry matches, after the
+> > + * interpreter and the invocation flags have been selected. Unlike
+> > + * sched_process_exec (which reports bprm->filename) and /proc/PID/exe
+> > + * (which a transparent dispatch sets to the binary), this reports the
+> > + * interpreter that actually runs, so observers can see through a
+> > + * transparent dispatch.
+> > + */
+> > +#undef TRACE_SYSTEM
+> > +#define TRACE_SYSTEM binfmt_misc
+> > +
+> > +#if !defined(_TRACE_BINFMT_MISC_H) || defined(TRACE_HEADER_MULTI_READ)
+> > +#define _TRACE_BINFMT_MISC_H
+> > +
+> > +#include <linux/tracepoint.h>
+> > +#include <linux/binfmts.h>
+> > +
+> > +TRACE_EVENT(binfmt_misc_select,
+> > +
+> > +=09TP_PROTO(struct linux_binprm *bprm, const char *interp,
+> > +=09=09 const char *handler, unsigned long flags),
+> > +
+> > +=09TP_ARGS(bprm, interp, handler, flags),
+> > +
+> > +=09TP_STRUCT__entry(
+> > +=09=09__string(filename,=09bprm->filename)
+> > +=09=09__string(interp,=09interp)
+> > +=09=09__string(handler,=09handler)
+>=20
+> Then here you would have:
+>=20
+> =09=09__string(handler, test_bit(MISC_FMT_BPF_BIT, &fmt->flags) ?
+> =09=09=09=09 fmt->bpf_ops->name : "")
+>=20
+>=20
+> > +=09=09__field(unsigned long,=09flags)
+> > +=09=09__field(pid_t,=09=09pid)
+> > +=09),
+> > +
+> > +=09TP_fast_assign(
+> > +=09=09__assign_str(filename);
+> > +=09=09__assign_str(interp);
+> > +=09=09__assign_str(handler);
+> > +=09=09__entry->flags =3D flags;
+>=20
+> and here:
+>=20
+> =09=09__entry->flags =3D flags & MISC_FMT_INVOCATION_FLAGS;
+>=20
+> -- Steve
+>=20
+>=20
+> > +=09=09__entry->pid =3D current->pid;
+> > +=09),
+> > +
+> > +=09TP_printk("pid=3D%d filename=3D%s interp=3D%s handler=3D%s flags=3D=
+%#lx",
+> > +=09=09  __entry->pid, __get_str(filename), __get_str(interp),
+> > +=09=09  __get_str(handler), __entry->flags)
+> > +);
+> > +
+> > +#endif /* _TRACE_BINFMT_MISC_H */
+> > +
+> > +/* This part must be outside protection */
+> > +#include <trace/define_trace.h>
+>=20
+> 
