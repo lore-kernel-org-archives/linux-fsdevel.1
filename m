@@ -1,131 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793097879;
-	b=H06tsJ4zIC1pkWRiVRXu5yAjA7KS6ykNoOZQ6CLm4kvpePUH7mKYqKjOxQniAa39740Q
-	 nsAAPIOvCP/zWsQl3stJWVo4tpVGR2lVnCTD72EPb8OoUCWPblcM59yOJmOmctICBlhdj
-	 16icO8NuUcpiy7ZEmPMSEoKWAvcMdE3KohB1OV5EEBqYi1yVzc5DR+muFx9oT3rFPUZs7
-	 M6G/AfiDQLdjBdX632cG9uN0JyFgXZHXHs00rV21SVwraka/6A2vnmkwRO6zpl5nPYoXQ
-	 CpJOvKEgNR+FGqBiB5w7pPpAYyaDNNU6lDRaMGy7luEK0kP4AkNiF3TLRnaVMa05f7Q==
+	t=1793099403;
+	b=hoi/K6ym7mTBdKxY3nYs27ilDMAtA2MzQKfXtH8BWpWg4ZuVdOno5vNCW4AJhW0pV6+G
+	 nauLcKJ5ToB1x9rHUt6wY21IM9o+6aRKr7ugRqJlF8rIEwKrE/AC8pp3YoJAGbXnIn/qL
+	 aeeuv5DNZd/uLkHxzgGTQ19Jy2hl7BVeiBY5k4l4o/7olN/Vkap7+6atC1vfA7gbeld2V
+	 hVDAaufs1B70xFZb+PlPMXQYjDyF8pFilSn6JkEaYLBWb5BJRn+f8cj7KOcv3UooCr2I9
+	 pdSx4cjfQ8Krpgaum5IbWVGv0tN/QOBDNMxzkr18mi+03k03nV16JeQXP7KGH9oz1ZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793097879;
-	h=Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Autocrypt:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=VOku0TcLYfrW/DAPJZMDLhq37sTK+7BPMQhK2+Un/Hs=;
-	b=FiMGakAnN1s+0wGU1fP1ztqwV3Gh4BcyrNMJ8fTQDuKJKO3q5NYAwiE6EKCpG9ffxWaT
-	 p3ZzADlXSn6s8q1c2TpZtXAi8oYWipR7djXNsl79M6gHc3G1BIrIylcPKKF48+PkATp+V
-	 Btu73fwwfKxEGCbs1ZjGYpfGyg2mX0ALV/QZBvZwc4OufWTB0tRqNdvUPLzBqFHmArVqs
-	 1xWibLs5r5oLC3BDzbS4k44ddUxQEMrzfMIMtxGUtfxnbfjOkAwfZHVyQUZLM4uXFndwu
-	 ehsDeDH2//8i2ErAgmwaQmGxKNggps77m8iHpb62tEkBUIwCcaj/WXiIJNVVVqpxscg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793099403;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=8BryABgcZ7DA+XBYIpyIPDmj1TmISKJ+oIODypTsFPw=;
+	b=MXVvH2F8h17+v9i0YehnEsGLYpqNyMqtibeDicZ9UHw7Hjhi+1CKCzIJcaov7dQABCFf
+	 N0MgGny8WJ1EbKnX+Zr9uhiZjomfnaZ/nCkQbgmTuhXSV9ip2ZjLXzNnF3H3rDo9L0uUS
+	 hxd6BDsJ4g7Ls2nTl7+631DSqrJvYM+2adcAkMLebXVtY8CsHTw7NX6PPFld/J3/N6wMh
+	 2KqdjRbEEVXpTgu0y2n+9sCpYMUCgbQVrH0B3OnCHXMhvTpRSFINbjCgi9Pi7vJUocIGs
+	 avCwmz6wb2/JuC5upb/dlWuYbRxkD8hCHfIz8Ik8R9DhkBJT0dw7Pz5cFS9etNbfLBw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="m7UU5Oy/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=tec1jmsz;
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B769606A31B;
-	Tue, 27 Oct 2026 10:44:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CDD606A31A;
+	Tue, 27 Oct 2026 11:10:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48CDD606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m7UU5Oy/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DC4B1F01828;
-	Tue, 27 Oct 2026 10:44:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793097878;
-	bh=VOku0TcLYfrW/DAPJZMDLhq37sTK+7BPMQhK2+Un/Hs=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=m7UU5Oy/pq0zI0KSlgl/SZSQTVBA3saxOHZUT3N69jbt9iLfC7VDCsyjTqcSrwlee
-	 INR1zC/TXcKJba7WR0MdpzLA1LTKulOg/FUTN4lmdSizfIt6EpRIAQVa4eozT+Y6ah
-	 SbdvXS/fRNRoikk1W4EJXpNxKSckKilFFkdKhW8NoVOkHXi0efLv2bOTRqV5uKUgAx
-	 IzaRTKqHSJo9gW8sRkrB4wiJ1BX71AxuderZj0AWb8PfUxa4wMcUn68cVrh5LZaUeN
-	 M/TmulNzqX7jOqzj7X3KSDjMlW3hNGO7BT0TtlJ3bU5WAi956xh8Iod10802v/OeLD
-	 ngfWGk2LRX10g==
-Message-ID: <54dd1452c761cbeb9555b6ef5c8411aab0ac8001.camel@kernel.org>
-Subject: Re: [PATCH] exfat: preserve creation times during rename
-From: Jeff Layton <jlayton@kernel.org>
-To: Hungyu Lin <dennylin0707@gmail.com>, linkinjeon@kernel.org
-Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, exfat@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, jack@suse.cz
-Date: Tue, 27 Oct 2026 06:44:35 -0400
-In-Reply-To: <20261027091353.74642-1-dennylin0707@gmail.com>
-References: <20261027091353.74642-1-dennylin0707@gmail.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
- n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
- egyjnSsFt7EGoDjdKqr1TS9syJYFjagYtvWk/UfHlW09X+jOh4vYtfX7iYSx/NfqV3W1D7EDi0PqV
- T2h6v8i8YqsATFPwO4nuiTmL6I40ZofxVd+9wdRI4Db8yUNA4ZSP2nqLcLtFjClYRBoJvRWvsv4lm
- 0OX6MYPtv76hka8lW4mnRmZqqx3UtfHX/hF/zH24Gj7A6sYKYLCU3YrI2Ogiu7/ksKcl7goQjpvtV
- YrOOI5VGLHge0awt7bhMCTM9KAfPc+xL/ZxAMVWd3NCk5SamL2cE99UWgtvNOIYU8m6EjTLhsj8sn
- VluJH0/RcxEeFbnSaswVChNSGa7mXJrTR22lRL6ZPjdMgS2Km90haWPRc8Wolcz07Y2se0xpGVLEQ
- cDEsvv5IMmeMe1/qLZ6NaVkNuL3WOXvxaVT9USW1+/SGipO2IpKJjeDZfehlB/kpfF24+RrK+seQf
- CBYyUE8QJpvTZyfUHNYldXlrjO6n5MdOempLqWpfOmcGkwnyNRBR46g/jf8KnPRwXs509yAqDB6sE
- LZH+yWr9LQZEwARAQABtCVKZWZmIExheXRvbiA8amxheXRvbkBwb29jaGllcmVkcy5uZXQ+iQI7BB
- MBAgAlAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUCTpXWPAIZAQAKCRAADmhBGVaCFc65D/4
- gBLNMHopQYgG/9RIM3kgFCCQV0pLv0hcg1cjr+bPI5f1PzJoOVi9s0wBDHwp8+vtHgYhM54yt43uI
- 7Htij0RHFL5eFqoVT4TSfAg2qlvNemJEOY0e4daljjmZM7UtmpGs9NN0r9r50W82eb5Kw5bc/r0km
- R/arUS2st+ecRsCnwAOj6HiURwIgfDMHGPtSkoPpu3DDp/cjcYUg3HaOJuTjtGHFH963B+f+hyQ2B
- rQZBBE76ErgTDJ2Db9Ey0kw7VEZ4I2nnVUY9B5dE2pJFVO5HJBMp30fUGKvwaKqYCU2iAKxdmJXRI
- ONb7dSde8LqZahuunPDMZyMA5+mkQl7kpIpR6kVDIiqmxzRuPeiMP7O2FCUlS2DnJnRVrHmCljLkZ
- Wf7ZUA22wJpepBligemtSRSbqCyZ3B48zJ8g5B8xLEntPo/NknSJaYRvfEQqGxgk5kkNWMIMDkfQO
- lDSXZvoxqU9wFH/9jTv1/6p8dHeGM0BsbBLMqQaqnWiVt5mG92E1zkOW69LnoozE6Le+12DsNW7Rj
- iR5K+27MObjXEYIW7FIvNN/TQ6U1EOsdxwB8o//Yfc3p2QqPr5uS93SDDan5ehH59BnHpguTc27Xi
- QQZ9EGiieCUx6Zh2ze3X2UW9YNzE15uKwkkuEIj60NvQRmEDfweYfOfPVOueC+iFifbQgSmVmZiBM
- YXl0b24gPGpsYXl0b25AcmVkaGF0LmNvbT6JAjgEEwECACIFAk6V0q0CGwMGCwkIBwMCBhUIAgkKC
- wQWAgMBAh4BAheAAAoJEAAOaEEZVoIViKUQALpvsacTMWWOd7SlPFzIYy2/fjvKlfB/Xs4YdNcf9q
- LqF+lk2RBUHdR/dGwZpvw/OLmnZ8TryDo2zXVJNWEEUFNc7wQpl3i78r6UU/GUY/RQmOgPhs3epQC
- 3PMJj4xFx+VuVcf/MXgDDdBUHaCTT793hyBeDbQuciARDJAW24Q1RCmjcwWIV/pgrlFa4lAXsmhoa
- c8UPc82Ijrs6ivlTweFf16VBc4nSLX5FB3ls7S5noRhm5/Zsd4PGPgIHgCZcPgkAnU1S/A/rSqf3F
- LpU+CbVBDvlVAnOq9gfNF+QiTlOHdZVIe4gEYAU3CUjbleywQqV02BKxPVM0C5/oVjMVx3bri75n1
- TkBYGmqAXy9usCkHIsG5CBHmphv9MHmqMZQVsxvCzfnI5IO1+7MoloeeW/lxuyd0pU88dZsV/riHw
- 87i2GJUJtVlMl5IGBNFpqoNUoqmvRfEMeXhy/kUX4Xc03I1coZIgmwLmCSXwx9MaCPFzV/dOOrju2
- xjO+2sYyB5BNtxRqUEyXglpujFZqJxxau7E0eXoYgoY9gtFGsspzFkVNntamVXEWVVgzJJr/EWW0y
- +jNd54MfPRqH+eCGuqlnNLktSAVz1MvVRY1dxUltSlDZT7P2bUoMorIPu8p7ZCg9dyX1+9T6Muc5d
- Hxf/BBP/ir+3e8JTFQBFOiLNdFtB9KZWZmIExheXRvbiA8amxheXRvbkBzYW1iYS5vcmc+iQI4BBM
- BAgAiBQJOldK9AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRAADmhBGVaCFWgWD/0ZRi4h
- N9FK2BdQs9RwNnFZUr7JidAWfCrs37XrA/56olQl3ojn0fQtrP4DbTmCuh0SfMijB24psy1GnkPep
- naQ6VRf7Dxg/Y8muZELSOtsv2CKt3/02J1BBitrkkqmHyni5fLLYYg6fub0T/8Kwo1qGPdu1hx2BQ
- RERYtQ/S5d/T0cACdlzi6w8rs5f09hU9Tu4qV1JLKmBTgUWKN969HPRkxiojLQziHVyM/weR5Reu6
- FZVNuVBGqBD+sfk/c98VJHjsQhYJijcsmgMb1NohAzwrBKcSGKOWJToGEO/1RkIN8tqGnYNp2G+aR
- 685D0chgTl1WzPRM6mFG1+n2b2RR95DxumKVpwBwdLPoCkI24JkeDJ7lXSe3uFWISstFGt0HL8Eew
- P8RuGC8s5h7Ct91HMNQTbjgA+Vi1foWUVXpEintAKgoywaIDlJfTZIl6Ew8ETN/7DLy8bXYgq0Xzh
- aKg3CnOUuGQV5/nl4OAX/3jocT5Cz/OtAiNYj5mLPeL5z2ZszjoCAH6caqsF2oLyAnLqRgDgR+wTQ
- T6gMhr2IRsl+cp8gPHBwQ4uZMb+X00c/Amm9VfviT+BI7B66cnC7Zv6Gvmtu2rEjWDGWPqUgccB7h
- dMKnKDthkA227/82tYoFiFMb/NwtgGrn5n2vwJyKN6SEoygGrNt0SI84y6hEVbQlSmVmZiBMYXl0b
- 24gPGpsYXl0b25AcHJpbWFyeWRhdGEuY29tPokCOQQTAQIAIwUCU4xmKQIbAwcLCQgHAwIBBhUIAg
- kKCwQWAgMBAh4BAheAAAoJEAAOaEEZVoIV1H0P/j4OUTwFd7BBbpoSp695qb6HqCzWMuExsp8nZjr
- uymMaeZbGr3OWMNEXRI1FWNHMtcMHWLP/RaDqCJil28proO+PQ/yPhsr2QqJcW4nr91tBrv/MqItu
- AXLYlsgXqp4BxLP67bzRJ1Bd2x0bWXurpEXY//VBOLnODqThGEcL7jouwjmnRh9FTKZfBDpFRaEfD
- FOXIfAkMKBa/c9TQwRpx2DPsl3eFWVCNuNGKeGsirLqCxUg5kWTxEorROppz9oU4HPicL6rRH22Ce
- 6nOAON2vHvhkUuO3GbffhrcsPD4DaYup4ic+DxWm+DaSSRJ+e1yJvwi6NmQ9P9UAuLG93S2MdNNbo
- sZ9P8k2mTOVKMc+GooI9Ve/vH8unwitwo7ORMVXhJeU6Q0X7zf3SjwDq2lBhn1DSuTsn2DbsNTiDv
- qrAaCvbsTsw+SZRwF85eG67eAwouYk+dnKmp1q57LDKMyzysij2oDKbcBlwB/TeX16p8+LxECv51a
- sjS9TInnipssssUDrHIvoTTXWcz7Y5wIngxDFwT8rPY3EggzLGfK5Zx2Q5S/N0FfmADmKknG/D8qG
- IcJE574D956tiUDKN4I+/g125ORR1v7bP+OIaayAvq17RP+qcAqkxc0x8iCYVCYDouDyNvWPGRhbL
- UO7mlBpjW9jK9e2fvZY9iw3QzIPGKtClKZWZmIExheXRvbiA8amVmZi5sYXl0b25AcHJpbWFyeWRh
- dGEuY29tPokCOQQTAQIAIwUCU4xmUAIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEAAOa
- EEZVoIVzJoQALFCS6n/FHQS+hIzHIb56JbokhK0AFqoLVzLKzrnaeXhE5isWcVg0eoV2oTScIwUSU
- apy94if69tnUo4Q7YNt8/6yFM6hwZAxFjOXR0ciGE3Q+Z1zi49Ox51yjGMQGxlakV9ep4sV/d5a50
- M+LFTmYSAFp6HY23JN9PkjVJC4PUv5DYRbOZ6Y1+TfXKBAewMVqtwT1Y+LPlfmI8dbbbuUX/kKZ5d
- dhV2736fgyfpslvJKYl0YifUOVy4D1G/oSycyHkJG78OvX4JKcf2kKzVvg7/Rnv+AueCfFQ6nGwPn
- 0P91I7TEOC4XfZ6a1K3uTp4fPPs1Wn75X7K8lzJP/p8lme40uqwAyBjk+IA5VGd+CVRiyJTpGZwA0
- jwSYLyXboX+Dqm9pSYzmC9+/AE7lIgpWj+3iNisp1SWtHc4pdtQ5EU2SEz8yKvDbD0lNDbv4ljI7e
- flPsvN6vOrxz24mCliEco5DwhpaaSnzWnbAPXhQDWb/lUgs/JNk8dtwmvWnqCwRqElMLVisAbJmC0
- BhZ/Ab4sph3EaiZfdXKhiQqSGdK4La3OTJOJYZphPdGgnkvDV9Pl1QZ0ijXQrVIy3zd6VCNaKYq7B
- AKidn5g/2Q8oio9Tf4XfdZ9dtwcB+bwDJFgvvDYaZ5bI3ln4V3EyW5i2NfXazz/GA/I/ZtbsigCFc
- 8ftCBKZWZmIExheXRvbiA8amxheXRvbkBrZXJuZWwub3JnPokCOAQTAQIAIgUCWe8u6AIbAwYLCQg
- HAwIGFQgCCQoLBBYCAwECHgECF4AACgkQAA5oQRlWghUuCg/+Lb/xGxZD2Q1oJVAE37uW308UpVSD
- 2tAMJUvFTdDbfe3zKlPDTuVsyNsALBGclPLagJ5ZTP+Vp2irAN9uwBuacBOTtmOdz4ZN2tdvNgozz
- uxp4CHBDVzAslUi2idy+xpsp47DWPxYFIRP3M8QG/aNW052LaPc0cedYxp8+9eiVUNpxF4SiU4i9J
- DfX/sn9XcfoVZIxMpCRE750zvJvcCUz9HojsrMQ1NFc7MFT1z3MOW2/RlzPcog7xvR5ENPH19ojRD
- CHqumUHRry+RF0lH00clzX/W8OrQJZtoBPXv9ahka/Vp7kEulcBJr1cH5Wz/WprhsIM7U9pse1f1g
- Yy9YbXtWctUz8uvDR7shsQxAhX3qO7DilMtuGo1v97I/Kx4gXQ52syh/w6EBny71CZrOgD6kJwPVV
- AaM1LRC28muq91WCFhs/nzHozpbzcheyGtMUI2Ao4K6mnY+3zIuXPygZMFr9KXE6fF7HzKxKuZMJO
- aEZCiDOq0anx6FmOzs5E6Jqdpo/mtI8beK+BE7Va6ni7YrQlnT0i3vaTVMTiCThbqsB20VrbMjlhp
- f8lfK1XVNbRq/R7GZ9zHESlsa35ha60yd/j3pu5hT2xyy8krV8vGhHvnJ1XRMJBAB/UYb6FyC7S+m
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=tec1jmsz
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=8BryABgcZ7DA+XBYIpyIPDmj1TmISKJ+oIODypTsFPw=; b=tec1jmszyHzg20Gsi9B9OGtdi0
+	bsCvcBUhd46e/5/GXq6SGAww+LVpHIHQwe0YKWk72ihksfy4XUJrxTbGdLAnv+D/3l8x0l5pOrtHd
+	7acMwSIp8xdaNQ1AIn1SBzFfdKqfG47ktiRrG9Gdqsr6nFLRAKQwd+iSUVX0qRopMxZbjuME3IWYU
+	rWWjhVhXS7N+lyNQrK9sV4YC1izjgWJLVZnwjd0PysDBxqh4LXHJQqVbGOqt8gUresF7JGcKsKk/M
+	4u4+TrZIvctu40uV383GKM/IXYMeeS9/2czQz3WkAwKHaXgRu8pQpjnw4c+liTKeH/5Cd28W8xTcV
+	Jq4Gy6Aw==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xLf3s-0000000D9LE-3APy;
+	Tue, 27 Oct 2026 11:09:48 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 385DE300312; Tue, 27 Oct 2026 12:09:48 +0100 (CET)
+Date: Tue, 27 Oct 2026 12:09:48 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: James Houghton <jthoughton@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Thomas Gleixner <tglx@kernel.org>, Kees Cook <kees@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jim Mattson <jmattson@google.com>, Jens Axboe <axboe@kernel.dk>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	David Sterba <dsterba@suse.com>, Chris Mason <mason@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, bpf@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 05/10] perf/core: Don't unwind the user stack without
+ an mm
+Message-ID: <20261027110948.GI2668564@noisy.programming.kicks-ass.net>
+References: <20261026215226.3713941-1-jthoughton@google.com>
+ <20261026215226.3713941-6-jthoughton@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -135,56 +98,61 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261026215226.3713941-6-jthoughton@google.com>
 
-On Tue, 2026-10-27 at 09:13 +0000, Hungyu Lin wrote:
-> exfat_rename() resets the destination parent directory's i_crtime after
-> every successful rename. A normal mv within that directory therefore
-> changes its STATX_BTIME, and the new creation time is also written to
-> disk. Moving a child does not recreate its parent directory.
->=20
-> The function also resets i_crtime on an overwritten target inode. An
-> application holding an open file descriptor can observe its birth time
-> change even though it still refers to the same inode.
->=20
-> Remove both creation-time updates. simple_rename_timestamp() already
-> updates the modification and change times required by rename, while
-> creation times should remain unchanged. Jeff Layton questioned these
-> updates during the timestamp accessor conversion, but they remain in
-> the current implementation.
->=20
-> Fixes: 5f2aa075070c ("exfat: add inode operations")
-> Suggested-by: Jeff Layton <jlayton@kernel.org>
-> Link: https://lore.kernel.org/r/bb698e294b0d4dbbbad4b94048693360010b8010.=
-camel@kernel.org
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+On Mon, Oct 26, 2026 at 09:52:21PM +0000, James Houghton wrote:
+> get_perf_callchain() only checks is_user_task(current) when the regs it
+> is given aren't user mode regs. However, BPF's bpf_get_task_stack() (and
+> bpf_get_task_stack_sleepable()) pass task_pt_regs(current) when called on
+> the current task, which are user mode regs for a user task, even if that
+> task has already gone through exit_mm(), e.g. when called from a program
+> attached to exit_files() or to the dying task's final sched_switch.
+> 
+> perf_callchain_user() then unwinds the user stack without an mm. That
+> access does not reliably fail: the user half of the address space
+> belongs to whatever mm happens to be lazily loaded, if any, so the
+> unwinder may read another task's memory. This affects e.g. arm64,
+> riscv, loongarch and csky, whose perf_callchain_user() doesn't check
+> current->mm itself. perf events themselves are not affected, as
+> perf_callchain() already clears the user callchain request when
+> current is not a user task with an mm.
+> 
+> Check is_user_task(current) regardless of the regs' mode.
+> 
+> Fixes: fa28dcb82a38 ("bpf: Introduce helper bpf_get_task_stack()")
+> Signed-off-by: James Houghton <jthoughton@google.com>
 > ---
->  fs/exfat/namei.c | 2 --
->  1 file changed, 2 deletions(-)
->=20
-> diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c
-> index 68ddb9c5504f..d01280570f70 100644
-> --- a/fs/exfat/namei.c
-> +++ b/fs/exfat/namei.c
-> @@ -1293,7 +1293,6 @@ static int exfat_rename(const struct mnt_idmap *idm=
-ap,
-> =20
->  	inode_inc_iversion(new_dir);
->  	simple_rename_timestamp(old_dir, old_dentry, new_dir, new_dentry);
-> -	EXFAT_I(new_dir)->i_crtime =3D current_time(new_dir);
->  	exfat_truncate_inode_atime(new_dir);
->  	if (IS_DIRSYNC(new_dir) && size !=3D i_size_read(new_dir))
->  		exfat_sync_inode(new_dir);
-> @@ -1331,7 +1330,6 @@ static int exfat_rename(const struct mnt_idmap *idm=
-ap,
->  			exfat_warn(sb, "abnormal access to an inode dropped");
->  			WARN_ON(new_inode->i_nlink =3D=3D 0);
->  		}
-> -		EXFAT_I(new_inode)->i_crtime =3D current_time(new_inode);
+>  kernel/events/callchain.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/kernel/events/callchain.c b/kernel/events/callchain.c
+> index 9d24b6e0c91f..a451ca2a5573 100644
+> --- a/kernel/events/callchain.c
+> +++ b/kernel/events/callchain.c
+> @@ -245,11 +245,15 @@ get_perf_callchain(struct pt_regs *regs, bool kernel, bool user,
 >  	}
-> =20
->  unlock:
+>  
+>  	if (user && !crosstask) {
+> -		if (!user_mode(regs)) {
+> -			if (!is_user_task(current))
+> -				goto exit_put;
+> +		/*
+> +		 * Even if @regs are user mode regs, e.g. task_pt_regs(current)
+> +		 * passed in by bpf_get_task_stack(), current may already have
+> +		 * gone through exit_mm().
+> +		 */
+> +		if (!is_user_task(current))
+> +			goto exit_put;
+> +		if (!user_mode(regs))
+>  			regs = task_pt_regs(current);
+> -		}
+>  
+>  		if (defer_cookie) {
+>  			/*
 
-To be clear, i_crtime is equivalent to the btime, so it shouldn't
-change on a rename.
+We have perf_event_exit_task() before exit_mm().
 
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
+Still, it doesn't hurt to be cautious. So no real objection, but perhaps
+adjust the Changelog?
