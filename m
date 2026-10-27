@@ -1,100 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.179
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793140676;
-	b=T7MkNEhBw/YxbPB88T5lqmQi9+2F8TjVGhp/x1w0EQNsm9c9k1dzyy0bLuLzMRgxyNTu
-	 NuRsMs0pFG/w4fPM2i9lehRkMGWwEsrehDdg4xZDZk3u2E08cyja8k+zigAg4t8PQBGRD
-	 7E6OJ70qZp1Scx9HT97Nk5ZyUXXDBscQ6boCcWKJCkSPeKV3w/git4spJFIpnQeEXSK7K
-	 qPzBObs9JaOCrfNW+Wjsn7oMpBOvjafPnIy84AuWTtEkV9QEddQ/uI2mb+7u5U8+ORHGy
-	 todTVpg1U5Nyj+MJMMeQzbJkA2LXE9SCjYQZ+PFiC/+YR0rsbnS2kZMo1YqLZcJqtwQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793140676;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.198
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793140751;
+	b=UvTO5OXIVDOBA+epEsxr59CDwbp4U/1a1mZSickcd83+Z0AG5/qXTrSwHl0QoKoY0AnX
+	 93qi8plGCTUlKxosy6aWsB4WJauOwlnuoyaliL9S3Ps4BY3htsvkKHtvs0ehD3ILMREq+
+	 LYoYQGjiIQLSRWreKJlEIwIl4G7KL6xwUJ0OEtfOc86PpQ+z7DX13/SgpDi2lcNuKBuLz
+	 zl09fFfsl2BSE+3kz8cEs4N+9PBY4zGjwNYL6hmgZuKoYkBhd6DLV8BzPmQIlUt3lHeCb
+	 EHFlXnYx7oF7sq552dToLXR6evOLI2daXY2GessqpNCn60gxNA+tRtR3JfPXiJEx3UA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793140751;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=t5xhlGartaiIZUAGJb1P17Ap9eQ10+LChVLHP/V0nA0=;
-	b=xyF10WNjpDbnchEHA9CTb95/drcyb8I5hJ+IrfDfP42Ar3X14g4bv3uez22LB1ckOhvO
-	 jMljM8fPzZAi27Wt/DK4hppwI6FiFoR2l3erNmGG+0FqfUub4oOubhWdSq+z6wpEJo2qU
-	 YYjDSYjvYzAVOoK0nCDcbng8dz8MNd5GSkrB6W1vjZKSjcNLUG5EceshMAx1xNXc39QPO
-	 3Stlh62Y93dkyybdwFYkTi0ANOf/kgnYUQ5cjXpvhQQJ5Z/CPdwUvrIdE5wrUQY9w5R4U
-	 ikHy1XT7wHNdKqzeWZ/hAXMk17Zrrf8rVlkgI7OgS5ZVbF0xouhZRKiXxGv21jYlzUQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=paul-moore.com;
-	spf=pass smtp.mailfrom=paul-moore.com;
-	dkim=pass header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=CmmfcGZ7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.179
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=pEmx5PL3tlnBiGr2rjVOl0G+YHkBW7VB5cziBEiH9l0=;
+	b=zcgabqs/Z7TyLCRuCF87zVTdSnWDKntwpdiwQUQnYvny58G8Lpd1NYTFtuHzuJKlsLoh
+	 dndxNKP7rfjaICFNuISdBbZCrXJNAxBU486yuNPwoRj5Z4/1GV+Y8c/gyCVztDt3pUBsa
+	 u1HPTQiN5xp1oRyj2TG8Wcev2vV6S+M/94IE60TQJxtZHDXao5z/oPQBUJ0XnXm07UYXr
+	 AeBJQ/NjZGMOuVxzZpa61OmcFYaqv3W/7mIyf1DGDvJoYGsBDs0IKcph8q5oA0WiVlU74
+	 ChZSo7lyDM5ZdyOxaCmQMmCzdRjqXQ1Js9AR0osEgKXQhLR5/8p2xj/w9xUpj8T94KQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=WwyADfSB;
+	arc=none smtp.remote-ip=74.125.82.198
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDD8606A31F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 22:37:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EDD8606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F1E606A322
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 22:39:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43F1E606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=CmmfcGZ7
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8a05effaf8dso252794b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 15:37:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793140675; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AKZFdYRXUXaEgKuL+AGyj6SG6HR9MGoj4MiwjNdVuhLQQT9lxxKXxt+SWO8UOIRxHB
-         DKpjcgMxfxUFVjLi5uTJKj5XbFHPQuphYbYN21YfhIsK4uO9pKHEXLF/5QmZEUEoxuyK
-         A6lu0aO6xcgkP23gEYJXfKGRORaaW+1vh5oUnFw4oHRZkLqz6LVthmX5GFawZfNgv/G6
-         OsJd8dvsW1+HpusF99wmPEB3h6NcQgwsAei7ij2l0Tpztne+uNR+mrJtYFpPUW49v1M7
-         /t8eAi8s+/R9xE5uY5NJYhyoQfVjvja1GXYA9kwjRG1zpPRRnGOD4fvgpnjwiOSG3yFY
-         19IA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=t5xhlGartaiIZUAGJb1P17Ap9eQ10+LChVLHP/V0nA0=;
-        fh=M1M2M34C8ER43ssJjXCiLP2rtUU5TTwqoor5ZKjS0oQ=;
-        b=Uc4nEGrkwa3/onwESpv2bR3VrqF6DMtNCUdKpkke6jn2IO8QoFvDNnh5O9i0g9rwZN
-         J2wRrEK50D6vKcSZr5+sitdIfYT1OpiRLnMXYvs8/Tb/xJuvWKe3GrNdScvPAB8I0xTX
-         ZNstF5MSx06rx3nvKVBONUcuqviyGu//P2LRz11BQBI0JwyCWALfNJUzYWn6j+4VM73U
-         LFTyRH4IJkzDnesy1iYgSMd3A1r0CT4++fDiEO1CU2pOh9IHaXGsqe4Ax8HbRkIXmS0A
-         69AikTWmx726HpjFcg+QD+qw1F3kQ12IniH8FRQK5f8FxzxIqBPAZ5EBYEz7LnHcSKkK
-         ftrQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=WwyADfSB
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso579224eec.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 15:39:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1793140675; x=1793745475; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=t5xhlGartaiIZUAGJb1P17Ap9eQ10+LChVLHP/V0nA0=;
-        b=CmmfcGZ7nENUuOJDqfOA+U+yawbLWPNguEYYehiaT86nUJPExK4LIUr0b+k1BDuc26
-         I6hx3Xfzp7YLAMCi0JlAztaJL1LJ07peoMRn4mvEVYQV9ao935CKi7xkqxxr8DV6Yock
-         rxkAlWa6dKfZUDSA/ldivMN/wB1R2F6oZJ/Z+KQbMx5hox/gtEbE+yCicUOTZpRrKE4P
-         T+53go7ZXNYLqMuC/UuR39tYwAuemgUaV9GLdZTVfA4cl0AKkhPeDhUFFxNVxK9mTwol
-         FatP7g9VML/VQBnIOClMGPtwnF6f1eMMmXa3sADMNe6RaLLPzr5XUkxKolK7HPzqhrTk
-         WZQw==
+        d=google.com; s=20260707; t=1793140749; x=1793745549; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pEmx5PL3tlnBiGr2rjVOl0G+YHkBW7VB5cziBEiH9l0=;
+        b=WwyADfSBKnfQhnWY2Vcc6CNZLTbO+rAle5B1hKwX8je30uuwYFtB/vLJcoE5YY8g3l
+         ZP1V0bwQMghUb9OH8d+nqaUwuF0QhBserXEYkJY30hDkrjNFMmDQV+NHMsvOfzeO5Smj
+         W3fOXMl0JNgZhE7FX+6rfE0FyfvCs0KmuVF9AJhs4u5xFwJMb+jaWfil9w878EOrRsZY
+         CUqereYX0RsTxyE2KJ/ls1UGDevHByw15KWdqkK8Ms8Ozs9o6RT8cmJwBsNQm2eQleg+
+         e1ohgzf4BQQIJO/4X/jZBsZEqtoprO5FOBgNNOSI0iyC+HNFg11Ynpnkv5fSF/W9aYty
+         crcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793140675; x=1793745475;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1793140749; x=1793745549;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=t5xhlGartaiIZUAGJb1P17Ap9eQ10+LChVLHP/V0nA0=;
-        b=v2Vqo2ZBgijy4k+NLQSK+sAzVoE1gWV6Cd1ztQaQIrUtCG5dnAOq5d0yfEvg4uUqp/
-         p4yQinLILFmiEmHV3BV2jUMYQz3298J0bBi0soXfVVEMUF9Wq5Av3ioRQ4qtC2RTZWga
-         4dbZTqsSdGGLdlvBwJvnUrv91irt+e5zvMXQlj9WqhAwJrBp10BUXeegq+p2at86RBoT
-         ytg7ALmlVzfu4mAlNeJInMt2c0OA11msWN1ZipYfBGM+B2EWR/nla3lmxHmymiJSDe+Z
-         gDIs1TFMVfy5kh8rNWnwDRW9JcUQyQDgU9PlW3+oXa45oFCqEq2a2xh8mYQm4oJuVnxx
-         s5zg==
-X-Forwarded-Encrypted: i=1; AKwUvBzJraP7dohHlzmWJgkLdx3HVQKWFjdTi6i2UqZPH+Xu6aU68qcJ2U69QaJJRgxEQ7EuFgqRMZ7QmMR7xEzl@vger.kernel.org
-X-Gm-Message-State: AFq9FYIkusqwBzVRquAw/t4qioz5zSAk1P2b1ZojxKYGpR/SuVsC3Sc3
-	SMWnLCrHl0yniVp+nQ1JLVXudEsSkSg3i1Muibj0k5qUWlRhFHhf3uH+5BAc0hzExnFcNc4A1ZU
-	BklvJhJlEo20Lo3eyP/W+I4tkRkpn8zH6nw65U66r
-X-Gm-Gg: AYBFou2uYKxwFt3FNHQ2Ze5N5au9OB7Hm7lcMQwv5Z3J7YvupDAlhmOKxUcYuMY7Ksf
-	FF4KcTEYNgsVbRHwSdE0aTfnBMpG6czQesZ8oHlgIvqkyqY1YF5MM/Vq+exCCEw4fwThmlYseBH
-	Ea8LhwPlYRvkFrfkHzr+kCENfCYaq4tEqqh955hlDRXulGZps9jLLOcyLLaV8iTB2Go3d190yYg
-	nkP8JzQ6zwKQw+fysv29hClB1Kr5+DCQf78ttayvg0oEwM29w8UQxdahT4t1AnikYAnvUIN4Jhz
-	4RtGycm//dwOlDZebZ7HylLm2+mGI1hPmHs7djuEF9HU9DBQuJ8dzTBZX2r5Ns/CMvT+Q3CdWAO
-	V47Cmf2GhjvEx324RNVCqMskXX2MLbqTBxqlBedVaOy0OpgO/i6M1k9+S/vhFdicuvDxc
-X-Received: by 2002:a05:6a00:909d:b0:8a0:3ed7:93a1 with SMTP id
- d2e1a72fcca58-8a6e7ccf00cmr440746b3a.50.1793140675521; Tue, 27 Oct 2026
- 15:37:55 -0700 (PDT)
+        bh=pEmx5PL3tlnBiGr2rjVOl0G+YHkBW7VB5cziBEiH9l0=;
+        b=BFVdmkeKEKrjHMTIrgOTVGWuGEJAJW3U//hbPKDg2w73BD5t5kGClwjHc7LDiUVC5R
+         yUmSkvp6/JxPQUEOPF87tiwQekvumNx4I48C4G+9nHxd718b/enjlhJKwjP3tYPforyh
+         wiNGiOqFEzgJQiIelIbGDxyR2JSOpK4NpNcIAWoOhCtvbwzTt9Zs8JM7AB0Xh58STf9K
+         lR9ax1l7vNAAnqokrSMSvShqAGX+5H5Dtm+Go54NnVMjnjPMaRDr9RUhG3Vk+zQBHbwU
+         tvknW3+xReEdgBKh+zDNqv+odCelvUyAieVCmdNQSiku+g7oZg6ODduitku+GVMB9n4s
+         /QyA==
+X-Forwarded-Encrypted: i=1; AKwUvBxJ1xizva5bmMKWot12UX273GHuY7rY62oTpgiyowJkrykd0qOfxcsASyO5zMbCnI/992j6G3IGm4/jel+j@vger.kernel.org
+X-Gm-Message-State: AFq9FYK04nsgVUCO7yfAY+2BLQYfYqrB5OE8Dlx31dPFT3PhdJ8X5Yvq
+	4cXaspVJkcNVKT20hS3leYzGWJ2wSmxXpcitcF5tALVTxGiYmqEbdSEz4iscVE3IJR68A3FtMYY
+	OFLxaADKqzA==
+X-Received: from dli9.prod.google.com ([2002:a05:7022:289:b0:1a1:da78:f9b9])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:6989:b0:165:90af:a25f
+ with SMTP id a92af1059eb24-1a6cfa0c447mr941563c88.41.1793140748444; Tue, 27
+ Oct 2026 15:39:08 -0700 (PDT)
+Date: Tue, 27 Oct 2026 15:38:35 -0700
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,145 +75,152 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261026-work-security-namespace_free-v1-0-ffa3ebbf71bd@kernel.org>
- <CAHC9VhR4rMydWiD-RFv-ABiYSG_txJuyrtdaowEXPY=CHEvFXA@mail.gmail.com> <20261027-heckklappe-halbmarathon-vorsorgen-849ffdc42aac@brauner>
-In-Reply-To: <20261027-heckklappe-halbmarathon-vorsorgen-849ffdc42aac@brauner>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 27 Oct 2026 18:37:43 -0400
-X-Gm-Features: AclHuK_35bukQeeBWCt3UKqoCps6Vj2Zz_3Ju5zoX-GW6fl3dw3mrid-lC1zJpA
-Message-ID: <CAHC9VhSJMPOY4X78ENEkAiNeVTCpvP76PgVDqTQfwaYfwnYwAQ@mail.gmail.com>
-Subject: Re: [PATCH 0/8] ns: fixes for the namespace LSM hooks
-To: Christian Brauner <brauner@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	KP Singh <kpsingh@kernel.org>, Matt Bobrowski <matt@bobrowski.net>, netdev@vger.kernel.org, 
-	stable@kernel.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.313.g2479322e68-goog
+Message-ID: <20261027223847.652884-1-irogers@google.com>
+Subject: [PATCH v2 0/9] Add __must_init and require explicit kobj_type::release
+From: Ian Rogers <irogers@google.com>
+To: Kees Cook <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, Sumanth Korikkar <sumanthk@linux.ibm.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev, 
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org, 
+	linux-s390@vger.kernel.org, gfs2@lists.linux.dev, 
+	xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, Ian Rogers <irogers@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 27, 2026 at 5:24=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
-> On Mon, Oct 26, 2026 at 04:31:25PM -0400, Paul Moore wrote:
-> > From what I'm reading the LSM framework patches don't meet the typical
-> > LSM criteria for stable/RC fixes: there is no serious bug/panic, and
-> > there is no functional regression from a previous release.
-> > This looks like one of those unfortunate circumstances where a new use
-> > case wasn't tested thoroughly enough before the merge window, so it
-> > can wait for the next one.
->
-> My original patchset had a selftest that excercised the BPF LSM usability
-> extensively. The hooks are new this cycle and broken for the main use-cas=
-e I
-> wrote the patchset for.
+Clang supports the 'require_explicit_initialization' attribute on struct
+fields to enforce that the field is explicitly initialized when an
+aggregate object is constructed, emitting -Wuninitialized-explicit-init
+(enabled by default) if the field is omitted.
 
-The hooks were merged into the LSM tree on August 31st, and due to
-timing I'm guessing they appeared in linux-next the next day,
-September 1st.  Considering the merge window opened on October
-18th/19th, that's conservatively a month and a half during which
-testing could have uncovered this issue and the behavior of the hook
-could have been changed to accommodate your use-case.  I know the
-Landlock folks were testing the hooks for their usage, but I've gone
-back through my inbox and I don't see any reports of BPF LSM failures
-using these new hooks in v7.4 until you posted this patchset during
-the merge window.
+Following discussion at the Linux Plumbers Conference [1], patch 1 adds
+the attribute to include/linux/compiler_attributes.h as __must_init. In
+v1 it was called __require_explicit_initialization. Kees picked up that
+patch with a first seq_file user [2], and in that thread Greg suggested
+the shorter __must_init spelling, which Kees and Miguel agreed to. As
+the attribute did not land in the v7.4 merge window, Kees asked that
+this series carry the renamed attribute. The Acked-by/Reviewed-by tags
+on patch 1 were given for the original spelling; the rename is
+mechanical.
 
-> Curiously, your pull request told Linus "I expect that BPF LSM developers=
- will
-> also be making use of the namespace hooks, if they haven't already". So i=
-t
-> seems very strange to claim this as a new use-case.
+As Documentation/core-api/kobject.rst notes:
+  "One important point cannot be overstated: every kobject must have a
+  release() method, and the kobject must persist (in a consistent state)
+  until that method is called. If these constraints are not met, the
+  code is flawed."
 
-The LSM namespace hooks are new to Linux v7.4, they did not exist in
-Linus' tree prior to this merge window which is why I consider both
-the BPF LSM and Landlock usage of these hooks to be "new".
+Annotating struct kobj_type::release caught struct kobj_type definitions
+across the tree that omitted .release:
+- Patches 2-8 fix struct kobj_type definitions where dynamically
+  allocated kobjects, ksets, or enclosing structures were either leaked
+  on kobject_put(), freed prematurely before kobject release, or missing
+  proper static initializers.
+- Patch 9 annotates struct kobj_type::release with __must_init and
+  explicitly sets .release = NULL (with explanatory comments prefixed
+  with "Pre-existing:") on the remaining legacy struct kobj_type
+  definitions whose kobjects are static, per-CPU, permanent firmware
+  structures, or embedded in devm- or parent-managed structures.
 
-> >From my perspective the timeline looks like this - I'm sure yours differ=
-s:
->
->   I wrote an implementation for the BPF LSM to use a set of new hooks in =
-a
->   subsystem I maintain months ago.
->
->   You rejected the hooks because BPF LSM programs cannot serve as justifi=
-cation
->   to introduce new hooks. Only in-tree LSM (selinux, apparmor, landlock, =
-etc) can.
->
->   I cannot fulfill this requirement because I neither have the expertise =
-nor
->   the use-case for any in-tree LSMs.
->
->   Landlock wants to make use of this by pure chance. So the maintainer of=
-fers
->   to take over the patchset. He does.
->
-> End result after more than two kernel releases: The patchset that ends up
-> merged into upstream doesn't work with the original motivating use-case b=
-ecause
-> all the BPF LSM bits got dropped. So far, no problem. That may happen as =
-long
-> as we can the fix it rapidly.
+Note on tool use: An LLM coding assistant was used to help audit the
+compiler diagnostics across the tree, draft the fixes and changelog
+descriptions, and verify builds and review feedback.
 
-As mentioned previously, I'm pretty consistent about what goes up to
-Linus once the merge window opens: there is the initial pull-request
-with the changes from the last development cycle and then after that
-I'm pretty strict about only serious bugs/panics and regressions.  In
-this case there is no existing LSM support for namespace controls in
-any of the tagged releases from Linus so there are no regressions, and
-by all accounts there are no panics related to these new hooks as-is.
+Changes in v2:
+- Rebased on v7.3-16928-g83f32c773255 (v7.4 merge window).
+- Patch 1: Rename __require_explicit_initialization to __must_init per
+  Greg Kroah-Hartman; document the Clang >= 20 requirement per Miguel
+  Ojeda; note the Clang gap for file-scope objects without an
+  initializer reported by Kees Cook; add tags from v1 and from Kees's
+  posting.
+- Move LLM assistance attribution from Assisted-by tags to this cover
+  letter per commit 1e035297ffda ("docs: remove Assisted-by
+  references").
+- Patch 4 (cpufreq): Use "cpufreq: governor:" prefix, drop Fixes tag,
+  fix typo, and remove the redundant runtime assignment in
+  cpufreq_dbs_governor_init() per Zhongqiu Han.
+- Dropped v1 patch 5 (ACPI: CPPC), already fixed upstream by
+  commit 27954e29d7de ("ACPI: CPPC: Release CPC descriptors through
+  kobject").
+- Patch 5 (dlm): Call kobject_del() before dlm_recoverd_stop() in
+  release_lockspace() and the new_lockspace() error path, and wait on a
+  new ls_kobj_done completion before freeing the lockspace or dropping
+  the module reference, avoiding races with delayed kobject release.
+- Dropped v1 patch 8 (s390/sclp_mem) per Sumanth Korikkar: the
+  /sys/firmware/memory/memoryX kobjects are permanent, so sclp_mem.c is
+  folded into patch 9 with .release = NULL.
+- Patch 7 (ubifs): Add Tested-by and Reviewed-by from Zhihao Cheng.
+- Patch 8 (drm/amdkfd): Check q->kobj.state_in_sysfs before
+  kobject_del() in kfd_procfs_del_queue().
+- Patch 9 (kobject): Cover sclp_mem.c and the new amdgpu_ualink.c
+  ualink_xcp_info_ktype, fix the overlay-sysfs.c comment, and prefix
+  legacy .release = NULL comments with "Pre-existing:".
+- Patch 9 (kobject): The ioat, kunpeng_hccs and omapfb display comments
+  now say that the existing teardown can use-after-free under
+  CONFIG_DEBUG_KOBJECT_RELEASE (reported by Sashiko). Fixing those
+  drivers is left to follow-up patches.
 
-Holding this change for Linux v7.5 will give you and others a chance
-to fully test the new LSM hooks from a BPF LSM perspective, something
-that evidently didn't happen during the Linux v7.4 development cycle.
-Disabling the BPF LSM support for the new hooks in Linux v7.4 should
-be relatively easy, much simpler than this patchset, and eliminate any
-claimed harm.
+v1: https://lore.kernel.org/all/20261013223946.1836757-1-irogers@google.com/
+[1] https://lpc.events/event/20/contributions/2392/
+[2] https://lore.kernel.org/lkml/20261014225811.i.852-kees@kernel.org/
 
-Also, as the ongoing friction between the LSM and BPF developers was
-brought up, I want to point out that SELinux support for the new LSM
-namespace hooks was delayed to Linux v7.5 due to issues uncovered with
-these new hooks during the Linux v7.4 development cycle (well before
-the merge window opened).
+Ian Rogers (9):
+  Compiler Attributes: Add __must_init macro
+  powerpc/secvar: Add missing kobject release callback to secvar_ktype
+  sh: sq: Add missing kobject release callback to ktype_percpu_entry
+  cpufreq: governor: Initialize kobj_type release callback statically
+  dlm: Free dlm_ls in kobject release callback
+  xen/sys-hypervisor: Add release callback to hyp_sysfs_kobj_type
+  ubifs: sysfs: Use kset_create_and_add() for ubifs_kset
+  drm/amdkfd: Free queue in procfs_queue_type kobject release callback
+  kobject: Require explicit initialization of struct kobj_type::release
 
-> Then I take the time to send this series of fixes to actually restore the
-> original use-case so we don't release a kernel with a new api that doesn'=
-t work
-> for the main use-case I developed this for.
->
-> Once again, I get told no. This time because the functionality isn't brok=
-en the
-> right way to justify a merge-window follow-up. Instead, we'll release
-> half-working functionality.
+ Documentation/conf.py                         |  1 +
+ arch/arm64/kernel/cpuinfo.c                   |  5 ++++
+ arch/powerpc/kernel/secvar-sysfs.c            |  6 +++++
+ arch/sh/kernel/cpu/sh4/sq.c                   |  6 +++++
+ drivers/acpi/sysfs.c                          |  2 ++
+ drivers/cpufreq/cpufreq_conservative.c        |  5 +++-
+ drivers/cpufreq/cpufreq_governor.c            |  4 +--
+ drivers/cpufreq/cpufreq_governor.h            |  1 +
+ drivers/cpufreq/cpufreq_ondemand.c            |  5 +++-
+ drivers/dma/ioat/sysfs.c                      |  7 +++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c    |  5 ++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c       | 10 +++++++
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c      | 12 ++++++---
+ drivers/gpu/drm/amd/amdkfd/kfd_queue.c        |  5 +++-
+ drivers/infiniband/hw/hfi1/sysfs.c            |  5 ++++
+ drivers/infiniband/hw/usnic/usnic_ib_sysfs.c  |  2 ++
+ drivers/parisc/pdc_stable.c                   |  5 ++++
+ drivers/power/supply/ab8500_fg.c              |  5 ++++
+ drivers/s390/char/sclp_mem.c                  |  2 ++
+ drivers/soc/hisilicon/kunpeng_hccs.c          | 21 +++++++++++++++
+ .../fbdev/omap2/omapfb/dss/display-sysfs.c    |  7 +++++
+ .../fbdev/omap2/omapfb/dss/manager-sysfs.c    |  5 ++++
+ .../fbdev/omap2/omapfb/dss/overlay-sysfs.c    |  5 ++++
+ drivers/xen/sys-hypervisor.c                  |  6 +++++
+ fs/dlm/dlm_internal.h                         |  1 +
+ fs/dlm/lockspace.c                            | 26 ++++++++++++++-----
+ fs/erofs/sysfs.c                              | 10 +++++++
+ fs/f2fs/sysfs.c                               | 15 +++++++++++
+ fs/ocfs2/cluster/masklog.c                    |  5 ++++
+ fs/ubifs/sysfs.c                              | 24 +++++------------
+ include/linux/compiler_attributes.h           | 12 +++++++++
+ include/linux/kobject.h                       |  2 +-
+ scripts/checkpatch.pl                         |  1 +
+ tools/lib/python/kdoc/xforms_lists.py         |  1 +
+ 34 files changed, 202 insertions(+), 32 deletions(-)
 
-I told you "next merge window", which is far from "no".  Considering
-no one tested the BPF LSM support for these new hooks during the v7.4
-development cycle, that seems pretty reasonable to me.
 
-> I'm really on the fringes of this endless debacle but this seems to be an=
-other
-> iteration of "BPF people don't get along with LSM people" therefore they =
-make
-> each other's lifes and that of innocent bystanders that just want to get =
-work
-> done difficult.
+base-commit: 83f32c773255720a661aa45d83e36278135f23f5
+-- 
+2.56.0.313.g2479322e68-goog
 
-First, please read what I wrote above about SELinux being in a similar
-situation.  If a LSM which identified an issue with the hooks well
-before the merge window is being pushed to Linux v7.5, I'm not going
-to make an exception and rush a functional change for a LSM that
-didn't identify an issue until *after* the merge window opened when it
-could have been easily identified with testing during the Linux v7.4
-dev cycle.
-
-I'm not going to argue that there isn't ongoing friction between the
-BPF and LSM devs, and I'll admit to finding it odd that you seem to
-keep inserting yourself into that friction point, but my approach here
-is the same as what I would have taken with any other LSM (and have in
-this particular case).
-
---=20
-paul-moore.com
