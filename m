@@ -1,102 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793141725;
-	b=ZMS4IyWPmkj3zwNDOlobOmOzWSfBKR7czhxzJidWyv14wEDg1LQDaTf9eAHEN7wlOFKb
-	 HCeZn5H0xxoZIg62EcuCJJpcPyjkAOciWW27XTGNZQKxwI/JH79WUgHBu3ZCWnV2B/87i
-	 +LUBldg9wSCrnHXwq4t+JZ6hEwAWKcZI3Z5rxBFhuifnxsk3GNA9UJ+uucye2emJSEfO6
-	 ms9WYCfZtK4eT/5SPrQS6Mb9yGwcL6yb9NUJVSB6ssgZ+w/MK5enFxWmtRg643Nc5gj2U
-	 Q68sLe7H+3jCfQ63z4nolUur6TyKdnIVOuw2VQJwfwLV1GIb6Ct85KsTVz1gMRZYCNg==
+	t=1793142654;
+	b=cUVRFAgeVVy3NTinZYSLau6Y4m9+IEFbzB03SIsK2kkJ+6/9eRpzT8yD9UpC9LkWfWxm
+	 5SK43P5otPzPTgyP1MWLZ3AeT/QXJYI4/pAnOCZ/kqWNPbPzbI/DIVin1hJ3N8kRrww+w
+	 Kq27ID9O8EsgEVFv4P3RRhze1oCxKPgFXqjRyJTX5CDh9WBtYQpti4w1VZf9oHdSSAPSR
+	 yLOlgwBBBnaDNspUxNL8gV9aer0KWK2wVRNMK2dXUKc3pY99Q2zJ6bMl+RqcVcLD1+hnR
+	 dXJCyR/tFzYKZiMIQbeDRVP3czLEY5qVj8ZoVNxDeq7aBvGNn9Tanjn5+vwyXwOJs9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793141725;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=KTV8eg2on2B99kAeZJ8uQmhlFR662/OZM2R8QtayN34=;
-	b=QnjSs34frK2k1s/9RP0K2wmmAJP+TLYQRmxAH3LX1za3Pl1joLQtmEa3dKzuS95OIdaU
-	 lfmcjiOfK0Pol6/WvnSCDvaBqj4+z6c3CrRj/w3Ema1oLBmPYkQDRALrOeU7Vh4q22q9L
-	 lpO2OcoxGW8WyQeWQguFgiQTatxx3t7wraFqSvNlWRKxHM6fVITFOiWPJh3ntbP1uhaAp
-	 ymBoUF4vkIsL5Da6Gaye8mfreIIOMRFc+kupuLTpz+Q00ILxvXO3k7ekN7opprC1rfykv
-	 YKihQdHJBZiRRJubMhe3w5Eagecq4IZAAbsEoFso4NR2j9+hyx+PI2divXfndeQi9/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793142654;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Cc:Content-Type;
+	bh=A3E77K8iCCovhISJvCAtXH/UuMVbqTit6GWjoYdyLWE=;
+	b=H9XWp3jOypVnp3xySd0d40OE4N+b4p/VRsHq6EBXRN+XmksizpV5EoDTVDo3PAvtQ8/r
+	 VQmuOTytuZkDwTWXRnBtVtWos2RElo1ZIiPXVLXLGBPpbNXf0aDdOWpGeSvIFTr2ja7fC
+	 eX9Uhsut6HxFZ78instJxpFc74ItqLzqClRnEldffwY3gM1tE5SHpJ1p6ZgVj2RjKSbpZ
+	 hPtJwbEZlaecEikjbYMwzkCNZoTnUx5M6nR1oyLkSdBRrqnC+aifp+BLrUTEp6RnLENc9
+	 nnMDxQ1nq1MAmYOygE0zk/Dxg6zUEdg5HZiG4zsw+8RgcrFr+3FWgNy6rB4dsei8fNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=DC3FJv8+;
-	arc=none smtp.remote-ip=209.85.214.176
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.210.70
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757F3606A329
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 22:55:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 757F3606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=DC3FJv8+
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2db33db4de9so27095ad.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 15:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793141725; x=1793746525; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KTV8eg2on2B99kAeZJ8uQmhlFR662/OZM2R8QtayN34=;
-        b=DC3FJv8+i3On134fP2jAv4hX43hfN+7oCq00cQxNIJfVMQaiGXTB9eJvWw3odQ2Ogc
-         oTfb5SDyzrAtranJahrV7HJLjnFqzp/UATmFYw1gOq4AD15jqGjlzDsZ+eVthKApk/ga
-         Cv5KzWzWMSynaBKwZZEIMhz17QQ2BQ0VQDR/VATKEwtM/9a1I23xpnESAeT7xsZRE5dW
-         +r8akfqeupcuBAFwvLH5L1o9fPyb4hy5MrE8mAgQKUgvz7kFR9JRX279bOpLNKmth5sl
-         XPtvz5eOAEh1COKBQIqY0XpTtlCCy45xdU4CRSVdY8NC97nsctjiaMG5KNBGZv/sHii8
-         vRwA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C421E606A326
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 23:10:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C421E606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-847e2926d94so777184a34.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 16:10:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793141725; x=1793746525;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20260707; t=1793142653; x=1793747453;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=KTV8eg2on2B99kAeZJ8uQmhlFR662/OZM2R8QtayN34=;
-        b=0exj6TCyBpQjPv0IbLnLBb2oSw8kYvdIFjX6Ly4WDW/EsFvZN5baFeIfcUg9fiShYi
-         Yn0omO4Z63HktUNxBjMbS9gXfyXAI7WICqCBcG176qnhI51BzOJDQzwDryqQJ95X0NTH
-         Wj783rp9ywPXuIPVCimL96nPlZKngIMK6AzUU8/7yE8iFAZ35Qe4Jf9RCLQNFb03ZvIw
-         xZUOXwJ7rQyMjz53VkS0pvoH1xtx4/A8K8O3vPg22Nq+pTmuvORqwCwQPh/imeeEnyyX
-         7fpS/ZlEWgtChZDjzSRpXqCgd/vnngAtnga2bpJ0imcSeeclSWkAM5WdtFx2qVcA02hC
-         04nA==
-X-Forwarded-Encrypted: i=1; AKwUvBxwOmBnIIEnQ6H0ZtroqG8opxgX9HySQ5w4cw7GTDhsZ3Pr6yty8A+yOLWNjPDb9vEVErqa+L8jMSfW0FM1@vger.kernel.org
-X-Gm-Message-State: AFq9FYLAsc0SvHQD1PtO/heBLxF/WSM/NvSjf4pxPq6SdZbHPCrBzN4y
-	iVmTWMX1BF1L3p57Wlhd8ITJV05h7bt29UKPZ8bM2vCrqmLsIn+amPCXBqlfEA43Dg==
-X-Gm-Gg: AYBFou1u2Fn8UkvmjLQKAhpBaWFmksPq8Sd/O2UlZZ9p8JS/9HGxBpkWN4RzXS6y3sX
-	MgqUB8vb7dDhYvOr+2GCS1GqErmw0yIxgSofFerLC7CAyIQTT/UEkMxF219m9qw6U1ACf4HCw5A
-	PAiTyznoZS/gQcf37A7gAldSeT5UKWWyricmm9c+16FOXag6DHDvLFEEQeHtlRz5SoYhtfSR+8A
-	csT+hWALrFDYxbpqNa3aO/TijjtsoFqZb4qbZUmFZ3ReXEiTAZvzDoMTBb5CvtRO9J74iLBPt54
-	B/bwWa9mGesJqsaDSb519WCmlf7Ag1NL4RwKZHh5fIy7cybyzBsl81tDqhXnaxbEbVAGBuDjlBX
-	ZuBrUU9C+FjOwLxBwEyjvuhJe3MQ/R4lECrkpamsk+P5D38lgSBw+GlRE54LaIotouVv5CKi0nu
-	7xdyBUuZoNuysCT3JW1bIo/CkamOczyvSZf0gT1dWX876xpzTYR6RegKBysWJJ/r1YLwevujxnj
-	uuI9/ZXh9dL53JxRJTBzZ8rzbAqFn22O6FTnAlaCDONyauFClqj5f89Kme86co8utwXXQvSErTY
-	OjJXW+tQJMJiobBhAD01EWm2I1wB73cva0O2mWaIitemPbNZTFIYsTANx84Ta7TxgkSKXgPMhR3
-	j6e7NlD1byG2mgdl/ufrx+w==
-X-Received: by 2002:a17:903:11c6:b0:2bd:3bfd:74f1 with SMTP id d9443c01a7336-2eb0029f8a1mr1832445ad.2.1793141724187;
-        Tue, 27 Oct 2026 15:55:24 -0700 (PDT)
-Received: from google.com (163.1.145.34.bc.googleusercontent.com. [34.145.1.163])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a6a662e1fcsm516911b3a.30.2026.10.27.15.55.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 15:55:22 -0700 (PDT)
-Date: Tue, 27 Oct 2026 22:55:18 +0000
-From: Samiullah Khawaja <skhawaja@google.com>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, Jeff Layton <jlayton@kernel.org>, Chuck Lever <cel@kernel.org>, 
-	Alexander Aring <alex.aring@gmail.com>, Shuah Khan <shuah@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Gerd Hoffmann <kraxel@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
-	Jeff Xu <jeffxu@google.com>, David Matlack <dmatlack@google.com>, 
-	Pasha Tatashin <tatashin@google.com>, linux-mm@kvack.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] mm/memfd: add F_SEAL_PUNCH_HOLE
-Message-ID: <auEksxfAi9lHFXmT@google.com>
-References: <20261026220546.3114241-1-skhawaja@google.com>
- <CALCETrXNEWQNPjtuHnTfVFOafeJ7APXq288Cq16Q5adDNYx9+A@mail.gmail.com>
+        bh=A3E77K8iCCovhISJvCAtXH/UuMVbqTit6GWjoYdyLWE=;
+        b=Xn/JQLQ4MCWAhAEol3g26QzwInExZqnh9YIHT0kS4hlWG6f27/uaTK5YQequw8QCp/
+         Md0GoWCo1Cq6BembTO8PfZ09Rj4CQRNZ4CY/Ka7lFPWeLwIluFe70Xqz1wqGgMZrSwZK
+         iD3+3HgC9YJSliCIhWuGBoxFPC5uA+BjHyFXscqjFZ66shlS8PbvSIa3meiwhT6qKzE1
+         gVPvClUIRAlYJr8AKc+ZqB920yQQVuF7Cx4TQ+fqLOpqYJJOODgY+gi/TKLtQ2ZLu13H
+         bqD+CV+M8YU34uJlmTRqPFmOFd44qvPoBz7rl+2KJezGs0XOsx79s//0zhE556jXoatC
+         kYoA==
+X-Forwarded-Encrypted: i=1; AKwUvByxmcnZA3UI7beynNmDp8iVIkhinTlzpe4HgJrpNUbtrCnTX+ZCVi6Zpb69Fb12IlXBtZdLcIA8+Q4E53uU@vger.kernel.org
+X-Gm-Message-State: AFq9FYIYAUhXC401X3/S5+GJo1vA+n5AGuO3HfoPu5i5bc6hoDqOXyna
+	YmUIrAKQbJj7d5XuHUorJe94gIwaNHFz9N0TRFnzwR/bTqhlpsfM3Sq416C3hRJN9L2cfrAQKSB
+	AMUvFhu18Npo6pOvmtnemLk9CMo+iIwGcZhfmEPxl979Q4/+iwKyQxojLYio=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,93 +58,437 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrXNEWQNPjtuHnTfVFOafeJ7APXq288Cq16Q5adDNYx9+A@mail.gmail.com>
+X-Received: by 2002:a05:6808:c1f4:b0:55c:836:597e with SMTP id
+ 5614622812f47-56383e9013amr518556b6e.31.1793142652810; Tue, 27 Oct 2026
+ 16:10:52 -0700 (PDT)
+Date: Tue, 27 Oct 2026 16:10:52 -0700
+In-Reply-To: <20261027112702.3747009-1-dipiets@amazon.it>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ae12f7c.768774f5.3237ab.002d.GAE@google.com>
+Subject: [syzbot ci] Re: mm, iomap: account dirty at page granularity for
+ per-block dirty folios
+From: syzbot ci <syzbot+ci96d4e003e13d8147@syzkaller.appspotmail.com>
+To: abuehaze@amazon.com, agruenba@redhat.com, akpm@linux-foundation.org, 
+	alisaidi@amazon.com, almaz.alexandrovich@paragon-software.com, 
+	apopple@nvidia.com, blakgeof@amazon.com, brauner@kernel.org, byungchul@sk.com, 
+	cem@kernel.org, david@kernel.org, dipietro.salvatore@gmail.com, 
+	dipiets@amazon.it, djwong@kernel.org, dlemoal@kernel.org, 
+	exfat@lists.linux.dev, fuse-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	gourry@gourry.net, hyc.lee@gmail.com, jack@suse.cz, joshua.hahnjy@gmail.com, 
+	jth@kernel.org, liam@infradead.org, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-xfs@vger.kernel.org, ljs@kernel.org, 
+	matthew.brost@intel.com, mhocko@suse.com, miklos@szeredi.hu, 
+	naohiro.aota@wdc.com, ntfs3@lists.linux.dev, ntfs@lists.linux.dev, 
+	rakie.kim@sk.com, ritesh.list@gmail.com, rppt@kernel.org, rvvandan@amazon.com, 
+	ryan.roberts@arm.com, sj1557.seo@samsung.com, stable@vger.kernel.org, 
+	surenb@google.com, vbabka@kernel.org, viro@zeniv.linux.org.uk, 
+	willy@infradead.org, ying.huang@linux.alibaba.com, yuezhang.mo@sony.com, 
+	ziy@nvidia.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Oct 26, 2026 at 03:46:34PM -0700, Andy Lutomirski wrote:
->On Mon, Oct 26, 2026 at 3:06 PM Samiullah Khawaja <skhawaja@google.com> wrote:
->>
->> This series introduces F_SEAL_PUNCH_HOLE, a new memfd seal that prevents
->> holes from being punched into a shmem or hugetlbfs memfd while leaving
->> the file fully writable.
->>
->> Background
->> ==========
->>
->> Drivers such as udmabuf and iommufd (via IOMMU_IOAS_MAP_FILE) use
->> memfd_pin_folios() to pin the folios backing a memfd and hand them to a
->> device for DMA. Pinning keeps those folios allocated, but it does not
->> keep them in the file. If userspace later calls
->> fallocate(FALLOC_FL_PUNCH_HOLE) or madvise(MADV_REMOVE) on the range,
->> the folios are dropped from the page cache while the device continues
->> to use them. The pin holder is never notified, and from that point on
->> the device and the file silently diverge.
->>
->> The existing seals only partially address this. F_SEAL_SHRINK prevents
->> pages from being dropped by truncation, which is why udmabuf requires
->> it. Hole punching, however, is only blocked by F_SEAL_WRITE and
->> F_SEAL_FUTURE_WRITE, and both of those also forbid writes. That makes
->> them unusable for memory that must stay writable, such as guest RAM or
->> DMA buffers, and udmabuf explicitly rejects memfds that carry them.
->>
->> Proposal
->> ========
->>
->> F_SEAL_PUNCH_HOLE fills this gap. Once it is set,
->> fallocate(FALLOC_FL_PUNCH_HOLE) and madvise(MADV_REMOVE) fail with
->> -EPERM, while reads, writes and resizing are unaffected. Combined with
->> F_SEAL_SHRINK, it guarantees that userspace cannot remove pages from
->> the memfd while the memfd remains writable.
->
->How does this solve the problem?  F_SEAL is about a userspace
->contract, and if there are existing users of the APIs in question, it
->makes very little sense to start making those users fail because they
->haven't taken the appropriate seal.
+syzbot ci has tested the following series
 
-It doesn't change any existing behaviour, nothing starts failing for
-users that don't set the seal, and drivers wouldn't require it. It's
-opt-in. Userspace that wants the guarantee seals the memfd, and a kernel
-user that pins it can check for the seal and rely on the pages staying
-in the file. For example, the iommufd live update path could skip
-verifying the pinned pages at preserve time when the seal is present,
-and do the full check otherwise.
+[v1] mm, iomap: account dirty at page granularity for per-block dirty folios
+https://lore.kernel.org/all/20261027112702.3747009-1-dipiets@amazon.it
+* [PATCH 1/2] mm: add infrastructure for per-dirty-page accounting
+* [PATCH 2/2] mm, iomap: account dirty at page granularity for per-block dirty folios
 
-https://lore.kernel.org/all/arVYa_90j0oN1hnu@google.com/
->
->Would it make more sense for the drivers in question to set some flag
->(refcount?) on the file to block hole punching?  Or perhaps to have
->the hole punch code notice that it's trying to punch out a folio that
->is pinned or otherwise referenced and to refuse to do it?
+and found the following issues:
+* KASAN: slab-out-of-bounds Read in folio_accounted_dirty_pages
+* KASAN: slab-use-after-free Read in folio_accounted_dirty_pages
 
-The pins already keep the memory alive while it's used for DMA; the
-problem is only that the page silently stops being part of the file.
-Refusing to punch pinned folios on every file would change behaviour for
-existing users: fallocate() would start failing whenever a page is
-pinned, even briefly by O_DIRECT. A flag set on the file by long-term
-pinners would avoid the short-term case, but it would still make punches
-start failing for existing users of those drivers, which is why I went
-for an opt-in seal.
+Full report is available here:
+https://ci.syzbot.org/series/05041e6c-d357-4fc5-9bbe-6aae1760d639
 
-Another option, closer to what you mentioned, but opt-in, is instead of
-sealing the whole file against hole punching, a seal that only protects
-pinned pages. Punching, shrinking and truncating keep working on a
-sealed memfd, except where they would remove a page that is currently
-pinned; those would fail with -EBUSY. Files without the seal behave
-exactly as today, so existing users are unaffected, and pinned memory is
-guaranteed to stay part of the file.
->
->To some extent, the issue you're describing is maybe broader than just
->the APIs you're contemplating.  If I open a file and then do something
->in thread A that GUP's the file and punch a hole in the file in thread
->B, I'm doing something weird, and I can imagine plenty of ways it
->could go wrong.  (Especially if it's GUP for write.  I hope we already
->get that case right.)
->
->-- 
->Andy Lutomirski
->AMA Capital Management, LLC
+***
 
-Thanks,
-Sami
+KASAN: slab-out-of-bounds Read in folio_accounted_dirty_pages
+
+tree:      axboe
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/axboe/linux.git
+base:      24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/9865cf75-69fb-4fbd-b5fe-d0be9cd03802/config
+syz repro: https://ci.syzbot.org/findings/98cdf846-0b4c-4f94-8430-3b7db9efe057/syz_repro
+
+==================================================================
+BUG: KASAN: slab-out-of-bounds in instrument_atomic_read include/linux/instrumented.h:82 [inline]
+BUG: KASAN: slab-out-of-bounds in _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+BUG: KASAN: slab-out-of-bounds in mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+BUG: KASAN: slab-out-of-bounds in folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+Read of size 8 at addr ffff888168669f89 by task syz.1.47/5860
+
+CPU: 0 UID: 0 PID: 5860 Comm: syz.1.47 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
+ instrument_atomic_read include/linux/instrumented.h:82 [inline]
+ _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+ mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+ folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+ __folio_migrate_mapping+0x3d0/0x2830 mm/migrate.c:624
+ __migrate_folio mm/migrate.c:893 [inline]
+ migrate_folio+0x10a/0x1a0 mm/migrate.c:920
+ move_to_new_folio+0x1ed/0x460 mm/migrate.c:1135
+ migrate_folio_move mm/migrate.c:1401 [inline]
+ migrate_folios_move mm/migrate.c:1758 [inline]
+ migrate_pages_batch+0x30b3/0x4f50 mm/migrate.c:2014
+ migrate_pages_sync mm/migrate.c:2044 [inline]
+ migrate_pages+0x1b9f/0x2920 mm/migrate.c:2153
+ migrate_to_node mm/mempolicy.c:1322 [inline]
+ do_migrate_pages+0x656/0x8b0 mm/mempolicy.c:1421
+ kernel_migrate_pages mm/mempolicy.c:1935 [inline]
+ __do_sys_migrate_pages mm/mempolicy.c:1953 [inline]
+ __se_sys_migrate_pages+0xaa2/0xc90 mm/mempolicy.c:1949
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f04fcf9f559
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f04fc5fe028 EFLAGS: 00000246 ORIG_RAX: 0000000000000100
+RAX: ffffffffffffffda RBX: 00007f04fd225fa0 RCX: 00007f04fcf9f559
+RDX: 0000200000000040 RSI: 0000000000000009 RDI: 0000000000000000
+RBP: 00007f04fd036b20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000200000000380 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f04fd226038 R14: 00007f04fd225fa0 R15: 00007ffc667db8b8
+ </TASK>
+
+Allocated by task 5729:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:351 [inline]
+ __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:377
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ kmem_cache_alloc_noprof+0x2b9/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ anon_vma_fork+0x88/0x540 mm/rmap.c:395
+ dup_mmap+0x954/0x1dc0 mm/mmap.c:1781
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm+0x115/0x480 kernel/fork.c:1595
+ copy_process+0x1e79/0x4400 kernel/fork.c:2311
+ kernel_clone+0x2d7/0x940 kernel/fork.c:2771
+ __do_sys_clone kernel/fork.c:2913 [inline]
+ __se_sys_clone kernel/fork.c:2897 [inline]
+ __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2897
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff888168669e70
+ which belongs to the cache anon_vma of size 200
+The buggy address is located 81 bytes to the right of
+ allocated 200-byte region [ffff888168669e70, ffff888168669f38)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888168669108 pfn:0x168669
+memcg:ffff88816db0e201
+flags: 0x57ff00000000200(workingset|node=1|zone=2|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 057ff00000000200 ffff888101687140 ffff88816040c7c8 ffffea0005b62950
+raw: ffff888168669108 00000002000f000b 00000000f5000000 ffff88816db0e201
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5535, tgid 5535 (rm), ts 43255388535
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0x2209/0x2280 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x217/0x5a0 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3347 [inline]
+ allocate_slab+0x7d/0x620 mm/slub.c:3462
+ new_slab mm/slub.c:3513 [inline]
+ refill_objects+0x2d5/0x350 mm/slub.c:7418
+ refill_sheaf mm/slub.c:2885 [inline]
+ __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4774
+ alloc_from_pcs mm/slub.c:4850 [inline]
+ slab_alloc_node mm/slub.c:4984 [inline]
+ kmem_cache_alloc_noprof+0x399/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ __anon_vma_prepare+0x10e/0x4d0 mm/rmap.c:201
+ __vmf_anon_prepare mm/memory.c:3961 [inline]
+ vmf_anon_prepare mm/internal.h:572 [inline]
+ do_anonymous_page mm/memory.c:5478 [inline]
+ do_pte_missing+0x2f18/0x34b0 mm/memory.c:4698
+ handle_pte_fault mm/memory.c:6558 [inline]
+ __handle_mm_fault mm/memory.c:6707 [inline]
+ handle_mm_fault+0x1a53/0x3750 mm/memory.c:6876
+ do_user_addr_fault+0xa4f/0x1340 arch/x86/mm/fault.c:1343
+ handle_page_fault arch/x86/mm/fault.c:1483 [inline]
+ exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
+page last free pid 5049 tgid 5049 ts 18476194117 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1418 [inline]
+ __free_frozen_pages+0xc93/0xd90 mm/page_alloc.c:2962
+ __slab_free+0x274/0x2c0 mm/slub.c:5823
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:361
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ kmem_cache_alloc_node_noprof+0x354/0x610 mm/slub.c:5068
+ __alloc_skb+0x1db/0x7a0 net/core/skbuff.c:704
+ alloc_skb include/linux/skbuff.h:1384 [inline]
+ alloc_skb_with_frags+0xc6/0x760 net/core/skbuff.c:6803
+ sock_alloc_send_pskb+0x878/0x990 net/core/sock.c:3022
+ unix_dgram_sendmsg+0x4da/0x17b0 net/unix/af_unix.c:2144
+ sock_sendmsg_nosec+0x13a/0x180 net/socket.c:800
+ __sock_sendmsg net/socket.c:815 [inline]
+ sock_write_iter+0x2de/0x3e0 net/socket.c:1266
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Memory state around the buggy address:
+ ffff888168669e80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff888168669f00: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
+>ffff888168669f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                      ^
+ ffff88816866a000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88816866a080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fc fc
+==================================================================
+
+
+***
+
+KASAN: slab-use-after-free Read in folio_accounted_dirty_pages
+
+tree:      axboe
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/axboe/linux.git
+base:      24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/9865cf75-69fb-4fbd-b5fe-d0be9cd03802/config
+syz repro: https://ci.syzbot.org/findings/f9e47a91-9c37-465b-b43c-7404e404cbfd/syz_repro
+
+==================================================================
+BUG: KASAN: slab-use-after-free in instrument_atomic_read include/linux/instrumented.h:82 [inline]
+BUG: KASAN: slab-use-after-free in _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+BUG: KASAN: slab-use-after-free in mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+BUG: KASAN: slab-use-after-free in folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+Read of size 8 at addr ffff888111a3d539 by task syz.0.17/5870
+
+CPU: 0 UID: 0 PID: 5870 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TAS
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
+ instrument_atomic_read include/linux/instrumented.h:82 [inline]
+ _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+ mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+ folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+ __folio_migrate_mapping+0x3d0/0x2830 mm/migrate.c:624
+ __migrate_folio mm/migrate.c:893 [inline]
+ migrate_folio+0x10a/0x1a0 mm/migrate.c:920
+ move_to_new_folio+0x1ed/0x460 mm/migrate.c:1135
+ migrate_folio_move mm/migrate.c:1401 [inline]
+ migrate_folios_move mm/migrate.c:1758 [inline]
+ migrate_pages_batch+0x30b3/0x4f50 mm/migrate.c:2014
+ migrate_pages_sync mm/migrate.c:2044 [inline]
+ migrate_pages+0x1b9f/0x2920 mm/migrate.c:2153
+ migrate_to_node mm/mempolicy.c:1322 [inline]
+ do_migrate_pages+0x656/0x8b0 mm/mempolicy.c:1421
+ kernel_migrate_pages mm/mempolicy.c:1935 [inline]
+ __do_sys_migrate_pages mm/mempolicy.c:1953 [inline]
+ __se_sys_migrate_pages+0xaa2/0xc90 mm/mempolicy.c:1949
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f600f39f559
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6010302028 EFLAGS: 00000246 ORIG_RAX: 0000000000000100
+RAX: ffffffffffffffda RBX: 00007f600f625fa0 RCX: 00007f600f39f559
+RDX: 0000200000000040 RSI: 0000000000000009 RDI: 0000000000000000
+RBP: 00007f600f436b20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000200000000380 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f600f626038 R14: 00007f600f625fa0 R15: 00007ffcbfa14028
+ </TASK>
+
+Allocated by task 5645:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:351 [inline]
+ __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:377
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ kmem_cache_alloc_noprof+0x2b9/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ __anon_vma_prepare+0x10e/0x4d0 mm/rmap.c:201
+ __vmf_anon_prepare mm/memory.c:3961 [inline]
+ vmf_anon_prepare mm/internal.h:572 [inline]
+ do_anonymous_page mm/memory.c:5478 [inline]
+ do_pte_missing+0x2f18/0x34b0 mm/memory.c:4698
+ handle_pte_fault mm/memory.c:6558 [inline]
+ __handle_mm_fault mm/memory.c:6707 [inline]
+ handle_mm_fault+0x1a53/0x3750 mm/memory.c:6876
+ do_user_addr_fault+0xa4f/0x1340 arch/x86/mm/fault.c:1343
+ handle_page_fault arch/x86/mm/fault.c:1483 [inline]
+ exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
+
+Freed by task 5646:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:264 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2748 [inline]
+ slab_free_after_rcu_debug+0x12a/0x220 mm/slub.c:6571
+ rcu_do_batch kernel/rcu/tree.c:2650 [inline]
+ rcu_core+0x926/0x1260 kernel/rcu/tree.c:2919
+ handle_softirqs+0x226/0x860 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:758
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1062
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+
+Last potentially related work creation:
+ kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+ slab_free_hook mm/slub.c:2709 [inline]
+ slab_free mm/slub.c:6509 [inline]
+ kmem_cache_free+0x45e/0x650 mm/slub.c:6636
+ anon_vma_free mm/rmap.c:137 [inline]
+ __put_anon_vma+0x12b/0x2d0 mm/rmap.c:2974
+ put_anon_vma mm/internal.h:293 [inline]
+ unlink_anon_vmas+0x544/0x720 mm/rmap.c:540
+ free_pgtables+0x663/0xb70 mm/memory.c:401
+ unmap_region+0x29d/0x330 mm/vma.c:534
+ vms_clear_ptes mm/vma.c:1383 [inline]
+ vms_complete_munmap_vmas+0x427/0xbe0 mm/vma.c:1425
+ do_vmi_align_munmap+0x3b7/0x4b0 mm/vma.c:1684
+ do_vmi_munmap+0x252/0x2d0 mm/vma.c:1732
+ __vm_munmap+0x241/0x3e0 mm/vma.c:3415
+ __do_sys_munmap mm/mmap.c:1094 [inline]
+ __se_sys_munmap mm/mmap.c:1091 [inline]
+ __x64_sys_munmap+0x60/0x70 mm/mmap.c:1091
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff888111a3d528
+ which belongs to the cache anon_vma of size 200
+The buggy address is located 17 bytes inside of
+ freed 200-byte region [ffff888111a3d528, ffff888111a3d5f0)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888111a3d528 pfn:0x111a3d
+memcg:ffff888111a3df79
+flags: 0x17ff00000000200(workingset|node=0|zone=2|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 017ff00000000200 ffff888101688140 ffff8881006957c8 ffffea00047d6bd0
+raw: ffff888111a3d528 00000002000f0009 00000000f5000000 ffff888111a3df79
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5634, tgid 5634 (syz-executor), ts 59634551582
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0x2209/0x2280 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x217/0x5a0 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3347 [inline]
+ allocate_slab+0x7d/0x620 mm/slub.c:3462
+ new_slab mm/slub.c:3513 [inline]
+ refill_objects+0x2d5/0x350 mm/slub.c:7418
+ refill_sheaf mm/slub.c:2885 [inline]
+ __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4774
+ alloc_from_pcs mm/slub.c:4850 [inline]
+ slab_alloc_node mm/slub.c:4984 [inline]
+ kmem_cache_alloc_noprof+0x399/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ anon_vma_fork+0x88/0x540 mm/rmap.c:395
+ dup_mmap+0x954/0x1dc0 mm/mmap.c:1781
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm+0x115/0x480 kernel/fork.c:1595
+ copy_process+0x1e79/0x4400 kernel/fork.c:2311
+ kernel_clone+0x2d7/0x940 kernel/fork.c:2771
+ __do_sys_clone kernel/fork.c:2913 [inline]
+ __se_sys_clone kernel/fork.c:2897 [inline]
+ __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2897
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+page last free pid 805 tgid 805 ts 42732995302 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1418 [inline]
+ __free_frozen_pages+0xc93/0xd90 mm/page_alloc.c:2962
+ __slab_free+0x274/0x2c0 mm/slub.c:5823
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:361
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ __kmalloc_cache_noprof+0x29f/0x600 mm/slub.c:5559
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ drm_atomic_commit_alloc+0xa9/0x100 drivers/gpu/drm/drm_atomic.c:258
+ drm_atomic_helper_dirtyfb+0x129/0xfd0 drivers/gpu/drm/drm_damage_helper.c:128
+ drm_fbdev_shmem_helper_fb_dirty+0x160/0x310 drivers/gpu/drm/drm_fbdev_shmem.c:117
+ drm_fb_helper_fb_dirty drivers/gpu/drm/drm_fb_helper.c:339 [inline]
+ drm_fb_helper_damage_work+0x84c/0xf20 drivers/gpu/drm/drm_fb_helper.c:365
+ process_one_work kernel/workqueue.c:3396 [inline]
+ process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3479
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3560
+ kthread+0x38b/0x480 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Memory state around the buggy address:
+ ffff888111a3d400: fc fc fc fc 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff888111a3d480: 00 00 00 00 00 00 00 00 00 00 00 00 00 fc fc fc
+>ffff888111a3d500: fc fc fc fc fc fa fb fb fb fb fb fb fb fb fb fb
+                                        ^
+ ffff888111a3d580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fc fc
+ ffff888111a3d600: fc fc fc fc fc fc fa fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a fix for this bug, please reply with `#syz test`
+(on a separate line) and attach the patch to the email.
+
+Notes:
+- The patch will be applied on top of the tested series (as an
+  incremental fix).
+- To test a new version of the whole series, please send it directly
+  to syzbot@lists.linux.dev.
+- Arguments like custom git repos and branches are not supported.
