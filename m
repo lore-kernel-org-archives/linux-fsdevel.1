@@ -1,122 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=96.67.55.147
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793067500;
-	b=LkHIbFQ1kiYgst219SAjI6EPDXE1/pmuZDOv38dOOd8cZXGPrY5PXDb8cMpJkwPPXu0R
-	 AV+OyhVBbQ3dUtdqZzcELksvzileHHzs3Io/Dgb2wyHvx4uED+ZEqBUMkK/k578C5js/0
-	 iK6qs7e3TY8sbPuhZBQaxROvzlbx2STcmR79a1lYzMx42+b2AXmEJiQCUcqo6V/8PX+mh
-	 4zg5tT0LjMhTWUMjff4FQIGjqd3VpCcPK4PsrMDr9kskSGBtlu4mNFJfFlq3bCoCAPE5r
-	 +llwRdgVLrRoDAH3bQGw7WPSVHV4W0yuaE0ck85I0ZKN5uYteCKq29M8C0e86Xzuykg==
+	t=1793068886;
+	b=jKu8Dy6Eq0F2NhVHRtzzW0nHlN+1iDSjjDK2Pmsl0UdQaq7SXhl5fsUKHci6gichy77v
+	 ht6dszdXS545+hCZDT1x++U/G+1kuhsWfBZxhLi1UHhO3uFy2sDhq16CfhNwT4+3uU4q5
+	 rqWud4GqXcLXah0g7FLrsxKION2Wz4JrceADgoChqntCbMi45qqLhIDixzy13uVBCL7pa
+	 15NyW6J/OJoIHWAvPVvL9LtOFGI6QWvumwaBFuPcq+Tg91VTdAliZc+J/7APi9igE9B/x
+	 H4YvRkdcMCErbJILpyONYV/4jJWvcte+Qmvelf19QxTVMSxtghozZn/T2Iwbo7c0WGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793067500;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Autocrypt:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=qGaKz0ghX7Lbonx8PvJJJqD0p/WMYPC2YliZwFbr0fY=;
-	b=fCeqF3hY+x8PIOX2QRyDjwtENfgu/eNlfiGgw9KkftehzX5euCgwICBmE8SM/NNMArbP
-	 2DfRXQwR8JD3JQgHk/bWoUSbkHR1d2ZTZ3Oo9wyXMK3/JgolGlVdE1hqhThDiV3rMAY7b
-	 9G4glcZEPjvyZg9WSWFzCYJf0gCFQiGMHDkPQNKaiI2IDE1lS8dcHn8r94ksGV/SKiflV
-	 wlqKLZlK4X5EyI7n2rwQ2mT2E/7EtwmV2N/br00XsVwqeUbh0sSsP5W0fKl8rK8yXPW6b
-	 U1MDDl6/Tpxq2NbpGY8dJAbz7itrrUWyDNi/EbL0rpk+qVvCjqfS1rhYsE1kIyqXYfg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793068886;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=/+f5haOvY7V5aJLRvqMe+OKgyMJap2D1kg9AHRnXBFo=;
+	b=jzONAv30fJyye7xjIhKzQpbotg4J2ilMs/wlbHYs7jGsQUIqr3c6pEeUEdoveR4WxUwl
+	 X+aJKUIfryHAo+Im8J2vUBVCnPnP4dV7dgszTTtdQI+D2ot2/qYe+WELQSuazYxCdwE9I
+	 vi/zKghK+8FO6XRNwxPhDaA6RQLbVUCHOkYv1YGyrh+Zt9OGbKuXvHVr2FzvZPg3qXBrg
+	 Ubjao3QhwPDKsg3O/oR9MVbclpoj1iP/QPcbXcFGksuZ0YwHJGQq/GbA1+yh6mxsPCxti
+	 PZW5a6G6eGM7GQtaQLsXeRarutm9bHq0ozPeV0pbC/u8E+PgMG26aT7TbWc92y1RI1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=surriel.com;
-	spf=pass smtp.mailfrom=surriel.com;
-	dkim=pass header.d=surriel.com header.i=@surriel.com header.a=rsa-sha256 header.s=mail header.b="AAVc/08V";
-	arc=none smtp.remote-ip=96.67.55.147
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=kernel.dk;
+	spf=pass smtp.mailfrom=kernel.dk;
+	dkim=pass header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=oc6cZqFa;
+	arc=none smtp.remote-ip=74.125.82.44
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60F2606A31A;
-	Tue, 27 Oct 2026 02:18:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E60F2606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E16606A320
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 02:41:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61E16606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=surriel.com header.i=@surriel.com header.a=rsa-sha256 header.s=mail header.b=AAVc/08V
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
-	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID; bh=qGaKz0ghX7Lbonx8PvJJJqD0p/WMYPC2YliZwFbr0fY=; b=AAVc/0
-	8VsTK9mY92KOp5wEbhgroVTHRCfftI50sRYAJL1JakNYXe+BTepKbKwB6Z414AlpfS+DUDqYZ+/Eh
-	nj5OxnhFMAPMtHr6a/UJArBMlo0zPGvXYzSP1AyfZimUEGGpKcN/pXFGUhEd5cPb7Dgv67jI1G4uP
-	55e644clgrRX4+HyA5EnIo6nQpVv4Na5C+pF7/iF0yMcG+jx4Pb5juMQq7eJznU+ew7NwWmld1Do7
-	JjXyIXADjvO6IyFgjI58QIOi9mZPYlrJwYQaR08EmI3Mg0q8v1woNBDGgbAYg+CVCPeVTETY9liEP
-	8I8zspCUGpVJFYfua7YslrF00KSg==;
-Received: from [2601:18c:8100:a0e0:2541:b86e:2586:d219]
-	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.5)
-	(envelope-from <riel@surriel.com>)
-	id 1xLWkM-0000000B1GF-0On5;
-	Tue, 27 Oct 2026 02:17:06 +0000
-Message-ID: <db8ec1a4c7cb160c794888a0aa51b8f3eacb2044.camel@surriel.com>
-Subject: Re: [PATCH 05/46] mm/truncate: look again if a folio left the
- mapping
-From: Rik van Riel <riel@surriel.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>, Andrew Morton	
- <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, Michal
- Hocko	 <mhocko@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt	
- <shakeel.butt@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, Kairui Song	
- <kasong@tencent.com>, Barry Song <baohua@kernel.org>, Axel Rasmussen	
- <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu	
- <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, Baolin Wang	
- <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
- Baghdasaryan <surenb@google.com>,  Michal Hocko <mhocko@suse.com>, Kees
- Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Jann Horn	
- <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, Hugh Dickins	
- <hughd@google.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush
- Yadav	 <pratyush@kernel.org>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
- Lance Yang <lance.yang@linux.dev>, Harry Yoo	 <harry@kernel.org>, Alistair
- Popple <apopple@nvidia.com>, Nico Pache	 <nico.pache@linux.dev>, Ryan
- Roberts <ryan.roberts@arm.com>, Dev Jain	 <dev.jain@arm.com>, Usama Arif
- <usama.arif@linux.dev>, Kiryl Shutsemau	 <kas@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, John Hubbard	 <jhubbard@nvidia.com>, Peter Xu
- <peterx@redhat.com>, Will Deacon <will@kernel.org>,  "Aneesh Kumar K.V"
- <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Oscar Salvador
- <osalvador@suse.de>,  Minchan Kim <minchan@kernel.org>, Muchun Song
- <muchun.song@linux.dev>, Xu Xin <xu.xin@linux.dev>,  Chengming Zhou
- <chengming.zhou@linux.dev>, Chris Li <chrisl@kernel.org>, Kemeng Shi
- <shikemeng@huaweicloud.com>,  Nhat Pham <nphamcs@gmail.com>, Youngjun Park
- <youngjun.park@lge.com>, Gregory Price <gourry@gourry.net>,  Joshua Hahn
- <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Ying Huang	
- <ying.huang@linux.alibaba.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kexec@lists.infradead.org, 	linux-fsdevel@vger.kernel.org,
- linux-arch@vger.kernel.org, 	linux-cxl@vger.kernel.org,
- stable@vger.kernel.org, Josef Bacik	 <josef@toxicpanda.com>
-Date: Mon, 26 Oct 2026 22:17:05 -0400
-In-Reply-To: <20261027-fixes_core-v1-5-6f74bec9a5bb@kernel.org>
-References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
-	 <20261027-fixes_core-v1-5-6f74bec9a5bb@kernel.org>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
- eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
- Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
- lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
- dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
- mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
- gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
- r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
- WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
- 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
- Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
- +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
- g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
- KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
- fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
- 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
- G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
- okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
- TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
- cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
- omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
- QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
- c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
+	dkim=pass (2048-bit key, unprotected) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=oc6cZqFa
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-18cdcfc05ffso4488343c88.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 19:41:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1793068884; x=1793673684; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/+f5haOvY7V5aJLRvqMe+OKgyMJap2D1kg9AHRnXBFo=;
+        b=oc6cZqFau/HqROtNMBTq8ZP3TLLLzMKPOdbVxFYEww/DOpOMHzAfKhTORNvN4KTBkp
+         LUp5Moi9eFCEYu5/4XDZT8WcjpiPsCN+0zUGPUekQp2yZJY0zBe8yl4kYAkKqjEdTrbQ
+         qqNSykJeEwW7qBFZEoQS1rQ+7ZwY381+e8TxKyiv+Q5rLJiCFF4PtyVkTxWHTKQMc6vO
+         +lb3qFo71UgGSSnv6IseZ7y8wLhEFz6jBXh4HUpywe8jgXN4FoqKQy7CyAzCO9Yfeytz
+         HBIYtHcP3MQ7eijYy79F5eSeZqsN4/+XnIDB6Cna6QVY5R0NQaf50jlOwAuklcgL/mVV
+         dVQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793068884; x=1793673684;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/+f5haOvY7V5aJLRvqMe+OKgyMJap2D1kg9AHRnXBFo=;
+        b=OA5lDDWNpt+prRCT+8QbKSqYMQif12otD8y/sooTXEKp+T+DCy7H15lnreatgR6bcL
+         lION841n5iD24wcB2yvQIGxfdrWjrNlVznXX9EyF8qBcCaMosBKSXB6oAJOw8u+AbGJl
+         mszacyUv8OutWcvhwmn8AM1vCL6AmJxt8yP2Ap7SypT/KPDR2mEgtLkGTDhE0GCbn97L
+         6ly72evKuS8CPVajJIEL0CDYYCIHc4DF2evVlDruoq/5ulCU2IdiYRZlvkStDUXy+JQi
+         ne6wlEFVbdp61oQNxYqthKsIWFP/ybn+9IHlDyJ/xI5hHNyQ0TcWhEuKH/7Kqdo5STYM
+         tJzw==
+X-Forwarded-Encrypted: i=1; AKwUvBwa2ramIiUJbpsYZkbvF35oH2P5qlS2pBdPGvBuCj3FbSrxXrjsay2NUb57KrBM5WaPzAfE/q0eZzxeCIrT@vger.kernel.org
+X-Gm-Message-State: AFq9FYKbD6MLGql9pHv05W0/C6feJpVqbXtP25sc+gfZ2dcUygR4cql2
+	F+V87PgKIwJuZkPRAgmJZavyJjk2fVZu2+t3CNivEbn3dj0RpExVchhZRxoQgGN67HA=
+X-Gm-Gg: AYBFou3lR50Hr+rS8FBpaFZZH9wH4TWVbAnL6IHwLYSHX3xG9BFm971Pdl4eMJxdxpk
+	xIfXho0Tvz7lyzl+5xV+2wmmP2uzcFuSb/NoiT0NvdMTq1ElVv7goNywwVJnzkCChdwY9B0fdwE
+	CO0YKl3NUfgnpOccfYq0lS4TpHclJgenYwai+8XeN/CBMjs+8Y+X27PO7eK/197JCrABLINwEdY
+	iIlQ0g3k7js7LZPE0ssoHPtzxGVHJvvPkKXmH0sOuATSNMJH/6+9H0fZWjKeS9mJ02Y6zU21LzG
+	aln7OewSDNZvnV6Cs4f2KgzAGUVezAaNFamGK9TtD0rLDQq5msbF5X4NIFityCE84fyb8CQZNhX
+	5fsdIw9C4GQI2JvousQV2mxFMNe4zd7MsGVYhhTWdvEfhiFsQr78kM8c9McRBZYjXyhkphH9AKR
+	DClsudp4NyNrIoy7BwEvNkifa4ZmUYncSsNnZ3yVm31ZMcUf+dwZjgk54oY60ws9tGPNojqs60z
+	WUEkWVdWqNrccS+M/XSJgjcM56bDgSN7qfJQe/FC41ejnjP8Srac54R9YMFMO+bhBJnxEI0pmJ/
+	q75VxeOorcWmeatPCt8Sfgf5GyeohSOsRgiWJIc=
+X-Received: by 2002:a05:701b:4184:20b0:191:444:425 with SMTP id a92af1059eb24-199290fe40cmr12440066c88.2.1793068884148;
+        Mon, 26 Oct 2026 19:41:24 -0700 (PDT)
+Received: from [192.168.1.106] ([198.8.77.135])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-198a1bfaf25sm29293759c88.14.2026.10.26.19.41.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Oct 2026 19:41:23 -0700 (PDT)
+Message-ID: <1ee97e9e-3658-41a7-a879-348f51ab547d@kernel.dk>
+Date: Mon, 26 Oct 2026 20:41:21 -0600
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -126,29 +92,45 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 01/10] scsi: bsg: Don't copy sense data to user memory
+ when canceled
+To: James Houghton <jthoughton@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jim Mattson <jmattson@google.com>,
+ Pavel Begunkov <asml.silence@gmail.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, David Sterba <dsterba@suse.com>,
+ Chris Mason <mason@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, bpf@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261026215226.3713941-1-jthoughton@google.com>
+ <20261026215226.3713941-2-jthoughton@google.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20261026215226.3713941-2-jthoughton@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2026-10-27 at 00:17 +0100, David Hildenbrand (Arm) wrote:
->=20
-> In that scenario, the collapsed folio with the data from before the
-> write
-> stays in the page cache after the write has returned.
->=20
-> This used to be impossible, as khugepaged only collapsed files that
-> nobody
-> had open for writing.
->=20
-> Restart the lookup at that index, like shmem_undo_range() does. The
-> same
-> problem seems to exist in truncate_inode_pages_range() as well when
-> truncate_inode_folio() fails, so handle it there as well.
->=20
-> Fixes: 1b6444331beb ("mm/khugepaged: enable clean pagecache folio
-> collapse for writable files")
-> Cc: stable@vger.kernel.org
-> Reported-by: Josef Bacik <josef@toxicpanda.com>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
 
-Reviewed-by: Rik van Riel <riel@surriel.com>
+-- 
+Jens Axboe
 
---=20
-All Rights Reversed.
