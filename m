@@ -1,54 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793094531;
-	b=CrO7ulHI4B8rNBZEEkMSfRaounREFllpwnYHyUEEWQ4ZxwzMUdBtuAF+/YIFIj+fPIGg
-	 0wdNdhm11EjBgRoi21qaI5VGXAhyVDMo7c3l31XY/HMYVDbwXu48lQIHdEXlvewppHY74
-	 4TR98h4mOtzGHfpgEp0OQot1dnjCaeIBAofL2AkdlB1oPMlTS3kmfzCCBrXhE/WM/uY54
-	 YTaT6mgcU07KWIn8aGBE36BjmANP5nnj+OqSBSffmTvzw/BwmVh8ciHGX+KpOsUmI78DU
-	 rQ3MS+cy9hmHqHLkBlXQiZzEO/BxSlNo09nQGDwT0UuKqaN6SwZaoiQlI/tXM3KDSJw==
+	t=1793094538;
+	b=myDUF2WWQ9q1/FCV/gl8fKvriBTgn4IGNwoF58QA3qY+MYGcPq/NJgkHQ5ies9HVb8Pu
+	 yAgKg3ciVULeYjiP1D6uuuDs2LF1V5aSE3dZib6+2w++wcYWZc8OwS0eBZCK8caf7S+tT
+	 pJhoIOx9LtGjBw6ygOFTb/gTUeNZG0SaLXBqX/ebZ6e4jRd9lBl4zhG10r+khE+v1LoGn
+	 iJ3VEpSfFGGJCI55s9tBwWE5UUc8wkoppe1dmksuM8U+pGPVEFxuXVK5gY27NznH+/cdo
+	 X3/5b2AfIVwVJ63dzwtVhKvSU+VtK8pz+nYLzsFBZHKQenL7iSpo/chK1seBKX4PC6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793094531;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
-	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
-	 To:X-Mailer;
-	bh=w+/m5TRiUEroTYi/JhU/ZMYvRJ27fL3IgAeL8IYLhOs=;
-	b=t2daTBqYufljvVg1Lo19GPzeiSORKYeMw+CU8x4TcgR41KeQVaKtle3TIjzLpL3bs8m0
-	 cVj/qScwDunwsQBwa0niMM21hb+lVDrlye++E5VTqVaLQGroHFZB5Ukc3e+M1OEFokPwM
-	 vYhIUAnNFbv85wUT4WWz0WlHMBXPqICEongMyqMcz92l1jlG2odq888eSqpOztt8fCOjA
-	 /seWoYhqKsaRpNa7/pZPgcmVUAdniR8sWGldrZE+7anI/9TefaE4fsdOHzVNJncGc/qdQ
-	 XCRMKwdETd/VDwDg+L6bzo3YGGuySrCUJMOqYvKgxNSf57pLdU8gWdpQ3SOH8shMT0A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793094538;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=JLf77SLTj5PHtO6sovwzG3G85OtIBR6cqVrzZiXyUwE=;
+	b=YY2ZXvBqBEYfOIuuXOBPqfw9dVx9DbkKD4DJj5OmoIidnEWLyFXcxFfen7zkAeD7OLY0
+	 l2bPsEGDAT1SP2xFpgYM5qxjjQoAtzEMeMlEO0DRn7nVOwluTjoNjuVQEJeMzI3FbSVaC
+	 KgFBDAdReG3bP/qoIGivwAHW6bNhk9ry8L9HVlaDFLIqcUGJkDWGnVV9vFoYvfC4S1PzB
+	 /8inNbOXc4mb84z41gQSg1s0/D/W4veyqk6jkMtCQef70HOfUQ6N6cjk7Hh4h3hPgoulN
+	 YvExLwpmQuS+IvHJJHdOoiA9x8e+b7Qkqgs+u/ibg5KgCVVkxwkVG46v8AJRcDxSD0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=M5HfFoAj;
-	arc=none smtp.remote-ip=91.218.175.218
-Received: from mta0.migadu.com (out-218.mta0.migadu.com [91.218.175.218])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b="bCK718n/";
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315D8606A31E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 09:48:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 315D8606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C214606A31A;
+	Tue, 27 Oct 2026 09:48:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C214606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=M5HfFoAj
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=w+/m5TRiUEroTYi/JhU/ZMYvRJ27fL3IgAeL8IYLhOs=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793094529; v=1; x=1793699329;
- b=M5HfFoAjUDnRgQrtlqwxlCzg/yUz3ct1gnJFOAIpEV4mZEEV3dK1BLmaugjdYXhR6Y1192oO
- bvxwaI9qa6LHkm0LAQTLWGbPluusZ6PGzBIq6PiGDoL/kcvoOndbK+wUxRwtkmmdvKO7NuAJ/E3
- CZvZDj4wGfkHNKwOBZvMDrNc=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 74e52af488cb4c06;
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=bCK718n/
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=JLf77SLTj5PHtO6sovwzG3G85OtIBR6cqVrzZiXyUwE=; b=bCK718n/ZBne26JsgpPhr+1TeK
+	aOyUPSHVLZDMGh9Aqw2rMPLBT68OMdG9zRiwDF4OIVm5ILVdWQwz5pN/7oyUEPkNfbX+Pb9VtbggO
+	G2K7nQnnIo4ekKp0aiyau3kAJoka5i05wK/WUbZQNagtrvfqQk351pc49JewoWtwYjHmf6J26iYAO
+	IfI7V2giU+ymWCK9hSiEmXyzzpmT1KLFojCL7rTmtJIRBmdAVf/BUBscFYtEbcsh/ek9b8OuAG7uL
+	4J0v5GsemQ7o5Bth+XiglVXywdEVIIPSY938ukYDP7btoM3p739fw7AifYMpZaxgldNxlw3TLPi2b
+	fe2+ZVrQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xLdnU-001Mzo-0T;
 	Tue, 27 Oct 2026 09:48:48 +0000
-X-Mizu-Trace-ID: 74e52af488cb4c06
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+Date: Tue, 27 Oct 2026 02:48:43 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	catalin.marinas@arm.com, linux-kselftest@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH] init: do_mounts: free the ramfs info of the boot rootfs
+Message-ID: <auBzcXQw0j4zTvTM@gmail.com>
+References: <20261016-rootfs-kill-sb-v1-1-7631af3ba35f@debian.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -57,117 +66,40 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.12\))
-Subject: Re: [PATCH 44/46] mm/cma: don't release CMA pages still in use
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261027-fixes_core-v1-44-6f74bec9a5bb@kernel.org>
-Date: Tue, 27 Oct 2026 17:48:18 +0800
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Michal Hocko <mhocko@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Lorenzo Stoakes <ljs@kernel.org>,
- Kairui Song <kasong@tencent.com>,
- Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>,
- Baoquan He <baoquan.he@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>,
- Kees Cook <kees@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>,
- Hugh Dickins <hughd@google.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>,
- Lance Yang <lance.yang@linux.dev>,
- Rik van Riel <riel@surriel.com>,
- Harry Yoo <harry@kernel.org>,
- Alistair Popple <apopple@nvidia.com>,
- Nico Pache <nico.pache@linux.dev>,
- Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>,
- Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>,
- Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>,
- Oscar Salvador <osalvador@suse.de>,
- Minchan Kim <minchan@kernel.org>,
- Xu Xin <xu.xin@linux.dev>,
- Chengming Zhou <chengming.zhou@linux.dev>,
- Chris Li <chrisl@kernel.org>,
- Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>,
- Youngjun Park <youngjun.park@lge.com>,
- Gregory Price <gourry@gourry.net>,
- Joshua Hahn <joshua.hahnjy@gmail.com>,
- Rakie Kim <rakie.kim@sk.com>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org,
- linux-arch@vger.kernel.org,
- linux-cxl@vger.kernel.org,
- stable@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C94DBF32-62A3-4010-808D-DEB2E17DC552@linux.dev>
-References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
- <20261027-fixes_core-v1-44-6f74bec9a5bb@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: Apple Mail (2.3901.100.1.1.12)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261016-rootfs-kill-sb-v1-1-7631af3ba35f@debian.org>
+X-Debian-User: leitao
 
+On Fri, Oct 16, 2026 at 07:27:58AM -0700, Breno Leitao wrote:
+> Kmemleak is reporting the following leak in ramfs_init_fs_context:
+> 
+>   unreferenced object 0xffff000080302480 (size 8):
+>     comm "swapper/0", pid 0, jiffies 4294667306
+>     hex dump (first 8 bytes):
+>       ed 01 00 00 00 00 00 00                          ........
+>     backtrace (crc bea23b04):
+>       __kmalloc_cache_noprof+0x28c/0x5a0
+>       ramfs_init_fs_context+0x5c/0xf8
+>       rootfs_init_fs_context+0x30/0x40
+>       alloc_fs_context+0x4c0/0x6a8
+>       fs_context_for_mount+0x28/0x40
+>       vfs_kern_mount+0x40/0x220
+>       init_mount_tree+0x80/0x440
+>       mnt_init+0x138/0x170
+>       vfs_caches_init+0x2c/0x48
+>       start_kernel+0x350/0x3f8
+> 
+> When init pivot_root()s away from a ramfs-backed boot rootfs and
+> unmounts it, the rootfs superblock is killed with kill_anon_super() and
+> the struct ramfs_fs_info allocated by ramfs_init_fs_context() is never
+> freed.
+> 
+> Kill a ramfs-backed rootfs with ramfs_kill_sb(). A tmpfs-backed one keeps
+> kill_anon_super(), as shmem frees its info in ->put_super.
+> 
+> Fixes: 576ee5dfd459 ("fs: add immutable rootfs")
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-
-> On Oct 27, 2026, at 07:18, David Hildenbrand (Arm) <david@kernel.org> =
-wrote:
->=20
-> From: Rik van Riel <riel@surriel.com>
->=20
-> When a driver calls dma_free_contiguous() before quiescing DMA, the
-> page might still have a reference from the device.
-> put_page_testzero() there returns false, WARN fires, but the code =
-proceeds
-> to free_contig_frozen_range() putting a live page onto buddy and =
-clearing
-> the bitmap. A subsequent allocation can hand the same PFN to a new
-> owner while the original holder still references it.
->=20
-> A concurrent put_page() that drops the last reference between the
-> testzero loop and free_contig_frozen_range() can double-queue the page
-> via page->lru, corrupting buddy lists.
->=20
-> Avoid the corruption by not freeing a CMA region if any of the
-> pages inside are still in use.
->=20
-> Make it explicit in the warning that the driver allowed a leak.
->=20
-> While at it, use page_ref_freeze() to make the semantics clearer and
-> switch to pr_warn_ratelimited().
->=20
-> Fixes: 9bda131c6093 ("mm: cma: add cma_alloc_frozen{_compound}()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Rik van Riel <riel@surriel.com>
-> Link: https://patch.msgid.link/20260811132045.5f114772@fangorn
-> [ david: use page_ref_freeze() + pr_warn_ratelimited() ]
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-
-Acked-by: Muchun Song <muchun.song@linux.dev>
-
-Thanks
-
+Ping?
