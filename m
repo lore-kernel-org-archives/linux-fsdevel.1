@@ -1,124 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793103201;
-	b=WgyCNsF+4GO6kIZssQ6nXlFZ0gyhOYUsjnEaFp7pvhsuonkKX5NHx7fJCi7LRzb9cT5d
-	 58ohH1VRXbceg0foXdkhCzDSkGwh3XPHPUWl2cIGta1JPXsR4Y/e8DyJm5+6HUVUcTgiC
-	 iKfel774gjmOgAZgrSm59D5SOWNAMynNtD16yGLCFvrj9/3b+mGm/sj5ZVu6iQ5vE5Jk4
-	 1mud2RP23JJddhfjxZKGH3ojUPAQ1xTySCsQ7jCxKAvNeyFKRJrgUNV9rBd/H6JE8iX2D
-	 LrPjVu1X+IsZHPLYcdBhFs4fuY4RAta3wS9Blu8JKIYo/4NKcZFF9BQr7im3HoDk9FQ==
+	t=1793103412;
+	b=X31r/NSkkedENaNPPuBUOuK5lQIzKcVJBMoFFLXinNlhL8hFMROrTOkTKNIYE6qrabCc
+	 4lAEpltA5P1Scnjk8U+nTpssU6AWthFVKY4JR1FV8S1FtnWD+DAc7I7saVZZv6m4fBM0w
+	 5dUCdzLgiUq0N6i0XkLhhvwLqki0gqhCeA+1sfFd00ryR3a3VDmJFhdh8M0nz9Rmo3MsG
+	 JuGEiLag9ZPqyNgYjGDW5j0yxpdQOlNd+fPN4cppoG8dAxtJExKFRubbFeMIMEI330m+i
+	 ZbWKypaRigt46cfkQZa4nHMUB82YDlWdDE2jylas+u86QJyxbuYaGpZecZ0s5cDIc5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793103201;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793103412;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=31R7IkymhbZDSeMb1sPHaT1Pw064ctHxU7ykW6z0bv8=;
-	b=KiVaHkLULWe487qg+sGQZO7g2BXFBImtK+rMp23lYB/jI56in6DNhiUnaoda5Y29P2q9
-	 6mjl3qpJ2kM9yXYivYzPYQlItkrpi+AucKP0DKYA7woEJAUa6HNCKHYVddVjJwCeA3iC0
-	 S9ziFjC17kiyKaLLPcsfnfcxUAhjnOjv24iQQcIhUqzvI6DnwZuJp1Kh1+Eh4nbAHHm9W
-	 yEGcIRoSEw6H2//Xv6tgwRVpFHGsTS8tpSlXyfS7VIwfpC+Be/4uic2gVxhOKg2HcITSp
-	 1v4DwxpzM12Wc2S7v8lslo9b/PW+EwLAsk68rtgZApBfGLjY4V4mXpQr/RI3z3Zn7Yg==
+	bh=qQ58TKr8MXey12izNEnvpb2aLK2HSWoN0TjptAHNG60=;
+	b=O52BiCLgILOjTjaibjs6IPj6e8lmKipa5UOcV9vb8uoOudMekyuFoZQLFMefIS13rz4i
+	 PkmJQmf56pPZGcBRYQxOjV/GmwlXjwj/HJ4VjQg0nZCqwKBD7iIzzJyOg6anWx0WkLg62
+	 aQCRcvmXG9O+vyloyag5rvH03A33V7Cx9OcJaoQYqnLsiKZ8xs4HHs/JkRdxxJp6gkdT9
+	 Us4ZU1kEBJ66nPnpM3JZXRPTbNAzllT81li2Rv4t0x1H+9Q216vRWqTomI9CJU0vTUp5K
+	 uh6bBFjXFAxq59DKNgNN9WDOU6NeSVOsaYuGSm7T9ncqLC0GUOMNn0XpAzvpVhroW6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=iCJeniYz;
-	arc=none smtp.remote-ip=95.215.58.181
-Received: from mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+	dmarc=none header.from=hackers.camp;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3993E606A337
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 12:13:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3993E606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=iCJeniYz
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=HldebiX4v8c7RjwCxJgdnN1Xxuzre2SESHSjUs+s7LU=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793103197; v=1; x=1793707997;
- b=iCJeniYzOeQbcAQXI5BCvajlY+VMzjI76dvLPSVfX2sneLffZcubV1o9wLRVYrcjxnZws7cN
- FEK1oO5Pmqg6ZAJRDivxs0RExlDmP+L+juUuH1Ht7QFL6BSk1ePWhJPiBiK/aV4HigQKrbvy3iw
- 5t9ksfvI0x6DDXWi2CE/eTlY=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 05d4f9fd0d387be9;
-	Tue, 27 Oct 2026 12:13:17 +0000
-X-Mizu-Trace-ID: 05d4f9fd0d387be9
-X-Migadu-Flow: FLOW_OUT
-From: Lance Yang <lance.yang@linux.dev>
-To: david@kernel.org
-Cc: akpm@linux-foundation.org,
-	hannes@cmpxchg.org,
-	mhocko@kernel.org,
-	qi.zheng@linux.dev,
-	shakeel.butt@linux.dev,
-	ljs@kernel.org,
-	kasong@tencent.com,
-	baohua@kernel.org,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	baoquan.he@linux.dev,
-	baolin.wang@linux.alibaba.com,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	kees@kernel.org,
-	peterz@infradead.org,
-	jannh@google.com,
-	pfalcato@suse.de,
-	hughd@google.com,
-	pasha.tatashin@soleen.com,
-	pratyush@kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B595606A31E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 12:16:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B595606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48dfbf48b92so354104f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 05:16:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793103411; x=1793708211;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qQ58TKr8MXey12izNEnvpb2aLK2HSWoN0TjptAHNG60=;
+        b=KoqDo93lRq6YdWBNAjofYCnpquYpeIHi+lL4qHECmrsQEaCmirYCLcHkMNSgV6/8NT
+         EEMJvnrc0I1GDYszj/N5iScHtnB4bRPTwzrWvmc7sMLTVy1268Cqe1vc9GUK752eQ029
+         +LfBvfzjcCwAZ7qYjUZrD83+OR1n4YHUU2SG8nVut37PtaSK91ha4hsbqGmJJYO52sWy
+         vjtaE4gukuM36EqSn7+KrElDDzISUY9u8lLgp4jEXVu/YzyrUk6N/bQjaXQtb4EH2wKt
+         2iRRcNc+vkN0zfah2v3ORURRB7/4KHMOb/dXPIISzt0ST2DNcjyDNnB9ruDWD37vs002
+         Zv8g==
+X-Forwarded-Encrypted: i=1; AKwUvBwLcszO/vPutaJD5BdphwN/aRriYX1iFH4qSu+clkgI6h9GsZdO7gYT87rjizC/gdcEiDJ9p6P3waT2dcq4@vger.kernel.org
+X-Gm-Message-State: AFq9FYKaeCltoA1WpSNhVFI/65pRLyuJheDEq9mkJEFi+lxUVa3KLQz+
+	H222rD2jIouiKcgh+0DiQ/P5LLFpbC/1KJbhft/yXS2gPXfeajn2iuSK
+X-Gm-Gg: AYBFou0IPDNc74VwjsbpVj4GKi4rjvsFh3JkH7WD2xwsWqrEoRL3K+QAveQwAP6roQM
+	UWYJatGI+mLzbE3GCxVFC0dfnPTkUcGuhL7MOC+0VCuhvs3qCJ8ksSd/6ohdx5UDThpPbPjCDKn
+	T+GUg9ZyIaMno9tRrqd9RV8l9GfLOoFnOpO4oJbhCBefW4UdAE3JM1D18vC5cBbXhUPrMbEG4Ve
+	g1glqGhCrZ8IjtWCbFOuXQMjrqC8Xlk8ifJfBBVZBlzsJbMtCBXB0abcc31RwUsbiDuWpuPapAt
+	ItIATwsKWJY6JlamZ/yJdnzMVwHPLtb0zLPj5SQkhmG068An8roEmAKjqpPd57DhxUVHToCEeEQ
+	0zMmLhM0yYwLxjyv5ucSZ2gswnry2KIuR6gX2KZ6215NjcaMACn7syz8V3zkZ6+EAjxNm8NLiUi
+	vvfHBTtwR9RpgjTnJYb36ZQ7EFsrRg2OPjLFSo+dcAIT8jSqbuaYl452R2qq0mcBlCCFIKePXNZ
+	PcdqbvzwvKh3eYxJRZa2iWV/8hCIt8o9TP7vW5IFc3wdxf34bfz3tM2kLcEjsbBzlqzj6Eka87b
+	tB2MqqYy8Q/s5+CooA==
+X-Received: by 2002:a05:6000:2905:b0:48d:f14a:9186 with SMTP id ffacd0b85a97d-48e3eb97829mr22056835f8f.6.1793103410734;
+        Tue, 27 Oct 2026 05:16:50 -0700 (PDT)
+Received: from spartian.home ([2a01:cb1c:76:ed00:602f:c5f4:d108:b925])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e412cc164sm21108892f8f.7.2026.10.27.05.16.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2026 05:16:50 -0700 (PDT)
+From: Aurelien DESBRIERES <aurelien@hackers.camp>
+To: jack@suse.cz
+Cc: brauner@kernel.org,
 	willy@infradead.org,
-	jack@suse.cz,
-	ziy@nvidia.com,
-	lance.yang@linux.dev,
-	riel@surriel.com,
-	harry@kernel.org,
-	apopple@nvidia.com,
-	nico.pache@linux.dev,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	usama.arif@linux.dev,
-	kas@kernel.org,
-	matthew.brost@intel.com,
-	jhubbard@nvidia.com,
-	peterx@redhat.com,
-	will@kernel.org,
-	aneesh.kumar@kernel.org,
-	npiggin@gmail.com,
-	osalvador@suse.de,
-	minchan@kernel.org,
-	muchun.song@linux.dev,
-	xu.xin@linux.dev,
-	chengming.zhou@linux.dev,
-	chrisl@kernel.org,
-	shikemeng@huaweicloud.com,
-	nphamcs@gmail.com,
-	youngjun.park@lge.com,
-	gourry@gourry.net,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	ying.huang@linux.alibaba.com,
-	jgg@ziepe.ca,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	kexec@lists.infradead.org,
+	viro@zeniv.linux.org.uk,
 	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	josef@toxicpanda.com
-Subject: Re: [PATCH 32/46] mm/memory_hotplug: avoid races in pfn_to_online_page() with dying pgmap
-Date: Tue, 27 Oct 2026 20:13:07 +0800
-Message-ID: <20261027121307.40431-1-lance.yang@linux.dev>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20261027-fixes_core-v1-32-6f74bec9a5bb@kernel.org>
-References: <20261027-fixes_core-v1-32-6f74bec9a5bb@kernel.org>
+	linux-kernel@vger.kernel.org,
+	syzbot@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com,
+	aurelien.desbrieres@gmail.com
+Subject: Re: [syzbot ci] Re: buffer: warn when a buffer is attached to a second mmb
+Date: Tue, 27 Oct 2026 13:16:49 +0100
+Message-ID: <20261027121649.69819-1-aurelien@hackers.camp>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <a7h6k7ecnmnj426ss45fqdk2kjodrjurjpwhcwao2bjkw7tqtl@qghx3vrx5ber>
+References: <a7h6k7ecnmnj426ss45fqdk2kjodrjurjpwhcwao2bjkw7tqtl@qghx3vrx5ber>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -128,143 +88,22 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+On Tue 27-10-26 13:10:55, Jan Kara wrote:
+> Woohoo, great that we have added this. So now we have some filesystem bugs
+> to analyze ;). At least in ext4 case this is a real bug as xattr blocks can
+> be indeed shared among inodes.
+[...]
+> I'm not sure about the FAT cases because directory blocks where this
+> triggers should better belong to a single directory. So it could be some
+> race with freeing & reallocating blocks. Needs more digging.
 
-On Tue, Oct 27, 2026 at 12:17:52AM +0100, David Hildenbrand (Arm) wrote:
->From: Josef Bacik <josef@toxicpanda.com>
->
->If ZONE_DEVICE memory shares a memory section with ordinary memory, the
->section is online and the pfns of the device are valid.
->pfn_to_online_page() tells them apart by asking get_dev_pagemap() whether
->the pfn belongs to a dev_pagemap.
->
->get_dev_pagemap() only returns a dev_pagemap whose reference is alive.
->memunmap_pages() kills the reference first, waits until all pages are
->idle, and then removes the memmap. During all that time the function
->finds nothing, and pfn_to_online_page() hands out the struct pages of the
->device as if they were online memory. A pfn walker reads them while they
->are poisoned and freed.
->
->The entry in pgmap_array is only deleted after the pages have been
->removed. Look at that instead of trying to get a reference.
->
->This is probably not worth CCing stable.
->
->Fix generated by an LLM and sent by Josef Bacik in private.
->
->Fixes: 1f90a3477df3 ("mm: teach pfn_to_online_page() about ZONE_DEVICE section collisions")
->Signed-off-by: Josef Bacik <josef@toxicpanda.com>
->Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->---
-> include/linux/memremap.h |  6 ++++++
-> mm/memory_hotplug.c      | 13 +++++--------
-> mm/memremap.c            | 13 +++++++++++++
-> 3 files changed, 24 insertions(+), 8 deletions(-)
->
->diff --git a/include/linux/memremap.h b/include/linux/memremap.h
->index e3c2ccf872a8a..b5e5e626c7a59 100644
->--- a/include/linux/memremap.h
->+++ b/include/linux/memremap.h
->@@ -231,6 +231,7 @@ void memunmap_pages(struct dev_pagemap *pgmap);
-> void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgmap);
-> void devm_memunmap_pages(struct device *dev, struct dev_pagemap *pgmap);
-> struct dev_pagemap *get_dev_pagemap(unsigned long pfn);
->+bool pfn_has_dev_pagemap(unsigned long pfn);
-> bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn);
-> 
-> unsigned long memremap_compat_align(void);
->@@ -284,6 +285,11 @@ static inline struct dev_pagemap *get_dev_pagemap(unsigned long pfn)
-> 	return NULL;
-> }
-> 
->+static inline bool pfn_has_dev_pagemap(unsigned long pfn)
->+{
->+	return false;
->+}
->+
-> static inline bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn)
-> {
-> 	return false;
->diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
->index 796af1028ee23..5a972d7a9e478 100644
->--- a/mm/memory_hotplug.c
->+++ b/mm/memory_hotplug.c
->@@ -342,7 +342,6 @@ static int check_pfn_span(unsigned long pfn, unsigned long nr_pages)
-> struct page *pfn_to_online_page(unsigned long pfn)
-> {
-> 	unsigned long nr = pfn_to_section_nr(pfn);
->-	struct dev_pagemap *pgmap;
-> 	struct mem_section *ms;
-> 
-> 	BUILD_BUG_ON(IS_ENABLED(CONFIG_HAVE_ARCH_PFN_VALID));
->@@ -363,14 +362,12 @@ struct page *pfn_to_online_page(unsigned long pfn)
-> 	/*
-> 	 * Slowpath: when ZONE_DEVICE collides with
-> 	 * ZONE_{NORMAL,MOVABLE} within the same section some pfns in
->-	 * the section may be 'offline' but 'valid'. Only
->-	 * get_dev_pagemap() can determine sub-section online status.
->+	 * the section may be 'offline' but 'valid'. Only the presence of a
->+	 * pgmap can determine sub-section online status: it indicates a
->+	 * ZONE_DEVICE offline pfn. That includes a pgmap whose reference has
->+	 * been killed, its memmap is about to go away.
-> 	 */
->-	pgmap = get_dev_pagemap(pfn);
->-	put_dev_pagemap(pgmap);
->-
->-	/* The presence of a pgmap indicates ZONE_DEVICE offline pfn */
->-	if (pgmap)
->+	if (pfn_has_dev_pagemap(pfn))
-> 		return NULL;
-> 
-> 	return pfn_to_page(pfn);
+Our mails crossed; forget the pr_warn alternative then, the WARN stays
+as sent. If digging into the FAT cases from the syzbot repros helps, I
+can take that on; say so and I will report what I find. Your free and
+reallocate theory also describes something beamfs could do with its
+indirect blocks, so I am running xfstests against the warning on our
+side first.
 
-
-LLM stumbled upon a possible race in kpage_read() ... 
-
-Say the reader passes pfn_section_valid() for a device PFN in a section
-shared with online RAM, gets preempted, and resumes after
-pgmap_array_delete(). We'd then find no pgmap and return pfn_to_page(pfn),
-even though the subsection is no longer valid ...
-
-Could we take the memory hotplug read lock in kpage_read(), covering both
-the lookup and the metadata reads? We can drop it before put_user(), once
-we're done with the page.
-
-Maybe along these lines?
-
----8<---
-diff --git a/fs/proc/page.c b/fs/proc/page.c
-index 6aa99e42ec22..12bed36d76dc 100644
---- a/fs/proc/page.c
-+++ b/fs/proc/page.c
-@@ -12,6 +12,7 @@
- #include <linux/hugetlb.h>
- #include <linux/memremap.h>
- #include <linux/memcontrol.h>
-+#include <linux/memory_hotplug.h>
- #include <linux/mmu_notifier.h>
- #include <linux/page_idle.h>
- #include <linux/kernel-page-flags.h>
-@@ -77,6 +78,8 @@ static ssize_t kpage_read(struct file *file, char __user *buf,
- 	count = min_t(unsigned long, count, (max_dump_pfn * KPMSIZE) - src);
-
- 	while (count > 0) {
-+		/* Prevent memory removal while inspecting the memmap. */
-+		get_online_mems();
- 		/*
- 		 * TODO: ZONE_DEVICE support requires to identify
- 		 * memmaps that were actually initialized.
-@@ -101,6 +104,8 @@ static ssize_t kpage_read(struct file *file, char __user *buf,
- 		} else
- 			info = 0;
-
-+		put_online_mems();
-+
- 		if (put_user(info, out)) {
- 			ret = -EFAULT;
- 			break;
---
-
-Cheers, Lance
+Aurelien
