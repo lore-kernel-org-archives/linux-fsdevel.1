@@ -1,49 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.252.183.203
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793086554;
-	b=Tnyrnn62yGGVOrKxhWkp+vLmwfJyFvFpt28W+mLt7lTabjZN3CgcmoECvW6WFF1l3vgz
-	 OudJyedL6KAwmG+7MK8Xqi1acPwZqMszPPnY3dIgbYf/7jNvPYybM3IOqwmdUfXz2B1Hn
-	 Jec/HnFDkY5bg/rYh+g0KX6NWi4aFNImydgj2UoZ5YOmJmxY8Kgpogw9vKD0xjKgzfgxl
-	 zGAUrnZO43BAftfBTu6dAeK5yy9CWIQ0NfkL6ZNaL1215DoGB0neb6RPPaiznXW2xSKEh
-	 RCZoDG+weJAGIlJnaD+JHHjiKkzwuYesiI9yLoVeVrGluSBebu0klpl9+ott0RuxwGQ==
+	t=1793088096;
+	b=yHsI6NWqxxxT/qE7M+g4BfA7OCM/9ZeaOzUEXZFAiwlMSff3RgVpsRoWeE7DkHpsASFq
+	 xNPyP+1hlqdMiM1KSjkIBGr5CdMLGd1AfNGi/Hi9NKtWejluLg2CV8IbvHiiV5ysx1XCX
+	 uT26Fj+h/jOyo0ex5WXRj9R7575oSxDcPC/m1PgCOyNhXZpV3GI0NDJRUCkuCidwb8A/2
+	 zyyOrYUa007jnTw+L8eEIjnj/IwGSw09PwGod5o33RZFwzz3+Hua003uALU1dyI85CLjU
+	 UuLZ/Sxp/at7CneiekMDdMEhndtdfy0fczSU22QGVMDVi/1CyYIZyYqhO7eZMzwDx2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793086554;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=5jc2ZtnsslhTBje2qQpVD7MrTZfTUlL74O4i/llDB/M=;
-	b=HK7b0hFK9ekbCd1jwKEOIVbpTiErYlHdr3sPZp6IofAcTTj5rHqNZ3g4Mw/en6mvR+Mo
-	 kLJm1xgCa2S1f3fdXVLkFECSjjGqG9weOnyF1K9vnYlsZ0Ke4mzPHe7Q+qw9Cy/4JjfS3
-	 ZvvA4SQIFwq+gXdC1ZWDJQ7hFCAP6eYHX9Sbu9SIbDNifjPQ/O8Rv5q4c2Zm+Ua3A0k7r
-	 /qc2zcWxr9g76ZKiB1nUJUDcmliI/qqIFkBvs0IvH7Fs6Cp6JmKwUrN6UmDRGhlekZkZF
-	 C+HaiLXyk49ofZl7KIPfF16v0DTyV019fnIAjpzxRBT8FGvy7wlJj3/rOGv8ivw+/1w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793088096;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=yEqYGkXZi67x4sSyN+vFHXVMBIT26852rftcWPOZ8mo=;
+	b=mPHlnY2DIVofyqM6MCoVK0Gbfb8sgkfLn1fyNymyUQn8Bv8/CDWQ5DqUnuCXxJ7hnd1C
+	 eKx2CPRAxFAa3EaJvwhVqHdWdn5+KxmVaoVkX+NHBh4KouEiev0E/EnsrTBG1j7z9UHn/
+	 LPMn9CLdm0194zpc+vsZROJAIHwkOlyAmUAP8OPuylhQ7vzEhM5sr7zfzQ6UzWJlHOt7m
+	 rg6ArpqaA/kieF5oI51tf/hwabmrZdugvpfcLNqiixDFbYxvn+Eu+pUNudpu7Gn7c0slj
+	 Fd9DhlsNGF3/PaznyGPm7qLwJLdN48iy21hZHl7UP2tB259jgMOWl28CZop+qkq9+IA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="ShPz/LB/";
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F324606A323;
-	Tue, 27 Oct 2026 07:35:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F324606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=dev.snart.me;
+	spf=pass smtp.mailfrom=dev.snart.me;
+	dkim=pass header.d=dev.snart.me header.i=@dev.snart.me header.a=rsa-sha256 header.s=00 header.b=QSBVbELm;
+	arc=none smtp.remote-ip=54.252.183.203
+Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7A7606A31A;
+	Tue, 27 Oct 2026 08:01:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF7A7606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ShPz/LB/
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C08721655;
-	Tue, 27 Oct 2026 00:35:48 -0700 (PDT)
-Received: from [10.163.152.160] (unknown [10.163.152.160])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 316693F673;
-	Tue, 27 Oct 2026 00:35:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793086551; bh=n2WrtA8FsjLacOwP70K0qkcnkliELHh0b55ywQMgrm4=;
+	dkim=pass (1024-bit key, unprotected) header.d=dev.snart.me header.i=@dev.snart.me header.a=rsa-sha256 header.s=00 header.b=QSBVbELm
+Received: from embla.dev.snart.me (localhost [IPv6:::1])
+	by embla.dev.snart.me (Postfix) with ESMTP id 689041D485;
+	Tue, 27 Oct 2026 08:01:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me 689041D485
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
+	t=1793088089; bh=hweRCmgmyMvzsrva+8h8cHB/+12rDDcY42HGJsfnMHQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ShPz/LB/JTXMSaXWoN89wpg1R0MFhTQ3+OYAWgQenVr07qFiwcr+BtH2v6xKKQfRM
-	 QrYTx4Q3mPU1qcZAPdg41yN63hG8hPH4qkEAk45cxkJ8LLmOSK716gyfQv1IvIJqjZ
-	 R/89T7N51QEEo+TuFrpiXNQLA0t0iBWtwxXvK0jA=
-Message-ID: <21091d4e-0afb-4b5b-84ac-b36bac58e40f@arm.com>
-Date: Tue, 27 Oct 2026 13:05:27 +0530
+	b=QSBVbELmUEy26YuTnLmcEvcSr8vQKP8wrRT0YpTX3teCBerKlCaBiuuTPNwCEUCrW
+	 cM3jfd4pEz9qLOyQaHlujil8LsL6louZXVsM0i9+RYZcaO5ZMhdxg62B6VRGjVQsV3
+	 aJROhzAXhPqTI8jyPQkKjOfIoKP7eWK36xp+lPCo=
+Received: from [192.168.1.18] ([182.226.25.243])
+	by embla.dev.snart.me with ESMTPSA
+	id l1tEB1ha4GqObwEA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Tue, 27 Oct 2026 08:01:28 +0000
+Message-ID: <99e3060d-10aa-4407-ab1c-43b7200ef76c@dev.snart.me>
+Date: Tue, 27 Oct 2026 08:01:26 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,108 +60,87 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 26/46] mm/mmu_gather: fix flushing ranges with 4 GiB or
- larger
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Baoquan He <baoquan.he@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>,
- Ryan Roberts <ryan.roberts@arm.com>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>,
- Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>,
- Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
- Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>,
- Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>,
- Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org,
- Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org
-References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
- <20261027-fixes_core-v1-26-6f74bec9a5bb@kernel.org>
-Content-Language: en-US
-From: Dev Jain <dev.jain@arm.com>
-In-Reply-To: <20261027-fixes_core-v1-26-6f74bec9a5bb@kernel.org>
+Subject: Re: [PATCH] exfat: fix upcase table validation to require all entries
+ consumed
+To: Reid Downing <skibletz@gmail.com>, linkinjeon@kernel.org,
+ sj1557.seo@samsung.com
+Cc: yuezhang.mo@sony.com, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261025122639.1173247-1-skibletz@gmail.com>
+From: David Timber <dxdt@dev.snart.me>
+Content-Language: en-US, ko
+Autocrypt: addr=dxdt@dev.snart.me; keydata=
+ xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
+ IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
+ X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
+ sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
+ 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
+ EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
+ VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
+ Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
+In-Reply-To: <20261025122639.1173247-1-skibletz@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-
-
-On 27/10/26 4:47 am, David Hildenbrand (Arm) wrote:
-> From: Josef Bacik <josef@toxicpanda.com>
-> 
-> __tlb_adjust_range() takes the size of the range which has to be flushed
-> as an unsigned int. Its callers, tlb_flush_{pte,pmd,pud,p4d}_range(), get
-> and pass an unsigned long. Consequently, a range that is 4 GiB or larger
-> gets truncated, possibly to 0.
-> 
-> On arm64 with hugetlb, a 64k kernel can flush 16 GiB hugetlb PMDs, and a
-
-Nit: this wasn't obvious to me. Better expressed as:
-"a 64K kernel can have 16 GiB hugepage mapped contiguously at the PMD level"
-
-
-> 16k kernel can flush 64 GiB PUDs through tlb_unshare_pmd_ptdesc(). So
-> at least these two scenarios are affected.
-> 
-> Fix it by flushing the proper range instead of the truncated one.
-
-Nit: after reading this I thought you are passing some other parameter now.
-But that is just a type change.
-
-
-> 
-> Fix generated by an LLM and sent by Josef Bacik in private.
-> 
-> Fixes: b528e4b6405b ("mm/hugetlb: add tlb_remove_hugetlb_entry for handling hugetlb pages")
-> Fixes: 8ce720d5bd91 ("mm/hugetlb: fix excessive IPI broadcasts when unsharing PMD tables using mmu_gather")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> [ david: use two-tab indent, simplify description ]
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+On 10/25/26 12:26, Reid Downing wrote:
+> exfat_load_upcase_table() and exfat_load_default_upcase_table()
+> accept the table when index >= 0xFFFF, but a correct table must
+> process all 0x10000 entries, leaving index at 0x10000.
+>
+> a crafted filesystem image can use the compressed skip encoding
+> to advance index to exactly 0xFFFF without filling the remaining
+> entries. the checksum covers only the on-disk bytes so it can be
+> made to match. the kernel accepts the table while the unfilled
+> entries silently remain zero, causing incorrect uppercase mappings
+> for the affected codepoints and breaking case-insensitive filename
+> comparison for non-ascii characters.
+>
+> fix both checks to require index >= UTBL_COUNT.
+>
+> Fixes: 370e812b3ec1 ("exfat: add nls operations")
+> Signed-off-by: Reid Downing <skibletz@gmail.com>
 > ---
-
-Reviewed-by: Dev Jain <dev.jain@arm.com>
-
-
->  include/asm-generic/tlb.h | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/include/asm-generic/tlb.h b/include/asm-generic/tlb.h
-> index fbe1114e9a443..3f4a180b48f3c 100644
-> --- a/include/asm-generic/tlb.h
-> +++ b/include/asm-generic/tlb.h
-> @@ -350,8 +350,7 @@ struct mmu_gather {
->  void tlb_flush_mmu(struct mmu_gather *tlb);
+>  fs/exfat/nls.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/exfat/nls.c b/fs/exfat/nls.c
+> index 055447edc..7afc86ea2 100644
+> --- a/fs/exfat/nls.c
+> +++ b/fs/exfat/nls.c
+> @@ -691,7 +691,7 @@ static int exfat_load_upcase_table(struct super_block *sb,
+>  		brelse(bh);
+>  	}
 >  
->  static inline void __tlb_adjust_range(struct mmu_gather *tlb,
-> -				      unsigned long address,
-> -				      unsigned int range_size)
-> +		unsigned long address, unsigned long range_size)
->  {
->  	tlb->start = min(tlb->start, address);
->  	tlb->end = max(tlb->end, address + range_size);
-> 
+> -	if (index >= 0xFFFF && utbl_checksum == chksum)
+> +	if (index >= UTBL_COUNT && utbl_checksum == chksum)
+>  		return 0;
+>  
+>  	exfat_err(sb, "failed to load upcase table (idx : 0x%08x, chksum : 0x%08x, utbl_chksum : 0x%08x)",
+> @@ -728,7 +728,7 @@ static int exfat_load_default_upcase_table(struct super_block *sb)
+>  		}
+>  	}
+>  
+> -	if (index >= 0xFFFF)
+> +	if (index >= UTBL_COUNT)
+>  		return 0;
+>  
+>  	/* FATAL error: default upcase table has error */
+Please see the following unmerged patch:
 
+https://lore.kernel.org/linux-fsdevel/20260414055643.1833401-5-dxdt@dev.snart.me/
+
+How about
+
+    index == UTBL_COUNT
+
+This is more of a compatibility issue than a security issue. A bit rot
+in the storage hardware can definitely cause benign corruption. I've
+observed that EXFAT.sys(the Windows implementation) strictly expects the
+table to end exactly with 0x1000.
+
+Also, expect the size of the table aligned to 2 bytes, as per my
+original patch. You're more than welcome to cc me in the commit message.
+I was just too busy to get back working on my patches.
+
+Thanks,
+Davo
