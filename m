@@ -1,96 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793092478;
-	b=WekjxVQXtJBP27rh4IXzrSSrRS7keXMsWz8TE+w/ZNfqBbXyNz9kiNvZ+o/MhWCDgfD9
-	 gM9gV+DX/u8JL28KozgZx+TSWJHomYYSFs5wXC1w4x17b+DOUDgNPROXHd6Kh2ohnQi6w
-	 54R6XkmgQOA+iPf7fKwe0uGvGpIvxUBOVHY/qKqEhRBD4AMCzkXgB7RuU3Y/w80kFrl0W
-	 oEa8ozoJgpJEvjQ/GQbwINyyKrOWJEI1laG1XNJIjP2EnUfzuBzgSBCxepmwYFm1jYMKG
-	 dDLaHMpJt+HK+KAUVsVSJugBdONvSDYjn29BxjvLUuRzGBAD5fvx62hkY+IlUP5Uv1Q==
+	t=1793092487;
+	b=4ZJgbl3BEXU0i3RxCI4i4PuOgEipeijv9i8j+abhemEYX9wGgqXO1BVnUCtGrRjQaBBy
+	 VBwn1ZQYgtIj3x3HkTBKjk1GXws4XjcyJD3WPWMmx57sfJ4/9lHW8ywucfgvNjit4z5ez
+	 4TZTkJjpMj265S93RO2WsPRGzljTMpHrxD+1QCUUzP7GVUD7Y+WFCx+J6G9J+GMi49tLt
+	 HoMraDMIMK1su8RqD3oNOmy4RwZlaC8VWd1WVTMLHDCeJGGO+xVRhHj6G/vT5Cy37fnRk
+	 C9d/nSGgcYVg7IOs1uhrO0+3lNlVu8T94Nmr5zAUYKS22QZ8xE7uT9VokfS2ALvADQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793092478;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=FdRV4XTc4pYPAaF+rtb7+DdwwT3YYcSdn8k9Rp0yoGA=;
-	b=aF6Gz8Z3JJTp6H1Y3N4MahSelxmDD10kwSJCNdLzA/QfQU/Emdcf527qmZEPotShN5L5
-	 /K0PSbEAL+1MP1q+FuyWqs6X5flcPvfnAKIeEVm+0J43ClROp5Gl0LtfZiRAyDPWrKv1k
-	 NLrpb+myT/AdoHWURARU4cFudzHYqYVy8NOMjU0HyEP52X03CoDG23NyomOnobNQ5OsPJ
-	 kUU0BwuhhYbfiYQfVznGK+fpprGEWdW1SKGaw+mL0jFXRLEKdDUCDPJIk62RgkWtXb+en
-	 9HnUtVVi0N6XRaoDSII732gEM5FDzwm/UCEhxUbGGIC5MYSCp1cxTkWvCZHkWdvNqYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793092487;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=3C9BaH0xhn5HBqYI2J//q0I0p6+i5eg81V2wjnKirFM=;
+	b=5fB8gDmJ44C3V5dzynMbGrkQ8NDdt32ZRurAv8ZidHQlJIDEIbW8KuxyB3WYTRxKRBRA
+	 cTNdeNEFEvU+nOCBLybnjVXV5/6d70zlRJ3isE56Lw8Z3zcNF61qath16DgHMJn57RXbD
+	 nJ62QH33PDviM9NNyn1kOgfs4zpDdXTUxJ9ApOBQt0bBrpfe3zQsw4svqq/KdGygCsnlE
+	 FIhoUeyGMpezjDuSe/bZeTcI+mHQZmbSjV2W/jvYcP/7Dsorl//80skdpod/X9OMEt8En
+	 DGOs1AUTi22GTecJebfBfhy6KIzcaUPrPfLak71KNeOgIqkN1qz5szKEaFexSRtGRMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="SWo3d/ti";
-	arc=none smtp.remote-ip=74.125.229.7
-Received: from mail-dy2-f7.google.com (mail-dy2-f7.google.com [74.125.229.7])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wax8ZcaD;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241E4606A31B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 09:14:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 241E4606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEFCB606A31A;
+	Tue, 27 Oct 2026 09:14:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=SWo3d/ti
-Received: by mail-dy2-f7.google.com with SMTP id 5a478bee46e88-369ef2c6802so371078eec.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 02:14:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793092477; x=1793697277; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FdRV4XTc4pYPAaF+rtb7+DdwwT3YYcSdn8k9Rp0yoGA=;
-        b=SWo3d/tiozvEWBBHsQ7PjMe5nNsCKGVdewvzmFzbZabM6YLj8YTmqP9+wG3BUJ580Z
-         JtuEIRYCoWYMLee+a5RGLcXId7J5Rwr/3c0rE/9jWSnVpLrvZPHsJtL7jjncrCqX8Ht6
-         vZQ+JTtUCJasd2M1gn5J6Rs21nRgeLyWYZOcVWqm8xGjeLhNVlBroctj3wlazd1AeV4c
-         wCKrEwUSDC8wg3+1dmpu9+u3XCO0hAB5m60+ONDpjwNJqW6Zp3gKmE+lky6CgViDgn78
-         JQQe5q0GReaENrS8iY/wuiBk0nAMb0sPrdxFrOnc7YTyhDc2wFwX8TQTZqwmjzIA5TT+
-         uaXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793092477; x=1793697277;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FdRV4XTc4pYPAaF+rtb7+DdwwT3YYcSdn8k9Rp0yoGA=;
-        b=uRtozcN1dAPUsQBCFcPtiQlHgAmD0QDt9aehSWNJaQoed/9mr0vvfAwReXyLZhGQ04
-         XVnQlp5Oo0wpAMCxr+9mU/z/A9va4D1Zg88xsMfewpcQY+qAdNf1VEG7m3cCOHW3vvJ5
-         /aOga9pye3jbt34OreyqZCTOg06yAQbIhX1CfT1AwpREH0TdX2LNMdFL0Bn8nIL0ktFH
-         McPprLXgbPAMshj2V5WcEuf+i5Wo7XjJJMtgPRBp+d8gsmO8gqIfc6ikCDMPTuXGVNfU
-         2LBssMeroSPojo9mfyAaBCbWz2DgNCcceZmFze/zmi7nC490ojTQCbcXLawwDNrEgA+K
-         Jj/w==
-X-Forwarded-Encrypted: i=1; AKwUvBwnQ1g7GL3jD3yF2rsJd0DzrTaEdByMJckX+QCEHVc+YPUM6aMAEBfkutFtQJbkwoyccwt3UDSh4OzMBUZh@vger.kernel.org
-X-Gm-Message-State: AFq9FYKpp1DNMvwXmdwsyfLzp8mVBSd+gq3SB7LnQ3mOF6bDxo+oSTx2
-	m0/5xJ/RWLEO1/OajFeqIafnFfSV8t2FB2Qyxdw+t9+OOYu0+TykyJA5
-X-Gm-Gg: AYBFou3P6ZHpjVQ3AEB/Ri35Ogd2QAT4zfQWotN+HrVJs59E99kr3+GcEQikdGeMUGU
-	EOcFxaPA+exCa5ow/cXWRGSaL6YrslhjuDe67N+fhLcDsZccQ4CPq9tTlFRiAn1SRi+dynuixOZ
-	OxmWdZ/mIKtwGfkBJ3xbKYYL4fch+JB1D05Zt1U/iIOTkF+LrriuRv9hH9C3q6hleslKA+nXep4
-	FdLlCDjp7ZccVXudB3VQfpy/skJELUZSGIIxYnVdf72RdU5cCyUEjUsWFZAwlk+atgHaWAhMFpQ
-	QZsC8/0ymO1GqSdpG8NUF1Qx6G0+/h1nKgPk+hwZhPNA71643xdhDYf20/CvYD2G373LewjzfDg
-	dwDMtomuojFRBEy2R2u7d3D5inWQD4eqBFliu8XekQiWUqSsC9hUSOvjnY5NxgBunVWjycLilPP
-	6qBU3B/a04s4fk4TJbPyKG6nNxVDOJdL8b1VQ4kgsZj469MVDGhD11uPKoNXJJulkInr4d824sB
-	bkr0XiFsp+mevi1U0FF5jnW84XB+Vv2Sjz3guLj0sGSZ6yxBuO7ip2i9ypiVurMvNmYoh+1vixo
-	vq0JY3E=
-X-Received: by 2002:a05:7301:5383:b0:369:f644:fac0 with SMTP id 5a478bee46e88-36a0f55dbc6mr2798061eec.8.1793092476796;
-        Tue, 27 Oct 2026 02:14:36 -0700 (PDT)
-Received: from localhost.localdomain ([98.148.34.5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8ee72c0sm48508417eec.29.2026.10.27.02.14.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 02:14:36 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: linkinjeon@kernel.org
-Cc: sj1557.seo@samsung.com,
-	yuezhang.mo@sony.com,
-	exfat@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jlayton@kernel.org,
-	jack@suse.cz,
-	dennylin0707@gmail.com
-Subject: [PATCH] exfat: preserve creation times during rename
-Date: Tue, 27 Oct 2026 09:13:53 +0000
-Message-ID: <20261027091353.74642-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wax8ZcaD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAD0D1F01828;
+	Tue, 27 Oct 2026 09:14:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793092486;
+	bh=3C9BaH0xhn5HBqYI2J//q0I0p6+i5eg81V2wjnKirFM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Wax8ZcaD/71DiecJRehBjH5zvLNetiaOZxFQpb1WrNjXeS7UbTJCfdPzju8GkpkR5
+	 dhrLX3VqNdfyJG8THsKAy7Zg1MlSK48H8IzHPn4+WXagMvTMTf23VfaYwqjmMxWF4J
+	 ++aVQRfE/N3qmeQ4mWlhTnPnTLk6holKtH9fysbFY3Sq0B3fzgYVi6P9bv72BUL8as
+	 jPTVF6ybNZ9tbOBT4WgNmDcRrIiEEvZtlJjuia2pyRtxp1x+2LMPFWrT8PiiQnoU70
+	 T6x25iwZeTJPgQeNnZDH/2onGJTGqPiDGfF68A322uNHd7QLFq01c+VVuq5nXdSavM
+	 /61haflQ2EIiA==
+Date: Tue, 27 Oct 2026 09:14:30 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Hugh Dickins <hughd@google.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Oscar Salvador <osalvador@suse.de>, Minchan Kim <minchan@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Xu Xin <xu.xin@linux.dev>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Chris Li <chrisl@kernel.org>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Gregory Price <gourry@gourry.net>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, stable@vger.kernel.org, 
+	Josef Bacik <josef@toxicpanda.com>
+Subject: Re: [PATCH 38/46] mm/ksm: reset the unstable trees of all nodes
+Message-ID: <auBrQQ9Lu_261z2e@gremlin>
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+ <20261027-fixes_core-v1-38-6f74bec9a5bb@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,51 +83,75 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027-fixes_core-v1-38-6f74bec9a5bb@kernel.org>
 
-exfat_rename() resets the destination parent directory's i_crtime after
-every successful rename. A normal mv within that directory therefore
-changes its STATX_BTIME, and the new creation time is also written to
-disk. Moving a child does not recreate its parent directory.
+On Tue, Oct 27, 2026 at 12:17:58AM +0100, David Hildenbrand (Arm) wrote:
+> Each full scan resets ksm_nr_node_ids unstable tree roots. Enabling
+> merge_across_nodes resets this count to 1, even if per-node roots were
+> previously allocated.
+>
+> So when toggling "merge_across_nodes" 0 -> 1 -> 0, a scan that starts
+> while the setting is 1 and continues after switching back to 0 can
+> encounter stale unstable tree roots, resulting in UAF.
+>
+> Only root is allowed to change "merge_across_nodes", and the documented
+> sequence is: "merge_across_nodes setting can be changed only when there
+> are no ksm shared pages in the system: set run 2 to unmerge pages first,
+> then to 1 after changing merge_across_nodes, to remerge according to the
+> new setting."
+>
+> Let's fix it by tracking in ksm_nr_node_ids the actual number of
+> allocated tree roots.
+>
+> remove_all_stable_nodes() and ksm_check_stable_tree() will now scan
+> more tree roots (skipping the empty ones), which is harmless.
+>
+> Fixes: ef53d16cded7 ("ksm: allocate roots when needed")
+> Cc: stable@vger.kernel.org
+> Reported-by: Josef Bacik <josef@toxicpanda.com>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-The function also resets i_crtime on an overwritten target inode. An
-application holding an open file descriptor can observe its birth time
-change even though it still refers to the same inode.
+Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Remove both creation-time updates. simple_rename_timestamp() already
-updates the modification and change times required by rename, while
-creation times should remain unchanged. Jeff Layton questioned these
-updates during the timestamp accessor conversion, but they remain in
-the current implementation.
+> ---
+>  mm/ksm.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/mm/ksm.c b/mm/ksm.c
+> index dbfb8f98b1892..9c51925825cbf 100644
+> --- a/mm/ksm.c
+> +++ b/mm/ksm.c
+> @@ -475,6 +475,7 @@ static void advisor_stop_scan(void)
+>  #ifdef CONFIG_NUMA
+>  /* Zeroed when merging across nodes is not allowed */
+>  static unsigned int ksm_merge_across_nodes = 1;
+> +/* Number of allocated stable and unstable tree roots. */
+>  static int ksm_nr_node_ids = 1;
+>  #else
+>  #define ksm_merge_across_nodes	1U
+> @@ -3636,14 +3637,13 @@ static ssize_t merge_across_nodes_store(struct kobject *kobj,
+>  			else {
+>  				root_stable_tree = buf;
+>  				root_unstable_tree = buf + nr_node_ids;
+> +				ksm_nr_node_ids = nr_node_ids;
+>  				/* Stable tree is empty but not the unstable */
+>  				root_unstable_tree[0] = one_unstable_tree[0];
+>  			}
+>  		}
+> -		if (!err) {
+> +		if (!err)
+>  			ksm_merge_across_nodes = knob;
+> -			ksm_nr_node_ids = knob ? 1 : nr_node_ids;
+> -		}
+>  	}
+>  	mutex_unlock(&ksm_thread_mutex);
+>
+>
+> --
+> 2.43.0
+>
 
-Fixes: 5f2aa075070c ("exfat: add inode operations")
-Suggested-by: Jeff Layton <jlayton@kernel.org>
-Link: https://lore.kernel.org/r/bb698e294b0d4dbbbad4b94048693360010b8010.camel@kernel.org
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- fs/exfat/namei.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c
-index 68ddb9c5504f..d01280570f70 100644
---- a/fs/exfat/namei.c
-+++ b/fs/exfat/namei.c
-@@ -1293,7 +1293,6 @@ static int exfat_rename(const struct mnt_idmap *idmap,
- 
- 	inode_inc_iversion(new_dir);
- 	simple_rename_timestamp(old_dir, old_dentry, new_dir, new_dentry);
--	EXFAT_I(new_dir)->i_crtime = current_time(new_dir);
- 	exfat_truncate_inode_atime(new_dir);
- 	if (IS_DIRSYNC(new_dir) && size != i_size_read(new_dir))
- 		exfat_sync_inode(new_dir);
-@@ -1331,7 +1330,6 @@ static int exfat_rename(const struct mnt_idmap *idmap,
- 			exfat_warn(sb, "abnormal access to an inode dropped");
- 			WARN_ON(new_inode->i_nlink == 0);
- 		}
--		EXFAT_I(new_inode)->i_crtime = current_time(new_inode);
- 	}
- 
- unlock:
--- 
-2.43.0
-
+--
+Cheers, Lorenzo
