@@ -1,133 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.37.111.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793118468;
-	b=ycD/xe7/ShRYa8+jWlYHujHHpEmufh81/Qa+dBzU+U5k8roMa60kwXVxU5umAs5Nbz5W
-	 fwJywk8aBjA02HzVJrIxP9a/d6IZBVennGYh1vRkDemsdQz9FXOwcVZZ1IAQUrYoPvAjn
-	 +zHVJjIlpmoi7w/lhGWpfhU3XcL6jlxwYEw1yV3iOSFPYJ6w1fQYmA6CKh1nL1O2hoX/t
-	 5JN2OW2PNYgda8oxrGMg7f9DwGHhnwkt67dEMNIwsLOjgZHVbR5kHz59PDCK7JgFx4hM+
-	 mbGG1xNu9CJw2SmmfBNMg/jCmWcg4bgKHKUkOkn+wIVTVLtRX6/VNnq70EfOYUOOuOQ==
+	t=1793118889;
+	b=UIkk8Wx6oX3cmHxz6hF3u88SOXwwJLlUKiIbWrQXL35zZ88uoLejBG1vlbFcyTWrcXEU
+	 pn5tqZ9jfuypENHQLsJM3jXzPisvoKu2a2dBJsK8W6/01ssT7us2w4NB7ZS/Lx8rSaKuB
+	 SntDUFoEiDbT0h0q5IGzEDOFwPg96sStA6dvh543gukJ6CrCSvA2LlIH+6V6STn7r53Di
+	 MRGsD3/aGGetBsAwtUTLNS/LeMfOZzdYt4UgHL5XF/YROo2Yqg7okF0dMPh7JzgVY+Kih
+	 /2uXt5xEG+dApAltpUBCewvHLf++mE+d8Htk5rDgoaLFbfqE0AHjXTKFBaawdjJGLGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793118468;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=/itwoJPNV/PYjgH1tW8TC7VQ2qoANM6I5XSJVpUiq8M=;
-	b=DudAcwAGfOV4cmAFqSdwslEEHeB8hANkgSGnBaCeR6v4QYVEr1IiIZdyxZdUUk2VxvDX
-	 tyvi7C4BPzQqq6tep726z/SesGK1wV0089GfcYpR/IMe6FgEwnd0EuTFUIxMW0BBb/pv4
-	 bSaKXwUcmR6KK1AcAFR93y7KSiu0yc5z9XA4ywkQFmJPbpg6bX3HpZa3ZrlCmqJoxSEIb
-	 oIP1tTCDwAcFoS0GqjPHBzu3y5Ot2n0WPkO/RxKjbCPkVtJhWVOYi+iH5KIiHntvuK38p
-	 SnzA2DmdcEYE0h/hv8mERHGJ+jsb2oCayb0VW3XABuCDhHqbKurJwr0IZO54eYnPQoQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793118889;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=lJTFG6KAtjLyj44w/zDj8zueuqa2oCfz8t6xfr7X1Ug=;
+	b=twy21On1J8aaZuE4QDvXtLfseC8MHs4OJBtpFyCXS1Naaw5K9bit0htX2Dd3GxlirsHT
+	 2Q1xtSVoTFmfXxEtvmkMO1yW8mnE0Z8xpkjT7V0cm/XaBWL2yqcGMVhcOh8VfP5vqJZPA
+	 pnYjPCGABl0a3q2HcaVkdjFRaBh6kZ7FC4pjnmgcHx4hTJPTBPByct7x/wCFnYhFy4GNO
+	 8XfGqZEEDLrJkyHhObTLp9xzz+QDL/W7cQiCogfYX7CteR2yVEyXVOwPj+1t7nfdkYhrA
+	 HBOToInTRyqnprGp6o2y23wxJ9KPdBsTVGnrlrE8u3D2EKayWF+KVvff9C4dZxcdFjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="Te/hFcTC";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hg+twqpr;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="Te/hFcTC";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hg+twqpr;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dmarc=pass header.from=HansenPartnership.com;
+	spf=pass smtp.mailfrom=HansenPartnership.com;
+	dkim=pass header.d=hansenpartnership.com header.i=@hansenpartnership.com header.a=rsa-sha256 header.s=20151216 header.b=UGfSzLjW;
+	arc=none smtp.remote-ip=198.37.111.173
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C18606A31E;
-	Tue, 27 Oct 2026 16:27:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4C18606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 299FD606A31A;
+	Tue, 27 Oct 2026 16:34:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 299FD606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Te/hFcTC;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hg+twqpr;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Te/hFcTC;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hg+twqpr
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key, unprotected) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.a=rsa-sha256 header.s=20151216 header.b=UGfSzLjW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1793118886;
+	bh=OpNyYRNyJU6gg+kG86JdyNEhWCyrOAzRSyOypkHvpC4=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=UGfSzLjWypAeRbcEIjwFnanplbmb+1G6c8fPH0X+DMGyC77CoR/7T8zGDij6SYCdn
+	 0DC9aJ3rMnpAMI58DZ3FdAu0RLTorZQh50KB8ZV/8VWDCaJJ9EoYlfGepUgTewIN3t
+	 rd4Y9l/sOiyVC6U4/XtrjizAbtTv996do2eJRhP4=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:d341::8309])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B670A21F29;
-	Tue, 27 Oct 2026 16:27:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793118465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/itwoJPNV/PYjgH1tW8TC7VQ2qoANM6I5XSJVpUiq8M=;
-	b=Te/hFcTCOKkoMgRX5zaqYIVBggY9Fpr20ezr2tFqxNsXOnKsbQwUmmdTdAciG+uCQTDjth
-	dVktrGDfybLq8FuT/n1SiYOTAsUYVXG9Sing0oS69R2+Iytv0Z/Y7lJYjwwMTzhsktO6j4
-	fMoJAX/MIJCIH+SrJ4jkjDxdxSCgPWE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793118465;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/itwoJPNV/PYjgH1tW8TC7VQ2qoANM6I5XSJVpUiq8M=;
-	b=Hg+twqprF0ocwkjIQM9VGipaZPJ1m+OpmAD+rhXe3by6Gq2PHVtPT9ufjbMIV82PfR4N4K
-	l27dUCgkPKJmAnBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Te/hFcTC";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Hg+twqpr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793118465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/itwoJPNV/PYjgH1tW8TC7VQ2qoANM6I5XSJVpUiq8M=;
-	b=Te/hFcTCOKkoMgRX5zaqYIVBggY9Fpr20ezr2tFqxNsXOnKsbQwUmmdTdAciG+uCQTDjth
-	dVktrGDfybLq8FuT/n1SiYOTAsUYVXG9Sing0oS69R2+Iytv0Z/Y7lJYjwwMTzhsktO6j4
-	fMoJAX/MIJCIH+SrJ4jkjDxdxSCgPWE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793118465;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/itwoJPNV/PYjgH1tW8TC7VQ2qoANM6I5XSJVpUiq8M=;
-	b=Hg+twqprF0ocwkjIQM9VGipaZPJ1m+OpmAD+rhXe3by6Gq2PHVtPT9ufjbMIV82PfR4N4K
-	l27dUCgkPKJmAnBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A1EA61321C;
-	Tue, 27 Oct 2026 16:27:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BayYG/3Q4GpDBwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 27 Oct 2026 16:27:41 +0000
-Date: Tue, 27 Oct 2026 16:27:39 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, Hugh Dickins <hughd@google.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, 
-	Lance Yang <lance.yang@linux.dev>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Oscar Salvador <osalvador@suse.de>, Minchan Kim <minchan@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Xu Xin <xu.xin@linux.dev>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Chris Li <chrisl@kernel.org>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Gregory Price <gourry@gourry.net>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH 35/46] mm: fix unmap_mapping_range() beyond 4 GiB on
- 32-bit
-Message-ID: <auDQ66Ux9eKN-Ha4@pedro-suse.lan>
-References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
- <20261027-fixes_core-v1-35-6f74bec9a5bb@kernel.org>
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id A1DC11C0227;
+	Tue, 27 Oct 2026 12:34:46 -0400 (EDT)
+Message-ID: <d7d219895917cb1ad48db41bed19b5d11f3fc26f.camel@HansenPartnership.com>
+Subject: Re: [GIT PULL for v7.4] vfs keyring
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 27 Oct 2026 12:34:46 -0400
+In-Reply-To: <20261026-semester-gabel-hallimasch-34a1d883b295@brauner>
+References: <20261016-vfs-v74-41eaf6c4712c@brauner>
+	 <20261024-vfs-7.4-rc1.keyring-db88a8f3b5b1@brauner>
+	 <61898b2b9de5e6be98c7b8e462ba29595cae3e26.camel@HansenPartnership.com>
+	 <20261026-semester-gabel-hallimasch-34a1d883b295@brauner>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ keydata=mQENBE58FlABCADPM714lRLxGmba4JFjkocqpj1/6/Cx+IXezcS22azZetzCXDpm2MfNE
+ lecY3qkFjfnoffQiw5rrOO0/oRSATOh8+2fmJ6el7naRbDuh+i8lVESfdlkoqX57H5R8h/UTIp6gn
+ 1mpNlxjQv6QSZbl551zQ1nmkSVRbA5TbEp4br5GZeJ58esmYDCBwxuFTsSsdzbOBNthLcudWpJZHU
+ RfMc0ew24By1nldL9F37AktNcCipKpC2U0NtGlJjYPNSVXrCd1izxKmO7te7BLP+7B4DNj1VRnaf8
+ X9+VIApCi/l4Kdx+ZR3aLTqSuNsIMmXUJ3T8JRl+ag7kby/KBp+0OpotABEBAAG0N0phbWVzIEJvd
+ HRvbWxleSA8SmFtZXMuQm90dG9tbGV5QEhhbnNlblBhcnRuZXJzaGlwLmNvbT6JAVgEEwEIAEICGw
+ MGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAhkBFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAml2ZBI
+ FCS3GUMIACgkQgUrkfCFIVNZKjQf/deRzlXZClKxTC/Ee2yEPqqS7mm/INUA49KdQQ5oIhSxkUBy0
+ 9J4qjMIo5F8ZFkFTqikBqeL35LKu7O7rn8WETfX8Bxvos3HUsl3jHo34DES4MUFIpoQPgtiLRGwLb
+ K0cVCAArR2u2qj4ABmTRrs1I1kvdjEw6gatOuXtEe/j5O2fvfzTq9GBr0Q3n2IAsFXi4hLlx6VPE8
+ tyWUZ8BWJKtih3JAeUiXFvASL3McV0rV9RnU0VbjEQEhSE7PMYhWpnDC9AyBb0lXJllQRvC3NSkUB
+ 8KVQgNNxRPss0WE/nBoZ4dFA42jTyzTz8lNylxZoAWV7WJb3QxVg4oCodRVrxxrQhSmFtZXMgQm90
+ dG9tbGV5IDxqZWpiQGtlcm5lbC5vcmc+iQFVBBMBCAA/AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeA
+ QIXgBYhBNVgbnPItGJxvq2a34FK5HwhSFTWBQJgS5mYBQkbNYS9AAoJEIFK5HwhSFTWBpwIAL5Bk3
+ 5FB34U6iHmDzzgdCbxLTs43T/YQyJpcGIvopBvnI/fDY8oSG6Df64/O6B+1R+A8TDp6ZG5ysUWnCC
+ 6GuIaEHemBYkitMPglR6+sGCMQY7O0mlsPvdssvKK1KI9Bno4VU6ogaF2qVzefSqg1Djmf/DcsxWP
+ rI/jdJ8FB5AYR2rjIdDFc+zRdAJuavo1/anyY2wgpFh/3R8IOYAEfWV9nGgYkf9+tA4EIn1sxE0I3
+ L5oW2N3mbyRrkzuBwO8ztMCwqEPk7moWzhokcZqMXiAIahaZdkashJC+s2X2RZSGCy+g+pvY5NN4B
+ BVG5XwLgVBqbHMTcxE0fbmPqz+q6O0LEphbWVzIEJvdHRvbWxleSA8amVqYkBoYW5zZW5wYXJ0bmV
+ yc2hpcC5jb20+iQFXBBMBCABBFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmODZ5ACGwMFCRs1hL0F
+ CwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQgUrkfCFIVNZu0Af/TzvL2/NdgAcw9uN3x60H8
+ jc4QUq14VpxcFEFEMpcj1morkX/G93V+56HBBaXZj+yK8PhxIA/SIz+sU7C/0YvKuvzakP8ZX/7WJ
+ e32SOUtjfr/VTaqjIBzNj6OxLvZpmNbBw7s6DwhhNpHOWqJ/1ml+PtDRDV71IB58yVqQjp1xlNKVl
+ ZppcJ5908EJzsFnRIVjiQiDSKoppqB2BCibBbrWcln7CiWMyOC/cco6SIn6twH+f7+aivJ3xGcOE2
+ a9gBKF5rNi9TBoX9oyPmshv/TDmnohsVrH7AYXlGYfZTk15SWEiROh1QX8/uD9wl/gcIv5EDUpT/F
+ L2jzOsA5663bw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -137,78 +97,93 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027-fixes_core-v1-35-6f74bec9a5bb@kernel.org>
-X-Rspamd-Queue-Id: B670A21F29
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,cmpxchg.org,kernel.org,linux.dev,tencent.com,google.com,linux.alibaba.com,infradead.org,suse.com,soleen.com,suse.cz,nvidia.com,surriel.com,arm.com,intel.com,redhat.com,gmail.com,suse.de,huaweicloud.com,lge.com,gourry.net,sk.com,ziepe.ca,kvack.org,vger.kernel.org,lists.infradead.org,toxicpanda.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	URIBL_BLOCKED(0.00)[toxicpanda.com:email,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCPT_COUNT_GT_50(0.00)[65];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,toxicpanda.com:email]
-X-Spam-Score: -12.01
 
-On Tue, Oct 27, 2026 at 12:17:55AM +0100, David Hildenbrand (Arm) wrote:
-> From: Josef Bacik <josef@toxicpanda.com>
-> 
-> Commit 9eab0421fa94 ("mm: fix unmap_mapping_range high bits shift bug")
-> made holebegin and holelen unsigned before they are shifted, by casting
-> them to pgoff_t. That is an unsigned long: on a 32-bit kernel the cast
-> cuts off the upper half of the two loff_t values, so a hole which begins
-> at 4 GiB or beyond is taken for one in the first 4 GiB of the file.
-> 
-> truncate_pagecache() passes the new size of the file and asks for private
-> COWed pages to be unmapped as well. If a file of 6 GiB is truncated to
-> 5 GiB, everything from 1 GiB on is unmapped, and what a process has
-> written to a private mapping of the range between 1 GiB and 5 GiB is
-> lost: it reads the contents of the file again.
-> 
-> Where the range has an end, the wrong range is unmapped instead of the
-> right one. The page cache copes with that, as it unmaps every folio that
-> it removes. The callers which only have unmap_mapping_range() to get
-> rid of user mappings do not, for example drm_vma_node_unmap(), whose fake
-> offsets reach beyond 4 GiB on 32-bit, and revoke_iomem() with physical
-> addresses of more than 32 bits.
-> 
-> Cast to u64 instead. Nothing changes for 64-bit kernels.
-> 
-> Fix generated by an LLM and sent by Josef Bacik in private.
-> 
-> Fixes: 9eab0421fa94 ("mm: fix unmap_mapping_range high bits shift bug")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+On Mon, 2026-10-26 at 21:35 +0100, Christian Brauner wrote:
+> On Mon, Oct 26, 2026 at 10:10:54AM -0400, James Bottomley wrote:
+[...]
+> > It would actually have been nice to copy the keyrings list and
+> > maintainers on this.=C2=A0 I don't think there's an objection but not
+> > cc'ing the list and maintainers makes it look like some type of end
+> > run.
+>=20
+> Uhm, they were?...
+>=20
+> =C2=A0=C2=A0=C2=A0 From: Andrew Halaney <andrew@amutable.com>
+> =C2=A0=C2=A0=C2=A0 To: Alexei Starovoitov <ast@kernel.org>,=C2=A0 Daniel =
+Borkmann
+> <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,=C2=A0
+> Alasdair Kergon <agk@redhat.com>, Mike
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Snitze=
+r <snitzer@kernel.org>,=C2=A0 Mikulas Patocka
+> <mpatocka@redhat.com>, Benjamin Marzinski <bmarzins@redhat.com>,=C2=A0
+> David Howells <dhowells@redhat.com>,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Jarkko=
+ Sakkinen <jarkko@kernel.org>,=C2=A0 Paul Moore
+> <paul@paul-moore.com>, James Morris <jmorris@namei.org>,=C2=A0 "Serge E.
+> Hallyn" <serge@hallyn.com>, Eric
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Bigger=
+s <ebiggers@kernel.org>,=C2=A0 "Theodore Y. Ts'o"
+> <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>,=C2=A0 Shuah Khan
+> <skhan@linuxfoundation.org>, Randy
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Dunlap=
+ <rdunlap@infradead.org>
+> =C2=A0=C2=A0=C2=A0 Cc: dm-devel@lists.linux.dev, linux-kernel@vger.kernel=
+.org,=C2=A0
+> keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+> bpf@vger.kernel.org,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0
+> ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+By *this* I meant this pull request, not the original patches.  I can't
+really tell if David's comment on the patches was simply something that
+might be done later or something he'd like to be done now, but cc'ing
+him on the pull request might sharpen the need to clarify.
 
--- 
-Pedro
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fsveri=
+ty@lists.linux.dev, linux-doc@vger.kernel.org,
+> Andrew Halaney <andrew@amutable.com>,=C2=A0 "Christian Brauner (Amutable)=
+"
+> <brauner@kernel.org>
+> =C2=A0=C2=A0=C2=A0 Subject: [PATCH bpf-next v2 0/3] keys: Add well known =
+IDs for fs-
+> verity/dm-verity keys
+> =C2=A0=C2=A0=C2=A0 Message-Id:
+> <20261008-ajhalaney-dmverity-key-identifier-v2-0-008456d189cb@amutabl
+> e.com>
+>=20
+> > > Christian Brauner (2):
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Merge bpf keyring work from of
+> > > git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Merge patch series "keys: Add well kno=
+wn IDs for fs-
+> > > verity/dm-
+> > > verity keys"
+> >=20
+> > This is a bit nasty because the keyring specs get renumbered inside
+> > the merges ... it would have been much clearer to people looking at
+> > the history if the patches were rebased instead.
+>=20
+> Nothing got renumbered. Both merges are clean.
+> The only commits that touch the ids are Daniel's bpf one adding -9 in
+> bpf-next and Andrew's two adding -10 and -11. The branch is the three
+> patches on top of the bits shared with bpf-next with an explanation
+> why this was needed.
+
+OK, so the second merge commit is because it was based on a version of
+bpf-next that was pulled into 7.2-rc2 (even though the top of bpf-next
+at that point was already merged into 7.2-rc2).  I understand now.
+
+> A rebase would given the same commit but would've meant invalidating
+> things that were already in -next.
+
+-next is a rebasing tree.  But you mean things in your tree others had
+already relied on?  Yes, I get there's a balance here.
+
+Regards,
+
+James
