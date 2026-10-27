@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.38
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.234
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793094664;
-	b=l2tx7XgDrJFIF4gshdEXmE2+3GDqqhSdkItBtfXlaPbTV0m8S24u+VdGomw+Op2ZZtQT
-	 7akvjiSgoAZgyVtHIh1DqTLTqi+S1HRWqt4Mgi69xaUa13wGjitWh7jrUmX3hEek99jiW
-	 025g/P19n1UWAOY+QAR6Wg8PL6/Y6KvT1ZsSki+c7oOkx6cfmQQbsrOZ2gsheTTVQveYj
-	 CCdPMJmYsoBiP2v7VDO7TQ+mrN3lKtiVXA1vk2sTFJ5aCr7hWeMSJQzzPukg77mmwf2KD
-	 ilY/tQd7T2QaJb8ClN/zl3wYIXCUVMilHo7TS9GuL1dfRwf7WN0RxGFuIfjVVY8qOgw==
+	t=1793095646;
+	b=xgdYuOVlZje1Ft2JJy8q9tU5lfHxIqE6h0hD1Q9OqRYi0NgnoTfJyTqmRtUlqUi6zx9P
+	 bifafiOb/j80cICmlXLhjC9dy29Sqtm3AtO8fpCcMs0mjuMIh36ZKQnIRrrfgGiFqbtoL
+	 7H9h/4I1emhHzuYAKnlnXVEF3+Jqryp32kWF2rGgqvhiIkUpgrZncO91J8wm/pBB5uD6C
+	 U1Kwy10wXXNgac4WPvXvsxdbUoDTlVOxHlnBnuyIi0YE0zvDuIbGZ4HVL7HnpvITuArrO
+	 yxem75fXqr1KSi/QnkxUy1OtVEgsYF0hJN7GeWtWNWJxxqPq6wf2Z8jJVkuNWdzJ2MA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793094664;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793095646;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
-	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
-	 To:X-Mailer;
-	bh=YikRuHrgcQQEQeNLoopicKeEponOUqqAXOCmGgP7bMc=;
-	b=S/iMV2jAYkFngBKOiCNc0vPYmB68xjdOjiERY6Daebo1A/5dvxyGzeId8L5G+02IgTGM
-	 gqysP1YFsr21e9n0jZygO/Aj0x3XLcVWIWszxSvJ8Eu0gEclxnty0EJzUml5qBmAr1ZHt
-	 eMpfDuKw4Xf/1BrNEcj/sg37OTsD2WFP976DvPfvcKI8vSj1EsOoePK5s8GknpHaW/Cnh
-	 V2CtkNZS8Rc1sE13/GMmHn1WmwwXCpVVAjISB2m/vXujgcWza1Ulm6HIFIG3qk1pgcTuS
-	 ujVK+0rHARG9kaST9ziw3I2PyxHgRbNdO7fh8EFbqu/agW0enEyGgmkKlB+9AeoUw/w==
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=fSot5EilqCYTXnvq8kQw3/OaKHnMrWXVOOIBWUnaAS8=;
+	b=LK4ek/uZDYFjpz4FyGPviKvtktsn6BK52maF3TVHkOFdokacJqHf5qCqBIfIi8B5irN9
+	 c0Sji5ppwrH+uoxUjz/6HKe2Ydtt4aFrE1Y7ddsPaBwxJdz8VWN4hA2a3VmkWiWOw51X5
+	 dRVIXayUyzLImEbeyoTEpf8daNHtBSPNk58TUF63mUdHAFNVRX5sdLJhkPTpjzvJbyvRC
+	 C28mSzz9JccRwLaaJnlhXIcifB8lePmmkM67llL0pKCbBHo/m9x/7iPNp3XqwvScJ2ENg
+	 6ne8qwX4ayh/aAq5QK2m4zNXUcoWfyNCqjZtjGflY2oTFUCHcYrgD66FUp6O0/MeyVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=IK7uwDYg;
-	arc=none smtp.remote-ip=91.218.175.38
-Received: from mta0.migadu.com (out-38.mta0.migadu.com [91.218.175.38])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=MyfAElSh;
+	arc=none smtp.remote-ip=95.215.58.234
+Received: from mta1.migadu.com (out-234.mta1.migadu.com [95.215.58.234])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736ED606A31A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 09:51:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 736ED606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397BD606A321
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 10:07:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 397BD606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=IK7uwDYg
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=MyfAElSh
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=YikRuHrgcQQEQeNLoopicKeEponOUqqAXOCmGgP7bMc=;
+DKIM-Signature: a=rsa-sha256; bh=EmC1viSKISOlO+4LV4Tq5yi5YtyJNhBL4pIRDOKg2QA=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793094661; v=1; x=1793699461;
- b=IK7uwDYgWnddzMvKWJw3ya6jd1O95pxiSUka2B+d5LCvMVJF0eAMpUph7VCpo576csv7uSk+
- RkWa1+WT24INtT8JnumhbrIqAEhPNriR3IJ5BOtfXhCFSYVDbHBk/S3Oe6w++M3F5lyKhOZXvxs
- 0YEaxOC7g+vVBRZSfwe0o1YE=
+ t=1793095644; v=1; x=1793700444;
+ b=MyfAElShe6jUrR9xnSoZrUkOVisggxknz1jRHruHD7OaBeWNHCrmn5Agq7SG26q26Tr6L7x8
+ VFGQVVAOiWWOkyiqqAr/mhMfcaRatGKy++wTfxv6TU93eW/3jYNlSxdR1o7kqMOD2/C4xV9G6Bh
+ 1LclLypAw4qdUMABgq6H5rpc=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id 7697935976e69603;
-	Tue, 27 Oct 2026 09:50:59 +0000
-X-Mizu-Trace-ID: 7697935976e69603
+Received: by smtp.migadu.com with ESMTPS id 275ac0127e5d04df;
+	Tue, 27 Oct 2026 10:07:24 +0000
+X-Mizu-Trace-ID: 275ac0127e5d04df
 X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+Message-ID: <0046bdae-1dd1-4f4b-a1e5-9eb7fe8b5fe0@linux.dev>
+Date: Tue, 27 Oct 2026 11:07:19 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -57,118 +57,105 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.12\))
-Subject: Re: [PATCH 26/46] mm/mmu_gather: fix flushing ranges with 4 GiB or
- larger
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261027-fixes_core-v1-26-6f74bec9a5bb@kernel.org>
-Date: Tue, 27 Oct 2026 17:50:32 +0800
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Michal Hocko <mhocko@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Lorenzo Stoakes <ljs@kernel.org>,
- Kairui Song <kasong@tencent.com>,
- Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>,
- Baoquan He <baoquan.he@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>,
- Kees Cook <kees@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>,
- Hugh Dickins <hughd@google.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>,
- Lance Yang <lance.yang@linux.dev>,
- Rik van Riel <riel@surriel.com>,
- Harry Yoo <harry@kernel.org>,
- Alistair Popple <apopple@nvidia.com>,
- Nico Pache <nico.pache@linux.dev>,
- Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>,
- Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>,
- Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>,
- Oscar Salvador <osalvador@suse.de>,
- Minchan Kim <minchan@kernel.org>,
- Xu Xin <xu.xin@linux.dev>,
- Chengming Zhou <chengming.zhou@linux.dev>,
- Chris Li <chrisl@kernel.org>,
- Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>,
- Youngjun Park <youngjun.park@lge.com>,
- Gregory Price <gourry@gourry.net>,
- Joshua Hahn <joshua.hahnjy@gmail.com>,
- Rakie Kim <rakie.kim@sk.com>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org,
- linux-arch@vger.kernel.org,
- linux-cxl@vger.kernel.org,
- Josef Bacik <josef@toxicpanda.com>,
- stable@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <377FB184-1E61-4BF8-AC3E-33A79EC56658@linux.dev>
-References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
- <20261027-fixes_core-v1-26-6f74bec9a5bb@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: Apple Mail (2.3901.100.1.1.12)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] iomap: only follow dio alignment requirement if specified
+To: Qu Wenruo <quwenruo.btrfs@gmx.com>, Qu Wenruo <wqu@suse.com>
+Cc: linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, da.gomez@kernel.org,
+ gost.dev@samsung.com
+References: <9fae60fcce5ae356deef5e38931124b9634dba3b.1792997261.git.wqu@suse.com>
+ <at-p1QXETaTvvj_r@quentin> <5f49d819-12ec-48b2-b9b2-adce264d266d@gmx.com>
+Content-Language: en-US
+From: Pankaj Raghav <pankaj.raghav@linux.dev>
+In-Reply-To: <5f49d819-12ec-48b2-b9b2-adce264d266d@gmx.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
 
-> On Oct 27, 2026, at 07:17, David Hildenbrand (Arm) <david@kernel.org> =
-wrote:
->=20
-> From: Josef Bacik <josef@toxicpanda.com>
->=20
-> __tlb_adjust_range() takes the size of the range which has to be =
-flushed
-> as an unsigned int. Its callers, tlb_flush_{pte,pmd,pud,p4d}_range(), =
-get
-> and pass an unsigned long. Consequently, a range that is 4 GiB or =
-larger
-> gets truncated, possibly to 0.
->=20
-> On arm64 with hugetlb, a 64k kernel can flush 16 GiB hugetlb PMDs, and =
-a
-> 16k kernel can flush 64 GiB PUDs through tlb_unshare_pmd_ptdesc(). So
-> at least these two scenarios are affected.
->=20
-> Fix it by flushing the proper range instead of the truncated one.
->=20
-> Fix generated by an LLM and sent by Josef Bacik in private.
->=20
-> Fixes: b528e4b6405b ("mm/hugetlb: add tlb_remove_hugetlb_entry for =
-handling hugetlb pages")
-> Fixes: 8ce720d5bd91 ("mm/hugetlb: fix excessive IPI broadcasts when =
-unsharing PMD tables using mmu_gather")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> [ david: use two-tab indent, simplify description ]
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+On 10/26/2026 9:59 PM, Qu Wenruo wrote:
+> 
+> 
+> 在 2026/10/27 06:19, Pankaj Raghav (Samsung) 写道:
+>> On Mon, Oct 26, 2026 at 05:18:13PM +1030, Qu Wenruo wrote:
+>>>
+>>> [CAUSE]
+>>> The failed command of fsx is COPY_RANGE:
+>>>
+>>>   copy range: 0x6800 to 0xa200 at 0x3f200
+>>>   do_copy_range:: Resource temporarily unavailable
+>>>   LOG DUMP (8 total operations):
+>>>   1(  1 mod 256): SKIPPED (no operation)
+>>>   2(  2 mod 256): SKIPPED (no operation)
+>>>   3(  3 mod 256): WRITE    0x14400 thru 0x211ff    (0xce00 bytes) HOLE
+>>>   4(  4 mod 256): FALLOC   0x72bf4 thru 0x76221    (0x362d bytes) EXTENDING
+>>>   5(  5 mod 256): SKIPPED (no operation)
+>>>   6(  6 mod 256): INSERT 0x11000 thru 0x13fff    (0x3000 bytes)
+>>>   7(  7 mod 256): TRUNCATE DOWN    from 0x79221 to 0xa800
+>>>   8(  8 mod 256): COPY 0x6800 thru 0xa1ff    (0x3a00 bytes) to 0x3f200 thru 
+>>> 0x42bff
+>>>   Log of operations saved to "/mnt/test/junk.fsxops"; replay with --replay-ops
+>>>   Correct content saved for comparison
+>>>   (maybe hexdump "/mnt/test/junk" vs "/mnt/test/junk.fsxgood")
+>>>
+>>> Both ext4 and xfs only require direct IO to be aligned to the logical
+>>> block size of the device, not the fs block size. So the 0x3a00 bytes
+>>> read at 0x6800 is allowed, and should succeed.
+>>>
+>>> But that range is a hole, and that commit makes iomap_dio_hole_iter()
+>>> round the zeroed length down to the fs block size unconditionally.
+>>> The first iteration zeroes 0x3a00 bytes but only advances 0x3000 bytes,
+>>> then the next iteration zeroes the remaining 0xa00 bytes, which is
+>>> rounded down to 0, so -EFAULT is returned.
+>>>
+>>> As ext4 and xfs do not pass IOMAP_DIO_PARTIAL, the whole read fails
+>>> with -EFAULT, which is then converted to -EAGAIN by copy_splice_read().
+>>> Every retry of fsx hits the same -EAGAIN, failing the run.
+>>>
+>>> That commit breaks all direct reads which range is not fs block aligned
+>>> for ext4 and xfs.
+>>>
+>>> [FIX]
+>>> Do not revert the range unless the dio has IOMAP_DIO_FSBLOCK_ALIGNED flag.
+>>>
+>>> iomap_dio_hole_iter() is only called for reads, and for now only btrfs
+>>> reads can reach this path with the flag set. Btrfs has the proper
+>>> fallback when dio returns -EFAULT.
+>>>
+>>> Fixes: 4025185cf953 ("iomap: follow the alignment requirement for 
+>>> iomap_dio_hole_iter()")
+>>> Cc: stable@vger.kernel.org
 
-Reviewed-by: Muchun Song <muchun.song@linux.dev>
+FYI, your patches are not in 7.3 and only in linux-next. So we don't need to cc 
+stable?
+>>> Signed-off-by: Qu Wenruo <wqu@suse.com>
+>>> ---
+>>>   fs/iomap/direct-io.c | 26 ++++++++++++++++----------
+>>>   1 file changed, 16 insertions(+), 10 deletions(-)
+>>>
+>>
+>> Ignore my previous question (I had a old version of xfstests).
+>> I was able to reproduce the error on XFS, ext4 and this patch fixes it.
+>>
+>> One small nit: should we update the IOMAP_DIO_FSBLOCK_ALIGNED flag
+>> documentation to reflect this?
+>>
+>> At the moment the document says "Ensure each bio is aligned to fs block
+>> size". Should we expand it to say "Ensure each bio and any progress
+>> reported for hole/unwritten extents is aligned to fs block size"?
+> 
+> I'll change it to something like "Ensure every operation, including bio and 
+> folio zeroing, is aligned to fs block size".
+>
 
-Thanks.
+This is better.
+> Will be included in the next update.
+> 
+
+And for the b4 error, feel free to use:
+Reviewed-by: Pankaj Raghav(Samsung) <pankaj.raghav@linux.dev>
+
+--
+Pankaj
 
