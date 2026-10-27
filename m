@@ -1,100 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793119943;
-	b=RGpbBPOhm2X6+Hh5szkuT9RyDtqi8Up2pH2MlO1K1omSRd4HgdJGicJOwn6hARqGbOgR
-	 5G7TTPOx3fsbsDK6k0FJ1gMqjDt8HxwwJP9SG/nbleAmFqVMwzrxT/k0/IQ/8Gg06r1qV
-	 30qo2OTpUkLr8kq1PpNC7Fz4Y1xWrMqVh90QYj85y1TCNukgANvpHGgXH74NGZ3JkkjeF
-	 qFJXW9QdR+ENvyDTgx/7SGpiftMHXpaYbaK7WI78G8G0hNXMPdGTZASRJNWcnmzP5m2Aj
-	 lNBWOghPxs7ax+ovEX3jJkVJqyhcirEcZ2d0ASonCZ6rMZ7KtDJA8u9lqhGZnXTSNbg==
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.218.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793122223;
+	b=xkKwtia/2cECp08aIsuX0+h2fC8oJa/abxiHdNLmekkdhkjRd2K5rRQeVkdfaV+ZTwXz
+	 eLhryLZhCdp0RVpMZadsuZrWQ87Jhb6ijpw9XxQTmAOw5yxppAIuFAZNo30PxX85VxQ3S
+	 GDNmjoO/RFyHL/m13UaRUFIuuSXUaIUf+IIeVXDcAqcWXjCVveQZ7/mrUkZoxvTzjO69p
+	 Wq29pCntirzkCu54eCUjOGHtSJ9eTbIjYXJnuruzVvprYwijBzIJd7fysGli5goYyf4D3
+	 07eSfYpdVGdg/T+HaKebzS0uzeGkHJfa2S6WzijiJxJ6//Y390P2kBF3JMn2jlfWAcA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793119943;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793122223;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=QNr1I+kaFCA3fT20ORqP0xLCLiaTRq0M5OA3+7qdxsw=;
-	b=1dovdOB0LAWaWF8+mclIgDSiW6liEDKAk2AHwavHOv1pb57cTS2fdoOkltRtoqCxVLQ+
-	 ZXBpxZW2N+AxP04/aU4rkfSq3lZHfvv9fwPEMJ/d22coh/d2PNYOns4RirOZ9MeudVyMs
-	 kfcwcW8W8XN0FfH/Wo/vApE0GK4VL7Be43tXg9y29W/+zfjZ06HAOZkXBF7xK7nf1BO+9
-	 5Mx6Z4+a3tBrSbrqBKIr+xhyPRPhIRYlMIWsoqzvsHpnNw3Nf/VPwxkpJj13GQG2qFjLt
-	 +eDdn0KIYD5sWYUfFJ30nVBvfd3seTWGZLUiCAx35rcaRAXgEqIggVKWdppz7+LujMQ==
+	bh=7gQ+97vReKa4toS9130cb0MEUCUe5fofr2ehSKz/dNw=;
+	b=Y/gZfhp3+xes6mr8lXzY1X635Cao5SnhQp3hcytrI/picHAMpmpjNQCGVo8icUGW5t72
+	 qJyhZ5coG/zwNHe6FziR6tNGGYftfuwfamMzvrJLssMJDiQP4UZ3xHTxvouFyF81xA/mh
+	 Rl03dqmE0Eut/m2zJ+x8R+tVVQKP+tudAJqSuy4MglENHcRGOMMyeX+a2uYqcBXrQNaAP
+	 SWem2oEOhGxAVRk+RFp8ZUUb+E56Q/0Rf3tws8zGT/CB3vUu0AHtP0qppsQ5F5eaMK0t+
+	 9uY/uQfrrObXgNomiePzxa1tCvf9h3GYEd0WX4gkpv8PO2FIRUk7CSx3nvHeCmqRjTw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=BoOe6zI2;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=AH5XVSYu;
+	arc=fail smtp.remote-ip=209.85.218.47
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D2C606A326
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 16:52:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36D2C606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E801606A322
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 17:30:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E801606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=BoOe6zI2
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5337c7b9937so412941cf.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 09:52:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793119942; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=AH5XVSYu
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c49b431f022so10356666b.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 10:30:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793122222; cv=none;
         d=google.com; s=arc-20260327;
-        b=Z+7irhlhkocHXkSmOXFq+ePwjsIKSWf0btmdvx7ObnzfxPLqJipJEb5qgpgd7W/8fo
-         AEfLe2uBRHG6LspBVZw3gGCrKMsDMkpEf9iBu7UgnDJnOCUdPgruWDDthdafcWDTewky
-         wmHWBSmXWsVg6/ap0x5GzC2wGVNXXnORMKS8kz4B/BzfitYZxrxjaeoTh3K5zPQE03qN
-         5ed/bT0Fvl0mTD+JQ4DFx5l16Fqt3smlm3OgFLNYACKRTY9BfbGI8djX+Qh1BFBxaivb
-         jjEAC5J1w0g26pqyBTYuLUeP7poUJjIxhvrtGDgAv6dMdQf4qE5sWdrfTj2kRjfhziA9
-         YdxA==
+        b=jTg6Fnts6nQXGjpilWWYP8dDxMG8zLyA2bZYNlsFD8UjFSIfGlEvwF7ZcMpCiC+iys
+         dCzOg0G3x/L1xDmf4yVb2wZ/btoqt9CDtZEwP0L/EVDG3BeU2s7vfnGRuTKgjBk2sAzr
+         BAH+ohOx28iD8g4O1JlvkyhUgC0VtB3zPuSKpb3L5fIXYUhp6uTCd+soi/Gsbqa7nTJe
+         0n+BpzEU/SxnfRZRvon0wta1PLiARyr8M1v/UDdl6kt6jGJA+9vEqMg2lCI0Lm7Wn9XK
+         MDfu6ooKyaa5C0fYQyb6EPUswJVBEyXkOg4oGhhWDfti7R1esewGNyagUT0g3RbHxlFJ
+         3URA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=QNr1I+kaFCA3fT20ORqP0xLCLiaTRq0M5OA3+7qdxsw=;
-        fh=C6U0rSILZBAVDBcp8dN3Z5CEYVGyA27DFDEzfVcIoHE=;
-        b=UPpsIo3qXWlq55UVMKOaR1Qps27zJ1sxHXciMsGFBw4S9+SAZlPYXzesT8GhxKMsBI
-         dfb5fc0/GYRAf4DXH1O3fNPBuvZXOIxiwJ6GTGlkFwxuNedrHV2QVwbyLAof/YpF+NFa
-         gbBcCVnqUwBesjHdf7K2+dz9oypDXCjqinLIaWJOfM2z+HgwJzH4o8Gra64I0+npsxN5
-         lFncmRu5vM9+n05vDESybRcLdmZW3D6176xFTnLPue+kIG95ny+HJgm8jtOvL/KlbwGq
-         wOtExFwzUBNnzPgIhN/hEFuEdddpZPSESA2zS3onOcZhZ32hT7dh7PTIHcL3D3E1XE8y
-         eHIA==;
+        bh=7gQ+97vReKa4toS9130cb0MEUCUe5fofr2ehSKz/dNw=;
+        fh=v8pK/oaSJ3wFzTImMIdmDhLvT4ZEnxEywBOlW6ScGbY=;
+        b=hGVMqwtLnNWvymTFwsCOLkdT5nu96G8r+F1Ux397e2nPSyGXQPwI8gn6nJOncxjz4Z
+         VxJqPecqtNiK2RpxZjsIFyXZemv6I3QMzTN/KCH7EHItui9USa1osbhK3qG806Q4qVY+
+         0Rs5IPkjCOOkEWsS5FIx4GyPNT3MICTRSQZS7VVcXzMd/OX+BH69ORN/i4LFGKvcZwgM
+         bAWOCcU36w7zYAi3mynwLWkljKgoezaR2xcNuCtUpIFHEGyC8FspnkYxQFqIZqkC0rDc
+         D54tHUo3ZdsJn/+uhCJ8PP8lzl+A3Auwl2dyCd1nIPMLYZ1abhtYEoT+vtHJwu6++5bt
+         QWvw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793119942; x=1793724742; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793122222; x=1793727022; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=QNr1I+kaFCA3fT20ORqP0xLCLiaTRq0M5OA3+7qdxsw=;
-        b=BoOe6zI2YrJHSarNAirA0NGS72WOoJRYGqV79CVJDuFbL4s0i5Ps9XcPr3h7rdC+eo
-         2MSyt19EB0895tKN1cyYtaAnK0cJnxCA/Z84lnHkqqYQFzeBm8f598cNVfIpDsdBOTu6
-         bhlVClKQ5c4wlJQ31s/z9onuNnebEwG4DLFIG/1Ne4NJCnbX4A1GIbePiutKb8HcAIkH
-         rvLn7bgC1Y6w1ANGTVmgjYQKB/bj1Nv9l4guMnQW9zrIp7i7FdBgbXu7gvwdOf3s5RCM
-         cUebgZSCjYFvXdj4BRWSlzONMypsqlRywJk6fuZyu2LAr8YrCR3GnpnalLmzkMH1qPp4
-         onVw==
+        bh=7gQ+97vReKa4toS9130cb0MEUCUe5fofr2ehSKz/dNw=;
+        b=AH5XVSYuq6HUx6QejcrLzJHXiZbWI9DboIxOz+yByNgh84gxZAIKBuzZHV99EG6rqB
+         sL71z4Wm6MSPA3Nnza0i731ilrImuFj3jUTow6hkS/0r7bYzxQobbOzdeIyt6ASGeEbF
+         yTa0PHt944q+HSgG6NrCVe3wZJYFAVwhpzaLqX011nHEVLqO4I7UJy1zd5cfMTXQHdaA
+         BSUKBBxl7R08MamwKyO7Ss8mI2wGFLi7Y2RxS2XZ75lMQCOMaDZ6YNjy/Um35SI/BQEx
+         H9A/IMXo16KCWMivgQdBOKUL0g+UWglSQzebhEs3U4Ckl7bH2Y72gGHNDHSXACje/sxH
+         22yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793119942; x=1793724742;
+        d=1e100.net; s=20260707; t=1793122222; x=1793727022;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QNr1I+kaFCA3fT20ORqP0xLCLiaTRq0M5OA3+7qdxsw=;
-        b=JJh6/wprdVoPQLYNDVGIQQx8ydqnShXb3HjXTeI1/YTElO6H2YhmqYFiMsxD7zTIWP
-         ZdEY5d5aWSgioT7qR7TvhPU4fYboqSP5agztgr1Lqztta/aaOHji2WHwQ2eAJlTd5wfF
-         p9HPsIP1gmMMvI/PptEd7mdIH3JeCBsFv2Xz1jG3flZIPxpKJtqfdwQvOl71KvaAIpV4
-         HD/evuOoLs11nuLEKPuHHwjEm40fF+yEtohTQnz8awHEM7XrzZcKbDXLFSiRfk91PV2p
-         q7xtcSTge4SKpaUgaLpWKa1PWLObu7Dw6demRWbAr/+4n6Ylx+KakA8Bj9fxRM8C3h4U
-         HBxw==
-X-Forwarded-Encrypted: i=1; AKwUvBxZ/PveK20JjY6a+NocyksRWQHRZRTiMQ7Th1JP+apJehxfyPlSBeLU3rwW4P9FHZuSRlBanWXjmFFwXEzq@vger.kernel.org
-X-Gm-Message-State: AFq9FYLsfXFdfFAxq0a+AJG8rWwgt/6/6A9b88RycrdZQyCXpFi+mCOQ
-	AWGPjionq+GNYP9yjHTxdXcY/S/fPwDLmqzvDvFj8F4vtVl7AB5KXjtGih3hrWP7FywSLKLyAkz
-	guLMinT+/8KdgiwFfndDOTsxlx78UI1F28opPLEdL
-X-Gm-Gg: AYBFou0ldQP0udtCCA8iqALimcEjbnHrLty3XVojIgWyXXLXLJwc5IceQYDlVrGw47Z
-	sQ9ljh2YkeQSFvX7z9n01P4HrSQXj+b0yU0eIE+7BRu36aSFL8+1+WeUl7BM9yQYdslWBkqp1uj
-	sDb1hB8VNqbyrZ8mhnumzLTz8T7rGSScaEyGqMSLCPeQU1g9ammWjqxbusXGooR9oa4T7MOrHPo
-	30ZJRWUHG+PhiOWUxTougyXbVPNrETimTKwheeZtb5xz8sP2o8MWVx6TkWo3KoXknyaaI6IKbFW
-	UFkuqSqZNRfOaiz6sIUKf8qiGIBTJN7DNQ3CjXfJxDNnT4KHKv85t3Ha0UmixtSAIOCaUn2QynZ
-	/0tkQV12l46HcX77rc7ODrkQCbGwBt4A16enY18vM/vg+jD8VlHkTQSNRPSlji9zOlA==
-X-Received: by 2002:a05:622a:408e:b0:530:e335:4ef with SMTP id
- d75a77b69052e-53e52a4dabcmr22708611cf.2.1793119939533; Tue, 27 Oct 2026
- 09:52:19 -0700 (PDT)
+        bh=7gQ+97vReKa4toS9130cb0MEUCUe5fofr2ehSKz/dNw=;
+        b=puh8mz7m1YXPT15/59iJDnPr3PKNarDqPQw18k/kADKU0Gtbvh3TFOuBUF/Xhzv+OT
+         fxnm/LHdthUv5qPMJlGza1cUPvTb36qdKc4Rz8nhTGgR0xh5wEX7W4Y2RA4vLEGyd5vO
+         OgbBPECq4jHJXkKBpLZ3favvC/yXy/wxDVHF3E1GVRVENtYrDTwnWA3/I8YFWBuiouhY
+         oBDBhZE6vLb++xuNvJ9j99d0YejNcPhW9e9gLhzBUYcYEL6h6+Xie89/Om06TzXI6O/H
+         OP/KjaQWnEF7iq5d7MuKyRbaNJ/hURh7PXpTOafuyAJVmXS+X2CkDVg548U0xT9p6Ifa
+         3bjQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzRzRAUUASA9rS/tTpCKfirXysp8KbLKyfDX+52AvMIM9i3+TOrBOYSv89vQ4lKZKYR3r2cPzorpDaWVzoQ@vger.kernel.org
+X-Gm-Message-State: AFq9FYK4Ixgvst/cw+JQwpEkUoVvsXgJh3F8MLTr9RQdv4f2SqLnnJjV
+	Jq1cYwwl4HBFc1EkmvOaeD6I8iBsyxzn2N63O+OTNOqSP78AlGAkTdka9xQ8TLdFoVdZPOXWdaK
+	MT3PYdzVMUATPFtCS8aWCViweyOxnnx51bHbEwh2n
+X-Gm-Gg: AYBFou1KVJuoUzr+3tCVdwuK0rlyCEcRk99/ZDVQYyYiDit/t4r/Q3E/sgsvObzhgaG
+	PNpfQ++dDoZTpzgd18fRaQIIkiTrXGT62DGXdj3+IxXEHt6ChaBZYNdX3l3fLZf/PDSN18L7/TN
+	/Cf75x4W4NVM4KwSpNaNd/cQQdOCMafwdbKfxhfwhjYjhHig48ecNtCvHr4xsXSRfMf2X3bNRS8
+	4jyshJA7OIZ+r+fKh6a/AioINRZRKR1H5WYmUo7BhYtf/prZI6D8+ikekRnRn7oASJmIjggRDr+
+	6ZUh15VW/CBBBLtk9nJ2sOeA8JGMEB7rAUFiyp7jeBmuKNsVXEnNhGdykKAeQkDhwJ8k69QjZ+n
+	kYRK7H8TyThSqIOQfmGp7+TwGOZjG7nloBwz7Qd5fCvOqrguubg+STud2FMjCBolQ3imEpmRT0N
+	wJqImCD1MR019Io8IOAhCl/dcDCy5EcoWVQemIiXxhBS8jiX/pW5i7NYy+AqJRI3w5sOzYYcHN6
+	fWYfBW40JL6U5Fp5V4LRK6XPMBL+HiF4A==
+X-Received: by 2002:a17:907:80c:b0:c46:6a50:40c2 with SMTP id
+ a640c23a62f3a-c46bdee2675mr1178260566b.39.1793122221137; Tue, 27 Oct 2026
+ 10:30:21 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,341 +106,121 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <202610271934.fd287c3f-lkp@intel.com>
-In-Reply-To: <202610271934.fd287c3f-lkp@intel.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 27 Oct 2026 09:52:07 -0700
-X-Gm-Features: AclHuK_3KSlFoltlMYw06N9_sWSCTePL0tqpj69pnEG8YO4IImaT_s7RyifcLcw
-Message-ID: <CAJuCfpG67sV5Vhn1DnAWTV2xZVptOCdmH3iEnUEvYs9GRPbOeg@mail.gmail.com>
-Subject: Re: [linus:master] [selftests/proc] ca5480fb53: kselftests.proc.proc-maps-race.fail
-To: kernel test robot <yi1.lai@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Jann Horn <jannh@google.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
-	"Paul E . McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, linux-fsdevel@vger.kernel.org
+References: <20261026215226.3713941-1-jthoughton@google.com> <14f5f919-55bd-47c6-a1c8-6f1445cce733@app.fastmail.com>
+In-Reply-To: <14f5f919-55bd-47c6-a1c8-6f1445cce733@app.fastmail.com>
+From: James Houghton <jthoughton@google.com>
+Date: Tue, 27 Oct 2026 10:29:43 -0700
+X-Gm-Features: AclHuK_V7ZmMdE83iy-wOvaliSqHMUcbKVcnfqQwnRgRgjPYRFDHKTZOMwXOk5E
+Message-ID: <CADrL8HXQdzcroeGN-ACjyy-jSAdBNHiT1_BCVVe0P+Y8ZueiyA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/10] uaccess: Refuse and warn on user accesses when
+ current->mm is NULL
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>, 
+	"David Hildenbrand (Red Hat)" <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jim Mattson <jmattson@google.com>, Jens Axboe <axboe@kernel.dk>, 
+	Pavel Begunkov <asml.silence@gmail.com>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, David Sterba <dsterba@suse.com>, Chris Mason <mason@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, io-uring@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-btrfs@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 27, 2026 at 5:31=E2=80=AFAM kernel test robot <yi1.lai@intel.co=
-m> wrote:
+On Mon, Oct 26, 2026 at 5:13=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
+:
 >
+> On Mon, Oct 26, 2026, at 22:52, James Houghton wrote:
+> >
+> > This series comes out of a set of bugs that were found in KVM where the
+> > kernel can sometimes write to a random process's user memory[1]. The KV=
+M
+> > fixes at [1] are still required, even with this uaccess series, as note=
+d
+> > by Sean here[2] and below in this cover letter. The beginning of this
+> > series includes fixes for similar bugs found through static analysis
+> > with Claude Opus 5.5. I don't think any of these bugs are more severe
+> > than the KVM bugs[1].
+> >
+> > We hit one of the KVM bugs in production, and it was challenging to
+> > debug. This series makes such bugs, where the kernel is doing uaccess
+> > without an mm, much more obvious.
 >
->
-> Hello,
->
-> kernel test robot noticed "kselftests.proc.proc-maps-race.fail" on:
->
-> commit: ca5480fb53fa73cb5816b696b103826daedab1ca ("selftests/proc: add /p=
-roc/pid/smaps_rollup tearing tests") https://git.kernel.org/cgit/linux/kern=
-el/git/torvalds/linux.git master
->
-> [test failed on linux-next/master f1ac44c32cba88ad65dcecd4a279661d14e9365=
-1]
->
-> in testcase: kselftests
-> version: kselftests-x86_64-d6d3455d8751-1_20261013
-> with following parameters:
->
->   group: proc
->
->
-> config: x86_64-rhel-9.4-kselftests
-> compiler: gcc-14
-> test machine: 36 threads 1 sockets Intel(R) Core(TM) i9-9980XE CPU @ 3.00=
-GHz (Skylake) with 32G memory
->
-> (please refer to attached dmesg/kmsg for entire log/backtrace)
->
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <yi1.lai@intel.com>
-> | Closes: https://lore.kernel.org/oe-lkp/202610271934.fd287c3f-lkp@intel.=
-com
->
->
-> KERNEL SELFTESTS: linux_headers_dir is /usr/src/linux-headers-x86_64-rhel=
--9.4-kselftests-ca5480fb53fa73cb5816b696b103826daedab1ca
-> 2026-10-26 14:37:46 sed -i s/default_timeout=3D45/default_timeout=3D300/ =
-kselftest/runner.sh
-> 2026-10-26 14:37:46 make -j36 TARGETS=3Dproc run_tests
->   CC       fd-001-lookup
->   CC       fd-002-posix-eq
->   CC       fd-003-kthread
->   CC       proc-2-is-kthread
->   CC       proc-loadavg-001
->   CC       proc-maps-race
->   CC       proc-net-dev-lseek
->   CC       proc-empty-vm
->   CC       proc-self-map-files-001
->   CC       proc-pid-vm
->   CC       proc-self-map-files-002
->   CC       proc-self-isnt-kthread
->   CC       proc-self-syscall
->   CC       proc-self-wchan
->   CC       proc-subset-pid
->   CC       proc-uptime-001
->   CC       proc-uptime-002
->   CC       read
->   CC       proc-tid0
->   CC       self
->   CC       setns-dcache
->   CC       setns-sysvipc
->   CC       thread-self
->   CC       proc-multiple-procfs
->   CC       proc-fsconfig-hidepid
->   CC       proc-pidns
-> # timeout set to 300
-> # selftests: proc: fd-001-lookup
-> ok 1 selftests: proc: fd-001-lookup
-> # timeout set to 300
-> # selftests: proc: fd-002-posix-eq
-> ok 2 selftests: proc: fd-002-posix-eq
-> # timeout set to 300
-> # selftests: proc: fd-003-kthread
-> ok 3 selftests: proc: fd-003-kthread
-> # timeout set to 300
-> # selftests: proc: proc-2-is-kthread
-> ok 4 selftests: proc: proc-2-is-kthread
-> # timeout set to 300
-> # selftests: proc: proc-loadavg-001
-> ok 5 selftests: proc: proc-loadavg-001
-> # timeout set to 300
-> # selftests: proc: proc-maps-race
-> # TAP version 13
-> # 1..6
-> # # Starting 6 tests from 2 test cases.
-> # #  RUN           proc_maps_race.maps.test_maps_tearing_from_split ...
-> # #            OK  proc_maps_race.maps.test_maps_tearing_from_split
-> # ok 1 proc_maps_race.maps.test_maps_tearing_from_split
-> # #  RUN           proc_maps_race.maps.test_maps_tearing_from_resize ...
-> # #            OK  proc_maps_race.maps.test_maps_tearing_from_resize
-> # ok 2 proc_maps_race.maps.test_maps_tearing_from_resize
-> # #  RUN           proc_maps_race.maps.test_maps_tearing_from_remap ...
-> # #            OK  proc_maps_race.maps.test_maps_tearing_from_remap
-> # ok 3 proc_maps_race.maps.test_maps_tearing_from_remap
-> # #  RUN           proc_maps_race.smaps.test_maps_tearing_from_split ...
-> # Expected stats:                                                        =
-     Rss 892 kB
-> #                                                              Pss 82 kB
-> #                                                        Pss_Dirty 82 kB
-> #                                                         Pss_Anon 54 kB
-> #                                                         Pss_File 24 kB
-> #                                                        Pss_Shmem 3 kB
-> #                                                     Shared_Clean 0 kB
-> #                                                     Shared_Dirty 860 kB
-> #                                                    Private_Clean 0 kB
-> #                                                    Private_Dirty 32 kB
-> #                                                       Referenced 892 kB
-> #                                                        Anonymous 120 kB
-> #                                                              KSM 0 kB
-> #                                                         LazyFree 0 kB
-> #                                                    AnonHugePages 0 kB
-> #                                                   ShmemPmdMapped 0 kB
-> #                                                    FilePmdMapped 0 kB
-> #                                                   Shared_Hugetlb 0 kB
-> #                                                  Private_Hugetlb 0 kB
-> #                                                             Swap 0 kB
-> #                                                          SwapPss 0 kB
-> #                                                           Locked 0 kB
-> # Actual stats:                                                          =
-   Rss 892 kB
-> #                                                              Pss 81 kB
+> Nice work!
 
-Hmm. RSS is staying the same but PSS is changing. I think I must
-filter out PSS stats in this comparison because they depend on page
-mapcount and might change even if VMA tree is stable. I will update
-the test to exclude that metric and will post the fixup later today.
+Thanks!
 
-> #                                                        Pss_Dirty 81 kB
-> #                                                         Pss_Anon 54 kB
-> #                                                         Pss_File 24 kB
-> #                                                        Pss_Shmem 3 kB
-> #                                                     Shared_Clean 0 kB
-> #                                                     Shared_Dirty 860 kB
-> #                                                    Private_Clean 0 kB
-> #                                                    Private_Dirty 32 kB
-> #                                                       Referenced 892 kB
-> #                                                        Anonymous 120 kB
-> #                                                              KSM 0 kB
-> #                                                         LazyFree 0 kB
-> #                                                    AnonHugePages 0 kB
-> #                                                   ShmemPmdMapped 0 kB
-> #                                                    FilePmdMapped 0 kB
-> #                                                   Shared_Hugetlb 0 kB
-> #                                                  Private_Hugetlb 0 kB
-> #                                                             Swap 0 kB
-> #                                                          SwapPss 0 kB
-> #                                                           Locked 0 kB
-> # # proc-maps-race.c:961:test_maps_tearing_from_split:Expected 0 (0) !=3D=
- compare_smaps_rollup(self, &orig_stats, &stats) (0) # # test_maps_tearing_=
-from_split: Test terminated by timeout
-> # #          FAIL  proc_maps_race.smaps.test_maps_tearing_from_split
-> # not ok 4 proc_maps_race.smaps.test_maps_tearing_from_split
-> # #  RUN           proc_maps_race.smaps.test_maps_tearing_from_resize ...
-> # Expected stats:                                                        =
-     Rss 956 kB
-> #                                                              Pss 83 kB
-> #                                                        Pss_Dirty 83 kB
-> #                                                         Pss_Anon 54 kB
-> #                                                         Pss_File 26 kB
-> #                                                        Pss_Shmem 3 kB
-> #                                                     Shared_Clean 0 kB
-> #                                                     Shared_Dirty 924 kB
-> #                                                    Private_Clean 0 kB
-> #                                                    Private_Dirty 32 kB
-> #                                                       Referenced 956 kB
-> #                                                        Anonymous 120 kB
-> #                                                              KSM 0 kB
-> #                                                         LazyFree 0 kB
-> #                                                    AnonHugePages 0 kB
-> #                                                   ShmemPmdMapped 0 kB
-> #                                                    FilePmdMapped 0 kB
-> #                                                   Shared_Hugetlb 0 kB
-> #                                                  Private_Hugetlb 0 kB
-> #                                                             Swap 0 kB
-> #                                                          SwapPss 0 kB
-> #                                                           Locked 0 kB
-> # Actual stats:                                                          =
-   Rss 956 kB
-> #                                                              Pss 83 kB
-> #                                                        Pss_Dirty 83 kB
-> #                                                         Pss_Anon 54 kB
-> #                                                         Pss_File 25 kB
-> #                                                        Pss_Shmem 3 kB
-> #                                                     Shared_Clean 0 kB
-> #                                                     Shared_Dirty 924 kB
-> #                                                    Private_Clean 0 kB
-> #                                                    Private_Dirty 32 kB
-> #                                                       Referenced 956 kB
-> #                                                        Anonymous 120 kB
-> #                                                              KSM 0 kB
-> #                                                         LazyFree 0 kB
-> #                                                    AnonHugePages 0 kB
-> #                                                   ShmemPmdMapped 0 kB
-> #                                                    FilePmdMapped 0 kB
-> #                                                   Shared_Hugetlb 0 kB
-> #                                                  Private_Hugetlb 0 kB
-> #                                                             Swap 0 kB
-> #                                                          SwapPss 0 kB
-> #                                                           Locked 0 kB
-> # # proc-maps-race.c:1050:test_maps_tearing_from_resize:Expected 0 (0) !=
-=3D compare_smaps_rollup(self, &orig_stats, &stats) (0) # # test_maps_teari=
-ng_from_resize: Test terminated by timeout
-> # #          FAIL  proc_maps_race.smaps.test_maps_tearing_from_resize
-> # not ok 5 proc_maps_race.smaps.test_maps_tearing_from_resize
-> # #  RUN           proc_maps_race.smaps.test_maps_tearing_from_remap ...
-> # Expected stats:                                                        =
-     Rss 956 kB
-> #                                                              Pss 84 kB
-> #                                                        Pss_Dirty 84 kB
-> #                                                         Pss_Anon 54 kB
-> #                                                         Pss_File 26 kB
-> #                                                        Pss_Shmem 3 kB
-> #                                                     Shared_Clean 0 kB
-> #                                                     Shared_Dirty 924 kB
-> #                                                    Private_Clean 0 kB
-> #                                                    Private_Dirty 32 kB
-> #                                                       Referenced 956 kB
-> #                                                        Anonymous 120 kB
-> #                                                              KSM 0 kB
-> #                                                         LazyFree 0 kB
-> #                                                    AnonHugePages 0 kB
-> #                                                   ShmemPmdMapped 0 kB
-> #                                                    FilePmdMapped 0 kB
-> #                                                   Shared_Hugetlb 0 kB
-> #                                                  Private_Hugetlb 0 kB
-> #                                                             Swap 0 kB
-> #                                                          SwapPss 0 kB
-> #                                                           Locked 0 kB
-> # Actual stats:                                                          =
-   Rss 956 kB
-> #                                                              Pss 83 kB
-> #                                                        Pss_Dirty 83 kB
-> #                                                         Pss_Anon 54 kB
-> #                                                         Pss_File 26 kB
-> #                                                        Pss_Shmem 3 kB
-> #                                                     Shared_Clean 0 kB
-> #                                                     Shared_Dirty 924 kB
-> #                                                    Private_Clean 0 kB
-> #                                                    Private_Dirty 32 kB
-> #                                                       Referenced 956 kB
-> #                                                        Anonymous 120 kB
-> #                                                              KSM 0 kB
-> #                                                         LazyFree 0 kB
-> #                                                    AnonHugePages 0 kB
-> #                                                   ShmemPmdMapped 0 kB
-> #                                                    FilePmdMapped 0 kB
-> #                                                   Shared_Hugetlb 0 kB
-> #                                                  Private_Hugetlb 0 kB
-> #                                                             Swap 0 kB
-> #                                                          SwapPss 0 kB
-> #                                                           Locked 0 kB
-> # # proc-maps-race.c:1141:test_maps_tearing_from_remap:Expected 0 (0) !=
-=3D compare_smaps_rollup(self, &orig_stats, &stats) (0) # # test_maps_teari=
-ng_from_remap: Test terminated by timeout
-> # #          FAIL  proc_maps_race.smaps.test_maps_tearing_from_remap
-> # not ok 6 proc_maps_race.smaps.test_maps_tearing_from_remap
-> # # FAILED: 3 / 6 tests passed.
-> # # Totals: pass:3 fail:3 xfail:0 xpass:0 skip:0 error:0 not ok 6 selftes=
-ts: proc: proc-maps-race # exit=3D1 # timeout set to 300 # selftests: proc:=
- proc-net-dev-lseek ok 7 selftests: proc: proc-net-dev-lseek # timeout set =
-to 300 # selftests: proc: proc-empty-vm # protection_key_support: error: rv=
- -1, errno 28 not ok 8 selftests: proc: proc-empty-vm # exit=3D1 # timeout =
-set to 300 # selftests: proc: proc-pid-vm ok 9 selftests: proc: proc-pid-vm=
- # timeout set to 300 # selftests: proc: proc-self-map-files-001 ok 10 self=
-tests: proc: proc-self-map-files-001 # timeout set to 300 # selftests: proc=
-: proc-self-map-files-002 ok 11 selftests: proc: proc-self-map-files-002 # =
-timeout set to 300 # selftests: proc: proc-self-isnt-kthread ok 12 selftest=
-s: proc: proc-self-isnt-kthread # timeout set to 300 # selftests: proc: pro=
-c-self-syscall ok 13 selftests: proc: proc-self-syscall # timeout set to 30=
-0 # selftests: proc: proc-self-wchan ok 14 selftests: proc: proc-self-wchan=
- # timeout set to 300 # selftests: proc: proc-subset-pid ok 15 selftests: p=
-roc: proc-subset-pid # timeout set to 300 # selftests: proc: proc-tid0 ok 1=
-6 selftests: proc: proc-tid0 # timeout set to 300 # selftests: proc: proc-u=
-ptime-001 ok 17 selftests: proc: proc-uptime-001 # timeout set to 300 # sel=
-ftests: proc: proc-uptime-002 ok 18 selftests: proc: proc-uptime-002 # time=
-out set to 300 # selftests: proc: read ok 19 selftests: proc: read # timeou=
-t set to 300 # selftests: proc: self ok 20 selftests: proc: self # timeout =
-set to 300 # selftests: proc: setns-dcache ok 21 selftests: proc: setns-dca=
-che # timeout set to 300 # selftests: proc: setns-sysvipc ok 22 selftests: =
-proc: setns-sysvipc # timeout set to 300 # selftests: proc: thread-self ok =
-23 selftests: proc: thread-self # timeout set to 300 # selftests: proc: pro=
-c-multiple-procfs ok 24 selftests: proc: proc-multiple-procfs # timeout set=
- to 300 # selftests: proc: proc-fsconfig-hidepid ok 25 selftests: proc: pro=
-c-fsconfig-hidepid # timeout set to 300 # selftests: proc: proc-pidns # TAP=
- version 13 # 1..6 # # Starting 6 tests from 1 test cases.
-> # #  RUN           ns.pidns_mount_string_path ...
-> # #            OK  ns.pidns_mount_string_path
-> # ok 1 ns.pidns_mount_string_path
-> # #  RUN           ns.pidns_fsconfig_string_path ...
-> # #            OK  ns.pidns_fsconfig_string_path
-> # ok 2 ns.pidns_fsconfig_string_path
-> # #  RUN           ns.pidns_fsconfig_fd ...
-> # #            OK  ns.pidns_fsconfig_fd
-> # ok 3 ns.pidns_fsconfig_fd
-> # #  RUN           ns.pidns_reconfigure_remount ...
-> # #            OK  ns.pidns_reconfigure_remount
-> # ok 4 ns.pidns_reconfigure_remount
-> # #  RUN           ns.pidns_reconfigure_fsconfig_string_path ...
-> # #            OK  ns.pidns_reconfigure_fsconfig_string_path
-> # ok 5 ns.pidns_reconfigure_fsconfig_string_path
-> # #  RUN           ns.pidns_reconfigure_fsconfig_fd ...
-> # #            OK  ns.pidns_reconfigure_fsconfig_fd
-> # ok 6 ns.pidns_reconfigure_fsconfig_fd
-> # # PASSED: 6 / 6 tests passed.
-> # # Totals: pass:6 fail:0 xfail:0 xpass:0 skip:0 error:0 ok 26 selftests:=
- proc: proc-pidns
+> > Such an access does not reliably fail. The user portion of the address
+> > space belongs to whatever mm happens to be lazily loaded, if any. If
+> > the access faults, the fault handler refuses to handle it and the copy
+> > fails, but if the page is already mapped, the access silently reads or
+> > writes another task's memory.
 >
+> This sounds like the problem depends a lot on the architecture,
+> and to what degree they implement lazy mm switching. If an architecture
+> makes all user pointers invalid for a kernel thread, this does not
+> actually happen, right?
 >
-> The kernel config and materials to reproduce are available at:
-> https://download.01.org/0day-ci/archive/20261027/202610271934.fd287c3f-lk=
-p@intel.com
+> E.g. on arm64 with CONFIG_ARM64_SW_TTBR0_PAN, the page table base for
+> the current process is only set in user_access_begin() and would
+> not point to any task here. Without ttbr0_pan, it should be
+> covered by cpu_set_reserved_ttbr0() turning off all user space access
+> for kernel threads.
 >
+> Should this perhaps be addressed in architecture specific code
+> instead of in a common place?
+
+You're right that whether corruption can actually occur depends on the
+architecture and config. I'll write a note about this in the v2 cover
+letter.
+
+That being said, I still think the right thing to do is to have the
+new check(s) in common code. Instances of improper uaccesses are still
+bugs, even if no corruption occurs.
+
+> > =3D=3D The New WARN =3D=3D
+> >
+> > The rest of the series makes the generic uaccess helpers WARN_ON_ONCE()
+> > and refuse the access when current->mm is NULL:
+> >
+> >  - Patch 6 adds uaccess_should_fail(), which combines the existing
+> >    should_fail_usercopy() fault injection check with the NULL mm check,
+> >    and uses it in place of should_fail_usercopy(). This covers
+> >    copy_{to,from}_user() on all architectures (including the masked
+> >    user access paths, which never call access_ok()), the
+> >    __copy_{to,from}_user() variants used by KVM's guest memory
+> >    accessors, the user-backed iov_iter copy routines and
+> >    strncpy_from_user().
+> ...
+> > The checks are deliberately limited to generic code. Accesses
+> > implemented entirely by architectures (get_user(), put_user(),
+> > clear_user(), and direct users of user_access_begin() or
+> > masked_user_access_begin()) are not covered. Please let me know if the
+> > new check should be placed elsewhere.
 >
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+> I would think that user_access_begin() is a more natural place
+> for the added checks, as this should be called exactly once for
+> any function that accesses user space and also stays out of the
+> way of the copy_from_kernel_nofault() etc.
+
+user_access_begin() isn't used in a lot of places that I want to
+catch, including the KVM case. Roughly:
+
+  kvm_write_guest_cached() --> __copy_to_user() --> raw_copy_to_user()
+
+There's no user_access_begin() in there. :/
+
+I do think user_access_begin() should have the new check though, so
+I've added it in the v2.
+
+Thanks for the feedback, Arnd. :)
