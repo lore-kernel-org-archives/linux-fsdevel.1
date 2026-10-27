@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793116047;
-	b=fJNYUH6z5sJgGPV8PW2ouxmTffIupBRt50aDp/JvSQTQEJqPTk260EpO1lsbyD11aGDi
-	 ChMbk7MeOCd7vngdtCcbL62z06L+zgc/2E+oR5FP1MKy7HybomllA9uYbCTWbqNCx+hhO
-	 1cgovaKeHz12NQw/Yp4ttNxK9fbqTO74aprZcfK6mEptt+l5hZqkzszbJLPV0koDL4fz6
-	 aybu/JCw7uNWlvZC0pGS6OyjTXpz4OBWoQUWHQaf/tbLkut/8IiTOdBa8C09n+8RzLWfT
-	 7lFdmu713fCdABQdsF/zmzK7Vi23nWcbcgZm3Vh50U+a/oeXEMAXRP41k3Hzx21B/Pw==
+	t=1793116044;
+	b=WXXYLFZ5H4jbFxcT/TudE7aW9ALK091310ILJJP1J05uwB5aQG870COSkVOevJ4ZMpRm
+	 L7BrI/zbiQssCwb9f2axLX/JkEimdOqjIrCaLB/hn3U4itK6BgmCPAzmRdnEUTMG4bIob
+	 X+Mra8R2YhPLw0t6ucL/Dlws8u0bvkuZoPNx3qx62EelT/E1J7JWJhg9FALN/egYosEik
+	 Tc7S8PPp+hFzC7BtvNn/A+Qm7k6QQgK9IXTNdgJG5y1vc1puqKHCiKQ1WFr6pXCI0tc4h
+	 A0YrxkLCNC0g4KtOaa8UmaFAi+XofHUIxE8Uhqf8QkpE/3sOjv6M1Z/HmUGfG6U73WA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793116047;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793116044;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=d2ojhVyA7G70YSFxIWDEXLUjmLV19PosvKcY5O6DkLk=;
-	b=HGxuEOpAO52cJQZeK5Gk6tUCVPa1aC/zyEb5C5qPccdxma8Boc9TibES2V//FoUVGmnH
-	 cgZuTbks3WNGB5If4NIhDW/e/O3LF5uCyIObTBMqeupcz7vMwEcwUMk5UmaygcHMl7cP+
-	 KJ9i/F8M8tombUxyPaNnpCuiiV3jCv+4iqiBywm206xFVmtiBE9GN9VtEebVYhRJYkFFN
-	 XOp6IaQv/6xJQmdey//krfnYLUkLTcgTKzyw6CpxWg7jcksPAlu9ICg3Du7Z13DAoWsgR
-	 PrvFPRiQJ3onIGn2v/wqEMWBt7Du6xl7AcaM05Ql9WmljZhzA1ZBIUue0i+xin7+0NQ==
+	bh=0HiXSaw8ZLiMKT3XuSDklH+uJG7cgDM9jgjpZ0euyso=;
+	b=bgRUfRWtmPH6CuTtlSf4rinoCVb7fnWzXrE+/Xq00wwUbMz9soFvcurTEKuUdzBiALbv
+	 q+iWH8GVcQHPFXAPvpYIprEFXiK+MduyDu56SNgGQy9r5malhMWNRdlkLWiaFXbH9w6Ke
+	 XRElUvHZ0+XJg9NMTvwGoJz74mmjo0KGPr9aecKT5D+H3fng+XtcuO5BTQ52Ee4zk0eWV
+	 0PTamNdgPTzjSrghJzITImVdRPWRYbu/0HdXdk0sISSnPg0y5DCsSTXW4PLbKC7lTYQJl
+	 rsLOxCptaubyZdE9+bP3iWTZPA2maI51xZ+gdK2Zwzczg7ii5KGLyvdYrsIq3mJ0UuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VwS1GD2u;
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gJnuhoDm;
+	arc=none smtp.remote-ip=209.85.221.45
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D335E60A263C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 15:47:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D335E60A263C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC5760A2613
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 15:47:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5AC5760A2613
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VwS1GD2u
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48e46e449e8so1825935f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 08:47:26 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gJnuhoDm
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48e09aa5264so2381984f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 08:47:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793116045; x=1793720845; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793116043; x=1793720843; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=d2ojhVyA7G70YSFxIWDEXLUjmLV19PosvKcY5O6DkLk=;
-        b=VwS1GD2uQIUAtVynptslNi32b8hDtW5hYaCUcKM7l7bDk8D2wwG0nN1Dd+qJlkwsd6
-         MmVp8/dTgoB8uCoVh3luf4fXvzBIBvjHJtruTyc3TY1ZFSvlGD9NMJXS8VYD2ODxvcGe
-         mYRxn75gVzpHewYITJkVaQBjRO8juzFR0MJL9cbnVL0f9JqNqCVHiZD1OrlIdwJbbxRa
-         pbzfPAi2Ig0HsjJ9BerceMg9ZQDbn6GujqiuOVumpmTvpfh6Yg6TDdTLav4cqQ4WF2/x
-         Dk5YE+esLyF8KIMN7snbZwHrz+XiLaHbVgDc6kXG6wmkyTzr2v0k+6QHcK1zfNOk/hz9
-         yQVg==
+        bh=0HiXSaw8ZLiMKT3XuSDklH+uJG7cgDM9jgjpZ0euyso=;
+        b=gJnuhoDm5wJtOiU9sFXK6ThmZCW+nn8wbe94uliJXxaE35cwKLly1ieXjLKE854Jxz
+         Gmw4ITGRvNvDZGoTn6FPhghncfZVSmNFF7J/hcXSX4of3zxzkidhzba+BaSwVLNhd4uT
+         rNl4zIEwGsRih2D8o4TzNE/1VpjouAyyfcLtplEw0jZWvgOYAyIG9E2q4OYXE7GgrNoZ
+         ok+a4LKgA+/pRoEMGfePAs0AQyE6MAu4wqlGlw/DO/htRFcOq5tOt2+DAMRu3PDuT5/b
+         dmCUnQwq/IoHZzvOBwtIrBtdHTHyCWOVxAkZyJlyPkRC9myAtUzReUZQMXh4Td1SHOIr
+         kztw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793116045; x=1793720845;
+        d=1e100.net; s=20260707; t=1793116043; x=1793720843;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=d2ojhVyA7G70YSFxIWDEXLUjmLV19PosvKcY5O6DkLk=;
-        b=haGzzopyKMULdmUsfgFElORg3ugPUja+IZWf1okkM5q8TNRJAtwdA45lAKAi9zgKjL
-         te2yk3GBpH6SU8T4jO+aH8jhPqGlbpIayoLy9ieopzfJCFVSxMKQP7hd2nyPUzbLR1Vj
-         9iQUTNk6YDO9AnwgTd6lt/4WhO8bYmI/+8AZYfbhVj1RjR5N9LqKyO0GcuESstcTmDI2
-         JctO0iKzQblc6AaELRoincQcHlf485nkzEZkGH8BJ5K8/swLtaOvF5Y+Lro4T0sxr+4M
-         RClavMXUz6R0XqaBOV26DGhdd8Rr4bbm5znHXgqu7aE6oAFsEcXyfGmMzZAmwn3qngqg
-         uFiA==
-X-Forwarded-Encrypted: i=1; AKwUvBxbsAqgaUHIGPKxg6U9vOHD843UU+GQGRj6x3VY2NWJKVHNYQBv2Gt+lIZMr60yla2Nb382SeLSA3nriXuZ@vger.kernel.org
-X-Gm-Message-State: AFq9FYJIbUwwJWHH3XVmGMTg8XvCY2YNFA5318jbp3Q44BNkBJ3fZX8T
-	JpkbUeCLnX+vuHWPqqeshHnrHGPnewSSlB27Uhni0iRrzFVBcPfO0hxn
-X-Gm-Gg: AYBFou30EtjRYDyJZTCJAAdytY58M+tbomt0gk4bVH834wwBK0xBfQanHTG67DuSFIT
-	K+J29n5CXVglaHwvjA5l8q6dlLyd+hP7ftQ8A7KjoMeBereoViOf7vL35ule+k12B4Q9CIfKdK0
-	SthAVQiKBDHelFkbAMCjjG/XsdKHVc9uP+fOwHAG6ZuwQuzTGQ6V5wZlw6g84z0qt5DKQ90xLLz
-	txHtUWii9KhrSMiYicShFE3ScyJADeEUTG5r2u5B2buJ4zhDMOxYkt+r73pmM/LLFJAmGZTASJE
-	goqVHS59GDv0XbIGYXYxnkVxmdNG9HCMK7d1NNURnZb7g1h5Aaz/Aifyyv1sI90sGiU/z162gRS
-	58dY/FWk1ovZgcFY3FijkbawVx9pz+OpVc6dPZPOMDFKctkWFPrR/swzrkgopvLWNjncaA5ucbZ
-	BnlZlgNFqixqjScUumU/IyNp1jqBsC8z54zMtwK//a7p0olDhCoB5aP1a+o1ZAKjsQSs7BkSbat
-	vfjtDoxDwRIzIdd92aavdLa69NVD4uT8d9R9WFq6aidnCmznR31Sf1IgzcR2dOvcLzHiCIBsi7S
-	qjUzwm8s5mWw7xru7r3Q7Ab7NnKF8yWxZhhB2y/li4Jqv2yTFc2rKQj2FfSnEf9f6MwYJeq0pB9
-	dOzO4zGYfWPg0CbrzT5hYDiEgUB4Wuicm3ZOUqT3LGkWB5XV39XPDec3f3LNbgBggRg==
-X-Received: by 2002:adf:f284:0:b0:48e:2980:d396 with SMTP id ffacd0b85a97d-48e3eb8d6a5mr16586892f8f.37.1793116044977;
-        Tue, 27 Oct 2026 08:47:24 -0700 (PDT)
+        bh=0HiXSaw8ZLiMKT3XuSDklH+uJG7cgDM9jgjpZ0euyso=;
+        b=e4CWnKyrJFQFoU4KUra7uXn39bDH492I6DuaJmDBcNbCtAITfZtHYQ0Ce/rCWz3++T
+         wfkfSX3mzrvum7kwBHNkflhlU4q9CYynHeQdq3xegVh/mU9/F8ahlDRsXn2GxBFvitxo
+         dwo9C6TxBTVdg4pjMs3Bloiu5nvPDmRf894KIMIgxg8tqMMpAU8ZUT2IEzX6t+wkZ4JJ
+         uvrOkyxoJ54hrEnDAsNN/rfVenx115aAYdsTZy328wQC6+czZtMRAi5S4cZi0Vl57WBp
+         PGR2fNXKJ4E23wSEGmBjRT5XTjqVw4GoUEkPvaF5BZz4SLFuk3BPx3jInJPdVYUZZw3w
+         NJlw==
+X-Forwarded-Encrypted: i=1; AKwUvBylTiyYoaHtElhwR+ZKE0KvE8KY3Zuq2KQtLwuyb/o3S/NNO18mQyg5TSQdgOSUwrW6vWNXdanGYyMj33mn@vger.kernel.org
+X-Gm-Message-State: AFq9FYKmBe4yhNTrAK7ltpc2aOeqFXkVaZqyjB3e87sLzw2TgmR1CE8U
+	jX1tA4drsxM7pnCmU9y3zqFw11etG2vOTm+LE9SMAOKV2ZVUC/fBSunW
+X-Gm-Gg: AYBFou1MrmkEpnIpAfd2V1wG8JEs9Ce/VUP8PRnlWeovzifgllMdvHWUQvKXf11VhvE
+	yhqoP9y/qoNbaHALTL6Q8YTQvur8/BTt0SEezNAiw88jMWmo1qFyZSECuxpZamEIDthHyselwUZ
+	39CzOw+eIfddvm1fqHjNTT1eb0+s9sooRnl84ChACMF0/t1kTyNtCEZz1ykbckA9YAW9IfcJCb8
+	MGSRWzY4c5cN1+GG/a2nc1iRPg0RqCbP7lzSWoow1oU0REegUtZKuQvKl18aq+fPCOGFFhLL9Lm
+	SbUzC33CHcc7oIOMNDbYi4CGjk4wWSolQi7WI4pFyanpsDp11eqSWbakeeZ4XNhaSdvnHaI+qme
+	+bx6zFKaZHbDFxdSAJbK0qzyQiobnNu0uW/lgBHdEu4w2z9f3DDwYj5KaiaOUCjwqT+TWeMXFkr
+	VkW7qC7PT8dktkUmsWdF8zqT8NUL1MuUV65fLtlAoxao3xGCcDdhZKDTQNhlY1u8H2M1EYSuvNR
+	LaqtmeZFqtc6L72ZqaH9NTwUroulheqNrll4D/8OZ0H2PfGBXC+54W1YE/eOu8/wSO++wmHv/AA
+	RAMYM8B3YyhcFiGnZlLygkvtVKJWAH9Pc9PPLc45kx6h549w5tSX5GSlwTe6Z1s3IyiDxI4i07r
+	M0eI3qVKz2tcW/bdo
+X-Received: by 2002:adf:e00e:0:10b0:487:40d:af29 with SMTP id ffacd0b85a97d-48e3eb975c0mr15293194f8f.36.1793116042581;
+        Tue, 27 Oct 2026 08:47:22 -0700 (PDT)
 Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb958sm23845574f8f.21.2026.10.27.08.47.22
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb958sm23845574f8f.21.2026.10.27.08.47.20
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Oct 2026 08:47:24 -0700 (PDT)
+        Tue, 27 Oct 2026 08:47:22 -0700 (PDT)
 From: Fred Griffoul <griffoul@gmail.com>
 To: Ackerley Tng <ackerleytng@google.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
@@ -157,9 +157,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	linux-mm@kvack.org,
 	llvm@lists.linux.dev,
 	iommu@lists.linux.dev
-Subject: [RFC PATCH 13/14] samples/kvm: Back absent pages on demand in the sample provider
-Date: Tue, 27 Oct 2026 15:46:48 +0000
-Message-ID: <20261027154649.91571-14-griffoul@gmail.com>
+Subject: [RFC PATCH 12/14] samples/kvm: Add read-only pages and large blocks to the sample provider
+Date: Tue, 27 Oct 2026 15:46:47 +0000
+Message-ID: <20261027154649.91571-13-griffoul@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261027154649.91571-1-griffoul@gmail.com>
 References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
@@ -177,122 +177,222 @@ Content-Transfer-Encoding: 8bit
 
 From: Fred Griffoul <fgriffo@amazon.co.uk>
 
-The sample provider fails get_pfn() for an absent page and keeps its
-frames on a punch hole, so tests cannot exercise a provider that backs
-a hole when it is asked for a frame, one that backs more than the page
-asked for, or one that frees the frames that a punch hole gives back.
+The sample provider reports every page as writable and of order 0, and
+does nothing when a page comes back, so tests cannot exercise read-only
+frames, large mappings, or a device mapping that follows a page made
+present again.
 
-Add MPS_NEW_FILE_FILL: get_pfn() then backs an absent page with the
-whole 2 MiB block around it, and put_pfn_range() makes the pages absent
-again.
+Add MPS_SET_READONLY, report the largest aligned block of pages in the
+same state, and call kvm_gmem_restore() when pages become present or
+writable again; making pages read only revokes them.
 
 Assisted-by: Claude:claude-opus-5-5
 Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
 ---
- samples/kvm/mem_provider_sample.c | 29 ++++++++++++++++++++++++-----
- samples/kvm/mem_provider_sample.h |  9 ++++++++-
- 2 files changed, 32 insertions(+), 6 deletions(-)
+ samples/kvm/mem_provider_sample.c | 89 +++++++++++++++++++++++++++----
+ samples/kvm/mem_provider_sample.h |  9 ++++
+ 2 files changed, 87 insertions(+), 11 deletions(-)
 
 diff --git a/samples/kvm/mem_provider_sample.c b/samples/kvm/mem_provider_sample.c
-index 670e36207e59..41e0ce5b6bc6 100644
+index f30654a60dd8..670e36207e59 100644
 --- a/samples/kvm/mem_provider_sample.c
 +++ b/samples/kvm/mem_provider_sample.c
-@@ -41,6 +41,7 @@ struct mps_info {
+@@ -6,7 +6,8 @@
+  *
+  * The control device /dev/mem_provider_sample creates provider files.
+  * Each file allocates its own contiguous memory from alloc_contig_pages().
+- * Pages can be dynamically marked present or absent.
++ * Pages can be dynamically marked present or absent, and read only (for
++ * tests).
+  * See mem_provider_sample.h.
+  *
+  * Confidential VMs are not supported.
+@@ -39,6 +40,7 @@ struct mps_info {
+ 	struct page *cma_pages;		/* from alloc_contig_pages() */
  
  	unsigned long *absent;		/* taken away by MPS_SET_PRESENT */
- 	unsigned long *readonly;	/* set by MPS_SET_READONLY */
-+	bool fill;			/* MPS_NEW_FILE_FILL */
++	unsigned long *readonly;	/* set by MPS_SET_READONLY */
  
  	struct inode *gmem_inode;
  };
-@@ -62,8 +63,15 @@ static void mps_gmem_put_pfn_range(void *provider, pgoff_t index,
- 				   size_t nr_pages)
- {
- 	struct file *resource_file = provider;
-+	struct mps_info *info = resource_file->private_data;
-+	size_t i;
- 
--	mps_zero_range(resource_file->private_data, index, nr_pages);
-+	mps_zero_range(info, index, nr_pages);
-+	if (!info->fill || index >= info->npages)
-+		return;
-+	/* Lockless, like get_pfn(): guest_memfd holds its invalidate lock. */
-+	for (i = index; i < min_t(size_t, index + nr_pages, info->npages); i++)
-+		set_bit(i, info->absent);
+@@ -83,6 +85,9 @@ static void mps_set_present(struct mps_info *info, unsigned long start,
+ 	mutex_lock(&info->lock);
+ 	if (present) {
+ 		bitmap_clear(info->absent, start, end - start);
++		/* Tell the users of guest_memfd that cannot fault. */
++		if (info->gmem_inode)
++			kvm_gmem_restore(info->gmem_inode, start, end - start);
+ 	} else {
+ 		bitmap_set(info->absent, start, end - start);
+ 		if (info->gmem_inode) {
+@@ -95,6 +100,31 @@ static void mps_set_present(struct mps_info *info, unsigned long start,
+ 	mutex_unlock(&info->lock);
  }
  
- /* Byte range [offset, offset + len) of @info as page indices. */
-@@ -228,7 +236,9 @@ static bool mps_bits_are(unsigned long *bitmap, unsigned long first,
- /*
-  * The frame behind @index, and the largest aligned block around it that is
-  * present and has the same attributes: the file's frames are contiguous.
-- * Lockless: a change is followed by kvm_gmem_revoke() or kvm_gmem_restore().
-+ * Lockless: a change is followed by kvm_gmem_revoke() or kvm_gmem_restore(),
-+ * except a fill, which only gives frames to holes; guest_memfd tells its users
-+ * about the block.
-  */
++/*
++ * Change what get_pfn() reports for [start, end).  Making it read only takes
++ * write access away, so revoke it: the users of the guest_memfd map it again
++ * read only.  Making it writable takes nothing away, so only tell the users
++ * that cannot fault.  The pages keep their contents.
++ */
++static void mps_set_readonly(struct mps_info *info, unsigned long start,
++			     unsigned long end, bool value)
++{
++	unsigned long pfn = info->base_pfn + start;
++
++	mutex_lock(&info->lock);
++	if (value) {
++		bitmap_set(info->readonly, start, end - start);
++		if (info->gmem_inode)
++			kvm_gmem_revoke(info->gmem_inode, start, end - start,
++					&pfn);
++	} else {
++		bitmap_clear(info->readonly, start, end - start);
++		if (info->gmem_inode)
++			kvm_gmem_restore(info->gmem_inode, start, end - start);
++	}
++	mutex_unlock(&info->lock);
++}
++
+ static long mps_get_stats(struct mps_info *info, void __user *uarg)
+ {
+ 	struct mps_stats st = {};
+@@ -114,11 +144,13 @@ static int mps_file_release(struct inode *inode, struct file *file)
+ 	if (info->cma_pages)
+ 		free_contig_range(info->base_pfn, info->npages);
+ 	bitmap_free(info->absent);
++	bitmap_free(info->readonly);
+ 	kfree(info);
+ 	return 0;
+ }
+ 
+-static long mps_file_set_present(struct mps_info *info, void __user *uarg)
++static long mps_file_set_range(struct mps_info *info, void __user *uarg,
++			       unsigned int cmd)
+ {
+ 	struct mps_set_present sp;
+ 	unsigned long start, end;
+@@ -129,9 +161,13 @@ static long mps_file_set_present(struct mps_info *info, void __user *uarg)
+ 	if (sp.value > 1 || sp.pad)
+ 		return -EINVAL;
+ 	ret = mps_range(info, sp.offset, sp.len, &start, &end);
+-	if (!ret)
++	if (ret)
++		return ret;
++	if (cmd == MPS_SET_PRESENT)
+ 		mps_set_present(info, start, end, sp.value);
+-	return ret;
++	else
++		mps_set_readonly(info, start, end, sp.value);
++	return 0;
+ }
+ 
+ static long mps_file_ioctl(struct file *file, unsigned int cmd,
+@@ -144,7 +180,8 @@ static long mps_file_ioctl(struct file *file, unsigned int cmd,
+ 	case MPS_GET_STATS:
+ 		return mps_get_stats(info, uarg);
+ 	case MPS_SET_PRESENT:
+-		return mps_file_set_present(info, uarg);
++	case MPS_SET_READONLY:
++		return mps_file_set_range(info, uarg, cmd);
+ 	default:
+ 		return -ENOTTY;
+ 	}
+@@ -178,11 +215,28 @@ static void mps_gmem_release(void *provider)
+ 	fput(resource_file);
+ }
+ 
++/* Is every bit of @bitmap in [first, first + n) equal to @value? */
++static bool mps_bits_are(unsigned long *bitmap, unsigned long first,
++			 unsigned long n, bool value)
++{
++	unsigned long end = first + n;
++
++	return (value ? find_next_zero_bit(bitmap, end, first) :
++			find_next_bit(bitmap, end, first)) >= end;
++}
++
++/*
++ * The frame behind @index, and the largest aligned block around it that is
++ * present and has the same attributes: the file's frames are contiguous.
++ * Lockless: a change is followed by kvm_gmem_revoke() or kvm_gmem_restore().
++ */
  static int mps_gmem_get_pfn(void *provider, pgoff_t index, unsigned long *pfn,
  			    int *max_order, u32 *attrs)
-@@ -241,8 +251,16 @@ static int mps_gmem_get_pfn(void *provider, pgoff_t index, unsigned long *pfn,
+ {
+ 	struct file *resource_file = provider;
+ 	struct mps_info *info = resource_file->private_data;
++	bool ro;
++	int order;
+ 
  	if (index >= info->npages)
  		return -EINVAL;
- 
--	if (test_bit(index, info->absent))
--		return -EFAULT;
-+	if (test_bit(index, info->absent)) {
-+		unsigned long first = ALIGN_DOWN(index, PTRS_PER_PMD);
-+		unsigned long i;
-+
-+		if (!info->fill)
-+			return -EFAULT;
-+		/* Absent pages are zeroed already. */
-+		for (i = first; i < min(first + PTRS_PER_PMD, info->npages); i++)
-+			clear_bit(i, info->absent);
-+	}
- 
- 	ro = test_bit(index, info->readonly);
- 	*pfn = info->base_pfn + index;
-@@ -307,7 +325,7 @@ static long mps_ctl_new_file(void __user *uarg)
- 
- 	if (copy_from_user(&nf, uarg, sizeof(nf)))
+@@ -190,10 +244,22 @@ static int mps_gmem_get_pfn(void *provider, pgoff_t index, unsigned long *pfn,
+ 	if (test_bit(index, info->absent))
  		return -EFAULT;
--	if (nf.flags || nf.pad)
-+	if ((nf.flags & ~MPS_NEW_FILE_FILL) || nf.pad)
- 		return -EINVAL;
- 	if (!nf.size || !PAGE_ALIGNED(nf.size))
- 		return -EINVAL;
-@@ -337,6 +355,7 @@ static long mps_ctl_new_file(void __user *uarg)
- 	info->cma_pages = pages;
- 	info->base_pfn = page_to_pfn(pages);
- 	info->npages = npages;
-+	info->fill = nf.flags & MPS_NEW_FILE_FILL;
- 	mutex_init(&info->lock);
  
- 	fd = get_unused_fd_flags(O_CLOEXEC);
++	ro = test_bit(index, info->readonly);
+ 	*pfn = info->base_pfn + index;
+-	if (max_order)
+-		*max_order = 0;
+-
++	*attrs = ro ? GUEST_MEMFD_PFN_READONLY : 0;
++
++	if (!max_order)
++		return 0;
++	for (order = PUD_ORDER; order; order--) {
++		unsigned long first = ALIGN_DOWN(index, 1UL << order);
++		unsigned long n = 1UL << order;
++
++		if (first + n <= info->npages &&
++		    mps_bits_are(info->absent, first, n, false) &&
++		    mps_bits_are(info->readonly, first, n, ro))
++			break;
++	}
++	*max_order = order;
+ 	return 0;
+ }
+ 
+@@ -255,9 +321,10 @@ static long mps_ctl_new_file(void __user *uarg)
+ 		return -ENOMEM;
+ 
+ 	info->absent = bitmap_zalloc(npages, GFP_KERNEL);
+-	if (!info->absent) {
++	info->readonly = bitmap_zalloc(npages, GFP_KERNEL);
++	if (!info->absent || !info->readonly) {
+ 		ret = -ENOMEM;
+-		goto err_free_info;
++		goto err_free_absent;
+ 	}
+ 
+ 	pages = alloc_contig_pages(npages, GFP_KERNEL | __GFP_ZERO,
+@@ -293,7 +360,7 @@ static long mps_ctl_new_file(void __user *uarg)
+ 	free_contig_range(page_to_pfn(pages), npages);
+ err_free_absent:
+ 	bitmap_free(info->absent);
+-err_free_info:
++	bitmap_free(info->readonly);
+ 	kfree(info);
+ 	return ret;
+ }
 diff --git a/samples/kvm/mem_provider_sample.h b/samples/kvm/mem_provider_sample.h
-index 57f494dc46fa..45ec9605b593 100644
+index b9f10286cb30..57f494dc46fa 100644
 --- a/samples/kvm/mem_provider_sample.h
 +++ b/samples/kvm/mem_provider_sample.h
-@@ -19,11 +19,18 @@
-  * Returns the provider fd.
-  */
- struct mps_new_file {
--	__u32 flags;	/* Reserved, must be 0 */
-+	__u32 flags;	/* MPS_NEW_FILE_* */
- 	__u32 pad;
- 	__u64 size;	/* bytes, page aligned */
- };
+@@ -51,4 +51,13 @@ struct mps_set_present {
+ #define MPS_SET_PRESENT \
+ 	_IOW(MPS_IOCTL_BASE, 12, struct mps_set_present)
  
 +/*
-+ * get_pfn() backs an absent page, with every page of the 2 MiB block around
-+ * it, instead of failing, and put_pfn_range() takes the pages back: a
-+ * provider that allocates on demand and frees on a punch hole, for tests.
++ * ioctl on a provider fd, with the same argument as MPS_SET_PRESENT: report
++ * [@offset, @offset + @len) as read only (GUEST_MEMFD_PFN_READONLY, @value 1)
++ * or writable again (@value 0).  Every mapping follows.  For tests: the
++ * sample does not really share the pages.
 + */
-+#define MPS_NEW_FILE_FILL	(1U << 0)
++#define MPS_SET_READONLY \
++	_IOW(MPS_IOCTL_BASE, 13, struct mps_set_present)
 +
- #define MPS_NEW_FILE \
- 	_IOW(MPS_IOCTL_BASE, 5, struct mps_new_file)
- 
+ #endif /* _SAMPLES_KVM_MEM_PROVIDER_SAMPLE_H */
 -- 
 2.47.3
 
