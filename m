@@ -1,60 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.99
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793134948;
-	b=DOGuC+S5cIegMUnYLHWAEG91bne7aHhyYxUWyR0yl/Li2yuCVHo5t66EcUxhS9h+rtZ/
-	 6iv16lPmlVztC9AVIBGDD6mMPcqYDoBhOpjW6r5JMawXj7HmPaXZe8I37yfjTniiYq/6q
-	 UT4uoJz7qFWhdi01ZNIcxyiMTs3KYClZpiGr7QcMYVhdQDK9KI8wPQGS/r9I8mPEHGdvC
-	 nAOemcE+rqeLbiSBgjrjj1UMeITZEcCj1vPd5luHbFFIF0ispH0i5kdvQIPVV14AhRaNG
-	 NkKHqrrQCnpwMGDSGLauxBRJiu2DB1ueIp2AZtybDIkh/oFyppbG/p+STJ5C4TdQgQQ==
+	t=1793135386;
+	b=1ZRZEvl/k2/d5gmAJImd6U3oHHV2UfIQq5qZZnd+qtmAI9YyuaqiUvUacCMQbVYPG7b5
+	 ed0fdEIwu3GKFO13CooCCbXRJYG8L8FK9c3Z0tMh2DEahet5GFpxNSjEzyrB1DTsXFRG4
+	 YitxHFhP14oo2hlA3kXDhxc0c4MjGmeind+K8+FyISB2pQR1THcpTH2Ao0a3Kxqg88cwu
+	 DhQjryp+KGXKB/8VEZMQeZ3cDvCfLfH/etdkNOe2M9DRN5BTtwqRt1Bs8DoFtC+SRsmhK
+	 sUr+z+v0DbhX/qmNldume2lge3yiePfPr+L0/d5yDVJtCLcjriixK5DG4Sj0rqa/suQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793134948;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=0gdBK2a/7BtrvxXUlX9He8n64shVCDBHPI0R3YZSOO8=;
-	b=WQ+/3F9rWefVt7PiygCYt9Z/kD913kLbHPlsb8r+9DTgo7d9qkVB9wG1dEVbpgprJbS4
-	 0wucca7u9OOSkBRz9ofantEn1Dp3A9nfYP5qBxcj925UMQ6rW3eKgW68eBIVvw6f9Bxh4
-	 X6IQpO4Xtp7ZgFBBLWmOesQwTHC4Blv5Sxv7XH6sNp7tYbqMfRogM0LTelzG9QHg2kxXa
-	 Uk2hK14xR5rKQc3r4yEvFuT/lIDgjjPX6r+JCscjc68JJjjI0wkU3T05XfECrPZzdUrMm
-	 2fXnFJk87aDM/In7TUg27DdbHF8NeEBWoZAuSVODN3OFCTk/JEPDFm7HtAoidE0FeUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793135386;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=5yaV0MrGZjfbjClKYo8Ny4CNWoT1WKIK7K51uc+1CPs=;
+	b=qarqybPFbnUst7NcDLcBZFCq6p216N09HLCcC0ac3shR9YfRePWof9ZOQHZONzNjjnmJ
+	 MHQU9blycUzyW8GfhF5A2xZJggIP38aoazHwJckA7CHVzVHvcG8HOpElZTDT+rSDPECMO
+	 aR2pF+ry7tVJAQI4wSp5G0Sb7Lpk/D6zGpFpd/boKx5Ajcxz/ocvgU2xDeyDcMrDgfJei
+	 U+JAtuU7XGNRj3YGaUTlROOZePYBh5CU3SQuMY1pGxXHWG+/htvv3E9mKOpYryb6H+IFA
+	 Q7EJND0AtUGDED6Nq/zohsli9JSbZ6uTohakpaeGM3e9eo4hf5IzaMMXwtLUG2y8RPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=RPvtGViX;
-	arc=none smtp.remote-ip=79.135.106.99
-Received: from mail-10699.protonmail.ch (mail-10699.protonmail.ch [79.135.106.99])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=RBotA6AM;
+	arc=none smtp.remote-ip=209.85.219.52
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA6B606A31A;
-	Tue, 27 Oct 2026 21:02:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ACA6B606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97716606A32A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 21:09:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97716606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=RPvtGViX
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1793134944; x=1793394144;
-	bh=0gdBK2a/7BtrvxXUlX9He8n64shVCDBHPI0R3YZSOO8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=RPvtGViX8DtOI+cYibDYRy7LwnkDbu8zH1jzLEv9eW8+BP0fHvfB4+MkW/x7UxS2J
-	 dzER/G6vV7gCCK3TFaFCiuR04uvdpoIh0uQkl4yLM/t1zkehwDOQwXjsBN3Q1XeO9N
-	 c3VFwUSEc0XmqrnZd4Vv3KvF8/JNCxePthUV5MFS48HYFmRTZzIH3WnQiZr3zccZ6d
-	 hzBYwCs5bqVRt5DKj7qKynQ7BvfBb0WVED7vph2zIkwghsuNdQ6CECjjdXPcOLtrmy
-	 BlWFBr8Bx8/H8KUgUQT8NRlFK1PPxWBAWk+taXftlZ/diT6g/c3/iKj6H7QT6uQmj4
-	 rrrHzr3ZcXPMQ==
-Date: Tue, 27 Oct 2026 21:02:16 +0000
-To: Steven Rostedt <rostedt@goodmis.org>, "kees@kernel.org" <kees@kernel.org>, "brauner@kernel.org" <brauner@kernel.org>
-From: BoxStrikesTeam <BoxStrikesTeam@proton.me>
-Cc: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "jack@suse.cz" <jack@suse.cz>, "mhiramat@kernel.org" <mhiramat@kernel.org>, "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "jkoolstra@xs4all.nl" <jkoolstra@xs4all.nl>, "farid.m.zakaria@gmail.com" <farid.m.zakaria@gmail.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>
-Subject: Ynt: Re: [RFC PATCH] binfmt_misc: add binfmt_misc_select tracepoint
-Message-ID: <Z3h154GvGuNo0lQQgNCwWxpvOkPCUZblnFrYRF1R9dx3Lqyh7mG96XAdo4GDq2Sy-wjlmqcQKcgmosaapO4gy82voeR2rAerZh9u2LmCEiA=@proton.me>
-In-Reply-To: <20261026162846.23686159@gandalf.local.home>
-References: <cmtfuzYFZMj7WozUoEjFs3RxYWe9UgdY5rK3ZGT7CPwO1mpemvEwNhG4v5ucoKBgUHMqFa7kSzOvLjFcVcxAybfmKdURZ4h-qoKX1lHXlAA=@proton.me> <20261026162846.23686159@gandalf.local.home>
-Feedback-ID: 205449183:user:proton
-X-Pm-Message-ID: 9f98da1da7a4f9aead59ee0aee5c9d5707e0cf2b
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=RBotA6AM
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-91b54d1e9cdso2820526d6.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 14:09:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda.com; s=google; t=1793135384; x=1793740184; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=5yaV0MrGZjfbjClKYo8Ny4CNWoT1WKIK7K51uc+1CPs=;
+        b=RBotA6AMrY5SW4z7ZoMZxTZ13mjyqmrSaedFef1gawwn5x+0q28a7dBuM6gBzJinqI
+         VtLhc/f5y72w/EoeH/t/yCTbASy+Pl5iW+eh6Ixb60pzGz0s79DL9lIXwngqLwWC9h8W
+         3CSn1qyAWgAh44IIK5+iQ1ziFdFlGPyFGqMzTbZgTHFtx6CyHxc+qeVe0oL1l+aIbiDk
+         IMyzp+XV+9v8LlusQ2paqxdSmed7+3YiZ+Lttgqf+KJ57+C3cFhMqQCDF4zAu2p2AXbc
+         jl14UoPymgVRUJr/Ly1hSIhTbXf7QaVAmmpk2yr5v4BmJFT1CzQnzIfCsuwafT3PTxbl
+         ASJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793135384; x=1793740184;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5yaV0MrGZjfbjClKYo8Ny4CNWoT1WKIK7K51uc+1CPs=;
+        b=UkvjTRHVB5lEBWAppuQKJF2MRMMLIu5OSAz6uvTjVxVMHVlgi4thxVMdoqowOcqqpz
+         MqKhLd27nfu3uhTSyOuL96WtS0b9c1Z5PDCvXFBMjLv626fPnsXN4ZE4NK7FjUFjwyJT
+         byzlxVyRZTLIIDfrmkTbva5KWEP/1ggZJ0Wn6qSQScGD+0TRSIQcuBM2zTOYekMpwFVw
+         QstonzwyaDQlZCy6+N0/1hG8hkD/6XzNblqLdV1D+NyQuedTqYNNtTWCgSEO4gFvJMZ3
+         tl8QEHctqidV4K+IP3ix7vzBLvB8G2j67wGgEoL4FSp3fQAq1c/dg3pNWxxtJW2/2z+D
+         2eVg==
+X-Forwarded-Encrypted: i=1; AKwUvBwFNUDx86BO1kn71ZpIzaiDglJLZJKtI3efANkjEoxB+e1SLBt4BmylBA0VWsc++1kF6yQOPv540UXSDesc@vger.kernel.org
+X-Gm-Message-State: AFq9FYI7eNQ5FFLRbNayntWHF+ogYpKzgQV5BWP1H7jNlk9DywKGJSe2
+	y1c5OSlCTPY7nsipk99nykIS9kZznolQ98pwzqqtoRIpns6/3mn8GqOfRw9jBub7vaw=
+X-Gm-Gg: AYBFou3zlpyj21Z+RVfdcDQwUzvSRCg0Hs8ThbiGMb8RysQX2KNG2X155JLUmCR4ph9
+	FqKWHIY7CNOVJk7xhcclJ3tEd37W4vuGsI6keesb0h1SFFM9LlzCXzzro20PoH+3SCSV33m18ER
+	PP0MEBNq2avzi05UwgMtr4K2+iSMTJZiTOO6VxVS6n9aE97anFSgHTpX9GYfi/tLB8hnPLI/mh5
+	pg3m5o2Y6n+3R7rNXFp+lqN77ZvNTiFE+fLJFFsomyn0VZErifisqTWyd08G0nb6OaDK5vb3sTh
+	Yd4Lqfp5favPhJmAGp7wmDFJFHCoDWDYYmxOrdx3AtPx5KpZ7+5Vb7LcCPFO1qPBOCw1rxPZpwq
+	5dfBJwpJZjbVTtyrKmVGuVYr5A6wBJ4Uyst/xpmVXU9TU2gfhpiZxirfWbyunXhglANbIT2g4KC
+	r19vf7OGWCuBPYDQeEc1H5DHk87/y0PDCyjCCuVAgY90RuPuweLfKBKToTSAOw2sQr4CXb+9Leq
+	fzRtiusmqqELGaZl1yJtKM63MBkWrOiSQdTtXCcppvAWwjn6HYBQ0U6zeyJ8c69O6um3An+
+X-Received: by 2002:a05:6214:27cb:b0:91c:75ef:5532 with SMTP id 6a1803df08f44-91c7d1d3ademr5763756d6.39.1793135384460;
+        Tue, 27 Oct 2026 14:09:44 -0700 (PDT)
+Received: from toxicpanda.com ([153.61.196.248])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47c6f3bcsm115390716d6.29.2026.10.27.14.09.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2026 14:09:43 -0700 (PDT)
+From: Josef Bacik <josef@toxicpanda.com>
+Subject: [PATCH 00/10] ovl: only sync what was written through the overlay
+Date: Tue, 27 Oct 2026 21:09:26 +0000
+Message-Id: <20261027-b4-ovl-containerized-sync-v1-0-802e512379a6@toxicpanda.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,180 +91,153 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAgT4WoC/22MwQrCMBBEf6Xs2UVTilB/RTxskq1dkY1k26KW/
+ ruJXj3M4Q0zbwXjLGxwalbIvIhJ0gJu10AYSa+MEgtDe2iPrgR9h2m5Y0g6kWg5vzmivTSg63r
+ P0dHAPUH5PzIP8vy6z5cf2+xvHKYqrAtPxugzaRhrVXH/Xw7b9gEmEA4UqwAAAA==
+X-Change-ID: 20261026-b4-ovl-containerized-sync-149bed1afe9a
+To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Theodore Ts'o <tytso@mit.edu>, Carlos Maiolino <cem@kernel.org>, 
+ David Sterba <dsterba@suse.com>, Chris Mason <mason@kernel.org>, 
+ Chengguang Xu <cgxu519@mykernel.net>, linux-unionfs@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>, 
+ Chengguang Xu <charliecgxu@tencent.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793135381; l=5905;
+ i=josef@toxicpanda.com; h=from:subject:message-id;
+ bh=+crzd0tBMr/UBfX6IWY1ogoL1S7H36SezVAnEBaM4h4=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
+ JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QLNA+g18G2UYQwcLgDAIZjnxe1y3YDkj2blf+cEZ1mNJj1wlMBGOCr6nzxrJ4/i8scm2uN0rurD
+ a7WYNNeMrSgo=
+X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
+ fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-Thank you! Steve, for your suggestions.
+Hello,
 
-I=E2=80=99ll take a look at the suggested fixes for the patch tomorrow. The=
- main issue I ran into was that Proton Mail=E2=80=99s SMTP submission setup=
- requires a paid plan, which caused me quite a bit of trouble. That=
-=E2=80=99s why I=E2=80=99ve included the patch as an attachment for now.
+This picks up Chengguang Xu's "implement containerized syncfs for
+overlayfs", last posted as RFC V6 in November 2021 [1].
 
-It seems that Yandex Mail doesn=E2=80=99t have the same limitation. Once I=
-=E2=80=99ve prepared version 2 of the patch, I=E2=80=99ll send it to you us=
-ing Yandex Mail.
+syncfs() on an overlay and unmounting one call sync_filesystem() on the
+upper file system, so they write every dirty inode on it no matter who
+dirtied it. We run a lot of containers on one upper file system, and
+stopping one of them writes out the dirty data of all the others. That
+can take a very long time, and s_umount of the upper file system is held
+the whole time, so anything that wants it exclusively queues up and then
+everybody else queues up behind that.
 
-Thanks again for your help and suggestions!
+With this an overlay only writes the upper inodes that were changed
+through it, and then has the upper file system commit its metadata.
 
+The V6 discussion ended with a direction but no V7, so that's what I
+tried to follow:
 
+ - V6 kept every overlay inode with an upper inode dirty for good. Jan
+   and Amir didn't like the cost of walking them. Now an overlay inode
+   is marked dirty when the upper inode is changed, mostly from
+   ovl_copyattr() as Amir and Miklos suggested.
+ - It never looks at the dirty flags of the upper inode, Miklos pointed
+   out that they're cleared when writeback starts.
+ - ->write_inode() goes through write_inode_now() on the upper inode,
+   and keeps the overlay inode dirty while the upper inode is open for
+   writing, which covers shared mappings.
+ - V6 marked the inodes DONTCACHE, which Jan was worried about. This
+   goes back to the v5 patch that keeps dirty overlay inodes cached.
 
-Proton Mail g=C3=BCvenli e-posta ile g=C3=B6nderildi.
+One thing is new. V6 called wait_sb_inodes() on the upper file system to
+catch writeback that was started but not finished, which waits for
+everybody's writeback. Instead ->write_inode() keeps the overlay inode
+dirty while the upper inode has pages tagged dirty or under writeback.
+The tags don't have the problem the inode flags have, the writeback tag
+is set before the dirty tag is cleared. So a clean overlay inode means
+its data is on disk, and syncfs() only waits for its own inodes.
 
-Steven Rostedt <rostedt@goodmis.org>, 26 Ekim 2026 Pazartesi saat 23:28 tar=
-ihinde =C5=9Funu yazd=C4=B1:
+That takes care of the data. Metadata is harder, a lot of what is
+changed on the upper file system has no overlay inode that could be on
+the dirty list: the root of the overlay isn't hashed, and whiteouts,
+index entries, the work directories and their parent have none. File
+systems that log their metadata don't care, ->sync_fs() commits it. ext2
+does, there a whiteout was gone after a crash. I first had overlayfs
+write all of those itself and kept finding more of them, the last one
+was the link count of the shared whiteout when a whiteout is removed.
 
->=20
-> You shouldn't attach patches but inline them. Yeah, I know a lot of email
-> clients can't handle that. But claws-mail can! (and it can also reply to
-> attachments like they were inlined ;-) ).
->=20
-> I'll let others comment on whether or not this patch is needed, but I'll
-> comment on the tracing side of things.
->=20
->=20
-> On Mon, 26 Oct 2026 20:17:26 +0000
-> BoxStrikesTeam <BoxStrikesTeam@proton.me> wrote:
->=20
-> > From: Eneshan Erdo=C4=9Fan Karaca <BoxStrikesTeam@proton.me>
-> > Subject: [RFC PATCH] binfmt_misc: add binfmt_misc_select tracepoint
-> >
-> > A binfmt_misc entry can select an interpreter for an exec.  With a BPF
-> > 'B' handler, that selection can be made by a BPF struct_ops program.
-> > The kernel commits the decision in bprm->interp and bprm->flags, but it
-> > does not emit an event at the selection point.
-> >
-> > Existing observers have to reconstruct the decision from
-> > /proc/PID/exe, AT_EXECFD, AT_FLAGS, or /proc/PID/maps.  These sources
-> > are mode-dependent: a transparent dispatch still reports the original
-> > binary in /proc/PID/exe, and a short-lived process can exit before the
-> > observer reads it.  A classic dispatch reports the interpreter, but
-> > not which handler selected it or which invocation flags were used.
-> >
-> > Add a tracepoint after the interpreter and the invocation flags are
-> > selected.  It reports the binary filename, the selected interpreter,
-> > the handler name (for BPF handlers), the invocation flags, and the
-> > pid.  The flags are masked with MISC_FMT_INVOCATION_FLAGS so that
-> > static entry state does not leak into the event.
-> >
-> > The tracepoint is observability only; it does not change exec
-> > behavior.
-> >
-> > Assisted-by: LLM
-> > Signed-off-by: Eneshan Erdo=C4=9Fan Karaca <BoxStrikesTeam@proton.me>
-> > ---
-> >
-> > This is an RFC.  A small PoC and short A/B results are available for
-> > context; they are not needed to review the patch.
-> >
-> >  fs/binfmt_misc.c                  |  8 ++++++++
-> >  include/trace/events/binfmt_misc.h | 52 ++++++++++++++++++++++++++++++=
-++++++++
-> >  2 files changed, 60 insertions(+)
-> >
-> > diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-> > --- a/fs/binfmt_misc.c
-> > +++ b/fs/binfmt_misc.c
-> > @@ -41,6 +41,9 @@
-> >
-> >  #include "internal.h"
-> >
-> > +#define CREATE_TRACE_POINTS
-> > +#include <trace/events/binfmt_misc.h>
-> > +
-> >  /* Entry status and match type bit numbers. */
-> >  enum binfmt_misc_entry_bits {
-> >  =09MISC_FMT_ENABLED_BIT=09=3D 0,
-> > @@ -644,6 +647,11 @@
-> >
-> >  =09flags =3D entry_invocation_flags(fmt, bprm);
-> >
-> > +=09trace_binfmt_misc_select(bprm, interpreter,
-> > +=09=09=09=09 test_bit(MISC_FMT_BPF_BIT, &fmt->flags) ?
-> > +=09=09=09=09 fmt->bpf_ops->name : "",
-> > +=09=09=09=09 flags & MISC_FMT_INVOCATION_FLAGS);
->=20
-> Logic like the above should be done in the trace event itself. Not in the
-> code path. That is, pass in fmt and flags.
->=20
-> > +
-> >  =09/* No argv is built for a staged argument to land in. */
-> >  =09if ((flags & (MISC_FMT_LOADER | MISC_FMT_TRANSPARENT)) &&
-> >  =09    bprm->bpf_interp_arg)
-> >
-> > diff --git a/include/trace/events/binfmt_misc.h b/include/trace/events/=
-binfmt_misc.h
-> > new file mode 100644
-> > --- /dev/null
-> > +++ b/include/trace/events/binfmt_misc.h
-> > @@ -0,0 +1,52 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Tracepoint for binfmt_misc binary type handler dispatch.
-> > + *
-> > + * Fires once for every exec a binfmt_misc entry matches, after the
-> > + * interpreter and the invocation flags have been selected. Unlike
-> > + * sched_process_exec (which reports bprm->filename) and /proc/PID/exe
-> > + * (which a transparent dispatch sets to the binary), this reports the
-> > + * interpreter that actually runs, so observers can see through a
-> > + * transparent dispatch.
-> > + */
-> > +#undef TRACE_SYSTEM
-> > +#define TRACE_SYSTEM binfmt_misc
-> > +
-> > +#if !defined(_TRACE_BINFMT_MISC_H) || defined(TRACE_HEADER_MULTI_READ)
-> > +#define _TRACE_BINFMT_MISC_H
-> > +
-> > +#include <linux/tracepoint.h>
-> > +#include <linux/binfmts.h>
-> > +
-> > +TRACE_EVENT(binfmt_misc_select,
-> > +
-> > +=09TP_PROTO(struct linux_binprm *bprm, const char *interp,
-> > +=09=09 const char *handler, unsigned long flags),
-> > +
-> > +=09TP_ARGS(bprm, interp, handler, flags),
-> > +
-> > +=09TP_STRUCT__entry(
-> > +=09=09__string(filename,=09bprm->filename)
-> > +=09=09__string(interp,=09interp)
-> > +=09=09__string(handler,=09handler)
->=20
-> Then here you would have:
->=20
-> =09=09__string(handler, test_bit(MISC_FMT_BPF_BIT, &fmt->flags) ?
-> =09=09=09=09 fmt->bpf_ops->name : "")
->=20
->=20
-> > +=09=09__field(unsigned long,=09flags)
-> > +=09=09__field(pid_t,=09=09pid)
-> > +=09),
-> > +
-> > +=09TP_fast_assign(
-> > +=09=09__assign_str(filename);
-> > +=09=09__assign_str(interp);
-> > +=09=09__assign_str(handler);
-> > +=09=09__entry->flags =3D flags;
->=20
-> and here:
->=20
-> =09=09__entry->flags =3D flags & MISC_FMT_INVOCATION_FLAGS;
->=20
-> -- Steve
->=20
->=20
-> > +=09=09__entry->pid =3D current->pid;
-> > +=09),
-> > +
-> > +=09TP_printk("pid=3D%d filename=3D%s interp=3D%s handler=3D%s flags=3D=
-%#lx",
-> > +=09=09  __entry->pid, __get_str(filename), __get_str(interp),
-> > +=09=09  __get_str(handler), __entry->flags)
-> > +);
-> > +
-> > +#endif /* _TRACE_BINFMT_MISC_H */
-> > +
-> > +/* This part must be outside protection */
-> > +#include <trace/define_trace.h>
->=20
-> 
+So patch 1 adds a superblock flag, SB_I_OVL_USE_SYNC_FS, by which a file
+system says that ->sync_fs() commits all of its metadata, and patches 2
+to 4 set it for ext4 with a journal, xfs and btrfs. Without the flag on
+the upper file system nothing changes, no inode is marked dirty and
+syncfs() and unmount call sync_filesystem() like they always did.
+
+Patches 5, 7, 8 and 10 are Chengguang's with changes noted in them,
+patches 6 and 9 are new. I dropped Jan's Reviewed-by tags from V6 since
+the patches changed.
+
+lazytime on the upper file system needs its own handling. The flusher
+leaves the timestamps in memory for up to 12 hours, so the overlay inode
+can't be clean, but it can't stay dirty and pinned for that long either.
+Patch 9 gives it I_DIRTY_TIME like the upper inode has, and forwards
+->sync_lazytime() to the upper inode.
+
+Things I know about:
+
+ - An overlay inode that loses its last reference while it is dirty is
+   kept until it has been written and then sits on the LRU, like with
+   any other file system. Clean and unlinked ones are still freed right
+   away.
+ - Every overlay on such an upper file system gets a bdi.
+ - I haven't measured syncfs() with a very large number of dirty inodes.
+
+For testing I put several overlays on one upper file system and dirty
+192M next to the overlay under test, through another overlay and
+directly. Then syncfs() or unmount the one overlay, copy the block
+device as it is at that moment, mount the copy, and check that
+everything that was changed through the overlay is in it and that the
+192M aren't. That passes with ext4, xfs and btrfs as the upper file
+system. With KASAN and lockdep on, syncfs() goes from 239-284ms to
+45-48ms and unmount from 126-234ms to 39-44ms. With ext2 and ext4
+without a journal the 192M are written as before.
+
+fstests with -overlay, the auto groups of generic and overlay, gives the
+same results with and without the series on ext4 and on xfs.
+
+[1] https://lore.kernel.org/r/20211122030038.1938875-1-cgxu519@mykernel.net
+
+Thanks,
+
+Josef
+
+---
+Chengguang Xu (4):
+      ovl: setup overlayfs' private bdi
+      ovl: implement overlayfs' own ->write_inode operation
+      ovl: cache dirty overlayfs' inode
+      ovl: implement containerized syncfs for overlayfs
+
+Josef Bacik (6):
+      fs: add SB_I_OVL_USE_SYNC_FS
+      ext4: set SB_I_OVL_USE_SYNC_FS if there is a journal
+      xfs: set SB_I_OVL_USE_SYNC_FS
+      btrfs: set SB_I_OVL_USE_SYNC_FS
+      ovl: mark the overlay inode dirty on modification
+      ovl: handle lazytime on the upper filesystem
+
+ fs/btrfs/super.c               |   2 +-
+ fs/ext4/super.c                |   1 +
+ fs/overlayfs/copy_up.c         |   2 +
+ fs/overlayfs/dir.c             |   1 +
+ fs/overlayfs/file.c            |   8 ++-
+ fs/overlayfs/inode.c           |  21 +++++-
+ fs/overlayfs/overlayfs.h       |  28 ++++++++
+ fs/overlayfs/super.c           | 145 ++++++++++++++++++++++++++++++++++++++---
+ fs/overlayfs/util.c            |  14 +++-
+ fs/xfs/xfs_super.c             |   2 +-
+ include/linux/fs/super_types.h |   1 +
+ 11 files changed, 211 insertions(+), 14 deletions(-)
+---
+base-commit: 2c8a968b488c134d05ccefff890270ac8ab899a8
+change-id: 20261026-b4-ovl-containerized-sync-149bed1afe9a
+
