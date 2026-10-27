@@ -1,97 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793135747;
-	b=bI4NIzXvyaQ28eSEnXb3essFREDLwUw//bKHJXIpUH5D2jGgA2ZJ4tifIoKyc9x8LskB
-	 szNWoNnW33Nt7qrri65Z4Rjc2PO7+XN+01hqK8LZanKryRG/wq1q3oTXJo1HCX4Q+uwn1
-	 k2qOXS/T2FcFaSYErhwhZ2OEXFM+gt5xOmEY63T8VrvAtzI9UKQk2dW77iD7CWEQZZ5AF
-	 Pi9fgrun/HkZ3dGpfvfdaIYjzPOaa5yf5OSRWqnzmYh86FoEiIdmIkq6qE61k/b53VYdf
-	 gExIsppx/dUEqk9tfuTfyZNIljDl4XKWdHsuIzGjQciN/xLorJ7zpkfZNPUxwoayguw==
+	t=1793135924;
+	b=JgFezHe2cYaHdGSd4I9bkI1Dt5wNkpZfyFYjZzHrUgiebAdwAB96yhjthsokDPh9GXq3
+	 BTP78kLVtTrzQH1OVkz0PT4NjjdYW70n1uFT3G2LbuxhBzTSkQF5ktOBP4jf55Vm8b2Tx
+	 bfL4HIo0iXYi6tq/H7mQwVCAg3Jy7G9LhI0RUa2zjcS+OhluZOwoXjX7yw+cuaYADC6Ho
+	 etj/lW/DlN6wfnB3sEToUzmT0kqLqtLxveXFwSXiQVJX9KjgkPZ+/QTmE8JB+WEPdnMVE
+	 ioPrb/lGvB1OL2GPPtlDi+VGTGeXMrEI8kdUPVBr/9+B3i/CaGTZtreBhkgAt0TFy9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793135747;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793135924;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=sa7iGCeELZtURXOiW2lc5z/VEpz0Jw9PHYIzUSekpgQ=;
-	b=Hi6krLby60zpP/vEQZXxqjvfGgFSa9VI93Xw22+YaDJ+2ohJ2LWJlL9hng8KqvUImopP
-	 Lxp55BNDZJNhLlXYU+y6b8aCitRFwbWvDxoQWmrSAD/jfMsa0l9+VY0oMOOOumX9coz//
-	 c/tf7DnmCBmp2nplQLYEdJ79u+LIQC5Wqv5KXPpKZ2Ay98amYQ9szc9LkWCWa2MqrRetB
-	 /Jd3WFvrB45m1bNtCLv8aVxXEQrhslfxwCHRmfEQFBD4EaL4JTuFQFGQk2QCgfyuJnKlj
-	 6fnCQ7UDPIu2YQ64djLyhF9zPm4ATXp3CvN45IPOOhWnze+YljnW/y0x/ejqRUCeNeA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=qUMx95Z2/FLv64tnydT/x/C4fd+wJMNdslwBEILinGo=;
+	b=2kjutgTm+dC58ecC1YPlO/W2n+0YAqgXvenmUNc+4biq20q7xwUUom8b9jz5I/7AiCvr
+	 PrfmUV7LUqiJY4QqV0jcowfJ/AYTyhCtSghOuYMXHq30hCUGM77m4Z7LVTSl2y+yDJy3k
+	 sPwTgaDR0Oa/GkPIvVuVgyG0W30qwbGHVkzGWZngtZlk2v1Y5MVFH5Fc0oi+Jm0TwUdGr
+	 n7ORMRhSUEOJVqiWV9GHb17/nbcbv/MeU4HqCJ/l0e4zSZJJxo1K0ZOZqJvvddV8SM6ak
+	 Aghoh+gl0+rLV28WxP45KEAgD2J1/hTFzMWtkbOiFrnUShYZxM2XN2ak9qK8UgMRMow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n23xO46Y;
-	arc=none smtp.remote-ip=74.125.229.9
-Received: from mail-dy2-f9.google.com (mail-dy2-f9.google.com [74.125.229.9])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=O9t1oNxh;
+	arc=none smtp.remote-ip=209.85.216.70
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A36606A31A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 21:15:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85A36606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7326B606A31D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 21:18:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7326B606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n23xO46Y
-Received: by mail-dy2-f9.google.com with SMTP id 5a478bee46e88-35fad13ca97so18187eec.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 14:15:47 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=O9t1oNxh
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3adf71ee6a5so387620a91.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 14:18:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793135746; x=1793740546; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sa7iGCeELZtURXOiW2lc5z/VEpz0Jw9PHYIzUSekpgQ=;
-        b=n23xO46Yt4EHxY0+IBxA0vHRUMAiv3D4fk44zG6+9GofzQJnaku2ZNYtUUzfDhVq5Z
-         czPYLesXClPMmy+Wvas4jcM49FCRNN0eH37iR3cx54B8HbSkyjrORVNpodzT2DzGI4TA
-         NR+O3vm1/jWsp6gkJ4/wE7jNyRWwMbAE71E0X0AHCa3r0BZWwALPNk9gIJ8YPLL6St5J
-         3mSzcZ4q/U5xdblS0sOOxdsgfnLwrhkC5w4v7vy13eRDI+nFhj45pquM2GTyfxPwt80L
-         XO75/a2rgp35u6EdsXJiW6wLpdQRvZ/L7xqP7o5ouJmd8fAwt8f/IYpEJVPJyUt7vQ9L
-         /7Qg==
+        d=google.com; s=20260707; t=1793135924; x=1793740724; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qUMx95Z2/FLv64tnydT/x/C4fd+wJMNdslwBEILinGo=;
+        b=O9t1oNxhj7Xw67fxZOhJmZ8vNAdxWgxOGEEZGK9oId6/aVHLsnFtQlbNQ6bzhC9B0E
+         f9O/mJB1tznoMWpJP5vr6IAfWd7OYL3+vqog/K86lyrB9hPII1dxM6rPxBJ9Kby9+ucJ
+         q3hnsiNT2ru8vSf8egpVYYGw35wKVG80Vu3ezvTOK/2hErKcg9OsAoYftXOMXvmgvOsE
+         USSlpzb9cbn2+MUY6DGfb3+M18AMUDB5o3XD1HYrd07vSA1sr+KPFgLsCAHlt3yIU0CJ
+         46wb1/8vXqcmincC/gKw4zIHqOkFMeY2f47UtXQrgsFIIglqeYn4Rz2uN2mV+APvhSlW
+         0LBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793135746; x=1793740546;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1793135924; x=1793740724;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=sa7iGCeELZtURXOiW2lc5z/VEpz0Jw9PHYIzUSekpgQ=;
-        b=Gpg4bC/QMXl9V8qy8VG1KWOQ1qVr2osxnkT4G9OKnVC3IxpyerCmvWwn1wD5kw8S/0
-         cX9ABRNd7n7Jpcmr7qOSLJ1y4ahpRFHgDQTzB/w3Su9N7V+WXPkMqN6SO5vOxx8ohKfr
-         V3E4AHDOilb0F2fsT6sMmdccwfidL4puTNe5AlJw87/PJ2cd8YA5irGSvv2YO/Wkwvgq
-         3saaIrvfO+xx5DDL5b0IO4h9sur4hzq1bFRYdJtuWcMlAtvQ8y1KFh/t3vYl/jK/pLZG
-         G/OGeMTESKBG4qGYyq2Kv5TtIgaJSTeTF02VRKaZYKwIYRIIlbqjI0WXuDSPtfFWumyz
-         c9HQ==
-X-Forwarded-Encrypted: i=1; AKwUvByw+QKZYJt1RnLHohpemUSzRGzv18elZy3a0UhU/3xVVdkPhCBQDQ1zEhMuSX01PR2MFEcrF9FVOWXkPbUh@vger.kernel.org
-X-Gm-Message-State: AFq9FYLgsRaIEaifvJpPEYWhJf3KX0HlR7WIlZmzCVaupVjYIzyCwSj4
-	9pasnty6zbf3MZMiW+8EN1bn7WIAg3V8VyanRNseUt2EfqWrLqZ3aFHP
-X-Gm-Gg: AYBFou3Zy+UQDUrBOYJoThSkJdkEKlYsN/QIm4Zw0XYutMUHYxO0HkZL2S8uTR1qdDM
-	4AUBpSWCHogwALXmg2rmLHJ6SHgNGyW6FdxwmLdXU4jwjbI+RJilrlsX5bT5hS8o7nZWTgy2MXp
-	rggyruVs6GfHam9QidfdmL1uyxUh7ygSNVEFDfrX4KCg5sX6sgvwIj/SZdcep8e8tun1poJCO6L
-	vKQ37jTo4VkXVp1YyUDYLYRrAdiY34nZ866m6EtauiKBHu7YBV3UVuTOzZAsjg8OEdKSJlzSJMb
-	OOh7EXs7zr+bqktR4JcOBM1XtMf6bvoVNtFc92nGjNfdTlM1VypPBr6vWowsYVdaACUERAz6Ytv
-	Pdj3JOET8rRMKnyo0JSEcmhzHFr7p5WLKo+nEYN4zmEFEF3sLZw526Bx+rmqaEPDmAPQ1hGiC9K
-	PcbjF/3xvkYZrNUeH3T9O9GonAy9+QlL8SdAt7yQxabMzlFWGXmVIXt1VLniOCNIRLNlr/xpBh6
-	L1ysiOdRhFFPmsIwkk6LaL6Dw3ApBOXFI2HSG1SXiWeU0wJ8DFHoDPZRnjgWKRN1xEEWTLXD7E8
-	uDHdx70=
-X-Received: by 2002:a05:693c:2a17:b0:36a:1bac:6bf4 with SMTP id 5a478bee46e88-36a2039cb09mr845127eec.18.1793135746335;
-        Tue, 27 Oct 2026 14:15:46 -0700 (PDT)
-Received: from localhost.localdomain ([98.148.34.5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8c576ebsm35750827eec.3.2026.10.27.14.15.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 14:15:45 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: willy@infradead.org
-Cc: jack@suse.cz,
-	akpm@linux-foundation.org,
-	lczerner@redhat.com,
-	tytso@mit.edu,
-	hughd@google.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	dennylin0707@gmail.com
-Subject: [PATCH] mm: skip empty finite ranges in truncate_pagecache_range
-Date: Tue, 27 Oct 2026 21:15:05 +0000
-Message-ID: <20261027211505.22044-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=qUMx95Z2/FLv64tnydT/x/C4fd+wJMNdslwBEILinGo=;
+        b=CEXrqTyiu4yqwYrLGZFwyM/R+bC3h/ey0V48ZZ0aE6meQOiFqyIypMl4AX2dyhrl0v
+         FIAJuMAyP5LGXEKYx3P/kdkMtO9SkHMfL2X8hGMqQq/EMCiMuYm6RPgkdTBsRNpZn1i/
+         OyXybIP7nEgSibLMCK/FUu6ZCubRCeHgiLKjb/XcwXOV09u0ZKF7g5yQYy4pR+w2x7pd
+         f7kG8l5GDgfkz2tF0o8N63SUszFYH9QPsQmXTdyHlCVof7cr2Qhn3chtR/l0PVajkZcH
+         iYxbTIyj8mW6B/MUor+dazniu4k1/kqObs3VTZ+6mUWlgWqtD3WKuSSDB96yWpQt46Rl
+         Of/Q==
+X-Forwarded-Encrypted: i=1; AKwUvBw/+RTqY/fXbPOdmo1UMU87hfk0cae+mIgMHBSFyTae7BLn2TyIyUyl08yr/Blk34wthdmD72UceDBe2cCm@vger.kernel.org
+X-Gm-Message-State: AFq9FYIvI+h0vx0E0PfoVrgwGJxqOxQm+D6CSUuJaK+w9ErHVZCasyzT
+	jja6AyafrYo9H0ufMt7rxclW6ndy/wgKTGmx26O0oQBYgDlu8IaIZdfaMhzQfmfxpGX1b6KuSsM
+	tE5s/4A==
+X-Received: from pjvv8.prod.google.com ([2002:a17:90b:5888:b0:3ad:850b:6f1c])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:288a:b0:3ac:9706:7739
+ with SMTP id 98e67ed59e1d1-3ae5819e5afmr211698a91.17.1793135923585; Tue, 27
+ Oct 2026 14:18:43 -0700 (PDT)
+Date: Tue, 27 Oct 2026 14:18:42 -0700
+In-Reply-To: <ac22215d-3e58-4aab-851e-47c30836e058@app.fastmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,42 +77,102 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20261026215226.3713941-1-jthoughton@google.com>
+ <14f5f919-55bd-47c6-a1c8-6f1445cce733@app.fastmail.com> <CADrL8HXQdzcroeGN-ACjyy-jSAdBNHiT1_BCVVe0P+Y8ZueiyA@mail.gmail.com>
+ <ac22215d-3e58-4aab-851e-47c30836e058@app.fastmail.com>
+Message-ID: <auEVMrMDqVuKtDqh@google.com>
+Subject: Re: [RFC PATCH 00/10] uaccess: Refuse and warn on user accesses when
+ current->mm is NULL
+From: Sean Christopherson <seanjc@google.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: James Houghton <jthoughton@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Thomas Gleixner <tglx@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>, 
+	"David Hildenbrand (Red Hat)" <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jim Mattson <jmattson@google.com>, Jens Axboe <axboe@kernel.dk>, 
+	Pavel Begunkov <asml.silence@gmail.com>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, David Sterba <dsterba@suse.com>, Chris Mason <mason@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, io-uring@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-btrfs@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-For a finite range ending before the first page boundary,
-truncate_pagecache_range() calculates unmap_end as -1. The unsigned
-comparison then treats the empty full-page interval as nonempty.
+On Tue, Oct 27, 2026, Arnd Bergmann wrote:
+> On Tue, Oct 27, 2026, at 18:29, James Houghton wrote:
+> >> I would think that user_access_begin() is a more natural place
+> >> for the added checks, as this should be called exactly once for
+> >> any function that accesses user space and also stays out of the
+> >> way of the copy_from_kernel_nofault() etc.
+> >
+> > user_access_begin() isn't used in a lot of places that I want to
+> > catch, including the KVM case. Roughly:
+> >
+> >   kvm_write_guest_cached() --> __copy_to_user() --> raw_copy_to_user()
+> >
+> > There's no user_access_begin() in there. :/
+> 
+> Good point, yes. After the changes described in
+> https://lwn.net/Articles/1102061/, I had assumed that all
+> __copy_{from,to}_user() are going from common code, but it looks
+> like the series so far only touches __{get,put}_user().
+> 
+> There are of course few enough of these left that I think
+> we can consider doing the same thing here and turn them all
+> into the checking version:
+> 
+> $ git grep -wl __copy_'\(from\|to\)'_user  drivers mm virt
+> drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> drivers/gpu/drm/i915/i915_gem.c
+> drivers/gpu/drm/i915/i915_query.c
+> drivers/usb/gadget/udc/atmel_usba_udc.c
+> drivers/vhost/scsi.c
+> drivers/vhost/vhost.c
+> mm/kasan/kasan_test_c.c
+> virt/kvm/kvm_main.c
+> 
+> > I do think user_access_begin() should have the new check though, so
+> > I've added it in the v2.
+> 
+> I had the details confused here. Seing that user_access_begin()
+> and the other accessors always call access_ok() at some
+> point, maybe that would be enough?:
 
-For example, lstart == 0 and lend == 0 cause unmap_mapping_range() to be
-called with a zero length, meaning unmap to EOF. Punching one byte at
-offset zero in a mapped FUSE file can therefore remove mappings outside
-the hole, causing unnecessary page-table work and subsequent faults.
+It would help, but it wouldn't cover everything, e.g. KVM "caches" the access_ok()
+checks well in advance of actually performing a user access.  I don't know that I
+would fixate on KVM too much though, as KVM's memslots infrastructure that begets
+that behavior is quite unique, i.e. it's unlikely other subsystems will have these
+types of bugs *and* elide access_ok() checks at the time of access.  And KVM has
+natural chokepoints for these accesses, so it's easy enough to harden KVM itself.
 
-Compare the exclusive rounded end against the rounded start, while
-explicitly preserving lend == -1 as the EOF sentinel. Perform the
-addition after converting to u64 so the largest inclusive end does not
-introduce a signed overflow in the comparison.
+The counter-argument is that _if_ there are other subsystems that are caching
+access_ok() checks, then those are probably the subsystems that are most likely
+to mess this up and thus would benefit the most from common hardening.
 
-Fixes: 5a7203947a1d ("mm: teach truncate_inode_pages_range() to handle non page aligned ranges")
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- mm/truncate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/mm/truncate.c b/mm/truncate.c
-index b58ba940be47..43c6cf99027f 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -919,7 +919,7 @@ void truncate_pagecache_range(struct inode *inode, loff_t lstart, loff_t lend)
- 	 * once (before truncating pagecache), and without "even_cows" flag:
- 	 * hole-punching should not remove private COWed pages from the hole.
- 	 */
--	if ((u64)unmap_end > (u64)unmap_start)
-+	if (lend == -1 || (u64)unmap_end + 1 > (u64)unmap_start)
- 		unmap_mapping_range(mapping, unmap_start,
- 				    1 + unmap_end - unmap_start, 0);
- 	truncate_inode_pages_range(mapping, lstart, lend);
--- 
-2.43.0
-
+> --- a/include/asm-generic/access_ok.h
+> +++ b/include/asm-generic/access_ok.h
+> @@ -33,6 +33,9 @@ static inline int __access_ok(const void __user *ptr, unsigned long size)
+>         unsigned long limit = TASK_SIZE_MAX;
+>         unsigned long addr = (unsigned long)ptr;
+>  
+> +       if (WARN_ONCE(!current->mm))
+> +               return false;
+> +
+>         if (IS_ENABLED(CONFIG_ALTERNATE_USER_ADDRESS_SPACE) ||
+>             !IS_ENABLED(CONFIG_MMU))
+>                 return true;
+> 
+> (plus the few extra copies of access_ok()/__access_ok())
+> 
+> As a quick fix I would probably start with just the 'if (!mm) return false'
+> bit here to get something merged while we still discuss the other
+> details.
