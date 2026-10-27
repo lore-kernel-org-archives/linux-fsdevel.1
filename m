@@ -1,102 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.54
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793123600;
-	b=kYzyOX5p56wceLiMnhuoUyHIsY0Y+JGnKH9U9r2WlrLtEmjA4XBEa1eLDlYehYEu8Jm9
-	 3VV4A8AyUhcWxrpcVxPmaDOsat1Q2HuAXYLCHiHm660kJ1Ellkhh4cJ4Kee7tfMoOgdkC
-	 Q9vWC5ha3C5ALus7gnB3aLRRNvS7kHu13i5mkdjPOK+ewzHXHAQiP8S0kGj3/A2cU6PWS
-	 1t21gimLwHut36/hjWyOUEPwKh3fAEGuVsYu4HFKRhKRX5WhSN/IPxArRZ40a49Iw4XoC
-	 emG3VKgA5mc/Wb49WVOIoeh2hnRnkdzh5ETOHDjugauVhPQ0SqWdQijGwKZ4lSW0Rqg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793123600;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=eZ7BfEA5+mgPjgQ08MRW3gJSoX82BS/9Z3gx++ZKTBg=;
-	b=ZwCyrUfaJoQWux+V6kVSh0qSo3xqmBJgxtEM3S3Ml2dId8rHYkNSYrhXtfQyOZ+FxgN/
-	 ibjMShMzdTfdx/hIcvdfI8Ryz7ZFRsVByXX79NCNJ4ALpTPFoWM8l6O2VRYPMwT3CubrS
-	 YBcKqigJzv4ufnqkMT/DwkCs5yIDJkCWQfJS++EqurRVgl9Zd4m0gss0k0W9S+kRrW5Tg
-	 6IHHAZ1rDucKzUFRCpXce9uIeoxCrvrHOHGLMzNRCGNV27f4vo5FnUWE6+mOrjv6d8zcB
-	 +kN5FDp6pPMhw+deqYtWna7cf3FL+UB+8DUQu2DhY4++LuZbCxB1PzzIt/31fWN2/Zg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=inJR6ox6;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.54
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.139.74
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793124248;
+	b=RLVI0v8SQahuAlCgJKOmx6PPjCm5D0SurjCIoBTwfEKzFppW6zpCGJAjbRc8r3QHt9mO
+	 JcDMzkdghKF+SjfTqx7Qxah6up6KOy4RM/+hOSBjbOxemWKBeCy3ooIsF+08mhosl0uMv
+	 RXpe+/xd9JY0mRaOiq3l6KLga07v3DgY9R421MS/ho9DyJf1f33eIdjYcISQI4QRzX/6v
+	 2tgx27u29hDR83K3axxwWv3pLCSs9X54p6luTfsw/c1clI8pZP25GewMmknY+BVVSuagG
+	 ztKae+zLUYsP10AGbYAiNKpaPmHjPiK6Mt+VhhuSDcleo2cRHiNe1BGmmOsMosANHvA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793124248;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=CbwQln0osS5Ody02EmE3zfTJ+96bXVyWs9ItOG40Y20=;
+	b=GIl9HVHKyz0SOIbbEaiBl6lJGxpGGEhvJlIq91ruz0rQK4ClOBxjTSdiYV2Nv5ZzWUFw
+	 i1N4YUiWiDLTByacAUod1hU+0J918KQvzKA+sqhnPJ9t7VjiYBUDsLWqGitOfW3CAwQbn
+	 /2XJJiHTAZ+dgzAGGl36fd5KSUEqeW6zPlul7Y0hf8H/cNFhS7fGcetj3LFHBMWbQX413
+	 Q6+OVvUF/1PPLknCk2fbLEFxiffkMJ5b9cEmo+TK6PVQwaMVhT5rfB8Ew8eZFVk6BG2Ze
+	 nAu9mXwB8bxu97dtzCfLdMITM3CzCcXv5r1LxdzR/UGKHJgShX2ENWfIs0vViwSY0UQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=columbia.edu;
+	spf=pass smtp.mailfrom=columbia.edu;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=HWMW+LuC;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=MkOva+DP;
+	arc=none smtp.remote-ip=148.163.139.74
+Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF05E606A31D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 17:53:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF05E606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654E8606A326
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 18:04:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 654E8606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=inJR6ox6
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c38ac26cc5dso13487766b.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 10:53:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793123598; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WzCZ5yTDbUIl6DBH8Czf7hnVYGXrUi/froc7z9Nd+iYlGoIeuId45+5WM1qiWBhpSC
-         AXX90x+bKXHtL05e4f9C0dxK+nul7E4MdjH857vGSTpC2zoZX6MyW5g+0P2mkoeK2T7A
-         FhuVUI6TSlMb5U/USI5iiPvt+x5Q1wLvvPj359TSB1NMyLIILfEJmnDhhP2PY0+imMEf
-         MnuPxbxd+8r/z4hllxFiapTs6cbFVGRL7P9BYbLjFfILGp9BhVjX0QLeXUGUQg+0r+Nq
-         1YK9KzW7+XX+bIWA9WGzMb0IChU5Za/geLqH6+g7UPrYGnBz6RL+PLsvyeHTFHfmpb97
-         aFKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eZ7BfEA5+mgPjgQ08MRW3gJSoX82BS/9Z3gx++ZKTBg=;
-        fh=iABTt/Fo5i5egna0R1UCoaYiurocfft01lebv3PIAOA=;
-        b=SrDr4I0JoczinCfBQLjA7/ex2KGBg/ZwGFgeGnWBtVYtShMAy/IS8pPdRIFt14Fx2q
-         zYl4nBg9NiOmIg5bPK2cuF5ErOD+kRDp6hs9DBeROX/WE3qK85/H7Zo6aAn1UNHw0tQw
-         y/0M/zJq+eFIoQQxXu2LKlWmfhgJv4qdbDbObWmIp2d1hhBmo+YpSskSyO9JfOAdWE8M
-         +01YDmNHJplZuB2xCgtPvTKnGGh2+IRDVRC+X0vG6V07kxIke5TAF9qZp/YY8OZFSr3q
-         lH/oFsi744SabbYWlwXFT7Pf2rsmFDP547KRclHZjOa94+cWJ/ALF9UjqIso4WSv3Uoh
-         D5Cg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=HWMW+LuC;
+	dkim=pass (2048-bit key, unprotected) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=MkOva+DP
+Received: from pps.filterd (m0499198.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69RHhC9R1551973
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 14:04:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps01; bh=CbwQ
+	ln0osS5Ody02EmE3zfTJ+96bXVyWs9ItOG40Y20=; b=HWMW+LuCz6utW8S/VyIJ
+	rHuo4CHhRhfcBnkgT2it5oCdt4YIlLKc6jaoFTG6NBRm9OQx8/Gj8cgBC4Do0iWk
+	mAEHeGX4ZEQrgjmx5BHUqwprw2uw/fxZQF3p+JzRElcb76yXcKt4GQvOnFFzOajv
+	msygurYhvvDfEXZY1Y1OFRcS/MQ3DzxL1Zn7WjVKu/boL2iCknUIbvotLMEHVOFn
+	8z9EcTAubn7A/+OQElkqnT0CU8euYHGKsuMyJovfBE9MpfZ4akkMjYw62aGpHRD7
+	9NYu/mzCxLPH6caGTchbWrsAFJNSQvq09+77FlRkr73QTb2lnAcZCq5a3XUaooGA
+	UQ==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4hjx1sj4us-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 14:04:03 -0400 (EDT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-91c7bf2d734so1593996d6.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 11:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793123598; x=1793728398; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eZ7BfEA5+mgPjgQ08MRW3gJSoX82BS/9Z3gx++ZKTBg=;
-        b=inJR6ox6aQPgzkJ0wZYiPBugaLW1/kUDoRUxznaXNPrxE2Wn3DkQl3afONPaEwO9sl
-         vnrt6FP9OFfRf9KWlwZNng3ZlaCrfp3bQxPXGc+Gx+AORrKLJ8WZpN9m6kJEM6IAqHPq
-         Jk4iMXPxJgkZqxRsoYIxQcD6CPbdcJbwTT1mEJs9Oh6VfooqjmJi5DvsYqRTbZ70S79m
-         W2gdT7rvplj4k08tnzQQgxgOTLo5uqZ4a0mScYBLYVaYMXTVeZPwvd3azNIWeu6/sXO8
-         zyeS5P1gD5N0vXZJTHB1IRGypOyTZEZWjLyDPXDDqsHxY4MhwV784zCuBQDBJ99Srvxy
-         lKbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793123598; x=1793728398;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=columbia.edu; s=lionmail; t=1793124242; x=1793729042; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=eZ7BfEA5+mgPjgQ08MRW3gJSoX82BS/9Z3gx++ZKTBg=;
-        b=EUupC/odSqq3ToMMH5kHxyWuU0BWtJTjeSpZCuXK5MWXhS6k+vaRDgKGaTkRiO+twv
-         h28s5tVIFcO+t5KKLr+Uz66IjdKwKSJoZDi/2CxLIBTuJRC2sGW5do3ppduEEbKgL9oA
-         8Ap86COOqayAROf5jZKce4brvZaB48VmbQFfcSl8v9t3hc/zj5l5nGkKV5Is4tx478w6
-         vcB4P6YPVkMZrTMNciY+JCfJGYQSbl5m+awgwRCxA/6IXuNmmA7oDde2+5OMdXicQAYn
-         MhGPQSEujl5AfYK2wEdNy7Oog2npisfUzby7bOpOoBD/4PoQO84NZQb36N+mFtREkejd
-         4nSg==
-X-Forwarded-Encrypted: i=1; AKwUvByHzlYLPxGBlR5lCA4y8VFsUXxSGxkWpqLwn3suS1X1JsKY+FJKjyAdMCdnUK81zQBcgQ5fyn4O+FkgQA/O@vger.kernel.org
-X-Gm-Message-State: AFq9FYKuUS6aCzZWRiTeA/faSj2YzMDFUsU/uO1gA0ai+UvHfME7nP3C
-	0q5qX0fIFEf7/is1wvtsbZPtDAu/7HGoTSSXdG/JDa1xzg8SDu98552wcXIA+lGCzWAR0ypwCRZ
-	LtLqL6OLBjEhL7biUvmDJ1tswXYVAEsh9HqBF+vQs
-X-Gm-Gg: AYBFou2tbthk+aaqlAhMyrm6UWKlFM6n0kNUd8RsGnawyi1sUrZIx/ZlSACNJ7Jarjj
-	8tDvOQUFBPLzftKcXFqZwm6wHQprLOKNbS9LjMDx8cNfoAhSPb9wQME2LYW4FLu1V/pyfjEOckg
-	TDdYnWzD1Kh9JPn+HJpMmzxzxJ0Ypec0U8QAGr3BvswV87yUXxRacDeysxJenmNGH2UV+2mX2Hq
-	eT2To0KWRn/ohaKHof5GzJmHen2MdYKR9wCeshNFOi7/yLainm6DTY6gXY+deMJ1hWsDmXgGFG1
-	FdW8dkVVvP7Tf5TZphTYCJHTVi64yhpjr41LB1BwG13oB27iu+kC01Bt2xq83bBPf3DVBgDq6pG
-	D/Aoi4pj3BRGN2EoP7OtHs27N6RObkdQ9x62zIKAL2E474ZQkdB0SKC6OUy4lyxiNSFomgqLxcH
-	ghXeNw0Ha1Jn02K3y4mp4gVMqMrQQ32aWhpL5Jm5BS73ZI+FNtoRd4uKavbuT4lrnv5PNaQaFYy
-	/mcwuhdawH0Ug==
-X-Received: by 2002:a17:906:dc8e:b0:c31:e958:408c with SMTP id
- a640c23a62f3a-c46bde8b464mr1159692166b.38.1793123597614; Tue, 27 Oct 2026
- 10:53:17 -0700 (PDT)
+        bh=CbwQln0osS5Ody02EmE3zfTJ+96bXVyWs9ItOG40Y20=;
+        b=MkOva+DPKFBicQaIHSSly2JfoMAicHAbd7jFFZ2jAPfMZSSAxwOfcC3CPShO84ijPq
+         ZECGGl73Kz7/09FPj4HtrAatZ8+T45RQt+M4cGZiieC2QJbgruC3B154GGVXb7OAzN+0
+         2UhtrH2K//SHtIBzgQwch7+1xSTuSdd3XBXrSOFftUuUdhA49+eAWmetIwHQ/lmQkNU1
+         eDgkpiPJIa7m+mdnAJUQCGKhtaBLbGtQoh5/+RjGZf2sev+2X2y5UVI9n1Ip2H0WcVvt
+         DLiMDqjdZzodxrWp70M2mYAtjmKnXIkOjZKPebpETepX3BO/HR7B5Mv3SiADMWH9paOp
+         KEYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793124242; x=1793729042;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CbwQln0osS5Ody02EmE3zfTJ+96bXVyWs9ItOG40Y20=;
+        b=Hks6Th7coLrutWcPgg87C29W9WVJ6/3sututshB+9mvTm3i+qNB4roycr9q/Uu7Z3k
+         xtuz/uw35d6sRAyP5uCPfJHKQfbFAtlqIEIj1fWxL1pBbOKOYWGeomsh4i9q8gvxKFnC
+         IQbwzVZAvwnr5VesUc1NNkD4LN7JvmqZv7eZFK5UyE3cO9PBRm9MM+Mtqgkf1WaElGSv
+         rFfEDqOGsuDt3014BXsbjVspXYmGUnpQ+TapWARfHxA8EZzUM+hjIPHc3aR91C4CkC3H
+         BAkKivg3fXdbh36/vknwGhJyyEjXw+S5m2VofAf4r4cSBOKVqzX+mGezdLMj58NcYm73
+         nRhg==
+X-Forwarded-Encrypted: i=1; AKwUvBy2UabgI6XxMxFufJP2CTYCdiWNHGdDefpwxwddPJ2xvf9s+qfJjPGy2txnoQ33Jxst4xG3Kn0I3E7z2xgt@vger.kernel.org
+X-Gm-Message-State: AFq9FYK/c7yTimCuECg6212ivHgSnjdaybQR9juoYyRlc4Wq8ublgNG6
+	ywLniZWhVvAldUyZuFjjtbOrIl98JU997buxZuhBFmlvM8hWMV3VkSbOwOhqtGGwQi1Mq1AuBvO
+	0TUW2HAb7JPcU9BZnXgZFMEpNJ02C0fKE969OKDzujkC6UFMsch5Vs/rDAL9XuQU=
+X-Gm-Gg: AYBFou3+X4IBFjMDnWQENVx727/hcEMn+nuqcXQ6pfT20ZjjsdgAq8G0iUrJkx+fyad
+	DvYkLAmwQzKOizih7DHVlC7MqFbEI+3Ck9pvryXfsPC0BNYQGt1hZ42TslQyjntyaEj50l7fzZa
+	Hk45pcuzbFkFxXeAnGWRm4qFbLkjHxa3GZK0ZLZSj3S3pKAzGClafyEOVUU53nVtRn2y8fEmNLP
+	yuo+ZxWAjLTdVhfXSecwNXBc/MimajqGkzm7B+O6LSN1GoWn/1t0dSEo45Ude53wR0nnTequ882
+	FlX8XrGXRbvCDnaoTr3AtMZHl4N4WIbl99ejo9QIeujvz40sWBlN5viUIKb9tvDIDFmmbQT+9E/
+	uHndtg7wNSqZxGTFdf8YBqfXEv6pRDQmADDWw8wcW1NB+AyOAMrZMKMwaXPUdnD8llaM40rsCqf
+	oOEYScxJvdIBZIhWO8fXSnRYeWk4yzzyWPqSRoWucmY3B8zoK4M/CzvrZc2Axpb0Oy9MCpBe0SS
+	mhSX7S4X6Ntiwc=
+X-Received: by 2002:a05:620a:2a06:b0:93e:c12c:9dd2 with SMTP id af79cd13be357-940ef9ed966mr1547501085a.82.1793124242423;
+        Tue, 27 Oct 2026 11:04:02 -0700 (PDT)
+X-Received: by 2002:a05:620a:2a06:b0:93e:c12c:9dd2 with SMTP id af79cd13be357-940ef9ed966mr1547486985a.82.1793124241704;
+        Tue, 27 Oct 2026 11:04:01 -0700 (PDT)
+Received: from [10.206.51.58] ([129.236.225.183])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-940f0a94a5csm1037624685a.41.2026.10.27.11.03.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2026 11:04:00 -0700 (PDT)
+Message-ID: <208738b1-35df-458c-9955-e2e5318fd2c7@columbia.edu>
+Date: Tue, 27 Oct 2026 14:03:58 -0400
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,39 +117,115 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026215226.3713941-1-jthoughton@google.com>
- <20261026215226.3713941-2-jthoughton@google.com> <1ee97e9e-3658-41a7-a879-348f51ab547d@kernel.dk>
-In-Reply-To: <1ee97e9e-3658-41a7-a879-348f51ab547d@kernel.dk>
-From: James Houghton <jthoughton@google.com>
-Date: Tue, 27 Oct 2026 10:52:40 -0700
-X-Gm-Features: AclHuK_7gnb7g4GjAy_SA5zcAxXhabVZixR-oCAtO-qS-tkfEqOEG_LlV9pvyY0
-Message-ID: <CADrL8HVgOYb1hzWDJzm4sCrEAR7PL1xBv-1zTGebTusPoDsGXQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 01/10] scsi: bsg: Don't copy sense data to user memory
- when canceled
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jim Mattson <jmattson@google.com>, Pavel Begunkov <asml.silence@gmail.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, David Sterba <dsterba@suse.com>, Chris Mason <mason@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, io-uring@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-btrfs@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/46] mm/huge_memory: fix list corruption when
+ deferred_split_scan() races with deferred_split_folio()
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>, Qi Zheng <qi.zheng@linux.dev>,
+        Shakeel Butt <shakeel.butt@linux.dev>,
+        Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>,
+        Barry Song <baohua@kernel.org>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+        Baoquan He <baoquan.he@linux.dev>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        "Liam R. Howlett" <liam@infradead.org>,
+        Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+        Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+        Hugh Dickins <hughd@google.com>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>,
+        Pratyush Yadav <pratyush@kernel.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
+        Lance Yang <lance.yang@linux.dev>, Rik van Riel <riel@surriel.com>,
+        Harry Yoo <harry@kernel.org>, Alistair Popple <apopple@nvidia.com>,
+        Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+        Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>,
+        Kiryl Shutsemau <kas@kernel.org>,
+        Matthew Brost <matthew.brost@intel.com>,
+        John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+        Will Deacon <will@kernel.org>,
+        "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+        Nick Piggin
+ <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>,
+        Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+        Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>,
+        Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>,
+        Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
+        Gregory Price <gourry@gourry.net>,
+        Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+        Ying Huang <ying.huang@linux.alibaba.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-cxl@vger.kernel.org, stable@vger.kernel.org,
+        Josef Bacik <josef@toxicpanda.com>
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+ <20261027-fixes_core-v1-10-6f74bec9a5bb@kernel.org>
+ <auCw2-_yjh1_RjiO@cmpxchg.org>
+ <5d431bf7-8813-4e2c-a40d-b45d4ff39a5b@kernel.org>
+Content-Language: en-US
+From: Mani Tofigh <mt4022@columbia.edu>
+In-Reply-To: <5d431bf7-8813-4e2c-a40d-b45d4ff39a5b@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI3MDA3MSBTYWx0ZWRfX2LJ0nvxkc9s2
+ Ve09+euF9pn98dOCxrRxFvqR/M/qrKh5h1+9eTTCygR2Omd8B4eUog9K9Me++9Qu1hP5/JFJddi
+ 3AZxmoUXWElY1wnX7tLxMns8u9uu2tJsAScIrggI3eycX8+7GKn6
+X-Authority-Analysis: v=2.4 cv=AM1GsprT c=1 sm=1 tr=0 ts=6ae0e793 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=TdXXog4ttPu8yHJGq4T0ug==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=BpGzv1V74M3SfeTrGa8v:22
+ a=VwQbUJbxAAAA:8 a=pJWPUViXIfCbsMganCcA:9 a=QEXdDO2ut3YA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22 a=zY0JdQc1-4EAyPf5TuXT:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDA3MSBTYWx0ZWRfX7K5Qz/U1wg4R
+ kV9aQAfnK+3T4Rh3ai9SXamfNk8iqhLyRIPUWUapq6BbYjc+o6vuwpNx7B+/6RywfPKlCjA6jNR
+ Y9rCaJlxP+3OHYFragAUJKpwkx4Zncbe+BtZMbyMuADgrsn7L8JL7ZNsM/qjUDeE33G5etj242q
+ nSZ09c6QYRLX+i1mIG2O4qo8GSF8CFZ7HdLHQ14dGsH3ntOiGMucaJ5Tzog9oGvhoUgYFkPZjAC
+ MJbHFkZ2TtTjYDCEza4KXCsDUNQcRsFaKlZuBFYIAPUe3lqwcJjTrbiMaR2HswQ/pRSfT9vRDUY
+ 6QebFMVr1SK+ll+1prnUscipfBl4i2MQqC9Caetq28RX3eh7rm6KH/gBfCZxL/ebTU/DyLIpq6g
+ Zc8GoYnxQnHBfL2ery7TdfV+d5OSd2qEG50jsXG1RK08rZKcs+5Pa2FLz3QUpK7FXK36XcePXn0
+ 5mbHuL9KMP06y9bIvCQ==
+X-Proofpoint-ORIG-GUID: nGreWo0w7I720DLq4CArXscPtNT5AVn1
+X-Proofpoint-GUID: nGreWo0w7I720DLq4CArXscPtNT5AVn1
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11948
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=10 adultscore=0 lowpriorityscore=10 suspectscore=0
+ malwarescore=0 priorityscore=1501 clxscore=1011 spamscore=0 phishscore=0
+ bulkscore=10 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610270071
 
-On Mon, Oct 26, 2026 at 7:41=E2=80=AFPM Jens Axboe <axboe@kernel.dk> wrote:
->
-> Reviewed-by: Jens Axboe <axboe@kernel.dk>
 
-Thanks, Jens!
+
+On 10/27/26 11:15 AM, David Hildenbrand (Arm) wrote:
+> While I have your attention: This variant works, a different proposal used
+> 
+> list_del_init_careful()
+> 
+> instead. However, that is documented to require list_empty_careful().
+> 
+> Do you think it's worth looking into?
+> 
+> 
+> https://lore.kernel.org/all/20261026-thpsplit-careful-v1-1-d357d70fd6f4@columbia.edu/
+
+In this case the careful variant is fine without
+list_empty_careful() since it writes ->prev first
+and then ->next with smp_store_release(), and
+__list_lru_add() only writes to the entry after it
+sees -> next == entry so it can't race with the ->prev
+write anymore.
+
+But your version also covers the PG_partially_mapped
+race your comment mentions, which mine doesn't, so
+it's the more complete fix anyway.
+
+Thanks,
+Mani
+
