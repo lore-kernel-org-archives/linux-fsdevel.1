@@ -1,100 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793081301;
-	b=2+YbMowJsXCGp7VavLFSpW3OTZ1IsG4jQNliptKPTRF0I0FY8yFM3SkGhZrDAETRZjbI
-	 JHSBSUwjNqadO4yP81TWQSdHPn/hB0ibU9UQIpvFLhGuDBiLbF1OjxZBYdmWXrGv87Ohk
-	 qDBwaqm/BzWy7w2U5U1LgzvtGNaoVfgz3ccaZ1kDe9k9p8bm2M2/k21hJRDqJ6G7H0kPQ
-	 G+hvFK6umG3nq5G16v5wDQqozyLgcctLRns3lH5hPBOrKzeWC5lvCEWBxo51ODZGwCwDb
-	 4mIfiiYB82IXPLGXGYR6GVQD968y0CG6ZwaR4J5FWdqD4/v1JlqYbOjynCzOWzv+vdw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793081301;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.180
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793084275;
+	b=0qwDLgx9lJF2PuIBOlNXRL3WoBmxFdtguCpNgRB1RX9TBD8Rrh0KQuFBughQT3mkRB9m
+	 mRzp7R4q+IF/qXL8LEmO+p4FStyhXMqUZWTqv9VL94AtZPkBR4EpuCHglZXyg+yxxcj3J
+	 6bpJ1fHPB4JKm5oG/pzaFLgSR6f83fwKvpCiuMORLsYjpWYC/0UlXadIT7lVDWvkQY0Bo
+	 hnuWKpCR2i5rtR+HKilmftxBNqqltRYz12/8+U3Qvak6nKH1b0lVPAqV71lW+ohL9hp3/
+	 7ImVKp2NnShhoXT2ARDP8thfJhxp/0zf5otbczaUxo/LDWJF0eDFRQa5Sfm3O3dcn1A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793084275;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=IgVNByFGNRaDuTcdCs60CTVgTyCqbZsDVgz3gl4WIHU=;
-	b=oT3Z+yC+XeIURQhucaQVIeiEnOmLiaxDga050r9eibk4INJDkBFsJs/ryrXXUx6vomTN
-	 qJVQYcnxIXa44s0TrMYy7+k+NAyF/httzWGTgKQ8LKCB8jjOkCmR00l+I2H+TDxAGJhBv
-	 52HDc9W+VQfQAT/TNLbjjcKfyha73HNpCATlJmYPByIya0shGVdt57yQvlJpxoLttywU1
-	 WIproHXdD3rsN1OrQ3tLgxdCZIVIVlogyyDOh3EvYMWyImxqKEGGMxwxES8EQhRpKjgzf
-	 YGRi2ea6lRWjcCweKvhstvOwPQ8NilmKCkyqC9I4MsuK9LsknC3Du9IK3FB/CzWfoSw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Sender:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding;
+	bh=rFHNeMzU6lF6SlEzmc33S/YQH+LNSV+pccbe3Fm4Sbo=;
+	b=UDNkYQf4hJeNlAnQ1pqKqPfYGB4hpVRKQIC4u0B84G8C+ttOn2snbXvO9VhJuS4Bcf/U
+	 2lltWcYLQUSQmwPhgsPlM3tCrDIdFgjqO+uCoT1qUksybY1TWQmq5ngemhJNf8poZZHyh
+	 A/Lk+lrFRAyd2O1ZwUcpunwPL8E0E270V7ua8vfnzbIQyzvizPKQ925RHuaSsdPi9OK/E
+	 WnsW3V0hmac72lAexdajGWgsTYO/duXyHPi/Sn8Ex7s+R6fjilmwIthzCHSfYW341IhOE
+	 xhZq/iuvLdF/wC+0dTYzxuHw+UzqgSOS6PgyNklUHnVr7azax/NOcTFM/OWvRxdoOVw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=spSJsJOD;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.44
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=osh6DZAt;
+	arc=none smtp.remote-ip=209.85.210.180
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5F9606A322
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 06:08:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E5F9606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BE0606A31B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 06:57:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1BE0606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=spSJsJOD
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-677bc4704cbso3666183d50.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 23:08:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793081300; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BFstn6sJtAdaCULBD5X1hb295akqj/ESQB58WM76I3KijM8spe73m5RWHlwXfOcXaG
-         6vJyZ/DuhpMAzs71HWUPj2QIw24YpQ8DT7sUEEjvAk97cnLzqfU7Wsy7MtawK1Z9IMXF
-         UFSqAAuUd81s619H0gOs3N9Tr0P1QzvhvOQluBZ5Nr2w3SyS4tRS0ZZgc7fbVWqcB7rr
-         IhtzJc4amIxqchAeFg/WvRchDZKp3u3BfgpoNwO73P02zIiDLVv0BS5PeRwNo2j4AAXZ
-         fLSf6MFxY3jR5E0FVUbqqqTECyvf2AwOozugDNA6/JUp3tzgCkorw8G02WtB3N3zyToD
-         qfzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IgVNByFGNRaDuTcdCs60CTVgTyCqbZsDVgz3gl4WIHU=;
-        fh=kgnGd67otD6WyyScellJ7CXI3E3N25g53Wa5kIWgpVU=;
-        b=ZKUoO2zNWhnQ6izufjsINNkQYHbWkPRqPHhIUc+CUhZq6tqe/pm+kgQ30CsND4xso1
-         M5Z2LtJ4c2bX6k+gVqAR20Ttvw684TlMMuSGCHZjiCZAqLr07Vvf3ezXWZ0Ac4WC2yxv
-         bjKP8qpRfAz2CMZ1qZZlJr7Oo1GZWsPdWBxjXAteBO3fM/1Je9sL5lS1CtYpGIaggTp8
-         sL66JhDxeyW2ipd234CcPl+QpW547ypfmomQjGPn/00/7KS7sFsd2oDxyXkjB3ewTCRp
-         RLsIrw/YWCp9IMjo/JiDQxQfK971mKuvFpkMa4ZAn+vJld1f7mk/cm1nX56NKvcEgF5T
-         mzUQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=osh6DZAt
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-886e61fa30fso1558496b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 23:57:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793081300; x=1793686100; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=IgVNByFGNRaDuTcdCs60CTVgTyCqbZsDVgz3gl4WIHU=;
-        b=spSJsJODQApZkYTCD7i5i5bfJ0DnEh9cMjH6hMje7yLZpdTQ+zgch04XefdBMJ+qIJ
-         8DBhXgDFFtI+GJRKpdnb9vu4ptgrIIXmeBqnIR1ZqQNAKnQ6ZT+ARmiWnDhHcCcfmZ1Y
-         CROR1E0/DN8PgTxIu21n9pQrpoTenqZB096m1bTuKTkwycWyQzPs85tpIFsehJq9wCAL
-         oRCdaEMprZ8QVpcoVxZRnU0Ef9CwfX5Z160xw2RbgA0W28l1FQURvvFYtbauiIrw8plA
-         1BsZd0yeBBLJJrDmNS27KNNjPe7qzYFFiGltYEpo4h5WiLdJPjk3WIlzOIi9pkyrv5L9
-         B4TA==
+        d=gmail.com; s=20251104; t=1793084274; x=1793689074; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rFHNeMzU6lF6SlEzmc33S/YQH+LNSV+pccbe3Fm4Sbo=;
+        b=osh6DZAtY5ZPyKVdvOzLRkH7CCEQ1LMa+ylxmfgnQwqjziR3OOm+yHCcP3ccSPZaJz
+         MhFZzOBev23Se6ujBpIfJT4J1j+y1bjPZPTZ0L/boEc9JKKt0vN5vEpPq7IkDIo9xJ6c
+         jmRyMwXESzgzgj0Y746s0zkGlC4fQS5VGlzcE0pz8mNOU9GibLBadTSHuh9xlfT61olN
+         BarqjRyY3RjJVlD8VAiNSGxLJwj5fRrtfBTDrlupnMOAytV4Ea5hpdTgTcTgdZCv5viv
+         RXzav5V85yGsqvVaY+pW1ksA9hAXIy+WZbAV3uOy5KNpaGbIItcWKbpt7RH1j7/YX7Yw
+         kX2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793081300; x=1793686100;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1793084274; x=1793689074;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=IgVNByFGNRaDuTcdCs60CTVgTyCqbZsDVgz3gl4WIHU=;
-        b=tr96Dw7BSPyax758ezYLI2UqZ7sD2gyYwR2PXbUUtCvslEao+XZf5nGzv3bKmIQhkX
-         /y64DXruY8AqY7dOqq+XZSvIpAMwrWscQA+8L/QvFiq0m2q58wqWmEdPrNpKP5qTGSLI
-         unuGx9WBiEgfBEr1q3bQjWepc6UBX6wo6NU0T0eB/mQHNb0xPP7b1f/Sa7JGjwpXJdSp
-         ojiM4q7ox7QIDUStQFnzVE2k/d7KmCQk+iQGwvTfXpAJijDtUcAI9UqjiI9r2EuNkD02
-         1WQi7BkaEc1c3cg+lk58SVIvXqNK+uA40yXyR2EcoZGjeFynWySHII/nknIOp4N2aw2D
-         98UQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxVrsg/6yPVZryVWRqyiBD/V+B/9iXqXYmZa3tGv+URFzz8NcMJZfDyfhjfD+7Fzb9E5eVYw88ZTkG6Hy2I@vger.kernel.org
-X-Gm-Message-State: AFq9FYK5CaR6coWpc6tq4fsjSYpNm77kCREWScihADlNyWBLlKC2Bn5t
-	ZTX9qwGOWkYgf5Sp0jtSaNvC4fO1uRkA/JaN6PW0+T99xQW6js5BspeZ9G7YKH8fgwr+EqK+p47
-	/5Lb92t7Sqws2e59dT9sniVM0XKpiuHvCbsE2McF/fg==
-X-Gm-Gg: AYBFou2WiwJSIJpz3RVTrrvNDvQpuJwSzD1bFt8oX8B2b3Q9gRzeoyMQMIPM7nJaKfF
-	ievSBvD2FHNk58uzoLiKnugOm8L5Y85cxKg2Yb89IKLYntzawmOOJ6BbU7+/t5Suc2U/bowuEHX
-	n360dGtEXitixE8t4g7jgWSOQow/bHy/NrIEiYZHrIi4txnSUyzpudROHFvzpOTiBOTyKcuIOq7
-	H6rf7PYGeV3ujOPzF5CoMQ/XhgZNo+Cv5fPdOHjG48JEdb0yAElhcwPb7pxb5NPE17GJjQpJDNo
-	BTEto+SfGOJEBUyu+8gzlxZhAFa6jfU/TtopaUuQu4JBQpstbC7tmoyRowv4NVhcVr+653YkB4a
-	ztpjmZoCWFlUl7tzmvMgQq8gg6cbrAUTFNfZZhA==
-X-Received: by 2002:a05:690e:1182:b0:673:e272:f3f8 with SMTP id
- 956f58d0204a3-67a4525bb12mr4710546d50.20.1793081300158; Mon, 26 Oct 2026
- 23:08:20 -0700 (PDT)
+        bh=rFHNeMzU6lF6SlEzmc33S/YQH+LNSV+pccbe3Fm4Sbo=;
+        b=BO8/568UtCRyom7rHhUnBvPB06FGnRkpQvlGNKAsTrGHUXJ17PyrxpCWhVcVE/Ka5T
+         0FOzHi7RUasTQhBR82srkH6P1DfQ/T69AQZAEyx/+UELHD8W5vhI/PGJRfQKpuTHAtJ4
+         fwjDKs27rhTY4MlH6Jp4ZzkvwvUFrSeLB/AZMb2f5P3rPoNf6bPlpmdFKQRL9nZkHITJ
+         WZxFONeWm5ZmdgUgC4VocBsq5DsFTzwQIvrGaCgvg2qicz2Hk4YKtsaFboB8kHqhwXjz
+         6S69R/Usygjz80YW4MrBkkP2vNqu6yKzeTNclu0pLpjJGqkrknmWauACPRj1b0oljFAz
+         wR3g==
+X-Forwarded-Encrypted: i=1; AKwUvBxp7mdR+CHXkSVRpffzzUGHWV3VGLegbrjc/MheLwDHTeGvpjow/uKOQckdobep06nhuwJCZjvSSiUDpjLS@vger.kernel.org
+X-Gm-Message-State: AFq9FYJlE14Uh0Djul+hCaKp/gYxbMbK/DArZHIEa+PRfF3hBZNkQ/cC
+	huojnP7QKnQtTquV+VhdP4bFaO7UGV2nEtBwMRorvIONJ3Db/e7vJ9aX
+X-Gm-Gg: AYBFou0aNYFmau4grROJ1TP0KyCC4W6qMxhsdPefiao+D8wPUtzoWdRqL8OTbtoicf6
+	Uu3D8boNfVWml3tRQZxNd/1ySQAEGddG5r4sAZJ2+dQUwuWiKiOuRnO4TPUoITW/ZxSqT5uN57y
+	2SpCSKrqOSzbplvPYVNs1ZCjsTTskTBYCsStSjWMKsN2uSZwnLVToTAU/5w3kc8P8ASCeWZmZOL
+	qHhlB0aucle+qutii8rwNfi0GPffGUTmQ29CktUeC4GeRlRvUOjTQftyPJDUbpztkcApkyVByrb
+	MgKfUoz/i4IGQvYhXGVpMH5FgNynxqXxTBQutTDZr46HKK5y/gzs2wPG8elrdZlALnKO0dJDHuC
+	YUXnO0v4fB6xDSBbSYoLSJdVInkIjMDwKma8Tszc0dqSYGPymYN0G2qUxFHK7tNrCOuTxbXWrG1
+	VNmdNoGf0hMWS7V7As0nQPE2paDLYO6MnNB63pelmrOU6g9ywkXBg9cy+NZld2u66LqLZL8jPiJ
+	kmamrHIKaOH2RPqXIs/S+nmJHNST9jVmeQfdwQyhziId301uSJYmHXr9/gM85RLhvPFZhyuVnNk
+	QkdZ
+X-Received: by 2002:a05:6a20:a110:b0:3de:53c1:b627 with SMTP id adf61e73a8af0-3e7bfa975admr5738301637.43.1793084273864;
+        Mon, 26 Oct 2026 23:57:53 -0700 (PDT)
+Received: from localhost.localdomain ([101.44.96.6])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdac68402a1sm1398700a12.1.2026.10.26.23.57.48
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 26 Oct 2026 23:57:53 -0700 (PDT)
+Sender: Yilei Zheng <trilithzheng@gmail.com>
+From: Yilei Zheng <trilith.zheng@gmail.com>
+To: Muchun Song <songmuchun@bytedance.com>
+Cc: Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <djbw@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Pankaj Gupta <pankaj.gupta@amd.com>,
+	linux-mm@kvack.org,
+	nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Ira Weiny <iweiny@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Matthew Wilcox <willy@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Qi Zheng <qi.zheng@linux.dev>
+Subject: Re: [PATCH 3/4] mm: add shared read-only vmemmap support for FS-DAX
+Date: Tue, 27 Oct 2026 14:57:23 +0800
+Message-Id: <20261027065723.66564-1-trilith.zheng@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20260903122128.12264-4-songmuchun@bytedance.com>
+References: <20260903122128.12264-1-songmuchun@bytedance.com> <20260903122128.12264-4-songmuchun@bytedance.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,147 +119,196 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026211010.3733399-2-jack@suse.cz>
-In-Reply-To: <20261026211010.3733399-2-jack@suse.cz>
-From: Hongyu Jin <hongyu.jin.cn@gmail.com>
-Date: Tue, 27 Oct 2026 14:08:09 +0800
-X-Gm-Features: AclHuK8YurQqj69d_CJGfDGrMIIkR8fIROVkyQxV8XfOqlVeWnaY-PymUAzidow
-Message-ID: <CAMQnb4Nmynro93B1-xnM4pGoDk45-GEviHqDPXDf65GJaDn3pw@mail.gmail.com>
-Subject: Re: [PATCH] writeback: Avoid postponing periodic data writeback indefinitely
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Commit 846 a3351ddfe4a86eede4bb26a205c3f38ef84d3 problem need to be conside=
-red:
+Hi Muchun,
 
-We have run into an issue that a task gets stuck in
-balance_dirty_pages_ratelimited() when perform I/O stress testing.
-The reason we observed is that an I_DIRTY_PAGES inode with lots
-of dirty pages is in b_dirty_time list and standard background
-writeback cannot writeback the inode.
-After studing the relevant code, the following scenario may lead
-to the issue:
+I have been testing this series for microVMs that mount a read-only
+rootfs over virtio-pmem with FS-DAX. In this setup, most file data is
+accessed through read/write rather than mmap, so most PFNs never need
+private writable metadata. This optimization is very useful for
+reducing guest memory overhead and running more VMs on a host.
 
-task1                                   task2
------                                   -----
-fuse_flush
- write_inode_now // in b_dirty_time
-  writeback_single_inode
-    __writeback_single_inode
-                                  fuse_write_end
-                                   filemap_dirty_folio
-                                    __xa_set_mark:PAGECACHE_TAG_DIRTY
-     lock inode->i_lock
-     if mapping tagged PAGECACHE_TAG_DIRTY
-     inode->i_state |=3D I_DIRTY_PAGES
-     unlock inode->i_lock
-                                    __mark_inode_dirty:I_DIRTY_PAGES
-                                       lock inode->i_lock
-                                       -was dirty, inode stays in b_dirty_t=
-ime
-                                       unlock inode->i_lock
-
-    if(!(inode->i_state & I_DIRTY_All))
-      -not true,so nothing done
+While testing, I ran into two issues, both in patch 3, including a
+crash when initializing the shared template page during probe, and the
+128 MiB alignment check preventing our 2 MiB-aligned rootfs images from
+using the optimization, even though the check can be relaxed without
+changing the registration or teardown paths. I have included a patch
+for both at the end of this email.
 
 
-Jan Kara <jack@suse.cz> =E4=BA=8E2026=E5=B9=B410=E6=9C=8827=E6=97=A5=E5=91=
-=A8=E4=BA=8C 05:10=E5=86=99=E9=81=93=EF=BC=9A
->
-> Hongyu Jin has reported that f2fs periodically calls
-> sync_inode_metadata() for some inodes. The logic in
-> writeback_single_inode() thus periodically calls to redirty_tail() and
-> the inode's dirtied_when timestamp never gets old enough for the inode
-> to be eligible for periodic data writeback. Thus dirty data from it is
-> only ever written on explicit request (fsync(2), sync(2), unmount) or
-> on dirty limit pressure.
->
-> The redirty_tail() logic in writeback_single_inode() actually should not
-> be necessary. Since this function is used only for once-off writeback,
-> there's no need for any livelock protection among inodes and
-> writeback_single_inode() is only responsible for demoting inode to "less
-> dirty" list based on dirty bits cleared as a result of writeback. So
-> remove the redirty_tail() logic and add a comment explaining the rules.
->
-> Link: https://lore.kernel.org/all/20261023023707.263101-1-hongyu.jin@unis=
-oc.com
-> Reported-by: Hongyu Jin <hongyu.jin.cn@gmail.com>
-> Signed-off-by: Jan Kara <jack@suse.cz>
-> ---
->  fs/fs-writeback.c | 35 ++++++++++++++++++++++-------------
->  1 file changed, 22 insertions(+), 13 deletions(-)
->
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index 58a6403780aa..de86c9055ffb 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -1946,22 +1946,31 @@ static int writeback_single_inode(struct inode *i=
-node,
->          * as it can be finally deleted at this moment.
->          */
->         if (!(inode_state_read(inode) & I_FREEING)) {
-> +               enum inode_state_flags_enum istate =3D inode_state_read(i=
-node);
+First, regarding the shared template initialization in
+memmap_init_zone_device():
+
+> @@ -1133,6 +1134,15 @@ void __ref memmap_init_zone_device(struct zone *zone,
+>  	if (!nr_pages)
+>  		return;
+>  
+> +	if (pgmap_vmemmap_optimizable(pgmap)) {
+> +		struct page *page = page_address(pgmap->vmemmap_shared_page);
 > +
->                 /*
-> -                * If the inode is now fully clean, then it can be safely
-> -                * removed from its writeback list (if any). Otherwise th=
-e
-> -                * flusher threads are responsible for the writeback list=
-s.
-> +                * __mark_inode_dirty() is responsible for promoting inod=
-e to
-> +                * the proper list (b_attached -> b_dirty_time -> b_dirty=
-).
-> +                * Here we are responsible for demoting inode after some =
-dirty
-> +                * bits were cleared.
-> +                *
-> +                * If the inode is now fully clean, then it can be safely=
- moved
-> +                * to b_attached list. If the inode is dirty, we don't wa=
-nt to
-> +                * touch it - it should be already put to the dirty list =
-by
-> +                * __mark_inode_dirty() and we'd just unnecessarily clobb=
-er the
-> +                * dirtied_when stamp (which is particularly problematic =
-when
-> +                * we were called from sync_inode_metadata()). We also ca=
-nnot
-> +                * touch the dirty list association when I_SYNC_QUEUED is=
- set
-> +                * and flush worker is responsible for it. Otherwise move=
- the
-> +                * inode to b_dirty_time list as that's the only remainin=
-g
-> +                * possibility.
->                  */
-> -               if (!(inode_state_read(inode) & I_DIRTY_ALL))
-> +               if (!(istate & I_DIRTY_ALL))
->                         inode_cgwb_move_to_attached(inode, wb);
-> -               else if (!(inode_state_read(inode) & I_SYNC_QUEUED)) {
-> -                       if ((inode_state_read(inode) & I_DIRTY))
-> -                               redirty_tail_locked(inode, wb);
-> -                       else if (inode_state_read(inode) & I_DIRTY_TIME) =
-{
-> -                               inode->dirtied_when =3D jiffies;
-> -                               inode_io_list_move_locked(inode,
-> -                                                         wb,
-> -                                                         &wb->b_dirty_ti=
-me);
-> -                       }
-> +               else if (!(istate & I_SYNC_QUEUED) && !(istate & I_DIRTY)=
-) {
-> +                       WARN_ON_ONCE(!(istate & I_DIRTY_TIME));
-> +                       inode->dirtied_when =3D jiffies;
-> +                       inode_io_list_move_locked(inode, wb, &wb->b_dirty=
-_time);
->                 }
->         }
->
-> --
-> 2.51.0
->
+> +		for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
+> +			__init_zone_device_page(page + i, start_pfn + i,
+> +						ZONE_DEVICE, nid, pgmap);
+> +		goto pageblock_init;
+> +	}
+
+pgmap->vmemmap_shared_page is allocated from normal kernel memory
+(direct map). It is just a template buffer, not a real struct page
+inside the vmemmap space, so passing it to __init_zone_device_page()
+causes page_to_pfn(page) to compute an invalid, out-of-bounds PFN.
+
+I first hit this when backporting the series to a 6.6.117 guest kernel,
+where set_pageblock_migratetype() uses that invalid PFN and crashes
+during device probe.
+
+On your base commit (next-20260902), a normal boot does not crash
+because pageblock init was moved to the end of the function. However,
+set_page_count() still calls page_to_pfn(page) inside the page_ref_set
+tracepoint. Booting with CONFIG_DEBUG_PAGE_REF=y and
+trace_event=page_ref:page_ref_set triggers the same NULL pointer
+dereference during probe:
+
+  BUG: kernel NULL pointer dereference, address: 0000000000000008
+  #PF: supervisor read access in kernel mode
+  #PF: error_code(0x0000) - not-present page
+  Call Trace:
+   trace_event_raw_event_page_ref_set+0x4e/0xa0
+   __init_zone_device_page+0x98/0xd0
+   memmap_init_zone_device+0x1c3/0x2e0
+
+To fix this, I added init_fsdax_page_template() to initialize the
+template fields (ZONE_DEVICE links, Reserved flag, pgmap, and refcount/
+mapcount via atomic_set()) directly without calling page_to_pfn(). It
+also preserves the WANT_PAGE_VIRTUAL handling from __init_single_page(),
+since patch 1 enables this optimization on LoongArch where KFENCE
+selects WANT_PAGE_VIRTUAL. I only have x86-64 to test on, so please let
+me know if that part looks right to you.
+
+
+Second, regarding the alignment check in
+pgmap_vmemmap_shared_page_alloc():
+
+> The initial implementation is deliberately limited to a single
+> memory-block-aligned range. That is not a fundamental requirement, but keeps
+> the registration and teardown paths simple; support for multiple ranges or
+> less strict alignment can be added later.
+...
+> +	if (pgmap->nr_range != 1 ||
+> +	    !IS_ALIGNED(range->start | range_len(range), MIN_MEMORY_BLOCK_SIZE))
+> +		return 0;
+
+After fixing the crash above, the optimization still did not take
+effect for my 130 MiB test rootfs image. Because MIN_MEMORY_BLOCK_SIZE
+is 128 MiB on x86-64, the 130 MiB device failed this check and fell
+back to allocating all 520 vmemmap pages.
+
+In our microVM setup, rootfs images are sized to fit the filesystem and
+aligned to 2 MiB rather than 128 MiB. In fact, 2 MiB (SUBSECTION_SIZE)
+is already the native alignment for FS-DAX (via memremap_compat_align())
+and for ZONE_DEVICE vmemmap population and teardown. To keep those paths
+simple, we only need to make sure a shared vmemmap page never crosses a
+pgmap boundary, which 2 MiB alignment already guarantees on 4K-page
+kernels.
+
+So I relaxed the check from MIN_MEMORY_BLOCK_SIZE to SUBSECTION_SIZE.
+I also added an alignment check on (PAGE_SIZE / sizeof(struct page))
+PFNs, so the same boundary guarantee holds on large page kernels,
+where one vmemmap page covers more than 2 MiB of device memory (such
+as 16K/64K pages on LoongArch).
+
+
+With both changes applied on next-20260902 (QEMU x86-64), probing with
+CONFIG_DEBUG_PAGE_REF=y and trace_event=page_ref:page_ref_set works
+cleanly. The 130 MiB test device now uses one shared vmemmap backing
+page instead of 520 private pages, and DAX faults materialize private
+metadata on demand as expected. Mounting two 2 MiB-aligned virtio-pmem
+devices side by side also works properly, and unbinding/rebinding either
+device does not affect the other.
+
+If these changes look good to you, could you fold them into patch 3 for
+v2? (Note that the patch is against v1 and still uses the
+PGMAP_VMEMMAP_OPTIMIZATION flag.)
+
+I also noticed that next-20261023 has refactored
+memmap_init_zone_device() to use zone_device_page_init_from_template().
+The mm/mm_init.c change will need to be adapted when rebasing the
+series, while the mm/memremap.c change should remain applicable. I am
+happy to help retest v2.
+
+Signed-off-by: Yilei Zheng <trilith.zheng@gmail.com>
+---
+ mm/memremap.c |   10 +++++++++-
+ mm/mm_init.c  |   29 +++++++++++++++++++++++++++--
+ 2 files changed, 36 insertions(+), 3 deletions(-)
+
+diff --git a/mm/memremap.c b/mm/memremap.c
+index a53d09b..34d8d89 100644
+--- a/mm/memremap.c
++++ b/mm/memremap.c
+@@ -93,8 +93,16 @@ static int pgmap_vmemmap_shared_page_alloc(struct dev_pagemap *pgmap, int nid)
+ 	    !(pgmap->flags & PGMAP_VMEMMAP_OPTIMIZATION))
+ 		return 0;
+ 
++	/*
++	 * Subsections can be populated and removed independently, but a
++	 * shared vmemmap page must never span across different pgmaps
++	 * (which can exceed a subsection on large-page kernels). Check
++	 * both boundaries instead of requiring a full memory block.
++	 */
+ 	if (pgmap->nr_range != 1 ||
+-	    !IS_ALIGNED(range->start | range_len(range), MIN_MEMORY_BLOCK_SIZE))
++	    !IS_ALIGNED(range->start | range_len(range), SUBSECTION_SIZE) ||
++	    !IS_ALIGNED(PHYS_PFN(range->start | range_len(range)),
++			PAGE_SIZE / sizeof(struct page)))
+ 		return 0;
+ 
+ 	pgmap->vmemmap_shared_page = alloc_pages_node(nid, GFP_KERNEL, 0);
+diff --git a/mm/mm_init.c b/mm/mm_init.c
+index 7dd03b8..1c3e269 100644
+--- a/mm/mm_init.c
++++ b/mm/mm_init.c
+@@ -1030,6 +1030,31 @@ static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
+ 	}
+ }
+ 
++/*
++ * Initialize struct page slots in the shared backing page. Because this
++ * page is a direct-map template buffer rather than a real vmemmap entry,
++ * set_page_count() must not be used here as its tracepoint calls
++ * page_to_pfn(). Keep the initialized state in sync with
++ * __init_single_page() and __init_zone_device_page().
++ */
++static void __ref init_fsdax_page_template(struct page *page,
++					   unsigned long pfn, int nid,
++					   struct dev_pagemap *pgmap)
++{
++	mm_zero_struct_page(page);
++	set_page_links(page, ZONE_DEVICE, nid, pfn);
++#ifdef WANT_PAGE_VIRTUAL
++	if (!is_highmem_idx(ZONE_DEVICE))
++		set_page_address(page, __va(pfn << PAGE_SHIFT));
++#endif
++	atomic_set(&page->_refcount, 0);
++	atomic_set(&page->_mapcount, -1);
++	page_cpupid_reset_last(page);
++	page_kasan_tag_reset(page);
++	__SetPageReserved(page);
++	page_folio(page)->pgmap = pgmap;
++}
++
+ static void zone_device_page_init_from_template(struct page *page,
+ 		unsigned long pfn, struct page *template)
+ {
+@@ -1138,7 +1163,7 @@ void __ref memmap_init_zone_device(struct zone *zone,
+ 		struct page *page = page_address(pgmap->vmemmap_shared_page);
+ 
+ 		for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
+-			__init_zone_device_page(page + i, start_pfn + i,
+-						ZONE_DEVICE, nid, pgmap);
++			init_fsdax_page_template(page + i, start_pfn + i,
++						 nid, pgmap);
+ 		goto pageblock_init;
+ 	}
+-- 
+2.39.5
