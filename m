@@ -1,55 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793103013;
-	b=U0y251W+MEPQ7+Yv+tbFjUqwkyb6ZaeCbksmnYLhKeVfQMaOGPllr6QEO7jdniBxQ412
-	 wLFxsz8kj3DNOCHB/x10tuvC3fhIgvnVTmNxLTj0dWJIPAjdcgUZKtc0lOAFeCyzJdJGv
-	 X336NS+STd/3GTSjtoFlmrgfeBfcBv+mvO/7d2XK3kogsN7r0pZvDa+IiH80NM+yUOW8P
-	 nunHrL9GkUB6SEjtX0ALKRjPepaYETBjUcFIEtqFJT+/umRV+1qWvzuibYypUNwpT2ZwT
-	 KX2HTl5/PY2BT955mS3edQS18ls68Pu0iKJ238ScOaXzjkCc+sh8Vk1UEog2/WJczwQ==
+	t=1793103048;
+	b=wubY90THGFfV3h8y2IO+aavbp9lJVmbfAj20rWUsyHi0zNokqz4+ne/g0quO2Gl2gh+W
+	 R8vqmtK6nni5CeqQo8MyrSTojdMbtFBGwxFI0XrEcPM89GSr7y8i7/kA/5/OyI+c4gR58
+	 RujKvybucwIoFTcXqrf5V+sYbenGIUoQnGVrRHMsFRTs+o+Pe5CvjCVIqJLdCl9aonokM
+	 7TtXG7lTHjInndB0uL9tuMo69R2FkO+cKAYdi9pUBFnjGsN2yhxGmhVPP8KrdL7PhUOQm
+	 idPuNQ6f3jH+rs8X0A1nKERew/0P3UvuS9d1itr032pN8UNfWgcPjl/dcDWky303E8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793103013;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=IEWfHWQd96c0j/DRJsEIoAaaCiqiDtlc45DfqG2xmlY=;
-	b=z4ed7h/xi1MUU6QJ1ip/gBF+9GVfnIlK4VGpDGpbErvmyqTmOwd8Jdb1BM4F/2WAJhYX
-	 sCDm5AxoPbCmFtvkAPVxl75lvjMw5lma23qtxTvHlNUk0CMBGWen3BWndChkj4B2baRrw
-	 z/irFDttaPmHblSFRCXv/Hkd1pekGRHd3ix71RnLxmn9sPBSjcxRP4kuxLuvy+6uTy3/i
-	 x8rpna1XPU2DTkYY//ZjRcnr2Cw9nb4QMvuR7+fMU5MnBvMs+Zk4yDqG+P2BTqjpJlAF2
-	 ent9c94piWj2PRsppH4toce49Z2yhV9sI1vhRRjOet/ySF5GGSvgxwT7sd1l4Cbi5VA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793103048;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=1VQjrw1Euxi4TbH9hbPniZhHv8s080YQR+PmEDM4C/c=;
+	b=FJCpsBexPYutu2zF9MDsAxnVgn6nBcyKhHd4K/c0dhVxSvueYRMvPv9e+7zR4yQ7Tr9I
+	 a0L4qmKo1qada0EmLMFsJ3AByH4PxSDguFBBMJaJeCQgROppHIMCMyxl3z+eAskkjweGS
+	 mNYX27ym2fdnwiBviWhWFes6axsspo0qINvl98Qgzf3BvePUhZsP1+8F1pllLspGolnkl
+	 yBJAdRczmz7VpOqL4AAnqZkTa1qW/Mw2xj9Y4mKm1f+ZpaL0BsWppAbDYy2z1B+0WOZjS
+	 Bv+4tIZifWfCcufMU6g1+KFbC0qxFgOWRCyEIMvILHLiYDSgEuoNP2ZUi/W0GJUC7vg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FSYPp18y;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=hackers.camp;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.221.52
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94973606A333;
-	Tue, 27 Oct 2026 12:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FSYPp18y
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E35271F01828;
-	Tue, 27 Oct 2026 12:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793103013;
-	bh=IEWfHWQd96c0j/DRJsEIoAaaCiqiDtlc45DfqG2xmlY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FSYPp18yJrW0sUXkFUFP46foxc3InMmpObk3ZAG6yv4wNYT/nRR1uYFRiVe4xp0mx
-	 Bn0mwH6a9SGVlYU0amh0Nf8PCaJNSdgGeepgQwHwVmDf4AW8uAK9J7I9AaqvZ8RL3K
-	 4k1KX7mEdElWObdYrSDWeEu6gCWbUa2vw5ZnqgaBcp29aGwJdGGpzJWRU1gy1gsTMO
-	 Vhfgsdsz1yl8zv4MAaBHshXG8BQ+ZztW8r7TuI78ApftYxLEFzXQTE6TjQHZ03PBrn
-	 IsWT5LB+8zgzO9RhIxx9fk/L83gMjNwZ0wrbxxwOhN8WSBJBTamc/7ibAF2iAcQHOX
-	 ZuxD7Je+LuWCQ==
-Date: Tue, 27 Oct 2026 13:10:00 +0100
-From: Joel Granados <joel.granados@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Bradley Morgan <brads@mainlining.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Oleg Nesterov <oleg@redhat.com>, Yibo Tan <lhfff@tju.edu.cn>, 
-	Zhan Xusheng <zhanxusheng@xiaomi.com>, Kees Cook <kees@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL] sysctl changes for v7.4-rc1
-Message-ID: <auBcFQyaV727f4fm@hobbes>
-References: <atdn5xA9AZHAWNsM@hobbes>
- <CAHk-=wgjwxSCDQ7VhH5NgHSK2RG+9tDb=infbWbgQbWWHjVbow@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB20606A322
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 12:10:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBB20606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48b00aa033bso577456f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 05:10:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793103046; x=1793707846;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1VQjrw1Euxi4TbH9hbPniZhHv8s080YQR+PmEDM4C/c=;
+        b=lNeKSDbZoKlKxDV/MPJkaVAxsWp88gegh8qmtxupuTIA6FQ+HZ4P7m4WNAMoc1WxcH
+         Enr1kBo+JThpLAmbRltNQiej1Se7syU3geE3UfPdPS0ts1YAwHbSU7HZM5oQ3EcrwkxX
+         P2hbtChWAxTuTjFGD/WXnE/pFKxAV5HmUi0k5/8DLF96qFmoz5koeaQjMNwScKcWXq9X
+         eyBB3EDiHHGPsx9D4VqjB4FF9Hji7aP6Al6c5HvcYC+GsuQRt2GnjKrNareOjbsEYA/f
+         5sf8U68F176lK2WYO1blY/cRcxn1tm8O6u5s7Mf93BNhyTyNvei6n1L/esPbVanrZGlz
+         nPUg==
+X-Forwarded-Encrypted: i=1; AKwUvBx/1vMtIpoMX+PixTE7NH4J3CroFyEEfCOOuvWvOKduRDLCgZmZ/k3YduGE7hsQNpepxD0ud/OL1nw0PW5K@vger.kernel.org
+X-Gm-Message-State: AFq9FYKPBD+glhlTUvTx99BCGumvOOxFTuo4Cz39WgwAJCrHfyx7GMJY
+	WnFbXJGA/YX5/rstOOpMFfbw74CFIlqMZWx+8GM2XCoZDw8QrNA/3+BT
+X-Gm-Gg: AYBFou3hUkfvoR/tfPIC6pRwFeHFlYehbTrHYBqMkjfNURJgp8Swx/EzpXDg0IUxIcl
+	8F3DodRmDfh6uwUXCHmgrKh9jP8J4xcr5Lr5yz6xVmOMmAkWffgp8wQJ2vWXp5L8OTqeTce4Fgs
+	ipWPyfdw80iT3ikNRCHFUTO1WDBGrnrjkC83mDqH4UhWRIgzxzLZKhzTuOkN+RtI7bNALquJ2zo
+	lFPVsTRvj1XIySFGD1tvTyF0uExyytL2xQBGomEGK3YLVHEbU3RbLDDSNApWqrJAsCnj96n78kh
+	no++5VkijZmDozTLe3G7vZucuoIJzbknMUPbZiM6Z7J9LN0iEirWZRs65tMf3AOr5mNLWsq9wAP
+	HXHmATDFX+WWQBMsW087pGlUNqeI5nb/uokcTbtgRJD74nRPzO+1RKoV6HH5ASY81a1OzgFA90+
+	eDxxHqhkhHEoTbvTwTxQv0K2RtCuGTFbSZC/Nmo+hdaBUEBKD00G9XNSSMi2xydk5dFBb8DjCca
+	SQfwtVvTylmLSpu6/z/jE8D3LyPRo/Mqtofv99sI5EBD+rbaV4iRi3bp9JbMPxofOfOhsPyWJ+F
+	WxkgJ7YhmDXan72Jyw==
+X-Received: by 2002:a05:6000:2406:b0:48c:6611:82 with SMTP id ffacd0b85a97d-48e3eb2b637mr20593069f8f.1.1793103045646;
+        Tue, 27 Oct 2026 05:10:45 -0700 (PDT)
+Received: from spartian.home ([2a01:cb1c:76:ed00:602f:c5f4:d108:b925])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3eb8f387sm22239473f8f.4.2026.10.27.05.10.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2026 05:10:42 -0700 (PDT)
+From: Aurelien DESBRIERES <aurelien@hackers.camp>
+To: jack@suse.cz
+Cc: brauner@kernel.org,
+	willy@infradead.org,
+	viro@zeniv.linux.org.uk,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com,
+	aurelien.desbrieres@gmail.com
+Subject: Re: [syzbot ci] Re: buffer: warn when a buffer is attached to a second mmb
+Date: Tue, 27 Oct 2026 13:10:41 +0100
+Message-ID: <20261027121041.68485-1-aurelien@hackers.camp>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <6ae064e5.768774f5.3237ab.0015.GAE@google.com>
+References: <6ae064e5.768774f5.3237ab.0015.GAE@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,113 +88,38 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gmiqxqu2mtlmixbm"
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgjwxSCDQ7VhH5NgHSK2RG+9tDb=infbWbgQbWWHjVbow@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
+On Tue 27-10-26 01:46:29, syzbot ci wrote:
+> and found the following issues:
+> * WARNING in __ext4_handle_dirty_metadata
+> * WARNING in fat_add_entries
+> * WARNING in fat_alloc_new_dir
+> * WARNING in fat_remove_entries
 
---gmiqxqu2mtlmixbm
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [GIT PULL] sysctl changes for v7.4-rc1
-MIME-Version: 1.0
+Jan, thanks for the Reviewed-by. Before the patch goes anywhere,
+syzbot answers the question it left open, in two different ways.
 
-On Fri, Oct 23, 2026 at 09:44:01AM -1000, Linus Torvalds wrote:
-> On Tue, 20 Oct 2026 at 03:09, Joel Granados <joel.granados@kernel.org> wr=
-ote:
-> >
-> > * Disallow partial vector updates
-> >
-> >   Stage sysctl vector writes before updating. Removes the chance of lea=
-ving a
-> >   sysctl vector partially updated due to erroneous input. This is not a=
-n atomic
-> >   write; a concurrent reader can still see a partially updated vector.
->=20
-> I've pulled this, but this feels like it could easily break any number
-> of random scripts.
->=20
-> We used to just update until we hit an error, and I would not be AT
-> ALL surprised if there are scripts around that echo some
-> not-entirely-cleaned-up string to /proc/sys.
+The three fat hits are on crafted images (two of them print "Invalid
+FSINFO signature" first): directories whose clusters overlap, so the
+same buffer is one directory's and then another's. That is the
+multiply claimed block the cmpxchg comment is about, on-disk data the
+kernel does not control, and a WARN_ON there will be filed as a bug
+for every new image syzbot finds. If the assertion is to stay, it
+should not be a WARN on that path; a ratelimited pr_warn naming the
+device would say the same thing without a splat. I can send that as
+v2 if you prefer it.
 
-Writing fewer elements than the vector or junk after a complete vector
-behave exactly as before. What changes is only a write that already
-returned EINVAL.
+The ext4 hit is different. It is the nojournal branch of
+__ext4_handle_dirty_metadata(), reached from ext4_xattr_block_set() at
+the "reusing; refcount now=N" point: an xattr block that mbcache
+deduplicates between inodes, by design, marked dirty through the mmb
+of whichever inode reuses it. That is one buffer on several inodes'
+lists in turn, in ext4 without a journal, the shape the warning was
+written for, and the window in mmb_sync() applies to it. I have not
+reproduced it outside syzbot's repro and do not know ext4 well enough
+to say what the right fix is there (mark_buffer_dirty() alone for a
+block with h_refcount > 1, or a list of their own, as we did); that
+one is yours to judge.
 
->=20
-> Put another way: I do not understand why that commit claims that the
-> vector data should be unchanged just because the Nth element wasn't a
-> number.
-
-Not because the Nth elem is a number, but because the write fails.
-
-Two comments:
-1. The vector must remain unchanged on error for internal custom proc
-   handlers (like vm.lowmem_reserve_ratio & kernel.sem) to avoid missing
-   post-processing of a partially updated vector.
-
-2. The user space that will be affected are the ones that ignore the
-   EINVAL return value of the writable numeric sysctl vectors [1] (14: give
-   or take) and depend on a subset of it being updated.
-
-In retrospect I see that I missed clarifying the impact of the change. I
-made a note of it for next time.
-
->=20
-> What was the impetus for this change? Was there an actual problem it
-> fixes, or was it just a random decision to possibly break user space?
-
-This all came about from Jianlin Shi's fix for vm.lowmem_reserve_ratio
-[2]. An erroneous return from proc_dointvec_minmax meant that
-setup_per_zone_lowmem_reserve was not executed even when the some of
-sysctl_lowmem_reserve_ratio vector was changed. Andrew's take was that
-the handler should parse into a temporary, and that this is really a
-flaw in proc_dointvec_minmax(). So not just a random decision.
-
-I see 2 options:
-1. Leave this in and I'll address anything that bubbles up in the
-   7.4-rcX cycle. With the option of removing it if the impact to user
-   space is to big.
-
-2. We remove it before rc1. And make sure that all custom proc handlers
-   stage their vectors on write.
-
-Let me know what you prefer or if you have another option.
-
-Best
-
-Joel
-
-[1] kernel.{printk,acct,sem},
-    vm.lowmem_reserve_ratio,
-    net.ipv4.{tcp_rmem,tcp_wmem,tcp_mem,udp_mem},
-    net.sctp.{sctp_mem,sctp_rmem,sctp_wmem},
-    net.tipc.{tipc_rmem,sk_filter}
-    net.ipv4.vs.sync_threshold=20
-
-[2] https://lore.kernel.org/all/tencent_FFD4F4D728AAE8A8AE0AF277A59854A29A0=
-6@qq.com
-
-
---gmiqxqu2mtlmixbm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmrglIoACgkQupfNUreW
-QU983wv/Q/KXMjVcpbAuAsD5oG7qNhgamnEI0zspYtW2OFOc7QaUbpNPXFiPSIoO
-s+Z+d790pvlu1kUcJJqr8C68dtkQ6TQ4z0EF7EONj9Vd5JRnfD1QKmJMo4TUZRaL
-bZ8izP1TAGmKgFBshIhVBisXwHf54zLZafh98Dy7vrVYY8UrFST2pHhBZ+PPZIw7
-mfSbmVE/xgj0hh7G/m1x2z/YaMaWS5nC8oZGeFKExjlsYYzQQdFq25oW5fwg8+MF
-0f+3KIM7Rhd9lqt/FC4zwKL/ffu1KZcS15jNa9CWuXLx7RD1as0sOutk4DLJGyb3
-vj/wpaSunk/wbN6CQtjL1HFOx5iK96OfVxxXKDzKrp90kPEh/1D4Gmh/fAqHsgqz
-eijVrg9WzDfEwgUkckuVuWOLetweSBeViJsucC7qlRQHcHjQSp78bMgZoupB9VWN
-5I688vynZIRIrz6eZ+HBU7vsWwHdP336nc/j+YM8m96QUp931b+8DlUnHnD1OB1a
-M/r9uNLh
-=+Ps+
------END PGP SIGNATURE-----
-
---gmiqxqu2mtlmixbm--
+Aurelien
