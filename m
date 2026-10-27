@@ -1,58 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793123343;
-	b=f9pAZeUFm7fZa8r26VA2Jj9lFY8Qa9y6HX7VURDaijDgh1oena9JqiAtbxOORkSQW2Ve
-	 usOojEqlXSyFHknI5EiPQAU2TuLx+6sEgBxKGHbBiK0LYo8752rrngNY3NHT5kBl471XI
-	 BvOB23w1ItDeiV19PyYcUi37zczrDJtEnqegSYihl4tHi2V1VBQ6muKVj67/2uumksqoI
-	 NC8ZmEimeZtZROQDHvED1ZUZZQOftw8MtzUJhkpMnwMb9ZGvOgx7bLAHS1dn7yuQtnewG
-	 xvy2rcdMtIFe4Lkk/s07DxioE3RP6EX0EC5sy9DAEHUQrmUlpIgKESXRsW8ICsSlWqA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793123343;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=oKKkLGPvy7oc9Cj7oiHBn7WJYL3F1vQJtw5e9araRYA=;
-	b=bqDyV2+uYwcHUoKnL2q8zoOM7BJWshtZajveRbkfk1E3CMbvjMYTVSX5Q3EbOeIdciAg
-	 nqeVuLbYb8vHsvEypmMZzcsjqZZsEMbKoiFBXasIqL4stik5bS0jnRe6AJ/1gxOZwL22d
-	 QkyGZ5xSofP2QHhw6kn0UoMyWa7fRAgTLuFCSCw1ycN5PTMQYQlFwUtk1foxK9tcwbszg
-	 USSxRsD9qRQMgv54SzFET7YJiCvlcfZpd7p/nIA8DP9OGq8hrsN3t9OjWW/gQKWCb24rj
-	 Cat80W5YGiS8tWTFR3DjhkEa2RHhgCj622B+NLsz7q8Jy1xKBHJeU4bnn1buYVPT35Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B0I5l02K;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.54
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793123600;
+	b=kYzyOX5p56wceLiMnhuoUyHIsY0Y+JGnKH9U9r2WlrLtEmjA4XBEa1eLDlYehYEu8Jm9
+	 3VV4A8AyUhcWxrpcVxPmaDOsat1Q2HuAXYLCHiHm660kJ1Ellkhh4cJ4Kee7tfMoOgdkC
+	 Q9vWC5ha3C5ALus7gnB3aLRRNvS7kHu13i5mkdjPOK+ewzHXHAQiP8S0kGj3/A2cU6PWS
+	 1t21gimLwHut36/hjWyOUEPwKh3fAEGuVsYu4HFKRhKRX5WhSN/IPxArRZ40a49Iw4XoC
+	 emG3VKgA5mc/Wb49WVOIoeh2hnRnkdzh5ETOHDjugauVhPQ0SqWdQijGwKZ4lSW0Rqg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793123600;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=eZ7BfEA5+mgPjgQ08MRW3gJSoX82BS/9Z3gx++ZKTBg=;
+	b=ZwCyrUfaJoQWux+V6kVSh0qSo3xqmBJgxtEM3S3Ml2dId8rHYkNSYrhXtfQyOZ+FxgN/
+	 ibjMShMzdTfdx/hIcvdfI8Ryz7ZFRsVByXX79NCNJ4ALpTPFoWM8l6O2VRYPMwT3CubrS
+	 YBcKqigJzv4ufnqkMT/DwkCs5yIDJkCWQfJS++EqurRVgl9Zd4m0gss0k0W9S+kRrW5Tg
+	 6IHHAZ1rDucKzUFRCpXce9uIeoxCrvrHOHGLMzNRCGNV27f4vo5FnUWE6+mOrjv6d8zcB
+	 +kN5FDp6pPMhw+deqYtWna7cf3FL+UB+8DUQu2DhY4++LuZbCxB1PzzIt/31fWN2/Zg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=inJR6ox6;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.54
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F78C606A31A;
-	Tue, 27 Oct 2026 17:49:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF05E606A31D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 17:53:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF05E606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B0I5l02K
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED4131F01828;
-	Tue, 27 Oct 2026 17:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793123343;
-	bh=oKKkLGPvy7oc9Cj7oiHBn7WJYL3F1vQJtw5e9araRYA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=B0I5l02KTGM/aT2NqPpE5PbeJiJ01nypwLlxR9g+urCcjWDkTQRH5b9WLq+xorRHu
-	 gaHVsq+vWVVMMVgZJj99P7VPUK56MX+SN5GmhJeNjFsPHBhIfOxQxTHwfg8Yl55QBo
-	 h2+L7k6uI8QSS0xnmDEwj1elvxOzwFVUmYIy2Z3V5FQ6jl7won1m4EuaQPtTHj+P6r
-	 QKvr8WKDY3sWTZY8M7J0IgM6r+wZtuZ6OJmUoZFNowvnukVmofi17p6T84GYeCEfdh
-	 y1I8cpLTJP+bHaVGZHux+dq7p9gdyGATdM7FGfT81kBiDIHHxo/fuqdDZDS0KSVFCy
-	 fYw0ZMg7MIAXg==
-Date: Tue, 27 Oct 2026 17:48:57 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, SJ Park <sj@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, stable@vger.kernel.org, 
-	"David Hildenbrand (Arm)" <david@kernel.org>
-Subject: Re: [PATCH v2] fs/proc/task_mmu: fix missed VMAs when reading
- /proc/PID/maps and friends
-Message-ID: <auDEn8GmB0H7zj99@gremlin>
-References: <20261027-fix-proc-pid-maps-missing-vmas-v2-1-2791cc9fc95f@kernel.org>
- <CAJuCfpELhxhyVQANspX14OBLbghiAqndYcfv1hnmh4Nvo=1vAQ@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=inJR6ox6
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c38ac26cc5dso13487766b.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 10:53:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793123598; cv=none;
+        d=google.com; s=arc-20260327;
+        b=WzCZ5yTDbUIl6DBH8Czf7hnVYGXrUi/froc7z9Nd+iYlGoIeuId45+5WM1qiWBhpSC
+         AXX90x+bKXHtL05e4f9C0dxK+nul7E4MdjH857vGSTpC2zoZX6MyW5g+0P2mkoeK2T7A
+         FhuVUI6TSlMb5U/USI5iiPvt+x5Q1wLvvPj359TSB1NMyLIILfEJmnDhhP2PY0+imMEf
+         MnuPxbxd+8r/z4hllxFiapTs6cbFVGRL7P9BYbLjFfILGp9BhVjX0QLeXUGUQg+0r+Nq
+         1YK9KzW7+XX+bIWA9WGzMb0IChU5Za/geLqH6+g7UPrYGnBz6RL+PLsvyeHTFHfmpb97
+         aFKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=eZ7BfEA5+mgPjgQ08MRW3gJSoX82BS/9Z3gx++ZKTBg=;
+        fh=iABTt/Fo5i5egna0R1UCoaYiurocfft01lebv3PIAOA=;
+        b=SrDr4I0JoczinCfBQLjA7/ex2KGBg/ZwGFgeGnWBtVYtShMAy/IS8pPdRIFt14Fx2q
+         zYl4nBg9NiOmIg5bPK2cuF5ErOD+kRDp6hs9DBeROX/WE3qK85/H7Zo6aAn1UNHw0tQw
+         y/0M/zJq+eFIoQQxXu2LKlWmfhgJv4qdbDbObWmIp2d1hhBmo+YpSskSyO9JfOAdWE8M
+         +01YDmNHJplZuB2xCgtPvTKnGGh2+IRDVRC+X0vG6V07kxIke5TAF9qZp/YY8OZFSr3q
+         lH/oFsi744SabbYWlwXFT7Pf2rsmFDP547KRclHZjOa94+cWJ/ALF9UjqIso4WSv3Uoh
+         D5Cg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793123598; x=1793728398; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eZ7BfEA5+mgPjgQ08MRW3gJSoX82BS/9Z3gx++ZKTBg=;
+        b=inJR6ox6aQPgzkJ0wZYiPBugaLW1/kUDoRUxznaXNPrxE2Wn3DkQl3afONPaEwO9sl
+         vnrt6FP9OFfRf9KWlwZNng3ZlaCrfp3bQxPXGc+Gx+AORrKLJ8WZpN9m6kJEM6IAqHPq
+         Jk4iMXPxJgkZqxRsoYIxQcD6CPbdcJbwTT1mEJs9Oh6VfooqjmJi5DvsYqRTbZ70S79m
+         W2gdT7rvplj4k08tnzQQgxgOTLo5uqZ4a0mScYBLYVaYMXTVeZPwvd3azNIWeu6/sXO8
+         zyeS5P1gD5N0vXZJTHB1IRGypOyTZEZWjLyDPXDDqsHxY4MhwV784zCuBQDBJ99Srvxy
+         lKbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793123598; x=1793728398;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eZ7BfEA5+mgPjgQ08MRW3gJSoX82BS/9Z3gx++ZKTBg=;
+        b=EUupC/odSqq3ToMMH5kHxyWuU0BWtJTjeSpZCuXK5MWXhS6k+vaRDgKGaTkRiO+twv
+         h28s5tVIFcO+t5KKLr+Uz66IjdKwKSJoZDi/2CxLIBTuJRC2sGW5do3ppduEEbKgL9oA
+         8Ap86COOqayAROf5jZKce4brvZaB48VmbQFfcSl8v9t3hc/zj5l5nGkKV5Is4tx478w6
+         vcB4P6YPVkMZrTMNciY+JCfJGYQSbl5m+awgwRCxA/6IXuNmmA7oDde2+5OMdXicQAYn
+         MhGPQSEujl5AfYK2wEdNy7Oog2npisfUzby7bOpOoBD/4PoQO84NZQb36N+mFtREkejd
+         4nSg==
+X-Forwarded-Encrypted: i=1; AKwUvByHzlYLPxGBlR5lCA4y8VFsUXxSGxkWpqLwn3suS1X1JsKY+FJKjyAdMCdnUK81zQBcgQ5fyn4O+FkgQA/O@vger.kernel.org
+X-Gm-Message-State: AFq9FYKuUS6aCzZWRiTeA/faSj2YzMDFUsU/uO1gA0ai+UvHfME7nP3C
+	0q5qX0fIFEf7/is1wvtsbZPtDAu/7HGoTSSXdG/JDa1xzg8SDu98552wcXIA+lGCzWAR0ypwCRZ
+	LtLqL6OLBjEhL7biUvmDJ1tswXYVAEsh9HqBF+vQs
+X-Gm-Gg: AYBFou2tbthk+aaqlAhMyrm6UWKlFM6n0kNUd8RsGnawyi1sUrZIx/ZlSACNJ7Jarjj
+	8tDvOQUFBPLzftKcXFqZwm6wHQprLOKNbS9LjMDx8cNfoAhSPb9wQME2LYW4FLu1V/pyfjEOckg
+	TDdYnWzD1Kh9JPn+HJpMmzxzxJ0Ypec0U8QAGr3BvswV87yUXxRacDeysxJenmNGH2UV+2mX2Hq
+	eT2To0KWRn/ohaKHof5GzJmHen2MdYKR9wCeshNFOi7/yLainm6DTY6gXY+deMJ1hWsDmXgGFG1
+	FdW8dkVVvP7Tf5TZphTYCJHTVi64yhpjr41LB1BwG13oB27iu+kC01Bt2xq83bBPf3DVBgDq6pG
+	D/Aoi4pj3BRGN2EoP7OtHs27N6RObkdQ9x62zIKAL2E474ZQkdB0SKC6OUy4lyxiNSFomgqLxcH
+	ghXeNw0Ha1Jn02K3y4mp4gVMqMrQQ32aWhpL5Jm5BS73ZI+FNtoRd4uKavbuT4lrnv5PNaQaFYy
+	/mcwuhdawH0Ug==
+X-Received: by 2002:a17:906:dc8e:b0:c31:e958:408c with SMTP id
+ a640c23a62f3a-c46bde8b464mr1159692166b.38.1793123597614; Tue, 27 Oct 2026
+ 10:53:17 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,189 +106,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpELhxhyVQANspX14OBLbghiAqndYcfv1hnmh4Nvo=1vAQ@mail.gmail.com>
+References: <20261026215226.3713941-1-jthoughton@google.com>
+ <20261026215226.3713941-2-jthoughton@google.com> <1ee97e9e-3658-41a7-a879-348f51ab547d@kernel.dk>
+In-Reply-To: <1ee97e9e-3658-41a7-a879-348f51ab547d@kernel.dk>
+From: James Houghton <jthoughton@google.com>
+Date: Tue, 27 Oct 2026 10:52:40 -0700
+X-Gm-Features: AclHuK_7gnb7g4GjAy_SA5zcAxXhabVZixR-oCAtO-qS-tkfEqOEG_LlV9pvyY0
+Message-ID: <CADrL8HVgOYb1hzWDJzm4sCrEAR7PL1xBv-1zTGebTusPoDsGXQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 01/10] scsi: bsg: Don't copy sense data to user memory
+ when canceled
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jim Mattson <jmattson@google.com>, Pavel Begunkov <asml.silence@gmail.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, David Sterba <dsterba@suse.com>, Chris Mason <mason@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, io-uring@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-btrfs@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 27, 2026 at 08:34:10AM -0700, Suren Baghdasaryan wrote:
-> Overall the code looks correct bit I have a couple of questions below.
-
-Thanks!
-
+On Mon, Oct 26, 2026 at 7:41=E2=80=AFPM Jens Axboe <axboe@kernel.dk> wrote:
 >
-> > ---
-> > Note that I decided it's best to defer any VMA iterator stuff to a
-> > follow-up - with the abstractions added it's clear what's going on and
-> > easier for backporting.
->
-> Ok. But once we get VMA iterator validation routine implemented, we
-> won't need vma_rcu_iter and its helpers, I think. Are you ok with the
-> fact that most of this change will have to be removed later?
+> Reviewed-by: Jens Axboe <axboe@kernel.dk>
 
-No, I don't think this is correct.
-
-The iterator can't validate itself - the failure case is invisible to it,
-something changed in the tree and it has no way of knowing, it has to be
-prompted to re-init etc.
-
-I tried a version of the code with vma_iter_next_before() and it really didn't
-provide much delta.
-
-So I think any version of this has to have the rvmi stuff.
-
-In any case, I am happy to replace all this with whatever makes most sense
-going forwards.
-
-Key here is to fix the bug + get it backported :) [ before moving on to the
-N other AI-reported bugs ;) ]
-
-> > +static inline void vma_rcu_iter_init(struct vma_rcu_iter *rvmi,
-> > +               struct mm_struct *mm, struct vma_iterator *vmi,
-> > +               unsigned long addr)
-> > +{
-> > +       vma_iter_init(vmi, mm, addr);
-> > +       rvmi->mm = mm;
-> > +       rvmi->vmi = vmi;
-> > +       rvmi->mm_wr_seq = UINT_MAX; /* Start odd so changed by default. */
->
-> Why not initialize mm_wr_seq correctly using
-> mmap_lock_speculate_try_begin(mm, &rvmi->mm_wr_seq)? That way on the
-> first call to lock_next_vma() you won't be resetting vmi
-> unnecessarily.
-
-It doesn't really save anything, the init already sets you up in start state
-where you need to do a traversal anyway, and vma_next() will trigger a walk
-either way.
-
-What's useful about it is it makes it such that only lock_next_vma() does the
-speculation (and thus sampling of mm_wr_seq).
-
-> > @@ -471,14 +505,9 @@ struct vm_area_struct *lock_next_vma(struct mm_struct *mm,
-> >          * installed ahead of it. Otherwise we might observe a gap that should
-> >          * not be there.
-> >          */
-> > -       if (from_addr < vma->vm_start) {
-> > -               /* Verify only if the address space might have changed since vma lookup. */
-> > -               if (!mmap_unlocked || mmap_lock_speculate_retry(mm, mm_wr_seq)) {
-> > -                       vma_iter_set(vmi, from_addr);
-> > -                       if (vma != vma_next(vmi))
-> > -                               goto fallback_unlock;
-> > -               }
-> > -       }
-> > +       if (from_addr < vma->vm_start &&
-> > +           vma_rcu_iter_may_have_skipped(rvmi, from_addr, vma->vm_start - 1))
-> > +               goto fallback_unlock;
->
-> Before this change we fell back only if the new search yielded a
-> different VMA (the vma != vma_next(vmi) condition) while now we
-> fallback unconditionally. Note that the VMA that we are rechecking is
-> already locked, so it can't change. Was the previous logic invalid?
-
-It's not unconditional - it requires that we have progressed and we may have
-skipped a VMA change.
-
-The 'we have progressed' bit was there before (from_addr < vma->vm_start), and
-vma_rcu_iter_may_have_skipped() wraps the previous check plus actually walks to
-check if something is there to traverse,
-
-So this is strictly an improvement.
-
-And yes the previous logic was invalid - the issue is with an unlocked VMA
-in the range [from_addr, vma->vm_start - 1].
-
-It's really the gap that's the problem AND a race against node replacement,
-which means that 'X' is skipped by vma_next().
-
-vma_next() is a walk to from_addr, then runs mas_next_slot() which advances
-to the next entry. If a gap, then the walk assigns mas->last to the end of
-the gap, and if a node is killed before that happens, due to a VMA
-expanding _backwards_ like:
-
-vma_iter_set(vmi, from_addr), then mas_walk() from mas_find():
-
-        from_addr
-           |
-           v
- |---------|      |-----|   |---------|
- |    A    |      |  X  |   |    B    |
- |---------|      |-----|   |---------|
-           ^     ^
-           |     |
-     mas->index  mas->last
-
-The walk lands in the gap. mas_next_slot() saves mas->last as its
-rewalk point.
-
-X expands backwards, the node containing the gap is replaced:
-
-        from_addr
-           |
-           v
- |---------|  |---------|   |---------|
- |    A    |  |    X    |   |    B    |
- |---------|  |---------|   |---------|
-                 ^
-                 |
-             mas->last
-
-mas_next_slot() finds the node dead and calls mas_rewalk(mas->last),
-which now lands inside X:
-
-        from_addr
-           |
-           v
- |---------|  |---------|   |---------|
- |    A    |  |    X    |   |    B    |
- |---------|  |---------|   |---------|
-               ^        ^
-               |        |
-         mas->index  mas->last
-
-mas_next_slot() then advances past the entry it is on, which is X:
-
-        from_addr           vmi
-           |                |
-           v                v
- |---------|  |---------|   |---------|
- |    A    |  |    X    |   |    B    |
- |---------|  |---------|   |---------|
-
-So vma_next() returns B, having stepped over X. We lock B:
-
-        from_addr           vmi
-           |                |
-           v                v
- |---------|  |---------|   |---------|
- |    A    |  |    X    |   |    B    |
- |---------|  |---------|   |---------|
-                              locked
-
-Then if you get (really) unlucky, the same race happens again for the
-existing code:
-
-vma_iter_set(vmi, from_addr);
-if (vma != vma_next(vmi))
-    goto fallback_unlock;
-
-The walk lands in the gap before X, something else is merged into X from
-below, the rewalk lands inside X and the advance steps over it again:
-
-        from_addr           vmi
-           |                |
-           v                v
- |---------| |----------|   |---------|
- |    A    | |     X    |   |    B    |
- |---------| |----------|   |---------|
-                              locked
-
-And suddenly vma == vma_next(vmi), no fallback, and X is never reported.
-
-With the new approach you simply can't miss it, as
-vma_rcu_iter_maybe_changed() will see a change could have happened, and
-vma_range_is_empty() tells you explicitly, with a brand new separate walk,
-whether e.g. X is there.
-
-It's finnicky, finnicky stuff, which is probably why AI found it :))
-
---
-Cheers, Lorenzo
+Thanks, Jens!
