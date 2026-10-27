@@ -1,132 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793118891;
-	b=DDqotGE1+GZ96QbFQNc0lULdJFi36Vg/Q+tB8KGcRd5h3n8R5Q/g7UIDaeo8zFqbS1Jc
-	 PgtKLZsxfOTGgGzZ2FSjSOhrT1LuzhUItZAE1HukwUC9Il7YYVN+BPzGwWBkpKuitB3Zf
-	 xkgPlXKNn/Zd+20En/NmLxEKmwXLQDQH4CxswP1muY1cJEE73TnT1tpvjeHNL5G/mQRG1
-	 kLksonZqvCMTvk6N7nZlWZqCspboyGEPpOmtBZquX7zAfgdaVrQUgZLdlFBtAhMvjO5Tj
-	 KRSeZmfH8w8Sa3aPE82XaChQHOoIv8j7K1H/O9BGjUPoP5LRl9TiGI1p151sE83sN8Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793118891;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=NxOIucUiikYry+49/JZI01aFrFYOW8xThyuNV5vreJE=;
-	b=xtunsCSLwJPNgiOiMR+b7AHb7UMACvNrDvS8IpYUYfehU9C8mYdVWm1Ytjx7L21jxOEq
-	 RdudsgOO4QniDsuXFbr/brBwsfpqdAeRrIHe5nkV2t4jdgVol1igC+qioPImt2WKVfizF
-	 BkUuLMUYPuxqGS1BWp9roVWPHjMngdXPXWv+3Pko4XP8XSeTXX/dKIE2Jdwe4cx2gLL+h
-	 iTe1reM83xfJHpBKwYtjNIXZ9jo5bd61S9SfeuxW+P27ev0yKI0SNETgy9Sz8Fe6Ygtan
-	 F8bg24SMoIiEgzhIwUIwLjaVTWnMdVl/lZMXzbtnEVPwQUZfGOqMgy9XyxE9eAlr5xw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="DYrZ/Jaz";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ASJUs0Y3;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="DYrZ/Jaz";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ASJUs0Y3;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793119943;
+	b=RGpbBPOhm2X6+Hh5szkuT9RyDtqi8Up2pH2MlO1K1omSRd4HgdJGicJOwn6hARqGbOgR
+	 5G7TTPOx3fsbsDK6k0FJ1gMqjDt8HxwwJP9SG/nbleAmFqVMwzrxT/k0/IQ/8Gg06r1qV
+	 30qo2OTpUkLr8kq1PpNC7Fz4Y1xWrMqVh90QYj85y1TCNukgANvpHGgXH74NGZ3JkkjeF
+	 qFJXW9QdR+ENvyDTgx/7SGpiftMHXpaYbaK7WI78G8G0hNXMPdGTZASRJNWcnmzP5m2Aj
+	 lNBWOghPxs7ax+ovEX3jJkVJqyhcirEcZ2d0ASonCZ6rMZ7KtDJA8u9lqhGZnXTSNbg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793119943;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=QNr1I+kaFCA3fT20ORqP0xLCLiaTRq0M5OA3+7qdxsw=;
+	b=1dovdOB0LAWaWF8+mclIgDSiW6liEDKAk2AHwavHOv1pb57cTS2fdoOkltRtoqCxVLQ+
+	 ZXBpxZW2N+AxP04/aU4rkfSq3lZHfvv9fwPEMJ/d22coh/d2PNYOns4RirOZ9MeudVyMs
+	 kfcwcW8W8XN0FfH/Wo/vApE0GK4VL7Be43tXg9y29W/+zfjZ06HAOZkXBF7xK7nf1BO+9
+	 5Mx6Z4+a3tBrSbrqBKIr+xhyPRPhIRYlMIWsoqzvsHpnNw3Nf/VPwxkpJj13GQG2qFjLt
+	 +eDdn0KIYD5sWYUfFJ30nVBvfd3seTWGZLUiCAx35rcaRAXgEqIggVKWdppz7+LujMQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=BoOe6zI2;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE37606A330;
-	Tue, 27 Oct 2026 16:34:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FE37606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D2C606A326
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 16:52:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36D2C606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DYrZ/Jaz;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ASJUs0Y3;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DYrZ/Jaz;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ASJUs0Y3
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8B6EF21E2F;
-	Tue, 27 Oct 2026 16:34:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793118888; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NxOIucUiikYry+49/JZI01aFrFYOW8xThyuNV5vreJE=;
-	b=DYrZ/JazN4nYdi+afHyqz8QV5Coqg055GKzpqSPZHPK8CUtAMJPoogfHO+ZLq+JWeK+4aI
-	GbRLRg3FfRMsvhmw2GiL/SNfYDelEZ5GTXOL0Q9Cvnz2Yaj9HgGbR/w8KJJWJvi1XdsaAn
-	V3Apwr7tPm+1Y7oNf5QxrQ74gC1jdOQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793118888;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NxOIucUiikYry+49/JZI01aFrFYOW8xThyuNV5vreJE=;
-	b=ASJUs0Y3+GZw/WVpyH6+w6sCacPWKT2KRvHrSVqOuFQr9nDHznF5LtwoRppLqlRrEce+qh
-	ZjyPSP7vgHzUuWCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="DYrZ/Jaz";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ASJUs0Y3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793118888; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NxOIucUiikYry+49/JZI01aFrFYOW8xThyuNV5vreJE=;
-	b=DYrZ/JazN4nYdi+afHyqz8QV5Coqg055GKzpqSPZHPK8CUtAMJPoogfHO+ZLq+JWeK+4aI
-	GbRLRg3FfRMsvhmw2GiL/SNfYDelEZ5GTXOL0Q9Cvnz2Yaj9HgGbR/w8KJJWJvi1XdsaAn
-	V3Apwr7tPm+1Y7oNf5QxrQ74gC1jdOQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793118888;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NxOIucUiikYry+49/JZI01aFrFYOW8xThyuNV5vreJE=;
-	b=ASJUs0Y3+GZw/WVpyH6+w6sCacPWKT2KRvHrSVqOuFQr9nDHznF5LtwoRppLqlRrEce+qh
-	ZjyPSP7vgHzUuWCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57B3713419;
-	Tue, 27 Oct 2026 16:34:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sKFICKTS4GrQDgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 27 Oct 2026 16:34:44 +0000
-Date: Tue, 27 Oct 2026 16:34:42 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, Hugh Dickins <hughd@google.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, 
-	Lance Yang <lance.yang@linux.dev>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Oscar Salvador <osalvador@suse.de>, Minchan Kim <minchan@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Xu Xin <xu.xin@linux.dev>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Chris Li <chrisl@kernel.org>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Gregory Price <gourry@gourry.net>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, Chris Mason <mason@kernel.org>, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH 34/46] mm/memory: reject remote COW faults on PFN mappings
-Message-ID: <auDSecfTDBrthowP@pedro-suse.lan>
-References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
- <20261027-fixes_core-v1-34-6f74bec9a5bb@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=BoOe6zI2
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5337c7b9937so412941cf.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 09:52:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793119942; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Z+7irhlhkocHXkSmOXFq+ePwjsIKSWf0btmdvx7ObnzfxPLqJipJEb5qgpgd7W/8fo
+         AEfLe2uBRHG6LspBVZw3gGCrKMsDMkpEf9iBu7UgnDJnOCUdPgruWDDthdafcWDTewky
+         wmHWBSmXWsVg6/ap0x5GzC2wGVNXXnORMKS8kz4B/BzfitYZxrxjaeoTh3K5zPQE03qN
+         5ed/bT0Fvl0mTD+JQ4DFx5l16Fqt3smlm3OgFLNYACKRTY9BfbGI8djX+Qh1BFBxaivb
+         jjEAC5J1w0g26pqyBTYuLUeP7poUJjIxhvrtGDgAv6dMdQf4qE5sWdrfTj2kRjfhziA9
+         YdxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=QNr1I+kaFCA3fT20ORqP0xLCLiaTRq0M5OA3+7qdxsw=;
+        fh=C6U0rSILZBAVDBcp8dN3Z5CEYVGyA27DFDEzfVcIoHE=;
+        b=UPpsIo3qXWlq55UVMKOaR1Qps27zJ1sxHXciMsGFBw4S9+SAZlPYXzesT8GhxKMsBI
+         dfb5fc0/GYRAf4DXH1O3fNPBuvZXOIxiwJ6GTGlkFwxuNedrHV2QVwbyLAof/YpF+NFa
+         gbBcCVnqUwBesjHdf7K2+dz9oypDXCjqinLIaWJOfM2z+HgwJzH4o8Gra64I0+npsxN5
+         lFncmRu5vM9+n05vDESybRcLdmZW3D6176xFTnLPue+kIG95ny+HJgm8jtOvL/KlbwGq
+         wOtExFwzUBNnzPgIhN/hEFuEdddpZPSESA2zS3onOcZhZ32hT7dh7PTIHcL3D3E1XE8y
+         eHIA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793119942; x=1793724742; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=QNr1I+kaFCA3fT20ORqP0xLCLiaTRq0M5OA3+7qdxsw=;
+        b=BoOe6zI2YrJHSarNAirA0NGS72WOoJRYGqV79CVJDuFbL4s0i5Ps9XcPr3h7rdC+eo
+         2MSyt19EB0895tKN1cyYtaAnK0cJnxCA/Z84lnHkqqYQFzeBm8f598cNVfIpDsdBOTu6
+         bhlVClKQ5c4wlJQ31s/z9onuNnebEwG4DLFIG/1Ne4NJCnbX4A1GIbePiutKb8HcAIkH
+         rvLn7bgC1Y6w1ANGTVmgjYQKB/bj1Nv9l4guMnQW9zrIp7i7FdBgbXu7gvwdOf3s5RCM
+         cUebgZSCjYFvXdj4BRWSlzONMypsqlRywJk6fuZyu2LAr8YrCR3GnpnalLmzkMH1qPp4
+         onVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793119942; x=1793724742;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QNr1I+kaFCA3fT20ORqP0xLCLiaTRq0M5OA3+7qdxsw=;
+        b=JJh6/wprdVoPQLYNDVGIQQx8ydqnShXb3HjXTeI1/YTElO6H2YhmqYFiMsxD7zTIWP
+         ZdEY5d5aWSgioT7qR7TvhPU4fYboqSP5agztgr1Lqztta/aaOHji2WHwQ2eAJlTd5wfF
+         p9HPsIP1gmMMvI/PptEd7mdIH3JeCBsFv2Xz1jG3flZIPxpKJtqfdwQvOl71KvaAIpV4
+         HD/evuOoLs11nuLEKPuHHwjEm40fF+yEtohTQnz8awHEM7XrzZcKbDXLFSiRfk91PV2p
+         q7xtcSTge4SKpaUgaLpWKa1PWLObu7Dw6demRWbAr/+4n6Ylx+KakA8Bj9fxRM8C3h4U
+         HBxw==
+X-Forwarded-Encrypted: i=1; AKwUvBxZ/PveK20JjY6a+NocyksRWQHRZRTiMQ7Th1JP+apJehxfyPlSBeLU3rwW4P9FHZuSRlBanWXjmFFwXEzq@vger.kernel.org
+X-Gm-Message-State: AFq9FYLsfXFdfFAxq0a+AJG8rWwgt/6/6A9b88RycrdZQyCXpFi+mCOQ
+	AWGPjionq+GNYP9yjHTxdXcY/S/fPwDLmqzvDvFj8F4vtVl7AB5KXjtGih3hrWP7FywSLKLyAkz
+	guLMinT+/8KdgiwFfndDOTsxlx78UI1F28opPLEdL
+X-Gm-Gg: AYBFou0ldQP0udtCCA8iqALimcEjbnHrLty3XVojIgWyXXLXLJwc5IceQYDlVrGw47Z
+	sQ9ljh2YkeQSFvX7z9n01P4HrSQXj+b0yU0eIE+7BRu36aSFL8+1+WeUl7BM9yQYdslWBkqp1uj
+	sDb1hB8VNqbyrZ8mhnumzLTz8T7rGSScaEyGqMSLCPeQU1g9ammWjqxbusXGooR9oa4T7MOrHPo
+	30ZJRWUHG+PhiOWUxTougyXbVPNrETimTKwheeZtb5xz8sP2o8MWVx6TkWo3KoXknyaaI6IKbFW
+	UFkuqSqZNRfOaiz6sIUKf8qiGIBTJN7DNQ3CjXfJxDNnT4KHKv85t3Ha0UmixtSAIOCaUn2QynZ
+	/0tkQV12l46HcX77rc7ODrkQCbGwBt4A16enY18vM/vg+jD8VlHkTQSNRPSlji9zOlA==
+X-Received: by 2002:a05:622a:408e:b0:530:e335:4ef with SMTP id
+ d75a77b69052e-53e52a4dabcmr22708611cf.2.1793119939533; Tue, 27 Oct 2026
+ 09:52:19 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -136,75 +104,341 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027-fixes_core-v1-34-6f74bec9a5bb@kernel.org>
-X-Spamd-Result: default: False [-12.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,cmpxchg.org,kernel.org,linux.dev,tencent.com,google.com,linux.alibaba.com,infradead.org,suse.com,soleen.com,suse.cz,nvidia.com,surriel.com,arm.com,intel.com,redhat.com,gmail.com,suse.de,huaweicloud.com,lge.com,gourry.net,sk.com,ziepe.ca,kvack.org,vger.kernel.org,lists.infradead.org];
-	FROM_HAS_DN(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_GT_50(0.00)[65];
-	TAGGED_RCPT(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 8B6EF21E2F
+References: <202610271934.fd287c3f-lkp@intel.com>
+In-Reply-To: <202610271934.fd287c3f-lkp@intel.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 27 Oct 2026 09:52:07 -0700
+X-Gm-Features: AclHuK_3KSlFoltlMYw06N9_sWSCTePL0tqpj69pnEG8YO4IImaT_s7RyifcLcw
+Message-ID: <CAJuCfpG67sV5Vhn1DnAWTV2xZVptOCdmH3iEnUEvYs9GRPbOeg@mail.gmail.com>
+Subject: Re: [linus:master] [selftests/proc] ca5480fb53: kselftests.proc.proc-maps-race.fail
+To: kernel test robot <yi1.lai@intel.com>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Jann Horn <jannh@google.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
+	"Paul E . McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>, Usama Arif <usama.arif@linux.dev>, 
+	Vlastimil Babka <vbabka@kernel.org>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 27, 2026 at 12:17:54AM +0100, David Hildenbrand (Arm) wrote:
-> From: Chris Mason <mason@kernel.org>
-> 
-> When handling a COW fault without a normal source page (PFN mappings),
-> __wp_page_copy_user() copies from the faulting user address. For remote
-> faults, this accesses the wrong address space, resulting in wrong data
-> getting copied.
-> 
-> For example, user_events updates an enable bit in the registering
-> process's memory. If that memory needs to be faulted in,
-> user_event_enabler_fault_fixup() calls fixup_user_fault() from a work
-> item. Placing the enable bit in a private PFN mapping can trigger this
-> remote COW path.
-> 
-> Reject these faults with VM_FAULT_SIGBUS when the target mm differs from
-> current->mm: remote faults. Ordinary (non-PFN) mappings are not affected.
-> 
-> The user-address copy dates back to commit 6aab341e0a28 ("mm: re-architect
-> the VM_UNPAGED logic"); likely, actual ways to get remote faults in
-> there on COW PFN mappings appeared afterwards. But the fix is simple and
-> straight forward.
-> 
-> Fix generated by an LLM and sent by Chris Mason in private.
-> 
-> Fixes: 6aab341e0a28 ("mm: re-architect the VM_UNPAGED logic")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> [ david: simplify comment and description ]
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+On Tue, Oct 27, 2026 at 5:31=E2=80=AFAM kernel test robot <yi1.lai@intel.co=
+m> wrote:
+>
+>
+>
+> Hello,
+>
+> kernel test robot noticed "kselftests.proc.proc-maps-race.fail" on:
+>
+> commit: ca5480fb53fa73cb5816b696b103826daedab1ca ("selftests/proc: add /p=
+roc/pid/smaps_rollup tearing tests") https://git.kernel.org/cgit/linux/kern=
+el/git/torvalds/linux.git master
+>
+> [test failed on linux-next/master f1ac44c32cba88ad65dcecd4a279661d14e9365=
+1]
+>
+> in testcase: kselftests
+> version: kselftests-x86_64-d6d3455d8751-1_20261013
+> with following parameters:
+>
+>   group: proc
+>
+>
+> config: x86_64-rhel-9.4-kselftests
+> compiler: gcc-14
+> test machine: 36 threads 1 sockets Intel(R) Core(TM) i9-9980XE CPU @ 3.00=
+GHz (Skylake) with 32G memory
+>
+> (please refer to attached dmesg/kmsg for entire log/backtrace)
+>
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <yi1.lai@intel.com>
+> | Closes: https://lore.kernel.org/oe-lkp/202610271934.fd287c3f-lkp@intel.=
+com
+>
+>
+> KERNEL SELFTESTS: linux_headers_dir is /usr/src/linux-headers-x86_64-rhel=
+-9.4-kselftests-ca5480fb53fa73cb5816b696b103826daedab1ca
+> 2026-10-26 14:37:46 sed -i s/default_timeout=3D45/default_timeout=3D300/ =
+kselftest/runner.sh
+> 2026-10-26 14:37:46 make -j36 TARGETS=3Dproc run_tests
+>   CC       fd-001-lookup
+>   CC       fd-002-posix-eq
+>   CC       fd-003-kthread
+>   CC       proc-2-is-kthread
+>   CC       proc-loadavg-001
+>   CC       proc-maps-race
+>   CC       proc-net-dev-lseek
+>   CC       proc-empty-vm
+>   CC       proc-self-map-files-001
+>   CC       proc-pid-vm
+>   CC       proc-self-map-files-002
+>   CC       proc-self-isnt-kthread
+>   CC       proc-self-syscall
+>   CC       proc-self-wchan
+>   CC       proc-subset-pid
+>   CC       proc-uptime-001
+>   CC       proc-uptime-002
+>   CC       read
+>   CC       proc-tid0
+>   CC       self
+>   CC       setns-dcache
+>   CC       setns-sysvipc
+>   CC       thread-self
+>   CC       proc-multiple-procfs
+>   CC       proc-fsconfig-hidepid
+>   CC       proc-pidns
+> # timeout set to 300
+> # selftests: proc: fd-001-lookup
+> ok 1 selftests: proc: fd-001-lookup
+> # timeout set to 300
+> # selftests: proc: fd-002-posix-eq
+> ok 2 selftests: proc: fd-002-posix-eq
+> # timeout set to 300
+> # selftests: proc: fd-003-kthread
+> ok 3 selftests: proc: fd-003-kthread
+> # timeout set to 300
+> # selftests: proc: proc-2-is-kthread
+> ok 4 selftests: proc: proc-2-is-kthread
+> # timeout set to 300
+> # selftests: proc: proc-loadavg-001
+> ok 5 selftests: proc: proc-loadavg-001
+> # timeout set to 300
+> # selftests: proc: proc-maps-race
+> # TAP version 13
+> # 1..6
+> # # Starting 6 tests from 2 test cases.
+> # #  RUN           proc_maps_race.maps.test_maps_tearing_from_split ...
+> # #            OK  proc_maps_race.maps.test_maps_tearing_from_split
+> # ok 1 proc_maps_race.maps.test_maps_tearing_from_split
+> # #  RUN           proc_maps_race.maps.test_maps_tearing_from_resize ...
+> # #            OK  proc_maps_race.maps.test_maps_tearing_from_resize
+> # ok 2 proc_maps_race.maps.test_maps_tearing_from_resize
+> # #  RUN           proc_maps_race.maps.test_maps_tearing_from_remap ...
+> # #            OK  proc_maps_race.maps.test_maps_tearing_from_remap
+> # ok 3 proc_maps_race.maps.test_maps_tearing_from_remap
+> # #  RUN           proc_maps_race.smaps.test_maps_tearing_from_split ...
+> # Expected stats:                                                        =
+     Rss 892 kB
+> #                                                              Pss 82 kB
+> #                                                        Pss_Dirty 82 kB
+> #                                                         Pss_Anon 54 kB
+> #                                                         Pss_File 24 kB
+> #                                                        Pss_Shmem 3 kB
+> #                                                     Shared_Clean 0 kB
+> #                                                     Shared_Dirty 860 kB
+> #                                                    Private_Clean 0 kB
+> #                                                    Private_Dirty 32 kB
+> #                                                       Referenced 892 kB
+> #                                                        Anonymous 120 kB
+> #                                                              KSM 0 kB
+> #                                                         LazyFree 0 kB
+> #                                                    AnonHugePages 0 kB
+> #                                                   ShmemPmdMapped 0 kB
+> #                                                    FilePmdMapped 0 kB
+> #                                                   Shared_Hugetlb 0 kB
+> #                                                  Private_Hugetlb 0 kB
+> #                                                             Swap 0 kB
+> #                                                          SwapPss 0 kB
+> #                                                           Locked 0 kB
+> # Actual stats:                                                          =
+   Rss 892 kB
+> #                                                              Pss 81 kB
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de> 
+Hmm. RSS is staying the same but PSS is changing. I think I must
+filter out PSS stats in this comparison because they depend on page
+mapcount and might change even if VMA tree is stable. I will update
+the test to exclude that metric and will post the fixup later today.
 
--- 
-Pedro
+> #                                                        Pss_Dirty 81 kB
+> #                                                         Pss_Anon 54 kB
+> #                                                         Pss_File 24 kB
+> #                                                        Pss_Shmem 3 kB
+> #                                                     Shared_Clean 0 kB
+> #                                                     Shared_Dirty 860 kB
+> #                                                    Private_Clean 0 kB
+> #                                                    Private_Dirty 32 kB
+> #                                                       Referenced 892 kB
+> #                                                        Anonymous 120 kB
+> #                                                              KSM 0 kB
+> #                                                         LazyFree 0 kB
+> #                                                    AnonHugePages 0 kB
+> #                                                   ShmemPmdMapped 0 kB
+> #                                                    FilePmdMapped 0 kB
+> #                                                   Shared_Hugetlb 0 kB
+> #                                                  Private_Hugetlb 0 kB
+> #                                                             Swap 0 kB
+> #                                                          SwapPss 0 kB
+> #                                                           Locked 0 kB
+> # # proc-maps-race.c:961:test_maps_tearing_from_split:Expected 0 (0) !=3D=
+ compare_smaps_rollup(self, &orig_stats, &stats) (0) # # test_maps_tearing_=
+from_split: Test terminated by timeout
+> # #          FAIL  proc_maps_race.smaps.test_maps_tearing_from_split
+> # not ok 4 proc_maps_race.smaps.test_maps_tearing_from_split
+> # #  RUN           proc_maps_race.smaps.test_maps_tearing_from_resize ...
+> # Expected stats:                                                        =
+     Rss 956 kB
+> #                                                              Pss 83 kB
+> #                                                        Pss_Dirty 83 kB
+> #                                                         Pss_Anon 54 kB
+> #                                                         Pss_File 26 kB
+> #                                                        Pss_Shmem 3 kB
+> #                                                     Shared_Clean 0 kB
+> #                                                     Shared_Dirty 924 kB
+> #                                                    Private_Clean 0 kB
+> #                                                    Private_Dirty 32 kB
+> #                                                       Referenced 956 kB
+> #                                                        Anonymous 120 kB
+> #                                                              KSM 0 kB
+> #                                                         LazyFree 0 kB
+> #                                                    AnonHugePages 0 kB
+> #                                                   ShmemPmdMapped 0 kB
+> #                                                    FilePmdMapped 0 kB
+> #                                                   Shared_Hugetlb 0 kB
+> #                                                  Private_Hugetlb 0 kB
+> #                                                             Swap 0 kB
+> #                                                          SwapPss 0 kB
+> #                                                           Locked 0 kB
+> # Actual stats:                                                          =
+   Rss 956 kB
+> #                                                              Pss 83 kB
+> #                                                        Pss_Dirty 83 kB
+> #                                                         Pss_Anon 54 kB
+> #                                                         Pss_File 25 kB
+> #                                                        Pss_Shmem 3 kB
+> #                                                     Shared_Clean 0 kB
+> #                                                     Shared_Dirty 924 kB
+> #                                                    Private_Clean 0 kB
+> #                                                    Private_Dirty 32 kB
+> #                                                       Referenced 956 kB
+> #                                                        Anonymous 120 kB
+> #                                                              KSM 0 kB
+> #                                                         LazyFree 0 kB
+> #                                                    AnonHugePages 0 kB
+> #                                                   ShmemPmdMapped 0 kB
+> #                                                    FilePmdMapped 0 kB
+> #                                                   Shared_Hugetlb 0 kB
+> #                                                  Private_Hugetlb 0 kB
+> #                                                             Swap 0 kB
+> #                                                          SwapPss 0 kB
+> #                                                           Locked 0 kB
+> # # proc-maps-race.c:1050:test_maps_tearing_from_resize:Expected 0 (0) !=
+=3D compare_smaps_rollup(self, &orig_stats, &stats) (0) # # test_maps_teari=
+ng_from_resize: Test terminated by timeout
+> # #          FAIL  proc_maps_race.smaps.test_maps_tearing_from_resize
+> # not ok 5 proc_maps_race.smaps.test_maps_tearing_from_resize
+> # #  RUN           proc_maps_race.smaps.test_maps_tearing_from_remap ...
+> # Expected stats:                                                        =
+     Rss 956 kB
+> #                                                              Pss 84 kB
+> #                                                        Pss_Dirty 84 kB
+> #                                                         Pss_Anon 54 kB
+> #                                                         Pss_File 26 kB
+> #                                                        Pss_Shmem 3 kB
+> #                                                     Shared_Clean 0 kB
+> #                                                     Shared_Dirty 924 kB
+> #                                                    Private_Clean 0 kB
+> #                                                    Private_Dirty 32 kB
+> #                                                       Referenced 956 kB
+> #                                                        Anonymous 120 kB
+> #                                                              KSM 0 kB
+> #                                                         LazyFree 0 kB
+> #                                                    AnonHugePages 0 kB
+> #                                                   ShmemPmdMapped 0 kB
+> #                                                    FilePmdMapped 0 kB
+> #                                                   Shared_Hugetlb 0 kB
+> #                                                  Private_Hugetlb 0 kB
+> #                                                             Swap 0 kB
+> #                                                          SwapPss 0 kB
+> #                                                           Locked 0 kB
+> # Actual stats:                                                          =
+   Rss 956 kB
+> #                                                              Pss 83 kB
+> #                                                        Pss_Dirty 83 kB
+> #                                                         Pss_Anon 54 kB
+> #                                                         Pss_File 26 kB
+> #                                                        Pss_Shmem 3 kB
+> #                                                     Shared_Clean 0 kB
+> #                                                     Shared_Dirty 924 kB
+> #                                                    Private_Clean 0 kB
+> #                                                    Private_Dirty 32 kB
+> #                                                       Referenced 956 kB
+> #                                                        Anonymous 120 kB
+> #                                                              KSM 0 kB
+> #                                                         LazyFree 0 kB
+> #                                                    AnonHugePages 0 kB
+> #                                                   ShmemPmdMapped 0 kB
+> #                                                    FilePmdMapped 0 kB
+> #                                                   Shared_Hugetlb 0 kB
+> #                                                  Private_Hugetlb 0 kB
+> #                                                             Swap 0 kB
+> #                                                          SwapPss 0 kB
+> #                                                           Locked 0 kB
+> # # proc-maps-race.c:1141:test_maps_tearing_from_remap:Expected 0 (0) !=
+=3D compare_smaps_rollup(self, &orig_stats, &stats) (0) # # test_maps_teari=
+ng_from_remap: Test terminated by timeout
+> # #          FAIL  proc_maps_race.smaps.test_maps_tearing_from_remap
+> # not ok 6 proc_maps_race.smaps.test_maps_tearing_from_remap
+> # # FAILED: 3 / 6 tests passed.
+> # # Totals: pass:3 fail:3 xfail:0 xpass:0 skip:0 error:0 not ok 6 selftes=
+ts: proc: proc-maps-race # exit=3D1 # timeout set to 300 # selftests: proc:=
+ proc-net-dev-lseek ok 7 selftests: proc: proc-net-dev-lseek # timeout set =
+to 300 # selftests: proc: proc-empty-vm # protection_key_support: error: rv=
+ -1, errno 28 not ok 8 selftests: proc: proc-empty-vm # exit=3D1 # timeout =
+set to 300 # selftests: proc: proc-pid-vm ok 9 selftests: proc: proc-pid-vm=
+ # timeout set to 300 # selftests: proc: proc-self-map-files-001 ok 10 self=
+tests: proc: proc-self-map-files-001 # timeout set to 300 # selftests: proc=
+: proc-self-map-files-002 ok 11 selftests: proc: proc-self-map-files-002 # =
+timeout set to 300 # selftests: proc: proc-self-isnt-kthread ok 12 selftest=
+s: proc: proc-self-isnt-kthread # timeout set to 300 # selftests: proc: pro=
+c-self-syscall ok 13 selftests: proc: proc-self-syscall # timeout set to 30=
+0 # selftests: proc: proc-self-wchan ok 14 selftests: proc: proc-self-wchan=
+ # timeout set to 300 # selftests: proc: proc-subset-pid ok 15 selftests: p=
+roc: proc-subset-pid # timeout set to 300 # selftests: proc: proc-tid0 ok 1=
+6 selftests: proc: proc-tid0 # timeout set to 300 # selftests: proc: proc-u=
+ptime-001 ok 17 selftests: proc: proc-uptime-001 # timeout set to 300 # sel=
+ftests: proc: proc-uptime-002 ok 18 selftests: proc: proc-uptime-002 # time=
+out set to 300 # selftests: proc: read ok 19 selftests: proc: read # timeou=
+t set to 300 # selftests: proc: self ok 20 selftests: proc: self # timeout =
+set to 300 # selftests: proc: setns-dcache ok 21 selftests: proc: setns-dca=
+che # timeout set to 300 # selftests: proc: setns-sysvipc ok 22 selftests: =
+proc: setns-sysvipc # timeout set to 300 # selftests: proc: thread-self ok =
+23 selftests: proc: thread-self # timeout set to 300 # selftests: proc: pro=
+c-multiple-procfs ok 24 selftests: proc: proc-multiple-procfs # timeout set=
+ to 300 # selftests: proc: proc-fsconfig-hidepid ok 25 selftests: proc: pro=
+c-fsconfig-hidepid # timeout set to 300 # selftests: proc: proc-pidns # TAP=
+ version 13 # 1..6 # # Starting 6 tests from 1 test cases.
+> # #  RUN           ns.pidns_mount_string_path ...
+> # #            OK  ns.pidns_mount_string_path
+> # ok 1 ns.pidns_mount_string_path
+> # #  RUN           ns.pidns_fsconfig_string_path ...
+> # #            OK  ns.pidns_fsconfig_string_path
+> # ok 2 ns.pidns_fsconfig_string_path
+> # #  RUN           ns.pidns_fsconfig_fd ...
+> # #            OK  ns.pidns_fsconfig_fd
+> # ok 3 ns.pidns_fsconfig_fd
+> # #  RUN           ns.pidns_reconfigure_remount ...
+> # #            OK  ns.pidns_reconfigure_remount
+> # ok 4 ns.pidns_reconfigure_remount
+> # #  RUN           ns.pidns_reconfigure_fsconfig_string_path ...
+> # #            OK  ns.pidns_reconfigure_fsconfig_string_path
+> # ok 5 ns.pidns_reconfigure_fsconfig_string_path
+> # #  RUN           ns.pidns_reconfigure_fsconfig_fd ...
+> # #            OK  ns.pidns_reconfigure_fsconfig_fd
+> # ok 6 ns.pidns_reconfigure_fsconfig_fd
+> # # PASSED: 6 / 6 tests passed.
+> # # Totals: pass:6 fail:0 xfail:0 xpass:0 skip:0 error:0 ok 26 selftests:=
+ proc: proc-pidns
+>
+>
+> The kernel config and materials to reproduce are available at:
+> https://download.01.org/0day-ci/archive/20261027/202610271934.fd287c3f-lk=
+p@intel.com
+>
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
