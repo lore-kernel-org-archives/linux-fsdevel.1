@@ -1,93 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793074879;
-	b=GG2gavjTZVBRGlYBfhnseZltl5ZMj3j6+1chqw93Oqr7+JXYFTQOwowN7cJws8hDVfYH
-	 M89PI+oGm7FqWGtm7MNIKXVbTBBGYGvAqLV3OC3REoQWhISyTsVea/0nGohjlmKappEce
-	 z+GTEYkYiARUvNR5rYVr31ADrZJx0AdzTASqswnEStJhq1dEiiLuJVo0fj9CYH7GRQAuu
-	 dUUBuU/y2F9I/gTLY7zd6IeNO5O3KCaf/a/OvrwmzDtPNItEp8ZiqsX6Zg/moF/VNlZhQ
-	 xSqBz/vMOn4KI0rLU7RXpf7l8g7229HlSlWUYp4bM7Nu9PAAMJmBuKGYAEzI+MttZBg==
+	t=1793076188;
+	b=XkTm8jiH4R4Y2qHFohxLd4RefkMBAO4hrQXKIp+FCy1lQ+pukzv5JFQ/LLAUaYflsrw8
+	 05xyFQo6IRp0swDiGFoyOL7ERHHhdnE0OYN4bIAiG/TCq26BctuaXDLri41A9+9MXsQ8W
+	 S7Wgc5tRzYuv14i/ZH+ntIk98VTjNZvrEEWKzR19L2Y80v57jCauNQjT8Uowu/mGyciWW
+	 WAv8CzrxyHVlb1htxJ6eA5WXfNXzAf3Vb1vjMtgFA0GMuR+YPJuJKhHr/qo325WLdhFOr
+	 vgO7+LrvA0OzhszNncMZg0tOVEx1F3MgY3T1q9f7aR2sfFK0A0ySmbhzvuiNq1ariwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793074879;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793076188;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:User-Agent;
-	bh=IbKbkm2FCu1dJjWm0bA0zRZkrHajWkzVG1UGfJQ9bvA=;
-	b=CBY4ER0d8hbXW7/GQiNOQSnfS70aevlpKanylQ8xBhzU1SROGIN5hhPgI/U1ljP9H0Wf
-	 qJg1Wr/9jPXg6Eg+7yhk4yLPwyKzUu8aPaiTL1E6Slwa8UgB/2goZHic1b7RiPrtZ9sv1
-	 LfJFQxAJSkAaX9BCtYt9Qoci2HLaEZMszuNGtljUPZLYGwXLsXtlxDMee462FiBw7+sP5
-	 cwjbCpQS3mZwNDPQWCfnxy3LSRIa/dTV5eNOEarr+HZ4ZRg1lA57aHXuUVSsnMacUXxLt
-	 ndh523U05xRf1kib0runtx+tQ0h6WqwCTufWL+OqW42sZMYdOGbHBgDUX0wwi8Fo1ag==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=l493/u62eOFn/ZLxJ8nu4m5zc4vn7EZElFZnKX4PUGE=;
+	b=rRe9JL1cEdRT6uW5zGdF2IwVw7CzGUT6wrGjp1CGPfkNDtuEVJTlI9if7tfLUh9WUwDv
+	 p50h38CGq5MZtsRT9y3+qg8I9tQ5aT3HbkrGwQGBkiu6sIp6haBptVq0ZGp9+peAUjd7K
+	 plc9q1WEAHdMQS/nmE5LrNGqNkej15dERP2Lno2ervc8YFfGEsToGtc300ndfeTGEcaCw
+	 vLlJ+Id/lVv88NYXMECYoaWYHhtlB2vfyefVgG8Jb16EgIb408s5rTPqUXrJcagQTO60i
+	 4NNeSBUHd0SnjkLVYyU+Z5hAvrD8rwlnBgSqCT0oefiDf5uGIJ0hHrVuB9xsxcHwg3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b="U+webZk/";
-	arc=none smtp.remote-ip=209.85.216.54
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=JeHGCwrF;
+	arc=none smtp.remote-ip=74.125.229.7
+Received: from mail-dy2-f7.google.com (mail-dy2-f7.google.com [74.125.229.7])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA7F606A31E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 04:21:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BA7F606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF43606A31A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 04:43:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DF43606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=U+webZk/
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3ac451e128cso2662038a91.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:21:19 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=JeHGCwrF
+Received: by mail-dy2-f7.google.com with SMTP id 5a478bee46e88-33e5ae86ff2so2222293eec.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Oct 2026 21:43:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1793074879; x=1793679679; darn=vger.kernel.org;
-        h=user-agent:content-disposition:content-type:mime-version:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IbKbkm2FCu1dJjWm0bA0zRZkrHajWkzVG1UGfJQ9bvA=;
-        b=U+webZk/UC0AmEh8JfGeN0MsgqZ5s35ckHlqcQZGpqM5matT9IESNMyqgLlqhn8+LU
-         62r6mR2RVpK4FKHh/WYKLLfw4IkyeBL78s9aMyPY/LBrc/ElrYJXV4FSqAoO8HPIUfve
-         57DIfcFTgwcH9ibOsaVbpBayQsR7iIg7tLxZE=
+        d=gmail.com; s=20251104; t=1793076187; x=1793680987; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=l493/u62eOFn/ZLxJ8nu4m5zc4vn7EZElFZnKX4PUGE=;
+        b=JeHGCwrF+fP/PQPoKowlvInB8EI4BT5PYNSRTpXw3tQu3GOsjanJivxZABz3p++Xgy
+         ccw5B/LxT/BKW8ngD/AjqXkUFsW82yNgTjw9b2oKmSTQpbVEFDtuBoT5NFOyzrYdZR+j
+         JEWNW8XFAoh+jDX1BAm3/vFeneUF72zmmvT2/YX3EONJTJtDidPLeXtrUuQJl8dobOvh
+         j/wWBb6see7HEUiCXtZU5J3Rx+uMPQoHn5imgoDCuDjs19HcGH5tMt8dOGmK2PN5vVlk
+         P9c5kNaw2A5un93/FDYPgHFKfcdPyH8N6onmLrQBwQDs9s/SzQaAuE4qLtogg3QvCm+5
+         Uu1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793074879; x=1793679679;
-        h=user-agent:content-disposition:content-type:mime-version:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=IbKbkm2FCu1dJjWm0bA0zRZkrHajWkzVG1UGfJQ9bvA=;
-        b=oddHEnWcg6hAfWfUiAKDg+pkDpA4vqS0FegJKFyVrWNXtnpD5dzKBvSwQhmJ0jJfkJ
-         86YBymj//n2H1VU9mnGH1D2OPLGO6cHEzH4NqJVRDhTi3PE12tBbptjZKeEDNig0rp7E
-         GVQUkZ5hA0bJ12RQg+vHYQWMDvXlxXUIBnUe22kofaYv9sVGAbX8jog2il20J8CBBx9m
-         x6EuB6f8iqo+pJhEz/BVcFKID3lFZE3lwODuzZ+lCxZ+H+UeojB39Kl6m2pj3fb2zTxK
-         +k0vMC9+kp8Fw3LiPMZPrKp8dZPne5udN0/J0tWRJMSiJI802CRR9vo1O/GG4CAglsjw
-         R+TA==
-X-Forwarded-Encrypted: i=1; AKwUvBwTbzcBVZMmR1I/Ha3e54v7CuVcKlk2t79EMB6cwUkfqQGRD18xDQtxmGe1CwEVUbJq9Cd8hYnchB52UgLa@vger.kernel.org
-X-Gm-Message-State: AFq9FYKfaefdKJ0XyKz1c95k3kwsq4Ej3d19GL1Y3YOOw3DmN5C0a+w3
-	bPnvDQf88maAraUJgQzHCrLqTP3N5L6b6bm5+W4XEkX4eT21LO319ZZNsrSlyzleBc8=
-X-Gm-Gg: AYBFou0PCGWG0Rvp4MZ6EenvIF4HDXIIlIabzpQRXO+ZdYCIf74QMilf3LTa1xPd1wV
-	tJeB4MtlFpOEjfT1POZFnVcEUr7GfaFU4yRklgZd5k9/FRVkQXSbI/HTV+OfLkfXCK6HNM5ND3S
-	atwHosGrPsEyASNFupTW4haltKLAiK59ztpjyImKGKlr1dSwj6j+lDHmpqU2OGQV9eoMJxBhaB+
-	C0VJaBuvUCAih9fOqRAGMEpE4IbJMrCsyjYtd0X8++DN9cuplvBBuoTbLDrnMl7LIjNpjNWlsno
-	/feJDRs88RaHgfE4gJcNo/C5p0ZbtKnu5wZRvCpq/Lbec004caE5wzgQxVZ45Iv8C8Qs11ujHrA
-	n5Kun07bAMQJzem82HDQ1gDHjOyzl6ae26OMjNd5hAIFb79Z2LastAq/K1tnnVvlvcGd1a/ciQO
-	2JAc5KyGQ4sWRogj/NSW+ZGM2fFTgYsZLCN4KtRN0E0kX8cjaUuuJ19sKkLXRftzWsSmjCZCpAD
-	sQryZevDBYvWXMyGJA4gyVkcMUxETXe/QLDKasL14YIbRj8dKl+GpUfCVGTpkvR4mjt1g6gZaAU
-	coKsNT2mApb6zXKnx7JpDHR/Cnb1UV5qvUkQCONUdPGGVRtKoF8AL1oo53qwBhVJnxkFNeb8Fda
-	OMe7j9rNlxbupoBt182hxkmr6xT5GKTwba5RG8RpxmYHu
-X-Received: by 2002:a17:90b:2d86:b0:3ac:17c:6e89 with SMTP id 98e67ed59e1d1-3adeae6d79amr6903972a91.19.1793074878569;
-        Mon, 26 Oct 2026 21:21:18 -0700 (PDT)
-Received: from localhost ([116.86.153.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae40427bf1sm1790327a91.6.2026.10.26.21.21.17
+        d=1e100.net; s=20260707; t=1793076187; x=1793680987;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=l493/u62eOFn/ZLxJ8nu4m5zc4vn7EZElFZnKX4PUGE=;
+        b=dlbyV0tELe8e97pHafQs7FyCELmZ7FRYCc/k0Ene90/gQF3my9+LizgcqgxUIMNjUc
+         n5Tu417XuR84PSAhi3Yx2Po/tuTKS7ZtBRgp6dgrBxzA/Z5i3mrnS4HeUKvSgTYaCm1r
+         mDnX8ejOZhK3Phz92zvrYhDPgWO/ScmZ6EkTls4k7X2vbWWCtXhd/DkbqRnHoiijhrGS
+         fMBAf+LIzgOa/L1Oxi796afG9zmbANhae3rALJtaEcpYRJAhU/4rGAsQ4qm9pZ+xEukc
+         zPfDYBe9tfbqWZzRcBRgeCFdaAqzccv4jo/P1ySGXw5u6GVqA7YUI+pW8nUaXvOB9+rA
+         8yrQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwg1golikSlHQC8ssVjQ49/WNrddC2+lO2oPaKXxHCcyGHwCR7KEMBvctbixyAo9f5I3OQ4AD2NF+NTc5kj@vger.kernel.org
+X-Gm-Message-State: AFq9FYJn2ZrPVmDG2vY4Xu9LIOvGy+o+RKzXePcQD/ItpSRuJJ4TjZ3a
+	x9eHmxV0ILkZIwNFNVq2BuxZL/DCVVbNFIvFItrpE6/X6HZ4D0/DRdyx
+X-Gm-Gg: AYBFou22VtSFDjE3jL+s/QDzVP9QyeoM8t58ATP8/dKnUygkmFJUrp10jee3WDCxjJZ
+	20sBne1H1VpoiwH5La2J10MJEofndexOy6gqAbbFH/uW5/bBuC/25r09Qm8HpIISRoNlqGf2AWr
+	wAZt9d7BsV8wIvpEcotRgZeyKSztfpHeiRVnFIz84OB2/0OBZ16qqorUAaZFBbQSOehKIefrt3q
+	4eJr60mZtaCrxVYf+v/kG5s0bM5V16vFR2J7ce/EknYZg8WOw6j65HKNxvN6qHQsuViFUWJ97Fc
+	AkCYlyCs4PG8Nn2O4jaNoPTKAccw/e4QOvTs88BtP3fOVPWhnpiLTabsBYgNx0iZRmQkpguIJfa
+	tZbhtg3AdViI+HnltiMk1JY2SBiaK6cvk4u5lup6GnORhcVkliMlmAK9/Rc1427HQD+8818PTyf
+	nSwoRVoXRBOiIhIdQQPzIf3Why+SJmyFu620GN+a27npypMOmECZqfGjviezpp04cbxTiK/VIaL
+	rDUioOlSUl4xOJlaB2pL2I//7C+1+Matl1k39D+qFNUqwVNq+3qOPa3YCffwTyGPwwwgZKh3Y0s
+	7VIE4jU=
+X-Received: by 2002:a05:693c:408b:b0:35c:ba31:6fef with SMTP id 5a478bee46e88-369e86749a5mr15571826eec.36.1793076187002;
+        Mon, 26 Oct 2026 21:43:07 -0700 (PDT)
+Received: from localhost.localdomain ([98.148.34.5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8ec50bcsm55884722eec.23.2026.10.26.21.43.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 21:21:17 -0700 (PDT)
-Date: Tue, 27 Oct 2026 12:21:14 +0800
-From: Chris Down <chris@chrisdown.name>
-To: Omar Sandoval <osandov@osandov.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: [PATCH] proc/kcore: Allow disabling /proc/kcore at boot
-Message-ID: <auAmuqZyUodq3iqk@chrisdown.name>
+        Mon, 26 Oct 2026 21:43:06 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: brauner@kernel.org,
+	viro@zeniv.linux.org.uk
+Cc: jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dennylin0707@gmail.com
+Subject: [PATCH] fs: allow sendfile EOF at the file size limit
+Date: Tue, 27 Oct 2026 04:42:57 +0000
+Message-ID: <20261027044257.90408-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -97,81 +97,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
+Content-Transfer-Encoding: 8bit
 
-/proc/kcore lets any process with CAP_SYS_RAWIO read all of kernel
-memory. That's a pretty large read primitive for anyone who obtains
-CAP_SYS_RAWIO (and it also gives away the KASLR layout).
+do_sendfile() returns EOVERFLOW when a positive-count request starts
+at the effective file size limit. If the input file ends exactly at
+that limit, this rejects the final EOF probe even though no bytes
+remain to be copied.
 
-For this reason on some hosts we want to turn /proc/kcore off. However,
-on a kernel built with CONFIG_PROC_KCORE=y the only ways to block it
-today are lockdown=confidentiality (which also disables many other
-things we perhaps don't want to disable), or LSM. That's annoying,
-because on the majority of hosts we do want it on for things like
-drgn/crash, so today we build two separate kernels.
+For example, Python 3.12 shutil.copyfile() copies all 4294967295 bytes
+of a maximum-size FAT32 file to ext4, then raises EOVERFLOW on its
+next sendfile() call instead of completing successfully.
 
-Let's add a "kcore=" boot parameter so that this can be disabled at
-boot.
+Allow the boundary position when it matches the input file size. The
+existing clamp then reduces count to zero and the remaining validation
+is retained. Continue to reject positions beyond the limit and boundary
+positions with input data still remaining.
 
-Signed-off-by: Chris Down <chris@chrisdown.name>
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
- fs/proc/kcore.c                                 | 12 ++++++++++++
- 2 files changed, 18 insertions(+)
+ fs/read_write.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index e75344f4e0cd..d8acce2878ab 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2915,6 +2915,12 @@ Kernel parameters
- 			parameter KASAN will print report only for the first
- 			invalid access.
+diff --git a/fs/read_write.c b/fs/read_write.c
+index 4da846a2bf17..a25e23c6a327 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -1347,7 +1347,8 @@ static ssize_t do_sendfile(int out_fd, int in_fd, loff_t *ppos,
+ 		max = min(in_inode->i_sb->s_maxbytes, out_inode->i_sb->s_maxbytes);
  
-+	kcore=		[KNL,EARLY]
-+			Enable or disable /proc/kcore on kernels built with
-+			CONFIG_PROC_KCORE=y.
-+			Format: <bool>
-+			Default: on
-+
- 	keep_bootcon	[KNL,EARLY]
- 			Do not unregister boot console at start. This is only
- 			useful for debugging when something happens in the window
-diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
-index 390547b992ac..6a29a3e0ed92 100644
---- a/fs/proc/kcore.c
-+++ b/fs/proc/kcore.c
-@@ -69,6 +69,7 @@ static size_t kcore_notes_len;
- static size_t kcore_data_offset;
- DEFINE_STATIC_PERCPU_RWSEM(kclist_lock);
- static int kcore_need_update = 1;
-+static bool kcore_enabled __initdata = true;
- 
- /*
-  * Returns > 0 for RAM pages, 0 for non-RAM pages, < 0 on error
-@@ -720,8 +721,19 @@ static void __init add_modules_range(void)
- }
- #endif
- 
-+static int __init parse_kcore(char *str)
-+{
-+	return kstrtobool(str, &kcore_enabled);
-+}
-+early_param("kcore", parse_kcore);
-+
- static int __init proc_kcore_init(void)
- {
-+	if (!kcore_enabled) {
-+		pr_info("/proc/kcore disabled on command line\n");
-+		return 0;
-+	}
-+
- 	proc_root_kcore = proc_create("kcore", S_IRUSR, NULL, &kcore_proc_ops);
- 	if (!proc_root_kcore) {
- 		pr_err("couldn't create /proc/kcore\n");
-
-base-commit: 01146870c415f6ff70a469fb7ceb962a3f2c8c52
+ 	if (unlikely(pos + count > max)) {
+-		if (pos >= max)
++		if (pos > max ||
++		    (pos == max && pos != i_size_read(in_inode)))
+ 			return -EOVERFLOW;
+ 		count = max - pos;
+ 	}
 -- 
-2.54.0
+2.43.0
 
