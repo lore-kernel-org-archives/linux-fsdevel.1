@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793127592;
-	b=HsQipN5OW5V/vlakwrFZw+2I+WGzN8cqz+PRYheuBCSho97bVgOFzAx2Ky7ukxGVSath
-	 6e1GdocM+/hzVTCdj/ev0Wqf55vXIAc6NnVHtKcToiV//YUuPh0+oVXyaeh8Xvn40kA78
-	 611IVKLtGpN5CHrUjeyA6fznMavTxbGVPXVViVa7so2CsA9URdhyo0hE3tmA5K7L6KJPP
-	 YzYGE7LqY/g1nOobgC0epMjflUFZtJOao/efgm+AZ6TcWb22M0+AtuaZZ85JfPsAE5B0Z
-	 TDd6FkovC/QuRxNMNSHXLr92lVyfWZWiWnknN7lvooqUhzpJJYsITRtFc9yi/59dzbA==
+	t=1793127991;
+	b=H5eIRhXf6olpxH9mDJSIPUs/dTCgbLFuQJ9sXPxSECwOJRh1pn8xPEdqI4PCsJ01gWAS
+	 WZwBRfFxeH+f9CaoJL4QffTz180wS8TsjPyGtZA137sHH/GKH1twnUqMn2dX4khR3xTVB
+	 3Mrqb1TA9zm6bFOn6eH124HQFDR8ixWCt8exdZ7QPubHBmJ68WMrGchhyK738eyC+gHKE
+	 eRFfBqzWGstCKu8p0P3t4w85WW1KnNuTQ8OdJnvpaHHTq1t9EDwZN9uLg9Arm7wIWR9Ez
+	 IMhjYiEPhU3Pzpp3aEmEua/PFVQWi2BaRb2J5wkHcLrHlIyWjkupUyBUYS/A6dre8zA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793127592;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793127991;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=JGUNZ2N4izt2BrjI89y42KzCgR2U1rTdgd6e4ryL5is=;
-	b=0WsnbvJCbkCM15WOD22umPRCUvtxeXGLvbMedWyAkPSUBG9RGZ9yGKfCaW5QI8RGMGQ2
-	 iRmw/qaLH4WB4zwdjxjUBUQGm+PJ6Xy1hHu0cTnhB40fjd9T2iwwThwxtKdS9WLOMZsCs
-	 ZpfQxMlxT8sGjp9icxVV/zpBHAsfKwJenozbloKaXl/kmxfBUrm89Ro/p7aLI6+S3gGkQ
-	 N2DjKwqNlumtkxoHIXNqvLCxYYOuqnI2kaLa1haZOWjb8gFlrNU8nOf9ZGvMjPPLRjD0k
-	 QPsUvbQA3Hn17yTgFILy76yBwgcsae+ZUELVFWb2U5No53McYnZfIcjMNDW53EDZqcw==
+	bh=lf2Hoc/RWmB0/QlKnoJRvWNvn+6TzYwCnLWNzrsTcSk=;
+	b=P6scgV+kO1+8o2TiGPlHaTzVNG00Jb/l4VL3clHB0r3frXNqyr+2ONz87yXlkvu+ySIU
+	 isnSZWDD768JoUaKBgA60KSODq9Xov5mE+tCEnJ8eKv+DPo76nL0Fn4Ichf+HVxBdXU3g
+	 +sFKTvIadFciM2c/b8jnrovZUyiVNDnvoEjecunVe+F6KVccPEdKT+frP45BFAemujmXz
+	 4qSbdaos/TRswKHGZmp7ISLR34LXfjPRYqr92YMiCKrzAl7LpQ+mB1IVKP8s97sZIe4p4
+	 QSSiB+lC/7jysbRqc2aU+/6rfoXeJ4ERpv6SHNjPpknY+Fwo+4Unh7CC57HHCJWDQLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GBUKEafI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cje2C2JW;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB025606A31A;
-	Tue, 27 Oct 2026 18:59:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8873F606A31A;
+	Tue, 27 Oct 2026 19:06:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GBUKEafI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC0381F01829;
-	Tue, 27 Oct 2026 18:59:40 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cje2C2JW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB4261F01825;
+	Tue, 27 Oct 2026 19:06:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793127591;
-	bh=JGUNZ2N4izt2BrjI89y42KzCgR2U1rTdgd6e4ryL5is=;
+	s=k20260515; t=1793127991;
+	bh=lf2Hoc/RWmB0/QlKnoJRvWNvn+6TzYwCnLWNzrsTcSk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GBUKEafIXma8eeUkgoEONyZfmNLHZnhPQGFQVsuGfRdY9VxaySeTjrdbFW7ptRbVA
-	 hUEQkqET62H91eVZkZHyk53nOcf57mTBeILoQULyVkmZdRFQE8p7MRFMwmd+fPmc9J
-	 ghDxtYg6zcgW2VQrPPTm9KAWwlBvZE60LX3I0qdY9gv6WNhMqeEXyjo1hnMJB/82OI
-	 sSPJxhjQSWHFk+C5WoYca/OBl84+pWIDaJqrLB5vwBtxFAH6uVOWKdffQL2T3lEUaB
-	 i9dIVYjiU8JXt/LM47PVuhVicGWXoiNSosxfwgnxShpV8V3Fk269UOgTPIvsaNyBUs
-	 tdAPnvoh++tOg==
-Message-ID: <94116d0a-3b79-42c9-bb31-0ebdbd00effa@kernel.org>
-Date: Tue, 27 Oct 2026 19:59:37 +0100
+	b=cje2C2JW/W5/9ZEii8/tlACEPvMOnEjtWQcEG9HwUfuEGalcwYmRITtkhIzXgtM0F
+	 zVZPSg6MqWG1EXqB5aEm/UM1ZGW6AUvIBMETQt4ATO4Biy4ylKhaNWcc3aETkNrUX0
+	 +Rs2xhiojhULts3grC2OreKYDtZWNa7jmYsfkJOEIajVofwPjCJtjn26J2BasBa3/1
+	 FBvLrtI8WsnLL8X/8SZDyxn+URbO+XTS1C7Oaenryfso2BZULJrKXufHYlcMtbRIRU
+	 EO59ufQ81gNQ6SJ2yjHXTkjfgMYx5Sqa+hoHZTfCdWqAvmQc93hgNF4B+H7JFr5lqG
+	 E8VnnHkkgYw3w==
+Message-ID: <e5766fe2-6cbb-45bc-bc57-87314c130de8@kernel.org>
+Date: Tue, 27 Oct 2026 20:06:09 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,33 +52,46 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] mm: allow freezing mappings
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Pasha Tatashin
- <pasha.tatashin@soleen.com>, Mike Rapoport <rppt@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>,
+Subject: Re: [PATCH 01/46] mm/mglru: don't use stack pointers when walking PUD
+ and PMD tables
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>,
  Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
  Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, kexec@lists.infradead.org
-References: <20261027173031.763213-1-pratyush@kernel.org>
- <fcb7b786-53e5-49bb-8505-63eb8bb4e836@kernel.org>
- <2vxz33troxg3.fsf@kernel.org>
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
+ <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>,
+ Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
+ Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>,
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-cxl@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>,
+ stable@vger.kernel.org
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+ <20261027-fixes_core-v1-1-6f74bec9a5bb@kernel.org> <auBbKP8UNI9talDL@gremlin>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -125,32 +138,47 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <2vxz33troxg3.fsf@kernel.org>
+In-Reply-To: <auBbKP8UNI9talDL@gremlin>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/27/26 18:38, Pratyush Yadav wrote:
-> On Tue, Oct 27 2026, David Hildenbrand (Arm) wrote:
-> 
->> On 10/27/26 18:30, Pratyush Yadav wrote:
->>> From: "Pratyush Yadav (Google)" <pratyush@kernel.org>
->>>
->>> Hi,
+On 10/27/26 09:06, Lorenzo Stoakes (ARM) wrote:
+> On Tue, Oct 27, 2026 at 12:17:21AM +0100, David Hildenbrand (Arm) wrote:
+>> From: Josef Bacik <josef@toxicpanda.com>
 >>
->> Hi,
+>> MGLRU passes stack copies of page-table entries in walk_pud_range() and
+>> walk_pmd_range() when walking to the next level. These copies can become
+>> stale when khugepaged or MADV_DONTNEED (CONFIG_PT_RECLAIM) removes a PTE
+>> table concurrently.
 >>
->> we're in the merge windows and focused on fixing things (apparently all of the
->> kernel). This is not the right time to discuss new changes.
+>> This pattern dates back to commit bd74fdaea146 ("mm: multi-gen LRU:
+>> support page table walks"). Likely, earlier locking masked the latent
+>> bug. Later changes exposed it: commit 1d65b771bc08 ("mm/khugepaged:
+>> retract_page_tables() without mmap or vma lock") allowed concurrent
+>> retraction, and commit cf4a65539c13 ("memcg-v1: no need for memcg locking
+>> for MGLRU") dropped the walker's outer RCU protection.
+>>
+>> The fix is simple, so just fix the original commit so we don't have to
+>> speculate. To fix it, pass the actual PMD/PUD pointers. This restores the
+>> RCU-protected lookup and validation against the live PMD. Note that the PUD
+>> handling is required as well to handle folded page tables correctly in all
+>> cases.
+>>
+>> Fix generated by an LLM and sent by Josef Bacik in private.
+>>
+>> Fixes: bd74fdaea146 ("mm: multi-gen LRU: support page table walks")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+>> [ david: handle walk_pud_range() as well, clarify+simplify description,
+>>          adjust Fixes: ]
+>> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+>> ---
 > 
-> Sorry. I thought the MM tree was open to changes in the merge window.
+> God, terrible. And why does MGLRU feel it needs its own independent page
+> walking mechanism?...
 
-We usually prefer to get stuff outside the merge window, but right now we have
-our hands full with fixes.
-
-So I just wanted to set the expectation that this will likely be ignored and
-might need a ping or a resend after the merge window.
-
-(I'm afraid the fix party will not end before the merge window ends)
+It's all a big mess. I think at LSF/MM there was some talk of using that also
+for traditional LRU, but I guess it might take a while ...
 
 -- 
 Cheers,
