@@ -1,102 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793127092;
-	b=NIm/nXLHduevcrbmyHC0Okqxm500Voc4Pgt8dbBasl2fXeMnbMSseAI+IsoVCTJIvNZy
-	 /mNpmARJoHNpsRzAYm0JCYRXaK6xJVjQ5T+NTPGfuJus1k28rP56owabenR6hvnqv+1Tz
-	 JSSvIPMexqZuuLGpp0tOQ5w4X6+rWCrZpoTf1cggEHGWG+u3hacNR4R9xQUGjgPhPkQU+
-	 6BCckH2loFFSA9Z6YQm5Y3omdtSCvFk60x+lHGWyMiDAHBua/7o73v6pvLqgBcgbHAuDV
-	 4IvM64DEyK3TAP4ASSgwsJ60P++DKSljvn+xENXrqIEMFHxoQFlWZjH84z1X92yMs8w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793127092;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=UJlLnl+V5fVkcEdrgjKFPN24Q/fJ++IZ4ZhlDmWxnT0=;
-	b=x5JJH/2bFVcbbr1g1IOI2ODq7Ed7lz//kp6ShfgCpGPQYK08aSXSBOXRu1K7lZTIQ405
-	 PEwQdtJetJFSrUyrxJgXsWaEDJWIqmUlNJ57T1cXQTpl6DgBw4nfdMnuidaFHo+0K3AmK
-	 Dr4ec7JQu8aLio11we/et668ptXoahEPOEML9adKBtEfuoUg2eQ6TOMiu2KGU1VNjQ5By
-	 aBld1WHih+f6HzDSrx52JFj1gdjGaOJjiQgdpx0qr/cDNC34pwUWJtf+bPjJt+bul/GLy
-	 lZKWNOdzdUdWBJoVgWRrUGPQws9GsZLyk6TLdhy3A5Pf6xBj5LGQZFxtjdEFngQyFIw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=HFK9DQOj;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.44
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793127592;
+	b=HsQipN5OW5V/vlakwrFZw+2I+WGzN8cqz+PRYheuBCSho97bVgOFzAx2Ky7ukxGVSath
+	 6e1GdocM+/hzVTCdj/ev0Wqf55vXIAc6NnVHtKcToiV//YUuPh0+oVXyaeh8Xvn40kA78
+	 611IVKLtGpN5CHrUjeyA6fznMavTxbGVPXVViVa7so2CsA9URdhyo0hE3tmA5K7L6KJPP
+	 YzYGE7LqY/g1nOobgC0epMjflUFZtJOao/efgm+AZ6TcWb22M0+AtuaZZ85JfPsAE5B0Z
+	 TDd6FkovC/QuRxNMNSHXLr92lVyfWZWiWnknN7lvooqUhzpJJYsITRtFc9yi/59dzbA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793127592;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=JGUNZ2N4izt2BrjI89y42KzCgR2U1rTdgd6e4ryL5is=;
+	b=0WsnbvJCbkCM15WOD22umPRCUvtxeXGLvbMedWyAkPSUBG9RGZ9yGKfCaW5QI8RGMGQ2
+	 iRmw/qaLH4WB4zwdjxjUBUQGm+PJ6Xy1hHu0cTnhB40fjd9T2iwwThwxtKdS9WLOMZsCs
+	 ZpfQxMlxT8sGjp9icxVV/zpBHAsfKwJenozbloKaXl/kmxfBUrm89Ro/p7aLI6+S3gGkQ
+	 N2DjKwqNlumtkxoHIXNqvLCxYYOuqnI2kaLa1haZOWjb8gFlrNU8nOf9ZGvMjPPLRjD0k
+	 QPsUvbQA3Hn17yTgFILy76yBwgcsae+ZUELVFWb2U5No53McYnZfIcjMNDW53EDZqcw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GBUKEafI;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3EE606A320
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 18:51:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A3EE606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB025606A31A;
+	Tue, 27 Oct 2026 18:59:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=HFK9DQOj
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c3fd91337baso21459266b.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 11:51:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793127090; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ouLsaDMX5Gj1G1qA7V2bTW6/Kx7ldXUgfwNDcQwjLedzehbGlWhAUhW0FiTAd3TlQw
-         BxTrOIehyCfDXE1DbMI6ScBu+2Js6/WU5HQ8L7pgJ/d9PXS/oU12DVSN5VoGmRx7u3dW
-         gQJRJ52hexUO5wYTpTeHg8ZMJ1UAQVq+O/UhObIEF48ePpm45NOqJ1ZRfJDQmdhy2WVO
-         3eAIIYC8grYeiJtw9mDxNkpKLVysTvE8JZst/I5aflR+r2apFpPM5imciCId1gZk6F60
-         6cVUOzVQlpVV7iTzcaiaSMsLEHzQNBwOAWH3+I2UrH4YvFVlnzZyH9F55DzpoNrP9eG7
-         ar3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=UJlLnl+V5fVkcEdrgjKFPN24Q/fJ++IZ4ZhlDmWxnT0=;
-        fh=P0T9wE9XWRETLbLjRCo4p4VIiuLEwWreCWgwsNX1bHM=;
-        b=qRkqj744Yrrhy5R+hqDPZ4OaEmLXMCD2VnyWrPGrLWBjOwTvY3yAn8dAehmA7VcO7O
-         inRkjxh4Z/MKF/8uWjlJNWeiYDzbxhNLy2QMIZ+JshdNSc8frAToZExDLyb8DCfevcM4
-         D23zt030cYodMmbbwUT8lXLDH+AlntyAP1wpDJfAv2i7YvnO0/lVpsSUmEqaQ7v6YCj2
-         wM7piI3BOZTIWvP8hMDxJ1luD2+dvXH4yZ6/unSLjU+T0230gsqg/bhiwzgKPIBQ4boi
-         CHhjBhmPM57aafyWdK7dbh8EqXHoiP1FwMEAL/mKC1GadLl4+JeqgyhdgMwUwsLQTT9E
-         Qe9w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793127090; x=1793731890; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=UJlLnl+V5fVkcEdrgjKFPN24Q/fJ++IZ4ZhlDmWxnT0=;
-        b=HFK9DQOjx55GzwyinowY3WKQr1IsXRiJeV+D7Z8hkiYPym2ZUBwoZvUifqN/FnkNGU
-         pfa1ZewvhEMvZLoaCIPFZp4tA/umOO4oOn0eM3xlRhU2sdWIJfNsPw9HVJXR4LYjiytX
-         dUAGwL90rw0Q5w+OWsW5iboZVP9RCytMSNYKe3ji15diP1zhAfgrHC9FvXhRMxxUMt35
-         TQ2tHe1FHlUZ2NICIb0rhXxsSpvA5sFGf5zLgnOgSw/RZnKbxxQN9s376gQ8m4D1+J80
-         lvL/AJdZ7uKnroRkKZncUslhbEYHXR8yj6xbpQX2rU8tK9ueLcaFgAw4VAp3h++AYDrG
-         cmtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793127090; x=1793731890;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UJlLnl+V5fVkcEdrgjKFPN24Q/fJ++IZ4ZhlDmWxnT0=;
-        b=VoFp4Co/4TcY9UvxinL2eRzHrvDEG5prr0Kbjv6UgVkb0vMl7OQ166HoUTHTAiD9x3
-         sPbo7BYUlUOmQKE8IBNWclhuR1z7jlkFGLnuVKB868PRfzc8gvJj4ECBydRBqjBK0bsw
-         WrzKlf6DLL7rPfCCOMDSCqmLHGKIbjh99TsyAM8zipIH16LImgggWQbf63QEpyhRDFrk
-         z3kjkwTPs0OjnNSX7mDsLNIj/5aHvGhjdqRItU0L+g6SReTJD8SeroewL6hKrnlREuvj
-         CRgIo+LMxSlFXF2nAVD3ZmLqi2MSboxiF9fivAQE4izdsXESvdDexow8L1tuAyPeq+p8
-         wUaQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwjy5IeqH5C2MvGvJdBKWuXJ9x/vDHEtBPkyj4/JIht7RUxyDBQg0IbeVBZTtOwES7BBxIsUYvx5FpHgsug@vger.kernel.org
-X-Gm-Message-State: AFq9FYLVPATohX9XcHorwOOpoybrrt5lPlhBO55zTHorsR1P+rYNBVcV
-	KH3EJC9Gar86NiOgKAmvjJSSZGj85sjYqK3xTaV3Qxds28iVSqTSxxESLEfuqHEon9I6p54oyQW
-	KBinEl27anUNRvfySP7d2zROPTYNLYlDFNcRymny/
-X-Gm-Gg: AYBFou3pKPHdRXp6XuG8lGuTNoVtbF7OGudrgSBYuYXfR7m8T6OYaiAnehqhvPaZOF1
-	f5w64hJw48mweSZs2X9jaCf4X+qg7TVPwMfH5VAyZwiAG8jOCaeUdbwjDWEFtLzxBY+710v+/gt
-	3M1IgPQjxbTcBc7+xcu8yzj8PgJIqvNuidmtnTj3Z2yMvexcl8CigtK6cToBK+RL9JJrghnnBUb
-	5QJys2Z326JNf67lhpUqfxnRC9NwZ6nqja1ufgMyqmOvB1Y99SyqTofpyRgTqWZJw2l7jZQvE9n
-	XRguFXDoUrsTbzDFjfe8AsAoplPEQRbzMqP7GIdqVsoYWPZaPXE/ogQRqfRvyNkqYvPx0S3l7JU
-	5kMWzYtCiFohFzRsEOAJ4BjgmMvuSqWG+wCxWLI37fK6k3iu1zh01qhqOS4VWrFaW5adfQG+r63
-	y3i536l2lFmZETkk7Q43SDt6He9SrD/h10pUhgsjRt6b5afuHPKHt0RGJ2SeGMHnjvNsspAplI1
-	OTjSOyWFLghdQqpalAoh3dAUSbP8lHd7g==
-X-Received: by 2002:a17:907:a08a:b0:c41:8e21:4d5a with SMTP id
- a640c23a62f3a-c49bdb68d78mr15531766b.5.1793127089381; Tue, 27 Oct 2026
- 11:51:29 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GBUKEafI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC0381F01829;
+	Tue, 27 Oct 2026 18:59:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793127591;
+	bh=JGUNZ2N4izt2BrjI89y42KzCgR2U1rTdgd6e4ryL5is=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=GBUKEafIXma8eeUkgoEONyZfmNLHZnhPQGFQVsuGfRdY9VxaySeTjrdbFW7ptRbVA
+	 hUEQkqET62H91eVZkZHyk53nOcf57mTBeILoQULyVkmZdRFQE8p7MRFMwmd+fPmc9J
+	 ghDxtYg6zcgW2VQrPPTm9KAWwlBvZE60LX3I0qdY9gv6WNhMqeEXyjo1hnMJB/82OI
+	 sSPJxhjQSWHFk+C5WoYca/OBl84+pWIDaJqrLB5vwBtxFAH6uVOWKdffQL2T3lEUaB
+	 i9dIVYjiU8JXt/LM47PVuhVicGWXoiNSosxfwgnxShpV8V3Fk269UOgTPIvsaNyBUs
+	 tdAPnvoh++tOg==
+Message-ID: <94116d0a-3b79-42c9-bb31-0ebdbd00effa@kernel.org>
+Date: Tue, 27 Oct 2026 19:59:37 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,138 +51,108 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026215226.3713941-4-jthoughton@google.com> <10ab2f3b005f0df2c0a88e93e6917826d928bb1f82c6a645f942c099e48f8b6e@mail.kernel.org>
-In-Reply-To: <10ab2f3b005f0df2c0a88e93e6917826d928bb1f82c6a645f942c099e48f8b6e@mail.kernel.org>
-From: James Houghton <jthoughton@google.com>
-Date: Tue, 27 Oct 2026 11:50:52 -0700
-X-Gm-Features: AclHuK8M0uftDAMQJptfiH_zotg0NLNK0vqcV1a8EUqq1l3N0gBPNm3WO8H3TD0
-Message-ID: <CADrL8HVHCVoh3AToNzFCe7KP=yC8byCGCzGYzzBEGYtYNC4fJw@mail.gmail.com>
-Subject: Re: [RFC PATCH 03/10] bpf: Fail sleepable user copy helpers when
- current->mm is NULL
-To: bot+bpf-ci@kernel.org
-Cc: akpm@linux-foundation.org, viro@zeniv.linux.org.uk, tglx@kernel.org, 
-	peterz@infradead.org, kees@kernel.org, arnd@arndb.de, david@kernel.org, 
-	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, seanjc@google.com, pbonzini@redhat.com, 
-	jmattson@google.com, axboe@kernel.dk, asml.silence@gmail.com, 
-	James.Bottomley@hansenpartnership.com, mkp@kernel.org, dsterba@suse.com, 
-	mason@kernel.org, ast@kernel.org, daniel@iogearbox.net, 
-	john.fastabend@gmail.com, jpoimboe@kernel.org, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, mingo@redhat.com, 
-	acme@kernel.org, namhyung@kernel.org, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, io-uring@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-btrfs@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, andrii@kernel.org, martin.lau@kernel.org, 
-	eddyz87@gmail.com, yonghong.song@linux.dev, ihor.solodrai@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] mm: allow freezing mappings
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>, Mike Rapoport <rppt@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, kexec@lists.infradead.org
+References: <20261027173031.763213-1-pratyush@kernel.org>
+ <fcb7b786-53e5-49bb-8505-63eb8bb4e836@kernel.org>
+ <2vxz33troxg3.fsf@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <2vxz33troxg3.fsf@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 26, 2026 at 3:30=E2=80=AFPM <bot+bpf-ci@kernel.org> wrote:
->
-> > bpf: Fail sleepable user copy helpers when current->mm is NULL
->
-> TL;DR: Commit message only: the security_file_release() example of a slee=
-pable
-> program running from a kworker looks inaccurate, since such a program app=
-ears
-> not to be attachable there. The fix itself looks justified.
->
-> > bpf: Fail sleepable user copy helpers when current->mm is NULL
-> >
-> > Sleepable BPF programs can run on behalf of a kernel thread, or of a
-> > task that has already gone through exit_mm(). For example, bpf_wq
-> > callbacks always run from a kworker, bpf_task_work callbacks queued
-> > late enough run from exit_task_work(), and lsm.s or fentry.s programs
-> > may be attached to functions called during exit_files(),
-> > exit_task_work() or from kernel threads (e.g. security_file_release()
-> > from a kworker running delayed_fput()).
-> > In such contexts, bpf_copy_from_user(), bpf_copy_from_user_str() and
-> > bpf_copy_from_user{,_str}_dynptr() (when reading from the current task)
-> > call copy_from_user() or strncpy_from_user() without an mm. That access
-> > does not reliably fail: the user half of the address space belongs to
-> > whatever mm happens to be lazily loaded, if any, so the program may rea=
-d
-> > another task's memory.
-> > As there is no user memory to read from in this case, fail with -EFAULT
-> > without attempting the access.
-> > Fixes: 07be4c4a3e7a ("bpf: Add bpf_copy_from_user() helper.")
-> > Fixes: 65ab5ac4df01 ("bpf: Add bpf_copy_from_user_str kfunc")
-> > Fixes: a498ee7576de ("bpf: Implement dynptr copy kfuncs")
-> > Signed-off-by: James Houghton <jthoughton@google.com>
->
-> The commit message gives security_file_release() as an example of a place
-> where an lsm.s or fentry.s program can run from a kworker:
->
-> > (e.g. security_file_release() from a kworker running delayed_fput())
->
-> Is this example accurate for the tree being patched?
->
-> bpf_lsm_file_release is not in the sleepable_lsm_hooks set in
-> kernel/bpf/bpf_lsm.c, so btf_id_allow_sleepable() rejects a sleepable
-> BPF_PROG_TYPE_LSM program there.  bpf_lsm_file_free_security, the other h=
-ook
-> reached from __fput() through file_free(), is in untrusted_lsm_hooks rath=
-er
-> than the sleepable set.
->
-> For a BPF_PROG_TYPE_TRACING program, check_attach_sleepable() requires
-> within_error_injection_list(addr) (or a syscall prefix when
-> CONFIG_FUNCTION_ERROR_INJECTION is off), or an fmodret set with
-> KF_SLEEPABLE.  Neither security_file_release() nor bpf_lsm_file_release()
-> has ALLOW_ERROR_INJECTION, and the only fmodret sets are in
-> net/bpf/test_run.c, net/mptcp/bpf.c and bpf_testmod.
->
-> That suggests a program attached to security_file_release() is never
-> sleepable and cannot call bpf_copy_from_user() or the KF_SLEEPABLE copy
-> kfuncs.
+On 10/27/26 18:38, Pratyush Yadav wrote:
+> On Tue, Oct 27 2026, David Hildenbrand (Arm) wrote:
+> 
+>> On 10/27/26 18:30, Pratyush Yadav wrote:
+>>> From: "Pratyush Yadav (Google)" <pratyush@kernel.org>
+>>>
+>>> Hi,
+>>
+>> Hi,
+>>
+>> we're in the merge windows and focused on fixing things (apparently all of the
+>> kernel). This is not the right time to discuss new changes.
+> 
+> Sorry. I thought the MM tree was open to changes in the merge window.
 
-Great catch. Yeah, the examples aren't right (but the fix is still correct)=
-.
+We usually prefer to get stuff outside the merge window, but right now we have
+our hands full with fixes.
 
-> The fix itself still looks justified, since bpf_wq callbacks run from a
-> kworker and is_async_cb_sleepable() is true for them.  Only the example
-> appears to be off.
->
-> Would an example that is actually reachable keep the changelog accurate?
-> For instance, bpf_lsm_task_alloc() when kthreadd forks a kernel thread
-> (current is kthreadd), or bpf_lsm_kernel_read_file() and bpf_lsm_file_ope=
-n()
-> when a kworker loads firmware with kernel_read_file().  All three hooks a=
-re
-> in sleepable_lsm_hooks.
+So I just wanted to set the expectation that this will likely be ignored and
+might need a ping or a resend after the merge window.
 
-I've adjusted the first paragraph of the changelog to:
+(I'm afraid the fix party will not end before the merge window ends)
 
-  Sleepable BPF programs can run on behalf of a kernel thread, or of a
-  task that has already gone through exit_mm(). For example, bpf_wq
-  callbacks always run from a kworker, bpf_task_work callbacks queued late
-  enough run from exit_task_work(), lsm.s programs may be attached to
-  hooks reached from kernel threads or from exit_task_work() (e.g.
-  bpf_lsm_inode_free_security() when the final __fput() of an unlinked
-  file runs from delayed_fput() or from exit_task_work(), or
-  bpf_lsm_bprm_check_security() during a usermode helper's
-  kernel_execve()), and fentry.s programs may be attached to
-  error-injectable functions called from kernel threads (e.g.
-  btrfs_should_cancel_balance() from the btrfs-balance kthread).
+-- 
+Cheers,
 
-I think all the Fixes are still accurate. The first Fixes isn't very
-obvious; re-checking it with Claude provided a pretty clear
-explanation for why it's accurate:
-
-    This is the subtle one. In 07be4c4a3e7a (v5.10) the sleepable LSM
-    set was just bpf_lsm_file_mprotect and bpf_lsm_bprm_committed_creds,
-    and both always run with an mm. The LSM examples above only became
-    sleepable later, in 423f16108c9d ("bpf: Augment the set of sleepable
-    LSM hooks", v5.11), and bpf_wq only arrived in 81f1d7a583fa ("bpf:
-    wq: add bpf_wq_set_callback_impl", v6.10).
-
-    However, fentry.s was already allowed on any ALLOW_ERROR_INJECTION
-    function other than __add_to_page_cache_locked, should_fail_alloc_page
-    and should_failslab, and that list already included
-    btrfs_should_cancel_balance() (called from the btrfs-balance kthread
-    via balance_kthread() -> btrfs_balance() -> __btrfs_balance()), as
-    well as btrfs_check_node() and btrfs_check_leaf_full() (called from
-    the btrfs end-io workers). So bpf_copy_from_user() could be called
-    without an mm from the moment it existed, and 07be4c4a3e7a is the
-    right commit to blame rather than 423f16108c9d.
+David
