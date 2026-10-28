@@ -1,60 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.122
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.87
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793205525;
-	b=FkvcvuOCgSAz/B9yWoU4mehnNm9jTgjN2i/MPA3v04bSl3i4NfRyTSZBnO7qN3r0xqSg
-	 ++SAynWOznuEqUe+/ieR6MUZhWVdm6zNd/EIASVPhiZ/QCPHlOGXi/81AMoY559vD6Znr
-	 MVllL1CjvlZQdoXdRqj4h3lzb1PjYjxcXwOKxw2LZ6e32G7KlI8XogVt2lIXnVzQ3/NiI
-	 8r4UNyh1q/fNIju5DnP3RfZYjwLn+AB9OEUsNMjMV3fEv2GWf4r8/7dyOlZMpJ0fbDOcM
-	 P65omQsyVKTNck23yTxYYt95mMKB6VJP4NXoZoaXv/JTmz4M62LZnXXPAImIQCRfxhw==
+	t=1793205531;
+	b=jySafsh5kGAPIUEx88P65CYPs0A/YTfm8pZQ0ejqE6TUs4mp7HUpwzEzSU6McqouK0jy
+	 KhGvid4/n6eaJnOuT/Zqo5ZbRQyANIg4x8qsmTZekGhyO5QWlzjLkme50YxX45YqRJyaL
+	 M0PqEhVj0bO92NEA3U4gLSgD16WPP5YpoVXZGUFLuLFzePY/V0C9YrdcMRLUPXdopEZMV
+	 2PFMYg70AnF/AwlzbNyrNT5KsYsVkGJRZdqsXT8ihat9Ttqt9McWw83Jkc13n+xV26sFV
+	 N4v6+Q8qmUNIktY41DPeCU15atKmJfL4/Ww7YYwovGLXZYlPlYODNjcvqDHAPIEIyNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793205525;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793205531;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=MkzrwFnG/lcGlHzjpYe1RkdpHO6VQy9tK8CD7EjZ//0=;
-	b=uRjsa2CblN9EHcXaFF19mrkIMxzyopzMhTdFw04bH1IJ0BxZtRkeyNd0L4wWkIgYXNpl
-	 1kATBORocDPJpCSXDh8sdvThX6yDU0zE4UPkm4VXxGm0ZO+wrObSORNn5S+otVTogusOK
-	 Y8kJvk2+f0/ILBH+TdO/jKyzKjM59Jh16wPKzgrZLnazuQjwCrAL+mAiPZCTP4of2RbDR
-	 x4j70QZ172YIpXEHdargumg9Xr5dOYfaK/KMp/kmYy5D1wcyGpHLmYD/sfiBA+9SvpH43
-	 2g40Yx2+9JcLsgp0Ps4Ggyqt4ln7f4Qh4J4IErmG2jqLl3yHcAZ33Rz8B+TfvBeZk6A==
+	bh=ifR0qDy/iaxXGXvQm3zB7TkCmfvzruM7DFYN/9xaScM=;
+	b=le+g6uSf5eG5m3/LTff+kOJlGOfOiQmrqPC9p5JGzof5j/hYRZ9RBMT3GI+9gTDvdNnD
+	 R5NQo60ONhFfs61+3910jiqU+Era0tltEeatNDnfZ/R07FdcReoKTylFGPz0xyYAsITgW
+	 7kDw/MWwmSnff21aVWYAGk+/yDEiKWvW5dbmNzLejusGHdVZ5BsSreRNg0WvaZmjfCaMr
+	 0Hy4FVnHN0fTfUAA1YNAocKydiDDHczLVjeZAgTdbzsrKhXQH26EKHhI/1sqKiIG04Hg4
+	 WPGRPqRNBTbHV3k7NhxyTGBO9R20ypTk1Bq/Qyi2+zVoQnQZGh+svjXQWUgQDWFWqTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=uauuUce0;
-	arc=none smtp.remote-ip=95.215.58.122
-Received: from mta1.migadu.com (out-122.mta1.migadu.com [95.215.58.122])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=nKfJXe8w;
+	arc=none smtp.remote-ip=91.218.175.87
+Received: from mta0.migadu.com (out-87.mta0.migadu.com [91.218.175.87])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994BC606B28B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:38:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 994BC606B28B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB957606B2AB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:38:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB957606B2AB
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=uauuUce0
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=nKfJXe8w
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=EVCTuwWIrcinYfvYY/8XHBFMFVypS10fCIWhje7y1tU=;
+DKIM-Signature: a=rsa-sha256; bh=kpn3x0ZLcIzl4sHYfMb536xhUwwO2lJCcQ17NPADT+w=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793205522; v=1; x=1793810322;
- b=uauuUce0G5VdYyukUE/yH+yGvgfLub+TSS1bzh+59Cfpf3HdI2m5Bw3bcgpUYPaA8vYyaE6p
- Yc3fMd53nyxfrq8Yt2tYalyPjv6ZCn9tu/qkOm844ufCK00wgH6RECEwkFrpjm0CkbsmtjPOPyV
- BAGHA6mH6XZ5tPXnLHvkcTaM=
+ t=1793205529; v=1; x=1793810329;
+ b=nKfJXe8wQ6N3w7OmyuMTi0wf549hs6VrCS7HhamhGcrWPXu3Z4GNVNhXjiAyLcjpEUTES6+O
+ yAvPp4i1xNN8EX5hDJ6aCFRSkOV2w/VgIOlBXbR+wem/fhHZyNyVazuYpLMTU4nH0R+zPnJJoYa
+ Xu/qJH79DWNuGfb0qGeh+mnA=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 9429332563f4f3c5;
-	Wed, 28 Oct 2026 16:38:42 +0000
-X-Mizu-Trace-ID: 9429332563f4f3c5
+Received: by mta11.migadu.com with ESMTPS id 8d7449e846000ce6;
+	Wed, 28 Oct 2026 16:38:49 +0000
+X-Mizu-Trace-ID: 8d7449e846000ce6
 X-Migadu-Flow: FLOW_OUT
 From: wen.yang@linux.dev
 To: Joel Granados <joel.granados@kernel.org>
 Cc: Wen Yang <wen.yang@linux.dev>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 34/39] ipv4: move device sysctl context to priv
-Date: Thu, 29 Oct 2026 00:35:13 +0800
-Message-Id: <33fdcb47667bdb4f7358e0ffa703614bb001ea8e.1793204511.git.wen.yang@linux.dev>
+Subject: [RFC PATCH 35/39] netfilter: move logger sysctl context to priv
+Date: Thu, 29 Oct 2026 00:35:14 +0800
+Message-Id: <f757d99eb27472d43fb503c4b3e9fa2b1dc76fa1.1793204511.git.wen.yang@linux.dev>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1793204511.git.wen.yang@linux.dev>
 References: <cover.1793204511.git.wen.yang@linux.dev>
@@ -71,155 +71,159 @@ Content-Transfer-Encoding: 8bit
 
 From: Wen Yang <wen.yang@linux.dev>
 
-Like addrconf, devinet needs the ipv4_devconf and the netns in each
-handler, and the per-net ip_forward entry needs the all-devconf. Those
-pointers currently share extra1/extra2 with the numeric bounds.
+nf_log keeps the netns in extra2 and encodes the protocol family into
+extra1 as an integer cast to a pointer. Both share the fields that hold
+numeric bounds elsewhere, and the family encoding is a type error
+waiting to happen.
 
-Put them in priv, keep data as the devconf field, and let registration
-set only priv. The forwarding entry points data straight at the
-all-devconf forwarding slot.
+Carry {net, family} in priv, leave data NULL, and keep maxlen as the
+proc_dostring() name length. The family becomes a real field.
 
 Signed-off-by: Wen Yang <wen.yang@linux.dev>
 ---
- net/ipv4/devinet.c | 53 ++++++++++++++++++++++++++++++++--------------
- 1 file changed, 37 insertions(+), 16 deletions(-)
+ net/netfilter/nf_log.c | 67 ++++++++++++++++++++++++------------------
+ 1 file changed, 38 insertions(+), 29 deletions(-)
 
-diff --git a/net/ipv4/devinet.c b/net/ipv4/devinet.c
-index 1e9d988849c9..e1899b268a34 100644
---- a/net/ipv4/devinet.c
-+++ b/net/ipv4/devinet.c
-@@ -2555,17 +2555,26 @@ static int devinet_conf_ifindex(struct net *net, struct ipv4_devconf *cnf)
- 	}
- }
+diff --git a/net/netfilter/nf_log.c b/net/netfilter/nf_log.c
+index f1d3649e3fc6..8163774ad4d4 100644
+--- a/net/netfilter/nf_log.c
++++ b/net/netfilter/nf_log.c
+@@ -420,8 +420,18 @@ static const struct seq_operations nflog_seq_ops = {
+ #endif /* PROC_FS */
  
-+/* Owned by the registered table; devconf and net outlive its handlers. */
-+struct devinet_sysctl_ctx {
-+	struct ipv4_devconf *devconf;
+ #ifdef CONFIG_SYSCTL
++struct nf_log_sysctl_context {
 +	struct net *net;
++	unsigned int family;
 +};
 +
- static int devinet_conf_proc(const struct ctl_table *ctl, int write,
- 			     void *buffer, size_t *lenp, loff_t *ppos)
- {
--	int old_value = *(int *)ctl->data;
--	int ret = proc_dointvec(ctl, write, buffer, lenp, ppos);
--	int new_value = *(int *)ctl->data;
-+	const struct devinet_sysctl_ctx *ctx = ctl->priv;
-+	int old_value, ret, new_value;
++struct nf_log_sysctl_table {
++	struct ctl_table vars[NFPROTO_NUMPROTO];
++	struct nf_log_sysctl_context context[NFPROTO_NUMPROTO];
++};
 +
-+	old_value = *(int *)ctl->data;
-+	ret = proc_dointvec(ctl, write, buffer, lenp, ppos);
-+	new_value = *(int *)ctl->data;
+ static char nf_log_sysctl_fnames[NFPROTO_NUMPROTO-NFPROTO_UNSPEC][3];
+-static struct ctl_table nf_log_sysctl_table[NFPROTO_NUMPROTO];
++static struct nf_log_sysctl_table nf_log_sysctl_table;
+ static struct ctl_table_header *nf_log_sysctl_fhdr;
+ 
+ static struct ctl_table nf_log_sysctl_ftable[] = {
+@@ -440,8 +450,9 @@ static int nf_log_proc_dostring(const struct ctl_table *table, int write,
+ 	const struct nf_logger *logger;
+ 	char buf[NFLOGGER_NAME_LEN];
+ 	int r = 0;
+-	int tindex = (unsigned long)table->extra1;
+-	struct net *net = table->extra2;
++	const struct nf_log_sysctl_context *ctx = table->priv;
++	unsigned int tindex = ctx->family;
++	struct net *net = ctx->net;
  
  	if (write) {
--		struct ipv4_devconf *cnf = ctl->extra1;
-+		struct ipv4_devconf *cnf = ctx->devconf;
- 		int i = (int *)ctl->data - cnf->data;
--		struct net *net = ctl->extra2;
-+		struct net *net = ctx->net;
- 		int ifindex;
+ 		struct ctl_table tmp = *table;
+@@ -451,6 +462,7 @@ static int nf_log_proc_dostring(const struct ctl_table *table, int write,
+ 		 */
+ 		buf[0] = '\0';
+ 		tmp.data = buf;
++		tmp.maxlen = sizeof(buf);
+ 		r = proc_dostring(&tmp, write, buffer, lenp, ppos);
+ 		if (r)
+ 			return r;
+@@ -471,6 +483,7 @@ static int nf_log_proc_dostring(const struct ctl_table *table, int write,
+ 		struct ctl_table tmp = *table;
  
- 		/* These attributes are bypassing the tracking state,
-@@ -2597,7 +2606,8 @@ static int devinet_conf_proc(const struct ctl_table *ctl, int write,
- static int devinet_sysctl_forward(const struct ctl_table *ctl, int write,
- 				  void *buffer, size_t *lenp, loff_t *ppos)
+ 		tmp.data = buf;
++		tmp.maxlen = sizeof(buf);
+ 		mutex_lock(&nf_log_mutex);
+ 		logger = nft_log_dereference(net->nf.nf_loggers[tindex]);
+ 		if (!logger)
+@@ -486,42 +499,38 @@ static int nf_log_proc_dostring(const struct ctl_table *table, int write,
+ 
+ static int netfilter_log_sysctl_init(struct net *net)
  {
--	struct net *net = ctl->extra2;
-+	const struct devinet_sysctl_ctx *ctx = ctl->priv;
-+	struct net *net = ctx->net;
- 	int *valp = ctl->data;
- 	int val = *valp;
- 	int ret;
-@@ -2617,7 +2627,7 @@ static int devinet_sysctl_forward(const struct ctl_table *ctl, int write,
- 			if (valp == &IPV4_DEVCONF_ALL(net, FORWARDING)) {
- 				inet_forward_change(net);
- 			} else {
--				struct ipv4_devconf *cnf = ctl->extra1;
-+				struct ipv4_devconf *cnf = ctx->devconf;
- 				struct in_device *idev =
- 					container_of(cnf, struct in_device, cnf);
- 				if (*valp)
-@@ -2647,7 +2657,6 @@ static int devinet_sysctl_forward(const struct ctl_table *ctl, int write,
- 		.maxlen		= sizeof(int), \
- 		.mode		= mval, \
- 		.proc_handler	= proc, \
--		.extra1		= &ipv4_devconf, \
++	struct nf_log_sysctl_table *t = &nf_log_sysctl_table;
+ 	int i;
+-	struct ctl_table *table;
+ 
+-	table = nf_log_sysctl_table;
+ 	if (!net_eq(net, &init_net)) {
+-		table = kmemdup(nf_log_sysctl_table,
+-				 sizeof(nf_log_sysctl_table),
+-				 GFP_KERNEL_ACCOUNT);
+-		if (!table)
+-			goto err_alloc;
++		t = kmemdup(t, sizeof(*t), GFP_KERNEL_ACCOUNT);
++		if (!t)
++			return -ENOMEM;
+ 	} else {
+ 		for (i = NFPROTO_UNSPEC; i < NFPROTO_NUMPROTO; i++) {
+-			snprintf(nf_log_sysctl_fnames[i],
+-				 3, "%d", i);
+-			nf_log_sysctl_table[i].procname	=
+-				nf_log_sysctl_fnames[i];
+-			nf_log_sysctl_table[i].maxlen = NFLOGGER_NAME_LEN;
+-			nf_log_sysctl_table[i].mode = 0644;
+-			nf_log_sysctl_table[i].proc_handler =
+-				nf_log_proc_dostring;
+-			nf_log_sysctl_table[i].extra1 =
+-				(void *)(unsigned long) i;
++			snprintf(nf_log_sysctl_fnames[i], 3, "%d", i);
++			t->vars[i].procname = nf_log_sysctl_fnames[i];
++			t->vars[i].maxlen = NFLOGGER_NAME_LEN;
++			t->vars[i].mode = 0644;
++			t->vars[i].proc_handler = nf_log_proc_dostring;
+ 		}
+ 		nf_log_sysctl_fhdr = register_net_sysctl(net, "net/netfilter",
+ 							 nf_log_sysctl_ftable);
+ 		if (!nf_log_sysctl_fhdr)
+-			goto err_freg;
++			return -ENOMEM;
  	}
  
- #define DEVINET_SYSCTL_RW_ENTRY(attr, name) \
-@@ -2662,6 +2671,7 @@ static int devinet_sysctl_forward(const struct ctl_table *ctl, int write,
- static struct devinet_sysctl_table {
- 	struct ctl_table_header *sysctl_header;
- 	struct ctl_table devinet_vars[IPV4_DEVCONF_MAX];
-+	struct devinet_sysctl_ctx contexts[IPV4_DEVCONF_MAX];
- } devinet_sysctl = {
- 	.devinet_vars = {
- 		DEVINET_SYSCTL_COMPLEX_ENTRY(FORWARDING, "forwarding",
-@@ -2725,8 +2735,12 @@ static int __devinet_sysctl_register(struct net *net, char *dev_name,
+-	for (i = NFPROTO_UNSPEC; i < NFPROTO_NUMPROTO; i++)
+-		table[i].extra2 = net;
++	for (i = NFPROTO_UNSPEC; i < NFPROTO_NUMPROTO; i++) {
++		t->context[i].net = net;
++		t->context[i].family = i;
++		t->vars[i].data = NULL;
++		t->vars[i].priv = &t->context[i];
++	}
  
- 	for (i = 0; i < ARRAY_SIZE(t->devinet_vars); i++) {
- 		t->devinet_vars[i].data += (char *)p - (char *)&ipv4_devconf;
--		t->devinet_vars[i].extra1 = p;
--		t->devinet_vars[i].extra2 = net;
-+		if (t->devinet_vars[i].proc_handler == devinet_conf_proc ||
-+		    t->devinet_vars[i].proc_handler == devinet_sysctl_forward) {
-+			t->contexts[i].devconf = p;
-+			t->contexts[i].net = net;
-+			t->devinet_vars[i].priv = &t->contexts[i];
-+		}
- 	}
+ 	net->nf.nf_log_dir_header = register_net_sysctl_sz(net,
+ 							   "net/netfilter/nf_log",
+-							   table,
+-							   ARRAY_SIZE(nf_log_sysctl_table));
++							   t->vars,
++							   ARRAY_SIZE(t->vars));
+ 	if (!net->nf.nf_log_dir_header)
+ 		goto err_reg;
  
- 	snprintf(path, sizeof(path), "net/ipv4/conf/%s", dev_name);
-@@ -2786,6 +2800,11 @@ static void devinet_sysctl_unregister(struct in_device *idev)
- 	neigh_sysctl_unregister(idev->arp_parms);
+@@ -529,22 +538,22 @@ static int netfilter_log_sysctl_init(struct net *net)
+ 
+ err_reg:
+ 	if (!net_eq(net, &init_net))
+-		kfree(table);
++		kfree(t);
+ 	else
+ 		unregister_net_sysctl_table(nf_log_sysctl_fhdr);
+-err_freg:
+-err_alloc:
+ 	return -ENOMEM;
  }
  
-+struct devinet_forward_table {
-+	struct ctl_table table[1];
-+	struct devinet_sysctl_ctx context;
-+};
-+
- static const struct ctl_table ctl_forward_entry[] = {
- 	{
- 		.procname	= "ip_forward",
-@@ -2794,8 +2813,6 @@ static const struct ctl_table ctl_forward_entry[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= devinet_sysctl_forward,
--		.extra1		= &ipv4_devconf,
--		.extra2		= &init_net,
- 	},
- };
- #endif
-@@ -2805,6 +2822,7 @@ static __net_init int devinet_init_net(struct net *net)
- #ifdef CONFIG_SYSCTL
- 	struct ctl_table_header *forw_hdr;
- 	struct ctl_table *tbl;
-+	struct devinet_forward_table *forward;
- #endif
- 	struct ipv4_devconf *all, *dflt;
- 	int err;
-@@ -2825,13 +2843,16 @@ static __net_init int devinet_init_net(struct net *net)
- 		goto err_alloc_dflt;
+ static void netfilter_log_sysctl_exit(struct net *net)
+ {
+ 	const struct ctl_table *table;
++	const struct nf_log_sysctl_table *t;
  
- #ifdef CONFIG_SYSCTL
--	tbl = kmemdup(ctl_forward_entry, sizeof(ctl_forward_entry), GFP_KERNEL);
--	if (!tbl)
-+	forward = kmalloc(sizeof(*forward), GFP_KERNEL);
-+	if (!forward)
- 		goto err_alloc_ctl;
- 
-+	tbl = forward->table;
-+	memcpy(tbl, ctl_forward_entry, sizeof(ctl_forward_entry));
-+	forward->context.devconf = all;
-+	forward->context.net = net;
- 	tbl[0].data = &all->data[IPV4_DEVCONF_FORWARDING - 1];
--	tbl[0].extra1 = all;
--	tbl[0].extra2 = net;
-+	tbl[0].priv = &forward->context;
- #endif
- 
- 	if (!net_eq(net, &init_net)) {
+ 	table = net->nf.nf_log_dir_header->ctl_table_arg;
++	t = container_of(table, struct nf_log_sysctl_table, vars[0]);
+ 	unregister_net_sysctl_table(net->nf.nf_log_dir_header);
+ 	if (!net_eq(net, &init_net))
+-		kfree(table);
++		kfree(t);
+ 	else
+ 		unregister_net_sysctl_table(nf_log_sysctl_fhdr);
+ }
 -- 
 2.25.1
 
