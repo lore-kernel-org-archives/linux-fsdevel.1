@@ -1,92 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793222533;
-	b=ML5w38R4I4jotUl0VLV88kZel8ihYkyUYHMHJvHmOJ6MFswkHRZhm0VhMheqWRApCPBT
-	 /H6XHt8H7OqRH4GKjWDi7UAW/Zsw6QJcIqqnWYkIvXtWbVO8ca2q3FIUC+ZOFB1R3o4zQ
-	 9ZoEKLttB81sO7bsVYfnFklueVN4FvzGqIhbDCHg3CWysbM8dP9zSzES86ih6827ASu5J
-	 oGkKD6BKSqakOfkUcwaLp5kOYDn5nASeo6b1aAjXPsm8wyBE7RCUl6JcZkHixXdlDLa7Y
-	 E64LndNiDrIo1X+kLENdZw9K0lz72MibWuQf+RKRB7yDKjdwiL9YPa842mnZz14qDgQ==
+	t=1793223954;
+	b=cRNU0llln46bbBOu8iS+QE4efA+s6VsfyQED9A9qp02/VpTeyfbK/C02mepTNW5mLjAr
+	 CBIVdIVaTUK33evfOdMLxO6ErC6C4GEakHp15+ofxIdPiiXeGO6VncFL1GlnYXiqr26Gf
+	 0euEBEGugvxEo+ztNq7TOEczGqsS6j9WfVUpcEZKgpPrpA823yg7gbA84/vm1tk/kQwTR
+	 xgBz8H2pE3DkrPp4E+6Aje1Tf0rYllOqCKGh6eG3gYl94GQT1zM0OjsFgPAiFxW48tdo5
+	 hNU6zzOI//66+pSoVEjTKKQQRPRY9jmHeMtbHMRy4HnskVDeYZuCIrdPtc+7XcCF2UQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793222533;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=pDKBmS6WYnfb6Q8TXF/5+aSfNtslksEYbf4eTsPewHM=;
-	b=x1cvmKxft5AozZubVLg6mjHPDFftFZN6H0oDp2FNH2P/jke7qs8D4Z5xaHj/PNpzgzOk
-	 mBLQPTPw++DEP7hPf6+NeFnFta9ULeFz0D1FEnYaqoE8Wo/DZEDU47XzfGkRH75Zo6Izo
-	 qs78D2RSkrZCP8nsRj+mwn/n9t9WxCeDgeFLgjs8yagRHYfEe9mD35fJeOaHWRKLQ1KQm
-	 9r9/QZqt6wNjjUM2RmJJXFtpYJqm8qQxXoZX5AKdjrIWLJ0Eo8RyPcFK9/Q+vO6Tslai1
-	 eRClpR9DfrVAXNRK934ZyRrao4UNHhxI2mh0J0fyxpZmadCvrv6LZsSdjPPiTdIDDTA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793223954;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=fbrRyxoimymYWhLJDCrGjtIVJ2fCjNVZxRXAPG71cWM=;
+	b=voM5OtyqsKtUminbs+kCs8LPPDVm1gvVbr+6zqZlnjE0bYm2gHwsnCBN3R7WVsMkI+XJ
+	 SM3n1Nvzu0MNGdWCjWx19+4loFoTAhD3STY0eVtR1ZtD/BtreL1pf/wGnCPcgZRhwULj3
+	 5y46nSNSzmXmeLJzkLrYb4WZTLgx0GqmozF6M7TuB7nEOJo9YIKLA2mtEvjFFRb/JkNRk
+	 xNsDVBcOc2P10FV9Ba3bKAyoEu2iwZYsKQmeNHBU3fGoKUw4reK/iCAcuNk/uvHvr3qy7
+	 eN3gL4BIm8vRSBJraQNyfww5Rlo4xhRnajDSzlOZc6UFAlMsFr8ZEhrhi9PKyeD5rPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hr0QV9XD;
-	arc=none smtp.remote-ip=74.125.229.137
-Received: from mail-dl2-f9.google.com (mail-dl2-f9.google.com [74.125.229.137])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="UmI/Cm2S";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6762606A31F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 21:22:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6762606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE192606A31E;
+	Wed, 28 Oct 2026 21:45:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hr0QV9XD
-Received: by mail-dl2-f9.google.com with SMTP id a92af1059eb24-164f08a9e84so341363c88.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 14:22:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793222532; x=1793827332; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pDKBmS6WYnfb6Q8TXF/5+aSfNtslksEYbf4eTsPewHM=;
-        b=hr0QV9XD1SS73k8nOo/XPZODLSu9M1wD+obtp/bS8eiJLGS3MqmodtWAxb3X8eVpzX
-         CoEcuZI4AZm4vfAUxoro2OPAVScaXOEE9gmNSIYjTAsAuxydgW8yYvT9x66r0Zni+eCL
-         8xwBV2nTyItvK7oJCwZzgpuvjsE1ntUxa5So1LzhbEchVj0SKzdouo2Khycp3HLwTgBK
-         0dafDTQFWwqgPBwBIHCdZCoRDk/TNYYjdZy1Tuj1CTgIwAQfANz67wIzuL8ErsFhPVgk
-         xnzjqk/vbOaFiGtCYlNaYA5H0le1eoFd+lFw2vKGhQJ3GZWsEp8sMKLMXU0VWP1xVfPP
-         odRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793222532; x=1793827332;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pDKBmS6WYnfb6Q8TXF/5+aSfNtslksEYbf4eTsPewHM=;
-        b=ZfkxCk6vLXeLYHZXYS2dEZMwloC3MU/YC3nwrUbFLqEcpx8tBLzjiIjs0LEZBvjsDi
-         JhdFJY7bBS0ENkDhyqF2DkWSyOJNokkSaNdo///YGf5sBgnZ2+3vmkpXW0/7NSTzGMbX
-         dUkUXELoMm04DJ+MecDi0tc2430joJfB3d/jmi1vU99kDDeAOyvnRJ0+MXmOGYXB41/M
-         hLZPPoVZU7cC4KtgIXLKTNI+pczEgJTfm1KlRer/gKw8chYi8Mi8+QcyBWrlxEzmAKMa
-         Wuunw4eVFPO10IJnoiryd3gOWbQPs2jmRkJQ7VRNVDdvL4LrozrzWbzr/gzOGpC8cosR
-         SuDQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxyqo1BfWG4MKaMOdUDrParPJNQ+u5IQavvHKcrIzW/e+jjIHs1gX54mP4DGckByJhjk/ruGstUswWzU3Ka@vger.kernel.org
-X-Gm-Message-State: AFq9FYIFhzLV0gw1G8mLoxFs4ut68SulOKYbOXmKiNFLh9TCfEKCeuVG
-	z9eS7gLha87VqEijciqm6FZMqB0h/BjP1novTJztm168dnqx1tgAj3+Y
-X-Gm-Gg: AYBFou0pIcx+T2DKFlhfoHEvpNvKlnkueZay41mvhSkBFXJdYJqZHqjDsP8qm0jFoua
-	GpMKr4Kxz9oYuLmXxKekOMAr/MJcAgDU+go2KDI0kfrN4z+BpF0MOKXfzcmOLrlagXIm18854nq
-	xduVfvcMo+AUYY8KR0rGhCGR+9amt0EA4TuoBhF+hc90YFlrSvT5qoGpp7NACQs/EYlahTSzQ6P
-	HV0K00f/XtfSUkK0miLfVZPBeBWfSAD4RYrjldENLSZd1K22VTC6XWQDTUknaWpbDCYp7ZtmAxK
-	H4LW9HztJMhtN2Ondzq92DosKjLlxWFRRGQtcsY95HO+6q/7hn6EMO/Vr3XYkZULSkB4+d1+eFA
-	Qg+/EpYWjjOrgHNk4/eL3GYXtE8CiM5UrVzusMGtuy6YdOGtzkzPO1MFZRzI4XeOISMXaiWpuIz
-	myTPWccLu85leiYsMCLHmJ9zOxjL0shl7yCoU9fUZGc61OyWHTwCRhlMsO6vRR4oROw3aJspRTb
-	Wbz5jurssl0XDiHujRCyVZ4Bmn/qRv72jDCnxlraQpuUEvktOTkWpW8y+ceDLUm3GkC/MS3BwsC
-	zwJODh4fDYm3qkOE6Z+TBp782rn/EUdik17wMUt5fb2w3jvd9h2v5Yvt
-X-Received: by 2002:a05:7022:5f0b:b0:14a:a6dc:9ca6 with SMTP id a92af1059eb24-1a6c7c35fdamr4297952c88.3.1793222531698;
-        Wed, 28 Oct 2026 14:22:11 -0700 (PDT)
-Received: from localhost.localdomain ([98.148.34.5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1a75a37093esm7147776c88.3.2026.10.28.14.22.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 14:22:09 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: hirofumi@mail.parknet.co.jp
-Cc: brauner@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dennylin0707@gmail.com
-Subject: [PATCH] fat: fix parent link count when replacing a sibling directory
-Date: Wed, 28 Oct 2026 21:16:25 +0000
-Message-ID: <20261028211626.26103-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UmI/Cm2S
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FAFF1F01825;
+	Wed, 28 Oct 2026 21:45:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793223953;
+	bh=fbrRyxoimymYWhLJDCrGjtIVJ2fCjNVZxRXAPG71cWM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=UmI/Cm2SrjBwj1BQYLo3s5sb7BMvx3t0fFbpR+mnITEWqKp5wlIiQPLln6BkXC9rt
+	 m6RZcvbkbKhA9qmDG4og48sVDa+PZnbyZkQMFjd/pOyk7PvFVJGwxKxmmGk3y4VKPW
+	 r2JDXQHZuX8Fv0WEovG6xsUoSWzKG1qoZx3iP1IdmN4kwUKF7gtBwhyTc6yUCKAP9Z
+	 tncWISQ22ZSz7AEGqiuFHP15FaJB7aOWP6s0aM9o3U08JKSaV3w1w5r5Gyr1Sq97Fu
+	 XkskqqkTDrcPRQNfM87sfV+bHscqsB/Uf8B1Ourx7X22qLn5cpDzeSEB1WAvR51lNH
+	 luun1fqwX46mg==
+Message-ID: <2f2ef336-2186-4f20-b7f5-565e60471bda@kernel.org>
+Date: Wed, 28 Oct 2026 22:45:34 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -96,53 +51,214 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 05/46] mm/truncate: look again if a folio left the mapping
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>,
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+ Baoquan He <baoquan.he@linux.dev>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Usama Arif <usama.arif@linux.dev>, Matthew Brost <matthew.brost@intel.com>,
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>,
+ Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
+ Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>,
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-cxl@vger.kernel.org, stable@vger.kernel.org,
+ Josef Bacik <josef@toxicpanda.com>
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+ <20261027-fixes_core-v1-5-6f74bec9a5bb@kernel.org>
+ <auIniV8YSpA4_oxg@thinkstation>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <auIniV8YSpA4_oxg@thinkstation>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-vfat_rename() and do_msdos_rename() adjust parent link counts only when
-updating the dotdot entry for a move between different parents. Replacing
-an existing empty directory in the same parent also removes a
-subdirectory, but leaves the parent's link count unchanged.
+On 10/28/26 17:54, Kiryl Shutsemau wrote:
+> On Tue, Oct 27, 2026 at 12:17:25AM +0100, David Hildenbrand (Arm) wrote:
+>> invalidate_inode_pages2_range() skips a folio which no longer belongs to
+>> the mapping by the time it has got the folio lock, on the assumption
+>> that somebody else has removed it from the page cache. But the folio may
+>> have been replaced, and then there is a new folio with the same data at
+>> that index.
+>>
+>> For most cases, like folio migration, that is impossible. However,
+>> collapse_file() only checks the refcount of the old folios, under the
+>> i_pages lock, and relies on their folio locks from there on. That works for
+>> users which repeat the lookup when they find folio->mapping changed.
+>> The following scenario is, however, possible:
+>>
+>>   CPU0 pwrite(O_DIRECT)               CPU1 collapse_file()
+>>   kiocb_invalidate_pages()
+>>                                       read the folio (old data), lock it
+>>                                       refcount check
+>>   the write completes                 copy to new_folio
+>>   kiocb_invalidate_post_direct_write()
+>>     find_get_entries() -> old folio
+>>     folio_lock() ...                  xas_store(new_folio)
+>>                                       folio->mapping = NULL
+>>                                       folio_unlock(folio)
+>>     folio->mapping != mapping
+>>       -> continue
+> 
+> The diagram reads as if the folio lock should have closed the race. It
+> might be clearer with CPU0's folio_lock() after CPU1's folio_unlock(),
+> since the reference taken after the refcount check is what matters:
 
-For example, renaming one of two sibling directories over the other
-leaves the parent with four links instead of three. stat and ls report
-the stale count, and find -links 3 does not match the parent.
+I'll use that, thanks!
 
-Drop the parent's link count for this case after the source entry has
-been removed successfully. Leave cross-parent renames, regular files
-and the existing error paths unchanged.
+> 
+>   CPU0 pwrite(O_DIRECT)               CPU1 collapse_file()
+>   kiocb_invalidate_pages()
+>                                       read the folio (old data), lock it
+>                                       refcount check
+>   the write completes                 copy to new_folio
+>   kiocb_invalidate_post_direct_write()
+>     find_get_entries() -> old folio
+>                                       xas_store(new_folio)
+>                                       folio->mapping = NULL
+>                                       folio_unlock(folio)
+>     folio_lock()
+>     folio->mapping != mapping
+>       -> continue
+> 
+>> In that scenario, the collapsed folio with the data from before the write
+>> stays in the page cache after the write has returned.
+>>
+>> This used to be impossible, as khugepaged only collapsed files that nobody
+>> had open for writing.
+>>
+>> Restart the lookup at that index, like shmem_undo_range() does. The same
+>> problem seems to exist in truncate_inode_pages_range() as well when
+>> truncate_inode_folio() fails, so handle it there as well.
+>>
+>> Fixes: 1b6444331beb ("mm/khugepaged: enable clean pagecache folio collapse for writable files")
+>> Cc: stable@vger.kernel.org
+>> Reported-by: Josef Bacik <josef@toxicpanda.com>
+>> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+>> ---
+>>  mm/truncate.c | 17 +++++++++++++++--
+>>  1 file changed, 15 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/mm/truncate.c b/mm/truncate.c
+>> index 733d2713a875a..6d8c0ec4623fe 100644
+>> --- a/mm/truncate.c
+>> +++ b/mm/truncate.c
+>> @@ -499,7 +499,15 @@ void truncate_inode_pages_range(struct address_space *mapping,
+>>  			folio_lock(folio);
+>>  			VM_BUG_ON_FOLIO(!folio_contains(folio, indices[i]), folio);
+>>  			folio_wait_writeback(folio);
+>> -			truncate_inode_folio(mapping, folio);
+>> +			if (truncate_inode_folio(mapping, folio)) {
+>> +				folio_unlock(folio);
+>> +				/*
+>> +				 * Folio might have been replaced: look it up
+>> +				 * again.
+>> +				 */
+>> +				index = indices[i];
+>> +				break;
+>> +			}
+>>  			folio_unlock(folio);
+>>  		}
+>>  		truncate_folio_batch_exceptionals(mapping, &fbatch, indices);
+> 
+> This hunk looks unneeded to me: its second loop restarts from start
+> until find_get_entries() finds nothing, so the new folio gets truncated
+> on a later round. Or am I missing a case?
+For truncate_inode_pages_range() I *think* the "index >= end" might prevent
+another lookup that we would need.
 
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- fs/fat/namei_msdos.c | 2 ++
- fs/fat/namei_vfat.c  | 2 ++
- 2 files changed, 4 insertions(+)
+Assume we have a large folio with 512 pages for simplicity, and we want to
+punch-hole the first half of it.
 
-diff --git a/fs/fat/namei_msdos.c b/fs/fat/namei_msdos.c
-index c7500c2859e0..570dd75dd275 100644
---- a/fs/fat/namei_msdos.c
-+++ b/fs/fat/namei_msdos.c
-@@ -565,6 +565,8 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
- 		(void)sync_inode_metadata(old_dir, 1);
- 
- 	if (new_inode) {
-+		if (is_dir && old_dir == new_dir)
-+			drop_nlink(old_dir);
- 		drop_nlink(new_inode);
- 		if (is_dir)
- 			drop_nlink(new_inode);
-diff --git a/fs/fat/namei_vfat.c b/fs/fat/namei_vfat.c
-index ff7652bf0410..d7e2df5bf7e5 100644
---- a/fs/fat/namei_vfat.c
-+++ b/fs/fat/namei_vfat.c
-@@ -1011,6 +1011,8 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
- 	vfat_update_dir_metadata(old_dir, &ts);
- 
- 	if (new_inode) {
-+		if (is_dir && old_dir == new_dir)
-+			drop_nlink(old_dir);
- 		drop_nlink(new_inode);
- 		if (is_dir)
- 			drop_nlink(new_inode);
+The whole partial splitting logic (truncate_inode_partial_folio) will first
+split that folio buddy-like into various folios.
+
+Now we want to remove the split folios in the loop:
+
+index = 0;
+end = 256;
+while (index < 256)
+	if (!find_get_entries(mapping, &index, 255, &fbatch, ...
+
+	-> Returns our split folios from the buddy split, the last one should
+           cover pages 128 to 255
+	-> Sets index = 256
+
+Then we have the concurrent stuff happening. We wouldn't re-execute the
+find_get_entries() even though a folio was replaced in the meantime, as index =256.
+
+My brain hurts, does the above make sense?
+
 -- 
-2.43.0
+Cheers,
 
+David
