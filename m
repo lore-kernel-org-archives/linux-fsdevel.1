@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793197866;
-	b=48j9M2D90eNGzO0VjNYHk8RSwB94pj0M/Qedm1IIvqwsLamRJ+pZLmvhQ2SibHpWLAPO
-	 oM1x/T//BqBkxGqD/eMlwfCqWHHLF4+BGug9vIj4+c9i3/b+FumO/TVhoONYA4XHZ6+uN
-	 iucULgI1Ks1lBhZ1qh8ZcQPKEZkl2cvEmxUXQt/328Iiv3L+aKhM08eMeRFFK29tUiAhL
-	 Z1s9f4uZsBe3oGRzXUgf0LFUNHnCRydS3xY8+Bk0Xhtt8BvxId0fsbX2AILxpvETAfZJw
-	 YIUTesaWvoTmy613sLJnwSfoXdy/FkqUfWaND556qTXbCREOqeLFLZKPciyZ4pczgBg==
+	t=1793197873;
+	b=0jblPj9KyVJol0SEE48mIzt8B5y8AwLpIH3wBeTSrQQuPdRl4F2C/zKvrAdNJ351bt1J
+	 6sjJi9ynQbv9KTEXMroMYwTG+KGQABxVDEpig/PsGgrmi/8VTL0yGmuqr9iNjjewu1+0R
+	 O3GszanwjUu5ESQeZh0KVPDGwQjRc59zj9ZSq16dJJL9NHBgeGXNIB+F1uHU368na8xVM
+	 Nh+MOojSCafM49njRZvOLoSk70m4omQlBEaXncnJxucHsfEvnnD/krKmPF9QZkBmC7uUV
+	 vY7EZwN3ycHjSWAMowrDM6ApfKiI4yWFgPlyxKIvpT1oLq8x7C1ybEiMXeZ4nDNvECQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793197866;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793197873;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=rZyjUVv6oQMhPdN7DmC2x8achQB4AwJYOLdfogUpEb0=;
-	b=EF3ofe01oFkBsU237nhrLTRRFvxFIgQ1wQjJINv8VJZcdJO9TU/fYc3ZMsD5RuCcefN0
-	 3IW763Pu9aI6vM2G/RM0QbFC1mfliWpz+EzZfUxRgyXivdR+SJBh7YOcahPfuC79yAdSA
-	 28Jpls1W0/BOoy2LAMtRkFvQvICvxc6En/yaa68aDi3VgS+v4uMLedE5zqFfryy8MGlLE
-	 UyZAE1uyUkN4bucyLpKrj2bSg8hlMVe55ubqvmob+93sYqftALSjDOQ7VAoIE0P3BNSZJ
-	 w1WnITVnoIB2QI2ElXwvMULu8EiS34+JM2ZOw6djhVm/8PpAeCSSLyCcUMj0u9rDcGQ==
+	bh=RVgBN1U+ZoVYF5b4aSwZeA1vkVCz1268U6MymOlAwwk=;
+	b=ZNzEtk8AYIkE+jDDlws5CBefBGAQR7T09UzqAVaEnZ1JFPwXlabrG1FL6UFMnvZjlpqe
+	 TOCsa+BnnaeJEmG76LRkc7Atmk2nAvCAMHtoOPzuZSKRjCIm3Rq7qmgCwpCyg0+ccYLaF
+	 TNcTIhmRw61FFbBFj2GD037h8DxHSsOLzwnM2H/34EVvxKbGbusoxcS9HFNzC3omUJOm/
+	 DsP5id2IjbIa3qZOfA/jdlL7/cobZCbDEIvx426ZafZjGMLMQ9dAByPhxtRGNG+MLsjYv
+	 lDLphZFGrKSF5IxVSeKeadDmyucrpzopU3tqz/pGU5CdVzI1NbbvbNge6HEkr/yYVqQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j+5gX8Yj;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VqvXTe2s;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0017606A31E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 14:31:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6BB606A324
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 14:31:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j+5gX8Yj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0111C1F01828;
-	Wed, 28 Oct 2026 14:31:04 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VqvXTe2s
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAEB01F031E1;
+	Wed, 28 Oct 2026 14:31:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793197866;
-	bh=rZyjUVv6oQMhPdN7DmC2x8achQB4AwJYOLdfogUpEb0=;
+	s=k20260515; t=1793197872;
+	bh=RVgBN1U+ZoVYF5b4aSwZeA1vkVCz1268U6MymOlAwwk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=j+5gX8YjA5STPCO8jXNLgCSGpOPTfshI3n9h+Q3l1GqZwBDFHMEyQAhmnDQgJFh8a
-	 Qx+pxrNcVD2C/4FBewIS+hnRDLX2NsRxgN8eTW+nXs6Maqqcss0yEcJIin90U95BrR
-	 59HY3tMfA1gfnAZzt0At5NSZ/WYUguMMCt99J6SZkc0SYa7Rj3vCUyO0Hq9QDBitZ0
-	 EHlm4lp/p9QyNorXZGM/0k66cCbhFOCZ0CQLCDZ/KDXTh0ImQjSwRZezef930C0Aiz
-	 n2VE2X2/ijV/KuZDGYhDHKA6j+a6CDtcTmhC5JOyEcTg+HjGfAMuwAH6RzMcCf1skz
-	 PihlVu94PWF3Q==
+	b=VqvXTe2sUsVEkwIU7a3SfroAtwEMVlS+kweeR3xXC85P0SKGKe2ythlyJ5DA88MZN
+	 MUzGcVfivKBF+bGKrqnL7qsB9Wv37NBgK0A2sqNiMPuoYQF/BnCHnu2mhBNOKVIOHj
+	 nLtfeG+iT5ScB5pOHdufENLb4Wm0wIDzZZ+R23tOxaHRN293RNsqS3vmTu3YHBV3fX
+	 ksWukdE5OMvrvfUFKntSSmFes7XOxoP2Vrvf3aufV+SA+m8Cb9f27PTUwCrjVOSfMu
+	 zOPu20GmS/piRQntVEt6geEaEEDzXwhzz/XBg6f2OpIJL8YDOYM96n0TMHIuD5jQ2n
+	 X8dsPDI/WH9Mw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 28 Oct 2026 15:30:37 +0100
-Subject: [PATCH 1/4] namei: make the walk flags a named enum
+Date: Wed, 28 Oct 2026 15:30:40 +0100
+Subject: [PATCH 4/4] selftests/filesystems: test walks racing the unlink of
+ covered names
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261028-work-mount-trap-b4-v1-1-f20d9d0730d6@kernel.org>
+Message-Id: <20261028-work-mount-trap-b4-v1-4-f20d9d0730d6@kernel.org>
 References: <20261028-work-mount-trap-b4-v1-0-f20d9d0730d6@kernel.org>
 In-Reply-To: <20261028-work-mount-trap-b4-v1-0-f20d9d0730d6@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -63,86 +64,687 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  Chris Mason <mason@kernel.org>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2624; i=brauner@kernel.org;
- h=from:subject:message-id; bh=uVZqtbIjMe0TcDw5M8De8Le37OIm1XMH5IQX3NVHa2U=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9YldxEv+uLpq5WjJTT2f9oT6Bf6zsa/9oLLaWEr3Fp
- 6KftqSxo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCL3jjL899idbuex9fT1cPZf
- k+sc3jqX7xXexqFikHbJqu/EjTM9Pgz/nex8rLluSvHMPJzFOuOzgO8XVfPsmpoj+qcPRj7lNhb
- lAAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=19637; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=8UtLQzP5T3OOO8KuvWpjKvUWhERT9y6a/UWyPlVMU+8=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9Yldhuu2y8srDnMC3wZIloRH5Sc9emd+dsC+iVOoGm
+ 1CSvrdBRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwESYAhgZTk4S3fVyiVnq02Lb
+ jRq7m64vKRboaWFY5BCnGXJyycFGe4b/wTGdHex5cxmzp0y/5rTgUd0X3T8Hq334rNf4HP9v/Ps
+ uIwA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Port WALK_* flags to an enum and move them up where the mount traversal
-code can see them. The next patch adds a flag the mount step will use.
+Add a raw fuse server that unlinks a name before it answers the
+revalidation of that name and check that:
 
-No functional changes.
+- a walk with LOOKUP_REVAL doesn't open what a detached mount covered
+  and fails with ESTALE
+- a walk without LOOKUP_REVAL doesn't either and fails with ENOENT
+- an open() returns when a covered name is unlinked under every walk
+  and reads the mark or fails with ESTALE or ENOENT
+- and when a plain name is unlinked under every walk
+
+Without the trap the first and the third case read what the mount
+covered.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/namei.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ .../testing/selftests/filesystems/fuse/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/fuse/Makefile  |   2 +
+ .../selftests/filesystems/fuse/unlink_reval_test.c | 617 +++++++++++++++++++++
+ 3 files changed, 620 insertions(+)
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 22c4f328b8a9..0fa9a5b7b377 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -1565,6 +1565,12 @@ static int follow_automount(struct path *path, int *count, unsigned lookup_flags
- 	return finish_automount(dentry->d_op->d_automount(path), path);
- }
+diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/testing/selftests/filesystems/fuse/.gitignore
+index fb51603fe419..379bd2d6eeb3 100644
+--- a/tools/testing/selftests/filesystems/fuse/.gitignore
++++ b/tools/testing/selftests/filesystems/fuse/.gitignore
+@@ -2,3 +2,4 @@
+ fuse_mnt
+ fusectl_test
+ write_extend_eof_test
++unlink_reval_test
+diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/testing/selftests/filesystems/fuse/Makefile
+index 95a1ee947ca7..cab6eb7999e4 100644
+--- a/tools/testing/selftests/filesystems/fuse/Makefile
++++ b/tools/testing/selftests/filesystems/fuse/Makefile
+@@ -4,6 +4,7 @@ CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
  
-+enum walk_flags {
-+	WALK_TRAILING	= (1 << 0),
-+	WALK_MORE	= (1 << 1),
-+	WALK_NOFOLLOW	= (1 << 2),
+ TEST_GEN_PROGS := fusectl_test
+ TEST_GEN_PROGS += write_extend_eof_test
++TEST_GEN_PROGS += unlink_reval_test
+ TEST_GEN_FILES := fuse_mnt
+ 
+ # fuse_acl_cache_test requires libfuse3; add it only when the library is present.
+@@ -16,6 +17,7 @@ endif
+ include ../../lib.mk
+ 
+ $(OUTPUT)/write_extend_eof_test: LDLIBS += -lpthread
++$(OUTPUT)/unlink_reval_test: LDLIBS += -lpthread
+ 
+ VAR_CFLAGS := $(shell pkg-config fuse --cflags 2>/dev/null)
+ ifeq ($(VAR_CFLAGS),)
+diff --git a/tools/testing/selftests/filesystems/fuse/unlink_reval_test.c b/tools/testing/selftests/filesystems/fuse/unlink_reval_test.c
+new file mode 100644
+index 000000000000..bcc43d4637cc
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/fuse/unlink_reval_test.c
+@@ -0,0 +1,617 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * A refwalk that finds a name whose mounts are detached by an unlink
++ * before it looked at them must not step onto what the mounts covered,
++ * with or without LOOKUP_REVAL. The mount step fails with ESTALE and the
++ * walk is redone with LOOKUP_REVAL, which can't find the removed name.
++ * And it must not keep walking for as long as names keep being removed
++ * under it.
++ *
++ * A raw fuse server provides the timing. It answers the revalidation of
++ * a name only after a second thread has unlinked that name through the
++ * fuse mount itself, while the walker walks an open_tree() copy of it
++ * with a tmpfs file mounted over the name.
++ *
++ * Requires root to mount fuse.
++ */
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <poll.h>
++#include <pthread.h>
++#include <sched.h>
++#include <signal.h>
++#include <stdatomic.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/mount.h>
++#include <sys/stat.h>
++#include <sys/syscall.h>
++#include <sys/uio.h>
++#include <sys/wait.h>
++#include <time.h>
++#include <unistd.h>
++#include <linux/fuse.h>
++
++#include "../../kselftest_harness.h"
++
++#ifndef OPEN_TREE_CLONE
++#define OPEN_TREE_CLONE		1
++#endif
++#ifndef OPEN_TREE_CLOEXEC
++#define OPEN_TREE_CLOEXEC	O_CLOEXEC
++#endif
++#ifndef MOVE_MOUNT_F_EMPTY_PATH
++#define MOVE_MOUNT_F_EMPTY_PATH	0x00000004
++#endif
++
++#define NR_SERVERS	8
++#define WALK_SECS	5
++
++enum {
++	ROOT_ID = FUSE_ROOT_ID,
++	F1_ID,		/* /f1 */
++	LNK_ID,		/* /lnk -> f1 */
++	D_ID,		/* /d */
++	F_ID,		/* /d/f */
 +};
 +
- /*
-  * mount traversal - out-of-line part.  One note on ->d_flags accesses -
-  * dentries are pinned but not locked here, so negative dentry can go
-@@ -2002,10 +2008,8 @@ static int reserve_stack(struct nameidata *nd, struct path *link)
- 	return -ENOMEM;
- }
- 
--enum {WALK_TRAILING = 1, WALK_MORE = 2, WALK_NOFOLLOW = 4};
--
- static noinline const char *pick_link(struct nameidata *nd, struct path *link,
--		     struct inode *inode, int flags)
-+		     struct inode *inode, enum walk_flags flags)
- {
- 	struct saved *last;
- 	const char *res;
-@@ -2094,8 +2098,8 @@ static noinline const char *pick_link(struct nameidata *nd, struct path *link,
-  *
-  * NOTE: dentry must be what nd->next_seq had been sampled from.
-  */
--static noinline const char *step_into_slowpath(struct nameidata *nd, int flags,
--		     struct dentry *dentry)
-+static noinline const char *step_into_slowpath(struct nameidata *nd,
-+		     enum walk_flags flags, struct dentry *dentry)
- {
- 	struct path path;
- 	struct inode *inode;
-@@ -2127,8 +2131,8 @@ static noinline const char *step_into_slowpath(struct nameidata *nd, int flags,
- 	return pick_link(nd, &path, inode, flags);
- }
- 
--static __always_inline const char *step_into(struct nameidata *nd, int flags,
--                    struct dentry *dentry)
-+static __always_inline const char *step_into(struct nameidata *nd,
-+		    enum walk_flags flags, struct dentry *dentry)
- {
- 	/*
- 	 * In the common case we are in rcu-walk and traversing over a non-mounted on
-@@ -2262,7 +2266,8 @@ static const char *handle_dots(struct nameidata *nd, enum last_type type)
- 	return NULL;
- }
- 
--static __always_inline const char *walk_component(struct nameidata *nd, int flags)
-+static __always_inline const char *walk_component(struct nameidata *nd,
-+						  enum walk_flags flags)
- {
- 	struct dentry *dentry;
- 	/*
++/* what a walk must not read: the file the mount covered */
++#define UNDER	"UNDER"
++#define MARK	"MARK"
++
++static int ffd = -1;
++static char fmnt[128], markpath[128];
++
++/* in revalidation: f1 is valid for 3600s, 0 makes every refwalk revalidate it */
++static atomic_uint f1_valid;
++static atomic_int f1_present;
++static atomic_int unlink_f1;		/* unlink F/f1 in the walker's next lookup of f1 */
++static atomic_int estale_readlink;	/* fail this pid's next readlink with ESTALE */
++static atomic_int walker;
++
++static atomic_int games;		/* make d/f findable and unlink it under the walker */
++static atomic_int cover_tfd = -1;	/* cover d/f in this copy of F as well */
++static atomic_int f_findable;
++static atomic_long nr_unlinks;
++
++/* ---- a helper thread runs the syscalls a server thread waits for ---- */
++
++enum job_kind { JOB_NONE, JOB_STAT, JOB_UNLINK, JOB_COVER };
++
++static pthread_mutex_t job_lock = PTHREAD_MUTEX_INITIALIZER;
++static pthread_cond_t job_cond = PTHREAD_COND_INITIALIZER;
++static enum job_kind job;
++static char job_path[160];
++static const char *job_name;
++static int job_seq, done_seq, job_ret;
++
++static int cover(int tfd, const char *name)
++{
++	int mfd, ret = 0;
++
++	mfd = syscall(SYS_open_tree, AT_FDCWD, markpath,
++		      OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC);
++	if (mfd < 0)
++		return -errno;
++	if (syscall(SYS_move_mount, mfd, "", tfd, name, MOVE_MOUNT_F_EMPTY_PATH))
++		ret = -errno;
++	close(mfd);
++	return ret;
++}
++
++static void *helper(void *arg)
++{
++	pthread_mutex_lock(&job_lock);
++	for (;;) {
++		struct stat st;
++		enum job_kind k;
++		int ret, seq;
++
++		while (job == JOB_NONE)
++			pthread_cond_wait(&job_cond, &job_lock);
++		k = job;
++		seq = job_seq;
++		job = JOB_NONE;
++		pthread_mutex_unlock(&job_lock);
++
++		if (k == JOB_STAT)
++			ret = stat(job_path, &st) ? -errno : 0;
++		else if (k == JOB_UNLINK)
++			ret = unlink(job_path) ? -errno : 0;
++		else
++			ret = cover(atomic_load(&cover_tfd), job_name);
++
++		pthread_mutex_lock(&job_lock);
++		job_ret = ret;
++		done_seq = seq;
++		pthread_cond_broadcast(&job_cond);
++	}
++	return NULL;
++}
++
++/* run @k in the helper and wait for it, for 2s at most */
++static int run_job(enum job_kind k, const char *name)
++{
++	static pthread_mutex_t one_at_a_time = PTHREAD_MUTEX_INITIALIZER;
++	struct timespec dl;
++	int seq, ret;
++
++	pthread_mutex_lock(&one_at_a_time);
++	clock_gettime(CLOCK_REALTIME, &dl);
++	dl.tv_sec += 2;
++	pthread_mutex_lock(&job_lock);
++	seq = ++job_seq;
++	job = k;
++	job_name = name;
++	snprintf(job_path, sizeof(job_path), "%s/%s", fmnt, name);
++	pthread_cond_broadcast(&job_cond);
++	while (done_seq != seq) {
++		if (pthread_cond_timedwait(&job_cond, &job_lock, &dl) == ETIMEDOUT) {
++			job_ret = -ETIMEDOUT;
++			break;
++		}
++	}
++	ret = done_seq == seq ? job_ret : -ETIMEDOUT;
++	pthread_mutex_unlock(&job_lock);
++	pthread_mutex_unlock(&one_at_a_time);
++	return ret;
++}
++
++/* ---- the fuse server ---- */
++
++static void reply(uint64_t unique, int error, const void *data, size_t len)
++{
++	struct fuse_out_header oh = {
++		.len = sizeof(oh) + (error ? 0 : len),
++		.error = error,
++		.unique = unique,
++	};
++	struct iovec iov[2] = { { &oh, sizeof(oh) }, { (void *)data, len } };
++
++	/* errors here are teardown races, the device is gone */
++	if (writev(ffd, iov, (error || !len) ? 1 : 2) < 0)
++		return;
++}
++
++static void fill_attr(struct fuse_attr *a, uint64_t id)
++{
++	memset(a, 0, sizeof(*a));
++	a->ino = id;
++	a->nlink = 1;
++	a->blksize = 4096;
++	if (id == ROOT_ID || id == D_ID) {
++		a->mode = S_IFDIR | 0755;
++		a->nlink = 2;
++	} else if (id == LNK_ID) {
++		a->mode = S_IFLNK | 0777;
++		a->size = 2;
++	} else {
++		a->mode = S_IFREG | 0644;
++		a->size = sizeof(UNDER) - 1;
++	}
++}
++
++static void reply_entry(uint64_t unique, uint64_t id, uint64_t valid)
++{
++	struct fuse_entry_out e = {
++		.nodeid = id,
++		.generation = 1,
++		.entry_valid = valid,
++		.attr_valid = 3600,
++	};
++
++	fill_attr(&e.attr, id);
++	reply(unique, 0, &e, sizeof(e));
++}
++
++static void lookup(struct fuse_in_header *ih, const char *name)
++{
++	int w = atomic_load(&walker);
++	bool from_walker = w && (int)ih->pid == w;
++
++	if (ih->nodeid == ROOT_ID && !strcmp(name, "f1")) {
++		/*
++		 * The answer was formed before the unlink went through. A
++		 * server is free to send it afterwards.
++		 */
++		if (from_walker && atomic_exchange(&unlink_f1, 0)) {
++			run_job(JOB_UNLINK, "f1");
++		} else if (!atomic_load(&f1_present)) {
++			reply(ih->unique, -ENOENT, NULL, 0);
++			return;
++		}
++		reply_entry(ih->unique, F1_ID, atomic_load(&f1_valid));
++	} else if (ih->nodeid == ROOT_ID && !strcmp(name, "lnk")) {
++		reply_entry(ih->unique, LNK_ID, 3600);
++	} else if (ih->nodeid == ROOT_ID && !strcmp(name, "d")) {
++		/* the walker revalidates d: have d/f looked up (and covered) again */
++		if (from_walker && atomic_load(&games)) {
++			int ret = atomic_load(&cover_tfd) >= 0 ?
++				  run_job(JOB_COVER, "d/f") : run_job(JOB_STAT, "d/f");
++
++			if (!ret)
++				atomic_store(&f_findable, 1);
++		}
++		reply_entry(ih->unique, D_ID, 0);
++	} else if (ih->nodeid == D_ID && !strcmp(name, "f")) {
++		/* the walker revalidates the d/f it found: unlink it first */
++		if (from_walker && atomic_load(&games) &&
++		    atomic_exchange(&f_findable, 0) &&
++		    !run_job(JOB_UNLINK, "d/f"))
++			atomic_fetch_add(&nr_unlinks, 1);
++		reply_entry(ih->unique, F_ID, 0);
++	} else {
++		reply(ih->unique, -ENOENT, NULL, 0);
++	}
++}
++
++static void *server(void *arg)
++{
++	size_t size = FUSE_MIN_READ_BUFFER + 65536;
++	char *buf = malloc(size);
++	struct fuse_in_header *ih = (void *)buf;
++	void *in = buf + sizeof(*ih);
++
++	if (!buf)
++		return NULL;
++	for (;;) {
++		ssize_t n = read(ffd, buf, size);
++
++		if (n < 0 && (errno == EINTR || errno == EAGAIN))
++			continue;
++		if (n < (ssize_t)sizeof(*ih))
++			return NULL;	/* the mount is gone */
++
++		switch (ih->opcode) {
++		case FUSE_INIT: {
++			struct fuse_init_out o = {
++				.major = FUSE_KERNEL_VERSION,
++				.minor = FUSE_KERNEL_MINOR_VERSION,
++				.max_readahead = 65536,
++				.max_write = 65536,
++				.time_gran = 1,
++			};
++
++			reply(ih->unique, 0, &o, sizeof(o));
++			break;
++		}
++		case FUSE_LOOKUP:
++			lookup(ih, in);
++			break;
++		case FUSE_GETATTR: {
++			struct fuse_attr_out o = { .attr_valid = 3600 };
++
++			fill_attr(&o.attr, ih->nodeid);
++			reply(ih->unique, 0, &o, sizeof(o));
++			break;
++		}
++		case FUSE_READLINK: {
++			int pid = atomic_load(&estale_readlink);
++
++			/* one failure is enough to get the open to LOOKUP_REVAL */
++			if (pid && (int)ih->pid == pid &&
++			    atomic_compare_exchange_strong(&estale_readlink, &pid, 0))
++				reply(ih->unique, -ESTALE, NULL, 0);
++			else
++				reply(ih->unique, 0, "f1", 2);
++			break;
++		}
++		case FUSE_OPEN:
++		case FUSE_OPENDIR: {
++			struct fuse_open_out o = {
++				.fh = ih->nodeid,
++				.open_flags = FOPEN_DIRECT_IO,
++			};
++
++			reply(ih->unique, 0, &o, sizeof(o));
++			break;
++		}
++		case FUSE_READ: {
++			struct fuse_read_in *ri = in;
++			size_t len = sizeof(UNDER) - 1;
++
++			if (ri->offset >= len)
++				reply(ih->unique, 0, NULL, 0);
++			else
++				reply(ih->unique, 0, UNDER + ri->offset, len - ri->offset);
++			break;
++		}
++		case FUSE_UNLINK:
++			if (ih->nodeid == ROOT_ID && !strcmp(in, "f1"))
++				atomic_store(&f1_present, 0);
++			reply(ih->unique, 0, NULL, 0);
++			break;
++		case FUSE_FLUSH:
++		case FUSE_RELEASE:
++		case FUSE_RELEASEDIR:
++		case FUSE_ACCESS:
++			reply(ih->unique, 0, NULL, 0);
++			break;
++		case FUSE_FORGET:
++		case FUSE_BATCH_FORGET:
++		case FUSE_INTERRUPT:
++			break;
++		case FUSE_DESTROY:
++			reply(ih->unique, 0, NULL, 0);
++			return NULL;
++		default:
++			reply(ih->unique, -ENOSYS, NULL, 0);
++			break;
++		}
++	}
++}
++
++/* ---- the walker: a child that opens @path below @dfd once ---- */
++
++struct walk {
++	pid_t pid;
++	int rfd;
++	int err;
++	char buf[16];
++};
++
++static int walk_start(struct walk *w, int dfd, const char *path, bool estale)
++{
++	int res[2], go[2];
++	char c = 0;
++
++	if (pipe2(res, O_CLOEXEC) || pipe2(go, O_CLOEXEC))
++		return -errno;
++	w->pid = fork();
++	if (w->pid < 0)
++		return -errno;
++	if (!w->pid) {
++		struct { int err; char buf[16]; } r = {};
++		int fd;
++
++		close(res[0]);
++		close(go[1]);
++		if (read(go[0], &c, 1) != 1)
++			_exit(1);
++		fd = openat(dfd, path, O_RDONLY | O_CLOEXEC);
++		if (fd < 0)
++			r.err = errno;
++		else if (read(fd, r.buf, sizeof(r.buf) - 1) < 0)
++			r.err = errno;
++		if (write(res[1], &r, sizeof(r)) != sizeof(r))
++			_exit(1);
++		_exit(0);
++	}
++	close(res[1]);
++	close(go[0]);
++	w->rfd = res[0];
++	atomic_store(&walker, w->pid);
++	if (estale)
++		atomic_store(&estale_readlink, w->pid);
++	if (write(go[1], &c, 1) != 1)
++		return -errno;
++	close(go[1]);
++	return 0;
++}
++
++/* 0 once the walker returned from open(), -ETIMEDOUT if it is still in there */
++static int walk_wait(struct walk *w, int secs)
++{
++	struct pollfd pfd = { .fd = w->rfd, .events = POLLIN };
++	struct { int err; char buf[16]; } r;
++	int ret = -ETIMEDOUT;
++
++	if (poll(&pfd, 1, secs * 1000) == 1 && read(w->rfd, &r, sizeof(r)) == sizeof(r)) {
++		w->err = r.err;
++		memcpy(w->buf, r.buf, sizeof(w->buf));
++		ret = 0;
++	} else {
++		kill(w->pid, SIGKILL);
++	}
++	waitpid(w->pid, NULL, 0);
++	close(w->rfd);
++	atomic_store(&walker, 0);
++	return ret;
++}
++
++FIXTURE(unlink_reval)
++{
++	char dir[64];
++	int tfd;
++};
++
++FIXTURE_SETUP(unlink_reval)
++{
++	char opts[128];
++	pthread_t t;
++	int fd;
++
++	self->tfd = -1;
++	if (geteuid() != 0)
++		SKIP(return, "need root to mount fuse");
++	if (access("/dev/fuse", R_OK | W_OK))
++		SKIP(return, "no /dev/fuse");
++
++	ASSERT_EQ(0, unshare(CLONE_NEWNS));
++	ASSERT_EQ(0, mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL));
++
++	strcpy(self->dir, "/tmp/unlink_reval_XXXXXX");
++	ASSERT_NE(NULL, mkdtemp(self->dir));
++	ASSERT_EQ(0, mount("tmpfs", self->dir, "tmpfs", 0, "size=1M"));
++	snprintf(fmnt, sizeof(fmnt), "%s/F", self->dir);
++	snprintf(markpath, sizeof(markpath), "%s/mark", self->dir);
++	ASSERT_EQ(0, mkdir(fmnt, 0755));
++	fd = open(markpath, O_CREAT | O_WRONLY | O_CLOEXEC, 0644);
++	ASSERT_GE(fd, 0);
++	ASSERT_EQ((ssize_t)sizeof(MARK) - 1, write(fd, MARK, sizeof(MARK) - 1));
++	close(fd);
++
++	ffd = open("/dev/fuse", O_RDWR | O_CLOEXEC);
++	ASSERT_GE(ffd, 0);
++	snprintf(opts, sizeof(opts), "fd=%d,rootmode=40000,user_id=0,group_id=0", ffd);
++	ASSERT_EQ(0, mount("fuse", fmnt, "fuse", MS_NOSUID | MS_NODEV, opts));
++	for (int i = 0; i < NR_SERVERS; i++)
++		ASSERT_EQ(0, pthread_create(&t, NULL, server, NULL));
++	ASSERT_EQ(0, pthread_create(&t, NULL, helper, NULL));
++}
++
++FIXTURE_TEARDOWN(unlink_reval)
++{
++	if (self->tfd >= 0)
++		close(self->tfd);
++	if (fmnt[0])
++		umount2(fmnt, MNT_DETACH);
++	if (self->dir[0]) {
++		umount2(self->dir, MNT_DETACH);
++		rmdir(self->dir);
++	}
++}
++
++/* a copy of F with MARK mounted on f1 */
++static int cover_f1(struct __test_metadata *_metadata)
++{
++	char buf[16] = {};
++	struct stat st;
++	int tfd, fd;
++
++	atomic_store(&f1_present, 1);
++	EXPECT_EQ(0, stat(fmnt, &st));
++	tfd = syscall(SYS_open_tree, AT_FDCWD, fmnt, OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC);
++	EXPECT_GE(tfd, 0);
++	/* f1 is in the dcache before the walker gets there */
++	EXPECT_EQ(0, fstatat(tfd, "f1", &st, 0));
++	EXPECT_EQ(0, cover(tfd, "f1"));
++	fd = openat(tfd, "f1", O_RDONLY | O_CLOEXEC);
++	EXPECT_GE(fd, 0);
++	EXPECT_EQ((ssize_t)sizeof(MARK) - 1, read(fd, buf, sizeof(buf) - 1));
++	EXPECT_STREQ(MARK, buf);
++	close(fd);
++	return tfd;
++}
++
++/*
++ * The first readlink of lnk fails with ESTALE, so the open of F'/lnk is
++ * repeated with LOOKUP_REVAL. In that walk f1 is unlinked while it is
++ * revalidated, which detaches MARK. The mount step fails with ESTALE and
++ * a walk that already runs with LOOKUP_REVAL isn't redone again.
++ */
++TEST_F(unlink_reval, reval_walk)
++{
++	for (int i = 0; i < 4; i++) {
++		struct walk w = {};
++
++		atomic_store(&f1_valid, 3600);
++		self->tfd = cover_f1(_metadata);
++		ASSERT_GE(self->tfd, 0);
++
++		atomic_store(&unlink_f1, 1);
++		ASSERT_EQ(0, walk_start(&w, self->tfd, "lnk", true));
++		ASSERT_EQ(0, walk_wait(&w, WALK_SECS)) {
++			TH_LOG("open() of F'/lnk did not return");
++		}
++		EXPECT_EQ(0, atomic_load(&unlink_f1)) {
++			TH_LOG("f1 was never revalidated");
++		}
++		ASSERT_NE(0, w.err) {
++			TH_LOG("round %d: read \"%s\" under the detached MARK", i, w.buf);
++		}
++		EXPECT_EQ(ESTALE, w.err);
++		close(self->tfd);
++		self->tfd = -1;
++	}
++}
++
++/*
++ * The same in the walk without LOOKUP_REVAL: the mount step fails with
++ * ESTALE, the walk is redone with LOOKUP_REVAL and can't find the
++ * unlinked name.
++ */
++TEST_F(unlink_reval, ref_walk)
++{
++	for (int i = 0; i < 4; i++) {
++		struct walk w = {};
++
++		atomic_store(&f1_valid, 0);
++		self->tfd = cover_f1(_metadata);
++		ASSERT_GE(self->tfd, 0);
++
++		atomic_store(&unlink_f1, 1);
++		ASSERT_EQ(0, walk_start(&w, self->tfd, "f1", false));
++		ASSERT_EQ(0, walk_wait(&w, WALK_SECS)) {
++			TH_LOG("open() of F'/f1 did not return");
++		}
++		EXPECT_EQ(0, atomic_load(&unlink_f1)) {
++			TH_LOG("f1 was never revalidated");
++		}
++		ASSERT_NE(0, w.err) {
++			TH_LOG("round %d: read \"%s\" under the detached MARK", i, w.buf);
++		}
++		EXPECT_EQ(ENOENT, w.err);
++		close(self->tfd);
++		self->tfd = -1;
++	}
++}
++
++/*
++ * Every walk of F'/d/f finds a covered f that is unlinked while it is
++ * revalidated: the revalidation of d has it looked up and covered again.
++ * The open must neither read what MARK covered nor go on forever: the
++ * redone walk runs into the second removal and fails with ESTALE.
++ */
++TEST_F(unlink_reval, covered_name_keeps_going)
++{
++	struct walk w = {};
++	struct stat st;
++
++	ASSERT_EQ(0, stat(fmnt, &st));
++	self->tfd = syscall(SYS_open_tree, AT_FDCWD, fmnt, OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC);
++	ASSERT_GE(self->tfd, 0);
++	/* d is in the dcache, so the walker only ever revalidates it */
++	ASSERT_EQ(0, fstatat(self->tfd, "d", &st, 0));
++
++	atomic_store(&cover_tfd, self->tfd);
++	atomic_store(&games, 1);
++	ASSERT_EQ(0, walk_start(&w, self->tfd, "d/f", false));
++	ASSERT_EQ(0, walk_wait(&w, WALK_SECS)) {
++		atomic_store(&games, 0);
++		TH_LOG("open() of F'/d/f still running after %ds and %ld unlinks",
++		       WALK_SECS, atomic_load(&nr_unlinks));
++	}
++	atomic_store(&games, 0);
++	EXPECT_GE(atomic_load(&nr_unlinks), 1);
++	if (w.err) {
++		EXPECT_TRUE(w.err == ESTALE || w.err == ENOENT) {
++			TH_LOG("open() of F'/d/f failed with %s", strerror(w.err));
++		}
++	} else {
++		EXPECT_STREQ(MARK, w.buf) {
++			TH_LOG("read \"%s\" under the detached MARK", w.buf);
++		}
++	}
++}
++
++/* The same without mounts: nothing to reveal, but it must end as well. */
++TEST_F(unlink_reval, plain_name_keeps_going)
++{
++	struct walk w = {};
++	struct stat st;
++	char path[160];
++
++	snprintf(path, sizeof(path), "%s/d/f", fmnt);
++	ASSERT_EQ(0, fstatat(AT_FDCWD, fmnt, &st, 0));
++	ASSERT_EQ(0, stat(path, &st));
++
++	atomic_store(&games, 1);
++	ASSERT_EQ(0, walk_start(&w, AT_FDCWD, path, false));
++	ASSERT_EQ(0, walk_wait(&w, WALK_SECS)) {
++		atomic_store(&games, 0);
++		TH_LOG("open() of F/d/f still running after %ds and %ld unlinks",
++		       WALK_SECS, atomic_load(&nr_unlinks));
++	}
++	atomic_store(&games, 0);
++	EXPECT_GE(atomic_load(&nr_unlinks), 1);
++	if (w.err) {
++		EXPECT_EQ(ENOENT, w.err);
++	}
++}
++
++TEST_HARNESS_MAIN
 
 -- 
 2.53.0
