@@ -1,60 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.30
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793205414;
-	b=Dr5CNnUjZwGpphMAr66biMFgx752BA770ZY6RJpqW6TyxLaXu29Q/Gu8GmFidTU+ZIaw
-	 Q7oNq442/IYSzKgEuqITfLr1j87EvZfcvZWaAWkhNXVlmEQjdmwaM7wBM6L6tWwvJdVMv
-	 Y95lDckNOPaJp4f8Gd7o2v1U4lwxVa/0/8DTKn2mV257ggDNngi+F4Az/yqOOz9n/6JBQ
-	 0EVgfgG3AHpBPc9vXrewlCRjUUnpB7bXZPZ7ytK3yPi3K33CWkxpnL3mqSCkWLr0NR1Ca
-	 dw99B02/jectksVLcUmm1pP2HaIR7ULdMmZIwrG29B5heSwTojcWZ9zORUztghQEinA==
+	t=1793205418;
+	b=j/Iv8qcEXujz6OFtocwnnkDRAXwoz2V12UQvXT0UhzIqXJbFP/WJdvvhWqDZpwEKMF9e
+	 9yvLmuGnkKagemRy8JRr4/mWFgHjLFokGlvvQHHUIqL6lHHtHKp63w5JpvfzvI88U2Qnm
+	 vOC8HJlUxTlHIHi8zWNL24FO47g4qORK99KsaTYCgFFofcAqOcrrrcRhVxfBGutAVtodq
+	 1u1t9m5QKSOjm+jwa8UJPVhHMzrXkibhbiNwZ79rgs6zy0i6jb2A22Bid1h6ed0IRgqM0
+	 vxfM6n9jOYq7lCrlexJyZN+KNqiJSWWi1WLRL9qOREr1K/YiSz0d3NF5keB9zAVr8Ow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793205414;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793205418;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=FIl7ruf+LcsMNbrnPcp7XWAsLPsaVuVtnmfesGlH1vw=;
-	b=jTSDOJznFpEB49hBpxjBMecmYc+oIhmAFYwBkg1Kwodgz9DL1C0jBw4DOKhY7M3fWBpu
-	 Sp8KtAQX+fq7pj67UQOcBBCbJQD2kLsvXThfN4bp7uvJgqhm1JSSC4j9qemJ+hqEaKkiT
-	 MFjBKpaUnFwmqLwrX/iPSNXeKdHNkZ3XHHyqK1A5v4FK28SQt1hYKs//nxLW8AEaczUiI
-	 K7ZoTPYCrQwBcT3LqLcUzERmTd3iaJvPiiVCMC310toGpaGWyZISFXMNSp4wn8db4O9GG
-	 gNpSF1uxlP+taAIg0lSWL5p64iLhOh08hSZax2/+cRPICNqvBm9MECd6zkwxuOg6t+w==
+	bh=HIKq9RoG/3QITYMT9UVPtO28n54Bj7gh9835XsasMTI=;
+	b=fcugmJXZuG0XrdiVCvedGNnBxVdB6jCE+I4SaqVIvgg+uC7AR24IveQG9ESoFv2HH/XJ
+	 RefwNgmPHKt8EwBkmpvn7V3C46HJidCONlURCkGMXkETeGjR9uYGtSWv5CtTjDc6xrfUH
+	 6DCgKJPdq+DRQHNbMnUbHWA4XhSL4FXWpDZzIbbmOJrlvQq0HehxQKQaJRRNYfqZsrxTF
+	 Oh9IL8GYfQ84EbjsTQI3CjhUeTqCWpHH3TIKWjOqBmtaRrXiNQSRGRVoLQhhXjappqIq/
+	 2RHln9ZK5a70w3Dd87c9YHJYgrli2lgI58/MEzwX/Jo2aDXhHkMyZADTbj5Zb2shCNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="Njfn/BOF";
-	arc=none smtp.remote-ip=95.215.58.18
-Received: from mta1.migadu.com (out-18.mta1.migadu.com [95.215.58.18])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=jePRe8jc;
+	arc=none smtp.remote-ip=91.218.175.30
+Received: from mta0.migadu.com (out-30.mta0.migadu.com [91.218.175.30])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B814606A31D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:36:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B814606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B21606A31C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:36:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0B21606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Njfn/BOF
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=jePRe8jc
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=zxGcKRrrv75Hp8kcNLMHNOX80IhvZgP3YbNGBHHnS8U=;
+DKIM-Signature: a=rsa-sha256; bh=W5RDBdMaPaoiB0Xsoly4/NjS02lT8U6Dp0YqC/9dqmg=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793205411; v=1; x=1793810211;
- b=Njfn/BOFWHIevbMvlBffyOFOiUMeVX5kuwVxcp35KvVxei0xM/CFW/vJoXet58auqqDY07id
- rJd+E4oVWD2gB3DAo3U1oOzdjlYDgcK84pl+iRWkgbewT5QlXtO4XIGi4bji1H3dWJZPRHh5nLr
- rRld9Pm+s9kf+nrnSIkdCkBA=
+ t=1793205416; v=1; x=1793810216;
+ b=jePRe8jcpw4yBqR/B9JvwMGAG9rOYsWQXLsDL2qarj6VMdAOO7EwJ2Li8mobzkNbuCCPFeGP
+ 6Sqdc/Vunj2kUgAGRXl1wR3XoFcPy/U6migNYYJ1LyIzB0gVXF2vCsNH3GMBgKOfZnPQR+7K/vm
+ +uZ3+7m+8gUSIOUbgcrh7MnQ=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 2affc4003a5a2fd4;
-	Wed, 28 Oct 2026 16:36:51 +0000
-X-Mizu-Trace-ID: 2affc4003a5a2fd4
+Received: by mta11.migadu.com with ESMTPS id 3b99eab4926558dc;
+	Wed, 28 Oct 2026 16:36:56 +0000
+X-Mizu-Trace-ID: 3b99eab4926558dc
 X-Migadu-Flow: FLOW_OUT
 From: wen.yang@linux.dev
 To: Joel Granados <joel.granados@kernel.org>
 Cc: Wen Yang <wen.yang@linux.dev>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 12/39] sysctl: store kernel sysctl bounds by value
-Date: Thu, 29 Oct 2026 00:34:51 +0800
-Message-Id: <a64eb044ae56f475bea789944dc6e693c2216c38.1793204511.git.wen.yang@linux.dev>
+Subject: [RFC PATCH 13/39] sysctl: store memory-management sysctl bounds by value
+Date: Thu, 29 Oct 2026 00:34:52 +0800
+Message-Id: <3ecdfc9e008c95fc25b71d57d909549b19550eb6.1793204511.git.wen.yang@linux.dev>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1793204511.git.wen.yang@linux.dev>
 References: <cover.1793204511.git.wen.yang@linux.dev>
@@ -71,651 +71,379 @@ Content-Transfer-Encoding: 8bit
 
 From: Wen Yang <wen.yang@linux.dev>
 
-Replace kernel bound pointers with numeric limits.
+Use numeric memory-management bounds, refreshing mmap limits at runtime.
 
 Suggested-by: Joel Granados <joel.granados@kernel.org>
 Signed-off-by: Wen Yang <wen.yang@linux.dev>
 ---
- kernel/bpf/syscall.c      |  8 ++++----
- kernel/delayacct.c        |  4 ++--
- kernel/events/callchain.c |  9 ++++-----
- kernel/events/core.c      |  7 ++++---
- kernel/hung_task.c        | 30 +++++++++++++++++-------------
- kernel/kexec_core.c       |  4 ++--
- kernel/kprobes.c          |  4 ++--
- kernel/kstack_erase.c     |  4 ++--
- kernel/module/main.c      |  4 ++--
- kernel/panic.c            | 13 +++++++++----
- kernel/printk/sysctl.c    | 22 ++++++++++------------
- kernel/rcu/tree_stall.h   |  9 +++++----
- kernel/sched/autogroup.c  |  4 ++--
- kernel/sched/core.c       |  8 ++++----
- kernel/sched/fair.c       |  6 ++++--
- kernel/sched/topology.c   |  4 ++--
- kernel/sys.c              |  8 ++++----
- kernel/time/timer.c       |  4 ++--
- kernel/ucount.c           |  7 ++-----
- kernel/watchdog.c         | 35 +++++++++++++++++------------------
- 20 files changed, 100 insertions(+), 94 deletions(-)
+ mm/compaction.c     | 19 ++++++++++---------
+ mm/filemap.c        |  4 +++-
+ mm/memory-failure.c | 16 ++++++++--------
+ mm/mmap.c           | 28 +++++++++++++++++++++-------
+ mm/nommu.c          |  4 +++-
+ mm/oom_kill.c       |  4 ++--
+ mm/page-writeback.c | 25 +++++++++++++------------
+ mm/page_alloc.c     | 28 ++++++++++++++++------------
+ mm/swap_state.c     |  5 ++---
+ mm/userfaultfd.c    |  4 ++--
+ mm/util.c           |  7 ++++---
+ mm/vmscan.c         |  8 +++++---
+ mm/vmstat.c         |  4 ++--
+ 13 files changed, 91 insertions(+), 65 deletions(-)
 
-diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-index 90bc7230afa8..8b079e220f00 100644
---- a/kernel/bpf/syscall.c
-+++ b/kernel/bpf/syscall.c
-@@ -6764,8 +6764,8 @@ static int bpf_stats_handler(const struct ctl_table *table, int write,
- 		.data   = &val,
- 		.maxlen = sizeof(val),
- 		.mode   = table->mode,
--		.extra1 = SYSCTL_ZERO,
--		.extra2 = SYSCTL_ONE,
-+		.min    = 0,
-+		.max    = 1,
- 	};
+diff --git a/mm/compaction.c b/mm/compaction.c
+index f1b2060eb201..6c3a3d08e42a 100644
+--- a/mm/compaction.c
++++ b/mm/compaction.c
+@@ -3296,8 +3296,9 @@ void __meminit kcompactd_stop(int nid)
+ 	}
+ }
  
- 	if (write && !capable(CAP_SYS_ADMIN))
-@@ -6820,8 +6820,8 @@ static const struct ctl_table bpf_syscall_table[] = {
- 		.maxlen		= sizeof(sysctl_unprivileged_bpf_disabled),
- 		.mode		= 0644,
- 		.proc_handler	= bpf_unpriv_handler,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_TWO,
-+		.min		= 0,
-+		.max		= 2,
- 	},
- 	{
- 		.procname	= "bpf_stats_enabled",
-diff --git a/kernel/delayacct.c b/kernel/delayacct.c
-index 479e860aff70..e942f118b5a8 100644
---- a/kernel/delayacct.c
-+++ b/kernel/delayacct.c
-@@ -82,8 +82,8 @@ static const struct ctl_table kern_delayacct_table[] = {
- 		.maxlen         = sizeof(unsigned int),
- 		.mode           = 0644,
- 		.proc_handler   = sysctl_delayacct,
--		.extra1         = SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE,
-+		.min            = 0,
-+		.max            = 1,
- 	},
- };
- 
-diff --git a/kernel/events/callchain.c b/kernel/events/callchain.c
-index 9d24b6e0c91f..0990eb237834 100644
---- a/kernel/events/callchain.c
-+++ b/kernel/events/callchain.c
-@@ -22,7 +22,6 @@ struct callchain_cpus_entries {
- 
- int sysctl_perf_event_max_stack __read_mostly = PERF_MAX_STACK_DEPTH;
- int sysctl_perf_event_max_contexts_per_stack __read_mostly = PERF_MAX_CONTEXTS_PER_STACK;
--static const int six_hundred_forty_kb = 640 * 1024;
- 
- static inline size_t perf_callchain_entry__sizeof(void)
+-static int proc_dointvec_minmax_warn_RT_change(const struct ctl_table *table,
+-		int write, void *buffer, size_t *lenp, loff_t *ppos)
++static int proc_dointvec_range_warn_RT_change(const struct ctl_table *table,
++					      int write, void *buffer,
++					      size_t *lenp, loff_t *ppos)
  {
-@@ -307,8 +306,8 @@ static const struct ctl_table callchain_sysctl_table[] = {
- 		.maxlen		= sizeof(sysctl_perf_event_max_stack),
- 		.mode		= 0644,
- 		.proc_handler	= perf_event_max_stack_handler,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= (void *)&six_hundred_forty_kb,
-+		.min		= 0,
-+		.max		= 640 * 1024,
- 	},
- 	{
- 		.procname	= "perf_event_max_contexts_per_stack",
-@@ -316,8 +315,8 @@ static const struct ctl_table callchain_sysctl_table[] = {
- 		.maxlen		= sizeof(sysctl_perf_event_max_contexts_per_stack),
- 		.mode		= 0644,
- 		.proc_handler	= perf_event_max_stack_handler,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE_THOUSAND,
-+		.min		= 0,
-+		.max		= 1000,
- 	},
- };
+ 	int ret, old;
  
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index 457d75ea7142..339a200f8b00 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -595,7 +595,8 @@ static const struct ctl_table events_core_sysctl_table[] = {
- 		.maxlen		= sizeof(sysctl_perf_event_sample_rate),
+@@ -3329,8 +3330,8 @@ static const struct ctl_table vm_compaction[] = {
+ 		.maxlen		= sizeof(sysctl_compaction_proactiveness),
  		.mode		= 0644,
- 		.proc_handler	= perf_event_max_sample_rate_handler,
--		.extra1		= SYSCTL_ONE,
-+		.min		= 1,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "perf_cpu_time_max_percent",
-@@ -603,8 +604,8 @@ static const struct ctl_table events_core_sysctl_table[] = {
- 		.maxlen		= sizeof(sysctl_perf_cpu_time_max_percent),
- 		.mode		= 0644,
- 		.proc_handler	= perf_cpu_time_max_percent_handler,
+ 		.proc_handler	= compaction_proactiveness_sysctl_handler,
 -		.extra1		= SYSCTL_ZERO,
 -		.extra2		= SYSCTL_ONE_HUNDRED,
 +		.min		= 0,
 +		.max		= 100,
  	},
+ 	{
+ 		.procname	= "extfrag_threshold",
+@@ -3338,17 +3339,17 @@ static const struct ctl_table vm_compaction[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_ONE_THOUSAND,
++		.min		= 0,
++		.max		= 1000,
+ 	},
+ 	{
+ 		.procname	= "compact_unevictable_allowed",
+ 		.data		= &sysctl_compact_unevictable_allowed,
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+-		.proc_handler	= proc_dointvec_minmax_warn_RT_change,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_ONE,
++		.proc_handler	= proc_dointvec_range_warn_RT_change,
++		.min		= 0,
++		.max		= 1,
+ 	},
  };
  
-diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-index b8554aedc589..88e260d623ff 100644
---- a/kernel/hung_task.c
-+++ b/kernel/hung_task.c
-@@ -7,6 +7,7 @@
+diff --git a/mm/filemap.c b/mm/filemap.c
+index b74bc1e5015c..b465bfee3782 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -11,6 +11,7 @@
+  * the NFS filesystem used to do this differently, for example)
   */
- 
- #include <linux/mm.h>
+ #include <linux/export.h>
 +#include <linux/limits.h>
- #include <linux/cpu.h>
- #include <linux/nmi.h>
- #include <linux/init.h>
-@@ -462,11 +463,6 @@ static int proc_dohung_task_warnings(const struct ctl_table *table, int write,
- 	return ret;
- }
- 
--/*
-- * This is needed for proc_doulongvec_minmax of sysctl_hung_task_timeout_secs
-- * and hung_task_check_interval_secs
-- */
--static const unsigned long hung_task_timeout_max = (LONG_MAX / HZ);
- static const struct ctl_table hung_task_sysctls[] = {
- #ifdef CONFIG_SMP
- 	{
-@@ -475,8 +471,8 @@ static const struct ctl_table hung_task_sysctls[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.min		= 0,
-+		.max		= 1,
- 	},
- #endif /* CONFIG_SMP */
- 	{
-@@ -485,8 +481,8 @@ static const struct ctl_table hung_task_sysctls[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_INT_MAX,
-+		.min		= 0,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "hung_task_check_count",
-@@ -494,7 +490,8 @@ static const struct ctl_table hung_task_sysctls[] = {
- 		.maxlen		= sizeof(int),
+ #include <linux/compiler.h>
+ #include <linux/dax.h>
+ #include <linux/fs.h>
+@@ -1086,7 +1087,8 @@ static const struct ctl_table filemap_sysctl_table[] = {
+ 		.maxlen		= sizeof(sysctl_page_lock_unfairness),
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ZERO,
 +		.min		= 0,
 +		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "hung_task_timeout_secs",
-@@ -502,7 +499,9 @@ static const struct ctl_table hung_task_sysctls[] = {
- 		.maxlen		= sizeof(unsigned long),
+ 	}
+ };
+ 
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index b705f9f97f42..5c5c7ec329b7 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -178,8 +178,8 @@ static const struct ctl_table memory_failure_table[] = {
+ 		.maxlen		= sizeof(sysctl_memory_failure_early_kill),
  		.mode		= 0644,
- 		.proc_handler	= proc_dohung_task_timeout_secs,
--		.extra2		= (void *)&hung_task_timeout_max,
-+		.min		= 0,
-+		/* Keep the timeout's jiffies conversion within a signed long. */
-+		.max		= LONG_MAX / HZ,
- 	},
- 	{
- 		.procname	= "hung_task_check_interval_secs",
-@@ -510,7 +509,9 @@ static const struct ctl_table hung_task_sysctls[] = {
- 		.maxlen		= sizeof(unsigned long),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dohung_task_timeout_secs,
--		.extra2		= (void *)&hung_task_timeout_max,
-+		.min		= 0,
-+		/* Keep the timeout's jiffies conversion within a signed long. */
-+		.max		= LONG_MAX / HZ,
- 	},
- 	{
- 		.procname	= "hung_task_warnings",
-@@ -518,13 +519,16 @@ static const struct ctl_table hung_task_sysctls[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dohung_task_warnings,
--		.extra1		= SYSCTL_NEG_ONE,
-+		.min		= (unsigned long)-1,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "hung_task_detect_count",
- 		.maxlen		= sizeof(unsigned long),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dohung_task_detect_count,
-+		.min		= 0,
-+		.max		= ULONG_MAX,
- 	},
- 	{
- 		.procname	= "hung_task_sys_info",
-diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
-index f4a31565c447..618aa15f27f5 100644
---- a/kernel/kexec_core.c
-+++ b/kernel/kexec_core.c
-@@ -1097,8 +1097,8 @@ static const struct ctl_table kexec_core_sysctls[] = {
- 		.mode		= 0644,
- 		/* only handle a transition from default "0" to "1" */
  		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ONE,
--		.extra2		= SYSCTL_ONE,
-+		.min		= 1,
-+		.max		= 1,
- 	},
- 	{
- 		.procname	= "kexec_load_limit_panic",
-diff --git a/kernel/kprobes.c b/kernel/kprobes.c
-index 2441b9e39343..b098d6a7c89b 100644
---- a/kernel/kprobes.c
-+++ b/kernel/kprobes.c
-@@ -1242,8 +1242,8 @@ static const struct ctl_table kprobe_sysctls[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_kprobes_optimization_handler,
 -		.extra1		= SYSCTL_ZERO,
 -		.extra2		= SYSCTL_ONE,
 +		.min		= 0,
 +		.max		= 1,
  	},
- };
- 
-diff --git a/kernel/kstack_erase.c b/kernel/kstack_erase.c
-index d4449884084c..e44d6e626aec 100644
---- a/kernel/kstack_erase.c
-+++ b/kernel/kstack_erase.c
-@@ -52,8 +52,8 @@ static const struct ctl_table stackleak_sysctls[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0600,
- 		.proc_handler	= stack_erasing_sysctl,
+ 	{
+ 		.procname	= "memory_failure_recovery",
+@@ -187,8 +187,8 @@ static const struct ctl_table memory_failure_table[] = {
+ 		.maxlen		= sizeof(sysctl_memory_failure_recovery),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ZERO,
 -		.extra2		= SYSCTL_ONE,
 +		.min		= 0,
 +		.max		= 1,
  	},
- };
- 
-diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 34e0204ea37c..7b101cb0d918 100644
---- a/kernel/module/main.c
-+++ b/kernel/module/main.c
-@@ -146,8 +146,8 @@ static const struct ctl_table module_sysctl_table[] = {
+ 	{
+ 		.procname	= "enable_soft_offline",
+@@ -196,8 +196,8 @@ static const struct ctl_table memory_failure_table[] = {
+ 		.maxlen		= sizeof(sysctl_enable_soft_offline),
  		.mode		= 0644,
- 		/* only handle a transition from default "0" to "1" */
  		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ONE,
+-		.extra1		= SYSCTL_ZERO,
 -		.extra2		= SYSCTL_ONE,
-+		.min		= 1,
++		.min		= 0,
 +		.max		= 1,
  	},
+ 	{
+ 		.procname	= "panic_on_unrecoverable_memory_failure",
+@@ -205,8 +205,8 @@ static const struct ctl_table memory_failure_table[] = {
+ 		.maxlen		= sizeof(sysctl_panic_on_unrecoverable_mf),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_ONE,
++		.min		= 0,
++		.max		= 1,
+ 	}
  };
  
-diff --git a/kernel/panic.c b/kernel/panic.c
-index b824b68fcb08..901322b1eacf 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 148ba01c0373..bc1ad6431bf9 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
 @@ -10,6 +10,7 @@
-  * to indicate a major problem.
-  */
- #include <linux/debug_locks.h>
-+#include <linux/limits.h>
- #include <linux/sched/debug.h>
- #include <linux/interrupt.h>
- #include <linux/kgdb.h>
-@@ -148,8 +149,8 @@ static const struct ctl_table kern_panic_table[] = {
- 		.maxlen         = sizeof(int),
- 		.mode           = 0644,
- 		.proc_handler   = proc_dointvec_minmax,
--		.extra1         = SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE,
-+		.min            = 0,
-+		.max            = 1,
- 	},
- #endif
- 	{
-@@ -157,6 +158,8 @@ static const struct ctl_table kern_panic_table[] = {
- 		.maxlen		= sizeof(long),
- 		.mode		= 0644,
- 		.proc_handler	= proc_taint,
-+		.min		= 0,
-+		.max		= ULONG_MAX,
- 	},
- 	{
- 		.procname	= "panic",
-@@ -178,6 +181,8 @@ static const struct ctl_table kern_panic_table[] = {
- 		.maxlen		= sizeof(unsigned long),
- 		.mode		= 0644,
- 		.proc_handler	= sysctl_panic_print_handler,
-+		.min		= 0,
-+		.max		= ULONG_MAX,
- 	},
- 	{
- 		.procname	= "panic_on_warn",
-@@ -185,8 +190,8 @@ static const struct ctl_table kern_panic_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.min		= 0,
-+		.max		= 1,
- 	},
- 	{
- 		.procname       = "warn_limit",
-diff --git a/kernel/printk/sysctl.c b/kernel/printk/sysctl.c
-index f15732e93c2e..79b1fc60aa91 100644
---- a/kernel/printk/sysctl.c
-+++ b/kernel/printk/sysctl.c
-@@ -8,10 +8,8 @@
- #include <linux/ratelimit.h>
- #include "internal.h"
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
  
--static const int ten_thousand = 10000;
--
--static int proc_dointvec_minmax_sysadmin(const struct ctl_table *table, int write,
--				void *buffer, size_t *lenp, loff_t *ppos)
-+static int proc_dointvec_range_sysadmin(const struct ctl_table *table, int write,
-+					void *buffer, size_t *lenp, loff_t *ppos)
- {
- 	if (write && !capable(CAP_SYS_ADMIN))
- 		return -EPERM;
-@@ -47,8 +45,8 @@ static const struct ctl_table printk_sysctls[] = {
- 		.maxlen		= sizeof(int),
+ #include <linux/kernel.h>
++#include <linux/limits.h>
+ #include <linux/slab.h>
+ #include <linux/backing-dev.h>
+ #include <linux/mm.h>
+@@ -1493,6 +1494,17 @@ struct vm_area_struct *_install_special_mapping(
+ int sysctl_legacy_va_layout;
+ #endif
+ 
++#ifdef CONFIG_HAVE_ARCH_MMAP_RND_BITS
++static int mmap_rnd_bits_handler(const struct ctl_table *table, int write,
++				 void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct ctl_table tmp = *table;
++
++	tmp.max = mmap_rnd_bits_max;
++	return proc_dointvec_minmax(&tmp, write, buffer, lenp, ppos);
++}
++#endif
++
+ static const struct ctl_table mmap_table[] = {
+ 		{
+ 				.procname       = "max_map_count",
+@@ -1500,7 +1512,8 @@ static const struct ctl_table mmap_table[] = {
+ 				.maxlen         = sizeof(sysctl_max_map_count),
+ 				.mode           = 0644,
+ 				.proc_handler   = proc_dointvec_minmax,
+-				.extra1         = SYSCTL_ZERO,
++				.min            = 0,
++				.max            = INT_MAX,
+ 		},
+ #if defined(HAVE_ARCH_PICK_MMAP_LAYOUT) || \
+ 		defined(CONFIG_ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT)
+@@ -1510,7 +1523,8 @@ static const struct ctl_table mmap_table[] = {
+ 				.maxlen         = sizeof(sysctl_legacy_va_layout),
+ 				.mode           = 0644,
+ 				.proc_handler   = proc_dointvec_minmax,
+-				.extra1         = SYSCTL_ZERO,
++				.min            = 0,
++				.max            = INT_MAX,
+ 		},
+ #endif
+ #ifdef CONFIG_HAVE_ARCH_MMAP_RND_BITS
+@@ -1519,9 +1533,9 @@ static const struct ctl_table mmap_table[] = {
+ 				.data           = &mmap_rnd_bits,
+ 				.maxlen         = sizeof(mmap_rnd_bits),
+ 				.mode           = 0600,
+-				.proc_handler   = proc_dointvec_minmax,
+-				.extra1         = (void *)&mmap_rnd_bits_min,
+-				.extra2         = (void *)&mmap_rnd_bits_max,
++				.proc_handler   = mmap_rnd_bits_handler,
++				.min            = CONFIG_ARCH_MMAP_RND_BITS_MIN,
++				.max            = CONFIG_ARCH_MMAP_RND_BITS_MAX,
+ 		},
+ #endif
+ #ifdef CONFIG_HAVE_ARCH_MMAP_RND_COMPAT_BITS
+@@ -1531,8 +1545,8 @@ static const struct ctl_table mmap_table[] = {
+ 				.maxlen         = sizeof(mmap_rnd_compat_bits),
+ 				.mode           = 0600,
+ 				.proc_handler   = proc_dointvec_minmax,
+-				.extra1         = (void *)&mmap_rnd_compat_bits_min,
+-				.extra2         = (void *)&mmap_rnd_compat_bits_max,
++				.min            = CONFIG_ARCH_MMAP_RND_COMPAT_BITS_MIN,
++				.max            = CONFIG_ARCH_MMAP_RND_COMPAT_BITS_MAX,
+ 		},
+ #endif
+ };
+diff --git a/mm/nommu.c b/mm/nommu.c
+index bc87946e5cc2..3c1a7a9765a5 100644
+--- a/mm/nommu.c
++++ b/mm/nommu.c
+@@ -17,6 +17,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/export.h>
++#include <linux/limits.h>
+ #include <linux/mm.h>
+ #include <linux/sched/mm.h>
+ #include <linux/mman.h>
+@@ -411,7 +412,8 @@ static const struct ctl_table nommu_table[] = {
+ 		.maxlen		= sizeof(sysctl_nr_trim_pages),
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ZERO,
--		.extra2		= (void *)&ten_thousand,
 +		.min		= 0,
-+		.max		= 10000,
++		.max		= INT_MAX,
  	},
- 	{
- 		.procname	= "printk_devkmsg",
-@@ -62,18 +60,18 @@ static const struct ctl_table printk_sysctls[] = {
- 		.data		= &dmesg_restrict,
- 		.maxlen		= sizeof(int),
+ };
+ 
+diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+index 5d48bd862c27..6bb4e5a1b419 100644
+--- a/mm/oom_kill.c
++++ b/mm/oom_kill.c
+@@ -696,8 +696,8 @@ static const struct ctl_table vm_oom_kill_table[] = {
+ 		.maxlen		= sizeof(sysctl_panic_on_oom),
  		.mode		= 0644,
--		.proc_handler	= proc_dointvec_minmax_sysadmin,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.proc_handler	= proc_dointvec_range_sysadmin,
-+		.min		= 0,
-+		.max		= 1,
- 	},
- 	{
- 		.procname	= "kptr_restrict",
- 		.data		= &kptr_restrict,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
--		.proc_handler	= proc_dointvec_minmax_sysadmin,
+ 		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ZERO,
 -		.extra2		= SYSCTL_TWO,
-+		.proc_handler	= proc_dointvec_range_sysadmin,
 +		.min		= 0,
 +		.max		= 2,
  	},
- };
- 
-diff --git a/kernel/rcu/tree_stall.h b/kernel/rcu/tree_stall.h
-index 803a56af3259..e5a230514a86 100644
---- a/kernel/rcu/tree_stall.h
-+++ b/kernel/rcu/tree_stall.h
-@@ -8,6 +8,7 @@
+ 	{
+ 		.procname	= "oom_kill_allocating_task",
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index 0694ec4098f6..40fdc2d698d9 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -13,6 +13,7 @@
   */
  
- #include <linux/console.h>
+ #include <linux/kernel.h>
 +#include <linux/limits.h>
- #include <linux/kvm_para.h>
- #include <linux/rcu_notifier.h>
- #include <linux/smp.h>
-@@ -29,8 +30,8 @@ static const struct ctl_table rcu_stall_sysctl_table[] = {
- 		.maxlen		= sizeof(sysctl_panic_on_rcu_stall),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.min		= 0,
-+		.max		= 1,
- 	},
- 	{
- 		.procname	= "max_rcu_stall_to_panic",
-@@ -38,8 +39,8 @@ static const struct ctl_table rcu_stall_sysctl_table[] = {
- 		.maxlen		= sizeof(sysctl_max_rcu_stall_to_panic),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ONE,
--		.extra2		= SYSCTL_INT_MAX,
-+		.min		= 1,
-+		.max		= INT_MAX,
- 	},
- };
- 
-diff --git a/kernel/sched/autogroup.c b/kernel/sched/autogroup.c
-index e380cf9372bb..3198fe47efb8 100644
---- a/kernel/sched/autogroup.c
-+++ b/kernel/sched/autogroup.c
-@@ -19,8 +19,8 @@ static const struct ctl_table sched_autogroup_sysctls[] = {
- 		.maxlen         = sizeof(unsigned int),
- 		.mode           = 0644,
- 		.proc_handler   = proc_dointvec_minmax,
--		.extra1         = SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE,
-+		.min            = 0,
-+		.max            = 1,
- 	},
- };
- 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 04b62c16fa8c..293f4cc423ca 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -4823,8 +4823,8 @@ static const struct ctl_table sched_core_sysctls[] = {
- 		.maxlen         = sizeof(unsigned int),
- 		.mode           = 0644,
- 		.proc_handler   = sysctl_schedstats,
--		.extra1         = SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE,
-+		.min            = 0,
-+		.max            = 1,
- 	},
- #endif /* CONFIG_SCHEDSTATS */
- #ifdef CONFIG_UCLAMP_TASK
-@@ -4857,8 +4857,8 @@ static const struct ctl_table sched_core_sysctls[] = {
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
- 		.proc_handler	= sysctl_numa_balancing,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_FOUR,
-+		.min		= 0,
-+		.max		= 4,
- 	},
- #endif /* CONFIG_NUMA_BALANCING */
- };
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index cfc982205b98..3956f35927bd 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -145,7 +145,8 @@ static const struct ctl_table sched_fair_sysctls[] = {
- 		.maxlen         = sizeof(unsigned int),
- 		.mode           = 0644,
- 		.proc_handler   = proc_dointvec_minmax,
--		.extra1         = SYSCTL_ONE,
-+		.min            = 1,
-+		.max            = INT_MAX,
- 	},
- #endif
- #ifdef CONFIG_NUMA_BALANCING
-@@ -155,7 +156,8 @@ static const struct ctl_table sched_fair_sysctls[] = {
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
-+		.min		= 0,
-+		.max		= INT_MAX,
- 	},
- #endif /* CONFIG_NUMA_BALANCING */
- };
-diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-index 919d0fb00bd9..caaba36abdd4 100644
---- a/kernel/sched/topology.c
-+++ b/kernel/sched/topology.c
-@@ -319,8 +319,8 @@ static const struct ctl_table sched_energy_aware_sysctls[] = {
- 		.maxlen         = sizeof(unsigned int),
- 		.mode           = 0644,
- 		.proc_handler   = sched_energy_aware_handler,
--		.extra1         = SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE,
-+		.min            = 0,
-+		.max            = 1,
- 	},
- };
- 
-diff --git a/kernel/sys.c b/kernel/sys.c
-index 755bfa5ccd92..676ffca63a05 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -188,8 +188,8 @@ static const struct ctl_table overflow_sysctl_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_MAXOLDUID,
-+		.min		= 0,
-+		.max		= 65535,
- 	},
- 	{
- 		.procname	= "overflowgid",
-@@ -197,8 +197,8 @@ static const struct ctl_table overflow_sysctl_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_MAXOLDUID,
-+		.min		= 0,
-+		.max		= 65535,
- 	},
- };
- 
-diff --git a/kernel/time/timer.c b/kernel/time/timer.c
-index a3c4e20a4e36..8cb0c3cad455 100644
---- a/kernel/time/timer.c
-+++ b/kernel/time/timer.c
-@@ -309,8 +309,8 @@ static const struct ctl_table timer_sysctl[] = {
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
- 		.proc_handler	= timer_migration_handler,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.min		= 0,
-+		.max		= 1,
- 	},
- };
- 
-diff --git a/kernel/ucount.c b/kernel/ucount.c
-index ec8b1445e287..8c7738f240ec 100644
---- a/kernel/ucount.c
-+++ b/kernel/ucount.c
-@@ -61,17 +61,14 @@ static struct ctl_table_root set_root = {
- 	.permissions = set_permissions,
- };
- 
--static long ue_zero = 0;
--static long ue_int_max = INT_MAX;
--
- #define UCOUNT_ENTRY(name)					\
- 	{							\
- 		.procname	= name,				\
- 		.maxlen		= sizeof(long),			\
- 		.mode		= 0644,				\
- 		.proc_handler	= proc_doulongvec_minmax,	\
--		.extra1		= &ue_zero,			\
--		.extra2		= &ue_int_max,			\
-+		.min		= 0,				\
-+		.max		= INT_MAX,			\
- 	}
- static const struct ctl_table user_table[] = {
- 	UCOUNT_ENTRY("max_user_namespaces"),
-diff --git a/kernel/watchdog.c b/kernel/watchdog.c
-index 64da2e500144..f440522707ec 100644
---- a/kernel/watchdog.c
-+++ b/kernel/watchdog.c
-@@ -13,6 +13,7 @@
- #define pr_fmt(fmt) "watchdog: " fmt
- 
- #include <linux/cpu.h>
-+#include <linux/limits.h>
- #include <linux/init.h>
- #include <linux/irq.h>
- #include <linux/irqdesc.h>
-@@ -1213,8 +1214,6 @@ static int proc_watchdog_cpumask(const struct ctl_table *table, int write,
- 	return err;
+ #include <linux/math64.h>
+ #include <linux/export.h>
+ #include <linux/spinlock.h>
+@@ -2227,9 +2228,6 @@ static int laptop_mode_handler(const struct ctl_table *table, int write,
+ 	return ret;
  }
  
--static const int sixty = 60;
+-/* this is needed for the proc_doulongvec_minmax of vm_dirty_bytes */
+-static const unsigned long dirty_bytes_min = 2 * PAGE_SIZE;
 -
- static const struct ctl_table watchdog_sysctls[] = {
+ static const struct ctl_table vm_page_writeback_sysctls[] = {
  	{
- 		.procname       = "watchdog",
-@@ -1222,8 +1221,8 @@ static const struct ctl_table watchdog_sysctls[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler   = proc_watchdog,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.min		= 0,
-+		.max		= 1,
+ 		.procname   = "dirty_background_ratio",
+@@ -2237,8 +2235,8 @@ static const struct ctl_table vm_page_writeback_sysctls[] = {
+ 		.maxlen     = sizeof(dirty_background_ratio),
+ 		.mode       = 0644,
+ 		.proc_handler   = dirty_background_ratio_handler,
+-		.extra1     = SYSCTL_ZERO,
+-		.extra2     = SYSCTL_ONE_HUNDRED,
++		.min            = 0,
++		.max            = 100,
  	},
  	{
- 		.procname	= "watchdog_thresh",
-@@ -1231,8 +1230,8 @@ static const struct ctl_table watchdog_sysctls[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_watchdog_thresh,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= (void *)&sixty,
-+		.min		= 0,
-+		.max		= 60,
+ 		.procname   = "dirty_background_bytes",
+@@ -2246,7 +2244,8 @@ static const struct ctl_table vm_page_writeback_sysctls[] = {
+ 		.maxlen     = sizeof(dirty_background_bytes),
+ 		.mode       = 0644,
+ 		.proc_handler   = dirty_background_bytes_handler,
+-		.extra1     = SYSCTL_LONG_ONE,
++		.min            = 1,
++		.max            = ULONG_MAX,
  	},
  	{
- 		.procname	= "watchdog_cpumask",
-@@ -1248,8 +1247,8 @@ static const struct ctl_table watchdog_sysctls[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler   = proc_soft_watchdog,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.min		= 0,
-+		.max		= 1,
+ 		.procname   = "dirty_ratio",
+@@ -2254,8 +2253,8 @@ static const struct ctl_table vm_page_writeback_sysctls[] = {
+ 		.maxlen     = sizeof(vm_dirty_ratio),
+ 		.mode       = 0644,
+ 		.proc_handler   = dirty_ratio_handler,
+-		.extra1     = SYSCTL_ZERO,
+-		.extra2     = SYSCTL_ONE_HUNDRED,
++		.min            = 0,
++		.max            = 100,
  	},
  	{
- 		.procname	= "softlockup_panic",
-@@ -1257,8 +1256,8 @@ static const struct ctl_table watchdog_sysctls[] = {
- 		.maxlen		= sizeof(int),
+ 		.procname   = "dirty_bytes",
+@@ -2263,7 +2262,8 @@ static const struct ctl_table vm_page_writeback_sysctls[] = {
+ 		.maxlen     = sizeof(vm_dirty_bytes),
+ 		.mode       = 0644,
+ 		.proc_handler   = dirty_bytes_handler,
+-		.extra1     = (void *)&dirty_bytes_min,
++		.min            = 2 * PAGE_SIZE,
++		.max            = ULONG_MAX,
+ 	},
+ 	{
+ 		.procname   = "dirty_writeback_centisecs",
+@@ -2278,7 +2278,8 @@ static const struct ctl_table vm_page_writeback_sysctls[] = {
+ 		.maxlen     = sizeof(dirty_expire_interval),
+ 		.mode       = 0644,
+ 		.proc_handler   = proc_dointvec_minmax,
+-		.extra1     = SYSCTL_ZERO,
++		.min            = 0,
++		.max            = INT_MAX,
+ 	},
+ #ifdef CONFIG_HIGHMEM
+ 	{
+@@ -2287,8 +2288,8 @@ static const struct ctl_table vm_page_writeback_sysctls[] = {
+ 		.maxlen		= sizeof(vm_highmem_is_dirtyable),
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_INT_MAX,
+-		.extra2		= SYSCTL_ONE,
++		.min		= 0,
++		.max		= 1,
+ 	},
+ #endif
+ 	{
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 2b2855300217..956acbe7e5bd 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -6933,7 +6933,8 @@ static const struct ctl_table page_alloc_sysctl_table[] = {
+ 		.maxlen		= sizeof(min_free_kbytes),
+ 		.mode		= 0644,
+ 		.proc_handler	= min_free_kbytes_sysctl_handler,
+-		.extra1		= SYSCTL_ZERO,
 +		.min		= 0,
 +		.max		= INT_MAX,
  	},
  	{
- 		.procname	= "softlockup_sys_info",
-@@ -1274,8 +1273,8 @@ static const struct ctl_table watchdog_sysctls[] = {
- 		.maxlen		= sizeof(int),
+ 		.procname	= "watermark_boost_factor",
+@@ -6941,7 +6942,8 @@ static const struct ctl_table page_alloc_sysctl_table[] = {
+ 		.maxlen		= sizeof(watermark_boost_factor),
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
 +		.min		= 0,
-+		.max		= 1,
++		.max		= INT_MAX,
  	},
- #endif /* CONFIG_SMP */
- #endif
-@@ -1286,8 +1285,8 @@ static const struct ctl_table watchdog_sysctls[] = {
- 		.maxlen		= sizeof(int),
+ 	{
+ 		.procname	= "watermark_scale_factor",
+@@ -6949,8 +6951,8 @@ static const struct ctl_table page_alloc_sysctl_table[] = {
+ 		.maxlen		= sizeof(watermark_scale_factor),
+ 		.mode		= 0644,
+ 		.proc_handler	= watermark_scale_factor_sysctl_handler,
+-		.extra1		= SYSCTL_ONE,
+-		.extra2		= SYSCTL_THREE_THOUSAND,
++		.min		= 1,
++		.max		= 3000,
+ 	},
+ 	{
+ 		.procname	= "defrag_mode",
+@@ -6958,8 +6960,8 @@ static const struct ctl_table page_alloc_sysctl_table[] = {
+ 		.maxlen		= sizeof(defrag_mode),
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ZERO,
@@ -724,29 +452,166 @@ index 64da2e500144..f440522707ec 100644
 +		.max		= 1,
  	},
  	{
- 		.procname	= "hardlockup_sys_info",
-@@ -1303,8 +1302,8 @@ static const struct ctl_table watchdog_sysctls[] = {
+ 		.procname	= "percpu_pagelist_high_fraction",
+@@ -6967,7 +6969,8 @@ static const struct ctl_table page_alloc_sysctl_table[] = {
+ 		.maxlen		= sizeof(percpu_pagelist_high_fraction),
+ 		.mode		= 0644,
+ 		.proc_handler	= percpu_pagelist_high_fraction_sysctl_handler,
+-		.extra1		= SYSCTL_ZERO,
++		.min		= 0,
++		.max		= INT_MAX,
+ 	},
+ 	{
+ 		.procname	= "lowmem_reserve_ratio",
+@@ -6975,7 +6978,8 @@ static const struct ctl_table page_alloc_sysctl_table[] = {
+ 		.maxlen		= sizeof(sysctl_lowmem_reserve_ratio),
+ 		.mode		= 0644,
+ 		.proc_handler	= lowmem_reserve_ratio_sysctl_handler,
+-		.extra1		= SYSCTL_ZERO,
++		.min		= 0,
++		.max		= INT_MAX,
+ 	},
+ #ifdef CONFIG_NUMA
+ 	{
+@@ -6991,8 +6995,8 @@ static const struct ctl_table page_alloc_sysctl_table[] = {
+ 		.maxlen		= sizeof(sysctl_min_unmapped_ratio),
+ 		.mode		= 0644,
+ 		.proc_handler	= sysctl_min_unmapped_ratio_sysctl_handler,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_ONE_HUNDRED,
++		.min		= 0,
++		.max		= 100,
+ 	},
+ 	{
+ 		.procname	= "min_slab_ratio",
+@@ -7000,8 +7004,8 @@ static const struct ctl_table page_alloc_sysctl_table[] = {
+ 		.maxlen		= sizeof(sysctl_min_slab_ratio),
+ 		.mode		= 0644,
+ 		.proc_handler	= sysctl_min_slab_ratio_sysctl_handler,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_ONE_HUNDRED,
++		.min		= 0,
++		.max		= 100,
+ 	},
+ #endif
+ };
+diff --git a/mm/swap_state.c b/mm/swap_state.c
+index d9e36c505398..1097ba48b8b1 100644
+--- a/mm/swap_state.c
++++ b/mm/swap_state.c
+@@ -30,7 +30,6 @@
+ 
+ /* Swap readahead cluster size, as a power of 2 pages. */
+ static int page_cluster;
+-static const int page_cluster_max = 31;
+ 
+ /*
+  * swapper_space is a fiction, retained to simplify the path through
+@@ -1071,8 +1070,8 @@ static const struct ctl_table swap_readahead_sysctl_table[] = {
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
+-		.extra2		= (void *)&page_cluster_max,
 +		.min		= 0,
-+		.max		= 1,
- 	},
- #endif /* CONFIG_SMP */
- #endif
-@@ -1314,8 +1313,8 @@ static const struct ctl_table watchdog_sysctls[] = {
- 		.maxlen		= sizeof(int),
++		.max		= 31,
+ 	}
+ };
+ 
+diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+index 3b71712edab4..f631a4e27aae 100644
+--- a/mm/userfaultfd.c
++++ b/mm/userfaultfd.c
+@@ -2405,8 +2405,8 @@ static const struct ctl_table vm_userfaultfd_table[] = {
+ 		.maxlen		= sizeof(sysctl_unprivileged_userfaultfd),
  		.mode		= 0644,
- 		.proc_handler   = proc_nmi_watchdog,
+ 		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ZERO,
 -		.extra2		= SYSCTL_ONE,
 +		.min		= 0,
 +		.max		= 1,
  	},
  };
+ #endif
+diff --git a/mm/util.c b/mm/util.c
+index 2f2bc521868a..1460f47c10c5 100644
+--- a/mm/util.c
++++ b/mm/util.c
+@@ -1,6 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ #include <linux/mm.h>
+-#include <linux/limits.h>
+ #include <linux/slab.h>
+ #include <linux/string.h>
+ #include <linux/compiler.h>
+@@ -858,8 +857,8 @@ static const struct ctl_table util_sysctl_table[] = {
+ 		.maxlen		= sizeof(sysctl_overcommit_memory),
+ 		.mode		= 0644,
+ 		.proc_handler	= overcommit_policy_handler,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_TWO,
++		.min		= 0,
++		.max		= 2,
+ 	},
+ 	{
+ 		.procname	= "overcommit_ratio",
+@@ -874,6 +873,8 @@ static const struct ctl_table util_sysctl_table[] = {
+ 		.maxlen		= sizeof(sysctl_overcommit_kbytes),
+ 		.mode		= 0644,
+ 		.proc_handler	= overcommit_kbytes_handler,
++		.min		= 0,
++		.max		= ULONG_MAX,
+ 	},
+ 	{
+ 		.procname	= "user_reserve_kbytes",
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 9959ca158ce8..48b7b373a76c 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -13,6 +13,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
  
+ #include <linux/mm.h>
++#include <linux/limits.h>
+ #include <linux/sched/mm.h>
+ #include <linux/module.h>
+ #include <linux/gfp.h>
+@@ -7884,8 +7885,8 @@ static const struct ctl_table vmscan_sysctl_table[] = {
+ 		.maxlen		= sizeof(vm_swappiness),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_TWO_HUNDRED,
++		.min		= 0,
++		.max		= 200,
+ 	},
+ #ifdef CONFIG_NUMA
+ 	{
+@@ -7894,7 +7895,8 @@ static const struct ctl_table vmscan_sysctl_table[] = {
+ 		.maxlen		= sizeof(node_reclaim_mode),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ZERO,
++		.min		= 0,
++		.max		= INT_MAX,
+ 	}
+ #endif
+ };
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index a3e809c57f29..4d0a44624d16 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -2279,8 +2279,8 @@ static const struct ctl_table vmstat_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= sysctl_vm_numa_stat_handler,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_ONE,
++		.min		= 0,
++		.max		= 1,
+ 	},
+ #endif
+ };
 -- 
 2.25.1
 
