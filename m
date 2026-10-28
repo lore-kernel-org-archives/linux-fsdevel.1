@@ -1,60 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.134
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793205535;
-	b=joowL7xvlI1oMtXr0nQUxQivkm+gkjrM15yAHY7+bUopGjr8MRIRnm/CShxcTt8eBYTC
-	 RlMppkq1EGDC22k1Ih6v5mHVBwWo/Kojt2uko0SgzHrTLNypdYlaOaqGtKCZa97SheX/m
-	 x6xTmZ3gRj4Mfs4bNoF7hU0EdDJZt+/J0BMaE6g2h12Um/0xiq9Hnxr719yqdEKclxjXP
-	 QgJHk0NgaU9f6ZA3UUblaFrkZ4HOb7cxuho6NtbrNgXRDesE2Dw16yzd8mhb75IizU+3u
-	 ApWXeENw0Esb1/DHmv1PXdhzbZVRZZXBxc7UrxanubspW9MmCn+VLmPgh1wpwmi7SdQ==
+	t=1793205538;
+	b=dxyx4MhJos8ip+8M443KxzIB07jGVfstUvAKUUbL6B0lijF6A0h3SiIBCr4JPr9sfmSw
+	 xP46BXmM+/3kGWQzUeuJmfQPKnY9qHhvZ1U+mAzaEb7RbzEcUlqTKCVAK+a8nCmkS7qLG
+	 6BTwSLcrT2wltQ9S2GCufOnMCYaTRhhaZHJjXmrlbTiyqb7g+iOR3Mc5KM8dPtyJM8Da4
+	 +1hx57MxGPWH/ZhIjns4b64lFcdBw/E/oYUGc1wFpTOaq370Qo2F+8usm6nOMmc/Vsg1Y
+	 F53ZSMJrvrhfO6wb3nlxSVSiFOXt5Q/WFFdRcGQ+6YNY4tvdYNYP+fhCgQAjLxelVww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793205535;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793205538;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=PyyEhaD8x2m34MKiecPyQSIILKDN7dZJGfcyqFPUk4o=;
-	b=a4DyQf55OvKJtTsOX8DbXWCJnJGOyzSNwRNxou6Zem7puZ+a7Dxxragxu5VuMzqStPTr
-	 7H4ViuR8Ior8wJZHJ2x/QYms6UlHo8THU/QujlM/Q3TdTVXh/sXUuMDvIfP2ZwFM/pcb7
-	 Ew/7Li7C9NRS/UZUR18PsMYEiGbyGNypLAvJPYqU0M42cbeE3Xlvhgbvblo7wdUe5Nsi/
-	 oZ6x2WpSG1KaBk5++gewM44Jf0zYHIfotxwkDC4op45iooeOYNDoxCdm7KqqRBHG7wNO9
-	 FrkpjbkBatpcMzJDjCp3T3q+FBLm2Mby1wpY2ICZsOINt8G/3/k5xN/ZBNrVFobReZQ==
+	bh=QSKBaiGXHt+4qQH7pG2VnJvANmW2EAlk7ob12Ez8kFM=;
+	b=aba8HZThR5lchCt8hPwP7vtjMeacEtvBklP8dYSM6b7l/ybfKMZQSjTb+AV685Uuvru7
+	 WDqa2HfhDdx+fIO5zqnfkpAPDdqYPfK9AR8zIhEnqPYJcFfRf3RSM5tLDhuZ5xUR+Jlfj
+	 9mxWOXvLDq1dJznkRS6WEz2slu9AKx+dU1tOwJmNL9m7BLZUFRRhEEljeJgHnSby5s2Xc
+	 yp4XoXAmuiBpHCSqFC8ooDJR0mp7ENmjxwuknSqhCUjYrk5ahkZ8BJzwDP4L30+BDZ5QF
+	 Arm30C2kJuTe/xkVFnpU5LeGeU2gZJ2M7o20P984QSuY0DsPqEl1YkZSs0v/d0ckMgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=DP2PbMCG;
-	arc=none smtp.remote-ip=95.215.58.130
-Received: from mta1.migadu.com (out-130.mta1.migadu.com [95.215.58.130])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ulkiOU7o;
+	arc=none smtp.remote-ip=95.215.58.134
+Received: from mta1.migadu.com (out-134.mta1.migadu.com [95.215.58.134])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4922160A2627
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:38:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4922160A2627
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C602B60A382B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:38:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C602B60A382B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=DP2PbMCG
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ulkiOU7o
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Xz3+iH/EXgndvNvYbLnjDx/bNEeb8fE/MJkYV6nAti8=;
+DKIM-Signature: a=rsa-sha256; bh=6ROvPKTlne3UOVvR3mOynIgw9XxCJw9ISos9bJc+n6k=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793205532; v=1; x=1793810332;
- b=DP2PbMCGbps496lJrX4QbF5vMRxJ9ZKulVXeJ2WMWEBXTcrzHPJExtySUI5s08w4nFWn4Aoj
- mNMCL9UtwKIthGzpBf1+1TE9MdMOuDPz/QjgBCkx4PdW4r1HQ9yqt7dKk2k1sWfZPkLvKMMiYFg
- AZ8/JYum0j71Yg2S3/Vo1rx8=
+ t=1793205536; v=1; x=1793810336;
+ b=ulkiOU7oVorwsy+kIzuGDYmaaiPdxYqslrphFFZmHJeUurS0iPOknzaq5FmXsFjcsYS7BZla
+ 26LV8X4EjRlFB9aEmfa10Z7semI9S1F/1MY4OIbjBAZrGFlCYf+TlNKNTl0l10OHiww2wjRQNtL
+ oBnZuDHquP7C4Sg9ghaqSHlA=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 97da82f30ffae365;
-	Wed, 28 Oct 2026 16:38:52 +0000
-X-Mizu-Trace-ID: 97da82f30ffae365
+Received: by mta11.migadu.com with ESMTPS id f7cad60e308d7741;
+	Wed, 28 Oct 2026 16:38:55 +0000
+X-Mizu-Trace-ID: f7cad60e308d7741
 X-Migadu-Flow: FLOW_OUT
 From: wen.yang@linux.dev
 To: Joel Granados <joel.granados@kernel.org>
 Cc: Wen Yang <wen.yang@linux.dev>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 36/39] parport: move device sysctl context to priv
-Date: Thu, 29 Oct 2026 00:35:15 +0800
-Message-Id: <99e864dc88f931ba5f065717bb5a9cb950b05eb7.1793204511.git.wen.yang@linux.dev>
+Subject: [RFC PATCH 37/39] net: move namespace sysctl context to priv
+Date: Thu, 29 Oct 2026 00:35:16 +0800
+Message-Id: <b0e2052fd4025708478a800ccc4356b1786ac075.1793204511.git.wen.yang@linux.dev>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1793204511.git.wen.yang@linux.dev>
 References: <cover.1793204511.git.wen.yang@linux.dev>
@@ -71,167 +71,185 @@ Content-Transfer-Encoding: 8bit
 
 From: Wen Yang <wen.yang@linux.dev>
 
-The per-port table uses extra1 for both the spintime minimum and the
-port context of the active and hardware entries. During registration,
-the loop also assigns the port pointer to vars[0].extra1, overwriting
-the minimum. A spintime write can consequently be checked against data
-from struct parport instead of the intended minimum.
+Several per-net handlers store the owning struct net in data and resolve
+their real storage elsewhere: the route flush entry, MPLS platform
+labels, the VRF strict-mode switch, the RPS default mask and the IPv4
+local port range and multipath hash seed.
 
-Move the port context to priv and use numeric bounds for spintime.
-Keep probe_info in data and set priv only for the entries that need the
-port. Separating context from bounds prevents this overwrite.
-
-The spintime bug exists in the base tree and can also be fixed separately;
-this RFC does not depend on that fix.
+Point data at backed storage where one exists, otherwise leave it NULL,
+and carry the namespace in priv. The duplication paths copy the
+namespace into priv instead of offsetting data, so a handler can no
+longer mistake an offset for its owner.
 
 Signed-off-by: Wen Yang <wen.yang@linux.dev>
 ---
- drivers/parport/procfs.c | 51 +++++++++++++++-------------------------
- 1 file changed, 19 insertions(+), 32 deletions(-)
+ drivers/net/vrf.c          |  4 ++--
+ net/core/sysctl_net_core.c | 11 +++++++++--
+ net/ipv4/route.c           |  4 ++--
+ net/ipv4/sysctl_net_ipv4.c | 13 ++++++++-----
+ net/mpls/af_mpls.c         |  9 ++++++---
+ 5 files changed, 27 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/parport/procfs.c b/drivers/parport/procfs.c
-index 1bfafc2a5724..6f6d96c37a93 100644
---- a/drivers/parport/procfs.c
-+++ b/drivers/parport/procfs.c
-@@ -36,7 +36,7 @@
- static int do_active_device(const struct ctl_table *table, int write,
- 		      void *result, size_t *lenp, loff_t *ppos)
+diff --git a/drivers/net/vrf.c b/drivers/net/vrf.c
+index 993cc2d120fd..fcbb43c72ff7 100644
+--- a/drivers/net/vrf.c
++++ b/drivers/net/vrf.c
+@@ -1826,7 +1826,7 @@ static int vrf_strict_mode_change(struct vrf_map *vmap, bool new_mode)
+ static int vrf_shared_table_handler(const struct ctl_table *table, int write,
+ 				    void *buffer, size_t *lenp, loff_t *ppos)
  {
--	struct parport *port = (struct parport *)table->extra1;
-+	struct parport *port = table->priv;
- 	char buffer[256];
- 	struct pardevice *dev;
- 	int len = 0;
-@@ -73,7 +73,7 @@ static int do_active_device(const struct ctl_table *table, int write,
- static int do_autoprobe(const struct ctl_table *table, int write,
- 			void *result, size_t *lenp, loff_t *ppos)
- {
--	struct parport_device_info *info = table->extra2;
-+	struct parport_device_info *info = table->data;
- 	const char *str;
- 	char buffer[256];
- 	int len = 0;
-@@ -116,7 +116,7 @@ static int do_autoprobe(const struct ctl_table *table, int write,
- static int do_hardware_base_addr(const struct ctl_table *table, int write,
- 				 void *result, size_t *lenp, loff_t *ppos)
- {
--	struct parport *port = (struct parport *)table->extra1;
-+	struct parport *port = table->priv;
- 	char buffer[64];
- 	int len = 0;
- 
-@@ -143,7 +143,7 @@ static int do_hardware_base_addr(const struct ctl_table *table, int write,
- static int do_hardware_irq(const struct ctl_table *table, int write,
- 			   void *result, size_t *lenp, loff_t *ppos)
- {
--	struct parport *port = (struct parport *)table->extra1;
-+	struct parport *port = table->priv;
- 	char buffer[20];
- 	int len = 0;
- 
-@@ -170,7 +170,7 @@ static int do_hardware_irq(const struct ctl_table *table, int write,
- static int do_hardware_dma(const struct ctl_table *table, int write,
- 			   void *result, size_t *lenp, loff_t *ppos)
- {
--	struct parport *port = (struct parport *)table->extra1;
-+	struct parport *port = table->priv;
- 	char buffer[20];
- 	int len = 0;
- 
-@@ -197,7 +197,7 @@ static int do_hardware_dma(const struct ctl_table *table, int write,
- static int do_hardware_modes(const struct ctl_table *table, int write,
- 			     void *result, size_t *lenp, loff_t *ppos)
- {
--	struct parport *port = (struct parport *)table->extra1;
-+	struct parport *port = table->priv;
- 	char buffer[40];
- 	int len = 0;
- 
-@@ -236,19 +236,6 @@ do {									\
- 	return 0;
- }
- 
--static const unsigned long parport_min_timeslice_value =
--PARPORT_MIN_TIMESLICE_VALUE;
--
--static const unsigned long parport_max_timeslice_value =
--PARPORT_MAX_TIMESLICE_VALUE;
--
--static const  int parport_min_spintime_value =
--PARPORT_MIN_SPINTIME_VALUE;
--
--static const int parport_max_spintime_value =
--PARPORT_MAX_SPINTIME_VALUE;
--
--
- struct parport_sysctl_table {
- 	struct ctl_table_header *port_header;
- 	struct ctl_table_header *devices_header;
-@@ -270,8 +257,8 @@ static const struct parport_sysctl_table parport_sysctl_template = {
- 			.maxlen		= sizeof(int),
- 			.mode		= 0644,
- 			.proc_handler	= proc_dointvec_minmax,
--			.extra1		= (void*) &parport_min_spintime_value,
--			.extra2		= (void*) &parport_max_spintime_value
-+			.min		= PARPORT_MIN_SPINTIME_VALUE,
-+			.max		= PARPORT_MAX_SPINTIME_VALUE,
- 		},
- 		{
- 			.procname	= "base-addr",
-@@ -367,8 +354,8 @@ parport_device_sysctl_template = {
- 			.maxlen		= sizeof(unsigned long),
- 			.mode		= 0644,
- 			.proc_handler	= proc_doulongvec_ms_jiffies_minmax,
--			.extra1		= (void*) &parport_min_timeslice_value,
--			.extra2		= (void*) &parport_max_timeslice_value
-+			.min		= PARPORT_MIN_TIMESLICE_VALUE,
-+			.max		= PARPORT_MAX_TIMESLICE_VALUE,
- 		},
- 	},
- 	{
-@@ -397,8 +384,8 @@ parport_default_sysctl_table = {
- 			.maxlen		= sizeof(parport_default_timeslice),
- 			.mode		= 0644,
- 			.proc_handler	= proc_doulongvec_ms_jiffies_minmax,
--			.extra1		= (void*) &parport_min_timeslice_value,
--			.extra2		= (void*) &parport_max_timeslice_value
-+			.min		= PARPORT_MIN_TIMESLICE_VALUE,
-+			.max		= PARPORT_MAX_TIMESLICE_VALUE,
- 		},
- 		{
- 			.procname	= "spintime",
-@@ -406,8 +393,8 @@ parport_default_sysctl_table = {
- 			.maxlen		= sizeof(parport_default_spintime),
- 			.mode		= 0644,
- 			.proc_handler	= proc_dointvec_minmax,
--			.extra1		= (void*) &parport_min_spintime_value,
--			.extra2		= (void*) &parport_max_spintime_value
-+			.min		= PARPORT_MIN_SPINTIME_VALUE,
-+			.max		= PARPORT_MAX_SPINTIME_VALUE,
- 		},
- 	}
- };
-@@ -422,15 +409,15 @@ int parport_proc_register(struct parport *port)
- 	if (t == NULL)
+-	struct net *net = table->data;
++	struct net *net = table->priv;
+ 	struct vrf_map *vmap = netns_vrf_map(net);
+ 	int proc_strict_mode = 0;
+ 	struct ctl_table tmp = *table;
+@@ -1865,7 +1865,7 @@ static int vrf_netns_init_sysctl(struct net *net, struct netns_vrf *nn_vrf)
+ 	if (!table)
  		return -ENOMEM;
  
--	t->device_dir[0].extra1 = port;
-+	t->device_dir[0].priv = port;
+-	table[0].data = net;
++	table[0].priv = net;
  
- 	t->vars[0].data = &port->spintime;
--	for (i = 0; i < 5; i++) {
--		t->vars[i].extra1 = port;
-+	for (i = 1; i < 5; i++)
-+		t->vars[i].priv = port;
- #ifdef CONFIG_PARPORT_1284
--		t->vars[5 + i].extra2 = &port->probe_info[i];
-+	for (i = 0; i < 5; i++)
-+		t->vars[5 + i].data = &port->probe_info[i];
- #endif /* IEEE 1284 support */
--	}
+ 	nn_vrf->ctl_hdr = register_net_sysctl_sz(net, "net/vrf", table,
+ 						 ARRAY_SIZE(vrf_table));
+diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
+index 1721e63240c9..16441c83abf9 100644
+--- a/net/core/sysctl_net_core.c
++++ b/net/core/sysctl_net_core.c
+@@ -98,7 +98,7 @@ DEFINE_MUTEX(rps_default_mask_mutex);
+ static int rps_default_mask_sysctl(const struct ctl_table *table, int write,
+ 				   void *buffer, size_t *lenp, loff_t *ppos)
+ {
+-	struct net *net = (struct net *)table->data;
++	struct net *net = table->priv;
+ 	struct cpumask *mask;
+ 	int err = 0;
  
- 	tmp_dir_path = kasprintf(GFP_KERNEL, "dev/parport/%s/devices", port->name);
- 	if (!tmp_dir_path) {
+@@ -703,7 +703,8 @@ static const struct ctl_table netns_core_table[] = {
+ #if IS_ENABLED(CONFIG_RPS)
+ 	{
+ 		.procname	= "rps_default_mask",
+-		.data		= &init_net,
++		.data		= NULL,
++		.priv		= &init_net,
+ 		.mode		= 0644,
+ 		.proc_handler	= rps_default_mask_sysctl
+ 	},
+@@ -828,6 +829,12 @@ static const struct ctl_table *netns_core_table_dup(struct net *net)
+ 		if (tbl[i].data == &sysctl_wmem_max)
+ 			break;
+ 
++		/* Entries without backing storage carry the namespace in priv. */
++		if (tbl[i].priv) {
++			tbl[i].priv = net;
++			continue;
++		}
++
+ 		tbl[i].data += (char *)net - (char *)&init_net;
+ 	}
+ 	for (; i < table_size; ++i)
+diff --git a/net/ipv4/route.c b/net/ipv4/route.c
+index b4c415f720b2..5a8d0fcf75e3 100644
+--- a/net/ipv4/route.c
++++ b/net/ipv4/route.c
+@@ -3511,7 +3511,7 @@ static int ip_rt_gc_elasticity __read_mostly	= 8;
+ static int ipv4_sysctl_rtcache_flush(const struct ctl_table *__ctl, int write,
+ 		void *buffer, size_t *lenp, loff_t *ppos)
+ {
+-	struct net *net = __ctl->data;
++	struct net *net = __ctl->priv;
+ 
+ 	if (write) {
+ 		rt_cache_flush(net);
+@@ -3670,7 +3670,7 @@ static __net_init int sysctl_route_net_init(struct net *net)
+ 		for (i = 1; i < table_size; i++)
+ 			tbl[i].data += (void *)net - (void *)&init_net;
+ 	}
+-	tbl[0].data = net;
++	tbl[0].priv = net;
+ 
+ 	net->ipv4.route_hdr = register_net_sysctl_sz(net, "net/ipv4/route",
+ 						     tbl, table_size);
+diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+index 4226ce923534..e65d67567af9 100644
+--- a/net/ipv4/sysctl_net_ipv4.c
++++ b/net/ipv4/sysctl_net_ipv4.c
+@@ -40,7 +40,7 @@ static void set_local_port_range(struct net *net, unsigned int low, unsigned int
+ static int ipv4_local_port_range(const struct ctl_table *table, int write,
+ 				 void *buffer, size_t *lenp, loff_t *ppos)
+ {
+-	struct net *net = table->data;
++	struct net *net = table->priv;
+ 	int ret;
+ 	int range[2];
+ 	struct ctl_table tmp = {
+@@ -465,7 +465,7 @@ static int proc_fib_multipath_hash_seed(const struct ctl_table *table, int write
+ 					loff_t *ppos)
+ {
+ 	struct sysctl_fib_multipath_hash_seed *mphs;
+-	struct net *net = table->data;
++	struct net *net = table->priv;
+ 	struct ctl_table tmp;
+ 	u32 user_seed;
+ 	int ret;
+@@ -824,7 +824,7 @@ static const struct ctl_table ipv4_net_table[] = {
+ 	{
+ 		.procname	= "ip_local_port_range",
+ 		.maxlen		= 0,
+-		.data		= &init_net,
++		.priv		= &init_net,
+ 		.mode		= 0644,
+ 		.proc_handler	= ipv4_local_port_range,
+ 	},
+@@ -1213,7 +1213,7 @@ static const struct ctl_table ipv4_net_table[] = {
+ 	},
+ 	{
+ 		.procname	= "fib_multipath_hash_seed",
+-		.data		= &init_net,
++		.priv		= &init_net,
+ 		.maxlen		= sizeof(u32),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_fib_multipath_hash_seed,
+@@ -1753,7 +1753,10 @@ static const struct ctl_table *ipv4_net_table_dup(struct net *net)
+ 		return NULL;
+ 
+ 	for (i = 0; i < table_size; i++) {
+-		if (table[i].data) {
++		if (table[i].priv) {
++			/* Handler context follows the target namespace. */
++			table[i].priv = net;
++		} else if (table[i].data) {
+ 			/* Update the variables to point into
+ 			 * the current struct net
+ 			 */
+diff --git a/net/mpls/af_mpls.c b/net/mpls/af_mpls.c
+index b8df02173d7a..16058d584989 100644
+--- a/net/mpls/af_mpls.c
++++ b/net/mpls/af_mpls.c
+@@ -2679,7 +2679,7 @@ static int resize_platform_label_table(struct net *net, size_t limit)
+ static int mpls_platform_labels(const struct ctl_table *table, int write,
+ 				void *buffer, size_t *lenp, loff_t *ppos)
+ {
+-	struct net *net = table->data;
++	struct net *net = table->priv;
+ 	int platform_labels = net->mpls.platform_labels;
+ 	int ret;
+ 	struct ctl_table tmp = *table;
+@@ -2746,9 +2746,12 @@ static __net_init int mpls_net_init(struct net *net)
+ 		return -ENOMEM;
+ 
+ 	/* Table data contains only offsets relative to the base of
+-	 * the mdev at this point, so make them absolute.
++	 * the mdev at this point, so make them absolute. The
++	 * platform_labels entry has no backing storage and carries the
++	 * namespace in priv instead.
+ 	 */
+-	for (i = 0; i < table_size; i++)
++	table[0].priv = net;
++	for (i = 1; i < table_size; i++)
+ 		table[i].data = (char *)net + (uintptr_t)table[i].data;
+ 
+ 	net->mpls.ctl = register_net_sysctl_sz(net, "net/mpls", table,
 -- 
 2.25.1
 
