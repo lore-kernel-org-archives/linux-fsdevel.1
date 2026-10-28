@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.62.254.231
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793175644;
-	b=eiaUIdo3R+CuD+96FmI7Z5bf5oYmkhqmMxgqmPW13t9LcZA72p5/PAPxNg0/HDq1NSMN
-	 ypqVTgvq1JCd8EoOL5aBw41DlR0uQBmK8l8eazVw9R6NAW5XN2WG8dkktjZh9UYpxUEjr
-	 Up0q9PhmPlMWFVcWmI9cHeNJWjv7S42JxrIbM4Ak4V3zQNmVFwQlcozkAP8yNufB/AMoU
-	 8w1qbOF/pDs5WlvGxF4dYb6suJVAqgZaWFWy8Dtdlp8yygvW3VYpqzvCnaEIfLlnShn1T
-	 QbuxPsI1EsneFDYOvHBu8hfKyiN3xC8u0f04GYwDVzcEUMp1p7IdYC0IXnVub5T69Tw==
+	b=LUuro+Nb+M9K0F4abxNGKplnRIPcpp6V9b19nnpSNL2eJquf2rAMhWtC93c3zbelKcf4
+	 NZTkhF0dyT5vYOTiyTcnO/o7jZPcm+nmWjWf51szpOAAqRwVg3RApXGkmsHlnAGmlBzsp
+	 DVCBhb/EgDL5tJyt6JGRqoNZUkld6LUv2YtjEiGFpgDlKYkx0VaNO7MPPM6ttp+aWFixu
+	 QjXbwofPSKhXwcr25gUhFJD3GOV56EoAyGr1ctW4VLAKoX5Y7gcolEoQfMcugt0v9X3Mt
+	 ukPe7E5xK0Pw2OQyQQpHqfTljBXwOkBvvOfma4OOmdBw0plkPnkCXYoGOBqiZQlE2gQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793175644;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=vb2YQU4qe6RImWUZBE+u9ZEB8G8V69bXRBRkb+fLOpk=;
-	b=nCbCHdBOC5NU7XnCpEuAIMySMc5LciQ44OtIUzZkvXu5JuaoBoh1CSpShiMmQThwjVVK
-	 p1KNsbjZA1z0VeX+NjqNsPdLPW+uLf6X+zxhymFWDUuXzJlDySSEjrG21KwEO3BWDcKxT
-	 FCIENsV5A0ipY0lA1+lhj4UTsGmUBfDkTAKkcx/HNmfvkaTNRLZmaUPyLL9uBVusL9E2J
-	 3lbC6kxKpObzmv198Oryg8ZZASSQB4p2hb14YDpkHTvrjyCyQwOQIjopRHMYUpYEqX2Te
-	 4wXJxxdeUeXRXUmhgdW+aFolpxSTrNPCnujnC2b5M7f2MTjYA5/Qi+/rqBk49DiEa3g==
+	bh=f3wDiNCwMmjyXbWSfqLqTJmF38wOioqFlsZp1JBWY8g=;
+	b=QFhuZRit7qVu1GBGWOAazVfPX5eyd1xSSElMY3HZuN0J4/xjjCfXF7JphZs0MnTl0Rix
+	 ZBMyB42q6O6+saB8Ih4WSM7gthf4toR8wc/dGIlpabgRCIfI46yjvpCWrWW/Hw6eOpY5E
+	 C5rDvrlD0j0b0hm4rcvCxY2a7tYBNMb6YhLuzml8Be6bi77r9AfiX01if8Ct4j9j27omN
+	 q5ornfJFckcA7eHZTIyT8eIcWGvaa/IY3W/O8pvaENngyu3nWkhnzkG9Mom2nHwQXBwKW
+	 u4bn94Ykc/5029jNYpWIILwbQDkRe/2fPsuOK/Hs47SW2va4Qd4uVLFf+X2B+sUPJSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=ilvokhin.com;
 	spf=pass smtp.mailfrom=ilvokhin.com;
-	dkim=pass header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=wWjFM+hS;
+	dkim=pass header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=gY3XUXUz;
 	arc=none smtp.remote-ip=178.62.254.231
 Received: from mail.ilvokhin.com (mail.ilvokhin.com [178.62.254.231])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D2760A2616;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E5F60A2619;
 	Wed, 28 Oct 2026 08:20:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1D2760A2616
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1E5F60A2619
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ilvokhin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=wWjFM+hS
+	dkim=pass (1024-bit key, unprotected) header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=gY3XUXUz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ilvokhin.com;
-	s=mail; t=1793175636;
-	bh=vb2YQU4qe6RImWUZBE+u9ZEB8G8V69bXRBRkb+fLOpk=;
+	s=mail; t=1793175637;
+	bh=f3wDiNCwMmjyXbWSfqLqTJmF38wOioqFlsZp1JBWY8g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=wWjFM+hSTX3U8gdI2PDKi0wYk083s1rAoIucjog4b51AlSk0W2rJkgCKL+Evcl1K4
-	 At9r43JjYcrWS5tKi0AYK2ha19HMAuni4cqUY2nx1yH++BKUGrmpWP+YV3sBEzZllO
-	 r22BvFE5Ff0AYARkeLMplF+npotdwEUvo/Wg0P2c=
+	b=gY3XUXUzE59WwCVC4Qxuo4c1OjSPVasCM7D1wASmJouVr1JmoDvCR1fpvkN/NRule
+	 x920S0FQBtza5BGKQpbvfVCzTkgENiiK4WcKdNZUluCqTy6kzWj7Aq537yU0sAAPsA
+	 q2wy/d0fqfUd08AA2eVS24Chvy9WL59hmC+ynavA=
 Received: from localhost.localdomain (shell.ilvokhin.com [138.68.190.75])
 	(Authenticated sender: d@ilvokhin.com)
-	by mail.ilvokhin.com (Postfix) with ESMTPSA id 7B5ECFBD05;
-	Wed, 28 Oct 2026 08:20:36 +0000 (UTC)
+	by mail.ilvokhin.com (Postfix) with ESMTPSA id 0D880FBD0B;
+	Wed, 28 Oct 2026 08:20:37 +0000 (UTC)
 From: Dmitry Ilvokhin <d@ilvokhin.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -84,9 +84,9 @@ Cc: amd-gfx@lists.freedesktop.org,
 	linux-doc@vger.kernel.org,
 	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
 	Dmitry Ilvokhin <d@ilvokhin.com>
-Subject: [PATCH 07/10] drm/gem: Switch to __nonnull_args() macro
-Date: Wed, 28 Oct 2026 08:19:46 +0000
-Message-ID: <5bfdc1491d297b5e98cf42322c790f06481c28c7.1793027261.git.d@ilvokhin.com>
+Subject: [PATCH 08/10] leds: pwm: Switch to __nonnull_args() macro
+Date: Wed, 28 Oct 2026 08:19:47 +0000
+Message-ID: <ed2b0b67c306bb458ba389f16dc92904203a104b.1793027261.git.d@ilvokhin.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <cover.1793027261.git.d@ilvokhin.com>
 References: <cover.1793027261.git.d@ilvokhin.com>
@@ -112,21 +112,21 @@ in one place rather than open-coded at every call site.
 Suggested-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
 ---
- include/drm/drm_gem.h | 2 +-
+ drivers/leds/leds-pwm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index ed329408acbe..56dd15921c7a 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -566,7 +566,7 @@ static inline void drm_gem_object_get(struct drm_gem_object *obj)
- 	kref_get(&obj->refcount);
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index 6c1f2f50ff85..0363d370828b 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -80,7 +80,7 @@ static int led_pwm_default_brightness_get(struct fwnode_handle *fwnode,
+ 	return default_brightness;
  }
  
 -__attribute__((nonnull))
 +__nonnull_args()
- static inline void
- __drm_gem_object_put(struct drm_gem_object *obj)
+ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+ 		       struct led_pwm *led, struct fwnode_handle *fwnode)
  {
 -- 
 2.53.0-Meta
