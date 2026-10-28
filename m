@@ -1,60 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.60
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.61
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793205469;
-	b=zgcRVepuXUBKVMkfQ+z73zeIJhBCHpOyo9a0xfur+wfAfrKpFr4rKv2w+s+cEC59ZN5z
-	 HC3BJ3Kcn3eZIRdRVRuril8qjL+IEdH+MI9GNQPHNkyzZ7cdfetXme5lcUIEOYPlftWn+
-	 /dw2zfBxBHejYCGrjxJOX1M1mbMkm4HuVJX5UVJD6BpbMagfUoyv3ZoRRcqnPtp953xjZ
-	 bOGGq47w98bE7H5WXR4hTrSMF1/oq83igUAR58q0cLPTv2YjC9pX15U3/zWWgu14rT+s3
-	 JYBsrpqkErgs7Dj5ko/q0I34sTHOwgXCbFDkgnjpO4HmgyKjWo180L0+I+a5At+u1qA==
+	t=1793205475;
+	b=nDAxo7fg7xLp7auDFhIK1QOxyctdPyxjOZP1nW61yuwHknFHBmZAO7+vTH0I3VoSgw3b
+	 4F3lV2X3wzdtgfCN1bH5U7sFJmucLmORde6LIyQqeHUhkQ8eJ4NLIPk9k1PfVMGftIG3i
+	 vlveH7Y76qkCK+yCn+ucA+VzsD0IqQ+su/Assir85eIEdOUcf48HBn/Yz51Abkuf4+/B6
+	 YNOImzgypU1CVpl7SkK4CpnSd32dTD/Jre5ZJjEJWfO/t4bBa8zzNUtmj0oBekrSo9+hp
+	 /w+KO7eJfx9U5xGXlFLLrLttGZM7uk6Na94W88WbuysHjkp1OHTmmnc9B/Tq9t4RhHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793205469;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793205475;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=SmZHdJwA0nTVD4grXEA4LqGJNLaI+aWn1kdnnfhjo+Y=;
-	b=tKzzBryN6QPx1EhVK1h3WyMcD4yo6iP6eC28Ylr4FdCn78jfp4ZoJ8e0U4xi0pxyQ3Vm
-	 UPGoXhtw+byOS59IHckvDB3ubv1a51mxFHWxN61U7SMlb8gIEC3PNPQq+MjkO65kK0THd
-	 MLMLgSdZpAjLxiqLZgpg4YF+4IOzINICkTLmqLdP21rCJfI11+ARRHJCCo//gZ9bXQYMq
-	 bPZoqIVsen6qGaDOhk6wacTU0CQvJNCqLNe/sMQvvtyCD9h0G9WdjZsZb3of3TbL1oXSk
-	 wuOZ6NxMyaPT6CxsQNn5JI+ofWFo/hPLTbPGIBhcVzROvi3k7/O+EEhxLHNu1yb7TQg==
+	bh=Cl2t7SVAUrZmqKlh3Sp8PGzSC+Fx7V7iwRCFIpWeeaM=;
+	b=zZBISjfiE4htW1iwf90MJrwIk0LvMtW9ryctnmWMMp/yv6akl6krt4rGygjyoEk/k8zV
+	 xcnGkyL3+zk9KLZwowtpyuh/1eHUuaP2gtd4tTIKnD2EQ1zm2zNe9xmg6MYyO1MaJTpKo
+	 8REgNOfHEuR/ri4fNqcwRnWVDPQ8ISRr/ka82S01rpgLAVVf97ADOu8PezpDogIsAxsie
+	 v5ftYOnmkYrdkgsW6h0rTy1j3O1Cpwe/KL800/2UYuF0zbZ8rDojkeR3FFqYfsCtu36zq
+	 qkrP8BloAR4jS7gkz2WaL1L3HlfpuI9KXWm870MzPTbURfHXa4bxo1s4HFauYBAO4GA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=I23JiWKT;
-	arc=none smtp.remote-ip=91.218.175.60
-Received: from mta0.migadu.com (out-60.mta0.migadu.com [91.218.175.60])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=rdKu54TK;
+	arc=none smtp.remote-ip=91.218.175.61
+Received: from mta0.migadu.com (out-61.mta0.migadu.com [91.218.175.61])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5CA60A3807
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:37:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D5CA60A3807
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0407E606A320
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:37:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0407E606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=I23JiWKT
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=rdKu54TK
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=rcJjShQ6Rwi265pTCdrAfCG+yQUnwPiDdCgX68/XHjY=;
+DKIM-Signature: a=rsa-sha256; bh=FpgD1K+Km3cZHXQOSTl9x/RzWOaC/fXz6KDGkHxgMUk=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793205467; v=1; x=1793810267;
- b=I23JiWKTEUWf1+6SqtW0zqXhbhGyKWFMG13NrPD/3Xn05KVBz2fe36TxBfugO06lXicQoRho
- PEFAn9nHUNyY42KWekPoGgcLbLZrQgaZx5Jc+LzeBtweoxyb5RiPA4RLJr13hL4Ew2CeF2Yf4e8
- cwX4dtJo/aZ94nxAtrG7wQhY=
+ t=1793205473; v=1; x=1793810273;
+ b=rdKu54TK/BP8xRa1MesDrttEpw6MoOKrTxqin3i8gepOQW6qsZfDpWfrGmQHp+381Vd7Df92
+ c3j1Ctr+OMkE5lc7tT+jYhlLWsFuGzBayoSPN7AP3MujrkVxVj+767S8C96mP9sXgkAr0VKSAfL
+ 5fP8EJnvdfq4v7E2CctxMmzQ=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 9c7125b63677d464;
-	Wed, 28 Oct 2026 16:37:47 +0000
-X-Mizu-Trace-ID: 9c7125b63677d464
+Received: by mta11.migadu.com with ESMTPS id 392cb107fee7f840;
+	Wed, 28 Oct 2026 16:37:53 +0000
+X-Mizu-Trace-ID: 392cb107fee7f840
 X-Migadu-Flow: FLOW_OUT
 From: wen.yang@linux.dev
 To: Joel Granados <joel.granados@kernel.org>
 Cc: Wen Yang <wen.yang@linux.dev>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 24/39] net: refresh core sysctl limits without bound pointers
-Date: Thu, 29 Oct 2026 00:35:03 +0800
-Message-Id: <c8afbf52fbf9467eb2110a88d8c917ff30422be8.1793204511.git.wen.yang@linux.dev>
+Subject: [RFC PATCH 25/39] sctp: resolve numeric ranges from the current namespace
+Date: Thu, 29 Oct 2026 00:35:04 +0800
+Message-Id: <c65dd020fae1cf48364130682a94a74ba4ed5740.1793204511.git.wen.yang@linux.dev>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1793204511.git.wen.yang@linux.dev>
 References: <cover.1793204511.git.wen.yang@linux.dev>
@@ -71,355 +71,359 @@ Content-Transfer-Encoding: 8bit
 
 From: Wen Yang <wen.yang@linux.dev>
 
-Refresh core network limits before validating sysctl writes.
+Read sibling SCTP limits from the current namespace on each call.
 
 Suggested-by: Joel Granados <joel.granados@kernel.org>
 Signed-off-by: Wen Yang <wen.yang@linux.dev>
 ---
- net/core/sysctl_net_core.c | 118 ++++++++++++++++++++-----------------
- 1 file changed, 65 insertions(+), 53 deletions(-)
+ net/sctp/sysctl.c | 147 +++++++++++++++++++++++-----------------------
+ 1 file changed, 72 insertions(+), 75 deletions(-)
 
-diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
-index 473c162736d6..1721e63240c9 100644
---- a/net/core/sysctl_net_core.c
-+++ b/net/core/sysctl_net_core.c
-@@ -32,12 +32,6 @@
- #include "dev.h"
- #include "net-sysfs.h"
+diff --git a/net/sctp/sysctl.c b/net/sctp/sysctl.c
+index 59c6f22337ea..ed296f568887 100644
+--- a/net/sctp/sysctl.c
++++ b/net/sctp/sysctl.c
+@@ -24,25 +24,6 @@
+ #include <net/sctp/structs.h>
+ #include <net/sctp/sctp.h>
+ #include <linux/sysctl.h>
+-#include <linux/limits.h>
+-
+-static int timer_max = 86400000; /* ms in one day */
+-static int sack_timer_min = 1;
+-static int sack_timer_max = 500;
+-static int addr_scope_max = SCTP_SCOPE_POLICY_MAX;
+-static int rwnd_scale_max = 16;
+-static int rto_alpha_min = 0;
+-static int rto_beta_min = 0;
+-static int rto_alpha_max = 1000;
+-static int rto_beta_max = 1000;
+-static int pf_expose_max = SCTP_PF_EXPOSE_MAX;
+-static int ps_retrans_max = SCTP_PS_RETRANS_MAX;
+-static int udp_port_max = 65535;
+-
+-static unsigned long max_autoclose_min = 0;
+-static unsigned long max_autoclose_max =
+-	(MAX_SCHEDULE_TIMEOUT / HZ > UINT_MAX)
+-	? UINT_MAX : MAX_SCHEDULE_TIMEOUT / HZ;
  
--static int int_3600 = 3600;
--static int min_sndbuf = SOCK_MIN_SNDBUF;
--static int min_rcvbuf = SOCK_MIN_RCVBUF;
--static int max_skb_frags = MAX_SKB_FRAGS;
--static int min_mem_pcpu_rsv = SK_MEMORY_PCPU_RESERVE;
--static int netdev_budget_usecs_min = 2 * USEC_PER_SEC / HZ;
- 
- static int net_msg_warn;	/* Unused, but still a sysctl */
- 
-@@ -146,7 +140,7 @@ static int rps_sock_flow_sysctl(const struct ctl_table *table, int write,
- 	struct ctl_table tmp = {
- 		.data = &size,
- 		.maxlen = sizeof(size),
--		.mode = table->mode
-+		.mode = table->mode,
- 	};
- 	void *tofree = NULL;
- 	int ret, i;
-@@ -384,8 +378,8 @@ static int proc_dointvec_minmax_bpf_enable(const struct ctl_table *table, int wr
- 					   loff_t *ppos)
- {
- 	int ret, jit_enable = *(int *)table->data;
--	int min = *(int *)table->extra1;
--	int max = *(int *)table->extra2;
-+	int min = (int)table->min;
-+	int max = (int)table->max;
- 	struct ctl_table tmp = *table;
- 
- 	if (write && !capable(CAP_SYS_ADMIN))
-@@ -426,10 +420,13 @@ static int
- proc_dolongvec_minmax_bpf_restricted(const struct ctl_table *table, int write,
- 				     void *buffer, size_t *lenp, loff_t *ppos)
- {
-+	struct ctl_table tmp = *table;
+ static int proc_sctp_do_hmac_alg(const struct ctl_table *ctl, int write,
+ 				 void *buffer, size_t *lenp, loff_t *ppos);
+@@ -50,6 +31,26 @@ static int proc_sctp_do_rto_min(const struct ctl_table *ctl, int write,
+ 				void *buffer, size_t *lenp, loff_t *ppos);
+ static int proc_sctp_do_rto_max(const struct ctl_table *ctl, int write, void *buffer,
+ 				size_t *lenp, loff_t *ppos);
++static int proc_sctp_do_pf_retrans(const struct ctl_table *ctl, int write,
++				   void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct net *net = container_of(ctl->data, struct net, sctp.pf_retrans);
++	struct ctl_table tmp = *ctl;
 +
- 	if (!capable(CAP_SYS_ADMIN))
- 		return -EPERM;
- 
--	return proc_doulongvec_minmax(table, write, buffer, lenp, ppos);
-+	tmp.max = (unsigned long)READ_ONCE(bpf_jit_limit_max);
-+	return proc_doulongvec_minmax(&tmp, write, buffer, lenp, ppos);
- }
- #endif
- 
-@@ -440,7 +437,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(int),
++	tmp.max = (unsigned long)READ_ONCE(net->sctp.ps_retrans);
++	return proc_dointvec_minmax(&tmp, write, buffer, lenp, ppos);
++}
++
++static int proc_sctp_do_ps_retrans(const struct ctl_table *ctl, int write,
++				   void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct net *net = container_of(ctl->data, struct net, sctp.ps_retrans);
++	struct ctl_table tmp = *ctl;
++
++	tmp.min = (unsigned long)READ_ONCE(net->sctp.pf_retrans);
++	return proc_dointvec_minmax(&tmp, write, buffer, lenp, ppos);
++}
++
+ static int proc_sctp_do_udp_port(const struct ctl_table *ctl, int write, void *buffer,
+ 				 size_t *lenp, loff_t *ppos);
+ static int proc_sctp_do_alpha_beta(const struct ctl_table *ctl, int write,
+@@ -65,7 +66,7 @@ static struct ctl_table sctp_table[] = {
+ 		.data		= &sysctl_sctp_mem,
+ 		.maxlen		= sizeof(sysctl_sctp_mem),
  		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= &min_mem_pcpu_rsv,
-+		.min		= SK_MEMORY_PCPU_RESERVE,
-+		.max		= INT_MAX,
+-		.proc_handler	= proc_doulongvec_minmax
++		.proc_handler	= proc_doulongvec_minmax,
+ 		.min		= 0,
+ 		.max		= ULONG_MAX,
  	},
- 	{
- 		.procname	= "dev_weight",
-@@ -448,7 +446,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(int),
+@@ -102,8 +103,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(unsigned int),
  		.mode		= 0644,
- 		.proc_handler	= proc_do_dev_weight,
+ 		.proc_handler	= proc_sctp_do_rto_min,
 -		.extra1         = SYSCTL_ONE,
+-		.extra2         = &init_net.sctp.rto_max
 +		.min		= 1,
-+		.max		= INT_MAX,
++		.max		= UINT_MAX,
  	},
- 	{
- 		.procname	= "dev_weight_rx_bias",
-@@ -456,7 +455,8 @@ static struct ctl_table net_core_table[] = {
+ 	[SCTP_RTO_MAX_IDX] =  {
+ 		.procname	= "rto_max",
+@@ -111,26 +112,26 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(unsigned int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_sctp_do_rto_max,
+-		.extra1         = &init_net.sctp.rto_min,
+-		.extra2         = &timer_max
++		.min		= 0,
++		.max		= 86400000,
+ 	},
+ 	[SCTP_PF_RETRANS_IDX] = {
+ 		.procname	= "pf_retrans",
+ 		.data		= &init_net.sctp.pf_retrans,
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
- 		.proc_handler	= proc_do_dev_weight,
--		.extra1         = SYSCTL_ONE,
-+		.min		= 1,
+-		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= &init_net.sctp.ps_retrans,
++		.proc_handler	= proc_sctp_do_pf_retrans,
++		.min		= 0,
 +		.max		= INT_MAX,
  	},
- 	{
- 		.procname	= "dev_weight_tx_bias",
-@@ -464,7 +464,8 @@ static struct ctl_table net_core_table[] = {
+ 	[SCTP_PS_RETRANS_IDX] = {
+ 		.procname	= "ps_retrans",
+ 		.data		= &init_net.sctp.ps_retrans,
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
- 		.proc_handler	= proc_do_dev_weight,
+-		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= &init_net.sctp.pf_retrans,
+-		.extra2		= &ps_retrans_max,
++		.proc_handler	= proc_sctp_do_ps_retrans,
++		.min		= (unsigned long)INT_MIN,
++		.max		= SCTP_PS_RETRANS_MAX,
+ 	},
+ 	{
+ 		.procname	= "rto_initial",
+@@ -138,8 +139,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(unsigned int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
 -		.extra1         = SYSCTL_ONE,
+-		.extra2         = &timer_max
 +		.min		= 1,
++		.max		= 86400000
+ 	},
+ 	{
+ 		.procname	= "rto_alpha_exp_divisor",
+@@ -147,8 +148,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_sctp_do_alpha_beta,
+-		.extra1		= &rto_alpha_min,
+-		.extra2		= &rto_alpha_max,
++		.min		= 0,
++		.max		= 1000,
+ 	},
+ 	{
+ 		.procname	= "rto_beta_exp_divisor",
+@@ -156,8 +157,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_sctp_do_alpha_beta,
+-		.extra1		= &rto_beta_min,
+-		.extra2		= &rto_beta_max,
++		.min		= 0,
++		.max		= 1000,
+ 	},
+ 	{
+ 		.procname	= "max_burst",
+@@ -165,8 +166,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_INT_MAX,
++		.min		= 0,
 +		.max		= INT_MAX,
  	},
  	{
- 		.procname	= "netdev_max_backlog",
-@@ -495,11 +496,11 @@ static struct ctl_table net_core_table[] = {
+ 		.procname	= "cookie_preserve_enable",
+@@ -188,8 +189,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(unsigned int),
  		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax_bpf_enable,
- # ifdef CONFIG_BPF_JIT_ALWAYS_ON
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1         = SYSCTL_ONE,
+-		.extra2         = &timer_max
++		.min		= 1,
++		.max		= 86400000
+ 	},
+ 	{
+ 		.procname	= "sack_timeout",
+@@ -197,8 +198,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1         = &sack_timer_min,
+-		.extra2         = &sack_timer_max,
++		.min		= 1,
++		.max		= 500,
+ 	},
+ 	{
+ 		.procname	= "hb_interval",
+@@ -206,8 +207,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(unsigned int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1         = SYSCTL_ONE,
+-		.extra2         = &timer_max
++		.min		= 1,
++		.max		= 86400000
+ 	},
+ 	{
+ 		.procname	= "association_max_retrans",
+@@ -215,8 +216,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ONE,
--		.extra2		= SYSCTL_ONE,
+-		.extra2		= SYSCTL_INT_MAX,
 +		.min		= 1,
-+		.max		= 1,
- # else
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_TWO,
-+		.min		= 0,
-+		.max		= 2,
- # endif
- 	},
- # ifdef CONFIG_HAVE_EBPF_JIT
-@@ -509,8 +510,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0600,
- 		.proc_handler	= proc_dointvec_minmax_bpf_restricted,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_TWO,
-+		.min		= 0,
-+		.max		= 2,
++		.max		= INT_MAX,
  	},
  	{
- 		.procname	= "bpf_jit_kallsyms",
-@@ -518,8 +519,8 @@ static struct ctl_table net_core_table[] = {
+ 		.procname	= "path_max_retrans",
+@@ -224,8 +225,8 @@ static const struct ctl_table sctp_net_table[] = {
  		.maxlen		= sizeof(int),
- 		.mode		= 0600,
- 		.proc_handler	= proc_dointvec_minmax_bpf_restricted,
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ONE,
+-		.extra2		= SYSCTL_INT_MAX,
++		.min		= 1,
++		.max		= INT_MAX,
+ 	},
+ 	{
+ 		.procname	= "max_init_retransmits",
+@@ -233,8 +234,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ONE,
+-		.extra2		= SYSCTL_INT_MAX,
++		.min		= 1,
++		.max		= INT_MAX,
+ 	},
+ 	{
+ 		.procname	= "sndbuf_policy",
+@@ -319,8 +320,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_sctp_do_udp_port,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= &udp_port_max,
++		.min		= 0,
++		.max		= 65535,
+ 	},
+ 	{
+ 		.procname	= "encap_port",
+@@ -328,8 +329,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= &udp_port_max,
++		.min		= 0,
++		.max		= 65535,
+ 	},
+ 	{
+ 		.procname	= "addr_scope_policy",
+@@ -337,8 +338,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= &addr_scope_max,
++		.min		= 0,
++		.max		= SCTP_SCOPE_POLICY_MAX,
+ 	},
+ 	{
+ 		.procname	= "rwnd_update_shift",
+@@ -346,8 +347,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= &proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ONE,
+-		.extra2		= &rwnd_scale_max,
++		.min		= 1,
++		.max		= 16,
+ 	},
+ 	{
+ 		.procname	= "max_autoclose",
+@@ -355,8 +356,9 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(unsigned long),
+ 		.mode		= 0644,
+ 		.proc_handler	= &proc_doulongvec_minmax,
+-		.extra1		= &max_autoclose_min,
+-		.extra2		= &max_autoclose_max,
++		.min		= 0,
++		.max		= (MAX_SCHEDULE_TIMEOUT / HZ > UINT_MAX)
++				  ? UINT_MAX : MAX_SCHEDULE_TIMEOUT / HZ,
+ 	},
+ #ifdef CONFIG_NET_L3_MASTER_DEV
+ 	{
+@@ -365,8 +367,8 @@ static const struct ctl_table sctp_net_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ZERO,
 -		.extra2		= SYSCTL_ONE,
 +		.min		= 0,
 +		.max		= 1,
- 	},
- # endif
- 	{
-@@ -528,8 +529,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(long),
- 		.mode		= 0600,
- 		.proc_handler	= proc_dolongvec_minmax_bpf_restricted,
--		.extra1		= SYSCTL_LONG_ONE,
--		.extra2		= &bpf_jit_limit_max,
-+		.min		= 1,
-+		.max		= ULONG_MAX,
  	},
  #endif
  	{
-@@ -582,7 +583,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
-+		.min		= 0,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "busy_read",
-@@ -590,7 +592,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
-+		.min		= 0,
-+		.max		= INT_MAX,
- 	},
- #endif
- #ifdef CONFIG_NET_SCHED
-@@ -621,8 +624,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ONE,
--		.extra2		= &max_skb_frags,
-+		.min		= 1,
-+		.max		= MAX_SKB_FRAGS,
- 	},
- 	{
- 		.procname	= "netdev_budget_usecs",
-@@ -630,7 +633,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= &netdev_budget_usecs_min,
-+		.min		= 2 * USEC_PER_SEC / HZ,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "fb_tunnels_only_for_init_net",
-@@ -638,8 +642,8 @@ static struct ctl_table net_core_table[] = {
+@@ -382,8 +384,8 @@ static const struct ctl_table sctp_net_table[] = {
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
 -		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_TWO,
+-		.extra2		= &pf_expose_max,
 +		.min		= 0,
-+		.max		= 2,
- 	},
- 	{
- 		.procname	= "devconf_inherit_init_net",
-@@ -647,8 +651,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_THREE,
-+		.min		= 0,
-+		.max		= 3,
- 	},
- 	{
- 		.procname	= "high_order_alloc_disable",
-@@ -663,7 +667,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ONE,
-+		.min		= 1,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "netdev_unregister_timeout_secs",
-@@ -671,8 +676,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ONE,
--		.extra2		= &int_3600,
-+		.min		= 1,
-+		.max		= 3600,
- 	},
- 	{
- 		.procname	= "skb_defer_max",
-@@ -680,7 +685,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_do_skb_defer_max,
--		.extra1		= SYSCTL_ZERO,
-+		.min		= 0,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "neigh_inherit_init_net",
-@@ -688,8 +694,8 @@ static struct ctl_table net_core_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.min		= 0,
-+		.max		= 1,
++		.max		= SCTP_PF_EXPOSE_MAX,
  	},
  };
  
-@@ -707,24 +713,26 @@ static const struct ctl_table netns_core_table[] = {
- 		.data		= &init_net.core.sysctl_somaxconn,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
--		.extra1		= SYSCTL_ZERO,
--		.proc_handler	= proc_dointvec_minmax
-+		.min		= 0,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "optmem_max",
- 		.data		= &init_net.core.sysctl_optmem_max,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
--		.extra1		= SYSCTL_ZERO,
--		.proc_handler	= proc_dointvec_minmax
-+		.min		= 0,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "txrehash",
- 		.data		= &init_net.core.sysctl_txrehash,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.min		= 0,
-+		.max		= 1,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -740,8 +748,8 @@ static const struct ctl_table netns_core_table[] = {
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dou8vec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE
-+		.min		= 0,
-+		.max		= 1
- 	},
- 	{
- 		.procname	= "bypass_prot_mem",
-@@ -749,8 +757,8 @@ static const struct ctl_table netns_core_table[] = {
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dou8vec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE
-+		.min		= 0,
-+		.max		= 1
- 	},
- 	/* sysctl_core_net_init() will set the values after this
- 	 * to readonly in network namespaces
-@@ -761,7 +769,8 @@ static const struct ctl_table netns_core_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= &min_sndbuf,
-+		.min		= SOCK_MIN_SNDBUF,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "rmem_max",
-@@ -769,7 +778,8 @@ static const struct ctl_table netns_core_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= &min_rcvbuf,
-+		.min		= SOCK_MIN_RCVBUF,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "wmem_default",
-@@ -777,7 +787,8 @@ static const struct ctl_table netns_core_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= &min_sndbuf,
-+		.min		= SOCK_MIN_SNDBUF,
-+		.max		= INT_MAX,
- 	},
- 	{
- 		.procname	= "rmem_default",
-@@ -785,7 +796,8 @@ static const struct ctl_table netns_core_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= &min_rcvbuf,
-+		.min		= SOCK_MIN_RCVBUF,
-+		.max		= INT_MAX,
- 	},
- };
+@@ -426,8 +428,8 @@ static int proc_sctp_do_rto_min(const struct ctl_table *ctl, int write,
+ 				void *buffer, size_t *lenp, loff_t *ppos)
+ {
+ 	struct net *net = container_of(ctl->data, struct net, sctp.rto_min);
+-	unsigned int min = *(unsigned int *) ctl->extra1;
+-	unsigned int max = *(unsigned int *) ctl->extra2;
++	unsigned int min = ctl->min;
++	unsigned int max = READ_ONCE(net->sctp.rto_max);
+ 	struct ctl_table tbl;
+ 	int ret, new_value;
  
+@@ -454,8 +456,8 @@ static int proc_sctp_do_rto_max(const struct ctl_table *ctl, int write,
+ 				void *buffer, size_t *lenp, loff_t *ppos)
+ {
+ 	struct net *net = container_of(ctl->data, struct net, sctp.rto_max);
+-	unsigned int min = *(unsigned int *) ctl->extra1;
+-	unsigned int max = *(unsigned int *) ctl->extra2;
++	unsigned int min = READ_ONCE(net->sctp.rto_min);
++	unsigned int max = ctl->max;
+ 	struct ctl_table tbl;
+ 	int ret, new_value;
+ 
+@@ -523,8 +525,8 @@ static int proc_sctp_do_udp_port(const struct ctl_table *ctl, int write,
+ 				 void *buffer, size_t *lenp, loff_t *ppos)
+ {
+ 	struct net *net = container_of(ctl->data, struct net, sctp.udp_port);
+-	unsigned int min = *(unsigned int *)ctl->extra1;
+-	unsigned int max = *(unsigned int *)ctl->extra2;
++	unsigned int min = ctl->min;
++	unsigned int max = ctl->max;
+ 	struct ctl_table tbl;
+ 	int ret, new_value;
+ 
+@@ -602,11 +604,6 @@ int sctp_sysctl_net_register(struct net *net)
+ 	for (i = 0; i < table_size; i++)
+ 		table[i].data += (char *)(&net->sctp) - (char *)&init_net.sctp;
+ 
+-	table[SCTP_RTO_MIN_IDX].extra2 = &net->sctp.rto_max;
+-	table[SCTP_RTO_MAX_IDX].extra1 = &net->sctp.rto_min;
+-	table[SCTP_PF_RETRANS_IDX].extra2 = &net->sctp.ps_retrans;
+-	table[SCTP_PS_RETRANS_IDX].extra1 = &net->sctp.pf_retrans;
+-
+ 	net->sctp.sysctl_header = register_net_sysctl_sz(net, "net/sctp",
+ 							 table, table_size);
+ 	if (net->sctp.sysctl_header == NULL) {
 -- 
 2.25.1
 
