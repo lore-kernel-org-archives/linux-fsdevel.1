@@ -1,121 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.109
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793199866;
-	b=LnhR/tk3PJ3s/E8uw85/SGDqCVlVvHyLISiACTZPd0510PYLs4z3cYrW906qWWZ36nU1
-	 jf5pHoixYijaemT4jU0zouAXeqDFeZXpqwKrllQ3bNt1nHTOJlug0PGMYsYSa/o7Bvye0
-	 xHeWGdMNcjqTFPmO00Z0NWAvKdRhL3i0w03EBLY6fd6XHm+RXRxeow/LUI5EdX3nhMhsP
-	 VWc7FMbgieWoc5PUMEnEMa6FgWeAZ8eTKF9AF4RcpEC6DKDBns/CSWDJ6jDgwz/QmgUAt
-	 TI2txJEbmlCrMzAvvGr6OVNoUGzAeb0Y/dZY5LuKYeQgNJKg5ausifpkGvg5NEo7m2g==
+	t=1793200288;
+	b=obg+5Gc5cHwuxAry61W3pZ3Aj4PpXSp5z78a3nlaVNWK4+/FIxczMvzJld/ydwGXcvfi
+	 E29e5Mgb4k53QgBhWODb1VkofflaPFZuygrDIa+um4E2kfvfrdqAJ8vuwm/ZpffatiCmq
+	 R4+c9AkERCbXCDQkhjATGsEAid0d7fXww2VZYafoo3pglWkWblh0K7kNaxNMmtdlEXKRv
+	 S4ogQtv7ufaVOHJn7HmMroWGXzSowx/AVuRHLWC0SM/IJ4cGeZBLSUyX/ds1alk1VBJBw
+	 TEiAm2TNU/MNnTdIkGKwsL7V4OVAAiRiEyI1sEmsv68UfY0+x8U5U/annR1ob4K7SXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793199866;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=77xhCh2ORMf6NIfM90rhR5yS555x+O+M+p2I+XHyw1I=;
-	b=V2xAw7fHZwTY8xbZ0aTRGSk0VbouOJDB46YkZDnEVMNWOFM/lp2pJZbhOXxdnBhf9Ymj
-	 cahQkowK0/ButU6Tcr0z6AGeFiLjdxp9z+smYW/PjKjnvzqv90fLmcFOXMZjtGShU6Lbw
-	 qotwHe5VT7RNnU34wiJnnfQsE8BhLaSDn9GXMKwc4QDgxZ7XyDJ4rboBsujQkahoX1FGq
-	 NHYT3jmIOvX0AoFq4+jd5AuST18dzazu3SLlyGZj4uvG3IF3rV+up83GiOYJXS1blrDIO
-	 5KlTq9nxtkszf8AyeFnxQkhAOyPOSW5U3ZJujUTsKc5Fl6bxR9JxSZjTVVQD9aRm7og==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793200288;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
+	b=HO6jLGhAB1je1VSSvedduee7Qxur0Y1MkMgLZxXjBIJYJPSD9Lguq/DDwJHLeWAP6XGL
+	 TnMOcHerOZqiCRi3erzmI95NDxvhvnnfqi4Ul/JlKTpE7g47uNuqSVGicTGRsnyeybwe2
+	 1TTcV9kLYPYiOlr7H8punThfEELWRFiYzKHAW84vsrV24K8dSMAqqyFiwAPwTg644OE/A
+	 LhtlCLX1KTX1V4E7TVidsRuLzkjspwIj5Jkc5jH6W34LX6KDC1rySF+scChdyCgSWeTca
+	 RK22Zz45eK/PatU16WXfaKO7eY/WErkudmkZNzksZZhVfc475xX8y0XKPx6BIdU4Bhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	arc=none smtp.remote-ip=91.218.175.109
-Received: from mta0.migadu.com (out-109.mta0.migadu.com [91.218.175.109])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558EC606A320
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 15:04:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 558EC606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=77xhCh2ORMf6NIfM90rhR5yS555x+O+M+p2I+XHyw1I=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793199857; v=1; x=1793804657;
- b=DOaintvDCkIU/aM4mbDkTUbB7KXdOwz/1W14lJYmnPjR1UglE6lkfhl7iisk2fyDHg/P6GP3
- 5jciE740/d15e8va8jnQE3dPdseWY1LxdNQxUpMbCZtLmWnGJY0gb3M1wALTIAly7eJpWAaE9h7
- sOj/QiLSS8wumYpDbu7phDXs=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id d7967b914a90b8c6;
-	Wed, 28 Oct 2026 15:04:16 +0000
-X-Mizu-Trace-ID: d7967b914a90b8c6
-X-Migadu-Flow: FLOW_OUT
-From: Lance Yang <lance.yang@linux.dev>
-To: david@kernel.org
-Cc: akpm@linux-foundation.org,
-	hannes@cmpxchg.org,
-	mhocko@kernel.org,
-	qi.zheng@linux.dev,
-	shakeel.butt@linux.dev,
-	ljs@kernel.org,
-	kasong@tencent.com,
-	baohua@kernel.org,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	baoquan.he@linux.dev,
-	baolin.wang@linux.alibaba.com,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	kees@kernel.org,
-	peterz@infradead.org,
-	jannh@google.com,
-	pfalcato@suse.de,
-	hughd@google.com,
-	pasha.tatashin@soleen.com,
-	pratyush@kernel.org,
-	willy@infradead.org,
-	jack@suse.cz,
-	ziy@nvidia.com,
-	lance.yang@linux.dev,
-	riel@surriel.com,
-	harry@kernel.org,
-	apopple@nvidia.com,
-	nico.pache@linux.dev,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	usama.arif@linux.dev,
-	kas@kernel.org,
-	matthew.brost@intel.com,
-	jhubbard@nvidia.com,
-	peterx@redhat.com,
-	will@kernel.org,
-	aneesh.kumar@kernel.org,
-	npiggin@gmail.com,
-	osalvador@suse.de,
-	minchan@kernel.org,
-	muchun.song@linux.dev,
-	xu.xin@linux.dev,
-	chengming.zhou@linux.dev,
-	chrisl@kernel.org,
-	shikemeng@huaweicloud.com,
-	nphamcs@gmail.com,
-	youngjun.park@lge.com,
-	gourry@gourry.net,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	ying.huang@linux.alibaba.com,
-	jgg@ziepe.ca,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	kexec@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	josef@toxicpanda.com
-Subject: Re: [PATCH 12/46] mm/huge_memory: fix livelock on device private folio
-Date: Wed, 28 Oct 2026 23:04:10 +0800
-Message-ID: <20261028150410.47065-1-lance.yang@linux.dev>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20261027-fixes_core-v1-12-6f74bec9a5bb@kernel.org>
-References: <20261027-fixes_core-v1-12-6f74bec9a5bb@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3592A606A320;
+	Wed, 28 Oct 2026 15:11:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3592A606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A326768AFE; Wed, 28 Oct 2026 16:11:24 +0100 (CET)
+Date: Wed, 28 Oct 2026 16:11:24 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Chi Zhiling <chizhiling@163.com>
+Cc: linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, exfat@lists.linux.dev,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Chi Zhiling <chizhiling@kylinos.cn>
+Subject: Re: [PATCH v3 1/8] iomap: export iomap_bio_read_folio_range_sync()
+Message-ID: <20261028151124.GA16906@lst.de>
+References: <20261016033349.3104509-1-chizhiling@163.com> <20261016033349.3104509-2-chizhiling@163.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -125,36 +53,12 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261016033349.3104509-2-chizhiling@163.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
+Looks good:
 
-On Tue, Oct 27, 2026 at 12:17:32AM +0100, David Hildenbrand (Arm) wrote:
->From: Josef Bacik <josef@toxicpanda.com>
->
->If do_huge_pmd_device_private() cannot lock the folio, it simply returns
->to try again on the next fault.
->
->Just like we did in commit b570f37a2ce4 ("mm: Fix a hmm_range_fault()
->livelock / starvation problem"), let's wait for the softleaf entry,
->which will drop the PTL and wait until the folio was unlocked. This is
->precisely what we do in do_swap_page() with device-private folios. This
->avoids possibly livelocking.
->
->Update softleaf_entry_wait_on_locked() documentation to clarify that
->device-private entries wait until the folio is unlocked.
->
->There seems to be no compelling reason to backport this to stable
->kernels unless we actually see problems there.
->
->Fix generated by an LLM and sent by Josef Bacik in private.
->
->Fixes: 4964099163d0 ("mm/memory/fault: add THP fault handling for zone device private pages")
->Signed-off-by: Josef Bacik <josef@toxicpanda.com>
->[ david: simplify patch description, fixup softleaf_entry_wait_on_locked description]
->Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->---
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-Nice work!
-
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
