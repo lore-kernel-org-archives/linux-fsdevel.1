@@ -1,100 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.139
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793178282;
-	b=hAZu4arrpC/xDnPstTc1M8b2KQuRdHrzeMq71C85t3GpVQ3vLRpxadJApipW/c3Dzxt2
-	 CwHUhpD2mmyTYvxz0GPjwuVq0M5ZbHsm/+gzD7PFZIpkgZ93V63r0pFonAC4do8OHu7Ui
-	 MFjTMcg9JKYgv5Gcpx0Oh7U8I56zuvBhqX73yND/nFLSj6AcAFX43P/4C6LcYmFkS1+MG
-	 IKfsKi9qrFGqRaE+mJOKpoYkiKtRMp7ticgc+tbMipxlfdgdaTZBx8t/3mT/FVqXA8HOr
-	 HQ5gRVy6v+6LB9WBH+bTYhCmpHfmXziMdMmI87rOlqesf/M+1YSq2LA4xUzRjHgtOOQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793178282;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=7baAZch0AV2ZQpsltJrgKMT5HFebbDsF2TyQttQo+4Q=;
-	b=Te/7qFesyiuzx5bj8Z1bjF8QEDz8JXq2BRCKcHaENZ3TZBjiAE4plp7ZRhaqKbxVUGrZ
-	 9a+NfRqtgBpTEuc8G0qbKquwt+kV662A4y1ddqwi5V19Pv2mZXClY0PIbjy7ip3y7aXpD
-	 I4CSXHCekiw9x1oU+JRC+/BMaVeHIjPgFlhBmWWujj9quehiq8LNV1CgDSKrghsQuGSjw
-	 F/pksnF+9qE0VGY4mkg5RTABzMuULPTijdEruQrZxgWaUJA/vgDk8H9l+xIki4IffqMh5
-	 cN3pNRW6y3GCCoDg89lxGQQaiaS18YwWXAt/dTbOWz5JmO67u5Bx8sUed5lfityRBpg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PeHJH9Hz;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.139
-Received: from mail-yx2-f11.google.com (mail-yx2-f11.google.com [74.125.224.139])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793178599;
+	b=Q9xxfsA1Usl4SCYIgqOfYA2Cfzf8NcNvq3Tczj48Vcq7xK0vKxi9OPPKPI8/9eTYmi/p
+	 +kOkRWcJ9xprioMN4ULmhKn3LTMsmWGhaYdotwkpb3Y/jDQXOfT6Ti6uKonYbmejVsNkw
+	 yuyQYOnM5MOKHEJLSs7H5QHcT2IRWqRprGIG+Wr9acNt9b3xmkXjXh1Q3rjo/YgmRoBUw
+	 zSAQubc/DKr+caeaApJOtKpe0iTx4sIrq0W+7c5HaZDSoJnESeLcUmkZdFjL1iihrQ19E
+	 njCjbte+iF5j8WlvPyJUQ1BM8k/5BXbhtgbfnT2oVNCr1M155hnUmLE1WWgyYOgwAMg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793178599;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=bLZSl7G53VjRTMzaR+4ybREso2p4MLSxqwNzQhyf3As=;
+	b=nuGYCQbCmQBoRwLptFc7Du8bvY1hngiyb5bOoNHOa1kWmqoi5kCxu31zJ1iYEeo+AjGQ
+	 F6aSwAdJXcFyubpKDPX4kJePeW+Wys+k8FVCHUkRYKymOGZKekxHwzsmES2mCftKC4eBr
+	 FHqcBKX0pDLgtcYPUOzjzVRhKjT5rsXzDHfq/ugtM9QyvlaF5+SdskZ/sQuRcxdA0Tomb
+	 0be3+tuetWjeISKNbiv9AFUZF33MmmefmZS6xbf0vHZaw12XYFd025n/6i6B+8ZVqKxkt
+	 TrGMR86Z3wJ9zq91qdNb3osj71cZQdQw8FlaWtcQ0/ZP7v2E4CLCrlm0o6nSfWwIj4w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IQLvv5Vy;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA60606A31F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 09:04:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAA60606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29E2606A31D;
+	Wed, 28 Oct 2026 09:09:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PeHJH9Hz
-Received: by mail-yx2-f11.google.com with SMTP id 956f58d0204a3-66c70d59eb7so95409d50.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 02:04:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793178281; cv=none;
-        d=google.com; s=arc-20260327;
-        b=rMEQcwcp7O1z5wONEaDEXPl3LQqBSRqU5jxynETr2Rm+K0SqQ4ctaYn2fS7EYMT8Vq
-         hipGUSJsdvg3W2PMSlYHMUV8jFS5UtA6imEzxs56wYvF0FPbDhw8wQuxWOelc5lh5CZy
-         LjkuXkUyrb+n6ZzQyeCqSqWzO+9sYP8fQWm6Qbr4tpeLRuHz3zbaFdeAkjr9USOoIbN5
-         vduzUs3IXPy5C1SY95rR2DmGTMZgD9m9CaX+wFo5b0scvfpiyTiyKNujdbLiuJGx9veW
-         rKFuEnmMBhkRSNQ2WZjp7GVzY5rKyEf+KGRpyqvtQ8jQ5C/N5g8OaTVn1zaknpTWV8Fv
-         o0ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=7baAZch0AV2ZQpsltJrgKMT5HFebbDsF2TyQttQo+4Q=;
-        fh=XdWkK3CvgG70fvqszYLJtcESXrmcHsfp8Gela5fXnTs=;
-        b=RGtUSgJw0bmvl3OktpgF9mLO7GqdG5stGLZ8hIzHls/U71nXEqedEJTpguOi/khyqV
-         wPtFr5dkNWTjb6xy1D5BZuadLXE0HWTTDe7Ms5cK3lpyqGMkQzpjxufIyWCwa0sKyzLY
-         QYw60NlNNhmXg1bnVV5d04FKy6kmyqgBm3xGJ2agk6OSpZ2wfdD55VPy8qcqOJDgfR/g
-         1lFjdYeXg0jjYsxR3t1ga0FYWm6/bmMMeU2Ocyh3hwB4v4wzn64rTBMkMy5qbGf7wHM8
-         hXwGBKabR2Mi6E+2uaAlokQ8NjWkc5asGFD9gutJwFXbA0ZfbElQtzS9MoYrZaIUU8zJ
-         vyog==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793178281; x=1793783081; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=7baAZch0AV2ZQpsltJrgKMT5HFebbDsF2TyQttQo+4Q=;
-        b=PeHJH9HzitfqkHwUIHziH4oDgPV1ijSyhYS2wKuypkLLe+lOu9OQCg4T2KXrMxSJZj
-         ykW+O7RylgBeVYNscJ5iqZJ48jlNNNhh5Rbuz9fAsvvS0TIV0EW0QjcgjuNyhmWVvJw4
-         FjPxtpF0pBkjnucpcDHDuSPGnO+Hy27FrzDtYFdzJWI28spm2h6kWo9IHKSe3LsuX/uz
-         tuRLgGxD1DQX32ulW41HqIyNhcxn4mGnXUXwccr2adZ0vUr5t1zF1mVyAX4A3Ak5NcZ8
-         h8K8FiQqeJ7ujG2qQANX6pRLM2r8U8qFiPxlpeHb7eK0xlk0lqtC+O7j/RAjDQWTKkar
-         qfcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793178281; x=1793783081;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7baAZch0AV2ZQpsltJrgKMT5HFebbDsF2TyQttQo+4Q=;
-        b=bZZGRtMnHCGB4xvTjQAK8U4gtf+Bh1N+9JwMwlp3+QFuo6fGdt5U7rmXDT0yo2KIp1
-         kdz9YVYfwGbezrBwR0CiSiAVxsW9v+07OiGven0BRIENKbPwBcfnwtr5xfi5VQIGZFoC
-         j745Kblh0XWYP2J31m9/0dgUsaAnmtllmcWnJ5nwA/ojoNt1YadmjmypHKJx3NUu7uqz
-         aE8DJR0qHYMVTQJg3/rZEucXShGuRE7fiBeh6A6R3s95pIBGwCumiQNlaoZ2t/MU64R2
-         kbAKgAMz1EzMYU1+6ZYg5o9bT116kzXoj8q3l8p8kqanJ/oYFLgTWhcKSB0plWSkZXkX
-         tYEg==
-X-Forwarded-Encrypted: i=1; AKwUvBzNKc5Lzi0DSHnw0NFFjAdBP1z2pr1VDPMuLS+DatdUR2Fyc9/3Qt0q5FHmMFuu6dxe9D5j1jroIrCgFXiL@vger.kernel.org
-X-Gm-Message-State: AFq9FYK3iZMd3EJs+kdVo5mYQxQrUBfsOfm2rCKhGiWHvlnfZTRBvQT7
-	UEvE1slrhbyo8BX+SKIZIt6eHryxXJkoU/E1Vw1Whi8HVBIr5X/b0y6QJJGGQrDQsQGWl/sCn88
-	G4203dXLiz/eC3ixR0UT6ACLDyNl+PRfaqHQhjDfIv9Q6fXE=
-X-Gm-Gg: AYBFou2vTv9pWiBgT9EEPrMMxnm1xIsBVUooimjC/ipZZMoUQ7PX5RPq6x9E1mT46Om
-	Q6LszmFky6IO2MkbWTy0ZUvBruNGjf8hKuv23kW9re3n4y/8PEkuiG6dusnoYhKoeP2Gmo+TLZP
-	JhS/wyTgY7MgNG80Y9FAEoMX2Cp5hscl3LFQE6+UDLKkr0/a1lcNtBQEfMDx7eIUuv9YO8S+hYl
-	sWEF3qdRDFV+T1RA+wY0XYQ4WHNWKoYoRAtAOIrY+z7QjTz+u79Lq+ACVCRetWkU9wvk9tdXJn5
-	k+utHl7AcqO9C5jJ2NsnBXhUmiq9dZO4E8venL50+2PkzX4tjnIzrm4FdsFxvyU90f9viRLX/5c
-	oSEoJ0TVCgc40Cf7/fRcv8CdepkzZDqIDVLyexPZ7QsZzF59+cMfWRlnKoQ==
-X-Received: by 2002:a05:690e:1699:b0:679:bd09:f46 with SMTP id
- 956f58d0204a3-67a813f79cbmr815916d50.6.1793178280698; Wed, 28 Oct 2026
- 02:04:40 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IQLvv5Vy
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61CEF1F01825;
+	Wed, 28 Oct 2026 09:09:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793178598;
+	bh=bLZSl7G53VjRTMzaR+4ybREso2p4MLSxqwNzQhyf3As=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IQLvv5VyEW9W822k4mht+xeLq3S4XizAu+yULPQZsw/IVShZGFw4v2DipYDdBsIDM
+	 ZuO9nCZm9CpX8w5ml0a91JdjeCai4IiV9QbHxDf8RJ5flGZR1CGm3IoGtSym8UApk4
+	 Csg/F36qW6LxKG3+BIRu5428gBcRYr7WkphITq9nSu15oEzQk7PBodVhHzdvwyKAsU
+	 L0DDpJRkU7kCsCA8XIudNovrwViAworRTX8BBm8mzz3lW+kK0r+b10tnjOyJB2Z4jA
+	 ml2WMykb/ecw+qvzqKMXuJLLemM/U4ijkpfsw/rwxPj03zXiSs2jn466I+8Fyr4hbl
+	 WjWlEy8zwut6w==
+Date: Wed, 28 Oct 2026 09:09:42 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Dev Jain <dev.jain@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Hugh Dickins <hughd@google.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Oscar Salvador <osalvador@suse.de>, Minchan Kim <minchan@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Xu Xin <xu.xin@linux.dev>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Chris Li <chrisl@kernel.org>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Gregory Price <gourry@gourry.net>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, stable@vger.kernel.org, 
+	Josef Bacik <josef@toxicpanda.com>
+Subject: Re: [PATCH 09/46] mm/rmap: handle device-exclusive entries in
+ folio_referenced_one()
+Message-ID: <auG7p94aT3SynuWy@gremlin>
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+ <20261027-fixes_core-v1-9-6f74bec9a5bb@kernel.org>
+ <e32a19c4-76c4-40ba-83a4-781333af7b0a@arm.com>
+ <f5b90920-5923-45a6-be2b-f558801781c5@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,53 +86,34 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261018081203.2431035-1-l1za0.sec@gmail.com> <20261018183707.23dba84df0a235e36de1620d@linux-foundation.org>
-In-Reply-To: <20261018183707.23dba84df0a235e36de1620d@linux-foundation.org>
-From: Li Zao <l1za0.sec@gmail.com>
-Date: Wed, 28 Oct 2026 17:04:23 +0800
-X-Gm-Features: AclHuK92W6eCjxLVFBVIgwy3cZtZtdZpLsiCnKY2XBI3u7Tc-5IEfkiWO_P6Glk
-Message-ID: <CAAwbnpdgKj5hEky8ZRcPOzJurj6W_rf4X4nEkMsfCU2CfXJj0g@mail.gmail.com>
-Subject: Re: [BUG] KASAN: slab-out-of-bounds Read in copy_folio_from_iter_atomic
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: viro@zeniv.linux.org.uk, linux-block@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jens Axboe <axboe@kernel.dk>, Tal Zussman <tz2294@columbia.edu>, Daehyeon Ko <4ncienth@gmail.com>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f5b90920-5923-45a6-be2b-f558801781c5@kernel.org>
 
-On Mon, Oct 19, 2026 at 9:37=E2=80=AFAM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
-
-> Thanks.  Boy I burned a lot of tokens on this.
+On Wed, Oct 28, 2026 at 09:08:04AM +0100, David Hildenbrand (Arm) wrote:
+> >> -		if (lru_gen_enabled() && !lru_gen_switching() && pvmw.pte) {
+> >> +		if (lru_gen_enabled() && !lru_gen_switching() && pvmw.pte &&
+> >> +		    pte_present(pteval)) {
+> >>  			if (lru_gen_look_around(&pvmw, nr))
+> >>  				referenced++;
+> >>  		} else if (pvmw.pte) {
+> >> -			if (clear_flush_young_ptes_notify(vma, address, pvmw.pte, nr))
+> >> +			bool young = false;
+> >> +
+> >> +			/*
+> >> +			 * PFN swap PTEs, such as device-exclusive ones, that
+> >
+> > You mean "PFN softleaf PTEs"? Better expressed as "softleaf PTEs embedding a PFN" ...
 >
-> I was able to reproduce this.  I found that Daehyeon's "iov_iter:
-> validate extracted segment for bvec alignment" makes the KASAN warnings
-> go away.  https://lore.kernel.org/20261015061907.2713943-1-4ncienth@gmail=
-.com
+> Lorenzo raised this off-list as well; I'm using the existing text we use
+> elsewhere for consistency.
 >
-> Daehyeon's patch is presently in mm.git's mm-unstable branch, with
-> cc:stable, targeted for upstreaming during the second week of the merge
-> window.
->
-> Daehyeon's patch prevents this reproducer from triggering the bug by
-> rejecting the misaligned direct-I/O request before extraction advances
-> the iterator.  Without that check, extraction skips the initial empty
-> iovec and the following 10-byte segment, then encounters an alignment
-> error.  The bio is discarded, but the iterator remains advanced.  iomap
-> subsequently restores its byte count without restoring its position,
-> leaving 1025 bytes recorded when only 1015 remain.  Buffered-I/O
-> fallback then walks beyond the imported iovec array.  So Daehyeon's
-> patch avoids the bad path, but doesn't address the underlying failure
-> to restore the iterator when rejecting a bio.
+> This needs a cleanup that adjusts all of them :)
 
+*like a proud dad of his softleaf name :P*
 
-Hi,
+Yeah, agreed, not a big deal, and easier for me to just do a bigger pass
+finishing off what I started :P
 
-Thanks for investigating the issue and preparing a patch.
-
-I was wondering whether a CVE ID would be assigned to this vulnerability.
-The CVE ID is important for our research, and we'd appreciate any update.
-
-Best regards,
-Haocheng Yu
+--
+Cheers, Lorenzo
