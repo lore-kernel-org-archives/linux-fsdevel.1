@@ -1,108 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793216528;
-	b=We7L0OZkxI4WaOYgDEZLjS74+NgEHOmOoUkJr4YqtHy4LCdwxwhM+H1eTuJY9JMb3wfy
-	 yFfn7kRu6L6fJfrpATLhesPeOXZEc9bKJRbcrk19Md3k13PO8/Sv8xrL1QOdORHYb9P+H
-	 nTPbE8vISoLA+C4l6Ko2a23mrq1Mnx1QHiQKs3ot+7qiopCSiShCxholhJBH5ftVCbTTK
-	 0h03Vl31hHpBlNDvM57PPz0bLdACdGIQzgB73bjr9CrqcwQqWCDyiHLlmaJohjH+6nMvo
-	 w5gxr75jXJnanQ0FAAEvJOHI3Qu0YlMx3UoYoG9aBz7gj08TfB6bv3TV4YvwEou3ekw==
+	t=1793217111;
+	b=zlYycJl23wPHzuBvtJLjjrt+iaytI/LS1roORIc1Zs0Bxx556Qp4F9SGNr3q4xmPfQny
+	 DkOLqXO5EnsfWJCrZbe39SyZ6LqiRn2Y7rqGNWFRKmMWVYODxD6T7rnMImzzExcWdCPS5
+	 vEteXoh9khq0K4V+x1i+n3RlrX1FzGwcQlTeplHIPtqnllt6MdvnmOhqYaKGf+5zFkcJD
+	 JHsDszHbcZo3OeEvsvZpzbXMSibRdteIiyX8u8ZNBBgPgjTUyiXanH0vZDhcEoMJG2qZL
+	 6Z0hlHgLhm7gHB9woOPcVKZwBSJzbLrRP3g5Szr06Z8rnw5edwzmcKnTshKpqcmXrxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793216528;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=WRMwPw8KdbWL+QrztS6XhfD9X02diXUtZhhuJcO8v+Y=;
-	b=HtYBAx77XnSF+g5mzjHNP/coy9qBwlWgfJP6r86+L8VWmruzcXFTZjzs+S7nj3Bib8fw
-	 1B/rwmN/0VUMAsN1fifMYMHWNgn+KAfG7+o+OQEtssY8+smLu90pzSrkeXXUkrbvQJiKa
-	 qAFqK3tgNaH4NghKH/hjTEjr7q9DPkhs3vEpxqPOd9m4/ep3eIezeb7ksCakv/Vbi+Q1s
-	 RtcW0ntm4NZSEZQF125feEo0i/FzvJNe6drWERTMlpiLmLrrjmdV0pPORAhYBwKn6FSGO
-	 mSX06dlh7UyiFQq4QqIWnp0f3PWyMJRa916ad9FINWI9LZlbQ81jaHEkGOIVG+U6CYw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793217111;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Nvrn4WRxmRYyXZvqlPwtDdIMr3RH/GbiGM7fkNtVFmY=;
+	b=40VXkDmuh5cG8NDAgbMNs3oA5vGWPt/vZ8cGVHd4kfM9a5KfDNTU47bOVe3hzi8zxf8w
+	 1Xop1YwxH4UmgwUDjXAwSe7nS2bUV8f2E7MLyI6QwYR6hcBZeH0/axvpZCxwt0P0ZiYjy
+	 0pSKd0wBNAebMUGxH//RW+8zPPoiqIXfs2edkqPYbRqzgx1kah++YPh216zX9b9/rUGnN
+	 eJ9pYvNx3o2Enh0U3H/eQSNAqN+wEAN4oM7LT1scyORZIx/voHRTqWqX7Na/jvE8MDYbS
+	 pI/VYCd4GsjmEU+FvZq31zbif/BqgqXGPq7FVB/LOJDulMo15zJjmU6GsNV8mxtTfTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wSEBWasx;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pQSZS2rj;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wSEBWasx;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pQSZS2rj;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wdi9apkS;
+	arc=none smtp.remote-ip=74.125.229.6
+Received: from mail-dy2-f6.google.com (mail-dy2-f6.google.com [74.125.229.6])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF0B606A31A;
-	Wed, 28 Oct 2026 19:42:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AF0B606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7C5606A31F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 19:51:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF7C5606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wSEBWasx;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pQSZS2rj;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wSEBWasx;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pQSZS2rj
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6307922121;
-	Wed, 28 Oct 2026 19:42:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793216525; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WRMwPw8KdbWL+QrztS6XhfD9X02diXUtZhhuJcO8v+Y=;
-	b=wSEBWasxpiMqwRl293U+wK3/34R5iP24e6nPBenMdMSzYUzM/OwT3UZK1LC+NpFa875quc
-	NyRs/469BHQVISDWxY8xOVf6C7dCOVq5YdOn7Drq7jXBMiGzfgiDdtDBwPvR55nYRfgFZM
-	cE56sKc+rTHVY/HCYyz4RZHs5MzHad4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793216525;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WRMwPw8KdbWL+QrztS6XhfD9X02diXUtZhhuJcO8v+Y=;
-	b=pQSZS2rjh+ABytlaRvlb4XP0cUlap2GJLrpPFCRXFYS0NM0d/Q41Ts+rjGuvMddriD/sQl
-	8z/8rbTZWmuLeVAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793216525; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WRMwPw8KdbWL+QrztS6XhfD9X02diXUtZhhuJcO8v+Y=;
-	b=wSEBWasxpiMqwRl293U+wK3/34R5iP24e6nPBenMdMSzYUzM/OwT3UZK1LC+NpFa875quc
-	NyRs/469BHQVISDWxY8xOVf6C7dCOVq5YdOn7Drq7jXBMiGzfgiDdtDBwPvR55nYRfgFZM
-	cE56sKc+rTHVY/HCYyz4RZHs5MzHad4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793216525;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WRMwPw8KdbWL+QrztS6XhfD9X02diXUtZhhuJcO8v+Y=;
-	b=pQSZS2rjh+ABytlaRvlb4XP0cUlap2GJLrpPFCRXFYS0NM0d/Q41Ts+rjGuvMddriD/sQl
-	8z/8rbTZWmuLeVAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3CEEA13419;
-	Wed, 28 Oct 2026 19:42:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bhvRBAxQ4mokPQAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 28 Oct 2026 19:42:04 +0000
-Date: Wed, 28 Oct 2026 19:42:02 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	jannh@google.com, liam@infradead.org, willy@infradead.org, paulmck@kernel.org, 
-	usama.arif@linux.dev, vbabka@kernel.org, linux-fsdevel@vger.kernel.org, 
-	yi1.lai@intel.com, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] selftests/proc: use RSS in /proc/pid/smaps_rollup
- tearing tests
-Message-ID: <auJO9al4lmAczLAu@pedro-suse.tail5790ac.ts.net>
-References: <20261028051312.1505295-1-surenb@google.com>
- <auHK3k-W4gfL_MhI@pedro-suse.tail5790ac.ts.net>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wdi9apkS
+Received: by mail-dy2-f6.google.com with SMTP id 5a478bee46e88-3537f63c9e6so416874eec.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 12:51:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793217110; x=1793821910; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Nvrn4WRxmRYyXZvqlPwtDdIMr3RH/GbiGM7fkNtVFmY=;
+        b=wdi9apkSCNG+WQgHHVCA4gASRfPqBR9MTVe5qJGMyZ/AQVSrF/+6IyE6JTTMYREoU5
+         dh5hKPiIf3d9eihVt6bFn/5qBCWy3fQ0Y0c1dQET5FZd4Hx/n2u/rGunZ8DJdy77wfrC
+         pylW7aaWBmHles8P7pDCGhBgXvs2yzBcwChqiEhig98DyfPrDBmsW5OLmJ4kh0bv0v7v
+         oHaxe4oKD3m6Qa6aP6I44Q5MCbSTrg07nfXV5jxdhcG+/4EeWJuMu+BQyjkt672S+Q0m
+         iqwbyRP0jyqgyX7gXhhLtLhSCZfgfvD6skxxJKH158WN1xTnGgXPpKf28gaFsJl+ov7H
+         HGgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793217110; x=1793821910;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Nvrn4WRxmRYyXZvqlPwtDdIMr3RH/GbiGM7fkNtVFmY=;
+        b=qj5xrLQKVQPbcMn12AJBTNOFDQoJvM+XU5IYn+9hh8rPFw0cMoMpDWUuDRRjXrrC8H
+         2N6dt6jDVVIVIKZADxBjwShTBczemmo2e2xuj1ruAsll+qMaX79drdmf3wSABUN3vRzq
+         c3ltVPePFMb2tNQeiA3s6Oc261mu40nU/PLrcZISycrTOwmcSpfeJmo+5Zi6IeC3zCI0
+         cQtku9KaUzADg9LWPzm/d6dleQOk5+lw8h3A2jxQwzP9PGvUKtY3jzPsW75kCPJWgkWX
+         s6oiAFDolmA4DXuNcn68YhEZyTjdHANwa2X4CiXjCHtmpexl26uzKKBIpye+jcstbQsp
+         H0KQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwUjBvc17r4ESOl2eDcz7OORc3Z9LkpmcoyUV6w/iUVNoh53NkQBcvQhZCNx16FRnVPfw6eM5Z1Ep+LC0kr@vger.kernel.org
+X-Gm-Message-State: AFq9FYIkfIoxtPdVxNb3WC8hocyyFtWsAquXZ9rE5RLG5jdIF+U/0jKw
+	Jv8i67x9CYktzJih54r87zB0Wfmnno8Q6CFVTxCW6+Ziw2ox+mndf+Za
+X-Gm-Gg: AYBFou3M4Vdglsy5uStdgzueybuw3zJns8dqqxGfbvyxjiIPuG3pUu6z6X3rkaBEq0K
+	GaYrKGgeWqijpVO+Gt+RNLTg3ziYP3EbKMqvaFK7+OnkTdSa/uN3AdIXGvVWMg7ku4uv78Bo1yD
+	01tW+GFB/N+2ZdFZx7rH/Lmec7tigxA9FdZjDKQO2sn6MS6kHLQTtd91CDCYJ97F/9j2WZXAfYU
+	44xw0dI+fnoIVAufSjqrBe50NBnygl3TBW6nzyE5oTAgmmRBex/hiD2o3MCBRp8XKNUksfcZNmb
+	mHfUWgmhh19xTNUaJfEbzQJiHd/nw8yJVM7WSrHwiG6vMWLJweG2w6B9BJO4cjWmHSiOPn7wLqF
+	exSUfyvyA2wEZGoPH6uLkn+60fNOKxLYjXeVJx6pu0XsJaTtaUfu7Oty6M/uSVtmr9hQfdSLDIW
+	fmioUNXdFZl3b4Tx6VQgKztLSvFkuckhvLtiUZrsyYljfsNitly9e516D6AGxBjDZWKP9NCx+D1
+	V/HSK2WiPrGymQBEXO9S8wwFhMsiCRVAapboFX9O3fQsAz/jaXR7hu2S47eD7HacD5iQY7fo9AJ
+	QDxcKzZpvtmKwjKvrnaJjPK4idaUgdROLiIMKmVNp8ikNs5BjdBseNbO
+X-Received: by 2002:a05:7301:1622:b0:36a:1807:75a4 with SMTP id 5a478bee46e88-36a20075471mr4923982eec.20.1793217109527;
+        Wed, 28 Oct 2026 12:51:49 -0700 (PDT)
+Received: from localhost.localdomain ([98.148.34.5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a2398fa4csm10895569eec.24.2026.10.28.12.51.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2026 12:51:48 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: miklos@szeredi.hu
+Cc: amir73il@gmail.com,
+	andrealmeid@igalia.com,
+	linux-unionfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	dennylin0707@gmail.com
+Subject: [PATCH] ovl: reserve space for the casefolded name terminator
+Date: Wed, 28 Oct 2026 19:51:33 +0000
+Message-ID: <20261028195133.86636-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -112,47 +99,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <auHK3k-W4gfL_MhI@pedro-suse.tail5790ac.ts.net>
-X-Spamd-Result: default: False [-13.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,intel.com:email,suse.de:email]
-X-Spam-Score: -13.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 28, 2026 at 10:14:19AM +0000, Pedro Falcato wrote:
-> On Tue, Oct 27, 2026 at 10:13:12PM -0700, Suren Baghdasaryan wrote:
-> > Pss metrics can be affected by map count even if VMA tree stays unchanged,
-> > therefore test checking VMA tree integrity can't use them. Use Rss instead
-> > and pre-populate the VMAs so that Rss changes if a VMA gets skipped or
-> > double-counted.
-> > 
-> > Fixes: ca5480fb53fa ("selftests/proc: add /proc/pid/smaps_rollup tearing tests")
-> > Reported-by: kernel test robot <yi1.lai@intel.com>
-> > Closes: https://lore.kernel.org/oe-lkp/202610271934.fd287c3f-lkp@intel.com
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> 
-> Reviewed-by: Pedro Falcato <pfalcato@suse.de> 
+ovl_casefold() allocates NAME_MAX bytes and passes that capacity to
+utf8_casefold(), which also needs room for a terminating NUL. A valid
+name whose folded form is exactly NAME_MAX bytes therefore fails to
+fold, and ovl_fill_merge() falls back to comparing the original bytes.
 
-Actually, now I'm wondering: isn't Rss also flaky if memory pressure occurs?
+For example, when two casefolded layers contain directories named with
+255 uppercase and lowercase ASCII letters respectively, readdir lists
+both names even though lookup treats them as the same directory. The
+same names merge correctly at 254 bytes.
 
+Reserve one additional byte in both the allocation and the folding
+capacity so that NAME_MAX-byte folded names use the canonical merge key.
+
+Fixes: ee95c5fc86dd ("ovl: Create ovl_casefold() to support casefolded strncmp()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+---
+ fs/overlayfs/readdir.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
+index 7d6f7f6022eb..6113d690f8ad 100644
+--- a/fs/overlayfs/readdir.c
++++ b/fs/overlayfs/readdir.c
+@@ -81,13 +81,13 @@ static int ovl_casefold(struct ovl_readdir_data *rdd, const char *str, int len,
+ 	    name_is_dot_dotdot(str, len))
+ 		return 0;
+ 
+-	cf_name = kmalloc(NAME_MAX, GFP_KERNEL);
++	cf_name = kmalloc(NAME_MAX + 1, GFP_KERNEL);
+ 	if (!cf_name) {
+ 		rdd->err = -ENOMEM;
+ 		return -ENOMEM;
+ 	}
+ 
+-	cf_len = utf8_casefold(rdd->map, &qstr, cf_name, NAME_MAX);
++	cf_len = utf8_casefold(rdd->map, &qstr, cf_name, NAME_MAX + 1);
+ 	if (cf_len > 0)
+ 		*dst = cf_name;
+ 	else
 -- 
-Pedro
+2.43.0
+
