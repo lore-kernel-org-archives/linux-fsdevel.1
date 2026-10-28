@@ -1,130 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.208
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793160696;
-	b=tkae4a9Llxsi4W+05qUfDvtfu175cqXRlHJeXilul5q/AeGaxLXmCKGU8TI4qX/U1XSs
-	 LToMhzGTJsSl7kE2+tfVtdo2EXudVC2NQdyA4k50AHi1dV7Hjmnyk/lh92xDVXq6E1dWq
-	 TH81b8/OdH5n/BaGhoON3ROSl+bwdop6oXybl6g2VOESaQCEzfia+3lUAW1UYc63T/OMu
-	 sJ8iKxoAWMj280/H5zkTJoSfTYPzdUU2l2R33oatxK3rwG//7s+DrIZ67FInOJFcjalWw
-	 91f4R3ZjexZtfagIalLgo5XynERMEsnUKBLf5xXZXQ7NzvkeWTITOxPMuesdix5x7lg==
+	t=1793162009;
+	b=FdqvQfqYkh09rUpaOQkn54/w8D0p/l2w6KYWl7OJVmIlBojshJJ6LiJMQm72kYMQn7zt
+	 22h1CFRcgYZ0nH0PjuMkbSh1CHI9FVX1FV4b5lIJGlQWKY0lci/c+6U+k4zRx6WbLV5qK
+	 aSDBLUK5dHgxc7R8qtRuz9VTlRuVW/FcE2sjvqgzXGs8qIh6Ywqw4Jr1WLh9jM/9zvL0b
+	 ovbu9nxd+s//Ww3tFgiXmt2Wc6zRzB6T0bN1RWvkOO5Q8k9H92DibaYeceat/uunKhjjP
+	 DPej6VGm5FxvUZXDbfa4RylWD03tJ4LzycUBYxQP2bGxEZVTxQIKvA/N7YCxwodrPpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793160696;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:Reply-To:MIME-Version:Content-Transfer-Encoding;
-	bh=atJXJjCnSCB0xHH38cay+0knolQvxdqlRxF4Wm5JIuk=;
-	b=ZmLtYl/CReE26pKoILZ6TjQuTPNTvs274MqUYKlA9CVzhlJU3VpLLUl38YQDh/4sRIL/
-	 cer/9xpX5Y28PDBXACNPsP4fo+kDtXPPU0uoKqqKmYTt0lvYw1Ii6CA7083dyxS+RgiWA
-	 BXfLfx0fZY2PFbmnnrX9ZbqTibvfT/FsLVJddqGaP4ltQ6cntOxKekF0pSh5V1wTvwOmd
-	 yosesdu/UJQV+VTbb6LuD0gBDkpe52ZGuNcMhU2K7fJwWQlVMJYv9bQ7CrLAEfXDmCQpL
-	 eBKSnoup1SArUfstBBg3PuACahfLD4i1gytLCt2iN7X2c50VoiMY8WPlttm5GgqztcA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793162009;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=hoaYYE9clIuJ0Ig445chvZt4nolRKxe5BT9MRTh3Egg=;
+	b=T+JXaO7kVrIQi78gMxfKZA16A02811Odt1ssq3+FCTJFA+W28l85PXmtu/9PQ4ORurK6
+	 9nPH5puWB216hCa8L1+j0ujiU6nzXsyPejYL6HshzdSpYH4KERSLEf0eYqvV1p/gIUOAY
+	 VHRE1W+IM5tstxEZDEeGNuZE+oBbAp60cazgDUpJvSEMOJD3/jQARzwbkSs4O8Qm1eVWD
+	 1GcTgmj+WBgMFnO/MX4lDPjmNHKiIUoIAEZ4fmsn35isUTXG+Px4MU8YsvicB8lsGqoLz
+	 L+dz6Ap+9dgjF0dIsg4s/4RQz2MAtrnM6sWiST5Dnubznj76BOZ1TBINhqEYZCzZQQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ownmail.net;
-	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=hMOl8yNu;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=orEpq5ZN;
-	arc=none smtp.remote-ip=202.12.124.145
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=WeW0dcEy;
+	arc=none smtp.remote-ip=95.215.58.208
+Received: from mta1.migadu.com (out-208.mta1.migadu.com [95.215.58.208])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C188606A320
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 04:11:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C188606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87948606A31D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 04:33:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87948606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=hMOl8yNu;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=orEpq5ZN
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id E0A1C1D0017B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 00:11:35 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Wed, 28 Oct 2026 00:11:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm2; t=1793160695;
-	 x=1793247095; bh=atJXJjCnSCB0xHH38cay+0knolQvxdqlRxF4Wm5JIuk=; b=
-	hMOl8yNuxPiLKKBzmEaGDzTz4sYLMM6zOilKZ6ai+5oeQ0sjN4yTNu1IjhEnDVoR
-	eVmj8KIJl39Ja/EspZJOhUMg7uGZcdCtDwylTm0w1vB8f4QHVl5vAMCHVNjq5RII
-	4ClbGhIT/ub4K4Eh32zLW7mIXHI3IW116lidsCCbBSoSoKQKq74vyxt8m0O6EbA+
-	8RwSR8XXgFRksa4Yq+WvoDOjDJaVzrBC452j296QnHrp4AFRTfAzOVEMIzNzn4w6
-	eMdTWsved3OVGeysrpg2VPX4LYajvJ0FAVqlJcbzVyhKOw4zR+GAebmED1+i3Glc
-	VDjdALdfQzwgG44nt/NYVw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1793160695; x=1793247095; bh=a
-	tJXJjCnSCB0xHH38cay+0knolQvxdqlRxF4Wm5JIuk=; b=orEpq5ZNxNWALSPEB
-	C9nWQerus7RgX6CDDc43zu/061CUCLJ82pE4h+ZXyGycEMVtbIzdxhZO1ugS3ID9
-	ApsaynWj5CuksXPsV516+1ilpxTwzahR/4Fmz/9OOFCVOXNEM2O40O0XX287QVeV
-	JBLi1MUTn7K+kexNOhKp/SlBhQ7WOcNzs/adfdfIzst8ioujOt20szKVgA19EpXA
-	Y18NXX/gZayxB28m9J1yoql4uPObzjAefXxr+yq77m5zXl2WemnV0kkmcvk6MBBi
-	Ns3qggbMBGv8xK2f7q3JLly+BMybR1IaDrjPhbgAZ+lJJfmW9FNwhBxNw45s4+Ip
-	sDBlQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793160695; d=ownmail.net;
-	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm2:rsa-sha256:Y9XlfsLOjixJxjfPUvqiNx0iXoCHKusZYDxcO66+agPK6Tj
-	WqpH6dDYFUax0hRlBCW4NC5Qe6qh0OjPp0rfDAeCYWdb0wFNr5A4g5wqvxwRP7JG
-	UJZN+6NBRpVcAdUnWF0gGN57QL7oTT9lF4G+lj78QOSVXiK7/40wqKiy3bru4/mk
-	/SuuHQwLuaqBH7tkhrsOFO/vAcaZQqafjlua39IEI23g6E7k2FgigZs5wKmETlI4
-	l2elWUmMaGdMS4PA5sD1LcQ+Fu/ifFTIF8VamflOm6uBPm23kwGbawJ3pFGqLi5a
-	dXM52kSoGV+1y3zKSigHRW4etR7sw9hMHdBjo6A==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,reply-to,subject,
-	to;
-Message-Instance: m=1; h=sha256:vHD2IqxrwWPBdKVPP1xZwiPEDOeNBws4+zl796QpmDI=:1SBGQ55hMfRV+AXoV+nzLRXHu7LjnGyzKH2qu9sOmhs=;
-X-ME-Sender: <xms:93XharTw7v2fOE-is0Gjw-McGG1G34pqs4mRafYMteY3daI1hoW33g>
-    <xme:93XharC6Ziu4t813-A7xiaiB1-BMPPDlfp9YshfnowoXyvyA08tlT7hHLUHJ8VRpo
-    vzXilfbDv1wVC--q7k9qQ_MBa8GrJBJbrxdKIHnrAzmLK4uhA>
-X-ME-Received: <xmr:93XhaqLgBXgntJ_4hpcMhFeFnAyUFC1JM7GnxiD82paYC7nqMLnAgqyn5jUzYyU2yblgeov7vcBe_AhmtyK3GHo52k10XSQ>
-X-ME-Proxy-Cause: dmFkZTENfLDHyDJO3xIctN9oTnCe8vHBA0qriIGQ08HQKxFpV5yDErZ6Zl+Qiz2rvnL2RP
-    /e8uvqhnjclTN6I8HcJ15PxD9MOgabZnxHa1DRPnMkU8q7xajrLGz1GdMP99UnyZHoS731
-    /Aj77w4cu6PxnrKwYGROFG116fa9OOXaHq+Ym4QJMn3vOGueONZUZsZSlbJQhIOksaAl8f
-    4k1E57wFfTk3YyddMhp9w850VOu04nlPL35kdVX8XIRekO94F9issEyTfIIIAKz2X5DfFH
-    0+vyck7E3d86lcZxjpxELDEkQ3cHkx8WMQfXUkd0MsVNyDmBKgbQ8MoXoAblFyqEUg9zZ9
-    SN+TLAR86VQAWmW/pK7DksdD7Lc40iOXP1KhRtxRS8tVYheB3B0TYPCSacu7Ll8G20tj3t
-    aipYgz4f0z5p6sFHw7Y1iekpqJzfPjV4xJELA+KgRBQLU9jQdrg6A5RTmqVHwYL+ou88Ca
-    m7ceY11tUS0kGOj5y7cKKUNQNVMhAFcEC8YzSVrq6tFU2/uc4x1ykfteF4Uf4aWh36OXNa
-    8wSEfPObpz7pv8Qj7LaRgB+4dvmxprahE5UxfVSHY5WP8nXNjjgDS3wad/XfSairIB2+DS
-    mBaJBIJXeScUt2w7XyF1Joa9E23D3Vzo4FSsG7LCq+1TR83vhxVOpx+2/Wxw
-X-ME-Proxy: <xmx:93XhauADj-rQjAfcZCzXugioCEEJyn6wOXHnCp4sWPmCH6DuMPYSnA>
-    <xmx:93XhansBq_6VAVbiloLqD65umhYpw-wQhjG1_ISzyOG-nlbhXLbA_w>
-    <xmx:93XhakSOudYpLqe0RgC0o9p-t_vzQSd-Ktp-T2GD2tOCOtuwD_c-hQ>
-    <xmx:93XhamLk0wlpDki77olSMfCxsJChDbDGvSMbi8LWyQmE3CapIhOuaQ>
-    <xmx:93Xhau1S6QRVZ_ZP-wfcltEZMkA5DqrgaR_AIjQcNHgZq0yrK6hHSUY2>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 28 Oct 2026 00:11:32 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jonathan Flynn <jonathan.flynn@hammerspace.com>
-Cc: Jeff Layton <jlayton@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 8/9] nfs: use d_alloc_trylock() in silly-rename
-Date: Wed, 28 Oct 2026 15:06:36 +1100
-Message-ID: <20261028041023.3738553-9-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20261028041023.3738553-1-neilb@ownmail.net>
-References: <20261028041023.3738553-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=WeW0dcEy
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=T4efCo2Hap6aPJgKK/ehUGhK0yIt+mn0LCQnSmlQd0s=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793162000; v=1; x=1793766800;
+ b=WeW0dcEyzkw6mTIdVt2Z06iHEedOA9csfafpNxIqlvgXWGNleOMk4G5+xIqtxnfY0oJlEGQo
+ 3RIOLo03odtO32V/gvt274JFHEpf0OAsY2K6WgJh+s2w2M9H9KOLel/juzZL0FcuRQ3OjvRdcI0
+ 9UEAxWdkfJdjVzGrmw7+tycY=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id bee4a2cb7972e2c2;
+	Wed, 28 Oct 2026 04:33:20 +0000
+X-Mizu-Trace-ID: bee4a2cb7972e2c2
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <fa0f07af-e8d7-44b0-b1e7-ad325d75ac34@linux.dev>
+Date: Wed, 28 Oct 2026 12:32:54 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -134,99 +58,97 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 32/46] mm/memory_hotplug: avoid races in
+ pfn_to_online_page() with dying pgmap
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, mhocko@kernel.org,
+ qi.zheng@linux.dev, shakeel.butt@linux.dev, ljs@kernel.org,
+ kasong@tencent.com, baohua@kernel.org, axelrasmussen@google.com,
+ yuanchu@google.com, weixugc@google.com, baoquan.he@linux.dev,
+ baolin.wang@linux.alibaba.com, liam@infradead.org, vbabka@kernel.org,
+ rppt@kernel.org, surenb@google.com, mhocko@suse.com, kees@kernel.org,
+ peterz@infradead.org, jannh@google.com, pfalcato@suse.de, hughd@google.com,
+ pasha.tatashin@soleen.com, pratyush@kernel.org, willy@infradead.org,
+ jack@suse.cz, ziy@nvidia.com, riel@surriel.com, harry@kernel.org,
+ apopple@nvidia.com, nico.pache@linux.dev, ryan.roberts@arm.com,
+ dev.jain@arm.com, usama.arif@linux.dev, kas@kernel.org,
+ matthew.brost@intel.com, jhubbard@nvidia.com, peterx@redhat.com,
+ will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com,
+ osalvador@suse.de, minchan@kernel.org, muchun.song@linux.dev,
+ xu.xin@linux.dev, chengming.zhou@linux.dev, chrisl@kernel.org,
+ shikemeng@huaweicloud.com, nphamcs@gmail.com, youngjun.park@lge.com,
+ gourry@gourry.net, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
+ ying.huang@linux.alibaba.com, jgg@ziepe.ca, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-cxl@vger.kernel.org, josef@toxicpanda.com
+References: <20261027-fixes_core-v1-32-6f74bec9a5bb@kernel.org>
+ <20261027121307.40431-1-lance.yang@linux.dev>
+ <87e3d64e-8b25-4d51-a984-7ab8a58f785d@kernel.org>
+Content-Language: en-US
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <87e3d64e-8b25-4d51-a984-7ab8a58f785d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: NeilBrown <neil@brown.name>
 
-Rather than performing a normal lookup (which will be awkward with
-future locking changes) use d_alloc_trylock() to find a dentry for an
-unused name, and then open-code the rest of lookup_slow() to see if it
-is free on the server.
 
-Acked-by: Anna Schumaker <anna.schumaker@hammerspace.com>
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/nfs/unlink.c | 59 ++++++++++++++++++++++++++++++++-----------------
- 1 file changed, 39 insertions(+), 20 deletions(-)
+On 2026/10/28 03:41, David Hildenbrand (Arm) wrote:
+>> LLM stumbled upon a possible race in kpage_read() ...
+>>
+>> Say the reader passes pfn_section_valid() for a device PFN in a section
+>> shared with online RAM, gets preempted, and resumes after
+>> pgmap_array_delete(). We'd then find no pgmap and return pfn_to_page(pfn),
+>> even though the subsection is no longer valid ...
+> 
+> I think that's similar to our pfn_to_online_page() vs. memory offlining races,
+> just slightly different. Getting these races down to 0 is pretty hard.
+> 
+> This patch here tries to do better and arguably almost looks like a cleanup.
+> 
+> I wouldn't worry about that one for now; it's extremely unlikely to hit. And it'
 
-diff --git a/fs/nfs/unlink.c b/fs/nfs/unlink.c
-index 11a46a993e11..0eddc7ee1115 100644
---- a/fs/nfs/unlink.c
-+++ b/fs/nfs/unlink.c
-@@ -451,7 +451,7 @@ nfs_sillyrename(struct inode *dir, struct dentry *dentry)
- 	static unsigned int sillycounter;
- 	unsigned char silly[SILLYNAME_LEN + 1];
- 	unsigned long long fileid;
--	struct dentry *sdentry;
-+	struct dentry *sdentry, *old;
- 	struct inode *inode = d_inode(dentry);
- 	struct rpc_task *task;
- 	int            error = -EBUSY;
-@@ -468,26 +468,45 @@ nfs_sillyrename(struct inode *dir, struct dentry *dentry)
- 
- 	fileid = d_inode(dentry)->i_ino;
- 
--	sdentry = NULL;
--	do {
-+newname:
-+	sillycounter++;
-+	scnprintf(silly, sizeof(silly),
-+		  SILLYNAME_PREFIX "%0*llx%0*x",
-+		  SILLYNAME_FILEID_LEN, fileid,
-+		  SILLYNAME_COUNTER_LEN, sillycounter);
-+
-+	dfprintk(VFS, "NFS: trying to rename %pd to %s\n", dentry, silly);
-+	sdentry = d_alloc_trylock(dentry->d_parent, &QSTR(silly));
-+	if (sdentry == ERR_PTR(-EWOULDBLOCK))
-+		/* Name currently being looked up */
-+		goto newname;
-+	if (IS_ERR(sdentry))
-+		goto out;
-+	if (!d_in_lookup(sdentry)) {
-+		if (d_really_is_negative(sdentry)) {
-+			/* try to get an in-lookup dentry */
-+			d_drop(sdentry);
-+			sillycounter--;
-+		}
- 		dput(sdentry);
--		sillycounter++;
--		scnprintf(silly, sizeof(silly),
--			  SILLYNAME_PREFIX "%0*llx%0*x",
--			  SILLYNAME_FILEID_LEN, fileid,
--			  SILLYNAME_COUNTER_LEN, sillycounter);
--
--		dfprintk(VFS, "NFS: trying to rename %pd to %s\n",
--				dentry, silly);
--
--		sdentry = lookup_noperm(&QSTR(silly), dentry->d_parent);
--		/*
--		 * N.B. Better to return EBUSY here ... it could be
--		 * dangerous to delete the file while it's in use.
--		 */
--		if (IS_ERR(sdentry))
--			goto out;
--	} while (d_inode(sdentry) != NULL); /* need negative lookup */
-+		goto newname;
-+	}
-+	/* This name isn't known locally - check on server */
-+	old = nfs_lookup(dir, sdentry, 0);
-+	d_lookup_done(sdentry);
-+	/*
-+	 * N.B. Better to return EBUSY here ... it could be
-+	 * dangerous to delete the file while it's in use.
-+	 */
-+	if (IS_ERR(old)) {
-+		dput(sdentry);
-+		goto out;
-+	}
-+	if (old || d_is_positive(sdentry)) {
-+		dput(old);
-+		dput(sdentry);
-+		goto newname;
-+	}
- 
- 	ihold(inode);
- 
--- 
-2.50.0.107.gf914562f5916.dirty
+Ack.
+
+>>
+>> Could we take the memory hotplug read lock in kpage_read(), covering both
+>> the lookup and the metadata reads? We can drop it before put_user(), once
+>> we're done with the page.
+>>
+>> Maybe along these lines?
+>>
+>> ---8<---
+>> diff --git a/fs/proc/page.c b/fs/proc/page.c
+>> index 6aa99e42ec22..12bed36d76dc 100644
+>> --- a/fs/proc/page.c
+>> +++ b/fs/proc/page.c
+>> @@ -12,6 +12,7 @@
+>>   #include <linux/hugetlb.h>
+>>   #include <linux/memremap.h>
+>>   #include <linux/memcontrol.h>
+>> +#include <linux/memory_hotplug.h>
+>>   #include <linux/mmu_notifier.h>
+>>   #include <linux/page_idle.h>
+>>   #include <linux/kernel-page-flags.h>
+>> @@ -77,6 +78,8 @@ static ssize_t kpage_read(struct file *file, char __user *buf,
+>>   	count = min_t(unsigned long, count, (max_dump_pfn * KPMSIZE) - src);
+>>
+>>   	while (count > 0) {
+>> +		/* Prevent memory removal while inspecting the memmap. */
+>> +		get_online_mems();
+> get_online_mems() is the big hammer we try to avoid (or ideally remove at some
+> point). And it's most pfn_to_online_page() users that are affected.
+> 
+> A seqcount in pfn_to_online_page() could detect concurrent pgmap removal and
+> retry from the start. But I'd rather delay something like that.
+
+Fair enough, let's leave it alone for now given how unlikely it is to hit :)
+
+> Thanks for taking a look! (Can I convince you to review some of the THP fixes?
+> pleeeeaaasseee :) )
+
+Of coursssssssse! I'm already looking through the THP fixes :D
+
+Cheers, Lance
 
