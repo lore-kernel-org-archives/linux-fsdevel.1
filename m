@@ -1,102 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793208087;
-	b=nM93Qgcxo/HfPjOP1+TJUonTVqrqaVVuM62P+OEulmY1Wk1xA/U9/tulE4zcVgEQWnk+
-	 hLk45xjNiswxdhL3MghUw29zVBYmSq80rO0086Eq2Bz35puEqdkdt2ciDZFjrWIkwN5VL
-	 QyrADkQjRuAKBu+TVAtZ13VDl9ztMJB/U9FMZ68NH6YEVlTdqd+cRkyKRTpQnKRfiAju/
-	 W9KLkb828/wKZ8jl+BtzrDaCSBPmIeJERgxSUqNDAPAicFuBBiO/j/b72jB/Jwx9dl6+Z
-	 Zn93WO7AJ1g1IvSLkNIs0le3XFLVo4uyM+fHg6wluMjFXtUCmLKsdOEJqbgcgHN8w5Q==
+	t=1793208136;
+	b=lYWlytEcozdADwChXmVsKTuMgjCV17OEtRyfDsbYFqTPgvKSPIyAVhhiCs9zkpF3Jx/n
+	 eIWcA3NI+fUBNVKsoshzoy2Bv5Ei20MPdHxNLrOQPfwUXlhtT2n8CSDQ+5BgY42NIMu7r
+	 jSACv1rwPeTly2kAwrLMgVEqcRfMO2jeZOwcYdMkhquKqCXyuCUIzRCqorugVmig/JwPO
+	 rJcpMzCdwq1GpYWYFKj11+Utcf6FjuKgvBwbOLnBff4D3ZBVh34TvlNvrjN4AXJHVvuAX
+	 ++NAstu+h8rwAY4UUX3x4PKErSvD2d0pZ3j6ujbl5x9ucJeEXB11V9VdEdo9GiS4ZtQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793208087;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=gKWv/vfGN+v0zoryVVsOrqbU4hq0g1uoOUtfYF5rLd4=;
-	b=neEboHWeU5vy+KAXN5VqE38bDHrOxteBxp6ez9AbEE0sJG1n6lIJe/vIH49XQJ1AgsXd
-	 iwwW+/1QLDugOh/oAmmQYog3u5ycBZRRfwZ05YuwhWQcVKazV1SM5F9ZvODFBDXq8Qya4
-	 y62jeUZMXokZHCCs4QWp1sG1/JSg70dRbpnT6dZDZpsOmO3QXKvdsKSn3DspSYNlHDLWh
-	 2rhbrcOTdfZgMO//hDeXaX2ZkbXCc6954I5WgkpT16egx3sO2XcyDiZHjvCxOx7fKwFYS
-	 Jb3/5LHg56fcCCACPojpblNM8JsBvVCUQMCPOas4eEnjyKfWYfCYLjVsxBqMMXw3mDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793208136;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=WR/O8AvyY03PaP5y1SBXVJSRDclsFuXsSj/CXbqYE30=;
+	b=CGLpzuUAwuYBqcrGOwBTQbRprUmNXwTT1hggbjvCGlNg1dZXLGl+0jca5iFOCI+8xf9y
+	 sIt8z983RqLSSGh0JQEVr/ehb2Ne+mDtpKRj9I7ruLYJtok+G9nrZczNttluahySMWSxX
+	 bpneEG+wgiSNhfTDY9X32hdtSOXtIEtB+1D3Xh2qdvuFItWDq3XLGOain5BlqQ94MW4Ys
+	 m+z7hbYZvegP9TcrDcwAgIkJuLs+HIveFRCLjLUdj/HT6MnpAjEbHAfN2htoAEdudmXYG
+	 EGevP8NjenDpVDrkx5+71M9mpFwz0N63G8Awi7ctRUERaukwTdPuI6T5wVbcasw1YLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmpxchg.org;
-	spf=pass smtp.mailfrom=cmpxchg.org;
-	dkim=pass header.d=cmpxchg.org header.i=@cmpxchg.org header.a=rsa-sha256 header.s=google header.b=SQlFBLtW;
-	arc=none smtp.remote-ip=74.125.224.42
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aQfPgq+u;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2185D606A320
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 17:21:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2185D606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A4D606A327;
+	Wed, 28 Oct 2026 17:22:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cmpxchg.org header.i=@cmpxchg.org header.a=rsa-sha256 header.s=google header.b=SQlFBLtW
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-679965fb848so1408392d50.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 10:21:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1793208086; x=1793812886; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=gKWv/vfGN+v0zoryVVsOrqbU4hq0g1uoOUtfYF5rLd4=;
-        b=SQlFBLtWetvrAOGwtD51xhjKHJMBmuVVhKXJUHggsefbsTBeA9lSUtBHLEvFQVQpwk
-         5rxgza6m/fEullx3LCe/5EOf9NitilOHi/ZmD+JZoZrLhue8TEStDNUqIv6MnHIQn4BL
-         ASJwtOkabzww4BdFogItYgHjFyEYahE+mlqAedNSjHJcjtmSyL93pQIFRzgVKyVw/q9Q
-         81abU0Nq7hvVg258F3rlDeN1MY2edyUC5XbswXKuXMO7fBepqm0oxBuoEywcY0tTHB7W
-         viLo1aeiP6zlrKoB9h1bFeSUMb6NEqE315HFQ0S5k0SQT/BxI3ijsPyYAnSyXqISjRVX
-         A9cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793208086; x=1793812886;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gKWv/vfGN+v0zoryVVsOrqbU4hq0g1uoOUtfYF5rLd4=;
-        b=pqmL4MGl9VwxJWP0Nf5B7wHHZIEkzpRCVK/mip+i0RQ5M6nWInX7be7OIbojfHF55y
-         m1tJti6fm/KOVXYqHKGJDqjtgZ+Rmu0AqKNdFW3JQEKOKUm/Srp9aDdQFssCT789A+d5
-         SLOFGneOyvNWUnGbvkQOQnaYY0981CE0wZfiD3Yi+oyzabwTfJq5pUJCRZdY9zlkhj7J
-         SiAdsP3TyIO/Qr+vOc1rF6wdfo84y5BbQOHS9QP8yQf/Pag8zoHRzkrIx+CsJ94gWHQU
-         Q1vyHmIFua7C61r2/S9qsNNPDhX6qlOUNfLybUCeUnEnuaSOGVlHSQX7JdkyCjllqRSg
-         RdZw==
-X-Forwarded-Encrypted: i=1; AKwUvByvHQ0jkUCmJseGYD5UIFLXRDdfS9UvqwHzKakBgKnux7MESQ8sd/tTILFZyI4M6P1/nLVbI+lfFVEAuxQn@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ/kek9P0/6lEDCOTLDCHqqBEOsdTOa8bhtSCNlOkOfPLQjceQy
-	0EqYw3GdsmRc9GYZxFGlYeEspMSLZJ5ZWQxJ0B2XSx6TKpIkIEb2nZswxs34u8vmKzo=
-X-Gm-Gg: AYBFou3Cm5F+FcoZwYIIsRyxL7h6IMHoctz8a+Gut7eQj8WDCE05JWRSNAKOYnos9Ln
-	smzicCVhLEHiFNKEG9FlRVt7YXYmjMmB+Clt0M/3/IEi+Rxaqo29tzzEe0jdT8qnNYmrfZKpAQL
-	5hzSu2P+uZiwpetA+XsKReG9jQsfKWm7Vu0Ya2xBW2xbFMGNiclizuSoMoQIlmqP5VUljITrd2c
-	fKwT/5fzr/0YadlipDL2X+4pHFURHQbapIzGwPpGNEVXPPJv9u+Ch4rJUQ8hKVUthYhhkuYnAe4
-	VmArafHw0ZgnooCoBAk1du7Pqq5nYSp4FTWyy044ur4Q+YMkDYB610SttS/nsH6OllVz7rcH6c1
-	r3iwVrLT0uGszG7lXyWyA3GC/fUA+RnHFiOCnvVWzRwwM6RD0HQIJVkCcqK+41mICQ8UsteQYu4
-	soZVCE/bNPU3tfiLYdoIQjzLGgK3xVAXYKsTFM9jZWKR87Q3ACaaE85xhC8rkBKciJtGsx13Sh/
-	DZLnp9ra0XDL7Ebu+hQxdT+vJStOwlubSJIRuQvL1uDicDCd7xdH48Gzgq/lCWa/n2iT5YjUgBW
-	6OMAuBHkOhGi2tMjewU871ZLdS6B
-X-Received: by 2002:a05:690e:1183:b0:678:fa71:301c with SMTP id 956f58d0204a3-67a7b992b9amr1910178d50.7.1793208085931;
-        Wed, 28 Oct 2026 10:21:25 -0700 (PDT)
-Received: from localhost ([2605:8600:200:14e3:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67a7a0c31cfsm2144554d50.9.2026.10.28.10.21.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 10:21:25 -0700 (PDT)
-Date: Wed, 28 Oct 2026 13:21:24 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Salvatore Dipietro <dipiets@amazon.it>
-Cc: abuehaze@amazon.com, akpm@linux-foundation.org, alisaidi@amazon.com,
-	blakgeof@amazon.com, brauner@kernel.org, brendan.jackman@linux.dev,
-	david@redhat.com, dgc@kernel.org, dipietro.salvatore@gmail.com,
-	djwong@kernel.org, hch@infradead.org, hch@lst.de,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-xfs@vger.kernel.org,
-	matt@readmodwrite.com, mhocko@suse.com, ritesh.list@gmail.com,
-	rvvandan@amazon.com, stable@vger.kernel.org, surenb@google.com,
-	vbabka@kernel.org, willy@infradead.org, ziy@nvidia.com
-Subject: Re: [PATCH 1/2] mm: page_alloc: do not give all non-blocking
- requests reserve access
-Message-ID: <auIvFBlNU5N_PVyd@cmpxchg.org>
-References: <arFBr22V60BMmVpl@cmpxchg.org>
- <20261027150002.318916-1-dipiets@amazon.it>
- <auISZ5w318zwUZuc@cmpxchg.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aQfPgq+u
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C298C1F01825;
+	Wed, 28 Oct 2026 17:22:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793208136;
+	bh=WR/O8AvyY03PaP5y1SBXVJSRDclsFuXsSj/CXbqYE30=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=aQfPgq+undaDVbOnax5u5lnfMc47l+sfT9MBAzG2XVAciyD1pJR5mvfX0f2w2cUpm
+	 tX1QzFZAEjL9C1bUv1G37f/E73J1j00YuW8MkZKCr4wXBM6iXJ19OLneRM182S0hsk
+	 MVJzPWNsuzWdTbWiGGhWX6AaDkzMLiwKpAFgmhzj7bF2jzwktB3D3+kmRg7Fqrf4Z9
+	 wHZZBBJxGj3EEgBi9s0a2dqJdnrT2gr7MvNNszM5UnkRG9iiOH1dqU96iE8aHClHtB
+	 M0Z9LdGpXIt3NUciMgO7mXtP46I5DBk/mfIVMnWBrvBljnrWUB1BU1Ly5hVLchWC0w
+	 JAyiPw0qMZupA==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 06847F4006A;
+	Wed, 28 Oct 2026 13:22:15 -0400 (EDT)
+Received: from phl-imap-04 ([10.202.2.82])
+  by phl-compute-02.internal (MEProxy); Wed, 28 Oct 2026 13:22:15 -0400
+X-ME-Sender: <xms:Ri_iavgZ4gwmONBOj35X-VR-Y9-ckLvDrPUj27tMkVn14ht-camdRg>
+    <xme:Ri_iam2yyHtkRttgUuHeBbBN6X-g4Gjq7pavNc8D84973ivjsy7F8Hx_iW-ITE6cV
+    zlWRyzKfajU5cvswIJOS7TRaTOpRBpForaDS-S9klutEbcKVVRJiNFI>
+X-ME-Proxy-Cause: dmFkZTGMFM9DlPooCt9VpMpix33tYU64y5OxOODDn78L4qDif9NOTckZVM+Yf7zd+2Cd8l
+    KLF3nhxN1N8BpS7VlqbcCSkv9EREgHfRKBJu1bAt4kXlqeu8cFUa3aln/hqzbrmmIkENqG
+    o76KSEMkMRfBaPi8j0Na5jTbKMv/6UDTev1EGF/YhoxGOaVGQenYzB4+t5vuMh6WFC4iD/
+    GLMczG20MNRHMRqU/cu4Rx/vAT3KG9FhvcfZT+8ou6hkC5Xm6j8Mef45bqLIlMJFX6vW6i
+    TvTrwQvo3hi4au/H7+UscF9kVGUHSOcyve4+A0ekr92I5asxMQK/pLg3kpZEoZWqP/4Xib
+    dKO4oqcavmhhpemqNkp7j1bvW8sBNmZtRPpgfsQT7qyK2gYRpnjHs/cg7Wv/2lXNFJJTSO
+    o5Q2cKUgtGUvLJAUi6OJ6ql3XXClFJCLmpy1GMckDtR4d8e6yqiOFzpYLqO2G55XarPyWk
+    CaB71XwKFz96lTZTcreqwsMG5uxAx9/eAoxSOtYqEsfkabgzN9pSj5+BFYJp4Aq4nkDJcB
+    sEIijmlt1zJbiLt6UkjP2CQZt26/maWZwmnrPx53G+LNCO2gCmSxGRuL7IswHwtN5fm1dP
+    VQkAgH2WyRj0rWJLC4QGiEHEK9I8AbommayfnxPr6Bg+PNrbR0wEYERhDCBw
+X-ME-Proxy: <xmx:Ri_iatHVCe2uAc8LcrINn0dh4VId-Dntllm9O_6OpIWkQOhSB360Mg>
+    <xmx:Ri_iauOi2hRv_tCLN788gBMVdpDVCgvQu1zVHYm29F1BuqfpBktelw>
+    <xmx:Ri_iasJnfiLtcfyzmYeQSZ5Aui1221hc0N2aF2zk1f87BW186-DCCw>
+    <xmx:Ri_ian_kE-H7fSVd4Ti3S_O7g6hwoxaebc632wOc8zcpBoWrRGmsew>
+    <xmx:Ri_iaoGdJ0SRPiZcVIoS3id9vldRnN2zSpqO6W6jplUpRnbiBFZK0lhE>
+Feedback-ID: i20964851:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id DC870B6006E; Wed, 28 Oct 2026 13:22:14 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,30 +77,77 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <auISZ5w318zwUZuc@cmpxchg.org>
+X-ThreadId: AfRLXb2QfRls
+Date: Wed, 28 Oct 2026 10:21:53 -0700
+From: "Anna Schumaker" <anna@kernel.org>
+To: NeilBrown <neil@brown.name>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Jonathan Flynn" <jonathan.flynn@hammerspace.com>
+Cc: "Jeff Layton" <jlayton@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <737705ca-a555-45fe-b225-d7232ebba3ec@app.fastmail.com>
+In-Reply-To: <20261028041023.3738553-1-neilb@ownmail.net>
+References: <20261028041023.3738553-1-neilb@ownmail.net>
+Subject: Re: [PATCH v4 0/9] nfs: prepare for locking changes.
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 28, 2026 at 11:19:08AM -0400, Johannes Weiner wrote:
-> On Tue, Oct 27, 2026 at 03:00:02PM +0000, Salvatore Dipietro wrote:
-> > 
-> > Hi Johannes,
-> > 
-> > Vlastimil asked that v6 of my page_alloc patch [1] not go to mainline
-> > before these two patches land, so Andrew parked v6 at the tail of
-> > mm-unstable and dropped its Cc: stable until then.
-> > 
-> > Are you still planning to work on 1/2 and 2/2, and if so, do you have
-> > a rough ETA? Or would you rather post them as a separate series as
-> > they are? If anything is needed on my side to move them forward, I'm
-> > happy to help.
-> > 
-> > For what it's worth, I ran both stacked under v6 on v7.3-rc1 and saw
-> > no performance difference on my benchmark with or without them.
-> > 
-> > [1] https://lore.kernel.org/linux-mm/20261001082152.2879289-1-dipiets@amazon.it/
-> 
-> I'll work on this today, will have patches before EOD. Sorry for
-> dropping this.
+Hi Neil,
 
-https://lore.kernel.org/all/20261028171719.2043421-1-hannes@cmpxchg.org/
+On Tue, Oct 27, 2026, at 9:06 PM, NeilBrown wrote:
+> Now that the requirement for this are upstream this could go via the NFS
+> tree or the VFS tree.
+
+Sounds good! I think we should plan to take this through the NFS tree.
+
+Thanks,
+Anna
+
+>
+> Thanks,
+> NeilBrown
+>
+>
+> This v4 fixes the problems with patch 1 which Jonathan Flynn helped me
+> to understand.  And *actually* adds Anna's Acked-by.
+>
+> Before this v3 fixed three bugs found by Sashiko - all
+> error-path related.
+>
+> 1/ patch 5 - make sure d_drop() gets called in all error cases
+> 2/ patch 8 - dput() sdentry on all error paths
+> 3/ patch 9 - check error return from d_duplicate() correctly.
+>
+> Original intro:
+> I am working on changes to directory locking.  The medium term goal is
+> to lift d_alloc_parallel() locking above i_rwsem, so d_alloc_paralle()
+> can be run unlocked, and consequently cannot be called when ->i_rwsem is
+> held.
+>
+> The requires:
+>  1/ the d_alloc_parallel() not be called while i_rwsem is held.  NFS does
+>     this in a few places. New interfaces d_alloc_trylock() and d_duplicate()
+>     are now available and can be used instead.
+>
+>  2/ a dentry must not be d_drop()ed while an operation is ongoing, as an
+>     unlocked d_alloc_parallel() would then be able to create a new
+>     dentry with the same name.  In particular d_rehash() must be phased
+>     out as it won't be safe.  Various techiniques are used to avoid the
+>     need for d_drop(), particularly that d_splice_alias() is now able to
+>     splice a hashed alias.
+>
+> Further, the first two patches here fixes bugs that I found while
+> developing and reviewing these changes.
+>
+>
+>  [PATCH v4 1/9] nfs: fix open-blocking with d_fsdata
+>  [PATCH v4 2/9] nfs: fix nfs_call_unlink()
+>  [PATCH v4 3/9] nfs: remove d_drop()/d_alloc_parallel() from
+>  [PATCH v4 4/9] nfs: use d_splice_alias() in nfs_link()
+>  [PATCH v4 5/9] nfs: don't d_drop() before d_splice_alias()
+>  [PATCH v4 6/9] nfs: don't d_drop() before d_splice_alias() in
+>  [PATCH v4 7/9] nfs: Use d_alloc_trylock() in nfs_prime_dcache()
+>  [PATCH v4 8/9] nfs: use d_alloc_trylock() in silly-rename
+>  [PATCH v4 9/9] nfs: use d_duplicate()
