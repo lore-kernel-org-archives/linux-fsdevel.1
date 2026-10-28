@@ -1,54 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.208
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793162009;
-	b=FdqvQfqYkh09rUpaOQkn54/w8D0p/l2w6KYWl7OJVmIlBojshJJ6LiJMQm72kYMQn7zt
-	 22h1CFRcgYZ0nH0PjuMkbSh1CHI9FVX1FV4b5lIJGlQWKY0lci/c+6U+k4zRx6WbLV5qK
-	 aSDBLUK5dHgxc7R8qtRuz9VTlRuVW/FcE2sjvqgzXGs8qIh6Ywqw4Jr1WLh9jM/9zvL0b
-	 ovbu9nxd+s//Ww3tFgiXmt2Wc6zRzB6T0bN1RWvkOO5Q8k9H92DibaYeceat/uunKhjjP
-	 DPej6VGm5FxvUZXDbfa4RylWD03tJ4LzycUBYxQP2bGxEZVTxQIKvA/N7YCxwodrPpQ==
+	t=1793164376;
+	b=3edL4KXozAQsWPx0DlNDzwH2Aun4S5Tbnf56/iAQ6tdrWsFRxvbyN614125/gJWKExz/
+	 nrcRdd67r/ebuCHwywxYXh1KhPvDmwDLr60/KyMWFa+nJIQKBO5Q00EAEJJtC6FBJMJrS
+	 h+csfxke347LvsnzFfjxdMcBt0vp/PgwGw1zfG1ibp2mJ8JeyTgj/wwwQo+laULIlm5St
+	 nLkIMyDNNWMxKwM9NAipUcZyxj/4QfAAIobiCbWZEwrTvk4Qe04Bp42OECCl9cRc8W/5k
+	 4d86onPDbZ2BFZlVQJDDoJRlBSvKo7hiDYYdi9Fjj1Oa8PrB8xAYwrhhcUpZY5YPT1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793162009;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=hoaYYE9clIuJ0Ig445chvZt4nolRKxe5BT9MRTh3Egg=;
-	b=T+JXaO7kVrIQi78gMxfKZA16A02811Odt1ssq3+FCTJFA+W28l85PXmtu/9PQ4ORurK6
-	 9nPH5puWB216hCa8L1+j0ujiU6nzXsyPejYL6HshzdSpYH4KERSLEf0eYqvV1p/gIUOAY
-	 VHRE1W+IM5tstxEZDEeGNuZE+oBbAp60cazgDUpJvSEMOJD3/jQARzwbkSs4O8Qm1eVWD
-	 1GcTgmj+WBgMFnO/MX4lDPjmNHKiIUoIAEZ4fmsn35isUTXG+Px4MU8YsvicB8lsGqoLz
-	 L+dz6Ap+9dgjF0dIsg4s/4RQz2MAtrnM6sWiST5Dnubznj76BOZ1TBINhqEYZCzZQQA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793164376;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=NHqc2iluLzBkHlrPz5vi8Qhq+QGWsc1OSshMmigJpRY=;
+	b=TCahruJpbxR+NMfpq31koCxh4leQPB036ADQ14uU5fc+eSfmRaGFozQ8Xm3Xt9dAPO7I
+	 QM0qto8zsrUSpMIQMnbuETmEiHCbUc8X/vmabjB/wU7G1QZXzmkpgAVE9EouIN4vrfi93
+	 ad3DhUkW4YCLlmsKXW8xihgEhBGaojP+/KXGzAriq0Ixt24s/rpFsaRtAuSfNgpCQfVOQ
+	 5NAxrMZEbqzjVJcYg9QEs4zyu3cK/He5mSEXNfdJYfAMQwBXTSdQEJVccBpHZqFer7nYr
+	 41cWecETr9QsXjOzFtqRBj2LpZ6zeU2X3ZdgAaBuIgb8ETMqPFiksx/pce3UHACYKgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=WeW0dcEy;
-	arc=none smtp.remote-ip=95.215.58.208
-Received: from mta1.migadu.com (out-208.mta1.migadu.com [95.215.58.208])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gPhJibQl;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87948606A31D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 04:33:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87948606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875AC606A31D;
+	Wed, 28 Oct 2026 05:12:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=WeW0dcEy
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=T4efCo2Hap6aPJgKK/ehUGhK0yIt+mn0LCQnSmlQd0s=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793162000; v=1; x=1793766800;
- b=WeW0dcEyzkw6mTIdVt2Z06iHEedOA9csfafpNxIqlvgXWGNleOMk4G5+xIqtxnfY0oJlEGQo
- 3RIOLo03odtO32V/gvt274JFHEpf0OAsY2K6WgJh+s2w2M9H9KOLel/juzZL0FcuRQ3OjvRdcI0
- 9UEAxWdkfJdjVzGrmw7+tycY=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id bee4a2cb7972e2c2;
-	Wed, 28 Oct 2026 04:33:20 +0000
-X-Mizu-Trace-ID: bee4a2cb7972e2c2
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <fa0f07af-e8d7-44b0-b1e7-ad325d75ac34@linux.dev>
-Date: Wed, 28 Oct 2026 12:32:54 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gPhJibQl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 045CD1F01829;
+	Wed, 28 Oct 2026 05:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793164376;
+	bh=NHqc2iluLzBkHlrPz5vi8Qhq+QGWsc1OSshMmigJpRY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gPhJibQlhr66uy40ZULtu24Lm5U8ODdpfi+3/4UEoEqT/2XInnndDjW3NbMUyAgGe
+	 oU9+2/D0FZnfr+0F7/GdT/dJ/XkvxfvGK09PiTiVAHzs5pgoGo0g+QwlEO/NEMJz0b
+	 MqwO5uMj80ITxyZf/bx6m58zhOCu/zKVqw65+fkxHb9c5l4CbNbVKjYeML/st7hS62
+	 MKBtWXPdswocV5FGa9dB77/o52Evz1Dr3um7H+T1T26w72FdJ/KtuoxoxsGhS5dOER
+	 Z2n15c/bv+trMAU94e5JXXLwgoSrSe6C4B1jjaGVcZImVbxl25L1n6+Z0/RK3w0MrC
+	 6RsVy91S7eUrA==
+Date: Wed, 28 Oct 2026 01:12:55 -0400
+From: Mike Snitzer <snitzer@kernel.org>
+To: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org, NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v9 0/6] mm, iomap, NFSD: stop uncached writes reading
+ back shared pages
+Message-ID: <auGEV03MkzR2W85B@kernel.org>
+References: <20261024221152.6965-1-snitzer@kernel.org>
+ <fc2ea8d6f2cd9ae83d38941f90386aac6638a497.camel@kernel.org>
+ <70ef3172-9631-4e19-9b8e-4722427a5a83@app.fastmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,97 +64,73 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 32/46] mm/memory_hotplug: avoid races in
- pfn_to_online_page() with dying pgmap
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, mhocko@kernel.org,
- qi.zheng@linux.dev, shakeel.butt@linux.dev, ljs@kernel.org,
- kasong@tencent.com, baohua@kernel.org, axelrasmussen@google.com,
- yuanchu@google.com, weixugc@google.com, baoquan.he@linux.dev,
- baolin.wang@linux.alibaba.com, liam@infradead.org, vbabka@kernel.org,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com, kees@kernel.org,
- peterz@infradead.org, jannh@google.com, pfalcato@suse.de, hughd@google.com,
- pasha.tatashin@soleen.com, pratyush@kernel.org, willy@infradead.org,
- jack@suse.cz, ziy@nvidia.com, riel@surriel.com, harry@kernel.org,
- apopple@nvidia.com, nico.pache@linux.dev, ryan.roberts@arm.com,
- dev.jain@arm.com, usama.arif@linux.dev, kas@kernel.org,
- matthew.brost@intel.com, jhubbard@nvidia.com, peterx@redhat.com,
- will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com,
- osalvador@suse.de, minchan@kernel.org, muchun.song@linux.dev,
- xu.xin@linux.dev, chengming.zhou@linux.dev, chrisl@kernel.org,
- shikemeng@huaweicloud.com, nphamcs@gmail.com, youngjun.park@lge.com,
- gourry@gourry.net, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
- ying.huang@linux.alibaba.com, jgg@ziepe.ca, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-cxl@vger.kernel.org, josef@toxicpanda.com
-References: <20261027-fixes_core-v1-32-6f74bec9a5bb@kernel.org>
- <20261027121307.40431-1-lance.yang@linux.dev>
- <87e3d64e-8b25-4d51-a984-7ab8a58f785d@kernel.org>
-Content-Language: en-US
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <87e3d64e-8b25-4d51-a984-7ab8a58f785d@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <70ef3172-9631-4e19-9b8e-4722427a5a83@app.fastmail.com>
 
-
-
-On 2026/10/28 03:41, David Hildenbrand (Arm) wrote:
->> LLM stumbled upon a possible race in kpage_read() ...
->>
->> Say the reader passes pfn_section_valid() for a device PFN in a section
->> shared with online RAM, gets preempted, and resumes after
->> pgmap_array_delete(). We'd then find no pgmap and return pfn_to_page(pfn),
->> even though the subsection is no longer valid ...
+On Tue, Oct 27, 2026 at 11:36:44AM -0400, Chuck Lever wrote:
 > 
-> I think that's similar to our pfn_to_online_page() vs. memory offlining races,
-> just slightly different. Getting these races down to 0 is pretty hard.
 > 
-> This patch here tries to do better and arguably almost looks like a cleanup.
-> 
-> I wouldn't worry about that one for now; it's extremely unlikely to hit. And it'
+> On Tue, Oct 27, 2026, at 10:31 AM, Jeff Layton wrote:
+> > On Sat, 2026-10-24 at 18:11 -0400, Mike Snitzer wrote:
+> >> Hi,
+> >> 
+> >> Please consider this v9 for the v7.5 development cycle, so that it can
+> >> go upstream in the v7.5 merge window.
+> >> 
+> >> An uncached (RWF_DONTCACHE) buffered write drops each page it writes
+> >> once that page is written back.  A page the write covers only partly is
+> >> shared with the neighbouring write.  Once the first of the two is
+> >> written back, the second reads the page back from disk before it writes
+> >> its part.  32 threads wrote interleaved records to one file on
+> >> XFS (emulated 4Kn NVMe, 4 KiB pages).  Before and after 4/6:
+> >> 
+> >>   record  pwritev2() flags          4 KiB device       MiB/s
+> >>   bytes                             reads per write
+> >>                                     before   after     before  after
+> >>   47008   RWF_DONTCACHE             0.97     0.0005    831     2281
+> >>   47008   RWF_DONTCACHE|RWF_DSYNC   0.99     0.0005    601     1227
+> >>   6000    RWF_DONTCACHE             0.97     0.0001    121      488
+> >>   6000    RWF_DONTCACHE|RWF_DSYNC   0.99     0.0002     90      206
+> >> 
+> >> What is left after is metadata.  49152-byte records cover only whole
+> >> pages, and they read 0.0005 per write either way.  The test program and
+> >> script that produced this table, and how to run them, are in:
+> >> https://lore.kernel.org/linux-nfs/atqJBS8MlYfeUU-t@kernel.org/
+> >> 
+> >> 4/6 has the page cache keep such a page for the write that completes
+> >> it.  5/6 lets a writer that syncs its own write complete those pages
+> >> itself once the sync is done.  NFSD does that for a stable WRITE.  6/6
+> >> is the NFSD change that uses it.  2/6 reports the DONTCACHE dirty count
+> >> in the bdi debugfs stats.  3/6 adds folio_mark_dropbehind(), which 4/6
+> >> and 5/6 use.
 
-Ack.
+<snip>
 
->>
->> Could we take the memory hotplug read lock in kpage_read(), covering both
->> the lookup and the metadata reads? We can drop it before put_user(), once
->> we're done with the page.
->>
->> Maybe along these lines?
->>
->> ---8<---
->> diff --git a/fs/proc/page.c b/fs/proc/page.c
->> index 6aa99e42ec22..12bed36d76dc 100644
->> --- a/fs/proc/page.c
->> +++ b/fs/proc/page.c
->> @@ -12,6 +12,7 @@
->>   #include <linux/hugetlb.h>
->>   #include <linux/memremap.h>
->>   #include <linux/memcontrol.h>
->> +#include <linux/memory_hotplug.h>
->>   #include <linux/mmu_notifier.h>
->>   #include <linux/page_idle.h>
->>   #include <linux/kernel-page-flags.h>
->> @@ -77,6 +78,8 @@ static ssize_t kpage_read(struct file *file, char __user *buf,
->>   	count = min_t(unsigned long, count, (max_dump_pfn * KPMSIZE) - src);
->>
->>   	while (count > 0) {
->> +		/* Prevent memory removal while inspecting the memmap. */
->> +		get_online_mems();
-> get_online_mems() is the big hammer we try to avoid (or ideally remove at some
-> point). And it's most pfn_to_online_page() users that are affected.
-> 
-> A seqcount in pfn_to_online_page() could detect concurrent pgmap removal and
-> retry from the start. But I'd rather delay something like that.
+> >
+> > This all looks good to me at this point. This is a mixed mm and nfsd
+> > set though. How do you envision this being merged?
+> >
+> > Reviewed-by: Jeff Layton <jlayton@kernel.org>
 
-Fair enough, let's leave it alone for now given how unlikely it is to hit :)
+Thanks for the review Jeff
 
-> Thanks for taking a look! (Can I convince you to review some of the THP fixes?
-> pleeeeaaasseee :) )
+> My recommendation was take all of this through the MM tree, since
+> the NFSD patch looks like the first consumer of the work, and it
+> depends on how the MM API is changed during review.
 
-Of coursssssssse! I'm already looking through the THP fixes :D
+Chuck, I agree, the mm changes would certainly do well to go through
+the mm tree.  But the 6/6 NFSD patch that makes use of the preceding
+mm dontcache interface changes requires 4 of the 6 prerequisite
+changes to NFSD DIRECT that have have staged in cel/nfsd-testing.
 
-Cheers, Lance
+So I think we might need a post-merge NFSD tree for 7.5 that applies
+the 6/6 NFSD change ontop of the changes that would land through mm.
 
+Willy, I would like to work with you (and others in mm if they are
+interested), Jeff and Chuck between now and April 2027 to see these
+changes accepted for the 7.5 merge window. And if that were to happen
+I cannot wait to celebrate with all of you at LSF/MM in Portugal!
+
+Thanks,
+Mike
