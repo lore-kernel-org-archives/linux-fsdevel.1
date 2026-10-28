@@ -1,60 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793205355;
-	b=Qt30DYn+MWHdEeGRn7QiJhOJnBzP23J3bs6PTtCXxObGBq9DJfcf9gQdAFT8HBubGJZ6
-	 vSEhkXwiy8XpZn6Kug6qBjoRtpXfyRbZ8k9mYadBKTGU60KB7nBxErg42JT8xRbV2E6gQ
-	 ox/R52us3H3Ka+eSFy0fxigCaBbUHd4kdbeaPR5YfTqxsqkjDHHYUvHG0e432aY1BfLQV
-	 +4fMsxjrhZf1N3db9FbakPauq+7PDozl4YBah93+mkWAtmXqicVR0DUaz9EFLLohYCbA2
-	 HXnt3VZ93nnFDN+Cwf/IeyF+GySCTaViHABTWhYDDCVlNllIgw4Wf2TcqNZBDrvB46w==
+	t=1793205362;
+	b=COWeDY+eqdGZznBHGmgM9QZvGygF9xu2fQua2S2Ey0Q6vT4ORYgusQd0cdScjKLBJhBI
+	 SM/AB5gp4fysSJg0GHxs5zk5pT+jHcZZTuqSoQlY7hDx/aS7y9oS3GkB8H8s6Nbp8dk1l
+	 wWBaCT1jQvqUYVHwoyFlQH/KqmFpSn3C53a8Eoj+UJ2+3ri3zQR853lLT/wXE3AXUClw0
+	 67DWw08HmObRYk1U02SDqd11K6oz8eGsHzcnFhRRHJ+lsULHAAzTOdgo3dqzFDQOFhA5H
+	 xjcFYTqaI7g/gUdxBw/UdYn7y4WHOmtAH3ICGHHJJP/E6nKR2412N25OF/6GtHNwHfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793205355;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793205362;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=n8PeXdEhWPR6AgDC3BvBAiTwIDriePvdbn2c8K267qA=;
-	b=4/X5wZTpQ9kUZ5/5XwJUtJ8Hf7Kj0CtFsQs/hQk8rTUsAO8SMRUzprcxsw779Acw/659
-	 NW1U+B8fhhPTABHCWLlDeTulHsh6RoO/+l8jCxPPDdNBwKrDCrwYeO+gZAycAPUX0Qu1Z
-	 d2bjCUL+DWGNqaGTRU7ODfqCyZ5Mg9qdgju1cc2V1c6VcSD7hTVpz8wajcJTgnA4qFSyB
-	 AR7JWJnc+sIFyEbw4KQS+pCp7LNQ3fRNIpJBPxzwgwsfDtPDlUNOVw/frmcuBhtZqHEkW
-	 rSCFencfQNf4/yLDkXni2HlTE1L2jSdzi2yQIik0sau3KoSKxkKLOXmda4DAxR6Mn2w==
+	bh=NCNRMJdhDMzO/2sWjC7Y+PROteYUpLgqhNZyUBTIsCU=;
+	b=XllQAwqtMvjjZqpAULkdRnhOxCttwgY8kHSAkvIgwcgUsfGoisZY7e65SBwQDvpRf0fF
+	 oNxZOthA+iLYh9uw7cJ8Da7WUQWSHvTqDL82oq8nj40jGgRS/mMySK6RW8ucl6WQKEP6I
+	 ckknme40e0ncDuTQLYsMbfGE409aBL9hthWGSMirkTTs+m+7/0Ot9+99a8oFJdYT5Ofjx
+	 8FK8XbGGccsZIVuLaYx+HDcdSvQtn4WjahJjHYb2h3Ox3s9/HFI1S5JqdgcaTtmvI/sch
+	 AF1JttxAgpqE7DdcPvYsX+gm2f9u1ofgP5ASSdXl0fL0CSqKpxVeyv3vfFSnFy+aVHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CBQIASOo;
-	arc=none smtp.remote-ip=91.218.175.9
-Received: from mta0.migadu.com (out-9.mta0.migadu.com [91.218.175.9])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=xnP1YPcx;
+	arc=none smtp.remote-ip=91.218.175.12
+Received: from mta0.migadu.com (out-12.mta0.migadu.com [91.218.175.12])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0BBD606A31C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:35:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0BBD606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFCF606A31D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:36:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FFCF606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CBQIASOo
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=xnP1YPcx
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Xn8u4NoMeCpwqoMOOFKTZP+Jzb9Y9Krdo38jdUVl20U=;
+DKIM-Signature: a=rsa-sha256; bh=6Tu6gJPae9yI90JWFk+EVAW0ZpaoXiDj6r6Ej6+/foI=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793205351; v=1; x=1793810151;
- b=CBQIASOoifVtKO4oqtiUn3+BlvcnYV4ZxJD6/mnHqdWV5lgy1/wMKnDNGjp/1/kMXHIS0OMx
- W2Z2GM49pCOYTwUZo5O0ctwUQY1nygokq1kQoHifNLCal6pQ+G817F0xEhEgFu2YoWUylh3CDH3
- 0hj0oHs+h3ZaYRtVBxZbK3yY=
+ t=1793205359; v=1; x=1793810159;
+ b=xnP1YPcx++Sah8GT6R16n2hB5rD01gl0GLdLEYvcuI6LcDDWKbiXF1bjBkCRYSJOBlG9MJQ2
+ tzApGOx0F3HZxBD54x+Wvj6zmcshMZmZsWHecBVPKqV0epv9jQ9mzHDaCzdR47qY3277HakZkv1
+ i4Ag0axZCuSfzZEeiFXshkTQ=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id d1ed82421b33130e;
-	Wed, 28 Oct 2026 16:35:51 +0000
-X-Mizu-Trace-ID: d1ed82421b33130e
+Received: by mta11.migadu.com with ESMTPS id cf995e9684743ee7;
+	Wed, 28 Oct 2026 16:35:59 +0000
+X-Mizu-Trace-ID: cf995e9684743ee7
 X-Migadu-Flow: FLOW_OUT
 From: wen.yang@linux.dev
 To: Joel Granados <joel.granados@kernel.org>
 Cc: Wen Yang <wen.yang@linux.dev>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 03/39] sysctl: add KUnit coverage for numeric bounds and handlers
-Date: Thu, 29 Oct 2026 00:34:42 +0800
-Message-Id: <3f6be87a6685418f170b6713c1759a9c16573871.1793204511.git.wen.yang@linux.dev>
+Subject: [RFC PATCH 04/39] sysctl: cover runtime ranges and context lifecycles in KUnit
+Date: Thu, 29 Oct 2026 00:34:43 +0800
+Message-Id: <49c0671b9ace2b1d1bbd8c7c602f29694a861b19.1793204511.git.wen.yang@linux.dev>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1793204511.git.wen.yang@linux.dev>
 References: <cover.1793204511.git.wen.yang@linux.dev>
@@ -71,802 +71,745 @@ Content-Transfer-Encoding: 8bit
 
 From: Wen Yang <wen.yang@linux.dev>
 
-Give numeric bounds and the handlers that consume them executable
-coverage: full type ranges, one-sided and zero bounds, entries without
-backing storage, explicit handlers for arrays and members, and rejection
-of writes that would partially commit.
+Exercise per-call refresh for scalar and jiffies range families,
+including bounds reached through runtime pointers and sibling sysctls.
+Verify typed object context, owner derivation and bool handling.
 
-The test file uses a small set of local constructor macros so the cases
-stay readable. They are private to the test, not a kernel API, and have
-no production users.
+Simulate per-net table duplication through register_net_sysctl_sz():
+independent contexts, registration failure, and unregister/re-register
+with a replacement context. Add a registered-entry harness demo that
+finds an entry in a registered table and invokes its proc_handler, so
+static handlers can be tested without copying their implementation.
+Also cover generic registration and invalid numeric bounds.
 
-Suggested-by: Joel Granados <joel.granados@kernel.org>
+The KUnit module references both millisecond-jiffies range handlers, so
+export the signed one alongside its unsigned long sibling.
+
 Signed-off-by: Wen Yang <wen.yang@linux.dev>
 ---
- kernel/sysctl-test.c | 634 ++++++++++++++++++++++++++++++++++---------
- 1 file changed, 504 insertions(+), 130 deletions(-)
+ kernel/sysctl-test.c  | 651 ++++++++++++++++++++++++++++++++++++++++++
+ kernel/time/jiffies.c |   1 +
+ 2 files changed, 652 insertions(+)
 
 diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
-index 92f94ea28957..f18ec901443f 100644
+index f18ec901443f..dd658ca18793 100644
 --- a/kernel/sysctl-test.c
 +++ b/kernel/sysctl-test.c
-@@ -4,39 +4,146 @@
-  */
+@@ -682,6 +682,18 @@ static void sysctl_test_entry_unsigned_arrays_rejected(struct kunit *test)
  
- #include <kunit/test.h>
-+#include <linux/jiffies.h>
-+#include <linux/limits.h>
- #include <linux/sysctl.h>
-+#if IS_ENABLED(CONFIG_NET)
-+#include <net/net_namespace.h>
-+#endif
-+
-+/*
-+ * Constructors for test entries. They are local to this file: they are not
-+ * a kernel API and have no production users.
-+ */
-+
-+/*
-+ * Local constructors for test entries: variable-first, with the suffix
-+ * letters spelling out the arguments. They are not a kernel API.
-+ */#define __CTLTBL_ENTRY_INIT(DATA, NAME, MODE, HANDLER, MIN, MAX, MAXLEN) \
-+	{ \
-+		.procname	= "" NAME "", \
-+		.data		= (DATA), \
-+		.maxlen		= (MAXLEN), \
-+		.mode		= (MODE), \
-+		.proc_handler	= (HANDLER), \
-+		.poll		= NULL, \
-+		.min		= (MIN), \
-+		.max		= (MAX), \
-+		.priv		= NULL, \
-+	}
-+
-+#define __CTLTBL_ENTRY(VAR, NAME, MODE, HANDLER, MIN, MAX, MAXLEN) \
-+	__CTLTBL_ENTRY_INIT(&(VAR), NAME, MODE, HANDLER, MIN, MAX, MAXLEN)
-+
-+/* No default association: unsupported automatic types fail to compile. */
-+#define __CTLTBL_AUTO_HANDLER(VAR) \
-+	_Generic((VAR), \
-+		 signed int: proc_dointvec, \
-+		 unsigned int: proc_douintvec, \
-+		 unsigned long: proc_doulongvec_minmax)
-+
-+#define __CTLTBL_AUTO_HANDLER_MINMAX(VAR) \
-+	_Generic((VAR), \
-+		 signed int: proc_dointvec_minmax, \
-+		 unsigned int: proc_douintvec_minmax, \
-+		 unsigned long: proc_doulongvec_minmax)
-+
-+/* Bounds do not evaluate VAR, including in explicit-handler forms. */
-+#define __CTLTBL_MIN(VAR) \
-+	_Generic((VAR), signed int: INT_MIN, default : 0)
-+
-+#define __CTLTBL_MAX(VAR) \
-+	_Generic((VAR), signed int: INT_MAX, unsigned int: UINT_MAX, \
-+		 unsigned long: ULONG_MAX, default : ULONG_MAX)
-+
-+#define CTLTBL_ENTRY_V(VAR) \
-+	__CTLTBL_ENTRY(VAR, #VAR, 0444, __CTLTBL_AUTO_HANDLER(VAR), \
-+		       __CTLTBL_MIN(VAR), __CTLTBL_MAX(VAR), sizeof(VAR))
-+
-+#define CTLTBL_ENTRY_VN(VAR, NAME) \
-+	__CTLTBL_ENTRY(VAR, NAME, 0444, __CTLTBL_AUTO_HANDLER(VAR), \
-+		       __CTLTBL_MIN(VAR), __CTLTBL_MAX(VAR), sizeof(VAR))
-+
-+#define CTLTBL_ENTRY_VNM(VAR, NAME, MODE) \
-+	__CTLTBL_ENTRY(VAR, NAME, MODE, __CTLTBL_AUTO_HANDLER(VAR), \
-+		       __CTLTBL_MIN(VAR), __CTLTBL_MAX(VAR), sizeof(VAR))
-+
-+#define CTLTBL_ENTRY_VNMH(VAR, NAME, MODE, HANDLER) \
-+	__CTLTBL_ENTRY(VAR, NAME, MODE, HANDLER, \
-+		       __CTLTBL_MIN(VAR), __CTLTBL_MAX(VAR), sizeof(VAR))
-+
-+#define CTLTBL_ENTRY_VNMR(VAR, NAME, MODE, MIN, MAX) \
-+	__CTLTBL_ENTRY(VAR, NAME, MODE, __CTLTBL_AUTO_HANDLER_MINMAX(VAR), \
-+		       MIN, MAX, sizeof(VAR))
-+
-+#define CTLTBL_ENTRY_VNMHR(VAR, NAME, MODE, HANDLER, MIN, MAX) \
-+	__CTLTBL_ENTRY(VAR, NAME, MODE, HANDLER, MIN, MAX, sizeof(VAR))
-+
-+#define CTLTBL_ENTRY_VNMHRL(VAR, NAME, MODE, HANDLER, MIN, MAX, MAXLEN) \
-+	__CTLTBL_ENTRY(VAR, NAME, MODE, HANDLER, MIN, MAX, MAXLEN)
-+
-+#define CTLTBL_ENTRY_NH(NAME, HANDLER) \
-+	__CTLTBL_ENTRY_INIT(NULL, NAME, 0444, HANDLER, 0, ULONG_MAX, 0)
-+
-+#define CTLTBL_ENTRY_NMH(NAME, MODE, HANDLER) \
-+	__CTLTBL_ENTRY_INIT(NULL, NAME, MODE, HANDLER, 0, ULONG_MAX, 0)
-+
-+#define CTLTBL_ENTRY_NMHL(NAME, MODE, HANDLER, MAXLEN) \
-+	__CTLTBL_ENTRY_INIT(NULL, NAME, MODE, HANDLER, 0, ULONG_MAX, MAXLEN)
-+
-+#define CTLTBL_ENTRY_NMHRL(NAME, MODE, HANDLER, MIN, MAX, MAXLEN) \
-+	__CTLTBL_ENTRY_INIT(NULL, NAME, MODE, HANDLER, MIN, MAX, MAXLEN)
-+
- 
- #define KUNIT_PROC_READ 0
- #define KUNIT_PROC_WRITE 1
- 
-+/*
-+ * Test entries that carry handler context: data stays the real value storage
-+ * and priv references the context object, as production handlers do.
-+ */
-+#define SYSCTL_TEST_CTX(VALUE, NAME, MODE, HANDLER, CTX) \
-+	{ \
-+		.procname	= (NAME), \
-+		.data		= &(VALUE), \
-+		.maxlen		= sizeof(VALUE), \
-+		.mode		= (MODE), \
-+		.proc_handler	= (HANDLER), \
-+		.min		= 0, \
-+		.max		= ULONG_MAX, \
-+		.priv		= &(CTX), \
-+	}
-+
-+#define SYSCTL_TEST_CTX_NODATA(NAME, MODE, HANDLER, CTX) \
-+	{ \
-+		.procname	= (NAME), \
-+		.maxlen		= sizeof(int), \
-+		.mode		= (MODE), \
-+		.proc_handler	= (HANDLER), \
-+		.min		= 0, \
-+		.max		= ULONG_MAX, \
-+		.priv		= &(CTX), \
-+	}
-+
- /*
-  * Test that proc_dointvec will not try to use a NULL .data field even when the
-  * length is non-zero.
-  */
- static void sysctl_test_api_dointvec_null_tbl_data(struct kunit *test)
- {
--	struct ctl_table null_data_table = {
--		.procname = "foo",
--		/*
--		 * Here we are testing that proc_dointvec behaves correctly when
--		 * we give it a NULL .data field. Normally this would point to a
--		 * piece of memory where the value would be stored.
--		 */
--		.data		= NULL,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
--		.extra1		= SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE_HUNDRED,
--	};
- 	/*
--	 * proc_dointvec expects a buffer in user space, so we allocate one. We
--	 * also need to cast it to __user so sparse doesn't get mad.
-+	 * Here we are testing that proc_dointvec behaves correctly when
-+	 * we give it a NULL .data field. Normally this would point to a
-+	 * piece of memory where the value would be stored.
- 	 */
--	void __user *buffer = (void __user *)kunit_kzalloc(test, sizeof(int),
--							   GFP_USER);
-+	const struct ctl_table null_data_table = CTLTBL_ENTRY_NMHRL("foo", 0644,
-+			proc_dointvec, 0, 100, sizeof(int));
-+	/*
-+	 * proc handlers consume kernel buffers; no userspace access is needed.
-+	 */
-+	void *buffer = kunit_kzalloc(test, sizeof(int), GFP_KERNEL);
- 	size_t len;
--	loff_t pos;
-+	loff_t pos = 0;
- 
- 	/*
- 	 * We don't care what the starting length is since proc_dointvec should
-@@ -66,23 +173,16 @@ static void sysctl_test_api_dointvec_null_tbl_data(struct kunit *test)
- static void sysctl_test_api_dointvec_table_maxlen_unset(struct kunit *test)
- {
- 	int data = 0;
--	struct ctl_table data_maxlen_unset_table = {
--		.procname = "foo",
--		.data		= &data,
--		/*
--		 * So .data is no longer NULL, but we tell proc_dointvec its
--		 * length is 0, so it still shouldn't try to use it.
--		 */
--		.maxlen		= 0,
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
--		.extra1		= SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE_HUNDRED,
--	};
--	void __user *buffer = (void __user *)kunit_kzalloc(test, sizeof(int),
--							   GFP_USER);
-+	/*
-+	 * So .data is no longer NULL, but we tell proc_dointvec its
-+	 * length is 0, so it still shouldn't try to use it.
-+	 */
-+	const struct ctl_table data_maxlen_unset_table = CTLTBL_ENTRY_VNMHRL(data,
-+			"foo", 0644, proc_dointvec, 0, 100,
-+			0);
-+	void *buffer = kunit_kzalloc(test, sizeof(int), GFP_KERNEL);
- 	size_t len;
--	loff_t pos;
-+	loff_t pos = 0;
- 
- 	/*
- 	 * As before, we don't care what buffer length is because proc_dointvec
-@@ -113,22 +213,14 @@ static void sysctl_test_api_dointvec_table_len_is_zero(struct kunit *test)
- {
- 	int data = 0;
- 	/* Good table. */
--	struct ctl_table table = {
--		.procname = "foo",
--		.data		= &data,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
--		.extra1		= SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE_HUNDRED,
--	};
--	void __user *buffer = (void __user *)kunit_kzalloc(test, sizeof(int),
--							   GFP_USER);
-+	const struct ctl_table table = CTLTBL_ENTRY_VNMHR(data, "foo", 0644,
-+			proc_dointvec, 0, 100);
-+	void *buffer = kunit_kzalloc(test, sizeof(int), GFP_KERNEL);
- 	/*
- 	 * However, now our read/write buffer has zero length.
- 	 */
- 	size_t len = 0;
--	loff_t pos;
-+	loff_t pos = 0;
- 
- 	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, KUNIT_PROC_READ, buffer,
- 					       &len, &pos));
-@@ -147,17 +239,9 @@ static void sysctl_test_api_dointvec_table_read_but_position_set(
- {
- 	int data = 0;
- 	/* Good table. */
--	struct ctl_table table = {
--		.procname = "foo",
--		.data		= &data,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
--		.extra1		= SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE_HUNDRED,
--	};
--	void __user *buffer = (void __user *)kunit_kzalloc(test, sizeof(int),
--							   GFP_USER);
-+	const struct ctl_table table = CTLTBL_ENTRY_VNMHR(data, "foo", 0644,
-+			proc_dointvec, 0, 100);
-+	void *buffer = kunit_kzalloc(test, sizeof(int), GFP_KERNEL);
- 	/*
- 	 * We don't care about our buffer length because we start off with a
- 	 * non-zero file position.
-@@ -182,24 +266,16 @@ static void sysctl_test_dointvec_read_happy_single_positive(struct kunit *test)
- {
- 	int data = 0;
- 	/* Good table. */
--	struct ctl_table table = {
--		.procname = "foo",
--		.data		= &data,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
--		.extra1		= SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE_HUNDRED,
--	};
-+	const struct ctl_table table = CTLTBL_ENTRY_VNMHR(data, "foo", 0644,
-+			proc_dointvec, 0, 100);
- 	size_t len = 4;
- 	loff_t pos = 0;
--	char *buffer = kunit_kzalloc(test, len, GFP_USER);
--	char __user *user_buffer = (char __user *)buffer;
-+	char *buffer = kunit_kzalloc(test, len, GFP_KERNEL);
- 	/* Store 13 in the data field. */
- 	*((int *)table.data) = 13;
- 
- 	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, KUNIT_PROC_READ,
--					       user_buffer, &len, &pos));
-+					       buffer, &len, &pos));
- 	KUNIT_ASSERT_EQ(test, 3, len);
- 	buffer[len] = '\0';
- 	/* And we read 13 back out. */
-@@ -213,23 +289,15 @@ static void sysctl_test_dointvec_read_happy_single_negative(struct kunit *test)
- {
- 	int data = 0;
- 	/* Good table. */
--	struct ctl_table table = {
--		.procname = "foo",
--		.data		= &data,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
--		.extra1		= SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE_HUNDRED,
--	};
-+	const struct ctl_table table = CTLTBL_ENTRY_VNMHR(data, "foo", 0644,
-+			proc_dointvec, 0, 100);
- 	size_t len = 5;
- 	loff_t pos = 0;
--	char *buffer = kunit_kzalloc(test, len, GFP_USER);
--	char __user *user_buffer = (char __user *)buffer;
-+	char *buffer = kunit_kzalloc(test, len, GFP_KERNEL);
- 	*((int *)table.data) = -16;
- 
- 	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, KUNIT_PROC_READ,
--					       user_buffer, &len, &pos));
-+					       buffer, &len, &pos));
- 	KUNIT_ASSERT_EQ(test, 4, len);
- 	buffer[len] = '\0';
- 	KUNIT_EXPECT_STREQ(test, "-16\n", buffer);
-@@ -242,25 +310,17 @@ static void sysctl_test_dointvec_write_happy_single_positive(struct kunit *test)
- {
- 	int data = 0;
- 	/* Good table. */
--	struct ctl_table table = {
--		.procname = "foo",
--		.data		= &data,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
--		.extra1		= SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE_HUNDRED,
--	};
-+	const struct ctl_table table = CTLTBL_ENTRY_VNMHR(data, "foo", 0644,
-+			proc_dointvec, 0, 100);
- 	char input[] = "9";
- 	size_t len = sizeof(input) - 1;
- 	loff_t pos = 0;
--	char *buffer = kunit_kzalloc(test, len, GFP_USER);
--	char __user *user_buffer = (char __user *)buffer;
-+	char *buffer = kunit_kzalloc(test, len, GFP_KERNEL);
- 
- 	memcpy(buffer, input, len);
- 
- 	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, KUNIT_PROC_WRITE,
--					       user_buffer, &len, &pos));
-+					       buffer, &len, &pos));
- 	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
- 	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
- 	KUNIT_EXPECT_EQ(test, 9, *((int *)table.data));
-@@ -272,25 +332,17 @@ static void sysctl_test_dointvec_write_happy_single_positive(struct kunit *test)
- static void sysctl_test_dointvec_write_happy_single_negative(struct kunit *test)
- {
- 	int data = 0;
--	struct ctl_table table = {
--		.procname = "foo",
--		.data		= &data,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
--		.extra1		= SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE_HUNDRED,
--	};
-+	const struct ctl_table table = CTLTBL_ENTRY_VNMHR(data, "foo", 0644,
-+			proc_dointvec, 0, 100);
- 	char input[] = "-9";
- 	size_t len = sizeof(input) - 1;
- 	loff_t pos = 0;
--	char *buffer = kunit_kzalloc(test, len, GFP_USER);
--	char __user *user_buffer = (char __user *)buffer;
-+	char *buffer = kunit_kzalloc(test, len, GFP_KERNEL);
- 
- 	memcpy(buffer, input, len);
- 
- 	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, KUNIT_PROC_WRITE,
--					       user_buffer, &len, &pos));
-+					       buffer, &len, &pos));
- 	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
- 	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
- 	KUNIT_EXPECT_EQ(test, -9, *((int *)table.data));
-@@ -304,19 +356,11 @@ static void sysctl_test_api_dointvec_write_single_less_int_min(
- 		struct kunit *test)
- {
- 	int data = 0;
--	struct ctl_table table = {
--		.procname = "foo",
--		.data		= &data,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
--		.extra1		= SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE_HUNDRED,
--	};
-+	const struct ctl_table table = CTLTBL_ENTRY_VNMHR(data, "foo", 0644,
-+			proc_dointvec, 0, 100);
- 	size_t max_len = 32, len = max_len;
- 	loff_t pos = 0;
--	char *buffer = kunit_kzalloc(test, max_len, GFP_USER);
--	char __user *user_buffer = (char __user *)buffer;
-+	char *buffer = kunit_kzalloc(test, max_len, GFP_KERNEL);
- 	unsigned long abs_of_less_than_min = (unsigned long)INT_MAX
- 					     - (INT_MAX + INT_MIN) + 1;
- 
-@@ -330,7 +374,7 @@ static void sysctl_test_api_dointvec_write_single_less_int_min(
- 			max_len);
- 
- 	KUNIT_EXPECT_EQ(test, -EINVAL, proc_dointvec(&table, KUNIT_PROC_WRITE,
--						     user_buffer, &len, &pos));
-+						     buffer, &len, &pos));
- 	KUNIT_EXPECT_EQ(test, max_len, len);
- 	KUNIT_EXPECT_EQ(test, 0, *((int *)table.data));
- }
-@@ -342,19 +386,11 @@ static void sysctl_test_api_dointvec_write_single_greater_int_max(
- 		struct kunit *test)
- {
- 	int data = 0;
--	struct ctl_table table = {
--		.procname = "foo",
--		.data		= &data,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
--		.extra1		= SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE_HUNDRED,
--	};
-+	const struct ctl_table table = CTLTBL_ENTRY_VNMHR(data, "foo", 0644,
-+			proc_dointvec, 0, 100);
- 	size_t max_len = 32, len = max_len;
- 	loff_t pos = 0;
--	char *buffer = kunit_kzalloc(test, max_len, GFP_USER);
--	char __user *user_buffer = (char __user *)buffer;
-+	char *buffer = kunit_kzalloc(test, max_len, GFP_KERNEL);
- 	unsigned long greater_than_max = (unsigned long)INT_MAX + 1;
- 
- 	KUNIT_ASSERT_GT(test, greater_than_max, (unsigned long)INT_MAX);
-@@ -362,11 +398,340 @@ static void sysctl_test_api_dointvec_write_single_greater_int_max(
- 					       greater_than_max),
- 			max_len);
- 	KUNIT_EXPECT_EQ(test, -EINVAL, proc_dointvec(&table, KUNIT_PROC_WRITE,
--						     user_buffer, &len, &pos));
-+						     buffer, &len, &pos));
- 	KUNIT_ASSERT_EQ(test, max_len, len);
- 	KUNIT_EXPECT_EQ(test, 0, *((int *)table.data));
- }
- 
-+/*
-+ * priv is separate from data and is never interpreted by the core. Macro
-+ * entries leave it NULL; a custom entry can attach typed context without
-+ * displacing the value storage that standard handlers use.
-+ */
-+/* Invoke the selected handler directly, with kernel buffers and a fresh position. */
-+static void sysctl_test_entry_roundtrip(struct kunit *test,
-+					const struct ctl_table *table, const char *input)
+ /* Each wrapper reads the related bound anew and resolves data in a local copy. */
+ /* Context handlers resolve real storage on a local table; data is not a value. */
++static int sysctl_test_entry_write(struct kunit *test, const struct ctl_table *table,
++				   const char *input)
 +{
-+	char expected[32];
-+	char *buffer = kunit_kzalloc(test, sizeof(expected), GFP_KERNEL);
-+	size_t len = strlen(input);
-+	loff_t pos = 0;
-+
-+	KUNIT_ASSERT_NOT_NULL(test, buffer);
-+	KUNIT_ASSERT_LT(test, len, sizeof(expected) - 1);
-+	memcpy(buffer, input, len);
-+	KUNIT_ASSERT_EQ(test, table->proc_handler(table, KUNIT_PROC_WRITE,
-+						  buffer, &len, &pos), 0);
-+	KUNIT_EXPECT_EQ(test, len, strlen(input));
-+	KUNIT_EXPECT_EQ(test, pos, strlen(input));
-+
-+	snprintf(expected, sizeof(expected), "%s\n", input);
-+	memset(buffer, 0, sizeof(expected));
-+	len = sizeof(expected) - 1;
-+	pos = 0;
-+	KUNIT_ASSERT_EQ(test, table->proc_handler(table, KUNIT_PROC_READ,
-+						  buffer, &len, &pos), 0);
-+	KUNIT_ASSERT_LT(test, len, sizeof(expected));
-+	buffer[len] = '\0';
-+	KUNIT_EXPECT_EQ(test, len, strlen(expected));
-+	KUNIT_EXPECT_STREQ(test, buffer, expected);
-+}
-+
-+static int sysctl_test_owned_data;
-+
-+static int sysctl_test_owned_handler(const struct ctl_table *table, int dir,
-+				     void *buffer, size_t *lenp, loff_t *ppos)
-+{
-+	struct ctl_table resolved = *table;
-+
-+	resolved.data = &sysctl_test_owned_data;
-+	resolved.maxlen = sizeof(sysctl_test_owned_data);
-+	return proc_dointvec(&resolved, dir, buffer, lenp, ppos);
-+}
-+
-+static void sysctl_test_entry_null_handler(struct kunit *test)
-+{
-+	const struct ctl_table table = CTLTBL_ENTRY_NH("owned", sysctl_test_owned_handler);
-+
-+	sysctl_test_owned_data = 0;
-+	KUNIT_EXPECT_PTR_EQ(test, table.data, NULL);
-+	KUNIT_EXPECT_EQ(test, table.maxlen, 0);
-+	KUNIT_EXPECT_EQ(test, table.mode, 0444);
-+	KUNIT_EXPECT_EQ(test, table.min, 0UL);
-+	KUNIT_EXPECT_EQ(test, table.max, ULONG_MAX);
-+	sysctl_test_entry_roundtrip(test, &table, "31");
-+	KUNIT_EXPECT_EQ(test, sysctl_test_owned_data, 31);
-+	sysctl_test_owned_data = 0;
-+}
-+
-+static struct {
-+	int vector[2];
-+	int member;
-+	char string[8];
-+} sysctl_test_static_data;
-+
-+/* Both automatic and explicit-handler forms must allow static initializers. */
-+static const struct ctl_table sysctl_test_static_entries[] = {
-+	CTLTBL_ENTRY_VNMH(sysctl_test_static_data.vector, "vector", 0644, proc_dointvec),
-+	CTLTBL_ENTRY_VNMH(sysctl_test_static_data.member, "member", 0644, proc_dointvec_minmax),
-+	CTLTBL_ENTRY_VNMH(sysctl_test_static_data.string, "string", 0644, proc_dostring),
-+	CTLTBL_ENTRY_VNMHRL(sysctl_test_static_data.vector, "first", 0644,
-+			    proc_dointvec, INT_MIN, INT_MAX, sizeof(int)),
-+	CTLTBL_ENTRY_VNM(sysctl_test_static_data.member, "automatic", 0644),
-+};
-+
-+static void sysctl_test_entry_explicit_handler(struct kunit *test)
-+{
-+	const struct ctl_table *entries = sysctl_test_static_entries;
-+
-+	memset(&sysctl_test_static_data, 0, sizeof(sysctl_test_static_data));
-+	KUNIT_EXPECT_PTR_EQ(test, entries[0].data, &sysctl_test_static_data.vector);
-+	KUNIT_EXPECT_EQ(test, entries[0].maxlen, sizeof(sysctl_test_static_data.vector));
-+	KUNIT_EXPECT_PTR_EQ(test, entries[1].data, &sysctl_test_static_data.member);
-+	KUNIT_EXPECT_EQ(test, entries[1].maxlen, sizeof(sysctl_test_static_data.member));
-+	KUNIT_EXPECT_TRUE(test, entries[1].proc_handler == proc_dointvec_minmax);
-+	KUNIT_EXPECT_PTR_EQ(test, entries[2].data, &sysctl_test_static_data.string);
-+	KUNIT_EXPECT_EQ(test, entries[2].maxlen, sizeof(sysctl_test_static_data.string));
-+	KUNIT_EXPECT_TRUE(test, entries[2].proc_handler == proc_dostring);
-+	KUNIT_EXPECT_EQ(test, entries[3].maxlen, sizeof(int));
-+	KUNIT_EXPECT_TRUE(test, entries[4].proc_handler == proc_dointvec);
-+	KUNIT_EXPECT_EQ(test, entries[0].min, 0UL);
-+	KUNIT_EXPECT_EQ(test, entries[0].max, ULONG_MAX);
-+	KUNIT_EXPECT_EQ(test, entries[1].min, (unsigned long)INT_MIN);
-+	KUNIT_EXPECT_EQ(test, entries[1].max, (unsigned long)INT_MAX);
-+	KUNIT_EXPECT_EQ(test, entries[2].min, 0UL);
-+	KUNIT_EXPECT_EQ(test, entries[2].max, ULONG_MAX);
-+	KUNIT_EXPECT_EQ(test, entries[3].min, (unsigned long)INT_MIN);
-+	KUNIT_EXPECT_EQ(test, entries[3].max, (unsigned long)INT_MAX);
-+
-+	sysctl_test_entry_roundtrip(test, &entries[0], "7\t8");
-+	KUNIT_EXPECT_EQ(test, sysctl_test_static_data.vector[0], 7);
-+	KUNIT_EXPECT_EQ(test, sysctl_test_static_data.vector[1], 8);
-+	sysctl_test_entry_roundtrip(test, &entries[1], "-9");
-+	KUNIT_EXPECT_EQ(test, sysctl_test_static_data.member, -9);
-+	sysctl_test_entry_roundtrip(test, &entries[2], "hello");
-+	KUNIT_EXPECT_STREQ(test, sysctl_test_static_data.string, "hello");
-+	/* An explicit length limits the write without changing sizeof(vector). */
-+	sysctl_test_entry_roundtrip(test, &entries[3], "11");
-+	KUNIT_EXPECT_EQ(test, sysctl_test_static_data.vector[0], 11);
-+	KUNIT_EXPECT_EQ(test, sysctl_test_static_data.vector[1], 8);
-+	sysctl_test_entry_roundtrip(test, &entries[4], "-16");
-+	KUNIT_EXPECT_EQ(test, sysctl_test_static_data.member, -16);
-+}
-+
-+/* A rejected write must not change any byte of the backing storage. */
-+static void sysctl_test_entry_reject(struct kunit *test,
-+				     const struct ctl_table *table, const char *input)
-+{
-+	void *saved = kunit_kmalloc(test, table->maxlen, GFP_KERNEL);
 +	char *buffer = kunit_kstrdup(test, input, GFP_KERNEL);
 +	size_t len = strlen(input);
 +	loff_t pos = 0;
 +
-+	KUNIT_ASSERT_NOT_NULL(test, saved);
-+	KUNIT_ASSERT_NOT_NULL(test, buffer);
-+	memcpy(saved, table->data, table->maxlen);
-+	KUNIT_EXPECT_EQ(test, table->proc_handler(table, KUNIT_PROC_WRITE,
-+						  buffer, &len, &pos), -EINVAL);
-+	KUNIT_EXPECT_MEMEQ(test, table->data, saved, table->maxlen);
++	if (!buffer)
++		return -ENOMEM;
++	return table->proc_handler(table, KUNIT_PROC_WRITE, buffer, &len, &pos);
 +}
 +
-+/* Entries are full-range, lower-only, upper-only and explicitly zero-only. */
-+static void sysctl_test_entry_range_limits(struct kunit *test,
-+					   const struct ctl_table *entries,
-+					   const char *minimum, const char *maximum,
-+					   const char *underflow, const char *overflow)
-+{
-+	sysctl_test_entry_roundtrip(test, &entries[0], minimum);
-+	sysctl_test_entry_roundtrip(test, &entries[0], maximum);
-+	sysctl_test_entry_reject(test, &entries[0], underflow);
-+	sysctl_test_entry_reject(test, &entries[0], overflow);
+ /*
+  * Standard handlers only touch data and maxlen. Attaching priv to such an
+  * entry must not change what is stored, so a stray context pointer cannot
+@@ -701,22 +713,464 @@ static void sysctl_test_entry_unsigned_arrays_rejected(struct kunit *test)
+  * generic wrappers model the delegation pattern used by scheduler, IPC,
+  * fragment, namespace and jiffies sysctls.
+  */
++struct sysctl_test_dynamic {
++	union {
++		int i;
++		unsigned int u;
++		unsigned long l;
++		u8 b;
++	} value;
++	unsigned long min, max;
++	unsigned int calls;
++	proc_handler *handler;
++};
 +
++static int sysctl_test_dynamic_handler(const struct ctl_table *table, int dir,
++				       void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct sysctl_test_dynamic *ctx = table->priv;
++	struct ctl_table resolved = *table;
++
++	ctx->calls++;
++	resolved.data = &ctx->value;
++	resolved.maxlen = ctx->handler == proc_doulongvec_minmax ?
++			  sizeof(ctx->value.l) :
++			  ctx->handler == proc_dou8vec_minmax ? sizeof(ctx->value.b) :
++			  sizeof(ctx->value.i);
++	resolved.min = ctx->min;
++	resolved.max = ctx->max;
++	return ctx->handler(&resolved, dir, buffer, lenp, ppos);
++}
++
++static unsigned long sysctl_test_dynamic_read(const struct sysctl_test_dynamic *ctx)
++{
++	if (ctx->handler == proc_doulongvec_minmax)
++		return ctx->value.l;
++	if (ctx->handler == proc_douintvec_minmax)
++		return ctx->value.u;
++	if (ctx->handler == proc_dou8vec_minmax)
++		return ctx->value.b;
++	return (unsigned long)(long)ctx->value.i;
++}
++
++static void sysctl_test_dynamic_range(struct kunit *test)
++{
++	static proc_handler *const handlers[] = {
++		proc_dointvec_minmax, proc_douintvec_minmax,
++		proc_doulongvec_minmax, proc_dou8vec_minmax,
++	};
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(handlers); i++) {
++		struct sysctl_test_dynamic ctx = { .min = 2, .max = 4,
++						   .handler = handlers[i] };
++		const struct ctl_table table = SYSCTL_TEST_CTX_NODATA("dynamic",
++								     0644,
++								     sysctl_test_dynamic_handler,
++								     ctx);
++		sysctl_test_entry_roundtrip(test, &table, "4");
++		KUNIT_EXPECT_EQ(test, sysctl_test_dynamic_read(&ctx), 4UL);
++		KUNIT_EXPECT_GT(test, ctx.calls, 0U);
++
++		ctx.max = 2;
++		KUNIT_EXPECT_EQ(test, -EINVAL, sysctl_test_entry_write(test, &table, "3"));
++		KUNIT_EXPECT_EQ(test, sysctl_test_dynamic_read(&ctx), 4UL);
++
++		ctx.min = 3;
++		ctx.max = 4;
++		sysctl_test_entry_roundtrip(test, &table, "3");
++		KUNIT_EXPECT_EQ(test, sysctl_test_dynamic_read(&ctx), 3UL);
++		KUNIT_EXPECT_EQ(test, -EINVAL, sysctl_test_entry_write(test, &table, "2"));
++
++		ctx.min = 2;
++		ctx.max = 8;
++		sysctl_test_entry_roundtrip(test, &table, "8");
++		KUNIT_EXPECT_EQ(test, sysctl_test_dynamic_read(&ctx), 8UL);
++		KUNIT_EXPECT_GT(test, ctx.calls, 0U);
++		KUNIT_EXPECT_PTR_EQ(test, table.priv, &ctx);
++		KUNIT_EXPECT_EQ(test, table.min, 0UL);
++		KUNIT_EXPECT_EQ(test, table.max, ULONG_MAX);
++	}
++}
++
++/* Runtime-bound pointers are dereferenced afresh on every handler call. */
++struct sysctl_test_bound_pointer {
++	int value;
++	int *limit;
++};
++
++static int sysctl_test_bound_pointer_handler(const struct ctl_table *table, int dir,
++					     void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct sysctl_test_bound_pointer *ctx = table->priv;
++	struct ctl_table resolved = *table;
++
++	resolved.data = &ctx->value;
++	resolved.maxlen = sizeof(ctx->value);
++	resolved.min = 0;
++	resolved.max = READ_ONCE(*ctx->limit);
++	return proc_dointvec_minmax(&resolved, dir, buffer, lenp, ppos);
++}
++
++static void sysctl_test_runtime_bound_pointer(struct kunit *test)
++{
++	int limit = 4;
++	struct sysctl_test_bound_pointer ctx = { .limit = &limit };
++	const struct ctl_table table = SYSCTL_TEST_CTX(ctx.value, "pointer_bound",
++						       0644, sysctl_test_bound_pointer_handler,
++						       ctx);
++
++	sysctl_test_entry_roundtrip(test, &table, "4");
++	KUNIT_EXPECT_EQ(test, ctx.value, 4);
++	limit = 2;
++	KUNIT_EXPECT_EQ(test, -EINVAL, sysctl_test_entry_write(test, &table, "3"));
++	KUNIT_EXPECT_EQ(test, ctx.value, 4);
++	limit = 8;
++	sysctl_test_entry_roundtrip(test, &table, "8");
++	KUNIT_EXPECT_EQ(test, ctx.value, 8);
++	KUNIT_EXPECT_PTR_EQ(test, table.priv, &ctx);
++	KUNIT_EXPECT_PTR_EQ(test, ctx.limit, &limit);
++}
++
+ /*
+  * Sibling thresholds bound each other. These mirror the fragment and SCTP
+  * handlers that read the other sysctl's current value at every call.
+  */
++struct sysctl_test_sibling_long {
++	unsigned long high;
++	unsigned long low;
++};
++
++static int sysctl_test_high_long_handler(const struct ctl_table *table, int dir,
++					 void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct sysctl_test_sibling_long *ctx = table->priv;
++	struct ctl_table resolved = *table;
++
++	resolved.data = &ctx->high;
++	resolved.maxlen = sizeof(ctx->high);
++	resolved.min = ctx->low;
++	resolved.max = ULONG_MAX;
++	return proc_doulongvec_minmax(&resolved, dir, buffer, lenp, ppos);
++}
++
++static int sysctl_test_low_long_handler(const struct ctl_table *table, int dir,
++					void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct sysctl_test_sibling_long *ctx = table->priv;
++	struct ctl_table resolved = *table;
++
++	resolved.data = &ctx->low;
++	resolved.maxlen = sizeof(ctx->low);
++	resolved.min = 0;
++	resolved.max = ctx->high;
++	return proc_doulongvec_minmax(&resolved, dir, buffer, lenp, ppos);
++}
++
++static void sysctl_test_runtime_sibling_bounds(struct kunit *test)
++{
++	struct sysctl_test_sibling_long ctx = { .high = 4, .low = 2 };
++	const struct ctl_table entries[] = {
++		SYSCTL_TEST_CTX(ctx.high, "high", 0644,
++				sysctl_test_high_long_handler, ctx),
++		SYSCTL_TEST_CTX(ctx.low, "low", 0644,
++				sysctl_test_low_long_handler, ctx),
++	};
++
++	sysctl_test_entry_roundtrip(test, &entries[0], "4");
++	KUNIT_EXPECT_EQ(test, -EINVAL, sysctl_test_entry_write(test, &entries[0], "1"));
++	KUNIT_EXPECT_EQ(test, ctx.high, 4UL);
++	sysctl_test_entry_roundtrip(test, &entries[1], "3");
++	KUNIT_EXPECT_EQ(test, ctx.low, 3UL);
++	KUNIT_EXPECT_EQ(test, -EINVAL, sysctl_test_entry_write(test, &entries[1], "5"));
++	KUNIT_EXPECT_EQ(test, ctx.low, 3UL);
++
++	ctx.low = 1;
++	sysctl_test_entry_roundtrip(test, &entries[0], "2");
++	KUNIT_EXPECT_EQ(test, ctx.high, 2UL);
++	KUNIT_EXPECT_EQ(test, -EINVAL, sysctl_test_entry_write(test, &entries[1], "3"));
++	KUNIT_EXPECT_EQ(test, ctx.low, 1UL);
 +	sysctl_test_entry_roundtrip(test, &entries[1], "2");
-+	sysctl_test_entry_roundtrip(test, &entries[1], maximum);
-+	sysctl_test_entry_reject(test, &entries[1], "1");
-+	sysctl_test_entry_reject(test, &entries[1], overflow);
-+
-+	sysctl_test_entry_roundtrip(test, &entries[2], minimum);
-+	sysctl_test_entry_roundtrip(test, &entries[2], "4");
-+	sysctl_test_entry_reject(test, &entries[2], "5");
-+	sysctl_test_entry_reject(test, &entries[2], underflow);
-+
-+	sysctl_test_entry_roundtrip(test, &entries[3], "0");
-+	sysctl_test_entry_reject(test, &entries[3], "1");
-+	sysctl_test_entry_reject(test, &entries[3], "-1");
++	KUNIT_EXPECT_EQ(test, ctx.low, 2UL);
++	KUNIT_EXPECT_PTR_EQ(test, entries[0].priv, &ctx);
++	KUNIT_EXPECT_PTR_EQ(test, entries[1].priv, &ctx);
 +}
 +
-+static void sysctl_test_entry_int_limits(struct kunit *test)
-+{
-+	int data = 0;
-+	const struct ctl_table entries[] = {
-+		CTLTBL_ENTRY_VNMH(data, "full", 0644, proc_dointvec_minmax),
-+		CTLTBL_ENTRY_VNMR(data, "lower", 0644, 2, INT_MAX),
-+		CTLTBL_ENTRY_VNMR(data, "upper", 0644, INT_MIN, 4),
-+		CTLTBL_ENTRY_VNMR(data, "zero", 0644, 0, 0),
-+	};
-+	char minimum[32], maximum[32], underflow[32], overflow[32];
+ 
+ /* Two object pointers supply value and limit without becoming bounds. */
++struct sysctl_test_object_state {
++	int value;
++	int limit;
++};
 +
-+	snprintf(minimum, sizeof(minimum), "%d", INT_MIN);
-+	snprintf(maximum, sizeof(maximum), "%d", INT_MAX);
-+	snprintf(underflow, sizeof(underflow), "-%lu", (unsigned long)INT_MAX + 2);
-+	snprintf(overflow, sizeof(overflow), "%lu", (unsigned long)INT_MAX + 1);
-+	KUNIT_EXPECT_EQ(test, entries[0].min, (unsigned long)INT_MIN);
-+	KUNIT_EXPECT_EQ(test, entries[0].max, (unsigned long)INT_MAX);
-+	sysctl_test_entry_range_limits(test, entries, minimum, maximum, underflow, overflow);
-+	KUNIT_EXPECT_EQ(test, data, 0);
-+	sysctl_test_entry_roundtrip(test, &entries[0], minimum);
-+	KUNIT_EXPECT_EQ(test, data, INT_MIN);
-+	sysctl_test_entry_roundtrip(test, &entries[0], maximum);
-+	KUNIT_EXPECT_EQ(test, data, INT_MAX);
++struct sysctl_test_object_holder {
++	struct sysctl_test_object_state *owner;
++	struct sysctl_test_object_state *related;
++};
++
++static int sysctl_test_object_context_handler(const struct ctl_table *table,
++					      int dir, void *buffer,
++					      size_t *lenp, loff_t *ppos)
++{
++	struct sysctl_test_object_holder *holder = table->priv;
++	struct ctl_table resolved = *table;
++
++	resolved.data = &holder->owner->value;
++	resolved.maxlen = sizeof(holder->owner->value);
++	resolved.min = 0;
++	resolved.max = READ_ONCE(holder->related->limit);
++	return proc_dointvec_minmax(&resolved, dir, buffer, lenp, ppos);
 +}
 +
-+static void sysctl_test_entry_ulong_limits(struct kunit *test)
++static void sysctl_test_runtime_object_context(struct kunit *test)
 +{
-+	unsigned long data = 0;
-+	const struct ctl_table entries[] = {
-+		CTLTBL_ENTRY_VNMH(data, "full", 0644, proc_doulongvec_minmax),
-+		CTLTBL_ENTRY_VNMR(data, "lower", 0644, 2, ULONG_MAX),
-+		CTLTBL_ENTRY_VNMR(data, "upper", 0644, 0, 4),
-+		CTLTBL_ENTRY_VNMR(data, "zero", 0644, 0, 0),
++	struct sysctl_test_object_state owner = { .limit = 4 };
++	struct sysctl_test_object_state other = { .limit = 4 };
++	struct sysctl_test_object_holder holder = {
++		.owner = &owner,
++		.related = &other,
 +	};
-+	char maximum[32], overflow[32];
++	const struct ctl_table table = SYSCTL_TEST_CTX_NODATA("object_context", 0644,
++							      sysctl_test_object_context_handler,
++							      holder);
 +
-+	snprintf(maximum, sizeof(maximum), "%lu", ULONG_MAX);
-+	/* Appending a digit overflows unsigned long on both 32-bit and 64-bit. */
-+	snprintf(overflow, sizeof(overflow), "%lu0", ULONG_MAX);
-+	KUNIT_EXPECT_EQ(test, entries[0].min, 0UL);
-+	KUNIT_EXPECT_EQ(test, entries[0].max, ULONG_MAX);
-+	sysctl_test_entry_range_limits(test, entries, "0", maximum, "-1", overflow);
-+	KUNIT_EXPECT_EQ(test, data, 0UL);
-+	sysctl_test_entry_roundtrip(test, &entries[0], maximum);
-+	KUNIT_EXPECT_EQ(test, data, ULONG_MAX);
++	sysctl_test_entry_roundtrip(test, &table, "4");
++	KUNIT_EXPECT_EQ(test, owner.value, 4);
++	KUNIT_EXPECT_EQ(test, -EINVAL, sysctl_test_entry_write(test, &table, "5"));
++	KUNIT_EXPECT_EQ(test, owner.value, 4);
++
++	other.limit = 2;
++	KUNIT_EXPECT_EQ(test, -EINVAL, sysctl_test_entry_write(test, &table, "3"));
++	KUNIT_EXPECT_EQ(test, owner.value, 4);
++	holder.owner = &other;
++	sysctl_test_entry_roundtrip(test, &table, "2");
++	KUNIT_EXPECT_EQ(test, other.value, 2);
++	KUNIT_EXPECT_EQ(test, owner.value, 4);
++	other.limit = 8;
++	sysctl_test_entry_roundtrip(test, &table, "8");
++	KUNIT_EXPECT_EQ(test, other.value, 8);
++	KUNIT_EXPECT_PTR_EQ(test, table.priv, &holder);
++	KUNIT_EXPECT_PTR_EQ(test, holder.owner, &other);
++	KUNIT_EXPECT_PTR_EQ(test, holder.related, &other);
 +}
 +
-+static void sysctl_test_entry_u8_limits(struct kunit *test)
-+{
-+	u8 data = 0;
-+	const struct ctl_table entries[] = {
-+		CTLTBL_ENTRY_VNMHR(data, "full", 0644, proc_dou8vec_minmax, 0, U8_MAX),
-+		CTLTBL_ENTRY_VNMHR(data, "lower", 0644, proc_dou8vec_minmax, 2, U8_MAX),
-+		CTLTBL_ENTRY_VNMHR(data, "upper", 0644, proc_dou8vec_minmax, 0, 4),
-+		CTLTBL_ENTRY_VNMHR(data, "zero", 0644, proc_dou8vec_minmax, 0, 0),
-+		CTLTBL_ENTRY_VNMHR(data, "both", 0644, proc_dou8vec_minmax, 2, 4),
-+	};
-+	char maximum[32], overflow[32];
+ /* An owner embedded around the bound storage can be recovered with container_of(). */
++struct sysctl_test_owner {
++	int value;
++	int limit;
++};
 +
-+	snprintf(maximum, sizeof(maximum), "%u", U8_MAX);
-+	snprintf(overflow, sizeof(overflow), "%u", U8_MAX + 1);
-+	sysctl_test_entry_range_limits(test, entries, "0", maximum, "-1", overflow);
-+	sysctl_test_entry_roundtrip(test, &entries[0], maximum);
-+	KUNIT_EXPECT_EQ(test, data, U8_MAX);
-+	sysctl_test_entry_roundtrip(test, &entries[4], "2");
-+	KUNIT_EXPECT_EQ(test, data, 2);
-+	sysctl_test_entry_roundtrip(test, &entries[4], "4");
-+	KUNIT_EXPECT_EQ(test, data, 4);
-+	sysctl_test_entry_reject(test, &entries[4], "1");
-+	sysctl_test_entry_reject(test, &entries[4], "5");
++struct sysctl_test_holder {
++	struct sysctl_test_owner owner;
++};
++
++static int sysctl_test_owner_handler(const struct ctl_table *table, int dir,
++				     void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct sysctl_test_holder *holder =
++		container_of(table->data, struct sysctl_test_holder,
++			     owner.value);
++	struct sysctl_test_owner *owner = &holder->owner;
++	struct ctl_table tmp = *table;
++
++	tmp.data = &owner->value;
++	tmp.maxlen = sizeof(owner->value);
++	tmp.min = 0;
++	tmp.max = READ_ONCE(owner->limit);
++	return proc_dointvec_minmax(&tmp, dir, buffer, lenp, ppos);
 +}
 +
-+static void sysctl_test_entry_array_no_partial_commit(struct kunit *test)
++static void sysctl_test_runtime_owner_from_data(struct kunit *test)
 +{
-+	int signed_data[] = { 2, 3 };
-+	unsigned long long_data[] = { 2, 3 };
-+	const struct ctl_table entries[] = {
-+		CTLTBL_ENTRY_VNMHR(signed_data, "signed", 0644, proc_dointvec_minmax, 2, 4),
-+		CTLTBL_ENTRY_VNMHR(long_data, "long", 0644, proc_doulongvec_minmax, 2, 4),
++	struct sysctl_test_holder holder = { .owner.limit = 4 };
++	const struct ctl_table table = CTLTBL_ENTRY_VNMH(holder.owner.value, "owner",
++							 0644, sysctl_test_owner_handler);
++
++	sysctl_test_entry_roundtrip(test, &table, "4");
++	KUNIT_EXPECT_EQ(test, holder.owner.value, 4);
++	holder.owner.limit = 2;
++	KUNIT_EXPECT_EQ(test, -EINVAL,
++			sysctl_test_entry_write(test, &table, "3"));
++	KUNIT_EXPECT_EQ(test, holder.owner.value, 4);
++	holder.owner.limit = 8;
++	sysctl_test_entry_roundtrip(test, &table, "8");
++	KUNIT_EXPECT_EQ(test, holder.owner.value, 8);
++	KUNIT_EXPECT_PTR_EQ(test, table.data, &holder.owner.value);
++}
++
++static void sysctl_test_entry_bool(struct kunit *test)
++{
++	bool value = false;
++	const struct ctl_table table = CTLTBL_ENTRY_VNMH(value, "bool", 0644,
++							 proc_dobool);
++
++	sysctl_test_entry_roundtrip(test, &table, "1");
++	KUNIT_EXPECT_TRUE(test, value);
++	sysctl_test_entry_roundtrip(test, &table, "0");
++	KUNIT_EXPECT_FALSE(test, value);
++	KUNIT_EXPECT_EQ(test, table.maxlen, sizeof(value));
++	KUNIT_EXPECT_PTR_EQ(test, table.data, &value);
++}
++
++struct sysctl_test_dynamic_jiffies {
++	int int_value;
++	unsigned long ulong_value;
++	int int_min;
++	int int_max;
++	unsigned long ulong_min;
++	unsigned long ulong_max;
++	unsigned int calls;
++};
++
++static int sysctl_test_dynamic_jiffies_int_handler(const struct ctl_table *table,
++						   int dir, void *buffer,
++						   size_t *lenp, loff_t *ppos)
++{
++	struct sysctl_test_dynamic_jiffies *ctx = table->priv;
++	struct ctl_table resolved = *table;
++
++	ctx->calls++;
++	resolved.data = &ctx->int_value;
++	resolved.maxlen = sizeof(ctx->int_value);
++	resolved.min = (unsigned long)(long)ctx->int_min;
++	resolved.max = (unsigned long)(long)ctx->int_max;
++	return proc_dointvec_ms_jiffies_minmax(&resolved, dir, buffer, lenp, ppos);
++}
++
++static int sysctl_test_dynamic_jiffies_ulong_handler(const struct ctl_table *table,
++						     int dir, void *buffer,
++						     size_t *lenp, loff_t *ppos)
++{
++	struct sysctl_test_dynamic_jiffies *ctx = table->priv;
++	struct ctl_table resolved = *table;
++
++	ctx->calls++;
++	resolved.data = &ctx->ulong_value;
++	resolved.maxlen = sizeof(ctx->ulong_value);
++	resolved.min = ctx->ulong_min;
++	resolved.max = ctx->ulong_max;
++	return proc_doulongvec_ms_jiffies_minmax(&resolved, dir, buffer, lenp, ppos);
++}
++
++static void sysctl_test_dynamic_jiffies_ranges(struct kunit *test)
++{
++	struct sysctl_test_dynamic_jiffies ctx = {
++		.int_min = HZ,
++		.int_max = 2 * HZ,
++		.ulong_min = HZ,
++		.ulong_max = 2 * HZ,
 +	};
++	const struct ctl_table entries[] = {
++		SYSCTL_TEST_CTX(ctx.int_value, "jiffies_int", 0644,
++				sysctl_test_dynamic_jiffies_int_handler, ctx),
++		SYSCTL_TEST_CTX(ctx.ulong_value, "jiffies_ulong", 0644,
++				sysctl_test_dynamic_jiffies_ulong_handler, ctx),
++	};
++
++	sysctl_test_entry_roundtrip(test, &entries[0], "1000");
++	KUNIT_EXPECT_EQ(test, ctx.int_value, HZ);
++	ctx.int_max = HZ;
++	KUNIT_EXPECT_EQ(test, -EINVAL,
++			sysctl_test_entry_write(test, &entries[0], "1500"));
++	KUNIT_EXPECT_EQ(test, ctx.int_value, HZ);
++	ctx.int_min = 2 * HZ;
++	ctx.int_max = 2 * HZ;
++	sysctl_test_entry_roundtrip(test, &entries[0], "2000");
++	KUNIT_EXPECT_EQ(test, ctx.int_value, 2 * HZ);
++
++	sysctl_test_entry_roundtrip(test, &entries[1], "1000");
++	KUNIT_EXPECT_EQ(test, ctx.ulong_value, (unsigned long)HZ);
++	ctx.ulong_max = HZ;
++	KUNIT_EXPECT_EQ(test, -EINVAL,
++			sysctl_test_entry_write(test, &entries[1], "1500"));
++	KUNIT_EXPECT_EQ(test, ctx.ulong_value, (unsigned long)HZ);
++	ctx.ulong_min = 2UL * HZ;
++	ctx.ulong_max = 2UL * HZ;
++	sysctl_test_entry_roundtrip(test, &entries[1], "2000");
++	KUNIT_EXPECT_EQ(test, ctx.ulong_value, 2UL * HZ);
++	KUNIT_EXPECT_GT(test, ctx.calls, 0U);
++	KUNIT_EXPECT_PTR_EQ(test, entries[0].priv, &ctx);
++	KUNIT_EXPECT_PTR_EQ(test, entries[1].priv, &ctx);
++}
++
+ /*
+  * A registered table may be unregistered and recreated. The table and its
+  * handler context are caller-owned; registration must not rewrite either.
+  */
++struct sysctl_test_lifecycle {
++	int value;
++	unsigned int calls;
++};
++
++static int sysctl_test_lifecycle_handler(const struct ctl_table *table, int dir,
++					 void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct sysctl_test_lifecycle *ctx = table->priv;
++	struct ctl_table resolved = *table;
++
++	ctx->calls++;
++	resolved.data = &ctx->value;
++	resolved.maxlen = sizeof(ctx->value);
++	resolved.min = (unsigned long)INT_MIN;
++	resolved.max = (unsigned long)INT_MAX;
++	return proc_dointvec_minmax(&resolved, dir, buffer, lenp, ppos);
++}
++
++static void sysctl_test_unregister_table(void *header)
++{
++	unregister_sysctl_table(header);
++}
++
++static void sysctl_test_context_registration_lifecycle(struct kunit *test)
++{
++	struct sysctl_test_lifecycle ctx = {};
++	const struct ctl_table table = SYSCTL_TEST_CTX(ctx.value, "context", 0644,
++						       sysctl_test_lifecycle_handler, ctx);
++	const char *path = "sysctl_kunit_lifecycle";
++	struct ctl_table_header *header;
++
++	header = register_sysctl_sz(path, &table, 1);
++	KUNIT_ASSERT_NOT_NULL(test, header);
++	kunit_add_action(test, sysctl_test_unregister_table, header);
++
++	sysctl_test_entry_roundtrip(test, &table, "31");
++	KUNIT_EXPECT_EQ(test, ctx.value, 31);
++	KUNIT_EXPECT_GT(test, ctx.calls, 0U);
++	KUNIT_EXPECT_PTR_EQ(test, table.priv, &ctx);
++
++	kunit_release_action(test, sysctl_test_unregister_table, header);
++	header = register_sysctl_sz(path, &table, 1);
++	KUNIT_ASSERT_NOT_NULL(test, header);
++	kunit_add_action(test, sysctl_test_unregister_table, header);
++
++	sysctl_test_entry_roundtrip(test, &table, "-16");
++	KUNIT_EXPECT_EQ(test, ctx.value, -16);
++	KUNIT_EXPECT_GT(test, ctx.calls, 2U);
++	KUNIT_EXPECT_PTR_EQ(test, table.priv, &ctx);
++	KUNIT_EXPECT_EQ(test, table.maxlen, sizeof(ctx.value));
++	KUNIT_EXPECT_EQ(test, table.min, 0UL);
++	KUNIT_EXPECT_EQ(test, table.max, ULONG_MAX);
++
++	kunit_release_action(test, sysctl_test_unregister_table, header);
++}
++
+ /*
+  * Registration copies the table entry but must leave data and priv pointing
+  * at the caller-owned objects; the handler resolves storage through data and
+  * context through priv on every call.
+  */
++/* Registration rejects numeric bounds that cannot represent the element type. */
++static void sysctl_test_context_registration_reject(struct kunit *test)
++{
++	u8 value = 0;
++	const struct ctl_table table = CTLTBL_ENTRY_VNMHR(value, "invalid", 0644,
++							  proc_dou8vec_minmax, 0,
++							  U8_MAX + 1);
++
++	KUNIT_EXPECT_PTR_EQ(test, NULL,
++			    register_sysctl_sz("sysctl_kunit_invalid", &table, 1));
++}
++
+ #if IS_ENABLED(CONFIG_NET) && IS_ENABLED(CONFIG_SYSCTL)
+ /*
+  * Simulate per-net table duplication and teardown through the real
+@@ -724,6 +1178,116 @@ static void sysctl_test_entry_unsigned_arrays_rejected(struct kunit *test)
+  * exercises copied tables, independent contexts, registration failure and
+  * unregister/re-register ordering.
+  */
++struct sysctl_test_net_context {
++	int value;
++	int limit;
++	unsigned int calls;
++};
++
++static int sysctl_test_net_handler(const struct ctl_table *table, int dir,
++				   void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct sysctl_test_net_context *ctx = table->priv;
++	struct ctl_table tmp = *table;
++
++	ctx->calls++;
++	tmp.data = &ctx->value;
++	tmp.maxlen = sizeof(ctx->value);
++	tmp.min = 0;
++	tmp.max = READ_ONCE(ctx->limit);
++	return proc_dointvec_minmax(&tmp, dir, buffer, lenp, ppos);
++}
++
++static void sysctl_test_unregister_net_table(void *header)
++{
++	unregister_net_sysctl_table(header);
++}
++
++static void sysctl_test_net_context_isolation(struct kunit *test)
++{
++	struct sysctl_test_net_context first = { .limit = 50 };
++	struct sysctl_test_net_context second = { .limit = 10 };
++	struct ctl_table first_table = SYSCTL_TEST_CTX(first.value, "first", 0644,
++						       sysctl_test_net_handler, first);
++	struct ctl_table second_table = SYSCTL_TEST_CTX(second.value, "second", 0644,
++							sysctl_test_net_handler, second);
++	struct ctl_table_header *header;
++
++	header = register_net_sysctl_sz(&init_net, "net/sysctl_kunit_a",
++					&first_table, 1);
++	KUNIT_ASSERT_NOT_NULL(test, header);
++	kunit_add_action(test, sysctl_test_unregister_net_table, header);
++
++	header = register_net_sysctl_sz(&init_net, "net/sysctl_kunit_b",
++					&second_table, 1);
++	KUNIT_ASSERT_NOT_NULL(test, header);
++	kunit_add_action(test, sysctl_test_unregister_net_table, header);
++
++	sysctl_test_entry_roundtrip(test, &first_table, "40");
++	KUNIT_EXPECT_EQ(test, first.value, 40);
++	KUNIT_EXPECT_EQ(test, second.value, 0);
++	KUNIT_EXPECT_EQ(test, -EINVAL,
++			sysctl_test_entry_write(test, &second_table, "20"));
++	KUNIT_EXPECT_EQ(test, second.value, 0);
++	sysctl_test_entry_roundtrip(test, &second_table, "10");
++	KUNIT_EXPECT_EQ(test, second.value, 10);
++	KUNIT_EXPECT_EQ(test, first.value, 40);
++
++	first.limit = 5;
++	KUNIT_EXPECT_EQ(test, -EINVAL,
++			sysctl_test_entry_write(test, &first_table, "6"));
++	KUNIT_EXPECT_EQ(test, first.value, 40);
++	KUNIT_EXPECT_PTR_EQ(test, first_table.priv, &first);
++	KUNIT_EXPECT_PTR_EQ(test, second_table.priv, &second);
++}
++
++static void sysctl_test_net_context_registration_cycle(struct kunit *test)
++{
++	struct sysctl_test_net_context first = { .limit = 100 };
++	struct sysctl_test_net_context second = { .limit = 50 };
++	struct ctl_table table = SYSCTL_TEST_CTX(first.value, "cycle", 0644,
++						 sysctl_test_net_handler, first);
++	struct ctl_table_header *header;
++
++	header = register_net_sysctl_sz(&init_net, "net/sysctl_kunit_cycle",
++					&table, 1);
++	KUNIT_ASSERT_NOT_NULL(test, header);
++	kunit_add_action(test, sysctl_test_unregister_net_table, header);
++	sysctl_test_entry_roundtrip(test, &table, "31");
++	KUNIT_EXPECT_EQ(test, first.value, 31);
++	kunit_release_action(test, sysctl_test_unregister_net_table, header);
++
++	/* A recreated table may carry a new owner context. */
++	table.data = &second.value;
++	table.maxlen = sizeof(second.value);
++	table.priv = &second;
++	header = register_net_sysctl_sz(&init_net, "net/sysctl_kunit_cycle",
++					&table, 1);
++	KUNIT_ASSERT_NOT_NULL(test, header);
++	kunit_add_action(test, sysctl_test_unregister_net_table, header);
++	sysctl_test_entry_roundtrip(test, &table, "50");
++	KUNIT_EXPECT_EQ(test, second.value, 50);
++	KUNIT_EXPECT_EQ(test, first.value, 31);
++	KUNIT_EXPECT_PTR_EQ(test, table.priv, &second);
++	KUNIT_EXPECT_EQ(test, table.maxlen, sizeof(second.value));
++
++	kunit_release_action(test, sysctl_test_unregister_net_table, header);
++}
++
++static void sysctl_test_net_context_registration_reject(struct kunit *test)
++{
++	u8 value = 0;
++	struct ctl_table table = CTLTBL_ENTRY_VNMHR(value, "invalid", 0644,
++						    proc_dou8vec_minmax, 0,
++						    U8_MAX + 1);
++	struct ctl_table_header *header;
++
++	header = register_net_sysctl_sz(&init_net, "net/sysctl_kunit_invalid",
++					&table, 1);
++	KUNIT_EXPECT_PTR_EQ(test, NULL, header);
++	if (header)
++		unregister_net_sysctl_table(header);
++}
+ #endif
+ 
+ /*
+@@ -732,6 +1296,80 @@ static void sysctl_test_entry_unsigned_arrays_rejected(struct kunit *test)
+  * This helper is deliberately table-agnostic: the demo below uses a synthetic
+  * table, while future tests can pass a header obtained from a real subsystem.
+  */
++struct sysctl_test_registered {
++	struct ctl_table_header *header;
++	const struct ctl_table *entry;
++};
++
++static const struct ctl_table *sysctl_test_find_entry(const struct ctl_table_header *header,
++						      const char *name)
++{
 +	int i;
 +
-+	for (i = 0; i < ARRAY_SIZE(entries); i++) {
-+		sysctl_test_entry_reject(test, &entries[i], "4\t5");
-+		sysctl_test_entry_reject(test, &entries[i], "4\t1");
-+		sysctl_test_entry_reject(test, &entries[i], "4\tbad");
-+		sysctl_test_entry_reject(test, &entries[i], "4\t-1");
-+		sysctl_test_entry_roundtrip(test, &entries[i], "4\t2");
++	for (i = 0; i < header->ctl_table_size; i++) {
++		const struct ctl_table *entry = &header->ctl_table_arg[i];
++
++		if (entry->procname && !strcmp(entry->procname, name))
++			return entry;
 +	}
-+	KUNIT_EXPECT_EQ(test, signed_data[0], 4);
-+	KUNIT_EXPECT_EQ(test, signed_data[1], 2);
-+	KUNIT_EXPECT_EQ(test, long_data[0], 4UL);
-+	KUNIT_EXPECT_EQ(test, long_data[1], 2UL);
++	return NULL;
 +}
 +
-+/* Unsigned int and u8 handlers deliberately do not support arrays. */
-+static void sysctl_test_entry_unsigned_arrays_rejected(struct kunit *test)
++static void sysctl_test_unregister_registered(void *header)
 +{
-+	unsigned int unsigned_data[] = { 2, 3 };
-+	u8 byte_data[] = { 2, 3 };
-+	const struct ctl_table entries[] = {
-+		CTLTBL_ENTRY_VNMHR(unsigned_data, "unsigned", 0644,
-+				   proc_douintvec_minmax, 0, UINT_MAX),
-+		CTLTBL_ENTRY_VNMHR(byte_data, "byte", 0644, proc_dou8vec_minmax, 0, U8_MAX),
-+	};
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(entries); i++) {
-+		char buffer[32] = {};
-+		size_t len = sizeof(buffer);
-+		loff_t pos = 0;
-+
-+		sysctl_test_entry_reject(test, &entries[i], "4\t2");
-+		KUNIT_EXPECT_EQ(test, entries[i].proc_handler(&entries[i], KUNIT_PROC_READ,
-+							      buffer, &len, &pos), -EINVAL);
-+	}
++	unregister_sysctl_table(header);
 +}
 +
-+/* Each wrapper reads the related bound anew and resolves data in a local copy. */
-+/* Context handlers resolve real storage on a local table; data is not a value. */
-+/*
-+ * Standard handlers only touch data and maxlen. Attaching priv to such an
-+ * entry must not change what is stored, so a stray context pointer cannot
-+ * redirect a write to the wrong address.
-+ */
-+/*
-+ * Registration refuses priv on a standard handler: the context would be
-+ * silently ignored, which is always a configuration mistake.
-+ */
++struct sysctl_test_demo_ctx {
++	int value;
++	int limit;
++	unsigned int calls;
++};
 +
-+/*
-+ * A dynamic range wrapper reads its related limit through priv on each call
-+ * while data keeps pointing at the value, mirroring addrconf and devinet.
-+ */
-+/*
-+ * Dynamic range families refresh their related limit on every call. These
-+ * generic wrappers model the delegation pattern used by scheduler, IPC,
-+ * fragment, namespace and jiffies sysctls.
-+ */
-+/*
-+ * Sibling thresholds bound each other. These mirror the fragment and SCTP
-+ * handlers that read the other sysctl's current value at every call.
-+ */
++static int sysctl_test_demo_handler(const struct ctl_table *table, int dir,
++				    void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct sysctl_test_demo_ctx *ctx = table->priv;
++	struct ctl_table tmp = *table;
 +
-+/* Two object pointers supply value and limit without becoming bounds. */
-+/* An owner embedded around the bound storage can be recovered with container_of(). */
-+/*
-+ * A registered table may be unregistered and recreated. The table and its
-+ * handler context are caller-owned; registration must not rewrite either.
-+ */
-+/*
-+ * Registration copies the table entry but must leave data and priv pointing
-+ * at the caller-owned objects; the handler resolves storage through data and
-+ * context through priv on every call.
-+ */
-+#if IS_ENABLED(CONFIG_NET) && IS_ENABLED(CONFIG_SYSCTL)
-+/*
-+ * Simulate per-net table duplication and teardown through the real
-+ * register_net_sysctl_sz() path. This does not create a namespace, but it
-+ * exercises copied tables, independent contexts, registration failure and
-+ * unregister/re-register ordering.
-+ */
-+#endif
++	ctx->calls++;
++	tmp.data = &ctx->value;
++	tmp.maxlen = sizeof(ctx->value);
++	tmp.min = 0;
++	tmp.max = READ_ONCE(ctx->limit);
++	return proc_dointvec_minmax(&tmp, dir, buffer, lenp, ppos);
++}
 +
-+/*
-+ * Registered-entry harness. A static handler cannot be called by symbol from
-+ * KUnit, but a registered table exposes its proc_handler through the entry.
-+ * This helper is deliberately table-agnostic: the demo below uses a synthetic
-+ * table, while future tests can pass a header obtained from a real subsystem.
-+ */
++static void sysctl_test_registered_entry_demo(struct kunit *test)
++{
++	struct sysctl_test_demo_ctx ctx = { .limit = 4 };
++	struct ctl_table table = SYSCTL_TEST_CTX(ctx.value, "value", 0644,
++						 sysctl_test_demo_handler, ctx);
++	struct sysctl_test_registered registered;
++	const struct ctl_table *entry;
++
++	registered.header = register_sysctl_sz("sysctl_kunit_demo", &table, 1);
++	KUNIT_ASSERT_NOT_NULL(test, registered.header);
++	kunit_add_action(test, sysctl_test_unregister_registered,
++			 registered.header);
++
++	entry = sysctl_test_find_entry(registered.header, "value");
++	KUNIT_ASSERT_NOT_NULL(test, entry);
++	registered.entry = entry;
++
++	sysctl_test_entry_roundtrip(test, registered.entry, "4");
++	KUNIT_EXPECT_EQ(test, ctx.value, 4);
++	ctx.limit = 2;
++	KUNIT_EXPECT_EQ(test, -EINVAL,
++			sysctl_test_entry_write(test, registered.entry, "3"));
++	KUNIT_EXPECT_EQ(test, ctx.value, 4);
++	ctx.limit = 8;
++	sysctl_test_entry_roundtrip(test, registered.entry, "8");
++	KUNIT_EXPECT_EQ(test, ctx.value, 8);
++	KUNIT_EXPECT_PTR_EQ(test, registered.entry->priv, &ctx);
++	KUNIT_EXPECT_PTR_EQ(test, registered.entry->data, &ctx.value);
++}
++
  static struct kunit_case sysctl_test_cases[] = {
  	KUNIT_CASE(sysctl_test_api_dointvec_null_tbl_data),
  	KUNIT_CASE(sysctl_test_api_dointvec_table_maxlen_unset),
-@@ -378,6 +743,15 @@ static struct kunit_case sysctl_test_cases[] = {
- 	KUNIT_CASE(sysctl_test_dointvec_write_happy_single_negative),
- 	KUNIT_CASE(sysctl_test_api_dointvec_write_single_less_int_min),
- 	KUNIT_CASE(sysctl_test_api_dointvec_write_single_greater_int_max),
-+	KUNIT_CASE(sysctl_test_entry_null_handler),
-+	KUNIT_CASE(sysctl_test_entry_explicit_handler),
-+	KUNIT_CASE(sysctl_test_entry_int_limits),
-+	KUNIT_CASE(sysctl_test_entry_ulong_limits),
-+	KUNIT_CASE(sysctl_test_entry_u8_limits),
-+	KUNIT_CASE(sysctl_test_entry_array_no_partial_commit),
-+	KUNIT_CASE(sysctl_test_entry_unsigned_arrays_rejected),
-+#if IS_ENABLED(CONFIG_NET) && IS_ENABLED(CONFIG_SYSCTL)
-+#endif
+@@ -750,7 +1388,20 @@ static struct kunit_case sysctl_test_cases[] = {
+ 	KUNIT_CASE(sysctl_test_entry_u8_limits),
+ 	KUNIT_CASE(sysctl_test_entry_array_no_partial_commit),
+ 	KUNIT_CASE(sysctl_test_entry_unsigned_arrays_rejected),
++	KUNIT_CASE(sysctl_test_dynamic_range),
++	KUNIT_CASE(sysctl_test_runtime_bound_pointer),
++	KUNIT_CASE(sysctl_test_runtime_sibling_bounds),
++	KUNIT_CASE(sysctl_test_runtime_object_context),
++	KUNIT_CASE(sysctl_test_runtime_owner_from_data),
++	KUNIT_CASE(sysctl_test_entry_bool),
++	KUNIT_CASE(sysctl_test_dynamic_jiffies_ranges),
++	KUNIT_CASE(sysctl_test_context_registration_lifecycle),
++	KUNIT_CASE(sysctl_test_context_registration_reject),
++	KUNIT_CASE(sysctl_test_registered_entry_demo),
+ #if IS_ENABLED(CONFIG_NET) && IS_ENABLED(CONFIG_SYSCTL)
++	KUNIT_CASE(sysctl_test_net_context_isolation),
++	KUNIT_CASE(sysctl_test_net_context_registration_cycle),
++	KUNIT_CASE(sysctl_test_net_context_registration_reject),
+ #endif
  	{}
  };
+diff --git a/kernel/time/jiffies.c b/kernel/time/jiffies.c
+index af1c69bf0c23..8dde5a2cc532 100644
+--- a/kernel/time/jiffies.c
++++ b/kernel/time/jiffies.c
+@@ -316,6 +316,7 @@ int proc_dointvec_ms_jiffies_minmax(const struct ctl_table *table, int dir,
+ 	return proc_dointvec_conv(table, dir, buffer, lenp, ppos,
+ 				  do_proc_int_conv_ms_jiffies_minmax);
+ }
++EXPORT_SYMBOL(proc_dointvec_ms_jiffies_minmax);
  
+ /**
+  * proc_doulongvec_ms_jiffies_minmax - read a vector of millisecond values with min/max values
 -- 
 2.25.1
 
