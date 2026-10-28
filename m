@@ -1,113 +1,137 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.135.74
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.147
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793146460;
-	b=BfBZnkew6q1EKIb8TcvGMGnYFArSeOHfL4AGJtHmELKqLtI0+6uGHlgOv02cFFHsJjIM
-	 8eP7ygc8iOhidbN5WcVPPqRoWVejLpfrx8zoMlXUp2vx2oQkIVE2i5VwzT8F5DKr1QVnY
-	 CnxLs0tgffoJ3UajutKvKTehVNCXsI0XAPAoSNflopyv1y7kWtATRtp20etKeLwAROjHD
-	 1w52vq39kd1nDlQS+NuCCwPypz+iBhCDd9D7dohm3b1KodV8OsTHAuQG5+lmQhagdhq1l
-	 zfjm2wc4X8oXE1TVbDJmGOpvVfsrUBsqW8CP1vIl9wpatOH6haXZFI3suaXwTtctQLQ==
+	t=1793150521;
+	b=wdPHYIZuh3LEpJ4wZLtNdVUEmf56caZi2NNqsHIWkZ0DnpK57UQ4ljkablRIAKojlvD7
+	 MXqFDrLDrWEvP3JbCnxbbzGlwSuojImrUr20e2DAJmJc+h8TA6pOyEm4gGtyIHjd2MnQ3
+	 x8wQn7WrLdlHNDw2aqGB/swDjzQDJCVvuptNxzuvR5BnebUB6lY2XV9hZsVxPsJkHPD8i
+	 hPxbCIAosbZBYbk7TtrSlO69kQXiUH+PP3yQ67ifDkVEyqca5wRqubo+7dA98z6LCpMSQ
+	 Cy3LSM076g/vSSBR83EWTYxk/pGCK6/6O+c7aHh7OGjrabvIL69od90oGSDUi6NzDog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793146460;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=7p1ucq/Ny8UBz6ghlqYuLhKrCHyG8ylaL7otql1jOZ8=;
-	b=uWb/A7C90xoxbaExWMKNVULk7gpThx3e+KcRmZR0T2uK151gOmt9NCiHKasEQ9oj83lx
-	 +VGPq8LHoCT1tu+WRsxSIsvJTh/FLhA5v6Oqgtw3KJvLwmFykYL9gJIAPG7oiR2TEgEG2
-	 2nW7I6WppcB7JoQ1xt3dZq23mfeyHEmSFhsVMlJLCaXaxGDEwYB4DAlP6JUuA9nNLq+Lm
-	 JcheCJBT0292Xo1pZwQPJe+F4NEvr3YUrGyrsABZSLS9WD7A9nkaRUDcoHL7iWMnClsn/
-	 3eEctxQyy7nF1ejrsyG3yyflVuWQy6TcayFizB48QBCsAd8dHKQOsSYIbX/AHQgj5Rw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793150521;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=;
+	b=No2WVTcMfdxrE7ZDY31Jm6TeKfRCk+kPFCzlXGJK+CynQxNlRAAmuRYGckd8S+XdROb8
+	 5Fh/KoURBabShUFUcQX9jezCmH5AhKHbVQnSecR9WZGwnUV3NNOlJM577mXa2IZu9BVbM
+	 +IdjXsks0H0w48VnWUqj5mHqEh1RMyBP3ilPVYg0A7dHqWLl1wGyk1HhI8o/8nhQ4RgiL
+	 sF2WRz7m79RJCggElXAvsZ5QQX1ULulskTepzyZz3hxxRNlhPGc4CSq4lO3ut/Y6hiApH
+	 791rLETLDyKdMd5ky0MCP2/Zs4zZAtMpRWuyUu5meyNeyhZmuEEhiD/UaP4e7wTzZNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=columbia.edu;
-	spf=pass smtp.mailfrom=columbia.edu;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=lsovCs6I;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=Q4NLyjW1;
-	arc=none smtp.remote-ip=148.163.135.74
-Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
+	dmarc=pass header.from=themaw.net;
+	spf=pass smtp.mailfrom=themaw.net;
+	dkim=pass header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=IuANCG5d;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ASgV40z7;
+	arc=none smtp.remote-ip=103.168.172.147
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A67606A320
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 00:14:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4A67606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00341606A31D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 01:21:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00341606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=lsovCs6I;
-	dkim=pass (2048-bit key, unprotected) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=Q4NLyjW1
-Received: from pps.filterd (m0167072.ppops.net [127.0.0.1])
-	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69RIvCiV052528
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 20:14:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=7p1u
-	cq/Ny8UBz6ghlqYuLhKrCHyG8ylaL7otql1jOZ8=; b=lsovCs6IxaWMyufeHyab
-	UGnNVfqeJNBrnilLDH1hmBBzIDO1Xw2PYSUP6AO5lBNUxpxEQbs+32FmrWqXgs2U
-	tOPH30t80MNHG2qpSiuiuflnpzM+Fl8MrVaIQ/TzOQwsV3+8EA9G3C0UHn/qCG3Q
-	PQj237pzIWWLwXlIO/8itmTx5LzX4mvdorMSSEhTUlDiVt+iAvZg3DPutnck/E72
-	SD4t4EgnBW4hfXCWuhw5rDgUQrr386PNS4Nzie4yCvvMNEyT2eeHSzgksDyKzRBz
-	69BiiAg+4Y9BSAZh6oP9aUSXMEnXOkAGEduwN+78Gc0cdd8YkiEvb2dw4F4cmelV
-	dQ==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4hjxe84uv2-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 20:14:12 -0400 (EDT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-91b8c60c550so13968766d6.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 17:14:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1793146451; x=1793751251; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7p1ucq/Ny8UBz6ghlqYuLhKrCHyG8ylaL7otql1jOZ8=;
-        b=Q4NLyjW19/i3ait1GGvuGUivPbsqagcGPGP+qWcDf7njdgRSJuYGwHwfXBRn6+WApZ
-         u2dU/OtMje0X9b8UevuOY8/zp+xcTBSlA+AQPyXfpQIFvqXQkrx7HvxUuLeKu1xIjmOz
-         kiBinAtDG9/rbdMBTxkVC2eZ+5y6Lcu8Hj86h5xFKIuiV8Oo+uj+Ulbj4qOr85BrMbkh
-         EyxD2Q8Thz/bitPJU4cocw8Ol6X7hbw2JlkPyQ66x5sGjM+qvJmR/qMkUXyApTT34u/s
-         sZcQJdUwxGiWQoZpZVBv/TUZjOGT3aT0Y0GxHW03AK0xQsXqWosKF43hPhwNOMY3TfSO
-         p3Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793146451; x=1793751251;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7p1ucq/Ny8UBz6ghlqYuLhKrCHyG8ylaL7otql1jOZ8=;
-        b=opjaU4FpEoxFBLtd9N7QwI4ovKkpJMMlEfBFxn0m9paPjLA83qIkUgyQv0bsW6pMHf
-         a+jD6jMpFXK8YaKwgWQOY+/I1PR07uCbh4NYK3ELavRvz8Dgm1ci6k4cM2/XRQC1ppDC
-         Csn6TxJqDYaqO0/JxxvDX6lhEOvC3YtQKkQq9pPKJM7Vy9dwgQfH/Wt7xsNyD5zWthQV
-         zHy8tjw7Fm/2hVT5XEelpHqFGd6GpkwIqZhTed4oArtm/0DWLSkFFEDaWT1o//odybpb
-         2pf6CCR94D2QSPoXvSoH2o7MhXXe44OJDdwcxN1oFkJzP2plDMOrBIQ6NlxkLwd2jD4W
-         OHrg==
-X-Forwarded-Encrypted: i=1; AKwUvBxoqRSK/TovWvgMYOPs6az51AoYtRFP6BZN9Vlhh/89ZMVgVLVXnl+7SHLqTeiQoQTW6rxOPBOsgS//L+CS@vger.kernel.org
-X-Gm-Message-State: AFq9FYLiUcWUM7uDvIZqVx3uBIrZ+MUJXncqoiVTE8XXEUYSX0Np7vlb
-	xHNwxTRUGIXbi1RiVc9C1PW7tIvRhB1/q4XVDGXACsma+cgTavjhGRJpIytuwYrlw4zhWJPkeGk
-	Drf5iOA2MEevxau91OInXUtnTSLcMz+hnxrCu1Lv8Z4eoyYoIvo3lxFmFmbZ/4lM=
-X-Gm-Gg: AYBFou06YRV1dYM497my6xoaCUFovUJFnoY7pWPsW+myl3uQ5fT4+Y0BflVh6qA5QKJ
-	k3CdWHj16BJOQ9MP/w0Bt+bmiHMqd4nuBQOUBJ4CO/jyjXS0OwzGSVpCX7Jrfk3UIOaS8ahzAdI
-	Eo69B5GY+nWW+goQR9PcHNF1RnBb2a487KYqhYx9mxCAqABROSAKhvy6WNtCvvEUh4lhao1j7UB
-	lriVc3opkY3rrbYJXapP5H5SbVELRMBdqce1RgV0KeQWBxSlrJXsRenSvbWoM2k0EH3hisf7C11
-	kAoUIrQBVsUeTXZ5bBhAtWU9hbC8AlvhYEL2jf1WGtpD7Hgp+agr5tq77fmzHanHuHjFEYnOQ+q
-	Kj3f+Zag1v+HJ39A2Rn/ngO8PLS/kVKJYgQtOcw7KSE/geM+ygmxALyQAhQTpJt3ylI7Bw5kwVr
-	E+q+zDRrCbPCo/IYArGrANDn4Gh/xqiv1LbN5cXikMTJX1rXSBnQfBmR9Jb/3encXfxxwfFOhQS
-	YS25XbJ1HevSng=
-X-Received: by 2002:a05:6214:21e7:b0:91c:76aa:2c67 with SMTP id 6a1803df08f44-91c7d1aaecbmr12070226d6.39.1793146451375;
-        Tue, 27 Oct 2026 17:14:11 -0700 (PDT)
-X-Received: by 2002:a05:6214:21e7:b0:91c:76aa:2c67 with SMTP id 6a1803df08f44-91c7d1aaecbmr12069876d6.39.1793146450883;
-        Tue, 27 Oct 2026 17:14:10 -0700 (PDT)
-Received: from [10.206.51.58] ([129.236.225.183])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c6d8103b1sm40645156d6.44.2026.10.27.17.14.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2026 17:14:09 -0700 (PDT)
-Message-ID: <3c754c36-86de-44a6-ab3f-5c86e4bf83a6@columbia.edu>
-Date: Tue, 27 Oct 2026 20:14:07 -0400
+	dkim=pass (2048-bit key, unprotected) header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=IuANCG5d;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ASgV40z7
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 0E72EEC01C1
+	for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 21:21:59 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Tue, 27 Oct 2026 21:21:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793150518;
+	 x=1793236918; bh=4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=; b=
+	IuANCG5dx2AuLSzGWT1IlW0LpNdHwVHudaxvydOEnc3KSoJ/qoMeuRTBcuHevylW
+	xUbQw+3IqU+mSDopyXhKpLMSyZdaIQYBWsp91BtQLJ6ivce7R1cuF7LYQVlluKOM
+	55TmLfhzJ/XgFzpWKbku9XBEEHXvbqRJ5vOSHONPiAFeVL8JucBr1JOA/VFwvjKS
+	w11r6SsVd0monzWXTSSRu9aCd1MnbVsYTMZQxq4e7JYEQg0XE3VlNJOsuLd4+Ahu
+	M2i0unzEJI77CglJFd3yELGpyxcNPO6lBajkV1sZOKnC3Pk/qgxAH53X7FyqVsbo
+	jkTWgUXOP8IFrAx0YIZ2Zg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793150518; x=
+	1793236918; bh=4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=; b=A
+	SgV40z7r6xfOgnty139gvV4mch5EP3LpzWKZnR0DqUM4+khkf+60HFQqKimBZ41O
+	GpWenOjpJF06vWXJx6ne53P/sdpYna3Yh9kYveLMWrgn873gdVS2BPYroWQPhcxQ
+	j8FQ/TYUcJyq1VEohzGMzcv/D5F9bKLVFzIGeGnwytFhspGcAad8f7oc6bXYjpg3
+	1KZoPk5Y3HhjR0aN8sdnG6UAFbI98LFbZxfR31UoaDOWQ8AvKGLa+kRa/mXHpIUp
+	RiAUDg4gSiO+zFjhCN9FDe+hrXJ9Cgl3iBmIcbzWpOWfT+LuuadMSvQcN3RGDqus
+	BADMJIzTu3vtT/xhem48w==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=sign d=themaw.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793150518; d=themaw.net;
+	mf=PHJhdmVuQHRoZW1hdy5uZXQ+;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm1:rsa-sha256:dcZme5m9Y4Jpr+/raNNth6SPrHZdzvY1hFbRa4eYADxI26T
+	ltjyhr0AmxodmbsUpj4L20huKQKsm/qDlyLyuJXtYR34m4Yamb0zIQ2eG9lvrQ/L
+	lOnNH8BE4qfhAXeB9jHDKrfbB8kqLXSLxbE5s96daZvHDvpM4/dAUZah++WPDem3
+	XqvnOsf7v5WX9tG4P3AhNWMSXhKIeZa7XCasdgQpP3fCyzJ0iLBNighanaJbD/MI
+	DvJV2p+mFRZ9ziq85pqC8N0BUHpcct4Ps7EWpbht4EewFjp8Ea/bM4ZyYECMCNQq
+	fa9UH20be71UEGJe3i9Cy7mWbzcmFsAiWHxH/+Q==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to,
+	user-agent;
+Message-Instance: m=1; h=sha256:bLZaW/+c77h1LhtpnAtMkoSIjWiZ2pBNMO0v3iO12fE=:4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=;
+X-ME-Sender: <xms:NU7havTQm7CONmk_vTIxyQr2bggizao4KrnCTHOZ-DkioGzPn_0_Cg>
+    <xme:NU7hanuN5n0amtHDXTfCLVNahO5-mo9vXcMLvteA_LdixJ2JqjfE2OXpSqZAoRDw9
+    9zB2o5kCwdI5nC3rzACzyLVfBUMdUUkzLm9ZMp9wz4XqggaUQ>
+X-ME-Received: <xmr:NU7hap4Rmoc1y1NiVdhky5AhS2soreP5Mn4L00ThsQUenIhtq7rJNcu1pb49HmmEVaVYZMSVJiGWZtrqfBzV2zNcfOaCUTc66JS2LcokcUPuk2veGHDtkWAnPBE>
+X-ME-Proxy-Cause: dmFkZTExjEu5Z4ShUEEPbIUBi9jvlntQl3xywqhol0VilT1H3riwx+R5F5xJP13Eevy37Q
+    0i2tM3JNLjjIE4RnafdrKckgTZgF7WVXIi2BOm3qqKixBS/Irug73Tiau0YR/vN5tre4hn
+    maQ7bdbQdERoqsBHTuky/6kPN1uRRdMEQp7qfaGblPSG+4EBzlUBu4KVifRQGZl+JiSvgw
+    9mSbn8dIqXi2WXNiWFaTJHHZ4Jih2f4J8Zf8XQJs9Or+djBfP7qo+n/CcBwnndgEEsWDvn
+    dde2XKLK1ANi3gu15BOxuI5tGRXcf4I/n59a/Jk8KMuRhC+UWXSiv/46euNQ6JSTIIAimv
+    7jcAW/tdVBGXJXklC1RRPUglHq4hH5Bc64PIl28tFEzC6NIzPjSltWekhutJo/tT2majGT
+    sswf9kF/mQ7bfD6GGD2BLOWWsUXcYZgnu4j4D7tHPb/zynsKGK6m+AhMOPYjmUzMOzh5dT
+    b4rWxbMHiL5nnjAdO5ldN4zD++TlD1rdyXqAHwBHPTOIS8FN/SKiiEb38SpBdbZorRtZ3g
+    6HKFrjuDJITZTWSsi/aiCUAXSktyenMIc8kN6yeNsZHz8HdWRAJlXYnV78lUl5wNp4dJzJ
+    K2wtUluCHNuU9Ak5O20DPSdgweZAMliMgfRfP/R4THeQWT2Cq5n/XeaklCLw
+X-ME-Proxy: <xmx:NU7hamKsy46mFaILnzutP5LNXCeEcEkH7ASldNGwyMSr1vsmEA_XLQ>
+    <xmx:NU7hajRmT8qLJPv58aR7XoaIN4e0ZQloPg1Re3nCph4Fgy5gL4tmng>
+    <xmx:NU7hapoTY0a-MqM5sQVzrhTvHncNfTKm3VeNlXgeqpDve-iSMPWQrg>
+    <xmx:NU7hahb9D81m8XEdG4qqwPK-ysKtigp5k8VzEshrenjpsUJ67MPPlQ>
+    <xmx:Nk7hairIFIEEI4qphXaATaK3ls9tH3EoMbCthRQcYtN9uyTpEesD-K0G>
+Feedback-ID: i31e841b0:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Oct 2026 21:21:52 -0400 (EDT)
+Message-ID: <5de6de037706e45ba88939e8f36e7dae48005e6c.camel@themaw.net>
+Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
+ stores
+From: Ian Kent <raven@themaw.net>
+To: Krystian Kaniewski <krystianmkaniewski@gmail.com>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+ Danilo Krummrich	 <dakr@kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner	 <brauner@kernel.org>, Jan
+ Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>,  Peter Zijlstra
+ <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Jens
+ Axboe <axboe@kernel.dk>, 	driver-core@lists.linux.dev,
+ autofs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, 
+	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+Date: Wed, 28 Oct 2026 09:21:48 +0800
+In-Reply-To: <083c2bb0-85b6-480e-afcb-bd2f386f2ddd@gmail.com>
+References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
+	 <cover.1792577179.git.krystianmkaniewski@gmail.com>
+	 <dc65c28e408d6b64d4b13b7ad30e5fe70ddaa441.camel@themaw.net>
+	 <4f56c93a9fc5fee152364974773df0a319c84af9.camel@themaw.net>
+	 <083c2bb0-85b6-480e-afcb-bd2f386f2ddd@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -117,128 +141,95 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/46] mm/huge_memory: fix list corruption when
- deferred_split_scan() races with deferred_split_folio()
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
-        Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
-        Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>,
-        Barry Song <baohua@kernel.org>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-        Baoquan He <baoquan.he@linux.dev>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
-        Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-        Hugh Dickins <hughd@google.com>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        Pratyush Yadav <pratyush@kernel.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
-        Lance Yang <lance.yang@linux.dev>, Rik van Riel <riel@surriel.com>,
-        Harry Yoo <harry@kernel.org>, Alistair Popple <apopple@nvidia.com>,
-        Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
-        Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>,
-        Kiryl Shutsemau <kas@kernel.org>,
-        Matthew Brost <matthew.brost@intel.com>,
-        John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
-        Will Deacon <will@kernel.org>,
-        "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-        Nick Piggin
- <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>,
-        Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-        Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>,
-        Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>,
-        Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
-        Gregory Price <gourry@gourry.net>,
-        Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-        Ying Huang <ying.huang@linux.alibaba.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org,
-        stable@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>
-References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
- <20261027-fixes_core-v1-10-6f74bec9a5bb@kernel.org>
-Content-Language: en-US
-From: Mani Tofigh <mt4022@columbia.edu>
-In-Reply-To: <20261027-fixes_core-v1-10-6f74bec9a5bb@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDAwMCBTYWx0ZWRfX1rG6OoVdFZuW
- yHGu8tsuYyzwERcE4sanvXunaU4S6OFm2e8OVV+hxl8nBZWd4Bu8SjvxSW+Xc1/N1+wwGcYcDaV
- V5WLlt6wvcPNiXdKNuV+fOPVEc9Bdely4SaiV+U8M7BBK6DiWimB5RJKaC9vJSdtYoiVxm5vrwk
- ueZ1OK23lziRH5swLb2zIfKibcUeW9Bddw9Bs53vBkqhZAT44ie75o+OCK3eAapq4708SsnFzNN
- 9ILpQeHGVEgIuT3NoXsVYdPXy50o3Uhsp2vqhZoTHwsmnR6estfRRg0B0KCcaoLyhc0HXbeq3B3
- nxTO96NDp2HbvwwQsmDCuswat9asihu2XCqOsG/jIvx9/iWMoeofCXHWaQwyIOQ0CScQTNo0R5L
- cnLRNtqtrmqFsgzNjY987dQEHvZiysyuqCcidX9aEEnLOxd8xbHt+a/yma+r6CM7osPCA2K2Dmz
- lYRJAwayFtEVMyylZ7A==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDAwMCBTYWx0ZWRfX6++mylvF0w59
- Tc7VnrlH7tZLA9HixkBFV8EbxmKxYHG5iRO96aYi7pvXnUl5XE/vt4NZI85dHxh0cKbKZ1jQ+5z
- TLgLiU6kYuvdSpY9BpsiiPyiYdfdZyonMwt4jO/zEpFKWeskl/AN
-X-Proofpoint-ORIG-GUID: 3MeU8wSbzEO8WmHUNyB6vtw_dhc0K07I
-X-Proofpoint-GUID: 3MeU8wSbzEO8WmHUNyB6vtw_dhc0K07I
-X-Authority-Analysis: v=2.4 cv=EP+TQFZC c=1 sm=1 tr=0 ts=6ae13e54 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=TdXXog4ttPu8yHJGq4T0ug==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=SsB-OO3BMngHh3ZO9fOt:22
- a=VwQbUJbxAAAA:8 a=maIFttP_AAAA:8 a=_zromwrzjHPDTWxWFBQA:9 a=QEXdDO2ut3YA:10
- a=1HOtulTD9v-eNWfpl4qZ:22 a=qR24C9TJY6iBuJVj_x8Y:22
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11948
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 spamscore=0 bulkscore=10 clxscore=1015
- impostorscore=10 lowpriorityscore=10 phishscore=0 suspectscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610280000
 
+On Tue, 2026-10-27 at 01:57 +0100, Krystian Kaniewski wrote:
+> Hi Ian,
+>=20
+Thanks for replying, ;)
 
+> On Tue, 2026-10-27 at 07:11 +0800, Ian Kent wrote:
+> > Commit 1e8c813b083c ("PM: hibernate: don't use early_lookup_bdev
+> > in resume_store") looks like it's been around for a while so I
+> > assume the reproducer should work on 7.2.12?
+>=20
+> Yes. That commit entered v6.5-rc1, so 7.2.12 contains the relevant
+> code.
+>=20
+> I used the unmodified C reproducer linked from the syzbot report:
+>=20
+> https://syzkaller.appspot.com/text?tag=3DReproC&x=3D11c0f4c9580000
+>=20
+> I also used the configuration provided with the report:
+>=20
+> https://syzkaller.appspot.com/text?tag=3DKernelConfig&x=3D7d012d9c67977ee=
+4
+>=20
+> > What should I expect, a hang, it doesn't.
+>=20
+> A permanent hang is not expected. The result to look for is this
+> lockdep warning in dmesg:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WARNING: possible circular loc=
+king dependency detected
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &pipe->mutex --> &of->mutex --=
+> &sbi->pipe_mutex
+>=20
+> The reproducer records the first dependency by splicing into the
+> cgroup v1 devices.deny file. It records the opposite dependencies
+> through a normal write to /sys/power/resume. These operations use
+> different lock instances, so the exact reproducer reports a possible
+> cycle rather than deadlocking.
+>=20
+> The write waits for an autofs daemon that never replies, but the C
+> wrapper kills the blocked child after five seconds and starts another
+> iteration. In my test the warning appeared in the first iteration.
+>=20
+> The test needs lockdep and CONFIG_PROVE_LOCKING, the cgroup v1
+> devices
+> controller, autofs, and working hibernation support. It must also run
+> as root. Without lockdep, the program can appear to do nothing
+> useful.
 
-On 10/26/26 7:17 PM, David Hildenbrand (Arm) wrote:
-> Since the deferred split queue became a list_lru, the isolate callback
-> moves the folios it took a reference on to an on-stack list, linked
-> through folio->_deferred_list, and deferred_split_scan() takes them off
-> that list with list_del_init() without holding the list_lru lock.
-> 
-> deferred_split_folio() does not know about the on-stack list. It only
-> holds the list_lru lock when it looks at the same list_head, and it can
-> run for such a folio: a THP is queued when it is mapped, as a candidate
-> for the underused check, and is queued "again" when a part of it gets
-> unmapped:
-> 
->    CPU0 deferred_split_scan()          CPU1 deferred_split_folio()
->    list_del_init(&folio->_deferred_list)
->      next->prev = prev
->      prev->next = next
->      entry->next = entry
->                                        list_lru_lock_irqsave()
->                                        folio_set_partially_mapped()
->                                        __list_lru_add()
->                                          list_empty(item)  -> true
->                                          list_add_tail(item, &l->list)
->                                            item->next = &l->list
->                                            item->prev = tail
->      entry->prev = entry
-> 
-> The folio now sits on the list_lru with ->prev pointing to itself. The
-> next removal leaves the neighbours pointing to it, and they still do so
-> after the folio has been freed. With CONFIG_DEBUG_LIST:
-> 
->    list_del corruption. prev->next should be ffd4000000270090, but was
->    ffd4000000278090. (prev=ffd4000000270090)
-> 
-> Fix it by grabbing the lock around list_del_init() so
-> deferred_split_folio() cannot race with it.
-> 
-> Fixes: fafaeceb89a5 ("mm: switch deferred split shrinker to list_lru")
-> Cc: stable@vger.kernel.org
-> Reported-by: Josef Bacik <josef@toxicpanda.com>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-Reviewed-by: Mani Tofigh <mt4022@columbia.edu>
-Tested-by: Mani Tofigh <mt4022@columbia.edu>
+Ok, I'll check on those, not sure about hibernation support in my
+VM ...
+
+>=20
+> > Also it looks to me like the reproducer is trying exploit an
+> > invalid request similar to what I described earlier
+>=20
+> Whether the string identifies a usable resume device is separate from
+> the autofs request. resume_store() first passes it to lookup_bdev(),
+> which performs a pathname lookup before the numeric fallback.
+>=20
+> The reproducer changes its current directory to the root of a
+> detached
+> indirect autofs mount. It then opens /sys/power/resume using an
+> absolute path and writes the relative name
+> "0x0000000004000921".
+>=20
+> The resulting lookup is therefore:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <autofs root>/0x00000000040009=
+21
+>=20
+> For autofs, this is an ordinary lookup of a new immediate child of
+> the
+> indirect mount root, so it is a normal mount trigger. There is no
+> autofs mount under /sys/power.
+
+Right, enabling the autofs pr-debug logging and looking at the
+reproducer verified the exection flow for me. I didn't see a
+lockdep splat but my environment is probably not quite right.
+I'll check what I can and see if I can reproduce.
+
+>=20
+> In parallel, I am preparing a revised patch following Tejun's
+> suggestion. It disables splice for writable opens of
+> /sys/power/resume and gives its of->mutex a separate lockdep class.
+>=20
+> If you send your autofs change, I can run the same reproducer against
+> it and check both the request and the lockdep warning.
+>=20
+> Thanks,
+> Krystian
