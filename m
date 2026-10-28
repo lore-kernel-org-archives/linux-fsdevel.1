@@ -1,96 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793221754;
-	b=b+OLF3HiQfJ9nrOwnB5+u2azYH2HbHiTBksa2+EcnnnVPciy/JZfZIdZ+o4ZiVjm73ao
-	 lwlrqgphOYiFJga5RoENhseKjup1xI6F66VYmphp6+xdT/P1t5KF3ly78hY3WnFSXhG08
-	 82TU2VPMWqwhPTIBYdkxFdKKr+8VppSn+MbVy1+1OVCuHJzPHxhhBW+Vg8v4kmZ1joIB4
-	 xFY7be2h06cNP1uPZWlS9z2kHgrUJu8Ci4JZMs0Bc7vAfTiuUFDKgb2nC7UszpxuIHOsc
-	 1l3230Ugx29eKEUG1Xe7K6uFL+5C24z5j40HjG37UQ5DDSVenPyx4qypQChN5NwgerQ==
+	t=1793221888;
+	b=u3aJjSTekU/K+6WZRBP6Xut+oJkNJi4HYAEL4cMZP3GXmdBUEV/iwE7Uak0+8xt5EiLa
+	 1JLncm9cHdSG8XwEBmoNOsDhAee7JYA5goAaBnzjSgQ0iwyPPQ/FIs9vbxJG3D4ZzbqAJ
+	 kUUFqh5N7vHB2XCdFf3OuRgOW8VqzKe0KhGXrCZcG+OYHhV8JKl1VcNkjB7Ktu0Uuxlnv
+	 EloCeOJm9QxvBxrFlw/VYEhxVeBBgzu8UKvipuvoH3cwkXdmpy8SSRlHX8zSF0quDEa0g
+	 bmuzRLrsf2sZSs2O1DbA2hV2sXNThbFWlidFmH4fsphUASZxm3z8Ji+yZFJQNADBWeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793221754;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=b9Ue7Amy9dAWOngMe9Pw0Kk0KAocM2Q9voQibH/OirU=;
-	b=bPN0iGBFBsvEIK3N8JnlvG2dYTmxNNPL8HAZgTY5aE6qDmneGuVY2MxvCVQZBUVYIVmw
-	 XUY62TuAhbPhaYKO5UdoNerdK2YcPg8gxSVD4UEQ4vPdZHwyEAGI2Z3NWaYpUqoUrppcW
-	 yIRQVsjFvHaqFnwjEctIelpX5NKu7hA9crgZD8ZZBoqKGOe+LykX4hDEJ0t7kgMp6pLWS
-	 Nuob7JyYfJXyndM0uqPPKnSgNSCkMfKWNbRYSvVpoQzriK10xVNfKVOJuDdjw9kt6i6Tv
-	 qOb9DakSoA7E9WTucl2pW4yn03Kbklhg33emTfQD4hNYhCaEYyfRGJx64ZiR0NTXrHg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793221888;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=2T2ryu8CYGBb/tgqfVT9uEsdD2RyXJuHuC2cnmKBcaE=;
+	b=j/3rdvLkc1xWScWi7d/OWzzR6LsqVK3r5MNbso/VO0X7A/oENZXZwiUTPEOZL7umsIgF
+	 6vWpqvCm9CbasIKW1FJfSLNPFPBc84Rrm2ZHu6b6hrD2E7wtPCBAGbFn12hT9E48EBlgE
+	 +hmVcYtlx7dq6gUYi6UgCl0G4SZlxosaJXN+gQbD8PfvfDZ35I0Qe50XzTFSzY5Y5WpkN
+	 2twJz24yDYJjl+64E23XGFfjgPYBlh5Wtp4gfi29kutFPIr5VhqDHqQbb693JRvWk728o
+	 UOVqWCiSWsHitYytyA9PH0YocCEjmaxxb+ZVg6OCn1ED75bRcb/7caRQChjJYiwNX5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lYpPdQMK;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="kIvE1Av/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B13606A322
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 21:09:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88B13606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5206606A320
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 21:11:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lYpPdQMK
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a2d6cf958bso8585585e9.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 14:09:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793221753; x=1793826553; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=b9Ue7Amy9dAWOngMe9Pw0Kk0KAocM2Q9voQibH/OirU=;
-        b=lYpPdQMKb567K7Gcw8lAVZu0HbfmVC9X/z1iRKMq1P1CbFM1/B9/PYj70+JtzadMVC
-         7yKjRdneV3HesBPbPtayTidUfKDRj8zK/78nrBfD3dKsaMZjIT/1DQSpIWw7S/w1MQD5
-         VdhxflrOnAtV+3nZybKuumlrxFIQWiXyFzXNmLfgd9QLtlpnlnvTQrfDzAORBh4UCQ6c
-         I/QrPcCBFIoPijM5QjZlw72+qdNiLjjg1ZsJiJmRne+Gy3orRQFo5gdRr2JC3NatTnyG
-         f376m6J2Cq9qIGSEmgBkmM9RzAva2Uv+2O4yO3s1ord3aGepQOBRO1jtCUVSEYqrZMJN
-         AqGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793221753; x=1793826553;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=b9Ue7Amy9dAWOngMe9Pw0Kk0KAocM2Q9voQibH/OirU=;
-        b=VSuoUj7FVWRGpj8DL5E1n4p0AfRe00v5Aq/gYd/p6t+Zhsk5lEyYGYlStyYVP5ijL9
-         2z0icFy6Zbn4MhiEnvVFXwKjbDE9T037EEXue+tu6URtveP1RNPPSGMPK5exVRGSljr7
-         eZfyxQpRVj1OecSu51XOjDHoOZryRwdGL1DugjIMH5lI2AqBcE9CU1n5UzPqo2sbIpsj
-         4WOiUBkFyhsish7ZiPcuq7MNJV6AtQpOGw6CyOyegZqm1/qEW30iZWwcA0GMwKSVNGAu
-         YXdjdA+Hk/LI8q209BJXPiNklnOQmltN5ISJdUQDX5VtUwHr+NKsNS/Cu3aN5C1emcHq
-         pjDg==
-X-Forwarded-Encrypted: i=1; AKwUvBxm/DIKrWRrAlR6NFIUmvRPG4SzviiG4bXoed5bdGptfKs54T1mYF8nYI+n2TslSn4QbXykQ+nN1DlVNncW@vger.kernel.org
-X-Gm-Message-State: AFq9FYLYsGf4CrbPyA7/pOTCPxDxBR621MvoRkzxvdG9Vo72APrcimWu
-	blSsvs+2MP2qrHDqoDZ2crE053o9v9hBbHhJG9ZwRMac+mHREVHkXTRe
-X-Gm-Gg: AYBFou12OFxjh9H2beSrfBqvIV3/RjKSOBvIgHc5se0rwx8bG2pHUdTmin7ZTLm587/
-	EpdZImwLZ2q5WaNyZUndpV/Ds88ftYnTosnsOAZM384i2tknVcXAdsKumKmYWXbyICKDUBokIN5
-	WVafY5gqtgs3OiNRnH0WWOS2HMGELe9qFxHfwnTwcqKNI0vaAGj0f6iTiuOZCjGRs+DNBvrZeJO
-	7H9XJhxbj4EZE2cnM4pJnJhwIgLfxSv12z7TAfzsE0+LSnlCmHz2ZFsBRpIjfOACZ4rWw7Nhdg/
-	gdIOqQIv0RaQ4YO45nP398KtVsrr5dpIMNZdK9I1J1vMorCrFQMVjwV0ai1AMFgEDaCu1wHJ4lv
-	fzC1dpC0qTkST9LzGY8RSC6xscVsIcdgMVdY6Bn/uOOQCbsr/wldxVjuP58gw1syaUvG3n7Wecf
-	ovwoXrDBUV46O1U7XtQ/DoJE6tL9UWQ/lmUTio2F0HEQSu35NMFxovJtfOFQFvH2PqGS6HI5Qlj
-	Hhx/F8C1y6ZxQJCTmQfCZkja0beWYhOBSxU5mFzHpsUkASZy8Omk03Oa/Mmx83YIKtDKgvAgRJq
-	PrVQiJOoemayV5PCRzUHpFPhPpFo8oq2o+/xZD2ILO7QtDWtusp/rlAjc48sTdLwQg==
-X-Received: by 2002:a05:600c:524c:b0:4a4:7a8d:c736 with SMTP id 5b1f17b1804b1-4a9661ab662mr83304295e9.9.1793221752843;
-        Wed, 28 Oct 2026 14:09:12 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa7f7f52e2sm20027845e9.9.2026.10.28.14.09.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 14:09:12 -0700 (PDT)
-Date: Wed, 28 Oct 2026 21:09:11 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: wen.yang@linux.dev
-Cc: Joel Granados <joel.granados@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 01/39] sysctl: replace overloaded extra pointers
- with typed bounds and context
-Message-ID: <20261028210911.30a8100d@pumpkin>
-In-Reply-To: <fec089bb7a3ea62a5e2006cf578b1efec2df4aff.1793204511.git.wen.yang@linux.dev>
-References: <cover.1793204511.git.wen.yang@linux.dev>
-	<fec089bb7a3ea62a5e2006cf578b1efec2df4aff.1793204511.git.wen.yang@linux.dev>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kIvE1Av/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 916431F031E5
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 21:11:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793221887;
+	bh=2T2ryu8CYGBb/tgqfVT9uEsdD2RyXJuHuC2cnmKBcaE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=kIvE1Av/NonADig4ues3OMWwzmxsWyNeBhYPhdsQL5Yc5BL1YXObcZTr1qaF3e5ga
+	 dszFsqLr0ZRvrDM1FuSyNUyoV71ayuuKa3+vu2X5iasPuSZrzMyirfRIfuayvnhBF/
+	 NMoE2sNALjgYz+YqfbqEiZ+gLdBOk35crImYyNQ9bkRu9KZhv7hFFtEOZyTUnWVYDh
+	 37gsGkGUTMWclDWhNrbCjPF0V2u0TwpumujohEzJyZE+CpZMOVJRLnX4vMbsQ2Iz8g
+	 gKWPFlP4nqLmSSFIvwhUyZ6/5awb5oYMOgvY5W14PBNquzH4csFPyZaMDQ3MnIgecS
+	 rEIPPcuuD6+Tg==
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-91986c5cb75so17028526d6.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 14:11:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzYCKb69tUSGK/wAyJwghYW3+J9uiCuWt0JbieCsP1Kcx243QddQpu4gmE3ASbKZxn4C+Lj10MQUhIIx5/b@vger.kernel.org
+X-Gm-Message-State: AFq9FYKeCxVEnTLCIl+sITOe80WqJDvFTF4kIOTPY65NN8XBgRwTruxT
+	yqAA/fwb1BFwcjv0rWaHzMurl4Fr1fVn3xfH7GOP9Isw9FHBvIy2KcoymSKZTS9fRTPNHwILwSr
+	f7d8yYUHrwF7tZcu8+gsvWgZU52TAymU=
+X-Received: by 2002:a05:620a:2a12:b0:93f:43a4:a48c with SMTP id
+ af79cd13be357-94408cb191dmr541635185a.45.1793221886373; Wed, 28 Oct 2026
+ 14:11:26 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,102 +59,131 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+ <20261027-fixes_core-v1-2-6f74bec9a5bb@kernel.org> <auB-3BQn_rR6IfY8@pedro-suse.tail5790ac.ts.net>
+ <22b819a2-631d-468e-b724-770caf9f94e4@kernel.org> <CAGsJ_4z3qgCPBpCDitVTq+xiGsS=-yEhKSbEO4Lbdn9MVAHK0g@mail.gmail.com>
+ <auHve-G8bboW77IZ@pedro-suse.tail5790ac.ts.net>
+In-Reply-To: <auHve-G8bboW77IZ@pedro-suse.tail5790ac.ts.net>
+From: Barry Song <baohua@kernel.org>
+Date: Thu, 29 Oct 2026 05:11:13 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4xD_EU9sBZmJRb3ET3zfxnOnXJvZB1p_3pTLV=Y4xHPMw@mail.gmail.com>
+X-Gm-Features: AclHuK-GiN_SNdh0TbEQNxyVeAnkfKV91o-Gzvz83ZLTf2wxKLZGDZHJQeX3iwc
+Message-ID: <CAGsJ_4xD_EU9sBZmJRb3ET3zfxnOnXJvZB1p_3pTLV=Y4xHPMw@mail.gmail.com>
+Subject: Re: [PATCH 02/46] fork: take mmap_lock before copying mm_struct
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, Hugh Dickins <hughd@google.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, 
+	Lance Yang <lance.yang@linux.dev>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+	Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>, 
+	Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Oscar Salvador <osalvador@suse.de>, Minchan Kim <minchan@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Xu Xin <xu.xin@linux.dev>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Chris Li <chrisl@kernel.org>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Gregory Price <gourry@gourry.net>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kexec@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-cxl@vger.kernel.org, stable@vger.kernel.org, 
+	Josef Bacik <josef@toxicpanda.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 29 Oct 2026 00:34:40 +0800
-wen.yang@linux.dev wrote:
+On Wed, Oct 28, 2026 at 8:55=E2=80=AFPM Pedro Falcato <pfalcato@suse.de> wr=
+ote:
+>
+> On Wed, Oct 28, 2026 at 03:48:09AM +0800, Barry Song wrote:
+> > On Wed, Oct 28, 2026 at 3:07=E2=80=AFAM David Hildenbrand (Arm)
+> > <david@kernel.org> wrote:
+> > >
+> > > On 10/27/26 11:38, Pedro Falcato wrote:
+> > > > On Tue, Oct 27, 2026 at 12:17:22AM +0100, David Hildenbrand (Arm) w=
+rote:
+> > > >> dup_mm() copies the parent's mm_struct before dup_mmap() takes the
+> > > >> mmap_lock. A concurrent brk() can leave the child with a stale mm-=
+>brk
+> > > >> and newer heap mappings, causing later brk() requests to fail.
+> > > >>
+> > > >> Other operations (e.g., PR_SET_MM) on the parent's mm_struct can s=
+imilarly
+> > > >> cause inconsistencies.
+> > > >>
+> > > >> As a simple and robust fix, grab the parent's mmap_lock earlier. T=
+his
+> > > >> way we don't need to update individual mm fields in dup_mmap() and
+> > > >> keep missing ones. Stop updating the 4 existing members (total_vm,=
+ data_vm,
+> > > >> exec_vm, stack_vm), as that is now no longer required.
+> > > >>
+> > > >> Keep releasing the parent's mmap_lock in dup_mmap(), before
+> > > >> userfaultfd completion, to avoid moving the userfaultfd handling i=
+nto the
+> > > >> caller. This should get cleaned up later.
+> > > >>
+> > > >> Move uprobe_start_dup_mmap() to preserve the lock ordering.
+> > > >>
+> > > >> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> > > >> Cc: stable@vger.kernel.org
+> > > >> Reported-by: Josef Bacik <josef@toxicpanda.com>
+> > > >> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > > >> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> > > >
+> > > > Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+> > > >
+> > > > FWIW, strictly speaking malloc() isn't usable in a forked
+> > > > (multi-threaded) child, but glibc/musl provide this in a best-effor=
+t way.
+> > >
+> > > Yeah, I'm more concerned about other things that can race ... :)
+> >
+> > Regarding the race with memcpy(mm, oldmm, sizeof(*mm)), we
+> > still have one [1] even after this patch.
+> >
+> > That is, copying mm_struct can happen concurrently with
+> > lru_gen_del_mm(). However, this race doesn't seem harmful.
+> > I might be missing something here though.
+>
+> I don't think it's harmful as well. mm_init() reinitializes those fields.
+>
+> Though I hate that memcpy. I think that ideally we copy by member and
+> data_race() benign races, like what is done in vm_area_init_from().
 
-> To: Joel Granados <joel.granados@kernel.org>
-> Cc: Wen Yang <wen.yang@linux.dev>,  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
-> Subject: [RFC PATCH 01/39] sysctl: replace overloaded extra pointers with typed bounds and context
-> Date: Thu, 29 Oct 2026 00:34:40 +0800
-> 
-> From: Wen Yang <wen.yang@linux.dev>
-> 
-> struct ctl_table has two untyped misc pointers, extra1 and extra2, whose
-> meaning depends on the handler that reads them. In-tree use has grown to
-> cover at least seven unrelated jobs: a fixed bound, a bound read through a
-> pointer on every call, an object or namespace pointer, a small integer
-> cookie encoded into the pointer, a lock signal, NULL standing for "no
-> bound", and a value the core itself casts to unsigned int while validating
-> a u8 range. Nothing in the entry says which job applies, so readers and
-> writers have to infer it from the handler, and the core itself gets it
-> wrong where it treats extra1 as an unsigned int.
-> 
-> The overloading is also a memory-safety hazard. An entry that stores
-> handler context in data cannot be handed to a standard handler without
-> first restoring the real storage, because proc_dointvec() writes through
-> data. Every call site has to remember the restore, and one that forgets
-> turns a user-supplied integer into a write over a kernel pointer. nf_log
-> reaches the same problem from the other side: it replaces data with a
-> local buffer inside a single handler, so data means two things within one
-> function.
-> 
-> Replace both jobs with two fields that cannot be confused:
-> 
->   - min/max hold numeric bounds by value. Signed handlers read them as
->     signed longs; an absent endpoint is the type limit, not NULL, so zero
->     stays a real bound. A range that changes at run time is refreshed
->     before every call instead of being snapshotted at registration.
-> 
->   - priv holds handler context. The core never reads it, standard handlers
->     never touch it, and registration rejects it on a standard handler so
->     context cannot be silently ignored. data and maxlen keep the meaning
->     their handler gives them, including proc_dostring() name lengths and
->     proc_do_large_bitmap() bit counts.
-> 
-> The range converters read min/max whenever extra1 and extra2 are both
-> clear, and keep reading the pointers while they are set. That lets callers
-> migrate one subsystem at a time without renaming handlers or adding a
-> parallel API: the existing proc_*_minmax entry points keep their names and
-> gain numeric semantics as entries drop their extras. Entries that already
-> relied on NULL meaning "no bound" now state their type limits explicitly,
-> so their behaviour does not change and the meaning of zero stays
-> unambiguous.
-> 
-> This patch is the refactor itself. The next patch converts the debug test
-> module to numeric bounds as the first user, and the KUnit suite after it
-> makes the contract executable; everything after those is migration of
-> existing users and adds no new semantics: fixed bounds become numeric
-> values, run-time bounds are refreshed per call, context moves off data, and
-> the extra pointers and the compatibility read are removed once the last
-> user is gone. Owners that can still be recovered from data keep using
-> container_of(); priv is only for entries where no derivation exists.
-> 
-> Replacing the two pointers with unsigned long min/max follows Eric
-> Biederman's suggestion; priv is added here because the same pair of fields
-> also carries handler context, which a numeric bound cannot express.
-> 
-> Suggested-by: Eric W. Biederman <ebiederm@xmission.com>
-> Suggested-by: Joel Granados <joel.granados@kernel.org>
-> Signed-off-by: Wen Yang <wen.yang@linux.dev>
-...
-> 
-> diff --git a/arch/powerpc/platforms/pseries/mobility.c b/arch/powerpc/platforms/pseries/mobility.c
-> index b5c2abd12432..294897f3fbb5 100644
-> --- a/arch/powerpc/platforms/pseries/mobility.c
-> +++ b/arch/powerpc/platforms/pseries/mobility.c
-> @@ -10,6 +10,7 @@
->  #define pr_fmt(fmt) "mobility: " fmt
->  
->  #include <linux/cpu.h>
-> +#include <linux/limits.h>
->  #include <linux/kernel.h>
->  #include <linux/kobject.h>
->  #include <linux/nmi.h>
-> @@ -61,6 +62,8 @@ static const struct ctl_table nmi_wd_lpm_factor_ctl_table[] = {
->  		.maxlen		= sizeof(int),
->  		.mode		= 0644,
->  		.proc_handler	= proc_douintvec_minmax,
-> +		.min		= 0,
-> +		.max		= UINT_MAX,
->  	},
+Yes. I was suggesting something like using data_race() to
+silence the warning[1], but applying it to memcpy() also
+seems a bit too drastic.
 
-You could save a lot of churn by not adding the '.min = 0' line
-and making the function treat the 'silly' case where both min and max
-are zero as meaning 'no upper bound'.
+Another option is to copy members one by one, skipping those
+that don't need to be copied. However, that would make the
+code quite lengthy, and the copying might also be slower?
 
-As well as saving a lot of diffs, it will be less error prone.
+>
+> Anyway, KCSAN reports aren't the most serious thing in the world, so this=
+ can
+> (should?) be cleaned up later.
 
-David
+Yep, I don't think there are any blockers for this patch. I had
+actually given my Reviewed-by tag before raising this race.
+
+David discussed races between memcpy() of mm_struct
+and other operations. I recalled another related case, so I
+posted it here. Hopefully, I'm not just making noise.
+
+[1] https://lore.kernel.org/linux-mm/CAGsJ_4xnM66UZ-n55AHW4UHn+PSCP7G-gGUHU=
+fSt6MRZGeRnfw@mail.gmail.com/
+
+Best Regards
+Barry
