@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793187863;
-	b=BIlRx43U5mRLubqM9oiPRxCseC9DH64IhmQIIadgpQ8iPtqdiWJEFigOes9cm23cRYp/
-	 ETZLiLjjjZmWG/ZMz8spOLUPrpE6VSitL+Cllf+hwEq0yanS5fLAk+PARsBtnn9xa1Ar7
-	 P8lixtrGW+7gwfDhcnschAuNyq4NzqxUGYScWyBQRLmt+rF+wjnGMYmuojRbR5DOHWPOd
-	 MtOnRmJLWZJls0BxHg+qCwW//Smks3kbJJ/Iu7hKPKrfn0YafqhkPGTKelrYiRMUPaibc
-	 O67B1gN6s/fuRswoT+vwg2/0nO3dP6psE5nKxlsWHy9ds0Jvb4L/lyMwKEnhS2rOELA==
+	t=1793187893;
+	b=5QQxnFpgVW8wjmRPtq7OehpJ8tzidzfSrWLA/l/Rafk9sD1Mf1no8gatso7B3YRmRYzl
+	 5SQpVhXXOfoy2O8CO7UeHrCXNeES/mh6zxTsqY8zPcfq3gldRhm08jvTJoV4tkgxnoJDO
+	 HraiPTIR0tMSPQ91UJhqRke1/o1Yw087btvLpOnujzBahim0XaVvbYNY6LforcQV8nBdY
+	 GBG99By/paqbSDfencIaj+Yl65ai/OdqlX/adLAgo5uy65AtoxD4Gc2ZTsJMYmDrzJE3c
+	 rTnMsUT9pTTzFxbxPKhJ78qFdW8DD7BkwxA8fqYkiBV33Gca3Yx2ZVQAU5bjXkxajfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793187863;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793187893;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=DfqZSZZirg02/y7+Hu6+biXxEuviwtSJMX1/tfCGZ1E=;
-	b=zW2iHVjFpXW0ROTVMIIhLM4uAr0WtUklRBIVbE6jJMRdn5Fo17Ad4RSrzWRK4ZqM1ft3
-	 EujMlp1VImuDFWlXJimQuWINp/bT3XOjuo4RTL9KrukIpCrH+XybZsuGJtcMW9ilui5yj
-	 JP/oUYkZMty29dPF3g4GYOQNtZGNjW0MN2fF4gc0v66yGuuKXsopLE7NIlJSXazR4FsQa
-	 i3vrILdO5CUeW6eh7zt9EBQxyJeLi4fygPr9Y/Is9OVk2Q/JZvEoR3Fv7+ZhiGQONFfPF
-	 6LrdVmnJLX5Eg/KDkEaB24RjdiEP3IoelWkolmfZI3zkXcb0+A2XBykP/nEBjXD1cCw==
+	bh=AzxsreGIazEGHNZ+Tlba7bzQuuS0/SXodByMLbgqMaI=;
+	b=ynDV06ewaWsOqp7ResbKt6zx7/rr8SEcUcS5znagb4Loc0x9owzPLTP7bLlWsCY0IGwf
+	 p4dgyn7ceDzx6eVFP0nQBL0I5W4RmY0d0WWF/lQfdVBN7P7vq+QmHpffNlTEtFvAujf3f
+	 /fyqRLQnlM5bRSmUsjfM+wxF1azSgagNt0eIZmHhIEldrokmVLUMKB3PSr9jZGBeRLRYF
+	 G1N7UtuicIO103V5y/6e8u8IaAasnvCrJ1YqR0Sh1a4vzhWgrQO2C/oqX66zA+nK87F2a
+	 YGPMb19FJPmtQaszA2MfQH8FBDRkspyU0gBtbx5s7UVDZGhhU7qgRjXRqGzH+2JCn+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jRmzhIrh;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JW4NmbXM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80C5606A31C;
-	Wed, 28 Oct 2026 11:44:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F52606A31A;
+	Wed, 28 Oct 2026 11:44:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jRmzhIrh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8767F1F01825;
-	Wed, 28 Oct 2026 11:44:21 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JW4NmbXM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7167F1F01825;
+	Wed, 28 Oct 2026 11:44:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793187862;
-	bh=DfqZSZZirg02/y7+Hu6+biXxEuviwtSJMX1/tfCGZ1E=;
+	s=k20260515; t=1793187892;
+	bh=AzxsreGIazEGHNZ+Tlba7bzQuuS0/SXodByMLbgqMaI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jRmzhIrhvjBYvVLWvF2JxCm33XYPEY+B4MrjzqXXXvADrFnSkcbsTJSj1MGwIIrNw
-	 kWnTLeNPwAIyLJtJ9+tdjv+78v1kDot8qmeI/jSFN574FYwb0mRlc5drmbrKuPcITI
-	 6FEhIHn8LraufNE/4d0Z/2AXNjo9H839co+kG/5xv740bKnWioo+cV4BJVLb2j3VTR
-	 QyAxwrfZ8T8k1/xE4OmhivZaTmo2IG6MCOaltdGwsIaTczyLlCF7xdElyanabRWrN9
-	 fzrY4h44LuGfWoyKWEoK4nCqnl3RBFNXiOdi+7T9W3f9T3De3jThVozlgpURldPRMR
-	 pvVdbwZCrX23Q==
-Date: Wed, 28 Oct 2026 12:44:18 +0100
+	b=JW4NmbXMV9NgnBU1HlqkVlN+rre+4AqJtfnOYsCrZ1r+jx0JuneNnyHXtAgbJhcCm
+	 oGoH7Sf0QLhsPHYJ4VS3tj9kTxIwtUgUtfQrlW3PBdn2exn76z9iW9PGXPGM7wzI9x
+	 At4s0hoSb59+TSET152LixjqCST6NybH81zHXNXle6qHlbYtt+3P9F/grboN9LPDNx
+	 xzflTm1Ec4mh4z9eI8VLirREUz5LLnYViE+P42WUDgoR0QejsFy2B/B+DLWbjrllQj
+	 91G7GnwWDaZoA9reF7WmdaYzo1PUQd8JuF3UHtJOxu/4CYIjVpedfBJtBtUN0pf7S9
+	 lIU5MaIshhDuA==
+Date: Wed, 28 Oct 2026 12:44:48 +0100
 From: Andi Shyti <andi.shyti@kernel.org>
 To: Dmitry Ilvokhin <d@ilvokhin.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>, 
@@ -59,10 +59,10 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
 	linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
 	linux-mm@kvack.org, linux-doc@vger.kernel.org, 
 	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Subject: Re: [PATCH 05/10] drm/i915: switch to __nonnull_args() macro
-Message-ID: <auHf-pdvGkPibgTp@zenone.zhora.eu>
+Subject: Re: [PATCH 07/10] drm/gem: Switch to __nonnull_args() macro
+Message-ID: <auHgHcU4fYauP_eD@zenone.zhora.eu>
 References: <cover.1793027261.git.d@ilvokhin.com>
- <33ec8080594f9f4ef1d50e36497339c9a6897393.1793027261.git.d@ilvokhin.com>
+ <5bfdc1491d297b5e98cf42322c790f06481c28c7.1793027261.git.d@ilvokhin.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -74,11 +74,11 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <33ec8080594f9f4ef1d50e36497339c9a6897393.1793027261.git.d@ilvokhin.com>
+In-Reply-To: <5bfdc1491d297b5e98cf42322c790f06481c28c7.1793027261.git.d@ilvokhin.com>
 
 Hi Dmitry,
 
-On Wed, Oct 28, 2026 at 08:19:44AM +0000, Dmitry Ilvokhin wrote:
+On Wed, Oct 28, 2026 at 08:19:46AM +0000, Dmitry Ilvokhin wrote:
 > Commit 22302af28d3f ("cleanup: Annotate guard constructors with
 > nonnull") added the macro __nonnull_args() to wrap raw compiler
 > attribute.
