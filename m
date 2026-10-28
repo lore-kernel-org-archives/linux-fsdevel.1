@@ -1,125 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.77
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793202871;
-	b=3V2Ol7q9GB2Osm6NhSExDdw0XE1TkXZQRD0h30qmmP7wGy/jYrE3chUdL8y73EdJmGpF
-	 Kcdhs0KgDR8vo1p8twtkQokdSuOpWpTCHO7t1P0UOeMWThGCImGnEEb4Y10qw9seB4SgA
-	 X/Ot1l4hC9Grlj0LZn+y1dY/wZjdOU8Pa7EhuKzPJkM9UK8lv2FMna7SeNkx/bGZb2QYu
-	 xr3jiuvBLYE6U0/33SWojFWpfgjamqrcox9qgEAw3aIBHgTH0k7S+FbL/ioJPQdX/i8O7
-	 rI7wD/bkj00iu02/T7JXwubE+pIhf+o83rMvRkv7tsfuLt464NheM+RccXvVcunesdg==
+	t=1793202878;
+	b=tNy3q9+vcYh5YU+c6p9La1jvU6v2225nCp/FLf9DYY2We2v6IFO/klAwqbpj9ZaibNJ4
+	 BDWYn6oBNrKVfIPFcJxkxCnQ3E/jNBOu14aWo3KRAc4xD9+7gudGeRPVGiO3RlzbTPAOH
+	 3payp9LZIfIKHEtQjjmWXlSUShb8esfBXA13zyBg2FL4DyEHwFyyopRTr30ABCok/5NQl
+	 gvqK8kHFf61Vzr2js5GhUEboKfFerkvIByDns5nV2x2jxU3zplgWLPAj8hf3y3P4CgUm3
+	 jHlaA7F3xeGk+CTZ4CbFWuumv/j0IHmlh5BYnoYhUs6snb7mqIQ8woh2OWwfApxao/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793202871;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=tTZpPE9gJn7s96098K7j6uvB27YaMf32yiUhWF9ATX4=;
-	b=tqC9HtASfOAnhsIOeFqm3qANTSsHW/rKNoVwvlRpfor0RXYbQzFk+u5p12MdGGjvVizS
-	 rCof23J3v6oQpe1eLsbiJSxmK9kRlonH1r9qX4LN1ne0gxA884ckWvyfaZhi+DlYQgCji
-	 n+HycPEO4cI9nMY3f0eylm+uGyauYcnUtFj7z3xciC/6LFqCp4L7YgmOwBODxKzUNhzt0
-	 47Uk20uzPFvL04ij9nONN4rgnu8HrmArhJ3y6Ljj+ZScWz+OYrNlvzfGiriQuv6+GwFYm
-	 9s3N4sm0RPZfSeLx2Cmd0eKKR5/BDHZZQZ7peG9q/co6LOcG0uZdK2HKivIJc9eOcLw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793202878;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-SRS-Rewrite;
+	bh=422HFN53Nwu1wgQaRKxujkAntjQ1/boKZzysS2TQQLk=;
+	b=l8rXBZ732Ndf9R21i0ACcl15kty7P55PZvD5liwINEjGJAUggNQAMGwE1bXPQ4svoXnv
+	 BBxtDFaB0YbmefJOabloZGUDtHPxNmevaSlx1Nq99ZuGtn3sHDpIWTLHEpEQ7wRsVDFj+
+	 vCIeDlbz204kMkWWMnu8eMBQa5xP2h3GFCrTj5Pse9FLiNw8HTregaCJ53fXg9mI9n6Yi
+	 HeXiNDv9ih/apHGi/sGPQHLsBrlINEnt/gbeFPYf7uaZm9gtr+TYgrd/RZ8eXp2HIuK9i
+	 Yau0ZfUc8Q1ziVF3D1cEs1e5BUFFKozvA5N8/wZBJkUB4bbYV22n7MAClJ2tiEQvBjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=bIPJgOc3;
-	arc=none smtp.remote-ip=91.218.175.77
-Received: from mta0.migadu.com (out-77.mta0.migadu.com [91.218.175.77])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Mc4HRCpv;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985B660A2606
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 15:54:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 985B660A2606
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C41606A31F;
+	Wed, 28 Oct 2026 15:54:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3C41606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=bIPJgOc3
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=tTZpPE9gJn7s96098K7j6uvB27YaMf32yiUhWF9ATX4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793202859; v=1; x=1793807659;
- b=bIPJgOc3iPcKTa1DXojN+YH2KEJcCalwAlquT1K3q2vP78rezERhjcEiyPnYf3XJJi+zm40e
- VZ8Y7h0Sg0LHwZ3RIB6hSZlxVJqtHyTLtmTMwa/Q5NiV5ZlDRHprLtwNr+zvun7UOnbjrZLyZOI
- 1EXHQla+Wo0nAnoYaUtKJ62U=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f81f3d53b1ebb019;
-	Wed, 28 Oct 2026 15:54:18 +0000
-X-Mizu-Trace-ID: f81f3d53b1ebb019
-X-Migadu-Flow: FLOW_OUT
-From: Lance Yang <lance.yang@linux.dev>
-To: david@kernel.org
-Cc: akpm@linux-foundation.org,
-	hannes@cmpxchg.org,
-	mhocko@kernel.org,
-	qi.zheng@linux.dev,
-	shakeel.butt@linux.dev,
-	ljs@kernel.org,
-	kasong@tencent.com,
-	baohua@kernel.org,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	baoquan.he@linux.dev,
-	baolin.wang@linux.alibaba.com,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	kees@kernel.org,
-	peterz@infradead.org,
-	jannh@google.com,
-	pfalcato@suse.de,
-	hughd@google.com,
-	pasha.tatashin@soleen.com,
-	pratyush@kernel.org,
-	willy@infradead.org,
-	jack@suse.cz,
-	ziy@nvidia.com,
-	lance.yang@linux.dev,
-	riel@surriel.com,
-	harry@kernel.org,
-	apopple@nvidia.com,
-	nico.pache@linux.dev,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	usama.arif@linux.dev,
-	kas@kernel.org,
-	matthew.brost@intel.com,
-	jhubbard@nvidia.com,
-	peterx@redhat.com,
-	will@kernel.org,
-	aneesh.kumar@kernel.org,
-	npiggin@gmail.com,
-	osalvador@suse.de,
-	minchan@kernel.org,
-	muchun.song@linux.dev,
-	xu.xin@linux.dev,
-	chengming.zhou@linux.dev,
-	chrisl@kernel.org,
-	shikemeng@huaweicloud.com,
-	nphamcs@gmail.com,
-	youngjun.park@lge.com,
-	gourry@gourry.net,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	ying.huang@linux.alibaba.com,
-	jgg@ziepe.ca,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	kexec@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	mason@kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 13/46] mm/huge_memory: fix truncate racing with PMD zapping
-Date: Wed, 28 Oct 2026 23:54:11 +0800
-Message-ID: <20261028155411.50458-1-lance.yang@linux.dev>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20261027-fixes_core-v1-13-6f74bec9a5bb@kernel.org>
-References: <20261027-fixes_core-v1-13-6f74bec9a5bb@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Mc4HRCpv
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=422HFN53Nwu1wgQaRKxujkAntjQ1/boKZzysS2TQQLk=; b=Mc4HRCpvDrCW9WLE2/g8ziQ7hT
+	qO4gECc7MZn81ADg1ZeptLLUknbNXHkjuG2egQFOzO+D3I5y6BDvWQbaH8NmptdODVAOkjtuagxRj
+	h1bNltaq2C6vsgV/5Nek9/evtQgcLWdrUZGK4/pyETMT3RPtqetOJkSRToHQX6hiFg2BPxyo//sY7
+	ZKny6Pb+0TECmITg60qJK88APogNvVcsC0xuCHiyDEZpYTaMd7ZS8fAb7/B+l9HMNXifreRLDJvAd
+	luJvJqBJHH3iAlxOB8gwwAku1fwv9s4v4G8WG+msY+T4I1ZMdt1E0g1pJ5fOdnvlK8jAXZl+fA5Ef
+	pl5bZqqg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xM5z3-00000007THx-1ie4;
+	Wed, 28 Oct 2026 15:54:37 +0000
+Date: Wed, 28 Oct 2026 08:54:37 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Zorro Lang <zlang@kernel.org>, fstests@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC fstests] generic: add a test for multigrain timestamps
+Message-ID: <auIavey7CFq_l38s@infradead.org>
+References: <20261027-mgtime-v1-1-ec68914a116e@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -129,34 +63,24 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027-mgtime-v1-1-ec68914a116e@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+On Tue, Oct 27, 2026 at 09:58:50AM -0400, Jeff Layton wrote:
+> Ensure that the mtime and ctime apparently change, even when there are
+> multiple writes in quick succession. Since this is opt-in for in-kernel
+> filesystems and there is no way to test for this feature in userland,
+> limit it to just ext4, f2fs, btrfs, tmpfs and xfs for now.
+> 
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+> I'd like to start testing this to make sure it doesn't break, but it's
+> not universally supported on all filesystems. Is an explicit allowlist
+> like this the right approach?
 
-On Tue, Oct 27, 2026 at 12:17:33AM +0100, David Hildenbrand (Arm) wrote:
->From: Chris Mason <mason@kernel.org>
->
->zap_huge_pmd_folio() removes the rmap before calling folio_mark_dirty().
->If this was the last mapping, truncation can skip unmapping the folio
->and proceed without waiting for the PMD lock, racing with dirtying.
->
->ifs_set_range_dirty() can oops if MADV_DONTNEED races with
->ftruncate() on XFS, when we get the folio set dirty after it was found
->to not be mapped anymore.
->
->Move folio_mark_dirty() and folio_mark_accessed() before rmap removal,
->matching the PTE zap path. This keeps the folio mapped while updating
->its state, so truncation must wait for the page table lock.
->
->Fix generated by an LLM and sent by Chris Mason in private.
->
->Fixes: fe6cf984939d ("mm/huge_memory: transfer the pmd dirty bit to the folio on zap")
->Cc: stable@vger.kernel.org
->Signed-off-by: Chris Mason <mason@kernel.org>
->[ david: simplify comment and description ]
->Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->---
+Can we please expose the fact that multi-grain timestamp are supported
+from the kernel?  This seems like it would be just one bit we'd need
+in sttx or something similar.
 
-Good catch!
-
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
