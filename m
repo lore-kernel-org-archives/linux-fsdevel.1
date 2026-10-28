@@ -1,90 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793187659;
-	b=RIqlyxSJujfFwNyAq40ARDV0S+CH1W57LDgoRmv6eHlD+4GEs5x+o5wYLWzbrkHDuheq
-	 IFerlYxZyEyXsjZw2BSxmwwucYl8DHbJMcVadbxSn8wcwFYKsaUOlzQFObbsJ1HZV79n2
-	 MHbZ2KdweckSaxxKeBFI4r5OH+UOlKkGiKd59Zqxrgy4rgJc3tQ6rwTicmL4Z8ydA2tMY
-	 GK6CuilTD6bFgBjnGCFoI4Fb0n+ozbNCfznm3x5XQT+FtsdKzs1FjOuyPdZC6V77X++oM
-	 dPFbLby9UZ1whIZ6M1yH1PZGdeockC2H4OObVZPBOTfsHi2YJ0WlWO4YAK+VApqGU5w==
+	t=1793187863;
+	b=BIlRx43U5mRLubqM9oiPRxCseC9DH64IhmQIIadgpQ8iPtqdiWJEFigOes9cm23cRYp/
+	 ETZLiLjjjZmWG/ZMz8spOLUPrpE6VSitL+Cllf+hwEq0yanS5fLAk+PARsBtnn9xa1Ar7
+	 P8lixtrGW+7gwfDhcnschAuNyq4NzqxUGYScWyBQRLmt+rF+wjnGMYmuojRbR5DOHWPOd
+	 MtOnRmJLWZJls0BxHg+qCwW//Smks3kbJJ/Iu7hKPKrfn0YafqhkPGTKelrYiRMUPaibc
+	 O67B1gN6s/fuRswoT+vwg2/0nO3dP6psE5nKxlsWHy9ds0Jvb4L/lyMwKEnhS2rOELA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793187659;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=Jlnfz7M1ITZw2qIEVKqbY+WjiMkAWf1Tu97ZUZ93IN0=;
-	b=wGvvJ7/j9XGMwhfpGhv0MQtlJN6t3KHirj0fDxG/SpwIMovA2bF7iTF6u5IFMn9iBdi6
-	 u8d5MIvTtaRn48n7mVdNu1eCi3QhwNqdpCkB+aGoHsIA8owzfQZCicwMJALNswPibwhWQ
-	 GuI4InQHiINYNjx/rs1Cm9CYfmkbD7d0kSE2KlMWqNQbX9GJ2j2+Ta/O5L7dFpALwLIef
-	 cz75UEY9QMqp1isuWb+PB1J6nvAdPIfnNAW7xqZ+oLtVKpPY7RVUSd2ywNJMuUnc7DmBc
-	 YKb0beieRgj2bAm+7igA15O94DpYHLWPcsj6f26HfGFQm/YbzJo/GAP8T8n/JgiQxWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793187863;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=DfqZSZZirg02/y7+Hu6+biXxEuviwtSJMX1/tfCGZ1E=;
+	b=zW2iHVjFpXW0ROTVMIIhLM4uAr0WtUklRBIVbE6jJMRdn5Fo17Ad4RSrzWRK4ZqM1ft3
+	 EujMlp1VImuDFWlXJimQuWINp/bT3XOjuo4RTL9KrukIpCrH+XybZsuGJtcMW9ilui5yj
+	 JP/oUYkZMty29dPF3g4GYOQNtZGNjW0MN2fF4gc0v66yGuuKXsopLE7NIlJSXazR4FsQa
+	 i3vrILdO5CUeW6eh7zt9EBQxyJeLi4fygPr9Y/Is9OVk2Q/JZvEoR3Fv7+ZhiGQONFfPF
+	 6LrdVmnJLX5Eg/KDkEaB24RjdiEP3IoelWkolmfZI3zkXcb0+A2XBykP/nEBjXD1cCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PiZ+2Gl5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jRmzhIrh;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C898606A31C;
-	Wed, 28 Oct 2026 11:40:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80C5606A31C;
+	Wed, 28 Oct 2026 11:44:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PiZ+2Gl5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A41CA1F01825;
-	Wed, 28 Oct 2026 11:40:49 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jRmzhIrh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8767F1F01825;
+	Wed, 28 Oct 2026 11:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793187659;
-	bh=Jlnfz7M1ITZw2qIEVKqbY+WjiMkAWf1Tu97ZUZ93IN0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=PiZ+2Gl5kc0jJSeKMLoj7fOmlVIOFgswoanYFqn1DWdsQBEuhQPix9JVy9oWukGPG
-	 +F4YsgXNS1WGjwV30hoP8na9F/N7Eb7122WwInn552HizyxxW3YaCESCfroMU6yjAm
-	 VSLYDm5acEbC8X+0g/aR2w/YcyxdJoeMZDvuNVvBD2N8xDX/JIOe5gr86tQJIXfRoq
-	 39Z0YQ1Uj9IsiFhECBTs0uTCctxqUM5+Y5krqY7Am0KOxTRvkUfV1a6g8jHytioWqL
-	 s93d076CkgIdrXOUk2WhEjj/95/4ACkRiIc76P4JQh7Skxr0Cekil6YVf24aF8v9MO
-	 VTNrBK9m2sErA==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Andrew Morton
- <akpm@linux-foundation.org>,  Johannes Weiner <hannes@cmpxchg.org>,
-  Michal Hocko <mhocko@kernel.org>,  Qi Zheng <qi.zheng@linux.dev>,
-  Shakeel Butt <shakeel.butt@linux.dev>,  Lorenzo Stoakes <ljs@kernel.org>,
-  Kairui Song <kasong@tencent.com>,  Barry Song <baohua@kernel.org>,  Axel
- Rasmussen <axelrasmussen@google.com>,  Yuanchu Xie <yuanchu@google.com>,
-  Wei Xu <weixugc@google.com>,  Baoquan He <baoquan.he@linux.dev>,  Baolin
- Wang <baolin.wang@linux.alibaba.com>,  "Liam R. Howlett"
- <liam@infradead.org>,  Vlastimil Babka <vbabka@kernel.org>,  Mike Rapoport
- <rppt@kernel.org>,  Suren Baghdasaryan <surenb@google.com>,  Michal Hocko
- <mhocko@suse.com>,  Kees Cook <kees@kernel.org>,  Peter Zijlstra
- <peterz@infradead.org>,  Jann Horn <jannh@google.com>,  Pedro Falcato
- <pfalcato@suse.de>,  Hugh Dickins <hughd@google.com>,  Pasha Tatashin
- <pasha.tatashin@soleen.com>,  "Matthew Wilcox (Oracle)"
- <willy@infradead.org>,  Jan Kara <jack@suse.cz>,  Zi Yan <ziy@nvidia.com>,
-  Lance Yang <lance.yang@linux.dev>,  Rik van Riel <riel@surriel.com>,
-  Harry Yoo <harry@kernel.org>,  Alistair Popple <apopple@nvidia.com>,
-  Nico Pache <nico.pache@linux.dev>,  Ryan Roberts <ryan.roberts@arm.com>,
-  Dev Jain <dev.jain@arm.com>,  Usama Arif <usama.arif@linux.dev>,  Kiryl
- Shutsemau <kas@kernel.org>,  Matthew Brost <matthew.brost@intel.com>,
-  John Hubbard <jhubbard@nvidia.com>,  Peter Xu <peterx@redhat.com>,  Will
- Deacon <will@kernel.org>,  "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-  Nick Piggin <npiggin@gmail.com>,  Oscar Salvador <osalvador@suse.de>,
-  Minchan Kim <minchan@kernel.org>,  Muchun Song <muchun.song@linux.dev>,
-  Xu Xin <xu.xin@linux.dev>,  Chengming Zhou <chengming.zhou@linux.dev>,
-  Chris Li <chrisl@kernel.org>,  Kemeng Shi <shikemeng@huaweicloud.com>,
-  Nhat Pham <nphamcs@gmail.com>,  Youngjun Park <youngjun.park@lge.com>,
-  Gregory Price <gourry@gourry.net>,  Joshua Hahn
- <joshua.hahnjy@gmail.com>,  Rakie Kim <rakie.kim@sk.com>,  Ying Huang
- <ying.huang@linux.alibaba.com>,  Jason Gunthorpe <jgg@ziepe.ca>,
-  linux-mm@kvack.org,  linux-kernel@vger.kernel.org,
-  kexec@lists.infradead.org,  linux-fsdevel@vger.kernel.org,
-  linux-arch@vger.kernel.org,  linux-cxl@vger.kernel.org,  Chris Mason
- <mason@kernel.org>,  stable@vger.kernel.org
-Subject: Re: [PATCH 20/46] mm/gup: fix clearing folios in memfd_pin_folios()
-In-Reply-To: <ec55c760-f099-48e1-900b-9f8e2e5315da@kernel.org> (David
-	Hildenbrand's message of "Tue, 27 Oct 2026 20:20:43 +0100")
-References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
-	<20261027-fixes_core-v1-20-6f74bec9a5bb@kernel.org>
-	<2vxzbj8fp4sn.fsf@kernel.org>
-	<ec55c760-f099-48e1-900b-9f8e2e5315da@kernel.org>
-Date: Wed, 28 Oct 2026 12:40:48 +0100
-Message-ID: <2vxzld7injcv.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=k20260515; t=1793187862;
+	bh=DfqZSZZirg02/y7+Hu6+biXxEuviwtSJMX1/tfCGZ1E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jRmzhIrhvjBYvVLWvF2JxCm33XYPEY+B4MrjzqXXXvADrFnSkcbsTJSj1MGwIIrNw
+	 kWnTLeNPwAIyLJtJ9+tdjv+78v1kDot8qmeI/jSFN574FYwb0mRlc5drmbrKuPcITI
+	 6FEhIHn8LraufNE/4d0Z/2AXNjo9H839co+kG/5xv740bKnWioo+cV4BJVLb2j3VTR
+	 QyAxwrfZ8T8k1/xE4OmhivZaTmo2IG6MCOaltdGwsIaTczyLlCF7xdElyanabRWrN9
+	 fzrY4h44LuGfWoyKWEoK4nCqnl3RBFNXiOdi+7T9W3f9T3De3jThVozlgpURldPRMR
+	 pvVdbwZCrX23Q==
+Date: Wed, 28 Oct 2026 12:44:18 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Dmitry Ilvokhin <d@ilvokhin.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ryan Chen <ryan_chen@aspeedtech.com>, Billy Tsai <billy_tsai@aspeedtech.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	intel-gfx@lists.freedesktop.org, linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Subject: Re: [PATCH 05/10] drm/i915: switch to __nonnull_args() macro
+Message-ID: <auHf-pdvGkPibgTp@zenone.zhora.eu>
+References: <cover.1793027261.git.d@ilvokhin.com>
+ <33ec8080594f9f4ef1d50e36497339c9a6897393.1793027261.git.d@ilvokhin.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,73 +72,25 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <33ec8080594f9f4ef1d50e36497339c9a6897393.1793027261.git.d@ilvokhin.com>
 
-On Tue, Oct 27 2026, David Hildenbrand (Arm) wrote:
+Hi Dmitry,
 
-> On 10/27/26 16:00, Pratyush Yadav wrote:
->> On Tue, Oct 27 2026, David Hildenbrand (Arm) wrote:
->> 
->>> From: Chris Mason <mason@kernel.org>
->>>
->>> memfd_pin_folios() pins folios obtained directly from the page cache
->>> without checking whether they are uptodate. However, shmem fallocate()
->>> can leave newly allocated folios uncleared and not uptodate. Callers
->>> such as udmabuf can then expose uninitialized memory to userspace.
->>>
->>> Clear non-uptodate folios and mark them uptodate under the folio lock
->>> before returning them to the caller.
->>>
->>> Fix generated by an LLM and sent by Chris Mason in private.
->>>
->>> Fixes: 89c1905d9c14 ("mm/gup: introduce memfd_pin_folios() for pinning memfd folios")
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Chris Mason <mason@kernel.org>
->>> [ david: simplify description and comment ]
->>> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->>> ---
->>>  mm/gup.c | 14 ++++++++++++++
->>>  1 file changed, 14 insertions(+)
->>>
->>> diff --git a/mm/gup.c b/mm/gup.c
->>> index efc9aa2654625..47e7ae152cdf1 100644
->>> --- a/mm/gup.c
->>> +++ b/mm/gup.c
->>> @@ -3516,6 +3516,20 @@ long memfd_pin_folios(struct file *memfd, loff_t start, loff_t end,
->>>  					goto err;
->>>  				}
->>>  
->>> +				/*
->>> +				 * fallocate() can leave folios in the
->>> +				 * page cache that were never cleared.
->>> +				 */
->>> +				if (!folio_test_uptodate(folio)) {
->>> +					folio_lock(folio);
->>> +					if (!folio_test_uptodate(folio)) {
->>> +						folio_zero_range(folio, 0, folio_size(folio));
->>> +						flush_dcache_folio(folio);
->>> +						folio_mark_uptodate(folio);
->>> +					}
->>> +					folio_unlock(folio);
->>> +				}
->>> +
->> 
->> Nit: this logic is repeated in a couple places in shmem.c and in
->> memfd_luo.c. Perhaps it deserves a helper?
->> 
->> Anyway, sounds like an important fix so don't make my nitpick stop you
->> from landing this if you don't want to bother.
->
-> Thanks! yeah, I had the same thought when trying to improve this. We should have
-> an easier way to just not hand out unzeroed folios outside of shmem core
-> functions in the first place ...
+On Wed, Oct 28, 2026 at 08:19:44AM +0000, Dmitry Ilvokhin wrote:
+> Commit 22302af28d3f ("cleanup: Annotate guard constructors with
+> nonnull") added the macro __nonnull_args() to wrap raw compiler
+> attribute.
+> 
+> Replace __attribute__((nonnull)) with __nonnull_args() to standardize
+> nonnull attribute usage across the tree and keep the attribute's quirks
+> in one place rather than open-coded at every call site.
+> 
+> Suggested-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+> Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
 
-Normally this should use shmem_read_folio() to get all the folios, which
-does zero the folios before handing them out. I guess memfd_pin_folios()
-uses filemap_get_folios_contig() for performance reasons. It does the
-lookup under RCU and doesn't need to take the folio lock. Perhaps we
-need a shmem_get_folios_contig()?
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
--- 
-Regards,
-Pratyush Yadav
+Thanks,
+Andi
