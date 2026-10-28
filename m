@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.62.254.231
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793175642;
-	b=YkrunWWlSX/7BMCyLcJxAQOexZ0/JSgBvQmZ0crPPqkn9Fpj7k9d2cYB/XlRxEj4RDGm
-	 ObZ/WvMLZoRJ9QWWoDBEH7i7KFMKeODANNwzBPyDuHcQwus6JqRH3Cy8f5g2q2IM9SugC
-	 lRLpXShaCzYG6vROkxdwGNGlblPU5wnWN31cWAnufY7mMdKI+0gzNX2v4hLAV+MHEys0D
-	 5EkuFqQJw+9qYDcAopDSpDdz6U0R4jzml9WATAyUih26t2TxpHDCk3DDa9qIZwWFSvLTa
-	 hrb5kigl94F27oE0CM9oWE2n056x1a+uXCnzfGUEtGK0N9kOi8zOze2dJjB8AKESQgA==
+	t=1793175643;
+	b=1ZtMPMKA4O9Z/oJGUT5gg5cOE8WGaAE7ytfoPmt60kQ0kHAYmPEnoDKyedm2qxrcqFT5
+	 85ecb5/6g/49ZPRoAmu5vbp+SzX/q6i1HFQHFzqDrq6PWtlCUm+oDMSDrw8u+eNkNK8CT
+	 RnLXykIe9UxdkE/AgVB2+kyXEMHPaw12fzgYyrbja8aHL7T3U3/K6HfHwd/e0nlWxA+rI
+	 t4cQMLKTkpYLElcX+a9VC7F7I6+TFvjvyvg7b1kxAO6yBgMHZRtmZn5ya75U0h7PSOYyO
+	 eI1ws2bvpkSj9RXZ9vJOLoLg9F+VcMIhWlBYxg7o+4yGnAfByxXqNiRDjh4J0wO90gQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793175642;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793175643;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=K5LKyQgYKwl4SQBjA15TdSBAX9bbXAc3tVQHLRXEih8=;
-	b=s5LljF0zPkrRDmD40e4rO+xnIHHSuPwdC+LcbObTM1VfldOJ966N9K0LBpTnyiC9byVx
-	 YDFdomHE8lPYJdaWPS5i4672sIPpDF363NGkBRSo5VU9Ed8nXHP+ynw6NG+FHfb1XDa4t
-	 89yAtD56Rn1QaFm0kSUaOCyHuJLNdnhwMb+utdW4XfBtIY7NWWy/1iITQdWQitKgyY6ua
-	 Z35f1ASPPqOuNSgMxi2LXps1DBkYFHBOu23qDWE7TH6PL7xXf+bpnUYK6yOpachbO+ExC
-	 0UJee5J1mcLSp3p6LKzTXhCHZMHCsYj1tFuYmzvJrqNVlTnhjganvsSyMqetfb3vSjA==
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=ceexsp2t6/v12ItyH2pSPyV+syh2rxnTHvgHk3Ni1dE=;
+	b=rCtmF1yDdCDQNWYHustVfCn30dg5J1LjgtVhDLpUnsDstdUKJxdjHGyKOuV14xB008ew
+	 XE5RsJi1UAv/jYlbwm7niJnlZPVi91RBmmVdsAfeAhbauNV+vYdRuKmzpAnYDZjf/f6qE
+	 wo09eDpZfaQwuRmyYa664A5pg7TThRqvKsioFwlH80jMieIsM9237XWwajcqdT+HlkBJ0
+	 bPdDNGkb7XyUStb2Ah6TssxUysofFbflEQuN+eHOF6g0uZiw8MpHHTlt3ARI12YshQ8qh
+	 OCgYgkUV+LjpvGoVSzEhlIoMvbvxPFh1ELq1/vXkkOJ9+xGrrD5oDhiQQqL0/MveSJw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=ilvokhin.com;
 	spf=pass smtp.mailfrom=ilvokhin.com;
-	dkim=pass header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=scmphY3W;
+	dkim=pass header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=Jg8BLE8I;
 	arc=none smtp.remote-ip=178.62.254.231
 Received: from mail.ilvokhin.com (mail.ilvokhin.com [178.62.254.231])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62250606A31D;
-	Wed, 28 Oct 2026 08:20:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62250606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A32860A2607;
+	Wed, 28 Oct 2026 08:20:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A32860A2607
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ilvokhin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=scmphY3W
+	dkim=pass (1024-bit key, unprotected) header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=Jg8BLE8I
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ilvokhin.com;
-	s=mail; t=1793175633;
-	bh=K5LKyQgYKwl4SQBjA15TdSBAX9bbXAc3tVQHLRXEih8=;
-	h=From:To:Cc:Subject:Date;
-	b=scmphY3Wunrsmp+34WEVPizPYNuER4OuyqQN+7wcAk8b243s6Ql6ZgZzt2Q3H2Zn3
-	 fwtCXvfv3lUFbjuEGdD5xIfcK8QirvUz/AoB8DzMfhdVnF9ZGl/3QyMwT3LvSHQOfV
-	 tYEhcDcVdgbtrWL1qNZRxMyUJGS6xrDDGVIAFe9A=
+	s=mail; t=1793175635;
+	bh=ceexsp2t6/v12ItyH2pSPyV+syh2rxnTHvgHk3Ni1dE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Jg8BLE8IZCB+yObRAAqiVmVgU9sigg/nFDUGFqQXhWnSUadRZwDKyR4LY8EpthVle
+	 pA/bIha5skUWK4mVY8+AIkx6NRdoOUTSd/zD45eghCBSekWpPyZ52q6p9FUlikkAVg
+	 i5iCn86ahK5MOiZH/P0BO+c07/rkr7dgAwZrsWjg=
 Received: from localhost.localdomain (shell.ilvokhin.com [138.68.190.75])
 	(Authenticated sender: d@ilvokhin.com)
-	by mail.ilvokhin.com (Postfix) with ESMTPSA id E3225FBCE3;
-	Wed, 28 Oct 2026 08:20:32 +0000 (UTC)
+	by mail.ilvokhin.com (Postfix) with ESMTPSA id E1323FBCF2;
+	Wed, 28 Oct 2026 08:20:34 +0000 (UTC)
 From: Dmitry Ilvokhin <d@ilvokhin.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -83,10 +84,12 @@ Cc: amd-gfx@lists.freedesktop.org,
 	linux-doc@vger.kernel.org,
 	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
 	Dmitry Ilvokhin <d@ilvokhin.com>
-Subject: [PATCH 00/10] treewide: switch to __nonnull_args() macro
-Date: Wed, 28 Oct 2026 08:19:39 +0000
-Message-ID: <cover.1793027261.git.d@ilvokhin.com>
+Subject: [PATCH 04/10] xarray: switch to __nonnull_args() macro
+Date: Wed, 28 Oct 2026 08:19:43 +0000
+Message-ID: <e2660c4c9f5e6f97be2ef7bd3752d259bce77d81.1793027261.git.d@ilvokhin.com>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <cover.1793027261.git.d@ilvokhin.com>
+References: <cover.1793027261.git.d@ilvokhin.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,62 +102,57 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Commit 22302af28d3f ("cleanup: Annotate guard constructors with
-nonnull") added the __nonnull_args() macro to wrap the raw compiler
-attribute, keeping the attribute's quirks in one place rather than
-open-coded at every call site.
+nonnull") added the macro __nonnull_args() to wrap raw compiler
+attribute.
 
-This series replaces the remaining open-coded __attribute__((nonnull))
-users with __nonnull_args() to standardize nonnull attribute usage
-across the tree.
+Replace __attribute__((nonnull)) with __nonnull_args() to standardize
+nonnull attribute usage across the tree and keep the attribute's quirks
+in one place rather than open-coded at every call site.
 
-Each patch can be applied separately by the respective maintainers. The
-only dependency is kernel-doc: the string and lib/list_sort patches need
-patch 1 ("docs: xforms_lists: support __nonnull_args()") in the same
-release, otherwise strends() and list_sort() drop out of the generated
-documentation.
+tools/testing/shared/linux/xarray.h directly includes the kernel's
+include/linux/xarray.h, which now uses __nonnull_args(). The macro is
+not defined under tools/, breaking test builds.
 
-Latest Sparse release could not properly parse __nonnull_args() without
-arguments. Fix was proposed [1] and merged, but until updated version of
-Sparse will reach wide masses it might trip on __nonnull_args() without
-arguments.
+Define __nonnull_args() in tools/include/linux/compiler.h.
 
-There are few more instances of __attribute__((nonnull)) usages left in
-the tools subdirectory, they are perf related copied files and can
-(should?) be updated separately after this patchset lands.
+Suggested-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
+---
+ include/linux/xarray.h         | 4 ++--
+ tools/include/linux/compiler.h | 4 ++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-Build-tested allmodconfig with GCC 11.5.0 and clang 22.1.8.
-
-[1]: https://lore.kernel.org/all/20261019175633.415493-19-bvanassche@acm.org/
-
-Dmitry Ilvokhin (10):
-  docs: xforms_lists: support __nonnull_args()
-  string: Switch to __nonnull_args() macro
-  lib/list_sort: Switch to __nonnull_args() macro
-  xarray: switch to __nonnull_args() macro
-  drm/i915: switch to __nonnull_args() macro
-  drm/amdgpu: switch to __nonnull_args() macro
-  drm/gem: Switch to __nonnull_args() macro
-  leds: pwm: Switch to __nonnull_args() macro
-  soc: aspeed: lpc-snoop: Switch to __nonnull_args() macro
-  checkpatch: suggest nonnull attribute conversion
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 2 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.h | 4 ++--
- drivers/gpu/drm/i915/i915_request.h        | 4 ++--
- drivers/leds/leds-pwm.c                    | 2 +-
- drivers/soc/aspeed/aspeed-lpc-snoop.c      | 4 ++--
- include/drm/drm_gem.h                      | 2 +-
- include/linux/list_sort.h                  | 4 ++--
- include/linux/string.h                     | 2 +-
- include/linux/xarray.h                     | 4 ++--
- lib/list_sort.c                            | 6 +++---
- scripts/checkpatch.pl                      | 3 +++
- tools/include/linux/compiler.h             | 4 ++++
- tools/lib/python/kdoc/xforms_lists.py      | 1 +
- 13 files changed, 25 insertions(+), 17 deletions(-)
-
-
-base-commit: 6b4b543fa18757297ac756a6fe6e64f506b7844a
+diff --git a/include/linux/xarray.h b/include/linux/xarray.h
+index be850174e802..cf7f8802da5b 100644
+--- a/include/linux/xarray.h
++++ b/include/linux/xarray.h
+@@ -361,9 +361,9 @@ bool xa_get_mark(struct xarray *, unsigned long index, xa_mark_t);
+ void xa_set_mark(struct xarray *, unsigned long index, xa_mark_t);
+ void xa_clear_mark(struct xarray *, unsigned long index, xa_mark_t);
+ void *xa_find(struct xarray *xa, unsigned long *index,
+-		unsigned long max, xa_mark_t) __attribute__((nonnull(2)));
++		unsigned long max, xa_mark_t) __nonnull_args(2);
+ void *xa_find_after(struct xarray *xa, unsigned long *index,
+-		unsigned long max, xa_mark_t) __attribute__((nonnull(2)));
++		unsigned long max, xa_mark_t) __nonnull_args(2);
+ unsigned int xa_extract(struct xarray *, void **dst, unsigned long start,
+ 		unsigned long max, unsigned int n, xa_mark_t);
+ void xa_destroy(struct xarray *);
+diff --git a/tools/include/linux/compiler.h b/tools/include/linux/compiler.h
+index 03ecf9086643..fad2c6131a80 100644
+--- a/tools/include/linux/compiler.h
++++ b/tools/include/linux/compiler.h
+@@ -68,6 +68,10 @@
+ #define __naked __attribute__((__naked__))
+ #endif
+ 
++#ifndef __nonnull_args
++#define __nonnull_args(x...) __attribute__((__nonnull__(x)))
++#endif
++
+ /* Are two types/vars the same type (ignoring qualifiers)? */
+ #ifndef __same_type
+ # define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
 -- 
 2.53.0-Meta
 
