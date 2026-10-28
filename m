@@ -1,63 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793180003;
-	b=dN3jzlmaBF3u6iMTEJ4ipo1+hQoiqA4qFrNJKnihFZi9WoTbCBmt1CdzLVpRAyH1ijgq
-	 /ZZANDO4gNJDHr2ZcNVx6DBOfZ3p8O+Y0LrLT1lpVhs4uVkAuoocJPiYw2BVIedcbS7lq
-	 Pl3xQIWdaMLmf1KnRccuD7HcpZvUuccTj+God840lnYFAwTs2LP6LHq3DtJW9I0Ir4ga/
-	 SLKqsTlnBIozeAFTALxuRQcL7yUVlDhohINVhnmfOc+X0OyRjY7en4firUv4sodW2Q3a/
-	 YDKqRi0P4v1+SkV27toISwTfsk36eGHPl/8KJDUhV8QhXqlVbQkEFAKxqjTFBCtysaQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793180003;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:In-Reply-To:
-	 References:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=o48BxfVRKyt8VwocGYiaSs0bwuLsENkNmhgJ5mRhlcg=;
-	b=Prcr4JAf/TImxrnzVoTap/rc9J/iMUiAn84HGVIL4G8feLjVpST95VitwU55ulDILR59
-	 aRK1lI9wmxxmLwajXdj0U1vmujVWd3hcxtXgla5pMNPuQnBcKVBglzS+p8nOvpu1D3vnZ
-	 7jjmb/wo4Von350mlnTbpA/DA9oZxNMzKLUQKb6/PGOMwpnfb6HgETqoBNXcqIri90d9U
-	 xFGpsz43TOOXc89060By3s9s/Qd9seaFduZawhfSdtTmhQ6uJ5NjVvm4/caalZX4VWoSn
-	 hSUnWF8Ln4UJ24qUdzTq23+JJ9lPk+X7f9XSCEG6037gCWx9NXqu3XVGsHbnvU13ffw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=igalia.com;
-	spf=pass smtp.mailfrom=igalia.com;
-	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b="QkmyU/vW";
-	arc=none smtp.remote-ip=213.97.179.56
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.52
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793180883;
+	b=KK0Spw8Go4GTcWMdCrNHyV0MTznl6q6PcQMfnwIc0kNkgtGHttuywHzAZFVJIZQTE664
+	 uzdkbgA/x3wiaoVkIGzVwzq6anM5Wuwh+1rI4MVvcCqlg1yWGGC5ZM0Zhgc+3/iF6gPwV
+	 ANp6hX5/1w1wkIN83Xe2Ya3tSZXtvAh59Kqt2Owk6nuoyqVeunKoA9crnjMx9CAbdetDW
+	 Uhh4xgpEPnidYy9lsifctxJsjjghiYFdOJIAKP1rYKHZauzwXfTewe87GXh3BzASevBxM
+	 +V6KwKFWJhBECJTpYTjjTgHN4rW6yiKX1dSF13YwgWLC7282oJ9j7WwwX6tDTLQN6ZQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793180883;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=Gl/4Yc6JnTMakWEbHOettwInvSk+aSwCfPGu2bGV6uw=;
+	b=FrbGozRRX3I6tFFY6COxLf0IM+y6RDn+DNNZ5l5V3u32HBhVHCSgfhdt+ONvSJPqz8AH
+	 rdRv9FsnQwkuWSsDy2pL2D+E9BKycU3dxh7jds11UFK84dBi1bThi1H7nY/hxPo/QfrcI
+	 MSzVILLX0MbMifSVOvrRJSzAQNpnhjzLaWyjTLkbtHbZjtunruS3qcnq1r4n33kESJSb5
+	 zADmCAZjKvJzWL+b/vH83WHCUD/vdAoO1nJS3xK9II1Na4Jk4R1CsxHXlhMf8x7IfWpai
+	 qAW25bazyXea2xUIfBInYevGh6bAvxm4DnThZCgZ0l8dlYs16goltYBAQXI5M7GhRlA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zJw6mAzl;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.52
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D936606A31C;
-	Wed, 28 Oct 2026 09:33:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D936606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8A3606A324
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 09:48:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC8A3606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=QkmyU/vW
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:From:Reply-To;
-	bh=o48BxfVRKyt8VwocGYiaSs0bwuLsENkNmhgJ5mRhlcg=; b=QkmyU/vWjCV60OWMBHN+43GJJq
-	T4cc9x79JCeL0TxvbjYQLZDzlgWaXu0VkmyYLUC0rHzkt8uUodCM7RIp/5o3yJ67y85h+vzpg7QwW
-	CxJtc6ubM4zs/ipN1Y+DX2uN7Zg6l1dIttfQM13IGlVU6Sl6EskwqqqoPBPDqC/5wQrzy5PTWlF0q
-	LogsmiaYO+FATLPXZ2bbYc/asQHc5cRQP79PQB0es9kDhkrAWZC/f3nsd4B49bO4yVIdTgQSRWAR0
-	A5YHqyOosp2BQQmpahoxT2JgkOFV8aVZ9qmPKKGQ+wJauWTgN9K/MFe79vAM27v+dCGzA1Y8QEl4Q
-	AePlXYSg==;
-Received: from [188.250.79.109] (helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1xM020-00CisY-IC; Wed, 28 Oct 2026 10:33:16 +0100
-From: Luis Henriques <luis@igalia.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,  Amir Goldstein
- <amir73il@gmail.com>,  Shuah Khan <shuah@kernel.org>,
-  fuse-devel@lists.linux.dev,  linux-fsdevel@vger.kernel.org,
-  linux-kselftest@vger.kernel.org,  linux-kernel@vger.kernel.org,  kernel
- test robot <lkp@intel.com>
-Subject: Re: [PATCH] selftests/fuse: add the missing symlink caching test
-In-Reply-To: <20261026194008.274349-1-sashal@kernel.org>
-References: <20261026194008.274349-1-sashal@kernel.org>
-Date: Wed, 28 Oct 2026 09:34:44 +0000
-Message-ID: <87zevyi2x7.fsf@igalia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zJw6mAzl
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c169ae1cb26so286655266b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 02:48:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793180881; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ApQoLUpzSvwBo60Vuf8GAh9pVFLc2eaSiBBTGB2RVpXxDfosvVc6PWuWvjh3cUtaQ7
+         x0D3pflQsfg8O21eS/5m/j75SAAbt//E471KOyiyKPeByLBs0YXcBHL2lrkjA5OKadJR
+         uZYph5LyJ6rndDuVmWo2eoGoPSZMFJdF9iFzfxIwXEtX5hgifzsFFy7G5eBMY8FpflVp
+         ayODIcAhJU1K/d2SCcmH6ymPHlKvQIglSdpTQkFCVSY6HRTt0Di/561Xiqu+8v0UgXdo
+         ij9wcgCnrM+DepTSSh8ZIxvrtL0JZALO8YNQLmlJMMayrNMz4HCly0PL+2peUWCXsk+y
+         TxuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Gl/4Yc6JnTMakWEbHOettwInvSk+aSwCfPGu2bGV6uw=;
+        fh=LqAaOMxx2lSrW5HqFBeo9QnIoq5cek0vAqMJop+ToyI=;
+        b=f6uL7e4F0jbOfIy2V8kSEqpQpBZ34tI3HKghStNCYEuQRZo9N1/tkgIO8kDa6lg6Du
+         /KluBABL4mVccokZCnNmNCGgSixMoFz3loPC8u/Kzrs98LCAWi/Gxkk19MJD5MyjBZXb
+         4kVYf+1nBeD/ZofBsEtnih4juyeBYKgN0dVWLVA2+AQv12mTu4PxVtUBIeFYjjEMTPWm
+         2vH2tOJSThXzrlet4xYylg59S1PLgAIsOjfjGWtx7jisNjbQjNh0LtMoBZmn9Kxq0DIE
+         1ebe/4K3i387SE0hcO1lcB5WZ4VcGT+2KN7labdBZYs7gEFYPqkuxtnmb+953O3ioKFx
+         mrLA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793180881; x=1793785681; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Gl/4Yc6JnTMakWEbHOettwInvSk+aSwCfPGu2bGV6uw=;
+        b=zJw6mAzldYFqYZzdqrK5sVCjCWQPQmTep1dLeDCOodLgldWlrkclOGlwaZnjuK1Oum
+         TPJIIs//JWN7qNyOHlCsUAdJNutM2b52i0HJOialjxTrWs4keZvZmw3BRcoJU4Awqzjr
+         WT7ZIhJrd4c9JQzrTY2yU8wr3bsllD1F4CAiDQBfntXs5r47SzlK8X0ezxzisTf0fyLH
+         V2m79FTBz5/Q8KkYGms7kGw/9UPrH+YveHnhAh0ujkqjlAJ55dCcMHh8t8hYyve2EZ4W
+         CPhdOdeH9FP4wI1+y2tqcuYKKYhDPN/HKsHrz7f0EKP2g/ydwoE9hgBJKjkE88fNdPU0
+         JRLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793180881; x=1793785681;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Gl/4Yc6JnTMakWEbHOettwInvSk+aSwCfPGu2bGV6uw=;
+        b=JWDQVKxFrC2WRfbnRPHZXK5x4oqjEWQBTi/MveNJNlErobPshjKqQG5h4hgnDPkOOj
+         /WSVeq9Rmmi4kxAJJ5syJxTlDfEqAIofgZqZIFdF84KClnXqKXFkT9oDl0OShWMm3HZ4
+         drQ43OZbXjPv4APFfw4WiRvKbstofAzZIN9d5TYJZhS5Jb/FvGXidOCOkgzYRVTtSR0K
+         WexWESCfPkiuUYrrTpPuO+hh2V0CZk0Rk/LyH4SFm3EqMSaqXtppl/hdEXBqTme8uQqp
+         9ddyaOf7DCXOxrtJNqE8KWTnjOtFOm8/Ao/AkVtkYUrkQkY7ziZx+9xJIXOqOiYWPUCb
+         lxGQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxmuCAFwb1AvQ9tDepC+qZ/p2nLwz4Ued9C6NKWDBhiYGzmLCnaM+v3dFfAjzaI8oFVeMyZzXoSSDiE0iKH@vger.kernel.org
+X-Gm-Message-State: AFq9FYL/sXgJ+mwdwwmRjJ85uMgkwH0IN45Cjw1Y3do1tcr4R4dp/HsR
+	eOcdaDgZe6ONCR4Bb4xxCD3LYKVFuyl/V5AFrp1Qt4qBpnmm67zYrgtGgcUezdtcDgXlInd1O+4
+	8A6jUupmucJABDnYX3AG1DmlRAsE9tcU=
+X-Gm-Gg: AYBFou01czjM7A9F0j37uUznCzRqcYDVIEX5LL3ahxLHVtvLzqg+Q0IQpM6VuHXuxer
+	vDhncBzufM3ktMgh8KBcK7kslezLZxSSUTg6fZ11h8hy6boi2c+2VuZwDF1ekCxW79JWnbMZbWJ
+	P+PeMCXHiWxXkUiNEk+tnDw2sm6+9QL31JYp+CeBUhHkg4Gqe81ow5CLeNfDETwQcB1bYjLxECt
+	/IVEeZ9yxAlfEa7PY/hbsJhxJhwPoNlFDDx98e1Mv2sQdK9+6I/Rs2VDfG1h8suO5C371HwcVER
+	nxsP3HGw/bsVYeZCcue8qYF2Xp+Qey7pkmrg5zQKwB/C44IpFCa5k+dF8KQ39iQnNzHKCDrv+3n
+	pLOtFJJJnt5Jra3aDyiVBI3cpEwqIwNF5tM5NVTeqX2kpq4mES+86H+WLGH6BlTwx1v7bKxVDXp
+	fxkho/At/Oob4jLV00d+z46kTphTct9M2HcwnC1BM8lcdo2Ua8bffniW/tZ8osyc/CEEHRuHVR2
+	yEQys8HRX0Z1vh6BOEjVzcA8w==
+X-Received: by 2002:a17:907:86a5:b0:c25:f7db:4bec with SMTP id
+ a640c23a62f3a-c49c6357d34mr69949566b.18.1793180881026; Wed, 28 Oct 2026
+ 02:48:01 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,230 +106,53 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <cover.1793027261.git.d@ilvokhin.com> <580fdfbe2eb6694438cbd8f5337bd2f1edac564b.1793027261.git.d@ilvokhin.com>
+In-Reply-To: <580fdfbe2eb6694438cbd8f5337bd2f1edac564b.1793027261.git.d@ilvokhin.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 28 Oct 2026 11:47:24 +0200
+X-Gm-Features: AclHuK-8N84O0Y9k-BLOPVpeywTja7886uZe3ugxN4eM-96m__IvC7bzZgS0MkU
+Message-ID: <CAHp75Vedr5J1WJMrAkBjRSLKA_zf1kt3GD6UhjzLcy9vowxnaA@mail.gmail.com>
+Subject: Re: [PATCH 03/10] lib/list_sort: Switch to __nonnull_args() macro
+To: Dmitry Ilvokhin <d@ilvokhin.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ryan Chen <ryan_chen@aspeedtech.com>, Billy Tsai <billy_tsai@aspeedtech.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 26 2026, Sasha Levin wrote:
-
-> Commit 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
-> registered fuse_symlink_cache_test in the fuse selftest Makefile and
-> .gitignore, but the test source was not part of the applied commit, so
-> building the fuse selftests fails:
+On Wed, Oct 28, 2026 at 10:20=E2=80=AFAM Dmitry Ilvokhin <d@ilvokhin.com> w=
+rote:
 >
->   make[1]: *** No rule to make target 'fuse_symlink_cache_test.c', needed=
- by '.../fuse_symlink_cache_test'.
+> Commit 22302af28d3f ("cleanup: Annotate guard constructors with
+> nonnull") added the macro __nonnull_args() to wrap raw compiler
+> attribute.
 >
-> Add fuse_symlink_cache_test.c as posted in Luis Henriques's v5
-> submission. The test serves a file and a symlink to it from a libfuse
-> low-level filesystem, resolves the symlink 100 times, and counts the
-> readlink requests that reach the server: one when FUSE_CAP_CACHE_SYMLINKS
-> is set during FUSE_INIT, and all 100 when it is not.
+> Replace __attribute__((nonnull)) with __nonnull_args() to
+> standardize nonnull attribute usage across the tree and keep the
+> attribute's quirks in one place rather than open-coded at every call
+> site.
 >
-> Fixes: 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/r/202610170822.oEJ1Autq-lkp@intel.com/
-> Link: https://lore.kernel.org/r/20261001164916.15311-8-luis@igalia.com
-> Originally-by: Luis Henriques <luis@igalia.com>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
-> As with e64a46aefc01 ("selftests/fuse: add the missing FUSE_HAS_SYNCFS
-> privilege test"), the new file in the posted patch is not in the applied
-> commit; the other files did land.
+> Add spaces after the commas in the __nonnull_args() argument list to
+> follow the usual coding style (according to checkpatch).
 
-Oh, wow!  I wonder how that happen.  Anyway, thanks for noticing that and
-for fixing it, Sasha.  If it makes any sense (I wrote the test! :-) ) feel
-free to add my
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
-Reviewed-by: Luis Henriques <luis@igalia.com>
-
-Cheers,
 --=20
-Lu=C3=ADs
-
-
->  .../fuse/fuse_symlink_cache_test.c            | 162 ++++++++++++++++++
->  1 file changed, 162 insertions(+)
->  create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_symlink=
-_cache_test.c
->
-> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_=
-test.c b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
-> new file mode 100644
-> index 0000000000000..7b53734995736
-> --- /dev/null
-> +++ b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
-> @@ -0,0 +1,162 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Simple filesystem to test FUSE symlink cache
-> + *
-> + * This is a simple FUSE filesystem that contains two objects: a file na=
-med
-> + * 'file' and a symlink to that file named 'link'.  If symlink caching is
-> + * disabled (i.e. FUSE_CAP_CACHE_SYMLINKS is reset during FUSE_INIT), wh=
-enever
-> + * the ->readlink() is executed to resolve 'link' a counter will be incr=
-emented.
-> + *
-> + * If symlink caching is enabled (i.e. FUSE_CAP_CACHE_SYMLINKS is set du=
-ring
-> + * FUSE_INIT), resolving a symlink will only call into user-space the fi=
-rst
-> + * time.
-> + */
-> +
-> +#define FUSE_USE_VERSION 31
-> +
-> +#include <stdio.h>
-> +#include <fuse_lowlevel.h>
-> +
-> +#include "kselftest_harness.h"
-> +
-> +#include "fuse_common.h"
-> +
-> +#define FILENAME "file"
-> +#define FILE_INO 42
-> +
-> +#define LINKNAME "link"
-> +#define LINK_INO 43
-> +
-> +#define TIMEOUT	86400.0f
-> +
-> +struct test_state {
-> +	pthread_mutex_t lock;
-> +	int readlink_counter;
-> +	bool cache;
-> +} test_state =3D {
-> +	.lock =3D PTHREAD_MUTEX_INITIALIZER,
-> +};
-> +
-> +static void fs_init(void *userdata, struct fuse_conn_info *conn)
-> +{
-> +	pthread_mutex_lock(&test_state.lock);
-> +	if (test_state.cache)
-> +		fuse_set_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
-> +	else
-> +		fuse_unset_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
-> +	pthread_mutex_unlock(&test_state.lock);
-> +}
-> +
-> +static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *nam=
-e)
-> +{
-> +	struct fuse_entry_param e =3D {};
-> +
-> +	if (parent !=3D FUSE_ROOT_ID ||
-> +	    (strcmp(name, FILENAME) !=3D 0 && strcmp(name, LINKNAME) !=3D 0)) {
-> +		fuse_reply_err(req, ENOENT);
-> +		return;
-> +	}
-> +
-> +	if (!strcmp(name, FILENAME)) {
-> +		e.ino =3D FILE_INO;
-> +		e.attr.st_mode =3D S_IFREG | 0444;
-> +		e.attr.st_nlink =3D 2;
-> +	} else if (!strcmp(name, LINKNAME)) {
-> +		e.ino =3D LINK_INO;
-> +		e.attr.st_mode =3D S_IFLNK | 0444;
-> +		e.attr.st_nlink =3D 1;
-> +		e.attr.st_size =3D strlen(FILENAME);
-> +	}
-> +	e.attr_timeout =3D TIMEOUT;
-> +	e.entry_timeout =3D TIMEOUT;
-> +
-> +	fuse_reply_entry(req, &e);
-> +}
-> +
-> +static void fs_readlink(fuse_req_t req, fuse_ino_t ino)
-> +{
-> +	char buf[PATH_MAX];
-> +	size_t sz =3D strlen(FILENAME);
-> +
-> +	if (ino !=3D LINK_INO) {
-> +		fuse_reply_err(req, ENOENT);
-> +		return;
-> +	}
-> +
-> +	memcpy(buf, FILENAME, sz);
-> +	buf[sz] =3D '\0';
-> +	pthread_mutex_lock(&test_state.lock);
-> +	test_state.readlink_counter++;
-> +	pthread_mutex_unlock(&test_state.lock);
-> +
-> +	fuse_reply_readlink(req, buf);
-> +}
-> +
-> +static const struct fuse_lowlevel_ops fs_ops =3D {
-> +	.init           =3D fs_init,
-> +	.lookup		=3D fs_lookup,
-> +	.readlink	=3D fs_readlink,
-> +};
-> +
-> +FIXTURE(symlink_cache)
-> +{
-> +	struct fuse_common_ctx ctx;
-> +};
-> +FIXTURE_VARIANT(symlink_cache)
-> +{
-> +	const bool cache;
-> +};
-> +FIXTURE_VARIANT_ADD(symlink_cache, symlinks_nocache)
-> +{
-> +	/* Variant with symlink cache disabled */
-> +	.cache =3D false,
-> +};
-> +FIXTURE_VARIANT_ADD(symlink_cache, symlinks_cache)
-> +{
-> +	/* Variant with symlink cache enabled */
-> +	.cache =3D true,
-> +};
-> +
-> +FIXTURE_SETUP(symlink_cache)
-> +{
-> +	char err[MAX_ERR_MSG];
-> +
-> +	pthread_mutex_lock(&test_state.lock);
-> +	test_state.readlink_counter =3D 0;
-> +	test_state.cache =3D variant->cache;
-> +	pthread_mutex_unlock(&test_state.lock);
-> +
-> +	if (fs_setup(&fs_ops, &self->ctx, err))
-> +		SKIP(return, err);
-> +}
-> +
-> +FIXTURE_TEARDOWN(symlink_cache)
-> +{
-> +	fs_teardown(&self->ctx);
-> +}
-> +
-> +TEST_F(symlink_cache, test_symlink_cache)
-> +{
-> +	char pathname[PATH_MAX];
-> +	char buf[PATH_MAX];
-> +	ssize_t sz;
-> +	int counter;
-> +	int i;
-> +
-> +	sprintf(pathname, "%s/%s", self->ctx.mountpoint, LINKNAME);
-> +	for (i =3D 0; i < 100; i++) {
-> +		sz =3D readlink(pathname, buf, PATH_MAX);
-> +		ASSERT_NE(sz, -1);
-> +	}
-> +	pthread_mutex_lock(&test_state.lock);
-> +	counter =3D test_state.readlink_counter;
-> +	pthread_mutex_unlock(&test_state.lock);
-> +
-> +	if (variant->cache) {
-> +		ASSERT_EQ(counter, 1);
-> +	} else {
-> +		ASSERT_EQ(counter, 100);
-> +	}
-> +}
-> +
-> +TEST_HARNESS_MAIN
->
-> base-commit: 9b1da7b4a4e197072e630c3b85d4100a399752ff
-> --=20
-> 2.53.0
->
-
+With Best Regards,
+Andy Shevchenko
