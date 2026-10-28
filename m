@@ -1,75 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793225900;
-	b=jgjm3qcsg9LX9tOH7R9c7NntHTOYdVA6o+XPjmrebhkKFEoPO/YUG6bK7znScHuKdlXc
-	 zDmEzjKVEpUmnYaZwRT+CEptBv/RPJbg6XiroQGm39V0XWfLqjbRypHEjikvPkBDGXYB+
-	 QztH6vuXjvBc6pz7ug0PYe25KkHmg8ncLfGQ1xT9IhYQbOJmI9JoffxfMK8HAq0vuoY2r
-	 j3IPlBDV+C0xgEEpCk7noobmlopJxkN4DGKzuI60mv66/zla0Fi3Olyn15/WAba+TOvop
-	 U7efwP5b2yZ0fR/5J+FU+aQMlB2nkN2aFIbiladnuX/f3oO6x0RQru5A21p9DroqSAw==
+	t=1793226022;
+	b=mSZw4MsjXE+jgEYSGd0d3u1F0QIhOkWDJ9/kRFEC4urxdIgH+TyYHTVWbciNvNkRuT1C
+	 5u3OWw1gOAJU1d9xSUC/OP+VFMqpKl4CmTwi2m29PO13hC71dUZt4oK9ZQtV1TSiv3Aos
+	 eRAtwPzLz/qd+OqHBbh9I1X0Rkiot2JsVxs4lAgDAqswE2dW+B5JQMhrmC9UPmVX44P9r
+	 v2EXamvVIt0rvSGBe3RvjlVsh7g1VgtcaXpBLw6y7rdSwTz7cZ0h4zV4GRSi9DPC+Pous
+	 MtTavpIWePce3RhQ2ucTL1paNIkcVzB8xAFRspMoWPW9iggOqWKB1ZvlGiYbKrjalOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793225900;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793226022;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
+	 MIME-Version:X-Received:Date:X-Google-Appengine-App-Id:
+	 X-Google-Appengine-App-Id-Alias:Message-ID:Subject:From:To:
 	 Content-Type;
-	bh=65gkrwysKwp4zEIPD1eJcpPuoQ0vzx+YLkBbHQtjT6w=;
-	b=1zn/TZrmtRyhALS+uG+gl2u+nfCk5NzqpQVVQziVeBViDwTaPzwnz49rB8p65nalV3tY
-	 bgkazCqG+sAsL/HyoCmHdw2mliBHW8vwg0Ew4fluwwECDuERuM54qhVVsliP14fhOopzD
-	 iGh+lzQa9ZaDiDaeszUlNTq4kMqOaOAuK2uZYkLw4fzeb5oSP8M0rr6qzEpLyLOZAf1Wt
-	 18hW/kaSPhQVmEgA1OrEdfFkR/gnkLsn8q8sk1xKhWh5Li30cHs/13uLUMr8iilbBYgrL
-	 LkkP+i4gIN3K+UBOpy/dITT9ybcVBI3ItMIUGp3R3R4jaQSuknDnR8dnzAkrla5i4bQ==
+	bh=aemFw6LC+vpz+tNnFpw3s8C256peelxZyCzI/2jyUzg=;
+	b=hSZzeXUn0j6p659+l+GJ9+4eCg7o2TqYJek65bPAcJsjuSjYdl7kMYil7p7PLh+rWay7
+	 66IwAVthR950NQBx4E0vuc8xiMXHUZAicYwktMGPGf8Wl7sItUZNl/BXGrexl7plj/xli
+	 yc8gijKMFYLUMNks1GIZjsndLesnJwfU0PvCS/Mez4+wmFDl22BLuPWVp3no4y8zDAI2j
+	 E5gCigDCWO48xMZF/AxJUbjkZ1IA6fLHiYPDuYhXUpf8UMjkG/VCKYHlsfxwMY3ClNpCV
+	 LblUe9xdfiA6ACuCpD4uIes+1lga36gHYb0iW3xZU9Z67A00WMYcC6pCIsyIWykMqxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=A0OLGHuc;
-	arc=none smtp.remote-ip=209.85.218.72
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.199
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B089E60A260B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 22:18:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B089E60A260B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=A0OLGHuc
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c498fa2d96cso124099966b.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 15:18:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793225893; x=1793830693; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=65gkrwysKwp4zEIPD1eJcpPuoQ0vzx+YLkBbHQtjT6w=;
-        b=A0OLGHuc2H+L8QeuBtl/dvTP8gNUFp08Wp0dIw2wvmsXULA0HJKudAcRB4MDinQuH9
-         IluuJa/cZZuYNK1uxCbEaFB8JG3gtueVKm6lmZI2W85zMrIiJzT3qADc1bZC0/nG23TF
-         1aZ670KSNws7pmBuqY653BnJ2D/k/lmwFWaVNqpnSMy85b8bBIpjTzNdNbU6zkGuLjPJ
-         S8Tx+8kHKNpJm3c898t/x+BOBa4QEMNy8poDqWw71WWZqIgDJUbImXZzzIPWpEIT1+ld
-         KWKtDtBYBsgPBFM9+/J1AScgCAwsk5X/eTuIV3fWe3/p8D2V4yULLM99ufRMj8utmRhJ
-         vtuA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AB9606A31C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 22:20:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64AB9606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4e937c5bd4fso1521112b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 15:20:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793225893; x=1793830693;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=65gkrwysKwp4zEIPD1eJcpPuoQ0vzx+YLkBbHQtjT6w=;
-        b=hca72DxNPv6rw3aJcktZUektFcPqTB8OVEcV7xn6jWwFcAdubC+XeFEcFWE6MS4a7n
-         VYtcsU9LPe56oXWzLzmXgFcgsVzFaz4W22YGKRtbqSrFJrh/U6Fh0QXxkPEDZjEl4Tpu
-         1XaV3++Qn9RnIQeomdSkiGN/+B3A+GIeZmU4mvQB2UaX0MXMmNdrIGZ50A87dDIB5rsh
-         HAlMPQkEYtnvbFgSs9STYOvkpRukZ7RGVrygV16iyZmYlqPtDL4WY4z4eDKSnLATGcB+
-         s89EQBsZ4JnEgCSSjsAKNtmd+fbM/QuYhRvE6EGrSEEKrXgzb39M9sNQgXF9LoODgoF+
-         D2QQ==
-X-Forwarded-Encrypted: i=1; AKwUvByg2H5qzHhXYSHK/vva4xBM4+Pov1BCGZpuDifvMwoUExLCPu97ldDaESCpgXHTm6kHM8Tzt1xN2xwVR4zj@vger.kernel.org
-X-Gm-Message-State: AFq9FYIQRMSuya800xm0QGdf+idAcfiK6K8qSV4WE4i/CvglBcf96Wh8
-	VAshxB2OBqFhkPo5fhdUvU9hUPL9nrm/0WTxh45CLp6lj5rJQnDO0omev0m0T4MqkrKYQdVSNg=
-	=
-X-Received: from ejdg4.prod.google.com ([2002:a17:906:1984:b0:c34:bf66:6f39])
- (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:6d04:b0:c42:24ea:3227
- with SMTP id a640c23a62f3a-c49bdf5c677mr291588666b.31.1793225892705; Wed, 28
- Oct 2026 15:18:12 -0700 (PDT)
-Date: Wed, 28 Oct 2026 22:16:59 +0000
-In-Reply-To: <20261028221705.3915340-1-halg@google.com>
+        d=1e100.net; s=20260707; t=1793226021; x=1793830821;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aemFw6LC+vpz+tNnFpw3s8C256peelxZyCzI/2jyUzg=;
+        b=k+wpnGF6W9XseV5WneyaMg4Wp5A0/hFZgpW+WLfgOYg0IuD7ntFuzqYqV6432BbDzh
+         9ojbCUg98W/+omaboVsT9lQEtEyRwzcbJSLrTRu9F7upW5cNHYgK5oJTixDp+arzIBuq
+         qbABgsfsBxQc3PMJIbOEpIOknyOFyVL/LCpP8MAJyNNbjgdt4htyxXVHsqG8sX6T5Uhw
+         ieALFC+0vriZDvl5ekJe5ZuUzoMldXCaPGQo3ANV/+nypok/UARRakbFpHfM3fP//NeG
+         HJu4zED57eoVEHLYlj+nPpWZNd9cjJVkhIesKZV2Na6hdGfPuzByOiPTDL6bOxgW7i6K
+         PDOQ==
+X-Gm-Message-State: AFq9FYIxgzYdFMsfy/x2dxwNd9ZF4KCWHlVv3draZbfkvHt8GIuGCxYs
+	tDjKunvmbBMa8TMFQkzHsvnj4xAg6y2Y8TwO7nC01bw/lL8v/1H8pXI/UaPN3Fqy5oKpdjOPJBK
+	hQZs3xGQga/pkHVwd3wVS8PpsaKRxovPQy+80gjdjvGW/2oAN1up3OnWkduA=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,335 +56,306 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261028221705.3915340-1-halg@google.com>
-X-Mailer: git-send-email 2.56.0.313.g2479322e68-goog
-Message-ID: <20261028221705.3915340-3-halg@google.com>
-Subject: [PATCH 2/8] userns: introduce capability bounding set for user namespaces
-From: "Hallgrimur H. Gunnarsson" <halg@google.com>
-To: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: Jan Kara <jack@suse.cz>, James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
-	"=?UTF-8?q?G=C3=BCnther=20Noack?=" <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
-	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-api@vger.kernel.org, containers@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, "Hallgrimur H. Gunnarsson" <halg@google.com>
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:470c:b0:4d6:90f3:74b1 with SMTP id
+ 5614622812f47-563844978e8mr3012029b6e.49.1793226021511; Wed, 28 Oct 2026
+ 15:20:21 -0700 (PDT)
+Date: Wed, 28 Oct 2026 15:20:21 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ae27525.5451848c.f7707.0001.GAE@google.com>
+Subject: [syzbot] [fs?] [mm?] KASAN: slab-use-after-free Read in trace_event_raw_event_hugetlbfs__inode
+From: syzbot <syzbot+91e1fc35f51774c479b2@syzkaller.appspotmail.com>
+To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-When an unprivileged process creates a new user namespace, it receives
-a full set of capabilities scoped to that new namespace.
+Hello,
 
-While these capabilities are isolated to the namespace, they allow
-unprivileged tasks to interact with deep kernel code (like networking
-logic) that historically assumed only a fully trusted root user could
-access them. Depending on the workload, administrators may not always
-want or need to grant every capability to unprivileged namespaces.
+syzbot found the following issue on:
 
-To provide administrators with flexible policy control over what
-privileges are permitted by default, introduce a per-user-namespace
-capability bounding set (cap_bset) and a global sysctl ceiling knob at:
-    /proc/sys/kernel/unprivileged_userns_caps_allowed
+HEAD commit:    d135ab453a74 Merge tag 'backlight-next-7.4' of git://git.k..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=142de17f980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6f2905533069b0f5
+dashboard link: https://syzkaller.appspot.com/bug?extid=91e1fc35f51774c479b2
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17432995580000
 
-When a new user namespace is created, it inherits the capability
-bounding set of its parent namespace. For an unprivileged creator (i.e.
-a task lacking CAP_SYS_ADMIN in the parent namespace), the child
-namespace's bounding set is constrained by intersecting the parent's
-bounding set with the sysctl ceiling combined with any effective
-capabilities the creator already holds:
-    child_bset = parent_bset & (sysctl_ceiling | creator_effective)
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+91e1fc35f51774c479b2@syzkaller.appspotmail.com
 
-Capability bounding sets decrease monotonically down the namespace
-hierarchy, ensuring child namespaces can never exceed the capabilities
-of their ancestors.
+==================================================================
+BUG: KASAN: slab-use-after-free in do_trace_event_raw_event_hugetlbfs__inode include/trace/events/hugetlbfs.h:36 [inline]
+BUG: KASAN: slab-use-after-free in trace_event_raw_event_hugetlbfs__inode+0x45b/0x4c0 include/trace/events/hugetlbfs.h:36
+Read of size 4 at addr ffff888038850010 by task syz-executor952/6134
 
-Upon entering a user namespace during creation or via setns, the task's
-permitted, effective, and bounding capability sets are clamped to the
-namespace's bounding set. Furthermore, cap_capable_helper() is updated
-so that implicit capabilities granted to parent-namespace owners over
-child namespaces are strictly bounded by the owned namespace's
-cap_bset.
+CPU: 3 UID: 0 PID: 6134 Comm: syz-executor952 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ do_trace_event_raw_event_hugetlbfs__inode include/trace/events/hugetlbfs.h:36 [inline]
+ trace_event_raw_event_hugetlbfs__inode+0x45b/0x4c0 include/trace/events/hugetlbfs.h:36
+ __do_trace_hugetlbfs_free_inode include/trace/events/hugetlbfs.h:75 [inline]
+ trace_hugetlbfs_free_inode include/trace/events/hugetlbfs.h:75 [inline]
+ hugetlbfs_free_inode+0x15e/0x1f0 fs/hugetlbfs/inode.c:1182
+ i_callback+0x46/0x80 fs/inode.c:317
+ rcu_do_batch kernel/rcu/tree.c:2650 [inline]
+ rcu_core+0x5f0/0x1220 kernel/rcu/tree.c:2919
+ handle_softirqs+0x216/0xa20 kernel/softirq.c:669
+ __do_softirq kernel/softirq.c:703 [inline]
+ invoke_softirq kernel/softirq.c:542 [inline]
+ __irq_exit_rcu+0x178/0x220 kernel/softirq.c:786
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:809
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:__sanitizer_cov_trace_pc+0x46/0x70 kernel/kcov.c:213
+Code: 00 01 00 ff 74 1e f6 c4 01 74 44 a9 00 00 00 0f 75 3d f7 c1 00 00 00 f0 75 35 8b 82 44 17 00 00 85 c0 74 2b 8b 82 18 17 00 00 <83> f8 02 75 20 48 8b 8a 20 17 00 00 8b 92 1c 17 00 00 48 8b 01 48
+RSP: 0018:ffffc900035dfd38 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: ffffc90000327df0 RCX: 0000000000000003
+RDX: ffff8880311b0000 RSI: ffffffff82a3cf67 RDI: ffff8880311b0000
+RBP: ffffc90000327df0 R08: 0000000000000007 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: ffff88803b243da8 R15: 0000000000000000
+ __hlist_bl_del include/linux/list_bl.h:123 [inline]
+ ___d_drop+0xe7/0x2d0 fs/dcache.c:584
+ __d_drop fs/dcache.c:591 [inline]
+ __d_drop fs/dcache.c:588 [inline]
+ d_delete+0xd1/0x280 fs/dcache.c:2785
+ d_delete_notify include/linux/fsnotify.h:379 [inline]
+ vfs_unlink+0x688/0xbd0 fs/namei.c:5676
+ filename_unlinkat+0x408/0x730 fs/namei.c:5731
+ __do_sys_unlink fs/namei.c:5766 [inline]
+ __se_sys_unlink fs/namei.c:5763 [inline]
+ __x64_sys_unlink+0x46/0x70 fs/namei.c:5763
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f62cdcc0047
+Code: 1f 40 00 48 89 f2 31 c9 48 89 fe bf 9c ff ff ff e9 ce 5f 03 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 b8 57 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 01 c3 48 c7 c2 d0 ff ff ff f7 d8 64 89 02 b8
+RSP: 002b:00007f62cc488088 EFLAGS: 00000202 ORIG_RAX: 0000000000000057
+RAX: ffffffffffffffda RBX: 00007ffd4150bf90 RCX: 00007f62cdcc0047
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00007f62cc488160
+RBP: 0000000000000017 R08: 0000000000000000 R09: 0000000000000000
+R10: 00000000000001b6 R11: 0000000000000202 R12: 00007f62cc4880a0
+R13: 00007f62cdd315b8 R14: 00007f62cc4880e0 R15: 00007f62cc488160
+ </TASK>
 
-The sysctl defaults to CAP_FULL_SET, preserving baseline backwards
-compatibility and existing behavior unless an administrator explicitly
-configures a restricted ceiling.
+Allocated by task 6134:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
+ __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:426
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x2f8/0x6d0 mm/slub.c:5680
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ alloc_super fs/super.c:326 [inline]
+ sget_fc+0x1ba/0x1f60 fs/super.c:874
+ get_tree_super fs/super.c:1395 [inline]
+ get_tree_nodev+0x28/0x190 fs/super.c:1420
+ hugetlbfs_get_tree+0x1e7/0x2b0 fs/hugetlbfs/inode.c:1431
+ vfs_get_tree+0x92/0x320 fs/super.c:1943
+ fc_mount fs/namespace.c:1282 [inline]
+ do_new_mount_fc fs/namespace.c:3910 [inline]
+ do_new_mount fs/namespace.c:3986 [inline]
+ path_mount+0x7d0/0x2850 fs/namespace.c:4337
+ do_mount fs/namespace.c:4350 [inline]
+ __do_sys_mount fs/namespace.c:4565 [inline]
+ __se_sys_mount fs/namespace.c:4542 [inline]
+ __x64_sys_mount+0x293/0x310 fs/namespace.c:4542
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-Signed-off-by: Hallgrimur H. Gunnarsson <halg@google.com>
+Freed by task 855:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:264 [inline]
+ __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:296
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2780 [inline]
+ slab_free mm/slub.c:6630 [inline]
+ kfree+0x22b/0x6d0 mm/slub.c:6923
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3495
+ process_scheduled_works kernel/workqueue.c:3578 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3659
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Last potentially related work creation:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xa7/0xc0 mm/kasan/generic.c:556
+ insert_work+0x36/0x230 kernel/workqueue.c:2356
+ __queue_work+0xac1/0x16f0 kernel/workqueue.c:2546
+ queue_work_on+0x180/0x1e0 kernel/workqueue.c:2599
+ rcu_do_batch kernel/rcu/tree.c:2650 [inline]
+ rcu_core+0x5f0/0x1220 kernel/rcu/tree.c:2919
+ handle_softirqs+0x216/0xa20 kernel/softirq.c:669
+ __do_softirq kernel/softirq.c:703 [inline]
+ invoke_softirq kernel/softirq.c:542 [inline]
+ __irq_exit_rcu+0x178/0x220 kernel/softirq.c:786
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:809
+ instr_sysvec_call_function_single arch/x86/kernel/smp.c:267 [inline]
+ sysvec_call_function_single+0xa3/0xc0 arch/x86/kernel/smp.c:267
+ asm_sysvec_call_function_single+0x1a/0x20 arch/x86/include/asm/idtentry.h:681
+
+Second to last potentially related work creation:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xa7/0xc0 mm/kasan/generic.c:556
+ __call_rcu_common.constprop.0+0x7b/0x2b0 kernel/rcu/tree.c:3287
+ put_super fs/super.c:432 [inline]
+ put_super+0x30e/0x420 fs/super.c:419
+ deactivate_locked_super+0xe5/0x130 fs/super.c:594
+ deactivate_super fs/super.c:614 [inline]
+ deactivate_super+0xea/0x110 fs/super.c:610
+ cleanup_mnt+0xb7/0x160 fs/namespace.c:1396
+ task_work_run+0x150/0x240 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
+ exit_to_user_mode_loop+0x1d8/0x700 kernel/entry/common.c:101
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:343 [inline]
+ do_syscall_64+0x661/0x790 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff888038850000
+ which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 16 bytes inside of
+ freed 4096-byte region [ffff888038850000, ffff888038851000)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x38850
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000040 ffff88801d443040 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000000040004 00000000f5000000 0000000000000000
+head: 00fff00000000040 ffff88801d443040 dead000000000100 dead000000000122
+head: 0000000000000000 0000000000040004 00000000f5000000 0000000000000000
+head: 00fff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5207, tgid 5207 (udevd), ts 22161561359
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1854
+ prep_new_page mm/page_alloc.c:1862 [inline]
+ get_page_from_freelist+0x1113/0x35e0 mm/page_alloc.c:3933
+ __alloc_frozen_pages_noprof+0x2f6/0x3190 mm/page_alloc.c:5429
+ alloc_slab_page mm/slub.c:3384 [inline]
+ allocate_slab mm/slub.c:3499 [inline]
+ new_slab+0xb1/0x6d0 mm/slub.c:3550
+ refill_objects+0xe3/0x410 mm/slub.c:7539
+ refill_sheaf mm/slub.c:2917 [inline]
+ __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4811
+ alloc_from_pcs mm/slub.c:4887 [inline]
+ slab_alloc_node mm/slub.c:5021 [inline]
+ __kmalloc_cache_noprof+0x4ef/0x6d0 mm/slub.c:5676
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ kernfs_iop_get_link fs/kernfs/symlink.c:148 [inline]
+ kernfs_iop_get_link+0x65/0x1770 fs/kernfs/symlink.c:139
+ vfs_readlink+0x213/0x440 fs/namei.c:6431
+ do_readlinkat+0x250/0x370 fs/stat.c:587
+ __do_sys_readlink fs/stat.c:609 [inline]
+ __se_sys_readlink fs/stat.c:606 [inline]
+ __x64_sys_readlink+0x78/0xc0 fs/stat.c:606
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+page last free pid 5196 tgid 5196 ts 22123403954 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1401 [inline]
+ __free_frozen_pages+0x7b4/0x1110 mm/page_alloc.c:2952
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x47/0xf0 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x1a0/0x1f0 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x69/0x90 mm/kasan/common.c:361
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4720 [inline]
+ slab_alloc_node mm/slub.c:5033 [inline]
+ __kmalloc_cache_noprof+0x278/0x6d0 mm/slub.c:5676
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ kernfs_fop_open+0x347/0x10f0 fs/kernfs/file.c:648
+ do_dentry_open+0x674/0x1470 fs/open.c:1000
+ vfs_open_consume+0xcc/0x460 fs/open.c:1131
+ do_open fs/namei.c:4845 [inline]
+ path_openat+0x1547/0x23f0 fs/namei.c:5010
+ do_file_open+0x20e/0x430 fs/namei.c:5039
+ do_sys_openat2+0x163/0x1d0 fs/open.c:1442
+ do_sys_open fs/open.c:1448 [inline]
+ __do_sys_openat fs/open.c:1464 [inline]
+ __se_sys_openat fs/open.c:1459 [inline]
+ __x64_sys_openat+0x12d/0x210 fs/open.c:1459
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Memory state around the buggy address:
+ ffff88803884ff00: fb fb fb fb fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff88803884ff80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff888038850000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                         ^
+ ffff888038850080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888038850100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+----------------
+Code disassembly (best guess):
+   0:	00 01                	add    %al,(%rcx)
+   2:	00 ff                	add    %bh,%bh
+   4:	74 1e                	je     0x24
+   6:	f6 c4 01             	test   $0x1,%ah
+   9:	74 44                	je     0x4f
+   b:	a9 00 00 00 0f       	test   $0xf000000,%eax
+  10:	75 3d                	jne    0x4f
+  12:	f7 c1 00 00 00 f0    	test   $0xf0000000,%ecx
+  18:	75 35                	jne    0x4f
+  1a:	8b 82 44 17 00 00    	mov    0x1744(%rdx),%eax
+  20:	85 c0                	test   %eax,%eax
+  22:	74 2b                	je     0x4f
+  24:	8b 82 18 17 00 00    	mov    0x1718(%rdx),%eax
+* 2a:	83 f8 02             	cmp    $0x2,%eax <-- trapping instruction
+  2d:	75 20                	jne    0x4f
+  2f:	48 8b 8a 20 17 00 00 	mov    0x1720(%rdx),%rcx
+  36:	8b 92 1c 17 00 00    	mov    0x171c(%rdx),%edx
+  3c:	48 8b 01             	mov    (%rcx),%rax
+  3f:	48                   	rex.W
+
+
 ---
- Documentation/admin-guide/sysctl/kernel.rst | 32 +++++++
- include/linux/user_namespace.h              | 16 ++++
- kernel/user.c                               |  1 +
- kernel/user_namespace.c                     | 93 +++++++++++++++++++--
- security/commoncap.c                        |  8 +-
- 5 files changed, 142 insertions(+), 8 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index b6328cd0f43e..25fe46e7724b 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1690,6 +1690,38 @@ entry will default to 2 instead of 0.
- = =============================================================
- 
- 
-+unprivileged_userns_caps_allowed
-+================================
-+
-+This file contains a hexadecimal bitmask representing the capability bounding
-+ceiling enforced on unprivileged user namespace creation. Instead of granting
-+full capabilities upon namespace creation, this ceiling can be used to
-+configure which capabilities are permitted.
-+
-+When an unprivileged task (a task lacking ``CAP_SYS_ADMIN`` in its parent user
-+namespace) creates a new user namespace, the capability bounding set of the
-+new namespace is intersected with the union of this mask and the creator's
-+effective capabilities in the parent namespace:
-+
-+  child_bset = parent_bset & (sysctl_ceiling | creator_effective)
-+
-+Privileged creators (holding ``CAP_SYS_ADMIN`` in the parent namespace) are
-+unaffected by this ceiling and inherit the parent namespace's bounding set
-+unmodified.
-+
-+Upon entering a user namespace during creation or via ``setns(2)``,
-+the task's permitted, effective, and bounding capability sets are clamped
-+to the namespace's bounding set. Tasks inside the namespace cannot exceed
-+this ceiling, even when executing setuid binaries or binaries with file
-+capabilities.
-+
-+Unknown capability bits (above ``CAP_LAST_CAP``) are ignored and masked
-+off when writing to this file.
-+
-+* Default: ``CAP_FULL_SET`` (all capabilities permitted)
-+* Privilege required to modify: ``CAP_SETPCAP`` in the initial user namespace.
-+
-+
- warn_limit
- ==========
- 
-diff --git a/include/linux/user_namespace.h b/include/linux/user_namespace.h
-index e38d9e60569f..a0ccfb93f2a7 100644
---- a/include/linux/user_namespace.h
-+++ b/include/linux/user_namespace.h
-@@ -3,6 +3,7 @@
- #define _LINUX_USER_NAMESPACE_H
- 
- #include <linux/kref.h>
-+#include <linux/capability.h>
- #include <linux/nsproxy.h>
- #include <linux/ns_common.h>
- #include <linux/rculist_nulls.h>
-@@ -89,6 +90,11 @@ struct user_namespace {
- 	/* parent_could_setfcap: true if the creator if this ns had CAP_SETFCAP
- 	 * in its effective capability set at the child ns creation time. */
- 	bool			parent_could_setfcap;
-+	/*
-+	 * Capability bounding set for tasks inside the namespace and for owner
-+	 * tasks in the parent namespace.
-+	 */
-+	kernel_cap_t		cap_bset;
- 
- #ifdef CONFIG_KEYS
- 	/* List of joinable keyrings in this namespace.  Modification access of
-@@ -183,6 +189,11 @@ static inline struct user_namespace *get_user_ns(struct user_namespace *ns)
- 	return ns;
- }
- 
-+static inline bool userns_has_cap(const struct user_namespace *ns, int cap)
-+{
-+	return cap_raised(ns->cap_bset, cap);
-+}
-+
- extern int create_user_ns(struct cred *new);
- extern int unshare_userns(unsigned long unshare_flags, struct cred **new_cred);
- extern void __put_user_ns(struct user_namespace *ns);
-@@ -214,6 +225,11 @@ static inline struct user_namespace *get_user_ns(struct user_namespace *ns)
- 	return &init_user_ns;
- }
- 
-+static inline bool userns_has_cap(const struct user_namespace *ns, int cap)
-+{
-+	return true;
-+}
-+
- static inline int create_user_ns(struct cred *new)
- {
- 	return -EINVAL;
-diff --git a/kernel/user.c b/kernel/user.c
-index 21bafdc11379..78f4c5e45dcc 100644
---- a/kernel/user.c
-+++ b/kernel/user.c
-@@ -69,6 +69,7 @@ struct user_namespace init_user_ns = {
- 	.owner = GLOBAL_ROOT_UID,
- 	.group = GLOBAL_ROOT_GID,
- 	.flags = USERNS_INIT_FLAGS,
-+	.cap_bset = CAP_FULL_SET,
- #ifdef CONFIG_KEYS
- 	.keyring_name_list = LIST_HEAD_INIT(init_user_ns.keyring_name_list),
- 	.keyring_sem = __RWSEM_INITIALIZER(init_user_ns.keyring_sem),
-diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
-index 0bed462e9b2a..92f489e268a8 100644
---- a/kernel/user_namespace.c
-+++ b/kernel/user_namespace.c
-@@ -3,6 +3,9 @@
- #include <linux/export.h>
- #include <linux/nsproxy.h>
- #include <linux/slab.h>
-+#include <linux/capability.h>
-+#include <linux/string.h>
-+#include <linux/sysctl.h>
- #include <linux/sched/signal.h>
- #include <linux/user_namespace.h>
- #include <linux/proc_ns.h>
-@@ -41,17 +44,77 @@ static void dec_user_namespaces(struct ucounts *ucounts)
- 	return dec_ucount(ucounts, UCOUNT_USER_NAMESPACES);
- }
- 
-+static kernel_cap_t sysctl_unpriv_userns_bset = CAP_FULL_SET;
-+
-+static int unpriv_userns_bset_handler(const struct ctl_table *table,
-+				      int write, void *buffer,
-+				      size_t *lenp, loff_t *ppos)
-+{
-+	struct ctl_table tmp_table = *table;
-+	char buf[32] = {};
-+	unsigned long long val;
-+	char *s;
-+	int ret;
-+
-+	if (!*lenp)
-+		return 0;
-+	if (write && *ppos)
-+		return -EINVAL;
-+	if (write && !capable(CAP_SETPCAP))
-+		return -EPERM;
-+
-+	if (!write) {
-+		kernel_cap_t unpriv_bset = READ_ONCE(sysctl_unpriv_userns_bset);
-+
-+		snprintf(buf, sizeof(buf), "%016llx", unpriv_bset.val);
-+	}
-+
-+	tmp_table.data = buf;
-+	tmp_table.maxlen = sizeof(buf);
-+
-+	ret = proc_dostring(&tmp_table, write, buffer, lenp, ppos);
-+	if (ret || !write)
-+		return ret;
-+
-+	s = strim(buf);
-+	ret = kstrtoull(s, 16, &val);
-+	if (ret)
-+		return ret;
-+
-+	val &= CAP_VALID_MASK;
-+	WRITE_ONCE(sysctl_unpriv_userns_bset, (kernel_cap_t){ .val = val });
-+	return 0;
-+}
-+
-+static const struct ctl_table user_namespace_sysctls[] = {
-+	{
-+		.procname	= "unprivileged_userns_caps_allowed",
-+		.mode		= 0644,
-+		.proc_handler	= unpriv_userns_bset_handler,
-+	},
-+};
-+
-+static int __init init_user_ns_sysctls(void)
-+{
-+	register_sysctl_init("kernel", user_namespace_sysctls);
-+	return 0;
-+}
-+subsys_initcall(init_user_ns_sysctls);
-+
- static void set_cred_user_ns(struct cred *cred, struct user_namespace *user_ns)
- {
--	/* Start with the same capabilities as init but useless for doing
--	 * anything as the capabilities are bound to the new user namespace.
-+	/*
-+	 * Tasks inside the user namespace start with (and are permanently
-+	 * bounded by) the capabilities permitted by the user namespace
-+	 * capability ceiling. The capabilities are scoped to the new user
-+	 * namespace.
- 	 */
- 	cred->securebits = SECUREBITS_DEFAULT;
-+	cred->cap_bset = user_ns->cap_bset;
-+	cred->cap_permitted = user_ns->cap_bset;
-+	cred->cap_effective = user_ns->cap_bset;
- 	cred->cap_inheritable = CAP_EMPTY_SET;
--	cred->cap_permitted = CAP_FULL_SET;
--	cred->cap_effective = CAP_FULL_SET;
- 	cred->cap_ambient = CAP_EMPTY_SET;
--	cred->cap_bset = CAP_FULL_SET;
- #ifdef CONFIG_KEYS
- 	key_put(cred->request_key_auth);
- 	cred->request_key_auth = NULL;
-@@ -86,6 +149,7 @@ int create_user_ns(struct cred *new)
- 	kuid_t owner = new->euid;
- 	kgid_t group = new->egid;
- 	struct ucounts *ucounts;
-+	kernel_cap_t cap_bset;
- 	int ret, i;
- 
- 	ret = -ENOSPC;
-@@ -119,6 +183,24 @@ int create_user_ns(struct cred *new)
- 	if (ret < 0)
- 		goto fail_dec;
- 
-+	/*
-+	 * If the caller has CAP_SYS_ADMIN in the parent namespace,
-+	 * they are a privileged creator and inherit the parent's
-+	 * bounding set directly.
-+	 *
-+	 * Otherwise, enforce the unprivileged bounding ceiling, but
-+	 * allow the child namespace to retain any capabilities the
-+	 * creator already holds.
-+	 */
-+	cap_bset = parent_ns->cap_bset;
-+	if (!ns_capable_noaudit(parent_ns, CAP_SYS_ADMIN)) {
-+		kernel_cap_t unpriv_bset = READ_ONCE(sysctl_unpriv_userns_bset);
-+		kernel_cap_t allowed = cap_combine(unpriv_bset,
-+						   new->cap_effective);
-+
-+		cap_bset = cap_intersect(cap_bset, allowed);
-+	}
-+
- 	ret = -ENOMEM;
- 	ns = kmem_cache_zalloc(user_ns_cachep, GFP_KERNEL);
- 	if (!ns)
-@@ -144,6 +226,7 @@ int create_user_ns(struct cred *new)
- 	set_userns_rlimit_max(ns, UCOUNT_RLIMIT_SIGPENDING, rlimit(RLIMIT_SIGPENDING));
- 	set_userns_rlimit_max(ns, UCOUNT_RLIMIT_MEMLOCK, rlimit(RLIMIT_MEMLOCK));
- 	ns->ucounts = ucounts;
-+	ns->cap_bset = cap_bset;
- 
- 	/* Inherit USERNS_SETGROUPS_ALLOWED from our parent */
- 	mutex_lock(&userns_state_mutex);
-diff --git a/security/commoncap.c b/security/commoncap.c
-index 3399535808fe..f153e7bad1ba 100644
---- a/security/commoncap.c
-+++ b/security/commoncap.c
-@@ -88,11 +88,13 @@ static inline int cap_capable_helper(const struct cred *cred,
- 		if (ns->level <= cred_ns->level)
- 			return -EPERM;
- 
--		/* 
-+		/*
- 		 * The owner of the user namespace in the parent of the
--		 * user namespace has all caps.
-+		 * user namespace has all caps, subject to the bounding
-+		 * set of the owned user namespace.
- 		 */
--		if ((ns->parent == cred_ns) && uid_eq(ns->owner, cred->euid))
-+		if (ns->parent == cred_ns && uid_eq(ns->owner, cred->euid) &&
-+		    userns_has_cap(ns, cap))
- 			return 0;
- 
- 		/*
--- 
-2.56.0.313.g2479322e68-goog
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
