@@ -1,98 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793187231;
-	b=oAVaHhpkz521rXrJfaxf78QPj8wUNqAfmKWzMllgTMD1/Lb7spoU/hm1fm9XSkPMCp6Q
-	 77TyiZwtrpaEUe1AxkdyX9hCRTPze5uG1RoWb2JSUYbOLbL8gN3URNoBXZWeB7UY4zQve
-	 N+1p1ptdL4rP/SRbCixrY2TP9kwXjsSnQt2GGpLdB5H6m1R7tyNbCeZAGDU3TLgFRsSJq
-	 05V39RRRZdF0dtRDmzMy2yyu+99a7KVTHZgC44xl1sFfp9uZxbJHCZE6Lq03fK+Od7zE+
-	 6mZVdYAl8PPVvqZow1bt1/NBmy254KJsMOZdJY8h/PLUxFet1doyUwxtC+7hcu1Pw7Q==
+	t=1793187551;
+	b=ReqY5QXz6kEecqGWISqNvLKULPhk6RYcgaL/XyKS/XtS2az2GFYl9SJFTt10t0NBlprI
+	 oh3NkKeK3dBpnL6ckN/jvK+d56gWS+uB0pTJjPYehD2bqBpEtKsIlFs/QiWQuSGTzbQkm
+	 0AGfA0Dd2sSNvzdYV02rRKC1jH6d0LGWd1ld5HhYr9KeKcL8lToHV8wEatfLAs3L9Zc/h
+	 sQw7iC416MDaUSlzptT3qWaHxDAhh8hZRzEEb3ui/qjFbxDxpOkdzaJWDtI5WAdn4FxOe
+	 LaUnnhFTKzRmBkt+rv9oyUBrGOkpw1YIGfqNIi1u4MpwiwynWYCfJN3a0RIi8SROPUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793187231;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 In-Reply-To:Organization:References:Date:Message-ID:MIME-Version:
-	 Content-Type;
-	bh=jLuXcsrhYze/uot6RAritgtezmvs46B7suAi1iRl0v0=;
-	b=A0pi3kk96ukyb/qHJUzwZRjFTNu75826ktHdX3PrbOF6bw84j9MlYmDdstg0vJsG6EZO
-	 p0oUpJKDieRZe+xYEz4BU7Z9ZJ4jgaE/6rW8f6+ryPvUNGC/hugKAggOQ2aRAc+++Gyd6
-	 Q9GMfKTWlqz5+sbkij3d5t9oSpjz9R6zt4Jb86qBnAZPy2HSaBix1x2jVrZrSvsuOHbpZ
-	 e6Bvt+YSnE7AIzAzi5ASm4MdWjZcCIspyFPc0by1kzEb6yaMfdum9dq4eifh7KlNxWwF+
-	 5PSOeRRlawU1DvmIwreJn6lBppVZ6UTfhu5uLjX9MN2Ki/NKzMgm5SZP3s8UiiJgtwg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793187551;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=sOScShlNJOoFQgumDsqaC2sVgmpV4+y6Yzg+EW5P6X4=;
+	b=RiYATiZnx8yeQSWmNAeiQoAHFzblyFnmGT3nmYFEaM3hmjArWroZCoYCss0l+gkdXu45
+	 w9vfYJDBYGfUlcUP+HUlZXX0iUOWIfMLuw8KburF5kqrMe6X3qs19EMY873Y3os61BlSd
+	 vyQJ4ZT9roOFHMxwoQGVWxyaD+c/vGz969cg+4bETb1ejRNtt6Vbb/4MkKifOcQF5e5Xc
+	 W0qBmJuL47wrt4iiDIKdg1rbe5pLtbt1XBPDxQz4pYp5fOVjEaAMZoE0bw8pSXEjrztef
+	 01XP6xDGEeC1uOD/lJ4Zav0K8fM6QF8DVqY658/n5tmKuJDWTWLXa00ke2lyEhyGJIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JGKF85hm;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V3aBNqqF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CE1606A31F;
-	Wed, 28 Oct 2026 11:33:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43CE1606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C382606A321
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 11:39:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JGKF85hm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793187229; x=1824723229;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=z8y8XV24bROqh0zonAMNAjIZyMJbY12xpb+/fK8m0AI=;
-  b=JGKF85hmCVQ9pf9eXbOsC8wgPHWDavTdyCGWPRpxPC23gPTB9HurHR1u
-   WQIzCd0zwuTx3xDYu7R6x7Tug0u3cG2len/6bLyuT1Ba9nt2Ksz9lFv16
-   uWsDoRlbFOlyD/wV5bIxwsw3kIwHlbx+7870/Q08076xKsblgMcUIm7Xw
-   nkUIXIu5vX0mQFDdirfJv+J+GkeTU7aMk2olzE59xTR4u4jE9NpgRt9lo
-   j3gf2C66LaqLw0qU6mJ+rQfIH8X+Zwj6uep7ZyHB2nWJbxPDyFDqeTPXW
-   uH7NK1RnZY34FW9rSVNOCVg9/KCrbR1XNYeByeZKByf52EvDlzja4Tmz3
-   g==;
-X-CSE-ConnectionGUID: LjtfTqsfR6q7+D7U9Clktg==
-X-CSE-MsgGUID: ULH4gWuCRSGUwGXlKvyOzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1813628"
-X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="1813628"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 04:33:48 -0700
-X-CSE-ConnectionGUID: F9mrBK1+QXS8jOjCv8P8bQ==
-X-CSE-MsgGUID: KJ1QgI6jS6ey2L/RLS17LQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="6633584"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.146])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 04:33:40 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Ilvokhin <d@ilvokhin.com>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Lee Jones
- <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Joel Stanley
- <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, Ryan Chen
- <ryan_chen@aspeedtech.com>, Billy Tsai <billy_tsai@aspeedtech.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Kees Cook
- <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, Matthew Wilcox
- <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Andy
- Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy
- Dunlap <rdunlap@infradead.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Dmitry Ilvokhin <d@ilvokhin.com>
-Subject: Re: [PATCH 05/10] drm/i915: switch to __nonnull_args() macro
-In-Reply-To: <33ec8080594f9f4ef1d50e36497339c9a6897393.1793027261.git.d@ilvokhin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <cover.1793027261.git.d@ilvokhin.com>
- <33ec8080594f9f4ef1d50e36497339c9a6897393.1793027261.git.d@ilvokhin.com>
-Date: Wed, 28 Oct 2026 13:33:37 +0200
-Message-ID: <3b839373c03f6b8aeafa8e4801a486ece68b0815@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V3aBNqqF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9931B1F031E1
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 11:39:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793187550;
+	bh=sOScShlNJOoFQgumDsqaC2sVgmpV4+y6Yzg+EW5P6X4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=V3aBNqqFFHK8/iCpvfjUC4nqv71d4gzLapwxCef4YXC24PEvK5vHB+xdOeL7szLll
+	 P+FI7kOVX15iyVgW6L5BqB5j66cUsU58EFNBVc4ed1gRumoqiCbC4e+4/fMtoPPsBi
+	 389uKh3znOcDxhFOO4xeIVuJHUWRavRXaxLHJn2UManYPCHBMECjV9wAGJYHfg7uRm
+	 oE9BZ712DtB2yvqohWmRmnKolH9LeojudIZ3GAkE5g2bjpf6/E/ujmhxw0Acr5Ue7J
+	 /SryS8fSPLV7LahdfJR0nny8tZNZQ0l6lyXB4kclXqeLy9UOpL1SeAi4UciWGJrnY9
+	 J8Z5+YeM8O4VQ==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5bb7c6980f1so957770e87.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 04:39:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByauKqZmXN06C4f+DKZVo8Lfnrh9MKEW05FT/Stnic7j01dmMieMNwwHeImGqNB71syh1BY99dSo5Fj1bJV@vger.kernel.org
+X-Gm-Message-State: AFq9FYKDDOvI6yl3ME8ITanakkr7T5Mln/VDSfQURCvfcbKzFHePoF3x
+	wJyB8sz08w67isOvyGzUeDKuieg4LYfGfc7FdEnaSSfwDLObPtaOJcWjYyM+f7uhyXyDjbntlWn
+	HE15vod9x8D4dpAUt7JLpHpYs/g0et0w=
+X-Received: by 2002:a05:6512:1111:b0:5b9:6603:d451 with SMTP id
+ 2adb3069b0e04-5bfcad31c8emr697328e87.3.1793187548999; Wed, 28 Oct 2026
+ 04:39:08 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -102,68 +59,141 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20261027223847.652884-1-irogers@google.com> <20261027223847.652884-5-irogers@google.com>
+In-Reply-To: <20261027223847.652884-5-irogers@google.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Wed, 28 Oct 2026 12:38:56 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0juvZ2ZVRBkY6FxBM=NhPt9vMA3+yRugXc5u=U1jO9AXg@mail.gmail.com>
+X-Gm-Features: AclHuK-NXF3tWCMDzaNjIN417c7ZMuQGYjVHoQ_x6BSITeW_KdKoI_jbnClXt6k
+Message-ID: <CAJZ5v0juvZ2ZVRBkY6FxBM=NhPt9vMA3+yRugXc5u=U1jO9AXg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/9] cpufreq: governor: Initialize kobj_type release
+ callback statically
+To: Ian Rogers <irogers@google.com>
+Cc: Kees Cook <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Zhihao Cheng <chengzhihao1@huawei.com>, Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, 
+	Sumanth Korikkar <sumanthk@linux.ibm.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev, llvm@lists.linux.dev, 
+	linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-sh@vger.kernel.org, linux-s390@vger.kernel.org, gfs2@lists.linux.dev, 
+	xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 28 Oct 2026, Dmitry Ilvokhin <d@ilvokhin.com> wrote:
-> Commit 22302af28d3f ("cleanup: Annotate guard constructors with
-> nonnull") added the macro __nonnull_args() to wrap raw compiler
-> attribute.
+On Tue, Oct 27, 2026 at 11:39=E2=80=AFPM Ian Rogers <irogers@google.com> wr=
+ote:
 >
-> Replace __attribute__((nonnull)) with __nonnull_args() to standardize
-> nonnull attribute usage across the tree and keep the attribute's quirks
-> in one place rather than open-coded at every call site.
+> Export cpufreq_dbs_data_release() and set .kobj_type.release statically
+> in the ondemand and conservative governors so their gov_attr_set
+> kobjects have a valid release callback statically initialized, matching
+> cpufreq_governor_dbs. Remove the redundant runtime assignment in
+> cpufreq_dbs_governor_init().
 >
-> Suggested-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-> Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
+> This prepares for annotating struct kobj_type::release with
+> __must_init.
+>
+> Signed-off-by: Ian Rogers <irogers@google.com>
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+Do you want stuff to be picked up by maintainers, or do you want to
+route it yourself?
 
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_object.h | 4 ++--
->  drivers/gpu/drm/i915/i915_request.h        | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
+>  drivers/cpufreq/cpufreq_conservative.c | 5 ++++-
+>  drivers/cpufreq/cpufreq_governor.c     | 4 ++--
+>  drivers/cpufreq/cpufreq_governor.h     | 1 +
+>  drivers/cpufreq/cpufreq_ondemand.c     | 5 ++++-
+>  4 files changed, 11 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> index a2f4b6758a65..648d0b4139cf 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -127,7 +127,7 @@ __deprecated
->  struct drm_gem_object *
->  drm_gem_object_lookup(struct drm_file *file, u32 handle);
->  
-> -__attribute__((nonnull))
-> +__nonnull_args()
->  static inline struct drm_i915_gem_object *
->  i915_gem_object_get(struct drm_i915_gem_object *obj)
->  {
-> @@ -135,7 +135,7 @@ i915_gem_object_get(struct drm_i915_gem_object *obj)
->  	return obj;
+> diff --git a/drivers/cpufreq/cpufreq_conservative.c b/drivers/cpufreq/cpu=
+freq_conservative.c
+> index 02bfd46543e9..146a2353b1a2 100644
+> --- a/drivers/cpufreq/cpufreq_conservative.c
+> +++ b/drivers/cpufreq/cpufreq_conservative.c
+> @@ -318,7 +318,10 @@ static void cs_limits(struct cpufreq_policy *policy)
+>
+>  static struct dbs_governor cs_governor =3D {
+>         .gov =3D CPUFREQ_DBS_GOVERNOR_INITIALIZER("conservative"),
+> -       .kobj_type =3D { .default_groups =3D cs_groups },
+> +       .kobj_type =3D {
+> +               .release =3D cpufreq_dbs_data_release,
+> +               .default_groups =3D cs_groups,
+> +       },
+>         .gov_dbs_update =3D cs_dbs_update,
+>         .alloc =3D cs_alloc,
+>         .free =3D cs_free,
+> diff --git a/drivers/cpufreq/cpufreq_governor.c b/drivers/cpufreq/cpufreq=
+_governor.c
+> index f3bd3dbe7c41..f8b5aca09b6b 100644
+> --- a/drivers/cpufreq/cpufreq_governor.c
+> +++ b/drivers/cpufreq/cpufreq_governor.c
+> @@ -419,7 +419,7 @@ static void free_policy_dbs_info(struct policy_dbs_in=
+fo *policy_dbs,
+>         gov->free(policy_dbs);
 >  }
->  
-> -__attribute__((nonnull))
-> +__nonnull_args()
->  static inline void
->  i915_gem_object_put(struct drm_i915_gem_object *obj)
+>
+> -static void cpufreq_dbs_data_release(struct kobject *kobj)
+> +void cpufreq_dbs_data_release(struct kobject *kobj)
 >  {
-> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-> index b09135301f39..f559203c332d 100644
-> --- a/drivers/gpu/drm/i915/i915_request.h
-> +++ b/drivers/gpu/drm/i915/i915_request.h
-> @@ -437,12 +437,12 @@ void i915_request_cancel(struct i915_request *rq, int error);
->  long i915_request_wait_timeout(struct i915_request *rq,
->  			       unsigned int flags,
->  			       long timeout)
-> -	__attribute__((nonnull(1)));
-> +	__nonnull_args(1);
->  
->  long i915_request_wait(struct i915_request *rq,
->  		       unsigned int flags,
->  		       long timeout)
-> -	__attribute__((nonnull(1)));
-> +	__nonnull_args(1);
->  #define I915_WAIT_INTERRUPTIBLE	BIT(0)
->  #define I915_WAIT_PRIORITY	BIT(1) /* small priority bump for the request */
->  #define I915_WAIT_ALL		BIT(2) /* used by i915_gem_object_wait() */
-
--- 
-Jani Nikula, Intel
+>         struct dbs_data *dbs_data =3D to_dbs_data(to_gov_attr_set(kobj));
+>         struct dbs_governor *gov =3D dbs_data->gov;
+> @@ -427,6 +427,7 @@ static void cpufreq_dbs_data_release(struct kobject *=
+kobj)
+>         gov->exit(dbs_data);
+>         kfree(dbs_data);
+>  }
+> +EXPORT_SYMBOL_GPL(cpufreq_dbs_data_release);
+>
+>  int cpufreq_dbs_governor_init(struct cpufreq_policy *policy)
+>  {
+> @@ -488,7 +489,6 @@ int cpufreq_dbs_governor_init(struct cpufreq_policy *=
+policy)
+>         policy->governor_data =3D policy_dbs;
+>
+>         gov->kobj_type.sysfs_ops =3D &governor_sysfs_ops;
+> -       gov->kobj_type.release =3D cpufreq_dbs_data_release;
+>         ret =3D kobject_init_and_add(&dbs_data->attr_set.kobj, &gov->kobj=
+_type,
+>                                    get_governor_parent_kobj(policy),
+>                                    "%s", gov->gov.name);
+> diff --git a/drivers/cpufreq/cpufreq_governor.h b/drivers/cpufreq/cpufreq=
+_governor.h
+> index 806d8fb4dff1..1026712bb79b 100644
+> --- a/drivers/cpufreq/cpufreq_governor.h
+> +++ b/drivers/cpufreq/cpufreq_governor.h
+> @@ -150,6 +150,7 @@ static inline struct dbs_governor *dbs_governor_of(st=
+ruct cpufreq_policy *policy
+>  }
+>
+>  /* Governor callback routines */
+> +void cpufreq_dbs_data_release(struct kobject *kobj);
+>  int cpufreq_dbs_governor_init(struct cpufreq_policy *policy);
+>  void cpufreq_dbs_governor_exit(struct cpufreq_policy *policy);
+>  int cpufreq_dbs_governor_start(struct cpufreq_policy *policy);
+> diff --git a/drivers/cpufreq/cpufreq_ondemand.c b/drivers/cpufreq/cpufreq=
+_ondemand.c
+> index 9942dbb38dae..7386d043c665 100644
+> --- a/drivers/cpufreq/cpufreq_ondemand.c
+> +++ b/drivers/cpufreq/cpufreq_ondemand.c
+> @@ -374,7 +374,10 @@ static struct od_ops od_ops =3D {
+>
+>  static struct dbs_governor od_dbs_gov =3D {
+>         .gov =3D CPUFREQ_DBS_GOVERNOR_INITIALIZER("ondemand"),
+> -       .kobj_type =3D { .default_groups =3D od_groups },
+> +       .kobj_type =3D {
+> +               .release =3D cpufreq_dbs_data_release,
+> +               .default_groups =3D od_groups,
+> +       },
+>         .gov_dbs_update =3D od_dbs_update,
+>         .alloc =3D od_alloc,
+>         .free =3D od_free,
+> --
+> 2.56.0.313.g2479322e68-goog
+>
+>
