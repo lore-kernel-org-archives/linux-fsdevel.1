@@ -1,94 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.145
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793160004;
-	b=yOUCyPZqP9xhSOjAfAGd1NVXN53PFSGkI2PUhcIz4UGf1obIzRjbD2M9d/dka4qHiwmF
-	 H5Glxca2ZY4sRvf1vtJIgRqiPAXkL5ShrCjHLeOrbGLFB6Q9h0lK/VyC/iYPttluMdzsB
-	 ev5MCUl37OYgG1thsBG4wvDqwZtuTCBQ4VcymYhruvmc8kIwjsbvNcWQFfS2iibjGspth
-	 6QSRng2VGLDzj11hp9l/iNnALKFqflK5bglR0PZL8WrhSScR6AC9CldnNHtMeE0z0h/jc
-	 Wv340hv96shXaX68tK7WF9L0KWsBgXGmi+M6gnlPp280jF1ynvMMFxeV0d68roBwubw==
+	t=1793160637;
+	b=MOzdRx0VeIgXE7BDEXIhUdk597GwDYCaNV81j7a1KQ+1hCzfOmNXg/gi8l4IwmDa+6Je
+	 mr+hqPp8s7dkQEh0ZPIJp2AsdVkQ1PGMTChbojo/TbFi1RfGG+VhQTgsjd3slvX4PAxF6
+	 EdBwFDCxgM8aUA3nce3SGyohf/cjM7Lt5jS3k7/sfo4KyeKjxzMtZZ8zGu/TNq9SNXWV0
+	 X28DbG3ZgLpJf1ux8axLLefVdmNL0Pq5kyIRzCU+WzxMpzfBRO20gsYSgRigK7mCKIVja
+	 N+bYCvfgs9iARve8CcbEelvvvnP1zo4q4kchqE+VoN55H+Ea9T9bXorZVWeT1Sb0RqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793160004;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=9PnQ2xaZr3mufSI+K6dKdlREXH8U5SwjpmTIIDKwMRc=;
-	b=dB2qz3YDY4cAWOdsvz1N6prgY3feNUKIbnMaSsNANxKyGxLnwbNJb8LhHH3HQ2bK5KDf
-	 Xa6bZd9sj1Zn3JQ6uAxe4jhO6r49BehHSXuaUXc8zfiY9rcy6fhyMyR+LxVJoGXKm8If/
-	 lYtcUfmnLTn9r+tsi4lV1c4aMPg3VkY9pxZEwu2uDjhblQXgL3ZIgICIoOCzARqBRv0k3
-	 8TVMgTyBKv29QBm5Ocbeh7ogD35V/rr45Q8Eu9nHb4VuzqLk28AYBeG5AKtMtH2oZxwLu
-	 cGG+Vast4kNDXx+6lOmFvY2p/ovtAsQ3c9VQTl4fIBd6230KuVh8kvaHHzT7wNPZ7Vw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793160637;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:Reply-To:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=+Os/wGDI48EnuXQYbNa9+MpD8MZtnI7eLwbaeKbbebA=;
+	b=dIIZEFOkYivZxzCV+Bdlp0BLQXskfHcfPwN+6u1qqX8cx36ig/TXrsaXtqpSg4Hkd8yU
+	 JncvArqBrwlJMM9OaLdllwh42h02DiFw2r/vWn7vaVMCTrHgC9vICKWa9BbRW3/090NV4
+	 sRFNKQe3VITBLVOpO+sYi9vj/9pxAtAaDAiMMQjNtnst8VWL57hvPbV4nxiXs9kZJxgHJ
+	 s7+/vMNV7Cu+ZsQS+JD3Sizsw0GNDCyH2wk78C/7wujNCOrIyuKi4e0pwuFMSCSiDf3J3
+	 LwfpuPbv7ALWDPXgnRK4ZkNNfN0DxqRsDGdr6UzRkfv6eYkyW573GHV5+ly6ONuMBaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cs.unc.edu;
-	spf=pass smtp.mailfrom=cs.unc.edu;
-	arc=none smtp.remote-ip=209.85.219.45
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=ownmail.net;
+	spf=pass smtp.mailfrom=ownmail.net;
+	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=VR20w+fz;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Uzapc07n;
+	arc=none smtp.remote-ip=202.12.124.145
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8D4606A31F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 03:59:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE8D4606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-91c7b00a75fso6589246d6.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 20:59:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1793159998; x=1793764798; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9PnQ2xaZr3mufSI+K6dKdlREXH8U5SwjpmTIIDKwMRc=;
-        b=Rx4wB/LhE02EKCirrNsMf/bIC/Ktzo7u3dwF+S3HlsfNKW3SPrW2onMGaHbLVMuF2p
-         4AH0RuZkBkR7r/pDtqMhDUw3WMcpMR3dsbSuiWFkU0TALoGcxaf3VMIToOZA+szp5Tlo
-         J7UitxxoUAiQGw5jIZ1jWLRG/fNUCVXwtfQx42QZH5jpPmIV3Vd1OKa8LUp7alfhsq8M
-         JK5jCeuAYLAtjaSYyPe0lPSbUj7Hl2R0PurD6aLtQX0w5cOEiVUUD9BS5RMuE92CT4cy
-         xPJdYgbky6NRWJ0i4Lrl0B/7Bus4+THeU+YgMcjp3eHhVipME+Z/i6RTlxi28j9X43Vb
-         X+pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793159998; x=1793764798;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9PnQ2xaZr3mufSI+K6dKdlREXH8U5SwjpmTIIDKwMRc=;
-        b=1B8NBSIdnNqlhY8C7R/t1Sw/7Otq21HCS+Umc4hhKRnMfLiqluYqVNsdb3+2FFy9H2
-         l+FHNIQyg8CxjEkqzCkCYT9JA9rsjqqXUOdEJfPl+T04UpzAde4QIlvecSE5p01Yx10D
-         AoxoyUvjl757RV0XGntR5FAbhI7tMFN0njI2QDxT+1CvnzmWlZuQ5Empr/vWZEzZHRha
-         NUKRmLdfpGHgrQ0HXzS4on4BTj+s/ao1OMoz/ZUgOj6R+IUWv3YU6ep0j3XGqhxgUrWC
-         CSAaAY7NQGa0TukhlZwHLjeD6PTTLMgreebt4cPszXQQpt7JZyTT29i1vLB37P+VgMWE
-         wvIw==
-X-Forwarded-Encrypted: i=1; AKwUvBx9wbGfoeUTG/5QNcU81pfRf704CTpSgyZQ32o3mVQBi5+FdzodEvq6xBxgZ+W9hQgoz+6SY9P/y5yPldun@vger.kernel.org
-X-Gm-Message-State: AFq9FYK0MNi5rnfQ2Shek/ZdDAo4uLDD343OJ6LTBWc55zm3C1goCQ9K
-	KhdrwaKrvuoFtOINE+fm7uwML5LwIkNA2HSz1794sw2M6mGaEPTENVDmWTkocwEkYg==
-X-Gm-Gg: AYBFou2kmGLNtYa+fharXFb/c68xHalI2KyP0gPs6+Vs0dg4t2LjQT0l2qckLzVjRWD
-	AYuxFDJQfWlWSbGWQOZIXwK7zrLTJZDr05Bi37NS6G6wxYLmJbuUeA+ZHzN87h079sKNbroTx1+
-	Tpp8G7Vn1NVGnyn+kCQmWKwPdMczAG7Yp751zhEtEpY4wEw9UiJq8rEGC+FinyoiZi4CEzGvNBK
-	Z6yIvQ2T3KQMkkZew0u+EsTr9iLfNedgsKOighsanPDRYH8WiUkf2jbCfEqu3MZVPDHrpdMnCZD
-	wpFL2nNMHaKN+QvdI6XNpwbEths4JDVhm/Gm+05Zi3rQYb541KB7XCobkxuxF9MX6BKuK2Y1PEU
-	AF+2THNESQ3jf3P5RYZlH0f+IA4iL6oiD0RzTTFha5n1r3vQbhabJY79V7Fpp+KG1PMbRgywNCn
-	XJ9uFoijQBB9xudN2P/DvV1O8RioV2cOfFqXQC8usHr3pYC4kgDBsOvnPiqm/x+FWwu83Be1CDA
-	YDsjK2moZD9GgibtpegawrRQoovD/yTriRZOJ70XMnfXkEQrNcll0dnZ+0UNDed2mflUwKlEkGd
-	wHCsfWAKFdNariZYijRl6YP5XNlBzR0axBhrv38x356tdAsFXmes
-X-Received: by 2002:a05:6214:3201:b0:91c:7549:f377 with SMTP id 6a1803df08f44-91c7cf9035cmr18524006d6.29.1793159997516;
-        Tue, 27 Oct 2026 20:59:57 -0700 (PDT)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47cd9dcesm119808666d6.42.2026.10.27.20.59.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 20:59:57 -0700 (PDT)
-From: Hengyu Liang <hengyul@cs.unc.edu>
-To: slava@dubeyko.com
-Cc: glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2CA606A31E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 04:10:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA2CA606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=VR20w+fz;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Uzapc07n
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 65DD81D001CE
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 00:10:36 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 28 Oct 2026 00:10:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to; s=fm2; t=1793160635; x=1793247035; bh=+Os/wGDI48
+	EnuXQYbNa9+MpD8MZtnI7eLwbaeKbbebA=; b=VR20w+fz2VlLmFsEcz41OscxGb
+	ROW5dTRThTVQ0zod8voxmbBgFMUUwXaA+FaOsKyd9iHmWGNYyTSYgdMgZdkizG5y
+	CRgSiidpUIG1sDVywqXlPFAuZGm7AxNbsyHr1QbpHVdcl/71e7n4q7CQdg90/tFy
+	9d6jC1zpYRsNsGuKOukeV4d/h7JW4X1OgyAcwBKV//2E98ZOJfvesLm33FfBuy7g
+	e0bEPzkYvdAGbvdiyx1Bntr389lQBhR63Mas/d8byh36ERkGGOjnhe5gDgtqlubX
+	LNKqdOcbS7+CPQJcvXp5eMdvXAOLv6bgPgB/LJhKfojTONdG08HH++7d3bmA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1793160635; x=1793247035; bh=+Os/wGDI48EnuXQYbNa9+MpD8MZt
+	nI7eLwbaeKbbebA=; b=Uzapc07ns4tqqMlI15p0ycBNyHaH2B1+yn4Vm+Sj3m7+
+	MVG2bJsaOfLACH1FFZ3iTcegB7yFlWMzUa8UBjUy8elyLYQm1TWvCdRSh0MFPO1J
+	c1ZkRf5JIFgiALAOOdhxRB08nuQdazzShYA6AqBvz+r6a8nEBqXcdxTdpkfXqjLf
+	PehhpPYMipuKcXazlReUDfwGhABYHTid4r7GuCbK+mSz1i9tNn6t/FJzY2Qi1BuQ
+	9re2/WZ9mxpPYXKFEdC5p7K9Tc88n8cFpZZBHcLeBzxm5EfXZUF51TfYRuCQTjas
+	53kPKPzu3u+VZs3JM9nOhouTNsv4xCLtppEfiikOJw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=sign d=ownmail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793160635; d=ownmail.net;
+	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm2:rsa-sha256:F+lfUQjH0ShOwCWfcLBlSqQtma6IPk2D4XKXFdL40MFj3ox
+	yRXxmAtTK/V4Fgtit01bW4jVRgu5VlTu4cNcDxKr2fR5e7fGPFHEWzvKOtoUAsiz
+	bBXIWm+NjoBG0fwSxJTMIpSQtN04A2p3ZDVC0mvVJFFJsgXmywxEE0DyEhGrtA3W
+	MNXSndQiziFGY73saXESxMadQyD4E1I50IyWTACL3S/ZpXRwbIzsho1Yfa7p7fIS
+	t4eLMfREuElSJPw3xPILNCRbrEV9YiNUNsGtpKNQt+vpBLDrlo/wwOjwcg9N3icF
+	xVQPK6Br0NznZ9sVCl0ADjnZ5Ej03Ko5orVXkyw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=mi-m=1; hc=10;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	message-id,mime-version,reply-to,subject,to;
+Message-Instance: m=1; h=sha256:zkOJSkRCX0gsvC9BGE2uURceI33wARzriW3is6W1uhs=:caXNQt1ke6gMVh/5SwPUEr3UDciYTgtzD6rnStDFUlQ=;
+X-ME-Sender: <xms:u3XhaqEQUgCRNVBlw_LpYye4SI69QEgp3IVpbXZwGOGqOHCxGK4uLA>
+    <xme:u3XhaplAxjJ4BmEf3i9DMl9nrwJklkPkN7l3krxKQKN7293xtmFhkMintI_qntrBO
+    P_3X56flV9CPqBRdjwS6Zq0GTdpcwkFsftrBKS8URlrCf9UPqRQ>
+X-ME-Received: <xmr:u3Xhatc6ze6nzmrYByepH-biAfQn6mXmaQI1bJ0avNK5HA3jJ3cVUqNh3y0hy1DEsg>
+X-ME-Proxy-Cause: dmFkZTGhTTeUoCsnm6RHKzjdb7/xiE8Gs/plhpAczfX8h+Qet11PX8HIznUfGZfwq8a3ef
+    N3N6G6wmRyK36Gl34Zf8DT6wrMhOAnK+LE2UInojha1WeXhzcBJyyqOH+nVUZTbmjr6oEn
+    +TC/l6cFPdwjrd2os45ll1C8zR0O2I6U/tlSH0xvDxDz1VJZWwqhpn+GkhMS7VOzsnyV1i
+    cYCDZA8qOEBssRGDX/nO8O7Nu/IHah4DKiUVF/yqsVrlor/I09oUWWZ+Y1p6S/H/E7qXl2
+    kmBryyKm33eivz/cXxd6zPnIafSYlx5iNSMgHuz8MV8nBW6SlA9J+ce2Rwe8wXsHu7qPtz
+    j9J6QrXVwi+szLJAIzU+dn1EnvLRk8tQOYUjALR9QzDo+H2ZgXxT8NF0bz2k/gs3A1CAf9
+    rhWO5jzb9lvl8XOs9VdQ5Vk1ujM9M46irUDLuIToSMm0JL1pzxGGg2ZsNYTIZImIDs/czE
+    gHvWVoKOu2HwTo6upSofRcV+d96RTz+QG4rLavSfKHjrBorTmm8cRcAGemc/4rxLjI+ute
+    2h8pX7kgg0EmZIlAsF+29v85dMFIuOtEHBk1BpKM1ypTuh6FBMdyacL4x1/5FSnjsMxQPo
+    SycU4D0WcTadWC8pW3QAdkHcfCenEkdGO4E1SM3ZcIu2vE8q58tdgWUEhIFw
+X-ME-Proxy: <xmx:u3XhanEKWLfkvXGS9iCY92FH8LDqW5BsYgxR8JQIG1ArrbPp4F6Ryw>
+    <xmx:u3XhajgT1ZdYYGM87UfqGMKc74TAqNBrf4U41i-55TMFN4dm3YIBrw>
+    <xmx:u3Xhar3pzhlWvN80v8KX7hXiRZF5YNXokrX3woFAfIi71y3WDu4dOQ>
+    <xmx:u3XhaueMpgt-Lq_mnwNHeZVXMzbi3T0I88OCHogUvHe0JpxyOGmJ2Q>
+    <xmx:u3Xhanp4NdPNs2xDG5VMBLDE6jpTIK6ndvVWOwAM85Ak5Z-flbq65LZ1>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 28 Oct 2026 00:10:32 -0400 (EDT)
+From: NeilBrown <neilb@ownmail.net>
+To: Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jonathan Flynn <jonathan.flynn@hammerspace.com>
+Cc: Jeff Layton <jlayton@kernel.org>,
+	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] hfs: avoid reusing occupied CNIDs after deletion
-Date: Tue, 27 Oct 2026 23:59:19 -0400
-Message-ID: <20261028035919.733823-1-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <e2ee251e8ad47c6f1e2faf9ed1be787eccf5215c.camel@dubeyko.com>
-References: <20261015110114.1649059-1-hengyul@cs.unc.edu> <b6f1cb66778d09015ad5862ff273edc37c44ef28.camel@dubeyko.com> <20261021153141.311425-1-hengyul@cs.unc.edu> <1797b66dee80c9553748d4a961470894c917bf5f.camel@dubeyko.com> <20261022120658.1328124-1-hengyul@cs.unc.edu> <cd6cc32dd2aae90b88b4c3d19e1fb35a5be6f4ac.camel@dubeyko.com> <20261023173259.3275078-1-hengyul@cs.unc.edu> <e2ee251e8ad47c6f1e2faf9ed1be787eccf5215c.camel@dubeyko.com>
+	linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/9] nfs: prepare for locking changes.
+Date: Wed, 28 Oct 2026 15:06:28 +1100
+Message-ID: <20261028041023.3738553-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+Reply-To: NeilBrown <neil@brown.name>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -98,83 +129,53 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Slava,
-
-On Mon, 2026-10-26 at 10:20 -0700, Viacheslav Dubeyko wrote:
-> I am not suggesting to change the on-disk format. All modifications
-> should be in-core metadata structures only.
-
-Sorry, I misread that.
-
-> The algorithm only solution will be inefficient and it can hide bugs,
-> anyway.
-
-The table below is about efficiency. On bugs: in both variants below,
-a lookup or walk error leaves next_id unchanged, so it can only stay
-too high, never fall onto a CNID in use. Which bugs did you have in
-mind?
-
-> I am thinking about adding to the struct hfs_bnode (b-tree node) a
-> special field: u32 max_cnid. [...] What do you think? Does it make
-> sense for you?
-
-Yes, it makes sense, and it works. I wrote a prototype (max_cnid
-rebuilt when a node is read, raised on insert, rescanned on remove and
-after a split) and compared it with the unmount walk I suggested last
-time. Deleting 8000 files in KVM on v7.3 (KASAN):
-
-                                unpatched  max_cnid  unmount walk
-    newest first                14 s       7.0 s     0.4 s
-    odd ones, then even ones
-    newest first                4.1 s      3.0 s     0.2 s
-
-Both are correct: no duplicate CNID in any run, including the
-threadless case from my last mail.
-
-> If you believe that this approach will not work, please, explain your
-> vision of solution in details.
-
-The unmount walk, on a delete:
-(1) do nothing unless cnid == next_id - 1 (your step (1));
-(2) if cnid - 1 has a thread, set next_id = cnid;
-(3) otherwise keep next_id, which is still above all CNIDs in use, and
-    set a flag.
-At unmount, if the flag is set, hfs_mdb_close() walks the leaf nodes
-once and writes max + 1 to drNxtCNID. The walk cannot run in sync_fs:
-hfs_new_inode() takes a CNID before the catalog records are inserted,
-so a walk there could miss that CNID and lower next_id onto it.
-
-Your max_cnid
-  Pros:
-  - next_id was exact after every delete in every run, so drNxtCNID
-    on disk is right even after a crash or remount ro.
-  - Nothing to do at unmount.
-  Cons:
-  - A delete of next_id - 1 still visits every leaf node (about 3000
-    here); the per-node max only saves parsing their records.
-    Checking the thread of cnid - 1 first brings the first row to
-    0.4 s, but not the second.
-  - max_cnid must stay right on insert, remove, split and node read
-    (hooks in bnode.c and brec.c). A missed update would let next_id
-    fall onto a CNID in use.
-
-Unmount walk
-  Pros:
-  - A delete never walks the catalog; the one walk at unmount costs
-    17 ms here (cold cache).
-  - Only catalog.c and mdb.c change, not the b-tree code.
-  Cons:
-  - next_id is not lowered during a mount: after deleting all 8000
-    files oldest first, the next file gets CNID 8016, not 16.
-  - After a crash or remount ro the high value stays on disk. In my
-    8000-file crash test drNxtCNID stayed at 8015 on the empty volume,
-    more than 4096 above the largest CNID, and fsck.hfs -fn asked for
-    a minor MDB repair.
-
-Which do you prefer? I can turn either into the next version.
+Now that the requirement for this are upstream this could go via the NFS
+tree or the VFS tree.
 
 Thanks,
-Hengyu
+NeilBrown
+
+
+This v4 fixes the problems with patch 1 which Jonathan Flynn helped me
+to understand.  And *actually* adds Anna's Acked-by.
+
+Before this v3 fixed three bugs found by Sashiko - all
+error-path related.
+
+1/ patch 5 - make sure d_drop() gets called in all error cases
+2/ patch 8 - dput() sdentry on all error paths
+3/ patch 9 - check error return from d_duplicate() correctly.
+
+Original intro:
+I am working on changes to directory locking.  The medium term goal is
+to lift d_alloc_parallel() locking above i_rwsem, so d_alloc_paralle()
+can be run unlocked, and consequently cannot be called when ->i_rwsem is
+held.
+
+The requires:
+ 1/ the d_alloc_parallel() not be called while i_rwsem is held.  NFS does
+    this in a few places. New interfaces d_alloc_trylock() and d_duplicate()
+    are now available and can be used instead.
+
+ 2/ a dentry must not be d_drop()ed while an operation is ongoing, as an
+    unlocked d_alloc_parallel() would then be able to create a new
+    dentry with the same name.  In particular d_rehash() must be phased
+    out as it won't be safe.  Various techiniques are used to avoid the
+    need for d_drop(), particularly that d_splice_alias() is now able to
+    splice a hashed alias.
+
+Further, the first two patches here fixes bugs that I found while
+developing and reviewing these changes.
+
+
+ [PATCH v4 1/9] nfs: fix open-blocking with d_fsdata
+ [PATCH v4 2/9] nfs: fix nfs_call_unlink()
+ [PATCH v4 3/9] nfs: remove d_drop()/d_alloc_parallel() from
+ [PATCH v4 4/9] nfs: use d_splice_alias() in nfs_link()
+ [PATCH v4 5/9] nfs: don't d_drop() before d_splice_alias()
+ [PATCH v4 6/9] nfs: don't d_drop() before d_splice_alias() in
+ [PATCH v4 7/9] nfs: Use d_alloc_trylock() in nfs_prime_dcache()
+ [PATCH v4 8/9] nfs: use d_alloc_trylock() in silly-rename
+ [PATCH v4 9/9] nfs: use d_duplicate()
