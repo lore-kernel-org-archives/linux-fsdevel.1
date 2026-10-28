@@ -1,100 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.52
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793228185;
-	b=gQm3+8tqX+xvzA3AifxeYPPc+8ZGWn0E47jdRToxnWZQqAvgwZwha54JvoTHsoNSmKwd
-	 lMV49EPT4sxrMDPopY22nuiKyOo/YvFzKq/5ieU6t6jZMi5msxySnloJnLAGCvbhtB11n
-	 nk3HrJ68QLgR+XtqlQlHp7iR/CnnvInTFUi8hnda3yqEYfzDk/E0Fp0gyqLv2iyPVGXCq
-	 wgikZr39Zds+d479Gl8szDjNsdx/PfQoLnbXr5UkzsU6OA3h06CFGwJKl2Uv+0Qmwl849
-	 WvG6ZKGYAVxKINvRU8H17MW+m/JsRJdYhXlP54NrFtmP0Qi/WhSeKMQX7L1ykUqNvHw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793228185;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=V0MpBzACJCm623um40rfrBkC0GCIrNAzwGLFIF9vVVM=;
-	b=GHiSW0f2laI1Khbq8YEQtrXE8TorZuEgZo/Dp7AiMHbyhxQozCW4fELQhbnhOKJ3rZGY
-	 U/MCJ0CgJSTgtPYF5AQYTmg6/jGd/6eNvOCN4OgbgUKq1heWbM5h0DZkkJbNK8sSzI7Qo
-	 hhgkH4xqMoKC9Dz/uMEIxdnlJPOI25Tl0kYt8fPmLlvc0E6Hg/VodwAGiMugZtcog4b4n
-	 mjEUMCmjo6rrz0aXF5UamLMJQVWBW4+pAHkECATXvwbRaZrtXgoDD4yHRqI4a3L+PiIJ1
-	 KvMPtJeDASWWBfq5a32vKQ6Uwb8cB1GspfVB0SuCBT82rvmEkRyNok537Q4kBy2nX4A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amacapital.net;
-	spf=pass smtp.mailfrom=amacapital.net;
-	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=bZOSlVJG;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.52
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793228651;
+	b=y2Dh+5W2RSltEGMYtnam2f6//h+eZck1D6cvokMbnQYFVrRVQ2EEy5ANmFylt4d3NtOK
+	 1L4CDyaiZDnVLxBpF/htjJVteY5L3tc4D+W04BRk0S7LeBwxC/dpDmeoG97LaWIEWKk4I
+	 4IwRHPtXghqR9DuoyBCh/Xit2kGX5abY2Bvh1Dsd+Mv7aOJqxaWjGtrAJu7Cc0rfLRTEK
+	 E3/tGmR5KWqzJkP5ASGKMBErLpA/9izpN8rWpfWse7SresvE5Va5UOu9sMLY5tUEAT7tT
+	 STRHRGjlJggAkTHIxzBhilA/wCj/5oJEO4K4F+Tklxg6tM2xfanvrcyd2TjktVfA7qw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793228651;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=yWahGggqBAzZZ1F2MkgON1x5Ts+WaoFBXhlIZHQR+vo=;
+	b=GYPFdaOHHyBPsk3oj2z036n7oBGopUi4Q9K/pcx+6DWyk2aQORuMeNj6bZWeGwyAEGlE
+	 zUga9BdE9hRMnQbVDAPTdn34//OAWuAwdOKZTSgxDvO92Tz6kVIxXtdGoP/VsE3h+ZevY
+	 lqdZes0zh518QUbOVZLg3jEOZxdyZ3Wzs5u6m+kuD8CotsTcITLJrLJWxwaAlXtpMj0hV
+	 6Udt3aJfEVaJjt9YkljcGCyjVWcxbQQ3tUpwz0VkZuHrSB/EEM/0wammSwI0df5vAV+OC
+	 umfDCDGS6hswLGOcU7N2LvWW7P5olG7Jm+XFE+mBfkKK6q68CAPme/E2pqdWQjY677g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KNqOZbIU;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0683E606A321
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 22:56:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0683E606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E51606A31A;
+	Wed, 28 Oct 2026 23:04:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=bZOSlVJG
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5bcb4f23ddeso1507690e87.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 15:56:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793228183; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pNpnhSJw5chmkWAqEp2Tde9YuuwD/MvWRTNlpAi+V5+vdoaWj1K9wD/dGn831CGRpz
-         Zmiz6DeAE6TnECcSiJZHAIws/8O2x4FqLzTrGslBnL1t458na0GzoAIqEOAQ+L8xAli1
-         4h56IQCh7U17MzP/MwefLr5CPE5FGjovvPYSi86g1XwFmkG7oRfED3H79DWFkw+RTivu
-         Z7UWirRZS62H2nSlgWaWupkoH7ie9hdkklsUCuCdbXUOxi2bavQjB9MyWNOcToEVGCSW
-         p7Cq0YyRzwYKyRoSietFJWRAR4gCVrp9zJvHQd8KtcZ+k3g9AXwgu3tfRP/H+iqWanPx
-         QeTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=V0MpBzACJCm623um40rfrBkC0GCIrNAzwGLFIF9vVVM=;
-        fh=ZfgsUOgoMcmoj26sVKGFo9IV4Ky6KCgLuLM9/lvRui8=;
-        b=O9sP3G1TDHTN5SMYbBrw3yAOzTDWnUSgcFLhNLtCNErhq6YwkyRUz0qlrj8O15DLR3
-         VxjzfvUFEigsTurqazlZdnglwZP+0dbg2zewOL8mfYjQGDa22Eu+QTkI2NLQb1Cr04cy
-         Xp6hBno2KdLRufXO9/fQ+WqsQtq9udEflMkCnmyjJEGTT0/nUTuP0bk2rg0LPuo2xK5/
-         4ehIXlzYlaNqnZHDO6PyU6Toto9EBTq0P7oS+HJCBWHqqgO4AcJY477xkRcNhE0Afazo
-         T3WT3iCQ7+uSY2MppNvVRjGTq+WvnlFcBESG4g7pA4zHuY326pfvQUWpM0Pa/7zNGV26
-         ZNVQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1793228183; x=1793832983; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=V0MpBzACJCm623um40rfrBkC0GCIrNAzwGLFIF9vVVM=;
-        b=bZOSlVJGtHEYwYd8P/JXTJGc0heKbmZ4zF6gCQsfAWUdj+V8lveZo37a35kI44zsZG
-         8r9p4GP3JXlJVRf/lRQCeD7DpNu+EpwjtNRy8B/mAQWg4VrhYeyQL+tDoFWr1hQ8Js/1
-         WmBu61FcofxUa9iC2o9+OqMJhIY2ZxGCvswPzn8Prxv7xx3PhcvCqjngxpEz26C3Zh5+
-         QCDR/cnpyszjYnYa+NJ3GR//R0d+Eo5+XTYFDLb2ivFHUdLHCDDXia/PshsMR6SOBMAE
-         M4o+rVXHudqK4Y3GjiNjn4cOkyeetgJTVfYAYDZGmr6blu+DiQE+KChOyTySu65qfvrn
-         wIcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793228183; x=1793832983;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=V0MpBzACJCm623um40rfrBkC0GCIrNAzwGLFIF9vVVM=;
-        b=N1dxEI2RJ6c6jcPLqgtKEkFhgBpOjXbuwMcLe92qFwJGLEx7o3Ie2DmbJnezmqZnCV
-         wuEg6JBn1nedcL/2YopTCXfiTDgiSyxEPsfrZBdnuEehXUyfNQW58dvImVuaIQCorhLn
-         1oz5fkeuKagmV9H15oYRdA6TA/Lkt1dVtRkLYqCH+b4RejkHmmWLGlyp5GHoCA3jLEXl
-         xuEsDug71aNWHlpPLQuh0iEaFCa/4j80EUkaD3vhBhTVi4xglCLlmBELXZNT6dsZFWU0
-         LlU6DGGyaVy8nQ+Udn1gXJ+5QhTpXG5wthyidxqlV5VwAV81PPxv8Yhyiwu5KQ+5LUSV
-         cX2Q==
-X-Forwarded-Encrypted: i=1; AKwUvByFGQ5U3BfO1EFj5iovU065FYRp3qmzX6+nvu4Ne6V1kiSGfYfpA4CTpo4dhfvVkWcqyzuYuKVYg5G/br9N@vger.kernel.org
-X-Gm-Message-State: AFq9FYKZtaCOFH5AGZMJEpluA3HvSCeEuYYqg6PfMXplqoTG1rbSR8Ul
-	0PHsiFkadD76FTjCCKTsAvyh65BB4TnXMJKMKALWFsILKDGvbm+obJzeLyNUgoW6fkxRrymNcmi
-	nkHw/JrOF49BVDN4/ACuN7eCZj0U2KGVqdtb9ChYV
-X-Gm-Gg: AYBFou0lXW+qPFKJX3em3k8qmXfA82MxdEr5Y46UEGzikW8HQrc8E/7Kv7f3+qpP9Ba
-	KqDx6Wvd/JGH7y6ZGswiTrMdyJF+qthpQVOicPPtBhwJ1vU1l72Eyuyx6UBXaaCnwdrY2icb4Nm
-	awsp5u8caaIfMOvph14T/gjldlAqrz0xSmN41DzNvURy5ueuZqEmt4Y36mLSKl+RSF4bFuYUvKP
-	DP1pEFNh/RugdWDYbthinQnSOdKjfys6/2TYH1U6t00BUnb/WoT/1v71BbeHH9B3F34h+smoQxA
-	pH/kc/xfY7TgnPxShnmebt9Zcu/taPYGWTE4UhwDf9OukviUvojimKH8pi5uxt3Tb1HMP8g5n8R
-	7LVjh3XwhUCGpmgTnUZgGSNuczrK8HNzYABXzOA==
-X-Received: by 2002:a05:6512:3e19:b0:5bf:c239:71ad with SMTP id
- 2adb3069b0e04-5bfcad69127mr1282221e87.38.1793228183136; Wed, 28 Oct 2026
- 15:56:23 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KNqOZbIU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C601F01825;
+	Wed, 28 Oct 2026 23:04:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793228650;
+	bh=yWahGggqBAzZZ1F2MkgON1x5Ts+WaoFBXhlIZHQR+vo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=KNqOZbIURlmWF8VcvD8mRkm1HnRRbtmWbwKy9abPnYENuciE+fk/k3MTfo8pGyvte
+	 LaYii0YidCo1CDVUe0bSDPr2vH04VR7ZmXl7uZx2kSW2QqRZkoVhbfeXgPXdhLv1xq
+	 w2NCKn2T0TwUdIT4NGGIbJsCXvAZE84LeeL5q9GmqESxWLvFq3bUx+7M7wMjX67c5k
+	 d+/lSbFJGE6+yBAemzswM6MQIdkH40nSa2pHPYGfvOoJNA4FEyebvRTs9fm/U3tZCM
+	 Sj2+s9T/YkNbmY9izzYzRDl54rzQiuF8p++cz6VnsHux8HFu+jOFJEfQA+vhy2bhRi
+	 xVBiqrGRlIHBA==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Alexander Viro
+ <viro@zeniv.linux.org.uk>,  Christian Brauner <brauner@kernel.org>,  Jan
+ Kara <jack@suse.cz>,  "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+  Hugh Dickins <hughd@google.com>,  Baolin Wang
+ <baolin.wang@linux.alibaba.com>,  Andrew Morton
+ <akpm@linux-foundation.org>,  David Hildenbrand <david@kernel.org>,  Zi
+ Yan <ziy@nvidia.com>,  "Liam R. Howlett" <liam@infradead.org>,  Nico Pache
+ <nico.pache@linux.dev>,  Ryan Roberts <ryan.roberts@arm.com>,  Dev Jain
+ <dev.jain@arm.com>,  Barry Song <baohua@kernel.org>,  Lance Yang
+ <lance.yang@linux.dev>,  Usama Arif <usama.arif@linux.dev>,  Kiryl
+ Shutsemau <kas@kernel.org>,  Mike Rapoport <rppt@kernel.org>,  Matthew
+ Brost <matthew.brost@intel.com>,  Joshua Hahn <joshua.hahnjy@gmail.com>,
+  Byungchul Park <byungchul@sk.com>,  Gregory Price <gourry@gourry.net>,
+  Ying Huang <ying.huang@linux.alibaba.com>,  Alistair Popple
+ <apopple@nvidia.com>,  Kairui Song <kasong@tencent.com>,  Qi Zheng
+ <qi.zheng@linux.dev>,  Shakeel Butt <shakeel.butt@linux.dev>,  Axel
+ Rasmussen <axelrasmussen@google.com>,  Yuanchu Xie <yuanchu@google.com>,
+  Wei Xu <weixugc@google.com>,  Baoquan He <baoquan.he@linux.dev>,
+  Johannes Weiner <hannes@cmpxchg.org>,  Michal Hocko <mhocko@kernel.org>,
+  Lorenzo Stoakes <ljs@kernel.org>,  linux-fsdevel@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
+  kexec@lists.infradead.org
+Subject: Re: [PATCH 1/3] mm/memfd_luo: don't use memfd_pin_folios()
+In-Reply-To: <179321872100.1775665.6881420026761127422.b4-review@b4> (Pasha
+	Tatashin's message of "Wed, 28 Oct 2026 16:18:41 -0400")
+References: <20261027173031.763213-1-pratyush@kernel.org>
+	<20261027173031.763213-2-pratyush@kernel.org>
+	<179321872100.1775665.6881420026761127422.b4-review@b4>
+Date: Thu, 29 Oct 2026 00:04:03 +0100
+Message-ID: <2vxz4ie5o2ak.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,109 +81,151 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261028221705.3915340-1-halg@google.com>
-In-Reply-To: <20261028221705.3915340-1-halg@google.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Wed, 28 Oct 2026 15:56:11 -0700
-X-Gm-Features: AclHuK_P2NrO86m_OPGwNSCuxqmiVp7fbTt4tlVfFApQPbneLnvcqCjpUTpk6N8
-Message-ID: <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-To: "Hallgrimur H. Gunnarsson" <halg@google.com>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jann Horn <jannh@google.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	KP Singh <kpsingh@kernel.org>, Jonathan Calmels <jcalmels@3xx0.net>, 
-	Casey Schaufler <casey@schaufler-ca.com>, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
-	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, Oct 28, 2026 at 3:18=E2=80=AFPM Hallgrimur H. Gunnarsson
-<halg@google.com> wrote:
->
-> When an unprivileged process creates a new user namespace, it is granted
-> a full set of capabilities (CAP_FULL_SET) scoped to that namespace.
-> While these capabilities are isolated to the namespace, they allow
-> unprivileged local users to reach deep kernel subsystems (most notably
-> networking configuration and raw sockets via CAP_NET_ADMIN and
-> CAP_NET_RAW) that historically assumed a trusted caller and have
-> accounted for a large share of local privilege escalation
-> vulnerabilities.
->
-> Many workloads and sandboxes use unprivileged user namespaces strictly
-> for basic UID/GID, mount, PID, or network isolation and never need
-> high-risk capabilities like CAP_NET_ADMIN or CAP_NET_RAW. Likewise,
-> system administrators often want a host-wide policy ceiling restricting
-> which capabilities unprivileged user namespaces may acquire, without
-> disabling unprivileged user namespaces altogether.
->
-> Prior work by Jonathan Calmels [1] proposed addressing this via a sixth
-> per-thread capability set (cap_userns) alongside a global sysctl mask.
-> During that discussion [1, 2], feedback (e.g. from Casey Schaufler)
-> suggested that rather than adding another per-thread capability set and
-> prctl() interface, capability restrictions could be integrated directly
-> into struct user_namespace and configured via clone3(). At the same
-> time, as noted in [1], a clone3() flag alone is not sufficient for
-> administrators who need to enforce a host-wide ceiling on unprivileged
-> user namespaces without modifying every userspace callsite.
->
-> This series combines both pieces of feedback: it embeds a capability
-> bounding set (cap_bset) directly into struct user_namespace, reusing
-> the existing task cap_bset, cap_permitted, and cap_effective sets on
-> namespace entry, and provides both a system-wide sysctl ceiling for
-> unprivileged user namespaces and a CLONE_NEWUSER_BSET flag for
-> voluntary per-namespace restriction via clone3().
+On Wed, Oct 28 2026, Pasha Tatashin wrote:
 
-Why should the task's cap masks affect this?  *Maybe* cap_bset makes
-sense, but I'm struggling a bit to see why cap_permitted and
-cap_effective should matter.
+>> memfd_luo takes a snapshot of the folios in the file's mapping. To make
+>> sure the snapshot does not go out of sync, it pins the folios in the
+>> file via memfd_pin_folios(). The pinning also migrates the folios out of
+>> MIGRATE_MOVABLE to make sure doesn't land in KHO boot memory or in a CMA
+>> region.
+>> 
+>> memfd_pin_folios() does not lock the folios. So it can race with
+>> shmem_writeout(). A folio returned by memfd_pin_folios() might already
+>> be in swap cache. This happens to work but is fragile. memfd_luo looks
+>> at folio flags and index on a folio that isn't in the memfd's page
+>> cache.
+>> 
+>> In addition, memfd_pin_folios() needs the caller to allocate an array of
+>> folios. memfd_luo does not really need that since it will vmalloc
+>> folios_ser and store the information there anyway. The folios array is
+>> unnecessary overhead.
+>> 
+>> Finally, memfd_pin_folios() fills in holes in the memfd. This makes
+>> preserving sparse memfds very expensive in both compute and memory.
+>> While this patch doesn't yet stop filling in the holes, it sets up the
+>> infrastructure to make it simpler.
+>
+> +1, this is problematic and should be resolved. In some setups, VMMs 
+> leave holes for PCI/IO space; with the current approach, single memfd 
+> preservation does not work for such use cases.
 
-Also, I think that Docker in non-userns mode restricts cap_bset, and
-the purpose of that restriction is rather at odds with interpreting it
-as a restriction on newly created user namespaces for purposes of
-vulnerability mitigation.
+Yep, agreed. There are a couple parts to this. First is this patch. Next
+is KHO xarray. The patchset is ready, I'll send it after -rc1.
+
+I think I will move this patch to that series and then make the series
+also support holes.
 
 >
-> In addition, because restricting CAP_NET_ADMIN at user namespace
-> creation time prevents userspace from bringing up the loopback
-> interface in new network namespaces, the series first introduces
-> an opt-in flag to automatically enable loopback on network namespace
-> creation:
+>> Fix all this by walking the page cache directly using shmem_get_folio()
+>> with SGP_CACHE. This returns a locked folio with an elevated refcount.
+>> memfd_luo holds that reference until the memfd is unpreserved. This
+>> blocks compaction, migration, etc.
+>> 
+>> There is still a need to migrate folios out of MIGRATE_MOVABLE page
+>> blocks. This is because those might be CMA or KHO scratch. memfd_luo
+>> will hold a longterm reference to the folios so it will block migration
+>> in that pageblock. Introduce memfd_luo_migrate_folio() to do this.
+>> 
+>> Also factor out folio unpreservation logic into memfd_luo_put_folios()
+>> and use it from memfd_luo_unpreserve_folios() and from error paths in
+>> memfd_luo_preserve_folios().
+>> 
+>> Since shmem_get_folio() always returns uptodate folios, drop the folio
+>> zeroing logic.
+>> 
+>> This change also improves preservation performance, shown in the table
+>> below.
+>> 
+>> |------------------+----------+------------+-------|
+>> | memfd            | baseline | this patch | delta |
+>> |------------------+----------+------------+-------|
+>> | 4K pages, 32 GiB | 748 ms   | 600 ms     |  -20% |
+>> | THP, 4 GiB       | 0.59 ms  | 0.59 ms    |    0% |
+>> | THP, 16 GiB      | 2.99 ms  | 2.61 ms    |  -13% |
+>> | THP, 32 GiB      | 4.83 ms  | 5.21 ms    |   +8% |
+>> | sparse, 32 GiB   | 8695 ms  | 7269 ms    |  -16% |
+>> |------------------+----------+------------+-------|
 >
-> 1. Opt-in loopback activation on netns creation (Patch 1)
+> For THP 16 GiB / 32 GiB, the -13% / +8% swings look like high run-to-run 
+> variance. However, maybe not: is it because vmalloc_array() is 
+> overallocating memory for folios_ser?
+
+Could be, I only did a handful of runs. But I also reckon this is
+vmalloc_array() over-allocating. It over-allocated before this patch
+too, for the folios array, but that allocation was half as big since
+folios_ser is 16 bytes each.
+
 >
->   New network namespaces start with the loopback interface (lo) DOWN by
->   default, requiring CAP_NET_ADMIN over the owning user namespace to
->   bring it up. To block external network access while preserving
->   localhost networking, sandboxes commonly create an isolated network
->   namespace with only the loopback interface enabled.
+> Also, could you clarify what "sparse, 32 GiB" means in this benchmark? 
+> Was the memfd completely unfaulted before preserve (so preserve faults 
+> in all 4K pages), or partially populated?
+
+It was completely unfaulted. Size was set via ftruncate() and then
+preserved. So it is the worse case of "sparse".
+
+[...]
+>> @@ -113,99 +213,77 @@ static int memfd_luo_preserve_folios(struct file *file,
+>>  	 * Guess the number of folios based on inode size. Real number might end
+>>  	 * up being smaller if there are higher order folios.
+>>  	 */
+>> -	max_folios = PAGE_ALIGN(size) / PAGE_SIZE;
+>> -	folios = kvmalloc_objs(*folios, max_folios);
+>> -	if (!folios)
+>> +	end = DIV_ROUND_UP_ULL(size, PAGE_SIZE);
+>> +	max_folios = end;
+>> +	folios_ser = vmalloc_array(max_folios, sizeof(*folios_ser));
+>> +	if (!folios_ser)
+>>  		return -ENOMEM;
 >
+> I bet in practice memfds almost always contain folios of the same size, 
+> so why not estimate the folios_ser size based on the first folio's 
+> order, and only if that ends up being too small, vrealloc() to match the 
+> maximum possible remaining size?
 
-The whole unshare/clone flag situation is getting out of hand, IMO.
-And this new thing makes logical sense but is really about reducing
-exposure.
+That's a good idea! But I think the switch to KHO Xarray will remove the
+need for this.
 
-Perhaps we should instead have a small list associated with a userns
-(extensible in the future) of things that the ns's admin (i.e. whoever
-has CAP_SYS_ADMIN relative to the ns) may do.  That list could
-include:
+>
+> It would be a different change though.
+>
+[...]
+>> +
+>> +		if (unlikely(!folio_is_longterm_pinnable(folio))) {
+>> +			folio_unlock(folio);
+>> +			err = memfd_luo_migrate_folio(folio);
+>> +			/* Someone else might have it isolated, retry a bit. */
+>> +			if (err == -EBUSY && ++busy_retries < MEMFD_LUO_MIGRATE_RETRIES)
+>> +				continue;
+>> +			if (err)
+>> +				goto err_restore;
+>> +			continue;
+>>  		}
+>
+> Nit:
+>
+> I would suggest adding another helper, memfd_luo_get_folio(inode, index, 
+> &folio), that wraps:
+>
+> - shmem_get_folio()
+> - The !folio_is_longterm_pinnable() migration retry loop logic
+>
+> I think this would make the final code a bit more manageable.
 
-- Create loopback with sensible defaults for ipv4 and/or ipv6 (i see
-no obvious reason to separate them)
-- Create tun/tap interfaces in that ns (and attach them, etc)
+Sounds good, will do.
 
-And add a very simple new API to do these things.  Actually, the
-tun/tap could just use the normal mechanism.
+>
+> Other than that the patch looks alright, feel free to add
+> Acked-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Once the nit is addressed.
 
-Thoughts?
+Thanks!
 
---=20
-Andy Lutomirski
-AMA Capital Management, LLC
+I think the MM side might take some time to gather reviews so I will
+send this out as part of a liveupdate-only series. This patch is useful
+on its own anyway.
+
+-- 
+Regards,
+Pratyush Yadav
