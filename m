@@ -1,67 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=173.212.254.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793168416;
-	b=rxotEUM5jal7Q/iCvrq7euEaRGfCDqSf2BOfZZvp0v3ev0cIYxS602/zY7o1sPp3nZqa
-	 RdHtWPqFm7wsnYfXoTlhRon3WUweMgeYEoIC1H8/N/2KmIr8YaKEx0shTIL4QnwV2vgWw
-	 jqpEEKBzfgmJ/Y1pGU08HU7P7IRWtAJBAdhQdydnT1hruvnznGswRohxqMpQMmt6lyEMB
-	 NSxBlLoX19VDLLYe4JopQpl3WqYd4gus6eywP+5uF3eXDJPCyhxhiECTaMogS1Dpq2C12
-	 zBgBMRckc2Bit0BLNsXm7Lv1pmOUa5hlnAk31qSjrqAEPtYIs205rhwC673va5m6iDQ==
+	t=1793172898;
+	b=UZfI7dJ3FEYwW80MBoqw+APwlWQ3Mj0RV8sG4RFbg/07GcGUxEgw+JQhYlPDUsPwDeT9
+	 3WnEDPHK1nPBTRFv2nNUDLql5N9BwhCwEWl58+2ogtlxpRlwS5pgFhszs3zEox3nyx/+e
+	 KCgWTDT83o149soPmvuD2v2AkKwXzUKsnldDd+M9CCWpWriAZdywFNe3AmJG20Dh1Zdrp
+	 Cqcds1SkFLFi70UTuK56zeV8RZuqfVSU5ZXx3Edz2nlv9VIgMlz8b61WGcSbVOruNNeMN
+	 pWGyiYgwLiVDQElEIL2p2jEIRbNiuORlL9wYUWoSwOPemvIdcI0bC6GUcwCEr/u2wSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793168416;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:In-Reply-To:
-	 References:From:Subject:To:Cc:Date;
-	bh=m4IQ4Pm4PXxCZTpkciy1gGIzoMDodk3bBPfcnrQxOPo=;
-	b=bGRRNhc5cfkhPUE4XiQJlZPqCcyadTfMQW1WTQ2+E1BDmkimH2Exgx3/LG+aU1xfyBzI
-	 qzrqjjvIeKQ6Rn8YOPX3mgU4WIDjpGTDcsORqkdnerH6tOZSyRnrzkYq6NiEuUuth4A3u
-	 HYGLPoUhcyiub1wsarHLkJBSeNZJO3m13NQwAdjs+hSRbBnKXNH8ElzGEsudmpwLKa8i5
-	 cD1s6V5RdqRVu6RNkA7eSmF3ko6I6PWUM+jeoDr/GEWrX8ogQBuTXpIdnC6T380WCaWlh
-	 zavtbFQU+VJ5t6aOQe25/MczSfyGj12pfdF0OvEl3g/VZTV7dC431t9kUqLVFX1KR2Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793172898;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=zIStE4bF32XhyUlfFjGjXX08aOZ6FXRCskcbe+64ed0=;
+	b=mjz/1JSh2hisyO7G64wYQgeJ/AG33aVExXAi6yStyFumFfjCUJ1t/20ziH+aVUsHnQN5
+	 tAMVGPhP2WTHCQBEb7AvQ0wDkjUUUhUvkFM7t0wbQS3UTw0MbK6rZC7blWxPMXt8/diVq
+	 g4P8xn8dd5pBgKOxTnW+CZDCLlLROgkAUHLU19xpyBFLNU/qyngV15rdo6h7Z9pt4r61V
+	 Au4fjmJ7Wf6Jmm/8Fb+gZ/c545Kon5yywSEV75pCCa4lYa8v/wdp0Wmg0vzKD2rer9z2S
+	 GLfVrMXQF9j4vUveIbF2FO1vs6FApLQfNv/Pe+3LSYGC1h8KnXFGwZ1N9j68mP/LN3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=tuxist.de;
-	spf=fail smtp.mailfrom=tuxist.de;
-	dkim=pass header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b="Fp/YcHl7";
-	arc=none smtp.remote-ip=173.212.254.19
-Received: from groupware.tuxist.de (groupware.tuxist.de [173.212.254.19])
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=IleMG95e;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B78606A322;
-	Wed, 28 Oct 2026 06:20:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00B78606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tuxist.de
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=tuxist.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E4E606A31E;
+	Wed, 28 Oct 2026 07:34:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75E4E606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tuxist.de header.i=@tuxist.de header.a=rsa-sha256 header.s=201705 header.b=Fp/YcHl7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tuxist.de; s=201705;
-	t=1793168414; bh=2ps7K+buL0YkhooKtwBQxLEjTj8Kr5NqdgO0RcIHkik=;
-	h=In-Reply-To:References:From:Subject:To:Cc:Date:From;
-	b=Fp/YcHl7+vJ5GksRMAHUYLVdIVfHvO932pv+MFW82l8LPmPI6VVs6ij4wkZYpTp4h
-	 NUM7ddk5U1xhZx3aXTTl5PHRy/0Ii5Txmhf1csRX6oEay4MpUEWYVmgC9KehBxD17d
-	 XAChyQZRhhc1j4P7cT+qFR38eyVFmFhlyY1pXv1zBp+9We2XMBi64MMCjYH+jAVfdj
-	 L4FJGOlrAWCviso6Q8533TDYeAzWwNZ/dbwY5xnaUwZZ0ij9qKljpW6UlUecsDJ2on
-	 IFr7OgRgpMZtciUxYMhTNK8WtM3QdY2y2zvC+5NadldZz9gRrSDKdcP02Yx70tJ7YY
-	 xWnp4fS22s0Jw==
-Received: from [10.1.1.106] (unknown [10.1.2.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by groupware.tuxist.de (Postfix) with ESMTPSA id 36AB58A09A4;
-	Wed, 28 Oct 2026 07:20:14 +0100 (CET)
-Message-ID: <0b04ce416d93dfe319363357931b474022bb6e8f.1793168155.git.jan.koester@tuxist.de>
-In-Reply-To: <cover.1793168155.git.jan.koester@tuxist.de>
-References: <cover.1793168155.git.jan.koester@tuxist.de>
-From: Jan Koester <jan.koester@tuxist.de>
-Subject: [RFC PATCH 6/6] Documentation: uid_r: describe ksmbd's SID mapping
-To: Namjae Jeon <linkinjeon@kernel.org>,
-    Steve French <smfrench@gmail.com>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
-    Tom Talpey <tom@talpey.com>,
-    ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
-    Christian Brauner <brauner@kernel.org>,
-    linux-cifs@vger.kernel.org,
-    linux-fsdevel@vger.kernel.org,
-    samba-technical@lists.samba.org,
-    linux-kernel@vger.kernel.org
-Date: Wed, 28 Oct 2026 07:20:03 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=IleMG95e
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69S4iJVI307019;
+	Wed, 28 Oct 2026 07:34:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=zIStE4
+	bF32XhyUlfFjGjXX08aOZ6FXRCskcbe+64ed0=; b=IleMG95evMD7Cf03cYBhVn
+	AviKOCbHZLwJbpay/iJbCYSQD21f+/+ZKY86E2HWaiwZjkGwVYKqUkldz6g5mA8Z
+	AqEPG31ACBy97v7aIeMSAvlxIPyUS3Z/z8TZXn4dPfOHDbRzRv+qaGEpm83A6w5P
+	iP5HSrfd4VMH4MekWoD80oMlVP4j+QIKxq/SHMY/Pw7XsdOQ4b82EwVCEqW7haSQ
+	+jSU9/bvAQl0oUM03asH1JR8YRZRq7VwfYKVuIMa5rsBji//ze+Nk81LyWN8k6zh
+	AtI+8MP9QmPa9RKw01ektNOah+VRS7kgu5+t91qo3v45QNqrOr+XZslq8/xuQULQ
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hgmavk1xv-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 28 Oct 2026 07:34:54 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69S4YxKk1030496;
+	Wed, 28 Oct 2026 07:34:53 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hjsu7v8h4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Oct 2026 07:34:53 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69S7YpCf17433034
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 Oct 2026 07:34:52 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D63EE20043;
+	Wed, 28 Oct 2026 07:34:51 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4942F2004D;
+	Wed, 28 Oct 2026 07:34:50 +0000 (GMT)
+Received: from [9.39.21.200] (unknown [9.39.21.200])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 28 Oct 2026 07:34:50 +0000 (GMT)
+Message-ID: <ab9e5404-68fc-4cda-b76c-df6ff96673b4@linux.ibm.com>
+Date: Wed, 28 Oct 2026 13:04:48 +0530
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -70,46 +84,155 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] selftests/empty_mntns: fix header conflicts and
+ remove TOOLS_INCLUDES
+To: brauner@kernel.org, shuah@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20261001065728.90239-1-disgoel@linux.ibm.com>
+Content-Language: en-GB
+From: Disha Goel <disgoel@linux.ibm.com>
+In-Reply-To: <20261001065728.90239-1-disgoel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=P8SvFSAu c=1 sm=1 tr=0 ts=6ae1a59e cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
+ a=9Dw8piptKcqqLLA35HMA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: 3dhOyGsKRUkpNUyWrbj4SlAIX7vNmJVs
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDAyOCBTYWx0ZWRfXxPrq6w+6Jq4D
+ 8V95Tvc2gXgHFjfaI88Ab+e5wXYvrY/yjv766oKccSoS7yZ+jsSvVgHZhQULJ3opqm1ihq/4+kw
+ 3WNWrnYyFeTnyVly9GhlmCU3w8tnsyA=
+X-Proofpoint-ORIG-GUID: 3dhOyGsKRUkpNUyWrbj4SlAIX7vNmJVs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDAyOCBTYWx0ZWRfX05qF7VV+23up
+ eo3qYSLvoxP37I/rH3muGDCAGOtT0N6VyzmYu6Fbz2NA9m2r7F9R2wNnEo64AHeZSEAHp5DTvcp
+ GGzgc+vpG9GbYszHpXxTRCej1F+MsKAz2wAZYGpNsrBHcAWGVdG1+Z2rTpxmhMtnzkYCXYi4U7R
+ udDjqqWJnSn8Z/RuYVz7/dolUgvDpA2is5xCeOD8W6qf3Y6JfN7mNboGJwSv3qEQfLZiYwlsQGT
+ fTtSq5d5Rx55CxQLI14qY7UJJHvnP04ixAbdWBKClJra1Zha3ChlApUxBY/62fshkj5tTwZlarG
+ oA2AqTkPb1iN7u9bXGc19JK9dXJidWBqUMPi9YlkLpmqyBJjrqwqfHu5T/tUcPyXpvBSG/QRwqG
+ WrenQvKPJOjIEmnV3DUFY8H81QqJJDVCRjnnZFANTWxHKXmUdV4ThdZ9HUlqDib/Lux8JFtVJxy
+ YKBGlfLrOqM4ioK9FiQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-28_02,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 malwarescore=0 phishscore=0 spamscore=0
+ clxscore=1015 bulkscore=0 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610280028
 
-Name the SIDs ksmbd gives classic users and groups, and describe
-KSMBD_EVENT_SID_MAP_REQUEST: what user space is asked, the caching and
-what happens when it can't answer.
+Hi Christian,
 
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Jan Koester <jan.koester@tuxist.de>
----
- Documentation/userspace-api/uid_r.rst | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+Gentle ping on this series. Could you please review it, and if it looks
+fine, pick it up?
 
-diff --git a/Documentation/userspace-api/uid_r.rst b/Documentation/userspace-api/uid_r.rst
-index d16d4317f5..2e887c296d 100644
---- a/Documentation/userspace-api/uid_r.rst
-+++ b/Documentation/userspace-api/uid_r.rst
-@@ -167,7 +167,23 @@ SMB (ksmbd)
- 	groups appear in security descriptors as
- 	``S-1-22-<kind>-w0-w1-w2-w3``: kind 3 and 4 for a UUID user and group,
- 	5 and 6 for a GUID user and group, w0 to w3 the 16 bytes of the id as
--	big endian words.
-+	big endian words; classic users as ``S-1-22-1-<uid>``, classic groups
-+	as ``S-1-22-2-<gid>``.
-+
-+	A user space that sets ``KSMBD_GLOBAL_FLAG_SID_MAP`` at startup is
-+	asked (``KSMBD_EVENT_SID_MAP_REQUEST``) for the Windows SID of every id
-+	ksmbd shows as owner, group or ACL entry and for the id of every
-+	domain SID (``S-1-5-21-...``) a client sets, also for accounts that
-+	are not logged in. A mapped account appears with its own SID (e.g. a
-+	directory's ``objectSid``), others keep the SIDs above. ksmbd caches
-+	mappings for five minutes and "no mapping" for one; an answer user
-+	space couldn't give is not cached: descriptors then show the SIDs
-+	above, and setting an owner, group or ACL that needs a mapping fails
-+	with ``STATUS_NO_LOGON_SERVERS`` instead of being applied in part. A
-+	domain SID that maps to no user (as owner) or group (as group) is
-+	refused with ``STATUS_INVALID_OWNER`` or ``STATUS_INVALID_PRIMARY_GROUP``
-+	rather than ignored. A session's user matches ACL entries naming its
-+	own or its groups' SIDs, mapped or not.
- 
- NFSv4
- 	Owners and ACL principals that are UUIDs or GUIDs travel as their text
+On 01/10/26 12:27 pm, Disha Goel wrote:
+> Including <linux/mount.h> alongside <sys/mount.h> in empty_mntns test
+> files leads to compilation errors with glibc due to conflicting enum
+> definitions of MS_RDONLY and other mount flags.
+> 
+> Additionally, passing $(TOOLS_INCLUDES) (-isystem tools/include/uapi)
+> causes tools/include/uapi/linux/types.h to be included, forcing
+> int-ll64.h definitions on architectures like PowerPC (ppc64le) that
+> use int-l64.h, resulting in type collisions with system headers.
+> 
+> Fix this by:
+> - Dropping <linux/mount.h> from the test sources in favor of
+>    <sys/mount.h> (with <linux/stat.h> included after system headers).
+> - Removing $(TOOLS_INCLUDES) from the Makefile since standard UAPI
+>    headers are already supplied via $(KHDR_INCLUDES).
+> 
+> Fixes: 32f54f2bbccf ("selftests/filesystems: add tests for empty mount namespaces")
+> Fixes: 5b8ffd63fbd9 ("selftests/filesystems: add clone3 tests for empty mount namespaces")
+> Signed-off-by: Disha Goel <disgoel@linux.ibm.com>
+> ---
+>   tools/testing/selftests/filesystems/empty_mntns/Makefile       | 2 +-
+>   .../filesystems/empty_mntns/clone3_empty_mntns_test.c          | 3 +--
+>   .../selftests/filesystems/empty_mntns/empty_mntns_test.c       | 3 +--
+>   .../selftests/filesystems/empty_mntns/overmount_chroot_test.c  | 3 +--
+>   4 files changed, 4 insertions(+), 7 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/filesystems/empty_mntns/Makefile b/tools/testing/selftests/filesystems/empty_mntns/Makefile
+> index 22e3fb915e81..8d2cb46668fc 100644
+> --- a/tools/testing/selftests/filesystems/empty_mntns/Makefile
+> +++ b/tools/testing/selftests/filesystems/empty_mntns/Makefile
+> @@ -1,6 +1,6 @@
+>   # SPDX-License-Identifier: GPL-2.0-or-later
+>   
+> -CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES) $(TOOLS_INCLUDES)
+> +CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
+>   LDLIBS += -lcap
+>   
+>   TEST_GEN_PROGS := empty_mntns_test overmount_chroot_test clone3_empty_mntns_test
+> diff --git a/tools/testing/selftests/filesystems/empty_mntns/clone3_empty_mntns_test.c b/tools/testing/selftests/filesystems/empty_mntns/clone3_empty_mntns_test.c
+> index 6370086f886d..de0cbd1a5ee0 100644
+> --- a/tools/testing/selftests/filesystems/empty_mntns/clone3_empty_mntns_test.c
+> +++ b/tools/testing/selftests/filesystems/empty_mntns/clone3_empty_mntns_test.c
+> @@ -15,14 +15,13 @@
+>   
+>   #define _GNU_SOURCE
+>   #include <fcntl.h>
+> -#include <linux/mount.h>
+> -#include <linux/stat.h>
+>   #include <stdio.h>
+>   #include <string.h>
+>   #include <sys/mount.h>
+>   #include <sys/stat.h>
+>   #include <sys/types.h>
+>   #include <unistd.h>
+> +#include <linux/stat.h>
+>   
+>   #include "../utils.h"
+>   #include "../wrappers.h"
+> diff --git a/tools/testing/selftests/filesystems/empty_mntns/empty_mntns_test.c b/tools/testing/selftests/filesystems/empty_mntns/empty_mntns_test.c
+> index 43e296b97d84..a6a90d0b6ff9 100644
+> --- a/tools/testing/selftests/filesystems/empty_mntns/empty_mntns_test.c
+> +++ b/tools/testing/selftests/filesystems/empty_mntns/empty_mntns_test.c
+> @@ -7,8 +7,6 @@
+>   
+>   #define _GNU_SOURCE
+>   #include <fcntl.h>
+> -#include <linux/mount.h>
+> -#include <linux/stat.h>
+>   #include <sched.h>
+>   #include <stdio.h>
+>   #include <string.h>
+> @@ -17,6 +15,7 @@
+>   #include <sys/types.h>
+>   #include <sys/wait.h>
+>   #include <unistd.h>
+> +#include <linux/stat.h>
+>   
+>   #include "../utils.h"
+>   #include "../wrappers.h"
+> diff --git a/tools/testing/selftests/filesystems/empty_mntns/overmount_chroot_test.c b/tools/testing/selftests/filesystems/empty_mntns/overmount_chroot_test.c
+> index 6e21c58258c3..574c03311245 100644
+> --- a/tools/testing/selftests/filesystems/empty_mntns/overmount_chroot_test.c
+> +++ b/tools/testing/selftests/filesystems/empty_mntns/overmount_chroot_test.c
+> @@ -18,8 +18,6 @@
+>   
+>   #define _GNU_SOURCE
+>   #include <fcntl.h>
+> -#include <linux/mount.h>
+> -#include <linux/stat.h>
+>   #include <sched.h>
+>   #include <stdio.h>
+>   #include <string.h>
+> @@ -29,6 +27,7 @@
+>   #include <sys/types.h>
+>   #include <sys/wait.h>
+>   #include <unistd.h>
+> +#include <linux/stat.h>
+>   
+>   #include "../utils.h"
+>   #include "empty_mntns.h"
+
 -- 
-2.56.0
+Regards,
+Disha
 
