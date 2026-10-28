@@ -1,75 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=43.163.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793158145;
-	b=DGqkXoNKTIHoFvaX8H7lxgz97En8oESCqv6OF1tfHVhaZDbrfhw6S7akDnC+fBmPYdrT
-	 eIJV7K/timQ2z6RRzXcrUyzJa4ioWWOtetzxBkarZ/1XWPra07TgbsMAz7cAhmIR2/goa
-	 UwZJwVjzl/aM0DmHUyO53TTlOcoY5KI7kpFVRN2NEiEzIEQy7Aj3F97yAfQv8lzeclSCb
-	 mj24w2SyQK5npCD649QtAxuF0SGLoUh2vTEStIPgAakEB5nWyrt+9tn8x4KM2dC3zB1p2
-	 HRyTQJxZK6nTgsVtBe6pH3WnGDko+Lq/Aeqd2APtMvcwAdI4F9n2O4LRK61y1XsfUYA==
+	t=1793158587;
+	b=g7gWuDXWdyfH7DAhCUjNzovr0EURm06S+RhzDIjTRQ//Stz3djntQAgt+udnckg1rfEd
+	 FqMrn3py4L/0Ja0rtdv9e8OMzfxCcCMXflOlxXcG6FR+n6dRjEquBwMweFXXI9BnvpiPV
+	 SorsT2JrjcXdvonvs1x3REniqOhUMRVp0izdao+Gf3Hn42qXNNUGpO5vjcKp5xyYRI1+G
+	 fNEU4nFF5O7CxrkUHBDjnwKeXTCB0PWWKVPo/XTiBBMHswvIujUNMoBelb4ojVOLg7Isl
+	 p+ZtJaiFN7S9MiDjGkrJ7mmZ34HNJ3c/y9bk5tO+HEgEc6abRyfocl5jjo52lec4hZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793158145;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=VrZ0m8QHDacZrqzDgxCpcv/7YLv5jV5PmL4thK5aFqw=;
-	b=bkszxjbqbwPEG8JabWB/oahelm0Grk7ENhhjMM2gDkFR5VvOPtGNdNTTUwEIMZYNfk1X
-	 lTU2XUcakSLdrNHdwwtOUhBHEKtG49vQVCuOVqR3a3cvi7TRGmTsnppnMrgtRMVeHEFuA
-	 eXzuVhZPKtgXHfDWgg2GGyMa6D3YT5n/hcON6A6UeIAA9ker/O32mpiDXlK36CmFUz39j
-	 2ql7hOkAZPOQqMDK5yP0+n3KC3NZFJoprsvZ/aFoJtNKM4UoXa0Em/JarAv5EQEPn1NfV
-	 /i606Vahum0fZphsjP5Z4WTyWLaZqWp+AWZDwDS2BUVKm8VNKXlZAhdiTwB43aL06vw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793158587;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=;
+	b=XvY1FeNdccLozO02+wVJZbyE5cIodOwakWmOZhxNGIrT1x3HUXGZ9AbsEoLT3PWg/WjJ
+	 7bqTlgz2mC9wlqeMyPfX6z0esqoIdTELWOaW+3zUlnDXvaZDncEowKUVLPi6/HYjsP3nL
+	 Y+EVT7U/3Myfm0e8uZPVrup6Nd+uJAuJGDHuCSVkLI2eqNUi/edsUv5ERlt958EjYVqkL
+	 gZRp0cFmUe/ZDVIqtZ7TWecHW+vYzg/eUkkcJ+O2P26KXefyrh/IF1bdcDOuFalfuk4Fm
+	 m9se4cnsjLIeySFzn6H57GLKDb0TZEgznD2vsibAfPd3qhlIYvwTQBCmSBZOKKLvaYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=bpQVS6Q6;
-	arc=none smtp.remote-ip=43.163.128.54
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.54])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Jve2qMQH;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=BBE0FowR;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1457606A31D;
-	Wed, 28 Oct 2026 03:29:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1457606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEFD606A320
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 03:36:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DEFD606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=bpQVS6Q6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1793158135; bh=VrZ0m8QHDacZrqzDgxCpcv/7YLv5jV5PmL4thK5aFqw=;
-	h=From:To:Cc:Subject:Date;
-	b=bpQVS6Q6C35LsYYwSoO32YBBIArdyX1+qedXE8IHsVE4J8t9lIw2UeoGLXQ875CLS
-	 MPl4gSUFhR4kXTSUsBIKf7bYOX8XZ0yEuDFSjp7jXWJHXjm9S312byXzOjgF6R5n5U
-	 OWaqOqbtVfvpZ3rNUUbWkdNvRHPG09CefcaLTVyg=
-Received: from localhost.localdomain ([36.129.27.111])
-	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
-	id 73486AB6; Wed, 28 Oct 2026 11:28:52 +0800
-X-QQ-mid: xmsmtpt1793158132tadwnjs7z
-Message-ID: <tencent_056A9EE408796550EF0B9739470910E62F08@qq.com>
-X-QQ-XMAILINFO: Nc9yw6Uiw6QHeIinfqnFVyyqj6+n9bHg4FcfJ9IIJ5OSVUKdT3XXJ6A40EmU41
-	 njhi2RVBmuKJhm8MIVsvpAVrOCicbKkwKusBAwOvqfma3jaCQVEYRuS3AT81d8kHJEUpFwd6+Jk3
-	 F8SuZ98QwIW8Z9H2gasyXHsbkRZ4spySUPgBNMiUwPUKPXXMSI2NiAL+CeTr0zemKQqmJWsLlC00
-	 yTMlVFSGR1ajXmNq4f00u2FqOrwHFWVI0C+rHvXllPu6mSGvQCfooxD2f4e45/QVryiBUkCHpgzf
-	 vO9WfFAJm4c0ykKQG5mFvryVs0SplK5D1MJfDZpb8jRyXd0tfWtW7QLAU8lG6unpSopSl5HhJHyL
-	 5pJKH4xVr+pCA51euCF4xYtMZpy88eGWQxrrBeOieXL8KmJCzq15qTU4B86g2goGS2Somg5UVQaZ
-	 6lYUdByOTZAHt5uN3hzR3lWXiX+jeHnjPtwt9Q+cHzxci4siUv2AIyOPDtgiafY0lXmCkekODqzb
-	 E+Q+7qSEY+VrQPec1ARG5Tp+p2JCFB72l5jOwVmhlY5KCChmIwriFTVvLoBc0zD9r6ylvs3gsdCZ
-	 6imHyeXCMsHmHH5RKt36HO67kXwT+umKK9OLWWXqzvCljQ2bosz3eOI4fIQWR9S24FcQWXNHg2/l
-	 YivlK2ntVGwQBqAbQbMJTs9j9/mm094CDwDmjIBvh7jZ8tG2OvLnRxXRtJZSDxHbpGoUBt6Z/2lj
-	 VUPYgyEmklLCjxiv3dT4O+kaTME5QymPBGTCIx8Rsm8jypVBu1jkbjzCmOFwC1HHGc0xywCuf6YH
-	 iEc1LUUP+hyzDqra8R75rY40K4jb8O13XJlk6djdJ87d8oM6vTHSwg5hXjovwhfRq0wVOtRBzlW6
-	 w38V6gP0pBYvBYIckCEAkOJ0T22Qewl9XulVwxJm1PZ9KFSFUem3QX0q8KC9ny4YYaU8ux4f1eyk
-	 8dWXTjF/+NruCqIs8CmpIh9PTun82p1gft9QqIDdpAhnzNZ/+/yL+uke9jqwmiHpNwdJo47cE5+H
-	 kTJHNDFbkbZQk14busQtVywE0Y3RyneMw8YXQhpA==
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-From: Lei Qiu <750592120@qq.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Cc: jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lei Qiu <750592120@qq.com>
-Subject: [PATCH] fs/libfs: add blank lines after declarations
-Date: Wed, 28 Oct 2026 11:28:49 +0800
-X-OQ-MSGID: <20261028032849.17016-1-750592120@qq.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Jve2qMQH;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=BBE0FowR
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69S0ivGj3816430
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 03:36:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=; b=Jve2qMQHUqrEssgK
+	LflW6/l7KZ234zJVmm5v4avWWbV1TcUiioz11IU7xNAS3yhP+6JpgpsoOMhZWZvJ
+	IPei/BNfJ7ExWg/tShStITm6QZsRQXDRsGswXFZFnq+o9ga6nmbSa33m3OhRLXWT
+	jNycF1Ub6eUUeiAVgYu5ZaX6svI7KSL3EU6+K53Rnc/d554YMUVQJALzktVCxxiV
+	q+Kz86xf3mp9SK5/sBZk8qiecR2lpX8aT+GhaHVmok95F2t7X+5DAAukw34dJtRr
+	PnVGLMYR/XaeQ9zEg45sqiPgK2kxAakvx9jugL9konNgiu/4GNvqT3B3MXccU96s
+	aGnIQQ==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hjst1ktm9-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 03:36:25 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-8a0522cdaf3so459633b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 20:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793158585; x=1793763385; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=;
+        b=BBE0FowRfn7sN6MDFhJ7FmlNiB3uKdW4e+cRAtWrblI7hD+YFhxqnPOU7tpzisVisJ
+         fmEeD90BQvftfZDOccNtAFeLrBTZKfsyegXHwyV0wKlVgLTtCjMFc6HwG5NhJjm3k/C+
+         ad5+gAf9zgyISIfOxIIRVunXhv207IDJQjB94mq7+VI9MJMYMNRfO7jOns7wsvAz4bM9
+         5ba3tSHhD20XqsJaFz3v6Bl7rN6ldLh2ubAgecoEHWvl0MLS0obmwycPGmr2w1CBLAOI
+         eJGZP1D+i5UMtAu5I0NHNr4aAyku+DE5UMfSHnXgokB2sdHVO6EIN0G+P9MH7O/MCHCQ
+         6nMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793158585; x=1793763385;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=;
+        b=KKATXTumgmawIUzLfqrczvjnE2+Wn4KTUq7G7zHxHIr7B6urVWeGaitmHHokVcLiIE
+         Gg7FCz1xef4m8JUoWSh+Q4uP2DARlWYTRFctyf1v22oTkDauBZbRAXBX5z8aCdgPE92J
+         OnI3knBO9i893Qy5kMmd2DWYBNo18kRQ7/QEB/f7Lf0XK9enSmvxF/GCe/SEejWKwJLP
+         IHmECu50EYZ/cgbB4XwE9V7msuze1imVKL/5m7ZqU+/VOo2dwqWwVgQEsnNwtlTTYyJT
+         WNY7Bsec107rBv+Dy4BoTDjGJ7ESYojXYpwYcuImMfSrFuSFIzL9kl4fIt5EnI3mC2aH
+         1BHg==
+X-Forwarded-Encrypted: i=1; AKwUvBzXiH+rie5cY5IUPUe+uBqSmTEGfvFBynnnwfnTP8702kRaIYE+UbsykX/GRXmih6tk1Hq9yTdHG/i/aky6@vger.kernel.org
+X-Gm-Message-State: AFq9FYJHq1UoYLufS/PWg8PdBTDqf31Xg1ivO1vE4VpTGWoogpCsCUeq
+	ZrfgKwUM9YD4kGDxSXMzA+CaK4tn7fLGMj4oQAIVe7Fp67EbX5VF0hmfXcqMwrXlJ4rQQpV3ZHt
+	k7a8lLb40h5NwR+05GSyavv8NKPd6qJhLlR2QiKW/7vlocwYUqHjg5H5ZBJxrDQ/uosd5
+X-Gm-Gg: AYBFou2XiEHAFw9md91fKZ5iPYqZDg2w+lRqGyjhEuTBavsOVxKDjdiT1Ut5YAclKq9
+	UAHFyd5vZ/kkTCvD9PEcnnEeVF+dKXtO4uWPTzcqPKmqB/PklakyxvHt4l/FotMkpSL4g4PwahT
+	T1n0cTHvbu4Hqz3I+DKQTx5lAlALbGmkQeZvMXHY3nYccZLnEn56rNq/jlXwFjKyji8GLVuHvN4
+	wPpPp77TjksudByFk1AF3/ygxOEotQlmhf6BbMGnza4csY/GpoleyA5pevAG1WfVgLuT3+QYYMw
+	AnlY7BeS89lxcDvXB8qf1kbgSefXMqZNimAs8BNC8EL2QSSGp8ms6W9xFOnpf0w9QmhkFxwFCEd
+	BQjRinNVO8qus6m7Y8fRu3QEyQuwDwDDVdlgPAYhqpH4MtkogK3tKSLS0CAOk0+l4gQz3Xe+QOZ
+	I6jCBU+/Bq+P3J4+ttYArefdLXs+YQju6gz3Hrvlx/Cx4=
+X-Received: by 2002:a17:90b:5863:b0:3ac:b3ff:b476 with SMTP id 98e67ed59e1d1-3ae581836a6mr818156a91.38.1793158584980;
+        Tue, 27 Oct 2026 20:36:24 -0700 (PDT)
+X-Received: by 2002:a17:90b:5863:b0:3ac:b3ff:b476 with SMTP id 98e67ed59e1d1-3ae581836a6mr818144a91.38.1793158584441;
+        Tue, 27 Oct 2026 20:36:24 -0700 (PDT)
+Received: from [10.133.33.27] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae5a48ec90sm899533a91.6.2026.10.27.20.36.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2026 20:36:24 -0700 (PDT)
+Message-ID: <e5bd0521-36d1-447d-b71a-94a2e07414e2@oss.qualcomm.com>
+Date: Wed, 28 Oct 2026 11:36:16 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,77 +116,182 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/9] cpufreq: governor: Initialize kobj_type release
+ callback statically
+To: Ian Rogers <irogers@google.com>, Kees Cook <kees@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Zhihao Cheng <chengzhihao1@huawei.com>,
+        Sumanth Korikkar <sumanthk@linux.ibm.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev,
+        llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-s390@vger.kernel.org, gfs2@lists.linux.dev,
+        xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>,
+        zhongqiu.han@oss.qualcomm.com
+References: <20261027223847.652884-1-irogers@google.com>
+ <20261027223847.652884-5-irogers@google.com>
+Content-Language: en-US
+From: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+In-Reply-To: <20261027223847.652884-5-irogers@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=HJ1WhYtv c=1 sm=1 tr=0 ts=6ae16db9 cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=EUspDBNiAAAA:8 a=1XWaLZrsAAAA:8 a=MbyaxBA4Lnn_ULkWIDkA:9 a=QEXdDO2ut3YA:10
+ a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-ORIG-GUID: 7BivziCsJ7OiWHWQPkw5TcV1NvM4k00O
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDAxNCBTYWx0ZWRfXwzB06oR1SFFj
+ qX0scuT64CrRri0P/PiOlepl5kAskB5k1k9b3xIrgRhBnDmfohAzj2mAlbU1mzvh7/+M+Xsk8lq
+ eXSYTBTDQrMlrDM3eKgmU3ad1YvCewE=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDAxNCBTYWx0ZWRfX0GREiILL6VEv
+ aJok7FouwZhSDAvhNSOZYtbfZyeVTzY+oUpdEAERCZiHznBAFUr4tZysAd5iyRiVMt6KHYrpMv5
+ tv9anU7ZqWFZgBAPSNlsU01ERPBQ+9zAxR/ODQEe9wqU+JLauL4kON4eVUmsleR1kDAqYSw/TLF
+ SYydCYoWWzJBSSzcuyQELDwKaD0tYT8oi2jbu9EJX7kQb/1y2VlxfElgafp316WFRtFJyoi/DDM
+ RTWpLBqaXsO0vtOtK+CCFe8oUDizTZtjX0lMo6bUCktMCPiCNSk+3MenqMiAQK9tLeaqg/JkLQV
+ WsyuLAY7yqkLo2LXRyFC7T2IwTRidVBF7deMwtrDzW++35fjYcjYEVxKAJXhK5TipeVKuw4Fbyg
+ MlelSHtVDeYJbT+rrm36gIwPcRVi3/2P3wxfYnFJP8qx4KL+qtA2hqAfSGre8EPq4OLrM+BZIa9
+ kiOtsU1T3upDTok66kg==
+X-Proofpoint-GUID: 7BivziCsJ7OiWHWQPkw5TcV1NvM4k00O
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-28_01,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
+ impostorscore=0 adultscore=0 spamscore=0 phishscore=0 clxscore=1011
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610280014
 
-Add a blank line between the declarations and the following statement in seven places, as reported by checkpatch.pl (WARNING: Missing a blank line after declarations).
+Hi Ian,
 
-No functional changes.
+Thanks for the update.
 
-Signed-off-by: Lei Qiu <750592120@qq.com>
----
- fs/libfs.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On 10/28/2026 6:38 AM, Ian Rogers wrote:
+> Export cpufreq_dbs_data_release() and set .kobj_type.release statically
+> in the ondemand and conservative governors so their gov_attr_set
+> kobjects have a valid release callback statically initialized, matching
+> cpufreq_governor_dbs. Remove the redundant runtime assignment in
 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index 8e2cc627b..578cdb688 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -34,6 +34,7 @@ int simple_getattr(const struct mnt_idmap *idmap, const struct path *path,
- 		   unsigned int query_flags)
- {
- 	struct inode *inode = d_inode(path->dentry);
-+
- 	generic_fillattr(&nop_mnt_idmap, request_mask, inode, stat);
- 	stat->blocks = inode->i_mapping->nrpages << (PAGE_SHIFT - 9);
- 	return 0;
-@@ -114,6 +115,7 @@ static struct dentry *scan_positives(struct dentry *cursor,
- 	spin_lock(&dentry->d_lock);
- 	while (*p) {
- 		struct dentry *d = hlist_entry(*p, struct dentry, d_sib);
-+
- 		p = &d->d_sib.next;
- 		// we must at least skip cursors, to avoid livelocks
- 		if (d->d_flags & DCACHE_DENTRY_CURSOR)
-@@ -145,6 +147,7 @@ static struct dentry *scan_positives(struct dentry *cursor,
- loff_t dcache_dir_lseek(struct file *file, loff_t offset, int whence)
- {
- 	struct dentry *dentry = file->f_path.dentry;
-+
- 	switch (whence) {
- 		case 1:
- 			offset += file->f_pos;
-@@ -599,6 +602,7 @@ static void __simple_recursive_removal(struct dentry *dentry,
- 			      bool locked)
- {
- 	struct dentry *this = dget(dentry);
-+
- 	while (true) {
- 		struct dentry *victim = NULL, *child;
- 		struct inode *inode = this->d_inode;
-@@ -1096,6 +1100,7 @@ static DEFINE_SPINLOCK(pin_fs_lock);
- int simple_pin_fs(struct file_system_type *type, struct vfsmount **mount, int *count)
- {
- 	struct vfsmount *mnt = NULL;
-+
- 	spin_lock(&pin_fs_lock);
- 	if (unlikely(!*mount)) {
- 		spin_unlock(&pin_fs_lock);
-@@ -1117,6 +1122,7 @@ EXPORT_SYMBOL(simple_pin_fs);
- void simple_release_fs(struct vfsmount **mount, int *count)
- {
- 	struct vfsmount *mnt;
-+
- 	spin_lock(&pin_fs_lock);
- 	mnt = *mount;
- 	if (!--*count)
-@@ -1365,6 +1371,7 @@ ssize_t simple_attr_read(struct file *file, char __user *buf,
- 	} else {
- 		/* first read */
- 		u64 val;
-+
- 		ret = attr->get(attr->data, &val);
- 		if (ret)
- 			goto out;
+"matching cpufreq_governor_dbs" is a bit confusing to me
+(cpufreq_governor_dbs() was removed back in v4.8 by commit e788892ba3cc
+("cpufreq: governor: Get rid of governor events")), as it doesn't
+seem to refer to anything in the tree. Perhaps we could just drop it,
+e.g.:
+
+Export cpufreq_dbs_data_release() and initialize .kobj_type.release
+statically in the ondemand and conservative governors instead of
+assigning it at runtime in cpufreq_dbs_governor_init().
+
+
+The code change itself looks good to me. With the changelog updated
+(in a respin if the series needs one for other reasons, or when
+applying):
+
+Reviewed-by: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+
+> cpufreq_dbs_governor_init().
+> 
+> This prepares for annotating struct kobj_type::release with
+> __must_init.
+> 
+> Signed-off-by: Ian Rogers <irogers@google.com>
+> ---
+>   drivers/cpufreq/cpufreq_conservative.c | 5 ++++-
+>   drivers/cpufreq/cpufreq_governor.c     | 4 ++--
+>   drivers/cpufreq/cpufreq_governor.h     | 1 +
+>   drivers/cpufreq/cpufreq_ondemand.c     | 5 ++++-
+>   4 files changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/cpufreq/cpufreq_conservative.c b/drivers/cpufreq/cpufreq_conservative.c
+> index 02bfd46543e9..146a2353b1a2 100644
+> --- a/drivers/cpufreq/cpufreq_conservative.c
+> +++ b/drivers/cpufreq/cpufreq_conservative.c
+> @@ -318,7 +318,10 @@ static void cs_limits(struct cpufreq_policy *policy)
+>   
+>   static struct dbs_governor cs_governor = {
+>   	.gov = CPUFREQ_DBS_GOVERNOR_INITIALIZER("conservative"),
+> -	.kobj_type = { .default_groups = cs_groups },
+> +	.kobj_type = {
+> +		.release = cpufreq_dbs_data_release,
+> +		.default_groups = cs_groups,
+> +	},
+>   	.gov_dbs_update = cs_dbs_update,
+>   	.alloc = cs_alloc,
+>   	.free = cs_free,
+> diff --git a/drivers/cpufreq/cpufreq_governor.c b/drivers/cpufreq/cpufreq_governor.c
+> index f3bd3dbe7c41..f8b5aca09b6b 100644
+> --- a/drivers/cpufreq/cpufreq_governor.c
+> +++ b/drivers/cpufreq/cpufreq_governor.c
+> @@ -419,7 +419,7 @@ static void free_policy_dbs_info(struct policy_dbs_info *policy_dbs,
+>   	gov->free(policy_dbs);
+>   }
+>   
+> -static void cpufreq_dbs_data_release(struct kobject *kobj)
+> +void cpufreq_dbs_data_release(struct kobject *kobj)
+>   {
+>   	struct dbs_data *dbs_data = to_dbs_data(to_gov_attr_set(kobj));
+>   	struct dbs_governor *gov = dbs_data->gov;
+> @@ -427,6 +427,7 @@ static void cpufreq_dbs_data_release(struct kobject *kobj)
+>   	gov->exit(dbs_data);
+>   	kfree(dbs_data);
+>   }
+> +EXPORT_SYMBOL_GPL(cpufreq_dbs_data_release);
+>   
+>   int cpufreq_dbs_governor_init(struct cpufreq_policy *policy)
+>   {
+> @@ -488,7 +489,6 @@ int cpufreq_dbs_governor_init(struct cpufreq_policy *policy)
+>   	policy->governor_data = policy_dbs;
+>   
+>   	gov->kobj_type.sysfs_ops = &governor_sysfs_ops;
+> -	gov->kobj_type.release = cpufreq_dbs_data_release;
+>   	ret = kobject_init_and_add(&dbs_data->attr_set.kobj, &gov->kobj_type,
+>   				   get_governor_parent_kobj(policy),
+>   				   "%s", gov->gov.name);
+> diff --git a/drivers/cpufreq/cpufreq_governor.h b/drivers/cpufreq/cpufreq_governor.h
+> index 806d8fb4dff1..1026712bb79b 100644
+> --- a/drivers/cpufreq/cpufreq_governor.h
+> +++ b/drivers/cpufreq/cpufreq_governor.h
+> @@ -150,6 +150,7 @@ static inline struct dbs_governor *dbs_governor_of(struct cpufreq_policy *policy
+>   }
+>   
+>   /* Governor callback routines */
+> +void cpufreq_dbs_data_release(struct kobject *kobj);
+>   int cpufreq_dbs_governor_init(struct cpufreq_policy *policy);
+>   void cpufreq_dbs_governor_exit(struct cpufreq_policy *policy);
+>   int cpufreq_dbs_governor_start(struct cpufreq_policy *policy);
+> diff --git a/drivers/cpufreq/cpufreq_ondemand.c b/drivers/cpufreq/cpufreq_ondemand.c
+> index 9942dbb38dae..7386d043c665 100644
+> --- a/drivers/cpufreq/cpufreq_ondemand.c
+> +++ b/drivers/cpufreq/cpufreq_ondemand.c
+> @@ -374,7 +374,10 @@ static struct od_ops od_ops = {
+>   
+>   static struct dbs_governor od_dbs_gov = {
+>   	.gov = CPUFREQ_DBS_GOVERNOR_INITIALIZER("ondemand"),
+> -	.kobj_type = { .default_groups = od_groups },
+> +	.kobj_type = {
+> +		.release = cpufreq_dbs_data_release,
+> +		.default_groups = od_groups,
+> +	},
+>   	.gov_dbs_update = od_dbs_update,
+>   	.alloc = od_alloc,
+>   	.free = od_free,
+
+
 -- 
-2.43.0
-
+Thx and BRs,
+Zhongqiu Han
