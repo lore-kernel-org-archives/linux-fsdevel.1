@@ -1,47 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793221628;
-	b=D7dOFl/l5RhP9XsDNXo+ErqvX4I/mg5sQRdppC66HAsM/YvYFkie8TXCbw3pzvA3bsoS
-	 2zddtITu2WpXO6s7qm/pLD8bHmS0FpBuIMTiLYWjKMABsw5hleUS5HCRJccJeohrfuKEG
-	 cL4ty5d/DsEIaHsD/c/Rfx8LGtlt6D6OKye7ecalp25WWVN9ePubjl/9wy88mmhl3uWw6
-	 mKuksK9kK3YlItLsKvwSCSKm+bePGSzZ9leRFPo3BUT6iewTLNbkUHKUYYMvUR5Nmsnnp
-	 wo29TOf8jySbutEHWujJVTyoC+OZEGwYyrq83iMl3SutYNU7LGI/uTsz9GS0+AeEIhQ==
+	t=1793221754;
+	b=b+OLF3HiQfJ9nrOwnB5+u2azYH2HbHiTBksa2+EcnnnVPciy/JZfZIdZ+o4ZiVjm73ao
+	 lwlrqgphOYiFJga5RoENhseKjup1xI6F66VYmphp6+xdT/P1t5KF3ly78hY3WnFSXhG08
+	 82TU2VPMWqwhPTIBYdkxFdKKr+8VppSn+MbVy1+1OVCuHJzPHxhhBW+Vg8v4kmZ1joIB4
+	 xFY7be2h06cNP1uPZWlS9z2kHgrUJu8Ci4JZMs0Bc7vAfTiuUFDKgb2nC7UszpxuIHOsc
+	 1l3230Ugx29eKEUG1Xe7K6uFL+5C24z5j40HjG37UQ5DDSVenPyx4qypQChN5NwgerQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793221628;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=xxZoPiTulvdMTGEYFvoIZ44CCQijO9eunuLg0kQXxFk=;
-	b=WAp++ILAbWJcRAcA7+lKgzLN/CAw47qhHh/E4bdS64UG5FOBS2608RjTj/15iE1ipAOT
-	 10uQQaz55XD4LdS3ure11IG03/Tr5zm41Jc8FTfOq0UKmGzwch/hZoOFAmrPApVfzVMYq
-	 DBQhHuIq9qwc8sTQYPfPpwQ36XKUW8G8/EW5sK0NIvM94fg1hT6nr+kZQYXnvLmiupPps
-	 S6dO3sC3VtczuMuJCjlbG96K/xsR56o+F2iYY3rWhAM+W5fK/eTHl4YHmp5RJfHtHVDHY
-	 I0Ty2Ki6X3pAHCOD3ZBC9iZgNy4kZzch3BZ4/p6L8r7Ph6NAvpsM9cfrC9oxWxV7bXw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793221754;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=b9Ue7Amy9dAWOngMe9Pw0Kk0KAocM2Q9voQibH/OirU=;
+	b=bPN0iGBFBsvEIK3N8JnlvG2dYTmxNNPL8HAZgTY5aE6qDmneGuVY2MxvCVQZBUVYIVmw
+	 XUY62TuAhbPhaYKO5UdoNerdK2YcPg8gxSVD4UEQ4vPdZHwyEAGI2Z3NWaYpUqoUrppcW
+	 yIRQVsjFvHaqFnwjEctIelpX5NKu7hA9crgZD8ZZBoqKGOe+LykX4hDEJ0t7kgMp6pLWS
+	 Nuob7JyYfJXyndM0uqPPKnSgNSCkMfKWNbRYSvVpoQzriK10xVNfKVOJuDdjw9kt6i6Tv
+	 qOb9DakSoA7E9WTucl2pW4yn03Kbklhg33emTfQD4hNYhCaEYyfRGJx64ZiR0NTXrHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="LN/bo96W";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lYpPdQMK;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01340606A31C;
-	Wed, 28 Oct 2026 21:07:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B13606A322
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 21:09:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88B13606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LN/bo96W
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C600A1F01825;
-	Wed, 28 Oct 2026 21:06:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793221627;
-	bh=xxZoPiTulvdMTGEYFvoIZ44CCQijO9eunuLg0kQXxFk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=LN/bo96WZvsiQi1qe+JR9nlcD/dtIGQ3FMfkNtmijuD8fjEQvKUZbveUSkvBFTpiT
-	 q6Edde755VLLwfbtDICVm/OW4Pm+/etk4qBGkfzt7OHtDuZ3eCdxBEwg9OirXuns+M
-	 XsvYfyUNxV7GxmUXhpEDJCqSSig5E7leSPceajxOCaywHlCdhCxFMwskHRcKuUXv06
-	 PDthkCr7ALLRll2jP+OhkIKbt46NDpsV5HResmFBVneLOSa8AjHiykgI/EVkjCB6+y
-	 im/ok434xapBK6Jzyew5LWXpxM6m7VRgE7Je11/Pjst7rZUdUqcoFHcm6G7+s6AIdF
-	 R9o+fP1ANqrsg==
-Message-ID: <d709fc9e-1940-4e73-92a1-09ab36ae16c5@kernel.org>
-Date: Wed, 28 Oct 2026 22:06:49 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lYpPdQMK
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a2d6cf958bso8585585e9.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 14:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793221753; x=1793826553; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=b9Ue7Amy9dAWOngMe9Pw0Kk0KAocM2Q9voQibH/OirU=;
+        b=lYpPdQMKb567K7Gcw8lAVZu0HbfmVC9X/z1iRKMq1P1CbFM1/B9/PYj70+JtzadMVC
+         7yKjRdneV3HesBPbPtayTidUfKDRj8zK/78nrBfD3dKsaMZjIT/1DQSpIWw7S/w1MQD5
+         VdhxflrOnAtV+3nZybKuumlrxFIQWiXyFzXNmLfgd9QLtlpnlnvTQrfDzAORBh4UCQ6c
+         I/QrPcCBFIoPijM5QjZlw72+qdNiLjjg1ZsJiJmRne+Gy3orRQFo5gdRr2JC3NatTnyG
+         f376m6J2Cq9qIGSEmgBkmM9RzAva2Uv+2O4yO3s1ord3aGepQOBRO1jtCUVSEYqrZMJN
+         AqGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793221753; x=1793826553;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=b9Ue7Amy9dAWOngMe9Pw0Kk0KAocM2Q9voQibH/OirU=;
+        b=VSuoUj7FVWRGpj8DL5E1n4p0AfRe00v5Aq/gYd/p6t+Zhsk5lEyYGYlStyYVP5ijL9
+         2z0icFy6Zbn4MhiEnvVFXwKjbDE9T037EEXue+tu6URtveP1RNPPSGMPK5exVRGSljr7
+         eZfyxQpRVj1OecSu51XOjDHoOZryRwdGL1DugjIMH5lI2AqBcE9CU1n5UzPqo2sbIpsj
+         4WOiUBkFyhsish7ZiPcuq7MNJV6AtQpOGw6CyOyegZqm1/qEW30iZWwcA0GMwKSVNGAu
+         YXdjdA+Hk/LI8q209BJXPiNklnOQmltN5ISJdUQDX5VtUwHr+NKsNS/Cu3aN5C1emcHq
+         pjDg==
+X-Forwarded-Encrypted: i=1; AKwUvBxm/DIKrWRrAlR6NFIUmvRPG4SzviiG4bXoed5bdGptfKs54T1mYF8nYI+n2TslSn4QbXykQ+nN1DlVNncW@vger.kernel.org
+X-Gm-Message-State: AFq9FYLYsGf4CrbPyA7/pOTCPxDxBR621MvoRkzxvdG9Vo72APrcimWu
+	blSsvs+2MP2qrHDqoDZ2crE053o9v9hBbHhJG9ZwRMac+mHREVHkXTRe
+X-Gm-Gg: AYBFou12OFxjh9H2beSrfBqvIV3/RjKSOBvIgHc5se0rwx8bG2pHUdTmin7ZTLm587/
+	EpdZImwLZ2q5WaNyZUndpV/Ds88ftYnTosnsOAZM384i2tknVcXAdsKumKmYWXbyICKDUBokIN5
+	WVafY5gqtgs3OiNRnH0WWOS2HMGELe9qFxHfwnTwcqKNI0vaAGj0f6iTiuOZCjGRs+DNBvrZeJO
+	7H9XJhxbj4EZE2cnM4pJnJhwIgLfxSv12z7TAfzsE0+LSnlCmHz2ZFsBRpIjfOACZ4rWw7Nhdg/
+	gdIOqQIv0RaQ4YO45nP398KtVsrr5dpIMNZdK9I1J1vMorCrFQMVjwV0ai1AMFgEDaCu1wHJ4lv
+	fzC1dpC0qTkST9LzGY8RSC6xscVsIcdgMVdY6Bn/uOOQCbsr/wldxVjuP58gw1syaUvG3n7Wecf
+	ovwoXrDBUV46O1U7XtQ/DoJE6tL9UWQ/lmUTio2F0HEQSu35NMFxovJtfOFQFvH2PqGS6HI5Qlj
+	Hhx/F8C1y6ZxQJCTmQfCZkja0beWYhOBSxU5mFzHpsUkASZy8Omk03Oa/Mmx83YIKtDKgvAgRJq
+	PrVQiJOoemayV5PCRzUHpFPhPpFo8oq2o+/xZD2ILO7QtDWtusp/rlAjc48sTdLwQg==
+X-Received: by 2002:a05:600c:524c:b0:4a4:7a8d:c736 with SMTP id 5b1f17b1804b1-4a9661ab662mr83304295e9.9.1793221752843;
+        Wed, 28 Oct 2026 14:09:12 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa7f7f52e2sm20027845e9.9.2026.10.28.14.09.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2026 14:09:12 -0700 (PDT)
+Date: Wed, 28 Oct 2026 21:09:11 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: wen.yang@linux.dev
+Cc: Joel Granados <joel.granados@kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 01/39] sysctl: replace overloaded extra pointers
+ with typed bounds and context
+Message-ID: <20261028210911.30a8100d@pumpkin>
+In-Reply-To: <fec089bb7a3ea62a5e2006cf578b1efec2df4aff.1793204511.git.wen.yang@linux.dev>
+References: <cover.1793204511.git.wen.yang@linux.dev>
+	<fec089bb7a3ea62a5e2006cf578b1efec2df4aff.1793204511.git.wen.yang@linux.dev>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,183 +100,102 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 31/46] mm/mremap: fix moving PUD leaves
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Baoquan He <baoquan.he@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>,
- Hugh Dickins <hughd@google.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>,
- Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>,
- Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
- Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>,
- Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-cxl@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>,
- stable@vger.kernel.org
-References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
- <20261027-fixes_core-v1-31-6f74bec9a5bb@kernel.org>
- <auH0bgdchd6DyCbU@pedro-suse.tail5790ac.ts.net>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <auH0bgdchd6DyCbU@pedro-suse.tail5790ac.ts.net>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 10/28/26 14:20, Pedro Falcato wrote:
-> On Tue, Oct 27, 2026 at 12:17:51AM +0100, David Hildenbrand (Arm) wrote:
->> From: Josef Bacik <josef@toxicpanda.com>
->>
->> pud_none_or_clear_bad() only really works on page tables. PUD leaves
->> confuse the check and make us clear the page table entry and print a
->> warning.
->>
->> Since commit aed877c2b4257 ("device/dax: properly refcount device dax pages
->> when mapping"), this also leaks device-DAX folio references, mapcounts
->> and RSS accounting, resulting in "Bad rss-counter state" warnings on exit.
->>
->> Allow PUD leaves in get_old_pud(). If a PUD leaf cannot be moved as a
->> whole or the move fails, split it. This unmaps it with proper accounting
->> instead of treating the leaf entry as a PMD table.
->>
->> Keep using pud_trans_huge() for now, in the future this code should be
->> cleaned up to just check for PUD leaves.
->>
->> Fix generated by an LLM and sent by Josef Bacik in private.
->>
->> Fixes: a00cc7d9dd93 ("mm, x86: add support for PUD-sized transparent hugepages")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
->> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->> [ david: fallthrough after splitting ]
->> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+On Thu, 29 Oct 2026 00:34:40 +0800
+wen.yang@linux.dev wrote:
+
+> To: Joel Granados <joel.granados@kernel.org>
+> Cc: Wen Yang <wen.yang@linux.dev>,  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
+> Subject: [RFC PATCH 01/39] sysctl: replace overloaded extra pointers with typed bounds and context
+> Date: Thu, 29 Oct 2026 00:34:40 +0800
 > 
-> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
-
-Thanks!
-
+> From: Wen Yang <wen.yang@linux.dev>
 > 
->> ---
->>  mm/mremap.c | 9 ++++-----
->>  1 file changed, 4 insertions(+), 5 deletions(-)
->>
->> diff --git a/mm/mremap.c b/mm/mremap.c
->> index 91f0865f6aeea..1237718848f5c 100644
->> --- a/mm/mremap.c
->> +++ b/mm/mremap.c
->> @@ -87,7 +87,7 @@ static pud_t *get_old_pud(struct mm_struct *mm, unsigned long addr)
->>  		return NULL;
->>  
->>  	pud = pud_offset(p4d, addr);
->> -	if (pud_none_or_clear_bad(pud))
->> +	if (!pud_trans_huge(*pud) && pud_none_or_clear_bad(pud))
->>  		return NULL;
->>  
->>  	return pud;
->> @@ -847,11 +847,10 @@ unsigned long move_page_tables(struct pagetable_move_control *pmc)
->>  		if (!new_pud)
->>  			break;
->>  		if (pud_trans_huge(*old_pud)) {
->> -			if (extent == HPAGE_PUD_SIZE) {
->> -				move_pgt_entry(pmc, HPAGE_PUD, old_pud, new_pud);
->> -				/* We ignore and continue on error? */
->> +			if (extent == HPAGE_PUD_SIZE &&
->> +			    move_pgt_entry(pmc, HPAGE_PUD, old_pud, new_pud))
->>  				continue;
->> -			}
->> +			split_huge_pud(pmc->old, old_pud, pmc->old_addr);
+> struct ctl_table has two untyped misc pointers, extra1 and extra2, whose
+> meaning depends on the handler that reads them. In-tree use has grown to
+> cover at least seven unrelated jobs: a fixed bound, a bound read through a
+> pointer on every call, an object or namespace pointer, a small integer
+> cookie encoded into the pointer, a lock signal, NULL standing for "no
+> bound", and a value the core itself casts to unsigned int while validating
+> a u8 range. Nothing in the entry says which job applies, so readers and
+> writers have to infer it from the handler, and the core itself gets it
+> wrong where it treats extra1 as an unsigned int.
 > 
-> Note that, if the HPAGE_PUD move fails, we split but miss the opportunity to
-> move at the PUD level (right below). Is this on purpose? Am I missing
-> something?
-
-I was mirroring the PMD code, really. There, we also don't seem to move a PTE
-page table when moving the PMD leaf failed and we split.
-
-I think part of the puzzle is: move_huge_pmd() / move_huge_pud() only really
-fail if there was some race with concurrent splitting. So it doesn't really
-happen all that often I guess.
-
+> The overloading is also a memory-safety hazard. An entry that stores
+> handler context in data cannot be handed to a standard handler without
+> first restoring the real storage, because proc_dointvec() writes through
+> data. Every call site has to remember the restore, and one that forgets
+> turns a user-supplied integer into a write over a kernel pointer. nf_log
+> reaches the same problem from the other side: it replaces data with a
+> local buffer inside a single handler, so data means two things within one
+> function.
 > 
-> ... I say, realizing I am missing something, because split_huge_pmd (and
-> consequently split_huge_pud) just decide to zap if the VMA isn't anonymous,
-> and split_huge_pud() just hardcoded it to "of course it's not anonymous, lol",
-> and just zaps. So there's no point in moving what isn't there.
+> Replace both jobs with two fields that cannot be confused:
+> 
+>   - min/max hold numeric bounds by value. Signed handlers read them as
+>     signed longs; an absent endpoint is the type limit, not NULL, so zero
+>     stays a real bound. A range that changes at run time is refreshed
+>     before every call instead of being snapshotted at registration.
+> 
+>   - priv holds handler context. The core never reads it, standard handlers
+>     never touch it, and registration rejects it on a standard handler so
+>     context cannot be silently ignored. data and maxlen keep the meaning
+>     their handler gives them, including proc_dostring() name lengths and
+>     proc_do_large_bitmap() bit counts.
+> 
+> The range converters read min/max whenever extra1 and extra2 are both
+> clear, and keep reading the pointers while they are set. That lets callers
+> migrate one subsystem at a time without renaming handlers or adding a
+> parallel API: the existing proc_*_minmax entry points keep their names and
+> gain numeric semantics as entries drop their extras. Entries that already
+> relied on NULL meaning "no bound" now state their type limits explicitly,
+> so their behaviour does not change and the meaning of zero stays
+> unambiguous.
+> 
+> This patch is the refactor itself. The next patch converts the debug test
+> module to numeric bounds as the first user, and the KUnit suite after it
+> makes the contract executable; everything after those is migration of
+> existing users and adds no new semantics: fixed bounds become numeric
+> values, run-time bounds are refreshed per call, context moves off data, and
+> the extra pointers and the compatibility read are removed once the last
+> user is gone. Owners that can still be recovered from data keep using
+> container_of(); priv is only for entries where no derivation exists.
+> 
+> Replacing the two pointers with unsigned long min/max follows Eric
+> Biederman's suggestion; priv is added here because the same pair of fields
+> also carries handler context, which a numeric bound cannot express.
+> 
+> Suggested-by: Eric W. Biederman <ebiederm@xmission.com>
+> Suggested-by: Joel Granados <joel.granados@kernel.org>
+> Signed-off-by: Wen Yang <wen.yang@linux.dev>
+...
+> 
+> diff --git a/arch/powerpc/platforms/pseries/mobility.c b/arch/powerpc/platforms/pseries/mobility.c
+> index b5c2abd12432..294897f3fbb5 100644
+> --- a/arch/powerpc/platforms/pseries/mobility.c
+> +++ b/arch/powerpc/platforms/pseries/mobility.c
+> @@ -10,6 +10,7 @@
+>  #define pr_fmt(fmt) "mobility: " fmt
+>  
+>  #include <linux/cpu.h>
+> +#include <linux/limits.h>
+>  #include <linux/kernel.h>
+>  #include <linux/kobject.h>
+>  #include <linux/nmi.h>
+> @@ -61,6 +62,8 @@ static const struct ctl_table nmi_wd_lpm_factor_ctl_table[] = {
+>  		.maxlen		= sizeof(int),
+>  		.mode		= 0644,
+>  		.proc_handler	= proc_douintvec_minmax,
+> +		.min		= 0,
+> +		.max		= UINT_MAX,
+>  	},
 
-Right, we don't support anonymous PUDs and file PUDs/PMDs are split by
-effectively zapping them (no PTE page table prealloc required).
+You could save a lot of churn by not adding the '.min = 0' line
+and making the function treat the 'silly' case where both min and max
+are zero as meaning 'no upper bound'.
 
-Can I hear that you are interested in cleaning up this code? :)
-
--- 
-Cheers,
+As well as saving a lot of diffs, it will be less error prone.
 
 David
