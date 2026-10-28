@@ -1,56 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793179193;
-	b=Wk0W0QhCGmkHNM5yfoktoCvbytXbrAYUJK+HmfH4e8LB3d0dsipqMq7FkC5TfZb94yOK
-	 u6bwIvX4sEsf+Dc2w+44uyyj6v651X+hmtodQzIx/OMgT9jv6sIX2FKmxAVa1h6iGnWeg
-	 nZ2uhK9XnYx+MIV88FV4c5sfmQ9EkpEPjWbTIqyTBJGkY3zZdYS2DG2JAOXyFfoudv109
-	 FLTK55P80xUtffEb4tPYFqnbcMuNybBKJ7g4NZAa2uXujZAIcM1AhyPqrnJbGlagZ6EU0
-	 XsKdjhDZlAgx1N9HoDpna8DzO9MLy6Au9mAMBIQXzPB0t7hPARQcXYU10WAhOksh1Aw==
+	t=1793180003;
+	b=dN3jzlmaBF3u6iMTEJ4ipo1+hQoiqA4qFrNJKnihFZi9WoTbCBmt1CdzLVpRAyH1ijgq
+	 /ZZANDO4gNJDHr2ZcNVx6DBOfZ3p8O+Y0LrLT1lpVhs4uVkAuoocJPiYw2BVIedcbS7lq
+	 Pl3xQIWdaMLmf1KnRccuD7HcpZvUuccTj+God840lnYFAwTs2LP6LHq3DtJW9I0Ir4ga/
+	 SLKqsTlnBIozeAFTALxuRQcL7yUVlDhohINVhnmfOc+X0OyRjY7en4firUv4sodW2Q3a/
+	 YDKqRi0P4v1+SkV27toISwTfsk36eGHPl/8KJDUhV8QhXqlVbQkEFAKxqjTFBCtysaQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793179193;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=dIQYEI2EXBN3ZRTF+vP2Ww75sjtd+SHDiG1ARLFc8yU=;
-	b=sRwF/sFzLjTWxoaIEmRZgMVqiNXr4AKRpgy+R1a5fI9VhjLKdh6J3SB0fhCtKmffWsTz
-	 RjpXn60nX9xhuUyNqJrQmJRg5SLl4lkyQt4flb8edSPVIDv8BIHAKy8TObP3QKWfRKtTC
-	 xZMlonByR5rd8cyCWpT37iix/+0IZVjclygFqg8AXzazqjrCkhrknZJXqYD6Hg1K/p6Xx
-	 vbyIMh1sbc+QEaYFyXr4RKNfPRiSeIrWbfSpjusz5sb2CF1+62bYVrASWD81/SXkxFpSP
-	 vVZWyqcunILqofNT2dOWNyHsvJ8imtP/SS/uOAOE9NDNuJI7HWcsYXsTKAW+vtq56jg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793180003;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=o48BxfVRKyt8VwocGYiaSs0bwuLsENkNmhgJ5mRhlcg=;
+	b=Prcr4JAf/TImxrnzVoTap/rc9J/iMUiAn84HGVIL4G8feLjVpST95VitwU55ulDILR59
+	 aRK1lI9wmxxmLwajXdj0U1vmujVWd3hcxtXgla5pMNPuQnBcKVBglzS+p8nOvpu1D3vnZ
+	 7jjmb/wo4Von350mlnTbpA/DA9oZxNMzKLUQKb6/PGOMwpnfb6HgETqoBNXcqIri90d9U
+	 xFGpsz43TOOXc89060By3s9s/Qd9seaFduZawhfSdtTmhQ6uJ5NjVvm4/caalZX4VWoSn
+	 hSUnWF8Ln4UJ24qUdzTq23+JJ9lPk+X7f9XSCEG6037gCWx9NXqu3XVGsHbnvU13ffw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XM6ZOwO4;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=igalia.com;
+	spf=pass smtp.mailfrom=igalia.com;
+	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b="QkmyU/vW";
+	arc=none smtp.remote-ip=213.97.179.56
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BE7606A31A;
-	Wed, 28 Oct 2026 09:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D936606A31C;
+	Wed, 28 Oct 2026 09:33:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D936606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XM6ZOwO4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A155B1F01825;
-	Wed, 28 Oct 2026 09:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793179193;
-	bh=dIQYEI2EXBN3ZRTF+vP2Ww75sjtd+SHDiG1ARLFc8yU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XM6ZOwO4JL0qURt+r1Tt40S78pKBud1WZEdBrmgnRYO1IHQx0nw0QpogbIOKyGmPe
-	 Km3z6nNDakO14FRuEqVD6fltowQlZ7IgPD5kjEDVcYIT1DkJWmyClJk0abCib41owt
-	 ySqTJ4L0jCS75jvustKWciug4KaYB90KVfbHVKFjON78MKKpMEI32cl6UGp/XSzUII
-	 Kt+zseF0qDmtZCYGqCVS+eiWZXxUj2/KE/n3JtTF2FAHW9dMBKdWWQ6H/zFUAAGvXn
-	 mIlgh8GMe/IxdPt8AUsOnaUV6MHtzeNJ/Fh2zHVde2ypPbt8fSQBCXfsZPFDK7ZnEF
-	 8MYy195BPQYgA==
-Date: Wed, 28 Oct 2026 09:19:46 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, jannh@google.com, 
-	liam@infradead.org, willy@infradead.org, paulmck@kernel.org, pfalcato@suse.de, 
-	usama.arif@linux.dev, vbabka@kernel.org, linux-fsdevel@vger.kernel.org, 
-	yi1.lai@intel.com, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] selftests/proc: use RSS in /proc/pid/smaps_rollup
- tearing tests
-Message-ID: <auG-BfTvZo1Ejxmm@gremlin>
-References: <20261028051312.1505295-1-surenb@google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=QkmyU/vW
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:From:Reply-To;
+	bh=o48BxfVRKyt8VwocGYiaSs0bwuLsENkNmhgJ5mRhlcg=; b=QkmyU/vWjCV60OWMBHN+43GJJq
+	T4cc9x79JCeL0TxvbjYQLZDzlgWaXu0VkmyYLUC0rHzkt8uUodCM7RIp/5o3yJ67y85h+vzpg7QwW
+	CxJtc6ubM4zs/ipN1Y+DX2uN7Zg6l1dIttfQM13IGlVU6Sl6EskwqqqoPBPDqC/5wQrzy5PTWlF0q
+	LogsmiaYO+FATLPXZ2bbYc/asQHc5cRQP79PQB0es9kDhkrAWZC/f3nsd4B49bO4yVIdTgQSRWAR0
+	A5YHqyOosp2BQQmpahoxT2JgkOFV8aVZ9qmPKKGQ+wJauWTgN9K/MFe79vAM27v+dCGzA1Y8QEl4Q
+	AePlXYSg==;
+Received: from [188.250.79.109] (helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1xM020-00CisY-IC; Wed, 28 Oct 2026 10:33:16 +0100
+From: Luis Henriques <luis@igalia.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,  Amir Goldstein
+ <amir73il@gmail.com>,  Shuah Khan <shuah@kernel.org>,
+  fuse-devel@lists.linux.dev,  linux-fsdevel@vger.kernel.org,
+  linux-kselftest@vger.kernel.org,  linux-kernel@vger.kernel.org,  kernel
+ test robot <lkp@intel.com>
+Subject: Re: [PATCH] selftests/fuse: add the missing symlink caching test
+In-Reply-To: <20261026194008.274349-1-sashal@kernel.org>
+References: <20261026194008.274349-1-sashal@kernel.org>
+Date: Wed, 28 Oct 2026 09:34:44 +0000
+Message-ID: <87zevyi2x7.fsf@igalia.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,65 +67,230 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261028051312.1505295-1-surenb@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 27, 2026 at 10:13:12PM -0700, Suren Baghdasaryan wrote:
-> Pss metrics can be affected by map count even if VMA tree stays unchanged,
-> therefore test checking VMA tree integrity can't use them. Use Rss instead
-> and pre-populate the VMAs so that Rss changes if a VMA gets skipped or
-> double-counted.
+On Mon, Oct 26 2026, Sasha Levin wrote:
+
+> Commit 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
+> registered fuse_symlink_cache_test in the fuse selftest Makefile and
+> .gitignore, but the test source was not part of the applied commit, so
+> building the fuse selftests fails:
 >
-> Fixes: ca5480fb53fa ("selftests/proc: add /proc/pid/smaps_rollup tearing tests")
-> Reported-by: kernel test robot <yi1.lai@intel.com>
-> Closes: https://lore.kernel.org/oe-lkp/202610271934.fd287c3f-lkp@intel.com
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-
-Seems sensible, I gather in general PSS is a less than ideal measure in these
-stats anyway :)
-
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
+>   make[1]: *** No rule to make target 'fuse_symlink_cache_test.c', needed=
+ by '.../fuse_symlink_cache_test'.
+>
+> Add fuse_symlink_cache_test.c as posted in Luis Henriques's v5
+> submission. The test serves a file and a symlink to it from a libfuse
+> low-level filesystem, resolves the symlink 100 times, and counts the
+> readlink requests that reach the server: one when FUSE_CAP_CACHE_SYMLINKS
+> is set during FUSE_INIT, and all 100 when it is not.
+>
+> Fixes: 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/r/202610170822.oEJ1Autq-lkp@intel.com/
+> Link: https://lore.kernel.org/r/20261001164916.15311-8-luis@igalia.com
+> Originally-by: Luis Henriques <luis@igalia.com>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 > ---
->  tools/testing/selftests/proc/proc-maps-race.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
+> As with e64a46aefc01 ("selftests/fuse: add the missing FUSE_HAS_SYNCFS
+> privilege test"), the new file in the posted patch is not in the applied
+> commit; the other files did land.
+
+Oh, wow!  I wonder how that happen.  Anyway, thanks for noticing that and
+for fixing it, Sasha.  If it makes any sense (I wrote the test! :-) ) feel
+free to add my
+
+Reviewed-by: Luis Henriques <luis@igalia.com>
+
+Cheers,
+--=20
+Lu=C3=ADs
+
+
+>  .../fuse/fuse_symlink_cache_test.c            | 162 ++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+>  create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_symlink=
+_cache_test.c
 >
-> diff --git a/tools/testing/selftests/proc/proc-maps-race.c b/tools/testing/selftests/proc/proc-maps-race.c
-> index bf4c5073f6fc..b6d88afb252b 100644
-> --- a/tools/testing/selftests/proc/proc-maps-race.c
-> +++ b/tools/testing/selftests/proc/proc-maps-race.c
-> @@ -528,13 +528,10 @@ static bool compare_smaps_rollup(FIXTURE_DATA(proc_maps_race) *self,
->  		struct smaps_rollup_stats *actual)
->  {
->  	/*
-> -	 * Clean/dirty metrics might change but Pss-related ones
-> -	 * should stay constant.
-> +	 * Clean/dirty metrics might change. Pss depends on map count and might
-> +	 * change as well. Rss should stay constant.
->  	 */
-> -	if (cmp_smaps_rollup_stat(expected, actual, Pss) &&
-> -	    cmp_smaps_rollup_stat(expected, actual, Pss_Anon) &&
-> -	    cmp_smaps_rollup_stat(expected, actual, Pss_File) &&
-> -	    cmp_smaps_rollup_stat(expected, actual, Pss_Shmem))
-> +	if (cmp_smaps_rollup_stat(expected, actual, Rss))
->  		return true;
+> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_=
+test.c b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
+> new file mode 100644
+> index 0000000000000..7b53734995736
+> --- /dev/null
+> +++ b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
+> @@ -0,0 +1,162 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Simple filesystem to test FUSE symlink cache
+> + *
+> + * This is a simple FUSE filesystem that contains two objects: a file na=
+med
+> + * 'file' and a symlink to that file named 'link'.  If symlink caching is
+> + * disabled (i.e. FUSE_CAP_CACHE_SYMLINKS is reset during FUSE_INIT), wh=
+enever
+> + * the ->readlink() is executed to resolve 'link' a counter will be incr=
+emented.
+> + *
+> + * If symlink caching is enabled (i.e. FUSE_CAP_CACHE_SYMLINKS is set du=
+ring
+> + * FUSE_INIT), resolving a symlink will only call into user-space the fi=
+rst
+> + * time.
+> + */
+> +
+> +#define FUSE_USE_VERSION 31
+> +
+> +#include <stdio.h>
+> +#include <fuse_lowlevel.h>
+> +
+> +#include "kselftest_harness.h"
+> +
+> +#include "fuse_common.h"
+> +
+> +#define FILENAME "file"
+> +#define FILE_INO 42
+> +
+> +#define LINKNAME "link"
+> +#define LINK_INO 43
+> +
+> +#define TIMEOUT	86400.0f
+> +
+> +struct test_state {
+> +	pthread_mutex_t lock;
+> +	int readlink_counter;
+> +	bool cache;
+> +} test_state =3D {
+> +	.lock =3D PTHREAD_MUTEX_INITIALIZER,
+> +};
+> +
+> +static void fs_init(void *userdata, struct fuse_conn_info *conn)
+> +{
+> +	pthread_mutex_lock(&test_state.lock);
+> +	if (test_state.cache)
+> +		fuse_set_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
+> +	else
+> +		fuse_unset_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
+> +	pthread_mutex_unlock(&test_state.lock);
+> +}
+> +
+> +static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *nam=
+e)
+> +{
+> +	struct fuse_entry_param e =3D {};
+> +
+> +	if (parent !=3D FUSE_ROOT_ID ||
+> +	    (strcmp(name, FILENAME) !=3D 0 && strcmp(name, LINKNAME) !=3D 0)) {
+> +		fuse_reply_err(req, ENOENT);
+> +		return;
+> +	}
+> +
+> +	if (!strcmp(name, FILENAME)) {
+> +		e.ino =3D FILE_INO;
+> +		e.attr.st_mode =3D S_IFREG | 0444;
+> +		e.attr.st_nlink =3D 2;
+> +	} else if (!strcmp(name, LINKNAME)) {
+> +		e.ino =3D LINK_INO;
+> +		e.attr.st_mode =3D S_IFLNK | 0444;
+> +		e.attr.st_nlink =3D 1;
+> +		e.attr.st_size =3D strlen(FILENAME);
+> +	}
+> +	e.attr_timeout =3D TIMEOUT;
+> +	e.entry_timeout =3D TIMEOUT;
+> +
+> +	fuse_reply_entry(req, &e);
+> +}
+> +
+> +static void fs_readlink(fuse_req_t req, fuse_ino_t ino)
+> +{
+> +	char buf[PATH_MAX];
+> +	size_t sz =3D strlen(FILENAME);
+> +
+> +	if (ino !=3D LINK_INO) {
+> +		fuse_reply_err(req, ENOENT);
+> +		return;
+> +	}
+> +
+> +	memcpy(buf, FILENAME, sz);
+> +	buf[sz] =3D '\0';
+> +	pthread_mutex_lock(&test_state.lock);
+> +	test_state.readlink_counter++;
+> +	pthread_mutex_unlock(&test_state.lock);
+> +
+> +	fuse_reply_readlink(req, buf);
+> +}
+> +
+> +static const struct fuse_lowlevel_ops fs_ops =3D {
+> +	.init           =3D fs_init,
+> +	.lookup		=3D fs_lookup,
+> +	.readlink	=3D fs_readlink,
+> +};
+> +
+> +FIXTURE(symlink_cache)
+> +{
+> +	struct fuse_common_ctx ctx;
+> +};
+> +FIXTURE_VARIANT(symlink_cache)
+> +{
+> +	const bool cache;
+> +};
+> +FIXTURE_VARIANT_ADD(symlink_cache, symlinks_nocache)
+> +{
+> +	/* Variant with symlink cache disabled */
+> +	.cache =3D false,
+> +};
+> +FIXTURE_VARIANT_ADD(symlink_cache, symlinks_cache)
+> +{
+> +	/* Variant with symlink cache enabled */
+> +	.cache =3D true,
+> +};
+> +
+> +FIXTURE_SETUP(symlink_cache)
+> +{
+> +	char err[MAX_ERR_MSG];
+> +
+> +	pthread_mutex_lock(&test_state.lock);
+> +	test_state.readlink_counter =3D 0;
+> +	test_state.cache =3D variant->cache;
+> +	pthread_mutex_unlock(&test_state.lock);
+> +
+> +	if (fs_setup(&fs_ops, &self->ctx, err))
+> +		SKIP(return, err);
+> +}
+> +
+> +FIXTURE_TEARDOWN(symlink_cache)
+> +{
+> +	fs_teardown(&self->ctx);
+> +}
+> +
+> +TEST_F(symlink_cache, test_symlink_cache)
+> +{
+> +	char pathname[PATH_MAX];
+> +	char buf[PATH_MAX];
+> +	ssize_t sz;
+> +	int counter;
+> +	int i;
+> +
+> +	sprintf(pathname, "%s/%s", self->ctx.mountpoint, LINKNAME);
+> +	for (i =3D 0; i < 100; i++) {
+> +		sz =3D readlink(pathname, buf, PATH_MAX);
+> +		ASSERT_NE(sz, -1);
+> +	}
+> +	pthread_mutex_lock(&test_state.lock);
+> +	counter =3D test_state.readlink_counter;
+> +	pthread_mutex_unlock(&test_state.lock);
+> +
+> +	if (variant->cache) {
+> +		ASSERT_EQ(counter, 1);
+> +	} else {
+> +		ASSERT_EQ(counter, 100);
+> +	}
+> +}
+> +
+> +TEST_HARNESS_MAIN
 >
->  	print_smaps_rollup_stats("Expected stats:", self, expected);
-> @@ -759,7 +756,7 @@ FIXTURE_SETUP(proc_maps_race)
->
->  		for (i = 0; i < mod_info->vma_count; i++) {
->  			mod_info->child_mapped_addr[i] = mmap(NULL, self->page_size * 3, prot,
-> -					MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-> +					MAP_PRIVATE | MAP_ANONYMOUS | MAP_POPULATE, -1, 0);
->  			ASSERT_NE(mod_info->child_mapped_addr[i], MAP_FAILED);
->  			/* change protection in adjacent maps to prevent merging */
->  			prot ^= PROT_WRITE;
->
-> base-commit: 39274b454e9993cea319f4ac342a8082a9ee1730
-> --
-> 2.56.0.307.g5fe7bd680c-goog
+> base-commit: 9b1da7b4a4e197072e630c3b85d4100a399752ff
+> --=20
+> 2.53.0
 >
 
---
-Cheers, Lorenzo
