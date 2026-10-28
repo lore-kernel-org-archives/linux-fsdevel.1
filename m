@@ -1,100 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.52
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793157611;
-	b=PtxfFeP0J/W0zksaogsF7qOMEh1ZRT6cXlctKqhnRysSD+IbpYrmHizSSAnTPO1YmzYQ
-	 UIGJ8+1DIhopKkbnBpL0GfwCaDScXB7QPjqtS8uDuuGHI5nxZHhxoyrgfrdwEu7Ujh9yi
-	 oSgTnZAL+cjh9K2DqJBoDQ49f0FjmCwYbm+IcPgEUAt8BgaJMpEqkMhq43dTx54FDygVj
-	 qD5wgiIqPrsgstEUGhVo45OqTTdHdRwLRfIt9KV37vwiOEtpxCPRtu9UX1Hhv6XIizzYt
-	 95H+OlAhdxC8kzXUftI1oFas1n7/bvOr7m/+R/Nyf+TyvaHnVL+iLgiatr4FI/dhZZw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793157611;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=IlW3sbRfbQa5BDCsviDrc2b7tFYlCtnVo7OvnV70WYk=;
-	b=IbZji2xIY8H4KSXZnXdBMtRvXyOodzgDHOVYdiY1Y2MgK4/cq5Pb7Pugyl96U5bftwd+
-	 lQbQba3F+mxfyPLhOKzq2CBHHPxQQOf8e0qg5/jlefVROurhTZacWYAaReDuIjGgPw7/t
-	 nOTDsXTHOlvh8csusFKJjoNpsB79ukR+j4vHczANILvxHGJfK1zj/iZvg868VeuykfQdb
-	 Ykr0ifGhWP71J8hAnyEWBdQ+kpr3Y8vTfhD/xKkvK6uDxT/4aEZiCsKqCy8xgWgNKT6KI
-	 NrLwxTXlZfJMs4YrL5w0DNK65Gft54lwncAeTUw7ouLcFZBeNt1qIzICqRBo7JV79FA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DbidY0KS;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.52
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=43.163.128.54
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793158145;
+	b=DGqkXoNKTIHoFvaX8H7lxgz97En8oESCqv6OF1tfHVhaZDbrfhw6S7akDnC+fBmPYdrT
+	 eIJV7K/timQ2z6RRzXcrUyzJa4ioWWOtetzxBkarZ/1XWPra07TgbsMAz7cAhmIR2/goa
+	 UwZJwVjzl/aM0DmHUyO53TTlOcoY5KI7kpFVRN2NEiEzIEQy7Aj3F97yAfQv8lzeclSCb
+	 mj24w2SyQK5npCD649QtAxuF0SGLoUh2vTEStIPgAakEB5nWyrt+9tn8x4KM2dC3zB1p2
+	 HRyTQJxZK6nTgsVtBe6pH3WnGDko+Lq/Aeqd2APtMvcwAdI4F9n2O4LRK61y1XsfUYA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793158145;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=VrZ0m8QHDacZrqzDgxCpcv/7YLv5jV5PmL4thK5aFqw=;
+	b=bkszxjbqbwPEG8JabWB/oahelm0Grk7ENhhjMM2gDkFR5VvOPtGNdNTTUwEIMZYNfk1X
+	 lTU2XUcakSLdrNHdwwtOUhBHEKtG49vQVCuOVqR3a3cvi7TRGmTsnppnMrgtRMVeHEFuA
+	 eXzuVhZPKtgXHfDWgg2GGyMa6D3YT5n/hcON6A6UeIAA9ker/O32mpiDXlK36CmFUz39j
+	 2ql7hOkAZPOQqMDK5yP0+n3KC3NZFJoprsvZ/aFoJtNKM4UoXa0Em/JarAv5EQEPn1NfV
+	 /i606Vahum0fZphsjP5Z4WTyWLaZqWp+AWZDwDS2BUVKm8VNKXlZAhdiTwB43aL06vw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=bpQVS6Q6;
+	arc=none smtp.remote-ip=43.163.128.54
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.54])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1409606A31A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 03:20:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1409606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1457606A31D;
+	Wed, 28 Oct 2026 03:29:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1457606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DbidY0KS
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c46bd7a7345so88082266b.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 27 Oct 2026 20:20:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793157609; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HTKrgXVSZ3aaRC5+u2ILVHAEVyFbGNXNaiaYP/WEqYWr8sjMtDAgSV5TyAUsHA4MyC
-         fIwxat7YPlXgOhmMvTQwpfZjqnHkeLJp0y044e/WdRPScYxzai4o7NT8idq9Tcc9Xp86
-         CrWU41qwV2EGy8Q5G1q/Y0r/M2umvCKvVEeWg1KA4epoiyhIgrvnzyOoozL8prg+LWwo
-         WPLGEHXLUTZwTi2gZsLLnlfY0jObtOV39sjjIJjingnBDKdAJ5k/vpUwZA+Pj2aBrrU7
-         FQctFapt8J98ZAL+zszUG9quNsA1GXOswfG7MDA08SBllBrtFRNb7nhRjuymORo6L8tz
-         jz5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IlW3sbRfbQa5BDCsviDrc2b7tFYlCtnVo7OvnV70WYk=;
-        fh=agm4w98TxA85hT+qM4ki0/bU+DijfC4BsNN3wB5ZNBg=;
-        b=rvguPL/V+kIFeohf8fDONQgIlLTzvYqV5YTR4K0m9gkLHRQfe87NnbveRa5yspzrpf
-         yu8jDxeJwhN6TCrY0fa/Zr9mlezpJIiDremTUDZS6OfQKMDSU1L7V/t0yL7sJC1gHc9K
-         LoairgTLvkAq6sXG95cu51lWat6IJFypSHXTCjouZjc0napLB/51sTyJt2i6CRP8eP/F
-         1fhWUai5RTYNweKgfqQou7emvnTZlPKodT8xQ7pEtotTjnfxvnPoLhVG1sgUVyFuXmSD
-         G/6m9XtKGU5v7JBN6iIDT0l8kPJ6+8LmIFGQ45JSKsDsTmb0uwh6xcM9OHmD5LmwO8WQ
-         vUXw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793157609; x=1793762409; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=IlW3sbRfbQa5BDCsviDrc2b7tFYlCtnVo7OvnV70WYk=;
-        b=DbidY0KSSesHykxC9tB5IryAiyl3hwt3IPK1XW3bKHL/a2bQ880oxD0RklguqIkRoQ
-         eD5hgIjniGszQq8EgzUQy8K3EKAAlnwOccWJ0iFcmbX4ijof0mx0H0+FaFIdnotD/86l
-         LSipHYawoMnY0SPxyz21mmGQZ0xYQNWw3p/t2T+Trh5i9es3NaiHDhHaUJWIp9GOAqI/
-         fpv2PVi6HeNngXkoId/iYvOX3pytDkuJzEHKCxrIBmCT6GN/g8fmVEaqPtkSGwsyZk9x
-         VQI/NH2cZ+iff0MQU5yX1EGf+CVgru+W94IkOmib80kW5csjmbjveCqwdEUaKmwJPD8B
-         Q0Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793157609; x=1793762409;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IlW3sbRfbQa5BDCsviDrc2b7tFYlCtnVo7OvnV70WYk=;
-        b=do2CKz7Jz7QNgRZfXAFVdDPAfuXzVTNvchtzjCBXv4rpguTjV6NTWb6Mipazvnd9jl
-         EICx7rWOO7ObjshpVq2asbMzsFdlhAChQ52dOV968R94gbwWWAds72cWljCvwjk1iV0P
-         C9qkYSbO/epBVpPtN/jUy4XYUn0VtJHpuOiWGpSOLgre9it/qj9MEe0E00IMMbIg6wG1
-         FNg7cjUx/l1p8vWaA75AIUPqfmUgal4j5sxJvc+km1xQJxCTnK3jYfkWaLcTwk9r/HNk
-         Kfrax5nILd7r8pKIIbb9+/PuO0XGE9UjjBVVd0COOc9Stae74jQRkYUkqYjJVu8xqOBu
-         Sf2w==
-X-Forwarded-Encrypted: i=1; AKwUvBz/xwI2stYFpOj5Ss5ca1x0hCSeE+8IVHciKl2FRfgC/l9My1a6nDAoNtnvSvM6nfPLBE320G39iCl8lYi7@vger.kernel.org
-X-Gm-Message-State: AFq9FYKlBYOyBdq6JblAYLE49MyG4ERhjXagcrQ+IryJxJ0s8Yc1getq
-	teqjlFd4E6LyNP77fOaIv2a0lmgztf3mZzYMUmaLFqf0HFTAZgmJbNZHqeCPhSRfb3KyZyTDGKk
-	1drOFOjVXBkv+ktjKg2BD+7k4kpxto+8=
-X-Gm-Gg: AYBFou3o1zJpUeZZksq1ZSr1EizZiSLGqpFuD2Fv+9ZS+/P/3rkfi++voQtH/aUisJU
-	wT3/cXQwYyx+XIKDY9iiPMLkUVO6yUmsqd33VClCusKuHzuTNUx5/QSdN1MlI1YpvVS25j2Fybf
-	9evXgPYfFyU1mBVepDAG3E24+J8Eg/tBPOk2LNVUYl+LTDnFUrn7RV7b27PRsvYNHyTgVBWw/X6
-	17bU1004jAj2jmrFcC8YtNwJKPaMoNvG4s5NCZy8JGQIqWA7rQ3poT3gDTfTbg6htH3aZrNCzcp
-	5cQOpXZv+B3NZeEtb2iGhjppj39SnDage2fW3wdEzaktSi0u6wPTxqYR0hilGgorpX3SP2AccH0
-	QnpMiUHtbSlrVhEer0HXwY1uO6RzZNPaT1jPL2hEXpltpjkubF0r/4Hq/XyD59lLBLd0=
-X-Received: by 2002:a17:906:3ad4:b0:c49:b6db:1 with SMTP id
- a640c23a62f3a-c49b6db02ddmr174196966b.12.1793157608781; Tue, 27 Oct 2026
- 20:20:08 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=bpQVS6Q6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793158135; bh=VrZ0m8QHDacZrqzDgxCpcv/7YLv5jV5PmL4thK5aFqw=;
+	h=From:To:Cc:Subject:Date;
+	b=bpQVS6Q6C35LsYYwSoO32YBBIArdyX1+qedXE8IHsVE4J8t9lIw2UeoGLXQ875CLS
+	 MPl4gSUFhR4kXTSUsBIKf7bYOX8XZ0yEuDFSjp7jXWJHXjm9S312byXzOjgF6R5n5U
+	 OWaqOqbtVfvpZ3rNUUbWkdNvRHPG09CefcaLTVyg=
+Received: from localhost.localdomain ([36.129.27.111])
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id 73486AB6; Wed, 28 Oct 2026 11:28:52 +0800
+X-QQ-mid: xmsmtpt1793158132tadwnjs7z
+Message-ID: <tencent_056A9EE408796550EF0B9739470910E62F08@qq.com>
+X-QQ-XMAILINFO: Nc9yw6Uiw6QHeIinfqnFVyyqj6+n9bHg4FcfJ9IIJ5OSVUKdT3XXJ6A40EmU41
+	 njhi2RVBmuKJhm8MIVsvpAVrOCicbKkwKusBAwOvqfma3jaCQVEYRuS3AT81d8kHJEUpFwd6+Jk3
+	 F8SuZ98QwIW8Z9H2gasyXHsbkRZ4spySUPgBNMiUwPUKPXXMSI2NiAL+CeTr0zemKQqmJWsLlC00
+	 yTMlVFSGR1ajXmNq4f00u2FqOrwHFWVI0C+rHvXllPu6mSGvQCfooxD2f4e45/QVryiBUkCHpgzf
+	 vO9WfFAJm4c0ykKQG5mFvryVs0SplK5D1MJfDZpb8jRyXd0tfWtW7QLAU8lG6unpSopSl5HhJHyL
+	 5pJKH4xVr+pCA51euCF4xYtMZpy88eGWQxrrBeOieXL8KmJCzq15qTU4B86g2goGS2Somg5UVQaZ
+	 6lYUdByOTZAHt5uN3hzR3lWXiX+jeHnjPtwt9Q+cHzxci4siUv2AIyOPDtgiafY0lXmCkekODqzb
+	 E+Q+7qSEY+VrQPec1ARG5Tp+p2JCFB72l5jOwVmhlY5KCChmIwriFTVvLoBc0zD9r6ylvs3gsdCZ
+	 6imHyeXCMsHmHH5RKt36HO67kXwT+umKK9OLWWXqzvCljQ2bosz3eOI4fIQWR9S24FcQWXNHg2/l
+	 YivlK2ntVGwQBqAbQbMJTs9j9/mm094CDwDmjIBvh7jZ8tG2OvLnRxXRtJZSDxHbpGoUBt6Z/2lj
+	 VUPYgyEmklLCjxiv3dT4O+kaTME5QymPBGTCIx8Rsm8jypVBu1jkbjzCmOFwC1HHGc0xywCuf6YH
+	 iEc1LUUP+hyzDqra8R75rY40K4jb8O13XJlk6djdJ87d8oM6vTHSwg5hXjovwhfRq0wVOtRBzlW6
+	 w38V6gP0pBYvBYIckCEAkOJ0T22Qewl9XulVwxJm1PZ9KFSFUem3QX0q8KC9ny4YYaU8ux4f1eyk
+	 8dWXTjF/+NruCqIs8CmpIh9PTun82p1gft9QqIDdpAhnzNZ/+/yL+uke9jqwmiHpNwdJo47cE5+H
+	 kTJHNDFbkbZQk14busQtVywE0Y3RyneMw8YXQhpA==
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: Lei Qiu <750592120@qq.com>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org
+Cc: jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lei Qiu <750592120@qq.com>
+Subject: [PATCH] fs/libfs: add blank lines after declarations
+Date: Wed, 28 Oct 2026 11:28:49 +0800
+X-OQ-MSGID: <20261028032849.17016-1-750592120@qq.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,249 +79,77 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261027191956.5015-1-dennylin0707@gmail.com>
-In-Reply-To: <20261027191956.5015-1-dennylin0707@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 28 Oct 2026 05:19:56 +0200
-X-Gm-Features: AclHuK-ZfIU4l3o76d_VTcnwYKDoWygY_9K-wJziUj252ZBCgA9Rcogr0PAJ7tg
-Message-ID: <CAOQ4uxiTkddm9SuWeg1PnWjmTMeycuC9L=bgK5rLkvmoWwcFTA@mail.gmail.com>
-Subject: Re: [PATCH] inotify13: check rename cookie pairing after adjacent moves
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: ltp@lists.linux.it, jack@suse.cz, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 27, 2026 at 9:20=E2=80=AFPM Hungyu Lin <dennylin0707@gmail.com>=
- wrote:
->
-> Queue an unpaired IN_MOVED_FROM event, followed by an IN_MOVED_FROM and
-> IN_MOVED_TO pair with the same source watch descriptor and name as the
-> first event. Watch only IN_MOVE so creation of the replacement entry
-> does not separate the two IN_MOVED_FROM events in the queue.
->
-> Affected kernels coalesce the second IN_MOVED_FROM into the first,
-> leaving the IN_MOVED_TO cookie without a matching IN_MOVED_FROM cookie.
-> Check that all three events are retained, the two moves have distinct
-> cookies, and the second IN_MOVED_FROM matches the IN_MOVED_TO cookie.
-> Cover both regular files and directories.
->
-> Suggested-by: Amir Goldstein <amir73il@gmail.com>
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
-> ---
+Add a blank line between the declarations and the following statement in seven places, as reported by checkpatch.pl (WARNING: Missing a blank line after declarations).
 
-Thanks for following up on this
+No functional changes.
 
->  runtest/syscalls                              |   1 +
->  testcases/kernel/syscalls/inotify/.gitignore  |   1 +
->  testcases/kernel/syscalls/inotify/inotify13.c | 147 ++++++++++++++++++
->  3 files changed, 149 insertions(+)
->  create mode 100644 testcases/kernel/syscalls/inotify/inotify13.c
->
-> diff --git a/runtest/syscalls b/runtest/syscalls
-> index 2bdb4a9..e578bd9 100644
-> --- a/runtest/syscalls
-> +++ b/runtest/syscalls
-> @@ -677,6 +677,7 @@ inotify09 inotify09
->  inotify10 inotify10
->  inotify11 inotify11
->  inotify12 inotify12
-> +inotify13 inotify13
->
->  fanotify01 fanotify01
->  fanotify02 fanotify02
-> diff --git a/testcases/kernel/syscalls/inotify/.gitignore b/testcases/ker=
-nel/syscalls/inotify/.gitignore
-> index f6e5c54..b597ea6 100644
-> --- a/testcases/kernel/syscalls/inotify/.gitignore
-> +++ b/testcases/kernel/syscalls/inotify/.gitignore
-> @@ -10,3 +10,4 @@
->  /inotify10
->  /inotify11
->  /inotify12
-> +/inotify13
-> diff --git a/testcases/kernel/syscalls/inotify/inotify13.c b/testcases/ke=
-rnel/syscalls/inotify/inotify13.c
-> new file mode 100644
-> index 0000000..4b172ba
-> --- /dev/null
-> +++ b/testcases/kernel/syscalls/inotify/inotify13.c
-> @@ -0,0 +1,147 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (c) 2026 Hungyu Lin <dennylin0707@gmail.com>
-> + */
-> +
-> +/*\
-> + * Verify that coalescing does not lose an IN_MOVED_FROM event needed to
-> + * match a later IN_MOVED_TO event by its rename cookie.
-> + *
-> + * Move an entry from a watched directory to an unwatched directory, rec=
-reate
-> + * it under the same name, then move it to another watched directory. Wa=
-tch
-> + * only move events so the two IN_MOVED_FROM events are adjacent in the =
-queue.
-> + * Their cookies must differ, and the second must match the IN_MOVED_TO =
-cookie.
-> + * Test both regular files and directories without reading between renam=
-es.
-> + */
-> +
-> +#include "config.h"
-> +#include <fcntl.h>
-> +#include <string.h>
-> +#include "tst_test.h"
-> +#include "inotify.h"
-> +
-> +#ifdef HAVE_SYS_INOTIFY_H
-> +#include <sys/inotify.h>
-> +
-> +#define SOURCE "source/entry"
-> +#define SAVED "unwatched/entry"
-> +#define TARGET "target/entry"
-> +
-> +static int fd_notify =3D -1;
-> +
-> +static void create_entry(int directory)
-> +{
-> +       if (directory)
-> +               SAFE_MKDIR(SOURCE, 0700);
-> +       else
-> +               SAFE_TOUCH(SOURCE, 0600, NULL);
-> +}
-> +
-> +static void verify_inotify(unsigned int directory)
-> +{
-> +       union {
-> +               struct inotify_event align;
-> +               char data[4096];
-> +       } buf;
-> +       struct inotify_event *event, *events[3];
-> +       unsigned int count =3D 0;
-> +       size_t pos =3D 0, len;
-> +       unsigned int from =3D IN_MOVED_FROM, to =3D IN_MOVED_TO;
-> +       int wd_source, wd_target;
-> +       const char *type =3D directory ? "directory" : "file";
-> +
-> +       if (directory) {
-> +               from |=3D IN_ISDIR;
-> +               to |=3D IN_ISDIR;
-> +       }
-> +
-> +       fd_notify =3D SAFE_MYINOTIFY_INIT1(O_NONBLOCK);
-> +       wd_source =3D SAFE_MYINOTIFY_ADD_WATCH(fd_notify, "source", IN_MO=
-VE);
-> +       wd_target =3D SAFE_MYINOTIFY_ADD_WATCH(fd_notify, "target", IN_MO=
-VE);
-> +
-> +       create_entry(directory);
-> +       SAFE_RENAME(SOURCE, SAVED);
-> +       create_entry(directory);
-> +       SAFE_RENAME(SOURCE, TARGET);
-> +
-> +       len =3D SAFE_READ(SAFE_READ_ANY, fd_notify, buf.data, sizeof(buf.=
-data));
-> +       SAFE_CLOSE(fd_notify);
-> +       fd_notify =3D -1;
-> +
-> +       if (directory) {
-> +               SAFE_RMDIR(SAVED);
-> +               SAFE_RMDIR(TARGET);
-> +       } else {
-> +               SAFE_UNLINK(SAVED);
-> +               SAFE_UNLINK(TARGET);
-> +       }
+Signed-off-by: Lei Qiu <750592120@qq.com>
+---
+ fs/libfs.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-not strictly needed for tmpdir setup
+diff --git a/fs/libfs.c b/fs/libfs.c
+index 8e2cc627b..578cdb688 100644
+--- a/fs/libfs.c
++++ b/fs/libfs.c
+@@ -34,6 +34,7 @@ int simple_getattr(const struct mnt_idmap *idmap, const struct path *path,
+ 		   unsigned int query_flags)
+ {
+ 	struct inode *inode = d_inode(path->dentry);
++
+ 	generic_fillattr(&nop_mnt_idmap, request_mask, inode, stat);
+ 	stat->blocks = inode->i_mapping->nrpages << (PAGE_SHIFT - 9);
+ 	return 0;
+@@ -114,6 +115,7 @@ static struct dentry *scan_positives(struct dentry *cursor,
+ 	spin_lock(&dentry->d_lock);
+ 	while (*p) {
+ 		struct dentry *d = hlist_entry(*p, struct dentry, d_sib);
++
+ 		p = &d->d_sib.next;
+ 		// we must at least skip cursors, to avoid livelocks
+ 		if (d->d_flags & DCACHE_DENTRY_CURSOR)
+@@ -145,6 +147,7 @@ static struct dentry *scan_positives(struct dentry *cursor,
+ loff_t dcache_dir_lseek(struct file *file, loff_t offset, int whence)
+ {
+ 	struct dentry *dentry = file->f_path.dentry;
++
+ 	switch (whence) {
+ 		case 1:
+ 			offset += file->f_pos;
+@@ -599,6 +602,7 @@ static void __simple_recursive_removal(struct dentry *dentry,
+ 			      bool locked)
+ {
+ 	struct dentry *this = dget(dentry);
++
+ 	while (true) {
+ 		struct dentry *victim = NULL, *child;
+ 		struct inode *inode = this->d_inode;
+@@ -1096,6 +1100,7 @@ static DEFINE_SPINLOCK(pin_fs_lock);
+ int simple_pin_fs(struct file_system_type *type, struct vfsmount **mount, int *count)
+ {
+ 	struct vfsmount *mnt = NULL;
++
+ 	spin_lock(&pin_fs_lock);
+ 	if (unlikely(!*mount)) {
+ 		spin_unlock(&pin_fs_lock);
+@@ -1117,6 +1122,7 @@ EXPORT_SYMBOL(simple_pin_fs);
+ void simple_release_fs(struct vfsmount **mount, int *count)
+ {
+ 	struct vfsmount *mnt;
++
+ 	spin_lock(&pin_fs_lock);
+ 	mnt = *mount;
+ 	if (!--*count)
+@@ -1365,6 +1371,7 @@ ssize_t simple_attr_read(struct file *file, char __user *buf,
+ 	} else {
+ 		/* first read */
+ 		u64 val;
++
+ 		ret = attr->get(attr->data, &val);
+ 		if (ret)
+ 			goto out;
+-- 
+2.43.0
 
-> +
-> +       while (pos < len) {
-> +               if (len - pos < sizeof(*event))
-> +                       tst_brk(TBROK, "Incomplete inotify event");
-> +
-> +               event =3D (struct inotify_event *)(buf.data + pos);
-> +               if (event->len > len - pos - sizeof(*event))
-> +                       tst_brk(TBROK, "Incomplete inotify event name");
-> +
-> +               tst_res(TINFO, "%s: wd=3D%d mask=3D%#x cookie=3D%u name=
-=3D%.*s",
-> +                       type, event->wd, event->mask, event->cookie,
-> +                       (int)event->len, event->name);
-> +               if (event->len < sizeof("entry") ||
-> +                   memcmp(event->name, "entry", sizeof("entry"))) {
-> +                       tst_res(TFAIL, "%s: unexpected rename event name"=
-, type);
-> +                       return;
-> +               }
-> +               if (count < ARRAY_SIZE(events))
-> +                       events[count] =3D event;
-> +               count++;
-> +               pos +=3D sizeof(*event) + event->len;
-> +       }
-> +
-> +       if (count !=3D ARRAY_SIZE(events)) {
-> +               tst_res(TFAIL, "%s: expected two FROM events and one TO, =
-got %u",
-> +                       type, count);
-> +               return;
-> +       }
-> +
-> +       if (events[0]->wd !=3D wd_source || events[0]->mask !=3D from ||
-> +           events[1]->wd !=3D wd_source || events[1]->mask !=3D from ||
-> +           events[2]->wd !=3D wd_target || events[2]->mask !=3D to) {
-> +               tst_res(TFAIL, "%s: unexpected rename event sequence", ty=
-pe);
-> +               return;
-> +       }
-
-Most tests use the pattern of preparing an expected event_set[] array
-sometimes interleaved with generating the events.
-
-I find this existing pattern more readable, but if there is a reason not to
-follow existing practice, I can live with the above pattern.
-
-Existing tests are also more verbose in the specific unexpected detail.
-
-Thanks,
-Amir.
-
-> +
-> +       if (events[0]->cookie =3D=3D events[1]->cookie ||
-> +           events[1]->cookie !=3D events[2]->cookie) {
-> +               tst_res(TFAIL, "%s: rename cookies do not identify the la=
-ter pair",
-> +                       type);
-> +               return;
-> +       }
-> +
-> +       tst_res(TPASS, "%s: second FROM cookie matches the TO cookie", ty=
-pe);
-> +}
-> +
-> +static void setup(void)
-> +{
-> +       SAFE_MKDIR("source", 0700);
-> +       SAFE_MKDIR("unwatched", 0700);
-> +       SAFE_MKDIR("target", 0700);
-> +}
-> +
-> +static void cleanup(void)
-> +{
-> +       if (fd_notify >=3D 0)
-> +               SAFE_CLOSE(fd_notify);
-> +}
-> +
-> +static struct tst_test test =3D {
-> +       .test =3D verify_inotify,
-> +       .tcnt =3D 2,
-> +       .setup =3D setup,
-> +       .cleanup =3D cleanup,
-> +       .needs_tmpdir =3D 1,
-> +};
-> +
-> +#else
-> +TST_TEST_TCONF("system doesn't have required inotify support");
-> +#endif
-> --
-> 2.43.0
->
