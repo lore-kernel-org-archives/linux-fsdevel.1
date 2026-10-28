@@ -1,60 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.102
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793205502;
-	b=q9IU1jG3/3LcjNnUXaBHwtRCfnl9n4ZKuoTtw3sCgp2rsrcZF30CBQDqAIKgFRsqwInf
-	 hEu1AUp0+984Bg1AmJrJppUlC9BvKUjMfV7tpuc6H7F/7PqoExrjgcdakqlF4hJfrsyOj
-	 NWKY8Q+iDiC54JhuVsWN2Eq9kdpmxx9dEKLdb2sBbMb/nk9o3jnMWJrG0S0V0LXj6jB9B
-	 cUMEt9CsJU60YZRvIHPgGe5Dm1N3ePnZZqcKFjyRO0lnHgwGkb0jPgj8BSePEANjvYPqU
-	 eb7bqwyw0hbHwn0z1LgcJil6c5Rrk0RG90j1ev7kmS/k3iwLEVXeHO2+5N9kA2X3KZw==
+	t=1793205507;
+	b=H/xMqKCZlHDv1vvDuGBGvf7YkY0gbvnvduAEPpKeZQZHUtAVdnq7K8QlDZb7t3N2KQin
+	 0zWBSeMf2+OtRtD3VKBT1OQ1gVcmyMim1QfJQyjrTk9GHV7hprT2MV2WCmo0XjORPIIew
+	 uIr3AUHV2YpmawD2BBly/PURWY5c+lkMaH7IkS8AHNZmWiuPGKF74cgMctrKKcO+6KF41
+	 Y14ptoNyMyHcNGRENhtUKuZfmQH+CsRi2RWbnjUeb9uKdQweONh0bn//stAuHWRyIL+PZ
+	 Ev789HA2o3cIEGQMptGJEFcHUELc6jriyiwciB1Ig2DdGIjjoi2FoyWmyDOfkahhbLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793205502;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793205507;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=QGArUT0tYGqT6YpydoYlJ3J+4QE7Uvu2XIwCsSd8nE4=;
-	b=Ts4QB0ddg+RHRNLW66+S28wGW983VwtNPgt0vaPUsM74H6YkPpjknfBw4+JfYJ8iUfIm
-	 5andqbmjnTNHzhZUdw4UA3nb/bVwAmTzkg81W0EgYQX/k8tB0aai6f/H6+fHJqYOA5rRD
-	 Q1OAstiUDw9bTRYKT0+e0PWcxG0KLr2ozgUg7T1R3bxgEGQiVZ2PB+1p2C94ytbNR0Irv
-	 jwgYmqimGex1UJKsOw6nbGgpt6oVIeBmFwUgoa5wxkuREIQE2ymuR9biCYlf/QeVa7B7y
-	 Y+1wo6e0GiYg7ttVcg7uxV3+g4lWLhrKL97AcvzbHLlqysGDoqmJDRR700OjhIjTx6Q==
+	bh=UR+r9FlzPsFPVtY8AORq1NV2Ubx3UGLO4YtlHVqa3K0=;
+	b=AZX7LdfPxghu3/M8TH8K4R6dckw2VbrwpnFbT4cdtY8pDOEqkvLdd1NfElCjacydaaHF
+	 xkPebEkmnUuDnkEH/G9iT7i0KssQ82Jxbpbba3kdVyLpRStRJwt20KTOsh37sThmzIOMZ
+	 iZt9x3Lti+Q3EkjZ+swkuZrZmRaWWoqorELrUYS4dT6XjiIumycSlTQdozcoGWKugTMts
+	 VjTMC7aEnD3szG0UoBaTUkbSPUNSaOa5n7+WmmP7G+vXOmtTxif4xbGvMT0IMjxtpvK7E
+	 2mCauDgvi6nYu2kEtfwQqsV3jYQKqxrri/dySFxTj+85/4c11hCdLWzAV6UhR0xraiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qNJSLDz6;
-	arc=none smtp.remote-ip=91.218.175.70
-Received: from mta0.migadu.com (out-70.mta0.migadu.com [91.218.175.70])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="Q/FLiHeS";
+	arc=none smtp.remote-ip=95.215.58.102
+Received: from mta1.migadu.com (out-102.mta1.migadu.com [95.215.58.102])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F57606A31F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:38:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31F57606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAAB860A5BD7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:38:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAAB860A5BD7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qNJSLDz6
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Q/FLiHeS
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=27zSEHPuQERMClX+jU67GXwkoLuufAbqKoD2Al414wI=;
+DKIM-Signature: a=rsa-sha256; bh=LYBNUReCCUDUaeqdplvNuxhjvq9OJQtMc2jcLJ4HIDU=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793205500; v=1; x=1793810300;
- b=qNJSLDz655jCfhUG36dzGU1EGoTewfamDF3lHinCYTMM9fCxjzVl0RknX6uA3ZP6I4fn04Lb
- FdhrJ4yMDqqWgQvJu5MA3zEqB8eDUhf877PXGe1ygw4h49sWEVA6jD76B73kdZdXe+KYSVGQZgN
- Qdln1pXRzAhnub12XGtL7mQw=
+ t=1793205505; v=1; x=1793810305;
+ b=Q/FLiHeSYscSQ/MuA5zaVvmj1klcpRRSvqRWSmX65b8+qW6/YTbsxM0pbLgwZyNbbeu6epXZ
+ AMXMdckfChTBeHzmRe9FJki5bhqdHoTOn8zDf8OfNh1RFCWSfj52l3oHLEOKCjtAOXuNTOnJokq
+ vOXaktJq3YuVPquXq73l2Lsw=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 907abfd7274dda42;
-	Wed, 28 Oct 2026 16:38:20 +0000
-X-Mizu-Trace-ID: 907abfd7274dda42
+Received: by mta11.migadu.com with ESMTPS id 12a88832c338d040;
+	Wed, 28 Oct 2026 16:38:25 +0000
+X-Mizu-Trace-ID: 12a88832c338d040
 X-Migadu-Flow: FLOW_OUT
 From: wen.yang@linux.dev
 To: Joel Granados <joel.granados@kernel.org>
 Cc: Wen Yang <wen.yang@linux.dev>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 30/39] net: resolve sysctl owners from their backing data
-Date: Thu, 29 Oct 2026 00:35:09 +0800
-Message-Id: <6fa0af34670abb09406ad3703e893b5757380cbc.1793204511.git.wen.yang@linux.dev>
+Subject: [RFC PATCH 31/39] ipvs: derive sysctl ownership from numeric storage
+Date: Thu, 29 Oct 2026 00:35:10 +0800
+Message-Id: <36ed716eb067114083b25e360443624ad2a63261.1793204511.git.wen.yang@linux.dev>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1793204511.git.wen.yang@linux.dev>
 References: <cover.1793204511.git.wen.yang@linux.dev>
@@ -71,251 +71,291 @@ Content-Transfer-Encoding: 8bit
 
 From: Wen Yang <wen.yang@linux.dev>
 
-Derive network owners from backing storage and remove extra-pointer use.
+Derive IPVS ownership from each sysctl field instead of extra pointers.
 
 Suggested-by: Joel Granados <joel.granados@kernel.org>
 Signed-off-by: Wen Yang <wen.yang@linux.dev>
 ---
- drivers/net/vrf.c  | 20 +++++++------------
- net/ipv4/route.c   |  8 ++++----
- net/ipv6/ndisc.c   |  3 ++-
- net/ipv6/route.c   | 11 ++++++-----
- net/mpls/af_mpls.c | 49 ++++++++++++++++------------------------------
- 5 files changed, 36 insertions(+), 55 deletions(-)
+ net/netfilter/ipvs/ip_vs_ctl.c | 156 +++++++++++++++++++--------------
+ 1 file changed, 88 insertions(+), 68 deletions(-)
 
-diff --git a/drivers/net/vrf.c b/drivers/net/vrf.c
-index 79d433f49f80..993cc2d120fd 100644
---- a/drivers/net/vrf.c
-+++ b/drivers/net/vrf.c
-@@ -1826,22 +1826,17 @@ static int vrf_strict_mode_change(struct vrf_map *vmap, bool new_mode)
- static int vrf_shared_table_handler(const struct ctl_table *table, int write,
- 				    void *buffer, size_t *lenp, loff_t *ppos)
+diff --git a/net/netfilter/ipvs/ip_vs_ctl.c b/net/netfilter/ipvs/ip_vs_ctl.c
+index 6c29a901d139..ed8e641da2ae 100644
+--- a/net/netfilter/ipvs/ip_vs_ctl.c
++++ b/net/netfilter/ipvs/ip_vs_ctl.c
+@@ -16,7 +16,6 @@
+ #define pr_fmt(fmt) "IPVS: " fmt
+ 
+ #include <linux/module.h>
+-#include <linux/limits.h>
+ #include <linux/init.h>
+ #include <linux/types.h>
+ #include <linux/capability.h>
+@@ -2375,6 +2374,8 @@ proc_do_conn_max(const struct ctl_table *table, int write,
+ 		 void *buffer, size_t *lenp, loff_t *ppos)
  {
--	struct net *net = (struct net *)table->extra1;
-+	struct net *net = table->data;
- 	struct vrf_map *vmap = netns_vrf_map(net);
- 	int proc_strict_mode = 0;
--	struct ctl_table tmp = {
--		.procname	= table->procname,
--		.data		= &proc_strict_mode,
--		.maxlen		= sizeof(int),
--		.mode		= table->mode,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
+ 	int *valp = table->data;
++	struct netns_ipvs *ipvs = container_of(valp, struct netns_ipvs,
++					    sysctl_conn_max);
+ 	/* We can not use *valp to check if new value is provided, use INT_MIN
+ 	 * for this because different admins change different limits.
+ 	 */
+@@ -2382,14 +2383,13 @@ proc_do_conn_max(const struct ctl_table *table, int write,
+ 	int val = write ? unset : READ_ONCE(*valp);
+ 	int rc;
+ 
+-	const struct ctl_table tmp = {
+-		.data = &val,
+-		.maxlen = sizeof(int),
 -	};
 +	struct ctl_table tmp = *table;
++
++	tmp.data = &val;
++	tmp.maxlen = sizeof(val);
+ 
+ 	rc = proc_dointvec(&tmp, write, buffer, lenp, ppos);
+ 	if (write && !rc && val != unset) {
+-		struct netns_ipvs *ipvs = table->extra2;
+ 		bool priv = capable(CAP_NET_ADMIN);
+ 		int max;
+ 
+@@ -2410,19 +2410,17 @@ proc_do_conn_max(const struct ctl_table *table, int write,
+ }
+ 
+ static int
+-proc_do_defense_mode(const struct ctl_table *table, int write,
+-		     void *buffer, size_t *lenp, loff_t *ppos)
++proc_do_defense_mode(struct netns_ipvs *ipvs, const struct ctl_table *table,
++		     int write, void *buffer, size_t *lenp, loff_t *ppos)
+ {
+-	struct netns_ipvs *ipvs = table->extra2;
+ 	int *valp = table->data;
+ 	int val = *valp;
+ 	int rc;
+ 
+-	struct ctl_table tmp = {
+-		.data = &val,
+-		.maxlen = sizeof(int),
+-		.mode = table->mode,
+-	};
++	struct ctl_table tmp = *table;
++
++	tmp.data = &val;
++	tmp.maxlen = sizeof(val);
+ 
+ 	rc = proc_dointvec(&tmp, write, buffer, lenp, ppos);
+ 	if (write && (*valp != val)) {
+@@ -2436,19 +2434,49 @@ proc_do_defense_mode(const struct ctl_table *table, int write,
+ 	return rc;
+ }
+ 
++static int proc_do_drop_entry(const struct ctl_table *table, int write,
++			      void *buffer, size_t *lenp, loff_t *ppos)
++{
++	int *valp = table->data;
++	struct netns_ipvs *ipvs = container_of(valp, struct netns_ipvs,
++					    sysctl_drop_entry);
++
++	return proc_do_defense_mode(ipvs, table, write, buffer, lenp, ppos);
++}
++
++static int proc_do_drop_packet(const struct ctl_table *table, int write,
++			       void *buffer, size_t *lenp, loff_t *ppos)
++{
++	int *valp = table->data;
++	struct netns_ipvs *ipvs = container_of(valp, struct netns_ipvs,
++					    sysctl_drop_packet);
++
++	return proc_do_defense_mode(ipvs, table, write, buffer, lenp, ppos);
++}
++
++static int proc_do_secure_tcp(const struct ctl_table *table, int write,
++			      void *buffer, size_t *lenp, loff_t *ppos)
++{
++	int *valp = table->data;
++	struct netns_ipvs *ipvs = container_of(valp, struct netns_ipvs,
++					    sysctl_secure_tcp);
++
++	return proc_do_defense_mode(ipvs, table, write, buffer, lenp, ppos);
++}
++
+ static int
+ proc_do_sync_threshold(const struct ctl_table *table, int write,
+ 		       void *buffer, size_t *lenp, loff_t *ppos)
+ {
+-	struct netns_ipvs *ipvs = table->extra2;
+-	int *valp = table->data;
++	int (*valp)[2] = table->data;
++	struct netns_ipvs *ipvs = container_of(valp, struct netns_ipvs,
++					    sysctl_sync_threshold);
+ 	int val[2];
+ 	int rc;
+-	struct ctl_table tmp = {
+-		.data = &val,
+-		.maxlen = table->maxlen,
+-		.mode = table->mode,
+-	};
++	struct ctl_table tmp = *table;
++
++	tmp.data = val;
++	tmp.maxlen = sizeof(val);
+ 
+ 	mutex_lock(&ipvs->sync_mutex);
+ 	memcpy(val, valp, sizeof(val));
+@@ -2475,11 +2503,10 @@ proc_do_sync_ports(const struct ctl_table *table, int write,
+ 	int val = *valp;
+ 	int rc;
+ 
+-	struct ctl_table tmp = {
+-		.data = &val,
+-		.maxlen = sizeof(int),
+-		.mode = table->mode,
+-	};
++	struct ctl_table tmp = *table;
++
++	tmp.data = &val;
++	tmp.maxlen = sizeof(val);
+ 
+ 	rc = proc_dointvec(&tmp, write, buffer, lenp, ppos);
+ 	if (write && (*valp != val)) {
+@@ -2494,8 +2521,9 @@ proc_do_sync_ports(const struct ctl_table *table, int write,
+ static int ipvs_proc_est_cpumask_set(const struct ctl_table *table,
+ 				     void *buffer)
+ {
+-	struct netns_ipvs *ipvs = table->extra2;
+ 	cpumask_var_t *valp = table->data;
++	struct netns_ipvs *ipvs = container_of(valp, struct netns_ipvs,
++					    sysctl_est_cpulist);
+ 	cpumask_var_t newmask;
  	int ret;
  
- 	if (!write)
- 		proc_strict_mode = vrf_strict_mode(vmap);
- 
-+	tmp.data = &proc_strict_mode;
-+	tmp.maxlen = sizeof(proc_strict_mode);
- 	ret = proc_dointvec_minmax(&tmp, write, buffer, lenp, ppos);
- 
- 	if (write && ret == 0)
-@@ -1857,8 +1852,8 @@ static const struct ctl_table vrf_table[] = {
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= vrf_shared_table_handler,
--		/* set by the vrf_netns_init */
--		.extra1		= NULL,
-+		.min		= 0,
-+		.max		= 1,
- 	},
- };
- 
-@@ -1870,8 +1865,7 @@ static int vrf_netns_init_sysctl(struct net *net, struct netns_vrf *nn_vrf)
- 	if (!table)
- 		return -ENOMEM;
- 
--	/* init the extra1 parameter with the reference to current netns */
--	table[0].extra1 = net;
-+	table[0].data = net;
- 
- 	nn_vrf->ctl_hdr = register_net_sysctl_sz(net, "net/vrf", table,
- 						 ARRAY_SIZE(vrf_table));
-diff --git a/net/ipv4/route.c b/net/ipv4/route.c
-index 595a3b7f1783..b4c415f720b2 100644
---- a/net/ipv4/route.c
-+++ b/net/ipv4/route.c
-@@ -3507,12 +3507,11 @@ void ip_rt_multicast_event(struct in_device *in_dev)
- static int ip_rt_gc_interval __read_mostly  = 60 * HZ;
- static int ip_rt_gc_min_interval __read_mostly	= HZ / 2;
- static int ip_rt_gc_elasticity __read_mostly	= 8;
--static int ip_min_valid_pmtu __read_mostly	= IPV4_MIN_MTU;
- 
- static int ipv4_sysctl_rtcache_flush(const struct ctl_table *__ctl, int write,
- 		void *buffer, size_t *lenp, loff_t *ppos)
+@@ -2533,8 +2561,9 @@ static int ipvs_proc_est_cpumask_set(const struct ctl_table *table,
+ static int ipvs_proc_est_cpumask_get(const struct ctl_table *table,
+ 				     void *buffer, size_t size)
  {
--	struct net *net = (struct net *)__ctl->extra1;
-+	struct net *net = __ctl->data;
- 
- 	if (write) {
- 		rt_cache_flush(net);
-@@ -3627,7 +3626,8 @@ static struct ctl_table ipv4_route_netns_table[] = {
- 		.maxlen         = sizeof(int),
- 		.mode           = 0644,
- 		.proc_handler   = proc_dointvec_minmax,
--		.extra1         = &ip_min_valid_pmtu,
-+		.min            = IPV4_MIN_MTU,
-+		.max            = INT_MAX,
- 	},
- 	{
- 		.procname       = "mtu_expires",
-@@ -3670,7 +3670,7 @@ static __net_init int sysctl_route_net_init(struct net *net)
- 		for (i = 1; i < table_size; i++)
- 			tbl[i].data += (void *)net - (void *)&init_net;
- 	}
--	tbl[0].extra1 = net;
-+	tbl[0].data = net;
- 
- 	net->ipv4.route_hdr = register_net_sysctl_sz(net, "net/ipv4/route",
- 						     tbl, table_size);
-diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
-index 0ed1a619372b..956220ad0cf8 100644
---- a/net/ipv6/ndisc.c
-+++ b/net/ipv6/ndisc.c
-@@ -1956,7 +1956,8 @@ static void ndisc_warn_deprecated_sysctl(const struct ctl_table *ctl,
- int ndisc_ifinfo_sysctl_change(const struct ctl_table *ctl, int write, void *buffer,
- 		size_t *lenp, loff_t *ppos)
- {
--	struct net_device *dev = ctl->extra1;
-+	struct neigh_parms *p = neigh_sysctl_parms(ctl);
-+	struct net_device *dev = p->dev;
- 	struct inet6_dev *idev;
+-	struct netns_ipvs *ipvs = table->extra2;
+ 	cpumask_var_t *valp = table->data;
++	struct netns_ipvs *ipvs = container_of(valp, struct netns_ipvs,
++					    sysctl_est_cpulist);
+ 	struct cpumask *mask;
  	int ret;
  
-diff --git a/net/ipv6/route.c b/net/ipv6/route.c
-index 94e5ef1c4f83..a6925e9750e0 100644
---- a/net/ipv6/route.c
-+++ b/net/ipv6/route.c
-@@ -6563,9 +6563,12 @@ static int rt6_stats_seq_show(struct seq_file *seq, void *v)
- static int ipv6_sysctl_rtcache_flush(const struct ctl_table *ctl, int write,
+@@ -2584,16 +2613,16 @@ static int ipvs_proc_est_cpulist(const struct ctl_table *table, int write,
+ static int ipvs_proc_est_nice(const struct ctl_table *table, int write,
  			      void *buffer, size_t *lenp, loff_t *ppos)
  {
--	struct net *net;
-+	int *valp = ctl->data;
-+	struct net *net = container_of(valp, struct net,
-+				       ipv6.sysctl.flush_delay);
- 	int delay;
+-	struct netns_ipvs *ipvs = table->extra2;
+ 	int *valp = table->data;
++	struct netns_ipvs *ipvs = container_of(valp, struct netns_ipvs,
++					    sysctl_est_nice);
+ 	int val = *valp;
  	int ret;
-+
- 	if (!write)
- 		return -EINVAL;
  
-@@ -6573,7 +6576,6 @@ static int ipv6_sysctl_rtcache_flush(const struct ctl_table *ctl, int write,
- 	if (ret)
- 		return ret;
- 
--	net = (struct net *)ctl->extra1;
- 	delay = READ_ONCE(net->ipv6.sysctl.flush_delay);
- 	fib6_run_gc(delay <= 0 ? 0 : (unsigned long)delay, net, delay > 0);
- 	return 0;
-@@ -6656,8 +6658,8 @@ static const struct ctl_table ipv6_route_table_template[] = {
- 		.maxlen		=	sizeof(u8),
- 		.mode		=	0644,
- 		.proc_handler	=	proc_dou8vec_minmax,
--		.extra1		=	SYSCTL_ZERO,
--		.extra2		=	SYSCTL_ONE,
-+		.min		=	0,
-+		.max		=	1,
- 	},
- };
- 
-@@ -6673,7 +6675,6 @@ struct ctl_table * __net_init ipv6_route_sysctl_init(struct net *net)
- 		table[0].data = &net->ipv6.sysctl.ip6_rt_max_size;
- 		table[1].data = &net->ipv6.ip6_dst_ops.gc_thresh;
- 		table[2].data = &net->ipv6.sysctl.flush_delay;
--		table[2].extra1 = net;
- 		table[3].data = &net->ipv6.sysctl.ip6_rt_gc_min_interval;
- 		table[4].data = &net->ipv6.sysctl.ip6_rt_gc_timeout;
- 		table[5].data = &net->ipv6.sysctl.ip6_rt_gc_interval;
-diff --git a/net/mpls/af_mpls.c b/net/mpls/af_mpls.c
-index ad4ad6f2001a..b8df02173d7a 100644
---- a/net/mpls/af_mpls.c
-+++ b/net/mpls/af_mpls.c
-@@ -37,9 +37,6 @@
- 
- #define MPLS_NEIGH_TABLE_UNSPEC (NEIGH_LINK_TABLE + 1)
- 
--static int label_limit = (1 << 20) - 1;
--static int ttl_max = 255;
--
- #if IS_ENABLED(CONFIG_NET_IP_TUNNEL)
- static size_t ipgre_mpls_encap_hlen(struct ip_tunnel_encap *e)
- {
-@@ -1397,21 +1394,15 @@ static int mpls_netconf_dump_devconf(struct sk_buff *skb,
- static int mpls_conf_proc(const struct ctl_table *ctl, int write,
- 			  void *buffer, size_t *lenp, loff_t *ppos)
- {
--	int oval = *(int *)ctl->data;
-+	int *valp = ctl->data;
-+	struct mpls_dev *mdev = container_of(valp, struct mpls_dev,
-+					   input_enabled);
-+	int oval = *valp;
- 	int ret = proc_dointvec(ctl, write, buffer, lenp, ppos);
- 
--	if (write) {
--		struct mpls_dev *mdev = ctl->extra1;
--		int i = (int *)ctl->data - (int *)mdev;
--		struct net *net = ctl->extra2;
--		int val = *(int *)ctl->data;
--
--		if (i == offsetof(struct mpls_dev, input_enabled) &&
--		    val != oval) {
--			mpls_netconf_notify_devconf(net, RTM_NEWNETCONF,
--						    NETCONFA_INPUT, mdev);
--		}
--	}
-+	if (write && *valp != oval)
-+		mpls_netconf_notify_devconf(dev_net(mdev->dev), RTM_NEWNETCONF,
-+					    NETCONFA_INPUT, mdev);
- 
- 	return ret;
- }
-@@ -1442,11 +1433,8 @@ static int mpls_dev_sysctl_register(struct net_device *dev,
- 	/* Table data contains only offsets relative to the base of
- 	 * the mdev at this point, so make them absolute.
- 	 */
--	for (i = 0; i < table_size; i++) {
-+	for (i = 0; i < table_size; i++)
- 		table[i].data = (char *)mdev + (uintptr_t)table[i].data;
--		table[i].extra1 = mdev;
--		table[i].extra2 = net;
--	}
- 
- 	snprintf(path, sizeof(path), "net/mpls/conf/%s", dev->name);
- 
-@@ -2694,15 +2682,10 @@ static int mpls_platform_labels(const struct ctl_table *table, int write,
- 	struct net *net = table->data;
- 	int platform_labels = net->mpls.platform_labels;
- 	int ret;
--	struct ctl_table tmp = {
--		.procname	= table->procname,
--		.data		= &platform_labels,
--		.maxlen		= sizeof(int),
--		.mode		= table->mode,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= &label_limit,
+-	struct ctl_table tmp_table = {
+-		.data = &val,
+-		.maxlen = sizeof(int),
+-		.mode = table->mode,
 -	};
-+	struct ctl_table tmp = *table;
++	struct ctl_table tmp_table = *table;
++
++	tmp_table.data = &val;
++	tmp_table.maxlen = sizeof(val);
  
-+	tmp.data = &platform_labels;
-+	tmp.maxlen = sizeof(platform_labels);
- 	ret = proc_dointvec_minmax(&tmp, write, buffer, lenp, ppos);
+ 	ret = proc_dointvec(&tmp_table, write, buffer, lenp, ppos);
+ 	if (write && ret >= 0) {
+@@ -2614,16 +2643,16 @@ static int ipvs_proc_est_nice(const struct ctl_table *table, int write,
+ static int ipvs_proc_run_estimation(const struct ctl_table *table, int write,
+ 				    void *buffer, size_t *lenp, loff_t *ppos)
+ {
+-	struct netns_ipvs *ipvs = table->extra2;
+ 	int *valp = table->data;
++	struct netns_ipvs *ipvs = container_of(valp, struct netns_ipvs,
++					    sysctl_run_estimation);
+ 	int val = *valp;
+ 	int ret;
  
- 	if (write && ret == 0)
-@@ -2721,6 +2704,8 @@ static const struct ctl_table mpls_table[] = {
+-	struct ctl_table tmp_table = {
+-		.data = &val,
+-		.maxlen = sizeof(int),
+-		.mode = table->mode,
+-	};
++	struct ctl_table tmp_table = *table;
++
++	tmp_table.data = &val;
++	tmp_table.maxlen = sizeof(val);
+ 
+ 	ret = proc_dointvec(&tmp_table, write, buffer, lenp, ppos);
+ 	if (write && ret >= 0) {
+@@ -2640,15 +2669,16 @@ static int ipvs_proc_run_estimation(const struct ctl_table *table, int write,
+ static int ipvs_proc_conn_lfactor(const struct ctl_table *table, int write,
+ 				  void *buffer, size_t *lenp, loff_t *ppos)
+ {
+-	struct netns_ipvs *ipvs = table->extra2;
+ 	int *valp = table->data;
++	struct netns_ipvs *ipvs = container_of(valp, struct netns_ipvs,
++					    sysctl_conn_lfactor);
+ 	int val = *valp;
+ 	int ret;
+ 
+-	struct ctl_table tmp_table = {
+-		.data = &val,
+-		.maxlen = sizeof(int),
+-	};
++	struct ctl_table tmp_table = *table;
++
++	tmp_table.data = &val;
++	tmp_table.maxlen = sizeof(val);
+ 
+ 	ret = proc_dointvec(&tmp_table, write, buffer, lenp, ppos);
+ 	if (write && ret >= 0) {
+@@ -2667,15 +2697,16 @@ static int ipvs_proc_conn_lfactor(const struct ctl_table *table, int write,
+ static int ipvs_proc_svc_lfactor(const struct ctl_table *table, int write,
+ 				 void *buffer, size_t *lenp, loff_t *ppos)
+ {
+-	struct netns_ipvs *ipvs = table->extra2;
+ 	int *valp = table->data;
++	struct netns_ipvs *ipvs = container_of(valp, struct netns_ipvs,
++					    sysctl_svc_lfactor);
+ 	int val = *valp;
+ 	int ret;
+ 
+-	struct ctl_table tmp_table = {
+-		.data = &val,
+-		.maxlen = sizeof(int),
+-	};
++	struct ctl_table tmp_table = *table;
++
++	tmp_table.data = &val;
++	tmp_table.maxlen = sizeof(val);
+ 
+ 	ret = proc_dointvec(&tmp_table, write, buffer, lenp, ppos);
+ 	if (write && ret >= 0) {
+@@ -2726,13 +2757,13 @@ static struct ctl_table vs_vars[] = {
+ 		.procname	= "drop_entry",
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
- 		.proc_handler	= mpls_platform_labels,
-+		.min		= 0,
-+		.max		= (1 << 20) - 1,
+-		.proc_handler	= proc_do_defense_mode,
++		.proc_handler	= proc_do_drop_entry,
  	},
  	{
- 		.procname	= "ip_ttl_propagate",
-@@ -2728,8 +2713,8 @@ static const struct ctl_table mpls_table[] = {
+ 		.procname	= "drop_packet",
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+-		.proc_handler	= proc_do_defense_mode,
++		.proc_handler	= proc_do_drop_packet,
+ 	},
+ #ifdef CONFIG_IP_VS_NFCT
+ 	{
+@@ -2746,7 +2777,7 @@ static struct ctl_table vs_vars[] = {
+ 		.procname	= "secure_tcp",
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+-		.proc_handler	= proc_do_defense_mode,
++		.proc_handler	= proc_do_secure_tcp,
+ 	},
+ 	{
+ 		.procname	= "snat_reroute",
+@@ -2759,8 +2790,8 @@ static struct ctl_table vs_vars[] = {
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
@@ -325,18 +365,75 @@ index ad4ad6f2001a..b8df02173d7a 100644
 +		.max		= 1,
  	},
  	{
- 		.procname	= "default_ttl",
-@@ -2737,8 +2722,8 @@ static const struct ctl_table mpls_table[] = {
+ 		.procname	= "sync_ports",
+@@ -2836,8 +2867,8 @@ static struct ctl_table vs_vars[] = {
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ONE,
--		.extra2		= &ttl_max,
-+		.min		= 1,
-+		.max		= 255,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_THREE,
++		.min		= 0,
++		.max		= 3,
  	},
- };
+ 	{
+ 		.procname	= "nat_icmp_send",
+@@ -5071,10 +5102,6 @@ static int __net_init ip_vs_control_net_init_sysctl(struct netns_ipvs *ipvs)
+ 	} else
+ 		tbl = vs_vars;
+ 	/* Initialize sysctl defaults */
+-	for (idx = 0; idx < ARRAY_SIZE(vs_vars); idx++) {
+-		if (tbl[idx].proc_handler == proc_do_defense_mode)
+-			tbl[idx].extra2 = ipvs;
+-	}
+ 	idx = 0;
+ 	ipvs->sysctl_amemthresh = 1024;
+ 	tbl[idx++].data = &ipvs->sysctl_amemthresh;
+@@ -5085,7 +5112,6 @@ static int __net_init ip_vs_control_net_init_sysctl(struct netns_ipvs *ipvs)
+ 	ipvs->conn_max_limit = net_eq(net, &init_net) ? IP_VS_CONN_MAX :
+ 			       READ_ONCE(*(int *)vs_vars[idx].data);
+ 	ipvs->sysctl_conn_max = ipvs->conn_max_limit;
+-	tbl[idx].extra2 = ipvs;
+ 	tbl[idx++].data = &ipvs->sysctl_conn_max;
  
+ 	tbl[idx++].data = &ipvs->sysctl_drop_entry;
+@@ -5120,7 +5146,6 @@ static int __net_init ip_vs_control_net_init_sysctl(struct netns_ipvs *ipvs)
+ 	ipvs->sysctl_sync_threshold[0] = DEFAULT_SYNC_THRESHOLD;
+ 	ipvs->sysctl_sync_threshold[1] = DEFAULT_SYNC_PERIOD;
+ 	tbl[idx].data = &ipvs->sysctl_sync_threshold;
+-	tbl[idx].extra2 = ipvs;
+ 	tbl[idx++].maxlen = sizeof(ipvs->sysctl_sync_threshold);
+ 	ipvs->sysctl_sync_refresh_period = DEFAULT_SYNC_REFRESH_PERIOD;
+ 	tbl[idx++].data = &ipvs->sysctl_sync_refresh_period;
+@@ -5138,29 +5163,24 @@ static int __net_init ip_vs_control_net_init_sysctl(struct netns_ipvs *ipvs)
+ 	ipvs->sysctl_run_estimation = 1;
+ 	if (unpriv)
+ 		tbl[idx].mode = 0444;
+-	tbl[idx].extra2 = ipvs;
+ 	tbl[idx++].data = &ipvs->sysctl_run_estimation;
+ 
+ 	ipvs->est_cpulist_valid = 0;
+ 	if (unpriv)
+ 		tbl[idx].mode = 0444;
+-	tbl[idx].extra2 = ipvs;
+ 	tbl[idx++].data = &ipvs->sysctl_est_cpulist;
+ 
+ 	ipvs->sysctl_est_nice = IPVS_EST_NICE;
+ 	if (unpriv)
+ 		tbl[idx].mode = 0444;
+-	tbl[idx].extra2 = ipvs;
+ 	tbl[idx++].data = &ipvs->sysctl_est_nice;
+ 
+ 	if (unpriv)
+ 		tbl[idx].mode = 0444;
+-	tbl[idx].extra2 = ipvs;
+ 	tbl[idx++].data = &ipvs->sysctl_conn_lfactor;
+ 
+ 	if (unpriv)
+ 		tbl[idx].mode = 0444;
+-	tbl[idx].extra2 = ipvs;
+ 	tbl[idx++].data = &ipvs->sysctl_svc_lfactor;
+ 
+ #ifdef CONFIG_IP_VS_DEBUG
 -- 
 2.25.1
 
