@@ -1,95 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.6
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793217111;
-	b=zlYycJl23wPHzuBvtJLjjrt+iaytI/LS1roORIc1Zs0Bxx556Qp4F9SGNr3q4xmPfQny
-	 DkOLqXO5EnsfWJCrZbe39SyZ6LqiRn2Y7rqGNWFRKmMWVYODxD6T7rnMImzzExcWdCPS5
-	 vEteXoh9khq0K4V+x1i+n3RlrX1FzGwcQlTeplHIPtqnllt6MdvnmOhqYaKGf+5zFkcJD
-	 JHsDszHbcZo3OeEvsvZpzbXMSibRdteIiyX8u8ZNBBgPgjTUyiXanH0vZDhcEoMJG2qZL
-	 6Z0hlHgLhm7gHB9woOPcVKZwBSJzbLrRP3g5Szr06Z8rnw5edwzmcKnTshKpqcmXrxw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793217111;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.179
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793217565;
+	b=aD+WidDVwZPNq+zYPQ6jFaosgOcrEFGyAEmllGqM+9URV3OVQCzfUqJjJUx6oJfGkqud
+	 gMAOfbk4poN+W8ARD0oIG1FRmkvtsb0DdMKOFgZ1Jwvvx1uAlzx9eYrfzbT41PjBVhYXm
+	 ngTobZMf8YYcygqysqa2+22GwaFU371g4Daj9pd4esgLDzVPIyymGfvsD/prJ3VIhn3sF
+	 QaIsCbr346g1fdu2E8CvshgSQvRJp002+sJEOq/xUoKNqFFjtMC1Ntx63PtOV88OAJjfd
+	 Pt0vMrCOo1iNZoGiGxPJO5SjNCvdJm4atW4W3bspHuqqq09ue8UgT4iEdNpA7XnyU3g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793217565;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=Nvrn4WRxmRYyXZvqlPwtDdIMr3RH/GbiGM7fkNtVFmY=;
-	b=40VXkDmuh5cG8NDAgbMNs3oA5vGWPt/vZ8cGVHd4kfM9a5KfDNTU47bOVe3hzi8zxf8w
-	 1Xop1YwxH4UmgwUDjXAwSe7nS2bUV8f2E7MLyI6QwYR6hcBZeH0/axvpZCxwt0P0ZiYjy
-	 0pSKd0wBNAebMUGxH//RW+8zPPoiqIXfs2edkqPYbRqzgx1kah++YPh216zX9b9/rUGnN
-	 eJ9pYvNx3o2Enh0U3H/eQSNAqN+wEAN4oM7LT1scyORZIx/voHRTqWqX7Na/jvE8MDYbS
-	 pI/VYCd4GsjmEU+FvZq31zbif/BqgqXGPq7FVB/LOJDulMo15zJjmU6GsNV8mxtTfTg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wdi9apkS;
-	arc=none smtp.remote-ip=74.125.229.6
-Received: from mail-dy2-f6.google.com (mail-dy2-f6.google.com [74.125.229.6])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=KNPolz4ZvstX96ia0adxYWJ+Q8YCwfoUsBDxmY4GZ/g=;
+	b=CqDoQf1AEWd+szmz8IjZijESD93cSLHzhTzfXE4b4sUftaKw80zrpNgzpk3RD6iKtbN3
+	 rp0XBbz860bxoSBsiZl2CvlOa3pzuB0TJVe3cOGBEdbX5sn+WQLRpjTFSvMjJaOp9vr1s
+	 +UwuDCsMOMx4Cyk/3GRBsiyh2dVVk0tjlwztADFHBjq59R0fOW7pVOCAuDSC4vxCELOLm
+	 cVUXCB+gZ4GIMGHh7l8KL4f66nUPgxSPos3DzbVIPOjny+7ICm3jgRj69eKps4dpIP8QB
+	 VR7h4yx533jHv23jSNblhROgX+YmPyCiXCTaLluRj6DCbGIyHhSGtyHCUXPPibr7wzw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gCjriWQL;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.179
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7C5606A31F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 19:51:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF7C5606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85E8606A31D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 19:59:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E85E8606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wdi9apkS
-Received: by mail-dy2-f6.google.com with SMTP id 5a478bee46e88-3537f63c9e6so416874eec.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 12:51:50 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gCjriWQL
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-533202fe429so76681cf.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 12:59:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793217563; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LXFMJwiP2QPDU4Gv1IpToKa5eN7KieXA5/25AoNRyCsiRbrOqc80npuE5Tj05olvWD
+         r5JzwPOfXYWbsv4fq0dGgLpnEgdr3avfuAQ8cd5NQSpMCrGpdgwHp7tFJYtM6LVM9iag
+         ktXz+HbwSu0skcqIzjUk244kkAlC/kPn4wjg4rJcz8ihVtjIpLASg1kVZVzyIXBwQCF0
+         x8txg764CSOP3cMqgtxnq0lfu1m0ZbRJZcGoQN7wR/3ZGOjI+FQ7E9tLg2/VbRppRg6T
+         DE7DgjwbTRwo/OMOdOCwXI6GIOYvh3+VPvKJY+oUEKQi42r8MJPNmsCfGOqxg1VLmRy2
+         gNDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KNPolz4ZvstX96ia0adxYWJ+Q8YCwfoUsBDxmY4GZ/g=;
+        fh=cPiKbBqsNDeYaT8xBjRsIhA5aATvhTkprFQGObILEOA=;
+        b=O0VJo3k/QhboVh0STVdNkw6xTLq4p+e8Q7xvgh62rOLj6PmLtH4md7HuCikXyxws4T
+         tvFIwRdgudKRX+QlM0pa8X3MLqCNx+xMWziwUohbWOHBIXDS32RUiCOT/WhlraUeg543
+         Jl/GITdDHzodavO+0mHKoSG0jDITw3c2FcOPxM7p7S47Cq+wRMhng5DzgVkuf+YFWhi2
+         4nNyCdgTgHINX/qW2YTTiS3+Cy94haG8lBmFjcWwbCw5NG7XI6lMIvMkB0hOHcoHqHLa
+         ZUg+AirV7egWDk6MvCpR9FgExzb+00DnZHPkvf1DW6C62dZ8SMzE++nzmQc3+z4FAHrZ
+         EUpg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793217110; x=1793821910; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Nvrn4WRxmRYyXZvqlPwtDdIMr3RH/GbiGM7fkNtVFmY=;
-        b=wdi9apkSCNG+WQgHHVCA4gASRfPqBR9MTVe5qJGMyZ/AQVSrF/+6IyE6JTTMYREoU5
-         dh5hKPiIf3d9eihVt6bFn/5qBCWy3fQ0Y0c1dQET5FZd4Hx/n2u/rGunZ8DJdy77wfrC
-         pylW7aaWBmHles8P7pDCGhBgXvs2yzBcwChqiEhig98DyfPrDBmsW5OLmJ4kh0bv0v7v
-         oHaxe4oKD3m6Qa6aP6I44Q5MCbSTrg07nfXV5jxdhcG+/4EeWJuMu+BQyjkt672S+Q0m
-         iqwbyRP0jyqgyX7gXhhLtLhSCZfgfvD6skxxJKH158WN1xTnGgXPpKf28gaFsJl+ov7H
-         HGgA==
+        d=google.com; s=20260707; t=1793217563; x=1793822363; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KNPolz4ZvstX96ia0adxYWJ+Q8YCwfoUsBDxmY4GZ/g=;
+        b=gCjriWQLQo2QvHH5JTfWBFdwWXcomYNyjYW7ZcE4DfNTnnabubGbcuv5TLXSpg9Cgc
+         WX5X8EXcCS64I8UTPo+5tYP1xFIrho21VEn5ITbIPcwa5MlX3TNi2HEUH9xAG/uIh0p+
+         /CFb6qZJ28eo8GCSMNw6be/XK86w47lT+ZGGezFfXnuvOGdoWMuP3bexz8+YZdjw63Gg
+         BiD5nkw10JRLzR/s64bohuksvrG8P3Eqhk/p/8lpvPVBBghyvYaWQjQbi7rtyWc3Kz7B
+         pFh1x3lH1zeYVdHOjyLbVvYJgYgUnAOIrVL0E0kuocfo7/urV+TDqxqpa/APfSlLh9vL
+         GC6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793217110; x=1793821910;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Nvrn4WRxmRYyXZvqlPwtDdIMr3RH/GbiGM7fkNtVFmY=;
-        b=qj5xrLQKVQPbcMn12AJBTNOFDQoJvM+XU5IYn+9hh8rPFw0cMoMpDWUuDRRjXrrC8H
-         2N6dt6jDVVIVIKZADxBjwShTBczemmo2e2xuj1ruAsll+qMaX79drdmf3wSABUN3vRzq
-         c3ltVPePFMb2tNQeiA3s6Oc261mu40nU/PLrcZISycrTOwmcSpfeJmo+5Zi6IeC3zCI0
-         cQtku9KaUzADg9LWPzm/d6dleQOk5+lw8h3A2jxQwzP9PGvUKtY3jzPsW75kCPJWgkWX
-         s6oiAFDolmA4DXuNcn68YhEZyTjdHANwa2X4CiXjCHtmpexl26uzKKBIpye+jcstbQsp
-         H0KQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwUjBvc17r4ESOl2eDcz7OORc3Z9LkpmcoyUV6w/iUVNoh53NkQBcvQhZCNx16FRnVPfw6eM5Z1Ep+LC0kr@vger.kernel.org
-X-Gm-Message-State: AFq9FYIkfIoxtPdVxNb3WC8hocyyFtWsAquXZ9rE5RLG5jdIF+U/0jKw
-	Jv8i67x9CYktzJih54r87zB0Wfmnno8Q6CFVTxCW6+Ziw2ox+mndf+Za
-X-Gm-Gg: AYBFou3M4Vdglsy5uStdgzueybuw3zJns8dqqxGfbvyxjiIPuG3pUu6z6X3rkaBEq0K
-	GaYrKGgeWqijpVO+Gt+RNLTg3ziYP3EbKMqvaFK7+OnkTdSa/uN3AdIXGvVWMg7ku4uv78Bo1yD
-	01tW+GFB/N+2ZdFZx7rH/Lmec7tigxA9FdZjDKQO2sn6MS6kHLQTtd91CDCYJ97F/9j2WZXAfYU
-	44xw0dI+fnoIVAufSjqrBe50NBnygl3TBW6nzyE5oTAgmmRBex/hiD2o3MCBRp8XKNUksfcZNmb
-	mHfUWgmhh19xTNUaJfEbzQJiHd/nw8yJVM7WSrHwiG6vMWLJweG2w6B9BJO4cjWmHSiOPn7wLqF
-	exSUfyvyA2wEZGoPH6uLkn+60fNOKxLYjXeVJx6pu0XsJaTtaUfu7Oty6M/uSVtmr9hQfdSLDIW
-	fmioUNXdFZl3b4Tx6VQgKztLSvFkuckhvLtiUZrsyYljfsNitly9e516D6AGxBjDZWKP9NCx+D1
-	V/HSK2WiPrGymQBEXO9S8wwFhMsiCRVAapboFX9O3fQsAz/jaXR7hu2S47eD7HacD5iQY7fo9AJ
-	QDxcKzZpvtmKwjKvrnaJjPK4idaUgdROLiIMKmVNp8ikNs5BjdBseNbO
-X-Received: by 2002:a05:7301:1622:b0:36a:1807:75a4 with SMTP id 5a478bee46e88-36a20075471mr4923982eec.20.1793217109527;
-        Wed, 28 Oct 2026 12:51:49 -0700 (PDT)
-Received: from localhost.localdomain ([98.148.34.5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a2398fa4csm10895569eec.24.2026.10.28.12.51.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 12:51:48 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: miklos@szeredi.hu
-Cc: amir73il@gmail.com,
-	andrealmeid@igalia.com,
-	linux-unionfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	dennylin0707@gmail.com
-Subject: [PATCH] ovl: reserve space for the casefolded name terminator
-Date: Wed, 28 Oct 2026 19:51:33 +0000
-Message-ID: <20261028195133.86636-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20260707; t=1793217563; x=1793822363;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KNPolz4ZvstX96ia0adxYWJ+Q8YCwfoUsBDxmY4GZ/g=;
+        b=QlnBNx89uhFO7i4KxrA+6jGaBHEDjTy0iJq8zTUeuZNKMYGLh1odStktf6USe6c67V
+         CZjyI99L2dh5V39dpePCxEDWDJFO+TvzE5bwA5bzxMRHCewJcbDBonjKItgCiknCY/pc
+         c6xGQ3cF/BwMTDXJ9UxhX/afF3W00bLqXY+fRzN7XsdLU4F04tn5D7Sx2dQtvUqnTNyg
+         0RRncTRQyl1b/dyw6lgzzzAVS9IResVvGmhJRjQJYmfbyUu4KuY1yStY7WBRjb1eyIS/
+         PmjqbqMDLPJUcynntmQEyP5EFrGePo/70cF/jt1EPsxc8UWDyG/WnOfa7CfnpOQvaYmS
+         RihQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwhM/2TDq5u7X+5po6BG1q3SNUIHuxGbj9BxR1os6ZPYqwLVn7lR/GxgLKpAPTYVOkrmUir462KdLSbnozy@vger.kernel.org
+X-Gm-Message-State: AFq9FYI3ggtwIUe5yDo14oQZ771nt92R7Zyc/+uxdKb9Doy74GypqRVg
+	SmaNHG+lhobzqF9D+K2SuniFwe3/Tc//awpgsoN3teXfh4XkRevwI0p3l+48TEd4OadcugbDt1L
+	hJcD2Xqz/+IxsWlHY797tDQ0sFkhhgfnmc/QumeOg
+X-Gm-Gg: AYBFou2dtO4J2ZtqSWAVb/NUw0DXYsT5qJYMR8OpkwPA6srz4Hf1ex97JGDCBJMpvTL
+	0db4iQoQxiAvSyoHmIsTP2IcxtDjclXaNUiP4QPcdyUVdnDHmLxsQtKJSrD1i7z+X5CqGX8agD4
+	vlJeseGip2RGx2AYopfLVJjUaZTc679/BON69j76UgNw0VMCUZavxw6r2SYi7By8B3ya0aD542x
+	NC43fmx62szez1vdt40mE6t7sg5x1i/NpsJRbol+aEAuZ174yTJOEM1mHtpri1d8BZ1gJk4dMQz
+	u6uYlGh+2t3ZIz2cdv77CrF4y7W4HU8aRPPcgZ2bR5k92+V+x94rOCgn1mXhuf3lldvA2EaFp+O
+	boCv29lJvX5Ju/ESZC2SE3iat/bJv0WNVyrF5mbc0MxzWs7lT3CvEvrMUtbVpUX+uNA==
+X-Received: by 2002:ac8:690d:0:b0:534:b7b2:634f with SMTP id
+ d75a77b69052e-5414d92c15bmr762701cf.8.1793217562021; Wed, 28 Oct 2026
+ 12:59:22 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,48 +104,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261028051312.1505295-1-surenb@google.com> <auHK3k-W4gfL_MhI@pedro-suse.tail5790ac.ts.net>
+ <auJO9al4lmAczLAu@pedro-suse.tail5790ac.ts.net>
+In-Reply-To: <auJO9al4lmAczLAu@pedro-suse.tail5790ac.ts.net>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 28 Oct 2026 12:59:10 -0700
+X-Gm-Features: AclHuK9-6O7OXV5NH16IYTfE9EYxAq4xHV33LgQLBVE22ks0KWFvxZhPdcny1CQ
+Message-ID: <CAJuCfpHAFXDXs4ZBrd8C=8hkQdJxcWCz+DER5BG_Ki0ndGpf9w@mail.gmail.com>
+Subject: Re: [PATCH 1/1] selftests/proc: use RSS in /proc/pid/smaps_rollup
+ tearing tests
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	jannh@google.com, liam@infradead.org, willy@infradead.org, paulmck@kernel.org, 
+	usama.arif@linux.dev, vbabka@kernel.org, linux-fsdevel@vger.kernel.org, 
+	yi1.lai@intel.com, oe-lkp@lists.linux.dev, lkp@intel.com, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ovl_casefold() allocates NAME_MAX bytes and passes that capacity to
-utf8_casefold(), which also needs room for a terminating NUL. A valid
-name whose folded form is exactly NAME_MAX bytes therefore fails to
-fold, and ovl_fill_merge() falls back to comparing the original bytes.
+On Wed, Oct 28, 2026 at 12:42=E2=80=AFPM Pedro Falcato <pfalcato@suse.de> w=
+rote:
+>
+> On Wed, Oct 28, 2026 at 10:14:19AM +0000, Pedro Falcato wrote:
+> > On Tue, Oct 27, 2026 at 10:13:12PM -0700, Suren Baghdasaryan wrote:
+> > > Pss metrics can be affected by map count even if VMA tree stays uncha=
+nged,
+> > > therefore test checking VMA tree integrity can't use them. Use Rss in=
+stead
+> > > and pre-populate the VMAs so that Rss changes if a VMA gets skipped o=
+r
+> > > double-counted.
+> > >
+> > > Fixes: ca5480fb53fa ("selftests/proc: add /proc/pid/smaps_rollup tear=
+ing tests")
+> > > Reported-by: kernel test robot <yi1.lai@intel.com>
+> > > Closes: https://lore.kernel.org/oe-lkp/202610271934.fd287c3f-lkp@inte=
+l.com
+> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> >
+> > Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+>
+> Actually, now I'm wondering: isn't Rss also flaky if memory pressure occu=
+rs?
 
-For example, when two casefolded layers contain directories named with
-255 uppercase and lowercase ASCII letters respectively, readdir lists
-both names even though lookup treats them as the same directory. The
-same names merge correctly at 254 bytes.
+True. Sashiko's findings are also interesting, so I'll need to figure
+out more robust ways to test smaps_rollup. I will post an update once
+I figure it out.
+Andrew, if this test failure is causing issues in the meantime, please
+feel free to remove the ca5480fb53fa patch until I get a better
+version out.
+Thanks!
 
-Reserve one additional byte in both the allocation and the folding
-capacity so that NAME_MAX-byte folded names use the canonical merge key.
-
-Fixes: ee95c5fc86dd ("ovl: Create ovl_casefold() to support casefolded strncmp()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- fs/overlayfs/readdir.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-index 7d6f7f6022eb..6113d690f8ad 100644
---- a/fs/overlayfs/readdir.c
-+++ b/fs/overlayfs/readdir.c
-@@ -81,13 +81,13 @@ static int ovl_casefold(struct ovl_readdir_data *rdd, const char *str, int len,
- 	    name_is_dot_dotdot(str, len))
- 		return 0;
- 
--	cf_name = kmalloc(NAME_MAX, GFP_KERNEL);
-+	cf_name = kmalloc(NAME_MAX + 1, GFP_KERNEL);
- 	if (!cf_name) {
- 		rdd->err = -ENOMEM;
- 		return -ENOMEM;
- 	}
- 
--	cf_len = utf8_casefold(rdd->map, &qstr, cf_name, NAME_MAX);
-+	cf_len = utf8_casefold(rdd->map, &qstr, cf_name, NAME_MAX + 1);
- 	if (cf_len > 0)
- 		*dst = cf_name;
- 	else
--- 
-2.43.0
-
+>
+> --
+> Pedro
