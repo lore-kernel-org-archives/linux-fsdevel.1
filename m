@@ -1,61 +1,131 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793189005;
-	b=gAiZbinf2aOfdIH13MFjzOMAlMIhEPNbNftm8dw6zbm6edpbfztunRByHpaEZQT+u0i2
-	 FdsPjyPsRnq5+W6a/PO/5XwlhDFJLjJ++6sNxzTqdLnoszbRMe3YsSOrZpk9zyDjCgnag
-	 IPZXDoUaIgs1RQ6nxYANV8L3DI7MORIN6PJDjR05sCx63BO29WeFLk2xlr09W2BdEP7pp
-	 //fD088LprZsA6FdgfP2bEexGQUCMZn9hI0+uew9yytWDxh2eMr78xzK/MuUyUFT1IBN7
-	 ncszahRj7eaYmxex2pL1a0fvfIQqAqmhNyqXe4LY7wRUsgyCZI9euDhKd2VqMsdTJlQ==
+	t=1793191415;
+	b=mhhWcLqlZh9wTBa0LstNpuXUOOhkwyC7aygTeH1z0BQrRx3IVjJ3ymdHEUd228nhq5iK
+	 zaQioY7kMf+FDv7FSKxF22mIA+GMjh+CWl5vrL+zXOZ/2GVoGmPmCQkD2wawgqhkobp6z
+	 G8jn4Fu3l5EH9j2kmGrrwsjDZ2sEbXvVtUsUcy90XILQ32AM7+9y0dCPv/gKWW3WitE7i
+	 xAj5UtkbJ3NoZ2e/rJ9iHK1ZZ3yralE8rmVjt1N2g8vzdJQk1KV55spOUWNfKQBdlk+3l
+	 IxfgEVqhsoIFOeYFe7IWtRxTdOf/brzCwPJ9578HOHpQiLXk0ZhTILHmd13Di1Nj9yg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793189005;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:In-Reply-To:
-	 References:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=78YrWNBjFPUJ/rfjtCJQ1848U05YgSyGICYPO5oye7Q=;
-	b=QySIF+CVxBD6KIrOoUUOZFa55vq6VqQPFbjNpE6kA355LQhHkgeKudhI82SR35+WQuAu
-	 MgXOg84jhiOlppx28NdcubJv5li/DsaG/bPgDZ4NoAeB3AZrgeXz5B6RdRfWV694lcpwF
-	 yNKCyZOywI0M0JINWA5VebjyLnoHrgcIrnTP8z2di+juesn5kpcjpmClmWqzhfSjMUt8g
-	 1b0pFNiTCXZpydXZpFO/1x2pZ/984roimjYTHQ9Qr7wTgb/kDVfDY5XvctPpmVc54Oss+
-	 rTeebbSSWPU6W2XOvTQdTdOaB8lVbtMWD4/fMOK25TMGKBgxN+DyOYnqQnLIjnMapAQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793191415;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=SIZVjq4hJ3t1VQV9XqvU6Y6r776YU0NJyxVEAhuGGa8=;
+	b=tp69eaGXm1j9a3LGt+psgTAYZaVy8L7BEECQhdunQqFTQa7E/jtDh/y4UeR8I6vajHtw
+	 siXsl9BVeN7kkLFS0Y1NYgrq/hbZWUlfAeFvQG+dkeFwq7GBI3fRKwD6ANI6NsF4H2QFd
+	 X8sPiqlXdVl4acpp3gUwF8jE9sv8Vh/Hq/wLihl5k6gDKmzc8q7Jc0Aqy6CtMyXddO8Di
+	 L3n95cXoBPt0gd6YTLRYLtt3VELvABZX4K39fElNcf1MlQ1DWCWOAKdV/T8Kw7iC6uzJJ
+	 HSi1WR7zR6NDDuf7mQJl4Hrqaye4oXGE7SRAHmKG0K7TtDJFIFbw1zt2cX7mW59qpdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=igalia.com;
-	spf=pass smtp.mailfrom=igalia.com;
-	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=Yw4WBGmS;
-	arc=none smtp.remote-ip=213.97.179.56
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DVvoiYFN;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FAqoZbGv;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Cf2Osd4z;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=p9+PcCPJ;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909A6606A31A;
-	Wed, 28 Oct 2026 12:03:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 909A6606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1413606A31C;
+	Wed, 28 Oct 2026 12:43:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1413606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=Yw4WBGmS
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:From:Reply-To;
-	bh=78YrWNBjFPUJ/rfjtCJQ1848U05YgSyGICYPO5oye7Q=; b=Yw4WBGmS8DyjEYEgr1tyegbftO
-	EUsTQ1rIjPYYKr7UELpOnuGe29K12ZKyq9hZjlRJoHq0TVPYzpxUidFl3xpJJRsIGXATTtTWlWD/v
-	r6H9k+fUoDcbFNeFk9on0phxi8n4K3+40VS9OO+gVZzX4RpQB9GycBucgfqrRo3FCTTLrEsZo9ifO
-	2dGnkaIhn8XcKGL34auO4E2HaVeyrbnjBXlKn0yTFNVEf+0bdOktmiDMint8d8m45TOxQW8vrrSDJ
-	EQhUqhXOYILe1HJCutjc3XY/PuMmaEXkyd31CP97aqogl65dFcr5zIXTiOdMyoc1XYCHFil+FkL4o
-	DzPNrH8Q==;
-Received: from [188.250.79.109] (helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1xM2NA-00Cq9K-DU; Wed, 28 Oct 2026 13:03:16 +0100
-From: Luis Henriques <luis@igalia.com>
-To: Leon Ming <leonming@meta.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,  <fuse-devel@lists.linux.dev>,
-  <linux-fsdevel@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,  Joanne
- Koong <joannelkoong@gmail.com>,  <stable@vger.kernel.org>
-Subject: Re: [PATCH] fuse: set dentry epoch before making the dentry visible
-In-Reply-To: <20261026201101.3915217-1-leonming@meta.com>
-References: <20261026201101.3915217-1-leonming@meta.com>
-Date: Wed, 28 Oct 2026 12:04:44 +0000
-Message-ID: <87se1qhvz7.fsf@igalia.com>
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DVvoiYFN;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FAqoZbGv;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Cf2Osd4z;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=p9+PcCPJ
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E20FE1F7AF;
+	Wed, 28 Oct 2026 12:43:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793191413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SIZVjq4hJ3t1VQV9XqvU6Y6r776YU0NJyxVEAhuGGa8=;
+	b=DVvoiYFNHh5XTFT1JwNGFQl49KVYetJWc7meB1CHoaHnT+LPC0mbUoAnDEIpZEQrbSEHsS
+	FvEntye5b12nndi70rfOOOBbV1Stui2APdvxUAAj95hL5JxdUyEmRiPV3GSo9X3Ltts95x
+	qV2N1A+6Fzw56utZ223yUEqcsWGEiTs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793191413;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SIZVjq4hJ3t1VQV9XqvU6Y6r776YU0NJyxVEAhuGGa8=;
+	b=FAqoZbGvZaKzPhXAkP6jX5bf/4TMMTqW4k2zUaSfpzbzD8NQPyZoMFDswfnT9emRo+Aj5w
+	KVUQCY8EAOL+bXAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793191412; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SIZVjq4hJ3t1VQV9XqvU6Y6r776YU0NJyxVEAhuGGa8=;
+	b=Cf2Osd4zyVG7l6XYjmWmttp3P+ahTrSv9HT3W3msjARcHfAmKuajToUZqb4RRCOKnW1Zik
+	wPTT1/MnJ4/dVnkN89WxELP0Alff01WggTTtH25XTS66mkwjMqt+ru2y0sRG5FzCaoEbxc
+	6w1ND0zMc4PEGkv/GX4wZgk6+iVZyRY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793191412;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SIZVjq4hJ3t1VQV9XqvU6Y6r776YU0NJyxVEAhuGGa8=;
+	b=p9+PcCPJhGehydbjM2LDrQmjdW4NIlHsU4oPUukpcTl/iLExPoPe1fBvMQAUHM6ukWW7O2
+	NL4NDdQbXtnY6kAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDC9F13419;
+	Wed, 28 Oct 2026 12:43:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DdBgIPDt4WoWCgAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Wed, 28 Oct 2026 12:43:28 +0000
+Date: Wed, 28 Oct 2026 12:43:27 +0000
+From: Pedro Falcato <pfalcato@suse.de>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, Hugh Dickins <hughd@google.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, 
+	Lance Yang <lance.yang@linux.dev>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Oscar Salvador <osalvador@suse.de>, Minchan Kim <minchan@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Xu Xin <xu.xin@linux.dev>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Chris Li <chrisl@kernel.org>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Gregory Price <gourry@gourry.net>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, Chris Mason <mason@kernel.org>, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 13/46] mm/huge_memory: fix truncate racing with PMD
+ zapping
+Message-ID: <auHt3OOD7lFwVpCg@pedro-suse.tail5790ac.ts.net>
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+ <20261027-fixes_core-v1-13-6f74bec9a5bb@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,144 +135,59 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027-fixes_core-v1-13-6f74bec9a5bb@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,cmpxchg.org,kernel.org,linux.dev,tencent.com,google.com,linux.alibaba.com,infradead.org,suse.com,soleen.com,suse.cz,nvidia.com,surriel.com,arm.com,intel.com,redhat.com,gmail.com,suse.de,huaweicloud.com,lge.com,gourry.net,sk.com,ziepe.ca,kvack.org,vger.kernel.org,lists.infradead.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[65];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Score: -11.80
 
-On Mon, Oct 26 2026, Leon Ming wrote:
-
-> fuse_lookup(), create_new_entry(), fuse_create_open() and
-> fuse_direntplus_link() all record the connection epoch in the new dentry
-> only after d_splice_alias() or d_instantiate() has published it.  A new
-> dentry starts with an epoch of zero (fuse_dentry_init()), and the
-> connection epoch starts at one, so in that window the dentry is hashed
-> but fails the epoch check in fuse_dentry_revalidate().
->
-> d_splice_alias() hashes the dentry and wakes the lookups waiting on it
-> in d_alloc_parallel().  A waiter, or a concurrent lookup_fast() that
-> finds the dentry in the hash, calls ->d_revalidate(), gets 0 and
-> d_invalidate()s the dentry the original lookup is about to return.  The
-> caller still gets a valid dentry, but it is now unhashed.  One visible
-> result is that readlink() of /proc/self/fd/N for an O_PATH fd opened on
-> that path returns "<path> (deleted)" for a file that exists.
->
-> This shows up when many threads look up the same uncached path at once.
-> TypeScript's native compiler (tsgo) resolves real paths with
-> open(O_PATH) + readlink(/proc/self/fd/N), and when it type-checks a
-> project in a FUSE-backed checkout it intermittently caches the
-> "(deleted)" path and fails to resolve a package that is installed.
->
-> Before commit 5a6baf204610 ("fuse: fix uninit-value in
-> fuse_dentry_revalidate()") initialised the epoch to zero, it held
-> whatever the slab left there, so the check usually passed by accident.
->
-> Set the epoch on the new dentry before it is published.  If
-> d_splice_alias() returns an existing alias, keep setting the epoch on
-> that dentry afterwards, as before.
->
-> Reproducer: N processes start together and each run open(O_PATH) +
-> readlink(/proc/self/fd/N) over the same list of files in a freshly
-> mounted FUSE filesystem, counting results that end in " (deleted)".
-> On this tree under UML (16 CPUs, squashfuse_ll, 6000 files, 32
-> processes, a fresh mount per round):
->
->   before: 3519 of 10.75M lookups "(deleted)", in 51 of 56 rounds
->   after:  0 of 10.75M lookups
->
-> On v7.1-based production kernels with EdenFS the same test returned
-> "(deleted)" for 5.5% of lookups.
->
-> Fixes: 2396356a945b ("fuse: add more control over cache invalidation beha=
-viour")
+On Tue, Oct 27, 2026 at 12:17:33AM +0100, David Hildenbrand (Arm) wrote:
+> From: Chris Mason <mason@kernel.org>
+> 
+> zap_huge_pmd_folio() removes the rmap before calling folio_mark_dirty().
+> If this was the last mapping, truncation can skip unmapping the folio
+> and proceed without waiting for the PMD lock, racing with dirtying.
+> 
+> ifs_set_range_dirty() can oops if MADV_DONTNEED races with
+> ftruncate() on XFS, when we get the folio set dirty after it was found
+> to not be mapped anymore.
+> 
+> Move folio_mark_dirty() and folio_mark_accessed() before rmap removal,
+> matching the PTE zap path. This keeps the folio mapped while updating
+> its state, so truncation must wait for the page table lock.
+> 
+> Fix generated by an LLM and sent by Chris Mason in private.
+> 
+> Fixes: fe6cf984939d ("mm/huge_memory: transfer the pmd dirty bit to the folio on zap")
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Leon Ming <leonming@meta.com>
-> ---
->  fs/fuse/dir.c     | 16 ++++++++++++----
->  fs/fuse/readdir.c |  1 +
->  2 files changed, 13 insertions(+), 4 deletions(-)
->
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index 28516a1760e..b7af3f5a3bb 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -644,13 +644,21 @@ static struct dentry *fuse_lookup(struct inode *dir=
-, struct dentry *entry,
->  	if (inode && get_node_id(inode) =3D=3D FUSE_ROOT_ID)
->  		goto out_iput;
->=20=20
-> +	/*
-> +	 * Set the epoch before d_splice_alias() makes the dentry visible.
-> +	 * Otherwise a concurrent lookup can find it with an epoch of zero, fail
-> +	 * fuse_dentry_revalidate() and invalidate it under us.
-> +	 */
-> +	fuse_dentry_set_epoch(entry, epoch);
->  	newent =3D d_splice_alias(inode, entry);
->  	err =3D PTR_ERR(newent);
->  	if (IS_ERR(newent))
->  		goto out_err;
->=20=20
-> -	entry =3D newent ? newent : entry;
-> -	fuse_dentry_set_epoch(entry, epoch);
-> +	if (newent) {
-> +		entry =3D newent;
-> +		fuse_dentry_set_epoch(entry, epoch);
-> +	}
+> Signed-off-by: Chris Mason <mason@kernel.org>
+> [ david: simplify comment and description ]
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-I believe this is very unlikely to cause problems, but we're slightly
-changing the behaviour here.  Before we were setting the epoch only in one
-of the dentries.  With this patch we're *always* setting the epoch in the
-dentry being looked up, *and* possibly in an alias returned by
-d_splice_alias().
+Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
-Can you see any possible issues with this change?
-
->  	if (outarg_valid)
->  		fuse_change_entry_timeout(entry, &outarg);
->  	else
-> @@ -907,8 +915,8 @@ static int fuse_create_open(struct mnt_idmap *idmap, =
-struct inode *dir,
->  		goto out_err;
->  	}
->  	kfree(forget);
-> -	d_instantiate(entry, inode);
->  	fuse_dentry_set_epoch(entry, epoch);
-> +	d_instantiate(entry, inode);
->  	fuse_change_entry_timeout(entry, &outentry);
->  	fuse_dir_changed(dir);
->  	err =3D generic_file_open(inode, file);
-> @@ -1030,6 +1038,7 @@ static struct dentry *create_new_entry(struct mnt_i=
-dmap *idmap, struct fuse_moun
->  		fuse_chan_queue_forget(fm->fc->chan, forget, outarg.nodeid, 1);
->  		return ERR_PTR(-ENOMEM);
->  	}
-> +	fuse_dentry_set_epoch(entry, epoch);
->  	kfree(forget);
->=20=20
->  	d =3D d_splice_alias(inode, entry);
-> @@ -1040,7 +1049,6 @@ static struct dentry *create_new_entry(struct mnt_i=
-dmap *idmap, struct fuse_moun
->  		fuse_dentry_set_epoch(d, epoch);
->  		fuse_change_entry_timeout(d, &outarg);
->  	} else {
-> -		fuse_dentry_set_epoch(entry, epoch);
->  		fuse_change_entry_timeout(entry, &outarg);
->  	}
->  	fuse_dir_changed(dir);
-> diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-> index 83a1cc46fe4..ffce4031892 100644
-> --- a/fs/fuse/readdir.c
-> +++ b/fs/fuse/readdir.c
-> @@ -239,6 +239,7 @@ static int fuse_direntplus_link(struct file *file,
->  		if (!inode)
->  			inode =3D ERR_PTR(-ENOMEM);
->=20=20
-> +		fuse_dentry_set_epoch(dentry, epoch);
->  		alias =3D d_splice_alias(inode, dentry);
->  		d_lookup_done(dentry);
->  		if (alias) {
-
-Personal preference: I'd move the other fuse_dentry_set_epoch() into the
-other branch ("if (!d_in_lookup(dentry) ... " ).
-
-Cheers,
---=20
-Lu=C3=ADs
+-- 
+Pedro
