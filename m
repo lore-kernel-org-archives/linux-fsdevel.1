@@ -1,100 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.171
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793204284;
-	b=iXOvfkVsZJsvsQ53WopwaYXLDP1WFB7MQK5dxTofYcOQVP7d/hl0r3rqJ/4fH87x8bZF
-	 mG1Jq5/esViyuFhZFG03babZ8KkFDCUvZOXKrrqTwN/tQ149UKInEoV0CIoluDkVW1jTK
-	 mc7DFXOOjnJ2c4TnYQw9KrVS6zApzg9dMFc+RZCFc6qR5ebC0bJvQgQJXf5qLqTd+/Y7t
-	 U9KS0t47VGWGjTetRfIhwUWiTvw50umJSPzxN9J8BcYseXhJHL/ZfE935fGrqmcZKX/+T
-	 3fbVE3W67zyG/w4ypkIgpLd039vUjetRtj+Foc29kWqZZ0Om8k4fX+ZvXFi+8qtcp+A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793204284;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=LR+4Nh8FYTRY8kZRrhgD+RKAvmlbTqJy80aNBobHu6k=;
-	b=miVhk4VrGPVxhYzN9SeEqbKGMWzc6fKh8N/AdJas/orBqktjZeE/hjoJXzETXuFUB1zz
-	 5Q9UPmP/+l4gsUbRY0m8d+BUmBKn2J8StczGNvBeVRj+PFOzYJKAWrqUUp0HN9UE8zHQa
-	 SkgXZ+Ms8PsiMSX2MYoVqtG+o39Ur2luddBfgaoTYiEVfQHvRtGk2uyhXnSx0cymumvzK
-	 2qoAqj+aMKo9IBL60vGemY7ou8LEta1IpH37/s14uJmHC7/Og/2ELQAVAcahKRLUpmrfT
-	 34wVfNxvSX/DL02xzw7tCXnoyXRNL26008uyiAzzxYzgeLzLHYXWVl1lYJDb/30APBQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aE0UVEPl;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.171
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793204405;
+	b=SrsgKNGl0zIvn2ycd2+Wu6DJ49twRuKODFUfP4AywjD1KTKX2ZETa+iAhcXomnimtZE3
+	 WrgQEF0QgzOsyJUw3Edpg+UKGbMz5hh8ihK9oWvLVwVyNgbTpmXoEnErFXSqbvN64rwh9
+	 /SyZjta7qA3MDpJynFocQHtMxHdUf5BAnwAywoCR0E9UtceB8m1vfO/xePo3bIaXrMKMS
+	 /YEw1tvBVi2C80p2s0ldOdfHepEV/8nTGFuTEBI+BqQwEMyEzADkL4Al6RPmrrzEAVgca
+	 U3ksi3nq6gdu0HphXXGK78lShMPjTWKtlR4TWSqHOWou2mJQfvssgv12rBJjQWKqY6Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793204405;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=0rATnQQTJ72YrBkABg0cEBhwiSsSBn8AUhfECRfpTKo=;
+	b=rGHC33EEN81JYAuzG46D1qRG1yqJSVFXfn0iLL6BtfYQboeyVFaE987G5v05s4SVA7fD
+	 me6/mYv6uLKLVXU/o9RMPHmtZhbwltckJ8F39jIAM4AFSAi0rS7A2zLERYX+g77uWtuE9
+	 haK3HaLHW+VcjJo5GOrg3SyX+XvvfhoizyZDDi2bEsL44+GQOfwlQ+PtJdR3FA5GFAY1b
+	 cNxQS5olosQ/t/JatTypu0XB+Oqu8rHD/QSuJCa2KHNJUwNRPnOH+D2zfwxZQ9i0f8am/
+	 hKRx7g+tkUfeojfqH0QGxPno9VIILiRqPv2UTT/VVTrM62mbzN4r8tHqctbv7jEFIlw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UmIij8vf;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BE2606A320
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:18:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3BE2606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CF6606A31A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 16:20:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aE0UVEPl
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-89ff475a152so575110b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 09:18:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793204283; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NyLUU+z7qcC13o62PYNMLmCNiD61eJS0xfQMzLDe4YMku8FfaTw4WLvQmTT9DB9iYu
-         fUdD+Kr9oLjmXMh+p94qDBjJYvJuJ7u5ARDphiWcl0QlZcFEEegDcHuQTTw4dEd5aRaV
-         iu73Cg0EdDCs1hWVZyzh8HBXM7lTNF3AE0IGYgH5ztgGlOgBLyWvNL3DLweqTnKVKa8/
-         1ze3gxjRIQlC8/+EiQYqRbnAjGyYWSrd8efhB0x9X3e79gK0bgQZwpXAw6OnqmiEGam1
-         90P7VoJ2t6ZCrRn3xExXwD5tRmfCia+pqNTjo5emWlwt1+EhfPmMaVqn3TAjME8VpYxO
-         t6OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LR+4Nh8FYTRY8kZRrhgD+RKAvmlbTqJy80aNBobHu6k=;
-        fh=K12LUZQJVi92jjIXoUpj2Yjb7mbpcO+8/ZQjCW7lT/c=;
-        b=IimKcGKwM6A2uRUNI7Y041QY9iXwEVM8KTs2sb0C7VNp8vcQjYcjhLWpDaetPOMerG
-         81E16k6kNKe3zFLcQN02l4oaWNQz2maU1pwisQhb58GxE+QKKr1az4xQ9nsWWAEN4iCI
-         4Kt8t0Hd+asdsnSKA6qe/gu7KDqqX5mhLWJ+bgCGkxy50hIk2UEJteBVQ8XsrUAEw9oK
-         UkX08t7vbBU9waM+IELLDFlrg3J79ATXODnbx+Px+QiZp8CowP3g+IHTUtOA2X4lLLRF
-         hJHUAcuJgqkT7EexihXGbkUeSoAGKiLwSZ9ry9yhjmxyc1NH5RaVnSl8oDB+Uu1vTckE
-         iCDQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793204283; x=1793809083; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LR+4Nh8FYTRY8kZRrhgD+RKAvmlbTqJy80aNBobHu6k=;
-        b=aE0UVEPlAf/V7Y31izbriey87faIFsoS80MZfhPz+nDPK2fFTvb3pIODF+rYWahhAL
-         IE/GRtPxJFWJY401Rp92EZ6jNjNQiz4DcR1KQKNa6Wrp8DP5JXEhIV3bawUSZ6OBMF3Z
-         Fag/CZu8p4S0vDV+pKLBKXG5EdyK4ORV7TOV/oJxfGOY2FaA54ToDtf6HylO7ckImk9L
-         EZJGWpNqqI1H/cea5knc2AQwEuMaFuJBcGtCUYmE2I6v4kVZDruIbLWQjeqrsqwYkeKv
-         brBqy/vSgeArKD9ZAiQYA43dPDFIFx74Cu6p0i9jVLMzAd7CHb1//RgOJp9+fhNk+tAC
-         6PvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793204283; x=1793809083;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LR+4Nh8FYTRY8kZRrhgD+RKAvmlbTqJy80aNBobHu6k=;
-        b=Lc0JMntuGrfUC+4WwriapgtpaHk+/Dk0k8J7xSA/SeLVT/p9/Z/huEs+vwA24LAxND
-         6nihS02KJdj6sH1cM+qEHDDGZfSSZkIw3g/VuEShvchgmVdbiqHQZctxv6wGYWQcB4Xa
-         ixppkBqrHnvRdgZPrDNSuLxENbd5FfICNmKrm7sxr9SmI6kuifRLaXJEZujS2WU3ZpjJ
-         zTpgqnajIgNuusUpIWVmruphvdvCEiNUAaZYM8z9r+2bJDoeV1LtYClunei3TgM2UPzL
-         anznhd54KXvSYwA5QA2xRkmd4YIQ8OsD+cdkT6OdE45RbfQWr8W6jOE0Z+rilS4mES4/
-         xMVw==
-X-Forwarded-Encrypted: i=1; AKwUvBylxEFtztG4zA45IWKtjJmgKtJ+hs7AyyXVRM0NzGJJslE72egSM5plZqieIYUVY/8Rywh6WsuEB/ByBZTc@vger.kernel.org
-X-Gm-Message-State: AFq9FYKe7FyQUjy29zJV+ZRC+oGTS+OaJHN9MomFQmTkv2t6GYCJsDDN
-	7zVM/Jy2eEf6JUs9dHzhJsjJTwyBLNOj3+GlRhU5cu5yJsShTYCcdKAlqrCqTuGXEGFKg5lu8u3
-	/nksH6PYsLcnd7INJkvJSsjyi1d+bBNI=
-X-Gm-Gg: AYBFou3BRedrpSW7/wbQoIWMjVy8u31xo6demmj0udN0eqy1ho+jtFv6evMnh5QitON
-	d9NFdDGoZ7hOvpQVAHDwqrdq25nSrOWXxzfHOKM/wXKtUPXHSug1bbNexO0S17EdU9EN6BLuOKm
-	h1S+vTX6maJXwcgdJSAcnbeVJPBoDT20Z8CFUIzTnMQg5YVrks6h4wTVfBcf9feBu4X9U+c7SQg
-	+zsNoqIi5WjRc3fIlyiS50XyFm+bk5gow9yqXJ8Wg26qKN4d54gIDVNdE5zwJPRGtBMJh8PYqEZ
-	3CktADXJ+rsu7XKRpZ5Yaofbiz7pKlztb82Bf40X2SCkvKaGZgzwMP0M+WgKmAknXVqHmg4pvcv
-	Hdmzj8Q/cRLBAAzCpAnYftBs0rn2xLbo+S5fcog==
-X-Received: by 2002:a05:6a00:391f:b0:89e:9560:fc7a with SMTP id
- d2e1a72fcca58-8a6e6efa7a7mr2168656b3a.29.1793204283163; Wed, 28 Oct 2026
- 09:18:03 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UmIij8vf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5B331F01829;
+	Wed, 28 Oct 2026 16:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793204404;
+	bh=0rATnQQTJ72YrBkABg0cEBhwiSsSBn8AUhfECRfpTKo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UmIij8vf/k3vPosCEVWZkUrZaT3cJyYVso0ngmgXQnm5Qiwz68buSNqZW+8lvZjoD
+	 n0YcsWASKMCCTBNuGeBXY/Ms3PtYzYwRYf8VoSJsPvldppqlXhm/ReMYKNp5aGYec+
+	 bRclZ/KKr85Vrl5c51fPSWiOVHybCrwKvtZUZkWO3SoYa65gKjFRgaBD3HYmic0a2D
+	 jyyACS3zLnDO6fxb9jvrrMGvWuy8xfS0UlWBNV+dLQPPZ7Ae1v0LSrWreUyqvGpnhf
+	 jOP40mj59weocaFNQoE6WmukOXdcYHTk9wH9w2g+LWyvb35SMyhiljJXypUkaQhRQG
+	 pptZToRJ0mYxw==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 29073198005A;
+	Wed, 28 Oct 2026 12:19:49 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Wed, 28 Oct 2026 12:19:59 -0400
+X-ME-Sender: <xms:pCDiapHR5_UfAlK6Y5IwuSd6tG-IN25ti_9qop6y33Mn7A8IfOyH2w>
+    <xme:pCDiaolisVVX49paz5DMLbhyfp3Q6L1SCMdynmBx-MO6JItRfQaLAqjheIBSQuP6W
+    utF727eX3BINM1KjFyEGeeFcQzdUVht_0jxrDU5lvFsc9Uo93IjJqpd>
+X-ME-Received: <xmr:pCDiatI176GX8GobYrpPR5_2HleYubAakxHYnaCbeKCR92Rik7DrWnkMNEI>
+X-ME-Proxy-Cause: dmFkZTGclD1JbppB9HJ+wc+PBYUc7y+dixlkOiA2HsCm5bBLjgZcXtU5z4GDtO5noWzmDd
+    ORQFP5u9B2gtbQIzAfn62HyoZPZzOaRlPLXMJbRuOKsJfFDAVc93Ms6EaNrHWEq6z6wsvt
+    Vwv7YGYHYp1DmH0JFFFqpqagIBWKJjdY8K+9fHquSKFVK4QpWZo3/X+8b1lo1wJj7cOP/0
+    UxPerUKzYQfYIPe0+zZpOe+dudiR/ZmyEvfhO+buEi+HLpafl9BeNw9D79/rT5MOLUUGeC
+    H20VI38/59YkMmPnP0Lyu8v9OMGay2+0LMnea7uAS3uuq0rtJ908MMUpIuTf0GbHo8UsAY
+    ua+t7Qev6BT8kMHCeyM4V1m6u5YQwDA4moRebSE73U9F3vqd/sLjELfF2vONZb+ZcW5TQB
+    94GQy7Qy9EYuo6vu61hPJ1VjyjuMJ99xhWVMI+3gZz6H3VQ84mHv5w8TE9tnJChUhoUUP9
+    4BpLr6gQs04DR36/rOYGy/+LZjcGIu/GNpIN099cOSZ+EN2zqtR43z7EhAL94X1B/ytyyp
+    oo/rRFI886c55KcN4on3qj6HWPCrIJtfc0D4lmBumEi5I8lrnU3HxQLS8Z22AYR9GbRHTz
+    75P/PVpblWhTAf4127jPQ1kO6sZzgqCljd55hkW2aMHmD3LDpX4z8/2t8a7Q
+X-ME-Proxy: <xmx:pCDiahze4ae2vr6g0xh1CGHOySl6hdDch_bPcHI01gx7Cx5B5_AyJw>
+    <xmx:pCDiapp2l8L-56W56KcYVToqHeGQ2dwKvVCsSdlmv3g205bP2Roufw>
+    <xmx:pCDiaj3XJkMTDlTUcybqoOOCtsjCPlXp0xH4AP7sKqkLmlew_k_rVA>
+    <xmx:pCDiaoL8lIOsfn_CSb0VzXBCgfJe6RSz91C-07dxto8nIE3ph-anSQ>
+    <xmx:pCDiaopVBBj5qbjabGhIOaxTeF90y_zQKddqmsT3AwUNkwcLcz8ejdNW>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 28 Oct 2026 12:19:46 -0400 (EDT)
+Date: Wed, 28 Oct 2026 16:19:45 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Hugh Dickins <hughd@google.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>, 
+	Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+	Nick Piggin <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
+	Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, Xu Xin <xu.xin@linux.dev>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Chris Li <chrisl@kernel.org>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Gregory Price <gourry@gourry.net>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, stable@vger.kernel.org, 
+	Josef Bacik <josef@toxicpanda.com>
+Subject: Re: [PATCH 02/46] fork: take mmap_lock before copying mm_struct
+Message-ID: <auIgkX9zz8TdnLum@thinkstation>
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+ <20261027-fixes_core-v1-2-6f74bec9a5bb@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,70 +112,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261027215326.2693300-1-joannelkoong@gmail.com> <20261027215326.2693300-2-joannelkoong@gmail.com>
-In-Reply-To: <20261027215326.2693300-2-joannelkoong@gmail.com>
-From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date: Thu, 29 Oct 2026 01:17:43 +0900
-X-Gm-Features: AclHuK91pZpqmliH2N1ROYQZJFORz_xx3uP0uM_hYUkPFZ1oO9AzV0q2NKIx0ms
-Message-ID: <CAKFNMo=Kqs0T=a578WN+=PZ2gse2APWZ_jnJ64XyrerFK41sXw@mail.gmail.com>
-Subject: Re: [PATCH 1/5] nilfs2: convert iomap ops to ->iomap_next()
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Christoph Hellwig <hch@lst.de>, "Darrick J . Wong" <djwong@kernel.org>, changfengnan@bytedance.com, 
-	kbusch@kernel.org, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, David Sterba <dsterba@suse.com>, Gao Xiang <xiang@kernel.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Andreas Gruenbacher <agruenba@redhat.com>, 
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, Hyunchul Lee <hyc.lee@gmail.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Carlos Maiolino <cem@kernel.org>, 
-	Damien Le Moal <dlemoal@kernel.org>, libaokun@linux.alibaba.com, bfoster@redhat.com, 
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, linux-nilfs@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	Zhang Yi <yi.zhang@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027-fixes_core-v1-2-6f74bec9a5bb@kernel.org>
 
-On Wed, Oct 28, 2026 at 6:58=E2=80=AFAM Joanne Koong wrote:
->
-> Convert nilfs2 iomap_ops to the new ->iomap_next() callback. The callback
-> is generated with the DEFINE_IOMAP_ITER_NEXT() macro, which wraps the
-> iomap_iter_next() helper to finish the previous mapping if needed and
-> produce the next one. No functional changes are intended.
->
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> ---
+On Tue, Oct 27, 2026 at 12:17:22AM +0100, David Hildenbrand (Arm) wrote:
+> dup_mm() copies the parent's mm_struct before dup_mmap() takes the
+> mmap_lock. A concurrent brk() can leave the child with a stale mm->brk
+> and newer heap mappings, causing later brk() requests to fail.
+> 
+> Other operations (e.g., PR_SET_MM) on the parent's mm_struct can similarly
+> cause inconsistencies.
+> 
+> As a simple and robust fix, grab the parent's mmap_lock earlier. This
+> way we don't need to update individual mm fields in dup_mmap() and
+> keep missing ones. Stop updating the 4 existing members (total_vm, data_vm,
+> exec_vm, stack_vm), as that is now no longer required.
+> 
+> Keep releasing the parent's mmap_lock in dup_mmap(), before
+> userfaultfd completion, to avoid moving the userfaultfd handling into the
+> caller. This should get cleaned up later.
+> 
+> Move uprobe_start_dup_mmap() to preserve the lock ordering.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Reported-by: Josef Bacik <josef@toxicpanda.com>
+> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Hi Joanne,
+Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 
-Thanks for picking up the newly merged NILFS2 iomap code and handling
-the additional conversion to complete this series.
-
-While this patch is an intermediate step, the changes look good to me,
-including the finalizing conversion in patch 4/5.
-
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-
-Thanks,
-Ryusuke Konishi
-
->  fs/nilfs2/iomap.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/nilfs2/iomap.c b/fs/nilfs2/iomap.c
-> index e130ed63abd9..359786c97f2b 100644
-> --- a/fs/nilfs2/iomap.c
-> +++ b/fs/nilfs2/iomap.c
-> @@ -67,6 +67,8 @@ static int nilfs_iomap_begin(struct inode *inode, loff_=
-t offset,
->         return 0;
->  }
->
-> +static DEFINE_IOMAP_ITER_NEXT(nilfs_iomap_next, nilfs_iomap_begin);
-> +
->  const struct iomap_ops nilfs_iomap_ops =3D {
-> -       .iomap_begin =3D nilfs_iomap_begin,
-> +       .iomap_next =3D nilfs_iomap_next,
->  };
-> --
-> 2.52.0
->
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
