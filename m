@@ -1,100 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.179
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793217565;
-	b=aD+WidDVwZPNq+zYPQ6jFaosgOcrEFGyAEmllGqM+9URV3OVQCzfUqJjJUx6oJfGkqud
-	 gMAOfbk4poN+W8ARD0oIG1FRmkvtsb0DdMKOFgZ1Jwvvx1uAlzx9eYrfzbT41PjBVhYXm
-	 ngTobZMf8YYcygqysqa2+22GwaFU371g4Daj9pd4esgLDzVPIyymGfvsD/prJ3VIhn3sF
-	 QaIsCbr346g1fdu2E8CvshgSQvRJp002+sJEOq/xUoKNqFFjtMC1Ntx63PtOV88OAJjfd
-	 Pt0vMrCOo1iNZoGiGxPJO5SjNCvdJm4atW4W3bspHuqqq09ue8UgT4iEdNpA7XnyU3g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793217565;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=KNPolz4ZvstX96ia0adxYWJ+Q8YCwfoUsBDxmY4GZ/g=;
-	b=CqDoQf1AEWd+szmz8IjZijESD93cSLHzhTzfXE4b4sUftaKw80zrpNgzpk3RD6iKtbN3
-	 rp0XBbz860bxoSBsiZl2CvlOa3pzuB0TJVe3cOGBEdbX5sn+WQLRpjTFSvMjJaOp9vr1s
-	 +UwuDCsMOMx4Cyk/3GRBsiyh2dVVk0tjlwztADFHBjq59R0fOW7pVOCAuDSC4vxCELOLm
-	 cVUXCB+gZ4GIMGHh7l8KL4f66nUPgxSPos3DzbVIPOjny+7ICm3jgRj69eKps4dpIP8QB
-	 VR7h4yx533jHv23jSNblhROgX+YmPyCiXCTaLluRj6DCbGIyHhSGtyHCUXPPibr7wzw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gCjriWQL;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.179
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=71.18.227.5
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793218170;
+	b=gPpn8z2M98WxprAVa3jqG2Rdg6P6j9HRS2gsFiFLHv5KSyF+WUSRlm0ERo/gnIXYTCVL
+	 Zg4a3kfBW/KQqNU8CwDQWpq+jM2km9KcWU+CYqTsB36E8MzdVl6SRS15RTWwe+t2sCD9w
+	 CaIZOM9fjcncSXmEF3OHmuJdZOYMsQ5Ra+a9XNrjk5t40cc6TqyF9fK424L/SaPN9clHU
+	 MsSzlkO8xK41m0l7M+0yQFoJ+i9BopPoXO9BqviGhrFoWcGV61kXUdiIAT340YUjWQ03B
+	 Xm6EwMEDPOcsgMSkrOBLJRtN/85g3servuo0J0Ycd61XdwGJzV4DhFK39Eqm3EPpDvg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793218170;
+	h=DMARC-Filter:DKIM-Signature:Content-Transfer-Encoding:
+	 X-Original-From:X-Mailer:Received:To:Subject:Message-Id:Content-Type:
+	 From:Mime-Version:X-B4-Tracking:X-Change-Id:Cc:Date:
+	 X-Lms-Return-Path;
+	bh=P9v5gomtHM+UM7ktgSnN33eoEYmTkj5Bo7NGWriI0nc=;
+	b=OLjOQQl5524JxJQDVhh4i0OwTuRpkPKp3otMxEsIlOvFZz0OlwE+6mQSsvepVtWcKfZJ
+	 ubusZtBPU85R0p+YVKRMBaPUkbPh7sDZuxwMNyX5os1s7B8nqR1/P0eaS4ZDy8h447uqE
+	 zjrchJV3ciRo2p8j0FAccUIsxIZaCOpKJl559Qhh6nU/nUvdrFcOPnCuwLTTRfa5nPD7H
+	 630lT7ZUD/z9AHZohhMosr55FQ/nKHdAk2rRBLYc+0FT7KXoRFylVqdpfsu3qvEVgPWlX
+	 2+j+zpcEuX1kJ5FZahD89wrfB5oOe9+YsNS2Vopqb3RTkG67bYs9X5hjL1smmCtzPbw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=cherr.cc;
+	spf=pass smtp.mailfrom=cherr.cc;
+	dkim=pass header.d=cherr.cc header.i=@cherr.cc header.a=rsa-sha256 header.s=feishu2604220257 header.b=XcC1dZxC;
+	arc=none smtp.remote-ip=71.18.227.5
+Received: from sg-2-5.ptr.blmpb.com (sg-2-5.ptr.blmpb.com [71.18.227.5])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85E8606A31D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 19:59:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E85E8606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA28260A2612
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 20:09:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA28260A2612
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cherr.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherr.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gCjriWQL
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-533202fe429so76681cf.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 12:59:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793217563; cv=none;
-        d=google.com; s=arc-20260327;
-        b=LXFMJwiP2QPDU4Gv1IpToKa5eN7KieXA5/25AoNRyCsiRbrOqc80npuE5Tj05olvWD
-         r5JzwPOfXYWbsv4fq0dGgLpnEgdr3avfuAQ8cd5NQSpMCrGpdgwHp7tFJYtM6LVM9iag
-         ktXz+HbwSu0skcqIzjUk244kkAlC/kPn4wjg4rJcz8ihVtjIpLASg1kVZVzyIXBwQCF0
-         x8txg764CSOP3cMqgtxnq0lfu1m0ZbRJZcGoQN7wR/3ZGOjI+FQ7E9tLg2/VbRppRg6T
-         DE7DgjwbTRwo/OMOdOCwXI6GIOYvh3+VPvKJY+oUEKQi42r8MJPNmsCfGOqxg1VLmRy2
-         gNDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KNPolz4ZvstX96ia0adxYWJ+Q8YCwfoUsBDxmY4GZ/g=;
-        fh=cPiKbBqsNDeYaT8xBjRsIhA5aATvhTkprFQGObILEOA=;
-        b=O0VJo3k/QhboVh0STVdNkw6xTLq4p+e8Q7xvgh62rOLj6PmLtH4md7HuCikXyxws4T
-         tvFIwRdgudKRX+QlM0pa8X3MLqCNx+xMWziwUohbWOHBIXDS32RUiCOT/WhlraUeg543
-         Jl/GITdDHzodavO+0mHKoSG0jDITw3c2FcOPxM7p7S47Cq+wRMhng5DzgVkuf+YFWhi2
-         4nNyCdgTgHINX/qW2YTTiS3+Cy94haG8lBmFjcWwbCw5NG7XI6lMIvMkB0hOHcoHqHLa
-         ZUg+AirV7egWDk6MvCpR9FgExzb+00DnZHPkvf1DW6C62dZ8SMzE++nzmQc3+z4FAHrZ
-         EUpg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793217563; x=1793822363; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KNPolz4ZvstX96ia0adxYWJ+Q8YCwfoUsBDxmY4GZ/g=;
-        b=gCjriWQLQo2QvHH5JTfWBFdwWXcomYNyjYW7ZcE4DfNTnnabubGbcuv5TLXSpg9Cgc
-         WX5X8EXcCS64I8UTPo+5tYP1xFIrho21VEn5ITbIPcwa5MlX3TNi2HEUH9xAG/uIh0p+
-         /CFb6qZJ28eo8GCSMNw6be/XK86w47lT+ZGGezFfXnuvOGdoWMuP3bexz8+YZdjw63Gg
-         BiD5nkw10JRLzR/s64bohuksvrG8P3Eqhk/p/8lpvPVBBghyvYaWQjQbi7rtyWc3Kz7B
-         pFh1x3lH1zeYVdHOjyLbVvYJgYgUnAOIrVL0E0kuocfo7/urV+TDqxqpa/APfSlLh9vL
-         GC6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793217563; x=1793822363;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KNPolz4ZvstX96ia0adxYWJ+Q8YCwfoUsBDxmY4GZ/g=;
-        b=QlnBNx89uhFO7i4KxrA+6jGaBHEDjTy0iJq8zTUeuZNKMYGLh1odStktf6USe6c67V
-         CZjyI99L2dh5V39dpePCxEDWDJFO+TvzE5bwA5bzxMRHCewJcbDBonjKItgCiknCY/pc
-         c6xGQ3cF/BwMTDXJ9UxhX/afF3W00bLqXY+fRzN7XsdLU4F04tn5D7Sx2dQtvUqnTNyg
-         0RRncTRQyl1b/dyw6lgzzzAVS9IResVvGmhJRjQJYmfbyUu4KuY1yStY7WBRjb1eyIS/
-         PmjqbqMDLPJUcynntmQEyP5EFrGePo/70cF/jt1EPsxc8UWDyG/WnOfa7CfnpOQvaYmS
-         RihQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwhM/2TDq5u7X+5po6BG1q3SNUIHuxGbj9BxR1os6ZPYqwLVn7lR/GxgLKpAPTYVOkrmUir462KdLSbnozy@vger.kernel.org
-X-Gm-Message-State: AFq9FYI3ggtwIUe5yDo14oQZ771nt92R7Zyc/+uxdKb9Doy74GypqRVg
-	SmaNHG+lhobzqF9D+K2SuniFwe3/Tc//awpgsoN3teXfh4XkRevwI0p3l+48TEd4OadcugbDt1L
-	hJcD2Xqz/+IxsWlHY797tDQ0sFkhhgfnmc/QumeOg
-X-Gm-Gg: AYBFou2dtO4J2ZtqSWAVb/NUw0DXYsT5qJYMR8OpkwPA6srz4Hf1ex97JGDCBJMpvTL
-	0db4iQoQxiAvSyoHmIsTP2IcxtDjclXaNUiP4QPcdyUVdnDHmLxsQtKJSrD1i7z+X5CqGX8agD4
-	vlJeseGip2RGx2AYopfLVJjUaZTc679/BON69j76UgNw0VMCUZavxw6r2SYi7By8B3ya0aD542x
-	NC43fmx62szez1vdt40mE6t7sg5x1i/NpsJRbol+aEAuZ174yTJOEM1mHtpri1d8BZ1gJk4dMQz
-	u6uYlGh+2t3ZIz2cdv77CrF4y7W4HU8aRPPcgZ2bR5k92+V+x94rOCgn1mXhuf3lldvA2EaFp+O
-	boCv29lJvX5Ju/ESZC2SE3iat/bJv0WNVyrF5mbc0MxzWs7lT3CvEvrMUtbVpUX+uNA==
-X-Received: by 2002:ac8:690d:0:b0:534:b7b2:634f with SMTP id
- d75a77b69052e-5414d92c15bmr762701cf.8.1793217562021; Wed, 28 Oct 2026
- 12:59:22 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=cherr.cc header.i=@cherr.cc header.a=rsa-sha256 header.s=feishu2604220257 header.b=XcC1dZxC
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=feishu2604220257; d=cherr.cc; t=1793218163; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=P9v5gomtHM+UM7ktgSnN33eoEYmTkj5Bo7NGWriI0nc=;
+ b=XcC1dZxCpezEigz/exLwbpTt8YPBE+Iw/METqBr+UwNl/EN9xKZPS4RNCbkoy6tJHOsW4O
+ InmVNrqPI7y71335YRnjoi2b2BwTtVGeYjEFEvv9PGT6Gwb0f7Xxhm02fdZGsB2zlZdxsR
+ WUXpCpxVPdCAJWWiImlnN1jI4hSq/JAHkhCSZTZD/rnG9ygUlVegrw4JKidogVrrxkomkP
+ docqjpylhzbnadVymLeKCPWBYdlhj/GD2xKkkYthzcKYdLEKETi7YUuQODUa+iq3JXz6OM
+ auUYmiKHH9+em/jGWdmvqztCpGBhz/nmOsFizlAT8grHU+nLyjdKgXahmiAULA==
+Content-Transfer-Encoding: 7bit
+X-Original-From: Shengzhuo Wei <me@cherr.cc>
+X-Mailer: b4 0.16.0
+Received: from [127.0.1.1] ([111.42.148.156]) by smtp.feishu.cn with ESMTPS; Thu, 29 Oct 2026 04:09:20 +0800
+To: "Namjae Jeon" <linkinjeon@kernel.org>, 
+	"Hyunchul Lee" <hyc.lee@gmail.com>
+Subject: [PATCH] ntfs: wait for bitmap folio writeback before modifying it
+Message-Id: <20261029-b4-ntfs-bitmap-writeback-wait-v1-1-e2ba711b2dbf@cherr.cc>
+Content-Type: text/plain; charset=UTF-8
+From: "Shengzhuo Wei" <me@cherr.cc>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,58 +62,115 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261028051312.1505295-1-surenb@google.com> <auHK3k-W4gfL_MhI@pedro-suse.tail5790ac.ts.net>
- <auJO9al4lmAczLAu@pedro-suse.tail5790ac.ts.net>
-In-Reply-To: <auJO9al4lmAczLAu@pedro-suse.tail5790ac.ts.net>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 28 Oct 2026 12:59:10 -0700
-X-Gm-Features: AclHuK9-6O7OXV5NH16IYTfE9EYxAq4xHV33LgQLBVE22ks0KWFvxZhPdcny1CQ
-Message-ID: <CAJuCfpHAFXDXs4ZBrd8C=8hkQdJxcWCz+DER5BG_Ki0ndGpf9w@mail.gmail.com>
-Subject: Re: [PATCH 1/1] selftests/proc: use RSS in /proc/pid/smaps_rollup
- tearing tests
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	jannh@google.com, liam@infradead.org, willy@infradead.org, paulmck@kernel.org, 
-	usama.arif@linux.dev, vbabka@kernel.org, linux-fsdevel@vger.kernel.org, 
-	yi1.lai@intel.com, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAG1W4moC/yXMwQ6CMAwA0F8hPduELQODv2I8dKPTapxknWJC+ HcHHt/lLaCchRVOzQKZP6LyShXm0EC4UboyylgNtrW9ae2A3mEqUdFLedKEc5bCnsIDZ5KCo+t 6E6lzYThCPabMUb77f778rW9/51C2FNb1B/jXAemBAAAA
+X-Change-Id: 20261029-b4-ntfs-bitmap-writeback-wait-d4561fa54c97
+Cc: <ntfs@lists.linux.dev>, <linux-kernel@vger.kernel.org>, 
+	<linux-fsdevel@vger.kernel.org>, <stable@vger.kernel.org>, 
+	"Shengzhuo Wei" <me@cherr.cc>
+Date: Thu, 29 Oct 2026 04:09:18 +0800
+X-Lms-Return-Path: <lba+26ae25671+5f788d+vger.kernel.org+me@cherr.cc>
 
-On Wed, Oct 28, 2026 at 12:42=E2=80=AFPM Pedro Falcato <pfalcato@suse.de> w=
-rote:
->
-> On Wed, Oct 28, 2026 at 10:14:19AM +0000, Pedro Falcato wrote:
-> > On Tue, Oct 27, 2026 at 10:13:12PM -0700, Suren Baghdasaryan wrote:
-> > > Pss metrics can be affected by map count even if VMA tree stays uncha=
-nged,
-> > > therefore test checking VMA tree integrity can't use them. Use Rss in=
-stead
-> > > and pre-populate the VMAs so that Rss changes if a VMA gets skipped o=
-r
-> > > double-counted.
-> > >
-> > > Fixes: ca5480fb53fa ("selftests/proc: add /proc/pid/smaps_rollup tear=
-ing tests")
-> > > Reported-by: kernel test robot <yi1.lai@intel.com>
-> > > Closes: https://lore.kernel.org/oe-lkp/202610271934.fd287c3f-lkp@inte=
-l.com
-> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> >
-> > Reviewed-by: Pedro Falcato <pfalcato@suse.de>
->
-> Actually, now I'm wondering: isn't Rss also flaky if memory pressure occu=
-rs?
+The bitmap update paths lock their page cache folios before modifying
+them, but the folio lock does not wait for an earlier writeback to
+finish.  Writeback can release the lock while its BIO still references
+the folio memory, allowing bitmap changes to race with that I/O and
+expose partially updated contents to it.
 
-True. Sashiko's findings are also interesting, so I'll need to figure
-out more robust ways to test smaps_rollup. I will post an update once
-I figure it out.
-Andrew, if this test failure is causing issues in the meantime, please
-feel free to remove the ca5480fb53fa patch until I get a better
-version out.
-Thanks!
+Wait for existing writeback after locking each folio and before
+modifying it in ntfs_attr_set(), both bitmap setter loops, the cluster
+allocator, and the two MFT bitmap allocation paths.  This follows the
+lock-then-wait sequence already used for attribute and raw MFT updates.
 
->
-> --
-> Pedro
+Cc: stable@vger.kernel.org
+Signed-off-by: Shengzhuo Wei <me@cherr.cc>
+---
+The change was checked against the existing attribute/MFT waits and
+the iomap completion path.  Existing base and patched NTFS object
+builds with W=1 and CONFIG_WERROR=y complete without warnings.  No
+runtime reproduction or filesystem stress test was performed.
+---
+ fs/ntfs/attrib.c   | 2 ++
+ fs/ntfs/bitmap.c   | 4 ++++
+ fs/ntfs/lcnalloc.c | 2 ++
+ fs/ntfs/mft.c      | 4 ++++
+ 4 files changed, 12 insertions(+)
+
+diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+index fce7144d7bef..b460d2223314 100644
+--- a/fs/ntfs/attrib.c
++++ b/fs/ntfs/attrib.c
+@@ -2332,6 +2332,8 @@ int ntfs_attr_set(struct ntfs_inode *ni, s64 ofs, s64 cnt, const u8 val)
+ 		attr_len = min_t(size_t, (size_t)cnt, folio_size(folio) - offset);
+ 
+ 		folio_lock(folio);
++		if (folio_test_writeback(folio))
++			folio_wait_writeback(folio);
+ 		addr = kmap_local_folio(folio, offset);
+ 		memset(addr, val, attr_len);
+ 		kunmap_local(addr);
+diff --git a/fs/ntfs/bitmap.c b/fs/ntfs/bitmap.c
+index af86fb1c199b..057b315789ec 100644
+--- a/fs/ntfs/bitmap.c
++++ b/fs/ntfs/bitmap.c
+@@ -213,6 +213,8 @@ int __ntfs_bitmap_set_bits_in_run(struct inode *vi, const s64 start_bit,
+ 	}
+ 
+ 	folio_lock(folio);
++	if (folio_test_writeback(folio))
++		folio_wait_writeback(folio);
+ 	kaddr = kmap_local_folio(folio, 0);
+ 
+ 	/* Set @pos to the position of the byte containing @start_bit. */
+@@ -277,6 +279,8 @@ int __ntfs_bitmap_set_bits_in_run(struct inode *vi, const s64 start_bit,
+ 		}
+ 
+ 		folio_lock(folio);
++		if (folio_test_writeback(folio))
++			folio_wait_writeback(folio);
+ 		kaddr = kmap_local_folio(folio, 0);
+ 		/*
+ 		 * Depending on @value, modify all remaining whole bytes in the
+diff --git a/fs/ntfs/lcnalloc.c b/fs/ntfs/lcnalloc.c
+index 3ebcac4c2864..aac8627a9283 100644
+--- a/fs/ntfs/lcnalloc.c
++++ b/fs/ntfs/lcnalloc.c
+@@ -348,6 +348,8 @@ struct runlist_element *ntfs_cluster_alloc(struct ntfs_volume *vol, const s64 st
+ 		}
+ 
+ 		folio_lock(folio);
++		if (folio_test_writeback(folio))
++			folio_wait_writeback(folio);
+ 		buf = kmap_local_folio(folio, 0) + pg_off;
+ 		ntfs_debug("Before inner while loop: buf_size %i, lcn 0x%llx, bmp_pos 0x%llx, need_writeback %i.",
+ 				buf_size, lcn, bmp_pos, need_writeback);
+diff --git a/fs/ntfs/mft.c b/fs/ntfs/mft.c
+index 89288b794348..b8aa8b0891dc 100644
+--- a/fs/ntfs/mft.c
++++ b/fs/ntfs/mft.c
+@@ -1206,6 +1206,8 @@ static s64 mft_bitmap_alloc_free_rec(struct ntfs_volume *vol,
+ 				return PTR_ERR(folio);
+ 			}
+ 			folio_lock(folio);
++			if (folio_test_writeback(folio))
++				folio_wait_writeback(folio);
+ 			buf = (u8 *)kmap_local_folio(folio, 0) + folio_ofs;
+ 			bit = data_pos & 7;
+ 			data_pos &= ~7ull;
+@@ -1402,6 +1404,8 @@ static int ntfs_mft_bitmap_extend_allocation_nolock(struct ntfs_volume *vol)
+ 
+ 	down_write(&vol->lcnbmp_lock);
+ 	folio_lock(folio);
++	if (folio_test_writeback(folio))
++		folio_wait_writeback(folio);
+ 	b = (u8 *)kmap_local_folio(folio, 0) + (ll & ~PAGE_MASK);
+ 	tb = 1 << (lcn & 7ull);
+ 	/*
+
+---
+base-commit: d135ab453a7400a34930bdda1ef4bdc8acfac80e
+change-id: 20261029-b4-ntfs-bitmap-writeback-wait-d4561fa54c97
+
+Best regards,
+--  
+Shengzhuo Wei <me@cherr.cc>
