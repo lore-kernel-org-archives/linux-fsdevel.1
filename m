@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793225909;
-	b=Je66uF5df5LXjkPhw32CorQLLey8qVqc8gqTGsNDp2s4QWJ19i1nuwe6fBr9VoTDqmf3
-	 o7k9NM2IF0SeG6BbT71qc6ACngvKlHsaFOFc7lMGgKG8vkMNkFy9wOnA9D28MalKsHI8f
-	 N3/GSs/J+EZv9g+BiYBDMwnzS+Nj45ykvWnlS5rm1o7lhYc4EFLuRnJJsc1Y7gTO1dmZR
-	 IrG/W424mH4xmdcXSBG8UQ0PvrFXZFOFxEuET2LTtnK/hN+50a2lBQ7nBMxhracpRwn8l
-	 n65MkgZxrJhoXs0UTNt+AOMrul4ktvVxP4qW63RLF1POLWCLBBF8q5dV1BwStY7rEUA==
+	t=1793225900;
+	b=jgjm3qcsg9LX9tOH7R9c7NntHTOYdVA6o+XPjmrebhkKFEoPO/YUG6bK7znScHuKdlXc
+	 zDmEzjKVEpUmnYaZwRT+CEptBv/RPJbg6XiroQGm39V0XWfLqjbRypHEjikvPkBDGXYB+
+	 QztH6vuXjvBc6pz7ug0PYe25KkHmg8ncLfGQ1xT9IhYQbOJmI9JoffxfMK8HAq0vuoY2r
+	 j3IPlBDV+C0xgEEpCk7noobmlopJxkN4DGKzuI60mv66/zla0Fi3Olyn15/WAba+TOvop
+	 U7efwP5b2yZ0fR/5J+FU+aQMlB2nkN2aFIbiladnuX/f3oO6x0RQru5A21p9DroqSAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793225909;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793225900;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=O3jI53IvGMjui3qM6yb8MAnyltVbJGBw/n9i8mncKWg=;
-	b=DOulWReLPzWsyZh3Y6H5Dknl7hg7SEHKiqxfXlMcaAWQQ6K4ZpBo1L8H+L+WFvARm8ZR
-	 s5lxj8zKhLKH595tIcfe478mYZ1k7l0/GIPD0NP8M1icEqooVxDJPcQqreq50qdER8yi4
-	 pv6/1uf7pAF6GSEt5q7rhbmdGhVe774JgwtaycKfYXOZdFT5HI93r/yXDWpwVzzQbBlhy
-	 /uY3mwpq5zTQF6fXPyncBr6VA2XarkKF3AIuPGUmWXKwE12V4rcXSEkHT4BVrhjgyP4VF
-	 GSZw3k/H7/d5GEd537LxQCyKwP4JLHT7FNUUG2F6XeyqY0o9Qst5XWMG+YyCyuru52Q==
+	bh=65gkrwysKwp4zEIPD1eJcpPuoQ0vzx+YLkBbHQtjT6w=;
+	b=1zn/TZrmtRyhALS+uG+gl2u+nfCk5NzqpQVVQziVeBViDwTaPzwnz49rB8p65nalV3tY
+	 bgkazCqG+sAsL/HyoCmHdw2mliBHW8vwg0Ew4fluwwECDuERuM54qhVVsliP14fhOopzD
+	 iGh+lzQa9ZaDiDaeszUlNTq4kMqOaOAuK2uZYkLw4fzeb5oSP8M0rr6qzEpLyLOZAf1Wt
+	 18hW/kaSPhQVmEgA1OrEdfFkR/gnkLsn8q8sk1xKhWh5Li30cHs/13uLUMr8iilbBYgrL
+	 LkkP+i4gIN3K+UBOpy/dITT9ybcVBI3ItMIUGp3R3R4jaQSuknDnR8dnzAkrla5i4bQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=ZocZJ6fm;
-	arc=none smtp.remote-ip=209.85.208.72
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=A0OLGHuc;
+	arc=none smtp.remote-ip=209.85.218.72
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A897260A262F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 22:18:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A897260A262F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B089E60A260B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 22:18:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B089E60A260B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=ZocZJ6fm
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-6b1c95904c2so1740683a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 15:18:20 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=A0OLGHuc
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c498fa2d96cso124099966b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 15:18:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793225899; x=1793830699; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793225893; x=1793830693; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=O3jI53IvGMjui3qM6yb8MAnyltVbJGBw/n9i8mncKWg=;
-        b=ZocZJ6fmNbV1TfdYdsOMCEl0qWX8N3eFzH/u4GRw09k6dmxM/tq2H/RruUScFwtoFY
-         LlLlFx/WAwBD+j19yldTxYyQKpxfNoqfQimaMqQ1ZZx9H5MrwNdEgryllmDk834aXdgT
-         n525rXNjQTppvAF3SeM4QeqsRs/nddO07X5aZRYGgacWMN+ovuxez+GkR31/sil69fLK
-         E1MuMlQU8Cvtwpsp+kKlDyunAYnV2JIRJ/WrUnNqwTR6tuTWtZWZsc4pmXwjpr7sK2NK
-         1QFGq77AxEUSq/bZC4ZovdO1+8DqqbFpKRA60xvycYhhr3jS+O2OjNZPaPNicnj4Vm53
-         IAnw==
+        bh=65gkrwysKwp4zEIPD1eJcpPuoQ0vzx+YLkBbHQtjT6w=;
+        b=A0OLGHuc2H+L8QeuBtl/dvTP8gNUFp08Wp0dIw2wvmsXULA0HJKudAcRB4MDinQuH9
+         IluuJa/cZZuYNK1uxCbEaFB8JG3gtueVKm6lmZI2W85zMrIiJzT3qADc1bZC0/nG23TF
+         1aZ670KSNws7pmBuqY653BnJ2D/k/lmwFWaVNqpnSMy85b8bBIpjTzNdNbU6zkGuLjPJ
+         S8Tx+8kHKNpJm3c898t/x+BOBa4QEMNy8poDqWw71WWZqIgDJUbImXZzzIPWpEIT1+ld
+         KWKtDtBYBsgPBFM9+/J1AScgCAwsk5X/eTuIV3fWe3/p8D2V4yULLM99ufRMj8utmRhJ
+         vtuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793225899; x=1793830699;
+        d=1e100.net; s=20260707; t=1793225893; x=1793830693;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=O3jI53IvGMjui3qM6yb8MAnyltVbJGBw/n9i8mncKWg=;
-        b=qf9OBSnXJ/ramviv4fF9AuDmTMeWEX0zPRiTX6dANpc/ku/LtnWs/nkPQ8gAQ6Xnbp
-         FWGSc1uxsQ35iiNyrj6LeIcVIZ1M5nn74KCgFvCUUYaGPpnZEjfhAEsOYn4uJXin3FGz
-         PqbEGW9D6cUhd2Mh/ka+Gvn51RTkmwtmoDkAt60Ae4vmqRB/M+eBOYvr76Y9DAxcaxD6
-         deyIS2i9WeigX8ELdX04Bd4g+ecFYyZ2DoY/giGiUdtVqLNYfR7SoffUphGeazMWRM1q
-         Jij/YTX0LY6/rqzPegsFAw/SUZZHZvw3W3AnjDCSHlJK4vHOOI/j+p3aqD32V7FUx9tV
-         ybfw==
-X-Forwarded-Encrypted: i=1; AKwUvBx+1TiShcIGC/YyAtc2apk14xNdhNlp41gPQR8lFEcOlkCoyFBUarherK04hd1nNmbCXYXz3n6vJmhTiMRc@vger.kernel.org
-X-Gm-Message-State: AFq9FYJKLFhl4CyePBMFgpYpcuzCge9uKowZFDh0K6vVy6pvtqhlPubg
-	A7Cbydqj9uAkSeFbfD8aPF/KF4Z+8QFeJOnZAQSIyNKaCO/miE7/kLJVMMzr3b6TenScLBDm6A=
+        bh=65gkrwysKwp4zEIPD1eJcpPuoQ0vzx+YLkBbHQtjT6w=;
+        b=hca72DxNPv6rw3aJcktZUektFcPqTB8OVEcV7xn6jWwFcAdubC+XeFEcFWE6MS4a7n
+         VYtcsU9LPe56oXWzLzmXgFcgsVzFaz4W22YGKRtbqSrFJrh/U6Fh0QXxkPEDZjEl4Tpu
+         1XaV3++Qn9RnIQeomdSkiGN/+B3A+GIeZmU4mvQB2UaX0MXMmNdrIGZ50A87dDIB5rsh
+         HAlMPQkEYtnvbFgSs9STYOvkpRukZ7RGVrygV16iyZmYlqPtDL4WY4z4eDKSnLATGcB+
+         s89EQBsZ4JnEgCSSjsAKNtmd+fbM/QuYhRvE6EGrSEEKrXgzb39M9sNQgXF9LoODgoF+
+         D2QQ==
+X-Forwarded-Encrypted: i=1; AKwUvByg2H5qzHhXYSHK/vva4xBM4+Pov1BCGZpuDifvMwoUExLCPu97ldDaESCpgXHTm6kHM8Tzt1xN2xwVR4zj@vger.kernel.org
+X-Gm-Message-State: AFq9FYIQRMSuya800xm0QGdf+idAcfiK6K8qSV4WE4i/CvglBcf96Wh8
+	VAshxB2OBqFhkPo5fhdUvU9hUPL9nrm/0WTxh45CLp6lj5rJQnDO0omev0m0T4MqkrKYQdVSNg=
 	=
-X-Received: from ejbch15.prod.google.com ([2002:a17:906:c2cf:b0:c2e:81fe:4522])
- (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:980c:b0:c2e:4d39:b5a1
- with SMTP id a640c23a62f3a-c49bdf2c6efmr324604666b.17.1793225898939; Wed, 28
- Oct 2026 15:18:18 -0700 (PDT)
-Date: Wed, 28 Oct 2026 22:17:05 +0000
+X-Received: from ejdg4.prod.google.com ([2002:a17:906:1984:b0:c34:bf66:6f39])
+ (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:6d04:b0:c42:24ea:3227
+ with SMTP id a640c23a62f3a-c49bdf5c677mr291588666b.31.1793225892705; Wed, 28
+ Oct 2026 15:18:12 -0700 (PDT)
+Date: Wed, 28 Oct 2026 22:16:59 +0000
 In-Reply-To: <20261028221705.3915340-1-halg@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261028221705.3915340-1-halg@google.com>
 X-Mailer: git-send-email 2.56.0.313.g2479322e68-goog
-Message-ID: <20261028221705.3915340-9-halg@google.com>
-Subject: [PATCH 8/8] selftests/nsfs: add tests for NS_USER_GET_INFO ioctl
+Message-ID: <20261028221705.3915340-3-halg@google.com>
+Subject: [PATCH 2/8] userns: introduce capability bounding set for user namespaces
 From: "Hallgrimur H. Gunnarsson" <halg@google.com>
 To: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
 	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
@@ -99,166 +99,314 @@ Cc: Jan Kara <jack@suse.cz>, James Morris <jmorris@namei.org>, Simon Horman <hor
 	linux-kernel@vger.kernel.org, "Hallgrimur H. Gunnarsson" <halg@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Add tests for the NS_USER_GET_INFO ioctl to verify user namespace
-capability bounding set inspection and validate error paths.
+When an unprivileged process creates a new user namespace, it receives
+a full set of capabilities scoped to that new namespace.
+
+While these capabilities are isolated to the namespace, they allow
+unprivileged tasks to interact with deep kernel code (like networking
+logic) that historically assumed only a fully trusted root user could
+access them. Depending on the workload, administrators may not always
+want or need to grant every capability to unprivileged namespaces.
+
+To provide administrators with flexible policy control over what
+privileges are permitted by default, introduce a per-user-namespace
+capability bounding set (cap_bset) and a global sysctl ceiling knob at:
+    /proc/sys/kernel/unprivileged_userns_caps_allowed
+
+When a new user namespace is created, it inherits the capability
+bounding set of its parent namespace. For an unprivileged creator (i.e.
+a task lacking CAP_SYS_ADMIN in the parent namespace), the child
+namespace's bounding set is constrained by intersecting the parent's
+bounding set with the sysctl ceiling combined with any effective
+capabilities the creator already holds:
+    child_bset = parent_bset & (sysctl_ceiling | creator_effective)
+
+Capability bounding sets decrease monotonically down the namespace
+hierarchy, ensuring child namespaces can never exceed the capabilities
+of their ancestors.
+
+Upon entering a user namespace during creation or via setns, the task's
+permitted, effective, and bounding capability sets are clamped to the
+namespace's bounding set. Furthermore, cap_capable_helper() is updated
+so that implicit capabilities granted to parent-namespace owners over
+child namespaces are strictly bounded by the owned namespace's
+cap_bset.
+
+The sysctl defaults to CAP_FULL_SET, preserving baseline backwards
+compatibility and existing behavior unless an administrator explicitly
+configures a restricted ceiling.
 
 Signed-off-by: Hallgrimur H. Gunnarsson <halg@google.com>
 ---
- .../selftests/filesystems/nsfs/.gitignore     |   1 +
- .../selftests/filesystems/nsfs/Makefile       |   4 +-
- .../selftests/filesystems/nsfs/userns.c       | 120 ++++++++++++++++++
- 3 files changed, 123 insertions(+), 2 deletions(-)
- create mode 100644 tools/testing/selftests/filesystems/nsfs/userns.c
+ Documentation/admin-guide/sysctl/kernel.rst | 32 +++++++
+ include/linux/user_namespace.h              | 16 ++++
+ kernel/user.c                               |  1 +
+ kernel/user_namespace.c                     | 93 +++++++++++++++++++--
+ security/commoncap.c                        |  8 +-
+ 5 files changed, 142 insertions(+), 8 deletions(-)
 
-diff --git a/tools/testing/selftests/filesystems/nsfs/.gitignore b/tools/testing/selftests/filesystems/nsfs/.gitignore
-index 92a8249006d1..b0a59f5d49fc 100644
---- a/tools/testing/selftests/filesystems/nsfs/.gitignore
-+++ b/tools/testing/selftests/filesystems/nsfs/.gitignore
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
- owner
- pidns
-+userns
- iterate_mntns
-diff --git a/tools/testing/selftests/filesystems/nsfs/Makefile b/tools/testing/selftests/filesystems/nsfs/Makefile
-index 231aaa7dfd95..9408d7948621 100644
---- a/tools/testing/selftests/filesystems/nsfs/Makefile
-+++ b/tools/testing/selftests/filesystems/nsfs/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
--TEST_GEN_PROGS := owner pidns iterate_mntns
-+TEST_GEN_PROGS := owner pidns iterate_mntns userns
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index b6328cd0f43e..25fe46e7724b 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1690,6 +1690,38 @@ entry will default to 2 instead of 0.
+ = =============================================================
  
--CFLAGS := -Wall -Werror
-+CFLAGS += -Wall -Werror $(KHDR_INCLUDES)
  
- include ../../lib.mk
-diff --git a/tools/testing/selftests/filesystems/nsfs/userns.c b/tools/testing/selftests/filesystems/nsfs/userns.c
-new file mode 100644
-index 000000000000..70661a495afc
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/nsfs/userns.c
-@@ -0,0 +1,120 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
++unprivileged_userns_caps_allowed
++================================
 +
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <sched.h>
-+#include <sys/ioctl.h>
-+#include <sys/syscall.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+#include <linux/nsfs.h>
-+#include <linux/sched.h>
-+#include <linux/types.h>
++This file contains a hexadecimal bitmask representing the capability bounding
++ceiling enforced on unprivileged user namespace creation. Instead of granting
++full capabilities upon namespace creation, this ceiling can be used to
++configure which capabilities are permitted.
 +
-+#include "../../clone3/clone3_selftests.h"
-+#include "../../kselftest_harness.h"
++When an unprivileged task (a task lacking ``CAP_SYS_ADMIN`` in its parent user
++namespace) creates a new user namespace, the capability bounding set of the
++new namespace is intersected with the union of this mask and the creator's
++effective capabilities in the parent namespace:
 +
-+TEST(user_get_info_self)
++  child_bset = parent_bset & (sysctl_ceiling | creator_effective)
++
++Privileged creators (holding ``CAP_SYS_ADMIN`` in the parent namespace) are
++unaffected by this ceiling and inherit the parent namespace's bounding set
++unmodified.
++
++Upon entering a user namespace during creation or via ``setns(2)``,
++the task's permitted, effective, and bounding capability sets are clamped
++to the namespace's bounding set. Tasks inside the namespace cannot exceed
++this ceiling, even when executing setuid binaries or binaries with file
++capabilities.
++
++Unknown capability bits (above ``CAP_LAST_CAP``) are ignored and masked
++off when writing to this file.
++
++* Default: ``CAP_FULL_SET`` (all capabilities permitted)
++* Privilege required to modify: ``CAP_SETPCAP`` in the initial user namespace.
++
++
+ warn_limit
+ ==========
+ 
+diff --git a/include/linux/user_namespace.h b/include/linux/user_namespace.h
+index e38d9e60569f..a0ccfb93f2a7 100644
+--- a/include/linux/user_namespace.h
++++ b/include/linux/user_namespace.h
+@@ -3,6 +3,7 @@
+ #define _LINUX_USER_NAMESPACE_H
+ 
+ #include <linux/kref.h>
++#include <linux/capability.h>
+ #include <linux/nsproxy.h>
+ #include <linux/ns_common.h>
+ #include <linux/rculist_nulls.h>
+@@ -89,6 +90,11 @@ struct user_namespace {
+ 	/* parent_could_setfcap: true if the creator if this ns had CAP_SETFCAP
+ 	 * in its effective capability set at the child ns creation time. */
+ 	bool			parent_could_setfcap;
++	/*
++	 * Capability bounding set for tasks inside the namespace and for owner
++	 * tasks in the parent namespace.
++	 */
++	kernel_cap_t		cap_bset;
+ 
+ #ifdef CONFIG_KEYS
+ 	/* List of joinable keyrings in this namespace.  Modification access of
+@@ -183,6 +189,11 @@ static inline struct user_namespace *get_user_ns(struct user_namespace *ns)
+ 	return ns;
+ }
+ 
++static inline bool userns_has_cap(const struct user_namespace *ns, int cap)
 +{
-+	struct user_ns_info info = {};
-+	int fd;
++	return cap_raised(ns->cap_bset, cap);
++}
 +
-+	fd = open("/proc/self/ns/user", O_RDONLY | O_CLOEXEC);
-+	ASSERT_GE(fd, 0) {
-+		TH_LOG("Failed to open /proc/self/ns/user: %m");
+ extern int create_user_ns(struct cred *new);
+ extern int unshare_userns(unsigned long unshare_flags, struct cred **new_cred);
+ extern void __put_user_ns(struct user_namespace *ns);
+@@ -214,6 +225,11 @@ static inline struct user_namespace *get_user_ns(struct user_namespace *ns)
+ 	return &init_user_ns;
+ }
+ 
++static inline bool userns_has_cap(const struct user_namespace *ns, int cap)
++{
++	return true;
++}
++
+ static inline int create_user_ns(struct cred *new)
+ {
+ 	return -EINVAL;
+diff --git a/kernel/user.c b/kernel/user.c
+index 21bafdc11379..78f4c5e45dcc 100644
+--- a/kernel/user.c
++++ b/kernel/user.c
+@@ -69,6 +69,7 @@ struct user_namespace init_user_ns = {
+ 	.owner = GLOBAL_ROOT_UID,
+ 	.group = GLOBAL_ROOT_GID,
+ 	.flags = USERNS_INIT_FLAGS,
++	.cap_bset = CAP_FULL_SET,
+ #ifdef CONFIG_KEYS
+ 	.keyring_name_list = LIST_HEAD_INIT(init_user_ns.keyring_name_list),
+ 	.keyring_sem = __RWSEM_INITIALIZER(init_user_ns.keyring_sem),
+diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
+index 0bed462e9b2a..92f489e268a8 100644
+--- a/kernel/user_namespace.c
++++ b/kernel/user_namespace.c
+@@ -3,6 +3,9 @@
+ #include <linux/export.h>
+ #include <linux/nsproxy.h>
+ #include <linux/slab.h>
++#include <linux/capability.h>
++#include <linux/string.h>
++#include <linux/sysctl.h>
+ #include <linux/sched/signal.h>
+ #include <linux/user_namespace.h>
+ #include <linux/proc_ns.h>
+@@ -41,17 +44,77 @@ static void dec_user_namespaces(struct ucounts *ucounts)
+ 	return dec_ucount(ucounts, UCOUNT_USER_NAMESPACES);
+ }
+ 
++static kernel_cap_t sysctl_unpriv_userns_bset = CAP_FULL_SET;
++
++static int unpriv_userns_bset_handler(const struct ctl_table *table,
++				      int write, void *buffer,
++				      size_t *lenp, loff_t *ppos)
++{
++	struct ctl_table tmp_table = *table;
++	char buf[32] = {};
++	unsigned long long val;
++	char *s;
++	int ret;
++
++	if (!*lenp)
++		return 0;
++	if (write && *ppos)
++		return -EINVAL;
++	if (write && !capable(CAP_SETPCAP))
++		return -EPERM;
++
++	if (!write) {
++		kernel_cap_t unpriv_bset = READ_ONCE(sysctl_unpriv_userns_bset);
++
++		snprintf(buf, sizeof(buf), "%016llx", unpriv_bset.val);
 +	}
 +
-+	ASSERT_EQ(0, ioctl(fd, NS_USER_GET_INFO, &info)) {
-+		TH_LOG("ioctl(NS_USER_GET_INFO) failed on self: %m");
++	tmp_table.data = buf;
++	tmp_table.maxlen = sizeof(buf);
++
++	ret = proc_dostring(&tmp_table, write, buffer, lenp, ppos);
++	if (ret || !write)
++		return ret;
++
++	s = strim(buf);
++	ret = kstrtoull(s, 16, &val);
++	if (ret)
++		return ret;
++
++	val &= CAP_VALID_MASK;
++	WRITE_ONCE(sysctl_unpriv_userns_bset, (kernel_cap_t){ .val = val });
++	return 0;
++}
++
++static const struct ctl_table user_namespace_sysctls[] = {
++	{
++		.procname	= "unprivileged_userns_caps_allowed",
++		.mode		= 0644,
++		.proc_handler	= unpriv_userns_bset_handler,
++	},
++};
++
++static int __init init_user_ns_sysctls(void)
++{
++	register_sysctl_init("kernel", user_namespace_sysctls);
++	return 0;
++}
++subsys_initcall(init_user_ns_sysctls);
++
+ static void set_cred_user_ns(struct cred *cred, struct user_namespace *user_ns)
+ {
+-	/* Start with the same capabilities as init but useless for doing
+-	 * anything as the capabilities are bound to the new user namespace.
++	/*
++	 * Tasks inside the user namespace start with (and are permanently
++	 * bounded by) the capabilities permitted by the user namespace
++	 * capability ceiling. The capabilities are scoped to the new user
++	 * namespace.
+ 	 */
+ 	cred->securebits = SECUREBITS_DEFAULT;
++	cred->cap_bset = user_ns->cap_bset;
++	cred->cap_permitted = user_ns->cap_bset;
++	cred->cap_effective = user_ns->cap_bset;
+ 	cred->cap_inheritable = CAP_EMPTY_SET;
+-	cred->cap_permitted = CAP_FULL_SET;
+-	cred->cap_effective = CAP_FULL_SET;
+ 	cred->cap_ambient = CAP_EMPTY_SET;
+-	cred->cap_bset = CAP_FULL_SET;
+ #ifdef CONFIG_KEYS
+ 	key_put(cred->request_key_auth);
+ 	cred->request_key_auth = NULL;
+@@ -86,6 +149,7 @@ int create_user_ns(struct cred *new)
+ 	kuid_t owner = new->euid;
+ 	kgid_t group = new->egid;
+ 	struct ucounts *ucounts;
++	kernel_cap_t cap_bset;
+ 	int ret, i;
+ 
+ 	ret = -ENOSPC;
+@@ -119,6 +183,24 @@ int create_user_ns(struct cred *new)
+ 	if (ret < 0)
+ 		goto fail_dec;
+ 
++	/*
++	 * If the caller has CAP_SYS_ADMIN in the parent namespace,
++	 * they are a privileged creator and inherit the parent's
++	 * bounding set directly.
++	 *
++	 * Otherwise, enforce the unprivileged bounding ceiling, but
++	 * allow the child namespace to retain any capabilities the
++	 * creator already holds.
++	 */
++	cap_bset = parent_ns->cap_bset;
++	if (!ns_capable_noaudit(parent_ns, CAP_SYS_ADMIN)) {
++		kernel_cap_t unpriv_bset = READ_ONCE(sysctl_unpriv_userns_bset);
++		kernel_cap_t allowed = cap_combine(unpriv_bset,
++						   new->cap_effective);
++
++		cap_bset = cap_intersect(cap_bset, allowed);
 +	}
-+	close(fd);
 +
-+	EXPECT_EQ(USER_NS_INFO_SIZE_VER0, info.size);
-+	EXPECT_EQ(0, info.spare);
-+	EXPECT_NE(0ULL, info.cap_bset);
-+}
-+
-+TEST(user_get_info_restricted_bset)
-+{
-+	struct __clone_args args = {
-+		.flags = CLONE_NEWUSER | CLONE_NEWUSER_BSET,
-+		.exit_signal = SIGCHLD,
-+		.cap_bset = 0,
-+	};
-+	int status;
-+	pid_t pid;
-+
-+	pid = sys_clone3(&args, sizeof(args));
-+	ASSERT_GE(pid, 0);
-+
-+	if (pid == 0) {
-+		struct user_ns_info info = {};
-+		int fd;
-+
-+		fd = open("/proc/self/ns/user", O_RDONLY | O_CLOEXEC);
-+		if (fd < 0)
-+			_exit(1);
-+
-+		if (ioctl(fd, NS_USER_GET_INFO, &info) != 0) {
-+			close(fd);
-+			_exit(2);
-+		}
-+		close(fd);
-+
-+		if (info.cap_bset != 0)
-+			_exit(3);
-+
-+		_exit(0);
-+	}
-+
-+	ASSERT_EQ(pid, waitpid(pid, &status, 0));
-+	ASSERT_TRUE(WIFEXITED(status));
-+	EXPECT_EQ(0, WEXITSTATUS(status));
-+}
-+
-+TEST(user_get_info_invalid_ns_type)
-+{
-+	struct user_ns_info info = {};
-+	int mntns_fd;
-+
-+	mntns_fd = open("/proc/self/ns/mnt", O_RDONLY | O_CLOEXEC);
-+	ASSERT_GE(mntns_fd, 0) {
-+		TH_LOG("Failed to open /proc/self/ns/mnt: %m");
-+	}
-+
-+	EXPECT_EQ(-1, ioctl(mntns_fd, NS_USER_GET_INFO, &info));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	close(mntns_fd);
-+}
-+
-+TEST(user_get_info_buffer_too_small)
-+{
-+	__u32 small_buf = 0;
-+	int fd;
-+
-+	fd = open("/proc/self/ns/user", O_RDONLY | O_CLOEXEC);
-+	ASSERT_GE(fd, 0);
-+
-+	/* Encode a buffer size smaller than USER_NS_INFO_SIZE_VER0 (4B vs 16B) */
-+	EXPECT_EQ(-1, ioctl(fd, _IOR(NSIO, 14, __u32), &small_buf));
-+
-+	close(fd);
-+}
-+
-+TEST(user_get_info_null_arg)
-+{
-+	int fd;
-+
-+	fd = open("/proc/self/ns/user", O_RDONLY | O_CLOEXEC);
-+	ASSERT_GE(fd, 0);
-+
-+	EXPECT_EQ(-1, ioctl(fd, NS_USER_GET_INFO, NULL));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	close(fd);
-+}
-+
-+TEST_HARNESS_MAIN
+ 	ret = -ENOMEM;
+ 	ns = kmem_cache_zalloc(user_ns_cachep, GFP_KERNEL);
+ 	if (!ns)
+@@ -144,6 +226,7 @@ int create_user_ns(struct cred *new)
+ 	set_userns_rlimit_max(ns, UCOUNT_RLIMIT_SIGPENDING, rlimit(RLIMIT_SIGPENDING));
+ 	set_userns_rlimit_max(ns, UCOUNT_RLIMIT_MEMLOCK, rlimit(RLIMIT_MEMLOCK));
+ 	ns->ucounts = ucounts;
++	ns->cap_bset = cap_bset;
+ 
+ 	/* Inherit USERNS_SETGROUPS_ALLOWED from our parent */
+ 	mutex_lock(&userns_state_mutex);
+diff --git a/security/commoncap.c b/security/commoncap.c
+index 3399535808fe..f153e7bad1ba 100644
+--- a/security/commoncap.c
++++ b/security/commoncap.c
+@@ -88,11 +88,13 @@ static inline int cap_capable_helper(const struct cred *cred,
+ 		if (ns->level <= cred_ns->level)
+ 			return -EPERM;
+ 
+-		/* 
++		/*
+ 		 * The owner of the user namespace in the parent of the
+-		 * user namespace has all caps.
++		 * user namespace has all caps, subject to the bounding
++		 * set of the owned user namespace.
+ 		 */
+-		if ((ns->parent == cred_ns) && uid_eq(ns->owner, cred->euid))
++		if (ns->parent == cred_ns && uid_eq(ns->owner, cred->euid) &&
++		    userns_has_cap(ns, cap))
+ 			return 0;
+ 
+ 		/*
 -- 
 2.56.0.313.g2479322e68-goog
 
