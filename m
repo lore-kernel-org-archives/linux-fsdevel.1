@@ -1,111 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793196092;
-	b=S/F6Rc1PGHnNPKgTK1lbTXfSfuBD/Z8EpVmkxZq856p078qszKSz3QDqOtxyjuWWyjH8
-	 /q1Z3zwmm+VQm9y1m8qq2xHQjmt0sZlQWi3Am6HqDi6X5y+2H8fejqJKHB4OlSzxKQltX
-	 eFyCrTqNy49vc4AQxQa8ffe32g6MycUKajogNjumacjixvc+gQvEoYz/LyQw8+SSoCLmQ
-	 Ynuas46P+WqarYVFGWnERnZywhbSxtiK/9cR3h0aX222hNM8s0NQsfsQueDIvYKq0do9l
-	 tfhCl9cDkflx9hMq7aVlT/VXXTTGW07obdiIIk5u8Ge212PGy1OoeAxmq14piAp2yYA==
+	t=1793197865;
+	b=yHp3Fcw8i1ipAW1GW7fjyG+STH1gbnKf9CgGb7cudGUbO4doPS7dQcke2i/ZgQ+K+3ly
+	 1dwcYTt/t64iVES4qQNHRc1OiR5E3Idul+4PUl3cFWDC2QIAP1hWy6pmlHmRfhHSMqvcb
+	 ZtAdCOHXNRGSWCltMBcBlr4aLW+9x56u7ztm4PqtLxKF2UbOH1Q+Vao5lTCMNJccDDVzc
+	 0LBJzUkXpEH/lx+eFl7lFXXqiUr4Wi0q/LohkR1ALjQ/b2JOW9qS52fqmekaQkmcEpm6y
+	 TH4j9CKBX5/wCBiyeYSeKzEbgzO+VPsMwAGv6HsaCwV4V887JnE2+fkipQvDhWcBIrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793196092;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=SyqHXLptMiWk+aCTehkHAqNtA/ZhM3lq7X8/7qWdG8M=;
-	b=w2zibwPnSsQKCLTLecWziX7aDxZBJfo9CA7lfdjvXhFX8pAR8vW7hsTNRVeq0iuiBjjH
-	 snF9VPXhN1KwQUslPtjfeENrXFV+8WwqoaHjPNopkvOKbsEebp7BQVlP6B1oeaVUZdZWR
-	 Zv+nFi6Zy2vX31frbfvtOdLY1+yGRNAa7yMboE5VipPKX8TdoEBJmw5heAJL6lGEx/kzX
-	 B1DVfqc6FGpXv1RpeRKayl25X6FeHdLq8l+3SUBD+bI9+QiBE3qsEPRjQr0pbCAMXnHEu
-	 pG/Zr7xxRH19lxMO+4wrsmPTyXZ/fbYZjG8J1q3/Pf80OdjnjbMb5v1FV7J513qXFxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793197865;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=ESMBCrK+R+S7NiTpN1OIZeRqPKju7V65s3ZpCgR6s24=;
+	b=ImbgxcFGKmrn9Yi8xiAPV4h2msAywRXzKnTLg4pMWEtvbHh8HDez4AgX7xQVgijoDfJG
+	 +14HCfg+8tIlp/dICEQQ0RmJnnDXvSuEBw/IUe1XXVNSdLwFJZj0RTN7+fRjvCZSiurtO
+	 ZI5VYXT3DbgDRiHWYFRY60vlRJxs6Z42e25V09C0ioeXxjjU6EQzOGMFHlYko/JvjqGda
+	 rINqvd6wkL3RNfM4PoaIjlqyrut0HwQZo1D4dxXBbMPMKaUKReEkTWkiu+tBA1XmQbhx4
+	 8dMUZjJ2CPZuZtf93YLTMExJJuLJcDHbREp1Cijo+ijx/ttVbxHJDiM3xyxh3JFF+2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=C+Avdvfv;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="MJQrC/5c";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF81A606A320
-	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 14:01:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF81A606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B370E606A31C;
+	Wed, 28 Oct 2026 14:31:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=C+Avdvfv
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so11108415e9.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 07:01:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793196090; x=1793800890; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SyqHXLptMiWk+aCTehkHAqNtA/ZhM3lq7X8/7qWdG8M=;
-        b=C+AvdvfvOS6eZqnIPGcHHA6edwh215Q6BYf6rpPcMrZGP4WZWdun+wsy3jEWahcGrq
-         9iIH3D3gvwx3zERKa61VhoEFGdYVzxNgssZAFryfXY+B2HuXgqghRpnvugie9X5WiCA5
-         4hV+U6mC4H+xZVw+x8nzdzRes9Cpk+4ayaaCM3InxToAAySusdVxigJDUc1SUxRYKyjY
-         mOgHjphdjDJfa9OB8tRgy0mhuNJdpX7ZiWBy98eOZHQQ1s3wf1T18gieMWXmMJ4QwdAu
-         mK02yU8AWERDQyU8WcOeA12odTUGEIruRJahl959etQ2dsYyUNaN3KgI8CiQr3EeibAv
-         B6Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793196090; x=1793800890;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SyqHXLptMiWk+aCTehkHAqNtA/ZhM3lq7X8/7qWdG8M=;
-        b=FVIs227MC1HTkkvle53hwo+sZcyuv5JzA9CGhwVpHANROs2IwwIvhpt2OkUaLUiFR6
-         ScjwlLWV2AT9FQQ0vWVOIunYGB3HJ9x727jOIQI6JnXD6eIXskLCRYxPHMuRuP22bJqE
-         SQakbRGo4GlUa+Gu6g01QSCAkpyLpdSvV5OlYn5xTQe7E13ehP3yxx1VG4U7AO0fokHN
-         6XVpp3J3FHgvo75JnVQZVbgUUwQvjkumpgPUM0DgLEdjpZuRep/xGqbUTdA0wdbkHWVD
-         TWcxz5miVI9HcwLNUlFW+MdVJ1vLAQRljYEmS6+cTuaWhKWNnjCeZkBCPUmHLaqBU+hq
-         MYjQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwmmO8vbmN6rwJvf5mgooSdpSgJoOBjyAec9YVImL7UIMlqWF2DQGV/Er6pzJGzjcyzqCeh6sYYAlDJXMry@vger.kernel.org
-X-Gm-Message-State: AFq9FYIgH9M8OIdq5gFMSpgJz3hwPn26CBdf4uRgbCuScv11+1olNaI8
-	nGn1ks500OJeUJ4TqSgOjwlhFT+UfO4B1FZemzQxz6TGWcbuIpaKf7h/
-X-Gm-Gg: AYBFou3LdBbpwkpTTTQGwcZgP1dDbqgJxYQJdhUzq+Mk6A8HcMhr+6iyHQcT2xQF4Jx
-	THV/U6zuEA3/eMN8Q5ZEyEMSD5qozLBCtSxcnIW4gtj6xgoJEVnPZDy0eZ/uTpHxHEiXX0svb38
-	KE0prKN4cgrYJXxbbUqwGYd539L32i9WkXLAHRyVW47HTzC3gQfOmUAhaXzROBRt7fcaIrZgV5b
-	86ALpoPX5Vf1NqHaOTTdn2nlHxtZ8tnQSJf1Lx8wv4eM2b+dyPwQnYOHuVC3KkVYdwBOkx2s9qf
-	KPLd1V9SRrc4tBOSrSDE8B5/eP5TgVnCj113BdCsa3U0QfeNy7hRVOV2Om1WhJn9Zt1mKbDrK7x
-	IimjTD5DbgaJ8IqGme04aRqbe470HW00F9CQCazxWbpNf7wXp6eOOJaKF3WmL6l8Uae/ih/vrqk
-	+a9M++aYpwrAC2EyYIwxHQ4cAQDBom/hYoRY336btPwwOmrKaZbVeRoDvCZXpzZ0o+WrJg3d3Gn
-	azV2BbnsI6WaeFJMd5t10PHu65YL11QR50D4z59NQbyV8FhjqcxnfRUyfGN4BA05AbzUPU8nKNn
-	zmzo85TKe/nlCYso5kBTUZy91rw4INiSZGsn8rrOI8zOJVd7xQYGzcskZ1J1ETc0kg==
-X-Received: by 2002:a05:600c:630e:b0:4a6:7d6:821f with SMTP id 5b1f17b1804b1-4a9678bff9cmr50385655e9.29.1793196089864;
-        Wed, 28 Oct 2026 07:01:29 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebd4d8dsm30164106f8f.36.2026.10.28.07.01.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 07:01:28 -0700 (PDT)
-Date: Wed, 28 Oct 2026 14:01:27 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Samuel Wu <wusamuel@google.com>
-Cc: Jiri Olsa <olsajiri@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Andrii Nakryiko
- <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai
- <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi
- <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Emil Tsalapatis
- <emil@etsalapatis.com>, Nathan Chancellor <nathan@kernel.org>, Nick
- Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, kernel-team@android.com,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH bpf-next v2 4/6] libbpf: Resolve typeless ksyms via
- KALLSYMS_QUERY ioctl
-Message-ID: <20261028140127.7bfeab46@pumpkin>
-In-Reply-To: <CAG2KctpMEuK5OJSedSFshNMSwOqe1g87m2ZOKBhn=Z5iCA45Aw@mail.gmail.com>
-References: <20261023001603.560210-8-wusamuel@google.com>
-	<20261023001603.560210-12-wusamuel@google.com>
-	<at8dNNb4vwovNZcZ@krava>
-	<CAG2KctpMEuK5OJSedSFshNMSwOqe1g87m2ZOKBhn=Z5iCA45Aw@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MJQrC/5c
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB5B91F01825;
+	Wed, 28 Oct 2026 14:31:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793197864;
+	bh=ESMBCrK+R+S7NiTpN1OIZeRqPKju7V65s3ZpCgR6s24=;
+	h=From:Subject:Date:To:Cc;
+	b=MJQrC/5cCA1v8JpBCSIArdzVEh0x1p1dbEQYCkJKUP/cnv25NObhnYz1KGSC8AOmN
+	 TTwOewTJZwio56M3ZVFWJJBbxl9dY/5ysIlo59L42G5B6Zwe5Pn8fPPKk45NSWv1uY
+	 fjjpj66wAcWwZzIiuu6JUeBs30TkrvW0BeGtXUGe0JQFh2w6owiMZD2/l5GeWcCw/m
+	 c6OO7M7uwxf5PjNlXa5JjYrnyTFBWE8tZUGzzkimHdzTFtnBOHDPRHeYHHAuQBWwUj
+	 i0zfPfMLKyRGDae92o36Z6K0YP2Bk8gqKiZIeZxftMWAkJKwM0ocXPseDE1Z8rhhC1
+	 EH6ho0WBkGaYw==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/4] mount: don't reveal overmounted dentries that lost
+ their mounts
+Date: Wed, 28 Oct 2026 15:30:36 +0100
+Message-Id: <20261028-work-mount-trap-b4-v1-0-f20d9d0730d6@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,117 +54,152 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMQQ6CMBBFr0Jm7RioWtSrGBdtGaQaWzJT0IRwd
+ 1tZvp//3gJC7EngWi3ANHvxMWRodhW4wYQHoe8yg6qVbmrV4ifyC99xCgkTmxHtEXV7UJeOzk6
+ dNGRxZOr99x+93TeWyT7JpVIqD2uE0LIJbijT3Mt+M9b1B5mn0SWSAAAA
+X-Change-ID: 20261027-work-mount-trap-b4-67329de8c256
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Miklos Szeredi <miklos@szeredi.hu>, NeilBrown <neil@brown.name>, 
+ Chris Mason <mason@kernel.org>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6165; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=1GgfrL8blBX3DAPyjTedoyF9pOu0UGPTD9X0JfskRxI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9Yle56NjzcHq34g2hOr3FlZfm5y27kNumoPV/+w3Gr
+ z11DD9PdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExEVJbhf71g/cmfQQ4PF/Ob
+ nr2pY7R8q5qTuVbJHw3RLwv86949mcDI8NxuTaDDvtlall5VgQvVVkr/sJJsU45actzu/eSdIeL
+ iLAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Tue, 27 Oct 2026 15:07:44 -0700
-Samuel Wu <wusamuel@google.com> wrote:
+In case you are hoping this is going to be the last patch on this
+subject rest assured it won't be.
 
-> On Mon, Oct 26, 2026 at 2:28=E2=80=AFAM Jiri Olsa <olsajiri@gmail.com> wr=
-ote:
-> >
-> > On Thu, Oct 22, 2026 at 05:16:05PM -0700, Samuel Wu wrote:
-> >
-> > SNIP
-> > =20
-> > > +static int bpf_object__query_ksyms(struct bpf_object *obj)
-> > > +{
-> > > +     struct kallsyms_query q;
-> > > +     struct extern_desc *ext;
-> > > +     int err =3D 0;
-> > > +     int fd;
-> > > +     int i;
-> > > +
-> > > +     fd =3D open("/proc/kallsyms", O_RDONLY | O_CLOEXEC);
-> > > +     if (fd < 0)
-> > > +             return -errno;
-> > > +
-> > > +     for (i =3D 0; i < obj->nr_extern; i++) {
-> > > +             ext =3D &obj->externs[i];
-> > > +             if (ext->type !=3D EXT_KSYM || ext->ksym.type_id)
-> > > +                     continue;
-> > > +
-> > > +             q =3D (struct kallsyms_query){
-> > > +                     .size =3D sizeof(q),
-> > > +                     .query_flags =3D KALLSYMS_QUERY_BY_SYMBOL,
-> > > +                     .sym_name_addr =3D ptr_to_u64(ext->name),
-> > > +             };
-> > > +
-> > > +                     err =3D -errno;
-> > > +                     if (err =3D=3D -ENOENT) {
-> > > +                             err =3D 0;
-> > > +                             continue;
-> > > +                     }
-> > > +                     if (err =3D=3D -EADDRNOTAVAIL)
-> > > +                             pr_warn("extern (ksym) '%s': resolution=
- is ambiguous\n",
-> > > +                                     ext->name);
-> > > +                     break;
-> > > +             }
-> > > +             ext->is_set =3D true;
-> > > +             ext->ksym.addr =3D q.sym_addr;
-> > > +             pr_debug("extern (ksym) '%s': resolved in kernel to 0x%=
-llx\n",
-> > > +                      ext->name, ext->ksym.addr);
-> > > +     }
-> > > +     close(fd);
-> > > +     return err;
-> > > +}
-> > > +
-> > > +static int bpf_object__resolve_typeless_ksyms(struct bpf_object *obj)
-> > >  {
-> > > +     int err;
-> > > +
-> > > +     err =3D bpf_object__query_ksyms(obj); =20
-> >
-> > hi,
-> > we could also add similar support for libbpf_available_kallsyms_parse a=
-nd
-> > probably in some other places like bpf_get_ksyms.. which makes me think=
- it
-> > could be useful to have KALLSYMS_QUERY support for multiple symbols
-> >
-> > thanks,
-> > jirka
-> > =20
->=20
-> Thanks for lookiing over this Jiri!
->=20
-> Using KALLSYMS_QUERY for libbpf_available_kallsyms_parse() would
-> theoretically by O(m*log(n)) instead of O(n*log(m)), where m is the
-> number of tracefs symbols, and n is lines in kallsyms, with n >> m.
-> But AFAICT, libbpf_available_kallsyms_parse() would only be called in
-> pre-6.5 kernels, for kernels without commit 83f74441 (ftrace: Show all
-> functions with addresses in available_filter_functions_addrs); so this
-> ioctl could never be called.
+A name that is a mountpoint in one mount namespace can be removed in
+another. unlink(), rmdir() and rename() refuse only a mountpoint in the
+caller's own namespace. Since 8ed936b5671b mounts in other mount
+namespaces are unmounted lazily.
 
-Isn't that code also O(n*log(m)) ?
-I've got a patch (I might send it after the merge window) that changes
-one of the ftrace functions to look up every symbol by name, not just
-when only asked to look up one.
-It can also use the 'callback' function to detect duplicates.
-That should be massively faster - especially with my ~18 fold improvement
-(also waiting for the merge window to end before posting a new
-(not much changed) version).
+This allows a host to rm -rf a tree a container has masked bits of with
+mounts. This is a "security mechanism"... The premise is that nobody can
+reach the name once it is gone.
 
-Does look the the code could do with getting the 'symbol name table index'
-for the symbol so that it can read the entries sequentially from that
-point onwards.
+But alas, a lookup that found the name before it was removed can and can
+get access to the covered entry because the mounts are gone.
 
-David
+Here's an example:
 
->=20
-> And regarding bpf_get_ksyms(), it loads all traceable functions and
-> needs the full syms table, so a /proc/kallsyms should fits better.
->=20
-> I did profile a slightly different form of querying multiple symbols
-> at once [1], but didn't see much benefit. struct kallsyms_query is
-> extensible via size and query_flags, so we can update in the future as
-> needed.
->=20
-> [1]: https://lore.kernel.org/all/CAG2KctozPSev+EXSpHitM3JWfjufQaEjsPJHS_1=
-HJ1wSm7sJ1w@mail.gmail.com/
->=20
-> [...]
->=20
+  The host has /srv/app with the file secret in it. A container gets
+  /srv/app bind-mounted and the runtime hides "secret" from it by
+  binding /dev/null on top. The container's mount namespace is owned by
+  its user namespace. So the mount is MNT_LOCKED and the container can't
+  unmount it:
+
+    host                             container
+    ----                             ---------
+                                     open("/srv/app/secret") finds the
+                                     dentry and goes to sleep in
+                                     ->d_revalidate()
+    rm /srv/app/secret
+      nothing is mounted on it
+      here, so the kernel unmounts
+      the mask in the container
+                                     takes the mount step: nothing is
+                                     mounted on the dentry anymore and
+                                     the open lands on secret itself
+
+  On a local filesystem that window is a few instructions. A FUSE
+  server in the container's path makes it as wide as the server likes it
+  to be. The reproducer I have does exactly that.
+
+An earlier attempt I had tried to fix this in refwalk but it was really
+brittle. So let's fix this crap in the mount resolution that every
+lookup does. We can reuse two existing dentry bits for this.
+
+The remover marks the removed name with DCACHE_CANT_MOUNT before it
+detaches anything. Instead of clearing it, the mount detach keeps
+DCACHE_MOUNTED on such a dentry. A lookup that found the name keeps
+talking the mount step this way.
+
+The lockless walk doesn't need any changes. The unhash invalidates d_seq
+and a lockless walk never legitimizes a dentry whose d_seq changed.
+
+That's half the story. The other part of this insane mechanism is that
+we can't actually detach all mounts. Take the same container but now the
+runtime binds "secret" somewhere first and masks the bind:
+
+    mount --bind /srv/app/secret /run/secret    (P, a bind of the file)
+    mount --bind /dev/null /run/secret          (K, the mask on its root)
+
+  P's root and K's mountpoint are both the dentry of secret. Before
+  this series the removal of /srv/app/secret took every mount on that
+  dentry away including K.
+
+  P stayed, since it is mounted on /run/secret and not on the removed
+  name. So /run/secret showed the deleted secret where the mask had
+  been. IOW, the removal uncovered it.
+
+The thing is that K isn't reached through the name the host removed. It
+is reached by crossing onto P. So K has to stay and so does a cover that
+a lazily unmounted bind of the object left on its root for a locked
+child.
+
+I've been struggling with this but it is safe from all I can see.
+detach_mounts() exists for two reasons:
+
+(1) the removal must not fail with EBUSY because of somebody else's
+    mount as this amounts to a DOS.
+(2) the mounts must not leak since nobody can reach them once the name
+    is gone and they'd dangle until the namespace dies
+
+This change keeps (1) and (2) in tact. K isn't reachable anymore through
+the removed name. It is reached through P as before and P was never
+reachable through that name either. A bind-mount of an entry keeps
+working even after the entry is deleted - like a fd does.
+
+It's root show up as //deleted in mountinfo as it always has. K lives
+exactly as long as P.
+
+umount of /run/secret takes K first and P second like any stack. umount
+-l of P or of an ancestor takes K along and so does the death of the
+namespace. And in the namespace that holds K the removal of the name is
+refused with EBUSY as it always was.
+
+Also, nothing new becomes reachable. K sits on the same dentry under the
+same parent as before. The only change is that a removal in another
+namespace no longer unmounts it. So a removal detaches less than it did
+but never more. Every mount reached by the removed name is still
+detached.
+
+Verified in qemu with KASAN and lockdep. The reproducers of 528b383dc35d
+and 8189ab688f5a, the stacked and self-bind overmounts, the chroot and
+".." cases, 150 kselftest binaries, and a CRIU dump and restore of the
+kept stack. I also added two selftests that cover the stacked and
+self-bind versions of this bug on tmpfs and the LOOKUP_REVAL walk
+against a raw fuse server. The reveal cases fail without the trap.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (4):
+      namei: make the walk flags a named enum
+      namespace: don't reveal overmounted dentries that lost their mounts
+      selftests/filesystems: test the removal of a name that is a mountpoint elsewhere
+      selftests/filesystems: test walks racing the unlink of covered names
+
+ fs/dcache.c                                        |   5 +-
+ fs/namei.c                                         |  57 +-
+ fs/namespace.c                                     |  50 +-
+ .../testing/selftests/filesystems/fuse/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/fuse/Makefile  |   2 +
+ .../selftests/filesystems/fuse/unlink_reval_test.c | 617 ++++++++++++++
+ .../selftests/filesystems/mount_cycle/.gitignore   |   1 +
+ .../selftests/filesystems/mount_cycle/Makefile     |   2 +
+ .../filesystems/mount_cycle/detach_mounts_test.c   | 914 +++++++++++++++++++++
+ 9 files changed, 1620 insertions(+), 29 deletions(-)
+---
+base-commit: b14fcabd34e02c40f72d3cd1e9bd4fd18df40ff1
+change-id: 20261027-work-mount-trap-b4-67329de8c256
 
