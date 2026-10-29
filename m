@@ -1,55 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793276515;
-	b=xGV5GXv6C6l7PRQjxjzUF+uIev4W61pOPo1XyNmBL/+slGio8w/IEpqYEnruu9zsN5Tl
-	 iL/I4f97LUg9C7brJ1jtWO0G/33s4fC7ocUDgsGKg9RhWLjsyE8xF+FxcIuJ+DXqSu4jm
-	 kLi7fkqyFYRmzD3yobPt+uTDtAlHNFHGN6a3GnArg/XdsFu+ZOAqlPOcRxb9twPJFR/40
-	 uPqJN42SoFKisAfcvFj5p8VzWvlQwwssONUJdne6cak8CSx5BJ8WTCZw+ZfCndN/NQRx8
-	 MiZ2vQvqlFocju5r93ZrAuS4T4EQak8WlStz/eW0CAtwLEpu9Bv3wDKmPv06vQwXfqw==
+	t=1793276519;
+	b=UzjhUtHcQvG4XNJxZS30M+b8xxQxlLc3+MwS8lpV4X2VG91XCKFeEewpvvZ/ti3IU+x6
+	 zECOGypZEKCLKrheQhsV6uhwLAJ+4t+VvkN4YzwXfQ8IjAWhAXpUqMQmJZGvOboBKyfMe
+	 l5/0NNkzuhv6LV3rc2mBFXVtOA+0QgtfOA4BV+Mm1djjBZawPf3It5wZpsK2mWqO+qmC0
+	 faSaA0avhtRQK9mwzLuyQ3712e0Mp+NhxneVGt8OJTqJlOqiFL9TrryDKszuSUdb8lX1M
+	 0eMNRgXUlPafwFuWjIx5fOrB4prhDrx7oAQJkOLXE/xCAfhiXfMS3UKDHCtb3N56Eng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793276515;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=+WySaPF5ekmsCugZKovMw6iIElIcUVyZW/MY9QMLJfo=;
-	b=X6yN+Zq61FuF29aQ7u65b8JeYzN00WjQh1FkESdok2RY5OwV02YZn56yLiUdGtSuGwGH
-	 yLr14ecWS7en0XIg7C8BTofpzeGYrO4PrSxkjxjhhYdNSCSeHXWkL1/yGbMDxBzDwLcll
-	 Bp9sQMn4ShFPjVnfDBTrSmtFsPfjuyZcnUVfw7xTf6xI8Y620lYqnEDjrpLwJ7bomKSb2
-	 Q/gfT/t0ROKl4DjzdeKue2P8wEXXvKcKyrbnA2MJxu8jK1rqYk6j6wSbWZfXakx/OvrCr
-	 VSz7/zdTtzsEJpLbq+c+gbTuH5JQIfrUi5k/X4CV7gBAA49VSs8pSDA7kYCbCqfx7dQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793276519;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=FEPg0IBYjJwtMvKdVK/6nCY/XVULRmnng6fnH4Yf8Do=;
+	b=TJnfNy9uyPPoaf/f4qRTtDlGwC4gzOeShrwBalIXbp9YiBtQ4J/Of83cxtBMbpR78TDG
+	 uT0Goaayx4TFWjFjDgzWvgxOA6gfczc0eezoTU19qyh9x8aYqwtSh5N/kIsGNjWoY+a/d
+	 98Z93xeNQ/+5xj2/ZAQv7Oo+l0lZk9wLFCSkwMWO+FK/rU/EVAoVPN9cVwwFTfKGQoqJl
+	 F2xGOORmIGIeR66O8/TVfxD+ks7O6wHhWmaVqHdp/jYrD6qIJkfKWWbvvyCGlqAKIYVku
+	 9NxQdCw7BTCG5zm0cZmJI56wYfCN/WimRfQkH1IiswAmVPPVsfIBlQtTe9/I59pcgNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fPIsfgGw;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C58606A31C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 12:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fPIsfgGw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEDFA1F01828;
-	Thu, 29 Oct 2026 12:21:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793276514;
-	bh=+WySaPF5ekmsCugZKovMw6iIElIcUVyZW/MY9QMLJfo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=fPIsfgGwxOE1YTKowwSRNLbdjSXItCUJ8zHUQUDhnX7QNYg3ldaFiRf/1rAJHUuEr
-	 +ftM1m3r6zexeO8Ut24mSTK0BvscEB04vIgsMLBs81c8fSCnptWLxvQlfroM0TobPs
-	 ADFmf5PTGWCt7prvGgMhC+mCYuILCrQ5ANQW/L3GyPpWk5tmaiutV0LgER8q93MsPR
-	 6QTBVQ6iUWr+O0/FhbtHNzJ4iKeDXXiD79IMCIe8Xdw+pU56AkMrvqjMJIRiTjTmUS
-	 jAUlMma1QMgOAIbK80m94DnAio+113vyaJSB+cplS4Q8Dyeg94PFJ4XxrZMOiB+05S
-	 pvWNwJkIkoi5A==
-From: Christian Brauner <brauner@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Dominik Maier <dmnk@google.com>
-Cc: linux-fsdevel@vger.kernel.org, dmnk+artist@google.com
-In-Reply-To: <20261022232119.2537209-1-dmnk@google.com>
-References: <20261022232119.2537209-1-dmnk@google.com>
-Subject: Re: [PATCH] xattr: always invoke cap_convert_nscap() for
- security.capability writes
-Message-Id: <20261029-widmen-unkultiviert-suchen-45e8085628db@brauner>
-Date: Thu, 29 Oct 2026 13:21:51 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E09606A31C;
+	Thu, 29 Oct 2026 12:21:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2E09606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 770EF68BFE; Thu, 29 Oct 2026 13:21:55 +0100 (CET)
+Date: Thu, 29 Oct 2026 13:21:55 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
+	Chris Mason <clm@meta.com>, Josef Bacik <josef@toxicpanda.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Zhang Yi <yi.zhang@huaweicloud.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Brian Foster <bfoster@redhat.com>, linux-xfs@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] iomap: don't mark unwritten parts of a folio
+ uptodate
+Message-ID: <20261029122155.GB24811@lst.de>
+References: <20261029-work-iomap-ai-fixes-v1-0-7eda63bc1b13@kernel.org> <20261029-work-iomap-ai-fixes-v1-1-7eda63bc1b13@kernel.org> <20261029121220.GA24197@lst.de> <20261029-betuchte-unzeit-heimcomputer-392ff6bd4772@brauner>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,35 +54,25 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-ce4c1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261029-betuchte-unzeit-heimcomputer-392ff6bd4772@brauner>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Fri, 23 Oct 2026 01:21:19 +0200, Dominik Maier wrote:
-> Commit 8db6c34f1dbc ("Introduce v3 namespaced file capabilities") changed
-> cap_inode_setxattr() to return 0 unconditionally for XATTR_NAME_CAPS
-> ("security.capability") and moved capability validation into
-> cap_convert_nscap(), but placed the call inside the "if (size)" block in
-> setxattr(). Commit 7c03e2cda4a5 ("vfs: move cap_convert_nscap() call into
-> vfs_setxattr()") preserved that "size &&" condition in vfs_setxattr():
+On Thu, Oct 29, 2026 at 01:20:09PM +0100, Christian Brauner wrote:
+> > Can we wire this up to xfstests, please?
 > 
-> [...]
+> I have an endless queue of additional bugs to go through so I can say
+> yes but I can't commit to any timeframe nor the ability to remember.
+> 
+> > > Willy reported this back in 2024 (cf. [1]) and Zhang Yi posted the same
+> > > fix (cf. [2]) but it never got merged.
+> > 
+> > Should we credit the original submission then?
+> 
+> It's references in the commit message already. Tell me what you think we
+> need to see there and I'll amend in-tree.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] xattr: always invoke cap_convert_nscap() for security.capability writes
-      https://git.kernel.org/vfs/vfs/c/0f4a9e682f7f
-
+Usually that just means taking the older patch instead of the newer one.
+Although chances are that this one might not apply anymore, in which
+case taking the new one should be ok.
