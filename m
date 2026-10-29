@@ -1,97 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793270367;
-	b=I9DErNB1Bhu1DOnsgNEbpklvEANsFMumxv4gOJBYOy+jB67NSaeRMYCKDUFslS9SImCE
-	 s/tOQuqGmxfGReY+CRQpwLlfkSuxDFSn48JEpjOacI2fIEHXUO/9jaUFDNjgaUsUg+JJ1
-	 E4VHK1KO0XUc08oxzKfnnsRO0MRPL1vY7mOxMd3LZWc/6wKpTBGN7RwSp2MGemkCCtkMS
-	 jYvOKYxbIDSt/FMFOq61TA77+5BgxOsktpuBxd0R7JjWGpPhr7stisqTpzglAQCkn62/b
-	 HBDzr9eCbAuLPFDLgbgsQ8daAmeRvGh27HxVcVUX81h3m5yVpn/AKQqif+fq5Ijs+CQ==
+	t=1793270702;
+	b=29aSHhEbSCZ31xSBfJv5K9muDjmAIwbI7ONCwTf+UmzIW5XW6AKU6bRP8BvfzpXvUL9S
+	 BmogCBMVyeYEIkrxeDMXMhVqYb0YnzpeGZG2Nqg2w5RpcLmGwZZDtO+A6x4GgaWrVoyC5
+	 LNi84jlRLbDwvx8CtcGIgOrFoD6kDli6fxLlmIiQ+yia97t3rOKgGbftrmML2ZiNwnBt2
+	 bjhM3RlE0RfBy5E/pqbb+0IYIErtM/JGrnW8EVfhq9cLAp5uEjtafP1cc9DCb4VjpDsja
+	 w5bqvFP43KECG/F6Ks08/PntMHFHxBqPhtc9RSJah8wQXUibLGgRPwrcjwTGNc+DBCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793270367;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=gWikJcHMy/FGJ+Cip1xhfQi9ECC0Fi/XHUzFD+d9ZqY=;
-	b=fWchgCRweSVKj++FPcLxiBySlzDx87oRuYe9s7zBRj6c7PuoMVYWCEkGc9/9c0Fc+IqA
-	 wLahws2biIZc8y/axrDnjvjYtZJgTBaOEcJHSG8IananbHbM4JOWfS7QKWFb4OYSLMCNQ
-	 m9jKI8df/MY+YN4RwcoQ8CCndpGOGf9DAwf54iPtgSt/ijE9/Mf00Zm6IfosnuC8/0aGT
-	 9QQkM63gUbt/cw4qpiOMw22uFHqux3+umkWqPU7f38tMwJeglDDm9Ez2YCdWIB0gx0Sma
-	 Nk2RdBs047DvTVCnLiZcOpZzcVNzRAFV4K0RkDI7jrpVkDNin7rh1uSVWltdwgpxrKA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793270702;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=0dCSBHfUVHBP5GH3Zssr2yssdn3VkCL1gUTLqNUcb1c=;
+	b=3g0GjEFfFfK3bdiVjF2Fdb1J/4Gm/QksdLuuGkVBI3y1WFvMmkuKsMhRgl9+7dQ31pTb
+	 x68yyDC9/YCvxZdyjSg8mBO4O9U1DZ2p1uoyLXYbIfuL2fND+gsPh2VZIHqYJIZ4bLEJB
+	 cwtFFLmlqVwI7sQjphZTEKksfsg0+Eeemt80AhFHATnh/GBKRQKNzbjtZU/15ltKI+FWk
+	 PLCQ8z7FaZ4XKK9cMc9zFSWVndQpch6bGIuIoSx3KO2ohdWfVeuRzHnY7vHM5Kp++wBg6
+	 2Oblunedc5SjdW5JBeD7GE9T/DyiDYP8rz1fgDRI3o9N9gZNj+NJfBfjqCn4FBzviwA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="bZ0w/NtB";
-	arc=none smtp.remote-ip=209.85.218.47
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nxT2VMz4;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D018C60A260C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 10:39:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D018C60A260C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBDD606A31F;
+	Thu, 29 Oct 2026 10:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bZ0w/NtB
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c468bd799ecso254808466b.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 03:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793270365; x=1793875165; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gWikJcHMy/FGJ+Cip1xhfQi9ECC0Fi/XHUzFD+d9ZqY=;
-        b=bZ0w/NtBO1ZzNLjjNaLIkKRzCia1nz8IsPEYwvQoziTJw9T7LeTs3MtV8kiRJP7gSB
-         OURibTMjZIDguMBcps6byDm57+Kr5kC6RXCeGNw5Ey6LnrZNwU+XzFh2ERdcEtSHLAJn
-         3TouxcRwdk6vxRv1Hzkg6b27ZHDk4gvq+1g+8dFCPlV6oy51ti9sb5ondZ/eI2GIh1c4
-         tuHSA1/5SqRBUJqe+aM62Cuj1bhSxNWh1VAHibHRhtH8dzZEMxCu9XClawK3iRb3BjCV
-         40ZrRduc4p6Q4BPwJmcg1mlb9Xa1NF6CzfsCNwkFjBGs9I0GPX8d9SEMJPpTS74Xwh/H
-         IZFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793270365; x=1793875165;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gWikJcHMy/FGJ+Cip1xhfQi9ECC0Fi/XHUzFD+d9ZqY=;
-        b=bMFSXG0u2ZcaSEWgDuYQa/pzrkieVuSAUNl6XUKd5xcKEZGzBU2J4mQbSIbYqGkswq
-         VgknxQBHgWEqAjVKhZ6TB5luDJSpJn6ya7ZsO7EyMuhvO6/eH24nJidfXGRyl3v0O9qr
-         5L161hOSzGAIQsMKi6MQy7kaaYu/yPz/rjXMGnkS0DomLjixIbsmmApefk5GPtUt0HLr
-         Y6UJP7VcJFa8Ta63BL1GobN2tTBjHkGcW9iYmM+ytP4l5ZuT5hhN6KwL9Wn6tEGKowNv
-         0O/xvwyxm2Ar/US0PIvRmOXQw7W5S85jXfMyyv+R9W9GZgvWpcJQEVWhOmy3WXYbzrUL
-         xVww==
-X-Gm-Message-State: AFq9FYJvhMesR2i8VLSObd7MInnCeBV5/DHbJ5bmZdzpebmKWyft10OL
-	uNreyAJBsI8LCnXXZk48jWFiDg9Hh8vFpIPu4gl3PbqCel/sWG9OVWW2
-X-Gm-Gg: AYBFou3sPo1g+bNzSenABVrEMIG1d97WeyKBOpf0ZRerepSWYRgtrNhJwCeQMpAQ5up
-	8oVtXEB6appwwhMr8EX/cS20ioCU50yXUIGcg9a7I28cqZvBQdMOwRPcG4DJQSzehBfwFZX0sAJ
-	WwHQItZtH2XYvRdurx1B4GnyfD62Gnk1pvx4iYal5Ph883HD61hWct6JCtLRgL40W/81oe8E1FV
-	ncpc0ZNeJ0fKtQP54dhHyGrti3WJCh3qujtQJqpqunJcTUmmvE14q+Y4kbY2UO9yLLULJW+GaaT
-	TZ3ZM/fdl2UnIi523tg2oWGIOSjNegnRYPigYxX31HLQHXp6PaGZkKo4fq/8BykuMYgZ3IHi/4o
-	IJxSMF580hhj3RZE3HnWovt2R/i0uhltziFGkfWsnvi+Wc49yiuqlQgU2Fh0kb2Fv5a54pDF1Dp
-	JnbpXYXuWfop7xr0tAMSISAWMWyvA+UHpsgD9fH6unz/IDtj0WurHRcOnwUEOjVL8uv7JwM0RVz
-	k9yWxoLOVhEtKEC20TAWKy73u1AmsQwzJqIqnMOAr8zNibSj+VRIp8MfnzR6OJO/2kwmYiu5ZAF
-	98sozR4dhsao0fx9G5zYXMYTAW3Uch8xM+ddwij68xAj6I3s0eYvzM0SeIjS7Gs3qzkU2xIxA+v
-	CpWDKvLZkdYCZZwYvS2O6GbhVFW0nLzcV
-X-Received: by 2002:a17:906:eec8:b0:c46:8c2b:8f7e with SMTP id a640c23a62f3a-c49bd9e322amr444578866b.0.1793270365070;
-        Thu, 29 Oct 2026 03:39:25 -0700 (PDT)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c49a530f520sm391847266b.23.2026.10.29.03.39.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 03:39:24 -0700 (PDT)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	Chris Mason <mason@kernel.org>,
-	stable@vger.kernel.org,
-	Josef Bacik <josef@toxicpanda.com>
-Subject: [PATCH 09/16] ovl: use the pinned upper dir in ovl_fix_origin()
-Date: Thu, 29 Oct 2026 11:39:13 +0100
-Message-ID: <20261029103913.2785828-10-amir73il@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261029103913.2785828-1-amir73il@gmail.com>
-References: <20261029103913.2785828-1-amir73il@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nxT2VMz4
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 569071F031E2;
+	Thu, 29 Oct 2026 10:44:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793270702;
+	bh=0dCSBHfUVHBP5GH3Zssr2yssdn3VkCL1gUTLqNUcb1c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nxT2VMz4fnyBGepb2y6DIfK6SE3t2B76Yk1hsA8J6xw19WDTRWQkc5zer0rtHjzZQ
+	 Gb5inbSwozgewNJrlxHySAlYyumEcf2I2H89YJtQ2mKV0FR1qRmlFr6921WsPFWLvf
+	 mDO6xtXeNV75v/I7AsXrq4ElCmke3k3ksppR2nVk6RK7nwvVoDAMyGrK3MqSVHCrLS
+	 tx08eVD4EuQq6XQyn5UuT1nZTBQdXegs6VSSweVrPGuWGxNOLxCoSSp+LhLfxnwPRU
+	 jvL20xWFcOw1tu/0Ngm+yTfllKoTUKGa6bFKvqepHlY87fecj0Xp5xBmzDsbE6PVCD
+	 GcxWud5QzBBKw==
+Date: Thu, 29 Oct 2026 11:44:52 +0100
+From: Alexey Gladkov <legion@kernel.org>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: "Hallgrimur H. Gunnarsson" <halg@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jan Kara <jack@suse.cz>, James Morris <jmorris@namei.org>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	KP Singh <kpsingh@kernel.org>, Jonathan Calmels <jcalmels@3xx0.net>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+	containers@lists.linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+Message-ID: <auMjpJwXQJyXr3fW@example.org>
+References: <20261028221705.3915340-1-halg@google.com>
+ <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -101,71 +77,97 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
 
-From: Chris Mason <mason@kernel.org>
+On Wed, Oct 28, 2026 at 03:56:11PM -0700, Andy Lutomirski wrote:
+> On Wed, Oct 28, 2026 at 3:18 PM Hallgrimur H. Gunnarsson
+> <halg@google.com> wrote:
+> >
+> > When an unprivileged process creates a new user namespace, it is granted
+> > a full set of capabilities (CAP_FULL_SET) scoped to that namespace.
+> > While these capabilities are isolated to the namespace, they allow
+> > unprivileged local users to reach deep kernel subsystems (most notably
+> > networking configuration and raw sockets via CAP_NET_ADMIN and
+> > CAP_NET_RAW) that historically assumed a trusted caller and have
+> > accounted for a large share of local privilege escalation
+> > vulnerabilities.
+> >
+> > Many workloads and sandboxes use unprivileged user namespaces strictly
+> > for basic UID/GID, mount, PID, or network isolation and never need
+> > high-risk capabilities like CAP_NET_ADMIN or CAP_NET_RAW. Likewise,
+> > system administrators often want a host-wide policy ceiling restricting
+> > which capabilities unprivileged user namespaces may acquire, without
+> > disabling unprivileged user namespaces altogether.
+> >
+> > Prior work by Jonathan Calmels [1] proposed addressing this via a sixth
+> > per-thread capability set (cap_userns) alongside a global sysctl mask.
+> > During that discussion [1, 2], feedback (e.g. from Casey Schaufler)
+> > suggested that rather than adding another per-thread capability set and
+> > prctl() interface, capability restrictions could be integrated directly
+> > into struct user_namespace and configured via clone3(). At the same
+> > time, as noted in [1], a clone3() flag alone is not sufficient for
+> > administrators who need to enforce a host-wide ceiling on unprivileged
+> > user namespaces without modifying every userspace callsite.
+> >
+> > This series combines both pieces of feedback: it embeds a capability
+> > bounding set (cap_bset) directly into struct user_namespace, reusing
+> > the existing task cap_bset, cap_permitted, and cap_effective sets on
+> > namespace entry, and provides both a system-wide sysctl ceiling for
+> > unprivileged user namespaces and a CLONE_NEWUSER_BSET flag for
+> > voluntary per-namespace restriction via clone3().
+> 
+> Why should the task's cap masks affect this?  *Maybe* cap_bset makes
+> sense, but I'm struggling a bit to see why cap_permitted and
+> cap_effective should matter.
+> 
+> Also, I think that Docker in non-userns mode restricts cap_bset, and
+> the purpose of that restriction is rather at odds with interpreting it
+> as a restriction on newly created user namespaces for purposes of
+> vulnerability mitigation.
+> 
+> >
+> > In addition, because restricting CAP_NET_ADMIN at user namespace
+> > creation time prevents userspace from bringing up the loopback
+> > interface in new network namespaces, the series first introduces
+> > an opt-in flag to automatically enable loopback on network namespace
+> > creation:
+> >
+> > 1. Opt-in loopback activation on netns creation (Patch 1)
+> >
+> >   New network namespaces start with the loopback interface (lo) DOWN by
+> >   default, requiring CAP_NET_ADMIN over the owning user namespace to
+> >   bring it up. To block external network access while preserving
+> >   localhost networking, sandboxes commonly create an isolated network
+> >   namespace with only the loopback interface enabled.
+> >
+> 
+> The whole unshare/clone flag situation is getting out of hand, IMO.
+> And this new thing makes logical sense but is really about reducing
+> exposure.
+> 
+> Perhaps we should instead have a small list associated with a userns
+> (extensible in the future) of things that the ns's admin (i.e. whoever
+> has CAP_SYS_ADMIN relative to the ns) may do.  That list could
+> include:
+> 
+> - Create loopback with sensible defaults for ipv4 and/or ipv6 (i see
+> no obvious reason to separate them)
+> - Create tun/tap interfaces in that ns (and attach them, etc)
+> 
+> And add a very simple new API to do these things.  Actually, the
+> tun/tap could just use the normal mechanism.
+> 
+> Thoughts?
 
-Renames made directly on the upper filesystem during a lookup crash the
-kernel.
+I think that's an interesting idea. I also think the whole flag issue is
+moving in the wrong direction.
 
-A dentry that is passed to vfs_setxattr() must be pinned.
-ovl_fix_origin() passes upper->d_parent to ovl_set_impure() without a
-reference, and the lookup holds no lock of the upper directory. A
-rename on the upper filesystem changes d_parent, and only the child
-pins the new parent, so a second rename and an rmdir free it.
+Are you thinking of something like `struct open_how` in openat2,
+or something else?
 
-With delays in ovl_fix_origin() and ovl_set_impure(), renaming the upper
-directory twice and removing the intermediate parent during the lookup
-of a merge directory without an origin xattr gave a KASAN
-use-after-free in vfs_setxattr().
-
-Fix this by passing the upper dentry that the overlay parent holds.
-
-Fixes: 9678e6303057 ("ovl: fix inconsistent d_ino for legacy merge dir")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chris Mason <mason@kernel.org>
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-[amir: add helper ovl_set_impure_dir()]
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
- fs/overlayfs/namei.c     | 6 ++++--
- fs/overlayfs/overlayfs.h | 6 ++++++
- 2 files changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
-index ca899fdfaafd2..cf7908a39f614 100644
---- a/fs/overlayfs/namei.c
-+++ b/fs/overlayfs/namei.c
-@@ -942,8 +942,10 @@ static int ovl_fix_origin(struct ovl_fs *ofs, struct dentry *dentry,
- 		goto out;
- 
- 	err = ovl_set_origin_fh(ofs, fh, upper);
--	if (!err)
--		err = ovl_set_impure(dentry->d_parent, upper->d_parent);
-+	if (!err) {
-+		/* upper->d_parent is not stable, use the overlay parent */
-+		err = ovl_set_impure_dir(dentry->d_parent);
-+	}
- 
- 	ovl_drop_write(dentry);
- out:
-diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-index 7f3558372c599..c89739e5338b4 100644
---- a/fs/overlayfs/overlayfs.h
-+++ b/fs/overlayfs/overlayfs.h
-@@ -572,6 +572,12 @@ int ovl_check_setxattr(struct ovl_fs *ofs, struct dentry *upperdentry,
- 		       enum ovl_xattr ox, const void *value, size_t size,
- 		       int xerr);
- int ovl_set_impure(struct dentry *dentry, struct dentry *upperdentry);
-+
-+static inline int ovl_set_impure_dir(struct dentry *dentry)
-+{
-+	return ovl_set_impure(dentry, ovl_dentry_upper(dentry));
-+}
-+
- bool ovl_inuse_trylock(struct dentry *dentry);
- void ovl_inuse_unlock(struct dentry *dentry);
- bool ovl_is_inuse(struct dentry *dentry);
 -- 
-2.55.0
+Rgrds, legion
 
