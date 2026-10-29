@@ -1,102 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793297394;
-	b=xUFKQmOfP/MombJVPeia0/viK0dNx//MR52Yy3CzkRby/c3G9Xe8fmeZ/WjGelkFVt7x
-	 5PCs0WWJ0qPVt9yHsq6/rAfMMhXJkggF8XHZEzvA4OpE6hakje8L97e9abeC3G8XI4oGc
-	 1vAUPlsjnEhppLmvwHjVkhIaTRLOH7ToI4Rb4fbSxd3qx5pLmQiO7ZqXDNRcFPiYGHHFx
-	 MB8iPPGiJvfbx88Z/cKmqiCOU2lMTEgb/UzXQR/krnXsgYOyG+0eNDrGZ+Xe6XKpLWfzm
-	 geQL19Z8NgGUHPR7gYlso0eYPxfdXaaq4uh8OdwIpzdxOxrFr5z26HTwZQ8KYfTKI4A==
+	t=1793297399;
+	b=gy2tLASd96SyKUjFofQmSzJiEnItRBEuyd28CVlrL5hJh/iRA3NEnoeYZU1QNqLfo+iU
+	 DaLEJJjEh1mvdK8kaFey6NFJll2VTowQ8rEmL6626N9dB+k5dY5kb4+8WUY9fK/mVvdew
+	 XJ7G6cqEkDoGiHeJ6TxjhLm1UCLkXkQX+cJyGDT7bg52rZCm73T2PJcBvuPEUBBoKLzap
+	 epscM2LEEXVUC4ekVz7D9W+oOmFb3YLyAQl0MP0/XrJYd7lZ+yJ7nTDc+1kt+3TTuxsRk
+	 dSa5CkVipH2StGGCf2a/5yOCvzyd6/2nicdS1tCB4Die6nAwlOPqhZQsR6urDogbpjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793297394;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793297399;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=BL+32AV/+8oEq45HeDcTTOkYS9ivJyJauIHumIl+ifc=;
-	b=wqysoLOSavxn0BhgQBfxszPbP/kCcL5J51LPZ1RuiYXnBbB8v51ZJnIay2dGEXs9CgAc
-	 cxFGsmHRM0SM5OP3oREL2roaaxHMZW4legZtjLf+vzrxdC+dGEQXUJdWtc2UtjPSqYzoi
-	 ZtCTXPLSl0/oZEqn0IyNJ1KdLMONURvvhQ+JLsQGmwxa5rYVlVjT/YH24DHRNa6rwHSWd
-	 NE57CGsdcW8q29dglJbfYndd3Qauaoq6pXlq/wxwINAgrnPehEKSKVVFAm5SEH/30k3Xk
-	 BLy0nxYnkB7WIy5n6NyNPn09z0CPEGnpWpdrWCQFgdka5tV/anANO9+aGXv2kVWBpiQ==
+	bh=s15KPFvSCwNiVaqBAYJFg7BNb25ktBO5/NM/9ViUK+E=;
+	b=wobXLCAYMlO7nZmC6O/hlvlZNQdwEW0YVzKBASJm2xePOaol64GiwlKTNWCExEYZBG4V
+	 uRlvP/Epa6cffTwC2b99ogJcZ7P2B2lFv+ntcp7mbExQc5qvBEdBefpIaRQmg5t4zf8Wf
+	 XStd4DakNX+hBSBSpNgveoQFFeC3nsJTdUjqPXPd25ompylXnI3Dg3AKfRereHr1WaooI
+	 uslB683Qrz/vd/KRRkxfqsAM4LzXicBlKEpcKGZRszd4MewmpHzR8LgLzWeTfnqqcl1dQ
+	 7aqG8WpT8kxP5noNqn43Jo26/Ryj3+VAKyjeqK4ps9lzLaflbjJoRu7VvEEjuwvg6tQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=hammerspace.com;
 	spf=pass smtp.mailfrom=hammerspace.com;
-	dkim=pass header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=ZAnA6cXW;
-	arc=none smtp.remote-ip=209.85.160.50
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+	dkim=pass header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=VHAaoFOq;
+	arc=none smtp.remote-ip=209.85.210.52
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D2E606A31E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 18:09:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7D2E606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3EF60A262A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 18:09:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B3EF60A262A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=ZAnA6cXW
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-4a822463a22so1535577fac.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 11:09:53 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=VHAaoFOq
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-8256106635eso1247534a34.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 11:09:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammerspace.com; s=google; t=1793297392; x=1793902192; darn=vger.kernel.org;
+        d=hammerspace.com; s=google; t=1793297398; x=1793902198; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=BL+32AV/+8oEq45HeDcTTOkYS9ivJyJauIHumIl+ifc=;
-        b=ZAnA6cXW3uEmAGJSMsCqqkc8J3UbkUBlKaxca14efBcSWi2MrC9WIoBPRYlP2sUq7G
-         c6fTdjKD/Ngq6mCgmvZyqWmFmViVrQPApXROvqkYPquXtzFCJVbMzvBADBkQu3nGWIFR
-         yroapqOYhybxmt8z64swJpRIBb01ljqJe5BToW3lSJGxWJe+0WWrakdFywUoqV0RZxR5
-         iM/XrZQacFWMrLMpYWOIutjPyF4igIppHunMP06iQhkO+42hI5qisZaYUNPa1NnzXQLW
-         Qdl+dXaOaGLg0kspMP6iMg6BFDaZktQisrd5jiabXXVXEqx5vB5NzWN69qrjr7Fw5BC4
-         eWiw==
+        bh=s15KPFvSCwNiVaqBAYJFg7BNb25ktBO5/NM/9ViUK+E=;
+        b=VHAaoFOqccV0hFbc/ilFGOCwBwlm7TlXY62UVXoSJHQ6ULl7rIxY59eOHwq0CF9/io
+         uHUH5dNGfW/I6lhPVAh1H4wl2sE+JeC5MUR7zR8iFZcLo83oTar/Ry3m6+IHkan6JPXp
+         m8yPcXCpfLKjhJ1tr27UMZxgXiTjjZ1jB5zwZj8j/4LeMnwZbNb0IYPUMYVNbhsCkAjS
+         7FJCNZnQJpgwLJo7Sfn8xu+cf7XjBdAcnz1xKs+65uWE3QDT5DOvkhQY1QJpC2Ll+8uF
+         9ack3+/n9ZsYHkPe91Zh4sm35qFh/wyOPftUXrqDqZNtR3wbp+nTsCMweOAnQu+vjU/U
+         9NyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793297392; x=1793902192;
+        d=1e100.net; s=20260707; t=1793297398; x=1793902198;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BL+32AV/+8oEq45HeDcTTOkYS9ivJyJauIHumIl+ifc=;
-        b=ZPgN3WP1o4nwJ3rDXWPEy3+qPHRD3ePrlE5gsIrvK2Ke394Q/nX99BzGTJi5+IJBiv
-         GTei/46x5TGT+o59enLU4F9o4dqhUqjAVlmsWErh2wBe0CvQZfHtl3fHgPOsZffkDplO
-         TU9wBI50fsCewK12E4SKRTMrQOlmiQHhQcYJ7CWc0pcbqUfRtn1ueh3rALAGGDfDQSuZ
-         B+s4bb5MQ1mMJThM0B2YmK835ZZ64nXv/ULsPexQyv+s34V2cCXkrNJ8LjKz3HW//r8Y
-         9KDeViCR2rT2Xk4Ehp7GJahQzMuxN4Be++tWMtPbSWseEnzoraGoA7/iQj7BS7OL9oaP
-         UhMA==
-X-Forwarded-Encrypted: i=1; AKwUvBxlBHy59qsWRomWlHvRdhE85HlRMpgUgHcwfY9JdEdraH+fQ2m7Jnw7godlkq3rPgcz2vebcdWQpYw8UeXd@vger.kernel.org
-X-Gm-Message-State: AFq9FYLUyeamBFu8kE27wLE/FVqkql53yo3Mj0evxrjdMYfl7VdfieU2
-	DPLC0CuZLNCzVwYFCLFOp9HciBYZmi3zTegLFEe7MZVonwcdJFvPajQNQIJhX6YoqgB3LK9MO7V
-	h9vxEeZc=
-X-Gm-Gg: AYBFou017VWVjij2DDCK0ksT4rBfVwdzlNX7d2ZeW+OSc6BpZHcFZvn5Iy2mGA3TdZo
-	KXu1AYSLrvkT+mXiHBTagu59rTo9dI9ycE9hi4I24cSoTb/ZQr8ls72OcZxpErneOD2eb9tA1aH
-	OHoVukxbn7dI10DXoCg6IUu7QuTf6wacxLW+SkRfvTfv60+uck8zXI35PnfEcLysDbOxxiyjygP
-	pZEMCJR7dyQ0DOvY5afha29PIWqUkNbUQ9N3nYj94Cs4Dc22iW44XUAntvn+dhPzFmdeMX2Z6qq
-	18PatGc2DFpk1zD3D+nteFezgR3LbGyYVGQwO9hiQ46IL2jt+RNSVwtuv5J1Yv6N4yt3toM9hYS
-	ZUXWYiv6EJUaqxphaps728a9aO6T3QAEj32gehmd6N+xyOOM06xC+sAOw45pLFeFSqNkwmfhMsG
-	qvh2CsrXKBnt9mEAKo39/IxYdzq+lMgI+XfAZ4aVL68TEHdfxM7pmsTIzJrq9W9MXUuQx9ShwCP
-	CsTXSocoRRjNmAxq9rX1EwVdv1iQo2lmwCY3Ri3HHxTG0CfBzI1ho4s4I9hqKQLmNSnWo1yO5LB
-	VCqscuKCLAOM4Oda0wEOOLTMpuyklrrkBVH/3GJQD4juMHt2Fk3FNoz4EW24Akhm4qMRUlIV
-X-Received: by 2002:a05:6871:3287:b0:4a7:5eb7:ab97 with SMTP id 586e51a60fabf-4a8bb62169emr4560053fac.32.1793297392261;
-        Thu, 29 Oct 2026 11:09:52 -0700 (PDT)
+        bh=s15KPFvSCwNiVaqBAYJFg7BNb25ktBO5/NM/9ViUK+E=;
+        b=UHVX+hwjKo8eVq+IHWNuYXQjCEVaRpjj/3z2wB0scOya3H8proe374zSabhY1zWDN8
+         DvFipPX4Qt2tYWLsIVSBEwgzAsmL/drdPrkAFktbmU2gy9iebhzhnVGQlTJ0oCUUHSTL
+         Tzsy3C9Y4b1n2cRambCOO2hES/uIugOiCSBlrmkb+LlZ1pcyAPL4x8XndJRIfMJFjFGV
+         69S7lCu6UsS24TTYU8bNxIAF0NQVOU2NNV60czA1gaFaV5eQ8sAxMGACpSON2WEyxsWC
+         fQyXWRnqsMb3FiUPDfMjlVwu1uxTa3Hiu61Psrm3ovYcRuSh1vnUxuKgd1zYC77Jg3KN
+         X+Gg==
+X-Forwarded-Encrypted: i=1; AKwUvByGCpQ0OsgEgNUdeVtLZdb5ILd85zH0AO4vOkUL5IeblZ7LfU+mrR2wMyGUGtQ1X3vdp3ub0ARTVGqAme9Q@vger.kernel.org
+X-Gm-Message-State: AFq9FYKA/c0LsNK95h0SoMZS2SGjZ/5zDP9BeuhokP0P5QzZ85Qc9tAt
+	Y9mfXaYE5R3XD2neVe7eDBmX60/k13pbGFuHxsctg0MIg60JtX8x/YktgPO2i3AZkDY=
+X-Gm-Gg: AYBFou3rIyyy+lMZwKtKCJhvhgjW1wv5VBXZ8R+8v28o+vWlqjgOZNEFkE+8Jg6O3i9
+	lF5NS9YiS78emDljQc3MgjeR9ahWIf7k25ru1DdXLK1KSNjBXvrgwlR2n3YS3nRCED4KOKKrXEm
+	ozlcCh03aSetFGKWkmz/xaYB0kbpiMPO0e6va+XTDsDAqTjDmfYwpWe7Pk2vOJ+X7YMmH/jpXct
+	PWCOu/d+mSmGoIBWcEvSoP96jElbaMpX5ddkSN/GHBG9niuYLSHgkxFRahEwFt9Z62oIY4bSLPe
+	+V9VqiSGr35XFardEDYTCqn0W6HmBfRR0WJc8I6duhTvAWCAi41S2MEFlPfB3enZkLuI9dZquhT
+	u7OXtD58Rcw4ZY1ysxIsX/fxEF91pI/3LVs4vSk7MONXrrGz3kQ1MTHBWgFyVEj7VoYHzZutHtr
+	eduZkHn/J6WHmQJLt7d/rc/FM6etB5kFC2+ITHVkZx3LZz/+WjReZjbboGXdsUx4G34LgE+oRAT
+	sV/dq/wWu2+DI01g4dUuCBTnNriqKtIW5cQ8yH/ILG4HiDfcO9wSb50KLh/GUF7SFnIbzwIxJQe
+	1EKWWuikISzVaRDU7EpGmxSfSERRjPKUv6xOrMUO/MRxDRWPKuSx9apMbXmbFshTOj4+wPYC
+X-Received: by 2002:a05:6830:4120:b0:81c:dbd7:65dc with SMTP id 46e09a7af769-85abf770d16mr4912244a34.7.1793297398266;
+        Thu, 29 Oct 2026 11:09:58 -0700 (PDT)
 Received: from localhost (75-163-200-235.clsp.qwest.net. [75.163.200.235])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a9048e6ab1sm119378fac.8.2026.10.29.11.09.50
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85d3545b847sm156364a34.7.2026.10.29.11.09.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 11:09:51 -0700 (PDT)
+        Thu, 29 Oct 2026 11:09:57 -0700 (PDT)
 From: Jonathan Flynn <jonathan.flynn@hammerspace.com>
 To: NeilBrown <neil@brown.name>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
 	Trond Myklebust <trondmy@kernel.org>,
 	Anna Schumaker <anna@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
+Cc: Jeff Layton <jlayton@kernel.org>,
 	Chuck Lever <cel@kernel.org>,
 	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
 	linux-nfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] nfs: fix the silly-delete hand-off that 2/9 makes reachable
-Date: Thu, 29 Oct 2026 12:09:47 -0600
-Message-ID: <20261029180950.387072-1-jonathan.flynn@hammerspace.com>
+Subject: [PATCH RFC 00/12] vfs, nfs: concurrent create and unlink in one directory
+Date: Thu, 29 Oct 2026 12:09:45 -0600
+Message-ID: <20261029180957.387138-1-jonathan.flynn@hammerspace.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261028041023.3738553-3-neilb@ownmail.net>
-References: <20261028041023.3738553-3-neilb@ownmail.net>
+In-Reply-To: <20261028041023.3738553-1-neilb@ownmail.net>
+References: <20261028041023.3738553-1-neilb@ownmail.net>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -110,84 +111,135 @@ Content-Transfer-Encoding: 8bit
 
 Hi Neil,
 
-Your "nfs: fix nfs_call_unlink()" computes the silly name's hash before
-d_alloc_parallel(), so nfs_call_unlink() can now find another cached
-entry for that name and hand it the pending silly-delete.  With it
-applied, that happens: an entry made by a fresh lookup of the silly
-name, after the original entry was invalidated, receives the delete
-when the file is closed.  Three problems in the hand-off become
-reachable with it, and these patches fix them:
+Thank you for this series; it is what makes these patches possible.  I
+had them on your v3 and have rebased them onto v4.  They extend it so
+that processes on one NFSv4 client can create and remove files in one
+directory concurrently.
 
-  1/3  the hand-off can overwrite NFS_FSDATA_BLOCKED on an entry whose
-       REMOVE or RENAME is in flight (Sashiko's review of 2/9 reports
-       this too);
-  2/3  the other order: nfs_rename() tests its target before it takes
-       ->d_lock, so a hand-off landing in between is kfree()d by
-       block_revalidate(), leaving DCACHE_NFSFS_RENAMED set with no
-       data and a NULL dereference at the final dput(); a hand-off
-       that the VFS's unlocked test missed also trips the WARN_ON()s
-       in nfs_unlink() and nfs_rename().  nfs_rename() now tests under
-       ->d_lock, and both return -EBUSY, as may_delete_dentry() does;
-  3/3  nfs_call_unlink() holds rmdir_sem for read across its lookup and
-       across the dput() of the alias, and either can kill a dentry
-       carrying a silly-delete, which re-enters nfs_call_unlink() with
-       rmdir_sem still held: that deadlocks against a waiting rmdir()
-       (Sashiko's review of 2/9 reports the alias case).  It now takes
-       rmdir_sem only for the REMOVE it sends, which also closes an
-       older route to the same re-entry that does not need 2/9:
-       NFSv4's delegation return in ->unlink_setup().
+  operations per second   parent exclusive   parent shared   ratio
+  creates                            2,616          29,939   11.4x
+  removals                           2,157          32,360   15.0x
 
-They have to go wherever 2/9 goes, and its Fixes: tag will take it to
-stable.  Fold them into 2/9 if you prefer, as you did with the d_seq fix
-in 1/9.
+One client, 96 processes in one directory, each creating files (open
+O_CREAT, a small write, close) for a set time, then removing them all;
+NFSv4.2 to a pNFS metadata server that is not knfsd; your v4, the 7.4
+VFS changes it builds on, the three silly-delete fixes and this series
+on a 7.3-based kernel, among other patches.  Each row switched only its
+own path, by a test-only module parameter not in this series, with the
+other path on; one run each.  The creates row comes from 300 s of
+creates.  The removals row comes from 120 s of creates, and each of its
+runs removed about 3.7 million files; the removal rates vary with that
+number, so it is given.  With the parent held exclusive, operations go
+one server round trip at a time.  2/12 quotes an earlier measurement,
+on a 7.1.13-based kernel.
 
-One window is not covered, and you may prefer to close it another way.
-After nfs_unlink() or nfs_rename() clears the mark, and before the
-VFS's d_delete() or nfs_rename()'s d_move(), a hand-off can still land
-on the entry.  For an unlink, that costs only a second REMOVE, which
-finds nothing.  For a rename onto the silly name, the target is left
-owing a REMOVE of a name that now belongs to the renamed file.  That
-REMOVE is normally dropped, because nfs_call_unlink() then finds the
-renamed file's own entry and its file handle differs; but if that entry
-has left the dcache by the time the target's last reference goes, the
-REMOVE is sent and deletes the renamed file.  Closing the rename case
-would take the hand-off refusing an alias that is no longer hashed, and
-nfs_rename() dropping, under ->d_lock and after d_move(), a
-silly-delete that landed after its mark cleared.  I have a draft of
-that, and can test and send it if you want it.
+How it works.  2/12 lets a filesystem have the parent locked shared for
+O_CREAT (a flag in a new ->iop_flags field), and 6/12 for unlink(2)
+(->unlink_shared() and ->unlink_shared_done()).  The dentry then
+excludes the name: for a create, its in-lookup state, all
+nfs_atomic_open() needs since your 3/9; for a removal, an NFS mark that
+lookups, opens and creates of the name wait on until
+->unlink_shared_done(), which the VFS calls after the fsnotify delete
+event, if any.  What NFS cannot order that way, such as an open file,
+it hands back to ->unlink() under the exclusive lock; where the server
+reports itself case-insensitive or not case-preserving, NFS sets
+SB_I_NAMES_COLLIDE (3/12) and both keep the exclusive lock.  Both paths
+call d_alloc_parallel() under the shared lock, as lookup does.  When
+your directory-locking changes lift d_alloc_parallel() above i_rwsem,
+these calls have to move with lookup's; the exclusion does not change,
+and the opt-ins go once the VFS stops taking the parent lock (2/12,
+6/12).
 
-Tested with your v4 and these patches on a 7.3-based kernel, over
-NFSv4.2 to a pNFS metadata server that is not knfsd.  The hand-off
-happens as described above.  With 3/3, the nested nfs_call_unlink()
-that follows it starts with rmdir_sem not held, where without 3/3 it
-ran with rmdir_sem held for read, and the REMOVE is sent once.  The
-removal race tests of my RFC, posted in reply to your 0/9, passed on
-this kernel, as did a PROVE_LOCKING and KASAN build running them,
-though lockdep does not see rmdir_sem's read hold, which is taken with
-down_read_non_owner().  No test here hits the races that 1/3 and 2/3
-close, or the deadlock itself, so for those the fixes rest on the code.
+Patch flow:
+  prereq   1  store re-read server capabilities in one step, for 3
+  create   2  VFS opt-in to take the parent lock shared for O_CREAT
+           3  NFS sets SB_I_NAMES_COLLIDE where names can collide
+           4  NFSv4 directories opt in for O_CREAT
+  remove   5  factor vfs_unlink() into a helper, no functional change
+           6  VFS opt-in: ->unlink_shared(), ->unlink_shared_done()
+           7  a second ->d_fsdata mark, for removals under a shared lock
+           8  keep a dentry carrying that mark hashed
+           9  no new dentries from a listing that a removal overlapped
+          10  the removal method, handing back what it cannot order
+          11  look a name up again once its removal has unhashed it
+          12  NFSv4 directories opt in for unlink
 
-The series applies to 83f32c773255 in Linus's tree with your v4, and
-fs/ compiles without warnings at each patch.
+Three fixes for the silly-delete hand-off, which your 2/9 makes
+reachable, are posted separately, in reply to 2/9.
 
-Tools: these patches, their changelogs and this letter were written
-with Claude Code, using Anthropic's Claude Opus 5 and Claude Opus 5.5
-models, at my direction.  It found the problems fixed by 1/3 and 2/3,
-and two of the three routes in 3/3, reading the code with and without
-Sashiko's review prompts; Sashiko's own review of 2/9 reported the
-problem in 1/3 as well, and the route through the alias in 3/3.
+Tested on the same kernel over NFSv4.2, with the new paths on and off:
+removal races (with listings, and with tasks killed); O_EXCL creates
+racing unlink, with a kernel-side check that no revalidation trusted a
+removed entry; inotify event order; two clients; and an overlayfs mount
+whose lower file another client renamed away and back.  All passed,
+with no kernel warning or hung task, except the two-client test's check
+that nothing was left behind: on this kernel and on one with an earlier
+revision of this series, it found one silly-renamed file in three of
+four runs, with the new paths off as well as on, so they are not the
+cause.  Each time, the file left behind was not the one that had been
+silly-renamed: the silly-rename's RENAME, which goes by name, had moved
+another file of that name onto the hidden name.  A PROVE_LOCKING and
+KASAN build ran the removal, killed-task and O_EXCL tests with no
+report.  A case-insensitive server, where two spellings of a name never
+made two files, was tested on that earlier revision only; that code has
+not changed since.  Not run: fstests, knfsd as the server, NFSv4.0 or
+4.1, directory delegations (the server grants none), CONFIG_DEBUG_VFS, a
+weakly ordered CPU.
+
+One question: are the opt-ins in 2/12 and 6/12 acceptable as interim
+interfaces until the directory-locking changes land?
+
+The series applies to 83f32c773255 in Linus's tree on top of your v4
+and the three silly-delete fixes.  fs/ compiles there without warnings
+at every commit, with and without CONFIG_DEBUG_VFS and lockdep; I have
+run it only on the 7.3-based kernel above.
+
+Tools: these patches, their changelogs, the race tests and this letter
+were written with Claude Code, using Anthropic's Claude Opus 5 and
+Claude Opus 5.5 models, at my direction over many sessions: I chose
+among the designs it proposed and directed each revision.  It found, by
+reading the code, the bug that 1/12 fixes: while the client reads a
+server's capabilities again, a capability the server still offers can
+look missing.  The three silly-delete fixes, posted separately, say
+which of their problems it found and how they were tested.
 
 Thanks,
 Jonathan
 
-Jonathan Flynn (3):
-  nfs: do not transfer a sillydelete onto a blocked dentry
-  nfs: answer a handed-off silly-delete on a removal target with -EBUSY
-  nfs: take rmdir_sem for a silly-delete only when its REMOVE is sent
+Jonathan Flynn (12):
+  nfs: update a server's capabilities in one step
+  vfs: allow the parent lock to be shared for O_CREAT
+  nfs: tell the VFS when two names can be one entry on the server
+  nfs: concurrent O_CREAT in one NFSv4 directory
+  vfs: factor file removal into a helper, no functional change
+  vfs: let a filesystem remove files with the parent directory locked
+    shared
+  nfs: add a second mark for a removal made with the parent locked
+    shared
+  nfs: keep the dentry of a shared-parent removal hashed
+  nfs: do not cache a name from a listing that a removal overlapped
+  nfs: add the removal method for a parent directory locked shared
+  nfs: look a name up again once its removal has unhashed it
+  nfs: remove files with the parent directory locked shared on NFSv4
 
- fs/nfs/dir.c    | 32 ++++++++++++++++++++++++++------
- fs/nfs/unlink.c | 39 ++++++++++++++++++++++++++++++++-------
- 2 files changed, 58 insertions(+), 13 deletions(-)
+ .../filesystems/directory-locking.rst         |  60 +++
+ Documentation/filesystems/locking.rst         | 259 ++++++++++++-
+ Documentation/filesystems/porting.rst         |  35 ++
+ Documentation/filesystems/vfs.rst             |  25 ++
+ fs/namei.c                                    | 360 +++++++++++++++++-
+ fs/nfs/client.c                               |   1 +
+ fs/nfs/dir.c                                  | 300 ++++++++++++++-
+ fs/nfs/inode.c                                |   2 +
+ fs/nfs/internal.h                             | 211 ++++++++++
+ fs/nfs/nfs4file.c                             |   9 +-
+ fs/nfs/nfs4proc.c                             |  35 +-
+ fs/nfs/nfstrace.h                             |   2 +
+ fs/nfs/super.c                                |   2 +
+ fs/nfs/unlink.c                               |  16 +-
+ include/linux/fs.h                            |  72 ++++
+ include/linux/fs/super_types.h                |   1 +
+ include/linux/nfs_fs.h                        |  28 ++
+ 17 files changed, 1361 insertions(+), 57 deletions(-)
 
 
 base-commit: 83f32c773255720a661aa45d83e36278135f23f5
@@ -200,6 +252,9 @@ prerequisite-patch-id: f9f3f0e945cadf96113d4ac9ab8f7b0c207af4e5
 prerequisite-patch-id: 4c09a15390bb556d79bea1ee733f52a58bec80ef
 prerequisite-patch-id: 7c026717a97b2c86a169539822f5d14650f68f8a
 prerequisite-patch-id: a702d54495d0f3d7f88b82411d884dcf5aacf9a0
+prerequisite-patch-id: a7e7263e8916612f3e4b767946b5d9259029f50e
+prerequisite-patch-id: a8e5414df9d9912dcdf9bb1dbb2811ce326a1e1f
+prerequisite-patch-id: e8050b998d5790f3bb4311bc65011735ed7d8b2f
 -- 
 2.43.0
 
