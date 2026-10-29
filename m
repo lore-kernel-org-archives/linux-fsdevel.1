@@ -1,101 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793312201;
-	b=q9oKB8ITlXxyWQRZqZS7LHG+aq9RnhYp7BxxRw/ittkOhZd9Y2bc5bHwq+JcI+XWXNux
-	 JrcIHxWy6yWCqiEhwW9r0xzDrntlwIJ0V6RC5BhiXYR7xC1Na1f91kco5O+b6rG7uQ7dP
-	 MZnakyBt0C0idt/hR8GvFaM2inHDns8Mt9dnuwzzZM/CGsxMoW9NAtFVFVldmjAQq89R4
-	 z1DVWf6+TqDAEvfq+eRfMxLT+YZypQEsEXUTKJJPKZqSh5bBOtF9ncqDNn0LhXpXAoI16
-	 BmwZwR0sXDYUQKn8lZqT3btMb2XRlg94FcDLu3SMS4IFCRcr5GHsqH2K547rAuJ5AyA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793312201;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=koZpx6vqHKuQYrxobP/d4PhoSM1zd0NfzqrWj5/V+0E=;
-	b=l/ym89XC55mPpRCUNU4JD06GqU4c+SAVnnZK1xEwTGTdiEWNB/JkcIPcbSd6ah+jWSpe
-	 pZEVfunk8q8WRiHSLh1iTwibP3gwWRCwu6Cmoulc7FoMOIeJTxFkcmrhAkqUhPVAx626y
-	 ThU6VerTniAiME/uDwNxgE/j8mywMtBF3VHxqFQdRZmVjQfb/7NpuwlcFOoL3Q12m+PN5
-	 9dPLYfWGP8GnLfyOct9fzf6BYO1NkMkc5mZfDeka+v+AhkUI4o0N6cIHbL0yX/lE5GcEI
-	 HXMnl/OAZiNF1POG/la1R1L8/8xApWdxwyWUg4DEgrBrl/gFOHWVqyb2ayjOCLSmgRQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xr2L+YSV;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.153
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793312329;
+	b=vm81zwJVH8KAQStNvuXqgzSlsrQcSSY2SWEgStbP3aWALfMpH34Fe7xJlG5Vq7y7LhcA
+	 fuumU5ppWN1sbVxG4NZfonBj8hCB2viiAQDCLKFv4xXEgIZ72m90xcqNvFHyxdXFVQN4c
+	 lwdbL8M9NCCJQykprCtzUZ8Ir/fpRQKnWwcpkaz8tXPB7rrzn7zA1shDrYF5cuRINTxo2
+	 fw93dZeFEgG4Uh77xuvptGZ1fq9di9uC4P+uZR6dfgHk73ecDiOCuIwmHez8RRlSgl3Av
+	 rJeVQKxUsp+beT+6p7R+eGCf9igS+YJByITnY1IFjAaIMI1fPQFsABsPhjGDYmBcpDg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793312329;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
+	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
+	bh=dYvNREiUsRiTBskyYYaUP+byxaqYNnm2fP1oglN4R4c=;
+	b=Xt1UvjpHaPGhjTt1z6LmiWw3gfB/BsFGfj8JXjR+QZZI83GISExu1KtejA4idKrBvTDn
+	 IfI+4wZ4FXzTZjOY3WrlHuFy6YXiX2uFbKWqcghVWjo93q7cGiqy5356KpjJeONNKj/nM
+	 uudUvbslirv4kQ2M4Dje0s8Q95+Ba8m/FlGCEHXCC5Jsm8cOQjFgrnRKGh+ug/k+CgF9p
+	 rDPci9wdcpdsx5y6oL9HtCPYIuWRXlG8du7Z1QuQvWYtDQBv/E7oC5h7VNqTQUqFUUeaS
+	 nb/b+4OwqfkwE+NFLUeDAS0uABF4BwbLRDmmImKf1XLwWiRxwcX+1K3fxr3sr+0Bf/Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=ownmail.net;
+	spf=pass smtp.mailfrom=ownmail.net;
+	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=SX01SSl1;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b="cQPIy/B5";
+	arc=none smtp.remote-ip=202.12.124.153
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AEF606A320
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 22:16:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0AEF606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F280606A321
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 22:18:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F280606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xr2L+YSV
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3ae486f8a27so42978a91.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 15:16:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793312200; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kSv+nH8Xk6W9geZVQ4xWdnDjHkfkjfoU1sBpxqcqaB2FghMZMqR44v8pPILH9O7lby
-         AfUr8dDVNZibmsO0PSGIzrDhM3oSO1SNTn1McIcXUPO4QZ2dIyrYwcw55TSJbkZ21pk1
-         kW48T6GcIdGHMXjCp/mQDbjVCn6bR4Pfe2zN0wzkdKQtvLSFjIOunsdm4lbRp/RSdp36
-         OH/iBtIEoNEbGbLw1IgoAiMKim9bWVKjtcL4diJjROMZ8gdzRxW1+Gmxnjmf5bzVzFwA
-         SY6rUm3HpmmgxaPK2T4NM2tvFXABRFfP7xjF2lVP4qKQU1X1SDhQLecdwakCR5zZKNF3
-         cckQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=koZpx6vqHKuQYrxobP/d4PhoSM1zd0NfzqrWj5/V+0E=;
-        fh=hEZmt6QfTudV/lFUegzGkCdELVv/8GMwu7hhfcMkLfc=;
-        b=rOl2WS+mY82TZLTqBRV1FmAfpEMW+nBwEsKWz1yJeiUwR7Z11g+MypvlZVQ/Vc3kY7
-         odCp/NlwJfVh1eDF1OcYZ6Ik7jBaCp/nGpg3Mw6q+bFV8qbhN738MTX6ILoVmAwEKqQC
-         jhaif49uEtC4ci7OT8jhp8IVsL0j4Hp8JgSJbm69tOqU7yt/tyTpU/J3nUiwRMMHqdiE
-         99CopcbHxPpWHH3NZjSJJVWJkLycAyK86n+w0tyiGdqj4moz1et+1Uu0wYv6DSRRT5NF
-         UDbEjGk3y+I3E2SdGn+xUzpgbRRamc531YY26NjiYo8TTWqCA7cWLqj+kztDoDyLvwQ4
-         lwYg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793312200; x=1793917000; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=koZpx6vqHKuQYrxobP/d4PhoSM1zd0NfzqrWj5/V+0E=;
-        b=xr2L+YSVfPIi5bsK0sQduGMgmae01aKgXSUseaJikh3GJOXYKaCpT7MugONeWoy1Wy
-         L0fdYaceEriICAikAcMys9iLe0NuSQyGQTELjt2Ft54mZK0Ea2rsg22LaEwXUnKKsovd
-         kL7PGxEK47e2qujKLsgE9yrTo5lfZKx8nHxgb3r/PIxi0YchvNvUoe5g+rWm0xrJEUse
-         9DRaJt4wWvOsq/laKci0C89PCBiI5SJb3D52TcFto6hBRRY+AOb0prFHVuz6lvt3uQIn
-         O911UfpGGIIYXaSbBrKrO1+qB14+el9UMLEsR0DWmN+bb465NXDjwcUKwy1uZCPx7BeO
-         Va8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793312200; x=1793917000;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=koZpx6vqHKuQYrxobP/d4PhoSM1zd0NfzqrWj5/V+0E=;
-        b=aAwp41PL87gPsOg0QZETX4LKVINbHLXJcGR9fJHp+JBW6M9955EM3wj8beyBqe6ZqG
-         A3jfTvsuPoLLFY8mMu1UHRZeLOGYA3noCgDkMh+lfoVKn10OAG7Wy9NRzJI2bCaDppoV
-         O0hkI5NAA5tU7+JJanXNXHjrjirnMFcH/yZG0984TUjlnFbbZnBsmRLH1ht/XoDPxvAS
-         0ycTo7us1zMOHl10X676fowSaHdXB+MJXT/o5Rbi6Y3x6a9VhydTQbAOmJnoxtll/iKr
-         PZBN79UB5mwBQAH0miVOVF/nNAoq5uWb4QMdOn7L5vgSN43+B3OD71sWyFuT6sjcSo2F
-         t99w==
-X-Forwarded-Encrypted: i=1; AKwUvBx6fwLb2oLmHtBw60JUM+uKxBHWxT4FeIPb1PYfDvkTLfcMmqd2wpORpKl6koCczYQuVXFWpq/pAEieaQNs@vger.kernel.org
-X-Gm-Message-State: AFq9FYLgVN9+N0Pox2ujA3F1bidzAgud/uAC6Oj+ht57fMXog65FGOMb
-	W7r9gsx59/LB1SBnd8SAgJY1EZbllgFelAjiB3OCCwCk40DDH2VYqR0YcOhpZi+fhdCJ/Cs9oqx
-	Ni6Wcby0csOs2n4HR7UEp2mZs6ukoA4I=
-X-Gm-Gg: AYBFou31n6N0xHCeAuzHXdmWKOyhCsZg/ur48qSQsXVvXlKblM2GWmcXy/n0u8NVvmX
-	5tKHjDeI75nR+ZYbCvCYlnSmKiPYG0mAKP6p5HICLJX+Mv2lmeX5Lk8rWsERasFkqXL9cckKMS3
-	UZ9+o+U6z/Si6hYegk1/td+WvWGdKoghHMohKn2Ylpfjs7mqdlGDEu29R9GeIi6cw2azSehYKNl
-	FCtf2FlEWqIpYa62m1+PKF/rCnfxG+E3CAQ9yundPPaSyoccAd12gUTZ7cxlbIVw7ZwmJ62i9R7
-	GrUf9rgcSwEAffOQTq1uYGppjQ2SO+4YlwjVMjzpaqn5udPZqpGmnFvJkkCJlqSd4XITnfuFsDY
-	0jCmZUD9XmdAMIuQkWDv09uH/uPMubN45FDKLe/VVprPNH0N9qoyRYLNRV7pI6XvD88/JY4vXnj
-	Huek11PtSBzZnPwcrOHJRPltgzS57Zmy7yxw==
-X-Received: by 2002:a17:90b:380c:b0:3a7:250:333e with SMTP id
- 98e67ed59e1d1-3ae896f8315mr277145a91.11.1793312200139; Thu, 29 Oct 2026
- 15:16:40 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=SX01SSl1;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=cQPIy/B5
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 81A0D7A012E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 18:18:48 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Thu, 29 Oct 2026 18:18:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1793312327; x=1793398727; bh=dYvNREiUsRiTBskyYYaUP+byxaqYNnm2fP1
+	oglN4R4c=; b=SX01SSl1V+NiFRXqeO+arjh7Wewr/ze8cNATsZ3+V1ARySksUhb
+	jGgyW6fBBponQ9wdbda4F8WlLjttm2lx1lAF4BeUaWTg2zxsAmukMpk8t9dBD398
+	p8zWw6EZU1SpY8tu3WMJQQWD1EIahm6tA5nBPhGmeZuViD8z85i2oAzKkgHAVUBX
+	+XOsekuETDC44XGsY3z/YZO2gnkEVL9okmcCWpnTy0MXEVsCtYaV7qBUTrwzUW9n
+	G4B8yjdDRmdruZoFI29pCs5tLstRkLfyU1HLB2o/cKbxY2h+SPctHgVYE+N/jPkY
+	YB/N+jO1HjLiIV4d65uypCWS649bRy4Qzpw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793312327; x=
+	1793398727; bh=dYvNREiUsRiTBskyYYaUP+byxaqYNnm2fP1oglN4R4c=; b=c
+	QPIy/B5jeSnpBwKEXIYgDUdSSR0TObTsWsoIfjKLuzFTsCkor+HqrR0P7OFUrxuf
+	Bme60LFFWMPsd9utYW+hVznyITLFr+MazjdT3j+ah8q2q1DTl8QIig0USN3fO8a/
+	vFREMsy/KDhQir6gKplj4hzrBUhmgalklJJzH/v/SvLC3AHLKWj1ZLNoTt3gZ9UF
+	InLUSJofaw3iq4m4t2Cq2vZ+n1/syYWwj7cjDpi7E79OPu4vNDAZ4trtuid067fR
+	B2Wzza3Fb4pr50tRDdEFmqGkDyRPJh2k7ZTRyLvMQy3DrG/2Rhum3Mvya56HW773
+	jUtXOEZnLmjuA8/tL23qA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=ownmail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793312327; d=ownmail.net;
+	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm2:rsa-sha256:RK1pXOKc3y9ZuJuPTyHqSLJm6BtPR52Eyo/Vk5JJ3fX6yrl
+	hliUgf+91NZzO9+vJWOWByZiBp6NwPZ4Q5yOMcEzxuLk55vD8WtWlZQwRU3afHho
+	QX+M0J28ZIYppTJ5xt8LaYyU47X4RdL9RmWctGOKoNbT7Xacszd+N5CHc/EqL92e
+	OcdXQvq8KENMOceTL36MBsDX7nc1en4lSzzLeATEnaWNaqOSs0AS/N/1myFlxOvV
+	unTCoZJFhQG8A/hEcRSP78md4OLJKeASfl60Hysxpem7AKEQHkbg+5Og2/v3ANVw
+	HO0LpWwR9mtwfJgnXeZn00B10Xk8EazeZccUBqg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,reply-to,
+	subject,to;
+Message-Instance: m=1; h=sha256:bcWKtY+NKsnKi3i+hHpmjZDTk2LmjLPMizOp6BBT9Is=:ZlYbz2q28kRTRvr3kCm0vKCFLMpKWgsZVGNybIuaVGA=;
+X-ME-Sender: <xms:R8bjaq2pkkKEktwQDiS3pZlkyTp2Jv0R78JQnWBmhyikriA48KIr6A>
+    <xme:R8bjasrrfSx09QnycAGBPW_W6Yp8D_ZX2YqlMxxi7Gofgf_4mmre1sWo6FtDZNSnE
+    irwJe6UfhFHUmA8Jpl0CkR3aRb8V0kIkVSQPkBUzq4l7TGp50Y>
+X-ME-Received: <xmr:R8bjanN0KID3facnSu2tKd7bDKl6-mHFF-myodVG1L5g-EJAGtzwSNT7KXD92VcF9ib04xCdGONkzOmfemZJPby5Ks8mEZI>
+X-ME-Proxy-Cause: dmFkZTFcmWZ/tmvOmtAan2z4XuabBZX5fEAAKJ7SGDLJh2EbPK8Gfszm2r19Vs2ZriVmnD
+    qFJFAGF08f5mR6EVVYhc9agp58e9Ua1PLMBf5rFvck02LDl1HYIRKdzUsEn6E5tj52PX0H
+    LIyINRiXO1mFbpYi2F4opfUYe33Ww0yA8W18dVeFeAir+Gvj4Z/SHfA7Un27HtED5I83rY
+    X7WjpPY12RBcKFoz7kxJCzHFIyTkXADEEzlbF2TUDn8N5K1jY2XTpqBsp83S0JjhLHSyJR
+    R4GrdFclvjhFL7/ATIs1CVu4K2LtRgd+ZOE2IfoQFBtG6nsUOoo4gjavbAU6tcqUL5OqEz
+    4i9pfZ2QrZuAMlOFKZ/b0kV5S9cs9akcOwv/5x/yI0jPQ1iKVlEaEFGehXVTz7d02WuNwp
+    HxJL6pmlir3MOzBnuGKJxThU0JZPsPggJgbJSr9PqqmzUcSeuV+P9lqrnOAQFdNtK5Vsw8
+    LI8pHR2XCZ3JqRUkpKdiUyZGXTrsMXucy90AcUNbHqcA/5O+qyyRirYxiB6h6rIXYNmgCi
+    0Gua/Nken+5m+n6RkxdDpKKQQX45Y6bhKZmlPAKwkgnD8E5CAi52NWky5hi/4OcnLd5zJb
+    +z+14eJZ8KjIv6EQOuI0nnArP3eoeLgUKqkAntwAWrc5M6WkWtr+xDomv9kg
+X-ME-Proxy: <xmx:R8bjauVmvT6C9PcAKIfx5eDYreVa91oZnY3I9DNGZ9sBbwtwq1Wu7g>
+    <xmx:R8bjaqse7pRFAX3emtiwRWATRJj4dZqOUVzsaWdDZdT-a-6bDivRow>
+    <xmx:R8bjap3FyW9imvrfJUd5abQSxTYSayox4hvJ3K_uVf3v9CoAg2khZw>
+    <xmx:R8bjar7R9t_SkdNxSWgDJQH6H7_8rOA8LYGgtYwJ2g-X87N4dW-GsQ>
+    <xmx:R8bjak2SoPN3fgf3nFncJVLZiExQHUJlVM-XpK-TM6fkhFTEH5oeNJF9>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 29 Oct 2026 18:18:43 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,265 +118,199 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261023001603.560210-8-wusamuel@google.com> <20261023001603.560210-9-wusamuel@google.com>
- <20261028134012.01d52e94@pumpkin> <CAG2KctpGPHo-S3AEvBhK5HPUnDHfoJu6Z-r+cS1hQ4Ps=B3DmQ@mail.gmail.com>
-In-Reply-To: <CAG2KctpGPHo-S3AEvBhK5HPUnDHfoJu6Z-r+cS1hQ4Ps=B3DmQ@mail.gmail.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Thu, 29 Oct 2026 15:16:27 -0700
-X-Gm-Features: AclHuK9av7Er2dEcOWg6hJWIv2K2TpdNYpqUpTLgWkKxe-dORmBpAAvoyO4hh00
-Message-ID: <CAEf4BzYT4rvKwbOJ6UQ3zcp4wdsSBqRsMz-2=U1DA2RyUA3XSg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to /proc/kallsyms
-To: Samuel Wu <wusamuel@google.com>
-Cc: David Laight <david.laight.linux@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, kernel-team@android.com, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: NeilBrown <neilb@ownmail.net>
+To: "Jonathan Flynn" <jonathan.flynn@hammerspace.com>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Jeff Layton" <jlayton@kernel.org>, "Chuck Lever" <cel@kernel.org>,
+ "Jan Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH RFC 00/12] vfs, nfs: concurrent create and unlink in one directory
+In-reply-to: <20261029180957.387138-1-jonathan.flynn@hammerspace.com>
+References: <20261028041023.3738553-1-neilb@ownmail.net>
+  <20261029180957.387138-1-jonathan.flynn@hammerspace.com>
+Date: Fri, 30 Oct 2026 09:18:40 +1100
+Message-id: <179331232046.1157394.9372059519045294205@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Thu, Oct 29, 2026 at 3:06=E2=80=AFPM Samuel Wu <wusamuel@google.com> wro=
-te:
->
-> On Wed, Oct 28, 2026 at 6:40=E2=80=AFAM David Laight
-> <david.laight.linux@gmail.com> wrote:
-> >
-> > On Thu, 22 Oct 2026 17:16:02 -0700
-> > Samuel Wu <wusamuel@google.com> wrote:
-> >
-> > > Add an extensible KALLSYMS_QUERY ioctl() interface to /proc/kallsyms
-> > > to support fast point queries without scanning the entire text file.
-> > > Exactly one query mode must be set in query_flags.
-> > >
-> > > When KALLSYMS_QUERY_BY_SYMBOL is set in query_flags, KALLSYMS_QUERY
-> > > resolves a NUL-terminated symbol name in vmlinux or loaded modules an=
-d
-> > > then populates sym_addr:
-> > > - Searches vmlinux first via kallsyms_lookup_names() (binary search),
-> > >   which takes precedence over loaded modules, and falls back to
-> > >   module_kallsyms_on_each_symbol() under module_mutex for module
-> > >   symbols
-> > > - Matches names exactly, like kallsyms_lookup_name(), disregarding th=
-e
-> > >   .llvm.<hash> matching, following precedent set by commit fb6a421fb6=
-15
-> > >   ("kallsyms: Match symbols exactly with CONFIG_LTO_CLANG")
-> >
-> > Hmmmm....
-> > What happens when you have functions foo and foo.constprop0
-> > In some sense they are duplicates.
->
-> BY_NAME matches names exactly, like kallsyms_lookup_name(), so they
-> would be different symbols at different addresses. Please correct me
-> if I'm missing something here!
->
+On Fri, 30 Oct 2026, Jonathan Flynn wrote:
+> Hi Neil,
+> 
+> Thank you for this series; it is what makes these patches possible.  I
+> had them on your v3 and have rebased them onto v4.  They extend it so
+> that processes on one NFSv4 client can create and remove files in one
+> directory concurrently.
+> 
+>   operations per second   parent exclusive   parent shared   ratio
+>   creates                            2,616          29,939   11.4x
+>   removals                           2,157          32,360   15.0x
 
-foo and foo.constprop0 are different functions with different
-arguments, so I think we should distinguish them. The only special
-case is .llvm.<hash> because that suffix is added by compiler for LTO
-and I don't think the function itself is any different from the
-original
+Thanks for the stats.  This confirms that this a useful project to
+continue on :-)
 
-> > > - Resolves 0x0 symbol addresses in both vmlinux and modules
-> > > - Rejects ambiguous symbols (multiple entries with the same name at
-> > >   different addresses within vmlinux, or across loaded modules) with
-> > >   -EADDRNOTAVAIL, while allowing same-address aliases
-> > >
-> > > Userspace symbolizers resolve kernel addresses to symbol names with
-> > > /proc/kallsyms. This is typically done by reading the entire
-> > > /proc/kallsyms text file, and keeping a compressed sorted copy of it =
-in
-> > > order to resolve addresses at runtime.
-> >
-> > You could mmap the tables into userspace and have a ioctl that reported
-> > the offsets of the tables (etc).
-> > Then user lookup would faster then kernel lookup!
-> > Especially since you could throw a bit more memory at it to remove the
-> > linear scans.
->
-> I think that would increase the UAPI surface because it would set the
-> table format, so I'd prefer not to. It would only cover vmlinux and
-> not modules, and then we'd need to apply kptr_restrict checks to the
-> mapping.
->
-> > >
-> > > When KALLSYMS_QUERY_BY_ADDR is set in query_flags, KALLSYMS_QUERY
-> > > resolves one address to the symbol that contains it:
-> > > - sym_addr holds the address to resolve on input.
-> > > - sym_name_addr must point to a user buffer of sym_name_size bytes
-> > >   that receives the NUL-terminated symbol name. On output,
-> > >   sym_name_size holds the number of bytes written (including the
-> > >   terminating NUL). -ENAMETOOLONG is returned if the buffer is too
-> > >   small; a buffer of KSYM_NAME_LEN (512 at the time of writing) bytes
-> > >   is always large enough.
-> > > - Symbols are resolved via kallsyms_lookup(), the same lookup as %pS,
-> > >   covering vmlinux, loaded modules, BPF JIT images, and freed module
-> > >   init functions still tracked by ftrace.
-> > >
-> > > On an 8 CPU Cuttlefish (x86-64 VM), using this patchseries to load a =
-BPF
-> > > program with 11 typeless ksyms has ~220x speedup (157ms -> 0.7ms).
-> >
-> > Have you tried measuring it with my patches that speed up the kernel
-> > 'search by name' code?
-> > That speeds the lookup by a factor of ~18 (testing the code in userspac=
-e).
->
-> Not yet. Can you point me to the latest version? Happy to try it out.
->
-> > You also should allow for 'find first' and 'find next'.
-> > As well as letting the code iterate though functions with the same name
-> > it is absolutely trivial to enhance the 'lookup by name' code to match
-> > a prefix.
->
-> Agreed, that would be useful. In v3, the idea will be to have BY_NAME
-> return the first match by default, and an ALL_MATCHES flag to report
-> how many matches exist. Find next and prefix matching can be added
-> later with breaking UAPI, and best to not include in v3 since there
-> isn't yet a user.
+But I think you are racing ahead and that we do this "properly" without
+per-fs flags etc.
 
-I do think it would be good to spend a bit of thought on how to
-support at least one-by-one pagination from the get go. The same
-mechanism can then be used by batch version. I.e., think what can we
-use to provide data back to user which they can use to continue search
-after the symbol we just returned (at least for fixed set of symbols
-in vmlinux and modules; we also have dynamic symbols added for [bpf]
-"module", etc, we should support those as much as possible with the
-least possible deviation, IMO)
+Reflecting on me current plans, I see that rmdir and rename require
+the most work.  It would make sense (I think) to delay those and
+focus on create/unlink which are relatively straight-forward.
 
->
-> > (Basically it needs to 'return -index' instead of 'return -1' when the
-> > binary scan fails.)
-> >
-> >
-> > >
-> > > On an 8 CPU x86-64 VM with a 175k line kallsyms, there are broad
-> > > performance and memory savings for the symbolization and callstack
-> > > sampling tool, Perfetto:
-> > > - Init time: ~350x speedup (155.7ms -> 0.44ms)
-> > > - 50k symbolizations: ~12x speedup (25.2ms -> 2.2ms)
-> > > - VmRSS: -68% (15.1MB -> 4.8MB)
-> > >
-> > > Suggested-by: Andrii Nakryiko <andrii@kernel.org>
-> > > Signed-off-by: Samuel Wu <wusamuel@google.com>
-> > > ---
-> > >  include/uapi/linux/fs.h |  41 +++++++++++++
-> > >  kernel/kallsyms.c       | 132 ++++++++++++++++++++++++++++++++++++++=
-++
-> > >  2 files changed, 173 insertions(+)
-> > >
-> > > diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> > > index 34c6f219462a..b43f227dad0e 100644
-> > > --- a/include/uapi/linux/fs.h
-> > > +++ b/include/uapi/linux/fs.h
-> > > @@ -674,6 +674,47 @@ struct procmap_query {
-> > >       __u64 build_id_addr;            /* in */
-> > >  };
-> > >
-> > > +/* /proc/kallsyms ioctl */
-> > > +#define KALLSYMS_QUERY       _IOWR(PROCFS_IOCTL_MAGIC, 18, struct ka=
-llsyms_query)
-> > > +
-> > > +/* Exactly one query mode must be set in query_flags. */
-> > > +enum kallsyms_query_flags {
-> > > +     /*
-> > > +      * Look up a symbol in vmlinux or loaded modules (vmlinux first=
-; BPF
-> > > +      * and ftrace symbols are not searched) by exact NUL-terminated=
- name
-> > > +      * at sym_name_addr and return sym_addr. sym_addr and sym_name_=
-size
-> > > +      * must be 0 on input.
-> > > +      */
-> > > +     KALLSYMS_QUERY_BY_SYMBOL =3D 0x01,
-> > > +     /*
-> > > +      * Look up the symbol covering sym_addr and write its NUL-termi=
-nated
-> > > +      * name to the sym_name_addr buffer of sym_name_size bytes. The=
- same
-> > > +      * symbols as %pS are searched: vmlinux, loaded modules, BPF JI=
-T
-> > > +      * images, and freed module init functions still tracked by ftr=
-ace.
-> > > +      * A buffer of KSYM_NAME_LEN (512 at the time of writing) bytes=
- is
-> > > +      * always enough. On success, sym_name_size is set to the numbe=
-r of
-> > > +      * bytes written (including the terminating NUL).
-> > > +      */
-> > > +     KALLSYMS_QUERY_BY_ADDR =3D 0x02,
-> > > +};
-> > > +
-> > > +/*
-> > > + * Returns -ENOENT if no symbol matches, -EADDRNOTAVAIL if the name =
-maps to
-> > > + * more than one address, -ENAMETOOLONG if the name does not fit in
-> > > + * KSYM_NAME_LEN (512 at the time of writing) or sym_name_size bytes=
-, and
-> > > + * -EPERM if kallsyms addresses are hidden from the opener of /proc/=
-kallsyms
-> > > + * (e.g. kptr_restrict).
-> > > + */
-> > > +struct kallsyms_query {
-> > > +     __u64 size;             /* in - struct size for compatibility *=
-/
-> >
-> > I'm not sure you need a size here as well as the one in the ioctl comma=
-nd.
-> > It only complicates things when they differ.
-> >
-> > If you need a new version they you add an extra case to the switch stat=
-ement.
-> > Simple and easy,
->
-> Good find thanks! Will update.
+Once all the current prep work lands I want to list d_alloc_parallel()
+out of i_rwsem and then add dentry locking.  Then we can move 
+i_rwsem locking into ->atomic_open and ->create and ->lookup and
+->unlink, and then you can remove that locking for NFS.
 
-think about user space application compiled against UAPI headers from
-older kernel version. For that application size will be smaller and
-that's ok, newer kernel should honor this and only fill out smaller
-part of v2 struct. Versioning is done by appending fields. This is a
-well established pattern that provides a pretty good forward/backward
-compat story, let's keep it.
+I think trying to take a short cut would slow the whole process down.
+The 'create' changes you made aren't too bad, but the unlink work is
+too complex I think.
 
->
-> > > +     __u64 query_flags;      /* in - query mode (enum kallsyms_query=
-_flags) */
-> > > +     __u64 sym_name_addr;    /* in - address of symbol name buffer *=
-/
-> > > +     __u64 sym_addr;         /* out (BY_SYMBOL) / in (BY_ADDR) */
-> > > +     __u64 sym_name_size;    /* in/out - name buffer size / bytes wr=
-itten */
-> >
-> > Maybe separate the buffer size from the length of the symbol written?
-> > The in/out parameter will get annoying in code doing multiple lookups.
-> > Or just have the buffer size and require it to be '\0' terminated.
-> > (There is a strncpy_from_user() can that be used.)
->
-> That is simpler- in v3, we can have buffer sizes as input only, and
-> names will always be NUL-terminated.
->
+But I'm really happy that you've written this proof-of-concept.
 
-user code can be easily written by always setting buffer size, even if
-kallsyms_query is reused. This is the pattern with PROCMAP_QUERY,
-let's keep it consistent.
+Thanks,
+NeilBrown
 
-also, returning actual size even if buffer is too short is a good way
-for user space to "probe" and increase buffer if necessary. unless it
-adds tons of complexity, this is a good and flexible UAPI
 
-> > The '\0' terminated string handling is likely to be noise against
-> > all the rest of the lookup code.
-> >
-> > David
-> >
+> 
+> One client, 96 processes in one directory, each creating files (open
+> O_CREAT, a small write, close) for a set time, then removing them all;
+> NFSv4.2 to a pNFS metadata server that is not knfsd; your v4, the 7.4
+> VFS changes it builds on, the three silly-delete fixes and this series
+> on a 7.3-based kernel, among other patches.  Each row switched only its
+> own path, by a test-only module parameter not in this series, with the
+> other path on; one run each.  The creates row comes from 300 s of
+> creates.  The removals row comes from 120 s of creates, and each of its
+> runs removed about 3.7 million files; the removal rates vary with that
+> number, so it is given.  With the parent held exclusive, operations go
+> one server round trip at a time.  2/12 quotes an earlier measurement,
+> on a 7.1.13-based kernel.
+> 
+> How it works.  2/12 lets a filesystem have the parent locked shared for
+> O_CREAT (a flag in a new ->iop_flags field), and 6/12 for unlink(2)
+> (->unlink_shared() and ->unlink_shared_done()).  The dentry then
+> excludes the name: for a create, its in-lookup state, all
+> nfs_atomic_open() needs since your 3/9; for a removal, an NFS mark that
+> lookups, opens and creates of the name wait on until
+> ->unlink_shared_done(), which the VFS calls after the fsnotify delete
+> event, if any.  What NFS cannot order that way, such as an open file,
+> it hands back to ->unlink() under the exclusive lock; where the server
+> reports itself case-insensitive or not case-preserving, NFS sets
+> SB_I_NAMES_COLLIDE (3/12) and both keep the exclusive lock.  Both paths
+> call d_alloc_parallel() under the shared lock, as lookup does.  When
+> your directory-locking changes lift d_alloc_parallel() above i_rwsem,
+> these calls have to move with lookup's; the exclusion does not change,
+> and the opt-ins go once the VFS stops taking the parent lock (2/12,
+> 6/12).
+> 
+> Patch flow:
+>   prereq   1  store re-read server capabilities in one step, for 3
+>   create   2  VFS opt-in to take the parent lock shared for O_CREAT
+>            3  NFS sets SB_I_NAMES_COLLIDE where names can collide
+>            4  NFSv4 directories opt in for O_CREAT
+>   remove   5  factor vfs_unlink() into a helper, no functional change
+>            6  VFS opt-in: ->unlink_shared(), ->unlink_shared_done()
+>            7  a second ->d_fsdata mark, for removals under a shared lock
+>            8  keep a dentry carrying that mark hashed
+>            9  no new dentries from a listing that a removal overlapped
+>           10  the removal method, handing back what it cannot order
+>           11  look a name up again once its removal has unhashed it
+>           12  NFSv4 directories opt in for unlink
+> 
+> Three fixes for the silly-delete hand-off, which your 2/9 makes
+> reachable, are posted separately, in reply to 2/9.
+> 
+> Tested on the same kernel over NFSv4.2, with the new paths on and off:
+> removal races (with listings, and with tasks killed); O_EXCL creates
+> racing unlink, with a kernel-side check that no revalidation trusted a
+> removed entry; inotify event order; two clients; and an overlayfs mount
+> whose lower file another client renamed away and back.  All passed,
+> with no kernel warning or hung task, except the two-client test's check
+> that nothing was left behind: on this kernel and on one with an earlier
+> revision of this series, it found one silly-renamed file in three of
+> four runs, with the new paths off as well as on, so they are not the
+> cause.  Each time, the file left behind was not the one that had been
+> silly-renamed: the silly-rename's RENAME, which goes by name, had moved
+> another file of that name onto the hidden name.  A PROVE_LOCKING and
+> KASAN build ran the removal, killed-task and O_EXCL tests with no
+> report.  A case-insensitive server, where two spellings of a name never
+> made two files, was tested on that earlier revision only; that code has
+> not changed since.  Not run: fstests, knfsd as the server, NFSv4.0 or
+> 4.1, directory delegations (the server grants none), CONFIG_DEBUG_VFS, a
+> weakly ordered CPU.
+> 
+> One question: are the opt-ins in 2/12 and 6/12 acceptable as interim
+> interfaces until the directory-locking changes land?
+> 
+> The series applies to 83f32c773255 in Linus's tree on top of your v4
+> and the three silly-delete fixes.  fs/ compiles there without warnings
+> at every commit, with and without CONFIG_DEBUG_VFS and lockdep; I have
+> run it only on the 7.3-based kernel above.
+> 
+> Tools: these patches, their changelogs, the race tests and this letter
+> were written with Claude Code, using Anthropic's Claude Opus 5 and
+> Claude Opus 5.5 models, at my direction over many sessions: I chose
+> among the designs it proposed and directed each revision.  It found, by
+> reading the code, the bug that 1/12 fixes: while the client reads a
+> server's capabilities again, a capability the server still offers can
+> look missing.  The three silly-delete fixes, posted separately, say
+> which of their problems it found and how they were tested.
+> 
+> Thanks,
+> Jonathan
+> 
+> Jonathan Flynn (12):
+>   nfs: update a server's capabilities in one step
+>   vfs: allow the parent lock to be shared for O_CREAT
+>   nfs: tell the VFS when two names can be one entry on the server
+>   nfs: concurrent O_CREAT in one NFSv4 directory
+>   vfs: factor file removal into a helper, no functional change
+>   vfs: let a filesystem remove files with the parent directory locked
+>     shared
+>   nfs: add a second mark for a removal made with the parent locked
+>     shared
+>   nfs: keep the dentry of a shared-parent removal hashed
+>   nfs: do not cache a name from a listing that a removal overlapped
+>   nfs: add the removal method for a parent directory locked shared
+>   nfs: look a name up again once its removal has unhashed it
+>   nfs: remove files with the parent directory locked shared on NFSv4
+> 
+>  .../filesystems/directory-locking.rst         |  60 +++
+>  Documentation/filesystems/locking.rst         | 259 ++++++++++++-
+>  Documentation/filesystems/porting.rst         |  35 ++
+>  Documentation/filesystems/vfs.rst             |  25 ++
+>  fs/namei.c                                    | 360 +++++++++++++++++-
+>  fs/nfs/client.c                               |   1 +
+>  fs/nfs/dir.c                                  | 300 ++++++++++++++-
+>  fs/nfs/inode.c                                |   2 +
+>  fs/nfs/internal.h                             | 211 ++++++++++
+>  fs/nfs/nfs4file.c                             |   9 +-
+>  fs/nfs/nfs4proc.c                             |  35 +-
+>  fs/nfs/nfstrace.h                             |   2 +
+>  fs/nfs/super.c                                |   2 +
+>  fs/nfs/unlink.c                               |  16 +-
+>  include/linux/fs.h                            |  72 ++++
+>  include/linux/fs/super_types.h                |   1 +
+>  include/linux/nfs_fs.h                        |  28 ++
+>  17 files changed, 1361 insertions(+), 57 deletions(-)
+> 
+> 
+> base-commit: 83f32c773255720a661aa45d83e36278135f23f5
+> prerequisite-patch-id: 3405b4d6ab8b0bf24ba63a898083d617deec4f24
+> prerequisite-patch-id: 096657d6d80d7ca533ccb574d2af65611ede4af2
+> prerequisite-patch-id: 1a2319c14739918aef86116647fea28ae85ad4df
+> prerequisite-patch-id: 725cb18c3936d50141ef27dafc159bf50b64a5bd
+> prerequisite-patch-id: b39cdd352b97e2cd247311fd5db620dbff227bd7
+> prerequisite-patch-id: f9f3f0e945cadf96113d4ac9ab8f7b0c207af4e5
+> prerequisite-patch-id: 4c09a15390bb556d79bea1ee733f52a58bec80ef
+> prerequisite-patch-id: 7c026717a97b2c86a169539822f5d14650f68f8a
+> prerequisite-patch-id: a702d54495d0f3d7f88b82411d884dcf5aacf9a0
+> prerequisite-patch-id: a7e7263e8916612f3e4b767946b5d9259029f50e
+> prerequisite-patch-id: a8e5414df9d9912dcdf9bb1dbb2811ce326a1e1f
+> prerequisite-patch-id: e8050b998d5790f3bb4311bc65011735ed7d8b2f
+> -- 
+> 2.43.0
+> 
+> 
 
-[...]
