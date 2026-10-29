@@ -1,64 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.157.188.8
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793312032;
-	b=RVunxVbJ6rXQexGtvgACC7n8pdEcJJOpwU/9TTRedgEfFWU+GEzKa3M5kOGkZG1Mb84W
-	 /xhmQqwXHrmnYZVXIVHjNB3t0BfPG+XPxf1XT5jIa+xj95owFDiLF9QdLrF365PqTUd8X
-	 PiRLe/UkZTgdrx49hDi1tw4FhQlmpGBl61fBO2NImWpdRjGyB/uye/VCmRBvQMYHicWVs
-	 +jo48xoCj0Cy8pjSzW3dlWjsYNhyFHMm3Ev8bgZu4SY+3DZrCCak78EqrFOGLobqlzuZ2
-	 OsvbhOi64Mb2O+3pLx+LVY46NvMH1tCzk/Qq8B3SmTz7N59YjH6X7e8LCD3ANH60K/Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793312032;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 X-Infomaniak-Routing;
-	bh=Nt4+TvJfMkuxRVj2D8iwH96sQf7kpj74Ylf9aC9EzbY=;
-	b=phUk/nKucBLQ1joi7MTQ3JdTiYHSf4/ZXwDgzjyqsWRWJNt/ZtMUSLcbARSEmyxqYf4q
-	 tK0zo7LCHcnj2fABm2pye3h+U+Vi1QfLFZqsleWPcJwsBy0cOXGkOwA/kWl+Hfu+uYYc7
-	 +OWswAolPLSfYJZt5HSP+hLi8/rzTfWbieCf0Y5B5beMBafpXxgvuuQmMmQ+7HK3Nu7LO
-	 zt0SV7AuFUqLQl5MOdWmf0SjJ0EmmyyPEwZhHEO8YGdDtfra2VnvEVSCohH5cWT4dfM4z
-	 3lxM+7cL+HkgtJEjDLrtz6dCyXv5HC0J4brWDPN8GBDhBVgllChrzvsDvT9MdLt1M9w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=digikod.net;
-	spf=pass smtp.mailfrom=digikod.net;
-	dkim=pass header.d=digikod.net header.i=@digikod.net header.a=rsa-sha256 header.s=20191114 header.b=aeYC+OSf;
-	arc=none smtp.remote-ip=45.157.188.8
-Received: from smtp-bc08.mail.infomaniak.ch (smtp-bc08.mail.infomaniak.ch [45.157.188.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.51
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793312201;
+	b=q9oKB8ITlXxyWQRZqZS7LHG+aq9RnhYp7BxxRw/ittkOhZd9Y2bc5bHwq+JcI+XWXNux
+	 JrcIHxWy6yWCqiEhwW9r0xzDrntlwIJ0V6RC5BhiXYR7xC1Na1f91kco5O+b6rG7uQ7dP
+	 MZnakyBt0C0idt/hR8GvFaM2inHDns8Mt9dnuwzzZM/CGsxMoW9NAtFVFVldmjAQq89R4
+	 z1DVWf6+TqDAEvfq+eRfMxLT+YZypQEsEXUTKJJPKZqSh5bBOtF9ncqDNn0LhXpXAoI16
+	 BmwZwR0sXDYUQKn8lZqT3btMb2XRlg94FcDLu3SMS4IFCRcr5GHsqH2K547rAuJ5AyA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793312201;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=koZpx6vqHKuQYrxobP/d4PhoSM1zd0NfzqrWj5/V+0E=;
+	b=l/ym89XC55mPpRCUNU4JD06GqU4c+SAVnnZK1xEwTGTdiEWNB/JkcIPcbSd6ah+jWSpe
+	 pZEVfunk8q8WRiHSLh1iTwibP3gwWRCwu6Cmoulc7FoMOIeJTxFkcmrhAkqUhPVAx626y
+	 ThU6VerTniAiME/uDwNxgE/j8mywMtBF3VHxqFQdRZmVjQfb/7NpuwlcFOoL3Q12m+PN5
+	 9dPLYfWGP8GnLfyOct9fzf6BYO1NkMkc5mZfDeka+v+AhkUI4o0N6cIHbL0yX/lE5GcEI
+	 HXMnl/OAZiNF1POG/la1R1L8/8xApWdxwyWUg4DEgrBrl/gFOHWVqyb2ayjOCLSmgRQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xr2L+YSV;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.51
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560E8606A31A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 22:13:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 560E8606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AEF606A320
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 22:16:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0AEF606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=digikod.net header.i=@digikod.net header.a=rsa-sha256 header.s=20191114 header.b=aeYC+OSf
-Received: from smtp-4-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6b])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4jFz5d6c2hz1bx8;
-	Thu, 29 Oct 2026 23:13:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1793312021;
-	bh=Nt4+TvJfMkuxRVj2D8iwH96sQf7kpj74Ylf9aC9EzbY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aeYC+OSf3U2IgiM6ZOPN26zhpBzS79NEBDypkumWca2aXb/wVB9if8RgW/XLQrGAy
-	 lqTTqk1MxNR2qsZ4qRPM8fD1/LQPyl0wvAf0SlciqZD3+/d9hOEtGbEMbygwftYB76
-	 M3zhtal5wL5t+MlH9RkyzWJnuhtTWVfWzWBKowA8=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4jFz5c5dGFzdbK;
-	Thu, 29 Oct 2026 23:13:40 +0100 (CET)
-Date: Thu, 29 Oct 2026 23:13:37 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Paul Moore <paul@paul-moore.com>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, netdev@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, stable@kernel.org
-Subject: Re: [PATCH v2 4/7] ns: allocate the namespace id before the
- namespace_init hook
-Message-ID: <20261029.Eu4Ohquaixoh@digikod.net>
-References: <20261029-work-security-namespace_free-v2-0-65591dbba7b3@kernel.org>
- <20261029-work-security-namespace_free-v2-4-65591dbba7b3@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xr2L+YSV
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3ae486f8a27so42978a91.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 15:16:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793312200; cv=none;
+        d=google.com; s=arc-20260327;
+        b=kSv+nH8Xk6W9geZVQ4xWdnDjHkfkjfoU1sBpxqcqaB2FghMZMqR44v8pPILH9O7lby
+         AfUr8dDVNZibmsO0PSGIzrDhM3oSO1SNTn1McIcXUPO4QZ2dIyrYwcw55TSJbkZ21pk1
+         kW48T6GcIdGHMXjCp/mQDbjVCn6bR4Pfe2zN0wzkdKQtvLSFjIOunsdm4lbRp/RSdp36
+         OH/iBtIEoNEbGbLw1IgoAiMKim9bWVKjtcL4diJjROMZ8gdzRxW1+Gmxnjmf5bzVzFwA
+         SY6rUm3HpmmgxaPK2T4NM2tvFXABRFfP7xjF2lVP4qKQU1X1SDhQLecdwakCR5zZKNF3
+         cckQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=koZpx6vqHKuQYrxobP/d4PhoSM1zd0NfzqrWj5/V+0E=;
+        fh=hEZmt6QfTudV/lFUegzGkCdELVv/8GMwu7hhfcMkLfc=;
+        b=rOl2WS+mY82TZLTqBRV1FmAfpEMW+nBwEsKWz1yJeiUwR7Z11g+MypvlZVQ/Vc3kY7
+         odCp/NlwJfVh1eDF1OcYZ6Ik7jBaCp/nGpg3Mw6q+bFV8qbhN738MTX6ILoVmAwEKqQC
+         jhaif49uEtC4ci7OT8jhp8IVsL0j4Hp8JgSJbm69tOqU7yt/tyTpU/J3nUiwRMMHqdiE
+         99CopcbHxPpWHH3NZjSJJVWJkLycAyK86n+w0tyiGdqj4moz1et+1Uu0wYv6DSRRT5NF
+         UDbEjGk3y+I3E2SdGn+xUzpgbRRamc531YY26NjiYo8TTWqCA7cWLqj+kztDoDyLvwQ4
+         lwYg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793312200; x=1793917000; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=koZpx6vqHKuQYrxobP/d4PhoSM1zd0NfzqrWj5/V+0E=;
+        b=xr2L+YSVfPIi5bsK0sQduGMgmae01aKgXSUseaJikh3GJOXYKaCpT7MugONeWoy1Wy
+         L0fdYaceEriICAikAcMys9iLe0NuSQyGQTELjt2Ft54mZK0Ea2rsg22LaEwXUnKKsovd
+         kL7PGxEK47e2qujKLsgE9yrTo5lfZKx8nHxgb3r/PIxi0YchvNvUoe5g+rWm0xrJEUse
+         9DRaJt4wWvOsq/laKci0C89PCBiI5SJb3D52TcFto6hBRRY+AOb0prFHVuz6lvt3uQIn
+         O911UfpGGIIYXaSbBrKrO1+qB14+el9UMLEsR0DWmN+bb465NXDjwcUKwy1uZCPx7BeO
+         Va8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793312200; x=1793917000;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=koZpx6vqHKuQYrxobP/d4PhoSM1zd0NfzqrWj5/V+0E=;
+        b=aAwp41PL87gPsOg0QZETX4LKVINbHLXJcGR9fJHp+JBW6M9955EM3wj8beyBqe6ZqG
+         A3jfTvsuPoLLFY8mMu1UHRZeLOGYA3noCgDkMh+lfoVKn10OAG7Wy9NRzJI2bCaDppoV
+         O0hkI5NAA5tU7+JJanXNXHjrjirnMFcH/yZG0984TUjlnFbbZnBsmRLH1ht/XoDPxvAS
+         0ycTo7us1zMOHl10X676fowSaHdXB+MJXT/o5Rbi6Y3x6a9VhydTQbAOmJnoxtll/iKr
+         PZBN79UB5mwBQAH0miVOVF/nNAoq5uWb4QMdOn7L5vgSN43+B3OD71sWyFuT6sjcSo2F
+         t99w==
+X-Forwarded-Encrypted: i=1; AKwUvBx6fwLb2oLmHtBw60JUM+uKxBHWxT4FeIPb1PYfDvkTLfcMmqd2wpORpKl6koCczYQuVXFWpq/pAEieaQNs@vger.kernel.org
+X-Gm-Message-State: AFq9FYLgVN9+N0Pox2ujA3F1bidzAgud/uAC6Oj+ht57fMXog65FGOMb
+	W7r9gsx59/LB1SBnd8SAgJY1EZbllgFelAjiB3OCCwCk40DDH2VYqR0YcOhpZi+fhdCJ/Cs9oqx
+	Ni6Wcby0csOs2n4HR7UEp2mZs6ukoA4I=
+X-Gm-Gg: AYBFou31n6N0xHCeAuzHXdmWKOyhCsZg/ur48qSQsXVvXlKblM2GWmcXy/n0u8NVvmX
+	5tKHjDeI75nR+ZYbCvCYlnSmKiPYG0mAKP6p5HICLJX+Mv2lmeX5Lk8rWsERasFkqXL9cckKMS3
+	UZ9+o+U6z/Si6hYegk1/td+WvWGdKoghHMohKn2Ylpfjs7mqdlGDEu29R9GeIi6cw2azSehYKNl
+	FCtf2FlEWqIpYa62m1+PKF/rCnfxG+E3CAQ9yundPPaSyoccAd12gUTZ7cxlbIVw7ZwmJ62i9R7
+	GrUf9rgcSwEAffOQTq1uYGppjQ2SO+4YlwjVMjzpaqn5udPZqpGmnFvJkkCJlqSd4XITnfuFsDY
+	0jCmZUD9XmdAMIuQkWDv09uH/uPMubN45FDKLe/VVprPNH0N9qoyRYLNRV7pI6XvD88/JY4vXnj
+	Huek11PtSBzZnPwcrOHJRPltgzS57Zmy7yxw==
+X-Received: by 2002:a17:90b:380c:b0:3a7:250:333e with SMTP id
+ 98e67ed59e1d1-3ae896f8315mr277145a91.11.1793312200139; Thu, 29 Oct 2026
+ 15:16:40 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,315 +105,265 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261029-work-security-namespace_free-v2-4-65591dbba7b3@kernel.org>
-X-Infomaniak-Routing: alpha
+References: <20261023001603.560210-8-wusamuel@google.com> <20261023001603.560210-9-wusamuel@google.com>
+ <20261028134012.01d52e94@pumpkin> <CAG2KctpGPHo-S3AEvBhK5HPUnDHfoJu6Z-r+cS1hQ4Ps=B3DmQ@mail.gmail.com>
+In-Reply-To: <CAG2KctpGPHo-S3AEvBhK5HPUnDHfoJu6Z-r+cS1hQ4Ps=B3DmQ@mail.gmail.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Thu, 29 Oct 2026 15:16:27 -0700
+X-Gm-Features: AclHuK9av7Er2dEcOWg6hJWIv2K2TpdNYpqUpTLgWkKxe-dORmBpAAvoyO4hh00
+Message-ID: <CAEf4BzYT4rvKwbOJ6UQ3zcp4wdsSBqRsMz-2=U1DA2RyUA3XSg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to /proc/kallsyms
+To: Samuel Wu <wusamuel@google.com>
+Cc: David Laight <david.laight.linux@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, kernel-team@android.com, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 29, 2026 at 05:40:59PM +0100, Christian Brauner wrote:
-> Currently the namespace id is allocated only after __ns_common_init()
-> has called the namespace_init LSM hook. Most namespace types allocate it
-> in ns_tree_add() right before the namespace is added to the namespace
-> trees. So the namespace_init hook always sees an id of zero.
-> 
-> The namespace id is the only identifier of a namespace that is never
-> recycled. A bpf LSM wants to use it to track a namespace from
-> namespace_init until namespace_free, e.g., by using it as the key into a
-> map that associates data with the namespace. The inode number doesn't
-> work for that as it is quickly recycled.
-> 
-> So allocate the id in __ns_common_init() before calling the
-> namespace_init hook. Every namespace then has its id by the time it is
-> added to the namespace trees. The initial namespaces still get their
-> fixed ids, either statically from NS_COMMON_INIT() or for init_net from
-> ns_common_init(). So ns_tree_add() doesn't need to allocate an id
-> anymore. Ids are still handed out in creation order so mnt_ns_loop()
-> keeps working. Mount and ipc namespaces already allocated their id right
-> after ns_common_init() anyway.
-> 
-> If creating the namespace fails after the id has been allocated the id
-> is simply never used.
-> 
-> Landlock logs the namespace id when it denies the use of a namespace.
-> For a denied namespace creation that used to be zero. Now it's the id
-> that was allocated for the new namespace. That namespace never becomes
-> visible to userspace but it's the same id that other LSMs see in
-> namespace_init. Update the Landlock documentation and selftests
-> accordingly. The selftests can't know the id of a namespace whose
-> creation was denied so they only check that it isn't zero.
-> 
-> While at it, drop ns_tree_gen_id() as it has no users left.
-> 
-> Reproducer, 100 user and uts namespaces:
-> 
->   bpftrace -e 'fentry:bpf_lsm_namespace_init {
->       @[args.ns->ns_id ? "set" : "zero"] = count(); }' &
->   for i in $(seq 100); do unshare -Uu true; done
-> 
->   before: @[zero]: 200
->   after:  @[set]: 200
-> 
-> Fixes: f675d2e95569 ("lsm: add LSM blob and hooks for namespaces")
-> Cc: <stable@kernel.org> # mainline only
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On Thu, Oct 29, 2026 at 3:06=E2=80=AFPM Samuel Wu <wusamuel@google.com> wro=
+te:
+>
+> On Wed, Oct 28, 2026 at 6:40=E2=80=AFAM David Laight
+> <david.laight.linux@gmail.com> wrote:
+> >
+> > On Thu, 22 Oct 2026 17:16:02 -0700
+> > Samuel Wu <wusamuel@google.com> wrote:
+> >
+> > > Add an extensible KALLSYMS_QUERY ioctl() interface to /proc/kallsyms
+> > > to support fast point queries without scanning the entire text file.
+> > > Exactly one query mode must be set in query_flags.
+> > >
+> > > When KALLSYMS_QUERY_BY_SYMBOL is set in query_flags, KALLSYMS_QUERY
+> > > resolves a NUL-terminated symbol name in vmlinux or loaded modules an=
+d
+> > > then populates sym_addr:
+> > > - Searches vmlinux first via kallsyms_lookup_names() (binary search),
+> > >   which takes precedence over loaded modules, and falls back to
+> > >   module_kallsyms_on_each_symbol() under module_mutex for module
+> > >   symbols
+> > > - Matches names exactly, like kallsyms_lookup_name(), disregarding th=
+e
+> > >   .llvm.<hash> matching, following precedent set by commit fb6a421fb6=
+15
+> > >   ("kallsyms: Match symbols exactly with CONFIG_LTO_CLANG")
+> >
+> > Hmmmm....
+> > What happens when you have functions foo and foo.constprop0
+> > In some sense they are duplicates.
+>
+> BY_NAME matches names exactly, like kallsyms_lookup_name(), so they
+> would be different symbols at different addresses. Please correct me
+> if I'm missing something here!
+>
 
-Reviewed-by: Mickaël Salaün <mic@digikod.net> # Landlock changes
+foo and foo.constprop0 are different functions with different
+arguments, so I think we should distinguish them. The only special
+case is .llvm.<hash> because that suffix is added by compiler for LTO
+and I don't think the function itself is any different from the
+original
 
-> ---
->  Documentation/admin-guide/LSM/landlock.rst |  5 +++--
->  Documentation/trace/events-landlock.rst    |  5 +++--
->  fs/namespace.c                             |  2 --
->  include/linux/ns_common.h                  | 16 +++++++++-------
->  include/linux/nstree.h                     | 18 +++---------------
->  include/trace/events/landlock.h            |  3 ++-
->  ipc/namespace.c                            |  1 -
->  kernel/nscommon.c                          |  7 +++++--
->  net/core/net_namespace.c                   |  2 +-
->  security/landlock/ns.c                     |  3 ++-
->  tools/testing/selftests/landlock/ns_test.c |  7 +++++--
->  11 files changed, 33 insertions(+), 36 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/LSM/landlock.rst b/Documentation/admin-guide/LSM/landlock.rst
-> index 718e0d23ffb5..946f3bf89650 100644
-> --- a/Documentation/admin-guide/LSM/landlock.rst
-> +++ b/Documentation/admin-guide/LSM/landlock.rst
-> @@ -73,8 +73,9 @@ AUDIT_LANDLOCK_ACCESS
->            :manpage:`open_tree(2)`, or :manpage:`fsmount(2)`, or joining via
->            :manpage:`setns(2)`);
->            ``namespace_type`` indicates the type (hex ``CLONE_NEW*`` bitmask),
-> -          and ``namespace_id`` identifies the target namespace for
-> -          :manpage:`setns(2)` operations (zero for creation)
-> +          and ``namespace_id`` identifies the target namespace (for a denied
-> +          creation, the namespace never becomes reachable so its ID is not
-> +          directly visible from user space)
->  
->      **capability.*** - Capability restrictions (ABI 12+):
->          - capability.use - Capability use was denied;
-> diff --git a/Documentation/trace/events-landlock.rst b/Documentation/trace/events-landlock.rst
-> index 9ccf2769a2d5..dc5f05a17c2c 100644
-> --- a/Documentation/trace/events-landlock.rst
-> +++ b/Documentation/trace/events-landlock.rst
-> @@ -187,8 +187,9 @@ therefore appears as zero while still advancing the ruleset version, and adding
->  a member already present still emits an event.
->  
->  ``landlock_deny_permission_namespace`` reports the denied raw
-> -``CLONE_NEW*`` value.  ``namespace_id`` is zero for namespace creation and is
-> -the exact target namespace ID for :manpage:`setns(2)`.
-> +``CLONE_NEW*`` value.  ``namespace_id`` is the exact target namespace ID.  For
-> +a denied namespace creation, the namespace never becomes reachable so its ID
-> +is not directly visible from user space.
->  ``landlock_deny_permission_capability`` reports the denied ``CAP_*`` number.
->  Like every denial event, both include the denying domain, ``same_exec``, and
->  ``logged``.
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index 9f6ec35c7b9c..f81d6a4bc3fe 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -4394,8 +4394,6 @@ static struct mnt_namespace *alloc_mnt_ns(struct user_namespace *user_ns, bool a
->  		dec_mnt_namespaces(ucounts);
->  		return ERR_PTR(ret);
->  	}
-> -	ns_tree_gen_id(new_ns);
-> -
->  	new_ns->is_anon = anon;
->  	refcount_set(&new_ns->passive, 1);
->  	new_ns->mounts = RB_ROOT;
-> diff --git a/include/linux/ns_common.h b/include/linux/ns_common.h
-> index c8e227a3f9e2..e8b2bf0da5ed 100644
-> --- a/include/linux/ns_common.h
-> +++ b/include/linux/ns_common.h
-> @@ -9,7 +9,8 @@
->  #include <uapi/linux/nsfs.h>
->  
->  bool is_current_namespace(struct ns_common *ns);
-> -int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_operations *ops, int inum);
-> +int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_operations *ops,
-> +		     int inum, u64 ns_id);
->  void __ns_common_free(struct ns_common *ns);
->  struct ns_common *__must_check ns_owner(struct ns_common *ns);
->  
-> @@ -41,17 +42,18 @@ static __always_inline bool is_ns_init_id(const struct ns_common *ns)
->  	.ns_owner_root.ns_list_head	= LIST_HEAD_INIT(nsname.ns.ns_owner_root.ns_list_head),		\
->  }
->  
-> -#define ns_common_init(__ns)                     \
-> -	__ns_common_init(to_ns_common(__ns),     \
-> -			 ns_common_type(__ns),   \
-> -			 to_ns_operations(__ns), \
-> -			 (((__ns) == ns_init_ns(__ns)) ? ns_init_inum(__ns) : 0))
-> +#define ns_common_init(__ns)						\
-> +	__ns_common_init(to_ns_common(__ns),				\
-> +			 ns_common_type(__ns),				\
-> +			 to_ns_operations(__ns),			\
-> +			 (((__ns) == ns_init_ns(__ns)) ? ns_init_inum(__ns) : 0), \
-> +			 (((__ns) == ns_init_ns(__ns)) ? ns_init_id(__ns) : 0))
->  
->  #define ns_common_init_inum(__ns, __inum)        \
->  	__ns_common_init(to_ns_common(__ns),     \
->  			 ns_common_type(__ns),   \
->  			 to_ns_operations(__ns), \
-> -			 __inum)
-> +			 __inum, 0)
->  
->  #define ns_common_free(__ns) __ns_common_free(to_ns_common((__ns)))
->  
-> diff --git a/include/linux/nstree.h b/include/linux/nstree.h
-> index 5b64d4572881..3293df17397d 100644
-> --- a/include/linux/nstree.h
-> +++ b/include/linux/nstree.h
-> @@ -41,10 +41,6 @@ void ns_tree_node_del(struct ns_tree_node *node, struct ns_tree_root *root);
->  		struct user_namespace *:   &(user_ns_tree),	\
->  		struct uts_namespace *:    &(uts_ns_tree))
->  
-> -#define ns_tree_gen_id(__ns)                 \
-> -	__ns_tree_gen_id(to_ns_common(__ns), \
-> -			 (((__ns) == ns_init_ns(__ns)) ? ns_init_id(__ns) : 0))
-> -
->  u64 __ns_tree_gen_id(struct ns_common *ns, u64 id);
->  void __ns_tree_add_raw(struct ns_common *ns, struct ns_tree_root *ns_tree);
->  void __ns_tree_remove(struct ns_common *ns, struct ns_tree_root *ns_tree);
-> @@ -53,12 +49,6 @@ struct ns_common *__ns_tree_adjoined_rcu(struct ns_common *ns,
->  					 struct ns_tree_root *ns_tree,
->  					 bool previous);
->  
-> -static inline void __ns_tree_add(struct ns_common *ns, struct ns_tree_root *ns_tree, u64 id)
-> -{
-> -	__ns_tree_gen_id(ns, id);
-> -	__ns_tree_add_raw(ns, ns_tree);
-> -}
-> -
->  /**
->   * ns_tree_add_raw - Add a namespace to a namespace
->   * @__ns: Namespace to add
-> @@ -72,12 +62,10 @@ static inline void __ns_tree_add(struct ns_common *ns, struct ns_tree_root *ns_t
->   * ns_tree_add - Add a namespace to a namespace tree
->   * @__ns: Namespace to add
->   *
-> - * This function assigns a new id to the namespace and adds it to the
-> - * appropriate namespace tree and list.
-> + * This function adds a namespace to the appropriate namespace tree and
-> + * list. The namespace must already have been assigned an id.
->   */
-> -#define ns_tree_add(__ns)                                   \
-> -	__ns_tree_add(to_ns_common(__ns), to_ns_tree(__ns), \
-> -		      (((__ns) == ns_init_ns(__ns)) ? ns_init_id(__ns) : 0))
-> +#define ns_tree_add(__ns) __ns_tree_add_raw(to_ns_common(__ns), to_ns_tree(__ns))
->  
->  /**
->   * ns_tree_remove - Remove a namespace from a namespace tree
-> diff --git a/include/trace/events/landlock.h b/include/trace/events/landlock.h
-> index 6d9d9e7c7ca2..b6fdc6e2eef8 100644
-> --- a/include/trace/events/landlock.h
-> +++ b/include/trace/events/landlock.h
-> @@ -987,7 +987,8 @@ TRACE_EVENT(landlock_deny_access_net,
->   * @logged: Whether this denial was selected for audit logging.
->   * @blockers: Request type and final missing permission subset (never NULL).
->   * @namespace_type: CLONE_NEW* namespace type that was denied.
-> - * @namespace_id: Namespace ID, or 0 when creation was denied.
-> + * @namespace_id: Namespace ID, not directly visible from user space when
-> + *                creation was denied.
->   *
->   * Emitted when a Landlock domain denies namespace use.
->   */
-> diff --git a/ipc/namespace.c b/ipc/namespace.c
-> index 75aa7b469348..9084e0643017 100644
-> --- a/ipc/namespace.c
-> +++ b/ipc/namespace.c
-> @@ -66,7 +66,6 @@ static struct ipc_namespace *create_ipc_ns(struct user_namespace *user_ns,
->  	if (err)
->  		goto fail_free;
->  
-> -	ns_tree_gen_id(ns);
->  	ns->user_ns = get_user_ns(user_ns);
->  	ns->ucounts = ucounts;
->  
-> diff --git a/kernel/nscommon.c b/kernel/nscommon.c
-> index e72426bba29a..4438c6b663f9 100644
-> --- a/kernel/nscommon.c
-> +++ b/kernel/nscommon.c
-> @@ -54,7 +54,8 @@ static void ns_debug(struct ns_common *ns, const struct proc_ns_operations *ops)
->  }
->  #endif
->  
-> -int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_operations *ops, int inum)
-> +int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_operations *ops,
-> +		     int inum, u64 ns_id)
->  {
->  	int ret = 0;
->  
-> @@ -64,7 +65,6 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
->  	ns->ns_security = NULL;
->  #endif
->  	ns->ops = ops;
-> -	ns->ns_id = 0;
->  	ns->ns_type = ns_type;
->  	ns_tree_node_init(&ns->ns_tree_node);
->  	ns_tree_node_init(&ns->ns_unified_node);
-> @@ -82,6 +82,9 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
->  	if (ret)
->  		return ret;
->  
-> +	/* Allocate the id before the LSM hook so it can track the namespace by it. */
-> +	__ns_tree_gen_id(ns, ns_id);
-> +
->  	ret = security_namespace_init(ns);
->  	if (ret) {
->  		if (!inum)
-> diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
-> index da5f881fbd3b..ec4077b81389 100644
-> --- a/net/core/net_namespace.c
-> +++ b/net/core/net_namespace.c
-> @@ -437,7 +437,7 @@ static __net_init int setup_net(struct net *net)
->  	LIST_HEAD(net_exit_list);
->  	int error = 0;
->  
-> -	net->net_cookie = ns_tree_gen_id(net);
-> +	net->net_cookie = to_ns_common(net)->ns_id;
->  
->  	list_for_each_entry(ops, &pernet_list, list) {
->  		error = ops_init(ops, net);
-> diff --git a/security/landlock/ns.c b/security/landlock/ns.c
-> index cd44c927f83a..06d9784746fe 100644
-> --- a/security/landlock/ns.c
-> +++ b/security/landlock/ns.c
-> @@ -94,7 +94,8 @@ static const struct access_masks ns_permission = {
->   * Shared check for namespace_init (creation via clone(2), unshare(2),
->   * open_tree(2), or fsmount(2)) and namespace_install (use via setns(2)): denies
->   * when the namespace type is not in the domain's allowed set.  At allocation
-> - * time @ns->ns_id is still zero and is logged as such.
-> + * time @ns->ns_id is already set even though the namespace is not reachable
-> + * from user space yet.
->   *
->   * Return: 0 if allowed, -EPERM if denied.
->   */
-> diff --git a/tools/testing/selftests/landlock/ns_test.c b/tools/testing/selftests/landlock/ns_test.c
-> index f5d4b86edd30..8f387fc47e21 100644
-> --- a/tools/testing/selftests/landlock/ns_test.c
-> +++ b/tools/testing/selftests/landlock/ns_test.c
-> @@ -1899,8 +1899,9 @@ TEST(setns_inherited_fd)
->  
->  static int matches_log_ns_create(int audit_fd, __u64 ns_type)
->  {
-> +	/* A denied creation logs the ID allocated for the new namespace. */
->  	static const char log_template[] = REGEX_LANDLOCK_PREFIX
-> -		" blockers=namespace\\.use namespace_type=0x%x namespace_id=0$";
-> +		" blockers=namespace\\.use namespace_type=0x%x namespace_id=[1-9][0-9]*$";
->  	char log_match[sizeof(log_template) + 10];
->  	int log_match_len;
->  
-> @@ -2538,7 +2539,9 @@ static void test_ns_trace_denial(struct __test_metadata *const _metadata,
->  	ASSERT_EQ(0, tracefs_extract_field(
->  			     buf, REGEX_DENY_PERMISSION_NAMESPACE(TRACE_TASK),
->  			     "namespace_id", field, sizeof(field)));
-> -	EXPECT_EQ(use_setns ? expected_ns_id : 0, strtoull(field, NULL, 10));
-> +	EXPECT_STRNE("0", field);
-> +	if (use_setns)
-> +		EXPECT_EQ(expected_ns_id, strtoull(field, NULL, 10));
->  
->  	free(buf);
->  }
-> 
-> -- 
-> 2.53.0
-> 
+> > > - Resolves 0x0 symbol addresses in both vmlinux and modules
+> > > - Rejects ambiguous symbols (multiple entries with the same name at
+> > >   different addresses within vmlinux, or across loaded modules) with
+> > >   -EADDRNOTAVAIL, while allowing same-address aliases
+> > >
+> > > Userspace symbolizers resolve kernel addresses to symbol names with
+> > > /proc/kallsyms. This is typically done by reading the entire
+> > > /proc/kallsyms text file, and keeping a compressed sorted copy of it =
+in
+> > > order to resolve addresses at runtime.
+> >
+> > You could mmap the tables into userspace and have a ioctl that reported
+> > the offsets of the tables (etc).
+> > Then user lookup would faster then kernel lookup!
+> > Especially since you could throw a bit more memory at it to remove the
+> > linear scans.
+>
+> I think that would increase the UAPI surface because it would set the
+> table format, so I'd prefer not to. It would only cover vmlinux and
+> not modules, and then we'd need to apply kptr_restrict checks to the
+> mapping.
+>
+> > >
+> > > When KALLSYMS_QUERY_BY_ADDR is set in query_flags, KALLSYMS_QUERY
+> > > resolves one address to the symbol that contains it:
+> > > - sym_addr holds the address to resolve on input.
+> > > - sym_name_addr must point to a user buffer of sym_name_size bytes
+> > >   that receives the NUL-terminated symbol name. On output,
+> > >   sym_name_size holds the number of bytes written (including the
+> > >   terminating NUL). -ENAMETOOLONG is returned if the buffer is too
+> > >   small; a buffer of KSYM_NAME_LEN (512 at the time of writing) bytes
+> > >   is always large enough.
+> > > - Symbols are resolved via kallsyms_lookup(), the same lookup as %pS,
+> > >   covering vmlinux, loaded modules, BPF JIT images, and freed module
+> > >   init functions still tracked by ftrace.
+> > >
+> > > On an 8 CPU Cuttlefish (x86-64 VM), using this patchseries to load a =
+BPF
+> > > program with 11 typeless ksyms has ~220x speedup (157ms -> 0.7ms).
+> >
+> > Have you tried measuring it with my patches that speed up the kernel
+> > 'search by name' code?
+> > That speeds the lookup by a factor of ~18 (testing the code in userspac=
+e).
+>
+> Not yet. Can you point me to the latest version? Happy to try it out.
+>
+> > You also should allow for 'find first' and 'find next'.
+> > As well as letting the code iterate though functions with the same name
+> > it is absolutely trivial to enhance the 'lookup by name' code to match
+> > a prefix.
+>
+> Agreed, that would be useful. In v3, the idea will be to have BY_NAME
+> return the first match by default, and an ALL_MATCHES flag to report
+> how many matches exist. Find next and prefix matching can be added
+> later with breaking UAPI, and best to not include in v3 since there
+> isn't yet a user.
+
+I do think it would be good to spend a bit of thought on how to
+support at least one-by-one pagination from the get go. The same
+mechanism can then be used by batch version. I.e., think what can we
+use to provide data back to user which they can use to continue search
+after the symbol we just returned (at least for fixed set of symbols
+in vmlinux and modules; we also have dynamic symbols added for [bpf]
+"module", etc, we should support those as much as possible with the
+least possible deviation, IMO)
+
+>
+> > (Basically it needs to 'return -index' instead of 'return -1' when the
+> > binary scan fails.)
+> >
+> >
+> > >
+> > > On an 8 CPU x86-64 VM with a 175k line kallsyms, there are broad
+> > > performance and memory savings for the symbolization and callstack
+> > > sampling tool, Perfetto:
+> > > - Init time: ~350x speedup (155.7ms -> 0.44ms)
+> > > - 50k symbolizations: ~12x speedup (25.2ms -> 2.2ms)
+> > > - VmRSS: -68% (15.1MB -> 4.8MB)
+> > >
+> > > Suggested-by: Andrii Nakryiko <andrii@kernel.org>
+> > > Signed-off-by: Samuel Wu <wusamuel@google.com>
+> > > ---
+> > >  include/uapi/linux/fs.h |  41 +++++++++++++
+> > >  kernel/kallsyms.c       | 132 ++++++++++++++++++++++++++++++++++++++=
+++
+> > >  2 files changed, 173 insertions(+)
+> > >
+> > > diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> > > index 34c6f219462a..b43f227dad0e 100644
+> > > --- a/include/uapi/linux/fs.h
+> > > +++ b/include/uapi/linux/fs.h
+> > > @@ -674,6 +674,47 @@ struct procmap_query {
+> > >       __u64 build_id_addr;            /* in */
+> > >  };
+> > >
+> > > +/* /proc/kallsyms ioctl */
+> > > +#define KALLSYMS_QUERY       _IOWR(PROCFS_IOCTL_MAGIC, 18, struct ka=
+llsyms_query)
+> > > +
+> > > +/* Exactly one query mode must be set in query_flags. */
+> > > +enum kallsyms_query_flags {
+> > > +     /*
+> > > +      * Look up a symbol in vmlinux or loaded modules (vmlinux first=
+; BPF
+> > > +      * and ftrace symbols are not searched) by exact NUL-terminated=
+ name
+> > > +      * at sym_name_addr and return sym_addr. sym_addr and sym_name_=
+size
+> > > +      * must be 0 on input.
+> > > +      */
+> > > +     KALLSYMS_QUERY_BY_SYMBOL =3D 0x01,
+> > > +     /*
+> > > +      * Look up the symbol covering sym_addr and write its NUL-termi=
+nated
+> > > +      * name to the sym_name_addr buffer of sym_name_size bytes. The=
+ same
+> > > +      * symbols as %pS are searched: vmlinux, loaded modules, BPF JI=
+T
+> > > +      * images, and freed module init functions still tracked by ftr=
+ace.
+> > > +      * A buffer of KSYM_NAME_LEN (512 at the time of writing) bytes=
+ is
+> > > +      * always enough. On success, sym_name_size is set to the numbe=
+r of
+> > > +      * bytes written (including the terminating NUL).
+> > > +      */
+> > > +     KALLSYMS_QUERY_BY_ADDR =3D 0x02,
+> > > +};
+> > > +
+> > > +/*
+> > > + * Returns -ENOENT if no symbol matches, -EADDRNOTAVAIL if the name =
+maps to
+> > > + * more than one address, -ENAMETOOLONG if the name does not fit in
+> > > + * KSYM_NAME_LEN (512 at the time of writing) or sym_name_size bytes=
+, and
+> > > + * -EPERM if kallsyms addresses are hidden from the opener of /proc/=
+kallsyms
+> > > + * (e.g. kptr_restrict).
+> > > + */
+> > > +struct kallsyms_query {
+> > > +     __u64 size;             /* in - struct size for compatibility *=
+/
+> >
+> > I'm not sure you need a size here as well as the one in the ioctl comma=
+nd.
+> > It only complicates things when they differ.
+> >
+> > If you need a new version they you add an extra case to the switch stat=
+ement.
+> > Simple and easy,
+>
+> Good find thanks! Will update.
+
+think about user space application compiled against UAPI headers from
+older kernel version. For that application size will be smaller and
+that's ok, newer kernel should honor this and only fill out smaller
+part of v2 struct. Versioning is done by appending fields. This is a
+well established pattern that provides a pretty good forward/backward
+compat story, let's keep it.
+
+>
+> > > +     __u64 query_flags;      /* in - query mode (enum kallsyms_query=
+_flags) */
+> > > +     __u64 sym_name_addr;    /* in - address of symbol name buffer *=
+/
+> > > +     __u64 sym_addr;         /* out (BY_SYMBOL) / in (BY_ADDR) */
+> > > +     __u64 sym_name_size;    /* in/out - name buffer size / bytes wr=
+itten */
+> >
+> > Maybe separate the buffer size from the length of the symbol written?
+> > The in/out parameter will get annoying in code doing multiple lookups.
+> > Or just have the buffer size and require it to be '\0' terminated.
+> > (There is a strncpy_from_user() can that be used.)
+>
+> That is simpler- in v3, we can have buffer sizes as input only, and
+> names will always be NUL-terminated.
+>
+
+user code can be easily written by always setting buffer size, even if
+kallsyms_query is reused. This is the pattern with PROCMAP_QUERY,
+let's keep it consistent.
+
+also, returning actual size even if buffer is too short is a good way
+for user space to "probe" and increase buffer if necessary. unless it
+adds tons of complexity, this is a good and flexible UAPI
+
+> > The '\0' terminated string handling is likely to be noise against
+> > all the rest of the lookup code.
+> >
+> > David
+> >
+
+[...]
