@@ -1,114 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793312610;
-	b=cL2s7sDOj7eQH+7GBVqYaEK3ivuqWlqVcLR8Jkow18DO9Jfeq8Sk/3vTkxX+FXsyKEiP
-	 qsDKzyEKYSPb8bNLNn3eLVkVs8wHJAEUH2b5umzvF7A75siIjtRsmBfjJjLYVlhgBB0Qx
-	 WFo2mzZJE1aSDYY0Z4pg27X79sY5J1ayKw8cGvDBUlWETF8QSEMb/PLF2yPQtlUSkyFI6
-	 JCjJlL9RtgOXy5maAV2la7IOGgQdpuFQkoBXsCkNqkm3z97Xhj1jTMbH5K1A1OqN+OAiU
-	 uyeaXAlBUJ5Wv9VdTPycb16l2lmOp0OWhoho58MmKzP8MocQ9pxgb8ZECAM59O+V27w==
+	t=1793313053;
+	b=on8AO/GR+MJo7Cyc5MfGTDj2SRYPHdNLEfNQ8Rac+91eSitQsC/7E4sxW7TvphmVM6uJ
+	 8IMTcLlbjEaL5y8FHSHmtWHCW3qvJwlemuM6Y/OsZlvZZgbWWpaSU9iKKhrCAJ8fhQGfb
+	 7aB+n0TJdqto3gvn1L/KVfoQ6+vZgjwPptMtwogl490w0e7D6sgKU3jpobCniqIgjn0Ff
+	 yyV3GWwLpGsrm/RmZXtmcTA8ZFeDH9tCKaruz+NZ6zACzkHA3WT4HPsH5vixgcvNZpX0I
+	 8RmIcnW43dTNx8KFfHXkuDYG06W1cJqCyU6qBpf0ud9FIF+t6KibNZw5IYsJQO0gy2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793312610;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
-	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
-	bh=ZvSqu33VwzN9N6NrqP0yeIbdJwaFf2DGli8QvsjzCCM=;
-	b=uDIbFvofJ46Y9rbMiyPJ0VtCtRpINgLCN4PZsvWix/3SCImYOQ0bAKKawrZXMDHXBD3K
-	 Rr9z3rDc068UGz/u4OxlLLdIi2oCkbCq4oVp+NTBm51M9O30T2kP8RjOkInEeB0mbfFb/
-	 Y+8szOsfwHzoWHVzkpzsnwqAdUaW3IEYOtAJw8roPzEoabnJ29/AdA42jSxYu3q91REXf
-	 1lJDbKKu0lV69WqEf/GQxKfsL0yxKcZ7XBZqXZ7PwNqod1MXAB229Cl/gDPPUYRUM3Acf
-	 GsCcmZyDhHbm+XbV2+wO+DC7gRIE9g7gr6qJwIbl+WkJxSO+qI4qV2cw0rIrLTahUBQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793313053;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=UPY3X5uvq0LQlVSKfRxAerWA4F2Yg0A//1vEESl9I+c=;
+	b=wL9+jkduihuhtGmx8QorCG6guLrvbT2v4mjNBLInv+vjRzs1I0paKw/exVFEFGnD3hUw
+	 YsZSTmH5+aKFd6ls4Zyf44nKzE/Vx/Y/Vb0MfsNu/Brlw1BqNzz0hFA1t/IfUd/hNiGdP
+	 0q8Rb1xMY6RhTEOWFZUA7nD3uQby6I9xZ4tDAoDv4GZgR46aw+bcCEQGE6r3tsD6+NaMd
+	 UulyZM1fvVuEC56MYCn5DsTuIQXakKz2sX/yAcett2PFZke40Go5mm5dgC4xQLu3TeGhF
+	 CpcwYD+iDoaCQZ9CAan+uD6BeRaaQ0Vx438ndzcHr+6n+YlUaq82yBqm0fP3s2ttDqQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ownmail.net;
-	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=VedKNd8g;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=tF00iBdP;
-	arc=none smtp.remote-ip=202.12.124.151
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=VSHotii2;
+	arc=none smtp.remote-ip=209.85.219.52
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34274606A31C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 22:23:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34274606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E07606A31D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 22:30:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2E07606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=VedKNd8g;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=tF00iBdP
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id 98BBA1D000B9
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 18:23:28 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Thu, 29 Oct 2026 18:23:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1793312608; x=1793399008; bh=ZvSqu33VwzN9N6NrqP0yeIbdJwaFf2DGli8
-	QvsjzCCM=; b=VedKNd8gqxVo2N0oqk0oDxszhCNQHyDIzKPBeE05wxY2RCWMPVV
-	OkOuKq8I+kLpifWQTgEEDMDyZ23ZzPNSjaaY5AxuoSrnmEHIk0U3l7QA2wtdkT3g
-	KLmybRSpivOoQwGSdaq11ZhwgL7wJiwzxtkwa5rIICWoGB/JHBERVVWtZWWJfFA5
-	qDuRnH5QEtxFg2uxkaSGMxh9GqGF8J7GP1XNo9+zCvbANfubMA1eYeg10OJIYERE
-	fDXE3BoAuv+etXWgjWC+kJfZmn3smXGmW4IxPj5c3yTqsJzhKinHwZYTB9cB4y+/
-	QAJDt59TCGzKLvCl023Zmi8UHOP3ORUkxeA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793312608; x=
-	1793399008; bh=ZvSqu33VwzN9N6NrqP0yeIbdJwaFf2DGli8QvsjzCCM=; b=t
-	F00iBdPTsY8WqmUbnu0lR2CYgL5G2GJHaxtwSdHwWk2pVZVQ04n+rLfhgwXG7mwO
-	6O81mNP2N/h8gOu1cUF0zvwzJvvDcWg1UOHIERS3/KRQobwox1jy2ZBE89MCDjFK
-	N8eu1YGU4R1HDAsBv6RvIFymXuOXWRK70r2NRjDRaUePoAl7VNLde3zbmSGf8LEu
-	gUx1B/mVCF2rYOsq/IrULbEd6f5jnNOJ+x35p4n2+EA5UIpqone+on8mPt0ZnpVV
-	Mx8giMzpOdBMxL+eGDJTewNBMvQbI7uEPoxGm5vecCfhAsYX3EZU1qV8hyicQ/xA
-	dJcPPnHiLqZVLI9Ua9TqQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793312608; d=ownmail.net;
-	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm2:rsa-sha256:boEfAw6zCZhUY4BbtTVBit3RKaFLB1z6AQl09OiEgibh1/F
-	0l4QMAgbrEK8f8CCf93mW5QVFsstF4Ga2ETLEpcuPWUvadgPuZaYtySXvjiuTjO0
-	79teHUyxVe0pwDNJ/0yz5erlDcOPvz0HKmV3M+DwVeyNzlW/XmP7F24HqDP/xS9j
-	8CuE8EpsKDTMbObb/iCvfrSFfSYMSpcaw1RgqQ8W6SOjxmHMbx+eX1vUkgQdNuJ0
-	1922dCM+ZO1ttj5dTery0ozJ2PQNuqFM/zXQY5o8JUNo8SWmBoNTg8TM8qV7ue6v
-	spi+XpAKmZUFXETcLTzeBtt7wjGen7Ztv9G54zg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,reply-to,
-	subject,to;
-Message-Instance: m=1; h=sha256:PJaC5ePuITNYs3Isdew3ZWP9oM6BkaNc+LgFBktKDNE=:9Xhi+KkqG3inG8QmyT83XzAcRCxsLosfwTCzc/SAnY8=;
-X-ME-Sender: <xms:X8fjatBuNNa9YkDZoQag2LXy8D1i1HBxcA7ARNCnweq2ewERMU7K5Q>
-    <xme:X8fjan6OghgqlatZqDH-_fJuyGVP51QKTgxF7Pc3mX2bfOz85U9jCkIcRl4-NBQQH
-    RMdfDpTqy6_sqrCVspYtVKhztUM_F1h63hWrwTgjngZK-Fqv_g>
-X-ME-Received: <xmr:X8fjatBwf56tcDq6ETSv4Kjr5iSk2JW2GOnSw4Uy-MwmzPDUpvw6WCr3ReP6kV6wnIqE70ZKFiyFbl4sV1WcONKcq0dqZqQ>
-X-ME-Proxy-Cause: dmFkZTE5nlQ15e2vVjI800vPsKIFX6u6l/cv1Dtj+ZXc0iB6zB9GRyFRt/uKLv1NH/wSMx
-    S4LF9sRWFHcc1nsXe8iGnS3+pVlVSlS3OYcHuOyLd+rlWe6wBoUcItYFVYlmSIowbVxcPF
-    HjilRmmynrLdTFnIW6yBeoqShnhHSFsb8VZFH9DgjH6vGFjTfsIYiyEFdNFnwwblVH+7PB
-    bzZbg9usoCZuRpF+TU7J4vy7pdeMyoedEUKnjjq8VIL+5hzenYTzvK0/Veh8Mqg1YZvrey
-    TYEJmc2eH5UDb895p6A2qnME+wCsHv+htHQ8NvTrJChc0Z304KtqLVMHsmIoyl++IZEgj4
-    uhiLO/mPZaJuPKPw7IdTyH4ePihavxwIdb4ScnUmnlva3oa7EhC7Tt+kayGonByBOkll2X
-    qf8GhEKaWVQTZPvQjqFnDMsIxfxxrsh0JQkDW4RcOimq7U7olkKhkWdhFovoToxiFu6aqB
-    eZHG300koFyNyg5WV2X710VmSQLPibyci01I4vXTP2dt9v5p9OCfdAzITA/R+eZdTlxnzw
-    z4Boh2/6wQUZoPWGBVPEnSrI5rD6y5C8c1rVpHReQ5/QHLunmfp9c+dcU70FepXJaXeq7D
-    z9h4UqbElM1MKe1O4VjTKd0ABZUb03tAVCjolSfabOVhNqCCqK8KXN2MzneA
-X-ME-Proxy: <xmx:X8fjal79kuLBe0RyjtRsMqJ7sHKuCZK9J545xcYm1Muec0ZRrQmefA>
-    <xmx:X8fjauv0pkuQtHdE67mYG7ICvM9dDG4RnyvJLPQ6wcauADXUlBkC8g>
-    <xmx:X8fjai6OLORBk8sM7gFQ86lWvOTgdZkNaAhG7zr_ULiBKkhOIYO1ew>
-    <xmx:X8fjaq3iSLlWbhImoR1vlmQyRHyfwRksaZ2MfpoUHE4YzNSSvFVPwA>
-    <xmx:YMfjavnv8THOTMqOWgrX7D3pNpkrpLV_g-hNtBQjb0RlHkz2CtMLolci>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Oct 2026 18:23:23 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=VSHotii2
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-91c63449320so1295986d6.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 15:30:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1793313051; x=1793917851; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=UPY3X5uvq0LQlVSKfRxAerWA4F2Yg0A//1vEESl9I+c=;
+        b=VSHotii2iA/Qci+re5k9+hkvQxKjnotN/2zPP0cTQVX8b2J8BjE60+OcYufQKoVKvx
+         a+j3LCBHF1DpLlIDKR7gb6PpKNODYEXP5niM7fAnH7XdFH7GFuaFd3xcGQIGPOzeeZ36
+         dX2hldmlIJ3DR5XmGdNwQLj7XhdPI1h4ZuM7QOuzWnRVpoDso9hh2meI0Lui5uI/IuOk
+         506s3mKiMnXlDNPtgHXynDbZfoZM5erpE048exc19KkqyliRV6xYwunu5BjsxA79iI4j
+         XwHJNuL76Wix5UlGfgAKC8Pr4DZ0OiWTffDcTDfMEgS1ueH/XIz4VWe0mCZo0xJKxe0s
+         aGaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793313051; x=1793917851;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UPY3X5uvq0LQlVSKfRxAerWA4F2Yg0A//1vEESl9I+c=;
+        b=H6jVcfgbwtau9Qc3e0fn5WUY/WXe1SfyEbT4ImG+KQOIybJF1x9dyWdEz9Hkxyg3nz
+         eaApVw8SYPtjOeMLuon2KT2Ke6DzEeUWYAifz5VWXyTst05OpXMdqNaZHM12asBCluEe
+         4zD0weMYwt/9p9KWhVUBDUYl1GoRlG9loVzILYDalvF5exjWPnIWupSEvC2MYkkg5UXk
+         ofkQ0XltC22oN0X6j7FsTYzBhbqF5KEC8dW+Il+UqZt9cDsVUGga3RHfNSpk0KdRx2iF
+         Y14tOmoBJ95Dl9RvyHUqYN/n47KH6a6w3kaAvv2BMkaFeplG8bcLoOi1Bxz4F8qfrovF
+         amzg==
+X-Forwarded-Encrypted: i=1; AKwUvBwlKfzlsUAIJ5xWwteGWfbZzl02Uz0tMqIEzp2N4Wr1MCM1NRD4vzrpC9uU0LDSGHgc5rn4mRQvL8Q3Lf/f@vger.kernel.org
+X-Gm-Message-State: AFq9FYL1LeoIPTSAelivQfJpVuvKVy74z8bPhRbM63j/9IeyooHtn9LI
+	0TFL/UdV1sSmuXlzE9PqrN9TzQdTN72ztAK/fWe5LMNAo7ua7SBGzB9Imvm5li93yJY=
+X-Gm-Gg: AYBFou3jdMQz0gPfDEC37Up43c3npeKzzJDCHSAjnMcpLwPFKc7TwxhZyE8WluXeOMa
+	KdjMCc/ztqstv2XT/4GkWlyXhdf7p0H6htWJiYVAyDMvwQMTxFMdE8mfa8m+xlztwx4gluJ4BdV
+	ocQxdlWtDUFIpBnTMPSWBVnAmCyQdNEPEFmxWFbBDi5vjtpZabrp7Q3AIQSK/EcdGqfQ++r+N1L
+	SxlUPnIyNeWh2YiTdIS0/9J3qe511GAT04zBgsXDdo5GBKyxwPuxMaGgph3iypv67wbUl2YFFWm
+	dZ4qn+Ki8kZw19pxglw9UzX/9SsXcRYT15eXWDNjoXxZ8qPCbBP4QWDbHHMUAV4MgP8GQQRNsTQ
+	JcKqzy1Sxd7GDwK2bqeFXz2krJ8PfMCaQrGCMxIuV50NevH+O4OjY5AnKJWwE/mNl2/s7grtQ1j
+	nmdpoEbpzsGQd+xKEC7F5PnjDMcRoKV+Pbx20p48NAMKK2y2vMlgna8WUGUa4aAvHIwF30MjP8b
+	1vMlFyg05kqlxPpc7fVNALdqtvUL1o1xcGTXbsQGTNENAE15zFVTzUtsTWUy/atxAVB3bwMPE5y
+	fqdDXEYRS2a7NCepI0cx7t6lyAWNz9aHxBJ37pGF/y+qL8n+ckOCaWI7G4v+yJoabWJDA34yOU1
+	I
+X-Received: by 2002:a05:6214:5f10:b0:91b:8296:3b88 with SMTP id 6a1803df08f44-91ca4ae90b0mr5824286d6.15.1793313051262;
+        Thu, 29 Oct 2026 15:30:51 -0700 (PDT)
+Received: from [192.168.86.58] (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ca68e5f47sm398016d6.42.2026.10.29.15.30.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 15:30:50 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,172 +89,87 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jonathan Flynn" <jonathan.flynn@hammerspace.com>
-Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>,
- "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
- "Jeff Layton" <jlayton@kernel.org>, "Chuck Lever" <cel@kernel.org>,
- "Jan Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 03/12] nfs: tell the VFS when two names can be one
- entry on the server
-In-reply-to: <20261029180957.387138-4-jonathan.flynn@hammerspace.com>
-References: <20261028041023.3738553-1-neilb@ownmail.net>
-  <20261029180957.387138-1-jonathan.flynn@hammerspace.com>
-  <20261029180957.387138-4-jonathan.flynn@hammerspace.com>
-Date: Fri, 30 Oct 2026 09:23:21 +1100
-Message-id: <179331260192.1157394.6210237718575047017@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 14/47] mm/huge_memory: fix zapping migration entries
+ for device-private THPs
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>, 
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+ Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>, 
+ Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>, 
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+ Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>, 
+ Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Nick Piggin <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
+ Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>, 
+ Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, kexec@lists.infradead.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-cxl@vger.kernel.org, Chris Mason <mason@kernel.org>, 
+ stable@vger.kernel.org
+In-Reply-To: <20261029-fixes_core-v2-14-a64ce7f83abb@kernel.org>
+References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
+ <20261029-fixes_core-v2-14-a64ce7f83abb@kernel.org>
+Date: Thu, 29 Oct 2026 18:30:48 -0400
+Message-Id: <179331304801.2127828.6570375349219520262.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-On Fri, 30 Oct 2026, Jonathan Flynn wrote:
-> A server that reports itself case-insensitive, or as not preserving
-> case, can make one entry of two names that the client caches apart,
-> because the client compares names byte for byte.  Mark the filesystem
-> on such a server with SB_I_NAMES_COLLIDE, from "vfs: allow the parent
-> lock to be shared for O_CREAT", so that the VFS keeps the exclusive
-> directory lock for creates there: the per-name exclusion that replaces
-> the lock for a create made with it held shared covers one byte string,
-> not the names the server treats as equal.  The client learns this when
-> it reads the server's capabilities, which it does again on remount, on
-> migration and when a later mount reuses the filesystem, and it updates
-> the mark each time.
->=20
-> This is a conservative fallback.  A server that declares itself
-> case-insensitive should itself treat the two names as one, but one that
-> did not was seen making two files of one name when such creates arrived
-> together.  No filesystem relies on the mark yet, so nothing changes.
+On 2026-10-29 21:33 +0100, David Hildenbrand (Arm) wrote:
+> From: Chris Mason <mason@kernel.org>
+> 
+> A PMD migration entry can refer to a device-private folio.
+> zap_huge_pmd_folio() checks the folio type instead of the entry type,
+> so it treats such a migration entry as a device-private entry.
+> 
+> Installing the migration entry already removed the reverse mapping and
+> dropped the mapping reference. Zapping it must not repeat those
+> operations. Concurrent MADV_DONTNEED during migration back to system
+> memory can trigger this.
+> 
+> Check the PMD entry type using pmd_is_device_private_entry().
+> 
+> Fix generated by an LLM and sent by Chris Mason in private.
+> 
+> Fixes: 368076f52ebe ("mm/huge_memory: add device-private THP support to PMD operations")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Chris Mason <mason@kernel.org>
+> [ david: simplify description ]
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-We don't normally work around server bugs in the client.  We tell the
-server maintainers to fix their server.
+One note below, but it's not a holdup.
 
-But we *certainly* don't work around them in the VFS with
-SB_I_NAMES_COLLIDE.  That sort of fs behaviour might be tolerable for
-files but it is a real problem for directories!
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 
-Once we move directory locking into the filesystem, the NFS client code
-might choose to add extra locking for servers that might be problematic.
-It would then be entirely in the NFS code then, and up to the NFS
-maintainers to decide what to do.
-But this logic does not, I think, belong in the VFS layer at all.
+> +	const bool is_device_private = !is_present && pmd_is_device_private_entry(pmdval);
 
-This just confirms me in my preference to continue on the path I have
-planned.
+pmd_is_device_private_entry() already returns false for a present
+pmdval - so !is_present is redundant.  If there was a reason to open
+code this, then keep it, but otherwise you could drop it.
 
-Hopefully next week I'll put together an RFC for the next steps, and
-we pursue the prep patches that haven't been acked yet.
-
-Thanks,
-NeilBrown
-
-
->=20
-> Signed-off-by: Jonathan Flynn <jonathan.flynn@hammerspace.com>
-> ---
->  fs/nfs/client.c   |  1 +
->  fs/nfs/internal.h | 35 +++++++++++++++++++++++++++++++++++
->  fs/nfs/nfs4proc.c |  1 +
->  fs/nfs/super.c    |  2 ++
->  4 files changed, 39 insertions(+)
->=20
-> diff --git a/fs/nfs/client.c b/fs/nfs/client.c
-> index ea99b3c105..30206b309c 100644
-> --- a/fs/nfs/client.c
-> +++ b/fs/nfs/client.c
-> @@ -975,6 +975,7 @@ static int nfs_probe_fsinfo(struct nfs_server *server, =
-struct nfs_fh *mntfh, str
->  			server->caps &=3D ~(NFS_CAP_CASE_INSENSITIVE |
->  					  NFS_CAP_CASE_NONPRESERVING);
->  		}
-> +		nfs_server_publish_name_caps(server);
->  	}
-> =20
->  	if (clp->rpc_ops->discover_trunking !=3D NULL &&
-> diff --git a/fs/nfs/internal.h b/fs/nfs/internal.h
-> index 5af6a032f1..34b8aff4e0 100644
-> --- a/fs/nfs/internal.h
-> +++ b/fs/nfs/internal.h
-> @@ -224,6 +224,41 @@ int nfs_init_server_rpcclient(struct nfs_server *, con=
-st struct rpc_timeout *t,
->  struct nfs_server *nfs_alloc_server(void);
->  void nfs_server_copy_userdata(struct nfs_server *, struct nfs_server *);
-> =20
-> +/*
-> + * Tell the VFS whether this server can make one directory entry of two na=
-mes
-> + * that differ as byte strings.  NFS installs no ->d_hash or ->d_compare, =
-so
-> + * the dcache compares names byte for byte, while a server that is
-> + * case-insensitive, or does not preserve case, makes "foo" and "FOO" one
-> + * entry.  On such a server SB_I_NAMES_COLLIDE keeps the parent of an O_CR=
-EAT
-> + * open locked exclusive; see atomic_open_create_shared() in fs/namei.c.
-> + *
-> + * server->caps is derived again on every probe of the server: at mount, at
-> + * remount, on migration, and when a later mount reuses this superblock
-> + * (nfs4_proc_get_root()).  So this is called wherever the case bits of
-> + * server->caps are written, once they have their final value, and when the
-> + * superblock is set up, because the first probe runs before it exists.  T=
-he
-> + * value is what the probed file handle reported, normally the mount root'=
-s;
-> + * the homogeneous attribute is not fetched, so a server whose answer diff=
-ers
-> + * below the root is described by the root.  Migration runs the probe from
-> + * the state manager without ->s_umount, so the update is atomic, and it is
-> + * made only when the value changes.  Two probes of one server at once can
-> + * leave the bit as the earlier of them derived it; that needs the server's
-> + * answer to change between them, and server->caps has the same race.
-> + */
-> +static inline void nfs_server_publish_name_caps(struct nfs_server *server)
-> +{
-> +	struct super_block *sb =3D server->super;
-> +	unsigned long bits =3D 0;
-> +
-> +	if (!sb)
-> +		return;
-> +	if (READ_ONCE(server->caps) & (NFS_CAP_CASE_INSENSITIVE |
-> +				       NFS_CAP_CASE_NONPRESERVING))
-> +		bits =3D SB_I_NAMES_COLLIDE;
-> +	if ((READ_ONCE(sb->s_iflags) & SB_I_NAMES_COLLIDE) !=3D bits)
-> +		set_mask_bits(&sb->s_iflags, SB_I_NAMES_COLLIDE, bits);
-> +}
-> +
->  extern void nfs_put_client(struct nfs_client *);
->  extern void nfs_free_client(struct nfs_client *);
->  void nfs_cb_idr_remove(struct nfs_client *clp);
-> diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
-> index 113c199a6f..fac8450b65 100644
-> --- a/fs/nfs/nfs4proc.c
-> +++ b/fs/nfs/nfs4proc.c
-> @@ -4020,6 +4020,7 @@ static int _nfs4_server_capabilities(struct nfs_serve=
-r *server, struct nfs_fh *f
->  		if (nfs4_server_delegtime_capable(&res))
->  			caps |=3D NFS_CAP_DELEGTIME;
->  		WRITE_ONCE(server->caps, caps);
-> +		nfs_server_publish_name_caps(server);
-> =20
->  		memcpy(server->cache_consistency_bitmask, res.attr_bitmask, sizeof(serve=
-r->cache_consistency_bitmask));
->  		server->cache_consistency_bitmask[0] &=3D FATTR4_WORD0_CHANGE|FATTR4_WOR=
-D0_SIZE;
-> diff --git a/fs/nfs/super.c b/fs/nfs/super.c
-> index 23292680ad..e70cef88fb 100644
-> --- a/fs/nfs/super.c
-> +++ b/fs/nfs/super.c
-> @@ -1082,6 +1082,8 @@ static void nfs_fill_super(struct super_block *sb, st=
-ruct nfs_fs_context *ctx)
->  			sb->s_export_op =3D &nfs_export_ops;
->  		break;
->  	}
-> +	/* The first probe of the caps ran before this superblock existed */
-> +	nfs_server_publish_name_caps(server);
-> =20
->  	sb->s_magic =3D NFS_SUPER_MAGIC;
-> =20
-> --=20
-> 2.43.0
->=20
->=20
+-- 
+~Gregory
 
