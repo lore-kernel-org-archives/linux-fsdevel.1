@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793306511;
-	b=mVb+min0obZoYBEC7wfWLjQkPWYs6laogbPcjQuSs/js5NBQYapRPJLHgZBsrXX+4pER
-	 kltUh2V/h2NVETODd9BVd2lAQpm6i6eF5dcrrEGRzbqfXnmDikJjHgHd1iCa+gt+kKZR/
-	 NChqRGwKvbworIFoJkpLGWOkBveeoWUt1YeJG9k+3hUNStnUqVwbzyT4NWCV7auUxCpF9
-	 oOE6Hn92uU7y7lgmNZC5LC8unedx2FXCaNs5KYs6Gamt3PrT65DKEN3nNR/3nA7M4RC1F
-	 kvvk2peC0AoR0R3kWEZx3nhIYE2tQn4MGvxYfLFsBfMD7hfcOP5DUd4pYDzslPT763g==
+	t=1793306217;
+	b=5i0oEPFeJ0ercMb5b+EBimYHRfVIMnb0tSGtJUlK/VleTpBG4iWm7Os7CGGCjSJP6T/1
+	 qwDknJwnBVuP6hTR5w0tg89bXJSwlj6u+IwUBPI5dBAMw2M3QKOGNRiAlrbR1iMp0OkXf
+	 0oqKTwNxHIV7/jY/Q8q4Gbl4GFZgk98Bd/nIus0tuGkwZmpgwcbBjw7Xo6b9SeaEjZzpn
+	 MtbbV8rL1tQ363bhkxJzkx2yVS61e81tJfgZxiIQsnvMlUn6lSNw7m7GqkoRWZu7dHX8F
+	 LSQaXBWTpu+fhQLiyG3J+ppjqczaYmvN3REoxz8/1qD73ZhfAGJqxoi9saOokEnIoAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793306511;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793306217;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=zArSmg7yLUQusiUDBjlm/kScYeO/TmH/P9/Smu4iQZg=;
-	b=cL9w26uIS+3HeJaj/y/W+UVozgY3nCq6d8NYmq/mmexm2jAWVqmUM4T3s/QCjPmX9Nyh
-	 dntQ9hv/+pyyujAH6iE92hjx0Bdu6AxhHxbvdbNQqDDuk9RHhT5I5wgWg6XNxizAobZj+
-	 kOp9w7sZRqlgLgCssbdllnluuWjMrCvFl/P5yRlfT5dAk6TIi/b4erVP0xxpWdxWDb3rc
-	 THEMecwxOZcUhUKoYfvh7Im+RRl9fU5Cl4ELqKNxEcodveschoFKKGpBpyx9ZgITt3bZS
-	 nYvzC+CPATfZ+06eTYQ7ypBPB0yenNE8hlzqn+X3Vmqvz7wpMFdvvSnsB9CkmIqAmIw==
+	bh=39sO4eVWOAhWIFY7dwmw5wDLBZR1O1Wkdyg2pyVIaSw=;
+	b=cybTkaxjpRO/Lt6ygiMagtHK4sFUS/Omqa1a2nvQ2bkfyENzXpGBTXHjXsQKBq4NIyoR
+	 UllgkOklJHMQ9oTMPShmX1TCyO6CS+QDtGZjbBREq1QUtaXsND8R/iIFBIzCjGBQqekLl
+	 iaXPvw+LOscDIMLP8oBYoOFN4zZbvrkmrOQsIW1c4sxKq6PMhGRvGEmL+5GgNIfsl1IDE
+	 BplWblBwBisWYVVbfESYk01+2T+KCW8aN5/GOjhDyDRGQThbcuOI7wfZx5O8zcrnnPN6S
+	 akYldFBUg/TcyEohPzezfN3QR7h87e/0zCL7uixmxxoOg23Hp2jhG5H0RjxMwFQB8Bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RGLYR88r;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="hLIyzFr/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55194606A31C;
-	Thu, 29 Oct 2026 20:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5969C606A335;
+	Thu, 29 Oct 2026 20:36:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RGLYR88r
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D979D1F01824;
-	Thu, 29 Oct 2026 20:41:36 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hLIyzFr/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E0E1F01828;
+	Thu, 29 Oct 2026 20:36:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793306511;
-	bh=zArSmg7yLUQusiUDBjlm/kScYeO/TmH/P9/Smu4iQZg=;
+	s=k20260515; t=1793306217;
+	bh=39sO4eVWOAhWIFY7dwmw5wDLBZR1O1Wkdyg2pyVIaSw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=RGLYR88roEEbDd5tCeYUTOpvVfraAhTmG++35UVmmW+MOOjtMfDoQbZ3JwNu9EYK7
-	 a99vFMdfcGf8o5juAUZnbJ5xZs8mAGQ1+gjvsFf6NHOO3vpEmbqZVt3FCXH1tgKNfy
-	 WHJSd4Lz8UjYheY8b6tfHXBpyMyIhevr0bOkLKm7e0YsAY15rmrqUd+JMgpP99OcGM
-	 p5rxJpPQrcARGEcSkJF+8J7+1oI/T8LiSMX5XgFh2+E67ydfTgPDCA44s95fCGJaSG
-	 Vvv0OX3xJ1ptZi56r/nPn2GsnNt0bERfJYkrF8Yyh5tqVEW86MP0+rqj4DGWD7vADq
-	 jNLTFzqpOM9ZQ==
+	b=hLIyzFr/V/VvcGfnmQExxQg7IIwVIxjs2CWLB1sCab5pSvGmM4huLIGWjFbTIQt/g
+	 LvIjs//slU9Pq4A2SJLgO204tjYJlgMOO2JybMj7kVGc2TG/vohe/X3Zz7FeCoRLRc
+	 nrf/oQie/gYaRI5uDKW3ey8ucpkNlAPAQfa6wQ9bTo3VzjDmA6sP4x+IV/OttkAqd3
+	 JyWct3e8oJ1K9D8M52trvZOLS6s+qHpCPGamQ5HJ5Fz9lHdo495ySJkjCRlFWivA2z
+	 btGsxZgoULfAhGK6RKAeYV19UJkhbRKtCZuqzEA68xNrUH7XyrReQRSJ+prYoLs7a3
+	 fqpJE+V6bRCdQ==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Thu, 29 Oct 2026 21:33:29 +0100
-Subject: [PATCH v2 34/47] mm/madvise: fix data loss from MADV_FREE on a KSM
- page
+Date: Thu, 29 Oct 2026 21:33:09 +0100
+Subject: [PATCH v2 14/47] mm/huge_memory: fix zapping migration entries for
+ device-private THPs
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261029-fixes_core-v2-34-a64ce7f83abb@kernel.org>
+Message-Id: <20261029-fixes_core-v2-14-a64ce7f83abb@kernel.org>
 References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
 In-Reply-To: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -93,62 +93,55 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
  kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
  linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, 
- stable@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>, 
+ Chris Mason <mason@kernel.org>, stable@vger.kernel.org, 
  "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1733; i=david@kernel.org;
- h=from:subject:message-id; bh=K1BVe7ZYRTk2Zt50NT+PN3jE7jOx7NQzRVqTDwh0m6c=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer+04M4X18V1Z9xPSyy/e+WsUa9zSlnOmMjtRcs/1g
- NZP74686ShlYRDjYJAVU2QJCr5v8PLlutpqNz5mmDmsTCBDGLg4BWAi+dYMf8Ucyw4tm2A0J/OW
- z8VXDYXdXeKvv2wMrxY7eGn1EVedZ0sY/lmd9HP2W/rCXJN5+ou8mx8EBQO2BC78+WrrK7Gc7rI
- f+9kB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1532; i=david@kernel.org;
+ h=from:subject:message-id; bh=I7I0jhaFoDQ+nBqhpxvpT0b9yhPeTYbK2Z2XhTeg/TA=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer21bu2tt8uaHDhHRMpPkLUTW16ivZ94sK3hdWn5lQ
+ 8L31aqJHaUsDGIcDLJiiixBwfcNXr5cV1vtxscMM4eVCWQIAxenAEzkghUjw3rfBSFaX+RXSHif
+ D2cU2Dqz50GT77tKx0VZSuXaaz3ahRj+KTklP/0QL6kglxAToL0i5/q5rtPBtyrT2i1fVd2MMHv
+ HAQA=
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-MADV_FREE can clear the dirty flag of a singly mapped KSM folio. The
-folio remains in the stable tree and can gain new mappings without being
-dirtied again. Once marked lazyfree, reclaim can discard data that those
-mappings still need.
+From: Chris Mason <mason@kernel.org>
 
-KSM always marks a folio dirty when converting it to a KSM folio in
-try_to_merge_one_page(). Marking a folio lazyfree clears PG_swapbacked
-but leaves PG_dirty unchanged. Preserving PG_dirty makes reclaim restore
-PG_swapbacked instead of discarding the folio. This also protects folios
-that were already lazyfree when KSM converted them.
+A PMD migration entry can refer to a device-private folio.
+zap_huge_pmd_folio() checks the folio type instead of the entry type,
+so it treats such a migration entry as a device-private entry.
 
-Skip KSM folios before clearing their dirty flag, checking under the
-folio lock to serialize with KSM conversion.
+Installing the migration entry already removed the reverse mapping and
+dropped the mapping reference. Zapping it must not repeat those
+operations. Concurrent MADV_DONTNEED during migration back to system
+memory can trigger this.
 
-Fixes: 854e9ed09ded ("mm: support madvise(MADV_FREE)")
+Check the PMD entry type using pmd_is_device_private_entry().
+
+Fix generated by an LLM and sent by Chris Mason in private.
+
+Fixes: 368076f52ebe ("mm/huge_memory: add device-private THP support to PMD operations")
 Cc: stable@vger.kernel.org
-Reported-by: Josef Bacik <josef@toxicpanda.com>
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-Reviewed-by: Xu Xin <xu.xin@linux.dev>
+Signed-off-by: Chris Mason <mason@kernel.org>
+[ david: simplify description ]
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- mm/madvise.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ mm/huge_memory.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/mm/madvise.c b/mm/madvise.c
-index 75b409e97dbf..a16e3cb256b7 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -756,6 +756,15 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
- 		if (folio_test_swapcache(folio) || folio_test_dirty(folio)) {
- 			if (!folio_trylock(folio))
- 				continue;
-+			/*
-+			 * KSM folios can gain new mappings at any time, so we must
-+			 * not clear their dirty flag.
-+			 */
-+			if (folio_test_ksm(folio)) {
-+				folio_unlock(folio);
-+				continue;
-+			}
-+
- 			/*
- 			 * If we have a large folio at this point, we know it is
- 			 * fully mapped so if its mapcount is the same as its
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 1d65c4f576f9..c5aa0a0a407c 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -2493,7 +2493,7 @@ static inline void zap_deposited_table(struct mm_struct *mm, pmd_t *pmd)
+ static void zap_huge_pmd_folio(struct mm_struct *mm, struct vm_area_struct *vma,
+ 		pmd_t pmdval, struct folio *folio, bool is_present)
+ {
+-	const bool is_device_private = folio_is_device_private(folio);
++	const bool is_device_private = !is_present && pmd_is_device_private_entry(pmdval);
+ 
+ 	if (folio_test_anon(folio)) {
+ 		add_mm_counter(mm, MM_ANONPAGES, -HPAGE_PMD_NR);
 
 -- 
 2.43.0
