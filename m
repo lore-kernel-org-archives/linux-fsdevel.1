@@ -1,100 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.208
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793245083;
-	b=BXal/sIfZlU8wqDyow9+4cMAlRwDh8+u4J7yrIuOHwnCkS7MRqlUOQnoMu1VFQGvRA90
-	 EmNGyL4aznge55Dox0kkG+ITKoiJ0Rv+z8BoQQkVYMgsT0m/Lu95fxRgdXpHpT189SToY
-	 ii4dVc8ao2S5Ln0OjH2IKdeZKGl1cSHUiGkQKxAtDCpCMdNGtQkosr06hP1Gilj17WJng
-	 srw28qZgXf5/y8LX9vO+RFRZL/LSY3yAyf1rzJl9yxL4vXAqabUl2wfF7Q3W/lfopW5+U
-	 3wht0YIXH2kNzlPs+25ya3j6P+XAytA2nEqdpoANkTt35H778mv8vSA3mYBMOTl/ldA==
+	t=1793249627;
+	b=0B324hlkGfnW7RrWiKu8L0Wak1OBg/ex96PkydnxE0hB5W2pdH7q3hW/TfnGdjPTspqa
+	 py7kBPYqlRiMicIl3ZUZRXYCFz/dF4qDq2kENF0cbFiXTCwhfbCyeNH5U9FOoEfBu4eMo
+	 m1h2j8YOsx9G+Xq0vdwAXl3Sujxc4kE2sqVKa2YquRg9luRiMrKZGmnL5LV2Xd7/TDTZL
+	 sYWiNEoMKkvw0kUGNi3gptjfv0g1JthxxX5SdBgj9DLDqdiyMigMIX0rYwHuveY8+04SV
+	 3Q2qEx9mLEGLnlq07MzJDwwKZS2AGd+xpeZIIq6rfjZfXh4HdH3GU3aYBDwTYhWXZ8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793245083;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=xO9Nyz7qNv6/W8x13yiKzl4aUpp1maF5hp5hkOon6bI=;
-	b=XadrqjPGiX3+M7gyWjOtmTinEl6qOVr+J6F2VS9NYf79SU7+qqP1Pd1OdJcpk2Uxzrgx
-	 L/vbi1DxijGO8VJjyPgmEIjFBGdacCLgShlpDhJRLHSEo4vMkDx8o5eqw6Evseg5DqGWC
-	 OGFJpRSUKEXaP0tOhLVjUJzPQgtqYRVIvfpAclR1kYWVZFSQgLb+JSSULYKF0w/xe2kLx
-	 FHtZUFIgNeDFCp/n8JTqmE/MaAQJFdAz9xPPRxiHnO5sSEYFuVI4r5/sLimcxmkvtBXAG
-	 4tY4FldtrwqYmhI8rm8MuCzP1R4xJLK/eW1JjNWP1lPJoueYA+1pI/0aX1fPHm6Yleg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793249627;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=nSvRu+DrKpZk9fhC33/WfqayjP5HLD0PEYNxYg/H2d4=;
+	b=sN0oACiv6mWkSxDrNEacHBCjK7ZAmQd8AKktMQdXnYry/14JDE1U3LrSaEVYh+3Hvj6j
+	 YwLMre/jBmzYtZLpweYaoQkLdX7agu4XRshUdIalf4NQtFPPwLj/Otwvj6guRczpGHn2V
+	 30UFCS6xeT2oICI3L8g/XYNqqxol56WILM3XO3qS81YzxgnnF4kWkkT4BwjHoMIGkyCcj
+	 95xw3CcmXx1ScgW3/L9niBlKJjEclyWweCIlo/ZCJ4dCQmmEgZq3F/1v7ijzwGl2ukHsI
+	 3AAr0g1Y+CpPfuJ32gqd+PWg40jgmZf1GAbSrQ+cI9OmSyUPS2YpxnRWms+/Zdq2Ieg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="WFLmRQ7/";
-	arc=none smtp.remote-ip=74.125.82.180
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=wzldufxr;
+	arc=none smtp.remote-ip=95.215.58.208
+Received: from mta1.migadu.com (out-208.mta1.migadu.com [95.215.58.208])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B4C606A31C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 03:38:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6B4C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260EB606A31E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 04:53:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 260EB606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WFLmRQ7/
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-3535a54bed9so2462124eec.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 20:38:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793245082; x=1793849882; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xO9Nyz7qNv6/W8x13yiKzl4aUpp1maF5hp5hkOon6bI=;
-        b=WFLmRQ7/qaxPbNl/TuSOqkTHrpNTYj7NZxvnoYJUb4bgXxt0QJDfVE76lbtQLu6Qt4
-         QHwJa1MIS1cppWBM36DCc/w9XcteBY8Qebu7GoSNkh0p+XExprGcc6oca+9+76pMf+q/
-         2kWY7Bm76jSvcgE4/4c7hwPZBNb3R3bqEWAFH8iK8a+J9gL6NufXvLRkcUFyVvhIwtlk
-         q2lJdj0UbiE/aClIfswY8YU7AB//IeRtbd/anFJogxUdcqmZ357N/A5xDuVBg0sgq72m
-         +WWgq4yFuhuEN03RC+X6k6wwnglXlwY7ARwVDb41cQ8c3ORhd035LfgAqLO3oopj9NEL
-         4ogQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793245082; x=1793849882;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xO9Nyz7qNv6/W8x13yiKzl4aUpp1maF5hp5hkOon6bI=;
-        b=Ir6gsVEMV6dNY1zpAGQdtwi4Ac/JqhKcyndPOw/lKq+l695jm+WoZZolmOG4W877nu
-         JjNoCahph5HxrUjjmwbMnD/7t2ulo8aWd3Q7NAifV/ptDaDbz+QutXlKfYGGliB+xkc+
-         bTUl4PX8cZt3e2nCtgC3hjLBwqp+0itkxMoQJYpV7p0Z6cxTsE2PYmYjRketeFMYANLB
-         2ocG5tv0AT3CeaXhCuYQQ2O680Ol5R2Hz6LL4CsH9Q5dlRtw5m52z+rOuMm2utMhhSdg
-         niWQH1WfLeYk+z6OBLFcrN42bMR//4bEY2Ob74vUTtNj6oWD33tAhK34FQcj8J3D3qou
-         xOoQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzC2A3dxT4t3cR+bF1nNx3yVLMqwdmPM2S7/Dl4qOW5RdkJUXN1kDsITas9XvMWFPpWhxWOxlnl2M709HDB@vger.kernel.org
-X-Gm-Message-State: AFq9FYKdKRrzZEWO1CytNNPehDQtWePETiTcQvHqwue+7xerTeIjvmJ7
-	Vx9+/yKBvhzxZ7G0ibt4yiPSDoHHgQDIr3kfRdkwhxY8lalqY3TVFw+P
-X-Gm-Gg: AYBFou22Pj60mFKZ1hjEv3iMWEDs3wrx5lzefL/wwX1J+BrdEp8wdac7KGXw5dcCjIQ
-	F6954GObcQNRd9MxXzeZ3LR1c/fkB8+VuA7VP1FuKyqno5/r9x5fMdHWUVfrhyldtLROYzyaek9
-	wRJYSPWarJkt7uswIKgR6eMEUJXlnr8RWk3CpxVrGq3LJI8sZ1L7zAfPYFaxxX2M7rFsYYA9G93
-	1ttdhQ9tWBZ+U2oeMUx0sUWlChK72M0AzlUHST7hLrx8Vob1zTtdH9k24YHUl8AC6FRP3W5gs5Y
-	o4NSdtWh4yflBOCNyradsTPK+b7HD/jp4msRucorKpVd7XAfaokNom5XxZert+TlbcegT/kApKI
-	WYuQWQnEreqQaLnGMSkqJ/h7I8Ss/YK2MrAPSsGUrsjuGZMEr9DFyynTLXphk3vu2wsljUVedW9
-	2gF4+bj5bcfUfC0DO1oJvDo6/CrsP1NMDIVExnKIeDgoT+5bYfoug4EJ0ZruYGHo+jg1MIOtdEW
-	XnGfXMEr/JzkJH4f3S4z5EfUMCOUil4owficyrGziHbNr+Bs/0wh0Ah1RGRdwC5m58dRHr+fL4m
-	ysiqFw8QmDq0WKfDPud72o3BsXyqpeAVE4cQGdKbFsZhqw==
-X-Received: by 2002:a05:701b:4288:10b0:136:b50c:c0e9 with SMTP id a92af1059eb24-1a6ce9bba59mr5791183c88.21.1793245081698;
-        Wed, 28 Oct 2026 20:38:01 -0700 (PDT)
-Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1a75e0098basm10196922c88.12.2026.10.28.20.37.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 20:38:01 -0700 (PDT)
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
-To: wdhh6@aliyun.com
-Cc: syzbot+49c659b5564b2a44083c@syzkaller.appspotmail.com,
-	dwmw2@infradead.org,
-	richard@nod.at,
-	linux-mtd@lists.infradead.org,
-	syzkaller-bugs@googlegroups.com,
-	brauner@kernel.org,
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=wzldufxr
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=i7u+rlmCh6Mr8ur+/yCWDheirhBIEcgUXzKbr5iYaLI=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793249625; v=1; x=1793854425;
+ b=wzldufxrq7LeGF/UT1w/d7qBoo4cSoxFnLCvJgGiKddxIK6nGj3eWwtYfsSoRfGtBw1RSw+o
+ l2EEGi9jB7oYX3VF+s085Fb8klvLZm/TtHLejbv1l7E/dPxEI1csGXXbkf56r/0e2nXCXfg2S7r
+ 8BiHJX3hY4QzJUxF7RNT23/I=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by mta10.migadu.com with ESMTPS id 06f3ecca37f8f8d0;
+	Thu, 29 Oct 2026 04:53:44 +0000
+X-Mizu-Trace-ID: 06f3ecca37f8f8d0
+X-Migadu-Flow: FLOW_OUT
+From: xu.xin@linux.dev
+To: david@kernel.org
+Cc: akpm@linux-foundation.org,
+	aneesh.kumar@kernel.org,
+	apopple@nvidia.com,
+	axelrasmussen@google.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	baoquan.he@linux.dev,
+	chengming.zhou@linux.dev,
+	chrisl@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	harry@kernel.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jannh@google.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	josef@toxicpanda.com,
+	joshua.hahnjy@gmail.com,
+	kas@kernel.org,
+	kasong@tencent.com,
+	kees@kernel.org,
+	kexec@lists.infradead.org,
+	lance.yang@linux.dev,
+	liam@infradead.org,
+	linux-arch@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	zhanxusheng@xiaomi.com
-Subject: Re: [PATCH] jffs2: don't start the GC thread on a read-only superblock
-Date: Thu, 29 Oct 2026 11:37:56 +0800
-Message-ID: <20261029033756.3959915-1-zhanxusheng1024@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261028080955.290774-1-wdhh6@aliyun.com>
-References: <20261028080955.290774-1-wdhh6@aliyun.com>
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	matthew.brost@intel.com,
+	mhocko@kernel.org,
+	mhocko@suse.com,
+	minchan@kernel.org,
+	muchun.song@linux.dev,
+	nico.pache@linux.dev,
+	nphamcs@gmail.com,
+	npiggin@gmail.com,
+	osalvador@suse.de,
+	pasha.tatashin@soleen.com,
+	peterx@redhat.com,
+	peterz@infradead.org,
+	pfalcato@suse.de,
+	pratyush@kernel.org,
+	qi.zheng@linux.dev,
+	rakie.kim@sk.com,
+	riel@surriel.com,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shakeel.butt@linux.dev,
+	shikemeng@huaweicloud.com,
+	stable@vger.kernel.org,
+	surenb@google.com,
+	usama.arif@linux.dev,
+	vbabka@kernel.org,
+	weixugc@google.com,
+	will@kernel.org,
+	willy@infradead.org,
+	xu.xin@linux.dev,
+	ying.huang@linux.alibaba.com,
+	youngjun.park@lge.com,
+	yuanchu@google.com,
+	ziy@nvidia.com
+Subject: Re: [PATCH 33/46] mm/madvise: fix data loss from MADV_FREE on a KSM page
+Date: Thu, 29 Oct 2026 12:53:07 +0800
+Message-Id: <20261029045307.131675-1-xu.xin@linux.dev>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261027-fixes_core-v1-33-6f74bec9a5bb@kernel.org>
+References: <20261027-fixes_core-v1-33-6f74bec9a5bb@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,20 +131,55 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Chaohai,
+> MADV_FREE can clear the dirty flag of a singly mapped KSM folio. The
+> folio remains in the stable tree and can gain new mappings without being
+> dirtied again. Once marked lazyfree, reclaim can discard data that those
+> mappings still need.
+> 
+> KSM always marks a folio dirty when converting it to a KSM folio in
+> try_to_merge_one_page(). Marking a folio lazyfree clears PG_swapbacked
+> but leaves PG_dirty unchanged. Preserving PG_dirty makes reclaim restore
+> PG_swapbacked instead of discarding the folio. This also protects folios
+> that were already lazyfree when KSM converted them.
+> 
+> Skip KSM folios before clearing their dirty flag, checking under the
+> folio lock to serialize with KSM conversion.
+> 
+> Fixes: 854e9ed09ded ("mm: support madvise(MADV_FREE)")
+> Cc: stable@vger.kernel.org
+> Reported-by: Josef Bacik <josef@toxicpanda.com>
+> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+>  mm/madvise.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index 75b409e97dbf2..a16e3cb256b7b 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -756,6 +756,15 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
+>  		if (folio_test_swapcache(folio) || folio_test_dirty(folio)) {
+>  			if (!folio_trylock(folio))
+>  				continue;
+> +			/*
+> +			 * KSM folios can gain new mappings at any time, so we must
+> +			 * not clear their dirty flag.
+> +			 */
+> +			if (folio_test_ksm(folio)) {
+> +				folio_unlock(folio);
+> +				continue;
+> +			}
+> +
+>  			/*
+>  			 * If we have a large folio at this point, we know it is
+>  			 * fully mapped so if its mapcount is the same as its
+> 
+> -- 
+> 2.43.0
 
-On Wed, Oct 28, 2026 at 04:09:55PM +0800, Chaohai Chen wrote:
-> fspick() builds its fs_context with sb_flags=0 and sb_flags_mask=0,
-> which means "leave every superblock flag alone"; JFFS2 misreads that
-> as "the filesystem is becoming read-write" and starts jffs2_gcd_mtdX
-> although the superblock stays read-only, and reconfigure_super()
-> then leaves sb->s_flags untouched.
+The fix looks correct to me: checking folio_test_ksm() under the
+folio lock properly serializes with KSM conversion, and skipping
+the folio avoids clearing PG_dirty on a KSM folio.
 
-This is fixed for all filesystems by fa6c71988168 ("super: keep the
-read-only state if a reconfiguration doesn't change it") in
-vfs-7.5.super, tagged for stable.  With it, the steps from the syzbot
-log (read-only mount, fspick(), FSCONFIG_CMD_RECONFIGURE, umount) no
-longer start the GC thread; on mainline they hit the use-after-free.
-
-Thanks,
-Zhan Xusheng
+Reviewed-by: Xu Xin <xu.xin@linux.dev> 
