@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793306202;
-	b=d8/7piSsfb4TacxC7qh+zOcwkioSNWqL9z7FMe8lqqlvZdTrcsvEwBFgLxt6QP8aScQF
-	 rYuxYwNe3248RSLjUyWsOeHDZdAOw9K4wlnuceRmgu84g7+sCVS9VjP+u8OlSpKRbrluG
-	 1A34U9Gf5A7mTg8ekQTVHAmMfUZem7ObZSnhjhx0wvQMqHi69e4dCZgJCpQxdz0oh8mPs
-	 b1YmBRhUwxTel4U6gSfbPWNPvuMhnM+P3ltH6j5hA6tZcXLzTUaQYW/e6hDVLITaNNhEu
-	 SCRUauNQS8ok6msJF/riXBscgx2DnRjI6dOQcx9jOxoC2fbzgT82gYj4oXGzxtfndBg==
+	t=1793306232;
+	b=MNAeS4rZEKO8dZLPi+TpG1QO2iD3rPAqdWbjz3Xj88QZXojEXlkSWx0O9EliZ4MN5sm9
+	 nHQRjLTWIN0SyL3/CUU2NSoGfiqzzllZfGLnEBtScExI7t+FNPyXKLWIf2dISa9Vj2BUh
+	 TNqLFqPFSKtfV5cXpKVDyKNo0ex2Y4wWhOgPfL8kv8/ckMrjc9cHoSe+grdDo/Sj8Zfp3
+	 CUL/qAMFEO5IbMgga3CWy2i/yqcK0M+qp0Zf/B4/XcA7vgh6+mOT7+Xs/BXkP7ezIDOmq
+	 LTlheJ93YdpId4gJQ32KyxGdYthMCwaXP4OKYgNjjWYyY/wOA+kyPkIf6bev5bHUmow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793306202;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793306232;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=q5vK/qK4XuBQrL53cs9TeuLxUrSX2eJpWdLNS5EZvqY=;
-	b=SXJOSmgn6Lr6xB1cvpNJEXOMar1NyjKx2yzhqfRuh/DiBiPFGdo6Hctj+kZ2Hw9O9+ie
-	 w/lbfsLYk43oYIE/41XNIGy3LqygEU0Avx0PKr4dEy/TJlZfZ/yfWOAqZ1NMFzFtgJSS8
-	 cQoIXeiuYA0AmfSKTXiXT3ZY/Trrr6WGd3zhL3uHeQK0+4d/OZc854y+yuZgD/g96MZG4
-	 UxNzd1qNKTal7KAHrg68UBpXQ/uo4T+eC+doJidTz790hiI8BH4ZcqAmm98bQj7f44QMK
-	 tpJhutAuh+9jsvCxHWpC9QS9VchaL7oTfY0pPIE1yHEmXpRfYcf/O+D+yc+Hdz92hsA==
+	bh=tNxobpWlUXNjZHphvvtOgvNQKSqjJiSYupG+wXJMVoE=;
+	b=DGPqAshNIfsQX1VfLR6HgllLAEggmpb7TVziihBvghn2ZwD/Q58kAGVzOMB/JpfrDbWz
+	 BvvlNg0POBhuvScpYnbhWu5jrKSwQ3p0zKvI3EcSwI5ngEQKT8VeYfGFPNTN17b2YpCcC
+	 HWCIy1tj+4C+CdYphdnoNkEcNxrunb/nPMFWiu/FIy/8651LFNMIclSeqe+ythQEHcADI
+	 jaSAZAUxF19OzQLay115KZFDTCgjkRE+sImLejZzpVXvPvZDXunMo8BAzjeMPdfbpiA2V
+	 LMcg4bbLW/q+NLtLgctXPIZ/zcPLgY6WKtAftm/QnUs6z8qg8YKcXNQnQ4kitAfvYyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wn33W2jS;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dnPvAICq;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2E3606A323;
-	Thu, 29 Oct 2026 20:36:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1109E606A32A;
+	Thu, 29 Oct 2026 20:37:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wn33W2jS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B39EF1F01816;
-	Thu, 29 Oct 2026 20:36:27 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dnPvAICq
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 800E91F01816;
+	Thu, 29 Oct 2026 20:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793306202;
-	bh=q5vK/qK4XuBQrL53cs9TeuLxUrSX2eJpWdLNS5EZvqY=;
+	s=k20260515; t=1793306231;
+	bh=tNxobpWlUXNjZHphvvtOgvNQKSqjJiSYupG+wXJMVoE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Wn33W2jSO7FMd6s0f6J+WahGrG50HQ170ETyv6hs47qSO1TwExsP9mS9I9/sBR3+c
-	 7wsvODaM9WxAO5Rc5MJD34QTdFNd4D08AlxQyrVme7gS4+H0uLmPkOVIJZg7RTVfdc
-	 zaLgXKXLjTgdZKdtfmg0AFBGu9Ssc9s+ntFiFxRAjCvlss1/LcmLsBYqtdrqVGlRG0
-	 9CDMyd4sYfaUFqKRB9NscT9OhnDRrKnXImU+vH5BiOtbyQW/e/5qy85Fn5d/9xx7cr
-	 Su1TurTVFKrvkJSSNlOjYBJx5bpNzRnX2gPRMqdkL8WXnfFrlviI2cmvyyjoLIzbjy
-	 7x2DRkHzJkQnw==
+	b=dnPvAICqs5R8ijwgTMhLfxbmgHzO9ja4TQwnVekFvzI4/Y7pZ5RiY6O6tVJsThGVV
+	 0+fRYRkM1yM1n6cFK+iCf3ZqyzqyhwSxWilIYYeoHZzbo9N29g9v86q9A13gDR/zAg
+	 8DtvbNaMzwDgGrBUQB5UExtEwWaK0Dn9sbaFts/LVGL/R1SW2YpAU0BrON2RUO4yYy
+	 cu/4SgzAJ0FHs5/Ri+ZxG/yPhlMK/kh2s08tuIv4giMR88cv5B14Ge4CBnqQ8xk6oa
+	 1CwTQSEOwzHx7AbzR0KZQSktdzwEh8USZEjLO2tgQvbt5Dkn/jHz3doUQYIsiZKPxC
+	 3UQpIdOeycdlw==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Thu, 29 Oct 2026 21:33:08 +0100
-Subject: [PATCH v2 13/47] mm/huge_memory: fix truncate racing with PMD
- zapping
+Date: Thu, 29 Oct 2026 21:33:10 +0100
+Subject: [PATCH v2 15/47] mm/khugepaged: always recheck the pmd in
+ try_collapse_pte_mapped_thp()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261029-fixes_core-v2-13-a64ce7f83abb@kernel.org>
+Message-Id: <20261029-fixes_core-v2-15-a64ce7f83abb@kernel.org>
 References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
 In-Reply-To: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -93,72 +93,63 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
  kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
  linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, 
- Chris Mason <mason@kernel.org>, stable@vger.kernel.org, 
+ Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org, 
  "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2058; i=david@kernel.org;
- h=from:subject:message-id; bh=whzXA4Qm4HXSA1pqm4tcjWrVcDozZ04CivHfstsAKVQ=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer221D+SO8q1Sly3O/b/h+7nDEu/kw7iWNp/nM7Vet
- HgP39H4jlIWBjEOBlkxRZag4PsGL1+uq61242OGmcPKBDKEgYtTAG6yEMM/UwX358mXle/zSWT1
- C8a7zAkNVfL6do+z7XPyZJFLRnKKDL+YK/rkNSuXzGoxr93d/TuuL1y5+PQNd8e8cyxz3n6uMeQ
- BAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1608; i=david@kernel.org;
+ h=from:subject:message-id; bh=KkwG8uxQMmQsjX2diZyIiRGRbeEH7cv/itYGtmQ0sPg=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer23LVcs0DZ+Vey1b3SqpnrEvsuh3u9sunSOS0y9ke
+ OvO3DSho5SFQYyDQVZMkSUo+L7By5fraqvd+Jhh5rAygQxh4OIUgIl0pTD8Zglw/6lYZenzR8hk
+ r8l90wVv172VFuh9dvaBH8e5W5P3izP8DzWJnPD4TI3eYUNe26sd69i/56mUL3HNdaxgFvxTHXi
+ AAQA=
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-From: Chris Mason <mason@kernel.org>
+From: Josef Bacik <josef@toxicpanda.com>
 
-zap_huge_pmd_folio() removes the rmap before calling folio_mark_dirty().
-If this was the last mapping, truncation can skip unmapping the folio
-and proceed without waiting for the PMD lock, racing with dirtying.
+try_collapse_pte_mapped_thp() drops the PTE lock after it has cleared the
+page table, and takes the PMD lock and the PTE lock to remove it.
 
-ifs_set_range_dirty() can oops if MADV_DONTNEED races with
-ftruncate() on XFS, when we get the folio set dirty after it was found
-to not be mapped anymore.
+In between, MADV_DONTNEED with CONFIG_PT_RECLAIM can reclaim the
+page table. The pmd_same() check is supposed to handle this, but it is
+only done with CONFIG_SPLIT_PTE_PTLOCKS.
 
-Move folio_mark_dirty() and folio_mark_accessed() before rmap removal,
-matching the PTE zap path. This keeps the folio mapped while updating
-its state, so truncation must wait for the page table lock.
+Fix it by performing the check unconditionally.
 
-Fix generated by an LLM and sent by Chris Mason in private.
+Fix generated by an LLM and sent by Josef Bacik in private.
 
-Fixes: fe6cf984939d ("mm/huge_memory: transfer the pmd dirty bit to the folio on zap")
+Fixes: 6375e95f381e ("mm: pgtable: reclaim empty PTE page in madvise(MADV_DONTNEED)")
 Cc: stable@vger.kernel.org
-Signed-off-by: Chris Mason <mason@kernel.org>
-[ david: simplify comment and description ]
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+[ david: adjust description ]
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+Tested-by: Gregory Price (Meta) <gourry@gourry.net>
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- mm/huge_memory.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ mm/khugepaged.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 2b31a425c7a3..1d65c4f576f9 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -2495,10 +2495,6 @@ static void zap_huge_pmd_folio(struct mm_struct *mm, struct vm_area_struct *vma,
- {
- 	const bool is_device_private = folio_is_device_private(folio);
- 
--	/* Present and device private folios are rmappable. */
--	if (is_present || is_device_private)
--		folio_remove_rmap_pmd(folio, &folio->page, vma);
--
- 	if (folio_test_anon(folio)) {
- 		add_mm_counter(mm, MM_ANONPAGES, -HPAGE_PMD_NR);
- 	} else {
-@@ -2512,6 +2508,13 @@ static void zap_huge_pmd_folio(struct mm_struct *mm, struct vm_area_struct *vma,
- 			folio_mark_accessed(folio);
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 4b71d010b2af..f53c50507c83 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -2013,12 +2013,11 @@ static enum scan_result try_collapse_pte_mapped_thp(struct mm_struct *mm, unsign
+ 	/* step 4: remove empty page table */
+ 	if (!pml) {
+ 		pml = pmd_lock(mm, pmd);
+-		if (ptl != pml) {
++		if (ptl != pml)
+ 			spin_lock_nested(ptl, SINGLE_DEPTH_NESTING);
+-			if (unlikely(!pmd_same(pgt_pmd, pmdp_get_lockless(pmd)))) {
+-				flush_tlb_mm(mm);
+-				goto unlock;
+-			}
++		if (unlikely(!pmd_same(pgt_pmd, pmdp_get_lockless(pmd)))) {
++			flush_tlb_mm(mm);
++			goto unlock;
+ 		}
  	}
- 
-+	/*
-+	 * Present and device private folios are rmappable. Remove the
-+	 * rmap after transferring young+dirty to the folio.
-+	 */
-+	if (is_present || is_device_private)
-+		folio_remove_rmap_pmd(folio, &folio->page, vma);
-+
- 	/* Device private folios are pinned. */
- 	if (is_device_private)
- 		folio_put(folio);
+ 	pgt_pmd = pmdp_collapse_flush(vma, haddr, pmd);
 
 -- 
 2.43.0
