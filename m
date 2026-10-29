@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793280531;
-	b=HuQFcJM+DKGWS/817cWFGxJbLYz3FJyGEjYUNkqmLEyTwHA4ZYx0BN10y2vnCZaPInSe
-	 7sCn0X1EMtXucfk7G/KdCXI2qyJ5q7atu0RRufiUGsXCPCLxY0w+9hYXxfiO+ODE25YNc
-	 LbtF7BnHf3hAPqSe2tcTfYRbKOI5fmE1burCPiEO6+eSgPzEmLIRI26xpuxlbLCVgZFK5
-	 PkEz+9hyTN1PEwxUor61DD/ez7EL9MVdDOxGFGmc3IqTsRoBiv9R+n1FtZ84hpRa2U6xN
-	 su/CmRRPEMrPS3Z2VbGgFGrN6jn9qN1xqZTeZ7Eq31NZ/5PIOHqFQj4KL7HwZuF7zLw==
+	t=1793280542;
+	b=TC3KWwsNAdMdzOwxCsvqNOe7NOMVNdJutZqStpKoKmLsex4JHR6WqGnw2eyqJO6wlKuM
+	 NcLxu4cwilumIp0v8thTWyGikXsRsfFE1HZTUpLvT7IpwEEzQBSdBr/LoKN4OVgVTF0KV
+	 FbK0NR7rKlutyHNmoLqYeyrW1O0QurPK2IqQzSeH9EQL7epGNx7TzXdNx3lCWIih4gvlw
+	 yIwmGKN9IzbgfAV/QJ2I15KbHDUZuoxXDV5Fd27kIbp9Sb1N/9Gz6l/rEFuc65VCukjKw
+	 3ypjae5/D1sDQph1CvWXUF2aANiGCS9b29MHZVr/JxWpBv/hnT3hmYkOpAHBJtuG1tg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793280531;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793280542;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=q3FoC8GG51fB6+9W6Cdx4y06bpbtOnaIjPkJ3YVf8mE=;
-	b=TKfJ01WRbE71P5mk98sPVAK+lmg4ap6kK/rFJwd5BeEjP8Y2WrEAj7JUbFwdhlpPtob0
-	 FV2NruIuyyKn6XTqy35WHEtGir7xNaVCV7k7iBrgEf1/s8OR2tvOYWnUi/Jcib/7Sdw3U
-	 x5iNvMXhwH0jK+x8m4V0qkndF4GCIevXLRhrWeAh48MfA3oRFNgNSB0XP1nm3MCa5jQ4O
-	 vb3F7zmXzrFEThG/Xf3xdfpDGMlDiAN/mMfNZPaYxCsbvHpXPvRnnMiHquV0dRXjo2ly9
-	 srZEHS6wKNq5M1DUe7j8Se1M0nESB3MTJxhuntIeB+dEkA7dkSNOywL0LIKSFylbp9Q==
+	bh=+2u0HojvaNeMbGwzxNwAr4HVxTePDHUlMDvjn+So4pU=;
+	b=Vm0sqFZ1J2+IPOi91qiQgCilU/+VjJgSSWw2CV/kDlhQwkckrV4g/oA06eFaEDXnqyRw
+	 SakOrrLlEVxZgPwvwWDwExKPSe/H9txCvb6cNT7l4NQIRHAVIvZmlCf4WqiDBbY1p2Scs
+	 S4T/m73hJ6KW6DSCJ6kysnokIa7z/jXsy9QQaCIyjd2M/BC8F0w3yThXP0kJrVgoICeGK
+	 4xYSO4IcTOc+jXuCH9yI4QTiKrEFE4VL0cpjkQx0x0ca5abc/bcrV1fxwpQizoRxknw6C
+	 TFcWgCPLsvyu/tbmLOlzS9L04TM7qz6lbs2b01hozFO2MB4L6if7IjhkwDTXFAd7qew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EXGsCAg5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZTrd9JeK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CC6606A326;
-	Thu, 29 Oct 2026 13:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6042606A31E;
+	Thu, 29 Oct 2026 13:29:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EXGsCAg5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77F511F031E6;
-	Thu, 29 Oct 2026 13:28:47 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZTrd9JeK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 441EB1F031E0;
+	Thu, 29 Oct 2026 13:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793280530;
-	bh=q3FoC8GG51fB6+9W6Cdx4y06bpbtOnaIjPkJ3YVf8mE=;
+	s=k20260515; t=1793280541;
+	bh=+2u0HojvaNeMbGwzxNwAr4HVxTePDHUlMDvjn+So4pU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=EXGsCAg5PqVmkiS0fMxWDADDEBSh/VfI225MURNO7ZfuidrmcIxLY57L80wLhjwdf
-	 YO99JEDZ21rJRGx0iibZbGZs3zUg3x1JNfMgMSeyzdWQzbbEq719eX991ARrbE0goI
-	 Oo/GRcTUWXnssq64McT9Bsu3a8VQAOqpcAdh0ZdRDfe4H2VWEPfiyX7FKjHys9uL3M
-	 91R+GCbgBuIH+2+rrTLXRnRjaL0qbbTi69cRgDWQj2SjPBL19xRyog7Tob5xR4GEnp
-	 GeKjrbWaZsg3/345HQUpr6gWDNap3oli5YEjbt2rTV6bFrhATavWtUfjHNY9HgXPYO
-	 GIskLvOrsbMug==
+	b=ZTrd9JeKydqGaLoG50Pulz35DSZv71fSC7+/h8uyizmlrY5AJQO3Lb4pQBLnhH2UU
+	 wwH3r7fHz+Rk4Q6tkBoBG0HWgjgfCVTFH16JiufhDseLnnIkibuRXviVJXTmrE2PhU
+	 b69bzZLE6i9PCwed6VJE8s2yo9vQIbY3ozLUVZc64bpW7fTS+5Z5AgPuNIyc5WXAtk
+	 0dcHdhKo3Wu5VOeKazr9St1JULY90JI4EFsZVR5AdJBX8/569YvrVHAAnkgfhlQh7a
+	 tzudf6rf4CMW2+O554KiDZjS3aZ3O2gy1lzqKZmBCHieTdmrT2s9glGz7urVrejAJH
+	 gnero4/F42YZA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 29 Oct 2026 14:28:19 +0100
-Subject: [PATCH RFC 4/9] ext4: don't read the inode block in
- ext4_sync_inode_metadata()
+Date: Thu, 29 Oct 2026 14:28:22 +0100
+Subject: [PATCH RFC 7/9] udf: don't allocate the inode block in
+ udf_sync_inode_metadata()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261029-work-inode-metadata_writeback-v1-4-7d6c678a585d@kernel.org>
+Message-Id: <20261029-work-inode-metadata_writeback-v1-7-7d6c678a585d@kernel.org>
 References: <20261029-work-inode-metadata_writeback-v1-0-7d6c678a585d@kernel.org>
 In-Reply-To: <20261029-work-inode-metadata_writeback-v1-0-7d6c678a585d@kernel.org>
 To: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
@@ -68,76 +68,72 @@ Cc: Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>,
  Namjae Jeon <namjae.jeon@samsung.com>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2130; i=brauner@kernel.org;
- h=from:subject:message-id; bh=0yQq1C8tn/X5XVSK6w+21mZxyXdieU8fqIeLTqZdZJI=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ99vx/ROXIgcO1PMdT7OU5cpp6bdjfJS6sL+adnbKvO
- PjwGebcjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIl0vGD4X3E9Yu//lZ/ylbdx
- X+a6dqg+fWZe9Mxv/KlNHy2cs57/tWb4p9+52myb446vM5UztW5V7NzSs/Ebr3NIb8aj2YGlgg+
- 9mQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1928; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=ISCdXpL9QE1VKb5mP4Fg0SoLyfRffNBWgDbqYiV1ur8=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ99vy/7KpF9AtxSTNu5daWJ2ttCtUun7j++r33pbtiz
+ Aeeln9e0lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCR5WEM/wyf3HKSN1OoXvt4
+ 4waZVS1eT7c7feRRd+vf1JeR2aNW8JfhrwADe2Txe3XNmMVz7POTJx56tfljUvv2GR1bi1e8uRO
+ 1iw8A
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-In nojournal mode ext4_sync_inode_metadata() looks up the inode table
-block with __ext4_get_inode_loc_noinmem() which reads it from disk, with
-readahead of the inode table on top, if it isn't cached. But a block
-that isn't in the buffer cache is neither dirty nor under writeback. So
-there's nothing to write or to wait for and reading it in is pointless.
+udf_sync_inode_metadata() looks up the block that holds the inode with
+sb_getblk() which allocates a buffer for it if it isn't cached. But a
+block that isn't in the buffer cache is neither dirty nor under
+writeback. So there's nothing to write or to wait for and allocating a
+buffer that just gets thrown away again is pointless.
 
 It's also not something we can afford once inode eviction calls
 ->sync_inode_metadata() from reclaim. So look the block up with
 sb_find_get_block_nonatomic() instead.
 
-Note that ext4_get_inode_loc_noio() isn't usable here. It uses the
-atomic lookup and that one gives up on a folio that is being migrated.
-That's fine for a best-effort fast commit snapshot but not for a data
-integrity sync.
-
 Cc: stable@vger.kernel.org # v7.3
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/ext4/inode.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ fs/udf/inode.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index b34b99d15db6..cab26ec01aba 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -6824,28 +6824,32 @@ int ext4_sync_inode_metadata(struct inode *inode, struct writeback_control *wbc)
- {
- 	struct ext4_iloc iloc;
- 	struct mapping_metadata_bhs *mmb;
-+	ext4_fsblk_t block;
- 	int err;
+diff --git a/fs/udf/inode.c b/fs/udf/inode.c
+index bacf2a86161e..59f8e9bde0b1 100644
+--- a/fs/udf/inode.c
++++ b/fs/udf/inode.c
+@@ -1744,23 +1744,22 @@ int udf_sync_inode_metadata(struct inode *inode, struct writeback_control *wbc)
+ 	struct buffer_head *bh;
+ 	int err = 0;
  
- 	/* We should only get here in nojournal mode */
- 	if (WARN_ON_ONCE(EXT4_SB(inode->i_sb)->s_journal))
- 		return -EFSCORRUPTED;
- 
--	err = __ext4_get_inode_loc_noinmem(inode, &iloc);
-+	err = ext4_inode_loc_block(inode, &iloc, &block);
- 	if (err)
- 		return err;
- 	mmb = READ_ONCE(EXT4_I(inode)->i_metadata_bhs);
- 	if (mmb) {
- 		err = mmb_sync(mmb);
- 		if (err)
--			goto out;
+-	bh = sb_getblk(inode->i_sb,
++	/* A block that isn't cached is neither dirty nor under writeback. */
++	bh = sb_find_get_block_nonatomic(inode->i_sb,
+ 			udf_get_lb_pblock(inode->i_sb,
+ 					  &UDF_I(inode)->i_location, 0));
+-	if (!bh)
+-		return -EIO;
+-
+-	sync_dirty_buffer(bh);
+-	if (buffer_write_io_error(bh)) {
+-		udf_warn(inode->i_sb, "IO error syncing udf inode [%08llx]\n",
+-			 inode->i_ino);
+-		err = -EIO;
+-		goto out;
++	if (bh) {
++		sync_dirty_buffer(bh);
++		if (buffer_write_io_error(bh)) {
++			udf_warn(inode->i_sb, "IO error syncing udf inode [%08llx]\n",
++				 inode->i_ino);
++			err = -EIO;
++		}
++		brelse(bh);
++		if (err)
 +			return err;
  	}
-+	/* A block that isn't cached is neither dirty nor under writeback. */
-+	iloc.bh = sb_find_get_block_nonatomic(inode->i_sb, block);
-+	if (!iloc.bh)
-+		return 0;
- 	sync_dirty_buffer(iloc.bh);
- 	if (buffer_write_io_error(iloc.bh)) {
- 		ext4_error_inode_block(inode, iloc.bh->b_blocknr, EIO,
- 				       "IO error syncing inode");
- 		err = -EIO;
- 	}
+-	err = mmb_sync(&UDF_I(inode)->i_metadata_bhs);
 -out:
- 	brelse(iloc.bh);
- 	return err;
+-	brelse(bh);
+-	return err;
++	return mmb_sync(&UDF_I(inode)->i_metadata_bhs);
  }
+ 
+ static void udf_adjust_time(struct udf_inode_info *iinfo, struct timespec64 time)
 
 -- 
 2.53.0
