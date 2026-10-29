@@ -1,95 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793297003;
-	b=DSNdZcNiPkTqcQiMUevXgjHZOQau4oUNbJC88joePdMDxkAOLlZZmrbvTLHy/8jhijCo
-	 GAcN9aCbia50nbyAHY7cv6FEd8RtudJLhxvYrR1TuNDLRSvmdsL9i+ulth3XmYeovNxD0
-	 5QbbafZWO9F0h2bTxm/7Tf/eMLuvVZg/WwrpcL8TnUQj6KAHejztq/BWyRktcbpkMB09m
-	 w7JLhnqzU8FW/gsiJOAq69uHh8ts6PSt0TSezg6Svh2xmOBYogNna31/Zn8obsHmaSUxj
-	 IPHCLMBjS/KgL/thbhII+xNW4lKdZ3carZIt56LYTPU0rELELcnwfOVfbSMjo+6NPwQ==
+	t=1793297395;
+	b=W5vNUMqyRDEG6/rybHXw3F/d7B+wHO8QO9jNmkPJ5ldD5Z5LwW+rsdqQ5qRsVGEhqziw
+	 HFyZwHM/PEUF2arKB8jK59YPy4nMQdoC7BoO9C64tqT2pwU5scju8/lWehVSzPQPNPZsa
+	 wbAkVxui4bBG/oPfoJFkTpsq99jgJHDcIB3D9GllHztV5XcQG5sSRaQX5IV4cjTce1TZw
+	 oQPxJtIV+pRt0Bed8UjPYMpxLlFrJgxGLRnOw5zh8OTG+Tx2WWZvotHwwuBilG+HNzQqJ
+	 LQI2xxMgI8BW+LjIH6MGOgQMZtQvwOkvuWHX9HSrkOuVpoHj58xXGXcd0uCBfCPHN+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793297003;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793297395;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=VPSwyQABsxDeIKe15KWcg49fMkA5mZOjf5WHg6hn20w=;
-	b=MeDeJ4oQSSrfLnLOa0eNLGEf1vNXvz89mJU1VVI//22paPirL/vzSizQB6UjnsVOfaIT
-	 7HwIDPRsItGaK+gs500dXU0scjxRDX70kdO2gjI2Y2uQOk3UVHTnpcx8Oxert3E9b3BDq
-	 q0VhjzzKRvLAcue9/BGCJQqk8/VM0Gt3K3Sk+Gw+L3PDzda2ofTeRtEPyDasoZh2olbju
-	 2ZYGSEDfvuo1h+ZqXNFD0p+x9HnjuzAC/zxL3f9YkFfeF950a8TRxLYfWfcxHwSanVVS3
-	 yZDQX72WDrxP0z6p5FcLhOAhUu0NL4+ctch8Gp5csK/YuvCH0SYePnc7bkXSgyRmNKQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=W/EAKP+3XkXqAm0vqhsCDYAT7jfMEV3PZN/8IdWi65g=;
+	b=4WtnXXlvuuo3TsnKs388YHYFBjNfxhoRc5RfvBz1N35enj1gOV5N4JHHy8+0rXHWykBO
+	 wVXEQxB/9YQljn/7jOZ9sAa3dd4EXB7iYjNY5eX1QUwYK/AxZakBg6SqdvOcQte/wsbrt
+	 /KX+CbaYJ39nS7BW2FKNM1XVIiQGL01Nz8lVYQDFdyGqAoUdqKuAwEs1TkqPL3OoKB6o1
+	 7a0oAdQFlRcCa1wiWos8z72hYODs2rQK74ChHIAM5MqUcHVHXHEW0HZCH2hdd/JV3Eo1S
+	 VDhvd+qYJcqdFWmUG+vsMIBPIL4euPM9h0m9M0VaZORxucrIyty03rSnecxZpIblPnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZSsrL1ec;
-	arc=none smtp.remote-ip=209.85.218.51
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	dmarc=pass header.from=hammerspace.com;
+	spf=pass smtp.mailfrom=hammerspace.com;
+	dkim=pass header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=WHUCIw3D;
+	arc=none smtp.remote-ip=209.85.161.44
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE630606A31D
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 18:03:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE630606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A72C606A32D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 18:09:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A72C606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZSsrL1ec
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c43373ae89aso396829966b.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 11:03:22 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=WHUCIw3D
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6f5a0893610so1963211eaf.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 11:09:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793297001; x=1793901801; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VPSwyQABsxDeIKe15KWcg49fMkA5mZOjf5WHg6hn20w=;
-        b=ZSsrL1ecNekN3zaxWylXVh3KMWw3H1DckiwhWZhQsH2Fjxq/KCRzXlEdBL++OKYd72
-         /tT9WcgWdzlhXV3VUmMy6OtAgikfoNKRY/W45ycj3ICAf166SZysPvClGAwBH76+my3L
-         6h0z8Xr0XyCrBpYuC87CFbto4rYfuv+EkATe7hkSMm4Str6blamnW4iH2xjaoJ7hrjgA
-         mgwhp3WnIm5ZEFEiriXois1iPfdcUpHWoY6VXmPKaP2TJbU5uHTNsFxZirU0f+269bgU
-         iiKCBnrU7Ie91OvpnHRsU3ZORrqv+p/+CmbLEDrsHmazHn+YOumaD1rnmfAOGw1Ow7Kl
-         2BZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793297001; x=1793901801;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=hammerspace.com; s=google; t=1793297394; x=1793902194; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VPSwyQABsxDeIKe15KWcg49fMkA5mZOjf5WHg6hn20w=;
-        b=SUmglVRpiquOzYGJ3FEbMa1RBXHbJbN5EUrVRTBx/vTXAm6StDOzj7IBGMrBk1/v/m
-         W/Od0L8CrYZ3F50HwgoRkfrEeDsJ0NsJ4343Ucisv+J0OKJO0t04/NoqR46ntrUkuiU1
-         /+cMI320yl4JzwhXrv5PN6DIX0fb2euT5LKYM5f1nf5GsNquNHmS2Oq4XiTG/XSsRvUQ
-         6eI8OhIzskl4FZPwN5oqHraUhoZTOh3rb36Z973XOroPUowm16M6cvL5mRBXq+KDVftz
-         9NEHHLyFQayCA1i1iZtSW5lS88FIgbTUAqJ2rIRF1CUTu1MNtMamd/DQsCqS+WZQ6b4Y
-         Mgkw==
-X-Forwarded-Encrypted: i=1; AKwUvByI5MYes6y7kEYrHk3T7oG6zW6mb1hM7g5WbgsYsFIiUx+rzv63IPbB18SFRw/TElxJgF1gx3bM0f8v9CrF@vger.kernel.org
-X-Gm-Message-State: AFq9FYKx/8wzddaur34KgYmy5X8Y0FBrns5cP91KlqR9yKbPFymx1ryS
-	lA5uSC7PnUpUYWgxryuDVb7HZe3yjRHatCqe9rqM43gZtGzzaL3gapOe
-X-Gm-Gg: AYBFou2xmPoqum6cRy0471MnpZM2FBhqnKUA/rm1Kj22ZB9JUvKdmUKB0yRK0uuH6aS
-	RFYHfWTEKHYM1ys7xC5kRVhEoGDd2lI9RNJziV76x7JgLyKWyutgNTJ5r0GfSRpsNiQ+B0mw8Ee
-	anrP/9pW/IoklEUCR8a/e9b9m+x4Uqpouzp4g8GqHN5W7jK10/z5DbCzcFOJS0cMzUnrB1iTqir
-	49yYARQVjdBVOfEdDcqTuxp7HIYkOY+HTf4Rl/jeBbMf0mWSyJqGMiKW5eEvC99mxTNNBmaj5lW
-	QSYxvG+wcJn0QXiPVfCaSgdbCDRdt0HUi4wIruv9F7M/2k7vXrnSnFbMUaEmsrV+m12hQnnaWzk
-	L/ajRQggTjBkxkZPxPQf4hFtzZhX7xy49vTSmyWW8eifHdcgMg31JFOkDUhslNEJV881PwZuj10
-	sxeA47dMhkiYf9tNgg6D0hp3ZIEE+QFw2NEQ1vzm004W0d3zQnuWrL+wRiVTMOV8ILO1TEH7IFo
-	VhAfoYd8lVj/csGbtGNnKRsWdO5PHhdvfnaDMmTAId7mWBFc1pzquIBxin9VbUPuPFoAoUFmUZj
-	7DMuIR8lUBEPhuFlcRkBqXdPQI7hvjn+M3miVdd/EvEiPJtjOi3UM0tF4aiuvhfG3deLf7HvxKu
-	Z8y3G7iXaoFso
-X-Received: by 2002:a17:907:d92:b0:c41:26b8:c49c with SMTP id a640c23a62f3a-c49bdf0b4aemr514913166b.10.1793297000979;
-        Thu, 29 Oct 2026 11:03:20 -0700 (PDT)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4ca3003e65sm8631466b.21.2026.10.29.11.03.20
+        bh=W/EAKP+3XkXqAm0vqhsCDYAT7jfMEV3PZN/8IdWi65g=;
+        b=WHUCIw3DTHv0YSgCSziJSIq2gMfnbCVkeyXE0Nqvbg4dxTy0IkIRgO9QnyIvYNNbhy
+         p0AYgxLp1JRlHRw1gQy6Eeu7FWjODrVtqlsUN2CaAzQLU49QpUK8AdWdHmLLvyEzETK7
+         ywz1szFDByUrRePx/ht+DSlDwVF4f4eXSSJjXbH5+dgFTrZ/qdv29dc8VPp1LKVOVJ+4
+         uKIaEoBsB+GVRCe5NUgfgy6nB7lZQXHxr84MtrGNq+pZt8qrNcdoaHQ0Tsyqj33wKSr/
+         CZl29Q941vt7NTjjU5TtXOVc4MlNInsff1/WyivXzZxjWMSJTEFcdA60yluaPKY63rGh
+         KQgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793297394; x=1793902194;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=W/EAKP+3XkXqAm0vqhsCDYAT7jfMEV3PZN/8IdWi65g=;
+        b=yZXzO4rGTPH1uv+XPsqp9bwUoSzkSNv6dRP7c8CtA5mOQHLs6UljbPz1MXdTT1BhOv
+         4mxaGh/UcsZ9GoNcQGebAoNtuzxNGEY6wreNiQHXkQmYDfFYcTqTViP+MPx+0CEjNu3i
+         Na3p8q2AUtLhhPhHZhHZIIPQCqfsDE9JZw/MII72GDl+qk44CTxdGscwkI6D6ZirCdxu
+         gkNewK90dHgST3s5P5rI/jn3//51ARaOBQZZxoQ6TgKo3u+5Pkog4R50OHPaC1jd3Mot
+         B+H/5TjztBLuaF+hwQClVNOsvU5iWBccHbx8jMzjdBCzotNpDdi8KmbBqxoSB60n4bvw
+         ABHQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwGH0PYmTS3HQVLjeS5gbHZ9M/i3B2EIHSNmf7rEvmlilNxcQ/keNKwkTRYJcTMDXNa8R6I5PZFsInYtBx3@vger.kernel.org
+X-Gm-Message-State: AFq9FYKf1WnNtYSM38800GK7MSQBBIRsUlTbhZEU76WxbJl9D0DDlNDz
+	KKAySS2YEHquRULutSGMIQdRIYx27JHVyrTZOD+mtKQI9NElyYyzos+J+MocDz5qjmo=
+X-Gm-Gg: AYBFou1nWL54zIdlKYRpcHGpcsX2iQQrN4KoqaMoDPgFjiTDzWKue9cl7uuL18RwTEt
+	6JLMTvBe139Zf987Hec7C8SiY1PAKM4ZNz00Wf4EK5TX76MfShsno4SK3TygDZzyn/GHd7/eRtr
+	nJAhFB1fBBN4TZITIzHeV6J9DtzfeABMyGt5oPHqWPyRVa+6IRmdxlPJ+m9vdlGclisUo4qDgFc
+	u2LhbjZnZlNsdO9RoHg4sLllX6cQ3GPh83sYjEoBZ9/HYPzJ+zrdNJrCXNH8ix6J0Qhd/AOVjRN
+	iDHElwzRhE3LqBRLW69M6q70/6JWw7/gjORx2NGvv7siQNEJA7DRQxjF3ovzXxCzRbWhlPCjzdZ
+	DETA9osCSn+XY6UhdOztoafx8pPFxJ7G9ldXi/jJgKNTnxmXIASIcBuCLaenOxojT7x4491kC9/
+	HDtgFatHXLXt0QxO7PewjrFs8CtCgzUwq9pJoI+zxQrtIrubX+vER7vlCSHC6GlKX9s48ikVoFP
+	ZiPvakyBA7NjXx4ORR90S38Y63JQyCanVii1ZJjBglnRRE1tKtdneWDi5eMreeRs/xEqkotgufk
+	D089XQrvHSMxm+jT0PrEzn/NFak6VThqTitNqdfR+/AAA2lnPjMPxBD0OE9TWzJ5H3EeVooZ
+X-Received: by 2002:a05:6820:c30c:b0:6fc:373a:176a with SMTP id 006d021491bc7-714f2ab9b84mr17297eaf.77.1793297393747;
+        Thu, 29 Oct 2026 11:09:53 -0700 (PDT)
+Received: from localhost (75-163-200-235.clsp.qwest.net. [75.163.200.235])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-714f24899ebsm51267eaf.13.2026.10.29.11.09.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 11:03:20 -0700 (PDT)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
-	Chris Mason <mason@kernel.org>,
-	Josef Bacik <josef@toxicpanda.com>,
-	linux-unionfs@vger.kernel.org,
+        Thu, 29 Oct 2026 11:09:53 -0700 (PDT)
+From: Jonathan Flynn <jonathan.flynn@hammerspace.com>
+To: NeilBrown <neil@brown.name>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	linux-nfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] backing-file: always end a queued write
-Date: Thu, 29 Oct 2026 19:03:19 +0100
-Message-ID: <20261029180319.2852090-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] nfs: do not transfer a sillydelete onto a blocked dentry
+Date: Thu, 29 Oct 2026 12:09:48 -0600
+Message-ID: <20261029180950.387072-2-jonathan.flynn@hammerspace.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261029180950.387072-1-jonathan.flynn@hammerspace.com>
+References: <20261028041023.3738553-3-neilb@ownmail.net>
+ <20261029180950.387072-1-jonathan.flynn@hammerspace.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -101,88 +108,82 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chris Mason <mason@kernel.org>
+Harden the hand-off of a pending silly-delete.  When the last user of a
+silly-renamed file goes away, the client can move the delete it still
+owes onto another cached entry for the same name.  Leave that entry alone
+if a removal of the name, or a rename onto it, is already in flight on
+it.  Moving the delete there would overwrite the mark that makes lookups
+of the name wait for that removal: the wait would end early, the removal
+could report success without removing anything, the pending delete would
+be leaked, and a later release of the entry would dereference a NULL
+pointer.  If that removal succeeds, the silly-delete was redundant; if
+it fails, the silly-renamed file stays on the server, which is the cost
+of skipping rather than waiting.
 
-Writes to a loop device with direct I/O on an overlay file make the
-next freeze of the upper filesystem hang for ever.
+The mark and the hand-off have shared ->d_fsdata since the commit named
+below, which reasoned that no silly-delete is pending on an entry being
+removed or renamed over, but not that a hand-off could arrive while that
+removal is in flight.  The hand-off has stayed unreachable since then
+only because nfs_call_unlink() passed d_alloc_parallel() a name whose
+hash it had not computed, so the lookup for the other entry never found
+it.  NeilBrown's "nfs: fix nfs_call_unlink()" computes that hash, which
+makes the hand-off reachable even though every removal holds the parent
+directory exclusive: the hand-off does not take that lock.  That fix
+adds no test of the mark; this is the test, and a tree that takes that
+fix needs this one too.  It does not depend on any other patch.
 
-Every kiocb_start_write() needs a kiocb_end_write(). For a write that
-is queued, vfs_iocb_iter_write() leaves the end to the completion, and
-backing_aio_rw_complete() only calls kiocb_end_write() when IOCB_WRITE
-is set in the flags copied from the submitter. In-kernel submitters
-such as loop do not set that flag, so each queued write keeps the
-freeze protection of the backing filesystem.
+This was found by an AI coding assistant (Claude Code) reading the
+code; Sashiko's review of NeilBrown's patch reports it too.  The
+hand-off itself has been reproduced with that patch applied; its race
+with a removal or rename has not.
 
-Direct writes to a loop device with direct I/O backed by an overlay
-file left fsfreeze of the ext4 upper filesystem, and a later touch
-there, blocked in D state. It takes write access to the node of the
-loop device, which root has by default, to attach the file and to write.
-
-The fix used here is to mark a write in struct backing_aio and to call
-kiocb_end_write() on completion of every marked write.
-
-Reproduced under qemu without KVM, on v7.3-rc6-21-g602042bf29f6 with
-earlier fixes of this series applied, with and without this change,
-once each. The kernel was not changed for the run. With this change
-fsfreeze finished in about a second. Not run: the nvmet and LIO file
-backends, which do not set IOCB_WRITE either, FUSE passthrough, and an
-xfs upper filesystem.
-
-Fixes: 2406a307ac7d ("ovl: implement async IO routines")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chris Mason <mason@kernel.org>
-[amir: use aio->is_write to explicitly mark a write aio]
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+Fixes: 3c59366c207e ("NFS: don't unhash dentry during unlink/rename")
+Signed-off-by: Jonathan Flynn <jonathan.flynn@hammerspace.com>
 ---
 
-Christian,
+Notes:
+    For reviewers and review tools; not part of the changelog.
+    
+    Known and not fixed by this series: a hand-off that lands after
+    nfs_unlink() or nfs_rename() clears the mark, and before the VFS's
+    d_delete() or nfs_rename()'s d_move().  The cover letter describes
+    it, with what it costs and a fix offered.
 
-This fixes a nasty little bug.
-It is not critical because it cannot be exploited by unpriv, but
-innocent priv users could hit it by mistake.
+ fs/nfs/unlink.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-I could carry it via ovl-fixes with your ACK or you could take it with
-your other backing file fixes.
-
-Which way do you prefer?
-
-Thanks,
-Amir.
-
-
- fs/backing-file.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/fs/backing-file.c b/fs/backing-file.c
-index cc101143f9212..ca8654fa1d83b 100644
---- a/fs/backing-file.c
-+++ b/fs/backing-file.c
-@@ -84,6 +84,7 @@ struct backing_aio {
- 	refcount_t ref;
- 	struct kiocb *orig_iocb;
- 	/* used for aio completion */
-+	bool is_write;
- 	void (*end_write)(struct kiocb *iocb, ssize_t);
- 	struct work_struct work;
- 	long res;
-@@ -124,7 +125,8 @@ static void backing_aio_rw_complete(struct kiocb *iocb, long res)
- 	struct backing_aio *aio = container_of(iocb, struct backing_aio, iocb);
- 	struct kiocb *orig_iocb = aio->orig_iocb;
- 
--	if (iocb->ki_flags & IOCB_WRITE)
-+	/* Pairs with kiocb_start_write() in vfs_iocb_iter_write() */
-+	if (aio->is_write)
- 		kiocb_end_write(iocb);
- 
- 	backing_aio_cleanup(aio, res);
-@@ -239,6 +241,7 @@ static int do_backing_file_write_iter(struct file *file, struct iov_iter *iter,
- 		return -ENOMEM;
- 
- 	aio->orig_iocb = iocb;
-+	aio->is_write = true;
- 	aio->end_write = end_write;
- 	kiocb_clone(&aio->iocb, iocb, get_file(file));
- 	aio->iocb.ki_flags = flags;
+diff --git a/fs/nfs/unlink.c b/fs/nfs/unlink.c
+index 0eddc7ee11..491ebd8582 100644
+--- a/fs/nfs/unlink.c
++++ b/fs/nfs/unlink.c
+@@ -142,9 +142,26 @@ static int nfs_call_unlink(struct dentry *dentry, struct inode *inode, struct nf
+ 		 * the sillyrename information to the aliased dentry.
+ 		 */
+ 		spin_lock(&alias->d_lock);
++		/*
++		 * Not if a removal of this name already owns the alias:
++		 * ->d_fsdata == NFS_FSDATA_BLOCKED means nfs_unlink() has a
++		 * REMOVE of exactly this name, or nfs_rename() a RENAME onto
++		 * it, in flight and ->d_revalidate() is waiting on that field,
++		 * so storing over it would lift the block early and the later
++		 * unblock_revalidate() would store NULL over @data.  Tested
++		 * under the same ->d_lock block_revalidate() stores under.
++		 * Skip rather than wait: that removal makes this sillydelete
++		 * redundant if it succeeds, and a wait here would sleep in a
++		 * dput() path -- the nfsiod callback that releases a
++		 * silly-rename among its callers -- for the length of another
++		 * task's RPC, with ->d_lock dropped and these tests redone.
++		 * If that removal then fails, the silly-renamed file stays on
++		 * the server: the price of skipping.
++		 */
+ 		if (d_really_is_positive(alias) &&
+ 		    !nfs_compare_fh(NFS_FH(inode), NFS_FH(d_inode(alias))) &&
+-		    !(alias->d_flags & DCACHE_NFSFS_RENAMED)) {
++		    !(alias->d_flags & DCACHE_NFSFS_RENAMED) &&
++		    alias->d_fsdata != NFS_FSDATA_BLOCKED) {
+ 			devname_garbage = alias->d_fsdata;
+ 			alias->d_fsdata = data;
+ 			alias->d_flags |= DCACHE_NFSFS_RENAMED;
 -- 
-2.55.0
+2.43.0
 
