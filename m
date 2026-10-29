@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793306217;
-	b=5i0oEPFeJ0ercMb5b+EBimYHRfVIMnb0tSGtJUlK/VleTpBG4iWm7Os7CGGCjSJP6T/1
-	 qwDknJwnBVuP6hTR5w0tg89bXJSwlj6u+IwUBPI5dBAMw2M3QKOGNRiAlrbR1iMp0OkXf
-	 0oqKTwNxHIV7/jY/Q8q4Gbl4GFZgk98Bd/nIus0tuGkwZmpgwcbBjw7Xo6b9SeaEjZzpn
-	 MtbbV8rL1tQ363bhkxJzkx2yVS61e81tJfgZxiIQsnvMlUn6lSNw7m7GqkoRWZu7dHX8F
-	 LSQaXBWTpu+fhQLiyG3J+ppjqczaYmvN3REoxz8/1qD73ZhfAGJqxoi9saOokEnIoAg==
+	t=1793306526;
+	b=OQFomdWVcBbMn7aYvqiRzr7q0BNIHiheh65eNYdjx+pEwyTqpljTFsrfTs+ZHaabLJNs
+	 ZYsCjt7ufbNn/PDP9Nbu9f3bd/SyRIuVlWdQvtW18eIiF+XOI48C3dkyu8Q1g6AAl3euB
+	 LuDNSY5XKoXl+b5mox/diSUMJRLw+Q64koZ2MPRj5o/NJC7oxXQ8EYl7ozxGoNE1YH8bY
+	 ErYVOmZ0A+DJxCqNmCs99xtSb9OKdatFkZfTKvofLvygl1k57cqJ9Cs428X3G2tnAtImV
+	 IJkkbZq5VxOBVv/UpbujEMB4IlWp6XauhBcv05kXpr8Ok5viITPZT1JNrGcid1NKgog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793306217;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793306526;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=39sO4eVWOAhWIFY7dwmw5wDLBZR1O1Wkdyg2pyVIaSw=;
-	b=cybTkaxjpRO/Lt6ygiMagtHK4sFUS/Omqa1a2nvQ2bkfyENzXpGBTXHjXsQKBq4NIyoR
-	 UllgkOklJHMQ9oTMPShmX1TCyO6CS+QDtGZjbBREq1QUtaXsND8R/iIFBIzCjGBQqekLl
-	 iaXPvw+LOscDIMLP8oBYoOFN4zZbvrkmrOQsIW1c4sxKq6PMhGRvGEmL+5GgNIfsl1IDE
-	 BplWblBwBisWYVVbfESYk01+2T+KCW8aN5/GOjhDyDRGQThbcuOI7wfZx5O8zcrnnPN6S
-	 akYldFBUg/TcyEohPzezfN3QR7h87e/0zCL7uixmxxoOg23Hp2jhG5H0RjxMwFQB8Bw==
+	bh=EmFFeOpTju++ba/4+xeyEk8Axf+jyt6U1SaWbXoiuJ4=;
+	b=2nQ2uctEWa6iWK8E52vd5A2tEaTUFRgd4PJHy6dJIYqZTZp1DiVWCZSSkAl7MjYE2Vem
+	 nx9OStbHZxbmsWjXe1YssEQ06O8n5ph1B7+AUA/zMpztMj07Qu1TkScADfcSGgnxLEFQy
+	 Ql3b8VeLzhZ6iRFbJNR/slQTcc7UL6LP7aUSc72sqI07QvqNkokU0JVpKAxlryNufL2TE
+	 OjZ3tTDEBiQy6NB2SxPDKHjsD+D/BujnOrVqUVfX6KDmyj2wnbO4s8hn9GFPuXAN9Ij3h
+	 tnztkKfEHUHVZ4PjZgYGxcfwh61/EmKxU/eJwyEvVGPCbB3W0oHrSr182YYbTVLGdrQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="hLIyzFr/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aupcWAQV;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5969C606A335;
-	Thu, 29 Oct 2026 20:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB2D606A31A;
+	Thu, 29 Oct 2026 20:42:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hLIyzFr/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E0E1F01828;
-	Thu, 29 Oct 2026 20:36:42 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aupcWAQV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 823091F01816;
+	Thu, 29 Oct 2026 20:41:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793306217;
-	bh=39sO4eVWOAhWIFY7dwmw5wDLBZR1O1Wkdyg2pyVIaSw=;
+	s=k20260515; t=1793306525;
+	bh=EmFFeOpTju++ba/4+xeyEk8Axf+jyt6U1SaWbXoiuJ4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=hLIyzFr/V/VvcGfnmQExxQg7IIwVIxjs2CWLB1sCab5pSvGmM4huLIGWjFbTIQt/g
-	 LvIjs//slU9Pq4A2SJLgO204tjYJlgMOO2JybMj7kVGc2TG/vohe/X3Zz7FeCoRLRc
-	 nrf/oQie/gYaRI5uDKW3ey8ucpkNlAPAQfa6wQ9bTo3VzjDmA6sP4x+IV/OttkAqd3
-	 JyWct3e8oJ1K9D8M52trvZOLS6s+qHpCPGamQ5HJ5Fz9lHdo495ySJkjCRlFWivA2z
-	 btGsxZgoULfAhGK6RKAeYV19UJkhbRKtCZuqzEA68xNrUH7XyrReQRSJ+prYoLs7a3
-	 fqpJE+V6bRCdQ==
+	b=aupcWAQVBJTU5Efp9WaPPRXHokXcM9AJqzyLpqG83aXFjxFt7JZ/KxBuLj5XfBFcl
+	 8A1HXSJpx0v2mV8OmFjFfgEiQrctA7BiCWa2AjsSS8WoRaQRyd0aCK6rU84MfjOd2h
+	 LKtHqaFV52W+DJFd2Zu10Gt0mzqUxMT2JZ2/clGN6CTEFYixvBfaHqCMg3UMkkr9mW
+	 immrEuLeds/yA/5o0Dxsl1l87L5TafFkI2LWsR/jcIjDLTDVfs/jSTM9WABHdLUIfG
+	 znmWD6Nyo5Mf5P7bc2R5bVFgPnZPyLmvRlzxgwlFeWU+xfv1JehQcmxcXuSeVhYFQM
+	 TWNhKtkgz6Mgw==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Thu, 29 Oct 2026 21:33:09 +0100
-Subject: [PATCH v2 14/47] mm/huge_memory: fix zapping migration entries for
- device-private THPs
+Date: Thu, 29 Oct 2026 21:33:30 +0100
+Subject: [PATCH v2 35/47] mm/memory: reject remote COW faults on PFN
+ mappings
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261029-fixes_core-v2-14-a64ce7f83abb@kernel.org>
+Message-Id: <20261029-fixes_core-v2-35-a64ce7f83abb@kernel.org>
 References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
 In-Reply-To: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -96,52 +96,76 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Chris Mason <mason@kernel.org>, stable@vger.kernel.org, 
  "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1532; i=david@kernel.org;
- h=from:subject:message-id; bh=I7I0jhaFoDQ+nBqhpxvpT0b9yhPeTYbK2Z2XhTeg/TA=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer21bu2tt8uaHDhHRMpPkLUTW16ivZ94sK3hdWn5lQ
- 8L31aqJHaUsDGIcDLJiiixBwfcNXr5cV1vtxscMM4eVCWQIAxenAEzkghUjw3rfBSFaX+RXSHif
- D2cU2Dqz50GT77tKx0VZSuXaaz3ahRj+KTklP/0QL6kglxAToL0i5/q5rtPBtyrT2i1fVd2MMHv
- HAQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2247; i=david@kernel.org;
+ h=from:subject:message-id; bh=NZgsSdEHxnbgHjPXcrsPLj969BYYYgAtMd+ESFDEtdw=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer+0oO21x57rIvu0fshoW9U9UFeH7v3SBKt+E3TK5e
+ 07veWrG0FHKwiDGwSArpsgSFHzf4OXLdbXVbnzMMHNYmUCGMHBxCsBEAjMYGfbvP1TLKbb2+ymZ
+ M607Djdul16prRrWU53vWcS73WVt2yqGvyK2ZcrruRZEXiv69mWViZnE/EkPxE7f+vuSLeDilpC
+ UR+wA
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
 From: Chris Mason <mason@kernel.org>
 
-A PMD migration entry can refer to a device-private folio.
-zap_huge_pmd_folio() checks the folio type instead of the entry type,
-so it treats such a migration entry as a device-private entry.
+When handling a COW fault without a normal source page (PFN mappings),
+__wp_page_copy_user() copies from the faulting user address. For remote
+faults, this accesses the wrong address space, resulting in wrong data
+getting copied.
 
-Installing the migration entry already removed the reverse mapping and
-dropped the mapping reference. Zapping it must not repeat those
-operations. Concurrent MADV_DONTNEED during migration back to system
-memory can trigger this.
+For example, user_events updates an enable bit in the registering
+process's memory. If that memory needs to be faulted in,
+user_event_enabler_fault_fixup() calls fixup_user_fault() from a work
+item. Placing the enable bit in a private PFN mapping can trigger this
+remote COW path.
 
-Check the PMD entry type using pmd_is_device_private_entry().
+Reject these faults with VM_FAULT_SIGBUS when the target mm differs from
+current->mm: remote faults. Ordinary (non-PFN) mappings are not affected.
+
+The user-address copy dates back to commit 6aab341e0a28 ("mm: re-architect
+the VM_UNPAGED logic"); likely, actual ways to get remote faults in
+there on COW PFN mappings appeared afterwards. But the fix is simple and
+straight forward.
 
 Fix generated by an LLM and sent by Chris Mason in private.
 
-Fixes: 368076f52ebe ("mm/huge_memory: add device-private THP support to PMD operations")
+Fixes: 6aab341e0a28 ("mm: re-architect the VM_UNPAGED logic")
 Cc: stable@vger.kernel.org
 Signed-off-by: Chris Mason <mason@kernel.org>
-[ david: simplify description ]
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+[ david: simplify comment and description ]
+Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- mm/huge_memory.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ mm/memory.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 1d65c4f576f9..c5aa0a0a407c 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -2493,7 +2493,7 @@ static inline void zap_deposited_table(struct mm_struct *mm, pmd_t *pmd)
- static void zap_huge_pmd_folio(struct mm_struct *mm, struct vm_area_struct *vma,
- 		pmd_t pmdval, struct folio *folio, bool is_present)
- {
--	const bool is_device_private = folio_is_device_private(folio);
-+	const bool is_device_private = !is_present && pmd_is_device_private_entry(pmdval);
+diff --git a/mm/memory.c b/mm/memory.c
+index 5392bcb1d24d..ae8d567bc6ba 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -3761,6 +3761,13 @@ static inline int __wp_page_copy_user(struct page *dst, struct page *src,
+ 		return 0;
+ 	}
  
- 	if (folio_test_anon(folio)) {
- 		add_mm_counter(mm, MM_ANONPAGES, -HPAGE_PMD_NR);
++	/*
++	 * __copy_from_user_inatomic() only works as expected for local faults.
++	 * Reject remote faults.
++	 */
++	if (unlikely(mm != current->mm))
++		return -EFAULT;
++
+ 	/*
+ 	 * If the source page was a PFN mapping, we don't have
+ 	 * a "struct page" for it. We do a best-effort copy by
+@@ -4086,6 +4093,8 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
+ 				folio_put(old_folio);
+ 
+ 			delayacct_wpcopy_end();
++			if (err == -EFAULT)
++				return VM_FAULT_SIGBUS;
+ 			return err == -EHWPOISON ? VM_FAULT_HWPOISON : 0;
+ 		}
+ 		kmsan_copy_page_meta(&new_folio->page, vmf->page);
 
 -- 
 2.43.0
