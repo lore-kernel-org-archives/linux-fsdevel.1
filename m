@@ -1,84 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793238537;
-	b=VsSmIFFFgVJ4J5DQE15n8HCX1duKs+EUnePqpTh7tuIAsMyXkkbBugTp6fEIU0x9y3yX
-	 TNEpITJLTvOd7jli5RF2AjvpWFwmabN8H3tMY5Q6PWW+SxEJ05VCr7t/WFIoBambDhqhI
-	 2mhjlkI+UY4dTJ/pVTVtQrBShIBDzWaNWFF2BR2gzZpst0T2074HMzzaAlJmyx/Em5pgc
-	 GIPnA+hUjNR3nyH3t7hq0cHAC0LMCHzJEQY2G47LtxnWtd/I/2c8lc9MvQANlFVj/+/y3
-	 fdtKsirLhGTHPS3poQjenf24YzayrSKiBGc0pltU/bT1GTe7tggV5EMmHp+mqLlNJig==
+	t=1793238753;
+	b=s0/NAg+QZ8HIp404Nr8nUxeCxVbH9dC1dU/M4TavCTX0vIY++h5CLgxVlCiJYMUpVsQP
+	 DIHk17Wvnbk5siX/fFieFHlaYX5r32WRnlkIgHlqvGzxMPfDRS8jpntA8Ku13Bqq2uxuC
+	 1h5E65u3u0t9/JxkplI63/nytWGxEkv5/YwgpTjvZ0bQHCl4EscrweMAl0iiyowbJlh7D
+	 38Jo0ffPVANaLbKRVv7v2VrextIJtegJ2lI9ReKQQmn5wrxIERCOidCiERE6tn3lv2ZNG
+	 Wct4jyO0fzM9SIp3cM/l3IwfXAaDbptqHaj5FlCON4VfGL8j7oh0rrkfQpWcyx/F79A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793238537;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793238753;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=WpPpjm9qqTzsBHBWliVMSUioS6+fsJ4niawtYuOMrWQ=;
-	b=fORdgm87LSLrjveAaawnFbbZm8sc5SLxOeWRT0bJd7z2yTxVmcBQ9UYvuzjQKvcw7HrE
-	 7n/isZcBNhog95P7oIhWboZ8MjAz4fhT2bCebV3IMr5LZ11tDXjUNVcfQ8iw409RP3k4L
-	 Wp62UBqQEhbS97f+uFmUps9/GowHEr+b8qjwzMY6Y5OUD8yeJvUOZctnKEq583y4ShZHq
-	 fd/1PVodZLNAwixi930IUGijbqORzAYlUzaHMetnOyzLiWQKRriGJCENExZ72HXWxOHHv
-	 IKD9V7cVLhDYTXdvB2EyNBZb89PUVNrhBUjMQnGuFxIFSZwoBNGTECigj/QOw9xqCKA==
+	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=Vd17fMN2xBVkgvpCKThIisBl5J6tXBx/ZBgfx0p28sI=;
+	b=KYTDYnoWivFdsgJVZfif4hlhyOyDG6rP70LLUMcZsgYnDnnyMSbVds/LkbwDmlpDkF7z
+	 xGzITZuntJ3RSDD8qRP51vq5lAXy9hMbHtndWsGImCCOw4RKj9PFQaeel7pzNDbqNoAs8
+	 j6md7cu+noZHk1ux09DhnquVCoVzdMRjuEwlB74x8ahTX34QQ3WqeI3vd/L7BuH5XTyM8
+	 RwXa7OZiKv10rvazO/Mif2oKpDoRQviz4ZX9P/5QFiPQKLwtmyT5EQ3kCxhrcWgfOKcIS
+	 UNMPcYKi1MxUlC27R0G7ksVw1hjW8lIUmh3EJUBEQfcvuuCEwEs6Menh8UzKPRMvngA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=BoVyrxHL;
-	arc=none smtp.remote-ip=209.85.208.52
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FAMKuEUP;
+	arc=none smtp.remote-ip=209.85.216.42
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED37E606A31D
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 01:48:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED37E606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C80606A31A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 01:52:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3C80606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=BoVyrxHL
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6b1dae0febeso2509503a12.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 18:48:56 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FAMKuEUP
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3ac78f4c10bso812121a91.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 18:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1793238535; x=1793843335; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WpPpjm9qqTzsBHBWliVMSUioS6+fsJ4niawtYuOMrWQ=;
-        b=BoVyrxHL0J/es+BtxA3ZGTbS/DVq4pf4tZK3IXlwuavJCQp9ZgDbhOmfgzjP0Vgo4Q
-         O7nsgVSMAufKHiGA2urFI/8Cpcsz+94tTIkehaDZ0FnZdrXDfElhPbySA2FacNShYf8v
-         e1HeuTTKH3pcl6hHWbzMUReNQps3W7G601tERrUbV5tTsUaWEKIOI2xlTt3+ty752RZq
-         j7YiHOk/V+B+oR38IBlKlNrooIh39EeynSMsGDHUNZcxT8iRUpcuczBRO6GMb2GXwsBW
-         no8UR7YRtSjq6TeU5v3IJW5HkcDJGMQu+1uzT2kCKHIh33Q8oUKAqS9tRbC7LrYfjA9c
-         vC0A==
+        d=gmail.com; s=20260707; t=1793238752; x=1793843552; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Vd17fMN2xBVkgvpCKThIisBl5J6tXBx/ZBgfx0p28sI=;
+        b=FAMKuEUPGE4Q84xqNZnNmDsypOtQKA/Hx3t1J1y6qQG2sH05l52zkubjxLDJrBcXTs
+         q0wVsHYkLgbhoukKNOdLee4SkyxDs5YKB4he5f5fYfvOcpuO1JJut2N9j681kpXrU+eR
+         oUTbveogp6wXIy38inLQcl5bImwdJcj48Pr2fMDyyrbMNSqG/ChjMyVm8q0yUGPvmR8H
+         lOafsVulkwssPeFajQg3E3AO22UaWsPxm4Vedldlua3IliXr1UsTWUPh0ZPO3E90dL5N
+         UdCJM5zRC/PLvacm3i9Z4ZPk4hFLxLn4rAncHd1R4C3+hWzc+886flJQDQFtMpqDFhrl
+         SXOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793238535; x=1793843335;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WpPpjm9qqTzsBHBWliVMSUioS6+fsJ4niawtYuOMrWQ=;
-        b=O3mm4ztWFHH75PTQZri+VRpyF6JrJp/rp8YCJytMo72/5Z0fq476MaJohrLl1zw2jA
-         6XetQarqgtw2282BN+5hiNfCpZMxydU8sarPFgE0lfz8PpKgG92s9sbPEYyvA9c5gqY8
-         fr10zJm5CnedBky8hDFOGlkp7OuTrRg/Ir+E/+M7k8PejlOt3nQVfAOFevspZu9oMx0o
-         HaOSSUfeyyuEQqulDKSt+sFokragQWorPOrkzREQcA49inU87yPwE8SYGuA4mRIBTS4Q
-         Ju5NZ1aP+ZTwvB7aL1FU1dfnbVvRVeA2RA1QDrYzZ2V+SD4KHSQmYAGme+gWCCNbR2Oa
-         JALA==
-X-Forwarded-Encrypted: i=1; AKwUvByUqP1N52MemHcO2xWSJ8BQs7pQnlo00t4L1FHB66VFDlu7jAE5c8CF19KVFTcayTGKwlpiVSckTj6tGTUC@vger.kernel.org
-X-Gm-Message-State: AFq9FYKBgjVpJOPj45hyzdxJ8pdQ/lKddnOC+nI6CQAChgzaruv36sWE
-	brHByaZdAzdwO7bhr2YtoyGJZquuHAqXMaFJSIJjLPU0MznrODgl2F1i++7HSRWbdzg=
-X-Gm-Gg: AYBFou1B1abfmGgdDzl8kzWY7xyOHrPPoKZB5zwbdLAREQW7ynkf/kthLevJGSVYXyc
-	GHL02OU8eng4bnFdMFS+CO8boFZHXIY0fXwd4rlgzkNa8d+51hfTHe3eMTKz20YPkD0eQdhvaQD
-	Ubaq/7HJuxIWVUuUn5mShNzliGD32xXA0KWBvrdyqG7EGQ/cCawDErmW8/hOj2HK/kTEyReVzPz
-	JAP/D6EKZWTsRabGA5HXK1QZ0HvlQxJKEEpON4wVUScxDwsIA54tPiQ8EQSRcR5bBbZl5CBct/p
-	uckcsl3QuHSfRYdtm8ceHWUpLmQs54Nk6X37HQV3grZghibyDHcr+5GG1LmKUU37qx69blVNv+v
-	leFVpnTjv40crOd6Yj7a6/xd2uN0ivB1fnbH+YxG806ugjBrNr5lzSw7Or+fytbQbUoz7d2pgrO
-	YKJs9jT406hlUeFic8Ms6w5e8oIgz1PqDW2zfF5t8WuTZ/NPD7jgWP1sW9LP1LM9HRUGCN6kXE6
-	UFVon6tVBIgnpn1EK88czitf03Eqd6KCmv8pROwZupr2yeqwgZ6CYSqu4crDpn3aMy/e99cKyr/
-	J7QURUj9NYZ8hc3Ldsmn
-X-Received: by 2002:a17:906:ef0b:b0:c41:b94c:4539 with SMTP id a640c23a62f3a-c49bddac7b0mr353178966b.6.1793238535200;
-        Wed, 28 Oct 2026 18:48:55 -0700 (PDT)
-Received: from localhost ([2a03:2880:32ff:4e::])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b495ac454fsm2147232a12.1.2026.10.28.18.48.52
+        d=1e100.net; s=20260707; t=1793238752; x=1793843552;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Vd17fMN2xBVkgvpCKThIisBl5J6tXBx/ZBgfx0p28sI=;
+        b=GnExrBIPM8YJzUvyfp3aBqr2ltof0flsZhCuH+mRkw9KluETDaOI9AA5a5UUMYL3C+
+         kKJ5qN8LuPpsopqOzx8tg/CrFZnlNqSu/gl3fQ3UOiWHkooF6ppjwgULC4EnnlTaBM/1
+         JjO5dhZ+0r7UD4ZgXQEmXgFDUkJIZycgmb1P+UpNDmIryBUbqQj1ZfsMjsxzwiBCHNS1
+         9Nh02IKuXEYeea7QINm1Ot/fbrNDwwhb249+5+jzaFBsUCjhp/LHfLnbnKXGlKwd/71P
+         9MU49ESECLMNyZaeH+vVpLUqop+CsnSJBFlvY1v3Yye55yEGuEVU8DA86Tl1OWAyQP7f
+         Xv2w==
+X-Forwarded-Encrypted: i=1; AKwUvBwOPZlRIqzgMVMF/mOrN993Jb2wzn9Zg3kG//VMnqeNLinGhXFxaPJ+mLPU2RdVwOQS/g4nPtj21Wdl148F@vger.kernel.org
+X-Gm-Message-State: AFq9FYLYcT2njWarso/G0H4g1S8XgqL/p1RAkSNvVuR8fPbpCipecRhb
+	Lwjeol0pljOT+wcCat2h2sGrmrT9yMPSj4c2Nhte9e7Ufognu0UcN1Ia
+X-Gm-Gg: AYBFou2LQhP05ovadulRE8ei2OsknSaNr1GqcOPEdkneyRCQFOMdf1Tqm9E5Fs8fw5V
+	yiYb/1dYoaaJ1J1aQwiHDuCfLZ9Vi+ipvuSo0r8lxXmdMsR1oGEin+JhPd+tFYDkCDg6NTTsNlb
+	zrzb+9KdoWnJD+CQx+irNNz6VNguiD+hK2yAbEb+pFzvExw1fud88zf76Nv+NNXNy5eYpN1F8fL
+	llKjyJLoK3Wf841PehSWHwBC0Abke7elwZb4zMHU84esjWz2U2/HkeZpO5HcxtYyYCJHA0O2s2e
+	2r810cS4lu4MaWQdfQMgQQ0DTVWmqHDOCwy+pGREdnC5qQhRAtkTu8NQe+yc+m838sqV0t6TJ5O
+	2RWerXMamwMcVgVpV/XXndrUbJWqPwSbav4wnoMQZbSSdSJWypaFND4CYfA9DvYBHxxqUNBE6jg
+	9Ome6noW24FsGdSSrij3p76dqb9GtfgS5K7CCusyy8Y6X1INTN6p1QR/DaDoezAvpWUPIaXX/kO
+	lxtUocTGJn5/wvSqgCkXWwl4R0WIMq1l5/DBxcnnqwKm4dNRZyz29SrDvn+Yo6wiXvjsSSEyBHc
+	qHQSf5kpYG1qGv0n856qnSJmBWZ5bVSdiwOs5k9n3eUQBA==
+X-Received: by 2002:a17:90b:4986:b0:3ad:a232:403f with SMTP id 98e67ed59e1d1-3ae58144159mr3099499a91.56.1793238751803;
+        Wed, 28 Oct 2026 18:52:31 -0700 (PDT)
+Received: from linux ([103.155.143.38])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e2a6dc1sm1606230a91.0.2026.10.28.18.52.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 18:48:53 -0700 (PDT)
+        Wed, 28 Oct 2026 18:52:31 -0700 (PDT)
+From: Hongyu Jin <hongyu.jin.cn@gmail.com>
+X-Google-Original-From: Hongyu Jin <hongyu.jin@unisoc.com>
+To: jack@suse.cz
+Cc: brauner@kernel.org,
+	hongyu.jin.cn@gmail.com,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2] writeback: Avoid postponing periodic data writeback indefinitely
+Date: Thu, 29 Oct 2026 09:52:17 +0800
+Message-ID: <20261029015217.840177-1-hongyu.jin@unisoc.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <azdwnedsaesxdsp6vxjxgzg6ynrszveibmqkpznn3yuqyttlcj@5lz4p2aw5hxk>
+References: <azdwnedsaesxdsp6vxjxgzg6ynrszveibmqkpznn3yuqyttlcj@5lz4p2aw5hxk>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -88,88 +99,152 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 18/46] mm/khugepaged: check if PTE table is empty in
- try_collapse_pte_mapped_thp()
-From: Gregory Price <gourry@gourry.net>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>, 
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
- Baoquan He <baoquan.he@linux.dev>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
- Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>, 
- Pasha Tatashin <pasha.tatashin@soleen.com>, 
- Pratyush Yadav <pratyush@kernel.org>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>, 
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
- Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>, 
- Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
- Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>, 
- Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
- Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, kexec@lists.infradead.org, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-cxl@vger.kernel.org
-In-Reply-To: <20261027-fixes_core-v1-18-6f74bec9a5bb@kernel.org>
-References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
- <20261027-fixes_core-v1-18-6f74bec9a5bb@kernel.org>
-Date: Wed, 28 Oct 2026 18:48:51 -0700
-Message-Id: <179323853182.453251.8510731747954180380.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+Content-Transfer-Encoding: 8bit
 
-On 2026-10-27 00:17 +0100, David Hildenbrand (Arm) wrote:
-> The existing code is rather horrible and already resulted in bugs in the
-> past: we special-case UFFD inserting anonymous folios by grabbing the PMD
-> lock early, but ignore any other markers (guard, poison through uffd) that
-> could have been inserted into the page table in the meantime, effectively
-> dropping them.
-> 
-> Let's just unify and simplify the locking: try to grab the PMD table
-> lock and if that fails, flush the TLB, drop the PTE lock, take PT locks in
-> the right order and check if the page table is still empty.
-> 
-> We still perform the heavy lifting (zapping the folio ptes) under PTE table
-> lock only.
-> 
-> Include <linux/hugetlb.h> for now, as x86's flush_tlb_range() macro
-> depends on hugetlb helpers. This dependency needs a separate cleanup.
-> 
-> Both issues this fixes are rather corner cases. Let's not CC stable for
-> now.
-> 
-> Fixes: f807123d578d ("mm: allow guard regions in file-backed and read-only mappings")
-> Fixes: 1043173eb5eb ("mm/khugepaged: collapse_pte_mapped_thp() with mmap_read_lock()")
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+From: Jan Kara <jack@suse.cz>
 
-This patch is painful. It's taking me a bit to wrap my head around.
+f2fs periodically calls sync_inode_metadata() for some inodes. The logic
+in writeback_single_inode() thus periodically calls to redirty_tail() and
+the inode's dirtied_when timestamp never gets old enough for the inode
+to be eligible for periodic data writeback. Thus dirty data from it is
+only ever written on explicit request (fsync(2), sync(2), unmount) or
+on dirty limit pressure.
 
-I get that you want to avoid taking both locks while zapping, but
-wouldn't it be simpler?  I suppose we don't know what kind of
-regressions might pop up with that though, bah.
+The redirty_tail() logic in writeback_single_inode() actually should not
+be necessary. Since this function is used only for once-off writeback,
+there's no need for any livelock protection among inodes and
+writeback_single_inode() is only responsible for demoting inode to "less
+dirty" list based on dirty bits cleared as a result of writeback. So
+remove the redirty_tail() logic and add a comment explaining the rules.
 
-I can say that I've reproduced and tested the before/after state,
-and it looks stable.
+The redirty_tail() did hide a race though, the one fixed by
+commit 846a3351ddfe ("writeback: Avoid skipping inode writeback").
+__writeback_single_inode() sets I_DIRTY_PAGES again when the mapping
+is still tagged dirty. If the inode had no I_DIRTY bits (e.g.
+write_inode_now(inode, 0) or sync_inode_metadata(inode, 0) of an inode
+with only I_DIRTY_TIME), the dirty pages come from a racing writer,
+whose __mark_inode_dirty() then finds I_DIRTY_PAGES set and does not
+queue the inode, leaving it on b_dirty_time or b_attached. Call
+__mark_inode_dirty() in that case instead, so that the inode gets queued
+on b_dirty.
 
-Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+Fixes: 846a3351ddfe ("writeback: Avoid skipping inode writeback")
+Reported-by: Hongyu Jin <hongyu.jin.cn@gmail.com>
+Link: https://lore.kernel.org/all/20261023023707.263101-1-hongyu.jin@unisoc.com
+Cc: stable@vger.kernel.org
+Signed-off-by: Jan Kara <jack@suse.cz>
+[hongyu.jin: let __mark_inode_dirty() queue an inode whose pages were
+ dirtied while it had no I_DIRTY bits, update comments]
+Signed-off-by: Hongyu Jin <hongyu.jin@unisoc.com>
+---
+ fs/fs-writeback.c | 60 +++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 43 insertions(+), 17 deletions(-)
 
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index 58a6403780aa..c7979b0cd375 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -1780,7 +1780,9 @@ bool sync_lazytime(struct inode *inode)
+  *
+  * This doesn't remove the inode from the writeback list it is on, except
+  * potentially to move it from b_dirty_time to b_dirty due to timestamp
+- * expiration.  The caller is otherwise responsible for writeback list handling.
++ * expiration, or to queue it on b_dirty via __mark_inode_dirty() when its
++ * pages were dirtied while it had no I_DIRTY bits.  The caller is otherwise
++ * responsible for writeback list handling.
+  *
+  * The caller is also responsible for setting the I_SYNC flag beforehand and
+  * calling inode_sync_complete() to clear it afterwards.
+@@ -1790,6 +1792,7 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
+ {
+ 	struct address_space *mapping = inode->i_mapping;
+ 	long nr_to_write = wbc->nr_to_write;
++	bool mark_pages = false;
+ 	unsigned dirty;
+ 	int ret;
+ 
+@@ -1843,12 +1846,23 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
+ 	 * still has dirty pages.  The flag is reinstated after smp_mb() if
+ 	 * necessary.  This guarantees that either __mark_inode_dirty()
+ 	 * sees clear I_DIRTY_PAGES or we see PAGECACHE_TAG_DIRTY.
++	 *
++	 * If the inode had any I_DIRTY bits, __mark_inode_dirty() has already
++	 * queued it (if it is to be queued at all) and we can just reinstate
++	 * I_DIRTY_PAGES.  Otherwise the pages were dirtied by a racing writer
++	 * and the inode may sit on b_dirty_time or b_attached.  Setting the
++	 * flag here would make the writer's __mark_inode_dirty() bail out
++	 * without queueing the inode, so let __mark_inode_dirty() set it and
++	 * queue the inode instead.
+ 	 */
+ 	smp_mb();
+ 
+-	if (mapping_tagged(mapping, PAGECACHE_TAG_DIRTY))
+-		inode_state_set(inode, I_DIRTY_PAGES);
+-	else if (unlikely(inode_state_read(inode) & I_PINNING_NETFS_WB)) {
++	if (mapping_tagged(mapping, PAGECACHE_TAG_DIRTY)) {
++		if (dirty)
++			inode_state_set(inode, I_DIRTY_PAGES);
++		else
++			mark_pages = true;
++	} else if (unlikely(inode_state_read(inode) & I_PINNING_NETFS_WB)) {
+ 		if (!(inode_state_read(inode) & I_DIRTY_PAGES)) {
+ 			inode_state_clear(inode, I_PINNING_NETFS_WB);
+ 			wbc->unpinned_netfs_wb = true;
+@@ -1858,6 +1872,9 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
+ 
+ 	spin_unlock(&inode->i_lock);
+ 
++	if (mark_pages)
++		__mark_inode_dirty(inode, I_DIRTY_PAGES);
++
+ 	/* Don't write the inode if only I_DIRTY_PAGES was set */
+ 	if (dirty & ~I_DIRTY_PAGES) {
+ 		int err = write_inode(inode, wbc);
+@@ -1946,22 +1963,31 @@ static int writeback_single_inode(struct inode *inode,
+ 	 * as it can be finally deleted at this moment.
+ 	 */
+ 	if (!(inode_state_read(inode) & I_FREEING)) {
++		enum inode_state_flags_enum istate = inode_state_read(inode);
++
+ 		/*
+-		 * If the inode is now fully clean, then it can be safely
+-		 * removed from its writeback list (if any). Otherwise the
+-		 * flusher threads are responsible for the writeback lists.
++		 * __mark_inode_dirty() is responsible for promoting inode to
++		 * the proper list (b_attached -> b_dirty_time -> b_dirty).
++		 * Here we are responsible for demoting inode after some dirty
++		 * bits were cleared.
++		 *
++		 * If the inode is now fully clean, then it can be safely moved
++		 * to b_attached list. If the inode is dirty, we don't want to
++		 * touch it - it should be already put to the dirty list by
++		 * __mark_inode_dirty() and we'd just unnecessarily clobber the
++		 * dirtied_when stamp (which is particularly problematic when
++		 * we were called from sync_inode_metadata()). We also cannot
++		 * touch the dirty list association when I_SYNC_QUEUED is set
++		 * and flush worker is responsible for it. Otherwise move the
++		 * inode to b_dirty_time list as that's the only remaining
++		 * possibility.
+ 		 */
+-		if (!(inode_state_read(inode) & I_DIRTY_ALL))
++		if (!(istate & I_DIRTY_ALL))
+ 			inode_cgwb_move_to_attached(inode, wb);
+-		else if (!(inode_state_read(inode) & I_SYNC_QUEUED)) {
+-			if ((inode_state_read(inode) & I_DIRTY))
+-				redirty_tail_locked(inode, wb);
+-			else if (inode_state_read(inode) & I_DIRTY_TIME) {
+-				inode->dirtied_when = jiffies;
+-				inode_io_list_move_locked(inode,
+-							  wb,
+-							  &wb->b_dirty_time);
+-			}
++		else if (!(istate & I_SYNC_QUEUED) && !(istate & I_DIRTY)) {
++			WARN_ON_ONCE(!(istate & I_DIRTY_TIME));
++			inode->dirtied_when = jiffies;
++			inode_io_list_move_locked(inode, wb, &wb->b_dirty_time);
+ 		}
+ 	}
+ 
 -- 
-Gregory Price (Meta) <gourry@gourry.net>
+2.53.0
+
