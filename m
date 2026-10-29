@@ -1,61 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793275375;
-	b=4wradKbAlYtuyTlhVftbPrHBKssUR/Jyi5GuNaK+CuxKA3EN+Y8NpkA5ugH3wkbfx8Xo
-	 yq3LuSYUslwhwtSLWqJtxemmgQrBN+FIB5YoVpL+a/3MEJbcPlQ5FVATvNd++V6lrXIln
-	 AUtwHqVsgKzraxIe+wowsdfONT6VPs1izPFNEh0lRdY3ORuVz+4uF8qDPagxenzHI4/NW
-	 hxqwyG8wgUdPnuyAFxWsuEGYUmfWauynajzfFtNyCcYdH/0WBONegcced+eQEYO/9Z0VG
-	 PTuc9mD+3Nc71HWQ+zN8RPYiNWYGgwUS1gfhm+d81t+HRb1HtxlkariAoavO9JlYScQ==
+	t=1793275450;
+	b=Wl7Kd9xc3glynQ9Z2js1baddLPAomxfsHeYXppZFOQ6LQ0k22JUExC15wYCYS9TcOKAD
+	 hWU6+wO2MLHukNawSVCbx7KlbNuzWPTq9raTziYCqklC8QH3za9MPoYP0e8+EvPZAvx8G
+	 qohfM64zbCOuN6MpZ++/DOOYAzY3yKFOMbdf2hgAbe4zTEQaD4dTzTfEFdvca6sI2e8v1
+	 ww/cRmJL25+uw/PSkNI/ZXTna51O5dSB+S93a8TJFyLMJdc/s6IOd/zT9xFKQbungywka
+	 MFtwLLqW1pCdyA4I4NR7m2ZVKH4JVHaj9elTbW6wJsPy/p3I1TexhCS5YX31+SXWE0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793275375;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-SRS-Rewrite;
-	bh=+yvgd/z3YW5tkast/LSe7BMSvA6NVM/2yRS3HdQVA/Q=;
-	b=uBZOkzLZXiu9l9BOxX/A0yU//wr6tT1It4fAccRO6Nd+wpDjAZ9R7JY0SVSYPf3LmpgT
-	 Xiu26U1LpnPXwcUDz+PQSHczdWRuA7dkvRYgC6XEuUL1Japfw8n2krsuQ0U3Vhv4xY7Do
-	 CvNIfUccP5EUTY9rw/YYp/nFU2uih3Gw0ej/qm5Vxofokq1XvVjHmbAPxfYnPmKN5wawo
-	 LuiEOHz4AtzXl3QLlp9voERbLEuUdmArUH4rmDRRr1bsyGu9QdHjdFmDJNp/IyAuV0l2m
-	 eIJd1FxkpFEmM5/K7R2qxB8h1fRSFFoHXjYYcglJfwU2DdTmYkHsGS0dKOD88VjlSBA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793275450;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=xlnl9A/D3fizgFoXsRorCiZXKZmn/GF+FXZ2ULqWag8=;
+	b=5uAVOP5R9f0V5Bl8NoVDdAloRiXyut2ecLIFui/Ke4B+ube6gj4DaquQfYmtqhBfMfiQ
+	 VYPkWfYRcloC+8xYyP8/nO2QD0XpA42Qg1DgPHa3MJgmIywBzNe/3GggnlAHt4sIlk93/
+	 Jg9YwBuY12ZiLefTLVYiogMb5tl1LWfJFpXrP4NaSkcoAajXOZ/fO3ymcIU/MK4OUWf82
+	 qp8bMjdEoyltKEg9iVICb3Phhn2wLh4362sEVR91ZC28OW9G6CoTDLe/iJ7G82RfpfviV
+	 NSAZiPSxLZh1Rg9fRn3ZAHDV1xJNzeRP0KQbKinNAlHzYTmVJFKTyzyJwR/5QedA8lQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=JH5mIL7p;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O88E+6Wy;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B33606A323;
-	Thu, 29 Oct 2026 12:02:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9B33606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E83606A31A;
+	Thu, 29 Oct 2026 12:04:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=JH5mIL7p
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=+yvgd/z3YW5tkast/LSe7BMSvA6NVM/2yRS3HdQVA/Q=; b=JH5mIL7posg4WBBnTyj1o5Afhv
-	7+LRTfuRA8iaoc0XiUF7DVHPCVb/wTFG1hU4MYC4GnWEqQao010Gcwnd0yrixifhPFpDhpO+URP8z
-	RZxqWzjLHpS0cAACLfCOIXayrvjrPQShUGMkHnbWEQyAaoGafYRg/x9Ya4ey1wfssUL0W7tTK3N/d
-	hihUlitsENBzVUZQadMgtC13kp1xiilwzTdCshisWPHF4bJhRk35FNhNtAbYA2Lopah7pDThAPOHN
-	8HIVLugEtA9yh7cz0z7BBiLQ5ddQIxVgnMoWxTBjZMamzzDu4BZsAeeKTGj6CUthkvsQcuWkd+7z/
-	TNHMNINQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMOqK-000000096kH-3DWG;
-	Thu, 29 Oct 2026 12:02:52 +0000
-Date: Thu, 29 Oct 2026 05:02:52 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Zorro Lang <zlang@kernel.org>,
-	fstests@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC fstests] generic: add a test for multigrain timestamps
-Message-ID: <auM17EN-wLboV0WC@infradead.org>
-References: <20261027-mgtime-v1-1-ec68914a116e@kernel.org>
- <auIavey7CFq_l38s@infradead.org>
- <3a5b0778c77df7cce94bf9fce974b1bf1dfb6324.camel@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O88E+6Wy
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47BC01F031E4;
+	Thu, 29 Oct 2026 12:04:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793275449;
+	bh=xlnl9A/D3fizgFoXsRorCiZXKZmn/GF+FXZ2ULqWag8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=O88E+6WyIpQz4xx6tnEqL0g+RvaQPnMnKX8KRgBbxiqrIUL1H4Mhf5BEjO0wrHJ5m
+	 YMNoAtxNkKsZ1dKWWLLH37HA8DPSedkPzK7SThP4bESzzoK912qsjwOy21KLa1D1xD
+	 bTa3sKKN16AqEkSDRMRPg85fMXgimS5bhLBzaX/pKeOBvqfdxsYd+k0yhvim5UBtqU
+	 3EJHA8gYwdYPEtSqxFbsj9fE0ZE+m4PzHBw3Fiwq0mnS7Qql4x9UJ2/s6WzdpdE31+
+	 JboHEaH+PQ+jKGX6mRyzeLjQldW5fW23Zqr7YVV/wX9gAP1qMXiti9FvHb9jqT37+A
+	 L3w5iN72QE8hw==
+Date: Thu, 29 Oct 2026 13:04:05 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Disha Goel <disgoel@linux.ibm.com>
+Subject: Re: [PATCH] ovl: fix mount setup failing when override_creds drops
+ CAP_SYS_ADMIN
+Message-ID: <20261029-laufzeit-ungelegen-gastwirtschaft-4e5eecb7a567@brauner>
+References: <20261017165125.2450059-1-amir73il@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,32 +57,32 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3a5b0778c77df7cce94bf9fce974b1bf1dfb6324.camel@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20261017165125.2450059-1-amir73il@gmail.com>
 
-On Wed, Oct 28, 2026 at 01:20:24PM -0400, Jeff Layton wrote:
-> On Wed, 2026-10-28 at 08:54 -0700, Christoph Hellwig wrote:
-> > On Tue, Oct 27, 2026 at 09:58:50AM -0400, Jeff Layton wrote:
-> > > Ensure that the mtime and ctime apparently change, even when there are
-> > > multiple writes in quick succession. Since this is opt-in for in-kernel
-> > > filesystems and there is no way to test for this feature in userland,
-> > > limit it to just ext4, f2fs, btrfs, tmpfs and xfs for now.
-> > > 
-> > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > > ---
-> > > I'd like to start testing this to make sure it doesn't break, but it's
-> > > not universally supported on all filesystems. Is an explicit allowlist
-> > > like this the right approach?
-> > 
-> > Can we please expose the fact that multi-grain timestamp are supported
-> > from the kernel?  This seems like it would be just one bit we'd need
-> > in sttx or something similar.
+On Sat, Oct 17, 2026 at 06:51:25PM +0200, Amir Goldstein wrote:
+> When a process drops CAP_SYS_ADMIN and calls fsconfig(FSCONFIG_SET_FLAG,
+> "override_creds"), overlayfs saves those restricted credentials in
+> ofs->creator_cred. ovl_fill_super() then wraps the entire mount setup in
+> with_ovl_creds(), switching to those restricted credentials for the
+> duration.
 > 
-> I'd been resisting that, but maybe it's a good idea. I'll see what I
-> can come up with. We can probably just add a flag to stx_attributes?
+> Mount setup calls clone_private_mount(), which checks CAP_SYS_ADMIN
+> against current credentials. With restricted credentials active, this
+> check fails with -EPERM even though the task issuing
+> FSCONFIG_CMD_CREATE is fully privileged.
+> 
+> Use the mounter's real credentials only for cloning the private layer
+> mounts. Keep all other backing filesystem operations during mount setup
+> under the stashed credentials.
+> 
+> Reported-by: Disha Goel <disgoel@linux.ibm.com>
+> Closes: https://lore.kernel.org/linux-unionfs/20260924112858.51392-1-disgoel@linux.ibm.com
+> Fixes: c28f922c9dcee ("clone_private_mnt(): make sure that caller has CAP_SYS_ADMIN in the right userns")
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> ---
 
-Yes, ever since STATX_ATTR_DAX/STATX_ATTR_WRITE_ATOMIC these don't
-seem to be tied to actual inode flags any more.
+Looks good to me. I like this solution:
 
+Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
