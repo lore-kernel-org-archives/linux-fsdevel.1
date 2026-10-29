@@ -1,66 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=128.30.2.78
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793289047;
-	b=ER3ZsvrnAbKcEJ0LCLkhcnJbImXj6La8gK3pgwbhz8iIQ876DwX4yFfZX+pvteTuCPm8
-	 XGqyyXvbrGu0Qu5bUK3ZHm5hkSAbggBCcdVvYPZIOk1Jr++oeWmupr6zbBx7Sy6h34nzE
-	 6sJZuYlf8I6umY8TZ6Ig1lR2EyeVDhjPMM6CVEpJ42mxa0beU9TlDeL6l58vZWvH3e0sg
-	 SQJ/UnaPrEG2x/WL1HFkvq+44cE7ODh0gx+KIb8wKR6VrhAW3Etbti2su+YY31TeTzYSQ
-	 Fz61rAM6JiKMFVsoWojIL04aD5OoXYdK57GDd6aXdXJCCXmmm5gbeUbDDPRE0qWDiJg==
+	t=1793289051;
+	b=euiTvVvvRTxrVX/kLYicol1FlFLDpGOjnCztTHZ5hgRsbYeANAxhNgdM1ZQaTp3X0U27
+	 N7T6GXYgAeFA45OjeGo/3C3fbP1/64jnqEc+7DJrbOq50frKowGqcajDx/WTLfv1jiWC8
+	 7Kngn8waTZIGRYKSSf5f+rMDESYTlHOTNFPnZ+3BfdmmJVpp3yPopmljQYCc504m8+BN8
+	 N4H+V+sZ0JGZ0AsBVUDnjtqzfLF7zpF3o5GD9JXrHjxvxDoVKi/ryQ8fBNq/2zc7mH1TJ
+	 1dbZeY6DWrg/WEAuq1Aek7nYx4BiRgd/i/6kPOQgb+fZRHFE2VbkU6Aow9OL+b9j12w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793289047;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 X-B4-Tracking:X-Change-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Disposition;
-	bh=yaAYz8Hc0E1J++0lVxAIJTRPnroDQ9MIhn/HfIw3mGs=;
-	b=ghXVxeUr6KzAku3pDbaVW6Motm7GnOQ/TpiZ2ksltNLE7EPTMNnBhgFN8G7m+oqo/EEH
-	 CkQOTpDKKIPrrAjCXBlKr+CJ5Eoidf8KzAY5/2oEI9sqaZY7XttleDrDU8Eva1M9Chu6E
-	 8llMgzLgsKf8brbOlfudgNSs9+xZ4XvAP3vBkfgABmClnFGSxH8ieFX9tmrThCZChraC2
-	 5e/SAwSIoHXl+h+MoIBVHW2452bh1KE6C+6Ul6QPdRHlyXwtU/rQAU9GwVSr4h3PQwbXS
-	 izUpK/7OL4nw5KDIv3XQE8yiR/2AIEyZJ7WdySEaFvm8m9hXVEjnwpHPtuTFJglDaOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793289051;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=ZGVbAria0Qqiedh4pyoA4PlNAYwcnbIuCp+A1N8+bTI=;
+	b=ekjfnrASqPZYXVzeCJB58jqbTS+tLdp8IuF0QiWbvnu/KtMjmUVLtyNYbUBYY4kPsFyh
+	 DyPIs4AezkiuOWTMQ5n7/9JNYjS9P2YYOZot0l30EgGzZbgtGXL6/u4gLtv5OELd6+Kt3
+	 2VQN2UbGjy8C4A9u1i8RUPLAk9DRSyPWLUmNUM9MMH4huh9znFB+DBOes+XKWn36uSzMJ
+	 lDRYDc3jvXgTzY40ktPHtQo0YICvH7fYC9IO1pjc0fdseHvJfY7OAOe/hxrof4BgA49Yb
+	 3yFhygMPZ3RMPyyJc6l3AJyJ33n5l4nYutY+KNRT5QjZjVkGy8TtCHSjx2ZeRwlvcQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=jp2EfrI4;
-	arc=none smtp.remote-ip=91.218.175.184
-Received: from mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=csail.mit.edu;
+	spf=pass smtp.mailfrom=csail.mit.edu;
+	dkim=pass header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.a=rsa-sha256 header.s=test20231205 header.b=A9KLBjkV;
+	arc=none smtp.remote-ip=128.30.2.78
+Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB81606A331
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 15:50:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EB81606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D46E606A31D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 15:50:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D46E606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=jp2EfrI4
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=n9CMCDalShVTKhOhD+z5DJppXsi7YqvLnst8+Zhlhxk=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793289044; v=1; x=1793893844;
- b=jp2EfrI4BVBGN2zknGopZvCy+T/xY7ruX+Rl8f78cl08kZqIUKG058Yr5eU5pnNopGhE5qsE
- T0/y0iooL1vrTn9B54OCE8Z6i9vf6+egbewXom685DJu3Qz9gsLTifwpI7jznX/fG1UBE/D4GTm
- 6lSJlF2DfLbRrRt8aW3b0P9o=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 43b22051bb286e53;
-	Thu, 29 Oct 2026 15:50:44 +0000
-X-Mizu-Trace-ID: 43b22051bb286e53
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 29 Oct 2026 15:50:40 +0000
-From: "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, David Hildenbrand <david@kernel.org>, 
-	Krystian Kaniewski <krystianmkaniewski@gmail.com>, "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>
-Subject: [PATCH] mm/filemap: stop fault-around when the walk steps back
-Message-ID: <20261028-jf-mm-filemap-map-pages-lower-bound-v1-1-0bf126e876d4@linux.dev>
-X-B4-Tracking: v=1; b=H4sIAHuF4moC/yXNywrCMBCF4Vcps3agiVCiryIupsmkTmkuJFaF0
- nc31cVZfJv/bFC5CFe4dhsUfkmVFBvUqQP7oDgximsG3etB9drg7DEE9LJwoIzHMk1ccUlvLji
- mNTqkQZ/ZGTLKXqCVcmEvn9/L7f53XceZ7fNIw75/AQGVreeHAAAA
-X-Change-ID: 20261028-jf-mm-filemap-map-pages-lower-bound-a623ed8a81c9
-X-Mailer: b4 0.15.2
+	dkim=pass (2048-bit key, unprotected) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.a=rsa-sha256 header.s=test20231205 header.b=A9KLBjkV
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=outgoing.csail.mit.edu; s=test20231205; h=Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=ZGVbAria0Qqiedh4pyoA4PlNAYwcnbIuCp+A1N8+bTI=; t=1793289050; x=1794153050; 
+	b=A9KLBjkVV18JvImOKBqQB4Zr5RiiS3EpmLVZC7L96H6rdgFoF6ORnrnx7BM1RpgrYNogC7P+tlx
+	cXMeA48etVLIEKea+R4MOVnCXb5nNhVINSRORopBIgfoj0Bu8C82KHb3ej4mS8sE/obVhuvHFpES1
+	Gri4Gh67sV5NMBUnCmJb4AmMebODLHPFqNMM6yxEuyNK7Wq4KJ1D2x4GgPJs+nVpvu0irs22M2woj
+	7fdPdOuiSSDvkwuoTzmhUAbpBv4bxjPe0qemM8f9Uo7HQhnhRUuVtj/YZ3L8zuph40gfReF0DaVki
+	QRGrAqQmm+pgeMIy6Zi2rvFBlHrV6E/LNsGA==;
+Received: from mail-dl1-f42.google.com ([74.125.82.42])
+	by outgoing2021.csail.mit.edu with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.95)
+	(envelope-from <nickolai@csail.mit.edu>)
+	id 1xMSOw-004ZUb-0G
+	for linux-fsdevel@vger.kernel.org;
+	Thu, 29 Oct 2026 11:50:50 -0400
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-156cbe59524so2573655c88.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 08:50:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBy7fmIE9QVr8qmswSztU3AOEHxj/QwE6UkQRC6cP3nOLizXNMD8FNWhnCOh3wb8Ldo5lTOHkjAXXj7V17Sa@vger.kernel.org
+X-Gm-Message-State: AFq9FYJwnWmaF3VI+Qe3+EFxocyvF5nBy0gBufbKQe0uIFiFkVCO4DXW
+	l+010qWVuoNcHpSTnj/wzdd5AtJ99WtqLL6vbuFzz3efHhdSN5bDGOuI+GzT2VO9XP/cM5Nwzs/
+	1mrxBzZcagwXS6znxANX7/5IdqRGOVBs=
+X-Received: by 2002:a05:7022:4396:b0:15c:20b8:796e with SMTP id
+ a92af1059eb24-1a6ce208ad1mr9947732c88.22.1793289049038; Thu, 29 Oct 2026
+ 08:50:49 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -70,50 +71,60 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <attzI4sj2Pagmvkd@casper.infradead.org> <20261027192014.844878-1-nickolai@csail.mit.edu>
+ <auNdNjH4zo7OYbe-@gremlin>
+In-Reply-To: <auNdNjH4zo7OYbe-@gremlin>
+From: Nickolai Zeldovich <nickolai@csail.mit.edu>
+Date: Thu, 29 Oct 2026 11:50:37 -0400
+X-Gmail-Original-Message-ID: <CADGQE7EtDGs=g7p5=_m2LieLcEj-k4LyupOFWt96Aw9py-gYaw@mail.gmail.com>
+X-Gm-Features: AclHuK8yS5TxpZVU_n3PpHxl-8IBYZs67giAAwk7Tv4-zhBVnjxpmpu0FOC9ZHE
+Message-ID: <CADGQE7EtDGs=g7p5=_m2LieLcEj-k4LyupOFWt96Aw9py-gYaw@mail.gmail.com>
+Subject: Re: [PATCH v2] xarray: clear the new head's parent before freeing the
+ old head
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-filemap_map_pages() can dereference a PTE pointer outside the page table
-it locked. KASAN has reported this as a use-after-free read [1].
+Hi Lorenzo,
 
-Its fault-around loop walks the page cache and moves vmf->pte by the
-change in index. A lower index moves it back. xas_find() can step back
-to a lower index when a multi-index entry is split during the walk.
+On Thu, Oct 29, 2026 at 11:03=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.=
+org> wrote:
+> It's pretty 101, but please don't send new revisions in-reply-to older
+> revisions or feedback [0].
 
-[1] fixes xas_find(), but the loop still relies on the walk never
-stepping back. Stop the fault-around when the walk steps back. ->fault()
-maps the faulting page if the loop did not.
+Understood, will do.  (I was thinking that applied more to
+multi-series patches, which indeed gets unwieldy.)
 
-Link: https://lore.kernel.org/20260904121301.200049-1-krystianmkaniewski@gmail.com [1]
-Signed-off-by: Jose Fernandez (Anthropic) <jose.fernandez@linux.dev>
----
- mm/filemap.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> Also, if somebody replies to you, reply back. You, not your LLM.
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index b74bc1e5015c..1df776907140 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3968,6 +3968,13 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
- 		unsigned long end;
- 		vm_fault_t map_ret;
- 
-+		/* A lower index could move vmf->pte out of its page table. */
-+		if (unlikely(xas.xa_index < last_pgoff)) {
-+			folio_unlock(folio);
-+			folio_put(folio);
-+			break;
-+		}
-+
- 		addr += (xas.xa_index - last_pgoff) << PAGE_SHIFT;
- 		vmf->pte += xas.xa_index - last_pgoff;
- 		last_pgoff = xas.xa_index;
+Indeed, I've been replying personally, though in a few cases I sent
+the response in the notes of the v2 patch, in an attempt to send less
+mail to lkml.
 
----
-base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
-change-id: 20261028-jf-mm-filemap-map-pages-lower-bound-a623ed8a81c9
+For context, I use an LLM to write Lean proofs of correctness, which
+seems useful for cases where the patch is non-trivial (e.g., [2]).
 
-Best regards,
---  
-Jose Fernandez (Anthropic) <jose.fernandez@linux.dev>
+> Also, you are flooding the kernel with patches, 5 series across 5
+> subsystems over 2 hrs:
+>
+> https://lore.kernel.org/all/?q=3Df%3Anickolai%40csail.mit.edu
+>
+> I already asked you once to stop doing this [1]. You've carried on.
+> [...]
+> I'm sure you're acting in good faith, so can I please ask you to engage
+> with maintainers instead of ignoring us and treating our time as valueles=
+s?
 
+Sorry about that.  I'm happy to send bug reports with clear userspace
+reproducers, instead of patches, for any bugs that seem particularly
+significant.  I'll also get in touch with the relevant maintainers to
+see what, if anything, might be useful to them, rather than sending
+individual issues/patches.
+
+Nickolai.
+
+[2] https://lore.kernel.org/lkml/20261027125210.843589-1-nickolai@csail.mit=
+.edu/
