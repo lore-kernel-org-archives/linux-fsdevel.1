@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793306467;
-	b=dV7NW+kizwRFmmCKtxIl63gLFd9pOOTtmqgqDy3zDZXGserVsLXW3ge1te8B9d+JmYRe
-	 ANhE3m8Qh0Y+l20UlEknCzSazY1Ot2F4de4yUVPiv0abCpiPOI4+t7QLqKX9/4e9bMq0K
-	 8bk501tNaXw6gkwZRmnDRJfbJ+w/9fXLhnCAuEx0UqWsAkUa/7adB0VFgAFxKNMlT/Z+x
-	 f5QEsznVFzycMUlQkrX3SB36Yz+kty1VDT0RNR3oufBCfcMpnTDJyB/n941kYqpgu2NEc
-	 tAo6jNrVXCBvaKlrcI+PxcvsRAfQo45pN//6jPBNYYpSYHYjabHBPdU62snRRdWs8oQ==
+	t=1793306497;
+	b=ILHFmMETS6nTH4o8DhI4kOZbxpIp47LH+YlsGra8+PB2UgdHPw/a5EvJkpmcdKOG8tn5
+	 lH9fUdTalNCFp3yiuBGBy3Le/WtTbRC62k66pfu/vX8Pgqc2YjEFfZrDO2HoSqntZWoAj
+	 PxGQ8BFX2hi6uLUMfsaas5s83KhaXmd0eN5hMZu8WZw+/33TlWGt/fhS/BY81Mwccjxsr
+	 ncrESZENbfrxFe5C5/mo9Vti9u7nUYhA5N2umL4jhsp476hfRrZHEN0je5ihV3TPLwL1E
+	 ZmHC14onXo7AyTe3RD5upaRwx6hXJ8pTD3l8l8JUMSGFTcpxXwo6eCz/UVm2tV5ZKtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793306467;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793306497;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=zTwOe2rhygBTqbimADjsD30DCMGB2E0StBtyrsEknSA=;
-	b=i4dWuDKKcMXQBg42XfirmOns40Dl2AJ+/v8MQvR9F6EyRtIoBLqD/rMaQeYM8fjxvz2T
-	 r48bqWZAIgSXdpAnXGSy2FEajcHgXh9VF5WCAh/iSJ0UTKnK1U86oapWL+VHfCbPafVQB
-	 H2J6+bIKX3hLk5SOGN5lUs81gyZcqwhzMS/aiPalTq8JTrPEWDK0GxGmBjgBlLmzrPJHZ
-	 PYtG3Gd9fNiPy401pZRW/TJdZnzT3hwBlUp2KbSBFq7pB3YOgFDm0bNHPSb3D/qsn+Wne
-	 NL8U6JuynPnddVxY8kmRG/jbylxDO8/LRW7nn5hQcl1d2kXQlxuYcwZCVLMlqiDP8ew==
+	bh=5uSiir5kVbedebaZsFGaz4hqB6R1E7mLyr2MzNoLngs=;
+	b=C8y0y3+tvUefePvtRJQH+p4bwycx+md86A7ap3bH/cT57Pn/LNeSQfyokqSy4Js67a5M
+	 77m2/ewUaaxs72wIvo7bUQgdXkFYXHsDA59GzUYbL5FXZxkjELdstciNLFellEE77vSyL
+	 zHBjDRHgaIRuEhfDP9qmgHEHRQO/kh6u+oPCqfi4LQSQTjipONDslB9mqpEGfA69ju70f
+	 Lq4znxUh2eUn4T7Cb2jVJsUJIJsxOKYKPWXdgxP+VwemFWpGWHxAyLOoUIhB3hDW2eYsp
+	 b2y2AIdcZkKxNUFFEw+7fUQOP7Uxj1piVXa2cdZUkhhdR35+9vdtqh9VwZxgjPVyYRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TE1y0ZbL;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tz9fODLA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56565606A320;
-	Thu, 29 Oct 2026 20:41:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B220B606A31A;
+	Thu, 29 Oct 2026 20:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TE1y0ZbL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 265891F01816;
-	Thu, 29 Oct 2026 20:40:52 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tz9fODLA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C6C51F01816;
+	Thu, 29 Oct 2026 20:41:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793306467;
-	bh=zTwOe2rhygBTqbimADjsD30DCMGB2E0StBtyrsEknSA=;
+	s=k20260515; t=1793306496;
+	bh=5uSiir5kVbedebaZsFGaz4hqB6R1E7mLyr2MzNoLngs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=TE1y0ZbL3VVf4eb0u189422pKiAjJR66N2I9oRbQQKW9568wfoomQtdaN6haewvQ/
-	 QvLKMTWJGEIpLmu872vicnNj8EMylIE6cimSkE7cVVxhve4jg0GGIRmlhdB4EW+Rfs
-	 bx4v2727E0rc3ijNbosG45F77CfN2c9fJw31CpRuioX3BtcKRyuofi5KCM412z8Yis
-	 b+xHStb8Zv+yfOsQ8t+1K8J/VWSvKbzlyPs3a1VrzphHv9cZ7fI88mgneYvJjxzOHJ
-	 v8ViB9WkGVew7svI82MfmrAzh9Hrk1i0lS0t6SRranladPVqdFUN08fQx4ZQ8MBeuv
-	 AEoxd+/ch8j5g==
+	b=Tz9fODLAYQG594yPNH75AeKGyE5cFdBIpvZVoymg4hDw3mti0G72s02fvYCaVCUD9
+	 lt8Exc8l8x1xV1p7UpPPu00DRqu1tPXmV2/pctBaUJFydsCRxtD4iT8RTWEzzIv2D8
+	 /zH+dZt56YPixFKyK9DnQKCpaudqze7p+L1zR7/mL7E11HewLLmqinTJ1K7n8/Nfj9
+	 IfCN0pIc+ff0kFboqS6a5ZLKM55gHo3muvDnalvvf151ZywFvHCvY170kgNbNM7tXC
+	 og5+8uu0N/RIhshEfKUph58MECD2INqomDBTAZ5HCuHM/JbWs1X7LTu17UzbxGvru2
+	 jnwfdPJDCCm3Q==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Thu, 29 Oct 2026 21:33:26 +0100
-Subject: [PATCH v2 31/47] mm/mremap: recheck PUDs under the page table lock
+Date: Thu, 29 Oct 2026 21:33:28 +0100
+Subject: [PATCH v2 33/47] mm/memory_hotplug: avoid races in
+ pfn_to_online_page() with dying pgmap
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261029-fixes_core-v2-31-a64ce7f83abb@kernel.org>
+Message-Id: <20261029-fixes_core-v2-33-a64ce7f83abb@kernel.org>
 References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
 In-Reply-To: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -92,81 +93,129 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
  kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
  linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, 
- stable@vger.kernel.org, "David Hildenbrand (Arm)" <david@kernel.org>
+ Josef Bacik <josef@toxicpanda.com>, 
+ "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2380; i=david@kernel.org;
- h=from:subject:message-id; bh=+B9w/NrDyjyp/nHRZsfFIxa7vmKtKobl06e6HnkArmM=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer+24/V3GfMO74vTaKbNNWy5eXLrUfJ6mT+ijWK8PH
- W4s/RsTO0pZGMQ4GGTFFFmCgu8bvHy5rrbajY8ZZg4rE8gQBi5OAZiIXx3D/zzBwL2X6+arx9qJ
- nJHpi56T+PWSp2qJUN7ShvrtW9ett2H4HzPRY6fWRadVIoXiKeVO3i4zbr8QeZnw4P6WpzOSJZS
- leQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4287; i=david@kernel.org;
+ h=from:subject:message-id; bh=K/Rz5AheKAp1O4iTIfDAL3ySR9IndGWc0AInEz1GWlE=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer+2Q2HP6vnFJwjbR5iWc8v7H1nGs/zFtM3+9wLTXx
+ rctJ5QFdZSyMIhxMMiKKbIEBd83ePlyXW21Gx8zzBxWJpAhDFycAjARzv+MDNNYetk5BC433npa
+ bWNiyFHyuetN8VGDR8tfL8n5cNO38xzD/3qNiW9uZEV/67rzcvkCrrt7TOSOm11TfjY3SIf12cz
+ MNFYA
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-Once get_old_pud() is fixed to accept PUD leaves, unmap_mapping_range() can
-clear a leaf between the lookup and the move. Holding mmap_lock in write
-mode does not prevent this.
+From: Josef Bacik <josef@toxicpanda.com>
 
-If the zap happens before move_page_tables() tests the entry, an empty
-PUD can reach move_normal_pud(), where pud_populate() turns it into a
-present page table entry. If it happens after the test, move_huge_pud()
-can instead try to move an empty entry, triggering CONFIG_DEBUG_VM
-warnings on powerpc.
+If ZONE_DEVICE memory shares a memory section with ordinary memory, the
+section is online and the pfns of the device are valid.
+pfn_to_online_page() tells them apart by asking get_dev_pagemap() whether
+the pfn belongs to a dev_pagemap.
 
-Recheck the source under the page table lock in both helpers. Treat an
-empty source in move_normal_pud() as a completed move, and use
-__pud_trans_huge_lock() in move_huge_pud().
+get_dev_pagemap() only returns a dev_pagemap whose reference is alive.
+memunmap_pages() kills the reference first, waits until all pages are
+idle, and then removes the memmap. During all that time the function
+finds nothing, and pfn_to_online_page() hands out the struct pages of the
+device as if they were online memory. A pfn walker reads them while they
+are poisoned and freed.
 
-In the future we should likely have the code lookup a PUD/PMD lockless
-once, instead of multiple times, because one of the problematic bits
-here is the:
+The entry in pgmap_array is only deleted after the pages have been
+removed. Look at that instead of trying to get a reference.
 
-	pud_trans_huge(*old_pud)
+This is probably not worth CCing stable.
 
-Fixes: 0881ace292b6 ("mm/mremap: use pmd/pud_poplulate to update page table entries")
-Cc: stable@vger.kernel.org
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+Fix generated by an LLM and sent by Josef Bacik in private.
+
+Fixes: 1f90a3477df3 ("mm: teach pfn_to_online_page() about ZONE_DEVICE section collisions")
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- mm/mremap.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ include/linux/memremap.h |  6 ++++++
+ mm/memory_hotplug.c      | 13 +++++--------
+ mm/memremap.c            | 13 +++++++++++++
+ 3 files changed, 24 insertions(+), 8 deletions(-)
 
-diff --git a/mm/mremap.c b/mm/mremap.c
-index 16e736c72d9c..91f0865f6aee 100644
---- a/mm/mremap.c
-+++ b/mm/mremap.c
-@@ -461,14 +461,18 @@ static bool move_normal_pud(struct pagetable_move_control *pmc,
- 	if (new_ptl != old_ptl)
- 		spin_lock_nested(new_ptl, SINGLE_DEPTH_NESTING);
+diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+index e3c2ccf872a8..b5e5e626c7a5 100644
+--- a/include/linux/memremap.h
++++ b/include/linux/memremap.h
+@@ -231,6 +231,7 @@ void memunmap_pages(struct dev_pagemap *pgmap);
+ void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgmap);
+ void devm_memunmap_pages(struct device *dev, struct dev_pagemap *pgmap);
+ struct dev_pagemap *get_dev_pagemap(unsigned long pfn);
++bool pfn_has_dev_pagemap(unsigned long pfn);
+ bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn);
  
--	/* Clear the pud */
- 	pud = *old_pud;
-+	if (unlikely(pud_none(pud)))
-+		goto out_unlock;
+ unsigned long memremap_compat_align(void);
+@@ -284,6 +285,11 @@ static inline struct dev_pagemap *get_dev_pagemap(unsigned long pfn)
+ 	return NULL;
+ }
+ 
++static inline bool pfn_has_dev_pagemap(unsigned long pfn)
++{
++	return false;
++}
 +
-+	/* Clear the pud */
- 	pud_clear(old_pud);
+ static inline bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn)
+ {
+ 	return false;
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index c9cc42e54f05..944ea6fd8856 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -342,7 +342,6 @@ static int check_pfn_span(unsigned long pfn, unsigned long nr_pages)
+ struct page *pfn_to_online_page(unsigned long pfn)
+ {
+ 	unsigned long nr = pfn_to_section_nr(pfn);
+-	struct dev_pagemap *pgmap;
+ 	struct mem_section *ms;
  
- 	VM_BUG_ON(!pud_none(*new_pud));
- 
- 	pud_populate(mm, new_pud, pud_pgtable(pud));
- 	flush_tlb_range(vma, pmc->old_addr, pmc->old_addr + PUD_SIZE);
-+out_unlock:
- 	if (new_ptl != old_ptl)
- 		spin_unlock(new_ptl);
- 	spin_unlock(old_ptl);
-@@ -503,7 +507,9 @@ static bool move_huge_pud(struct pagetable_move_control *pmc,
- 	 * We don't have to worry about the ordering of src and dst
- 	 * ptlocks because exclusive mmap_lock prevents deadlock.
+ 	BUILD_BUG_ON(IS_ENABLED(CONFIG_HAVE_ARCH_PFN_VALID));
+@@ -363,14 +362,12 @@ struct page *pfn_to_online_page(unsigned long pfn)
+ 	/*
+ 	 * Slowpath: when ZONE_DEVICE collides with
+ 	 * ZONE_{NORMAL,MOVABLE} within the same section some pfns in
+-	 * the section may be 'offline' but 'valid'. Only
+-	 * get_dev_pagemap() can determine sub-section online status.
++	 * the section may be 'offline' but 'valid'. Only the presence of a
++	 * pgmap can determine sub-section online status: it indicates a
++	 * ZONE_DEVICE offline pfn. That includes a pgmap whose reference has
++	 * been killed, its memmap is about to go away.
  	 */
--	old_ptl = pud_lock(mm, old_pud);
-+	old_ptl = __pud_trans_huge_lock(old_pud, vma);
-+	if (unlikely(!old_ptl))
-+		return false;
- 	new_ptl = pud_lockptr(mm, new_pud);
- 	if (new_ptl != old_ptl)
- 		spin_lock_nested(new_ptl, SINGLE_DEPTH_NESTING);
+-	pgmap = get_dev_pagemap(pfn);
+-	put_dev_pagemap(pgmap);
+-
+-	/* The presence of a pgmap indicates ZONE_DEVICE offline pfn */
+-	if (pgmap)
++	if (pfn_has_dev_pagemap(pfn))
+ 		return NULL;
+ 
+ 	return pfn_to_page(pfn);
+diff --git a/mm/memremap.c b/mm/memremap.c
+index accba23aef28..a1e99a4c55c5 100644
+--- a/mm/memremap.c
++++ b/mm/memremap.c
+@@ -413,6 +413,19 @@ struct dev_pagemap *get_dev_pagemap(unsigned long pfn)
+ }
+ EXPORT_SYMBOL_GPL(get_dev_pagemap);
+ 
++/**
++ * pfn_has_dev_pagemap() - does @pfn belong to a dev_pagemap, dead or alive
++ * @pfn: page frame number to lookup page_map
++ *
++ * In contrast to get_dev_pagemap() this also finds a dev_pagemap which is on
++ * its way out: it is registered before its pages are added, and until they
++ * have been removed.
++ */
++bool pfn_has_dev_pagemap(unsigned long pfn)
++{
++	return xa_load(&pgmap_array, pfn);
++}
++
+ void free_zone_device_folio(struct folio *folio)
+ {
+ 	struct dev_pagemap *pgmap = folio->pgmap;
 
 -- 
 2.43.0
