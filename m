@@ -1,90 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793283163;
-	b=ufBEZXBafCpa+Z3IBEaPYZ8dIzww6PC8qNHcufZy1e0qhQH4PJ/IrebmzzFd3VSYzUgk
-	 iWWHeyEJJjNL439lWEfMhAiRvkR43Sn7UMGtKo9K+KNDmo8HeAuqupkr8TK+l5hehpV97
-	 xqk5uyIAK0zlDOeA9jdGux2em7WInHA8SDXgA0j2VjP06uLe/xtFxByUbcTcxYemlfIoX
-	 6XJrG3QLYc9av5xiqsfCH5fQmEW5snShvXV58yamo3FPh9RSDJexMAvX5c+RFBXTsjdqQ
-	 me6SPw9LnvnUrV+yxiLVxxjb7c3MCi+h4zd7GKpcnDpGND48bKA/eIGAj8jzkmMg23Q==
+	t=1793283235;
+	b=Ufj5TeFzsRBLaGv0YSfNdsUitlq3L5rMZ1vPGgBLZ4J2Ph/hEdff0L3BzK9Mji1AvvsU
+	 7VzUIEVHJuoi6RH82r69eEg1RSGPJtjFC53CPnqOmo7e3yILphjpHh3OLmZvlQiDeHpcm
+	 KBGkgUHT+W+x+zXQEFDsu1FON3mz4zDh86tUDEYHC+m3m+DQjnVl86WmGI2LT/P35o/bF
+	 V2x4DghpQ5syc5peneT+LHPjI3Y5b7mxlZ9emr68vxP2wY0c3KtBX34uHuvHCjCS6Qgss
+	 UWOa8SEQUo3I/S7GwvW9cqJqZa3jbATqNlftyuwqDQF/wI0StzEKhc3vevyeqBOR62g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793283163;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793283235;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ugO9Kth5t8s7Fphk46Xo5ddbEmG6KSdUT5+AGSNMycY=;
-	b=CkBFpSQKfJF0fIKIKK/G/qYMaTzeS+SynMDu/RHlO9xNFS9OfFBEwN6EyM89sGBiHycR
-	 YuCtZtaLy/779GfqqQB2S7Mv3CCbs5hGRMcu6UlQnkfSXclw/frMpLXZ5RGlsRL3Q25Iw
-	 bZXZF6Fq7YlHHjVWelS4CqqH85r4aqvISgMVGYIjBGgT0FP+9wcptX2NDEDbA+3UbqoHH
-	 lQ200mFtZVthpgy6Mt8F7jWu0WOr0djnSmLregWCgztcIJLLDwI/Es7xiGfE/guOwTMof
-	 OONDAqkv9ouC1Ff0PGqNYPD0CP0G1VVj18bvR9fHCQzqotCCq5w4A8T6LXW4ebNk+Gg==
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=VHQCBBokr9ANF1mnkSximMg4YC5imaFH/YUHtOF7V4U=;
+	b=hIeS/yKsBjzyOTYFoJ7jzAR/JjHcPqHmZBLvhhW3j3qyso5M1GZQ/+1bVZlSG8V2I5TI
+	 prpqn4Id5xVCy9Qm8DvEU1uboqFQT97HdPMr+4RBlZUGCb+seYDPII19u7K8cD87gRbOv
+	 NJtNEqzI7KDT3xyBPLZcmMNxu7RxQqMXxD76F/G9Oslow8BjLPZW4bfjwanUpqIhMyMdZ
+	 oQZkAjpcPI1T0fhzBrHr7DphDRMs7j53nWMQJlwhqahaysslrgv6H6W/Idp9y9CakHy+L
+	 DKI7qJdgeE35jFlmcAzu2W4wu/Z63TzjLnMVWFsh5mV9kzJIiK9oEM8lPs9Gey/BeAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rsYPJ+dW;
-	arc=none smtp.remote-ip=74.125.82.54
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b="e5/0LFuu";
+	arc=none smtp.remote-ip=209.85.218.44
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971DE606A31E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 14:12:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 971DE606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8551F606A31C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 14:13:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8551F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rsYPJ+dW
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-156cbe59622so2246326c88.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 07:12:42 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=e5/0LFuu
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c3f04e0e65fso387773766b.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 07:13:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793283162; x=1793887962; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ugO9Kth5t8s7Fphk46Xo5ddbEmG6KSdUT5+AGSNMycY=;
-        b=rsYPJ+dWvfE9hULcrCx5P5nwSB1FWDWlVyEX1LPDC+Pcz261VAvGW5vYXrq7H2aMas
-         tnD7MrDMYnhV1k5ZZeMypHaX1rdsHJawevsLKNVqMcs7YX4qfws02uTLpW0PzxbcLiot
-         zV7Xjb+sL/iAbC6apTnitAw4Ktli9Nh4IXO9Xl5p2qOt0WD70/iTqEbQapr2coXoi/bO
-         wBu3fsneuUGOnzP+X61b7nOSojH5GclQbq5nsW+KNIaKnSpRj7QnCzVWReqIbsb21PeI
-         xs84S4BYfBgc1g5nf0iRf3/oJ/+94rIjnl5CGMD1CUEx4jriiybwMID5kUi3iYad5b+b
-         Zokw==
+        d=gourry.net; s=google; t=1793283233; x=1793888033; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=VHQCBBokr9ANF1mnkSximMg4YC5imaFH/YUHtOF7V4U=;
+        b=e5/0LFuukNHW7lzYuFosRJh+HCYXR9pyFNiQxvyIIBVipBFBgPFdS4+6o0e/VLtSHP
+         D2NV+uWECYwfjgApOljWOGHKCse0y1GozqH0FgOpVe2BGPs5fNsPIa/znV1SPRUcfRzC
+         S2HvVwG+whXsWeX2XViUnh1wbiyPOAgZYzqXUt26yduzQ4O2OmGCssgjZkXAmf+1GtpK
+         qCiL3bvCUG1uU/sMo60Z4jhr+nRw7l3FkT58U3zkvqVemdPsgtw1581thB5KWAkrpUg5
+         ZQXV5QFXWQJRc25kncj0f/n/AZy335nPp8YBto+psFG1ofitw09eWSoKIi34kVGWTlCu
+         Ewrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793283162; x=1793887962;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ugO9Kth5t8s7Fphk46Xo5ddbEmG6KSdUT5+AGSNMycY=;
-        b=dUdpCgVyXmUKc+3JWR3B5DK6oUAgW4dexSlEe6Ch3x5FhlqJJFjXBwkFHM8v+4Q26U
-         234z5ni1nEW50WKrZUUlARBtANyhaGXI3qZ6DdxymmINRMxALrIeM28p9yJ06vC+WYWk
-         X93kJfGuixSBi1bFqo38WQpL5HIW5VyHdaocH89zwU0n8SD5pN0LhbuU6urSvSVl39Qe
-         0uEcZ/+6Z8YFz0dE8OXG2XajRLnwAlse4r/sOcvZp6+aPsxZEVt8Cki8qW9Kz6LRzQYN
-         wBVZtrrWjHuqVzqc7MaZ3K+5xXn7PESv5DGS8mQnXZC2OSsBzAtl5quSd+xhiVPUfNu8
-         uvYQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwHZS3kcIby3Bd9CsI0KQe6sBP6URLhXLnhqDz/7lG7mzZq/dTCYzdodV7TL9eRBzy5nevyhT9YFCJY61pe@vger.kernel.org
-X-Gm-Message-State: AFq9FYL38idrI0y5tZ+mjneFFS9skL1bYMv8SzV2IRdntJAW0d49KMce
-	wkwy79ihzwy3zCOXI9H23CjDeZctvIE8UrdIajgKlJ2OT9oaZQW1hxL6
-X-Gm-Gg: AYBFou3LV7sT6dgLzJ+hMYXGSWZuNDMShDUr/yesGW3XQqqNpg0/aKL88m+Uzce30vf
-	CMAGL5lUYVrMvSq8zWWOCpcEQZ7gO63MBHjznQKtVeBF7oWQ1cDG7iiueqYMCSuxyXf4DhucH9A
-	PC9g0Yp6lnNx1ryK1KpY5LrmpSWiXG6iwjriGRkV6MPI8U2+5ex1u+Zq6rzxcHpx5bMn0i507cv
-	w58YGsE2X+6Wk7aFX5dD3tOJEK9u0ChVbEXt8r9zuf2cpfwu9jZp/TnWRnYAQmODkNU/jRJ9snF
-	lY/+CubP5R928O070efI+s79YWn7bWd/a7/csG8XsCmMBUFaCYWj65lGOndAM6OL9hxqvte7ZON
-	WDbrd/tnTusuGIYRIDLZZiymb94K+Lfj3av/8bxGc744Ac3a7Zj3o3Uu+YvmMQjpdfIG638Ptqu
-	f7jbBFAjKY5g6SPhzdYSQsJt4ay18wiropIPzniU2nx6psnhmdpu558tZgacCFuAdxfcC3//LsJ
-	2zJqmSAzFyQ/jp/isBu6ZUOEoN1nJPSKgif688gB3SwxTZVgp1662zVYOA86+i5HVZrrx/V+w/e
-	eHmyOvWCtRPb+CiGBeY6yKVWsQDNSbc76FufoLeY+BR/fuwfJoA1bA==
-X-Received: by 2002:a05:701b:4203:10b0:143:3c9f:10a6 with SMTP id a92af1059eb24-1a6c9af1e26mr7955968c88.4.1793283161611;
-        Thu, 29 Oct 2026 07:12:41 -0700 (PDT)
-Received: from [127.0.1.1] (67.216.200.102.16clouds.com. [67.216.200.102])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1a75d76814bsm15197319c88.10.2026.10.29.07.12.38
+        d=1e100.net; s=20260707; t=1793283233; x=1793888033;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VHQCBBokr9ANF1mnkSximMg4YC5imaFH/YUHtOF7V4U=;
+        b=qqpOcY1fRjjspyvORBb5EONbk+WqeBo5tktoJ1NuIw2M8LtLX4B4LIVeVf6VMDHXFz
+         0Lqghwgc1AdhEEe2Z45Lvrjss79D6+aO4I8cJP7LHYbXZDI4qdPf4DtGvCAOh0ZlOO4/
+         YaSlDDwML4DgDTGMrmYfI35MLwj2n5eXvLDl6eAS8Im98b9FFJAHURRb0PSrOclc+b9D
+         m3FqCGlCdxWE+5UAYlwAak25Ot6uS7s3MSlGBSJS07695x0D1dhO3fbeLyACZV59xaT/
+         4qGAgPC83uwN80zT8xjwKNVKvalkp1gLgHKREA0WOFHlcEdkXsFpmbHw8s8tJ+/jOj/I
+         f7Gg==
+X-Forwarded-Encrypted: i=1; AKwUvBx0T2R+kRoqdTjgAzcO1gdSKF0NLWpB99upIXo399zdXqC/O+uhZghSnE8CjmHuPnicbrlAYft9IKJ8NemC@vger.kernel.org
+X-Gm-Message-State: AFq9FYK0pVdTDGdlxQxUWowuABM7AYllaqKR4TlvbW0fh1QQa/6b74fk
+	jbZ7DK2WxntkMJlPtO1upMZxEdRs69GwWObUn6FMLMIDe9Rq1X568BHKnotzAnu+lSQ=
+X-Gm-Gg: AYBFou0OunEX6CrCSj2RpZnH47/b49GzdaMxhF1BHjFxtTE4rycVO4hcLoJcHjTH8yO
+	11vzrEaZGlGI5WSbUKy/7THeUY4UZdAfEBoXWkiEpAGfwFrXY6QXwm/wdBXVMfzeHLHZUpBz0qK
+	eAvliw7w/ZtsPKXiLyFZ+6bRQf95xJnGaa495qEKwnK3EnS9a7XgpYRfiKXeowm9rHXssTLUgc7
+	rVuLjCWKMpHwDVob/cFbnSqndW+ujZOpVOPh+Z77LREFr1y/LjZXUeO3A9YkbulDFrEFFf2ssVu
+	BeApR7eDfvIyS68cI1XNUlCw55RxrfmcdtCd5yXrfVf1y36O39YoughX7hvRggDGTJu0LvFnaIX
+	uXQsNeMD3MMArdQBO5j5ZcN+m3yGKBJsyanV63aG/btRpavUZufWhdczfXMlVss+Ooi5HUKHFLG
+	dJML6qTVKZUvifPGa4geYtFXgQmny7W7HeXSssScFqz0Yi42thX8qwvTHIXfoMo+1+PVVrz/B1m
+	4yTpOjKgnLhCpV+PdyulLd1ON1M1o1/hGYEaYKmeJfHMB0gcIH59fEclHadEMprN8NMNedpfAWf
+	/lslFp/WsW90WMvfoGk=
+X-Received: by 2002:a17:906:7313:b0:c45:c030:732c with SMTP id a640c23a62f3a-c49be03a73amr545832866b.41.1793283232717;
+        Thu, 29 Oct 2026 07:13:52 -0700 (PDT)
+Received: from localhost ([2a03:2880:32ff:4::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4992141068sm521507866b.60.2026.10.29.07.13.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 07:12:40 -0700 (PDT)
-From: Cheng Yongkang <teel4res@gmail.com>
-To: Kees Cook <kees@kernel.org>, Joel Granados <joel.granados@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject:
- [PATCH] fs/proc: fix the write length returned by proc_sys_call_handler()
-Date: Thu, 29 Oct 2026 07:12:20 -0700
-Message-ID: <179328314073.648427.7892850166511253762@gmail.com>
+        Thu, 29 Oct 2026 07:13:52 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -95,62 +89,75 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 18/46] mm/khugepaged: check if PTE table is empty in
+ try_collapse_pte_mapped_thp()
+From: Gregory Price <gourry@gourry.net>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Gregory Price <gourry@gourry.net>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>, 
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+ Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>, 
+ Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>, 
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+ Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>, 
+ Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Nick Piggin <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
+ Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, kexec@lists.infradead.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-cxl@vger.kernel.org
+In-Reply-To: <f9067f65-fcdc-4ebb-bbf8-84db9e22af0d@kernel.org>
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+ <20261027-fixes_core-v1-18-6f74bec9a5bb@kernel.org>
+ <179323853182.453251.8510731747954180380.b4-reply@b4>
+ <f9067f65-fcdc-4ebb-bbf8-84db9e22af0d@kernel.org>
+Date: Thu, 29 Oct 2026 07:13:51 -0700
+Message-Id: <179328323124.453251.12177231963891458248.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-proc_sys_call_handler() reads the write length from iov_iter_count() and
-copies that many bytes from the iterator into kbuf.  A cgroup/sysctl BPF
-program can replace the new value through bpf_sysctl_set_new_value() and
-update count to the length of the replacement value.  The handler then
-returns that adjusted count as the number of bytes written, even though
-the iterator originally held a different number of bytes.
+On 2026-10-29 12:01 +0100, David Hildenbrand (Arm) wrote:
+> On 10/29/26 02:48, Gregory Price wrote:
+> > On 2026-10-27 00:17 +0100, David Hildenbrand (Arm) wrote:
+> > 
+> > I get that you want to avoid taking both locks while zapping, but
+> > wouldn't it be simpler?  I suppose we don't know what kind of
+> > regressions might pop up with that though, bah.
+> 
+> Exactly, that's the spirit of the original code. We would just block a 1GiB
+> range of va space for the entire operation.
+> 
+> If you think there is a more elegant way of doing it (while minimizing holding
+> the pmd lock), please shoot :)
+> 
 
-If the replacement value is longer than the original input, ->write_iter()
-reports more bytes than the iterator held.  splice(2) passes that value to
-iter_file_splice_write(), which subtracts it from the pipe length and
-walks past the pipe head:
+Elegant and this code do not appear to be compatible.
 
-  Splice Exceeded! ret=7 tot=1 left=0
-  Oops: general protection fault
-  RIP: 0010:iter_file_splice_write+0xb6f/0x1170
+Another look, i think this is the preferred route.
 
-The write path consumes at most the original iterator length in
-copy_from_iter_full() before the BPF hook runs.  Return the smaller of the
-adjusted and original counts on the write path, so an expanded BPF value
-cannot exceed the iterator while a handler that reports a shorter parsed
-length still produces a short write.  The read path keeps using the
-adjusted count for copy_to_iter().
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 
-Fixes: 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value helpers")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Cheng Yongkang <teel4res@gmail.com>
----
- fs/proc/proc_sysctl.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-index 6c0859c..eeebf81 100644
---- a/fs/proc/proc_sysctl.c
-+++ b/fs/proc/proc_sysctl.c
-@@ -557,6 +557,8 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
- 	struct ctl_table_header *head = grab_header(inode);
- 	const struct ctl_table *table = PROC_I(inode)->sysctl_entry;
- 	size_t count = iov_iter_count(iter);
-+	/* ->write_iter() must never report more than the iterator held */
-+	size_t orig_count = count;
- 	char *kbuf;
- 	ssize_t error;
- 
-@@ -607,7 +609,8 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
- 			goto out_free_buf;
- 	}
- 
--	error = count;
-+	/* the write path consumed at most the original iterator length */
-+	error = write ? min(count, orig_count) : count;
- out_free_buf:
- 	kvfree(kbuf);
- out:
 -- 
-2.34.1
-
+Gregory Price (Meta) <gourry@gourry.net>
