@@ -1,95 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.172
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793241774;
-	b=jCunnGYru9gre/bYrvfNVlzqpIKLyCpMH6rbxky3e2HMAA7/zvjorIk3Tk7vFRQA53Yo
-	 vbBIY1tV6QUaU5CJmNqytCLehCyPPuacVcG5MTMvQ1DjZwo48axOTd8vMhhRnSK7Ql/50
-	 g7o+zqS8icxjhMPnsjJwmhIqY8uQZHF+AfuqZBfdMJdJ6OdjsJG/NdPPRHBSbpRxwZd6p
-	 X+uvAZ5fkhqFa5ltyxVlbYIKdjivjyykNJxMVPeztGFN5HKCIc1wv+/t8Wz/qAW8EvsYG
-	 k6U1saYcId/08sz3Fmf7vWcjAm9T5iWPljDsrzpehcDCE3ZiEZsis+/Hw33hALwD7rg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793241774;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=li6JwHU0iWRxuOXLh3ZiIpZVFgZFIl6/9VTBe15UUWc=;
-	b=D/270UkmVJAWqPpzrzckO/5EE9RCdyTZ0RUGkTkfshl5s92F/q/OE/GRTpzv5s6j8zrh
-	 Gd6MybdyAJTc5ls1XUAhDRq2jtqmHCgns+0YQaV8WJA+W2NkyMY5RooIiffNKcVedNIuz
-	 iV03Ki3xKsxmYBZen3j139MjAtVKXXOovZV11KnrxAb/sR1CWJLFAm5aEIzUQRqHtEB9z
-	 0iNJUB9IKGmQrWXtLgaSmeIfT7OxcUIVIO9kxFn4ToFHYqHFnOlxV/y57OjAF8Zl5PLtU
-	 ht++ukIqZQZOUjukM36arzltAfHd0BW3dV8Id7s3SIPVWAS0azkB6g6cUq1JHEI5kow==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KWY6elZz;
-	arc=none smtp.remote-ip=209.85.221.172
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.46
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793242853;
+	b=rb7bgi+A2+MiLuaxoGTExW45sgybOJZilcTQ6yAJzex201Lf9RJpUqjD1Y34SRPvOar9
+	 uQ9gWuw+1iZM94TkrqOM+xcnsgfWYUYcSJXXg5pqwKQcQ/qyS2AcFrhievTmNKH4SeMFG
+	 Ap6Fx2xLHUxU+hZ635vrzDXTSHHTsc/OQ4SkVqV0LpoYo6BLH+9Cn5VadKIjDWBdXHSAY
+	 Lv4YwQNnd5hGxZHZ79p1LWz2Tq7s8qB7EfjAwG/iSR8TyeONS0Cn8tO5njEzQXQqgpye7
+	 /5EmMw5/rG7H7zRCAnkc08Nxs4+kRtXx6mRmcM23v43TAfxugZttBsBiuBmqeF75yLg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793242853;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:To:From:
+	 Subject:X-Mailer:References:In-Reply-To:X-ClientProxiedBy:
+	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=uFJpG7TccakKvQrmjtVFkUtgC0R44/OJ46skeKOwvLI=;
+	b=P4sKdnYec8/QaixH1AE4rX1aZc08BDmb/4J8S27dJohx7bhC9oxs2NiYhgbW9j30jr3V
+	 9U9AuAFOLV70eh58Jh9gmWgO/Y/g9ze7S4mKXfLKEYSw0iV5gWCYkJ99TjX6rCVjz6I5+
+	 Kjwvsy16Vhq08j9CsqwQa9mnqMIwgpwKpCwwfi/LLxqCkmXP/oiuXRbYw1Ayi3ILCKwmG
+	 qZgYRKGiZm1XhoriuzLfeGGwfGNv4ToZCps4SyC5RzH/d/EqvU8iRxUQdQ94ue3T5fR5m
+	 RddzVZMP7kcJo9bpmI7IgnHmyi0WyPMai9apUHvlSyDaRIYohaVYm+t/8cgsQVp5j/A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=E24w5rDJ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.46
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010046.outbound.protection.outlook.com [52.101.201.46])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D9E606A320
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 02:42:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8D9E606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC02606A31A;
+	Thu, 29 Oct 2026 03:00:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DC02606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KWY6elZz
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5eac01ff101so594884e0c.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 19:42:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793241773; x=1793846573; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=li6JwHU0iWRxuOXLh3ZiIpZVFgZFIl6/9VTBe15UUWc=;
-        b=KWY6elZzkkw4orAxy35St8JuB6yvMwapHJuKAW272znFbnFoivbkGo2XjN5xVX6g07
-         o8/4fhJMNmMUeatblP2+DoaAt5kd/A46jDfu/YN6lGHSeA5czAnAnZTABnlNVxegP/8O
-         oS0/ZrZBvEBtGq7s9oyQMc2/P7N9QvR3YPI2rtMdX91e7Mp8rrx2xIMqIiZ9wH1iuIB3
-         YQ5QvN2uOI03h96G15Vs/xouBlaWxcedU7qx0kt2RuBB61dXR4T9IvDfS2lbd32f1fcV
-         pFar0iqcz1TowmlrW0p+oawG/BAzpNMBcw/j+JXVksyRyaDsuYIwKgaWflat09mwF7To
-         oRNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793241773; x=1793846573;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=li6JwHU0iWRxuOXLh3ZiIpZVFgZFIl6/9VTBe15UUWc=;
-        b=rhBO3mVmcp3nKVX5vZYahl/fFXELB/GXPt0LpSrecaapj1D7zm5ElTNkLwYvOJJjD6
-         VramFWxdRDe2BjqXBzB1ss3BDz/wsfQ/s2MUnxSO5LUfPoPQcw3lcB03dNNDBhsQTKQL
-         WLR6PLdW+Z0MvERP+/YNHYJCRIABxUSrxAiTOH+D57iKS/kzwTh122tOy0dojkHwh+gK
-         tUWYpOuoWnu5WVGNkOqD+fCmvwG3gS4jWHgv+3/cq/1vXwNov/e1xeVKH3h99YfbRPKw
-         AEdwMcR8yNo4FHJ+S0aeALErK/toClebAh3G581d7MEkDMAGf9kCHo9Pml2LCDY2EPM3
-         Aaww==
-X-Forwarded-Encrypted: i=1; AKwUvBxOimTEhPxRx1h2IMXZwuYFDXamVAt8Sm86XESI93WXKZ7wK/ENfUizkYCDvk3rkJRo74PcJjWucSWiuGAY@vger.kernel.org
-X-Gm-Message-State: AFq9FYLk7XwpqvqMVZA0fKfGeGp0LV+TOSqPp9mfHZIKhKQhKI4cLrDV
-	TkhIHN/AXM9jv8x71o2cSdVZOL9kNeVWLmuk211d2amvIyvp1tKGwiG3
-X-Gm-Gg: AYBFou33wf7ma84QFCPRjZSzh9JccSYyw0vrIh83lYCkNYkPuP9yQMokKj1LqtepGZG
-	W/EmfAYTgS4DYeXZCezsfw6rq/bsaYH80uX9g6TDeVCHB6stpQHpLawymR02NKA1vRr3tGnqZBN
-	d3avNTqPAqiSuillVcR6zPxNk5rUMeA+Ow3CVZGwwkFFVSr/EqFWz2AIiSJWBjXKWtVJjIjh3aH
-	800+AoblP1eN1z6NVCG0bmYPBaEcv68kAONwUnDoDOG0InbiLMUgEwEJLn+q+dmbL9q6MiDk+vk
-	m1vsD59MLNW+RDYWrhbWDHjPpw/k2X3lkFCCYi601uEuimUMgDlwtkUjft0kqU111GpGjF/Md/C
-	u1oWmyk2a+gaaZjM+VapeWWw10IP0OR1Ekuiduqm6zVnfkGjWPTpWdMrlNCODXfZeRjLRQ2B1xd
-	76KYEQdogXN+ayvW8DF8tNWYBSGG3wFTMrTl5jqZ4XsZFXMrAozpEI+YIynJHLhlbVO7kPvDULI
-	XI6Qf36FVIeLZahl82H1edUu5xZWV9GMa1qb+pfhfZlTR/+QM43zwFoQySyM07WO72Ty0cI7Mg/
-	8ZSnQgDpZPIxYY2x2PVzHZ+fkxUJG5MC5ZQtmow+RrWHvq58NvN47jrgl7SzVnoKzLYPMfQFtXw
-	8PrCa1TpmTo3Zn8P8UcLKTlja+SRL
-X-Received: by 2002:a05:6122:e20c:b0:5ea:9218:eac1 with SMTP id 71dfb90a1353d-5ec4cccdb04mr1920518e0c.20.1793241772644;
-        Wed, 28 Oct 2026 19:42:52 -0700 (PDT)
-Received: from macbook-pro-de-joas.local ([2804:7f0:b101:c5e8:7d75:cb37:7054:6d4b])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec57fa451csm1790680e0c.13.2026.10.28.19.42.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 19:42:50 -0700 (PDT)
-From: Joas Antonio dos Santos <joasantonio108@gmail.com>
-To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>
-Cc: David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Hongbo Li <lihongbo22@huawei.com>,
- syzbot+91e1fc35f51774c479b2@syzkaller.appspotmail.com, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] hugetlbfs: emit hugetlbfs_free_inode from ->destroy_inode()
-Date: Wed, 28 Oct 2026 23:42:45 -0300
-Message-ID: <179324176522.32673.7602596908234555806@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=E24w5rDJ
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gUrshiwj/nQakDj8oCw+KMhpatGjbbOrfbX80UzHLbEn3qPIyjadSdTDNfvvq6VuV/+JalvFjd02Zoc1YMLfBfudtTsTqzs3vBkI4grbBgkmfoc+xe7O97Bjbqb0GnUMZ7Ew5jOqsqfp+9MEwQZWr5KpX8coMxeGBbXwo0Ora6czXxTjJoAJxM0OQli8GPHZZOzQ9EdXs9YPsFlKROx/XW+btiymJXqy5E2kT9XlvXwiR3b3Z2SwS/0EIEru7ZvDpQDp58GBYCAJflG6HL5b059r7WGN1X3DDfDbTJDqXNEtMYybCUa3D5yrrex+mCEu76Tyf7kxpMJ6XNEmujj5Zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uFJpG7TccakKvQrmjtVFkUtgC0R44/OJ46skeKOwvLI=;
+ b=HMTIXNziFOFm1l9a5Wbwsq62zSevKcV3lB1b2Ulg64hVRzC/pFLM684z1Oi3spvAo6+U+vsa+YPrOzlRklBGPWL8r2Ne2+InSq8E3fW9AABP+eW6fCvspHjIMCq/XliRLDURhbbmWlunuilT8iIneE4Iu51G8irsAfk/ACWdp73JE/2/AmxLWHBHv4NvPq7m7yM01eaHS5tPQAAfrFKASGJbR8nPQgHZE5PQo5XUUvOjzuRFGsCIjn7Aw7Tsq4eugRlkAdEHxWFc1D/9xSAS25YwxOUWoIcG+JnKYIWIDCRNj6qw3EHCJ/DE10IexZlDIVOwmdYHYdvXA+NW6v1sCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uFJpG7TccakKvQrmjtVFkUtgC0R44/OJ46skeKOwvLI=;
+ b=E24w5rDJ2p8bDy9lOLRItODKyI4R+a25Z6O74W8M7kH+6lraizBeGuU6f0h+S8Vl5Ni1SGsZV+efKDUp9DOY9r7LaUBHDWvvhCZtWG0CSHD8EjCcprlNlDGfWJNc3yM7IOSdpahpT5tCfILusyBTURWyEbMSy6b8IgK6l2wJvlTtZi+xIjz1gq7AhyBwM16ezZWUaDPra31OSD02svu4xXcJyEQtgUgvUEXEwSvjTTKjEZSlBBfwPlFMw8kXXM/dC5GUAaH+2FS3JQvA/6E0s74A757SccF9aDoRXEvV1a+S9eSBvq0F7cK3jsMrALJQJlF0Gk8jskodhqnc37Dhxw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by PH7PR12MB5782.namprd12.prod.outlook.com (2603:10b6:510:1d1::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.8; Thu, 29 Oct
+ 2026 03:00:46 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0569.007; Thu, 29 Oct 2026
+ 03:00:46 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 28 Oct 2026 23:00:42 -0400
+Message-Id: <DMGZJ921Z264.1GCMO7EYVWIG0@nvidia.com>
+Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <kexec@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-arch@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+ <stable@vger.kernel.org>, "Josef Bacik" <josef@toxicpanda.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Johannes Weiner" <hannes@cmpxchg.org>,
+ "Michal Hocko" <mhocko@kernel.org>, "Qi Zheng" <qi.zheng@linux.dev>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>, "Lorenzo Stoakes"
+ <ljs@kernel.org>, "Kairui Song" <kasong@tencent.com>, "Barry Song"
+ <baohua@kernel.org>, "Axel Rasmussen" <axelrasmussen@google.com>, "Yuanchu
+ Xie" <yuanchu@google.com>, "Wei Xu" <weixugc@google.com>, "Baoquan He"
+ <baoquan.he@linux.dev>, "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka"
+ <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
+ Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Kees
+ Cook" <kees@kernel.org>, "Peter Zijlstra" <peterz@infradead.org>, "Jann
+ Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>, "Hugh
+ Dickins" <hughd@google.com>, "Pasha Tatashin" <pasha.tatashin@soleen.com>,
+ "Pratyush Yadav" <pratyush@kernel.org>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Lance Yang"
+ <lance.yang@linux.dev>, "Rik van Riel" <riel@surriel.com>, "Harry Yoo"
+ <harry@kernel.org>, "Alistair Popple" <apopple@nvidia.com>, "Nico Pache"
+ <nico.pache@linux.dev>, "Ryan Roberts" <ryan.roberts@arm.com>, "Dev Jain"
+ <dev.jain@arm.com>, "Usama Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau"
+ <kas@kernel.org>, "Matthew Brost" <matthew.brost@intel.com>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Peter Xu" <peterx@redhat.com>, "Will Deacon"
+ <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, "Nick
+ Piggin" <npiggin@gmail.com>, "Oscar Salvador" <osalvador@suse.de>, "Minchan
+ Kim" <minchan@kernel.org>, "Muchun Song" <muchun.song@linux.dev>, "Xu Xin"
+ <xu.xin@linux.dev>, "Chengming Zhou" <chengming.zhou@linux.dev>, "Chris Li"
+ <chrisl@kernel.org>, "Kemeng Shi" <shikemeng@huaweicloud.com>, "Nhat Pham"
+ <nphamcs@gmail.com>, "Youngjun Park" <youngjun.park@lge.com>, "Gregory
+ Price" <gourry@gourry.net>, "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Rakie
+ Kim" <rakie.kim@sk.com>, "Ying Huang" <ying.huang@linux.alibaba.com>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>
+From: "Zi Yan" <ziy@nvidia.com>
+Subject: Re: [PATCH 05/46] mm/truncate: look again if a folio left the
+ mapping
+X-Mailer: aerc 0.22.0
+References: <20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org>
+ <20261027-fixes_core-v1-5-6f74bec9a5bb@kernel.org>
+In-Reply-To: <20261027-fixes_core-v1-5-6f74bec9a5bb@kernel.org>
+X-ClientProxiedBy: YQBPR0101CA0329.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6c::21) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,82 +130,121 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|PH7PR12MB5782:EE_
+X-MS-Office365-Filtering-Correlation-Id: c9465010-dfc0-4a3f-11b1-08df3568d416
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|376014|921020|261028144727099003|4143699003|56012099006|11063799006|261009223027099003|261022105027099003|261021121427099003|261021123027099003|261026140227099003|10067099003|261026121527099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	k0y6vLy0ku3Bu+dQ8KaZ+myKKht2W0DEoIDG8U/sOGxN+FPl4a0w43Uzwi+Mk+7lzZfakvzW+vF5pD3/TO/GqhQdAvZcwXCFiBmImKUP4EkHhCH/YmQ85TPqTNnaT5+4j8JtRa928v+yOt+kxwgiNIcSc7Fq4NtNYHXzy13Wcg6oRNJoyN3+qWuQ+G6bMKWvxs12Br0UAqsw3JNIUkT2ung1IVpapVc9HhAycQCdoZIOpZHdHWaFYxgHCwHYPZjko71RtfIUMDhR3cZOHfzJOygkj3/WKspV0lcTJALuq243CN8/GPiP04fJdWpiaHchBFU0UPVR6P9hNA6cQrhZyvdOzXLHVwUNqDcNjMa5zM0qJRd7pL8eFGV8YEmoNmBUEkZ9TgvDk3gktrgcYnhWe87Q7bfcGmutC4/OEqWz4XbUqsGfaBq6v0BBl68iOd9LpXITqNUzdcGIuxAJoWAdq55gPSjTRESFPynTsDMEkXfl6aW3ToJcBtQR+w8xnZtF/YDKgCyjPQFLOyHVSd8U25DbfyjcpZK2/FTI7+aAmlINm2+xhBy0XhiRvNZtZBznpzJt7gPLGX6XPIvyqTkGcPbHWMg3PW66fdzGGJhnyOv7Rr763dW1OQHepV7MXu8hzjBaOVqDjtCH2Q5Us76cGhszxtMTTKRunlGVUwBwDUfycEuczfh2xrGXxCo6NAvAHGVejB1DPpb5wrVqdXUJ5Q==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(376014)(921020)(261028144727099003)(4143699003)(56012099006)(11063799006)(261009223027099003)(261022105027099003)(261021121427099003)(261021123027099003)(261026140227099003)(10067099003)(261026121527099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aTEySDZ3dDQzOURlck5CdzEyQlBQS2dMUks0Q0U4OVJkRjlkMEZwMTR5K3Nr?=
+ =?utf-8?B?NmNJYzI2emZMQmpNOThMNTBIR1Q5TTZKREFYaUtXbVdUL0lodEtkbmQvVjNl?=
+ =?utf-8?B?U0NpZzZ0RWNiR0psWXdVNHowUFFFU1hGTm9PTW5meGFxa1cya2lsWkZvLzlF?=
+ =?utf-8?B?ZzBzOVE0T3FIY0svM3c0azh3YllwZHdYTUU2NG1yTWlyZDhiQVAvZi92amJ0?=
+ =?utf-8?B?ekhSOEM5dUY1OTZoRXhQNktsbEtObUFmMzlwWkQyZngzUmFrdm5OejBiWjRX?=
+ =?utf-8?B?bzFFaXpWWC9KNldDcmZEREh3V1V5ekRJYzc3Zk1DZzRtU09Da0ZEZE1aSGF1?=
+ =?utf-8?B?bEMrNC91QXBzZ3JycHpzbUcyTm40Q0hhWEZjSTlpc3QzMFlobGk0amZTdWVz?=
+ =?utf-8?B?NktHVlBwZzE3d1UxRndjaWc2cndBMGZiSGhkdXJKcTJ2QmNPTzZmWjJodWZC?=
+ =?utf-8?B?WHl4TURHek5ZUE9sKzdUR3RhR2I5ck1XVytCY2tkS2p6cG1leXN6RDBvWGQ4?=
+ =?utf-8?B?VGE0bVNWYUlpcm1WK2ZlTHBsbkhUejhBdlBqNGF3ekhQZEdMaWg1aWdPLzd1?=
+ =?utf-8?B?L2hJNmVpRW4vYWNMRHB3ZlV5UlJ1dEUrVXFFdFJDL0h3YjhSaktYZ3Budm1F?=
+ =?utf-8?B?ZzFZeEJEY3N6YmVXUWZMK2ZSQ25pK0xmaHpleldoOW5wb3pEZVNPeVYzcHhQ?=
+ =?utf-8?B?aXF6YkgyZi9Sb0JCTWxIR2UwMC8vTXRtbjA3WDlibkovQW40cFBzZFdwdFA4?=
+ =?utf-8?B?WVlqMDRMMnFrd1pyYklLdE4vN0tRZTk0YW4xNTltTW5FRVk5RDZraWZNMmRs?=
+ =?utf-8?B?eXVzeTJDZkR5bWxCQkExdUxXeVBpbS93M0RpMkFCaGg4NlhHRDRseFNrNmNk?=
+ =?utf-8?B?MVZPV0o4Z2dIcFRkT21NUWo4cHBybkJJWDQ1NUhSTFZWQ2ZDbnVHUDZCQkdi?=
+ =?utf-8?B?YkZGQ09nV2pTWURYL1pqMmlYL0Y1TGt3clBmWmFLMmk1K0J3Q2JHeUFNb2dt?=
+ =?utf-8?B?RWtpZ3VSeDAxT1NiY2Q0NkQ1aFRSUG4zdW9iNUFYN0xJZlNwRGU0Um9SU2lD?=
+ =?utf-8?B?eExzdGFIL2ErM0NHdkt6ZzVyUzg4T0IvekplSml2YzlEZjJCM3FWRXhvVFJP?=
+ =?utf-8?B?LzlGeUx3cGdLL0ZCM3BnWHRKMVUzTHA4ck5wQzdENVlHU3lvSlNVM1JRS0du?=
+ =?utf-8?B?REtWSGdsdzJ5OGk5aS9CR1FkMFJnc3lIWXhwMCtJak5WZi9HOEljeTZCU2sr?=
+ =?utf-8?B?NWtWanhnNnhmTjR2bThzN3ZMSFlHVDFWS2FxejBYSVkxWjBFRzBkM0Y5cGZW?=
+ =?utf-8?B?YnNHNFdqc1lBdnR5aTJIaGg5RFhab3B0TVhQbittUnhObGtCdHdIUVRYN0Iy?=
+ =?utf-8?B?NEMvVkp4VDRZQmFFT2l3UnNYMXVLejlTeEtQZjRLanZ0cExuU0QrQTQ1eUxB?=
+ =?utf-8?B?bTlaRzJpZ3RJNTdpcFByb05sa3ltdUFqcVNPRlh5VmJscDU4cUZzczJPRExh?=
+ =?utf-8?B?NzV0WS9PQmpMTlRjU3IxTW5BdExxdWlESlNzUExwQUFIVVZLblZLaXI1U2Jh?=
+ =?utf-8?B?c2JVdlovU0V0QlIwTFpDZWtIcmtqanpwYnVEUlZER1lPSmx1OHZTcC91dTdB?=
+ =?utf-8?B?TUpOSU04OFpScVVQTnpXTHRZaW1qZ3JNb0hUbzMwZ1lkVGJkM2hHVTM3ejBo?=
+ =?utf-8?B?VStDNDQ0S2I3cnZXNEEvR3h0OWVlc3ZsbjB5b0k1ZUFYSzFFVC9RUTc2S0Nw?=
+ =?utf-8?B?YWcySlBGNHh0dDFIWUZQVlY4YUt5dUpQcmZUWDd3eGtQK2lVb0pHOTFCam05?=
+ =?utf-8?B?eXdkZ1UzR2ZOYUJPQ0FDSWZ0ZmdyV1lFRmlQWTJZd2UycVdsaE9KSDhhUmE0?=
+ =?utf-8?B?MUFJdXN5N1pnbzNOaGY1UVVvYVlheFBUZmpPMmtrYWZaSjNoMmVXYWlxVkRa?=
+ =?utf-8?B?OFRnR2hvMm9QMlBhNCtKVEduNXdkZ1MrVEJGYmJPdnhLZWlGMkZabXo5ZzBF?=
+ =?utf-8?B?SVdFWVV2dGJQNTZPRFdPL0R6cnlZQzc2Z212bEQ4dHNqVFBwTDZyVlhrWkxr?=
+ =?utf-8?B?Q0s0aTJUY3V2T0QrK1VoUXJTRnBsdXFYRE93elFkREFhb2ozN2JDZ213Wi9i?=
+ =?utf-8?B?d3RFSTJKNm5nZzQ0bk0wVTZTNHhtSmhGTTVwYkxKdzFudml5Y1VySlMvZTVQ?=
+ =?utf-8?B?RlF6QksxUDhQOUNMVkx0bVBvanJrVDVrRFhzNjdOeDFEdlB5Y0kySXBTaDNC?=
+ =?utf-8?B?UlhJVzJ5aW5hd2ZQQTlwdWxVUHdXNVFZSDVxT2dQMGNlWEcwbGp1a3NESGpX?=
+ =?utf-8?Q?73k3Sbp2byV03imYQ6?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9465010-dfc0-4a3f-11b1-08df3568d416
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 03:00:46.2496
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OQMbL1UH/7g80U7gDIJN0XBH45mu3jkSmYgT/Q65hUhYrx5pFcndQlg1X/Tq6Kbq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5782
 
-hugetlbfs_free_inode() calls trace_hugetlbfs_free_inode(), and the
-hugetlbfs__inode event class records inode->i_sb->s_dev.  ->free_inode()
-runs from an RCU callback (destroy_inode() queues i_callback() with
-call_rcu()), and Documentation/filesystems/porting.rst says that this
-callback "is *NOT* ordered wrt superblock destruction; as the matter of
-fact, the superblock and all associated structures might be already
-gone".  put_super() frees the superblock with call_rcu() followed by a
-workqueue item (destroy_super_rcu() -> destroy_super_work()).  syzbot
-hit this with the event enabled:
+On Mon Oct 26, 2026 at 7:17 PM EDT, David Hildenbrand (Arm) wrote:
+> invalidate_inode_pages2_range() skips a folio which no longer belongs to
+> the mapping by the time it has got the folio lock, on the assumption
+> that somebody else has removed it from the page cache. But the folio may
+> have been replaced, and then there is a new folio with the same data at
+> that index.
+>
+> For most cases, like folio migration, that is impossible. However,
+> collapse_file() only checks the refcount of the old folios, under the
+> i_pages lock, and relies on their folio locks from there on. That works f=
+or
+> users which repeat the lookup when they find folio->mapping changed.
+> The following scenario is, however, possible:
+>
+>   CPU0 pwrite(O_DIRECT)               CPU1 collapse_file()
+>   kiocb_invalidate_pages()
+>                                       read the folio (old data), lock it
+>                                       refcount check
+>   the write completes                 copy to new_folio
+>   kiocb_invalidate_post_direct_write()
+>     find_get_entries() -> old folio
+>     folio_lock() ...                  xas_store(new_folio)
+>                                       folio->mapping =3D NULL
+>                                       folio_unlock(folio)
+>     folio->mapping !=3D mapping
+>       -> continue
+>
+> In that scenario, the collapsed folio with the data from before the write
+> stays in the page cache after the write has returned.
+>
+> This used to be impossible, as khugepaged only collapsed files that nobod=
+y
+> had open for writing.
+>
+> Restart the lookup at that index, like shmem_undo_range() does. The same
+> problem seems to exist in truncate_inode_pages_range() as well when
+> truncate_inode_folio() fails, so handle it there as well.
+>
+> Fixes: 1b6444331beb ("mm/khugepaged: enable clean pagecache folio collaps=
+e for writable files")
+> Cc: stable@vger.kernel.org
+> Reported-by: Josef Bacik <josef@toxicpanda.com>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+>  mm/truncate.c | 17 +++++++++++++++--
+>  1 file changed, 15 insertions(+), 2 deletions(-)
+>
 
-  BUG: KASAN: slab-use-after-free in trace_event_raw_event_hugetlbfs__inode+0x45b/0x4c0 include/trace/events/hugetlbfs.h:36
-  Read of size 4 at addr ffff888038850010 by task syz-executor952/6134
-   hugetlbfs_free_inode+0x15e/0x1f0 fs/hugetlbfs/inode.c:1182
-   i_callback+0x46/0x80 fs/inode.c:317
-   rcu_do_batch kernel/rcu/tree.c:2650 [inline]
-   rcu_core+0x5f0/0x1220 kernel/rcu/tree.c:2919
-  Allocated by task 6134:
-   alloc_super fs/super.c:326 [inline]
-   sget_fc+0x1ba/0x1f60 fs/super.c:874
-   hugetlbfs_get_tree+0x1e7/0x2b0 fs/hugetlbfs/inode.c:1431
-  Freed by task 855:
-   kfree+0x22b/0x6d0 mm/slub.c:6923
-   process_one_work+0xac7/0x1b10 kernel/workqueue.c:3495
+Reviewed-by: Zi Yan <ziy@nvidia.com>
 
-Emit the event from hugetlbfs_destroy_inode() instead.  destroy_inode()
-calls ->destroy_inode() synchronously, before it queues the RCU
-callback, while the superblock is still alive; hugetlbfs_destroy_inode()
-already dereferences inode->i_sb there.  ->free_inode() is left with
-only the kmem_cache_free().
+--=20
+Best Regards,
+Yan, Zi
 
-Fixes: 014ad7c42a69 ("hugetlbfs: use tracepoints in hugetlbfs functions.")
-Reported-by: syzbot+91e1fc35f51774c479b2@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/6ae27525.5451848c.f7707.0001.GAE@google.com/
-Cc: stable@vger.kernel.org
-Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
-Assisted-by: Yaga Agent HackerSec Claude:claude-opus-5-5
----
-Tested on net/main 94cea342e891 (arm64, QEMU, generic KASAN, tracing
-enabled) with the syzbot C reproducer, which enables
-events/hugetlbfs/hugetlbfs_free_inode and races hugetlbfs mounts and
-lazy unmounts with open + unlink.  Without this patch KASAN reports the
-slab-use-after-free in trace_event_raw_event_hugetlbfs__inode() from
-hugetlbfs_free_inode() <- i_callback() during the first 10 second run,
-on 3 of 3 boots.  With it, 12 runs over 2 boots are clean, and the trace
-buffer still holds the hugetlbfs_free_inode events (about 46k per boot)
-with valid dev numbers.  fs/hugetlbfs/inode.o builds cleanly with W=1.
-
-The event now fires when the inode is destroyed instead of when its
-memory goes back to the slab cache, one RCU grace period earlier; the
-recorded fields are the same.
-
- fs/hugetlbfs/inode.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-index 6656807..27a3937 100644
---- a/fs/hugetlbfs/inode.c
-+++ b/fs/hugetlbfs/inode.c
-@@ -1179,12 +1179,16 @@ static struct inode *hugetlbfs_alloc_inode(struct super_block *sb)
- 
- static void hugetlbfs_free_inode(struct inode *inode)
- {
--	trace_hugetlbfs_free_inode(inode);
- 	kmem_cache_free(hugetlbfs_inode_cachep, HUGETLBFS_I(inode));
- }
- 
- static void hugetlbfs_destroy_inode(struct inode *inode)
- {
-+	/*
-+	 * Not in ->free_inode(): that runs from an RCU callback, when the
-+	 * superblock the event reads may already be freed.
-+	 */
-+	trace_hugetlbfs_free_inode(inode);
- 	hugetlbfs_inc_free_inodes(HUGETLBFS_SB(inode->i_sb));
- }
- 
--- 
-2.39.5
