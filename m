@@ -1,54 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.199
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793277874;
-	b=UiT3QY8EMsW5a/yFSL8JHjlMnobTrCIsbN2zoSEVQBo8JwC50HTRCi76VzxMwqWnrhDE
-	 lYRgKnei4CDGWkMafrsLtMm3vijHW0lZmYgb+9zemzeezsUaGuSI/o9hT1yIQozhM53Hz
-	 B6l4Wx7vvS0PXR06+1J1lLSjal7ww3zOIaJBhOZPJsYGRieYIxcDB5t3qJz+oRsRWECIY
-	 6+CqZiY0ACQcth9edm0ZhLn2X/YgOTMCjvt1QsmHIL9vKe6ZzI9nciJairU94CzcmZRdt
-	 gySm4rKRsenSPFqlBswpL9O4MoFDhCdLIJa/Hexz/ndpLCPwpnO/atbNN4iv8EwL2wQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793277874;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=FovyKoW229/ssIodbKSmr878FfMZGbrQjeq+W9gevBU=;
-	b=euUqGQ4vwWvBkLPlko6N7SrLSIt0+Q3hTpqfhmwyzbg8BZlKiR825Bd2icOFwTpZQJ0F
-	 GmF14G9zlcIE3Y0I5TYTmc3W/4m5E19aZerVHO8rqpfscdPg19Fd4Q6BKD3RLpEjNfdt8
-	 5dGLORWzIq5SYsiv92N598r801ieDDthqCnVQCZZ1PoD0WN9872QvEm0rTh1jXadaEiKt
-	 L8VKrwuaC8JhRF2P/AZjKA1zbb3AdJrsHKLb3M2RnFYsDiW5XEAH9OdHaY1ZB1CJ3JMc1
-	 Ne84b1LuOzs5LTsunQXTHiYJZOPWZctEhCdZusNYDg8mD6NJl3Vg19zr4gVNOy/p6IA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.199
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.219.50
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793278364;
+	b=NOVTrn6yHMH6hldrq505g9shG0ZMhe9Oef92ILXSH6Mn7Rc3PEcddc8rvB4gdH8ZzexW
+	 FgCXPU4MQ5Re8KQWZiij0waVIdLN2a+aG/AMWwih/E9XjyFq6bovbvKVb44v2SBmKP5mG
+	 9nOuVapKw/TCzf7RqnUK0jqTZQvjpi6OPPlKf1GZfoAqJkkuqkEvVkDZyPzyplgVT9UmN
+	 a6RINjHlLHbs9kr/u3yUW26EHFqWQa46A1KhR95hy+vRumxptietCSn0neKDXHKandfXc
+	 4LnEIZaey5jzzoNfGkl78dTbzEPnl5W4C0NyEDeYxeKnn2lY48Le/1+ujuqA3ufPMEA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793278364;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:In-Reply-To:References:MIME-Version:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=zf2xViTkAeLxB49iEkeFNan7sx9Snfm1yj/XBegFK/Q=;
+	b=dDdsm3swFCbthAhG2KJkoAg+4NSJ0/KaW2ikp8I6ihs7bs/Uv1SQTKPszHH7GqLupIBz
+	 mozIJPr5czLFe+ckYpRDIHG5rpmsS2KKEO48UAirto1ojZG1H7Ba3F7T4k59be7oFbEzP
+	 G0aS1NvsQvXpKQYgjJYtwSpT3ThEi9YapPZuiUXf1TzQmvkyClIKac/HgNgAz8sr4p9e6
+	 mLbT2I1eN1IV/lBhORxV0umZkg6UOxFQY47VMKY8MbiqdltTqqIHiqXZgCpKjmFybyQm9
+	 014RlpW9/LadukFs7f89oAF4hvOb/WNeYHNejx+zBecciVUeiXjiA9IF/T+DkwmkN+w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=ilBWZNJq;
+	arc=fail smtp.remote-ip=209.85.219.50
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41865606A31C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 12:44:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41865606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4c467e19391so3437488b6e.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 05:44:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14CA606A320
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 12:52:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C14CA606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=ilBWZNJq
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-917a707f37eso20303186d6.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 05:52:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793278363; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KiL6uTMWBdWK3P4qT/rN5g6RmEDttUKq8TPU2W6+D2kFBAITJG6MrUxByVyXGop41L
+         VocKjSQB7y5dXIL320pLdJUP+KDhupNAU9ulx/gyy0mlcMNvKbajswa+Ues2azkaFVCf
+         v4mkZYFimMcjNx3sVBvV5ydNOTmg7yXlD8ekgAKdFHfTWQaxhLUOKGIlDL85IWiyKn6z
+         PqLE0wtrHPWcgdjRZHqvRmH2xNjVMMQZIBpRx3m36XCKg9GDHXjHZYDTNDYOzAX/UH3O
+         zw21H2eDdHtQjSAt8Yf0nnXd9Iiv001MhhuUtf6JXBtKA4AiHy/3Ofts7L6QzB7wVeMa
+         c6Ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=zf2xViTkAeLxB49iEkeFNan7sx9Snfm1yj/XBegFK/Q=;
+        fh=tc81ARj5pjN+ZZ8AIT24Fmkbr6hM207URaIpORxEZ50=;
+        b=mtOwylA4Qmj1ySNVDU8+1cj4qlBZnZFYu8ELlLfhP2Pd+zkRnKa/VeYNiU9LnasVqi
+         KoXAkGUdz3bM8oV8lJDBAg5XpCTLswI68WYTHbddPuHNi2G+I0tRgWpkdCXc0/OF1Cq8
+         OGBPoEr2aiOWI+VYufmpQl7zUB+gnJCGXQPTG0PWUbgwov42rFq33KFxfjRtbp8QkG4J
+         csGz4pXloOBv3t7QGF0kSgLz/Wc+J3/XocHw3q/XwFPbVIB9keiJiQ/rpLV4LLC732VR
+         RlScQgM+tsbWKGogpkvPnjyYqf/1gdBoVxozvF5ubVw6zlJzJ4JBTYpgn/BMPwS7KuHy
+         UwoA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793278363; x=1793883163; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zf2xViTkAeLxB49iEkeFNan7sx9Snfm1yj/XBegFK/Q=;
+        b=ilBWZNJqMKptZvwkKrs2r7FR0ELwbpG7leCsdx7jfQxCDTv/k93OwjEufXvhCe0XID
+         xibNckbWfyQTFPGne38psJQsKKrvMTJJdUQrdanZeOz0uHUNeBTeawL4MNhJjblH9PIZ
+         fZlKI4CivX5tJ8PkFacttPvf+wR4llu5ZYaPk9JEPGxEXQ3BR/ekFNZPTLVjPTxSfuhU
+         s5joSjQqJptEs99jZvbC2wWxLLtLFk1R7Zc5/St+4erii1a/eVPJ1zmACPUgBAS6QKjF
+         g5vMM7efqUOyZxMUXtpdO36TgIHqhKOpKi0VWbuiV3m0U/xsOFgC0QRTl1rLSFYijegC
+         ufWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793277873; x=1793882673;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=FovyKoW229/ssIodbKSmr878FfMZGbrQjeq+W9gevBU=;
-        b=R+gsH/AmACGJCpyOuErRkzzsrRS6z7NvfGMd4IblFcftihWsU9ecRlsvU+9F+AN+vR
-         Psi4+E7f2bxfipMOSj4NlRx2pyS2QyD+Ktd/xuJibGxvadUKjWPUkKGbzQ/pTG9qnBd8
-         Lvmo64pBQfSxYRHGIyxYAiJi97LcqmBKCAq47/VEj/j3qFRJ2/rKC8jg9tItxExndM4S
-         PLONPqo+SifAFrj197mZ0UCiOZNJ7duaseNYh901E3qFKZSPo1B5icQhmfMZ0nn0uIsU
-         0b9MIgjYX9TfaBTPcbZfQJlJ6NqzaUgbFj0RGgT7IvpjBz/uguyMOj1HFDyTnwp32k4B
-         3izg==
-X-Forwarded-Encrypted: i=1; AKwUvBxFQbdnqQcNzvojN1tZ22UuJpUpRoJwDRkxAPeHk+wk0mrcYXSaPfkykli9uXKhxQ/NQAZZ9ddih975iGQA@vger.kernel.org
-X-Gm-Message-State: AFq9FYJk7bF2YkBqazM6ZPIndPb2cFFyaqRt4u0r+u7dgUGzcbjiGjdu
-	tBvCALdlbMfwm5NTX3jdm4r5DLoYJfliRuFxZ+0Y1L/LPUhBpNYi1bIWbpUjjJq+5Hpd8jAnHAn
-	q1g3ygNfo3uK6lAl+Ggr5+farXFGxBJCCl3XG29rTBg7d9oAJPze/c5DyOTE=
+        d=1e100.net; s=20260707; t=1793278363; x=1793883163;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zf2xViTkAeLxB49iEkeFNan7sx9Snfm1yj/XBegFK/Q=;
+        b=zCoOG/J8X2u+PfPIDwnuBadxKIX2HV5a4/r7O2Lnp5nn2P2vWq4/z/et/JFlaaS9Av
+         5g/dau/oUpdIV+XhtzNvZMZpXr04bknpEiPDKnT2tcfWeE7XCjMLTnK/nWk5CdACYhL3
+         Nk8d/dZYb1x+hhoYsl7mgXdOTVmqtzDr9F2qTEX0iT8lRdh3ZRrtHNj93nb3FNpPWdtT
+         vtTbE+hf7RooLu49pvN+SiB1J5Ng3OJMSzdVx8uOYpJT3a8SXaH0WIw3gpjUKeYG8nF+
+         uscm9Ui+drLkDHy+8H6kvhoERwM1O1d3wmccWBz6ghXq2zmWcUrPkrnWpoa2kY1ZN2Jz
+         dU0g==
+X-Forwarded-Encrypted: i=1; AKwUvBx5JFpUnRHvJUxqFO4NlTdRu6nYMYaJQaIFfazxX2EWPPSyKF/udvYzrZIFFPuWsAeMOU3Wkiw4RNkN4tis@vger.kernel.org
+X-Gm-Message-State: AFq9FYJmd4pwAMTkmCAJTna6HWrce6JFJTLmWl9k6hV16Vy7EM3pwATT
+	X9Lxir01zBbKxlpeMW/7104qYnZpisIGbfuYl145XeL8c3dWeP6f1eUOj2Way/9cS8kKypCDIas
+	wbrzpzx58GG029jv3JNztZGsBrExB3yv//mU4gMQe
+X-Gm-Gg: AYBFou08Mvwh+Z2jxz73uwDlEYS0jibUw4J50zscnNwk0PmgiAsc//Hbu+pYUEZzNDP
+	eIW5gj3Mra8zhMIRTiG2bANnvGzGqB1PmcnUOwX5yhppj+ldm8Tuwl9KArw2U7+YyM+hn7XrIF/
+	JSJrykj9Zma3XKRDgrdHzosS9A1V2sbKaCGJ1il1W7SfVAVHP19N2wzFxPYxVQH5sSiN2HILtGG
+	ChhZyfHpEOy6uupmnqjTa1fwlnOyRUFM66SOsot2pvg8AxKkIMelsVv9Ngr+wPT9ct7+HiqqaTL
+	EzHVHuG8YpP2V3oWnnZqIw1CFqXh8SjMDtlC86ka+5o7dWE0yValme7TR9Ka7VlFSDSNcOjB0VS
+	hOPScXD/lMPNMkt3IJg+yscSywuVl4tLoDx2rOgmKb36T594IdxKSOQhd4+RpqBezbA==
+X-Received: by 2002:ad4:5747:0:b0:91b:9496:6a18 with SMTP id
+ 6a1803df08f44-91c7d1ae53bmr83041376d6.37.1793278361370; Thu, 29 Oct 2026
+ 05:52:41 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 29 Oct 2026 05:52:40 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20261027154649.91571-12-griffoul@gmail.com>
+References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
+ <20261027154649.91571-1-griffoul@gmail.com> <20261027154649.91571-12-griffoul@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,209 +109,118 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1713:b0:4d6:90d3:e184 with SMTP id
- 5614622812f47-56383c86218mr3191631b6e.45.1793277873353; Thu, 29 Oct 2026
- 05:44:33 -0700 (PDT)
-Date: Thu, 29 Oct 2026 05:44:33 -0700
-In-Reply-To: <6aadf047.71f81b7d.15fa6d.0002.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ae33fb1.5c4929c8.32e0e.00aa.GAE@google.com>
-Subject: Re: [syzbot] [fs?] KASAN: slab-use-after-free Read in seq_printf
-From: syzbot <syzbot+bc6b37960b1d13f68f9f@syzkaller.appspotmail.com>
-To: dmitry.torokhov@gmail.com, habilerenturker@gmail.com, 
-	habilerenturker@hotmail.com, linux-fsdevel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
+Date: Thu, 29 Oct 2026 05:52:40 -0700
+X-Gm-Features: AclHuK85LBuCmtDdaaOWg4OEyIMQUVa8mDtLyPY6JdCBNPTut6N07RXjZEiRQWQ
+Message-ID: <CAEvNRgGn09qrCZjUM5sdqQohPWE62GN4c52iK7ZV_gi5wro_Ww@mail.gmail.com>
+Subject: Re: [RFC PATCH 11/14] KVM: guest_memfd: Add kvm_gmem_restore() for
+ PFN mode providers
+To: Fred Griffoul <griffoul@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>
+Cc: Alex Williamson <alex@shazbot.org>, Alexander Graf <graf@amazon.de>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Alexey Kardashevskiy <aik@amd.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Aneesh Kumar K . V" <aneesh.kumar@kernel.org>, 
+	Ashish Kalra <ashish.kalra@amd.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Baolu Lu <baolu.lu@linux.intel.com>, Bill Wendling <morbo@google.com>, 
+	Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Christian Brauner <brauner@kernel.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Connor Williamson <connordw@amazon.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, David Hildenbrand <david@kernel.org>, 
+	David Rientjes <rientjes@google.com>, David Woodhouse <dwmw2@infradead.org>, 
+	Erdem Aktas <erdemaktas@google.com>, Frank van der Linden <fvdl@google.com>, 
+	Gregory Price <gourry@gourry.net>, "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
+	James Houghton <jthoughton@google.com>, Jan Kara <jack@suse.cz>, Jianxiong Gao <jxgao@google.com>, 
+	Joerg Roedel <joro@8bytes.org>, Joey Gouly <joey.gouly@arm.com>, 
+	John Starks <John.Starks@microsoft.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Justin Stitt <justinstitt@google.com>, Lorenzo Stoakes <ljs@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Michael Roth <michael.roth@amd.com>, Mike Rapoport <rppt@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolin Chen <nicolinc@nvidia.com>, Oliver Upton <oupton@kernel.org>, 
+	Pratyush Yadav <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <shuah@kernel.org>, Steffen Eiden <seiden@linux.ibm.com>, 
+	Steven Price <steven.price@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Tarun Sahu <tarunsahu@google.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, Tycho Andersen <tycho@kernel.org>, 
+	Vishal Annapurve <vannapurve@google.com>, Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>, 
+	Xu Yilun <yilun.xu@linux.intel.com>, Yan Zhao <yan.y.zhao@intel.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, x86@kernel.org, 
+	Shuah Khan <skhan@linuxfoundation.org>, Fuad Tabba <fuad.tabba@linux.dev>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, llvm@lists.linux.dev, iommu@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot has found a reproducer for the following issue on:
+Fred Griffoul <griffoul@gmail.com> writes:
 
-HEAD commit:    c339f4010dea Merge tag 'platform-drivers-x86-v7.4-1' of gi..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=15488659580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d30e1495ee3ac817
-dashboard link: https://syzkaller.appspot.com/bug?extid=bc6b37960b1d13f68f9f
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14629c2d580000
+> From: Fred Griffoul <fgriffo@amazon.co.uk>
+>
+> A device cannot fault, so when a PFN mode provider gives frames to pages
+> that had none, or makes a read-only frame writable, a subsystem that
+> maps the file must be told.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+bc6b37960b1d13f68f9f@syzkaller.appspotmail.com
+Totally makes sense that guest_memfd needs a way to actively map pages
+into the IOMMU page tables, rather than passively like for userspace
+page tables and stage 2 page tables.
 
-==================================================================
-BUG: KASAN: slab-use-after-free in string_nocheck lib/vsprintf.c:650 [inline]
-BUG: KASAN: slab-use-after-free in string+0x216/0x2d0 lib/vsprintf.c:732
-Read of size 1 at addr ffff8880280552a0 by task syz-executor119/5994
+When the memory is owned by guest_memfd, on a to-shared conversion,
+guest_memfd would do the mapping for IOMMU, which can't handle faults
+like Stage 2 or userspace page tables.
 
-CPU: 1 UID: 0 PID: 5994 Comm: syz-executor119 Tainted: G                   Y syzkaller #0 PREEMPT(full) 
-Tainted: [Y]=FORCED_BIND
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/07/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- string_nocheck lib/vsprintf.c:650 [inline]
- string+0x216/0x2d0 lib/vsprintf.c:732
- vsnprintf+0x74a/0xef0 lib/vsprintf.c:2948
- seq_vprintf fs/seq_file.c:392 [inline]
- seq_printf+0x188/0x290 fs/seq_file.c:407
- irq_seq_show+0x5fc/0x820 kernel/irq/proc.c:600
- traverse+0x229/0x620 fs/seq_file.c:112
- seq_lseek+0x134/0x260 fs/seq_file.c:324
- proc_reg_llseek+0x1bc/0x290 fs/proc/inode.c:283
- vfs_llseek fs/read_write.c:391 [inline]
- ksys_lseek fs/read_write.c:404 [inline]
- __do_sys_lseek fs/read_write.c:414 [inline]
- __se_sys_lseek fs/read_write.c:412 [inline]
- __x64_sys_lseek+0x14f/0x1e0 fs/read_write.c:412
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2161683707
-Code: 77 01 c3 48 c7 c2 d0 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 b8 08 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 01 c3 48 c7 c2 d0 ff ff ff f7 d8 64 89 02 48
-RSP: 002b:00007f215fe441e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000008
-RAX: ffffffffffffffda RBX: 0000000000000007 RCX: 00007f2161683707
-RDX: 0000000000000000 RSI: 0000000200000008 RDI: 0000000000000007
-RBP: 00007f21616ea034 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000200000008
-R13: 00007f215fe441f0 R14: 00007fff37c40200 R15: 00007fff37c402e8
- </TASK>
+> kvm_gmem_revoke() does not fit: it would
+> zap the guest's and the VMM's mappings and reclaim frames that a guest
+> may already use.
+>
 
-Allocated by task 1:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:426
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5531 [inline]
- __kmalloc_node_track_caller_noprof+0x4af/0x720 mm/slub.c:5662
- kvasprintf+0xeb/0x1a0 lib/kasprintf.c:25
- kasprintf+0xe2/0x140 lib/kasprintf.c:59
- serial_core_add_one_port drivers/tty/serial/serial_core.c:3138 [inline]
- serial_core_register_port+0x611/0x2b80 drivers/tty/serial/serial_core.c:3366
- __serial8250_register_8250_port drivers/tty/serial/8250/8250_core.c:862 [inline]
- serial8250_register_8250_port+0x1a2c/0x2400 drivers/tty/serial/8250/8250_core.c:929
- serial_pnp_probe+0x576/0x7d0 drivers/tty/serial/8250/8250_pnp.c:480
- pnp_device_probe+0x313/0x4d0 drivers/pnp/driver.c:111
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:707
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:869
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:899
- __driver_attach+0x34e/0x630 drivers/base/dd.c:1300
- bus_for_each_dev+0x23b/0x2c0 drivers/base/bus.c:386
- bus_add_driver+0x38f/0x6e0 drivers/base/bus.c:785
- driver_register+0x23a/0x320 drivers/base/driver.c:174
- serial8250_init+0x8f/0x160 drivers/tty/serial/8250/8250_platform.c:316
- do_one_initcall+0x250/0x870 init/main.c:1419
- do_initcall_level+0x10a/0x1a0 init/main.c:1481
- do_initcalls+0x59/0xa0 init/main.c:1497
- kernel_init_freeable+0x29d/0x3e0 init/main.c:1732
- kernel_init+0x22/0x1d0 init/main.c:1622
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+I'd drop this paragraph from the commit message, kvm_gmem_revoke() is
+the complete opposite and isn't a candidate at all for the goal, which
+is to notify importers that a page is now available (and they can map it
+in).
 
-Freed by task 5990:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:264 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2780 [inline]
- slab_free mm/slub.c:6630 [inline]
- kfree+0x1c5/0x650 mm/slub.c:6923
- serial_core_remove_one_port drivers/tty/serial/serial_core.c:3261 [inline]
- serial_core_unregister_port+0x500/0xb80 drivers/tty/serial/serial_core.c:3409
- serial8250_unregister_port+0x250/0x770 drivers/tty/serial/8250/8250_core.c:955
- pnp_device_remove+0x82/0x260 drivers/pnp/driver.c:133
- device_remove drivers/base/dd.c:617 [inline]
- __device_release_driver drivers/base/dd.c:1357 [inline]
- device_release_driver_internal+0x42b/0x7d0 drivers/base/dd.c:1380
- unbind_store+0x1cb/0x200 drivers/base/bus.c:246
- kernfs_fop_write_iter+0x3a4/0x540 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x612/0xba0 fs/read_write.c:687
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> Add kvm_gmem_restore(), the counterpart to kvm_gmem_revoke() that the
+> sample provider leaves for users that cannot fault. It only updates the
+> exports, under the shared invalidate lock.
+>
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
+> ---
+>  arch/x86/kvm/Makefile       |  1 +
+>  include/linux/guest_memfd.h | 37 ++++++++++++++++++++++---------------
+>  virt/kvm/guest_memfd.c      | 35 +++++++++++++++++++++++++++++++++--
+>  3 files changed, 56 insertions(+), 17 deletions(-)
+>
+> diff --git a/arch/x86/kvm/Makefile b/arch/x86/kvm/Makefile
+> index 25fb3d6e2032..3255280884b5 100644
+> --- a/arch/x86/kvm/Makefile
+> +++ b/arch/x86/kvm/Makefile
+> @@ -63,6 +63,7 @@ exports_grep_trailer := --include='*.[ch]' -nrw $(srctree)/virt/kvm $(srctree)/a
+>  				-e kvm_write_track_remove_gfn \
+>  				-e kvm_file_to_kvm_fn \
+>  				-e kvm_gmem_revoke \
+> +				-e kvm_gmem_restore \
 
-The buggy address belongs to the object at ffff8880280552a0
- which belongs to the cache kmalloc-8 of size 8
-The buggy address is located 0 bytes inside of
- freed 8-byte region [ffff8880280552a0, ffff8880280552a8)
+provider --1--> guest_memfd --2--> IOMMU
 
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff8880280553a0 pfn:0x28055
-flags: 0xfff00000000200(workingset|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000200 ffff88813ff22500 ffffea0000a14610 ffffea000083dc50
-raw: ffff8880280553a0 000000000080007a 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 6950794147
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1856
- prep_new_page mm/page_alloc.c:1864 [inline]
- get_page_from_freelist+0x220f/0x2280 mm/page_alloc.c:3935
- __alloc_frozen_pages_noprof+0x1fe/0x410 mm/page_alloc.c:5444
- alloc_slab_page mm/slub.c:3384 [inline]
- allocate_slab+0x7d/0x5e0 mm/slub.c:3499
- new_slab mm/slub.c:3550 [inline]
- refill_objects+0x2d5/0x350 mm/slub.c:7539
- refill_sheaf mm/slub.c:2917 [inline]
- __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4811
- alloc_from_pcs mm/slub.c:4887 [inline]
- slab_alloc_node mm/slub.c:5021 [inline]
- __do_kmalloc_node mm/slub.c:5530 [inline]
- __kmalloc_node_track_caller_noprof+0x543/0x720 mm/slub.c:5662
- __kmemdup_nul mm/util.c:64 [inline]
- kstrdup+0x42/0x100 mm/util.c:84
- __kernfs_new_node+0xa9/0x980 fs/kernfs/dir.c:663
- kernfs_new_node+0xeb/0x140 fs/kernfs/dir.c:759
- kernfs_create_link+0xe3/0x240 fs/kernfs/symlink.c:50
- sysfs_do_create_link_sd+0x83/0x110 fs/sysfs/symlink.c:44
- driver_sysfs_add+0x89/0x210 drivers/base/dd.c:490
- really_probe+0x142/0xae0 drivers/base/dd.c:695
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:869
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:899
-page last free pid 12 tgid 12 ts 6949306649 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1403 [inline]
- __free_frozen_pages+0xc97/0xd90 mm/page_alloc.c:2954
- __kasan_populate_vmalloc_do mm/kasan/shadow.c:393 [inline]
- __kasan_populate_vmalloc+0x1a8/0x1c0 mm/kasan/shadow.c:424
- kasan_populate_vmalloc include/linux/kasan.h:580 [inline]
- alloc_vmap_area+0xd10/0x1410 mm/vmalloc.c:2151
- __get_vm_area_node+0x200/0x2f0 mm/vmalloc.c:3281
- __vmalloc_node_range_noprof+0x36e/0x16f0 mm/vmalloc.c:4112
- __vmalloc_node_noprof+0xc2/0x100 mm/vmalloc.c:4213
- alloc_thread_stack_node kernel/fork.c:359 [inline]
- dup_task_struct+0x2c6/0xa00 kernel/fork.c:931
- copy_process+0x7ea/0x44b0 kernel/fork.c:2142
- kernel_clone+0x2d7/0x940 kernel/fork.c:2784
- user_mode_thread+0x115/0x180 kernel/fork.c:2861
- call_usermodehelper_exec_work+0x5c/0x230 kernel/umh.c:169
- process_one_work kernel/workqueue.c:3495 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3578
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3659
- kthread+0x38b/0x480 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+2 is definitely required, but why is 1 required?
 
-Memory state around the buggy address:
- ffff888028055180: fa fc fc fc fa fc fc fc fa fc fc fc fa fc fc fc
- ffff888028055200: fa fc fc fc fa fc fc fc fa fc fc fc fa fc fc fc
->ffff888028055280: fa fc fc fc fa fc fc fc fa fc fc fc 00 fc fc fc
-                               ^
- ffff888028055300: fa fc fc fc fa fc fc fc fa fc fc fc 06 fc fc fc
- ffff888028055380: fa fc fc fc fa fc fc fc fa fc fc fc fa fc fc fc
-==================================================================
+Between the first .get_pfn() or .lookup_pfn_range() () and
+.put_pfn_range() or kvm_gmem_revoke(), the provider should consider the
+memory in-use by guest_memfd.
 
+When it's in-use by guest_memfd, then guest_memfd should use --2--> to
+map into IOMMU page tables as necessary.
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+When it's not in-use by guest_memfd, why would the provider force it
+into guest_memfd?
+
+If the guest VM knows that the page is now usable (some other
+communication channel), it would touch the memory and do a .get_pfn(),
+that would be successful this time. Perhaps that's when --2--> needs to
+be performed?
+
+>  				-e kvm_gmem_export
+>
+>  # Force grep to emit a goofy group separator that can in turn be replaced with
+>
+> [...snip...]
+>
