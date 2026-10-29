@@ -1,94 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793270364;
-	b=QBnK1waQ//1P2Dj55eCbJ3RPD8eyP+qQmE2MDjPbRCPY89MnIK6wC5KyM41phw1l7BGE
-	 +OcaY9Xd7dBrmAg4LS+ZjzBTtFH9TpTuG5snaz45YITIAaQ+2VHWyzY9HqbgxazL2BfHu
-	 MMr9paqQQFDnJgQ6B3uBGmykvFr+LzNyVlWqCstrjh6jw/CZHAY9eH8uOv2Ox1oXD+9j1
-	 fM8Dr23ekjoE731RyyL6zvVUsGc004FfrZdeOQ8zEGb/b1Is1e3KWHlqeB4U+RhX99RN1
-	 xdmmBJLlrQ5FqrZJq6C34v2X77JPS990B3hhxha1Y7TlmRJnV24wsac2AO4bB3EZbsA==
+	t=1793270365;
+	b=1Ho2ZsTr1pAzAZhDY1tGhfwWTrIpyA2jOR93dL5QCWDYpVeI9H3Z5RFOhEeF3AhvUtdU
+	 3Y0erv1qkq56kyhR2Tn6qzyb/sR7KpCRwfFcJ5j2x5KOZfBVHTkhbCxwcc59XuUaf5uZj
+	 HR3cTuv1pcZpuilNGo25qgV98yykrJdDMu0Dm8Ch/105S4uD5qp+amWIfVDe6Dsj7sFpX
+	 g4Q+S7XrgD7jK3KvB9fztNfzcnGDJUHMFm0/z//TwfP/vdA/qrJmq8z9DUmwr31MhRhBk
+	 FWcdS6T8wyTsxGRsGdoMwwL4PMQbpl0c7tWFoEEow5uutRaaHKiZatNqlzOUUirkkhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793270364;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793270365;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=Qi1ti4izdBvA4FPvYxDV0dCh2GnisjK7L+m92EFw0NM=;
-	b=tk443BYg/CM0nOOz1B8vN5UBuW3gyopAk5f95mtvzNrIrv2COzfw3zJ59abZhySHI5nj
-	 O0dgCpc/wxN1rdsmhlsMUUndfWBVU3NqkUil/LyuF6Nt0P/aGngrXNfR7DWp9OoNTBL00
-	 MvbaqmsgB7sdrcbTMyCnKTQAMYBVyNQUwzdrNBax8OdGHR0CDqe+cSL4QyGJKXMtVpwwU
-	 YwsWxjFBTB2VF2NrgDxTcTmAfd9RExLbqbfdv07IwaVW4cHS+bZAyajiwyaA75zDxWqbo
-	 Rv1KwtZS6yY5NlHi6HWzQ1Aeqj6NRE8a/p2h34EBQgCtWnudX+BfvVbXlYPLMGd3rPQ==
+	bh=IOabLZqit7N24WihDjnsU07Wy6C2IdsvojlsD2HIpZ0=;
+	b=neo6XgNtQ47YovQfHS876h+1NMDDcfQHGJS1xp0/o7dtwmxgx0I3P1tmxaWzKyNvXNlC
+	 GrhSajjr8+35KAm07VqMnbuL9a4yvNLSrIwCQ+I2jrLq03ufVDmTmuqIwsU0WuhzEoxgX
+	 LkS+UruFZd4leWDhxZu9+cOu5YSXEzYLCBTPzEVAna9Nk22q4EHRb2PDveppVkS29isD2
+	 nz8TnK0h7eW7MklU9hfauBWitwFohj7jz4QICYuByZieqzcG/YwQEEiFaMV9QRiXMEP5Q
+	 FtOajFgFen0evAa1jsGkFJ2GnuhFbVm6bvAtrYspZxZCOjW1Hn8GBsigpLKbDbTfR1w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZDRv2pLU;
-	arc=none smtp.remote-ip=209.85.218.52
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="OFbmVOj/";
+	arc=none smtp.remote-ip=209.85.218.48
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EA8606A33C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 10:39:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65EA8606A33C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3478D60A261A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 10:39:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3478D60A261A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZDRv2pLU
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c434376dbebso124707366b.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 03:39:24 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OFbmVOj/
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c4395d31228so301781166b.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 03:39:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20260707; t=1793270363; x=1793875163; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Qi1ti4izdBvA4FPvYxDV0dCh2GnisjK7L+m92EFw0NM=;
-        b=ZDRv2pLUJPbNgSZHNvl7mvVRFXQCtghrzmmFCGGCTiaj8CrYAuuwIXlsUeMNrjmUyt
-         /dYiXN4aVTQdzMwRtrGWdKFDsSFbsvmN/jYilysuxX7hKt0N16+nEbkCdXtrRcNPf27p
-         XNoVxO/s32vhIS80Z2MpIJX2hz5Taoe1H0Dl6zftArOABJFcHSU1J2D5cP8Df0bklADl
-         lJqyJT+DBrGppLr1LF1Hcr7BURvNSGiGfD5R4DiD0esrtk0CWafNoQHh+jvso3fQJD4E
-         UajTQ5N1kFh1EI8tTwsHe30CtdFLRZ23GAdKBFnE1zfh2ZfnsfRcxGvIXcUHFO109HPn
-         Z3LA==
+        bh=IOabLZqit7N24WihDjnsU07Wy6C2IdsvojlsD2HIpZ0=;
+        b=OFbmVOj/2l3qHfU29caOHgqvEOTx2nGr9asDSKFSaeBz4/MQa2tgP/AmbAWGbgQO7q
+         t/UK9Fjp+P5QgRO55cMVXiGcNNy+VTSYhq3nay6kAN2hn7+2Uk8rzzN10osrY8sXu20A
+         a2/3ww2eejoRMmb7ztgXKOllfha3W/1yNRcYe0jXo1PKe+YShM5Vjouori75CpesBULj
+         KM67Bzd///MoiL2zAhZVoYs5uiWEbU//ziIz7agi+jaByzgoF1p5i1mHe3ejPmAY7ZDO
+         kEvvzm98cVd3kAedRPdr9X01ETYNYxh1bFn/DjGaLL4DCR0Qyyr25JcLrGBhdIOhLcCv
+         eTgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1793270363; x=1793875163;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Qi1ti4izdBvA4FPvYxDV0dCh2GnisjK7L+m92EFw0NM=;
-        b=UKlNc7/j+tCt5MY3rsfsGzGJ6fhKXPe9vH2ZvDDHmQq+G8Yp8OaRstS/8Fqrl5nCEB
-         eyIikkumPegTP1ZCidb7YTWxbqWuZM993GXfYOtzhUaH1EOy7pmdGVsbmCo/E9c34Yu4
-         TKfvmiYUGs4skIpwug0OyjKRKJ6uTEfQoMXpJ6uGXKaAPz2lY6gse+CrSZLNkfbH5ThB
-         dMgUiHCX4Lmwv67XgTE4QRSwxMwbdpi2asDrdc4p4/bDrZwywE3xrLRTNecnCq9+DYel
-         6OguOItkr8lNkGRzsYiQaamGkgBgycjBYi5sNiU5iLuvheQHv34TarHX08+g71ObufQT
-         i56Q==
-X-Gm-Message-State: AFq9FYIC1SRvz1BsKPA3wUygkCeLS/PrYLNLz7r8EdTuIX8X7l3ILMIA
-	/ON4q4YJV25hwE+a1owOY1j2Kj0pnlSpCFEvv2+MyA9MWUq8PZCVWykD
-X-Gm-Gg: AYBFou34dFCeqzkC4Jq1qgJr/uZOxwSwMTWlwXfGOcvXvEGyPhGFiFbkgaByw0FDHNk
-	2AcIXOSQZM9mPjWQpteWve7wUgmkUxqz1ESMmOnKYbxnaSV4V+Do5RUFxmp6MaN/0dO+mg5DoTO
-	SNjvo9N+T/CyfgOUn8Bepg7mKb9dhYfxlgauWIMIytX2bjDC21eJDfD0OhNzTNoLlax1QaUT235
-	y44H0mxTNW1qROVxA8lYNfr1NjB7pTxA9zfbIHHxTbYkQ1+9wUxAxYGJ999gZOynl/msS2b0cXK
-	D+QoNQHleQTlIpXzrdRDZe0przr4EE6FrR69SQc8pWSH6bLaWsTZwiFQcKtg4szrsFuzGtOKSfW
-	tgFzqMyutgoTDw9WILOeCgIhcYensqwpRe79XTdrubI85A5j86SlhgesPO/352Ije3tvrr2WSvx
-	aBOduU+8HS449JpU4aLMZjpjZLlItJf/p+JgDzgt+2rjyN2hULnS66wPRb+fOAs9v/AhHruZp/k
-	N1NoMSv7NYX+V4lhOl55wWR07sgfQvCblPeOYv/lOkx+WsXrJjXiEkNv84HJoOIKKMigwB6LzZN
-	/n2fA2/m4wxfJUgetbSYBbi+BfyD6HfDBXmQGTpj24jddFGPKuJPTZ1KRP2OksZmLPISsxz/+TP
-	7oXJUJNpsxHqM
-X-Received: by 2002:a17:907:7294:b0:c42:4557:4532 with SMTP id a640c23a62f3a-c49d128171emr173949666b.5.1793270362388;
-        Thu, 29 Oct 2026 03:39:22 -0700 (PDT)
+        bh=IOabLZqit7N24WihDjnsU07Wy6C2IdsvojlsD2HIpZ0=;
+        b=PKhGJR1GMLc8AiE9nrBERxQKnAXwc6UbrNxRjgNUZxrkVZaj/09TtrOEHtuc428jf7
+         jYMeFZrwHAYy4QX4HpT3B1aggDcC6rj1tdMuHn3MiLCqPqqJ99lvECZTwnKLJ0gAZvqg
+         tRtI2/XxRg6JOkNscr7AjPWT5MS7lpC+rKeG9fdto7CEHrO13rcX+M/0uoBGAQmL/urk
+         ZlU+ZAeQOJWtww58ndA1Cg9O8ymrkJLZzukhwVK1EWtfSEk8LCFoh1Br66/aJZoXmoDT
+         IYtxuTb3TiMRDDuDPODNJlZktxMTSdSpg9LCPeQ5Zcws1Uj9kgQxGeLaWchrDf8K6DJr
+         +KeQ==
+X-Gm-Message-State: AFq9FYJoAkyl07mYYocIroapN3uLodPtfyDVHi0h4zps8f7xPr8NeRtg
+	uVFhVrwBBTVFOL/VrGCfj1qkxYi57znBkLN69TEuzeDLIO9MN3Veal6H
+X-Gm-Gg: AYBFou2aQmlz+LDCFs42eCCMP8RvIkDR8uUKit8XMIkqLBUklybN8RN/0KXUBDpqZQP
+	84A8nD7T+XVhqw/yHlMjZdtWYUcTky+nVhlIb0PMkRqBfomIBjUZ7ELRHB/mY1RysnkkuxI3zZQ
+	C3yQ9OMJ9pUGpIamVVL7XWTj32uOC8DzuJYK77DeggWvFOxe+ulbqfVzsrfQsBQuOmEPavdhenI
+	I9cefNQ31uDd15/d+BHDEOZM3ZN/elAEuUCyT1tyFWhNVMkbq/D4H0FESEuzTHwvP3nj9xeZA80
+	1S0+948Hj9zhmBO8c+UpYk1h1ywVqb8PsFFPYI5/42g7hIjXjdDwLp39FVtAdc0hQBacjTjwY2Z
+	0PNFCSV9/rBbCZW534IR8SwWlfBA3gXDNQoPjB1uFrHKJDA7qe+qDRTswq4OWDQJTt53zREiMqH
+	HRRv8i+yUBPBBMm8cvZOXFRYJepzHIZPFsF8C1Qwxa+no/k3I4ydxy8VIvfoS7sfR2dugiA4Z+J
+	i4Hm189nWNtynmBFKNMcUbiP1hyreRUY/qvchLL1smQwGbgSE1eoedQcVDa4hmCNd5dYPUsekT7
+	orwiMj4qWeaB8FHEQz0tGfuBmoDL9rx/XXGJX21edQ8NSei+CtQ8V1DmnBR/bW1mztWDiu+G1Q=
+	=
+X-Received: by 2002:a17:907:980c:b0:c2e:2baa:a642 with SMTP id a640c23a62f3a-c49bdfb1ecemr433472266b.30.1793270363333;
+        Thu, 29 Oct 2026 03:39:23 -0700 (PDT)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd7abf6asm708508566b.81.2026.10.29.03.39.21
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd4e89e6sm719465866b.20.2026.10.29.03.39.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 03:39:21 -0700 (PDT)
+        Thu, 29 Oct 2026 03:39:23 -0700 (PDT)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Christian Brauner <brauner@kernel.org>,
 	Miklos Szeredi <miklos@szeredi.hu>
 Cc: linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	Chris Mason <mason@kernel.org>,
-	stable@vger.kernel.org,
-	Josef Bacik <josef@toxicpanda.com>
-Subject: [PATCH 06/16] ovl: take a snapshot of the name for copy up
-Date: Thu, 29 Oct 2026 11:39:10 +0100
-Message-ID: <20261029103913.2785828-7-amir73il@gmail.com>
+	fuse-devel@lists.linux.dev
+Subject: [PATCH 07/16] vfs: add try_take_dentry_name_snapshot()
+Date: Thu, 29 Oct 2026 11:39:11 +0100
+Message-ID: <20261029103913.2785828-8-amir73il@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261029103913.2785828-1-amir73il@gmail.com>
 References: <20261029103913.2785828-1-amir73il@gmail.com>
@@ -103,85 +100,90 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chris Mason <mason@kernel.org>
+take_dentry_name_snapshot() requires the caller to keep the dentry
+alive. The external name of a dead dentry has a zero refcount that
+never changes, so atomic_inc_not_zero() fails on every retry and the
+function never returns.
 
-The copy up of a directory reads a freed dentry name when a lookup
-moves the directory at the same time.
+A caller in RCU walk holds no reference on the dentry. Add a variant
+that fails instead of retrying when it cannot get a reference on the
+external name, so such a caller can return -ECHILD.
 
-A pointer to the name of a dentry is only valid while something stops
-a move of the dentry. ovl_do_copy_up() keeps a plain copy of
-c->dentry->d_name in c->destname, and ovl_copy_up_start() only keeps
-ovl_rename() away. When a lookup finds the same directory under another
-name after a change to the lower layer, d_splice_alias() moves the
-dentry and frees its external name.
-
-With a delay in ovl_do_copy_up(), a chmod of a lower-only directory with
-a 60 byte name raced with a rename of that directory in the lower layer
-and a stat of the new name, and KASAN reported a use-after-free in
-lookup_noperm_common().
-
-Fix this by using take_dentry_name_snapshot() for c->destname.
-
-Fixes: 829c28be9bb9 ("ovl: use d_splice_alias() in place of d_add() in lookup")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chris Mason <mason@kernel.org>
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- fs/overlayfs/copy_up.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ fs/dcache.c            | 29 ++++++++++++++++++++++++++---
+ include/linux/dcache.h |  1 +
+ 2 files changed, 27 insertions(+), 3 deletions(-)
 
-diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
-index 92b3d08a02349..12000e45fefc4 100644
---- a/fs/overlayfs/copy_up.c
-+++ b/fs/overlayfs/copy_up.c
-@@ -920,6 +920,7 @@ static int ovl_do_copy_up(struct ovl_copy_up_ctx *c)
- 	struct ovl_fs *ofs = OVL_FS(c->dentry->d_sb);
- 	struct dentry *origin = c->lowerpath.dentry;
- 	struct ovl_fh *fh = NULL;
-+	struct name_snapshot name;
- 	bool to_index = false;
+diff --git a/fs/dcache.c b/fs/dcache.c
+index f44c7b39c3b38..21ac036b31675 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -358,7 +358,8 @@ static inline int dname_external(const struct dentry *dentry)
+ 	return dentry->d_name.name != dentry->d_shortname.string;
+ }
  
- 	/*
-@@ -957,12 +958,15 @@ static int ovl_do_copy_up(struct ovl_copy_up_ctx *c)
- 		goto out_free_fh;
- 	} else {
- 		/*
--		 * c->dentry->d_name is stabilzed by ovl_copy_up_start(),
--		 * because if we got here, it means that c->dentry has no upper
--		 * alias and changing ->d_name means going through ovl_rename()
--		 * that will call ovl_copy_up() on source and target dentry.
-+		 * ovl_copy_up_start() keeps ovl_rename() away from c->dentry,
-+		 * because ovl_rename() calls ovl_copy_up() on source and target
-+		 * dentry.  It does not stop d_splice_alias() from moving a
-+		 * directory that a lookup found under another name after a
-+		 * change to the lower layer.  That move frees an external name,
-+		 * so take a snapshot.
- 		 */
--		c->destname = c->dentry->d_name;
-+		take_dentry_name_snapshot(&name, c->dentry);
-+		c->destname = name.name;
- 		/*
- 		 * Mark parent "impure" because it may now contain non-pure
- 		 * upper
-@@ -971,7 +975,7 @@ static int ovl_do_copy_up(struct ovl_copy_up_ctx *c)
- 		err = ovl_set_impure(c->parent, c->destdir);
- 		ovl_end_write(c->dentry);
- 		if (err)
--			goto out_free_fh;
-+			goto out;
+-void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry)
++static bool __take_dentry_name_snapshot(struct name_snapshot *name,
++					struct dentry *dentry, bool retry)
+ {
+ 	unsigned seq;
+ 	const unsigned char *s;
+@@ -375,8 +376,12 @@ void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry
+ 		struct external_name *p;
+ 		p = container_of(s, struct external_name, name[0]);
+ 		// get a valid reference
+-		if (unlikely(!atomic_inc_not_zero(&p->count)))
+-			goto retry;
++		if (unlikely(!atomic_inc_not_zero(&p->count))) {
++			if (retry)
++				goto retry;
++			rcu_read_unlock();
++			return false;
++		}
+ 		name->name.name = s;
  	}
+ 	if (read_seqcount_retry(&dentry->d_seq, seq)) {
+@@ -384,9 +389,27 @@ void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry
+ 		goto retry;
+ 	}
+ 	rcu_read_unlock();
++	return true;
++}
++
++void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry)
++{
++	__take_dentry_name_snapshot(name, dentry, true);
+ }
+ EXPORT_SYMBOL(take_dentry_name_snapshot);
  
- 	/* Should we copyup with O_TMPFILE or with workdir? */
-@@ -1005,6 +1009,8 @@ static int ovl_do_copy_up(struct ovl_copy_up_ctx *c)
- out:
- 	if (to_index)
- 		kfree(c->destname.name);
-+	else
-+		release_dentry_name_snapshot(&name);
- out_free_fh:
- 	kfree(fh);
- 	return err;
++/*
++ * For a caller that holds no reference on @dentry, e.g. in RCU walk.
++ * The external name of a dead dentry has a zero refcount forever, so
++ * take_dentry_name_snapshot() would retry without end.  Fail instead.
++ */
++bool try_take_dentry_name_snapshot(struct name_snapshot *name,
++				   struct dentry *dentry)
++{
++	return __take_dentry_name_snapshot(name, dentry, false);
++}
++EXPORT_SYMBOL(try_take_dentry_name_snapshot);
++
+ void release_dentry_name_snapshot(struct name_snapshot *name)
+ {
+ 	if (unlikely(name->name.name != name->inline_name.string)) {
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index 4b1ff99608e01..a4be11ca2df18 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -629,6 +629,7 @@ struct name_snapshot {
+ 	union shortname_store inline_name;
+ };
+ void take_dentry_name_snapshot(struct name_snapshot *, struct dentry *);
++bool try_take_dentry_name_snapshot(struct name_snapshot *, struct dentry *);
+ void release_dentry_name_snapshot(struct name_snapshot *);
+ 
+ static inline struct dentry *d_first_child(const struct dentry *dentry)
 -- 
 2.55.0
 
